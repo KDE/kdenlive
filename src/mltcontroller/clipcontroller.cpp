@@ -21,6 +21,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "core.h"
 #include "kdenlive_debug.h"
 #include <KLocalizedString>
+#include <QApplication>
 #include <QFileInfo>
 #include <QPixmap>
 
@@ -30,15 +31,15 @@ ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt:
     : selectedEffectIndex(1)
     , m_audioThumbCreated(false)
     , m_producerLock(QReadWriteLock::Recursive)
-    , m_masterProducer(producer)
-    , m_properties(producer ? new Mlt::Properties(producer->get_properties()) : nullptr)
+    , m_masterProducer(std::move(producer))
+    , m_properties(m_masterProducer ? new Mlt::Properties(m_masterProducer->get_properties()) : nullptr)
     , m_usesProxy(false)
     , m_audioInfo(nullptr)
     , m_videoIndex(0)
     , m_clipType(ClipType::Unknown)
     , m_forceLimitedDuration(false)
     , m_hasMultipleVideoStreams(false)
-    , m_effectStack(producer ? EffectStackModel::construct(producer, {ObjectType::BinClip, clipId.toInt()}, pCore->undoStack()) : nullptr)
+    , m_effectStack(m_masterProducer ? EffectStackModel::construct(m_masterProducer, {ObjectType::BinClip, clipId.toInt()}, pCore->undoStack()) : nullptr)
     , m_hasAudio(false)
     , m_hasVideo(false)
     , m_thumbsProducer(nullptr)
@@ -78,14 +79,18 @@ const std::unique_ptr<AudioStreamInfo> &ClipController::audioInfo() const
 void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &producer)
 {
     qDebug() << "################### ClipController::addmasterproducer";
-    m_masterProducer = producer;
+    m_masterProducer = std::move(producer);
     m_properties = new Mlt::Properties(m_masterProducer->get_properties());
     m_producerLock.unlock();
     // Pass temporary properties
     QMapIterator<QString, QVariant> i(m_tempProps);
     while (i.hasNext()) {
         i.next();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         switch (i.value().type()) {
+#else
+        switch (i.value().typeId()) {
+#endif
         case QVariant::Int:
             setProducerProperty(i.key(), i.value().toInt());
             break;
@@ -99,7 +104,7 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
     }
     m_tempProps.clear();
     int id = m_controllerBinId.toInt();
-    m_effectStack = EffectStackModel::construct(producer, {ObjectType::BinClip, id}, pCore->undoStack());
+    m_effectStack = EffectStackModel::construct(m_masterProducer, {ObjectType::BinClip, id}, pCore->undoStack());
     if (!m_masterProducer->is_valid()) {
         m_masterProducer = ClipController::mediaUnavailable;
         qCDebug(KDENLIVE_LOG) << "// WARNING, USING INVALID PRODUCER";
@@ -107,7 +112,7 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
         checkAudioVideo();
         setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
         getInfoForProducer();
-        emitProducerChanged(m_controllerBinId, producer);
+        emitProducerChanged(m_controllerBinId, m_masterProducer);
         if (!m_hasMultipleVideoStreams && m_service.startsWith(QLatin1String("avformat")) && (m_clipType == ClipType::AV || m_clipType == ClipType::Video)) {
             // Check if clip has multiple video streams
             QList<int> videoStreams;
@@ -135,16 +140,11 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
 }
 
 namespace {
-QString producerXml(const std::shared_ptr<Mlt::Producer> &producer, bool includeMeta, bool includeProfile)
+QString producerXml(Mlt::Producer producer, bool includeMeta, bool includeProfile)
 {
-    Mlt::Consumer c(*producer->profile(), "xml", "string");
-    Mlt::Service s(producer->get_service());
-    if (!s.is_valid()) {
+    Mlt::Consumer c(*producer.profile(), "xml", "string");
+    if (!producer.is_valid()) {
         return QString();
-    }
-    int ignore = s.get_int("ignore_points");
-    if (ignore != 0) {
-        s.set("ignore_points", 0);
     }
     c.set("time_format", "frames");
     if (!includeMeta) {
@@ -156,11 +156,8 @@ QString producerXml(const std::shared_ptr<Mlt::Producer> &producer, bool include
     c.set("store", "kdenlive");
     c.set("no_root", 1);
     c.set("root", "/");
-    c.connect(s);
-    c.start();
-    if (ignore != 0) {
-        s.set("ignore_points", ignore);
-    }
+    c.connect(producer);
+    c.run();
     return QString::fromUtf8(c.get("string"));
 }
 } // namespace
@@ -169,7 +166,7 @@ void ClipController::getProducerXML(QDomDocument &document, bool includeMeta, bo
 {
     // TODO refac this is a probable duplicate with Clip::xml
     if (m_masterProducer) {
-        QString xml = producerXml(m_masterProducer, includeMeta, includeProfile);
+        QString xml = producerXml(*m_masterProducer.get(), includeMeta, includeProfile);
         document.setContent(xml);
     } else {
         if (!m_temporaryUrl.isEmpty()) {
@@ -194,7 +191,7 @@ void ClipController::getInfoForProducer()
     }
     QString proxy = m_properties->get("kdenlive:proxy");
     QString path = m_properties->get("resource");
-    if (proxy.length() > 2) {
+    if (!m_service.isEmpty() && proxy.length() > 2) {
         if (QFileInfo(path).isRelative()) {
             path.prepend(pCore->currentDoc()->documentRoot());
             m_properties->set("resource", path.toUtf8().constData());
@@ -226,7 +223,9 @@ void ClipController::getInfoForProducer()
     int audioIndex = -1;
     // special case: playlist with a proxy clip have to be detected separately
     if (m_usesProxy && m_path.endsWith(QStringLiteral(".mlt"))) {
-        m_clipType = ClipType::Playlist;
+        if (m_clipType != ClipType::Timeline) {
+            m_clipType = ClipType::Playlist;
+        }
     } else if (m_service == QLatin1String("avformat") || m_service == QLatin1String("avformat-novalidate")) {
         audioIndex = getProducerIntProperty(QStringLiteral("audio_index"));
         m_videoIndex = getProducerIntProperty(QStringLiteral("video_index"));
@@ -243,6 +242,10 @@ void ClipController::getInfoForProducer()
                 m_properties->set("mute_on_pause", 0);
             }
         }
+        /*} else if (m_service.isEmpty() && path == QLatin1String("<producer>")) {
+                m_clipType = ClipType::Timeline;
+                m_properties = new Mlt::Properties(m_masterProducer->parent().get_properties());
+                return getInfoForProducer();*/
     } else if (m_service == QLatin1String("qimage") || m_service == QLatin1String("pixbuf")) {
         if (m_path.contains(QLatin1Char('%')) || m_path.contains(QStringLiteral("/.all.")) || m_path.contains(QStringLiteral("\\.all."))) {
             m_clipType = ClipType::SlideShow;
@@ -260,7 +263,19 @@ void ClipController::getInfoForProducer()
             m_clipType = ClipType::Text;
         }
     } else if (m_service == QLatin1String("xml") || m_service == QLatin1String("consumer")) {
-        m_clipType = ClipType::Playlist;
+        if (m_clipType == ClipType::Timeline) {
+            // Nothing to do, don't change existing type
+        } else if (m_properties->property_exists("kdenlive:producer_type")) {
+            m_clipType = (ClipType::ProducerType)m_properties->get_int("kdenlive:producer_type");
+        } else {
+            m_clipType = ClipType::Playlist;
+        }
+    } else if (m_service == QLatin1String("tractor") || m_service == QLatin1String("xml-string")) {
+        if (m_properties->property_exists("kdenlive:producer_type")) {
+            m_clipType = (ClipType::ProducerType)m_properties->get_int("kdenlive:producer_type");
+        } else {
+            m_clipType = ClipType::Timeline;
+        }
     } else if (m_service == QLatin1String("webvfx")) {
         m_clipType = ClipType::WebVfx;
     } else if (m_service == QLatin1String("qtext")) {
@@ -274,25 +289,38 @@ void ClipController::getInfoForProducer()
         // Mostly used for testing
         m_clipType = ClipType::Animation;
     } else {
-        m_clipType = ClipType::Unknown;
-    }
-    if (audioIndex > -1 || m_clipType == ClipType::Playlist) {
-        m_audioInfo = std::make_unique<AudioStreamInfo>(m_masterProducer, audioIndex, m_clipType == ClipType::Playlist);
-        // Load stream effects
-        for (int stream : m_audioInfo->streams().keys()) {
-            QString streamEffect = m_properties->get(QString("kdenlive:stream:%1").arg(stream).toUtf8().constData());
-            if (!streamEffect.isEmpty()) {
-                m_streamEffects.insert(stream, streamEffect.split(QChar('#')));
-            }
+        if (m_properties->property_exists("kdenlive:producer_type")) {
+            m_clipType = (ClipType::ProducerType)m_properties->get_int("kdenlive:producer_type");
+        } else {
+            m_clipType = ClipType::Unknown;
         }
     }
 
+    if (audioIndex > -1) {
+        buildAudioInfo(audioIndex);
+    }
+
     if (!hasLimitedDuration()) {
-        int playtime = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
+        int playtime = m_masterProducer->time_to_frames(m_masterProducer->parent().get("kdenlive:duration"));
         if (playtime <= 0) {
             // Fix clips having missing kdenlive:duration
-            m_masterProducer->set("kdenlive:duration", m_masterProducer->frames_to_time(m_masterProducer->get_playtime(), mlt_time_clock));
+            m_masterProducer->parent().set("kdenlive:duration", m_masterProducer->frames_to_time(m_masterProducer->get_playtime(), mlt_time_clock));
             m_masterProducer->set("out", m_masterProducer->frames_to_time(m_masterProducer->get_length() - 1, mlt_time_clock));
+        }
+    }
+}
+
+void ClipController::buildAudioInfo(int audioIndex)
+{
+    if (m_audioInfo) {
+        m_audioInfo.reset();
+    }
+    m_audioInfo = std::make_unique<AudioStreamInfo>(m_masterProducer, audioIndex, m_clipType == ClipType::Playlist || m_clipType == ClipType::Timeline);
+    // Load stream effects
+    for (int stream : m_audioInfo->streams().keys()) {
+        QString streamEffect = m_properties->get(QString("kdenlive:stream:%1").arg(stream).toUtf8().constData());
+        if (!streamEffect.isEmpty()) {
+            m_streamEffects.insert(stream, streamEffect.split(QChar('#')));
         }
     }
 }
@@ -315,6 +343,8 @@ bool ClipController::hasLimitedDuration() const
             return false;
         case ClipType::AV:
         case ClipType::Animation:
+        case ClipType::Playlist:
+        case ClipType::Timeline:
             return true;
         default:
             return true;
@@ -396,7 +426,7 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
     // This is necessary as some properties like set.test_audio are reset on producer creation
     passProperties.pass_list(*m_properties, passList);
     delete m_properties;
-    *m_masterProducer = producer.get();
+    m_masterProducer = std::move(producer);
     m_properties = new Mlt::Properties(m_masterProducer->get_properties());
     m_producerLock.unlock();
     if (!m_masterProducer->is_valid()) {
@@ -407,7 +437,7 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
         checkAudioVideo();
         setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
         m_effectStack->resetService(m_masterProducer);
-        emitProducerChanged(m_controllerBinId, producer);
+        emitProducerChanged(m_controllerBinId, m_masterProducer);
         if (m_clipType == ClipType::Unknown) {
             getInfoForProducer();
         }
@@ -425,11 +455,11 @@ const QString ClipController::getStringDuration()
 {
     QReadLocker lock(&m_producerLock);
     if (m_masterProducer) {
-        int playtime = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
+        int playtime = m_masterProducer->time_to_frames(m_masterProducer->parent().get("kdenlive:duration"));
         if (playtime > 0) {
             return QString(m_properties->frames_to_time(playtime, mlt_time_smpte_df));
         }
-        return m_properties->frames_to_time(m_masterProducer->get_length(), mlt_time_smpte_df);
+        return m_properties->frames_to_time(m_masterProducer->parent().get_length(), mlt_time_smpte_df);
     }
     return i18n("Unknown");
 }
@@ -438,7 +468,7 @@ int ClipController::getProducerDuration() const
 {
     QReadLocker lock(&m_producerLock);
     if (m_masterProducer) {
-        int playtime = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
+        int playtime = m_masterProducer->time_to_frames(m_masterProducer->parent().get("kdenlive:duration"));
         if (playtime <= 0) {
             return m_masterProducer->get_length();
         }
@@ -464,7 +494,7 @@ GenTime ClipController::getPlaytime() const
     }
     double fps = pCore->getCurrentFps();
     if (!hasLimitedDuration()) {
-        int playtime = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
+        int playtime = m_masterProducer->time_to_frames(m_masterProducer->parent().get("kdenlive:duration"));
         return GenTime(playtime == 0 ? m_masterProducer->get_playtime() : playtime, fps);
     }
     return {m_masterProducer->get_playtime(), fps};
@@ -476,8 +506,11 @@ int ClipController::getFramePlaytime() const
     if (!m_masterProducer || !m_masterProducer->is_valid()) {
         return 0;
     }
-    if (!hasLimitedDuration()) {
-        int playtime = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
+    if (!hasLimitedDuration() || m_clipType == ClipType::Playlist || m_clipType == ClipType::Timeline) {
+        if (!m_masterProducer->parent().property_exists("kdenlive:duration")) {
+            return m_masterProducer->get_length();
+        }
+        int playtime = m_masterProducer->time_to_frames(m_masterProducer->parent().get("kdenlive:duration"));
         return playtime == 0 ? m_masterProducer->get_length() : playtime;
     }
     return m_masterProducer->get_length();
@@ -594,7 +627,7 @@ const QString ClipController::clipUrl() const
 
 bool ClipController::sourceExists() const
 {
-    if (m_clipType == ClipType::Color || m_clipType == ClipType::Text) {
+    if (m_clipType == ClipType::Color || m_clipType == ClipType::Text || m_clipType == ClipType::Timeline) {
         return true;
     }
     if (m_clipType == ClipType::SlideShow) {
@@ -602,15 +635,6 @@ bool ClipController::sourceExists() const
         return true;
     }
     return QFile::exists(m_path);
-}
-
-QString ClipController::clipName() const
-{
-    QString name = getProducerProperty(QStringLiteral("kdenlive:clipname"));
-    if (!name.isEmpty()) {
-        return name;
-    }
-    return m_path.isEmpty() ? i18n("Unnamed") : QFileInfo(m_path).fileName();
 }
 
 QString ClipController::description() const
@@ -633,7 +657,7 @@ QString ClipController::serviceName() const
 
 void ClipController::setProducerProperty(const QString &name, int value)
 {
-    if (!m_masterProducer) {
+    if (!m_properties) {
         m_tempProps.insert(name, value);
         return;
     }
@@ -643,7 +667,7 @@ void ClipController::setProducerProperty(const QString &name, int value)
 
 void ClipController::setProducerProperty(const QString &name, double value)
 {
-    if (!m_masterProducer) {
+    if (!m_properties) {
         m_tempProps.insert(name, value);
         return;
     }
@@ -653,7 +677,7 @@ void ClipController::setProducerProperty(const QString &name, double value)
 
 void ClipController::setProducerProperty(const QString &name, const QString &value)
 {
-    if (!m_masterProducer) {
+    if (!m_properties) {
         m_tempProps.insert(name, value);
         return;
     }
@@ -668,7 +692,7 @@ void ClipController::setProducerProperty(const QString &name, const QString &val
 
 void ClipController::resetProducerProperty(const QString &name)
 {
-    if (!m_masterProducer) {
+    if (!m_properties) {
         m_tempProps.insert(name, QString());
         return;
     }
@@ -689,25 +713,25 @@ const QSize ClipController::getFrameSize() const
         return QSize();
     }
     if (m_usesProxy) {
-        int width = m_masterProducer->get_int("kdenlive:original.meta.media.width");
-        int height = m_masterProducer->get_int("kdenlive:original.meta.media.height");
+        int width = m_properties->get_int("kdenlive:original.meta.media.width");
+        int height = m_properties->get_int("kdenlive:original.meta.media.height");
         if (width == 0) {
-            width = m_masterProducer->get_int("kdenlive:original.width");
+            width = m_properties->get_int("kdenlive:original.width");
         }
         if (height == 0) {
-            height = m_masterProducer->get_int("kdenlive:original.height");
+            height = m_properties->get_int("kdenlive:original.height");
         }
         if (width > 0 && height > 0) {
             return QSize(width, height);
         }
     }
-    int width = m_masterProducer->get_int("meta.media.width");
+    int width = m_properties->get_int("meta.media.width");
     if (width == 0) {
-        width = m_masterProducer->get_int("width");
+        width = m_properties->get_int("width");
     }
-    int height = m_masterProducer->get_int("meta.media.height");
+    int height = m_properties->get_int("meta.media.height");
     if (height == 0) {
-        height = m_masterProducer->get_int("height");
+        height = m_properties->get_int("height");
     }
     return QSize(width, height);
 }
@@ -716,10 +740,10 @@ bool ClipController::hasAudio() const
 {
     return m_hasAudio;
 }
+
 void ClipController::checkAudioVideo()
 {
     QReadLocker lock(&m_producerLock);
-    m_masterProducer->seek(0);
     if (m_masterProducer->get_int("_placeholder") == 1 || m_masterProducer->get_int("_missingsource") == 1) {
         // This is a placeholder file, try to guess from its properties
         QString orig_service = m_masterProducer->get("kdenlive:orig_service");
@@ -759,7 +783,35 @@ void ClipController::checkAudioVideo()
             service = m_masterProducer->get("mlt_service");
         }
         QList<ClipType::ProducerType> avTypes = {ClipType::Playlist, ClipType::AV, ClipType::Audio, ClipType::Unknown};
+        if (m_clipType == ClipType::Timeline) {
+            // use sequenceproperties to decide if clip has audio, video or both
+            if (m_masterProducer->parent().get_int("kdenlive:sequenceproperties.hasAudio") == 1) {
+                m_hasAudio = true;
+            }
+            if (m_masterProducer->parent().get_int("kdenlive:sequenceproperties.hasVideo") == 1) {
+                m_hasVideo = true;
+            }
+            if (m_hasAudio) {
+                if (m_hasVideo) {
+                    m_masterProducer->parent().set("kdenlive:clip_type", 0);
+                } else {
+                    m_masterProducer->parent().set("kdenlive:clip_type", 1);
+                }
+            } else if (!m_hasVideo) {
+                // sequence is incorrectly configured, enable both audio and video
+                m_hasAudio = true;
+                m_hasVideo = true;
+                m_masterProducer->parent().set("kdenlive:clip_type", 0);
+            } else {
+                m_masterProducer->parent().set("kdenlive:clip_type", 2);
+            }
+            if (m_hasAudio) {
+                buildAudioInfo(-1);
+            }
+            return;
+        }
         if (avTypes.contains(m_clipType)) {
+            m_masterProducer->seek(0);
             QScopedPointer<Mlt::Frame> frame(m_masterProducer->get_frame());
             if (frame->is_valid()) {
                 // test_audio returns 1 if there is NO audio (strange but true at the time this code is written)
@@ -777,6 +829,9 @@ void ClipController::checkAudioVideo()
                 m_masterProducer->seek(0);
             } else {
                 qDebug() << "* * * *ERROR INVALID FRAME On test";
+            }
+            if (m_clipType == ClipType::Playlist && m_hasAudio && m_audioInfo == nullptr) {
+                buildAudioInfo(-1);
             }
         } else {
             // Assume video only producer
@@ -889,7 +944,7 @@ void ClipController::mirrorOriginalProperties(Mlt::Properties &props)
         // This is a proxy, we need to use the real source properties
         if (m_properties->get_int("kdenlive:original.backup") == 0) {
             // We have a proxy clip, load original source producer
-            std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), nullptr, m_path.toUtf8().constData());
+            std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), nullptr, m_path.toUtf8().constData());
             // Get frame to make sure we retrieve all original props
             std::shared_ptr<Mlt::Frame> fr(prod->get_frame());
             if (!prod->is_valid()) {
@@ -928,7 +983,7 @@ void ClipController::mirrorOriginalProperties(Mlt::Properties &props)
                 QScopedPointer<Mlt::Producer> tmpProd(nullptr);
                 if (KdenliveSettings::gpu_accel()) {
                     QString service = m_masterProducer->get("mlt_service");
-                    tmpProd.reset(new Mlt::Producer(pCore->getCurrentProfile()->profile(), service.toUtf8().constData(), m_masterProducer->get("resource")));
+                    tmpProd.reset(new Mlt::Producer(*pCore->getProjectProfile(), service.toUtf8().constData(), m_masterProducer->get("resource")));
                 }
                 std::shared_ptr<Mlt::Frame> fr(tmpProd ? tmpProd->get_frame() : m_masterProducer->get_frame());
                 mlt_image_format format = mlt_image_none;
@@ -969,25 +1024,6 @@ bool ClipController::hasEffects() const
 void ClipController::setBinEffectsEnabled(bool enabled)
 {
     m_effectStack->setEffectStackEnabled(enabled);
-}
-
-void ClipController::saveZone(QPoint zone, const QDir &dir)
-{
-    QString path = QString(clipName() + QLatin1Char('_') + QString::number(zone.x()) + QStringLiteral(".mlt"));
-    if (dir.exists(path)) {
-        // TODO ask for overwrite
-    }
-    Mlt::Consumer xmlConsumer(pCore->getCurrentProfile()->profile(), ("xml:" + dir.absoluteFilePath(path)).toUtf8().constData());
-    xmlConsumer.set("terminate_on_pause", 1);
-    QReadLocker lock(&m_producerLock);
-    Mlt::Producer prod(m_masterProducer->get_producer());
-    Mlt::Producer *prod2 = prod.cut(zone.x(), zone.y());
-    Mlt::Playlist list(pCore->getCurrentProfile()->profile());
-    list.insert_at(0, *prod2, 0);
-    // list.set("title", desc.toUtf8().constData());
-    xmlConsumer.connect(list);
-    xmlConsumer.run();
-    delete prod2;
 }
 
 std::shared_ptr<EffectStackModel> ClipController::getEffectStack() const
@@ -1074,6 +1110,27 @@ bool ClipController::hasProxy() const
 std::shared_ptr<MarkerSortModel> ClipController::getFilteredMarkerModel() const
 {
     return m_markerFilterModel;
+}
+
+bool ClipController::isFullRange() const
+{
+    bool full = !qstrcmp(m_masterProducer->get("meta.media.color_range"), "full");
+    for (int i = 0; !full && i < m_masterProducer->get_int("meta.media.nb_streams"); i++) {
+        QString key = QString("meta.media.%1.stream.type").arg(i);
+        QString streamType(m_masterProducer->get(key.toLatin1().constData()));
+        if (streamType == "video") {
+            if (i == m_masterProducer->get_int("video_index")) {
+                key = QString("meta.media.%1.codec.pix_fmt").arg(i);
+                QString pix_fmt = QString::fromLatin1(m_masterProducer->get(key.toLatin1().constData()));
+                if (pix_fmt.startsWith("yuvj")) {
+                    full = true;
+                } else if (pix_fmt.contains("gbr") || pix_fmt.contains("rgb")) {
+                    full = true;
+                }
+            }
+        }
+    }
+    return full;
 }
 
 bool ClipController::removeMarkerCategories(QList<int> toRemove, const QMap<int, int> remapCategories, Fun &undo, Fun &redo)

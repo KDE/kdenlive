@@ -67,15 +67,15 @@ KeyframeView::~KeyframeView()
 void KeyframeView::slotModelChanged()
 {
     int offset = pCore->getItemIn(m_model->getOwnerId());
-    emit atKeyframe(m_model->hasKeyframe(m_position + offset), m_model->singleKeyframe());
-    emit modified();
+    Q_EMIT atKeyframe(m_model->hasKeyframe(m_position + offset), m_model->singleKeyframe());
+    Q_EMIT modified();
     update();
 }
 
 void KeyframeView::slotModelDisplayChanged()
 {
     int offset = pCore->getItemIn(m_model->getOwnerId());
-    emit atKeyframe(m_model->hasKeyframe(m_position + offset), m_model->singleKeyframe());
+    Q_EMIT atKeyframe(m_model->hasKeyframe(m_position + offset), m_model->singleKeyframe());
     update();
 }
 
@@ -89,7 +89,7 @@ void KeyframeView::slotSetPosition(int pos, bool isInRange)
     if (pos != m_position) {
         m_position = pos;
         int offset = pCore->getItemIn(m_model->getOwnerId());
-        emit atKeyframe(m_model->hasKeyframe(pos + offset), m_model->singleKeyframe());
+        Q_EMIT atKeyframe(m_model->hasKeyframe(pos + offset), m_model->singleKeyframe());
         double zoomPos = double(m_position) / m_duration;
         if (zoomPos < m_zoomHandle.x()) {
             double interval = m_zoomHandle.y() - m_zoomHandle.x();
@@ -108,7 +108,7 @@ void KeyframeView::slotSetPosition(int pos, bool isInRange)
 
 void KeyframeView::initKeyframePos()
 {
-    emit atKeyframe(m_model->hasKeyframe(m_position), m_model->singleKeyframe());
+    Q_EMIT atKeyframe(m_model->hasKeyframe(m_position), m_model->singleKeyframe());
 }
 
 const QVector<int> KeyframeView::selectedKeyframesIndexes()
@@ -147,7 +147,7 @@ const QString KeyframeView::getAssetId()
 
 void KeyframeView::slotAddRemove()
 {
-    emit activateEffect();
+    Q_EMIT activateEffect();
     int offset = pCore->getItemIn(m_model->getOwnerId());
     if (m_model->hasKeyframe(m_position + offset)) {
         if (m_model->selectedKeyframes().contains(m_position)) {
@@ -200,7 +200,7 @@ void KeyframeView::setDuration(int duration)
 {
     m_duration = duration;
     int offset = pCore->getItemIn(m_model->getOwnerId());
-    emit atKeyframe(m_model->hasKeyframe(m_position + offset), m_model->singleKeyframe());
+    Q_EMIT atKeyframe(m_model->hasKeyframe(m_position + offset), m_model->singleKeyframe());
     // Unselect keyframes that are outside range if any
     QVector<int> toDelete;
     int kfrIx = 0;
@@ -219,7 +219,7 @@ void KeyframeView::setDuration(int duration)
 
 void KeyframeView::slotGoToNext()
 {
-    emit activateEffect();
+    Q_EMIT activateEffect();
     if (m_position == m_duration - 1) {
         return;
     }
@@ -229,16 +229,16 @@ void KeyframeView::slotGoToNext()
     auto next = m_model->getNextKeyframe(GenTime(m_position + offset, pCore->getCurrentFps()), &ok);
 
     if (ok) {
-        emit seekToPos(qMin(int(next.first.frames(pCore->getCurrentFps())) - offset, m_duration - 1));
+        Q_EMIT seekToPos(qMin(int(next.first.frames(pCore->getCurrentFps())) - offset, m_duration - 1));
     } else {
         // no keyframe after current position
-        emit seekToPos(m_duration - 1);
+        Q_EMIT seekToPos(m_duration - 1);
     }
 }
 
 void KeyframeView::slotGoToPrev()
 {
-    emit activateEffect();
+    Q_EMIT activateEffect();
     if (m_position == 0) {
         return;
     }
@@ -248,10 +248,10 @@ void KeyframeView::slotGoToPrev()
     auto prev = m_model->getPrevKeyframe(GenTime(m_position + offset, pCore->getCurrentFps()), &ok);
 
     if (ok) {
-        emit seekToPos(qMax(0, int(prev.first.frames(pCore->getCurrentFps())) - offset));
+        Q_EMIT seekToPos(qMax(0, int(prev.first.frames(pCore->getCurrentFps())) - offset));
     } else {
         // no keyframe after current position
-        emit seekToPos(m_duration - 1);
+        Q_EMIT seekToPos(m_duration - 1);
     }
 }
 
@@ -282,11 +282,11 @@ void KeyframeView::slotCenterKeyframe()
         break;
     }
     Fun local_redo = [this, position = m_position]() {
-        emit updateKeyframeOriginal(position);
+        Q_EMIT updateKeyframeOriginal(position);
         return true;
     };
     Fun local_undo = [this, sourcePosition]() {
-        emit updateKeyframeOriginal(sourcePosition);
+        Q_EMIT updateKeyframeOriginal(sourcePosition);
         return true;
     };
     local_redo();
@@ -297,7 +297,7 @@ void KeyframeView::slotCenterKeyframe()
 
 void KeyframeView::mousePressEvent(QMouseEvent *event)
 {
-    emit activateEffect();
+    Q_EMIT activateEffect();
     int offset = pCore->getItemIn(m_model->getOwnerId());
     double zoomStart = m_zoomHandle.x() * (width() - 2 * m_offset);
     double zoomEnd = m_zoomHandle.y() * (width() - 2 * m_offset);
@@ -349,7 +349,7 @@ void KeyframeView::mousePressEvent(QMouseEvent *event)
                 // Select and seek to keyframe
                 if (m_currentKeyframeOriginal > -1) {
                     if (KdenliveSettings::keyframeseek()) {
-                        emit seekToPos(m_currentKeyframeOriginal - offset);
+                        Q_EMIT seekToPos(m_currentKeyframeOriginal - offset);
                     }
                 }
                 return;
@@ -373,7 +373,7 @@ void KeyframeView::mousePressEvent(QMouseEvent *event)
             }
             // When not zoomed, allow seek by clicking on zoombar
             if (qFuzzyCompare(m_zoomFactor, 1.) && pos != m_position && !m_hoverZoomIn && !m_hoverZoomOut) {
-                emit seekToPos(pos);
+                Q_EMIT seekToPos(pos);
             }
             return;
         }
@@ -397,7 +397,7 @@ void KeyframeView::mousePressEvent(QMouseEvent *event)
         }
     }
     if (pos != m_position) {
-        emit seekToPos(pos);
+        Q_EMIT seekToPos(pos);
         update();
     }
 }
@@ -526,7 +526,7 @@ void KeyframeView::mouseMoveEvent(QMouseEvent *event)
 
         if (!m_moveKeyframeMode || KdenliveSettings::keyframeseek()) {
             if (pos != m_position) {
-                emit seekToPos(pos);
+                Q_EMIT seekToPos(pos);
             }
         }
         return;
@@ -673,7 +673,7 @@ void KeyframeView::mouseDoubleClickEvent(QMouseEvent *event)
                 m_model->removeKeyframe(keyframe.first);
                 m_currentKeyframeOriginal = -1;
                 if (keyframe.first.frames(pCore->getCurrentFps()) == m_position + offset) {
-                    emit atKeyframe(false, m_model->singleKeyframe());
+                    Q_EMIT atKeyframe(false, m_model->singleKeyframe());
                 }
             }
             return;
@@ -724,7 +724,7 @@ void KeyframeView::wheelEvent(QWheelEvent *event)
     }
     int change = event->angleDelta().y() > 0 ? -1 : 1;
     int pos = qBound(0, m_position + change, m_duration - 1);
-    emit seekToPos(pos);
+    Q_EMIT seekToPos(pos);
 }
 
 void KeyframeView::paintEvent(QPaintEvent *event)

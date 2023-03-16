@@ -34,9 +34,9 @@ public:
     void editCustomAsset(const QModelIndex &index) override;
     Q_INVOKABLE void exportCustomEffect(const QModelIndex &index);
 
-public slots:
+public Q_SLOTS:
     void reloadCustomEffect(const QString &path);
 
-signals:
+Q_SIGNALS:
     void reloadFavorites();
 };

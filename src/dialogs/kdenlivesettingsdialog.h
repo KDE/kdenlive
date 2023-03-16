@@ -19,6 +19,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "ui_configproxy_ui.h"
 #include "ui_configsdl_ui.h"
 #include "ui_configtimeline_ui.h"
+#include "ui_configtools_ui.h"
 #include "ui_configtranscode_ui.h"
 #include "ui_configcolors_ui.h"
 #include "ui_configspeech_ui.h"
@@ -41,7 +42,7 @@ protected:
     QStringList mimeTypes() const override;
     void dropEvent(QDropEvent *event) override;
 
-signals:
+Q_SIGNALS:
     void getDictionary(const QUrl url);
 };
 
@@ -57,13 +58,13 @@ public:
     /** @brief update kdenlive settings for external app path if they were changed outside config dialog */
     void updateExternalApps();
 
-protected slots:
+protected Q_SLOTS:
     void updateSettings() override;
     void updateWidgets() override;
     bool hasChanged() override;
     void accept() override;
 
-private slots:
+private Q_SLOTS:
     void slotCheckShuttle(int state = 0);
     void slotUpdateShuttleDevice(int ix = 0);
     void slotEditImageApplication();
@@ -110,12 +111,15 @@ private:
     KPageWidgetItem *m_page6;
     KPageWidgetItem *m_page7;
     KPageWidgetItem *m_page8;
+    KPageWidgetItem *m_page9;
     KPageWidgetItem *m_page10;
     KPageWidgetItem *m_page11;
+    KPageWidgetItem *m_page12;
     Ui::ConfigEnv_UI m_configEnv;
     Ui::ConfigMisc_UI m_configMisc;
     Ui::ConfigColors_UI m_configColors;
     Ui::ConfigTimeline_UI m_configTimeline;
+    Ui::ConfigTools_UI m_configTools;
     Ui::ConfigCapture_UI m_configCapture;
     Ui::ConfigJogShuttle_UI m_configShuttle;
     Ui::ConfigSdl_UI m_configSdl;
@@ -127,11 +131,11 @@ private:
     GuideCategories *m_guidesCategories;
     ProfileWidget *m_pw;
     KProcess m_readProcess;
-    QAction *m_voskAction;
     bool m_modified;
     bool m_shuttleModified;
     bool m_voskUpdated;
     SpeechToText *m_stt;
+    SpeechToText *m_sttWhisper;
     QMap<QString, QString> m_mappable_actions;
     QVector<QComboBox *> m_shuttle_buttons;
     EncodingTimelinePreviewProfilesChooser *m_tlPreviewProfiles;
@@ -163,7 +167,7 @@ private:
     void initSdlPage(bool gpuAllowed);
     void initTranscodePage();
 
-signals:
+Q_SIGNALS:
     void customChanged();
     void doResetConsumer(bool fullReset);
     void updateCaptureFolder();

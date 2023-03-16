@@ -75,7 +75,7 @@ private:
      */
     virtual QPixmap paintScene(const QString & pattern);
 
-public slots:
+public Q_SLOTS:
     /**
      * @brief Remove scene.
      * @param index scene index

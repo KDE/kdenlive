@@ -194,7 +194,7 @@ Rectangle
                         property double newVal: NaN
                         property bool shiftPressed: false
                         onPressed: {
-                            drag.axis = (mouse.modifiers & Qt.ShiftModifier) ? Drag.YAxis : Drag.XAndYAxis
+                            drag.axis = model.moveOnly ? Drag.XAxis : (mouse.modifiers & Qt.ShiftModifier) ? Drag.YAxis : Drag.XAndYAxis
                         }
                         onClicked: {
                             keyframeContainer.focus = true
@@ -243,7 +243,11 @@ Rectangle
                                 } else if (newVal > 1) {
                                     newVal = 1;
                                 }
-                                timeline.updateEffectKeyframe(clipId, frame, frame == keyframeContainer.inPoint ? frame : newPos, newVal)
+                                if (model.moveOnly) {
+                                    timeline.updateEffectKeyframe(clipId, frame, newPos)
+                                } else {
+                                    timeline.updateEffectKeyframe(clipId, frame, frame == keyframeContainer.inPoint ? frame : newPos, newVal)
+                                }
                             }
                         }
                         onPositionChanged: {

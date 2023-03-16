@@ -50,15 +50,15 @@ protected:
     QList<QPersistentModelIndex> m_indexes;
     bool m_active;
 
-private slots:
+private Q_SLOTS:
     virtual void slotUpdateFromMonitorData(const QVariantList &v);
 
-public slots:
+public Q_SLOTS:
     /** @brief For classes that manage several parameters, add a param index to the list
      */
     void addIndex(const QPersistentModelIndex &index);
 
-signals:
+Q_SIGNALS:
     /** @brief Send updated keyframe data to the parameter \@index
      */
     void updateKeyframeData(QPersistentModelIndex index, const QVariant &v);

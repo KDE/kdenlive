@@ -84,6 +84,6 @@ public:
     static QImage hsvCurvePlane(const QSize &size, const QColor &baseColor, const ComponentsHSV &xVariant, const ComponentsHSV &yVariant, bool shear = false,
                                 const float offsetY = 0);
 
-signals:
+Q_SIGNALS:
     void signalYuvWheelCalculationFinished();
 };

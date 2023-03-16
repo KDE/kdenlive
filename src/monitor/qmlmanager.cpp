@@ -123,7 +123,7 @@ void QmlManager::effectRectChanged()
         return;
     }
     const QRect rect = m_view->rootObject()->property("framesize").toRect();
-    emit effectChanged(rect);
+    Q_EMIT effectChanged(rect);
 }
 
 void QmlManager::effectPolygonChanged()
@@ -132,7 +132,7 @@ void QmlManager::effectPolygonChanged()
         return;
     }
     QVariantList points = m_view->rootObject()->property("centerPoints").toList();
-    emit effectPointsChanged(points);
+    Q_EMIT effectPointsChanged(points);
 }
 
 void QmlManager::effectRotoChanged(const QVariant &pts, const QVariant &centers)
@@ -154,5 +154,5 @@ void QmlManager::effectRotoChanged(const QVariant &pts, const QVariant &centers)
         mix << points.at(i);
         mix << controlPoints.at(2 * i + 1);
     }
-    emit effectPointsChanged(mix);
+    Q_EMIT effectPointsChanged(mix);
 }

@@ -15,6 +15,7 @@
 #include <QGuiApplication>
 #include <QProcess>
 #include <QStandardPaths>
+#include <QtConcurrent>
 
 PythonDependencyMessage::PythonDependencyMessage(QWidget *parent, AbstractPythonInterface *interface)
     : KMessageWidget(parent)
@@ -116,9 +117,11 @@ AbstractPythonInterface::AbstractPythonInterface(QObject *parent)
     , m_dependencies()
     , m_versions(new QMap<QString, QString>())
     , m_disableInstall(pCore->packageType() == QStringLiteral("flatpak"))
+    , m_dependenciesChecked(false)
     , m_scripts(new QMap<QString, QString>())
 {
     addScript(QStringLiteral("checkpackages.py"));
+    addScript(QStringLiteral("checkgpu.py"));
 }
 
 AbstractPythonInterface::~AbstractPythonInterface()
@@ -140,15 +143,15 @@ bool AbstractPythonInterface::checkSetup()
     m_pip3Exec = QStandardPaths::findExecutable(QStringLiteral("pip3"));
 #endif
     if (m_pyExec.isEmpty()) {
-        emit setupError(i18n("Cannot find python3, please install it on your system.\n"
-                             "If already installed, check it is installed in a directory "
-                             "listed in PATH environment variable"));
+        Q_EMIT setupError(i18n("Cannot find python3, please install it on your system.\n"
+                               "If already installed, check it is installed in a directory "
+                               "listed in PATH environment variable"));
         return false;
     }
     if (m_pip3Exec.isEmpty() && !m_disableInstall) {
-        emit setupError(i18n("Cannot find pip3, please install it on your system.\n"
-                             "If already installed, check it is installed in a directory "
-                             "listed in PATH environment variable"));
+        Q_EMIT setupError(i18n("Cannot find pip3, please install it on your system.\n"
+                               "If already installed, check it is installed in a directory "
+                               "listed in PATH environment variable"));
         return false;
     }
 
@@ -166,7 +169,7 @@ QString AbstractPythonInterface::locateScript(const QString &script)
 {
     QString path = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/%1").arg(script));
     if (path.isEmpty()) {
-        emit setupError(i18n("The %1 script was not found, check your install.", script));
+        Q_EMIT setupError(i18n("The %1 script was not found, check your install.", script));
     }
     return path;
 }
@@ -183,6 +186,10 @@ void AbstractPythonInterface::addScript(const QString &script)
 
 void AbstractPythonInterface::checkDependencies()
 {
+    if (m_dependenciesChecked) {
+        // Don't check twice if dependecies are satisfied
+        return;
+    }
     QString output = runPackageScript(QStringLiteral("--check"));
     if (output.isEmpty()) {
         return;
@@ -200,9 +207,10 @@ void AbstractPythonInterface::checkDependencies()
         }
     }
     if (messages.isEmpty()) {
-        emit dependenciesAvailable();
+        m_dependenciesChecked = true;
+        Q_EMIT dependenciesAvailable();
     } else {
-        emit dependenciesMissing(messages);
+        Q_EMIT dependenciesMissing(messages);
     }
 }
 
@@ -230,20 +238,37 @@ void AbstractPythonInterface::updateDependencies()
     runPackageScript(QStringLiteral("--upgrade"));
 }
 
+void AbstractPythonInterface::runConcurrentScript(const QString &script, QStringList args)
+{
+    if (m_dependencies.keys().isEmpty()) {
+        qWarning() << "No dependencies specified";
+        Q_EMIT setupError(i18n("Internal Error: Cannot find dependency list"));
+        return;
+    }
+    if (!checkSetup()) {
+        return;
+    }
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    QtConcurrent::run(this, &AbstractPythonInterface::runScript, script, args, QString(), true);
+#else
+    QtConcurrent::run(&AbstractPythonInterface::runScript, this, script, args, QString(), true);
+#endif
+}
+
 void AbstractPythonInterface::proposeMaybeUpdate(const QString &dependency, const QString &minVersion)
 {
     checkVersions(false);
     QString currentVersion = m_versions->value(dependency);
     if (currentVersion.isEmpty()) {
-        emit setupError(i18n("Error while checking version of module %1", dependency));
+        Q_EMIT setupError(i18n("Error while checking version of module %1", dependency));
         return;
     }
     if (versionToInt(currentVersion) < versionToInt(minVersion)) {
-        emit proposeUpdate(i18n("At least version %1 of module %2 is required, "
-                                "but your current version is %3",
-                                minVersion, dependency, currentVersion));
+        Q_EMIT proposeUpdate(i18n("At least version %1 of module %2 is required, "
+                                  "but your current version is %3",
+                                  minVersion, dependency, currentVersion));
     } else {
-        emit proposeUpdate(i18n("Please consider to update your setup."));
+        Q_EMIT proposeUpdate(i18n("Please consider to update your setup."));
     }
 }
 
@@ -283,7 +308,7 @@ void AbstractPythonInterface::checkVersions(bool signalOnResult)
         }
     }
     if (signalOnResult) {
-        emit checkVersionsResult(versions);
+        Q_EMIT checkVersionsResult(versions);
     }
 }
 
@@ -291,7 +316,7 @@ QString AbstractPythonInterface::runPackageScript(const QString &mode)
 {
     if (m_dependencies.keys().isEmpty()) {
         qWarning() << "No dependencies specified";
-        emit setupError(i18n("Internal Error: Cannot find dependency list"));
+        Q_EMIT setupError(i18n("Internal Error: Cannot find dependency list"));
         return {};
     }
     if (!checkSetup()) {
@@ -300,7 +325,7 @@ QString AbstractPythonInterface::runPackageScript(const QString &mode)
     return runScript(QStringLiteral("checkpackages.py"), m_dependencies.keys(), mode);
 }
 
-QString AbstractPythonInterface::runScript(const QString &script, QStringList args, const QString &firstarg)
+QString AbstractPythonInterface::runScript(const QString &script, QStringList args, const QString &firstarg, bool concurrent)
 {
     QString scriptpath = m_scripts->value(script);
     if (m_pyExec.isEmpty() || scriptpath.isEmpty()) {
@@ -312,11 +337,18 @@ QString AbstractPythonInterface::runScript(const QString &script, QStringList ar
     }
     args.prepend(scriptpath);
     QProcess scriptJob;
+    if (concurrent) {
+        connect(&scriptJob, &QProcess::readyReadStandardOutput, [this, &scriptJob]() {
+            const QString processData = QString::fromUtf8(scriptJob.readAll());
+            Q_EMIT scriptFeedback(processData.split(QLatin1Char('\n'), Qt::SkipEmptyParts));
+        });
+    }
     scriptJob.start(m_pyExec, args);
     scriptJob.waitForFinished();
     if (scriptJob.exitStatus() != QProcess::NormalExit || scriptJob.exitCode() != 0) {
         KMessageBox::detailedError(pCore->window(), i18n("Error while running python3 script:\n %1", scriptpath), scriptJob.readAllStandardError());
         return {};
     }
+    Q_EMIT scriptFinished();
     return scriptJob.readAllStandardOutput();
 }

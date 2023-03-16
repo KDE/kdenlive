@@ -4,6 +4,7 @@
 */
 #include "catch.hpp"
 #include "doc/docundostack.hpp"
+#include "doc/kdenlivedoc.h"
 #include "test_utils.hpp"
 
 #include <QString>
@@ -20,39 +21,39 @@
 #include "effects/effectstack/model/effectitemmodel.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 
-Mlt::Profile profile_effects;
 QString anEffect;
 TEST_CASE("Effects stack", "[Effects]")
 {
     // Create timeline
     auto binModel = pCore->projectItemModel();
-    QUuid uuid = QUuid::createUuid();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
+    KdenliveDoc document(undoStack);
+    Mock<KdenliveDoc> docMock(document);
+    KdenliveDoc &mockedDoc = docMock.get();
 
+    // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
     When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
-
+    When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
-
-    // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(uuid, &profile_effects, undoStack);
-    Mock<TimelineItemModel> timMock(tim);
-    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline);
-
-    Fake(Method(timMock, adjustAssetRange));
+    mocked.m_project = &mockedDoc;
+    QDateTime documentDate = QDateTime::currentDateTime();
+    mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
+    mocked.m_activeTimelineModel = timeline;
+    mocked.testSetActiveDocument(&mockedDoc, timeline);
 
     // Create a request
     int tid1;
     REQUIRE(timeline->requestTrackInsertion(-1, tid1));
 
     // Create clip
-    QString binId = createProducer(profile_effects, "red", binModel);
+    QString binId = createProducer(*timeline->getProfile(), "red", binModel);
     int cid1;
     REQUIRE(timeline->requestClipInsertion(binId, tid1, 100, cid1));
     std::shared_ptr<ProjectClip> clip = binModel->getClipByBinID(binId);

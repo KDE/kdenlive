@@ -15,6 +15,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "kdenlive_debug.h"
 #include <QFontDatabase>
+#include <QPushButton>
 #include <QTimer>
 #include <QWheelEvent>
 
@@ -78,6 +79,8 @@ MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const Q
     marker_comment->setText(t.comment());
     marker_comment->selectAll();
     marker_comment->setFocus();
+
+    buttonBox->button(QDialogButtonBox::StandardButton::Ok)->setEnabled(marker_category->count() > 1);
     adjustSize();
 }
 

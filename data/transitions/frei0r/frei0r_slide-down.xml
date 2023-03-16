@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<transition tag="frei0r.sleid0r_slide-down" id="frei0r.sleid0r_slide-down">
+    <name>Slide Down</name>
+    <description>Slide from top to bottom.</description>
+    <author>Vadim Druzhin</author>
+    <parameter type="animated" name="position" max="1000" min="0" default="0=0;%out=1" factor="1000">
+        <name>Slide position</name>
+    </parameter>
+</transition>

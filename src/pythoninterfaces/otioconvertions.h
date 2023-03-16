@@ -28,7 +28,7 @@ private:
     QString m_importAdapters;
     QString m_exportAdapters;
 
-public slots:
+public Q_SLOTS:
     void slotExportProject();
     void slotImportProject();
 };

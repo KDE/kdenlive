@@ -103,6 +103,7 @@ public:
         ScaleRole,
         OpacityRole,
         RelativePosRole,
+        ToTimePosRole,
         // Don't display this param in timeline keyframes
         ShowInTimelineRole,
         InRole,
@@ -194,7 +195,7 @@ public:
     /** @brief Returns a frame time as click time (00:00:00.000) */
     const QString framesToTime(int t) const;
 
-public slots:
+public Q_SLOTS:
     /** @brief Sets the value of a list of parameters
        @param params contains the pairs (parameter name, parameter value)
      */
@@ -213,7 +214,7 @@ protected:
        - %width and %height that are replaced with profile's height and width.
        If keywords are found, mathematical operations are supported for double type params. For example "%width -1" is a valid value.
     */
-    static QVariant parseAttribute(const ObjectId &owner, const QString &attribute, const QDomElement &element, QVariant defaultValue = QVariant());
+    QVariant parseAttribute(const ObjectId &owner, const QString &attribute, const QDomElement &element, QVariant defaultValue = QVariant()) const;
     QVariant parseSubAttributes(const QString &attribute, const QDomElement &element) const;
 
     /** @brief Helper function to register one more parameter that is keyframable.
@@ -258,7 +259,7 @@ protected:
      */
     void internalSetParameter(const QString &name, const QString &paramValue, const QModelIndex &paramIndex = QModelIndex());
 
-signals:
+Q_SIGNALS:
     void modelChanged();
     /** @brief inform child effects (in case of bin effect with timeline producers)
      *  that a change occurred and a param update is needed **/

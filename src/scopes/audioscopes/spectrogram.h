@@ -74,6 +74,6 @@ private:
     QRect m_innerScopeRect;
     QRgb m_colorMap[256];
 
-private slots:
+private Q_SLOTS:
     void slotResetMaxFreq();
 };

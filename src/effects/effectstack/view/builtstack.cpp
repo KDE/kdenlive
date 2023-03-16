@@ -23,9 +23,9 @@ BuiltStack::BuiltStack(AssetPanel *parent)
     : QQuickWidget(parent)
     , m_model(nullptr)
 {
+#if KDECLARATIVE_VERSION < QT_VERSION_CHECK(5, 98, 0)
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());
-#if KDECLARATIVE_VERSION < QT_VERSION_CHECK(5, 98, 0)
     kdeclarative.setupEngine(engine());
 #else
     engine()->addImageProvider(QStringLiteral("icon"), new KQuickIconProvider);

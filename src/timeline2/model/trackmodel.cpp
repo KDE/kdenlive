@@ -55,7 +55,7 @@ TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id, const
             if (auto ptr2 = m_parent.lock()) {
                 QModelIndex ix = ptr2->makeTrackIndexFromID(m_id);
                 qDebug() << "==== TRACK ZONES CHANGED";
-                emit ptr2->dataChanged(ix, ix, roles);
+                Q_EMIT ptr2->dataChanged(ix, ix, roles);
             }
         });
     } else {
@@ -184,7 +184,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
                     ptr->checkRefresh(new_in, new_out);
                 }
                 if (!audioOnly && finalMove && !isAudioTrack()) {
-                    emit ptr->invalidateZone(new_in, new_out);
+                    Q_EMIT ptr->invalidateZone(new_in, new_out);
                 }
             }
             return true;
@@ -362,7 +362,7 @@ void TrackModel::replugClip(int clipId)
         std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
         m_playlists[target_track].insert_at(clip_position, *clip, 1);
         if (!clip->isAudioOnly() && !isAudioTrack()) {
-            emit ptr->invalidateZone(clip->getIn(), clip->getOut());
+            Q_EMIT ptr->invalidateZone(clip->getIn(), clip->getOut());
         }
         if (!clip->isAudioOnly() && !isHidden() && !isAudioTrack()) {
             // only refresh monitor if not an audio track and not hidden
@@ -414,11 +414,11 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
             if (auto ptr = m_parent.lock()) {
                 ptr->m_snaps->removePoint(old_in);
                 ptr->m_snaps->removePoint(old_out);
-                if (finalMove) {
+                if (finalMove && !ptr->m_closing) {
                     if (!audioOnly && !isAudioTrack()) {
-                        emit ptr->invalidateZone(old_in, old_out);
+                        Q_EMIT ptr->invalidateZone(old_in, old_out);
                     }
-                    if (!groupMove && target_clip >= m_playlists[target_track].count()) {
+                    if (finalDeletion && !groupMove && target_clip >= m_playlists[target_track].count()) {
                         // deleted last clip in playlist
                         ptr->updateDuration();
                     }
@@ -452,7 +452,11 @@ bool TrackModel::requestClipDeletion(int clipId, bool updateView, bool finalMove
     }
     auto operation = requestClipDeletion_lambda(clipId, updateView, finalMove, groupMove, finalDeletion);
     if (operation()) {
-        if (finalMove && duration != trackDuration()) {
+        bool closing = false;
+        if (auto ptr = m_parent.lock()) {
+            closing = ptr->m_closing;
+        }
+        if (!closing && finalMove && duration != trackDuration()) {
             // A clip move changed the track duration, update track effects
             m_effectStack->adjustStackLength(true, 0, duration, 0, trackDuration(), 0, undo, redo, true);
         }
@@ -471,7 +475,7 @@ int TrackModel::getBlankSizeAtPos(int frame)
     for (auto &m_playlist : m_playlists) {
         int playlistLength = m_playlist.get_length();
         if (frame >= playlistLength) {
-            continue;
+            blank_length = frame - playlistLength + 1;
         } else {
             int ix = m_playlist.get_clip_index_at(frame);
             if (m_playlist.is_blank(ix)) {
@@ -1201,16 +1205,16 @@ int TrackModel::getBlankStart(int position)
 {
     READ_LOCK();
     int result = 0;
-    for (auto &m_playlist : m_playlists) {
-        if (m_playlist.count() == 0) {
+    for (auto &playlist : m_playlists) {
+        if (playlist.count() == 0) {
             break;
         }
-        if (!m_playlist.is_blank_at(position)) {
+        if (!playlist.is_blank_at(position)) {
             result = position;
             break;
         }
-        int clip_index = m_playlist.get_clip_index_at(position);
-        int start = m_playlist.clip_start(clip_index);
+        int clip_index = playlist.get_clip_index_at(position);
+        int start = playlist.clip_start(clip_index);
         if (start > result) {
             result = start;
         }
@@ -1315,8 +1319,8 @@ Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out, bo
             ptr->checkRefresh(old_in, old_out);
             ptr->checkRefresh(new_in, new_out);
             if (logUndo) {
-                emit ptr->invalidateZone(old_in, old_out);
-                emit ptr->invalidateZone(new_in, new_out);
+                Q_EMIT ptr->invalidateZone(old_in, old_out);
+                Q_EMIT ptr->invalidateZone(new_in, new_out);
             }
             // ptr->adjustAssetRange(compoId, new_in, new_out);
         } else {
@@ -1419,7 +1423,7 @@ Fun TrackModel::requestCompositionDeletion_lambda(int compoId, bool updateView, 
         ptr->m_snaps->removePoint(old_in);
         ptr->m_snaps->removePoint(old_out);
         if (finalMove) {
-            emit ptr->invalidateZone(old_in, old_out);
+            Q_EMIT ptr->invalidateZone(old_in, old_out);
         }
         return true;
     };
@@ -1472,7 +1476,7 @@ Fun TrackModel::requestCompositionInsertion_lambda(int compoId, int position, bo
                 ptr->m_snaps->addPoint(new_out);
                 m_compoPos[new_in] = composition->getId();
                 if (finalMove) {
-                    emit ptr->invalidateZone(new_in, new_out);
+                    Q_EMIT ptr->invalidateZone(new_in, new_out);
                 }
                 return true;
             }
@@ -1593,7 +1597,7 @@ void TrackModel::lock()
     setProperty(QStringLiteral("kdenlive:locked_track"), QStringLiteral("1"));
     if (auto ptr = m_parent.lock()) {
         QModelIndex ix = ptr->makeTrackIndexFromID(m_id);
-        emit ptr->dataChanged(ix, ix, {TimelineModel::IsLockedRole});
+        Q_EMIT ptr->dataChanged(ix, ix, {TimelineModel::IsLockedRole});
     }
 }
 void TrackModel::unlock()
@@ -1601,7 +1605,7 @@ void TrackModel::unlock()
     setProperty(QStringLiteral("kdenlive:locked_track"), nullptr);
     if (auto ptr = m_parent.lock()) {
         QModelIndex ix = ptr->makeTrackIndexFromID(m_id);
-        emit ptr->dataChanged(ix, ix, {TimelineModel::IsLockedRole});
+        Q_EMIT ptr->dataChanged(ix, ix, {TimelineModel::IsLockedRole});
     }
 }
 
@@ -1725,9 +1729,9 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
                 std::shared_ptr<ClipModel> movedClip(ptr->getClipPtr(clipIds.second));
                 movedClip->setMixDuration(0);
                 /*QModelIndex ix = ptr->makeClipIndexFromID(clipIds.first);
-                emit ptr->dataChanged(ix, ix, {TimelineModel::DurationRole});*/
+                Q_EMIT ptr->dataChanged(ix, ix, {TimelineModel::DurationRole});*/
                 QModelIndex ix2 = ptr->makeClipIndexFromID(clipIds.second);
-                emit ptr->dataChanged(ix2, ix2, {TimelineModel::MixRole, TimelineModel::MixCutRole});
+                Q_EMIT ptr->dataChanged(ix2, ix2, {TimelineModel::MixRole, TimelineModel::MixCutRole});
             }
             return true;
         };
@@ -1769,7 +1773,7 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
                 m_sameCompositions[clipIds.second] = asset;
                 m_mixList.insert(clipIds.first, clipIds.second);
                 QModelIndex ix2 = ptr->makeClipIndexFromID(clipIds.second);
-                emit ptr->dataChanged(ix2, ix2, {TimelineModel::MixRole, TimelineModel::MixCutRole});
+                Q_EMIT ptr->dataChanged(ix2, ix2, {TimelineModel::MixRole, TimelineModel::MixCutRole});
             }
             return true;
         };
@@ -2045,7 +2049,7 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
             std::shared_ptr<ClipModel> movedClip(ptr->getClipPtr(clipIds.second));
             movedClip->setMixDuration(0);
             QModelIndex ix = ptr->makeClipIndexFromID(clipIds.second);
-            emit ptr->dataChanged(ix, ix, {TimelineModel::StartRole, TimelineModel::MixRole, TimelineModel::MixCutRole});
+            Q_EMIT ptr->dataChanged(ix, ix, {TimelineModel::StartRole, TimelineModel::MixRole, TimelineModel::MixCutRole});
             QScopedPointer<Mlt::Field> field(m_track->field());
             field->lock();
             field->disconnect_service(transition);
@@ -2078,7 +2082,7 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
                                            ->requestResize(mixPosition + mixDurations.first + mixDurations.second - firstClipPos, true, local_undo, local_redo,
                                                            true, true);
                     QModelIndex ix = ptr->makeClipIndexFromID(clipIds.second);
-                    emit ptr->dataChanged(ix, ix, {TimelineModel::StartRole, TimelineModel::MixRole, TimelineModel::MixCutRole});
+                    Q_EMIT ptr->dataChanged(ix, ix, {TimelineModel::StartRole, TimelineModel::MixRole, TimelineModel::MixCutRole});
                 }
             }
             return result;
@@ -2177,7 +2181,7 @@ bool TrackModel::deleteMix(int clipId, bool final, bool notify)
             std::shared_ptr<ClipModel> movedClip(ptr->getClipPtr(clipId));
             movedClip->setMixDuration(final ? 0 : 1);
             QModelIndex ix = ptr->makeClipIndexFromID(clipId);
-            emit ptr->dataChanged(ix, ix, {TimelineModel::StartRole, TimelineModel::MixRole, TimelineModel::MixCutRole});
+            Q_EMIT ptr->dataChanged(ix, ix, {TimelineModel::StartRole, TimelineModel::MixRole, TimelineModel::MixCutRole});
         }
         if (final) {
             Mlt::Transition &transition = *static_cast<Mlt::Transition *>(m_sameCompositions[clipId]->getAsset());
@@ -2236,7 +2240,7 @@ bool TrackModel::createMix(MixInfo info, std::pair<QString, QVector<QPair<QStrin
         m_mixList.insert(info.firstClipId, info.secondClipId);
         if (finalMove) {
             QModelIndex ix2 = ptr->makeClipIndexFromID(info.secondClipId);
-            emit ptr->dataChanged(ix2, ix2, {TimelineModel::MixRole, TimelineModel::MixCutRole});
+            Q_EMIT ptr->dataChanged(ix2, ix2, {TimelineModel::MixRole, TimelineModel::MixCutRole});
         }
         return true;
     }
@@ -2298,7 +2302,7 @@ bool TrackModel::createMix(std::pair<int, int> clipIds, std::pair<int, int> mixD
         std::shared_ptr<ClipModel> movedClip(ptr->getClipPtr(clipIds.second));
         movedClip->setMixDuration(mixData.second);
         QModelIndex ix = ptr->makeClipIndexFromID(clipIds.second);
-        emit ptr->dataChanged(ix, ix, {TimelineModel::MixRole, TimelineModel::MixCutRole});
+        Q_EMIT ptr->dataChanged(ix, ix, {TimelineModel::MixRole, TimelineModel::MixCutRole});
         bool reverse = movedClip->getSubPlaylistIndex() == 0;
         // Insert mix transition
         QString assetName;
@@ -2340,7 +2344,7 @@ void TrackModel::setMixDuration(int cid, int mixDuration, int mixCut)
     int out = in + mixDuration;
     Mlt::Transition &transition = *static_cast<Mlt::Transition *>(m_sameCompositions[cid]->getAsset());
     transition.set_in_and_out(in, out);
-    emit m_sameCompositions[cid]->dataChanged(QModelIndex(), QModelIndex(), {AssetParameterModel::ParentDurationRole});
+    Q_EMIT m_sameCompositions[cid]->dataChanged(QModelIndex(), QModelIndex(), {AssetParameterModel::ParentDurationRole});
 }
 
 int TrackModel::getMixDuration(int cid) const
@@ -2407,7 +2411,7 @@ void TrackModel::syncronizeMixes(bool finalMove)
         if (auto ptr = m_parent.lock()) {
             ptr->getClipPtr(secondClipId)->setMixDuration(mixOut - mixIn);
             QModelIndex ix = ptr->makeClipIndexFromID(secondClipId);
-            emit ptr->dataChanged(ix, ix, {TimelineModel::MixRole, TimelineModel::MixCutRole});
+            Q_EMIT ptr->dataChanged(ix, ix, {TimelineModel::MixRole, TimelineModel::MixCutRole});
         }
     }
     for (int i : qAsConst(toDelete)) {

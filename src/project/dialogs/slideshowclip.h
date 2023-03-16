@@ -45,7 +45,7 @@ public:
     /** @brief Convert the selection animation style into an affine geometry string. */
     static QString animationToGeometry(const QString &animation, int &ttl);
 
-private slots:
+private Q_SLOTS:
     void parseFolder();
     void slotEnableLuma(int state);
     void slotEnableThumbs(int state);

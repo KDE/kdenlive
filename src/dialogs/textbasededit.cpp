@@ -17,6 +17,7 @@
 #include "widgets/timecodedisplay.h"
 #include <profiles/profilemodel.hpp>
 
+#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KUrlRequesterDialog>
@@ -561,11 +562,30 @@ void VideoTextEdit::mouseMoveEvent(QMouseEvent *e)
 
 TextBasedEdit::TextBasedEdit(QWidget *parent)
     : QWidget(parent)
+    , m_stt(nullptr)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     setFocusPolicy(Qt::StrongFocus);
-    m_stt = new SpeechToText();
+    connect(pCore.get(), &Core::speechEngineChanged, this, &TextBasedEdit::updateEngine);
+    updateEngine();
+
+    // Settings menu
+    QMenu *menu = new QMenu(this);
+    m_translateAction = new QAction(i18n("Translate to english"), this);
+    m_translateAction->setCheckable(true);
+    menu->addAction(m_translateAction);
+    QAction *configAction = new QAction(i18n("Configure Speech Recognition"), this);
+    menu->addAction(configAction);
+    button_config->setMenu(menu);
+    button_config->setIcon(QIcon::fromTheme(QStringLiteral("application-menu")));
+    connect(m_translateAction, &QAction::triggered, [this](bool enabled) { KdenliveSettings::setWhisperTranslate(enabled); });
+    connect(configAction, &QAction::triggered, [this]() { pCore->window()->slotPreferences(8); });
+    connect(menu, &QMenu::aboutToShow, [this]() {
+        m_translateAction->setChecked(KdenliveSettings::whisperTranslate());
+        m_translateAction->setEnabled(KdenliveSettings::speechEngine() == QLatin1String("whisper"));
+    });
+
     m_voskConfig = new QAction(i18n("Configure"), this);
     connect(m_voskConfig, &QAction::triggered, []() { pCore->window()->slotPreferences(8); });
 
@@ -602,9 +622,15 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
             m_tCodeJob->kill();
         }
     });
+    language_box->setToolTip(i18n("Speech model"));
+    speech_language->setToolTip(i18n("Speech language"));
     connect(pCore.get(), &Core::voskModelUpdate, this, [&](const QStringList &models) {
+        if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
+            return;
+        }
         language_box->clear();
         language_box->addItems(models);
+
         if (models.isEmpty()) {
             showMessage(i18n("Please install speech recognition models"), KMessageWidget::Information, m_voskConfig);
         } else {
@@ -616,8 +642,15 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
             }
         }
     });
-    connect(language_box, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
-            [this]() { KdenliveSettings::setVosk_text_model(language_box->currentText()); });
+    connect(language_box, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [this]() {
+        if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
+            const QString modelName = language_box->currentData().toString();
+            speech_language->setEnabled(!modelName.endsWith(QLatin1String(".en")));
+            KdenliveSettings::setWhisperModel(modelName);
+        } else {
+            KdenliveSettings::setVosk_text_model(language_box->currentText());
+        }
+    });
     info_message->hide();
 
     m_logAction = new QAction(i18n("Show log"), this);
@@ -708,8 +741,44 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
         }
         search_line->setPalette(palette);
     });
+}
 
-    m_stt->parseVoskDictionaries();
+void TextBasedEdit::updateEngine()
+{
+    delete m_stt;
+    if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
+        m_stt = new SpeechToText(SpeechToText::EngineType::EngineWhisper, this);
+        language_box->clear();
+        QList<std::pair<QString, QString>> whisperModels = m_stt->whisperModels();
+        for (auto &w : whisperModels) {
+            language_box->addItem(w.first, w.second);
+        }
+        int ix = language_box->findData(KdenliveSettings::whisperModel());
+        if (ix > -1) {
+            language_box->setCurrentIndex(ix);
+        }
+        if (speech_language->count() == 0) {
+            // Fill whisper languages
+            QMap<QString, QString> languages = m_stt->whisperLanguages();
+            QMapIterator<QString, QString> j(languages);
+            while (j.hasNext()) {
+                j.next();
+                speech_language->addItem(j.key(), j.value());
+            }
+            int ix = speech_language->findData(KdenliveSettings::whisperLanguage());
+            if (ix > -1) {
+                speech_language->setCurrentIndex(ix);
+            }
+        }
+        speech_language->setEnabled(!KdenliveSettings::whisperModel().endsWith(QLatin1String(".en")));
+        speech_language->setVisible(true);
+    } else {
+        // VOSK
+        speech_language->setVisible(false);
+        m_stt = new SpeechToText(SpeechToText::EngineType::EngineVosk, this);
+        language_box->clear();
+        m_stt->parseVoskDictionaries();
+    }
 }
 
 TextBasedEdit::~TextBasedEdit()
@@ -739,7 +808,9 @@ bool TextBasedEdit::eventFilter(QObject *obj, QEvent *event)
 void TextBasedEdit::startRecognition()
 {
     if (m_speechJob && m_speechJob->state() != QProcess::NotRunning) {
-        if (KMessageBox::questionYesNo(this, i18n("Another recognition job is running. Abort it ?")) != KMessageBox::Yes) {
+        if (KMessageBox::questionTwoActions(
+                this, i18n("Another recognition job is already running. It will be aborted in favor of the new job. Do you want to proceed?"), {},
+                KStandardGuiItem::cont(), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
             return;
         }
     }
@@ -748,15 +819,30 @@ void TextBasedEdit::startRecognition()
     m_visualEditor->cleanup();
     // m_visualEditor->insertHtml(QStringLiteral("<body>"));
     m_stt->checkDependencies();
-    if (!m_stt->checkSetup() || !m_stt->missingDependencies({QStringLiteral("vosk")}).isEmpty()) {
-        showMessage(i18n("Please configure speech to text."), KMessageWidget::Warning, m_voskConfig);
-        return;
-    }
-    // Start python script
-    QString language = language_box->currentText();
-    if (language.isEmpty()) {
-        showMessage(i18n("Please install a language model."), KMessageWidget::Warning, m_voskConfig);
-        return;
+    QString modelDirectory;
+    QString language;
+    QString modelName;
+    if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
+        // Whisper engine
+        if (!m_stt->checkSetup() || !m_stt->missingDependencies({QStringLiteral("openai-whisper")}).isEmpty()) {
+            showMessage(i18n("Please configure speech to text."), KMessageWidget::Warning, m_voskConfig);
+            return;
+        }
+        modelName = language_box->currentData().toString();
+        language = speech_language->isEnabled() ? speech_language->currentData().toString() : QString();
+    } else {
+        // VOSK engine
+        if (!m_stt->checkSetup() || !m_stt->missingDependencies({QStringLiteral("vosk")}).isEmpty()) {
+            showMessage(i18n("Please configure speech to text."), KMessageWidget::Warning, m_voskConfig);
+            return;
+        }
+        // Start python script
+        modelName = language_box->currentText();
+        if (modelName.isEmpty()) {
+            showMessage(i18n("Please install a language model."), KMessageWidget::Warning, m_voskConfig);
+            return;
+        }
+        modelDirectory = m_stt->voskModelPath();
     }
     m_binId = pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId();
     std::shared_ptr<AbstractProjectItem> clip = pCore->projectItemModel()->getItemByBinId(m_binId);
@@ -768,8 +854,6 @@ void TextBasedEdit::startRecognition()
     m_speechJob = std::make_unique<QProcess>(this);
     showMessage(i18n("Starting speech recognition"), KMessageWidget::Information);
     qApp->processEvents();
-    QString modelDirectory = m_stt->voskModelPath();
-    qDebug() << "==== ANALYSIS SPEECH: " << modelDirectory << " - " << language;
 
     m_sourceUrl.clear();
     QString clipName;
@@ -826,9 +910,8 @@ void TextBasedEdit::startRecognition()
         showMessage(i18n("Extracting audio for %1.", clipName), KMessageWidget::Information);
         qApp->processEvents();
         m_tCodeJob = std::make_unique<QProcess>(this);
-        m_tCodeJob->setProcessChannelMode(QProcess::MergedChannels);
         connect(m_tCodeJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this,
-                [this, language, clipName, modelDirectory, endPos](int code, QProcess::ExitStatus status) {
+                [this, modelName, language, clipName, modelDirectory, endPos](int code, QProcess::ExitStatus status) {
                     Q_UNUSED(code)
                     qDebug() << "++++++++++++++++++++++ TCODE JOB FINISHED\n";
                     if (status == QProcess::CrashExit) {
@@ -847,8 +930,30 @@ void TextBasedEdit::startRecognition()
                                 m_playlistWav.remove();
                                 slotProcessSpeechStatus(code, status);
                             });
-                    m_speechJob->start(m_stt->pythonExec(), {m_stt->speechScript(), modelDirectory, language, m_playlistWav.fileName(),
-                                                             QString::number(m_clipOffset), QString::number(endPos)});
+                    qDebug() << "::: STARTING SPEECH: " << modelDirectory << " / " << modelName;
+                    if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
+                        // Whisper
+                        connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &TextBasedEdit::slotProcessWhisperSpeech);
+                        if (speech_zone->isChecked()) {
+                            m_tmpCutWav.setFileTemplate(QDir::temp().absoluteFilePath(QStringLiteral("kdenlive-XXXXXX.wav")));
+                            if (!m_tmpCutWav.open()) {
+                                showMessage(i18n("Cannot create temporary file."), KMessageWidget::Warning);
+                                return;
+                            }
+                            m_tmpCutWav.close();
+                            m_speechJob->start(m_stt->pythonExec(),
+                                               {m_stt->speechScript(), m_playlistWav.fileName(), modelName, KdenliveSettings::whisperDevice(),
+                                                KdenliveSettings::whisperTranslate() ? QStringLiteral("translate") : QStringLiteral("transcribe"), language,
+                                                QString::number(m_clipOffset), QString::number(endPos), m_tmpCutWav.fileName()});
+                        } else {
+                            m_speechJob->start(m_stt->pythonExec(),
+                                               {m_stt->speechScript(), m_playlistWav.fileName(), modelName, KdenliveSettings::whisperDevice(),
+                                                KdenliveSettings::whisperTranslate() ? QStringLiteral("translate") : QStringLiteral("transcribe"), language});
+                        }
+                    } else {
+                        m_speechJob->start(m_stt->pythonExec(), {m_stt->speechScript(), modelDirectory, modelName, m_playlistWav.fileName(),
+                                                                 QString::number(m_clipOffset), QString::number(endPos)});
+                    }
                     speech_progress->setValue(0);
                     frame_progress->setVisible(true);
                 });
@@ -868,14 +973,39 @@ void TextBasedEdit::startRecognition()
         showMessage(i18n("Starting speech recognition on %1.", clipName), KMessageWidget::Information);
         qApp->processEvents();
         connect(m_speechJob.get(), &QProcess::readyReadStandardError, this, &TextBasedEdit::slotProcessSpeechError);
-        connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &TextBasedEdit::slotProcessSpeech);
         connect(m_speechJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this,
                 &TextBasedEdit::slotProcessSpeechStatus);
-        qDebug() << "=== STARTING RECO: " << m_stt->speechScript() << " / " << modelDirectory << " / " << language << " / " << m_sourceUrl
-                 << ", START: " << m_clipOffset << ", DUR: " << endPos;
         button_add->setEnabled(false);
-        m_speechJob->start(m_stt->pythonExec(),
-                           {m_stt->speechScript(), modelDirectory, language, m_sourceUrl, QString::number(m_clipOffset), QString::number(endPos)});
+        if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
+            // Whisper
+            qDebug() << "=== STARTING Whisper reco: " << m_stt->speechScript() << " / " << language_box->currentData() << " / "
+                     << KdenliveSettings::whisperDevice() << " / "
+                     << (KdenliveSettings::whisperTranslate() ? QStringLiteral("translate") : QStringLiteral("transcribe")) << " / " << m_sourceUrl
+                     << ", START: " << m_clipOffset << ", DUR: " << endPos;
+            connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &TextBasedEdit::slotProcessWhisperSpeech);
+            if (speech_zone->isChecked()) {
+                m_tmpCutWav.setFileTemplate(QDir::temp().absoluteFilePath(QStringLiteral("kdenlive-XXXXXX.wav")));
+                if (!m_tmpCutWav.open()) {
+                    showMessage(i18n("Cannot create temporary file."), KMessageWidget::Warning);
+                    return;
+                }
+                m_tmpCutWav.close();
+                m_speechJob->start(m_stt->pythonExec(), {m_stt->speechScript(), m_sourceUrl, modelName, KdenliveSettings::whisperDevice(),
+                                                         KdenliveSettings::whisperTranslate() ? QStringLiteral("translate") : QStringLiteral("transcribe"),
+                                                         language, QString::number(m_clipOffset), QString::number(endPos), m_tmpCutWav.fileName()});
+            } else {
+                m_speechJob->start(m_stt->pythonExec(),
+                                   {m_stt->speechScript(), m_sourceUrl, modelName, KdenliveSettings::whisperDevice(),
+                                    KdenliveSettings::whisperTranslate() ? QStringLiteral("translate") : QStringLiteral("transcribe"), language});
+            }
+        } else {
+            // VOSK
+            qDebug() << "=== STARTING RECO: " << m_stt->speechScript() << " / " << modelDirectory << " / " << modelName << " / " << m_sourceUrl
+                     << ", START: " << m_clipOffset << ", DUR: " << endPos;
+            connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &TextBasedEdit::slotProcessSpeech);
+            m_speechJob->start(m_stt->pythonExec(),
+                               {m_stt->speechScript(), modelDirectory, modelName, m_sourceUrl, QString::number(m_clipOffset), QString::number(endPos)});
+        }
         speech_progress->setValue(0);
         frame_progress->setVisible(true);
     }
@@ -883,6 +1013,7 @@ void TextBasedEdit::startRecognition()
 
 void TextBasedEdit::slotProcessSpeechStatus(int, QProcess::ExitStatus status)
 {
+    m_tmpCutWav.remove();
     if (status == QProcess::CrashExit) {
         showMessage(i18n("Speech recognition aborted."), KMessageWidget::Warning, m_errorString.isEmpty() ? nullptr : m_logAction);
     } else if (m_visualEditor->toPlainText().isEmpty()) {
@@ -893,17 +1024,20 @@ void TextBasedEdit::slotProcessSpeechStatus(int, QProcess::ExitStatus status)
         }
     } else {
         // Last empty object - no speech detected
-        GenTime silenceStart(m_lastPosition + 1, pCore->getCurrentFps());
-        if (silenceStart.seconds() < m_clipDuration + m_clipOffset) {
-            m_visualEditor->moveCursor(QTextCursor::End);
-            QTextCursor cursor = m_visualEditor->textCursor();
-            QTextCharFormat fmt = cursor.charFormat();
-            fmt.setAnchorHref(QString("%1#%2:%3").arg(m_binId).arg(silenceStart.seconds()).arg(GenTime(m_clipDuration + m_clipOffset).seconds()));
-            fmt.setAnchor(true);
-            cursor.insertText(i18n("No speech"), fmt);
-            m_visualEditor->textCursor().insertBlock(cursor.blockFormat());
-            m_visualEditor->speechZones << QPair<double, double>(silenceStart.seconds(), GenTime(m_clipDuration + m_clipOffset).seconds());
-            m_visualEditor->repaintLines();
+        if (KdenliveSettings::speechEngine() != QLatin1String("whisper")) {
+            // VOSK
+            GenTime silenceStart(m_lastPosition + 1, pCore->getCurrentFps());
+            if (silenceStart.seconds() < m_clipDuration + m_clipOffset) {
+                m_visualEditor->moveCursor(QTextCursor::End);
+                QTextCursor cursor = m_visualEditor->textCursor();
+                QTextCharFormat fmt = cursor.charFormat();
+                fmt.setAnchorHref(QString("%1#%2:%3").arg(m_binId).arg(silenceStart.seconds()).arg(GenTime(m_clipDuration + m_clipOffset).seconds()));
+                fmt.setAnchor(true);
+                cursor.insertText(i18n("No speech"), fmt);
+                m_visualEditor->textCursor().insertBlock(cursor.blockFormat());
+                m_visualEditor->speechZones << QPair<double, double>(silenceStart.seconds(), GenTime(m_clipDuration + m_clipOffset).seconds());
+                m_visualEditor->repaintLines();
+            }
         }
 
         button_add->setEnabled(true);
@@ -931,7 +1065,37 @@ void TextBasedEdit::slotProcessSpeechStatus(int, QProcess::ExitStatus status)
 
 void TextBasedEdit::slotProcessSpeechError()
 {
-    m_errorString.append(QString::fromUtf8(m_speechJob->readAllStandardError()));
+    const QString log = QString::fromUtf8(m_speechJob->readAllStandardError());
+    if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
+        if (log.contains(QStringLiteral("%|"))) {
+            int prog = log.section(QLatin1Char('%'), 0, 0).toInt();
+            speech_progress->setValue(prog);
+        }
+    }
+    m_errorString.append(log);
+}
+
+void TextBasedEdit::slotProcessWhisperSpeech()
+{
+    const QString saveData = QString::fromUtf8(m_speechJob->readAllStandardOutput());
+    QStringList sentences = saveData.split(QLatin1Char('\n'), Qt::SkipEmptyParts);
+    QTextCursor cursor = m_visualEditor->textCursor();
+    QTextCharFormat fmt = cursor.charFormat();
+    QPair<double, double> sentenceZone;
+    for (auto &s : sentences) {
+        fmt.setAnchor(true);
+        sentenceZone.first = s.section(QLatin1Char('['), 1).section(QLatin1Char('>'), 0, 0).toDouble() + m_clipOffset;
+        sentenceZone.second = s.section(QLatin1Char('>'), 1).section(QLatin1Char(']'), 0, 0).toDouble() + m_clipOffset;
+        qDebug() << "=== GOT SENTENCE: " << sentenceZone;
+        fmt.setAnchorHref(QString("%1#%2:%3").arg(m_binId).arg(sentenceZone.first).arg(sentenceZone.second));
+        cursor.insertText(s.section(QLatin1Char(']'), 1), fmt);
+        fmt.setAnchor(false);
+        cursor.insertText(QStringLiteral(" "), fmt);
+        m_visualEditor->textCursor().insertBlock(cursor.blockFormat());
+        m_visualEditor->speechZones << sentenceZone;
+    }
+    m_visualEditor->repaintLines();
+    qDebug() << ":::  " << saveData;
 }
 
 void TextBasedEdit::slotProcessSpeech()
@@ -984,7 +1148,7 @@ void TextBasedEdit::slotProcessSpeech()
                     }
                 }
                 // Store words with their start/end time
-                foreach (const QJsonValue &v, obj2) {
+                for (const QJsonValue &v : obj2) {
                     textFound = true;
                     fmt.setAnchor(true);
                     fmt.setAnchorHref(QString("%1#%2:%3")

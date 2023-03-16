@@ -23,9 +23,9 @@ AssetListWidget::AssetListWidget(QWidget *parent)
     : QQuickWidget(parent)
 
 {
+#if KDECLARATIVE_VERSION < QT_VERSION_CHECK(5, 98, 0)
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());
-#if KDECLARATIVE_VERSION < QT_VERSION_CHECK(5, 98, 0)
     kdeclarative.setupEngine(engine());
 #else
     engine()->addImageProvider(QStringLiteral("icon"), new KQuickIconProvider);
@@ -65,9 +65,9 @@ bool AssetListWidget::isFavorite(const QModelIndex &index) const
 void AssetListWidget::setFavorite(const QModelIndex &index, bool favorite)
 {
     m_model->setFavorite(m_proxyModel->mapToSource(index), favorite, isEffect());
-    emit m_proxyModel->dataChanged(index, index, QVector<int>());
+    Q_EMIT m_proxyModel->dataChanged(index, index, QVector<int>());
     m_proxyModel->reloadFilterOnFavorite();
-    emit reloadFavorites();
+    Q_EMIT reloadFavorites();
 }
 
 void AssetListWidget::deleteCustomEffect(const QModelIndex &index)
@@ -105,7 +105,7 @@ void AssetListWidget::activate(const QModelIndex &ix)
         return;
     }
     const QString assetId = m_model->data(m_proxyModel->mapToSource(ix), AssetTreeModel::IdRole).toString();
-    emit activateAsset(getMimeData(assetId));
+    Q_EMIT activateAsset(getMimeData(assetId));
 }
 
 bool AssetListWidget::showDescription() const
@@ -116,5 +116,5 @@ bool AssetListWidget::showDescription() const
 void AssetListWidget::setShowDescription(bool show)
 {
     KdenliveSettings::setShoweffectinfo(show);
-    emit showDescriptionChanged();
+    Q_EMIT showDescriptionChanged();
 }

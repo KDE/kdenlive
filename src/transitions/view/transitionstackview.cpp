@@ -22,7 +22,7 @@ TransitionStackView::TransitionStackView(QWidget *parent)
     connect(this, &AssetParameterView::seekToPos, [this](int pos) {
         // at this point, the effects returns a pos relative to the clip. We need to convert it to a global time
         int clipIn = pCore->getItemPosition(m_model->getOwnerId());
-        emit seekToTransPos(pos + clipIn);
+        Q_EMIT seekToTransPos(pos + clipIn);
     });
 }
 
@@ -66,7 +66,7 @@ void TransitionStackView::setModel(const std::shared_ptr<AssetParameterModel> &m
     }
     connect(model.get(), &AssetParameterModel::compositionTrackChanged, this, &TransitionStackView::checkCompoTrack);
     connect(m_trackBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateTrack(int)));
-    emit initKeyframeView(true);
+    Q_EMIT initKeyframeView(true);
     pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
     m_lay->addStretch(10);
     slotRefresh();

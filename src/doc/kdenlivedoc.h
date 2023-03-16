@@ -95,9 +95,10 @@ public:
     static DocOpenResult Open(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup,
                 bool recoverCorruption, MainWindow *parent = nullptr);
     /** @brief Create a dummy project, used for testing. */
-    KdenliveDoc(MainWindow *parent = nullptr);
+    KdenliveDoc(std::shared_ptr<DocUndoStack> undoStack, std::pair<int, int> tracks = {2, 2}, MainWindow *parent = nullptr);
     ~KdenliveDoc() override;
     friend class LoadJob;
+    QUuid activeUuid;
     /** @brief Get current document's producer. */
     const QByteArray getAndClearProjectXml();
     double fps() const;
@@ -114,10 +115,15 @@ public:
     /** @brief Get a list of all clip ids that are inside a folder. */
     QStringList getBinFolderClipIds(const QString &folderId) const;
 
-    const QString description() const;
+    const QString description(const QString suffix = QString()) const;
     void setUrl(const QUrl &url);
-    /** @brief Update path of subtitle url. */
-    void updateSubtitle(const QString &newUrl = QString());
+    /** @brief Update path of subtitle url and timewarp sequence playlists. */
+    void updateWorkFilesBeforeSave(const QString &newUrl = QString(), bool onRender = false);
+    /** @brief Restore tmp work path for subtitle filters after saving. */
+    void updateWorkFilesAfterSave();
+
+    void prepareRenderAssets(const QDir &destFolder);
+    void restoreRenderAssets();
 
     /** @brief Defines whether the document needs to be saved. */
     bool isModified() const;
@@ -125,13 +131,16 @@ public:
      * will be created the next time the document is saved.
      */
     void requestBackup();
+    /** @brief prepare timelinemodels for closing
+     */
+    void prepareClose();
 
     /** @brief Returns the project folder, used to store project temporary files. */
     QString projectTempFolder() const;
     /** @brief Returns the folder used to store project data files (titles, etc). */
     QString projectDataFolder(const QString &newPath = QString(), bool folderForAudio = false) const;
-    void setZoom(int horizontal, int vertical = -1);
-    QPoint zoom() const;
+    void setZoom(const QUuid &uuid, int horizontal, int vertical = -1);
+    QPoint zoom(const QUuid &uuid) const;
     double dar() const;
     /** @brief Returns the project file xml. */
     QDomDocument xmlSceneList(const QString &scene);
@@ -139,14 +148,28 @@ public:
     bool saveSceneList(const QString &path, const QString &scene);
     void cacheImage(const QString &fileId, const QImage &img) const;
     void setProjectFolder(const QUrl &url);
-    void setZone(int start, int end);
-    QPoint zone() const;
+    void setZone(const QUuid &uuid, int start, int end);
+    QPoint zone(const QUuid &uuid) const;
     /** @brief Returns target tracks (video, audio). */
-    QPair<int, int> targetTracks() const;
+    QPair<int, int> targetTracks(const QUuid &uuid) const;
     /** @brief Load document guides from properties. */
-    void loadDocumentGuides();
+    void loadDocumentGuides(const QUuid &uuid, std::shared_ptr<TimelineItemModel> model);
+    /** @brief Load sequence properties from the MLT tractor. */
+    void loadSequenceProperties(const QUuid &uuid, Mlt::Properties sequenceProps);
+    /** @brief Set a document property. */
     void setDocumentProperty(const QString &name, const QString &value);
     virtual const QString getDocumentProperty(const QString &name, const QString &defaultValue = QString()) const;
+    bool hasDocumentProperty(const QString &name) const;
+    /** @brief Set a timeline sequence property. */
+    void setSequenceProperty(const QUuid &uuid, const QString &name, const QString &value);
+    void setSequenceProperty(const QUuid &uuid, const QString &name, int value);
+    /** @brief Get a timeline sequence property. */
+    const QString getSequenceProperty(const QUuid &uuid, const QString &name, const QString &defaultValue = QString()) const;
+    /** @brief Delete the sequence property after it has been used. */
+    void clearSequenceProperty(const QUuid &uuid, const QString &name);
+    const QMap<QString, QString> getSequenceProperties(const QUuid &uuid) const;
+    /** @brief Move document properties into sequence properties (mostly useful to convert older KdenliveDoc formats . */
+    void importSequenceProperties(const QUuid uuid, const QStringList properties);
 
     /** @brief Gets the list of renderer properties saved into the document. */
     QMap<QString, QString> getRenderProperties() const;
@@ -185,7 +208,7 @@ public:
     void selectPreviewProfile();
     void displayMessage(const QString &text, MessageType type = DefaultMessage, int timeOut = 0);
     /** @brief Get a cache directory for this project. */
-    const QDir getCacheDir(CacheType type, bool *ok) const;
+    const QDir getCacheDir(CacheType type, bool *ok, const QUuid uuid = QUuid()) const;
     /** @brief Create standard cache dirs for the project */
     void initCacheDirs();
     /** @brief Get a list of all proxy hash used in this project */
@@ -194,8 +217,8 @@ public:
     void moveProjectData(const QString &src, const QString &dest);
 
     /** @brief Returns a pointer to the guide model of timeline uuid */
-    std::shared_ptr<MarkerListModel> getGuideModel(QUuid uuid = QUuid()) const;
-    std::shared_ptr<MarkerSortModel> getFilteredGuideModel(QUuid uuid = QUuid());
+    std::shared_ptr<MarkerListModel> getGuideModel(const QUuid uuid) const;
+    std::shared_ptr<MarkerSortModel> getFilteredGuideModel(const QUuid uuid);
 
     // TODO REFAC: delete */
     Render *renderer();
@@ -225,12 +248,17 @@ public:
      */
     QString &modifiedDecimalPoint();
     void setModifiedDecimalPoint(const QString &decimalPoint) { m_modifiedDecimalPoint = decimalPoint; }
-    /** @brief Initialize subtitle model */
-    void initializeSubtitles(const std::shared_ptr<SubtitleModel> m_subtitle);
-    /** @brief Returns a path for current document's subtitle file. If final is true, this will be the project filename with ".srt" appended. Otherwise a file in /tmp */
-    const QString subTitlePath(bool final);
+    /** @brief Get the list of secondary timelines uuid */
+    const QStringList getSecondaryTimelines() const;
+
+    /** @brief Returns a path for current document's subtitle file.
+     *  uuid is appended to the path if this is not the primary timeline
+     *  If final is true, this will be the project filename with ".srt" appended. Otherwise a file in /tmp */
+    const QString subTitlePath(const QUuid &uuid, bool final);
+    /** @brief Returns the list of all used subtitles paths. */
+    QStringList getAllSubtitlesPath(bool final);
     /** @brief Creates a new project. */
-    QDomDocument createEmptyDocument(int videotracks, int audiotracks);
+    QDomDocument createEmptyDocument(int videotracks, int audiotracks, bool disableProfile = true);
     /** @brief Return the document version. */
     double getDocumentVersion() const;
     /** @brief Replace proxy clips with originals for rendering. */
@@ -239,14 +267,26 @@ public:
     /** @brief Returns true if this project has subtitles. */
     bool hasSubtitles() const;
     /** @brief Generate a temporary subtitle file for a zone. */
-    void generateRenderSubtitleFile(int in, int out, const QString &subtitleFile);
+    void generateRenderSubtitleFile(const QUuid &uuid, int in, int out, const QString &subtitleFile);
     /** @brief Returns the default definition  for guide categories.*/
     static const QStringList getDefaultGuideCategories();
     void addTimeline(const QUuid &uuid, std::shared_ptr<TimelineItemModel> model);
+    /** @brief Load the guides into the model for a sequence.*/
+    void loadSequenceGroupsAndGuides(const QUuid &uuid);
+    /** @brief Get a timeline by its uuid.*/
+    std::shared_ptr<TimelineItemModel> getTimeline(const QUuid &uuid);
+    void closeTimeline(const QUuid &uuid);
+    QList<QUuid> getTimelinesUuids() const;
     /** @brief Returns the number of timelines in this project.*/
     int timelineCount() const;
-    /** @brief Returns the project's main uuid .*/
+    /** @brief Get the currently active project name.*/
+    const QString projectName() const;
+    /** @brief Returns the project's main uuid.*/
     const QUuid uuid() const;
+    /** @brief Returns true if a sequence thumbnail needs an update.*/
+    bool sequenceThumbRequiresRefresh(const QUuid &uuid) const;
+    /** @brief Thumbnail for a sequence was updated, remove it from the update list.*/
+    void sequenceThumbUpdated(const QUuid &uuid);
 
 private:
     /** @brief Create a new KdenliveDoc using the provided QDomDocument (an
@@ -286,8 +326,9 @@ private:
     QList<int> m_undoChunks;
     QMap<QString, QString> m_documentProperties;
     QMap<QString, QString> m_documentMetadata;
+    QMap<QUuid, QMap<QString, QString>> m_sequenceProperties;
     QUuid m_filteredTimelineUuid;
-    std::weak_ptr<SubtitleModel> m_subtitleModel;
+    QList<QUuid> m_sequenceThumbsNeedsRefresh;
 
     QString m_modifiedDecimalPoint;
     /** @brief A list of guide models for this project (one for each timeline). */
@@ -296,7 +337,7 @@ private:
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;
 
     /** @brief Creates a new project. */
-    QDomDocument createEmptyDocument(const QList<TrackInfo> &tracks);
+    QDomDocument createEmptyDocument(const QList<TrackInfo> &tracks, bool disableProfile);
 
     /** @brief Updates the project folder location entry in the kdenlive file dialogs to point to the current project folder. */
     void updateProjectFolderPlacesEntry();
@@ -309,7 +350,7 @@ private:
     /** @brief initialize proxy settings based on hw status */
     void initProxySettings();
 
-public slots:
+public Q_SLOTS:
     void slotCreateTextTemplateClip(const QString &group, const QString &groupId, QUrl path);
 
     /** @brief Sets the document as modified or up to date.
@@ -326,23 +367,19 @@ public slots:
      *
      * The autosave files are in ~/.kde/data/stalefiles/kdenlive/ */
     void slotAutoSave(const QString &scene);
-    /** @brief Groups were changed, save to MLT. */
-    void groupsChanged(const QString &groups);
     void switchProfile(ProfileParam* pf, const QString &clipName);
 
-private slots:
+private Q_SLOTS:
     void slotModified();
     void slotSwitchProfile(const QString &profile_path, bool reloadThumbs);
     /** @brief Check if we did a new action invalidating more recent undo items. */
     void checkPreviewStack(int ix);
-    /** @brief Guides were changed, save to MLT. */
-    void guidesChanged(const QUuid &uuid);
     /** @brief Display error message on failed move. */
     void slotMoveFinished(KJob *job);
     /** @brief Save the project guide categories in the document properties. */
     void saveGuideCategories();
 
-signals:
+Q_SIGNALS:
     void resetProjectList();
 
     /** @brief Informs that the document status has been changed.

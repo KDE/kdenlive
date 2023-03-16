@@ -19,7 +19,7 @@ grayscale
 frei0r.3dflippo
 frei0r.perspective
 
-#EFFECTS NOT USABLE WITH A SIMPLE GUI
+#EFFECTS NOT USABLE WITH A SIMPLE GUI OR INTERNAL TO MLT
 # ladspa
 jackrack
 # luma
@@ -28,6 +28,7 @@ data_show
 watermark
 # region
 resize
+rescale
 resample
 # mono
 transition
@@ -237,6 +238,7 @@ avfilter.fspp
 # frei0r.vertigo
 # rescale
 # spot_remover
+# timer
 # typewriter #don't blacklist (this is independent from the titler's build in typewriter effect)
 
 # NOT WORKING, OR  NOT USEFUL ON THE TIMELINE OR HEAVY
@@ -312,7 +314,6 @@ avfilter.vignette
 avfilter.zscale
 qtext
 rgblut
-timer
 
 # PRODUCE CRASH OR FREEZE
 avfilter.convolution

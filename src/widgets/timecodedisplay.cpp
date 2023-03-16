@@ -225,7 +225,7 @@ void TimecodeDisplay::setValue(int value)
         m_value = value;
         lineEdit()->setText(m_timecode.getTimecodeFromFrames(m_offset + value - m_minimum));
     }
-    emit timeCodeUpdated();
+    Q_EMIT timeCodeUpdated();
 }
 
 void TimecodeDisplay::setValue(const GenTime &value)
@@ -241,7 +241,7 @@ void TimecodeDisplay::slotEditingFinished()
     } else {
         setValue(m_timecode.getFrameCount(lineEdit()->text()) + m_minimum - m_offset);
     }
-    emit timeCodeEditingFinished(m_value);
+    Q_EMIT timeCodeEditingFinished(m_value);
 }
 
 const QString TimecodeDisplay::displayText() const
@@ -260,6 +260,6 @@ void TimecodeDisplay::setOffset(int offset)
     // Update timecode display
     if (!m_frametimecode) {
         lineEdit()->setText(m_timecode.getTimecodeFromFrames(m_offset + m_value - m_minimum));
-        emit timeCodeUpdated();
+        Q_EMIT timeCodeUpdated();
     }
 }

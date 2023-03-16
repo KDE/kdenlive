@@ -55,7 +55,7 @@ public:
     bool downloadOAuth2() const;
     bool requiresLogin() const;
 
-public slots:
+public Q_SLOTS:
     void slotStartSearch(const QString &searchText, int page);
     void slotFetchFiles(const QString &id);
     // void slotShowResults(QNetworkReply *reply);
@@ -87,7 +87,7 @@ private:
     QTemporaryFile *m_tmpThumbFile;
     const int m_perPage = 15;
 
-signals:
+Q_SIGNALS:
     void searchDone(QList<ResourceItemInfo> &list, const int pageCount);
     void searchError(const QString &msg = QString());
     void fetchedFiles(QStringList, QStringList, const QString &token = QString());

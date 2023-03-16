@@ -20,7 +20,7 @@ class TimelineWidget : public QQuickWidget
     Q_OBJECT
 
 public:
-    TimelineWidget(QWidget *parent = Q_NULLPTR);
+    TimelineWidget(const QUuid uuid, QWidget *parent = Q_NULLPTR);
     ~TimelineWidget() override;
     /** @brief Sets the model shown by this widget */
     void setModel(const std::shared_ptr<TimelineItemModel> &model, MonitorProxy *proxy);
@@ -42,12 +42,14 @@ public:
     bool loading;
     void connectSubtitleModel(bool firstConnect);
     void unsetModel();
+    const QUuid &getUuid() const;
+    bool hasSubtitles() const;
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
     bool eventFilter(QObject *object, QEvent *event) override;
 
-public slots:
+public Q_SLOTS:
     void slotChangeZoom(int value, bool zoomOnMouse);
     void slotFitZoom();
     /** @brief Center timeline view on current timeline cursor position */
@@ -68,7 +70,7 @@ public slots:
     /** @brief Focus qml item under mouse in timeline, for example after app looses focus or a menu showed up*/
     void regainFocus();
 
-private slots:
+private Q_SLOTS:
     void slotUngrabHack();
     void slotResetContextPos(QAction *);
     void showClipMenu(int cid);
@@ -102,8 +104,9 @@ private:
     /** @brief Returns an alphabetically sorted list of favorite effects or transitions */
     const QMap<QString, QString> sortedItems(const QStringList &items, bool isTransition);
     QPoint m_clickPos;
+    QUuid m_uuid;
 
-signals:
+Q_SIGNALS:
     void focusProjectMonitor();
     void zoneMoved(const QPoint &zone);
 };

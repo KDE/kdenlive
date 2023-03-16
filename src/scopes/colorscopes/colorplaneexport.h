@@ -33,7 +33,7 @@ private:
     void enableSliderColor(bool enable);
     void enableCbVariant(bool enable);
 
-private slots:
+private Q_SLOTS:
     void slotValidate();
     void slotExportPlane();
     void slotColormodeChanged();

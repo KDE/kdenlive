@@ -18,15 +18,16 @@ public:
     RenderServer(QObject *parent);
     ~RenderServer() override;
 
-signals:
+Q_SIGNALS:
     void setRenderingProgress(const QString &url, int progress, int frame);
     void setRenderingFinished(const QString &url, int status, const QString &error);
 
-public slots:
+public Q_SLOTS:
     void abortJob(const QString &job);
 
-private slots:
+private Q_SLOTS:
     void jobConnected();
+    void handleJson(const QJsonObject &json, QLocalSocket *socket);
     void jobSent();
 
 private:

@@ -429,6 +429,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
         switch (clip->clipType()) {
         case ClipType::Color:
+        case ClipType::Timeline:
             // ignore color clips in list, there is no real file
             break;
         case ClipType::SlideShow: {
@@ -669,6 +670,10 @@ QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
     QString root = doc.documentElement().attribute(QStringLiteral("root"));
     if (!root.isEmpty() && !root.endsWith(QLatin1Char('/'))) {
         root.append(QLatin1Char('/'));
+    }
+    QDomNodeList chains = doc.elementsByTagName(QStringLiteral("chain"));
+    for (int i = 0; i < chains.count(); ++i) {
+        chains.item(i).toElement().setTagName(QStringLiteral("producer"));
     }
     QDomNodeList files = doc.elementsByTagName(QStringLiteral("producer"));
     for (int i = 0; i < files.count(); ++i) {

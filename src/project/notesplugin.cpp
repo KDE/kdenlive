@@ -43,7 +43,7 @@ NotesPlugin::NotesPlugin(ProjectManager *projectManager)
 void NotesPlugin::setProject(KdenliveDoc *document)
 {
     connect(m_widget, SIGNAL(textChanged()), document, SLOT(setModified()));
-    connect(m_widget, &NotesWidget::seekProject, pCore->monitorManager()->projectMonitor(), &Monitor::seekTimeline, Qt::UniqueConnection);
+    connect(m_widget, &NotesWidget::seekProject, pCore->projectManager(), &ProjectManager::seekTimeline, Qt::UniqueConnection);
     if (m_tb->actions().isEmpty()) {
         // initialize toolbar
         m_tb->addAction(pCore->window()->action("add_project_note"));
@@ -51,6 +51,7 @@ void NotesPlugin::setProject(KdenliveDoc *document)
         connect(a, &QAction::triggered, m_widget, &NotesWidget::assignProjectNote);
         m_tb->addAction(a);
         a = new QAction(QIcon::fromTheme(QStringLiteral("list-add")), i18n("Create markers from selected timecodes"));
+        a->setWhatsThis(xi18nc("@info:whatsthis", "Creates markers in the timeline from the selected timecodes (doesn’t matter if other text is selected too)."));
         connect(a, &QAction::triggered, m_widget, &NotesWidget::createMarkers);
         m_tb->addAction(a);
     }
@@ -79,12 +80,14 @@ void NotesPlugin::slotInsertTimecode()
         int frames = pCore->monitorManager()->projectMonitor()->position();
         QString position = pCore->timecode().getTimecodeFromFrames(frames);
         QPair<int, QString> currentTrackInfo = pCore->currentTrackInfo();
+        const QUuid uuid = pCore->currentTimelineId();
         if (currentTrackInfo.first != -1) {
             // Insert timeline position with track reference
-            m_widget->insertHtml(QString("<a href=\"%1?%2\">%3 %4</a> ")
-                                     .arg(QString::number(frames), QString::number(currentTrackInfo.first), currentTrackInfo.second, position));
+            m_widget->insertHtml(
+                QString("<a href=\"%1!%2?%3\">%4 %5</a> ")
+                    .arg(uuid.toString(), QString::number(frames), QString::number(currentTrackInfo.first), currentTrackInfo.second, position));
         } else {
-            m_widget->insertHtml(QString("<a href=\"%1\">%2</a> ").arg(QString::number(frames), position));
+            m_widget->insertHtml(QString("<a href=\"%1!%2\">%3</a> ").arg(uuid.toString(), QString::number(frames), position));
         }
     }
 }

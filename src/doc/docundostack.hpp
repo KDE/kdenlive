@@ -16,6 +16,6 @@ class DocUndoStack : public QUndoStack
 public:
     explicit DocUndoStack(QUndoGroup *parent = Q_NULLPTR);
     void push(QUndoCommand *cmd);
-signals:
+Q_SIGNALS:
     void invalidate(int ix);
 };

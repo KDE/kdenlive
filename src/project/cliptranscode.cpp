@@ -156,7 +156,7 @@ void ClipTranscode::slotStartTransCode()
             // Abort operation
             if (m_automaticMode) {
                 // inform caller that we aborted
-                emit transcodedClip(source_url->url(), QUrl());
+                Q_EMIT transcodedClip(source_url->url(), QUrl());
                 close();
             }
             return;
@@ -289,9 +289,9 @@ void ClipTranscode::slotTranscodeFinished(int exitCode, QProcess::ExitStatus exi
                 url = dest_url->url();
             }
             if (m_automaticMode) {
-                emit transcodedClip(source_url->url(), url);
+                Q_EMIT transcodedClip(source_url->url(), url);
             } else {
-                emit addClip(url, m_folderInfo);
+                Q_EMIT addClip(url, m_folderInfo);
             }
         }
         if (urls_list->count() > 0 && m_urls.count() > 0) {

@@ -47,6 +47,9 @@ ProfileWidget::ProfileWidget(QWidget *parent)
     labelLay->addWidget(manage_profiles);
     manage_profiles->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
     manage_profiles->setToolTip(i18n("Manage project profiles"));
+    manage_profiles->setWhatsThis(
+        xi18nc("@info:whatsthis",
+               "Opens the profile dialog window in which you can change project profiles. Note: The profile used in the open project cannot be changed."));
     connect(manage_profiles, &QAbstractButton::clicked, this, &ProfileWidget::slotEditProfiles);
     lay->addLayout(labelLay);
 
@@ -222,7 +225,7 @@ void ProfileWidget::slotChangeSelection(const QModelIndex &current, const QModel
         m_lastValidProfile = m_currentProfile;
     }
     if (m_originalProfile != m_currentProfile) {
-        emit profileChanged();
+        Q_EMIT profileChanged();
     }
     fillDescriptionPanel(m_currentProfile);
 }
@@ -254,7 +257,7 @@ void ProfileWidget::slotFilterChanged()
         if (!trySelectProfile(m_lastValidProfile)) {
             // Everything fails, we don't have any profile
             m_currentProfile = QString();
-            emit profileChanged();
+            Q_EMIT profileChanged();
             fillDescriptionPanel(QString());
         }
     }

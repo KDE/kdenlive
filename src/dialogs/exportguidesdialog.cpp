@@ -33,7 +33,7 @@ ExportGuidesDialog::ExportGuidesDialog(const MarkerListModel *model, const GenTi
 {
     //    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
-    setWindowTitle(i18n("Export guides as chapters description"));
+    setWindowTitle(i18n("Export guides"));
 
     // We should setup TimecodeDisplay since it requires a proper Timecode
     offsetTimeSpinbox->setTimecode(Timecode(Timecode::HH_MM_SS_FF, pCore->getCurrentFps()));

@@ -19,6 +19,7 @@
 #include "lumaliftgainparam.hpp"
 #include "monitor/monitor.h"
 #include "utils/timecode.h"
+#include "widgets/choosecolorwidget.h"
 #include "widgets/doublewidget.h"
 #include "widgets/geometrywidget.h"
 #include "widgets/timecodedisplay.h"
@@ -193,7 +194,8 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     }
 
     // Menu toolbutton
-    auto *menuAction = new KActionMenu(QIcon::fromTheme(QStringLiteral("kdenlive-menu")), i18n("Options"), this);
+    auto *menuAction = new KActionMenu(QIcon::fromTheme(QStringLiteral("application-menu")), i18n("Options"), this);
+    menuAction->setWhatsThis(xi18nc("@info:whatsthis", "Opens a list of further actions for managing keyframes (for example: copy to and pasting keyframes from clipboard)."));
     menuAction->setPopupMode(QToolButton::InstantPopup);
     menuAction->addAction(seekKeyframe);
     menuAction->addAction(copy);
@@ -225,7 +227,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
         m_addDeleteAction->setEnabled(pos > 0);
         slotRefreshParams();
 
-        emit seekToPos(pos + (canHaveZone ? in : 0));
+        Q_EMIT seekToPos(pos + (canHaveZone ? in : 0));
     });
     connect(m_keyframeview, &KeyframeView::atKeyframe, this, &KeyframeWidget::slotAtKeyframe);
     connect(m_keyframeview, &KeyframeView::modified, this, &KeyframeWidget::slotRefreshParams);
@@ -386,7 +388,7 @@ void KeyframeWidget::slotEditKeyframeType(QAction *action)
     int type = action->data().toInt();
     m_keyframeview->slotEditType(type, m_index);
     m_selectType->setIcon(action->icon());
-    emit activateEffect();
+    Q_EMIT activateEffect();
 }
 
 void KeyframeWidget::slotRefreshParams()
@@ -420,6 +422,9 @@ void KeyframeWidget::slotRefreshParams()
             (static_cast<GeometryWidget *>(w.second))->setValue(rect, opacity);
         } else if (type == ParamType::ColorWheel) {
             (static_cast<LumaLiftGainParam *>(w.second)->slotRefresh(pos));
+        } else if (type == ParamType::Color) {
+            const QString value = m_keyframes->getInterpolatedValue(pos, w.first).toString();
+            (static_cast<ChooseColorWidget *>(w.second)->slotColorModified(QColorUtils::stringToColor(value)));
         }
     }
     if (m_monitorHelper && m_model->isActive()) {
@@ -444,7 +449,7 @@ void KeyframeWidget::slotSetPosition(int pos, bool update)
     slotRefreshParams();
 
     if (update) {
-        emit seekToPos(pos + offset);
+        Q_EMIT seekToPos(pos + offset);
     }
 }
 
@@ -457,7 +462,7 @@ void KeyframeWidget::slotAtKeyframe(bool atKeyframe, bool singleKeyframe)
 {
     m_addDeleteAction->setActive(!atKeyframe);
     m_centerAction->setEnabled(!atKeyframe);
-    emit updateEffectKeyframe(atKeyframe || singleKeyframe);
+    Q_EMIT updateEffectKeyframe(atKeyframe || singleKeyframe);
     m_selectType->setEnabled(atKeyframe || singleKeyframe);
     for (const auto &w : m_parameters) {
         w.second->setEnabled(atKeyframe || singleKeyframe);
@@ -497,7 +502,7 @@ void KeyframeWidget::resetKeyframes()
     bool ok = false;
     int duration = m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(&ok);
     Q_ASSERT(ok);
-    int in = m_model->data(m_index, AssetParameterModel::InRole).toInt(&ok);
+    m_model->data(m_index, AssetParameterModel::InRole).toInt(&ok);
     Q_ASSERT(ok);
     // reset keyframes
     m_keyframes->refresh();
@@ -516,6 +521,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
 
     auto type = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
     // Construct object
+    QWidget *labelWidget = nullptr;
     QWidget *paramWidget = nullptr;
     if (type == ParamType::AnimatedRect) {
         m_neededScene = MonitorSceneType::MonitorSceneGeometry;
@@ -536,7 +542,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         GeometryWidget *geomWidget = new GeometryWidget(pCore->getMonitor(m_model->monitorId), range, rect, opacity, m_sourceFrameSize, false,
                                                         m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), this);
         connect(geomWidget, &GeometryWidget::valueChanged, this, [this, index](const QString &v) {
-            emit activateEffect();
+            Q_EMIT activateEffect();
             m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index);
         });
         connect(geomWidget, &GeometryWidget::updateMonitorGeometry, this, [this](const QRect r) {
@@ -548,7 +554,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
     } else if (type == ParamType::ColorWheel) {
         auto colorWheelWidget = new LumaLiftGainParam(m_model, index, this);
         connect(colorWheelWidget, &LumaLiftGainParam::valuesChanged, this, [this, index](const QList<QModelIndex> &indexes, const QStringList &list, bool) {
-            emit activateEffect();
+            Q_EMIT activateEffect();
             auto *parentCommand = new QUndoCommand();
             parentCommand->setText(i18n("Edit %1 keyframe", EffectsRepository::get()->getName(m_model->getAssetId())));
             for (int i = 0; i < indexes.count(); i++) {
@@ -562,12 +568,24 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         });
         connect(colorWheelWidget, &LumaLiftGainParam::updateHeight, this, [&](int h) {
             setFixedHeight(m_baseHeight + m_addedHeight + h);
-            ColorWheel emit updateHeight();
+            Q_EMIT updateHeight();
         });
         paramWidget = colorWheelWidget;
     } else if (type == ParamType::Roto_spline) {
         m_monitorHelper = new RotoHelper(pCore->getMonitor(m_model->monitorId), m_model, index, this);
         m_neededScene = MonitorSceneType::MonitorSceneRoto;
+    } else if (type == ParamType::Color) {
+        QString value = m_keyframes->getInterpolatedValue(getPosition(), index).toString();
+        bool alphaEnabled = m_model->data(m_index, AssetParameterModel::AlphaRole).toBool();
+        labelWidget = new QLabel(name, this);
+        auto colorWidget = new ChooseColorWidget(this, QColorUtils::stringToColor(value), alphaEnabled);
+        colorWidget->setToolTip(comment);
+        connect(colorWidget, &ChooseColorWidget::modified, this, [this, index, alphaEnabled](const QColor &color) {
+            Q_EMIT activateEffect();
+            m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(QColorUtils::colorToString(color, alphaEnabled)), index);
+        });
+        paramWidget = colorWidget;
+
     } else {
         if (m_model->getAssetId() == QLatin1String("frei0r.c0rners")) {
             if (m_neededScene == MonitorSceneDefault && !m_monitorHelper) {
@@ -578,7 +596,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
                 if (type == ParamType::KeyframeParam) {
                     int paramName = m_model->data(index, AssetParameterModel::NameRole).toInt();
                     if (paramName < 8) {
-                        emit addIndex(index);
+                        Q_EMIT addIndex(index);
                     }
                 }
             }
@@ -593,7 +611,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
                     QString paramName = m_model->data(index, AssetParameterModel::NameRole).toString();
                     if (paramName.contains(QLatin1String("Position X")) || paramName.contains(QLatin1String("Position Y")) ||
                         paramName.contains(QLatin1String("Size X")) || paramName.contains(QLatin1String("Size Y"))) {
-                        emit addIndex(index);
+                        Q_EMIT addIndex(index);
                     }
                 }
             }
@@ -608,7 +626,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         auto doubleWidget = new DoubleWidget(name, value, min, max, factor, defaultValue, comment, -1, suffix, decimals,
                                              m_model->data(index, AssetParameterModel::OddRole).toBool(), this);
         connect(doubleWidget, &DoubleWidget::valueChanged, this, [this, index](double v) {
-            emit activateEffect();
+            Q_EMIT activateEffect();
             m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index);
         });
         doubleWidget->setDragObjectName(QString::number(index.row()));
@@ -616,7 +634,16 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
     }
     if (paramWidget) {
         m_parameters[index] = paramWidget;
-        m_lay->addWidget(paramWidget);
+        if (labelWidget) {
+            auto *hbox = new QHBoxLayout(this);
+            hbox->setContentsMargins(0, 0, 0, 0);
+            hbox->setSpacing(0);
+            hbox->addWidget(labelWidget, 1);
+            hbox->addWidget(paramWidget, 1);
+            m_lay->addLayout(hbox);
+        } else {
+            m_lay->addWidget(paramWidget);
+        }
         m_addedHeight += paramWidget->minimumHeight();
         setFixedHeight(m_baseHeight + m_addedHeight);
     }
@@ -670,7 +697,7 @@ void KeyframeWidget::connectMonitor(bool active)
 
 void KeyframeWidget::slotUpdateKeyframesFromMonitor(const QPersistentModelIndex &index, const QVariant &res)
 {
-    emit activateEffect();
+    Q_EMIT activateEffect();
     if (m_keyframes->isEmpty()) {
         GenTime pos(pCore->getItemIn(m_model->getOwnerId()) + m_time->getValue(), pCore->getCurrentFps());
         if (m_time->getValue() > 0) {
@@ -736,7 +763,7 @@ void KeyframeWidget::slotPasteKeyframeFromClipBoard()
         return;
     }
     auto list = json.array();
-    QMap<QString, QMap<int, QString>> storedValues;
+    QMap<QString, QMap<int, QVariant>> storedValues;
     for (const auto &entry : qAsConst(list)) {
         if (!entry.isObject()) {
             qDebug() << "Warning : Skipping invalid marker data";
@@ -747,18 +774,48 @@ void KeyframeWidget::slotPasteKeyframeFromClipBoard()
             qDebug() << "Warning : Skipping invalid marker data (does not contain name)";
             continue;
         }
-        QString value = entryObj[QLatin1String("value")].toString();
+
         ParamType kfrType = entryObj[QLatin1String("type")].toVariant().value<ParamType>();
         if (m_model->isAnimated(kfrType)) {
-            QStringList stringVals = value.split(QLatin1Char(';'), Qt::SkipEmptyParts);
-            QMap<int, QString> values;
-            for (auto &val : stringVals) {
-                int position = m_model->time_to_frames(val.section(QLatin1Char('='), 0, 0));
-                values.insert(position, val.section(QLatin1Char('='), 1));
+            QMap<int, QVariant> values;
+            if (kfrType == ParamType::Roto_spline) {
+                auto value = entryObj.value(QLatin1String("value"));
+                if (value.isObject()) {
+                    QJsonObject obj = value.toObject();
+                    QStringList keys = obj.keys();
+                    for (auto &k : keys) {
+                        values.insert(k.toInt(), obj.value(k));
+                    }
+                } else if (value.isArray()) {
+                    auto list = value.toArray();
+                    for (const auto &entry : qAsConst(list)) {
+                        if (!entry.isObject()) {
+                            qDebug() << "Warning : Skipping invalid category data";
+                            continue;
+                        }
+                        QJsonObject obj = entry.toObject();
+                        QStringList keys = obj.keys();
+                        for (auto &k : keys) {
+                            values.insert(k.toInt(), obj.value(k));
+                        }
+                    }
+                } else {
+                    pCore->displayMessage(i18n("No valid keyframe data in clipboard"), InformationMessage);
+                    qDebug() << "::: Invalid ROTO VALUE, ABORTING PASTE\n" << value;
+                    return;
+                }
+            } else {
+                const QString value = entryObj.value(QLatin1String("value")).toString();
+                const QStringList stringVals = value.split(QLatin1Char(';'), Qt::SkipEmptyParts);
+                for (auto &val : stringVals) {
+                    int position = m_model->time_to_frames(val.section(QLatin1Char('='), 0, 0));
+                    values.insert(position, val.section(QLatin1Char('='), 1));
+                }
             }
             storedValues.insert(entryObj[QLatin1String("name")].toString(), values);
         } else {
-            QMap<int, QString> values;
+            const QString value = entryObj.value(QLatin1String("value")).toString();
+            QMap<int, QVariant> values;
             values.insert(0, value);
             storedValues.insert(entryObj[QLatin1String("name")].toString(), values);
         }
@@ -770,9 +827,9 @@ void KeyframeWidget::slotPasteKeyframeFromClipBoard()
         auto paramName = m_model->data(ix, AssetParameterModel::NameRole).toString();
         if (storedValues.contains(paramName)) {
             KeyframeModel *km = m_keyframes->getKeyModel(ix);
-            QMap<int, QString> values = storedValues.value(paramName);
+            QMap<int, QVariant> values = storedValues.value(paramName);
             int offset = values.keys().first();
-            QMapIterator<int, QString> i(values);
+            QMapIterator<int, QVariant> i(values);
             while (i.hasNext()) {
                 i.next();
                 km->addKeyframe(GenTime(destPos + i.key() - offset, pCore->getCurrentFps()), KeyframeType::Linear, i.value(), true, undo, redo);

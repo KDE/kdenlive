@@ -64,7 +64,7 @@ private:
     QList<AudioEnvelope *> m_children;
     QList<AudioCorrelationInfo *> m_correlations;
 
-private slots:
+private Q_SLOTS:
     /**
      This is invoked when the child envelope is computed. This
      triggers the actual computations of the cross-correlation for
@@ -75,7 +75,7 @@ private slots:
     void slotProcessChild(AudioEnvelope *envelope);
     void slotAnnounceEnvelope();
 
-signals:
+Q_SIGNALS:
     void gotAudioAlignData(int, int);
     void displayMessage(const QString &, MessageType, int);
 };

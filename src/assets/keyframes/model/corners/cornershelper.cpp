@@ -28,8 +28,8 @@ void CornersHelper::slotUpdateFromMonitorData(const QVariantList &v)
         QPointF pt = point.toPointF();
         double x = (pt.x() / frameSize.width() + 1) / 3;
         double y = (pt.y() / frameSize.height() + 1) / 3;
-        emit updateKeyframeData(m_indexes.at(ix), x);
-        emit updateKeyframeData(m_indexes.at(ix + 1), y);
+        Q_EMIT updateKeyframeData(m_indexes.at(ix), x);
+        Q_EMIT updateKeyframeData(m_indexes.at(ix + 1), y);
         ix += 2;
     }
 }

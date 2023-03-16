@@ -17,6 +17,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QShortcut>
 #include <QString>
 #include <QUndoView>
+#include <QUuid>
 
 #include <KActionCategory>
 #include <KAutoSaveFile>
@@ -50,6 +51,8 @@ class TimelineTabs;
 class TimelineWidget;
 class TimelineContainer;
 class Transition;
+class TimelineItemModel;
+class MonitorProxy;
 class KDualAction;
 
 class MltErrorEvent : public QEvent
@@ -127,6 +130,11 @@ public:
 
     /** @brief Returns a pointer to the current timeline */
     TimelineWidget *getCurrentTimeline() const;
+    /** @brief Returns a pointer to the timeline with @uuid */
+    TimelineWidget *getTimeline(const QUuid uuid) const;
+    void closeTimeline(const QUuid &uuid);
+    /** @brief Returns a list of opened tabs uuids */
+    const QStringList openedSequences() const;
 
     /** @brief Returns true if a timeline widget is available */
     bool hasTimeline() const;
@@ -149,9 +157,9 @@ public:
     void tabifyBins();
     int binCount() const;
 
-    /** @brief Hide subtitle track */
-    void resetSubtitles();
-    
+    /** @brief Hide subtitle track and delete its temporary file*/
+    void resetSubtitles(const QUuid &uuid);
+
     /** @brief Restart the application and delete config files if clean is true */
     void cleanRestart(bool clean);
 
@@ -161,6 +169,8 @@ public:
     void setWidgetKeyBinding(const QString &text = QString());
     /** @brief Show a key binding in status bar */
     void showKeyBinding(const QString &text = QString());
+    /** @brief Disable multicam mode if it was active */
+    void disableMulticam();
 
 #if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5, 98, 0)
     /** @brief Instantiates a "Get Hot New Stuff" dialog.
@@ -171,6 +181,11 @@ public:
 
     /** @brief Check if the maximum cached data size is not exceeded. */
     void checkMaxCacheSize();
+    TimelineWidget *openTimeline(const QUuid &uuid, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel, MonitorProxy *proxy);
+    /** @brief Bring a timeline tab in front. Returns false if no tab exists for this timeline. */
+    bool raiseTimeline(const QUuid &uuid);
+    void connectTimeline();
+    void disconnectTimeline(TimelineWidget *timeline);
 
 protected:
     /** @brief Closes the window.
@@ -307,7 +322,7 @@ private:
     /** @brief Update widget style. */
     void doChangeStyle();
 
-public slots:
+public Q_SLOTS:
     void slotReloadEffects(const QStringList &paths);
     Q_SCRIPTABLE void setRenderingProgress(const QString &url, int progress, int frame);
     Q_SCRIPTABLE void setRenderingFinished(const QString &url, int status, const QString &error);
@@ -334,7 +349,12 @@ public slots:
     void slotSwitchTimelineZone(bool toggled);
     /** @brief Open the online services search dialog. */
     void slotDownloadResources();
+    /** @brief Initialze the subtitle model on project load. */
+    void slotInitSubtitle(const QMap<QString, QString> &subProperties, const QUuid &uuid);
+    /** @brief Display the subtitle track and initialize subtitleModel if necessary. */
     void slotEditSubtitle(const QMap<QString, QString> &subProperties = {});
+    /** @brief Show/hide subtitle track. */
+    void slotShowSubtitles(bool show);
     void slotTranscode(const QStringList &urls = QStringList());
     /** @brief Open the transcode to edit friendly format dialog. */
     void slotFriendlyTranscode(const QString &binId, bool checkProfile);
@@ -348,11 +368,20 @@ public slots:
     void slotUpdateCompositeAction(bool enable);
     /** @brief Update duration of projet in timeline toolbar. */
     void slotUpdateProjectDuration(int pos);
+    /** @brief The current timeline selection zone changed... */
+    void slotUpdateZoneDuration(int duration);
     /** @brief Remove all unused clips from the project. */
     void slotCleanProject();
     void slotEditProjectSettings(int ix = 0);
+    /** @brief Sets the timeline zoom slider to @param value.
+     *
+     * Also disables zoomIn and zoomOut actions if they cannot be used at the moment. */
+    void slotSetZoom(int value, bool zoomOnMouse = false);
+    /** @brief if modified is true adds "modified" to the caption and enables the save button.
+     * (triggered by KdenliveDoc::setModified()) */
+    void slotUpdateDocumentState(bool modified);
 
-private slots:
+private Q_SLOTS:
     /** @brief Shows the shortcut dialog. */
     void slotEditKeys();
     void loadDockActions();
@@ -366,14 +395,7 @@ private slots:
     void slotRenderProject();
     void slotStopRenderProject();
     void slotFullScreen();
-    /** @brief if modified is true adds "modified" to the caption and enables the save button.
-     * (triggered by KdenliveDoc::setModified()) */
-    void slotUpdateDocumentState(bool modified);
 
-    /** @brief Sets the timeline zoom slider to @param value.
-     *
-     * Also disables zoomIn and zoomOut actions if they cannot be used at the moment. */
-    void slotSetZoom(int value, bool zoomOnMouse = false);
     /** @brief Makes the timeline zoom level fit the timeline content. */
     void slotFitZoom();
     /** @brief Updates the zoom slider tooltip to fit @param zoomlevel. */
@@ -577,8 +599,10 @@ private slots:
     void slotSearchGuide();
     /** @brief Open the clip job management dialog */
     void manageClipJobs();
+    /** @brief Copy current timeline selection to a new sequence clip / Timeline tab */
+    void slotCreateSequenceFromSelection();
 
-signals:
+Q_SIGNALS:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);
     void configurationChanged();
     void GUISetupDone();

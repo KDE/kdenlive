@@ -239,7 +239,7 @@ private:
      */
     void writePatterns();
 
-public slots:
+public Q_SLOTS:
     void slotNewText(MyTextItem *tt);
     void slotNewRect(QGraphicsRectItem *rect);
     void slotNewEllipse(QGraphicsEllipseItem *rect);
@@ -259,7 +259,7 @@ public slots:
     void loadTitle(QUrl url = QUrl());
     void slotGotBackground(const QImage &img);
 
-private slots:
+private Q_SLOTS:
 
     /** @brief Switches the origin of the X axis between left and right border.
      *
@@ -395,7 +395,7 @@ private slots:
     /** @brief Pattern remove button clicked. */
     void slotPatternBtnRemoveClicked();
 
-signals:
+Q_SIGNALS:
     void requestBackgroundFrame(bool request);
     void updatePatternsBackgroundFrame();
 };

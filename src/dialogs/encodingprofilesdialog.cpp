@@ -141,7 +141,7 @@ void EncodingProfilesDialog::slotAddProfile()
         pext->setText(profilestr.section(QLatin1Char(';'), 1, 1));
     }
     if (d->exec() == QDialog::Accepted) {
-        m_configGroup->writeEntry(pname->text(), pparams->toPlainText() + QLatin1Char(';') + pext->text());
+        m_configGroup->writeEntry(pname->text(), QString(pparams->toPlainText() + QLatin1Char(';') + pext->text()));
         slotLoadProfiles();
     }
     delete d;
@@ -175,7 +175,7 @@ void EncodingProfilesDialog::slotEditProfile()
         pparams->setFocus();
     }
     if (d->exec() == QDialog::Accepted) {
-        m_configGroup->writeEntry(pname->text(), pparams->toPlainText().simplified() + QLatin1Char(';') + pext->text());
+        m_configGroup->writeEntry(pname->text(), QString(pparams->toPlainText().simplified() + QLatin1Char(';') + pext->text()));
         slotLoadProfiles();
     }
     delete d;
@@ -202,6 +202,9 @@ EncodingProfilesChooser::EncodingProfilesChooser(QWidget *parent, EncodingProfil
     buttonInfo->setCheckable(true);
     buttonInfo->setIcon(QIcon::fromTheme(QStringLiteral("help-about")));
     buttonConfigure->setToolTip(i18n("Show Profile Parameters"));
+    buttonConfigure->setWhatsThis(
+        xi18nc("@info:whatsthis", "Opens a window with encoding profiles and their parameters. From here you can create, change, delete and download profiles "
+                                  "used for timeline preview, proxy generation, and video, screen and decklink capture."));
 
     m_info = new QPlainTextEdit();
     m_info->setReadOnly(true);

@@ -246,7 +246,13 @@ void ClipCreationDialog::createAnimationClip(KdenliveDoc *doc, const QString &pa
     pCore->projectItemModel()->requestAddBinClip(clipId, xml.documentElement(), parentId, i18n("Create Animation clip"));
 }
 
-void ClipCreationDialog::createQTextClip(KdenliveDoc *doc, const QString &parentId, Bin *bin, ProjectClip *clip)
+void ClipCreationDialog::createPlaylistClip(const QString &name, std::pair<int, int> tracks, const QString &parentFolder,
+                                            std::shared_ptr<ProjectItemModel> model)
+{
+    ClipCreator::createPlaylistClip(name, tracks, parentFolder, std::move(model));
+}
+
+void ClipCreationDialog::createQTextClip(const QString &parentId, Bin *bin, ProjectClip *clip)
 {
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup titleConfig(config, "TitleWidget");
@@ -583,7 +589,7 @@ void ClipCreationDialog::clipWidget(QDockWidget *m_DockClipWidget)
     QObject::connect(b, &QCheckBox::toggled, [](bool checked) { KdenliveSettings::setIgnoresubdirstructure(checked); });
     QObject::connect(importseq, &QPushButton::clicked, fileWidget, [=] {
         fileWidget->slotOk();
-        emit fileWidget->accepted();
+        Q_EMIT fileWidget->accepted();
         fileWidget->accept();
         QUrl url = fileWidget->selectedUrl();
         QStringList patternlist;

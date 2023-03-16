@@ -21,7 +21,7 @@ class DockTitleBarManager : public QObject
 public:
     explicit DockTitleBarManager(QObject *parent = nullptr);
 
-public slots:
+public Q_SLOTS:
     /** @brief Correctly hide/show dock widget title bars depending on position (floating, tabbed, docked) */
     void slotUpdateTitleBars(bool isTopLevel = true);
     /** @brief Connect/disconnect signals to update title bars on dock location changed */
@@ -30,7 +30,7 @@ public slots:
 private:
     QAction *m_switchAction;
 
-private slots:
+private Q_SLOTS:
     void slotInstallRightClick();
     /** @brief Add/remove Dock tile bar depending on state (tabbed, floating, ...) */
     void slotUpdateDockLocation(Qt::DockWidgetArea dockLocationArea);

@@ -28,7 +28,7 @@ public:
     {
     }
 
-signals:
+Q_SIGNALS:
     /**
      * Emitted whenever a control point has changed position.
      */
@@ -40,7 +40,7 @@ signals:
     void currentPoint(const BPoint &p, bool extremal);
     void resized(const QSize &s);
 
-public slots:
+public Q_SLOTS:
     /** @brief Delete current spline point if it is not a extremal point (first or last)
      */
     virtual void slotDeleteCurrentPoint() = 0;
@@ -93,7 +93,7 @@ public:
     QString toString();
 
     /** @brief Replaces current point with @param p (index stays the same).
-     * @param final (default = true) emit signal modified? */
+     * @param final (default = true) Q_EMIT signal modified? */
     void updateCurrentPoint(const Point_t &p, bool final = true);
 
     /** @brief Returns the selected point or else empty point. */

@@ -14,25 +14,18 @@
 #include "doc/kdenlivedoc.h"
 
 using namespace fakeit;
-Mlt::Profile profile_subs;
 
 TEST_CASE("Read subtitle file", "[Subtitles]")
 {
     // Create timeline
     auto binModel = pCore->projectItemModel();
-    QUuid uuid = QUuid::createUuid();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
-    Mock<KdenliveDoc> docMock;
-    When(Method(docMock, getDocumentProperty)).AlwaysDo([](const QString &name, const QString &defaultValue) {
-        // Q_UNUSED(name)
-        Q_UNUSED(defaultValue)
-        qDebug() << "Intercepted call:" << name;
-        return QStringLiteral("");
-    });
+    KdenliveDoc document(undoStack);
+    Mock<KdenliveDoc> docMock(document);
     KdenliveDoc &mockedDoc = docMock.get();
 
     // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
@@ -40,26 +33,26 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
     When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
     When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
-
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
-    pCore->m_projectManager->m_project = &mockedDoc;
 
-    // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(uuid, &profile_subs, undoStack);
-    Mock<TimelineItemModel> timMock(tim);
-    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline);
+    mocked.m_project = &mockedDoc;
+    QDateTime documentDate = QDateTime::currentDateTime();
+    mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
+    mocked.m_activeTimelineModel = timeline;
+    mocked.testSetActiveDocument(&mockedDoc, timeline);
+    QString documentId = QString::number(QDateTime::currentMSecsSinceEpoch());
+    mockedDoc.setDocumentProperty(QStringLiteral("documentid"), documentId);
 
     // Initialize subtitle model
-    std::shared_ptr<SubtitleModel> subtitleModel(new SubtitleModel(timeline->tractor(), timeline));
-    timeline->setSubModel(subtitleModel);
-    mockedDoc.initializeSubtitles(subtitleModel);
+    std::shared_ptr<SubtitleModel> subtitleModel = timeline->createSubtitleModel();
 
     SECTION("Load a subtitle file")
     {
         QString subtitleFile = sourcesPath + "/dataset/01.srt";
-        QByteArray guessedEncoding = SubtitleModel::guessFileEncoding(subtitleFile);
+        bool ok;
+        QByteArray guessedEncoding = SubtitleModel::guessFileEncoding(subtitleFile, &ok);
         CHECK(guessedEncoding == "UTF-8");
         subtitleModel->importSubtitle(subtitleFile, 0, false, 30.00, 30.00, guessedEncoding);
         // Ensure the 3 dialogues are loaded
@@ -88,7 +81,8 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
     SECTION("Load a non-UTF-8 subtitle")
     {
         QString subtitleFile = sourcesPath + "/dataset/01-iso-8859-1.srt";
-        QByteArray guessedEncoding = SubtitleModel::guessFileEncoding(subtitleFile);
+        bool ok;
+        QByteArray guessedEncoding = SubtitleModel::guessFileEncoding(subtitleFile, &ok);
         qDebug() << "Guessed encoding: " << guessedEncoding;
         subtitleModel->importSubtitle(subtitleFile, 0, false, 30.00, 30.00, guessedEncoding);
         // Ensure the 3 dialogues are loaded
@@ -101,13 +95,16 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
         }
         // Ensure that non-ASCII characters are read correctly
         CHECK(subtitlesText == control);
+        subtitleModel->removeAllSubtitles();
+        REQUIRE(subtitleModel->rowCount() == 0);
     }
 #endif
 
     SECTION("Load ASS file with commas")
     {
         QString subtitleFile = sourcesPath + "/dataset/subs-with-commas.ass";
-        QByteArray guessedEncoding = SubtitleModel::guessFileEncoding(subtitleFile);
+        bool ok;
+        QByteArray guessedEncoding = SubtitleModel::guessFileEncoding(subtitleFile, &ok);
         qDebug() << "Guessed encoding: " << guessedEncoding;
         subtitleModel->importSubtitle(subtitleFile, 0, false, 30.00, 30.00, guessedEncoding);
         // Ensure all 2 lines are loaded
@@ -120,6 +117,8 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
         }
         // Ensure that non-ASCII characters are read correctly
         CHECK(subtitlesText == control);
+        subtitleModel->removeAllSubtitles();
+        REQUIRE(subtitleModel->rowCount() == 0);
     }
 
     SECTION("Load a broken subtitle file")
@@ -183,6 +182,23 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
         subtitleModel->importSubtitle(subtitleFile);
         // Ensure the 2 dialogues are loaded
         REQUIRE(subtitleModel->rowCount() == 2);
+        subtitleModel->removeAllSubtitles();
+        REQUIRE(subtitleModel->rowCount() == 0);
+    }
+
+    SECTION("Ensure 2 subtitles cannot be place at same frame position")
+    {
+        // In our current implementation, having 2 subtitles at same start time is not allowed
+        int subId = TimelineModel::getNextId();
+        int subId2 = TimelineModel::getNextId();
+        int subId3 = TimelineModel::getNextId();
+        double fps = pCore->getCurrentFps();
+        REQUIRE(subtitleModel->addSubtitle(subId, GenTime(50, fps), GenTime(70, fps), QStringLiteral("Hello"), false, false));
+        REQUIRE(subtitleModel->addSubtitle(subId2, GenTime(50, fps), GenTime(90, fps), QStringLiteral("Hello2"), false, false) == false);
+        REQUIRE(subtitleModel->addSubtitle(subId3, GenTime(100, fps), GenTime(140, fps), QStringLiteral("Second"), false, false));
+        REQUIRE(subtitleModel->rowCount() == 2);
+        REQUIRE(subtitleModel->moveSubtitle(subId, GenTime(100, fps), false, false) == false);
+        REQUIRE(subtitleModel->moveSubtitle(subId, GenTime(300, fps), false, false));
         subtitleModel->removeAllSubtitles();
         REQUIRE(subtitleModel->rowCount() == 0);
     }

@@ -31,7 +31,7 @@ public:
     QString fixLuma(const QString &file);
     QString searchLuma(const QDir &dir, const QString &file);
 
-private slots:
+private Q_SLOTS:
     void acceptDialog();
     void slotCheckClips();
     void slotSearchClips(const QString &newpath);
@@ -85,6 +85,6 @@ private:
     /** @brief If project path changed, try to relocate its resources */
     const QString relocateResource(QString sourceResource);
 
-signals:
+Q_SIGNALS:
     void showScanning(const QString);
 };

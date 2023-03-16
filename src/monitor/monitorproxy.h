@@ -130,7 +130,7 @@ public:
     void setSpeed(double speed);
     void setJobsProgress(const ObjectId &owner, const QStringList &jobNames, const QList<int> &jobProgress, const QStringList &jobUuids);
 
-signals:
+Q_SIGNALS:
     void positionChanged(int);
     void seekFinishedChanged();
     void requestSeek(int pos, bool noAudioScrub);
@@ -193,7 +193,7 @@ private:
     QList<int> m_jobsProgress;
     QStringList m_jobsUuids;
 
-public slots:
+public Q_SLOTS:
     void updateClipBounds(const QVector <QPoint>&bounds);
     void extractFrameToFile(int frame_position, const QStringList &pathInfo, bool addToProject = false, bool useSourceProfile = false);
 };

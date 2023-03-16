@@ -31,6 +31,7 @@ class TrackModel;
 class ProfileModel;
 class MarkerListModel;
 class MarkerSortModel;
+class PreviewManager;
 
 /** @brief This class represents a Timeline object, as viewed by the backend.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the
@@ -92,6 +93,7 @@ protected:
 
 public:
     friend class TrackModel;
+    friend class TimelineTabs;
     template <typename T> friend class MoveableItem;
     friend class ClipModel;
     friend class CompositionModel;
@@ -273,7 +275,6 @@ public:
     Q_INVOKABLE bool addClipEffect(int clipId, const QString &effectId, bool notify = true);
     Q_INVOKABLE bool addTrackEffect(int trackId, const QString &effectId);
     bool removeFade(int clipId, bool fromStart);
-    Q_INVOKABLE bool copyClipEffect(int clipId, const QString &sourceId);
     Q_INVOKABLE bool copyTrackEffect(int trackId, const QString &sourceId);
     bool adjustEffectLength(int clipId, const QString &effectId, int duration, int initialDuration);
 
@@ -387,8 +388,8 @@ public:
     */
     Q_INVOKABLE bool requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks = true, bool updateView = true, bool logUndo = true,
                                      bool invalidateTimeline = false, bool revertMove = false);
-    Q_INVOKABLE bool requestSubtitleMove(int clipId, int position, bool updateView = true, bool logUndo = true, bool invalidateTimeline = false);
-    bool requestSubtitleMove(int clipId, int position, bool updateView, bool first, bool last, bool invalidateTimeline, Fun &undo, Fun &redo);
+    Q_INVOKABLE bool requestSubtitleMove(int clipId, int position, bool updateView = true, bool logUndo = true, bool finalMove = false);
+    bool requestSubtitleMove(int clipId, int position, bool updateView, bool first, bool last, bool finalMove, Fun &undo, Fun &redo);
     int cutSubtitle(int position, Fun &undo, Fun &redo);
     bool requestClipMix(const QString &mixId, std::pair<int, int> clipIds, std::pair<int, int> mixDurations, int trackId, int position, bool updateView,
                         bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove);
@@ -476,6 +477,22 @@ public:
     /**  @brief Returns this timeline's uuid
      */
     const QUuid uuid() const;
+    /**  @brief Initialize the preview manager, responsible for timeline preview
+     */
+    void initializePreviewManager();
+    void resetPreviewManager();
+    bool hasTimelinePreview() const;
+    /**  @brief Enable/disable timeline preview
+     */
+    void updatePreviewConnection(bool enable);
+    bool buildPreviewTrack();
+    void setOverlayTrack(Mlt::Playlist *overlay);
+    void removeOverlayTrack();
+    void deletePreviewTrack();
+    std::shared_ptr<PreviewManager> previewManager();
+    /**  @brief We want to delete the timelineModel without removing clips from tractor
+     */
+    void prepareShutDown();
 
 protected:
     /** @brief Creates a new clip instance without inserting it.
@@ -643,6 +660,9 @@ public:
     /** @brief Calculate timeline hash based on clips, mixes and compositions
      */
     QByteArray timelineHash();
+    /** @brief Make the background track transparent (or opaque black) - this affects compositing.
+     */
+    void makeTransparentBg(bool transparent);
 
 protected:
     /** @brief Requests the best snapped position for a clip
@@ -725,8 +745,6 @@ public:
      * @param listCompositions if enabled, the list will also contains composition ids
      */
     std::unordered_set<int> getItemsInRange(int trackId, int start, int end = -1, bool listCompositions = true);
-    /** @brief define current project's subtitle model */
-    void setSubModel(std::shared_ptr<SubtitleModel> model);
 
     /** @brief Returns a list of all luma files used in the project
      */
@@ -816,7 +834,7 @@ public:
     /** @brief Get Mix cut pos (the duration of the mix on the right clip) */
     int getMixCutPos(int cid) const;
     MixAlignment getMixAlign(int cid) const;
-    std::shared_ptr<SubtitleModel> getSubtitleModel();
+    bool hasSubtitleModel();
     /** @brief Get the frame size of the clip above a composition */
     const QSize getCompositionSizeOnTrack(const ObjectId &id);
     /** @brief Get a track tag (A1, V1, V2,...) through its id */
@@ -830,6 +848,8 @@ public:
     int getClipEndAt(int tid, int pos, int playlist) const;
     /** @brief returns true if the track trackId is Locked */
     bool trackIsLocked(int trackid) const;
+    /** @brief returns this timeline's subtitle model */
+    std::shared_ptr<SubtitleModel> getSubtitleModel();
     /** @brief returns this timeline's guide model */
     std::shared_ptr<MarkerListModel> getGuideModel();
     std::shared_ptr<MarkerSortModel> getFilteredGuideModel();
@@ -923,7 +943,7 @@ protected:
 
     bool m_blockRefresh;
 
-signals:
+Q_SIGNALS:
     /** @brief signal triggered by clearAssetView */
     void requestClearAssetView(int);
     void requestMonitorRefresh();
@@ -942,10 +962,10 @@ signals:
     void checkItemDeletion(int cid);
     /** @brief request animation of the track tid lock icon */
     void flashLock(int tid);
-    /** @brief Guides changed, save in document properties */
-    void guidesChanged(const QUuid &uuid);
     /** @brief Save guide categories in document properties */
     void saveGuideCategories();
+    /** @brief Highlight a subtitle item in timeline */
+    void highlightSub(int index);
 
 protected:
     QUuid m_uuid;
@@ -953,6 +973,7 @@ protected:
     std::shared_ptr<EffectStackModel> m_masterStack;
     std::shared_ptr<Mlt::Service> m_masterService;
     std::list<std::shared_ptr<TrackModel>> m_allTracks;
+    std::shared_ptr<PreviewManager> m_timelinePreview;
 
     std::unordered_map<int, std::list<std::shared_ptr<TrackModel>>::iterator>
         m_iteratorTable; // this logs the iterator associated which each track id. This allows easy access of a track based on its id.
@@ -962,13 +983,14 @@ protected:
     std::unordered_map<int, std::shared_ptr<CompositionModel>>
         m_allCompositions; // the keys are the composition id, and the values are the corresponding pointers
 
+    // TODO: move this in subtitlemodel.h
     std::map<int, GenTime> m_allSubtitles;
 
     static int next_id; /// next valid id to assign
 
     std::unique_ptr<GroupsModel> m_groups;
     std::shared_ptr<SnapModel> m_snaps;
-    std::shared_ptr<SubtitleModel> m_subtitleModel;
+    std::shared_ptr<SubtitleModel> m_subtitleModel{nullptr};
 
     std::unordered_set<int> m_allGroups; /// ids of all the groups
 
@@ -1004,6 +1026,7 @@ protected:
     TimelineMode::EditMode m_editMode;
     bool m_closing;
     std::shared_ptr<MarkerListModel> m_guidesModel;
+    bool m_softDelete;
     std::shared_ptr<MarkerSortModel> m_guidesFilterModel;
 
     // what follows are some virtual function that corresponds to the QML. They are implemented in TimelineItemModel

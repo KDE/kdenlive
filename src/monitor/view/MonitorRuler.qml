@@ -193,11 +193,11 @@ Rectangle {
     // Ruler zone
     Rectangle {
         id: zone
-        visible: controller.zoneOut > controller.zoneIn
+        visible: controller.zoneOut >= controller.zoneIn
         color: activePalette.highlight
         x: controller.zoneIn * root.timeScale - ruler.rulerZoomOffset
         width: (controller.zoneOut - controller.zoneIn) * root.timeScale
-        property bool zoneHovered: rulerMouseArea.pressed == false && controller.zoneOut > controller.zoneIn && ((rulerMouseArea.containsMouse && rulerMouseArea.mouseX >= zone.x && rulerMouseArea.mouseX < zone.x + zone.width) || trimOutMouseArea.containsMouse || trimOutMouseArea.pressed || trimInMouseArea.containsMouse)
+        property bool zoneHovered: rulerMouseArea.pressed == false && controller.zoneOut >= controller.zoneIn && ((rulerMouseArea.containsMouse && rulerMouseArea.mouseX >= zone.x && rulerMouseArea.mouseX < zone.x + zone.width) || trimOutMouseArea.containsMouse || trimOutMouseArea.pressed || trimInMouseArea.containsMouse)
         anchors.bottom: parent.bottom
         height: ruler.height / 2
         opacity: 0.8
@@ -280,7 +280,7 @@ Rectangle {
             anchors.fill: parent
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignBottom
-            text: trimInMouseArea.containsMouse || trimInMouseArea.pressed ? controller.toTimecode(controller.zoneIn) + '>' + controller.toTimecode(controller.zoneOut - controller.zoneIn) : trimOutMouseArea.containsMouse || trimOutMouseArea.pressed ? controller.toTimecode(controller.zoneOut - controller.zoneIn) + '<' + controller.toTimecode(controller.zoneOut) : controller.toTimecode(controller.zoneOut - controller.zoneIn)
+            text: trimInMouseArea.containsMouse || trimInMouseArea.pressed ? controller.toTimecode(controller.zoneIn) + '>' + controller.toTimecode(controller.zoneOut - controller.zoneIn + root.zoneOffset) : trimOutMouseArea.containsMouse || trimOutMouseArea.pressed ? controller.toTimecode(controller.zoneOut - controller.zoneIn + root.zoneOffset) + '<' + controller.toTimecode(controller.zoneOut) : controller.toTimecode(controller.zoneOut - controller.zoneIn + root.zoneOffset)
             font: fixedFont
             color: activePalette.text
         }

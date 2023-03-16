@@ -59,9 +59,9 @@ AssetPanel::AssetPanel(QWidget *parent)
     }
     connect(m_switchCompoButton, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [&]() {
         if (m_transitionWidget->stackOwner().first == ObjectType::TimelineComposition) {
-            emit switchCurrentComposition(m_transitionWidget->stackOwner().second, m_switchCompoButton->currentData().toString());
+            Q_EMIT switchCurrentComposition(m_transitionWidget->stackOwner().second, m_switchCompoButton->currentData().toString());
         } else if (m_mixWidget->isVisible()) {
-            emit switchCurrentComposition(m_mixWidget->stackOwner().second, m_switchCompoButton->currentData().toString());
+            Q_EMIT switchCurrentComposition(m_mixWidget->stackOwner().second, m_switchCompoButton->currentData().toString());
         }
     });
     m_switchCompoButton->setToolTip(i18n("Change composition type"));
@@ -85,6 +85,8 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_saveEffectStack = new QToolButton(this);
     m_saveEffectStack->setIcon(QIcon::fromTheme(QStringLiteral("document-save-all")));
     m_saveEffectStack->setToolTip(i18n("Save Effect Stack…"));
+    m_saveEffectStack->setWhatsThis(xi18nc("@info:whatsthis", "Saves the entire effect stack as an XML file for use in other projects."));
+
     // Would be better to have something like `setVisible(false)` here, but this apparently removes the button.
     // See https://stackoverflow.com/a/17645563/5172513
     m_saveEffectStack->setEnabled(false);
@@ -95,21 +97,25 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_splitButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("view-right-close")));
     m_splitButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("view-split-left-right")));
     m_splitButton->setToolTip(i18n("Compare effect"));
+    m_splitButton->setWhatsThis(xi18nc(
+        "@info:whatsthis",
+        "Turns on or off the split view in the project and/or clip monitor: on the left the clip with effect is shown, on the right the clip without effect."));
     m_splitButton->setVisible(false);
     connect(m_splitButton, &KDualAction::activeChangedByUser, this, &AssetPanel::processSplitEffect);
     buttonToolbar->addAction(m_splitButton);
 
     m_enableStackButton = new KDualAction(i18n("Effects disabled"), i18n("Effects enabled"), this);
+    m_enableStackButton->setWhatsThis(xi18nc("@info:whatsthis", "Toggles the effect stack to be enabled or disabled. Useful to see the difference between original and edited or to speed up scrubbing."));
     m_enableStackButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("hint")));
     m_enableStackButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("visibility")));
     connect(m_enableStackButton, &KDualAction::activeChangedByUser, this, &AssetPanel::enableStack);
     m_enableStackButton->setVisible(false);
     buttonToolbar->addAction(m_enableStackButton);
 
-    m_timelineButton = new KDualAction(i18n("Display keyframes in timeline"), i18n("Display keyframes in timeline"), this);
+    m_timelineButton = new KDualAction(i18n("Display keyframes in timeline"), i18n("Hide keyframes in timeline"), this);
+    m_timelineButton->setWhatsThis(xi18nc("@info:whatsthis", "Toggles the display of keyframes in the clip on the timeline"));
     m_timelineButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("keyframe-disable")));
     m_timelineButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("keyframe")));
-    m_timelineButton->setToolTip(i18n("Hide keyframes in timeline"));
     m_timelineButton->setVisible(false);
     connect(m_timelineButton, &KDualAction::activeChangedByUser, this, &AssetPanel::showKeyframes);
     buttonToolbar->addAction(m_timelineButton);
@@ -393,9 +399,9 @@ void AssetPanel::processSplitEffect(bool enable)
 {
     ObjectType id = m_effectStackWidget->stackOwner().first;
     if (id == ObjectType::TimelineClip) {
-        emit doSplitEffect(enable);
+        Q_EMIT doSplitEffect(enable);
     } else if (id == ObjectType::BinClip) {
-        emit doSplitBinEffect(enable);
+        Q_EMIT doSplitBinEffect(enable);
     }
 }
 
@@ -441,7 +447,7 @@ void AssetPanel::enableStack(bool enable)
 void AssetPanel::deleteCurrentEffect()
 {
     if (m_effectStackWidget->isVisible()) {
-        emit m_effectStackWidget->removeCurrentEffect();
+        Q_EMIT m_effectStackWidget->removeCurrentEffect();
     }
 }
 
@@ -472,7 +478,7 @@ void AssetPanel::slotCheckWheelEventFilter()
         // widget has scroll bar,
         blockWheel = true;
     }
-    emit m_effectStackWidget->blockWheelEvent(blockWheel);
+    Q_EMIT m_effectStackWidget->blockWheelEvent(blockWheel);
 }
 
 void AssetPanel::assetPanelWarning(const QString &service, const QString & /*id*/, const QString &message)
@@ -497,9 +503,9 @@ void AssetPanel::slotAddRemoveKeyframe()
     if (m_effectStackWidget->isVisible()) {
         m_effectStackWidget->addRemoveKeyframe();
     } else if (m_transitionWidget->isVisible()) {
-        emit m_transitionWidget->addRemoveKeyframe();
+        Q_EMIT m_transitionWidget->addRemoveKeyframe();
     } else if (m_mixWidget->isVisible()) {
-        emit m_mixWidget->addRemoveKeyframe();
+        Q_EMIT m_mixWidget->addRemoveKeyframe();
     }
 }
 
@@ -508,9 +514,9 @@ void AssetPanel::slotNextKeyframe()
     if (m_effectStackWidget->isVisible()) {
         m_effectStackWidget->slotGoToKeyframe(true);
     } else if (m_transitionWidget->isVisible()) {
-        emit m_transitionWidget->nextKeyframe();
+        Q_EMIT m_transitionWidget->nextKeyframe();
     } else if (m_mixWidget->isVisible()) {
-        emit m_mixWidget->nextKeyframe();
+        Q_EMIT m_mixWidget->nextKeyframe();
     }
 }
 
@@ -519,9 +525,9 @@ void AssetPanel::slotPreviousKeyframe()
     if (m_effectStackWidget->isVisible()) {
         m_effectStackWidget->slotGoToKeyframe(false);
     } else if (m_transitionWidget->isVisible()) {
-        emit m_transitionWidget->previousKeyframe();
+        Q_EMIT m_transitionWidget->previousKeyframe();
     } else if (m_mixWidget->isVisible()) {
-        emit m_mixWidget->previousKeyframe();
+        Q_EMIT m_mixWidget->previousKeyframe();
     }
 }
 
@@ -530,12 +536,12 @@ void AssetPanel::updateAssetPosition(int itemId)
     if (m_effectStackWidget->isVisible()) {
         ObjectId id = {ObjectType::TimelineClip, itemId};
         if (m_effectStackWidget->stackOwner() == id) {
-            emit pCore->getMonitor(Kdenlive::ProjectMonitor)->seekPosition(pCore->getMonitorPosition());
+            Q_EMIT pCore->getMonitor(Kdenlive::ProjectMonitor)->seekPosition(pCore->getMonitorPosition());
         }
     } else if (m_transitionWidget->isVisible()) {
         ObjectId id = {ObjectType::TimelineComposition, itemId};
         if (m_transitionWidget->stackOwner() == id) {
-            emit pCore->getMonitor(Kdenlive::ProjectMonitor)->seekPosition(pCore->getMonitorPosition());
+            Q_EMIT pCore->getMonitor(Kdenlive::ProjectMonitor)->seekPosition(pCore->getMonitorPosition());
         }
     }
 }

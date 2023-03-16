@@ -272,7 +272,7 @@ AudioGraphSpectrum::AudioGraphSpectrum(MonitorManager *manager, QWidget *parent)
     lay->setStretchFactor(m_graphWidget, 5);
     lay->setStretchFactor(m_equalizer, 3);*/
 
-    m_filter = new Mlt::Filter(pCore->getCurrentProfile()->profile(), "fft");
+    m_filter = new Mlt::Filter(*pCore->getProjectProfile(), "fft");
     if (!m_filter->is_valid()) {
         KdenliveSettings::setEnableaudiospectrum(false);
         auto *mw = new KMessageWidget(this);

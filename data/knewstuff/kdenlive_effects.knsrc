@@ -1,6 +1,6 @@
 [KNewStuff3]
 Name=Kdenlive Effect Templates
-Name[ar]=قوالب تأثيرات كدينلايف
+Name[ar]=قوالب تأثيرات كِيدِينلايف
 Name[az]=Kdenlive effekt şablonları
 Name[ca]=Plantilles d'efectes del Kdenlive
 Name[ca@valencia]=Plantilles d'efectes de Kdenlive
@@ -12,6 +12,7 @@ Name[fi]=Kdenliven tehostemallit
 Name[fr]=Modèles d'effets pour Kdenlive
 Name[id]=Templat Efek Kdenlive
 Name[it]=Modelli di effetto di Kdenlive
+Name[ja]=Kdenlive エフェクトテンプレート
 Name[ka]=Kdenlive -ის ეფექტის შაბლნები
 Name[ko]=Kdenlive 효과 템플릿
 Name[nl]=Effectsjablonen van Kdenlive

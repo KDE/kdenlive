@@ -92,7 +92,7 @@ void SpeechList::dropEvent(QDropEvent *event)
     if (qMimeData->hasUrls()) {
         QList<QUrl> urls = qMimeData->urls();
         if (!urls.isEmpty()) {
-            emit getDictionary(urls.takeFirst());
+            Q_EMIT getDictionary(urls.takeFirst());
         }
     }
 }
@@ -114,32 +114,36 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
     m_configTimeline.setupUi(p3);
     m_page3 = addPage(p3, i18n("Timeline"), QStringLiteral("video-display"));
 
+    QWidget *p4 = new QWidget;
+    m_configTools.setupUi(p4);
+    m_page4 = addPage(p4, i18n("Tools"), QStringLiteral("tools"));
+
     initEnviromentPage();
 
-    QWidget *p10 = new QWidget;
-    m_configColors.setupUi(p10);
-    m_page10 = addPage(p10, i18n("Colors and Guides"), QStringLiteral("color-management"));
+    QWidget *p11 = new QWidget;
+    m_configColors.setupUi(p11);
+    m_page11 = addPage(p11, i18n("Colors and Guides"), QStringLiteral("color-management"));
     m_guidesCategories = new GuideCategories(nullptr, this);
     QVBoxLayout *guidesLayout = new QVBoxLayout(m_configColors.guides_box);
     guidesLayout->addWidget(m_guidesCategories);
 
-    QWidget *p11 = new QWidget;
-    m_configSpeech.setupUi(p11);
-    m_page11 = addPage(p11, i18n("Speech To Text"), QStringLiteral("text-speak"));
+    QWidget *p12 = new QWidget;
+    m_configSpeech.setupUi(p12);
+    m_page12 = addPage(p12, i18n("Speech To Text"), QStringLiteral("text-speak"));
 
-    QWidget *p6 = new QWidget;
-    m_configSdl.setupUi(p6);
-    m_page6 = addPage(p6, i18n("Playback"), QStringLiteral("media-playback-start"));
+    QWidget *p7 = new QWidget;
+    m_configSdl.setupUi(p7);
+    m_page7 = addPage(p7, i18n("Playback"), QStringLiteral("media-playback-start"));
 
-    QWidget *p4 = new QWidget;
-    m_configCapture.setupUi(p4);
+    QWidget *p5 = new QWidget;
+    m_configCapture.setupUi(p5);
     m_decklinkProfiles = new EncodingProfilesChooser(this, EncodingProfilesManager::DecklinkCapture, false, QStringLiteral("decklink_profile"));
     m_configCapture.decklink_profile_box->addWidget(m_decklinkProfiles);
     m_v4lProfiles = new EncodingProfilesChooser(this, EncodingProfilesManager::V4LCapture, false, QStringLiteral("v4l_profile"));
     m_configCapture.v4l_profile_box->addWidget(m_v4lProfiles);
     m_grabProfiles = new EncodingProfilesChooser(this, EncodingProfilesManager::ScreenCapture, false, QStringLiteral("grab_profile"));
     m_configCapture.screen_grab_profile_box->addWidget(m_grabProfiles);
-    m_page4 = addPage(p4, i18n("Capture"), QStringLiteral("media-record"));
+    m_page5 = addPage(p5, i18n("Capture"), QStringLiteral("media-record"));
 
     initDevices();
     initCapturePage();
@@ -156,7 +160,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
 
     if (!settingsGroup.exists() || !settingsGroup.hasKey("dialogSize")) {
         const QSize screenSize = (QGuiApplication::primaryScreen()->availableSize() * 0.9);
-        const QSize targetSize = QSize(1024, 700);
+        const QSize targetSize = QSize(1024, 708);
         optimalSize = targetSize.boundedTo(screenSize);
     } else {
         optimalSize = settingsGroup.readEntry("dialogSize", QVariant(size())).toSize();
@@ -262,12 +266,12 @@ void KdenliveSettingsDialog::initMiscPage()
 
 void KdenliveSettingsDialog::initProjectPage()
 {
-    QWidget *p8 = new QWidget;
-    m_configProject.setupUi(p8);
+    QWidget *p9 = new QWidget;
+    m_configProject.setupUi(p9);
     // Timeline preview
     QString currentPreviewData =
         KdenliveSettings::previewparams().isEmpty() ? QString() : QString("%1;%2").arg(KdenliveSettings::previewparams(), KdenliveSettings::previewextension());
-    m_tlPreviewProfiles = new EncodingTimelinePreviewProfilesChooser(p8, true, currentPreviewData, false);
+    m_tlPreviewProfiles = new EncodingTimelinePreviewProfilesChooser(p9, true, currentPreviewData, false);
     m_configProject.preview_profile_box->addWidget(m_tlPreviewProfiles);
     auto *vbox = new QVBoxLayout;
     m_pw = new ProfileWidget(this);
@@ -294,16 +298,16 @@ void KdenliveSettingsDialog::initProjectPage()
         }
     });
 
-    m_page8 = addPage(p8, i18n("Project Defaults"), QStringLiteral("project-defaults"));
+    m_page9 = addPage(p9, i18n("Project Defaults"), QStringLiteral("project-defaults"));
 }
 
 void KdenliveSettingsDialog::initProxyPage()
 {
-    QWidget *p9 = new QWidget;
-    m_configProxy.setupUi(p9);
-    m_proxyProfiles = new EncodingProfilesChooser(p9, EncodingProfilesManager::ProxyClips, true, QStringLiteral("proxy_profile"));
+    QWidget *p10 = new QWidget;
+    m_configProxy.setupUi(p10);
+    m_proxyProfiles = new EncodingProfilesChooser(p10, EncodingProfilesManager::ProxyClips, true, QStringLiteral("proxy_profile"));
     m_configProxy.proxy_profile_box->addWidget(m_proxyProfiles);
-    addPage(p9, i18n("Proxy Clips"), QStringLiteral("zoom-out"));
+    addPage(p10, i18n("Proxy Clips"), QStringLiteral("zoom-out"));
     connect(m_configProxy.kcfg_generateproxy, &QAbstractButton::toggled, m_configProxy.kcfg_proxyminsize, &QWidget::setEnabled);
     m_configProxy.kcfg_proxyminsize->setEnabled(KdenliveSettings::generateproxy());
     connect(m_configProxy.kcfg_generateimageproxy, &QAbstractButton::toggled, m_configProxy.kcfg_proxyimageminsize, &QWidget::setEnabled);
@@ -437,8 +441,8 @@ void KdenliveSettingsDialog::initCapturePage()
 
 void KdenliveSettingsDialog::initJogShuttlePage()
 {
-    QWidget *p5 = new QWidget;
-    m_configShuttle.setupUi(p5);
+    QWidget *p6 = new QWidget;
+    m_configShuttle.setupUi(p6);
 #ifdef USE_JOGSHUTTLE
     connect(m_configShuttle.kcfg_enableshuttle, &QCheckBox::stateChanged, this, &KdenliveSettingsDialog::slotCheckShuttle);
     connect(m_configShuttle.shuttledevicelist, SIGNAL(activated(int)), this, SLOT(slotUpdateShuttleDevice(int)));
@@ -472,14 +476,14 @@ void KdenliveSettingsDialog::initJogShuttlePage()
     m_configShuttle.kcfg_enableshuttle->hide();
     m_configShuttle.kcfg_enableshuttle->setDisabled(true);
 #endif /* USE_JOGSHUTTLE */
-    m_page5 = addPage(p5, i18n("JogShuttle"), QStringLiteral("dialog-input-devices"));
+    m_page6 = addPage(p6, i18n("JogShuttle"), QStringLiteral("dialog-input-devices"));
 }
 
 void KdenliveSettingsDialog::initTranscodePage()
 {
-    QWidget *p7 = new QWidget;
-    m_configTranscode.setupUi(p7);
-    m_page7 = addPage(p7, i18n("Transcode"), QStringLiteral("edit-copy"));
+    QWidget *p8 = new QWidget;
+    m_configTranscode.setupUi(p8);
+    m_page8 = addPage(p8, i18n("Transcode"), QStringLiteral("edit-copy"));
 
     connect(m_configTranscode.button_add, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotAddTranscode);
     connect(m_configTranscode.button_delete, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotDeleteTranscode);
@@ -837,10 +841,10 @@ void KdenliveSettingsDialog::showPage(int page, int option)
         break;
     case 4:
         setCurrentPage(m_page4);
-        m_configCapture.tabWidget->setCurrentIndex(option);
         break;
     case 5:
         setCurrentPage(m_page5);
+        m_configCapture.tabWidget->setCurrentIndex(option);
         break;
     case 6:
         setCurrentPage(m_page6);
@@ -849,8 +853,12 @@ void KdenliveSettingsDialog::showPage(int page, int option)
         setCurrentPage(m_page7);
         break;
     case 8:
-        setCurrentPage(m_page11);
+        setCurrentPage(m_page8);
+        break;
+    case 9:
+        setCurrentPage(m_page12);
         m_stt->checkDependencies();
+        m_sttWhisper->checkDependencies();
         break;
     default:
         setCurrentPage(m_page1);
@@ -1070,7 +1078,7 @@ void KdenliveSettingsDialog::updateSettings()
     // Check if screengrab is fullscreen
     if (m_configCapture.kcfg_grab_capture_type->currentIndex() != KdenliveSettings::grab_capture_type()) {
         KdenliveSettings::setGrab_capture_type(m_configCapture.kcfg_grab_capture_type->currentIndex());
-        emit updateFullScreenGrab();
+        Q_EMIT updateFullScreenGrab();
     }
 
     // Check audio capture changes
@@ -1080,7 +1088,7 @@ void KdenliveSettingsDialog::updateSettings()
         KdenliveSettings::setAudiocapturechannels(m_configCapture.audiocapturechannels->currentData().toInt());
         KdenliveSettings::setAudiocapturevolume(m_configCapture.kcfg_audiocapturevolume->value());
         KdenliveSettings::setAudiocapturesamplerate(m_configCapture.audiocapturesamplerate->currentData().toInt());
-        emit resetAudioMonitoring();
+        Q_EMIT resetAudioMonitoring();
     }
 
     // Check encoding profiles
@@ -1141,7 +1149,7 @@ void KdenliveSettingsDialog::updateSettings()
     }
 
     if (updateLibrary) {
-        emit updateLibraryFolder();
+        Q_EMIT updateLibraryFolder();
     }
 
     QString value = m_configCapture.kcfg_v4l_alsadevice->currentData().toString();
@@ -1186,14 +1194,14 @@ void KdenliveSettingsDialog::updateSettings()
 
     if (m_configColors.kcfg_window_background->color() != KdenliveSettings::window_background()) {
         KdenliveSettings::setWindow_background(m_configColors.kcfg_window_background->color());
-        emit updateMonitorBg();
+        Q_EMIT updateMonitorBg();
     }
 
     if (m_configColors.kcfg_thumbColor1->color() != KdenliveSettings::thumbColor1() ||
         m_configColors.kcfg_thumbColor2->color() != KdenliveSettings::thumbColor2()) {
         KdenliveSettings::setThumbColor1(m_configColors.kcfg_thumbColor1->color());
         KdenliveSettings::setThumbColor2(m_configColors.kcfg_thumbColor2->color());
-        emit pCore->window()->getCurrentTimeline()->controller()->colorsChanged();
+        Q_EMIT pCore->window()->getCurrentTimeline()->controller()->colorsChanged();
         pCore->getMonitor(Kdenlive::ClipMonitor)->refreshAudioThumbs();
     }
 
@@ -1209,7 +1217,7 @@ void KdenliveSettingsDialog::updateSettings()
 
     if (m_configTimeline.kcfg_displayallchannels->isChecked() != KdenliveSettings::displayallchannels()) {
         KdenliveSettings::setDisplayallchannels(m_configTimeline.kcfg_displayallchannels->isChecked());
-        emit audioThumbFormatChanged();
+        Q_EMIT audioThumbFormatChanged();
         pCore->getMonitor(Kdenlive::ClipMonitor)->refreshAudioThumbs();
     }
 
@@ -1246,12 +1254,12 @@ void KdenliveSettingsDialog::updateSettings()
 
     if (m_configTimeline.kcfg_trackheight->value() != KdenliveSettings::trackheight()) {
         KdenliveSettings::setTrackheight(m_configTimeline.kcfg_trackheight->value());
-        emit resetView();
+        Q_EMIT resetView();
     }
 
     if (m_configTimeline.kcfg_autoscroll->isChecked() != KdenliveSettings::autoscroll()) {
         KdenliveSettings::setAutoscroll(m_configTimeline.kcfg_autoscroll->isChecked());
-        emit pCore->autoScrollChanged();
+        Q_EMIT pCore->autoScrollChanged();
     }
 
     if (m_configTimeline.kcfg_pauseonseek->isChecked() != KdenliveSettings::pauseonseek()) {
@@ -1264,7 +1272,36 @@ void KdenliveSettingsDialog::updateSettings()
 
     if (m_configTimeline.kcfg_scrollvertically->isChecked() != KdenliveSettings::scrollvertically()) {
         KdenliveSettings::setScrollvertically(m_configTimeline.kcfg_scrollvertically->isChecked());
-        emit pCore->window()->getCurrentTimeline()->controller()->scrollVerticallyChanged();
+        Q_EMIT pCore->window()->getCurrentTimeline()->controller()->scrollVerticallyChanged();
+    }
+
+    // Speech
+    switch (m_configSpeech.speech_stack->currentIndex()) {
+    case 1:
+        if (KdenliveSettings::speechEngine() != QLatin1String("whisper")) {
+            KdenliveSettings::setSpeechEngine(QStringLiteral("whisper"));
+            Q_EMIT pCore->speechEngineChanged();
+        }
+        break;
+    default:
+        if (!KdenliveSettings::speechEngine().isEmpty()) {
+            KdenliveSettings::setSpeechEngine(QString());
+            Q_EMIT pCore->speechEngineChanged();
+        }
+        break;
+    }
+
+    if (m_configSpeech.combo_wr_lang->currentData().toString() != KdenliveSettings::whisperLanguage()) {
+        KdenliveSettings::setWhisperLanguage(m_configSpeech.combo_wr_lang->currentData().toString());
+    }
+    if (m_configSpeech.combo_wr_model->currentData().toString() != KdenliveSettings::whisperModel()) {
+        KdenliveSettings::setWhisperModel(m_configSpeech.combo_wr_model->currentData().toString());
+    }
+    if (m_configSpeech.combo_wr_device->currentData().toString() != KdenliveSettings::whisperDevice()) {
+        KdenliveSettings::setWhisperDevice(m_configSpeech.combo_wr_device->currentData().toString());
+    }
+    if (m_configSpeech.wr_translate->isChecked() != KdenliveSettings::whisperTranslate()) {
+        KdenliveSettings::setWhisperTranslate(m_configSpeech.wr_translate->isChecked());
     }
 
     // Mimes
@@ -1285,12 +1322,12 @@ void KdenliveSettingsDialog::updateSettings()
     KConfigDialog::settingsChangedSlot();
     // KConfigDialog::updateSettings();
     if (resetConsumer) {
-        emit doResetConsumer(fullReset);
+        Q_EMIT doResetConsumer(fullReset);
     }
     if (restart) {
-        emit restartKdenlive();
+        Q_EMIT restartKdenlive();
     }
-    emit checkTabPosition();
+    Q_EMIT checkTabPosition();
 
     // remembering Config dialog size
     KSharedConfigPtr config = KSharedConfig::openConfig();
@@ -1671,7 +1708,69 @@ void KdenliveSettingsDialog::slotReloadShuttleDevices()
 
 void KdenliveSettingsDialog::initSpeechPage()
 {
-    m_stt = new SpeechToText();
+    m_stt = new SpeechToText(SpeechToText::EngineType::EngineVosk, this);
+    m_sttWhisper = new SpeechToText(SpeechToText::EngineType::EngineWhisper, this);
+    connect(m_configSpeech.engine_vosk, &QRadioButton::clicked, [&]() { m_configSpeech.speech_stack->setCurrentIndex(0); });
+    connect(m_configSpeech.engine_whisper, &QRadioButton::clicked, [&]() { m_configSpeech.speech_stack->setCurrentIndex(1); });
+    if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
+        m_configSpeech.engine_whisper->setChecked(true);
+        m_configSpeech.speech_stack->setCurrentIndex(1);
+    } else {
+        m_configSpeech.engine_vosk->setChecked(true);
+        m_configSpeech.speech_stack->setCurrentIndex(0);
+    }
+
+    // Whisper
+    m_configSpeech.combo_wr_device->addItem(i18n("Probing..."));
+    PythonDependencyMessage *msgWr = new PythonDependencyMessage(this, m_sttWhisper);
+    m_configSpeech.message_layout_wr->addWidget(msgWr);
+    QList<std::pair<QString, QString>> whisperModels = m_sttWhisper->whisperModels();
+    for (auto &w : whisperModels) {
+        m_configSpeech.combo_wr_model->addItem(w.first, w.second);
+    }
+    int ix = m_configSpeech.combo_wr_model->findData(KdenliveSettings::whisperModel());
+    if (ix > -1) {
+        m_configSpeech.combo_wr_model->setCurrentIndex(ix);
+    }
+    QMap<QString, QString> whisperLanguages = m_sttWhisper->whisperLanguages();
+    QMapIterator<QString, QString> j(whisperLanguages);
+    while (j.hasNext()) {
+        j.next();
+        m_configSpeech.combo_wr_lang->addItem(j.key(), j.value());
+    }
+    ix = m_configSpeech.combo_wr_lang->findData(KdenliveSettings::whisperLanguage());
+    if (ix > -1) {
+        m_configSpeech.combo_wr_lang->setCurrentIndex(ix);
+    }
+    m_configSpeech.wr_translate->setChecked(KdenliveSettings::whisperTranslate());
+    connect(m_sttWhisper, &SpeechToText::scriptFeedback, [this](const QStringList jobData) {
+        m_configSpeech.combo_wr_device->clear();
+        for (auto &s : jobData) {
+            if (s.contains(QLatin1Char('#'))) {
+                m_configSpeech.combo_wr_device->addItem(s.section(QLatin1Char('#'), 1).simplified(), s.section(QLatin1Char('#'), 0, 0).simplified());
+            } else {
+                m_configSpeech.combo_wr_device->addItem(s.simplified(), s.simplified());
+            }
+        }
+    });
+    connect(m_sttWhisper, &SpeechToText::scriptFinished, [this]() {
+        int ix = m_configSpeech.combo_wr_device->findData(KdenliveSettings::whisperDevice());
+        if (ix > -1) {
+            m_configSpeech.combo_wr_device->setCurrentIndex(ix);
+        }
+    });
+    connect(m_sttWhisper, &SpeechToText::dependenciesAvailable, this, [&]() {
+        qDebug() << ":::::: WHISPER DEPS AVAILABLE!!!!!!!!!!";
+        m_sttWhisper->runConcurrentScript(QStringLiteral("checkgpu.py"), {});
+    });
+    m_sttWhisper->checkDependencies();
+    connect(m_configSpeech.check_whisper, &QPushButton::clicked, this, [this]() {
+        m_configSpeech.check_whisper->setEnabled(false);
+        m_sttWhisper->checkDependencies();
+        m_configSpeech.check_whisper->setEnabled(true);
+    });
+
+    // VOSK
     PythonDependencyMessage *msg = new PythonDependencyMessage(this, m_stt);
     m_configSpeech.message_layout->addWidget(msg);
 
@@ -1682,7 +1781,6 @@ void KdenliveSettingsDialog::initSpeechPage()
     });
     connect(m_stt, &SpeechToText::dependenciesMissing, this, [&](const QStringList &) { m_configSpeech.speech_info->animatedHide(); });
 
-    m_voskAction = new QAction(i18n("Install missing dependencies"), this);
     m_speechListWidget = new SpeechList(this);
     connect(m_speechListWidget, &SpeechList::getDictionary, this, &KdenliveSettingsDialog::getDictionary);
     QVBoxLayout *l = new QVBoxLayout(m_configSpeech.list_frame);
@@ -1835,7 +1933,7 @@ void KdenliveSettingsDialog::processArchive(const QString &archiveFile)
             qDebug() << "=== Error extracting archive!!";
         } else {
             QFile::remove(archiveFile);
-            emit parseDictionaries();
+            Q_EMIT parseDictionaries();
             doShowSpeechMessage(i18n("New dictionary installed."), KMessageWidget::Positive);
         }
     } else {

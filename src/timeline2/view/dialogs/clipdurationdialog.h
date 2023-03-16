@@ -23,7 +23,7 @@ public:
     GenTime cropStart() const;
     GenTime duration() const;
 
-private slots:
+private Q_SLOTS:
     void slotCheckDuration();
     void slotCheckStart();
     void slotCheckCrop();

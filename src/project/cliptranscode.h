@@ -22,10 +22,10 @@ public:
                   bool automaticMode = false, QWidget *parent = nullptr);
     ~ClipTranscode() override;
 
-public slots:
+public Q_SLOTS:
     void slotStartTransCode();
 
-private slots:
+private Q_SLOTS:
     void slotShowTranscodeInfo();
     void slotTranscodeFinished(int exitCode, QProcess::ExitStatus exitStatus);
     void slotUpdateParams(int ix = -1);
@@ -41,7 +41,7 @@ private:
     QStringList m_postParams;
     KMessageWidget *m_infoMessage;
 
-signals:
+Q_SIGNALS:
     void addClip(const QUrl &url, const QString &folderInfo = QString());
     void transcodedClip(const QUrl &source, const QUrl &result);
 };

@@ -13,6 +13,7 @@
 #include <QMutex>
 #include <QProcess>
 #include <QTimer>
+#include <QUuid>
 
 class TimelineController;
 
@@ -35,14 +36,13 @@ class PreviewManager : public QObject
     Q_OBJECT
 
 public:
+    friend class TimelineModel;
     friend class TimelineController;
 
-    explicit PreviewManager(TimelineController *controller, Mlt::Tractor *tractor);
+    explicit PreviewManager(Mlt::Tractor *tractor, QUuid uuid, QObject *parent = nullptr);
     ~PreviewManager() override;
     /** @brief: initialize base variables, return false if error. */
     bool initialize();
-    /** @brief: a timeline operation caused changes to frames between startFrame and endFrame. */
-    void invalidatePreview(int startFrame, int endFrame);
     /** @brief: after a small  delay (some operations trigger several invalidatePreview calls), take care of these invalidated chunks. */
     void invalidatePreviews();
     /** @brief: user adds current timeline zone to the preview zone. */
@@ -75,10 +75,14 @@ public:
     bool hasOverlayTrack() const;
     bool hasPreviewTrack() const;
     int addedTracks() const;
+    /** @brief Returns true if a preview render range has already been defined */
+    bool hasDefinedRange() const;
+    /** @brief Returns true if the render process is still running */
+    bool isRunning() const;
 
 private:
-    TimelineController *m_controller;
     Mlt::Tractor *m_tractor;
+    QUuid m_uuid;
     Mlt::Playlist *m_previewTrack;
     Mlt::Playlist *m_overlayTrack;
     bool m_warnOnCrash;
@@ -111,10 +115,6 @@ private:
     void reloadChunks(const QVariantList &chunks);
     /** @brief: A chunk failed to render, abort. */
     void corruptedChunk(int workingPreview, const QString &fileName);
-    /** @brief: Re-enable timeline preview track. */
-    void enable();
-    /** @brief: Temporarily disable timeline preview track. */
-    void disable();
     /** @brief: Get a compressed list of chunks, like: "0-500,525,575". */
     const QStringList getCompressedList(const QVariantList items) const;
 
@@ -123,7 +123,7 @@ private:
      */
     static bool chunkSort(const QVariant &c1, const QVariant &c2) { return c1.toInt() < c2.toInt(); };
 
-private slots:
+private Q_SLOTS:
     /** @brief: To avoid filling the hard drive, remove preview undo history after 5 steps. */
     void doCleanupOldPreviews();
     /** @brief: Start the real rendering process. */
@@ -136,19 +136,28 @@ private slots:
     void receivedStderr();
     void processEnded(int exitCode, QProcess::ExitStatus status);
 
-public slots:
+public Q_SLOTS:
     /** @brief: Prepare and start rendering. */
     void startPreviewRender();
     /** @brief: A chunk has been created, notify ruler. */
     void gotPreviewRender(int frame, const QString &file, int progress);
+    /** @brief: a timeline operation caused changes to frames between startFrame and endFrame. */
+    void invalidatePreview(int startFrame, int endFrame);
 
 protected:
     QVariantList m_renderedChunks;
     QVariantList m_dirtyChunks;
     mutable QMutex m_dirtyMutex;
+    /** @brief: Re-enable timeline preview track. */
+    void enable();
+    /** @brief: Temporarily disable timeline preview track. */
+    void disable();
 
-signals:
+Q_SIGNALS:
     void abortPreview();
     void cleanupOldPreviews();
     void previewRender(int frame, const QString &file, int progress);
+    void dirtyChunksChanged();
+    void renderedChunksChanged();
+    void workingPreviewChanged();
 };

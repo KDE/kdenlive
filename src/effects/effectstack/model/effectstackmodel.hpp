@@ -10,6 +10,7 @@
 #include "undohelper.hpp"
 
 #include <QReadWriteLock>
+#include <QUuid>
 #include <memory>
 #include <mlt++/Mlt.h>
 #include <unordered_set>
@@ -51,7 +52,7 @@ public:
      */
     bool importEffects(const std::shared_ptr<EffectStackModel> &sourceStack, PlaylistState::ClipState state);
     void importEffects(const std::weak_ptr<Mlt::Service> &service, PlaylistState::ClipState state, bool alreadyExist = false,
-                       const QString &originalDecimalPoint = QString());
+                       const QString &originalDecimalPoint = QString(), const QUuid &uuid = QUuid());
     bool removeFade(bool fromStart);
 
     /** @brief This function change the global (timeline-wise) enabled state of the effects
@@ -120,7 +121,7 @@ public:
     /** @brief Returns an XML representation of the effect stack with all parameters */
     QDomElement toXml(QDomDocument &document);
     /** @brief Returns an XML representation of one of the effect in the stack with all parameters */
-    QDomElement rowToXml(int row, QDomDocument &document);
+    QDomElement rowToXml(const QUuid &uuid, int row, QDomDocument &document);
     /** @brief Load an effect stack from an XML representation */
     bool fromXml(const QDomElement &effectsXml, Fun &undo, Fun &redo);
     /** @brief Delete active effect from stack */
@@ -138,7 +139,7 @@ public:
     /** @brief Returns a list of zones for all effects */
     QVariantList getEffectZones() const;
 
-public slots:
+public Q_SLOTS:
     /** @brief Delete an effect from the stack */
     void removeEffect(const std::shared_ptr<EffectItemModel> &effect);
 
@@ -165,7 +166,7 @@ private:
      *          in the producer, so we shouldn't plant them again. Setting this value to
      *          true will prevent planting in the producer */
     bool m_loadingExisting;
-private slots:
+private Q_SLOTS:
     /** @brief: Some effects do not support dynamic changes like sox, and need to be unplugged / replugged on each param change
      */
     void replugEffect(const std::shared_ptr<AssetParameterModel> &asset);
@@ -173,7 +174,7 @@ private slots:
      */
     void updateEffectZones();
 
-signals:
+Q_SIGNALS:
     /** @brief: This signal is connected to the project clip for bin clips and activates the reload of effects on child (timeline) producers
      */
     void modelChanged();

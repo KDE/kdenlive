@@ -54,6 +54,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                                                         &AssetParameterView::slotUpdatePreset);
         QAction *deletePreset =
             m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Delete preset"), this, &AssetParameterView::slotDeleteCurrentPreset);
+            m_presetMenu->setWhatsThis(xi18nc("@info:whatsthis", "Deletes the currently selected preset."));
         m_presetMenu->addSeparator();
         QStringList presets = m_model->getPresetList(presetFile);
         if (presetName.isEmpty() || presets.isEmpty()) {
@@ -70,7 +71,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
             }
         }
     });
-    emit updatePresets();
+    Q_EMIT updatePresets();
     connect(m_model.get(), &AssetParameterModel::dataChanged, this, &AssetParameterView::refresh);
     int minHeight = 0;
     for (int i = 0; i < model->rowCount(); ++i) {
@@ -91,7 +92,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
             connect(w, &AbstractParamWidget::activateEffect, this, &AssetParameterView::activateEffect);
             connect(w, &AbstractParamWidget::updateHeight, this, [&]() {
                 setFixedHeight(contentHeight());
-                emit updateHeight();
+                Q_EMIT updateHeight();
             });
             if (AssetParameterModel::isAnimated(type)) {
                 m_mainKeyframeWidget = static_cast<KeyframeWidget *>(w);
@@ -118,7 +119,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
     }
     // Ensure effect parameters are adjusted to current position
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
-    emit monitor->seekPosition(monitor->position());
+    Q_EMIT monitor->seekPosition(monitor->position());
 }
 
 QVector<QPair<QString, QVariant>> AssetParameterView::getDefaultValues() const
@@ -285,7 +286,7 @@ void AssetParameterView::toggleKeyframes(bool enable)
     if (m_mainKeyframeWidget) {
         m_mainKeyframeWidget->showKeyframes(enable);
         setFixedHeight(contentHeight());
-        emit updateHeight();
+        Q_EMIT updateHeight();
     }
 }
 
@@ -307,7 +308,7 @@ void AssetParameterView::slotDeletePreset(const QString &presetName)
     if (dir.exists()) {
         const QString presetFile = dir.absoluteFilePath(QString("%1.json").arg(m_model->getAssetId()));
         m_model->deletePreset(presetFile, presetName);
-        emit updatePresets();
+        Q_EMIT updatePresets();
     }
 }
 
@@ -334,7 +335,7 @@ void AssetParameterView::slotSavePreset(QString presetName)
     }
     const QString presetFile = dir.absoluteFilePath(QString("%1.json").arg(m_model->getAssetId()));
     m_model->savePreset(presetFile, presetName);
-    emit updatePresets(presetName);
+    Q_EMIT updatePresets(presetName);
 }
 
 void AssetParameterView::slotLoadPreset()
@@ -349,7 +350,7 @@ void AssetParameterView::slotLoadPreset()
     const QVector<QPair<QString, QVariant>> params = m_model->loadPreset(presetFile, presetName);
     auto *command = new AssetUpdateCommand(m_model, params);
     pCore->pushUndo(command);
-    emit updatePresets(presetName);
+    Q_EMIT updatePresets(presetName);
 }
 
 QMenu *AssetParameterView::presetMenu()

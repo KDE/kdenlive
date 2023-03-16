@@ -40,7 +40,7 @@ private:
     QStringList getNames() const;
     void loadGradients(QMap<QString, QString> gradients = QMap<QString, QString>());
 
-private slots:
+private Q_SLOTS:
     void updatePreview();
     void saveGradient(const QString &name = QString());
     void loadGradient();

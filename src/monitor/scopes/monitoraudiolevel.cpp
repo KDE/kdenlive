@@ -62,7 +62,7 @@ void MonitorAudioLevel::refreshScope(const QSize & /*size*/, bool /*full*/)
                     levels << 20 * log10((double)peak / (double)std::numeric_limits<int16_t>::max());
                 }
             }
-            emit audioLevelsAvailable(levels);
+            Q_EMIT audioLevelsAvailable(levels);
         }
     }
 }

@@ -9,7 +9,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "boolparamwidget.hpp"
 #include "buttonparamwidget.hpp"
 #include "clickablelabelwidget.hpp"
-#include "coloreditwidget.hpp"
+//#include "coloreditwidget.hpp"
 #include "curves/bezier/beziersplineeditor.h"
 #include "curves/cubic/kis_cubic_curve.h"
 #include "curves/cubic/kis_curve_widget.h"
@@ -94,9 +94,6 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
         break;
     case ParamType::Position:
         widget = new PositionEditWidget(model, index, parent);
-        break;
-    case ParamType::Color:
-        widget = new ColorEditWidget(model, index, parent);
         break;
     case ParamType::Wipe:
         widget = new SlideWidget(model, index, parent);

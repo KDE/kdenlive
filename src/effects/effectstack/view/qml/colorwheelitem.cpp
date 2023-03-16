@@ -57,7 +57,7 @@ void ColorWheelItem::setColor(const NegQColor &color)
 {
     m_color = color;
     update();
-    emit colorChanged();
+    Q_EMIT colorChanged();
 }
 
 double ColorWheelItem::red()

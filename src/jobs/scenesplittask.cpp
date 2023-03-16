@@ -219,7 +219,7 @@ void SceneSplitTask::run()
             if (!json.isEmpty()) {
                 QString dataMap(json.toJson());
                 QMetaObject::invokeMethod(pCore->projectItemModel().get(), "loadSubClips", Q_ARG(QString, QString::number(m_owner.second)),
-                                          Q_ARG(QString, dataMap));
+                                          Q_ARG(QString, dataMap), Q_ARG(bool, true));
             }
         }
     } else {
@@ -285,6 +285,6 @@ void SceneSplitTask::processLogInfo()
         }
         m_progress = 100 * progress / m_jobDuration;
         QMetaObject::invokeMethod(m_object, "updateJobProgress");
-        // emit jobProgress(int(100.0 * progress / m_jobDuration));
+        // Q_EMIT jobProgress(int(100.0 * progress / m_jobDuration));
     }
 }

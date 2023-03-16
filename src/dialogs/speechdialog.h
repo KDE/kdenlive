@@ -41,10 +41,13 @@ private:
     std::unique_ptr<QTemporaryFile> m_tmpSrt;
     QMetaObject::Connection m_modelsConnection;
     QAction *m_voskConfig;
+    QAction *m_logAction;
+    QString m_errorLog;
     SpeechToText *m_stt;
 
-private slots:
+private Q_SLOTS:
     void slotProcessSpeech();
     void slotProcessSpeechStatus(QProcess::ExitStatus status, const QString &srtFile);
     void slotProcessProgress();
+    void slotProcessWhisperProgress();
 };

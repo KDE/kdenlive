@@ -27,6 +27,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QPainter>
 #include <QString>
 #include <QTime>
+#include <QUuid>
 #include <QVariantList>
 #include <monitor/monitor.h>
 #include <profiles/profilemodel.hpp>
@@ -80,6 +81,9 @@ ClipType::ProducerType ClipLoadTask::getTypeForService(const QString &id, const 
     if (id == QLatin1String("xml") || id == QLatin1String("consumer")) {
         return ClipType::Playlist;
     }
+    if (id == QLatin1String("tractor")) {
+        return ClipType::Timeline;
+    }
     if (id == QLatin1String("webvfx")) {
         return ClipType::WebVfx;
     }
@@ -100,32 +104,8 @@ std::shared_ptr<Mlt::Producer> ClipLoadTask::loadResource(QString resource, cons
 
 std::shared_ptr<Mlt::Producer> ClipLoadTask::loadPlaylist(QString &resource)
 {
-    std::unique_ptr<Mlt::Profile> xmlProfile(new Mlt::Profile());
-    xmlProfile->set_explicit(0);
-    std::unique_ptr<Mlt::Producer> producer(new Mlt::Producer(*xmlProfile, "xml", resource.toUtf8().constData()));
-    if (!producer->is_valid()) {
-        qDebug() << "////// ERROR, CANNOT LOAD SELECTED PLAYLIST: " << resource;
-        return nullptr;
-    }
-    std::unique_ptr<ProfileParam> clipProfile(new ProfileParam(xmlProfile.get()));
-    std::unique_ptr<ProfileParam> projectProfile(new ProfileParam(pCore->getCurrentProfile().get()));
-    if (*clipProfile.get() == *projectProfile.get()) {
-        // We can use the "xml" producer since profile is the same (using it with different profiles corrupts the project.
-        // Beware that "consumer" currently crashes on audio mixes!
-        // resource.prepend(QStringLiteral("xml:"));
-    } else {
-        // This is currently crashing so I guess we'd better reject it for now
-        if (pCore->getCurrentProfile()->isCompatible(xmlProfile.get())) {
-            QString loader = resource;
-            loader.prepend(QStringLiteral("consumer:"));
-            return std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), loader.toUtf8().constData());
-        } else {
-            m_errorMessage =
-                i18n("Playlist %1 has a different framerate (%2/%3fps), not supported.", resource, xmlProfile->frame_rate_num(), xmlProfile->frame_rate_den());
-            return nullptr;
-        }
-    }
-    return std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), "xml", resource.toUtf8().constData());
+    // since MLT 7.14.0, playlists with different fps can be used in a project without corrupting the profile
+    return std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
 }
 
 // Read the properties of the xml and pass them to the producer. Note that some properties like resource are ignored
@@ -138,10 +118,14 @@ void ClipLoadTask::processProducerProperties(const std::shared_ptr<Mlt::Producer
                        << QStringLiteral("video_index") << QStringLiteral("mlt_type") << QStringLiteral("length");
     QDomNodeList props;
 
-    if (xml.tagName() == QLatin1String("producer")) {
+    if (xml.tagName() == QLatin1String("producer") || xml.tagName() == QLatin1String("chain")) {
         props = xml.childNodes();
     } else {
-        props = xml.firstChildElement(QStringLiteral("producer")).childNodes();
+        QDomElement elem = xml.firstChildElement(QStringLiteral("chain"));
+        if (elem.isNull()) {
+            elem = xml.firstChildElement(QStringLiteral("producer"));
+        }
+        props = elem.childNodes();
     }
     for (int i = 0; i < props.count(); ++i) {
         if (props.at(i).toElement().tagName() != QStringLiteral("property")) {
@@ -225,11 +209,14 @@ void ClipLoadTask::processSlideShow(std::shared_ptr<Mlt::Producer> producer)
 void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::shared_ptr<Mlt::Producer> producer)
 {
     // Fetch thumbnail
-    qDebug() << "===== \nREADY FOR THUMB" << binClip->clipType() << "\n\n=========";
+    qDebug() << "===== \nREADY FOR THUMB" << binClip->clipType();
     if (m_isCanceled.loadAcquire() || pCore->taskManager.isBlocked()) {
         return;
     }
-    int frameNumber = m_in > -1 ? m_in : qMax(0, binClip->getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
+    int frameNumber = m_in;
+    if (frameNumber < 0) {
+        frameNumber = binClip->getThumbFrame();
+    }
     if (producer->get_int("video_index") > -1) {
         QImage thumb = ThumbnailCache::get()->getThumbnail(binClip->hashForThumbs(), QString::number(m_owner.second), frameNumber);
         if (!thumb.isNull()) {
@@ -245,33 +232,29 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
             }
             std::unique_ptr<Mlt::Producer> thumbProd = nullptr;
             Mlt::Profile *profile = pCore->thumbProfile();
-            if (mltService.startsWith(QLatin1String("xml"))) {
-                int profileWidth = profile->width();
-                int profileHeight = profile->height();
-                thumbProd.reset(new Mlt::Producer(*profile, "consumer", mltResource.toUtf8().constData()));
-                profile->set_width(profileWidth);
-                profile->set_height(profileHeight);
+            if (binClip->clipType() == ClipType::Timeline) {
+                thumbProd.reset(producer->cut());
             } else {
                 if (m_isCanceled.loadAcquire() || pCore->taskManager.isBlocked()) {
                     return;
                 }
                 thumbProd.reset(new Mlt::Producer(*profile, mltService.toUtf8().constData(), mltResource.toUtf8().constData()));
             }
-            if (thumbProd) {
+            if (thumbProd && thumbProd->is_valid()) {
                 thumbProd->set("audio_index", -1);
                 Mlt::Properties original(producer->get_properties());
                 Mlt::Properties cloneProps(thumbProd->get_properties());
                 cloneProps.pass_list(original, ClipController::getPassPropertiesList());
-                Mlt::Filter scaler(*pCore->thumbProfile(), "swscale");
-                Mlt::Filter padder(*pCore->thumbProfile(), "resize");
-                Mlt::Filter converter(*pCore->thumbProfile(), "avcolor_space");
+                Mlt::Filter scaler(*profile, "swscale");
+                Mlt::Filter padder(*profile, "resize");
+                Mlt::Filter converter(*profile, "avcolor_space");
                 thumbProd->set("audio_index", -1);
                 // Required to make get_playtime() return > 1
                 thumbProd->set("out", thumbProd->get_length() - 1);
                 thumbProd->attach(scaler);
                 thumbProd->attach(padder);
                 thumbProd->attach(converter);
-                qDebug() << "===== \nSEEKING THUMB PROD\n\n=========";
+                qDebug() << "===== \nSEEKING THUMB PROD: " << frameNumber << "\n\n=========";
                 if (frameNumber > 0) {
                     thumbProd->seek(frameNumber);
                 }
@@ -283,6 +266,9 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
                     int imageHeight(pCore->thumbProfile()->height());
                     int imageWidth(pCore->thumbProfile()->width());
                     int fullWidth(qRound(imageHeight * pCore->getCurrentDar()));
+                    if (m_isCanceled.loadAcquire() || pCore->taskManager.isBlocked()) {
+                        return;
+                    }
                     QImage result = KThumb::getFrame(frame.data(), imageWidth, imageHeight, fullWidth);
                     if (result.isNull() && !m_isCanceled.loadAcquire()) {
                         qDebug() << "+++++\nINVALID RESULT IMAGE\n++++++++++++++";
@@ -330,7 +316,7 @@ void ClipLoadTask::run()
         return;
     }
     m_running = true;
-    emit pCore->projectItemModel()->resetPlayOrLoopZone(QString::number(m_owner.second));
+    Q_EMIT pCore->projectItemModel()->resetPlayOrLoopZone(QString::number(m_owner.second));
     QString resource = Xml::getXmlProperty(m_xml, QStringLiteral("resource"));
     qDebug() << "============STARTING LOAD TASK FOR: " << resource << "\n\n:::::::::::::::::::";
     int duration = 0;
@@ -394,7 +380,7 @@ void ClipLoadTask::run()
             producerLength = duration;
         }
         producer->set("length", producerLength);
-        producer->set("kdenlive:duration", duration);
+        producer->set("kdenlive:duration", producer->frames_to_time(duration));
         producer->set("out", producerLength - 1);
     } break;
     case ClipType::QText:
@@ -414,38 +400,50 @@ void ClipLoadTask::run()
         }
         producer = loadResource(resource, QStringLiteral("qml:"));
         producer->set("length", producerLength);
-        producer->set("kdenlive:duration", producerLength);
+        producer->set("kdenlive:duration", producer->frames_to_time(producerLength));
         producer->set("out", producerLength - 1);
         break;
     }
     case ClipType::Playlist: {
         producer = loadPlaylist(resource);
-        if (producer && resource.endsWith(QLatin1String(".kdenlive"))) {
+        if (producer) {
             QFile f(resource);
             QDomDocument doc;
             doc.setContent(&f, false);
             f.close();
-            QDomElement pl = doc.documentElement().firstChildElement(QStringLiteral("playlist"));
-            if (!pl.isNull()) {
-                QString offsetData = Xml::getXmlProperty(pl, QStringLiteral("kdenlive:docproperties.seekOffset"));
-                if (offsetData.isEmpty() && Xml::getXmlProperty(pl, QStringLiteral("kdenlive:docproperties.version")) == QLatin1String("0.98")) {
-                    offsetData = QStringLiteral("30000");
-                }
-                if (!offsetData.isEmpty()) {
-                    bool ok = false;
-                    int offset = offsetData.toInt(&ok);
-                    if (ok) {
-                        qDebug() << " / / / FIXING OFFSET DATA: " << offset;
-                        offset = producer->get_playtime() - offset - 1;
-                        producer->set("out", offset - 1);
-                        producer->set("length", offset);
-                        producer->set("kdenlive:duration", offset);
+            if (resource.endsWith(QLatin1String(".kdenlive"))) {
+                QDomElement pl = doc.documentElement().firstChildElement(QStringLiteral("playlist"));
+                if (!pl.isNull()) {
+                    QString offsetData = Xml::getXmlProperty(pl, QStringLiteral("kdenlive:docproperties.seekOffset"));
+                    if (offsetData.isEmpty() && Xml::getXmlProperty(pl, QStringLiteral("kdenlive:docproperties.version")) == QLatin1String("0.98")) {
+                        offsetData = QStringLiteral("30000");
+                    }
+                    if (!offsetData.isEmpty()) {
+                        bool ok = false;
+                        int offset = offsetData.toInt(&ok);
+                        if (ok) {
+                            qDebug() << " / / / FIXING OFFSET DATA: " << offset;
+                            offset = producer->get_playtime() - offset - 1;
+                            producer->set("out", offset - 1);
+                            producer->set("length", offset);
+                            producer->set("kdenlive:duration", producer->frames_to_time(offset));
+                        }
+                    } else {
+                        qDebug() << "// NO OFFSET DAT FOUND\n\n";
                     }
                 } else {
-                    qDebug() << "// NO OFFSET DAT FOUND\n\n";
+                    qDebug() << ":_______\n______<nEMPTY PLAYLIST\n----";
                 }
-            } else {
-                qDebug() << ":_______\n______<nEMPTY PLAYLIST\n----";
+            } else if (resource.endsWith(QLatin1String(".mlt"))) {
+                // Find the last tractor and check if it has a duration
+                QDomElement tractor = doc.documentElement().lastChildElement(QStringLiteral("tractor"));
+                QString duration = Xml::getXmlProperty(tractor, QStringLiteral("kdenlive:duration"));
+                if (!duration.isEmpty()) {
+                    int frames = producer->time_to_frames(duration.toUtf8().constData());
+                    producer->set("out", frames - 1);
+                    producer->set("length", frames);
+                    producer->set("kdenlive:duration", duration.toUtf8().constData());
+                }
             }
         }
         break;
@@ -463,7 +461,7 @@ void ClipLoadTask::run()
             }
             producer = loadResource(resource, service);
         } else {
-            producer = std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
+            producer = std::make_shared<Mlt::Chain>(*pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
         }
         break;
     }
@@ -484,7 +482,7 @@ void ClipLoadTask::run()
                                       Q_ARG(QString, m_errorMessage.isEmpty() ? i18n("Cannot open file %1", resource) : m_errorMessage),
                                       Q_ARG(int, int(KMessageWidget::Warning)));
         }
-        emit taskDone();
+        Q_EMIT taskDone();
         abort();
         return;
     }
@@ -513,7 +511,7 @@ void ClipLoadTask::run()
         if (pCore->bin()->shouldCheckProfile) {
             pCore->bin()->shouldCheckProfile = false;
         }
-        emit taskDone();
+        Q_EMIT taskDone();
         abort();
         return;
     }
@@ -572,7 +570,7 @@ void ClipLoadTask::run()
         if (kdenlive_duration > 0) {
             producer->set("kdenlive:duration", producer->frames_to_time(kdenlive_duration, mlt_time_clock));
         } else {
-            producer->set("kdenlive:duration", producer->get("length"));
+            producer->set("kdenlive:duration", producer->frames_to_time(producer->get_int("length")));
         }
     }
     if (clipOut > 0) {
@@ -739,7 +737,7 @@ void ClipLoadTask::run()
                 QMetaObject::invokeMethod(pCore->bin(), "slotCheckProfile", Qt::QueuedConnection, Q_ARG(QString, QString::number(m_owner.second)));
             }
         }
-        emit taskDone();
+        Q_EMIT taskDone();
     } else {
         // Might be aborted by profile switch
         abort();

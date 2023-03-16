@@ -125,9 +125,9 @@ void LibraryTree::dropEvent(QDropEvent *event)
     }
     if (qMimeData->hasUrls()) {
         QList<QUrl> urls = qMimeData->urls();
-        emit moveData(urls, dest);
+        Q_EMIT moveData(urls, dest);
     } else if (qMimeData->hasFormat(QStringLiteral("kdenlive/clip"))) {
-        emit importSequence(QString(qMimeData->data(QStringLiteral("kdenlive/clip"))).split(QLatin1Char(';')), dest);
+        Q_EMIT importSequence(QString(qMimeData->data(QStringLiteral("kdenlive/clip"))).split(QLatin1Char(';')), dest);
     } else if (qMimeData->hasFormat(QStringLiteral("kdenlive/producerslist"))) {
         QStringList list = QString(qMimeData->data(QStringLiteral("kdenlive/producerslist"))).split(QLatin1Char(';'));
         for (const QString &prodslist : qAsConst(list)) {
@@ -137,10 +137,10 @@ void LibraryTree::dropEvent(QDropEvent *event)
             }
             if (prodslist.contains(QLatin1Char('/'))) {
                 // Clip zone
-                emit importSequence(prodslist.split(QLatin1Char('/')), dest);
+                Q_EMIT importSequence(prodslist.split(QLatin1Char('/')), dest);
             } else {
                 // Full clip
-                emit importSequence(QStringList() << prodslist << QStringLiteral("-1") << QStringLiteral("-1"), dest);
+                Q_EMIT importSequence(QStringList() << prodslist << QStringLiteral("-1") << QStringLiteral("-1"), dest);
             }
         }
     }
@@ -219,12 +219,15 @@ void LibraryWidget::setupActions()
 {
     QList<QAction *> menuList;
     m_addAction = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")), i18n("Add Clip to Project"), this);
+    m_addAction->setWhatsThis(xi18nc("@info:whatsthis", "Adds the selected library clip to the project bin."));
     connect(m_addAction, &QAction::triggered, this, &LibraryWidget::slotAddToProject);
     m_addAction->setData(1);
     m_deleteAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Delete Clip from Library"), this);
+    m_deleteAction->setWhatsThis(xi18nc("@info:whatsthis", "Deletes the currently selected library clip from the library."));
     connect(m_deleteAction, &QAction::triggered, this, &LibraryWidget::slotDeleteFromLibrary);
     m_deleteAction->setData(1);
     QAction *addFolder = new QAction(QIcon::fromTheme(QStringLiteral("folder-new")), i18n("Create Library Folder"), this);
+    addFolder->setWhatsThis(xi18nc("@info:whatsthis", "Creates a new folder in the library."));
     connect(addFolder, &QAction::triggered, this, &LibraryWidget::slotAddFolder);
     QAction *renameFolder = new QAction(QIcon(), i18n("Rename Library Clip"), this);
     renameFolder->setData(1);
@@ -234,6 +237,7 @@ void LibraryWidget::setupActions()
     m_toolBar->addSeparator();
     m_toolBar->addAction(addFolder);
     QAction *sentToLibrary = new QAction(QIcon::fromTheme(QStringLiteral("bookmark-new")), i18n("Add Timeline Selection to Library"), this);
+    sentToLibrary->setWhatsThis(xi18nc("@info:whatsthis", "Adds the clip(s) currently selected in the timeline to the library. Note that the paths to images, video and audio files are saved as absolute paths."));
     connect(sentToLibrary, &QAction::triggered, this, &LibraryWidget::slotAddToLibrary);
     pCore->addActionToCollection(QStringLiteral("send_library"), sentToLibrary);
     sentToLibrary->setEnabled(false);
@@ -256,7 +260,7 @@ void LibraryWidget::slotAddToLibrary()
     if (!isEnabled()) {
         return;
     }
-    emit saveTimelineSelection(m_directory);
+    Q_EMIT saveTimelineSelection(m_directory);
 }
 
 void LibraryWidget::showMessage(const QString &text, KMessageWidget::MessageType type)
@@ -276,7 +280,7 @@ void LibraryWidget::slotAddToProject()
         return;
     }
     const QList<QUrl> list = {QUrl::fromLocalFile(current->data(0, Qt::UserRole).toString())};
-    emit addProjectClips(list);
+    Q_EMIT addProjectClips(list);
 }
 
 void LibraryWidget::updateActions()

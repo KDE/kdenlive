@@ -50,7 +50,7 @@ public:
     explicit VolumeAction(QObject *parent);
     QWidget *createWidget(QWidget *parent) override;
 
-signals:
+Q_SIGNALS:
     void volumeChanged(int volume);
 };
 
@@ -67,8 +67,7 @@ public:
     void resetProfile();
     /** @brief Rebuild consumers after a property change */
     void resetConsumer(bool fullReset);
-    void setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = nullptr, QAction *loopClip = nullptr,
-                   MonitorManager *manager = nullptr);
+    void setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = nullptr, QAction *loopClip = nullptr);
     const QString activeClipId();
     int position();
     void updateTimecodeFormat();
@@ -186,6 +185,7 @@ private:
 
     std::shared_ptr<Mlt::Filter> m_splitEffect;
     std::shared_ptr<Mlt::Producer> m_splitProducer;
+    std::shared_ptr<MarkerListModel> m_markerModel{nullptr};
     int m_length;
     bool m_dragStarted;
     RecManager *m_recManager;
@@ -240,7 +240,7 @@ private:
     QAction *m_markIn;
     QAction *m_markOut;
 
-private slots:
+private Q_SLOTS:
     void slotSetThumbFrame();
     void slotSeek();
     void updateClipZone(const QPoint zone);
@@ -277,7 +277,7 @@ private slots:
     /** @brief En/Disable the show record timecode feature in clip monitor */
     void slotSwitchRecTimecode(bool enable);
 
-public slots:
+public Q_SLOTS:
     void slotSetScreen(int screenIndex);
     void slotPreviewResource(const QString &path, const QString &title);
     // void slotSetClipProducer(DocClipBase *clip, QPoint zone = QPoint(), bool forceUpdate = false, int position = -1);
@@ -351,9 +351,8 @@ public slots:
     void forceMonitorRefresh();
     /** @brief Clear read ahead cache, to ensure up to date audio */
     void purgeCache();
-    void seekTimeline(const QString &frameAndTrack);
 
-signals:
+Q_SIGNALS:
     void screenChanged(int screenIndex);
     void seekPosition(int pos);
     void seekRemap(int pos);
@@ -387,4 +386,5 @@ signals:
     void removeSplitOverlay();
     void activateTrack(int, bool notesMode = false);
     void autoKeyframeChanged();
+    void zoneDurationChanged(int duration);
 };

@@ -22,6 +22,8 @@ Rectangle {
     color: activePalette.window
     property bool debugmode: false
     property bool validMenu: false
+    property bool subtitleMoving: false
+    property var subtitleItem
     property color textColor: activePalette.text
     property var groupTrimData
     property bool trimInProgress: false
@@ -772,9 +774,10 @@ Rectangle {
                             var moveData = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, root.snapping)
                             fakeFrame = moveData[0]
                             fakeTrack = moveData[1]
-                        } else {
-                            drag.accepted = false
                         }
+                    }
+                    if (clipBeingDroppedId == -1) {
+                        drag.accepted = false
                     }
                     continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
                 } else {
@@ -1074,20 +1077,10 @@ Rectangle {
                             width: root.collapsedHeight
                             height: root.collapsedHeight
                             onClicked: timeline.triggerAction('audio_recognition')
-                            ToolTip {
-                                visible: analyseButton.hovered
-                                font: miniFont
-                                delay: 1500
-                                timeout: 5000
-                                background: Rectangle {
-                                    color: activePalette.alternateBase
-                                    border.color: activePalette.light
-                                }
-                                contentItem: Label {
-                                    color: activePalette.text
-                                    text: i18n("Speech recognition")
-                                }
-                            }
+                            ToolTip.visible: hovered
+                            ToolTip.delay: 1500
+                            ToolTip.timeout: 5000
+                            ToolTip.text: i18n("Speech recognition")
                         }
                         ToolButton {
                             id: muteButton
@@ -1104,20 +1097,10 @@ Rectangle {
                             width: root.collapsedHeight
                             height: root.collapsedHeight
                             onClicked: timeline.triggerAction('disable_subtitle')
-                            ToolTip {
-                                visible: muteButton.hovered
-                                font: miniFont
-                                delay: 1500
-                                timeout: 5000
-                                background: Rectangle {
-                                    color: activePalette.alternateBase
-                                    border.color: activePalette.light
-                                }
-                                contentItem: Label {
-                                    color: activePalette.text
-                                    text: root.subtitlesDisabled? i18n("Show") : i18n("Hide")
-                                }
-                            }
+                            ToolTip.visible: hovered
+                            ToolTip.delay: 1500
+                            ToolTip.timeout: 5000
+                            ToolTip.text: root.subtitlesDisabled? i18n("Show") : i18n("Hide")
                         }
 
                         ToolButton {
@@ -1130,7 +1113,7 @@ Rectangle {
                                 anchors.fill: parent
                                 color: "transparent"
                                 Image {
-                                    source: root.subtitlesLocked ? "image://icon/kdenlive-lock" : "image://icon/kdenlive-unlock"
+                                    source: root.subtitlesLocked ? "image://icon/lock" : "image://icon/unlock"
                                     anchors.centerIn: parent
                                     width: root.collapsedHeight - 4
                                     height: root.collapsedHeight - 4
@@ -1138,20 +1121,10 @@ Rectangle {
                                 }
                             }
                             onClicked: timeline.triggerAction('lock_subtitle')
-                            ToolTip {
-                                visible: lockButton.hovered
-                                font: miniFont
-                                delay: 1500
-                                timeout: 5000
-                                background: Rectangle {
-                                    color: activePalette.alternateBase
-                                    border.color: activePalette.light
-                                }
-                                contentItem: Label {
-                                    color: activePalette.text
-                                    text: root.subtitlesLocked? i18n("Unlock track") : i18n("Lock track")
-                                }
-                            }
+                            ToolTip.visible: hovered
+                            ToolTip.delay: 1500
+                            ToolTip.timeout: 5000
+                            ToolTip.text: root.subtitlesLocked? i18n("Unlock track") : i18n("Lock track")
                             SequentialAnimation {
                                 id: flashLock
                                 loops: 3
@@ -1393,7 +1366,8 @@ Rectangle {
             }
             onDoubleClicked: {
                 if (mouse.buttons === Qt.LeftButton && root.showSubtitles && root.activeTool === ProjectTool.SelectTool && mouse.y > ruler.height && mouse.y < (ruler.height + subtitleTrack.height)) {
-                    timeline.addSubtitle((scrollView.contentX + mouseX) / root.timeScale)
+                    subtitleModel.addSubtitle((scrollView.contentX + mouseX) / root.timeScale)
+                    timeline.activeTrack = -2
                 } else if (mouse.y < ruler.guideLabelHeight) {
                     timeline.switchGuide((scrollView.contentX + mouseX) / root.timeScale, false)
                 }
@@ -1673,6 +1647,7 @@ Rectangle {
                         //flickableItem.interactive: false
                         clip: true
                         interactive: false
+                        pixelAligned: true
                         /*
                          // Replaced by our custom ZoomBar
                          ScrollBar.horizontal: ScrollBar {
@@ -1915,7 +1890,9 @@ Rectangle {
                                         } else {
                                             clipBeingMovedId = -1
                                             timeline.ungrabHack()
-                                            if(dragProxy.masterObject.itemType === ProducerType.Text || dragProxy.masterObject.itemType === ProducerType.TextTemplate) {
+                                            if(dragProxy.masterObject.itemType === ProducerType.Timeline) {
+                                                timeline.focusTimelineSequence(dragProxy.draggedItem)
+                                            } else if(dragProxy.masterObject.itemType === ProducerType.Text || dragProxy.masterObject.itemType === ProducerType.TextTemplate) {
                                                 timeline.editTitleClip(dragProxy.draggedItem)
                                             } else if (dragProxy.masterObject.itemType === ProducerType.Animation) {
                                                 timeline.editAnimationClip(dragProxy.draggedItem)
@@ -2278,8 +2255,12 @@ Rectangle {
                     dragProxyArea.moveItem()
                 }
                 if (scrollView.contentX == 0 || (clipBeingMovedId == -1 && !rubberSelect.visible)) {
-                    horizontal = 0
-                    stop()
+                    if (root.subtitleMoving) {
+                        root.subtitleItem.checkOffset(horizontal)
+                    } else {
+                        horizontal = 0
+                        stop()
+                    }
                 }
             }
             if (rubberSelect.visible) {

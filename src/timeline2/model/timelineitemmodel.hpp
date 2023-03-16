@@ -75,6 +75,7 @@ public:
        @param text is the new track name.
     */
     Q_INVOKABLE void setTrackName(int trackId, const QString &text);
+    Q_INVOKABLE bool copyClipEffect(int clipId, const QString sourceId);
     /** @brief returns the lower video track index in timeline.
      **/
     int getFirstVideoTrackIndex() const;
@@ -89,9 +90,12 @@ public:
 
     const QString groupsData();
     bool loadGroups(const QString &groupsData);
+    std::shared_ptr<SubtitleModel> createSubtitleModel();
 
     /** @brief Rebuild track compositing */
     void buildTrackCompositing(bool rebuild = false) override;
+    /** @brief Register all tracks in the mixer */
+    void rebuildMixer();
     void _beginRemoveRows(const QModelIndex & /*unused*/, int /*unused*/, int /*unused*/) override;
     void _beginInsertRows(const QModelIndex & /*unused*/, int /*unused*/, int /*unused*/) override;
     void _endRemoveRows() override;
@@ -102,7 +106,7 @@ protected:
     /** @brief This is an helper function that finishes a construction of a freshly created TimelineItemModel */
     static void finishConstruct(const std::shared_ptr<TimelineItemModel> &ptr);
 
-signals:
+Q_SIGNALS:
     /** @brief Triggered when a video track visibility changed */
     void trackVisibilityChanged();
     void showTrackEffectStack(int tid);

@@ -38,7 +38,7 @@ public:
      */
     bool isValid() const;
 
-public slots:
+public Q_SLOTS:
     /** @brief change the range of the widget
         @param min New minimum value
         @param max New maximum value
@@ -52,9 +52,9 @@ private:
     TimecodeDisplay *m_display;
     QSlider *m_slider;
 
-private slots:
+private Q_SLOTS:
     void slotUpdatePosition();
 
-signals:
+Q_SIGNALS:
     void valueChanged();
 };

@@ -4,6 +4,7 @@
 */
 #include "catch.hpp"
 #include "doc/docundostack.hpp"
+#include "doc/kdenlivedoc.h"
 #include "test_utils.hpp"
 
 #include <QString>
@@ -18,7 +19,6 @@
 #include "core.h"
 
 using namespace fakeit;
-Mlt::Profile profile_mix;
 
 TEST_CASE("Simple Mix", "[SameTrackMix]")
 {
@@ -28,35 +28,38 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
 
     // Create timeline
     auto binModel = pCore->projectItemModel();
-    QUuid uuid = QUuid::createUuid();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
+    KdenliveDoc document(undoStack);
+    Mock<KdenliveDoc> docMock(document);
+    KdenliveDoc &mockedDoc = docMock.get();
 
+    // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
     When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
-
+    When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
-
-    // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(uuid, &profile_mix, undoStack);
-    Mock<TimelineItemModel> timMock(tim);
-    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline);
+    mocked.m_project = &mockedDoc;
+    QDateTime documentDate = QDateTime::currentDateTime();
+    mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
+    mocked.m_activeTimelineModel = timeline;
+    mocked.testSetActiveDocument(&mockedDoc, timeline);
 
     // Create a request
-    int tid1 = TrackModel::construct(timeline, -1, -1, QString(), true);
-    int tid3 = TrackModel::construct(timeline, -1, -1, QString(), true);
-    int tid2 = TrackModel::construct(timeline);
-    int tid4 = TrackModel::construct(timeline);
+    int tid1 = timeline->getTrackIndexFromPosition(0);
+    int tid3 = timeline->getTrackIndexFromPosition(1);
+    int tid2 = timeline->getTrackIndexFromPosition(2);
+    int tid4 = timeline->getTrackIndexFromPosition(3);
 
     // Create clip with audio
-    QString binId = createProducerWithSound(profile_mix, binModel, 100);
+    QString binId = createProducerWithSound(*timeline->getProfile(), binModel, 100);
 
     // Create video clip
-    QString binId2 = createProducer(profile_mix, "red", binModel, 50, false);
+    QString binId2 = createProducer(*timeline->getProfile(), "red", binModel, 50, false);
     // Setup insert stream data
     QMap<int, QString> audioInfo;
     audioInfo.insert(1, QStringLiteral("stream1"));
@@ -955,7 +958,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         undoStack->undo();
 
         state0();
-        binModel->clean();
     }
+    binModel->clean();
     pCore->m_projectManager = nullptr;
 }

@@ -231,7 +231,7 @@ void RenderPresetRepository::parseMltPresets()
         const QStringList profiles = root.entryList(QDir::Files, QDir::Name);
         for (const QString &prof : profiles) {
             std::unique_ptr<RenderPresetModel> model(
-                new RenderPresetModel(groupName, root.absoluteFilePath(prof), prof, QString("properties=\"lossless/" + prof + "\""), true));
+                new RenderPresetModel(groupName, root.absoluteFilePath(prof), prof, QString("properties=lossless/" + prof), true));
             if (m_profiles.count(model->name()) == 0) {
                 m_groups.append(model->groupName());
                 m_groups.removeDuplicates();
@@ -244,7 +244,7 @@ void RenderPresetRepository::parseMltPresets()
         QStringList profiles = root.entryList(QDir::Files, QDir::Name);
         for (const QString &prof : qAsConst(profiles)) {
             std::unique_ptr<RenderPresetModel> model(
-                new RenderPresetModel(groupName, root.absoluteFilePath(prof), prof, QString("properties=\"stills/" + prof + "\""), false));
+                new RenderPresetModel(groupName, root.absoluteFilePath(prof), prof, QString("properties=stills/" + prof), false));
             m_groups.append(model->groupName());
             m_groups.removeDuplicates();
             m_profiles.insert(std::make_pair(model->name(), std::move(model)));
@@ -252,7 +252,7 @@ void RenderPresetRepository::parseMltPresets()
         // Add GIF as image sequence
         root.cdUp();
         std::unique_ptr<RenderPresetModel> model(
-            new RenderPresetModel(groupName, root.absoluteFilePath(QStringLiteral("GIF")), QStringLiteral("GIF"), QStringLiteral("properties=\"GIF\""), false));
+            new RenderPresetModel(groupName, root.absoluteFilePath(QStringLiteral("GIF")), QStringLiteral("GIF"), QStringLiteral("properties=GIF"), false));
         if (m_profiles.count(model->name()) == 0) {
             m_groups.append(model->groupName());
             m_groups.removeDuplicates();

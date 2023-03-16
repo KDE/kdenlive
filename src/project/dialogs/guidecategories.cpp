@@ -97,6 +97,7 @@ GuideCategories::GuideCategories(KdenliveDoc *doc, QWidget *parent)
     };
     QStringList guidesCategories = doc ? doc->guidesCategories() : KdenliveSettings::guidesCategories();
     QList<int> existingCategories;
+    std::shared_ptr<MarkerListModel> markerModel = doc ? doc->getGuideModel(doc->activeUuid) : nullptr;
     for (auto &g : guidesCategories) {
         if (g.count(QLatin1Char(':')) < 2) {
             // Invalid guide data found
@@ -113,7 +114,7 @@ GuideCategories::GuideCategories(KdenliveDoc *doc, QWidget *parent)
         item->setData(Qt::UserRole + 1, ix);
         // Check usage
         if (doc) {
-            int count = doc->getGuideModel()->getAllMarkers(ix).count();
+            int count = markerModel->getAllMarkers(ix).count();
             count += pCore->bin()->getAllClipMarkers(ix);
             item->setData(Qt::UserRole + 2, count);
         }

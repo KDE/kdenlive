@@ -205,17 +205,17 @@ protected:
     void showEvent(QShowEvent *) override; // Called when the widget is activated via the Menu entry
     //    void raise(); // Called only when  manually calling the event -> useless
 
-public slots:
+public Q_SLOTS:
     /** Forces an update of all layers. */
     void forceUpdate(bool doUpdate = true);
     void forceUpdateHUD();
     void forceUpdateScope();
     void forceUpdateBackground();
 
-protected slots:
+protected Q_SLOTS:
     void slotAutoRefreshToggled(bool);
 
-signals:
+Q_SIGNALS:
     /**
       \param mseconds represents the time taken for the calculation.
       \param accelerationFactor is the acceleration factor that has been used for this calculation.
@@ -281,7 +281,7 @@ private:
 
     bool m_scopeWarningPrinted{false};
 
-protected slots:
+protected Q_SLOTS:
     void slotContextMenuRequested(const QPoint &pos);
     /** To be called when a new frame has been received.
         The scope then decides whether and when it wants to recalculate the scope, depending

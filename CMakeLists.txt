@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.16)
 # KDE Application Version, managed by release script
 set (RELEASE_SERVICE_VERSION_MAJOR "23")
 set (RELEASE_SERVICE_VERSION_MINOR "03")
-set (RELEASE_SERVICE_VERSION_MICRO "70")
+set (RELEASE_SERVICE_VERSION_MICRO "80")
 
 set(KDENLIVE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_VERSION_MINOR}.${RELEASE_SERVICE_VERSION_MICRO}")
 
@@ -32,18 +32,17 @@ option(USE_VERSIONLESS_TARGETS "Use versionless targets" OFF)
 option(BUILD_QCH "Build source code documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)" OFF)
 add_feature_info(QCH ${BUILD_QCH} "Source code documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)")
 
-option(BUILD_DESIGNERPLUGIN "Build plugin for Qt Designer" ON)
+option(BUILD_DESIGNERPLUGIN "Build plugin for Qt Designer" OFF)
 
 # Minimum versions of main dependencies.
 set(MLT_MIN_MAJOR_VERSION 7)
-set(MLT_MIN_MINOR_VERSION 10)
+set(MLT_MIN_MINOR_VERSION 14)
 set(MLT_MIN_PATCH_VERSION 0)
 set(MLT_MIN_VERSION ${MLT_MIN_MAJOR_VERSION}.${MLT_MIN_MINOR_VERSION}.${MLT_MIN_PATCH_VERSION})
 
 # KDE Frameworks
 set(KF_DEP_VERSION "5.92.0")
 find_package(ECM ${KF_DEP_VERSION} REQUIRED CONFIG)
-set(KDE_COMPILERSETTINGS_LEVEL 5.80)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
 
 ## include ECM Modules
@@ -59,6 +58,7 @@ include(ECMEnableSanitizers)
 include(ECMAddQch)
 include(QtVersionOption)
 include(ECMDeprecationSettings)
+remove_definitions(-DQT_NO_CAST_FROM_ASCII) # Defined in KDECompilerSettings, but we don't want that yet
 
 add_definitions(-DTRANSLATION_DOMAIN=\"kdenlive\")
 find_package(KF5 ${KF_DEP_VERSION}

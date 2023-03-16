@@ -75,7 +75,7 @@ public:
     /** @brief Used to pass a standard action like copy or paste to the effect stack widget */
     void sendStandardCommand(int command);
 
-public slots:
+public Q_SLOTS:
     void slotSyncEffectsPos(int pos);
     /** @brief Enable / disable an effect. */
     void slotDisable(bool disable);
@@ -92,7 +92,7 @@ public slots:
     /** @brief Open a save effect dialog */
     void slotSaveEffect();
 
-private slots:
+private Q_SLOTS:
     void setWidgetHeight(qreal value);
     void enableView(bool enabled);
     void enableHideKeyframes(bool enabled);
@@ -131,6 +131,7 @@ private:
     QPoint m_dragStart;
     TimecodeDisplay *m_inPos;
     TimecodeDisplay *m_outPos;
+    bool m_dragging;
 
 protected:
     void mouseDoubleClickEvent(QMouseEvent *event) override;
@@ -141,7 +142,7 @@ protected:
     void dragLeaveEvent(QDragLeaveEvent *event) override;
     void dropEvent(QDropEvent *event) override;
 
-signals:
+Q_SIGNALS:
     void parameterChanged(const QDomElement &, const QDomElement &, int);
     void syncEffectsPos(int);
     void effectStateChanged(bool, int ix, MonitorSceneType effectNeedsMonitorScene);
@@ -160,7 +161,7 @@ signals:
     void deleteGroup(const QDomDocument &);
     void importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, const QMap<QString, QString> &keyframes = QMap<QString, QString>());
     void switchHeight(std::shared_ptr<EffectItemModel> model, int height);
-    void startDrag(QPixmap, std::shared_ptr<EffectItemModel> effectModel);
+    void startDrag(const QPixmap, const QString assetId, ObjectId sourceObject, int row);
     void activateEffect(int row);
     void showEffectZone(ObjectId id, QPair<int, int> inOut, bool checked);
     void refresh();

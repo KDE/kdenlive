@@ -32,7 +32,7 @@ QImage AbstractGfxScopeWidget::renderScope(uint accelerationFactor)
 void AbstractGfxScopeWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     AbstractScopeWidget::mouseReleaseEvent(event);
-    emit signalFrameRequest(widgetName());
+    Q_EMIT signalFrameRequest(widgetName());
 }
 
 ///// Slots /////
@@ -47,7 +47,7 @@ void AbstractGfxScopeWidget::slotRenderZoneUpdated(const QImage &frame)
 void AbstractGfxScopeWidget::slotAutoRefreshToggled(bool autoRefresh)
 {
     if (autoRefresh) {
-        emit signalFrameRequest(widgetName());
+        Q_EMIT signalFrameRequest(widgetName());
     }
 }
 

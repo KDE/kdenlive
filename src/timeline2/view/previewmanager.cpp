@@ -5,6 +5,7 @@
 */
 
 #include "previewmanager.h"
+#include "bin/projectitemmodel.h"
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
@@ -18,15 +19,16 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <QCollator>
+#include <QCryptographicHash>
 #include <QMutexLocker>
 #include <QSaveFile>
 #include <QStandardPaths>
 
-PreviewManager::PreviewManager(TimelineController *controller, Mlt::Tractor *tractor)
-    : QObject()
+PreviewManager::PreviewManager(Mlt::Tractor *tractor, QUuid uuid, QObject *parent)
+    : QObject(parent)
     , workingPreview(-1)
-    , m_controller(controller)
     , m_tractor(tractor)
+    , m_uuid(uuid)
     , m_previewTrack(nullptr)
     , m_overlayTrack(nullptr)
     , m_warnOnCrash(true)
@@ -84,15 +86,24 @@ bool PreviewManager::initialize()
         pCore->displayMessage(i18n("Wrong document ID, cannot create temporary folder"), ErrorMessage);
         return false;
     }
-    m_cacheDir = doc->getCacheDir(CachePreview, &ok);
-    if (!m_cacheDir.exists() || !ok) {
-        pCore->displayMessage(i18n("Cannot create folder %1", m_cacheDir.absolutePath()), ErrorMessage);
+    m_cacheDir = doc->getCacheDir(CachePreview, &ok, m_uuid);
+    qDebug() << ":: GOT CACHE DIR: " << m_cacheDir.absolutePath();
+    if (!ok || !m_cacheDir.exists()) {
+        pCore->displayMessage(i18n("Cannot read folder %1", m_cacheDir.absolutePath()), ErrorMessage);
         return false;
     }
-    if (m_cacheDir.dirName() != QLatin1String("preview") || m_cacheDir == QDir() ||
-        (!m_cacheDir.exists(QStringLiteral("undo")) && !m_cacheDir.mkdir(QStringLiteral("undo"))) || !m_cacheDir.absolutePath().contains(documentId)) {
-        pCore->displayMessage(i18n("Something is wrong with cache folder %1", m_cacheDir.absolutePath()), ErrorMessage);
-        return false;
+    if (m_uuid == doc->uuid()) {
+        if (m_cacheDir.dirName() != QLatin1String("preview") || m_cacheDir == QDir() ||
+            (!m_cacheDir.exists(QStringLiteral("undo")) && !m_cacheDir.mkdir(QStringLiteral("undo"))) || !m_cacheDir.absolutePath().contains(documentId)) {
+            pCore->displayMessage(i18n("Something is wrong with cache folder %1", m_cacheDir.absolutePath()), ErrorMessage);
+            return false;
+        }
+    } else {
+        if (m_cacheDir.dirName().toLatin1() != QCryptographicHash::hash(m_uuid.toByteArray(), QCryptographicHash::Md5).toHex() || m_cacheDir == QDir() ||
+            (!m_cacheDir.exists(QStringLiteral("undo")) && !m_cacheDir.mkdir(QStringLiteral("undo"))) || !m_cacheDir.absolutePath().contains(documentId)) {
+            pCore->displayMessage(i18n("Something is wrong with cache folder %1", m_cacheDir.absolutePath()), ErrorMessage);
+            return false;
+        }
     }
     if (!loadParams()) {
         pCore->displayMessage(i18n("Invalid timeline preview parameters"), ErrorMessage);
@@ -124,8 +135,8 @@ bool PreviewManager::buildPreviewTrack()
     }
     // Create overlay track
     qDebug() << "/// BUILDING PREVIEW TRACK\n----------------------\n----------------__";
-    m_previewTrack = new Mlt::Playlist(pCore->getCurrentProfile()->profile());
-    m_previewTrack->set("id", "timeline_preview");
+    m_previewTrack = new Mlt::Playlist(*pCore->getProjectProfile());
+    m_previewTrack->set("kdenlive:playlistid", "timeline_preview");
     m_tractor->lock();
     reconnectTrack();
     m_tractor->unlock();
@@ -174,10 +185,10 @@ void PreviewManager::loadChunks(QVariantList previewChunks, QVariantList dirtyCh
                 m_dirtyChunks << i;
             }
         }
-        emit m_controller->dirtyChunksChanged();
+        Q_EMIT dirtyChunksChanged();
     }
     if (!previewChunks.isEmpty()) {
-        emit m_controller->renderedChunksChanged();
+        Q_EMIT renderedChunksChanged();
     }
 }
 
@@ -189,8 +200,8 @@ void PreviewManager::deletePreviewTrack()
     m_previewTrack = nullptr;
     m_dirtyChunks.clear();
     m_renderedChunks.clear();
-    emit m_controller->dirtyChunksChanged();
-    emit m_controller->renderedChunksChanged();
+    Q_EMIT dirtyChunksChanged();
+    Q_EMIT renderedChunksChanged();
     m_tractor->unlock();
 }
 
@@ -212,14 +223,14 @@ void PreviewManager::reconnectTrack()
         m_tractor->insert_track(*m_previewTrack, m_previewTrackIndex);
         std::shared_ptr<Mlt::Producer> tk(m_tractor->track(m_previewTrackIndex));
         tk->set("hide", 2);
-        // tk->set("id", "timeline_preview");
+        // tk->set("kdenlive:playlistid", "timeline_preview");
         increment++;
     }
     if (m_overlayTrack) {
         m_tractor->insert_track(*m_overlayTrack, m_previewTrackIndex + increment);
         std::shared_ptr<Mlt::Producer> tk(m_tractor->track(m_previewTrackIndex + increment));
         tk->set("hide", 2);
-        // tk->set("id", "timeline_overlay");
+        // tk->set("kdenlive:playlistid", "timeline_overlay");
     }
 }
 
@@ -227,14 +238,14 @@ void PreviewManager::disconnectTrack()
 {
     if (m_previewTrackIndex > -1) {
         Mlt::Producer *prod = m_tractor->track(m_previewTrackIndex);
-        if (strcmp(prod->get("id"), "timeline_preview") == 0 || strcmp(prod->get("id"), "timeline_overlay") == 0) {
+        if (strcmp(prod->get("kdenlive:playlistid"), "timeline_preview") == 0 || strcmp(prod->get("kdenlive:playlistid"), "timeline_overlay") == 0) {
             m_tractor->remove_track(m_previewTrackIndex);
         }
         delete prod;
         if (m_tractor->count() == m_previewTrackIndex + 1) {
             // overlay track still here, remove
             Mlt::Producer *trkprod = m_tractor->track(m_previewTrackIndex);
-            if (strcmp(trkprod->get("id"), "timeline_overlay") == 0) {
+            if (strcmp(trkprod->get("kdenlive:playlistid"), "timeline_overlay") == 0) {
                 m_tractor->remove_track(m_previewTrackIndex);
             }
             delete trkprod;
@@ -328,7 +339,7 @@ void PreviewManager::invalidatePreviews()
             m_undoDir.rmdir(QString::number(ix));
         } else {
             // new chunks archived, cleanup old ones
-            emit cleanupOldPreviews();
+            Q_EMIT cleanupOldPreviews();
         }
     } else {
         // Restore existing chunks, delete others
@@ -377,8 +388,8 @@ void PreviewManager::invalidatePreviews()
                 m_renderedChunks << ck;
             }
             m_dirtyMutex.unlock();
-            emit m_controller->dirtyChunksChanged();
-            emit m_controller->renderedChunksChanged();
+            Q_EMIT dirtyChunksChanged();
+            Q_EMIT renderedChunksChanged();
             reloadChunks(foundChunks);
         }
     }
@@ -441,8 +452,8 @@ void PreviewManager::clearPreviewRange(bool resetZones)
     if (resetZones) {
         m_dirtyChunks.clear();
     }
-    emit m_controller->renderedChunksChanged();
-    emit m_controller->dirtyChunksChanged();
+    Q_EMIT renderedChunksChanged();
+    Q_EMIT dirtyChunksChanged();
 }
 
 void PreviewManager::addPreviewRange(const QPoint zone, bool add)
@@ -468,7 +479,7 @@ void PreviewManager::addPreviewRange(const QPoint zone, bool add)
         }
     }
     if (add) {
-        emit m_controller->dirtyChunksChanged();
+        Q_EMIT dirtyChunksChanged();
         if (m_previewProcess.state() == QProcess::NotRunning && KdenliveSettings::autopreview()) {
             m_previewTimer.start();
         }
@@ -493,8 +504,8 @@ void PreviewManager::addPreviewRange(const QPoint zone, bool add)
         if (hasPreview) {
             m_previewTrack->consolidate_blanks();
         }
-        emit m_controller->renderedChunksChanged();
-        emit m_controller->dirtyChunksChanged();
+        Q_EMIT renderedChunksChanged();
+        Q_EMIT dirtyChunksChanged();
         m_tractor->unlock();
         if (isRendering || KdenliveSettings::autopreview()) {
             m_previewTimer.start();
@@ -509,22 +520,24 @@ void PreviewManager::abortRendering()
     }
     // Don't display error message on voluntary abort
     m_warnOnCrash = false;
-    emit abortPreview();
+    Q_EMIT abortPreview();
     m_previewProcess.waitForFinished();
     if (m_previewProcess.state() != QProcess::NotRunning) {
         m_previewProcess.kill();
         m_previewProcess.waitForFinished();
     }
     // Re-init time estimation
-    emit previewRender(-1, QString(), 1000);
+    Q_EMIT previewRender(-1, QString(), 1000);
+}
+
+bool PreviewManager::hasDefinedRange() const
+{
+    return (!m_renderedChunks.isEmpty() || !m_dirtyChunks.isEmpty());
 }
 
 void PreviewManager::startPreviewRender()
 {
     QMutexLocker lock(&m_previewMutex);
-    if (m_renderedChunks.isEmpty() && m_dirtyChunks.isEmpty()) {
-        m_controller->addPreviewRange(true);
-    }
     if (!m_dirtyChunks.isEmpty()) {
         // Abort any rendering
         abortRendering();
@@ -533,7 +546,8 @@ void PreviewManager::startPreviewRender()
         m_errorLog.clear();
         const QString sceneList = m_cacheDir.absoluteFilePath(QStringLiteral("preview.mlt"));
         if (!KdenliveSettings::proxypreview() && pCore->currentDoc()->useProxy()) {
-            const QString playlist = pCore->window()->getCurrentTimeline()->model()->sceneList(m_cacheDir.absolutePath());
+            const QString playlist =
+                pCore->projectItemModel()->sceneList(m_cacheDir.absolutePath(), QString(), QString(), pCore->currentDoc()->getTimeline(m_uuid)->tractor(), -1);
             QDomDocument doc;
             doc.setContent(playlist);
             pCore->currentDoc()->useOriginals(doc);
@@ -549,7 +563,7 @@ void PreviewManager::startPreviewRender()
                 return;
             }
         } else {
-            pCore->window()->getCurrentTimeline()->model()->sceneList(m_cacheDir.absolutePath(), sceneList);
+            pCore->currentDoc()->getTimeline(m_uuid)->sceneList(m_cacheDir.absolutePath(), sceneList);
         }
         m_previewTimer.stop();
         doPreviewRender(sceneList);
@@ -558,19 +572,18 @@ void PreviewManager::startPreviewRender()
 
 void PreviewManager::receivedStderr()
 {
-    QStringList resultList = QString::fromLocal8Bit(m_previewProcess.readAllStandardError()).split(QLatin1Char('\n'));
-    resultList.removeAll(QString(""));
+    QStringList resultList = QString::fromLocal8Bit(m_previewProcess.readAllStandardError()).split(QLatin1Char('\n'), Qt::SkipEmptyParts);
     for (auto &result : resultList) {
         if (result.startsWith(QLatin1String("START:"))) {
             if (m_previewProcess.state() == QProcess::Running) {
                 workingPreview = result.section(QLatin1String("START:"), 1).simplified().toInt();
-                emit m_controller->workingPreviewChanged();
+                Q_EMIT workingPreviewChanged();
             }
         } else if (result.startsWith(QLatin1String("DONE:"))) {
             int chunk = result.section(QLatin1String("DONE:"), 1).simplified().toInt();
             m_processedChunks++;
             QString fileName = QStringLiteral("%1.%2").arg(chunk).arg(m_extension);
-            emit previewRender(chunk, m_cacheDir.absoluteFilePath(fileName), 1000 * m_processedChunks / m_chunksToRender);
+            Q_EMIT previewRender(chunk, m_cacheDir.absoluteFilePath(fileName), 1000 * m_processedChunks / m_chunksToRender);
         } else {
             m_errorLog.append(result);
         }
@@ -610,7 +623,7 @@ void PreviewManager::processEnded(int exitCode, QProcess::ExitStatus status)
     const QString sceneList = m_cacheDir.absoluteFilePath(QStringLiteral("preview.mlt"));
     QFile::remove(sceneList);
     if (status == QProcess::QProcess::CrashExit || exitCode != 0) {
-        emit previewRender(0, m_errorLog, -1);
+        Q_EMIT previewRender(0, m_errorLog, -1);
         if (workingPreview >= 0) {
             const QString fileName = QStringLiteral("%1.%2").arg(workingPreview).arg(m_extension);
             if (m_cacheDir.exists(fileName)) {
@@ -623,7 +636,7 @@ void PreviewManager::processEnded(int exitCode, QProcess::ExitStatus status)
     }
     workingPreview = -1;
     m_warnOnCrash = true;
-    emit m_controller->workingPreviewChanged();
+    Q_EMIT workingPreviewChanged();
 }
 
 void PreviewManager::slotProcessDirtyChunks()
@@ -711,8 +724,8 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
         m_tractor->unlock();
         if (chunksChanged) {
             m_previewTrack->consolidate_blanks();
-            emit m_controller->renderedChunksChanged();
-            emit m_controller->dirtyChunksChanged();
+            Q_EMIT renderedChunksChanged();
+            Q_EMIT dirtyChunksChanged();
         }
     } else if (wasInDirtyZone) {
         // Abort rendering, playlist needs to be recreated
@@ -736,7 +749,7 @@ void PreviewManager::reloadChunks(const QVariantList &chunks)
         if (m_previewTrack->is_blank_at(ix.toInt())) {
             QString fileName = m_cacheDir.absoluteFilePath(QStringLiteral("%1.%2").arg(ix.toInt()).arg(m_extension));
             fileName.prepend(QStringLiteral("avformat:"));
-            Mlt::Producer prod(pCore->getCurrentProfile()->profile(), fileName.toUtf8().constData());
+            Mlt::Producer prod(*pCore->getProjectProfile(), fileName.toUtf8().constData());
             if (prod.is_valid()) {
                 // m_ruler->updatePreview(ix, true);
                 prod.set("mlt_service", "avformat-novalidate");
@@ -773,13 +786,13 @@ void PreviewManager::gotPreviewRender(int frame, const QString &file, int progre
         return;
     }
     if (m_previewTrack->is_blank_at(frame)) {
-        Mlt::Producer prod(pCore->getCurrentProfile()->profile(), QString("avformat:%1").arg(file).toUtf8().constData());
+        Mlt::Producer prod(*pCore->getProjectProfile(), QString("avformat:%1").arg(file).toUtf8().constData());
         if (prod.is_valid() && prod.get_length() == KdenliveSettings::timelinechunks()) {
             m_dirtyMutex.lock();
             m_dirtyChunks.removeAll(QVariant(frame));
             m_dirtyMutex.unlock();
             m_renderedChunks << frame;
-            emit m_controller->renderedChunksChanged();
+            Q_EMIT renderedChunksChanged();
             prod.set("mlt_service", "avformat-novalidate");
             prod.set("mute_on_pause", 1);
             m_tractor->lock();
@@ -799,13 +812,13 @@ void PreviewManager::gotPreviewRender(int frame, const QString &file, int progre
 
 void PreviewManager::corruptedChunk(int frame, const QString &fileName)
 {
-    emit abortPreview();
+    Q_EMIT abortPreview();
     m_previewProcess.waitForFinished();
     if (workingPreview >= 0) {
         workingPreview = -1;
-        emit m_controller->workingPreviewChanged();
+        Q_EMIT workingPreviewChanged();
     }
-    emit previewRender(0, m_errorLog, -1);
+    Q_EMIT previewRender(0, m_errorLog, -1);
     m_cacheDir.remove(fileName);
     if (!m_dirtyChunks.contains(frame)) {
         QMutexLocker lock(&m_dirtyMutex);
@@ -817,7 +830,7 @@ void PreviewManager::corruptedChunk(int frame, const QString &fileName)
 int PreviewManager::setOverlayTrack(Mlt::Playlist *overlay)
 {
     m_overlayTrack = overlay;
-    m_overlayTrack->set("id", "timeline_overlay");
+    m_overlayTrack->set("kdenlive:playlistid", "timeline_overlay");
     reconnectTrack();
     return m_previewTrackIndex;
 }
@@ -897,4 +910,9 @@ int PreviewManager::addedTracks() const
         return 1;
     }
     return -1;
+}
+
+bool PreviewManager::isRunning() const
+{
+    return workingPreview >= 0 || m_previewProcess.state() != QProcess::NotRunning;
 }

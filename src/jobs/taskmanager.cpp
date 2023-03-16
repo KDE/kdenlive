@@ -140,7 +140,7 @@ void TaskManager::updateJobCount()
         count += task.second.size();
     }
     // Set jobs count
-    emit jobCount(count);
+    Q_EMIT jobCount(count);
 }
 
 void TaskManager::taskDone(int cid, AbstractTask *task)
@@ -221,7 +221,7 @@ int TaskManager::getJobProgressForClip(const ObjectId &owner)
     QStringList jobsUuids;
     if (m_taskList.find(owner.second) == m_taskList.end()) {
         if (owner.second == displayedClip) {
-            emit detailedProgress(owner, jobNames, jobsProgress, jobsUuids);
+            Q_EMIT detailedProgress(owner, jobNames, jobsProgress, jobsUuids);
         }
         return 100;
     }
@@ -241,7 +241,7 @@ int TaskManager::getJobProgressForClip(const ObjectId &owner)
     }
     total /= cnt;
     if (owner.second == displayedClip) {
-        emit detailedProgress(owner, jobNames, jobsProgress, jobsUuids);
+        Q_EMIT detailedProgress(owner, jobNames, jobsProgress, jobsUuids);
     }
     return total;
 }

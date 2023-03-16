@@ -106,9 +106,9 @@ GLWidget::GLWidget(int id, QWidget *parent)
     , m_openGLSync(false)
     , m_ClientWaitSync(nullptr)
 {
+#if KDECLARATIVE_VERSION < QT_VERSION_CHECK(5, 98, 0)
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());
-#if KDECLARATIVE_VERSION < QT_VERSION_CHECK(5, 98, 0)
     kdeclarative.setupEngine(engine());
 #else
     engine()->addImageProvider(QStringLiteral("icon"), new KQuickIconProvider);
@@ -146,7 +146,7 @@ GLWidget::GLWidget(int id, QWidget *parent)
 
     m_refreshTimer.setSingleShot(true);
     m_refreshTimer.setInterval(10);
-    m_blackClip.reset(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "color:0"));
+    m_blackClip.reset(new Mlt::Producer(*pCore->getProjectProfile(), "color:0"));
     m_blackClip->set("mlt_image_format", "rgba");
     m_blackClip->set("kdenlive:id", "black");
     m_blackClip->set("out", 3);
@@ -301,7 +301,7 @@ void GLWidget::resizeGL(int width, int height)
             rootQml->setProperty("splitterPos", x + (rootQml->property("percentage").toDouble() * w));
         }
     }
-    emit rectChanged();
+    Q_EMIT rectChanged();
 }
 
 void GLWidget::resizeEvent(QResizeEvent *event)
@@ -515,7 +515,7 @@ bool GLWidget::initGPUAccel()
 {
     if (!KdenliveSettings::gpu_accel()) return false;
 
-    m_glslManager = new Mlt::Filter(pCore->getCurrentProfile()->profile(), "glsl.manager");
+    m_glslManager = new Mlt::Filter(*pCore->getProjectProfile(), "glsl.manager");
     return m_glslManager->is_valid();
 }
 
@@ -528,7 +528,7 @@ void GLWidget::disableGPUAccel()
     KdenliveSettings::setGpu_accel(false);
     // Need to destroy MLT global reference to prevent filters from trying to use GPU.
     mlt_properties_set_data(mlt_global_properties(), "glslManager", nullptr, 0, nullptr, nullptr);
-    emit gpuNotSupported();
+    Q_EMIT gpuNotSupported();
 }
 
 bool GLWidget::onlyGLESGPUAccel() const
@@ -587,13 +587,12 @@ void GLWidget::paintGL()
     float width = this->width() * devicePixelRatioF();
     float height = this->height() * devicePixelRatioF();
 
+    f->glClearColor(float(m_bgColor.redF()), float(m_bgColor.greenF()), float(m_bgColor.blueF()), 0);
+    f->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     f->glDisable(GL_BLEND);
     f->glDisable(GL_DEPTH_TEST);
     f->glDepthMask(GL_FALSE);
     f->glViewport(0, qRound(m_displayRulerHeight * devicePixelRatioF() * 0.5), int(width), int(height));
-    check_error(f);
-    f->glClearColor(float(m_bgColor.redF()), float(m_bgColor.greenF()), float(m_bgColor.blueF()), 0);
-    f->glClear(GL_COLOR_BUFFER_BIT);
     check_error(f);
 
     if (!acquireSharedFrameTextures()) return;
@@ -676,7 +675,7 @@ void GLWidget::paintGL()
         glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
         check_error(f);
         m_fbo->release();
-        emit analyseFrame(m_fbo->toImage());
+        Q_EMIT analyseFrame(m_fbo->toImage());
         m_sendFrame = false;
     }
     // Cleanup
@@ -829,9 +828,9 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
         }
     } else if ((event->button() & Qt::RightButton) != 0u) {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        emit showContextMenu(event->globalPos());
+        Q_EMIT showContextMenu(event->globalPos());
 #else
-        emit showContextMenu(event->globalPosition().toPoint());
+        Q_EMIT showContextMenu(event->globalPosition().toPoint());
 #endif
     } else if ((event->button() & Qt::MiddleButton) != 0u) {
         m_panStart = event->pos();
@@ -853,7 +852,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
         return;
     }
     if (!m_panStart.isNull()) {
-        emit panView(m_panStart - event->pos());
+        Q_EMIT panView(m_panStart - event->pos());
         m_panStart = event->pos();
         event->accept();
         return;
@@ -861,7 +860,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
     if (!event->isAccepted() && !m_dragStart.isNull() && (event->pos() - m_dragStart).manhattanLength() >= QApplication::startDragDistance()) {
         m_dragStart = QPoint();
-        emit startDrag();
+        Q_EMIT startDrag();
     }
     event->accept();
 }
@@ -870,7 +869,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
 {
     QQuickWidget::keyPressEvent(event);
     if (!event->isAccepted()) {
-        emit passKeyEvent(event);
+        Q_EMIT passKeyEvent(event);
     }
 }
 
@@ -928,7 +927,7 @@ void GLWidget::startGlsl()
         if (m_glslManager->get_int("glsl_supported") == 0) {
             disableGPUAccel();
         } else {
-            emit started();
+            Q_EMIT started();
         }
     }
 }
@@ -941,12 +940,12 @@ static void onThreadStarted(mlt_properties owner, GLWidget *self, mlt_event_data
 
 void GLWidget::releaseMonitor()
 {
-    emit lockMonitor(false);
+    Q_EMIT lockMonitor(false);
 }
 
 void GLWidget::lockMonitor()
 {
-    emit lockMonitor(true);
+    Q_EMIT lockMonitor(true);
 }
 
 void GLWidget::stopGlsl()
@@ -975,7 +974,7 @@ int GLWidget::setProducer(const QString &file)
     if (m_producer) {
         m_producer.reset();
     }
-    m_producer = std::make_shared<Mlt::Producer>(new Mlt::Producer(pCore->getCurrentProfile()->profile(), nullptr, file.toUtf8().constData()));
+    m_producer = std::make_shared<Mlt::Producer>(new Mlt::Producer(*pCore->getProjectProfile(), nullptr, file.toUtf8().constData()));
     if (!m_producer || !m_producer->is_valid()) {
         m_producer.reset();
         m_producer = m_blackClip;
@@ -1032,7 +1031,9 @@ int GLWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool i
     }
     if (isActive) {
         startConsumer();
-        m_proxy->resetPosition();
+        if (position != -2) {
+            m_proxy->resetPosition();
+        }
     }
     m_consumer->set("scrub_audio", 0);
     if (position != -2) {
@@ -1231,7 +1232,7 @@ void GLWidget::reloadProfile()
         m_consumer.reset();
         existingConsumer = true;
     }
-    m_blackClip.reset(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "color:0"));
+    m_blackClip.reset(new Mlt::Producer(*pCore->getProjectProfile(), "color:0"));
     m_blackClip->set("kdenlive:id", "black");
     m_blackClip->set("mlt_image_format", "rgba");
     if (existingConsumer) {
@@ -1263,7 +1264,7 @@ void GLWidget::setZoom(float zoom, bool force)
     }
     double zoomRatio = double(zoom / m_zoom);
     m_zoom = zoom;
-    emit zoomChanged(zoomRatio);
+    Q_EMIT zoomChanged(zoomRatio);
     if (rootObject()) {
         rootObject()->setProperty("zoom", m_zoom);
         double scalex = rootObject()->property("scalex").toDouble() * zoomRatio;
@@ -1298,7 +1299,7 @@ void GLWidget::mouseReleaseEvent(QMouseEvent *event)
     }
     if (!m_dragStart.isNull() && m_panStart.isNull() && ((event->button() & Qt::LeftButton) != 0u) && !event->isAccepted()) {
         event->accept();
-        emit monitorPlay();
+        Q_EMIT monitorPlay();
     }
     m_dragStart = QPoint();
     m_panStart = QPoint();
@@ -1321,7 +1322,7 @@ void GLWidget::mouseDoubleClickEvent(QMouseEvent *event)
         return;
     }
     if ((rootObject() == nullptr) || rootObject()->objectName() != QLatin1String("rooteffectscene")) {
-        emit switchFullScreen();
+        Q_EMIT switchFullScreen();
     }
     event->accept();
 }
@@ -1489,12 +1490,12 @@ void FrameRenderer::showFrame(Mlt::Frame frame)
         for (int i = 0; i < 3; ++i) {
             std::swap(m_renderTexture[i], m_displayTexture[i]);
         }
-        emit textureReady(m_displayTexture[0], m_displayTexture[1], m_displayTexture[2]);
+        Q_EMIT textureReady(m_displayTexture[0], m_displayTexture[1], m_displayTexture[2]);
         m_context->doneCurrent();
     }
     // The frame is now done being modified and can be shared with the rest
     // of the application.
-    emit frameDisplayed(m_displayFrame);
+    Q_EMIT frameDisplayed(m_displayFrame);
     m_semaphore.release();
 }
 
@@ -1512,7 +1513,7 @@ void FrameRenderer::showGLFrame(Mlt::Frame frame)
     }
     // The frame is now done being modified and can be shared with the rest
     // of the application.
-    emit frameDisplayed(m_displayFrame);
+    Q_EMIT frameDisplayed(m_displayFrame);
     m_semaphore.release();
 }
 
@@ -1531,7 +1532,7 @@ void FrameRenderer::showGLNoSyncFrame(Mlt::Frame frame)
     }
     // The frame is now done being modified and can be shared with the rest
     // of the application.
-    emit frameDisplayed(m_displayFrame);
+    Q_EMIT frameDisplayed(m_displayFrame);
     m_semaphore.release();
 }
 
@@ -1582,7 +1583,7 @@ void GLWidget::refreshSceneLayout()
         return;
     }
     QSize s = pCore->getCurrentFrameSize();
-    emit m_proxy->profileChanged();
+    Q_EMIT m_proxy->profileChanged();
     rootObject()->setProperty("scalex", double(m_rect.width() * m_zoom) / s.width());
     rootObject()->setProperty("scaley", double(m_rect.height() * m_zoom) / s.height());
 }
@@ -1619,7 +1620,7 @@ void GLWidget::switchPlay(bool play, int offset, double speed)
             m_producer->seek(m_consumer->position() + (speed > 1. ? 1 : 0));
         }
     } else {
-        emit paused();
+        Q_EMIT paused();
         m_producer->set_speed(0);
         m_consumer->set("volume", 0);
         m_proxy->setSpeed(0);
@@ -1875,5 +1876,5 @@ void GLWidget::switchRuler(bool show)
     m_rulerHeight = show ? int(QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize() * 1.5) : 0;
     m_displayRulerHeight = m_rulerHeight;
     resizeGL(width(), height());
-    emit m_proxy->rulerHeightChanged();
+    Q_EMIT m_proxy->rulerHeightChanged();
 }

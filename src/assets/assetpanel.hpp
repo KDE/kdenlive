@@ -57,7 +57,7 @@ public:
     /** @brief Used to pass a standard action like copy or paste to the effect stack widget */
     void sendStandardCommand(int command);
 
-public slots:
+public Q_SLOTS:
     /** @brief Clear panel if displaying itemId */
     void clearAssetPanel(int itemId);
     void assetPanelWarning(const QString &service, const QString &id, const QString &message);
@@ -93,7 +93,7 @@ private:
     QScrollArea *m_sc;
     KMessageWidget *m_infoMessage;
 
-private slots:
+private Q_SLOTS:
     void processSplitEffect(bool enable);
     /** Displays the owner clip keyframes in timeline */
     void showKeyframes(bool enable);
@@ -102,7 +102,7 @@ private slots:
     /** Scroll effects view */
     void scrollTo(QRect rect);
 
-signals:
+Q_SIGNALS:
     void doSplitEffect(bool);
     void doSplitBinEffect(bool);
     void seekToPos(int);

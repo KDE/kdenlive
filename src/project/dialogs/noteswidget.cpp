@@ -6,6 +6,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "noteswidget.h"
 #include "bin/bin.h"
+#include "bin/projectclip.h"
+#include "bin/projectitemmodel.h"
 #include "core.h"
 #include "kdenlive_debug.h"
 
@@ -13,6 +15,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QMenu>
 #include <QMimeData>
 #include <QMouseEvent>
+#include <QToolTip>
+#include <QUuid>
 
 NotesWidget::NotesWidget(QWidget *parent)
     : QTextEdit(parent)
@@ -44,7 +48,7 @@ void NotesWidget::contextMenuEvent(QContextMenuEvent *event)
             menu->insertAction(menu->actions().at(1), a);
             if (!anchorPoints.isEmpty()) {
                 a = new QAction(i18n("Assign timestamps to current Bin Clip"), menu);
-                connect(a, &QAction::triggered, this, [this, anchors, anchorPoints]() { emit reAssign(anchors, anchorPoints); });
+                connect(a, &QAction::triggered, this, [this, anchors, anchorPoints]() { Q_EMIT reAssign(anchors, anchorPoints); });
                 menu->insertAction(menu->actions().at(2), a);
             }
         }
@@ -115,7 +119,7 @@ void NotesWidget::mousePressEvent(QMouseEvent *e)
         // That's a Bin Clip reference.
         pCore->selectBinClip(anchor.section(QLatin1Char('#'), 0, 0), true, anchor.section(QLatin1Char('#'), 1).toInt(), QPoint());
     } else {
-        emit seekProject(anchor);
+        Q_EMIT seekProject(anchor);
     }
     e->setAccepted(true);
 }
@@ -176,7 +180,7 @@ void NotesWidget::assignProjectNote()
     QStringList anchors = result.first;
     QList<QPoint> anchorPoints = result.second;
     if (!anchors.isEmpty()) {
-        emit reAssign(anchors, anchorPoints);
+        Q_EMIT reAssign(anchors, anchorPoints);
     } else {
         pCore->displayMessage(i18n("Select some timecodes to reassign"), ErrorMessage);
     }
@@ -201,7 +205,7 @@ void NotesWidget::addProjectNote()
         setTextCursor(cur);
         insertPlainText(QStringLiteral("\n"));
     }
-    emit insertNotesTimecode();
+    Q_EMIT insertNotesTimecode();
 }
 
 void NotesWidget::addTextNote(const QString &text)
@@ -211,7 +215,7 @@ void NotesWidget::addTextNote(const QString &text)
         cur.movePosition(QTextCursor::End);
         setTextCursor(cur);
     }
-    emit insertTextNote(text);
+    Q_EMIT insertTextNote(text);
 }
 
 void NotesWidget::insertFromMimeData(const QMimeData *source)
@@ -235,4 +239,34 @@ void NotesWidget::insertFromMimeData(const QMimeData *source)
     } else {
         insertPlainText(pastedText);
     }
+}
+
+bool NotesWidget::event(QEvent *event)
+{
+    if (event->type() == QEvent::ToolTip) {
+        QHelpEvent *helpEvent = static_cast<QHelpEvent *>(event);
+        const QString anchor = anchorAt(helpEvent->pos());
+        if (!anchor.isEmpty()) {
+            QString sequenceName;
+            if (anchor.contains(QLatin1Char('!'))) {
+                // We have a sequence reference
+                const QString binId = pCore->projectItemModel()->getSequenceId(QUuid(anchor.section(QLatin1Char('!'), 0, 0)));
+                if (!binId.isEmpty()) {
+                    std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(binId);
+                    if (clip) {
+                        sequenceName = clip->clipName();
+                    }
+                }
+            }
+            if (!sequenceName.isEmpty()) {
+                QToolTip::showText(helpEvent->globalPos(), sequenceName);
+            } else {
+                QToolTip::hideText();
+            }
+        } else {
+            QToolTip::hideText();
+        }
+        return true;
+    }
+    return QTextEdit::event(event);
 }

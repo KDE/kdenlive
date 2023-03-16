@@ -13,6 +13,19 @@
 
 #include <mlt++/MltProfile.h>
 
+class RenderPresetParams : public QMap<QString, QString>
+{
+public:
+    // the number of the enum entries maps to the index of the combo boxes in the preset edit dialog
+    enum RateControl { Unknown = 0, Average, Constant, Quality, Constrained };
+
+    QString toString();
+    void replacePlaceholder(const QString &placeholder, const QString &newValue);
+    void refreshX265Params();
+    RateControl videoRateControl() const;
+    bool hasAlpha();
+};
+
 /** @class RenderPresetModel
     @brief This class serves to describe the parameters of a render preset
  */
@@ -30,14 +43,12 @@ public:
 
     enum InstallType { BuildIn, Custom, Download };
 
-    enum RateControl { Unknown = 0, Average, Constant, Quality, Constrained };
-
     QDomElement toXml();
 
     QString name() const { return m_name; };
     QString note() const { return m_note; }
     QString standard() const { return m_standard; };
-    QString params(QStringList removeParams = {}) const;
+    RenderPresetParams params(QStringList removeParams = {}) const;
     QString extension() const;
     QString groupName() const { return m_groupName; };
     QString renderer() const { return m_renderer; };
@@ -59,9 +70,7 @@ public:
 
     QString getParam(const QString &name) const;
     bool hasParam(const QString &name) const;
-    RenderPresetModel::RateControl videoRateControl() const;
-    RenderPresetModel::RateControl audioRateControl() const;
-    QString x265Params() const;
+    RenderPresetParams::RateControl audioRateControl() const;
     InstallType installType() const;
     bool hasFixedSize() const;
     QString error() const;
@@ -69,6 +78,7 @@ public:
     int estimateFileSize(int length);
 
 private:
+    void setParams(const QString &params);
     void checkPreset();
 
     QString m_presetFile;
@@ -76,9 +86,9 @@ private:
     QString m_name;
     QString m_note;
     QString m_standard;
-    QString m_params;
-    QString m_extension;
     bool m_manual;
+    RenderPresetParams m_params;
+    QString m_extension;
     QString m_groupName;
     QString m_renderer;
     QString m_url;

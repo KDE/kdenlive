@@ -37,7 +37,7 @@ bool GuideFilterEventEater::eventFilter(QObject *obj, QEvent *event)
     switch (event->type()) {
     case QEvent::ShortcutOverride:
         if (static_cast<QKeyEvent *>(event)->key() == Qt::Key_Escape) {
-            emit clearSearchLine();
+            Q_EMIT clearSearchLine();
         }
         break;
     default:
@@ -417,7 +417,7 @@ void GuidesList::updateFilter(QList<int> categories)
     } else if (m_sortModel) {
         m_sortModel->slotSetFilters(categories);
         m_lastSelectedGuideCategories = categories;
-        emit pCore->refreshActiveGuides();
+        Q_EMIT pCore->refreshActiveGuides();
     }
 }
 

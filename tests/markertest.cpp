@@ -13,8 +13,6 @@
 #include "bin/model/markerlistmodel.hpp"
 #include "timeline2/model/snapmodel.hpp"
 
-Mlt::Profile profile_marker;
-
 using Marker = std::tuple<GenTime, QString, int>;
 double fps;
 
@@ -68,12 +66,14 @@ void checkStates(const std::shared_ptr<DocUndoStack> &undoStack, const std::shar
 
 TEST_CASE("Marker model", "[MarkerListModel]")
 {
+    auto binModel = pCore->projectItemModel();
     fps = pCore->getCurrentFps();
     GenTime::setFps(fps);
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    KdenliveDoc document(nullptr);
+    KdenliveDoc document(undoStack);
     Mock<KdenliveDoc> docMock(document);
     KdenliveDoc &mockedDoc = docMock.get();
+
     // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
@@ -81,15 +81,14 @@ TEST_CASE("Marker model", "[MarkerListModel]")
     When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
-
-    // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(mockedDoc.uuid(), &profile_marker, undoStack);
-    Mock<TimelineItemModel> timMock(tim);
-    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline);
+    mocked.m_project = &mockedDoc;
+    QDateTime documentDate = QDateTime::currentDateTime();
+    mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
+    mocked.m_activeTimelineModel = timeline;
     mocked.testSetActiveDocument(&mockedDoc, timeline);
 
-    std::shared_ptr<MarkerListModel> model = mockedDoc.getGuideModel();
+    std::shared_ptr<MarkerListModel> model = timeline->getGuideModel();
     std::shared_ptr<SnapModel> snaps = std::make_shared<SnapModel>();
     model->registerSnapModel(snaps);
 
@@ -272,5 +271,8 @@ TEST_CASE("Marker model", "[MarkerListModel]")
         undoStack->redo();
         checkMarkerList(model, list, snaps);
     }
+    snaps.reset();
+    // undoStack->clear();
+    binModel->clean();
     pCore->m_projectManager = nullptr;
 }

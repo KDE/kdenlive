@@ -59,7 +59,7 @@ void Core::prepareShutdown()
     QThreadPool::globalInstance()->clear();
 }
 
-Core::~Core()
+void Core::finishShutdown()
 {
     if (m_monitorManager) {
         delete m_monitorManager;
@@ -69,6 +69,8 @@ Core::~Core()
     }
     ClipController::mediaUnavailable.reset();
 }
+
+Core::~Core() {}
 
 bool Core::build(const QString &packageType, bool testMode)
 {
@@ -96,14 +98,24 @@ bool Core::build(const QString &packageType, bool testMode)
         // Check if we had a crash
         QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
         if (lockFile.exists()) {
-            // a previous instance crashed, propose to delete config files
-            if (KMessageBox::questionTwoActions(QApplication::activeWindow(),
-                                                i18n("Kdenlive crashed on last startup.\nDo you want to reset the configuration files ?"), {},
-                                                KStandardGuiItem::reset(), KStandardGuiItem::cont()) == KMessageBox::PrimaryAction) {
-                // Release startup crash lock file
-                QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
-                lockFile.remove();
-                return false;
+            // a previous instance crashed, propose some actions
+            if (KdenliveSettings::gpu_accel()) {
+                // Propose to disable movit
+                if (KMessageBox::questionTwoActions(QApplication::activeWindow(),
+                                                    i18n("Kdenlive crashed on last startup.\nDo you want to disable experimental GPU processing (Movit) ?"), {},
+                                                    KGuiItem(i18n("Disable GPU processing")), KStandardGuiItem::cont()) == KMessageBox::PrimaryAction) {
+                    KdenliveSettings::setGpu_accel(false);
+                }
+            } else {
+                // propose to delete config files
+                if (KMessageBox::questionTwoActions(QApplication::activeWindow(),
+                                                    i18n("Kdenlive crashed on last startup.\nDo you want to reset the configuration files ?"), {},
+                                                    KStandardGuiItem::reset(), KStandardGuiItem::cont()) == KMessageBox::PrimaryAction) {
+                    // Release startup crash lock file
+                    QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
+                    lockFile.remove();
+                    return false;
+                }
             }
         } else {
             // Create lock file
@@ -122,7 +134,6 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
     m_profile = KdenliveSettings::default_profile();
     m_currentProfile = m_profile;
     m_mainWindow = new MainWindow();
-    m_guiConstructed = true;
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 
     QStringList styles = QQuickStyle::availableStyles();
@@ -166,8 +177,7 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
         // Open connection with Mlt
         m_mainWindow->init(MltPath);
     }
-
-    m_projectItemModel->buildPlaylist();
+    m_projectItemModel->buildPlaylist(QUuid());
     // load the profiles from disk
     ProfileRepository::get()->refresh();
     // load default profile
@@ -217,17 +227,18 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
     ClipController::mediaUnavailable->set("length", 99999999);
 
     if (!Url.isEmpty()) {
-        emit loadingMessageUpdated(i18n("Loading project…"));
+        Q_EMIT loadingMessageUpdated(i18n("Loading project…"));
     }
     projectManager()->init(Url, clipsToLoad);
     if (qApp->isSessionRestored()) {
         // NOTE: we are restoring only one window, because Kdenlive only uses one MainWindow
         m_mainWindow->restore(1, false);
     }
+    m_guiConstructed = true;
     QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadOnOpen", Qt::QueuedConnection);
     m_mainWindow->show();
     bin->slotUpdatePalette();
-    emit m_mainWindow->GUISetupDone();
+    Q_EMIT m_mainWindow->GUISetupDone();
 }
 
 void Core::buildDocks()
@@ -250,7 +261,11 @@ void Core::buildDocks()
     connect(m_subtitleWidget, &SubtitleEdit::addSubtitle, m_mainWindow, &MainWindow::slotAddSubtitle);
     connect(m_subtitleWidget, &SubtitleEdit::cutSubtitle, this, [this](int id, int cursorPos) {
         if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
-            m_mainWindow->getCurrentTimeline()->controller()->cutSubtitle(id, cursorPos);
+            if (cursorPos <= 0) {
+                m_mainWindow->getCurrentTimeline()->controller()->requestClipCut(id, -1);
+            } else {
+                m_mainWindow->getCurrentTimeline()->model()->getSubtitleModel()->doCutSubtitle(id, cursorPos);
+            }
         }
     });
 
@@ -422,22 +437,9 @@ void Core::selectBinClip(const QString &clipId, bool activateMonitor, int frame,
 
 void Core::selectTimelineItem(int id)
 {
-    if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->model()) {
+    if (m_guiConstructed && m_mainWindow->getCurrentTimeline() && m_mainWindow->getCurrentTimeline()->model()) {
         m_mainWindow->getCurrentTimeline()->model()->requestAddToSelection(id, true);
     }
-}
-
-std::shared_ptr<SubtitleModel> Core::getSubtitleModel(bool enforce)
-{
-    if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->model()) {
-        auto subModel = m_mainWindow->getCurrentTimeline()->model()->getSubtitleModel();
-        if (enforce && subModel == nullptr) {
-            m_mainWindow->slotEditSubtitle();
-            subModel = m_mainWindow->getCurrentTimeline()->model()->getSubtitleModel();
-        }
-        return subModel;
-    }
-    return nullptr;
 }
 
 LibraryWidget *Core::library()
@@ -487,6 +489,14 @@ ToolType::ProjectTool Core::activeTool()
     return m_mainWindow->getCurrentTimeline()->activeTool();
 }
 
+const QUuid Core::currentTimelineId() const
+{
+    if (m_projectManager->getTimeline()) {
+        return m_projectManager->getTimeline()->uuid();
+    }
+    return QUuid();
+}
+
 std::unique_ptr<Mlt::Repository> &Core::getMltRepository()
 {
     return MltConnection::self()->getMltRepository();
@@ -522,7 +532,7 @@ void Core::updateMonitorProfile()
     m_monitorProfile.set_sample_aspect(m_projectProfile->sample_aspect_num(), m_projectProfile->sample_aspect_den());
     m_monitorProfile.set_display_aspect(m_projectProfile->display_aspect_num(), m_projectProfile->display_aspect_den());
     m_monitorProfile.set_explicit(true);
-    emit monitorProfileUpdated();
+    Q_EMIT monitorProfileUpdated();
 }
 
 const QString &Core::getCurrentProfilePath() const
@@ -535,7 +545,7 @@ bool Core::setCurrentProfile(const QString &profilePath)
     if (m_currentProfile == profilePath) {
         // no change required, ensure timecode has correct fps
         m_timecode.setFormat(getCurrentProfile()->fps());
-        emit updateProjectTimecode();
+        Q_EMIT updateProjectTimecode();
         return true;
     }
     if (ProfileRepository::get()->profileExists(profilePath)) {
@@ -557,16 +567,16 @@ bool Core::setCurrentProfile(const QString &profilePath)
         m_timecode.setFormat(getCurrentProfile()->fps());
         profileChanged();
         if (m_guiConstructed) {
-            emit m_mainWindow->updateRenderWidgetProfile();
+            Q_EMIT m_mainWindow->updateRenderWidgetProfile();
             m_monitorManager->resetProfiles();
-            emit m_monitorManager->updatePreviewScaling();
-            if (m_mainWindow->hasTimeline() && m_mainWindow->getCurrentTimeline()->model()) {
+            Q_EMIT m_monitorManager->updatePreviewScaling();
+            if (m_mainWindow->hasTimeline() && m_mainWindow->getCurrentTimeline() && m_mainWindow->getCurrentTimeline()->model()) {
                 m_mainWindow->getCurrentTimeline()->model()->updateProfile(getProjectProfile());
                 m_mainWindow->getCurrentTimeline()->model()->updateFieldOrderFilter(getCurrentProfile());
                 checkProfileValidity();
-                emit m_mainWindow->getCurrentTimeline()->controller()->frameFormatChanged();
+                Q_EMIT m_mainWindow->getCurrentTimeline()->controller()->frameFormatChanged();
             }
-            emit updateProjectTimecode();
+            Q_EMIT updateProjectTimecode();
         }
         return true;
     }
@@ -575,11 +585,11 @@ bool Core::setCurrentProfile(const QString &profilePath)
 
 void Core::checkProfileValidity()
 {
-    int offset = (getCurrentProfile()->profile().width() % 2) + (getCurrentProfile()->profile().height() % 2);
+    int offset = (getProjectProfile()->width() % 2) + (getProjectProfile()->height() % 2);
     if (offset > 0) {
         // Profile is broken, warn user
         if (m_mainWindow->getBin()) {
-            emit m_mainWindow->getBin()->displayBinMessage(i18n("Your project profile is invalid, rendering might fail."), KMessageWidget::Warning);
+            Q_EMIT m_mainWindow->getBin()->displayBinMessage(i18n("Your project profile is invalid, rendering might fail."), KMessageWidget::Warning);
         }
     }
 }
@@ -697,6 +707,32 @@ int Core::getItemIn(const ObjectId &id)
     return 0;
 }
 
+int Core::getItemIn(const QUuid &uuid, const ObjectId &id)
+{
+    if (!m_guiConstructed || !currentDoc()->getTimeline(uuid)) {
+        qWarning() << "GUI not build";
+        return 0;
+    }
+    switch (id.first) {
+    case ObjectType::TimelineClip:
+        if (currentDoc()->getTimeline(uuid)->isClip(id.second)) {
+            return currentDoc()->getTimeline(uuid)->getClipIn(id.second);
+        } else {
+            qWarning() << "querying non clip properties";
+        }
+        break;
+    case ObjectType::TimelineMix:
+    case ObjectType::TimelineComposition:
+    case ObjectType::BinClip:
+    case ObjectType::TimelineTrack:
+    case ObjectType::Master:
+        return 0;
+    default:
+        qWarning() << "unhandled object type";
+    }
+    return 0;
+}
+
 PlaylistState::ClipState Core::getItemState(const ObjectId &id)
 {
     if (!m_guiConstructed) return PlaylistState::Disabled;
@@ -791,7 +827,7 @@ int Core::getItemTrack(const ObjectId &id)
 
 void Core::refreshProjectItem(const ObjectId &id)
 {
-    if (!m_guiConstructed || m_mainWindow->getCurrentTimeline()->loading) return;
+    if (!m_guiConstructed || !m_mainWindow->getCurrentTimeline() || m_mainWindow->getCurrentTimeline()->loading) return;
     switch (id.first) {
     case ObjectType::TimelineClip:
     case ObjectType::TimelineMix:
@@ -851,7 +887,7 @@ void Core::setDocumentModified()
 
 int Core::projectDuration() const
 {
-    if (!m_guiConstructed) {
+    if (!m_guiConstructed || !m_mainWindow->getCurrentTimeline() || !m_mainWindow->getCurrentTimeline()->controller()) {
         return 0;
     }
     return m_mainWindow->getCurrentTimeline()->controller()->duration();
@@ -880,7 +916,7 @@ int Core::undoIndex() const
 void Core::displaySelectionMessage(const QString &message)
 {
     if (m_mainWindow) {
-        emit m_mainWindow->displaySelectionMessage(message);
+        Q_EMIT m_mainWindow->displaySelectionMessage(message);
     }
 }
 
@@ -888,9 +924,9 @@ void Core::displayMessage(const QString &message, MessageType type, int timeout)
 {
     if (m_mainWindow) {
         if (type == ProcessingJobMessage || type == OperationCompletedMessage) {
-            emit m_mainWindow->displayProgressMessage(message, type, timeout);
+            Q_EMIT m_mainWindow->displayProgressMessage(message, type, timeout);
         } else {
-            emit m_mainWindow->displayMessage(message, type, timeout);
+            Q_EMIT m_mainWindow->displayMessage(message, type, timeout);
         }
     } else {
         qDebug() << message;
@@ -899,7 +935,7 @@ void Core::displayMessage(const QString &message, MessageType type, int timeout)
 
 void Core::loadingClips(int count)
 {
-    emit m_mainWindow->displayProgressMessage(i18n("Loading clips"), MessageType::ProcessingJobMessage, count);
+    Q_EMIT m_mainWindow->displayProgressMessage(i18n("Loading clips"), MessageType::ProcessingJobMessage, count);
 }
 
 void Core::displayBinMessage(const QString &text, int type, const QList<QAction *> &actions, bool showClose, BinMessage::BinCategory messageCategory)
@@ -914,21 +950,21 @@ void Core::displayBinLogMessage(const QString &text, int type, const QString log
 
 void Core::clearAssetPanel(int itemId)
 {
-    if (m_guiConstructed) emit m_mainWindow->clearAssetPanel(itemId);
+    if (m_guiConstructed) Q_EMIT m_mainWindow->clearAssetPanel(itemId);
 }
 
-std::shared_ptr<EffectStackModel> Core::getItemEffectStack(int itemType, int itemId)
+std::shared_ptr<EffectStackModel> Core::getItemEffectStack(const QUuid &uuid, int itemType, int itemId)
 {
     if (!m_guiConstructed) return nullptr;
     switch (itemType) {
     case int(ObjectType::TimelineClip):
-        return m_mainWindow->getCurrentTimeline()->model()->getClipEffectStack(itemId);
+        return currentDoc()->getTimeline(uuid)->getClipEffectStack(itemId);
     case int(ObjectType::TimelineTrack):
-        return m_mainWindow->getCurrentTimeline()->model()->getTrackEffectStackModel(itemId);
+        return currentDoc()->getTimeline(uuid)->getTrackEffectStackModel(itemId);
     case int(ObjectType::BinClip):
         return m_mainWindow->getBin()->getClipEffectStack(itemId);
     case int(ObjectType::Master):
-        return m_mainWindow->getCurrentTimeline()->model()->getMasterEffectStackModel();
+        return currentDoc()->getTimeline(uuid)->getMasterEffectStackModel();
     default:
         return nullptr;
     }
@@ -970,7 +1006,7 @@ std::shared_ptr<ProjectItemModel> Core::projectItemModel()
 void Core::invalidateRange(QPair<int, int> range)
 {
     if (!m_guiConstructed || m_mainWindow->getCurrentTimeline()->loading) return;
-    m_mainWindow->getCurrentTimeline()->controller()->invalidateZone(range.first, range.second);
+    m_mainWindow->getCurrentTimeline()->model()->invalidateZone(range.first, range.second);
 }
 
 void Core::invalidateItem(ObjectId itemId)
@@ -988,7 +1024,7 @@ void Core::invalidateItem(ObjectId itemId)
         m_mainWindow->getBin()->invalidateClip(QString::number(itemId.second));
         break;
     case ObjectType::Master:
-        m_mainWindow->getCurrentTimeline()->controller()->invalidateZone(0, -1);
+        m_mainWindow->getCurrentTimeline()->model()->invalidateZone(0, -1);
         break;
     default:
         // compositions should not have effects
@@ -1142,7 +1178,7 @@ bool Core::isMediaCapturing() const
 
 void Core::switchCapture()
 {
-    emit recordAudio(-1, !isMediaCapturing());
+    Q_EMIT recordAudio(-1, !isMediaCapturing());
 }
 
 MediaCapture *Core::getAudioDevice()
@@ -1194,7 +1230,7 @@ int Core::getDurationFromString(const QString &time)
 
 void Core::processInvalidFilter(const QString &service, const QString &id, const QString &message)
 {
-    if (m_guiConstructed) emit m_mainWindow->assetPanelWarning(service, id, message);
+    if (m_guiConstructed) Q_EMIT m_mainWindow->assetPanelWarning(service, id, message);
 }
 
 void Core::updateProjectTags(int previousCount, const QMap<int, QStringList> &tags)
@@ -1264,7 +1300,7 @@ void Core::addGuides(const QList<int> &guides)
         GenTime p(pos, pCore->getCurrentFps());
         markers.insert(p, pCore->currentDoc()->timecode().getDisplayTimecode(p, false));
     }
-    currentDoc()->getGuideModel()->addMarkers(markers);
+    m_mainWindow->getCurrentTimeline()->controller()->getModel()->getGuideModel()->addMarkers(markers);
 }
 
 void Core::temporaryUnplug(const QList<int> &clipIds, bool hide)
@@ -1290,14 +1326,14 @@ void Core::setWidgetKeyBinding(const QString &mess)
 
 void Core::showEffectZone(ObjectId id, QPair<int, int> inOut, bool checked)
 {
-    if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller() && id.first != ObjectType::BinClip) {
+    if (m_guiConstructed && m_mainWindow->getCurrentTimeline() && m_mainWindow->getCurrentTimeline()->controller() && id.first != ObjectType::BinClip) {
         m_mainWindow->getCurrentTimeline()->controller()->showRulerEffectZone(inOut, checked);
     }
 }
 
 void Core::updateMasterZones()
 {
-    if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
+    if (m_guiConstructed && m_mainWindow->getCurrentTimeline() && m_mainWindow->getCurrentTimeline()->controller()) {
         m_mainWindow->getCurrentTimeline()->controller()->updateMasterZones(m_mainWindow->getCurrentTimeline()->model()->getMasterEffectZones());
     }
 }
@@ -1353,7 +1389,17 @@ void Core::addBin(const QString &id)
     m_mainWindow->addBin(bin, folderName);
 }
 
-void Core::loadTimelinePreview(const QString &chunks, const QString &dirty, int enablePreview, Mlt::Playlist &playlist)
+void Core::loadTimelinePreview(const QUuid uuid, const QString &chunks, const QString &dirty, bool enablePreview, Mlt::Playlist &playlist)
 {
-    pCore->window()->getCurrentTimeline()->controller()->loadPreview(chunks, dirty, enablePreview, playlist);
+    TimelineWidget *tl = pCore->window()->getTimeline(uuid);
+    if (tl) {
+        tl->controller()->loadPreview(chunks, dirty, enablePreview, playlist);
+    }
+}
+
+void Core::updateSequenceAVType(const QUuid &uuid)
+{
+    if (m_mainWindow) {
+        pCore->bin()->updateSequenceAVType(uuid);
+    }
 }

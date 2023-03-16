@@ -40,7 +40,7 @@ public:
 
     QString extractedProjectFile() const;
 
-private slots:
+private Q_SLOTS:
     void slotCheckSpace();
     bool slotStartArchiving(bool firstPass = true);
     void slotArchivingFinished(KJob *job = nullptr, bool finished = false);
@@ -49,7 +49,7 @@ private slots:
     bool closeAccepted();
     void createArchive();
     void slotArchivingIntProgress(int);
-    void slotArchivingBoolFinished(bool result);
+    void slotArchivingBoolFinished(bool result, const QString &errorString);
     void slotStartExtracting();
     void doExtracting();
     void slotExtractingFinished();
@@ -87,7 +87,7 @@ private:
     QUrl m_extractUrl;
     QString m_projectName;
     QTimer *m_progressTimer;
-    KArchive *m_extractArchive;
+    KArchive *m_archive;
     int m_missingClips;
     KMessageWidget *m_infoMessage;
 
@@ -108,6 +108,7 @@ private:
     * @returns the doc's content with replaced urls
     */
     QString processMltFile(const QDomDocument &doc, const QString &destPrefix = QString());
+    void processElement(QDomElement e, const QString root);
     /** @brief If the given element contains the property its content (url) will be converted to a relative file path
      *  @param e the dom element  that might contains the property
      *  @param propertyName name of the property that should be checked
@@ -115,8 +116,8 @@ private:
     */
     void propertyProcessUrl(const QDomElement &e, const QString &propertyName, const QString &root);
 
-signals:
-    void archivingFinished(bool);
+Q_SIGNALS:
+    void archivingFinished(bool, const QString &);
     void archiveProgress(int);
     void extractingFinished();
     void showMessage(const QString &, const QString &);

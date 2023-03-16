@@ -24,7 +24,7 @@ public:
 protected:
     void hideEvent(QHideEvent *event) override;
 
-signals:
+Q_SIGNALS:
     void getColor();
 };
 
@@ -72,7 +72,7 @@ private:
     QImage m_image;
 #endif
 
-private slots:
+private Q_SLOTS:
     /** @brief Sets up an event filter for picking a color. */
     void slotSetupEventFilter();
 
@@ -84,7 +84,7 @@ private slots:
     /** @brief To be called by the DBus connection when a response comes in */
     void gotColorResponse(uint response, const QVariantMap &results);
 
-signals:
+Q_SIGNALS:
     /** @brief Signal fired when a new color has been picked */
     void colorPicked(const QColor &);
     /** @brief When user wants to pick a color, it's better to disable filter so we get proper color values. */

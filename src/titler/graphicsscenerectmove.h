@@ -72,7 +72,7 @@ private:
     int m_tw_sigma;
     int m_tw_seed;
 
-public slots:
+public Q_SLOTS:
     void doUpdateGeometry();
     void updateGeometry();
 };
@@ -136,7 +136,7 @@ public:
     int gridSize() const;
     void addNewItem(QGraphicsItem *item);
 
-public slots:
+public Q_SLOTS:
     void slotUpdateFontSize(int s);
     void slotUseGrid(bool enableGrid);
 
@@ -166,7 +166,7 @@ private:
     bool m_moveStarted{false};
     bool m_pan{false};
 
-signals:
+Q_SIGNALS:
     void itemMoved();
     void sceneZoom(bool);
     void newRect(QGraphicsRectItem *);

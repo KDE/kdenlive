@@ -71,11 +71,11 @@ public:
     /** @brief The clip currently opened in Clip Monitor (to display clip jobs) */
     int displayedClip;
 
-public slots:
+public Q_SLOTS:
     /** @brief Discard all running jobs. */
     void slotCancelJobs(const QVector<AbstractTask::JOBTYPE> exceptions = {});
 
-private slots:
+private Q_SLOTS:
     /** @brief Update number of running jobs. */
     void updateJobCount();
 
@@ -86,7 +86,7 @@ private:
     mutable QReadWriteLock m_tasksListLock;
     bool m_blockUpdates;
 
-signals:
+Q_SIGNALS:
     void jobCount(int);
     void detailedProgress(const ObjectId &owner, const QStringList &, const QList<int> &, const QStringList &);
 };

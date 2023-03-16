@@ -132,7 +132,7 @@ void AudioLevelsTask::run()
         } else if (service.startsWith(QLatin1String("xml"))) {
             service = QStringLiteral("xml-nogl");
         }
-        QScopedPointer<Mlt::Producer> audioProducer(new Mlt::Producer(*producer->profile(), service.toUtf8().constData(), producer->get("resource")));
+        QScopedPointer<Mlt::Producer> audioProducer(new Mlt::Producer(producer->get_profile(), service.toUtf8().constData(), producer->get("resource")));
         if (!audioProducer->is_valid()) {
             QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection,
                                       Q_ARG(QString, i18n("Audio thumbs: cannot open file %1", producer->get("resource"))),
@@ -141,9 +141,9 @@ void AudioLevelsTask::run()
         }
         audioProducer->set("video_index", "-1");
         audioProducer->set("audio_index", stream);
-        Mlt::Filter chans(*producer->profile(), "audiochannels");
-        Mlt::Filter converter(*producer->profile(), "audioconvert");
-        Mlt::Filter levels(*producer->profile(), "audiolevel");
+        Mlt::Filter chans(producer->get_profile(), "audiochannels");
+        Mlt::Filter converter(producer->get_profile(), "audioconvert");
+        Mlt::Filter levels(producer->get_profile(), "audiolevel");
         audioProducer->attach(chans);
         audioProducer->attach(converter);
         audioProducer->attach(levels);

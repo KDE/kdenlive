@@ -13,7 +13,6 @@
 #include <QApplication>
 #include <QDir>
 
-class PreviewManager;
 class QAction;
 class QQuickItem;
 
@@ -92,6 +91,9 @@ public:
     /** @brief Edit a title clip with a title widget
      */
     Q_INVOKABLE void editTitleClip(int itemId = -1);
+    /** @brief Open a sequence timeline
+     */
+    Q_INVOKABLE void focusTimelineSequence(int id);
     /** @brief Edit an animation with Glaxnimate
      */
     Q_INVOKABLE void editAnimationClip(int itemId = -1);
@@ -221,7 +223,8 @@ public:
      * @return the ids of the inserted clips
      */
     Q_INVOKABLE QList<int> insertClips(int tid, int position, const QStringList &binIds, bool logUndo, bool refreshView);
-    Q_INVOKABLE void copyItem();
+    Q_INVOKABLE int copyItem();
+    std::pair<int, QString> getCopyItemData();
     Q_INVOKABLE bool pasteItem(int position = -1, int tid = -1);
     /** @brief Request inserting a new composition in timeline (dragged from compositions list)
        @param tid is the destination track
@@ -266,6 +269,9 @@ public:
      */
     int getMainSelectedItem(bool restrictToCurrentPos = true, bool allowComposition = false);
     int getMainSelectedClip();
+    /** @brief Return the {position, track id} of current selection. Operates only on video items (or audio if audioPart is true)
+     */
+    std::pair<int, int> selectionPosition(bool *hasVideo, bool *hasAudio);
 
     /** @brief Do we want to display video thumbnails
      */
@@ -578,7 +584,7 @@ public:
 
     /** @brief Load timeline preview from saved doc
      */
-    void loadPreview(const QString &chunks, const QString &dirty, int enable, Mlt::Playlist &playlist);
+    void loadPreview(const QString &chunks, const QString &dirty, bool enable, Mlt::Playlist &playlist);
     /** @brief Return document properties with added settings from timeline
      */
     QMap<QString, QString> documentProperties();
@@ -626,7 +632,6 @@ public:
     void checkTrackDeletion(int selectedTrackIx);
     /** @brief Return true if an overlay track is used */
     bool hasPreviewTrack() const;
-    void updatePreviewConnection(bool enable);
     /** @brief Display project master effects */
     Q_INVOKABLE void showMasterEffects();
     /** @brief Return true if an instance of this bin clip is currently under timeline cursor */
@@ -652,16 +657,6 @@ public:
     Q_INVOKABLE void mixClip(int cid = -1, int delta = 0);
     /** @brief Temporarily un/plug a list of clips in timeline. */
     void temporaryUnplug(const QList<int> &clipIds, bool hide);
-    /** @brief Edit the subtitle text*/
-    Q_INVOKABLE void editSubtitle(int id, const QString &newText, const QString &oldText);
-    /** @brief Edit the subtitle end */
-    Q_INVOKABLE void resizeSubtitle(int startFrame, int endFrame, int oldEndFrame, bool refreshModel);
-    /** @brief Add subtitle clip at cursor's position in timeline */
-    Q_INVOKABLE void addSubtitle(int startframe = -1, QString text = QString());
-    /** @brief Cut a subtitle and split the text at \@param pos */
-    void cutSubtitle(int id, int cursorPos);
-    /** @brief Delete subtitle clip with frame as start position*/
-    Q_INVOKABLE void deleteSubtitle(int frameframe, int endframe, const QString &Ctext);
     /** @brief Import a subtitle file*/
     void importSubtitle(const QString &path = QString());
     /** @brief Export a subtitle file*/
@@ -680,8 +675,10 @@ public:
     MixAlignment getMixAlign(int cid) const;
     /** @brief Process a lift operation for multitrack operation. */
     void processMultitrackOperation(int tid, int in);
+    /** @brief Save all sequence properties (timeline position, guides, groups, ..) to the timeline tractor. */
+    void saveSequenceProperties();
 
-public slots:
+public Q_SLOTS:
     void resetView();
     void setAudioTarget(const QMap<int, int> &tracks);
     Q_INVOKABLE void switchAudioTarget(int trackId);
@@ -692,7 +689,6 @@ public slots:
     void disablePreview(bool disable);
     void invalidateItem(int cid);
     void invalidateTrack(int tid);
-    void invalidateZone(int in, int out);
     void checkDuration();
     /** @brief Dis / enable multi track view. */
     void slotMultitrackView(bool enable = true, bool refresh = true);
@@ -711,7 +707,7 @@ public slots:
     /** @brief When a clip or composition is moved, inform asset panel to update cursor position in keyframe views. */
     void checkClipPosition(const QModelIndex &topLeft, const QModelIndex &, const QVector<int> &roles);
 
-private slots:
+private Q_SLOTS:
     void updateClipActions();
     void updateVideoTarget();
     void updateAudioTarget();
@@ -729,6 +725,7 @@ public:
     void setMulticamIn(int pos);
 
 private:
+    int m_duration;
     QQuickItem *m_root;
     KActionCollection *m_actionCollection;
     std::shared_ptr<TimelineItemModel> m_model;
@@ -748,8 +745,6 @@ private:
     QPoint m_zone;
     int m_activeTrack;
     double m_scale;
-    static int m_duration;
-    PreviewManager *m_timelinePreview;
     QAction *m_disablePreview;
     std::shared_ptr<AudioCorrelation> m_audioCorrelator;
     QMutex m_metaMutex;
@@ -766,7 +761,7 @@ private:
     void initializePreview();
     int getMenuOrTimelinePos() const;
 
-signals:
+Q_SIGNALS:
     void selected(Mlt::Producer *producer);
     void selectionChanged();
     void selectedMixChanged();

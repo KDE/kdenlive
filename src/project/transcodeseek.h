@@ -19,7 +19,7 @@ class TranscodeSeek : public QDialog, public Ui::TranscodeSeekable_UI
     Q_OBJECT
 
 public:
-    TranscodeSeek(QWidget *parent = nullptr);
+    TranscodeSeek(bool onUserRequest, QWidget *parent = nullptr);
     ~TranscodeSeek() override;
 
     void addUrl(const QString &file, const QString &id, const QString &suffix, ClipType::ProducerType type, const QString &message);

@@ -13,8 +13,9 @@
 
 QString BinPlaylist::binPlaylistId = QString("main_bin");
 
-BinPlaylist::BinPlaylist()
-    : m_binPlaylist(new Mlt::Playlist(pCore->getCurrentProfile()->profile()))
+BinPlaylist::BinPlaylist(const QUuid &uuid)
+    : m_binPlaylist(new Mlt::Playlist(*pCore->getProjectProfile()))
+    , m_uuid(uuid)
 {
     m_binPlaylist->set("id", binPlaylistId.toUtf8().constData());
 }
@@ -35,10 +36,16 @@ void BinPlaylist::manageBinItemInsertion(const std::shared_ptr<AbstractProjectIt
         Q_ASSERT(m_allClips.count(id) == 0);
         auto clip = std::static_pointer_cast<ProjectClip>(binElem);
         if (clip->isValid()) {
-            m_binPlaylist->append(*clip->originalProducer().get());
+            if (clip->clipType() == ClipType::Timeline) {
+                const QUuid uuid = clip->getSequenceUuid();
+                m_sequenceClips.insert(uuid, id);
+                m_binPlaylist->append(clip->originalProducer()->parent());
+            } else {
+                m_binPlaylist->append(*clip->originalProducer().get());
+            }
         } else {
             // if clip is not loaded yet, we insert a dummy producer
-            Mlt::Producer dummy(pCore->getCurrentProfile()->profile(), "color:blue");
+            Mlt::Producer dummy(*pCore->getProjectProfile(), "color:blue");
             dummy.set("kdenlive:id", id.toUtf8().constData());
             m_binPlaylist->append(dummy);
         }
@@ -49,6 +56,19 @@ void BinPlaylist::manageBinItemInsertion(const std::shared_ptr<AbstractProjectIt
     default:
         break;
     }
+}
+
+const QString BinPlaylist::getSequenceId(const QUuid &uuid)
+{
+    if (m_sequenceClips.contains(uuid)) {
+        return m_sequenceClips.value(uuid);
+    }
+    return QString();
+}
+
+bool BinPlaylist::hasSequenceId(const QUuid &uuid) const
+{
+    return m_sequenceClips.contains(uuid);
 }
 
 void BinPlaylist::manageBinItemDeletion(AbstractProjectItem *binElem)
@@ -67,7 +87,6 @@ void BinPlaylist::manageBinItemDeletion(AbstractProjectItem *binElem)
         Q_ASSERT(m_allClips.count(id) > 0);
         m_allClips.erase(id);
         removeBinClip(id);
-        disconnect(static_cast<ProjectClip *>(binElem), &ProjectClip::producerChanged, this, &BinPlaylist::changeProducer);
         break;
     }
     default:

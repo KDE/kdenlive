@@ -18,10 +18,11 @@ class Menu;
 
 #include "bin/model/markerlistmodel.hpp"
 #include "definitions.h"
+#include "renderpresets/renderpresetmodel.hpp"
 #include "renderpresets/tree/renderpresettreemodel.hpp"
 #include "ui_renderwidget_ui.h"
-#include <knewstuff_version.h>
 #include <KNSWidgets/Button>
+#include <knewstuff_version.h>
 
 class QDomElement;
 class QKeyEvent;
@@ -134,6 +135,12 @@ public:
 
     /** @brief Display warning message in render widget. */
     void errorMessage(RenderError type, const QString &message);
+    /** @brief Update the render duration info when project duration changes. */
+    void projectDurationChanged(int duration);
+    /** @brief Update the render duration info when zone changes. */
+    void zoneDurationChanged(int duration);
+    /** @brief Update the render duration info. */
+    void showRenderDuration();
 
 protected:
     QSize sizeHint() const override;
@@ -141,7 +148,7 @@ protected:
     void parseProfile(QDomElement profile, QTreeWidgetItem *childitem, QString groupName,
                       QString extension = QString(), QString renderer = QStringLiteral("avformat"));
 
-public slots:
+public Q_SLOTS:
     void slotAbortCurrentJob();
     void slotPrepareExport(bool scriptExport = false, const QString &scriptPath = QString());
     void adjustViewToProfile();
@@ -151,7 +158,7 @@ public slots:
     /** @brief Update metadata tooltip with current values. */
     void updateMetadataToolTip();
 
-private slots:
+private Q_SLOTS:
     /**
      * Will be called when the user selects an output file via the file dialog.
      * File extension will be added automatically.
@@ -216,6 +223,7 @@ private:
 
     std::shared_ptr<RenderPresetTreeModel> m_treeModel;
     QString m_currentProfile;
+    RenderPresetParams m_params;
 
 #ifdef KF5_USE_PURPOSE
     Purpose::Menu *m_shareMenu;
@@ -230,10 +238,11 @@ private:
     void prepareRendering(bool delayedRendering);
     /** @brief Create a new empty playlist (*.mlt) file and @returns the filename of the created file */
     QString generatePlaylistFile(bool delayedRendering);
-    void generateRenderFiles(QDomDocument doc, int in, int out, QString outputFile, bool delayedRendering, const QString &subtitleFile = QString());
+    void generateRenderFiles(const QString playlistPath, QDomDocument doc, int in, int out, QString outputFile, bool delayedRendering,
+                             const QString &subtitleFile = QString());
     RenderJobItem *createRenderJob(const QString &playlist, const QString &outputFile, const QString &subtitleFile = QString());
 
-signals:
+Q_SIGNALS:
     void abortProcess(const QString &url);
     /** Send the info about rendering that will be saved in the document:
     (profile destination, profile name and url of rendered file) */

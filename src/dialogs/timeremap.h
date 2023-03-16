@@ -63,7 +63,7 @@ protected:
     /** @brief the original in/out of the clip when opening the remap widget, used to snap to ends */
     std::pair<int,int> m_originalRange;
 
-public slots:
+public Q_SLOTS:
     void updateInPos(int pos);
     void updateOutPos(int pos);
     void slotSetPosition(int pos);
@@ -124,7 +124,7 @@ private:
     std::pair<int,int> getClosestKeyframe(int pos, bool bottomKeyframe = false) const;
     std::pair<double,double> getSpeed(std::pair<int,int>kf);
 
-signals:
+Q_SIGNALS:
     void seekToPos(int,int);
     void selectedKf(std::pair<int,int>, std::pair<double,double>, std::pair<bool,bool>atEnd = {true,true});
     void updateSpeeds(std::pair<double,double>);
@@ -154,7 +154,7 @@ public:
     /** @brief Returns true if timeline cursor is inside the remapped clip */
     bool isInRange() const;
 
-private slots:
+private Q_SLOTS:
     void updateKeyframes();
     void updateKeyframesWithUndo(const QMap<int,int>&updatedKeyframes, const QMap<int,int>&previousKeyframes);
     void checkClipUpdate(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int>& roles);

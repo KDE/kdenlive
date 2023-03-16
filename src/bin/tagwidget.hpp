@@ -36,7 +36,7 @@ protected:
     void mouseMoveEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
 
-signals:
+Q_SIGNALS:
     void switchTag(const QString &tag, bool add);
 };
 
@@ -56,7 +56,7 @@ private:
     QList<DragButton *> tags;
     void showTagsConfig();
 
-signals:
+Q_SIGNALS:
     void switchTag(const QString &tag, bool add);
     void updateProjectTags(const QMap<int, QStringList> &oldTags, const QMap<int, QStringList> &newTags);
 };

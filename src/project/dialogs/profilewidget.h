@@ -67,6 +67,6 @@ private:
     /** @brief Reload available fps values */
     void refreshFpsCombo();
 
-signals:
+Q_SIGNALS:
     void profileChanged();
 };

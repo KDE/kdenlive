@@ -67,7 +67,7 @@ public:
     QTimer refreshTimer;
     static const double speedArray[6];
 
-public slots:
+public Q_SLOTS:
 
     /** @brief Activates a monitor.
      * @param name name of the monitor to activate
@@ -115,8 +115,7 @@ public slots:
     void slotStopMultiTrackMode();
     void slotPerformMultiTrackMode();
 
-
-private slots:
+private Q_SLOTS:
     /** @brief Set MLT's consumer deinterlace method */
     void slotSetDeinterlacer(int ix);
     /** @brief Set MLT's consumer interpolation method */
@@ -149,7 +148,7 @@ private:
     /** @brief The currently active track for multitrack mode */
     int m_activeMultiTrack;
 
-signals:
+Q_SIGNALS:
     /** @brief When the monitor changed, update the visible color scopes */
     void checkColorScopes();
     /** @brief When the active monitor renderer was deleted, reset color scopes */

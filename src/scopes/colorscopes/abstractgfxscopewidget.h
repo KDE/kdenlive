@@ -39,15 +39,15 @@ private:
     QImage m_scopeImage;
     QMutex m_mutex;
 
-public slots:
+public Q_SLOTS:
     /** @brief Must be called when the active monitor has shown a new frame.
      * This slot must be connected in the implementing class, it is *not*
      * done in this abstract class. */
     void slotRenderZoneUpdated(const QImage &);
 
-protected slots:
+protected Q_SLOTS:
     virtual void slotAutoRefreshToggled(bool autoRefresh);
 
-signals:
+Q_SIGNALS:
     void signalFrameRequest(const QString &widgetName);
 };

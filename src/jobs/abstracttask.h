@@ -62,7 +62,7 @@ private:
     int m_priority;
     void cancelJob(bool softDelete = false);
 
-signals:
+Q_SIGNALS:
     void jobCanceled();
 };
 

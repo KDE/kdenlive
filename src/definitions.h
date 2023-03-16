@@ -109,7 +109,8 @@ enum ProducerType {
     Composition = 13,
     Track = 14,
     Qml = 15,
-    Animation = 16
+    Animation = 16,
+    Timeline = 17
 };
 Q_ENUM_NS(ProducerType)
 } // namespace ClipType
@@ -152,7 +153,17 @@ namespace BinMessage {
 
 enum TrackType { AudioTrack = 0, VideoTrack = 1, AnyTrack = 2, SubtitleTrack = 3 };
 
-enum CacheType { SystemCacheRoot = -1, CacheRoot = 0, CacheBase = 1, CachePreview = 2, CacheProxy = 3, CacheAudio = 4, CacheThumbs = 5 };
+enum CacheType {
+    SystemCacheRoot = -1,
+    CacheRoot = 0,
+    CacheBase = 1,
+    CachePreview = 2,
+    CacheProxy = 3,
+    CacheAudio = 4,
+    CacheThumbs = 5,
+    CacheSequence = 6,
+    CacheTmpWorkFiles = 7
+};
 
 enum TrimMode { NormalTrim, RippleTrim, RollingTrim, SlipTrim, SlideTrim };
 

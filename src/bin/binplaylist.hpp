@@ -7,6 +7,7 @@
 
 #include "definitions.h"
 #include <QObject>
+#include <QUuid>
 #include <memory>
 #include <unordered_set>
 
@@ -28,7 +29,7 @@ class BinPlaylist : public QObject
 {
 
 public:
-    BinPlaylist();
+    BinPlaylist(const QUuid &uuid);
 
     /** @brief This function updates the underlying binPlaylist object to reflect deletion of a bin item
        @param binElem is the bin item deleted. Note that exceptionnally, this function takes a raw pointer instead of a smart one.
@@ -59,6 +60,11 @@ public:
     /** @brief Retrieve a list of proxy/original urls */
     QMap<QString, QString> getProxies(const QString &root);
 
+    /** @brief Retrieve the Bin clip id from a sequence uuid */
+    const QString getSequenceId(const QUuid &uuid);
+    /** @brief Returns trus if we already have a sequence with this uuid */
+    bool hasSequenceId(const QUuid &uuid) const;
+
     /** @brief The number of clips in the Bin Playlist */
     int count() const;
 
@@ -80,7 +86,8 @@ protected:
 private:
     /** @brief The MLT playlist holding our Producers */
     std::unique_ptr<Mlt::Playlist> m_binPlaylist;
-
+    QUuid m_uuid;
     /** @brief Set of the bin inserted */
     std::unordered_set<QString> m_allClips;
+    QMap<QUuid, QString> m_sequenceClips;
 };

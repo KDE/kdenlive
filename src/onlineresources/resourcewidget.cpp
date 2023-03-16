@@ -479,7 +479,7 @@ void ResourceWidget::slotPreviewItem()
         // Only show this warning once
         m_showloadingWarning = false;
     }
-    emit previewClip(path, i18n("Online Resources Preview"));
+    Q_EMIT previewClip(path, i18n("Online Resources Preview"));
     blockUI(false);
 }
 
@@ -565,7 +565,8 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl, const QString &acc
     if (KMessageBox::questionTwoActions(this,
                                         i18n("Be aware that the usage of the resource is maybe restricted by license terms or law!\n"
                                              "Do you want to add license attribution to your Project Notes?"),
-                                        QString(), KStandardGuiItem::yes(), KStandardGuiItem::no(), i18n("Remember this decision")) == KMessageBox::Yes) {
+                                        QString(), KStandardGuiItem::add(), KGuiItem(i18nc("@action:button", "Continue without")),
+                                        i18n("Remember this decision")) == KMessageBox::PrimaryAction) {
         attribution = i18nc("item name, item url, author name, license name, license url",
                             "This video uses \"%1\" (%2) by \"%3\" licensed under %4. To view a copy of this license, visit %5",
                             m_currentItem->data(nameRole).toString().isEmpty() ? i18n("Unnamed") : m_currentItem->data(nameRole).toString(),
@@ -620,10 +621,10 @@ void ResourceWidget::slotGotFile(KJob *job)
     KRecentDirs::add(QStringLiteral(":KdenliveOnlineResourceFolder"), filePath.adjusted(QUrl::RemoveFilename).toLocalFile());
 
     KMessageBox::information(this, i18n("Resource saved to %1", filePath.toLocalFile()), i18n("Data Imported"));
-    emit addClip(filePath, QString());
+    Q_EMIT addClip(filePath, QString());
 
     if (!copyJob->property("attribution").toString().isEmpty()) {
-        emit addLicenseInfo(copyJob->property("attribution").toString());
+        Q_EMIT addLicenseInfo(copyJob->property("attribution").toString());
     }
 }
 

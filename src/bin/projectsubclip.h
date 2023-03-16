@@ -82,6 +82,6 @@ private:
     std::shared_ptr<ProjectClip> m_masterClip;
     QString m_parentClipId;
 
-private slots:
+private Q_SLOTS:
     void gotThumb(int pos, const QImage &img);
 };

@@ -5,12 +5,16 @@
 
 #pragma once
 
+#include <QMutex>
 #include <QTabWidget>
 #include <memory>
 
 class TimelineWidget;
+class TimelineItemModel;
 class AssetParameterModel;
 class EffectStackModel;
+class MonitorProxy;
+class QMenu;
 
 /** @class TimelineContainer
     @brief This is a class that extends QTabWidget to provide additional functionality related to timeline tabs
@@ -36,13 +40,29 @@ public:
 
     /** @brief Returns a pointer to the current timeline */
     TimelineWidget *getCurrentTimeline() const;
+    /** @brief Activate a timeline tab by uuid */
+    bool raiseTimeline(const QUuid &uuid);
     void disconnectTimeline(TimelineWidget *timeline);
+    /** @brief Do some closing stuff on timelinewidgets */
+    void closeTimelines();
+    /** @brief Store timeline menus */
+    void setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *guideMenu, QMenu *timelineRulerMenu, QAction *editGuideAction,
+                         QMenu *headerMenu, QMenu *thumbsMenu, QMenu *subtitleClipMenu);
+    /** @brief Mark a tab as modified */
+    void setModified(const QUuid &uuid, bool modified);
+    /** @brief Returns the uuid list for opened timeline tabs. */
+    const QStringList openedSequences();
+    /** @brief Get a timeline tab by uuid. */
+    TimelineWidget *getTimeline(const QUuid uuid) const;
+    /** @brief We display the current tab's name in window title if the tab bar is hidden
+     */
+    void updateWindowTitle();
 
 protected:
     /** @brief Helper function to connect a timeline's signals/slots*/
     void connectTimeline(TimelineWidget *timeline);
 
-signals:
+Q_SIGNALS:
     /** @brief Request repaint of audio thumbs
         This is an input signal, forwarded to the timelines
      */
@@ -75,6 +95,23 @@ signals:
      */
     void updateZoom(int);
 
+public Q_SLOTS:
+    TimelineWidget *addTimeline(const QUuid uuid, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel, MonitorProxy *proxy);
+    void connectCurrent(int ix);
+    void closeTimelineByIndex(int ix);
+    void closeTimeline(const QUuid &uuid);
+    void renameTab(const QUuid &uuid, const QString &name);
+
 private:
-    TimelineWidget *m_mainTimeline;
+    TimelineWidget *m_activeTimeline;
+    QMenu *m_timelineClipMenu;
+    QMenu *m_timelineCompositionMenu;
+    QMenu *m_timelineMenu;
+    QMenu *m_timelineRulerMenu;
+    QMenu *m_guideMenu;
+    QMenu *m_headerMenu;
+    QMenu *m_thumbsMenu;
+    QAction *m_editGuideAction;
+    QMenu *m_timelineSubtitleClipMenu;
+    QMutex m_lock;
 };

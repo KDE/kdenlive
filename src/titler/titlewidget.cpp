@@ -26,6 +26,7 @@
 
 #include <cmath>
 
+#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KMessageWidget>
@@ -278,19 +279,19 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     connect(m_unicodeAction, &QAction::triggered, this, &TitleWidget::slotInsertUnicode);
     buttonInsertUnicode->setDefaultAction(m_unicodeAction);
 
-    m_zUp = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-zindex-up")), QString(), this);
+    m_zUp = new QAction(QIcon::fromTheme(QStringLiteral("object-order-raise")), QString(), this);
     m_zUp->setShortcut(Qt::Key_PageUp);
     m_zUp->setToolTip(i18n("Raise object"));
     connect(m_zUp, &QAction::triggered, this, &TitleWidget::slotZIndexUp);
     zUp->setDefaultAction(m_zUp);
 
-    m_zDown = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-zindex-down")), QString(), this);
+    m_zDown = new QAction(QIcon::fromTheme(QStringLiteral("object-order-lower")), QString(), this);
     m_zDown->setShortcut(Qt::Key_PageDown);
     m_zDown->setToolTip(i18n("Lower object"));
     connect(m_zDown, &QAction::triggered, this, &TitleWidget::slotZIndexDown);
     zDown->setDefaultAction(m_zDown);
 
-    m_zTop = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-zindex-top")), QString(), this);
+    m_zTop = new QAction(QIcon::fromTheme(QStringLiteral("object-order-front")), QString(), this);
     // TODO mbt 1414: Shortcut should change z index only if
     // cursor is NOT in a text field ...
     // m_zTop->setShortcut(Qt::Key_Home);
@@ -298,14 +299,14 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     connect(m_zTop, &QAction::triggered, this, &TitleWidget::slotZIndexTop);
     zTop->setDefaultAction(m_zTop);
 
-    m_zBottom = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-zindex-bottom")), QString(), this);
+    m_zBottom = new QAction(QIcon::fromTheme(QStringLiteral("object-order-back")), QString(), this);
     // TODO mbt 1414
     // m_zBottom->setShortcut(Qt::Key_End);
     m_zBottom->setToolTip(i18n("Lower object to bottom"));
     connect(m_zBottom, &QAction::triggered, this, &TitleWidget::slotZIndexBottom);
     zBottom->setDefaultAction(m_zBottom);
 
-    m_selectAll = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-select-all")), QString(), this);
+    m_selectAll = new QAction(QIcon::fromTheme(QStringLiteral("edit-select-all")), QString(), this);
     m_selectAll->setShortcut(Qt::CTRL | Qt::Key_A);
     m_selectAll->setToolTip(i18n("Select All"));
     connect(m_selectAll, &QAction::triggered, this, &TitleWidget::slotSelectAll);
@@ -332,7 +333,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     buttonSelectImages->setDefaultAction(m_selectImages);
     buttonSelectImages->setEnabled(false);
 
-    m_unselectAll = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-unselect-all")), QString(), this);
+    m_unselectAll = new QAction(QIcon::fromTheme(QStringLiteral("edit-select-none")), QString(), this);
     m_unselectAll->setShortcut(Qt::SHIFT | Qt::CTRL | Qt::Key_A);
     m_unselectAll->setToolTip(i18n("Deselect"));
     connect(m_unselectAll, &QAction::triggered, this, &TitleWidget::slotSelectNone);
@@ -371,6 +372,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     m_buttonCursor->setCheckable(true);
     m_buttonCursor->setShortcut(Qt::ALT | Qt::Key_S);
     m_buttonCursor->setToolTip(i18n("Selection Tool") + QLatin1Char(' ') + m_buttonCursor->shortcut().toString());
+    m_buttonCursor->setWhatsThis(xi18nc("@info:whatsthis", "When selected, a click on an asset in the timeline selects the asset (e.g. clip, composition)."));
     connect(m_buttonCursor, &QAction::triggered, this, &TitleWidget::slotSelectTool);
 
     m_buttonText = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("insert-text")), i18n("Add Text"));
@@ -688,7 +690,8 @@ void TitleWidget::templateIndexChanged(int index)
     QString item = templateBox->itemData(index).toString();
     if (!item.isEmpty()) {
         if (m_lastDocumentHash != QCryptographicHash::hash(xml().toString().toLatin1(), QCryptographicHash::Md5).toHex()) {
-            if (KMessageBox::questionYesNo(this, i18n("Do you really want to load a new template? Changes in this title will be lost!")) == KMessageBox::No) {
+            if (KMessageBox::warningContinueCancel(this, i18n("Do you really want to load a new template? Changes in this title will be lost!")) !=
+                KMessageBox::Continue) {
                 return;
             }
         }
@@ -933,9 +936,9 @@ void TitleWidget::displayBackgroundFrame()
             m_frameImage->setPixmap(bg);
         }
         }
-        emit updatePatternsBackgroundFrame();
+        Q_EMIT updatePatternsBackgroundFrame();
     } else {
-        emit requestBackgroundFrame(true);
+        Q_EMIT requestBackgroundFrame(true);
     }
 }
 
@@ -943,8 +946,8 @@ void TitleWidget::slotGotBackground(const QImage &img)
 {
     QRectF r = m_frameBorder->sceneBoundingRect();
     m_frameImage->setPixmap(QPixmap::fromImage(img.scaled(int(r.width() / 2), int(r.height() / 2))));
-    emit requestBackgroundFrame(false);
-    emit updatePatternsBackgroundFrame();
+    Q_EMIT requestBackgroundFrame(false);
+    Q_EMIT updatePatternsBackgroundFrame();
 }
 
 void TitleWidget::initAnimation()
@@ -2170,8 +2173,10 @@ QUrl TitleWidget::saveTitle(QUrl url)
     QList<QGraphicsItem *> list = graphicsView->scene()->items();
     auto is_embedable = [&](QGraphicsItem *item) { return item->type() == QGraphicsPixmapItem::Type && item != m_frameImage; };
     bool embed_image = std::any_of(list.begin(), list.end(), is_embedable);
-    if (embed_image && KMessageBox::questionYesNo(
-                           this, i18n("Do you want to embed Images into this TitleDocument?\nThis is most needed for sharing Titles.")) != KMessageBox::Yes) {
+    if (embed_image &&
+        KMessageBox::questionTwoActions(this, i18n("Do you want to embed Images into this TitleDocument?\nThis is most needed for sharing Titles."), {},
+                                        KGuiItem(i18nc("@action:button", "Embed Images")),
+                                        KGuiItem(i18nc("@action:button", "Continue without"))) != KMessageBox::PrimaryAction) {
         embed_image = false;
     }
     if (!url.isValid()) {
@@ -2181,9 +2186,6 @@ QUrl TitleWidget::saveTitle(QUrl url)
         fs->setAcceptMode(QFileDialog::AcceptSave);
         fs->setDefaultSuffix(QStringLiteral("kdenlivetitle"));
 
-        // TODO: KF5 porting?
-        // fs->setConfirmOverwrite(true);
-        // fs->setKeepLocation(true);
         if ((fs->exec() != 0) && !fs->selectedUrls().isEmpty()) {
             url = fs->selectedUrls().constFirst();
         }

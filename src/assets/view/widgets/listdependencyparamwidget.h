@@ -57,7 +57,7 @@ public:
      */
     QString getValue();
 
-public slots:
+public Q_SLOTS:
     /** @brief Toggle the comments on or off
      */
     void slotShowComment(bool show) override;

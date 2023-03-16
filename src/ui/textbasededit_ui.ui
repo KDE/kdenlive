@@ -10,9 +10,15 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>411</width>
-    <height>422</height>
+    <width>364</width>
+    <height>344</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="0">
@@ -94,7 +100,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset theme="go-up"/>
+         <iconset theme="go-up">
+          <normaloff>.</normaloff>.</iconset>
         </property>
        </widget>
       </item>
@@ -114,7 +121,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset theme="go-down"/>
+         <iconset theme="go-down">
+          <normaloff>.</normaloff>.</iconset>
         </property>
        </widget>
       </item>
@@ -124,7 +132,27 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <item row="6" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QComboBox" name="language_box"/>
+      <widget class="QToolButton" name="button_config">
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="popupMode">
+        <enum>QToolButton::InstantPopup</enum>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="language_box">
+       <property name="sizeAdjustPolicy">
+        <enum>QComboBox::AdjustToContents</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="speech_language"/>
      </item>
      <item>
       <spacer name="horizontalSpacer">
@@ -133,8 +161,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>250</width>
-         <height>20</height>
+         <width>0</width>
+         <height>0</height>
         </size>
        </property>
       </spacer>
@@ -176,8 +204,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>244</width>
-          <height>20</height>
+          <width>0</width>
+          <height>0</height>
          </size>
         </property>
        </spacer>
@@ -188,7 +216,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset theme="edit-find"/>
+         <iconset theme="edit-find">
+          <normaloff>.</normaloff>.</iconset>
         </property>
         <property name="checkable">
          <bool>true</bool>

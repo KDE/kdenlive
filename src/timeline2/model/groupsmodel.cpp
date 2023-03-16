@@ -140,7 +140,7 @@ Fun GroupsModel::destructGroupItem_lambda(int id)
                 ix = ptr->makeCompositionIndexFromID(child);
             }
             if (ix.isValid()) {
-                emit ptr->dataChanged(ix, ix, {TimelineModel::GroupedRole});
+                Q_EMIT ptr->dataChanged(ix, ix, {TimelineModel::GroupedRole});
             } else if (ptr->isSubTitle(child)) {
                 ptr->subtitleChanged(child, {TimelineModel::GroupedRole});
             }
@@ -315,7 +315,7 @@ void GroupsModel::setGroup(int id, int groupId, bool changeState)
                 ix = ptr->makeCompositionIndexFromID(id);
             }
             if (ix.isValid()) {
-                emit ptr->dataChanged(ix, ix, {TimelineModel::GroupedRole});
+                Q_EMIT ptr->dataChanged(ix, ix, {TimelineModel::GroupedRole});
             } else if (ptr->isSubTitle(id)) {
                 ptr->subtitleChanged(id, {TimelineModel::GroupedRole});
             }
@@ -357,7 +357,7 @@ void GroupsModel::removeFromGroup(int id)
             ix = ptr->makeCompositionIndexFromID(id);
         }
         if (ix.isValid()) {
-            emit ptr->dataChanged(ix, ix, {TimelineModel::GroupedRole});
+            Q_EMIT ptr->dataChanged(ix, ix, {TimelineModel::GroupedRole});
         } else if (ptr->isSubTitle(id)) {
             ptr->subtitleChanged(id, {TimelineModel::GroupedRole});
         }
@@ -822,6 +822,9 @@ int GroupsModel::fromJson(const QJsonObject &o, Fun &undo, Fun &redo)
 
 bool GroupsModel::fromJson(const QString &data)
 {
+    if (data.isEmpty()) {
+        return true;
+    }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     auto json = QJsonDocument::fromJson(data.toUtf8());

@@ -36,6 +36,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "kdenlive_debug.h"
 #include "utils/KMessageBox_KdenliveCompat.h"
+#include <KIO/RenameDialog>
 #include <KImageCache>
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -47,6 +48,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QMimeDatabase>
 #include <QPainter>
 #include <QProcess>
 #include <QtMath>
@@ -69,7 +71,7 @@ RTTR_REGISTRATION
 }
 #endif
 
-ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model, std::shared_ptr<Mlt::Producer> producer)
+ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model, std::shared_ptr<Mlt::Producer> &producer)
     : AbstractProjectItem(AbstractProjectItem::ClipItem, id, model)
     , ClipController(id, producer)
     , isReloading(false)
@@ -82,9 +84,9 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
     m_markerFilterModel->setSourceModel(m_markerModel.get());
     m_markerFilterModel->setSortRole(MarkerListModel::PosRole);
     m_markerFilterModel->sort(0, Qt::AscendingOrder);
-    if (producer->get_int("_placeholder") == 1) {
+    if (m_masterProducer->get_int("_placeholder") == 1) {
         m_clipStatus = FileStatus::StatusMissing;
-    } else if (producer->get_int("_missingsource") == 1) {
+    } else if (m_masterProducer->get_int("_missingsource") == 1) {
         m_clipStatus = FileStatus::StatusProxyOnly;
     } else if (m_usesProxy) {
         m_clipStatus = FileStatus::StatusProxy;
@@ -100,6 +102,17 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
     if (m_clipType == ClipType::Audio) {
         m_thumbnail = QIcon::fromTheme(QStringLiteral("audio-x-generic"));
     } else {
+        if (m_clipType == ClipType::Timeline) {
+            // Initialize path for thumbnails playlist
+            m_sequenceUuid = QUuid(m_masterProducer->get("kdenlive:uuid"));
+            if (model->hasSequenceId(m_sequenceUuid)) {
+                // OOps we already have a sequence with this uuid, change it
+                m_sequenceUuid = QUuid::createUuid();
+                m_masterProducer->set("kdenlive:uuid", m_sequenceUuid.toString().toUtf8().constData());
+                m_masterProducer->parent().set("kdenlive:uuid", m_sequenceUuid.toString().toUtf8().constData());
+            }
+            m_sequenceThumbFile.setFileTemplate(QDir::temp().absoluteFilePath(QStringLiteral("thumbs-%1-XXXXXX.mlt").arg(m_binId)));
+        }
         m_thumbnail = thumb;
     }
     // Make sure we have a hash for this clip
@@ -131,12 +144,12 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
 
 // static
 std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model,
-                                                    const std::shared_ptr<Mlt::Producer> &producer)
+                                                    std::shared_ptr<Mlt::Producer> &producer)
 {
     std::shared_ptr<ProjectClip> self(new ProjectClip(id, thumb, model, producer));
     baseFinishConstruct(self);
     QMetaObject::invokeMethod(model.get(), "loadSubClips", Qt::QueuedConnection, Q_ARG(QString, id),
-                              Q_ARG(QString, self->getProducerProperty(QStringLiteral("kdenlive:clipzones"))));
+                              Q_ARG(QString, self->getProducerProperty(QStringLiteral("kdenlive:clipzones"))), Q_ARG(bool, false));
     return self;
 }
 
@@ -167,13 +180,15 @@ ProjectClip::ProjectClip(const QString &id, const QDomElement &description, cons
         }
     }
     m_temporaryUrl = getXmlProperty(description, QStringLiteral("resource"));
-    QString clipName = getXmlProperty(description, QStringLiteral("kdenlive:clipname"));
-    if (!clipName.isEmpty()) {
-        m_name = clipName;
-    } else if (!m_temporaryUrl.isEmpty()) {
-        m_name = QFileInfo(m_temporaryUrl).fileName();
-    } else {
-        m_name = i18n("Untitled");
+    if (m_name.isEmpty()) {
+        QString clipName = getXmlProperty(description, QStringLiteral("kdenlive:clipname"));
+        if (!clipName.isEmpty()) {
+            m_name = clipName;
+        } else if (!m_temporaryUrl.isEmpty() && m_clipType != ClipType::Timeline) {
+            m_name = QFileInfo(m_temporaryUrl).fileName();
+        } else {
+            m_name = i18n("Unnamed");
+        }
     }
     m_date = QFileInfo(m_temporaryUrl).lastModified();
     m_boundaryTimer.setSingleShot(true);
@@ -207,6 +222,9 @@ QString ProjectClip::getToolTip() const
     if (m_clipType == ClipType::Color && m_path.contains(QLatin1Char('/'))) {
         return m_path.section(QLatin1Char('/'), -1);
     }
+    if (m_clipType == ClipType::Timeline) {
+        return i18n("Timeline sequence");
+    }
     return m_path;
 }
 
@@ -225,7 +243,7 @@ QString ProjectClip::getXmlProperty(const QDomElement &producer, const QString &
 
 void ProjectClip::updateAudioThumbnail(bool cachedThumb)
 {
-    emit audioThumbReady();
+    Q_EMIT audioThumbReady();
     if (m_clipType == ClipType::Audio) {
         QImage thumb = ThumbnailCache::get()->getThumbnail(m_binId, 0);
         if (thumb.isNull() && !pCore->taskManager.hasPendingJob({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::AUDIOTHUMBJOB)) {
@@ -352,10 +370,10 @@ std::shared_ptr<ProjectClip> ProjectClip::clipAt(int ix)
 
 bool ProjectClip::hasUrl() const
 {
-    if ((m_clipType != ClipType::Color) && (m_clipType != ClipType::Unknown)) {
-        return (!clipUrl().isEmpty());
+    if (m_clipType == ClipType::Color || m_clipType == ClipType::Unknown || m_clipType == ClipType::Timeline) {
+        return false;
     }
-    return false;
+    return !clipUrl().isEmpty();
 }
 
 const QString ProjectClip::url() const
@@ -376,6 +394,14 @@ GenTime ProjectClip::duration() const
 size_t ProjectClip::frameDuration() const
 {
     return size_t(getFramePlaytime());
+}
+
+void ProjectClip::resetSequenceThumbnails()
+{
+    m_thumbsProducer.reset();
+    ThumbnailCache::get()->invalidateThumbsForClip(m_binId);
+    m_uuid = QUuid::createUuid();
+    updateTimelineClips({TimelineModel::ClipThumbRole});
 }
 
 void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudioReload)
@@ -436,7 +462,6 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
             if (forceAudioReload || (!isProxy && hashChanged)) {
                 discardAudioThumb();
             }
-            ThumbnailCache::get()->invalidateThumbsForClip(clipId());
             m_clipStatus = FileStatus::StatusWaiting;
             m_thumbsProducer.reset();
             ClipLoadTask::start({ObjectType::BinClip, m_binId.toInt()}, xml, false, -1, -1, this);
@@ -448,10 +473,24 @@ QDomElement ProjectClip::toXml(QDomDocument &document, bool includeMeta, bool in
 {
     getProducerXML(document, includeMeta, includeProfile);
     QDomElement prod;
-    if (document.documentElement().tagName() == QLatin1String("producer")) {
+    QString tag = document.documentElement().tagName();
+    if (tag == QLatin1String("producer") || tag == QLatin1String("chain")) {
         prod = document.documentElement();
     } else {
-        prod = document.documentElement().firstChildElement(QStringLiteral("producer"));
+        // Check if this is a sequence clip
+        if (m_clipType == ClipType::Timeline) {
+            prod = document.documentElement();
+            prod.setAttribute(QStringLiteral("kdenlive:id"), m_binId);
+            prod.setAttribute(QStringLiteral("kdenlive:producer_type"), ClipType::Timeline);
+            prod.setAttribute(QStringLiteral("kdenlive:uuid"), m_sequenceUuid.toString());
+            prod.setAttribute(QStringLiteral("kdenlive:duration"), QString::number(frameDuration()));
+            prod.setAttribute(QStringLiteral("kdenlive:clipname"), clipName());
+        } else {
+            prod = document.documentElement().firstChildElement(QStringLiteral("chain"));
+            if (prod.isNull()) {
+                prod = document.documentElement().firstChildElement(QStringLiteral("producer"));
+            }
+        }
     }
     if (m_clipType != ClipType::Unknown) {
         prod.setAttribute(QStringLiteral("type"), int(m_clipType));
@@ -518,7 +557,7 @@ QPixmap ProjectClip::thumbnail(int width, int height)
     return m_thumbnail.pixmap(width, height);
 }
 
-bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool generateThumb)
+bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool generateThumb, bool clearTrackProducers)
 {
     qDebug() << "################### ProjectClip::setproducer #################";
     QMutexLocker locker(&m_producerMutex);
@@ -538,7 +577,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
             m_path = original;
             setProducerProperty(QStringLiteral("kdenlive:originalurl"), m_path);
             // Use original clip name
-            if (m_name == QFileInfo(path).fileName()) {
+            if (m_clipType != ClipType::Timeline && m_name == QFileInfo(path).fileName()) {
                 m_name = QFileInfo(m_path).fileName();
             }
             getFileHash();
@@ -549,7 +588,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     updateProducer(producer);
     isReloading = false;
     getFileHash();
-    emit producerChanged(m_binId, producer);
+    Q_EMIT producerChanged(m_binId, m_masterProducer);
     m_thumbsProducer.reset();
     connectEffectStack();
 
@@ -567,9 +606,14 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     if (m_clipType == ClipType::Audio) {
         m_thumbnail = QIcon::fromTheme(QStringLiteral("audio-x-generic"));
     } else if (m_clipType == ClipType::Image) {
-        if (producer->get_int("meta.media.width") < 8 || producer->get_int("meta.media.height") < 8) {
+        if (m_masterProducer->get_int("meta.media.width") < 8 || m_masterProducer->get_int("meta.media.height") < 8) {
             KMessageBox::information(QApplication::activeWindow(),
                                      i18n("Image dimension smaller than 8 pixels.\nThis is not correctly supported by our video framework."));
+        }
+    } else if (m_clipType == ClipType::Timeline) {
+        if (m_sequenceUuid.isNull()) {
+            m_sequenceUuid = QUuid::createUuid();
+            setProducerProperty(QStringLiteral("kdenlive:uuid"), m_sequenceUuid.toString());
         }
     }
     m_duration = getStringDuration();
@@ -596,20 +640,32 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
         AudioLevelsTask::start({ObjectType::BinClip, m_binId.toInt()}, this, false);
     }
     pCore->bin()->reloadMonitorIfActive(clipId());
-    for (auto &p : m_audioProducers) {
-        m_effectStack->removeService(p.second);
+    if (clearTrackProducers) {
+        for (auto &p : m_audioProducers) {
+            m_effectStack->removeService(p.second);
+        }
+        for (auto &p : m_videoProducers) {
+            m_effectStack->removeService(p.second);
+        }
+        for (auto &p : m_timewarpProducers) {
+            m_effectStack->removeService(p.second);
+        }
+        // Release audio producers
+        m_audioProducers.clear();
+        m_videoProducers.clear();
+        if (m_timewarpProducers.size() > 0) {
+            if (m_clipType == ClipType::Timeline) {
+                bool ok;
+                QDir sequenceFolder = pCore->currentDoc()->getCacheDir(CacheTmpWorkFiles, &ok);
+                if (ok) {
+                    QString resource = sequenceFolder.absoluteFilePath(QString("sequence-%1.mlt").arg(m_sequenceUuid.toString()));
+                    QFile::remove(resource);
+                }
+            }
+        }
+        m_timewarpProducers.clear();
     }
-    for (auto &p : m_videoProducers) {
-        m_effectStack->removeService(p.second);
-    }
-    for (auto &p : m_timewarpProducers) {
-        m_effectStack->removeService(p.second);
-    }
-    // Release audio producers
-    m_audioProducers.clear();
-    m_videoProducers.clear();
-    m_timewarpProducers.clear();
-    emit refreshPropertiesPanel();
+    Q_EMIT refreshPropertiesPanel();
     if (hasLimitedDuration()) {
         connect(&m_boundaryTimer, &QTimer::timeout, this, &ProjectClip::refreshBounds);
     } else {
@@ -737,37 +793,35 @@ std::shared_ptr<Mlt::Producer> ProjectClip::thumbProducer()
     if (KdenliveSettings::gpu_accel()) {
         // TODO: when the original producer changes, we must reload this thumb producer
         m_thumbsProducer = softClone(ClipController::getPassPropertiesList());
+    } else if (m_clipType == ClipType::Timeline) {
+        if (!m_sequenceThumbFile.isOpen() && !m_sequenceThumbFile.open()) {
+            // Something went wrong
+            qWarning() << "Cannot write to temporary file: " << m_sequenceThumbFile.fileName();
+            return nullptr;
+        }
+        cloneProducerToFile(m_sequenceThumbFile.fileName());
+        m_thumbsProducer.reset(new Mlt::Producer(*pCore->thumbProfile(), "consumer", m_sequenceThumbFile.fileName().toUtf8().constData()));
     } else {
         QString mltService = m_masterProducer->get("mlt_service");
         const QString mltResource = m_masterProducer->get("resource");
         if (mltService == QLatin1String("avformat")) {
             mltService = QStringLiteral("avformat-novalidate");
         }
-        Mlt::Profile *profile = pCore->thumbProfile();
-        if (mltService.startsWith(QLatin1String("xml"))) {
-            // Xml producers can corrupt the profile, so enforce width/height again after loading
-            int profileWidth = profile->width();
-            int profileHeight = profile->height();
-            m_thumbsProducer.reset(new Mlt::Producer(*profile, "consumer", mltResource.toUtf8().constData()));
-            profile->set_width(profileWidth);
-            profile->set_height(profileHeight);
-        } else {
-            m_thumbsProducer.reset(new Mlt::Producer(*profile, mltService.toUtf8().constData(), mltResource.toUtf8().constData()));
-        }
-        if (m_thumbsProducer->is_valid()) {
-            Mlt::Properties original(m_masterProducer->get_properties());
-            Mlt::Properties cloneProps(m_thumbsProducer->get_properties());
-            cloneProps.pass_list(original, ClipController::getPassPropertiesList());
-            Mlt::Filter scaler(*pCore->thumbProfile(), "swscale");
-            Mlt::Filter padder(*pCore->thumbProfile(), "resize");
-            Mlt::Filter converter(*pCore->thumbProfile(), "avcolor_space");
-            m_thumbsProducer->set("audio_index", -1);
-            // Required to make get_playtime() return > 1
-            m_thumbsProducer->set("out", m_thumbsProducer->get_length() - 1);
-            m_thumbsProducer->attach(scaler);
-            m_thumbsProducer->attach(padder);
-            m_thumbsProducer->attach(converter);
-        }
+        m_thumbsProducer.reset(new Mlt::Producer(*pCore->thumbProfile(), mltService.toUtf8().constData(), mltResource.toUtf8().constData()));
+    }
+    if (m_thumbsProducer->is_valid()) {
+        Mlt::Properties original(m_masterProducer->get_properties());
+        Mlt::Properties cloneProps(m_thumbsProducer->get_properties());
+        cloneProps.pass_list(original, ClipController::getPassPropertiesList());
+        Mlt::Filter scaler(*pCore->thumbProfile(), "swscale");
+        Mlt::Filter padder(*pCore->thumbProfile(), "resize");
+        Mlt::Filter converter(*pCore->thumbProfile(), "avcolor_space");
+        m_thumbsProducer->set("audio_index", -1);
+        // Required to make get_playtime() return > 1
+        m_thumbsProducer->set("out", m_thumbsProducer->get_length() - 1);
+        m_thumbsProducer->attach(scaler);
+        m_thumbsProducer->attach(padder);
+        m_thumbsProducer->attach(converter);
     }
     return m_thumbsProducer;
 }
@@ -902,7 +956,11 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
                                                    m_clipType == ClipType::TextTemplate || m_clipType == ClipType::Qml))) {
             // Temporary copy, return clone of master
             int duration = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
-            return std::shared_ptr<Mlt::Producer>(m_masterProducer->cut(-1, duration > 0 ? duration - 1 : -1));
+            std::shared_ptr<Mlt::Producer> prod(m_masterProducer->cut(-1, duration > 0 ? duration - 1 : -1));
+            if (m_clipType == ClipType::Timeline && m_masterProducer->property_exists("kdenlive:maxduration")) {
+                prod->set("kdenlive:maxduration", m_masterProducer->get_int("kdenlive:maxduration"));
+            }
+            return prod;
         }
         if (m_timewarpProducers.count(clipId) > 0) {
             m_effectStack->removeService(m_timewarpProducers[clipId]);
@@ -922,13 +980,18 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
                 trackId = -trackId;
             }
             if (m_audioProducers.count(trackId) == 0) {
-                m_audioProducers[trackId] = cloneProducer(true);
+                if (m_clipType == ClipType::Timeline) {
+                    std::shared_ptr<Mlt::Producer> prod(m_masterProducer->cut(0, -1));
+                    m_audioProducers[trackId] = prod;
+                } else {
+                    m_audioProducers[trackId] = cloneProducer(true);
+                }
                 m_audioProducers[trackId]->set("set.test_audio", 0);
                 m_audioProducers[trackId]->set("set.test_image", 1);
                 if (m_streamEffects.contains(audioStream)) {
                     QStringList effects = m_streamEffects.value(audioStream);
                     for (const QString &effect : qAsConst(effects)) {
-                        Mlt::Filter filt(*m_audioProducers[trackId]->profile(), effect.toUtf8().constData());
+                        Mlt::Filter filt(m_audioProducers[trackId]->get_profile(), effect.toUtf8().constData());
                         if (filt.is_valid()) {
                             // Add stream effect markup
                             filt.set("kdenlive:stream", 1);
@@ -941,7 +1004,11 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
                 }
                 m_effectStack->addService(m_audioProducers[trackId]);
             }
-            return std::shared_ptr<Mlt::Producer>(m_audioProducers[trackId]->cut());
+            std::shared_ptr<Mlt::Producer> prod(m_audioProducers[trackId]->cut());
+            if (m_clipType == ClipType::Timeline && m_audioProducers[trackId]->property_exists("kdenlive:maxduration")) {
+                prod->set("kdenlive:maxduration", m_audioProducers[trackId]->get_int("kdenlive:maxduration"));
+            }
+            return prod;
         }
         if (m_audioProducers.count(trackId) > 0) {
             m_effectStack->removeService(m_audioProducers[trackId]);
@@ -955,7 +1022,17 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
                 trackId = -trackId;
             }
             if (m_videoProducers.count(trackId) == 0) {
-                m_videoProducers[trackId] = cloneProducer(true);
+                if (m_clipType == ClipType::Timeline) {
+                    std::shared_ptr<Mlt::Producer> prod(m_masterProducer->cut(0, -1));
+                    m_videoProducers[trackId] = prod;
+                } else {
+                    m_videoProducers[trackId] = cloneProducer(true);
+                }
+                if (m_masterProducer->property_exists("kdenlive:maxduration")) {
+                    qDebug() << "ZZZZZZZZZZZZZZ\nFOUND MAXKDENLIVE DURATION: " << m_masterProducer->get_int("kdenlive:maxduration");
+                    m_videoProducers[trackId]->set("kdenlive:maxduration", m_masterProducer->get_int("kdenlive:maxduration"));
+                }
+
                 // Let audio enabled so that we can use audio visualization filters ?
                 m_videoProducers[trackId]->set("set.test_audio", 1);
                 m_videoProducers[trackId]->set("set.test_image", 0);
@@ -971,7 +1048,11 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
         Q_ASSERT(state == PlaylistState::Disabled);
         createDisabledMasterProducer();
         int duration = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
-        return std::shared_ptr<Mlt::Producer>(m_disabledProducer->cut(-1, duration > 0 ? duration - 1 : -1));
+        std::shared_ptr<Mlt::Producer> prod(m_disabledProducer->cut(-1, duration > 0 ? duration - 1 : -1));
+        if (m_clipType == ClipType::Timeline && m_videoProducers[trackId]->property_exists("kdenlive:maxduration")) {
+            prod->set("kdenlive:maxduration", m_videoProducers[trackId]->get_int("kdenlive:maxduration"));
+        }
+        return prod;
     }
 
     // For timewarp clips, we keep one separate producer for each clip.
@@ -996,8 +1077,21 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
         if (resource.isEmpty() || resource == QLatin1String("<producer>")) {
             resource = m_service;
         }
+        if (m_clipType == ClipType::Timeline) {
+            // speed effects of sequence clips have to use an external mlt playslist file
+            bool ok;
+            QDir sequenceFolder = pCore->currentDoc()->getCacheDir(CacheTmpWorkFiles, &ok);
+            if (!ok) {
+                qWarning() << "Cannot write to cache folder: " << sequenceFolder.absolutePath();
+                return nullptr;
+            }
+            resource = sequenceFolder.absoluteFilePath(QString("sequence-%1.mlt").arg(m_sequenceUuid.toString()));
+            if (!QFileInfo::exists(resource)) {
+                cloneProducerToFile(resource);
+            }
+        }
         if (timeremap) {
-            Mlt::Chain *chain = new Mlt::Chain(*originalProducer()->profile(), resource.toUtf8().constData());
+            Mlt::Chain *chain = new Mlt::Chain(*pCore->getProjectProfile(), resource.toUtf8().constData());
             Mlt::Link link("timeremap");
             chain->attach(link);
             warpProducer.reset(chain);
@@ -1012,9 +1106,13 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
                 if (resource.endsWith(QLatin1String(":qtext"))) {
                     resource.replace(QLatin1String("qtext"), originalProducer()->get("warp_resource"));
                 }
+                if (m_clipType == ClipType::Timeline || m_clipType == ClipType::Playlist) {
+                    // We must use the special "consumer" producer for mlt playlist files
+                    resource.prepend(QStringLiteral("consumer:"));
+                }
                 url = QString("timewarp:%1:%2").arg(QString::fromStdString(std::to_string(speed)), resource);
             }
-            warpProducer.reset(new Mlt::Producer(*originalProducer()->profile(), url.toUtf8().constData()));
+            warpProducer.reset(new Mlt::Producer(*pCore->getProjectProfile(), url.toUtf8().constData()));
             int original_length = originalProducer()->get_length();
             int updated_length = qRound(original_length / std::abs(speed));
             warpProducer->set("length", updated_length);
@@ -1067,7 +1165,18 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
             speed = master->parent().get_double("warp_speed");
             timeWarp = true;
         } else if (master->parent().type() == mlt_service_chain_type) {
-            timeWarp = true;
+            // Check if we have a timeremap link
+            Mlt::Chain parentChain(master->parent());
+            if (parentChain.link_count() > 0) {
+                for (int i = 0; i < parentChain.link_count(); i++) {
+                    std::unique_ptr<Mlt::Link> link(parentChain.link(i));
+                    if (strcmp(link->get("mlt_service"), "timeremap") == 0) {
+                        qDebug() << "::: FOUND CLIP WITH REMAP LINK: " << clipId;
+                        timeWarp = true;
+                        break;
+                    }
+                }
+            }
         }
         if (master->parent().get_int("_loaded") == 1) {
             // we already have a clip that shares the same master
@@ -1164,26 +1273,27 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
 
 void ProjectClip::cloneProducerToFile(const QString &path)
 {
-    Mlt::Consumer c(pCore->getCurrentProfile()->profile(), "xml", path.toUtf8().constData());
-    Mlt::Service s(m_masterProducer->get_service());
-    int ignore = s.get_int("ignore_points");
+    Mlt::Consumer c(*pCore->getProjectProfile(), "xml", path.toUtf8().constData());
+    // Mlt::Service s(m_masterProducer->get_service());
+    /*int ignore = s.get_int("ignore_points");
     if (ignore) {
         s.set("ignore_points", 0);
     }
-    c.connect(s);
+    c.connect(s);*/
     c.set("time_format", "frames");
     c.set("no_meta", 1);
     c.set("no_root", 1);
-    if (m_clipType != ClipType::Playlist && m_clipType != ClipType::Text && m_clipType != ClipType::TextTemplate) {
+    if (m_clipType != ClipType::Timeline && m_clipType != ClipType::Playlist && m_clipType != ClipType::Text && m_clipType != ClipType::TextTemplate) {
         // Playlist and text clips need to keep their profile info
         c.set("no_profile", 1);
     }
     c.set("root", "/");
     c.set("store", "kdenlive");
+    c.connect(m_masterProducer->parent());
     c.run();
-    if (ignore) {
+    /*if (ignore) {
         s.set("ignore_points", ignore);
-    }
+    }*/
     if (m_usesProxy) {
         QFile file(path);
         if (file.open(QIODevice::ReadOnly)) {
@@ -1200,9 +1310,43 @@ void ProjectClip::cloneProducerToFile(const QString &path)
     }
 }
 
+void ProjectClip::saveZone(QPoint zone, const QDir &dir)
+{
+    QString path = QString(clipName() + QLatin1Char('_') + QString::number(zone.x()) + QStringLiteral(".mlt"));
+    QString fullPath = dir.absoluteFilePath(path);
+    if (dir.exists(path)) {
+        QUrl url = QUrl::fromLocalFile(fullPath);
+        KIO::RenameDialog renameDialog(QApplication::activeWindow(), i18n("File already exists"), url, url, KIO::RenameDialog_Option::RenameDialog_Overwrite);
+        if (renameDialog.exec() != QDialog::Rejected) {
+            url = renameDialog.newDestUrl();
+            if (url.isValid()) {
+                fullPath = url.toLocalFile();
+            }
+        } else {
+            return;
+        }
+    }
+    Mlt::Consumer xmlConsumer(*pCore->getProjectProfile(), "xml", fullPath.toUtf8().constData());
+    xmlConsumer.set("terminate_on_pause", 1);
+    xmlConsumer.set("store", "kdenlive");
+    xmlConsumer.set("no_meta", 1);
+    QReadLocker lock(&m_producerLock);
+    if (m_clipType != ClipType::Timeline) {
+        Mlt::Producer prod(m_masterProducer->parent());
+        std::unique_ptr<Mlt::Producer> prod2(prod.cut(zone.x(), zone.y()));
+        Mlt::Playlist list(*pCore->getProjectProfile());
+        list.insert_at(0, *prod2.get(), 0);
+        // list.set("title", desc.toUtf8().constData());
+        xmlConsumer.connect(list);
+    } else {
+        xmlConsumer.connect(m_masterProducer->parent());
+    }
+    xmlConsumer.run();
+}
+
 std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects)
 {
-    Mlt::Consumer c(pCore->getCurrentProfile()->profile(), "xml", "string");
+    Mlt::Consumer c(*pCore->getProjectProfile(), "xml", "string");
     Mlt::Service s(m_masterProducer->get_service());
     int ignore = s.get_int("ignore_points");
     if (ignore) {
@@ -1221,7 +1365,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects)
     }
     const QByteArray clipXml = c.get("string");
     qDebug() << "============= CLONED CLIP: \n\n" << clipXml << "\n\n======================";
-    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", clipXml.constData()));
+    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(*pCore->getProjectProfile(), "xml-string", clipXml.constData()));
     if (strcmp(prod->get("mlt_service"), "avformat") == 0) {
         prod->set("mlt_service", "avformat-novalidate");
         prod->set("mute_on_pause", 0);
@@ -1262,7 +1406,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects)
 
 std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(const std::shared_ptr<Mlt::Producer> &producer)
 {
-    Mlt::Consumer c(*producer->profile(), "xml", "string");
+    Mlt::Consumer c(producer->get_profile(), "xml", "string");
     Mlt::Service s(producer->get_service());
     int ignore = s.get_int("ignore_points");
     if (ignore) {
@@ -1280,7 +1424,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(const std::shared_ptr<
         s.set("ignore_points", ignore);
     }
     const QByteArray clipXml = c.get("string");
-    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(*producer->profile(), "xml-string", clipXml.constData()));
+    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(producer->get_profile(), "xml-string", clipXml.constData()));
     if (strcmp(prod->get("mlt_service"), "avformat") == 0) {
         prod->set("mlt_service", "avformat-novalidate");
         prod->set("mute_on_pause", 0);
@@ -1294,7 +1438,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::softClone(const char *list)
     QString resource = QString::fromUtf8(m_masterProducer->get("resource"));
     std::shared_ptr<Mlt::Producer> clone(new Mlt::Producer(*pCore->thumbProfile(), service.toUtf8().constData(), resource.toUtf8().constData()));
     Mlt::Filter scaler(*pCore->thumbProfile(), "swscale");
-    Mlt::Filter converter(pCore->getCurrentProfile()->profile(), "avcolor_space");
+    Mlt::Filter converter(*pCore->getProjectProfile(), "avcolor_space");
     clone->attach(scaler);
     clone->attach(converter);
     Mlt::Properties original(m_masterProducer->get_properties());
@@ -1308,7 +1452,7 @@ std::unique_ptr<Mlt::Producer> ProjectClip::getClone()
     const char *list = ClipController::getPassPropertiesList();
     QString service = QString::fromLatin1(m_masterProducer->get("mlt_service"));
     QString resource = QString::fromUtf8(m_masterProducer->get("resource"));
-    std::unique_ptr<Mlt::Producer> clone(new Mlt::Producer(*m_masterProducer->profile(), service.toUtf8().constData(), resource.toUtf8().constData()));
+    std::unique_ptr<Mlt::Producer> clone(new Mlt::Producer(m_masterProducer->get_profile(), service.toUtf8().constData(), resource.toUtf8().constData()));
     Mlt::Properties original(m_masterProducer->get_properties());
     Mlt::Properties cloneProps(clone->get_properties());
     cloneProps.pass_list(original, list);
@@ -1394,6 +1538,10 @@ const QString ProjectClip::getFileHash()
         break;
     case ClipType::Color:
         fileData = getProducerProperty(QStringLiteral("resource")).toUtf8();
+        fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
+        break;
+    case ClipType::Timeline:
+        fileData = m_sequenceUuid.toString().toUtf8();
         fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
         break;
     default:
@@ -1495,6 +1643,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         // Clip source was changed, update important stuff
         refreshPanel = true;
         reload = true;
+        ThumbnailCache::get()->invalidateThumbsForClip(m_binId);
         resetProducerProperty(QStringLiteral("kdenlive:file_hash"));
         if (m_clipType == ClipType::Color) {
             refreshOnly = true;
@@ -1503,8 +1652,18 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
             // Clip resource changed, update thumbnail, name, clear hash
             refreshOnly = false;
             // Enforce reloading clip type in case of clip replacement
-            m_service.clear();
-            m_clipType = ClipType::Unknown;
+            if (m_clipType == ClipType::Image) {
+                // If replacing an image with another one, don't clear type so duration is preserved
+                QMimeDatabase db;
+                QMimeType type = db.mimeTypeForUrl(QUrl::fromLocalFile(properties.value(QStringLiteral("resource"))));
+                if (!type.name().startsWith(QLatin1String("image/"))) {
+                    m_service.clear();
+                    m_clipType = ClipType::Unknown;
+                }
+            } else {
+                m_service.clear();
+                m_clipType = ClipType::Unknown;
+            }
             clearBackupProperties();
             updateRoles << TimelineModel::ResourceRole << TimelineModel::MaxDurationRole << TimelineModel::NameRole;
         }
@@ -1548,7 +1707,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         updateRoles << TimelineModel::ResourceRole;
     }
     if (refreshAnalysis) {
-        emit refreshAnalysisPanel();
+        Q_EMIT refreshAnalysisPanel();
     }
     if (properties.contains(QStringLiteral("length")) || properties.contains(QStringLiteral("kdenlive:duration"))) {
         // Make sure length is >= kdenlive:duration
@@ -1562,7 +1721,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
             std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
                                                                            {AbstractProjectItem::DataDuration});
         refreshOnly = false;
-        reload = true;
+        reload = m_clipType != ClipType::Timeline;
     }
     QVector<int> refreshRoles;
     if (properties.contains(QStringLiteral("kdenlive:tags"))) {
@@ -1574,13 +1733,24 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         refreshRoles << TimelineModel::TagRole;
     }
     if (properties.contains(QStringLiteral("kdenlive:clipname"))) {
-        m_name = properties.value(QStringLiteral("kdenlive:clipname"));
+        const QString updatedName = properties.value(QStringLiteral("kdenlive:clipname"));
+        if (updatedName.isEmpty()) {
+            if (m_clipType != ClipType::Timeline && m_clipType != ClipType::Text && m_clipType != ClipType::TextTemplate) {
+                m_name = QFileInfo(m_path).fileName();
+            }
+        } else {
+            m_name = updatedName;
+        }
         refreshPanel = true;
         if (auto ptr = m_model.lock()) {
             std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
                                                                            {AbstractProjectItem::DataName});
         }
         refreshRoles << TimelineModel::NameRole;
+        if (m_clipType == ClipType::Timeline && !m_sequenceUuid.isNull()) {
+            // This is a timeline clip, update tab name
+            Q_EMIT pCore->bin()->updateTabName(m_sequenceUuid, m_name);
+        }
     }
     // update timeline clips
     if (!reload) {
@@ -1598,7 +1768,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         }
         if (refreshOnly) {
             if (auto ptr = m_model.lock()) {
-                emit std::static_pointer_cast<ProjectItemModel>(ptr)->refreshClip(m_binId);
+                Q_EMIT std::static_pointer_cast<ProjectItemModel>(ptr)->refreshClip(m_binId);
             }
         }
         if (!updateRoles.isEmpty()) {
@@ -1617,14 +1787,14 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         }
         if (audioStreamChanged) {
             refreshAudioInfo();
-            emit audioThumbReady();
+            Q_EMIT audioThumbReady();
             pCore->bin()->reloadMonitorStreamIfActive(clipId());
             refreshPanel = true;
         }
     }
     if (refreshPanel && m_properties) {
         // Some of the clip properties have changed through a command, update properties panel
-        emit refreshPropertiesPanel();
+        Q_EMIT refreshPropertiesPanel();
     }
     if (!passProperties.isEmpty() && (!reload || refreshOnly)) {
         for (auto &p : m_audioProducers) {
@@ -1655,7 +1825,7 @@ ClipPropertiesController *ProjectClip::buildProperties(QWidget *parent)
 {
     auto ptr = m_model.lock();
     Q_ASSERT(ptr);
-    auto *panel = new ClipPropertiesController(static_cast<ClipController *>(this), parent);
+    auto *panel = new ClipPropertiesController(clipName(), static_cast<ClipController *>(this), parent);
     connect(this, &ProjectClip::refreshPropertiesPanel, panel, &ClipPropertiesController::slotReloadProperties);
     connect(this, &ProjectClip::refreshAnalysisPanel, panel, &ClipPropertiesController::slotFillAnalysisData);
     connect(this, &ProjectClip::updateStreamInfo, panel, &ClipPropertiesController::updateStreamInfo);
@@ -1702,6 +1872,17 @@ bool ProjectClip::matches(const QString &condition)
     return true;
 }
 
+QString ProjectClip::clipName()
+{
+    if (m_name.isEmpty()) {
+        m_name = getProducerProperty(QStringLiteral("kdenlive:clipname"));
+        if (m_name.isEmpty()) {
+            m_name = m_path.isEmpty() || m_clipType == ClipType::Timeline ? i18n("Unnamed") : QFileInfo(m_path).fileName();
+        }
+    }
+    return m_name;
+}
+
 bool ProjectClip::rename(const QString &name, int column)
 {
     QMap<QString, QString> newProperties;
@@ -1709,13 +1890,12 @@ bool ProjectClip::rename(const QString &name, int column)
     bool edited = false;
     switch (column) {
     case 0:
-        if (m_name == name) {
+        if (m_name == name || ((m_clipType == ClipType::Timeline || m_clipType == ClipType::Text) && name.isEmpty())) {
             return false;
         }
         // Rename clip
         oldProperties.insert(QStringLiteral("kdenlive:clipname"), m_name);
         newProperties.insert(QStringLiteral("kdenlive:clipname"), name);
-        m_name = name;
         edited = true;
         break;
     case 2:
@@ -1730,7 +1910,6 @@ bool ProjectClip::rename(const QString &name, int column)
             oldProperties.insert(QStringLiteral("kdenlive:description"), m_description);
             newProperties.insert(QStringLiteral("kdenlive:description"), name);
         }
-        m_description = name;
         edited = true;
         break;
     }
@@ -1840,11 +2019,12 @@ QStringList ProjectClip::updatedAnalysisData(const QString &name, const QString 
     }
     QString current = getProducerProperty("kdenlive:clipanalysis." + name);
     if (!current.isEmpty()) {
-        if (KMessageBox::questionTwoActions(QApplication::activeWindow(), i18n("Clip already contains analysis data %1", name), QString(),
-                                            KGuiItem(i18n("Merge")), KStandardGuiItem::add()) == KMessageBox::Yes) {
+        // TODO
+        /*if (KMessageBox::questionTwoActions(QApplication::activeWindow(), i18n("Clip already contains analysis data %1", name), QString(),
+                                            KGuiItem(i18n("Merge")), KStandardGuiItem::add()) == KMessageBox::PrimaryAction) {
             // Merge data
             // TODO MLT7: convert to Mlt::Animation
-            /*auto &profile = pCore->getCurrentProfile();
+            auto &profile = pCore->getCurrentProfile();
             Mlt::Geometry geometry(current.toUtf8().data(), duration().frames(profile->fps()), profile->width(), profile->height());
             Mlt::Geometry newGeometry(data.toUtf8().data(), duration().frames(profile->fps()), profile->width(), profile->height());
             Mlt::GeometryItem item;
@@ -1855,9 +2035,9 @@ QStringList ProjectClip::updatedAnalysisData(const QString &name, const QString 
                 pos++;
                 geometry.insert(item);
             }
-            return QStringList() << QString("kdenlive:clipanalysis." + name) << geometry.serialise();*/
+            return QStringList() << QString("kdenlive:clipanalysis." + name) << geometry.serialise();
             // m_controller->setProperty("kdenlive:clipanalysis." + name, geometry.serialise());
-        }
+        }*/
         // Add data with another name
         int i = 1;
         QString previous = getProducerProperty("kdenlive:clipanalysis." + name + QString::number(i));
@@ -1901,7 +2081,7 @@ const QString ProjectClip::geometryWithOffset(const QString &data, int offset)
 
 bool ProjectClip::isSplittable() const
 {
-    return (m_clipType == ClipType::AV || m_clipType == ClipType::Playlist);
+    return (m_clipType == ClipType::AV || m_clipType == ClipType::Playlist || m_clipType == ClipType::Timeline);
 }
 
 void ProjectClip::setBinEffectsEnabled(bool enabled)
@@ -1940,7 +2120,7 @@ void ProjectClip::registerTimelineClip(std::weak_ptr<TimelineModel> timeline, in
     }
     m_registeredClips[clipId] = std::move(timeline);
     setRefCount(uint(m_registeredClips.size()), m_audioCount);
-    emit registeredClipChanged();
+    Q_EMIT registeredClipChanged();
 }
 
 void ProjectClip::checkClipBounds()
@@ -1959,7 +2139,7 @@ void ProjectClip::refreshBounds()
             }
         }
     }
-    emit boundsChanged(boundaries);
+    Q_EMIT boundsChanged(boundaries);
 }
 
 void ProjectClip::deregisterTimelineClip(int clipId, bool audioClip)
@@ -1978,16 +2158,64 @@ void ProjectClip::deregisterTimelineClip(int clipId, bool audioClip)
         m_audioProducers.erase(clipId);
     }
     setRefCount(uint(m_registeredClips.size()), m_audioCount);
-    emit registeredClipChanged();
+    Q_EMIT registeredClipChanged();
 }
 
 QList<int> ProjectClip::timelineInstances() const
 {
     QList<int> ids;
+    const QUuid activeUuid = pCore->currentTimelineId();
     for (const auto &registeredClip : m_registeredClips) {
+        if (auto ptr = registeredClip.second.lock()) {
+            if (ptr->uuid() != activeUuid) {
+                continue;
+            }
+        }
         ids.push_back(registeredClip.first);
     }
     return ids;
+}
+
+const QString ProjectClip::isReferenced(const QUuid &activeUuid) const
+{
+    for (const auto &registeredClip : m_registeredClips) {
+        if (auto ptr = registeredClip.second.lock()) {
+            if (ptr->uuid() == activeUuid) {
+                return m_binId;
+            }
+        }
+    }
+    return QString();
+}
+
+void ProjectClip::purgeReferences(const QUuid &activeUuid)
+{
+    QList<int> toDelete;
+    for (const auto &registeredClip : m_registeredClips) {
+        if (auto ptr = registeredClip.second.lock()) {
+            if (ptr->uuid() == activeUuid) {
+                toDelete.push_back(registeredClip.first);
+            }
+        }
+    }
+    if (!toDelete.isEmpty()) {
+        while (!toDelete.isEmpty()) {
+            int id = toDelete.takeFirst();
+            if (m_hasAudio) {
+                auto search = m_registeredClips.find(id);
+                if (search != m_registeredClips.end()) {
+                    if (auto ptr = search->second.lock()) {
+                        if (ptr->getClipState(search->first) == PlaylistState::AudioOnly) {
+                            m_audioCount--;
+                        }
+                    }
+                }
+            }
+            m_registeredClips.erase(id);
+        }
+        setRefCount(uint(m_registeredClips.size()), m_audioCount);
+        Q_EMIT registeredClipChanged();
+    }
 }
 
 bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
@@ -1999,6 +2227,17 @@ bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
         m_disabledProducer.reset();
         m_audioProducers.clear();
         m_videoProducers.clear();
+        if (m_timewarpProducers.size() > 0 && pCore->window() && pCore->bin()->isEnabled()) {
+            // If the clip is deleted, remove timewarp producers. Don't delete if Bin is disabled because this is when we are closing a project
+            if (m_clipType == ClipType::Timeline) {
+                bool ok;
+                QDir sequenceFolder = pCore->currentDoc()->getCacheDir(CacheTmpWorkFiles, &ok);
+                if (ok) {
+                    QString resource = sequenceFolder.absoluteFilePath(QString("sequence-%1.mlt").arg(m_sequenceUuid.toString()));
+                    QFile::remove(resource);
+                }
+            }
+        }
         m_timewarpProducers.clear();
         return true;
     };
@@ -2024,6 +2263,89 @@ bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
     PUSH_LAMBDA(operation, redo);
     qDebug() << "===== REMOVING MASTER PRODUCER; CURRENT COUNT: " << m_masterProducer.use_count() << "\n:::::::::::::::::::::::::::";
     return AbstractProjectItem::selfSoftDelete(undo, redo);
+}
+
+void ProjectClip::copyTimeWarpProducers(const QDir sequenceFolder, bool copy)
+{
+    if (m_clipType == ClipType::Timeline) {
+        for (auto &warp : m_timewarpProducers) {
+            const QString service(warp.second->get("mlt_service"));
+            QString path;
+            bool isTimeWarp = false;
+            const QString resource(warp.second->get("resource"));
+            if (service == QLatin1String("timewarp")) {
+                path = warp.second->get("warp_resource");
+                isTimeWarp = true;
+            } else {
+                path = resource;
+            }
+            bool consumerProducer = false;
+            if (resource.contains(QLatin1String("consumer:"))) {
+                consumerProducer = true;
+            }
+            if (path.startsWith(QLatin1String("consumer:"))) {
+                path = path.section(QLatin1Char(':'), 1);
+            }
+            if (QFileInfo(path).isRelative()) {
+                path.prepend(pCore->currentDoc()->documentRoot());
+            }
+            QString destFile = sequenceFolder.absoluteFilePath(QFileInfo(path).fileName());
+            if (copy) {
+                if (!destFile.endsWith(QLatin1String(".mlt")) || destFile == path) {
+                    continue;
+                }
+                QFile::remove(destFile);
+                QFile::copy(path, destFile);
+            }
+            if (isTimeWarp) {
+                warp.second->set("warp_resource", destFile.toUtf8().constData());
+                QString speed(warp.second->get("warp_speed"));
+                speed.append(QStringLiteral(":"));
+                if (consumerProducer) {
+                    destFile.prepend(QStringLiteral("consumer:"));
+                }
+                destFile.prepend(speed);
+                warp.second->set("resource", destFile.toUtf8().constData());
+
+            } else {
+                if (consumerProducer) {
+                    destFile.prepend(QStringLiteral("consumer:"));
+                }
+                warp.second->set("resource", destFile.toUtf8().constData());
+            }
+        }
+    }
+}
+
+void ProjectClip::reloadTimeline()
+{
+    pCore->bin()->reloadMonitorIfActive(m_binId);
+    for (auto &p : m_audioProducers) {
+        m_effectStack->removeService(p.second);
+    }
+    for (auto &p : m_videoProducers) {
+        m_effectStack->removeService(p.second);
+    }
+    for (auto &p : m_timewarpProducers) {
+        m_effectStack->removeService(p.second);
+    }
+    // Release audio producers
+    m_audioProducers.clear();
+    m_videoProducers.clear();
+    if (m_timewarpProducers.size() > 0) {
+        if (m_clipType == ClipType::Timeline) {
+            bool ok;
+            QDir sequenceFolder = pCore->currentDoc()->getCacheDir(CacheTmpWorkFiles, &ok);
+            if (ok) {
+                QString resource = sequenceFolder.absoluteFilePath(QString("sequence-%1.mlt").arg(m_sequenceUuid.toString()));
+                QFile::remove(resource);
+            }
+        }
+    }
+    m_timewarpProducers.clear();
+    Q_EMIT refreshPropertiesPanel();
+    replaceInTimeline();
+    updateTimelineClips({TimelineModel::IsProxyRole});
 }
 
 Fun ProjectClip::getAudio_lambda()
@@ -2099,12 +2421,20 @@ void ProjectClip::updateZones()
     setProducerProperty(QStringLiteral("kdenlive:clipzones"), QString(json.toJson()));
 }
 
+int ProjectClip::getThumbFrame() const
+{
+    if (m_clipType == ClipType::Timeline) {
+        return qMax(0, pCore->currentDoc()->getSequenceProperty(m_sequenceUuid, QStringLiteral("thumbnailFrame")).toInt());
+    }
+    return qMax(0, getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
+}
+
 void ProjectClip::getThumbFromPercent(int percent, bool storeFrame)
 {
     // extract a maximum of 30 frames for bin preview
     if (percent < 0) {
-        if (hasProducerProperty(QStringLiteral("kdenlive:thumbnailFrame"))) {
-            int framePos = qMax(0, getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
+        int framePos = getThumbFrame();
+        if (framePos > 0) {
             QImage thumb = ThumbnailCache::get()->getThumbnail(hashForThumbs(), m_binId, framePos);
             if (!thumb.isNull()) {
                 setThumbnail(thumb, -1, -1);
@@ -2126,7 +2456,11 @@ void ProjectClip::getThumbFromPercent(int percent, bool storeFrame)
         }
     }
     if (storeFrame) {
-        setProducerProperty(QStringLiteral("kdenlive:thumbnailFrame"), framePos);
+        if (m_clipType == ClipType::Timeline) {
+            pCore->currentDoc()->setSequenceProperty(m_sequenceUuid, QStringLiteral("thumbnailFrame"), QString::number(framePos));
+        } else {
+            setProducerProperty(QStringLiteral("kdenlive:thumbnailFrame"), framePos);
+        }
     }
 }
 
@@ -2244,7 +2578,7 @@ void ProjectClip::requestAddStreamEffect(int streamIndex, const QString effectNa
     }
     Fun redo = [this, streamIndex, effectName]() {
         addAudioStreamEffect(streamIndex, effectName);
-        emit updateStreamInfo(streamIndex);
+        Q_EMIT updateStreamInfo(streamIndex);
         return true;
     };
     Fun undo = [this, streamIndex, effectName, oldEffect]() {
@@ -2254,7 +2588,7 @@ void ProjectClip::requestAddStreamEffect(int streamIndex, const QString effectNa
         } else {
             removeAudioStreamEffect(streamIndex, effectName);
         }
-        emit updateStreamInfo(streamIndex);
+        Q_EMIT updateStreamInfo(streamIndex);
         return true;
     };
     addAudioStreamEffect(streamIndex, effectName);
@@ -2274,12 +2608,12 @@ void ProjectClip::requestRemoveStreamEffect(int streamIndex, const QString effec
     }
     Fun undo = [this, streamIndex, effectName, oldEffect]() {
         addAudioStreamEffect(streamIndex, oldEffect);
-        emit updateStreamInfo(streamIndex);
+        Q_EMIT updateStreamInfo(streamIndex);
         return true;
     };
     Fun redo = [this, streamIndex, effectName]() {
         removeAudioStreamEffect(streamIndex, effectName);
-        emit updateStreamInfo(streamIndex);
+        Q_EMIT updateStreamInfo(streamIndex);
         return true;
     };
     removeAudioStreamEffect(streamIndex, effectName);
@@ -2331,7 +2665,7 @@ void ProjectClip::addAudioStreamEffect(int streamIndex, const QString effectName
                     break;
                 }
             }
-            Mlt::Filter filt(*p.second->profile(), addedEffectName.toUtf8().constData());
+            Mlt::Filter filt(p.second->get_profile(), addedEffectName.toUtf8().constData());
             if (filt.is_valid()) {
                 // Add stream effect markup
                 filt.set("kdenlive:stream", 1);
@@ -2458,4 +2792,37 @@ const QStringList ProjectClip::enforcedParams() const
 const QString ProjectClip::baseThumbPath()
 {
     return QString("%1/%2/#").arg(m_binId).arg(m_uuid.toString());
+}
+
+bool ProjectClip::canBeDropped(const QUuid &uuid) const
+{
+    if (m_sequenceUuid == uuid) {
+        return false;
+    }
+    if (auto ptr = m_model.lock()) {
+        return std::static_pointer_cast<ProjectItemModel>(ptr)->canBeEmbeded(uuid, m_sequenceUuid);
+    } else {
+        qDebug() << "..... ERROR CANNOT LOCK MODEL";
+    }
+    return true;
+}
+
+const QList<QUuid> ProjectClip::registeredUuids() const
+{
+    QList<QUuid> uuids;
+    for (const auto &registeredClip : m_registeredClips) {
+        if (auto ptr = registeredClip.second.lock()) {
+            if (!uuids.contains(ptr->uuid())) {
+                uuids << ptr->uuid();
+            }
+        } else {
+            qDebug() << "CANNOT LOCK REGISTERED TL";
+        }
+    }
+    return uuids;
+}
+
+const QUuid &ProjectClip::getSequenceUuid() const
+{
+    return m_sequenceUuid;
 }

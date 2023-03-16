@@ -96,10 +96,10 @@ private:
      */
     template <class T> void createScopeDock(T *scopeWidget, const QString &title, const QString &name);
 
-public slots:
+public Q_SLOTS:
     void slotCheckActiveScopes();
 
-private slots:
+private Q_SLOTS:
     /**
       Updates the signal/slot connection since the active renderer has changed.
       */

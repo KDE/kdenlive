@@ -36,7 +36,7 @@ public:
     explicit EncodingProfilesDialog(EncodingProfilesManager::ProfileType profileType, QWidget *parent = nullptr);
     ~EncodingProfilesDialog() override;
 
-private slots:
+private Q_SLOTS:
     void slotLoadProfiles();
     void slotShowParams();
     void slotDeleteProfile();
@@ -61,7 +61,7 @@ public:
     /** @brief Only enable preview profiles with matching framerate */
     virtual void filterPreviewProfiles(const QString & /*profile*/);
 
-public slots:
+public Q_SLOTS:
     void slotUpdateProfile(int ix);
 
 protected:
@@ -73,7 +73,7 @@ protected:
 private:
     QPlainTextEdit *m_info;
 
-private slots:
+private Q_SLOTS:
     void slotManageEncodingProfile();
     virtual void loadEncodingProfiles();
 };
@@ -87,9 +87,9 @@ public:
     /** @brief Only enable preview profiles with matching framerate */
     void filterPreviewProfiles(const QString &profile) override;
 
-private slots:
+private Q_SLOTS:
     void loadEncodingProfiles() override;
 
-signals:
+Q_SIGNALS:
     void currentIndexChanged();
 };

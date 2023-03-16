@@ -39,7 +39,9 @@ void RenderServer::jobSent()
 {
     QLocalSocket *socket = reinterpret_cast<QLocalSocket *>(sender());
     QTextStream text(socket);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     text.setCodec("UTF-8");
+#endif
     QString block, line;
     while (text.readLineInto(&line)) {
         block.append(line);
@@ -50,20 +52,29 @@ void RenderServer::jobSent()
                 pCore->displayMessage(i18n("Communication error with render job"), ErrorMessage);
                 qWarning() << "RenderServer recieve error: " << error.errorString() << block;
             }
-            if (json.contains("url")) {
-                m_jobSocket[json["url"].toString()] = socket;
-            }
-            if (json.contains("setRenderingProgress")) {
-                emit setRenderingProgress(json["setRenderingProgress"]["url"].toString(), json["setRenderingProgress"]["progress"].toInt(),
-                                          json["setRenderingProgress"]["frame"].toInt());
-            }
-            if (json.contains("setRenderingFinished")) {
-                emit setRenderingFinished(json["setRenderingFinished"]["url"].toString(), json["setRenderingFinished"]["status"].toInt(),
-                                          json["setRenderingFinished"]["error"].toString());
-                m_jobSocket.remove(json["setRenderingFinished"]["url"].toString());
-            }
+            handleJson(json, socket);
             block.clear();
         }
+    }
+}
+
+void RenderServer::handleJson(const QJsonObject &json, QLocalSocket *socket)
+{
+    if (json.contains("url")) {
+        m_jobSocket[json["url"].toString()] = socket;
+    }
+    if (json.contains("setRenderingProgress")) {
+        const auto url = json["setRenderingProgress"]["url"].toString();
+        const auto progress = json["setRenderingProgress"]["progress"].toInt();
+        const auto frame = json["setRenderingProgress"]["frame"].toInt();
+        Q_EMIT setRenderingProgress(url, progress, frame);
+    }
+    if (json.contains("setRenderingFinished")) {
+        const auto url = json["setRenderingFinished"]["url"].toString();
+        const auto status = json["setRenderingFinished"]["status"].toInt();
+        const auto error = json["setRenderingFinished"]["error"].toString();
+        Q_EMIT setRenderingFinished(url, status, error);
+        m_jobSocket.remove(url);
     }
 }
 

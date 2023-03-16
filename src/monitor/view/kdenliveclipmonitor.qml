@@ -19,6 +19,7 @@ Item {
     height: 300; width: 400
     property string markerText
     property int itemType: 0
+    property int zoneOffset: 1
     property point profile: controller.profile
     property double zoom
     property point center
@@ -489,7 +490,7 @@ Item {
                     bottomMargin: overlayMargin
                 }
                 visible: root.showMarkers && controller.position == controller.zoneIn
-                text: i18n("In Point")
+                text: controller.zoneIn == controller.zoneOut ? i18n("In/Out Point") : i18n("In Point")
                 color: "white"
                 background: Rectangle {
                     color: "#228b22"
@@ -510,7 +511,7 @@ Item {
                     bottom: parent.bottom
                     bottomMargin: overlayMargin
                 }
-                visible: root.showMarkers && controller.position == controller.zoneOut
+                visible: root.showMarkers && controller.position == controller.zoneOut && controller.zoneOut > controller.zoneIn
                 text: i18n("Out Point")
                 color: "white"
                 background: Rectangle {

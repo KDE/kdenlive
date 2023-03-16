@@ -102,8 +102,30 @@ public:
     /** @brief Retrieve the current timeline (mostly used for testing.
      */
     std::shared_ptr<TimelineItemModel> getTimeline();
+    /** @brief Initialize a new timeline's default properties.
+     */
+    void initSequenceProperties(const QUuid &uuid, std::pair<int, int> tracks);
+    /** @brief Open a timeline clip in a tab.
+     *  @returns true if the timeline was not previously opened
+     */
+    bool openTimeline(const QString &id, const QUuid &uuid, int position = -1);
+    /** @brief Set a property on timeline uuid
+     */
+    void setTimelinePropery(QUuid uuid, const QString &prop, const QString &val);
+    /** @brief Get the count of timelines in this project
+     */
+    int getTimelinesCount() const;
 
-public slots:
+    void activateDocument(const QUuid &uuid);
+    /** @brief Close a timeline tab through its uuid
+     */
+    bool closeTimeline(const QUuid &uuid, bool onDeletion = false);
+    /** @brief Update a timeline sequence before saving or extracting xml
+     */
+    void syncTimeline(const QUuid &uuid);
+    void setActiveTimeline(const QUuid &uuid);
+
+public Q_SLOTS:
     void newFile(QString profileName, bool showProjectSettings = true);
     void newFile(bool showProjectSettings = true);
     /** @brief Shows file open dialog. */
@@ -179,8 +201,12 @@ public slots:
     void slotAddProjectNote();
     /** @brief insert license text in notes widget and focus widget to allow entering quick note. Virtual to allow Mocking */
     virtual void slotAddTextNote(const QString &text);
+    /** @brief Open a timeline with a referenc to a track / position. */
+    void seekTimeline(const QString &frameAndTrack);
+    /** @brief Create a sequence clip from timeline selection. */
+    void slotCreateSequenceFromSelection();
 
-private slots:
+private Q_SLOTS:
     void slotRevert();
     /** @brief Open the project's backupdialog. */
     bool slotOpenBackup(const QUrl &url = QUrl());
@@ -190,19 +216,19 @@ private slots:
     void slotMoveProgress(KJob *, unsigned long progress);
     void slotMoveFinished(KJob *job);
 
-signals:
+Q_SIGNALS:
     void docOpened(KdenliveDoc *document);
 
 protected:
     /** @brief Update the timeline according to the MLT XML */
-    bool updateTimeline(int pos, const QString &chunks, const QString &dirty, const QDateTime &documentDate, int enablePreview);
+    bool updateTimeline(int pos, bool createNewTab, const QString &chunks, const QString &dirty, const QDateTime &documentDate, bool enablePreview);
 
 private:
     /** @brief checks if autoback files exists, recovers from it if user says yes, returns true if files were recovered. */
     bool checkForBackupFile(const QUrl &url, bool newFile = false);
 
     KdenliveDoc *m_project{nullptr};
-    std::shared_ptr<TimelineItemModel> m_mainTimelineModel;
+    std::shared_ptr<TimelineItemModel> m_activeTimelineModel;
     QElapsedTimer m_lastSave;
     QTimer m_autoSaveTimer;
     QUrl m_startUrl;

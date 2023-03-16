@@ -69,6 +69,7 @@ public:
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void focusInEvent(QFocusEvent *event) override;
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -79,7 +80,7 @@ protected:
     void leaveEvent(QEvent *event) override;
     void dropEvent(QDropEvent *event) override;
 
-signals:
+Q_SIGNALS:
     void focusView();
     void updateDragMode(PlaylistState::ClipState type);
     void displayBinFrame(QModelIndex ix, int frame, bool storeFrame = false);
@@ -104,6 +105,7 @@ public:
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void focusInEvent(QFocusEvent *event) override;
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -113,7 +115,7 @@ protected:
 #endif
     void leaveEvent(QEvent *event) override;
 
-protected slots:
+protected Q_SLOTS:
     void closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHint hint) override;
     void editorDestroyed(QObject *editor) override;
 
@@ -125,7 +127,7 @@ private:
     bool performDrag();
     bool isEditing() const;
 
-signals:
+Q_SIGNALS:
     void focusView();
     void updateDragMode(PlaylistState::ClipState type);
     void displayBinFrame(QModelIndex ix, int frame, bool storeFrame = false);
@@ -153,10 +155,10 @@ private:
     QAction *m_action{nullptr};
     QMutex m_locker;
 
-public slots:
+public Q_SLOTS:
     void slotSetJobCount(int jobCount);
 
-private slots:
+private Q_SLOTS:
     void slotTimeLineChanged(qreal value);
     void slotTimeLineFinished();
 };
@@ -174,7 +176,7 @@ public:
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
 
-signals:
+Q_SIGNALS:
     void clearSearchLine();
     void showClearButton(bool);
 };
@@ -275,7 +277,7 @@ public:
     /** @brief refresh monitor stream selector  */
     void reloadMonitorStreamIfActive(const QString &id);
     /** @brief Update timeline targets according to selected audio streams */
-    void updateTargets(const QString &id);
+    void updateTargets(QString id = QStringLiteral("-1"));
 
     void doMoveClip(const QString &id, const QString &newParentId);
     void doMoveFolder(const QString &id, const QString &newParentId);
@@ -308,6 +310,8 @@ public:
     void emitRefreshPanel(const QString &id);
     /** @brief Returns true if there is no clip. */
     bool isEmpty() const;
+    /** @brief Returns true if there is a clip in bin. Timeline clips are ignored. */
+    bool hasUserClip() const;
     /** @brief Trigger reload of all clips. */
     void reloadAllProducers(bool reloadThumbs = true);
     /** @brief Ensure all audio thumbs have been created */
@@ -316,8 +320,6 @@ public:
     void getBinStats(uint *used, uint *unused, qint64 *usedSize, qint64 *unusedSize);
     /** @brief Returns the clip properties dockwidget. */
     QDockWidget *clipPropertiesDock();
-    /** @brief Returns a document's cache dir. ok is set to false if folder does not exist */
-    QDir getCacheDir(CacheType type, bool *ok) const;
     void rebuildProxies();
     /** @brief Return a list of all clips hashes used in this project */
     QStringList getProxyHashList();
@@ -331,11 +333,28 @@ public:
     void checkMissingProxies();
     /** @brief Save folder state (expanded or not) */
     void saveFolderState();
-    /** @brief Load folder state (expanded or not) */
-    void loadFolderState(const QStringList &foldersToExpand);
+    /** @brief Load folder state (expanded or not), zoom level and possible other project stored Bin settings */
+    void loadBinProperties(const QStringList &foldersToExpand, int zoomLevel = -1);
     /** @brief gets a QList of all clips used in timeline */
     QList<int> getUsedClipIds();
     ClipWidget* getWidget();
+    /** @brief Register a new timeline clip
+     * @param uuid the uuid of the new playlist (equals the uuid of the timelinemodel)
+     * @param id the bin id of the clip
+     */
+    void registerSequence(const QUuid uuid, const QString id);
+    /** @brief Update a new timeline clip when it has been changed
+     * @param uuid the uuid of the timeline clip that was changed
+     * @param id the updated duration of the timeline clip
+     * * @param current the uuid of the currently active timeline
+     */
+    void updateSequenceClip(const QUuid &uuid, int duration, int pos, std::shared_ptr<Mlt::Producer> prod);
+    /** @brief Returns the bin id of the clip managing a timeline sequence changed
+     * @param uuid the uuid of the timeline clip
+     */
+    const QString sequenceBinId(const QUuid &uuid);
+    /** @brief Update a sequence AV info (has audio/video) */
+    void updateSequenceAVType(const QUuid &uuid);
 
     // TODO refac: remove this and call directly the function in ProjectItemModel
     void cleanupUnused();
@@ -356,8 +375,21 @@ public:
     /** @brief Returns true if a clip with id cid is visible in this bin. */
     bool containsId(const QString &cid) const;
     void replaceSingleClip(const QString clipId, const QString &newUrl);
+    /** @brief Remove clip references for a timeline. */
+    void removeReferencedClips(const QUuid &uuid);
+    /** @brief List all clips referenced in a timeline sequence. */
+    QStringList sequenceReferencedClips(const QUuid &uuid) const;
+    /** @brief Define a thumbnail for a sequence clip. */
+    void setSequenceThumbnail(const QUuid &uuid, int frame);
+    /** @brief When saving or rendering, copy timewarp temporary playlists to the correct folder. */
+    void moveTimeWarpToFolder(const QDir sequenceFolder, bool copy);
+    /** @brief Create new sequence clip
+     * @param aTracks the audio tracks count, use default if -1
+     * @param vTracks the video tracks count, use default if -1 */
+    void buildSequenceClip(int aTracks = -1, int vTracks = -1);
+    const QString buildSequenceClipWithUndo(Fun &undo, Fun &redo, int aTracks = -1, int vTracks = -1);
 
-private slots:
+private Q_SLOTS:
     void slotAddClip();
     /** @brief Reload clip from disk */
     void slotReloadClip();
@@ -414,8 +446,12 @@ private slots:
     void editTags(const QList <QString> &allClips, const QString &tag, bool add);
     /** @brief Update the string description of the clips count, like: 123 clips (3 selected). */
     void updateClipsCount();
+    /** @brief Update the menu entry listing the occurrences of a clip in timeline. */
+    void updateTimelineOccurrences();
+    /** @brief Set (or unset) the default folder for newly created sequence clips. */
+    void setDefaultSequenceFolder(bool enable);
 
-public slots:
+public Q_SLOTS:
     void slotRemoveInvalidClip(const QString &id, bool replace, const QString &errorMessage);
     /** @brief Reload clip thumbnail - when frame for thumbnail changed */
     void slotRefreshClipThumbnail(const QString &id);
@@ -496,6 +532,8 @@ private:
     BinItemDelegate *m_binTreeViewDelegate;
     BinListItemDelegate *m_binListViewDelegate;
     std::unique_ptr<ProjectSortProxyModel> m_proxyModel;
+    /** @brief A map of opened timeline clips {uuid, bin id} */
+    QMap<QUuid, QString> m_openedPlaylists;
     QToolBar *m_toolbar;
     KdenliveDoc *m_doc;
     QLineEdit *m_searchLine;
@@ -530,6 +568,7 @@ private:
     QAction *m_proxyAction;
     QAction *m_deleteAction;
     QAction *m_openInBin;
+    QAction *m_sequencesFolderAction;
     QAction *m_addClip;
     QAction *m_createFolderAction;
     QAction *m_renameAction;
@@ -586,7 +625,7 @@ private:
     /** @brief Find all clip Ids that have a specific tag. */
     const QList<QString> getAllClipsWithTag(const QString &tag);
 
-signals:
+Q_SIGNALS:
     void itemUpdated(std::shared_ptr<AbstractProjectItem>);
     void producerReady(const QString &id);
     /** @brief Save folder info into MLT. */
@@ -612,4 +651,6 @@ signals:
     /** @brief A drag event ended, inform timeline. */
     void processDragEnd();
     void requestBinClose();
+    /** @brief Update a timeline tab name on clip rename. */
+    void updateTabName(const QUuid &, const QString &);
 };

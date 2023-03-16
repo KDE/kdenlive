@@ -24,10 +24,10 @@ public:
     void unsetModel();
     ObjectId stackOwner() const;
 
-signals:
+Q_SIGNALS:
     void seekToTransPos(int pos);
 
-private slots:
+private Q_SLOTS:
     void durationChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &roles);
     void updateDuration();
     void updatePosition();

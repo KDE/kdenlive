@@ -20,7 +20,7 @@ public:
                   const std::unordered_map<QString, QVariant> &filterParams, QObject *object);
     static void start(QObject* object, bool force = false);
 
-private slots:
+private Q_SLOTS:
     void processLogInfo();
 
 protected:

@@ -86,7 +86,7 @@ ColorPickerWidget::ColorPickerWidget(QWidget *parent)
     // our custom implementation (eg. preview and avarage color are missing)
     if (pCore) {
         QPoint p(pCore->window()->geometry().center());
-        foreach (QScreen *screen, QGuiApplication::screens()) {
+        for (QScreen *screen : QGuiApplication::screens()) {
             QRect screenRect = screen->geometry();
             if (screenRect.contains(p)) {
                 QPixmap pm = screen->grabWindow(pCore->window()->winId(), p.x(), p.y(), 1, 1);
@@ -160,7 +160,7 @@ void ColorPickerWidget::slotGetAverageColor()
     Window root = RootWindow(QX11Info::display(), QX11Info::appScreen());
     m_image = XGetImage(QX11Info::display(), root, m_grabRect.x(), m_grabRect.y(), m_grabRect.width(), m_grabRect.height(), -1, ZPixmap);
 #else
-    foreach (QScreen *screen, QGuiApplication::screens()) {
+    for (QScreen *screen : QGuiApplication::screens()) {
         QRect screenRect = screen->geometry();
         if (screenRect.contains(m_grabRect.topLeft())) {
             m_image =
@@ -186,15 +186,15 @@ void ColorPickerWidget::slotGetAverageColor()
     m_image = QImage();
 #endif
 
-    emit colorPicked(QColor(sumR / numPixel, sumG / numPixel, sumB / numPixel));
-    emit disableCurrentFilter(false);
+    Q_EMIT colorPicked(QColor(sumR / numPixel, sumG / numPixel, sumB / numPixel));
+    Q_EMIT disableCurrentFilter(false);
 }
 
 void ColorPickerWidget::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() != Qt::LeftButton) {
         closeEventFilter();
-        emit disableCurrentFilter(false);
+        Q_EMIT disableCurrentFilter(false);
         event->accept();
         return;
     }
@@ -218,8 +218,8 @@ void ColorPickerWidget::mouseReleaseEvent(QMouseEvent *event)
         m_clickPoint = QPoint();
 
         if (m_grabRect.width() * m_grabRect.height() == 0) {
-            emit colorPicked(m_mouseColor);
-            emit disableCurrentFilter(false);
+            Q_EMIT colorPicked(m_mouseColor);
+            Q_EMIT disableCurrentFilter(false);
         } else {
             // delay because m_grabRectFrame does not hide immediately
             connect(m_grabRectFrame, SIGNAL(getColor()), this, SLOT(slotGetAverageColor()));
@@ -243,7 +243,7 @@ void ColorPickerWidget::mouseMoveEvent(QMouseEvent *event)
 
 void ColorPickerWidget::slotSetupEventFilter()
 {
-    emit disableCurrentFilter(true);
+    Q_EMIT disableCurrentFilter(true);
     m_filterActive = true;
     setFocus();
     installEventFilter(this);
@@ -264,7 +264,7 @@ bool ColorPickerWidget::eventFilter(QObject *object, QEvent *event)
     // Close color picker on any key press
     if (event->type() == QEvent::KeyPress || event->type() == QEvent::ShortcutOverride) {
         closeEventFilter();
-        emit disableCurrentFilter(false);
+        Q_EMIT disableCurrentFilter(false);
         event->setAccepted(true);
         return true;
     }
@@ -302,7 +302,7 @@ QColor ColorPickerWidget::grabColor(const QPoint &p, bool destroyImage)
 #else
     Q_UNUSED(destroyImage)
     if (m_image.isNull()) {
-        foreach (QScreen *screen, QGuiApplication::screens()) {
+        for (QScreen *screen : QGuiApplication::screens()) {
             QRect screenRect = screen->geometry();
             if (screenRect.contains(p)) {
                 QPixmap pm = screen->grabWindow(0, p.x() - screenRect.x(), p.y() - screenRect.y(), 1, 1);
@@ -324,8 +324,10 @@ void ColorPickerWidget::grabColorDBus()
     message << QLatin1String("x11:") << QVariantMap{};
     QDBusPendingCall pendingCall = QDBusConnection::sessionBus().asyncCall(message);
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingCall);
+    Q_EMIT disableCurrentFilter(true);
     connect(watcher, &QDBusPendingCallWatcher::finished, [this](QDBusPendingCallWatcher *watcher) {
         QDBusPendingReply<QDBusObjectPath> reply = *watcher;
+        Q_EMIT disableCurrentFilter(false);
         if (reply.isError()) {
             qWarning() << "Couldn't get reply";
             qWarning() << "Error: " << reply.error().message();
@@ -343,7 +345,7 @@ void ColorPickerWidget::gotColorResponse(uint response, const QVariantMap &resul
             const QColor color = qdbus_cast<QColor>(results.value(QLatin1String("color")));
             qDebug() << "picked" << color;
             m_mouseColor = color;
-            emit colorPicked(m_mouseColor);
+            Q_EMIT colorPicked(m_mouseColor);
         }
     } else {
         qWarning() << "Failed to take screenshot" << response << results;

@@ -56,7 +56,7 @@ void PositionWidget::slotUpdatePosition()
     m_slider->blockSignals(true);
     m_slider->setValue(m_display->getValue());
     m_slider->blockSignals(false);
-    emit valueChanged();
+    Q_EMIT valueChanged();
 }
 
 void PositionWidget::setRange(int min, int max, bool absolute)

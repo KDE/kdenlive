@@ -31,6 +31,7 @@ namespace Mlt {
 class Producer;
 class Properties;
 class Tractor;
+class Service;
 } // namespace Mlt
 
 /**
@@ -51,7 +52,7 @@ public:
     friend class ProjectClip;
     
     /** @brief Builds the MLT playlist, can only be done after MLT is correctly initialized */
-    void buildPlaylist();
+    void buildPlaylist(const QUuid uuid);
 
     /** @brief Returns a clip from the hierarchy, given its id */
     std::shared_ptr<ProjectClip> getClipByBinID(const QString &binId);
@@ -102,7 +103,9 @@ public:
     bool loadFolders(Mlt::Properties &folders, std::unordered_map<QString, QString> &binIdCorresp);
 
     /** @brief Parse a bin playlist from the document tractor and reconstruct the tree */
-    void loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tractor *modelTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders, QProgressDialog *progressDialog = nullptr);
+    void loadBinPlaylist(Mlt::Service *documentTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders, int &zoomLevel,
+                         QProgressDialog *progressDialog = nullptr);
+    void loadTractorPlaylist(Mlt::Tractor documentTractor, std::unordered_map<QString, QString> &binIdCorresp);
 
     /** @brief Save document properties in MLT's bin playlist */
     void saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata);
@@ -155,7 +158,9 @@ public:
     bool requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, const QString &undoText = QString(), const std::function<void(const QString &)> &readyCallBack = [](const QString &) {});
 
     /** @brief This is the addition function when we already have a producer for the clip*/
-    bool requestAddBinClip(QString &id, const std::shared_ptr<Mlt::Producer> &producer, const QString &parentId, Fun &undo, Fun &redo);
+    bool requestAddBinClip(
+        QString &id, std::shared_ptr<Mlt::Producer> &producer, const QString &parentId, Fun &undo, Fun &redo,
+        const std::function<void(const QString &)> &readyCallBack = [](const QString &) {});
 
     /** @brief Create a subClip
        @param id Id of the requested bin. If this is empty, it will be used as a return parameter to give the automatic bin id used.
@@ -207,10 +212,28 @@ public:
 
     /** @brief Number of clips in the bin playlist */
     int clipsCount() const;
+    /** @brief Get a secondary timeline tractor by its uuid */
+    std::shared_ptr<Mlt::Tractor> getExtraTimeline(const QString &uuid);
     /** @brief Check if  a file is already in Bin */
     bool urlExists(const QString &path) const;
     /** @brief Returns the unique uuid for this project item model */
     QUuid uuid() const { return m_uuid; };
+    /** @brief Retrieve the Bin clip id from a sequence uuid */
+    const QString getSequenceId(const QUuid &uuid);
+    /** @brief Check if we already have a sequence with this uuid */
+    bool hasSequenceId(const QUuid &uuid) const;
+    /** @brief Return the main project tractor (container of all playlists) */
+    std::shared_ptr<Mlt::Tractor> projectTractor();
+    const QString sceneList(const QString &root, const QString &fullPath, const QString &filterData, Mlt::Tractor *activeTractor, int duration);
+    /** @brief Ensure that sequence @destUuid is not embedded in any dependency of sequence @srcUuid */
+    bool canBeEmbeded(const QUuid destUuid, const QUuid srcUuid);
+    /** @brief Store a newly created sequence tractor for reuse */
+    void storeSequence(const QString uuid, std::shared_ptr<Mlt::Tractor> tractor);
+    /** @brief Returns the count of sequences in this project */
+    int sequenceCount() const;
+    /** @brief The id of the folder where new sequences will be created, -1 if none */
+    int defaultSequencesFolder() const;
+    void setSequencesFolder(int id);
 
 protected:
     /** @brief Register the existence of a new element
@@ -228,7 +251,7 @@ protected:
     /** @brief Function to be called when the url of a clip changes */
     void updateWatcher(const std::shared_ptr<ProjectClip> &item);
 
-public slots:
+public Q_SLOTS:
     /** @brief An item in the list was modified, notify */
     void onItemUpdated(const std::shared_ptr<AbstractProjectItem> &item, const QVector<int> &roles);
     void onItemUpdated(const QString &binId, int role);
@@ -237,7 +260,7 @@ public slots:
     /** @brief Create the subclips defined in the parent clip.
     @param id is the id of the parent clip
     @param data is a definition of the subclips (keys are subclips' names, value are "in:out")*/
-    void loadSubClips(const QString &id, const QString &clipData);
+    void loadSubClips(const QString &id, const QString &clipData, bool logUndo);
 
 private:
     /** @brief Return reference to column specific data */
@@ -250,13 +273,17 @@ private:
     std::unique_ptr<BinPlaylist> m_binPlaylist;
 
     std::unique_ptr<FileWatcher> m_fileWatcher;
+    std::unordered_map<QString, std::shared_ptr<Mlt::Tractor>> m_extraPlaylists;
+    std::shared_ptr<Mlt::Tractor> m_projectTractor;
 
     int m_nextId;
     QIcon m_blankThumb;
     PlaylistState::ClipState m_dragType;
     QUuid m_uuid;
+    /** @brief The id of the folder where new sequences will be created, -1 if none */
+    int m_sequenceFolderId;
 
-signals:
+Q_SIGNALS:
     /** @brief thumbs of the given clip were modified, request update of the monitor if need be */
     void refreshAudioThumbs(const QString &id);
     void refreshClip(const QString &id);

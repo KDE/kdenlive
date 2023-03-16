@@ -1,6 +1,6 @@
 [KNewStuff3]
 Name=Kdenlive Render Profiles
-Name[ar]=تشكيلة كدينلايف للتّصيير
+Name[ar]=تشكيلة كِيدِينلايف للتّصيير
 Name[az]=Kdenlive görüntün işlənməsi profili
 Name[ca]=Perfils de renderització del Kdenlive
 Name[ca@valencia]=Perfils de renderització de Kdenlive
@@ -17,6 +17,7 @@ Name[fr]=Profils de rendu Kdenlive
 Name[gl]=Perfís de renderización de Kdenlive
 Name[id]=Profil Render Kdenlive
 Name[it]=Profilo di resa di Kdenlive
+Name[ja]=Kdenlive 出力画面
 Name[ka]=Kdenlive -ის რენდერის პროფილები
 Name[ko]=Kdenlive 렌더 속성
 Name[nl]=Renderprofielen van Kdenlive

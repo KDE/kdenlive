@@ -4,47 +4,50 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 #include "test_utils.hpp"
+#define private public
+#define protected public
+
+#include "bin/binplaylist.hpp"
+#include "doc/kdenlivedoc.h"
 
 using namespace fakeit;
-Mlt::Profile profile_timewarp;
 
 TEST_CASE("Test of timewarping", "[Timewarp]")
 {
     auto binModel = pCore->projectItemModel();
     binModel->clean();
-    QUuid uuid = QUuid::createUuid();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
+    // Create document
+    KdenliveDoc document(undoStack, {0, 2});
+    Mock<KdenliveDoc> docMock(document);
+    KdenliveDoc &mockedDoc = docMock.get();
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
 
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
     When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
-
+    When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
 
-    // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(uuid, &profile_timewarp, undoStack);
-    Mock<TimelineItemModel> timMock(tim);
-    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline);
+    mocked.m_project = &mockedDoc;
+    QDateTime documentDate = QDateTime::currentDateTime();
+    mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
+    mocked.m_activeTimelineModel = timeline;
+    mocked.testSetActiveDocument(&mockedDoc, timeline);
 
-    RESET(timMock);
     TimelineModel::next_id = 0;
-    undoStack->undo();
-    undoStack->redo();
-    undoStack->redo();
-    undoStack->undo();
 
-    QString binId = createProducer(profile_timewarp, "red", binModel);
-    QString binId2 = createProducer(profile_timewarp, "blue", binModel);
-    QString binId3 = createProducerWithSound(profile_timewarp, binModel);
+    QString binId = createProducer(*timeline->getProfile(), "red", binModel);
+    QString binId2 = createProducer(*timeline->getProfile(), "blue", binModel);
+    QString binId3 = createProducerWithSound(*timeline->getProfile(), binModel);
 
     int cid1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
-    int tid1 = TrackModel::construct(timeline);
-    int tid2 = TrackModel::construct(timeline);
+    int tid1 = timeline->getTrackIndexFromPosition(1);
+    int tid2 = timeline->getTrackIndexFromPosition(0);
     Q_UNUSED(tid1);
     Q_UNUSED(tid2);
     int cid2 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
@@ -111,5 +114,6 @@ TEST_CASE("Test of timewarping", "[Timewarp]")
         REQUIRE_FALSE(timeline->requestClipTimeWarp(cid3, double(curLength) * 10, false, true, undo2, redo2));
     }
     binModel->clean();
+    undoStack->clear();
     pCore->m_projectManager = nullptr;
 }

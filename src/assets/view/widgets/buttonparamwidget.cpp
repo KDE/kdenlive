@@ -68,7 +68,7 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
     m_progress->setVisible(false);
     setMinimumHeight(m_button->sizeHint().height() + (m_label != nullptr ? m_label->sizeHint().height() : 0));
 
-    // emit the signal of the base class when appropriate
+    // Q_EMIT the signal of the base class when appropriate
     connect(this->m_button, &QPushButton::clicked, this, [&, filterData, filterAddedParams, consumerParams, defaultValue]() {
         // Trigger job
         bool isTracker = m_model->getAssetId() == QLatin1String("opencv.tracker");

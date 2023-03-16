@@ -42,7 +42,7 @@ public:
     explicit KeyframeModel(std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack,
                            QObject *parent = nullptr);
 
-    enum { TypeRole = Qt::UserRole + 1, PosRole, FrameRole, ValueRole, NormalizedValueRole, SelectedRole, ActiveRole };
+    enum { TypeRole = Qt::UserRole + 1, PosRole, FrameRole, ValueRole, NormalizedValueRole, SelectedRole, ActiveRole, MoveOnlyRole };
     friend class KeyframeModelList;
     friend class KeyframeWidget;
     friend class KeyframeImport;
@@ -205,7 +205,7 @@ private:
     std::map<GenTime, std::pair<KeyframeType, QVariant>> m_keyframeList;
     bool moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, Fun &undo, Fun &redo, bool updateView = true);
 
-signals:
+Q_SIGNALS:
     void modelChanged();
     void requestModelUpdate(const QModelIndex &, const QModelIndex &, const QVector<int> &);
 

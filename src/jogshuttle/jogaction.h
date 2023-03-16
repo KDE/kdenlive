@@ -20,11 +20,11 @@ private:
     // this is indexed by button ID, having QString() for any non-used ones.
     QStringList m_actionMap;
 
-public slots:
+public Q_SLOTS:
     void slotShuttlePos(int);
     void slotButton(int);
 
-signals:
+Q_SIGNALS:
     void rewind(double);
     void forward(double);
     void action(const QString &);

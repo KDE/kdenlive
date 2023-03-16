@@ -324,7 +324,7 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
         // assumes kdialog installed!!
         QProcess::startDetached(QStringLiteral("kdialog"), {QStringLiteral("--error"), error});
         m_logstream << error << "\n";
-        emit renderingFinished();
+        Q_EMIT renderingFinished();
         // qApp->quit();
     }
     if (m_erase) {
@@ -341,7 +341,7 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
         args << QStringLiteral("--error") << error;
         m_logstream << error << "\n";
         QProcess::startDetached(QStringLiteral("kdialog"), args);
-        emit renderingFinished();
+        Q_EMIT renderingFinished();
     } else {
         m_logstream << "Rendering of " << m_dest << " finished"
                     << "\n";
@@ -375,7 +375,7 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
             sendFinish(-1, QString());
         }
     }
-    emit renderingFinished();
+    Q_EMIT renderingFinished();
     m_looper.quit();
 }
 
@@ -427,6 +427,6 @@ void RenderJob::slotCheckSubtitleProcess(int exitCode, QProcess::ExitStatus exit
         sendFinish(-1, QString());
     }
     QFile::remove(m_subtitleFile);
-    emit renderingFinished();
+    Q_EMIT renderingFinished();
     m_looper.quit();
 }

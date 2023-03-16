@@ -44,7 +44,7 @@ public:
     /** @brief Define dragValue object name */
     void setDragObjectName(const QString &name);
 
-public slots:
+public Q_SLOTS:
     /** @brief Sets the value to @param value. */
     void setValue(double value);
 
@@ -54,7 +54,7 @@ public slots:
     /** @brief Shows/Hides the comment label. */
     void slotShowComment(bool show);
 
-private slots:
+private Q_SLOTS:
 
     void slotSetValue(double value, bool final);
 
@@ -62,7 +62,7 @@ private:
     DragValue *m_dragVal;
     double m_factor;
 
-signals:
+Q_SIGNALS:
     void valueChanged(double);
 
     // same signal as valueChanged, but add an extra boolean to tell if user is dragging value or not

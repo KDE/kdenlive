@@ -15,6 +15,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <QFuture>
 #include <QMutex>
+#include <QTemporaryFile>
 #include <QTimer>
 #include <QUuid>
 #include <memory>
@@ -52,7 +53,7 @@ public:
      * @brief Constructor; used when loading a project and the producer is already available.
      */
     static std::shared_ptr<ProjectClip> construct(const QString &id, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model,
-                                                  const std::shared_ptr<Mlt::Producer> &producer);
+                                                  std::shared_ptr<Mlt::Producer> &producer);
     /**
      * @brief Constructor.
      * @param description element describing the clip; the "kdenlive:id" attribute and "resource" property are used
@@ -75,7 +76,7 @@ public:
     bool isReloading;
 
 protected:
-    ProjectClip(const QString &id, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model, std::shared_ptr<Mlt::Producer> producer);
+    ProjectClip(const QString &id, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model, std::shared_ptr<Mlt::Producer> &producer);
     ProjectClip(const QString &id, const QDomElement &description, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model);
 
 public:
@@ -218,6 +219,9 @@ public:
     /** @brief Display Bin thumbnail given a percent
      */
     void getThumbFromPercent(int percent, bool storeFrame = false);
+    /** @brief Get the frame position used for Bin clip thumbnail
+     */
+    int getThumbFrame() const;
     /** @brief Return audio cache for a stream
      */
     const QVector <uint8_t> audioFrameCache(int stream = -1);
@@ -246,12 +250,29 @@ public:
     int getRecordTime();
     /** @brief Return maximum audio level for a stream. */
     int getAudioMax(int stream);
+    /** @brief A timeline clip was modified, reload its other timeline instances. */
+    void reloadTimeline();
+    /** @brief Copy sequence clip timewarp producers to a new location (when saving / rendering). */
+    void copyTimeWarpProducers(const QDir sequenceFolder, bool copy);
     /** @brief Refresh zones of insertion in timeline. */
     void refreshBounds();
     /** @brief Retuns a list of important enforces parameters in MLT format, for example to disable autorotate. */
     const QStringList enforcedParams() const;
-
+    /** @brief Remove clip references in a timeline. */
+    void purgeReferences(const QUuid &activeUuid);
+    /** @brief Check if clip is referenced in a timeline, and return the clip's bin id if it is */
+    const QString isReferenced(const QUuid &activeUuid) const;
     const QString baseThumbPath();
+    /** @brief Returns false if the clip is or embeds a timeline with uuid. */
+    bool canBeDropped(const QUuid &uuid) const;
+    const QList<QUuid> registeredUuids() const;
+    /** @brief Get the sequence's unique identifier, empty if not a sequence clip. */
+    const QUuid &getSequenceUuid() const;
+    void resetSequenceThumbnails();
+    /** @brief Returns the clip name (usually file name) */
+    QString clipName();
+    /** @brief Save an xml playlist of current clip with in/out points as zone.x()/y() */
+    void saveZone(QPoint zone, const QDir &dir);
 
 protected:
     friend class ClipModel;
@@ -270,11 +291,11 @@ protected:
     */
     void deregisterTimelineClip(int clipId, bool audioClip);
 
-    void emitProducerChanged(const QString &id, const std::shared_ptr<Mlt::Producer> &producer) override { emit producerChanged(id, producer); };
+    void emitProducerChanged(const QString &id, const std::shared_ptr<Mlt::Producer> &producer) override { Q_EMIT producerChanged(id, producer); };
     void replaceInTimeline();
     void connectEffectStack() override;
 
-public slots:
+public Q_SLOTS:
     /** @brief Store the audio thumbnails once computed. Note that the parameter is a value and not a reference, fill free to use it as a sink (use std::move to
      * avoid copy). */
     void updateAudioThumbnail(bool cachedThumb);
@@ -305,8 +326,8 @@ public slots:
      *  @param replaceProducer If true, we replace existing producer with this one
      *  @returns true if producer was changed
      * . */
-    bool setProducer(std::shared_ptr<Mlt::Producer> producer, bool generateThumb = false);
-    
+    bool setProducer(std::shared_ptr<Mlt::Producer> producer, bool generateThumb = false, bool clearTrackProducers = true);
+
     void importJsonMarkers(const QString &json);
     /** @brief Refresh zones of insertion in timeline. */
     void checkClipBounds();
@@ -334,9 +355,13 @@ private:
     std::unordered_map<int, std::shared_ptr<Mlt::Producer>> m_videoProducers;
     std::unordered_map<int, std::shared_ptr<Mlt::Producer>> m_timewarpProducers;
     std::shared_ptr<Mlt::Producer> m_disabledProducer;
+    // A temporary uuid used to reset thumbnails on producer change
     QUuid m_uuid;
+    // The sequence unique identifier
+    QUuid m_sequenceUuid;
+    QTemporaryFile m_sequenceThumbFile;
 
-signals:
+Q_SIGNALS:
     void producerChanged(const QString &, const std::shared_ptr<Mlt::Producer> &);
     void refreshPropertiesPanel();
     void refreshAnalysisPanel();

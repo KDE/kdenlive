@@ -21,7 +21,7 @@ public:
     ~ManageCapturesDialog() override;
     QList<QUrl> importFiles() const;
 
-private slots:
+private Q_SLOTS:
     void slotRefreshButtons();
     void slotDeleteCurrent();
     void slotToggle();

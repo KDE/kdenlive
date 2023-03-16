@@ -33,15 +33,18 @@ class SubtitleModel : public QAbstractListModel
     Q_OBJECT
 
 public:
+    static const int RAZOR_MODE_DUPLICATE = 0;
+    static const int RAZOR_MODE_AFTER_FIRST_LINE = 1;
+
     /** @brief Construct a subtitle list bound to the timeline */
-    explicit SubtitleModel(Mlt::Tractor *tractor = nullptr, std::shared_ptr<TimelineItemModel> timeline = nullptr, QObject *parent = nullptr);
+    explicit SubtitleModel(std::shared_ptr<TimelineItemModel> timeline = nullptr, QObject *parent = nullptr);
 
     enum { SubtitleRole = Qt::UserRole + 1, StartPosRole, EndPosRole, StartFrameRole, EndFrameRole, IdRole, SelectedRole, GrabRole };
     /** @brief Function that parses through a subtitle file */
     bool addSubtitle(int id, GenTime start, GenTime end, const QString &str, bool temporary = false, bool updateFilter = true);
     bool addSubtitle(GenTime start, GenTime end, const QString &str, Fun &undo, Fun &redo, bool updateFilter = true);
     /** @brief Converts string of time to GenTime */
-    GenTime stringtoTime(QString &str);
+    GenTime stringtoTime(QString &str, const double factor = 1.);
     /** @brief Return model data item according to the role passed */
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override; // override the same function of QAbstractListModel
@@ -94,7 +97,7 @@ public:
      * @return The name of the text encoding, as guessed by KEncodingProber, or
      * "" if an error occurred
     */
-    static QByteArray guessFileEncoding(const QString &file);
+    static QByteArray guessFileEncoding(const QString &file, bool *confidence);
     /** @brief Function that imports a subtitle file */
     void importSubtitle(const QString &filePath, int offset = 0, bool externalImport = false, float startFramerate = 30.00, float targetFramerate = 30.00, const QByteArray &encoding = "UTF-8");
 
@@ -119,8 +122,13 @@ public:
     GenTime getStartPosForId(int id) const;
     int getPreviousSub(int id) const;
     int getNextSub(int id) const;
-    /** @brief Copy subtitle file to a new path */
-    void copySubtitle(const QString &path, bool checkOverwrite);
+    /** @brief Copy subtitle file to a new path
+     * @param path the new subtitle path
+     * @param checkOverwrite if true, warn before overwriting an existing subtitle file
+     * @param updateFilter if true, the subtitle filter will be updated to us the new name, useful when saving the project file */
+    void copySubtitle(const QString &path, bool checkOverwrite, bool updateFilter = false);
+    /** @brief Use the tmp work file for the subtitle filter after saving the project */
+    void restoreTmpFile();
     int trackDuration() const;
     void switchDisabled();
     bool isDisabled() const;
@@ -154,8 +162,18 @@ public:
     void setStyle(const QString &style);
     const QString getStyle() const;
     void subtitleFileFromZone(int in, int out, const QString &outFile);
+    /** @brief Edit the subtitle text*/
+    Q_INVOKABLE void editSubtitle(int id, const QString &newText, const QString &oldText);
+    /** @brief Edit the subtitle end */
+    Q_INVOKABLE void resizeSubtitle(int startFrame, int endFrame, int oldEndFrame, bool refreshModel);
+    /** @brief Add subtitle clip at cursor's position in timeline */
+    Q_INVOKABLE void addSubtitle(int startframe = -1, QString text = QString());
+    /** @brief Delete subtitle clip with frame as start position*/
+    Q_INVOKABLE void deleteSubtitle(int frameframe, int endframe, const QString &text);
+    /** @brief Cut a subtitle and split the text at \@param pos */
+    void doCutSubtitle(int id, int cursorPos);
 
-public slots:
+public Q_SLOTS:
     /** @brief Function that parses through a subtitle file */
     void parseSubtitle(const QString &subPath = QString());
 
@@ -181,12 +199,11 @@ private:
     std::vector<std::weak_ptr<SnapInterface>> m_regSnaps;
     mutable QReadWriteLock m_lock;
     std::unique_ptr<Mlt::Filter> m_subtitleFilter;
-    Mlt::Tractor *m_tractor;
     QVector<int> m_selected;
     QVector<int> m_grabbedIds;
     int saveSubtitleData(const QString &data, const QString &outFile);
 
-signals:
+Q_SIGNALS:
     void modelChanged();
     void updateSubtitleStyle(const QString);
 

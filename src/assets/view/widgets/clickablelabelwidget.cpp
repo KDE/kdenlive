@@ -57,7 +57,7 @@ void ClickableLabelParamWidget::slotRefresh()
     m_label->setText(QStringLiteral("<a href=\"%1\">").arg(value) + m_displayName + QStringLiteral("</a>"));
     setVisible(!value.isEmpty());
     setMinimumHeight(value.isEmpty() ? 0 : m_tb->sizeHint().height());
-    emit updateHeight();
+    Q_EMIT updateHeight();
 }
 
 bool ClickableLabelParamWidget::getValue()

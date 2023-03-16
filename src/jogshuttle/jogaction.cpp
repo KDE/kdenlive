@@ -44,12 +44,12 @@ void JogShuttleAction::slotShuttlePos(int shuttle_pos)
     size_t magnitude = size_t(abs(shuttle_pos));
     if (magnitude < SPEEDS_SIZE) {
         if (shuttle_pos < 0) {
-            emit rewind(-SPEEDS[magnitude]);
+            Q_EMIT rewind(-SPEEDS[magnitude]);
         } else if (shuttle_pos == 0) {
             ////qCDebug(KDENLIVE_LOG) << "Shuttle pos0 action: " << m_actionMap[0];
-            emit action(m_actionMap[0]);
+            Q_EMIT action(m_actionMap[0]);
         } else if (shuttle_pos > 0) {
-            emit forward(SPEEDS[magnitude]);
+            Q_EMIT forward(SPEEDS[magnitude]);
         }
     }
 }
@@ -62,5 +62,5 @@ void JogShuttleAction::slotButton(int button_id)
         return;
     }
     ////qCDebug(KDENLIVE_LOG) << "Shuttle button =" << button_id << ": action=" << m_actionMap[button_id];
-    emit action(m_actionMap[button_id]);
+    Q_EMIT action(m_actionMap[button_id]);
 }

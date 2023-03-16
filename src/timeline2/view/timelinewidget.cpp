@@ -43,12 +43,13 @@
 
 const int TimelineWidget::comboScale[] = {1, 2, 4, 8, 15, 30, 50, 75, 100, 150, 200, 300, 500, 800, 1000, 1500, 2000, 3000, 6000, 15000, 30000};
 
-TimelineWidget::TimelineWidget(QWidget *parent)
+TimelineWidget::TimelineWidget(const QUuid uuid, QWidget *parent)
     : QQuickWidget(parent)
+    , m_uuid(uuid)
 {
+#if KDECLARATIVE_VERSION < QT_VERSION_CHECK(5, 98, 0)
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());
-#if KDECLARATIVE_VERSION < QT_VERSION_CHECK(5, 98, 0)
     kdeclarative.setupEngine(engine());
 #else
     engine()->addImageProvider(QStringLiteral("icon"), new KQuickIconProvider);
@@ -115,10 +116,26 @@ const QMap<QString, QString> TimelineWidget::sortedItems(const QStringList &item
 void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *guideMenu, QMenu *timelineRulerMenu,
                                      QAction *editGuideAction, QMenu *headerMenu, QMenu *thumbsMenu, QMenu *subtitleClipMenu)
 {
-    m_timelineClipMenu = clipMenu;
-    m_timelineCompositionMenu = compositionMenu;
-    m_timelineMenu = timelineMenu;
-    m_timelineRulerMenu = timelineRulerMenu;
+    m_timelineClipMenu = new QMenu(this);
+    QList<QAction *> cActions = clipMenu->actions();
+    for (auto &a : cActions) {
+        m_timelineClipMenu->addAction(a);
+    }
+    m_timelineCompositionMenu = new QMenu(this);
+    cActions = compositionMenu->actions();
+    for (auto &a : cActions) {
+        m_timelineCompositionMenu->addAction(a);
+    }
+    m_timelineMenu = new QMenu(this);
+    cActions = timelineMenu->actions();
+    for (auto &a : cActions) {
+        m_timelineMenu->addAction(a);
+    }
+    m_timelineRulerMenu = new QMenu(this);
+    cActions = timelineRulerMenu->actions();
+    for (auto &a : cActions) {
+        m_timelineRulerMenu->addAction(a);
+    }
     m_guideMenu = guideMenu;
     m_headerMenu = headerMenu;
     m_thumbsMenu = thumbsMenu;
@@ -153,6 +170,11 @@ void TimelineWidget::unsetModel()
     m_proxy->prepareClose();
 }
 
+const QUuid &TimelineWidget::getUuid() const
+{
+    return m_uuid;
+}
+
 void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, MonitorProxy *proxy)
 {
     loading = true;
@@ -163,15 +185,14 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     rootContext()->setContextProperty("multitrack", m_sortModel.get());
     rootContext()->setContextProperty("controller", model.get());
     rootContext()->setContextProperty("timeline", m_proxy);
-    rootContext()->setContextProperty("proxy", proxy);
     // Create a unique id for this timeline to prevent thumbnails
     // leaking from one project to another because of qml's image caching
     rootContext()->setContextProperty("documentId", model->uuid());
     rootContext()->setContextProperty("audiorec", pCore->getAudioDevice());
-    rootContext()->setContextProperty("guidesModel", pCore->currentDoc()->getFilteredGuideModel().get());
+    rootContext()->setContextProperty("guidesModel", model->getFilteredGuideModel().get());
     rootContext()->setContextProperty("clipboard", new ClipboardProxy(this));
     rootContext()->setContextProperty("miniFont", QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
-    rootContext()->setContextProperty("subtitleModel", pCore->getSubtitleModel().get());
+    rootContext()->setContextProperty("subtitleModel", model->getSubtitleModel().get());
     const QStringList effs = sortedItems(KdenliveSettings::favorite_effects(), false).values();
     const QStringList trans = sortedItems(KdenliveSettings::favorite_transitions(), true).values();
 
@@ -197,7 +218,7 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
 
 void TimelineWidget::mousePressEvent(QMouseEvent *event)
 {
-    emit focusProjectMonitor();
+    Q_EMIT focusProjectMonitor();
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     m_clickPos = event->globalPos();
 #else
@@ -318,7 +339,7 @@ void TimelineWidget::showTargetMenu(int tid)
 void TimelineWidget::showRulerMenu()
 {
     m_guideMenu->clear();
-    const QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel()->getAllMarkers();
+    const QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel(m_uuid)->getAllMarkers();
     m_editGuideAcion->setEnabled(false);
     double fps = pCore->getCurrentFps();
     int currentPos = rootObject()->property("consumerPosition").toInt();
@@ -337,7 +358,7 @@ void TimelineWidget::showRulerMenu()
 void TimelineWidget::showTimelineMenu()
 {
     m_guideMenu->clear();
-    const QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel()->getAllMarkers();
+    const QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel(m_uuid)->getAllMarkers();
     m_editGuideAcion->setEnabled(false);
     double fps = pCore->getCurrentFps();
     int currentPos = rootObject()->property("consumerPosition").toInt();
@@ -387,7 +408,7 @@ void TimelineWidget::slotFitZoom()
     }
     m_proxy->setScaleFactorOnMouse(scale, false);
     // Update zoom slider
-    emit m_proxy->updateZoom(scale);
+    Q_EMIT m_proxy->updateZoom(scale);
     QMetaObject::invokeMethod(rootObject(), "goToStart", Q_ARG(QVariant, scrollPos));
 }
 
@@ -500,19 +521,19 @@ bool TimelineWidget::eventFilter(QObject *object, QEvent *event)
     switch (event->type()) {
     case QEvent::Enter:
         if (!hasFocus()) {
-            emit pCore->window()->focusTimeline(true, true);
+            Q_EMIT pCore->window()->focusTimeline(true, true);
         }
         break;
     case QEvent::Leave:
         if (!hasFocus()) {
-            emit pCore->window()->focusTimeline(false, true);
+            Q_EMIT pCore->window()->focusTimeline(false, true);
         }
         break;
     case QEvent::FocusOut:
-        emit pCore->window()->focusTimeline(false, false);
+        Q_EMIT pCore->window()->focusTimeline(false, false);
         break;
     case QEvent::FocusIn:
-        emit pCore->window()->focusTimeline(true, false);
+        Q_EMIT pCore->window()->focusTimeline(true, false);
         break;
     default:
         break;
@@ -529,17 +550,22 @@ void TimelineWidget::regainFocus()
     }
 }
 
+bool TimelineWidget::hasSubtitles() const
+{
+    return m_proxy->getModel()->hasSubtitleModel();
+}
+
 void TimelineWidget::connectSubtitleModel(bool firstConnect)
 {
     qDebug() << "root context get sub model new function";
-    if (pCore->getSubtitleModel().get() == nullptr) {
+    if (!model()->hasSubtitleModel()) {
         // qDebug()<<"null ptr here at root context";
         return;
     } else {
         // qDebug()<<"null ptr NOT here at root context";
         rootObject()->setProperty("showSubtitles", KdenliveSettings::showSubtitles());
         if (firstConnect) {
-            rootContext()->setContextProperty("subtitleModel", pCore->getSubtitleModel().get());
+            rootContext()->setContextProperty("subtitleModel", model()->getSubtitleModel().get());
         }
     }
 }

@@ -45,7 +45,7 @@ private:
     bool copyToShared(const QImage &image);
     void reset();
 
-private slots:
+private Q_SLOTS:
     void onConnect();
     void onReadyRead();
     void onSocketError(QLocalSocket::LocalSocketError socketError);

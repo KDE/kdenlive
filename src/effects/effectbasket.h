@@ -28,12 +28,12 @@ protected:
 #endif
     void showEvent(QShowEvent *event) override;
 
-public slots:
+public Q_SLOTS:
     void slotReloadBasket();
 
-private slots:
+private Q_SLOTS:
     void slotAddEffect(QListWidgetItem *item);
 
-signals:
+Q_SIGNALS:
     void activateAsset(const QVariantMap &);
 };

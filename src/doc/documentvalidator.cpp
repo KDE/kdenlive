@@ -15,6 +15,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "xml/xml.hpp"
 
 #include "kdenlive_debug.h"
+#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KLocalizedString>
 #include <KMessageBox>
 
@@ -62,10 +63,18 @@ QPair<bool, QString> DocumentValidator::validate(const double currentVersion)
     }
 
     QLocale documentLocale = QLocale::c(); // Document locale for conversion. Previous MLT / Kdenlive versions used C locale by default
+    QDomElement main_playlist;
+    QDomNodeList playlists = m_doc.elementsByTagName(QStringLiteral("playlist"));
+    for (int i = 0; i < playlists.count(); i++) {
+        if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == QLatin1String("main bin") ||
+            playlists.at(i).toElement().attribute(QStringLiteral("id")) == QLatin1String("main_bin")) {
+            main_playlist = playlists.at(i).toElement();
+            break;
+        }
+    }
 
     if (mlt.hasAttribute(QStringLiteral("LC_NUMERIC"))) { // Backwards compatibility
         // Check document numeric separator (added in Kdenlive 16.12.1 and removed in Kdenlive 20.08)
-        QDomElement main_playlist = mlt.firstChildElement(QStringLiteral("playlist"));
         QString sep = Xml::getXmlProperty(main_playlist, "kdenlive:docproperties.decimalPoint", QString("."));
         QString mltLocale = mlt.attribute(QStringLiteral("LC_NUMERIC"), "C"); // Backwards compatibility
         qDebug() << "LOCALE: Document uses " << sep << " as decimal point and " << mltLocale << " as locale";
@@ -88,8 +97,7 @@ QPair<bool, QString> DocumentValidator::validate(const double currentVersion)
     double version = -1;
     if (kdenliveDoc.isNull() || !kdenliveDoc.hasAttribute(QStringLiteral("version"))) {
         // Newer Kdenlive document version
-        QDomElement main = mlt.firstChildElement(QStringLiteral("playlist"));
-        version = Xml::getXmlProperty(main, QStringLiteral("kdenlive:docproperties.version")).toDouble();
+        version = Xml::getXmlProperty(main_playlist, QStringLiteral("kdenlive:docproperties.version")).toDouble();
     } else {
         bool ok;
         version = documentLocale.toDouble(kdenliveDoc.attribute(QStringLiteral("version")), &ok);
@@ -669,27 +677,27 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         if (m_doc.toString().contains(QStringLiteral("font-size"))) {
             KMessageBox::ButtonCode convert = KMessageBox::Continue;
             QDomNodeList kproducerNodes = m_doc.elementsByTagName(QStringLiteral("kdenlive_producer"));
-            for (int i = 0; i < kproducerNodes.count() && convert != KMessageBox::No; ++i) {
+            for (int i = 0; i < kproducerNodes.count() && convert != KMessageBox::SecondaryAction; ++i) {
                 QDomElement kproducer = kproducerNodes.at(i).toElement();
                 if (kproducer.attribute(QStringLiteral("type")).toInt() == int(ClipType::Text)) {
                     QDomDocument data;
                     data.setContent(kproducer.attribute(QStringLiteral("xmldata")));
                     QDomNodeList items = data.firstChild().childNodes();
-                    for (int j = 0; j < items.count() && convert != KMessageBox::No; ++j) {
+                    for (int j = 0; j < items.count() && convert != KMessageBox::SecondaryAction; ++j) {
                         if (items.at(j).attributes().namedItem(QStringLiteral("type")).nodeValue() == QLatin1String("QGraphicsTextItem")) {
                             QDomNamedNodeMap textProperties = items.at(j).namedItem(QStringLiteral("content")).attributes();
                             if (textProperties.namedItem(QStringLiteral("font-pixel-size")).isNull() &&
                                 !textProperties.namedItem(QStringLiteral("font-size")).isNull()) {
                                 // Ask the user if he wants to convert
-                                if (convert != KMessageBox::Yes && convert != KMessageBox::No) {
-                                    convert = KMessageBox::ButtonCode(KMessageBox::warningYesNo(
+                                if (convert != KMessageBox::PrimaryAction && convert != KMessageBox::SecondaryAction) {
+                                    convert = KMessageBox::ButtonCode(KMessageBox::warningTwoActions(
                                         QApplication::activeWindow(),
                                         i18n("Some of your text clips were saved with size in points, which means different sizes on different displays. Do "
                                              "you want to convert them to pixel size, making them portable? It is recommended you do this on the computer they "
                                              "were first created on, or you could have to adjust their size."),
-                                        i18n("Update Text Clips")));
+                                        i18n("Update Text Clips"), KGuiItem(i18n("Convert")), KStandardGuiItem::cancel()));
                                 }
-                                if (convert == KMessageBox::Yes) {
+                                if (convert == KMessageBox::PrimaryAction) {
                                     QFont font;
                                     font.setPointSize(textProperties.namedItem(QStringLiteral("font-size")).nodeValue().toInt());
                                     QDomElement content = items.at(j).namedItem(QStringLiteral("content")).toElement();
@@ -1877,7 +1885,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         }
     }
     // Doc 1.1: Kdenlive 21.12.0
-    if (version < 1.1) {
+    /*if (version < 1.1) {
         // OpenCV tracker: Fix for older syntax where filter had in/out defined
         QDomNodeList effects = m_doc.elementsByTagName(QStringLiteral("filter"));
         int max = effects.count();
@@ -1908,7 +1916,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 t.removeAttribute("out");
             }
         }
-    }
+    }*/
 
     m_modified = true;
     return true;
@@ -2199,9 +2207,10 @@ bool DocumentValidator::checkMovit()
         // Project does not use Movit GLSL effects, we can load it
         return true;
     }
-    if (KMessageBox::questionYesNo(QApplication::activeWindow(),
-                                   i18n("The project file uses some GPU effects. GPU acceleration is not currently enabled.\nDo you want to convert the "
-                                        "project to a non-GPU version?\nThis might result in data loss.")) != KMessageBox::Yes) {
+    if (KMessageBox::questionTwoActions(QApplication::activeWindow(),
+                                        i18n("The project file uses some GPU effects. GPU acceleration is not currently enabled.\nDo you want to convert the "
+                                             "project to a non-GPU version?\nThis might result in data loss."),
+                                        i18n("GPU Effects"), KGuiItem(i18n("Convert")), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
         return false;
     }
     // Try to convert Movit filters to their non GPU equivalent

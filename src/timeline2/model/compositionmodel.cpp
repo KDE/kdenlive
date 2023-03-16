@@ -21,11 +21,11 @@ CompositionModel::CompositionModel(std::weak_ptr<TimelineModel> parent, std::uni
     m_compositionName = TransitionsRepository::get()->getName(transitionId);
 }
 
-int CompositionModel::construct(const std::weak_ptr<TimelineModel> &parent, const QString &transitionId, const QString &originalDecimalPoint, int id,
-                                std::unique_ptr<Mlt::Properties> sourceProperties)
+int CompositionModel::construct(const std::weak_ptr<TimelineModel> &parent, const QString &transitionId, const QString &originalDecimalPoint, int length,
+                                int id, std::unique_ptr<Mlt::Properties> sourceProperties)
 {
     std::unique_ptr<Mlt::Transition> transition = TransitionsRepository::get()->getTransition(transitionId);
-    transition->set_in_and_out(0, 0);
+    transition->set_in_and_out(0, length - 1);
     auto xml = TransitionsRepository::get()->getXml(transitionId);
     if (sourceProperties) {
         // Paste parameters from existing source composition
@@ -176,7 +176,7 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo,
                     kfr->resizeKeyframes(0, oldDuration, 0, out - in, 0, right, undo, redo);
                 }
                 Fun refresh = [kfr]() {
-                    emit kfr->modelChanged();
+                    Q_EMIT kfr->modelChanged();
                     return true;
                 };
                 refresh();
@@ -240,7 +240,7 @@ void CompositionModel::setATrack(int trackMltPosition, int trackId)
         service()->set("a_track", trackMltPosition);
     }
     if (m_currentTrackId != -1) {
-        emit compositionTrackChanged();
+        Q_EMIT compositionTrackChanged();
     }
 }
 
@@ -287,7 +287,7 @@ void CompositionModel::setGrab(bool grab)
     m_grabbed = grab;
     if (auto ptr = m_parent.lock()) {
         QModelIndex ix = ptr->makeCompositionIndexFromID(m_id);
-        emit ptr->dataChanged(ix, ix, {TimelineModel::GrabbedRole});
+        Q_EMIT ptr->dataChanged(ix, ix, {TimelineModel::GrabbedRole});
     }
 }
 
@@ -301,7 +301,7 @@ void CompositionModel::setSelected(bool sel)
     if (auto ptr = m_parent.lock()) {
         if (m_currentTrackId != -1) {
             QModelIndex ix = ptr->makeCompositionIndexFromID(m_id);
-            emit ptr->dataChanged(ix, ix, {TimelineModel::SelectedRole});
+            Q_EMIT ptr->dataChanged(ix, ix, {TimelineModel::SelectedRole});
         }
     }
 }

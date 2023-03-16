@@ -75,7 +75,7 @@ protected:
     // the QmlEngine takes ownership of the image provider
     AssetIconProvider *m_assetIconProvider{nullptr};
 
-signals:
+Q_SIGNALS:
     void activateAsset(const QVariantMap data);
     void showDescriptionChanged();
     void reloadFavorites();

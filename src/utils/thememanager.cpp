@@ -73,5 +73,5 @@ void ThemeManager::saveCurrentScheme(const QString &path)
 void ThemeManager::slotSchemeChanged(const QString &path)
 {
     saveCurrentScheme(QFileInfo(path).fileName());
-    emit themeChanged(path);
+    Q_EMIT themeChanged(path);
 }

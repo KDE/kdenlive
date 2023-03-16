@@ -66,7 +66,7 @@ protected:
     void resizeEvent(QResizeEvent *e) override;
     void contextMenuEvent(QContextMenuEvent *event) override;
 
-private slots:
+private Q_SLOTS:
     void updateLineNumberArea(const QRect &rect, int dy);
     
 private:
@@ -140,12 +140,13 @@ public:
     ~TextBasedEdit() override;
     void openClip(std::shared_ptr<ProjectClip>);
 
-public slots:
+public Q_SLOTS:
     void deleteItem();
 
-private slots:
+private Q_SLOTS:
     void startRecognition();
     void slotProcessSpeech();
+    void slotProcessWhisperSpeech();
     void slotProcessSpeechError();
     void slotProcessSpeechStatus(int, QProcess::ExitStatus status);
     /** @brief insert currently selected zones to timeline */
@@ -155,6 +156,7 @@ private slots:
     /** @brief Display info message */
     void showMessage(const QString &text, KMessageWidget::MessageType type, QAction *action = nullptr);
     void addBookmark();
+    void updateEngine();
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
@@ -179,5 +181,7 @@ private:
     QTimer m_hideTimer;
     double m_clipOffset;
     QTemporaryFile m_playlistWav;
+    QTemporaryFile m_tmpCutWav;
+    QAction *m_translateAction;
     SpeechToText *m_stt;
 };

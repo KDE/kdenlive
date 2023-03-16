@@ -10,117 +10,256 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>331</width>
-    <height>252</height>
+    <width>354</width>
+    <height>386</height>
    </rect>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <item row="8" column="2">
-    <spacer name="horizontalSpacer">
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="3">
+    <widget class="QRadioButton" name="engine_whisper">
+     <property name="text">
+      <string>Whisper</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1" colspan="4">
+    <widget class="KMessageWidget" name="speech_info"/>
+   </item>
+   <item row="0" column="4">
+    <spacer name="horizontalSpacer_2">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
-       <width>280</width>
-       <height>31</height>
+       <width>40</width>
+       <height>20</height>
       </size>
      </property>
     </spacer>
    </item>
-   <item row="8" column="1">
-    <widget class="QToolButton" name="button_delete">
-     <property name="toolTip">
-      <string>Delete the selected speech model</string>
-     </property>
+   <item row="0" column="2">
+    <widget class="QRadioButton" name="engine_vosk">
      <property name="text">
-      <string>...</string>
-     </property>
-     <property name="icon">
-      <iconset theme="edit-delete">
-       <normaloff>.</normaloff>.</iconset>
+      <string>VOSK</string>
      </property>
     </widget>
    </item>
-   <item row="9" column="0" colspan="5">
-    <widget class="KMessageWidget" name="speech_info"/>
-   </item>
-   <item row="1" column="0" colspan="5">
-    <widget class="QCheckBox" name="custom_vosk_folder">
+   <item row="0" column="1">
+    <widget class="QLabel" name="label_2">
      <property name="text">
-      <string>Custom models folder</string>
+      <string>Speech engine</string>
      </property>
     </widget>
    </item>
-   <item row="10" column="0" colspan="5">
-    <layout class="QVBoxLayout" name="message_layout"/>
-   </item>
-   <item row="2" column="0" colspan="5">
-    <widget class="KUrlRequester" name="vosk_folder">
-     <property name="enabled">
-      <bool>false</bool>
+   <item row="2" column="1" colspan="4">
+    <widget class="QStackedWidget" name="speech_stack">
+     <property name="currentIndex">
+      <number>0</number>
      </property>
-     <property name="mode">
-      <set>KFile::Directory|KFile::ExistingOnly|KFile::LocalOnly</set>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0" colspan="5">
-    <widget class="QLabel" name="models_url">
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="0">
-    <widget class="QToolButton" name="button_add">
-     <property name="toolTip">
-      <string>Add a new speech model from an archive file</string>
-     </property>
-     <property name="text">
-      <string>...</string>
-     </property>
-     <property name="icon">
-      <iconset theme="list-add">
-       <normaloff>.</normaloff>.</iconset>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="3" colspan="2">
-    <widget class="QPushButton" name="check_vosk">
-     <property name="toolTip">
-      <string>Check VOSK installation</string>
-     </property>
-     <property name="text">
-      <string>Check configuration</string>
-     </property>
-     <property name="icon">
-      <iconset theme="view-refresh">
-       <normaloff>.</normaloff>.</iconset>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0" colspan="5">
-    <widget class="QFrame" name="list_frame">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::NoFrame</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0" colspan="3">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>VOSK Speech Models</string>
-     </property>
+     <widget class="QWidget" name="page">
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="1" column="0" colspan="4">
+        <widget class="QLabel" name="models_url">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="4">
+        <widget class="KUrlRequester" name="vosk_folder">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="mode">
+          <set>KFile::Directory|KFile::ExistingOnly|KFile::LocalOnly</set>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="3">
+        <widget class="QPushButton" name="check_vosk">
+         <property name="toolTip">
+          <string>Check VOSK installation</string>
+         </property>
+         <property name="text">
+          <string>Check configuration</string>
+         </property>
+         <property name="icon">
+          <iconset theme="view-refresh">
+           <normaloff>.</normaloff>.</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="QToolButton" name="button_delete">
+         <property name="toolTip">
+          <string>Delete the selected speech model</string>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset theme="edit-delete">
+           <normaloff>.</normaloff>.</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QToolButton" name="button_add">
+         <property name="toolTip">
+          <string>Add a new speech model from an archive file</string>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset theme="list-add">
+           <normaloff>.</normaloff>.</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" colspan="3">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>VOSK Speech Models</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="3">
+        <widget class="QCheckBox" name="custom_vosk_folder">
+         <property name="text">
+          <string>Custom models folder</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" colspan="4">
+        <widget class="QFrame" name="list_frame">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="2">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>280</width>
+           <height>31</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="5" column="0" colspan="4">
+        <layout class="QVBoxLayout" name="message_layout"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="page_2">
+      <layout class="QFormLayout" name="formLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Model:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QComboBox" name="combo_wr_model"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Language:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QComboBox" name="combo_wr_lang"/>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Device:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QComboBox" name="combo_wr_device"/>
+       </item>
+       <item row="3" column="0" colspan="2">
+        <widget class="KMessageWidget" name="kmessagewidget">
+         <property name="text">
+          <string>Whisper processing on cpu is very slow</string>
+         </property>
+         <property name="closeButtonVisible">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" colspan="2">
+        <widget class="QCheckBox" name="wr_translate">
+         <property name="text">
+          <string>Translate text to english</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0" colspan="2">
+        <layout class="QVBoxLayout" name="message_layout_wr"/>
+       </item>
+       <item row="6" column="1">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="7" column="0" colspan="2">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <spacer name="horizontalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>37</width>
+             <height>17</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="check_whisper">
+           <property name="text">
+            <string>Check configuration</string>
+           </property>
+           <property name="icon">
+            <iconset theme="view-refresh"/>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
   </layout>

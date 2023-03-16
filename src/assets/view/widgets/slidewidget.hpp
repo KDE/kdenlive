@@ -38,7 +38,7 @@ private:
     wipeInfo getWipeInfo(QString value);
     const QString getWipeString(wipeInfo info);
 
-public slots:
+public Q_SLOTS:
     /** @brief Toggle the comments on or off
      */
     void slotShowComment(bool show) override;
@@ -50,7 +50,7 @@ public slots:
     /** @brief Updates the different color choosing options to have all selected @param color. */
     void updateValue();
 
-signals:
+Q_SIGNALS:
     /** @brief Emitted whenever a different color was chosen. */
     void modified(const QString &);
 };

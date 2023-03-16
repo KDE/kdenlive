@@ -10,6 +10,7 @@
 #include "macros.hpp"
 #include "profiles/profilemodel.hpp"
 #include "rotoscoping/rotohelper.hpp"
+#include "utils/qcolorutils.h"
 
 #include <QDebug>
 #include <QJsonDocument>
@@ -50,7 +51,7 @@ void KeyframeModel::setup()
             // Selection role changed, no need to update the keyframe parameters
             return;
         }
-        emit modelChanged();
+        Q_EMIT modelChanged();
     });
     connect(this, &KeyframeModel::modelChanged, this, &KeyframeModel::sendModification);
 }
@@ -531,7 +532,7 @@ Fun KeyframeModel::updateKeyframe_lambda(GenTime pos, KeyframeType type, const Q
         int row = static_cast<int>(std::distance(m_keyframeList.begin(), m_keyframeList.find(pos)));
         m_keyframeList[pos].first = type;
         m_keyframeList[pos].second = value;
-        if (notify) emit dataChanged(index(row), index(row), {ValueRole, NormalizedValueRole, TypeRole});
+        if (notify) Q_EMIT dataChanged(index(row), index(row), {ValueRole, NormalizedValueRole, TypeRole});
         return true;
     };
 }
@@ -583,6 +584,7 @@ QHash<int, QByteArray> KeyframeModel::roleNames() const
     roles[SelectedRole] = "selected";
     roles[ActiveRole] = "active";
     roles[NormalizedValueRole] = "normalizedValue";
+    roles[MoveOnlyRole] = "moveOnly";
     return roles;
 }
 
@@ -598,7 +600,16 @@ QVariant KeyframeModel::data(const QModelIndex &index, int role) const
     case Qt::DisplayRole:
     case Qt::EditRole:
     case ValueRole:
+        if (m_paramType == ParamType::Roto_spline) {
+            return 0;
+        }
         return it->second.second;
+    case MoveOnlyRole: {
+        if (m_paramType == ParamType::Roto_spline) {
+            return true;
+        }
+        return false;
+    }
     case NormalizedValueRole: {
         if (m_paramType == ParamType::AnimatedRect) {
             const QString &data = it->second.second.toString();
@@ -608,6 +619,9 @@ QVariant KeyframeModel::data(const QModelIndex &index, int role) const
                 qDebug() << "QLocale: Could not convert animated rect opacity" << data;
             }
             return converted;
+        }
+        if (m_paramType == ParamType::Roto_spline) {
+            return 0.5;
         }
         double val = it->second.second.toDouble();
         if (auto ptr = m_model.lock()) {
@@ -841,6 +855,7 @@ QString KeyframeModel::getAnimProperty() const
     for (const auto &keyframe : m_keyframeList) {
         switch (m_paramType) {
         case ParamType::AnimatedRect:
+        case ParamType::Color:
             mlt_prop.anim_set("key", keyframe.second.second.toString().toUtf8().constData(), keyframe.first.frames(pCore->getCurrentFps()));
             break;
         default:
@@ -923,6 +938,13 @@ void KeyframeModel::parseAnimProperty(const QString &prop)
             }
             break;
         }
+        case ParamType::Color: {
+            mlt_color mltColor = mlt_prop.anim_get_color("key", frame);
+            QColor color(mltColor.r, mltColor.g, mltColor.b, mltColor.a);
+            value = QVariant(QColorUtils::colorToString(color, true));
+            break;
+        }
+
         default:
             value = QVariant(mlt_prop.anim_get_double("key", frame));
             break;
@@ -1006,7 +1028,7 @@ void KeyframeModel::resetAnimProperty(const QString &prop)
         effectName = i18n("effect");
     }
     Fun update_local = [this]() {
-        emit dataChanged(index(0), index(int(m_keyframeList.size())), {});
+        Q_EMIT dataChanged(index(0), index(int(m_keyframeList.size())), {});
         return true;
     };
     update_local();
@@ -1115,6 +1137,14 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
             res.append(QStringLiteral(" %1").arg(QString::number(rect.o, 'f')));
         }
         return QVariant(res);
+    }
+    if (!animData.isEmpty() && m_paramType == ParamType::Color) {
+        mlt_prop.set("key", animData.toUtf8().constData());
+        // This is a fake query to force the animation to be parsed
+        (void)mlt_prop.anim_get_double("key", 0, out);
+        mlt_color mltColor = mlt_prop.anim_get_color("key", pos.frames(pCore->getCurrentFps()));
+        QColor color(mltColor.r, mltColor.g, mltColor.b, mltColor.a);
+        return QVariant(QColorUtils::colorToString(color, true));
     }
     if (m_paramType == ParamType::Roto_spline) {
         // interpolate
@@ -1435,12 +1465,12 @@ void KeyframeModel::setSelectedKeyframe(int ix, bool add)
     if (!add) {
         for (auto &ix2 : previous) {
             if (ix2 > -1) {
-                emit requestModelUpdate(index(ix2), index(ix2), {SelectedRole});
+                Q_EMIT requestModelUpdate(index(ix2), index(ix2), {SelectedRole});
             }
         }
     }
     if (ix > -1) {
-        emit requestModelUpdate(index(ix), index(ix), {SelectedRole});
+        Q_EMIT requestModelUpdate(index(ix), index(ix), {SelectedRole});
     }
 }
 
@@ -1454,11 +1484,11 @@ void KeyframeModel::setSelectedKeyframes(QVector<int> selection)
         ptr->m_selectedKeyframes = selection;
     }
     if (!selection.isEmpty()) {
-        emit requestModelUpdate(index(selection.first()), index(selection.last()), {SelectedRole});
+        Q_EMIT requestModelUpdate(index(selection.first()), index(selection.last()), {SelectedRole});
     }
     for (auto &ix : previous) {
         if (ix > -1 && !selection.contains(ix)) {
-            emit requestModelUpdate(index(ix), index(ix), {SelectedRole});
+            Q_EMIT requestModelUpdate(index(ix), index(ix), {SelectedRole});
         }
     }
 }
@@ -1482,9 +1512,9 @@ void KeyframeModel::setActiveKeyframe(int ix)
         }
         ptr->m_activeKeyframe = ix;
     }
-    emit requestModelUpdate(index(ix), index(ix), {ActiveRole});
+    Q_EMIT requestModelUpdate(index(ix), index(ix), {ActiveRole});
     if (oldActive > -1) {
-        emit requestModelUpdate(index(oldActive), index(oldActive), {ActiveRole});
+        Q_EMIT requestModelUpdate(index(oldActive), index(oldActive), {ActiveRole});
     }
 }
 

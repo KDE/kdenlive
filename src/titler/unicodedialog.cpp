@@ -353,7 +353,7 @@ void UnicodeWidget::slotReturnPressed()
     unicodeNumber->setFocus();
     const QString text = trimmedUnicodeNumber(unicodeNumber->text());
     if (!controlCharacter(text)) {
-        emit charSelected(unicodeChar->text());
+        Q_EMIT charSelected(unicodeChar->text());
         writeChoices();
     }
 }

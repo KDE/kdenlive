@@ -26,7 +26,7 @@ MultiSwitchParamWidget::MultiSwitchParamWidget(std::shared_ptr<AssetParameterMod
     // set check state
     slotRefresh();
 
-    // emit the signal of the base class when appropriate
+    // Q_EMIT the signal of the base class when appropriate
     connect(this->m_checkBox, &QCheckBox::stateChanged, this, [this](int state) {
         QString value;
         if (state == Qt::Checked) {
@@ -50,7 +50,7 @@ MultiSwitchParamWidget::MultiSwitchParamWidget(std::shared_ptr<AssetParameterMod
                 value.replace(QLatin1String("-1="), QString("%1=").arg(m_model->framesToTime(out)));
             }
         }
-        emit valueChanged(m_index, value, true);
+        Q_EMIT valueChanged(m_index, value, true);
     });
 }
 

@@ -27,10 +27,10 @@ ListParamWidget::ListParamWidget(std::shared_ptr<AssetParameterModel> model, QMo
     m_labelName->setText(m_model->data(m_index, Qt::DisplayRole).toString());
     slotRefresh();
 
-    // emit the signal of the base class when appropriate
+    // Q_EMIT the signal of the base class when appropriate
     // The connection is ugly because the signal "currentIndexChanged" is overloaded in QComboBox
     connect(this->m_list, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            [this](int) { emit valueChanged(m_index, m_list->itemData(m_list->currentIndex()).toString(), true); });
+            [this](int) { Q_EMIT valueChanged(m_index, m_list->itemData(m_list->currentIndex()).toString(), true); });
 }
 
 void ListParamWidget::setCurrentIndex(int index)

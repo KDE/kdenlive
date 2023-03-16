@@ -407,14 +407,14 @@ void ProxyTask::processLogInfo()
             }
             m_progress = 100 * progress / m_jobDuration;
             QMetaObject::invokeMethod(m_object, "updateJobProgress");
-            // emit jobProgress(int(100.0 * progress / m_jobDuration));
+            // Q_EMIT jobProgress(int(100.0 * progress / m_jobDuration));
         }
     } else {
         // Parse MLT output
         if (buffer.contains(QLatin1String("percentage:"))) {
             m_progress = buffer.section(QStringLiteral("percentage:"), 1).simplified().section(QLatin1Char(' '), 0, 0).toInt();
             QMetaObject::invokeMethod(m_object, "updateJobProgress");
-            // emit jobProgress(progress);
+            // Q_EMIT jobProgress(progress);
         }
     }
 }

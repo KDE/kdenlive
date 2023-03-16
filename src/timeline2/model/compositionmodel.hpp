@@ -37,8 +37,8 @@ public:
        @param transitionId is the id of the transition to be inserted
        @param id Requested id of the clip. Automatic if -1
     */
-    static int construct(const std::weak_ptr<TimelineModel> &parent, const QString &transitionId, const QString &originalDecimalPoint, int id = -1,
-                         std::unique_ptr<Mlt::Properties> sourceProperties = nullptr);
+    static int construct(const std::weak_ptr<TimelineModel> &parent, const QString &transitionId, const QString &originalDecimalPoint, int length = 0,
+                         int id = -1, std::unique_ptr<Mlt::Properties> sourceProperties = nullptr);
 
     friend class TrackModel;
     friend class TimelineModel;

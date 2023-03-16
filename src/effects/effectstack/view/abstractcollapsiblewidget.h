@@ -19,7 +19,7 @@ public:
     explicit AbstractCollapsibleWidget(QWidget *parent = nullptr);
     virtual bool isGroup() const = 0;
 
-signals:
+Q_SIGNALS:
     void addEffect(const QDomElement &e);
     /** @brief Move effects in the stack one step up or down. */
     void changeEffectPosition(const QList<int> &, bool upwards);

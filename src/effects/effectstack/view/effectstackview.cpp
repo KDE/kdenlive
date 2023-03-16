@@ -51,7 +51,7 @@ QSize WidgetDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelI
 void WidgetDelegate::setHeight(const QModelIndex &index, int height)
 {
     m_height[index] = height;
-    emit sizeHintChanged(index);
+    Q_EMIT sizeHintChanged(index);
 }
 
 int WidgetDelegate::height(const QModelIndex &index) const
@@ -247,7 +247,7 @@ void EffectStackView::changeEnabledState()
         auto *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(ix));
         w->updateScene();
     }
-    emit updateEnabledState();
+    Q_EMIT updateEnabledState();
 }
 
 void EffectStackView::loadEffects()
@@ -293,7 +293,7 @@ void EffectStackView::loadEffects()
         connect(view, &CollapsibleEffectView::seekToPos, this, [this](int pos) {
             // at this point, the effects returns a pos relative to the clip. We need to convert it to a global time
             int clipIn = pCore->getItemPosition(m_model->getOwnerId());
-            emit seekToPos(pos + clipIn);
+            Q_EMIT seekToPos(pos + clipIn);
         });
         connect(this, &EffectStackView::switchCollapsedView, view, &CollapsibleEffectView::switchCollapsed);
 
@@ -360,22 +360,27 @@ void EffectStackView::updateTreeHeight()
     }
 }
 
-void EffectStackView::slotStartDrag(const QPixmap &pix, const std::shared_ptr<EffectItemModel> &effectModel)
+void EffectStackView::slotStartDrag(const QPixmap pix, const QString assetId, ObjectId sourceObject, int row)
 {
     auto *drag = new QDrag(this);
     drag->setPixmap(pix);
     auto *mime = new QMimeData;
-    mime->setData(QStringLiteral("kdenlive/effect"), effectModel->getAssetId().toUtf8());
+    mime->setData(QStringLiteral("kdenlive/effect"), assetId.toUtf8());
     // TODO this will break if source effect is not on the stack of a timeline clip
-    ObjectId source = effectModel->getOwnerId();
     QByteArray effectSource;
-    effectSource += QString::number(int(source.first)).toUtf8();
-    effectSource += '-';
-    effectSource += QString::number(int(source.second)).toUtf8();
-    effectSource += '-';
-    effectSource += QString::number(effectModel->row()).toUtf8();
+    effectSource += QString::number(int(sourceObject.first)).toUtf8();
+    effectSource += ',';
+    effectSource += QString::number(int(sourceObject.second)).toUtf8();
+    effectSource += ',';
+    effectSource += QString::number(row).toUtf8();
+    effectSource += ',';
+    if (sourceObject.first == ObjectType::BinClip) {
+        effectSource += QByteArray();
+    } else {
+        // Keep a reference to the timeline model
+        effectSource += pCore->currentTimelineId().toString().toUtf8();
+    }
     mime->setData(QStringLiteral("kdenlive/effectsource"), effectSource);
-    // mime->setData(QStringLiteral("kdenlive/effectrow"), QString::number(effectModel->row()).toUtf8());
 
     // Assign ownership of the QMimeData object to the QDrag object.
     drag->setMimeData(mime);
@@ -419,7 +424,7 @@ void EffectStackView::refresh(const QModelIndex &topLeft, const QModelIndex &bot
         for (int j = topLeft.column(); j <= bottomRight.column(); ++j) {
             CollapsibleEffectView *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(m_model->index(i, j, topLeft.parent())));
             if (w) {
-                emit w->refresh();
+                Q_EMIT w->refresh();
             }
         }
     }
@@ -438,14 +443,12 @@ void EffectStackView::unsetModel(bool reset)
         disconnect(this, &EffectStackView::removeCurrentEffect, m_model.get(), &EffectStackModel::removeCurrentEffect);
         disconnect(m_model.get(), &EffectStackModel::currentChanged, this, &EffectStackView::activateEffect);
         disconnect(&m_timerHeight, &QTimer::timeout, this, &EffectStackView::updateTreeHeight);
-        emit pCore->disconnectEffectStack();
-    }
-    if (reset) {
-        QMutexLocker lock(&m_mutex);
-        m_model.reset();
-        m_effectsTree->setModel(nullptr);
-    }
-    if (id != Kdenlive::NoMonitor) {
+        Q_EMIT pCore->disconnectEffectStack();
+        if (reset) {
+            QMutexLocker lock(&m_mutex);
+            m_model.reset();
+            m_effectsTree->setModel(nullptr);
+        }
         pCore->getMonitor(id)->slotShowEffectScene(MonitorSceneDefault);
     }
 }
@@ -491,13 +494,13 @@ void EffectStackView::switchCollapsed()
     if (m_model) {
         int max = m_model->rowCount();
         int active = qBound(0, m_model->getActiveEffect(), max - 1);
-        emit switchCollapsedView(active);
+        Q_EMIT switchCollapsedView(active);
     }
 }
 
 void EffectStackView::slotFocusEffect()
 {
-    emit scrollView(m_effectsTree->visualRect(m_effectsTree->currentIndex()));
+    Q_EMIT scrollView(m_effectsTree->visualRect(m_effectsTree->currentIndex()));
 }
 
 void EffectStackView::slotSaveStack()
@@ -598,7 +601,7 @@ void EffectStackView::slotSaveStack()
             KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1", file.fileName()));
         }
         file.close();
-        emit reloadEffect(dir.absoluteFilePath(effectfilename));
+        Q_EMIT reloadEffect(dir.absoluteFilePath(effectfilename));
     }
 }
 

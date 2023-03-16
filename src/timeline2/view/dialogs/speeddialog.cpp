@@ -14,7 +14,8 @@
 #include <QPushButton>
 #include <QtMath>
 
-SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double minSpeed, double maxSpeed, bool reversed, bool pitch_compensate)
+SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double minSpeed, double maxSpeed, bool reversed, bool pitch_compensate,
+                         ClipType::ProducerType clipType)
     : QDialog(parent)
     , ui(new Ui::ClipSpeed_UI)
     , m_durationDisplay(nullptr)
@@ -42,9 +43,12 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double min
     }
 
     // Info widget
-    auto *infoMessage = new KMessageWidget(this);
-    ui->infoLayout->addWidget(infoMessage);
-    infoMessage->hide();
+    if (clipType == ClipType::Playlist || clipType == ClipType::Timeline) {
+        ui->infoMessage->setText(i18n("Speed effect will render better when used on single high fps clips"));
+        ui->infoMessage->show();
+    } else {
+        ui->infoMessage->hide();
+    }
     ui->speedSpin->setFocus();
     ui->speedSpin->selectAll();
     if (m_duration > 0) {
@@ -52,7 +56,7 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double min
         m_durationDisplay = new TimecodeDisplay(this);
         m_durationDisplay->setValue(m_duration);
         ui->durationLayout->addWidget(m_durationDisplay);
-        connect(m_durationDisplay, &TimecodeDisplay::timeCodeEditingFinished, this, [this, infoMessage, speed, minSpeed](int value) {
+        connect(m_durationDisplay, &TimecodeDisplay::timeCodeEditingFinished, this, [this, speed, minSpeed](int value) {
             if (value < 1) {
                 value = 1;
                 m_durationDisplay->setValue(value);
@@ -65,7 +69,7 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double min
             ui->speedSlider->setValue(int(qLn(updatedSpeed) * 12));
             QSignalBlocker bk2(ui->speedSpin);
             ui->speedSpin->setValue(updatedSpeed);
-            checkSpeed(infoMessage, updatedSpeed);
+            checkSpeed(updatedSpeed);
         });
     }
 
@@ -80,10 +84,10 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double min
         }
         ui->buttonBox->button((QDialogButtonBox::Ok))->setEnabled(!qFuzzyIsNull(value));
     });
-    connect(ui->speedSlider, &QSlider::valueChanged, this, [this, infoMessage, speed](int value) {
+    connect(ui->speedSlider, &QSlider::valueChanged, this, [this, speed](int value) {
         double res = qExp(value / 12.);
         QSignalBlocker bk(ui->speedSpin);
-        checkSpeed(infoMessage, res);
+        checkSpeed(res);
         ui->speedSpin->setValue(res);
         if (m_durationDisplay) {
             QSignalBlocker bk2(m_durationDisplay);
@@ -93,14 +97,14 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double min
     });
 }
 
-void SpeedDialog::checkSpeed(KMessageWidget *infoMessage, double res)
+void SpeedDialog::checkSpeed(double res)
 {
     if (res < ui->speedSpin->minimum() || res > ui->speedSpin->maximum()) {
-        infoMessage->setText(res < ui->speedSpin->minimum() ? i18n("Minimum speed is %1", ui->speedSpin->minimum())
-                                                            : i18n("Maximum speed is %1", ui->speedSpin->maximum()));
-        infoMessage->setCloseButtonVisible(true);
-        infoMessage->setMessageType(KMessageWidget::Warning);
-        infoMessage->animatedShow();
+        ui->infoMessage->setText(res < ui->speedSpin->minimum() ? i18n("Minimum speed is %1", ui->speedSpin->minimum())
+                                                                : i18n("Maximum speed is %1", ui->speedSpin->maximum()));
+        ui->infoMessage->setCloseButtonVisible(true);
+        ui->infoMessage->setMessageType(KMessageWidget::Warning);
+        ui->infoMessage->animatedShow();
     }
 }
 

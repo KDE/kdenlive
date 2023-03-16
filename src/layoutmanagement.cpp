@@ -225,7 +225,7 @@ bool LayoutManagement::loadLayout(const QString &layoutId, bool selectButton)
         // Error, layout not found
         return false;
     }
-    emit connectDocks(false);
+    Q_EMIT connectDocks(false);
     QByteArray state = QByteArray::fromBase64(layouts.readEntry(layoutId).toLatin1());
     bool timelineVisible = true;
     if (state.startsWith("NO-TL")) {
@@ -250,7 +250,7 @@ bool LayoutManagement::loadLayout(const QString &layoutId, bool selectButton)
         }
     }
     pCore->window()->tabifyBins();
-    emit connectDocks(true);
+    Q_EMIT connectDocks(true);
     if (selectButton) {
         // Activate layout button
         QList<QAbstractButton *> buttons = m_containerGrp->buttons();
@@ -268,7 +268,7 @@ bool LayoutManagement::loadLayout(const QString &layoutId, bool selectButton)
             m_containerGrp->setExclusive(true);
         }
     }
-    emit updateTitleBars();
+    Q_EMIT updateTitleBars();
     return true;
 }
 

@@ -28,12 +28,12 @@ bool ShiftEnterFilter::eventFilter(QObject *obj, QEvent *event)
     if (event->type() == QEvent::KeyPress) {
         auto *keyEvent = static_cast<QKeyEvent *>(event);
         if ((keyEvent->modifiers() & Qt::ShiftModifier) && ((keyEvent->key() == Qt::Key_Enter) || (keyEvent->key() == Qt::Key_Return))) {
-            emit triggerUpdate();
+            Q_EMIT triggerUpdate();
             return true;
         }
     }
     if (event->type() == QEvent::FocusOut) {
-        emit triggerUpdate();
+        Q_EMIT triggerUpdate();
         return true;
     }
     return QObject::eventFilter(obj, event);
@@ -88,12 +88,12 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
         updateSubtitle();
         m_model->requestResize(m_activeSub, value, true);
     });
-    connect(buttonAdd, &QToolButton::clicked, this, [this]() { emit addSubtitle(subText->toPlainText()); });
+    connect(buttonAdd, &QToolButton::clicked, this, [this]() { Q_EMIT addSubtitle(subText->toPlainText()); });
     connect(buttonCut, &QToolButton::clicked, this, [this]() {
         if (m_activeSub > -1 && subText->hasFocus()) {
             int pos = subText->textCursor().position();
             updateSubtitle();
-            emit cutSubtitle(m_activeSub, pos);
+            Q_EMIT cutSubtitle(m_activeSub, pos);
         }
     });
     connect(buttonApply, &QToolButton::clicked, this, &SubtitleEdit::updateSubtitle);
@@ -103,12 +103,21 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     connect(buttonOut, &QToolButton::clicked, []() { pCore->triggerAction(QStringLiteral("resize_timeline_clip_end")); });
     connect(buttonDelete, &QToolButton::clicked, []() { pCore->triggerAction(QStringLiteral("delete_timeline_clip")); });
     buttonNext->setToolTip(i18n("Go to next subtitle"));
+    buttonNext->setWhatsThis(xi18nc("@info:whatsthis", "Moves the playhead in the timeline to the beginning of the subtitle to the right."));
     buttonPrev->setToolTip(i18n("Go to previous subtitle"));
+    buttonPrev->setWhatsThis(xi18nc("@info:whatsthis", "Moves the playhead in the timeline to the beginning of the subtitle to the left."));
     buttonAdd->setToolTip(i18n("Add subtitle"));
+    buttonAdd->setWhatsThis(xi18nc("@info:whatsthis", "Creates a new subtitle with the default length (set in <interface>Settings->Configure "
+                                                      "Kdenlive…->Misc</interface>) at the current playhead position/frame."));
     buttonCut->setToolTip(i18n("Split subtitle at cursor position"));
+    buttonCut->setWhatsThis(
+        xi18nc("@info:whatsthis", "Cuts the subtitle text at the cursor position and creates a new subtitle to the right (like cutting a clip)."));
     buttonApply->setToolTip(i18n("Update subtitle text"));
+    buttonApply->setWhatsThis(xi18nc("@info:whatsthis", "Updates the subtitle display in the timeline."));
     buttonStyle->setToolTip(i18n("Show style options"));
+    buttonStyle->setWhatsThis(xi18nc("@info:whatsthis", "Toggles a list to adjust font, size, color, outline style, shadow, position and background."));
     buttonDelete->setToolTip(i18n("Delete subtitle"));
+    buttonDelete->setWhatsThis(xi18nc("@info:whatsthis", "Deletes the currently selected subtitle (doesn’t work on multiple subtitles)."));
 
     // Styling dialog
     connect(fontSize, QOverload<int>::of(&QSpinBox::valueChanged), this, &SubtitleEdit::updateStyle);
@@ -170,7 +179,17 @@ void SubtitleEdit::updateStyle()
         styleString.append(QStringLiteral("OutlineColour=&H%1,").arg(colorName));
     }
     if (checkOpaque->isChecked()) {
-        styleString.append(QStringLiteral("BorderStyle=3,"));
+        QColor color = outlineColor->color();
+        if (color.alpha() < 255) {
+            // To avoid alpha overlay with multi lines, draw only one box
+            QColor destColor(color.blue(), color.green(), color.red(), 255 - color.alpha());
+            // Strip # character
+            QString colorName = destColor.name(QColor::HexArgb);
+            colorName.remove(0, 1);
+            styleString.append(QStringLiteral("BorderStyle=4,BackColour=&H%1,").arg(colorName));
+        } else {
+            styleString.append(QStringLiteral("BorderStyle=3"));
+        }
     }
     if (alignment->isEnabled()) {
         styleString.append(QStringLiteral("Alignment=%1,").arg(alignment->currentData().toInt()));

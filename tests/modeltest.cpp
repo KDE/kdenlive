@@ -11,28 +11,34 @@
 
 using namespace fakeit;
 std::default_random_engine g(42);
-Mlt::Profile profile_model;
 
 TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
 {
     auto binModel = pCore->projectItemModel();
-    QUuid uuid = QUuid::createUuid();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
+    KdenliveDoc document(undoStack);
+    Mock<KdenliveDoc> docMock(document);
+    KdenliveDoc &mockedDoc = docMock.get();
 
+    // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
     When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+    When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
+
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
 
     // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(uuid, &profile_model, undoStack);
+    TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
+
+    mocked.m_activeTimelineModel = timeline;
 
     Fake(Method(timMock, adjustAssetRange));
 
@@ -96,7 +102,7 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
         REQUIRE(timeline->requestTrackInsertion(-1, tid2));
         REQUIRE(timeline->checkConsistency());
 
-        QString binId = createProducer(profile_model, "red", binModel);
+        QString binId = createProducer(*timeline->getProfile(), "red", binModel);
         int length = 20;
         int cid1, cid2, cid3, cid4;
         REQUIRE(timeline->requestClipInsertion(binId, tid1, 2, cid1));
@@ -128,19 +134,27 @@ TEST_CASE("Adding multiple A/V tracks", "[TrackModel]")
 {
 
     auto binModel = pCore->projectItemModel();
-    QUuid uuid = QUuid::createUuid();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
+    KdenliveDoc document(undoStack);
+    Mock<KdenliveDoc> docMock(document);
+    KdenliveDoc &mockedDoc = docMock.get();
+
+    // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
     When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+    When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
+
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
 
-    TimelineItemModel tim(uuid, &profile_model, undoStack);
+    // We also mock timeline object to spy few functions and mock others
+    TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
+    mocked.m_activeTimelineModel = timeline;
 
     SECTION("Check AV track ordering")
     {
@@ -207,22 +221,32 @@ TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
 {
 
     auto binModel = pCore->projectItemModel();
-    QUuid uuid = QUuid::createUuid();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(uuid, &profile_model, undoStack);
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
+    KdenliveDoc document(undoStack);
+    Mock<KdenliveDoc> docMock(document);
+    KdenliveDoc &mockedDoc = docMock.get();
 
+    // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
     When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+    When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
 
-    QString binId = createProducer(profile_model, "red", binModel);
-    QString binId2 = createProducer(profile_model, "green", binModel);
+    // We also mock timeline object to spy few functions and mock others
+    TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
+    Mock<TimelineItemModel> timMock(tim);
+    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
+    TimelineItemModel::finishConstruct(timeline);
+    mocked.m_activeTimelineModel = timeline;
+
+    QString binId = createProducer(*timeline->getProfile(), "red", binModel);
+    QString binId2 = createProducer(*timeline->getProfile(), "green", binModel);
 
     REQUIRE(timeline->getClipsCount() == 0);
     int id1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
@@ -254,25 +278,31 @@ TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
 TEST_CASE("Clip manipulation", "[ClipModel]")
 {
     auto binModel = pCore->projectItemModel();
-    QUuid uuid = QUuid::createUuid();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
+    KdenliveDoc document(undoStack);
+    Mock<KdenliveDoc> docMock(document);
+    KdenliveDoc &mockedDoc = docMock.get();
 
+    // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
     When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+    When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
 
     // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(uuid, &profile_model, undoStack);
+    TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
+
+    mocked.m_activeTimelineModel = timeline;
 
     Fake(Method(timMock, adjustAssetRange));
 
@@ -282,10 +312,10 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
     Fake(Method(timMock, _endInsertRows));
     Fake(Method(timMock, _endRemoveRows));
 
-    QString binId = createProducer(profile_model, "red", binModel);
-    QString binId2 = createProducer(profile_model, "blue", binModel);
-    QString binId3 = createProducer(profile_model, "green", binModel);
-    QString binId_unlimited = createProducer(profile_model, "green", binModel, 20, false);
+    QString binId = createProducer(*timeline->getProfile(), "red", binModel);
+    QString binId2 = createProducer(*timeline->getProfile(), "blue", binModel);
+    QString binId3 = createProducer(*timeline->getProfile(), "green", binModel);
+    QString binId_unlimited = createProducer(*timeline->getProfile(), "green", binModel, 20, false);
 
     int cid1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
     int tid1, tid2, tid3;
@@ -1018,7 +1048,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
             REQUIRE(timeline->getTrackClipsCount(tid6) == 0);
         };
         state0();
-        QString binId3 = createProducerWithSound(profile_model, binModel);
+        QString binId3 = createProducerWithSound(*timeline->getProfile(), binModel);
 
         int cid6 = -1;
         // Setup insert stream data
@@ -1139,29 +1169,35 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
 TEST_CASE("Check id unicity", "[ClipModel]")
 {
     auto binModel = pCore->projectItemModel();
-    QUuid uuid = QUuid::createUuid();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
+    KdenliveDoc document(undoStack);
+    Mock<KdenliveDoc> docMock(document);
+    KdenliveDoc &mockedDoc = docMock.get();
 
+    // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
     When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+    When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
 
     // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(uuid, &profile_model, undoStack);
+    TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
 
+    mocked.m_activeTimelineModel = timeline;
+
     RESET(timMock);
 
-    QString binId = createProducer(profile_model, "red", binModel);
+    QString binId = createProducer(*timeline->getProfile(), "red", binModel);
 
     std::vector<int> track_ids;
     std::unordered_set<int> all_ids;
@@ -1195,30 +1231,35 @@ TEST_CASE("Check id unicity", "[ClipModel]")
 TEST_CASE("Undo and Redo", "[ClipModel]")
 {
     auto binModel = pCore->projectItemModel();
-    QUuid uuid = QUuid::createUuid();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
+    KdenliveDoc document(undoStack);
+    Mock<KdenliveDoc> docMock(document);
+    KdenliveDoc &mockedDoc = docMock.get();
 
+    // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
     When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+    When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
 
     // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(uuid, &profile_model, undoStack);
+    TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
+    mocked.m_activeTimelineModel = timeline;
 
     RESET(timMock);
 
-    QString binId = createProducer(profile_model, "red", binModel);
-    QString binId2 = createProducer(profile_model, "blue", binModel);
+    QString binId = createProducer(*timeline->getProfile(), "red", binModel);
+    QString binId2 = createProducer(*timeline->getProfile(), "blue", binModel);
 
     int cid1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
     int tid1 = TrackModel::construct(timeline);
@@ -1244,7 +1285,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         };
         state0();
 
-        QString binId3 = createProducer(profile_model, "green", binModel);
+        QString binId3 = createProducer(*timeline->getProfile(), "green", binModel);
         int cid3;
         {
             Fun undo = []() { return true; };
@@ -1299,7 +1340,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         };
         state0();
 
-        QString binId3 = createProducer(profile_model, "green", binModel);
+        QString binId3 = createProducer(*timeline->getProfile(), "green", binModel);
         int cid3;
         REQUIRE(timeline->requestClipInsertion(binId3, tid1, 12, cid3, true));
 
@@ -1502,7 +1543,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
     }
     SECTION("Clip Insertion Undo")
     {
-        QString binId3 = createProducer(profile_model, "red", binModel);
+        QString binId3 = createProducer(*timeline->getProfile(), "red", binModel);
 
         REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
         auto state1 = [&]() {
@@ -1812,30 +1853,35 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
 TEST_CASE("Snapping", "[Snapping]")
 {
     auto binModel = pCore->projectItemModel();
-    QUuid uuid = QUuid::createUuid();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
+    KdenliveDoc document(undoStack);
+    Mock<KdenliveDoc> docMock(document);
+    KdenliveDoc &mockedDoc = docMock.get();
 
+    // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
     When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+    When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
 
     // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(uuid, &profile_model, undoStack);
+    TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
+    mocked.m_activeTimelineModel = timeline;
 
     RESET(timMock);
 
-    QString binId = createProducer(profile_model, "red", binModel, 50);
-    QString binId2 = createProducer(profile_model, "blue", binModel);
+    QString binId = createProducer(*timeline->getProfile(), "red", binModel, 50);
+    QString binId2 = createProducer(*timeline->getProfile(), "blue", binModel);
 
     int tid1 = TrackModel::construct(timeline);
     int cid1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
@@ -1941,25 +1987,30 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
     REQUIRE(!aCompo.isEmpty());
 
     auto binModel = pCore->projectItemModel();
-    QUuid uuid = QUuid::createUuid();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
+    KdenliveDoc document(undoStack);
+    Mock<KdenliveDoc> docMock(document);
+    KdenliveDoc &mockedDoc = docMock.get();
 
+    // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
     When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+    When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
 
     // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(uuid, &profile_model, undoStack);
+    TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
+    mocked.m_activeTimelineModel = timeline;
 
     Fake(Method(timMock, adjustAssetRange));
 
@@ -1969,8 +2020,8 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
     Fake(Method(timMock, _endInsertRows));
     Fake(Method(timMock, _endRemoveRows));
 
-    QString binId = createProducer(profile_model, "red", binModel);
-    QString binId3 = createProducerWithSound(profile_model, binModel);
+    QString binId = createProducer(*timeline->getProfile(), "red", binModel);
+    QString binId3 = createProducerWithSound(*timeline->getProfile(), binModel);
 
     int tid1, tid2, tid3;
     REQUIRE(timeline->requestTrackInsertion(-1, tid1));
@@ -2202,11 +2253,9 @@ TEST_CASE("New KdenliveDoc activeTrack", "KdenliveDoc")
     undoGroup->addStack(undoStack.get());
     const QMap<QString, QString> emptyMap{};
 
-    /*
-     * Bug 442545: KdenliveDoc created with 0 video tracks causes a crash at
-     * save time because the document's activeTrack was set to an out-of-range
-     * position.
-     */
+    // Bug 442545: KdenliveDoc created with 0 video tracks causes a crash at
+    // save time because the document's activeTrack was set to an out-of-range
+    // position.
 
     SECTION("0 video tracks")
     {
@@ -2223,25 +2272,25 @@ TEST_CASE("New KdenliveDoc activeTrack", "KdenliveDoc")
     {
         KdenliveDoc doc{QString(), undoGroup, QString(), emptyMap,
             emptyMap, qMakePair<int, int>(2, 2), 2, nullptr};
-        CHECK(doc.getDocumentProperty("activeTrack").toInt() >= 0);
-        CHECK(doc.getDocumentProperty("activeTrack").toInt() < 4);
+        CHECK(doc.getSequenceProperty(doc.uuid(), "activeTrack").toInt() >= 0);
+        CHECK(doc.getSequenceProperty(doc.uuid(), "activeTrack").toInt() < 4);
         // because video tracks come after audio tracks, videoTarget position
         // should also be after the audio tracks
-        CHECK(doc.getDocumentProperty("videoTarget").toInt() > 1);
-        CHECK(doc.getDocumentProperty("videoTarget").toInt() < 4);
+        CHECK(doc.getSequenceProperty(doc.uuid(), "videoTarget").toInt() > 1);
+        CHECK(doc.getSequenceProperty(doc.uuid(), "videoTarget").toInt() < 4);
 
-        CHECK(doc.getDocumentProperty("audioTarget").toInt() >= 0);
-        CHECK(doc.getDocumentProperty("audioTarget").toInt() < 2);
+        CHECK(doc.getSequenceProperty(doc.uuid(), "audioTarget").toInt() >= 0);
+        CHECK(doc.getSequenceProperty(doc.uuid(), "audioTarget").toInt() < 2);
     }
 
     SECTION("0 audio tracks")
     {
         KdenliveDoc doc{QString(), undoGroup, QString(), emptyMap,
             emptyMap, qMakePair<int, int>(2, 0), 2, nullptr};
-        CHECK(doc.getDocumentProperty("activeTrack").toInt() >= 0);
-        CHECK(doc.getDocumentProperty("activeTrack").toInt() < 2);
-        CHECK(doc.getDocumentProperty("videoTarget").toInt() >= 0);
-        CHECK(doc.getDocumentProperty("videoTarget").toInt() < 2);
+        CHECK(doc.getSequenceProperty(doc.uuid(), "activeTrack").toInt() >= 0);
+        CHECK(doc.getSequenceProperty(doc.uuid(), "activeTrack").toInt() < 2);
+        CHECK(doc.getSequenceProperty(doc.uuid(), "videoTarget").toInt() >= 0);
+        CHECK(doc.getSequenceProperty(doc.uuid(), "videoTarget").toInt() < 2);
     }
     delete undoGroup;
     binModel->clean();

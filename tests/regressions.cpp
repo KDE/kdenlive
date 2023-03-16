@@ -3,28 +3,31 @@
     SPDX-FileCopyrightText: 2017-2019 Nicolas Carion <french.ebook.lover@gmail.com>
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
+
+#include "doc/kdenlivedoc.h"
 #include "test_utils.hpp"
 
-Mlt::Profile reg_profile;
 TEST_CASE("Regression")
 {
     auto binModel = pCore->projectItemModel();
-    QUuid uuid = QUuid::createUuid();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
-
+    KdenliveDoc document(undoStack);
+    Mock<KdenliveDoc> docMock(document);
+    KdenliveDoc &mockedDoc = docMock.get();
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
     When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+    When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
 
     // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(uuid, &reg_profile, undoStack);
+    TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
@@ -35,7 +38,7 @@ TEST_CASE("Regression")
     undoStack->redo();
     undoStack->redo();
     undoStack->undo();
-    QString binId0 = createProducer(reg_profile, "red", binModel);
+    QString binId0 = createProducer(*timeline->getProfile(), "red", binModel);
     int c = ClipModel::construct(timeline, binId0, -1, PlaylistState::VideoOnly);
     timeline->m_allClips[c]->m_endlessResize = false;
     TrackModel::construct(timeline);
@@ -75,22 +78,24 @@ TEST_CASE("Regression")
 TEST_CASE("Regression2")
 {
     auto binModel = pCore->projectItemModel();
-    QUuid uuid = QUuid::createUuid();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
-
+    KdenliveDoc document(undoStack);
+    Mock<KdenliveDoc> docMock(document);
+    KdenliveDoc &mockedDoc = docMock.get();
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
     When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+    When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
 
     // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(uuid, &reg_profile, undoStack);
+    TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
@@ -106,7 +111,7 @@ TEST_CASE("Regression2")
     undoStack->undo();
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
     {
-        QString binId0 = createProducer(reg_profile, "red", binModel);
+        QString binId0 = createProducer(*timeline->getProfile(), "red", binModel);
         bool ok = timeline->requestClipInsertion(binId0, 0, 10, dummy_id);
         timeline->m_allClips[dummy_id]->m_endlessResize = false;
         REQUIRE(ok);
@@ -120,7 +125,7 @@ TEST_CASE("Regression2")
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
     REQUIRE(timeline->getTrackById(2)->checkConsistency());
     {
-        QString binId0 = createProducer(reg_profile, "red", binModel);
+        QString binId0 = createProducer(*timeline->getProfile(), "red", binModel);
         bool ok = timeline->requestClipInsertion(binId0, 2, 10, dummy_id);
         timeline->m_allClips[3]->m_endlessResize = false;
         REQUIRE(ok);
@@ -150,7 +155,7 @@ TEST_CASE("Regression2")
     REQUIRE(timeline->getTrackById(2)->checkConsistency());
     REQUIRE(timeline->getTrackById(4)->checkConsistency());
     {
-        QString binId0 = createProducer(reg_profile, "red", binModel);
+        QString binId0 = createProducer(*timeline->getProfile(), "red", binModel);
         int c = ClipModel::construct(timeline, binId0, -1, PlaylistState::VideoOnly);
         timeline->m_allClips[c]->m_endlessResize = false;
     }
@@ -202,7 +207,7 @@ TEST_CASE("Regression2")
     REQUIRE(timeline->getTrackById(4)->checkConsistency());
     REQUIRE(timeline->getTrackById(6)->checkConsistency());
     {
-        QString binId0 = createProducer(reg_profile, "red", binModel);
+        QString binId0 = createProducer(*timeline->getProfile(), "red", binModel);
         bool ok = timeline->requestClipInsertion(binId0, 0, 1, dummy_id);
         REQUIRE_FALSE(ok);
     }
@@ -426,19 +431,26 @@ TEST_CASE("Regression 4")
 TEST_CASE("FuzzBug1")
 {
     auto binModel = pCore->projectItemModel();
-    QUuid uuid = QUuid::createUuid();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     TimelineModel::next_id = 0;
     {
+        KdenliveDoc document(undoStack);
+        Mock<KdenliveDoc> docMock(document);
+        KdenliveDoc &mockedDoc = docMock.get();
         Mock<ProjectManager> pmMock;
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
         When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+        When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
+
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        TimelineItemModel tim_0(uuid, &reg_profile, undoStack);
-        Mock<TimelineItemModel> timMock_0(tim_0);
+
+        // We also mock timeline object to spy few functions and mock others
+        TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
+        Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
+        mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
@@ -496,7 +508,7 @@ TEST_CASE("FuzzBug1")
         REQUIRE(timeline_0->checkConsistency());
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
-        createProducer(reg_profile, "red", binModel, 20, true);
+        createProducer(*timeline_0->getProfile(), "red", binModel, 20, true);
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
@@ -567,20 +579,28 @@ TEST_CASE("FuzzBug1")
 TEST_CASE("FuzzBug2")
 {
     auto binModel = pCore->projectItemModel();
-    QUuid uuid = QUuid::createUuid();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     TimelineModel::next_id = 0;
     {
+        KdenliveDoc document(undoStack);
+        Mock<KdenliveDoc> docMock(document);
+        KdenliveDoc &mockedDoc = docMock.get();
         Mock<ProjectManager> pmMock;
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
         When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+        When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
+
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        TimelineItemModel tim_0(uuid, &reg_profile, undoStack);
-        Mock<TimelineItemModel> timMock_0(tim_0);
+
+        // We also mock timeline object to spy few functions and mock others
+        TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
+        Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
+
+        mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
@@ -597,7 +617,7 @@ TEST_CASE("FuzzBug2")
         REQUIRE(timeline_0->checkConsistency());
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
-        createProducer(reg_profile, "d", binModel, 0, true);
+        createProducer(*timeline_0->getProfile(), "d", binModel, 0, true);
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
@@ -651,23 +671,31 @@ TEST_CASE("FuzzBug2")
 TEST_CASE("FuzzBug3")
 {
     auto binModel = pCore->projectItemModel();
-    QUuid uuid = QUuid::createUuid();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     TimelineModel::next_id = 0;
     {
+        KdenliveDoc document(undoStack);
+        Mock<KdenliveDoc> docMock(document);
+        KdenliveDoc &mockedDoc = docMock.get();
         Mock<ProjectManager> pmMock;
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
         When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+        When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
+
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        TimelineItemModel tim_0(uuid, &reg_profile, undoStack);
-        Mock<TimelineItemModel> timMock_0(tim_0);
+
+        // We also mock timeline object to spy few functions and mock others
+        TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
+        Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
+
+        mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
 
-        createProducerWithSound(reg_profile, binModel);
+        createProducerWithSound(*timeline_0->getProfile(), binModel);
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
@@ -701,39 +729,47 @@ TEST_CASE("FuzzBug3")
 TEST_CASE("FuzzBug4")
 {
     auto binModel = pCore->projectItemModel();
-    QUuid uuid = QUuid::createUuid();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     TimelineModel::next_id = 0;
     {
+        KdenliveDoc document(undoStack);
+        Mock<KdenliveDoc> docMock(document);
+        KdenliveDoc &mockedDoc = docMock.get();
         Mock<ProjectManager> pmMock;
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
         When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+        When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
+
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        TimelineItemModel tim_0(uuid, &reg_profile, undoStack);
-        Mock<TimelineItemModel> timMock_0(tim_0);
+
+        // We also mock timeline object to spy few functions and mock others
+        TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
+        Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
+
+        mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
-        createProducer(reg_profile, "red", binModel, 2, true);
+        createProducer(*timeline_0->getProfile(), "red", binModel, 2, true);
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
-        createProducer(reg_profile, "blue", binModel, 20, true);
+        createProducer(*timeline_0->getProfile(), "blue", binModel, 20, true);
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
-        createProducer(reg_profile, "gseen", binModel, 20, true);
+        createProducer(*timeline_0->getProfile(), "gseen", binModel, 20, true);
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
@@ -745,7 +781,7 @@ TEST_CASE("FuzzBug4")
         REQUIRE(timeline_0->checkConsistency());
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
-        createProducerWithSound(reg_profile, binModel);
+        createProducerWithSound(*timeline_0->getProfile(), binModel);
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
@@ -777,20 +813,28 @@ TEST_CASE("FuzzBug4")
 TEST_CASE("FuzzBug5")
 {
     auto binModel = pCore->projectItemModel();
-    QUuid uuid = QUuid::createUuid();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     TimelineModel::next_id = 0;
     {
+        KdenliveDoc document(undoStack);
+        Mock<KdenliveDoc> docMock(document);
+        KdenliveDoc &mockedDoc = docMock.get();
         Mock<ProjectManager> pmMock;
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
         When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+        When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
+
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        TimelineItemModel tim_0(uuid, &reg_profile, undoStack);
-        Mock<TimelineItemModel> timMock_0(tim_0);
+
+        // We also mock timeline object to spy few functions and mock others
+        TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
+        Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
+
+        mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
@@ -804,60 +848,93 @@ TEST_CASE("FuzzBug5")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         QUuid uuid2 = QUuid::createUuid();
-        TimelineItemModel tim_1(uuid2, &reg_profile, undoStack);
+        TimelineItemModel tim_1(uuid2, pCore->getProjectProfile(), undoStack);
         Mock<TimelineItemModel> timMock_1(tim_1);
         auto timeline_1 = std::shared_ptr<TimelineItemModel>(&timMock_1.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_1);
         Fake(Method(timMock_1, adjustAssetRange));
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->undo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->redo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         TrackModel::construct(timeline_0, -1, 0, "$", false);
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->undo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->redo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         TrackModel::construct(timeline_1, -1, 0, "$", true);
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->undo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->redo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
-        createProducerWithSound(reg_profile, binModel);
+        createProducerWithSound(*timeline_0->getProfile(), binModel);
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->undo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->redo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         TrackModel::construct(timeline_1, -1, -1, "$", false);
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->undo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->redo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         TrackModel::construct(timeline_1, -1, -1, "$", true);
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->undo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->redo();
 
@@ -874,7 +951,9 @@ TEST_CASE("FuzzBug5")
         timeline_1->setTrackProperty(5, "kdenlive:timeline_active", QStringLiteral("1"));
         timeline_1->setTrackProperty(6, "kdenlive:timeline_active", QStringLiteral("1"));*/
 
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         {
             int dummy_3;
@@ -882,38 +961,56 @@ TEST_CASE("FuzzBug5")
             qDebug() << "==== INSERTED FIRST CLIP DURATION: " << timeline_1->getClipPlaytime(dummy_3);
             REQUIRE(res == true);
         }
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->undo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->redo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         {
             int dummy_3;
             bool res = timeline_1->requestClipInsertion("2", 6, 20, dummy_3, true, false, true);
             REQUIRE(res == true);
         }
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->undo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->redo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         {
             bool res = timeline_1->requestGroupMove(10, 9, 0, 0, true, false, false);
             REQUIRE(res == false);
         }
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->undo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->redo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         pCore->taskManager.slotCancelJobs();
         pCore->m_projectManager = nullptr;
@@ -923,20 +1020,28 @@ TEST_CASE("FuzzBug5")
 TEST_CASE("FuzzBug6")
 {
     auto binModel = pCore->projectItemModel();
-    QUuid uuid = QUuid::createUuid();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     TimelineModel::next_id = 0;
     {
+        KdenliveDoc document(undoStack);
+        Mock<KdenliveDoc> docMock(document);
+        KdenliveDoc &mockedDoc = docMock.get();
         Mock<ProjectManager> pmMock;
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
         When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+        When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
+
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        TimelineItemModel tim_0(uuid, &reg_profile, undoStack);
-        Mock<TimelineItemModel> timMock_0(tim_0);
+
+        // We also mock timeline object to spy few functions and mock others
+        TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
+        Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
+
+        mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
@@ -950,40 +1055,58 @@ TEST_CASE("FuzzBug6")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         QUuid uuid2 = QUuid::createUuid();
-        TimelineItemModel tim_1(uuid2, &reg_profile, undoStack);
+        TimelineItemModel tim_1(uuid2, pCore->getProjectProfile(), undoStack);
         Mock<TimelineItemModel> timMock_1(tim_1);
         auto timeline_1 = std::shared_ptr<TimelineItemModel>(&timMock_1.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_1);
         Fake(Method(timMock_1, adjustAssetRange));
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->undo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->redo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
-        createProducer(reg_profile, "b", binModel, 20, true);
+        createProducer(*timeline_0->getProfile(), "b", binModel, 20, true);
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->undo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->redo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         {
             int dummy_3;
             bool res = timeline_0->requestClipInsertion("2", 1, -1, dummy_3, false, false, false);
             REQUIRE(res == false);
         }
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->undo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->redo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         pCore->taskManager.slotCancelJobs();
         pCore->m_projectManager = nullptr;
@@ -993,20 +1116,28 @@ TEST_CASE("FuzzBug6")
 TEST_CASE("FuzzBug7")
 {
     auto binModel = pCore->projectItemModel();
-    QUuid uuid = QUuid::createUuid();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     TimelineModel::next_id = 0;
     {
+        KdenliveDoc document(undoStack);
+        Mock<KdenliveDoc> docMock(document);
+        KdenliveDoc &mockedDoc = docMock.get();
         Mock<ProjectManager> pmMock;
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
         When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+        When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
+
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        TimelineItemModel tim_0(uuid, &reg_profile, undoStack);
-        Mock<TimelineItemModel> timMock_0(tim_0);
+
+        // We also mock timeline object to spy few functions and mock others
+        TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
+        Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
+
+        mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
@@ -1020,90 +1151,132 @@ TEST_CASE("FuzzBug7")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         QUuid uuid2 = QUuid::createUuid();
-        TimelineItemModel tim_1(uuid2, &reg_profile, undoStack);
+        TimelineItemModel tim_1(uuid2, pCore->getProjectProfile(), undoStack);
         Mock<TimelineItemModel> timMock_1(tim_1);
         auto timeline_1 = std::shared_ptr<TimelineItemModel>(&timMock_1.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_1);
         Fake(Method(timMock_1, adjustAssetRange));
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->undo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->redo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
-        createProducer(reg_profile, "r5", binModel, 2, true);
+        createProducer(*timeline_0->getProfile(), "r5", binModel, 2, true);
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->undo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->redo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         {
             int dummy_3;
             bool res = timeline_0->requestClipInsertion("2", 1, 0, dummy_3, true, false, true);
             REQUIRE(res == true);
         }
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->undo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->redo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         {
             int dummy_3;
             bool res = timeline_0->requestClipInsertion("2", 1, 20, dummy_3, true, false, true);
             REQUIRE(res == true);
         }
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->undo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->redo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         {
             int dummy_3;
             bool res = timeline_0->requestClipInsertion("2", 1, 40, dummy_3, true, false, true);
             REQUIRE(res == true);
         }
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->undo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->redo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         {
             int res = timeline_0->requestClipsGroup({4, 3}, true, GroupType::Selection);
             REQUIRE(res == -1);
         }
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->undo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->redo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         {
             int res = timeline_0->requestClipsGroup({5, 3}, true, GroupType::Normal);
             REQUIRE(res == 6);
         }
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->undo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         undoStack->redo();
+        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         pCore->taskManager.slotCancelJobs();
         pCore->m_projectManager = nullptr;
@@ -1113,20 +1286,28 @@ TEST_CASE("FuzzBug7")
 TEST_CASE("FuzzBug8")
 {
     auto binModel = pCore->projectItemModel();
-    QUuid uuid = QUuid::createUuid();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     TimelineModel::next_id = 0;
     {
+        KdenliveDoc document(undoStack);
+        Mock<KdenliveDoc> docMock(document);
+        KdenliveDoc &mockedDoc = docMock.get();
         Mock<ProjectManager> pmMock;
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
         When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+        When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
+
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        TimelineItemModel tim_0(uuid, &reg_profile, undoStack);
-        Mock<TimelineItemModel> timMock_0(tim_0);
+
+        // We also mock timeline object to spy few functions and mock others
+        TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
+        Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
+
+        mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
@@ -1143,7 +1324,7 @@ TEST_CASE("FuzzBug8")
         REQUIRE(timeline_0->checkConsistency());
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
-        createProducer(reg_profile, "red20", binModel, 1, true);
+        createProducer(*timeline_0->getProfile(), "red20", binModel, 1, true);
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
@@ -1176,27 +1357,35 @@ TEST_CASE("FuzzBug8")
 TEST_CASE("FuzzBug9")
 {
     auto binModel = pCore->projectItemModel();
-    QUuid uuid = QUuid::createUuid();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     TimelineModel::next_id = 0;
     {
+        KdenliveDoc document(undoStack);
+        Mock<KdenliveDoc> docMock(document);
+        KdenliveDoc &mockedDoc = docMock.get();
         Mock<ProjectManager> pmMock;
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
         When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+        When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
+
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        TimelineItemModel tim_0(uuid, &reg_profile, undoStack);
-        Mock<TimelineItemModel> timMock_0(tim_0);
+
+        // We also mock timeline object to spy few functions and mock others
+        TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
+        Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
+
+        mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
-        createProducer(reg_profile, "60", binModel, 1, true);
+        createProducer(*timeline_0->getProfile(), "60", binModel, 1, true);
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
@@ -1230,27 +1419,35 @@ TEST_CASE("FuzzBug9")
 TEST_CASE("FuzzBug10")
 {
     auto binModel = pCore->projectItemModel();
-    QUuid uuid = QUuid::createUuid();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     TimelineModel::next_id = 0;
     {
+        KdenliveDoc document(undoStack);
+        Mock<KdenliveDoc> docMock(document);
+        KdenliveDoc &mockedDoc = docMock.get();
         Mock<ProjectManager> pmMock;
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
         When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+        When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
+
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        TimelineItemModel tim_0(uuid, &reg_profile, undoStack);
-        Mock<TimelineItemModel> timMock_0(tim_0);
+
+        // We also mock timeline object to spy few functions and mock others
+        TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
+        Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
+
+        mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
-        createProducer(reg_profile, "red", binModel, 50, true);
+        createProducer(*timeline_0->getProfile(), "red", binModel, 50, true);
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
@@ -1278,39 +1475,47 @@ TEST_CASE("FuzzBug10")
 TEST_CASE("FuzzBug11")
 {
     auto binModel = pCore->projectItemModel();
-    QUuid uuid = QUuid::createUuid();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     TimelineModel::next_id = 0;
     {
+        KdenliveDoc document(undoStack);
+        Mock<KdenliveDoc> docMock(document);
+        KdenliveDoc &mockedDoc = docMock.get();
         Mock<ProjectManager> pmMock;
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
         When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+        When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
+
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        TimelineItemModel tim_0(uuid, &reg_profile, undoStack);
-        Mock<TimelineItemModel> timMock_0(tim_0);
+
+        // We also mock timeline object to spy few functions and mock others
+        TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
+        Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
+
+        mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
-        createProducer(reg_profile, "red", binModel, 20, true);
+        createProducer(*timeline_0->getProfile(), "red", binModel, 20, true);
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
-        createProducer(reg_profile, "blue", binModel, 0, true);
+        createProducer(*timeline_0->getProfile(), "blue", binModel, 0, true);
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
-        createProducer(reg_profile, "green", binModel, 20, true);
+        createProducer(*timeline_0->getProfile(), "green", binModel, 20, true);
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
@@ -1328,7 +1533,7 @@ TEST_CASE("FuzzBug11")
         REQUIRE(timeline_0->checkConsistency());
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
-        createProducerWithSound(reg_profile, binModel);
+        createProducerWithSound(*timeline_0->getProfile(), binModel);
 
         // Setup timeline audio drop info
         QMap<int, QString> audioInfo;

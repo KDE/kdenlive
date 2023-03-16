@@ -73,13 +73,14 @@ Item {
             property int diff: -1
             property int oldStartFrame
             property int snappedFrame
+            // Used for continuous scrolling
+            property int incrementalOffset
             property double delta: -1
             property double oldDelta: 0
             property bool startMove: false
             visible: root.activeTool === 0
             acceptedButtons: Qt.LeftButton | Qt.RightButton
             cursorShape: (pressed ? Qt.ClosedHandCursor : ((startMouseArea.drag.active || endMouseArea.drag.active)? Qt.SizeHorCursor: Qt.PointingHandCursor));
-            //drag.target: subtitleBase
             drag.axis: Drag.XAxis
             drag.smoothed: false
             drag.minimumX: 0
@@ -93,11 +94,16 @@ Item {
             onPressed: {
                 console.log('ENTERED ITEM CLCKD:', subtitleRoot.subtitle, ' ID: ', subtitleRoot.subId, 'START FRM: ', subtitleRoot.startFrame)
                 root.autoScrolling = false
-                oldStartX = mouseX
+                oldStartX = scrollView.contentX + mapToItem(scrollView, mouseX, 0).x
                 oldStartFrame = subtitleRoot.startFrame
                 snappedFrame = oldStartFrame
                 x = subtitleBase.x
                 startMove = mouse.button & Qt.LeftButton
+                if (startMove) {
+                    root.subtitleMoving = true
+                    root.subtitleItem = subtitleClipArea
+                    incrementalOffset = 0
+                }
                 if (timeline.selection.indexOf(subtitleRoot.subId) === -1) {
                     controller.requestAddToSelection(subtitleRoot.subId, !(mouse.modifiers & Qt.ShiftModifier))
                     timeline.showAsset(subtitleRoot.subId);
@@ -107,15 +113,24 @@ Item {
                 } else {
                     timeline.showAsset(subtitleRoot.subId)
                 }
+                timeline.activeTrack = -2
+            }
+            function checkOffset(offset) {
+                if (pressed && !subtitleBase.textEditBegin && startMove) {
+                    incrementalOffset += offset
+                    newStart = Math.max(0, oldStartFrame + (scrollView.contentX + mapToItem(scrollView,mouseX, 0).x + incrementalOffset - oldStartX)/ root.timeScale)
+                    snappedFrame = controller.suggestSubtitleMove(subtitleRoot.subId, newStart, root.consumerPosition, root.snapping)
+                    root.continuousScrolling(scrollView.contentX + mapToItem(scrollView, mouseX, 0).x + incrementalOffset, 0)
+                }
             }
             onPositionChanged: {
-                if (pressed && !subtitleBase.textEditBegin && startMove) {
-                    newStart = Math.max(0, oldStartFrame + (mouseX - oldStartX)/ root.timeScale)
-                    snappedFrame = controller.suggestSubtitleMove(subtitleRoot.subId, newStart, root.consumerPosition, root.snapping)
-                }
+                incrementalOffset = 0
+                checkOffset(0)
             }
             onReleased: {
                 root.autoScrolling = timeline.autoScroll
+                root.subtitleMoving = false
+                root.subtitleItem = undefined
                 if (subtitleBase.textEditBegin) {
                     mouse.accepted = false
                     return
@@ -127,7 +142,7 @@ Item {
                     if (oldStartFrame != snappedFrame) {
                         console.log("old start frame",oldStartFrame/timeline.scaleFactor, "new frame after shifting ",oldStartFrame/timeline.scaleFactor + delta)
                         controller.requestSubtitleMove(subtitleRoot.subId, oldStartFrame, false, false);
-                        controller.requestSubtitleMove(subtitleRoot.subId, snappedFrame, true, true);
+                        controller.requestSubtitleMove(subtitleRoot.subId, snappedFrame, true, true, true);
                         x = snappedFrame * root.timeScale
                     }
                 }
@@ -182,7 +197,7 @@ Item {
                 subtitleEdit.focus = false
                 parent.textEditBegin = false
                 if (subtitleRoot.subtitle != subtitleEdit.text) {
-                    timeline.editSubtitle(subtitleRoot.subId, subtitleEdit.text, subtitleRoot.subtitle)
+                    subtitleModel.editSubtitle(subtitleRoot.subId, subtitleEdit.text, subtitleRoot.subtitle)
                 }
             }
             anchors.fill: parent

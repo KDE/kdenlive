@@ -47,13 +47,13 @@ public:
     /** @brief Return true if we have MLT's audiolevel filter version 2 or above (fixes reading track audio level) */
     bool audioLevelV2() const;
 
-public slots:
+public Q_SLOTS:
     void recordStateChanged(int tid, bool recording);
 
-private slots:
+private Q_SLOTS:
     void resetSizePolicy();
 
-signals:
+Q_SIGNALS:
     void updateLevels(int);
     void purgeCache();
     void clearMixers();

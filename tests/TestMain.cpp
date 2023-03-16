@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     qSetMessagePattern(QStringLiteral("%{file}:%{line} – %{message}"));
     Core::build(QString(), true);
     MltConnection::construct(QString());
-    pCore->projectItemModel()->buildPlaylist();
+    pCore->projectItemModel()->buildPlaylist(QUuid());
     // if Kdenlive is not installed, ensure we have one keyframable effect
     EffectsRepository::get()->reloadCustom(QFileInfo("../data/effects/audiobalance.xml").absoluteFilePath());
 
@@ -39,7 +39,8 @@ int main(int argc, char *argv[])
 
     // global clean-up...
     // delete repo;
-    Core::m_self.reset();
+    pCore->projectItemModel()->clean();
     Mlt::Factory::close();
+    Core::m_self.reset();
     return (result < 0xff ? result : 0xff);
 }

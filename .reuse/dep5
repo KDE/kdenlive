@@ -20,6 +20,9 @@ Files: data/resourceproviders/*
 Copyright: 2021 Julius Künzel
 License: CC0-1.0
 
+Files: .flatpak-manifest.json packaging/flatpak/python-modules.json packaging/flatpak/org.kde.kdenlive-*.json
+Copyright: none
+License: CC0-1.0
 
 Files: dev-docs/*.md
 Copyright: 2020 Kdenlive contributors

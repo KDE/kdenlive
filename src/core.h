@@ -187,9 +187,12 @@ public:
     /** @brief Clear asset view if itemId is displayed. */
     void clearAssetPanel(int itemId);
     /** @brief Returns the effectstack of a given bin clip. */
-    std::shared_ptr<EffectStackModel> getItemEffectStack(int itemType, int itemId);
+    std::shared_ptr<EffectStackModel> getItemEffectStack(const QUuid &uuid, int itemType, int itemId);
     int getItemPosition(const ObjectId &id);
+    /** @brief Get item in point. */
     int getItemIn(const ObjectId &id);
+    /** @brief Get item in point, possibly from another timeline. */
+    int getItemIn(const QUuid &uuid, const ObjectId &id);
     int getItemTrack(const ObjectId &id);
     int getItemDuration(const ObjectId &id);
     QSize getItemFrameSize(const ObjectId &id);
@@ -209,6 +212,7 @@ public:
     void invalidateItem(ObjectId itemId);
     void invalidateRange(QPair<int, int>range);
     void prepareShutdown();
+    void finishShutdown();
     /** the keyframe model changed (effect added, deleted, active effect changed), inform timeline */
     void updateItemKeyframes(ObjectId id);
     /** A fade for clip id changed, update timeline */
@@ -261,8 +265,6 @@ public:
     void addGuides(const QList <int> &guides);
     /** @brief Temporarily un/plug a list of clips in timeline. */
     void temporaryUnplug(const QList<int> &clipIds, bool hide);
-    /** @brief Returns the current doc's subtitle model. */
-    std::shared_ptr<SubtitleModel> getSubtitleModel(bool enforce = false);
     /** @brief Transcode a video file. */
     void transcodeFile(const QString &url);
     /** @brief Display key binding info in statusbar. */
@@ -290,12 +292,16 @@ public:
 #endif
     /** @brief Get the frame size of the clip above a composition */
     const QSize getCompositionSizeOnTrack(const ObjectId &id);
-    void loadTimelinePreview(const QString &chunks, const QString &dirty, int enablePreview, Mlt::Playlist &playlist);
+    void loadTimelinePreview(const QUuid uuid, const QString &chunks, const QString &dirty, bool enablePreview, Mlt::Playlist &playlist);
     /** @brief Returns true if the audio mixer widget is visible */
     bool audioMixerVisible{false};
     QString packageType() { return m_packageType; };
     /** @brief Start / stop audio capture */
     void switchCapture();
+    /** @brief Get the uuid of currently active timeline */
+    const QUuid currentTimelineId() const;
+    /** @brief Update a sequence AV info (has audio/video) */
+    void updateSequenceAVType(const QUuid &uuid);
     /** @brief A list of markers type categories {marker type, {color, category name}} */
     struct MarkerCategory
     {
@@ -340,7 +346,7 @@ private:
     QUrl m_mediaCaptureFile;
     QMutex m_thumbProfileMutex;
 
-public slots:
+public Q_SLOTS:
     /** @brief Trigger (launch) an action by its actionCollection name */
     void triggerAction(const QString &name);
     /** @brief Get an action's descriptive text by its actionCollection name */
@@ -378,7 +384,7 @@ public slots:
     /** @brief Show or hide track head audio rec controls. */
     void monitorAudio(int tid, bool monitor);
 
-signals:
+Q_SIGNALS:
     void coreIsReady();
     void updateLibraryPath();
     //void updateMonitorProfile();
@@ -418,4 +424,6 @@ signals:
     void refreshActiveGuides();
     /** @brief The default marker category was changed, update guides list button */
     void updateDefaultMarkerCategory();
+    /** @brief The default speech engine was changed */
+    void speechEngineChanged();
 };

@@ -33,6 +33,6 @@ public:
      */
     void refreshParams(int pos) override;
 
-private slots:
+private Q_SLOTS:
     void slotUpdateFromMonitorData(const QVariantList &v) override;
 };

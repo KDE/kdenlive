@@ -12,6 +12,7 @@
 #include "compositionmodel.hpp"
 #include "core.h"
 #include "doc/docundostack.hpp"
+#include "doc/kdenlivedoc.h"
 #include "groupsmodel.hpp"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
@@ -396,7 +397,7 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         case TagRole:
             return clip->clipTag();
         case TimeRemapRole:
-            return clip->isChain();
+            return clip->hasTimeRemap();
         default:
             break;
         }
@@ -550,9 +551,9 @@ void TimelineItemModel::setTrackProperty(int trackId, const QString &name, const
     }
     if (!roles.isEmpty()) {
         QModelIndex ix = makeTrackIndexFromID(trackId);
-        emit dataChanged(ix, ix, roles);
+        Q_EMIT dataChanged(ix, ix, roles);
         if (updateMultiTrack) {
-            emit trackVisibilityChanged();
+            Q_EMIT trackVisibilityChanged();
         }
     }
 }
@@ -562,7 +563,7 @@ void TimelineItemModel::setTrackStackEnabled(int tid, bool enable)
     std::shared_ptr<TrackModel> track = getTrackById(tid);
     track->setEffectStackEnabled(enable);
     QModelIndex ix = makeTrackIndexFromID(tid);
-    emit dataChanged(ix, ix, {TimelineModel::EffectsEnabledRole});
+    Q_EMIT dataChanged(ix, ix, {TimelineModel::EffectsEnabledRole});
 }
 
 void TimelineItemModel::importTrackEffects(int tid, std::weak_ptr<Mlt::Service> service)
@@ -614,6 +615,23 @@ int TimelineItemModel::getFirstAudioTrackIndex() const
     return trackId;
 }
 
+std::shared_ptr<SubtitleModel> TimelineItemModel::createSubtitleModel()
+{
+    if (m_subtitleModel == nullptr) {
+        // Initialize the subtitle model and load file if any
+        m_subtitleModel.reset(new SubtitleModel(std::static_pointer_cast<TimelineItemModel>(shared_from_this()), this));
+        m_subtitleModel->registerSnap(std::static_pointer_cast<SnapInterface>(m_snaps));
+        const QString subPath = pCore->currentDoc()->subTitlePath(m_uuid, true);
+        const QString workPath = pCore->currentDoc()->subTitlePath(m_uuid, false);
+        QFile subFile(subPath);
+        if (subFile.exists()) {
+            subFile.copy(workPath);
+            m_subtitleModel->parseSubtitle(workPath);
+        }
+    }
+    return m_subtitleModel;
+}
+
 const QString TimelineItemModel::getTrackFullName(int tid) const
 {
     QString tag = getTrackTagById(tid);
@@ -646,12 +664,42 @@ void TimelineItemModel::notifyChange(const QModelIndex &topleft, const QModelInd
             roles.push_back(TimelineModel::OutPointRole);
         }
     }
-    emit dataChanged(topleft, bottomright, roles);
+    Q_EMIT dataChanged(topleft, bottomright, roles);
 }
 
 void TimelineItemModel::notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, const QVector<int> &roles)
 {
-    emit dataChanged(topleft, bottomright, roles);
+    Q_EMIT dataChanged(topleft, bottomright, roles);
+}
+
+void TimelineItemModel::rebuildMixer()
+{
+    if (pCore->mixer() == nullptr) {
+        return;
+    }
+    pCore->mixer()->cleanup();
+    pCore->mixer()->setModel(std::static_pointer_cast<TimelineItemModel>(shared_from_this()));
+    auto it = m_allTracks.cbegin();
+    while (it != m_allTracks.cend()) {
+        if ((*it)->isAudioTrack()) {
+            pCore->mixer()->registerTrack((*it)->getId(), (*it)->getTrackService(), getTrackTagById((*it)->getId()),
+                                          (*it)->getProperty(QStringLiteral("kdenlive:track_name")).toString());
+            connect(pCore->mixer(), &MixerManager::showEffectStack, this, &TimelineItemModel::showTrackEffectStack);
+        }
+        ++it;
+    }
+}
+
+bool TimelineItemModel::copyClipEffect(int clipId, const QString sourceId)
+{
+    QStringList source = sourceId.split(QLatin1Char(','));
+    Q_ASSERT(m_allClips.count(clipId) && source.count() == 4);
+    int itemType = source.at(0).toInt();
+    int itemId = source.at(1).toInt();
+    int itemRow = source.at(2).toInt();
+    const QUuid uuid(source.at(3));
+    std::shared_ptr<EffectStackModel> effectStack = pCore->getItemEffectStack(uuid, itemType, itemId);
+    return m_allClips.at(clipId)->copyEffect(uuid, effectStack, itemRow);
 }
 
 void TimelineItemModel::buildTrackCompositing(bool rebuild)
@@ -682,6 +730,8 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
     if (hasMixer) {
         pCore->mixer()->cleanup();
     }
+    int videoTracks = 0;
+    int audioTracks = 0;
     while (it != m_allTracks.cend()) {
         int trackPos = getTrackMltIndex((*it)->getId());
         if (!composite.isEmpty() && !(*it)->isAudioTrack()) {
@@ -691,6 +741,7 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
             transition->set("always_active", 1);
             transition->set_tracks(0, trackPos);
             field->plant_transition(*transition.get(), 0, trackPos);
+            videoTracks++;
         } else if ((*it)->isAudioTrack()) {
             // audio mix
             std::unique_ptr<Mlt::Transition> transition = TransitionsRepository::get()->getTransition(QStringLiteral("mix"));
@@ -700,6 +751,7 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
             transition->set("sum", 1);
             transition->set_tracks(0, trackPos);
             field->plant_transition(*transition.get(), 0, trackPos);
+            audioTracks++;
             if (hasMixer) {
                 pCore->mixer()->registerTrack((*it)->getId(), (*it)->getTrackService(), getTrackTagById((*it)->getId()),
                                               (*it)->getProperty(QStringLiteral("kdenlive:track_name")).toString());
@@ -709,6 +761,15 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
         ++it;
     }
     field->unlock();
+    // Update sequence clip's AV status
+    int currentClipType = m_tractor->get_int("kdenlive:clip_type");
+    int newClipType = audioTracks > 0 ? (videoTracks > 0 ? 0 : 1) : 2;
+    if (currentClipType != newClipType) {
+        m_tractor->set("kdenlive:sequenceproperties.hasAudio", audioTracks > 0 ? 1 : 0);
+        m_tractor->set("kdenlive:sequenceproperties.hasVideo", videoTracks > 0 ? 1 : 0);
+        m_tractor->set("kdenlive:clip_type", newClipType);
+        pCore->updateSequenceAVType(m_uuid);
+    }
     if (isMultiTrack) {
         pCore->enableMultiTrack(true);
     }
@@ -719,7 +780,7 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
 
 void TimelineItemModel::notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, int role)
 {
-    emit dataChanged(topleft, bottomright, {role});
+    Q_EMIT dataChanged(topleft, bottomright, {role});
 }
 
 void TimelineItemModel::_beginRemoveRows(const QModelIndex &i, int j, int k)

@@ -52,11 +52,11 @@ private:
     const QString getValue() const;
     void adjustSizeValue();
 
-public slots:
+public Q_SLOTS:
     void slotUpdateGeometryRect(const QRect r);
     void slotSetRange(QPair<int, int>);
 
-private slots:
+private Q_SLOTS:
     void slotAdjustRectKeyframeValue();
     void slotAdjustToSource();
     void slotAdjustToFrameSize();
@@ -80,7 +80,7 @@ private slots:
     void slotAdjustRectHeight();
     void slotAdjustRectWidth();
 
-signals:
+Q_SIGNALS:
     void valueChanged(const QString val);
     void updateMonitorGeometry(const QRect r);
 };

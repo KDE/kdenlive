@@ -24,12 +24,12 @@ SwitchParamWidget::SwitchParamWidget(std::shared_ptr<AssetParameterModel> model,
     // set check state
     slotRefresh();
 
-    // emit the signal of the base class when appropriate
+    // Q_EMIT the signal of the base class when appropriate
     connect(this->m_checkBox, &QCheckBox::stateChanged, this, [this](int state) {
-        emit valueChanged(m_index,
-                          (state == Qt::Checked ? m_model->data(m_index, AssetParameterModel::MaxRole).toString()
-                                                : m_model->data(m_index, AssetParameterModel::MinRole).toString()),
-                          true);
+        Q_EMIT valueChanged(m_index,
+                            (state == Qt::Checked ? m_model->data(m_index, AssetParameterModel::MaxRole).toString()
+                                                  : m_model->data(m_index, AssetParameterModel::MinRole).toString()),
+                            true);
     });
 }
 

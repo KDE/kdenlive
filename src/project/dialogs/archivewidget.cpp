@@ -39,7 +39,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData,
     , m_abortArchive(false)
     , m_extractMode(false)
     , m_progressTimer(nullptr)
-    , m_extractArchive(nullptr)
+    , m_archive(nullptr)
     , m_missingClips(0)
 {
     setAttribute(Qt::WA_DeleteOnClose);
@@ -111,10 +111,10 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData,
     QStringList handledUrls;
     for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
         ClipType::ProducerType t = clip->clipType();
-        QString id = clip->binId();
-        if (t == ClipType::Color) {
+        if (t == ClipType::Color || t == ClipType::Timeline) {
             continue;
         }
+        const QString id = clip->binId();
         const QString url = clip->clipUrl();
         if (t == ClipType::SlideShow) {
             // TODO: Slideshow files
@@ -240,7 +240,7 @@ ArchiveWidget::ArchiveWidget(QUrl url, QWidget *parent)
     , m_abortArchive(false)
     , m_extractMode(true)
     , m_extractUrl(std::move(url))
-    , m_extractArchive(nullptr)
+    , m_archive(nullptr)
     , m_missingClips(0)
     , m_infoMessage(nullptr)
 {
@@ -276,7 +276,7 @@ ArchiveWidget::ArchiveWidget(QUrl url, QWidget *parent)
 
 ArchiveWidget::~ArchiveWidget()
 {
-    delete m_extractArchive;
+    delete m_archive;
     delete m_progressTimer;
 }
 
@@ -302,24 +302,24 @@ void ArchiveWidget::slotJobResult(bool success, const QString &text)
 
 void ArchiveWidget::openArchiveForExtraction()
 {
-    emit showMessage(QStringLiteral("system-run"), i18n("Opening archive…"));
+    Q_EMIT showMessage(QStringLiteral("system-run"), i18n("Opening archive…"));
     QMimeDatabase db;
     QMimeType mime = db.mimeTypeForUrl(m_extractUrl);
     if (mime.inherits(QStringLiteral("application/x-compressed-tar"))) {
-        m_extractArchive = new KTar(m_extractUrl.toLocalFile());
+        m_archive = new KTar(m_extractUrl.toLocalFile());
     } else {
-        m_extractArchive = new KZip(m_extractUrl.toLocalFile());
+        m_archive = new KZip(m_extractUrl.toLocalFile());
     }
 
-    if (!m_extractArchive->isOpen() && !m_extractArchive->open(QIODevice::ReadOnly)) {
-        emit showMessage(QStringLiteral("dialog-close"), i18n("Cannot open archive file:\n %1", m_extractUrl.toLocalFile()));
+    if (!m_archive->isOpen() && !m_archive->open(QIODevice::ReadOnly)) {
+        Q_EMIT showMessage(QStringLiteral("dialog-close"), i18n("Cannot open archive file:\n %1", m_extractUrl.toLocalFile()));
         groupBox->setEnabled(false);
         return;
     }
 
     // Check that it is a kdenlive project archive
     bool isProjectArchive = false;
-    QStringList files = m_extractArchive->directory()->entries();
+    QStringList files = m_archive->directory()->entries();
     for (int i = 0; i < files.count(); ++i) {
         if (files.at(i).endsWith(QLatin1String(".kdenlive"))) {
             m_projectName = files.at(i);
@@ -329,13 +329,13 @@ void ArchiveWidget::openArchiveForExtraction()
     }
 
     if (!isProjectArchive) {
-        emit showMessage(QStringLiteral("dialog-close"), i18n("File %1\n is not an archived Kdenlive project", m_extractUrl.toLocalFile()));
+        Q_EMIT showMessage(QStringLiteral("dialog-close"), i18n("File %1\n is not an archived Kdenlive project", m_extractUrl.toLocalFile()));
         groupBox->setEnabled(false);
         buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
         return;
     }
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
-    emit showMessage(QStringLiteral("dialog-ok"), i18n("Ready"));
+    Q_EMIT showMessage(QStringLiteral("dialog-ok"), i18n("Ready"));
 }
 
 void ArchiveWidget::done(int r)
@@ -913,6 +913,72 @@ bool ArchiveWidget::processProjectFile()
     return true;
 }
 
+void ArchiveWidget::processElement(QDomElement e, const QString root)
+{
+    if (e.isNull()) {
+        return;
+    }
+    bool isTimewarp = Xml::getXmlProperty(e, QStringLiteral("mlt_service")) == QLatin1String("timewarp");
+    QString src = Xml::getXmlProperty(e, QStringLiteral("resource"));
+    if (!src.isEmpty()) {
+        if (isTimewarp) {
+            // Timewarp needs to be handled separately.
+            src = Xml::getXmlProperty(e, QStringLiteral("warp_resource"));
+        }
+        if (QFileInfo(src).isRelative()) {
+            src.prepend(root);
+        }
+        QUrl srcUrl = QUrl::fromLocalFile(src);
+        QUrl dest = m_replacementList.value(srcUrl);
+        if (!dest.isEmpty()) {
+            if (isTimewarp) {
+                Xml::setXmlProperty(e, QStringLiteral("warp_resource"), dest.toLocalFile());
+                Xml::setXmlProperty(e, QStringLiteral("resource"),
+                                    QString("%1:%2").arg(Xml::getXmlProperty(e, QStringLiteral("warp_speed")), dest.toLocalFile()));
+            } else {
+                Xml::setXmlProperty(e, QStringLiteral("resource"), dest.toLocalFile());
+            }
+        }
+    }
+    src = Xml::getXmlProperty(e, QStringLiteral("kdenlive:proxy"));
+    if (src.size() > 2) {
+        if (QFileInfo(src).isRelative()) {
+            src.prepend(root);
+        }
+        QUrl srcUrl = QUrl::fromLocalFile(src);
+        QUrl dest = m_replacementList.value(srcUrl);
+        if (!dest.isEmpty()) {
+            Xml::setXmlProperty(e, QStringLiteral("kdenlive:proxy"), dest.toLocalFile());
+        }
+    }
+    propertyProcessUrl(e, QStringLiteral("kdenlive:originalurl"), root);
+    src = Xml::getXmlProperty(e, QStringLiteral("xmldata"));
+    if (!src.isEmpty() && (src.contains(QLatin1String("QGraphicsPixmapItem")) || src.contains(QLatin1String("QGraphicsSvgItem")))) {
+        bool found = false;
+        // Title with images, replace paths
+        QDomDocument titleXML;
+        titleXML.setContent(src);
+        QDomNodeList images = titleXML.documentElement().elementsByTagName(QLatin1String("item"));
+        for (int j = 0; j < images.count(); ++j) {
+            QDomNode n = images.at(j);
+            QDomElement url = n.firstChildElement(QLatin1String("content"));
+            if (!url.isNull() && url.hasAttribute(QLatin1String("url"))) {
+                QUrl srcUrl = QUrl::fromLocalFile(url.attribute(QLatin1String("url")));
+                QUrl dest = m_replacementList.value(srcUrl);
+                if (dest.isValid()) {
+                    url.setAttribute(QLatin1String("url"), dest.toLocalFile());
+                    found = true;
+                }
+            }
+        }
+        if (found) {
+            // replace content
+            Xml::setXmlProperty(e, QStringLiteral("xmldata"), titleXML.toString());
+        }
+    }
+    propertyProcessUrl(e, QStringLiteral("luma_file"), root);
+}
+
 QString ArchiveWidget::processMltFile(const QDomDocument &doc, const QString &destPrefix)
 {
     QTreeWidgetItem *item;
@@ -959,69 +1025,11 @@ QString ArchiveWidget::processMltFile(const QDomDocument &doc, const QString &de
     // process mlt producers
     QDomNodeList prods = mlt.elementsByTagName(QStringLiteral("producer"));
     for (int i = 0; i < prods.count(); ++i) {
-        QDomElement e = prods.item(i).toElement();
-        if (e.isNull()) {
-            continue;
-        }
-        bool isTimewarp = Xml::getXmlProperty(e, QStringLiteral("mlt_service")) == QLatin1String("timewarp");
-        QString src = Xml::getXmlProperty(e, QStringLiteral("resource"));
-        if (!src.isEmpty()) {
-            if (isTimewarp) {
-                // Timewarp needs to be handled separately.
-                src = Xml::getXmlProperty(e, QStringLiteral("warp_resource"));
-            }
-            if (QFileInfo(src).isRelative()) {
-                src.prepend(root);
-            }
-            QUrl srcUrl = QUrl::fromLocalFile(src);
-            QUrl dest = m_replacementList.value(srcUrl);
-            if (!dest.isEmpty()) {
-                if (isTimewarp) {
-                    Xml::setXmlProperty(e, QStringLiteral("warp_resource"), dest.toLocalFile());
-                    Xml::setXmlProperty(e, QStringLiteral("resource"),
-                                        QString("%1:%2").arg(Xml::getXmlProperty(e, QStringLiteral("warp_speed")), dest.toLocalFile()));
-                } else {
-                    Xml::setXmlProperty(e, QStringLiteral("resource"), dest.toLocalFile());
-                }
-            }
-        }
-        src = Xml::getXmlProperty(e, QStringLiteral("kdenlive:proxy"));
-        if (src.size() > 2) {
-            if (QFileInfo(src).isRelative()) {
-                src.prepend(root);
-            }
-            QUrl srcUrl = QUrl::fromLocalFile(src);
-            QUrl dest = m_replacementList.value(srcUrl);
-            if (!dest.isEmpty()) {
-                Xml::setXmlProperty(e, QStringLiteral("kdenlive:proxy"), dest.toLocalFile());
-            }
-        }
-        propertyProcessUrl(e, QStringLiteral("kdenlive:originalurl"), root);
-        src = Xml::getXmlProperty(e, QStringLiteral("xmldata"));
-        if (!src.isEmpty() && (src.contains(QLatin1String("QGraphicsPixmapItem")) || src.contains(QLatin1String("QGraphicsSvgItem")))) {
-            bool found = false;
-            // Title with images, replace paths
-            QDomDocument titleXML;
-            titleXML.setContent(src);
-            QDomNodeList images = titleXML.documentElement().elementsByTagName(QLatin1String("item"));
-            for (int j = 0; j < images.count(); ++j) {
-                QDomNode n = images.at(j);
-                QDomElement url = n.firstChildElement(QLatin1String("content"));
-                if (!url.isNull() && url.hasAttribute(QLatin1String("url"))) {
-                    QUrl srcUrl = QUrl::fromLocalFile(url.attribute(QLatin1String("url")));
-                    QUrl dest = m_replacementList.value(srcUrl);
-                    if (dest.isValid()) {
-                        url.setAttribute(QLatin1String("url"), dest.toLocalFile());
-                        found = true;
-                    }
-                }
-            }
-            if (found) {
-                // replace content
-                Xml::setXmlProperty(e, QStringLiteral("xmldata"), titleXML.toString());
-            }
-        }
-        propertyProcessUrl(e, QStringLiteral("luma_file"), root);
+        processElement(prods.item(i).toElement(), root);
+    }
+    QDomNodeList chains = mlt.elementsByTagName(QStringLiteral("chain"));
+    for (int i = 0; i < chains.count(); ++i) {
+        processElement(chains.item(i).toElement(), root);
     }
 
     // process mlt transitions (for luma files)
@@ -1086,34 +1094,44 @@ void ArchiveWidget::createArchive()
     QFileInfo dirInfo(archive_url->url().toLocalFile());
     QString user = dirInfo.owner();
     QString group = dirInfo.group();
-    std::unique_ptr<KArchive> archive;
     if (compression_type->currentIndex() == 1) {
-        archive = std::make_unique<KZip>(m_archiveName);
+        m_archive = new KZip(m_archiveName);
     } else {
-        archive = std::make_unique<KTar>(m_archiveName, QStringLiteral("application/x-gzip"));
+        m_archive = new KTar(m_archiveName, QStringLiteral("application/x-gzip"));
     }
-    archive->open(QIODevice::WriteOnly);
+
+    QString errorString;
+    bool success = true;
+
+    if (!m_archive->isOpen() && !m_archive->open(QIODevice::WriteOnly)) {
+        success = false;
+        errorString = i18n("Cannot open archive file %1", m_archiveName);
+    }
 
     // Create folders
-    for (const QString &path : qAsConst(m_foldersList)) {
-        archive->writeDir(path, user, group);
+    if (success) {
+        for (const QString &path : qAsConst(m_foldersList)) {
+            success = success && m_archive->writeDir(path, user, group);
+        }
     }
 
     // Add files
-    int ix = 0;
-    bool success = true;
-    QMapIterator<QString, QString> i(m_filesList);
-    int max = m_filesList.count();
-    while (i.hasNext()) {
-        i.next();
-        m_infoMessage->setText(i18n("Archiving %1", i.key()));
-        success = archive->addLocalFile(i.key(), i.value());
-        emit archiveProgress(100 * ix / max);
-        ix++;
-        if (!success || m_abortArchive) {
-            break;
+    if (success) {
+        int ix = 0;
+        QMapIterator<QString, QString> i(m_filesList);
+        int max = m_filesList.count();
+        while (i.hasNext()) {
+            i.next();
+            m_infoMessage->setText(i18n("Archiving %1", i.key()));
+            success = m_archive->addLocalFile(i.key(), i.value());
+            Q_EMIT archiveProgress(100 * ix / max);
+            ix++;
+            if (!success || m_abortArchive) {
+                break;
+            }
         }
     }
+
     if (m_abortArchive) {
         return;
     }
@@ -1123,32 +1141,35 @@ void ArchiveWidget::createArchive()
         success = false;
     }
     if (success) {
-        success = archive->addLocalFile(m_temp->fileName(), m_name + QStringLiteral(".kdenlive"));
+        success = m_archive->addLocalFile(m_temp->fileName(), m_name + QStringLiteral(".kdenlive"));
         delete m_temp;
         m_temp = nullptr;
     }
     if (success) {
         // Add subtitle files if any
-        QString sub = pCore->currentDoc()->subTitlePath(false);
-        if (QFileInfo::exists(sub)) {
-            success = archive->addLocalFile(sub, m_name + QStringLiteral(".kdenlive.") + QFileInfo(sub).completeSuffix());
+        QStringList subtitles = pCore->currentDoc()->getAllSubtitlesPath(false);
+        for (auto &path : subtitles) {
+            if (QFileInfo::exists(path)) {
+                success = success && m_archive->addLocalFile(path, m_name + QStringLiteral(".kdenlive.") + QFileInfo(path).completeSuffix());
+            }
         }
     }
-    if (success) {
-        success = archive->close();
-    } else {
-        archive->close();
+
+    if (errorString.isEmpty()) {
+        errorString = m_archive->errorString();
     }
-    emit archivingFinished(success);
+    success = success && m_archive->close();
+
+    Q_EMIT archivingFinished(success, errorString);
 }
 
-void ArchiveWidget::slotArchivingBoolFinished(bool result)
+void ArchiveWidget::slotArchivingBoolFinished(bool result, const QString &errorString)
 {
     if (result) {
         slotJobResult(true, i18n("Project was successfully archived.\n%1", m_archiveName));
         // buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
     } else {
-        slotJobResult(false, i18n("There was an error processing project file"));
+        slotJobResult(false, i18n("There was an error while archiving the project: %1", errorString.isEmpty() ? i18n("Unknown Error") : errorString));
     }
     progressBar->setValue(100);
     for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
@@ -1205,9 +1226,9 @@ void ArchiveWidget::slotGotProgress(KJob *job)
 
 void ArchiveWidget::doExtracting()
 {
-    m_extractArchive->directory()->copyTo(archive_url->url().toLocalFile() + QDir::separator());
-    m_extractArchive->close();
-    emit extractingFinished();
+    m_archive->directory()->copyTo(archive_url->url().toLocalFile() + QDir::separator());
+    m_archive->close();
+    Q_EMIT extractingFinished();
 }
 
 QString ArchiveWidget::extractedProjectFile() const
