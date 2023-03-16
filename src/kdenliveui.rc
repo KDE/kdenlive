@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="212" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="223" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="file_save"/>
@@ -159,6 +159,7 @@
       <Action name="ungroup_clip" />
       <Action name="save_selection" />
       <Action name="send_library" />
+      <Action name="send_sequence" />
       <Menu name="timeline_tracks" ><text>Tracks</text>
         <Action name="master_effects" />
         <Action name="insert_track" />

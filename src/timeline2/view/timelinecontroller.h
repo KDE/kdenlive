@@ -223,7 +223,8 @@ public:
      * @return the ids of the inserted clips
      */
     Q_INVOKABLE QList<int> insertClips(int tid, int position, const QStringList &binIds, bool logUndo, bool refreshView);
-    Q_INVOKABLE void copyItem();
+    Q_INVOKABLE int copyItem();
+    std::pair<int, QString> getCopyItemData();
     Q_INVOKABLE bool pasteItem(int position = -1, int tid = -1);
     /** @brief Request inserting a new composition in timeline (dragged from compositions list)
        @param tid is the destination track
@@ -268,6 +269,9 @@ public:
      */
     int getMainSelectedItem(bool restrictToCurrentPos = true, bool allowComposition = false);
     int getMainSelectedClip();
+    /** @brief Return the {position, track id} of current selection. Operates only on video items (or audio if audioPart is true)
+     */
+    std::pair<int, int> selectionPosition(bool *hasVideo, bool *hasAudio);
 
     /** @brief Do we want to display video thumbnails
      */

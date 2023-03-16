@@ -11,30 +11,19 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
     <x>0</x>
     <y>0</y>
     <width>354</width>
-    <height>371</height>
+    <height>386</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
-   <item row="0" column="1">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>Speech engine</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="2">
-    <widget class="QRadioButton" name="engine_vosk">
-     <property name="text">
-      <string>VOSK</string>
-     </property>
-    </widget>
-   </item>
    <item row="0" column="3">
     <widget class="QRadioButton" name="engine_whisper">
      <property name="text">
       <string>Whisper</string>
      </property>
     </widget>
+   </item>
+   <item row="3" column="1" colspan="4">
+    <widget class="KMessageWidget" name="speech_info"/>
    </item>
    <item row="0" column="4">
     <spacer name="horizontalSpacer_2">
@@ -48,6 +37,20 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       </size>
      </property>
     </spacer>
+   </item>
+   <item row="0" column="2">
+    <widget class="QRadioButton" name="engine_vosk">
+     <property name="text">
+      <string>VOSK</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Speech engine</string>
+     </property>
+    </widget>
    </item>
    <item row="2" column="1" colspan="4">
     <widget class="QStackedWidget" name="speech_stack">
@@ -164,16 +167,56 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       </layout>
      </widget>
      <widget class="QWidget" name="page_2">
-      <layout class="QGridLayout" name="gridLayout_3">
+      <layout class="QFormLayout" name="formLayout">
        <item row="0" column="0">
         <widget class="QLabel" name="label_3">
          <property name="text">
-          <string>Model</string>
+          <string>Model:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QComboBox" name="combo_wr_model"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Language:</string>
          </property>
         </widget>
        </item>
        <item row="1" column="1">
         <widget class="QComboBox" name="combo_wr_lang"/>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Device:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QComboBox" name="combo_wr_device"/>
+       </item>
+       <item row="3" column="0" colspan="2">
+        <widget class="KMessageWidget" name="kmessagewidget">
+         <property name="text">
+          <string>Whisper processing on cpu is very slow</string>
+         </property>
+         <property name="closeButtonVisible">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" colspan="2">
+        <widget class="QCheckBox" name="wr_translate">
+         <property name="text">
+          <string>Translate text to english</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0" colspan="2">
+        <layout class="QVBoxLayout" name="message_layout_wr"/>
        </item>
        <item row="6" column="1">
         <spacer name="verticalSpacer">
@@ -188,52 +231,36 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
          </property>
         </spacer>
        </item>
-       <item row="2" column="1">
-        <widget class="QComboBox" name="combo_wr_device"/>
-       </item>
-       <item row="0" column="1">
-        <widget class="QComboBox" name="combo_wr_model"/>
-       </item>
-       <item row="4" column="0" colspan="2">
-        <widget class="QCheckBox" name="wr_translate">
-         <property name="text">
-          <string>Translate text to english</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0" colspan="2">
-        <widget class="KMessageWidget" name="kmessagewidget">
-         <property name="text">
-          <string>Whisper processing on cpu is very slow</string>
-         </property>
-         <property name="closeButtonVisible">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>Language</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>Device</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0" colspan="2">
-        <layout class="QVBoxLayout" name="message_layout_wr"/>
+       <item row="7" column="0" colspan="2">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <spacer name="horizontalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>37</width>
+             <height>17</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="check_whisper">
+           <property name="text">
+            <string>Check configuration</string>
+           </property>
+           <property name="icon">
+            <iconset theme="view-refresh"/>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
     </widget>
-   </item>
-   <item row="3" column="1" colspan="4">
-    <widget class="KMessageWidget" name="speech_info"/>
    </item>
   </layout>
  </widget>

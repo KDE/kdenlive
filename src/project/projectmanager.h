@@ -203,6 +203,8 @@ public Q_SLOTS:
     virtual void slotAddTextNote(const QString &text);
     /** @brief Open a timeline with a referenc to a track / position. */
     void seekTimeline(const QString &frameAndTrack);
+    /** @brief Create a sequence clip from timeline selection. */
+    void slotCreateSequenceFromSelection();
 
 private Q_SLOTS:
     void slotRevert();

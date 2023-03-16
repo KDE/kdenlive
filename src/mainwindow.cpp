@@ -1947,6 +1947,11 @@ void MainWindow::setupActions()
 
     addAction(QStringLiteral("extract_frame_to_project"), i18n("Extract Frame to Project…"), pCore->monitorManager(), SLOT(slotExtractCurrentFrameToProject()),
               QIcon::fromTheme(QStringLiteral("insert-image")));
+
+    QAction *sentToSequence = addAction(QStringLiteral("send_sequence"), i18n("Create Sequence from Selection"), this, SLOT(slotCreateSequenceFromSelection()),
+                                        QIcon::fromTheme(QStringLiteral("bookmark-new")));
+    sentToSequence->setWhatsThis(
+        xi18nc("@info:whatsthis", "Adds the clip(s) currently selected in the timeline to a new sequence clip that can be opened in another timeline tab."));
 }
 
 void MainWindow::saveOptions()
@@ -4772,6 +4777,11 @@ void MainWindow::disconnectTimeline(TimelineWidget *timeline)
     timeline->controller()->clipActions = QList<QAction *>();
     disconnect(pCore->bin(), &Bin::processDragEnd, timeline, &TimelineWidget::endDrag);
     pCore->monitorManager()->projectMonitor()->setProducer(nullptr, -2);
+}
+
+void MainWindow::slotCreateSequenceFromSelection()
+{
+    pCore->projectManager()->slotCreateSequenceFromSelection();
 }
 
 #ifdef DEBUG_MAINW

@@ -59,6 +59,8 @@ QString createTitleTemplate(const QString &path, const QString &text, const QStr
 QString createPlaylistClip(const QString &name, std::pair<int, int> tracks, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model);
 QString createPlaylistClip(const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model, std::shared_ptr<Mlt::Producer> producer,
                            const QMap<QString, QString> mainProperties);
+QString createPlaylistClipWithUndo(const QString &name, std::pair<int, int> tracks, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model,
+                                   Fun &undo, Fun &redo);
 
 /** @brief Create a slideshow clip
    @param path : path to the selected folder

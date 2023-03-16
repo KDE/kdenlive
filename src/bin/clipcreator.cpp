@@ -151,6 +151,74 @@ QString ClipCreator::createPlaylistClip(const QString &name, std::pair<int, int>
     return res ? id : QStringLiteral("-1");
 }
 
+QString ClipCreator::createPlaylistClipWithUndo(const QString &name, std::pair<int, int> tracks, const QString &parentFolder,
+                                                const std::shared_ptr<ProjectItemModel> &model, Fun &undo, Fun &redo)
+{
+    const QUuid uuid = QUuid::createUuid();
+    std::shared_ptr<Mlt::Tractor> timeline(new Mlt::Tractor(*pCore->getProjectProfile()));
+    timeline->lock();
+    Mlt::Producer bk(*pCore->getProjectProfile(), "colour:0");
+    bk.set_in_and_out(0, 1);
+    bk.set("kdenlive:playlistid", "black_track");
+    timeline->insert_track(bk, 0);
+    // Audio tracks
+    for (int ix = 1; ix <= tracks.first; ix++) {
+        Mlt::Playlist pl(*pCore->getProjectProfile());
+        timeline->insert_track(pl, ix);
+        std::unique_ptr<Mlt::Producer> track(timeline->track(ix));
+        track->set("kdenlive:audio_track", 1);
+        track->set("kdenlive:timeline_active", 1);
+    }
+    // Video tracks
+    for (int ix = tracks.first + 1; ix <= (tracks.first + tracks.second); ix++) {
+        Mlt::Playlist pl(*pCore->getProjectProfile());
+        timeline->insert_track(pl, ix);
+        std::unique_ptr<Mlt::Producer> track(timeline->track(ix));
+        track->set("kdenlive:timeline_active", 1);
+    }
+    timeline->unlock();
+    timeline->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
+    timeline->set("kdenlive:clipname", name.toUtf8().constData());
+    timeline->set("kdenlive:duration", 1);
+    timeline->set("kdenlive:producer_type", ClipType::Timeline);
+    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(timeline->get_producer()));
+    prod->set("id", uuid.toString().toUtf8().constData());
+    prod->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
+    prod->set("kdenlive:clipname", name.toUtf8().constData());
+    prod->set("kdenlive:duration", 1);
+    prod->set("kdenlive:producer_type", ClipType::Timeline);
+    QString id;
+    // Create the timelines folder to store timeline clips
+    bool res = false;
+    if (tracks.first > 0) {
+        timeline->set("kdenlive:sequenceproperties.hasAudio", 1);
+        prod->set("kdenlive:sequenceproperties.hasAudio", 1);
+    }
+    if (tracks.second > 0) {
+        timeline->set("kdenlive:sequenceproperties.hasVideo", 1);
+        prod->set("kdenlive:sequenceproperties.hasVideo", 1);
+    }
+    timeline->set("kdenlive:sequenceproperties.tracksCount", tracks.first + tracks.second);
+    prod->set("kdenlive:sequenceproperties.tracksCount", tracks.first + tracks.second);
+
+    res = model->requestAddBinClip(id, prod, parentFolder, undo, redo);
+    if (res) {
+        // Open playlist timeline
+        qDebug() << "::: CREATED PLAYLIST WITH UUID: " << uuid << ", ID: " << id;
+        pCore->projectManager()->initSequenceProperties(uuid, tracks);
+        Fun local_redo = [uuid, id]() { return pCore->projectManager()->openTimeline(id, uuid); };
+        Fun local_undo = [uuid]() {
+            if (pCore->projectManager()->closeTimeline(uuid)) {
+                pCore->window()->closeTimeline(uuid);
+            }
+            return true;
+        };
+        local_redo();
+        UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
+    }
+    return res ? id : QStringLiteral("-1");
+}
+
 QString ClipCreator::createPlaylistClip(const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model, std::shared_ptr<Mlt::Producer> producer,
                                         const QMap<QString, QString> mainProperties)
 {
