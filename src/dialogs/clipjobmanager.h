@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2022 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-FileCopyrightText: 2023 Jean-Baptiste Mardelle <jb@kdenlive.org>
 
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
@@ -55,7 +55,7 @@ private:
     /** @brief Save all jobs to the config file */
     void saveAllPresets();
 
-private slots:
+private Q_SLOTS:
     /** @brief Display a job's parameters */
     void displayJob(int row);
     void setDirty();

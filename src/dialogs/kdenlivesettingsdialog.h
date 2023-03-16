@@ -12,17 +12,17 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QListWidget>
 
 #include "ui_configcapture_ui.h"
+#include "ui_configcolors_ui.h"
 #include "ui_configenv_ui.h"
 #include "ui_configjogshuttle_ui.h"
 #include "ui_configmisc_ui.h"
 #include "ui_configproject_ui.h"
 #include "ui_configproxy_ui.h"
 #include "ui_configsdl_ui.h"
+#include "ui_configspeech_ui.h"
 #include "ui_configtimeline_ui.h"
 #include "ui_configtools_ui.h"
 #include "ui_configtranscode_ui.h"
-#include "ui_configcolors_ui.h"
-#include "ui_configspeech_ui.h"
 
 #include "pythoninterfaces/speechtotext.h"
 #include "encodingprofilesdialog.h"

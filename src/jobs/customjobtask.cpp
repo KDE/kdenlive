@@ -108,12 +108,12 @@ void CustomJobTask::run()
     }
     parameters << QStringLiteral("-stats");
     parameters << jobParameters.split(QLatin1Char(' '));
-    int inputIndex = parameters.indexOf(QStringLiteral("-i"));
+    int inputIndex = parameters.indexOf(QStringLiteral("%1"));
     if (inputIndex > -1) {
-        parameters.insert(inputIndex + 1, source);
+        parameters.replace(inputIndex, source);
         if (m_outPoint > -1) {
-            parameters.insert(inputIndex + 2, QStringLiteral("-to"));
-            parameters.insert(inputIndex + 3, QString::number(GenTime(m_outPoint - m_inPoint, pCore->getCurrentFps()).seconds()));
+            parameters.insert(inputIndex + 1, QStringLiteral("-to"));
+            parameters.insert(inputIndex + 2, QString::number(GenTime(m_outPoint - m_inPoint, pCore->getCurrentFps()).seconds()));
         }
     }
     // Only output error data
@@ -122,7 +122,10 @@ void CustomJobTask::run()
     // parameters << QStringLiteral("-sn") << QStringLiteral("-dn") << QStringLiteral("-map") << QStringLiteral("0");
     QFileInfo sourceInfo(source);
     const QString destName = sourceInfo.baseName();
-    const QString extension = m_parameters.takeFirst();
+    QString extension = m_parameters.takeFirst();
+    if (!extension.startsWith(QLatin1Char('.'))) {
+        extension.prepend(QLatin1Char('.'));
+    }
     QDir baseDir = sourceInfo.absoluteDir();
     QString destPath = baseDir.absoluteFilePath(destName + extension);
     int ix = 1;

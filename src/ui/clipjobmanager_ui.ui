@@ -6,18 +6,188 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>598</width>
-    <height>553</height>
+    <width>477</width>
+    <height>581</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_3">
-   <item row="1" column="0" colspan="3">
-    <widget class="QListWidget" name="job_list"/>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="0" colspan="3">
+    <widget class="QLabel" name="label">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Custom clip jobs</string>
+     </property>
+    </widget>
    </item>
-   <item row="2" column="2">
+   <item row="0" column="3" rowspan="2">
+    <widget class="QGroupBox" name="param_box">
+     <property name="title">
+      <string>Job parameters</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="0" colspan="3">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Executable</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1" colspan="2">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>Output file extension</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLabel" name="label_3">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Arguments</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="3">
+       <widget class="KUrlRequester" name="url_binary"/>
+      </item>
+      <item row="3" column="0" colspan="3">
+       <widget class="QPlainTextEdit" name="job_params"/>
+      </item>
+      <item row="6" column="0" colspan="3">
+       <widget class="QLineEdit" name="destination_pattern"/>
+      </item>
+      <item row="2" column="0" colspan="2">
+       <widget class="QLabel" name="help_arguments">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="help_output">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="0" rowspan="2" colspan="3">
+    <widget class="QListWidget" name="job_list">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="3">
+    <widget class="QGroupBox" name="folder_box">
+     <property name="title">
+      <string>Project Bin behavior on completion</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0" colspan="2">
+       <widget class="QRadioButton" name="radio_replace">
+        <property name="text">
+         <string>Replace original with result</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QCheckBox" name="bin_subfolder">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>Use a subfolder</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QRadioButton" name="radio_folder">
+        <property name="text">
+         <string>Put resulting clip in a folder</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QComboBox" name="combo_folder">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <item>
+         <property name="text">
+          <string>Placed at top level</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Placed in the the original clip folder</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLineEdit" name="folder_name">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="placeholderText">
+         <string>Folder name</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="4">
+    <widget class="KMessageWidget" name="info_box"/>
+   </item>
+   <item row="4" column="0">
+    <widget class="QToolButton" name="button_add">
+     <property name="text">
+      <string>...</string>
+     </property>
+     <property name="icon">
+      <iconset theme="list-add">
+       <normaloff>../../../../../../.designer/backup</normaloff>../../../../../../.designer/backup</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QToolButton" name="button_delete">
+     <property name="text">
+      <string>...</string>
+     </property>
+     <property name="icon">
+      <iconset theme="edit-delete">
+       <normaloff>../../../../../../.designer/backup</normaloff>../../../../../../.designer/backup</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="2">
     <spacer name="horizontalSpacer">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -30,29 +200,7 @@
      </property>
     </spacer>
    </item>
-   <item row="2" column="1">
-    <widget class="QToolButton" name="button_delete">
-     <property name="text">
-      <string>...</string>
-     </property>
-     <property name="icon">
-      <iconset theme="edit-delete">
-       <normaloff>../../../../../../.designer/backup</normaloff>../../../../../../.designer/backup</iconset>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QToolButton" name="button_add">
-     <property name="text">
-      <string>...</string>
-     </property>
-     <property name="icon">
-      <iconset theme="list-add">
-       <normaloff>../../../../../../.designer/backup</normaloff>../../../../../../.designer/backup</iconset>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0" colspan="4">
+   <item row="4" column="3">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -60,105 +208,6 @@
      <property name="standardButtons">
       <set>QDialogButtonBox::Close</set>
      </property>
-    </widget>
-   </item>
-   <item row="0" column="0" colspan="3">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Custom clip jobs</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="3" rowspan="3">
-    <widget class="QGroupBox" name="param_box">
-     <property name="title">
-      <string>Job parameters</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_2">
-      <item row="3" column="0">
-       <widget class="QPlainTextEdit" name="job_params"/>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="label_4">
-        <property name="text">
-         <string>Output file</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="KUrlRequester" name="url_binary"/>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLineEdit" name="destination_pattern"/>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>Arguments</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="0">
-       <widget class="QGroupBox" name="folder_box">
-        <property name="title">
-         <string>On job completion</string>
-        </property>
-        <layout class="QGridLayout" name="gridLayout">
-         <item row="1" column="0">
-          <widget class="QRadioButton" name="radio_folder">
-           <property name="text">
-            <string>Put resulting clip in a folder</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0">
-          <widget class="QLineEdit" name="folder_name">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="placeholderText">
-            <string>Folder name</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0" colspan="2">
-          <widget class="QRadioButton" name="radio_replace">
-           <property name="text">
-            <string>Replace original in project with result</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QComboBox" name="combo_folder">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <item>
-            <property name="text">
-             <string>Placed at top level</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Placed in the the original clip folder</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>Executable</string>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="0">
-       <widget class="KMessageWidget" name="info_box"/>
-      </item>
-     </layout>
     </widget>
    </item>
   </layout>
@@ -214,7 +263,7 @@
   <connection>
    <sender>radio_folder</sender>
    <signal>toggled(bool)</signal>
-   <receiver>folder_name</receiver>
+   <receiver>bin_subfolder</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -222,8 +271,8 @@
      <y>260</y>
     </hint>
     <hint type="destinationlabel">
-     <x>415</x>
-     <y>295</y>
+     <x>407</x>
+     <y>563</y>
     </hint>
    </hints>
   </connection>
@@ -240,6 +289,22 @@
     <hint type="destinationlabel">
      <x>317</x>
      <y>386</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>bin_subfolder</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>folder_name</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>407</x>
+     <y>563</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>407</x>
+     <y>596</y>
     </hint>
    </hints>
   </connection>

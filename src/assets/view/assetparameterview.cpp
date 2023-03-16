@@ -54,7 +54,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                                                         &AssetParameterView::slotUpdatePreset);
         QAction *deletePreset =
             m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Delete preset"), this, &AssetParameterView::slotDeleteCurrentPreset);
-            m_presetMenu->setWhatsThis(xi18nc("@info:whatsthis", "Deletes the currently selected preset."));
+        m_presetMenu->setWhatsThis(xi18nc("@info:whatsthis", "Deletes the currently selected preset."));
         m_presetMenu->addSeparator();
         QStringList presets = m_model->getPresetList(presetFile);
         if (presetName.isEmpty() || presets.isEmpty()) {

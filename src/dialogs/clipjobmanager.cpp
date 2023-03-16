@@ -29,6 +29,16 @@ ClipJobManager::ClipJobManager(QWidget *parent)
     connect(button_add, &QToolButton::clicked, this, &ClipJobManager::addJob);
     connect(button_delete, &QToolButton::clicked, this, &ClipJobManager::deleteJob);
 
+    QIcon icon = QIcon::fromTheme(QStringLiteral("help-about"));
+    int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
+    QPixmap pix = icon.pixmap(size, size);
+    help_arguments->setPixmap(pix);
+    help_arguments->setToolTip(i18n("Arguments for the command line script"));
+    help_arguments->setWhatsThis(xi18nc("@info:whatsthis", "<b>&#x25;1</b> will be replaced be the path of the source clip."));
+    help_output->setPixmap(pix);
+    help_output->setToolTip(i18n("File extension for the output file"));
+    help_output->setWhatsThis(xi18nc("@info:whatsthis", "File extension for the output file. Empty will keep the same extension as source file."));
+
     connect(job_list, &QListWidget::itemChanged, this, &ClipJobManager::updateName);
 
     // Mark preset as dirty if anything changes
@@ -106,16 +116,15 @@ void ClipJobManager::displayJob(int row)
         param_box->setEnabled(false);
         return;
     }
-    param_box->setEnabled(true);
     QListWidgetItem *item = job_list->item(row);
     QString jobId = item->data(Qt::UserRole).toString();
     bool customJob = item->type() == QListWidgetItem::UserType;
-    url_binary->setEnabled(customJob);
-    job_params->setEnabled(customJob);
+    param_box->setEnabled(customJob);
     button_delete->setEnabled(customJob);
     if (customJob && !m_ids.contains(jobId)) {
         // This is a new job, set some default values
         url_binary->setUrl(QUrl::fromLocalFile(KdenliveSettings::ffmpegpath()));
+        job_params->setPlainText(QStringLiteral("-i %1 -codec:a copy -codec:v copy"));
     } else {
         url_binary->setText(m_binaries.value(jobId));
     }
@@ -123,7 +132,7 @@ void ClipJobManager::displayJob(int row)
     destination_pattern->setText(m_output.value(jobId));
     folder_name->setText(m_folderNames.value(jobId));
     folder_name->setText(m_folderNames.value(jobId));
-    if (m_folderUse.contains(jobId)) {
+    if (m_folderUse.contains(jobId) || m_dirty == jobId) {
         folder_box->setEnabled(true);
         if (m_folderUse.value(jobId) == QLatin1String("replace")) {
             radio_replace->setChecked(true);
@@ -230,8 +239,27 @@ void ClipJobManager::saveAllPresets()
 void ClipJobManager::addJob()
 {
     const QString uuid = QUuid::createUuid().toString();
-    QListWidgetItem *item = new QListWidgetItem(i18n("My Clip Job"), job_list, QListWidgetItem::UserType);
+    QString jobName = i18n("My Clip Job");
+    bool newName = false;
+    int j = 1;
+    while (newName == false) {
+        int i = 0;
+        for (; i < job_list->count(); i++) {
+            QListWidgetItem *it = job_list->item(i);
+            if (it->text() == jobName) {
+                jobName = i18n("My Clip Job %1", j);
+                j++;
+                break;
+            }
+        }
+        if (i == job_list->count()) {
+            // All the list was parsed so this is a unique name
+            newName = true;
+        }
+    }
+    QListWidgetItem *item = new QListWidgetItem(jobName, job_list, QListWidgetItem::UserType);
     item->setData(Qt::UserRole, uuid);
+    m_folderUse.insert(uuid, QStringLiteral("replace"));
     item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsEnabled);
     job_list->setCurrentItem(item);
     KConfig conf(QStringLiteral("clipjobsettings.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
@@ -254,6 +282,12 @@ void ClipJobManager::deleteJob()
                 group.deleteEntry(jobId);
             }
             delete item;
+            m_ids.remove(jobId);
+            m_binaries.remove(jobId);
+            m_params.remove(jobId);
+            m_output.remove(jobId);
+            m_folderNames.remove(jobId);
+            m_folderUse.remove(jobId);
             m_dirty.clear();
             job_list->setCurrentRow(0);
         }

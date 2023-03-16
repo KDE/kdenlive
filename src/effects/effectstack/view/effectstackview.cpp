@@ -266,6 +266,8 @@ void EffectStackView::loadEffects()
     bool hasLift = false;
     QModelIndex activeIndex;
     connect(&m_timerHeight, &QTimer::timeout, this, &EffectStackView::updateTreeHeight, Qt::UniqueConnection);
+    int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
+    const QSize iconSize(size, size);
     for (int i = 0; i < max; i++) {
         std::shared_ptr<AbstractEffectItem> item = m_model->getEffectStackRow(i);
         QSize size;
@@ -279,7 +281,7 @@ void EffectStackView::loadEffects()
         if (effectModel->getAssetId() == QLatin1String("lift_gamma_gain")) {
             hasLift = true;
         }
-        QImage effectIcon = m_thumbnailer->requestImage(effectModel->getAssetId(), &size, QSize(QStyle::PM_SmallIconSize, QStyle::PM_SmallIconSize));
+        QImage effectIcon = m_thumbnailer->requestImage(effectModel->getAssetId(), &size, iconSize);
         view = new CollapsibleEffectView(effectModel, m_sourceFrameSize, effectIcon, this);
         connect(view, &CollapsibleEffectView::deleteEffect, m_model.get(), &EffectStackModel::removeEffect);
         connect(view, &CollapsibleEffectView::moveEffect, m_model.get(), &EffectStackModel::moveEffect);
