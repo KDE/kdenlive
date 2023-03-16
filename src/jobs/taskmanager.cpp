@@ -20,6 +20,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 TaskManager::TaskManager(QObject *parent)
     : QObject(parent)
+    , displayedClip(-1)
     , m_tasksListLock(QReadWriteLock::Recursive)
     , m_blockUpdates(false)
 {
@@ -67,6 +68,29 @@ void TaskManager::discardJobs(const ObjectId &owner, AbstractTask::JOBTYPE type,
             }
             t->cancelJob(softDelete);
             qDebug() << "========== DELETING JOB!!!!";
+            // Block until the task is finished
+            t->m_runMutex.lock();
+        }
+    }
+}
+
+void TaskManager::discardJob(const ObjectId &owner, const QUuid &uuid)
+{
+    if (m_blockUpdates) {
+        // We are already deleting all tasks
+        return;
+    }
+    m_tasksListLock.lockForRead();
+    // See if there is already a task for this MLT service and resource.
+    if (m_taskList.find(owner.second) == m_taskList.end()) {
+        m_tasksListLock.unlock();
+        return;
+    }
+    std::vector<AbstractTask *> taskList = m_taskList.at(owner.second);
+    m_tasksListLock.unlock();
+    for (AbstractTask *t : taskList) {
+        if ((t->m_uuid == uuid) && t->m_progress < 100) {
+            t->cancelJob();
             // Block until the task is finished
             t->m_runMutex.lock();
         }
@@ -189,10 +213,16 @@ void TaskManager::startTask(int ownerId, AbstractTask *task)
     updateJobCount();
 }
 
-int TaskManager::getJobProgressForClip(const ObjectId &owner) const
+int TaskManager::getJobProgressForClip(const ObjectId &owner)
 {
     QReadLocker lk(&m_tasksListLock);
+    QStringList jobNames;
+    QList<int> jobsProgress;
+    QStringList jobsUuids;
     if (m_taskList.find(owner.second) == m_taskList.end()) {
+        if (owner.second == displayedClip) {
+            Q_EMIT detailedProgress(owner, jobNames, jobsProgress, jobsUuids);
+        }
         return 100;
     }
     std::vector<AbstractTask *> taskList = m_taskList.at(owner.second);
@@ -202,18 +232,16 @@ int TaskManager::getJobProgressForClip(const ObjectId &owner) const
     }
     int total = 0;
     for (AbstractTask *t : taskList) {
+        if (owner.second == displayedClip) {
+            jobNames << t->m_description;
+            jobsProgress << t->m_progress;
+            jobsUuids << t->m_uuid.toString();
+        }
         total += t->m_progress;
     }
     total /= cnt;
+    if (owner.second == displayedClip) {
+        Q_EMIT detailedProgress(owner, jobNames, jobsProgress, jobsUuids);
+    }
     return total;
 }
-
-/*QPair<QString, QString> TaskManager::getJobMessageForClip(int jobId, const QString &binId) const
-{
-    READ_LOCK();
-    Q_ASSERT(m_jobs.count(jobId) > 0);
-    auto job = m_jobs.at(jobId);
-    Q_ASSERT(job->m_indices.count(binId) > 0);
-    size_t ind = job->m_indices.at(binId);
-    return {job->m_job[ind]->getErrorMessage(), job->m_job[ind]->getLogDetails()};
-}*/

@@ -51,7 +51,8 @@ void NotesPlugin::setProject(KdenliveDoc *document)
         connect(a, &QAction::triggered, m_widget, &NotesWidget::assignProjectNote);
         m_tb->addAction(a);
         a = new QAction(QIcon::fromTheme(QStringLiteral("list-add")), i18n("Create markers from selected timecodes"));
-        a->setWhatsThis(xi18nc("@info:whatsthis", "Creates markers in the timeline from the selected timecodes (doesn’t matter if other text is selected too)."));
+        a->setWhatsThis(
+            xi18nc("@info:whatsthis", "Creates markers in the timeline from the selected timecodes (doesn’t matter if other text is selected too)."));
         connect(a, &QAction::triggered, m_widget, &NotesWidget::createMarkers);
         m_tb->addAction(a);
     }

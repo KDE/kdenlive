@@ -8,10 +8,11 @@
 
 #include "definitions.h"
 
-#include <QRunnable>
 #include <QAtomicInt>
 #include <QMutex>
 #include <QObject>
+#include <QRunnable>
+#include <QUuid>
 
 class AbstractTask : public QObject, public QRunnable
 {
@@ -44,12 +45,14 @@ protected:
     ObjectId m_owner;
     QObject* m_object;
     int m_progress;
+    QString m_description;
     bool m_successful;
     QAtomicInt m_isCanceled;
     QAtomicInt m_softDelete;
     QMutex m_runMutex;
     bool m_isForce;
     bool m_running;
+    QUuid m_uuid;
     void run() override;
     void cleanup();
 

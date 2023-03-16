@@ -597,6 +597,8 @@ private Q_SLOTS:
     void slotRemoveBinDock(const QString &name);
     /** @brief Focus the guides list search line */
     void slotSearchGuide();
+    /** @brief Open the clip job management dialog */
+    void manageClipJobs();
     /** @brief Copy current timeline selection to a new sequence clip / Timeline tab */
     void slotCreateSequenceFromSelection();
 

@@ -23,10 +23,6 @@ class ClipStabilize : public QDialog, public Ui::ClipStabilize_UI
 public:
     explicit ClipStabilize(const std::vector<QString> &binIds, QString filterName, QWidget *parent = nullptr);
     ~ClipStabilize() override;
-    /** @brief Should the generated clip be added to current project. */
-    bool autoAddClip() const;
-    /** @brief Should the generated clip be moved in a specific folder. */
-    bool addClipInFolder() const;
     /** @brief Return the filter parameters, filter name as value of "filter" entry. */
     std::unordered_map<QString, QVariant> filterParams() const;
     /** @brief Return the destination file or folder. */
@@ -36,8 +32,6 @@ public:
 
     /* Return the name of the actual mlt filter used */
     QString filterName() const;
-private Q_SLOTS:
-    void slotValidate();
 
 private:
     QString m_filtername;

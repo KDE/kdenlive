@@ -56,6 +56,9 @@ class MonitorProxy : public QObject
      * */
     Q_PROPERTY(int clipType MEMBER m_clipType NOTIFY clipTypeChanged)
     Q_PROPERTY(int clipId MEMBER m_clipId NOTIFY clipIdChanged)
+    Q_PROPERTY(QStringList runningJobs MEMBER m_runningJobs NOTIFY runningJobsChanged)
+    Q_PROPERTY(QList<int> jobsProgress MEMBER m_jobsProgress NOTIFY jobsProgressChanged)
+    Q_PROPERTY(QStringList jobsUuids MEMBER m_jobsUuids NOTIFY jobsProgressChanged)
 
 public:
     MonitorProxy(GLWidget *parent);
@@ -103,6 +106,7 @@ public:
     Q_INVOKABLE void setWidgetKeyBinding(const QString &text = QString()) const;
     Q_INVOKABLE bool seekOnDrop() const;
     Q_INVOKABLE void addEffect(const QString &effectData, const QString &effectSource);
+    Q_INVOKABLE void terminateJob(const QString &uuid);
     QPoint profile();
     QImage extractFrame(const QString &path = QString(), int width = -1, int height = -1, bool useSourceProfile = false);
     void setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString &clipName);
@@ -124,6 +128,7 @@ public:
     void resetPosition();
     /** @brief Used to display qml info about speed*/
     void setSpeed(double speed);
+    void setJobsProgress(const ObjectId &owner, const QStringList &jobNames, const QList<int> &jobProgress, const QStringList &jobUuids);
 
 Q_SIGNALS:
     void positionChanged(int);
@@ -158,6 +163,8 @@ Q_SIGNALS:
     void trimmingTC2Changed();
     void speedChanged();
     void clipBoundsChanged();
+    void runningJobsChanged();
+    void jobsProgressChanged();
     void addTimelineEffect(const QStringList &);
 
 private:
@@ -182,6 +189,9 @@ private:
     int m_trimmingFrames2;
     QVector <QPoint> m_clipBounds;
     int m_boundsCount;
+    QStringList m_runningJobs;
+    QList<int> m_jobsProgress;
+    QStringList m_jobsUuids;
 
 public Q_SLOTS:
     void updateClipBounds(const QVector <QPoint>&bounds);

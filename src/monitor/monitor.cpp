@@ -247,6 +247,10 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         m_audioChannels = new QMenu(this);
         m_streamsButton->setMenu(m_audioChannels);
         m_streamAction->setVisible(false);
+
+        // Connect job data
+        connect(&pCore->taskManager, &TaskManager::detailedProgress, m_glMonitor->getControllerProxy(), &MonitorProxy::setJobsProgress);
+
         connect(m_audioChannels, &QMenu::triggered, this, [this](QAction *ac) {
             // m_audioChannels->show();
             QList<QAction *> actions = m_audioChannels->actions();
@@ -1715,10 +1719,12 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         }
     } else if (controller == nullptr) {
         // Nothing to do
+        pCore->taskManager.displayedClip = -1;
         return;
     }
     disconnect(this, &Monitor::seekPosition, this, &Monitor::seekRemap);
     m_controller = controller;
+    pCore->taskManager.displayedClip = m_controller ? m_controller->clipId().toInt() : -1;
     m_glMonitor->getControllerProxy()->setAudioStream(QString());
     m_snaps.reset(new SnapModel());
     m_glMonitor->getControllerProxy()->resetZone();
@@ -2541,7 +2547,10 @@ void Monitor::updateQmlDisplay(int currentOverlay)
     bool showDropped = currentOverlay & 0x20;
     m_glMonitor->rootObject()->setProperty("showFps", showDropped);
     m_glMonitor->rootObject()->setProperty("showTimecode", currentOverlay & 0x02);
-    m_glMonitor->rootObject()->setProperty("showAudiothumb", currentOverlay & 0x10);
+    if (m_id == Kdenlive::ClipMonitor) {
+        m_glMonitor->rootObject()->setProperty("showAudiothumb", currentOverlay & 0x10);
+        m_glMonitor->rootObject()->setProperty("showClipJobs", currentOverlay & 0x40);
+    }
     if (showDropped) {
         if (!m_droppedTimer.isActive() && m_playAction->isActive()) {
             m_glMonitor->resetDrops();

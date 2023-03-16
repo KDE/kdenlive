@@ -1,0 +1,17 @@
+#Built in jobs have no name as this is filled by Kdenlive on startup with translated names
+[Ids]
+stabilize=
+scenesplit=
+timewarp=
+custom=My Custom job
+
+#FolderName is the name of the folder where output file will be placed, if any
+[FolderName]
+stabilize=Stabilize
+timewarp=Speed
+
+#FolderUse can be: rootfolder (place folder at top level), subfolder (place folder where the source clip is), nooutput (this job doesn't create a video file, replace (the resulting file will replace clip in project
+[FolderUse]
+stabilize=rootfolder
+timewarp=subfolder
+scenesplit=nooutput

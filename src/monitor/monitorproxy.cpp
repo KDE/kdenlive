@@ -525,3 +525,23 @@ void MonitorProxy::addEffect(const QString &effectData, const QString &effectSou
         QMetaObject::invokeMethod(this, "addTimelineEffect", Qt::QueuedConnection, Q_ARG(QStringList, effectInfo));
     }
 }
+
+void MonitorProxy::setJobsProgress(const ObjectId &owner, const QStringList &jobNames, const QList<int> &jobProgress, const QStringList &jobUuids)
+{
+    if (owner.second != m_clipId) {
+        // Not interested
+        return;
+    }
+    if (m_runningJobs != jobNames) {
+        m_runningJobs = jobNames;
+        Q_EMIT runningJobsChanged();
+    }
+    m_jobsProgress = jobProgress;
+    m_jobsUuids = jobUuids;
+    Q_EMIT jobsProgressChanged();
+}
+
+void MonitorProxy::terminateJob(const QString &uuid)
+{
+    pCore->taskManager.discardJob({ObjectType::BinClip, m_clipId}, QUuid(uuid));
+}

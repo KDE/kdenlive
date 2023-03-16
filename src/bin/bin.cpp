@@ -11,6 +11,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "clipcreator.hpp"
 #include "core.h"
 #include "dialogs/clipcreationdialog.h"
+#include "dialogs/clipjobmanager.h"
 #include "dialogs/kdenlivesettingsdialog.h"
 #include "dialogs/textbasededit.h"
 #include "dialogs/timeremap.h"
@@ -1386,7 +1387,8 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     m_filterButton->setPopupMode(QToolButton::MenuButtonPopup);
     m_filterButton->setIcon(QIcon::fromTheme(QStringLiteral("view-filter")));
     m_filterButton->setToolTip(i18n("Filter"));
-    m_filterButton->setWhatsThis(xi18nc("@info:whatsthis", "Filter the project bin contents. Click on the filter icon to toggle the filter display. Click on the arrow icon to open a list of possible filter settings."));
+    m_filterButton->setWhatsThis(xi18nc("@info:whatsthis", "Filter the project bin contents. Click on the filter icon to toggle the filter display. Click on "
+                                                           "the arrow icon to open a list of possible filter settings."));
     m_filterButton->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_filterButton->setMenu(m_filterMenu);
 
@@ -2496,7 +2498,8 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 clip = std::static_pointer_cast<ProjectClip>(currentItem);
                 m_tagsWidget->setTagData(clip->tags());
                 m_deleteAction->setText(i18n("Delete Clip"));
-                m_deleteAction->setWhatsThis(xi18nc("@info:whatsthis", "Deletes the currently selected clips from the project bin and also from the timeline."));
+                m_deleteAction->setWhatsThis(
+                    xi18nc("@info:whatsthis", "Deletes the currently selected clips from the project bin and also from the timeline."));
                 m_proxyAction->setText(i18n("Proxy Clip"));
             } else if (itemType == AbstractProjectItem::FolderItem) {
                 // A folder was selected, disable editing clip
@@ -2508,7 +2511,8 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 auto subClip = std::static_pointer_cast<ProjectSubClip>(currentItem);
                 clip = subClip->getMasterClip();
                 m_deleteAction->setText(i18n("Delete Clip"));
-                m_deleteAction->setWhatsThis(xi18nc("@info:whatsthis", "Deletes the currently selected clips from the project bin and also from the timeline."));
+                m_deleteAction->setWhatsThis(
+                    xi18nc("@info:whatsthis", "Deletes the currently selected clips from the project bin and also from the timeline."));
                 m_proxyAction->setText(i18n("Proxy Clip"));
             }
             bool isImported = false;
@@ -3383,8 +3387,8 @@ void Bin::setupMenu()
     m_addClip =
         addAction(QStringLiteral("add_clip"), i18n("Add Clip or Folder…"), QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")), QStringLiteral("addclip"));
     m_addClip->setWhatsThis(xi18nc("@info:whatsthis", "Main dialog to add source material to your project bin (videos, images, audio, titles, animations).<nl/>"
-                                 "Click on the down-arrow icon to get a list of source types to select from.<nl/>"
-                                 "Click on the media icon to open a window to select source files."));
+                                                      "Click on the down-arrow icon to get a list of source types to select from.<nl/>"
+                                                      "Click on the media icon to open a window to select source files."));
     addClipMenu->addAction(m_addClip);
     connect(m_addClip, &QAction::triggered, this, &Bin::slotAddClip);
 
@@ -3473,7 +3477,9 @@ void Bin::setupMenu()
     connect(m_sequencesFolderAction, &QAction::triggered, this, &Bin::setDefaultSequenceFolder);
 
     m_createFolderAction = addAction(QStringLiteral("create_folder"), i18n("Create Folder"), QIcon::fromTheme(QStringLiteral("folder-new")));
-    m_createFolderAction->setWhatsThis(xi18nc("@info:whatsthis", "Creates a folder in the current position in the project bin. Allows for better organization of source files. Folders can be nested."));
+    m_createFolderAction->setWhatsThis(
+        xi18nc("@info:whatsthis",
+               "Creates a folder in the current position in the project bin. Allows for better organization of source files. Folders can be nested."));
     connect(m_createFolderAction, &QAction::triggered, this, &Bin::slotAddFolder);
 
     m_upAction = KStandardAction::up(this, SLOT(slotBack()), pCore->window()->actionCollection());
@@ -5424,7 +5430,7 @@ void Bin::requestTranscoding(const QString &url, const QString &id, int type, bo
     m_transcodingDialog->show();
 }
 
-bool Bin::addProjectClipInFolder(const QString &path, const QString &parentFolder, const QString &folderName, const QString &replaceId, bool replace)
+bool Bin::addProjectClipInFolder(const QString &path, const QString &sourceClipId, const QString &sourceFolder, const QString &jobId)
 {
     // Check if the clip is already inserted in the project, if yes exit
     QStringList existingIds = m_itemModel->getClipByUrl(QFileInfo(path));
@@ -5433,26 +5439,29 @@ bool Bin::addProjectClipInFolder(const QString &path, const QString &parentFolde
     }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    if (replace) {
+    std::pair<ClipJobManager::JobCompletionAction, QString> jobAction = ClipJobManager::getJobAction(jobId);
+    if (jobAction.first == ClipJobManager::JobCompletionAction::ReplaceOriginal) {
         // Simply replace source clip with stabilized version
-        replaceSingleClip(replaceId, path);
+        replaceSingleClip(sourceClipId, path);
         return true;
     }
     // Check if folder exists
     QString folderId = QStringLiteral("-1");
-    // We first try to see if it exists
-    std::shared_ptr<ProjectFolder> baseFolder = m_itemModel->getFolderByBinId(parentFolder);
-    if (!baseFolder) {
+    std::shared_ptr<ProjectFolder> baseFolder = nullptr;
+    if (jobAction.first == ClipJobManager::JobCompletionAction::SubFolder) {
+        baseFolder = m_itemModel->getFolderByBinId(sourceFolder);
+    }
+    if (baseFolder == nullptr) {
         baseFolder = m_itemModel->getRootFolder();
     }
-    if (folderName.isEmpty()) {
-        // Put clip in parentFolder
-        folderId = baseFolder->clipId();
+    if (jobAction.second.isEmpty()) {
+        // Put clip in sourceFolder if we don't have a folder name
+        folderId = sourceFolder;
     } else {
         bool found = false;
         for (int i = 0; i < baseFolder->childCount(); ++i) {
             auto currentItem = std::static_pointer_cast<AbstractProjectItem>(baseFolder->child(i));
-            if (currentItem->itemType() == AbstractProjectItem::FolderItem && currentItem->name() == folderName) {
+            if (currentItem->itemType() == AbstractProjectItem::FolderItem && currentItem->name() == jobAction.second) {
                 found = true;
                 folderId = currentItem->clipId();
                 break;
@@ -5461,17 +5470,17 @@ bool Bin::addProjectClipInFolder(const QString &path, const QString &parentFolde
 
         if (!found) {
             // if it was not found, create folder
-            m_itemModel->requestAddFolder(folderId, folderName, parentFolder, undo, redo);
+            m_itemModel->requestAddFolder(folderId, jobAction.second, baseFolder->clipId(), undo, redo);
         }
     }
-    std::function<void(const QString &)> callBack = [this, replaceId, replace, path](const QString &binId) {
+    std::function<void(const QString &)> callBack = [this, sourceClipId, jobAction, path](const QString &binId) {
         if (!binId.isEmpty()) {
-            if (!replace) {
+            if (jobAction.first != ClipJobManager::JobCompletionAction::ReplaceOriginal) {
                 // Clip was added to Bin, select it if replaced clip is still selected
                 QModelIndex ix = m_proxyModel->selectionModel()->currentIndex();
                 if (ix.isValid()) {
                     std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
-                    if (currentItem->clipId() == replaceId) {
+                    if (currentItem->clipId() == sourceClipId) {
                         selectClipById(binId);
                     }
                 }

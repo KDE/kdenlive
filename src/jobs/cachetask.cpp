@@ -28,6 +28,7 @@ CacheTask::CacheTask(const ObjectId &owner, int thumbsCount, int in, int out, QO
     , m_in(in)
     , m_out(out)
 {
+    m_description = i18n("Video thumbs");
     if (m_fullWidth % 2 > 0) {
         m_fullWidth++;
     }

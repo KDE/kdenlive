@@ -39,6 +39,7 @@ SceneSplitTask::SceneSplitTask(const ObjectId &owner, double threshold, int mark
     , m_minInterval(minDuration)
     , m_jobProcess(nullptr)
 {
+    m_description = i18n("Detecting scene change");
     qDebug() << "Threshold is" << threshold << QString::number(threshold);
 }
 

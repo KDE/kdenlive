@@ -15,6 +15,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "dialogs/clipcreationdialog.h"
+#include "dialogs/clipjobmanager.h"
 #include "dialogs/kdenlivesettingsdialog.h"
 #include "dialogs/renderwidget.h"
 #include "dialogs/subtitleedit.h"
@@ -25,6 +26,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "effects/effectbasket.h"
 #include "effects/effectlist/view/effectlistwidget.hpp"
 #include "jobs/audiolevelstask.h"
+#include "jobs/customjobtask.h"
 #include "jobs/scenesplittask.h"
 #include "jobs/speedtask.h"
 #include "jobs/stabilizetask.h"
@@ -1113,7 +1115,8 @@ void MainWindow::setupActions()
     m_insertEditTool->setChecked(false);
 
     KSelectAction *sceneMode = new KSelectAction(i18n("Timeline Edit Mode"), this);
-    sceneMode->setWhatsThis(xi18nc("@info:whatsthis", "Switches between Normal, Overwrite and Insert Mode. Determines the default action when handling clips in the timeline."));
+    sceneMode->setWhatsThis(
+        xi18nc("@info:whatsthis", "Switches between Normal, Overwrite and Insert Mode. Determines the default action when handling clips in the timeline."));
     sceneMode->addAction(m_normalEditTool);
     sceneMode->addAction(m_overwriteEditTool);
     sceneMode->addAction(m_insertEditTool);
@@ -1210,13 +1213,17 @@ void MainWindow::setupActions()
     m_buttonRazorTool->setChecked(false);
 
     m_buttonSpacerTool = new QAction(QIcon::fromTheme(QStringLiteral("distribute-horizontal-x")), i18n("Spacer Tool"), this);
-    m_buttonSpacerTool->setWhatsThis(xi18nc("@info:whatsthis", "When selected, clicking and dragging the mouse in the timeline temporarily groups separate clips and creates or removes space between clips."));
+    m_buttonSpacerTool->setWhatsThis(
+        xi18nc("@info:whatsthis",
+               "When selected, clicking and dragging the mouse in the timeline temporarily groups separate clips and creates or removes space between clips."));
     // toolbar->addAction(m_buttonSpacerTool);
     m_buttonSpacerTool->setCheckable(true);
     m_buttonSpacerTool->setChecked(false);
 
     m_buttonRippleTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-ripple")), i18n("Ripple Tool"), this);
-    m_buttonRippleTool->setWhatsThis(xi18nc("@info:whatsthis", "When selected, dragging the edges of a clip lengthens or shortens the clip and moves adjacent clips back and forth while doing that."));
+    m_buttonRippleTool->setWhatsThis(
+        xi18nc("@info:whatsthis",
+               "When selected, dragging the edges of a clip lengthens or shortens the clip and moves adjacent clips back and forth while doing that."));
     m_buttonRippleTool->setCheckable(true);
     m_buttonRippleTool->setChecked(false);
 
@@ -1259,7 +1266,8 @@ void MainWindow::setupActions()
     connect(collapseItem, &QAction::triggered, this, &MainWindow::slotCollapse);
 
     QAction *sameTrack = new QAction(QIcon::fromTheme(QStringLiteral("composite-track-preview")), i18n("Mix Clips"), this);
-    sameTrack->setWhatsThis(xi18nc("@info:whatsthis", "Creates a same-track transition between the selected clip and the adjacent one closest to the playhead."));
+    sameTrack->setWhatsThis(
+        xi18nc("@info:whatsthis", "Creates a same-track transition between the selected clip and the adjacent one closest to the playhead."));
     addAction(QStringLiteral("mix_clip"), sameTrack, Qt::Key_U);
     connect(sameTrack, &QAction::triggered, this, [this]() { getCurrentTimeline()->controller()->mixClip(); });
 
@@ -1478,11 +1486,17 @@ void MainWindow::setupActions()
     overlayAudioInfo->setCheckable(true);
     overlayAudioInfo->setData(0x10);
 
-    connect(overlayInfo, &QAction::toggled, this, [&, overlayTCInfo, overlayFpsInfo, overlayMarkerInfo, overlayAudioInfo](bool toggled) {
+    QAction *overlayClipJobs = new QAction(QIcon::fromTheme(QStringLiteral("help-hint")), i18n("Monitor Overlay Clip Jobs"), this);
+    addAction(QStringLiteral("monitor_overlay_clipjobs"), overlayClipJobs, {}, QStringLiteral("monitor"));
+    overlayClipJobs->setCheckable(true);
+    overlayClipJobs->setData(0x40);
+
+    connect(overlayInfo, &QAction::toggled, this, [&, overlayTCInfo, overlayFpsInfo, overlayMarkerInfo, overlayAudioInfo, overlayClipJobs](bool toggled) {
         overlayTCInfo->setEnabled(toggled);
         overlayFpsInfo->setEnabled(toggled);
         overlayMarkerInfo->setEnabled(toggled);
         overlayAudioInfo->setEnabled(toggled);
+        overlayClipJobs->setEnabled(toggled);
     });
 
     // Monitor resolution scaling
@@ -1552,8 +1566,8 @@ void MainWindow::setupActions()
     actionCollection()->setShortcutsConfigurable(monitorGamma, false);
 
     QAction *insertBinZone = addAction(QStringLiteral("insert_project_tree"), i18n("Insert Zone in Project Bin"), this, SLOT(slotInsertZoneToTree()),
-              QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")), Qt::CTRL | Qt::Key_I);
-        insertBinZone->setWhatsThis(xi18nc("@info:whatsthis", "Creates a new clip in the project bin from the defined zone."));
+                                       QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")), Qt::CTRL | Qt::Key_I);
+    insertBinZone->setWhatsThis(xi18nc("@info:whatsthis", "Creates a new clip in the project bin from the defined zone."));
     addAction(QStringLiteral("monitor_seek_snap_backward"), i18n("Go to Previous Snap Point"), this, SLOT(slotSnapRewind()),
               QIcon::fromTheme(QStringLiteral("media-seek-backward")), Qt::ALT | Qt::Key_Left, QStringLiteral("navandplayback"));
     addAction(QStringLiteral("monitor_seek_snap_forward"), i18n("Go to Next Snap Point"), this, SLOT(slotSnapForward()),
@@ -1580,30 +1594,35 @@ void MainWindow::setupActions()
     connect(stickTransition, &QAction::triggered, this, &MainWindow::slotAutoTransition);
 
     QAction *overwriteZone = addAction(QStringLiteral("overwrite_to_in_point"), i18n("Overwrite Clip Zone in Timeline"), this, SLOT(slotInsertClipOverwrite()),
-              QIcon::fromTheme(QStringLiteral("timeline-overwrite")), Qt::Key_B);
-        overwriteZone->setWhatsThis(xi18nc("@info:whatsthis", "When clicked the zone of the clip currently selected in the project bin is inserted at the playhead position in the active timeline. Clips at the insert position are cut and overwritten."));
+                                       QIcon::fromTheme(QStringLiteral("timeline-overwrite")), Qt::Key_B);
+    overwriteZone->setWhatsThis(xi18nc("@info:whatsthis", "When clicked the zone of the clip currently selected in the project bin is inserted at the playhead "
+                                                          "position in the active timeline. Clips at the insert position are cut and overwritten."));
     QAction *insertZone = addAction(QStringLiteral("insert_to_in_point"), i18n("Insert Clip Zone in Timeline"), this, SLOT(slotInsertClipInsert()),
-              QIcon::fromTheme(QStringLiteral("timeline-insert")), Qt::Key_V);
-        insertZone->setWhatsThis(xi18nc("@info:whatsthis", "When clicked the zone of the clip currently selected in the project bin is inserted at the playhead position in the active timeline. Clips at the insert position are cut and shifted to the right."));
+                                    QIcon::fromTheme(QStringLiteral("timeline-insert")), Qt::Key_V);
+    insertZone->setWhatsThis(xi18nc("@info:whatsthis", "When clicked the zone of the clip currently selected in the project bin is inserted at the playhead "
+                                                       "position in the active timeline. Clips at the insert position are cut and shifted to the right."));
     QAction *extractZone = addAction(QStringLiteral("remove_extract"), i18n("Extract Timeline Zone"), this, SLOT(slotExtractZone()),
-              QIcon::fromTheme(QStringLiteral("timeline-extract")), Qt::SHIFT | Qt::Key_X);
-        extractZone->setWhatsThis(xi18nc("@info:whatsthis", "Click to delete the timeline zone from the timeline. All clips to the right are shifted left."));
-    QAction *liftZone = addAction(QStringLiteral("remove_lift"), i18n("Lift Timeline Zone"), this, SLOT(slotLiftZone()), QIcon::fromTheme(QStringLiteral("timeline-lift")),
-              Qt::Key_Z);
-        liftZone->setWhatsThis(xi18nc("@info:whatsthis", "Click to delete the timeline zone from the timeline. All clips to the right stay in position."));
+                                     QIcon::fromTheme(QStringLiteral("timeline-extract")), Qt::SHIFT | Qt::Key_X);
+    extractZone->setWhatsThis(xi18nc("@info:whatsthis", "Click to delete the timeline zone from the timeline. All clips to the right are shifted left."));
+    QAction *liftZone = addAction(QStringLiteral("remove_lift"), i18n("Lift Timeline Zone"), this, SLOT(slotLiftZone()),
+                                  QIcon::fromTheme(QStringLiteral("timeline-lift")), Qt::Key_Z);
+    liftZone->setWhatsThis(xi18nc("@info:whatsthis", "Click to delete the timeline zone from the timeline. All clips to the right stay in position."));
     QAction *addPreviewZone = addAction(QStringLiteral("set_render_timeline_zone"), i18n("Add Preview Zone"), this, SLOT(slotDefinePreviewRender()),
-              QIcon::fromTheme(QStringLiteral("preview-add-zone")));
-        addPreviewZone->setWhatsThis(xi18nc("@info:whatsthis", "Add the currently defined timeline/selection zone as a preview render zone"));
+                                        QIcon::fromTheme(QStringLiteral("preview-add-zone")));
+    addPreviewZone->setWhatsThis(xi18nc("@info:whatsthis", "Add the currently defined timeline/selection zone as a preview render zone"));
     QAction *removePreviewZone = addAction(QStringLiteral("unset_render_timeline_zone"), i18n("Remove Preview Zone"), this, SLOT(slotRemovePreviewRender()),
-              QIcon::fromTheme(QStringLiteral("preview-remove-zone")));
-        removePreviewZone->setWhatsThis(xi18nc("@info:whatsthis", "Removes the currently defined timeline/selection zone from the preview render zone. Note that this can leave gaps in the preview render zones."));
-    QAction *removeAllPreviewZone = addAction(QStringLiteral("clear_render_timeline_zone"), i18n("Remove All Preview Zones"), this, SLOT(slotClearPreviewRender()),
-              QIcon::fromTheme(QStringLiteral("preview-remove-all")));
-        removeAllPreviewZone->setWhatsThis(xi18nc("@info:whatsthis", "Remove all preview render zones."));
+                                           QIcon::fromTheme(QStringLiteral("preview-remove-zone")));
+    removePreviewZone->setWhatsThis(xi18nc(
+        "@info:whatsthis",
+        "Removes the currently defined timeline/selection zone from the preview render zone. Note that this can leave gaps in the preview render zones."));
+    QAction *removeAllPreviewZone = addAction(QStringLiteral("clear_render_timeline_zone"), i18n("Remove All Preview Zones"), this,
+                                              SLOT(slotClearPreviewRender()), QIcon::fromTheme(QStringLiteral("preview-remove-all")));
+    removeAllPreviewZone->setWhatsThis(xi18nc("@info:whatsthis", "Remove all preview render zones."));
     QAction *startPreviewRender = addAction(QStringLiteral("prerender_timeline_zone"), i18n("Start Preview Render"), this, SLOT(slotPreviewRender()),
-              QIcon::fromTheme(QStringLiteral("preview-render-on")), QKeySequence(Qt::SHIFT | Qt::Key_Return));
-        startPreviewRender->setWhatsThis(xi18nc("@info:whatsthis", "Click to start the rendering of all preview zones (recommended for areas with complex and many effects).<nl/>"
-                                              "Click on the down-arrow icon to get a list of options (for example: add preview render zone, remove all zones)."));
+                                            QIcon::fromTheme(QStringLiteral("preview-render-on")), QKeySequence(Qt::SHIFT | Qt::Key_Return));
+    startPreviewRender->setWhatsThis(xi18nc("@info:whatsthis",
+                                            "Click to start the rendering of all preview zones (recommended for areas with complex and many effects).<nl/>"
+                                            "Click on the down-arrow icon to get a list of options (for example: add preview render zone, remove all zones)."));
     addAction(QStringLiteral("stop_prerender_timeline"), i18n("Stop Preview Render"), this, SLOT(slotStopPreviewRender()),
               QIcon::fromTheme(QStringLiteral("preview-render-off")));
 
@@ -3650,23 +3669,28 @@ void MainWindow::buildDynamicActions()
     }
     ts = new KActionCategory(i18n("Clip Jobs"), m_extraFactory->actionCollection());
 
-    Mlt::Profile profile;
-    std::unique_ptr<Mlt::Filter> filter = std::make_unique<Mlt::Filter>(profile, "vidstab");
-    if ((filter != nullptr) && filter->is_valid()) {
-        QAction *action = new QAction(i18n("Stabilize"), m_extraFactory->actionCollection());
+    QAction *action;
+    QMap<QString, QString> jobValues = ClipJobManager::getClipJobNames();
+    QMapIterator<QString, QString> k(jobValues);
+    while (k.hasNext()) {
+        k.next();
+        action = new QAction(k.value(), m_extraFactory->actionCollection());
+        action->setData(k.key());
+        if (k.key() == QLatin1String("stabilize")) {
+            connect(action, &QAction::triggered, this, [this]() { StabilizeTask::start(this); });
+        } else if (k.key() == QLatin1String("scenesplit")) {
+            connect(action, &QAction::triggered, this, [&]() { SceneSplitTask::start(this); });
+        } else if (k.key() == QLatin1String("timewarp")) {
+            connect(action, &QAction::triggered, this, [&]() { SpeedTask::start(this); });
+        } else {
+            connect(action, &QAction::triggered, this, [&, jobId = k.key()]() { CustomJobTask::start(this, jobId); });
+        }
         ts->addAction(action->text(), action);
-        connect(action, &QAction::triggered, this, [this]() { StabilizeTask::start(this); });
     }
 
-    QAction *action = new QAction(i18n("Automatic Scene Split…"), m_extraFactory->actionCollection());
+    action = new QAction(i18n("Configure Clip Jobs…"), m_extraFactory->actionCollection());
     ts->addAction(action->text(), action);
-    connect(action, &QAction::triggered, this, [&]() { SceneSplitTask::start(this); });
-
-    if (true /* TODO: check if timewarp producer is available */) {
-        QAction *action = new QAction(i18n("Duplicate Clip with Speed Change…"), m_extraFactory->actionCollection());
-        ts->addAction(action->text(), action);
-        connect(action, &QAction::triggered, this, [&]() { SpeedTask::start(this); });
-    }
+    connect(action, &QAction::triggered, this, &MainWindow::manageClipJobs);
 
     kdenliveCategoryMap.insert(QStringLiteral("clipjobs"), ts);
 
@@ -4057,7 +4081,7 @@ void MainWindow::slotUpdateMonitorOverlays(int id, int code)
     QList<QAction *> actions = monitorOverlay->actions();
     for (QAction *ac : qAsConst(actions)) {
         int mid = ac->data().toInt();
-        if (mid == 0x010) {
+        if (mid == 0x010 || mid == 0x040) {
             ac->setVisible(id == Kdenlive::ClipMonitor);
         }
         ac->setChecked(code & mid);
@@ -4684,6 +4708,14 @@ void MainWindow::checkMaxCacheSize()
     if (total > KIO::filesize_t(1048576) * KdenliveSettings::maxcachesize()) {
         slotManageCache();
     }
+}
+
+void MainWindow::manageClipJobs()
+{
+    QScopedPointer<ClipJobManager> dialog(new ClipJobManager(this));
+    dialog->exec();
+    // Rebuild list of clip jobs
+    buildDynamicActions();
 }
 
 TimelineWidget *MainWindow::openTimeline(const QUuid &uuid, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel, MonitorProxy *proxy)

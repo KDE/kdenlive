@@ -24,7 +24,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <KLocalizedString>
 
-StabilizeTask::StabilizeTask(const ObjectId &owner, const QString &binId, const QString &destination, int in, int out, std::pair<bool, bool> autoAddClip,
+StabilizeTask::StabilizeTask(const ObjectId &owner, const QString &binId, const QString &destination, int in, int out,
                              const std::unordered_map<QString, QVariant> &filterParams, QObject *object)
     : AbstractTask(owner, AbstractTask::STABILIZEJOB, object)
     , m_binId(binId)
@@ -32,8 +32,8 @@ StabilizeTask::StabilizeTask(const ObjectId &owner, const QString &binId, const 
     , m_outPoint(out)
     , m_filterParams(filterParams)
     , m_destination(destination)
-    , m_addToProject(autoAddClip)
 {
+    m_description = i18n("Stabilizing");
 }
 
 void StabilizeTask::start(QObject *, bool force)
@@ -42,24 +42,15 @@ void StabilizeTask::start(QObject *, bool force)
     QScopedPointer<ClipStabilize> d(new ClipStabilize(binIds, QStringLiteral("vidstab")));
     if (d->exec() == QDialog::Accepted) {
         std::unordered_map<QString, QVariant> filterParams = d->filterParams();
-        QString destination = d->destination();
         std::unordered_map<QString, QString> destinations; // keys are binIds, values are path to target files
         for (const auto &binId : binIds) {
             qDebug() << "==== ANALYSING BINID: " << binId;
             auto binClip = pCore->projectItemModel()->getClipByBinID(binId.section(QLatin1Char('/'), 0, 0));
-            if (binIds.size() == 1) {
-                // We only have one clip, destination points to the final url
-                destinations[binId] = destination;
-            } else {
-                // Filter several clips, destination points to a folder
-                QString mltfile = destination + QFileInfo(binClip->url()).fileName() + QStringLiteral(".mlt");
-                destinations[binId] = mltfile;
-            }
+            QString mltfile = binClip->url() + QStringLiteral(".mlt");
+            destinations[binId] = mltfile;
         }
         // Now we have to create the jobs objects. This is trickier than usual, since the parameters are different for each job (each clip has its own
         // destination). We have to construct a lambda that does that.
-        bool autoAdd = d->autoAddClip();
-        bool addToFolder = d->addClipInFolder();
         for (auto &id : binIds) {
             StabilizeTask *task = nullptr;
             ObjectId owner;
@@ -73,15 +64,15 @@ void StabilizeTask::start(QObject *, bool force)
                 owner = ObjectId(ObjectType::BinClip, binData.first().toInt());
                 auto binClip = pCore->projectItemModel()->getClipByBinID(binData.first());
                 if (binClip) {
-                    task = new StabilizeTask(owner, binData.first(), destinations.at(id), binData.at(1).toInt(), binData.at(2).toInt(), {autoAdd, addToFolder},
-                                             filterParams, binClip.get());
+                    task = new StabilizeTask(owner, binData.first(), destinations.at(id), binData.at(1).toInt(), binData.at(2).toInt(), filterParams,
+                                             binClip.get());
                 }
             } else {
                 // Process full clip
                 owner = ObjectId(ObjectType::BinClip, id.toInt());
                 auto binClip = pCore->projectItemModel()->getClipByBinID(id);
                 if (binClip) {
-                    task = new StabilizeTask(owner, id, destinations.at(id), -1, -1, {autoAdd, addToFolder}, filterParams, binClip.get());
+                    task = new StabilizeTask(owner, id, destinations.at(id), -1, -1, filterParams, binClip.get());
                 }
             }
             if (task) {
@@ -105,9 +96,11 @@ void StabilizeTask::run()
 
     QString url;
     auto binClip = pCore->projectItemModel()->getClipByBinID(m_binId);
+    QString folderId = QLatin1String("-1");
     QStringList producerArgs = {QStringLiteral("progress=1"), QStringLiteral("-profile"), pCore->getCurrentProfilePath()};
     if (binClip) {
         // Filter applied on a timeline or bin clip
+        folderId = binClip->parent()->clipId();
         url = binClip->url();
         if (url.isEmpty()) {
             QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("No producer for this clip.")),
@@ -187,10 +180,8 @@ void StabilizeTask::run()
         }
         return;
     }
-    QMetaObject::invokeMethod(pCore->bin(), "addProjectClipInFolder", Qt::QueuedConnection, Q_ARG(QString, m_destination),
-                              Q_ARG(QString, binClip->parent()->clipId()),
-                              Q_ARG(QString, m_addToProject.first && m_addToProject.second ? i18n("Stabilized") : QString()),
-                              Q_ARG(QString, QString::number(m_owner.second)), Q_ARG(bool, !KdenliveSettings::add_new_clip()));
+    QMetaObject::invokeMethod(pCore->bin(), "addProjectClipInFolder", Qt::QueuedConnection, Q_ARG(QString, m_destination), Q_ARG(QString, m_binId),
+                              Q_ARG(QString, folderId), Q_ARG(QString, QStringLiteral("stabilize")));
 }
 
 void StabilizeTask::processLogInfo()

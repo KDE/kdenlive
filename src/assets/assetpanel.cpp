@@ -105,7 +105,9 @@ AssetPanel::AssetPanel(QWidget *parent)
     buttonToolbar->addAction(m_splitButton);
 
     m_enableStackButton = new KDualAction(i18n("Effects disabled"), i18n("Effects enabled"), this);
-    m_enableStackButton->setWhatsThis(xi18nc("@info:whatsthis", "Toggles the effect stack to be enabled or disabled. Useful to see the difference between original and edited or to speed up scrubbing."));
+    m_enableStackButton->setWhatsThis(
+        xi18nc("@info:whatsthis",
+               "Toggles the effect stack to be enabled or disabled. Useful to see the difference between original and edited or to speed up scrubbing."));
     m_enableStackButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("hint")));
     m_enableStackButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("visibility")));
     connect(m_enableStackButton, &KDualAction::activeChangedByUser, this, &AssetPanel::enableStack);

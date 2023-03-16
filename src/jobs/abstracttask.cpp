@@ -46,6 +46,7 @@ AbstractTask::AbstractTask(const ObjectId &owner, JOBTYPE type, QObject *object)
     , m_type(type)
 {
     setAutoDelete(false);
+    m_uuid = QUuid::createUuid();
     switch (type) {
     case AbstractTask::LOADJOB:
         m_priority = 10;

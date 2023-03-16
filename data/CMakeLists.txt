@@ -34,6 +34,7 @@ install(FILES
   kdenlivetranscodingrc
   kdenlivedefaultlayouts.rc
   slideanimations.rc
+  clipjobsettings.rc
 
   DESTINATION ${KDE_INSTALL_DATADIR}${DATA_INSTALL_PREFIX})
 

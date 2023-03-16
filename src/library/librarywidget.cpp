@@ -237,7 +237,8 @@ void LibraryWidget::setupActions()
     m_toolBar->addSeparator();
     m_toolBar->addAction(addFolder);
     QAction *sentToLibrary = new QAction(QIcon::fromTheme(QStringLiteral("bookmark-new")), i18n("Add Timeline Selection to Library"), this);
-    sentToLibrary->setWhatsThis(xi18nc("@info:whatsthis", "Adds the clip(s) currently selected in the timeline to the library. Note that the paths to images, video and audio files are saved as absolute paths."));
+    sentToLibrary->setWhatsThis(xi18nc("@info:whatsthis", "Adds the clip(s) currently selected in the timeline to the library. Note that the paths to images, "
+                                                          "video and audio files are saved as absolute paths."));
     connect(sentToLibrary, &QAction::triggered, this, &LibraryWidget::slotAddToLibrary);
     pCore->addActionToCollection(QStringLiteral("send_library"), sentToLibrary);
     sentToLibrary->setEnabled(false);
