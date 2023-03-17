@@ -142,6 +142,10 @@ void TimelineController::restoreTargetTracks()
 
 void TimelineController::setTargetTracks(bool hasVideo, const QMap<int, QString> &audioTargets)
 {
+    if (m_model->isLoading) {
+        // Timeline is still being build
+        return;
+    }
     int videoTrack = -1;
     m_model->m_binAudioTargets = audioTargets;
     QMap<int, int> audioTracks;

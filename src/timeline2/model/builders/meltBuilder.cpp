@@ -94,6 +94,8 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
             pCore->bin()->checkMissingProxies();
             pCore->bin()->loadBinProperties(foldersToExpand, zoomLevel);
         }
+    } else {
+        binIdCorresp.clear();
     }
 
     QSet<QString> reserved_names{QLatin1String("playlistmain"), QLatin1String("timeline_preview"), QLatin1String("timeline_overlay"),
@@ -164,6 +166,12 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
         case mlt_service_tractor_type: {
             // that is a double track
             int tid;
+            Mlt::Tractor local_tractor(*track.get());
+            qDebug() << ":::: FOUND TRACTOR WITH TRACKS: " << local_tractor.count() << "\n\n___________________________";
+            if (local_tractor.count() == 0) {
+                // Invalid track
+                break;
+            }
             bool audioTrack = track->get_int("kdenlive:audio_track") == 1;
             if (!audioTrack) {
                 videoTracksIndexes << i;
@@ -175,7 +183,6 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
             if (track->get_int("kdenlive:locked_track") > 0) {
                 lockedTracksIndexes << tid;
             }
-            Mlt::Tractor local_tractor(*track.get());
             const QString trackTag = audioTrack ? QStringLiteral("A%1").arg(aTracksCount - aTracks) : QStringLiteral("V%1").arg(vTracks);
             ok = ok && constructTrackFromMelt(timeline, tid, trackTag, local_tractor, undo, redo, audioTrack, originalDecimalPoint, progressDialog);
             timeline->setTrackProperty(tid, QStringLiteral("kdenlive:thumbs_format"), track->get("kdenlive:thumbs_format"));
@@ -287,6 +294,7 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
         undo();
         return false;
     }
+    timeline->isLoading = false;
     if (!m_errorMessage.isEmpty()) {
         KMessageBox::error(qApp->activeWindow(), m_errorMessage.join("\n"), i18n("Problems found in your project file"));
     }
@@ -551,6 +559,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             KMessageBox::error(qApp->activeWindow(), m_errorMessage.join("\n"), i18n("Problems found in your project file"));
         }
     }
+    timeline->isLoading = false;
     return true;
 }
 
@@ -643,6 +652,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
     }
     std::shared_ptr<Mlt::Service> serv = std::make_shared<Mlt::Service>(track.get_service());
     timeline->importTrackEffects(tid, serv);
+    timeline->isLoading = false;
     return true;
 }
 
@@ -878,5 +888,6 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
     }
     std::shared_ptr<Mlt::Service> serv = std::make_shared<Mlt::Service>(track.get_service());
     timeline->importTrackEffects(tid, serv);
+    timeline->isLoading = false;
     return true;
 }

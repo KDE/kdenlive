@@ -2109,13 +2109,18 @@ void Bin::slotDuplicateClip()
                         pCore->displayMessage(i18n("Duplicating sequence failed"), MessageType::ErrorMessage, 500);
                         return;
                     }
-                    Xml::setXmlProperty(xml.documentElement(), QStringLiteral("kdenlive:clipname"), i18n("%1 (copy)", currentItem->clipName()));
-
-                    qDebug() << "/////////// final xml" << src.fileName();
+                    QDomDocument doc;
+                    if (!Xml::docContentFromFile(doc, src.fileName(), false)) {
+                        return;
+                    }
+                    const QByteArray result = doc.toString().toUtf8();
+                    std::shared_ptr<Mlt::Producer> xmlProd(new Mlt::Producer(*pCore->getProjectProfile(), "xml-string", result.constData()));
                     QString id;
                     Fun undo = []() { return true; };
                     Fun redo = []() { return true; };
-                    m_itemModel->requestAddBinClip(id, xml.documentElement(), item->parent()->clipId(), undo, redo, callBack);
+                    xmlProd->set("kdenlive:clipname", i18n("%1 (copy)", currentItem->clipName()).toUtf8().constData());
+                    xmlProd->set("kdenlive:sequenceproperties.documentuuid", m_doc->uuid().toString().toUtf8().constData());
+                    m_itemModel->requestAddBinClip(id, xmlProd, item->parent()->clipId(), undo, redo, callBack);
                 } else {
                     QDomDocument doc;
                     QDomElement xml = currentItem->toXml(doc);
@@ -5718,6 +5723,7 @@ QStringList Bin::sequenceReferencedClips(const QUuid &uuid) const
 
 void Bin::updateSequenceClip(const QUuid &uuid, int duration, int pos, std::shared_ptr<Mlt::Producer> prod)
 {
+    Q_ASSERT(m_openedPlaylists.contains(uuid));
     if (m_openedPlaylists.contains(uuid) && m_doc->isModified()) {
         const QString binId = m_openedPlaylists.value(uuid);
         std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(binId);
