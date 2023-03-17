@@ -34,7 +34,7 @@ ClipJobManager::ClipJobManager(QWidget *parent)
     QPixmap pix = icon.pixmap(size, size);
     help_arguments->setPixmap(pix);
     help_arguments->setToolTip(i18n("Arguments for the command line script"));
-    help_arguments->setWhatsThis(xi18nc("@info:whatsthis", "<b>&#x25;1</b> will be replaced be the path of the source clip."));
+    help_arguments->setWhatsThis(xi18nc("@info:whatsthis", "<b>&#x25;1</b> will be replaced by the path of the source clip."));
     help_output->setPixmap(pix);
     help_output->setToolTip(i18n("File extension for the output file"));
     help_output->setWhatsThis(xi18nc("@info:whatsthis", "File extension for the output file. Empty will keep the same extension as source file."));
