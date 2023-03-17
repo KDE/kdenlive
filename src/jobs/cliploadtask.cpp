@@ -448,7 +448,8 @@ void ClipLoadTask::run()
         }
         break;
     }
-    case ClipType::SlideShow: {
+    case ClipType::SlideShow:
+    case ClipType::Image: {
         resource.prepend(QStringLiteral("qimage:"));
         producer = std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
         break;
