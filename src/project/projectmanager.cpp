@@ -1827,17 +1827,22 @@ void ProjectManager::slotCreateSequenceFromSelection()
 {
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
+    int aTracks = -1;
+    int vTracks = -1;
     std::pair<int, QString> copiedData = pCore->window()->getCurrentTimeline()->controller()->getCopyItemData();
     if (copiedData.first == -1) {
         pCore->displayMessage(i18n("Select a clip to create sequence"), InformationMessage);
         return;
     }
     const QUuid sourceSequence = pCore->window()->getCurrentTimeline()->getUuid();
-    bool hasVideo;
-    bool hasAudio;
-    std::pair<int, int> vPosition = pCore->window()->getCurrentTimeline()->controller()->selectionPosition(&hasVideo, &hasAudio);
+    std::pair<int, int> vPosition = pCore->window()->getCurrentTimeline()->controller()->selectionPosition(&aTracks, &vTracks);
     pCore->window()->getCurrentTimeline()->model()->requestItemDeletion(copiedData.first, undo, redo, true);
-    const QString newSequenceId = pCore->bin()->buildSequenceClipWithUndo(undo, redo);
+    const QString newSequenceId = pCore->bin()->buildSequenceClipWithUndo(undo, redo, aTracks, vTracks);
+    if (newSequenceId.isEmpty()) {
+        // Action canceled
+        undo();
+        return;
+    }
     const QUuid destSequence = pCore->window()->getCurrentTimeline()->getUuid();
     int trackId = pCore->window()->getCurrentTimeline()->controller()->activeTrack();
     Fun local_redo1 = [this, destSequence, copiedData, trackId]() {
@@ -1845,7 +1850,11 @@ void ProjectManager::slotCreateSequenceFromSelection()
         return true;
     };
     local_redo1();
-    TimelineFunctions::pasteClips(m_activeTimelineModel, copiedData.second, trackId, 0);
+    bool result = TimelineFunctions::pasteClips(m_activeTimelineModel, copiedData.second, trackId, 0);
+    if (!result) {
+        undo();
+        return;
+    }
     PUSH_LAMBDA(local_redo1, redo);
     Fun local_redo = [this, sourceSequence]() {
         pCore->window()->raiseTimeline(sourceSequence);
@@ -1854,6 +1863,10 @@ void ProjectManager::slotCreateSequenceFromSelection()
     local_redo();
     PUSH_LAMBDA(local_redo, redo);
     int newId;
-    m_activeTimelineModel->requestClipInsertion(newSequenceId, vPosition.second, vPosition.first, newId, false, true, false, undo, redo, {});
+    result = m_activeTimelineModel->requestClipInsertion(newSequenceId, vPosition.second, vPosition.first, newId, false, true, false, undo, redo, {});
+    if (!result) {
+        undo();
+        return;
+    }
     pCore->pushUndo(undo, redo, i18n("Create Sequence Clip"));
 }

@@ -3610,11 +3610,11 @@ void Bin::buildSequenceClip(int aTracks, int vTracks)
     dia->setWindowTitle(i18nc("@title:window", "Create New Sequence"));
     int timelinesCount = pCore->projectManager()->getTimelinesCount() + 1;
     dia_ui.sequence_name->setText(i18n("Sequence %1", timelinesCount));
-    dia_ui.video_tracks->setValue(KdenliveSettings::videotracks());
-    dia_ui.audio_tracks->setValue(KdenliveSettings::audiotracks());
+    dia_ui.video_tracks->setValue(vTracks == -1 ? KdenliveSettings::videotracks() : vTracks);
+    dia_ui.audio_tracks->setValue(aTracks == -1 ? KdenliveSettings::audiotracks() : aTracks);
     if (dia->exec() == QDialog::Accepted) {
-        int videoTracks = vTracks > -1 ? vTracks : dia_ui.video_tracks->value();
-        int audioTracks = aTracks > -1 ? aTracks : dia_ui.audio_tracks->value();
+        int videoTracks = dia_ui.video_tracks->value();
+        int audioTracks = dia_ui.audio_tracks->value();
         QString parentFolder = getCurrentFolder();
         if (m_itemModel->defaultSequencesFolder() > -1) {
             const QString sequenceFolder = QString::number(m_itemModel->defaultSequencesFolder());
@@ -3635,11 +3635,11 @@ const QString Bin::buildSequenceClipWithUndo(Fun &undo, Fun &redo, int aTracks, 
     dia->setWindowTitle(i18nc("@title:window", "Create New Sequence"));
     int timelinesCount = pCore->projectManager()->getTimelinesCount() + 1;
     dia_ui.sequence_name->setText(i18n("Sequence %1", timelinesCount));
-    dia_ui.video_tracks->setValue(KdenliveSettings::videotracks());
-    dia_ui.audio_tracks->setValue(KdenliveSettings::audiotracks());
+    dia_ui.video_tracks->setValue(vTracks == -1 ? KdenliveSettings::videotracks() : vTracks);
+    dia_ui.audio_tracks->setValue(aTracks == -1 ? KdenliveSettings::audiotracks() : aTracks);
     if (dia->exec() == QDialog::Accepted) {
-        int videoTracks = vTracks > -1 ? vTracks : dia_ui.video_tracks->value();
-        int audioTracks = aTracks > -1 ? aTracks : dia_ui.audio_tracks->value();
+        int videoTracks = dia_ui.video_tracks->value();
+        int audioTracks = dia_ui.audio_tracks->value();
         QString parentFolder = getCurrentFolder();
         if (m_itemModel->defaultSequencesFolder() > -1) {
             const QString sequenceFolder = QString::number(m_itemModel->defaultSequencesFolder());

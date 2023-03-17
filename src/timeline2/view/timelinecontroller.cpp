@@ -677,50 +677,60 @@ int TimelineController::getMainSelectedItem(bool restrictToCurrentPos, bool allo
     return -1;
 }
 
-std::pair<int, int> TimelineController::selectionPosition(bool *hasVideo, bool *hasAudio)
+std::pair<int, int> TimelineController::selectionPosition(int *aTracks, int *vTracks)
 {
     std::unordered_set<int> selectedIds = m_model->getCurrentSelection();
     if (selectedIds.empty()) {
         return {-1, -1};
     }
     int position = -1;
-    int lowerVideoTid = -1;
-    int upperAudioTid = -1;
+    int targetTrackId = -1;
+    std::pair<int, int> audioTracks = {-1, -1};
+    std::pair<int, int> videoTracks = {-1, -1};
     for (auto &id : selectedIds) {
         int tid = m_model->getItemTrackId(id);
         if (m_model->isSubtitleTrack(tid)) {
             // Subtitle track not supported
             continue;
         }
-        if (m_model->isAudioTrack(tid)) {
-            *hasAudio = true;
-        } else {
-            *hasVideo = true;
-        }
         if (position == -1 || position > m_model->getItemPosition(id)) {
             position = m_model->getItemPosition(id);
         }
         int trackPos = m_model->getTrackPosition(tid);
         if (m_model->isAudioTrack(tid)) {
-            // Find upper audio track
-            if (upperAudioTid == -1) {
-                upperAudioTid = tid;
-            } else if (trackPos > m_model->getTrackPosition(upperAudioTid)) {
-                upperAudioTid = tid;
+            // Find audio track range
+            if (audioTracks.first < 0 || trackPos < audioTracks.first) {
+                audioTracks.first = trackPos;
+            }
+            if (audioTracks.second < 0 || trackPos > audioTracks.second) {
+                audioTracks.second = trackPos;
             }
         } else {
-            // Find lower video track
-            if (lowerVideoTid == -1) {
-                lowerVideoTid = tid;
-            } else if (trackPos < m_model->getTrackPosition(lowerVideoTid)) {
-                lowerVideoTid = tid;
+            // Find audio track range
+            if (videoTracks.first < 0 || trackPos < videoTracks.first) {
+                videoTracks.first = trackPos;
+            }
+            if (videoTracks.second < 0 || trackPos > videoTracks.second) {
+                videoTracks.second = trackPos;
             }
         }
     }
-    if (lowerVideoTid > -1) {
-        return {position, lowerVideoTid};
+
+    if (videoTracks.first > -1) {
+        *vTracks = videoTracks.second - videoTracks.first + 1;
+        targetTrackId = m_model->getTrackIndexFromPosition(videoTracks.first);
+    } else {
+        *vTracks = 0;
     }
-    return {position, upperAudioTid};
+    if (audioTracks.first > -1) {
+        *aTracks = audioTracks.second - audioTracks.first + 1;
+        if (targetTrackId == -1) {
+            targetTrackId = m_model->getTrackIndexFromPosition(audioTracks.second);
+        }
+    } else {
+        *aTracks = 0;
+    }
+    return {position, targetTrackId};
 }
 
 int TimelineController::copyItem()

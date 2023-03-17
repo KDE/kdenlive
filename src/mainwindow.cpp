@@ -603,6 +603,7 @@ void MainWindow::init(const QString &mltPath)
     timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("delete_timeline_clip")));
     timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("extract_clip")));
     timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("save_to_bin")));
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("send_sequence")));
 
     QMenu *markerMenu = static_cast<QMenu *>(factory()->container(QStringLiteral("marker_menu"), this));
     timelineClipMenu->addMenu(markerMenu);
@@ -1759,6 +1760,13 @@ void MainWindow::setupActions()
     ungroupClip->setData('U');
     ungroupClip->setEnabled(false);
 
+    QAction *sentToSequence = addAction(QStringLiteral("send_sequence"), i18n("Create Sequence from Selection"), this, SLOT(slotCreateSequenceFromSelection()),
+                                        QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(), clipActionCategory);
+    sentToSequence->setWhatsThis(
+        xi18nc("@info:whatsthis", "Adds the clip(s) currently selected in the timeline to a new sequence clip that can be opened in another timeline tab."));
+    sentToSequence->setData('G');
+    sentToSequence->setEnabled(false);
+
     act = clipActionCategory->addAction(KStandardAction::Copy, this, SLOT(slotCopy()));
     act->setEnabled(false);
 
@@ -1966,11 +1974,6 @@ void MainWindow::setupActions()
 
     addAction(QStringLiteral("extract_frame_to_project"), i18n("Extract Frame to Project…"), pCore->monitorManager(), SLOT(slotExtractCurrentFrameToProject()),
               QIcon::fromTheme(QStringLiteral("insert-image")));
-
-    QAction *sentToSequence = addAction(QStringLiteral("send_sequence"), i18n("Create Sequence from Selection"), this, SLOT(slotCreateSequenceFromSelection()),
-                                        QIcon::fromTheme(QStringLiteral("bookmark-new")));
-    sentToSequence->setWhatsThis(
-        xi18nc("@info:whatsthis", "Adds the clip(s) currently selected in the timeline to a new sequence clip that can be opened in another timeline tab."));
 }
 
 void MainWindow::saveOptions()
