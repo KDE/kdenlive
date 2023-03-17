@@ -1171,6 +1171,16 @@ const QString KdenliveDoc::getSequenceProperty(const QUuid &uuid, const QString 
     return defaultValue;
 }
 
+bool KdenliveDoc::hasSequenceProperty(const QUuid &uuid, const QString &name) const
+{
+    if (m_sequenceProperties.contains(uuid)) {
+        if (m_sequenceProperties.value(uuid).contains(name)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void KdenliveDoc::clearSequenceProperty(const QUuid &uuid, const QString &name)
 {
     if (m_sequenceProperties.contains(uuid)) {

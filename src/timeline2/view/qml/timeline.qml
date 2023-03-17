@@ -1383,19 +1383,26 @@ Rectangle {
                     clickY = mouseY
                     return
                 }
+                var mouseXPos
+                if (subtitleMouseArea.containsMouse) {
+                    // Warning, subtitleMouseArea uses the full scrollview's length
+                    mouseXPos = Math.floor(subtitleMouseArea.mouseX / root.timeScale)
+                } else {
+                    mouseXPos = Math.floor((scrollView.contentX + mouseX) / root.timeScale)
+                }
                 if (root.activeTool === ProjectTool.SlipTool && pressed) {
-                    var frame = Math.round((mouse.x + scrollView.contentX) / root.timeScale)
+                    var frame = mouseXPos
                     trimmingOffset = frame - trimmingClickFrame
                     timeline.slipPosChanged(trimmingOffset);
                 }
                 if (!pressed && !rubberSelect.visible && root.activeTool === ProjectTool.RazorTool) {
-                    cutLine.x = Math.floor((scrollView.contentX + mouse.x) / root.timeScale) * root.timeScale - scrollView.contentX
+                    cutLine.x = mouseXPos * root.timeScale - scrollView.contentX
                     if (mouse.modifiers & Qt.ShiftModifier) {
                         // Seek
-                        proxy.position = Math.floor((scrollView.contentX + mouse.x) / root.timeScale)
+                        proxy.position = mouseXPos
                     }
                 }
-                root.mousePosChanged(Math.max(0, Math.floor((mouse.x + scrollView.contentX) / root.timeScale)))
+                root.mousePosChanged(Math.max(0, mouseXPos))
                 ruler.showZoneLabels = mouse.y < ruler.height
                 if (shiftPress && mouse.buttons === Qt.LeftButton && (root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool) && !rubberSelect.visible && rubberSelect.y > 0) {
                     // rubber selection, check if mouse move was enough
