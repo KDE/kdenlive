@@ -4963,7 +4963,7 @@ void TimelineController::importSubtitle(const QString &path)
         view.codecs_list->setCurrentIndex(matchIndex);
     }
     view.codecs_list->setToolTip(i18n("Character encoding used to save the subtitle file."));
-    view.codecs_list->setWhatsThis(xi18nc("@info:whatsthis", "If unsure,try :<br><b>Unicode (UTF-8)</b>."));
+    view.codecs_list->setWhatsThis(xi18nc("@info:whatsthis", "If unsure,try :<br/><b>Unicode (UTF-8)</b>."));
     view.caption_original_framerate->setValue(pCore->getCurrentFps());
     view.caption_target_framerate->setValue(pCore->getCurrentFps());
 
