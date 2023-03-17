@@ -271,7 +271,7 @@ public:
     int getMainSelectedClip();
     /** @brief Return the {position, track id} of current selection. Operates only on video items (or audio if audioPart is true)
      */
-    std::pair<int, int> selectionPosition(bool *hasVideo, bool *hasAudio);
+    std::pair<int, int> selectionPosition(int *aTracks, int *vTracks);
 
     /** @brief Do we want to display video thumbnails
      */
