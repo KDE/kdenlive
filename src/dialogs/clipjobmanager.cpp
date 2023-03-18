@@ -60,10 +60,9 @@ void ClipJobManager::setDirty()
 
 void ClipJobManager::validate()
 {
-    /*if (!m_dirty.isEmpty()) {
-        saveCurrentPreset();
-    }*/
-    saveAllPresets();
+    // ensure changes to the current preset get saved
+    displayJob(-1);
+    writePresetsToConfig();
     accept();
 }
 
@@ -127,8 +126,8 @@ void ClipJobManager::displayJob(int row)
         job_params->setPlainText(QStringLiteral("-i %1 -codec:a copy -codec:v copy"));
     } else {
         url_binary->setText(m_binaries.value(jobId));
+        job_params->setPlainText(m_params.value(jobId));
     }
-    job_params->setPlainText(m_params.value(jobId));
     destination_pattern->setText(m_output.value(jobId));
     folder_name->setText(m_folderNames.value(jobId));
     folder_name->setText(m_folderNames.value(jobId));
@@ -225,7 +224,7 @@ void ClipJobManager::writeGroup(KConfig &conf, const QString &groupName, QMap<QS
     }
 }
 
-void ClipJobManager::saveAllPresets()
+void ClipJobManager::writePresetsToConfig()
 {
     KConfig conf(QStringLiteral("clipjobsettings.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
     writeGroup(conf, QStringLiteral("Ids"), m_ids);
