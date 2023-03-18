@@ -53,7 +53,7 @@ private:
     /** @brief Remember current changes */
     void saveCurrentPreset();
     /** @brief Save all jobs to the config file */
-    void saveAllPresets();
+    void writePresetsToConfig();
 
 private Q_SLOTS:
     /** @brief Display a job's parameters */

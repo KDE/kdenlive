@@ -3691,7 +3691,7 @@ void MainWindow::buildDynamicActions()
         ts->addAction(action->text(), action);
     }
 
-    action = new QAction(i18n("Configure Clip Jobs…"), m_extraFactory->actionCollection());
+    action = new QAction(QIcon::fromTheme(QStringLiteral("configure")), i18n("Configure Clip Jobs…"), m_extraFactory->actionCollection());
     ts->addAction(action->text(), action);
     connect(action, &QAction::triggered, this, &MainWindow::manageClipJobs);
 
@@ -4719,6 +4719,7 @@ void MainWindow::manageClipJobs()
     dialog->exec();
     // Rebuild list of clip jobs
     buildDynamicActions();
+    loadClipActions();
 }
 
 TimelineWidget *MainWindow::openTimeline(const QUuid &uuid, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel, MonitorProxy *proxy)
