@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-18 03:09+0000\n"
+"POT-Creation-Date: 2023-03-19 02:41+0000\n"
 "PO-Revision-Date: 2023-03-17 13:14+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -5867,37 +5867,37 @@ msgstr ""
 "Extensió de fitxer del fitxer de sortida. Si és buida mantindrà la mateixa "
 "extensió que el fitxer d'origen."
 
-#: src/dialogs/clipjobmanager.cpp:81 src/dialogs/clipjobmanager.cpp:160
+#: src/dialogs/clipjobmanager.cpp:80 src/dialogs/clipjobmanager.cpp:159
 #, kde-format
 msgid "Stabilize"
 msgstr "Estabilitza"
 
-#: src/dialogs/clipjobmanager.cpp:83 src/dialogs/clipjobmanager.cpp:162
+#: src/dialogs/clipjobmanager.cpp:82 src/dialogs/clipjobmanager.cpp:161
 #, kde-format
 msgid "Automatic Scene Split…"
 msgstr "Divisió automàtica de l'escena…"
 
-#: src/dialogs/clipjobmanager.cpp:85 src/dialogs/clipjobmanager.cpp:164
+#: src/dialogs/clipjobmanager.cpp:84 src/dialogs/clipjobmanager.cpp:163
 #, kde-format
 msgid "Duplicate Clip with Speed Change…"
 msgstr "Duplica un clip amb canvi de la velocitat…"
 
-#: src/dialogs/clipjobmanager.cpp:192
+#: src/dialogs/clipjobmanager.cpp:191
 #, kde-format
 msgid "Job description"
 msgstr "Descripció del treball"
 
-#: src/dialogs/clipjobmanager.cpp:242
+#: src/dialogs/clipjobmanager.cpp:241
 #, kde-format
 msgid "My Clip Job"
 msgstr "El meu treball de clip"
 
-#: src/dialogs/clipjobmanager.cpp:250
+#: src/dialogs/clipjobmanager.cpp:249
 #, kde-format
 msgid "My Clip Job %1"
 msgstr "El meu treball de clip %1"
 
-#: src/dialogs/clipjobmanager.cpp:275
+#: src/dialogs/clipjobmanager.cpp:274
 #, kde-format
 msgid ""
 "Permanently delete this Clip Job:\n"
@@ -8465,7 +8465,7 @@ msgstr "El fitxer <b>%1</b> usa una velocitat variable dels fotogrames."
 msgid "Application %1 not found, please update the job settings"
 msgstr "No s'ha trobat l'aplicació %1, actualitzeu els paràmetres del treball"
 
-#: src/jobs/customjobtask.cpp:154 src/jobs/customjobtask.cpp:164
+#: src/jobs/customjobtask.cpp:168 src/jobs/customjobtask.cpp:178
 #: src/jobs/cuttask.cpp:250 src/jobs/transcodetask.cpp:231
 #: src/jobs/transcodetask.cpp:267
 #, kde-format
@@ -17408,7 +17408,7 @@ msgstr "Suprimeix el punt actual."
 #: src/ui/bezierspline_ui.ui:121 src/ui/bezierspline_ui.ui:137
 #: src/ui/bezierspline_ui.ui:156 src/ui/bezierspline_ui.ui:172
 #: src/ui/bezierspline_ui.ui:189 src/ui/bezierspline_ui.ui:206
-#: src/ui/clipjobmanager_ui.ui:171 src/ui/clipjobmanager_ui.ui:182
+#: src/ui/clipjobmanager_ui.ui:20 src/ui/clipjobmanager_ui.ui:166
 #: src/ui/clipstabilize_ui.ui:27 src/ui/collapsiblewidget_ui.ui:103
 #: src/ui/collapsiblewidget_ui.ui:129 src/ui/collapsiblewidget_ui.ui:139
 #: src/ui/collapsiblewidget_ui.ui:149 src/ui/collapsiblewidget_ui.ui:162
@@ -17528,77 +17528,77 @@ msgstr "Posició:"
 msgid "Crop end:"
 msgstr "Final de l'escapçat:"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/clipjobmanager_ui.ui:26
-#, kde-format
-msgid "Custom clip jobs"
-msgstr "Treballs personalitzats de clip"
-
-#. i18n: ectx: property (title), widget (QGroupBox, param_box)
-#: src/ui/clipjobmanager_ui.ui:33
-#, kde-format
-msgid "Job parameters"
-msgstr "Paràmetres del treball"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/clipjobmanager_ui.ui:39
-#, kde-format
-msgid "Executable"
-msgstr "Executable"
-
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/clipjobmanager_ui.ui:46
-#, kde-format
-msgid "Output file extension"
-msgstr "Extensió del fitxer de sortida"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/clipjobmanager_ui.ui:59
-#, kde-format
-msgid "Arguments"
-msgstr "Arguments"
-
 #. i18n: ectx: property (title), widget (QGroupBox, folder_box)
-#: src/ui/clipjobmanager_ui.ui:108
+#: src/ui/clipjobmanager_ui.ui:41
 #, kde-format
 msgid "Project Bin behavior on completion"
 msgstr "Comportament de la safata del projecte en completar"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radio_replace)
-#: src/ui/clipjobmanager_ui.ui:114
+#: src/ui/clipjobmanager_ui.ui:47
 #, kde-format
 msgid "Replace original with result"
 msgstr "Substitueix l'original amb el resultat"
 
 #. i18n: ectx: property (text), widget (QCheckBox, bin_subfolder)
-#: src/ui/clipjobmanager_ui.ui:124
+#: src/ui/clipjobmanager_ui.ui:57
 #, kde-format
 msgid "Use a subfolder"
 msgstr "Usa una subcarpeta"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radio_folder)
-#: src/ui/clipjobmanager_ui.ui:131
+#: src/ui/clipjobmanager_ui.ui:64
 #, kde-format
 msgid "Put resulting clip in a folder"
 msgstr "Posa el clip resultant en una carpeta"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
-#: src/ui/clipjobmanager_ui.ui:142
+#: src/ui/clipjobmanager_ui.ui:75
 #, kde-format
 msgid "Placed at top level"
 msgstr "Situat al nivell superior"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
-#: src/ui/clipjobmanager_ui.ui:147
+#: src/ui/clipjobmanager_ui.ui:80
 #, kde-format
 msgid "Placed in the the original clip folder"
 msgstr "Situat en la carpeta original del clip"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, folder_name)
-#: src/ui/clipjobmanager_ui.ui:158
+#: src/ui/clipjobmanager_ui.ui:91
 #, kde-format
 msgid "Folder name"
 msgstr "Nom de la carpeta"
+
+#. i18n: ectx: property (title), widget (QGroupBox, param_box)
+#: src/ui/clipjobmanager_ui.ui:101
+#, kde-format
+msgid "Job parameters"
+msgstr "Paràmetres del treball"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: src/ui/clipjobmanager_ui.ui:110
+#, kde-format
+msgid "Executable"
+msgstr "Executable"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: src/ui/clipjobmanager_ui.ui:123
+#, kde-format
+msgid "Output file extension"
+msgstr "Extensió del fitxer de sortida"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: src/ui/clipjobmanager_ui.ui:136
+#, kde-format
+msgid "Arguments"
+msgstr "Arguments"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/ui/clipjobmanager_ui.ui:183
+#, kde-format
+msgid "Custom clip jobs"
+msgstr "Treballs personalitzats de clip"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox)
 #: src/ui/clipspeed_ui.ui:103
