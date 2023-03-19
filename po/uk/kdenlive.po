@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-18 00:58+0000\n"
-"PO-Revision-Date: 2023-03-17 10:28+0200\n"
+"POT-Creation-Date: 2023-03-19 00:47+0000\n"
+"PO-Revision-Date: 2023-03-18 08:53+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -5863,9 +5863,7 @@ msgid "Arguments for the command line script"
 msgstr "Аргументи скрипту командного рядка"
 
 #: src/dialogs/clipjobmanager.cpp:37
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "<b>&#x25;1</b> will be replaced be the path of the source clip."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<b>&#x25;1</b> will be replaced by the path of the source clip."
 msgstr "<b>&#x25;1</b> буде замінено на шлях до початкового кліпу."
@@ -5885,37 +5883,37 @@ msgstr ""
 "Суфікс назви файла-результату. Якщо буде вказано порожній, програма "
 "використає суфікс назви початкового файла."
 
-#: src/dialogs/clipjobmanager.cpp:81 src/dialogs/clipjobmanager.cpp:160
+#: src/dialogs/clipjobmanager.cpp:80 src/dialogs/clipjobmanager.cpp:159
 #, kde-format
 msgid "Stabilize"
 msgstr "Стабілізація"
 
-#: src/dialogs/clipjobmanager.cpp:83 src/dialogs/clipjobmanager.cpp:162
+#: src/dialogs/clipjobmanager.cpp:82 src/dialogs/clipjobmanager.cpp:161
 #, kde-format
 msgid "Automatic Scene Split…"
 msgstr "Автоматичний поділ на сцени…"
 
-#: src/dialogs/clipjobmanager.cpp:85 src/dialogs/clipjobmanager.cpp:164
+#: src/dialogs/clipjobmanager.cpp:84 src/dialogs/clipjobmanager.cpp:163
 #, kde-format
 msgid "Duplicate Clip with Speed Change…"
 msgstr "Дублювати кліп зі зміною швидкості…"
 
-#: src/dialogs/clipjobmanager.cpp:192
+#: src/dialogs/clipjobmanager.cpp:191
 #, kde-format
 msgid "Job description"
 msgstr "Опис завдання"
 
-#: src/dialogs/clipjobmanager.cpp:242
+#: src/dialogs/clipjobmanager.cpp:241
 #, kde-format
 msgid "My Clip Job"
 msgstr "Завдання кліпу"
 
-#: src/dialogs/clipjobmanager.cpp:250
+#: src/dialogs/clipjobmanager.cpp:249
 #, kde-format
 msgid "My Clip Job %1"
 msgstr "Завдання кліпу %1"
 
-#: src/dialogs/clipjobmanager.cpp:275
+#: src/dialogs/clipjobmanager.cpp:274
 #, kde-format
 msgid ""
 "Permanently delete this Clip Job:\n"
@@ -8508,7 +8506,7 @@ msgstr "Частота кадрів у файлі <b>%1</b> є змінною."
 msgid "Application %1 not found, please update the job settings"
 msgstr "Не знайдено програми %1. Будь ласка, оновіть параметри завдання"
 
-#: src/jobs/customjobtask.cpp:154 src/jobs/customjobtask.cpp:164
+#: src/jobs/customjobtask.cpp:168 src/jobs/customjobtask.cpp:178
 #: src/jobs/cuttask.cpp:250 src/jobs/transcodetask.cpp:231
 #: src/jobs/transcodetask.cpp:267
 #, kde-format
@@ -16494,8 +16492,11 @@ msgid "Character encoding used to save the subtitle file."
 msgstr "Кодування символів, яке буде використано для збереження файла."
 
 #: src/timeline2/view/timelinecontroller.cpp:4966
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info:whatsthis"
+#| msgid "If unsure,try :<br><b>Unicode (UTF-8)</b>."
 msgctxt "@info:whatsthis"
-msgid "If unsure,try :<br><b>Unicode (UTF-8)</b>."
+msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "якщо не певні, скористайтеся таким:<br><b>Unicode (UTF-8)</b>."
 
 #: src/timeline2/view/timelinecontroller.cpp:5006
@@ -17473,7 +17474,7 @@ msgstr "Вилучити поточну точку."
 #: src/ui/bezierspline_ui.ui:121 src/ui/bezierspline_ui.ui:137
 #: src/ui/bezierspline_ui.ui:156 src/ui/bezierspline_ui.ui:172
 #: src/ui/bezierspline_ui.ui:189 src/ui/bezierspline_ui.ui:206
-#: src/ui/clipjobmanager_ui.ui:171 src/ui/clipjobmanager_ui.ui:182
+#: src/ui/clipjobmanager_ui.ui:20 src/ui/clipjobmanager_ui.ui:166
 #: src/ui/clipstabilize_ui.ui:27 src/ui/collapsiblewidget_ui.ui:103
 #: src/ui/collapsiblewidget_ui.ui:129 src/ui/collapsiblewidget_ui.ui:139
 #: src/ui/collapsiblewidget_ui.ui:149 src/ui/collapsiblewidget_ui.ui:162
@@ -17595,78 +17596,77 @@ msgstr "Позиція:"
 msgid "Crop end:"
 msgstr "Обрізати кінець:"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/clipjobmanager_ui.ui:26
-#, kde-format
-msgid "Custom clip jobs"
-msgstr "Нетипові завдання кліпів"
-
-#. i18n: ectx: property (title), widget (QGroupBox, param_box)
-#: src/ui/clipjobmanager_ui.ui:33
-#, kde-format
-msgid "Job parameters"
-msgstr "Параметри завдання"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/clipjobmanager_ui.ui:39
-#, kde-format
-msgid "Executable"
-msgstr "Виконуваний файл"
-
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/clipjobmanager_ui.ui:46
-#, kde-format
-msgid "Output file extension"
-msgstr "Суфікс назви файла-результату"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/clipjobmanager_ui.ui:59
-#, kde-format
-msgid "Arguments"
-msgstr "Аргументи"
-
 #. i18n: ectx: property (title), widget (QGroupBox, folder_box)
-#: src/ui/clipjobmanager_ui.ui:108
+#: src/ui/clipjobmanager_ui.ui:41
 #, kde-format
 msgid "Project Bin behavior on completion"
 msgstr "Поведінка контейнера проєкту при доповненні"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radio_replace)
-#: src/ui/clipjobmanager_ui.ui:114
+#: src/ui/clipjobmanager_ui.ui:47
 #, kde-format
 msgid "Replace original with result"
 msgstr "Замінити початковий кліп на результат"
 
 #. i18n: ectx: property (text), widget (QCheckBox, bin_subfolder)
-#: src/ui/clipjobmanager_ui.ui:124
+#: src/ui/clipjobmanager_ui.ui:57
 #, kde-format
 msgid "Use a subfolder"
 msgstr "Використовувати підтеку"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radio_folder)
-#: src/ui/clipjobmanager_ui.ui:131
+#: src/ui/clipjobmanager_ui.ui:64
 #, kde-format
 msgid "Put resulting clip in a folder"
 msgstr "Розмістити кліп-результат у теці"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
-#: src/ui/clipjobmanager_ui.ui:142
+#: src/ui/clipjobmanager_ui.ui:75
 #, kde-format
 msgid "Placed at top level"
 msgstr "На найвищому рівні"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
-#: src/ui/clipjobmanager_ui.ui:147
-#, fuzzy, kde-format
-#| msgid "Placed in the the original clip folder"
+#: src/ui/clipjobmanager_ui.ui:80
+#, kde-format
 msgid "Placed in the original clip folder"
 msgstr "У початковій теці кліпу"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, folder_name)
-#: src/ui/clipjobmanager_ui.ui:158
+#: src/ui/clipjobmanager_ui.ui:91
 #, kde-format
 msgid "Folder name"
 msgstr "Назва теки"
+
+#. i18n: ectx: property (title), widget (QGroupBox, param_box)
+#: src/ui/clipjobmanager_ui.ui:101
+#, kde-format
+msgid "Job parameters"
+msgstr "Параметри завдання"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: src/ui/clipjobmanager_ui.ui:110
+#, kde-format
+msgid "Executable"
+msgstr "Виконуваний файл"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: src/ui/clipjobmanager_ui.ui:123
+#, kde-format
+msgid "Output file extension"
+msgstr "Суфікс назви файла-результату"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: src/ui/clipjobmanager_ui.ui:136
+#, kde-format
+msgid "Arguments"
+msgstr "Аргументи"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/ui/clipjobmanager_ui.ui:183
+#, kde-format
+msgid "Custom clip jobs"
+msgstr "Нетипові завдання кліпів"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox)
 #: src/ui/clipspeed_ui.ui:103
