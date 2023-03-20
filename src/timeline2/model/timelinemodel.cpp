@@ -153,12 +153,15 @@ TimelineModel::TimelineModel(const QUuid &uuid, Mlt::Profile *profile, std::weak
     TRACE_CONSTR(this);
 }
 
-void TimelineModel::prepareClose()
+void TimelineModel::prepareClose(bool softDelete)
 {
     requestClearSelection(true);
     QWriteLocker locker(&m_lock);
     // Unlock all tracks to allow deleting clip from tracks
     m_closing = true;
+    if (softDelete) {
+        m_softDelete = true;
+    }
     if (!m_softDelete) {
         auto it = m_allTracks.begin();
         while (it != m_allTracks.end()) {
@@ -166,6 +169,12 @@ void TimelineModel::prepareClose()
             ++it;
         }
         m_subtitleModel.reset();
+    } else {
+        auto it = m_allTracks.begin();
+        while (it != m_allTracks.end()) {
+            (*it)->m_softDelete = true;
+            ++it;
+        }
     }
     // m_subtitleModel->removeAllSubtitles();
 }

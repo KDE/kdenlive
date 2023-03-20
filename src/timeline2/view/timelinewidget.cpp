@@ -19,7 +19,6 @@
 #include "mainwindow.h"
 #include "monitor/monitorproxy.h"
 #include "profiles/profilemodel.hpp"
-#include "project/projectmanager.h"
 #include "qml/timelineitems.h"
 #include "qmltypes/thumbnailprovider.h"
 #include "timelinecontroller.h"
@@ -166,7 +165,9 @@ void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QM
 
 void TimelineWidget::unsetModel()
 {
-    m_sortModel->setSourceModel(nullptr);
+    rootContext()->setContextProperty("controller", nullptr);
+    rootContext()->setContextProperty("multitrack", nullptr);
+    m_sortModel.reset(new QSortFilterProxyModel(this));
     m_proxy->prepareClose();
 }
 
@@ -339,7 +340,7 @@ void TimelineWidget::showTargetMenu(int tid)
 void TimelineWidget::showRulerMenu()
 {
     m_guideMenu->clear();
-    const QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel(m_uuid)->getAllMarkers();
+    const QList<CommentedTime> guides = pCore->currentDoc()->getGuideModel(m_uuid)->getAllMarkers();
     m_editGuideAcion->setEnabled(false);
     double fps = pCore->getCurrentFps();
     int currentPos = rootObject()->property("consumerPosition").toInt();
@@ -358,7 +359,7 @@ void TimelineWidget::showRulerMenu()
 void TimelineWidget::showTimelineMenu()
 {
     m_guideMenu->clear();
-    const QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel(m_uuid)->getAllMarkers();
+    const QList<CommentedTime> guides = pCore->currentDoc()->getGuideModel(m_uuid)->getAllMarkers();
     m_editGuideAcion->setEnabled(false);
     double fps = pCore->getCurrentFps();
     int currentPos = rootObject()->property("consumerPosition").toInt();

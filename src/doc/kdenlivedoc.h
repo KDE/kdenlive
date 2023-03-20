@@ -278,6 +278,7 @@ public:
     /** @brief Get a timeline by its uuid.*/
     std::shared_ptr<TimelineItemModel> getTimeline(const QUuid &uuid);
     void closeTimeline(const QUuid &uuid);
+    void checkUsage(const QUuid &uuid);
     QList<QUuid> getTimelinesUuids() const;
     /** @brief Returns the number of timelines in this project.*/
     int timelineCount() const;

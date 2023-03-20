@@ -2116,8 +2116,13 @@ void KdenliveDoc::closeTimeline(const QUuid &uuid)
 {
     Q_ASSERT(m_timelines.find(uuid) != m_timelines.end());
     std::shared_ptr<TimelineItemModel> model = m_timelines.take(uuid);
-    model->prepareShutDown();
     model.reset();
+}
+
+void KdenliveDoc::checkUsage(const QUuid &uuid)
+{
+    Q_ASSERT(m_timelines.find(uuid) != m_timelines.end());
+    qDebug() << "===== CHECKING USAGE FOR: " << uuid << " = " << m_timelines.value(uuid).use_count();
 }
 
 std::shared_ptr<MarkerSortModel> KdenliveDoc::getFilteredGuideModel(const QUuid uuid)

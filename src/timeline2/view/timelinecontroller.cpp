@@ -104,7 +104,7 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
     m_lastVideoTarget = -1;
     m_lastAudioTarget.clear();
     m_usePreview = false;
-    m_model = std::move(model);
+    m_model = model;
     m_activeSnaps.clear();
     connect(m_model.get(), &TimelineItemModel::requestClearAssetView, pCore.get(), &Core::clearAssetPanel);
     m_deleteConnection = connect(m_model.get(), &TimelineItemModel::checkItemDeletion, this, [this](int id) {

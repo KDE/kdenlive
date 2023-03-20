@@ -25,6 +25,7 @@
 TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id, const QString &trackName, bool audioTrack)
     : m_parent(parent)
     , m_id(id == -1 ? TimelineModel::getNextId() : id)
+    , m_softDelete(false)
     , m_lock(QReadWriteLock::Recursive)
 {
     if (auto ptr = parent.lock()) {
@@ -67,6 +68,7 @@ TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id, const
 TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, Mlt::Tractor mltTrack, int id)
     : m_parent(parent)
     , m_id(id == -1 ? TimelineModel::getNextId() : id)
+    , m_softDelete(false)
 {
     if (auto ptr = parent.lock()) {
         m_track = std::make_shared<Mlt::Tractor>(mltTrack);
@@ -81,8 +83,10 @@ TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, Mlt::Tractor 
 
 TrackModel::~TrackModel()
 {
-    m_track->remove_track(1);
-    m_track->remove_track(0);
+    if (!m_softDelete) {
+        m_track->remove_track(1);
+        m_track->remove_track(0);
+    }
 }
 
 int TrackModel::construct(const std::weak_ptr<TimelineModel> &parent, int id, int pos, const QString &trackName, bool audioTrack)

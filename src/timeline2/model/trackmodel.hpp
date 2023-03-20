@@ -371,6 +371,7 @@ private:
     void updateCompositionDirection(Mlt::Transition &transition, bool reverse);
 
 protected:
+    bool m_softDelete;
     std::shared_ptr<EffectStackModel> m_effectStack;
     /// A list of same track transitions for this track, in the form: {second_clip_id, transition}
     std::unordered_map<int, std::shared_ptr<AssetParameterModel>> m_sameCompositions;
