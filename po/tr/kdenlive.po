@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-19 00:47+0000\n"
-"PO-Revision-Date: 2023-03-18 12:43+0300\n"
+"PO-Revision-Date: 2023-03-19 13:44+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -6630,7 +6630,7 @@ msgstr "Belge başarıyla paylaşıldı"
 #: src/dialogs/renderwidget.cpp:364
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
-msgstr "Paylaşılan belgeyi şu adreste bulabilirsiniz: < a href=\"%1\">%1</a>"
+msgstr "Paylaşılan belgeyi şu adreste bulabilirsiniz: <a href=\"%1\">%1</a>"
 
 #: src/dialogs/renderwidget.cpp:503
 #, kde-format
@@ -16280,12 +16280,10 @@ msgid "Character encoding used to save the subtitle file."
 msgstr "Altyazı dosyasını kaydetmek için kullanılan karakter kodlaması."
 
 #: src/timeline2/view/timelinecontroller.cpp:4966
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "If unsure,try :<br><b>Unicode (UTF-8)</b>."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
-msgstr "Emin değilseniz şunu deneyin: <br><b>Unicode (UTF-8)</b>."
+msgstr "Emin değilseniz şunu deneyin: <br/><b>Unicode (UTF-8)</b>."
 
 #: src/timeline2/view/timelinecontroller.cpp:5006
 #, kde-format
@@ -21057,70 +21055,3 @@ msgstr "%1 dk"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 sa"
-
-#~ msgid "Add clip to \"Speed Change\" folder"
-#~ msgstr "Klibi \"Hız Değiştir\" klasörüne ekle"
-
-#~ msgid "Stabilized"
-#~ msgstr "Sabitleştirilmiş"
-
-#~ msgid "The stabilize job will overwrite the following files:"
-#~ msgstr "Sabitleme işi aşağıdaki dosyaların üzerine yazacak:"
-
-#~ msgid "Add stabilized clip to project"
-#~ msgstr "Projeye sabitleştirilmiş klip ekle"
-
-#~| msgid "Device:"
-#~ msgid "Device"
-#~ msgstr "Aygıt"
-
-#~ msgid "Clip already contains analysis data %1"
-#~ msgstr "Klip zaten %1 çözümleme verisini içeriyor"
-
-#~ msgid "Merge"
-#~ msgstr "Birleştir"
-
-#~ msgid "Another recognition job is running. Abort it ?"
-#~ msgstr "Başka bir tanımlama işi çalışıyor. İptal edilsin mi?"
-
-#~ msgid "Color Range:"
-#~ msgstr "Renk Aralığı:"
-
-#~ msgid "Full luma range"
-#~ msgstr "Tam luma aralığı"
-
-#~ msgid "Playlist %1 has a different framerate (%2/%3fps), not supported."
-#~ msgstr ""
-#~ "%1 oynatma listesi farklı bir kare hızına sahip (%2/%3 fps), "
-#~ "desteklenmiyor."
-
-#~ msgid "Show Subtitle Track"
-#~ msgstr "Altyazı İzini Göster"
-
-#~ msgid "Form"
-#~ msgstr "Biçim"
-
-#~ msgid "Main timeline"
-#~ msgstr "Ana zaman akışı"
-
-#~ msgid "Monitor audio input"
-#~ msgstr "Monitör ses girişi"
-
-#~ msgid "MLT log level"
-#~ msgstr "MLT günlük düzeyi"
-
-#~ msgid "Export guides as chapters description"
-#~ msgstr "Kılavuzları, fasıl açıklaması olarak dışa aktar"
-
-#~ msgid ""
-#~ "The MediaInfo application is required for the recording timecode feature, "
-#~ "please install it and re-enable the feature in Kdenlive"
-#~ msgstr ""
-#~ "Zaman kodu özelliğini kaydetmek için MediaInfo uygulaması gerekiyor; "
-#~ "lütfen onu kurun ve özelliği Kdenlive'de etkinleştirin"
-
-#~ msgid "Please set a path for the Glaxnimate application"
-#~ msgstr "Glaxnimate uygulaması için bir yol ayarlayın"
-
-#~ msgid "Copy Value at Cursor Position to Clipboard"
-#~ msgstr "İmleç Konumundaki Değeri Panoya Kopyala"

@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-19 00:47+0000\n"
-"PO-Revision-Date: 2023-03-18 08:53+0200\n"
+"PO-Revision-Date: 2023-03-19 08:39+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -16492,12 +16492,10 @@ msgid "Character encoding used to save the subtitle file."
 msgstr "Кодування символів, яке буде використано для збереження файла."
 
 #: src/timeline2/view/timelinecontroller.cpp:4966
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "If unsure,try :<br><b>Unicode (UTF-8)</b>."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
-msgstr "якщо не певні, скористайтеся таким:<br><b>Unicode (UTF-8)</b>."
+msgstr "якщо не певні, скористайтеся таким:<br/><b>Unicode (UTF-8)</b>."
 
 #: src/timeline2/view/timelinecontroller.cpp:5006
 #, kde-format
