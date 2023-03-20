@@ -1584,9 +1584,10 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
         prod->parent().set("kdenlive:clipname", clip->clipName().toUtf8().constData());
         prod->parent().set("kdenlive:uuid", uuid.toString().toUtf8().constData());
         prod->parent().set("kdenlive:producer_type", ClipType::Timeline);
-        QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, [timelineModel, id]() {
+        QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, [uuid, id]() {
             std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(id);
             if (clip) {
+                std::shared_ptr<TimelineItemModel> timelineModel = pCore->currentDoc()->getTimeline(uuid);
                 QMap<QString, QString> properties;
                 properties.insert(QStringLiteral("kdenlive:duration"), QString(timelineModel->tractor()->frames_to_time(timelineModel->duration())));
                 properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(timelineModel->duration()));
@@ -1715,7 +1716,6 @@ void ProjectManager::syncTimeline(const QUuid &uuid)
 bool ProjectManager::closeTimeline(const QUuid &uuid, bool onDeletion)
 {
     std::shared_ptr<TimelineItemModel> model = m_project->getTimeline(uuid);
-
     if (model == nullptr) {
         qDebug() << "=== ERROR CANNOT FIND TIMELINE TO CLOSE: " << uuid << "\n\nHHHHHHHHHHHH";
         return false;

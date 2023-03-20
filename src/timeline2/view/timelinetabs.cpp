@@ -5,6 +5,7 @@
 
 #include "timelinetabs.hpp"
 #include "assets/model/assetparametermodel.hpp"
+#include "audiomixer/mixermanager.hpp"
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
@@ -173,16 +174,19 @@ void TimelineTabs::closeTimelineByIndex(int ix)
     timeline->controller()->saveSequenceProperties();
     Fun redo = [this, ix, uuid]() {
         TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(ix));
+        timeline->model()->prepareClose(true);
         timeline->setSource(QUrl());
         timeline->blockSignals(true);
         pCore->window()->disconnectTimeline(timeline);
         disconnectTimeline(timeline);
-        pCore->projectManager()->closeTimeline(uuid);
+        timeline->unsetModel();
         if (m_activeTimeline == timeline) {
+            pCore->mixer()->unsetModel();
             m_activeTimeline = nullptr;
         }
-        removeTab(ix);
         delete timeline;
+        pCore->projectManager()->closeTimeline(uuid);
+        removeTab(ix);
         setTabsClosable(count() > 1);
         if (count() == 1) {
             updateWindowTitle();
@@ -219,13 +223,18 @@ void TimelineTabs::closeTimeline(const QUuid &uuid)
         TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(i));
         if (uuid == timeline->getUuid()) {
             timeline->blockSignals(true);
-            timeline->unsetModel();
+            timeline->model()->prepareClose(true);
+            timeline->setSource(QUrl());
+            timeline->blockSignals(true);
+            pCore->window()->disconnectTimeline(timeline);
             disconnectTimeline(timeline);
+            timeline->unsetModel();
             if (m_activeTimeline == timeline) {
                 m_activeTimeline = nullptr;
             }
-            removeTab(i);
             delete timeline;
+            pCore->projectManager()->closeTimeline(uuid);
+            removeTab(i);
             setTabsClosable(count() > 1);
             if (count() == 1) {
                 updateWindowTitle();

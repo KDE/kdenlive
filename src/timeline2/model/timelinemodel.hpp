@@ -827,7 +827,7 @@ public:
     std::unordered_set<int> getCurrentSelection() const;
 
     /** @brief Do some cleanup before closing */
-    void prepareClose();
+    void prepareClose(bool softDelete = false);
     /** @brief Import project's master effects */
     void importMasterEffects(std::weak_ptr<Mlt::Service> service);
     /** @brief Create a mix selection with currently selected clip. If delta = -1, mix with previous clip, +1 with next clip and 0 will check cursor position*/

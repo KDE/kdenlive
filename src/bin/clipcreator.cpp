@@ -145,6 +145,7 @@ QString ClipCreator::createPlaylistClip(const QString &name, std::pair<int, int>
             return true;
         };
         local_redo();
+        pCore->currentDoc()->checkUsage(uuid);
         UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
     }
     pCore->pushUndo(undo, redo, i18n("Create sequence"));
