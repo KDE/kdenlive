@@ -116,7 +116,7 @@ RecManager::~RecManager() = default;
 
 void RecManager::showRecConfig()
 {
-    Q_EMIT pCore->showConfigDialog(4, m_device_selector->currentData().toInt());
+    Q_EMIT pCore->showConfigDialog(Kdenlive::PageCapture, m_device_selector->currentData().toInt());
 }
 
 QToolBar *RecManager::toolbar() const

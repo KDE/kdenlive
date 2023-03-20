@@ -580,14 +580,14 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     button_config->setMenu(menu);
     button_config->setIcon(QIcon::fromTheme(QStringLiteral("application-menu")));
     connect(m_translateAction, &QAction::triggered, [this](bool enabled) { KdenliveSettings::setWhisperTranslate(enabled); });
-    connect(configAction, &QAction::triggered, [this]() { pCore->window()->slotPreferences(8); });
+    connect(configAction, &QAction::triggered, [this]() { pCore->window()->slotPreferences(Kdenlive::PageSpeech); });
     connect(menu, &QMenu::aboutToShow, [this]() {
         m_translateAction->setChecked(KdenliveSettings::whisperTranslate());
         m_translateAction->setEnabled(KdenliveSettings::speechEngine() == QLatin1String("whisper"));
     });
 
     m_voskConfig = new QAction(i18n("Configure"), this);
-    connect(m_voskConfig, &QAction::triggered, []() { pCore->window()->slotPreferences(8); });
+    connect(m_voskConfig, &QAction::triggered, []() { pCore->window()->slotPreferences(Kdenlive::PageSpeech); });
 
     // Visual text editor
     auto *l = new QVBoxLayout;

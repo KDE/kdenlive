@@ -932,7 +932,7 @@ void TimelineController::checkTrackDeletion(int selectedTrackIx)
 
 void TimelineController::showConfig(int page, int tab)
 {
-    Q_EMIT pCore->showConfigDialog(page, tab);
+    Q_EMIT pCore->showConfigDialog((Kdenlive::ConfigPage)page, tab);
 }
 
 void TimelineController::gotoNextSnap()

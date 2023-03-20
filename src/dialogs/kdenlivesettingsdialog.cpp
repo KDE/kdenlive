@@ -112,28 +112,28 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
 
     QWidget *p3 = new QWidget;
     m_configTimeline.setupUi(p3);
-    m_page3 = addPage(p3, i18n("Timeline"), QStringLiteral("video-display"));
+    m_pageTimeline = addPage(p3, i18n("Timeline"), QStringLiteral("video-display"));
 
     QWidget *p4 = new QWidget;
     m_configTools.setupUi(p4);
-    m_page4 = addPage(p4, i18n("Tools"), QStringLiteral("tools"));
+    m_pageTools = addPage(p4, i18n("Tools"), QStringLiteral("tools"));
 
     initEnviromentPage();
 
     QWidget *p11 = new QWidget;
     m_configColors.setupUi(p11);
-    m_page11 = addPage(p11, i18n("Colors and Guides"), QStringLiteral("color-management"));
+    m_pageColors = addPage(p11, i18n("Colors and Guides"), QStringLiteral("color-management"));
     m_guidesCategories = new GuideCategories(nullptr, this);
     QVBoxLayout *guidesLayout = new QVBoxLayout(m_configColors.guides_box);
     guidesLayout->addWidget(m_guidesCategories);
 
     QWidget *p12 = new QWidget;
     m_configSpeech.setupUi(p12);
-    m_page12 = addPage(p12, i18n("Speech To Text"), QStringLiteral("text-speak"));
+    m_pageSpeech = addPage(p12, i18n("Speech To Text"), QStringLiteral("text-speak"));
 
     QWidget *p7 = new QWidget;
     m_configSdl.setupUi(p7);
-    m_page7 = addPage(p7, i18n("Playback"), QStringLiteral("media-playback-start"));
+    m_pagePlay = addPage(p7, i18n("Playback"), QStringLiteral("media-playback-start"));
 
     QWidget *p5 = new QWidget;
     m_configCapture.setupUi(p5);
@@ -143,7 +143,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
     m_configCapture.v4l_profile_box->addWidget(m_v4lProfiles);
     m_grabProfiles = new EncodingProfilesChooser(this, EncodingProfilesManager::ScreenCapture, false, QStringLiteral("grab_profile"));
     m_configCapture.screen_grab_profile_box->addWidget(m_grabProfiles);
-    m_page5 = addPage(p5, i18n("Capture"), QStringLiteral("media-record"));
+    m_pageCapture = addPage(p5, i18n("Capture"), QStringLiteral("media-record"));
 
     initDevices();
     initCapturePage();
@@ -221,7 +221,7 @@ void KdenliveSettingsDialog::initMiscPage()
 {
     QWidget *p1 = new QWidget;
     m_configMisc.setupUi(p1);
-    m_page1 = addPage(p1, i18n("Misc"), QStringLiteral("configure"));
+    m_pageMisc = addPage(p1, i18n("Misc"), QStringLiteral("configure"));
 
     m_configMisc.kcfg_use_exiftool->setEnabled(!QStandardPaths::findExecutable(QStringLiteral("exiftool")).isEmpty());
 
@@ -298,7 +298,7 @@ void KdenliveSettingsDialog::initProjectPage()
         }
     });
 
-    m_page9 = addPage(p9, i18n("Project Defaults"), QStringLiteral("project-defaults"));
+    m_pageProject = addPage(p9, i18n("Project Defaults"), QStringLiteral("project-defaults"));
 }
 
 void KdenliveSettingsDialog::initProxyPage()
@@ -372,7 +372,7 @@ void KdenliveSettingsDialog::initEnviromentPage()
     connect(m_configEnv.kp_audio, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEditAudioApplication);
     connect(m_configEnv.kp_anim, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEditGlaxnimateApplication);
 
-    m_page2 = addPage(p2, i18n("Environment"), QStringLiteral("application-x-executable-script"));
+    m_pageEnv = addPage(p2, i18n("Environment"), QStringLiteral("application-x-executable-script"));
 }
 
 void KdenliveSettingsDialog::initCapturePage()
@@ -476,14 +476,14 @@ void KdenliveSettingsDialog::initJogShuttlePage()
     m_configShuttle.kcfg_enableshuttle->hide();
     m_configShuttle.kcfg_enableshuttle->setDisabled(true);
 #endif /* USE_JOGSHUTTLE */
-    m_page6 = addPage(p6, i18n("JogShuttle"), QStringLiteral("dialog-input-devices"));
+    m_pageJog = addPage(p6, i18n("JogShuttle"), QStringLiteral("dialog-input-devices"));
 }
 
 void KdenliveSettingsDialog::initTranscodePage()
 {
     QWidget *p8 = new QWidget;
     m_configTranscode.setupUi(p8);
-    m_page8 = addPage(p8, i18n("Transcode"), QStringLiteral("edit-copy"));
+    m_pageTranscode = addPage(p8, i18n("Transcode"), QStringLiteral("edit-copy"));
 
     connect(m_configTranscode.button_add, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotAddTranscode);
     connect(m_configTranscode.button_delete, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotDeleteTranscode);
@@ -827,41 +827,47 @@ void KdenliveSettingsDialog::slotReadAudioDevices()
     }
 }
 
-void KdenliveSettingsDialog::showPage(int page, int option)
+void KdenliveSettingsDialog::showPage(Kdenlive::ConfigPage page, int option)
 {
     switch (page) {
-    case 1:
-        setCurrentPage(m_page1);
+    case Kdenlive::PageMisc:
+        setCurrentPage(m_pageMisc);
         break;
-    case 2:
-        setCurrentPage(m_page2);
+    case Kdenlive::PageEnv:
+        setCurrentPage(m_pageEnv);
         break;
-    case 3:
-        setCurrentPage(m_page3);
+    case Kdenlive::PageTimeline:
+        setCurrentPage(m_pageTimeline);
         break;
-    case 4:
-        setCurrentPage(m_page4);
+    case Kdenlive::PageTools:
+        setCurrentPage(m_pageTools);
         break;
-    case 5:
-        setCurrentPage(m_page5);
+    case Kdenlive::PageCapture:
+        setCurrentPage(m_pageCapture);
         m_configCapture.tabWidget->setCurrentIndex(option);
         break;
-    case 6:
-        setCurrentPage(m_page6);
+    case Kdenlive::PageJogShuttle:
+        setCurrentPage(m_pageJog);
         break;
-    case 7:
-        setCurrentPage(m_page7);
+    case Kdenlive::PagePlayback:
+        setCurrentPage(m_pagePlay);
         break;
-    case 8:
-        setCurrentPage(m_page8);
+    case Kdenlive::PageTranscode:
+        setCurrentPage(m_pageTranscode);
         break;
-    case 9:
-        setCurrentPage(m_page12);
+    case Kdenlive::PageProjectDefaults:
+        setCurrentPage(m_pageProject);
+        break;
+    case Kdenlive::PageColorsGuides:
+        setCurrentPage(m_pageColors);
+        break;
+    case Kdenlive::PageSpeech:
+        setCurrentPage(m_pageSpeech);
         m_stt->checkDependencies();
         m_sttWhisper->checkDependencies();
         break;
     default:
-        setCurrentPage(m_page1);
+        setCurrentPage(m_pageMisc);
     }
 }
 
