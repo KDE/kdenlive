@@ -121,18 +121,32 @@ void CustomJobTask::run()
     // Make sure we keep the stream order
     // parameters << QStringLiteral("-sn") << QStringLiteral("-dn") << QStringLiteral("-map") << QStringLiteral("0");
     QFileInfo sourceInfo(source);
-    const QString destName = sourceInfo.baseName();
     QString extension = m_parameters.takeFirst();
+    if (extension.isEmpty()) {
+        extension = sourceInfo.suffix();
+    }
     if (!extension.startsWith(QLatin1Char('.'))) {
         extension.prepend(QLatin1Char('.'));
     }
+    const QString destName = sourceInfo.baseName();
     QDir baseDir = sourceInfo.absoluteDir();
     QString destPath = baseDir.absoluteFilePath(destName + extension);
-    int ix = 1;
-    while (QFileInfo::exists(destPath)) {
-        QString fixedName = destName + QString::asprintf("-%04d", ix);
+    if (QFileInfo::exists(destPath)) {
+        QString fixedName = destName;
+        static const QRegularExpression regex(QRegularExpression::anchoredPattern(QStringLiteral(R"(.*-(\d{4})$)")));
+        QRegularExpressionMatch match = regex.match(fixedName);
+        if (match.hasMatch()) {
+            // if the file name has already an index suffix,
+            // increase the number
+            int g0 = match.capturedStart(1);
+            QString g1 = match.captured(1);
+            const int currentSuffix = match.captured(1).toInt();
+            fixedName.replace(match.capturedStart(1), match.capturedLength(1), QString::asprintf("-%04d", currentSuffix + 1));
+        } else {
+            // if the file has no index suffix, append -0001
+            fixedName.append(QString::asprintf("-%04d", 1));
+        }
         destPath = baseDir.absoluteFilePath(fixedName + extension);
-        ix++;
     }
     parameters << destPath;
     qDebug() << "/// FULL TRANSCODE PARAMS:\n" << parameters << "\n------";
