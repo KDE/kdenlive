@@ -53,7 +53,7 @@ class KdenliveSettingsDialog : public KConfigDialog
 public:
     KdenliveSettingsDialog(QMap<QString, QString> mappable_actions, bool gpuAllowed, QWidget *parent = nullptr);
     ~KdenliveSettingsDialog() override;
-    void showPage(int page, int option);
+    void showPage(Kdenlive::ConfigPage page, int option);
     void checkProfile();
     /** @brief update kdenlive settings for external app path if they were changed outside config dialog */
     void updateExternalApps();
@@ -103,18 +103,17 @@ private Q_SLOTS:
     void fillMonitorData();
     
 private:
-    KPageWidgetItem *m_page1;
-    KPageWidgetItem *m_page2;
-    KPageWidgetItem *m_page3;
-    KPageWidgetItem *m_page4;
-    KPageWidgetItem *m_page5;
-    KPageWidgetItem *m_page6;
-    KPageWidgetItem *m_page7;
-    KPageWidgetItem *m_page8;
-    KPageWidgetItem *m_page9;
-    KPageWidgetItem *m_page10;
-    KPageWidgetItem *m_page11;
-    KPageWidgetItem *m_page12;
+    KPageWidgetItem *m_pageMisc;
+    KPageWidgetItem *m_pageEnv;
+    KPageWidgetItem *m_pageTimeline;
+    KPageWidgetItem *m_pageTools;
+    KPageWidgetItem *m_pageCapture;
+    KPageWidgetItem *m_pageJog;
+    KPageWidgetItem *m_pagePlay;
+    KPageWidgetItem *m_pageTranscode;
+    KPageWidgetItem *m_pageProject;
+    KPageWidgetItem *m_pageColors;
+    KPageWidgetItem *m_pageSpeech;
     Ui::ConfigEnv_UI m_configEnv;
     Ui::ConfigMisc_UI m_configMisc;
     Ui::ConfigColors_UI m_configColors;

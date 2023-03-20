@@ -342,7 +342,7 @@ void MainWindow::init(const QString &mltPath)
     recToolbar->addAction(recAction);
     QAction *recConfig = new QAction(QIcon::fromTheme(QStringLiteral("configure")), i18n("Configure Recording"), this);
     recToolbar->addAction(recConfig);
-    connect(recConfig, &QAction::triggered, [&]() { Q_EMIT pCore->showConfigDialog(4, 0); });
+    connect(recConfig, &QAction::triggered, [&]() { Q_EMIT pCore->showConfigDialog(Kdenlive::PageCapture, 0); });
     QDockWidget *screenGrabDock = addDock(i18n("Screen Grab"), QStringLiteral("screengrab"), grabWidget);
 
     // Audio spectrum scope
@@ -2500,7 +2500,7 @@ void MainWindow::slotEditKeys()
     dialog.configure();
 }
 
-void MainWindow::slotPreferences(int page, int option)
+void MainWindow::slotPreferences(Kdenlive::ConfigPage page, int option)
 {
     /*
      * An instance of your dialog could be already created and could be
@@ -2509,7 +2509,7 @@ void MainWindow::slotPreferences(int page, int option)
      */
     if (KConfigDialog::showDialog(QStringLiteral("settings"))) {
         KdenliveSettingsDialog *d = static_cast<KdenliveSettingsDialog *>(KConfigDialog::exists(QStringLiteral("settings")));
-        if (page != -1) {
+        if (page != Kdenlive::NoPage) {
             d->showPage(page, option);
         }
         return;
@@ -2544,7 +2544,7 @@ void MainWindow::slotPreferences(int page, int option)
     connect(dialog, &KdenliveSettingsDialog::resetAudioMonitoring, pCore.get(), &Core::resetAudioMonitoring);
 
     dialog->show();
-    if (page != -1) {
+    if (page != Kdenlive::NoPage) {
         dialog->showPage(page, option);
     }
 }

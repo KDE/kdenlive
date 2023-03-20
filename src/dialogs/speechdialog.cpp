@@ -92,7 +92,7 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Process"));
     speech_info->hide();
     m_voskConfig = new QAction(i18n("Configure"), this);
-    connect(m_voskConfig, &QAction::triggered, []() { pCore->window()->slotPreferences(8); });
+    connect(m_voskConfig, &QAction::triggered, []() { pCore->window()->slotPreferences(Kdenlive::PageSpeech); });
     m_logAction = new QAction(i18n("Show log"), this);
     connect(m_logAction, &QAction::triggered, [&]() { KMessageBox::detailedError(QApplication::activeWindow(), i18n("Speech Recognition log"), m_errorLog); });
 

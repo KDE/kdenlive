@@ -389,7 +389,7 @@ Q_SIGNALS:
     void updateLibraryPath();
     //void updateMonitorProfile();
     /** @brief Call config dialog on a selected page / tab */
-    void showConfigDialog(int, int);
+    void showConfigDialog(Kdenlive::ConfigPage, int);
     void finalizeRecording(const QString &captureFile);
     void autoScrollChanged();
     /** @brief Send a message to splash screen if still displayed */
