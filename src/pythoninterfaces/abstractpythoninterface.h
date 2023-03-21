@@ -43,7 +43,7 @@ public:
      *         otherwise only those of the filter (in case they are missing).
      */
     QStringList missingDependencies(const QStringList &filter = {});
-    QString runScript(const QString &scriptpath, QStringList args = {}, const QString &firstarg = {}, bool concurrent = false);
+    QString runScript(const QString &scriptpath, QStringList args = {}, const QString &firstarg = {}, bool concurrent = false, bool packageFeedback = false);
     QString pythonExec() { return m_pyExec; };
     void proposeMaybeUpdate(const QString &dependency, const QString &minVersion);
     bool installDisabled() { return m_disableInstall; };
@@ -62,7 +62,7 @@ private:
 
     void installMissingDependencies();
     QString locateScript(const QString &script);
-    QString runPackageScript(const QString &mode);
+    QString runPackageScript(const QString &mode, bool concurrent = false);
     int versionToInt(const QString &version);
 
 protected:
@@ -78,7 +78,10 @@ Q_SIGNALS:
     void dependenciesAvailable();
     void proposeUpdate(const QString &message);
     void scriptFeedback(const QStringList message);
+    void installFeedback(const QString &message);
+    void scriptGpuCheckFinished();
     void scriptFinished();
+    void scriptStarted();
 };
 
 class PythonDependencyMessage : public KMessageWidget {
@@ -86,6 +89,9 @@ class PythonDependencyMessage : public KMessageWidget {
 
 public:
     PythonDependencyMessage(QWidget *parent, AbstractPythonInterface *interface);
+
+public Q_SLOTS:
+    void checkAfterInstall();
 
 private Q_SLOTS:
     void doShowMessage(const QString &message, KMessageWidget::MessageType messageType = KMessageWidget::Information);

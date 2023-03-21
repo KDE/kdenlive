@@ -47,12 +47,12 @@ elif '--install' in sys.argv and missing and len(sys.argv) > 1:
     # install missing modules
     print("Installing missing packages: ", missing)
     python = sys.executable
-    subprocess.check_call([python, '-m', 'pip', 'install', *missing], stdout=subprocess.DEVNULL)
+    subprocess.check_call([python, '-m', 'pip', 'install', *missing])
 elif '--upgrade' in sys.argv:
     # update modules
     print("Updating packages: ", required)
     python = sys.executable
-    subprocess.check_call([python, '-m', 'pip', 'install', '--upgrade', *required], stdout=subprocess.DEVNULL)
+    subprocess.check_call([python, '-m', 'pip', 'install', '--upgrade', *required])
 elif '--details' in sys.argv:
     # check modules version
     python = sys.executable

@@ -1718,6 +1718,10 @@ void KdenliveSettingsDialog::initSpeechPage()
     m_sttWhisper = new SpeechToText(SpeechToText::EngineType::EngineWhisper, this);
     connect(m_configSpeech.engine_vosk, &QRadioButton::clicked, [&]() { m_configSpeech.speech_stack->setCurrentIndex(0); });
     connect(m_configSpeech.engine_whisper, &QRadioButton::clicked, [&]() { m_configSpeech.speech_stack->setCurrentIndex(1); });
+    connect(m_configSpeech.speech_stack, &QStackedWidget::currentChanged, [&](int index) {
+        m_configSpeech.button_add->setVisible(index == 0);
+        m_configSpeech.button_delete->setVisible(index == 0);
+    });
     if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
         m_configSpeech.engine_whisper->setChecked(true);
         m_configSpeech.speech_stack->setCurrentIndex(1);
@@ -1748,7 +1752,15 @@ void KdenliveSettingsDialog::initSpeechPage()
     if (ix > -1) {
         m_configSpeech.combo_wr_lang->setCurrentIndex(ix);
     }
+    m_configSpeech.script_log->hide();
     m_configSpeech.wr_translate->setChecked(KdenliveSettings::whisperTranslate());
+    connect(m_sttWhisper, &SpeechToText::scriptStarted, [this]() { QMetaObject::invokeMethod(m_configSpeech.script_log, "clear"); });
+    connect(m_sttWhisper, &SpeechToText::installFeedback, [this](const QString jobData) {
+        QMetaObject::invokeMethod(m_configSpeech.script_log, "show", Qt::QueuedConnection);
+        QMetaObject::invokeMethod(m_configSpeech.script_log, "appendPlainText", Q_ARG(QString, jobData));
+    });
+    connect(m_sttWhisper, &SpeechToText::scriptFinished, [msgWr]() { QMetaObject::invokeMethod(msgWr, "checkAfterInstall", Qt::QueuedConnection); });
+
     connect(m_sttWhisper, &SpeechToText::scriptFeedback, [this](const QStringList jobData) {
         m_configSpeech.combo_wr_device->clear();
         for (auto &s : jobData) {
@@ -1759,22 +1771,14 @@ void KdenliveSettingsDialog::initSpeechPage()
             }
         }
     });
-    connect(m_sttWhisper, &SpeechToText::scriptFinished, [this]() {
+    connect(m_sttWhisper, &SpeechToText::scriptGpuCheckFinished, [this]() {
         int ix = m_configSpeech.combo_wr_device->findData(KdenliveSettings::whisperDevice());
         if (ix > -1) {
             m_configSpeech.combo_wr_device->setCurrentIndex(ix);
         }
     });
-    connect(m_sttWhisper, &SpeechToText::dependenciesAvailable, this, [&]() {
-        qDebug() << ":::::: WHISPER DEPS AVAILABLE!!!!!!!!!!";
-        m_sttWhisper->runConcurrentScript(QStringLiteral("checkgpu.py"), {});
-    });
+    connect(m_sttWhisper, &SpeechToText::dependenciesAvailable, this, [&]() { m_sttWhisper->runConcurrentScript(QStringLiteral("checkgpu.py"), {}); });
     m_sttWhisper->checkDependencies();
-    connect(m_configSpeech.check_whisper, &QPushButton::clicked, this, [this]() {
-        m_configSpeech.check_whisper->setEnabled(false);
-        m_sttWhisper->checkDependencies();
-        m_configSpeech.check_whisper->setEnabled(true);
-    });
 
     // VOSK
     PythonDependencyMessage *msg = new PythonDependencyMessage(this, m_stt);
@@ -1786,6 +1790,12 @@ void KdenliveSettingsDialog::initSpeechPage()
         }
     });
     connect(m_stt, &SpeechToText::dependenciesMissing, this, [&](const QStringList &) { m_configSpeech.speech_info->animatedHide(); });
+    connect(m_stt, &SpeechToText::scriptStarted, [this]() { QMetaObject::invokeMethod(m_configSpeech.script_log, "clear"); });
+    connect(m_stt, &SpeechToText::installFeedback, [this](const QString jobData) {
+        QMetaObject::invokeMethod(m_configSpeech.script_log, "show", Qt::QueuedConnection);
+        QMetaObject::invokeMethod(m_configSpeech.script_log, "appendPlainText", Q_ARG(QString, jobData));
+    });
+    connect(m_stt, &SpeechToText::scriptFinished, [msg]() { QMetaObject::invokeMethod(msg, "checkAfterInstall", Qt::QueuedConnection); });
 
     m_speechListWidget = new SpeechList(this);
     connect(m_speechListWidget, &SpeechList::getDictionary, this, &KdenliveSettingsDialog::getDictionary);
@@ -1793,13 +1803,19 @@ void KdenliveSettingsDialog::initSpeechPage()
     l->setContentsMargins(0, 0, 0, 0);
     l->addWidget(m_speechListWidget);
     m_configSpeech.speech_info->setWordWrap(true);
-    connect(m_configSpeech.check_vosk, &QPushButton::clicked, this, [this]() {
-        m_configSpeech.check_vosk->setEnabled(false);
-        m_stt->checkDependencies();
-        if (m_stt->missingDependencies().isEmpty()) {
-            m_stt->checkVersions();
+    connect(m_configSpeech.check_config, &QPushButton::clicked, this, [this]() {
+        m_configSpeech.check_config->setEnabled(false);
+        if (m_configSpeech.speech_stack->currentIndex() == 0) {
+            // Vosk
+            m_stt->checkDependencies();
+            if (m_stt->missingDependencies().isEmpty()) {
+                m_stt->checkVersions();
+            }
+        } else {
+            // Whisper
+            m_sttWhisper->checkDependencies();
         }
-        m_configSpeech.check_vosk->setEnabled(true);
+        m_configSpeech.check_config->setEnabled(true);
     });
 
     m_stt->checkDependencies();
