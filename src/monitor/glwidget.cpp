@@ -1197,7 +1197,7 @@ int GLWidget::reconfigure()
         */
         int fps = qRound(pCore->getCurrentFps());
         m_consumer->set("buffer", qMax(25, fps));
-        m_consumer->set("prefill", qMax(1, fps / 25));
+        m_consumer->set("prefill", 6);
         m_consumer->set("drop_max", fps / 4);
         if (KdenliveSettings::audio_scrub()) {
             m_consumer->set("scrub_audio", 1);
