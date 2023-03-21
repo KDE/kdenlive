@@ -13,6 +13,7 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <QFileDialog>
+#include <QPlainTextEdit>
 #include <QStandardPaths>
 #include <QVBoxLayout>
 
@@ -74,12 +75,22 @@ bool OtioConvertions::configureSetup()
     });
     h->addWidget(msg);
     h->addWidget(refresh);
+    QPlainTextEdit *textOutput = new QPlainTextEdit(d);
+    textOutput->setReadOnly(true);
+    textOutput->setFrameShape(QFrame::NoFrame);
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     connect(buttonBox, &QDialogButtonBox::rejected, d, &QDialog::reject);
     l->addWidget(label);
     l->addLayout(h);
+    l->addWidget(textOutput);
     l->addWidget(buttonBox);
     d->setLayout(l);
+
+    connect(this, &OtioConvertions::scriptStarted, [textOutput]() { QMetaObject::invokeMethod(textOutput, "clear"); });
+    connect(this, &OtioConvertions::installFeedback,
+            [textOutput](const QString jobData) { QMetaObject::invokeMethod(textOutput, "appendPlainText", Q_ARG(QString, jobData)); });
+    connect(this, &OtioConvertions::scriptFinished, [msg]() { QMetaObject::invokeMethod(msg, "checkAfterInstall", Qt::QueuedConnection); });
+
     if (!wellConfigured()) {
         d->show();
         return true;
