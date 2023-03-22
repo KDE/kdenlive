@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-21 00:47+0000\n"
+"POT-Creation-Date: 2023-03-22 00:47+0000\n"
 "PO-Revision-Date: 2023-03-13 22:55+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -6345,18 +6345,18 @@ msgstr "Cari ayarlar"
 msgid "Progressive"
 msgstr "Proqressiv"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1730
+#: src/dialogs/kdenlivesettingsdialog.cpp:1734
 #, kde-format
 msgid "Probing..."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1785
-#: src/dialogs/kdenlivesettingsdialog.cpp:1966
+#: src/dialogs/kdenlivesettingsdialog.cpp:1789
+#: src/dialogs/kdenlivesettingsdialog.cpp:1982
 #, kde-format
 msgid "Please add a speech model."
 msgstr "Nitq modulunu əlavə edin."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1820
+#: src/dialogs/kdenlivesettingsdialog.cpp:1836
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
@@ -6365,29 +6365,29 @@ msgstr ""
 "Nitq modullarını endirin: <a href=\"https://alphacephei.com/vosk/models"
 "\">https://alphacephei.com/vosk/models</a>"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1848
+#: src/dialogs/kdenlivesettingsdialog.cpp:1864
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "Yeni lüğət üçün URL daxil edin"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1854
+#: src/dialogs/kdenlivesettingsdialog.cpp:1870
 #, kde-format
 msgid "Downloading model…"
 msgstr "Model endirilir…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1864
+#: src/dialogs/kdenlivesettingsdialog.cpp:1880
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 "Biz xüsusi qovluq modellərinin silinməsinə icazə vermirik. Əl ilə silin."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1870
-#: src/dialogs/kdenlivesettingsdialog.cpp:1929
+#: src/dialogs/kdenlivesettingsdialog.cpp:1886
+#: src/dialogs/kdenlivesettingsdialog.cpp:1945
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "Lüğət qovluğuna giriş mümkün deyil."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1879
+#: src/dialogs/kdenlivesettingsdialog.cpp:1895
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -6396,22 +6396,22 @@ msgstr ""
 "Qovluğu silin:\n"
 "%1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1903
+#: src/dialogs/kdenlivesettingsdialog.cpp:1919
 #, kde-format
 msgid "Download error"
 msgstr "Endirilmə xətası"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1908
+#: src/dialogs/kdenlivesettingsdialog.cpp:1924
 #, kde-format
 msgid "Download error %1"
 msgstr "Endirilmə xətası %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1936
+#: src/dialogs/kdenlivesettingsdialog.cpp:1952
 #, kde-format
 msgid "Extracting archive…"
 msgstr "Arxiv çıxarılır…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1943
+#: src/dialogs/kdenlivesettingsdialog.cpp:1959
 #, kde-format
 msgid "New dictionary installed."
 msgstr "Yeni lüğət quraşdırıldı."
@@ -13792,17 +13792,17 @@ msgstr "Yenilənməni yoxlayın"
 msgid "Installing modules…"
 msgstr "Modullar quraşdırılır…"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:94
+#: src/pythoninterfaces/abstractpythoninterface.cpp:90
 #, kde-format
 msgid "Updating modules…"
 msgstr "Modullar yenilənir"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:98
+#: src/pythoninterfaces/abstractpythoninterface.cpp:111
 #, kde-format
 msgid "Checking configuration…"
 msgstr "Ayarlar yoxlanılır…"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:146
+#: src/pythoninterfaces/abstractpythoninterface.cpp:149
 #, kde-format
 msgid ""
 "Cannot find python3, please install it on your system.\n"
@@ -13813,7 +13813,7 @@ msgstr ""
 "Əgər quraşdırılıbsa PATH mühit dəyişənində siyahıda göstərilən kataloqda "
 "quraşdırıldığını yoxlayın"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:152
+#: src/pythoninterfaces/abstractpythoninterface.cpp:155
 #, kde-format
 msgid ""
 "Cannot find pip3, please install it on your system.\n"
@@ -13824,45 +13824,45 @@ msgstr ""
 "Əgər quraşdırılıbsa PATH mühit dəyişənində siyahıda göstərilən qovluqda "
 "quraşdırıldığını yoxlayın"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:172
+#: src/pythoninterfaces/abstractpythoninterface.cpp:175
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr "%1 skripti tapılmadı, quraşdırıldığına əmin olun."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:203
+#: src/pythoninterfaces/abstractpythoninterface.cpp:207
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr "<application>%1</application> python modulu tələb olunur."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:205
+#: src/pythoninterfaces/abstractpythoninterface.cpp:209
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required for %2."
 msgstr "%2 üçün <application>%1</application> python modulu tələb olunur."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:245
-#: src/pythoninterfaces/abstractpythoninterface.cpp:319
+#: src/pythoninterfaces/abstractpythoninterface.cpp:249
+#: src/pythoninterfaces/abstractpythoninterface.cpp:323
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr "Daxili xəta: Asılılıqlar siyahısı tapılmadı"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:263
+#: src/pythoninterfaces/abstractpythoninterface.cpp:267
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "%1 modulunun yoxlanılması zamanı xəta baş verdi"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:267
+#: src/pythoninterfaces/abstractpythoninterface.cpp:271
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
 msgstr ""
 "%2 modulunun ən az %1 versiyası tələb olunur, lakin sizin versiyanız %3-d'r"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:271
+#: src/pythoninterfaces/abstractpythoninterface.cpp:275
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "Quraşdırmanızı yenikləməyi gözdən keçirin."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:349
+#: src/pythoninterfaces/abstractpythoninterface.cpp:374
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -13871,13 +13871,13 @@ msgstr ""
 "Python3 skripti işə salındıqda xəta baş verdi:\n"
 " %1"
 
-#: src/pythoninterfaces/otioconvertions.cpp:22
+#: src/pythoninterfaces/otioconvertions.cpp:23
 #, fuzzy, kde-format
 #| msgid "OpenTimelineIO convertion"
 msgid "OpenTimelineIO conversion"
 msgstr "OpenTimelineIO çevrilməsi"
 
-#: src/pythoninterfaces/otioconvertions.cpp:26
+#: src/pythoninterfaces/otioconvertions.cpp:27
 #, kde-format
 msgid ""
 "Could not find \"otioconvert\" script although it is installed through "
@@ -13889,7 +13889,7 @@ msgstr ""
 "PATH dəyişən mühitindəki qovluqlarda \"otio\" skriptlərinin quraşdırılıb "
 "quraşdırılmadığını yoxlayın"
 
-#: src/pythoninterfaces/otioconvertions.cpp:46
+#: src/pythoninterfaces/otioconvertions.cpp:47
 #, kde-format
 msgid ""
 "Your OpenTimelineIO module does not include Kdenlive adapter.\n"
@@ -13898,68 +13898,68 @@ msgstr ""
 "Sizin OpenTimelineİO modulu Kdenlive uzlaşdırıcısına daxil deyildir.\n"
 "Lütfən, 0.12 və yuxarı versiyanı quraşdırın\n"
 
-#: src/pythoninterfaces/otioconvertions.cpp:63
+#: src/pythoninterfaces/otioconvertions.cpp:64
 #, kde-format
 msgid "Configure your OpenTimelineIO setup"
 msgstr "OpenTimelineIO quraşdırmasını tənzimləyin"
 
-#: src/pythoninterfaces/otioconvertions.cpp:68
+#: src/pythoninterfaces/otioconvertions.cpp:69
 #, kde-format
 msgid "Check again"
 msgstr "Yenidən yoxlayın"
 
-#: src/pythoninterfaces/otioconvertions.cpp:96
+#: src/pythoninterfaces/otioconvertions.cpp:107
 #, kde-format
 msgid "OpenTimelineIO Application otioconvert not found"
 msgstr "OpenTimelineIO tətbiqi otioconvert faylı tapılmadı"
 
-#: src/pythoninterfaces/otioconvertions.cpp:102
+#: src/pythoninterfaces/otioconvertions.cpp:113
 #, kde-format
 msgid "OpenTimelineIO Project conversion failed"
 msgstr "OpenTimelineIO çevrilməsi alınmadı"
 
-#: src/pythoninterfaces/otioconvertions.cpp:105
+#: src/pythoninterfaces/otioconvertions.cpp:116
 #, kde-format
 msgid "Project conversion complete"
 msgstr "Layihənin çevrilməsi başa çatdı"
 
-#: src/pythoninterfaces/otioconvertions.cpp:114
+#: src/pythoninterfaces/otioconvertions.cpp:125
 #, kde-format
 msgid "Export Project"
 msgstr "Layihəni ixrac edin"
 
-#: src/pythoninterfaces/otioconvertions.cpp:115
-#: src/pythoninterfaces/otioconvertions.cpp:143
+#: src/pythoninterfaces/otioconvertions.cpp:126
+#: src/pythoninterfaces/otioconvertions.cpp:154
 #, kde-format
 msgid "OpenTimelineIO adapters (%1)(%1)"
 msgstr "OpenTimelineİO uzlaşdırıcıları (%1)(%1)"
 
-#: src/pythoninterfaces/otioconvertions.cpp:121
+#: src/pythoninterfaces/otioconvertions.cpp:132
 #, kde-format
 msgid "Project file could not be saved for export."
 msgstr "Layihə faylı ixrac üçün saxlanıla bilmədi"
 
-#: src/pythoninterfaces/otioconvertions.cpp:127
+#: src/pythoninterfaces/otioconvertions.cpp:138
 #, kde-format
 msgid "Unable to write to temporary kdenlive file for export: %1"
 msgstr "İxrac üçün kdenlive müvəqqəti faylına yazıla bilmədi: %1"
 
-#: src/pythoninterfaces/otioconvertions.cpp:142
+#: src/pythoninterfaces/otioconvertions.cpp:153
 #, kde-format
 msgid "Project to import"
 msgstr "İdxal ediləcək layihə"
 
-#: src/pythoninterfaces/otioconvertions.cpp:148
+#: src/pythoninterfaces/otioconvertions.cpp:159
 #, kde-format
 msgid "Imported Project"
 msgstr "İdxal edilmiş layihə"
 
-#: src/pythoninterfaces/otioconvertions.cpp:149
+#: src/pythoninterfaces/otioconvertions.cpp:160
 #, kde-format
 msgid "Kdenlive project (*.kdenlive)"
 msgstr "Kdenlive layihəsi (*.kdenlive)"
 
-#: src/pythoninterfaces/otioconvertions.cpp:158
+#: src/pythoninterfaces/otioconvertions.cpp:169
 #, kde-format
 msgid ""
 "The current project has not been saved\n"
@@ -17329,7 +17329,7 @@ msgstr "Cari nöqtəni seçin."
 #: src/ui/collapsiblewidget_ui.ui:175 src/ui/collapsiblewidget_ui.ui:188
 #: src/ui/collapsiblewidget_ui.ui:198 src/ui/collapsiblewidget_ui.ui:208
 #: src/ui/configjogshuttle_ui.ui:82 src/ui/configsdl_ui.ui:166
-#: src/ui/configspeech_ui.ui:99 src/ui/configspeech_ui.ui:113
+#: src/ui/configspeech_ui.ui:209 src/ui/configspeech_ui.ui:223
 #: src/ui/cutjobdialog_ui.ui:84 src/ui/editrenderpreset_ui.ui:470
 #: src/ui/editsub_ui.ui:23 src/ui/editsub_ui.ui:33 src/ui/editsub_ui.ui:43
 #: src/ui/editsub_ui.ui:54 src/ui/editsub_ui.ui:65 src/ui/editsub_ui.ui:76
@@ -17798,7 +17798,7 @@ msgstr "Saxlanılan faylın adı:"
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #: src/ui/configcapture_ui.ui:531 src/ui/configjogshuttle_ui.ui:106
-#: src/ui/configspeech_ui.ui:194
+#: src/ui/configspeech_ui.ui:143
 #, kde-format
 msgid "Device:"
 msgstr "Qurğu:"
@@ -18501,87 +18501,86 @@ msgstr "Xarici ekrandan istifadə edin (Blackmagic kartı)"
 msgid "Output device:"
 msgstr "Çıxış qurğusu:"
 
-#. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
-#: src/ui/configspeech_ui.ui:21
-#, kde-format
-msgid "Whisper"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QRadioButton, engine_vosk)
-#: src/ui/configspeech_ui.ui:44
-#, kde-format
-msgid "VOSK"
-msgstr ""
-
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/configspeech_ui.ui:51
+#: src/ui/configspeech_ui.ui:23
 #, fuzzy, kde-format
 #| msgid "Speech recognition"
 msgid "Speech engine"
 msgstr "Nitqin tanınması"
 
-#. i18n: ectx: property (toolTip), widget (QPushButton, check_vosk)
-#: src/ui/configspeech_ui.ui:82
+#. i18n: ectx: property (text), widget (QRadioButton, engine_vosk)
+#: src/ui/configspeech_ui.ui:30
 #, kde-format
-msgid "Check VOSK installation"
-msgstr "VOSK quraşdırılmasını yoxlayın"
+msgid "VOSK"
+msgstr ""
 
-#. i18n: ectx: property (text), widget (QPushButton, check_vosk)
-#. i18n: ectx: property (text), widget (QPushButton, check_whisper)
-#: src/ui/configspeech_ui.ui:85 src/ui/configspeech_ui.ui:252
+#. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
+#: src/ui/configspeech_ui.ui:37
 #, kde-format
-msgid "Check configuration"
-msgstr "Tənzimləməni dəyişin"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, button_delete)
-#: src/ui/configspeech_ui.ui:96
-#, kde-format
-msgid "Delete the selected speech model"
-msgstr "Seçilmiş nitq modulunu silin"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, button_add)
-#: src/ui/configspeech_ui.ui:110
-#, kde-format
-msgid "Add a new speech model from an archive file"
-msgstr "Yeni nitq modulunu arxiv faylından əlavə edin"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configspeech_ui.ui:124
-#, kde-format
-msgid "VOSK Speech Models"
-msgstr "VOSK nitq modelləri"
+msgid "Whisper"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, custom_vosk_folder)
-#: src/ui/configspeech_ui.ui:131
+#: src/ui/configspeech_ui.ui:95
 #, kde-format
 msgid "Custom models folder"
 msgstr "İstifadəçi modelləri qovluğu"
 
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/ui/configspeech_ui.ui:112
+#, kde-format
+msgid "VOSK Speech Models"
+msgstr "VOSK nitq modelləri"
+
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configspeech_ui.ui:174
+#: src/ui/configspeech_ui.ui:123
 #, fuzzy, kde-format
 #| msgid "Mode"
 msgid "Model:"
 msgstr "Rejim"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/configspeech_ui.ui:184
+#: src/ui/configspeech_ui.ui:133
 #, fuzzy, kde-format
 #| msgid "Language:"
 msgid "Language:"
 msgstr "Dil:"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
-#: src/ui/configspeech_ui.ui:204
+#: src/ui/configspeech_ui.ui:153
 #, kde-format
 msgid "Whisper processing on cpu is very slow"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, wr_translate)
-#: src/ui/configspeech_ui.ui:214
+#: src/ui/configspeech_ui.ui:163
 #, kde-format
 msgid "Translate text to english"
 msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, button_add)
+#: src/ui/configspeech_ui.ui:206
+#, kde-format
+msgid "Add a new speech model from an archive file"
+msgstr "Yeni nitq modulunu arxiv faylından əlavə edin"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, button_delete)
+#: src/ui/configspeech_ui.ui:220
+#, kde-format
+msgid "Delete the selected speech model"
+msgstr "Seçilmiş nitq modulunu silin"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
+#: src/ui/configspeech_ui.ui:247
+#, kde-format
+msgid "Check VOSK installation"
+msgstr "VOSK quraşdırılmasını yoxlayın"
+
+#. i18n: ectx: property (text), widget (QPushButton, check_config)
+#: src/ui/configspeech_ui.ui:250
+#, kde-format
+msgid "Check configuration"
+msgstr "Tənzimləməni dəyişin"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)
