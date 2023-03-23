@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-22 03:24+0000\n"
+"POT-Creation-Date: 2023-03-23 03:11+0000\n"
 "PO-Revision-Date: 2023-02-17 01:07+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -8976,7 +8976,7 @@ msgstr "Hz "
 msgid "Merged streams"
 msgstr "Birləşdirilmiş axınlar"
 
-#: src/library/librarywidget.cpp:196 src/library/librarywidget.cpp:493
+#: src/library/librarywidget.cpp:196 src/library/librarywidget.cpp:509
 #, kde-format
 msgid "Check your settings, Library path is invalid: %1"
 msgstr "Ayarları yoxlayın, kitabxana yolu səhvdir: %1"
@@ -9035,12 +9035,12 @@ msgid ""
 "that the paths to images, video and audio files are saved as absolute paths."
 msgstr ""
 
-#: src/library/librarywidget.cpp:315
+#: src/library/librarywidget.cpp:331
 #, kde-format
 msgid "You are trying to remove an invalid folder: %1"
 msgstr "Yararsız qovluğu silməyə cəhd edirsiniz: %1"
 
-#: src/library/librarywidget.cpp:320
+#: src/library/librarywidget.cpp:336
 #, kde-format
 msgid ""
 "This will delete the folder %1, including all playlists in it.\n"
@@ -9049,14 +9049,14 @@ msgstr ""
 "Bu, %1 qovluğunu və tərkibindəki bütün ifa siyahılarını siləcək.\n"
 "Bu ləğv edilə bilməz"
 
-#: src/library/librarywidget.cpp:329
+#: src/library/librarywidget.cpp:345
 #, kde-format
 msgid ""
 "This will delete the MLT playlist:\n"
 "%1"
 msgstr "Bu, %1MLT ifa siyahısını siləcəkdir"
 
-#: src/library/librarywidget.cpp:331
+#: src/library/librarywidget.cpp:347
 #, kde-format
 msgid ""
 "This will delete the file:\n"
@@ -9065,43 +9065,43 @@ msgstr ""
 "Bu, %1\n"
 "faylını siləcəkdir"
 
-#: src/library/librarywidget.cpp:338
+#: src/library/librarywidget.cpp:354
 #, kde-format
 msgid "Error removing %1"
 msgstr "%1 silinmə xətası"
 
-#: src/library/librarywidget.cpp:346
+#: src/library/librarywidget.cpp:362
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Folder to Library"
 msgstr "Qovluğu kitabxanaya əlavə edin"
 
-#: src/library/librarywidget.cpp:346
+#: src/library/librarywidget.cpp:362
 #, kde-format
 msgid "Enter a folder name"
 msgstr "Qovluq adını daxil edin"
 
-#: src/library/librarywidget.cpp:368
+#: src/library/librarywidget.cpp:384
 #, kde-format
 msgid "Folder %1 already exists"
 msgstr "%1 qovluğu artıq mövcuddur"
 
-#: src/library/librarywidget.cpp:372
+#: src/library/librarywidget.cpp:388
 #, kde-format
 msgid "Error creating folder %1"
 msgstr "%1 qovluğunun yaradılmasında xəta"
 
-#: src/library/librarywidget.cpp:471
+#: src/library/librarywidget.cpp:487
 #, kde-format
 msgid "Library path set to default: %1"
 msgstr "Bu kitabxana yolu standart olaraq təyin olundu: %1"
 
-#: src/library/librarywidget.cpp:477
+#: src/library/librarywidget.cpp:493
 #, kde-format
 msgid "Library path set to custom: %1"
 msgstr "Bu, xüsusi kitabxana yolu kimi təyin olundu: %1"
 
-#: src/library/librarywidget.cpp:483
+#: src/library/librarywidget.cpp:499
 #, kde-format
 msgid "Cannot write to Library path: %1, using default"
 msgstr "Kitabxana yoluna yazıla bilməz: %1, standart yol istifadə olunur"
