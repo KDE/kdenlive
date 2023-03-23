@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-22 03:24+0000\n"
+"POT-Creation-Date: 2023-03-23 03:11+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -9196,7 +9196,7 @@ msgstr "H"
 msgid "Merged streams"
 msgstr "Audio traka"
 
-#: src/library/librarywidget.cpp:196 src/library/librarywidget.cpp:493
+#: src/library/librarywidget.cpp:196 src/library/librarywidget.cpp:509
 #, kde-format
 msgid "Check your settings, Library path is invalid: %1"
 msgstr ""
@@ -9254,72 +9254,72 @@ msgid ""
 "that the paths to images, video and audio files are saved as absolute paths."
 msgstr ""
 
-#: src/library/librarywidget.cpp:315
+#: src/library/librarywidget.cpp:331
 #, kde-format
 msgid "You are trying to remove an invalid folder: %1"
 msgstr ""
 
-#: src/library/librarywidget.cpp:320
+#: src/library/librarywidget.cpp:336
 #, kde-format
 msgid ""
 "This will delete the folder %1, including all playlists in it.\n"
 "This cannot be undone"
 msgstr ""
 
-#: src/library/librarywidget.cpp:329
+#: src/library/librarywidget.cpp:345
 #, kde-format
 msgid ""
 "This will delete the MLT playlist:\n"
 "%1"
 msgstr ""
 
-#: src/library/librarywidget.cpp:331
+#: src/library/librarywidget.cpp:347
 #, fuzzy, kde-format
 msgid ""
 "This will delete the file:\n"
 "%1"
 msgstr "Ovo će izbaciti odabrane isječke iz projekta"
 
-#: src/library/librarywidget.cpp:338
+#: src/library/librarywidget.cpp:354
 #, fuzzy, kde-format
 #| msgid "Error removing clip at %1 on track %2"
 msgid "Error removing %1"
 msgstr "Greška pri uklanjanju isječka na %1 , traka %2"
 
-#: src/library/librarywidget.cpp:346
+#: src/library/librarywidget.cpp:362
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Add Folder to Library"
 msgstr "dodaj isječak projektu"
 
-#: src/library/librarywidget.cpp:346
+#: src/library/librarywidget.cpp:362
 #, fuzzy, kde-format
 #| msgid "Center Frequency"
 msgid "Enter a folder name"
 msgstr "Centriraj frekvenciju"
 
-#: src/library/librarywidget.cpp:368
+#: src/library/librarywidget.cpp:384
 #, fuzzy, kde-format
 #| msgid "Profile already exists"
 msgid "Folder %1 already exists"
 msgstr "Profil već postoji"
 
-#: src/library/librarywidget.cpp:372
+#: src/library/librarywidget.cpp:388
 #, fuzzy, kde-format
 msgid "Error creating folder %1"
 msgstr "Stvaranje završeno u %1"
 
-#: src/library/librarywidget.cpp:471
+#: src/library/librarywidget.cpp:487
 #, kde-format
 msgid "Library path set to default: %1"
 msgstr ""
 
-#: src/library/librarywidget.cpp:477
+#: src/library/librarywidget.cpp:493
 #, kde-format
 msgid "Library path set to custom: %1"
 msgstr ""
 
-#: src/library/librarywidget.cpp:483
+#: src/library/librarywidget.cpp:499
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot write to Library path: %1, using default"

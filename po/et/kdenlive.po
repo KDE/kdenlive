@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-22 03:24+0000\n"
+"POT-Creation-Date: 2023-03-23 03:11+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -9277,7 +9277,7 @@ msgstr "Hz "
 msgid "Merged streams"
 msgstr "Ühendatud vood"
 
-#: src/library/librarywidget.cpp:196 src/library/librarywidget.cpp:493
+#: src/library/librarywidget.cpp:196 src/library/librarywidget.cpp:509
 #, kde-format
 msgid "Check your settings, Library path is invalid: %1"
 msgstr "Kontrolli seadistusi, videoteegi asukoht on vigane: %1"
@@ -9336,12 +9336,12 @@ msgid ""
 "that the paths to images, video and audio files are saved as absolute paths."
 msgstr ""
 
-#: src/library/librarywidget.cpp:315
+#: src/library/librarywidget.cpp:331
 #, kde-format
 msgid "You are trying to remove an invalid folder: %1"
 msgstr "Üritad eemaldada vigast kataloogi: %1"
 
-#: src/library/librarywidget.cpp:320
+#: src/library/librarywidget.cpp:336
 #, kde-format
 msgid ""
 "This will delete the folder %1, including all playlists in it.\n"
@@ -9351,7 +9351,7 @@ msgstr ""
 "esitusloendid.\n"
 "Seda ei saa tagasi võtta."
 
-#: src/library/librarywidget.cpp:329
+#: src/library/librarywidget.cpp:345
 #, kde-format
 msgid ""
 "This will delete the MLT playlist:\n"
@@ -9360,7 +9360,7 @@ msgstr ""
 "Sellega kustutatakse MLT esitusloend:\n"
 "%1"
 
-#: src/library/librarywidget.cpp:331
+#: src/library/librarywidget.cpp:347
 #, kde-format
 msgid ""
 "This will delete the file:\n"
@@ -9369,44 +9369,44 @@ msgstr ""
 "Sellega kustutatakse fail:\n"
 "%1"
 
-#: src/library/librarywidget.cpp:338
+#: src/library/librarywidget.cpp:354
 #, kde-format
 msgid "Error removing %1"
 msgstr "Tõrge %1 eemaldamisel"
 
-#: src/library/librarywidget.cpp:346
+#: src/library/librarywidget.cpp:362
 #, fuzzy, kde-format
 #| msgid "Add Folder to Library"
 msgctxt "@title:window"
 msgid "Add Folder to Library"
 msgstr "Kataloogi lisamine videoteeki"
 
-#: src/library/librarywidget.cpp:346
+#: src/library/librarywidget.cpp:362
 #, kde-format
 msgid "Enter a folder name"
 msgstr "Sisesta kataloogi nimi"
 
-#: src/library/librarywidget.cpp:368
+#: src/library/librarywidget.cpp:384
 #, kde-format
 msgid "Folder %1 already exists"
 msgstr "Kataloog %1 on juba olemas"
 
-#: src/library/librarywidget.cpp:372
+#: src/library/librarywidget.cpp:388
 #, kde-format
 msgid "Error creating folder %1"
 msgstr "Tõrge kataloogi %1 loomisel"
 
-#: src/library/librarywidget.cpp:471
+#: src/library/librarywidget.cpp:487
 #, kde-format
 msgid "Library path set to default: %1"
 msgstr "Videoteegile määratakse vaikimisi asukoht: %1"
 
-#: src/library/librarywidget.cpp:477
+#: src/library/librarywidget.cpp:493
 #, kde-format
 msgid "Library path set to custom: %1"
 msgstr "Videoteegile määratakse kohandatud asukoht: %1"
 
-#: src/library/librarywidget.cpp:483
+#: src/library/librarywidget.cpp:499
 #, kde-format
 msgid "Cannot write to Library path: %1, using default"
 msgstr ""

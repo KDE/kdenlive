@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-22 03:24+0000\n"
+"POT-Creation-Date: 2023-03-23 03:11+0000\n"
 "PO-Revision-Date: 2023-03-17 13:14+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -9010,7 +9010,7 @@ msgstr "Hz "
 msgid "Merged streams"
 msgstr "Fluxos fusionats"
 
-#: src/library/librarywidget.cpp:196 src/library/librarywidget.cpp:493
+#: src/library/librarywidget.cpp:196 src/library/librarywidget.cpp:509
 #, kde-format
 msgid "Check your settings, Library path is invalid: %1"
 msgstr "Verifiqueu la configuració, el camí a la biblioteca no és vàlid: %1"
@@ -9070,12 +9070,12 @@ msgstr ""
 "biblioteca. Tingueu en compte que els camins als fitxers de les imatges, "
 "vídeo i àudio es desen com a camins absoluts."
 
-#: src/library/librarywidget.cpp:315
+#: src/library/librarywidget.cpp:331
 #, kde-format
 msgid "You are trying to remove an invalid folder: %1"
 msgstr "esteu intentant eliminar una carpeta no vàlida: %1"
 
-#: src/library/librarywidget.cpp:320
+#: src/library/librarywidget.cpp:336
 #, kde-format
 msgid ""
 "This will delete the folder %1, including all playlists in it.\n"
@@ -9085,7 +9085,7 @@ msgstr ""
 "de dins.\n"
 "Això no es pot desfer"
 
-#: src/library/librarywidget.cpp:329
+#: src/library/librarywidget.cpp:345
 #, kde-format
 msgid ""
 "This will delete the MLT playlist:\n"
@@ -9094,7 +9094,7 @@ msgstr ""
 "Això suprimirà la llista de reproducció MLT:\n"
 "%1"
 
-#: src/library/librarywidget.cpp:331
+#: src/library/librarywidget.cpp:347
 #, kde-format
 msgid ""
 "This will delete the file:\n"
@@ -9103,43 +9103,43 @@ msgstr ""
 "Això suprimirà el fitxer:\n"
 "%1"
 
-#: src/library/librarywidget.cpp:338
+#: src/library/librarywidget.cpp:354
 #, kde-format
 msgid "Error removing %1"
 msgstr "Error en eliminar %1"
 
-#: src/library/librarywidget.cpp:346
+#: src/library/librarywidget.cpp:362
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Folder to Library"
 msgstr "Afegeix una carpeta a la biblioteca"
 
-#: src/library/librarywidget.cpp:346
+#: src/library/librarywidget.cpp:362
 #, kde-format
 msgid "Enter a folder name"
 msgstr "Introduïu un nom de carpeta"
 
-#: src/library/librarywidget.cpp:368
+#: src/library/librarywidget.cpp:384
 #, kde-format
 msgid "Folder %1 already exists"
 msgstr "La carpeta %1 ja existeix"
 
-#: src/library/librarywidget.cpp:372
+#: src/library/librarywidget.cpp:388
 #, kde-format
 msgid "Error creating folder %1"
 msgstr "Error en crear la carpeta %1"
 
-#: src/library/librarywidget.cpp:471
+#: src/library/librarywidget.cpp:487
 #, kde-format
 msgid "Library path set to default: %1"
 msgstr "Camí a la biblioteca establerta a predeterminada: %1"
 
-#: src/library/librarywidget.cpp:477
+#: src/library/librarywidget.cpp:493
 #, kde-format
 msgid "Library path set to custom: %1"
 msgstr "Camí a la biblioteca establerta a personalitzada: %1"
 
-#: src/library/librarywidget.cpp:483
+#: src/library/librarywidget.cpp:499
 #, kde-format
 msgid "Cannot write to Library path: %1, using default"
 msgstr ""
