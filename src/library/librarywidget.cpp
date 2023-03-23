@@ -261,6 +261,22 @@ void LibraryWidget::slotAddToLibrary()
     if (!isEnabled()) {
         return;
     }
+    QTreeWidgetItem *current = m_libraryTree->currentItem();
+    if (current) {
+        if (current->data(0, Qt::UserRole + 2).toInt() != LibraryItem::Folder) {
+            current = current->parent();
+        }
+        if (current && current->data(0, Qt::UserRole + 2).toInt() == LibraryItem::Folder) {
+            // We are in a folder, send correct path
+            const QString path = current->data(0, Qt::UserRole).toString();
+            QDir directory(path);
+            if (path.isEmpty() || !directory.exists()) {
+                directory = m_directory;
+            }
+            Q_EMIT saveTimelineSelection(directory);
+            return;
+        }
+    }
     Q_EMIT saveTimelineSelection(m_directory);
 }
 
