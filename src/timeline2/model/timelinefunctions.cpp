@@ -1426,7 +1426,7 @@ void TimelineFunctions::saveTimelineSelection(const std::shared_ptr<TimelineItem
     }
     // Sort compositions and insert
     if (!compositions.isEmpty()) {
-        std::sort(compositions.begin(), compositions.end(), [](Mlt::Transition *a, Mlt::Transition *b) { return a->get_b_track() < b->get_b_track(); });
+        std::sort(compositions.begin(), compositions.end(), [](Mlt::Transition *a, Mlt::Transition *b) { return a->get_b_track() > b->get_b_track(); });
         while (!compositions.isEmpty()) {
             QScopedPointer<Mlt::Transition> t(compositions.takeFirst());
             int a_track = t->get_a_track();
@@ -2255,7 +2255,8 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
             int curTrackId = tracksMap.value(prod.attribute(QStringLiteral("track")).toInt());
             int aTrackId = prod.attribute(QStringLiteral("a_track")).toInt();
             if (tracksMap.contains(aTrackId)) {
-                aTrackId = timeline->getTrackPosition(tracksMap.value(aTrackId));
+                // We need to add 1 here to account for black background track
+                aTrackId = timeline->getTrackPosition(tracksMap.value(aTrackId)) + 1;
             } else {
                 aTrackId = 0;
             }
