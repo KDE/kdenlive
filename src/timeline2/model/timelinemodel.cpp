@@ -4925,6 +4925,24 @@ bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int
     return result;
 }
 
+bool TimelineModel::requestCompositionCreation(const QString &transitionId, int length, std::unique_ptr<Mlt::Properties> transProps, int &id, Fun &undo,
+                                               Fun &redo, bool finalMove, const QString &originalDecimalPoint)
+{
+    int compositionId = TimelineModel::getNextId();
+    id = compositionId;
+    Fun local_undo = deregisterComposition_lambda(compositionId);
+    CompositionModel::construct(shared_from_this(), transitionId, originalDecimalPoint, length, compositionId, std::move(transProps));
+    auto composition = m_allCompositions[compositionId];
+    Fun local_redo = [composition, this]() {
+        // We capture a shared_ptr to the composition, which means that as long as this undo object lives, the composition object is not deleted. To insert it
+        // back it is sufficient to register it.
+        registerComposition(composition);
+        return true;
+    };
+    UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+    return true;
+}
+
 bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int trackId, int compositionTrack, int position, int length,
                                                 std::unique_ptr<Mlt::Properties> transProps, int &id, Fun &undo, Fun &redo, bool finalMove,
                                                 const QString &originalDecimalPoint)
