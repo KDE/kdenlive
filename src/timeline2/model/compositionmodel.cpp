@@ -49,6 +49,10 @@ int CompositionModel::construct(const std::weak_ptr<TimelineModel> &parent, cons
     }
     std::shared_ptr<CompositionModel> composition(new CompositionModel(parent, std::move(transition), id, xml, transitionId, originalDecimalPoint));
     id = composition->m_id;
+    composition->m_duration = length - 1;
+    if (sourceProperties) {
+        composition->prepareKeyframes();
+    }
 
     if (auto ptr = parent.lock()) {
         ptr->registerComposition(composition);

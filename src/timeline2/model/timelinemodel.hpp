@@ -705,6 +705,17 @@ public:
        @param pos is the current position
      */
     void removeSnap(int pos);
+    /** @brief Create a composition.
+       This action is undoable
+       Returns true on success. If it fails, nothing is modified.
+       @param transitionId Identifier of the Mlt transition to insert (as given by repository)
+       @param length Requested initial length.
+       @param transProps The properties for the transition.
+       @param id return parameter of the id of the inserted composition
+       @param logUndo if set to false, no undo object is stored
+    */
+    bool requestCompositionCreation(const QString &transitionId, int length, std::unique_ptr<Mlt::Properties> transProps, int &id, Fun &undo, Fun &redo,
+                                    bool finalMove = false, const QString &originalDecimalPoint = QString());
 
     /** @brief Request composition insertion at given position.
        This action is undoable
@@ -713,6 +724,7 @@ public:
        @param track Id of the track where to insert
        @param position Requested position
        @param length Requested initial length.
+       @param transProps The properties for the transition.
        @param id return parameter of the id of the inserted composition
        @param logUndo if set to false, no undo object is stored
     */

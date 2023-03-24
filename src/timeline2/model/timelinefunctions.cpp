@@ -2291,16 +2291,18 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
             int in = prod.attribute(QStringLiteral("in")).toInt() * ratio;
             int out = prod.attribute(QStringLiteral("out")).toInt() * ratio;
             int pos = prod.attribute(QStringLiteral("position")).toInt() * ratio - offset;
-            pos -= inPos;
+            int newPos = pos - inPos;
             int compoDuration = out - in + 1;
-            if (pos < 0) {
-                compoDuration += pos;
-                pos = 0;
+            int compoDuration2 = out - in + 1;
+            if (newPos < 0) {
+                // resize composition
+                compoDuration += newPos;
+                newPos = 0;
             }
-            if (pos + compoDuration > inPos + duration) {
-                compoDuration = inPos + duration - pos;
+            if (newPos + compoDuration > inPos + duration) {
+                compoDuration2 = inPos + duration - newPos;
             }
-            if (compoDuration <= 0) {
+            if (compoDuration2 <= 0) {
                 continue;
             }
             int curTrackId = tracksMap.value(prod.attribute(QStringLiteral("track")).toInt());
@@ -2318,8 +2320,15 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
                 transProps->set(props.at(j).toElement().attribute(QStringLiteral("name")).toUtf8().constData(),
                                 props.at(j).toElement().text().toUtf8().constData());
             }
-            res = res && timeline->requestCompositionInsertion(originalId, curTrackId, aTrackId, position + pos, compoDuration, std::move(transProps), newId,
-                                                               timeline_undo, timeline_redo);
+            res = res && timeline->requestCompositionCreation(originalId, out - in + 1, std::move(transProps), newId, timeline_undo, timeline_redo);
+            if (newPos != pos) {
+                // transition start resized
+                timeline->requestItemResize(newId, compoDuration, false, true, timeline_undo, timeline_redo, false);
+            }
+            if (compoDuration != compoDuration2) {
+                timeline->requestItemResize(newId, compoDuration2, true, true, timeline_undo, timeline_redo, false);
+            }
+            res = res && timeline->requestCompositionMove(newId, curTrackId, aTrackId, position + newPos, true, true, timeline_undo, timeline_redo);
         }
     }
     if (res && !subtitles.isEmpty()) {
