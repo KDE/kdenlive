@@ -164,7 +164,7 @@ void EffectStackView::dropEvent(QDropEvent *event)
     QString effectId = event->mimeData()->data(QStringLiteral("kdenlive/effect"));
     if (event->source() == this) {
         QString sourceData = event->mimeData()->data(QStringLiteral("kdenlive/effectsource"));
-        int oldRow = sourceData.section(QLatin1Char('-'), 2, 2).toInt();
+        int oldRow = sourceData.section(QLatin1Char(','), 2, 2).toInt();
         qDebug() << "// MOVING EFFECT FROM : " << oldRow << " TO " << dragRow;
         if (dragRow == oldRow || (dragRow == m_model->rowCount() && oldRow == dragRow - 1)) {
             return;
