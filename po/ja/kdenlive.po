@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-22 00:47+0000\n"
+"POT-Creation-Date: 2023-03-24 00:47+0000\n"
 "PO-Revision-Date: 2023-03-09 21:18-0800\n"
 "Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -9351,7 +9351,7 @@ msgstr "H"
 msgid "Merged streams"
 msgstr "オーディオトラック"
 
-#: src/library/librarywidget.cpp:196 src/library/librarywidget.cpp:493
+#: src/library/librarywidget.cpp:196 src/library/librarywidget.cpp:509
 #, kde-format
 msgid "Check your settings, Library path is invalid: %1"
 msgstr "設定を確認してください、ライブラリパスが無効です: %1"
@@ -9416,12 +9416,12 @@ msgid ""
 "that the paths to images, video and audio files are saved as absolute paths."
 msgstr ""
 
-#: src/library/librarywidget.cpp:315
+#: src/library/librarywidget.cpp:331
 #, kde-format
 msgid "You are trying to remove an invalid folder: %1"
 msgstr "無効なフォルダを削除しようとしています: %1"
 
-#: src/library/librarywidget.cpp:320
+#: src/library/librarywidget.cpp:336
 #, kde-format
 msgid ""
 "This will delete the folder %1, including all playlists in it.\n"
@@ -9430,7 +9430,7 @@ msgstr ""
 "フォルダー %1 を、中に含まれるプレイリストごと削除します。\n"
 "これは取り消しできません"
 
-#: src/library/librarywidget.cpp:329
+#: src/library/librarywidget.cpp:345
 #, kde-format
 msgid ""
 "This will delete the MLT playlist:\n"
@@ -9439,7 +9439,7 @@ msgstr ""
 "MLT プレイリストを削除します:\n"
 "%1"
 
-#: src/library/librarywidget.cpp:331
+#: src/library/librarywidget.cpp:347
 #, fuzzy, kde-format
 #| msgid "This will remove the selected clip from this project"
 #| msgid_plural "This will remove the selected clips from this project"
@@ -9448,13 +9448,13 @@ msgid ""
 "%1"
 msgstr "これを実行すると、このプロジェクトから選択したクリップを削除します"
 
-#: src/library/librarywidget.cpp:338
+#: src/library/librarywidget.cpp:354
 #, fuzzy, kde-format
 #| msgid "Error removing clip at %1 on track %2"
 msgid "Error removing %1"
 msgstr "トラック %2 上のクリップ %1 の削除時にエラーが発生しました"
 
-#: src/library/librarywidget.cpp:346
+#: src/library/librarywidget.cpp:362
 #, fuzzy, kde-format
 #| msgid "Add clip to project"
 #| msgid_plural "Add clips to project"
@@ -9462,35 +9462,35 @@ msgctxt "@title:window"
 msgid "Add Folder to Library"
 msgstr "プロジェクトにクリップを追加"
 
-#: src/library/librarywidget.cpp:346
+#: src/library/librarywidget.cpp:362
 #, fuzzy, kde-format
 #| msgid "Enter sequence name"
 msgid "Enter a folder name"
 msgstr "シーケンス名の入力"
 
-#: src/library/librarywidget.cpp:368
+#: src/library/librarywidget.cpp:384
 #, fuzzy, kde-format
 #| msgid "Profile already exists"
 msgid "Folder %1 already exists"
 msgstr "プロファイルは既に存在しています"
 
-#: src/library/librarywidget.cpp:372
+#: src/library/librarywidget.cpp:388
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error creating folder %1"
 msgstr "ファイルを開く際にエラーが発生しました"
 
-#: src/library/librarywidget.cpp:471
+#: src/library/librarywidget.cpp:487
 #, kde-format
 msgid "Library path set to default: %1"
 msgstr "ライブラリパスを既定にしました: %1"
 
-#: src/library/librarywidget.cpp:477
+#: src/library/librarywidget.cpp:493
 #, kde-format
 msgid "Library path set to custom: %1"
 msgstr "ライブラリパスをカスタムにしました: %1"
 
-#: src/library/librarywidget.cpp:483
+#: src/library/librarywidget.cpp:499
 #, fuzzy, kde-format
 #| msgid "Cannot write to path: %1"
 msgid "Cannot write to Library path: %1, using default"
@@ -16102,25 +16102,25 @@ msgid "All clips were not successfully copied"
 msgstr ""
 
 #: src/timeline2/model/timelinefunctions.cpp:2166
-#: src/timeline2/model/timelinefunctions.cpp:2287
+#: src/timeline2/model/timelinefunctions.cpp:2288
 #, fuzzy, kde-format
 #| msgid "update values in timeline"
 msgid "Could not paste items in timeline"
 msgstr "タイムライン内で値を更新する"
 
-#: src/timeline2/model/timelinefunctions.cpp:2307
+#: src/timeline2/model/timelinefunctions.cpp:2308
 #, fuzzy, kde-format
 #| msgid "Playlist clips"
 msgid "Paste timeline clips"
 msgstr "プレイリスト・クリップ"
 
-#: src/timeline2/model/timelinefunctions.cpp:2525
+#: src/timeline2/model/timelinefunctions.cpp:2526
 #, fuzzy, kde-format
 #| msgid "Remove Space"
 msgid "Remove space on track"
 msgstr "領域の削除"
 
-#: src/timeline2/model/timelinefunctions.cpp:2552
+#: src/timeline2/model/timelinefunctions.cpp:2553
 #, fuzzy, kde-format
 #| msgid "Delete Track"
 msgid "Delete clips on track"

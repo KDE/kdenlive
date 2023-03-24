@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-22 00:47+0000\n"
+"POT-Creation-Date: 2023-03-24 00:47+0000\n"
 "PO-Revision-Date: 2023-03-11 04:52\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -8806,7 +8806,7 @@ msgstr "Hz "
 msgid "Merged streams"
 msgstr "已合并流"
 
-#: src/library/librarywidget.cpp:196 src/library/librarywidget.cpp:493
+#: src/library/librarywidget.cpp:196 src/library/librarywidget.cpp:509
 #, kde-format
 msgid "Check your settings, Library path is invalid: %1"
 msgstr "请检查设置，素材库路径无效：%1"
@@ -8864,12 +8864,12 @@ msgstr ""
 "将当前在时间轴中选中的剪辑添加到素材库。请注意：图像、视频、音频文件在 "
 "Kdenlive 中使用绝对路径保存。"
 
-#: src/library/librarywidget.cpp:315
+#: src/library/librarywidget.cpp:331
 #, kde-format
 msgid "You are trying to remove an invalid folder: %1"
 msgstr "您正在尝试移除一个无效文件夹：%1"
 
-#: src/library/librarywidget.cpp:320
+#: src/library/librarywidget.cpp:336
 #, kde-format
 msgid ""
 "This will delete the folder %1, including all playlists in it.\n"
@@ -8878,7 +8878,7 @@ msgstr ""
 "此操作将删除文件夹 %1，包括其中的所有播放列表。\n"
 "此操作无法撤销。"
 
-#: src/library/librarywidget.cpp:329
+#: src/library/librarywidget.cpp:345
 #, kde-format
 msgid ""
 "This will delete the MLT playlist:\n"
@@ -8887,7 +8887,7 @@ msgstr ""
 "此操作将删除 MLT 播放列表：\n"
 "%1"
 
-#: src/library/librarywidget.cpp:331
+#: src/library/librarywidget.cpp:347
 #, kde-format
 msgid ""
 "This will delete the file:\n"
@@ -8896,43 +8896,43 @@ msgstr ""
 "此操作将删除文件：\n"
 "%1"
 
-#: src/library/librarywidget.cpp:338
+#: src/library/librarywidget.cpp:354
 #, kde-format
 msgid "Error removing %1"
 msgstr "删除 %1 时出错"
 
-#: src/library/librarywidget.cpp:346
+#: src/library/librarywidget.cpp:362
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Folder to Library"
 msgstr "添加文件夹到素材库"
 
-#: src/library/librarywidget.cpp:346
+#: src/library/librarywidget.cpp:362
 #, kde-format
 msgid "Enter a folder name"
 msgstr "输入文件夹名称"
 
-#: src/library/librarywidget.cpp:368
+#: src/library/librarywidget.cpp:384
 #, kde-format
 msgid "Folder %1 already exists"
 msgstr "文件夹 %1 已经存在"
 
-#: src/library/librarywidget.cpp:372
+#: src/library/librarywidget.cpp:388
 #, kde-format
 msgid "Error creating folder %1"
 msgstr "创建文件夹 %1 时出错"
 
-#: src/library/librarywidget.cpp:471
+#: src/library/librarywidget.cpp:487
 #, kde-format
 msgid "Library path set to default: %1"
 msgstr "素材库路径设为默认值：%1"
 
-#: src/library/librarywidget.cpp:477
+#: src/library/librarywidget.cpp:493
 #, kde-format
 msgid "Library path set to custom: %1"
 msgstr "素材库路径设为自定义：%1"
 
-#: src/library/librarywidget.cpp:483
+#: src/library/librarywidget.cpp:499
 #, kde-format
 msgid "Cannot write to Library path: %1, using default"
 msgstr "无法写入到素材库路径：%1，使用默认值"
@@ -15155,22 +15155,22 @@ msgid "All clips were not successfully copied"
 msgstr "未成功复制所有素材"
 
 #: src/timeline2/model/timelinefunctions.cpp:2166
-#: src/timeline2/model/timelinefunctions.cpp:2287
+#: src/timeline2/model/timelinefunctions.cpp:2288
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "无法粘贴项目到时间轴"
 
-#: src/timeline2/model/timelinefunctions.cpp:2307
+#: src/timeline2/model/timelinefunctions.cpp:2308
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "粘贴时间轴剪辑"
 
-#: src/timeline2/model/timelinefunctions.cpp:2525
+#: src/timeline2/model/timelinefunctions.cpp:2526
 #, kde-format
 msgid "Remove space on track"
 msgstr "移除轨道中的空白"
 
-#: src/timeline2/model/timelinefunctions.cpp:2552
+#: src/timeline2/model/timelinefunctions.cpp:2553
 #, kde-format
 msgid "Delete clips on track"
 msgstr "删除轨道中的剪辑"

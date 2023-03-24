@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-22 00:47+0000\n"
+"POT-Creation-Date: 2023-03-24 00:47+0000\n"
 "PO-Revision-Date: 2023-03-19 09:46+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -8981,7 +8981,7 @@ msgstr "Hz "
 msgid "Merged streams"
 msgstr "Zliti tokovi"
 
-#: src/library/librarywidget.cpp:196 src/library/librarywidget.cpp:493
+#: src/library/librarywidget.cpp:196 src/library/librarywidget.cpp:509
 #, kde-format
 msgid "Check your settings, Library path is invalid: %1"
 msgstr "Preverite vaše nastavitve. Pot knjižnice ni veljavna: %1"
@@ -9039,12 +9039,12 @@ msgstr ""
 "V knjižnico doda trenutno izbrane posnetke na časovnici. Upoštevajte, da se "
 "poti do slik, videoposnetkov in zvočnih datotek shranijo kot absolutne poti."
 
-#: src/library/librarywidget.cpp:315
+#: src/library/librarywidget.cpp:331
 #, kde-format
 msgid "You are trying to remove an invalid folder: %1"
 msgstr "Poskušate odstraniti neveljavno mapo: %1"
 
-#: src/library/librarywidget.cpp:320
+#: src/library/librarywidget.cpp:336
 #, kde-format
 msgid ""
 "This will delete the folder %1, including all playlists in it.\n"
@@ -9053,7 +9053,7 @@ msgstr ""
 "To bo izbrisalo mapo %1 in vse sezname predvajanja, ki se nahajajo v njej.\n"
 "Tega ni mogoče razveljaviti"
 
-#: src/library/librarywidget.cpp:329
+#: src/library/librarywidget.cpp:345
 #, kde-format
 msgid ""
 "This will delete the MLT playlist:\n"
@@ -9062,7 +9062,7 @@ msgstr ""
 "To bo izbrisalo seznam predvajanja MLT:\n"
 "%1"
 
-#: src/library/librarywidget.cpp:331
+#: src/library/librarywidget.cpp:347
 #, kde-format
 msgid ""
 "This will delete the file:\n"
@@ -9071,43 +9071,43 @@ msgstr ""
 "To bo izbrisalo datoteko:\n"
 "%1"
 
-#: src/library/librarywidget.cpp:338
+#: src/library/librarywidget.cpp:354
 #, kde-format
 msgid "Error removing %1"
 msgstr "Napaka med odstranjevanjem %1"
 
-#: src/library/librarywidget.cpp:346
+#: src/library/librarywidget.cpp:362
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Folder to Library"
 msgstr "Dodaj mapo v knjižnico"
 
-#: src/library/librarywidget.cpp:346
+#: src/library/librarywidget.cpp:362
 #, kde-format
 msgid "Enter a folder name"
 msgstr "Vnesite ime mape"
 
-#: src/library/librarywidget.cpp:368
+#: src/library/librarywidget.cpp:384
 #, kde-format
 msgid "Folder %1 already exists"
 msgstr "Mapa %1 že obstaja"
 
-#: src/library/librarywidget.cpp:372
+#: src/library/librarywidget.cpp:388
 #, kde-format
 msgid "Error creating folder %1"
 msgstr "Napaka med ustvarjanjem mape %1"
 
-#: src/library/librarywidget.cpp:471
+#: src/library/librarywidget.cpp:487
 #, kde-format
 msgid "Library path set to default: %1"
 msgstr "Pot knjižnice je bila nastavljena na privzeto: %1"
 
-#: src/library/librarywidget.cpp:477
+#: src/library/librarywidget.cpp:493
 #, kde-format
 msgid "Library path set to custom: %1"
 msgstr "Pot knjižnice je bila nastavljena na prilagojeno: %1"
 
-#: src/library/librarywidget.cpp:483
+#: src/library/librarywidget.cpp:499
 #, kde-format
 msgid "Cannot write to Library path: %1, using default"
 msgstr "Ni mogoče pisati v pot knjižnice: %1, uporabljena bo privzeta"
@@ -15434,22 +15434,22 @@ msgid "All clips were not successfully copied"
 msgstr "Vsi posnetki niso bili uspešno kopirani"
 
 #: src/timeline2/model/timelinefunctions.cpp:2166
-#: src/timeline2/model/timelinefunctions.cpp:2287
+#: src/timeline2/model/timelinefunctions.cpp:2288
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Ni bilo mogoče prilepiti predmetov v časovnico"
 
-#: src/timeline2/model/timelinefunctions.cpp:2307
+#: src/timeline2/model/timelinefunctions.cpp:2308
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Prilepi časovni posnetek"
 
-#: src/timeline2/model/timelinefunctions.cpp:2525
+#: src/timeline2/model/timelinefunctions.cpp:2526
 #, kde-format
 msgid "Remove space on track"
 msgstr "Odstrani praznino s steze"
 
-#: src/timeline2/model/timelinefunctions.cpp:2552
+#: src/timeline2/model/timelinefunctions.cpp:2553
 #, kde-format
 msgid "Delete clips on track"
 msgstr "Izbriši posnetke s steze"
