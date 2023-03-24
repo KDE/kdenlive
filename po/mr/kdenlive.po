@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-23 03:11+0000\n"
+"POT-Creation-Date: 2023-03-24 02:38+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -15215,24 +15215,24 @@ msgid "All clips were not successfully copied"
 msgstr ""
 
 #: src/timeline2/model/timelinefunctions.cpp:2166
-#: src/timeline2/model/timelinefunctions.cpp:2287
+#: src/timeline2/model/timelinefunctions.cpp:2288
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2307
+#: src/timeline2/model/timelinefunctions.cpp:2308
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Paste timeline clips"
 msgstr "ट्रॅक"
 
-#: src/timeline2/model/timelinefunctions.cpp:2525
+#: src/timeline2/model/timelinefunctions.cpp:2526
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Remove space on track"
 msgstr "संचयीका बनवा"
 
-#: src/timeline2/model/timelinefunctions.cpp:2552
+#: src/timeline2/model/timelinefunctions.cpp:2553
 #, fuzzy, kde-format
 msgid "Delete clips on track"
 msgstr "संचयीका काढून टाका (&D)"

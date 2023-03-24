@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-23 03:11+0000\n"
-"PO-Revision-Date: 2023-03-16 10:51+0400\n"
+"POT-Creation-Date: 2023-03-24 02:38+0000\n"
+"PO-Revision-Date: 2023-03-23 12:33+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -5783,15 +5783,14 @@ msgid "Ignore subfolder structure"
 msgstr "تجاهل بنية المجلد الفرعي"
 
 #: src/dialogs/clipjobmanager.cpp:24
-#, fuzzy, kde-format
-#| msgid "Cancel Current Clip Jobs"
+#, kde-format
 msgid "Manage Bin Clip Jobs"
-msgstr "ألغِ مهامّ المقطع الحالي"
+msgstr "أدر مهامّ المقطع الحالي"
 
 #: src/dialogs/clipjobmanager.cpp:36
 #, kde-format
 msgid "Arguments for the command line script"
-msgstr ""
+msgstr "معطيات برنامج سطر الأوامر"
 
 #: src/dialogs/clipjobmanager.cpp:37
 #, kde-kuit-format
@@ -5802,7 +5801,7 @@ msgstr ""
 #: src/dialogs/clipjobmanager.cpp:39
 #, kde-format
 msgid "File extension for the output file"
-msgstr ""
+msgstr "امتداد الملفّ للملف المنتوج"
 
 #: src/dialogs/clipjobmanager.cpp:40
 #, kde-kuit-format
@@ -5811,6 +5810,7 @@ msgid ""
 "File extension for the output file. Empty will keep the same extension as "
 "source file."
 msgstr ""
+"امتداد الملفّ للملف المنتوج. عند وضع فراغ سيستخدم نفس امتداد ملف المصدر."
 
 #: src/dialogs/clipjobmanager.cpp:80 src/dialogs/clipjobmanager.cpp:159
 #, kde-format
@@ -5828,22 +5828,19 @@ msgid "Duplicate Clip with Speed Change…"
 msgstr "كرّر المقطع مع تغيير السرعة…"
 
 #: src/dialogs/clipjobmanager.cpp:191
-#, fuzzy, kde-format
-#| msgid "Show Description"
+#, kde-format
 msgid "Job description"
-msgstr "أعرض الوصف"
+msgstr "وصف المهمة"
 
 #: src/dialogs/clipjobmanager.cpp:241
-#, fuzzy, kde-format
-#| msgid "Clip Jobs"
+#, kde-format
 msgid "My Clip Job"
-msgstr "مهام المقطع"
+msgstr "مهمة مقطعي"
 
 #: src/dialogs/clipjobmanager.cpp:249
-#, fuzzy, kde-format
-#| msgid "Clip Jobs"
+#, kde-format
 msgid "My Clip Job %1"
-msgstr "مهام المقطع"
+msgstr "مهمة مقطعي %1"
 
 #: src/dialogs/clipjobmanager.cpp:274
 #, kde-format
@@ -5851,6 +5848,8 @@ msgid ""
 "Permanently delete this Clip Job:\n"
 "%1 ?"
 msgstr ""
+"أأحذف هذه المهمة للأبد: \n"
+"%1؟"
 
 #: src/dialogs/encodingprofilesdialog.cpp:50
 #, kde-format
@@ -8329,10 +8328,9 @@ msgid "Item is not an animation clip"
 msgstr "العنصر ليس مقطع تحريك"
 
 #: src/jobs/audiolevelstask.cpp:38
-#, fuzzy, kde-format
-#| msgid "Audio thumbnails:"
+#, kde-format
 msgid "Audio thumbs"
-msgstr "مصغّرات الصّوت:"
+msgstr "مصغّرات الصّوت"
 
 #: src/jobs/audiolevelstask.cpp:75 src/jobs/audiolevelstask.cpp:138
 #, kde-format
@@ -8345,16 +8343,14 @@ msgid "Audio thumbs: unknown file length for %1"
 msgstr "مصغرة الصوت: طول ملفّ مجهول لـ %1"
 
 #: src/jobs/cachetask.cpp:31 src/jobs/cliploadtask.cpp:42
-#, fuzzy, kde-format
-#| msgid "Video thumbnails:"
+#, kde-format
 msgid "Video thumbs"
-msgstr "مصغّرات الفيديو:"
+msgstr "مصغّرات الفيديو"
 
 #: src/jobs/cliploadtask.cpp:42
-#, fuzzy, kde-format
-#| msgid "Loading clips"
+#, kde-format
 msgid "Loading clip"
-msgstr "يحمّل المقاطع"
+msgstr "يحمّل مقطع"
 
 #: src/jobs/cliploadtask.cpp:511
 #, kde-format
@@ -8374,7 +8370,7 @@ msgstr "الملف <b>%1</b> يحوي معدل أطر متغير."
 #: src/jobs/customjobtask.cpp:95
 #, kde-format
 msgid "Application %1 not found, please update the job settings"
-msgstr ""
+msgstr "التطبيق %1 غير موجود، الرجاء تحديث إعدادات المهمة"
 
 #: src/jobs/customjobtask.cpp:168 src/jobs/customjobtask.cpp:178
 #: src/jobs/cuttask.cpp:250 src/jobs/transcodetask.cpp:231
@@ -8384,10 +8380,9 @@ msgid "Failed to create file."
 msgstr "فشل إنشاء الملفّ."
 
 #: src/jobs/cuttask.cpp:39
-#, fuzzy, kde-format
-#| msgid "Extract zone"
+#, kde-format
 msgid "Extracting zone"
-msgstr "استخرج منطقة"
+msgstr "منطقة الاستخراج"
 
 #: src/jobs/cuttask.cpp:79
 #, kde-format
@@ -8452,10 +8447,9 @@ msgid "Cut job failed."
 msgstr "فشلت مهمّة القص."
 
 #: src/jobs/filtertask.cpp:40
-#, fuzzy, kde-format
-#| msgid "Processing %1"
+#, kde-format
 msgid "Processing filter %1"
-msgstr "يعالج %1"
+msgstr "ينفذ مرشح %1"
 
 #: src/jobs/filtertask.cpp:111
 #, kde-format
@@ -8478,8 +8472,7 @@ msgid "Failed to filter source."
 msgstr "فشل ترشيح المصدر."
 
 #: src/jobs/proxytask.cpp:29
-#, fuzzy, kde-format
-#| msgid "Creating proxy"
+#, kde-format
 msgid "Creating proxy"
 msgstr "ينشئ وسيطًا"
 
@@ -8507,7 +8500,7 @@ msgstr "فشل إنشاء المقطع الوسيط."
 #: src/jobs/scenesplittask.cpp:42
 #, kde-format
 msgid "Detecting scene change"
-msgstr ""
+msgstr "اكتشاف تغيير في المشهد"
 
 #: src/jobs/scenesplittask.cpp:57
 #, kde-format
@@ -8537,10 +8530,9 @@ msgid "Failed to analyse clip."
 msgstr "أخفق في تحلل المقطع."
 
 #: src/jobs/speedtask.cpp:35
-#, fuzzy, kde-format
-#| msgid "Change clip speed"
+#, kde-format
 msgid "Changing speed"
-msgstr "غيّر سرعة مقطع"
+msgstr "يغيّر السرعة"
 
 #: src/jobs/speedtask.cpp:47
 #, kde-format
@@ -8582,10 +8574,9 @@ msgid "Failed to create speed clip."
 msgstr "فشل إنشاء مقطع سرعة."
 
 #: src/jobs/stabilizetask.cpp:36
-#, fuzzy, kde-format
-#| msgid "Stabilize"
+#, kde-format
 msgid "Stabilizing"
-msgstr "الاستقرار"
+msgstr "يوازن"
 
 #: src/jobs/stabilizetask.cpp:178
 #, kde-format
@@ -8593,10 +8584,9 @@ msgid "Failed to stabilize."
 msgstr "أخفق في الموازنة."
 
 #: src/jobs/transcodetask.cpp:40
-#, fuzzy, kde-format
-#| msgid "Transcode"
+#, kde-format
 msgid "Transcoding"
-msgstr "تبديل الترميز"
+msgstr "يبدل الترميز"
 
 #. i18n: ectx: Menu (go)
 #: src/kdenliveui.rc:19
@@ -9914,10 +9904,9 @@ msgid "Monitor Overlay Audio Waveform"
 msgstr "الشكل الموجي للصوت المُسقط على الشاشة"
 
 #: src/mainwindow.cpp:1490
-#, fuzzy, kde-format
-#| msgid "Monitor Overlay Timecode"
+#, kde-format
 msgid "Monitor Overlay Clip Jobs"
-msgstr "رمز الوقت المسقط على الشاشة"
+msgstr "مهام رمز الوقت المسقط على الشاشة"
 
 #: src/mainwindow.cpp:1508
 #, kde-format
@@ -10302,25 +10291,19 @@ msgid "Ungroup Clips"
 msgstr "أزل تجميع المقاطع"
 
 #: src/mainwindow.cpp:1763
-#, fuzzy, kde-format
-#| msgid "Create sequence"
+#, kde-format
 msgid "Create Sequence from Selection"
-msgstr "أنشئ تسلسلًا جديدًا"
+msgstr "أنشئ تسلسلًا جديدًا من التحديد"
 
 #: src/mainwindow.cpp:1766
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Adds the clip(s) currently selected in the timeline to the library. Note "
-#| "that the paths to images, video and audio files are saved as absolute "
-#| "paths."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Adds the clip(s) currently selected in the timeline to a new sequence clip "
 "that can be opened in another timeline tab."
 msgstr ""
-"تضيف المقطع أو المقاطع المحددة في الخط الزمني إلى المكتبة. لاحظ أن مسارات "
-"ملفات الصور والفيديو والصّوت محفوظة كمسارات مطلقة."
+"تضيف المقطع أو المقاطع المحددة في الخط الزمني إلى مقطع تسلسل جديد يمكن فتحه "
+"في لسان خط زمني أخر."
 
 #: src/mainwindow.cpp:1778
 #, kde-format
@@ -10829,10 +10812,9 @@ msgid "Overwrite"
 msgstr "استبدل"
 
 #: src/mainwindow.cpp:3694
-#, fuzzy, kde-format
-#| msgid "Cancel Current Clip Jobs"
+#, kde-format
 msgid "Configure Clip Jobs…"
-msgstr "ألغِ مهامّ المقطع الحالي"
+msgstr "اضبط مهامّ المقاطع…"
 
 #: src/mainwindow.cpp:3709
 #, kde-format
@@ -11962,10 +11944,9 @@ msgid "Out Point"
 msgstr "نقطة الخروج"
 
 #: src/monitor/view/kdenliveclipmonitor.qml:666
-#, fuzzy, kde-format
-#| msgid "Remove Job"
+#, kde-format
 msgid "Terminate Job"
-msgstr "أزل المهمّة"
+msgstr "أنهِ المهمّة"
 
 #: src/monitor/view/kdenlivemonitor.qml:94
 #, kde-format
@@ -13672,16 +13653,14 @@ msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "يستورد مقطع تسلسل، هذا الميزة تجريبية"
 
 #: src/project/projectmanager.cpp:1774
-#, fuzzy, kde-format
-#| msgid "Select a clip to compare effect"
+#, kde-format
 msgid "Select a clip to create sequence"
-msgstr "اختر مقطع لتقاران التأثير"
+msgstr "اختر مقطع لتنشئ تسلسل"
 
 #: src/project/projectmanager.cpp:1811
-#, fuzzy, kde-format
-#| msgid "Create sequence"
+#, kde-format
 msgid "Create Sequence Clip"
-msgstr "أنشئ تسلسلًا جديدًا"
+msgstr "أنشئ مقطع تسلسلي جديدًا"
 
 #: src/project/transcodeseek.cpp:36 src/project/transcodeseek.cpp:49
 #, kde-format
@@ -15324,22 +15303,22 @@ msgid "All clips were not successfully copied"
 msgstr "لم ينسخ كل المقاطع بنجاح"
 
 #: src/timeline2/model/timelinefunctions.cpp:2166
-#: src/timeline2/model/timelinefunctions.cpp:2287
+#: src/timeline2/model/timelinefunctions.cpp:2288
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "تعذر إلصاق العناصر في الخطّ الزّمنيّ"
 
-#: src/timeline2/model/timelinefunctions.cpp:2307
+#: src/timeline2/model/timelinefunctions.cpp:2308
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "ألصق مقاطع الخط الزمني"
 
-#: src/timeline2/model/timelinefunctions.cpp:2525
+#: src/timeline2/model/timelinefunctions.cpp:2526
 #, kde-format
 msgid "Remove space on track"
 msgstr "أزل فضاء في مسار"
 
-#: src/timeline2/model/timelinefunctions.cpp:2552
+#: src/timeline2/model/timelinefunctions.cpp:2553
 #, kde-format
 msgid "Delete clips on track"
 msgstr "احذف مقاطع في المسار"
@@ -17325,37 +17304,33 @@ msgstr "نهاية الاقتطاع:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, folder_box)
 #: src/ui/clipjobmanager_ui.ui:41
-#, fuzzy, kde-format
-#| msgid "Project conversion complete"
+#, kde-format
 msgid "Project Bin behavior on completion"
-msgstr "اكتمل تحويل المشروع"
+msgstr "سلوك سلة المشروع عند الاكتمال"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radio_replace)
 #: src/ui/clipjobmanager_ui.ui:47
-#, fuzzy, kde-format
-#| msgid "Replace original clip with stabilized clip"
+#, kde-format
 msgid "Replace original with result"
-msgstr "استبدل المقطع الموازن بالمقطع الأصلي"
+msgstr "استبدل المقطع المنتوج بالمقطع الأصلي"
 
 #. i18n: ectx: property (text), widget (QCheckBox, bin_subfolder)
 #: src/ui/clipjobmanager_ui.ui:57
-#, fuzzy, kde-format
-#| msgid "Use default folder"
+#, kde-format
 msgid "Use a subfolder"
-msgstr "استخدم المجلّد المبدئي"
+msgstr "استخدم مجلد فرعي"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radio_folder)
 #: src/ui/clipjobmanager_ui.ui:64
-#, fuzzy, kde-format
-#| msgid "Put clip in \"Stabilized\" folder"
+#, kde-format
 msgid "Put resulting clip in a folder"
-msgstr "ضع المقطع في مجلد \"موازن\""
+msgstr "ضع المقطع المنتوج في مجلدٍ"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
 #: src/ui/clipjobmanager_ui.ui:75
 #, kde-format
 msgid "Placed at top level"
-msgstr ""
+msgstr "ضعه في المستوى الأعلى"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
 #: src/ui/clipjobmanager_ui.ui:80
@@ -17365,44 +17340,39 @@ msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, folder_name)
 #: src/ui/clipjobmanager_ui.ui:91
-#, fuzzy, kde-format
-#| msgid "File name"
+#, kde-format
 msgid "Folder name"
-msgstr "اسم الملفّ"
+msgstr "اسم المجلد"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:101
-#, fuzzy, kde-format
-#| msgid "%1 parameters"
+#, kde-format
 msgid "Job parameters"
-msgstr "%1 معاملات"
+msgstr "معاملات المَهمة"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/clipjobmanager_ui.ui:110
-#, fuzzy, kde-format
-#| msgid "Effects enabled"
+#, kde-format
 msgid "Executable"
-msgstr "التّأثيرات ممكنة"
+msgstr "تنفيذي"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/clipjobmanager_ui.ui:123
-#, fuzzy, kde-format
-#| msgid "File extension:"
+#, kde-format
 msgid "Output file extension"
-msgstr "امتداد الملفّ:"
+msgstr "امتداد الملفّ المنتوج"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/clipjobmanager_ui.ui:136
 #, kde-format
 msgid "Arguments"
-msgstr ""
+msgstr "المعطيات"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/clipjobmanager_ui.ui:183
-#, fuzzy, kde-format
-#| msgid "Cut clip"
+#, kde-format
 msgid "Custom clip jobs"
-msgstr "قص المقطع"
+msgstr "مهام المقطع المخصصة"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox)
 #: src/ui/clipspeed_ui.ui:103

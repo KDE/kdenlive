@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-23 03:11+0000\n"
+"POT-Creation-Date: 2023-03-24 02:38+0000\n"
 "PO-Revision-Date: 2022-10-04 11:00+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -15545,22 +15545,22 @@ msgid "All clips were not successfully copied"
 msgstr "Успешно скопированы не все клипы"
 
 #: src/timeline2/model/timelinefunctions.cpp:2166
-#: src/timeline2/model/timelinefunctions.cpp:2287
+#: src/timeline2/model/timelinefunctions.cpp:2288
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Не удалось вставить элементы на монтажный стол"
 
-#: src/timeline2/model/timelinefunctions.cpp:2307
+#: src/timeline2/model/timelinefunctions.cpp:2308
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Вставка клипа на монтажный стол"
 
-#: src/timeline2/model/timelinefunctions.cpp:2525
+#: src/timeline2/model/timelinefunctions.cpp:2526
 #, fuzzy, kde-format
 msgid "Remove space on track"
 msgstr "Удалить пробелы на всех дорожках"
 
-#: src/timeline2/model/timelinefunctions.cpp:2552
+#: src/timeline2/model/timelinefunctions.cpp:2553
 #, fuzzy, kde-format
 #| msgid "Delete track"
 msgid "Delete clips on track"

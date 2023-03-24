@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-23 03:11+0000\n"
+"POT-Creation-Date: 2023-03-24 02:38+0000\n"
 "PO-Revision-Date: 2020-01-16 14:40+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -15518,22 +15518,22 @@ msgid "All clips were not successfully copied"
 msgstr ""
 
 #: src/timeline2/model/timelinefunctions.cpp:2166
-#: src/timeline2/model/timelinefunctions.cpp:2287
+#: src/timeline2/model/timelinefunctions.cpp:2288
 #, fuzzy, kde-format
 msgid "Could not paste items in timeline"
 msgstr "以時間軸更新數值"
 
-#: src/timeline2/model/timelinefunctions.cpp:2307
+#: src/timeline2/model/timelinefunctions.cpp:2308
 #, fuzzy, kde-format
 msgid "Paste timeline clips"
 msgstr "素材播放清單"
 
-#: src/timeline2/model/timelinefunctions.cpp:2525
+#: src/timeline2/model/timelinefunctions.cpp:2526
 #, fuzzy, kde-format
 msgid "Remove space on track"
 msgstr "移除空白空間"
 
-#: src/timeline2/model/timelinefunctions.cpp:2552
+#: src/timeline2/model/timelinefunctions.cpp:2553
 #, fuzzy, kde-format
 #| msgid "Delete Track"
 msgid "Delete clips on track"

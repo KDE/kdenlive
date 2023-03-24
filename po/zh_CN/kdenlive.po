@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-23 03:11+0000\n"
+"POT-Creation-Date: 2023-03-24 02:38+0000\n"
 "PO-Revision-Date: 2023-03-11 04:55\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -15126,22 +15126,22 @@ msgid "All clips were not successfully copied"
 msgstr "未成功复制所有素材"
 
 #: src/timeline2/model/timelinefunctions.cpp:2166
-#: src/timeline2/model/timelinefunctions.cpp:2287
+#: src/timeline2/model/timelinefunctions.cpp:2288
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "无法粘贴项目到时间轴"
 
-#: src/timeline2/model/timelinefunctions.cpp:2307
+#: src/timeline2/model/timelinefunctions.cpp:2308
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "粘贴时间轴剪辑"
 
-#: src/timeline2/model/timelinefunctions.cpp:2525
+#: src/timeline2/model/timelinefunctions.cpp:2526
 #, kde-format
 msgid "Remove space on track"
 msgstr "移除轨道中的空白"
 
-#: src/timeline2/model/timelinefunctions.cpp:2552
+#: src/timeline2/model/timelinefunctions.cpp:2553
 #, kde-format
 msgid "Delete clips on track"
 msgstr "删除轨道中的剪辑"
