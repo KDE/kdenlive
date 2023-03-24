@@ -46,10 +46,12 @@ struct TimelineFunctions
     static QString copyClips(const std::shared_ptr<TimelineItemModel> &timeline, const std::unordered_set<int> &itemIds);
     /** @brief Paste the clips as described by the string. Returns true on success*/
     static bool pasteClips(const std::shared_ptr<TimelineItemModel> &timeline, const QString &pasteString, int trackId, int position);
-    static bool pasteClips(const std::shared_ptr<TimelineItemModel> &timeline, const QString &pasteString, int trackId, int position, Fun &undo, Fun &redo);
-    static bool pasteTimelineClips(const std::shared_ptr<TimelineItemModel> &timeline, const QDomDocument &copiedItems, int position);
+    static bool pasteClips(const std::shared_ptr<TimelineItemModel> &timeline, const QString &pasteString, int trackId, int position, Fun &undo, Fun &redo,
+                           int inPos = 0, int duration = -1);
+    static bool pasteTimelineClips(const std::shared_ptr<TimelineItemModel> &timeline, const QDomDocument &copiedItems, int position, int inPos = 0,
+                                   int duration = -1);
     static bool pasteTimelineClips(const std::shared_ptr<TimelineItemModel> &timeline, QDomDocument copiedItems, int position, Fun &timeline_undo,
-                                   Fun &timeline_redo, bool pushToStack);
+                                   Fun &timeline_redo, bool pushToStack, int inPos = 0, int duration = -1);
 
     /** @brief Request the addition of multiple clips to the timeline
      * If the addition of any of the clips fails, the entire operation is undone.
