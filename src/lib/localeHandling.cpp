@@ -34,12 +34,17 @@ auto LocaleHandling::setLocale(const QString &lcName) -> QString
 
 void LocaleHandling::resetLocale()
 {
-#ifdef Q_OS_FREEBSD
+#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
+    // const QString decimalPoint = QLocale().decimalPoint();
+    std::setlocale(MLT_LC_CATEGORY, "en_US");
+    ::qputenv(MLT_LC_NAME, "en_US");
+#elif defined(Q_OS_FREEBSD)
     setlocale(MLT_LC_CATEGORY, "C");
+    ::qputenv(MLT_LC_NAME, "C");
 #else
     std::setlocale(MLT_LC_CATEGORY, "C");
-#endif
     ::qputenv(MLT_LC_NAME, "C");
+#endif
 }
 
 void LocaleHandling::resetAllLocale()
