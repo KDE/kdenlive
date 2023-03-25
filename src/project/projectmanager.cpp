@@ -472,6 +472,8 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveACopy)
                                       m_project->projectTempFolder(), newProjectFolder));
 
             if (answer == KMessageBox::Continue) {
+                // Discard running jobs, for example proxy clips since data will be moved
+                pCore->taskManager.slotCancelJobs();
                 // Proceed with move
                 QString documentId = QDir::cleanPath(m_project->getDocumentProperty(QStringLiteral("documentid")));
                 bool ok;
