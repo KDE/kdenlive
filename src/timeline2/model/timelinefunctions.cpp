@@ -2154,7 +2154,7 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
         }
         int newIn = in;
         int newOut = out;
-        if (pos + (out - in) < inPos + offset || (duration > -1 && (pos > inPos + duration + offset))) {
+        if ((inPos > 0 && pos + (out - in) < inPos + offset) || (duration > -1 && (pos > inPos + duration + offset))) {
             // Clip outside paste range
             continue;
         }
@@ -2291,7 +2291,10 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
             int in = prod.attribute(QStringLiteral("in")).toInt() * ratio;
             int out = prod.attribute(QStringLiteral("out")).toInt() * ratio;
             int pos = prod.attribute(QStringLiteral("position")).toInt() * ratio - offset;
-            int newPos = pos - inPos;
+            int newPos = pos;
+            if (inPos > 0) {
+                newPos -= inPos;
+            }
             int compoDuration = out - in + 1;
             int compoDuration2 = out - in + 1;
             if (newPos < 0) {
@@ -2299,7 +2302,7 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
                 compoDuration += newPos;
                 newPos = 0;
             }
-            if (newPos + compoDuration > inPos + duration) {
+            if (duration > -1 && (newPos + compoDuration > inPos + duration)) {
                 compoDuration2 = inPos + duration - newPos;
             }
             if (compoDuration2 <= 0) {
