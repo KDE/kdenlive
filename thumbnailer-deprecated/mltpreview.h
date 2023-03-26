@@ -1,0 +1,28 @@
+/*
+    SPDX-FileCopyrightText: 2006-2008 Marco Gulino <marco@kmobiletools.org>
+    adapted for MLT video preview by Jean-Baptiste Mardelle
+    SPDX-FileCopyrightText: Jean-Baptiste Mardelle <jb@kdenlive.org>
+
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
+
+#pragma once
+
+#include <kio/thumbcreator.h>
+#include <memory>
+#include <mlt++/Mlt.h>
+
+#include <QObject>
+
+class MltPreview : public ThumbCreator
+{
+public:
+    MltPreview();
+    ~MltPreview() override;
+    bool create(const QString &path, int width, int height, QImage &img) override;
+    Flags flags() const override;
+
+protected:
+    static int imageVariance(const QImage &image);
+    QImage getFrame(std::shared_ptr<Mlt::Producer> producer, int framepos, int width, int height);
+};
