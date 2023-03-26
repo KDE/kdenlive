@@ -198,7 +198,11 @@ set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
 # Sources
 add_subdirectory(src)
 add_subdirectory(renderer)
-add_subdirectory(thumbnailer)
+if(KF5GuiAddons_VERSION VERSION_LESS "5.100")
+  add_subdirectory(thumbnailer-deprecated)
+else()
+  add_subdirectory(thumbnailer)
+endif()
 add_subdirectory(data)
 
 # Install

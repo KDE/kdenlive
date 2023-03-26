@@ -13,12 +13,14 @@
 #include <QVarLengthArray>
 #include <QtGlobal>
 
-#include <KPluginFactory>
+extern "C" {
+Q_DECL_EXPORT ThumbCreator *new_creator()
+{
+    return new MltPreview;
+}
+}
 
-K_PLUGIN_CLASS_WITH_JSON(MltPreview, "mltpreview.json")
-
-MltPreview::MltPreview(QObject *parent, const QVariantList &args)
-    : KIO::ThumbnailCreator(parent, args)
+MltPreview::MltPreview()
 {
     // After initialising the MLT factory, set the locale back from user default to C
     // to ensure numbers are always serialised with . as decimal point.
@@ -31,15 +33,13 @@ MltPreview::~MltPreview()
     Mlt::Factory::close();
 }
 
-KIO::ThumbnailResult MltPreview::create(const KIO::ThumbnailRequest &request)
+bool MltPreview::create(const QString &path, int width, int height, QImage &img)
 {
-    int width = request.targetSize().width();
-    int height = request.targetSize().height();
     std::unique_ptr<Mlt::Profile> profile(new Mlt::Profile());
-    std::shared_ptr<Mlt::Producer> producer(new Mlt::Producer(*profile.get(), request.url().toLocalFile().toUtf8().data()));
+    std::shared_ptr<Mlt::Producer> producer(new Mlt::Producer(*profile.get(), path.toUtf8().data()));
 
     if (producer->is_blank()) {
-        return KIO::ThumbnailResult::fail();
+        return false;
     }
     int frame = 75;
     uint variance = 10;
@@ -57,7 +57,7 @@ KIO::ThumbnailResult MltPreview::create(const KIO::ThumbnailRequest &request)
     // We don't need audio
     producer->set("audio_index", -1);
 
-    // Add normalizers    
+    // Add normalizers
     Mlt::Filter scaler(*profile.get(), "swscale");
     Mlt::Filter padder(*profile.get(), "resize");
     Mlt::Filter converter(*profile.get(), "avcolor_space");
@@ -72,7 +72,6 @@ KIO::ThumbnailResult MltPreview::create(const KIO::ThumbnailRequest &request)
         producer->attach(converter);
     }
 
-    QImage img;
     // img = getFrame(producer, frame, width, height);
     while (variance <= 40 && ct < 4) {
         img = getFrame(producer, frame, wanted_width, wanted_height);
@@ -80,12 +79,7 @@ KIO::ThumbnailResult MltPreview::create(const KIO::ThumbnailRequest &request)
         frame += 100 * ct;
         ct++;
     }
-
-    if (img.isNull()) {
-        return KIO::ThumbnailResult::fail();
-    }
-
-    return KIO::ThumbnailResult::pass(img);
+    return (!img.isNull());
 }
 
 QImage MltPreview::getFrame(std::shared_ptr<Mlt::Producer> producer, int framepos, int width, int height)
@@ -141,4 +135,7 @@ int MltPreview::imageVariance(const QImage &image)
     return delta / STEPS;
 }
 
-#include "mltpreview.moc"
+ThumbCreator::Flags MltPreview::flags() const
+{
+    return None;
+}
