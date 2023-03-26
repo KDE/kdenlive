@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-24 00:47+0000\n"
+"POT-Creation-Date: 2023-03-26 00:47+0000\n"
 "PO-Revision-Date: 2023-01-13 08:32+0700\n"
 "Last-Translator: Linerly <linerly@protonmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -4937,7 +4937,7 @@ msgid "Create sequence"
 msgstr "Rentetan citra:"
 
 #: src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/project/projectmanager.cpp:1207 src/project/projectmanager.cpp:1209
+#: src/project/projectmanager.cpp:1209 src/project/projectmanager.cpp:1211
 #, fuzzy, kde-format
 #| msgid "Image Sequence"
 msgid "Sequences"
@@ -4979,7 +4979,7 @@ msgid "Duplicate"
 msgstr "Duplikat klip"
 
 #: src/bin/clipcreator.cpp:420 src/core.cpp:938
-#: src/project/projectmanager.cpp:755
+#: src/project/projectmanager.cpp:757
 #, kde-format
 msgid "Loading clips"
 msgstr "Memuat klip"
@@ -6045,10 +6045,10 @@ msgstr "Ekspor Data Panduan"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1489
+#: src/project/projectmanager.cpp:1491
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
-#: src/timeline2/view/timelinecontroller.cpp:5068
+#: src/timeline2/view/timelinecontroller.cpp:5070
 #: src/titler/titlewidget.cpp:2196
 #, kde-format
 msgid "Cannot write to file %1"
@@ -7742,8 +7742,8 @@ msgstr "Filter/transisi berikut terdeteksi dari proyek:"
 msgid "Invalid file path"
 msgstr "Alur file tidak valid"
 
-#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:706
-#: src/project/projectmanager.cpp:770 src/project/projectmanager.cpp:797
+#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:708
+#: src/project/projectmanager.cpp:772 src/project/projectmanager.cpp:799
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Tidak bisa memulihkan file rusak."
@@ -7821,14 +7821,14 @@ msgstr ""
 "File proyek Anda telah ditingkatkan ke versi dokumen Kdenlive terkini, "
 "tetapi itu tidak mungkin untuk menciptakan salinan cadangan %1."
 
-#: src/doc/kdenlivedoc.cpp:876 src/project/projectmanager.cpp:1119
+#: src/doc/kdenlivedoc.cpp:876 src/project/projectmanager.cpp:1121
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Galat memindah folder proyek: %1"
 
 #: src/doc/kdenlivedoc.cpp:1039 src/doc/kdenlivedoc.cpp:2157
 #: src/project/dialogs/archivewidget.cpp:214
-#: src/project/projectmanager.cpp:1322
+#: src/project/projectmanager.cpp:1324
 #, kde-format
 msgid "Untitled"
 msgstr "Belum diberi judul"
@@ -10615,12 +10615,12 @@ msgstr ""
 "Ini akan memindahkan semua berkas sementara dari<br/> <b>%1</b> ke <b>%2</b>,"
 "<br/> setelah itu berkas proyek akan dimuat ulang"
 
-#: src/mainwindow.cpp:2182 src/project/projectmanager.cpp:480
+#: src/mainwindow.cpp:2182 src/project/projectmanager.cpp:482
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Tidak bisa melakukan operasi, id dokumen tidak valid: %1"
 
-#: src/mainwindow.cpp:2187 src/project/projectmanager.cpp:486
+#: src/mainwindow.cpp:2187 src/project/projectmanager.cpp:488
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Tidak bisa melakukan operasi, direktori target sudah ada: %1"
@@ -10922,7 +10922,7 @@ msgstr ""
 "Kdenlive perlu dijalankan ulang untuk menerapkan perubahan tema ikon. "
 "Jalankan ulang sekarang?"
 
-#: src/mainwindow.cpp:4507 src/timeline2/view/timelinecontroller.cpp:5051
+#: src/mainwindow.cpp:4507 src/timeline2/view/timelinecontroller.cpp:5053
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "Tidak ada subtitel dalam proyek saat ini"
@@ -12895,9 +12895,9 @@ msgstr "Muat Penanda Klip"
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1383
+#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1385
 #: src/renderpresets/renderpresetrepository.cpp:313
-#: src/timeline2/view/timelinecontroller.cpp:4974
+#: src/timeline2/view/timelinecontroller.cpp:4976
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
 msgid "Cannot read file %1"
@@ -13496,7 +13496,7 @@ msgstr "Buka File Cadangan..."
 msgid "Save changes to document?"
 msgstr "Simpan perubahan ke dokumen?"
 
-#: src/project/projectmanager.cpp:357 src/project/projectmanager.cpp:1321
+#: src/project/projectmanager.cpp:357 src/project/projectmanager.cpp:1323
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13516,50 +13516,50 @@ msgstr ""
 "proyek untuk menyimpan file temporer. Ini akan memindahkan semua file "
 "temporer dari <b>%1</b> ke <b>%2</b>, file proyek kemudian akan dimuat ulang."
 
-#: src/project/projectmanager.cpp:509
+#: src/project/projectmanager.cpp:511
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Simpan Salinan"
 
-#: src/project/projectmanager.cpp:610
+#: src/project/projectmanager.cpp:612
 #, kde-format
 msgid "Auto-saved file exist. Do you want to recover now?"
 msgstr ""
 "Ada file yang tersimpan otomatis. Apakah Anda ingin memulihkannya sekarang?"
 
-#: src/project/projectmanager.cpp:610
+#: src/project/projectmanager.cpp:612
 #, kde-format
 msgid "File Recovery"
 msgstr "Pulihkan File"
 
-#: src/project/projectmanager.cpp:611 src/project/projectmanager.cpp:695
+#: src/project/projectmanager.cpp:613 src/project/projectmanager.cpp:697
 #, kde-format
 msgid "Recover"
 msgstr "Pulihkan"
 
-#: src/project/projectmanager.cpp:611
+#: src/project/projectmanager.cpp:613
 #, kde-format
 msgid "Do not recover"
 msgstr "Jangan pulihkan"
 
-#: src/project/projectmanager.cpp:663
+#: src/project/projectmanager.cpp:665
 #, kde-format
 msgid "Opening file %1"
 msgstr "Membuka file %1"
 
-#: src/project/projectmanager.cpp:679
+#: src/project/projectmanager.cpp:681
 #, kde-format
 msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "Memuat Proyek"
 
-#: src/project/projectmanager.cpp:681
+#: src/project/projectmanager.cpp:683
 #, kde-format
 msgid "Loading project"
 msgstr "Memuat proyek"
 
-#: src/project/projectmanager.cpp:694
+#: src/project/projectmanager.cpp:696
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -13570,30 +13570,30 @@ msgstr ""
 "%1\n"
 "Apakah kamu ingin membuka file cadangan?"
 
-#: src/project/projectmanager.cpp:695
+#: src/project/projectmanager.cpp:697
 #, kde-format
 msgid "Error opening file"
 msgstr "Galat pembukaan file"
 
-#: src/project/projectmanager.cpp:695
+#: src/project/projectmanager.cpp:697
 #, kde-format
 msgid "Open Backup"
 msgstr "Buka Cadangan"
 
-#: src/project/projectmanager.cpp:710
+#: src/project/projectmanager.cpp:712
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid "Could not open the backup project file."
 msgstr "Tidak bisa membuka file proyek %1"
 
-#: src/project/projectmanager.cpp:726
+#: src/project/projectmanager.cpp:728
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Proyek Anda telah ditingkatkan, sebuah cadangan akan dibuat pada penyimpanan "
 "berikutnya"
 
-#: src/project/projectmanager.cpp:729
+#: src/project/projectmanager.cpp:731
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -13601,7 +13601,7 @@ msgstr ""
 "Proyek Anda telah dimodifikasi saat membuka, sebuah cadangan akan dibuat "
 "pada penyimpanan berikutnya"
 
-#: src/project/projectmanager.cpp:824
+#: src/project/projectmanager.cpp:826
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -13610,12 +13610,12 @@ msgstr ""
 "Ini akan menghapus semua perubahan yang dibuat sejak terakhir kali Anda "
 "menyimpan proyek Anda. Apakah anda yakin ingin melanjutkan?"
 
-#: src/project/projectmanager.cpp:825
+#: src/project/projectmanager.cpp:827
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Kembalikan ke versi tersimpan yang terakhir"
 
-#: src/project/projectmanager.cpp:905
+#: src/project/projectmanager.cpp:907
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -13624,37 +13624,37 @@ msgstr ""
 "Proyek telah rusak, tidak bisa mencadangkan. Silakan tutup dan buka ulang "
 "file proyek Anda untuk memulihkan cadangan yang terakhir"
 
-#: src/project/projectmanager.cpp:1097
+#: src/project/projectmanager.cpp:1099
 #, kde-format
 msgid "Moving project folder"
 msgstr "Memindah folder proyek"
 
-#: src/project/projectmanager.cpp:1159
+#: src/project/projectmanager.cpp:1161
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr "File proyek telah rusak (tidak ada trek). Coba temukan file cadangan?"
 
-#: src/project/projectmanager.cpp:1186 src/project/projectmanager.cpp:1215
-#: src/project/projectmanager.cpp:1218
+#: src/project/projectmanager.cpp:1188 src/project/projectmanager.cpp:1217
+#: src/project/projectmanager.cpp:1220
 #, fuzzy, kde-format
 #| msgid "Image Sequence"
 msgid "Sequence 1"
 msgstr "Rentetan Citra"
 
-#: src/project/projectmanager.cpp:1197
+#: src/project/projectmanager.cpp:1199
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 "File proyek telah rusak - gagal memuat trek. Coba cari sebuah file cadangan?"
 
-#: src/project/projectmanager.cpp:1327 src/project/projectmanager.cpp:1332
-#: src/project/projectmanager.cpp:1342 src/project/projectmanager.cpp:1358
+#: src/project/projectmanager.cpp:1329 src/project/projectmanager.cpp:1334
+#: src/project/projectmanager.cpp:1344 src/project/projectmanager.cpp:1360
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Perubahan profil proyek digugurkan"
 
-#: src/project/projectmanager.cpp:1474
+#: src/project/projectmanager.cpp:1476
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -13663,12 +13663,12 @@ msgstr ""
 "File output %1 sudah ada.\n"
 "Apakah Anda ingin menimpanya?"
 
-#: src/project/projectmanager.cpp:1499
+#: src/project/projectmanager.cpp:1501
 #, kde-format
 msgid "Project profile changed"
 msgstr "Profil proyek diubah"
 
-#: src/project/projectmanager.cpp:1549
+#: src/project/projectmanager.cpp:1551
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
 msgid ""
@@ -13676,18 +13676,18 @@ msgid ""
 "%1"
 msgstr "Tidak bisa membuat filter %1"
 
-#: src/project/projectmanager.cpp:1626
+#: src/project/projectmanager.cpp:1628
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1774
+#: src/project/projectmanager.cpp:1776
 #, fuzzy, kde-format
 #| msgid "Select a clip to compare effect"
 msgid "Select a clip to create sequence"
 msgstr "Pilih klip untuk membandingkan efek"
 
-#: src/project/projectmanager.cpp:1811
+#: src/project/projectmanager.cpp:1813
 #, fuzzy, kde-format
 #| msgid "Image sequence:"
 msgid "Create Sequence Clip"
@@ -15332,7 +15332,7 @@ msgstr "Tidak ada data yang valid di papan klip"
 #: src/timeline2/model/timelinefunctions.cpp:1807
 #: src/timeline2/model/timelinefunctions.cpp:1838
 #: src/timeline2/model/timelinefunctions.cpp:1877
-#: src/timeline2/model/timelinefunctions.cpp:2143
+#: src/timeline2/model/timelinefunctions.cpp:2144
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "Trek tidak cukup untuk menempelkan papan klip"
@@ -15371,29 +15371,29 @@ msgstr "Tempelkan"
 msgid "Could not add bin clip"
 msgstr "Tidak bisa menambahkan klip bin"
 
-#: src/timeline2/model/timelinefunctions.cpp:2135
+#: src/timeline2/model/timelinefunctions.cpp:2136
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr "Semua klip tidak berhasil disalin"
 
-#: src/timeline2/model/timelinefunctions.cpp:2166
-#: src/timeline2/model/timelinefunctions.cpp:2288
+#: src/timeline2/model/timelinefunctions.cpp:2186
+#: src/timeline2/model/timelinefunctions.cpp:2350
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Tidak bisa menempelkan item di lini masa"
 
-#: src/timeline2/model/timelinefunctions.cpp:2308
+#: src/timeline2/model/timelinefunctions.cpp:2370
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Tempel klip lini masa"
 
-#: src/timeline2/model/timelinefunctions.cpp:2526
+#: src/timeline2/model/timelinefunctions.cpp:2588
 #, fuzzy, kde-format
 #| msgid "Remove Space in All Tracks"
 msgid "Remove space on track"
 msgstr "Singkirkan Spasi di Semua Trek"
 
-#: src/timeline2/model/timelinefunctions.cpp:2553
+#: src/timeline2/model/timelinefunctions.cpp:2615
 #, kde-format
 msgid "Delete clips on track"
 msgstr "Hapus klip di trek"
@@ -15620,74 +15620,74 @@ msgstr "Sesuaikan Lesap"
 msgid "Insert Composition"
 msgstr "Sisipkan Komposisi"
 
-#: src/timeline2/model/timelinemodel.cpp:5091
+#: src/timeline2/model/timelinemodel.cpp:5109
 #, kde-format
 msgid "Move composition"
 msgstr "Pindahkan komposisi"
 
-#: src/timeline2/model/timelinemodel.cpp:5747
+#: src/timeline2/model/timelinemodel.cpp:5765
 #, kde-format
 msgid "Enable time remap"
 msgstr "Fungsikan pemetaan waktu"
 
-#: src/timeline2/model/timelinemodel.cpp:5820
+#: src/timeline2/model/timelinemodel.cpp:5838
 #, kde-format
 msgid "Change speed failed"
 msgstr "Gagal mengubah kecepatan"
 
-#: src/timeline2/model/timelinemodel.cpp:5830
+#: src/timeline2/model/timelinemodel.cpp:5848
 #, kde-format
 msgid "Change clip speed"
 msgstr "Ubah kecepatan klip"
 
-#: src/timeline2/model/timelinemodel.cpp:6209
+#: src/timeline2/model/timelinemodel.cpp:6227
 #: src/timeline2/view/qml/timeline.qml:1127
 #: src/timeline2/view/qml/TrackHead.qml:502
 #, kde-format
 msgid "Lock track"
 msgstr "Kunci trek"
 
-#: src/timeline2/model/timelinemodel.cpp:6214
+#: src/timeline2/model/timelinemodel.cpp:6232
 #: src/timeline2/view/qml/timeline.qml:1127
 #: src/timeline2/view/qml/TrackHead.qml:502
 #, kde-format
 msgid "Unlock track"
 msgstr "Lepas kunci trek"
 
-#: src/timeline2/model/timelinemodel.cpp:6248
-#: src/timeline2/model/timelinemodel.cpp:6310
+#: src/timeline2/model/timelinemodel.cpp:6266
+#: src/timeline2/model/timelinemodel.cpp:6328
 #, kde-format
 msgid "Change composition"
 msgstr "Ubah komposisi"
 
-#: src/timeline2/model/timelinemodel.cpp:6262
+#: src/timeline2/model/timelinemodel.cpp:6280
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 "Tidak bisa beroperasi saat komposisi dikelompokkan, silakan nonkelompokkan"
 
-#: src/timeline2/model/timelinemodel.cpp:6455
-#: src/timeline2/model/timelinemodel.cpp:6492
-#: src/timeline2/model/timelinemodel.cpp:6525
-#: src/timeline2/model/timelinemodel.cpp:6606
+#: src/timeline2/model/timelinemodel.cpp:6473
+#: src/timeline2/model/timelinemodel.cpp:6510
+#: src/timeline2/model/timelinemodel.cpp:6543
+#: src/timeline2/model/timelinemodel.cpp:6624
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Tidak bisa mengubah ukuran mix kurang dari 1 frame"
 
-#: src/timeline2/model/timelinemodel.cpp:6466
-#: src/timeline2/model/timelinemodel.cpp:6500
-#: src/timeline2/model/timelinemodel.cpp:6544
-#: src/timeline2/model/timelinemodel.cpp:6630
+#: src/timeline2/model/timelinemodel.cpp:6484
+#: src/timeline2/model/timelinemodel.cpp:6518
+#: src/timeline2/model/timelinemodel.cpp:6562
+#: src/timeline2/model/timelinemodel.cpp:6648
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Tidak bisa mengubah ukuran mix"
 
-#: src/timeline2/model/timelinemodel.cpp:6644
+#: src/timeline2/model/timelinemodel.cpp:6662
 #, kde-format
 msgid "Resize mix"
 msgstr "Ubah ukuran mix"
 
-#: src/timeline2/model/timelinemodel.cpp:6781
+#: src/timeline2/model/timelinemodel.cpp:6799
 #, fuzzy, kde-format
 #| msgid "Disable Timeline Preview"
 msgid "Error initializing timeline preview"
@@ -16088,7 +16088,7 @@ msgid "Cannot perform operation while dragging in timeline"
 msgstr "Tidak bisa melakukan operasi selagi menyèrèt di lini masa"
 
 #: src/timeline2/view/timelinecontroller.cpp:848
-#: src/timeline2/view/timelinecontroller.cpp:4926
+#: src/timeline2/view/timelinecontroller.cpp:4928
 #, kde-format
 msgid "Could not insert track"
 msgstr "Tidak bisa menyisipkan trek"
@@ -16180,7 +16180,7 @@ msgid "No item to edit"
 msgstr "Tidak ada item untuk diedit"
 
 #: src/timeline2/view/timelinecontroller.cpp:2908
-#: src/timeline2/view/timelinecontroller.cpp:5215
+#: src/timeline2/view/timelinecontroller.cpp:5217
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr "Silakan aktifkan trek untuk operasi ini dengan mengeklik pada labelnya"
@@ -16277,61 +16277,61 @@ msgstr ""
 "Mustahil menangkap di sini: penangkapan bisa menimpa klip. Harap singkirkan "
 "klip setelah posisi saat ini atau pilih trek yang berbeda"
 
-#: src/timeline2/view/timelinecontroller.cpp:4880
+#: src/timeline2/view/timelinecontroller.cpp:4882
 #, kde-format
 msgid "Expand clip"
 msgstr "Bentangkan klip"
 
-#: src/timeline2/view/timelinecontroller.cpp:4883
+#: src/timeline2/view/timelinecontroller.cpp:4885
 #, kde-format
 msgid "Could not expand clip"
 msgstr "Tidak bisa membentangkan klip"
 
-#: src/timeline2/view/timelinecontroller.cpp:4924
+#: src/timeline2/view/timelinecontroller.cpp:4926
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "Sisipkan Trek"
 msgstr[1] "Sisipkan Trek"
 
-#: src/timeline2/view/timelinecontroller.cpp:4965
+#: src/timeline2/view/timelinecontroller.cpp:4967
 #, kde-format
 msgid "Character encoding used to save the subtitle file."
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4966
+#: src/timeline2/view/timelinecontroller.cpp:4968
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5006
+#: src/timeline2/view/timelinecontroller.cpp:5008
 #, kde-format
 msgid "Encoding could not be guessed, using UTF-8"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5010
+#: src/timeline2/view/timelinecontroller.cpp:5012
 #, fuzzy, kde-format
 #| msgid "Encoding threads"
 msgid "Encoding detected as %1"
 msgstr "Utas pengenkodean"
 
-#: src/timeline2/view/timelinecontroller.cpp:5027
+#: src/timeline2/view/timelinecontroller.cpp:5029
 #, kde-format
 msgid "Import Subtitle"
 msgstr "Impor Subtitel"
 
-#: src/timeline2/view/timelinecontroller.cpp:5054
+#: src/timeline2/view/timelinecontroller.cpp:5056
 #, kde-format
 msgid "Export subtitle file"
 msgstr "Ekspor file subtitel"
 
-#: src/timeline2/view/timelinecontroller.cpp:5055
+#: src/timeline2/view/timelinecontroller.cpp:5057
 #, kde-format
 msgid "Subtitle File (*.srt)"
 msgstr "File Subtitel (*.srt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5085
+#: src/timeline2/view/timelinecontroller.cpp:5087
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
@@ -16340,22 +16340,22 @@ msgstr ""
 "Filter avfilter.subtitles diperlukan, tetapi tidak ditemukan. Fitur subtitel "
 "mungkin tidak akan bekerja seperti yang diharapkan"
 
-#: src/timeline2/view/timelinecontroller.cpp:5102
+#: src/timeline2/view/timelinecontroller.cpp:5104
 #, kde-format
 msgid "Show subtitle track"
 msgstr "Tampilkan trek subtitel"
 
-#: src/timeline2/view/timelinecontroller.cpp:5102
+#: src/timeline2/view/timelinecontroller.cpp:5104
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "Sembunyikan trek judul"
 
-#: src/timeline2/view/timelinecontroller.cpp:5125
+#: src/timeline2/view/timelinecontroller.cpp:5127
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "Lepas kunci trek subtitel"
 
-#: src/timeline2/view/timelinecontroller.cpp:5125
+#: src/timeline2/view/timelinecontroller.cpp:5127
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "Kunci trek subtitel"
@@ -18480,8 +18480,7 @@ msgstr "Mode"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configspeech_ui.ui:133
-#, fuzzy, kde-format
-#| msgid "Language:"
+#, kde-format
 msgid "Language:"
 msgstr "Bahasa:"
 
