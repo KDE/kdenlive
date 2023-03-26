@@ -1,21 +1,17 @@
-set(mltpreview_SRCS mltpreview.cpp ../src/lib/localeHandling.cpp)
+kcoreaddons_add_plugin(mltpreview INSTALL_NAMESPACE "kf${QT_MAJOR_VERSION}/thumbcreator")
 
-include_directories(
+target_sources(mltpreview PRIVATE mltpreview.cpp ../src/lib/localeHandling.cpp)
+
+target_include_directories(mltpreview PRIVATE
   ${MLT_INCLUDE_DIR}
   ${MLTPP_INCLUDE_DIR}
 )
-
-add_library(mltpreview MODULE ${mltpreview_SRCS})
-
 
 target_link_libraries(mltpreview
         Qt${QT_MAJOR_VERSION}::Core
         Qt${QT_MAJOR_VERSION}::Gui
         KF5::KIOCore
-        KF5::KIOWidgets
-  ${MLT_LIBRARIES}
-  ${MLTPP_LIBRARIES}
+        KF5::KIOGui
+        ${MLT_LIBRARIES}
+        ${MLTPP_LIBRARIES}
 )
-#FIXME: For some reason the plugin only seems to work if installed in $lib/qt5/plugins and not in $lib/plugins like KF5 recommends
-install(TARGETS mltpreview DESTINATION ${KDE_INSTALL_PLUGINDIR})
-install(FILES mltpreview.desktop DESTINATION ${KDE_INSTALL_KSERVICESDIR})

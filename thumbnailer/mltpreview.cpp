@@ -13,14 +13,12 @@
 #include <QVarLengthArray>
 #include <QtGlobal>
 
-extern "C" {
-Q_DECL_EXPORT ThumbCreator *new_creator()
-{
-    return new MltPreview;
-}
-}
+#include <KPluginFactory>
 
-MltPreview::MltPreview()
+K_PLUGIN_CLASS_WITH_JSON(MltPreview, "mltpreview.json")
+
+MltPreview::MltPreview(QObject *parent, const QVariantList &args)
+    : KIO::ThumbnailCreator(parent, args)
 {
     // After initialising the MLT factory, set the locale back from user default to C
     // to ensure numbers are always serialised with . as decimal point.
@@ -33,13 +31,15 @@ MltPreview::~MltPreview()
     Mlt::Factory::close();
 }
 
-bool MltPreview::create(const QString &path, int width, int height, QImage &img)
+KIO::ThumbnailResult MltPreview::create(const KIO::ThumbnailRequest &request)
 {
+    int width = request.targetSize().width();
+    int height = request.targetSize().height();
     std::unique_ptr<Mlt::Profile> profile(new Mlt::Profile());
-    std::shared_ptr<Mlt::Producer>producer(new Mlt::Producer(*profile.get(), path.toUtf8().data()));
+    std::shared_ptr<Mlt::Producer> producer(new Mlt::Producer(*profile.get(), request.url().toLocalFile().toUtf8().data()));
 
     if (producer->is_blank()) {
-        return false;
+        return KIO::ThumbnailResult::fail();
     }
     int frame = 75;
     uint variance = 10;
@@ -71,8 +71,8 @@ bool MltPreview::create(const QString &path, int width, int height, QImage &img)
     if (converter.is_valid()) {
         producer->attach(converter);
     }
-    
 
+    QImage img;
     // img = getFrame(producer, frame, width, height);
     while (variance <= 40 && ct < 4) {
         img = getFrame(producer, frame, wanted_width, wanted_height);
@@ -80,7 +80,12 @@ bool MltPreview::create(const QString &path, int width, int height, QImage &img)
         frame += 100 * ct;
         ct++;
     }
-    return (!img.isNull());
+
+    if (img.isNull()) {
+        return KIO::ThumbnailResult::fail();
+    }
+
+    return KIO::ThumbnailResult::pass(img);
 }
 
 QImage MltPreview::getFrame(std::shared_ptr<Mlt::Producer> producer, int framepos, int width, int height)
@@ -136,7 +141,4 @@ int MltPreview::imageVariance(const QImage &image)
     return delta / STEPS;
 }
 
-ThumbCreator::Flags MltPreview::flags() const
-{
-    return None;
-}
+#include "mltpreview.moc"
