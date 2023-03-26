@@ -586,8 +586,7 @@ void GLWidget::paintGL()
 
     float width = this->width() * devicePixelRatioF();
     float height = this->height() * devicePixelRatioF();
-
-    f->glClearColor(float(m_bgColor.redF()), float(m_bgColor.greenF()), float(m_bgColor.blueF()), 0);
+    f->glClearColor(float(m_bgColor.redF()), float(m_bgColor.greenF()), float(m_bgColor.blueF()), 1);
     f->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     f->glDisable(GL_BLEND);
     f->glDisable(GL_DEPTH_TEST);
