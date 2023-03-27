@@ -12,8 +12,20 @@ Files: data/effects/**/CMakeLists.txt data/effects/CMakeLists.txt
 Copyright: none
 License: CC0-1.0
 
+Files: data/lumas/PAL/* data/lumas/HD/*
+Copyright: Massimo Stella
+License: CC0-1.0
+
 Files: data/icons/breeze/*
-Copyright: KDE
+Copyright: 2014 Uri Herrera <uri_herrera@nitrux.in> and others
+License: LGPL-3.0-or-later
+
+Files: data/icons/*.png
+Copyright: Nara Oliveira and Farid Abdelnour
+License: LGPL-3.0-or-later
+
+Files: data/icons/*.svg
+Copyright: Julius Künzel
 License: LGPL-3.0-or-later
 
 Files: data/resourceproviders/*
@@ -39,3 +51,11 @@ License: BSD-3-Clause
 Files: po/*
 Copyright: Kdenlive translators (see each file for details)
 License: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+
+Files: tests/dataset/*
+Copyright: Jean-Baptiste Mardelle, Eric Jiang
+License: CC0-1.0
+
+Files: data/profiles/*
+Copyright: Jean-Baptiste Mardelle
+License: CC0-1.0
