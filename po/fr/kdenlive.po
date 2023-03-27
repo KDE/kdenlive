@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-26 02:44+0000\n"
-"PO-Revision-Date: 2023-03-19 18:07+0100\n"
+"POT-Creation-Date: 2023-03-27 04:19+0000\n"
+"PO-Revision-Date: 2023-03-26 18:51+0200\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -10485,21 +10485,15 @@ msgid "Create Sequence from Selection"
 msgstr "Créer une séquence à partir de la sélection"
 
 #: src/mainwindow.cpp:1766
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Adds the clip(s) currently selected in the timeline to the library. Note "
-#| "that the paths to images, video and audio files are saved as absolute "
-#| "paths."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Adds the clip(s) currently selected in the timeline to a new sequence clip "
 "that can be opened in another timeline tab."
 msgstr ""
-"Ajoute le ou les vidéo(s) actuellement sélectionnée(s) dans la frise "
-"chronologique à la bibliothèque. Veuillez noter que les emplacements des "
-"images, des fichiers de vidéo et d'audio sont enregistrés en tant "
-"qu'emplacements absolus."
+"Ajoute la ou les vidéo(s) actuellement sélectionnée(s) dans la frise "
+"chronologique à une nouvelle séquence vidéo, pouvant être ouverte dans un "
+"onglet avec une autre frise chronologique."
 
 #: src/mainwindow.cpp:1778
 #, kde-format
@@ -11582,18 +11576,18 @@ msgid "Open Analysis Data"
 msgstr "Ouvrir les données d'analyse"
 
 # unreviewed-context
-#: src/monitor/glwidget.cpp:1637
+#: src/monitor/glwidget.cpp:1636
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Sélectionnez une zone à jouer."
 
 # unreviewed-context
-#: src/monitor/glwidget.cpp:1673
+#: src/monitor/glwidget.cpp:1672
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Sélectionnez une vidéo à lire."
 
-#: src/monitor/glwidget.cpp:1745
+#: src/monitor/glwidget.cpp:1744
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"

@@ -10,18 +10,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-26 02:44+0000\n"
-"PO-Revision-Date: 2023-03-23 09:05+0100\n"
+"POT-Creation-Date: 2023-03-27 04:19+0000\n"
+"PO-Revision-Date: 2023-03-26 18:17+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
-"%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100>=3 && n"
+"%100<=4 ? 2 : 3);\n"
 "Translator: Martin Srebotnjak <miles@filmsi.net>\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Poedit 3.2.2\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
 
 #, kde-format
@@ -2210,7 +2210,7 @@ msgid ""
 msgstr ""
 "<![CDATA[Čas, s katerim bo časovnik začel beležiti čas ali ga odštevati.\n"
 "Besedilo bo zamrznjeno pri 00:00:00.000 od začetka filtra do pretečenega "
-"začetnega časa.]>"
+"začetnega časa.]]>"
 
 #: data/effects/timer.xml:57
 #, kde-format
@@ -2221,7 +2221,7 @@ msgid ""
 "elapsed.]]>"
 msgstr ""
 "<![CDATA[Najdaljše trajanje časovnika po tem, ko je začetni čas pretekel.\n"
-"Besedilo bo zamrznjeno v času trajanja po tem, ko je trajanje preteklo.]>"
+"Besedilo bo zamrznjeno v času trajanja po tem, ko je trajanje preteklo.]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: data/effects/timer.xml:60 src/ui/configcapture_ui.ui:322
@@ -2241,7 +2241,7 @@ msgstr ""
 "<![CDATA[Zamik, ki bo dodan vrednosti časovnika.\n"
 "Ko časovnik »odšteva«, bo časovnik odštev<l do »odmika« namesto od "
 "00:00:00.000.\n"
-"Ko časovnik prišteva, bo časovnik štel od »odmika« naprej.]>"
+"Ko časovnik prišteva, bo časovnik štel od »odmika« naprej.]]>"
 
 #: data/effects/timer.xml:66 data/transitions/slide.xml:8
 #, kde-format
@@ -2258,7 +2258,7 @@ msgid ""
 msgstr ""
 "\n"
 "            <![CDATA[Ali naj števec beleži čas od 00:00:00.000 naprej ali "
-"naj odšteva od časa trajanja.]>\n"
+"naj odšteva od časa trajanja.]]>\n"
 "        "
 
 #: data/effects/tracker.xml:4
@@ -11453,17 +11453,17 @@ msgctxt "@title:window"
 msgid "Open Analysis Data"
 msgstr "Odpri podatke preučevanja"
 
-#: src/monitor/glwidget.cpp:1637
+#: src/monitor/glwidget.cpp:1636
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Izberite območje predvajanja"
 
-#: src/monitor/glwidget.cpp:1673
+#: src/monitor/glwidget.cpp:1672
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Izberite posnetek za predvajanje"
 
-#: src/monitor/glwidget.cpp:1745
+#: src/monitor/glwidget.cpp:1744
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
