@@ -812,6 +812,9 @@ void MyListView::mouseMoveEvent(QMouseEvent *event)
             m_lastHoveredItem = QModelIndex();
         }
     }
+    if (m_startPos.isNull() && event->buttons() == Qt::NoButton) {
+        QListView::mouseMoveEvent(event);
+    }
 }
 
 MyTreeView::MyTreeView(QWidget *parent)
@@ -918,6 +921,9 @@ void MyTreeView::mouseMoveEvent(QMouseEvent *event)
             }
             pCore->bin()->updateKeyBinding();
         }
+    }
+    if (m_startPos.isNull() && event->buttons() == Qt::NoButton) {
+        QTreeView::mouseMoveEvent(event);
     }
 }
 
