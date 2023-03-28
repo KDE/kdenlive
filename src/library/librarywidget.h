@@ -194,6 +194,8 @@ private:
     KCoreDirLister *m_coreLister;
     QMutex m_treeMutex;
     QDir m_directory;
+    /** @brief if true, the next file appearing in the library will be selected */
+    bool m_selectNewFile;
     void showMessage(const QString &text, KMessageWidget::MessageType type = KMessageWidget::Warning);
 
 Q_SIGNALS:
