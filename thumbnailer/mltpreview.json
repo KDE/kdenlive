@@ -7,7 +7,8 @@
             "application/x-kdenlivetitle",
             "application/vnd.mlt+xml"
         ],
-        "Name": "MLT Playlist"
+        "Name": "MLT Playlist",
+        "Name[x-test]": "xxMLT Playlistxx"
     },
     "MimeType": "video/mlt-playlist;application/x-kdenlive;application/x-kdenlivetitle;application/vnd.mlt+xml;"
 }
