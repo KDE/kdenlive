@@ -7,7 +7,12 @@
             "application/x-kdenlivetitle",
             "application/vnd.mlt+xml"
         ],
-        "Name": "MLT Playlist"
+        "Name": "MLT Playlist",
+        "Name[en_GB]": "MLT Playlist",
+        "Name[pt]": "Lista de Reprodução MLT",
+        "Name[tr]": "MLT Oynatma Listesi",
+        "Name[uk]": "Список відтворення MLT",
+        "Name[x-test]": "xxMLT Playlistxx"
     },
     "MimeType": "video/mlt-playlist;application/x-kdenlive;application/x-kdenlivetitle;application/vnd.mlt+xml;"
 }
