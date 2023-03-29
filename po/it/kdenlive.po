@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-28 03:31+0000\n"
-"PO-Revision-Date: 2023-03-12 16:36+0100\n"
+"PO-Revision-Date: 2023-03-25 15:03+0100\n"
 "Last-Translator: Paolo Zamponi <zapaolo@email.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -5844,26 +5844,25 @@ msgid "Ignore subfolder structure"
 msgstr "Ignora struttura delle sottocartelle"
 
 #: src/dialogs/clipjobmanager.cpp:24
-#, fuzzy, kde-format
-#| msgid "Cancel Current Clip Jobs"
+#, kde-format
 msgid "Manage Bin Clip Jobs"
-msgstr "Annulla i processi sulla clip corrente"
+msgstr "Gestisci i processi nel contenitore delle clip"
 
 #: src/dialogs/clipjobmanager.cpp:36
 #, kde-format
 msgid "Arguments for the command line script"
-msgstr ""
+msgstr "Argomenti per lo script da riga di comando"
 
 #: src/dialogs/clipjobmanager.cpp:37
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<b>&#x25;1</b> will be replaced be the path of the source clip."
-msgstr ""
+msgstr "<b>&#x25;1</b> verrà sostituito dal percorso della clip sorgente."
 
 #: src/dialogs/clipjobmanager.cpp:39
 #, kde-format
 msgid "File extension for the output file"
-msgstr ""
+msgstr "Estensione del file di uscita"
 
 #: src/dialogs/clipjobmanager.cpp:40
 #, kde-kuit-format
@@ -5872,6 +5871,8 @@ msgid ""
 "File extension for the output file. Empty will keep the same extension as "
 "source file."
 msgstr ""
+"Estensione del file di uscita. Se lasciata vuota sarà la stessa di quello "
+"sorgente."
 
 # , kde-format, kde-format
 #: src/dialogs/clipjobmanager.cpp:80 src/dialogs/clipjobmanager.cpp:159
@@ -5890,22 +5891,19 @@ msgid "Duplicate Clip with Speed Change…"
 msgstr "Duplica la clip con cambio di velocità…"
 
 #: src/dialogs/clipjobmanager.cpp:191
-#, fuzzy, kde-format
-#| msgid "Show Description"
+#, kde-format
 msgid "Job description"
-msgstr "Mostra descrizione"
+msgstr "Descrizione del processo"
 
 #: src/dialogs/clipjobmanager.cpp:241
-#, fuzzy, kde-format
-#| msgid "Clip Jobs"
+#, kde-format
 msgid "My Clip Job"
-msgstr "Processi sulle clip"
+msgstr "Il mio processo sulla clip"
 
 #: src/dialogs/clipjobmanager.cpp:249
-#, fuzzy, kde-format
-#| msgid "Clip Jobs"
+#, kde-format
 msgid "My Clip Job %1"
-msgstr "Processi sulle clip"
+msgstr "Il mio processo sulla clip %1"
 
 #: src/dialogs/clipjobmanager.cpp:274
 #, kde-format
@@ -5913,6 +5911,8 @@ msgid ""
 "Permanently delete this Clip Job:\n"
 "%1 ?"
 msgstr ""
+"Eliminare definitivamente questo processo sulla clip:\n"
+"%1 ?"
 
 #: src/dialogs/encodingprofilesdialog.cpp:50
 #, kde-format
@@ -6369,7 +6369,7 @@ msgstr "Progressivo"
 #: src/dialogs/kdenlivesettingsdialog.cpp:1734
 #, kde-format
 msgid "Probing..."
-msgstr ""
+msgstr "Verifica..."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1789
 #: src/dialogs/kdenlivesettingsdialog.cpp:1982
@@ -6907,10 +6907,9 @@ msgid "Process"
 msgstr "Elabora"
 
 #: src/dialogs/speechdialog.cpp:97
-#, fuzzy, kde-format
-#| msgid "Speech recognition"
+#, kde-format
 msgid "Speech Recognition log"
-msgstr "Riconoscimento vocale"
+msgstr "Registro del riconoscimento vocale"
 
 #: src/dialogs/speechdialog.cpp:128
 #, kde-format
@@ -7120,25 +7119,22 @@ msgstr "Nessun discorso"
 #: src/dialogs/textbasededit.cpp:575 src/ui/speechdialog_ui.ui:154
 #, kde-format
 msgid "Translate to english"
-msgstr ""
+msgstr "Traduci in inglese"
 
 #: src/dialogs/textbasededit.cpp:578
-#, fuzzy, kde-format
-#| msgid "Select Transition"
+#, kde-format
 msgid "Configure Speech Recognition"
-msgstr "Seleziona transizione"
+msgstr "Configura il riconoscimento vocale"
 
 #: src/dialogs/textbasededit.cpp:625
-#, fuzzy, kde-format
-#| msgid "VOSK Speech Models"
+#, kde-format
 msgid "Speech model"
-msgstr "Modelli di discorso VOSK"
+msgstr "Modelli di discorso"
 
 #: src/dialogs/textbasededit.cpp:626
-#, fuzzy, kde-format
-#| msgid "Speed Change"
+#, kde-format
 msgid "Speech language"
-msgstr "Cambio di velocità"
+msgstr "Lingua parlata"
 
 #: src/dialogs/textbasededit.cpp:662
 #, kde-format
@@ -8447,10 +8443,9 @@ msgid "Item is not an animation clip"
 msgstr "L'elemento non è una clip animazione"
 
 #: src/jobs/audiolevelstask.cpp:38
-#, fuzzy, kde-format
-#| msgid "Audio thumbnails:"
+#, kde-format
 msgid "Audio thumbs"
-msgstr "Visualizzazioni audio:"
+msgstr "Visualizzazioni audio"
 
 #: src/jobs/audiolevelstask.cpp:75 src/jobs/audiolevelstask.cpp:138
 #, kde-format
@@ -8463,14 +8458,12 @@ msgid "Audio thumbs: unknown file length for %1"
 msgstr "Visualizzazioni audio: dimensione del file %1 sconosciuta"
 
 #: src/jobs/cachetask.cpp:31 src/jobs/cliploadtask.cpp:42
-#, fuzzy, kde-format
-#| msgid "Video thumbnails:"
+#, kde-format
 msgid "Video thumbs"
-msgstr "Miniature video:"
+msgstr "Miniature video"
 
 #: src/jobs/cliploadtask.cpp:42
-#, fuzzy, kde-format
-#| msgid "Loading clips"
+#, kde-format
 msgid "Loading clip"
 msgstr "Caricamento clip"
 
@@ -8492,7 +8485,7 @@ msgstr "Il file <b>%1</b> ha una frequenza dei fotogrammi variabile."
 #: src/jobs/customjobtask.cpp:95
 #, kde-format
 msgid "Application %1 not found, please update the job settings"
-msgstr ""
+msgstr "Applicazione %1 non trovata, aggiorna le impostazioni del processo"
 
 #: src/jobs/customjobtask.cpp:168 src/jobs/customjobtask.cpp:178
 #: src/jobs/cuttask.cpp:250 src/jobs/transcodetask.cpp:231
@@ -8502,10 +8495,9 @@ msgid "Failed to create file."
 msgstr "Impossibile creare il file."
 
 #: src/jobs/cuttask.cpp:39
-#, fuzzy, kde-format
-#| msgid "Extract zone"
+#, kde-format
 msgid "Extracting zone"
-msgstr "Estrai zona"
+msgstr "Estrazione zona"
 
 #: src/jobs/cuttask.cpp:79
 #, kde-format
@@ -8570,10 +8562,9 @@ msgid "Cut job failed."
 msgstr "Processo di taglio non riuscito."
 
 #: src/jobs/filtertask.cpp:40
-#, fuzzy, kde-format
-#| msgid "Processing %1"
+#, kde-format
 msgid "Processing filter %1"
-msgstr "Elaborazione di %1"
+msgstr "Elaborazione del filtro %1"
 
 #: src/jobs/filtertask.cpp:111
 #, kde-format
@@ -8596,10 +8587,9 @@ msgid "Failed to filter source."
 msgstr "Impossibile filtrare la sorgente."
 
 #: src/jobs/proxytask.cpp:29
-#, fuzzy, kde-format
-#| msgid "Creating proxy %1"
+#, kde-format
 msgid "Creating proxy"
-msgstr "Creazione della clip rappresentativa %1"
+msgstr "Creazione della clip rappresentativa"
 
 #: src/jobs/proxytask.cpp:192
 #, kde-format
@@ -8627,7 +8617,7 @@ msgstr "Impossibile creare la clip rappresentativa."
 #: src/jobs/scenesplittask.cpp:42
 #, kde-format
 msgid "Detecting scene change"
-msgstr ""
+msgstr "Rilevamento del cambio di scena"
 
 #: src/jobs/scenesplittask.cpp:57
 #, kde-format
@@ -8659,10 +8649,9 @@ msgid "Failed to analyse clip."
 msgstr "Impossibile analizzare la clip."
 
 #: src/jobs/speedtask.cpp:35
-#, fuzzy, kde-format
-#| msgid "Change clip speed"
+#, kde-format
 msgid "Changing speed"
-msgstr "Cambia la velocità della clip"
+msgstr "Cambiamento della velocità"
 
 #: src/jobs/speedtask.cpp:47
 #, kde-format
@@ -8705,10 +8694,9 @@ msgstr "Impossibile creare clip veloce."
 
 # , kde-format, kde-format
 #: src/jobs/stabilizetask.cpp:36
-#, fuzzy, kde-format
-#| msgid "Stabilize"
+#, kde-format
 msgid "Stabilizing"
-msgstr "Stabilizza"
+msgstr "Stabilizzazione"
 
 #: src/jobs/stabilizetask.cpp:178
 #, kde-format
@@ -8716,10 +8704,9 @@ msgid "Failed to stabilize."
 msgstr "Impossibile stabilizzare."
 
 #: src/jobs/transcodetask.cpp:40
-#, fuzzy, kde-format
-#| msgid "Transcoding: %1"
+#, kde-format
 msgid "Transcoding"
-msgstr "Transcodifica: %1"
+msgstr "Transcodifica"
 
 #. i18n: ectx: Menu (go)
 #: src/kdenliveui.rc:19
@@ -8761,7 +8748,7 @@ msgstr "Estrai audio"
 #: src/kdenliveui.rc:77 src/mainwindow.cpp:3673
 #, kde-format
 msgid "Clip Jobs"
-msgstr "Processi sulle clip"
+msgstr "Processi sulla clip"
 
 #. i18n: ectx: Menu (clip_in_timeline)
 #: src/kdenliveui.rc:90
@@ -10059,10 +10046,9 @@ msgid "Monitor Overlay Audio Waveform"
 msgstr "Forme d'onda audio in sovrimpressione sul controllo"
 
 #: src/mainwindow.cpp:1490
-#, fuzzy, kde-format
-#| msgid "Monitor Overlay Safe Zones"
+#, kde-format
 msgid "Monitor Overlay Clip Jobs"
-msgstr "Zone sicure in sovrimpressione nel monitor"
+msgstr "Gestisci i processi di sovrimpressione delle clip"
 
 #: src/mainwindow.cpp:1508
 #, kde-format
@@ -10455,26 +10441,20 @@ msgid "Ungroup Clips"
 msgstr "Separa gruppo di clip"
 
 #: src/mainwindow.cpp:1763
-#, fuzzy, kde-format
-#| msgid "Create sequence"
+#, kde-format
 msgid "Create Sequence from Selection"
-msgstr "Crea sequenza"
+msgstr "Crea sequenza dalla selezione"
 
 #: src/mainwindow.cpp:1766
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Adds the clip(s) currently selected in the timeline to the library. Note "
-#| "that the paths to images, video and audio files are saved as absolute "
-#| "paths."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Adds the clip(s) currently selected in the timeline to a new sequence clip "
 "that can be opened in another timeline tab."
 msgstr ""
-"Aggiunge alla libreria le clip attualmente selezionate nella linea "
-"temporale. Nota che i percorsi dei file delle immagini, dei video e degli "
-"audio vengono salvati come percorso assoluto."
+"Aggiunge le clip attualmente selezionate nella linea temporale ad una nuova "
+"clip di sequenze che può essere aperta in un'altra scheda della linea "
+"temporale."
 
 #: src/mainwindow.cpp:1778
 #, kde-format
@@ -10993,10 +10973,9 @@ msgid "Overwrite"
 msgstr "Sovrascrivi"
 
 #: src/mainwindow.cpp:3694
-#, fuzzy, kde-format
-#| msgid "Cancel Current Clip Jobs"
+#, kde-format
 msgid "Configure Clip Jobs…"
-msgstr "Annulla i processi sulla clip corrente"
+msgstr "Configura i processi sulla clip..."
 
 #: src/mainwindow.cpp:3709
 #, kde-format
@@ -12145,10 +12124,9 @@ msgid "Out Point"
 msgstr "Fine selezione"
 
 #: src/monitor/view/kdenliveclipmonitor.qml:666
-#, fuzzy, kde-format
-#| msgid "Remove Job"
+#, kde-format
 msgid "Terminate Job"
-msgstr "Elimina processo"
+msgstr "Termina processo"
 
 #: src/monitor/view/kdenlivemonitor.qml:94
 #, kde-format
@@ -13881,16 +13859,14 @@ msgstr ""
 "Importazione di una clip di sequenze, è ancora in uno stato sperimentale"
 
 #: src/project/projectmanager.cpp:1776
-#, fuzzy, kde-format
-#| msgid "Select a clip to compare effect"
+#, kde-format
 msgid "Select a clip to create sequence"
-msgstr "Seleziona una clip per confrontare l'effetto"
+msgstr "Seleziona una clip per creare una sequenza"
 
 #: src/project/projectmanager.cpp:1813
-#, fuzzy, kde-format
-#| msgid "Create sequence"
+#, kde-format
 msgid "Create Sequence Clip"
-msgstr "Crea sequenza"
+msgstr "Crea una clip di sequenze"
 
 #: src/project/transcodeseek.cpp:36 src/project/transcodeseek.cpp:49
 #, kde-format
@@ -14135,7 +14111,7 @@ msgstr "sottotitoli automatici"
 #: src/pythoninterfaces/speechtotext.cpp:29
 #, kde-format
 msgid "machine learning framework"
-msgstr ""
+msgstr "framework per l'apprendimento automatico"
 
 #: src/pythoninterfaces/speechtotext.cpp:37
 #, kde-format
@@ -14145,617 +14121,602 @@ msgstr "Riconoscimento vocale"
 #: src/pythoninterfaces/speechtotext.cpp:52
 #, kde-format
 msgid "Tiny"
-msgstr ""
+msgstr "Minuscolo"
 
 #: src/pythoninterfaces/speechtotext.cpp:53
 #, kde-format
 msgid "Base"
-msgstr ""
+msgstr "Base"
 
 #: src/pythoninterfaces/speechtotext.cpp:54
-#, fuzzy, kde-format
-#| msgid "Smallest"
+#, kde-format
 msgid "Small"
-msgstr "Più piccolo"
+msgstr "Piccolo"
 
 #: src/pythoninterfaces/speechtotext.cpp:55
-#, fuzzy, kde-format
-#| msgid "Medians"
+#, kde-format
 msgid "Medium"
-msgstr "Mediane"
+msgstr "Medio"
 
 #: src/pythoninterfaces/speechtotext.cpp:56
-#, fuzzy, kde-format
-#| msgid "Largest"
+#, kde-format
 msgid "Large"
-msgstr "Più grande"
+msgstr "Grande"
 
 #: src/pythoninterfaces/speechtotext.cpp:57
 #, kde-format
 msgid "Tiny - English only"
-msgstr ""
+msgstr "Minuscolo - solo inglese"
 
 #: src/pythoninterfaces/speechtotext.cpp:58
 #, kde-format
 msgid "Base - English only"
-msgstr ""
+msgstr "Base - solo inglese"
 
 #: src/pythoninterfaces/speechtotext.cpp:59
 #, kde-format
 msgid "Small - English only"
-msgstr ""
+msgstr "Piccolo - solo inglese"
 
 #: src/pythoninterfaces/speechtotext.cpp:60
 #, kde-format
 msgid "Medium - English only"
-msgstr ""
+msgstr "Medio - solo inglese"
 
 #: src/pythoninterfaces/speechtotext.cpp:67
-#, fuzzy, kde-format
-#| msgid "Edge detect"
+#, kde-format
 msgid "Audodetect"
-msgstr "Riconoscimento del bordo"
+msgstr "Rileva automaticamente"
 
 #: src/pythoninterfaces/speechtotext.cpp:68
 #, kde-format
 msgid "Afrikaans"
-msgstr ""
+msgstr "Afrikaans"
 
 #: src/pythoninterfaces/speechtotext.cpp:69
 #, kde-format
 msgid "Albanian"
-msgstr ""
+msgstr "Albanese"
 
 #: src/pythoninterfaces/speechtotext.cpp:70
 #, kde-format
 msgid "Amharic"
-msgstr ""
+msgstr "Amarico"
 
 #: src/pythoninterfaces/speechtotext.cpp:71
 #, kde-format
 msgid "Arabic"
-msgstr ""
+msgstr "Arabo"
 
 #: src/pythoninterfaces/speechtotext.cpp:72
 #, kde-format
 msgid "Armenian"
-msgstr ""
+msgstr "Armeno"
 
 #: src/pythoninterfaces/speechtotext.cpp:73
 #, kde-format
 msgid "Assamese"
-msgstr ""
+msgstr "Assamese"
 
 #: src/pythoninterfaces/speechtotext.cpp:74
 #, kde-format
 msgid "Azerbaijani"
-msgstr ""
+msgstr "Azero"
 
 #: src/pythoninterfaces/speechtotext.cpp:75
 #, kde-format
 msgid "Bashkir"
-msgstr ""
+msgstr "Baškiro"
 
 #: src/pythoninterfaces/speechtotext.cpp:76
 #, kde-format
 msgid "Basque"
-msgstr ""
+msgstr "Basco"
 
 #: src/pythoninterfaces/speechtotext.cpp:77
 #, kde-format
 msgid "Belarusian"
-msgstr ""
+msgstr "Bielorusso"
 
 #: src/pythoninterfaces/speechtotext.cpp:78
 #, kde-format
 msgid "Bengali"
-msgstr ""
+msgstr "Bengalese"
 
 #: src/pythoninterfaces/speechtotext.cpp:79
 #, kde-format
 msgid "Bosnian"
-msgstr ""
+msgstr "Bosniaco"
 
 #: src/pythoninterfaces/speechtotext.cpp:80
 #, kde-format
 msgid "Breton"
-msgstr ""
+msgstr "Bretone"
 
 #: src/pythoninterfaces/speechtotext.cpp:81
-#, fuzzy, kde-format
-#| msgid "Variant"
+#, kde-format
 msgid "Bulgarian"
-msgstr "Variante"
+msgstr "Bulgaro"
 
 #: src/pythoninterfaces/speechtotext.cpp:82
 #, kde-format
 msgid "Burmese"
-msgstr ""
+msgstr "Birmano"
 
 #: src/pythoninterfaces/speechtotext.cpp:83
 #, kde-format
 msgid "Castilian"
-msgstr ""
+msgstr "Castigliano"
 
 #: src/pythoninterfaces/speechtotext.cpp:84
 #, kde-format
 msgid "Catalan"
-msgstr ""
+msgstr "Catalano"
 
 #: src/pythoninterfaces/speechtotext.cpp:85
-#, fuzzy, kde-format
-#| msgid "Shakiness"
+#, kde-format
 msgid "Chinese"
-msgstr "Instabilità"
+msgstr "Cinese"
 
 #: src/pythoninterfaces/speechtotext.cpp:86
 #, kde-format
 msgid "Croatian"
-msgstr ""
+msgstr "Croato"
 
 #: src/pythoninterfaces/speechtotext.cpp:87
 #, kde-format
 msgid "Czech"
-msgstr ""
+msgstr "Ceco"
 
 #: src/pythoninterfaces/speechtotext.cpp:88
 #, kde-format
 msgid "Danish"
-msgstr ""
+msgstr "Danese"
 
 #: src/pythoninterfaces/speechtotext.cpp:89
 #, kde-format
 msgid "Dutch"
-msgstr ""
+msgstr "Olandese"
 
 #: src/pythoninterfaces/speechtotext.cpp:90
 #, kde-format
 msgid "English"
-msgstr ""
+msgstr "Inglese"
 
 #: src/pythoninterfaces/speechtotext.cpp:91
 #, kde-format
 msgid "Estonian"
-msgstr ""
+msgstr "Estone"
 
 #: src/pythoninterfaces/speechtotext.cpp:92
 #, kde-format
 msgid "Faroese"
-msgstr ""
+msgstr "Faroese"
 
 #: src/pythoninterfaces/speechtotext.cpp:93
 #, kde-format
 msgid "Finnish"
-msgstr ""
+msgstr "Finlandese"
 
 #: src/pythoninterfaces/speechtotext.cpp:94
 #, kde-format
 msgid "Flemish"
-msgstr ""
+msgstr "Fiammingo"
 
 #: src/pythoninterfaces/speechtotext.cpp:95
 #, kde-format
 msgid "French"
-msgstr ""
+msgstr "Francese"
 
 #: src/pythoninterfaces/speechtotext.cpp:96
 #, kde-format
 msgid "Galician"
-msgstr ""
+msgstr "Galiziano"
 
 #: src/pythoninterfaces/speechtotext.cpp:97
 #, kde-format
 msgid "Georgian"
-msgstr ""
+msgstr "Georgiano"
 
 #: src/pythoninterfaces/speechtotext.cpp:98
 #, kde-format
 msgid "German"
-msgstr ""
+msgstr "Tedesco"
 
 #: src/pythoninterfaces/speechtotext.cpp:99
-#, fuzzy, kde-format
-#| msgid "Green"
+#, kde-format
 msgid "Greek"
-msgstr "Verde"
+msgstr "Greco"
 
 #: src/pythoninterfaces/speechtotext.cpp:100
-#, fuzzy, kde-format
-#| msgid "Duration"
+#, kde-format
 msgid "Gujarati"
-msgstr "Durata"
+msgstr "Gujarati"
 
 #: src/pythoninterfaces/speechtotext.cpp:101
 #, kde-format
 msgid "Haitian"
-msgstr ""
+msgstr "Haitiano"
 
 #: src/pythoninterfaces/speechtotext.cpp:102
 #, kde-format
 msgid "Haitian Creole"
-msgstr ""
+msgstr "Creolo haitiano"
 
 #: src/pythoninterfaces/speechtotext.cpp:103
 #, kde-format
 msgid "Hausa"
-msgstr ""
+msgstr "Hausa"
 
 #: src/pythoninterfaces/speechtotext.cpp:104
 #, kde-format
 msgid "Hawaiian"
-msgstr ""
+msgstr "Hawaiano"
 
 #: src/pythoninterfaces/speechtotext.cpp:105
 #, kde-format
 msgid "Hebrew"
-msgstr ""
+msgstr "Ebraico"
 
 #: src/pythoninterfaces/speechtotext.cpp:106
 #, kde-format
 msgid "Hindi"
-msgstr ""
+msgstr "Hindi"
 
 #: src/pythoninterfaces/speechtotext.cpp:107
-#, fuzzy, kde-format
-#| msgid "Variant"
+#, kde-format
 msgid "Hungarian"
-msgstr "Variante"
+msgstr "Ungherese"
 
 #: src/pythoninterfaces/speechtotext.cpp:108
 #, kde-format
 msgid "Icelandic"
-msgstr ""
+msgstr "Islandese"
 
 #: src/pythoninterfaces/speechtotext.cpp:109
 #, kde-format
 msgid "Indonesian"
-msgstr ""
+msgstr "Indonesiano"
 
 #: src/pythoninterfaces/speechtotext.cpp:110
-#, fuzzy, kde-format
-#| msgid "Antialias"
+#, kde-format
 msgid "Italian"
-msgstr "Anti alias"
+msgstr "Italiano"
 
 #: src/pythoninterfaces/speechtotext.cpp:111
 #, kde-format
 msgid "Japanese"
-msgstr ""
+msgstr "Giapponese"
 
 #: src/pythoninterfaces/speechtotext.cpp:112
 #, kde-format
 msgid "Javanese"
-msgstr ""
+msgstr "Giavanese"
 
 #: src/pythoninterfaces/speechtotext.cpp:113
 #, kde-format
 msgid "Kannada"
-msgstr ""
+msgstr "Kannada"
 
 #: src/pythoninterfaces/speechtotext.cpp:114
 #, kde-format
 msgid "Kazakh"
-msgstr ""
+msgstr "Kazako"
 
 #: src/pythoninterfaces/speechtotext.cpp:115
 #, kde-format
 msgid "Khmer"
-msgstr ""
+msgstr "Khmer"
 
 #: src/pythoninterfaces/speechtotext.cpp:116
 #, kde-format
 msgid "Korean"
-msgstr ""
+msgstr "Coreano"
 
 #: src/pythoninterfaces/speechtotext.cpp:117
-#, fuzzy, kde-format
-#| msgid "Low"
+#, kde-format
 msgid "Lao"
-msgstr "Bassa"
+msgstr "Lao"
 
 #: src/pythoninterfaces/speechtotext.cpp:118
-#, fuzzy, kde-format
-#| msgid "Rating"
+#, kde-format
 msgid "Latin"
-msgstr "Voto"
+msgstr "Latino"
 
 #: src/pythoninterfaces/speechtotext.cpp:119
 #, kde-format
 msgid "Latvian"
-msgstr ""
+msgstr "Lettone"
 
 #: src/pythoninterfaces/speechtotext.cpp:120
 #, kde-format
 msgid "Letzeburgesch"
-msgstr ""
+msgstr "Lussemburghese"
 
 #: src/pythoninterfaces/speechtotext.cpp:121
 #, kde-format
 msgid "Lingala"
-msgstr ""
+msgstr "Lingala"
 
 #: src/pythoninterfaces/speechtotext.cpp:122
 #, kde-format
 msgid "Lithuanian"
-msgstr ""
+msgstr "Lituano"
 
 #: src/pythoninterfaces/speechtotext.cpp:123
 #, kde-format
 msgid "Luxembourgish"
-msgstr ""
+msgstr "Lussemburghese"
 
 #: src/pythoninterfaces/speechtotext.cpp:124
 #, kde-format
 msgid "Macedonian"
-msgstr ""
+msgstr "Macedone"
 
 #: src/pythoninterfaces/speechtotext.cpp:125
 #, kde-format
 msgid "Malagasy"
-msgstr ""
+msgstr "Malgascio"
 
 #: src/pythoninterfaces/speechtotext.cpp:126
 #, kde-format
 msgid "Malay"
-msgstr ""
+msgstr "Malese"
 
 #: src/pythoninterfaces/speechtotext.cpp:127
 #, kde-format
 msgid "Malayalam"
-msgstr ""
+msgstr "Malayalam"
 
 #: src/pythoninterfaces/speechtotext.cpp:128
 #, kde-format
 msgid "Maltese"
-msgstr ""
+msgstr "Maltese"
 
 #: src/pythoninterfaces/speechtotext.cpp:129
 #, kde-format
 msgid "Maori"
-msgstr ""
+msgstr "Maori"
 
 #: src/pythoninterfaces/speechtotext.cpp:130
 #, kde-format
 msgid "Marathi"
-msgstr ""
+msgstr "Marathi"
 
 #: src/pythoninterfaces/speechtotext.cpp:131
 #, kde-format
 msgid "Moldavian"
-msgstr ""
+msgstr "Moldavo"
 
 #: src/pythoninterfaces/speechtotext.cpp:132
 #, kde-format
 msgid "Moldovan"
-msgstr ""
+msgstr "Moldavo"
 
 #: src/pythoninterfaces/speechtotext.cpp:133
 #, kde-format
 msgid "Mongolian"
-msgstr ""
+msgstr "Mongolo"
 
 #: src/pythoninterfaces/speechtotext.cpp:134
 #, kde-format
 msgid "Myanmar"
-msgstr ""
+msgstr "Birmano"
 
 #: src/pythoninterfaces/speechtotext.cpp:135
 #, kde-format
 msgid "Nepali"
-msgstr ""
+msgstr "Nepalese"
 
 #: src/pythoninterfaces/speechtotext.cpp:136
 #, kde-format
 msgid "Norwegian"
-msgstr ""
+msgstr "Norvegese"
 
 #: src/pythoninterfaces/speechtotext.cpp:137
 #, kde-format
 msgid "Nynorsk"
-msgstr ""
+msgstr "Nynorsk"
 
 #: src/pythoninterfaces/speechtotext.cpp:138
 #, kde-format
 msgid "Occitan"
-msgstr ""
+msgstr "Occitano"
 
 #: src/pythoninterfaces/speechtotext.cpp:139
 #, kde-format
 msgid "Panjabi"
-msgstr ""
+msgstr "Panjabi"
 
 #: src/pythoninterfaces/speechtotext.cpp:140
 #, kde-format
 msgid "Pashto"
-msgstr ""
+msgstr "Pashtu"
 
 #: src/pythoninterfaces/speechtotext.cpp:141
 #, kde-format
 msgid "Persian"
-msgstr ""
+msgstr "Persiano"
 
 #: src/pythoninterfaces/speechtotext.cpp:142
 #, kde-format
 msgid "Polish"
-msgstr ""
+msgstr "Polacco"
 
 #: src/pythoninterfaces/speechtotext.cpp:143
 #, kde-format
 msgid "Portuguese"
-msgstr ""
+msgstr "Portoghese"
 
 #: src/pythoninterfaces/speechtotext.cpp:144
 #, kde-format
 msgid "Punjabi"
-msgstr ""
+msgstr "Punjabi"
 
 #: src/pythoninterfaces/speechtotext.cpp:145
 #, kde-format
 msgid "Pushto"
-msgstr ""
+msgstr "Paštu"
 
 #: src/pythoninterfaces/speechtotext.cpp:146
 #, kde-format
 msgid "Romanian"
-msgstr ""
+msgstr "Rumeno"
 
 #: src/pythoninterfaces/speechtotext.cpp:147
 #, kde-format
 msgid "Russian"
-msgstr ""
+msgstr "Russo"
 
 #: src/pythoninterfaces/speechtotext.cpp:148
 #, kde-format
 msgid "Sanskrit"
-msgstr ""
+msgstr "Sanscrito"
 
 #: src/pythoninterfaces/speechtotext.cpp:149
 #, kde-format
 msgid "Serbian"
-msgstr ""
+msgstr "Serbo"
 
 #: src/pythoninterfaces/speechtotext.cpp:150
 #, kde-format
 msgid "Shona"
-msgstr ""
+msgstr "Shona"
 
 #: src/pythoninterfaces/speechtotext.cpp:151
 #, kde-format
 msgid "Sindhi"
-msgstr ""
+msgstr "Sindhi"
 
 #: src/pythoninterfaces/speechtotext.cpp:152
 #, kde-format
 msgid "Sinhala"
-msgstr ""
+msgstr "Singalese"
 
 #: src/pythoninterfaces/speechtotext.cpp:153
 #, kde-format
 msgid "Sinhalese"
-msgstr ""
+msgstr "Singalese"
 
 #: src/pythoninterfaces/speechtotext.cpp:154
 #, kde-format
 msgid "Slovak"
-msgstr ""
+msgstr "Slovacco"
 
 #: src/pythoninterfaces/speechtotext.cpp:155
 #, kde-format
 msgid "Slovenian"
-msgstr ""
+msgstr "Sloveno"
 
 #: src/pythoninterfaces/speechtotext.cpp:156
-#, fuzzy, kde-format
-#| msgid "Normalise"
+#, kde-format
 msgid "Somali"
-msgstr "Normalizza"
+msgstr "Somalo"
 
 #: src/pythoninterfaces/speechtotext.cpp:157
 #, kde-format
 msgid "Spanish"
-msgstr ""
+msgstr "Spagnolo"
 
 #: src/pythoninterfaces/speechtotext.cpp:158
 #, kde-format
 msgid "Sundanese"
-msgstr ""
+msgstr "Sundanese"
 
 #: src/pythoninterfaces/speechtotext.cpp:159
 #, kde-format
 msgid "Swahili"
-msgstr ""
+msgstr "Swahili"
 
 #: src/pythoninterfaces/speechtotext.cpp:160
 #, kde-format
 msgid "Swedish"
-msgstr ""
+msgstr "Svedese"
 
 #: src/pythoninterfaces/speechtotext.cpp:161
-#, fuzzy, kde-format
-#| msgid "Dialog"
+#, kde-format
 msgid "Tagalog"
-msgstr "Finestra"
+msgstr "Tagalog"
 
 #: src/pythoninterfaces/speechtotext.cpp:162
 #, kde-format
 msgid "Tajik"
-msgstr ""
+msgstr "Tagico"
 
 #: src/pythoninterfaces/speechtotext.cpp:163
 #, kde-format
 msgid "Tamil"
-msgstr ""
+msgstr "Tamil"
 
 #: src/pythoninterfaces/speechtotext.cpp:164
 #, kde-format
 msgid "Tatar"
-msgstr ""
+msgstr "Tataro"
 
 #: src/pythoninterfaces/speechtotext.cpp:165
 #, kde-format
 msgid "Telugu"
-msgstr ""
+msgstr "Telugu"
 
 #: src/pythoninterfaces/speechtotext.cpp:166
 #, kde-format
 msgid "Thai"
-msgstr ""
+msgstr "Thailandese"
 
 #: src/pythoninterfaces/speechtotext.cpp:167
 #, kde-format
 msgid "Tibetan"
-msgstr ""
+msgstr "Tibetano"
 
 #: src/pythoninterfaces/speechtotext.cpp:168
 #, kde-format
 msgid "Turkish"
-msgstr ""
+msgstr "Turco"
 
 #: src/pythoninterfaces/speechtotext.cpp:169
 #, kde-format
 msgid "Turkmen"
-msgstr ""
+msgstr "Turkmeno"
 
 #: src/pythoninterfaces/speechtotext.cpp:170
 #, kde-format
 msgid "Ukrainian"
-msgstr ""
+msgstr "Ucraino"
 
 #: src/pythoninterfaces/speechtotext.cpp:171
 #, kde-format
 msgid "Urdu"
-msgstr ""
+msgstr "Urdu"
 
 #: src/pythoninterfaces/speechtotext.cpp:172
 #, kde-format
 msgid "Uzbek"
-msgstr ""
+msgstr "Uzbeko"
 
 #: src/pythoninterfaces/speechtotext.cpp:173
 #, kde-format
 msgid "Valencian"
-msgstr ""
+msgstr "Valenziano"
 
 #: src/pythoninterfaces/speechtotext.cpp:174
-#, fuzzy, kde-format
-#| msgid "Filename"
+#, kde-format
 msgid "Vietnamese"
-msgstr "Nome del file"
+msgstr "Vietnamita"
 
 #: src/pythoninterfaces/speechtotext.cpp:175
 #, kde-format
 msgid "Welsh"
-msgstr ""
+msgstr "Gallese"
 
 #: src/pythoninterfaces/speechtotext.cpp:176
 #, kde-format
 msgid "Yiddish"
-msgstr ""
+msgstr "Yiddish"
 
 #: src/pythoninterfaces/speechtotext.cpp:177
 #, kde-format
 msgid "Yoruba"
-msgstr ""
+msgstr "Yoruba"
 
 #: src/render/renderserver.cpp:22 src/render/renderserver.cpp:87
 #, kde-format
@@ -16527,7 +16488,7 @@ msgstr "Codifica dei caratteri usata per salvare il file dei sottotitoli."
 #: src/timeline2/view/timelinecontroller.cpp:4968
 msgctxt "@info:whatsthis"
 msgid "If unsure,try :<br><b>Unicode (UTF-8)</b>."
-msgstr "Se non sei sicuro, prova<br><b>Unicode (UTF-8)</b>."
+msgstr "Se non sei sicuro, prova:<br/><b>Unicode (UTF-8)</b>."
 
 #: src/timeline2/view/timelinecontroller.cpp:5008
 #, kde-format
@@ -17624,84 +17585,75 @@ msgstr "Fine del ritaglio:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, folder_box)
 #: src/ui/clipjobmanager_ui.ui:41
-#, fuzzy, kde-format
-#| msgid "Project conversion complete"
+#, kde-format
 msgid "Project Bin behavior on completion"
-msgstr "Conversione del progetto completata"
+msgstr "Comportamento del contenitore del progetto al completamento"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radio_replace)
 #: src/ui/clipjobmanager_ui.ui:47
-#, fuzzy, kde-format
-#| msgid "Replace original clip with stabilized clip"
+#, kde-format
 msgid "Replace original with result"
-msgstr "Sostituisci la clip originale con quella stabilizzata"
+msgstr "Sostituisci l'originale col risultato"
 
 #. i18n: ectx: property (text), widget (QCheckBox, bin_subfolder)
 #: src/ui/clipjobmanager_ui.ui:57
-#, fuzzy, kde-format
-#| msgid "Use default folder"
+#, kde-format
 msgid "Use a subfolder"
-msgstr "Usa la cartella predefinita"
+msgstr "Usa una sotto-cartella"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radio_folder)
 #: src/ui/clipjobmanager_ui.ui:64
-#, fuzzy, kde-format
-#| msgid "Put clip in \"Stabilized\" folder"
+#, kde-format
 msgid "Put resulting clip in a folder"
-msgstr "Metti la clip nella cartella «Stabilizzate»"
+msgstr "Metti la clip risultante in una sotto-cartella"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
 #: src/ui/clipjobmanager_ui.ui:75
 #, kde-format
 msgid "Placed at top level"
-msgstr ""
+msgstr "Posizionato al livello massimo"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
 #: src/ui/clipjobmanager_ui.ui:80
 #, kde-format
 msgid "Placed in the the original clip folder"
-msgstr ""
+msgstr "Posizionato nella cartella originale della clip"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, folder_name)
 #: src/ui/clipjobmanager_ui.ui:91
-#, fuzzy, kde-format
-#| msgid "File name"
+#, kde-format
 msgid "Folder name"
-msgstr "Nome del file"
+msgstr "Nome della cartella"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:101
-#, fuzzy, kde-format
-#| msgid "%1 parameters"
+#, kde-format
 msgid "Job parameters"
-msgstr "Parametri di %1"
+msgstr "Parametri del processo"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/clipjobmanager_ui.ui:110
-#, fuzzy, kde-format
-#| msgid "Effects enabled"
+#, kde-format
 msgid "Executable"
-msgstr "Effetti abilitati"
+msgstr "Eseguibile"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/clipjobmanager_ui.ui:123
-#, fuzzy, kde-format
-#| msgid "File extension:"
+#, kde-format
 msgid "Output file extension"
-msgstr "Estensione del file:"
+msgstr "Estensione del file di uscita"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/clipjobmanager_ui.ui:136
 #, kde-format
 msgid "Arguments"
-msgstr ""
+msgstr "Argomenti"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/clipjobmanager_ui.ui:183
-#, fuzzy, kde-format
-#| msgid "Cut clip"
+#, kde-format
 msgid "Custom clip jobs"
-msgstr "Taglia clip"
+msgstr "Processi sulla clip personalizzati"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox)
 #: src/ui/clipspeed_ui.ui:103
@@ -18664,22 +18616,21 @@ msgstr "Dispositivo di uscita:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configspeech_ui.ui:23
-#, fuzzy, kde-format
-#| msgid "Speech recognition"
+#, kde-format
 msgid "Speech engine"
-msgstr "Riconoscimento vocale"
+msgstr "Motore vocale"
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_vosk)
 #: src/ui/configspeech_ui.ui:30
 #, kde-format
 msgid "VOSK"
-msgstr ""
+msgstr "VOSK"
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
 #: src/ui/configspeech_ui.ui:37
 #, kde-format
 msgid "Whisper"
-msgstr ""
+msgstr "Sussurro"
 
 #. i18n: ectx: property (text), widget (QCheckBox, custom_vosk_folder)
 #: src/ui/configspeech_ui.ui:95
@@ -18695,10 +18646,9 @@ msgstr "Modelli di discorso VOSK"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configspeech_ui.ui:123
-#, fuzzy, kde-format
-#| msgid "Mode"
+#, kde-format
 msgid "Model:"
-msgstr "Modalità"
+msgstr "Modello:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configspeech_ui.ui:133
@@ -18710,14 +18660,13 @@ msgstr "Lingua:"
 #: src/ui/configspeech_ui.ui:153
 #, kde-format
 msgid "Whisper processing on cpu is very slow"
-msgstr ""
+msgstr "L'elaborazione del sussurro nella cpu è molto lenta"
 
 #. i18n: ectx: property (text), widget (QCheckBox, wr_translate)
 #: src/ui/configspeech_ui.ui:163
-#, fuzzy, kde-format
-#| msgid "Template text clip"
+#, kde-format
 msgid "Translate text to english"
-msgstr "Modello di clip di testo"
+msgstr "Traduci il testo in inglese"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_add)
 #: src/ui/configspeech_ui.ui:206
@@ -18881,20 +18830,19 @@ msgstr "Controlla se il progetto contiene abbastanza tracce"
 #: src/ui/configtools_ui.ui:27
 #, kde-format
 msgid "When cutting subtitles:"
-msgstr ""
+msgstr "Al taglio dei sottotitoli:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_subtitle_razor_mode)
 #: src/ui/configtools_ui.ui:41
-#, fuzzy, kde-format
-#| msgid "Duplicate"
+#, kde-format
 msgid "Duplicate text"
-msgstr "Duplica"
+msgstr "Duplica testo"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_subtitle_razor_mode)
 #: src/ui/configtools_ui.ui:46
 #, kde-format
 msgid "Split after first line"
-msgstr ""
+msgstr "Dividi dopo la prima riga"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -20673,17 +20621,15 @@ msgstr "Zona dalla linea temporale (tutte le tracce)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/speechdialog_ui.ui:161
-#, fuzzy, kde-format
-#| msgid "Language:"
+#, kde-format
 msgid "Language"
-msgstr "Lingua:"
+msgstr "Lingua"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/speechdialog_ui.ui:168
-#, fuzzy, kde-format
-#| msgid "Mode"
+#, kde-format
 msgid "Model"
-msgstr "Modalità"
+msgstr "Modello"
 
 #. i18n: ectx: property (text), widget (QLabel, label_template)
 #. i18n: ectx: property (text), widget (QLabel, label)
