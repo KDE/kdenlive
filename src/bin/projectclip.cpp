@@ -136,7 +136,7 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
         ClipLoadTask::start({ObjectType::BinClip, m_binId.toInt()}, QDomElement(), true, -1, -1, this);
         // Generate audio thumbnail
         if (KdenliveSettings::audiothumbnails() &&
-            (m_clipType == ClipType::AV || m_clipType == ClipType::Audio || m_clipType == ClipType::Playlist || m_clipType == ClipType::Unknown)) {
+            (m_clipType == ClipType::AV || m_clipType == ClipType::Audio || (m_hasAudio && m_clipType != ClipType::Timeline))) {
             AudioLevelsTask::start({ObjectType::BinClip, m_binId.toInt()}, this, false);
         }
     }
@@ -636,7 +636,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
         ClipLoadTask::start({ObjectType::BinClip, m_binId.toInt()}, QDomElement(), true, -1, -1, this);
     }
     if (KdenliveSettings::audiothumbnails() &&
-        (m_clipType == ClipType::AV || m_clipType == ClipType::Audio || m_clipType == ClipType::Playlist || m_clipType == ClipType::Unknown)) {
+        (m_clipType == ClipType::AV || m_clipType == ClipType::Audio || (m_hasAudio && m_clipType != ClipType::Timeline))) {
         AudioLevelsTask::start({ObjectType::BinClip, m_binId.toInt()}, this, false);
     }
     pCore->bin()->reloadMonitorIfActive(clipId());
@@ -2351,8 +2351,8 @@ void ProjectClip::reloadTimeline()
 Fun ProjectClip::getAudio_lambda()
 {
     return [this]() {
-        if (KdenliveSettings::audiothumbnails() && (m_clipType == ClipType::AV || m_clipType == ClipType::Audio || m_clipType == ClipType::Playlist) &&
-            m_audioLevels.isEmpty()) {
+        if (KdenliveSettings::audiothumbnails() &&
+            (m_clipType == ClipType::AV || m_clipType == ClipType::Audio || (m_clipType == ClipType::Playlist && m_hasAudio)) && m_audioLevels.isEmpty()) {
             // Generate audio levels
             AudioLevelsTask::start({ObjectType::BinClip, m_binId.toInt()}, this, false);
         }

@@ -109,9 +109,9 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
         m_masterProducer = ClipController::mediaUnavailable;
         qCDebug(KDENLIVE_LOG) << "// WARNING, USING INVALID PRODUCER";
     } else {
-        checkAudioVideo();
         setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
         getInfoForProducer();
+        checkAudioVideo();
         emitProducerChanged(m_controllerBinId, m_masterProducer);
         if (!m_hasMultipleVideoStreams && m_service.startsWith(QLatin1String("avformat")) && (m_clipType == ClipType::AV || m_clipType == ClipType::Video)) {
             // Check if clip has multiple video streams
@@ -434,13 +434,13 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
     } else {
         // Pass properties from previous producer
         m_properties->pass_list(passProperties, passList);
-        checkAudioVideo();
         setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
         m_effectStack->resetService(m_masterProducer);
-        emitProducerChanged(m_controllerBinId, m_masterProducer);
         if (m_clipType == ClipType::Unknown) {
             getInfoForProducer();
         }
+        checkAudioVideo();
+        emitProducerChanged(m_controllerBinId, m_masterProducer);
         // URL and name should not be updated otherwise when proxying a clip we cannot find back the original url
         /*m_url = QUrl::fromLocalFile(m_masterProducer->get("resource"));
         if (m_url.isValid()) {
@@ -744,6 +744,7 @@ bool ClipController::hasAudio() const
 void ClipController::checkAudioVideo()
 {
     QReadLocker lock(&m_producerLock);
+    qDebug() << "------------\nCHECKING AUDIO/VIDEO FOR CLIP: " << m_clipType << "\n------------------------";
     if (m_masterProducer->get_int("_placeholder") == 1 || m_masterProducer->get_int("_missingsource") == 1) {
         // This is a placeholder file, try to guess from its properties
         QString orig_service = m_masterProducer->get("kdenlive:orig_service");
@@ -763,6 +764,7 @@ void ClipController::checkAudioVideo()
     }
     if (m_masterProducer->property_exists("kdenlive:clip_type")) {
         int clipType = m_masterProducer->get_int("kdenlive:clip_type");
+        qDebug() << "------------\nFOUND PRESET CTYPE: " << clipType << "\n------------------------";
         switch (clipType) {
         case 1:
             m_hasAudio = true;
@@ -826,6 +828,7 @@ void ClipController::checkAudioVideo()
                 } else if (m_hasVideo) {
                     m_masterProducer->set("kdenlive:clip_type", 2);
                 }
+                qDebug() << "------------\nFRAME HAS AUDIO: " << m_hasAudio << " / " << m_hasVideo << "\n------------------------";
                 m_masterProducer->seek(0);
             } else {
                 qDebug() << "* * * *ERROR INVALID FRAME On test";

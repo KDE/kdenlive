@@ -4509,7 +4509,29 @@ void TimelineController::activateTrackAndSelect(int trackPosition, bool notesMod
 
 void TimelineController::saveTimelineSelection(const QDir &targetDir)
 {
-    TimelineFunctions::saveTimelineSelection(m_model, m_model->getCurrentSelection(), targetDir);
+    std::unordered_set<int> ids = m_model->getCurrentSelection();
+    std::unordered_set<int> items_list;
+    for (int i : ids) {
+        if (m_model->isGroup(i)) {
+            std::unordered_set<int> children = m_model->m_groups->getLeaves(i);
+            items_list.insert(children.begin(), children.end());
+        } else {
+            items_list.insert(i);
+        }
+    }
+    int startPos = 0;
+    int endPos = 0;
+    for (int id : items_list) {
+        int start = m_model->getItemPosition(id);
+        int end = start + m_model->getItemPlaytime(id);
+        if (startPos == 0 || start < startPos) {
+            startPos = start;
+        }
+        if (end > endPos) {
+            endPos = end;
+        }
+    }
+    TimelineFunctions::saveTimelineSelection(m_model, m_model->getCurrentSelection(), targetDir, endPos - startPos - 1);
 }
 
 void TimelineController::addEffectKeyframe(int cid, int frame, double val)
