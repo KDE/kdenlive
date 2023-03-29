@@ -151,6 +151,7 @@ LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent)
     : QWidget(parent)
     , m_manager(manager)
     , m_previewJob(nullptr)
+    , m_selectNewFile(false)
 {
     auto *lay = new QVBoxLayout(this);
     m_libraryTree = new LibraryTree(this);
@@ -262,6 +263,7 @@ void LibraryWidget::slotAddToLibrary()
         return;
     }
     QTreeWidgetItem *current = m_libraryTree->currentItem();
+    m_selectNewFile = true;
     if (current) {
         if (current->data(0, Qt::UserRole + 2).toInt() != LibraryItem::Folder) {
             current = current->parent();
@@ -615,6 +617,10 @@ void LibraryWidget::slotItemsAdded(const QUrl &url, const KFileItemList &list)
         }
         treeItem->setData(0, Qt::DecorationRole, QIcon::fromTheme(fitem.iconName()));
         treeItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEditable);
+        if (m_selectNewFile) {
+            m_libraryTree->setCurrentItem(treeItem);
+            m_selectNewFile = false;
+        }
     }
     QStringList plugins = KIO::PreviewJob::availablePlugins();
     m_previewJob = KIO::filePreview(list, QSize(80, 80), &plugins);

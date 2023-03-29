@@ -1816,11 +1816,12 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             m_glMonitor->getControllerProxy()->setClipProperties(controller->clipId().toInt(), controller->clipType(), controller->hasAudioAndVideo(),
                                                                  controller->clipName());
             if (!m_controller->hasVideo() || KdenliveSettings::displayClipMonitorInfo() & 0x10) {
-                qDebug() << "=======\n\nSETTING AUDIO DATA IN MON";
-                if (m_audioMeterWidget->audioChannels == 0) {
+                if (m_audioMeterWidget->audioChannels == 0 || !m_controller->hasAudio()) {
+                    qDebug() << "=======\n\nSETTING AUDIO DATA IN MONITOR EMPTY!!!";
                     m_glMonitor->getControllerProxy()->setAudioThumb();
                 } else {
                     QList<int> streamIndexes = m_controller->activeStreams().keys();
+                    qDebug() << "=======\n\nSETTING AUDIO DATA IN MONITOR NOT EMPTY!!!";
                     if (streamIndexes.count() == 1 && streamIndexes.at(0) == INT_MAX) {
                         // Display all streams
                         streamIndexes = m_controller->audioStreams().keys();
@@ -2481,12 +2482,13 @@ void Monitor::prepareAudioThumb()
 {
     if (m_controller) {
         m_glMonitor->getControllerProxy()->setAudioThumb();
-        if (!m_controller->audioStreams().isEmpty()) {
+        if (!m_controller->audioStreams().isEmpty() && m_controller->hasAudio()) {
             QList<int> streamIndexes = m_controller->activeStreams().keys();
             if (streamIndexes.count() == 1 && streamIndexes.at(0) == INT_MAX) {
                 // Display all streams
                 streamIndexes = m_controller->audioStreams().keys();
             }
+            qDebug() << "=======\n\nSETTING AUDIO DATA IN MONITOR NOT EMPTY 2!!!";
             m_glMonitor->getControllerProxy()->setAudioThumb(streamIndexes, m_controller->activeStreamChannels());
         }
     }

@@ -26,6 +26,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "transitions/transitionsrepository.hpp"
 
 #include "utils/KMessageBox_KdenliveCompat.h"
+#include <KIO/RenameDialog>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <QApplication>
@@ -1343,7 +1344,7 @@ QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<Timeli
 }
 
 void TimelineFunctions::saveTimelineSelection(const std::shared_ptr<TimelineItemModel> &timeline, const std::unordered_set<int> &selection,
-                                              const QDir &targetDir)
+                                              const QDir &targetDir, int duration)
 {
     bool ok;
     QString name = QInputDialog::getText(qApp->activeWindow(), i18n("Add Clip to Library"), i18n("Enter a name for the clip in Library"), QLineEdit::Normal,
@@ -1351,13 +1352,22 @@ void TimelineFunctions::saveTimelineSelection(const std::shared_ptr<TimelineItem
     if (name.isEmpty() || !ok) {
         return;
     }
-    if (targetDir.exists(name + QStringLiteral(".mlt"))) {
-        // TODO: warn and ask for overwrite / rename
+    QString fullPath = targetDir.absoluteFilePath(name + QStringLiteral(".mlt"));
+    if (QFile::exists(fullPath)) {
+        QUrl url = QUrl::fromLocalFile(targetDir.absoluteFilePath(name + QStringLiteral(".mlt")));
+        KIO::RenameDialog renameDialog(QApplication::activeWindow(), i18n("File already exists"), url, url, KIO::RenameDialog_Option::RenameDialog_Overwrite);
+        if (renameDialog.exec() != QDialog::Rejected) {
+            QUrl final = renameDialog.newDestUrl();
+            if (final.isValid()) {
+                fullPath = final.toLocalFile();
+            }
+        } else {
+            return;
+        }
     }
     int offset = -1;
     int lowerAudioTrack = -1;
     int lowerVideoTrack = -1;
-    QString fullPath = targetDir.absoluteFilePath(name + QStringLiteral(".mlt"));
     // Build a copy of selected tracks.
     QMap<int, int> sourceTracks;
     for (int i : selection) {
@@ -1370,7 +1380,20 @@ void TimelineFunctions::saveTimelineSelection(const std::shared_ptr<TimelineItem
         if (!sourceTracks.contains(trackPos)) {
             sourceTracks.insert(trackPos, sourceTrack);
         }
+        // Check if we have a composition with a track not yet listed
+        if (timeline->isComposition(i)) {
+            std::shared_ptr<CompositionModel> compo = timeline->getCompositionPtr(i);
+            int aTrack = compo->getATrack();
+            if (!sourceTracks.contains(aTrack)) {
+                if (aTrack == 0) {
+                    sourceTracks.insert(0, -1);
+                } else {
+                    sourceTracks.insert(aTrack, timeline->getTrackIndexFromPosition(aTrack - 1));
+                }
+            }
+        }
     }
+    qDebug() << "==========\nGOT SOUREC TRACKS: " << sourceTracks << "\n\nGGGGGGGGGGGGGGGGGGGGGGG";
     // Build target timeline
     Mlt::Tractor newTractor(*pCore->getProjectProfile());
     QScopedPointer<Mlt::Field> field(newTractor.field());
@@ -1380,6 +1403,21 @@ void TimelineFunctions::saveTimelineSelection(const std::shared_ptr<TimelineItem
     QList<Mlt::Transition *> compositions;
     while (i.hasNext()) {
         i.next();
+        if (i.value() == -1) {
+            // Insert a black background track
+            QScopedPointer<Mlt::Producer> newTrackPlaylist(new Mlt::Producer(*newTractor.profile(), "color:black"));
+            newTrackPlaylist->set("kdenlive:playlistid", "black_track");
+            newTrackPlaylist->set("mlt_type", "producer");
+            newTrackPlaylist->set("aspect_ratio", 1);
+            newTrackPlaylist->set("length", INT_MAX);
+            newTrackPlaylist->set("mlt_image_format", "rgba");
+            newTrackPlaylist->set("set.test_audio", 0);
+            newTrackPlaylist->set_in_and_out(0, duration);
+            newTractor.set_track(*newTrackPlaylist, ix);
+            sourceTracks.insert(0, ix);
+            ix++;
+            continue;
+        }
         QScopedPointer<Mlt::Playlist> newTrackPlaylist(new Mlt::Playlist(*newTractor.profile()));
         newTractor.set_track(*newTrackPlaylist, ix);
         // QScopedPointer<Mlt::Producer> trackProducer(newTractor.track(ix));
@@ -1451,6 +1489,10 @@ void TimelineFunctions::saveTimelineSelection(const std::shared_ptr<TimelineItem
     while (i.hasNext()) {
         i.next();
         int trackId = i.value();
+        if (trackId < 0) {
+            // Black background
+            continue;
+        }
         std::shared_ptr<TrackModel> track = timeline->getTrackById_const(trackId);
         bool isAudio = track->isAudioTrack();
         if ((isAudio && ix > lowerAudioTrack) || (!isAudio && ix > lowerVideoTrack)) {
@@ -1757,7 +1799,8 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
             videoTracks << trackPos;
         }
         int atrackPos = prod.attribute(QStringLiteral("a_track")).toInt();
-        if (atrackPos == 0 || videoTracks.contains(atrackPos)) {
+        // if (atrackPos == 0 || videoTracks.contains(atrackPos)) {
+        if (videoTracks.contains(atrackPos)) {
             continue;
         }
         videoTracks << atrackPos;
@@ -2310,12 +2353,17 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
             }
             int curTrackId = tracksMap.value(prod.attribute(QStringLiteral("track")).toInt());
             int aTrackId = prod.attribute(QStringLiteral("a_track")).toInt();
-            if (tracksMap.contains(aTrackId)) {
+            qDebug() << "+++++++\nPLANTING COMPOSITION ON: " << curTrackId << " = " << timeline->getTrackPosition(curTrackId) << "\nATRACK: " << aTrackId;
+            if (aTrackId >= 0 && tracksMap.contains(aTrackId)) {
                 // We need to add 1 here to account for black background track
+                qDebug() << "::: TRACKMAP CONTAINED ATRACKID!!!";
                 aTrackId = timeline->getTrackPosition(tracksMap.value(aTrackId)) + 1;
             } else {
+                qDebug() << "::: ATRACKID NOT FOUND !!!\n" << aTrackId << "\n" << tracksMap << "\nKKKKKKKKKKKKKK";
+                ;
                 aTrackId = 0;
             }
+
             int newId;
             auto transProps = std::make_unique<Mlt::Properties>();
             QDomNodeList props = prod.elementsByTagName(QStringLiteral("property"));
@@ -2635,6 +2683,7 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
     container.setAttribute(QStringLiteral("documentid"), QStringLiteral("000000"));
     // Process producers
     QList<int> processedProducers;
+    QString blackBg;
     QMap<QString, int> producerMap;
     QMap<QString, double> producerSpeed;
     QMap<QString, int> producerSpeedResource;
@@ -2644,6 +2693,12 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
         bool ok;
         int clipId = Xml::getXmlProperty(currentProd, QLatin1String("kdenlive:id")).toInt(&ok);
         if (!ok) {
+            // Check if this is a black bg track
+            if (Xml::hasXmlProperty(currentProd, QLatin1String("kdenlive:playlistid"))) {
+                // This is the black bg track
+                blackBg = currentProd.attribute(QStringLiteral("id"));
+                continue;
+            }
             const QString resource = Xml::getXmlProperty(currentProd, QLatin1String("resource"));
             qDebug() << "===== CLIP NOT FOUND: " << resource;
             if (producerSpeedResource.contains(resource)) {
@@ -2770,6 +2825,9 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
             audioTracks++;
         } else {
             // Video track
+            if (!blackBg.isEmpty() && blackBg == currentTrack.attribute(QLatin1String("producer"))) {
+                continue;
+            }
             tracksType.insert(currentTrack.attribute(QLatin1String("producer")), false);
             videoTracks++;
         }
@@ -2876,8 +2934,14 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
             composition.setAttribute(QLatin1String("in"), in);
             composition.setAttribute(QLatin1String("out"), out);
             composition.setAttribute(QLatin1String("composition"), compoId);
-            composition.setAttribute(QLatin1String("a_track"), Xml::getXmlProperty(currentCompo, QLatin1String("a_track")).toInt());
-            composition.setAttribute(QLatin1String("track"), Xml::getXmlProperty(currentCompo, QLatin1String("b_track")).toInt());
+            int a_track = Xml::getXmlProperty(currentCompo, QLatin1String("a_track")).toInt();
+            int b_track = Xml::getXmlProperty(currentCompo, QLatin1String("b_track")).toInt();
+            if (!blackBg.isEmpty()) {
+                a_track--;
+                b_track--;
+            }
+            composition.setAttribute(QLatin1String("a_track"), a_track);
+            composition.setAttribute(QLatin1String("track"), b_track);
             QDomNodeList properties = currentCompo.childNodes();
             for (int l = 0; l < properties.count(); ++l) {
                 QDomElement prop = properties.item(l).toElement();
