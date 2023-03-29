@@ -145,7 +145,7 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
     // ELSE Qt6 see: https://doc.qt.io/qt-6/qtquickcontrols-changes-qt6.html#custom-styles-are-now-proper-qml-modules
 #endif
 
-    connect(this, &Core::showConfigDialog, m_mainWindow, &MainWindow::slotPreferences);
+    connect(this, &Core::showConfigDialog, m_mainWindow, &MainWindow::slotShowPreferencePage);
 
     m_projectManager = new ProjectManager(this);
     Bin *bin = new Bin(m_projectItemModel, m_mainWindow);

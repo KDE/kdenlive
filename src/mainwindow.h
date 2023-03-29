@@ -337,7 +337,8 @@ public Q_SLOTS:
     void slotSwitchVideoThumbs();
     void slotSwitchAudioThumbs();
 
-    void slotPreferences(Kdenlive::ConfigPage page = Kdenlive::NoPage, int option = -1);
+    void slotPreferences();
+    void slotShowPreferencePage(Kdenlive::ConfigPage page, int option = -1);
     void connectDocument();
     /** @brief Reload project profile in config dialog if changed. */
     void slotRefreshProfiles();
