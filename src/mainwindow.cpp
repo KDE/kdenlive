@@ -590,6 +590,12 @@ void MainWindow::init(const QString &mltPath)
     loadDockActions();
     loadClipActions();
 
+    // Ensure the "Monitor Config" menu doesn't replace the settings dialog on Mac because of text heuristics
+    auto *monitorConfig = qobject_cast<QMenu *>(factory()->container(QStringLiteral("monitor_config"), this));
+    if (monitorConfig) {
+        monitorConfig->menuAction()->setMenuRole(QAction::NoRole);
+    }
+
     // Timeline clip menu
     auto *timelineClipMenu = new QMenu(this);
     timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("edit_copy")));
@@ -1886,12 +1892,11 @@ void MainWindow::setupActions()
     showMenuBarAction->setWhatsThis(xi18nc("@info:whatsthis", "This switches between having a <emphasis>Menubar</emphasis> "
                                                               "and having a <interface>Hamburger Menu</interface> button in the main Toolbar."));
 
-    KStandardAction::quit(this, SLOT(close()), actionCollection());
-
-    KStandardAction::keyBindings(this, SLOT(slotEditKeys()), actionCollection());
-    KStandardAction::preferences(this, SLOT(slotPreferences()), actionCollection());
-    KStandardAction::configureNotifications(this, SLOT(configureNotifications()), actionCollection());
-    KStandardAction::fullScreen(this, SLOT(slotFullScreen()), this, actionCollection());
+    KStandardAction::quit(this, &MainWindow::close, actionCollection());
+    KStandardAction::keyBindings(this, &MainWindow::slotEditKeys, actionCollection());
+    KStandardAction::preferences(this, &MainWindow::slotPreferences, actionCollection());
+    KStandardAction::configureNotifications(this, &MainWindow::configureNotifications, actionCollection());
+    KStandardAction::fullScreen(this, &MainWindow::slotFullScreen, this, actionCollection());
 
     QAction *undo = KStandardAction::undo(m_commandStack, SLOT(undo()), actionCollection());
     undo->setEnabled(false);
@@ -2500,7 +2505,12 @@ void MainWindow::slotEditKeys()
     dialog.configure();
 }
 
-void MainWindow::slotPreferences(Kdenlive::ConfigPage page, int option)
+void MainWindow::slotPreferences()
+{
+    slotShowPreferencePage(Kdenlive::NoPage);
+}
+
+void MainWindow::slotShowPreferencePage(Kdenlive::ConfigPage page, int option)
 {
     /*
      * An instance of your dialog could be already created and could be
