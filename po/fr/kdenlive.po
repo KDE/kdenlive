@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-28 00:46+0000\n"
-"PO-Revision-Date: 2023-03-26 18:51+0200\n"
+"PO-Revision-Date: 2023-03-27 22:11+0200\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -2249,6 +2249,10 @@ msgid ""
 "The text will be frozen at the duration time after the duration has "
 "elapsed.]]>"
 msgstr ""
+"<![CDATA[La durée maximale du chronomètre après l'heure de début a été "
+"atteinte.\n"
+"Le texte sera figé  à à l'heure correspondant à la durée depuis l'écoulement "
+"de la durée.]]> "
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: data/effects/timer.xml:60 src/ui/configcapture_ui.ui:322
@@ -4303,21 +4307,16 @@ msgid "Tags Panel"
 msgstr "Panneau des étiquettes"
 
 #: src/bin/bin.cpp:1396
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Filter the project bin contents. Click on the filter icon to toggles the "
-#| "filter display. Click on the arrow icon to open a list of possible filter "
-#| "settings."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Filter the project bin contents. Click on the filter icon to toggle the "
 "filter display. Click on the arrow icon to open a list of possible filter "
 "settings."
 msgstr ""
-"Filtrez le contenu du dossier de projet. Cliquez sur l'icône de filtre pour "
-"faire basculer l'affichage du filtre. Cliquez sur l'icône en forme de flèche "
-"pour ouvrir une liste des paramètres de filtre possibles."
+"Filtrer le contenu du dossier de projet. Veuillez cliquer sur l'icône de "
+"filtre pour faire basculer l'affichage du filtre, puis cliquer sur l'icône "
+"en forme de flèche pour ouvrir une liste des paramètres possibles de filtre."
 
 #: src/bin/bin.cpp:1503
 #, kde-format
@@ -5859,10 +5858,9 @@ msgid "Ignore subfolder structure"
 msgstr "Ignorer la structure du sous-dossier"
 
 #: src/dialogs/clipjobmanager.cpp:24
-#, fuzzy, kde-format
-#| msgid "Cancel Current Clip Jobs"
+#, kde-format
 msgid "Manage Bin Clip Jobs"
-msgstr "Annuler les tâches sur le clip courant"
+msgstr "Gérer les tâches sur les vidéos du dossier"
 
 #: src/dialogs/clipjobmanager.cpp:36
 #, kde-format
@@ -9789,18 +9787,14 @@ msgid "Spacer Tool"
 msgstr "Outil d'espacement"
 
 #: src/mainwindow.cpp:1219
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "When selected, click and drag the cursor in the timeline temporarily "
-#| "groups separate clips and creates or removes space between clips."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "When selected, clicking and dragging the mouse in the timeline temporarily "
 "groups separate clips and creates or removes space between clips."
 msgstr ""
-"Lorsque cette option est sélectionnée, cliquez et faites glisser le curseur "
-"dans la frise chronologique, regroupant temporairement les vidéos séparées "
+"Quand cette option est sélectionnée, un clic et un glisser avec la sourie "
+"dans la frise chronologique, regroupent temporairement les vidéos séparées "
 "et crée ou supprime de l’espace entre les vidéos."
 
 #: src/mainwindow.cpp:1224
@@ -9809,18 +9803,14 @@ msgid "Ripple Tool"
 msgstr "Outil Ripple"
 
 #: src/mainwindow.cpp:1227
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "When selected, drag the edges of a clip lengthens or shortens the clip "
-#| "and move adjacent clips back and forth while doing that."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "When selected, dragging the edges of a clip lengthens or shortens the clip "
 "and moves adjacent clips back and forth while doing that."
 msgstr ""
-"Une fois cette option sélectionnée, faites glisser les bords d’une vidéo "
-"pour l'allonger ou la raccourcir et déplacez les vidéos adjacentes d’avant "
+"Quand cette option est sélectionnée, un glisser des bords d’une vidéo permet "
+"de l'allonger ou de la raccourcir et déplace les vidéos adjacentes d’avant "
 "en arrière en même temps."
 
 #. i18n("Roll Tool"), this);
@@ -10275,11 +10265,7 @@ msgid "Remove Preview Zone"
 msgstr "Supprimer la zone d'aperçu"
 
 #: src/mainwindow.cpp:1618
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Removes the currently defined timeline/selection zone from the preview "
-#| "render zone. Note that this can leave holes in the preview render zones."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Removes the currently defined timeline/selection zone from the preview "
@@ -17632,10 +17618,9 @@ msgstr "Rogner l'extrémité :"
 
 #. i18n: ectx: property (title), widget (QGroupBox, folder_box)
 #: src/ui/clipjobmanager_ui.ui:41
-#, fuzzy, kde-format
-#| msgid "Project conversion complete"
+#, kde-format
 msgid "Project Bin behavior on completion"
-msgstr "Projet converti avec succès"
+msgstr "Comportement du dossier du projet converti à terminaison"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radio_replace)
 #: src/ui/clipjobmanager_ui.ui:47
