@@ -779,6 +779,15 @@ void ClipController::checkAudioVideo()
             m_hasVideo = true;
             break;
         }
+        if (m_clipType == ClipType::Timeline) {
+            if (m_audioInfo == nullptr) {
+                if (m_hasAudio) {
+                    buildAudioInfo(-1);
+                }
+            } else if (!m_hasAudio) {
+                m_audioInfo.reset();
+            }
+        }
     } else {
         QString service = m_masterProducer->get("kdenlive:orig_service");
         if (service.isEmpty()) {
@@ -833,8 +842,14 @@ void ClipController::checkAudioVideo()
             } else {
                 qDebug() << "* * * *ERROR INVALID FRAME On test";
             }
-            if (m_clipType == ClipType::Playlist && m_hasAudio && m_audioInfo == nullptr) {
-                buildAudioInfo(-1);
+            if (m_clipType == ClipType::Playlist) {
+                if (m_audioInfo == nullptr) {
+                    if (m_hasAudio) {
+                        buildAudioInfo(-1);
+                    }
+                } else if (!m_hasAudio) {
+                    m_audioInfo.reset();
+                }
             }
         } else {
             // Assume video only producer
