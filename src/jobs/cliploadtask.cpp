@@ -609,14 +609,30 @@ void ClipLoadTask::run()
     } else if (mltService == QLatin1String("avformat")) {
         // Get a frame to init properties
         mlt_image_format format = mlt_image_none;
+        int vindex = producer->get_int("video_index");
+        bool hasAudio = false;
+        bool hasVideo = false;
+        // Work around MLT freeze on files with cover art
+        if (vindex > -1) {
+            QString key = QString("meta.media.%1.codec.frame_rate").arg(vindex);
+            QString frame_rate = producer->get(key.toLatin1().constData());
+            key = QString("meta.media.%1.codec.name").arg(vindex);
+            QString codec_name = producer->get(key.toLatin1().constData());
+            if (codec_name == QLatin1String("png") || (codec_name == "mjpeg" && frame_rate == "90000")) {
+                // Cover art
+                producer->set("video_index", -1);
+                producer->set("set.test_image", 1);
+                vindex = -1;
+            }
+        }
         QSize frameSize = pCore->getCurrentFrameSize();
         int w = frameSize.width();
         int h = frameSize.height();
         std::unique_ptr<Mlt::Frame> frame(producer->get_frame());
         frame->get_image(format, w, h);
         // Check audio / video
-        bool hasAudio = frame->get_int("test_audio") == 0;
-        bool hasVideo = frame->get_int("test_image") == 0;
+        hasAudio = frame->get_int("test_audio") == 0;
+        hasVideo = vindex > -1 && frame->get_int("test_image") == 0;
         frame.reset();
         if (hasAudio) {
             if (hasVideo) {
@@ -629,7 +645,6 @@ void ClipLoadTask::run()
         }
         // Check if file is seekable
         seekable = producer->get_int("seekable");
-        vindex = producer->get_int("video_index");
         if (vindex <= -1) {
             checkProfile = false;
         }
@@ -664,25 +679,6 @@ void ClipLoadTask::run()
                 audio_list.append(i);
             } else if (stype == QLatin1String("video")) {
                 video_list.append(i);
-            }
-        }
-
-        if (vindex > -1 && !m_isCanceled.loadAcquire()) {
-            char property[200];
-            snprintf(property, sizeof(property), "meta.media.%d.stream.frame_rate", vindex);
-            fps = producer->get_double(property);
-            QString codecName = QStringLiteral("meta.media.%1.codec.name").arg(vindex);
-            QString codec = producer->get(codecName.toUtf8().constData());
-            if (codec == QLatin1String("mjpeg")) {
-                int frame_rate = producer->get_int("meta.media.frame_rate_num");
-                if (frame_rate == 90000) {
-                    // This is an audio file with cover art, ignore video stream
-                    producer->set("video_index", -1);
-                    producer->set("set.test_image", 1);
-                    vindex = -1;
-                    hasVideo = false;
-                    checkProfile = false;
-                }
             }
         }
 
