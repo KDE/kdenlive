@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-30 02:42+0000\n"
+"POT-Creation-Date: 2023-03-31 02:49+0000\n"
 "PO-Revision-Date: 2022-10-03 17:18+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -8396,12 +8396,12 @@ msgstr "Läser in klipp"
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "Längden av filen <b>%1</b> kan inte avgöras."
 
-#: src/jobs/cliploadtask.cpp:653
+#: src/jobs/cliploadtask.cpp:668
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "Filen <b>%1</b> går inte att söka i."
 
-#: src/jobs/cliploadtask.cpp:714
+#: src/jobs/cliploadtask.cpp:710
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "Filen <b>%1</b> har en variabel bildfrekvens."

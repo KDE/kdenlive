@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-30 02:42+0000\n"
+"POT-Creation-Date: 2023-03-31 02:49+0000\n"
 "PO-Revision-Date: 2022-10-04 11:00+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -8494,12 +8494,12 @@ msgstr "Загрузка клипов"
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "Не удалось определить длительность файла <b>%1</b>."
 
-#: src/jobs/cliploadtask.cpp:653
+#: src/jobs/cliploadtask.cpp:668
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "Позиционирование в файле <b>%1</b> невозможно."
 
-#: src/jobs/cliploadtask.cpp:714
+#: src/jobs/cliploadtask.cpp:710
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "В файле <b>%1</b> используется переменная кадровая частота."

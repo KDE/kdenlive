@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-30 02:42+0000\n"
+"POT-Creation-Date: 2023-03-31 02:49+0000\n"
 "PO-Revision-Date: 2023-01-13 08:32+0700\n"
 "Last-Translator: Linerly <linerly@protonmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -8383,12 +8383,12 @@ msgstr "Memuat klip"
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "Durasi pada file <b>%1</b> tidak bisa ditentukan."
 
-#: src/jobs/cliploadtask.cpp:653
+#: src/jobs/cliploadtask.cpp:668
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "File <b>%1</b> bukanlah file yang dapat dijangka."
 
-#: src/jobs/cliploadtask.cpp:714
+#: src/jobs/cliploadtask.cpp:710
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "File <b>%1</b> memiliki laju frame yang dapat bervariasi"
