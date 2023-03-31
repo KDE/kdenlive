@@ -36,6 +36,7 @@ TimelineTabs::TimelineTabs(QWidget *parent)
 {
     setTabBarAutoHide(true);
     setTabsClosable(false);
+    setDocumentMode(true);
     setMovable(true);
     QToolButton *pb = new QToolButton(this);
     pb->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
