@@ -234,7 +234,6 @@ void TimelineTabs::closeTimeline(const QUuid &uuid)
             }
             delete timeline;
             pCore->projectManager()->closeTimeline(uuid);
-            removeTab(i);
             setTabsClosable(count() > 1);
             if (count() == 1) {
                 updateWindowTitle();

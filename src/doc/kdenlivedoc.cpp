@@ -64,6 +64,7 @@ KdenliveDoc::KdenliveDoc(QString projectFolder, QUndoGroup *undoGroup, const QSt
     : QObject(parent)
     , m_autosave(nullptr)
     , m_uuid(QUuid::createUuid())
+    , closing(false)
     , m_clipsCount(0)
     , m_commandStack(std::make_shared<DocUndoStack>(undoGroup))
     , m_modified(false)

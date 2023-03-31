@@ -4599,8 +4599,11 @@ void MainWindow::slotRemoveBinDock(const QString &name)
 void MainWindow::addBin(Bin *bin, const QString &binName)
 {
     connect(bin, &Bin::findInTimeline, this, &MainWindow::slotClipInTimeline, Qt::DirectConnection);
-    connect(bin, &Bin::setupTargets, this,
-            [&](bool hasVideo, QMap<int, QString> audioStreams) { getCurrentTimeline()->controller()->setTargetTracks(hasVideo, audioStreams); });
+    connect(bin, &Bin::setupTargets, this, [&](bool hasVideo, QMap<int, QString> audioStreams) {
+        if (getCurrentTimeline() && getCurrentTimeline()->controller()) {
+            getCurrentTimeline()->controller()->setTargetTracks(hasVideo, audioStreams);
+        }
+    });
     if (!m_binWidgets.isEmpty()) {
         // This is a secondary bin widget
         int ix = binCount() + 1;

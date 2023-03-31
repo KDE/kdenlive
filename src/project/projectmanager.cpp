@@ -373,6 +373,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     }
     pCore->window()->disableMulticam();
     if (m_project) {
+        m_project->closing = true;
         ::mlt_pool_purge();
         pCore->cleanup();
         if (!quit && !qApp->isSavingSession()) {
@@ -1726,17 +1727,19 @@ bool ProjectManager::closeTimeline(const QUuid &uuid, bool onDeletion)
         // triggered when deleting bin clip, also close timeline tab
         pCore->window()->closeTimeline(uuid);
     } else {
-        std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(model->tractor());
-        int position;
-        if (model == m_activeTimelineModel) {
-            position = pCore->getMonitorPosition();
-        } else {
-            position = -1;
+        if (!m_project->closing) {
+            std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(model->tractor());
+            int position;
+            if (model == m_activeTimelineModel) {
+                position = pCore->getMonitorPosition();
+            } else {
+                position = -1;
+            }
+            pCore->bin()->updateSequenceClip(uuid, model->duration(), position, prod);
         }
-        pCore->bin()->updateSequenceClip(uuid, model->duration(), position, prod);
+        m_project->closeTimeline(uuid);
     }
     pCore->bin()->removeReferencedClips(uuid);
-    m_project->closeTimeline(uuid);
     return true;
 }
 

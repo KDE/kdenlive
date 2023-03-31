@@ -99,6 +99,8 @@ public:
     ~KdenliveDoc() override;
     friend class LoadJob;
     QUuid activeUuid;
+    /** @brief True if we are currently closing the project. */
+    bool closing;
     /** @brief Get current document's producer. */
     const QByteArray getAndClearProjectXml();
     double fps() const;
