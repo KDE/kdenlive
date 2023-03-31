@@ -225,6 +225,7 @@ Rectangle {
 
     function continuousScrolling(x, y) {
         // This provides continuous scrolling at the left/right edges.
+        y += ruler.height + subtitleTrack.height
         if (x > scrollView.contentX + scrollView.width - root.baseUnit * 3) {
             scrollTimer.horizontal = root.baseUnit
             scrollTimer.start()
@@ -592,6 +593,40 @@ Rectangle {
         property bool isAudioDrag
         property int sameCutPos: -1
         keys: 'kdenlive/composition'
+        function moveDrop(offset, voffset)
+        {
+            if (clipBeingDroppedId >= 0) {
+                var track = Logic.getTrackIdFromPos(drag.y + voffset + scrollView.contentY - subtitleTrack.height)
+                if (track !== -1) {
+                    var frame = Math.floor((drag.x + scrollView.contentX + offset) / root.timeScale)
+                    if (controller.isAudioTrack(track) != isAudioDrag) {
+                        // Don't allow moving composition to an audio track
+                        track = controller.getCompositionTrackId(clipBeingDroppedId)
+                    }
+                    var moveData = controller.suggestCompositionMove(clipBeingDroppedId, track, frame, root.consumerPosition, root.snapping)
+                    var currentFrame = moveData[0]
+                    var currentTrack = moveData[1]
+                    sameCutPos = timeline.isOnCut(clipBeingDroppedId)
+                    if (sameCutPos > -1) {
+                        var sourceTrack = Logic.getTrackById(currentTrack)
+                        if (drag.y < sourceTrack.y + sourceTrack.height / 2 || isAudioDrag) {
+                            sameTrackIndicator.x = sameCutPos * root.timeScale - sameTrackIndicator.width / 2
+                            sameTrackIndicator.y = sourceTrack.y
+                            sameTrackIndicator.height = sourceTrack.height
+                            sameTrackIndicator.visible = true
+                        } else {
+                            sameTrackIndicator.visible = false
+                        }
+                    } else {
+                        sameTrackIndicator.visible = false
+                    }
+                    continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
+                }
+                if (offset != 0) {
+                    root.mousePosChanged(Math.max(0, Math.floor((drag.x + scrollView.contentX) / root.timeScale)))
+                }
+            }
+        }
         onEntered: {
             if (clipBeingMovedId == -1 && clipBeingDroppedId == -1) {
                 var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY - subtitleTrack.height)
@@ -610,34 +645,12 @@ Rectangle {
         }
         onPositionChanged: {
             if (clipBeingMovedId == -1) {
-                var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY - subtitleTrack.height)
-                if (track !== -1) {
-                    var frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
-                    if (clipBeingDroppedId >= 0) {
-                        if (controller.isAudioTrack(track) != isAudioDrag) {
-                            // Don't allow moving composition to an audio track
-                            track = controller.getCompositionTrackId(clipBeingDroppedId)
-                        }
-                        var moveData = controller.suggestCompositionMove(clipBeingDroppedId, track, frame, root.consumerPosition, root.snapping)
-                        var currentFrame = moveData[0]
-                        var currentTrack = moveData[1]
-                        sameCutPos = timeline.isOnCut(clipBeingDroppedId)
-                        if (sameCutPos > -1) {
-                            var sourceTrack = Logic.getTrackById(currentTrack)
-                            if (drag.y < sourceTrack.y + sourceTrack.height / 2 || isAudioDrag) {
-                                sameTrackIndicator.x = sameCutPos * root.timeScale - sameTrackIndicator.width / 2
-                                sameTrackIndicator.y = sourceTrack.y
-                                sameTrackIndicator.height = sourceTrack.height
-                                sameTrackIndicator.visible = true
-                            } else {
-                                sameTrackIndicator.visible = false
-                            }
-                        } else {
-                            sameTrackIndicator.visible = false
-                        }
-
-                        continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
-                    } else if (controller.isAudioTrack(track) == isAudioDrag) {
+                if (clipBeingDroppedId >= 0) {
+                    moveDrop(0, 0)
+                } else {
+                    var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY - subtitleTrack.height)
+                    if (track !== -1 && controller.isAudioTrack(track) == isAudioDrag) {
+                        var frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
                         frame = controller.suggestSnapPoint(frame, root.snapping)
                         clipBeingDroppedData = drag.getDataAsString('kdenlive/composition')
                         clipBeingDroppedId = timeline.insertComposition(track, frame, clipBeingDroppedData , false)
@@ -706,6 +719,29 @@ Rectangle {
         y: ruler.height
         x: headerWidth
         keys: 'kdenlive/producerslist'
+        function moveDrop(offset, voffset)
+        {
+            if (clipBeingDroppedId > -1) {
+                var yOffset = 0
+                if (root.showSubtitles) {
+                    yOffset = subtitleTrack.height
+                }
+                var track = Logic.getTrackIndexFromPos(drag.y + voffset + scrollView.contentY - yOffset)
+                if (track >= 0  && track < tracksRepeater.count) {
+                    var targetTrack = tracksRepeater.itemAt(track).trackInternalId
+                    var frame = Math.floor((drag.x + scrollView.contentX + offset) / root.timeScale)
+                    var moveData = controller.suggestClipMove(clipBeingDroppedId, targetTrack, frame, root.consumerPosition, root.snapping)
+                    fakeFrame = moveData[0]
+                    fakeTrack = moveData[1]
+                    timeline.activeTrack = fakeTrack
+                    //controller.requestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, true, false, false)
+                    continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
+                }
+                if (offset != 0) {
+                    root.mousePosChanged(Math.max(0, Math.floor((drag.x + scrollView.contentX) / root.timeScale)))
+                }
+            }
+        }
         function processDrop()
         {
             // Process the drop event, useful if drop event happens outside of drop area
@@ -786,8 +822,8 @@ Rectangle {
             }
         }
         onExited:{
-            if (clipBeingDroppedId != -1 && drag.y < drag.x) {
-                // If we exit on top, remove clip
+            if (clipBeingDroppedId != -1 && (drag.y < drag.x || (clipDropArea.height - drag.y < drag.x))) {
+                // If we exit on top or bottom, remove clip
                 controller.requestItemDeletion(clipBeingDroppedId, false)
                 clearDropData()
             } else if (clipBeingDroppedId > -1 && fakeTrack > -1) {
@@ -800,22 +836,17 @@ Rectangle {
         }
         onPositionChanged: {
             if (clipBeingMovedId == -1) {
-                var yOffset = 0
-                if (root.showSubtitles) {
-                    yOffset = subtitleTrack.height
-                }
-                var track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentY - yOffset)
-                if (track >= 0  && track < tracksRepeater.count) {
-                    var targetTrack = tracksRepeater.itemAt(track).trackInternalId
-                    var frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
-                    if (clipBeingDroppedId > -1) {
-                        var moveData = controller.suggestClipMove(clipBeingDroppedId, targetTrack, frame, root.consumerPosition, root.snapping)
-                        fakeFrame = moveData[0]
-                        fakeTrack = moveData[1]
-                        timeline.activeTrack = fakeTrack
-                        //controller.requestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, true, false, false)
-                        continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
-                    } else {
+                if (clipBeingDroppedId > -1) {
+                    moveDrop(0, 0)
+                } else {
+                    var yOffset = 0
+                    if (root.showSubtitles) {
+                        yOffset = subtitleTrack.height
+                    }
+                    var track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentY - yOffset)
+                    if (track >= 0  && track < tracksRepeater.count) {
+                        var targetTrack = tracksRepeater.itemAt(track).trackInternalId
+                        var frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
                         frame = controller.suggestSnapPoint(frame, root.snapping)
                         if (controller.normalEdit()) {
                             timeline.activeTrack = targetTrack
@@ -1811,7 +1842,7 @@ Rectangle {
                                             return
                                         }
                                         if (dragProxy.draggedItem > -1 && mouse.buttons === Qt.LeftButton &&  (controller.isClip(dragProxy.draggedItem) || controller.isComposition(dragProxy.draggedItem))) {
-                                            continuousScrolling(mouse.x + parent.x, dragProxyArea.mouseY + parent.y - dragProxy.verticalOffset + ruler.height + subtitleTrack.height)
+                                            continuousScrolling(mouse.x + parent.x, dragProxyArea.mouseY + parent.y - dragProxy.verticalOffset)
                                             snapping = (mouse.modifiers & Qt.ShiftModifier) ? 0 : root.snapping
                                             moveItem()
                                         }
@@ -2237,7 +2268,7 @@ Rectangle {
                     vertical = 0
                     stop()
                 } else {
-                    if ((clipBeingMovedId == -1 && !rubberSelect.visible)) {
+                    if ((clipBeingMovedId == -1 && clipBeingDroppedId == -1 && !rubberSelect.visible)) {
                         vertical = 0
                         stop()
                     } else {
@@ -2260,8 +2291,14 @@ Rectangle {
                 if (dragProxy.draggedItem > -1) {
                     dragProxy.x += horizontal
                     dragProxyArea.moveItem()
+                } else if (clipBeingDroppedId > -1) {
+                    if (clipDropArea.containsDrag) {
+                        clipDropArea.moveDrop(horizontal, vertical)
+                    } else if (compoArea.containsDrag) {
+                        compoArea.moveDrop(horizontal, vertical)
+                    }
                 }
-                if (scrollView.contentX == 0 || (clipBeingMovedId == -1 && !rubberSelect.visible)) {
+                if (scrollView.contentX == 0 || (clipBeingMovedId == -1 && clipBeingDroppedId == -1 && !rubberSelect.visible)) {
                     if (root.subtitleMoving) {
                         root.subtitleItem.checkOffset(horizontal)
                     } else {
