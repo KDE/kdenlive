@@ -637,19 +637,6 @@ bool ClipController::sourceExists() const
     return QFile::exists(m_path);
 }
 
-QString ClipController::description() const
-{
-    if (m_clipType == ClipType::TextTemplate) {
-        QString name = getProducerProperty(QStringLiteral("templatetext"));
-        return name;
-    }
-    QString name = getProducerProperty(QStringLiteral("kdenlive:description"));
-    if (!name.isEmpty()) {
-        return name;
-    }
-    return getProducerProperty(QStringLiteral("meta.attr.comment.markup"));
-}
-
 QString ClipController::serviceName() const
 {
     return m_service;

@@ -1577,6 +1577,7 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
         prod->set("length", timelineModel->duration());
         prod->set("out", timelineModel->duration() - 1);
         prod->set("kdenlive:clipname", clip->clipName().toUtf8().constData());
+        prod->set("kdenlive:description", clip->description().toUtf8().constData());
         prod->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
         prod->set("kdenlive:producer_type", ClipType::Timeline);
 
@@ -1585,6 +1586,7 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
         prod->parent().set("length", timelineModel->duration());
         prod->parent().set("out", timelineModel->duration() - 1);
         prod->parent().set("kdenlive:clipname", clip->clipName().toUtf8().constData());
+        prod->parent().set("kdenlive:description", clip->description().toUtf8().constData());
         prod->parent().set("kdenlive:uuid", uuid.toString().toUtf8().constData());
         prod->parent().set("kdenlive:producer_type", ClipType::Timeline);
         QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, [uuid, id]() {
@@ -1647,6 +1649,7 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
         prod->set("kdenlive:producer_type", ClipType::Timeline);
         prod->set("out", timelineModel->duration() - 1);
         prod->set("kdenlive:clipname", clip->clipName().toUtf8().constData());
+        prod->set("kdenlive:description", clip->description().toUtf8().constData());
         prod->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
 
         prod->parent().set("kdenlive:duration", prod->frames_to_time(timelineModel->duration()));
@@ -1654,6 +1657,7 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
         prod->parent().set("length", timelineModel->duration());
         prod->parent().set("out", timelineModel->duration() - 1);
         prod->parent().set("kdenlive:clipname", clip->clipName().toUtf8().constData());
+        prod->parent().set("kdenlive:description", clip->description().toUtf8().constData());
         prod->parent().set("kdenlive:uuid", uuid.toString().toUtf8().constData());
         prod->parent().set("kdenlive:producer_type", ClipType::Timeline);
         if (pCore->bin()) {
