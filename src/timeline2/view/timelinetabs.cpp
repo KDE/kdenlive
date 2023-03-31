@@ -186,7 +186,6 @@ void TimelineTabs::closeTimelineByIndex(int ix)
         }
         delete timeline;
         pCore->projectManager()->closeTimeline(uuid);
-        removeTab(ix);
         setTabsClosable(count() > 1);
         if (count() == 1) {
             updateWindowTitle();
