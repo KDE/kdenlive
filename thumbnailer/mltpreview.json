@@ -8,7 +8,9 @@
             "application/vnd.mlt+xml"
         ],
         "Name": "MLT Playlist",
+        "Name[ar]": "قائمة تشغيل ام ال تي",
         "Name[ca]": "Llista de reproducció MLT",
+        "Name[cs]": "Seznam skladeb MLT",
         "Name[de]": "MLT-Wiedergabeliste",
         "Name[en_GB]": "MLT Playlist",
         "Name[fr]": "Liste de lecture « MLT »",
