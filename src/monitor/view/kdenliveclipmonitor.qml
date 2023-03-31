@@ -644,17 +644,26 @@ Item {
     }
     Item {
         id: clipJobInfo
-        anchors.fill: parent
-        anchors.rightMargin: 10
-        anchors.topMargin: 10
+        x: 10
+        y: 10
+        width: parent.width - 20
+        height: childrenRect.height
         visible: root.showClipJobs && controller.clipId > 0
         Column {
             Repeater {
                 model: controller.runningJobs
-                delegate: Item {
+                delegate: Rectangle {
+                    id: jobContainer
                     property var uuid: controller.jobsUuids[model.index]
                     width: clipJobInfo.width / 4
-                    height: childrenRect.height
+                    height: jobLabel.height + progressBar.height + 4
+                    color: "#80333333"
+                    radius: 5
+                    MouseArea {
+                        id: jobsArea
+                        hoverEnabled: true
+                        anchors.fill: parent
+                    }
                     Row {
                         id: labelRow
                         MonitorToolButton {
@@ -672,22 +681,24 @@ Item {
                             anchors.leftMargin: 4
                             padding: 2
                             text: modelData
+                            width: jobContainer.width - iconButton.width - 8
+                            elide: Text.ElideRight
                             color: 'white'
-                            style: Text.Outline
-                            styleColor: "black"
                         }
                     }
                     Rectangle {
                         id: progressBar
                         anchors.top: labelRow.bottom
                         anchors.left: parent.left
+                        anchors.right: parent.right
                         anchors.leftMargin: 4
-                        width: clipJobInfo.width / 4
+                        anchors.rightMargin: 4
+                        //width: clipJobInfo.width / 4
                         height: 6
                         radius: 2
                         color: "#33ffffff"
                         border {
-                            color: "#99ffffff"
+                            color: "#99000000"
                             width: 1
                         }
                         Rectangle {
