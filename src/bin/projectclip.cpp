@@ -98,7 +98,7 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
     m_inPoint = 0;
     m_outPoint = 0;
     m_date = date;
-    m_description = ClipController::description();
+    updateDescription();
     if (m_clipType == ClipType::Audio) {
         m_thumbnail = QIcon::fromTheme(QStringLiteral("audio-x-generic"));
     } else {
@@ -601,7 +601,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
         m_date = date;
         updateRoles << AbstractProjectItem::DataDate;
     }
-    m_description = ClipController::description();
+    updateDescription();
     m_temporaryUrl.clear();
     if (m_clipType == ClipType::Audio) {
         m_thumbnail = QIcon::fromTheme(QStringLiteral("audio-x-generic"));
@@ -2833,4 +2833,16 @@ const QList<QUuid> ProjectClip::registeredUuids() const
 const QUuid &ProjectClip::getSequenceUuid() const
 {
     return m_sequenceUuid;
+}
+
+void ProjectClip::updateDescription()
+{
+    if (m_clipType == ClipType::TextTemplate) {
+        m_description = getProducerProperty(QStringLiteral("templatetext"));
+    } else {
+        m_description = getProducerProperty(QStringLiteral("kdenlive:description"));
+        if (m_description.isEmpty()) {
+            m_description = getProducerProperty(QStringLiteral("meta.attr.comment.markup"));
+        }
+    }
 }

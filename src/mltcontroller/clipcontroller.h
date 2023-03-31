@@ -65,9 +65,6 @@ public:
     /** @brief Returns a clone of our master producer. Delete after use! */
     Mlt::Producer *masterProducer();
 
-    /** @brief Returns the clip's description or metadata comment */
-    QString description() const;
-
     /** @brief Returns the clip's MLT resource */
     const QString clipUrl() const;
 

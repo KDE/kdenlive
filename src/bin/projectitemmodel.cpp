@@ -1219,6 +1219,7 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, std::unord
                         trac->set("length", prod->parent().get("length"));
                         trac->set("out", prod->parent().get("out"));
                         trac->set("kdenlive:clipname", prod->parent().get("kdenlive:clipname"));
+                        trac->set("kdenlive:description", prod->parent().get("kdenlive:description"));
                         trac->set("kdenlive:folderid", prod->parent().get("kdenlive:folderid"));
                         trac->set("kdenlive:duration", prod->parent().get("kdenlive:duration"));
                         trac->set("kdenlive:producer_type", ClipType::Timeline);
@@ -1230,6 +1231,7 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, std::unord
                         prod2->set("length", prod->parent().get("length"));
                         prod2->set("out", prod->parent().get("out"));
                         prod2->set("kdenlive:clipname", prod->parent().get("kdenlive:clipname"));
+                        prod2->set("kdenlive:description", prod->parent().get("kdenlive:description"));
                         prod2->set("kdenlive:folderid", prod->parent().get("kdenlive:folderid"));
                         prod2->set("kdenlive:duration", prod->parent().get("kdenlive:duration"));
                         prod2->set("kdenlive:producer_type", ClipType::Timeline);

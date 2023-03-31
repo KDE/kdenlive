@@ -360,6 +360,8 @@ private:
     // The sequence unique identifier
     QUuid m_sequenceUuid;
     QTemporaryFile m_sequenceThumbFile;
+    /** @brief Update the clip description from the properties. */
+    void updateDescription();
 
 Q_SIGNALS:
     void producerChanged(const QString &, const std::shared_ptr<Mlt::Producer> &);
