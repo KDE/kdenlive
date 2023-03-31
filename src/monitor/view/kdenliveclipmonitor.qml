@@ -647,7 +647,7 @@ Item {
         anchors.fill: parent
         anchors.rightMargin: 10
         anchors.topMargin: 10
-        visible: root.showClipJobs
+        visible: root.showClipJobs && controller.clipId > 0
         Column {
             Repeater {
                 model: controller.runningJobs
