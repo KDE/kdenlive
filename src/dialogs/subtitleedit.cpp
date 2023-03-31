@@ -188,7 +188,7 @@ void SubtitleEdit::updateStyle()
             colorName.remove(0, 1);
             styleString.append(QStringLiteral("BorderStyle=4,BackColour=&H%1,").arg(colorName));
         } else {
-            styleString.append(QStringLiteral("BorderStyle=3"));
+            styleString.append(QStringLiteral("BorderStyle=3,"));
         }
     }
     if (alignment->isEnabled()) {
