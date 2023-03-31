@@ -1752,6 +1752,14 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
             Q_EMIT pCore->bin()->updateTabName(m_sequenceUuid, m_name);
         }
     }
+    if (properties.contains(QStringLiteral("kdenlive:description"))) {
+        m_description = properties.value(QStringLiteral("kdenlive:description"));
+        refreshPanel = true;
+        if (auto ptr = m_model.lock()) {
+            std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
+                                                                           {AbstractProjectItem::DataDescription});
+        }
+    }
     // update timeline clips
     if (!reload) {
         updateTimelineClips(refreshRoles);
