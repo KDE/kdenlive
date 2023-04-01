@@ -238,11 +238,11 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         });
 
         m_toolbar->addAction(manager->getAction(QStringLiteral("insert_project_tree")));
-        m_toolbar->setToolTip(i18n("Insert Zone to Project Bin"));
         m_toolbar->addSeparator();
         m_streamsButton = new QToolButton(this);
         m_streamsButton->setPopupMode(QToolButton::InstantPopup);
         m_streamsButton->setIcon(QIcon::fromTheme(QStringLiteral("speaker")));
+        m_streamsButton->setToolTip(i18n("Audio streams"));
         m_streamAction = m_toolbar->addWidget(m_streamsButton);
         m_audioChannels = new QMenu(this);
         m_streamsButton->setMenu(m_audioChannels);

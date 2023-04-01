@@ -148,12 +148,12 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
 
 void SubtitleEdit::updateStyle()
 {
-    QString styleString;
+    QStringList styleString;
     if (fontFamily->isEnabled()) {
-        styleString.append(QStringLiteral("Fontname=%1,").arg(fontFamily->currentFont().family()));
+        styleString << QStringLiteral("Fontname=%1").arg(fontFamily->currentFont().family());
     }
     if (fontSize->isEnabled()) {
-        styleString.append(QStringLiteral("Fontsize=%1,").arg(fontSize->value()));
+        styleString << QStringLiteral("Fontsize=%1").arg(fontSize->value());
     }
     if (fontColor->isEnabled()) {
         QColor color = fontColor->color();
@@ -161,13 +161,13 @@ void SubtitleEdit::updateStyle()
         // Strip # character
         QString colorName = destColor.name(QColor::HexArgb);
         colorName.remove(0, 1);
-        styleString.append(QStringLiteral("PrimaryColour=&H%1,").arg(colorName));
+        styleString << QStringLiteral("PrimaryColour=&H%1").arg(colorName);
     }
     if (outlineSize->isEnabled()) {
-        styleString.append(QStringLiteral("Outline=%1,").arg(outlineSize->value()));
+        styleString << QStringLiteral("Outline=%1").arg(outlineSize->value());
     }
     if (shadowSize->isEnabled()) {
-        styleString.append(QStringLiteral("Shadow=%1,").arg(shadowSize->value()));
+        styleString << QStringLiteral("Shadow=%1").arg(shadowSize->value());
     }
     if (outlineColor->isEnabled()) {
         // Qt AARRGGBB must be converted to AABBGGRR where AA is 255-AA
@@ -176,7 +176,7 @@ void SubtitleEdit::updateStyle()
         // Strip # character
         QString colorName = destColor.name(QColor::HexArgb);
         colorName.remove(0, 1);
-        styleString.append(QStringLiteral("OutlineColour=&H%1,").arg(colorName));
+        styleString << QStringLiteral("OutlineColour=&H%1").arg(colorName);
     }
     if (checkOpaque->isChecked()) {
         QColor color = outlineColor->color();
@@ -186,15 +186,15 @@ void SubtitleEdit::updateStyle()
             // Strip # character
             QString colorName = destColor.name(QColor::HexArgb);
             colorName.remove(0, 1);
-            styleString.append(QStringLiteral("BorderStyle=4,BackColour=&H%1,").arg(colorName));
+            styleString << QStringLiteral("BorderStyle=4") << QStringLiteral("BackColour=&H%1").arg(colorName);
         } else {
-            styleString.append(QStringLiteral("BorderStyle=3,"));
+            styleString << QStringLiteral("BorderStyle=3");
         }
     }
     if (alignment->isEnabled()) {
-        styleString.append(QStringLiteral("Alignment=%1,").arg(alignment->currentData().toInt()));
+        styleString << QStringLiteral("Alignment=%1").arg(alignment->currentData().toInt());
     }
-    m_model->setStyle(styleString);
+    m_model->setStyle(styleString.join(QLatin1Char(',')));
 }
 
 void SubtitleEdit::setModel(std::shared_ptr<SubtitleModel> model)
