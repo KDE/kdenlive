@@ -1431,7 +1431,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
             }
         }
         QSignalBlocker bkt(m_filterButton);
-        if (rateFilters > 0 || !tagFilters.isEmpty() || typeFilters > 0) {
+        if (rateFilters > 0 || !tagFilters.isEmpty() || typeFilters > 0 || usedFilter) {
             m_filterButton->setChecked(true);
         } else {
             m_filterButton->setChecked(false);
@@ -1480,7 +1480,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
             }
         }
         QSignalBlocker bkt(m_filterButton);
-        if (rateFilters > 0 || !tagFilters.isEmpty() || typeFilters > 0) {
+        if (rateFilters > 0 || !tagFilters.isEmpty() || typeFilters > 0 || usedFilter) {
             m_filterButton->setChecked(true);
         } else {
             m_filterButton->setChecked(false);
