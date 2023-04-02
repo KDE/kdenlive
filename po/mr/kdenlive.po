@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-01 00:50+0000\n"
+"POT-Creation-Date: 2023-04-02 00:46+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -11097,6 +11097,7 @@ msgid "Enable audio"
 msgstr ""
 
 #: src/mltcontroller/clippropertiescontroller.cpp:687
+#: src/monitor/monitor.cpp:245
 #, fuzzy, kde-format
 #| msgid "Bitrate"
 msgid "Audio streams"
@@ -11430,11 +11431,6 @@ msgstr ""
 #, fuzzy, kde-format
 msgid "1:1"
 msgstr "x"
-
-#: src/monitor/monitor.cpp:241
-#, fuzzy, kde-format
-msgid "Insert Zone to Project Bin"
-msgstr "परियोजना : %1"
 
 #: src/monitor/monitor.cpp:306 src/monitor/monitormanager.cpp:626
 #, kde-format
@@ -20995,6 +20991,10 @@ msgstr ""
 msgctxt "h as hours"
 msgid "%1h"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Insert Zone to Project Bin"
+#~ msgstr "परियोजना : %1"
 
 #, fuzzy
 #~ msgid "Add stabilized clip to project"

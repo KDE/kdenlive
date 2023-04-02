@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-01 00:50+0000\n"
+"POT-Creation-Date: 2023-04-02 00:46+0000\n"
 "PO-Revision-Date: 2023-03-24 19:41+0100\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -11491,6 +11491,7 @@ msgid "Enable audio"
 msgstr "Audio aktivieren"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:687
+#: src/monitor/monitor.cpp:245
 #, kde-format
 msgid "Audio streams"
 msgstr " Audio-Streams"
@@ -11837,12 +11838,6 @@ msgstr ""
 #, kde-format
 msgid "1:1"
 msgstr "1:1"
-
-#: src/monitor/monitor.cpp:241
-#, fuzzy, kde-format
-#| msgid "Insert zone in project tree"
-msgid "Insert Zone to Project Bin"
-msgstr "Bereich zum Projektbaum hinzufügen"
 
 #: src/monitor/monitor.cpp:306 src/monitor/monitormanager.cpp:626
 #, kde-format
@@ -21794,6 +21789,11 @@ msgstr "%1 m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 h"
+
+#, fuzzy
+#~| msgid "Insert zone in project tree"
+#~ msgid "Insert Zone to Project Bin"
+#~ msgstr "Bereich zum Projektbaum hinzufügen"
 
 #, fuzzy
 #~| msgid "Click to open cache folder"

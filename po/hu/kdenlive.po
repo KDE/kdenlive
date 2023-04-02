@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-01 00:50+0000\n"
+"POT-Creation-Date: 2023-04-02 00:46+0000\n"
 "PO-Revision-Date: 2014-12-09 21:11+0100\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -11785,6 +11785,7 @@ msgid "Enable audio"
 msgstr "Hang rögzítése"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:687
+#: src/monitor/monitor.cpp:245
 #, fuzzy, kde-format
 #| msgid "Audio stream %1"
 msgid "Audio streams"
@@ -12147,12 +12148,6 @@ msgstr ""
 #| msgid "X11"
 msgid "1:1"
 msgstr "X11"
-
-#: src/monitor/monitor.cpp:241
-#, fuzzy, kde-format
-#| msgid "Insert zone in project tree"
-msgid "Insert Zone to Project Bin"
-msgstr "Zóna beszúrása a projektfába"
 
 #: src/monitor/monitor.cpp:306 src/monitor/monitormanager.cpp:626
 #, kde-format
@@ -22359,6 +22354,11 @@ msgstr ""
 msgctxt "h as hours"
 msgid "%1h"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Insert zone in project tree"
+#~ msgid "Insert Zone to Project Bin"
+#~ msgstr "Zóna beszúrása a projektfába"
 
 #, fuzzy
 #~| msgid "Copy file to project folder"

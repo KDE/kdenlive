@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-01 00:50+0000\n"
+"POT-Creation-Date: 2023-04-02 00:46+0000\n"
 "PO-Revision-Date: 2017-05-16 07:02-0400\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -11135,6 +11135,7 @@ msgid "Enable audio"
 msgstr "לכידת שמע"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:687
+#: src/monitor/monitor.cpp:245
 #, fuzzy, kde-format
 msgid "Audio streams"
 msgstr "רצועת שמע"
@@ -11469,11 +11470,6 @@ msgstr ""
 #, kde-format
 msgid "1:1"
 msgstr ""
-
-#: src/monitor/monitor.cpp:241
-#, fuzzy, kde-format
-msgid "Insert Zone to Project Bin"
-msgstr "הכנס קטע בעץ הפרוייקט"
 
 #: src/monitor/monitor.cpp:306 src/monitor/monitormanager.cpp:626
 #, kde-format
@@ -21069,6 +21065,10 @@ msgstr ""
 msgctxt "h as hours"
 msgid "%1h"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Insert Zone to Project Bin"
+#~ msgstr "הכנס קטע בעץ הפרוייקט"
 
 #, fuzzy
 #~ msgid "Add clip to \"Speed Change\" folder"

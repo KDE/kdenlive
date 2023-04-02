@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-01 00:50+0000\n"
+"POT-Creation-Date: 2023-04-02 00:46+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -11452,6 +11452,7 @@ msgid "Enable audio"
 msgstr "Podijeli zvuk"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:687
+#: src/monitor/monitor.cpp:245
 #, fuzzy, kde-format
 #| msgid "Audio track"
 msgid "Audio streams"
@@ -11795,11 +11796,6 @@ msgstr ""
 #| msgid "X11"
 msgid "1:1"
 msgstr "X11"
-
-#: src/monitor/monitor.cpp:241
-#, fuzzy, kde-format
-msgid "Insert Zone to Project Bin"
-msgstr "Ne mogu otvoriti projekt"
 
 #: src/monitor/monitor.cpp:306 src/monitor/monitormanager.cpp:626
 #, fuzzy, kde-format
@@ -21616,6 +21612,10 @@ msgstr ""
 msgctxt "h as hours"
 msgid "%1h"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Insert Zone to Project Bin"
+#~ msgstr "Ne mogu otvoriti projekt"
 
 #, fuzzy
 #~| msgid "Project folder"
