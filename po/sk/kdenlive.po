@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-01 02:42+0000\n"
+"POT-Creation-Date: 2023-04-02 02:37+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -11604,6 +11604,7 @@ msgid "Enable audio"
 msgstr "Povoliť audio"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:687
+#: src/monitor/monitor.cpp:245
 #, kde-format
 msgid "Audio streams"
 msgstr "Zvukové prúdy"
@@ -11950,12 +11951,6 @@ msgstr ""
 #, kde-format
 msgid "1:1"
 msgstr "1:1"
-
-#: src/monitor/monitor.cpp:241
-#, fuzzy, kde-format
-#| msgid "Insert Zone in Project Bin"
-msgid "Insert Zone to Project Bin"
-msgstr "Vložiť zónu do koša strome"
 
 #: src/monitor/monitor.cpp:306 src/monitor/monitormanager.cpp:626
 #, kde-format
@@ -22040,6 +22035,11 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#, fuzzy
+#~| msgid "Insert Zone in Project Bin"
+#~ msgid "Insert Zone to Project Bin"
+#~ msgstr "Vložiť zónu do koša strome"
 
 #, fuzzy
 #~| msgid "Click to open cache folder"
