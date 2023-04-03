@@ -8,12 +8,14 @@
             "application/vnd.mlt+xml"
         ],
         "Name": "MLT Playlist",
+        "Name[ca@valencia]": "Llista de reproducció MLT",
         "Name[ca]": "Llista de reproducció MLT",
         "Name[cs]": "Seznam skladeb MLT",
         "Name[de]": "MLT-Wiedergabeliste",
         "Name[en_GB]": "MLT Playlist",
         "Name[fr]": "Liste de lecture « MLT »",
         "Name[nl]": "MLT-afspeellijst",
+        "Name[pl]": "Lista odtwarzania MLT",
         "Name[sl]": "Seznam predvajanja MLT",
         "Name[uk]": "Список відтворення MLT",
         "Name[x-test]": "xxMLT Playlistxx"

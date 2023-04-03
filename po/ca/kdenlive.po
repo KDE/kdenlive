@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-01 02:42+0000\n"
+"POT-Creation-Date: 2023-04-02 02:37+0000\n"
 "PO-Revision-Date: 2023-03-17 13:14+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -11234,6 +11234,7 @@ msgid "Enable audio"
 msgstr "Activa l'àudio"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:687
+#: src/monitor/monitor.cpp:245
 #, kde-format
 msgid "Audio streams"
 msgstr "Fluxos d'àudio"
@@ -11556,11 +11557,6 @@ msgstr ""
 #, kde-format
 msgid "1:1"
 msgstr "1:1"
-
-#: src/monitor/monitor.cpp:241
-#, kde-format
-msgid "Insert Zone to Project Bin"
-msgstr "Insereix una zona a la safata del projecte"
 
 #: src/monitor/monitor.cpp:306 src/monitor/monitormanager.cpp:626
 #, kde-format
@@ -21214,3 +21210,6 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "Insert Zone to Project Bin"
+#~ msgstr "Insereix una zona a la safata del projecte"

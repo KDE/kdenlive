@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-01 02:42+0000\n"
+"POT-Creation-Date: 2023-04-02 02:37+0000\n"
 "PO-Revision-Date: 2022-05-08 16:25+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -11257,6 +11257,7 @@ msgid "Enable audio"
 msgstr "오디오 사용"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:687
+#: src/monitor/monitor.cpp:245
 #, kde-format
 msgid "Audio streams"
 msgstr "오디오 스트림"
@@ -11591,11 +11592,6 @@ msgstr ""
 #, kde-format
 msgid "1:1"
 msgstr "1:1"
-
-#: src/monitor/monitor.cpp:241
-#, kde-format
-msgid "Insert Zone to Project Bin"
-msgstr "프로젝트 보관함에 영역 삽입"
 
 #: src/monitor/monitor.cpp:306 src/monitor/monitormanager.cpp:626
 #, kde-format
@@ -21538,6 +21534,9 @@ msgstr "%1분"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1시간"
+
+#~ msgid "Insert Zone to Project Bin"
+#~ msgstr "프로젝트 보관함에 영역 삽입"
 
 #~ msgid "Add clip to \"Speed Change\" folder"
 #~ msgstr "\"속도 변경\" 폴더에 클립 추가"

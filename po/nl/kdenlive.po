@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-01 02:42+0000\n"
+"POT-Creation-Date: 2023-04-02 02:37+0000\n"
 "PO-Revision-Date: 2023-03-17 09:46+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
@@ -11192,6 +11192,7 @@ msgid "Enable audio"
 msgstr "Geluid inschakelen"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:687
+#: src/monitor/monitor.cpp:245
 #, kde-format
 msgid "Audio streams"
 msgstr "Audiostreams"
@@ -11513,11 +11514,6 @@ msgstr ""
 #, kde-format
 msgid "1:1"
 msgstr "1:1"
-
-#: src/monitor/monitor.cpp:241
-#, kde-format
-msgid "Insert Zone to Project Bin"
-msgstr "Zone invoegen in project-bin"
 
 #: src/monitor/monitor.cpp:306 src/monitor/monitormanager.cpp:626
 #, kde-format
@@ -21115,6 +21111,9 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
+
+#~ msgid "Insert Zone to Project Bin"
+#~ msgstr "Zone invoegen in project-bin"
 
 #~ msgid "Add clip to \"Speed Change\" folder"
 #~ msgstr "Clip aan map \"Snelheid wijzigen\" toevoegen"

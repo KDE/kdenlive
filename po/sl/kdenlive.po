@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-01 02:42+0000\n"
+"POT-Creation-Date: 2023-04-02 02:37+0000\n"
 "PO-Revision-Date: 2023-03-26 18:17+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -11186,6 +11186,7 @@ msgid "Enable audio"
 msgstr "Omogoči zvok"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:687
+#: src/monitor/monitor.cpp:245
 #, kde-format
 msgid "Audio streams"
 msgstr "Tokovi zvoka"
@@ -11504,11 +11505,6 @@ msgstr ""
 #, kde-format
 msgid "1:1"
 msgstr "1:1"
-
-#: src/monitor/monitor.cpp:241
-#, kde-format
-msgid "Insert Zone to Project Bin"
-msgstr "Vstavi območje v projektno posodo"
 
 #: src/monitor/monitor.cpp:306 src/monitor/monitormanager.cpp:626
 #, kde-format
@@ -21120,3 +21116,6 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
+
+#~ msgid "Insert Zone to Project Bin"
+#~ msgstr "Vstavi območje v projektno posodo"

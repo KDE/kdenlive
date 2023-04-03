@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-01 02:42+0000\n"
+"POT-Creation-Date: 2023-04-02 02:37+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -11655,6 +11655,7 @@ msgid "Enable audio"
 msgstr "Razdvoji zvuk"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:687
+#: src/monitor/monitor.cpp:245
 #, fuzzy, kde-format
 #| msgid "Audio stream %1"
 msgid "Audio streams"
@@ -12013,12 +12014,6 @@ msgstr ""
 #| msgid "X11"
 msgid "1:1"
 msgstr "X11"
-
-#: src/monitor/monitor.cpp:241
-#, fuzzy, kde-format
-#| msgid "Insert zone in project tree"
-msgid "Insert Zone to Project Bin"
-msgstr "Ubaci zonu na stablo projekta"
 
 #: src/monitor/monitor.cpp:306 src/monitor/monitormanager.cpp:626
 #, kde-format
@@ -22129,6 +22124,11 @@ msgstr ""
 msgctxt "h as hours"
 msgid "%1h"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Insert zone in project tree"
+#~ msgid "Insert Zone to Project Bin"
+#~ msgstr "Ubaci zonu na stablo projekta"
 
 #, fuzzy
 #~| msgid "Copy file to project folder"

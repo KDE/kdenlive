@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-01 02:42+0000\n"
+"POT-Creation-Date: 2023-04-02 02:37+0000\n"
 "PO-Revision-Date: 2023-03-26 14:46+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
@@ -11102,6 +11102,7 @@ msgid "Enable audio"
 msgstr "Enable audio"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:687
+#: src/monitor/monitor.cpp:245
 #, kde-format
 msgid "Audio streams"
 msgstr "Audio streams"
@@ -11422,11 +11423,6 @@ msgstr ""
 #, kde-format
 msgid "1:1"
 msgstr "1:1"
-
-#: src/monitor/monitor.cpp:241
-#, kde-format
-msgid "Insert Zone to Project Bin"
-msgstr "Insert Zone to Project Bin"
 
 #: src/monitor/monitor.cpp:306 src/monitor/monitormanager.cpp:626
 #, kde-format
@@ -20969,6 +20965,9 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "Insert Zone to Project Bin"
+#~ msgstr "Insert Zone to Project Bin"
 
 #~ msgid "Add clip to \"Speed Change\" folder"
 #~ msgstr "Add clip to \"Speed Change\" folder"

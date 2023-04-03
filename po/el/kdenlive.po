@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-01 02:42+0000\n"
+"POT-Creation-Date: 2023-04-02 02:37+0000\n"
 "PO-Revision-Date: 2020-04-15 11:41+0300\n"
 "Last-Translator: Petros Vidalis <pvidalis@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -11667,6 +11667,7 @@ msgid "Enable audio"
 msgstr "Διαχωρισμός κομματιού ήχου"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:687
+#: src/monitor/monitor.cpp:245
 #, fuzzy, kde-format
 msgid "Audio streams"
 msgstr "Ηχητικό κομμάτι"
@@ -12016,12 +12017,6 @@ msgstr ""
 #| msgid "X11"
 msgid "1:1"
 msgstr "X11"
-
-#: src/monitor/monitor.cpp:241
-#, fuzzy, kde-format
-#| msgid "Insert zone in project tree"
-msgid "Insert Zone to Project Bin"
-msgstr "Εισαγωγή ζώνης στο δέντρο του έργου"
 
 #: src/monitor/monitor.cpp:306 src/monitor/monitormanager.cpp:626
 #, kde-format
@@ -22151,6 +22146,11 @@ msgstr ""
 msgctxt "h as hours"
 msgid "%1h"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Insert zone in project tree"
+#~ msgid "Insert Zone to Project Bin"
+#~ msgstr "Εισαγωγή ζώνης στο δέντρο του έργου"
 
 #, fuzzy
 #~| msgid "Use project folder"
