@@ -34,8 +34,8 @@
 #include <QGraphicsScene>
 #include <QGraphicsSvgItem>
 #include <QGraphicsTextItem>
+#include <QSaveFile>
 #include <QSvgRenderer>
-#include <QTemporaryFile>
 #include <QTextCursor>
 #include <locale>
 #ifdef Q_OS_MAC
@@ -366,25 +366,16 @@ bool TitleDocument::saveDocument(const QUrl &url, QGraphicsRectItem *startv, QGr
     doc.documentElement().setAttribute(QStringLiteral("duration"), duration);
     // keep some time for backwards compatibility (opening projects with older versions) - 26/12/12
     doc.documentElement().setAttribute(QStringLiteral("out"), duration);
-    QTemporaryFile tmpfile;
-    if (!tmpfile.open()) {
-        qCWarning(KDENLIVE_LOG) << "/////  CANNOT CREATE TMP FILE in: " << tmpfile.fileName();
+    QSaveFile outFile(url.toLocalFile());
+    if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qCWarning(KDENLIVE_LOG) << "/////  CANNOT WRITE TO FILE : " << url.toLocalFile();
         return false;
     }
-    QFile xmlf(tmpfile.fileName());
-    if (!xmlf.open(QIODevice::WriteOnly)) {
+    outFile.write(doc.toString().toUtf8());
+    if (!outFile.commit()) {
         return false;
     }
-    xmlf.write(doc.toString().toUtf8());
-    if (xmlf.error() != QFile::NoError) {
-        xmlf.close();
-        return false;
-    }
-    xmlf.close();
-    KIO::FileCopyJob *copyjob = KIO::file_copy(QUrl::fromLocalFile(tmpfile.fileName()), url, -1, KIO::Overwrite);
-    bool result = copyjob->exec();
-    delete copyjob;
-    return result;
+    return true;
 }
 
 int TitleDocument::loadFromXml(const QDomDocument &doc, GraphicsSceneRectMove *scene, QGraphicsRectItem *startv, QGraphicsRectItem *endv, int *duration,
