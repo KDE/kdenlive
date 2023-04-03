@@ -1698,6 +1698,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
                 refreshPanel = true;
                 refreshOnly = false;
                 reload = true;
+                ThumbnailCache::get()->invalidateThumbsForClip(m_binId);
                 break;
             }
         }
