@@ -584,7 +584,6 @@ void ClipLoadTask::run()
     if (type == ClipType::SlideShow) {
         processSlideShow(producer);
     }
-    int vindex = -1;
     double fps = -1;
     bool isVariableFrameRate = false;
     bool seekable = true;
@@ -606,7 +605,7 @@ void ClipLoadTask::run()
             producer->set("length", fixedLength);
             producer->set("out", fixedLength - 1);
         }
-    } else if (mltService == QLatin1String("avformat")) {
+    } else if (mltService.startsWith(QLatin1String("avformat"))) {
         // Get a frame to init properties
         mlt_image_format format = mlt_image_none;
         int vindex = producer->get_int("video_index");
@@ -614,11 +613,13 @@ void ClipLoadTask::run()
         bool hasVideo = false;
         // Work around MLT freeze on files with cover art
         if (vindex > -1) {
-            QString key = QString("meta.media.%1.codec.frame_rate").arg(vindex);
-            QString frame_rate = producer->get(key.toLatin1().constData());
+            QString key = QString("meta.media.%1.stream.frame_rate").arg(vindex);
+            fps = producer->get_double(key.toLatin1().constData());
             key = QString("meta.media.%1.codec.name").arg(vindex);
             QString codec_name = producer->get(key.toLatin1().constData());
-            if (codec_name == QLatin1String("png") || (codec_name == "mjpeg" && frame_rate == "90000")) {
+            key = QString("meta.media.%1.codec.frame_rate").arg(vindex);
+            QString frame_rate = producer->get(key.toLatin1().constData());
+            if (codec_name == QLatin1String("png") || (codec_name == "mjpeg" && frame_rate == QLatin1String("90000"))) {
                 // Cover art
                 producer->set("video_index", -1);
                 producer->set("set.test_image", 1);
@@ -722,7 +723,6 @@ void ClipLoadTask::run()
         // something wrong, maybe audio file with embedded image
         if (mime.startsWith(QLatin1String("audio"))) {
             producer->set("video_index", -1);
-            vindex = -1;
         }
     }
     if (!m_isCanceled.loadAcquire()) {

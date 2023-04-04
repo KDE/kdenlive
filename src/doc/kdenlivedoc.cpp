@@ -1577,7 +1577,9 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<Proje
             new EditClipCommand(pCore->bin(), item->AbstractProjectItem::clipId(), oldProps, newProps, true, masterCommand);
         } else {
             // Cannot proxy this clip type
-            pCore->bin()->doDisplayMessage(i18n("Clip type does not support proxies"), KMessageWidget::Information);
+            if (doProxy) {
+                pCore->bin()->doDisplayMessage(i18n("Clip type does not support proxies"), KMessageWidget::Information);
+            }
         }
     }
     if (!hasParent) {
