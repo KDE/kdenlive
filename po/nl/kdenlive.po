@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-02 00:46+0000\n"
+"POT-Creation-Date: 2023-04-04 00:46+0000\n"
 "PO-Revision-Date: 2023-03-19 13:34+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -4744,7 +4744,7 @@ msgid "Edit Tags"
 msgstr "Tags bewerken"
 
 #: src/bin/bin.cpp:4255 src/bin/projectclip.cpp:190
-#: src/bin/projectclip.cpp:1888 src/onlineresources/resourcewidget.cpp:266
+#: src/bin/projectclip.cpp:1889 src/onlineresources/resourcewidget.cpp:266
 #: src/onlineresources/resourcewidget.cpp:557
 #: src/onlineresources/resourcewidget.cpp:572
 #, kde-format
@@ -5311,12 +5311,12 @@ msgstr "Ongeldig"
 msgid "File already exists"
 msgstr "Bestand bestaat al"
 
-#: src/bin/projectclip.cpp:2603
+#: src/bin/projectclip.cpp:2604
 #, kde-format
 msgid "Add stream effect"
 msgstr "Streameffect toevoegen"
 
-#: src/bin/projectclip.cpp:2628
+#: src/bin/projectclip.cpp:2629
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Streameffect verwijderen"
@@ -16443,17 +16443,17 @@ msgstr "Geen stream beschikbaar"
 msgid "Gradient %1"
 msgstr "Gradiënt %1"
 
-#: src/titler/titledocument.cpp:401
+#: src/titler/titledocument.cpp:392
 #, kde-format
 msgid "This title clip was created with a different frame size."
 msgstr "Deze titel clip is gemaakt met een ander frame formaat."
 
-#: src/titler/titledocument.cpp:401
+#: src/titler/titledocument.cpp:392
 #, kde-format
 msgid "Title Profile"
 msgstr "Titel profiel"
 
-#: src/titler/titledocument.cpp:474
+#: src/titler/titledocument.cpp:465
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -16465,7 +16465,7 @@ msgstr ""
 "omgezet naar een grootte in pixels, zodat ze overdraagbaar zijn, maar "
 "misschien moet de grootte bijgesteld worden."
 
-#: src/titler/titledocument.cpp:477
+#: src/titler/titledocument.cpp:468
 #, kde-format
 msgid "Text Clips Updated"
 msgstr "Tekst clips bijgewerkt"
