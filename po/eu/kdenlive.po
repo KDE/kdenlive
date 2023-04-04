@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-02 02:37+0000\n"
+"POT-Creation-Date: 2023-04-04 02:54+0000\n"
 "PO-Revision-Date: 2023-02-17 06:26+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -4732,7 +4732,7 @@ msgid "Edit Tags"
 msgstr "Editatu Etiketak"
 
 #: src/bin/bin.cpp:4255 src/bin/projectclip.cpp:190
-#: src/bin/projectclip.cpp:1888 src/onlineresources/resourcewidget.cpp:266
+#: src/bin/projectclip.cpp:1889 src/onlineresources/resourcewidget.cpp:266
 #: src/onlineresources/resourcewidget.cpp:557
 #: src/onlineresources/resourcewidget.cpp:572
 #, kde-format
@@ -5299,12 +5299,12 @@ msgstr "Baliogabea"
 msgid "File already exists"
 msgstr "Fitxategia badago lehendik ere"
 
-#: src/bin/projectclip.cpp:2603
+#: src/bin/projectclip.cpp:2604
 #, kde-format
 msgid "Add stream effect"
 msgstr "Gehitu korronte efektua"
 
-#: src/bin/projectclip.cpp:2628
+#: src/bin/projectclip.cpp:2629
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Ezabatu korronte efektua"
@@ -16464,17 +16464,17 @@ msgstr "Ez dago korronterik eskuragarri"
 msgid "Gradient %1"
 msgstr "Gradientea %1"
 
-#: src/titler/titledocument.cpp:401
+#: src/titler/titledocument.cpp:392
 #, kde-format
 msgid "This title clip was created with a different frame size."
 msgstr "Izenburu hau fotograma-tamaina ezberdinarekin sortu zen."
 
-#: src/titler/titledocument.cpp:401
+#: src/titler/titledocument.cpp:392
 #, kde-format
 msgid "Title Profile"
 msgstr "Izenburu profila"
 
-#: src/titler/titledocument.cpp:474
+#: src/titler/titledocument.cpp:465
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -16486,7 +16486,7 @@ msgstr ""
 "bihutuko dira hauek eramangarri bihurtuz, baina haien tamaina doitu beharko "
 "duzu agian."
 
-#: src/titler/titledocument.cpp:477
+#: src/titler/titledocument.cpp:468
 #, kde-format
 msgid "Text Clips Updated"
 msgstr "Testu klipak eguneratuak"

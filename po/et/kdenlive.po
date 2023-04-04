@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-02 02:37+0000\n"
+"POT-Creation-Date: 2023-04-04 02:54+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -4801,7 +4801,7 @@ msgid "Edit Tags"
 msgstr "Muuda hinnangut"
 
 #: src/bin/bin.cpp:4255 src/bin/projectclip.cpp:190
-#: src/bin/projectclip.cpp:1888 src/onlineresources/resourcewidget.cpp:266
+#: src/bin/projectclip.cpp:1889 src/onlineresources/resourcewidget.cpp:266
 #: src/onlineresources/resourcewidget.cpp:557
 #: src/onlineresources/resourcewidget.cpp:572
 #, fuzzy, kde-format
@@ -5422,13 +5422,13 @@ msgstr "Vigane"
 msgid "File already exists"
 msgstr "Fail on juba olemas"
 
-#: src/bin/projectclip.cpp:2603
+#: src/bin/projectclip.cpp:2604
 #, fuzzy, kde-format
 #| msgid "Add new effect"
 msgid "Add stream effect"
 msgstr "Lisa uus efekt"
 
-#: src/bin/projectclip.cpp:2628
+#: src/bin/projectclip.cpp:2629
 #, fuzzy, kde-format
 #| msgid "Remove Bin Effect"
 msgid "Remove stream effect"
@@ -16914,17 +16914,17 @@ msgstr "Ühtegi voogu pole saada"
 msgid "Gradient %1"
 msgstr "Astmik %1"
 
-#: src/titler/titledocument.cpp:401
+#: src/titler/titledocument.cpp:392
 #, kde-format
 msgid "This title clip was created with a different frame size."
 msgstr "See tiitriklipp loodi teistsuguse kaadrisuurusega."
 
-#: src/titler/titledocument.cpp:401
+#: src/titler/titledocument.cpp:392
 #, kde-format
 msgid "Title Profile"
 msgstr "Tiitriprofiil"
 
-#: src/titler/titledocument.cpp:474
+#: src/titler/titledocument.cpp:465
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -16935,7 +16935,7 @@ msgstr ""
 "suurusi erinevatel ekraanidel. Suurus teisendatakse pikslitesse, mis muudab "
 "need igal pool vaadatavaks, aga võib-olla pead nende suurust kohandama."
 
-#: src/titler/titledocument.cpp:477
+#: src/titler/titledocument.cpp:468
 #, kde-format
 msgid "Text Clips Updated"
 msgstr "Tekstiklipid on uuendatud"
