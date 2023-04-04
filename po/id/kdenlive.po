@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-02 00:46+0000\n"
+"POT-Creation-Date: 2023-04-04 00:46+0000\n"
 "PO-Revision-Date: 2023-01-13 08:32+0700\n"
 "Last-Translator: Linerly <linerly@protonmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -4714,7 +4714,7 @@ msgid "Edit Tags"
 msgstr "Edit Tag"
 
 #: src/bin/bin.cpp:4255 src/bin/projectclip.cpp:190
-#: src/bin/projectclip.cpp:1888 src/onlineresources/resourcewidget.cpp:266
+#: src/bin/projectclip.cpp:1889 src/onlineresources/resourcewidget.cpp:266
 #: src/onlineresources/resourcewidget.cpp:557
 #: src/onlineresources/resourcewidget.cpp:572
 #, kde-format
@@ -5290,12 +5290,12 @@ msgstr "Tidak valid"
 msgid "File already exists"
 msgstr "File sudah ada"
 
-#: src/bin/projectclip.cpp:2603
+#: src/bin/projectclip.cpp:2604
 #, kde-format
 msgid "Add stream effect"
 msgstr "Tambahkan efek stream"
 
-#: src/bin/projectclip.cpp:2628
+#: src/bin/projectclip.cpp:2629
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Singkirkan efek stream"
@@ -16397,17 +16397,17 @@ msgstr "Tidak ada aliran yang tersedia"
 msgid "Gradient %1"
 msgstr "Gradien %1"
 
-#: src/titler/titledocument.cpp:401
+#: src/titler/titledocument.cpp:392
 #, kde-format
 msgid "This title clip was created with a different frame size."
 msgstr "Klip judul ini telah dibuat dengan ukuran frame yang berbeda."
 
-#: src/titler/titledocument.cpp:401
+#: src/titler/titledocument.cpp:392
 #, kde-format
 msgid "Title Profile"
 msgstr "Profil Judul"
 
-#: src/titler/titledocument.cpp:474
+#: src/titler/titledocument.cpp:465
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -16419,7 +16419,7 @@ msgstr ""
 "ukuran piksel, menjadikannya portabel, tetapi Anda mungkin harus "
 "menyesuaikan ukurannya."
 
-#: src/titler/titledocument.cpp:477
+#: src/titler/titledocument.cpp:468
 #, kde-format
 msgid "Text Clips Updated"
 msgstr "Klip Teks Diperbarui"

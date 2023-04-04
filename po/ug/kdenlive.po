@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-02 00:46+0000\n"
+"POT-Creation-Date: 2023-04-04 00:46+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -4872,7 +4872,7 @@ msgid "Edit Tags"
 msgstr "thumbnails نى كۆرسەتسۇن"
 
 #: src/bin/bin.cpp:4255 src/bin/projectclip.cpp:190
-#: src/bin/projectclip.cpp:1888 src/onlineresources/resourcewidget.cpp:266
+#: src/bin/projectclip.cpp:1889 src/onlineresources/resourcewidget.cpp:266
 #: src/onlineresources/resourcewidget.cpp:557
 #: src/onlineresources/resourcewidget.cpp:572
 #, kde-format
@@ -5468,13 +5468,13 @@ msgstr "سەپلىمە ھۆججەتنى ساقلايدۇ"
 msgid "File already exists"
 msgstr "ھۆججەت چوڭلۇقى"
 
-#: src/bin/projectclip.cpp:2603
+#: src/bin/projectclip.cpp:2604
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Add stream effect"
 msgstr "ئۈنۈم يوق"
 
-#: src/bin/projectclip.cpp:2628
+#: src/bin/projectclip.cpp:2629
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Remove stream effect"
@@ -16767,17 +16767,17 @@ msgstr " كاندۇك"
 msgid "Gradient %1"
 msgstr ""
 
-#: src/titler/titledocument.cpp:401
+#: src/titler/titledocument.cpp:392
 #, kde-format
 msgid "This title clip was created with a different frame size."
 msgstr ""
 
-#: src/titler/titledocument.cpp:401
+#: src/titler/titledocument.cpp:392
 #, kde-format
 msgid "Title Profile"
 msgstr ""
 
-#: src/titler/titledocument.cpp:474
+#: src/titler/titledocument.cpp:465
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -16785,7 +16785,7 @@ msgid ""
 "making them portable, but you could have to adjust their size."
 msgstr ""
 
-#: src/titler/titledocument.cpp:477
+#: src/titler/titledocument.cpp:468
 #, kde-format
 msgid "Text Clips Updated"
 msgstr ""
