@@ -227,8 +227,8 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
         } else {
             QString mltService = producer->get("mlt_service");
             const QString mltResource = producer->get("resource");
-            if (mltService == QLatin1String("avformat")) {
-                mltService = QStringLiteral("avformat-novalidate");
+            if (mltService == QLatin1String("avformat-novalidate")) {
+                mltService = QStringLiteral("avformat");
             }
             std::unique_ptr<Mlt::Producer> thumbProd = nullptr;
             Mlt::Profile *profile = pCore->thumbProfile();
@@ -250,7 +250,7 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
                 Mlt::Filter converter(*profile, "avcolor_space");
                 thumbProd->set("audio_index", -1);
                 // Required to make get_playtime() return > 1
-                thumbProd->set("out", thumbProd->get_length() - 1);
+                thumbProd->set("out", qMax(1, frameNumber + 1));
                 thumbProd->attach(scaler);
                 thumbProd->attach(padder);
                 thumbProd->attach(converter);
