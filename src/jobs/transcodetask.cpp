@@ -244,10 +244,10 @@ void TranscodeTask::run()
                 newProps.insert(QStringLiteral("kdenlive:clipname"), QFileInfo(destUrl).fileName());
                 newProps.insert(QStringLiteral("kdenlive:proxy"), QString());
                 newProps.insert(QStringLiteral("_fullreload"), QStringLiteral("1"));
-                pCore->bin()->slotEditClipCommand(binClip->clipId(), sourceProps, newProps);
                 if (m_checkProfile) {
-                    QMetaObject::invokeMethod(pCore->bin(), "slotCheckProfile", Qt::QueuedConnection, Q_ARG(QString, QString::number(m_owner.second)));
+                    pCore->bin()->shouldCheckProfile = true;
                 }
+                pCore->bin()->slotEditClipCommand(binClip->clipId(), sourceProps, newProps);
             } else {
                 QString folder = QStringLiteral("-1");
                 if (binClip) {
