@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-04 00:46+0000\n"
+"POT-Creation-Date: 2023-04-05 00:47+0000\n"
 "PO-Revision-Date: 2023-03-25 15:03+0100\n"
 "Last-Translator: Paolo Zamponi <zapaolo@email.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -7910,7 +7910,7 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "Errore nello spostamento della cartella del progetto: %1"
 
-#: src/doc/kdenlivedoc.cpp:1040 src/doc/kdenlivedoc.cpp:2158
+#: src/doc/kdenlivedoc.cpp:1040 src/doc/kdenlivedoc.cpp:2160
 #: src/project/dialogs/archivewidget.cpp:214
 #: src/project/projectmanager.cpp:1325
 #, kde-format
@@ -7956,12 +7956,12 @@ msgid_plural "Remove proxy clips"
 msgstr[0] "Rimuovi clip rappresentativa"
 msgstr[1] "Rimuovi clip rappresentative"
 
-#: src/doc/kdenlivedoc.cpp:1546 src/doc/kdenlivedoc.cpp:1580
+#: src/doc/kdenlivedoc.cpp:1546 src/doc/kdenlivedoc.cpp:1581
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "Il tipo della clip non supporta le clip rappresentative"
 
-#: src/doc/kdenlivedoc.cpp:1779
+#: src/doc/kdenlivedoc.cpp:1781
 #, kde-format
 msgid ""
 "\n"
@@ -7971,7 +7971,7 @@ msgstr ""
 "Attenzione: fps non intero sconosciuto, può causare una visualizzazione non "
 "corretta della durata."
 
-#: src/doc/kdenlivedoc.cpp:1798
+#: src/doc/kdenlivedoc.cpp:1800
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -7980,43 +7980,43 @@ msgstr ""
 "Il profilo predefinito del progetto è %1, ma quello della clip (%2) è %3.\n"
 "Vuoi cambiare il profilo predefinito per i progetti futuri?"
 
-#: src/doc/kdenlivedoc.cpp:1800
+#: src/doc/kdenlivedoc.cpp:1802
 #, kde-format
 msgid "Change default project profile"
 msgstr "Cambia il profilo predefinito del progetto"
 
-#: src/doc/kdenlivedoc.cpp:1800
+#: src/doc/kdenlivedoc.cpp:1802
 #, kde-format
 msgid "Change default to %1"
 msgstr "Cambia il predefinito in %1"
 
-#: src/doc/kdenlivedoc.cpp:1801
+#: src/doc/kdenlivedoc.cpp:1803
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Mantieni predefinito il corrente %1"
 
-#: src/doc/kdenlivedoc.cpp:1801
+#: src/doc/kdenlivedoc.cpp:1803
 #, kde-format
 msgid "Ask me later"
 msgstr "Chiedi più tardi"
 
-#: src/doc/kdenlivedoc.cpp:1821
+#: src/doc/kdenlivedoc.cpp:1823
 #, kde-format
 msgid "Switch"
 msgstr "Cambia"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1823 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1825 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "Annulla"
 
-#: src/doc/kdenlivedoc.cpp:1825
+#: src/doc/kdenlivedoc.cpp:1827
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Passare al profilo %2 della clip (%1)?"
 
-#: src/doc/kdenlivedoc.cpp:1830
+#: src/doc/kdenlivedoc.cpp:1832
 #, kde-format
 msgid ""
 "\n"
@@ -8025,7 +8025,7 @@ msgstr ""
 "\n"
 "Profilo fps corretto dall'originale %1"
 
-#: src/doc/kdenlivedoc.cpp:1832
+#: src/doc/kdenlivedoc.cpp:1834
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -8034,13 +8034,13 @@ msgstr ""
 "Nessun profilo trovato per la clip %1.\n"
 "Vuoi creare un nuovo profilo (%2x%3, %4fps) e usarlo subito?%5"
 
-#: src/doc/kdenlivedoc.cpp:2197 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2199 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "Rosso"
 
-#: src/doc/kdenlivedoc.cpp:2198 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2200 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -8048,23 +8048,23 @@ msgstr "Rosso"
 msgid "Green"
 msgstr "Verde"
 
-#: src/doc/kdenlivedoc.cpp:2199 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2201 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "Blu"
 
-#: src/doc/kdenlivedoc.cpp:2200 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2202 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Giallo"
 
-#: src/doc/kdenlivedoc.cpp:2201
+#: src/doc/kdenlivedoc.cpp:2203
 #, kde-format
 msgid "Cyan"
 msgstr "Ciano"
 
-#: src/doc/kdenlivedoc.cpp:2381
+#: src/doc/kdenlivedoc.cpp:2383
 #, kde-format
 msgid "Category %1:%2:%3"
 msgstr "Categoria %1:%2:%3"
@@ -8473,12 +8473,12 @@ msgstr "Caricamento clip"
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "La durata del file <b>%1</b> non può essere determinata."
 
-#: src/jobs/cliploadtask.cpp:668
+#: src/jobs/cliploadtask.cpp:669
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "Impossibile cercare nel file <b>%1</b>."
 
-#: src/jobs/cliploadtask.cpp:710
+#: src/jobs/cliploadtask.cpp:711
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "Il file <b>%1</b> ha una frequenza dei fotogrammi variabile."

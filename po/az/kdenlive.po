@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-04 00:46+0000\n"
+"POT-Creation-Date: 2023-04-05 00:47+0000\n"
 "PO-Revision-Date: 2023-03-13 22:55+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -7852,7 +7852,7 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "Layihə qovluğunun köçürülməsində xəta: %1"
 
-#: src/doc/kdenlivedoc.cpp:1040 src/doc/kdenlivedoc.cpp:2158
+#: src/doc/kdenlivedoc.cpp:1040 src/doc/kdenlivedoc.cpp:2160
 #: src/project/dialogs/archivewidget.cpp:214
 #: src/project/projectmanager.cpp:1325
 #, kde-format
@@ -7898,12 +7898,12 @@ msgid_plural "Remove proxy clips"
 msgstr[0] "Proksi klipi silin"
 msgstr[1] "Proksi klipləri silin"
 
-#: src/doc/kdenlivedoc.cpp:1546 src/doc/kdenlivedoc.cpp:1580
+#: src/doc/kdenlivedoc.cpp:1546 src/doc/kdenlivedoc.cpp:1581
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "Hazırkı klip növü proksiləri dəstəkləmir"
 
-#: src/doc/kdenlivedoc.cpp:1779
+#: src/doc/kdenlivedoc.cpp:1781
 #, kde-format
 msgid ""
 "\n"
@@ -7913,7 +7913,7 @@ msgstr ""
 "Xəbərdarlıq: naməlum, tam olmayan kadrlar tezliyi video müddətinin səhv "
 "göstərilməsinə səbəb ola bilər."
 
-#: src/doc/kdenlivedoc.cpp:1798
+#: src/doc/kdenlivedoc.cpp:1800
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -7922,43 +7922,43 @@ msgstr ""
 "%1 standart layihə profilinizdir, %3 isə sizin (%2) klip profilinizdir.\n"
 "Gələcək profillər üçün standart profili dəyişmək istəyirsiniz?"
 
-#: src/doc/kdenlivedoc.cpp:1800
+#: src/doc/kdenlivedoc.cpp:1802
 #, kde-format
 msgid "Change default project profile"
 msgstr "Standart layihə profilini dəyişin"
 
-#: src/doc/kdenlivedoc.cpp:1800
+#: src/doc/kdenlivedoc.cpp:1802
 #, kde-format
 msgid "Change default to %1"
 msgstr "Standart kimi %1 təyin edin"
 
-#: src/doc/kdenlivedoc.cpp:1801
+#: src/doc/kdenlivedoc.cpp:1803
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Cari %1 standart profili saxlayın"
 
-#: src/doc/kdenlivedoc.cpp:1801
+#: src/doc/kdenlivedoc.cpp:1803
 #, kde-format
 msgid "Ask me later"
 msgstr "Sonra soruşulsun"
 
-#: src/doc/kdenlivedoc.cpp:1821
+#: src/doc/kdenlivedoc.cpp:1823
 #, kde-format
 msgid "Switch"
 msgstr "Keçid"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1823 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1825 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "İmtina"
 
-#: src/doc/kdenlivedoc.cpp:1825
+#: src/doc/kdenlivedoc.cpp:1827
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "%2 klip profilinə (%1) keçilsin?"
 
-#: src/doc/kdenlivedoc.cpp:1830
+#: src/doc/kdenlivedoc.cpp:1832
 #, kde-format
 msgid ""
 "\n"
@@ -7967,7 +7967,7 @@ msgstr ""
 "\n"
 "Kadr tezliyi, %1 orijinalından alındı"
 
-#: src/doc/kdenlivedoc.cpp:1832
+#: src/doc/kdenlivedoc.cpp:1834
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -7976,13 +7976,13 @@ msgstr ""
 "%1 klipiniz üçün profil tapılmadı.\n"
 "Yeni profil yaradılsın və açılsın (%2x%3, %4 kadr/san)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2197 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2199 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "Qırmızı"
 
-#: src/doc/kdenlivedoc.cpp:2198 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2200 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -7990,23 +7990,23 @@ msgstr "Qırmızı"
 msgid "Green"
 msgstr "Yaşıl"
 
-#: src/doc/kdenlivedoc.cpp:2199 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2201 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "Mavi"
 
-#: src/doc/kdenlivedoc.cpp:2200 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2202 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Sarı"
 
-#: src/doc/kdenlivedoc.cpp:2201
+#: src/doc/kdenlivedoc.cpp:2203
 #, kde-format
 msgid "Cyan"
 msgstr "Orta Açıq Mavi"
 
-#: src/doc/kdenlivedoc.cpp:2381
+#: src/doc/kdenlivedoc.cpp:2383
 #, fuzzy, kde-format
 #| msgid "Category %1"
 msgid "Category %1:%2:%3"
@@ -8414,12 +8414,12 @@ msgstr "Kliplər yüklənir"
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "<b>%1</b> falının müddəti müəyyən etmək memken deyil."
 
-#: src/jobs/cliploadtask.cpp:668
+#: src/jobs/cliploadtask.cpp:669
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "<b>%1</b> faylında axtarış mümkün deyil."
 
-#: src/jobs/cliploadtask.cpp:710
+#: src/jobs/cliploadtask.cpp:711
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "<b>%1</b> faylı dəyişkən kadr tezliyinə malikdir."

@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-04 00:46+0000\n"
+"POT-Creation-Date: 2023-04-05 00:47+0000\n"
 "PO-Revision-Date: 2022-10-04 11:00+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -7930,7 +7930,7 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "Ошибка при перемещении папки проекта: %1"
 
-#: src/doc/kdenlivedoc.cpp:1040 src/doc/kdenlivedoc.cpp:2158
+#: src/doc/kdenlivedoc.cpp:1040 src/doc/kdenlivedoc.cpp:2160
 #: src/project/dialogs/archivewidget.cpp:214
 #: src/project/projectmanager.cpp:1325
 #, kde-format
@@ -7980,12 +7980,12 @@ msgstr[1] "Удалить прокси-клипы"
 msgstr[2] "Удалить прокси-клипы"
 msgstr[3] "Удалить прокси-клип"
 
-#: src/doc/kdenlivedoc.cpp:1546 src/doc/kdenlivedoc.cpp:1580
+#: src/doc/kdenlivedoc.cpp:1546 src/doc/kdenlivedoc.cpp:1581
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "Клип данного типа не поддерживает прокси"
 
-#: src/doc/kdenlivedoc.cpp:1779
+#: src/doc/kdenlivedoc.cpp:1781
 #, kde-format
 msgid ""
 "\n"
@@ -7995,7 +7995,7 @@ msgstr ""
 "Предупреждение: неизвестное нецелочисленное значение кадров/с, которое может "
 "привести к неверному отображению длительности видео."
 
-#: src/doc/kdenlivedoc.cpp:1798
+#: src/doc/kdenlivedoc.cpp:1800
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -8005,43 +8005,43 @@ msgstr ""
 "%3.\n"
 "Изменить профиль по умолчанию для будущих проектов?"
 
-#: src/doc/kdenlivedoc.cpp:1800
+#: src/doc/kdenlivedoc.cpp:1802
 #, kde-format
 msgid "Change default project profile"
 msgstr "Изменить профиль проекта по умолчанию"
 
-#: src/doc/kdenlivedoc.cpp:1800
+#: src/doc/kdenlivedoc.cpp:1802
 #, kde-format
 msgid "Change default to %1"
 msgstr "Изменить профиль по умолчанию на %1"
 
-#: src/doc/kdenlivedoc.cpp:1801
+#: src/doc/kdenlivedoc.cpp:1803
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Оставить текущий профиль по умолчанию %1"
 
-#: src/doc/kdenlivedoc.cpp:1801
+#: src/doc/kdenlivedoc.cpp:1803
 #, kde-format
 msgid "Ask me later"
 msgstr "Напомнить позже"
 
-#: src/doc/kdenlivedoc.cpp:1821
+#: src/doc/kdenlivedoc.cpp:1823
 #, kde-format
 msgid "Switch"
 msgstr "Переключить"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1823 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1825 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "Отменить"
 
-#: src/doc/kdenlivedoc.cpp:1825
+#: src/doc/kdenlivedoc.cpp:1827
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Переключить на профиль %2 клипа (%1)?"
 
-#: src/doc/kdenlivedoc.cpp:1830
+#: src/doc/kdenlivedoc.cpp:1832
 #, kde-format
 msgid ""
 "\n"
@@ -8050,7 +8050,7 @@ msgstr ""
 "\n"
 "Для профиля используется кадровая частота оригинала %1"
 
-#: src/doc/kdenlivedoc.cpp:1832
+#: src/doc/kdenlivedoc.cpp:1834
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -8059,13 +8059,13 @@ msgstr ""
 "Профиль для клипа %1 не найден.\n"
 "Создать и использовать новый профиль (%2×%3, %4 кадров/с)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2197 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2199 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "Красный"
 
-#: src/doc/kdenlivedoc.cpp:2198 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2200 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -8073,23 +8073,23 @@ msgstr "Красный"
 msgid "Green"
 msgstr "Зелёный"
 
-#: src/doc/kdenlivedoc.cpp:2199 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2201 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "Синий"
 
-#: src/doc/kdenlivedoc.cpp:2200 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2202 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Жёлтый"
 
-#: src/doc/kdenlivedoc.cpp:2201
+#: src/doc/kdenlivedoc.cpp:2203
 #, kde-format
 msgid "Cyan"
 msgstr "Бирюзовый"
 
-#: src/doc/kdenlivedoc.cpp:2381
+#: src/doc/kdenlivedoc.cpp:2383
 #, fuzzy, kde-format
 #| msgid "Category %1"
 msgid "Category %1:%2:%3"
@@ -8494,12 +8494,12 @@ msgstr "Загрузка клипов"
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "Не удалось определить длительность файла <b>%1</b>."
 
-#: src/jobs/cliploadtask.cpp:668
+#: src/jobs/cliploadtask.cpp:669
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "Позиционирование в файле <b>%1</b> невозможно."
 
-#: src/jobs/cliploadtask.cpp:710
+#: src/jobs/cliploadtask.cpp:711
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "В файле <b>%1</b> используется переменная кадровая частота."

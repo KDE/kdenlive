@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-04 00:46+0000\n"
+"POT-Creation-Date: 2023-04-05 00:47+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -8089,7 +8089,7 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "Tõrge projektikataloogi liigutamisel: %1"
 
-#: src/doc/kdenlivedoc.cpp:1040 src/doc/kdenlivedoc.cpp:2158
+#: src/doc/kdenlivedoc.cpp:1040 src/doc/kdenlivedoc.cpp:2160
 #: src/project/dialogs/archivewidget.cpp:214
 #: src/project/projectmanager.cpp:1325
 #, kde-format
@@ -8136,12 +8136,12 @@ msgid_plural "Remove proxy clips"
 msgstr[0] "Eemalda asendusklipp"
 msgstr[1] "Eemalda asendusklipid"
 
-#: src/doc/kdenlivedoc.cpp:1546 src/doc/kdenlivedoc.cpp:1580
+#: src/doc/kdenlivedoc.cpp:1546 src/doc/kdenlivedoc.cpp:1581
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "Klipi tüüp ei toeta asendusklippe"
 
-#: src/doc/kdenlivedoc.cpp:1779
+#: src/doc/kdenlivedoc.cpp:1781
 #, kde-format
 msgid ""
 "\n"
@@ -8151,7 +8151,7 @@ msgstr ""
 "Hoiatus: tundmatu mitte-täisarvust fps, võib põhjustada kestuse väära "
 "esitust."
 
-#: src/doc/kdenlivedoc.cpp:1798
+#: src/doc/kdenlivedoc.cpp:1800
 #, fuzzy, kde-format
 #| msgid ""
 #| "Your default project profile is %1, but your clip's profile is %2.\n"
@@ -8163,44 +8163,44 @@ msgstr ""
 "Sinu vaikimisi projektiprofiil on %1, aga klippide profiil on %2.\n"
 "Kas muuta tulevaste projektide tarbeks vaikeprofiili?"
 
-#: src/doc/kdenlivedoc.cpp:1800
+#: src/doc/kdenlivedoc.cpp:1802
 #, kde-format
 msgid "Change default project profile"
 msgstr "Vaikimisi projektiprofiili muutmine"
 
-#: src/doc/kdenlivedoc.cpp:1800
+#: src/doc/kdenlivedoc.cpp:1802
 #, kde-format
 msgid "Change default to %1"
 msgstr "Muuta vaikeprofiiliks %1"
 
-#: src/doc/kdenlivedoc.cpp:1801
+#: src/doc/kdenlivedoc.cpp:1803
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Hoia alles aktiivne vaikeprofiil %1"
 
-#: src/doc/kdenlivedoc.cpp:1801
+#: src/doc/kdenlivedoc.cpp:1803
 #, kde-format
 msgid "Ask me later"
 msgstr "Küsi hiljem"
 
-#: src/doc/kdenlivedoc.cpp:1821
+#: src/doc/kdenlivedoc.cpp:1823
 #, kde-format
 msgid "Switch"
 msgstr "Lülitu"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1823 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1825 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "Loobu"
 
-#: src/doc/kdenlivedoc.cpp:1825
+#: src/doc/kdenlivedoc.cpp:1827
 #, fuzzy, kde-format
 #| msgid "Switch to clip profile %1?"
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Kas lülituda klipi profiilile %1?"
 
-#: src/doc/kdenlivedoc.cpp:1830
+#: src/doc/kdenlivedoc.cpp:1832
 #, kde-format
 msgid ""
 "\n"
@@ -8209,7 +8209,7 @@ msgstr ""
 "\n"
 "Profiili fps'i kohendati võrreldes algse väärtusega %1"
 
-#: src/doc/kdenlivedoc.cpp:1832
+#: src/doc/kdenlivedoc.cpp:1834
 #, fuzzy, kde-format
 #| msgid ""
 #| "No profile found for your clip.\n"
@@ -8221,13 +8221,13 @@ msgstr ""
 "Klipile ei leitud profiili.\n"
 "Kas luua uus profiil (%1x%2, %3fps) ja lülituda sellele ümber?%4"
 
-#: src/doc/kdenlivedoc.cpp:2197 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2199 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "Punane"
 
-#: src/doc/kdenlivedoc.cpp:2198 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2200 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -8235,23 +8235,23 @@ msgstr "Punane"
 msgid "Green"
 msgstr "Roheline"
 
-#: src/doc/kdenlivedoc.cpp:2199 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2201 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "Sinine"
 
-#: src/doc/kdenlivedoc.cpp:2200 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2202 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Kollane"
 
-#: src/doc/kdenlivedoc.cpp:2201
+#: src/doc/kdenlivedoc.cpp:2203
 #, kde-format
 msgid "Cyan"
 msgstr "Tsüaan"
 
-#: src/doc/kdenlivedoc.cpp:2381
+#: src/doc/kdenlivedoc.cpp:2383
 #, fuzzy, kde-format
 #| msgid "Category %1"
 msgid "Category %1:%2:%3"
@@ -8677,12 +8677,12 @@ msgstr "Klippide laadimine"
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr ""
 
-#: src/jobs/cliploadtask.cpp:668
+#: src/jobs/cliploadtask.cpp:669
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr ""
 
-#: src/jobs/cliploadtask.cpp:710
+#: src/jobs/cliploadtask.cpp:711
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr ""

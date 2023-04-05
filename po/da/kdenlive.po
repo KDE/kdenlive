@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-04 00:46+0000\n"
+"POT-Creation-Date: 2023-04-05 00:47+0000\n"
 "PO-Revision-Date: 2020-10-31 22:29+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -8087,7 +8087,7 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "Fejl ved flytning af projektmappe: %1"
 
-#: src/doc/kdenlivedoc.cpp:1040 src/doc/kdenlivedoc.cpp:2158
+#: src/doc/kdenlivedoc.cpp:1040 src/doc/kdenlivedoc.cpp:2160
 #: src/project/dialogs/archivewidget.cpp:214
 #: src/project/projectmanager.cpp:1325
 #, kde-format
@@ -8134,12 +8134,12 @@ msgid_plural "Remove proxy clips"
 msgstr[0] "Fjern proxyklip"
 msgstr[1] "Fjern proxyklip"
 
-#: src/doc/kdenlivedoc.cpp:1546 src/doc/kdenlivedoc.cpp:1580
+#: src/doc/kdenlivedoc.cpp:1546 src/doc/kdenlivedoc.cpp:1581
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "Kliptype understøtter ikke proxyer"
 
-#: src/doc/kdenlivedoc.cpp:1779
+#: src/doc/kdenlivedoc.cpp:1781
 #, kde-format
 msgid ""
 "\n"
@@ -8149,7 +8149,7 @@ msgstr ""
 "Advarsel: ukendt ikke-heltals fps, kan forårsage ukorrekt visning af "
 "varighed."
 
-#: src/doc/kdenlivedoc.cpp:1798
+#: src/doc/kdenlivedoc.cpp:1800
 #, fuzzy, kde-format
 #| msgid ""
 #| "Your default project profile is %1, but your clip's profile is %2.\n"
@@ -8161,44 +8161,44 @@ msgstr ""
 "Din standardprojektprofil er %1, min dit klips profil er %2.\n"
 "Vil du skifte standardprofil for fremtidige projekter?"
 
-#: src/doc/kdenlivedoc.cpp:1800
+#: src/doc/kdenlivedoc.cpp:1802
 #, kde-format
 msgid "Change default project profile"
 msgstr "Skift standardprojektprofil"
 
-#: src/doc/kdenlivedoc.cpp:1800
+#: src/doc/kdenlivedoc.cpp:1802
 #, kde-format
 msgid "Change default to %1"
 msgstr "Skift standard til %1"
 
-#: src/doc/kdenlivedoc.cpp:1801
+#: src/doc/kdenlivedoc.cpp:1803
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Behold nuværende standard %1"
 
-#: src/doc/kdenlivedoc.cpp:1801
+#: src/doc/kdenlivedoc.cpp:1803
 #, kde-format
 msgid "Ask me later"
 msgstr "Spørg mig senere"
 
-#: src/doc/kdenlivedoc.cpp:1821
+#: src/doc/kdenlivedoc.cpp:1823
 #, kde-format
 msgid "Switch"
 msgstr "Skift"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1823 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1825 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "Annullér"
 
-#: src/doc/kdenlivedoc.cpp:1825
+#: src/doc/kdenlivedoc.cpp:1827
 #, fuzzy, kde-format
 #| msgid "Switch to clip profile %1?"
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Skift til klipprofilen %1?"
 
-#: src/doc/kdenlivedoc.cpp:1830
+#: src/doc/kdenlivedoc.cpp:1832
 #, kde-format
 msgid ""
 "\n"
@@ -8207,7 +8207,7 @@ msgstr ""
 "\n"
 "Profilens fps justeret fra original %1"
 
-#: src/doc/kdenlivedoc.cpp:1832
+#: src/doc/kdenlivedoc.cpp:1834
 #, fuzzy, kde-format
 #| msgid ""
 #| "No profile found for your clip.\n"
@@ -8219,13 +8219,13 @@ msgstr ""
 "Ingen profil fundet til dit klip.\n"
 "Opret og skift til ny profil (%1x%2, %3fps)?%4"
 
-#: src/doc/kdenlivedoc.cpp:2197 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2199 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "Rød"
 
-#: src/doc/kdenlivedoc.cpp:2198 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2200 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -8233,23 +8233,23 @@ msgstr "Rød"
 msgid "Green"
 msgstr "Grøn"
 
-#: src/doc/kdenlivedoc.cpp:2199 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2201 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "Blå"
 
-#: src/doc/kdenlivedoc.cpp:2200 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2202 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Gul"
 
-#: src/doc/kdenlivedoc.cpp:2201
+#: src/doc/kdenlivedoc.cpp:2203
 #, kde-format
 msgid "Cyan"
 msgstr "Cyan"
 
-#: src/doc/kdenlivedoc.cpp:2381
+#: src/doc/kdenlivedoc.cpp:2383
 #, fuzzy, kde-format
 #| msgid "Category %1"
 msgid "Category %1:%2:%3"
@@ -8677,12 +8677,12 @@ msgstr "Indlæser klip"
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr ""
 
-#: src/jobs/cliploadtask.cpp:668
+#: src/jobs/cliploadtask.cpp:669
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr ""
 
-#: src/jobs/cliploadtask.cpp:710
+#: src/jobs/cliploadtask.cpp:711
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr ""
