@@ -78,7 +78,7 @@ const std::unique_ptr<AudioStreamInfo> &ClipController::audioInfo() const
 
 void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &producer)
 {
-    qDebug() << "################### ClipController::addmasterproducer";
+    qDebug() << "################### ClipController::addmasterproducer FOR: " << m_controllerBinId;
     m_masterProducer = std::move(producer);
     m_properties = new Mlt::Properties(m_masterProducer->get_properties());
     m_producerLock.unlock();
