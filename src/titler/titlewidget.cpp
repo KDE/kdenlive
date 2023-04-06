@@ -62,6 +62,7 @@ static QList<TitleTemplate> titleTemplates;
 // TODO What exactly is this variable good for?
 int settingUp = 0;
 
+static int TITLERVERSION = 0;
 const int IMAGEITEM = 7;
 const int RECTITEM = QGraphicsRectItem::Type;
 const int TEXTITEM = QGraphicsTextItem::Type;
@@ -96,6 +97,14 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     , m_guides(QList<QGraphicsLineItem *>())
 {
     setupUi(this);
+    if (TITLERVERSION == 0) {
+        if (KdenliveSettings::titlerVersion() < 300) {
+            // Check version of the titler module
+            QScopedPointer<Mlt::Properties> metadata(pCore->getMltRepository()->metadata(mlt_service_producer_type, "kdenlivetitle"));
+            KdenliveSettings::setTitlerVersion(int(ceil(100 * metadata->get_double("version"))));
+        }
+        TITLERVERSION = KdenliveSettings::titlerVersion();
+    }
     setMinimumSize(200, 200);
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     frame_properties->setEnabled(false);
@@ -431,7 +440,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     layout->addWidget(m_toolbar);
 
     // initialize graphic scene
-    m_scene = new GraphicsSceneRectMove(this);
+    m_scene = new GraphicsSceneRectMove(TITLERVERSION, this);
     graphicsView->setScene(m_scene);
     graphicsView->setMouseTracking(true);
     graphicsView->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);

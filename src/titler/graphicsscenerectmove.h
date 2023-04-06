@@ -125,7 +125,7 @@ class GraphicsSceneRectMove : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    explicit GraphicsSceneRectMove(QObject *parent = nullptr);
+    explicit GraphicsSceneRectMove(int titlerVersion, QObject *parent = nullptr);
     void setSelectedItem(QGraphicsItem *item);
     void setScale(double s);
     void setZoom(double s);
