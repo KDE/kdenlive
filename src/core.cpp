@@ -1063,7 +1063,7 @@ void Core::showClipKeyframes(ObjectId id, bool enable)
 
 Mlt::Profile *Core::thumbProfile()
 {
-    QMutexLocker lck(&m_thumbProfileMutex);
+    // QMutexLocker lck(&m_thumbProfileMutex);
     if (!m_thumbProfile) {
         m_thumbProfile = std::make_unique<Mlt::Profile>(m_currentProfile.toStdString().c_str());
         double factor = 144. / m_thumbProfile->height();

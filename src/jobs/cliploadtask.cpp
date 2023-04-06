@@ -225,36 +225,8 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
             QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage, thumb), Q_ARG(int, m_in), Q_ARG(int, m_out),
                                       Q_ARG(bool, true));
         } else {
-            QString mltService = producer->get("mlt_service");
-            const QString mltResource = producer->get("resource");
-            if (mltService == QLatin1String("avformat")) {
-                mltService = QStringLiteral("avformat-novalidate");
-            }
-            std::unique_ptr<Mlt::Producer> thumbProd = nullptr;
-            Mlt::Profile *profile = pCore->thumbProfile();
-            if (binClip->clipType() == ClipType::Timeline) {
-                thumbProd.reset(producer->cut());
-            } else {
-                if (m_isCanceled.loadAcquire() || pCore->taskManager.isBlocked()) {
-                    return;
-                }
-                thumbProd.reset(new Mlt::Producer(*profile, mltService.toUtf8().constData(), mltResource.toUtf8().constData()));
-            }
+            std::shared_ptr<Mlt::Producer> thumbProd = binClip->thumbProducer();
             if (thumbProd && thumbProd->is_valid()) {
-                thumbProd->set("audio_index", -1);
-                Mlt::Properties original(producer->get_properties());
-                Mlt::Properties cloneProps(thumbProd->get_properties());
-                cloneProps.pass_list(original, ClipController::getPassPropertiesList());
-                Mlt::Filter scaler(*profile, "swscale");
-                Mlt::Filter padder(*profile, "resize");
-                Mlt::Filter converter(*profile, "avcolor_space");
-                thumbProd->set("audio_index", -1);
-                // Required to make get_playtime() return > 1
-                thumbProd->set("out", thumbProd->get_length() - 1);
-                thumbProd->attach(scaler);
-                thumbProd->attach(padder);
-                thumbProd->attach(converter);
-                qDebug() << "===== \nSEEKING THUMB PROD: " << frameNumber << "\n\n=========";
                 if (frameNumber > 0) {
                     thumbProd->seek(frameNumber);
                 }
