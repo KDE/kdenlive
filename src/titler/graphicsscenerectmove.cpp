@@ -24,6 +24,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QTextDocument>
 #include <utility>
 
+static int TITLERVERSION = 0;
+
 MyQGraphicsEffect::MyQGraphicsEffect(QObject *parent)
     : QGraphicsEffect(parent)
 
@@ -212,13 +214,18 @@ void MyTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
             QRectF rect = boundingRect();
             paintBrush = QBrush(GradientWidget::gradientFromString(gradientData, int(rect.width()), int(rect.height())));
         }
-        painter->fillPath(m_path, paintBrush);
+        if (TITLERVERSION < 300) {
+            painter->fillPath(m_path, paintBrush);
+        }
         if (outline > 0) {
             QVariant variant = data(TitleDocument::OutlineColor);
             QColor outlineColor = variant.value<QColor>();
             QPen pen(outlineColor);
             pen.setWidthF(outline);
             painter->strokePath(m_path, pen);
+        }
+        if (TITLERVERSION >= 300) {
+            painter->fillPath(m_path, paintBrush);
         }
         document()->setDocumentMargin(toPlainText().isEmpty() ? 6 : 0);
         if (isSelected() || toPlainText().isEmpty()) {
@@ -593,11 +600,12 @@ QVariant MySvgItem::itemChange(GraphicsItemChange change, const QVariant &value)
     }
     return QGraphicsItem::itemChange(change, value);
 }
-GraphicsSceneRectMove::GraphicsSceneRectMove(QObject *parent)
+GraphicsSceneRectMove::GraphicsSceneRectMove(int titlerVersion, QObject *parent)
     : QGraphicsScene(parent)
 
 {
     // grabMouse();
+    TITLERVERSION = titlerVersion;
     m_zoom = 1.0;
     setBackgroundBrush(QBrush(Qt::transparent));
     m_fontSize = 0;

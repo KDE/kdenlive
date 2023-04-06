@@ -1246,6 +1246,10 @@
         <label>Show guides in titler.</label>
         <default>false</default>
         </entry>
+        <entry name="titlerVersion" type="Int">
+        <label>Version of the Kdenlivetitler MLT module.</label>
+        <default>0</default>
+        </entry>
         <entry name="titlerHGuides" type="Int">
         <label>Number of horizontal guides in titler.</label>
         <default>2</default>
@@ -1303,6 +1307,10 @@
        <entry name="whisperTranslate" type="Bool">
            <label>Translate speech detection to english</label>
            <default>false</default>
+       </entry>
+       <entry name="whisperExtra" type="String">
+           <label>Extra parameters for Whisper</label>
+           <default></default>
        </entry>
        <entry name="speechEngine" type="String">
            <label>Selected model for speech recognition (whisper or vosk)</label>
