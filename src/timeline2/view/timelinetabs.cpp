@@ -75,7 +75,9 @@ bool TimelineTabs::raiseTimeline(const QUuid &uuid)
     for (int i = 0; i < count(); i++) {
         TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(i));
         if (timeline->getUuid() == uuid) {
-            setCurrentIndex(i);
+            if (i != currentIndex()) {
+                setCurrentIndex(i);
+            }
             return true;
         }
     }
@@ -119,6 +121,7 @@ void TimelineTabs::connectCurrent(int ix)
     int pos = 0;
     if (m_activeTimeline && m_activeTimeline->model()) {
         previousTab = m_activeTimeline->getUuid();
+        qDebug() << "===== DISCONNECTING PREVIOUS: " << previousTab;
         pCore->window()->disableMulticam();
         pos = pCore->getMonitorPosition();
         m_activeTimeline->model()->updateDuration();

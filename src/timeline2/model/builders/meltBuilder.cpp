@@ -541,6 +541,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
 
     if (!ok) {
         // Loading tracks failed, abort loading
+        qDebug() << "IIIIIIIIIIIIIIIIII\nFAILED LOADING TIMELINE BBBBBBBBBBBBBBBBBBBB";
         return false;
     }
     if (!qEnvironmentVariableIsSet("MLT_TESTS")) {
