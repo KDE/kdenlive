@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-05 02:53+0000\n"
+"POT-Creation-Date: 2023-04-07 02:36+0000\n"
 "PO-Revision-Date: 2023-03-17 13:14+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -733,7 +733,7 @@ msgid "Initial Zoom"
 msgstr "Zoom inicial"
 
 #: data/effects/dance.xml:23 data/effects/vidstab.xml:40
-#: src/project/dialogs/slideshowclip.cpp:67 src/titler/titlewidget.cpp:347
+#: src/project/dialogs/slideshowclip.cpp:67 src/titler/titlewidget.cpp:356
 #, kde-format
 msgid "Zoom"
 msgstr "Zoom"
@@ -881,7 +881,7 @@ msgstr "Alineació vertical"
 
 #. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:867 src/ui/templateclip_ui.ui:38
+#: src/titler/graphicsscenerectmove.cpp:875 src/ui/templateclip_ui.ui:38
 #, kde-format
 msgid "Text"
 msgstr "Text"
@@ -3584,14 +3584,14 @@ msgid "Deletes the currently selected preset."
 msgstr "Suprimeix els valors predefinits seleccionats actualment."
 
 #: src/assets/view/assetparameterview.cpp:329
-#: src/dialogs/kdenlivesettingsdialog.cpp:1402
+#: src/dialogs/kdenlivesettingsdialog.cpp:1403
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Introducció del nom dels valors predefinits"
 
 #: src/assets/view/assetparameterview.cpp:329
-#: src/dialogs/kdenlivesettingsdialog.cpp:1402
+#: src/dialogs/kdenlivesettingsdialog.cpp:1403
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr "Introduïu el nom d'aquests valors predefinits:"
@@ -4787,7 +4787,7 @@ msgid "Please set a default application to open audio files"
 msgstr "Establiu l'aplicació predeterminada per a obrir fitxers d'àudio"
 
 #: src/bin/bin.cpp:4348 src/core.cpp:301 src/doc/kdenlivedoc.cpp:168
-#: src/jobs/cliploadtask.cpp:483 src/jobs/filtertask.cpp:85
+#: src/jobs/cliploadtask.cpp:455 src/jobs/filtertask.cpp:85
 #: src/layoutmanagement.cpp:466 src/layoutmanagement.cpp:527
 #: src/profiles/profilerepository.cpp:173
 #: src/renderpresets/renderpresetrepository.cpp:374
@@ -4809,7 +4809,7 @@ msgstr ""
 "Esteu editant un clip de títol extern (%1). Voleu desar els canvis al fitxer "
 "de títol o només desar-los per a aquest projecte concret?"
 
-#: src/bin/bin.cpp:4541 src/titler/titlewidget.cpp:2183
+#: src/bin/bin.cpp:4541 src/titler/titlewidget.cpp:2192
 #, kde-format
 msgid "Save Title"
 msgstr "Desa el títol"
@@ -5313,7 +5313,7 @@ msgstr ""
 "No s'han pogut extreure les metadades des de %1\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1122 src/jobs/cliploadtask.cpp:279
+#: src/bin/projectclip.cpp:1122 src/jobs/cliploadtask.cpp:251
 #, kde-format
 msgid "Invalid"
 msgstr "No vàlida"
@@ -5914,7 +5914,7 @@ msgid "Manage Encoding Profiles"
 msgstr "Administra els perfils de codificació"
 
 #: src/dialogs/encodingprofilesdialog.cpp:51
-#: src/dialogs/kdenlivesettingsdialog.cpp:310
+#: src/dialogs/kdenlivesettingsdialog.cpp:311
 #: src/project/dialogs/archivewidget.cpp:92
 #, kde-format
 msgid "Proxy Clips"
@@ -5992,7 +5992,7 @@ msgstr ""
 #: src/dialogs/encodingprofilesdialog.cpp:260
 #: src/dialogs/encodingprofilesdialog.cpp:347
 #: src/dialogs/encodingprofilesdialog.cpp:349
-#: src/dialogs/kdenlivesettingsdialog.cpp:678
+#: src/dialogs/kdenlivesettingsdialog.cpp:679
 #: src/project/dialogs/projectsettings.cpp:876
 #: src/project/dialogs/projectsettings.cpp:878
 #: src/transitions/view/transitionstackview.cpp:37
@@ -6086,7 +6086,7 @@ msgstr "Exportació de les dades de guies"
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5092
-#: src/titler/titlewidget.cpp:2196
+#: src/titler/titlewidget.cpp:2205
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "No es pot escriure al fitxer %1"
@@ -6163,7 +6163,7 @@ msgid "Misc"
 msgstr "Miscel·lània"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:248
-#: src/dialogs/kdenlivesettingsdialog.cpp:788
+#: src/dialogs/kdenlivesettingsdialog.cpp:789
 #: src/doc/documentvalidator.cpp:2222
 #: src/transitions/transitionsrepository.cpp:178
 #, kde-format
@@ -6175,182 +6175,182 @@ msgstr "Automàtic"
 msgid "Select the Default Profile (preset)"
 msgstr "Selecciona el perfil per omissió (predefinit)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:301
+#: src/dialogs/kdenlivesettingsdialog.cpp:302
 #, kde-format
 msgid "Project Defaults"
 msgstr "Valors predeterminats del projecte"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:334
-#: src/dialogs/kdenlivesettingsdialog.cpp:358
+#: src/dialogs/kdenlivesettingsdialog.cpp:335
+#: src/dialogs/kdenlivesettingsdialog.cpp:359
 #, kde-format
 msgid "Use default folder: %1"
 msgstr "Usa la carpeta predeterminada: %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:336
-#: src/dialogs/kdenlivesettingsdialog.cpp:360
-#: src/dialogs/kdenlivesettingsdialog.cpp:1043
+#: src/dialogs/kdenlivesettingsdialog.cpp:337
+#: src/dialogs/kdenlivesettingsdialog.cpp:361
 #: src/dialogs/kdenlivesettingsdialog.cpp:1044
-#: src/dialogs/kdenlivesettingsdialog.cpp:1053
+#: src/dialogs/kdenlivesettingsdialog.cpp:1045
 #: src/dialogs/kdenlivesettingsdialog.cpp:1054
+#: src/dialogs/kdenlivesettingsdialog.cpp:1055
 #, kde-format
 msgid "Always use project folder: %1"
 msgstr "Usa sempre la carpeta del projecte: %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:338
-#: src/dialogs/kdenlivesettingsdialog.cpp:362
-#: src/dialogs/kdenlivesettingsdialog.cpp:1050
+#: src/dialogs/kdenlivesettingsdialog.cpp:339
+#: src/dialogs/kdenlivesettingsdialog.cpp:363
 #: src/dialogs/kdenlivesettingsdialog.cpp:1051
+#: src/dialogs/kdenlivesettingsdialog.cpp:1052
 #, kde-format
 msgid "Always use active project folder"
 msgstr "Usa sempre la carpeta activa del projecte"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:375
+#: src/dialogs/kdenlivesettingsdialog.cpp:376
 #, kde-format
 msgid "Environment"
 msgstr "Entorn"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:411
+#: src/dialogs/kdenlivesettingsdialog.cpp:412
 #, kde-format
 msgid "Capture is not yet available on Mac OS X."
 msgstr "La captura encara no està disponible en el Mac OS X."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:421
+#: src/dialogs/kdenlivesettingsdialog.cpp:422
 #, kde-format
 msgid "Mono (1 channel)"
 msgstr "Mono (1 canal)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:422
+#: src/dialogs/kdenlivesettingsdialog.cpp:423
 #, kde-format
 msgid "Stereo (2 channels)"
 msgstr "Estèreo (2 canals)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:429
+#: src/dialogs/kdenlivesettingsdialog.cpp:430
 #, kde-format
 msgid "44100 Hz"
 msgstr "44100 Hz"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:430
+#: src/dialogs/kdenlivesettingsdialog.cpp:431
 #, kde-format
 msgid "48000 Hz"
 msgstr "48000 Hz"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:479
+#: src/dialogs/kdenlivesettingsdialog.cpp:480
 #, kde-format
 msgid "JogShuttle"
 msgstr "Jog Shuttle"
 
 #. i18n: ectx: Menu (transcoders)
-#: src/dialogs/kdenlivesettingsdialog.cpp:486 src/dialogs/timeremap.cpp:1658
+#: src/dialogs/kdenlivesettingsdialog.cpp:487 src/dialogs/timeremap.cpp:1658
 #: src/kdenliveui.rc:81 src/mltcontroller/clippropertiescontroller.cpp:987
 #: src/project/transcodeseek.cpp:40 src/project/transcodeseek.cpp:53
 #, kde-format
 msgid "Transcode"
 msgstr "Transcodifica"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:516
+#: src/dialogs/kdenlivesettingsdialog.cpp:517
 #, kde-format
 msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
 msgstr ""
 "El processament de la GPU necessita que el MLT estigui compilat amb els "
 "mòduls Movit i Rtaudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:685
+#: src/dialogs/kdenlivesettingsdialog.cpp:686
 #, kde-format
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:686
-#: src/dialogs/kdenlivesettingsdialog.cpp:739
+#: src/dialogs/kdenlivesettingsdialog.cpp:687
+#: src/dialogs/kdenlivesettingsdialog.cpp:740
 #, kde-format
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:687
+#: src/dialogs/kdenlivesettingsdialog.cpp:688
 #, kde-format
 msgid "PipeWire"
 msgstr "PipeWire"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:688
+#: src/dialogs/kdenlivesettingsdialog.cpp:689
 #, kde-format
 msgid "OSS"
 msgstr "OSS"
 
 #. i18n("OSS with DMA access"), "dma");
-#: src/dialogs/kdenlivesettingsdialog.cpp:690
+#: src/dialogs/kdenlivesettingsdialog.cpp:691
 #, kde-format
 msgid "Esound Daemon"
 msgstr "Dimoni Esound"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:691
+#: src/dialogs/kdenlivesettingsdialog.cpp:692
 #, kde-format
 msgid "ARTS Daemon"
 msgstr "Dimoni ARTS"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/kdenlivesettingsdialog.cpp:703
-#: src/dialogs/kdenlivesettingsdialog.cpp:704 src/mainwindow.cpp:189
+#: src/dialogs/kdenlivesettingsdialog.cpp:704
+#: src/dialogs/kdenlivesettingsdialog.cpp:705 src/mainwindow.cpp:189
 #: src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
 msgstr "Per omissió"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:755
+#: src/dialogs/kdenlivesettingsdialog.cpp:756
 #, kde-format
 msgid "SDL"
 msgstr "SDL"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:767
+#: src/dialogs/kdenlivesettingsdialog.cpp:768
 #, kde-format
 msgid "RtAudio"
 msgstr "RtAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:791 src/mainwindow.cpp:333
+#: src/dialogs/kdenlivesettingsdialog.cpp:792 src/mainwindow.cpp:333
 #, kde-format
 msgid "Monitor %1"
 msgstr "Monitor %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:876
+#: src/dialogs/kdenlivesettingsdialog.cpp:877
 #, kde-format
 msgid "Enter path to the audio editing application"
 msgstr "Introduïu el camí a l'aplicació d'edició d'àudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:884
+#: src/dialogs/kdenlivesettingsdialog.cpp:885
 #, kde-format
 msgid "Enter path to the image editing application"
 msgstr "Introduïu el camí a l'aplicació d'edició d'imatges"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:892 src/glaxnimatelauncher.cpp:30
+#: src/dialogs/kdenlivesettingsdialog.cpp:893 src/glaxnimatelauncher.cpp:30
 #, kde-format
 msgid "Enter path to the Glaxnimate application"
 msgstr "Introduïu el camí a l'aplicació Glaxnimate"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:975
-#: src/dialogs/kdenlivesettingsdialog.cpp:993
+#: src/dialogs/kdenlivesettingsdialog.cpp:976
+#: src/dialogs/kdenlivesettingsdialog.cpp:994
 #: src/project/dialogs/projectsettings.cpp:509
 #, kde-format
 msgid "Please select a video profile"
 msgstr "Seleccioneu un perfil de vídeo"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1254
+#: src/dialogs/kdenlivesettingsdialog.cpp:1255
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr "Cal reiniciar el Kdenlive per a canviar aquesta opció"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1405
+#: src/dialogs/kdenlivesettingsdialog.cpp:1406
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "Ja existeix un perfil amb aquest nom"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1539
+#: src/dialogs/kdenlivesettingsdialog.cpp:1540
 #, kde-format
 msgid "Current settings"
 msgstr "Paràmetres actuals"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1577
-#: src/dialogs/kdenlivesettingsdialog.cpp:1613
-#: src/dialogs/kdenlivesettingsdialog.cpp:1630
+#: src/dialogs/kdenlivesettingsdialog.cpp:1578
+#: src/dialogs/kdenlivesettingsdialog.cpp:1614
+#: src/dialogs/kdenlivesettingsdialog.cpp:1631
 #: src/mltcontroller/clippropertiescontroller.cpp:538
 #: src/mltcontroller/clippropertiescontroller.cpp:1358
 #: src/project/dialogs/profilewidget.cpp:111 src/ui/editrenderpreset_ui.ui:220
@@ -6359,18 +6359,18 @@ msgstr "Paràmetres actuals"
 msgid "Progressive"
 msgstr "Progressiu"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1734
+#: src/dialogs/kdenlivesettingsdialog.cpp:1735
 #, kde-format
 msgid "Probing..."
 msgstr "S'està explorant..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1789
-#: src/dialogs/kdenlivesettingsdialog.cpp:1982
+#: src/dialogs/kdenlivesettingsdialog.cpp:1790
+#: src/dialogs/kdenlivesettingsdialog.cpp:1983
 #, kde-format
 msgid "Please add a speech model."
 msgstr "Si us plau, afegiu un model de veu."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1836
+#: src/dialogs/kdenlivesettingsdialog.cpp:1837
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
@@ -6379,30 +6379,30 @@ msgstr ""
 "Baixa els models de veu des de: <a href=\"https://alphacephei.com/vosk/models"
 "\">https://alphacephei.com/vosk/models</a>"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1864
+#: src/dialogs/kdenlivesettingsdialog.cpp:1865
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "Introduïu un URL per al diccionari nou"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1870
+#: src/dialogs/kdenlivesettingsdialog.cpp:1871
 #, kde-format
 msgid "Downloading model…"
 msgstr "S'està baixant el model…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1880
+#: src/dialogs/kdenlivesettingsdialog.cpp:1881
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 "No permetem eliminar els models de carpetes personalitzades, feu-ho "
 "manualment."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1886
-#: src/dialogs/kdenlivesettingsdialog.cpp:1945
+#: src/dialogs/kdenlivesettingsdialog.cpp:1887
+#: src/dialogs/kdenlivesettingsdialog.cpp:1946
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "No s'ha pogut accedir a la carpeta del diccionari."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1895
+#: src/dialogs/kdenlivesettingsdialog.cpp:1896
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -6411,22 +6411,22 @@ msgstr ""
 "Suprimeix la carpeta:\n"
 "%1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1919
+#: src/dialogs/kdenlivesettingsdialog.cpp:1920
 #, kde-format
 msgid "Download error"
 msgstr "Error de baixada"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1924
+#: src/dialogs/kdenlivesettingsdialog.cpp:1925
 #, kde-format
 msgid "Download error %1"
 msgstr "Error de baixada %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1952
+#: src/dialogs/kdenlivesettingsdialog.cpp:1953
 #, kde-format
 msgid "Extracting archive…"
 msgstr "S'està extraient l'arxiu…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1959
+#: src/dialogs/kdenlivesettingsdialog.cpp:1960
 #, kde-format
 msgid "New dictionary installed."
 msgstr "S'ha instal·lat un diccionari nou."
@@ -8446,17 +8446,17 @@ msgstr "Miniatures de vídeo"
 msgid "Loading clip"
 msgstr "S'està carregant el clip"
 
-#: src/jobs/cliploadtask.cpp:511
+#: src/jobs/cliploadtask.cpp:483
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "No s'ha pogut determinar la durada del fitxer <b>%1</b>."
 
-#: src/jobs/cliploadtask.cpp:669
+#: src/jobs/cliploadtask.cpp:641
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "No es pot cercar en el fitxer <b>%1</b>."
 
-#: src/jobs/cliploadtask.cpp:711
+#: src/jobs/cliploadtask.cpp:683
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "El fitxer <b>%1</b> usa una velocitat variable dels fotogrames."
@@ -9722,8 +9722,8 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
 msgstr "Commuta la pista dels subtítols a la línia de temps."
 
-#: src/mainwindow.cpp:1212 src/titler/titlewidget.cpp:371
-#: src/titler/titlewidget.cpp:374
+#: src/mainwindow.cpp:1212 src/titler/titlewidget.cpp:380
+#: src/titler/titlewidget.cpp:383
 #, kde-format
 msgid "Selection Tool"
 msgstr "Eina de selecció"
@@ -10697,7 +10697,7 @@ msgstr "Torna'ls a crear"
 
 #: src/mainwindow.cpp:2114 src/onlineresources/resourcewidget.cpp:568
 #: src/scopes/colorscopes/colorplaneexport.cpp:158
-#: src/titler/titlewidget.cpp:2179
+#: src/titler/titlewidget.cpp:2188
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -16527,7 +16527,7 @@ msgid "No available stream"
 msgstr "No hi ha cap flux disponible"
 
 #: src/titler/gradientwidget.cpp:140 src/titler/gradientwidget.cpp:143
-#: src/titler/titlewidget.cpp:3233 src/titler/titlewidget.cpp:3236
+#: src/titler/titlewidget.cpp:3242 src/titler/titlewidget.cpp:3245
 #, kde-format
 msgid "Gradient %1"
 msgstr "Degradat %1"
@@ -16559,197 +16559,197 @@ msgstr ""
 msgid "Text Clips Updated"
 msgstr "Clips de text actualitzats"
 
-#: src/titler/titlewidget.cpp:129
+#: src/titler/titlewidget.cpp:138
 #, kde-format
 msgid "Outline width"
 msgstr "Amplada del contorn"
 
-#: src/titler/titlewidget.cpp:136
+#: src/titler/titlewidget.cpp:145
 #, kde-format
 msgid "Background color opacity"
 msgstr "Opacitat del color de fons"
 
-#: src/titler/titlewidget.cpp:142
+#: src/titler/titlewidget.cpp:151
 #, kde-format
 msgid "Rotation around the X axis"
 msgstr "Gir al voltant de l'eix X"
 
-#: src/titler/titlewidget.cpp:148
+#: src/titler/titlewidget.cpp:157
 #, kde-format
 msgid "Rotation around the Y axis"
 msgstr "Gir al voltant de l'eix Y"
 
-#: src/titler/titlewidget.cpp:154
+#: src/titler/titlewidget.cpp:163
 #, kde-format
 msgid "Rotation around the Z axis"
 msgstr "Gir al voltant de l'eix Z"
 
 #. i18n: ectx: property (text), widget (QLabel, label_borderWidth)
-#: src/titler/titlewidget.cpp:160 src/ui/titlewidget_ui.ui:1351
+#: src/titler/titlewidget.cpp:169 src/ui/titlewidget_ui.ui:1351
 #, kde-format
 msgid "Border width"
 msgstr "Amplada de la vora"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, speedSpin)
 #. i18n: ectx: property (suffix), widget (QSpinBox, zoom_spin)
-#: src/titler/titlewidget.cpp:162 src/ui/clipspeed_ui.ui:62
+#: src/titler/titlewidget.cpp:171 src/ui/clipspeed_ui.ui:62
 #: src/ui/titlewidget_ui.ui:92 src/widgets/geometrywidget.cpp:71
 #: src/widgets/geometrywidget.cpp:78
 #, no-c-format, kde-format
 msgid "%"
 msgstr "%"
 
-#: src/titler/titlewidget.cpp:259
+#: src/titler/titlewidget.cpp:268
 #, kde-format
 msgctxt "Font style"
 msgid "Light"
 msgstr "Fi"
 
-#: src/titler/titlewidget.cpp:260
+#: src/titler/titlewidget.cpp:269
 #, kde-format
 msgctxt "Font style"
 msgid "Normal"
 msgstr "Normal"
 
-#: src/titler/titlewidget.cpp:261
+#: src/titler/titlewidget.cpp:270
 #, kde-format
 msgctxt "Font style"
 msgid "Demi-Bold"
 msgstr "Semi negreta"
 
-#: src/titler/titlewidget.cpp:262
+#: src/titler/titlewidget.cpp:271
 #, kde-format
 msgctxt "Font style"
 msgid "Bold"
 msgstr "Negreta"
 
-#: src/titler/titlewidget.cpp:263
+#: src/titler/titlewidget.cpp:272
 #, kde-format
 msgctxt "Font style"
 msgid "Black"
 msgstr "Gruixut"
 
-#: src/titler/titlewidget.cpp:264
+#: src/titler/titlewidget.cpp:273
 #, kde-format
 msgid "Font weight"
 msgstr "Estil del tipus de lletra"
 
-#: src/titler/titlewidget.cpp:278
+#: src/titler/titlewidget.cpp:287
 #, kde-format
 msgid "Insert Unicode character"
 msgstr "Insereix un caràcter Unicode"
 
-#: src/titler/titlewidget.cpp:284
+#: src/titler/titlewidget.cpp:293
 #, kde-format
 msgid "Raise object"
 msgstr "Eleva un objecte"
 
-#: src/titler/titlewidget.cpp:290
+#: src/titler/titlewidget.cpp:299
 #, kde-format
 msgid "Lower object"
 msgstr "Enfonsa un objecte"
 
-#: src/titler/titlewidget.cpp:298
+#: src/titler/titlewidget.cpp:307
 #, kde-format
 msgid "Raise object to top"
 msgstr "Eleva un objecte a la part superior"
 
-#: src/titler/titlewidget.cpp:305
+#: src/titler/titlewidget.cpp:314
 #, kde-format
 msgid "Lower object to bottom"
 msgstr "Enfonsa un objecte a la part inferior"
 
-#: src/titler/titlewidget.cpp:311
+#: src/titler/titlewidget.cpp:320
 #, kde-format
 msgid "Select All"
 msgstr "Selecciona-ho tot"
 
-#: src/titler/titlewidget.cpp:317
+#: src/titler/titlewidget.cpp:326
 #, kde-format
 msgid "Keep only text items selected"
 msgstr "Mantén només els elements de text seleccionats"
 
-#: src/titler/titlewidget.cpp:324
+#: src/titler/titlewidget.cpp:333
 #, kde-format
 msgid "Keep only rect items selected"
 msgstr "Mantén només els elements rectes seleccionats"
 
-#: src/titler/titlewidget.cpp:331
+#: src/titler/titlewidget.cpp:340
 #, kde-format
 msgid "Keep only image items selected"
 msgstr "Mantén només els elements d'imatge seleccionats"
 
-#: src/titler/titlewidget.cpp:338
+#: src/titler/titlewidget.cpp:347
 #, kde-format
 msgid "Deselect"
 msgstr "Desselecciona"
 
-#: src/titler/titlewidget.cpp:343
+#: src/titler/titlewidget.cpp:352
 #, kde-format
 msgid "Invert x axis and change 0 point"
 msgstr "Inverteix l'eix X i canvia el punt 0"
 
-#: src/titler/titlewidget.cpp:344
+#: src/titler/titlewidget.cpp:353
 #, kde-format
 msgid "Invert y axis and change 0 point"
 msgstr "Inverteix l'eix Y i canvia el punt 0"
 
-#: src/titler/titlewidget.cpp:345
+#: src/titler/titlewidget.cpp:354
 #, kde-format
 msgid "Select fill color"
 msgstr "Selecciona el color d'emplenament"
 
-#: src/titler/titlewidget.cpp:346
+#: src/titler/titlewidget.cpp:355
 #, kde-format
 msgid "Select border color"
 msgstr "Selecciona el color de la vora"
 
-#: src/titler/titlewidget.cpp:348
+#: src/titler/titlewidget.cpp:357
 #, kde-format
 msgid "Original size (1:1)"
 msgstr "Mida original (1:1)"
 
-#: src/titler/titlewidget.cpp:349
+#: src/titler/titlewidget.cpp:358
 #, kde-format
 msgid "Fit zoom"
 msgstr "Ajusta el zoom"
 
-#: src/titler/titlewidget.cpp:350
+#: src/titler/titlewidget.cpp:359
 #, kde-format
 msgid "Select background color"
 msgstr "Selecciona el color de fons"
 
-#: src/titler/titlewidget.cpp:351
+#: src/titler/titlewidget.cpp:360
 #, kde-format
 msgid "Background opacity"
 msgstr "Opacitat del fons"
 
-#: src/titler/titlewidget.cpp:352
+#: src/titler/titlewidget.cpp:361
 #, kde-format
 msgid "Select all"
 msgstr "Selecciona-ho tot"
 
-#: src/titler/titlewidget.cpp:353
+#: src/titler/titlewidget.cpp:362
 #, kde-format
 msgid "Select text items in current selection"
 msgstr "Selecciona els elements de text de la selecció actual"
 
-#: src/titler/titlewidget.cpp:354
+#: src/titler/titlewidget.cpp:363
 #, kde-format
 msgid "Select rect items in current selection"
 msgstr "Selecciona els elements rectangulars de la selecció actual"
 
-#: src/titler/titlewidget.cpp:355
+#: src/titler/titlewidget.cpp:364
 #, kde-format
 msgid "Select image items in current selection"
 msgstr "Selecciona els elements d'imatge de la selecció actual"
 
-#: src/titler/titlewidget.cpp:356
+#: src/titler/titlewidget.cpp:365
 #, kde-format
 msgid "Unselect all"
 msgstr "Desselecciona-ho tot"
 
-#: src/titler/titlewidget.cpp:375
+#: src/titler/titlewidget.cpp:384
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -16759,53 +16759,53 @@ msgstr ""
 "Quan està seleccionat, un clic en un recurs de la línia de temps selecciona "
 "el recurs (p. ex. clip, composició)."
 
-#: src/titler/titlewidget.cpp:378 src/titler/titlewidget.cpp:381
+#: src/titler/titlewidget.cpp:387 src/titler/titlewidget.cpp:390
 #, kde-format
 msgid "Add Text"
 msgstr "Afegeix un text"
 
-#: src/titler/titlewidget.cpp:384 src/titler/titlewidget.cpp:387
+#: src/titler/titlewidget.cpp:393 src/titler/titlewidget.cpp:396
 #, kde-format
 msgid "Add Rectangle"
 msgstr "Afegeix un rectangle"
 
-#: src/titler/titlewidget.cpp:390 src/titler/titlewidget.cpp:393
+#: src/titler/titlewidget.cpp:399 src/titler/titlewidget.cpp:402
 #, kde-format
 msgid "Add Ellipse"
 msgstr "Afegeix una el·lipse"
 
-#: src/titler/titlewidget.cpp:396 src/titler/titlewidget.cpp:399
-#: src/titler/titlewidget.cpp:813
+#: src/titler/titlewidget.cpp:405 src/titler/titlewidget.cpp:408
+#: src/titler/titlewidget.cpp:822
 #, kde-format
 msgid "Add Image"
 msgstr "Afegeix una imatge"
 
-#: src/titler/titlewidget.cpp:404 src/titler/titlewidget.cpp:407
+#: src/titler/titlewidget.cpp:413 src/titler/titlewidget.cpp:416
 #, kde-format
 msgid "Open Document"
 msgstr "Obre un document"
 
-#: src/titler/titlewidget.cpp:410 src/titler/titlewidget.cpp:413
+#: src/titler/titlewidget.cpp:419 src/titler/titlewidget.cpp:422
 #, kde-format
 msgid "Save As"
 msgstr "Desa com a"
 
-#: src/titler/titlewidget.cpp:416 src/titler/titlewidget.cpp:418
+#: src/titler/titlewidget.cpp:425 src/titler/titlewidget.cpp:427
 #, kde-format
 msgid "Download New Title Templates..."
 msgstr "Descarrega plantilles de títols noves..."
 
-#: src/titler/titlewidget.cpp:543
+#: src/titler/titlewidget.cpp:552
 #, kde-format
 msgid "Save and add to project"
 msgstr "Desa i afegeix al projecte"
 
-#: src/titler/titlewidget.cpp:544
+#: src/titler/titlewidget.cpp:553
 #, kde-format
 msgid "Create Title"
 msgstr "Crea un títol"
 
-#: src/titler/titlewidget.cpp:693
+#: src/titler/titlewidget.cpp:702
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
@@ -16814,49 +16814,49 @@ msgstr ""
 "Esteu segur que voleu carregar una plantilla nova? Es perdran els canvis en "
 "aquest títol!"
 
-#: src/titler/titlewidget.cpp:801
+#: src/titler/titlewidget.cpp:810
 #, kde-format
 msgid "All Images"
 msgstr "Totes les imatges"
 
-#: src/titler/titlewidget.cpp:803
+#: src/titler/titlewidget.cpp:812
 #, kde-format
 msgid "%1 Image"
 msgstr "Imatge %1"
 
-#: src/titler/titlewidget.cpp:1637
+#: src/titler/titlewidget.cpp:1646
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1639 src/ui/titlewidget_ui.ui:260
+#: src/titler/titlewidget.cpp:1648 src/ui/titlewidget_ui.ui:260
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1661
+#: src/titler/titlewidget.cpp:1670
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1663 src/ui/titlewidget_ui.ui:290
+#: src/titler/titlewidget.cpp:1672 src/ui/titlewidget_ui.ui:290
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2130
+#: src/titler/titlewidget.cpp:2139
 #, kde-format
 msgid "Load Title"
 msgstr "Carrega un títol"
 
-#: src/titler/titlewidget.cpp:2131
+#: src/titler/titlewidget.cpp:2140
 #, kde-format
 msgid "Kdenlive title (*.kdenlivetitle)"
 msgstr "Títol del Kdenlive (*.kdenlivetitle)"
 
-#: src/titler/titlewidget.cpp:2177
+#: src/titler/titlewidget.cpp:2186
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -16865,57 +16865,57 @@ msgstr ""
 "Voleu incrustar les imatges en aquest document de títol?\n"
 "Això és molt necessari per a compartir títols."
 
-#: src/titler/titlewidget.cpp:2178
+#: src/titler/titlewidget.cpp:2187
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Imatges incrustades"
 
-#: src/titler/titlewidget.cpp:2233
+#: src/titler/titlewidget.cpp:2242
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "Manca 1 element en aquest títol"
 msgstr[1] "Manquen %1 elements en aquest títol"
 
-#: src/titler/titlewidget.cpp:2234 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2243 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Detalls"
 
-#: src/titler/titlewidget.cpp:2237
+#: src/titler/titlewidget.cpp:2246
 #, kde-format
 msgid "Delete missing elements"
 msgstr "Suprimeix els elements que manquen"
 
-#: src/titler/titlewidget.cpp:2297
+#: src/titler/titlewidget.cpp:2306
 #, kde-format
 msgid "Update Title"
 msgstr "Actualitza el títol"
 
-#: src/titler/titlewidget.cpp:2300
+#: src/titler/titlewidget.cpp:2309
 #, kde-format
 msgid "Add as new Title"
 msgstr "Afegeix com a títol nou"
 
-#: src/titler/titlewidget.cpp:2354
+#: src/titler/titlewidget.cpp:2363
 #, kde-format
 msgid "The following files are missing:"
 msgstr "Falten els següents fitxers:"
 
-#: src/titler/titlewidget.cpp:2548
+#: src/titler/titlewidget.cpp:2557
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Inici de l'àrea visible"
 
-#: src/titler/titlewidget.cpp:2549
+#: src/titler/titlewidget.cpp:2558
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Final de l'àrea visible"
 
-#: src/titler/titlewidget.cpp:3266
+#: src/titler/titlewidget.cpp:3275
 #, kde-format
 msgid "Gradient"
 msgstr "Degradat"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-05 02:53+0000\n"
+"POT-Creation-Date: 2023-04-07 02:36+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -729,7 +729,7 @@ msgid "Initial Zoom"
 msgstr "Paniraj i uvećaj"
 
 #: data/effects/dance.xml:23 data/effects/vidstab.xml:40
-#: src/project/dialogs/slideshowclip.cpp:67 src/titler/titlewidget.cpp:347
+#: src/project/dialogs/slideshowclip.cpp:67 src/titler/titlewidget.cpp:356
 #, kde-format
 msgid "Zoom"
 msgstr "Uvećaj"
@@ -875,7 +875,7 @@ msgstr "Bez poravnanja"
 
 #. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:867 src/ui/templateclip_ui.ui:38
+#: src/titler/graphicsscenerectmove.cpp:875 src/ui/templateclip_ui.ui:38
 #, kde-format
 msgid "Text"
 msgstr "Tekst"
@@ -3580,7 +3580,7 @@ msgid "Deletes the currently selected preset."
 msgstr "Obriši odabrani snimak"
 
 #: src/assets/view/assetparameterview.cpp:329
-#: src/dialogs/kdenlivesettingsdialog.cpp:1402
+#: src/dialogs/kdenlivesettingsdialog.cpp:1403
 #, fuzzy, kde-format
 #| msgid "Enter sequence name"
 msgctxt "@title:window"
@@ -3588,7 +3588,7 @@ msgid "Enter Preset Name"
 msgstr "Unesi ime sekvence"
 
 #: src/assets/view/assetparameterview.cpp:329
-#: src/dialogs/kdenlivesettingsdialog.cpp:1402
+#: src/dialogs/kdenlivesettingsdialog.cpp:1403
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr ""
@@ -4869,7 +4869,7 @@ msgstr ""
 "dokumenata u dijalogu Podešenja"
 
 #: src/bin/bin.cpp:4348 src/core.cpp:301 src/doc/kdenlivedoc.cpp:168
-#: src/jobs/cliploadtask.cpp:483 src/jobs/filtertask.cpp:85
+#: src/jobs/cliploadtask.cpp:455 src/jobs/filtertask.cpp:85
 #: src/layoutmanagement.cpp:466 src/layoutmanagement.cpp:527
 #: src/profiles/profilerepository.cpp:173
 #: src/renderpresets/renderpresetrepository.cpp:374
@@ -4891,7 +4891,7 @@ msgstr ""
 "Obrađujete eksterni isječak naziva (%1). Da li želite spasiti promjene na "
 "imenovanoj datoteci ili da spasite samo izmjene na ovom projektu?"
 
-#: src/bin/bin.cpp:4541 src/titler/titlewidget.cpp:2183
+#: src/bin/bin.cpp:4541 src/titler/titlewidget.cpp:2192
 #, kde-format
 msgid "Save Title"
 msgstr "Sačuvaj naslov"
@@ -5450,7 +5450,7 @@ msgid ""
 "%2"
 msgstr ""
 
-#: src/bin/projectclip.cpp:1122 src/jobs/cliploadtask.cpp:279
+#: src/bin/projectclip.cpp:1122 src/jobs/cliploadtask.cpp:251
 #, fuzzy, kde-format
 #| msgid "Invalid clip"
 msgid "Invalid"
@@ -6079,7 +6079,7 @@ msgid "Manage Encoding Profiles"
 msgstr "Profili upravljačkog kodiranja"
 
 #: src/dialogs/encodingprofilesdialog.cpp:51
-#: src/dialogs/kdenlivesettingsdialog.cpp:310
+#: src/dialogs/kdenlivesettingsdialog.cpp:311
 #: src/project/dialogs/archivewidget.cpp:92
 #, fuzzy, kde-format
 #| msgid "Proxy Clip"
@@ -6160,7 +6160,7 @@ msgstr ""
 #: src/dialogs/encodingprofilesdialog.cpp:260
 #: src/dialogs/encodingprofilesdialog.cpp:347
 #: src/dialogs/encodingprofilesdialog.cpp:349
-#: src/dialogs/kdenlivesettingsdialog.cpp:678
+#: src/dialogs/kdenlivesettingsdialog.cpp:679
 #: src/project/dialogs/projectsettings.cpp:876
 #: src/project/dialogs/projectsettings.cpp:878
 #: src/transitions/view/transitionstackview.cpp:37
@@ -6251,7 +6251,7 @@ msgstr "Učitaj markere"
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5092
-#: src/titler/titlewidget.cpp:2196
+#: src/titler/titlewidget.cpp:2205
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Ne mogu pisati u datoteku %1"
@@ -6331,7 +6331,7 @@ msgid "Misc"
 msgstr "Razno"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:248
-#: src/dialogs/kdenlivesettingsdialog.cpp:788
+#: src/dialogs/kdenlivesettingsdialog.cpp:789
 #: src/doc/documentvalidator.cpp:2222
 #: src/transitions/transitionsrepository.cpp:178
 #, kde-format
@@ -6344,156 +6344,156 @@ msgstr ""
 msgid "Select the Default Profile (preset)"
 msgstr "Odaberi standardni program za Video reprodukciju"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:301
+#: src/dialogs/kdenlivesettingsdialog.cpp:302
 #, kde-format
 msgid "Project Defaults"
 msgstr "Podrazumjevana podešenja projekta"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:334
-#: src/dialogs/kdenlivesettingsdialog.cpp:358
+#: src/dialogs/kdenlivesettingsdialog.cpp:335
+#: src/dialogs/kdenlivesettingsdialog.cpp:359
 #, fuzzy, kde-format
 #| msgid "Default folders"
 msgid "Use default folder: %1"
 msgstr "Zadani folderi"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:336
-#: src/dialogs/kdenlivesettingsdialog.cpp:360
-#: src/dialogs/kdenlivesettingsdialog.cpp:1043
+#: src/dialogs/kdenlivesettingsdialog.cpp:337
+#: src/dialogs/kdenlivesettingsdialog.cpp:361
 #: src/dialogs/kdenlivesettingsdialog.cpp:1044
-#: src/dialogs/kdenlivesettingsdialog.cpp:1053
+#: src/dialogs/kdenlivesettingsdialog.cpp:1045
 #: src/dialogs/kdenlivesettingsdialog.cpp:1054
+#: src/dialogs/kdenlivesettingsdialog.cpp:1055
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Always use project folder: %1"
 msgstr "Koristi projekat mape"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:338
-#: src/dialogs/kdenlivesettingsdialog.cpp:362
-#: src/dialogs/kdenlivesettingsdialog.cpp:1050
+#: src/dialogs/kdenlivesettingsdialog.cpp:339
+#: src/dialogs/kdenlivesettingsdialog.cpp:363
 #: src/dialogs/kdenlivesettingsdialog.cpp:1051
+#: src/dialogs/kdenlivesettingsdialog.cpp:1052
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Always use active project folder"
 msgstr "Koristi projekat mape"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:375
+#: src/dialogs/kdenlivesettingsdialog.cpp:376
 #, kde-format
 msgid "Environment"
 msgstr "Okruženje"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:411
+#: src/dialogs/kdenlivesettingsdialog.cpp:412
 #, kde-format
 msgid "Capture is not yet available on Mac OS X."
 msgstr "Hvatanje nije još dostupno na Mac OS X."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:421
+#: src/dialogs/kdenlivesettingsdialog.cpp:422
 #, fuzzy, kde-format
 #| msgid "Audio channels"
 msgid "Mono (1 channel)"
 msgstr "Zvučni kanali"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:422
+#: src/dialogs/kdenlivesettingsdialog.cpp:423
 #, fuzzy, kde-format
 msgid "Stereo (2 channels)"
 msgstr "Zvučni kanali"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:429
+#: src/dialogs/kdenlivesettingsdialog.cpp:430
 #, kde-format
 msgid "44100 Hz"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:430
+#: src/dialogs/kdenlivesettingsdialog.cpp:431
 #, kde-format
 msgid "48000 Hz"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:479
+#: src/dialogs/kdenlivesettingsdialog.cpp:480
 #, kde-format
 msgid "JogShuttle"
 msgstr "JogShuttle"
 
 #. i18n: ectx: Menu (transcoders)
-#: src/dialogs/kdenlivesettingsdialog.cpp:486 src/dialogs/timeremap.cpp:1658
+#: src/dialogs/kdenlivesettingsdialog.cpp:487 src/dialogs/timeremap.cpp:1658
 #: src/kdenliveui.rc:81 src/mltcontroller/clippropertiescontroller.cpp:987
 #: src/project/transcodeseek.cpp:40 src/project/transcodeseek.cpp:53
 #, kde-format
 msgid "Transcode"
 msgstr "Dekodiraj"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:516
+#: src/dialogs/kdenlivesettingsdialog.cpp:517
 #, kde-format
 msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:685
+#: src/dialogs/kdenlivesettingsdialog.cpp:686
 #, kde-format
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:686
-#: src/dialogs/kdenlivesettingsdialog.cpp:739
+#: src/dialogs/kdenlivesettingsdialog.cpp:687
+#: src/dialogs/kdenlivesettingsdialog.cpp:740
 #, kde-format
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:687
+#: src/dialogs/kdenlivesettingsdialog.cpp:688
 #, kde-format
 msgid "PipeWire"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:688
+#: src/dialogs/kdenlivesettingsdialog.cpp:689
 #, kde-format
 msgid "OSS"
 msgstr "OSS"
 
 #. i18n("OSS with DMA access"), "dma");
-#: src/dialogs/kdenlivesettingsdialog.cpp:690
+#: src/dialogs/kdenlivesettingsdialog.cpp:691
 #, fuzzy, kde-format
 #| msgid "Esound daemon"
 msgid "Esound Daemon"
 msgstr "Esound daemon"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:691
+#: src/dialogs/kdenlivesettingsdialog.cpp:692
 #, fuzzy, kde-format
 #| msgid "ARTS daemon"
 msgid "ARTS Daemon"
 msgstr "ARTS daemon"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/kdenlivesettingsdialog.cpp:703
-#: src/dialogs/kdenlivesettingsdialog.cpp:704 src/mainwindow.cpp:189
+#: src/dialogs/kdenlivesettingsdialog.cpp:704
+#: src/dialogs/kdenlivesettingsdialog.cpp:705 src/mainwindow.cpp:189
 #: src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
 msgstr "Podrazumijevano"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:755
+#: src/dialogs/kdenlivesettingsdialog.cpp:756
 #, kde-format
 msgid "SDL"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:767
+#: src/dialogs/kdenlivesettingsdialog.cpp:768
 #, fuzzy, kde-format
 #| msgid "Audio"
 msgid "RtAudio"
 msgstr "Zvuk"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:791 src/mainwindow.cpp:333
+#: src/dialogs/kdenlivesettingsdialog.cpp:792 src/mainwindow.cpp:333
 #, fuzzy, kde-format
 msgid "Monitor %1"
 msgstr "Isječak monitora"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:876
+#: src/dialogs/kdenlivesettingsdialog.cpp:877
 #, kde-format
 msgid "Enter path to the audio editing application"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:884
+#: src/dialogs/kdenlivesettingsdialog.cpp:885
 #, kde-format
 msgid "Enter path to the image editing application"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:892 src/glaxnimatelauncher.cpp:30
+#: src/dialogs/kdenlivesettingsdialog.cpp:893 src/glaxnimatelauncher.cpp:30
 #, fuzzy, kde-format
 #| msgid ""
 #| "Failed to start the capture application:\n"
@@ -6503,34 +6503,34 @@ msgstr ""
 "Neuspješno pokretanje aplikacije za hvatanje isječaka:\n"
 "%1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:975
-#: src/dialogs/kdenlivesettingsdialog.cpp:993
+#: src/dialogs/kdenlivesettingsdialog.cpp:976
+#: src/dialogs/kdenlivesettingsdialog.cpp:994
 #: src/project/dialogs/projectsettings.cpp:509
 #, fuzzy, kde-format
 #| msgid "Please set your default video profile"
 msgid "Please select a video profile"
 msgstr "Molimo vas da odaberete standardni video profil"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1254
+#: src/dialogs/kdenlivesettingsdialog.cpp:1255
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1405
+#: src/dialogs/kdenlivesettingsdialog.cpp:1406
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "Profil sa tim imenom već postoji"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1539
+#: src/dialogs/kdenlivesettingsdialog.cpp:1540
 #, kde-format
 msgid "Current settings"
 msgstr "Trenutna podešavanja"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1577
-#: src/dialogs/kdenlivesettingsdialog.cpp:1613
-#: src/dialogs/kdenlivesettingsdialog.cpp:1630
+#: src/dialogs/kdenlivesettingsdialog.cpp:1578
+#: src/dialogs/kdenlivesettingsdialog.cpp:1614
+#: src/dialogs/kdenlivesettingsdialog.cpp:1631
 #: src/mltcontroller/clippropertiescontroller.cpp:538
 #: src/mltcontroller/clippropertiescontroller.cpp:1358
 #: src/project/dialogs/profilewidget.cpp:111 src/ui/editrenderpreset_ui.ui:220
@@ -6539,49 +6539,49 @@ msgstr "Trenutna podešavanja"
 msgid "Progressive"
 msgstr "Progresivno"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1734
+#: src/dialogs/kdenlivesettingsdialog.cpp:1735
 #, kde-format
 msgid "Probing..."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1789
-#: src/dialogs/kdenlivesettingsdialog.cpp:1982
+#: src/dialogs/kdenlivesettingsdialog.cpp:1790
+#: src/dialogs/kdenlivesettingsdialog.cpp:1983
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please add a speech model."
 msgstr "Odaberi prijelaz"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1836
+#: src/dialogs/kdenlivesettingsdialog.cpp:1837
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
 "\">https://alphacephei.com/vosk/models</a>"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1864
+#: src/dialogs/kdenlivesettingsdialog.cpp:1865
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1870
+#: src/dialogs/kdenlivesettingsdialog.cpp:1871
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Downloading model…"
 msgstr "Skini nove obrise..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1880
+#: src/dialogs/kdenlivesettingsdialog.cpp:1881
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1886
-#: src/dialogs/kdenlivesettingsdialog.cpp:1945
+#: src/dialogs/kdenlivesettingsdialog.cpp:1887
+#: src/dialogs/kdenlivesettingsdialog.cpp:1946
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot access dictionary folder."
 msgstr "Nije moguće dodavanje video efekta na snimak"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1895
+#: src/dialogs/kdenlivesettingsdialog.cpp:1896
 #, fuzzy, kde-format
 #| msgid "Delete folder"
 msgid ""
@@ -6589,25 +6589,25 @@ msgid ""
 "%1"
 msgstr "Obriši datoteku"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1919
+#: src/dialogs/kdenlivesettingsdialog.cpp:1920
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Download error"
 msgstr "Skini nove obrise..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1924
+#: src/dialogs/kdenlivesettingsdialog.cpp:1925
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Download error %1"
 msgstr "Skini nove obrise..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1952
+#: src/dialogs/kdenlivesettingsdialog.cpp:1953
 #, fuzzy, kde-format
 #| msgid "Extracting..."
 msgid "Extracting archive…"
 msgstr "Raspakujem..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1959
+#: src/dialogs/kdenlivesettingsdialog.cpp:1960
 #, kde-format
 msgid "New dictionary installed."
 msgstr ""
@@ -8711,17 +8711,17 @@ msgstr "Sličice"
 msgid "Loading clip"
 msgstr "Učitavanje isječaka"
 
-#: src/jobs/cliploadtask.cpp:511
+#: src/jobs/cliploadtask.cpp:483
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr ""
 
-#: src/jobs/cliploadtask.cpp:669
+#: src/jobs/cliploadtask.cpp:641
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr ""
 
-#: src/jobs/cliploadtask.cpp:711
+#: src/jobs/cliploadtask.cpp:683
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr ""
@@ -10081,8 +10081,8 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
 msgstr "Nije moguće ubacivanje snimka na vremensku skalu"
 
-#: src/mainwindow.cpp:1212 src/titler/titlewidget.cpp:371
-#: src/titler/titlewidget.cpp:374
+#: src/mainwindow.cpp:1212 src/titler/titlewidget.cpp:380
+#: src/titler/titlewidget.cpp:383
 #, kde-format
 msgid "Selection Tool"
 msgstr "Alat selekcije"
@@ -11107,7 +11107,7 @@ msgstr "Kreiraj grupu"
 
 #: src/mainwindow.cpp:2114 src/onlineresources/resourcewidget.cpp:568
 #: src/scopes/colorscopes/colorplaneexport.cpp:158
-#: src/titler/titlewidget.cpp:2179
+#: src/titler/titlewidget.cpp:2188
 #, fuzzy, kde-format
 #| msgid "Outline width"
 msgctxt "@action:button"
@@ -17100,7 +17100,7 @@ msgid "No available stream"
 msgstr " kadrovi"
 
 #: src/titler/gradientwidget.cpp:140 src/titler/gradientwidget.cpp:143
-#: src/titler/titlewidget.cpp:3233 src/titler/titlewidget.cpp:3236
+#: src/titler/titlewidget.cpp:3242 src/titler/titlewidget.cpp:3245
 #, kde-format
 msgid "Gradient %1"
 msgstr ""
@@ -17132,202 +17132,202 @@ msgstr ""
 msgid "Text Clips Updated"
 msgstr "Tekstualni Snimci Ažurirani"
 
-#: src/titler/titlewidget.cpp:129
+#: src/titler/titlewidget.cpp:138
 #, kde-format
 msgid "Outline width"
 msgstr "Širina obrisa"
 
-#: src/titler/titlewidget.cpp:136
+#: src/titler/titlewidget.cpp:145
 #, kde-format
 msgid "Background color opacity"
 msgstr "Providnost pozadinske boje"
 
-#: src/titler/titlewidget.cpp:142
+#: src/titler/titlewidget.cpp:151
 #, kde-format
 msgid "Rotation around the X axis"
 msgstr "Rotacija oko X ose"
 
-#: src/titler/titlewidget.cpp:148
+#: src/titler/titlewidget.cpp:157
 #, kde-format
 msgid "Rotation around the Y axis"
 msgstr "Rotacija oko Y ose"
 
-#: src/titler/titlewidget.cpp:154
+#: src/titler/titlewidget.cpp:163
 #, kde-format
 msgid "Rotation around the Z axis"
 msgstr "Rotacija oko Z ose"
 
 #. i18n: ectx: property (text), widget (QLabel, label_borderWidth)
-#: src/titler/titlewidget.cpp:160 src/ui/titlewidget_ui.ui:1351
+#: src/titler/titlewidget.cpp:169 src/ui/titlewidget_ui.ui:1351
 #, kde-format
 msgid "Border width"
 msgstr "Širina granice"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, speedSpin)
 #. i18n: ectx: property (suffix), widget (QSpinBox, zoom_spin)
-#: src/titler/titlewidget.cpp:162 src/ui/clipspeed_ui.ui:62
+#: src/titler/titlewidget.cpp:171 src/ui/clipspeed_ui.ui:62
 #: src/ui/titlewidget_ui.ui:92 src/widgets/geometrywidget.cpp:71
 #: src/widgets/geometrywidget.cpp:78
 #, no-c-format, kde-format
 msgid "%"
 msgstr "%"
 
-#: src/titler/titlewidget.cpp:259
+#: src/titler/titlewidget.cpp:268
 #, kde-format
 msgctxt "Font style"
 msgid "Light"
 msgstr "Svijetli"
 
-#: src/titler/titlewidget.cpp:260
+#: src/titler/titlewidget.cpp:269
 #, kde-format
 msgctxt "Font style"
 msgid "Normal"
 msgstr "Normalno"
 
-#: src/titler/titlewidget.cpp:261
+#: src/titler/titlewidget.cpp:270
 #, kde-format
 msgctxt "Font style"
 msgid "Demi-Bold"
 msgstr "Demi-Bold"
 
-#: src/titler/titlewidget.cpp:262
+#: src/titler/titlewidget.cpp:271
 #, kde-format
 msgctxt "Font style"
 msgid "Bold"
 msgstr "Podebljano"
 
-#: src/titler/titlewidget.cpp:263
+#: src/titler/titlewidget.cpp:272
 #, kde-format
 msgctxt "Font style"
 msgid "Black"
 msgstr "Crna"
 
-#: src/titler/titlewidget.cpp:264
+#: src/titler/titlewidget.cpp:273
 #, kde-format
 msgid "Font weight"
 msgstr "Debljina slova"
 
-#: src/titler/titlewidget.cpp:278
+#: src/titler/titlewidget.cpp:287
 #, kde-format
 msgid "Insert Unicode character"
 msgstr "Ubaci Unicode karakter"
 
-#: src/titler/titlewidget.cpp:284
+#: src/titler/titlewidget.cpp:293
 #, kde-format
 msgid "Raise object"
 msgstr "Podigni objekt"
 
-#: src/titler/titlewidget.cpp:290
+#: src/titler/titlewidget.cpp:299
 #, kde-format
 msgid "Lower object"
 msgstr "Snizi objekt"
 
-#: src/titler/titlewidget.cpp:298
+#: src/titler/titlewidget.cpp:307
 #, kde-format
 msgid "Raise object to top"
 msgstr "Podigni objekt na vrh"
 
-#: src/titler/titlewidget.cpp:305
+#: src/titler/titlewidget.cpp:314
 #, kde-format
 msgid "Lower object to bottom"
 msgstr "Snizi objekt na dno"
 
-#: src/titler/titlewidget.cpp:311
+#: src/titler/titlewidget.cpp:320
 #, fuzzy, kde-format
 #| msgid "Select all"
 msgid "Select All"
 msgstr "Označi sve"
 
-#: src/titler/titlewidget.cpp:317
+#: src/titler/titlewidget.cpp:326
 #, fuzzy, kde-format
 #| msgid "No available clip selected"
 msgid "Keep only text items selected"
 msgstr "Nema dostupnih  selektovanih isječaka"
 
-#: src/titler/titlewidget.cpp:324
+#: src/titler/titlewidget.cpp:333
 #, fuzzy, kde-format
 #| msgid "No available clip selected"
 msgid "Keep only rect items selected"
 msgstr "Nema dostupnih  selektovanih isječaka"
 
-#: src/titler/titlewidget.cpp:331
+#: src/titler/titlewidget.cpp:340
 #, fuzzy, kde-format
 #| msgid "Select image items in current selection"
 msgid "Keep only image items selected"
 msgstr "Odaberite slike stavki u trenutnom odabiru"
 
-#: src/titler/titlewidget.cpp:338
+#: src/titler/titlewidget.cpp:347
 #, fuzzy, kde-format
 #| msgid "Deselect Clip"
 msgid "Deselect"
 msgstr "Ukini Odabiranje snimka"
 
-#: src/titler/titlewidget.cpp:343
+#: src/titler/titlewidget.cpp:352
 #, kde-format
 msgid "Invert x axis and change 0 point"
 msgstr "Okreni x osu i promijeni tačku 0"
 
-#: src/titler/titlewidget.cpp:344
+#: src/titler/titlewidget.cpp:353
 #, kde-format
 msgid "Invert y axis and change 0 point"
 msgstr "Okreni y osu i promijeni tačku 0"
 
-#: src/titler/titlewidget.cpp:345
+#: src/titler/titlewidget.cpp:354
 #, kde-format
 msgid "Select fill color"
 msgstr "Odaberi boju za punjenje"
 
-#: src/titler/titlewidget.cpp:346
+#: src/titler/titlewidget.cpp:355
 #, kde-format
 msgid "Select border color"
 msgstr "Odaberi boju granice"
 
-#: src/titler/titlewidget.cpp:348
+#: src/titler/titlewidget.cpp:357
 #, kde-format
 msgid "Original size (1:1)"
 msgstr "Originalna veličina (1:1)"
 
-#: src/titler/titlewidget.cpp:349
+#: src/titler/titlewidget.cpp:358
 #, kde-format
 msgid "Fit zoom"
 msgstr "Prilagodi uvećanje"
 
-#: src/titler/titlewidget.cpp:350
+#: src/titler/titlewidget.cpp:359
 #, kde-format
 msgid "Select background color"
 msgstr "Odaberi boju pozadine"
 
-#: src/titler/titlewidget.cpp:351
+#: src/titler/titlewidget.cpp:360
 #, kde-format
 msgid "Background opacity"
 msgstr "Providnost pozadine"
 
-#: src/titler/titlewidget.cpp:352
+#: src/titler/titlewidget.cpp:361
 #, kde-format
 msgid "Select all"
 msgstr "Označi sve"
 
-#: src/titler/titlewidget.cpp:353
+#: src/titler/titlewidget.cpp:362
 #, kde-format
 msgid "Select text items in current selection"
 msgstr "Odaberite tekstualne stavke u trenutnom odabiru"
 
-#: src/titler/titlewidget.cpp:354
+#: src/titler/titlewidget.cpp:363
 #, kde-format
 msgid "Select rect items in current selection"
 msgstr "Označite stavke za ispravljanje u trenutnom odabiru"
 
-#: src/titler/titlewidget.cpp:355
+#: src/titler/titlewidget.cpp:364
 #, kde-format
 msgid "Select image items in current selection"
 msgstr "Odaberite slike stavki u trenutnom odabiru"
 
-#: src/titler/titlewidget.cpp:356
+#: src/titler/titlewidget.cpp:365
 #, kde-format
 msgid "Unselect all"
 msgstr "Poništi sve"
 
-#: src/titler/titlewidget.cpp:375
+#: src/titler/titlewidget.cpp:384
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -17335,57 +17335,57 @@ msgid ""
 "clip, composition)."
 msgstr ""
 
-#: src/titler/titlewidget.cpp:378 src/titler/titlewidget.cpp:381
+#: src/titler/titlewidget.cpp:387 src/titler/titlewidget.cpp:390
 #, kde-format
 msgid "Add Text"
 msgstr "Dodaj tekst"
 
-#: src/titler/titlewidget.cpp:384 src/titler/titlewidget.cpp:387
+#: src/titler/titlewidget.cpp:393 src/titler/titlewidget.cpp:396
 #, kde-format
 msgid "Add Rectangle"
 msgstr "Dodaj pravougaonik"
 
-#: src/titler/titlewidget.cpp:390 src/titler/titlewidget.cpp:393
+#: src/titler/titlewidget.cpp:399 src/titler/titlewidget.cpp:402
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
 msgid "Add Ellipse"
 msgstr "Dodaj snimak"
 
-#: src/titler/titlewidget.cpp:396 src/titler/titlewidget.cpp:399
-#: src/titler/titlewidget.cpp:813
+#: src/titler/titlewidget.cpp:405 src/titler/titlewidget.cpp:408
+#: src/titler/titlewidget.cpp:822
 #, kde-format
 msgid "Add Image"
 msgstr "Dodaj sliku"
 
-#: src/titler/titlewidget.cpp:404 src/titler/titlewidget.cpp:407
+#: src/titler/titlewidget.cpp:413 src/titler/titlewidget.cpp:416
 #, kde-format
 msgid "Open Document"
 msgstr "Otvori dokument"
 
-#: src/titler/titlewidget.cpp:410 src/titler/titlewidget.cpp:413
+#: src/titler/titlewidget.cpp:419 src/titler/titlewidget.cpp:422
 #, kde-format
 msgid "Save As"
 msgstr "Sačuvaj kao"
 
-#: src/titler/titlewidget.cpp:416 src/titler/titlewidget.cpp:418
+#: src/titler/titlewidget.cpp:425 src/titler/titlewidget.cpp:427
 #, kde-format
 msgid "Download New Title Templates..."
 msgstr "Skini nove nazive uzoraka..."
 
-#: src/titler/titlewidget.cpp:543
+#: src/titler/titlewidget.cpp:552
 #, fuzzy, kde-format
 #| msgid "Save DVD Project"
 msgid "Save and add to project"
 msgstr "Sačuvaj DVD projekat"
 
-#: src/titler/titlewidget.cpp:544
+#: src/titler/titlewidget.cpp:553
 #, fuzzy, kde-format
 #| msgid "Template title clip"
 msgid "Create Title"
 msgstr "Uzorak za naziv isječka"
 
-#: src/titler/titlewidget.cpp:693
+#: src/titler/titlewidget.cpp:702
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
@@ -17394,51 +17394,51 @@ msgstr ""
 "Da li zaista želiš da pokreneš novi uzorak? Promjene u nazivu biće "
 "promjenjene!"
 
-#: src/titler/titlewidget.cpp:801
+#: src/titler/titlewidget.cpp:810
 #, fuzzy, kde-format
 #| msgid "Add Image"
 msgid "All Images"
 msgstr "Dodaj sliku"
 
-#: src/titler/titlewidget.cpp:803
+#: src/titler/titlewidget.cpp:812
 #, fuzzy, kde-format
 #| msgid "Image"
 msgid "%1 Image"
 msgstr "Slika"
 
-#: src/titler/titlewidget.cpp:1637
+#: src/titler/titlewidget.cpp:1646
 #, kde-format
 msgid "−X"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1639 src/ui/titlewidget_ui.ui:260
+#: src/titler/titlewidget.cpp:1648 src/ui/titlewidget_ui.ui:260
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1661
+#: src/titler/titlewidget.cpp:1670
 #, kde-format
 msgid "−Y"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1663 src/ui/titlewidget_ui.ui:290
+#: src/titler/titlewidget.cpp:1672 src/ui/titlewidget_ui.ui:290
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2130
+#: src/titler/titlewidget.cpp:2139
 #, kde-format
 msgid "Load Title"
 msgstr "Učitavanje naziva"
 
-#: src/titler/titlewidget.cpp:2131
+#: src/titler/titlewidget.cpp:2140
 #, kde-format
 msgid "Kdenlive title (*.kdenlivetitle)"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2177
+#: src/titler/titlewidget.cpp:2186
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -17447,14 +17447,14 @@ msgstr ""
 "Da li želite ugraditi Slike u ovaj dokument?\n"
 "Ovo je najviše potrebno za dijeljenje Naziva."
 
-#: src/titler/titlewidget.cpp:2178
+#: src/titler/titlewidget.cpp:2187
 #, fuzzy, kde-format
 #| msgid "Add Image"
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Dodaj sliku"
 
-#: src/titler/titlewidget.cpp:2233
+#: src/titler/titlewidget.cpp:2242
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "This title has 1 missing element"
@@ -17463,48 +17463,48 @@ msgstr[0] "Obriši odabrane detalje"
 msgstr[1] "Obriši odabrane detalje"
 msgstr[2] "Obriši odabrane detalje"
 
-#: src/titler/titlewidget.cpp:2234 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2243 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Detalji"
 
-#: src/titler/titlewidget.cpp:2237
+#: src/titler/titlewidget.cpp:2246
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "Delete missing elements"
 msgstr "Obriši odabrane detalje"
 
-#: src/titler/titlewidget.cpp:2297
+#: src/titler/titlewidget.cpp:2306
 #, fuzzy, kde-format
 #| msgid "Update Profile"
 msgid "Update Title"
 msgstr "Ažuriraj profil"
 
-#: src/titler/titlewidget.cpp:2300
+#: src/titler/titlewidget.cpp:2309
 #, fuzzy, kde-format
 #| msgid "Add Template Title"
 msgid "Add as new Title"
 msgstr "Dodaj uzorak naziva"
 
-#: src/titler/titlewidget.cpp:2354
+#: src/titler/titlewidget.cpp:2363
 #, kde-format
 msgid "The following files are missing:"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2548
+#: src/titler/titlewidget.cpp:2557
 #, fuzzy, kde-format
 #| msgid "Start Script"
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Započni skriptu"
 
-#: src/titler/titlewidget.cpp:2549
+#: src/titler/titlewidget.cpp:2558
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:3266
+#: src/titler/titlewidget.cpp:3275
 #, kde-format
 msgid "Gradient"
 msgstr ""
