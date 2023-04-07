@@ -998,7 +998,9 @@ int GLWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool i
     int error = 0;
     QString currentId;
     int consumerPosition = 0;
-    currentId = m_producer->parent().get("kdenlive:id");
+    if (m_producer) {
+        currentId = m_producer->parent().get("kdenlive:id");
+    }
     if (m_consumer) {
         consumerPosition = m_consumer->position();
     }

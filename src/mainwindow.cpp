@@ -4811,7 +4811,6 @@ void MainWindow::connectTimeline()
 void MainWindow::disconnectTimeline(TimelineWidget *timeline)
 {
     // Save current tab timeline position
-    qDebug() << "=== DISCONNECTING TIMELINE!!!";
     if (pCore->currentDoc()) {
         // pCore->currentDoc()->position = pCore->getTimelinePosition();
         //  disconnect(pCore->currentDoc(), &KdenliveDoc::docModified, this, &MainWindow::slotUpdateDocumentState);
