@@ -99,7 +99,11 @@ std::shared_ptr<Mlt::Producer> ClipLoadTask::loadResource(QString resource, cons
     if (!resource.startsWith(type)) {
         resource.prepend(type);
     }
-    return std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
+    if (resource.startsWith(QLatin1String("avformat"))) {
+        return std::make_shared<Mlt::Chain>(*pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
+    } else {
+        return std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
+    }
 }
 
 std::shared_ptr<Mlt::Producer> ClipLoadTask::loadPlaylist(QString &resource)
