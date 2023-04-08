@@ -279,6 +279,7 @@ bool DocumentChecker::hasErrorInClips()
     m_ui.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(m_missingClips.isEmpty() && m_missingProxies.isEmpty() && m_missingSources.isEmpty());
     max = m_missingClips.count();
     m_missingProxyIds.clear();
+    QMap<QString, QTreeWidgetItem *> itemMap;
     QStringList processedIds;
     for (int i = 0; i < max; ++i) {
         QDomElement e = m_missingClips.at(i).toElement();
@@ -322,6 +323,11 @@ bool DocumentChecker::hasErrorInClips()
         QString clipId = Xml::getXmlProperty(e, QStringLiteral("kdenlive:id"));
         if (!clipId.isEmpty()) {
             if (processedIds.contains(clipId)) {
+                if (status != TITLE_IMAGE_ELEMENT && itemMap.value(clipId)->data(0, hashRole).toString().isEmpty()) {
+                    QTreeWidgetItem *item = itemMap.value(clipId);
+                    item->setData(0, hashRole, Xml::getXmlProperty(e, QStringLiteral("kdenlive:file_hash")));
+                    item->setData(0, sizeRole, Xml::getXmlProperty(e, QStringLiteral("kdenlive:file_size")));
+                }
                 continue;
             }
             processedIds << clipId;
@@ -329,16 +335,21 @@ bool DocumentChecker::hasErrorInClips()
             // Older project file format
             clipId = e.attribute(QStringLiteral("id")).section(QLatin1Char('_'), 0, 0);
             if (processedIds.contains(clipId)) {
+                if (status != TITLE_IMAGE_ELEMENT && itemMap.value(clipId)->data(0, hashRole).toString().isEmpty()) {
+                    QTreeWidgetItem *item = itemMap.value(clipId);
+                    item->setData(0, hashRole, Xml::getXmlProperty(e, QStringLiteral("kdenlive:file_hash")));
+                    item->setData(0, sizeRole, Xml::getXmlProperty(e, QStringLiteral("kdenlive:file_size")));
+                }
                 continue;
             }
             processedIds << clipId;
         }
-
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << clipType);
         item->setData(0, statusRole, CLIPMISSING);
         item->setData(0, clipTypeRole, int(type));
         item->setData(0, idRole, Xml::getXmlProperty(e, QStringLiteral("kdenlive:id")));
         item->setToolTip(0, i18n("Missing item"));
+        itemMap.insert(clipId, item);
 
         if (status == TITLE_IMAGE_ELEMENT) {
             item->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-warning")));
@@ -629,7 +640,7 @@ const QString DocumentChecker::relocateResource(QString sourceResource)
     return QString();
 }
 
-QString DocumentChecker::getMissingProducers(const QDomElement &e, const QDomNodeList &entries, const QStringList &verifiedPaths, QStringList missingPaths,
+QString DocumentChecker::getMissingProducers(const QDomElement &e, const QDomNodeList &entries, const QStringList &verifiedPaths, QStringList &missingPaths,
                                              const QStringList &serviceToCheck, const QString &root, const QString &storageFolder)
 {
     QString service = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
