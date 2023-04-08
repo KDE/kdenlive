@@ -1054,6 +1054,10 @@ QStringList ProjectItemModel::getClipByUrl(const QFileInfo &url) const
 {
     READ_LOCK();
     QStringList result;
+    if (url.filePath().isEmpty()) {
+        // Invalid url
+        return result;
+    }
     for (const auto &clip : m_allItems) {
         auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
         if (c->itemType() == AbstractProjectItem::ClipItem) {
