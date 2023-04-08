@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-07 00:46+0000\n"
-"PO-Revision-Date: 2023-03-20 01:03+0100\n"
+"POT-Creation-Date: 2023-04-08 00:46+0000\n"
+"PO-Revision-Date: 2023-04-06 19:45-0300\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -821,7 +821,7 @@ msgstr "Texto dinámico"
 #: data/effects/dynamictext.xml:5
 #, kde-format
 msgid "Overlay text with keywords replaced"
-msgstr "Permite superponer texto sustituyendo sus palabras clave"
+msgstr "Permite sobreimprimir texto sustituyendo sus palabras clave"
 
 #: data/effects/dynamictext.xml:8 data/effects/timer.xml:8
 #: src/assets/view/widgets/keyframeimport.cpp:386
@@ -4317,7 +4317,7 @@ msgstr "Cancelar todas las tareas"
 #: src/bin/bin.cpp:1505
 #, kde-format
 msgid "Cancel Current Clip Jobs"
-msgstr "Cancelar tareas del clip actual"
+msgstr "Cancelar tareas de clips actuales"
 
 #: src/bin/bin.cpp:1507
 #, kde-format
@@ -4357,7 +4357,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "Borrar clips en bandeja"
 
-#: src/bin/bin.cpp:1891 src/doc/documentchecker.cpp:553
+#: src/bin/bin.cpp:1891 src/doc/documentchecker.cpp:538
 #, kde-format
 msgid "Missing source clip"
 msgstr "Clip original faltante"
@@ -4655,7 +4655,7 @@ msgstr "Recargar clip"
 #: src/bin/bin.cpp:3434
 #, kde-format
 msgid "Transcode to Edit Friendly Format…"
-msgstr "Transcodificar a formato apto para edición…"
+msgstr "Transcodificar a formato editable…"
 
 #: src/bin/bin.cpp:3439
 #, kde-format
@@ -4797,7 +4797,7 @@ msgstr ""
 "Por favor, definir una aplicación predeterminada para abrir archivos de audio"
 
 #: src/bin/bin.cpp:4348 src/core.cpp:301 src/doc/kdenlivedoc.cpp:168
-#: src/jobs/cliploadtask.cpp:455 src/jobs/filtertask.cpp:85
+#: src/jobs/cliploadtask.cpp:459 src/jobs/filtertask.cpp:85
 #: src/layoutmanagement.cpp:466 src/layoutmanagement.cpp:527
 #: src/profiles/profilerepository.cpp:173
 #: src/renderpresets/renderpresetrepository.cpp:374
@@ -5323,7 +5323,7 @@ msgstr ""
 "No es posible extraer metadatos desde %1\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1122 src/jobs/cliploadtask.cpp:251
+#: src/bin/projectclip.cpp:1122 src/jobs/cliploadtask.cpp:255
 #, kde-format
 msgid "Invalid"
 msgstr "No válido"
@@ -5851,7 +5851,7 @@ msgstr "Ignorar estructura de subcarpetas"
 #: src/dialogs/clipjobmanager.cpp:24
 #, kde-format
 msgid "Manage Bin Clip Jobs"
-msgstr "Administrar tareas de clip de bandeja"
+msgstr "Administrar tareas de clips de bandeja"
 
 #: src/dialogs/clipjobmanager.cpp:36
 #, kde-format
@@ -5936,7 +5936,7 @@ msgstr "Clips de reemplazo"
 #: src/mainwindow.cpp:560
 #, kde-format
 msgid "Timeline Preview"
-msgstr "Previsualización de línea de tiempo"
+msgstr "Previsualización"
 
 #: src/dialogs/encodingprofilesdialog.cpp:53
 #, kde-format
@@ -7395,7 +7395,7 @@ msgid ""
 "<li>Missing package: <b>Breeze</b> icons (breeze-icon-theme)<br/>provides "
 "many icons used in Kdenlive. Install recommended</li>"
 msgstr ""
-"<li>Paquete faltante: Íconos <b>Breeze</b> (tema de íconos brisa)<br/"
+"<li>Paquete faltante: Íconos <b>Breeze</b> (breeze-icon-theme)<br/"
 ">proporciona varios íconos usados en Kdenlive. Se recomienda su instalación</"
 "li>"
 
@@ -7548,7 +7548,7 @@ msgid "Missing item"
 msgstr "Elemento faltante"
 
 #: src/doc/documentchecker.cpp:354 src/doc/documentchecker.cpp:379
-#: src/doc/documentchecker.cpp:1269
+#: src/doc/documentchecker.cpp:1255
 #, kde-format
 msgid "Relocated item"
 msgstr "Elemento reubicado"
@@ -7614,81 +7614,81 @@ msgstr[0] ""
 msgstr[1] ""
 "El archivo de proyecto contiene %1 clips modificados, que serán recargados."
 
-#: src/doc/documentchecker.cpp:531
+#: src/doc/documentchecker.cpp:516
 #: src/mltcontroller/clippropertiescontroller.cpp:418
 #, kde-format
 msgid "Proxy clip"
 msgstr "Clip de reemplazo"
 
-#: src/doc/documentchecker.cpp:534
+#: src/doc/documentchecker.cpp:519
 #, kde-format
 msgid "%1 missing proxy clip, will be recreated on project opening"
 msgid_plural "%1 missing proxy clips, will be recreated on project opening"
 msgstr[0] "%1 clip de reemplazo faltante, se recreará al abrir el proyecto"
 msgstr[1] "%1 clips de reemplazo faltantes, se recrearán al abrir el proyecto"
 
-#: src/doc/documentchecker.cpp:537
+#: src/doc/documentchecker.cpp:522
 #, kde-format
 msgid "Missing proxy"
 msgstr "Reemplazo faltante"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/doc/documentchecker.cpp:548 src/doc/documentchecker.cpp:562
+#: src/doc/documentchecker.cpp:533 src/doc/documentchecker.cpp:547
 #: src/ui/timeremap_ui.ui:90
 #, kde-format
 msgid "Source clip"
 msgstr "Clip original"
 
-#: src/doc/documentchecker.cpp:550
+#: src/doc/documentchecker.cpp:535
 #, kde-format
 msgid "%1 missing source clips, you can only use the proxies"
 msgstr "%1 clips originales faltantes, sólo es posible usar los reemplazos"
 
-#: src/doc/documentchecker.cpp:926
+#: src/doc/documentchecker.cpp:911
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Carpeta de clips"
 
-#: src/doc/documentchecker.cpp:957 src/doc/documentchecker.cpp:981
-#: src/doc/documentchecker.cpp:991 src/doc/documentchecker.cpp:1003
+#: src/doc/documentchecker.cpp:943 src/doc/documentchecker.cpp:967
+#: src/doc/documentchecker.cpp:977 src/doc/documentchecker.cpp:989
 #, kde-format
 msgid "Recovered item"
 msgstr "Elemento recuperado"
 
-#: src/doc/documentchecker.cpp:1016
+#: src/doc/documentchecker.cpp:1002
 #, kde-format
 msgid "Search aborted"
 msgstr "Búsqueda cancelada"
 
-#: src/doc/documentchecker.cpp:1018
+#: src/doc/documentchecker.cpp:1004
 #, kde-format
 msgid "Search done"
 msgstr "Búsqueda finalizada"
 
-#: src/doc/documentchecker.cpp:1134
+#: src/doc/documentchecker.cpp:1120
 #, kde-format
 msgid "Scanning %1"
 msgstr "Rastreando %1"
 
-#: src/doc/documentchecker.cpp:1231
+#: src/doc/documentchecker.cpp:1217
 #, kde-format
 msgid "Enter new location for folder"
 msgstr "Ingresar nueva ubicación para la carpeta"
 
-#: src/doc/documentchecker.cpp:1257
+#: src/doc/documentchecker.cpp:1243
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Ingresar nueva ubicación para el archivo"
 
-#: src/doc/documentchecker.cpp:1601
+#: src/doc/documentchecker.cpp:1612
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
 msgstr[0] "Esto eliminará el clip seleccionado de este proyecto"
 msgstr[1] "Esto eliminará los clips seleccionados de este proyecto"
 
-#: src/doc/documentchecker.cpp:1603
+#: src/doc/documentchecker.cpp:1614
 #, kde-format
 msgid "Remove clips"
 msgstr "Eliminar clips"
@@ -8448,17 +8448,17 @@ msgstr "Miniaturas de video"
 msgid "Loading clip"
 msgstr "Cargando clip"
 
-#: src/jobs/cliploadtask.cpp:483
+#: src/jobs/cliploadtask.cpp:487
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "No es posible determinar la duración del archivo <b>%1</b>."
 
-#: src/jobs/cliploadtask.cpp:641
+#: src/jobs/cliploadtask.cpp:645
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "No es posible saltar en el archivo <b>%1</b>."
 
-#: src/jobs/cliploadtask.cpp:683
+#: src/jobs/cliploadtask.cpp:687
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "El archivo <b>%1</b> tiene una frecuencia de fotogramas variable."
@@ -8730,13 +8730,13 @@ msgstr "Extraer audio"
 #: src/kdenliveui.rc:77 src/mainwindow.cpp:3683
 #, kde-format
 msgid "Clip Jobs"
-msgstr "Tareas de clip"
+msgstr "Tareas de clips"
 
 #. i18n: ectx: Menu (clip_in_timeline)
 #: src/kdenliveui.rc:90
 #, kde-format
 msgid "Clip in Timeline"
-msgstr "Clip en la línea de tiempo"
+msgstr "Posición en la línea de tiempo"
 
 #. i18n: ectx: Menu (timeline)
 #: src/kdenliveui.rc:99
@@ -8822,7 +8822,7 @@ msgstr "Saltar"
 #: src/kdenliveui.rc:231
 #, kde-format
 msgid "Current Monitor Overlay"
-msgstr "Superposición en monitor actual"
+msgstr "Sobreimprimir (monitor actual)"
 
 #. i18n: ectx: Menu (monitor_scaling)
 #: src/kdenliveui.rc:239 src/mainwindow.cpp:1510
@@ -9062,7 +9062,7 @@ msgstr "Cambiar nombre de clip en biblioteca"
 #: src/library/librarywidget.cpp:240
 #, kde-format
 msgid "Add Timeline Selection to Library"
-msgstr "Agregar selección de tiempo a biblioteca"
+msgstr "Agregar selección a biblioteca"
 
 #: src/library/librarywidget.cpp:241
 #, kde-kuit-format
@@ -9565,7 +9565,7 @@ msgstr "Miniaturas"
 #: src/mainwindow.cpp:680
 #, kde-format
 msgid "In Frame"
-msgstr "En el fotograma"
+msgstr "Fotograma de entrada"
 
 #: src/mainwindow.cpp:684
 #, kde-format
@@ -9998,32 +9998,32 @@ msgstr "Expandir clip"
 #: src/mainwindow.cpp:1471
 #, kde-format
 msgid "Monitor Info Overlay"
-msgstr "Superponer información"
+msgstr "Información"
 
 #: src/mainwindow.cpp:1476
 #, kde-format
 msgid "Monitor Overlay Timecode"
-msgstr "Superponer código de tiempo"
+msgstr "Código de tiempo"
 
 #: src/mainwindow.cpp:1481
 #, kde-format
 msgid "Monitor Overlay Playback Fps"
-msgstr "Superponer fps de reproducción"
+msgstr "FPS de reproducción"
 
 #: src/mainwindow.cpp:1486
 #, kde-format
 msgid "Monitor Overlay Markers"
-msgstr "Superponer marcadores"
+msgstr "Marcadores"
 
 #: src/mainwindow.cpp:1491
 #, kde-format
 msgid "Monitor Overlay Audio Waveform"
-msgstr "Superponer forma de onda"
+msgstr "Forma de onda"
 
 #: src/mainwindow.cpp:1496
 #, kde-format
 msgid "Monitor Overlay Clip Jobs"
-msgstr "Superponer tareas de clip"
+msgstr "Tareas de clips"
 
 #: src/mainwindow.cpp:1514
 #, kde-format
@@ -10943,7 +10943,7 @@ msgstr "Sobrescribir"
 #: src/mainwindow.cpp:3704
 #, kde-format
 msgid "Configure Clip Jobs…"
-msgstr "Configurar tareas del clip…"
+msgstr "Configurar tareas de clips…"
 
 #: src/mainwindow.cpp:3719
 #, kde-format
@@ -11500,17 +11500,17 @@ msgctxt "@title:window"
 msgid "Open Analysis Data"
 msgstr "Abrir datos de análisis"
 
-#: src/monitor/glwidget.cpp:1636
+#: src/monitor/glwidget.cpp:1638
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Seleccionar una zona de reproducción"
 
-#: src/monitor/glwidget.cpp:1672
+#: src/monitor/glwidget.cpp:1674
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Seleccionar un clip para reproducir"
 
-#: src/monitor/glwidget.cpp:1744
+#: src/monitor/glwidget.cpp:1746
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -12003,12 +12003,12 @@ msgstr "Habilitar espectro de audio"
 #: src/monitor/view/SceneToolBar.qml:56
 #, kde-format
 msgid "Switch Full Screen"
-msgstr "Cambiar a pantalla completa"
+msgstr "Alternar pantalla completa"
 
 #: src/monitor/view/EffectToolBar.qml:64 src/monitor/view/SceneToolBar.qml:65
 #, kde-format
 msgid "Change Overlay"
-msgstr "Cambiar superposición"
+msgstr "Alternar sobreimpresos"
 
 #: src/monitor/view/EffectToolBar.qml:77
 #, kde-format
@@ -12670,8 +12670,8 @@ msgstr[1] "(%1 elementos)"
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
-msgstr[0] "%1 archivo a ser archivado, necesita %2"
-msgstr[1] "%1 archivos a ser archivados, necesita %2"
+msgstr[0] "%1 archivo a ser archivado, se necesitarán %2"
+msgstr[1] "%1 archivos a ser archivados, se necesitarán %2"
 
 #: src/project/dialogs/archivewidget.cpp:217
 #: src/project/dialogs/archivewidget.cpp:300
@@ -15120,8 +15120,8 @@ msgid "Invalid composition %1 found on track %2 at %3."
 msgstr "Se encontró un método de composición inválido %1 en la pista %2 en %3."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:299
-#: src/timeline2/model/builders/meltBuilder.cpp:557
-#: src/timeline2/model/builders/meltBuilder.cpp:559
+#: src/timeline2/model/builders/meltBuilder.cpp:558
+#: src/timeline2/model/builders/meltBuilder.cpp:560
 #, kde-format
 msgid "Problems found in your project file"
 msgstr "Se encontraron problemas en el archivo del proyecto"
@@ -15147,12 +15147,12 @@ msgstr ""
 msgid "%1 Invalid composition found and removed."
 msgstr "%1 Se encontró un método de composición inválido y fue eliminado."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:548
+#: src/timeline2/model/builders/meltBuilder.cpp:549
 #, kde-format
 msgid "Errors found when opening project file (%1)"
 msgstr "Se encontraron errores al abrir el archivo de proyecto (%1)"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:555
+#: src/timeline2/model/builders/meltBuilder.cpp:556
 #, kde-format
 msgid ""
 "Some errors were detected in the project file.\n"
@@ -15165,109 +15165,109 @@ msgstr ""
 "se detallan en la solapa Notas del proyecto,\n"
 "por favor revisarlos para confirmar su integridad."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:635
-#: src/timeline2/model/builders/meltBuilder.cpp:645
+#: src/timeline2/model/builders/meltBuilder.cpp:636
+#: src/timeline2/model/builders/meltBuilder.cpp:646
 #, kde-format
 msgid "Incorrect Mix, clip %1 was removed at %2."
 msgstr "Mezcla incorrecta, el clip %1 fue eliminado en %2."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:636
+#: src/timeline2/model/builders/meltBuilder.cpp:637
 #, kde-format
 msgid "Incorrect mix found on track %1 at %2, clip %3 removed."
 msgstr ""
 "Se encontró una mezcla incorrecta sobre la pista %1 en %2, clip %3 eliminado."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:646
+#: src/timeline2/model/builders/meltBuilder.cpp:647
 #, kde-format
 msgid "Incorrect mix found at track %1 at %2, clip %3 removed."
 msgstr ""
 "Se encontró una mezcla incorrecta en la pista %1 en %2, clip %3 eliminado."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:738
+#: src/timeline2/model/builders/meltBuilder.cpp:739
 #, kde-format
 msgid "%1 Timeline clip (%2) with incorrect bin reference found and recovered."
 msgstr ""
 "%1 Se encontró un clip de la línea de tiempo (%2) con una referencia "
 "incorrecta a una bandeja del proyecto y fue recuperado."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:739
+#: src/timeline2/model/builders/meltBuilder.cpp:740
 #, kde-format
 msgid "Invalid clip %1 (%2) not found in project bin, recovered."
 msgstr ""
 "Clip inválido %1 (%2) no encontrado en la bandeja del proyecto, recuperado."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:741
+#: src/timeline2/model/builders/meltBuilder.cpp:742
 #, kde-format
 msgid "%1 Timeline clip (%2) without bin reference found and removed."
 msgstr ""
 "%1 Se encontró un clip de la línea de tiempo (%2) sin referencia a ninguna "
 "bandeja del proyecto y fue eliminado."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:742
+#: src/timeline2/model/builders/meltBuilder.cpp:743
 #, kde-format
 msgid "Project corrupted. Clip %1 (%2) not found in project bin."
 msgstr ""
 "Proyecto corrupto. Clip %1 (%2) no encontrado en la bandeja del proyecto."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:798
-#: src/timeline2/model/builders/meltBuilder.cpp:831
+#: src/timeline2/model/builders/meltBuilder.cpp:799
+#: src/timeline2/model/builders/meltBuilder.cpp:832
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and resized"
 msgstr ""
 "%1 Se encontró un clip (%2) con una mezcla inválida y fue redimensionado"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:799
-#: src/timeline2/model/builders/meltBuilder.cpp:829
+#: src/timeline2/model/builders/meltBuilder.cpp:800
+#: src/timeline2/model/builders/meltBuilder.cpp:830
 #, kde-format
 msgid "Clip without mix %1 found and resized on track %2 at %3."
 msgstr ""
 "Se encontró un clip %1 sin mezcla en la pista %2 en %3 y fue redimensionado."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:804
-#: src/timeline2/model/builders/meltBuilder.cpp:835
+#: src/timeline2/model/builders/meltBuilder.cpp:805
+#: src/timeline2/model/builders/meltBuilder.cpp:836
 #, kde-format
 msgid "Invalid clip without mix %1 found and removed on track %2 at %3."
 msgstr ""
 "Se encontró un clip %1 sin mezcla en la pista %2 en %3 y fue eliminado."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:806
-#: src/timeline2/model/builders/meltBuilder.cpp:837
+#: src/timeline2/model/builders/meltBuilder.cpp:807
+#: src/timeline2/model/builders/meltBuilder.cpp:838
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and removed"
 msgstr "%1 Se encontró un clip (%2) con una mezcla faltante y fue eliminado"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:824
-#: src/timeline2/model/builders/meltBuilder.cpp:868
+#: src/timeline2/model/builders/meltBuilder.cpp:825
+#: src/timeline2/model/builders/meltBuilder.cpp:869
 #, kde-format
 msgid "Invalid clip %1 found on track %2 at %3."
 msgstr "Se encontró un clip inválido %1 en la pista %2 en %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:826
-#: src/timeline2/model/builders/meltBuilder.cpp:873
+#: src/timeline2/model/builders/meltBuilder.cpp:827
+#: src/timeline2/model/builders/meltBuilder.cpp:874
 #, kde-format
 msgid "%1 Invalid clip (%2) found and removed"
 msgstr "%1 Se encontró un clip (%2) inválido y fue eliminado"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:844
+#: src/timeline2/model/builders/meltBuilder.cpp:845
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found and fixed on track %2 at %3."
 msgstr ""
 "El clip %1 fue encontrado en la sub-pista incorrecta y corregido, en la "
 "pista %2 en %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:849
+#: src/timeline2/model/builders/meltBuilder.cpp:850
 #, kde-format
 msgid "%1 Clip (%2) on incorrect subtrack found and fixed / %3"
 msgstr ""
 "El clip %1 (%2) fue encontrado en una sub-pista incorrecta y corregido / %3"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:852
+#: src/timeline2/model/builders/meltBuilder.cpp:853
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found on track %2 at %3."
 msgstr ""
 "El clip %1 fue encontrado en la sub-pista incorrecta, en la pista %2 en %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:857
+#: src/timeline2/model/builders/meltBuilder.cpp:858
 #, kde-format
 msgid "%1 Clip (%2) with incorrect subplaylist found"
 msgstr "%1 Clip (%2) encontrado con una sub-lista de reproducción incorrecta"
@@ -16126,7 +16126,7 @@ msgid ""
 "Click to make track active/inactive. Active tracks will react to editing "
 "operations"
 msgstr ""
-"Hacer clic para hacer a la pista activa/inactiva. Las pistas activas "
+"Hacer clic para activar o desactivar la pista. Las pistas activas "
 "reaccionarán a las operaciones de edición"
 
 #: src/timeline2/view/qml/TrackHead.qml:438
@@ -16488,7 +16488,7 @@ msgstr ""
 "Agregar secuencia. Esto creará una nueva línea de tiempo para edición. Cada "
 "línea de tiempo corresponde a un clip de secuencia en la bandeja del proyecto"
 
-#: src/timeline2/view/timelinetabs.cpp:204
+#: src/timeline2/view/timelinetabs.cpp:207
 #, kde-format
 msgid "Close %1"
 msgstr "Cerrar %1"
@@ -17190,13 +17190,13 @@ msgstr "Pista de composición:"
 #: src/ui/addtrack_ui.ui:22
 #, kde-format
 msgid "Above"
-msgstr "Arriba"
+msgstr "arriba de"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, before_select)
 #: src/ui/addtrack_ui.ui:27
 #, kde-format
 msgid "Under"
-msgstr "Abajo"
+msgstr "abajo de"
 
 #. i18n: ectx: property (text), widget (QLabel, name_label)
 #: src/ui/addtrack_ui.ui:50
@@ -17244,13 +17244,13 @@ msgstr "Pista de grabación de au&dio"
 #: src/ui/archivewidget_ui.ui:33
 #, kde-format
 msgid "Archive folder:"
-msgstr "Archivar carpeta:"
+msgstr "Carpeta del archivo:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, compressed_archive)
 #: src/ui/archivewidget_ui.ui:52
 #, kde-format
 msgid "Compressed archive:"
-msgstr "Archivo comprimido:"
+msgstr "Compresión del archivo:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, compression_type)
 #: src/ui/archivewidget_ui.ui:60
@@ -17268,7 +17268,7 @@ msgstr "zip"
 #: src/ui/archivewidget_ui.ui:75
 #, kde-format
 msgid "Archive only proxy clips when available"
-msgstr "Archivar sólo los clips de reemplazo cuando estén disponibles"
+msgstr "Archivar clips de reemplazo sólo cuando estén disponibles"
 
 #. i18n: ectx: property (text), widget (QCheckBox, timeline_archive)
 #: src/ui/archivewidget_ui.ui:82
@@ -17576,7 +17576,7 @@ msgstr "Argumentos"
 #: src/ui/clipjobmanager_ui.ui:183
 #, kde-format
 msgid "Custom clip jobs"
-msgstr "Tareas de clip personalizado"
+msgstr "Tareas de clips personalizadas"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox)
 #: src/ui/clipspeed_ui.ui:103
@@ -17884,7 +17884,7 @@ msgstr "Colores de gráficas de audio:"
 #: src/ui/configcolors_ui.ui:41
 #, kde-format
 msgid "Monitor overlay color:"
-msgstr "Color de superposición en monitor:"
+msgstr "Color de sobreimpresos del monitor:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_monitor_bg)
 #: src/ui/configcolors_ui.ui:61
@@ -18376,7 +18376,7 @@ msgstr "Carpeta del proyecto:"
 #: src/ui/configproject_ui.ui:58
 #, kde-format
 msgid "Parent folder of project file"
-msgstr "Carpeta superior del archivo de proyecto"
+msgstr "Carpeta del archivo de proyecto"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_customprojectfolder)
 #: src/ui/configproject_ui.ui:67
@@ -19415,13 +19415,13 @@ msgstr "Gráficas de audio:"
 #: src/ui/managecache_ui.ui:182
 #, kde-format
 msgid "Timeline preview:"
-msgstr "Previsualización de línea de tiempo:"
+msgstr "Previsualización:"
 
 #. i18n: ectx: property (text), widget (QLabel, currentLabel)
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Project total cache data:"
-msgstr "Datos completos del proyecto en caché:"
+msgstr "Total de datos del proyecto en caché:"
 
 #. i18n: ectx: property (text), widget (QLabel, thumbLabel)
 #: src/ui/managecache_ui.ui:213
@@ -19807,8 +19807,8 @@ msgid ""
 " The project folder is the place where assets like proxy clips, thumbnails "
 "or previews get stored."
 msgstr ""
-" Carpeta de proyecto, es el lugar donde almacenar recursos como clips de "
-"reemplazo, miniaturas y previsualizaciones."
+" La carpeta del proyecto, es el lugar donde se almacenarán recursos tales "
+"como clips de reemplazo, miniaturas y previsualizaciones."
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/ui/projectsettings_ui.ui:60
@@ -19820,7 +19820,7 @@ msgstr "Carpeta predeterminada"
 #: src/ui/projectsettings_ui.ui:67
 #, kde-format
 msgid "Parent folder of the project file"
-msgstr "Carpeta superior del archivo de proyecto"
+msgstr "Carpeta del archivo de proyecto"
 
 #. i18n: ectx: property (text), widget (QRadioButton, custom_folder)
 #: src/ui/projectsettings_ui.ui:76
@@ -19920,7 +19920,7 @@ msgstr "Redimensionar video de reemplazo (ancho)"
 #: src/ui/projectsettings_ui.ui:601
 #, kde-format
 msgid "Project Files"
-msgstr "Archivos de proyecto"
+msgstr "Archivos del proyecto"
 
 #. i18n: ectx: property (text), widget (QLabel, label_fonts)
 #: src/ui/projectsettings_ui.ui:607
@@ -19932,7 +19932,7 @@ msgstr "Tipografías"
 #: src/ui/projectsettings_ui.ui:662
 #, kde-format
 msgid "Project files:"
-msgstr "Archivos de proyecto:"
+msgstr "Archivos del proyecto:"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_export)
 #: src/ui/projectsettings_ui.ui:669
@@ -20168,7 +20168,7 @@ msgstr "Preservar la proporción"
 #: src/ui/renderwidget_ui.ui:602
 #, kde-format
 msgid "Overlay:"
-msgstr "Superponer:"
+msgstr "Sobreimprimir:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, stemAudioExport)
 #: src/ui/renderwidget_ui.ui:628

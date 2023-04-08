@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-07 00:46+0000\n"
+"POT-Creation-Date: 2023-04-08 00:46+0000\n"
 "PO-Revision-Date: 2023-01-13 08:32+0700\n"
 "Last-Translator: Linerly <linerly@protonmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -4298,7 +4298,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "Hapus Klip bin"
 
-#: src/bin/bin.cpp:1891 src/doc/documentchecker.cpp:553
+#: src/bin/bin.cpp:1891 src/doc/documentchecker.cpp:538
 #, kde-format
 msgid "Missing source clip"
 msgstr "Klip sumber hilang"
@@ -4742,7 +4742,7 @@ msgid "Please set a default application to open audio files"
 msgstr "Silakan atur aplikasi default untuk membuka file audio"
 
 #: src/bin/bin.cpp:4348 src/core.cpp:301 src/doc/kdenlivedoc.cpp:168
-#: src/jobs/cliploadtask.cpp:455 src/jobs/filtertask.cpp:85
+#: src/jobs/cliploadtask.cpp:459 src/jobs/filtertask.cpp:85
 #: src/layoutmanagement.cpp:466 src/layoutmanagement.cpp:527
 #: src/profiles/profilerepository.cpp:173
 #: src/renderpresets/renderpresetrepository.cpp:374
@@ -5278,7 +5278,7 @@ msgstr ""
 "Tidak bisa mengekstrak metadata dari %1\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1122 src/jobs/cliploadtask.cpp:251
+#: src/bin/projectclip.cpp:1122 src/jobs/cliploadtask.cpp:255
 #, kde-format
 msgid "Invalid"
 msgstr "Tidak valid"
@@ -7486,7 +7486,7 @@ msgid "Missing item"
 msgstr "Item yang hilang"
 
 #: src/doc/documentchecker.cpp:354 src/doc/documentchecker.cpp:379
-#: src/doc/documentchecker.cpp:1269
+#: src/doc/documentchecker.cpp:1255
 #, kde-format
 msgid "Relocated item"
 msgstr "Item yang direlokasikan"
@@ -7552,81 +7552,81 @@ msgstr[0] ""
 msgstr[1] ""
 "File proyek berisi %1 klip yang termodifikasi, itu akan dimuat ulang."
 
-#: src/doc/documentchecker.cpp:531
+#: src/doc/documentchecker.cpp:516
 #: src/mltcontroller/clippropertiescontroller.cpp:418
 #, kde-format
 msgid "Proxy clip"
 msgstr "Klip proxy"
 
-#: src/doc/documentchecker.cpp:534
+#: src/doc/documentchecker.cpp:519
 #, kde-format
 msgid "%1 missing proxy clip, will be recreated on project opening"
 msgid_plural "%1 missing proxy clips, will be recreated on project opening"
 msgstr[0] "%1 klip proxy hilang, akan diciptakan ulang saat pembukaan proyek"
 msgstr[1] "%1 klip proxy hilang, akan diciptakan ulang saat pembukaan proyek"
 
-#: src/doc/documentchecker.cpp:537
+#: src/doc/documentchecker.cpp:522
 #, kde-format
 msgid "Missing proxy"
 msgstr "Proxy yang hilang"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/doc/documentchecker.cpp:548 src/doc/documentchecker.cpp:562
+#: src/doc/documentchecker.cpp:533 src/doc/documentchecker.cpp:547
 #: src/ui/timeremap_ui.ui:90
 #, kde-format
 msgid "Source clip"
 msgstr "Klip sumber"
 
-#: src/doc/documentchecker.cpp:550
+#: src/doc/documentchecker.cpp:535
 #, kde-format
 msgid "%1 missing source clips, you can only use the proxies"
 msgstr "%1 klip sumber hilang, Anda hanya bisa menggunakan proxy"
 
-#: src/doc/documentchecker.cpp:926
+#: src/doc/documentchecker.cpp:911
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Folder Klip"
 
-#: src/doc/documentchecker.cpp:957 src/doc/documentchecker.cpp:981
-#: src/doc/documentchecker.cpp:991 src/doc/documentchecker.cpp:1003
+#: src/doc/documentchecker.cpp:943 src/doc/documentchecker.cpp:967
+#: src/doc/documentchecker.cpp:977 src/doc/documentchecker.cpp:989
 #, kde-format
 msgid "Recovered item"
 msgstr "Item yang dipulihkan"
 
-#: src/doc/documentchecker.cpp:1016
+#: src/doc/documentchecker.cpp:1002
 #, kde-format
 msgid "Search aborted"
 msgstr "Pencarian yang digugurkan"
 
-#: src/doc/documentchecker.cpp:1018
+#: src/doc/documentchecker.cpp:1004
 #, kde-format
 msgid "Search done"
 msgstr "Pencarian selesai"
 
-#: src/doc/documentchecker.cpp:1134
+#: src/doc/documentchecker.cpp:1120
 #, kde-format
 msgid "Scanning %1"
 msgstr "Memindai %1"
 
-#: src/doc/documentchecker.cpp:1231
+#: src/doc/documentchecker.cpp:1217
 #, kde-format
 msgid "Enter new location for folder"
 msgstr "Masukkan lokasi baru untuk folder"
 
-#: src/doc/documentchecker.cpp:1257
+#: src/doc/documentchecker.cpp:1243
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Masukkan lokasi baru untuk file"
 
-#: src/doc/documentchecker.cpp:1601
+#: src/doc/documentchecker.cpp:1612
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
 msgstr[0] "Ini akan menghapus klip yang dipilih dari proyek ini"
 msgstr[1] "Ini akan menghapus klip yang dipilih dari proyek ini"
 
-#: src/doc/documentchecker.cpp:1603
+#: src/doc/documentchecker.cpp:1614
 #, kde-format
 msgid "Remove clips"
 msgstr "Singkirkan klip"
@@ -8378,17 +8378,17 @@ msgstr "Thumbnail video:"
 msgid "Loading clip"
 msgstr "Memuat klip"
 
-#: src/jobs/cliploadtask.cpp:483
+#: src/jobs/cliploadtask.cpp:487
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "Durasi pada file <b>%1</b> tidak bisa ditentukan."
 
-#: src/jobs/cliploadtask.cpp:641
+#: src/jobs/cliploadtask.cpp:645
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "File <b>%1</b> bukanlah file yang dapat dijangka."
 
-#: src/jobs/cliploadtask.cpp:683
+#: src/jobs/cliploadtask.cpp:687
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "File <b>%1</b> memiliki laju frame yang dapat bervariasi"
@@ -11397,17 +11397,17 @@ msgctxt "@title:window"
 msgid "Open Analysis Data"
 msgstr "Buka Data Analisis"
 
-#: src/monitor/glwidget.cpp:1636
+#: src/monitor/glwidget.cpp:1638
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Pilih zona untuk diputar"
 
-#: src/monitor/glwidget.cpp:1672
+#: src/monitor/glwidget.cpp:1674
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Pilih sebuah klip untuk diputar"
 
-#: src/monitor/glwidget.cpp:1744
+#: src/monitor/glwidget.cpp:1746
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -15014,8 +15014,8 @@ msgid "Invalid composition %1 found on track %2 at %3."
 msgstr "Komposisi tidak valid %1 yang ditemukan pada trek %2 di %3."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:299
-#: src/timeline2/model/builders/meltBuilder.cpp:557
-#: src/timeline2/model/builders/meltBuilder.cpp:559
+#: src/timeline2/model/builders/meltBuilder.cpp:558
+#: src/timeline2/model/builders/meltBuilder.cpp:560
 #, kde-format
 msgid "Problems found in your project file"
 msgstr "Masalah ditemukan di file proyek Anda"
@@ -15041,12 +15041,12 @@ msgstr ""
 msgid "%1 Invalid composition found and removed."
 msgstr "%1 Komposisi tidak valid yang  ditemukan dan disingkirkan."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:548
+#: src/timeline2/model/builders/meltBuilder.cpp:549
 #, kde-format
 msgid "Errors found when opening project file (%1)"
 msgstr "Galat ditemukan ketika membuka file proyek (%1)"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:555
+#: src/timeline2/model/builders/meltBuilder.cpp:556
 #, kde-format
 msgid ""
 "Some errors were detected in the project file.\n"
@@ -15059,105 +15059,105 @@ msgstr ""
 "pada proyek telah dicantumkan di tab Catatan Proyek,\n"
 "harap meninjaunya untuk memastikan integritas proyek Anda."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:635
-#: src/timeline2/model/builders/meltBuilder.cpp:645
+#: src/timeline2/model/builders/meltBuilder.cpp:636
+#: src/timeline2/model/builders/meltBuilder.cpp:646
 #, kde-format
 msgid "Incorrect Mix, clip %1 was removed at %2."
 msgstr "Campuran tidak benar, klip %1 dihapus di %2."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:636
+#: src/timeline2/model/builders/meltBuilder.cpp:637
 #, kde-format
 msgid "Incorrect mix found on track %1 at %2, clip %3 removed."
 msgstr ""
 "Ditemukan mix yang tidak benar pada trek %1 di %2, klip %3 disingkirkan."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:646
+#: src/timeline2/model/builders/meltBuilder.cpp:647
 #, kde-format
 msgid "Incorrect mix found at track %1 at %2, clip %3 removed."
 msgstr "Campuran tidak benar ditemukan di trek %1 di %2, klip %3 dihapus."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:738
+#: src/timeline2/model/builders/meltBuilder.cpp:739
 #, kde-format
 msgid "%1 Timeline clip (%2) with incorrect bin reference found and recovered."
 msgstr ""
 "%1 klip lini masa (%2) dengan referensi bin salah yang ditemukan dan "
 "dipulihkan."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:739
+#: src/timeline2/model/builders/meltBuilder.cpp:740
 #, kde-format
 msgid "Invalid clip %1 (%2) not found in project bin, recovered."
 msgstr ""
 "Klip %1 (%2) yang tidak valid tidak ditemukan di dalam bin proyek, "
 "dipulihkan."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:741
+#: src/timeline2/model/builders/meltBuilder.cpp:742
 #, kde-format
 msgid "%1 Timeline clip (%2) without bin reference found and removed."
 msgstr ""
 "%1 klip lini masa (%2) tanpa referensi bin yang ditemukan dan disingkirkan."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:742
+#: src/timeline2/model/builders/meltBuilder.cpp:743
 #, kde-format
 msgid "Project corrupted. Clip %1 (%2) not found in project bin."
 msgstr "Proyek rusak. Klip %1 (%2) tidak ditemukan di bin proyek."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:798
-#: src/timeline2/model/builders/meltBuilder.cpp:831
+#: src/timeline2/model/builders/meltBuilder.cpp:799
+#: src/timeline2/model/builders/meltBuilder.cpp:832
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and resized"
 msgstr "%1 Klip (%2) dengan campuran hilang yang ditemukan dan disingkirkan"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:799
-#: src/timeline2/model/builders/meltBuilder.cpp:829
+#: src/timeline2/model/builders/meltBuilder.cpp:800
+#: src/timeline2/model/builders/meltBuilder.cpp:830
 #, kde-format
 msgid "Clip without mix %1 found and resized on track %2 at %3."
 msgstr ""
 "Klip tanpa campuran %1 yang ditemukan dan diubah ukuran pada trek %2 di %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:804
-#: src/timeline2/model/builders/meltBuilder.cpp:835
+#: src/timeline2/model/builders/meltBuilder.cpp:805
+#: src/timeline2/model/builders/meltBuilder.cpp:836
 #, kde-format
 msgid "Invalid clip without mix %1 found and removed on track %2 at %3."
 msgstr ""
 "Klip tidak valid tanpa campuran %1 yang ditemukan dan disingkirkan pada trek "
 "%2 di %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:806
-#: src/timeline2/model/builders/meltBuilder.cpp:837
+#: src/timeline2/model/builders/meltBuilder.cpp:807
+#: src/timeline2/model/builders/meltBuilder.cpp:838
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and removed"
 msgstr "%1 Klip (%2) dengan campuran hilang yang ditemukan dan disingkirkan"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:824
-#: src/timeline2/model/builders/meltBuilder.cpp:868
+#: src/timeline2/model/builders/meltBuilder.cpp:825
+#: src/timeline2/model/builders/meltBuilder.cpp:869
 #, kde-format
 msgid "Invalid clip %1 found on track %2 at %3."
 msgstr "Klip %1 tidak valid yang ditemukan pada trek %2 di %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:826
-#: src/timeline2/model/builders/meltBuilder.cpp:873
+#: src/timeline2/model/builders/meltBuilder.cpp:827
+#: src/timeline2/model/builders/meltBuilder.cpp:874
 #, kde-format
 msgid "%1 Invalid clip (%2) found and removed"
 msgstr "%1 Klip tidak valid (%2) yang ditemukan dan disingkirkan"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:844
+#: src/timeline2/model/builders/meltBuilder.cpp:845
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found and fixed on track %2 at %3."
 msgstr ""
 "Klip %1 pada subtrek salah yang ditemukan dan diperbaiki pada trek %2 di %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:849
+#: src/timeline2/model/builders/meltBuilder.cpp:850
 #, kde-format
 msgid "%1 Clip (%2) on incorrect subtrack found and fixed / %3"
 msgstr ""
 "%1 Klip (%2) pada subtrek tidak benar telah ditemukan dan diperbaiki / %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:852
+#: src/timeline2/model/builders/meltBuilder.cpp:853
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found on track %2 at %3."
 msgstr "Klip %1 pada subtrek salah yang ditemukan pada trek %2 di %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:857
+#: src/timeline2/model/builders/meltBuilder.cpp:858
 #, kde-format
 msgid "%1 Clip (%2) with incorrect subplaylist found"
 msgstr "%1 Klip (%2) dengan subplaylist salah yang ditemukan"
@@ -16370,7 +16370,7 @@ msgid ""
 "timeline corresponds to a Sequence Clip in the Project Bin"
 msgstr ""
 
-#: src/timeline2/view/timelinetabs.cpp:204
+#: src/timeline2/view/timelinetabs.cpp:207
 #, fuzzy, kde-format
 #| msgid "Close"
 msgid "Close %1"
