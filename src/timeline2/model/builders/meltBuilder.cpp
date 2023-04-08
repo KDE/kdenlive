@@ -706,6 +706,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
         int position = track.clip_start(i);
         switch (clip->type()) {
         case mlt_service_unknown_type:
+        case mlt_service_chain_type:
         case mlt_service_producer_type: {
             QString binId;
             if (clip->parent().get_int("_kdenlive_processed") == 1) {
@@ -719,7 +720,9 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                 if (clipId.isEmpty()) {
                     clipId = clip->get("kdenlive:id");
                 }
-                QString resource = clip->parent().get("resource");
+                const QString service = clip->parent().get("mlt_service");
+                QString resource = service == QLatin1String("timewarp") ? clip->parent().get("warp_resource") : clip->parent().get("resource");
+
                 if (binIdCorresp.size() == 0 || (clip->parent().get_int("kdenlive:producer_type") == ClipType::Timeline)) {
                     // Currently "sequence" clips inserted in timeline are cuts of the bin clip, so it's kdenlive id is changed in loadBinPlaylist
                     binId = clipId;
@@ -730,7 +733,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                     }
                     // Project was somehow corrupted
                     qWarning() << "can't find clip with id: " << clipId << "in bin playlist";
-                    QStringList fixedId = pCore->projectItemModel()->getClipByUrl(QFileInfo(clip->parent().get("resource")));
+                    QStringList fixedId = pCore->projectItemModel()->getClipByUrl(QFileInfo(resource));
                     QString tcInfo = QString("<a href=\"%1?%2\">%3 %4</a>")
                                          .arg(QString::number(position), QString::number(timeline->getTrackPosition(tid) + 1), trackTag,
                                               pCore->timecode().getTimecodeFromFrames(position));
@@ -753,6 +756,18 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
             }
             bool ok = false;
             int cid = -1;
+            if (pCore->projectItemModel()->getClipByBinID(binId) == nullptr) {
+                // Trying to recover clip by its resource
+                const QString service = clip->parent().get("mlt_service");
+                QString resource = service == QLatin1String("timewarp") ? clip->parent().get("warp_resource") : clip->parent().get("resource");
+                const QStringList possibleIds = pCore->projectItemModel()->getClipByUrl(resource);
+                qWarning() << "Incorred clip id, trying to recover " << binId << "/" << clip->get("id") << " = " << resource;
+                if (!possibleIds.isEmpty()) {
+                    binId = possibleIds.first();
+                    clip->parent().set("kdenlive:id", binId.toUtf8().constData());
+                    qDebug() << "=== FOUND POSSIBLE MATCHES: " << possibleIds;
+                }
+            }
             if (pCore->projectItemModel()->getClipByBinID(binId)) {
                 PlaylistState::ClipState st = inferState(clip, audioTrack);
                 bool enforceTopPlaylist = false;
@@ -862,7 +877,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                 cid = ClipModel::construct(timeline, binId, clip, st, tid, originalDecimalPoint, enforceTopPlaylist ? 0 : playlist);
                 ok = timeline->requestClipMove(cid, tid, position, true, true, false, true, undo, redo);
             } else {
-                qWarning() << "can't find bin clip" << binId << clip->get("id");
+                qWarning() << "Really can't find bin clip" << binId << clip->get("id");
             }
             if (!ok && cid > -1) {
                 timeline->requestItemDeletion(cid, false);
