@@ -1332,6 +1332,7 @@ void DocumentChecker::acceptDialog()
         }
         ix++;
         child = m_ui.treeWidget->topLevelItem(ix);
+        qApp->processEvents();
     }
     // QDialog::accept();
 }
