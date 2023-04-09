@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-08 02:52+0000\n"
+"POT-Creation-Date: 2023-04-09 02:41+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -4415,7 +4415,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "Vymazať klip"
 
-#: src/bin/bin.cpp:1891 src/doc/documentchecker.cpp:538
+#: src/bin/bin.cpp:1891 src/doc/documentchecker.cpp:549
 #, kde-format
 msgid "Missing source clip"
 msgstr "Chýbajúci zdrojový klip"
@@ -5505,7 +5505,7 @@ msgstr "Id"
 msgid "Usage"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:331 src/doc/documentchecker.cpp:318
+#: src/bin/projectitemmodel.cpp:331 src/doc/documentchecker.cpp:319
 #: src/mltcontroller/clipcontroller.cpp:464 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -5545,7 +5545,7 @@ msgstr "Premenovať priečinok"
 msgid "Clean Project"
 msgstr "Vyčistiť projekt"
 
-#: src/bin/projectitemmodel.cpp:1160
+#: src/bin/projectitemmodel.cpp:1164
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Loading project clips…"
@@ -7757,72 +7757,72 @@ msgstr "VAAPI hardvérové enkódery nájdené a povolené."
 msgid "Luma file"
 msgstr "Luma súbor"
 
-#: src/doc/documentchecker.cpp:300
+#: src/doc/documentchecker.cpp:301
 #, kde-format
 msgid "Video clip"
 msgstr "Videoklip"
 
-#: src/doc/documentchecker.cpp:304
+#: src/doc/documentchecker.cpp:305
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Klip prezentácie"
 
-#: src/doc/documentchecker.cpp:307
+#: src/doc/documentchecker.cpp:308
 #, kde-format
 msgid "Image clip"
 msgstr "Obrazový klip"
 
-#: src/doc/documentchecker.cpp:311
+#: src/doc/documentchecker.cpp:312
 #, kde-format
 msgid "Playlist clip"
 msgstr "Klip zoznamu skladieb"
 
-#: src/doc/documentchecker.cpp:314
+#: src/doc/documentchecker.cpp:315
 #, kde-format
 msgid "Title Image"
 msgstr "Titulný obrázok"
 
-#: src/doc/documentchecker.cpp:341
+#: src/doc/documentchecker.cpp:351
 #, kde-format
 msgid "Missing item"
 msgstr "Chýbajúca položka"
 
-#: src/doc/documentchecker.cpp:354 src/doc/documentchecker.cpp:379
-#: src/doc/documentchecker.cpp:1255
+#: src/doc/documentchecker.cpp:365 src/doc/documentchecker.cpp:390
+#: src/doc/documentchecker.cpp:1266
 #, kde-format
 msgid "Relocated item"
 msgstr "Relokovaná položka"
 
-#: src/doc/documentchecker.cpp:392
+#: src/doc/documentchecker.cpp:403
 #, kde-format
 msgid "Title Font"
 msgstr "Písmo titulku"
 
-#: src/doc/documentchecker.cpp:397
+#: src/doc/documentchecker.cpp:408
 #, kde-format
 msgid "%1 will be replaced by %2"
 msgstr "%1 bude nahradené s %2"
 
-#: src/doc/documentchecker.cpp:402
+#: src/doc/documentchecker.cpp:413
 #, fuzzy, kde-format
 #| msgid "Move Clip"
 #| msgid_plural "Move Clips"
 msgid "Modified Clips"
 msgstr "Presunúť klip"
 
-#: src/doc/documentchecker.cpp:406
+#: src/doc/documentchecker.cpp:417
 #, fuzzy, kde-format
 #| msgid "%1 will be replaced by %2"
 msgid "Clip %1 will be reloaded"
 msgstr "%1 bude nahradené s %2"
 
-#: src/doc/documentchecker.cpp:412
+#: src/doc/documentchecker.cpp:423
 #, fuzzy, kde-format
 #| msgid "The project file contains missing clips or files"
 msgid "The project file contains missing clips or files."
 msgstr "Súbor projektu obsahuje chýbajúce klipy alebo súbory"
 
-#: src/doc/documentchecker.cpp:418
+#: src/doc/documentchecker.cpp:429
 #, fuzzy, kde-format
 #| msgid "Clip is invalid, will be removed from project."
 msgid "Missing effect: %2 will be removed from project."
@@ -7831,13 +7831,13 @@ msgstr[0] "Klip je neplatný, bude odstránený z projektu."
 msgstr[1] "Klip je neplatný, bude odstránený z projektu."
 msgstr[2] "Klip je neplatný, bude odstránený z projektu."
 
-#: src/doc/documentchecker.cpp:425
+#: src/doc/documentchecker.cpp:436
 #, fuzzy, kde-format
 #| msgid "Missing proxies will be recreated after opening."
 msgid "Missing proxies can be recreated on opening."
 msgstr "Chýbajúci zástupcovia budú obnovené po otvorení."
 
-#: src/doc/documentchecker.cpp:443
+#: src/doc/documentchecker.cpp:454
 #, kde-format
 msgid ""
 "The project file contains a missing clip, you can still work with its proxy."
@@ -7854,7 +7854,7 @@ msgstr[2] ""
 "Súbor projektu obsahuje %1 chýbajúcich klipov, stále môžete pracovať s ich "
 "zástupcami."
 
-#: src/doc/documentchecker.cpp:450
+#: src/doc/documentchecker.cpp:461
 #, fuzzy, kde-format
 #| msgid "The project file contains missing clips or files"
 msgid "The project file contains one modified clip, it will be reloaded."
@@ -7864,13 +7864,13 @@ msgstr[0] "Súbor projektu obsahuje chýbajúce klipy alebo súbory"
 msgstr[1] "Súbor projektu obsahuje chýbajúce klipy alebo súbory"
 msgstr[2] "Súbor projektu obsahuje chýbajúce klipy alebo súbory"
 
-#: src/doc/documentchecker.cpp:516
+#: src/doc/documentchecker.cpp:527
 #: src/mltcontroller/clippropertiescontroller.cpp:418
 #, kde-format
 msgid "Proxy clip"
 msgstr "Zástupný klip"
 
-#: src/doc/documentchecker.cpp:519
+#: src/doc/documentchecker.cpp:530
 #, kde-format
 msgid "%1 missing proxy clip, will be recreated on project opening"
 msgid_plural "%1 missing proxy clips, will be recreated on project opening"
@@ -7881,64 +7881,64 @@ msgstr[1] ""
 msgstr[2] ""
 "%1 chýbajúcich zástupných klipov, ktoré budú obnovené pri otvorení projektu"
 
-#: src/doc/documentchecker.cpp:522
+#: src/doc/documentchecker.cpp:533
 #, kde-format
 msgid "Missing proxy"
 msgstr "Chýbajúci zástupca"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/doc/documentchecker.cpp:533 src/doc/documentchecker.cpp:547
+#: src/doc/documentchecker.cpp:544 src/doc/documentchecker.cpp:558
 #: src/ui/timeremap_ui.ui:90
 #, kde-format
 msgid "Source clip"
 msgstr "Zdrojový klip"
 
-#: src/doc/documentchecker.cpp:535
+#: src/doc/documentchecker.cpp:546
 #, kde-format
 msgid "%1 missing source clips, you can only use the proxies"
 msgstr "%1 chýbajúce zdrojové klipy, môžete použiť len zástupcov"
 
-#: src/doc/documentchecker.cpp:911
+#: src/doc/documentchecker.cpp:922
 #, fuzzy, kde-format
 #| msgid "Clips folder"
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Priečinok klipov"
 
-#: src/doc/documentchecker.cpp:943 src/doc/documentchecker.cpp:967
-#: src/doc/documentchecker.cpp:977 src/doc/documentchecker.cpp:989
+#: src/doc/documentchecker.cpp:954 src/doc/documentchecker.cpp:978
+#: src/doc/documentchecker.cpp:988 src/doc/documentchecker.cpp:1000
 #, fuzzy, kde-format
 #| msgid "Relocated item"
 msgid "Recovered item"
 msgstr "Relokovaná položka"
 
-#: src/doc/documentchecker.cpp:1002
+#: src/doc/documentchecker.cpp:1013
 #, kde-format
 msgid "Search aborted"
 msgstr "Hľadanie zrušené"
 
-#: src/doc/documentchecker.cpp:1004
+#: src/doc/documentchecker.cpp:1015
 #, kde-format
 msgid "Search done"
 msgstr "Hľadanie dokončené"
 
-#: src/doc/documentchecker.cpp:1120
+#: src/doc/documentchecker.cpp:1131
 #, kde-format
 msgid "Scanning %1"
 msgstr "Skenuje sa %1"
 
-#: src/doc/documentchecker.cpp:1217
+#: src/doc/documentchecker.cpp:1228
 #, fuzzy, kde-format
 #| msgid "Enter new location for file"
 msgid "Enter new location for folder"
 msgstr "Zadať nové umiestnenie pre súbor"
 
-#: src/doc/documentchecker.cpp:1243
+#: src/doc/documentchecker.cpp:1254
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Zadať nové umiestnenie pre súbor"
 
-#: src/doc/documentchecker.cpp:1612
+#: src/doc/documentchecker.cpp:1623
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
@@ -7946,7 +7946,7 @@ msgstr[0] "Týmto sa odstráni vybraný klip z tohto projektu"
 msgstr[1] "Týmto sa odstránia vybrané klipy z tohto projektu"
 msgstr[2] "Týmto sa odstránia vybrané klipy z tohto projektu"
 
-#: src/doc/documentchecker.cpp:1614
+#: src/doc/documentchecker.cpp:1625
 #, kde-format
 msgid "Remove clips"
 msgstr "Odstrániť klipy"
@@ -15604,86 +15604,86 @@ msgstr "Odstránený neplatný klip zo stopy %1 na %2\n"
 msgid "Incorrect mix found at track %1 at %2, clip %3 removed."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:739
+#: src/timeline2/model/builders/meltBuilder.cpp:742
 #, kde-format
 msgid "%1 Timeline clip (%2) with incorrect bin reference found and recovered."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:740
+#: src/timeline2/model/builders/meltBuilder.cpp:743
 #, kde-format
 msgid "Invalid clip %1 (%2) not found in project bin, recovered."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:742
+#: src/timeline2/model/builders/meltBuilder.cpp:745
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "%1 Timeline clip (%2) without bin reference found and removed."
 msgstr "Odstránený neplatný klip zo stopy %1 na %2\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:743
+#: src/timeline2/model/builders/meltBuilder.cpp:746
 #, kde-format
 msgid "Project corrupted. Clip %1 (%2) not found in project bin."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:799
-#: src/timeline2/model/builders/meltBuilder.cpp:832
+#: src/timeline2/model/builders/meltBuilder.cpp:814
+#: src/timeline2/model/builders/meltBuilder.cpp:847
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and resized"
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:800
-#: src/timeline2/model/builders/meltBuilder.cpp:830
+#: src/timeline2/model/builders/meltBuilder.cpp:815
+#: src/timeline2/model/builders/meltBuilder.cpp:845
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "Clip without mix %1 found and resized on track %2 at %3."
 msgstr "Odstránený neplatný klip zo stopy %1 na %2\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:805
-#: src/timeline2/model/builders/meltBuilder.cpp:836
+#: src/timeline2/model/builders/meltBuilder.cpp:820
+#: src/timeline2/model/builders/meltBuilder.cpp:851
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "Invalid clip without mix %1 found and removed on track %2 at %3."
 msgstr "Odstránený neplatný klip zo stopy %1 na %2\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:807
-#: src/timeline2/model/builders/meltBuilder.cpp:838
+#: src/timeline2/model/builders/meltBuilder.cpp:822
+#: src/timeline2/model/builders/meltBuilder.cpp:853
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and removed"
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:825
-#: src/timeline2/model/builders/meltBuilder.cpp:869
+#: src/timeline2/model/builders/meltBuilder.cpp:840
+#: src/timeline2/model/builders/meltBuilder.cpp:884
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "Invalid clip %1 found on track %2 at %3."
 msgstr "Odstránený neplatný klip zo stopy %1 na %2\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:827
-#: src/timeline2/model/builders/meltBuilder.cpp:874
+#: src/timeline2/model/builders/meltBuilder.cpp:842
+#: src/timeline2/model/builders/meltBuilder.cpp:889
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "%1 Invalid clip (%2) found and removed"
 msgstr "Odstránený neplatný klip zo stopy %1 na %2\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:845
+#: src/timeline2/model/builders/meltBuilder.cpp:860
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "Clip %1 on incorrect subtrack found and fixed on track %2 at %3."
 msgstr "Odstránený neplatný klip zo stopy %1 na %2\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:850
+#: src/timeline2/model/builders/meltBuilder.cpp:865
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "%1 Clip (%2) on incorrect subtrack found and fixed / %3"
 msgstr "Odstránený neplatný klip zo stopy %1 na %2\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:853
+#: src/timeline2/model/builders/meltBuilder.cpp:868
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "Clip %1 on incorrect subtrack found on track %2 at %3."
 msgstr "Odstránený neplatný klip zo stopy %1 na %2\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:858
+#: src/timeline2/model/builders/meltBuilder.cpp:873
 #, kde-format
 msgid "%1 Clip (%2) with incorrect subplaylist found"
 msgstr ""
