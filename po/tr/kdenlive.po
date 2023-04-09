@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-08 00:46+0000\n"
+"POT-Creation-Date: 2023-04-09 00:46+0000\n"
 "PO-Revision-Date: 2023-03-19 13:44+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -4322,7 +4322,7 @@ msgstr "Bazı ögeler silinemedi. Kilitli izlerde örnekler olabilir mi?"
 msgid "Delete bin Clips"
 msgstr "Kovadaki Kliplerini Sil"
 
-#: src/bin/bin.cpp:1891 src/doc/documentchecker.cpp:538
+#: src/bin/bin.cpp:1891 src/doc/documentchecker.cpp:549
 #, kde-format
 msgid "Missing source clip"
 msgstr "Eksik kaynak klip"
@@ -5326,7 +5326,7 @@ msgstr "Id"
 msgid "Usage"
 msgstr "Kullanım"
 
-#: src/bin/projectitemmodel.cpp:331 src/doc/documentchecker.cpp:318
+#: src/bin/projectitemmodel.cpp:331 src/doc/documentchecker.cpp:319
 #: src/mltcontroller/clipcontroller.cpp:464 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -5363,7 +5363,7 @@ msgstr "Klasörü Yeniden Adlandır"
 msgid "Clean Project"
 msgstr "Projeyi Temizle"
 
-#: src/bin/projectitemmodel.cpp:1160
+#: src/bin/projectitemmodel.cpp:1164
 #, kde-format
 msgid "Loading project clips…"
 msgstr "Proje klipleri yükleniyor…"
@@ -7456,80 +7456,80 @@ msgstr "VAAPI donanım kodlayıcıları bulundu ve etkinleştirildi."
 msgid "Luma file"
 msgstr "Luma dosyası"
 
-#: src/doc/documentchecker.cpp:300
+#: src/doc/documentchecker.cpp:301
 #, kde-format
 msgid "Video clip"
 msgstr "Video klibi"
 
-#: src/doc/documentchecker.cpp:304
+#: src/doc/documentchecker.cpp:305
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Sunu klibi"
 
-#: src/doc/documentchecker.cpp:307
+#: src/doc/documentchecker.cpp:308
 #, kde-format
 msgid "Image clip"
 msgstr "Görsel klibi"
 
-#: src/doc/documentchecker.cpp:311
+#: src/doc/documentchecker.cpp:312
 #, kde-format
 msgid "Playlist clip"
 msgstr "Oynatma listesi klibi"
 
-#: src/doc/documentchecker.cpp:314
+#: src/doc/documentchecker.cpp:315
 #, kde-format
 msgid "Title Image"
 msgstr "Başlık Resmi"
 
-#: src/doc/documentchecker.cpp:341
+#: src/doc/documentchecker.cpp:351
 #, kde-format
 msgid "Missing item"
 msgstr "Eksik öge"
 
-#: src/doc/documentchecker.cpp:354 src/doc/documentchecker.cpp:379
-#: src/doc/documentchecker.cpp:1255
+#: src/doc/documentchecker.cpp:365 src/doc/documentchecker.cpp:390
+#: src/doc/documentchecker.cpp:1266
 #, kde-format
 msgid "Relocated item"
 msgstr "Taşınmış öge"
 
-#: src/doc/documentchecker.cpp:392
+#: src/doc/documentchecker.cpp:403
 #, kde-format
 msgid "Title Font"
 msgstr "Başlık Yazıtipi"
 
-#: src/doc/documentchecker.cpp:397
+#: src/doc/documentchecker.cpp:408
 #, kde-format
 msgid "%1 will be replaced by %2"
 msgstr "%1, %2 ile değiştirilecek"
 
-#: src/doc/documentchecker.cpp:402
+#: src/doc/documentchecker.cpp:413
 #, kde-format
 msgid "Modified Clips"
 msgstr "Değiştirilmiş Klipler"
 
-#: src/doc/documentchecker.cpp:406
+#: src/doc/documentchecker.cpp:417
 #, kde-format
 msgid "Clip %1 will be reloaded"
 msgstr "%1 klibi yeniden yüklenecek"
 
-#: src/doc/documentchecker.cpp:412
+#: src/doc/documentchecker.cpp:423
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Proje dosyası eksik klipler veya dosyalar içeriyor."
 
-#: src/doc/documentchecker.cpp:418
+#: src/doc/documentchecker.cpp:429
 #, kde-format
 msgid "Missing effect: %2 will be removed from project."
 msgid_plural "Missing effects: %2 will be removed from project."
 msgstr[0] "Eksik efekt: %2, projeden kaldırılacak."
 msgstr[1] "Eksik efektler: %2, projeden kaldırılacak."
 
-#: src/doc/documentchecker.cpp:425
+#: src/doc/documentchecker.cpp:436
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Eksik vekiller program açılırken yeniden oluşturulabilir."
 
-#: src/doc/documentchecker.cpp:443
+#: src/doc/documentchecker.cpp:454
 #, kde-format
 msgid ""
 "The project file contains a missing clip, you can still work with its proxy."
@@ -7541,7 +7541,7 @@ msgstr[0] ""
 msgstr[1] ""
 "Proje dosyası %1 eksik klip içeriyor, hala vekilleri ile çalışabilirsiniz."
 
-#: src/doc/documentchecker.cpp:450
+#: src/doc/documentchecker.cpp:461
 #, kde-format
 msgid "The project file contains one modified clip, it will be reloaded."
 msgid_plural ""
@@ -7549,81 +7549,81 @@ msgid_plural ""
 msgstr[0] "Proje dosyası bir değiştirilimiş klip içeriyor, yeniden yüklenecek."
 msgstr[1] "Proje dosyası %1 değiştirilmiş klip içeriyor, yeniden yüklenecek."
 
-#: src/doc/documentchecker.cpp:516
+#: src/doc/documentchecker.cpp:527
 #: src/mltcontroller/clippropertiescontroller.cpp:418
 #, kde-format
 msgid "Proxy clip"
 msgstr "Vekil klibi"
 
-#: src/doc/documentchecker.cpp:519
+#: src/doc/documentchecker.cpp:530
 #, kde-format
 msgid "%1 missing proxy clip, will be recreated on project opening"
 msgid_plural "%1 missing proxy clips, will be recreated on project opening"
 msgstr[0] "proje açılırken eksik olan %1 vekil klip yeniden oluşturulacak"
 msgstr[1] "proje açılırken eksik olan %1 vekil klip yeniden oluşturulacak"
 
-#: src/doc/documentchecker.cpp:522
+#: src/doc/documentchecker.cpp:533
 #, kde-format
 msgid "Missing proxy"
 msgstr "Kayıp vekil"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/doc/documentchecker.cpp:533 src/doc/documentchecker.cpp:547
+#: src/doc/documentchecker.cpp:544 src/doc/documentchecker.cpp:558
 #: src/ui/timeremap_ui.ui:90
 #, kde-format
 msgid "Source clip"
 msgstr "Kaynak klip"
 
-#: src/doc/documentchecker.cpp:535
+#: src/doc/documentchecker.cpp:546
 #, kde-format
 msgid "%1 missing source clips, you can only use the proxies"
 msgstr "%1 kayıp kaynak klibi, yalnızca vekillerini kullanabilirsiniz"
 
-#: src/doc/documentchecker.cpp:911
+#: src/doc/documentchecker.cpp:922
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Klipler Klasörü"
 
-#: src/doc/documentchecker.cpp:943 src/doc/documentchecker.cpp:967
-#: src/doc/documentchecker.cpp:977 src/doc/documentchecker.cpp:989
+#: src/doc/documentchecker.cpp:954 src/doc/documentchecker.cpp:978
+#: src/doc/documentchecker.cpp:988 src/doc/documentchecker.cpp:1000
 #, kde-format
 msgid "Recovered item"
 msgstr "Kurtarılan öge"
 
-#: src/doc/documentchecker.cpp:1002
+#: src/doc/documentchecker.cpp:1013
 #, kde-format
 msgid "Search aborted"
 msgstr "Arama iptal edildi"
 
-#: src/doc/documentchecker.cpp:1004
+#: src/doc/documentchecker.cpp:1015
 #, kde-format
 msgid "Search done"
 msgstr "Arama bitti"
 
-#: src/doc/documentchecker.cpp:1120
+#: src/doc/documentchecker.cpp:1131
 #, kde-format
 msgid "Scanning %1"
 msgstr "%1 taranıyor"
 
-#: src/doc/documentchecker.cpp:1217
+#: src/doc/documentchecker.cpp:1228
 #, kde-format
 msgid "Enter new location for folder"
 msgstr "Klasör için yeni konum girin"
 
-#: src/doc/documentchecker.cpp:1243
+#: src/doc/documentchecker.cpp:1254
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Dosya için yeni bir konum girin"
 
-#: src/doc/documentchecker.cpp:1612
+#: src/doc/documentchecker.cpp:1623
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
 msgstr[0] "Bu, seçilen klipleri bu projeden kaldıracak"
 msgstr[1] "Bu, seçilen klipleri bu projeden kaldıracak"
 
-#: src/doc/documentchecker.cpp:1614
+#: src/doc/documentchecker.cpp:1625
 #, kde-format
 msgid "Remove clips"
 msgstr "Klipleri kaldır"
@@ -15068,83 +15068,83 @@ msgstr ""
 msgid "Incorrect mix found at track %1 at %2, clip %3 removed."
 msgstr "%1 izi %2 konumunda yanlış karışım bulundu; %3 klibi kaldırıldı."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:739
+#: src/timeline2/model/builders/meltBuilder.cpp:742
 #, kde-format
 msgid "%1 Timeline clip (%2) with incorrect bin reference found and recovered."
 msgstr ""
 "Yanlış kova başvurusuna iye %1 zaman akışı klibi (%2) bulundu ve kurtarıldı."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:740
+#: src/timeline2/model/builders/meltBuilder.cpp:743
 #, kde-format
 msgid "Invalid clip %1 (%2) not found in project bin, recovered."
 msgstr "Proje kovasında geçersiz klip %1 (%2) bulunamadı, kurtarıldı."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:742
+#: src/timeline2/model/builders/meltBuilder.cpp:745
 #, kde-format
 msgid "%1 Timeline clip (%2) without bin reference found and removed."
 msgstr "Kova başvurusuz %1 Zaman Akışı klibi (%2) bulundu ve kaldırıldı."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:743
+#: src/timeline2/model/builders/meltBuilder.cpp:746
 #, kde-format
 msgid "Project corrupted. Clip %1 (%2) not found in project bin."
 msgstr "Proje hasarlı. %1 (%2) klibi proje kovasında bulunamadı."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:799
-#: src/timeline2/model/builders/meltBuilder.cpp:832
+#: src/timeline2/model/builders/meltBuilder.cpp:814
+#: src/timeline2/model/builders/meltBuilder.cpp:847
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and resized"
 msgstr "Eksik karışımlı %1 klip (%2) bulunde ve yeniden boyutlandırıldı"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:800
-#: src/timeline2/model/builders/meltBuilder.cpp:830
+#: src/timeline2/model/builders/meltBuilder.cpp:815
+#: src/timeline2/model/builders/meltBuilder.cpp:845
 #, kde-format
 msgid "Clip without mix %1 found and resized on track %2 at %3."
 msgstr ""
 "Karışım içermeyen %1 klibi bulundu ve %2 ve %3 izlerinde yeniden "
 "boyutlandırıldı."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:805
-#: src/timeline2/model/builders/meltBuilder.cpp:836
+#: src/timeline2/model/builders/meltBuilder.cpp:820
+#: src/timeline2/model/builders/meltBuilder.cpp:851
 #, kde-format
 msgid "Invalid clip without mix %1 found and removed on track %2 at %3."
 msgstr ""
 "Karışım içermeyen geçersiz %1 klibi bulundu ve %2 ve %3 izlerinde yeniden "
 "boyutlandırıldı."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:807
-#: src/timeline2/model/builders/meltBuilder.cpp:838
+#: src/timeline2/model/builders/meltBuilder.cpp:822
+#: src/timeline2/model/builders/meltBuilder.cpp:853
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and removed"
 msgstr "Eksik karışımlı %1 klip (%2) bulundu ve kaldırıldı"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:825
-#: src/timeline2/model/builders/meltBuilder.cpp:869
+#: src/timeline2/model/builders/meltBuilder.cpp:840
+#: src/timeline2/model/builders/meltBuilder.cpp:884
 #, kde-format
 msgid "Invalid clip %1 found on track %2 at %3."
 msgstr "%2 ve %3 izlerinde geçersiz %1 klibi bulundu."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:827
-#: src/timeline2/model/builders/meltBuilder.cpp:874
+#: src/timeline2/model/builders/meltBuilder.cpp:842
+#: src/timeline2/model/builders/meltBuilder.cpp:889
 #, kde-format
 msgid "%1 Invalid clip (%2) found and removed"
 msgstr "Geçersiz %1 klip (%2) bulundu ve kaldırıldı"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:845
+#: src/timeline2/model/builders/meltBuilder.cpp:860
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found and fixed on track %2 at %3."
 msgstr "Yanlış alt izde %1 klibi bulundu ve %2 ve %3 izlerinde düzeltildi."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:850
+#: src/timeline2/model/builders/meltBuilder.cpp:865
 #, kde-format
 msgid "%1 Clip (%2) on incorrect subtrack found and fixed / %3"
 msgstr "Yanlış alt izde %1 klip (%2) bulundu ve onarıldı / %3"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:853
+#: src/timeline2/model/builders/meltBuilder.cpp:868
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found on track %2 at %3."
 msgstr "%2 ve %3 izlerinde yanlış alt izde %1 klibil bulundu."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:858
+#: src/timeline2/model/builders/meltBuilder.cpp:873
 #, kde-format
 msgid "%1 Clip (%2) with incorrect subplaylist found"
 msgstr "Yanlış alt oynatma listeli %1 klip (%2) bulundu"
