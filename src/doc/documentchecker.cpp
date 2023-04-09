@@ -1332,6 +1332,7 @@ void DocumentChecker::acceptDialog()
         }
         ix++;
         child = m_ui.treeWidget->topLevelItem(ix);
+        qApp->processEvents();
     }
     // QDialog::accept();
 }
@@ -1482,6 +1483,8 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
                     if (service == QLatin1String("timewarp")) {
                         updateProperty(e, QStringLiteral("warp_resource"), updatedResource);
                         updatedResource.prepend(getProperty(e, QStringLiteral("warp_speed")) + QLatin1Char(':'));
+                    } else if (service.startsWith(QLatin1String("avformat")) && e.tagName() == QLatin1String("producer")) {
+                        e.setTagName(QStringLiteral("chain"));
                     }
                     if (!Xml::getXmlProperty(e, QStringLiteral("kdenlive:originalurl")).isEmpty()) {
                         // Only set originalurl on master producer
@@ -1502,12 +1505,13 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
             };
             // edit clip url
             QString fixedResource = child->text(1);
-            for (int i = 0; i < producers.count(); ++i) {
-                QDomElement e = producers.item(i).toElement();
-                fixUrl(e, id, fixedResource);
-            }
             for (int i = 0; i < chains.count(); ++i) {
                 QDomElement e = chains.item(i).toElement();
+                fixUrl(e, id, fixedResource);
+            }
+            // Changing the tag name will remove the producer from the list, so we need to parse in reverse order
+            for (int i = producers.count() - 1; i >= 0; --i) {
+                QDomElement e = producers.item(i).toElement();
                 fixUrl(e, id, fixedResource);
             }
         }
@@ -1521,12 +1525,17 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
                 setProperty(e, QStringLiteral("kdenlive:orig_service"), getProperty(e, QStringLiteral("mlt_service")));
             }
         }
-        for (int i = 0; i < chains.count(); ++i) {
+        for (int i = chains.count() - 1; i >= 0; --i) {
+            // Changing the tag name will remove the chain from the list, so we need to parse in reverse order
             e = chains.item(i).toElement();
             if (Xml::getXmlProperty(e, QStringLiteral("kdenlive:id")) == id) {
                 // Fix clip
                 setProperty(e, QStringLiteral("_placeholder"), QStringLiteral("1"));
                 setProperty(e, QStringLiteral("kdenlive:orig_service"), getProperty(e, QStringLiteral("mlt_service")));
+
+                // In MLT 7.14/15, link_swresample crashes on invalid avformat clips,
+                // so switch to producer instead of chain to use filter_swresample
+                e.setTagName(QStringLiteral("producer"));
             }
         }
     } else if (child->data(0, statusRole).toInt() == LUMAOK) {

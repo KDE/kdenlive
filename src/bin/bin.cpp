@@ -2310,6 +2310,10 @@ void Bin::rebuildFilters(int tagsCount)
     typeFilter->setData(ClipType::Playlist);
     typeFilter->setCheckable(true);
     typeMenu->addAction(typeFilter);
+    typeFilter = new QAction(QIcon::fromTheme(QStringLiteral("video-mlt-playlist")), i18n("Sequences"), &m_filterTypeGroup);
+    typeFilter->setData(ClipType::Timeline);
+    typeFilter->setCheckable(true);
+    typeMenu->addAction(typeFilter);
     typeFilter = new QAction(QIcon::fromTheme(QStringLiteral("draw-text")), i18n("Title"), &m_filterTypeGroup);
     typeFilter->setData(ClipType::Text);
     typeFilter->setCheckable(true);
