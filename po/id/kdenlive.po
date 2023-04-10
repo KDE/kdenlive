@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-09 02:41+0000\n"
+"POT-Creation-Date: 2023-04-10 02:34+0000\n"
 "PO-Revision-Date: 2023-01-13 08:32+0700\n"
 "Last-Translator: Linerly <linerly@protonmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -4303,7 +4303,7 @@ msgstr "Hapus Klip bin"
 msgid "Missing source clip"
 msgstr "Klip sumber hilang"
 
-#: src/bin/bin.cpp:1907 src/bin/bin.cpp:2348
+#: src/bin/bin.cpp:1907 src/bin/bin.cpp:2352
 #: src/effects/effectlist/view/effectlistwidget.cpp:142
 #: src/renderpresets/renderpresetrepository.cpp:156
 #: src/renderpresets/renderpresetrepository.cpp:433
@@ -4311,7 +4311,7 @@ msgstr "Klip sumber hilang"
 msgid "Unable to write to file %1"
 msgstr "Tidak dapat menulis ke file %1"
 
-#: src/bin/bin.cpp:1917 src/bin/bin.cpp:2357 src/doc/kdenlivedoc.cpp:723
+#: src/bin/bin.cpp:1917 src/bin/bin.cpp:2361 src/doc/kdenlivedoc.cpp:723
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -4467,40 +4467,47 @@ msgstr "Salindia"
 msgid "Playlist"
 msgstr "Playlist"
 
-#: src/bin/bin.cpp:2313 src/project/dialogs/projectsettings.cpp:215
+#: src/bin/bin.cpp:2313 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
+#: src/project/projectmanager.cpp:1210 src/project/projectmanager.cpp:1212
+#, fuzzy, kde-format
+#| msgid "Image Sequence"
+msgid "Sequences"
+msgstr "Rentetan Citra"
+
+#: src/bin/bin.cpp:2317 src/project/dialogs/projectsettings.cpp:215
 #, kde-format
 msgid "Title"
 msgstr "Judul"
 
-#: src/bin/bin.cpp:2317
+#: src/bin/bin.cpp:2321
 #, kde-format
 msgid "Title Template"
 msgstr "Templat Judul"
 
-#: src/bin/bin.cpp:2321 src/layoutmanagement.cpp:37
+#: src/bin/bin.cpp:2325 src/layoutmanagement.cpp:37
 #: src/mltcontroller/clippropertiescontroller.cpp:345
 #, kde-format
 msgid "Color"
 msgstr "Warna"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:2378 src/ui/managecache_ui.ui:322
+#: src/bin/bin.cpp:2382 src/ui/managecache_ui.ui:322
 #, kde-format
 msgid "Folder"
 msgstr "Folder"
 
-#: src/bin/bin.cpp:2379
+#: src/bin/bin.cpp:2383
 #, kde-format
 msgid "Create bin folder"
 msgstr "Buat folder bin"
 
-#: src/bin/bin.cpp:2511 src/bin/bin.cpp:2524 src/bin/bin.cpp:3469
+#: src/bin/bin.cpp:2515 src/bin/bin.cpp:2528 src/bin/bin.cpp:3473
 #: src/timeline2/model/timelinemodel.cpp:2032
 #, kde-format
 msgid "Delete Clip"
 msgstr "Hapus Klip"
 
-#: src/bin/bin.cpp:2513 src/bin/bin.cpp:2526
+#: src/bin/bin.cpp:2517 src/bin/bin.cpp:2530
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4508,43 +4515,43 @@ msgid ""
 "timeline."
 msgstr ""
 
-#: src/bin/bin.cpp:2514 src/bin/bin.cpp:2527 src/bin/bin.cpp:3449
+#: src/bin/bin.cpp:2518 src/bin/bin.cpp:2531 src/bin/bin.cpp:3453
 #, kde-format
 msgid "Proxy Clip"
 msgstr "Klip Proxy"
 
-#: src/bin/bin.cpp:2518
+#: src/bin/bin.cpp:2522
 #, kde-format
 msgid "Delete Folder"
 msgstr "Hapus Folder"
 
-#: src/bin/bin.cpp:2519
+#: src/bin/bin.cpp:2523
 #, kde-format
 msgid "Proxy Folder"
 msgstr "Folder Proxy"
 
-#: src/bin/bin.cpp:2748
+#: src/bin/bin.cpp:2752
 #, kde-format
 msgid "Edit rating"
 msgstr "Edit peringkat"
 
-#: src/bin/bin.cpp:2750
+#: src/bin/bin.cpp:2754
 #, kde-format
 msgid "Cannot set rating on this item"
 msgstr "Tidak bisa mengatur peringkat pada item ini"
 
-#: src/bin/bin.cpp:2996
+#: src/bin/bin.cpp:3000
 #, fuzzy, kde-format
 #| msgid "Open"
 msgid "Open %1"
 msgstr "Buka"
 
-#: src/bin/bin.cpp:3399
+#: src/bin/bin.cpp:3403
 #, kde-format
 msgid "Add Clip or Folder…"
 msgstr "Tambah Klip atau Folder..."
 
-#: src/bin/bin.cpp:3400
+#: src/bin/bin.cpp:3404
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4554,94 +4561,94 @@ msgid ""
 "to select source files."
 msgstr ""
 
-#: src/bin/bin.cpp:3406
+#: src/bin/bin.cpp:3410
 #, kde-format
 msgid "Add Color Clip…"
 msgstr "Tambahkan Klip Warna..."
 
-#: src/bin/bin.cpp:3408
+#: src/bin/bin.cpp:3412
 #, kde-format
 msgid "Add Image Sequence…"
 msgstr "Tambahkan Rentetan Citra..."
 
-#: src/bin/bin.cpp:3410
+#: src/bin/bin.cpp:3414
 #, kde-format
 msgid "Add Title Clip…"
 msgstr "Tambahkan Klip Judul..."
 
-#: src/bin/bin.cpp:3412
+#: src/bin/bin.cpp:3416
 #, kde-format
 msgid "Add Template Title…"
 msgstr "Tambahkan Templat Judul..."
 
-#: src/bin/bin.cpp:3414
+#: src/bin/bin.cpp:3418
 #, kde-format
 msgid "Create Animation…"
 msgstr "Buat Animasi..."
 
-#: src/bin/bin.cpp:3416
+#: src/bin/bin.cpp:3420
 #, fuzzy, kde-format
 #| msgid "Add Image Sequence…"
 msgid "Add Sequence…"
 msgstr "Tambahkan Rentetan Citra..."
 
-#: src/bin/bin.cpp:3419 src/mainwindow.cpp:362
+#: src/bin/bin.cpp:3423 src/mainwindow.cpp:362
 #, kde-format
 msgid "Online Resources"
 msgstr "Sumberdaya Online"
 
-#: src/bin/bin.cpp:3423
+#: src/bin/bin.cpp:3427
 #, kde-format
 msgid "Locate Clip…"
 msgstr "Tempatkan Klip..."
 
-#: src/bin/bin.cpp:3428
+#: src/bin/bin.cpp:3432
 #, kde-format
 msgid "Reload Clip"
 msgstr "Muat Ulang Klip"
 
-#: src/bin/bin.cpp:3434
+#: src/bin/bin.cpp:3438
 #, kde-format
 msgid "Transcode to Edit Friendly Format…"
 msgstr "Transkode untuk Mengedit Format Secara Mudah..."
 
-#: src/bin/bin.cpp:3439
+#: src/bin/bin.cpp:3443
 #, kde-format
 msgid "Replace Clip…"
 msgstr "Ganti Klip..."
 
-#: src/bin/bin.cpp:3444
+#: src/bin/bin.cpp:3448
 #, kde-format
 msgid "Duplicate Clip"
 msgstr "Duplikat Klip"
 
-#: src/bin/bin.cpp:3456 src/bin/bin.cpp:3513
+#: src/bin/bin.cpp:3460 src/bin/bin.cpp:3517
 #, kde-format
 msgid "Clip Properties"
 msgstr "Properti Klip"
 
-#: src/bin/bin.cpp:3461 src/mltcontroller/clippropertiescontroller.cpp:282
+#: src/bin/bin.cpp:3465 src/mltcontroller/clippropertiescontroller.cpp:282
 #, kde-format
 msgid "Edit Clip"
 msgstr "Edit Klip"
 
-#: src/bin/bin.cpp:3474
+#: src/bin/bin.cpp:3478
 #, kde-format
 msgid "Open in new bin"
 msgstr "Buka di bin baru"
 
-#: src/bin/bin.cpp:3486
+#: src/bin/bin.cpp:3490
 #, fuzzy, kde-format
 #| msgid "Default folder for project files"
 msgid "Default Target Folder for Sequences"
 msgstr "Folder default untuk file proyek"
 
-#: src/bin/bin.cpp:3490
+#: src/bin/bin.cpp:3494
 #, kde-format
 msgid "Create Folder"
 msgstr "Ciptakan Folder"
 
-#: src/bin/bin.cpp:3493
+#: src/bin/bin.cpp:3497
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4649,71 +4656,71 @@ msgid ""
 "better organization of source files. Folders can be nested."
 msgstr ""
 
-#: src/bin/bin.cpp:3558 src/dialogs/speechdialog.cpp:96
+#: src/bin/bin.cpp:3562 src/dialogs/speechdialog.cpp:96
 #: src/dialogs/textbasededit.cpp:656 src/monitor/recmanager.cpp:43
 #, kde-format
 msgid "Show log"
 msgstr "Tampilkan log"
 
-#: src/bin/bin.cpp:3561 src/dialogs/textbasededit.cpp:657
+#: src/bin/bin.cpp:3565 src/dialogs/textbasededit.cpp:657
 #, kde-format
 msgid "Detailed log"
 msgstr "Log detail"
 
-#: src/bin/bin.cpp:3621 src/bin/bin.cpp:3646
+#: src/bin/bin.cpp:3625 src/bin/bin.cpp:3650
 #, fuzzy, kde-format
 #| msgid "Image Sequence"
 msgctxt "@title:window"
 msgid "Create New Sequence"
 msgstr "Rentetan Citra"
 
-#: src/bin/bin.cpp:3623 src/bin/bin.cpp:3648
+#: src/bin/bin.cpp:3627 src/bin/bin.cpp:3652
 #, fuzzy, kde-format
 #| msgid "Scene %1"
 msgid "Sequence %1"
 msgstr "Adegan %1"
 
-#: src/bin/bin.cpp:3677
+#: src/bin/bin.cpp:3681
 #, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
 msgstr[0] "Pindah Klip"
 msgstr[1] "Pindah Klip"
 
-#: src/bin/bin.cpp:3714
+#: src/bin/bin.cpp:3718
 #, kde-format
 msgid "No valid clip to insert"
 msgstr "Tidak ada klip yang valid untuk menyisipkan"
 
-#: src/bin/bin.cpp:3739 src/timeline2/view/timelinecontroller.cpp:1475
+#: src/bin/bin.cpp:3743 src/timeline2/view/timelinecontroller.cpp:1475
 #: src/timeline2/view/timelinecontroller.cpp:3374
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "Pilih klip untuk menerapkan efek"
 
-#: src/bin/bin.cpp:3748
+#: src/bin/bin.cpp:3752
 #, kde-format
 msgid "Cannot apply effects on folders"
 msgstr "Tidak bisa menerapkan efek di folder"
 
-#: src/bin/bin.cpp:3774 src/effects/effectstack/model/effectstackmodel.cpp:500
+#: src/bin/bin.cpp:3778 src/effects/effectstack/model/effectstackmodel.cpp:500
 #: src/effects/effectstack/model/effectstackmodel.cpp:506
 #: src/mainwindow.cpp:3117
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Tidak bisa menambahkan efek ke klip"
 
-#: src/bin/bin.cpp:3820 src/bin/bin.cpp:3827
+#: src/bin/bin.cpp:3824 src/bin/bin.cpp:3831
 #, kde-format
 msgid "Select a clip to add a tag"
 msgstr "Pilih klip untuk menambahkan tag"
 
-#: src/bin/bin.cpp:3966
+#: src/bin/bin.cpp:3970
 #, kde-format
 msgid "Edit Tags"
 msgstr "Edit Tag"
 
-#: src/bin/bin.cpp:4255 src/bin/projectclip.cpp:190
+#: src/bin/bin.cpp:4259 src/bin/projectclip.cpp:190
 #: src/bin/projectclip.cpp:1889 src/onlineresources/resourcewidget.cpp:266
 #: src/onlineresources/resourcewidget.cpp:557
 #: src/onlineresources/resourcewidget.cpp:572
@@ -4721,27 +4728,27 @@ msgstr "Edit Tag"
 msgid "Unnamed"
 msgstr "Tak bernama"
 
-#: src/bin/bin.cpp:4309
+#: src/bin/bin.cpp:4313
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr "Masukkan jalur ke aplikasi pengeditan gambar Anda"
 
-#: src/bin/bin.cpp:4321
+#: src/bin/bin.cpp:4325
 #, kde-format
 msgid "Please set a default application to open image files"
 msgstr "Silakan atur aplikasi default untuk membuka file citra"
 
-#: src/bin/bin.cpp:4326
+#: src/bin/bin.cpp:4330
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr "Masukkan jalur ke aplikasi pengeditan audio Anda"
 
-#: src/bin/bin.cpp:4338
+#: src/bin/bin.cpp:4342
 #, kde-format
 msgid "Please set a default application to open audio files"
 msgstr "Silakan atur aplikasi default untuk membuka file audio"
 
-#: src/bin/bin.cpp:4348 src/core.cpp:301 src/doc/kdenlivedoc.cpp:168
+#: src/bin/bin.cpp:4352 src/core.cpp:301 src/doc/kdenlivedoc.cpp:168
 #: src/jobs/cliploadtask.cpp:459 src/jobs/filtertask.cpp:85
 #: src/layoutmanagement.cpp:466 src/layoutmanagement.cpp:527
 #: src/profiles/profilerepository.cpp:173
@@ -4750,12 +4757,12 @@ msgstr "Silakan atur aplikasi default untuk membuka file audio"
 msgid "Cannot open file %1"
 msgstr "Tidak bisa membuka file %1"
 
-#: src/bin/bin.cpp:4528 src/dialogs/profilesdialog.cpp:213
+#: src/bin/bin.cpp:4532 src/dialogs/profilesdialog.cpp:213
 #, kde-format
 msgid "(copy)"
 msgstr "(salin)"
 
-#: src/bin/bin.cpp:4538
+#: src/bin/bin.cpp:4542
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -4764,75 +4771,75 @@ msgstr ""
 "Anda mengedit judul eksternal klip (%1). Apakah Anda ingin menyimpan "
 "perubahan Anda ke file judul atau menyimpan perubahan untuk proyek ini saja?"
 
-#: src/bin/bin.cpp:4541 src/titler/titlewidget.cpp:2192
+#: src/bin/bin.cpp:4545 src/titler/titlewidget.cpp:2192
 #, kde-format
 msgid "Save Title"
 msgstr "Simpan Judul"
 
-#: src/bin/bin.cpp:4541
+#: src/bin/bin.cpp:4545
 #, kde-format
 msgid "Save to title file"
 msgstr "Simpan ke file judul"
 
-#: src/bin/bin.cpp:4542
+#: src/bin/bin.cpp:4546
 #, kde-format
 msgid "Save in project only"
 msgstr "Simpan di proyek saja"
 
-#: src/bin/bin.cpp:4560 src/dialogs/clipcreationdialog.cpp:379
+#: src/bin/bin.cpp:4564 src/dialogs/clipcreationdialog.cpp:379
 #, kde-format
 msgid "Title clip"
 msgstr "Klip judul"
 
-#: src/bin/bin.cpp:4610
+#: src/bin/bin.cpp:4614
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "Klip tidak valid, akan disingkirkan dari pojek."
 
-#: src/bin/bin.cpp:4614
+#: src/bin/bin.cpp:4618
 #, kde-format
 msgid "Invalid clip"
 msgstr "Klip tidak valid"
 
-#: src/bin/bin.cpp:4737
+#: src/bin/bin.cpp:4741
 #, kde-format
 msgid "Enable proxies"
 msgstr "Fungsikan proxy"
 
-#: src/bin/bin.cpp:4737
+#: src/bin/bin.cpp:4741
 #, kde-format
 msgid "Disable proxies"
 msgstr "Nonfungsikan proxy"
 
-#: src/bin/bin.cpp:4926
+#: src/bin/bin.cpp:4930
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "Bangun ulang proxy"
 
-#: src/bin/bin.cpp:5159
+#: src/bin/bin.cpp:5163
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Bin Proyek"
 
-#: src/bin/bin.cpp:5175
+#: src/bin/bin.cpp:5179
 #, kde-format
 msgid "Add Tracks"
 msgstr "Tambahka Trek"
 
-#: src/bin/bin.cpp:5177
+#: src/bin/bin.cpp:5181
 #, kde-format
 msgid "Edit Streams"
 msgstr "Edit Stream"
 
-#: src/bin/bin.cpp:5192
+#: src/bin/bin.cpp:5196
 #, kde-format
 msgid "Don't ask again"
 msgstr "Jangan tanya lagi"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5196
+#: src/bin/bin.cpp:5200
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -4841,45 +4848,45 @@ msgstr ""
 "Proyek Anda membutuhkan lebih banyak trek audio untuk menangani semua kanal. "
 "Tambahkan %1 trek audio?"
 
-#: src/bin/bin.cpp:5208 src/mainwindow.cpp:2689
+#: src/bin/bin.cpp:5212 src/mainwindow.cpp:2689
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Tidak bisa menemukan klip untuk menambahkan penanda"
 
-#: src/bin/bin.cpp:5310
+#: src/bin/bin.cpp:5314
 #, kde-format
 msgid "Could not find master clip"
 msgstr "Tidak bisa menemukan klip master"
 
-#: src/bin/bin.cpp:5504 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:5508 src/bin/clipcreator.cpp:324
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
 msgstr "Tambahkan klip"
 
-#: src/bin/bin.cpp:5526
+#: src/bin/bin.cpp:5530
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> klip | "
 
-#: src/bin/bin.cpp:5528
+#: src/bin/bin.cpp:5532
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> klip (%2 terpilih) | "
 
-#: src/bin/bin.cpp:5593 src/bin/bin.cpp:5667
+#: src/bin/bin.cpp:5597 src/bin/bin.cpp:5671
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "Tambahkan stream tambahan untuk klip"
 msgstr[1] "Tambahkan stream-stream tambahan untuk klip"
 
-#: src/bin/bin.cpp:5614
+#: src/bin/bin.cpp:5618
 #, kde-format
 msgid "Import selected clips"
 msgstr "Impor klip yang dipilih"
 
-#: src/bin/bin.cpp:5616
+#: src/bin/bin.cpp:5620
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -4888,17 +4895,17 @@ msgstr ""
 "Stream tambahan untuk klip\n"
 "%1"
 
-#: src/bin/bin.cpp:5626 src/mltcontroller/clippropertiescontroller.cpp:633
+#: src/bin/bin.cpp:5630 src/mltcontroller/clippropertiescontroller.cpp:633
 #, kde-format
 msgid "Video stream %1"
 msgstr "Video stream %1"
 
-#: src/bin/bin.cpp:5641
+#: src/bin/bin.cpp:5645
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Stream audio %1"
 
-#: src/bin/bin.cpp:5694
+#: src/bin/bin.cpp:5698
 #, fuzzy, kde-format
 #| msgid "Remove clips"
 msgid "Remove clip markers"
@@ -4935,13 +4942,6 @@ msgstr "Buat klip warna"
 #| msgid "Image sequence:"
 msgid "Create sequence"
 msgstr "Rentetan citra:"
-
-#: src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/project/projectmanager.cpp:1210 src/project/projectmanager.cpp:1212
-#, fuzzy, kde-format
-#| msgid "Image Sequence"
-msgid "Sequences"
-msgstr "Rentetan Citra"
 
 #: src/bin/clipcreator.cpp:259
 #, kde-format
@@ -7619,14 +7619,14 @@ msgstr "Masukkan lokasi baru untuk folder"
 msgid "Enter new location for file"
 msgstr "Masukkan lokasi baru untuk file"
 
-#: src/doc/documentchecker.cpp:1623
+#: src/doc/documentchecker.cpp:1632
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
 msgstr[0] "Ini akan menghapus klip yang dipilih dari proyek ini"
 msgstr[1] "Ini akan menghapus klip yang dipilih dari proyek ini"
 
-#: src/doc/documentchecker.cpp:1625
+#: src/doc/documentchecker.cpp:1634
 #, kde-format
 msgid "Remove clips"
 msgstr "Singkirkan klip"
