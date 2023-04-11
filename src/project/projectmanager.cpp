@@ -690,7 +690,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     DocOpenResult openResult = KdenliveDoc::Open(stale ? QUrl::fromLocalFile(stale->fileName()) : url,
         QString(), pCore->window()->m_commandStack, false, pCore->window());
 
-    KdenliveDoc *doc;
+    KdenliveDoc *doc = nullptr;
     if (!openResult.isSuccessful() && !openResult.isAborted()) {
         if (!isBackup) {
             int answer = KMessageBox::warningTwoActionsCancel(
