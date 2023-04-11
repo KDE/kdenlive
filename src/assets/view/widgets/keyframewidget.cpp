@@ -756,7 +756,7 @@ void KeyframeWidget::slotPasteKeyframeFromClipBoard()
 {
     QClipboard *clipboard = QApplication::clipboard();
     QString values = clipboard->text();
-    auto json = QJsonDocument::fromJson(values.toLocal8Bit());
+    auto json = QJsonDocument::fromJson(values.toUtf8());
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     if (!json.isArray()) {

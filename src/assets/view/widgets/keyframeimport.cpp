@@ -593,7 +593,7 @@ QString KeyframeImport::selectedData() const
             maximas = QPoint(qMin(m_maximas.at(ix).x(), 0), qMax(m_maximas.at(ix).y(), pCore->getCurrentProfile()->height()));
         }
         if (m_dataCombo->currentData(TypeRole).value<ParamType>() == ParamType::Roto_spline) {
-            QJsonDocument doc = QJsonDocument::fromJson(m_dataCombo->currentData().toString().toLocal8Bit());
+            QJsonDocument doc = QJsonDocument::fromJson(m_dataCombo->currentData().toString().toUtf8());
             return QString(doc.toJson(QJsonDocument::Compact));
         }
         std::shared_ptr<Mlt::Properties> animData = KeyframeModel::getAnimation(m_model, m_dataCombo->currentData().toString());
@@ -878,7 +878,7 @@ void KeyframeImport::importSelectedData()
             // Import our keyframes
             KeyframeImport::ImportRoles convertMode = static_cast<KeyframeImport::ImportRoles>(m_sourceCombo->currentData().toInt());
             if (convertMode == ImportRoles::RotoData && m_targetCombo->currentText() == i18n("Rotoscoping shape")) {
-                QJsonObject json = QJsonDocument::fromJson(selectedData().toLocal8Bit()).object();
+                QJsonObject json = QJsonDocument::fromJson(selectedData().toUtf8()).object();
                 for (int i = 0; i < json.count(); i++) {
                     int frame = json.keys().at(i).toInt();
                     if (frame > m_outPoint->getPosition()) {

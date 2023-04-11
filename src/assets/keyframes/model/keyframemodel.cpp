@@ -1043,7 +1043,7 @@ void KeyframeModel::parseRotoProperty(const QString &prop)
     Fun redo = []() { return true; };
 
     QJsonParseError jsonError;
-    QJsonDocument doc = QJsonDocument::fromJson(prop.toLatin1(), &jsonError);
+    QJsonDocument doc = QJsonDocument::fromJson(prop.toUtf8(), &jsonError);
     QVariant data = doc.toVariant();
     if (data.canConvert<QVariantMap>()) {
         QMap<QString, QVariant> map = data.toMap();
