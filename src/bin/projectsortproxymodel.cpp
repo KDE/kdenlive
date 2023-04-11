@@ -40,31 +40,43 @@ bool ProjectSortProxyModel::filterAcceptsRowItself(int sourceRow, const QModelIn
             return false;
         }
     }
-    if (m_searchRating > 0) {
+    bool result = false;
+    if (!m_searchRating.isEmpty()) {
         // Column 7 contains the rating
         QModelIndex indexTag = sourceModel()->index(sourceRow, 7, sourceParent);
-        if (sourceModel()->data(indexTag).toInt() != m_searchRating) {
+        if (!m_searchRating.contains(sourceModel()->data(indexTag).toInt())) {
             return false;
         }
+        result = true;
     }
-    if (m_searchType > 0) {
+    if (!m_searchType.isEmpty()) {
         // Column 3 contains the item type (video, image, title, etc)
         QModelIndex indexTag = sourceModel()->index(sourceRow, 3, sourceParent);
-        if (sourceModel()->data(indexTag).toInt() != m_searchType) {
+        if (!m_searchType.contains(sourceModel()->data(indexTag).toInt())) {
             return false;
         }
+        result = true;
     }
     if (!m_searchTag.isEmpty()) {
         // Column 4 contains the item tag data
         QModelIndex indexTag = sourceModel()->index(sourceRow, 4, sourceParent);
         auto tagData = sourceModel()->data(indexTag);
+        bool found = false;
         for (const QString &tag : m_searchTag) {
-            if (!tagData.toString().contains(tag, Qt::CaseInsensitive)) {
-                return false;
+            if (tagData.toString().contains(tag, Qt::CaseInsensitive)) {
+                found = true;
+                break;
             }
         }
+        if (!found) {
+            return false;
+        }
+        result = true;
     }
 
+    if (result && m_searchString.isEmpty()) {
+        return true;
+    }
     for (int i = 0; i < 3; i++) {
         QModelIndex index0 = sourceModel()->index(sourceRow, i, sourceParent);
         if (!index0.isValid()) {
@@ -72,10 +84,11 @@ bool ProjectSortProxyModel::filterAcceptsRowItself(int sourceRow, const QModelIn
         }
         auto data = sourceModel()->data(index0);
         if (data.toString().contains(m_searchString, Qt::CaseInsensitive)) {
-            return true;
+            result = true;
+            break;
         }
     }
-    return false;
+    return result;
 }
 
 bool ProjectSortProxyModel::hasAcceptedChildren(int sourceRow, const QModelIndex &source_parent) const
@@ -145,7 +158,7 @@ void ProjectSortProxyModel::slotSetSearchString(const QString &str)
     invalidateFilter();
 }
 
-void ProjectSortProxyModel::slotSetFilters(const QStringList &tagFilters, const int rateFilters, const int typeFilters, bool unusedFilter)
+void ProjectSortProxyModel::slotSetFilters(const QStringList &tagFilters, const QList<int> rateFilters, const QList<int> typeFilters, bool unusedFilter)
 {
     m_searchType = typeFilters;
     m_searchRating = rateFilters;
@@ -157,8 +170,8 @@ void ProjectSortProxyModel::slotSetFilters(const QStringList &tagFilters, const 
 void ProjectSortProxyModel::slotClearSearchFilters()
 {
     m_searchTag.clear();
-    m_searchRating = 0;
-    m_searchType = 0;
+    m_searchRating.clear();
+    m_searchType.clear();
     m_unusedFilter = false;
     invalidateFilter();
 }

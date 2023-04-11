@@ -28,7 +28,7 @@ public Q_SLOTS:
     /** @brief Set search string that will filter the view */
     void slotSetSearchString(const QString &str);
     /** @brief Set search tag that will filter the view */
-    void slotSetFilters(const QStringList &tagFilters, int rateFilters, int typeFilters, bool unusedFilter);
+    void slotSetFilters(const QStringList &tagFilters, const QList<int> rateFilters, const QList<int> typeFilters, bool unusedFilter);
     /** @brief Reset search filters */
     void slotClearSearchFilters();
     /** @brief Relay datachanged signal from view's model  */
@@ -53,8 +53,8 @@ private:
     QItemSelectionModel *m_selection;
     QString m_searchString;
     QStringList m_searchTag;
-    int m_searchType{0};
-    int m_searchRating{0};
+    QList<int> m_searchType;
+    QList<int> m_searchRating;
     bool m_unusedFilter{false};
     QCollator m_collator;
 
