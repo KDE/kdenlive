@@ -807,6 +807,11 @@ void KeyframeWidget::slotPasteKeyframeFromClipBoard()
                 }
             } else {
                 const QString value = entryObj.value(QLatin1String("value")).toString();
+                if (value.isEmpty()) {
+                    pCore->displayMessage(i18n("No valid keyframe data in clipboard"), InformationMessage);
+                    qDebug() << "::: Invalid KFR VALUE, ABORTING PASTE\n" << value;
+                    return;
+                }
                 const QStringList stringVals = value.split(QLatin1Char(';'), Qt::SkipEmptyParts);
                 for (auto &val : stringVals) {
                     int position = m_model->time_to_frames(val.section(QLatin1Char('='), 0, 0));
@@ -845,25 +850,14 @@ void KeyframeWidget::slotPasteKeyframeFromClipBoard()
 void KeyframeWidget::slotCopySelectedKeyframes()
 {
     const QVector<int> results = m_keyframeview->selectedKeyframesIndexes();
-    if (results.isEmpty()) {
-        // No keyframes selected, use current position values
-        QJsonDocument effectDoc = m_model->valueAsJson(getPosition(), false);
-        if (effectDoc.isEmpty()) {
-            pCore->displayMessage(i18n("Cannot copy current parameter values"), InformationMessage);
-            return;
-        }
-        QClipboard *clipboard = QApplication::clipboard();
-        clipboard->setText(QString(effectDoc.toJson()));
-        pCore->displayMessage(i18n("Current values copied"), InformationMessage);
-    } else {
-        QJsonDocument effectDoc = m_model->toJson(results, false);
-        if (effectDoc.isEmpty()) {
-            return;
-        }
-        QClipboard *clipboard = QApplication::clipboard();
-        clipboard->setText(QString(effectDoc.toJson()));
-        pCore->displayMessage(i18n("Current values copied"), InformationMessage);
+    QJsonDocument effectDoc = m_model->toJson(results, false);
+    if (effectDoc.isEmpty()) {
+        pCore->displayMessage(i18n("Cannot copy current parameter values"), InformationMessage);
+        return;
     }
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(QString(effectDoc.toJson()));
+    pCore->displayMessage(i18n("Current values copied"), InformationMessage);
 }
 
 void KeyframeWidget::slotCopyValueAtCursorPos()

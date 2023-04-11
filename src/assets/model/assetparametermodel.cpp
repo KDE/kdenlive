@@ -915,6 +915,9 @@ QVector<QPair<QString, QVariant>> AssetParameterModel::getAllParameters() const
 QJsonDocument AssetParameterModel::toJson(QVector<int> selection, bool includeFixed) const
 {
     QJsonArray list;
+    if (selection == (QVector<int>() << -1)) {
+        selection.clear();
+    }
     if (includeFixed) {
         for (const auto &fixed : m_fixedParams) {
             QJsonObject currentParam;
