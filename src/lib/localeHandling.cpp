@@ -36,8 +36,8 @@ void LocaleHandling::resetLocale()
 {
 #if defined(Q_OS_WIN) || defined(Q_OS_MAC)
     // const QString decimalPoint = QLocale().decimalPoint();
-    std::setlocale(MLT_LC_CATEGORY, "en_US");
-    ::qputenv(MLT_LC_NAME, "en_US");
+    std::setlocale(MLT_LC_CATEGORY, "en_US.UTF-8");
+    ::qputenv(MLT_LC_NAME, "en_US.UTF-8");
 #elif defined(Q_OS_FREEBSD)
     setlocale(MLT_LC_CATEGORY, "C");
     ::qputenv(MLT_LC_NAME, "C");
