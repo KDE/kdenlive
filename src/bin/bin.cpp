@@ -1387,6 +1387,8 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
 
     // Filter menu
     m_filterGroup.setExclusive(false);
+    m_filterRateGroup.setExclusive(false);
+    m_filterTypeGroup.setExclusive(false);
     m_filterMenu = new QMenu(i18n("Filter"), this);
     m_filterButton = new QToolButton;
     m_filterButton->setCheckable(true);
@@ -1404,8 +1406,8 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
             return;
         }
         QList<QAction *> list = m_filterMenu->actions();
-        int rateFilters = 0;
-        int typeFilters = 0;
+        QList<int> rateFilters;
+        QList<int> typeFilters;
         bool usedFilter = false;
         QStringList tagFilters;
         for (QAction *ac : qAsConst(list)) {
@@ -1418,7 +1420,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
                     tagFilters << actionData;
                 } else if (actionData.startsWith(QLatin1Char('.'))) {
                     // Filter by rating
-                    rateFilters = actionData.remove(0, 1).toInt();
+                    rateFilters << actionData.remove(0, 1).toInt();
                 }
             }
         }
@@ -1426,12 +1428,11 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
         list = m_filterTypeGroup.actions();
         for (QAction *ac : qAsConst(list)) {
             if (ac->isChecked()) {
-                typeFilters = ac->data().toInt();
-                break;
+                typeFilters << ac->data().toInt();
             }
         }
         QSignalBlocker bkt(m_filterButton);
-        if (rateFilters > 0 || !tagFilters.isEmpty() || typeFilters > 0 || usedFilter) {
+        if (!rateFilters.isEmpty() || !tagFilters.isEmpty() || !typeFilters.isEmpty() || usedFilter) {
             m_filterButton->setChecked(true);
         } else {
             m_filterButton->setChecked(false);
@@ -1453,8 +1454,8 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
             return;
         }
         QList<QAction *> list = m_filterMenu->actions();
-        int rateFilters = 0;
-        int typeFilters = 0;
+        QList<int> rateFilters;
+        QList<int> typeFilters;
         bool usedFilter = false;
         QStringList tagFilters;
         for (QAction *ac : qAsConst(list)) {
@@ -1467,7 +1468,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
                     tagFilters << actionData;
                 } else if (actionData.startsWith(QLatin1Char('.'))) {
                     // Filter by rating
-                    rateFilters = actionData.remove(0, 1).toInt();
+                    rateFilters << actionData.remove(0, 1).toInt();
                 }
             }
         }
@@ -1475,12 +1476,11 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
         list = m_filterTypeGroup.actions();
         for (QAction *ac : qAsConst(list)) {
             if (ac->isChecked()) {
-                typeFilters = ac->data().toInt();
-                break;
+                typeFilters << ac->data().toInt();
             }
         }
         QSignalBlocker bkt(m_filterButton);
-        if (rateFilters > 0 || !tagFilters.isEmpty() || typeFilters > 0 || usedFilter) {
+        if (!rateFilters.isEmpty() || !tagFilters.isEmpty() || !typeFilters.isEmpty() || usedFilter) {
             m_filterButton->setChecked(true);
         } else {
             m_filterButton->setChecked(false);
