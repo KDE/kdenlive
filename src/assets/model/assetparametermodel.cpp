@@ -915,6 +915,9 @@ QVector<QPair<QString, QVariant>> AssetParameterModel::getAllParameters() const
 QJsonDocument AssetParameterModel::toJson(QVector<int> selection, bool includeFixed) const
 {
     QJsonArray list;
+    if (selection == (QVector<int>() << -1)) {
+        selection.clear();
+    }
     if (includeFixed) {
         for (const auto &fixed : m_fixedParams) {
             QJsonObject currentParam;
@@ -990,7 +993,7 @@ QJsonDocument AssetParameterModel::toJson(QVector<int> selection, bool includeFi
                 // Filter out unwanted keyframes
                 if (param.second.type == ParamType::Roto_spline) {
                     QJsonParseError jsonError;
-                    QJsonDocument doc = QJsonDocument::fromJson(resultValue.toLatin1(), &jsonError);
+                    QJsonDocument doc = QJsonDocument::fromJson(resultValue.toUtf8(), &jsonError);
                     QVariant data = doc.toVariant();
                     if (data.canConvert<QVariantMap>()) {
                         QMap<QString, QVariant> map = data.toMap();
