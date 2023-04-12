@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-10 00:45+0000\n"
+"POT-Creation-Date: 2023-04-12 00:48+0000\n"
 "PO-Revision-Date: 2023-03-19 13:44+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -1387,8 +1387,8 @@ msgstr ""
 
 #: data/effects/mask_start_frei0r_select0r.xml:8
 #: data/effects/mask_start_rotoscoping.xml:8
-#: data/effects/mask_start_shape.xml:8 src/bin/bin.cpp:1390
-#: src/bin/bin.cpp:1395 src/bin/bin.cpp:2222
+#: data/effects/mask_start_shape.xml:8 src/bin/bin.cpp:1392
+#: src/bin/bin.cpp:1397 src/bin/bin.cpp:2222
 #, kde-format
 msgid "Filter"
 msgstr "Süzgeç"
@@ -3526,8 +3526,8 @@ msgstr "%1 anahtar kareyi düzenle"
 msgid "Update %1"
 msgstr "%1 Güncelle"
 
-#: src/assets/model/assetparametermodel.cpp:1229
-#: src/assets/model/assetparametermodel.cpp:1276
+#: src/assets/model/assetparametermodel.cpp:1232
+#: src/assets/model/assetparametermodel.cpp:1279
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "%1 önayar dosyası açılamıyor"
@@ -3814,7 +3814,7 @@ msgstr ""
 "kareyi veya geçerli parametreleri kopyala."
 
 #: src/assets/view/widgets/keyframewidget.cpp:95
-#: src/assets/view/widgets/keyframewidget.cpp:842
+#: src/assets/view/widgets/keyframewidget.cpp:847
 #, kde-format
 msgid "Paste keyframe"
 msgstr "Anahtar kareyi yapıştır"
@@ -3945,18 +3945,18 @@ msgstr "Anahtar kareler kopyalandı"
 
 #: src/assets/view/widgets/keyframewidget.cpp:763
 #: src/assets/view/widgets/keyframewidget.cpp:804
+#: src/assets/view/widgets/keyframewidget.cpp:811
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "Panoda geçerli anahtar kare verisi yok"
 
-#: src/assets/view/widgets/keyframewidget.cpp:852
+#: src/assets/view/widgets/keyframewidget.cpp:855
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "Geçerli parametre değerleri kopyalanamıyor"
 
-#: src/assets/view/widgets/keyframewidget.cpp:857
-#: src/assets/view/widgets/keyframewidget.cpp:865
-#: src/assets/view/widgets/keyframewidget.cpp:877
+#: src/assets/view/widgets/keyframewidget.cpp:860
+#: src/assets/view/widgets/keyframewidget.cpp:871
 #, kde-format
 msgid "Current values copied"
 msgstr "Geçerli değerler kopyalandı"
@@ -4264,7 +4264,7 @@ msgstr "Derecelendirmeyi Göster"
 msgid "Tags Panel"
 msgstr "Etiketler Paneli"
 
-#: src/bin/bin.cpp:1396
+#: src/bin/bin.cpp:1398
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""

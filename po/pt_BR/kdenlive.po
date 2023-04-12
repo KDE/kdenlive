@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-10 00:45+0000\n"
+"POT-Creation-Date: 2023-04-12 00:48+0000\n"
 "PO-Revision-Date: 2023-01-16 23:21-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -1418,8 +1418,8 @@ msgstr ""
 
 #: data/effects/mask_start_frei0r_select0r.xml:8
 #: data/effects/mask_start_rotoscoping.xml:8
-#: data/effects/mask_start_shape.xml:8 src/bin/bin.cpp:1390
-#: src/bin/bin.cpp:1395 src/bin/bin.cpp:2222
+#: data/effects/mask_start_shape.xml:8 src/bin/bin.cpp:1392
+#: src/bin/bin.cpp:1397 src/bin/bin.cpp:2222
 #, kde-format
 msgid "Filter"
 msgstr "Filtro"
@@ -3541,8 +3541,8 @@ msgstr "Editar %1 quadro-chave"
 msgid "Update %1"
 msgstr "Atualizar %1"
 
-#: src/assets/model/assetparametermodel.cpp:1229
-#: src/assets/model/assetparametermodel.cpp:1276
+#: src/assets/model/assetparametermodel.cpp:1232
+#: src/assets/model/assetparametermodel.cpp:1279
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Não é possível abrir o arquivo predefinido %1"
@@ -3830,7 +3830,7 @@ msgid ""
 msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:95
-#: src/assets/view/widgets/keyframewidget.cpp:842
+#: src/assets/view/widgets/keyframewidget.cpp:847
 #, fuzzy, kde-format
 #| msgid "Update keyframe"
 msgid "Paste keyframe"
@@ -3959,20 +3959,20 @@ msgstr "Valor do quadro-chave copiado"
 
 #: src/assets/view/widgets/keyframewidget.cpp:763
 #: src/assets/view/widgets/keyframewidget.cpp:804
+#: src/assets/view/widgets/keyframewidget.cpp:811
 #, fuzzy, kde-format
 #| msgid "No valid data in clipboard"
 msgid "No valid keyframe data in clipboard"
 msgstr "Nenhum dado válido na área de transferência"
 
-#: src/assets/view/widgets/keyframewidget.cpp:852
+#: src/assets/view/widgets/keyframewidget.cpp:855
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary files"
 msgid "Cannot copy current parameter values"
 msgstr "Não foi possível criar os arquivos temporários"
 
-#: src/assets/view/widgets/keyframewidget.cpp:857
-#: src/assets/view/widgets/keyframewidget.cpp:865
-#: src/assets/view/widgets/keyframewidget.cpp:877
+#: src/assets/view/widgets/keyframewidget.cpp:860
+#: src/assets/view/widgets/keyframewidget.cpp:871
 #, fuzzy, kde-format
 #| msgid "Keyframe value copied"
 msgid "Current values copied"
@@ -4280,7 +4280,7 @@ msgstr "Mostrar avaliação"
 msgid "Tags Panel"
 msgstr "Painel de etiquetas"
 
-#: src/bin/bin.cpp:1396
+#: src/bin/bin.cpp:1398
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""

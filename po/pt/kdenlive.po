@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-10 00:45+0000\n"
+"POT-Creation-Date: 2023-04-12 00:48+0000\n"
 "PO-Revision-Date: 2023-03-21 12:07+0000\n"
 "Last-Translator: Jose Jorge <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
@@ -1492,8 +1492,8 @@ msgstr ""
 
 #: data/effects/mask_start_frei0r_select0r.xml:8
 #: data/effects/mask_start_rotoscoping.xml:8
-#: data/effects/mask_start_shape.xml:8 src/bin/bin.cpp:1390
-#: src/bin/bin.cpp:1395 src/bin/bin.cpp:2222
+#: data/effects/mask_start_shape.xml:8 src/bin/bin.cpp:1392
+#: src/bin/bin.cpp:1397 src/bin/bin.cpp:2222
 #, kde-format
 msgid "Filter"
 msgstr "Filtro"
@@ -3637,8 +3637,8 @@ msgstr "Editar a imagem-chave %1"
 msgid "Update %1"
 msgstr "Actualizar o %1"
 
-#: src/assets/model/assetparametermodel.cpp:1229
-#: src/assets/model/assetparametermodel.cpp:1276
+#: src/assets/model/assetparametermodel.cpp:1232
+#: src/assets/model/assetparametermodel.cpp:1279
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Não é possível aceder ao ficheiro de predefinições %1"
@@ -3925,7 +3925,7 @@ msgstr ""
 "actuais dos parâmetros se não estiver seleccionada nenhuma imagem-chave."
 
 #: src/assets/view/widgets/keyframewidget.cpp:95
-#: src/assets/view/widgets/keyframewidget.cpp:842
+#: src/assets/view/widgets/keyframewidget.cpp:847
 #, kde-format
 msgid "Paste keyframe"
 msgstr "Colar a imagem-chave"
@@ -4056,18 +4056,18 @@ msgstr "As imagens-chave foram copiadas"
 
 #: src/assets/view/widgets/keyframewidget.cpp:763
 #: src/assets/view/widgets/keyframewidget.cpp:804
+#: src/assets/view/widgets/keyframewidget.cpp:811
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "Nenhuns dados de imagens-chave válidos na área de transferência"
 
-#: src/assets/view/widgets/keyframewidget.cpp:852
+#: src/assets/view/widgets/keyframewidget.cpp:855
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "Não é possível copiar os valores actuais dos parâmetros"
 
-#: src/assets/view/widgets/keyframewidget.cpp:857
-#: src/assets/view/widgets/keyframewidget.cpp:865
-#: src/assets/view/widgets/keyframewidget.cpp:877
+#: src/assets/view/widgets/keyframewidget.cpp:860
+#: src/assets/view/widgets/keyframewidget.cpp:871
 #, kde-format
 msgid "Current values copied"
 msgstr "Os valores actuais foram copiados"
@@ -4377,7 +4377,7 @@ msgstr "Mostrar a Classificação"
 msgid "Tags Panel"
 msgstr "Painel de Marcas"
 
-#: src/bin/bin.cpp:1396
+#: src/bin/bin.cpp:1398
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
