@@ -21,7 +21,8 @@
         "Name[sk]": "Zoznam skladieb MLT",
         "Name[sl]": "Seznam predvajanja MLT",
         "Name[uk]": "Список відтворення MLT",
-        "Name[x-test]": "xxMLT Playlistxx"
+        "Name[x-test]": "xxMLT Playlistxx",
+        "Name[zh_CN]": "MLT 播放列表"
     },
     "MimeType": "video/mlt-playlist;application/x-kdenlive;application/x-kdenlivetitle;application/vnd.mlt+xml;"
 }
