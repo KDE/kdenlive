@@ -1152,10 +1152,6 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
         // Load bin playlist
         loadProjectBin(pCore->projectItemModel(), tractor, m_progressDialog);
         return true;
-        const QUuid activeUuid(m_project->getDocumentProperty(QStringLiteral("activetimeline")));
-        const QString binId = pCore->projectItemModel()->getSequenceId(activeUuid);
-        openTimeline(binId, activeUuid);
-        return true;
     }
     if (tractor.count() == 0) {
         // Wow we have a project file with empty tractor, probably corrupted, propose to open a recovery file
