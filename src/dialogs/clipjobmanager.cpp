@@ -16,7 +16,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QFontDatabase>
 #include <QUuid>
 
-ClipJobManager::ClipJobManager(QWidget *parent)
+ClipJobManager::ClipJobManager(AbstractTask::JOBTYPE type, QWidget *parent)
     : QDialog(parent)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
@@ -24,7 +24,18 @@ ClipJobManager::ClipJobManager(QWidget *parent)
     setWindowTitle(i18n("Manage Bin Clip Jobs"));
     connect(job_list, &QListWidget::currentRowChanged, this, &ClipJobManager::displayJob);
     loadJobs();
-    job_list->setCurrentRow(0);
+    if (type != AbstractTask::NOJOBTYPE) {
+        for (int i = 0; i < job_list->count(); i++) {
+            QListWidgetItem *item = job_list->item(i);
+            if (item && item->data(Qt::UserRole + 1).toInt() == (int)type) {
+                job_list->setCurrentRow(i);
+                break;
+            }
+        }
+    } else {
+        job_list->setCurrentRow(0);
+    }
+
     job_list->setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::EditKeyPressed);
     connect(button_add, &QToolButton::clicked, this, &ClipJobManager::addJob);
     connect(button_delete, &QToolButton::clicked, this, &ClipJobManager::deleteJob);
@@ -79,10 +90,10 @@ void ClipJobManager::loadJobs()
     // Add builtin jobs
     item = new QListWidgetItem(i18n("Stabilize"), job_list, QListWidgetItem::Type);
     item->setData(Qt::UserRole, QLatin1String("stabilize"));
-    item = new QListWidgetItem(i18n("Automatic Scene Split…"), job_list, QListWidgetItem::Type);
-    item->setData(Qt::UserRole, QLatin1String("scenesplit"));
+    item->setData(Qt::UserRole + 1, AbstractTask::STABILIZEJOB);
     item = new QListWidgetItem(i18n("Duplicate Clip with Speed Change…"), job_list, QListWidgetItem::Type);
     item->setData(Qt::UserRole, QLatin1String("timewarp"));
+    item->setData(Qt::UserRole + 1, AbstractTask::SPEEDJOB);
 
     QMapIterator<QString, QString> k(m_ids);
     while (k.hasNext()) {

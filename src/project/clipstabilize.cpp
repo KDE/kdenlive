@@ -12,6 +12,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "effects/effectsrepository.hpp"
+#include "mainwindow.h"
 #include "widgets/doublewidget.h"
 #include "widgets/positionwidget.h"
 
@@ -58,6 +59,7 @@ ClipStabilize::ClipStabilize(const std::vector<QString> &binIds, QString filterN
         // Presets
         preset_button->setMenu(m_view->presetMenu());
     }
+    connect(config_button, &QToolButton::clicked, this, [&]() { pCore->window()->manageClipJobs(AbstractTask::STABILIZEJOB, this); });
 
     connect(buttonBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, this, &QDialog::accept);
     adjustSize();

@@ -7,6 +7,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #pragma once
 
 #include "definitions.h"
+#include "jobs/abstracttask.h"
 #include "ui_clipjobmanager_ui.h"
 
 #include <KConfig>
@@ -25,7 +26,7 @@ class ClipJobManager : public QDialog, public Ui::ClipJobManager_UI
 public:
     enum class JobCompletionAction { ReplaceOriginal = 0, RootFolder = 1, SubFolder = 2, NoAction = 3 };
 
-    explicit ClipJobManager(QWidget *parent = nullptr);
+    explicit ClipJobManager(AbstractTask::JOBTYPE type, QWidget *parent = nullptr);
     virtual ~ClipJobManager() override;
     static QMap<QString, QString> getClipJobNames();
     /** @brief Returns the {wanted action, folder name} for clip job type @jobId */

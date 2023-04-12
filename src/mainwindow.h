@@ -31,11 +31,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "bin/bin.h"
 #include "definitions.h"
-#include "utils/gentime.h"
+#include "jobs/abstracttask.h"
 #include "kdenlive_debug.h"
 #include "kdenlivecore_export.h"
-#include "statusbarmessagelabel.h"
 #include "pythoninterfaces/otioconvertions.h"
+#include "statusbarmessagelabel.h"
+#include "utils/gentime.h"
 
 class AssetPanel;
 class AudioGraphSpectrum;
@@ -381,6 +382,8 @@ public Q_SLOTS:
     /** @brief if modified is true adds "modified" to the caption and enables the save button.
      * (triggered by KdenliveDoc::setModified()) */
     void slotUpdateDocumentState(bool modified);
+    /** @brief Open the clip job management dialog */
+    void manageClipJobs(AbstractTask::JOBTYPE type = AbstractTask::NOJOBTYPE, QWidget *parentWidget = nullptr);
 
 private Q_SLOTS:
     /** @brief Shows the shortcut dialog. */
@@ -598,8 +601,6 @@ private Q_SLOTS:
     void slotRemoveBinDock(const QString &name);
     /** @brief Focus the guides list search line */
     void slotSearchGuide();
-    /** @brief Open the clip job management dialog */
-    void manageClipJobs();
     /** @brief Copy current timeline selection to a new sequence clip / Timeline tab */
     void slotCreateSequenceFromSelection();
 

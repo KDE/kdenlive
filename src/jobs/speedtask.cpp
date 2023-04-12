@@ -47,6 +47,7 @@ void SpeedTask::start(QObject *object, bool force)
     d.setWindowTitle(i18nc("@title:window", "Clip Speed"));
     QDialogButtonBox buttonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Save);
     auto *l = new QVBoxLayout;
+    auto *l2 = new QHBoxLayout;
     d.setLayout(l);
     QLabel labUrl(&d);
     KUrlRequester fileUrl(&d);
@@ -77,12 +78,18 @@ void SpeedTask::start(QObject *object, bool force)
     speedInput.selectAll();
     QCheckBox cb(i18n("Pitch compensation"), &d);
     cb.setChecked(true);
+    QToolButton tb(&d);
+    tb.setIcon(QIcon::fromTheme(QStringLiteral("configure")));
+    connect(&tb, &QToolButton::clicked, &d, [&]() { pCore->window()->manageClipJobs(AbstractTask::SPEEDJOB, &d); });
     l->addWidget(&labUrl);
     l->addWidget(&fileUrl);
     l->addWidget(&lab);
     l->addWidget(&speedInput);
     l->addWidget(&cb);
-    l->addWidget(&buttonBox);
+    l2->addWidget(&tb);
+    l2->addStretch(10);
+    l2->addWidget(&buttonBox);
+    l->addLayout(l2);
     d.connect(&buttonBox, &QDialogButtonBox::rejected, &d, &QDialog::reject);
     d.connect(&buttonBox, &QDialogButtonBox::accepted, &d, &QDialog::accept);
     if (d.exec() != QDialog::Accepted) {

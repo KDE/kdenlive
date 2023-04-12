@@ -3703,7 +3703,7 @@ void MainWindow::buildDynamicActions()
 
     action = new QAction(QIcon::fromTheme(QStringLiteral("configure")), i18n("Configure Clip Jobs…"), m_extraFactory->actionCollection());
     ts->addAction(action->text(), action);
-    connect(action, &QAction::triggered, this, &MainWindow::manageClipJobs);
+    connect(action, &QAction::triggered, this, [this]() { manageClipJobs(); });
 
     kdenliveCategoryMap.insert(QStringLiteral("clipjobs"), ts);
 
@@ -4726,9 +4726,9 @@ void MainWindow::checkMaxCacheSize()
     }
 }
 
-void MainWindow::manageClipJobs()
+void MainWindow::manageClipJobs(AbstractTask::JOBTYPE type, QWidget *parentWidget)
 {
-    QScopedPointer<ClipJobManager> dialog(new ClipJobManager(this));
+    QScopedPointer<ClipJobManager> dialog(new ClipJobManager(type, parentWidget ? parentWidget : this));
     dialog->exec();
     // Rebuild list of clip jobs
     buildDynamicActions();

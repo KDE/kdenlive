@@ -213,7 +213,6 @@ void ClipLoadTask::processSlideShow(std::shared_ptr<Mlt::Producer> producer)
 void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::shared_ptr<Mlt::Producer> producer)
 {
     // Fetch thumbnail
-    qDebug() << "===== \nREADY FOR THUMB" << binClip->clipType();
     if (m_isCanceled.loadAcquire() || pCore->taskManager.isBlocked()) {
         return;
     }
