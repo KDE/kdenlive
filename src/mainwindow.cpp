@@ -354,8 +354,7 @@ void MainWindow::init(const QString &mltPath)
     m_projectBinDock = addDock(i18n("Project Bin"), QStringLiteral("project_bin"), pCore->bin());
 
     // Media browser widget
-    QDockWidget *clipDockWidget = addDock(i18n("Media Browser"), QStringLiteral("bin_clip"), pCore->bin()->getWidget());
-    pCore->bin()->dockWidgetInit(clipDockWidget);
+    QDockWidget *clipDockWidget = addDock(i18n("Media Browser"), QStringLiteral("bin_clip"), pCore->bin()->initBrowserWidget());
 
     // Online resources widget
     auto *onlineResources = new ResourceWidget(this);

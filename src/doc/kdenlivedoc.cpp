@@ -62,9 +62,9 @@ const double DOCUMENTVERSION = 1.1;
 KdenliveDoc::KdenliveDoc(QString projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties,
                          const QMap<QString, QString> &metadata, const QPair<int, int> &tracks, int audioChannels, MainWindow *parent)
     : QObject(parent)
+    , closing(false)
     , m_autosave(nullptr)
     , m_uuid(QUuid::createUuid())
-    , closing(false)
     , m_clipsCount(0)
     , m_commandStack(std::make_shared<DocUndoStack>(undoGroup))
     , m_modified(false)
@@ -1609,6 +1609,7 @@ QMap<QString, QString> KdenliveDoc::documentProperties()
         // "kdenlive:docproperties.decimalPoint" was removed in document version 100
         m_documentProperties.remove(QStringLiteral("decimalPoint"));
     }
+    m_documentProperties.insert(QStringLiteral("browserurl"), pCore->bin()->lastBrowserUrl());
     QMapIterator<QUuid, std::shared_ptr<TimelineItemModel>> j(m_timelines);
     while (j.hasNext()) {
         j.next();

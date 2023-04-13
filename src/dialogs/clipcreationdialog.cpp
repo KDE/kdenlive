@@ -27,7 +27,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "widgets/timecodedisplay.h"
 #include "xml/xml.hpp"
 
-#include <KFileWidget>
 #include <KIO/RenameDialog>
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -553,10 +552,10 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &par
     }
 }
 
-void ClipCreationDialog::clipWidget(QDockWidget *m_DockClipWidget)
+KFileWidget *ClipCreationDialog::browserWidget(QWidget *parent)
 {
     QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
-    KFileWidget *fileWidget = new KFileWidget(QUrl::fromLocalFile(clipFolder), m_DockClipWidget);
+    KFileWidget *fileWidget = new KFileWidget(QUrl::fromLocalFile(clipFolder), parent);
     fileWidget->setMode(KFile::Files | KFile::ExistingOnly | KFile::LocalOnly | KFile::Directory);
     QString allExtensions = getExtensions().join(QLatin1Char(' '));
     QString dialogFilter = allExtensions + QLatin1Char('|') + i18n("All Supported Files") + QStringLiteral("\n*|") + i18n("All Files");
@@ -617,5 +616,5 @@ void ClipCreationDialog::clipWidget(QDockWidget *m_DockClipWidget)
             return;
         }
     });
-    m_DockClipWidget->setWidget(fileWidget);
+    return fileWidget;
 }
