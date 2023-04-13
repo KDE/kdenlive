@@ -39,7 +39,7 @@ protected:
 
 private:
     QList<int> m_segments;
-    QList<QColor> m_chartColors = { QColor(Qt::darkRed), QColor(Qt::darkBlue), QColor(Qt::darkGreen), QColor(Qt::darkMagenta) };
+    QList<QColor> m_chartColors = {QColor(Qt::darkRed), QColor(Qt::darkBlue), QColor(Qt::darkGreen), QColor(Qt::darkMagenta), QColor(Qt::darkYellow)};
 };
 
 /** @class TreeWidgetItem
@@ -110,6 +110,7 @@ private Q_SLOTS:
     void gotPreviewSize(KJob *job);
     void gotProxySize(KIO::filesize_t total);
     void gotAudioSize(KJob *job);
+    void gotSequenceSize(KJob *job);
     void gotThumbSize(KJob *job);
     void gotFolderSize(KJob *job);
     void gotBackupSize(KJob *job);

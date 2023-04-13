@@ -729,7 +729,16 @@ QString DocumentChecker::getMissingProducers(const QDomElement &e, const QDomNod
     if (verifiedPaths.contains(resource)) {
         // Don't check same url twice (for example track producers)
         if (missingPaths.contains(resource)) {
-            m_missingClips.append(e);
+            if ((resource.endsWith(QLatin1String(".mlt")) && resource.contains(QLatin1String("/sequences/"))) &&
+                (service == QLatin1String("timewarp") ||
+                 (service == QLatin1String("xml") && !Xml::getDirectChildrenByTagName(e, QStringLiteral("link")).isEmpty() &&
+                  Xml::getXmlProperty(Xml::getDirectChildrenByTagName(e, QStringLiteral("link")).first().toElement(), QStringLiteral("mlt_service")) ==
+                      QLatin1String("timeremap")))) {
+                // This is a missing timeline sequence clip with speed effect, trigger recreate on opening
+                Xml::setXmlProperty(e, QStringLiteral("_rebuild"), QStringLiteral("1"));
+            } else {
+                m_missingClips.append(e);
+            }
         }
         return QString();
     }
@@ -837,6 +846,14 @@ QString DocumentChecker::getMissingProducers(const QDomElement &e, const QDomNod
         // Missing clip found, make sure to omit timeline preview
         if (QFileInfo(resource).absolutePath().endsWith(QString("/%1/preview").arg(m_documentid))) {
             // This is a timeline preview missing chunk, ignore
+        } else if ((resource.endsWith(QLatin1String(".mlt")) && resource.contains(QLatin1String("/sequences/"))) &&
+                   (service == QLatin1String("timewarp") ||
+                    (service == QLatin1String("xml") && !Xml::getDirectChildrenByTagName(e, QStringLiteral("link")).isEmpty() &&
+                     Xml::getXmlProperty(Xml::getDirectChildrenByTagName(e, QStringLiteral("link")).first().toElement(), QStringLiteral("mlt_service")) ==
+                         QLatin1String("timeremap")))) {
+            // This is a missing timeline sequence clip with speed effect, trigger recreate on opening
+            Xml::setXmlProperty(e, QStringLiteral("_rebuild"), QStringLiteral("1"));
+            missingPaths.append(resource);
         } else {
             m_missingClips.append(e);
             missingPaths.append(resource);

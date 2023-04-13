@@ -69,6 +69,10 @@ public:
      * @brief Retreive original clip from proxy path when using external proxies
      */
     const QString getProxyFromOriginal(QString originalPath) const;
+    /**
+     * @brief Retreive the list of external files used for sequence clip timewarp
+     */
+    QStringList timelineSequenceExtraResources() const;
 
     /**
      * @brief True if we started a clip reload
