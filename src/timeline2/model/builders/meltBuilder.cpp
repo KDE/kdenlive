@@ -759,8 +759,8 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
             if (pCore->projectItemModel()->getClipByBinID(binId) == nullptr) {
                 // Trying to recover clip by its resource
                 const QString service = clip->parent().get("mlt_service");
-                QString resource = service == QLatin1String("timewarp") ? clip->parent().get("warp_resource") : clip->parent().get("resource");
-                const QStringList possibleIds = pCore->projectItemModel()->getClipByUrl(resource);
+                const QString resource = service == QLatin1String("timewarp") ? clip->parent().get("warp_resource") : clip->parent().get("resource");
+                const QStringList possibleIds = pCore->projectItemModel()->getClipByUrl(QFileInfo(resource));
                 qWarning() << "Incorred clip id, trying to recover " << binId << "/" << clip->get("id") << " = " << resource;
                 if (!possibleIds.isEmpty()) {
                     binId = possibleIds.first();
