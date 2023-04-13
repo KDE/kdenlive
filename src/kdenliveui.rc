@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="223" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="224" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="file_save"/>
@@ -22,6 +22,8 @@
       <Action name="add_slide_clip" />
       <Action name="add_text_clip" />
       <Action name="add_text_template_clip" />
+      <Action name="add_animation_clip" />
+      <Action name="add_playlist_clip" />
       <Action name="create_folder" />
       <Menu name="generators" ><text>Generators</text>
       </Menu>

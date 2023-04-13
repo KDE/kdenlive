@@ -430,7 +430,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
         switch (clip->clipType()) {
         case ClipType::Color:
         case ClipType::Timeline:
-            // ignore color clips in list, there is no real file
+            // ignore color and timeline clips in list, there is no real file
             break;
         case ClipType::SlideShow: {
             const QStringList subfiles = extractSlideshowUrls(clip->clipUrl());

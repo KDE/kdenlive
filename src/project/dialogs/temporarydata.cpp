@@ -52,6 +52,7 @@ void ChartWidget::paintEvent(QPaintEvent *event)
     painter.setRenderHints(QPainter::Antialiasing);
     const QRectF clipRect = event->rect();
     painter.setClipRect(clipRect);
+    painter.setPen(palette().midlight().color());
     int pieWidth = qMin(width(), height()) - 10;
     const QRectF pieRect(5, 5, pieWidth, pieWidth);
     int ix = 0;
@@ -62,8 +63,8 @@ void ChartWidget::paintEvent(QPaintEvent *event)
             continue;
         }
         painter.setBrush(colorAt(ix));
-        painter.drawPie(pieRect, previous, val * 16);
-        previous = val * 16;
+        painter.drawPie(pieRect, previous, val);
+        previous += val;
         ix++;
     }
 }
@@ -75,7 +76,7 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
 {
     setAttribute(Qt::WA_DeleteOnClose);
     setupUi(this);
-    m_currentSizes << 0 << 0 << 0 << 0;
+    m_currentSizes = {0, 0, 0, 0, 0};
 
     // Setup page for current project
     m_currentPie = new ChartWidget(this);
@@ -96,6 +97,11 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
     pal.setColor(QPalette::Window, m_currentPie->colorAt(1));
     proxyColor->setPalette(pal);
     connect(delProxy, &QToolButton::clicked, this, &TemporaryData::deleteProjectProxy);
+
+    // Proxy clips
+    sequenceColor->setFixedSize(minHeight, minHeight);
+    pal.setColor(QPalette::Window, m_currentPie->colorAt(4));
+    sequenceColor->setPalette(pal);
 
     // Audio Thumbs
     audioColor->setFixedSize(minHeight, minHeight);
@@ -238,6 +244,16 @@ void TemporaryData::updateDataInfo()
         KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(preview.absolutePath()));
         connect(job, &KIO::DirectorySizeJob::result, this, &TemporaryData::gotAudioSize);
     }
+    preview = m_doc->getCacheDir(CacheSequence, &ok);
+    if (ok) {
+        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(preview.absolutePath()));
+        connect(job, &KIO::DirectorySizeJob::result, this, &TemporaryData::gotSequenceSize);
+    }
+    preview = m_doc->getCacheDir(CacheTmpWorkFiles, &ok);
+    if (ok) {
+        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(preview.absolutePath()));
+        connect(job, &KIO::DirectorySizeJob::result, this, &TemporaryData::gotSequenceSize);
+    }
     preview = m_doc->getCacheDir(CacheThumbs, &ok);
     if (ok) {
         KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(preview.absolutePath()));
@@ -299,6 +315,19 @@ void TemporaryData::gotThumbSize(KJob *job)
     updateTotal();
 }
 
+void TemporaryData::gotSequenceSize(KJob *job)
+{
+    auto *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
+    KIO::filesize_t total = sourceJob->totalSize();
+    if (sourceJob->totalFiles() == 0) {
+        total = 0;
+    }
+    m_totalCurrent += total;
+    m_currentSizes[4] += total;
+    sequenceSize->setText(KIO::convertSize(m_currentSizes.at(4)));
+    updateTotal();
+}
+
 void TemporaryData::updateTotal()
 {
     currentSize->setText(KIO::convertSize(m_totalCurrent));
@@ -308,7 +337,7 @@ void TemporaryData::updateTotal()
         if (m_totalCurrent == 0) {
             segments << 0;
         } else {
-            segments << static_cast<int>(size * 360 / m_totalCurrent);
+            segments << static_cast<int>(16 * size * 360 / m_totalCurrent);
         }
     }
     m_currentPie->setSegments(segments);

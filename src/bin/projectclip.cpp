@@ -1161,6 +1161,7 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
         // check whether it's a timewarp
         double speed = 1.0;
         bool timeWarp = false;
+        bool timeRemap = false;
         if (master->parent().property_exists("warp_speed")) {
             speed = master->parent().get_double("warp_speed");
             timeWarp = true;
@@ -1172,7 +1173,7 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
                     std::unique_ptr<Mlt::Link> link(parentChain.link(i));
                     if (strcmp(link->get("mlt_service"), "timeremap") == 0) {
                         qDebug() << "::: FOUND CLIP WITH REMAP LINK: " << clipId;
-                        timeWarp = true;
+                        timeRemap = true;
                         break;
                     }
                 }
@@ -1180,9 +1181,10 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
         }
         if (master->parent().get_int("_loaded") == 1) {
             // we already have a clip that shares the same master
-            if (state != PlaylistState::Disabled || timeWarp) {
+            if (state != PlaylistState::Disabled || timeWarp || timeRemap) {
                 // In that case, we must create copies
-                std::shared_ptr<Mlt::Producer> prod(getTimelineProducer(tid, clipId, state, master->parent().get_int("audio_index"), speed)->cut(in, out));
+                std::shared_ptr<Mlt::Producer> prod(
+                    getTimelineProducer(tid, clipId, state, master->parent().get_int("audio_index"), speed, secondPlaylist, timeRemap)->cut(in, out));
                 return {prod, false};
             }
             if (state == PlaylistState::Disabled) {
@@ -1196,13 +1198,15 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
             return {master, true};
         } else {
             master->parent().set("_loaded", 1);
-            if (timeWarp) {
-                m_timewarpProducers[clipId] = std::make_shared<Mlt::Producer>(&master->parent());
-                QString resource = m_timewarpProducers[clipId]->get("resource");
-                if (resource.endsWith(QLatin1String("qtext"))) {
-                    // This was a placeholder clip, reset producer
-                    std::shared_ptr<Mlt::Producer> prod(getTimelineProducer(tid, clipId, state, master->parent().get_int("audio_index"), speed));
+            if (timeWarp || timeRemap) {
+                QString resource = master->parent().get("resource");
+                if (master->parent().property_exists("_rebuild") || resource.endsWith(QLatin1String("qtext"))) {
+                    // This was a placeholder or missing clip, reset producer
+                    std::shared_ptr<Mlt::Producer> prod(
+                        getTimelineProducer(tid, clipId, state, master->parent().get_int("audio_index"), speed, secondPlaylist, timeRemap));
                     m_timewarpProducers[clipId] = prod;
+                } else {
+                    m_timewarpProducers[clipId] = std::make_shared<Mlt::Producer>(&master->parent());
                 }
                 m_effectStack->loadService(m_timewarpProducers[clipId]);
                 return {master, true};
@@ -2183,6 +2187,19 @@ QList<int> ProjectClip::timelineInstances() const
         ids.push_back(registeredClip.first);
     }
     return ids;
+}
+
+QStringList ProjectClip::timelineSequenceExtraResources() const
+{
+    QStringList urls;
+    if (m_clipType != ClipType::Timeline) {
+        return urls;
+    }
+    for (auto &warp : m_timewarpProducers) {
+        urls << warp.second->get("warp_resource");
+    }
+    urls.removeDuplicates();
+    return urls;
 }
 
 const QString ProjectClip::isReferenced(const QUuid &activeUuid) const
