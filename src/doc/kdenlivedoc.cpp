@@ -1609,7 +1609,9 @@ QMap<QString, QString> KdenliveDoc::documentProperties()
         // "kdenlive:docproperties.decimalPoint" was removed in document version 100
         m_documentProperties.remove(QStringLiteral("decimalPoint"));
     }
-    m_documentProperties.insert(QStringLiteral("browserurl"), pCore->bin()->lastBrowserUrl());
+    if (pCore->bin()) {
+        m_documentProperties.insert(QStringLiteral("browserurl"), pCore->bin()->lastBrowserUrl());
+    }
     QMapIterator<QUuid, std::shared_ptr<TimelineItemModel>> j(m_timelines);
     while (j.hasNext()) {
         j.next();
