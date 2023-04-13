@@ -138,8 +138,6 @@ void CustomJobTask::run()
         if (match.hasMatch()) {
             // if the file name has already an index suffix,
             // increase the number
-            int g0 = match.capturedStart(1);
-            QString g1 = match.captured(1);
             const int currentSuffix = match.captured(1).toInt();
             fixedName.replace(match.capturedStart(1), match.capturedLength(1), QString::asprintf("-%04d", currentSuffix + 1));
         } else {

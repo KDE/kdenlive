@@ -1125,11 +1125,6 @@ bool LineEventEater::eventFilter(QObject *obj, QEvent *event)
     return QObject::eventFilter(obj, event);
 }
 
-void ClipWidget::init(QDockWidget *m_DockClipWidget)
-{
-    ClipCreationDialog::clipWidget(m_DockClipWidget);
-}
-
 Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBin)
     : QWidget(parent)
     , isLoading(false)
@@ -1150,7 +1145,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     , m_propertiesPanel(nullptr)
     , m_monitor(nullptr)
     , m_blankThumb()
-    , m_clipWidget()
+    , m_browserWidget(nullptr)
     , m_filterGroup(this)
     , m_filterRateGroup(this)
     , m_filterTypeGroup(this)
@@ -2179,6 +2174,14 @@ void Bin::setMonitor(Monitor *monitor)
     });
 }
 
+const QString Bin::lastBrowserUrl() const
+{
+    if (m_browserWidget == nullptr) {
+        return {};
+    }
+    return m_browserWidget->baseUrl().toLocalFile();
+}
+
 void Bin::cleanDocument()
 {
     blockSignals(true);
@@ -2193,6 +2196,9 @@ void Bin::cleanDocument()
     m_itemModel->clean();
     if (m_propertiesPanel) {
         m_propertiesPanel->setProperty("clipId", QString());
+        for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
+            delete w;
+        }
     }
     delete m_itemView;
     m_openedPlaylists.clear();
@@ -2226,6 +2232,15 @@ const QString Bin::setDocument(KdenliveDoc *project, const QString &id)
     // connect(m_itemModel, SIGNAL(updateCurrentItem()), this, SLOT(autoSelect()));
     slotInitView(nullptr);
     bool binEffectsDisabled = getDocumentProperty(QStringLiteral("disablebineffects")).toInt() == 1;
+    if (m_browserWidget) {
+        QString url = getDocumentProperty(QStringLiteral("browserurl"));
+        if (!url.isEmpty()) {
+            if (QFileInfo(url).isRelative()) {
+                url.prepend(m_doc->documentRoot());
+            }
+            m_browserWidget->setUrl(QUrl::fromLocalFile(url));
+        }
+    }
     QAction *disableEffects = pCore->window()->actionCollection()->action(QStringLiteral("disable_bin_effects"));
     if (disableEffects) {
         if (binEffectsDisabled != disableEffects->isChecked()) {
@@ -5297,14 +5312,12 @@ QList<int> Bin::getUsedClipIds()
     return timelineClipIds;
 }
 
-ClipWidget *Bin::getWidget()
+KFileWidget *Bin::initBrowserWidget()
 {
-    return m_clipWidget;
-}
-
-void Bin::dockWidgetInit(QDockWidget *m_DockClipWidget)
-{
-    m_clipWidget->init(m_DockClipWidget);
+    if (!m_browserWidget) {
+        m_browserWidget = ClipCreationDialog::browserWidget(pCore->window());
+    }
+    return m_browserWidget;
 }
 
 void Bin::savePlaylist(const QString &binId, const QString &savePath, const QVector<QPoint> &zones, const QMap<QString, QString> &properties, bool createNew)

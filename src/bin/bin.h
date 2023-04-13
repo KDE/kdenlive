@@ -181,18 +181,6 @@ Q_SIGNALS:
     void showClearButton(bool);
 };
 
-/** @class ClipWidget
-    @brief \@todo Describe class ClipWidget
-    @todo Describe class ClipWidget
- */
-class ClipWidget : public QWidget
-{
-public:
-    explicit ClipWidget()= default;
-    ~ClipWidget() override;
-    void init(QDockWidget* m_DockClipWidget);
-};
-
 /**
  * @class Bin
  * @brief The bin widget takes care of both item model and view upon project opening.
@@ -209,7 +197,6 @@ public:
     ~Bin() override;
 
     bool isLoading;
-    void dockWidgetInit(QDockWidget* m_DockClipWidget);
     /** @brief Sets the document for the bin and initialize some stuff  */
     const QString setDocument(KdenliveDoc *project, const QString &id = QString());
     /** @brief Delete all project related data, to be called before setDocument  */
@@ -337,7 +324,7 @@ public:
     void loadBinProperties(const QStringList &foldersToExpand, int zoomLevel = -1);
     /** @brief gets a QList of all clips used in timeline */
     QList<int> getUsedClipIds();
-    ClipWidget* getWidget();
+    KFileWidget *initBrowserWidget();
     /** @brief Register a new timeline clip
      * @param uuid the uuid of the new playlist (equals the uuid of the timelinemodel)
      * @param id the bin id of the clip
@@ -388,6 +375,7 @@ public:
      * @param vTracks the video tracks count, use default if -1 */
     void buildSequenceClip(int aTracks = -1, int vTracks = -1);
     const QString buildSequenceClipWithUndo(Fun &undo, Fun &redo, int aTracks = -1, int vTracks = -1);
+    const QString lastBrowserUrl() const;
 
 private Q_SLOTS:
     void slotAddClip();
@@ -581,7 +569,7 @@ private:
     QActionGroup *m_sortGroup;
     SmallJobLabel *m_infoLabel;
     TagWidget *m_tagsWidget;
-    ClipWidget *m_clipWidget;
+    KFileWidget *m_browserWidget;
     QMenu *m_filterMenu;
     QActionGroup m_filterGroup;
     QActionGroup m_filterRateGroup;

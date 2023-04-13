@@ -389,9 +389,10 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     m_activeTimelineModel.reset();
     if (!quit && !qApp->isSavingSession() && m_project) {
         Q_EMIT pCore->window()->clearAssetPanel();
-        pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
-        pCore->monitorManager()->projectMonitor()->setProducer(nullptr);
     }
+    pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
+    pCore->monitorManager()->projectMonitor()->setProducer(nullptr);
+
     pCore->bin()->cleanDocument();
     delete m_project;
     m_project = nullptr;
