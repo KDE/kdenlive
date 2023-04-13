@@ -2196,6 +2196,9 @@ void Bin::cleanDocument()
     m_itemModel->clean();
     if (m_propertiesPanel) {
         m_propertiesPanel->setProperty("clipId", QString());
+        for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
+            delete w;
+        }
     }
     delete m_itemView;
     m_openedPlaylists.clear();
