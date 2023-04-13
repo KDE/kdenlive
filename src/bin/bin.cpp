@@ -2568,7 +2568,9 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 // Disable find in timeline option
                 m_openAction->setEnabled(false);
             }
-            m_clipsActionsMenu->setEnabled(!isFolder);
+            if (m_clipsActionsMenu) {
+                m_clipsActionsMenu->setEnabled(!isFolder);
+            }
             m_editAction->setVisible(!isFolder);
             m_editAction->setEnabled(true);
             m_extractAudioAction->menuAction()->setVisible(hasAudio);
@@ -2578,8 +2580,10 @@ void Bin::selectProxyModel(const QModelIndex &id)
             m_openAction->setVisible(!isFolder);
             m_duplicateAction->setEnabled(isClip);
             m_duplicateAction->setVisible(!isFolder);
-            m_inTimelineAction->setEnabled(isClip);
-            m_inTimelineAction->setVisible(isClip);
+            if (m_inTimelineAction) {
+                m_inTimelineAction->setEnabled(isClip);
+                m_inTimelineAction->setVisible(isClip);
+            }
             m_locateAction->setEnabled(!isFolder && isImported);
             m_locateAction->setVisible(!isFolder && isImported);
             m_proxyAction->setEnabled(m_doc->useProxy() && !isFolder);
