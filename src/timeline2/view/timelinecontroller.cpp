@@ -2034,7 +2034,9 @@ const QString TimelineController::getClipBinId(int clipId) const
 void TimelineController::focusItem(int itemId)
 {
     int start = m_model->getItemPosition(itemId);
+    int tid = m_model->getItemTrackId(itemId);
     setPosition(start);
+    setActiveTrack(tid);
     Q_EMIT centerView();
 }
 
