@@ -166,6 +166,9 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
         optimalSize = settingsGroup.readEntry("dialogSize", QVariant(size())).toSize();
     }
     resize(optimalSize);
+    // Use timers so that the Settings window opens before starting the scripts
+    QTimer::singleShot(500, m_sttWhisper, &SpeechToText::checkDependencies);
+    QTimer::singleShot(700, m_stt, &SpeechToText::checkDependencies);
 }
 
 // static
@@ -1779,7 +1782,6 @@ void KdenliveSettingsDialog::initSpeechPage()
         }
     });
     connect(m_sttWhisper, &SpeechToText::dependenciesAvailable, this, [&]() { m_sttWhisper->runConcurrentScript(QStringLiteral("checkgpu.py"), {}); });
-    m_sttWhisper->checkDependencies();
 
     // VOSK
     PythonDependencyMessage *msg = new PythonDependencyMessage(this, m_stt);
@@ -1819,7 +1821,6 @@ void KdenliveSettingsDialog::initSpeechPage()
         m_configSpeech.check_config->setEnabled(true);
     });
 
-    m_stt->checkDependencies();
     connect(m_configSpeech.custom_vosk_folder, &QCheckBox::stateChanged, this, [this](int state) {
         m_configSpeech.vosk_folder->setEnabled(state != Qt::Unchecked);
         if (state == Qt::Unchecked) {

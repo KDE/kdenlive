@@ -24,14 +24,6 @@ public:
     */
     ~AbstractPythonInterface() override;
     bool checkSetup();
-    /** @brief Check if all dependencies are installed.
-        If everything is okay dependenciesAvailable() will be emitted,
-        otherwise dependenciesMissing() with a message that can be shown
-        to the user telling wich dependencies are missing.
-        To get a list of all missing dependencies use missingDependencies
-        @returns wether all checks succeeded.
-    */
-    void checkDependencies();
     /** @brief Check which versions of the dependencies are installed.
         @param Whether checkVersionsResult() will be emitted once the result is available.
     */
@@ -50,6 +42,16 @@ public:
     void runConcurrentScript(const QString &script, QStringList args);
 
     friend class PythonDependencyMessage;
+
+public Q_SLOTS:
+    /** @brief Check if all dependencies are installed.
+        If everything is okay dependenciesAvailable() will be emitted,
+        otherwise dependenciesMissing() with a message that can be shown
+        to the user telling wich dependencies are missing.
+        To get a list of all missing dependencies use missingDependencies
+        @returns wether all checks succeeded.
+    */
+    void checkDependencies();
 
 private:
     QString m_pyExec;
