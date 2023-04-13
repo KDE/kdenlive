@@ -10,8 +10,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>339</width>
-    <height>488</height>
+    <width>388</width>
+    <height>545</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
@@ -145,7 +145,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
         </widget>
        </item>
        <item row="2" column="1">
-        <widget class="QComboBox" name="combo_wr_device"/>
+        <widget class="QComboBox" name="combo_wr_device">
+         <property name="sizeAdjustPolicy">
+          <enum>QComboBox::AdjustToContents</enum>
+         </property>
+        </widget>
        </item>
        <item row="3" column="0" colspan="2">
         <widget class="KMessageWidget" name="kmessagewidget">
