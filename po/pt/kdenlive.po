@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-12 00:48+0000\n"
+"POT-Creation-Date: 2023-04-13 00:48+0000\n"
 "PO-Revision-Date: 2023-03-21 12:07+0000\n"
 "Last-Translator: Jose Jorge <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
@@ -4010,7 +4010,7 @@ msgstr "Tipo de Imagem-Chave Predefinido"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/assets/view/widgets/keyframewidget.cpp:197 src/bin/bin.cpp:1343
-#: src/ui/clipstabilize_ui.ui:67
+#: src/ui/clipstabilize_ui.ui:37
 #, kde-format
 msgid "Options"
 msgstr "Opções"
@@ -4595,7 +4595,7 @@ msgid "Playlist"
 msgstr "Lista de Reprodução"
 
 #: src/bin/bin.cpp:2313 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/project/projectmanager.cpp:1210 src/project/projectmanager.cpp:1212
+#: src/project/projectmanager.cpp:1206 src/project/projectmanager.cpp:1208
 #, kde-format
 msgid "Sequences"
 msgstr "Sequências"
@@ -4882,7 +4882,7 @@ msgstr ""
 "Defina por favor uma aplicação predefinida para abrir os ficheiros de áudio"
 
 #: src/bin/bin.cpp:4352 src/core.cpp:301 src/doc/kdenlivedoc.cpp:168
-#: src/jobs/cliploadtask.cpp:459 src/jobs/filtertask.cpp:85
+#: src/jobs/cliploadtask.cpp:458 src/jobs/filtertask.cpp:85
 #: src/layoutmanagement.cpp:466 src/layoutmanagement.cpp:527
 #: src/profiles/profilerepository.cpp:173
 #: src/renderpresets/renderpresetrepository.cpp:374
@@ -5403,13 +5403,13 @@ msgstr ""
 "Não é possível extrair os meta-dados de %1\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1122 src/jobs/cliploadtask.cpp:255
+#: src/bin/projectclip.cpp:1122 src/jobs/cliploadtask.cpp:254
 #, kde-format
 msgid "Invalid"
 msgstr "Inválido"
 
 #: src/bin/projectclip.cpp:1319 src/dialogs/clipcreationdialog.cpp:203
-#: src/jobs/cuttask.cpp:171 src/jobs/speedtask.cpp:113
+#: src/jobs/cuttask.cpp:171 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1358
 #, kde-format
 msgid "File already exists"
@@ -5933,23 +5933,23 @@ msgstr "Ignorar a estrutura de sub-pastas"
 msgid "Manage Bin Clip Jobs"
 msgstr "Gerir as Tarefas de 'Clips' do Grupo"
 
-#: src/dialogs/clipjobmanager.cpp:36
+#: src/dialogs/clipjobmanager.cpp:47
 #, kde-format
 msgid "Arguments for the command line script"
 msgstr "Argumentos para o programa da linha de comandos"
 
-#: src/dialogs/clipjobmanager.cpp:37
+#: src/dialogs/clipjobmanager.cpp:48
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<b>&#x25;1</b> will be replaced by the path of the source clip."
 msgstr "O <b>&#x25;1</b> será substituído pela localização do 'clip' original."
 
-#: src/dialogs/clipjobmanager.cpp:39
+#: src/dialogs/clipjobmanager.cpp:50
 #, kde-format
 msgid "File extension for the output file"
 msgstr "Extensão do ficheiro de saída"
 
-#: src/dialogs/clipjobmanager.cpp:40
+#: src/dialogs/clipjobmanager.cpp:51
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5959,37 +5959,37 @@ msgstr ""
 "A extensão dos ficheiros para o ficheiro de saída. Se ficar em branco, irá "
 "manter a mesma extensão que o ficheiro de origem."
 
-#: src/dialogs/clipjobmanager.cpp:80 src/dialogs/clipjobmanager.cpp:159
+#: src/dialogs/clipjobmanager.cpp:91 src/dialogs/clipjobmanager.cpp:170
 #, kde-format
 msgid "Stabilize"
 msgstr "Estabilizar"
 
-#: src/dialogs/clipjobmanager.cpp:82 src/dialogs/clipjobmanager.cpp:161
-#, kde-format
-msgid "Automatic Scene Split…"
-msgstr "Divisão de Cenas Automática…"
-
-#: src/dialogs/clipjobmanager.cpp:84 src/dialogs/clipjobmanager.cpp:163
+#: src/dialogs/clipjobmanager.cpp:94 src/dialogs/clipjobmanager.cpp:174
 #, kde-format
 msgid "Duplicate Clip with Speed Change…"
 msgstr "Duplicar o 'Clip' com Mudança de Velocidade…"
 
-#: src/dialogs/clipjobmanager.cpp:191
+#: src/dialogs/clipjobmanager.cpp:172
+#, kde-format
+msgid "Automatic Scene Split…"
+msgstr "Divisão de Cenas Automática…"
+
+#: src/dialogs/clipjobmanager.cpp:202
 #, kde-format
 msgid "Job description"
 msgstr "Descrição da tarefa"
 
-#: src/dialogs/clipjobmanager.cpp:241
+#: src/dialogs/clipjobmanager.cpp:252
 #, kde-format
 msgid "My Clip Job"
 msgstr "A Minha Tarefa do 'Clip'"
 
-#: src/dialogs/clipjobmanager.cpp:249
+#: src/dialogs/clipjobmanager.cpp:260
 #, kde-format
 msgid "My Clip Job %1"
 msgstr "A Minha Tarefa do 'Clip' %1"
 
-#: src/dialogs/clipjobmanager.cpp:274
+#: src/dialogs/clipjobmanager.cpp:285
 #, kde-format
 msgid ""
 "Permanently delete this Clip Job:\n"
@@ -6172,7 +6172,7 @@ msgstr "Exportar os Dados das Guias"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1492
+#: src/project/projectmanager.cpp:1488
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5092
@@ -7984,7 +7984,7 @@ msgstr "Erro ao mover a pasta do projecto: %1"
 
 #: src/doc/kdenlivedoc.cpp:1040 src/doc/kdenlivedoc.cpp:2160
 #: src/project/dialogs/archivewidget.cpp:214
-#: src/project/projectmanager.cpp:1325
+#: src/project/projectmanager.cpp:1321
 #, kde-format
 msgid "Untitled"
 msgstr "Sem Título"
@@ -8413,7 +8413,7 @@ msgstr "Activa/desactiva a apresentação da zona de efeitos."
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:237
-#: src/ui/clipstabilize_ui.ui:24 src/ui/renderwidget_ui.ui:172
+#: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "Predefinições"
@@ -8534,17 +8534,17 @@ msgstr "Miniaturas de vídeo"
 msgid "Loading clip"
 msgstr "A carregar o 'clip'"
 
-#: src/jobs/cliploadtask.cpp:487
+#: src/jobs/cliploadtask.cpp:486
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "Não é possível determinar a duração do ficheiro <b>%1</b>."
 
-#: src/jobs/cliploadtask.cpp:645
+#: src/jobs/cliploadtask.cpp:644
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "Não é possível efectuar uma mudança de posição no ficheiro <b>%1</b>."
 
-#: src/jobs/cliploadtask.cpp:687
+#: src/jobs/cliploadtask.cpp:686
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "O ficheiro <b>%1</b> tem uma taxa de dados variável."
@@ -8616,7 +8616,7 @@ msgid "Extracting %1 out of %2"
 msgstr "A extrair o %1 de %2"
 
 #: src/jobs/cuttask.cpp:209 src/jobs/cuttask.cpp:211 src/jobs/filtertask.cpp:70
-#: src/jobs/speedtask.cpp:177 src/jobs/speedtask.cpp:189
+#: src/jobs/speedtask.cpp:184 src/jobs/speedtask.cpp:196
 #: src/jobs/stabilizetask.cpp:106 src/jobs/stabilizetask.cpp:123
 #, kde-format
 msgid "No producer for this clip."
@@ -8730,35 +8730,35 @@ msgctxt "@title:window"
 msgid "Clip Speed"
 msgstr "Velocidade do 'Clip'"
 
-#: src/jobs/speedtask.cpp:55 src/jobs/speedtask.cpp:56
+#: src/jobs/speedtask.cpp:56 src/jobs/speedtask.cpp:57
 #, kde-format
 msgid "Speed Change"
 msgstr "Mudança de Velocidade"
 
-#: src/jobs/speedtask.cpp:58
+#: src/jobs/speedtask.cpp:59
 #, kde-format
 msgid "Destination Folder"
 msgstr "Pasta de Destino"
 
-#: src/jobs/speedtask.cpp:62
+#: src/jobs/speedtask.cpp:63
 #, kde-format
 msgid "Destination File"
 msgstr "Ficheiro de Destino"
 
-#: src/jobs/speedtask.cpp:71
+#: src/jobs/speedtask.cpp:72
 #, kde-format
 msgid "Percentage"
 msgstr "Percentagem"
 
 #. i18n: ectx: property (text), widget (QCheckBox, pitchCompensate)
 #. i18n: ectx: property (text), widget (QCheckBox, pitch_compensate)
-#: src/jobs/speedtask.cpp:78 src/ui/clipspeed_ui.ui:27
+#: src/jobs/speedtask.cpp:79 src/ui/clipspeed_ui.ui:27
 #: src/ui/timeremap_ui.ui:345
 #, kde-format
 msgid "Pitch compensation"
 msgstr "Compensação da frequência"
 
-#: src/jobs/speedtask.cpp:237
+#: src/jobs/speedtask.cpp:244
 #, kde-format
 msgid "Failed to create speed clip."
 msgstr "Não foi possível criar o 'clip' de velocidade."
@@ -12649,18 +12649,18 @@ msgstr "SD/DVD"
 msgid "SD/DVD Widescreen"
 msgstr "SD/DVD Panorâmico"
 
-#: src/project/clipstabilize.cpp:35
+#: src/project/clipstabilize.cpp:36
 #, kde-format
 msgctxt "@title:window"
 msgid "Stabilize Clip"
 msgstr "Estabilizar o 'Clip'"
 
-#: src/project/clipstabilize.cpp:52
+#: src/project/clipstabilize.cpp:53
 #, kde-format
 msgid "Last setting"
 msgstr "Última configuração"
 
-#: src/project/clipstabilize.cpp:86
+#: src/project/clipstabilize.cpp:88
 #, kde-format
 msgctxt "Description"
 msgid "Stabilize clip"
@@ -13088,7 +13088,7 @@ msgstr ""
 "O ficheiro de marcadores tem mais de 1MB; tem a certeza que o deseja "
 "importar ?"
 
-#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1386
+#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1382
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:4998
 #, kde-format
@@ -13711,7 +13711,7 @@ msgstr "Abrir uma Cópia de Segurança…"
 msgid "Save changes to document?"
 msgstr "Deseja gravar as alterações no documento?"
 
-#: src/project/projectmanager.cpp:357 src/project/projectmanager.cpp:1324
+#: src/project/projectmanager.cpp:357 src/project/projectmanager.cpp:1320
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13844,20 +13844,20 @@ msgstr ""
 msgid "Moving project folder"
 msgstr "A mover a pasta do projecto"
 
-#: src/project/projectmanager.cpp:1162
+#: src/project/projectmanager.cpp:1158
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 "O ficheiro do projecto está danificado (não tem faixas). Tente encontrar um "
 "ficheiro com uma cópia de segurança?"
 
-#: src/project/projectmanager.cpp:1189 src/project/projectmanager.cpp:1218
-#: src/project/projectmanager.cpp:1221
+#: src/project/projectmanager.cpp:1185 src/project/projectmanager.cpp:1214
+#: src/project/projectmanager.cpp:1217
 #, kde-format
 msgid "Sequence 1"
 msgstr "Sequência 1"
 
-#: src/project/projectmanager.cpp:1200
+#: src/project/projectmanager.cpp:1196
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -13865,13 +13865,13 @@ msgstr ""
 "O ficheiro do projecto está danificado  -não foi possível carregar as "
 "faixas. Tente encontrar um ficheiro com uma cópia de segurança?"
 
-#: src/project/projectmanager.cpp:1330 src/project/projectmanager.cpp:1335
-#: src/project/projectmanager.cpp:1345 src/project/projectmanager.cpp:1361
+#: src/project/projectmanager.cpp:1326 src/project/projectmanager.cpp:1331
+#: src/project/projectmanager.cpp:1341 src/project/projectmanager.cpp:1357
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Mudança de perfil do projecto interrompida"
 
-#: src/project/projectmanager.cpp:1477
+#: src/project/projectmanager.cpp:1473
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -13880,12 +13880,12 @@ msgstr ""
 "O ficheiro do resultado %1 já existe.\n"
 "Deseja sobrepô-lo?"
 
-#: src/project/projectmanager.cpp:1502
+#: src/project/projectmanager.cpp:1498
 #, kde-format
 msgid "Project profile changed"
 msgstr "Perfil do projecto modificada"
 
-#: src/project/projectmanager.cpp:1552
+#: src/project/projectmanager.cpp:1548
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -13894,19 +13894,19 @@ msgstr ""
 "Não é possível criar uma linha temporal a partir deste 'clip':\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1631
+#: src/project/projectmanager.cpp:1627
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "A importar um 'clip' de sequência; esta funcionalidade está num estado "
 "experimental neste momento"
 
-#: src/project/projectmanager.cpp:1783
+#: src/project/projectmanager.cpp:1779
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Seleccione um 'clip' para criar a sequência"
 
-#: src/project/projectmanager.cpp:1820
+#: src/project/projectmanager.cpp:1816
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Criar um 'Clip' de Sequência"
@@ -17420,6 +17420,7 @@ msgstr "Apagar o ponto actual."
 #. i18n: ectx: property (text), widget (QToolButton, button_zoomin)
 #. i18n: ectx: property (text), widget (QToolButton, button_zoomout)
 #. i18n: ectx: property (text), widget (QToolButton, preset_button)
+#. i18n: ectx: property (text), widget (QToolButton, config_button)
 #. i18n: ectx: property (text), widget (QToolButton, checkProxy)
 #. i18n: ectx: property (text), widget (QToolButton, proxy_showprofileinfo)
 #. i18n: ectx: property (text), widget (QToolButton, proxy_manageprofile)
@@ -17491,51 +17492,51 @@ msgstr "Apagar o ponto actual."
 #: src/ui/bezierspline_ui.ui:156 src/ui/bezierspline_ui.ui:172
 #: src/ui/bezierspline_ui.ui:189 src/ui/bezierspline_ui.ui:206
 #: src/ui/clipjobmanager_ui.ui:20 src/ui/clipjobmanager_ui.ui:166
-#: src/ui/clipstabilize_ui.ui:27 src/ui/collapsiblewidget_ui.ui:103
-#: src/ui/collapsiblewidget_ui.ui:129 src/ui/collapsiblewidget_ui.ui:139
-#: src/ui/collapsiblewidget_ui.ui:149 src/ui/collapsiblewidget_ui.ui:162
-#: src/ui/collapsiblewidget_ui.ui:175 src/ui/collapsiblewidget_ui.ui:188
-#: src/ui/collapsiblewidget_ui.ui:198 src/ui/collapsiblewidget_ui.ui:208
-#: src/ui/configjogshuttle_ui.ui:82 src/ui/configsdl_ui.ui:166
-#: src/ui/configspeech_ui.ui:209 src/ui/configspeech_ui.ui:223
-#: src/ui/cutjobdialog_ui.ui:84 src/ui/editrenderpreset_ui.ui:470
-#: src/ui/editsub_ui.ui:23 src/ui/editsub_ui.ui:33 src/ui/editsub_ui.ui:43
-#: src/ui/editsub_ui.ui:54 src/ui/editsub_ui.ui:65 src/ui/editsub_ui.ui:76
-#: src/ui/editsub_ui.ui:135 src/ui/editsub_ui.ui:156 src/ui/editsub_ui.ui:189
-#: src/ui/editsub_ui.ui:423 src/ui/exportguidesdialog_ui.ui:108
-#: src/ui/exportguidesdialog_ui.ui:128 src/ui/gradientedit_ui.ui:130
-#: src/ui/gradientedit_ui.ui:150 src/ui/guideslist_ui.ui:19
-#: src/ui/guideslist_ui.ui:36 src/ui/guideslist_ui.ui:50
-#: src/ui/guideslist_ui.ui:64 src/ui/guideslist_ui.ui:77
-#: src/ui/guideslist_ui.ui:103 src/ui/guideslist_ui.ui:129
-#: src/ui/managecache_ui.ui:65 src/ui/managecache_ui.ui:116
-#: src/ui/managecache_ui.ui:147 src/ui/managecache_ui.ui:202
-#: src/ui/managecache_ui.ui:233 src/ui/managecache_ui.ui:291
-#: src/ui/manageencodingprofile_ui.ui:48 src/ui/manageencodingprofile_ui.ui:59
-#: src/ui/manageencodingprofile_ui.ui:70 src/ui/manageencodingprofile_ui.ui:84
-#: src/ui/projectsettings_ui.ui:276 src/ui/projectsettings_ui.ui:283
-#: src/ui/projectsettings_ui.ui:293 src/ui/projectsettings_ui.ui:571
-#: src/ui/projectsettings_ui.ui:578 src/ui/qtextclip_ui.ui:94
-#: src/ui/renderwidget_ui.ui:567 src/ui/renderwidget_ui.ui:1001
-#: src/ui/resourcewidget_ui.ui:214 src/ui/resourcewidget_ui.ui:281
-#: src/ui/speechdialog_ui.ui:55 src/ui/textbasededit_ui.ui:67
-#: src/ui/textbasededit_ui.ui:100 src/ui/textbasededit_ui.ui:121
-#: src/ui/textbasededit_ui.ui:137 src/ui/textbasededit_ui.ui:216
-#: src/ui/textbasededit_ui.ui:240 src/ui/textbasededit_ui.ui:253
-#: src/ui/textbasededit_ui.ui:267 src/ui/textbasededit_ui.ui:283
-#: src/ui/timeremap_ui.ui:97 src/ui/timeremap_ui.ui:151
-#: src/ui/timeremap_ui.ui:182 src/ui/timeremap_ui.ui:192
-#: src/ui/timeremap_ui.ui:202 src/ui/timeremap_ui.ui:379
-#: src/ui/titlewidget_ui.ui:830 src/ui/titlewidget_ui.ui:840
-#: src/ui/titlewidget_ui.ui:1045 src/ui/titlewidget_ui.ui:1100
-#: src/ui/titlewidget_ui.ui:1150 src/ui/titlewidget_ui.ui:1173
-#: src/ui/titlewidget_ui.ui:1206 src/ui/titlewidget_ui.ui:1296
-#: src/ui/titlewidget_ui.ui:1594 src/ui/titlewidget_ui.ui:1611
-#: src/ui/titlewidget_ui.ui:1625 src/ui/titlewidget_ui.ui:1692
-#: src/ui/titlewidget_ui.ui:1706 src/ui/titlewidget_ui.ui:1720
-#: src/ui/titlewidget_ui.ui:1734 src/ui/titlewidget_ui.ui:1748
-#: src/ui/titlewidget_ui.ui:1762 src/ui/unicodewidget_ui.ui:201
-#: src/ui/unicodewidget_ui.ui:226
+#: src/ui/clipstabilize_ui.ui:57 src/ui/clipstabilize_ui.ui:94
+#: src/ui/collapsiblewidget_ui.ui:103 src/ui/collapsiblewidget_ui.ui:129
+#: src/ui/collapsiblewidget_ui.ui:139 src/ui/collapsiblewidget_ui.ui:149
+#: src/ui/collapsiblewidget_ui.ui:162 src/ui/collapsiblewidget_ui.ui:175
+#: src/ui/collapsiblewidget_ui.ui:188 src/ui/collapsiblewidget_ui.ui:198
+#: src/ui/collapsiblewidget_ui.ui:208 src/ui/configjogshuttle_ui.ui:82
+#: src/ui/configsdl_ui.ui:166 src/ui/configspeech_ui.ui:209
+#: src/ui/configspeech_ui.ui:223 src/ui/cutjobdialog_ui.ui:84
+#: src/ui/editrenderpreset_ui.ui:470 src/ui/editsub_ui.ui:23
+#: src/ui/editsub_ui.ui:33 src/ui/editsub_ui.ui:43 src/ui/editsub_ui.ui:54
+#: src/ui/editsub_ui.ui:65 src/ui/editsub_ui.ui:76 src/ui/editsub_ui.ui:135
+#: src/ui/editsub_ui.ui:156 src/ui/editsub_ui.ui:189 src/ui/editsub_ui.ui:423
+#: src/ui/exportguidesdialog_ui.ui:108 src/ui/exportguidesdialog_ui.ui:128
+#: src/ui/gradientedit_ui.ui:130 src/ui/gradientedit_ui.ui:150
+#: src/ui/guideslist_ui.ui:19 src/ui/guideslist_ui.ui:36
+#: src/ui/guideslist_ui.ui:50 src/ui/guideslist_ui.ui:64
+#: src/ui/guideslist_ui.ui:77 src/ui/guideslist_ui.ui:103
+#: src/ui/guideslist_ui.ui:129 src/ui/managecache_ui.ui:65
+#: src/ui/managecache_ui.ui:116 src/ui/managecache_ui.ui:147
+#: src/ui/managecache_ui.ui:202 src/ui/managecache_ui.ui:233
+#: src/ui/managecache_ui.ui:291 src/ui/manageencodingprofile_ui.ui:48
+#: src/ui/manageencodingprofile_ui.ui:59 src/ui/manageencodingprofile_ui.ui:70
+#: src/ui/manageencodingprofile_ui.ui:84 src/ui/projectsettings_ui.ui:276
+#: src/ui/projectsettings_ui.ui:283 src/ui/projectsettings_ui.ui:293
+#: src/ui/projectsettings_ui.ui:571 src/ui/projectsettings_ui.ui:578
+#: src/ui/qtextclip_ui.ui:94 src/ui/renderwidget_ui.ui:567
+#: src/ui/renderwidget_ui.ui:1001 src/ui/resourcewidget_ui.ui:214
+#: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:55
+#: src/ui/textbasededit_ui.ui:67 src/ui/textbasededit_ui.ui:100
+#: src/ui/textbasededit_ui.ui:121 src/ui/textbasededit_ui.ui:137
+#: src/ui/textbasededit_ui.ui:216 src/ui/textbasededit_ui.ui:240
+#: src/ui/textbasededit_ui.ui:253 src/ui/textbasededit_ui.ui:267
+#: src/ui/textbasededit_ui.ui:283 src/ui/timeremap_ui.ui:97
+#: src/ui/timeremap_ui.ui:151 src/ui/timeremap_ui.ui:182
+#: src/ui/timeremap_ui.ui:192 src/ui/timeremap_ui.ui:202
+#: src/ui/timeremap_ui.ui:379 src/ui/titlewidget_ui.ui:830
+#: src/ui/titlewidget_ui.ui:840 src/ui/titlewidget_ui.ui:1045
+#: src/ui/titlewidget_ui.ui:1100 src/ui/titlewidget_ui.ui:1150
+#: src/ui/titlewidget_ui.ui:1173 src/ui/titlewidget_ui.ui:1206
+#: src/ui/titlewidget_ui.ui:1296 src/ui/titlewidget_ui.ui:1594
+#: src/ui/titlewidget_ui.ui:1611 src/ui/titlewidget_ui.ui:1625
+#: src/ui/titlewidget_ui.ui:1692 src/ui/titlewidget_ui.ui:1706
+#: src/ui/titlewidget_ui.ui:1720 src/ui/titlewidget_ui.ui:1734
+#: src/ui/titlewidget_ui.ui:1748 src/ui/titlewidget_ui.ui:1762
+#: src/ui/unicodewidget_ui.ui:201 src/ui/unicodewidget_ui.ui:226
 #, kde-format
 msgid "..."
 msgstr "..."
