@@ -422,7 +422,7 @@ void Core::seekMonitor(int id, int position)
 
 Bin *Core::bin()
 {
-    if (!m_guiConstructed) {
+    if (!m_mainWindow) {
         return nullptr;
     }
     return m_mainWindow->getBin();
