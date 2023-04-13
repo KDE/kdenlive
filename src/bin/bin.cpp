@@ -1844,6 +1844,8 @@ void Bin::slotDeleteClip()
     if (usedFolder && (KMessageBox::warningContinueCancel(this, i18n("This will delete all folder content")) != KMessageBox::Continue)) {
         return;
     }
+    // Clear undostack as it contains references to deleted timeline models
+    pCore->undoStack()->clear();
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     // Ensure we don't delete a parent before a child
