@@ -942,7 +942,7 @@ void ClipController::clearBackupProperties()
     m_properties->clear("kdenlive:original.backup");
 }
 
-void ClipController::mirrorOriginalProperties(Mlt::Properties &props)
+void ClipController::mirrorOriginalProperties(std::shared_ptr<Mlt::Properties> props)
 {
     QReadLocker lock(&m_producerLock);
     if (m_usesProxy && QFileInfo(m_properties->get("resource")).fileName() == QFileInfo(m_properties->get("kdenlive:proxy")).fileName()) {
@@ -950,17 +950,10 @@ void ClipController::mirrorOriginalProperties(Mlt::Properties &props)
         if (m_properties->get_int("kdenlive:original.backup") == 0) {
             // We have a proxy clip, load original source producer
             std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), nullptr, m_path.toUtf8().constData());
-            // Get frame to make sure we retrieve all original props
-            std::shared_ptr<Mlt::Frame> fr(prod->get_frame());
-            if (!prod->is_valid()) {
-                return;
-            }
-            int width = 0;
-            int height = 0;
-            mlt_image_format format = mlt_image_none;
-            fr->get_image(format, width, height);
+            // Probe to retrieve all original props
+            prod->probe();
             Mlt::Properties sourceProps(prod->get_properties());
-            props.inherit(sourceProps);
+            props->inherit(sourceProps);
             int propsCount = sourceProps.count();
             // store original props
             QStringList doNotPass{QStringLiteral("kdenlive:proxy"), QStringLiteral("kdenlive:originalurl"), QStringLiteral("kdenlive:clipname")};
@@ -979,25 +972,13 @@ void ClipController::mirrorOriginalProperties(Mlt::Properties &props)
         // Properties were fetched in the past, reuse
         Mlt::Properties sourceProps;
         sourceProps.pass_values(*m_properties, "kdenlive:original.");
-        props.inherit(sourceProps);
+        props->inherit(sourceProps);
     } else {
         if (m_clipType == ClipType::AV || m_clipType == ClipType::Video || m_clipType == ClipType::Audio) {
             // Make sure that a frame / image was fetched to initialize all meta properties
-            if (!m_properties->property_exists("meta.media.progressive")) {
-                // Fetch a frame to initialize required properties
-                QScopedPointer<Mlt::Producer> tmpProd(nullptr);
-                if (KdenliveSettings::gpu_accel()) {
-                    QString service = m_masterProducer->get("mlt_service");
-                    tmpProd.reset(new Mlt::Producer(*pCore->getProjectProfile(), service.toUtf8().constData(), m_masterProducer->get("resource")));
-                }
-                std::shared_ptr<Mlt::Frame> fr(tmpProd ? tmpProd->get_frame() : m_masterProducer->get_frame());
-                mlt_image_format format = mlt_image_none;
-                int width = 0;
-                int height = 0;
-                fr->get_image(format, width, height);
-            }
+            m_masterProducer->probe();
         }
-        props.inherit(*m_properties);
+        props->inherit(*m_properties);
     }
 }
 

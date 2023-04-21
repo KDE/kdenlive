@@ -127,6 +127,33 @@ QPair<bool, QString> DocumentValidator::validate(const double currentVersion)
                            i18n("Incorrect project file"));
         version = currentVersion;
     }
+    int mltMajorVersion = 0;
+    int mltServiceVersion = 0;
+    int mltPatchVersion = 0;
+    const QString mltVersion = mlt.attribute(QStringLiteral("version"));
+    const QStringList v = mltVersion.split(QLatin1Char('.'));
+    if (v.size() > 2) {
+        mltMajorVersion = v.at(0).toInt();
+        mltServiceVersion = v.at(1).toInt();
+        mltPatchVersion = v.at(2).toInt();
+    }
+    qDebug() << "FOUND MLT PROJECT VERSION: " << mltMajorVersion << " / " << mltServiceVersion << " / " << mltPatchVersion;
+    if (mltMajorVersion <= 7 && mltServiceVersion <= 15) {
+        // MLT <= 7.15.0 used the mute_on_pause property that is now deprecated and breaks audio playback so remove it
+        QDomNodeList producers = m_doc.elementsByTagName(QStringLiteral("producer"));
+        QDomNodeList chains = m_doc.elementsByTagName(QStringLiteral("chain"));
+        int max = producers.count();
+        for (int i = 0; i < max; ++i) {
+            QDomElement t = producers.at(i).toElement();
+            Xml::removeXmlProperty(t, QStringLiteral("mute_on_pause"));
+        }
+        max = chains.count();
+        for (int i = 0; i < max; ++i) {
+            QDomElement t = chains.at(i).toElement();
+            Xml::removeXmlProperty(t, QStringLiteral("mute_on_pause"));
+        }
+    }
+
     // Upgrade the document to the latest version
     if (!upgrade(version, currentVersion)) {
         return QPair<bool, QString>(false, QString());

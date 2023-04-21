@@ -56,6 +56,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <xlocale.h>
 #endif
 
+// The document version is the Kdenlive project file version. Only increment this on major releases if
+// the file format changes and requires manual processing in the document validator.
+// Increasing the document version means that older Kdenlive versions won't be able to open the project files
 const double DOCUMENTVERSION = 1.1;
 
 // create a new blank document

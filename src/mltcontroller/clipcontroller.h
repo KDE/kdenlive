@@ -158,7 +158,7 @@ public:
     bool hasLimitedDuration() const;
     void forceLimitedDuration();
     Mlt::Properties &properties();
-    void mirrorOriginalProperties(Mlt::Properties &props);
+    void mirrorOriginalProperties(std::shared_ptr<Mlt::Properties> props);
     bool copyEffect(const std::shared_ptr<EffectStackModel> &stackModel, int rowId);
     /** @brief Returns true if the bin clip has effects */
     bool hasEffects() const;
