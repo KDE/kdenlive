@@ -1834,6 +1834,15 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
     }
 }
 
+void ProjectClip::refreshTracksState(int tracksCount)
+{
+    if (tracksCount > -1) {
+        setProducerProperty(QStringLiteral("kdenlive:sequenceproperties.tracksCount"), tracksCount);
+    }
+    checkAudioVideo();
+    Q_EMIT refreshPropertiesPanel();
+}
+
 ClipPropertiesController *ProjectClip::buildProperties(QWidget *parent)
 {
     auto ptr = m_model.lock();

@@ -341,7 +341,7 @@ public:
      */
     const QString sequenceBinId(const QUuid &uuid);
     /** @brief Update a sequence AV info (has audio/video) */
-    void updateSequenceAVType(const QUuid &uuid);
+    void updateSequenceAVType(const QUuid &uuid, int tracksCount);
 
     // TODO refac: remove this and call directly the function in ProjectItemModel
     void cleanupUnused();

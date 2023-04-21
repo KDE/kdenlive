@@ -5826,13 +5826,13 @@ void Bin::setSequenceThumbnail(const QUuid &uuid, int frame)
     }
 }
 
-void Bin::updateSequenceAVType(const QUuid &uuid)
+void Bin::updateSequenceAVType(const QUuid &uuid, int tracksCount)
 {
     const QString bId = sequenceBinId(uuid);
     if (!bId.isEmpty()) {
         std::shared_ptr<ProjectClip> sequenceClip = getBinClip(bId);
         if (sequenceClip) {
-            sequenceClip->checkAudioVideo();
+            sequenceClip->refreshTracksState(tracksCount);
         }
     }
 }

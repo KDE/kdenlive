@@ -753,7 +753,6 @@ void PreviewManager::reloadChunks(const QVariantList &chunks)
             if (prod.is_valid()) {
                 // m_ruler->updatePreview(ix, true);
                 prod.set("mlt_service", "avformat-novalidate");
-                prod.set("mute_on_pause", 1);
                 m_previewTrack->insert_at(ix.toInt(), &prod, 1);
             }
         }
@@ -794,7 +793,6 @@ void PreviewManager::gotPreviewRender(int frame, const QString &file, int progre
             m_renderedChunks << frame;
             Q_EMIT renderedChunksChanged();
             prod.set("mlt_service", "avformat-novalidate");
-            prod.set("mute_on_pause", 1);
             m_tractor->lock();
             m_previewTrack->insert_at(frame, &prod, 1);
             m_previewTrack->consolidate_blanks();

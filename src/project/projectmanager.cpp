@@ -1209,20 +1209,22 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
         pCore->projectItemModel()->requestAddFolder(folderId, i18n("Sequences"), QStringLiteral("-1"), undo, redo);
     }
     QString mainId;
+    QPair<int, int> tracks = timelineModel->getAVtracksCount();
     std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(timelineModel->tractor()->cut());
     prod->parent().set("id", uuid.toString().toUtf8().constData());
     prod->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
     prod->set("kdenlive:clipname", i18n("Sequence 1").toUtf8().constData());
     prod->set("kdenlive:producer_type", ClipType::Timeline);
+    prod->set("kdenlive:sequenceproperties.tracksCount", tracks.first + tracks.second);
     prod->parent().set("kdenlive:uuid", uuid.toString().toUtf8().constData());
     prod->parent().set("kdenlive:clipname", i18n("Sequence 1").toUtf8().constData());
-    QPair<int, int> tracks = timelineModel->getAVtracksCount();
     prod->parent().set("kdenlive:sequenceproperties.hasAudio", tracks.first > 0 ? 1 : 0);
     prod->parent().set("kdenlive:sequenceproperties.hasVideo", tracks.second > 0 ? 1 : 0);
     if (m_project->hasSequenceProperty(uuid, QStringLiteral("activeTrack"))) {
         int activeTrack = m_project->getSequenceProperty(uuid, QStringLiteral("activeTrack")).toInt();
         prod->parent().set("kdenlive:sequenceproperties.activeTrack", activeTrack);
     }
+    prod->parent().set("kdenlive:sequenceproperties.tracksCount", tracks.first + tracks.second);
     prod->parent().set("kdenlive:sequenceproperties.documentuuid", m_project->uuid().toString().toUtf8().constData());
     if (tractor.property_exists("kdenlive:duration")) {
         const QString duration(tractor.get("kdenlive:duration"));

@@ -768,8 +768,8 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
         m_tractor->set("kdenlive:sequenceproperties.hasAudio", audioTracks > 0 ? 1 : 0);
         m_tractor->set("kdenlive:sequenceproperties.hasVideo", videoTracks > 0 ? 1 : 0);
         m_tractor->set("kdenlive:clip_type", newClipType);
-        pCore->updateSequenceAVType(m_uuid);
     }
+    pCore->updateSequenceAVType(m_uuid, audioTracks + videoTracks);
     if (isMultiTrack) {
         pCore->enableMultiTrack(true);
     }
