@@ -125,6 +125,9 @@ const QStringList MarkerListModel::categoriesToStringList() const
 QStringList MarkerListModel::guideCategoriesToStringList(const QString &categoriesData)
 {
     QStringList categories;
+    if (categoriesData.isEmpty()) {
+        return categories;
+    }
     auto json = QJsonDocument::fromJson(categoriesData.toUtf8());
     if (!json.isArray()) {
         qDebug() << "Error : Json file should be an array";
@@ -722,6 +725,9 @@ bool MarkerListModel::importFromJson(const QString &data, bool ignoreConflicts, 
 
 bool MarkerListModel::importFromJson(const QString &data, bool ignoreConflicts, Fun &undo, Fun &redo)
 {
+    if (data.isEmpty()) {
+        return false;
+    }
     QWriteLocker locker(&m_lock);
     auto json = QJsonDocument::fromJson(data.toUtf8());
     if (!json.isArray()) {
