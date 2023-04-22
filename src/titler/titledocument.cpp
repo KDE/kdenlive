@@ -74,7 +74,7 @@ void TitleDocument::setScene(QGraphicsScene *_scene, int width, int height)
     m_height = height;
 }
 
-int TitleDocument::base64ToUrl(QGraphicsItem *item, QDomElement &content, bool embed, const QString &pojectPath)
+int TitleDocument::base64ToUrl(QGraphicsItem *item, QDomElement &content, bool embed, const QString &projectPath)
 {
     if (embed) {
         if (!item->data(Qt::UserRole + 1).toString().isEmpty()) {
@@ -88,10 +88,10 @@ int TitleDocument::base64ToUrl(QGraphicsItem *item, QDomElement &content, bool e
         QString base64 = item->data(Qt::UserRole + 1).toString();
         if (!base64.isEmpty()) {
             QString titlePath;
-            if (!pojectPath.isEmpty()) {
-                titlePath = pojectPath;
+            if (!projectPath.isEmpty()) {
+                titlePath = projectPath;
             } else {
-                titlePath = QStringLiteral("/tmp/titles");
+                titlePath = QStringLiteral("/tmp/titles/");
             }
             QString filename = extractBase64Image(titlePath, base64);
             if (!filename.isEmpty()) {
@@ -109,9 +109,9 @@ int TitleDocument::base64ToUrl(QGraphicsItem *item, QDomElement &content, bool e
 // static
 const QString TitleDocument::extractBase64Image(const QString &titlePath, const QString &data)
 {
-    QString filename = titlePath + QString(QCryptographicHash::hash(data.toLatin1(), QCryptographicHash::Md5).toHex().append(".titlepart"));
-    QDir dir;
+    QDir dir(titlePath);
     dir.mkpath(titlePath);
+    const QString filename = dir.absoluteFilePath(QString(QCryptographicHash::hash(data.toLatin1(), QCryptographicHash::Md5).toHex().append(".titlepart")));
     QFile f(filename);
     if (f.open(QIODevice::WriteOnly)) {
         f.write(QByteArray::fromBase64(data.toLatin1()));
