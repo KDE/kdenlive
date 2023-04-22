@@ -644,7 +644,7 @@ Item {
     }
     Item {
         id: clipJobInfo
-        x: 10
+        x: sceneToolBar.visible && sceneToolBar.rightSide == false ? sceneToolBar.width + 10 : 10
         y: 10
         width: parent.width - 20
         height: childrenRect.height
@@ -655,7 +655,7 @@ Item {
                 delegate: Rectangle {
                     id: jobContainer
                     property var uuid: controller.jobsUuids[model.index]
-                    width: clipJobInfo.width / 4
+                    width: childrenRect.width + 4
                     height: jobLabel.height + progressBar.height + 4
                     color: "#80333333"
                     radius: 5
@@ -677,12 +677,12 @@ Item {
                         }
                         Text {
                             id: jobLabel
-                            horizontalAlignment: Text.AlignHCenter
+                            horizontalAlignment: Text.AlignLeft
                             anchors.leftMargin: 4
                             padding: 2
                             text: modelData
-                            width: jobContainer.width - iconButton.width - 8
-                            elide: Text.ElideRight
+                            font.pointSize: fontMetrics.font.pointSize
+                            elide: Text.ElideMiddle
                             color: 'white'
                         }
                     }
@@ -693,7 +693,6 @@ Item {
                         anchors.right: parent.right
                         anchors.leftMargin: 4
                         anchors.rightMargin: 4
-                        //width: clipJobInfo.width / 4
                         height: 6
                         radius: 2
                         color: "#33ffffff"

@@ -44,7 +44,7 @@ ProfileModel::ProfileModel(const QString &path)
         }
         f.close();
     }
-    m_profile = std::make_unique<Mlt::Profile>(path.toStdString().c_str());
+    m_profile = std::make_unique<Mlt::Profile>(path.toUtf8().constData());
     m_description = QString(m_profile->description());
 }
 

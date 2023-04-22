@@ -48,6 +48,7 @@ Core::Core(const QString &packageType)
     , m_packageType(packageType)
     , m_thumbProfile(nullptr)
     , m_capture(new MediaCapture(this))
+    , m_currentProfile(QStringLiteral("atsc_720p_25"))
 {
 }
 
@@ -518,7 +519,7 @@ Mlt::Profile &Core::getMonitorProfile()
 Mlt::Profile *Core::getProjectProfile()
 {
     if (!m_projectProfile) {
-        m_projectProfile = std::make_unique<Mlt::Profile>(m_currentProfile.toStdString().c_str());
+        m_projectProfile = std::make_unique<Mlt::Profile>(m_currentProfile.toUtf8().constData());
         m_projectProfile->set_explicit(true);
         updateMonitorProfile();
     }
@@ -1068,7 +1069,7 @@ Mlt::Profile *Core::thumbProfile()
 {
     // QMutexLocker lck(&m_thumbProfileMutex);
     if (!m_thumbProfile) {
-        m_thumbProfile = std::make_unique<Mlt::Profile>(m_currentProfile.toStdString().c_str());
+        m_thumbProfile = std::make_unique<Mlt::Profile>(m_currentProfile.toUtf8().constData());
         double factor = 144. / m_thumbProfile->height();
         m_thumbProfile->set_height(144);
         int width = qRound(m_thumbProfile->width() * factor);

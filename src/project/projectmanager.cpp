@@ -1086,14 +1086,37 @@ void ProjectManager::saveZone(const QStringList &info, const QDir &dir)
 
 void ProjectManager::moveProjectData(const QString &src, const QString &dest)
 {
-    // Move tmp folder (thumbnails, timeline preview)
-    m_project->moveProjectData(src, dest);
-    KIO::CopyJob *copyJob = KIO::move(QUrl::fromLocalFile(src), QUrl::fromLocalFile(dest), KIO::DefaultFlags);
-    if (copyJob->uiDelegate()) {
-        KJobWidgets::setWindow(copyJob, pCore->window());
+    // Move proxies
+    const QList<QUrl> proxyUrls = m_project->getProjectData(dest);
+    Fun copyTmp = [this, src, dest]() {
+        // Move tmp folder (thumbnails, timeline preview)
+        KIO::CopyJob *copyJob = KIO::move(QUrl::fromLocalFile(src), QUrl::fromLocalFile(dest), KIO::DefaultFlags);
+        if (copyJob->uiDelegate()) {
+            KJobWidgets::setWindow(copyJob, pCore->window());
+        }
+        connect(copyJob, &KJob::percentChanged, this, &ProjectManager::slotMoveProgress);
+        connect(copyJob, &KJob::result, this, &ProjectManager::slotMoveFinished);
+        return true;
+    };
+    if (!proxyUrls.isEmpty()) {
+        QDir proxyDir(dest + QStringLiteral("/proxy/"));
+        if (proxyDir.mkpath(QStringLiteral("."))) {
+            KIO::CopyJob *job = KIO::move(proxyUrls, QUrl::fromLocalFile(proxyDir.absolutePath()));
+            connect(job, &KJob::percentChanged, this, &ProjectManager::slotMoveProgress);
+            connect(job, &KJob::result, this, [this, copyTmp](KJob *job) {
+                if (job->error() == 0) {
+                    copyTmp();
+                } else {
+                    KMessageBox::error(pCore->window(), i18n("Error moving project folder: %1", job->errorText()));
+                }
+            });
+            if (job->uiDelegate()) {
+                KJobWidgets::setWindow(job, pCore->window());
+            }
+        }
+    } else {
+        copyTmp();
     }
-    connect(copyJob, &KJob::result, this, &ProjectManager::slotMoveFinished);
-    connect(copyJob, &KJob::percentChanged, this, &ProjectManager::slotMoveProgress);
 }
 
 void ProjectManager::slotMoveProgress(KJob *, unsigned long progress)
