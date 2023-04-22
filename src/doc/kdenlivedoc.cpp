@@ -834,7 +834,7 @@ void KdenliveDoc::setProjectFolder(const QUrl &url)
     updateProjectFolderPlacesEntry();
 }
 
-void KdenliveDoc::moveProjectData(const QString & /*src*/, const QString &dest)
+const QList<QUrl> KdenliveDoc::getProjectData(const QString &dest)
 {
     // Move proxies
     QList<QUrl> cacheUrls;
@@ -842,18 +842,6 @@ void KdenliveDoc::moveProjectData(const QString & /*src*/, const QString &dest)
     // First step: all clips referenced by the bin model exist and are inserted
     for (const auto &binClip : binClips) {
         auto projClip = pCore->projectItemModel()->getClipByBinID(binClip);
-        if (projClip->clipType() == ClipType::Text) {
-            // the image for title clip must be moved
-            QUrl oldUrl = QUrl::fromLocalFile(projClip->clipUrl());
-            if (!oldUrl.isEmpty()) {
-                QUrl newUrl = QUrl::fromLocalFile(dest + QStringLiteral("/titles/") + oldUrl.fileName());
-                KIO::Job *job = KIO::copy(oldUrl, newUrl);
-                if (job->exec()) {
-                    projClip->setProducerProperty(QStringLiteral("resource"), newUrl.toLocalFile());
-                }
-            }
-            continue;
-        }
         QString proxy = projClip->getProducerProperty(QStringLiteral("kdenlive:proxy"));
         if (proxy.length() > 2 && QFile::exists(proxy)) {
             QUrl pUrl = QUrl::fromLocalFile(proxy);
@@ -862,16 +850,7 @@ void KdenliveDoc::moveProjectData(const QString & /*src*/, const QString &dest)
             }
         }
     }
-    if (!cacheUrls.isEmpty()) {
-        QDir proxyDir(dest + QStringLiteral("/proxy/"));
-        if (proxyDir.mkpath(QStringLiteral("."))) {
-            KIO::CopyJob *job = KIO::move(cacheUrls, QUrl::fromLocalFile(proxyDir.absolutePath()));
-            connect(job, &KJob::result, this, &KdenliveDoc::slotMoveFinished);
-            if (job->uiDelegate()) {
-                KJobWidgets::setWindow(job, pCore->window());
-            }
-        }
-    }
+    return cacheUrls;
 }
 
 void KdenliveDoc::slotMoveFinished(KJob *job)
