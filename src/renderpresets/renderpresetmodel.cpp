@@ -371,7 +371,7 @@ void RenderPresetModel::setParams(const QString &params)
     // to avoid spliting values that contain whitespaces
     static const QRegularExpression regexp(R"(\s+(?=\S*=))");
 
-    QStringList paramList = params.split(regexp);
+    QStringList paramList = params.split(regexp, Qt::SkipEmptyParts);
     for (QString param : paramList) {
         m_params.insert(param.section(QLatin1Char('='), 0, 0), param.section(QLatin1Char('='), 1));
     }
