@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-22 00:50+0000\n"
+"POT-Creation-Date: 2023-04-23 00:48+0000\n"
 "PO-Revision-Date: 2023-03-27 22:11+0200\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
 "Language-Team: fr\n"
@@ -3950,7 +3950,7 @@ msgid ""
 "and pasting keyframes from clipboard)."
 msgstr ""
 "Ouvre une liste d'actions complémentaires pour la gestion des trames clé "
-"(Par exemple : copie vers  et collage des trames clé à partir du presse-"
+"(Par exemple : copie vers et collage des trames clé à partir du presse-"
 "papiers)."
 
 #: src/assets/view/widgets/keyframewidget.cpp:245
@@ -4283,7 +4283,7 @@ msgid ""
 "Opens a window to configure the project bin (e.g. view mode, sort, show "
 "rating)."
 msgstr ""
-"Ouvre une fenêtre pour configurer la poubelle du projet (Par exemple,  mode "
+"Ouvre une fenêtre pour configurer la poubelle du projet (Par exemple, mode "
 "d(affichage, tri, affichage de la notation)."
 
 #: src/bin/bin.cpp:1346
@@ -4524,7 +4524,7 @@ msgstr "Montage"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2330 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/project/projectmanager.cpp:1207 src/project/projectmanager.cpp:1209
+#: src/project/projectmanager.cpp:1230 src/project/projectmanager.cpp:1232
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -4811,7 +4811,7 @@ msgid "Please set a default application to open audio files"
 msgstr ""
 "Veuillez définir une application par défaut pour ouvrir les fichiers audio"
 
-#: src/bin/bin.cpp:4373 src/core.cpp:301 src/doc/kdenlivedoc.cpp:171
+#: src/bin/bin.cpp:4373 src/core.cpp:302 src/doc/kdenlivedoc.cpp:171
 #: src/jobs/cliploadtask.cpp:458 src/jobs/filtertask.cpp:85
 #: src/layoutmanagement.cpp:466 src/layoutmanagement.cpp:527
 #: src/profiles/profilerepository.cpp:173
@@ -5039,7 +5039,7 @@ msgstr ""
 msgid "Duplicate"
 msgstr "Dupliquer"
 
-#: src/bin/clipcreator.cpp:420 src/core.cpp:941
+#: src/bin/clipcreator.cpp:420 src/core.cpp:942
 #: src/project/projectmanager.cpp:759
 #, kde-format
 msgid "Loading clips"
@@ -5099,52 +5099,52 @@ msgstr "Liste de lecture MLT (*.mlt)"
 msgid "Update guides categories"
 msgstr "Mettre à jour les catégories de guide"
 
-#: src/bin/model/markerlistmodel.cpp:266 src/bin/model/markerlistmodel.cpp:284
+#: src/bin/model/markerlistmodel.cpp:269 src/bin/model/markerlistmodel.cpp:287
 #, kde-format
 msgid "Rename guide"
 msgstr "Renommer le guide"
 
-#: src/bin/model/markerlistmodel.cpp:266 src/bin/model/markerlistmodel.cpp:284
+#: src/bin/model/markerlistmodel.cpp:269 src/bin/model/markerlistmodel.cpp:287
 #, kde-format
 msgid "Rename marker"
 msgstr "Renommer le repère"
 
-#: src/bin/model/markerlistmodel.cpp:268 src/bin/model/markerlistmodel.cpp:286
+#: src/bin/model/markerlistmodel.cpp:271 src/bin/model/markerlistmodel.cpp:289
 #, kde-format
 msgid "Add guide"
 msgstr "Ajouter un guide"
 
-#: src/bin/model/markerlistmodel.cpp:268 src/bin/model/markerlistmodel.cpp:286
+#: src/bin/model/markerlistmodel.cpp:271 src/bin/model/markerlistmodel.cpp:289
 #, kde-format
 msgid "Add marker"
 msgstr "Ajouter un repère"
 
-#: src/bin/model/markerlistmodel.cpp:316
+#: src/bin/model/markerlistmodel.cpp:319
 #, kde-format
 msgid "Delete guide"
 msgstr "Supprimer le guide"
 
-#: src/bin/model/markerlistmodel.cpp:316
+#: src/bin/model/markerlistmodel.cpp:319
 #, kde-format
 msgid "Delete marker"
 msgstr "Supprimer le repère"
 
-#: src/bin/model/markerlistmodel.cpp:343
+#: src/bin/model/markerlistmodel.cpp:346
 #, kde-format
 msgid "Edit guide"
 msgstr "Modifier le guide"
 
-#: src/bin/model/markerlistmodel.cpp:343
+#: src/bin/model/markerlistmodel.cpp:346
 #, kde-format
 msgid "Edit marker"
 msgstr "Modifier le repère"
 
-#: src/bin/model/markerlistmodel.cpp:707 src/bin/model/markerlistmodel.cpp:718
+#: src/bin/model/markerlistmodel.cpp:710 src/bin/model/markerlistmodel.cpp:721
 #, kde-format
 msgid "Import guides"
 msgstr "Importer des guides"
 
-#: src/bin/model/markerlistmodel.cpp:707 src/bin/model/markerlistmodel.cpp:718
+#: src/bin/model/markerlistmodel.cpp:710 src/bin/model/markerlistmodel.cpp:721
 #, kde-format
 msgid "Import markers"
 msgstr "Importer les repères"
@@ -5152,97 +5152,97 @@ msgstr "Importer les repères"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/model/markerlistmodel.cpp:743 src/definitions.cpp:75
+#: src/bin/model/markerlistmodel.cpp:749 src/definitions.cpp:75
 #: src/definitions.cpp:100 src/ui/exportguidesdialog_ui.ui:18
 #: src/ui/markerdialog_ui.ui:24 src/ui/multiplemarkerdialog_ui.ui:18
 #, kde-format
 msgid "Marker"
 msgstr "Repère"
 
-#: src/bin/model/markerlistmodel.cpp:751
+#: src/bin/model/markerlistmodel.cpp:757
 #, kde-format
 msgid "Recovered %1"
 msgstr "%1 retrouvé"
 
-#: src/bin/model/markerlistmodel.cpp:868
+#: src/bin/model/markerlistmodel.cpp:874
 #, kde-format
 msgid "Delete all guides"
 msgstr "Supprimer tous les guides"
 
-#: src/bin/model/markerlistmodel.cpp:868
+#: src/bin/model/markerlistmodel.cpp:874
 #, kde-format
 msgid "Delete all markers"
 msgstr "Supprimer tous les repères"
 
-#: src/bin/model/markerlistmodel.cpp:877 src/bin/model/markerlistmodel.cpp:915
-#: src/bin/model/markerlistmodel.cpp:940
+#: src/bin/model/markerlistmodel.cpp:883 src/bin/model/markerlistmodel.cpp:921
+#: src/bin/model/markerlistmodel.cpp:946
 #: src/timeline2/view/timelinecontroller.cpp:1426
 #, kde-format
 msgid "No guide found at current position"
 msgstr "Aucun guide à l'emplacement du curseur"
 
-#: src/bin/model/markerlistmodel.cpp:880
+#: src/bin/model/markerlistmodel.cpp:886
 #, kde-format
 msgid "Edit Guides Category"
 msgstr "Modifier une catégorie de guides"
 
-#: src/bin/model/markerlistmodel.cpp:880
+#: src/bin/model/markerlistmodel.cpp:886
 #, kde-format
 msgid "Edit Markers Category"
 msgstr "Modifier une catégorie de repères"
 
-#: src/bin/model/markerlistmodel.cpp:886
+#: src/bin/model/markerlistmodel.cpp:892
 #, kde-format
 msgid "Guides Category"
 msgstr "Catégorie de guides"
 
-#: src/bin/model/markerlistmodel.cpp:886
+#: src/bin/model/markerlistmodel.cpp:892
 #, kde-format
 msgid "Markers Category"
 msgstr "Catégories de repères"
 
-#: src/bin/model/markerlistmodel.cpp:904
+#: src/bin/model/markerlistmodel.cpp:910
 #, kde-format
 msgid "Edit guides"
 msgstr "Modifier des guides"
 
-#: src/bin/model/markerlistmodel.cpp:904
+#: src/bin/model/markerlistmodel.cpp:910
 #, kde-format
 msgid "Edit markers"
 msgstr "Modifier des repères"
 
-#: src/bin/model/markerlistmodel.cpp:919 src/bin/model/markerlistmodel.cpp:944
+#: src/bin/model/markerlistmodel.cpp:925 src/bin/model/markerlistmodel.cpp:950
 #: src/timeline2/view/timelinecontroller.cpp:1434
 #, kde-format
 msgid "guide"
 msgstr "guide"
 
-#: src/bin/model/markerlistmodel.cpp:922
+#: src/bin/model/markerlistmodel.cpp:928
 #, kde-format
 msgid "Edit Guide"
 msgstr "Modifier le guide"
 
-#: src/bin/model/markerlistmodel.cpp:922
+#: src/bin/model/markerlistmodel.cpp:928
 #, kde-format
 msgid "Edit Marker"
 msgstr "Modifier le repère"
 
-#: src/bin/model/markerlistmodel.cpp:947
+#: src/bin/model/markerlistmodel.cpp:953
 #, kde-format
 msgid "Add Guides"
 msgstr "Ajouter des guides"
 
-#: src/bin/model/markerlistmodel.cpp:947
+#: src/bin/model/markerlistmodel.cpp:953
 #, kde-format
 msgid "Add Markers"
 msgstr "Ajouter un repère"
 
-#: src/bin/model/markerlistmodel.cpp:962
+#: src/bin/model/markerlistmodel.cpp:968
 #, kde-format
 msgid "Add guides"
 msgstr "Ajouter des guides"
 
-#: src/bin/model/markerlistmodel.cpp:962
+#: src/bin/model/markerlistmodel.cpp:968
 #, kde-format
 msgid "Add markers"
 msgstr "Ajouter des repères"
@@ -5469,7 +5469,7 @@ msgstr "Nouvelle étiquette"
 msgid "Import"
 msgstr "Importer"
 
-#: src/core.cpp:105
+#: src/core.cpp:106
 #, kde-format
 msgid ""
 "Kdenlive crashed on last startup.\n"
@@ -5479,12 +5479,12 @@ msgstr ""
 "Voulez-vous vraiment ré-initialiser les traitements expérimentaux avec le "
 "processeur graphique (Movit) ?"
 
-#: src/core.cpp:106
+#: src/core.cpp:107
 #, kde-format
 msgid "Disable GPU processing"
 msgstr "Désactiver les traitements par le processeur graphique"
 
-#: src/core.cpp:112
+#: src/core.cpp:113
 #, kde-format
 msgid ""
 "Kdenlive crashed on last startup.\n"
@@ -5493,7 +5493,7 @@ msgstr ""
 "Kdenlive s'est planté au dernier démarrage.\n"
 "Voulez-vous vraiment ré-initialiser les fichiers de configuration ?"
 
-#: src/core.cpp:193
+#: src/core.cpp:194
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
@@ -5502,19 +5502,19 @@ msgstr ""
 "Le profil par défaut de Kdenlive n'est pas défini ou n'est pas valable, "
 "veuillez cliquer sur « Ok » pour le définir à une valeurs correcte."
 
-#: src/core.cpp:205
+#: src/core.cpp:206
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr "Sélectionner un profil par défaut"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:205 src/ui/profiledialog_ui.ui:38
+#: src/core.cpp:206 src/ui/profiledialog_ui.ui:38
 #, kde-format
 msgid "Profile:"
 msgstr "Profil :"
 
-#: src/core.cpp:218
+#: src/core.cpp:219
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -5523,258 +5523,258 @@ msgstr ""
 "Le profil fourni n'est pas valable. A défaut le profil est « dv_pal », mais "
 "vous pouvez le changer depuis le panneau de configuration de Kdenlive"
 
-#: src/core.cpp:230
+#: src/core.cpp:231
 #, kde-format
 msgid "Loading project…"
 msgstr "Chargement du projet..."
 
-#: src/core.cpp:335
+#: src/core.cpp:336
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "Barres de carré 2"
 
-#: src/core.cpp:336
+#: src/core.cpp:337
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "Petit damier"
 
-#: src/core.cpp:337
+#: src/core.cpp:338
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Stores horizontaux"
 
-#: src/core.cpp:338
+#: src/core.cpp:339
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Rayon"
 
-#: src/core.cpp:339
+#: src/core.cpp:340
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Linéaire en X"
 
-#: src/core.cpp:340
+#: src/core.cpp:341
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "Bilinéaire en X"
 
-#: src/core.cpp:341
+#: src/core.cpp:342
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Linéaire en Y"
 
-#: src/core.cpp:342
+#: src/core.cpp:343
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Bilinéaire en Y"
 
-#: src/core.cpp:343
+#: src/core.cpp:344
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "Carré"
 
-#: src/core.cpp:344
+#: src/core.cpp:345
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "Carré 2"
 
-#: src/core.cpp:345
+#: src/core.cpp:346
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "Nuage"
 
-#: src/core.cpp:346
+#: src/core.cpp:347
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "Horloge symétrique"
 
-#: src/core.cpp:347
+#: src/core.cpp:348
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "Barres radiales"
 
-#: src/core.cpp:348
+#: src/core.cpp:349
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "Spirale"
 
-#: src/core.cpp:349
+#: src/core.cpp:350
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "Spirale 2"
 
-#: src/core.cpp:350
+#: src/core.cpp:351
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "Rideau"
 
-#: src/core.cpp:351
+#: src/core.cpp:352
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "Explosion"
 
-#: src/core.cpp:352
+#: src/core.cpp:353
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "Horloge"
 
-#: src/core.cpp:354
+#: src/core.cpp:355
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Barre horizontale"
 
-#: src/core.cpp:355
+#: src/core.cpp:356
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Barre verticale"
 
-#: src/core.cpp:356
+#: src/core.cpp:357
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Porte grillagée horizontale"
 
-#: src/core.cpp:357
+#: src/core.cpp:358
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "Porte grillagée verticale"
 
-#: src/core.cpp:358
+#: src/core.cpp:359
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "Porte grillagée en diagonale Sud-Ouest / Nord-Est"
 
-#: src/core.cpp:359
+#: src/core.cpp:360
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "Porte grillagée en diagonale Nord-Ouest / Sud-Est"
 
-#: src/core.cpp:360
+#: src/core.cpp:361
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "Diagonale démarrant en haut à gauche"
 
-#: src/core.cpp:361
+#: src/core.cpp:362
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "Diagonale démarrant en haut à droite"
 
-#: src/core.cpp:362
+#: src/core.cpp:363
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "Cascade matricielle horizontale"
 
-#: src/core.cpp:363
+#: src/core.cpp:364
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "Cascade matricielle verticale"
 
-#: src/core.cpp:364
+#: src/core.cpp:365
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Serpent matriciel horizontal"
 
-#: src/core.cpp:365
+#: src/core.cpp:366
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "Serpent matriciel, parallèle et horizontal"
 
-#: src/core.cpp:366
+#: src/core.cpp:367
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "Serpent matriciel vertical"
 
-#: src/core.cpp:367
+#: src/core.cpp:368
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "Serpent matriciel, parallèle et vertical"
 
-#: src/core.cpp:368
+#: src/core.cpp:369
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "Porte grillagée en V vers le haut"
 
-#: src/core.cpp:369
+#: src/core.cpp:370
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "Cercle d'iris"
 
-#: src/core.cpp:370
+#: src/core.cpp:371
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "Double iris"
 
-#: src/core.cpp:371
+#: src/core.cpp:372
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "Boîte d'iris"
 
-#: src/core.cpp:372
+#: src/core.cpp:373
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Boîte en bas à droite"
 
-#: src/core.cpp:373
+#: src/core.cpp:374
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Boîte en bas à gauche"
 
-#: src/core.cpp:374
+#: src/core.cpp:375
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "Centrage à droite de la boîte"
 
-#: src/core.cpp:375
+#: src/core.cpp:376
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "Dessus de l'horloge"
 
-#: src/core.cpp:595
+#: src/core.cpp:596
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "Votre profil de projet n'est pas valable, le rendu risque d'échouer."
 
 #. i18n: ectx: Menu (subtitles)
-#: src/core.cpp:650 src/kdenliveui.rc:30 src/mainwindow.cpp:277
+#: src/core.cpp:651 src/kdenliveui.rc:30 src/mainwindow.cpp:277
 #: src/timeline2/view/qml/timeline.qml:1056
 #, kde-format
 msgid "Subtitles"
@@ -5834,7 +5834,7 @@ msgstr "Clip texte"
 msgid "Create Text clip"
 msgstr "Créer une vidéo de texte"
 
-#: src/dialogs/clipcreationdialog.cpp:390 src/doc/kdenlivedoc.cpp:1118
+#: src/dialogs/clipcreationdialog.cpp:390 src/doc/kdenlivedoc.cpp:1097
 #, kde-format
 msgid "Template title clip"
 msgstr "Modèle de clip titre"
@@ -6090,7 +6090,7 @@ msgstr "Exporter des données de guides"
 #: src/dialogs/renderwidget.cpp:947 src/dialogs/renderwidget.cpp:1000
 #: src/dialogs/renderwidget.cpp:1005 src/dialogs/renderwidget.cpp:1962
 #: src/dialogs/renderwidget.cpp:1989 src/doc/kdenlivedoc.cpp:743
-#: src/doc/kdenlivedoc.cpp:751 src/doc/kdenlivedoc.cpp:1252
+#: src/doc/kdenlivedoc.cpp:751 src/doc/kdenlivedoc.cpp:1231
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
 #: src/effects/effectsrepository.cpp:394
@@ -6104,7 +6104,7 @@ msgstr "Exporter des données de guides"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1491
+#: src/project/projectmanager.cpp:1514
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5094
@@ -7924,35 +7924,36 @@ msgstr ""
 "Votre projet a été mis à jour à le dernière version de Kdenlive, mais il n'a "
 "pas été possible de créer une copie de sauvegarde %1."
 
-#: src/doc/kdenlivedoc.cpp:880 src/project/projectmanager.cpp:1123
+#: src/doc/kdenlivedoc.cpp:859 src/project/projectmanager.cpp:1110
+#: src/project/projectmanager.cpp:1146
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Erreur lors du déplacement du dossier du projet : %1"
 
-#: src/doc/kdenlivedoc.cpp:1043 src/doc/kdenlivedoc.cpp:2166
+#: src/doc/kdenlivedoc.cpp:1022 src/doc/kdenlivedoc.cpp:2145
 #: src/project/dialogs/archivewidget.cpp:214
-#: src/project/projectmanager.cpp:1324
+#: src/project/projectmanager.cpp:1347
 #, kde-format
 msgid "Untitled"
 msgstr "Sans titre"
 
-#: src/doc/kdenlivedoc.cpp:1104
+#: src/doc/kdenlivedoc.cpp:1083
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Saisir l'emplacement du modèle"
 
-#: src/doc/kdenlivedoc.cpp:1259
+#: src/doc/kdenlivedoc.cpp:1238
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "Les effets suivants ont été importés du projet :"
 
-#: src/doc/kdenlivedoc.cpp:1292 src/doc/kdenlivedoc.cpp:1306
+#: src/doc/kdenlivedoc.cpp:1271 src/doc/kdenlivedoc.cpp:1285
 #, kde-format
 msgid "Project Folder"
 msgstr "Dossier de projet"
 
-#: src/doc/kdenlivedoc.cpp:1350 src/doc/kdenlivedoc.cpp:1358
+#: src/doc/kdenlivedoc.cpp:1329 src/doc/kdenlivedoc.cpp:1337
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -7961,26 +7962,26 @@ msgstr ""
 "Impossible de créer une copie de sauvegarde :\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1503
+#: src/doc/kdenlivedoc.cpp:1482
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "Ajouter un clip intermédiaire"
 msgstr[1] "Ajouter des clips intermédiaires"
 
-#: src/doc/kdenlivedoc.cpp:1505
+#: src/doc/kdenlivedoc.cpp:1484
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "Enlever le clip intermédiaire"
 msgstr[1] "Enlever les clips intermédiaires"
 
-#: src/doc/kdenlivedoc.cpp:1549 src/doc/kdenlivedoc.cpp:1584
+#: src/doc/kdenlivedoc.cpp:1528 src/doc/kdenlivedoc.cpp:1563
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "Ce type de clip ne prend pas en charge les intermédiaires"
 
-#: src/doc/kdenlivedoc.cpp:1787
+#: src/doc/kdenlivedoc.cpp:1766
 #, kde-format
 msgid ""
 "\n"
@@ -7990,7 +7991,7 @@ msgstr ""
 "Avertissement : fréquence d'images non entière inconnue, ceci peut entraîner "
 "un affichage incorrect de la durée."
 
-#: src/doc/kdenlivedoc.cpp:1806
+#: src/doc/kdenlivedoc.cpp:1785
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -8000,43 +8001,43 @@ msgstr ""
 "(%2) est %3.\n"
 "Voulez-vous modifier le profil par défaut de vos futurs projets ?"
 
-#: src/doc/kdenlivedoc.cpp:1808
+#: src/doc/kdenlivedoc.cpp:1787
 #, kde-format
 msgid "Change default project profile"
 msgstr "Changer le profil par défaut des projets"
 
-#: src/doc/kdenlivedoc.cpp:1808
+#: src/doc/kdenlivedoc.cpp:1787
 #, kde-format
 msgid "Change default to %1"
 msgstr "Changer le défaut à %1"
 
-#: src/doc/kdenlivedoc.cpp:1809
+#: src/doc/kdenlivedoc.cpp:1788
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Conserver le profil par défaut courant %1"
 
-#: src/doc/kdenlivedoc.cpp:1809
+#: src/doc/kdenlivedoc.cpp:1788
 #, kde-format
 msgid "Ask me later"
 msgstr "Me demander plus tard"
 
-#: src/doc/kdenlivedoc.cpp:1829
+#: src/doc/kdenlivedoc.cpp:1808
 #, kde-format
 msgid "Switch"
 msgstr "Changer"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1831 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1810 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "Annuler"
 
-#: src/doc/kdenlivedoc.cpp:1833
+#: src/doc/kdenlivedoc.cpp:1812
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Basculer vers le profil %2 de vidéo (%1) ?"
 
-#: src/doc/kdenlivedoc.cpp:1838
+#: src/doc/kdenlivedoc.cpp:1817
 #, kde-format
 msgid ""
 "\n"
@@ -8045,7 +8046,7 @@ msgstr ""
 "\n"
 "fréquence d'images du profil ajustée depuis l'original %1"
 
-#: src/doc/kdenlivedoc.cpp:1840
+#: src/doc/kdenlivedoc.cpp:1819
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -8055,13 +8056,13 @@ msgstr ""
 "Voulez-vous créer ce nouveau profil (%2 x %3, %4 fps) et basculer vers lui ? "
 "%5"
 
-#: src/doc/kdenlivedoc.cpp:2205 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2184 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "Rouge"
 
-#: src/doc/kdenlivedoc.cpp:2206 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2185 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -8069,23 +8070,23 @@ msgstr "Rouge"
 msgid "Green"
 msgstr "Vert"
 
-#: src/doc/kdenlivedoc.cpp:2207 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2186 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "Bleu"
 
-#: src/doc/kdenlivedoc.cpp:2208 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2187 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Jaune"
 
-#: src/doc/kdenlivedoc.cpp:2209
+#: src/doc/kdenlivedoc.cpp:2188
 #, kde-format
 msgid "Cyan"
 msgstr "Cyan"
 
-#: src/doc/kdenlivedoc.cpp:2389
+#: src/doc/kdenlivedoc.cpp:2368
 #, kde-format
 msgid "Category %1:%2:%3"
 msgstr "Catégorie %1 :%2 : %3"
@@ -13065,7 +13066,7 @@ msgstr ""
 "Le fichier de repères possède une taille supérieure à 1 Mo. Voulez-vous "
 "vraiment effectuer l'importation ?"
 
-#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1385
+#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1408
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:5000
 #, kde-format
@@ -13692,7 +13693,7 @@ msgstr "Ouvrir un fichier de sauvegarde..."
 msgid "Save changes to document?"
 msgstr "Enregistrer les modifications du document ?"
 
-#: src/project/projectmanager.cpp:357 src/project/projectmanager.cpp:1323
+#: src/project/projectmanager.cpp:357 src/project/projectmanager.cpp:1346
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13821,25 +13822,25 @@ msgstr ""
 "fermer et ré-ouvrir votre fichier de projet pour revenir à la dernière "
 "version sauvegardée."
 
-#: src/project/projectmanager.cpp:1101
+#: src/project/projectmanager.cpp:1124
 #, kde-format
 msgid "Moving project folder"
 msgstr "Déplacement du dossier du projet"
 
-#: src/project/projectmanager.cpp:1159
+#: src/project/projectmanager.cpp:1182
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 "Le fichier de projet est corrompu (aucune piste). Voulez-vous essayer de "
 "charger un fichier de sauvegarde ?"
 
-#: src/project/projectmanager.cpp:1186 src/project/projectmanager.cpp:1216
-#: src/project/projectmanager.cpp:1220
+#: src/project/projectmanager.cpp:1209 src/project/projectmanager.cpp:1239
+#: src/project/projectmanager.cpp:1243
 #, kde-format
 msgid "Sequence 1"
 msgstr "Sequence 1"
 
-#: src/project/projectmanager.cpp:1197
+#: src/project/projectmanager.cpp:1220
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -13847,13 +13848,13 @@ msgstr ""
 "Le fichier de projet est corrompu. Impossible de charger les pistes. Voulez-"
 "vous essayer de charger un fichier de sauvegarde ?"
 
-#: src/project/projectmanager.cpp:1329 src/project/projectmanager.cpp:1334
-#: src/project/projectmanager.cpp:1344 src/project/projectmanager.cpp:1360
+#: src/project/projectmanager.cpp:1352 src/project/projectmanager.cpp:1357
+#: src/project/projectmanager.cpp:1367 src/project/projectmanager.cpp:1383
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Changement de profil de projet annulé"
 
-#: src/project/projectmanager.cpp:1476
+#: src/project/projectmanager.cpp:1499
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -13862,12 +13863,12 @@ msgstr ""
 "Le fichier de sortie %1 existe déjà.\n"
 "Voulez-vous vraiment l'écraser ?"
 
-#: src/project/projectmanager.cpp:1501
+#: src/project/projectmanager.cpp:1524
 #, kde-format
 msgid "Project profile changed"
 msgstr "Profil de projet modifié"
 
-#: src/project/projectmanager.cpp:1551
+#: src/project/projectmanager.cpp:1574
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -13876,18 +13877,18 @@ msgstr ""
 "Impossible de créer une frise chronologique à partir de cette vidéo :\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1630
+#: src/project/projectmanager.cpp:1653
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Importation d'une séquence de vidéo. Ceci est dans un état expérimental."
 
-#: src/project/projectmanager.cpp:1782
+#: src/project/projectmanager.cpp:1805
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Sélectionner une vidéo pour créer une séquence"
 
-#: src/project/projectmanager.cpp:1819
+#: src/project/projectmanager.cpp:1842
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Créer une vidéo de séquences"
@@ -16581,7 +16582,7 @@ msgid ""
 msgstr ""
 "Ajouter une séquence à la frise chronologique. Ceci créera une nouvelle "
 "frise chronologique pour l’édition. Chaque frise chronologique correspond à "
-"une  séquence vidéo dans le dossier du projet."
+"une séquence vidéo dans le dossier du projet."
 
 #: src/timeline2/view/timelinetabs.cpp:207
 #, kde-format

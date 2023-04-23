@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-22 00:50+0000\n"
+"POT-Creation-Date: 2023-04-23 00:48+0000\n"
 "PO-Revision-Date: 2023-03-19 13:34+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -4495,7 +4495,7 @@ msgstr "Afspeellijst"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2330 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/project/projectmanager.cpp:1207 src/project/projectmanager.cpp:1209
+#: src/project/projectmanager.cpp:1230 src/project/projectmanager.cpp:1232
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -4779,7 +4779,7 @@ msgstr "Pad naar uw toepassing voor audio bewerken invoeren"
 msgid "Please set a default application to open audio files"
 msgstr "Stel een standaard toepassing in om audiobestanden te openen"
 
-#: src/bin/bin.cpp:4373 src/core.cpp:301 src/doc/kdenlivedoc.cpp:171
+#: src/bin/bin.cpp:4373 src/core.cpp:302 src/doc/kdenlivedoc.cpp:171
 #: src/jobs/cliploadtask.cpp:458 src/jobs/filtertask.cpp:85
 #: src/layoutmanagement.cpp:466 src/layoutmanagement.cpp:527
 #: src/profiles/profilerepository.cpp:173
@@ -5005,7 +5005,7 @@ msgstr ""
 msgid "Duplicate"
 msgstr "Duplicaat"
 
-#: src/bin/clipcreator.cpp:420 src/core.cpp:941
+#: src/bin/clipcreator.cpp:420 src/core.cpp:942
 #: src/project/projectmanager.cpp:759
 #, kde-format
 msgid "Loading clips"
@@ -5065,52 +5065,52 @@ msgstr "MLT-afspeellijst (*.mlt)"
 msgid "Update guides categories"
 msgstr "Categorieën van hulplijnen bijwerken"
 
-#: src/bin/model/markerlistmodel.cpp:266 src/bin/model/markerlistmodel.cpp:284
+#: src/bin/model/markerlistmodel.cpp:269 src/bin/model/markerlistmodel.cpp:287
 #, kde-format
 msgid "Rename guide"
 msgstr "Hulplijn hernoemen"
 
-#: src/bin/model/markerlistmodel.cpp:266 src/bin/model/markerlistmodel.cpp:284
+#: src/bin/model/markerlistmodel.cpp:269 src/bin/model/markerlistmodel.cpp:287
 #, kde-format
 msgid "Rename marker"
 msgstr "Markering hernoemen"
 
-#: src/bin/model/markerlistmodel.cpp:268 src/bin/model/markerlistmodel.cpp:286
+#: src/bin/model/markerlistmodel.cpp:271 src/bin/model/markerlistmodel.cpp:289
 #, kde-format
 msgid "Add guide"
 msgstr "Hulplijn toevoegen"
 
-#: src/bin/model/markerlistmodel.cpp:268 src/bin/model/markerlistmodel.cpp:286
+#: src/bin/model/markerlistmodel.cpp:271 src/bin/model/markerlistmodel.cpp:289
 #, kde-format
 msgid "Add marker"
 msgstr "Markering toevoegen"
 
-#: src/bin/model/markerlistmodel.cpp:316
+#: src/bin/model/markerlistmodel.cpp:319
 #, kde-format
 msgid "Delete guide"
 msgstr "Hulplijn verwijderen"
 
-#: src/bin/model/markerlistmodel.cpp:316
+#: src/bin/model/markerlistmodel.cpp:319
 #, kde-format
 msgid "Delete marker"
 msgstr "Verwijder markering"
 
-#: src/bin/model/markerlistmodel.cpp:343
+#: src/bin/model/markerlistmodel.cpp:346
 #, kde-format
 msgid "Edit guide"
 msgstr "Hulplijn bewerken"
 
-#: src/bin/model/markerlistmodel.cpp:343
+#: src/bin/model/markerlistmodel.cpp:346
 #, kde-format
 msgid "Edit marker"
 msgstr "Markering bewerken"
 
-#: src/bin/model/markerlistmodel.cpp:707 src/bin/model/markerlistmodel.cpp:718
+#: src/bin/model/markerlistmodel.cpp:710 src/bin/model/markerlistmodel.cpp:721
 #, kde-format
 msgid "Import guides"
 msgstr "Hulplijnen importeren"
 
-#: src/bin/model/markerlistmodel.cpp:707 src/bin/model/markerlistmodel.cpp:718
+#: src/bin/model/markerlistmodel.cpp:710 src/bin/model/markerlistmodel.cpp:721
 #, kde-format
 msgid "Import markers"
 msgstr "Markeringen importeren"
@@ -5118,97 +5118,97 @@ msgstr "Markeringen importeren"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/model/markerlistmodel.cpp:743 src/definitions.cpp:75
+#: src/bin/model/markerlistmodel.cpp:749 src/definitions.cpp:75
 #: src/definitions.cpp:100 src/ui/exportguidesdialog_ui.ui:18
 #: src/ui/markerdialog_ui.ui:24 src/ui/multiplemarkerdialog_ui.ui:18
 #, kde-format
 msgid "Marker"
 msgstr "Markering"
 
-#: src/bin/model/markerlistmodel.cpp:751
+#: src/bin/model/markerlistmodel.cpp:757
 #, kde-format
 msgid "Recovered %1"
 msgstr "Hersteld %1"
 
-#: src/bin/model/markerlistmodel.cpp:868
+#: src/bin/model/markerlistmodel.cpp:874
 #, kde-format
 msgid "Delete all guides"
 msgstr "Alle hulplijnen verwijderen"
 
-#: src/bin/model/markerlistmodel.cpp:868
+#: src/bin/model/markerlistmodel.cpp:874
 #, kde-format
 msgid "Delete all markers"
 msgstr "Alle markeringen verwijderen"
 
-#: src/bin/model/markerlistmodel.cpp:877 src/bin/model/markerlistmodel.cpp:915
-#: src/bin/model/markerlistmodel.cpp:940
+#: src/bin/model/markerlistmodel.cpp:883 src/bin/model/markerlistmodel.cpp:921
+#: src/bin/model/markerlistmodel.cpp:946
 #: src/timeline2/view/timelinecontroller.cpp:1426
 #, kde-format
 msgid "No guide found at current position"
 msgstr "Geen hulplijn op huidige positie gevonden"
 
-#: src/bin/model/markerlistmodel.cpp:880
+#: src/bin/model/markerlistmodel.cpp:886
 #, kde-format
 msgid "Edit Guides Category"
 msgstr "Categorie van hulplijn bewerken"
 
-#: src/bin/model/markerlistmodel.cpp:880
+#: src/bin/model/markerlistmodel.cpp:886
 #, kde-format
 msgid "Edit Markers Category"
 msgstr "Categorie van markering bewerken"
 
-#: src/bin/model/markerlistmodel.cpp:886
+#: src/bin/model/markerlistmodel.cpp:892
 #, kde-format
 msgid "Guides Category"
 msgstr "Categorie van hulplijnen"
 
-#: src/bin/model/markerlistmodel.cpp:886
+#: src/bin/model/markerlistmodel.cpp:892
 #, kde-format
 msgid "Markers Category"
 msgstr "Categorie van markeringen"
 
-#: src/bin/model/markerlistmodel.cpp:904
+#: src/bin/model/markerlistmodel.cpp:910
 #, kde-format
 msgid "Edit guides"
 msgstr "Hulplijnen bewerken"
 
-#: src/bin/model/markerlistmodel.cpp:904
+#: src/bin/model/markerlistmodel.cpp:910
 #, kde-format
 msgid "Edit markers"
 msgstr "Markeringen bewerken"
 
-#: src/bin/model/markerlistmodel.cpp:919 src/bin/model/markerlistmodel.cpp:944
+#: src/bin/model/markerlistmodel.cpp:925 src/bin/model/markerlistmodel.cpp:950
 #: src/timeline2/view/timelinecontroller.cpp:1434
 #, kde-format
 msgid "guide"
 msgstr "hulplijn"
 
-#: src/bin/model/markerlistmodel.cpp:922
+#: src/bin/model/markerlistmodel.cpp:928
 #, kde-format
 msgid "Edit Guide"
 msgstr "Hulplijn bewerken"
 
-#: src/bin/model/markerlistmodel.cpp:922
+#: src/bin/model/markerlistmodel.cpp:928
 #, kde-format
 msgid "Edit Marker"
 msgstr "Markering bewerken"
 
-#: src/bin/model/markerlistmodel.cpp:947
+#: src/bin/model/markerlistmodel.cpp:953
 #, kde-format
 msgid "Add Guides"
 msgstr "Hulplijnen toevoegen"
 
-#: src/bin/model/markerlistmodel.cpp:947
+#: src/bin/model/markerlistmodel.cpp:953
 #, kde-format
 msgid "Add Markers"
 msgstr "Markeringen toevoegen"
 
-#: src/bin/model/markerlistmodel.cpp:962
+#: src/bin/model/markerlistmodel.cpp:968
 #, kde-format
 msgid "Add guides"
 msgstr "Hulplijnen toevoegen"
 
-#: src/bin/model/markerlistmodel.cpp:962
+#: src/bin/model/markerlistmodel.cpp:968
 #, kde-format
 msgid "Add markers"
 msgstr "Markeringen toevoegen"
@@ -5435,7 +5435,7 @@ msgstr "Nieuwe tag"
 msgid "Import"
 msgstr "Importeren"
 
-#: src/core.cpp:105
+#: src/core.cpp:106
 #, kde-format
 msgid ""
 "Kdenlive crashed on last startup.\n"
@@ -5444,12 +5444,12 @@ msgstr ""
 "Kdenlive is gecrasht bij laatste keer opstarten.\n"
 "Wilt u de experimentele verwerking door de GPU uitschakelen (Movit)?"
 
-#: src/core.cpp:106
+#: src/core.cpp:107
 #, kde-format
 msgid "Disable GPU processing"
 msgstr "Verwerking door GPU uitschakelen"
 
-#: src/core.cpp:112
+#: src/core.cpp:113
 #, kde-format
 msgid ""
 "Kdenlive crashed on last startup.\n"
@@ -5458,7 +5458,7 @@ msgstr ""
 "Kdenlive is gecrasht bij laatste keer opstarten.\n"
 "Wilt u de configuratiebestanden resetten?"
 
-#: src/core.cpp:193
+#: src/core.cpp:194
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
@@ -5467,19 +5467,19 @@ msgstr ""
 "Het standaard profiel van Kdenlive is niet ingesteld of ongeldig, druk op OK "
 "om een juiste waarde in te stellen."
 
-#: src/core.cpp:205
+#: src/core.cpp:206
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr "Standaard profiel selecteren"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:205 src/ui/profiledialog_ui.ui:38
+#: src/core.cpp:206 src/ui/profiledialog_ui.ui:38
 #, kde-format
 msgid "Profile:"
 msgstr "Profiel:"
 
-#: src/core.cpp:218
+#: src/core.cpp:219
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -5488,258 +5488,258 @@ msgstr ""
 "Het gegeven profiel is ongeldig. De standaard zal zijn het profiel \"dv_pal"
 "\", maar u kunt dit wijzigen in het paneel voor instellingen van Kdenlive"
 
-#: src/core.cpp:230
+#: src/core.cpp:231
 #, kde-format
 msgid "Loading project…"
 msgstr "Project wordt geladen…"
 
-#: src/core.cpp:335
+#: src/core.cpp:336
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "Vierkant 2 balken"
 
-#: src/core.cpp:336
+#: src/core.cpp:337
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "Klein schaakbord"
 
-#: src/core.cpp:337
+#: src/core.cpp:338
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Horizontale strepen"
 
-#: src/core.cpp:338
+#: src/core.cpp:339
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Radiaal"
 
-#: src/core.cpp:339
+#: src/core.cpp:340
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Lineair X"
 
-#: src/core.cpp:340
+#: src/core.cpp:341
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "Bi-lineair X"
 
-#: src/core.cpp:341
+#: src/core.cpp:342
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Lineair Y"
 
-#: src/core.cpp:342
+#: src/core.cpp:343
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Bi-lineair Y"
 
-#: src/core.cpp:343
+#: src/core.cpp:344
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "Vierkant"
 
-#: src/core.cpp:344
+#: src/core.cpp:345
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "Vierkant 2"
 
-#: src/core.cpp:345
+#: src/core.cpp:346
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "Wolk"
 
-#: src/core.cpp:346
+#: src/core.cpp:347
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "Symmetrische klok"
 
-#: src/core.cpp:347
+#: src/core.cpp:348
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "Radiale balken"
 
-#: src/core.cpp:348
+#: src/core.cpp:349
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "Spiraal"
 
-#: src/core.cpp:349
+#: src/core.cpp:350
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "Spiraal 2"
 
-#: src/core.cpp:350
+#: src/core.cpp:351
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "Gordijn"
 
-#: src/core.cpp:351
+#: src/core.cpp:352
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "Uitbarsting"
 
-#: src/core.cpp:352
+#: src/core.cpp:353
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "Klok"
 
-#: src/core.cpp:354
+#: src/core.cpp:355
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Balk horizontaal"
 
-#: src/core.cpp:355
+#: src/core.cpp:356
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Balk verticaal"
 
-#: src/core.cpp:356
+#: src/core.cpp:357
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Schuurdeur horizontaal"
 
-#: src/core.cpp:357
+#: src/core.cpp:358
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "Schuurdeur verticaal"
 
-#: src/core.cpp:358
+#: src/core.cpp:359
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "Schuurdeur diagonaal ZW-NO"
 
-#: src/core.cpp:359
+#: src/core.cpp:360
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "Schuurdeur diagonaal NW-ZO"
 
-#: src/core.cpp:360
+#: src/core.cpp:361
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "Diagonaal linksboven"
 
-#: src/core.cpp:361
+#: src/core.cpp:362
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "Diagonaal rechtsboven"
 
-#: src/core.cpp:362
+#: src/core.cpp:363
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "Matrix waterval horizontaal"
 
-#: src/core.cpp:363
+#: src/core.cpp:364
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "Matrix waterval verticaal"
 
-#: src/core.cpp:364
+#: src/core.cpp:365
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Matrix slang horizontaal"
 
-#: src/core.cpp:365
+#: src/core.cpp:366
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "Matrix slang parallel horizontaal"
 
-#: src/core.cpp:366
+#: src/core.cpp:367
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "Matrix slang verticaal"
 
-#: src/core.cpp:367
+#: src/core.cpp:368
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "Matrix slang parallel verticaal"
 
-#: src/core.cpp:368
+#: src/core.cpp:369
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "Schuur V omhoog"
 
-#: src/core.cpp:369
+#: src/core.cpp:370
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "Iriscirkel"
 
-#: src/core.cpp:370
+#: src/core.cpp:371
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "Dubbele iris"
 
-#: src/core.cpp:371
+#: src/core.cpp:372
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "Irisvak"
 
-#: src/core.cpp:372
+#: src/core.cpp:373
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Vak rechtsonder"
 
-#: src/core.cpp:373
+#: src/core.cpp:374
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Vak linksonder"
 
-#: src/core.cpp:374
+#: src/core.cpp:375
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "Vak rechts midden"
 
-#: src/core.cpp:375
+#: src/core.cpp:376
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "Klok bovenaan"
 
-#: src/core.cpp:595
+#: src/core.cpp:596
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "Uw projectprofiel is ongeldig, renderen kan mislukken."
 
 #. i18n: ectx: Menu (subtitles)
-#: src/core.cpp:650 src/kdenliveui.rc:30 src/mainwindow.cpp:277
+#: src/core.cpp:651 src/kdenliveui.rc:30 src/mainwindow.cpp:277
 #: src/timeline2/view/qml/timeline.qml:1056
 #, kde-format
 msgid "Subtitles"
@@ -5799,7 +5799,7 @@ msgstr "Tekstclip"
 msgid "Create Text clip"
 msgstr "Tekstclip aanmaken"
 
-#: src/dialogs/clipcreationdialog.cpp:390 src/doc/kdenlivedoc.cpp:1118
+#: src/dialogs/clipcreationdialog.cpp:390 src/doc/kdenlivedoc.cpp:1097
 #, kde-format
 msgid "Template title clip"
 msgstr "Voorbeeld titel clip"
@@ -6055,7 +6055,7 @@ msgstr "Hulplijngegevens exporteren"
 #: src/dialogs/renderwidget.cpp:947 src/dialogs/renderwidget.cpp:1000
 #: src/dialogs/renderwidget.cpp:1005 src/dialogs/renderwidget.cpp:1962
 #: src/dialogs/renderwidget.cpp:1989 src/doc/kdenlivedoc.cpp:743
-#: src/doc/kdenlivedoc.cpp:751 src/doc/kdenlivedoc.cpp:1252
+#: src/doc/kdenlivedoc.cpp:751 src/doc/kdenlivedoc.cpp:1231
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
 #: src/effects/effectsrepository.cpp:394
@@ -6069,7 +6069,7 @@ msgstr "Hulplijngegevens exporteren"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1491
+#: src/project/projectmanager.cpp:1514
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5094
@@ -7866,35 +7866,36 @@ msgstr ""
 "Het projectbestand is bijgewerkt naar de laatst bekende Kdenlive "
 "documentversie, maar helaas kon er geen backup %1 gemaakt worden."
 
-#: src/doc/kdenlivedoc.cpp:880 src/project/projectmanager.cpp:1123
+#: src/doc/kdenlivedoc.cpp:859 src/project/projectmanager.cpp:1110
+#: src/project/projectmanager.cpp:1146
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Fout bij projectmap verplaatsen: %1"
 
-#: src/doc/kdenlivedoc.cpp:1043 src/doc/kdenlivedoc.cpp:2166
+#: src/doc/kdenlivedoc.cpp:1022 src/doc/kdenlivedoc.cpp:2145
 #: src/project/dialogs/archivewidget.cpp:214
-#: src/project/projectmanager.cpp:1324
+#: src/project/projectmanager.cpp:1347
 #, kde-format
 msgid "Untitled"
 msgstr "Zonder titel"
 
-#: src/doc/kdenlivedoc.cpp:1104
+#: src/doc/kdenlivedoc.cpp:1083
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Voer sjabloon pad in"
 
-#: src/doc/kdenlivedoc.cpp:1259
+#: src/doc/kdenlivedoc.cpp:1238
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "De volgende effecten zijn uit het project geïmporteerd"
 
-#: src/doc/kdenlivedoc.cpp:1292 src/doc/kdenlivedoc.cpp:1306
+#: src/doc/kdenlivedoc.cpp:1271 src/doc/kdenlivedoc.cpp:1285
 #, kde-format
 msgid "Project Folder"
 msgstr "Projectmap"
 
-#: src/doc/kdenlivedoc.cpp:1350 src/doc/kdenlivedoc.cpp:1358
+#: src/doc/kdenlivedoc.cpp:1329 src/doc/kdenlivedoc.cpp:1337
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -7903,26 +7904,26 @@ msgstr ""
 "Kan geen backup-bestand maken.\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1503
+#: src/doc/kdenlivedoc.cpp:1482
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "Proxy clip toevoegen"
 msgstr[1] "Proxy clips toevoegen"
 
-#: src/doc/kdenlivedoc.cpp:1505
+#: src/doc/kdenlivedoc.cpp:1484
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "Verwijder proxy clip"
 msgstr[1] "Verwijder proxy clips"
 
-#: src/doc/kdenlivedoc.cpp:1549 src/doc/kdenlivedoc.cpp:1584
+#: src/doc/kdenlivedoc.cpp:1528 src/doc/kdenlivedoc.cpp:1563
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "Clip-type ondersteunt geen proxies"
 
-#: src/doc/kdenlivedoc.cpp:1787
+#: src/doc/kdenlivedoc.cpp:1766
 #, kde-format
 msgid ""
 "\n"
@@ -7932,7 +7933,7 @@ msgstr ""
 "Waarschuwing: onbekende fps met gebroken getal, kan onjuiste weergave van "
 "duur veroorzaken"
 
-#: src/doc/kdenlivedoc.cpp:1806
+#: src/doc/kdenlivedoc.cpp:1785
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -7941,43 +7942,43 @@ msgstr ""
 "Uw standaard projectprofiel is %1, maar het profiel (%2) van uw clip is %3.\n"
 "Wilt u het standaard profiel voor komende projecten wijzigingen?"
 
-#: src/doc/kdenlivedoc.cpp:1808
+#: src/doc/kdenlivedoc.cpp:1787
 #, kde-format
 msgid "Change default project profile"
 msgstr "Standaard projectprofiel wijzigen"
 
-#: src/doc/kdenlivedoc.cpp:1808
+#: src/doc/kdenlivedoc.cpp:1787
 #, kde-format
 msgid "Change default to %1"
 msgstr "Standaard wijzigen naar %1"
 
-#: src/doc/kdenlivedoc.cpp:1809
+#: src/doc/kdenlivedoc.cpp:1788
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Huidige standaard %1 behouden"
 
-#: src/doc/kdenlivedoc.cpp:1809
+#: src/doc/kdenlivedoc.cpp:1788
 #, kde-format
 msgid "Ask me later"
 msgstr "Later opnieuw vragen"
 
-#: src/doc/kdenlivedoc.cpp:1829
+#: src/doc/kdenlivedoc.cpp:1808
 #, kde-format
 msgid "Switch"
 msgstr "Omschakelen"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1831 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1810 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "Annuleren"
 
-#: src/doc/kdenlivedoc.cpp:1833
+#: src/doc/kdenlivedoc.cpp:1812
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Omschakelen naar clip (%1) profiel %2?"
 
-#: src/doc/kdenlivedoc.cpp:1838
+#: src/doc/kdenlivedoc.cpp:1817
 #, kde-format
 msgid ""
 "\n"
@@ -7986,7 +7987,7 @@ msgstr ""
 "\n"
 "Profiel fps aangepast van originele %1"
 
-#: src/doc/kdenlivedoc.cpp:1840
+#: src/doc/kdenlivedoc.cpp:1819
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -7995,13 +7996,13 @@ msgstr ""
 "Geen profiel gevonden voor uw clip %1.\n"
 "Maak en schakel om naar nieuw profiel (%2x%3, %4fps)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2205 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2184 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "Rood"
 
-#: src/doc/kdenlivedoc.cpp:2206 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2185 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -8009,23 +8010,23 @@ msgstr "Rood"
 msgid "Green"
 msgstr "Groen"
 
-#: src/doc/kdenlivedoc.cpp:2207 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2186 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "Blauw"
 
-#: src/doc/kdenlivedoc.cpp:2208 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2187 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Geel"
 
-#: src/doc/kdenlivedoc.cpp:2209
+#: src/doc/kdenlivedoc.cpp:2188
 #, kde-format
 msgid "Cyan"
 msgstr "Cyaan"
 
-#: src/doc/kdenlivedoc.cpp:2389
+#: src/doc/kdenlivedoc.cpp:2368
 #, kde-format
 msgid "Category %1:%2:%3"
 msgstr "Categorie %1:%2:%3"
@@ -12949,7 +12950,7 @@ msgstr "Markeringen van clip laden"
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr "Bestand met markeringen is groter dan 1 MB, wilt u deze importeren?"
 
-#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1385
+#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1408
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:5000
 #, kde-format
@@ -13566,7 +13567,7 @@ msgstr "Back-up-bestand openen…"
 msgid "Save changes to document?"
 msgstr "Wijzigingen opslaan in document?"
 
-#: src/project/projectmanager.cpp:357 src/project/projectmanager.cpp:1323
+#: src/project/projectmanager.cpp:357 src/project/projectmanager.cpp:1346
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13693,25 +13694,25 @@ msgstr ""
 "Project was beschadigd, kan geen reservekopie maken. Sluit en heropen uw "
 "projectbestand om de laatste reservekopie te herstellen"
 
-#: src/project/projectmanager.cpp:1101
+#: src/project/projectmanager.cpp:1124
 #, kde-format
 msgid "Moving project folder"
 msgstr "Projectmap wordt verplaatst"
 
-#: src/project/projectmanager.cpp:1159
+#: src/project/projectmanager.cpp:1182
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 "Projectbestand is beschadigd (geen tracks). Probeer een reservekopiebestand "
 "te vinden?"
 
-#: src/project/projectmanager.cpp:1186 src/project/projectmanager.cpp:1216
-#: src/project/projectmanager.cpp:1220
+#: src/project/projectmanager.cpp:1209 src/project/projectmanager.cpp:1239
+#: src/project/projectmanager.cpp:1243
 #, kde-format
 msgid "Sequence 1"
 msgstr "Sequentie 1"
 
-#: src/project/projectmanager.cpp:1197
+#: src/project/projectmanager.cpp:1220
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -13719,13 +13720,13 @@ msgstr ""
 "Projectbestand is beschadigd -tracks laden is mislukt. Probeer een "
 "reservekopiebestand te vinden?"
 
-#: src/project/projectmanager.cpp:1329 src/project/projectmanager.cpp:1334
-#: src/project/projectmanager.cpp:1344 src/project/projectmanager.cpp:1360
+#: src/project/projectmanager.cpp:1352 src/project/projectmanager.cpp:1357
+#: src/project/projectmanager.cpp:1367 src/project/projectmanager.cpp:1383
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Projectprofiel wijzigen afgebroken"
 
-#: src/project/projectmanager.cpp:1476
+#: src/project/projectmanager.cpp:1499
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -13734,12 +13735,12 @@ msgstr ""
 "Uitvoerbestand %1 bestaat al.\n"
 "Wilt u het overschrijven?"
 
-#: src/project/projectmanager.cpp:1501
+#: src/project/projectmanager.cpp:1524
 #, kde-format
 msgid "Project profile changed"
 msgstr "Project profiel gewijzigd"
 
-#: src/project/projectmanager.cpp:1551
+#: src/project/projectmanager.cpp:1574
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -13748,18 +13749,18 @@ msgstr ""
 "Kan geen tijdlijn uit deze clip maken:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1630
+#: src/project/projectmanager.cpp:1653
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Een clip met sequentie importeren, dit is nu in een experimentele status"
 
-#: src/project/projectmanager.cpp:1782
+#: src/project/projectmanager.cpp:1805
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Een clip selecteren om sequentie aan te maken"
 
-#: src/project/projectmanager.cpp:1819
+#: src/project/projectmanager.cpp:1842
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Sequentie-clip aanmaken"

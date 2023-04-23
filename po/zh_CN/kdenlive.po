@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-22 00:50+0000\n"
+"POT-Creation-Date: 2023-04-23 00:48+0000\n"
 "PO-Revision-Date: 2023-04-16 12:31\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -4396,7 +4396,7 @@ msgstr "播放列表"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2330 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/project/projectmanager.cpp:1207 src/project/projectmanager.cpp:1209
+#: src/project/projectmanager.cpp:1230 src/project/projectmanager.cpp:1232
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -4675,7 +4675,7 @@ msgstr "输入音频编辑应用程序的路径"
 msgid "Please set a default application to open audio files"
 msgstr "请设置用于打开音频文件的默认程序"
 
-#: src/bin/bin.cpp:4373 src/core.cpp:301 src/doc/kdenlivedoc.cpp:171
+#: src/bin/bin.cpp:4373 src/core.cpp:302 src/doc/kdenlivedoc.cpp:171
 #: src/jobs/cliploadtask.cpp:458 src/jobs/filtertask.cpp:85
 #: src/layoutmanagement.cpp:466 src/layoutmanagement.cpp:527
 #: src/profiles/profilerepository.cpp:173
@@ -4897,7 +4897,7 @@ msgstr "以下剪辑已经插入到项目中。您想要创建它们的副本吗
 msgid "Duplicate"
 msgstr "创建副本"
 
-#: src/bin/clipcreator.cpp:420 src/core.cpp:941
+#: src/bin/clipcreator.cpp:420 src/core.cpp:942
 #: src/project/projectmanager.cpp:759
 #, kde-format
 msgid "Loading clips"
@@ -4954,52 +4954,52 @@ msgstr "MLT 播放列表 (*.mlt)"
 msgid "Update guides categories"
 msgstr "更新辅助线类别"
 
-#: src/bin/model/markerlistmodel.cpp:266 src/bin/model/markerlistmodel.cpp:284
+#: src/bin/model/markerlistmodel.cpp:269 src/bin/model/markerlistmodel.cpp:287
 #, kde-format
 msgid "Rename guide"
 msgstr "重命名辅助线"
 
-#: src/bin/model/markerlistmodel.cpp:266 src/bin/model/markerlistmodel.cpp:284
+#: src/bin/model/markerlistmodel.cpp:269 src/bin/model/markerlistmodel.cpp:287
 #, kde-format
 msgid "Rename marker"
 msgstr "重命名标记"
 
-#: src/bin/model/markerlistmodel.cpp:268 src/bin/model/markerlistmodel.cpp:286
+#: src/bin/model/markerlistmodel.cpp:271 src/bin/model/markerlistmodel.cpp:289
 #, kde-format
 msgid "Add guide"
 msgstr "添加辅助线"
 
-#: src/bin/model/markerlistmodel.cpp:268 src/bin/model/markerlistmodel.cpp:286
+#: src/bin/model/markerlistmodel.cpp:271 src/bin/model/markerlistmodel.cpp:289
 #, kde-format
 msgid "Add marker"
 msgstr "添加标记"
 
-#: src/bin/model/markerlistmodel.cpp:316
+#: src/bin/model/markerlistmodel.cpp:319
 #, kde-format
 msgid "Delete guide"
 msgstr "删除辅助线"
 
-#: src/bin/model/markerlistmodel.cpp:316
+#: src/bin/model/markerlistmodel.cpp:319
 #, kde-format
 msgid "Delete marker"
 msgstr "删除标记"
 
-#: src/bin/model/markerlistmodel.cpp:343
+#: src/bin/model/markerlistmodel.cpp:346
 #, kde-format
 msgid "Edit guide"
 msgstr "编辑辅助线"
 
-#: src/bin/model/markerlistmodel.cpp:343
+#: src/bin/model/markerlistmodel.cpp:346
 #, kde-format
 msgid "Edit marker"
 msgstr "编辑标记"
 
-#: src/bin/model/markerlistmodel.cpp:707 src/bin/model/markerlistmodel.cpp:718
+#: src/bin/model/markerlistmodel.cpp:710 src/bin/model/markerlistmodel.cpp:721
 #, kde-format
 msgid "Import guides"
 msgstr "导入辅助线"
 
-#: src/bin/model/markerlistmodel.cpp:707 src/bin/model/markerlistmodel.cpp:718
+#: src/bin/model/markerlistmodel.cpp:710 src/bin/model/markerlistmodel.cpp:721
 #, kde-format
 msgid "Import markers"
 msgstr "导入标记"
@@ -5007,97 +5007,97 @@ msgstr "导入标记"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/model/markerlistmodel.cpp:743 src/definitions.cpp:75
+#: src/bin/model/markerlistmodel.cpp:749 src/definitions.cpp:75
 #: src/definitions.cpp:100 src/ui/exportguidesdialog_ui.ui:18
 #: src/ui/markerdialog_ui.ui:24 src/ui/multiplemarkerdialog_ui.ui:18
 #, kde-format
 msgid "Marker"
 msgstr "标记"
 
-#: src/bin/model/markerlistmodel.cpp:751
+#: src/bin/model/markerlistmodel.cpp:757
 #, kde-format
 msgid "Recovered %1"
 msgstr "已恢复 %1"
 
-#: src/bin/model/markerlistmodel.cpp:868
+#: src/bin/model/markerlistmodel.cpp:874
 #, kde-format
 msgid "Delete all guides"
 msgstr "删除所有辅助线"
 
-#: src/bin/model/markerlistmodel.cpp:868
+#: src/bin/model/markerlistmodel.cpp:874
 #, kde-format
 msgid "Delete all markers"
 msgstr "删除所有标记"
 
-#: src/bin/model/markerlistmodel.cpp:877 src/bin/model/markerlistmodel.cpp:915
-#: src/bin/model/markerlistmodel.cpp:940
+#: src/bin/model/markerlistmodel.cpp:883 src/bin/model/markerlistmodel.cpp:921
+#: src/bin/model/markerlistmodel.cpp:946
 #: src/timeline2/view/timelinecontroller.cpp:1426
 #, kde-format
 msgid "No guide found at current position"
 msgstr "当前位置未找到辅助线"
 
-#: src/bin/model/markerlistmodel.cpp:880
+#: src/bin/model/markerlistmodel.cpp:886
 #, kde-format
 msgid "Edit Guides Category"
 msgstr "编辑辅助线类别"
 
-#: src/bin/model/markerlistmodel.cpp:880
+#: src/bin/model/markerlistmodel.cpp:886
 #, kde-format
 msgid "Edit Markers Category"
 msgstr "编辑标记类别"
 
-#: src/bin/model/markerlistmodel.cpp:886
+#: src/bin/model/markerlistmodel.cpp:892
 #, kde-format
 msgid "Guides Category"
 msgstr "辅助线类别"
 
-#: src/bin/model/markerlistmodel.cpp:886
+#: src/bin/model/markerlistmodel.cpp:892
 #, kde-format
 msgid "Markers Category"
 msgstr "标记类别"
 
-#: src/bin/model/markerlistmodel.cpp:904
+#: src/bin/model/markerlistmodel.cpp:910
 #, kde-format
 msgid "Edit guides"
 msgstr "编辑辅助线"
 
-#: src/bin/model/markerlistmodel.cpp:904
+#: src/bin/model/markerlistmodel.cpp:910
 #, kde-format
 msgid "Edit markers"
 msgstr "编辑标记"
 
-#: src/bin/model/markerlistmodel.cpp:919 src/bin/model/markerlistmodel.cpp:944
+#: src/bin/model/markerlistmodel.cpp:925 src/bin/model/markerlistmodel.cpp:950
 #: src/timeline2/view/timelinecontroller.cpp:1434
 #, kde-format
 msgid "guide"
 msgstr "辅助线"
 
-#: src/bin/model/markerlistmodel.cpp:922
+#: src/bin/model/markerlistmodel.cpp:928
 #, kde-format
 msgid "Edit Guide"
 msgstr "编辑辅助线"
 
-#: src/bin/model/markerlistmodel.cpp:922
+#: src/bin/model/markerlistmodel.cpp:928
 #, kde-format
 msgid "Edit Marker"
 msgstr "编辑标记"
 
-#: src/bin/model/markerlistmodel.cpp:947
+#: src/bin/model/markerlistmodel.cpp:953
 #, kde-format
 msgid "Add Guides"
 msgstr "添加辅助线"
 
-#: src/bin/model/markerlistmodel.cpp:947
+#: src/bin/model/markerlistmodel.cpp:953
 #, kde-format
 msgid "Add Markers"
 msgstr "添加标记"
 
-#: src/bin/model/markerlistmodel.cpp:962
+#: src/bin/model/markerlistmodel.cpp:968
 #, kde-format
 msgid "Add guides"
 msgstr "添加辅助线"
 
-#: src/bin/model/markerlistmodel.cpp:962
+#: src/bin/model/markerlistmodel.cpp:968
 #, kde-format
 msgid "Add markers"
 msgstr "添加标记"
@@ -5323,7 +5323,7 @@ msgstr "新标签"
 msgid "Import"
 msgstr "导入"
 
-#: src/core.cpp:105
+#: src/core.cpp:106
 #, kde-format
 msgid ""
 "Kdenlive crashed on last startup.\n"
@@ -5332,12 +5332,12 @@ msgstr ""
 "Kdenlive 在上次启动时发生了崩溃。\n"
 "您想要禁用实验性 GPU 处理 (Movit) 功能吗？"
 
-#: src/core.cpp:106
+#: src/core.cpp:107
 #, kde-format
 msgid "Disable GPU processing"
 msgstr "禁用 GPU 处理功能"
 
-#: src/core.cpp:112
+#: src/core.cpp:113
 #, kde-format
 msgid ""
 "Kdenlive crashed on last startup.\n"
@@ -5346,7 +5346,7 @@ msgstr ""
 "Kdenlive 在上次启动时崩溃。\n"
 "您想要重置配置文件吗？"
 
-#: src/core.cpp:193
+#: src/core.cpp:194
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
@@ -5354,19 +5354,19 @@ msgid ""
 msgstr ""
 "Kdenlive 的默认编码方案尚未设定或者无效，请点击确定将其设置为正确的值。"
 
-#: src/core.cpp:205
+#: src/core.cpp:206
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr "选择默认编码方案"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:205 src/ui/profiledialog_ui.ui:38
+#: src/core.cpp:206 src/ui/profiledialog_ui.ui:38
 #, kde-format
 msgid "Profile:"
 msgstr "编码方案："
 
-#: src/core.cpp:218
+#: src/core.cpp:219
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -5375,258 +5375,258 @@ msgstr ""
 "指定的编码方案无效。默认的编码方案为“dv_pal”，您也可以在 Kdenlive 的设置对话"
 "框对此进行更改。"
 
-#: src/core.cpp:230
+#: src/core.cpp:231
 #, kde-format
 msgid "Loading project…"
 msgstr "正在加载项目…"
 
-#: src/core.cpp:335
+#: src/core.cpp:336
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "Square 2 Bars - 正方形 2 条纹"
 
-#: src/core.cpp:336
+#: src/core.cpp:337
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "Checkerboard Small - 棋盘 (小)"
 
-#: src/core.cpp:337
+#: src/core.cpp:338
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Horizontal Blinds - 百叶窗 (水平)"
 
-#: src/core.cpp:338
+#: src/core.cpp:339
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Radial - 径向"
 
-#: src/core.cpp:339
+#: src/core.cpp:340
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Linear X - 线性 (X 轴)"
 
-#: src/core.cpp:340
+#: src/core.cpp:341
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "Bi-Linear X - 对称线性 (X 轴)"
 
-#: src/core.cpp:341
+#: src/core.cpp:342
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Linear Y - 线性 (Y 轴)"
 
-#: src/core.cpp:342
+#: src/core.cpp:343
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Bi-Linear Y - 对称线性 (Y 轴)"
 
-#: src/core.cpp:343
+#: src/core.cpp:344
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "Square - 正方形"
 
-#: src/core.cpp:344
+#: src/core.cpp:345
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "Square 2 - 正方形 2"
 
-#: src/core.cpp:345
+#: src/core.cpp:346
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "Cloud - 云朵"
 
-#: src/core.cpp:346
+#: src/core.cpp:347
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "Symmetric Clock - 时钟扫描 (对称)"
 
-#: src/core.cpp:347
+#: src/core.cpp:348
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "Radial Bars - 径向条纹"
 
-#: src/core.cpp:348
+#: src/core.cpp:349
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "Spiral - 螺旋"
 
-#: src/core.cpp:349
+#: src/core.cpp:350
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "Spiral 2 - 螺旋 2"
 
-#: src/core.cpp:350
+#: src/core.cpp:351
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "Curtain - 窗帘"
 
-#: src/core.cpp:351
+#: src/core.cpp:352
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "Burst - 爆炸"
 
-#: src/core.cpp:352
+#: src/core.cpp:353
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "Clock - 时钟扫描"
 
-#: src/core.cpp:354
+#: src/core.cpp:355
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Bar Horizontal - 条纹 (水平)"
 
-#: src/core.cpp:355
+#: src/core.cpp:356
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Bar Vertical - 条纹 (垂直)"
 
-#: src/core.cpp:356
+#: src/core.cpp:357
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Barn Door Horizontal - 挡光板 (水平)"
 
-#: src/core.cpp:357
+#: src/core.cpp:358
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "Barn Door Vertical - 挡光板 (垂直)"
 
-#: src/core.cpp:358
+#: src/core.cpp:359
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "Barn Door Diagonal SW-NE 挡光板 (对角线-西南-东北)"
 
-#: src/core.cpp:359
+#: src/core.cpp:360
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "Barn Door Diagonal NW-SE - 挡光板 (对角线-东北-西南)"
 
-#: src/core.cpp:360
+#: src/core.cpp:361
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "Diagonal Top Left - 对角线左上"
 
-#: src/core.cpp:361
+#: src/core.cpp:362
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "Diagonal Top Right - 对角线右上"
 
-#: src/core.cpp:362
+#: src/core.cpp:363
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "Matrix Waterfall Horizontal - 黑客帝国瀑布 (水平)"
 
-#: src/core.cpp:363
+#: src/core.cpp:364
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "Matrix Waterfall Vertical - 黑客帝国瀑布 (垂直)"
 
-#: src/core.cpp:364
+#: src/core.cpp:365
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Matrix Snake Horizontal - 黑客帝国蛇形 (水平)"
 
-#: src/core.cpp:365
+#: src/core.cpp:366
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "Matrix Snake Parallel Horizontal - 黑客帝国蛇形 (水平平行)"
 
-#: src/core.cpp:366
+#: src/core.cpp:367
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "Matrix Snake Vertical - 黑客帝国蛇形 (垂直)"
 
-#: src/core.cpp:367
+#: src/core.cpp:368
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "Matrix Snake Parallel Vertical - 黑客帝国蛇形 (垂直平行)"
 
-#: src/core.cpp:368
+#: src/core.cpp:369
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "Barn V Up - 挡光板 V 字打开"
 
-#: src/core.cpp:369
+#: src/core.cpp:370
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "Iris Circle - 瞳孔圆圈"
 
-#: src/core.cpp:370
+#: src/core.cpp:371
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "Double Iris - 双重瞳孔"
 
-#: src/core.cpp:371
+#: src/core.cpp:372
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "Iris Box 瞳孔边框"
 
-#: src/core.cpp:372
+#: src/core.cpp:373
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Box Bottom Right -边框 (右)"
 
-#: src/core.cpp:373
+#: src/core.cpp:374
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Box Bottom Left - 边框 (左)"
 
-#: src/core.cpp:374
+#: src/core.cpp:375
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "Box Right Center - 边框 (中心)"
 
-#: src/core.cpp:375
+#: src/core.cpp:376
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "Clock Top - 时钟扫描 (顶部)"
 
-#: src/core.cpp:595
+#: src/core.cpp:596
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "您的项目编码方案无效，导出可能失败。"
 
 #. i18n: ectx: Menu (subtitles)
-#: src/core.cpp:650 src/kdenliveui.rc:30 src/mainwindow.cpp:277
+#: src/core.cpp:651 src/kdenliveui.rc:30 src/mainwindow.cpp:277
 #: src/timeline2/view/qml/timeline.qml:1056
 #, kde-format
 msgid "Subtitles"
@@ -5686,7 +5686,7 @@ msgstr "文字剪辑"
 msgid "Create Text clip"
 msgstr "创建文字剪辑"
 
-#: src/dialogs/clipcreationdialog.cpp:390 src/doc/kdenlivedoc.cpp:1118
+#: src/dialogs/clipcreationdialog.cpp:390 src/doc/kdenlivedoc.cpp:1097
 #, kde-format
 msgid "Template title clip"
 msgstr "模板字幕剪辑"
@@ -5937,7 +5937,7 @@ msgstr "导出辅助线数据…"
 #: src/dialogs/renderwidget.cpp:947 src/dialogs/renderwidget.cpp:1000
 #: src/dialogs/renderwidget.cpp:1005 src/dialogs/renderwidget.cpp:1962
 #: src/dialogs/renderwidget.cpp:1989 src/doc/kdenlivedoc.cpp:743
-#: src/doc/kdenlivedoc.cpp:751 src/doc/kdenlivedoc.cpp:1252
+#: src/doc/kdenlivedoc.cpp:751 src/doc/kdenlivedoc.cpp:1231
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
 #: src/effects/effectsrepository.cpp:394
@@ -5951,7 +5951,7 @@ msgstr "导出辅助线数据…"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1491
+#: src/project/projectmanager.cpp:1514
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5094
@@ -7677,35 +7677,36 @@ msgid ""
 msgstr ""
 "您的项目文件已被升级到最新的 Kdenlive 项目文件版本，但是无法创建备份副本 %1。"
 
-#: src/doc/kdenlivedoc.cpp:880 src/project/projectmanager.cpp:1123
+#: src/doc/kdenlivedoc.cpp:859 src/project/projectmanager.cpp:1110
+#: src/project/projectmanager.cpp:1146
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "移动项目文件夹时出错：%1"
 
-#: src/doc/kdenlivedoc.cpp:1043 src/doc/kdenlivedoc.cpp:2166
+#: src/doc/kdenlivedoc.cpp:1022 src/doc/kdenlivedoc.cpp:2145
 #: src/project/dialogs/archivewidget.cpp:214
-#: src/project/projectmanager.cpp:1324
+#: src/project/projectmanager.cpp:1347
 #, kde-format
 msgid "Untitled"
 msgstr "未命名"
 
-#: src/doc/kdenlivedoc.cpp:1104
+#: src/doc/kdenlivedoc.cpp:1083
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "输入模板路径"
 
-#: src/doc/kdenlivedoc.cpp:1259
+#: src/doc/kdenlivedoc.cpp:1238
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "以下效果已从项目导入："
 
-#: src/doc/kdenlivedoc.cpp:1292 src/doc/kdenlivedoc.cpp:1306
+#: src/doc/kdenlivedoc.cpp:1271 src/doc/kdenlivedoc.cpp:1285
 #, kde-format
 msgid "Project Folder"
 msgstr "项目文件夹"
 
-#: src/doc/kdenlivedoc.cpp:1350 src/doc/kdenlivedoc.cpp:1358
+#: src/doc/kdenlivedoc.cpp:1329 src/doc/kdenlivedoc.cpp:1337
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -7714,24 +7715,24 @@ msgstr ""
 "无法创建备份副本：\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1503
+#: src/doc/kdenlivedoc.cpp:1482
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "添加代理剪辑"
 
-#: src/doc/kdenlivedoc.cpp:1505
+#: src/doc/kdenlivedoc.cpp:1484
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "移除代理剪辑"
 
-#: src/doc/kdenlivedoc.cpp:1549 src/doc/kdenlivedoc.cpp:1584
+#: src/doc/kdenlivedoc.cpp:1528 src/doc/kdenlivedoc.cpp:1563
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "剪辑类型不支持代理剪辑"
 
-#: src/doc/kdenlivedoc.cpp:1787
+#: src/doc/kdenlivedoc.cpp:1766
 #, kde-format
 msgid ""
 "\n"
@@ -7740,7 +7741,7 @@ msgstr ""
 "\n"
 "注意：未知的非整数 fps，可能会导致持续时间无法正确显示。"
 
-#: src/doc/kdenlivedoc.cpp:1806
+#: src/doc/kdenlivedoc.cpp:1785
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -7749,43 +7750,43 @@ msgstr ""
 "您的默认项目编码方案为 %1，但剪辑的编码方案 (%2) 为 %3。\n"
 "您想要为将来的项目更改默认编码方案吗？"
 
-#: src/doc/kdenlivedoc.cpp:1808
+#: src/doc/kdenlivedoc.cpp:1787
 #, kde-format
 msgid "Change default project profile"
 msgstr "更改默认编码方案"
 
-#: src/doc/kdenlivedoc.cpp:1808
+#: src/doc/kdenlivedoc.cpp:1787
 #, kde-format
 msgid "Change default to %1"
 msgstr "更改默认方案为 %1"
 
-#: src/doc/kdenlivedoc.cpp:1809
+#: src/doc/kdenlivedoc.cpp:1788
 #, kde-format
 msgid "Keep current default %1"
 msgstr "保持当前默认方案 %1"
 
-#: src/doc/kdenlivedoc.cpp:1809
+#: src/doc/kdenlivedoc.cpp:1788
 #, kde-format
 msgid "Ask me later"
 msgstr "稍后询问"
 
-#: src/doc/kdenlivedoc.cpp:1829
+#: src/doc/kdenlivedoc.cpp:1808
 #, kde-format
 msgid "Switch"
 msgstr "切换"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1831 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1810 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "取消"
 
-#: src/doc/kdenlivedoc.cpp:1833
+#: src/doc/kdenlivedoc.cpp:1812
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "切换到剪辑 (%1) 编码方案 %2？"
 
-#: src/doc/kdenlivedoc.cpp:1838
+#: src/doc/kdenlivedoc.cpp:1817
 #, kde-format
 msgid ""
 "\n"
@@ -7794,7 +7795,7 @@ msgstr ""
 "\n"
 "编码方案 fps 调整自原始文件 %1"
 
-#: src/doc/kdenlivedoc.cpp:1840
+#: src/doc/kdenlivedoc.cpp:1819
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -7803,13 +7804,13 @@ msgstr ""
 "找不到剪辑 %1 的编码方案。\n"
 "创建并切换到新编码方案 (%2x%3, %4fps) 吗？%5"
 
-#: src/doc/kdenlivedoc.cpp:2205 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2184 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "红"
 
-#: src/doc/kdenlivedoc.cpp:2206 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2185 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -7817,23 +7818,23 @@ msgstr "红"
 msgid "Green"
 msgstr "绿"
 
-#: src/doc/kdenlivedoc.cpp:2207 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2186 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "蓝"
 
-#: src/doc/kdenlivedoc.cpp:2208 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2187 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "黄"
 
-#: src/doc/kdenlivedoc.cpp:2209
+#: src/doc/kdenlivedoc.cpp:2188
 #, kde-format
 msgid "Cyan"
 msgstr "青"
 
-#: src/doc/kdenlivedoc.cpp:2389
+#: src/doc/kdenlivedoc.cpp:2368
 #, kde-format
 msgid "Category %1:%2:%3"
 msgstr "类别 %1:%2:%3"
@@ -12662,7 +12663,7 @@ msgstr "加载剪辑标记"
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr "标记文件大于 1MB，您确定要导入吗？"
 
-#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1385
+#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1408
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:5000
 #, kde-format
@@ -13260,7 +13261,7 @@ msgstr "打开备份文件…"
 msgid "Save changes to document?"
 msgstr "保存更改到文件吗？"
 
-#: src/project/projectmanager.cpp:357 src/project/projectmanager.cpp:1323
+#: src/project/projectmanager.cpp:357 src/project/projectmanager.cpp:1346
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13379,35 +13380,35 @@ msgstr ""
 "项目已经损坏，无法备份。请先关闭您的项目文件，然后重新打开它以恢复到最近一次"
 "备份。"
 
-#: src/project/projectmanager.cpp:1101
+#: src/project/projectmanager.cpp:1124
 #, kde-format
 msgid "Moving project folder"
 msgstr "正在移动项目文件夹"
 
-#: src/project/projectmanager.cpp:1159
+#: src/project/projectmanager.cpp:1182
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr "项目文件已经损坏 (无轨道)。要尝试寻找它的备份文件吗？"
 
-#: src/project/projectmanager.cpp:1186 src/project/projectmanager.cpp:1216
-#: src/project/projectmanager.cpp:1220
+#: src/project/projectmanager.cpp:1209 src/project/projectmanager.cpp:1239
+#: src/project/projectmanager.cpp:1243
 #, kde-format
 msgid "Sequence 1"
 msgstr "序列 1"
 
-#: src/project/projectmanager.cpp:1197
+#: src/project/projectmanager.cpp:1220
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "项目文件已经损坏 - 无法加载轨道。您想要尝试查找它的备份文件吗？"
 
-#: src/project/projectmanager.cpp:1329 src/project/projectmanager.cpp:1334
-#: src/project/projectmanager.cpp:1344 src/project/projectmanager.cpp:1360
+#: src/project/projectmanager.cpp:1352 src/project/projectmanager.cpp:1357
+#: src/project/projectmanager.cpp:1367 src/project/projectmanager.cpp:1383
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "项目编码方案更改已中止"
 
-#: src/project/projectmanager.cpp:1476
+#: src/project/projectmanager.cpp:1499
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -13416,12 +13417,12 @@ msgstr ""
 "输出文件 %1 已经存在。\n"
 "您想要覆盖它吗？"
 
-#: src/project/projectmanager.cpp:1501
+#: src/project/projectmanager.cpp:1524
 #, kde-format
 msgid "Project profile changed"
 msgstr "项目编码方案已更改"
 
-#: src/project/projectmanager.cpp:1551
+#: src/project/projectmanager.cpp:1574
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -13430,17 +13431,17 @@ msgstr ""
 "无法从此剪辑创建时间轴：\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1630
+#: src/project/projectmanager.cpp:1653
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "导入一个序列剪辑，此功能目前仍在实验阶段。"
 
-#: src/project/projectmanager.cpp:1782
+#: src/project/projectmanager.cpp:1805
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "选择一个剪辑以创建序列"
 
-#: src/project/projectmanager.cpp:1819
+#: src/project/projectmanager.cpp:1842
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "创建序列剪辑"
