@@ -98,6 +98,7 @@ EffectStackView::EffectStackView(AssetPanel *parent)
     // m_effectsTree->viewport()->setAutoFillBackground(false);
     m_effectsTree->setStyleSheet(style);
     m_effectsTree->setVisible(!KdenliveSettings::showbuiltstack());
+    m_effectsTree->setItemDelegateForColumn(0, new WidgetDelegate(this));
     m_lay->addWidget(m_effectsTree);
     m_lay->addStretch(10);
 
@@ -206,12 +207,17 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
 {
     qDebug() << "MUTEX LOCK!!!!!!!!!!!! setmodel";
     m_mutex.lock();
+    QItemSelectionModel *m = m_effectsTree->selectionModel();
     unsetModel(false);
+    m_effectsTree->setModel(nullptr);
+    m_model.reset();
+    if (m) {
+        delete m;
+    }
     m_effectsTree->setFixedHeight(0);
     m_model = std::move(model);
     m_sourceFrameSize = frameSize;
     m_effectsTree->setModel(m_model.get());
-    m_effectsTree->setItemDelegateForColumn(0, new WidgetDelegate(this));
     m_effectsTree->setColumnHidden(1, true);
     m_effectsTree->setAcceptDrops(true);
     m_effectsTree->setDragDropMode(QAbstractItemView::DragDrop);
