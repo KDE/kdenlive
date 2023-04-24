@@ -4,7 +4,7 @@
 # Alberto Villa <villa.alberto@gmail.com>, 2009.
 # Salvatore Brigaglia <tore@studiobrigaglia.com>, 2010, 2012, 2013, 2015, 2016.
 # Vincenzo Reale <smart2128vr@gmail.com>, 2015, 2020, 2022.
-# Paolo Zamponi <zapaolo@email.it>, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
+# Paolo Zamponi <feus73@gmail.com>, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 #
 msgid ""
 msgstr ""
@@ -12,7 +12,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-23 04:11+0000\n"
 "PO-Revision-Date: 2023-03-25 15:03+0100\n"
-"Last-Translator: Paolo Zamponi <zapaolo@email.it>\n"
+"Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgstr "Paolo Zamponi,Salvatore Brigaglia"
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "zapaolo@email.it,"
+msgstr "feus73@gmail.com,"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
 #: src/audiomixer/mixerwidget.cpp:172 src/audiomixer/mixerwidget.cpp:185
@@ -9341,7 +9341,7 @@ msgstr "Paolo Zamponi,Salvatore Brigaglia"
 #: src/main.cpp:144
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
-msgstr "zapaolo@email.it"
+msgstr "feus73@gmail.com"
 
 #: src/main.cpp:147
 #, kde-format
