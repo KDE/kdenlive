@@ -89,6 +89,7 @@ private:
     KIO::filesize_t m_totalCurrent;
     KIO::filesize_t m_totalGlobal;
     KIO::filesize_t m_totalBackup;
+    KIO::filesize_t m_totalProxy;
     QList<KIO::filesize_t> m_currentSizes;
     QStringList m_globalDirectories;
     QString m_processingDirectory;

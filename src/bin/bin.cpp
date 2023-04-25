@@ -4835,14 +4835,6 @@ bool Bin::hasUserClip() const
     return false;
 }
 
-bool Bin::isEmpty() const
-{
-    if (m_itemModel->getRootFolder() == nullptr) {
-        return true;
-    }
-    return !m_itemModel->getRootFolder()->hasChildClips();
-}
-
 void Bin::reloadAllProducers(bool reloadThumbs)
 {
     if (m_itemModel->getRootFolder() == nullptr || m_itemModel->getRootFolder()->childCount() == 0 || !isEnabled()) {
