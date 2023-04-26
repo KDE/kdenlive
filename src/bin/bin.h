@@ -295,8 +295,6 @@ public:
     void refreshProxySettings();
     /** @brief A clip is ready, update its info panel if displayed. */
     void emitRefreshPanel(const QString &id);
-    /** @brief Returns true if there is no clip. */
-    bool isEmpty() const;
     /** @brief Returns true if there is a clip in bin. Timeline clips are ignored. */
     bool hasUserClip() const;
     /** @brief Trigger reload of all clips. */

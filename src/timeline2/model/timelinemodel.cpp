@@ -159,6 +159,7 @@ void TimelineModel::prepareClose(bool softDelete)
     QWriteLocker locker(&m_lock);
     // Unlock all tracks to allow deleting clip from tracks
     m_closing = true;
+    m_blockRefresh = true;
     if (softDelete) {
         m_softDelete = true;
     }
@@ -4425,7 +4426,6 @@ void TimelineModel::registerClip(const std::shared_ptr<ClipModel> &clip, bool re
     int id = clip->getId();
     Q_ASSERT(m_allClips.count(id) == 0);
     m_allClips[id] = clip;
-    qDebug() << "::: REGISTERING CLIP TO BIN:::::\n::::::::::::::::::::::";
     clip->registerClipToBin(clip->getProducer(), registerProducer);
     m_groups->createGroupItem(id);
     clip->setTimelineEffectsEnabled(m_timelineEffectsEnabled);

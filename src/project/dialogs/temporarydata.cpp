@@ -192,13 +192,11 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
 
     connect(listWidget, &QTreeWidget::itemSelectionChanged, this, &TemporaryData::refreshGlobalPie);
 
-    bool globalOnly = pCore->bin()->isEmpty();
+    bool globalOnly = !pCore->bin()->hasUserClip();
     if (currentProjectOnly) {
         tabWidget->removeTab(1);
-        // globalPage->setEnabled(false);
     } else if (globalOnly) {
         tabWidget->removeTab(0);
-        // projectPage->setEnabled(false);
     }
 
     if (globalOnly && !currentProjectOnly) {
@@ -569,6 +567,8 @@ void TemporaryData::gotProjectProxySize(KJob *job)
 {
     auto *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
     KIO::filesize_t total = sourceJob->totalSize();
+    m_totalProxy = total;
+    refreshWarningMessage();
     gProxySize->setText(KIO::convertSize(total));
 }
 
@@ -597,6 +597,8 @@ void TemporaryData::updateGlobalInfo()
     m_globalDirectories.clear();
     m_processingDirectory.clear();
     m_totalGlobal = 0;
+    m_totalProxy = 0;
+    m_totalBackup = 0;
     listWidget->clear();
     m_globalDirectories = m_globalDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     // These are some KDE cache dirs related to Kdenlive that don't manage ourselves
@@ -674,7 +676,8 @@ void TemporaryData::gotFolderSize(KJob *job)
 
 void TemporaryData::refreshWarningMessage()
 {
-    if (KdenliveSettings::maxcachesize() > 0 && (m_totalGlobal + m_totalBackup > KIO::filesize_t(1048576) * KdenliveSettings::maxcachesize())) {
+    if (KdenliveSettings::maxcachesize() > 0 &&
+        ((m_totalGlobal + m_totalBackup + m_totalProxy) > KIO::filesize_t(1048576) * KdenliveSettings::maxcachesize())) {
         // Cache larger than x MB, warn
         cache_info->animatedShow();
     } else {
@@ -692,8 +695,8 @@ void TemporaryData::refreshGlobalPie()
         }
     }
     gSelectedSize->setText(KIO::convertSize(currentSize));
-    int percent = m_totalGlobal <= 0 ? 0 : int(currentSize * 360 / m_totalGlobal);
-    m_globalPie->setSegments(QList<int>() << 360 << percent);
+    int percent = m_totalGlobal <= 0 ? 0 : int(16 * currentSize * 360 / m_totalGlobal);
+    m_globalPie->setSegments(QList<int>() << 16 * 360 << percent);
     if (list.size() == 1 && list.at(0)->text(0) == m_doc->getDocumentProperty(QStringLiteral("documentid"))) {
         gDelete->setToolTip(i18n("Clear current cache"));
     } else {

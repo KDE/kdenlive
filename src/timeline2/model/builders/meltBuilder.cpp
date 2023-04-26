@@ -144,6 +144,7 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
             break;
         }
     }
+
     qDebug() << "=== OPENING FILE WITH TRACKS: " << tractor.count();
     for (int i = 0; i < tractor.count() && ok; i++) {
         std::unique_ptr<Mlt::Producer> track(tractor.track(i));

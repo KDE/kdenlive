@@ -1751,8 +1751,10 @@ bool ProjectManager::closeTimeline(const QUuid &uuid, bool onDeletion)
     }
     if (onDeletion) {
         // triggered when deleting bin clip, also close timeline tab
+        pCore->bin()->removeReferencedClips(uuid);
         pCore->window()->closeTimeline(uuid);
     } else {
+        pCore->bin()->removeReferencedClips(uuid);
         if (!m_project->closing) {
             std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(model->tractor());
             int position;
@@ -1765,7 +1767,6 @@ bool ProjectManager::closeTimeline(const QUuid &uuid, bool onDeletion)
         }
         m_project->closeTimeline(uuid);
     }
-    pCore->bin()->removeReferencedClips(uuid);
     return true;
 }
 
@@ -1821,7 +1822,7 @@ void ProjectManager::slotCreateSequenceFromSelection()
         return true;
     };
     local_redo1();
-    bool result = TimelineFunctions::pasteClips(m_activeTimelineModel, copiedData.second, trackId, 0);
+    bool result = TimelineFunctions::pasteClipsWithUndo(m_activeTimelineModel, copiedData.second, trackId, 0, undo, redo);
     if (!result) {
         undo();
         return;
