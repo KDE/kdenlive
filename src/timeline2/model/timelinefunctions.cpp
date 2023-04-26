@@ -1716,6 +1716,19 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     return false;
 }
 
+bool TimelineFunctions::pasteClipsWithUndo(const std::shared_ptr<TimelineItemModel> &timeline, const QString &pasteString, int trackId, int position, Fun &undo,
+                                           Fun &redo)
+{
+    std::function<bool(void)> paste_undo = []() { return true; };
+    std::function<bool(void)> paste_redo = []() { return true; };
+    if (TimelineFunctions::pasteClips(timeline, pasteString, trackId, position, paste_undo, paste_redo)) {
+        PUSH_FRONT_LAMBDA(paste_undo, undo);
+        PUSH_FRONT_LAMBDA(paste_redo, redo);
+        return true;
+    }
+    return false;
+}
+
 bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &timeline, const QString &pasteString, int trackId, int position, Fun &undo,
                                    Fun &redo, int inPos, int duration)
 {

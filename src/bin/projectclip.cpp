@@ -2290,6 +2290,11 @@ bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
                 return false;
             }
         } else {
+            if (auto ptr = m_model.lock()) {
+                if (std::static_pointer_cast<ProjectItemModel>(ptr)->closing) {
+                    continue;
+                }
+            }
             qDebug() << "Error while deleting clip: timeline unavailable";
             Q_ASSERT(false);
             return false;

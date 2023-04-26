@@ -178,11 +178,13 @@ void TimelineTabs::closeTimelineByIndex(int ix)
     timeline->controller()->saveSequenceProperties();
     Fun redo = [this, ix, uuid]() {
         TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(ix));
+        timeline->blockSignals(true);
         timeline->model()->prepareClose(true);
         timeline->setSource(QUrl());
-        timeline->blockSignals(true);
-        pCore->window()->disconnectTimeline(timeline);
-        disconnectTimeline(timeline);
+        if (timeline == m_activeTimeline) {
+            pCore->window()->disconnectTimeline(timeline);
+            disconnectTimeline(timeline);
+        }
         timeline->unsetModel();
         if (m_activeTimeline == timeline) {
             pCore->mixer()->unsetModel();
@@ -229,8 +231,10 @@ void TimelineTabs::closeTimeline(const QUuid &uuid)
             timeline->model()->prepareClose(true);
             timeline->setSource(QUrl());
             timeline->blockSignals(true);
-            pCore->window()->disconnectTimeline(timeline);
-            disconnectTimeline(timeline);
+            if (timeline == m_activeTimeline) {
+                pCore->window()->disconnectTimeline(timeline);
+                disconnectTimeline(timeline);
+            }
             timeline->unsetModel();
             if (m_activeTimeline == timeline) {
                 m_activeTimeline = nullptr;

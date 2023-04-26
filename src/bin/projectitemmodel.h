@@ -236,6 +236,7 @@ public:
     void setSequencesFolder(int id);
 
 protected:
+    bool closing;
     /** @brief Register the existence of a new element
      */
     void registerItem(const std::shared_ptr<TreeItem> &item) override;

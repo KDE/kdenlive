@@ -209,12 +209,13 @@ QString ClipCreator::createPlaylistClipWithUndo(const QString &name, std::pair<i
         pCore->projectManager()->initSequenceProperties(uuid, tracks);
         Fun local_redo = [uuid, id]() { return pCore->projectManager()->openTimeline(id, uuid); };
         Fun local_undo = [uuid]() {
-            if (pCore->projectManager()->closeTimeline(uuid)) {
+            if (pCore->projectManager()->closeTimeline(uuid, true)) {
                 pCore->window()->closeTimeline(uuid);
             }
             return true;
         };
         local_redo();
+
         UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
     }
     return res ? id : QStringLiteral("-1");

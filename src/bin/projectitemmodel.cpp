@@ -44,6 +44,7 @@ ProjectItemModel::ProjectItemModel(QObject *parent)
     , m_lock(QReadWriteLock::Recursive)
     , m_binPlaylist(nullptr)
     , m_fileWatcher(new FileWatcher())
+    , closing(false)
     , m_nextId(1)
     , m_blankThumb()
     , m_dragType(PlaylistState::Disabled)
@@ -588,6 +589,7 @@ void ProjectItemModel::clean()
     // QWriteLocker locker(&m_lock);
     pCore->taskManager.slotCancelJobs();
     m_extraPlaylists.clear();
+    closing = true;
     std::vector<std::shared_ptr<AbstractProjectItem>> toDelete;
     toDelete.reserve(size_t(rootItem->childCount()));
     for (int i = 0; i < rootItem->childCount(); ++i) {
@@ -599,6 +601,7 @@ void ProjectItemModel::clean()
         requestBinClipDeletion(child, undo, redo);
     }
     Q_ASSERT(rootItem->childCount() == 0);
+    closing = false;
     m_nextId = 1;
     m_uuid = QUuid::createUuid();
     m_sequenceFolderId = -1;

@@ -338,7 +338,6 @@ private:
     QString m_modifiedDecimalPoint;
     /** @brief A list of guide models for this project (one for each timeline). */
     QMap<QUuid, std::shared_ptr<TimelineItemModel>> m_timelines;
-
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;
 
     /** @brief Creates a new project. */
