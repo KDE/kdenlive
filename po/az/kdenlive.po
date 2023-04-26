@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-24 00:47+0000\n"
-"PO-Revision-Date: 2023-03-13 22:55+0400\n"
+"PO-Revision-Date: 2023-04-25 18:03+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
 "Language: az\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.12.2\n"
+"X-Generator: Lokalize 23.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2227,6 +2227,9 @@ msgid ""
 "The text will be frozen at the duration time after the duration has "
 "elapsed.]]>"
 msgstr ""
+"<![CDATA[Başlama vaxtı başa çatdıqdan sonra vaxtölçənin maksimum "
+"davametməmüddəti.\n"
+"Müddət başa çatdıqdan sonta mətn, davametmə vaxtı dondurulacaqdır.]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: data/effects/timer.xml:60 src/ui/configcapture_ui.ui:322
@@ -2243,6 +2246,10 @@ msgid ""
 "When the direction is up, the timer will count up starting from \"offset"
 "\".]]>"
 msgstr ""
+"<![CDATA[Vaxtölçən dəyərinə əlavə olunacaq sürüşmə.\n"
+"İstiqamət \"aşağı\" olduqda vaxtölçən, 00:00:00.000 əvəzinə \"sürüşmə\"yə "
+"qədər sayacaqdır.\n"
+"İstiqamət yuxarı olduqda vaxtölçən \"sürüşmə\"dən başlayaraq sayacaqdır.]]>"
 
 #: data/effects/timer.xml:66 data/transitions/slide.xml:8
 #, kde-format
@@ -2257,6 +2264,10 @@ msgid ""
 "or down from the duration time.]]>\n"
 "        "
 msgstr ""
+"\n"
+"            <![CDATA[Sayğacın 00:00:00.000 -dan başlayaraq irəli, yoxsa "
+"davametmə vaxtından geriyə sayması.]]>\n"
+"        "
 
 #: data/effects/tracker.xml:4
 #, kde-format
@@ -2986,16 +2997,15 @@ msgid "Wipe Method"
 msgstr "Sıxışdırma üsulu"
 
 #: data/transitions/matte.xml:4
-#, fuzzy, kde-format
-#| msgid "Pattern"
+#, kde-format
 msgid "Matte"
-msgstr "Nümunə"
+msgstr "Tutqun"
 
 #: data/transitions/matte.xml:5
 #, kde-format
 msgid ""
 "Replace the alpha channel of track A with the luma channel from track B."
-msgstr ""
+msgstr "A cığırının alfa kanlalını B cığırından luma kanalı ilə əvəz edin."
 
 #: data/transitions/mix.xml:4
 #, kde-format
@@ -3059,10 +3069,9 @@ msgid "Slide image from one side to another."
 msgstr "Sürüşdürərək bir şəkili o birisi ilə əvəz etmək"
 
 #: data/transitions/vqm.xml:4
-#, fuzzy, kde-format
-#| msgid "Measurement"
+#, kde-format
 msgid "Video Quality Measurement"
-msgstr "Ölçmə"
+msgstr "Görüntü keyfiyyətinin ölçülməsi"
 
 #: data/transitions/vqm.xml:5
 #, kde-format
@@ -3072,18 +3081,22 @@ msgid ""
 "delimited format for easy by another tool. The bottom half of the B frame is "
 "placed below the top half of the A frame for visual comparison."
 msgstr ""
+"Bu, B kadrlarını istinad olunan A kadrı ilə müqayisə edərək videonun "
+"keyfiyyətinin PSNR və SSIM ölçülməsini həyata keçirir. Nəticələr asanlıqla "
+"başqa bir alət tərəfindən oxuna bilən boşluqla ayrılmış formatda standart "
+"çıxışa göndərilir. Visual müqayisə üçün, B kadrının yarıdan aşağı hissəsi A "
+"kadrının yarıdan yuxarı hissəsinin altında yerləşdirilir."
 
 #: data/transitions/vqm.xml:8
-#, fuzzy, kde-format
-#| msgid "Render Time"
+#, kde-format
 msgid "Render line"
-msgstr "Görüntünün işlənmə vaxtı"
+msgstr "Görüntünün işlənməsi xətti"
 
 #: data/transitions/vqm.xml:9
 #, kde-format
 msgid ""
 "Render a line between top and bottom halves and the values atop the video."
-msgstr ""
+msgstr "Üst və alt yarılar və videonun üstündəki dəyərlər arasında xətt çəkin."
 
 #: data/transitions/wipe.xml:4
 #, kde-format
@@ -3287,6 +3300,8 @@ msgstr "Effekt qrupunu saxlayın..."
 msgctxt "@info:whatsthis"
 msgid "Saves the entire effect stack as an XML file for use in other projects."
 msgstr ""
+"Bütöv effekti yığınını başqa layihələrdə istifadə edə bilmək üçün bir XML "
+"faylı kimi saxlayır."
 
 #: src/assets/assetpanel.cpp:96
 #, kde-format
@@ -3305,6 +3320,8 @@ msgid ""
 "Turns on or off the split view in the project and/or clip monitor: on the "
 "left the clip with effect is shown, on the right the clip without effect."
 msgstr ""
+"Layihə və ya kliö monitorunda bölünmüş görünüşü açır və ya bağlayır: solda "
+"klip effekt ilə göstəriləcək, sağda isə effekt olmadan."
 
 #: src/assets/assetpanel.cpp:107
 #, kde-format
@@ -3323,6 +3340,9 @@ msgid ""
 "Toggles the effect stack to be enabled or disabled. Useful to see the "
 "difference between original and edited or to speed up scrubbing."
 msgstr ""
+"Effekt dəstinin açılmasını və ya bağlanmasını dəyişdirir. Orjinal və düzəliş "
+"edilmiş variantlar arasındakı fərqi görmək və ya sürüşdürmə prosesini "
+"sürətləndirmək üçün faydalıdır."
 
 #: src/assets/assetpanel.cpp:117
 #, kde-format
@@ -3335,11 +3355,10 @@ msgid "Hide keyframes in timeline"
 msgstr "Zaman qrafikində əsas kadrlar göstərilməsin"
 
 #: src/assets/assetpanel.cpp:118
-#, fuzzy, kde-kuit-format
-#| msgid "Display keyframes in timeline"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
-msgstr "Başlıca kadrlar zaman qrafikində"
+msgstr "Zaman xəttindəki klipdə əsas kadrların göstərilməsini açır, bağlayır"
 
 #: src/assets/assetpanel.cpp:238
 #, kde-format
@@ -3543,11 +3562,10 @@ msgid "Delete preset"
 msgstr "Əvvəlcədən qurulmuşları silmək"
 
 #: src/assets/view/assetparameterview.cpp:57
-#, fuzzy, kde-kuit-format
-#| msgid "Delete the selected speech model"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected preset."
-msgstr "Seçilmiş nitq modulunu silin"
+msgstr "Cari seçilmiş önayarı silir."
 
 #: src/assets/view/assetparameterview.cpp:329
 #: src/dialogs/kdenlivesettingsdialog.cpp:1406
@@ -3789,11 +3807,9 @@ msgstr "Seçilmiş əsas kadrı kursora doğru köçürmək"
 
 #: src/assets/view/widgets/keyframewidget.cpp:89
 #: src/assets/view/widgets/keyframewidget.cpp:91
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Move keyframes"
+#, kde-format
 msgid "Copy keyframes"
-msgstr "Əsas kadrları köçürün"
+msgstr "Əsas kadrları kopyalayın"
 
 #: src/assets/view/widgets/keyframewidget.cpp:93
 #, kde-kuit-format
@@ -3802,25 +3818,27 @@ msgid ""
 "Copy keyframes. Copy the selected keyframes, or current parameters values if "
 "no keyframe is selected."
 msgstr ""
+"Əsas kadrları kopyalamaq. Əgər heç bir əsas kadr seçilməyibsə, seçilmiş əsas "
+"kadrları və ya cari parametr dəyərlərini kopyala."
 
 #: src/assets/view/widgets/keyframewidget.cpp:95
 #: src/assets/view/widgets/keyframewidget.cpp:847
-#, fuzzy, kde-format
-#| msgid "Update keyframe"
+#, kde-format
 msgid "Paste keyframe"
-msgstr "Əsas kadrı yeniləmək"
+msgstr "Əsas kadrı yerləşdir"
 
 #: src/assets/view/widgets/keyframewidget.cpp:97
-#, fuzzy, kde-format
-#| msgid "Update keyframe"
+#, kde-format
 msgid "Paste keyframes"
-msgstr "Əsas kadrı yeniləmək"
+msgstr "Əsas kadrları yerləşdir"
 
 #: src/assets/view/widgets/keyframewidget.cpp:98
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Paste keyframes. Paste clipboard data as keyframes at current position."
 msgstr ""
+"Əsas kadrları yerləşdir. Mübadilə yaddaşındakı veriləni cari mövqedə əsas "
+"kadrlar kimi yerləşdir."
 
 #: src/assets/view/widgets/keyframewidget.cpp:100
 #, kde-format
@@ -3859,6 +3877,8 @@ msgid ""
 "Keyframe interpolation. This defines which interpolation will be used for "
 "the current keyframe."
 msgstr ""
+"Əsas kadr üçün aralıq dəyərləndirmə. Bu, əsas kadr üçün hansı aralıq "
+"dəyərləndirmə istifadə olunacağını müəyyən edir."
 
 #: src/assets/view/widgets/keyframewidget.cpp:142
 #, kde-format
@@ -3866,10 +3886,9 @@ msgid "Seek to Keyframe on Select"
 msgstr "Seçimdə əsas kadra keçmək"
 
 #: src/assets/view/widgets/keyframewidget.cpp:147
-#, fuzzy, kde-format
-#| msgid "Copy Keyframes to Clipboard"
+#, kde-format
 msgid "Copy All Keyframes to Clipboard"
-msgstr "Əsas kadrları mübadilə yaddaşına kopyalayın"
+msgstr "Bütün əsas kadrları Mübadilə yaddaşına kopyala"
 
 #: src/assets/view/widgets/keyframewidget.cpp:149
 #, kde-format
@@ -3900,6 +3919,8 @@ msgid ""
 "Opens a list of further actions for managing keyframes (for example: copy to "
 "and pasting keyframes from clipboard)."
 msgstr ""
+"Əsas kadrlar üçün gələcək fəaliyyətlərin siyahısını açır (məs.: əsas "
+"açarların mübadilə yaddaşına kopyalanması və oradan yerləşdirilməsi)"
 
 #: src/assets/view/widgets/keyframewidget.cpp:245
 #: src/assets/view/widgets/keyframewidget.cpp:297
@@ -3926,31 +3947,27 @@ msgid "Select parameters to copy"
 msgstr "Kopyalamaq üçün parametrləri seçin"
 
 #: src/assets/view/widgets/keyframewidget.cpp:752
-#, fuzzy, kde-format
-#| msgid "Keyframe value copied"
+#, kde-format
 msgid "Keyframes copied"
-msgstr "Əsas kadrın göstəricisi kopyalandı"
+msgstr "Əsas kadrlar kopyalandı"
 
 #: src/assets/view/widgets/keyframewidget.cpp:763
 #: src/assets/view/widgets/keyframewidget.cpp:804
 #: src/assets/view/widgets/keyframewidget.cpp:811
-#, fuzzy, kde-format
-#| msgid "No valid data in clipboard"
+#, kde-format
 msgid "No valid keyframe data in clipboard"
-msgstr "Mübadilə yaddaşında yararlı məlumat yoxdur"
+msgstr "Mübadilə yaddaşında etibarlı əsas kadr veriləni yoxdur"
 
 #: src/assets/view/widgets/keyframewidget.cpp:855
-#, fuzzy, kde-format
-#| msgid "Cannot create temporary files"
+#, kde-format
 msgid "Cannot copy current parameter values"
-msgstr "Müvəqqəti fayl yaratmaq mümkün deyil"
+msgstr "Hazırkı parametr dəyərlərini kopyalamaq mümkün deyil"
 
 #: src/assets/view/widgets/keyframewidget.cpp:860
 #: src/assets/view/widgets/keyframewidget.cpp:871
-#, fuzzy, kde-format
-#| msgid "Keyframe value copied"
+#, kde-format
 msgid "Current values copied"
-msgstr "Əsas kadrın göstəricisi kopyalandı"
+msgstr "Hazırkı dəyərlər kopyalandı"
 
 #: src/assets/view/widgets/keywordparamwidget.cpp:32
 #, kde-format
@@ -4017,6 +4034,8 @@ msgid ""
 "Adjusts the output volume of the audio track (affects all audio clips "
 "equally)."
 msgstr ""
+"Səs cığırının çıxışdakı səs səviyyəsini tənzimləyir (bütün səs kliplərinə "
+"bərabər təsir edir)"
 
 #: src/audiomixer/mixerwidget.cpp:153 src/audiomixer/mixerwidget.cpp:551
 #: src/mltcontroller/clippropertiescontroller.cpp:886
@@ -4032,6 +4051,9 @@ msgid ""
 "towards the left, positive values to the right. Affects all audio clips "
 "equally."
 msgstr ""
+"Cığırın çıxışdakı tarazlığını tənzimləyir. Mənfi dəyər çıxışı sola doğru, "
+"müsbət dəyər isə sağa doğru dəyişir. Bütün səs cığırlarına bərabər təsir "
+"edir."
 
 #: src/audiomixer/mixerwidget.cpp:176
 #, kde-format
@@ -4059,7 +4081,7 @@ msgstr "Treki açmaq"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
-msgstr ""
+msgstr "Səs cığırının səsini açır, bağlayır."
 
 #: src/audiomixer/mixerwidget.cpp:293
 #, kde-format
@@ -4070,7 +4092,7 @@ msgstr "Solo rejimi"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
-msgstr ""
+msgstr "Seçildifəd bütün səs cığırlarının səsini bağlayır."
 
 #: src/audiomixer/mixerwidget.cpp:303
 #: src/timeline2/view/timelinecontroller.cpp:4768
@@ -4082,7 +4104,7 @@ msgstr "Səsin yazılışı"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
-msgstr ""
+msgstr "Səs cığırını səsyazma rejiminə keçirir."
 
 #: src/audiomixer/mixerwidget.cpp:317
 #, kde-format
@@ -4095,6 +4117,8 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of the audio track controls in the audio mixer view."
 msgstr ""
+"Səs cığırının idarəetmə elementlərinin səs qarışdırıcısı görüntüsündə "
+"göstərilməsini və ya gizlədilməsini aktivləşdirir."
 
 #: src/audiomixer/mixerwidget.cpp:330
 #, kde-format
@@ -4102,17 +4126,16 @@ msgid "Open Effect Stack"
 msgstr "Stek effektini açmaq"
 
 #: src/audiomixer/mixerwidget.cpp:332
-#, fuzzy, kde-kuit-format
-#| msgid "Separate file for each audio track"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
-msgstr "Hər audio cığır üçün ayrıca fayl"
+msgstr "Səs cığırı üçün effekt yığınını açır."
 
 #: src/audiomixer/mixerwidget.cpp:334
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
-msgstr ""
+msgstr "Səs əsas paneli üçün effekt yığınını açır."
 
 #: src/bin/bin.cpp:696 src/bin/bin.cpp:870
 #, kde-format
@@ -4228,6 +4251,8 @@ msgid ""
 "Opens a window to configure the project bin (e.g. view mode, sort, show "
 "rating)."
 msgstr ""
+"Layihə səbətini tənzimləmək üçün bir pəncərə açır (məs., görünüş rejimi, "
+"çeşidləmə, reytinqi göstərmək)."
 
 #: src/bin/bin.cpp:1346
 #, kde-format
@@ -4257,6 +4282,8 @@ msgid ""
 "filter display. Click on the arrow icon to open a list of possible filter "
 "settings."
 msgstr ""
+"Layihə səbətinin tərkiblərini süzgəcləyir. Süzgəcin göstərilməsi üçün süzgəc "
+"nişanına vur. Mümkün süzgəc ayarlarını açmaq üçün ox düyməsinə vur."
 
 #: src/bin/bin.cpp:1498
 #, kde-format
@@ -4274,15 +4301,14 @@ msgid "Cancel Pending Jobs"
 msgstr "Cari başa çatmamış işi dayandırın"
 
 #: src/bin/bin.cpp:1830
-#, fuzzy, kde-format
-#| msgid "You cannot add a project inside itself."
+#, kde-format
 msgid "You cannot delete all sequences of a project"
-msgstr "Layihəni öz daxilinə əlavə edə bilməzsiniz."
+msgstr "Bu layihənin bütün sıralarını silə bilməzsiniz"
 
 #: src/bin/bin.cpp:1833
 #, kde-format
 msgid "Deleting sequences cannot be undone"
-msgstr ""
+msgstr "Silinən sıralar geri qaytarıla bilməz"
 
 #: src/bin/bin.cpp:1841
 #, kde-format
@@ -4299,6 +4325,8 @@ msgstr "Bu, qovluq tərkiblərini siləcək"
 msgid ""
 "Some items could not be deleted. Maybe there are instances on locked tracks?"
 msgstr ""
+"Bəzi elementləri silmək mümkün olmadı. Kilidli cığırlarda nümunələr ola "
+"bilərmi?"
 
 #: src/bin/bin.cpp:1863
 #, kde-format
@@ -4328,20 +4356,14 @@ msgstr ""
 "Məlumatın itirilməməsi üçün %1 adlı ehtiyyat nüsxə yaradıldı."
 
 #: src/bin/bin.cpp:1920
-#, fuzzy, kde-format
-#| msgid "Unable to write to file %1"
+#, kde-format
 msgid "Unable to parse file %1"
-msgstr "%1 faylına yazmaq mümkün olmadı"
+msgstr "%1 faylını təhlil etmək mümkün olmadı"
 
 #: src/bin/bin.cpp:1931
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot open archive file:\n"
-#| " %1"
+#, kde-format
 msgid "Cannot replace clip with invalid file %1"
-msgstr ""
-"Arxiv faylı açıla bilmədi:\n"
-"%1"
+msgstr "Klip etibarsız %1 faylı ilə dəyişdirilə bilməz"
 
 #: src/bin/bin.cpp:1957 src/bin/bin.cpp:2015
 #, kde-format
@@ -4360,10 +4382,9 @@ msgid "The selected file %1 is invalid."
 msgstr "Seçilmiş %1 faylı səhvdir."
 
 #: src/bin/bin.cpp:1970
-#, fuzzy, kde-format
-#| msgid "Cannot find clip to edit marker"
+#, kde-format
 msgid "Cannot find original clip to be replaced"
-msgstr "Markeə düzəliş etmək üçün klip tapılmadı"
+msgstr "Əvəz ediləcək orijinal klip tapılmadı"
 
 #: src/bin/bin.cpp:1990
 #, kde-format
@@ -4377,29 +4398,24 @@ msgid "Could not locate %1"
 msgstr "%1 tapıla bilmədi"
 
 #: src/bin/bin.cpp:2086 src/timeline2/view/timelinecontroller.cpp:3867
-#, fuzzy, kde-format
-#| msgid "Image sequence:"
+#, kde-format
 msgid "Open sequence"
-msgstr "Şəkillər seriyası:"
+msgstr "Sıranı aç"
 
 #: src/bin/bin.cpp:2104
-#, fuzzy, kde-format
-#| msgid "Could not create temporary subtitle file"
+#, kde-format
 msgid "Could not create temporary file in %1"
-msgstr "Müvəqqəti alt yazı faylı yaratmaq mümkün olmadı"
+msgstr "%1 daxilində müvəqqəti fayl yaratmaq mümkün olmadı"
 
 #: src/bin/bin.cpp:2112
-#, fuzzy, kde-format
-#| msgid "Duplicate selected keyframe"
+#, kde-format
 msgid "Duplicating sequence failed"
-msgstr "Seçilmiş əsas kadrın dublikatı"
+msgstr "Sıranın təkrarını yaratmaq mümkün olmadı"
 
 #: src/bin/bin.cpp:2124
-#, fuzzy, kde-format
-#| msgctxt "append to clip name to indicate a copied idem"
-#| msgid " (copy)"
+#, kde-format
 msgid "%1 (copy)"
-msgstr " (kopyalamaq)"
+msgstr "%1 (kopyala)"
 
 #: src/bin/bin.cpp:2139
 #, kde-format
@@ -4477,10 +4493,9 @@ msgstr "Mahnı siyahısı"
 #: src/bin/bin.cpp:2330 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
 #: src/project/projectmanager.cpp:1230 src/project/projectmanager.cpp:1232
 #: src/ui/managecache_ui.ui:192
-#, fuzzy, kde-format
-#| msgid "Image Sequence"
+#, kde-format
 msgid "Sequences"
-msgstr "Şəkillər seriyası"
+msgstr "Sıralar"
 
 #: src/bin/bin.cpp:2334 src/project/dialogs/projectsettings.cpp:215
 #, kde-format
@@ -4521,7 +4536,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Deletes the currently selected clips from the project bin and also from the "
 "timeline."
-msgstr ""
+msgstr "Seçilmiş klipi layihə səbətindən, həmçinin zaman xəttindən silir."
 
 #: src/bin/bin.cpp:2535 src/bin/bin.cpp:2548 src/bin/bin.cpp:3474
 #, kde-format
@@ -4549,10 +4564,9 @@ msgid "Cannot set rating on this item"
 msgstr "Bu elemntə qiymət vermək mümkün deyil"
 
 #: src/bin/bin.cpp:3021
-#, fuzzy, kde-format
-#| msgid "Open"
+#, kde-format
 msgid "Open %1"
-msgstr "Açmaq"
+msgstr "%1 aç"
 
 #: src/bin/bin.cpp:3424
 #, kde-format
@@ -4568,6 +4582,10 @@ msgid ""
 "of source types to select from.<nl/>Click on the media icon to open a window "
 "to select source files."
 msgstr ""
+"Mənbə materialını layihə səbətinə əlavə etmək üçün əsas dialoq (videolar, "
+"səslər, başlıqlar, animasiyalar)<nl/>Aşağı ox düyməsinə vurmaq mənbə növləri "
+"siyahısını açacaq və oradan lazım olanı seçə bilərsiniz.<nl/>Media düyməsinə "
+"vurmaq mənbə fayllarını seçmək üçün pəncərəni açır."
 
 #: src/bin/bin.cpp:3431
 #, kde-format
@@ -4577,7 +4595,7 @@ msgstr "Rəng klipi əlavə edin…"
 #: src/bin/bin.cpp:3433
 #, kde-format
 msgid "Add Image Sequence…"
-msgstr "Ardıcıl şəkillər əlavə edin…"
+msgstr "Səkil sırası əlavə et…"
 
 #: src/bin/bin.cpp:3435
 #, kde-format
@@ -4595,10 +4613,9 @@ msgid "Create Animation…"
 msgstr "Animasiya yaradın..."
 
 #: src/bin/bin.cpp:3441
-#, fuzzy, kde-format
-#| msgid "Add Image Sequence…"
+#, kde-format
 msgid "Add Sequence…"
-msgstr "Ardıcıl şəkillər əlavə edin…"
+msgstr "Sıra əlavə et..."
 
 #: src/bin/bin.cpp:3444 src/mainwindow.cpp:361
 #, kde-format
@@ -4646,10 +4663,9 @@ msgid "Open in new bin"
 msgstr "Yeni səbətdə açın"
 
 #: src/bin/bin.cpp:3511
-#, fuzzy, kde-format
-#| msgid "Default folder for project files"
+#, kde-format
 msgid "Default Target Folder for Sequences"
-msgstr "Layihə faylları üçün standrt qovluq"
+msgstr "Sıralar üçün ilkin hədəf qovluğu"
 
 #: src/bin/bin.cpp:3515
 #, kde-format
@@ -4663,6 +4679,8 @@ msgid ""
 "Creates a folder in the current position in the project bin. Allows for "
 "better organization of source files. Folders can be nested."
 msgstr ""
+"Layihə səbətindəki cari mövqedə bir qovluq yaradır. Mənbə fayllarının daha "
+"yaxşı təşkil olunmasına imkan verir.  Qovluqlar iç-içə keçə bilər."
 
 #: src/bin/bin.cpp:3583 src/dialogs/speechdialog.cpp:96
 #: src/dialogs/textbasededit.cpp:656 src/monitor/recmanager.cpp:43
@@ -4676,17 +4694,15 @@ msgid "Detailed log"
 msgstr "Ətraflı jurnal"
 
 #: src/bin/bin.cpp:3646 src/bin/bin.cpp:3671
-#, fuzzy, kde-format
-#| msgid "Image Sequence"
+#, kde-format
 msgctxt "@title:window"
 msgid "Create New Sequence"
-msgstr "Şəkillər seriyası"
+msgstr "Yeni sıra yarat"
 
 #: src/bin/bin.cpp:3648 src/bin/bin.cpp:3673
-#, fuzzy, kde-format
-#| msgid "Scene %1"
+#, kde-format
 msgid "Sequence %1"
-msgstr "Səhnə %1"
+msgstr "Sıra %1"
 
 #: src/bin/bin.cpp:3702
 #, kde-format
@@ -4914,10 +4930,9 @@ msgid "Audio stream %1"
 msgstr "%1 audio axını"
 
 #: src/bin/bin.cpp:5717
-#, fuzzy, kde-format
-#| msgid "Remove clips"
+#, kde-format
 msgid "Remove clip markers"
-msgstr "Klipləri silin"
+msgstr "Klip markerlərini sil"
 
 #: src/bin/bincommands.cpp:20 src/bin/bincommands.cpp:40
 #, kde-format
@@ -4946,10 +4961,9 @@ msgid "Create color clip"
 msgstr "Rəng klipi yaradın"
 
 #: src/bin/clipcreator.cpp:151 src/bin/clipcreator.cpp:249
-#, fuzzy, kde-format
-#| msgid "Image sequence:"
+#, kde-format
 msgid "Create sequence"
-msgstr "Şəkillər seriyası:"
+msgstr "Sıra yarat"
 
 #: src/bin/clipcreator.cpp:259
 #, kde-format
@@ -4981,10 +4995,9 @@ msgstr ""
 "istəyirsiniz?"
 
 #: src/bin/clipcreator.cpp:396
-#, fuzzy, kde-format
-#| msgid "Duplicate clip"
+#, kde-format
 msgid "Duplicate"
-msgstr "Klipin dublikatını yaradın"
+msgstr "Təkrarını yarat"
 
 #: src/bin/clipcreator.cpp:420 src/core.cpp:942
 #: src/project/projectmanager.cpp:759
@@ -5040,10 +5053,9 @@ msgid "MLT Playlist (*.mlt)"
 msgstr "MLT ifa siyahısı (*.mlt)"
 
 #: src/bin/model/markerlistmodel.cpp:87
-#, fuzzy, kde-format
-#| msgid "Update values in timeline."
+#, kde-format
 msgid "Update guides categories"
-msgstr "Zaman qrafikindəki dəyərləri yeniləyin."
+msgstr "Bələdçilər kateqoriyasını yenilə"
 
 #: src/bin/model/markerlistmodel.cpp:269 src/bin/model/markerlistmodel.cpp:287
 #, kde-format
@@ -5106,10 +5118,9 @@ msgid "Marker"
 msgstr "Marker"
 
 #: src/bin/model/markerlistmodel.cpp:757
-#, fuzzy, kde-format
-#| msgid "Recovered item"
+#, kde-format
 msgid "Recovered %1"
-msgstr "Qaytarılan element"
+msgstr "%1 bərpa edildi"
 
 #: src/bin/model/markerlistmodel.cpp:874
 #, kde-format
@@ -5129,40 +5140,34 @@ msgid "No guide found at current position"
 msgstr "Cari layihədə bələdçi tapılmadı"
 
 #: src/bin/model/markerlistmodel.cpp:886
-#, fuzzy, kde-format
-#| msgid "Edit Guide"
+#, kde-format
 msgid "Edit Guides Category"
-msgstr "İstiqamətləndiriciyə düzəliş edin"
+msgstr "Bələdçilər düzəliş edin"
 
 #: src/bin/model/markerlistmodel.cpp:886
-#, fuzzy, kde-format
-#| msgid "Edit Marker"
+#, kde-format
 msgid "Edit Markers Category"
-msgstr "Markerə düzəliş edin"
+msgstr "Markerlər kateqoriyasına düzəliş edin"
 
 #: src/bin/model/markerlistmodel.cpp:892
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Guides Category"
-msgstr "Kateqoriya"
+msgstr "Bələdçilər kateqoriyası"
 
 #: src/bin/model/markerlistmodel.cpp:892
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Markers Category"
-msgstr "Kateqoriya"
+msgstr "Markerlər kateqoriyası"
 
 #: src/bin/model/markerlistmodel.cpp:910
-#, fuzzy, kde-format
-#| msgid "Edit guide"
+#, kde-format
 msgid "Edit guides"
-msgstr "Bələdçiyə düzəliş edin"
+msgstr "Bələdçilərə düzəliş edin"
 
 #: src/bin/model/markerlistmodel.cpp:910
-#, fuzzy, kde-format
-#| msgid "Edit marker"
+#, kde-format
 msgid "Edit markers"
-msgstr "Markerə düzəliş edin"
+msgstr "Markerlərə düzəliş edin"
 
 #: src/bin/model/markerlistmodel.cpp:925 src/bin/model/markerlistmodel.cpp:950
 #: src/timeline2/view/timelinecontroller.cpp:1434
@@ -5181,28 +5186,24 @@ msgid "Edit Marker"
 msgstr "Markerə düzəliş edin"
 
 #: src/bin/model/markerlistmodel.cpp:953
-#, fuzzy, kde-format
-#| msgid "Add Guide"
+#, kde-format
 msgid "Add Guides"
-msgstr "Bələdçi əlavə edin"
+msgstr "Bələdçilər əlavə edin"
 
 #: src/bin/model/markerlistmodel.cpp:953
-#, fuzzy, kde-format
-#| msgid "Add Marker"
+#, kde-format
 msgid "Add Markers"
-msgstr "Marker əlavə edin"
+msgstr "Markerlər əlavə edin"
 
 #: src/bin/model/markerlistmodel.cpp:968
-#, fuzzy, kde-format
-#| msgid "Add guide"
+#, kde-format
 msgid "Add guides"
-msgstr "Bələdçi əlavə edin"
+msgstr "Bələdçilər əlavə edin"
 
 #: src/bin/model/markerlistmodel.cpp:968
-#, fuzzy, kde-format
-#| msgid "Add marker"
+#, kde-format
 msgid "Add markers"
-msgstr "Marker əlavə edin"
+msgstr "Markerlər əlavə edin"
 
 #: src/bin/model/subtitlemodel.cpp:84
 #, kde-format
@@ -5264,10 +5265,9 @@ msgid "Delete subtitle"
 msgstr "Altyazını silin"
 
 #: src/bin/projectclip.cpp:226
-#, fuzzy, kde-format
-#| msgid "Image sequence:"
+#, kde-format
 msgid "Timeline sequence"
-msgstr "Şəkillər seriyası:"
+msgstr "Zaman xətti sırası"
 
 #: src/bin/projectclip.cpp:525
 #, kde-format
@@ -5336,7 +5336,7 @@ msgstr "Id"
 #: src/bin/projectitemmodel.cpp:328
 #, kde-format
 msgid "Usage"
-msgstr ""
+msgstr "İstifadə"
 
 #: src/bin/projectitemmodel.cpp:331 src/doc/documentchecker.cpp:319
 #: src/mltcontroller/clipcontroller.cpp:464 src/profiles/profileinfo.cpp:46
@@ -5346,10 +5346,9 @@ msgid "Unknown"
 msgstr "Naməlum"
 
 #: src/bin/projectitemmodel.cpp:633
-#, fuzzy, kde-format
-#| msgid "Add a sub clip"
+#, kde-format
 msgid "Add sub clips"
-msgstr "Alt klip əlavə edin"
+msgstr "Alt kliplər əlavə edin"
 
 #: src/bin/projectitemmodel.cpp:668
 #, kde-format
@@ -5430,22 +5429,18 @@ msgid "Import"
 msgstr "İdxal edin"
 
 #: src/core.cpp:106
-#, fuzzy, kde-format
-#| msgid ""
-#| "Kdenlive crashed on last startup.\n"
-#| "Do you want to reset the configuration files ?"
+#, kde-format
 msgid ""
 "Kdenlive crashed on last startup.\n"
 "Do you want to disable experimental GPU processing (Movit) ?"
 msgstr ""
 "Kdenlive son başladılmada çökdü.\n"
-"Tənzimləmə fayllarını sıfırlamaq istəyirsiniz?"
+"Siz təcrübi GPU işləməsini (Movit) söndürmək istəyirsiniz?"
 
 #: src/core.cpp:107
-#, fuzzy, kde-format
-#| msgid "Disable proxies"
+#, kde-format
 msgid "Disable GPU processing"
-msgstr "Proksiləri söndürün"
+msgstr "GPU işləməsini söndürün"
 
 #: src/core.cpp:113
 #, kde-format
@@ -5824,26 +5819,25 @@ msgid "Ignore subfolder structure"
 msgstr "Alt qovluq quruluşunu inkar etmək"
 
 #: src/dialogs/clipjobmanager.cpp:24
-#, fuzzy, kde-format
-#| msgid "Cancel Current Clip Jobs"
+#, kde-format
 msgid "Manage Bin Clip Jobs"
-msgstr "Cari klip işini dayandırın"
+msgstr "Səbət kliplərinin işlərini idarə et"
 
 #: src/dialogs/clipjobmanager.cpp:47
 #, kde-format
 msgid "Arguments for the command line script"
-msgstr ""
+msgstr "Əmr sətri skripti üçün arqumentlər"
 
 #: src/dialogs/clipjobmanager.cpp:48
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<b>&#x25;1</b> will be replaced by the path of the source clip."
-msgstr ""
+msgstr "<b>&#x25;1</b> mənbə klipinin yolu ilə dəyişdiriləcək."
 
 #: src/dialogs/clipjobmanager.cpp:50
 #, kde-format
 msgid "File extension for the output file"
-msgstr ""
+msgstr "Çıxış faylı üçün fayl genişlənməsi"
 
 #: src/dialogs/clipjobmanager.cpp:51
 #, kde-kuit-format
@@ -5852,6 +5846,8 @@ msgid ""
 "File extension for the output file. Empty will keep the same extension as "
 "source file."
 msgstr ""
+"Çıxış faylı üçün fayl uzantısı. Boş buraxıldıqda mənbə faylı ilə eyni "
+"uzantını verir."
 
 #: src/dialogs/clipjobmanager.cpp:91 src/dialogs/clipjobmanager.cpp:170
 #, kde-format
@@ -5869,22 +5865,19 @@ msgid "Automatic Scene Split…"
 msgstr "Avtomatik səhnə bölünməsi…"
 
 #: src/dialogs/clipjobmanager.cpp:202
-#, fuzzy, kde-format
-#| msgid "Show Description"
+#, kde-format
 msgid "Job description"
-msgstr "Xüsusiyyətini göstərmək"
+msgstr "İşin açıqlaması"
 
 #: src/dialogs/clipjobmanager.cpp:252
-#, fuzzy, kde-format
-#| msgid "Clip Jobs"
+#, kde-format
 msgid "My Clip Job"
-msgstr "Klip üzərində iş"
+msgstr "Mənim klip işim"
 
 #: src/dialogs/clipjobmanager.cpp:260
-#, fuzzy, kde-format
-#| msgid "Clip Jobs"
+#, kde-format
 msgid "My Clip Job %1"
-msgstr "Klip üzərində iş"
+msgstr "Mənim klip işim %1"
 
 #: src/dialogs/clipjobmanager.cpp:285
 #, kde-format
@@ -5892,6 +5885,8 @@ msgid ""
 "Permanently delete this Clip Job:\n"
 "%1 ?"
 msgstr ""
+"Bu klip işini həmişəlik silək?\n"
+"%1 ?"
 
 #: src/dialogs/encodingprofilesdialog.cpp:50
 #, kde-format
@@ -5969,6 +5964,9 @@ msgid ""
 "can create, change, delete and download profiles used for timeline preview, "
 "proxy generation, and video, screen and decklink capture."
 msgstr ""
+"Pəncərələri şifrələmə profilləri və onların parametrləri ilə açır. Burada "
+"siz zaman xəttindəki önbaxışlar üçün önbaxışlarI, proksi yaradılmasını "
+"yarada, dəyişə, silə və video ekran şəkli və DekLink qeydi apara bilərsiniz."
 
 #: src/dialogs/encodingprofilesdialog.cpp:258
 #: src/dialogs/encodingprofilesdialog.cpp:260
@@ -5996,12 +5994,14 @@ msgid ""
 "framerate,\n"
 "reverting to Automatic."
 msgstr ""
+"Seçilmiş zaman xətti önbaxış profili layihənin kadr tezliyi ilə uyğun "
+"deyil.\n"
+"Avtomatik geri qaytarılır."
 
 #: src/dialogs/exportguidesdialog.cpp:36
-#, fuzzy, kde-format
-#| msgid "Import guides"
+#, kde-format
 msgid "Export guides"
-msgstr "Bələdçiləri idxal edin"
+msgstr "Bələdçiləri ixrac edin"
 
 #: src/dialogs/exportguidesdialog.cpp:44
 #, kde-format
@@ -6029,23 +6029,20 @@ msgstr "Saxlayın"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_text)
 #: src/dialogs/exportguidesdialog.cpp:74 src/ui/exportguidesdialog_ui.ui:44
-#, fuzzy, kde-format
-#| msgid "Text File (*.txt)"
+#, kde-format
 msgid "Text File"
-msgstr "Mətn faylı (*txt)"
+msgstr "Mətn faylı"
 
 #: src/dialogs/exportguidesdialog.cpp:74
-#, fuzzy, kde-format
-#| msgid "GPS File"
+#, kde-format
 msgid "JSON File"
-msgstr "GPS faylı"
+msgstr "JSON faylı"
 
 #: src/dialogs/exportguidesdialog.cpp:76
-#, fuzzy, kde-format
-#| msgid "Export Guides…"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export Guides Data"
-msgstr "Təlimatları ixrac edin..."
+msgstr "Bələdçilər verilənlərini ixrac edin"
 
 #: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:942
 #: src/dialogs/renderwidget.cpp:947 src/dialogs/renderwidget.cpp:1000
@@ -6075,16 +6072,14 @@ msgid "Cannot write to file %1"
 msgstr "%1 faylına yazıla bilmədi"
 
 #: src/dialogs/exportguidesdialog.cpp:86
-#, fuzzy, kde-format
-#| msgid "Resource saved to %1"
+#, kde-format
 msgid "Guides saved to %1"
-msgstr "Resurs %1 üzərində saxlanıldı"
+msgstr "Bələdçilər %1 yerində saxlanıldı"
 
 #: src/dialogs/exportguidesdialog.cpp:103
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Category name"
-msgstr "Kateqoriya"
+msgstr "Kateqoriyanın adı"
 
 #: src/dialogs/exportguidesdialog.cpp:104
 #, kde-format
@@ -6122,10 +6117,9 @@ msgid "Timeline"
 msgstr "Vaxt qrafiki"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:125
-#, fuzzy, kde-format
-#| msgid "Color range"
+#, kde-format
 msgid "Colors and Guides"
-msgstr "Rəng diapazonu"
+msgstr "Rənglər və bələdçilər"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:132
 #, kde-format
@@ -6168,10 +6162,9 @@ msgstr "Layihənin təfərrüatları"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:338
 #: src/dialogs/kdenlivesettingsdialog.cpp:362
-#, fuzzy, kde-format
-#| msgid "Use default folder"
+#, kde-format
 msgid "Use default folder: %1"
-msgstr "Standart qovluq istifadə edin"
+msgstr "İlkin qovluğu istifadə edin: %1"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:340
 #: src/dialogs/kdenlivesettingsdialog.cpp:364
@@ -6179,19 +6172,17 @@ msgstr "Standart qovluq istifadə edin"
 #: src/dialogs/kdenlivesettingsdialog.cpp:1048
 #: src/dialogs/kdenlivesettingsdialog.cpp:1057
 #: src/dialogs/kdenlivesettingsdialog.cpp:1058
-#, fuzzy, kde-format
-#| msgid "Always use project folder"
+#, kde-format
 msgid "Always use project folder: %1"
-msgstr "Həmişə layihə qovluğunu istifadə edin"
+msgstr "Həmişə layihə qovluğunu istifadə edin: %1"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:342
 #: src/dialogs/kdenlivesettingsdialog.cpp:366
 #: src/dialogs/kdenlivesettingsdialog.cpp:1054
 #: src/dialogs/kdenlivesettingsdialog.cpp:1055
-#, fuzzy, kde-format
-#| msgid "Always use project folder"
+#, kde-format
 msgid "Always use active project folder"
-msgstr "Həmişə layihə qovluğunu istifadə edin"
+msgstr "Həmişə aktiv layihəni istifadə edin"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:379
 #, kde-format
@@ -6257,7 +6248,7 @@ msgstr "PulseAudio"
 #: src/dialogs/kdenlivesettingsdialog.cpp:691
 #, kde-format
 msgid "PipeWire"
-msgstr ""
+msgstr "PipeWire"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:692
 #, kde-format
@@ -6351,7 +6342,7 @@ msgstr "Proqressiv"
 #: src/dialogs/kdenlivesettingsdialog.cpp:1738
 #, kde-format
 msgid "Probing..."
-msgstr ""
+msgstr "Araşdırılır..."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1792
 #: src/dialogs/kdenlivesettingsdialog.cpp:1984
@@ -6495,7 +6486,7 @@ msgstr "Klipin işlənir %1"
 #: src/dialogs/renderpresetdialog.cpp:88 src/dialogs/renderpresetdialog.cpp:162
 #, kde-format
 msgid "(Not set)"
-msgstr ""
+msgstr "(Təyin olunmayıb)"
 
 #: src/dialogs/renderpresetdialog.cpp:89 src/dialogs/renderpresetdialog.cpp:163
 #, kde-format
@@ -6696,12 +6687,13 @@ msgstr ""
 "Tələb edilən icazələrinizin olduğunuza əmin olun."
 
 #: src/dialogs/renderwidget.cpp:672
-#, fuzzy, kde-format
-#| msgid "Cannot create autosave file %1"
+#, kde-format
 msgid ""
 "Could not create assets folder:\n"
 " %1"
-msgstr "%1 avtomatik saxlama faylı yaradıla bilmədi"
+msgstr ""
+"Resurslar qovluğu yaratmaq mümkün olmadı:\n"
+" %1"
 
 #: src/dialogs/renderwidget.cpp:712 src/dialogs/renderwidget.cpp:788
 #, kde-format
@@ -6817,7 +6809,7 @@ msgstr " (kadr %1 @ %2 fps)"
 #: src/dialogs/renderwidget.cpp:1541
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
-msgstr ""
+msgstr "Əlçatan yaddaş %1 MB-dan az qalır."
 
 #: src/dialogs/renderwidget.cpp:1571
 #, kde-format
@@ -6847,10 +6839,9 @@ msgstr "Tapşırığı silmək"
 
 #: src/dialogs/renderwidget.cpp:2044 src/dialogs/renderwidget.cpp:2054
 #: src/dialogs/renderwidget.cpp:2076
-#, fuzzy, kde-format
-#| msgid "Render Button"
+#, kde-format
 msgid "Render Duration: %1"
-msgstr "Görünütü işlənməsi düyməsi"
+msgstr "Görünütü işlənməsi müddəti: %1"
 
 #: src/dialogs/renderwidget.cpp:2134
 #, kde-format
@@ -6867,10 +6858,9 @@ msgid "Add to current project"
 msgstr "Cari layihəyə əlavə edin"
 
 #: src/dialogs/speechdialog.cpp:41
-#, fuzzy, kde-format
-#| msgid "automated subtitling"
+#, kde-format
 msgid "Automatic Subtitling"
-msgstr "avtomatlaşdırılmış altyazı"
+msgstr "Avtomatik alt yazı"
 
 #: src/dialogs/speechdialog.cpp:79 src/dialogs/textbasededit.cpp:635
 #, kde-format
@@ -6883,10 +6873,9 @@ msgid "Process"
 msgstr "Klipin işlənməsi"
 
 #: src/dialogs/speechdialog.cpp:97
-#, fuzzy, kde-format
-#| msgid "Speech recognition"
+#, kde-format
 msgid "Speech Recognition log"
-msgstr "Nitqin tanınması"
+msgstr "Nitqin tanınması jurnalı"
 
 #: src/dialogs/speechdialog.cpp:128
 #, kde-format
@@ -6956,6 +6945,7 @@ msgid ""
 "Moves the playhead in the timeline to the beginning of the subtitle to the "
 "right."
 msgstr ""
+"Zaman xəttindəki oxutma başlığını altyazının başlanğıcına sağa köçürür "
 
 #: src/dialogs/subtitleedit.cpp:107
 #, kde-format
@@ -6969,6 +6959,7 @@ msgid ""
 "Moves the playhead in the timeline to the beginning of the subtitle to the "
 "left."
 msgstr ""
+"Zaman xəttindəki oxutma başlığını altyazının başlanğıcına sola köçürür "
 
 #: src/dialogs/subtitleedit.cpp:110
 #, kde-kuit-format
@@ -6978,6 +6969,8 @@ msgid ""
 ">Configure Kdenlive…->Misc</interface>) at the current playhead position/"
 "frame."
 msgstr ""
+"Cari oxutma başlığı mevqeyində/kadrında standart uzunluqda yeni alt yazı "
+"yaradır (<interface>Ayarlar->Kdenlive tənzimləməsi...->Müxtəlif</interface>)."
 
 #: src/dialogs/subtitleedit.cpp:112
 #, kde-format

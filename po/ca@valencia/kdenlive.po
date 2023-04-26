@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-24 00:47+0000\n"
-"PO-Revision-Date: 2023-03-19 09:40+0100\n"
+"PO-Revision-Date: 2023-04-25 11:05+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -5290,7 +5290,7 @@ msgstr "Suprimix els subtítols"
 #: src/bin/projectclip.cpp:226
 #, kde-format
 msgid "Timeline sequence"
-msgstr "Línia de temps de la seqüència"
+msgstr "Seqüència de la línia de temps"
 
 #: src/bin/projectclip.cpp:525
 #, kde-format
@@ -9090,7 +9090,7 @@ msgid ""
 msgstr ""
 "Suprimirà la carpeta %1, incloent-hi totes les llistes de reproducció de "
 "dins.\n"
-"Açò no es pot desfer"
+"Açò no es podrà desfer"
 
 #: src/library/librarywidget.cpp:347
 #, kde-format
@@ -16503,7 +16503,7 @@ msgstr "Bloca la pista de subtítols"
 #: src/timeline2/view/timelinetabs.cpp:44
 #, kde-format
 msgid "Add Timeline Sequence"
-msgstr "Afig una línia de temps de seqüència"
+msgstr "Afig una seqüència de la línia de temps"
 
 #: src/timeline2/view/timelinetabs.cpp:46
 #, kde-format
@@ -16511,8 +16511,8 @@ msgid ""
 "Add Timeline Sequence. This will create a new timeline for editing. Each "
 "timeline corresponds to a Sequence Clip in the Project Bin"
 msgstr ""
-"Afig una línia de temps de seqüència. Açò crearà una línia de temps nova per "
-"a l'edició. Cada línia de temps correspon a un clip de seqüència en la "
+"Afig una seqüència de la línia de temps. Açò crearà una línia de temps nova "
+"per a l'edició. Cada línia de temps correspon a un clip de seqüència en la "
 "safata del projecte"
 
 #: src/timeline2/view/timelinetabs.cpp:207
@@ -21220,6 +21220,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Insert Zone to Project Bin"
-#~ msgstr "Inserix una zona a la safata del projecte"
