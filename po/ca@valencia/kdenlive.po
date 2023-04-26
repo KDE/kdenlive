@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-23 04:11+0000\n"
-"PO-Revision-Date: 2023-03-17 13:14+0100\n"
+"POT-Creation-Date: 2023-04-26 02:48+0000\n"
+"PO-Revision-Date: 2023-04-25 11:05+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -4858,35 +4858,35 @@ msgstr "Activa els intermediaris"
 msgid "Disable proxies"
 msgstr "Desactiva els intermediaris"
 
-#: src/bin/bin.cpp:4951
+#: src/bin/bin.cpp:4943
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "Reconstruïx els intermediaris"
 
-#: src/bin/bin.cpp:5184
+#: src/bin/bin.cpp:5176
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Safata del projecte"
 
-#: src/bin/bin.cpp:5200
+#: src/bin/bin.cpp:5192
 #, kde-format
 msgid "Add Tracks"
 msgstr "Afig pistes"
 
-#: src/bin/bin.cpp:5202
+#: src/bin/bin.cpp:5194
 #, kde-format
 msgid "Edit Streams"
 msgstr "Edita fluxos"
 
-#: src/bin/bin.cpp:5217
+#: src/bin/bin.cpp:5209
 #, kde-format
 msgid "Don't ask again"
 msgstr "No ho tornes a preguntar"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5221
+#: src/bin/bin.cpp:5213
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -4895,45 +4895,45 @@ msgstr ""
 "Este projecte necessita més pistes d'àudio per a gestionar tots els fluxos. "
 "Voleu afegir %1 pistes d'àudio?"
 
-#: src/bin/bin.cpp:5233 src/mainwindow.cpp:2688
+#: src/bin/bin.cpp:5225 src/mainwindow.cpp:2688
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "No s'ha trobat cap clip per a afegir el marcador"
 
-#: src/bin/bin.cpp:5333
+#: src/bin/bin.cpp:5325
 #, kde-format
 msgid "Could not find master clip"
 msgstr "No s'ha pogut trobar el clip mestre"
 
-#: src/bin/bin.cpp:5527 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:5519 src/bin/clipcreator.cpp:324
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
 msgstr "Afig un clip"
 
-#: src/bin/bin.cpp:5549
+#: src/bin/bin.cpp:5541
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> clips | "
 
-#: src/bin/bin.cpp:5551
+#: src/bin/bin.cpp:5543
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> clips (%2 seleccionats) | "
 
-#: src/bin/bin.cpp:5616 src/bin/bin.cpp:5690
+#: src/bin/bin.cpp:5608 src/bin/bin.cpp:5682
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "Afig un flux addicional per al clip"
 msgstr[1] "Afig fluxos addicionals per al clip"
 
-#: src/bin/bin.cpp:5637
+#: src/bin/bin.cpp:5629
 #, kde-format
 msgid "Import selected clips"
 msgstr "Importa els clips seleccionats"
 
-#: src/bin/bin.cpp:5639
+#: src/bin/bin.cpp:5631
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -4942,17 +4942,17 @@ msgstr ""
 "Fluxos addicionals per al clip\n"
 " %1"
 
-#: src/bin/bin.cpp:5649 src/mltcontroller/clippropertiescontroller.cpp:634
+#: src/bin/bin.cpp:5641 src/mltcontroller/clippropertiescontroller.cpp:634
 #, kde-format
 msgid "Video stream %1"
 msgstr "Flux de vídeo %1"
 
-#: src/bin/bin.cpp:5664
+#: src/bin/bin.cpp:5656
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Flux d'àudio %1"
 
-#: src/bin/bin.cpp:5717
+#: src/bin/bin.cpp:5709
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Elimina els marcadors dels clips"
@@ -5290,7 +5290,7 @@ msgstr "Suprimix els subtítols"
 #: src/bin/projectclip.cpp:226
 #, kde-format
 msgid "Timeline sequence"
-msgstr "Línia de temps de la seqüència"
+msgstr "Seqüència de la línia de temps"
 
 #: src/bin/projectclip.cpp:525
 #, kde-format
@@ -9090,7 +9090,7 @@ msgid ""
 msgstr ""
 "Suprimirà la carpeta %1, incloent-hi totes les llistes de reproducció de "
 "dins.\n"
-"Açò no es pot desfer"
+"Açò no es podrà desfer"
 
 #: src/library/librarywidget.cpp:347
 #, kde-format
@@ -13394,7 +13394,7 @@ msgstr ""
 "Les dades en la memòria cau i de còpies de seguretat excedixen %1; es "
 "recomana netejar-ho."
 
-#: src/project/dialogs/temporarydata.cpp:355
+#: src/project/dialogs/temporarydata.cpp:353
 #, kde-format
 msgid ""
 "Delete all data in the preview folder:\n"
@@ -13407,7 +13407,7 @@ msgstr ""
 "La carpeta de vista prèvia conté les vistes prèvies de la línia de temps, i "
 "es pot tornar a crear amb el projecte origen."
 
-#: src/project/dialogs/temporarydata.cpp:371
+#: src/project/dialogs/temporarydata.cpp:369
 #, kde-format
 msgid ""
 "Delete all data in the backup folder:\n"
@@ -13420,24 +13420,24 @@ msgstr ""
 "En esta carpeta es manté una còpia de tots els fitxers dels projectes per a "
 "recuperar-los en cas de corrupció."
 
-#: src/project/dialogs/temporarydata.cpp:396
+#: src/project/dialogs/temporarydata.cpp:394
 #, kde-format
 msgid "No backup data older than %1 months was found."
 msgstr "No s'ha trobat cap dada de còpia de seguretat anterior a %1 mesos."
 
-#: src/project/dialogs/temporarydata.cpp:401
+#: src/project/dialogs/temporarydata.cpp:399
 #, kde-format
 msgid "This will delete backup data (%1) for projects older than %2 months."
 msgstr ""
 "Suprimirà les dades de còpia de seguretat (%1) de projectes anteriors a %2 "
 "mesos."
 
-#: src/project/dialogs/temporarydata.cpp:443
+#: src/project/dialogs/temporarydata.cpp:441
 #, kde-format
 msgid "No cache data older than %1 months was found."
 msgstr "No s'ha trobat cap dada en la memòria cau anterior a %1 mesos."
 
-#: src/project/dialogs/temporarydata.cpp:448
+#: src/project/dialogs/temporarydata.cpp:446
 #, kde-format
 msgid ""
 "This will delete cache data (%1) for projects that were deleted, have very "
@@ -13449,12 +13449,12 @@ msgstr ""
 "mesos. Totes les dades en la memòria cau es poden tornar a crear a partir "
 "dels fitxers d'origen en obrir el projecte."
 
-#: src/project/dialogs/temporarydata.cpp:460
+#: src/project/dialogs/temporarydata.cpp:458
 #, kde-format
 msgid "No proxies found in the current project."
 msgstr "No s'ha trobat cap intermediari en el projecte actual."
 
-#: src/project/dialogs/temporarydata.cpp:471
+#: src/project/dialogs/temporarydata.cpp:469
 #, kde-format
 msgid ""
 "Delete all project data in the proxy folder:\n"
@@ -13468,7 +13468,7 @@ msgstr ""
 "projectes. Estos intermediaris es poden tornar a crear a partir dels clips "
 "origen."
 
-#: src/project/dialogs/temporarydata.cpp:492
+#: src/project/dialogs/temporarydata.cpp:490
 #, kde-format
 msgid ""
 "Delete all data in the cache audio folder:\n"
@@ -13479,7 +13479,7 @@ msgstr ""
 "%1\n"
 "Esta carpeta conté les dades de les miniatures d'àudio d'este projecte."
 
-#: src/project/dialogs/temporarydata.cpp:511
+#: src/project/dialogs/temporarydata.cpp:509
 #, kde-format
 msgid ""
 "Delete all data in the cache thumbnail folder:\n"
@@ -13490,7 +13490,7 @@ msgstr ""
 "%1\n"
 "Esta carpeta conté les dades de les miniatures de vídeo d'este projecte."
 
-#: src/project/dialogs/temporarydata.cpp:529
+#: src/project/dialogs/temporarydata.cpp:527
 #, kde-format
 msgid ""
 "Delete all data in the cache folder:\n"
@@ -13504,17 +13504,17 @@ msgstr ""
 "vistes prèvies de la línia de temps. Es tornaran a crear totes estes dades "
 "en obrir el projecte."
 
-#: src/project/dialogs/temporarydata.cpp:698
+#: src/project/dialogs/temporarydata.cpp:701
 #, kde-format
 msgid "Clear current cache"
 msgstr "Neteja el cau actual"
 
-#: src/project/dialogs/temporarydata.cpp:700
+#: src/project/dialogs/temporarydata.cpp:703
 #, kde-format
 msgid "Delete selected cache"
 msgstr "Suprimix les dades seleccionades"
 
-#: src/project/dialogs/temporarydata.cpp:714
+#: src/project/dialogs/temporarydata.cpp:717
 #, kde-format
 msgid ""
 "Delete the following cache folders from\n"
@@ -13528,7 +13528,7 @@ msgstr ""
 "com les vistes prèvies de la línia de temps. Es tornaran a crear totes estes "
 "dades en obrir el projecte."
 
-#: src/project/dialogs/temporarydata.cpp:744
+#: src/project/dialogs/temporarydata.cpp:747
 #, kde-format
 msgid ""
 "Delete the proxy folder\n"
@@ -13539,12 +13539,12 @@ msgstr ""
 "%1\n"
 "Conté els clips intermediaris de tots els projectes."
 
-#: src/project/dialogs/temporarydata.cpp:772
+#: src/project/dialogs/temporarydata.cpp:775
 #, kde-format
 msgid "No proxy clip older than %1 months found."
 msgstr "No s'ha trobat cap clip intermediari anterior a %1 mesos."
 
-#: src/project/dialogs/temporarydata.cpp:776
+#: src/project/dialogs/temporarydata.cpp:779
 #, kde-format
 msgid ""
 "Delete the following proxy clips (%1)\n"
@@ -16502,7 +16502,7 @@ msgstr "Bloca la pista de subtítols"
 #: src/timeline2/view/timelinetabs.cpp:44
 #, kde-format
 msgid "Add Timeline Sequence"
-msgstr "Afig una línia de temps de seqüència"
+msgstr "Afig una seqüència de la línia de temps"
 
 #: src/timeline2/view/timelinetabs.cpp:46
 #, kde-format
@@ -16510,8 +16510,8 @@ msgid ""
 "Add Timeline Sequence. This will create a new timeline for editing. Each "
 "timeline corresponds to a Sequence Clip in the Project Bin"
 msgstr ""
-"Afig una línia de temps de seqüència. Açò crearà una línia de temps nova per "
-"a l'edició. Cada línia de temps correspon a un clip de seqüència en la "
+"Afig una seqüència de la línia de temps. Açò crearà una línia de temps nova "
+"per a l'edició. Cada línia de temps correspon a un clip de seqüència en la "
 "safata del projecte"
 
 #: src/timeline2/view/timelinetabs.cpp:207
@@ -21219,6 +21219,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Insert Zone to Project Bin"
-#~ msgstr "Inserix una zona a la safata del projecte"
