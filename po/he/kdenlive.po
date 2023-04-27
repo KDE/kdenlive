@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-24 00:47+0000\n"
+"POT-Creation-Date: 2023-04-27 00:48+0000\n"
 "PO-Revision-Date: 2017-05-16 07:02-0400\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -899,7 +899,7 @@ msgstr "עמעום וידאו משחור"
 #: data/effects/fade_from_black.xml:8 data/effects/fade_to_black.xml:8
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:170
-#: src/bin/bin.cpp:1289 src/bin/projectitemmodel.cpp:319
+#: src/bin/bin.cpp:1289 src/bin/projectitemmodel.cpp:320
 #: src/timeline2/view/dialogs/speeddialog.cpp:55
 #: src/timeline2/view/qml/Track.qml:332 src/timeline2/view/qml/Track.qml:406
 #: src/timeline2/view/qml/Track.qml:427 src/ui/clipdurationdialog_ui.ui:18
@@ -3234,7 +3234,7 @@ msgid "Export XML…"
 msgstr "יצוא שמע"
 
 #: src/assets/assetlist/view/qml/assetList.qml:371 src/bin/bin.cpp:1273
-#: src/bin/projectitemmodel.cpp:304
+#: src/bin/projectitemmodel.cpp:305
 #, kde-format
 msgid "Name"
 msgstr "שם"
@@ -4176,19 +4176,19 @@ msgid "Sort By"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:1277 src/bin/projectitemmodel.cpp:307
+#: src/bin/bin.cpp:1277 src/bin/projectitemmodel.cpp:308
 #: src/project/dialogs/projectsettings.cpp:247 src/ui/managecache_ui.ui:369
 #, kde-format
 msgid "Date"
 msgstr ""
 
-#: src/bin/bin.cpp:1281 src/bin/projectitemmodel.cpp:310
+#: src/bin/bin.cpp:1281 src/bin/projectitemmodel.cpp:311
 #, kde-format
 msgid "Description"
 msgstr "תאור"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
-#: src/bin/bin.cpp:1285 src/bin/projectitemmodel.cpp:313
+#: src/bin/bin.cpp:1285 src/bin/projectitemmodel.cpp:314
 #: src/ui/missingclips_ui.ui:77
 #, kde-format
 msgid "Type"
@@ -4200,7 +4200,7 @@ msgstr "סוג"
 msgid "Insert Order"
 msgstr "מצב הכנס"
 
-#: src/bin/bin.cpp:1297 src/bin/projectitemmodel.cpp:325
+#: src/bin/bin.cpp:1297 src/bin/projectitemmodel.cpp:326
 #, fuzzy, kde-format
 #| msgid "Validating"
 msgid "Rating"
@@ -4461,7 +4461,7 @@ msgid "Playlist"
 msgstr "רשימת סרטונים"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/bin/bin.cpp:2330 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
+#: src/bin/bin.cpp:2330 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
 #: src/project/projectmanager.cpp:1230 src/project/projectmanager.cpp:1232
 #: src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
@@ -4498,7 +4498,7 @@ msgid "Create bin folder"
 msgstr "יצירת תיקייה"
 
 #: src/bin/bin.cpp:2532 src/bin/bin.cpp:2545 src/bin/bin.cpp:3494
-#: src/timeline2/model/timelinemodel.cpp:2032
+#: src/timeline2/model/timelinemodel.cpp:2033
 #, kde-format
 msgid "Delete Clip"
 msgstr "מחק סרטון"
@@ -4821,56 +4821,56 @@ msgstr "מחק פרופיל"
 msgid "Disable proxies"
 msgstr "מחק פרופיל"
 
-#: src/bin/bin.cpp:4951
+#: src/bin/bin.cpp:4943
 #, fuzzy, kde-format
 msgid "Rebuild proxies"
 msgstr "בנה מחדש קבוצה"
 
-#: src/bin/bin.cpp:5184
+#: src/bin/bin.cpp:5176
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "פרוייקט"
 
-#: src/bin/bin.cpp:5200
+#: src/bin/bin.cpp:5192
 #, fuzzy, kde-format
 #| msgid "Add Track"
 msgid "Add Tracks"
 msgstr "הוסף רצועה"
 
-#: src/bin/bin.cpp:5202
+#: src/bin/bin.cpp:5194
 #, fuzzy, kde-format
 #| msgid "Edit Guide"
 msgid "Edit Streams"
 msgstr "ערוך מנחה"
 
-#: src/bin/bin.cpp:5217
+#: src/bin/bin.cpp:5209
 #, kde-format
 msgid "Don't ask again"
 msgstr ""
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5221
+#: src/bin/bin.cpp:5213
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
 "tracks ?"
 msgstr ""
 
-#: src/bin/bin.cpp:5233 src/mainwindow.cpp:2688
+#: src/bin/bin.cpp:5225 src/mainwindow.cpp:2688
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "לא נמצא סרטון להוספת סמן"
 
-#: src/bin/bin.cpp:5333
+#: src/bin/bin.cpp:5325
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
 msgid "Could not find master clip"
 msgstr "הוסף סרטון"
 
-#: src/bin/bin.cpp:5527 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:5519 src/bin/clipcreator.cpp:325
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
@@ -4878,46 +4878,46 @@ msgctxt "@action"
 msgid "Add clip"
 msgstr "הוסף סרטון"
 
-#: src/bin/bin.cpp:5549
+#: src/bin/bin.cpp:5541
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr ""
 
-#: src/bin/bin.cpp:5551
+#: src/bin/bin.cpp:5543
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr ""
 
-#: src/bin/bin.cpp:5616 src/bin/bin.cpp:5690
+#: src/bin/bin.cpp:5608 src/bin/bin.cpp:5682
 #, fuzzy, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "הוסף מעבר לסרטון"
 msgstr[1] "הוסף מעבר לסרטון"
 
-#: src/bin/bin.cpp:5637
+#: src/bin/bin.cpp:5629
 #, fuzzy, kde-format
 msgid "Import selected clips"
 msgstr "מחק סרטונים נבחרים"
 
-#: src/bin/bin.cpp:5639
+#: src/bin/bin.cpp:5631
 #, fuzzy, kde-format
 msgid ""
 "Additional streams for clip\n"
 " %1"
 msgstr "הוסף מעבר לסרטון"
 
-#: src/bin/bin.cpp:5649 src/mltcontroller/clippropertiescontroller.cpp:634
+#: src/bin/bin.cpp:5641 src/mltcontroller/clippropertiescontroller.cpp:634
 #, fuzzy, kde-format
 msgid "Video stream %1"
 msgstr "רצועת וידאו"
 
-#: src/bin/bin.cpp:5664
+#: src/bin/bin.cpp:5656
 #, fuzzy, kde-format
 msgid "Audio stream %1"
 msgstr "רצועת שמע"
 
-#: src/bin/bin.cpp:5717
+#: src/bin/bin.cpp:5709
 #, fuzzy, kde-format
 msgid "Remove clip markers"
 msgstr "מחק סמן"
@@ -4950,34 +4950,34 @@ msgstr "תדמית סרטון כותר"
 msgid "Create color clip"
 msgstr "סרטוני צבע"
 
-#: src/bin/clipcreator.cpp:151 src/bin/clipcreator.cpp:249
+#: src/bin/clipcreator.cpp:151 src/bin/clipcreator.cpp:250
 #, fuzzy, kde-format
 msgid "Create sequence"
 msgstr "תדר מרכז"
 
-#: src/bin/clipcreator.cpp:259
+#: src/bin/clipcreator.cpp:260
 #, kde-format
 msgid "You cannot add a project inside itself."
 msgstr ""
 
-#: src/bin/clipcreator.cpp:259
+#: src/bin/clipcreator.cpp:260
 #, fuzzy, kde-format
 msgid "Cannot create clip"
 msgstr "לא ניתן לכתוב לקובץ %1"
 
-#: src/bin/clipcreator.cpp:339
+#: src/bin/clipcreator.cpp:340
 #, fuzzy, kde-format
 #| msgid "Slideshow clip"
 msgid "Create slideshow clip"
 msgstr "סרטון מצגת שקופיות"
 
-#: src/bin/clipcreator.cpp:371
+#: src/bin/clipcreator.cpp:372
 #, fuzzy, kde-format
 #| msgid "Create new profile"
 msgid "Create title template"
 msgstr "יצירת פרופיל חדש"
 
-#: src/bin/clipcreator.cpp:395
+#: src/bin/clipcreator.cpp:396
 #, fuzzy, kde-format
 #| msgid ""
 #| "File %1 already exists.\n"
@@ -4989,18 +4989,18 @@ msgstr ""
 "הקובץ %1 קיים.\n"
 "‫האם ברצונך לדרוס אותו?"
 
-#: src/bin/clipcreator.cpp:396
+#: src/bin/clipcreator.cpp:397
 #, fuzzy, kde-format
 msgid "Duplicate"
 msgstr "מחק סרטון"
 
-#: src/bin/clipcreator.cpp:420 src/core.cpp:942
+#: src/bin/clipcreator.cpp:421 src/core.cpp:942
 #: src/project/projectmanager.cpp:759
 #, kde-format
 msgid "Loading clips"
 msgstr "טוען סרטונים"
 
-#: src/bin/clipcreator.cpp:520
+#: src/bin/clipcreator.cpp:521
 #, kde-format
 msgid ""
 "Clip <b>%1</b><br /> is on a removable device, will not be available when "
@@ -5009,18 +5009,18 @@ msgid ""
 "anyways?"
 msgstr ""
 
-#: src/bin/clipcreator.cpp:524
+#: src/bin/clipcreator.cpp:525
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Removable device"
 msgstr "הסר קובץ"
 
-#: src/bin/clipcreator.cpp:547
+#: src/bin/clipcreator.cpp:548
 #, fuzzy, kde-format
 msgid "Loading done"
 msgstr "טוען סרטוני פרוייקט"
 
-#: src/bin/clipcreator.cpp:558 src/dialogs/clipcreationdialog.cpp:551
+#: src/bin/clipcreator.cpp:559 src/dialogs/clipcreationdialog.cpp:551
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -5232,13 +5232,13 @@ msgid "Cut clip"
 msgstr "חתוך סרטון"
 
 #: src/bin/model/subtitlemodel.cpp:787 src/bin/model/subtitlemodel.cpp:1520
-#: src/timeline2/model/timelinemodel.cpp:3508
+#: src/timeline2/model/timelinemodel.cpp:3509
 #, fuzzy, kde-format
 msgid "Resize subtitle"
 msgstr "מחק סרטון"
 
 #: src/bin/model/subtitlemodel.cpp:983
-#: src/timeline2/model/timelinemodel.cpp:1259
+#: src/timeline2/model/timelinemodel.cpp:1260
 #, fuzzy, kde-format
 #| msgid "Move guide"
 msgid "Move subtitle"
@@ -5315,13 +5315,13 @@ msgstr "סרטון לא תקין"
 msgid "File already exists"
 msgstr "הפרופיל כבר קיים"
 
-#: src/bin/projectclip.cpp:2630
+#: src/bin/projectclip.cpp:2635
 #, fuzzy, kde-format
 #| msgid "Edit effect %1"
 msgid "Add stream effect"
 msgstr "ערוך אפקט %1"
 
-#: src/bin/projectclip.cpp:2655
+#: src/bin/projectclip.cpp:2660
 #, fuzzy, kde-format
 msgid "Remove stream effect"
 msgstr "אפס אפקט"
@@ -5333,63 +5333,63 @@ msgid_plural "%1 clips"
 msgstr[0] "הוסף סרטון"
 msgstr[1] "הוסף סרטון"
 
-#: src/bin/projectitemmodel.cpp:316
+#: src/bin/projectitemmodel.cpp:317
 #, fuzzy, kde-format
 #| msgid "Target"
 msgid "Tag"
 msgstr "מטרה"
 
-#: src/bin/projectitemmodel.cpp:322
+#: src/bin/projectitemmodel.cpp:323
 #, fuzzy, kde-format
 #| msgid "I"
 msgid "Id"
 msgstr "I"
 
-#: src/bin/projectitemmodel.cpp:328
+#: src/bin/projectitemmodel.cpp:329
 #, kde-format
 msgid "Usage"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:331 src/doc/documentchecker.cpp:319
+#: src/bin/projectitemmodel.cpp:332 src/doc/documentchecker.cpp:319
 #: src/mltcontroller/clipcontroller.cpp:464 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, fuzzy, kde-format
 msgid "Unknown"
 msgstr "סרטון לא ידוע"
 
-#: src/bin/projectitemmodel.cpp:633
+#: src/bin/projectitemmodel.cpp:636
 #, fuzzy, kde-format
 msgid "Add sub clips"
 msgstr "הוסף סרטון"
 
-#: src/bin/projectitemmodel.cpp:668
+#: src/bin/projectitemmodel.cpp:671
 #, fuzzy, kde-format
 msgid "Zone"
 msgstr "סוף קטע: %1"
 
-#: src/bin/projectitemmodel.cpp:855
+#: src/bin/projectitemmodel.cpp:858
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
 msgid "Add bin clip"
 msgstr "הוסף סרטון"
 
-#: src/bin/projectitemmodel.cpp:921
+#: src/bin/projectitemmodel.cpp:924
 #, fuzzy, kde-format
 msgid "Add a sub clip"
 msgstr "הוסף סרטון"
 
-#: src/bin/projectitemmodel.cpp:962
+#: src/bin/projectitemmodel.cpp:965
 #, fuzzy, kde-format
 msgid "Rename Folder"
 msgstr "שנה שם תיקייה"
 
-#: src/bin/projectitemmodel.cpp:990 src/mainwindow.cpp:1442
+#: src/bin/projectitemmodel.cpp:993 src/mainwindow.cpp:1442
 #, kde-format
 msgid "Clean Project"
 msgstr "נקה פרוייקט"
 
-#: src/bin/projectitemmodel.cpp:1164
+#: src/bin/projectitemmodel.cpp:1167
 #, fuzzy, kde-format
 msgid "Loading project clips…"
 msgstr "טוען סרטוני פרוייקט"
@@ -10398,7 +10398,7 @@ msgstr "הדבק אפקטים"
 msgid "Switch Track Target Audio Stream"
 msgstr ""
 
-#: src/mainwindow.cpp:1823 src/timeline2/model/timelinemodel.cpp:4280
+#: src/mainwindow.cpp:1823 src/timeline2/model/timelinemodel.cpp:4281
 #: src/timeline2/view/timelinecontroller.cpp:871
 #, kde-format
 msgid "Delete Track"
@@ -10503,7 +10503,7 @@ msgstr "הוסף סמן"
 msgid "Export Subtitle File…"
 msgstr "הוסף מנחה"
 
-#: src/mainwindow.cpp:1883 src/timeline2/model/timelinemodel.cpp:2036
+#: src/mainwindow.cpp:1883 src/timeline2/model/timelinemodel.cpp:2037
 #, fuzzy, kde-format
 msgid "Delete Subtitle"
 msgstr "מחק סרטון"
@@ -13246,7 +13246,7 @@ msgstr "נקה"
 msgid "Your cache and backup data exceeds %1, cleanup is recommended."
 msgstr ""
 
-#: src/project/dialogs/temporarydata.cpp:355
+#: src/project/dialogs/temporarydata.cpp:353
 #, kde-format
 msgid ""
 "Delete all data in the preview folder:\n"
@@ -13255,7 +13255,7 @@ msgid ""
 "source project."
 msgstr ""
 
-#: src/project/dialogs/temporarydata.cpp:371
+#: src/project/dialogs/temporarydata.cpp:369
 #, kde-format
 msgid ""
 "Delete all data in the backup folder:\n"
@@ -13264,22 +13264,22 @@ msgid ""
 "of corruption."
 msgstr ""
 
-#: src/project/dialogs/temporarydata.cpp:396
+#: src/project/dialogs/temporarydata.cpp:394
 #, kde-format
 msgid "No backup data older than %1 months was found."
 msgstr ""
 
-#: src/project/dialogs/temporarydata.cpp:401
+#: src/project/dialogs/temporarydata.cpp:399
 #, kde-format
 msgid "This will delete backup data (%1) for projects older than %2 months."
 msgstr ""
 
-#: src/project/dialogs/temporarydata.cpp:443
+#: src/project/dialogs/temporarydata.cpp:441
 #, kde-format
 msgid "No cache data older than %1 months was found."
 msgstr ""
 
-#: src/project/dialogs/temporarydata.cpp:448
+#: src/project/dialogs/temporarydata.cpp:446
 #, kde-format
 msgid ""
 "This will delete cache data (%1) for projects that were deleted, have very "
@@ -13287,13 +13287,13 @@ msgid ""
 "from the source files on project opening."
 msgstr ""
 
-#: src/project/dialogs/temporarydata.cpp:460
+#: src/project/dialogs/temporarydata.cpp:458
 #, fuzzy, kde-format
 #| msgid "No guide at cursor time"
 msgid "No proxies found in the current project."
 msgstr "אין מנחה במיקום סמן"
 
-#: src/project/dialogs/temporarydata.cpp:471
+#: src/project/dialogs/temporarydata.cpp:469
 #, kde-format
 msgid ""
 "Delete all project data in the proxy folder:\n"
@@ -13302,7 +13302,7 @@ msgid ""
 "can be recreated from the source clips."
 msgstr ""
 
-#: src/project/dialogs/temporarydata.cpp:492
+#: src/project/dialogs/temporarydata.cpp:490
 #, kde-format
 msgid ""
 "Delete all data in the cache audio folder:\n"
@@ -13310,7 +13310,7 @@ msgid ""
 "This folder contains the data for audio thumbnails in this project."
 msgstr ""
 
-#: src/project/dialogs/temporarydata.cpp:511
+#: src/project/dialogs/temporarydata.cpp:509
 #, kde-format
 msgid ""
 "Delete all data in the cache thumbnail folder:\n"
@@ -13318,7 +13318,7 @@ msgid ""
 "This folder contains the data for video thumbnails in this project."
 msgstr ""
 
-#: src/project/dialogs/temporarydata.cpp:529
+#: src/project/dialogs/temporarydata.cpp:527
 #, kde-format
 msgid ""
 "Delete all data in the cache folder:\n"
@@ -13327,17 +13327,17 @@ msgid ""
 "previews. All this data will be recreated on project opening."
 msgstr ""
 
-#: src/project/dialogs/temporarydata.cpp:698
+#: src/project/dialogs/temporarydata.cpp:701
 #, fuzzy, kde-format
 msgid "Clear current cache"
 msgstr "נקה מטמון"
 
-#: src/project/dialogs/temporarydata.cpp:700
+#: src/project/dialogs/temporarydata.cpp:703
 #, fuzzy, kde-format
 msgid "Delete selected cache"
 msgstr "מחק סרטונים נבחרים"
 
-#: src/project/dialogs/temporarydata.cpp:714
+#: src/project/dialogs/temporarydata.cpp:717
 #, kde-format
 msgid ""
 "Delete the following cache folders from\n"
@@ -13346,7 +13346,7 @@ msgid ""
 "previews. All this data will be recreated on project opening."
 msgstr ""
 
-#: src/project/dialogs/temporarydata.cpp:744
+#: src/project/dialogs/temporarydata.cpp:747
 #, kde-format
 msgid ""
 "Delete the proxy folder\n"
@@ -13354,12 +13354,12 @@ msgid ""
 "Contains proxy clips for all your projects."
 msgstr ""
 
-#: src/project/dialogs/temporarydata.cpp:772
+#: src/project/dialogs/temporarydata.cpp:775
 #, kde-format
 msgid "No proxy clip older than %1 months found."
 msgstr ""
 
-#: src/project/dialogs/temporarydata.cpp:776
+#: src/project/dialogs/temporarydata.cpp:779
 #, kde-format
 msgid ""
 "Delete the following proxy clips (%1)\n"
@@ -13606,13 +13606,13 @@ msgstr "לא ניתן לכתוב לקובץ %1"
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1805
+#: src/project/projectmanager.cpp:1806
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip to create sequence"
 msgstr "בחר סרטון, על מנת להוסיף אפקט"
 
-#: src/project/projectmanager.cpp:1842
+#: src/project/projectmanager.cpp:1843
 #, fuzzy, kde-format
 msgid "Create Sequence Clip"
 msgstr "תדר מרכז"
@@ -14887,61 +14887,61 @@ msgstr "מסדר RGB"
 msgid "Histogram"
 msgstr "היסטוגרמה"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:260
-#: src/timeline2/model/builders/meltBuilder.cpp:489
-#: src/timeline2/model/builders/meltBuilder.cpp:499
+#: src/timeline2/model/builders/meltBuilder.cpp:261
+#: src/timeline2/model/builders/meltBuilder.cpp:490
+#: src/timeline2/model/builders/meltBuilder.cpp:500
 #, kde-format
 msgid ""
 "Invalid composition %1 found on track %2 at %3, compositing with track %4."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:269
-#: src/timeline2/model/builders/meltBuilder.cpp:513
+#: src/timeline2/model/builders/meltBuilder.cpp:270
+#: src/timeline2/model/builders/meltBuilder.cpp:514
 #, kde-format
 msgid ""
 "Incorrect composition %1 found on track %2 at %3, compositing with track %4 "
 "was set to forced track."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:278
-#: src/timeline2/model/builders/meltBuilder.cpp:527
+#: src/timeline2/model/builders/meltBuilder.cpp:279
+#: src/timeline2/model/builders/meltBuilder.cpp:528
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "Invalid composition %1 found on track %2 at %3."
 msgstr "סרטון לא תקף הוסר מרצועה %1 ב-%2\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:299
-#: src/timeline2/model/builders/meltBuilder.cpp:558
-#: src/timeline2/model/builders/meltBuilder.cpp:560
+#: src/timeline2/model/builders/meltBuilder.cpp:300
+#: src/timeline2/model/builders/meltBuilder.cpp:559
+#: src/timeline2/model/builders/meltBuilder.cpp:561
 #, fuzzy, kde-format
 #| msgid "Default folder for project files"
 msgid "Problems found in your project file"
 msgstr "תיקיית ברירת מחדל עבור קבצי הפרויקט"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:488
-#: src/timeline2/model/builders/meltBuilder.cpp:498
+#: src/timeline2/model/builders/meltBuilder.cpp:489
+#: src/timeline2/model/builders/meltBuilder.cpp:499
 #, kde-format
 msgid "%1 Composition (%2) with invalid track reference found and removed."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:512
+#: src/timeline2/model/builders/meltBuilder.cpp:513
 #, kde-format
 msgid ""
 "%1 Composition was not applied on expected track, manually enforce the track."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:526
+#: src/timeline2/model/builders/meltBuilder.cpp:527
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "%1 Invalid composition found and removed."
 msgstr "סרטון לא תקף הוסר מרצועה %1 ב-%2\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:549
+#: src/timeline2/model/builders/meltBuilder.cpp:550
 #, fuzzy, kde-format
 msgid "Errors found when opening project file (%1)"
 msgstr "תיקיית פרוייקט"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:556
+#: src/timeline2/model/builders/meltBuilder.cpp:557
 #, kde-format
 msgid ""
 "Some errors were detected in the project file.\n"
@@ -14950,103 +14950,103 @@ msgid ""
 "please review them to ensure your project integrity."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:636
-#: src/timeline2/model/builders/meltBuilder.cpp:646
+#: src/timeline2/model/builders/meltBuilder.cpp:637
+#: src/timeline2/model/builders/meltBuilder.cpp:647
 #, kde-format
 msgid "Incorrect Mix, clip %1 was removed at %2."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:637
+#: src/timeline2/model/builders/meltBuilder.cpp:638
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "Incorrect mix found on track %1 at %2, clip %3 removed."
 msgstr "סרטון לא תקף הוסר מרצועה %1 ב-%2\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:647
+#: src/timeline2/model/builders/meltBuilder.cpp:648
 #, kde-format
 msgid "Incorrect mix found at track %1 at %2, clip %3 removed."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:742
+#: src/timeline2/model/builders/meltBuilder.cpp:743
 #, kde-format
 msgid "%1 Timeline clip (%2) with incorrect bin reference found and recovered."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:743
+#: src/timeline2/model/builders/meltBuilder.cpp:744
 #, kde-format
 msgid "Invalid clip %1 (%2) not found in project bin, recovered."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:745
+#: src/timeline2/model/builders/meltBuilder.cpp:746
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "%1 Timeline clip (%2) without bin reference found and removed."
 msgstr "סרטון לא תקף הוסר מרצועה %1 ב-%2\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:746
+#: src/timeline2/model/builders/meltBuilder.cpp:747
 #, kde-format
 msgid "Project corrupted. Clip %1 (%2) not found in project bin."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:814
-#: src/timeline2/model/builders/meltBuilder.cpp:847
+#: src/timeline2/model/builders/meltBuilder.cpp:815
+#: src/timeline2/model/builders/meltBuilder.cpp:848
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and resized"
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:815
-#: src/timeline2/model/builders/meltBuilder.cpp:845
+#: src/timeline2/model/builders/meltBuilder.cpp:816
+#: src/timeline2/model/builders/meltBuilder.cpp:846
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "Clip without mix %1 found and resized on track %2 at %3."
 msgstr "סרטון לא תקף הוסר מרצועה %1 ב-%2\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:820
-#: src/timeline2/model/builders/meltBuilder.cpp:851
+#: src/timeline2/model/builders/meltBuilder.cpp:821
+#: src/timeline2/model/builders/meltBuilder.cpp:852
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "Invalid clip without mix %1 found and removed on track %2 at %3."
 msgstr "סרטון לא תקף הוסר מרצועה %1 ב-%2\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:822
-#: src/timeline2/model/builders/meltBuilder.cpp:853
+#: src/timeline2/model/builders/meltBuilder.cpp:823
+#: src/timeline2/model/builders/meltBuilder.cpp:854
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and removed"
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:840
-#: src/timeline2/model/builders/meltBuilder.cpp:884
+#: src/timeline2/model/builders/meltBuilder.cpp:841
+#: src/timeline2/model/builders/meltBuilder.cpp:885
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "Invalid clip %1 found on track %2 at %3."
 msgstr "סרטון לא תקף הוסר מרצועה %1 ב-%2\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:842
-#: src/timeline2/model/builders/meltBuilder.cpp:889
+#: src/timeline2/model/builders/meltBuilder.cpp:843
+#: src/timeline2/model/builders/meltBuilder.cpp:890
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "%1 Invalid clip (%2) found and removed"
 msgstr "סרטון לא תקף הוסר מרצועה %1 ב-%2\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:860
+#: src/timeline2/model/builders/meltBuilder.cpp:861
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "Clip %1 on incorrect subtrack found and fixed on track %2 at %3."
 msgstr "סרטון לא תקף הוסר מרצועה %1 ב-%2\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:865
+#: src/timeline2/model/builders/meltBuilder.cpp:866
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "%1 Clip (%2) on incorrect subtrack found and fixed / %3"
 msgstr "סרטון לא תקף הוסר מרצועה %1 ב-%2\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:868
+#: src/timeline2/model/builders/meltBuilder.cpp:869
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "Clip %1 on incorrect subtrack found on track %2 at %3."
 msgstr "סרטון לא תקף הוסר מרצועה %1 ב-%2\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:873
+#: src/timeline2/model/builders/meltBuilder.cpp:874
 #, kde-format
 msgid "%1 Clip (%2) with incorrect subplaylist found"
 msgstr ""
@@ -15210,90 +15210,90 @@ msgstr ""
 msgid "Paste clips"
 msgstr "רשימת סרטונים"
 
-#: src/timeline2/model/timelinefunctions.cpp:1724
+#: src/timeline2/model/timelinefunctions.cpp:1737
 #, kde-format
 msgid "Another paste operation is in progress"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1736
+#: src/timeline2/model/timelinefunctions.cpp:1749
 #, fuzzy, kde-format
 msgid "No valid data in clipboard"
 msgstr "לא נמצא סרטון לעריכה"
 
-#: src/timeline2/model/timelinefunctions.cpp:1762
-#: src/timeline2/model/timelinefunctions.cpp:1821
-#: src/timeline2/model/timelinefunctions.cpp:1850
-#: src/timeline2/model/timelinefunctions.cpp:1881
-#: src/timeline2/model/timelinefunctions.cpp:1920
-#: src/timeline2/model/timelinefunctions.cpp:2187
+#: src/timeline2/model/timelinefunctions.cpp:1775
+#: src/timeline2/model/timelinefunctions.cpp:1834
+#: src/timeline2/model/timelinefunctions.cpp:1863
+#: src/timeline2/model/timelinefunctions.cpp:1894
+#: src/timeline2/model/timelinefunctions.cpp:1933
+#: src/timeline2/model/timelinefunctions.cpp:2200
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1938
-#: src/timeline2/model/timelinefunctions.cpp:1956
-#: src/timeline2/model/timelinefunctions.cpp:1984
-#: src/timeline2/model/timelinefunctions.cpp:1989
+#: src/timeline2/model/timelinefunctions.cpp:1951
+#: src/timeline2/model/timelinefunctions.cpp:1969
+#: src/timeline2/model/timelinefunctions.cpp:1997
+#: src/timeline2/model/timelinefunctions.cpp:2002
 #, fuzzy, kde-format
 msgid "Pasted clips"
 msgstr "רשימת סרטונים"
 
-#: src/timeline2/model/timelinefunctions.cpp:1975
+#: src/timeline2/model/timelinefunctions.cpp:1988
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
 "project.<br/>Clips or keyframes might be messed up."
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1977
+#: src/timeline2/model/timelinefunctions.cpp:1990
 #, kde-format
 msgid "Pasting Warning"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1977
+#: src/timeline2/model/timelinefunctions.cpp:1990
 #, fuzzy, kde-format
 msgid "Paste"
 msgstr "רשימת סרטונים"
 
-#: src/timeline2/model/timelinefunctions.cpp:2024
-#: src/timeline2/model/timelinefunctions.cpp:2061
-#: src/timeline2/model/timelinefunctions.cpp:2125
+#: src/timeline2/model/timelinefunctions.cpp:2037
+#: src/timeline2/model/timelinefunctions.cpp:2074
+#: src/timeline2/model/timelinefunctions.cpp:2138
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
 msgid "Could not add bin clip"
 msgstr "הוסף סרטון"
 
-#: src/timeline2/model/timelinefunctions.cpp:2179
+#: src/timeline2/model/timelinefunctions.cpp:2192
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2229
-#: src/timeline2/model/timelinefunctions.cpp:2398
+#: src/timeline2/model/timelinefunctions.cpp:2242
+#: src/timeline2/model/timelinefunctions.cpp:2411
 #, fuzzy, kde-format
 #| msgid "update values in timeline"
 msgid "Could not paste items in timeline"
 msgstr "עדכן ערכים בציר הזמן"
 
-#: src/timeline2/model/timelinefunctions.cpp:2418
+#: src/timeline2/model/timelinefunctions.cpp:2431
 #, fuzzy, kde-format
 msgid "Paste timeline clips"
 msgstr "מחק סרטון ברצף זמן"
 
-#: src/timeline2/model/timelinefunctions.cpp:2636
+#: src/timeline2/model/timelinefunctions.cpp:2649
 #, fuzzy, kde-format
 msgid "Remove space on track"
 msgstr "הסר רווח"
 
-#: src/timeline2/model/timelinefunctions.cpp:2663
+#: src/timeline2/model/timelinefunctions.cpp:2676
 #, fuzzy, kde-format
 #| msgid "Delete track"
 msgid "Delete clips on track"
 msgstr "מחק רצועה"
 
 #: src/timeline2/model/timelineitemmodel.cpp:135
-#: src/timeline2/model/timelinemodel.cpp:4171
+#: src/timeline2/model/timelinemodel.cpp:4172
 #, fuzzy, kde-format
 #| msgid "Insert Track"
 msgctxt "@action"
@@ -15318,149 +15318,149 @@ msgstr "מחק סמן"
 msgid "Could not setup track compositing, check your install"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:922
-#: src/timeline2/model/timelinemodel.cpp:1049
+#: src/timeline2/model/timelinemodel.cpp:923
+#: src/timeline2/model/timelinemodel.cpp:1050
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select a clip to apply the mix"
 msgstr "כלי בחירה"
 
-#: src/timeline2/model/timelinemodel.cpp:1045
+#: src/timeline2/model/timelinemodel.cpp:1046
 #, fuzzy, kde-format
 #| msgid "Start"
 msgid "start"
 msgstr "התחלה"
 
-#: src/timeline2/model/timelinemodel.cpp:1045
+#: src/timeline2/model/timelinemodel.cpp:1046
 #, fuzzy, kde-format
 #| msgid "End"
 msgid "end"
 msgstr "סיום"
 
-#: src/timeline2/model/timelinemodel.cpp:1045
+#: src/timeline2/model/timelinemodel.cpp:1046
 #, kde-format
 msgid "Not enough frames at clip %1 to apply the mix"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1112
+#: src/timeline2/model/timelinemodel.cpp:1113
 #, fuzzy, kde-format
 msgid "Create mix"
 msgstr "חתוך קבוצה"
 
-#: src/timeline2/model/timelinemodel.cpp:1191
-#: src/timeline2/model/timelinemodel.cpp:1221
+#: src/timeline2/model/timelinemodel.cpp:1192
+#: src/timeline2/model/timelinemodel.cpp:1222
 #, kde-format
 msgid "Move clip"
 msgstr "העברת סרטון"
 
-#: src/timeline2/model/timelinemodel.cpp:1710
-#: src/timeline2/model/timelinemodel.cpp:1800
-#: src/timeline2/model/timelinemodel.cpp:1823
-#: src/timeline2/model/timelinemodel.cpp:1846
+#: src/timeline2/model/timelinemodel.cpp:1711
+#: src/timeline2/model/timelinemodel.cpp:1801
+#: src/timeline2/model/timelinemodel.cpp:1824
+#: src/timeline2/model/timelinemodel.cpp:1847
 #, kde-format
 msgid "No available track for insert operation"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1715
+#: src/timeline2/model/timelinemodel.cpp:1716
 #, fuzzy, kde-format
 #| msgid "Insert clip"
 msgid "Insert Clip"
 msgstr "הכנס סרטון"
 
-#: src/timeline2/model/timelinemodel.cpp:1768
+#: src/timeline2/model/timelinemodel.cpp:1769
 #, kde-format
 msgid "You cannot insert a sequence containing itself"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1816
-#: src/timeline2/model/timelinemodel.cpp:1838
+#: src/timeline2/model/timelinemodel.cpp:1817
+#: src/timeline2/model/timelinemodel.cpp:1839
 #, kde-format
 msgid "Not enough audio tracks for all streams (%1)"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1922
+#: src/timeline2/model/timelinemodel.cpp:1923
 #, kde-format
 msgid "No available track for split operation"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1959
+#: src/timeline2/model/timelinemodel.cpp:1960
 #, kde-format
 msgid "Audio split failed: no viable track"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1967
+#: src/timeline2/model/timelinemodel.cpp:1968
 #, kde-format
 msgid "Audio split failed: impossible to create audio clip"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:2029
+#: src/timeline2/model/timelinemodel.cpp:2030
 #, fuzzy, kde-format
 #| msgid "Move group"
 msgid "Remove group"
 msgstr "העבר קבוצה"
 
-#: src/timeline2/model/timelinemodel.cpp:2034
+#: src/timeline2/model/timelinemodel.cpp:2035
 #, fuzzy, kde-format
 msgid "Delete Composition"
 msgstr "מרכב"
 
-#: src/timeline2/model/timelinemodel.cpp:2186
-#: src/timeline2/model/timelinemodel.cpp:2348
+#: src/timeline2/model/timelinemodel.cpp:2187
+#: src/timeline2/model/timelinemodel.cpp:2349
 #: src/timeline2/view/timelinecontroller.cpp:4222
 #, kde-format
 msgid "Move group"
 msgstr "העבר קבוצה"
 
-#: src/timeline2/model/timelinemodel.cpp:2954
+#: src/timeline2/model/timelinemodel.cpp:2955
 #, kde-format
 msgid "Resize group"
 msgstr "שנה גודל קבוצה"
 
-#: src/timeline2/model/timelinemodel.cpp:3078
+#: src/timeline2/model/timelinemodel.cpp:3079
 #, fuzzy, kde-format
 #| msgid "Resize clip end"
 msgid "Resize clip speed"
 msgstr "שנה גודל סוף סרטון"
 
-#: src/timeline2/model/timelinemodel.cpp:3225
+#: src/timeline2/model/timelinemodel.cpp:3226
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Remove mix"
 msgstr "הסר קובץ"
 
-#: src/timeline2/model/timelinemodel.cpp:3227
+#: src/timeline2/model/timelinemodel.cpp:3228
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Removing mix failed"
 msgstr "הסר קובץ"
 
-#: src/timeline2/model/timelinemodel.cpp:3504
+#: src/timeline2/model/timelinemodel.cpp:3505
 #, kde-format
 msgid "Resize clip"
 msgstr "שנה גודל סרטון"
 
-#: src/timeline2/model/timelinemodel.cpp:3506
+#: src/timeline2/model/timelinemodel.cpp:3507
 #, fuzzy, kde-format
 msgid "Resize composition"
 msgstr "הפוך מעבר"
 
-#: src/timeline2/model/timelinemodel.cpp:3823
+#: src/timeline2/model/timelinemodel.cpp:3824
 #, fuzzy, kde-format
 #| msgid "Resize clip"
 msgid "Ripple resize clip"
 msgstr "שנה גודל סרטון"
 
-#: src/timeline2/model/timelinemodel.cpp:3825
+#: src/timeline2/model/timelinemodel.cpp:3826
 #, fuzzy, kde-format
 msgid "Ripple resize composition"
 msgstr "הפוך מעבר"
 
-#: src/timeline2/model/timelinemodel.cpp:3827
+#: src/timeline2/model/timelinemodel.cpp:3828
 #, fuzzy, kde-format
 msgid "Ripple resize subtitle"
 msgstr "מחק סרטון"
 
-#: src/timeline2/model/timelinemodel.cpp:3969
+#: src/timeline2/model/timelinemodel.cpp:3970
 #, fuzzy, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -15468,23 +15468,23 @@ msgid_plural "Slip clips"
 msgstr[0] "סרטון כותר"
 msgstr[1] "סרטון כותר"
 
-#: src/timeline2/model/timelinemodel.cpp:4004
+#: src/timeline2/model/timelinemodel.cpp:4005
 #, fuzzy, kde-format
 msgid "Slip clip"
 msgstr "סרטון כותר"
 
-#: src/timeline2/model/timelinemodel.cpp:4039
+#: src/timeline2/model/timelinemodel.cpp:4040
 #, kde-format
 msgid "Group clips"
 msgstr "קבץ סרטונים"
 
-#: src/timeline2/model/timelinemodel.cpp:4124
-#: src/timeline2/model/timelinemodel.cpp:4140
+#: src/timeline2/model/timelinemodel.cpp:4125
+#: src/timeline2/model/timelinemodel.cpp:4141
 #, kde-format
 msgid "Ungroup clips"
 msgstr "בטל קיבוץ סרטונים"
 
-#: src/timeline2/model/timelinemodel.cpp:4290
+#: src/timeline2/model/timelinemodel.cpp:4291
 #, fuzzy, kde-format
 #| msgid "Cannot insert clip in timeline"
 msgid "Cannot delete last track in timeline"
@@ -16302,7 +16302,7 @@ msgid ""
 "timeline corresponds to a Sequence Clip in the Project Bin"
 msgstr ""
 
-#: src/timeline2/view/timelinetabs.cpp:207
+#: src/timeline2/view/timelinetabs.cpp:209
 #, fuzzy, kde-format
 #| msgid "Close"
 msgid "Close %1"
