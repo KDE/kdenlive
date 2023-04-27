@@ -72,12 +72,14 @@ private:
     bool m_abortSearch;
     bool m_checkRunning;
 
-    void fixClipItem(QTreeWidgetItem *child, const QDomNodeList &producers, const QDomNodeList &chains, const QDomNodeList &trans);
+    void fixClipItem(QTreeWidgetItem *child, const QDomNodeList &producers, const QDomNodeList &chains, const QDomNodeList &trans, const QDomNodeList &filters);
     void fixSourceClipItem(QTreeWidgetItem *child, const QDomNodeList &producers, const QDomNodeList &chains);
     void fixProxyClip(const QString &id, const QString &oldUrl, const QString &newUrl);
     void doFixProxyClip(QDomElement &e, const QString &oldUrl, const QString &newUrl);
-    /** @brief Returns list of transitions containing luma files */
-    QMap<QString, QString> getLumaPairs() const;
+    /** @brief Returns list of transitions ids / tag containing luma files */
+    const QMap<QString, QString> getLumaPairs() const;
+    /** @brief Returns list of filters ids / tag containing asset files */
+    const QMap<QString, QString> getAssetPairs() const;
     /** @brief Remove _missingsourcec flag in fixed clips */
     void fixMissingSource(const QString &id, const QDomNodeList &producers, const QDomNodeList &chains);
     /** @brief Check for various missing elements */

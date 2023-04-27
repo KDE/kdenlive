@@ -44,6 +44,8 @@ const int SOURCEMISSING = 5;
 const int LUMAMISSING = 10;
 const int LUMAOK = 11;
 const int LUMAPLACEHOLDER = 12;
+const int ASSETMISSING = 13;
+const int ASSETOK = 14;
 
 enum MISSINGTYPE { TITLE_IMAGE_ELEMENT = 20, TITLE_FONT_ELEMENT = 21 };
 
@@ -60,7 +62,7 @@ DocumentChecker::DocumentChecker(QUrl url, const QDomDocument &doc)
     });
 }
 
-QMap<QString, QString> DocumentChecker::getLumaPairs() const
+const QMap<QString, QString> DocumentChecker::getLumaPairs() const
 {
     QMap<QString, QString> lumaSearchPairs;
     lumaSearchPairs.insert(QStringLiteral("luma"), QStringLiteral("resource"));
@@ -68,6 +70,14 @@ QMap<QString, QString> DocumentChecker::getLumaPairs() const
     lumaSearchPairs.insert(QStringLiteral("composite"), QStringLiteral("luma"));
     lumaSearchPairs.insert(QStringLiteral("region"), QStringLiteral("composite.luma"));
     return lumaSearchPairs;
+}
+
+const QMap<QString, QString> DocumentChecker::getAssetPairs() const
+{
+    QMap<QString, QString> assetSearchPairs;
+    assetSearchPairs.insert(QStringLiteral("avfilter.lut3d"), QStringLiteral("av.file"));
+    assetSearchPairs.insert(QStringLiteral("shape"), QStringLiteral("resource"));
+    return assetSearchPairs;
 }
 
 bool DocumentChecker::hasErrorInClips()
@@ -146,6 +156,7 @@ bool DocumentChecker::hasErrorInClips()
 
     // Get list of used Luma files
     QStringList missingLumas;
+    QStringList missingAssets;
     QStringList filesToCheck;
     QString filePath;
     QMap<QString, QString> lumaSearchPairs = getLumaPairs();
@@ -229,18 +240,37 @@ bool DocumentChecker::hasErrorInClips()
             }
         }
     }
-    // Check for missing effects
+    // Check for missing effects and filter assets
+    QMap<QString, QString> assetSearchPairs = getAssetPairs();
     QDomNodeList effs = m_doc.elementsByTagName(QStringLiteral("filter"));
     max = effs.count();
     QStringList filters;
+    QStringList assetsToCheck;
     for (int i = 0; i < max; ++i) {
-        QDomElement transition = effs.at(i).toElement();
-        QString service = getProperty(transition, QStringLiteral("kdenlive_id"));
+        QDomElement filter = effs.at(i).toElement();
+        QString service = getProperty(filter, QStringLiteral("kdenlive_id"));
         if (service.isEmpty()) {
-            service = getProperty(transition, QStringLiteral("mlt_service"));
+            service = getProperty(filter, QStringLiteral("mlt_service"));
+        }
+        if (assetSearchPairs.contains(service)) {
+            const QString asset = getProperty(filter, assetSearchPairs.value(service));
+            if (!asset.isEmpty()) {
+                assetsToCheck << asset;
+            }
         }
         filters << service;
     }
+    // Check existence of asset files
+    for (const QString &filterfile : assetsToCheck) {
+        filePath = filterfile;
+        if (QFileInfo(filePath).isRelative()) {
+            filePath.prepend(root);
+        }
+        if (!QFile::exists(filePath)) {
+            missingAssets << filterfile;
+        }
+    }
+
     QStringList processed;
     for (const QString &id : qAsConst(filters)) {
         if (!processed.contains(id) && !EffectsRepository::get()->exists(id)) {
@@ -261,8 +291,8 @@ bool DocumentChecker::hasErrorInClips()
         }
     }
     // Abort here if our MainWindow is not built (it means we are doing tests and don't want a dialog to pop up
-    if (pCore->window() == nullptr || (m_missingClips.isEmpty() && missingLumas.isEmpty() && m_missingProxies.isEmpty() && m_missingSources.isEmpty() &&
-                                       m_missingFonts.isEmpty() && m_missingFilters.isEmpty() && m_changedClips.isEmpty())) {
+    if (pCore->window() == nullptr || (m_missingClips.isEmpty() && missingLumas.isEmpty() && missingAssets.isEmpty() && m_missingProxies.isEmpty() &&
+                                       m_missingSources.isEmpty() && m_missingFonts.isEmpty() && m_missingFilters.isEmpty() && m_changedClips.isEmpty())) {
         return false;
     }
 
@@ -275,6 +305,12 @@ bool DocumentChecker::hasErrorInClips()
         item->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-close")));
         item->setData(0, idRole, l);
         item->setData(0, statusRole, LUMAMISSING);
+    }
+    for (const QString &l : missingAssets) {
+        QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << i18n("Asset file") << l);
+        item->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-close")));
+        item->setData(0, idRole, l);
+        item->setData(0, statusRole, ASSETMISSING);
     }
     m_ui.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(m_missingClips.isEmpty() && m_missingProxies.isEmpty() && m_missingSources.isEmpty());
     max = m_missingClips.count();
@@ -468,7 +504,8 @@ bool DocumentChecker::hasErrorInClips()
     }
     m_ui.recursiveSearch->setCheckable(true);
     m_ui.removeSelected->setEnabled(!m_missingClips.isEmpty());
-    m_ui.recursiveSearch->setEnabled(!m_missingClips.isEmpty() || !missingLumas.isEmpty() || !m_missingSources.isEmpty());
+    bool hasMissing = !m_missingClips.isEmpty() || !missingLumas.isEmpty() || !missingAssets.isEmpty() || !m_missingSources.isEmpty();
+    m_ui.recursiveSearch->setEnabled(hasMissing);
     m_ui.usePlaceholders->setEnabled(!m_missingClips.isEmpty());
     m_ui.manualSearch->setEnabled(!m_missingClips.isEmpty());
 
@@ -1004,6 +1041,15 @@ void DocumentChecker::slotSearchClips(const QString &newpath)
                 child->setData(0, statusRole, LUMAOK);
                 child->setToolTip(0, i18n("Recovered item"));
             }
+        } else if (child->data(0, statusRole).toInt() == ASSETMISSING) {
+            QString fileName = searchPathRecursively(searchDir, QFileInfo(child->data(0, idRole).toString()).fileName());
+            if (!fileName.isEmpty()) {
+                fixed = true;
+                child->setText(1, fileName);
+                child->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-ok")));
+                child->setData(0, statusRole, ASSETOK);
+                child->setToolTip(0, i18n("Recovered item"));
+            }
         } else if (child->data(0, typeRole).toInt() == TITLE_IMAGE_ELEMENT && child->data(0, statusRole).toInt() == CLIPPLACEHOLDER) {
             // Search missing title images
             QString missingFileName = QUrl::fromLocalFile(child->text(1)).fileName();
@@ -1284,10 +1330,11 @@ void DocumentChecker::slotEditItem(QTreeWidgetItem *item, int)
         int id = item->data(0, statusRole).toInt();
         if (id < 10) {
             item->setData(0, statusRole, CLIPOK);
-        } else {
+        } else if (id == LUMAMISSING) {
             item->setData(0, statusRole, LUMAOK);
-        }
-        if (id == SOURCEMISSING) {
+        } else if (id == ASSETMISSING) {
+            item->setData(0, statusRole, ASSETOK);
+        } else if (id == SOURCEMISSING) {
             QDomNodeList producers = m_doc.elementsByTagName(QStringLiteral("producer"));
             QDomNodeList chains = m_doc.elementsByTagName(QStringLiteral("chain"));
             fixMissingSource(item->data(0, idRole).toString(), producers, chains);
@@ -1298,8 +1345,10 @@ void DocumentChecker::slotEditItem(QTreeWidgetItem *item, int)
         int id = item->data(0, statusRole).toInt();
         if (id < 10) {
             item->setData(0, statusRole, CLIPMISSING);
-        } else {
+        } else if (id == LUMAMISSING) {
             item->setData(0, statusRole, LUMAMISSING);
+        } else if (id == ASSETMISSING) {
+            item->setData(0, statusRole, ASSETMISSING);
         }
         checkStatus();
     }
@@ -1334,6 +1383,7 @@ void DocumentChecker::acceptDialog()
 
     // prepare transitions
     QDomNodeList trans = m_doc.elementsByTagName(QStringLiteral("transition"));
+    QDomNodeList filters = m_doc.elementsByTagName(QStringLiteral("filter"));
 
     // Mark document as modified
     m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
@@ -1345,7 +1395,7 @@ void DocumentChecker::acceptDialog()
                 fixSourceClipItem(child->child(j), producers, chains);
             }
         } else {
-            fixClipItem(child, producers, chains, trans);
+            fixClipItem(child, producers, chains, trans, filters);
         }
         ix++;
         child = m_ui.treeWidget->topLevelItem(ix);
@@ -1455,7 +1505,8 @@ void DocumentChecker::fixSourceClipItem(QTreeWidgetItem *child, const QDomNodeLi
     }
 }
 
-void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &producers, const QDomNodeList &chains, const QDomNodeList &trans)
+void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &producers, const QDomNodeList &chains, const QDomNodeList &trans,
+                                  const QDomNodeList &filters)
 {
     QDomElement e, property;
     QDomNodeList properties;
@@ -1557,27 +1608,41 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
         }
     } else if (child->data(0, statusRole).toInt() == LUMAOK) {
         QMap<QString, QString> lumaSearchPairs = getLumaPairs();
+        QString luma;
         for (int i = 0; i < trans.count(); ++i) {
             QString service = getProperty(trans.at(i).toElement(), QStringLiteral("mlt_service"));
-            QString luma;
             if (lumaSearchPairs.contains(service)) {
                 luma = getProperty(trans.at(i).toElement(), lumaSearchPairs.value(service));
+                if (!luma.isEmpty() && luma == child->data(0, idRole).toString()) {
+                    updateProperty(trans.at(i).toElement(), lumaSearchPairs.value(service), child->text(1));
+                    // qCDebug(KDENLIVE_LOG) << "replace with; " << child->text(1);
+                }
             }
-            if (!luma.isEmpty() && luma == child->data(0, idRole).toString()) {
-                updateProperty(trans.at(i).toElement(), lumaSearchPairs.value(service), child->text(1));
-                // qCDebug(KDENLIVE_LOG) << "replace with; " << child->text(1);
+        }
+    } else if (child->data(0, statusRole).toInt() == ASSETOK) {
+        QMap<QString, QString> assetSearchPairs = getAssetPairs();
+        QString asset;
+        for (int i = 0; i < filters.count(); ++i) {
+            QString service = getProperty(filters.at(i).toElement(), QStringLiteral("mlt_service"));
+
+            if (assetSearchPairs.contains(service)) {
+                asset = getProperty(filters.at(i).toElement(), assetSearchPairs.value(service));
+                if (!asset.isEmpty() && asset == child->data(0, idRole).toString()) {
+                    updateProperty(filters.at(i).toElement(), assetSearchPairs.value(service), child->text(1));
+                    // qCDebug(KDENLIVE_LOG) << "replace with; " << child->text(1);
+                }
             }
         }
     } else if (child->data(0, statusRole).toInt() == LUMAMISSING) {
         QMap<QString, QString> lumaSearchPairs = getLumaPairs();
+        QString luma;
         for (int i = 0; i < trans.count(); ++i) {
             QString service = getProperty(trans.at(i).toElement(), QStringLiteral("mlt_service"));
-            QString luma;
             if (lumaSearchPairs.contains(service)) {
                 luma = getProperty(trans.at(i).toElement(), lumaSearchPairs.value(service));
-            }
-            if (!luma.isEmpty() && luma == child->data(0, idRole).toString()) {
-                updateProperty(trans.at(i).toElement(), lumaSearchPairs.value(service), QString());
+                if (!luma.isEmpty() && luma == child->data(0, idRole).toString()) {
+                    updateProperty(trans.at(i).toElement(), lumaSearchPairs.value(service), QString());
+                }
             }
         }
     } else if (t == TITLE_FONT_ELEMENT) {
@@ -1626,6 +1691,7 @@ void DocumentChecker::slotPlaceholders()
 void DocumentChecker::checkStatus()
 {
     bool status = true;
+    bool missingAssets = false;
     bool missingSource = false;
     int ix = 0;
     QTreeWidgetItem *child = m_ui.treeWidget->topLevelItem(ix);
@@ -1635,11 +1701,13 @@ void DocumentChecker::checkStatus()
             status = false;
         } else if (childStatus == SOURCEMISSING) {
             missingSource = true;
+        } else if (childStatus == LUMAMISSING || childStatus == ASSETMISSING) {
+            missingAssets = true;
         }
         ix++;
         child = m_ui.treeWidget->topLevelItem(ix);
     }
-    m_ui.recursiveSearch->setEnabled(!status || missingSource);
+    m_ui.recursiveSearch->setEnabled(!status || missingSource || missingAssets);
     m_ui.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(status);
 }
 
