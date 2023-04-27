@@ -27,10 +27,10 @@ WheelContainer::WheelContainer(QString id, QString name, NegQColor color, int un
     , m_isMouseDown(false)
     , m_margin(0)
     , m_color(std::move(color))
-    , m_isInWheel(false)
-    , m_isInSquare(false)
     , m_unitSize(unitSize)
     , m_name(std::move(name))
+    , m_wheelClick(false)
+    , m_sliderClick(false)
 {
     m_initialSize = QSize(m_unitSize * 11, m_unitSize * 11);
     m_sliderWidth = int(m_unitSize * 1.5);
@@ -87,10 +87,10 @@ int WheelContainer::wheelSize() const
 
 NegQColor WheelContainer::colorForPoint(const QPointF &point)
 {
-    if (!m_image.valid(point.toPoint())) {
-        return NegQColor();
-    }
-    if (m_isInWheel) {
+    if (m_wheelClick) {
+        if (!m_image.valid(point.toPoint())) {
+            return NegQColor();
+        }
         qreal w = wheelSize();
         qreal xf = qreal(point.x()) / w;
         qreal yf = 1.0 - qreal(point.y()) / w;
@@ -105,13 +105,16 @@ NegQColor WheelContainer::colorForPoint(const QPointF &point)
         qreal hue = (theta * 180.0 / M_PI) / 360.0;
         return NegQColor::fromHsvF(hue, rad, m_color.valueF());
     }
-    if (m_isInSquare) {
+    if (m_sliderClick) {
         qreal value = 1.0 - qreal(point.y() - m_margin) / (wheelSize() - m_margin * 2);
-        qDebug() << "== CLICK VALIE: " << value;
-        if (!qFuzzyCompare(m_zeroShift, 0.)) {
+        value = qBound(0., value, 1.);
+        if (!qFuzzyIsNull(m_zeroShift)) {
             value = value - m_zeroShift;
         }
-        qDebug() << "== CLICK VALIE AFTER SHIFT: " << value << ", SIZE F: " << m_sizeFactor;
+        if (qFuzzyIsNull(value)) {
+            // A value of 0 completely resets the color
+            value = 0.0001;
+        }
         return NegQColor::fromHsvF(m_color.hueF(), m_color.saturationF(), value);
     }
     return {};
@@ -148,12 +151,14 @@ void WheelContainer::mousePressEvent(QMouseEvent *event)
     if (event->modifiers() & Qt::ShiftModifier) {
         QPoint clicked = event->pos();
         if (m_wheelRegion.contains(clicked)) {
+            m_wheelClick = true;
             QPointF current = pointForColor();
             QPointF diff = clicked - current;
             double factor = fabs(diff.x()) > fabs(diff.y()) ? fabs(diff.x()) : fabs(diff.y());
             diff /= factor;
             m_lastPoint = current + diff;
         } else if (m_sliderRegion.contains(clicked)) {
+            m_sliderClick = true;
             double y = yForColor();
             int offset = clicked.y() > y ? 1 : -1;
             m_lastPoint = QPointF(clicked.x(), y + offset);
@@ -164,8 +169,7 @@ void WheelContainer::mousePressEvent(QMouseEvent *event)
         m_lastPoint = event->pos();
     }
     if (m_wheelRegion.contains(m_lastPoint.toPoint())) {
-        m_isInWheel = true;
-        m_isInSquare = false;
+        m_wheelClick = true;
         if (event->button() == Qt::LeftButton) {
             changeColor(colorForPoint(m_lastPoint));
         } else {
@@ -178,8 +182,7 @@ void WheelContainer::mousePressEvent(QMouseEvent *event)
             changeColor(NegQColor::fromRgbF(max, max, max));
         }
     } else if (m_sliderRegion.contains(m_lastPoint.toPoint())) {
-        m_isInWheel = false;
-        m_isInSquare = true;
+        m_sliderClick = true;
         if (event->button() == Qt::LeftButton) {
             changeColor(colorForPoint(m_lastPoint));
         } else {
@@ -197,12 +200,12 @@ void WheelContainer::mouseMoveEvent(QMouseEvent *event)
         return;
     }
     if (event->modifiers() & Qt::ShiftModifier) {
-        if (m_isInWheel) {
+        if (m_wheelClick) {
             QPointF diff = event->pos() - m_lastPoint;
             double factor = fabs(diff.x()) > fabs(diff.y()) ? fabs(diff.x()) : fabs(diff.y());
             diff /= factor;
             m_lastPoint += diff;
-        } else if (m_isInSquare) {
+        } else if (m_sliderClick) {
             double y = yForColor();
             int offset = event->pos().y() > y ? 1 : -1;
             m_lastPoint = QPointF(event->pos().x(), y + offset);
@@ -212,10 +215,10 @@ void WheelContainer::mouseMoveEvent(QMouseEvent *event)
     } else {
         m_lastPoint = event->pos();
     }
-    if (m_wheelRegion.contains(m_lastPoint.toPoint()) && m_isInWheel) {
+    if (m_wheelClick && m_wheelRegion.contains(m_lastPoint.toPoint())) {
         const NegQColor color = colorForPoint(m_lastPoint);
         changeColor(color);
-    } else if (m_sliderRegion.contains(m_lastPoint.toPoint()) && m_isInSquare) {
+    } else if (m_sliderClick) {
         const NegQColor color = colorForPoint(m_lastPoint);
         changeColor(color);
     }
@@ -224,9 +227,9 @@ void WheelContainer::mouseMoveEvent(QMouseEvent *event)
 void WheelContainer::mouseReleaseEvent(QMouseEvent *event)
 {
     Q_UNUSED(event)
+    m_wheelClick = false;
+    m_sliderClick = false;
     m_isMouseDown = false;
-    m_isInWheel = false;
-    m_isInSquare = false;
 }
 
 void WheelContainer::resizeEvent(QResizeEvent *event)

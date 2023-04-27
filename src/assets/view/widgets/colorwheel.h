@@ -56,10 +56,10 @@ private:
     QRegion m_wheelRegion;
     QRegion m_sliderRegion;
     NegQColor m_color;
-    bool m_isInWheel;
-    bool m_isInSquare;
     int m_unitSize;
     QString m_name;
+    bool m_wheelClick;
+    bool m_sliderClick;
 
     qreal m_sizeFactor = 1;
     qreal m_defaultValue = 1;
