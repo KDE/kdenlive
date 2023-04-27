@@ -70,7 +70,7 @@ NegQColor::NegQColor() {}
 NegQColor NegQColor::fromHsvF(qreal h, qreal s, qreal l, qreal a)
 {
     NegQColor color;
-    color.qcolor = QColor::fromHsvF(h, s, l < 0 ? -l : l, a);
+    color.qcolor = QColor::fromHsvF(qBound(0., h, 1.), qBound(0., s, 1.), qBound(0., (l < 0 ? -l : l), 1.), a);
     color.sign_r = l < 0 ? -1 : 1;
     color.sign_g = l < 0 ? -1 : 1;
     color.sign_b = l < 0 ? -1 : 1;
@@ -128,7 +128,7 @@ void NegQColor::setBlueF(qreal val)
 
 void NegQColor::setValueF(qreal val)
 {
-    qcolor = QColor::fromHsvF(hueF(), saturationF(), val < 0 ? -val : val, 1.);
+    qcolor = QColor::fromHsvF(hueF(), saturationF(), qBound(0., (val < 0 ? -val : val), 1.), 1.);
     sign_r = val < 0 ? -1 : 1;
     sign_g = val < 0 ? -1 : 1;
     sign_b = val < 0 ? -1 : 1;
