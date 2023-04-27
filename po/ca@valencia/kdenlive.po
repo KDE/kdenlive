@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-26 02:48+0000\n"
+"POT-Creation-Date: 2023-04-27 02:43+0000\n"
 "PO-Revision-Date: 2023-04-25 11:05+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -912,7 +912,7 @@ msgstr "Fosa del vídeo des de negre"
 #: data/effects/fade_from_black.xml:8 data/effects/fade_to_black.xml:8
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:170
-#: src/bin/bin.cpp:1289 src/bin/projectitemmodel.cpp:319
+#: src/bin/bin.cpp:1289 src/bin/projectitemmodel.cpp:320
 #: src/timeline2/view/dialogs/speeddialog.cpp:55
 #: src/timeline2/view/qml/Track.qml:332 src/timeline2/view/qml/Track.qml:406
 #: src/timeline2/view/qml/Track.qml:427 src/ui/clipdurationdialog_ui.ui:18
@@ -3292,7 +3292,7 @@ msgid "Export XML…"
 msgstr "Exporta cap a XML…"
 
 #: src/assets/assetlist/view/qml/assetList.qml:371 src/bin/bin.cpp:1273
-#: src/bin/projectitemmodel.cpp:304
+#: src/bin/projectitemmodel.cpp:305
 #, kde-format
 msgid "Name"
 msgstr "Nom"
@@ -4223,19 +4223,19 @@ msgid "Sort By"
 msgstr "Ordena per"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:1277 src/bin/projectitemmodel.cpp:307
+#: src/bin/bin.cpp:1277 src/bin/projectitemmodel.cpp:308
 #: src/project/dialogs/projectsettings.cpp:247 src/ui/managecache_ui.ui:369
 #, kde-format
 msgid "Date"
 msgstr "Data"
 
-#: src/bin/bin.cpp:1281 src/bin/projectitemmodel.cpp:310
+#: src/bin/bin.cpp:1281 src/bin/projectitemmodel.cpp:311
 #, kde-format
 msgid "Description"
 msgstr "Descripció"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
-#: src/bin/bin.cpp:1285 src/bin/projectitemmodel.cpp:313
+#: src/bin/bin.cpp:1285 src/bin/projectitemmodel.cpp:314
 #: src/ui/missingclips_ui.ui:77
 #, kde-format
 msgid "Type"
@@ -4246,7 +4246,7 @@ msgstr "Tipus"
 msgid "Insert Order"
 msgstr "Ordre d'inserció"
 
-#: src/bin/bin.cpp:1297 src/bin/projectitemmodel.cpp:325
+#: src/bin/bin.cpp:1297 src/bin/projectitemmodel.cpp:326
 #, kde-format
 msgid "Rating"
 msgstr "Puntuació"
@@ -4509,7 +4509,7 @@ msgid "Playlist"
 msgstr "Llista de reproducció"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/bin/bin.cpp:2330 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
+#: src/bin/bin.cpp:2330 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
 #: src/project/projectmanager.cpp:1230 src/project/projectmanager.cpp:1232
 #: src/ui/managecache_ui.ui:192
 #, kde-format
@@ -4544,7 +4544,7 @@ msgid "Create bin folder"
 msgstr "Crea una carpeta de safata"
 
 #: src/bin/bin.cpp:2532 src/bin/bin.cpp:2545 src/bin/bin.cpp:3494
-#: src/timeline2/model/timelinemodel.cpp:2032
+#: src/timeline2/model/timelinemodel.cpp:2033
 #, kde-format
 msgid "Delete Clip"
 msgstr "Suprimix un clip"
@@ -4905,7 +4905,7 @@ msgstr "No s'ha trobat cap clip per a afegir el marcador"
 msgid "Could not find master clip"
 msgstr "No s'ha pogut trobar el clip mestre"
 
-#: src/bin/bin.cpp:5519 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:5519 src/bin/clipcreator.cpp:325
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -4983,32 +4983,32 @@ msgstr "Crea un clip de títol"
 msgid "Create color clip"
 msgstr "Crea un clip de color"
 
-#: src/bin/clipcreator.cpp:151 src/bin/clipcreator.cpp:249
+#: src/bin/clipcreator.cpp:151 src/bin/clipcreator.cpp:250
 #, kde-format
 msgid "Create sequence"
 msgstr "Crea una seqüència"
 
-#: src/bin/clipcreator.cpp:259
+#: src/bin/clipcreator.cpp:260
 #, kde-format
 msgid "You cannot add a project inside itself."
 msgstr "No es pot afegir un projecte dins d'ell mateix."
 
-#: src/bin/clipcreator.cpp:259
+#: src/bin/clipcreator.cpp:260
 #, kde-format
 msgid "Cannot create clip"
 msgstr "No s'ha pogut crear el clip"
 
-#: src/bin/clipcreator.cpp:339
+#: src/bin/clipcreator.cpp:340
 #, kde-format
 msgid "Create slideshow clip"
 msgstr "Crea un clip de passe de diapositives"
 
-#: src/bin/clipcreator.cpp:371
+#: src/bin/clipcreator.cpp:372
 #, kde-format
 msgid "Create title template"
 msgstr "Crea una plantilla de títol"
 
-#: src/bin/clipcreator.cpp:395
+#: src/bin/clipcreator.cpp:396
 #, kde-format
 msgid ""
 "The following clips are already inserted in the project. Do you want to "
@@ -5016,18 +5016,18 @@ msgid ""
 msgstr ""
 "Els clips següents ja estan inserits en el projecte. Voleu duplicar-los?"
 
-#: src/bin/clipcreator.cpp:396
+#: src/bin/clipcreator.cpp:397
 #, kde-format
 msgid "Duplicate"
 msgstr "Duplica"
 
-#: src/bin/clipcreator.cpp:420 src/core.cpp:942
+#: src/bin/clipcreator.cpp:421 src/core.cpp:942
 #: src/project/projectmanager.cpp:759
 #, kde-format
 msgid "Loading clips"
 msgstr "S'estan carregant els clips"
 
-#: src/bin/clipcreator.cpp:520
+#: src/bin/clipcreator.cpp:521
 #, kde-format
 msgid ""
 "Clip <b>%1</b><br /> is on a removable device, will not be available when "
@@ -5040,17 +5040,17 @@ msgstr ""
 "diferent.\n"
 "Potser el voldreu copiar abans al disc dur. El voleu afegir igualment?"
 
-#: src/bin/clipcreator.cpp:524
+#: src/bin/clipcreator.cpp:525
 #, kde-format
 msgid "Removable device"
 msgstr "Dispositiu extraïble"
 
-#: src/bin/clipcreator.cpp:547
+#: src/bin/clipcreator.cpp:548
 #, kde-format
 msgid "Loading done"
 msgstr "S'ha fet la càrrega"
 
-#: src/bin/clipcreator.cpp:558 src/dialogs/clipcreationdialog.cpp:551
+#: src/bin/clipcreator.cpp:559 src/dialogs/clipcreationdialog.cpp:551
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -5246,13 +5246,13 @@ msgid "Cut clip"
 msgstr "Retalla el clip"
 
 #: src/bin/model/subtitlemodel.cpp:787 src/bin/model/subtitlemodel.cpp:1520
-#: src/timeline2/model/timelinemodel.cpp:3508
+#: src/timeline2/model/timelinemodel.cpp:3509
 #, kde-format
 msgid "Resize subtitle"
 msgstr "Redimensiona els subtítols"
 
 #: src/bin/model/subtitlemodel.cpp:983
-#: src/timeline2/model/timelinemodel.cpp:1259
+#: src/timeline2/model/timelinemodel.cpp:1260
 #, kde-format
 msgid "Move subtitle"
 msgstr "Mou els subtítols"
@@ -5328,12 +5328,12 @@ msgstr "No vàlida"
 msgid "File already exists"
 msgstr "El fitxer ja existix"
 
-#: src/bin/projectclip.cpp:2630
+#: src/bin/projectclip.cpp:2635
 #, kde-format
 msgid "Add stream effect"
 msgstr "Afig un nou de flux"
 
-#: src/bin/projectclip.cpp:2655
+#: src/bin/projectclip.cpp:2660
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Elimina l'efecte de flux"
@@ -5345,59 +5345,59 @@ msgid_plural "%1 clips"
 msgstr[0] "%1 clip"
 msgstr[1] "%1 clips"
 
-#: src/bin/projectitemmodel.cpp:316
+#: src/bin/projectitemmodel.cpp:317
 #, kde-format
 msgid "Tag"
 msgstr "Etiqueta"
 
-#: src/bin/projectitemmodel.cpp:322
+#: src/bin/projectitemmodel.cpp:323
 #, kde-format
 msgid "Id"
 msgstr "ID"
 
-#: src/bin/projectitemmodel.cpp:328
+#: src/bin/projectitemmodel.cpp:329
 #, kde-format
 msgid "Usage"
 msgstr "Ús"
 
-#: src/bin/projectitemmodel.cpp:331 src/doc/documentchecker.cpp:319
+#: src/bin/projectitemmodel.cpp:332 src/doc/documentchecker.cpp:319
 #: src/mltcontroller/clipcontroller.cpp:464 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
 msgid "Unknown"
 msgstr "Desconegut"
 
-#: src/bin/projectitemmodel.cpp:633
+#: src/bin/projectitemmodel.cpp:636
 #, kde-format
 msgid "Add sub clips"
 msgstr "Afig subclips"
 
-#: src/bin/projectitemmodel.cpp:668
+#: src/bin/projectitemmodel.cpp:671
 #, kde-format
 msgid "Zone"
 msgstr "Zona"
 
-#: src/bin/projectitemmodel.cpp:855
+#: src/bin/projectitemmodel.cpp:858
 #, kde-format
 msgid "Add bin clip"
 msgstr "Afig un clip a la safata"
 
-#: src/bin/projectitemmodel.cpp:921
+#: src/bin/projectitemmodel.cpp:924
 #, kde-format
 msgid "Add a sub clip"
 msgstr "Afig un subclip"
 
-#: src/bin/projectitemmodel.cpp:962
+#: src/bin/projectitemmodel.cpp:965
 #, kde-format
 msgid "Rename Folder"
 msgstr "Canvia el nom de la carpeta"
 
-#: src/bin/projectitemmodel.cpp:990 src/mainwindow.cpp:1442
+#: src/bin/projectitemmodel.cpp:993 src/mainwindow.cpp:1442
 #, kde-format
 msgid "Clean Project"
 msgstr "Neteja el projecte"
 
-#: src/bin/projectitemmodel.cpp:1164
+#: src/bin/projectitemmodel.cpp:1167
 #, kde-format
 msgid "Loading project clips…"
 msgstr "S'estan carregant els clips del projecte…"
@@ -10485,7 +10485,7 @@ msgstr "Efectes mestres"
 msgid "Switch Track Target Audio Stream"
 msgstr "Canvia la pista del flux d'àudio de destinació"
 
-#: src/mainwindow.cpp:1823 src/timeline2/model/timelinemodel.cpp:4280
+#: src/mainwindow.cpp:1823 src/timeline2/model/timelinemodel.cpp:4281
 #: src/timeline2/view/timelinecontroller.cpp:871
 #, kde-format
 msgid "Delete Track"
@@ -10586,7 +10586,7 @@ msgstr "Importa un fitxer de subtítols…"
 msgid "Export Subtitle File…"
 msgstr "Exporta cap a un fitxer de subtítols…"
 
-#: src/mainwindow.cpp:1883 src/timeline2/model/timelinemodel.cpp:2036
+#: src/mainwindow.cpp:1883 src/timeline2/model/timelinemodel.cpp:2037
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "Suprimix els subtítols"
@@ -13820,12 +13820,12 @@ msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Actualment, la importació d'un clip de seqüència està en estat experimental"
 
-#: src/project/projectmanager.cpp:1805
+#: src/project/projectmanager.cpp:1806
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Seleccioneu un clip per a crear una seqüència"
 
-#: src/project/projectmanager.cpp:1842
+#: src/project/projectmanager.cpp:1843
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Crea un clip de seqüència"
@@ -15119,9 +15119,9 @@ msgstr "Histograma RGB"
 msgid "Histogram"
 msgstr "Histograma"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:260
-#: src/timeline2/model/builders/meltBuilder.cpp:489
-#: src/timeline2/model/builders/meltBuilder.cpp:499
+#: src/timeline2/model/builders/meltBuilder.cpp:261
+#: src/timeline2/model/builders/meltBuilder.cpp:490
+#: src/timeline2/model/builders/meltBuilder.cpp:500
 #, kde-format
 msgid ""
 "Invalid composition %1 found on track %2 at %3, compositing with track %4."
@@ -15129,8 +15129,8 @@ msgstr ""
 "S'ha trobat la composició no vàlida %1 a la pista %2 de %3, es compondrà amb "
 "la pista %4."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:269
-#: src/timeline2/model/builders/meltBuilder.cpp:513
+#: src/timeline2/model/builders/meltBuilder.cpp:270
+#: src/timeline2/model/builders/meltBuilder.cpp:514
 #, kde-format
 msgid ""
 "Incorrect composition %1 found on track %2 at %3, compositing with track %4 "
@@ -15139,28 +15139,28 @@ msgstr ""
 "S'ha trobat la composició incorrecta %1 en la pista %2 de %3, la composició "
 "amb la pista %4 es va fer amb la pista forçada."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:278
-#: src/timeline2/model/builders/meltBuilder.cpp:527
+#: src/timeline2/model/builders/meltBuilder.cpp:279
+#: src/timeline2/model/builders/meltBuilder.cpp:528
 #, kde-format
 msgid "Invalid composition %1 found on track %2 at %3."
 msgstr "S'ha trobat la composició no vàlida %1 a la pista %2 de %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:299
-#: src/timeline2/model/builders/meltBuilder.cpp:558
-#: src/timeline2/model/builders/meltBuilder.cpp:560
+#: src/timeline2/model/builders/meltBuilder.cpp:300
+#: src/timeline2/model/builders/meltBuilder.cpp:559
+#: src/timeline2/model/builders/meltBuilder.cpp:561
 #, kde-format
 msgid "Problems found in your project file"
 msgstr "S'han trobat problemes en el fitxer de projecte"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:488
-#: src/timeline2/model/builders/meltBuilder.cpp:498
+#: src/timeline2/model/builders/meltBuilder.cpp:489
+#: src/timeline2/model/builders/meltBuilder.cpp:499
 #, kde-format
 msgid "%1 Composition (%2) with invalid track reference found and removed."
 msgstr ""
 "S'ha trobat i eliminat la composició %1 (%2) amb referència de pista no "
 "vàlida."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:512
+#: src/timeline2/model/builders/meltBuilder.cpp:513
 #, kde-format
 msgid ""
 "%1 Composition was not applied on expected track, manually enforce the track."
@@ -15168,17 +15168,17 @@ msgstr ""
 "La composició %1 no s'ha aplicat en la pista esperada, forceu manualment la "
 "pista."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:526
+#: src/timeline2/model/builders/meltBuilder.cpp:527
 #, kde-format
 msgid "%1 Invalid composition found and removed."
 msgstr "S'ha trobat i eliminat la composició no vàlida %1."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:549
+#: src/timeline2/model/builders/meltBuilder.cpp:550
 #, kde-format
 msgid "Errors found when opening project file (%1)"
 msgstr "S'han trobat errors en obrir el fitxer de projecte (%1)"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:556
+#: src/timeline2/model/builders/meltBuilder.cpp:557
 #, kde-format
 msgid ""
 "Some errors were detected in the project file.\n"
@@ -15191,111 +15191,111 @@ msgstr ""
 "realitzats en el projecte estan llistats en la pestanya Notes del projecte,\n"
 "reviseu-los per a garantir la integritat del projecte."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:636
-#: src/timeline2/model/builders/meltBuilder.cpp:646
+#: src/timeline2/model/builders/meltBuilder.cpp:637
+#: src/timeline2/model/builders/meltBuilder.cpp:647
 #, kde-format
 msgid "Incorrect Mix, clip %1 was removed at %2."
 msgstr "Mescla incorrecta, el clip %1 fou eliminat de %2."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:637
+#: src/timeline2/model/builders/meltBuilder.cpp:638
 #, kde-format
 msgid "Incorrect mix found on track %1 at %2, clip %3 removed."
 msgstr ""
 "S'ha trobat una mescla incorrecta en la pista %1 a %2, el clip %3 s'ha "
 "eliminat."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:647
+#: src/timeline2/model/builders/meltBuilder.cpp:648
 #, kde-format
 msgid "Incorrect mix found at track %1 at %2, clip %3 removed."
 msgstr ""
 "S'ha trobat una mescla incorrecta en la pista %1 a %2, el clip %3 s'ha "
 "eliminat."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:742
+#: src/timeline2/model/builders/meltBuilder.cpp:743
 #, kde-format
 msgid "%1 Timeline clip (%2) with incorrect bin reference found and recovered."
 msgstr ""
 "S'ha trobat i recuperat la línia de temps del clip %1 (%2) amb una "
 "referència incorrecta de la safata."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:743
+#: src/timeline2/model/builders/meltBuilder.cpp:744
 #, kde-format
 msgid "Invalid clip %1 (%2) not found in project bin, recovered."
 msgstr ""
 "El clip %1 (%2) no vàlid no s'ha trobat en la safata del projecte, es "
 "recupera."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:745
+#: src/timeline2/model/builders/meltBuilder.cpp:746
 #, kde-format
 msgid "%1 Timeline clip (%2) without bin reference found and removed."
 msgstr ""
 "S'ha trobat i eliminat la línia de temps del clip %1 (%2) sense una "
 "referència de la safata."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:746
+#: src/timeline2/model/builders/meltBuilder.cpp:747
 #, kde-format
 msgid "Project corrupted. Clip %1 (%2) not found in project bin."
 msgstr ""
 "El projecte s'ha corromput. El clip %1 (%2) no s'ha trobat en la safata del "
 "projecte."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:814
-#: src/timeline2/model/builders/meltBuilder.cpp:847
+#: src/timeline2/model/builders/meltBuilder.cpp:815
+#: src/timeline2/model/builders/meltBuilder.cpp:848
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and resized"
 msgstr "S'ha trobat i redimensionat el clip %1 (%2) amb la mescla que falta"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:815
-#: src/timeline2/model/builders/meltBuilder.cpp:845
+#: src/timeline2/model/builders/meltBuilder.cpp:816
+#: src/timeline2/model/builders/meltBuilder.cpp:846
 #, kde-format
 msgid "Clip without mix %1 found and resized on track %2 at %3."
 msgstr ""
 "S'ha trobat i redimensionat el clip sense la mescla %1 en la pista %2 a %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:820
-#: src/timeline2/model/builders/meltBuilder.cpp:851
+#: src/timeline2/model/builders/meltBuilder.cpp:821
+#: src/timeline2/model/builders/meltBuilder.cpp:852
 #, kde-format
 msgid "Invalid clip without mix %1 found and removed on track %2 at %3."
 msgstr ""
 "S'ha trobat i eliminat el clip no vàlid sense la mescla %1 en la pista %2 a "
 "%3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:822
-#: src/timeline2/model/builders/meltBuilder.cpp:853
+#: src/timeline2/model/builders/meltBuilder.cpp:823
+#: src/timeline2/model/builders/meltBuilder.cpp:854
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and removed"
 msgstr "S'ha trobat i eliminat el clip %1 (%2) amb la mescla que falta"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:840
-#: src/timeline2/model/builders/meltBuilder.cpp:884
+#: src/timeline2/model/builders/meltBuilder.cpp:841
+#: src/timeline2/model/builders/meltBuilder.cpp:885
 #, kde-format
 msgid "Invalid clip %1 found on track %2 at %3."
 msgstr "S'ha trobat el clip no vàlid %1 en la pista %2 de %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:842
-#: src/timeline2/model/builders/meltBuilder.cpp:889
+#: src/timeline2/model/builders/meltBuilder.cpp:843
+#: src/timeline2/model/builders/meltBuilder.cpp:890
 #, kde-format
 msgid "%1 Invalid clip (%2) found and removed"
 msgstr "S'ha trobat i eliminat el clip no vàlid %1 (%2)"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:860
+#: src/timeline2/model/builders/meltBuilder.cpp:861
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found and fixed on track %2 at %3."
 msgstr ""
 "S'ha trobat i esmenat la subpista incorrecta en el clip %1 en la pista %2 a "
 "%3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:865
+#: src/timeline2/model/builders/meltBuilder.cpp:866
 #, kde-format
 msgid "%1 Clip (%2) on incorrect subtrack found and fixed / %3"
 msgstr "S'ha trobat i esmenat la subpista incorrecta en el clip %1 (%2) / %3"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:868
+#: src/timeline2/model/builders/meltBuilder.cpp:869
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found on track %2 at %3."
 msgstr "S'ha trobat una subpista incorrecta en el clip %1 en la pista %2 a %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:873
+#: src/timeline2/model/builders/meltBuilder.cpp:874
 #, kde-format
 msgid "%1 Clip (%2) with incorrect subplaylist found"
 msgstr ""
@@ -15452,35 +15452,35 @@ msgstr "Introduïu un nom per al clip en la biblioteca"
 msgid "Paste clips"
 msgstr "Apega els clips"
 
-#: src/timeline2/model/timelinefunctions.cpp:1724
+#: src/timeline2/model/timelinefunctions.cpp:1737
 #, kde-format
 msgid "Another paste operation is in progress"
 msgstr "Hi ha una altra operació d'apegat en curs"
 
-#: src/timeline2/model/timelinefunctions.cpp:1736
+#: src/timeline2/model/timelinefunctions.cpp:1749
 #, kde-format
 msgid "No valid data in clipboard"
 msgstr "No hi ha dades vàlides en el porta-retalls"
 
-#: src/timeline2/model/timelinefunctions.cpp:1762
-#: src/timeline2/model/timelinefunctions.cpp:1821
-#: src/timeline2/model/timelinefunctions.cpp:1850
-#: src/timeline2/model/timelinefunctions.cpp:1881
-#: src/timeline2/model/timelinefunctions.cpp:1920
-#: src/timeline2/model/timelinefunctions.cpp:2187
+#: src/timeline2/model/timelinefunctions.cpp:1775
+#: src/timeline2/model/timelinefunctions.cpp:1834
+#: src/timeline2/model/timelinefunctions.cpp:1863
+#: src/timeline2/model/timelinefunctions.cpp:1894
+#: src/timeline2/model/timelinefunctions.cpp:1933
+#: src/timeline2/model/timelinefunctions.cpp:2200
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "No hi ha pistes suficients per a apegar el porta-retalls"
 
-#: src/timeline2/model/timelinefunctions.cpp:1938
-#: src/timeline2/model/timelinefunctions.cpp:1956
-#: src/timeline2/model/timelinefunctions.cpp:1984
-#: src/timeline2/model/timelinefunctions.cpp:1989
+#: src/timeline2/model/timelinefunctions.cpp:1951
+#: src/timeline2/model/timelinefunctions.cpp:1969
+#: src/timeline2/model/timelinefunctions.cpp:1997
+#: src/timeline2/model/timelinefunctions.cpp:2002
 #, kde-format
 msgid "Pasted clips"
 msgstr "Clips apegats"
 
-#: src/timeline2/model/timelinefunctions.cpp:1975
+#: src/timeline2/model/timelinefunctions.cpp:1988
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
@@ -15489,51 +15489,51 @@ msgstr ""
 "El projecte d'origen té una freqüència de fotogrames diferent (%1fps) que el "
 "projecte actual.<br/>Els clips o fotogrames clau es poden confondre."
 
-#: src/timeline2/model/timelinefunctions.cpp:1977
+#: src/timeline2/model/timelinefunctions.cpp:1990
 #, kde-format
 msgid "Pasting Warning"
 msgstr "Avís d'apegat"
 
-#: src/timeline2/model/timelinefunctions.cpp:1977
+#: src/timeline2/model/timelinefunctions.cpp:1990
 #, kde-format
 msgid "Paste"
 msgstr "Apega"
 
-#: src/timeline2/model/timelinefunctions.cpp:2024
-#: src/timeline2/model/timelinefunctions.cpp:2061
-#: src/timeline2/model/timelinefunctions.cpp:2125
+#: src/timeline2/model/timelinefunctions.cpp:2037
+#: src/timeline2/model/timelinefunctions.cpp:2074
+#: src/timeline2/model/timelinefunctions.cpp:2138
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "No s'ha pogut afegir un clip a la safata"
 
-#: src/timeline2/model/timelinefunctions.cpp:2179
+#: src/timeline2/model/timelinefunctions.cpp:2192
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr "No tots els clips s'han copiat correctament"
 
-#: src/timeline2/model/timelinefunctions.cpp:2229
-#: src/timeline2/model/timelinefunctions.cpp:2398
+#: src/timeline2/model/timelinefunctions.cpp:2242
+#: src/timeline2/model/timelinefunctions.cpp:2411
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "No s'han pogut apegar els elements en la línia de temps"
 
-#: src/timeline2/model/timelinefunctions.cpp:2418
+#: src/timeline2/model/timelinefunctions.cpp:2431
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Apega clips en la línia de temps"
 
-#: src/timeline2/model/timelinefunctions.cpp:2636
+#: src/timeline2/model/timelinefunctions.cpp:2649
 #, kde-format
 msgid "Remove space on track"
 msgstr "Elimina l'espai a la pista"
 
-#: src/timeline2/model/timelinefunctions.cpp:2663
+#: src/timeline2/model/timelinefunctions.cpp:2676
 #, kde-format
 msgid "Delete clips on track"
 msgstr "Suprimix els clips en la pista"
 
 #: src/timeline2/model/timelineitemmodel.cpp:135
-#: src/timeline2/model/timelinemodel.cpp:4171
+#: src/timeline2/model/timelinemodel.cpp:4172
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -15556,140 +15556,140 @@ msgid "Could not setup track compositing, check your install"
 msgstr ""
 "No s'ha pogut configurar la composició de la pista, comproveu la instal·lació"
 
-#: src/timeline2/model/timelinemodel.cpp:922
-#: src/timeline2/model/timelinemodel.cpp:1049
+#: src/timeline2/model/timelinemodel.cpp:923
+#: src/timeline2/model/timelinemodel.cpp:1050
 #, kde-format
 msgid "Select a clip to apply the mix"
 msgstr "Seleccioneu un clip per a aplicar a la mescla"
 
-#: src/timeline2/model/timelinemodel.cpp:1045
+#: src/timeline2/model/timelinemodel.cpp:1046
 #, kde-format
 msgid "start"
 msgstr "inici"
 
-#: src/timeline2/model/timelinemodel.cpp:1045
+#: src/timeline2/model/timelinemodel.cpp:1046
 #, kde-format
 msgid "end"
 msgstr "final"
 
-#: src/timeline2/model/timelinemodel.cpp:1045
+#: src/timeline2/model/timelinemodel.cpp:1046
 #, kde-format
 msgid "Not enough frames at clip %1 to apply the mix"
 msgstr "No hi ha fotogrames suficients en el clip %1 per a aplicar la mescla"
 
-#: src/timeline2/model/timelinemodel.cpp:1112
+#: src/timeline2/model/timelinemodel.cpp:1113
 #, kde-format
 msgid "Create mix"
 msgstr "Crea una mescla"
 
-#: src/timeline2/model/timelinemodel.cpp:1191
-#: src/timeline2/model/timelinemodel.cpp:1221
+#: src/timeline2/model/timelinemodel.cpp:1192
+#: src/timeline2/model/timelinemodel.cpp:1222
 #, kde-format
 msgid "Move clip"
 msgstr "Mou el clip"
 
-#: src/timeline2/model/timelinemodel.cpp:1710
-#: src/timeline2/model/timelinemodel.cpp:1800
-#: src/timeline2/model/timelinemodel.cpp:1823
-#: src/timeline2/model/timelinemodel.cpp:1846
+#: src/timeline2/model/timelinemodel.cpp:1711
+#: src/timeline2/model/timelinemodel.cpp:1801
+#: src/timeline2/model/timelinemodel.cpp:1824
+#: src/timeline2/model/timelinemodel.cpp:1847
 #, kde-format
 msgid "No available track for insert operation"
 msgstr "No hi ha cap pista disponible per a l'operació d'inserció"
 
-#: src/timeline2/model/timelinemodel.cpp:1715
+#: src/timeline2/model/timelinemodel.cpp:1716
 #, kde-format
 msgid "Insert Clip"
 msgstr "Inserix un clip"
 
-#: src/timeline2/model/timelinemodel.cpp:1768
+#: src/timeline2/model/timelinemodel.cpp:1769
 #, kde-format
 msgid "You cannot insert a sequence containing itself"
 msgstr "No es pot afegir una seqüència que es continga a si mateixa"
 
-#: src/timeline2/model/timelinemodel.cpp:1816
-#: src/timeline2/model/timelinemodel.cpp:1838
+#: src/timeline2/model/timelinemodel.cpp:1817
+#: src/timeline2/model/timelinemodel.cpp:1839
 #, kde-format
 msgid "Not enough audio tracks for all streams (%1)"
 msgstr "No hi ha pistes d'àudio suficients per a tots els fluxos (%1)"
 
-#: src/timeline2/model/timelinemodel.cpp:1922
+#: src/timeline2/model/timelinemodel.cpp:1923
 #, kde-format
 msgid "No available track for split operation"
 msgstr "No hi ha cap pista disponible per a l'operació de divisió"
 
-#: src/timeline2/model/timelinemodel.cpp:1959
+#: src/timeline2/model/timelinemodel.cpp:1960
 #, kde-format
 msgid "Audio split failed: no viable track"
 msgstr "Ha fallat la divisió d'àudio: no hi ha cap pista viable"
 
-#: src/timeline2/model/timelinemodel.cpp:1967
+#: src/timeline2/model/timelinemodel.cpp:1968
 #, kde-format
 msgid "Audio split failed: impossible to create audio clip"
 msgstr "Ha fallat la divisió d'àudio: és impossible crear un clip d'àudio"
 
-#: src/timeline2/model/timelinemodel.cpp:2029
+#: src/timeline2/model/timelinemodel.cpp:2030
 #, kde-format
 msgid "Remove group"
 msgstr "Elimina un grup"
 
-#: src/timeline2/model/timelinemodel.cpp:2034
+#: src/timeline2/model/timelinemodel.cpp:2035
 #, kde-format
 msgid "Delete Composition"
 msgstr "Suprimix la composició"
 
-#: src/timeline2/model/timelinemodel.cpp:2186
-#: src/timeline2/model/timelinemodel.cpp:2348
+#: src/timeline2/model/timelinemodel.cpp:2187
+#: src/timeline2/model/timelinemodel.cpp:2349
 #: src/timeline2/view/timelinecontroller.cpp:4222
 #, kde-format
 msgid "Move group"
 msgstr "Mou el grup"
 
-#: src/timeline2/model/timelinemodel.cpp:2954
+#: src/timeline2/model/timelinemodel.cpp:2955
 #, kde-format
 msgid "Resize group"
 msgstr "Redimensiona el clip"
 
-#: src/timeline2/model/timelinemodel.cpp:3078
+#: src/timeline2/model/timelinemodel.cpp:3079
 #, kde-format
 msgid "Resize clip speed"
 msgstr "Redimensiona la velocitat del clip"
 
-#: src/timeline2/model/timelinemodel.cpp:3225
+#: src/timeline2/model/timelinemodel.cpp:3226
 #, kde-format
 msgid "Remove mix"
 msgstr "Elimina la mescla"
 
-#: src/timeline2/model/timelinemodel.cpp:3227
+#: src/timeline2/model/timelinemodel.cpp:3228
 #, kde-format
 msgid "Removing mix failed"
 msgstr "No s'ha pogut eliminar la mescla"
 
-#: src/timeline2/model/timelinemodel.cpp:3504
+#: src/timeline2/model/timelinemodel.cpp:3505
 #, kde-format
 msgid "Resize clip"
 msgstr "Redimensiona el clip"
 
-#: src/timeline2/model/timelinemodel.cpp:3506
+#: src/timeline2/model/timelinemodel.cpp:3507
 #, kde-format
 msgid "Resize composition"
 msgstr "Redimensiona la composició"
 
-#: src/timeline2/model/timelinemodel.cpp:3823
+#: src/timeline2/model/timelinemodel.cpp:3824
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "Redimensiona en onada el clip"
 
-#: src/timeline2/model/timelinemodel.cpp:3825
+#: src/timeline2/model/timelinemodel.cpp:3826
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "Redimensiona en onada la composició"
 
-#: src/timeline2/model/timelinemodel.cpp:3827
+#: src/timeline2/model/timelinemodel.cpp:3828
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "Redimensiona en onada els subtítols"
 
-#: src/timeline2/model/timelinemodel.cpp:3969
+#: src/timeline2/model/timelinemodel.cpp:3970
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -15697,23 +15697,23 @@ msgid_plural "Slip clips"
 msgstr[0] "Desplaça el clip"
 msgstr[1] "Desplaça els clips"
 
-#: src/timeline2/model/timelinemodel.cpp:4004
+#: src/timeline2/model/timelinemodel.cpp:4005
 #, kde-format
 msgid "Slip clip"
 msgstr "Desplaça el clip"
 
-#: src/timeline2/model/timelinemodel.cpp:4039
+#: src/timeline2/model/timelinemodel.cpp:4040
 #, kde-format
 msgid "Group clips"
 msgstr "Agrupa els clips"
 
-#: src/timeline2/model/timelinemodel.cpp:4124
-#: src/timeline2/model/timelinemodel.cpp:4140
+#: src/timeline2/model/timelinemodel.cpp:4125
+#: src/timeline2/model/timelinemodel.cpp:4141
 #, kde-format
 msgid "Ungroup clips"
 msgstr "Desagrupa els clips"
 
-#: src/timeline2/model/timelinemodel.cpp:4290
+#: src/timeline2/model/timelinemodel.cpp:4291
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "No es pot suprimir l'última pista en la línia de temps"
@@ -16514,7 +16514,7 @@ msgstr ""
 "per a l'edició. Cada línia de temps correspon a un clip de seqüència en la "
 "safata del projecte"
 
-#: src/timeline2/view/timelinetabs.cpp:207
+#: src/timeline2/view/timelinetabs.cpp:209
 #, kde-format
 msgid "Close %1"
 msgstr "Tanca %1"
