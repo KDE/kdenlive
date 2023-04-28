@@ -32,12 +32,12 @@ WheelContainer::WheelContainer(QString id, QString name, NegQColor color, int un
     , m_wheelClick(false)
     , m_sliderClick(false)
 {
+    setMouseTracking(true);
     m_initialSize = QSize(m_unitSize * 11, m_unitSize * 11);
     m_sliderWidth = int(m_unitSize * 1.5);
     resize(m_initialSize);
     setMinimumSize(m_initialSize * .4);
     setMaximumSize(m_initialSize * 1.5);
-    setCursor(Qt::CrossCursor);
 }
 
 void WheelContainer::setFactorDefaultZero(qreal factor, qreal defvalue, qreal zero)
@@ -88,12 +88,32 @@ int WheelContainer::wheelSize() const
 NegQColor WheelContainer::colorForPoint(const QPointF &point)
 {
     if (m_wheelClick) {
-        if (!m_image.valid(point.toPoint())) {
-            return NegQColor();
-        }
         qreal w = wheelSize();
-        qreal xf = qreal(point.x()) / w;
-        qreal yf = 1.0 - qreal(point.y()) / w;
+        qreal xf;
+        qreal yf;
+        if (!m_wheelRegion.contains(point.toPoint())) {
+            // if (xf < 0. || xf > 1. || yf < 0. || yf > 1.) {
+            //  Cursor is outside of circle, calculate position on the circumference
+            qreal dx = point.x() - (w / 2);
+            qreal dy = (w / 2) - point.y();
+            if (qFuzzyIsNull(dy)) {
+                yf = 0.5;
+                if (dx > 0.) {
+                    xf = 1.;
+                } else {
+                    xf = -1;
+                }
+            } else {
+                // Calculate angle first
+                qreal angle = (M_PI / 2) - qAtan(qAbs(dx / dy));
+                // Calculate position on circle
+                xf = 0.5 + ((dx < 0. ? -1. : 1.) * qCos(angle) * 0.5);
+                yf = 0.5 + ((dy < 0. ? -1. : 1.) * qSin(angle) * 0.5);
+            }
+        } else {
+            xf = qreal(point.x()) / w;
+            yf = 1.0 - qreal(point.y()) / w;
+        }
         qreal xp = 2.0 * xf - 1.0;
         qreal yp = 2.0 * yf - 1.0;
         qreal rad = qMin(hypot(xp, yp), 1.0);
@@ -197,8 +217,14 @@ void WheelContainer::mousePressEvent(QMouseEvent *event)
 void WheelContainer::mouseMoveEvent(QMouseEvent *event)
 {
     if (!m_isMouseDown) {
+        if (m_wheelRegion.contains(event->pos()) || m_sliderRegion.contains(event->pos())) {
+            setCursor(Qt::CrossCursor);
+        } else {
+            setCursor(Qt::ArrowCursor);
+        }
         return;
     }
+    setCursor(Qt::CrossCursor);
     if (event->modifiers() & Qt::ShiftModifier) {
         if (m_wheelClick) {
             QPointF diff = event->pos() - m_lastPoint;
@@ -215,7 +241,7 @@ void WheelContainer::mouseMoveEvent(QMouseEvent *event)
     } else {
         m_lastPoint = event->pos();
     }
-    if (m_wheelClick && m_wheelRegion.contains(m_lastPoint.toPoint())) {
+    if (m_wheelClick) {
         const NegQColor color = colorForPoint(m_lastPoint);
         changeColor(color);
     } else if (m_sliderClick) {
