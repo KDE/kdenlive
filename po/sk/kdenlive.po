@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-27 00:48+0000\n"
+"POT-Creation-Date: 2023-04-28 00:47+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -3640,17 +3640,17 @@ msgstr "Zadajte názov tejto predvoľby"
 msgid "Abort processing"
 msgstr ""
 
-#: src/assets/view/widgets/colorwheel.cpp:403
+#: src/assets/view/widgets/colorwheel.cpp:406
 #, kde-format
 msgid "R: "
 msgstr "R: "
 
-#: src/assets/view/widgets/colorwheel.cpp:410
+#: src/assets/view/widgets/colorwheel.cpp:413
 #, kde-format
 msgid "G: "
 msgstr "G: "
 
-#: src/assets/view/widgets/colorwheel.cpp:416
+#: src/assets/view/widgets/colorwheel.cpp:419
 #, kde-format
 msgid "B: "
 msgstr "B: "
@@ -4415,7 +4415,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "Vymazať klip"
 
-#: src/bin/bin.cpp:1888 src/doc/documentchecker.cpp:549
+#: src/bin/bin.cpp:1888 src/doc/documentchecker.cpp:586
 #, kde-format
 msgid "Missing source clip"
 msgstr "Chýbajúci zdrojový klip"
@@ -5507,7 +5507,7 @@ msgstr "Id"
 msgid "Usage"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:332 src/doc/documentchecker.cpp:319
+#: src/bin/projectitemmodel.cpp:332 src/doc/documentchecker.cpp:355
 #: src/mltcontroller/clipcontroller.cpp:464 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -7754,77 +7754,83 @@ msgstr "NVIDIA hardvérové enkódery nájdené a povolené."
 msgid "VAAPI hardware encoders found and enabled."
 msgstr "VAAPI hardvérové enkódery nájdené a povolené."
 
-#: src/doc/documentchecker.cpp:274
+#: src/doc/documentchecker.cpp:304
 #, kde-format
 msgid "Luma file"
 msgstr "Luma súbor"
 
-#: src/doc/documentchecker.cpp:301
+#: src/doc/documentchecker.cpp:310
+#, fuzzy, kde-format
+#| msgid "Delete files"
+msgid "Asset file"
+msgstr "Vymazať súbory"
+
+#: src/doc/documentchecker.cpp:337
 #, kde-format
 msgid "Video clip"
 msgstr "Videoklip"
 
-#: src/doc/documentchecker.cpp:305
+#: src/doc/documentchecker.cpp:341
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Klip prezentácie"
 
-#: src/doc/documentchecker.cpp:308
+#: src/doc/documentchecker.cpp:344
 #, kde-format
 msgid "Image clip"
 msgstr "Obrazový klip"
 
-#: src/doc/documentchecker.cpp:312
+#: src/doc/documentchecker.cpp:348
 #, kde-format
 msgid "Playlist clip"
 msgstr "Klip zoznamu skladieb"
 
-#: src/doc/documentchecker.cpp:315
+#: src/doc/documentchecker.cpp:351
 #, kde-format
 msgid "Title Image"
 msgstr "Titulný obrázok"
 
-#: src/doc/documentchecker.cpp:351
+#: src/doc/documentchecker.cpp:387
 #, kde-format
 msgid "Missing item"
 msgstr "Chýbajúca položka"
 
-#: src/doc/documentchecker.cpp:365 src/doc/documentchecker.cpp:390
-#: src/doc/documentchecker.cpp:1283
+#: src/doc/documentchecker.cpp:401 src/doc/documentchecker.cpp:426
+#: src/doc/documentchecker.cpp:1329
 #, kde-format
 msgid "Relocated item"
 msgstr "Relokovaná položka"
 
-#: src/doc/documentchecker.cpp:403
+#: src/doc/documentchecker.cpp:439
 #, kde-format
 msgid "Title Font"
 msgstr "Písmo titulku"
 
-#: src/doc/documentchecker.cpp:408
+#: src/doc/documentchecker.cpp:444
 #, kde-format
 msgid "%1 will be replaced by %2"
 msgstr "%1 bude nahradené s %2"
 
-#: src/doc/documentchecker.cpp:413
+#: src/doc/documentchecker.cpp:449
 #, fuzzy, kde-format
 #| msgid "Move Clip"
 #| msgid_plural "Move Clips"
 msgid "Modified Clips"
 msgstr "Presunúť klip"
 
-#: src/doc/documentchecker.cpp:417
+#: src/doc/documentchecker.cpp:453
 #, fuzzy, kde-format
 #| msgid "%1 will be replaced by %2"
 msgid "Clip %1 will be reloaded"
 msgstr "%1 bude nahradené s %2"
 
-#: src/doc/documentchecker.cpp:423
+#: src/doc/documentchecker.cpp:459
 #, fuzzy, kde-format
 #| msgid "The project file contains missing clips or files"
 msgid "The project file contains missing clips or files."
 msgstr "Súbor projektu obsahuje chýbajúce klipy alebo súbory"
 
-#: src/doc/documentchecker.cpp:429
+#: src/doc/documentchecker.cpp:465
 #, fuzzy, kde-format
 #| msgid "Clip is invalid, will be removed from project."
 msgid "Missing effect: %2 will be removed from project."
@@ -7833,13 +7839,13 @@ msgstr[0] "Klip je neplatný, bude odstránený z projektu."
 msgstr[1] "Klip je neplatný, bude odstránený z projektu."
 msgstr[2] "Klip je neplatný, bude odstránený z projektu."
 
-#: src/doc/documentchecker.cpp:436
+#: src/doc/documentchecker.cpp:472
 #, fuzzy, kde-format
 #| msgid "Missing proxies will be recreated after opening."
 msgid "Missing proxies can be recreated on opening."
 msgstr "Chýbajúci zástupcovia budú obnovené po otvorení."
 
-#: src/doc/documentchecker.cpp:454
+#: src/doc/documentchecker.cpp:490
 #, kde-format
 msgid ""
 "The project file contains a missing clip, you can still work with its proxy."
@@ -7856,7 +7862,7 @@ msgstr[2] ""
 "Súbor projektu obsahuje %1 chýbajúcich klipov, stále môžete pracovať s ich "
 "zástupcami."
 
-#: src/doc/documentchecker.cpp:461
+#: src/doc/documentchecker.cpp:497
 #, fuzzy, kde-format
 #| msgid "The project file contains missing clips or files"
 msgid "The project file contains one modified clip, it will be reloaded."
@@ -7866,13 +7872,13 @@ msgstr[0] "Súbor projektu obsahuje chýbajúce klipy alebo súbory"
 msgstr[1] "Súbor projektu obsahuje chýbajúce klipy alebo súbory"
 msgstr[2] "Súbor projektu obsahuje chýbajúce klipy alebo súbory"
 
-#: src/doc/documentchecker.cpp:527
+#: src/doc/documentchecker.cpp:564
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr "Zástupný klip"
 
-#: src/doc/documentchecker.cpp:530
+#: src/doc/documentchecker.cpp:567
 #, kde-format
 msgid "%1 missing proxy clip, will be recreated on project opening"
 msgid_plural "%1 missing proxy clips, will be recreated on project opening"
@@ -7883,64 +7889,65 @@ msgstr[1] ""
 msgstr[2] ""
 "%1 chýbajúcich zástupných klipov, ktoré budú obnovené pri otvorení projektu"
 
-#: src/doc/documentchecker.cpp:533
+#: src/doc/documentchecker.cpp:570
 #, kde-format
 msgid "Missing proxy"
 msgstr "Chýbajúci zástupca"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/doc/documentchecker.cpp:544 src/doc/documentchecker.cpp:558
+#: src/doc/documentchecker.cpp:581 src/doc/documentchecker.cpp:595
 #: src/ui/timeremap_ui.ui:90
 #, kde-format
 msgid "Source clip"
 msgstr "Zdrojový klip"
 
-#: src/doc/documentchecker.cpp:546
+#: src/doc/documentchecker.cpp:583
 #, kde-format
 msgid "%1 missing source clips, you can only use the proxies"
 msgstr "%1 chýbajúce zdrojové klipy, môžete použiť len zástupcov"
 
-#: src/doc/documentchecker.cpp:939
+#: src/doc/documentchecker.cpp:976
 #, fuzzy, kde-format
 #| msgid "Clips folder"
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Priečinok klipov"
 
-#: src/doc/documentchecker.cpp:971 src/doc/documentchecker.cpp:995
-#: src/doc/documentchecker.cpp:1005 src/doc/documentchecker.cpp:1017
+#: src/doc/documentchecker.cpp:1008 src/doc/documentchecker.cpp:1032
+#: src/doc/documentchecker.cpp:1042 src/doc/documentchecker.cpp:1051
+#: src/doc/documentchecker.cpp:1063
 #, fuzzy, kde-format
 #| msgid "Relocated item"
 msgid "Recovered item"
 msgstr "Relokovaná položka"
 
-#: src/doc/documentchecker.cpp:1030
+#: src/doc/documentchecker.cpp:1076
 #, kde-format
 msgid "Search aborted"
 msgstr "Hľadanie zrušené"
 
-#: src/doc/documentchecker.cpp:1032
+#: src/doc/documentchecker.cpp:1078
 #, kde-format
 msgid "Search done"
 msgstr "Hľadanie dokončené"
 
-#: src/doc/documentchecker.cpp:1148
+#: src/doc/documentchecker.cpp:1194
 #, kde-format
 msgid "Scanning %1"
 msgstr "Skenuje sa %1"
 
-#: src/doc/documentchecker.cpp:1245
+#: src/doc/documentchecker.cpp:1291
 #, fuzzy, kde-format
 #| msgid "Enter new location for file"
 msgid "Enter new location for folder"
 msgstr "Zadať nové umiestnenie pre súbor"
 
-#: src/doc/documentchecker.cpp:1271
+#: src/doc/documentchecker.cpp:1317
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Zadať nové umiestnenie pre súbor"
 
-#: src/doc/documentchecker.cpp:1649
+#: src/doc/documentchecker.cpp:1717
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
@@ -7948,7 +7955,7 @@ msgstr[0] "Týmto sa odstráni vybraný klip z tohto projektu"
 msgstr[1] "Týmto sa odstránia vybrané klipy z tohto projektu"
 msgstr[2] "Týmto sa odstránia vybrané klipy z tohto projektu"
 
-#: src/doc/documentchecker.cpp:1651
+#: src/doc/documentchecker.cpp:1719
 #, kde-format
 msgid "Remove clips"
 msgstr "Odstrániť klipy"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-27 00:48+0000\n"
+"POT-Creation-Date: 2023-04-28 00:47+0000\n"
 "PO-Revision-Date: 2023-03-23 12:33+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -3543,17 +3543,17 @@ msgstr "أدخِل اسم الملف المعد مسبقا هذا:"
 msgid "Abort processing"
 msgstr "أجهض المعالجة"
 
-#: src/assets/view/widgets/colorwheel.cpp:403
+#: src/assets/view/widgets/colorwheel.cpp:406
 #, kde-format
 msgid "R: "
 msgstr "ح: "
 
-#: src/assets/view/widgets/colorwheel.cpp:410
+#: src/assets/view/widgets/colorwheel.cpp:413
 #, kde-format
 msgid "G: "
 msgstr "خ: "
 
-#: src/assets/view/widgets/colorwheel.cpp:416
+#: src/assets/view/widgets/colorwheel.cpp:419
 #, kde-format
 msgid "B: "
 msgstr "ز: "
@@ -4285,7 +4285,7 @@ msgstr "لا يمكن حذف بعض العناصر. ربما هناك حالات
 msgid "Delete bin Clips"
 msgstr "احذف سلة المقاطع"
 
-#: src/bin/bin.cpp:1888 src/doc/documentchecker.cpp:549
+#: src/bin/bin.cpp:1888 src/doc/documentchecker.cpp:586
 #, kde-format
 msgid "Missing source clip"
 msgstr "المقطع المصدر مفقود"
@@ -5305,7 +5305,7 @@ msgstr "المعرّف"
 msgid "Usage"
 msgstr "الاستخدام"
 
-#: src/bin/projectitemmodel.cpp:332 src/doc/documentchecker.cpp:319
+#: src/bin/projectitemmodel.cpp:332 src/doc/documentchecker.cpp:355
 #: src/mltcontroller/clipcontroller.cpp:464 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -7413,73 +7413,79 @@ msgstr "عثر على عتاد ترميز انفيديا ومكنه."
 msgid "VAAPI hardware encoders found and enabled."
 msgstr "عثر على عتاد ترميز VAAPI ومكنه."
 
-#: src/doc/documentchecker.cpp:274
+#: src/doc/documentchecker.cpp:304
 #, kde-format
 msgid "Luma file"
 msgstr "ملفّ ”لوما“"
 
-#: src/doc/documentchecker.cpp:301
+#: src/doc/documentchecker.cpp:310
+#, fuzzy, kde-format
+#| msgid "Delete files"
+msgid "Asset file"
+msgstr "احذف الملفّات"
+
+#: src/doc/documentchecker.cpp:337
 #, kde-format
 msgid "Video clip"
 msgstr "مقطع فيديو"
 
-#: src/doc/documentchecker.cpp:305
+#: src/doc/documentchecker.cpp:341
 #, kde-format
 msgid "Slideshow clip"
 msgstr "مقطع عرض شرائح"
 
-#: src/doc/documentchecker.cpp:308
+#: src/doc/documentchecker.cpp:344
 #, kde-format
 msgid "Image clip"
 msgstr "مقطع صورة"
 
-#: src/doc/documentchecker.cpp:312
+#: src/doc/documentchecker.cpp:348
 #, kde-format
 msgid "Playlist clip"
 msgstr "مقطع قائمة تشغيل"
 
-#: src/doc/documentchecker.cpp:315
+#: src/doc/documentchecker.cpp:351
 #, kde-format
 msgid "Title Image"
 msgstr "صورة عنوان"
 
-#: src/doc/documentchecker.cpp:351
+#: src/doc/documentchecker.cpp:387
 #, kde-format
 msgid "Missing item"
 msgstr "عنصر ناقص"
 
-#: src/doc/documentchecker.cpp:365 src/doc/documentchecker.cpp:390
-#: src/doc/documentchecker.cpp:1283
+#: src/doc/documentchecker.cpp:401 src/doc/documentchecker.cpp:426
+#: src/doc/documentchecker.cpp:1329
 #, kde-format
 msgid "Relocated item"
 msgstr "عنصر منقول"
 
-#: src/doc/documentchecker.cpp:403
+#: src/doc/documentchecker.cpp:439
 #, kde-format
 msgid "Title Font"
 msgstr "خطّ عنوان"
 
-#: src/doc/documentchecker.cpp:408
+#: src/doc/documentchecker.cpp:444
 #, kde-format
 msgid "%1 will be replaced by %2"
 msgstr "%1 سيُستبدل بِ‍ %2"
 
-#: src/doc/documentchecker.cpp:413
+#: src/doc/documentchecker.cpp:449
 #, kde-format
 msgid "Modified Clips"
 msgstr "مقاطع معدلة"
 
-#: src/doc/documentchecker.cpp:417
+#: src/doc/documentchecker.cpp:453
 #, kde-format
 msgid "Clip %1 will be reloaded"
 msgstr "سيعاد تحميل المقطع %1"
 
-#: src/doc/documentchecker.cpp:423
+#: src/doc/documentchecker.cpp:459
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "يحوي ملفّ المشروع مقاطع أو ملفّات ناقصة."
 
-#: src/doc/documentchecker.cpp:429
+#: src/doc/documentchecker.cpp:465
 #, kde-format
 msgid "Missing effect: %2 will be removed from project."
 msgid_plural "Missing effects: %2 will be removed from project."
@@ -7490,12 +7496,12 @@ msgstr[3] "تأثيرات مفقودة: %2 ستُزال من المشروع."
 msgstr[4] "تأثيرات مفقودة: %2 ستُزال من المشروع."
 msgstr[5] "تأثيرات مفقودة: %2 ستُزال من المشروع."
 
-#: src/doc/documentchecker.cpp:436
+#: src/doc/documentchecker.cpp:472
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "الوسطاء ناقصون سيُعاد إنشاؤهم عند الفتح."
 
-#: src/doc/documentchecker.cpp:454
+#: src/doc/documentchecker.cpp:490
 #, kde-format
 msgid ""
 "The project file contains a missing clip, you can still work with its proxy."
@@ -7512,7 +7518,7 @@ msgstr[4] ""
 "في ملفّ المشروع هذا %1 مقطعاً ناقصة، ولكن ما زال يمكنك العمل بوسطائها."
 msgstr[5] "في ملفّ المشروع هذا %1 مقطع ناقصة، ولكن ما زال يمكنك العمل بوسطائها."
 
-#: src/doc/documentchecker.cpp:461
+#: src/doc/documentchecker.cpp:497
 #, kde-format
 msgid "The project file contains one modified clip, it will be reloaded."
 msgid_plural ""
@@ -7524,13 +7530,13 @@ msgstr[3] "يحوي ملفّ المشروع %1 مقاطع معدلة، سيعا�
 msgstr[4] "يحوي ملفّ المشروع %1 مقطعاً معدلاً، سيعاد تحميلها."
 msgstr[5] "يحوي ملفّ المشروع %1 مقطع معدل، سيعاد تحميلها."
 
-#: src/doc/documentchecker.cpp:527
+#: src/doc/documentchecker.cpp:564
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr "المقطع الوسيط"
 
-#: src/doc/documentchecker.cpp:530
+#: src/doc/documentchecker.cpp:567
 #, kde-format
 msgid "%1 missing proxy clip, will be recreated on project opening"
 msgid_plural "%1 missing proxy clips, will be recreated on project opening"
@@ -7541,61 +7547,62 @@ msgstr[3] "هناك %1 مقاطع وسيطة مفقودة، سيعاد إنشا�
 msgstr[4] "هناك %1 مقطعاً وسيطاً مفقوداً، سيعاد إنشاؤها عند فتح المشروع"
 msgstr[5] "هناك %1 مقطع وسيط مفقود، سيعاد إنشاؤها عند فتح المشروع"
 
-#: src/doc/documentchecker.cpp:533
+#: src/doc/documentchecker.cpp:570
 #, kde-format
 msgid "Missing proxy"
 msgstr "وسيط ناقص"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/doc/documentchecker.cpp:544 src/doc/documentchecker.cpp:558
+#: src/doc/documentchecker.cpp:581 src/doc/documentchecker.cpp:595
 #: src/ui/timeremap_ui.ui:90
 #, kde-format
 msgid "Source clip"
 msgstr "المقطع المصدر"
 
-#: src/doc/documentchecker.cpp:546
+#: src/doc/documentchecker.cpp:583
 #, kde-format
 msgid "%1 missing source clips, you can only use the proxies"
 msgstr "يفتقد %1 المقاطع المصدر، يمكنك استعمال الوسطاء فقط"
 
-#: src/doc/documentchecker.cpp:939
+#: src/doc/documentchecker.cpp:976
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "مجلد المقاطع"
 
-#: src/doc/documentchecker.cpp:971 src/doc/documentchecker.cpp:995
-#: src/doc/documentchecker.cpp:1005 src/doc/documentchecker.cpp:1017
+#: src/doc/documentchecker.cpp:1008 src/doc/documentchecker.cpp:1032
+#: src/doc/documentchecker.cpp:1042 src/doc/documentchecker.cpp:1051
+#: src/doc/documentchecker.cpp:1063
 #, kde-format
 msgid "Recovered item"
 msgstr "عنصر مُستَعاد"
 
-#: src/doc/documentchecker.cpp:1030
+#: src/doc/documentchecker.cpp:1076
 #, kde-format
 msgid "Search aborted"
 msgstr "أُجهض البحث"
 
-#: src/doc/documentchecker.cpp:1032
+#: src/doc/documentchecker.cpp:1078
 #, kde-format
 msgid "Search done"
 msgstr "انتهى البحث"
 
-#: src/doc/documentchecker.cpp:1148
+#: src/doc/documentchecker.cpp:1194
 #, kde-format
 msgid "Scanning %1"
 msgstr "يفحص %1"
 
-#: src/doc/documentchecker.cpp:1245
+#: src/doc/documentchecker.cpp:1291
 #, kde-format
 msgid "Enter new location for folder"
 msgstr "أدخل مكان جديد للمجلد"
 
-#: src/doc/documentchecker.cpp:1271
+#: src/doc/documentchecker.cpp:1317
 #, kde-format
 msgid "Enter new location for file"
 msgstr "أدخل المكان الجديد للملفّ"
 
-#: src/doc/documentchecker.cpp:1649
+#: src/doc/documentchecker.cpp:1717
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
@@ -7606,7 +7613,7 @@ msgstr[3] "سيزيل هذا المقاطع المحدّدة من هذا الم�
 msgstr[4] "سيزيل هذا المقاطع المحدّدة من هذا المشروع"
 msgstr[5] "سيزيل هذا المقاطع المحدّدة من هذا المشروع"
 
-#: src/doc/documentchecker.cpp:1651
+#: src/doc/documentchecker.cpp:1719
 #, kde-format
 msgid "Remove clips"
 msgstr "أزل مقاطع"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-27 00:48+0000\n"
+"POT-Creation-Date: 2023-04-28 00:47+0000\n"
 "PO-Revision-Date: 2023-03-19 08:39+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -3600,17 +3600,17 @@ msgstr "Введіть назву нового шаблона:"
 msgid "Abort processing"
 msgstr "Перервати обробку"
 
-#: src/assets/view/widgets/colorwheel.cpp:403
+#: src/assets/view/widgets/colorwheel.cpp:406
 #, kde-format
 msgid "R: "
 msgstr "Ч: "
 
-#: src/assets/view/widgets/colorwheel.cpp:410
+#: src/assets/view/widgets/colorwheel.cpp:413
 #, kde-format
 msgid "G: "
 msgstr "З: "
 
-#: src/assets/view/widgets/colorwheel.cpp:416
+#: src/assets/view/widgets/colorwheel.cpp:419
 #, kde-format
 msgid "B: "
 msgstr "С: "
@@ -4354,7 +4354,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "Вилучити кліп контейнера"
 
-#: src/bin/bin.cpp:1888 src/doc/documentchecker.cpp:549
+#: src/bin/bin.cpp:1888 src/doc/documentchecker.cpp:586
 #, kde-format
 msgid "Missing source clip"
 msgstr "Не вистачає початкового кліпу"
@@ -5372,7 +5372,7 @@ msgstr "Ід."
 msgid "Usage"
 msgstr "Користування"
 
-#: src/bin/projectitemmodel.cpp:332 src/doc/documentchecker.cpp:319
+#: src/bin/projectitemmodel.cpp:332 src/doc/documentchecker.cpp:355
 #: src/mltcontroller/clipcontroller.cpp:464 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -7524,73 +7524,79 @@ msgstr "Апаратні засоби кодування NVIDIA виявлено
 msgid "VAAPI hardware encoders found and enabled."
 msgstr "Апаратні засоби кодування VAAPI виявлено і увімкнено."
 
-#: src/doc/documentchecker.cpp:274
+#: src/doc/documentchecker.cpp:304
 #, kde-format
 msgid "Luma file"
 msgstr "Файл сигналу яскравості"
 
-#: src/doc/documentchecker.cpp:301
+#: src/doc/documentchecker.cpp:310
+#, fuzzy, kde-format
+#| msgid "Delete files"
+msgid "Asset file"
+msgstr "Вилучити файли"
+
+#: src/doc/documentchecker.cpp:337
 #, kde-format
 msgid "Video clip"
 msgstr "Відеокліп"
 
-#: src/doc/documentchecker.cpp:305
+#: src/doc/documentchecker.cpp:341
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Кліп показу слайдів"
 
-#: src/doc/documentchecker.cpp:308
+#: src/doc/documentchecker.cpp:344
 #, kde-format
 msgid "Image clip"
 msgstr "Кліп-зображення"
 
-#: src/doc/documentchecker.cpp:312
+#: src/doc/documentchecker.cpp:348
 #, kde-format
 msgid "Playlist clip"
 msgstr "Додати кліп до списку відтворення"
 
-#: src/doc/documentchecker.cpp:315
+#: src/doc/documentchecker.cpp:351
 #, kde-format
 msgid "Title Image"
 msgstr "Зображення титрів"
 
-#: src/doc/documentchecker.cpp:351
+#: src/doc/documentchecker.cpp:387
 #, kde-format
 msgid "Missing item"
 msgstr "Не знайдено об’єкта"
 
-#: src/doc/documentchecker.cpp:365 src/doc/documentchecker.cpp:390
-#: src/doc/documentchecker.cpp:1283
+#: src/doc/documentchecker.cpp:401 src/doc/documentchecker.cpp:426
+#: src/doc/documentchecker.cpp:1329
 #, kde-format
 msgid "Relocated item"
 msgstr "Пересунутий запис"
 
-#: src/doc/documentchecker.cpp:403
+#: src/doc/documentchecker.cpp:439
 #, kde-format
 msgid "Title Font"
 msgstr "Шрифт титрів"
 
-#: src/doc/documentchecker.cpp:408
+#: src/doc/documentchecker.cpp:444
 #, kde-format
 msgid "%1 will be replaced by %2"
 msgstr "%1 буде замінено на %2"
 
-#: src/doc/documentchecker.cpp:413
+#: src/doc/documentchecker.cpp:449
 #, kde-format
 msgid "Modified Clips"
 msgstr "Змінені кліпи"
 
-#: src/doc/documentchecker.cpp:417
+#: src/doc/documentchecker.cpp:453
 #, kde-format
 msgid "Clip %1 will be reloaded"
 msgstr "Кліп %1 буде перезавантажено"
 
-#: src/doc/documentchecker.cpp:423
+#: src/doc/documentchecker.cpp:459
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Файл проєкту містить посилання на кліпи або файли, яких у ньому немає."
 
-#: src/doc/documentchecker.cpp:429
+#: src/doc/documentchecker.cpp:465
 #, kde-format
 msgid "Missing effect: %2 will be removed from project."
 msgid_plural "Missing effects: %2 will be removed from project."
@@ -7599,14 +7605,14 @@ msgstr[1] "Немає ефектів: %2 буде вилучено з проєк
 msgstr[2] "Немає ефектів: %2 буде вилучено з проєкту."
 msgstr[3] "Немає ефекту: %2 буде вилучено з проєкту."
 
-#: src/doc/documentchecker.cpp:436
+#: src/doc/documentchecker.cpp:472
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr ""
 "Проміжні кліпи, яких не вистачатиме, може бути повторно створено після "
 "відкриття."
 
-#: src/doc/documentchecker.cpp:454
+#: src/doc/documentchecker.cpp:490
 #, kde-format
 msgid ""
 "The project file contains a missing clip, you can still work with its proxy."
@@ -7626,7 +7632,7 @@ msgstr[3] ""
 "У файлі проєкту не вистачає початкового кліпу, ви можете працювати лише з "
 "проміжним кліпом."
 
-#: src/doc/documentchecker.cpp:461
+#: src/doc/documentchecker.cpp:497
 #, kde-format
 msgid "The project file contains one modified clip, it will be reloaded."
 msgid_plural ""
@@ -7639,13 +7645,13 @@ msgstr[2] ""
 "Файл проєкту містить %1 змінених кліпів. Ці кліпи буде перезавантажено."
 msgstr[3] "Файл проєкту містить змінений кліп. Цей кліп буде перезавантажено."
 
-#: src/doc/documentchecker.cpp:527
+#: src/doc/documentchecker.cpp:564
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr "Проміжний кліп"
 
-#: src/doc/documentchecker.cpp:530
+#: src/doc/documentchecker.cpp:567
 #, kde-format
 msgid "%1 missing proxy clip, will be recreated on project opening"
 msgid_plural "%1 missing proxy clips, will be recreated on project opening"
@@ -7662,62 +7668,63 @@ msgstr[3] ""
 "У %1 немає частини проміжного кліпу, ці кліпи буде повторно створено після "
 "відкриття."
 
-#: src/doc/documentchecker.cpp:533
+#: src/doc/documentchecker.cpp:570
 #, kde-format
 msgid "Missing proxy"
 msgstr "Пропущено проміжний кліп"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/doc/documentchecker.cpp:544 src/doc/documentchecker.cpp:558
+#: src/doc/documentchecker.cpp:581 src/doc/documentchecker.cpp:595
 #: src/ui/timeremap_ui.ui:90
 #, kde-format
 msgid "Source clip"
 msgstr "Початковий кліп"
 
-#: src/doc/documentchecker.cpp:546
+#: src/doc/documentchecker.cpp:583
 #, kde-format
 msgid "%1 missing source clips, you can only use the proxies"
 msgstr ""
 "У %1 не вистачає початкових кліпів, ви можете скористатися лише проміжними"
 
-#: src/doc/documentchecker.cpp:939
+#: src/doc/documentchecker.cpp:976
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Тека кліпів"
 
-#: src/doc/documentchecker.cpp:971 src/doc/documentchecker.cpp:995
-#: src/doc/documentchecker.cpp:1005 src/doc/documentchecker.cpp:1017
+#: src/doc/documentchecker.cpp:1008 src/doc/documentchecker.cpp:1032
+#: src/doc/documentchecker.cpp:1042 src/doc/documentchecker.cpp:1051
+#: src/doc/documentchecker.cpp:1063
 #, kde-format
 msgid "Recovered item"
 msgstr "Відновлений запис"
 
-#: src/doc/documentchecker.cpp:1030
+#: src/doc/documentchecker.cpp:1076
 #, kde-format
 msgid "Search aborted"
 msgstr "Пошук перервано"
 
-#: src/doc/documentchecker.cpp:1032
+#: src/doc/documentchecker.cpp:1078
 #, kde-format
 msgid "Search done"
 msgstr "Пошук виконано"
 
-#: src/doc/documentchecker.cpp:1148
+#: src/doc/documentchecker.cpp:1194
 #, kde-format
 msgid "Scanning %1"
 msgstr "Шукаємо у %1"
 
-#: src/doc/documentchecker.cpp:1245
+#: src/doc/documentchecker.cpp:1291
 #, kde-format
 msgid "Enter new location for folder"
 msgstr "Введіть нову адресу теки"
 
-#: src/doc/documentchecker.cpp:1271
+#: src/doc/documentchecker.cpp:1317
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Введіть нову адресу файла"
 
-#: src/doc/documentchecker.cpp:1649
+#: src/doc/documentchecker.cpp:1717
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
@@ -7730,7 +7737,7 @@ msgstr[2] ""
 msgstr[3] ""
 "У результаті виконання цієї дії позначений кліп буде вилучено з цього проєкту"
 
-#: src/doc/documentchecker.cpp:1651
+#: src/doc/documentchecker.cpp:1719
 #, kde-format
 msgid "Remove clips"
 msgstr "Вилучити кліпи"
