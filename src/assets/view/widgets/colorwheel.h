@@ -41,6 +41,7 @@ protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
+    void focusOutEvent(QFocusEvent *event) override;
     void wheelEvent(QWheelEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
     void paintEvent(QPaintEvent *event) override;
@@ -60,6 +61,7 @@ private:
     QString m_name;
     bool m_wheelClick;
     bool m_sliderClick;
+    bool m_sliderFocus;
 
     qreal m_sizeFactor = 1;
     qreal m_defaultValue = 1;

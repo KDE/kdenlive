@@ -163,6 +163,10 @@ void TaskManager::taskDone(int cid, AbstractTask *task)
 
 void TaskManager::slotCancelJobs(const QVector<AbstractTask::JOBTYPE> exceptions)
 {
+    if (m_blockUpdates) {
+        // Already canceling
+        return;
+    }
     m_blockUpdates = true;
     m_tasksListLock.lockForWrite();
     for (const auto &task : m_taskList) {

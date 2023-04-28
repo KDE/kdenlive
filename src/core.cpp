@@ -544,7 +544,7 @@ const QString &Core::getCurrentProfilePath() const
     return m_currentProfile;
 }
 
-bool Core::setCurrentProfile(const QString &profilePath)
+bool Core::setCurrentProfile(const QString profilePath)
 {
     if (m_currentProfile == profilePath) {
         // no change required, ensure timecode has correct fps
@@ -1067,7 +1067,7 @@ void Core::showClipKeyframes(ObjectId id, bool enable)
 
 Mlt::Profile *Core::thumbProfile()
 {
-    // QMutexLocker lck(&m_thumbProfileMutex);
+    QMutexLocker lck(&m_thumbProfileMutex);
     if (!m_thumbProfile) {
         m_thumbProfile = std::make_unique<Mlt::Profile>(m_currentProfile.toUtf8().constData());
         double factor = 144. / m_thumbProfile->height();

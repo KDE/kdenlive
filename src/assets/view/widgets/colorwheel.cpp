@@ -31,6 +31,7 @@ WheelContainer::WheelContainer(QString id, QString name, NegQColor color, int un
     , m_name(std::move(name))
     , m_wheelClick(false)
     , m_sliderClick(false)
+    , m_sliderFocus(false)
 {
     setMouseTracking(true);
     m_initialSize = QSize(m_unitSize * 11, m_unitSize * 11);
@@ -161,6 +162,7 @@ void WheelContainer::wheelEvent(QWheelEvent *event)
         }
         m_color.setValueF(qBound(-m_zeroShift, y, 1. - m_zeroShift));
         changeColor(m_color);
+        event->accept();
     } else {
         QWidget::wheelEvent(event);
     }
@@ -172,6 +174,7 @@ void WheelContainer::mousePressEvent(QMouseEvent *event)
         QPoint clicked = event->pos();
         if (m_wheelRegion.contains(clicked)) {
             m_wheelClick = true;
+            m_sliderFocus = false;
             QPointF current = pointForColor();
             QPointF diff = clicked - current;
             double factor = fabs(diff.x()) > fabs(diff.y()) ? fabs(diff.x()) : fabs(diff.y());
@@ -179,9 +182,11 @@ void WheelContainer::mousePressEvent(QMouseEvent *event)
             m_lastPoint = current + diff;
         } else if (m_sliderRegion.contains(clicked)) {
             m_sliderClick = true;
+            m_sliderFocus = true;
             double y = yForColor();
             int offset = clicked.y() > y ? 1 : -1;
             m_lastPoint = QPointF(clicked.x(), y + offset);
+            update();
         } else {
             return;
         }
@@ -190,6 +195,7 @@ void WheelContainer::mousePressEvent(QMouseEvent *event)
     }
     if (m_wheelRegion.contains(m_lastPoint.toPoint())) {
         m_wheelClick = true;
+        m_sliderFocus = false;
         if (event->button() == Qt::LeftButton) {
             changeColor(colorForPoint(m_lastPoint));
         } else {
@@ -203,6 +209,7 @@ void WheelContainer::mousePressEvent(QMouseEvent *event)
         }
     } else if (m_sliderRegion.contains(m_lastPoint.toPoint())) {
         m_sliderClick = true;
+        m_sliderFocus = true;
         if (event->button() == Qt::LeftButton) {
             changeColor(colorForPoint(m_lastPoint));
         } else {
@@ -210,8 +217,26 @@ void WheelContainer::mousePressEvent(QMouseEvent *event)
             c = NegQColor::fromHsvF(m_color.hueF(), m_color.saturationF(), m_defaultValue / m_sizeFactor);
             changeColor(c);
         }
+        update();
+    } else {
+        if (m_sliderFocus) {
+            m_sliderFocus = false;
+            drawSlider();
+            update();
+        }
+        clearFocus();
     }
     m_isMouseDown = true;
+}
+
+void WheelContainer::focusOutEvent(QFocusEvent *event)
+{
+    if (m_sliderFocus) {
+        m_sliderFocus = false;
+        drawSlider();
+        update();
+    }
+    QWidget::focusOutEvent(event);
 }
 
 void WheelContainer::mouseMoveEvent(QMouseEvent *event)
@@ -340,16 +365,20 @@ void WheelContainer::drawSlider()
     painter.setRenderHint(QPainter::Antialiasing);
     int ws = int(wheelSize() + m_unitSize * .2);
     qreal scale = qreal(ws + m_sliderWidth) / maximumWidth();
-    int w = int(m_sliderWidth * scale - m_unitSize * .4);
+    int w = int(m_sliderWidth * scale - m_unitSize * .2);
     int h = ws - m_margin * 2;
     QLinearGradient gradient(0, 0, w, h);
-    gradient.setColorAt(0.0, Qt::white);
+    if (m_sliderFocus) {
+        gradient.setColorAt(0.0, QPalette().highlight().color());
+    } else {
+        gradient.setColorAt(0.0, Qt::white);
+    }
     gradient.setColorAt(1.0, Qt::black);
     QBrush brush(gradient);
     painter.setPen(Qt::NoPen);
     painter.setBrush(brush);
     painter.translate(ws, m_margin);
-    painter.drawRect(0, 0, w, h);
+    painter.drawRoundedRect(QRect(0, 0, w, h - m_margin), w / 3, w / 3);
     m_sliderRegion = QRegion(ws, m_margin, w, h);
 }
 
