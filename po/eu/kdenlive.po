@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-28 00:47+0000\n"
+"POT-Creation-Date: 2023-04-29 00:49+0000\n"
 "PO-Revision-Date: 2023-04-21 20:15+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -3584,17 +3584,17 @@ msgstr "Sartu aurrezarpen honen izena:"
 msgid "Abort processing"
 msgstr "Przesatzea bertan behera"
 
-#: src/assets/view/widgets/colorwheel.cpp:406
+#: src/assets/view/widgets/colorwheel.cpp:461
 #, kde-format
 msgid "R: "
 msgstr "R: "
 
-#: src/assets/view/widgets/colorwheel.cpp:413
+#: src/assets/view/widgets/colorwheel.cpp:468
 #, kde-format
 msgid "G: "
 msgstr "G: "
 
-#: src/assets/view/widgets/colorwheel.cpp:419
+#: src/assets/view/widgets/colorwheel.cpp:474
 #, kde-format
 msgid "B: "
 msgstr "B: "

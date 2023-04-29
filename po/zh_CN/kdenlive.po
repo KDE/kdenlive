@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-28 00:47+0000\n"
+"POT-Creation-Date: 2023-04-29 00:49+0000\n"
 "PO-Revision-Date: 2023-04-16 12:31\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -3513,17 +3513,17 @@ msgstr "输入此预设的名称："
 msgid "Abort processing"
 msgstr "中止处理"
 
-#: src/assets/view/widgets/colorwheel.cpp:406
+#: src/assets/view/widgets/colorwheel.cpp:461
 #, kde-format
 msgid "R: "
 msgstr "红："
 
-#: src/assets/view/widgets/colorwheel.cpp:413
+#: src/assets/view/widgets/colorwheel.cpp:468
 #, kde-format
 msgid "G: "
 msgstr "绿："
 
-#: src/assets/view/widgets/colorwheel.cpp:419
+#: src/assets/view/widgets/colorwheel.cpp:474
 #, kde-format
 msgid "B: "
 msgstr "蓝："

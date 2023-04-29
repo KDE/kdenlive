@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-28 00:47+0000\n"
-"PO-Revision-Date: 2023-04-25 11:05+0200\n"
+"POT-Creation-Date: 2023-04-29 00:49+0000\n"
+"PO-Revision-Date: 2023-04-28 13:02+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -3602,17 +3602,17 @@ msgstr "Introduïu el nom d'aquests valors predefinits:"
 msgid "Abort processing"
 msgstr "Interromp el processament"
 
-#: src/assets/view/widgets/colorwheel.cpp:406
+#: src/assets/view/widgets/colorwheel.cpp:461
 #, kde-format
 msgid "R: "
 msgstr "R: "
 
-#: src/assets/view/widgets/colorwheel.cpp:413
+#: src/assets/view/widgets/colorwheel.cpp:468
 #, kde-format
 msgid "G: "
 msgstr "G: "
 
-#: src/assets/view/widgets/colorwheel.cpp:419
+#: src/assets/view/widgets/colorwheel.cpp:474
 #, kde-format
 msgid "B: "
 msgstr "B: "
@@ -7512,10 +7512,9 @@ msgid "Luma file"
 msgstr "Fitxer de luma"
 
 #: src/doc/documentchecker.cpp:310
-#, fuzzy, kde-format
-#| msgid "Delete files"
+#, kde-format
 msgid "Asset file"
-msgstr "Suprimeix fitxers"
+msgstr "Fitxer de recursos"
 
 #: src/doc/documentchecker.cpp:337
 #, kde-format
@@ -21224,6 +21223,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Insert Zone to Project Bin"
-#~ msgstr "Insereix una zona a la safata del projecte"

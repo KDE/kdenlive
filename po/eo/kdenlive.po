@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-28 00:47+0000\n"
-"PO-Revision-Date: 2023-04-26 20:04+0100\n"
+"POT-Creation-Date: 2023-04-29 00:49+0000\n"
+"PO-Revision-Date: 2023-04-28 07:15+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -3562,17 +3562,17 @@ msgstr "Enigu la nomon de ĉi tiu antaŭdiro:"
 msgid "Abort processing"
 msgstr "Ĉesigi prilaboradon"
 
-#: src/assets/view/widgets/colorwheel.cpp:406
+#: src/assets/view/widgets/colorwheel.cpp:461
 #, kde-format
 msgid "R: "
 msgstr "R:"
 
-#: src/assets/view/widgets/colorwheel.cpp:413
+#: src/assets/view/widgets/colorwheel.cpp:468
 #, kde-format
 msgid "G: "
 msgstr "G:"
 
-#: src/assets/view/widgets/colorwheel.cpp:419
+#: src/assets/view/widgets/colorwheel.cpp:474
 #, kde-format
 msgid "B: "
 msgstr "B:"
@@ -7439,10 +7439,9 @@ msgid "Luma file"
 msgstr "Luma-dosiero"
 
 #: src/doc/documentchecker.cpp:310
-#, fuzzy, kde-format
-#| msgid "Delete files"
+#, kde-format
 msgid "Asset file"
-msgstr "Forigi dosierojn"
+msgstr "Valoraĵa dosiero"
 
 #: src/doc/documentchecker.cpp:337
 #, kde-format
