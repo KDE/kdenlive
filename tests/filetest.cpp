@@ -196,6 +196,78 @@ TEST_CASE("Save File", "[SF]")
     }
 }
 
+TEST_CASE("Check File Corruption", "[CFC]")
+{
+    auto binModel = pCore->projectItemModel();
+    binModel->clean();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+
+    SECTION("Open a file and check id consistency")
+    {
+        // open
+        QString path = sourcesPath + "/dataset/clip-ids.kdenlive";
+        QUrl openURL = QUrl::fromLocalFile(path);
+
+        Mock<ProjectManager> pmMock;
+        When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+        When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+        ProjectManager &mocked = pmMock.get();
+        pCore->m_projectManager = &mocked;
+
+        QUndoGroup *undoGroup = new QUndoGroup();
+        undoGroup->addStack(undoStack.get());
+        DocOpenResult openResults = KdenliveDoc::Open(openURL, QDir::temp().path(), undoGroup, false, nullptr);
+        REQUIRE(openResults.isSuccessful() == true);
+
+        std::unique_ptr<KdenliveDoc> openedDoc = openResults.getDocument();
+        When(Method(pmMock, current)).AlwaysReturn(openedDoc.get());
+        mocked.m_project = openedDoc.get();
+        const QUuid uuid = openedDoc->uuid();
+        QDateTime documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
+        mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+        mocked.testSetActiveDocument(openedDoc.get());
+        auto timeline = openedDoc->getTimeline(uuid);
+
+        REQUIRE(timeline->checkConsistency());
+        int tid1 = timeline->getTrackIndexFromPosition(0);
+        int tid2 = timeline->getTrackIndexFromPosition(1);
+        int tid3 = timeline->getTrackIndexFromPosition(2);
+        int tid4 = timeline->getTrackIndexFromPosition(3);
+        // Check we have audio and video tracks
+        REQUIRE(timeline->isAudioTrack(tid1));
+        REQUIRE(timeline->isAudioTrack(tid2));
+        REQUIRE(timeline->isAudioTrack(tid3) == false);
+        REQUIRE(timeline->isAudioTrack(tid4) == false);
+        int cid1 = timeline->getClipByStartPosition(tid4, 16);  // Blue
+        int cid2 = timeline->getClipByStartPosition(tid4, 21);  // Green
+        int cid3 = timeline->getClipByStartPosition(tid4, 26);  // Red
+        int cid4 = timeline->getClipByStartPosition(tid4, 31);  // Yellow
+        int cid1b = timeline->getClipByStartPosition(tid3, 11); // Blue
+        int cid2b = timeline->getClipByStartPosition(tid3, 16); // Green
+        int cid3b = timeline->getClipByStartPosition(tid3, 21); // Red
+        int cid4b = timeline->getClipByStartPosition(tid3, 26); // Yellow
+        // Check we have our clips
+        REQUIRE(cid1 > -1);
+        REQUIRE(cid2 > -1);
+        REQUIRE(cid3 > -1);
+        REQUIRE(cid4 > -1);
+        REQUIRE(cid1b > -1);
+        REQUIRE(cid2b > -1);
+        REQUIRE(cid3b > -1);
+        REQUIRE(cid4b > -1);
+        REQUIRE(timeline->getClipPtr(cid1)->clipName() == QLatin1String("blue.mp4"));
+        REQUIRE(timeline->getClipPtr(cid1b)->clipName() == QLatin1String("blue.mp4"));
+        REQUIRE(timeline->getClipPtr(cid2)->clipName() == QLatin1String("green.mp4"));
+        REQUIRE(timeline->getClipPtr(cid2b)->clipName() == QLatin1String("green.mp4"));
+        REQUIRE(timeline->getClipPtr(cid3)->clipName() == QLatin1String("red.mp4"));
+        REQUIRE(timeline->getClipPtr(cid3b)->clipName() == QLatin1String("red.mp4"));
+        // REQUIRE(timeline->getClipPtr(cid4)->clipName() == QLatin1String("yellow.mp4"));
+        // REQUIRE(timeline->getClipPtr(cid4b)->clipName() == QLatin1String("yellow.mp4"));
+        binModel->clean();
+        pCore->m_projectManager = nullptr;
+    }
+}
+
 TEST_CASE("Non-BMP Unicode", "[NONBMP]")
 {
     auto binModel = pCore->projectItemModel();
