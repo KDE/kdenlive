@@ -572,7 +572,7 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
 
     // Settings menu
     QMenu *menu = new QMenu(this);
-    m_translateAction = new QAction(i18n("Translate to english"), this);
+    m_translateAction = new QAction(i18n("Translate to English"), this);
     m_translateAction->setCheckable(true);
     menu->addAction(m_translateAction);
     QAction *configAction = new QAction(i18n("Configure Speech Recognition"), this);

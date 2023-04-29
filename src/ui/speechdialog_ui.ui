@@ -151,7 +151,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       <item row="3" column="0" colspan="2">
        <widget class="QCheckBox" name="translate_box">
         <property name="text">
-         <string>Translate to english</string>
+         <string>Translate to English</string>
         </property>
        </widget>
       </item>

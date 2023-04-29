@@ -1305,7 +1305,7 @@
            <default>cpu</default>
        </entry>
        <entry name="whisperTranslate" type="Bool">
-           <label>Translate speech detection to english</label>
+           <label>Translate speech detection to English</label>
            <default>false</default>
        </entry>
        <entry name="whisperExtra" type="String">
