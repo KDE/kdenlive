@@ -14,7 +14,7 @@
  <chain id="chain0" out="00:00:00.160">
   <property name="length">5</property>
   <property name="eof">pause</property>
-  <property name="resource">blue.mp4</property>
+  <property name="resource">blue.mpg</property>
   <property name="mlt_service">avformat-novalidate</property>
   <property name="seekable">1</property>
   <property name="audio_index">1</property>
@@ -24,8 +24,8 @@
   <property name="kdenlive:folderid">-1</property>
   <property name="kdenlive:id">4</property>
   <property name="mute_on_pause">0</property>
-  <property name="kdenlive:file_size">2763</property>
-  <property name="kdenlive:file_hash">51f514ca8c2b5357887b72bf68027ab0</property>
+  <property name="kdenlive:file_size">22528</property>
+  <property name="kdenlive:file_hash">f676d3b10f618240555446e6dbbc4d84</property>
   <property name="kdenlive:audio_max1">1</property>
   <property name="meta.media.nb_streams">2</property>
   <property name="meta.media.0.stream.type">video</property>
@@ -75,7 +75,7 @@
  <chain id="chain1" out="00:00:00.160">
   <property name="length">5</property>
   <property name="eof">pause</property>
-  <property name="resource">green.mp4</property>
+  <property name="resource">green.mpg</property>
   <property name="mlt_service">avformat-novalidate</property>
   <property name="seekable">1</property>
   <property name="audio_index">1</property>
@@ -85,8 +85,8 @@
   <property name="kdenlive:folderid">-1</property>
   <property name="kdenlive:id">9</property>
   <property name="mute_on_pause">0</property>
-  <property name="kdenlive:file_size">2767</property>
-  <property name="kdenlive:file_hash">a253d8423517b95010277e0e534193e8</property>
+  <property name="kdenlive:file_size">22528</property>
+  <property name="kdenlive:file_hash">7b2b8ea33dead346e63c057674d1d86c</property>
   <property name="kdenlive:audio_max1">0</property>
   <property name="meta.media.nb_streams">2</property>
   <property name="meta.media.0.stream.type">video</property>
@@ -136,7 +136,7 @@
  <chain id="chain2" out="00:00:00.160">
   <property name="length">5</property>
   <property name="eof">pause</property>
-  <property name="resource">red.mp4</property>
+  <property name="resource">red.mpg</property>
   <property name="mlt_service">avformat-novalidate</property>
   <property name="seekable">1</property>
   <property name="audio_index">1</property>
@@ -146,8 +146,8 @@
   <property name="kdenlive:folderid">-1</property>
   <property name="kdenlive:id">10</property>
   <property name="mute_on_pause">0</property>
-  <property name="kdenlive:file_size">2747</property>
-  <property name="kdenlive:file_hash">d226a4bd35a930b66e91059a66c30dd7</property>
+  <property name="kdenlive:file_size">22528</property>
+  <property name="kdenlive:file_hash">8843808b89cc22ece225bdab6b6e4f21</property>
   <property name="kdenlive:audio_max1">1</property>
   <property name="meta.media.nb_streams">2</property>
   <property name="meta.media.0.stream.type">video</property>
@@ -197,7 +197,7 @@
  <chain id="chain3" out="00:00:00.160">
   <property name="length">5</property>
   <property name="eof">pause</property>
-  <property name="resource">yellow.mp4</property>
+  <property name="resource">yellow.mpg</property>
   <property name="mlt_service">avformat-novalidate</property>
   <property name="seekable">1</property>
   <property name="audio_index">1</property>
@@ -207,8 +207,8 @@
   <property name="kdenlive:folderid">-1</property>
   <property name="kdenlive:id">6</property>
   <property name="mute_on_pause">0</property>
-  <property name="kdenlive:file_size">2751</property>
-  <property name="kdenlive:file_hash">bd4b9772957e79e1f925df78994f9f17</property>
+  <property name="kdenlive:file_size">22528</property>
+  <property name="kdenlive:file_hash">283ee83c3eb12fdb7de9f1b99a3bb4af</property>
   <property name="kdenlive:audio_max1">1</property>
   <property name="meta.media.nb_streams">2</property>
   <property name="meta.media.0.stream.type">video</property>
@@ -307,7 +307,7 @@
  <chain id="chain4" out="00:00:00.160">
   <property name="length">5</property>
   <property name="eof">pause</property>
-  <property name="resource">blue.mp4</property>
+  <property name="resource">blue.mpg</property>
   <property name="mlt_service">avformat-novalidate</property>
   <property name="seekable">1</property>
   <property name="audio_index">1</property>
@@ -317,8 +317,8 @@
   <property name="kdenlive:folderid">-1</property>
   <property name="kdenlive:id">4</property>
   <property name="mute_on_pause">0</property>
-  <property name="kdenlive:file_size">2763</property>
-  <property name="kdenlive:file_hash">51f514ca8c2b5357887b72bf68027ab0</property>
+  <property name="kdenlive:file_size">22528</property>
+  <property name="kdenlive:file_hash">f676d3b10f618240555446e6dbbc4d84</property>
   <property name="kdenlive:audio_max1">1</property>
   <property name="meta.media.nb_streams">2</property>
   <property name="meta.media.0.stream.type">video</property>
@@ -368,7 +368,7 @@
  <chain id="chain5" out="00:00:00.160">
   <property name="length">5</property>
   <property name="eof">pause</property>
-  <property name="resource">green.mp4</property>
+  <property name="resource">green.mpg</property>
   <property name="mlt_service">avformat-novalidate</property>
   <property name="seekable">1</property>
   <property name="audio_index">1</property>
@@ -378,8 +378,8 @@
   <property name="kdenlive:folderid">-1</property>
   <property name="kdenlive:id">9</property>
   <property name="mute_on_pause">0</property>
-  <property name="kdenlive:file_size">2767</property>
-  <property name="kdenlive:file_hash">a253d8423517b95010277e0e534193e8</property>
+  <property name="kdenlive:file_size">22528</property>
+  <property name="kdenlive:file_hash">7b2b8ea33dead346e63c057674d1d86c</property>
   <property name="kdenlive:audio_max1">0</property>
   <property name="meta.media.nb_streams">2</property>
   <property name="meta.media.0.stream.type">video</property>
@@ -429,7 +429,7 @@
  <chain id="chain6" out="00:00:00.160">
   <property name="length">5</property>
   <property name="eof">pause</property>
-  <property name="resource">red.mp4</property>
+  <property name="resource">red.mpg</property>
   <property name="mlt_service">avformat-novalidate</property>
   <property name="seekable">1</property>
   <property name="audio_index">1</property>
@@ -439,8 +439,8 @@
   <property name="kdenlive:folderid">-1</property>
   <property name="kdenlive:id">10</property>
   <property name="mute_on_pause">0</property>
-  <property name="kdenlive:file_size">2747</property>
-  <property name="kdenlive:file_hash">d226a4bd35a930b66e91059a66c30dd7</property>
+  <property name="kdenlive:file_size">22528</property>
+  <property name="kdenlive:file_hash">8843808b89cc22ece225bdab6b6e4f21</property>
   <property name="kdenlive:audio_max1">1</property>
   <property name="meta.media.nb_streams">2</property>
   <property name="meta.media.0.stream.type">video</property>
@@ -490,7 +490,7 @@
  <chain id="chain7" out="00:00:00.160">
   <property name="length">5</property>
   <property name="eof">pause</property>
-  <property name="resource">yellow.mp4</property>
+  <property name="resource">yellow.mpg</property>
   <property name="mlt_service">avformat-novalidate</property>
   <property name="seekable">1</property>
   <property name="audio_index">1</property>
@@ -500,8 +500,8 @@
   <property name="kdenlive:folderid">-1</property>
   <property name="kdenlive:id">6</property>
   <property name="mute_on_pause">0</property>
-  <property name="kdenlive:file_size">2751</property>
-  <property name="kdenlive:file_hash">bd4b9772957e79e1f925df78994f9f17</property>
+  <property name="kdenlive:file_size">22528</property>
+  <property name="kdenlive:file_hash">283ee83c3eb12fdb7de9f1b99a3bb4af</property>
   <property name="kdenlive:audio_max1">1</property>
   <property name="meta.media.nb_streams">2</property>
   <property name="meta.media.0.stream.type">video</property>
@@ -600,7 +600,7 @@
  <chain id="chain8" out="00:00:00.160">
   <property name="length">5</property>
   <property name="eof">pause</property>
-  <property name="resource">blue.mp4</property>
+  <property name="resource">blue.mpg</property>
   <property name="mlt_service">avformat-novalidate</property>
   <property name="seekable">1</property>
   <property name="audio_index">1</property>
@@ -610,8 +610,8 @@
   <property name="kdenlive:folderid">-1</property>
   <property name="kdenlive:id">4</property>
   <property name="mute_on_pause">0</property>
-  <property name="kdenlive:file_size">2763</property>
-  <property name="kdenlive:file_hash">51f514ca8c2b5357887b72bf68027ab0</property>
+  <property name="kdenlive:file_size">22528</property>
+  <property name="kdenlive:file_hash">f676d3b10f618240555446e6dbbc4d84</property>
   <property name="kdenlive:audio_max1">1</property>
   <property name="meta.media.nb_streams">2</property>
   <property name="meta.media.0.stream.type">video</property>
@@ -661,7 +661,7 @@
  <chain id="chain9" out="00:00:00.160">
   <property name="length">5</property>
   <property name="eof">pause</property>
-  <property name="resource">green.mp4</property>
+  <property name="resource">green.mpg</property>
   <property name="mlt_service">avformat-novalidate</property>
   <property name="seekable">1</property>
   <property name="audio_index">1</property>
@@ -671,8 +671,8 @@
   <property name="kdenlive:folderid">-1</property>
   <property name="kdenlive:id">9</property>
   <property name="mute_on_pause">0</property>
-  <property name="kdenlive:file_size">2767</property>
-  <property name="kdenlive:file_hash">a253d8423517b95010277e0e534193e8</property>
+  <property name="kdenlive:file_size">22528</property>
+  <property name="kdenlive:file_hash">7b2b8ea33dead346e63c057674d1d86c</property>
   <property name="kdenlive:audio_max1">0</property>
   <property name="meta.media.nb_streams">2</property>
   <property name="meta.media.0.stream.type">video</property>
@@ -722,7 +722,7 @@
  <chain id="chain10" out="00:00:00.160">
   <property name="length">5</property>
   <property name="eof">pause</property>
-  <property name="resource">red.mp4</property>
+  <property name="resource">red.mpg</property>
   <property name="mlt_service">avformat-novalidate</property>
   <property name="seekable">1</property>
   <property name="audio_index">1</property>
@@ -732,8 +732,8 @@
   <property name="kdenlive:folderid">-1</property>
   <property name="kdenlive:id">10</property>
   <property name="mute_on_pause">0</property>
-  <property name="kdenlive:file_size">2747</property>
-  <property name="kdenlive:file_hash">d226a4bd35a930b66e91059a66c30dd7</property>
+  <property name="kdenlive:file_size">22528</property>
+  <property name="kdenlive:file_hash">8843808b89cc22ece225bdab6b6e4f21</property>
   <property name="kdenlive:audio_max1">1</property>
   <property name="meta.media.nb_streams">2</property>
   <property name="meta.media.0.stream.type">video</property>
@@ -783,7 +783,7 @@
  <chain id="chain11" out="00:00:00.160">
   <property name="length">5</property>
   <property name="eof">pause</property>
-  <property name="resource">yellow.mp4</property>
+  <property name="resource">yellow.mpg</property>
   <property name="mlt_service">avformat-novalidate</property>
   <property name="seekable">1</property>
   <property name="audio_index">1</property>
@@ -793,8 +793,8 @@
   <property name="kdenlive:folderid">-1</property>
   <property name="kdenlive:id">6</property>
   <property name="mute_on_pause">0</property>
-  <property name="kdenlive:file_size">2751</property>
-  <property name="kdenlive:file_hash">bd4b9772957e79e1f925df78994f9f17</property>
+  <property name="kdenlive:file_size">22528</property>
+  <property name="kdenlive:file_hash">283ee83c3eb12fdb7de9f1b99a3bb4af</property>
   <property name="kdenlive:audio_max1">1</property>
   <property name="meta.media.nb_streams">2</property>
   <property name="meta.media.0.stream.type">video</property>
@@ -869,7 +869,7 @@
  <chain id="chain12" out="00:00:00.160">
   <property name="length">5</property>
   <property name="eof">pause</property>
-  <property name="resource">blue.mp4</property>
+  <property name="resource">blue.mpg</property>
   <property name="mlt_service">avformat-novalidate</property>
   <property name="seekable">1</property>
   <property name="audio_index">1</property>
@@ -879,8 +879,8 @@
   <property name="kdenlive:folderid">-1</property>
   <property name="kdenlive:id">4</property>
   <property name="mute_on_pause">0</property>
-  <property name="kdenlive:file_size">2763</property>
-  <property name="kdenlive:file_hash">51f514ca8c2b5357887b72bf68027ab0</property>
+  <property name="kdenlive:file_size">22528</property>
+  <property name="kdenlive:file_hash">f676d3b10f618240555446e6dbbc4d84</property>
   <property name="kdenlive:audio_max1">1</property>
   <property name="meta.media.nb_streams">2</property>
   <property name="meta.media.0.stream.type">video</property>
@@ -930,7 +930,7 @@
  <chain id="chain13" out="00:00:00.160">
   <property name="length">5</property>
   <property name="eof">pause</property>
-  <property name="resource">green.mp4</property>
+  <property name="resource">green.mpg</property>
   <property name="mlt_service">avformat-novalidate</property>
   <property name="seekable">1</property>
   <property name="audio_index">1</property>
@@ -940,8 +940,8 @@
   <property name="kdenlive:folderid">-1</property>
   <property name="kdenlive:id">9</property>
   <property name="mute_on_pause">0</property>
-  <property name="kdenlive:file_size">2767</property>
-  <property name="kdenlive:file_hash">a253d8423517b95010277e0e534193e8</property>
+  <property name="kdenlive:file_size">22528</property>
+  <property name="kdenlive:file_hash">7b2b8ea33dead346e63c057674d1d86c</property>
   <property name="kdenlive:audio_max1">0</property>
   <property name="meta.media.nb_streams">2</property>
   <property name="meta.media.0.stream.type">video</property>
@@ -991,7 +991,7 @@
  <chain id="chain14" out="00:00:00.160">
   <property name="length">5</property>
   <property name="eof">pause</property>
-  <property name="resource">red.mp4</property>
+  <property name="resource">red.mpg</property>
   <property name="mlt_service">avformat-novalidate</property>
   <property name="seekable">1</property>
   <property name="audio_index">1</property>
@@ -1001,8 +1001,8 @@
   <property name="kdenlive:folderid">-1</property>
   <property name="kdenlive:id">10</property>
   <property name="mute_on_pause">0</property>
-  <property name="kdenlive:file_size">2747</property>
-  <property name="kdenlive:file_hash">d226a4bd35a930b66e91059a66c30dd7</property>
+  <property name="kdenlive:file_size">22528</property>
+  <property name="kdenlive:file_hash">8843808b89cc22ece225bdab6b6e4f21</property>
   <property name="kdenlive:audio_max1">1</property>
   <property name="meta.media.nb_streams">2</property>
   <property name="meta.media.0.stream.type">video</property>
@@ -1052,7 +1052,7 @@
  <chain id="chain15" out="00:00:00.160">
   <property name="length">5</property>
   <property name="eof">pause</property>
-  <property name="resource">yellow.mp4</property>
+  <property name="resource">yellow.mpg</property>
   <property name="mlt_service">avformat-novalidate</property>
   <property name="seekable">1</property>
   <property name="audio_index">1</property>
@@ -1062,8 +1062,8 @@
   <property name="kdenlive:folderid">-1</property>
   <property name="kdenlive:id">6</property>
   <property name="mute_on_pause">0</property>
-  <property name="kdenlive:file_size">2751</property>
-  <property name="kdenlive:file_hash">bd4b9772957e79e1f925df78994f9f17</property>
+  <property name="kdenlive:file_size">22528</property>
+  <property name="kdenlive:file_hash">283ee83c3eb12fdb7de9f1b99a3bb4af</property>
   <property name="kdenlive:audio_max1">1</property>
   <property name="meta.media.nb_streams">2</property>
   <property name="meta.media.0.stream.type">video</property>
@@ -1349,7 +1349,7 @@
  <chain id="chain16" out="00:00:00.160">
   <property name="length">5</property>
   <property name="eof">pause</property>
-  <property name="resource">blue.mp4</property>
+  <property name="resource">blue.mpg</property>
   <property name="mlt_service">avformat-novalidate</property>
   <property name="meta.media.nb_streams">2</property>
   <property name="meta.media.0.stream.type">video</property>
@@ -1400,14 +1400,14 @@
   <property name="kdenlive:folderid">-1</property>
   <property name="kdenlive:id">4</property>
   <property name="mute_on_pause">0</property>
-  <property name="kdenlive:file_size">2763</property>
-  <property name="kdenlive:file_hash">51f514ca8c2b5357887b72bf68027ab0</property>
+  <property name="kdenlive:file_size">22528</property>
+  <property name="kdenlive:file_hash">f676d3b10f618240555446e6dbbc4d84</property>
   <property name="kdenlive:audio_max1">1</property>
  </chain>
  <chain id="chain17" out="00:00:00.160">
   <property name="length">5</property>
   <property name="eof">pause</property>
-  <property name="resource">yellow.mp4</property>
+  <property name="resource">yellow.mpg</property>
   <property name="mlt_service">avformat-novalidate</property>
   <property name="meta.media.nb_streams">2</property>
   <property name="meta.media.0.stream.type">video</property>
@@ -1458,14 +1458,14 @@
   <property name="kdenlive:folderid">-1</property>
   <property name="kdenlive:id">6</property>
   <property name="mute_on_pause">0</property>
-  <property name="kdenlive:file_size">2751</property>
-  <property name="kdenlive:file_hash">bd4b9772957e79e1f925df78994f9f17</property>
+  <property name="kdenlive:file_size">22528</property>
+  <property name="kdenlive:file_hash">283ee83c3eb12fdb7de9f1b99a3bb4af</property>
   <property name="kdenlive:audio_max1">1</property>
  </chain>
  <chain id="chain18" out="00:00:00.160">
   <property name="length">5</property>
   <property name="eof">pause</property>
-  <property name="resource">green.mp4</property>
+  <property name="resource">green.mpg</property>
   <property name="mlt_service">avformat-novalidate</property>
   <property name="meta.media.nb_streams">2</property>
   <property name="meta.media.0.stream.type">video</property>
@@ -1516,14 +1516,14 @@
   <property name="kdenlive:folderid">-1</property>
   <property name="kdenlive:id">9</property>
   <property name="mute_on_pause">0</property>
-  <property name="kdenlive:file_size">2767</property>
-  <property name="kdenlive:file_hash">a253d8423517b95010277e0e534193e8</property>
+  <property name="kdenlive:file_size">22528</property>
+  <property name="kdenlive:file_hash">7b2b8ea33dead346e63c057674d1d86c</property>
   <property name="kdenlive:audio_max1">0</property>
  </chain>
  <chain id="chain19" out="00:00:00.160">
   <property name="length">5</property>
   <property name="eof">pause</property>
-  <property name="resource">red.mp4</property>
+  <property name="resource">red.mpg</property>
   <property name="mlt_service">avformat-novalidate</property>
   <property name="meta.media.nb_streams">2</property>
   <property name="meta.media.0.stream.type">video</property>
@@ -1574,8 +1574,8 @@
   <property name="kdenlive:folderid">-1</property>
   <property name="kdenlive:id">10</property>
   <property name="mute_on_pause">0</property>
-  <property name="kdenlive:file_size">2747</property>
-  <property name="kdenlive:file_hash">d226a4bd35a930b66e91059a66c30dd7</property>
+  <property name="kdenlive:file_size">22528</property>
+  <property name="kdenlive:file_hash">8843808b89cc22ece225bdab6b6e4f21</property>
   <property name="kdenlive:audio_max1">1</property>
  </chain>
  <playlist id="main_bin">
