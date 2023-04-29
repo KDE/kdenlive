@@ -255,14 +255,14 @@ TEST_CASE("Check File Corruption", "[CFC]")
         REQUIRE(cid2b > -1);
         REQUIRE(cid3b > -1);
         REQUIRE(cid4b > -1);
-        REQUIRE(timeline->getClipPtr(cid1)->clipName() == QLatin1String("blue.mp4"));
-        REQUIRE(timeline->getClipPtr(cid1b)->clipName() == QLatin1String("blue.mp4"));
-        REQUIRE(timeline->getClipPtr(cid2)->clipName() == QLatin1String("green.mp4"));
-        REQUIRE(timeline->getClipPtr(cid2b)->clipName() == QLatin1String("green.mp4"));
-        REQUIRE(timeline->getClipPtr(cid3)->clipName() == QLatin1String("red.mp4"));
-        REQUIRE(timeline->getClipPtr(cid3b)->clipName() == QLatin1String("red.mp4"));
-        // REQUIRE(timeline->getClipPtr(cid4)->clipName() == QLatin1String("yellow.mp4"));
-        // REQUIRE(timeline->getClipPtr(cid4b)->clipName() == QLatin1String("yellow.mp4"));
+        REQUIRE(timeline->getClipPtr(cid1)->clipName() == QLatin1String("blue.mpg"));
+        REQUIRE(timeline->getClipPtr(cid1b)->clipName() == QLatin1String("blue.mpg"));
+        REQUIRE(timeline->getClipPtr(cid2)->clipName() == QLatin1String("green.mpg"));
+        REQUIRE(timeline->getClipPtr(cid2b)->clipName() == QLatin1String("green.mpg"));
+        REQUIRE(timeline->getClipPtr(cid3)->clipName() == QLatin1String("red.mpg"));
+        REQUIRE(timeline->getClipPtr(cid3b)->clipName() == QLatin1String("red.mpg"));
+        REQUIRE(timeline->getClipPtr(cid4)->clipName() == QLatin1String("yellow.mpg"));
+        REQUIRE(timeline->getClipPtr(cid4b)->clipName() == QLatin1String("yellow.mpg"));
         binModel->clean();
         pCore->m_projectManager = nullptr;
     }
