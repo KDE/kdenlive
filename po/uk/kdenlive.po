@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-28 02:38+0000\n"
-"PO-Revision-Date: 2023-03-17 14:18+0200\n"
+"POT-Creation-Date: 2023-04-29 02:52+0000\n"
+"PO-Revision-Date: 2023-04-28 23:10+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -3600,17 +3600,17 @@ msgstr "Введіть назву нового шаблона:"
 msgid "Abort processing"
 msgstr "Перервати обробку"
 
-#: src/assets/view/widgets/colorwheel.cpp:406
+#: src/assets/view/widgets/colorwheel.cpp:461
 #, kde-format
 msgid "R: "
 msgstr "Ч: "
 
-#: src/assets/view/widgets/colorwheel.cpp:413
+#: src/assets/view/widgets/colorwheel.cpp:468
 #, kde-format
 msgid "G: "
 msgstr "З: "
 
-#: src/assets/view/widgets/colorwheel.cpp:419
+#: src/assets/view/widgets/colorwheel.cpp:474
 #, kde-format
 msgid "B: "
 msgstr "С: "
@@ -7530,10 +7530,9 @@ msgid "Luma file"
 msgstr "Файл сигналу яскравості"
 
 #: src/doc/documentchecker.cpp:310
-#, fuzzy, kde-format
-#| msgid "Delete files"
+#, kde-format
 msgid "Asset file"
-msgstr "Вилучити файли"
+msgstr "Файл активів"
 
 #: src/doc/documentchecker.cpp:337
 #, kde-format

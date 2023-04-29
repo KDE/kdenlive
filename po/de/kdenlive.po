@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-28 02:38+0000\n"
+"POT-Creation-Date: 2023-04-29 02:52+0000\n"
 "PO-Revision-Date: 2023-04-11 14:29+0200\n"
 "Last-Translator: Jannick Kuhr <opensource@kuhr.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -3599,17 +3599,17 @@ msgstr "Geben Sie den Namen der Voreinstellung ein"
 msgid "Abort processing"
 msgstr ""
 
-#: src/assets/view/widgets/colorwheel.cpp:406
+#: src/assets/view/widgets/colorwheel.cpp:461
 #, kde-format
 msgid "R: "
 msgstr ""
 
-#: src/assets/view/widgets/colorwheel.cpp:413
+#: src/assets/view/widgets/colorwheel.cpp:468
 #, kde-format
 msgid "G: "
 msgstr ""
 
-#: src/assets/view/widgets/colorwheel.cpp:419
+#: src/assets/view/widgets/colorwheel.cpp:474
 #, kde-format
 msgid "B: "
 msgstr ""

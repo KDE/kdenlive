@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-28 02:38+0000\n"
+"POT-Creation-Date: 2023-04-29 02:52+0000\n"
 "PO-Revision-Date: 2023-03-17 05:47+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -3441,17 +3441,17 @@ msgstr "შეიყვანეთ პრესეტის სახელი:
 msgid "Abort processing"
 msgstr "დამუშავების შეწყვეტა"
 
-#: src/assets/view/widgets/colorwheel.cpp:406
+#: src/assets/view/widgets/colorwheel.cpp:461
 #, kde-format
 msgid "R: "
 msgstr "წ: "
 
-#: src/assets/view/widgets/colorwheel.cpp:413
+#: src/assets/view/widgets/colorwheel.cpp:468
 #, kde-format
 msgid "G: "
 msgstr "მ: "
 
-#: src/assets/view/widgets/colorwheel.cpp:419
+#: src/assets/view/widgets/colorwheel.cpp:474
 #, kde-format
 msgid "B: "
 msgstr "ლ: "
