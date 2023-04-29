@@ -307,10 +307,19 @@ void ProjectManager::activateDocument(const QUuid &uuid)
 void ProjectManager::testSetActiveDocument(KdenliveDoc *doc, std::shared_ptr<TimelineItemModel> timeline)
 {
     m_project = doc;
+    if (timeline == nullptr) {
+        // New nested document format, build timeline model now
+        const QUuid uuid = m_project->uuid();
+        timeline = TimelineItemModel::construct(uuid, pCore->getProjectProfile(), m_project->commandStack());
+        std::shared_ptr<Mlt::Tractor> tc = pCore->projectItemModel()->getExtraTimeline(uuid.toString());
+        if (!constructTimelineFromTractor(timeline, nullptr, *tc.get(), m_progressDialog, m_project->modifiedDecimalPoint(), QString(), QString())) {
+            qDebug() << "===== LOADING PROJECT INTERNAL ERROR";
+        }
+    }
     m_project->addTimeline(doc->uuid(), timeline);
     m_activeTimelineModel = timeline;
-    m_project->loadSequenceGroupsAndGuides(doc->uuid());
     m_project->activeUuid = doc->uuid();
+    m_project->loadSequenceGroupsAndGuides(doc->uuid());
 }
 
 std::shared_ptr<TimelineItemModel> ProjectManager::getTimeline()

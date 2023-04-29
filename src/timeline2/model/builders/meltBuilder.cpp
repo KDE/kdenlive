@@ -47,7 +47,6 @@ bool loadProjectBin(const std::shared_ptr<ProjectItemModel> &projectModel, Mlt::
     int zoomLevel = -1;
     binIdCorresp.clear();
     projectModel->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, zoomLevel, progressDialog);
-
     QStringList foldersToExpand;
     // Find updated ids for expanded folders
     for (const QString &folderId : expandedFolders) {
@@ -75,6 +74,7 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
 
     QStringList expandedFolders;
     if (projectModel) {
+        // This is an old format project file
         int zoomLevel = -1;
         if (timeline->uuid() == pCore->currentTimelineId()) {
             binIdCorresp.clear();
@@ -82,7 +82,6 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
         } else {
             projectModel->loadTractorPlaylist(tractor, binIdCorresp);
         }
-
         QStringList foldersToExpand;
         // Find updated ids for expanded folders
         for (const QString &folderId : expandedFolders) {
@@ -95,7 +94,7 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
             pCore->bin()->loadBinProperties(foldersToExpand, zoomLevel);
         }
     } else {
-        binIdCorresp.clear();
+        // loading an extra timeline
     }
 
     QSet<QString> reserved_names{QLatin1String("playlistmain"), QLatin1String("timeline_preview"), QLatin1String("timeline_overlay"),

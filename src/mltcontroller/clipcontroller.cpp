@@ -731,7 +731,6 @@ bool ClipController::hasAudio() const
 void ClipController::checkAudioVideo()
 {
     QReadLocker lock(&m_producerLock);
-    qDebug() << "------------\nCHECKING AUDIO/VIDEO FOR CLIP: " << m_clipType << "\n------------------------";
     if (m_masterProducer->get_int("_placeholder") == 1 || m_masterProducer->get_int("_missingsource") == 1) {
         // This is a placeholder file, try to guess from its properties
         QString orig_service = m_masterProducer->get("kdenlive:orig_service");
