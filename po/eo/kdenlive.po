@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-29 00:49+0000\n"
+"POT-Creation-Date: 2023-04-30 00:47+0000\n"
 "PO-Revision-Date: 2023-04-28 07:15+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
@@ -4462,7 +4462,7 @@ msgstr "Ludlisto"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2330 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/project/projectmanager.cpp:1230 src/project/projectmanager.cpp:1232
+#: src/project/projectmanager.cpp:1239 src/project/projectmanager.cpp:1241
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -4973,7 +4973,7 @@ msgid "Duplicate"
 msgstr "Duobligi"
 
 #: src/bin/clipcreator.cpp:421 src/core.cpp:942
-#: src/project/projectmanager.cpp:759
+#: src/project/projectmanager.cpp:768
 #, kde-format
 msgid "Loading clips"
 msgstr "Ŝargante aŭdvidaĵoj"
@@ -6034,7 +6034,7 @@ msgstr "Eksporti Gvidilojn Datumojn"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1514
+#: src/project/projectmanager.cpp:1523
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5094
@@ -7045,8 +7045,9 @@ msgstr "Neniu parolado"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
 #: src/dialogs/textbasededit.cpp:575 src/ui/speechdialog_ui.ui:154
-#, kde-format
-msgid "Translate to english"
+#, fuzzy, kde-format
+#| msgid "Translate to english"
+msgid "Translate to English"
 msgstr "Traduki al la angla"
 
 #: src/dialogs/textbasededit.cpp:578
@@ -7726,8 +7727,8 @@ msgstr "La sekvaj filtriloj/transiroj estis forigitaj de la projekto:"
 msgid "Invalid file path"
 msgstr "Nevalida dosiera vojo"
 
-#: src/doc/kdenlivedoc.cpp:213 src/project/projectmanager.cpp:710
-#: src/project/projectmanager.cpp:774 src/project/projectmanager.cpp:801
+#: src/doc/kdenlivedoc.cpp:213 src/project/projectmanager.cpp:719
+#: src/project/projectmanager.cpp:783 src/project/projectmanager.cpp:810
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Ne eblis reakiri koruptitan dosieron."
@@ -7807,15 +7808,15 @@ msgstr ""
 "Via projektdosiero estis ĝisdatigita al la plej nova dokumentversio de "
 "Kdenlive, sed ne eblis krei la rezervan kopion %1."
 
-#: src/doc/kdenlivedoc.cpp:859 src/project/projectmanager.cpp:1110
-#: src/project/projectmanager.cpp:1146
+#: src/doc/kdenlivedoc.cpp:859 src/project/projectmanager.cpp:1119
+#: src/project/projectmanager.cpp:1155
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Eraro dum la dosierujo de la projekto: %1"
 
 #: src/doc/kdenlivedoc.cpp:1022 src/doc/kdenlivedoc.cpp:2145
 #: src/project/dialogs/archivewidget.cpp:214
-#: src/project/projectmanager.cpp:1347
+#: src/project/projectmanager.cpp:1356
 #, kde-format
 msgid "Untitled"
 msgstr "Sentitola"
@@ -10619,12 +10620,12 @@ msgstr ""
 "Ĉi tio movos ĉiujn provizorajn dosierojn de<br/><b>%1</b> al <b>%2</b>,<br/"
 ">la projektdosiero tiam estos reŝargita"
 
-#: src/mainwindow.cpp:2186 src/project/projectmanager.cpp:484
+#: src/mainwindow.cpp:2186 src/project/projectmanager.cpp:493
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Ne povas fari operacion, nevalida dokumentid: %1"
 
-#: src/mainwindow.cpp:2191 src/project/projectmanager.cpp:490
+#: src/mainwindow.cpp:2191 src/project/projectmanager.cpp:499
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Ne povas fari operacion, cela dosierujo jam ekzistas: %1"
@@ -12874,7 +12875,7 @@ msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 "Marka dosiero estas pli granda ol 1MB, ĉu vi certas, ke vi volas importi?"
 
-#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1408
+#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1417
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:5000
 #, kde-format
@@ -13486,12 +13487,12 @@ msgstr "Konservi kopion…"
 msgid "Open Backup File…"
 msgstr "Malfermi Rezervan Dosieron…"
 
-#: src/project/projectmanager.cpp:355
+#: src/project/projectmanager.cpp:364
 #, kde-format
 msgid "Save changes to document?"
 msgstr "Ĉu konservi ŝanĝojn al dokumento?"
 
-#: src/project/projectmanager.cpp:357 src/project/projectmanager.cpp:1346
+#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1355
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13500,7 +13501,7 @@ msgstr ""
 "La projekto <b>\"%1\"</b> estas ŝanĝita.\n"
 "Ĉu vi volas konservi viajn ŝanĝojn?"
 
-#: src/project/projectmanager.cpp:472
+#: src/project/projectmanager.cpp:481
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -13512,49 +13513,49 @@ msgstr ""
 "provizorajn dosierojn de <b>%1</b> al <b>%2</b>, la projektdosiero tiam "
 "estos reŝargita"
 
-#: src/project/projectmanager.cpp:513
+#: src/project/projectmanager.cpp:522
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Konservi Kopion"
 
-#: src/project/projectmanager.cpp:614
+#: src/project/projectmanager.cpp:623
 #, kde-format
 msgid "Auto-saved file exist. Do you want to recover now?"
 msgstr "Aŭtomate konservita dosiero ekzistas. Ĉu vi volas resaniĝi nun?"
 
-#: src/project/projectmanager.cpp:614
+#: src/project/projectmanager.cpp:623
 #, kde-format
 msgid "File Recovery"
 msgstr "Dosiera Reakiro"
 
-#: src/project/projectmanager.cpp:615 src/project/projectmanager.cpp:699
+#: src/project/projectmanager.cpp:624 src/project/projectmanager.cpp:708
 #, kde-format
 msgid "Recover"
 msgstr "Resaniĝi"
 
-#: src/project/projectmanager.cpp:615
+#: src/project/projectmanager.cpp:624
 #, kde-format
 msgid "Do not recover"
 msgstr "Ne resaniĝi"
 
-#: src/project/projectmanager.cpp:667
+#: src/project/projectmanager.cpp:676
 #, kde-format
 msgid "Opening file %1"
 msgstr "Malfermante dosieron %1"
 
-#: src/project/projectmanager.cpp:683
+#: src/project/projectmanager.cpp:692
 #, kde-format
 msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "Ŝargante Projekton"
 
-#: src/project/projectmanager.cpp:685
+#: src/project/projectmanager.cpp:694
 #, kde-format
 msgid "Loading project"
 msgstr "Ŝargante projekton"
 
-#: src/project/projectmanager.cpp:698
+#: src/project/projectmanager.cpp:707
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -13565,28 +13566,28 @@ msgstr ""
 "%1\n"
 "Ĉu vi volas malfermi rezervan dosieron?"
 
-#: src/project/projectmanager.cpp:699
+#: src/project/projectmanager.cpp:708
 #, kde-format
 msgid "Error opening file"
 msgstr "Eraro dum malfermo de dosiero"
 
-#: src/project/projectmanager.cpp:699
+#: src/project/projectmanager.cpp:708
 #, kde-format
 msgid "Open Backup"
 msgstr "Malfermi Rezervon"
 
-#: src/project/projectmanager.cpp:714
+#: src/project/projectmanager.cpp:723
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "Ne eblis malfermi la rezervan projektdosieron."
 
-#: src/project/projectmanager.cpp:730
+#: src/project/projectmanager.cpp:739
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Via projekto estis ĝisdatigita, sekurkopio estos kreita ĉe venonta konservado"
 
-#: src/project/projectmanager.cpp:733
+#: src/project/projectmanager.cpp:742
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -13594,7 +13595,7 @@ msgstr ""
 "Via projekto estis modifita je la malfermo, sekurkopio estos kreita ĉe la "
 "venonta konservado"
 
-#: src/project/projectmanager.cpp:828
+#: src/project/projectmanager.cpp:837
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -13603,12 +13604,12 @@ msgstr ""
 "Ĉi tio forigos ĉiujn ŝanĝojn faritajn de kiam vi laste konservis vian "
 "projekton. Ĉu vi certas, ke vi volas daŭrigi?"
 
-#: src/project/projectmanager.cpp:829
+#: src/project/projectmanager.cpp:838
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Reiri al la lasta konservita versio"
 
-#: src/project/projectmanager.cpp:909
+#: src/project/projectmanager.cpp:918
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -13617,25 +13618,25 @@ msgstr ""
 "Projekto estis koruptita, ne povas rezerva. Bonvolu fermi kaj remalfermi "
 "vian projektdosieron por reakiri lastan sekurkopion"
 
-#: src/project/projectmanager.cpp:1124
+#: src/project/projectmanager.cpp:1133
 #, kde-format
 msgid "Moving project folder"
 msgstr "Movante projektdosierujon"
 
-#: src/project/projectmanager.cpp:1182
+#: src/project/projectmanager.cpp:1191
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 "Projektdosiero estas koruptita (neniu spuroj). Ĉu provi trovi rezervan "
 "dosieron?"
 
-#: src/project/projectmanager.cpp:1209 src/project/projectmanager.cpp:1239
-#: src/project/projectmanager.cpp:1243
+#: src/project/projectmanager.cpp:1218 src/project/projectmanager.cpp:1248
+#: src/project/projectmanager.cpp:1252
 #, kde-format
 msgid "Sequence 1"
 msgstr "Sekvo 1"
 
-#: src/project/projectmanager.cpp:1220
+#: src/project/projectmanager.cpp:1229
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -13643,13 +13644,13 @@ msgstr ""
 "Projektdosiero estas koruptita - malsukcesis ŝargi trakojn. Ĉu provi trovi "
 "rezervan dosieron?"
 
-#: src/project/projectmanager.cpp:1352 src/project/projectmanager.cpp:1357
-#: src/project/projectmanager.cpp:1367 src/project/projectmanager.cpp:1383
+#: src/project/projectmanager.cpp:1361 src/project/projectmanager.cpp:1366
+#: src/project/projectmanager.cpp:1376 src/project/projectmanager.cpp:1392
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Ŝanĝo de la profila projekto ĉesigita"
 
-#: src/project/projectmanager.cpp:1499
+#: src/project/projectmanager.cpp:1508
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -13658,12 +13659,12 @@ msgstr ""
 "Eligaĵdosiero %1 jam ekzistas.\n"
 "Ĉu vi volas anstataŭigi ĝin?"
 
-#: src/project/projectmanager.cpp:1524
+#: src/project/projectmanager.cpp:1533
 #, kde-format
 msgid "Project profile changed"
 msgstr "Projektprofilo ŝanĝita"
 
-#: src/project/projectmanager.cpp:1574
+#: src/project/projectmanager.cpp:1583
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -13672,18 +13673,18 @@ msgstr ""
 "Ne povas krei templinion el ĉi tiu tondaĵo:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1653
+#: src/project/projectmanager.cpp:1662
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Importante sekvencotondaĵon, ĉi tio estas nuntempe en eksperimenta stato"
 
-#: src/project/projectmanager.cpp:1806
+#: src/project/projectmanager.cpp:1815
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Elekti tondaĵon por krei sekvencon"
 
-#: src/project/projectmanager.cpp:1843
+#: src/project/projectmanager.cpp:1852
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Krei sekvencan aŭdvidaĵon"
@@ -14970,17 +14971,17 @@ msgstr "RGB Parado"
 msgid "Histogram"
 msgstr "Histogramo"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:261
-#: src/timeline2/model/builders/meltBuilder.cpp:490
-#: src/timeline2/model/builders/meltBuilder.cpp:500
+#: src/timeline2/model/builders/meltBuilder.cpp:260
+#: src/timeline2/model/builders/meltBuilder.cpp:489
+#: src/timeline2/model/builders/meltBuilder.cpp:499
 #, kde-format
 msgid ""
 "Invalid composition %1 found on track %2 at %3, compositing with track %4."
 msgstr ""
 "Nevalida komponaĵo %1 trovita sur trako %2 ĉe %3, kunmetante kun trako %4."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:270
-#: src/timeline2/model/builders/meltBuilder.cpp:514
+#: src/timeline2/model/builders/meltBuilder.cpp:269
+#: src/timeline2/model/builders/meltBuilder.cpp:513
 #, kde-format
 msgid ""
 "Incorrect composition %1 found on track %2 at %3, compositing with track %4 "
@@ -14989,43 +14990,43 @@ msgstr ""
 "Malĝusta komponaĵo %1 trovita sur trako %2 ĉe %3, komponado kun trako %4 "
 "estis agordita al devigita trako."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:279
-#: src/timeline2/model/builders/meltBuilder.cpp:528
+#: src/timeline2/model/builders/meltBuilder.cpp:278
+#: src/timeline2/model/builders/meltBuilder.cpp:527
 #, kde-format
 msgid "Invalid composition %1 found on track %2 at %3."
 msgstr "Nevalida komponaĵo %1 trovita sur la trako %2 ĉe %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:300
-#: src/timeline2/model/builders/meltBuilder.cpp:559
-#: src/timeline2/model/builders/meltBuilder.cpp:561
+#: src/timeline2/model/builders/meltBuilder.cpp:299
+#: src/timeline2/model/builders/meltBuilder.cpp:558
+#: src/timeline2/model/builders/meltBuilder.cpp:560
 #, kde-format
 msgid "Problems found in your project file"
 msgstr "Problemoj trovitaj en via projektdosiero"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:489
-#: src/timeline2/model/builders/meltBuilder.cpp:499
+#: src/timeline2/model/builders/meltBuilder.cpp:488
+#: src/timeline2/model/builders/meltBuilder.cpp:498
 #, kde-format
 msgid "%1 Composition (%2) with invalid track reference found and removed."
 msgstr "%1 Komponaĵo (%2) kun nevalida trakreferenco trovita kaj forigita."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:513
+#: src/timeline2/model/builders/meltBuilder.cpp:512
 #, kde-format
 msgid ""
 "%1 Composition was not applied on expected track, manually enforce the track."
 msgstr ""
 "%1 Kunmetaĵo ne estis aplikata sur atendata trako, permane devigu la trakon."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:527
+#: src/timeline2/model/builders/meltBuilder.cpp:526
 #, kde-format
 msgid "%1 Invalid composition found and removed."
 msgstr "%1 Malvalida komponaĵo trovita kaj forigita."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:550
+#: src/timeline2/model/builders/meltBuilder.cpp:549
 #, kde-format
 msgid "Errors found when opening project file (%1)"
 msgstr "Eraroj trovitaj dum malfermo de projektdosiero (%1)"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:557
+#: src/timeline2/model/builders/meltBuilder.cpp:556
 #, kde-format
 msgid ""
 "Some errors were detected in the project file.\n"
@@ -15038,97 +15039,97 @@ msgstr ""
 "projekto estas listigitaj en la langeto Projektaj Notoj,\n"
 "bonvolu revizii ilin por certigi vian projektan integrecon."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:637
-#: src/timeline2/model/builders/meltBuilder.cpp:647
+#: src/timeline2/model/builders/meltBuilder.cpp:636
+#: src/timeline2/model/builders/meltBuilder.cpp:646
 #, kde-format
 msgid "Incorrect Mix, clip %1 was removed at %2."
 msgstr "Malĝusta Miksaĵo, tondaĵo %1 estis forigita ĉe %2."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:638
+#: src/timeline2/model/builders/meltBuilder.cpp:637
 #, kde-format
 msgid "Incorrect mix found on track %1 at %2, clip %3 removed."
 msgstr "Malĝusta miksaĵo trovita sur trako %1 ĉe %2, tondaĵo %3 forigita."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:648
+#: src/timeline2/model/builders/meltBuilder.cpp:647
 #, kde-format
 msgid "Incorrect mix found at track %1 at %2, clip %3 removed."
 msgstr "Malĝusta miksaĵo trovita ĉe trako %1 ĉe %2, tondaĵo %3 forigita."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:743
+#: src/timeline2/model/builders/meltBuilder.cpp:742
 #, kde-format
 msgid "%1 Timeline clip (%2) with incorrect bin reference found and recovered."
 msgstr ""
 "%1 Templinio-tondaĵo (%2) kun malĝusta bin-referenco trovita kaj reakirita."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:744
+#: src/timeline2/model/builders/meltBuilder.cpp:743
 #, kde-format
 msgid "Invalid clip %1 (%2) not found in project bin, recovered."
 msgstr "Nevalida tondaĵo %1 (%2) ne trovita en projektujo, reakirita."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:746
+#: src/timeline2/model/builders/meltBuilder.cpp:745
 #, kde-format
 msgid "%1 Timeline clip (%2) without bin reference found and removed."
 msgstr "%1 Templinia tondaĵo (%2) sen bin-referenco trovita kaj forigita."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:747
+#: src/timeline2/model/builders/meltBuilder.cpp:746
 #, kde-format
 msgid "Project corrupted. Clip %1 (%2) not found in project bin."
 msgstr "Projekto koruptita. Aŭdvidaĵo %1 (%2) ne trovita en projektujo."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:815
-#: src/timeline2/model/builders/meltBuilder.cpp:848
+#: src/timeline2/model/builders/meltBuilder.cpp:814
+#: src/timeline2/model/builders/meltBuilder.cpp:847
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and resized"
 msgstr "%1 tondaĵo (%2) kun mankanta miksaĵo trovita kaj regrandigita"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:816
-#: src/timeline2/model/builders/meltBuilder.cpp:846
+#: src/timeline2/model/builders/meltBuilder.cpp:815
+#: src/timeline2/model/builders/meltBuilder.cpp:845
 #, kde-format
 msgid "Clip without mix %1 found and resized on track %2 at %3."
 msgstr "Tondaĵo sen miksaĵo %1 trovita kaj regrandigita sur la trako %2 ĉe %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:821
-#: src/timeline2/model/builders/meltBuilder.cpp:852
+#: src/timeline2/model/builders/meltBuilder.cpp:820
+#: src/timeline2/model/builders/meltBuilder.cpp:851
 #, kde-format
 msgid "Invalid clip without mix %1 found and removed on track %2 at %3."
 msgstr ""
 "Nevalida tondaĵo sen miksaĵo %1 trovita kaj forigita en la trako %2 ĉe %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:823
-#: src/timeline2/model/builders/meltBuilder.cpp:854
+#: src/timeline2/model/builders/meltBuilder.cpp:822
+#: src/timeline2/model/builders/meltBuilder.cpp:853
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and removed"
 msgstr "Aŭdvidaĵo %1 (%2) kun mankanta miksaĵo trovita kaj forigita"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:841
-#: src/timeline2/model/builders/meltBuilder.cpp:885
+#: src/timeline2/model/builders/meltBuilder.cpp:840
+#: src/timeline2/model/builders/meltBuilder.cpp:884
 #, kde-format
 msgid "Invalid clip %1 found on track %2 at %3."
 msgstr "Nevalida tondaĵo %1 trovita sur trako %2 ĉe %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:843
-#: src/timeline2/model/builders/meltBuilder.cpp:890
+#: src/timeline2/model/builders/meltBuilder.cpp:842
+#: src/timeline2/model/builders/meltBuilder.cpp:889
 #, kde-format
 msgid "%1 Invalid clip (%2) found and removed"
 msgstr "%1 Malvalida tondaĵo (%2) trovita kaj forigita"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:861
+#: src/timeline2/model/builders/meltBuilder.cpp:860
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found and fixed on track %2 at %3."
 msgstr ""
 "Tondaĵo %1 sur malĝusta subtrako trovita kaj riparita en trako %2 ĉe %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:866
+#: src/timeline2/model/builders/meltBuilder.cpp:865
 #, kde-format
 msgid "%1 Clip (%2) on incorrect subtrack found and fixed / %3"
 msgstr "Tondaĵo %1 (%2) sur malĝusta subtrako trovita kaj fiksita / %3"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:869
+#: src/timeline2/model/builders/meltBuilder.cpp:868
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found on track %2 at %3."
 msgstr "Tondaĵo %1 sur malĝusta subtrako trovita en trako %2 ĉe %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:874
+#: src/timeline2/model/builders/meltBuilder.cpp:873
 #, kde-format
 msgid "%1 Clip (%2) with incorrect subplaylist found"
 msgstr "Tondaĵo %1 (%2) kun malĝusta subludlisto trovita"
@@ -18428,8 +18429,9 @@ msgstr "Flustro-pretigo sur CPU estas tre malrapida"
 
 #. i18n: ectx: property (text), widget (QCheckBox, wr_translate)
 #: src/ui/configspeech_ui.ui:167
-#, kde-format
-msgid "Translate text to english"
+#, fuzzy, kde-format
+#| msgid "Translate text to english"
+msgid "Translate text to English"
 msgstr "Traduki tekston al la angla"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_add)
