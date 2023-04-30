@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-29 02:52+0000\n"
+"POT-Creation-Date: 2023-04-30 04:14+0000\n"
 "PO-Revision-Date: 2022-10-04 11:00+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -4523,7 +4523,7 @@ msgstr "Список воспроизведения"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2330 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/project/projectmanager.cpp:1230 src/project/projectmanager.cpp:1232
+#: src/project/projectmanager.cpp:1239 src/project/projectmanager.cpp:1241
 #: src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
 #| msgid "Sequence name"
@@ -5041,7 +5041,7 @@ msgid "Duplicate"
 msgstr "Дублировать клип"
 
 #: src/bin/clipcreator.cpp:421 src/core.cpp:942
-#: src/project/projectmanager.cpp:759
+#: src/project/projectmanager.cpp:768
 #, kde-format
 msgid "Loading clips"
 msgstr "Загрузка клипов"
@@ -6123,7 +6123,7 @@ msgstr "Экспортировать направляющие…"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1514
+#: src/project/projectmanager.cpp:1523
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5094
@@ -7855,8 +7855,8 @@ msgstr "Следующие фильтры/переходы были удален
 msgid "Invalid file path"
 msgstr "Некорректный путь к файлу"
 
-#: src/doc/kdenlivedoc.cpp:213 src/project/projectmanager.cpp:710
-#: src/project/projectmanager.cpp:774 src/project/projectmanager.cpp:801
+#: src/doc/kdenlivedoc.cpp:213 src/project/projectmanager.cpp:719
+#: src/project/projectmanager.cpp:783 src/project/projectmanager.cpp:810
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Не удалось восстановить повреждённый файл."
@@ -7934,15 +7934,15 @@ msgstr ""
 "Файл проекта Kdenlive обновлён до самой последней версии, однако создать "
 "резервную копию %1 не удалось."
 
-#: src/doc/kdenlivedoc.cpp:859 src/project/projectmanager.cpp:1110
-#: src/project/projectmanager.cpp:1146
+#: src/doc/kdenlivedoc.cpp:859 src/project/projectmanager.cpp:1119
+#: src/project/projectmanager.cpp:1155
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Ошибка при перемещении папки проекта: %1"
 
 #: src/doc/kdenlivedoc.cpp:1022 src/doc/kdenlivedoc.cpp:2145
 #: src/project/dialogs/archivewidget.cpp:214
-#: src/project/projectmanager.cpp:1347
+#: src/project/projectmanager.cpp:1356
 #, kde-format
 msgid "Untitled"
 msgstr "Безымянный"
@@ -10772,13 +10772,13 @@ msgstr ""
 "Все временные файлы будут перемещены из <b>%1</b> в <b>%2</b>, а затем файл "
 "проекта будет перезагружен"
 
-#: src/mainwindow.cpp:2186 src/project/projectmanager.cpp:484
+#: src/mainwindow.cpp:2186 src/project/projectmanager.cpp:493
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr ""
 "Не удалось выполнить операцию, недопустимый идентификатор документа: %1"
 
-#: src/mainwindow.cpp:2191 src/project/projectmanager.cpp:490
+#: src/mainwindow.cpp:2191 src/project/projectmanager.cpp:499
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Не удалось выполнить операцию, целевая папка уже существует: %1"
@@ -13068,7 +13068,7 @@ msgstr "Загрузка маркеров клипа"
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1408
+#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1417
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:5000
 #, fuzzy, kde-format
@@ -13671,12 +13671,12 @@ msgstr "Сохранить копию…"
 msgid "Open Backup File…"
 msgstr "Открыть резервную копию…"
 
-#: src/project/projectmanager.cpp:355
+#: src/project/projectmanager.cpp:364
 #, kde-format
 msgid "Save changes to document?"
 msgstr "Сохранить изменения в документе?"
 
-#: src/project/projectmanager.cpp:357 src/project/projectmanager.cpp:1346
+#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1355
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13685,7 +13685,7 @@ msgstr ""
 "Проект <b>%1</b> был изменён.\n"
 "Сохранить изменения?"
 
-#: src/project/projectmanager.cpp:472
+#: src/project/projectmanager.cpp:481
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -13696,49 +13696,49 @@ msgstr ""
 "файлов. Все временные файлы будут перенесены из <b>%1</b> в <b>%2</b>. Затем "
 "файл проекта будет перезагружен"
 
-#: src/project/projectmanager.cpp:513
+#: src/project/projectmanager.cpp:522
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Сохранение копии файла"
 
-#: src/project/projectmanager.cpp:614
+#: src/project/projectmanager.cpp:623
 #, kde-format
 msgid "Auto-saved file exist. Do you want to recover now?"
 msgstr "Найден файл автосохранения. Восстановить данные с этого файла?"
 
-#: src/project/projectmanager.cpp:614
+#: src/project/projectmanager.cpp:623
 #, kde-format
 msgid "File Recovery"
 msgstr "Восстановление файла"
 
-#: src/project/projectmanager.cpp:615 src/project/projectmanager.cpp:699
+#: src/project/projectmanager.cpp:624 src/project/projectmanager.cpp:708
 #, kde-format
 msgid "Recover"
 msgstr "Восстановить"
 
-#: src/project/projectmanager.cpp:615
+#: src/project/projectmanager.cpp:624
 #, kde-format
 msgid "Do not recover"
 msgstr "Не восстанавливать"
 
-#: src/project/projectmanager.cpp:667
+#: src/project/projectmanager.cpp:676
 #, kde-format
 msgid "Opening file %1"
 msgstr "Открытие файла %1"
 
-#: src/project/projectmanager.cpp:683
+#: src/project/projectmanager.cpp:692
 #, kde-format
 msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "Загрузка проекта"
 
-#: src/project/projectmanager.cpp:685
+#: src/project/projectmanager.cpp:694
 #, kde-format
 msgid "Loading project"
 msgstr "Загрузка проекта"
 
-#: src/project/projectmanager.cpp:698
+#: src/project/projectmanager.cpp:707
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -13749,29 +13749,29 @@ msgstr ""
 "%1\n"
 "Открыть резервную копию файла?"
 
-#: src/project/projectmanager.cpp:699
+#: src/project/projectmanager.cpp:708
 #, kde-format
 msgid "Error opening file"
 msgstr "Ошибка при открытии файла"
 
-#: src/project/projectmanager.cpp:699
+#: src/project/projectmanager.cpp:708
 #, kde-format
 msgid "Open Backup"
 msgstr "Открыть резервную копию"
 
-#: src/project/projectmanager.cpp:714
+#: src/project/projectmanager.cpp:723
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid "Could not open the backup project file."
 msgstr "Не удалось открыть файл проекта %1"
 
-#: src/project/projectmanager.cpp:730
+#: src/project/projectmanager.cpp:739
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Проект был обновлён, резервная копия будет создана при следующем сохранении"
 
-#: src/project/projectmanager.cpp:733
+#: src/project/projectmanager.cpp:742
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -13779,7 +13779,7 @@ msgstr ""
 "Проект был изменён при открытии, резервная копия будет создана при следующем "
 "сохранении"
 
-#: src/project/projectmanager.cpp:828
+#: src/project/projectmanager.cpp:837
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -13788,12 +13788,12 @@ msgstr ""
 "Все изменения, внесённые после последнего сохранения проекта, будут "
 "потеряны. Продолжить?"
 
-#: src/project/projectmanager.cpp:829
+#: src/project/projectmanager.cpp:838
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Вернуться к последней сохранённой версии"
 
-#: src/project/projectmanager.cpp:909
+#: src/project/projectmanager.cpp:918
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -13802,36 +13802,36 @@ msgstr ""
 "Проект повреждён, резервное копирование невозможно. Закройте и снова "
 "откройте файл проекта, чтобы восстановить данные из последней резервной копии"
 
-#: src/project/projectmanager.cpp:1124
+#: src/project/projectmanager.cpp:1133
 #, kde-format
 msgid "Moving project folder"
 msgstr "Перемещение папки проекта"
 
-#: src/project/projectmanager.cpp:1182
+#: src/project/projectmanager.cpp:1191
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr "Файл проекта повреждён (без дорожек). Найти файл резервной копии?"
 
-#: src/project/projectmanager.cpp:1209 src/project/projectmanager.cpp:1239
-#: src/project/projectmanager.cpp:1243
+#: src/project/projectmanager.cpp:1218 src/project/projectmanager.cpp:1248
+#: src/project/projectmanager.cpp:1252
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequence 1"
 msgstr "Имя серии"
 
-#: src/project/projectmanager.cpp:1220
+#: src/project/projectmanager.cpp:1229
 #, fuzzy, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "Файл проекта повреждён (без дорожек). Найти файл резервной копии?"
 
-#: src/project/projectmanager.cpp:1352 src/project/projectmanager.cpp:1357
-#: src/project/projectmanager.cpp:1367 src/project/projectmanager.cpp:1383
+#: src/project/projectmanager.cpp:1361 src/project/projectmanager.cpp:1366
+#: src/project/projectmanager.cpp:1376 src/project/projectmanager.cpp:1392
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Изменение профиля проекта прервано"
 
-#: src/project/projectmanager.cpp:1499
+#: src/project/projectmanager.cpp:1508
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -13840,12 +13840,12 @@ msgstr ""
 "Выходной файл %1 уже существует.\n"
 "Перезаписать его?"
 
-#: src/project/projectmanager.cpp:1524
+#: src/project/projectmanager.cpp:1533
 #, kde-format
 msgid "Project profile changed"
 msgstr "Профиль проекта изменён"
 
-#: src/project/projectmanager.cpp:1574
+#: src/project/projectmanager.cpp:1583
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
 msgid ""
@@ -13853,18 +13853,18 @@ msgid ""
 "%1"
 msgstr "Не удалось создать фильтр %1"
 
-#: src/project/projectmanager.cpp:1653
+#: src/project/projectmanager.cpp:1662
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1806
+#: src/project/projectmanager.cpp:1815
 #, fuzzy, kde-format
 #| msgid "Select a clip to compare effect"
 msgid "Select a clip to create sequence"
 msgstr "Выберите клип для сравнения эффектов"
 
-#: src/project/projectmanager.cpp:1843
+#: src/project/projectmanager.cpp:1852
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Create Sequence Clip"
@@ -15168,9 +15168,9 @@ msgstr "Парад RGB"
 msgid "Histogram"
 msgstr "Гистограмма"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:261
-#: src/timeline2/model/builders/meltBuilder.cpp:490
-#: src/timeline2/model/builders/meltBuilder.cpp:500
+#: src/timeline2/model/builders/meltBuilder.cpp:260
+#: src/timeline2/model/builders/meltBuilder.cpp:489
+#: src/timeline2/model/builders/meltBuilder.cpp:499
 #, kde-format
 msgid ""
 "Invalid composition %1 found on track %2 at %3, compositing with track %4."
@@ -15178,8 +15178,8 @@ msgstr ""
 "Обнаружена недопустимая композиция %1 на дорожке %2 в позиции %3, для "
 "компоновки с дорожкой %4."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:270
-#: src/timeline2/model/builders/meltBuilder.cpp:514
+#: src/timeline2/model/builders/meltBuilder.cpp:269
+#: src/timeline2/model/builders/meltBuilder.cpp:513
 #, kde-format
 msgid ""
 "Incorrect composition %1 found on track %2 at %3, compositing with track %4 "
@@ -15188,27 +15188,27 @@ msgstr ""
 "Обнаружена некорректная композиция %1 на дорожке %2 в позиции %3, "
 "установлена принудительная компоновка с дорожкой %4."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:279
-#: src/timeline2/model/builders/meltBuilder.cpp:528
+#: src/timeline2/model/builders/meltBuilder.cpp:278
+#: src/timeline2/model/builders/meltBuilder.cpp:527
 #, kde-format
 msgid "Invalid composition %1 found on track %2 at %3."
 msgstr "Обнаружена недопустимая композиция %1 на дорожке %2 в позиции %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:300
-#: src/timeline2/model/builders/meltBuilder.cpp:559
-#: src/timeline2/model/builders/meltBuilder.cpp:561
+#: src/timeline2/model/builders/meltBuilder.cpp:299
+#: src/timeline2/model/builders/meltBuilder.cpp:558
+#: src/timeline2/model/builders/meltBuilder.cpp:560
 #, kde-format
 msgid "Problems found in your project file"
 msgstr "В файле проекта обнаружены проблемы"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:489
-#: src/timeline2/model/builders/meltBuilder.cpp:499
+#: src/timeline2/model/builders/meltBuilder.cpp:488
+#: src/timeline2/model/builders/meltBuilder.cpp:498
 #, kde-format
 msgid "%1 Composition (%2) with invalid track reference found and removed."
 msgstr ""
 "Обнаружена и удалена композиция %1 (%2) с привязкой к недопустимой дорожке."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:513
+#: src/timeline2/model/builders/meltBuilder.cpp:512
 #, kde-format
 msgid ""
 "%1 Composition was not applied on expected track, manually enforce the track."
@@ -15216,17 +15216,17 @@ msgstr ""
 "Не удалось применить композицию %1 на предполагаемой дорожке, принудительно "
 "установите композицию на этой дорожке вручную."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:527
+#: src/timeline2/model/builders/meltBuilder.cpp:526
 #, kde-format
 msgid "%1 Invalid composition found and removed."
 msgstr "Обнаружена и удалена недопустимая композиция %1."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:550
+#: src/timeline2/model/builders/meltBuilder.cpp:549
 #, kde-format
 msgid "Errors found when opening project file (%1)"
 msgstr "Ошибка при открытии файла проекта (%1)"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:557
+#: src/timeline2/model/builders/meltBuilder.cpp:556
 #, kde-format
 msgid ""
 "Some errors were detected in the project file.\n"
@@ -15239,106 +15239,106 @@ msgstr ""
 "перечислены на вкладке «Заметки к проекту».\n"
 "Просмотрите их, чтобы убедиться в целостности проекта."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:637
-#: src/timeline2/model/builders/meltBuilder.cpp:647
+#: src/timeline2/model/builders/meltBuilder.cpp:636
+#: src/timeline2/model/builders/meltBuilder.cpp:646
 #, kde-format
 msgid "Incorrect Mix, clip %1 was removed at %2."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:638
+#: src/timeline2/model/builders/meltBuilder.cpp:637
 #, fuzzy, kde-format
 msgid "Incorrect mix found on track %1 at %2, clip %3 removed."
 msgstr ""
 "На дорожке %2 в позиции %3 обнаружен клип %1 на некорректной поддорожке."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:648
+#: src/timeline2/model/builders/meltBuilder.cpp:647
 #, kde-format
 msgid "Incorrect mix found at track %1 at %2, clip %3 removed."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:743
+#: src/timeline2/model/builders/meltBuilder.cpp:742
 #, kde-format
 msgid "%1 Timeline clip (%2) with incorrect bin reference found and recovered."
 msgstr ""
 "Обнаружен и восстановлен клип монтажного стола %1 (%2) с некорректной "
 "привязкой к корзине."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:744
+#: src/timeline2/model/builders/meltBuilder.cpp:743
 #, kde-format
 msgid "Invalid clip %1 (%2) not found in project bin, recovered."
 msgstr "Недопустимый клип %1 (%2) не найден в корзине проекта, восстановлен."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:746
+#: src/timeline2/model/builders/meltBuilder.cpp:745
 #, kde-format
 msgid "%1 Timeline clip (%2) without bin reference found and removed."
 msgstr ""
 "Обнаружен и удалён клип монтажного стола %1 (%2) без привязки к корзине."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:747
+#: src/timeline2/model/builders/meltBuilder.cpp:746
 #, kde-format
 msgid "Project corrupted. Clip %1 (%2) not found in project bin."
 msgstr "Проект повреждён. Клип %1 (%2) не найден в корзине проекта."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:815
-#: src/timeline2/model/builders/meltBuilder.cpp:848
+#: src/timeline2/model/builders/meltBuilder.cpp:814
+#: src/timeline2/model/builders/meltBuilder.cpp:847
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and resized"
 msgstr ""
 "Обнаружен клип %1 (%2) с несуществующим соединением, размер клипа был изменён"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:816
-#: src/timeline2/model/builders/meltBuilder.cpp:846
+#: src/timeline2/model/builders/meltBuilder.cpp:815
+#: src/timeline2/model/builders/meltBuilder.cpp:845
 #, kde-format
 msgid "Clip without mix %1 found and resized on track %2 at %3."
 msgstr ""
 "Обнаружен клип %1 без соединения на дорожке %2 в позиции %3, размер клипа "
 "был изменён."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:821
-#: src/timeline2/model/builders/meltBuilder.cpp:852
+#: src/timeline2/model/builders/meltBuilder.cpp:820
+#: src/timeline2/model/builders/meltBuilder.cpp:851
 #, kde-format
 msgid "Invalid clip without mix %1 found and removed on track %2 at %3."
 msgstr ""
 "Обнаружен и удалён недопустимый клип %1 без соединения на дорожке %2 в "
 "позиции %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:823
-#: src/timeline2/model/builders/meltBuilder.cpp:854
+#: src/timeline2/model/builders/meltBuilder.cpp:822
+#: src/timeline2/model/builders/meltBuilder.cpp:853
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and removed"
 msgstr "Обнаружен и удалён клип %1 (%2) с несуществующим соединением"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:841
-#: src/timeline2/model/builders/meltBuilder.cpp:885
+#: src/timeline2/model/builders/meltBuilder.cpp:840
+#: src/timeline2/model/builders/meltBuilder.cpp:884
 #, kde-format
 msgid "Invalid clip %1 found on track %2 at %3."
 msgstr "Обнаружен недопустимый клип %1 на дорожке %2 в позиции %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:843
-#: src/timeline2/model/builders/meltBuilder.cpp:890
+#: src/timeline2/model/builders/meltBuilder.cpp:842
+#: src/timeline2/model/builders/meltBuilder.cpp:889
 #, kde-format
 msgid "%1 Invalid clip (%2) found and removed"
 msgstr "Обнаружен и удалён недопустимый клип %1 (%2)"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:861
+#: src/timeline2/model/builders/meltBuilder.cpp:860
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found and fixed on track %2 at %3."
 msgstr ""
 "На дорожке %2 в позиции %3 обнаружен и восстановлен клип %1 на некорректной "
 "поддорожке."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:866
+#: src/timeline2/model/builders/meltBuilder.cpp:865
 #, kde-format
 msgid "%1 Clip (%2) on incorrect subtrack found and fixed / %3"
 msgstr "Обнаружен и исправлен клип %1 (%2) на некорректной поддорожке / %3"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:869
+#: src/timeline2/model/builders/meltBuilder.cpp:868
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found on track %2 at %3."
 msgstr ""
 "На дорожке %2 в позиции %3 обнаружен клип %1 на некорректной поддорожке."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:874
+#: src/timeline2/model/builders/meltBuilder.cpp:873
 #, kde-format
 msgid "%1 Clip (%2) with incorrect subplaylist found"
 msgstr "Обнаружен клип %1 (%2) с некорректным подсписком воспроизведения"
