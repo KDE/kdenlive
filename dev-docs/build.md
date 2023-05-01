@@ -65,7 +65,7 @@ qtmultimedia5-dev qtquickcontrols2-5-dev qttools5-dev breeze-icon-theme breeze
 sudo apt install frei0r-plugins ffmpeg
 
 # MLT, except if you want to build it manually 
-sudo apt install libmlt++7-dev libmlt7-dev melt-7
+sudo apt install libmlt++-dev libmlt-dev melt
 
 # Dependencies for localization
 sudo apt install ruby subversion gnupg2 gettext
