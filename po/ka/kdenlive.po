@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-30 00:47+0000\n"
-"PO-Revision-Date: 2023-03-17 05:40+0100\n"
+"PO-Revision-Date: 2023-04-30 04:31+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -1063,7 +1063,7 @@ msgstr "განახლება/წმ"
 #, kde-format
 msgctxt "Grain Effect Name"
 msgid "Grain"
-msgstr ""
+msgstr "მარცვალი"
 
 #: data/effects/grain.xml:5
 #, kde-format
@@ -7185,10 +7185,9 @@ msgid "Luma file"
 msgstr ""
 
 #: src/doc/documentchecker.cpp:310
-#, fuzzy, kde-format
-#| msgid "Delete files"
+#, kde-format
 msgid "Asset file"
-msgstr "ფაილების წაშლა"
+msgstr "აქტივების ფაილი"
 
 #: src/doc/documentchecker.cpp:337
 #, kde-format
@@ -13764,7 +13763,7 @@ msgstr "ოციტანი"
 #: src/pythoninterfaces/speechtotext.cpp:139
 #, kde-format
 msgid "Panjabi"
-msgstr ""
+msgstr "პენჯაბი/პანჯაბი"
 
 #: src/pythoninterfaces/speechtotext.cpp:140
 #, kde-format
@@ -19121,7 +19120,7 @@ msgstr "შევსება:"
 #: src/ui/renderwidget_ui.ui:18
 #, kde-format
 msgid "Rendering"
-msgstr ""
+msgstr "რენდერი"
 
 #. i18n: ectx: attribute (title), widget (QWidget, renderTab)
 #: src/ui/renderwidget_ui.ui:43
@@ -19384,7 +19383,7 @@ msgstr ""
 #: src/ui/renderwidget_ui.ui:821
 #, kde-format
 msgid "Export metadata"
-msgstr ""
+msgstr "მეტამონაცემების გატანა"
 
 #. i18n: ectx: property (text), widget (QLabel, edit_metadata)
 #: src/ui/renderwidget_ui.ui:828
