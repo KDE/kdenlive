@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-30 04:14+0000\n"
-"PO-Revision-Date: 2023-03-25 15:03+0100\n"
+"PO-Revision-Date: 2023-04-29 15:23+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -7532,10 +7532,9 @@ msgid "Luma file"
 msgstr "File luma"
 
 #: src/doc/documentchecker.cpp:310
-#, fuzzy, kde-format
-#| msgid "Delete files"
+#, kde-format
 msgid "Asset file"
-msgstr "Elimina i file"
+msgstr "File di risorsa"
 
 #: src/doc/documentchecker.cpp:337
 #, kde-format
@@ -18639,7 +18638,7 @@ msgstr "VOSK"
 #: src/ui/configspeech_ui.ui:37
 #, kde-format
 msgid "Whisper"
-msgstr "Sussurro"
+msgstr "Whisper"
 
 #. i18n: ectx: property (text), widget (QCheckBox, custom_vosk_folder)
 #: src/ui/configspeech_ui.ui:95
@@ -18669,7 +18668,7 @@ msgstr "Lingua:"
 #: src/ui/configspeech_ui.ui:157
 #, kde-format
 msgid "Whisper processing on cpu is very slow"
-msgstr "L'elaborazione del sussurro nella cpu è molto lenta"
+msgstr "L'elaborazione Whisper nella CPU è molto lenta"
 
 #. i18n: ectx: property (text), widget (QCheckBox, wr_translate)
 #: src/ui/configspeech_ui.ui:167
