@@ -31,6 +31,7 @@ enum class ParamType {
     Geometry,
     KeyframeParam,
     Color,
+    FixedColor, // Non animated color
     ColorWheel,
     Position,
     Curve,
@@ -150,6 +151,8 @@ public:
     QVector<QPair<QString, QVariant>> getAllParameters() const;
     /** @brief Get a parameter value from its name */
     const QVariant getParamFromName(const QString &paramName);
+    /** @brief Get a parameter index from its name */
+    const QModelIndex getParamIndexFromName(const QString &paramName);
     /** @brief Returns a json definition of the effect with all param values
      *  @param selection only export keyframes matching the selected index, or all keyframes if empty
      *  @param includeFixed if true, also export the fixed (non user editable) parameters for this effect
@@ -200,6 +203,10 @@ public Q_SLOTS:
        @param params contains the pairs (parameter name, parameter value)
      */
     void setParameters(const paramVector &params, bool update = true);
+    /** @brief Sets the value of a list of parameters. If the parameters have keyframes, ensuring all keyframable params get the keyframes
+       @param params contains the pairs (parameter name, parameter value)
+     */
+    void setParametersFromTask(const paramVector &params);
     /** @brief Set a filter job's progress */
     void setProgress(int progress);
 

@@ -172,7 +172,7 @@ void FilterTask::run()
             filter.set_in_and_out(m_inPoint, m_outPoint);
         }
         producer->attach(filter);
-        filter.set("id", "kdenlive-analysis");
+        filter.set("kdenlive:id", "kdenlive-analysis");
     }
 
     qDebug() << "=== FILTER READY TO PROCESS; LENGTH: " << length;
@@ -199,6 +199,7 @@ void FilterTask::run()
         }
     }
     consumerNode.setAttribute("resource", destFile.fileName());
+    consumerNode.setAttribute("store", "kdenlive");
 
     QFile f1(sourceFile.fileName());
     f1.open(QIODevice::WriteOnly);
@@ -238,10 +239,11 @@ void FilterTask::run()
 
     QString resultData;
     if (Xml::docContentFromFile(dom, destFile.fileName(), false)) {
+        qDebug() << "AAAA\nGOT DOC\n" << dom.toString();
         QDomNodeList filters = dom.elementsByTagName(QLatin1String("filter"));
         for (int i = 0; i < filters.count(); ++i) {
             QDomElement currentParameter = filters.item(i).toElement();
-            if (currentParameter.attribute(QLatin1String("id")) == QLatin1String("kdenlive-analysis")) {
+            if (Xml::getXmlProperty(currentParameter, QLatin1String("kdenlive:id")) == QLatin1String("kdenlive-analysis")) {
                 resultData = Xml::getXmlProperty(currentParameter, key);
                 break;
             }
@@ -264,27 +266,10 @@ void FilterTask::run()
         }
         // binClip->updatedAnalysisData(dataName, resultData, m_inPoint);
     }
-    auto operation = [assetModel = m_model, filterParams = std::move(params)]() {
-        if (auto ptr = assetModel.lock()) {
-            qDebug() << "===== SETTING FILTER PARAM: " << filterParams;
-            QMetaObject::invokeMethod(ptr.get(), "setParameters", Q_ARG(paramVector, filterParams));
-            // ptr->setParameters(filterParams);
-        }
-        QMetaObject::invokeMethod(pCore.get(), "setDocumentModified");
-        return true;
-    };
-    auto reverse = [assetModel = m_model, keyName = key]() {
-        paramVector fParams;
-        fParams.append({keyName, QVariant()});
-        if (auto ptr = assetModel.lock()) {
-            QMetaObject::invokeMethod(ptr.get(), "setParameters", Q_ARG(paramVector, fParams));
-            // ptr->setParameters(fParams);
-        }
-        QMetaObject::invokeMethod(pCore.get(), "setDocumentModified");
-        return true;
-    };
-    operation();
-    return;
+    if (auto ptr = m_model.lock()) {
+        qDebug() << "===== SETTING FILTER PARAM: " << params;
+        QMetaObject::invokeMethod(ptr.get(), "setParametersFromTask", Q_ARG(paramVector, std::move(params)));
+    }
 }
 
 void FilterTask::processLogInfo()

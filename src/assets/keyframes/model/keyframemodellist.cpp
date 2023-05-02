@@ -383,6 +383,68 @@ void KeyframeModelList::refresh()
     }
 }
 
+void KeyframeModelList::setParametersFromTask(const paramVector &params)
+{
+    Fun redo = []() { return true; };
+    Fun undo = []() { return true; };
+    paramVector previousParams;
+    // Collect all parameters previous values for undo
+    if (auto ptr = m_model.lock()) {
+        READ_LOCK();
+        for (const auto &param : m_parameters) {
+            const QString paramName = ptr->data(param.first, AssetParameterModel::NameRole).toString();
+            QPair<QString, QVariant> val(paramName, ptr->getParamFromName(paramName));
+            previousParams.append(val);
+        }
+    }
+    QStringList updatedNames;
+    paramVector currentValues;
+    if (auto ptr = m_model.lock()) {
+        for (auto &p : params) {
+            currentValues.append({p.first, ptr->getParamFromName(p.first)});
+            updatedNames << p.first;
+        }
+    }
+    Fun local_redo = [this, params]() {
+        if (auto ptr = m_model.lock()) {
+            ptr->setParameters(params);
+        }
+        return true;
+    };
+    Fun local_undo = [this, currentValues]() {
+        if (auto ptr = m_model.lock()) {
+            ptr->setParameters(currentValues);
+        }
+        return true;
+    };
+    local_redo();
+    if (auto ptr = m_model.lock()) {
+        const QModelIndex ix = ptr->getParamIndexFromName(params.first().first);
+        if (ix.isValid()) {
+            QList<GenTime> kfrs = m_parameters.at(ix)->getKeyframePos();
+            auto type = KeyframeType(KdenliveSettings::defaultkeyframeinterp());
+            for (const auto &p : m_parameters) {
+                const QString paramName = ptr->data(p.first, AssetParameterModel::NameRole).toString();
+                if (!updatedNames.contains(paramName)) {
+                    //  We need to sync this parameter keyframes.
+                    // Remove all kfrs first
+                    p.second->removeAllKeyframes(undo, redo);
+                    // Now, sync
+                    for (auto &k : kfrs) {
+                        if (!p.second->hasKeyframe(k)) {
+                            QVariant value = p.second->getInterpolatedValue(k);
+                            p.second->addKeyframe(k, type, value, false, undo, redo);
+                        }
+                    }
+                }
+            }
+        }
+        refresh();
+        UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
+    }
+    pCore->pushUndo(undo, redo, i18n("Update effect"));
+}
+
 void KeyframeModelList::reset()
 {
     QWriteLocker locker(&m_lock);

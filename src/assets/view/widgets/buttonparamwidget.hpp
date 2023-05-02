@@ -48,4 +48,5 @@ private:
     QString m_buttonName;
     QString m_alternatebuttonName;
     bool m_displayConditional;
+    bool m_animated;
 };

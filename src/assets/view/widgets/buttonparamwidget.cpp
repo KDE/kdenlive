@@ -18,6 +18,7 @@
 ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
     , m_label(nullptr)
+    , m_animated(false)
 {
     // setup the comment
     m_buttonName = m_model->data(m_index, Qt::DisplayRole).toString();
@@ -41,14 +42,14 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
                 m_keyParam = d.at(1);
             } else if (d.at(0) == QLatin1String("keydefault")) {
                 defaultValue = d.at(1);
+            } else if (d.at(0) == QLatin1String("animated")) {
+                m_animated = true;
             }
         }
     }
-    QVector<QPair<QString, QVariant>> filterParams = m_model->getAllParameters();
-    auto has_analyse_data = [&](const QPair<QString, QVariant> &param) {
-        return param.first == m_keyParam && !param.second.isNull() && param.second.toString().contains(QLatin1Char(';'));
-    };
-    m_displayConditional = std::none_of(filterParams.begin(), filterParams.end(), has_analyse_data);
+    const QString paramValue = m_model->getParamFromName(m_keyParam).toString();
+    bool valueIsNotSet = paramValue.isEmpty() || (m_animated && !paramValue.contains(QLatin1Char(';')));
+    m_displayConditional = valueIsNotSet;
 
     if (!conditionalInfo.isEmpty()) {
         m_label = new KMessageWidget(conditionalInfo, this);
@@ -109,10 +110,10 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
                 // values << QPair<QString, QVariant>(QString("_reset"),1);
                 values << QPair<QString, QVariant>(m_keyParam, current);
             } else {
+
                 values << QPair<QString, QVariant>(m_keyParam, defaultValue);
             }
-            auto *command = new AssetUpdateCommand(m_model, values);
-            pCore->pushUndo(command);
+            m_model->setParametersFromTask(values);
             return;
         }
         QVector<QPair<QString, QVariant>> filterLastParams = m_model->getAllParameters();
@@ -184,11 +185,9 @@ void ButtonParamWidget::slotShowComment(bool show)
 
 void ButtonParamWidget::slotRefresh()
 {
-    QVector<QPair<QString, QVariant>> filterParams = m_model->getAllParameters();
-    auto has_analyse_data = [&](const QPair<QString, QVariant> &param) {
-        return param.first == m_keyParam && !param.second.isNull() && param.second.toString().contains(QLatin1Char(';'));
-    };
-    m_displayConditional = std::none_of(filterParams.begin(), filterParams.end(), has_analyse_data);
+    const QString paramValue = m_model->getParamFromName(m_keyParam).toString();
+    bool valueIsNotSet = paramValue.isEmpty() || (m_animated && !paramValue.contains(QLatin1Char(';')));
+    m_displayConditional = valueIsNotSet;
 
     if (m_label) {
         m_label->setVisible(m_displayConditional);

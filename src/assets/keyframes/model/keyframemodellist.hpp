@@ -121,6 +121,7 @@ public:
 
     /** @brief Load keyframes from the current parameter value. */
     void refresh();
+    void setParametersFromTask(const paramVector &params);
     /** @brief Reset all keyframes and add a default one */
     void reset();
     Q_INVOKABLE KeyframeModel *getKeyModel();
