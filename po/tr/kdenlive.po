@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-30 04:14+0000\n"
-"PO-Revision-Date: 2023-04-28 14:23+0300\n"
+"PO-Revision-Date: 2023-05-02 00:45+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -9872,7 +9872,7 @@ msgstr "DirectX (AÇI)"
 #: src/mainwindow.cpp:1422
 #, kde-format
 msgid "Software OpenGL"
-msgstr "OpenGL yazılımı"
+msgstr "Yazılım OpenGL"
 
 #: src/mainwindow.cpp:1432
 #, kde-format
@@ -10022,7 +10022,7 @@ msgstr "Rec. 709 (TV)"
 #: src/mainwindow.cpp:1574
 #, kde-format
 msgid "Insert Zone in Project Bin"
-msgstr "Bölgeyi Proje Kovasına Ekle"
+msgstr "Proje Kovasına Bölge Ekle"
 
 #: src/mainwindow.cpp:1576
 #, kde-kuit-format
@@ -12973,7 +12973,7 @@ msgstr[1] "İmleyiciler oluştur"
 #: src/project/dialogs/noteswidget.cpp:50
 #, kde-format
 msgid "Assign timestamps to current Bin Clip"
-msgstr "Geçerli Bin Clip'e zaman damgaları atayın"
+msgstr "Geçerli kova klibine zaman damgaları ata"
 
 #: src/project/dialogs/noteswidget.cpp:185
 #, kde-format
@@ -13485,7 +13485,7 @@ msgstr "Bölüntü kıyaslama"
 #: src/project/notesplugin.cpp:37
 #, kde-format
 msgid "Enter your project notes here …"
-msgstr "Proje notlarınızı buraya girin …"
+msgstr "Proje notlarınızı buraya girin…"
 
 #: src/project/notesplugin.cpp:38
 #, kde-format
@@ -13495,12 +13495,12 @@ msgstr "Proje Notları"
 #: src/project/notesplugin.cpp:50
 #, kde-format
 msgid "Reassign selected timecodes to current Bin clip"
-msgstr "Seçili zaman kodlarını geçerli Bin klibine yeniden atayın"
+msgstr "Geçerli kova klibine seçili zaman kodlarını yeniden ata"
 
 #: src/project/notesplugin.cpp:53
 #, kde-format
 msgid "Create markers from selected timecodes"
-msgstr "Seçili zaman kodlarından imleyiciler oluşturun"
+msgstr "Seçili zaman kodlarından imleyiciler oluştur"
 
 #: src/project/notesplugin.cpp:55
 #, kde-kuit-format
