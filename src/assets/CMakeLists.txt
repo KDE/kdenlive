@@ -33,6 +33,7 @@ set(kdenlive_SRCS
   assets/view/widgets/listdependencyparamwidget.cpp
   assets/view/widgets/geometryeditwidget.cpp
   assets/view/widgets/positioneditwidget.cpp
+  assets/view/widgets/coloreditwidget.cpp
   assets/view/widgets/hideparamwidget.cpp
   assets/view/widgets/clickablelabelwidget.cpp
   assets/view/widgets/fontparamwidget.cpp

@@ -25,8 +25,8 @@
 TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id, const QString &trackName, bool audioTrack)
     : m_parent(parent)
     , m_id(id == -1 ? TimelineModel::getNextId() : id)
-    , m_softDelete(false)
     , m_lock(QReadWriteLock::Recursive)
+    , m_softDelete(false)
 {
     if (auto ptr = parent.lock()) {
         m_track = std::make_shared<Mlt::Tractor>(*ptr->getProfile());

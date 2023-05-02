@@ -23,7 +23,7 @@
     <parameter type="constant" name="shape_width" max="100" min="-1" default="6" suffix="pixels">
         <name>Shape width</name>
     </parameter>
-    <parameter type="color" name="shape_color" default="0xff0000ff">
+    <parameter type="fixedcolor" name="shape_color" default="0xff0000ff">
         <name>Shape color</name>
     </parameter>
     <parameter type="constant" name="blur" max="200" min="0" default="20">
@@ -44,6 +44,7 @@
         <jobparam name="keydefault">50% 50% 25% 25%</jobparam>
         <jobparam name="finalfilter">opencv.tracker</jobparam>
         <jobparam name="relativeInOut">1</jobparam>
+        <jobparam name="animated">1</jobparam>
         <jobparam name="displaydataname">Motion tracking</jobparam>
     </parameter>
 </effect>

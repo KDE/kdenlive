@@ -154,6 +154,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
                 value.replace(originalDecimalPoint, ".");
                 break;
             case ParamType::Bool:
+            case ParamType::FixedColor:
             case ParamType::Color:
             case ParamType::Fontfamily:
             case ParamType::Keywords:
@@ -668,6 +669,8 @@ ParamType AssetParameterModel::paramTypeFromStr(const QString &type)
         return ParamType::KeyframeParam;
     } else if (type == QLatin1String("color")) {
         return ParamType::Color;
+    } else if (type == QLatin1String("fixedcolor")) {
+        return ParamType::FixedColor;
     } else if (type == QLatin1String("colorwheel")) {
         return ParamType::ColorWheel;
     } else if (type == QLatin1String("position")) {
@@ -828,6 +831,9 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
         }
     } else if (type == ParamType::Double || type == ParamType::Hidden) {
         if (attribute == QLatin1String("default")) {
+            if (content.isEmpty()) {
+                return QVariant();
+            }
             return content.toDouble();
         }
         bool ok;
@@ -1356,6 +1362,31 @@ const QVector<QPair<QString, QVariant>> AssetParameterModel::loadPreset(const QS
     return params;
 }
 
+void AssetParameterModel::setParametersFromTask(const paramVector &params)
+{
+    if (m_keyframes) {
+        // We have keyframable parameters. Ensure all of these share the same keyframes,
+        // required by Kdenlive's current implementation
+        m_keyframes->setParametersFromTask(params);
+    } else {
+        // Setting no keyframable param
+        paramVector previousParams;
+        for (auto p : params) {
+            previousParams.append({p.first, getParamFromName(p.first)});
+        }
+        Fun redo = [this, params]() {
+            setParameters(params);
+            return true;
+        };
+        Fun undo = [this, previousParams]() {
+            setParameters(previousParams);
+            return true;
+        };
+        redo();
+        pCore->pushUndo(undo, redo, i18n("Update effect"));
+    }
+}
+
 void AssetParameterModel::setParameters(const paramVector &params, bool update)
 {
     ObjectType itemId;
@@ -1367,9 +1398,12 @@ void AssetParameterModel::setParameters(const paramVector &params, bool update)
     for (const auto &param : params) {
         QModelIndex ix = index(m_rows.indexOf(param.first), 0);
         setParameter(param.first, param.second.toString(), false, ix);
-    }
-    if (m_keyframes) {
-        m_keyframes->refresh();
+        if (m_keyframes) {
+            KeyframeModel *km = m_keyframes->getKeyModel(ix);
+            if (km) {
+                km->refresh();
+            }
+        }
     }
     if (!update) {
         // restore itemId
@@ -1439,4 +1473,9 @@ const QVariant AssetParameterModel::getParamFromName(const QString &paramName)
         return data(ix, ValueRole);
     }
     return QVariant();
+}
+
+const QModelIndex AssetParameterModel::getParamIndexFromName(const QString &paramName)
+{
+    return index(m_rows.indexOf(paramName), 0);
 }
