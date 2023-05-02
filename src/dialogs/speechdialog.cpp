@@ -38,7 +38,16 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
+    speech_info->hide();
     setWindowTitle(i18n("Automatic Subtitling"));
+    m_voskConfig = new QAction(i18n("Configure"), this);
+    connect(m_voskConfig, &QAction::triggered, [this]() {
+        pCore->window()->slotShowPreferencePage(Kdenlive::PageSpeech);
+        close();
+    });
+    m_logAction = new QAction(i18n("Show log"), this);
+    connect(m_logAction, &QAction::triggered, [&]() { KMessageBox::detailedError(QApplication::activeWindow(), i18n("Speech Recognition log"), m_errorLog); });
+
     if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
         // Whisper model
         m_stt = new SpeechToText(SpeechToText::EngineType::EngineWhisper);
@@ -70,31 +79,10 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
         // Vosk model
         whisper_settings->setVisible(false);
         m_stt = new SpeechToText(SpeechToText::EngineType::EngineVosk);
-        m_modelsConnection = connect(pCore.get(), &Core::voskModelUpdate, this, [&](const QStringList &models) {
-            speech_model->clear();
-            speech_model->addItems(models);
-            if (models.isEmpty()) {
-                speech_info->addAction(m_voskConfig);
-                speech_info->setMessageType(KMessageWidget::Information);
-                speech_info->setText(i18n("Please install speech recognition models"));
-                speech_info->animatedShow();
-            } else {
-                if (!KdenliveSettings::vosk_srt_model().isEmpty() && models.contains(KdenliveSettings::vosk_srt_model())) {
-                    int ix = speech_model->findText(KdenliveSettings::vosk_srt_model());
-                    if (ix > -1) {
-                        speech_model->setCurrentIndex(ix);
-                    }
-                }
-            }
-        });
+        connect(pCore.get(), &Core::voskModelUpdate, this, &SpeechDialog::updateVoskModels);
         m_stt->parseVoskDictionaries();
     }
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Process"));
-    speech_info->hide();
-    m_voskConfig = new QAction(i18n("Configure"), this);
-    connect(m_voskConfig, &QAction::triggered, []() { pCore->window()->slotShowPreferencePage(Kdenlive::PageSpeech); });
-    m_logAction = new QAction(i18n("Show log"), this);
-    connect(m_logAction, &QAction::triggered, [&]() { KMessageBox::detailedError(QApplication::activeWindow(), i18n("Speech Recognition log"), m_errorLog); });
 
     QButtonGroup *buttonGroup = new QButtonGroup(this);
     buttonGroup->addButton(timeline_zone);
@@ -175,9 +163,27 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
     });
 }
 
-SpeechDialog::~SpeechDialog()
+SpeechDialog::~SpeechDialog() {}
+
+void SpeechDialog::updateVoskModels(const QStringList models)
 {
-    QObject::disconnect(m_modelsConnection);
+    speech_model->clear();
+    speech_model->addItems(models);
+    if (models.isEmpty()) {
+        speech_info->addAction(m_voskConfig);
+        speech_info->setMessageType(KMessageWidget::Information);
+        speech_info->setText(i18n("Please install speech recognition models"));
+        speech_info->show();
+        buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
+    } else {
+        if (!KdenliveSettings::vosk_srt_model().isEmpty() && models.contains(KdenliveSettings::vosk_srt_model())) {
+            int ix = speech_model->findText(KdenliveSettings::vosk_srt_model());
+            if (ix > -1) {
+                speech_model->setCurrentIndex(ix);
+            }
+        }
+        buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
+    }
 }
 
 void SpeechDialog::slotProcessSpeech()
