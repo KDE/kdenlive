@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-30 00:47+0000\n"
-"PO-Revision-Date: 2023-04-28 13:02+0200\n"
+"PO-Revision-Date: 2023-04-30 11:13+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -7107,8 +7107,7 @@ msgstr "No hi ha veu"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
 #: src/dialogs/textbasededit.cpp:575 src/ui/speechdialog_ui.ui:154
-#, fuzzy, kde-format
-#| msgid "Translate to english"
+#, kde-format
 msgid "Translate to English"
 msgstr "Traduïx a l'anglés"
 
@@ -18622,8 +18621,7 @@ msgstr "El procés de Whisper a la CPU és molt lent"
 
 #. i18n: ectx: property (text), widget (QCheckBox, wr_translate)
 #: src/ui/configspeech_ui.ui:167
-#, fuzzy, kde-format
-#| msgid "Translate text to english"
+#, kde-format
 msgid "Translate text to English"
 msgstr "Traduïx el text a l'anglés"
 

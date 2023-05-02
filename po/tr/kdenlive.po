@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-30 00:47+0000\n"
-"PO-Revision-Date: 2023-04-30 13:16+0300\n"
+"PO-Revision-Date: 2023-05-02 00:45+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1406,7 +1406,7 @@ msgstr "Seçimi tersine çevir"
 #: data/effects/mask_start_frei0r_select0r.xml:17
 #, kde-format
 msgid "RGB,ABI,HCI"
-msgstr "KYM,ABI,HCI"
+msgstr "RGB,ABI,HCI"
 
 #: data/effects/mask_start_frei0r_select0r.xml:18
 #, kde-format
@@ -1471,7 +1471,7 @@ msgstr ""
 #: data/effects/mask_start_rotoscoping.xml:12 data/effects/rotoscoping.xml:9
 #, kde-format
 msgid "Alpha,Luma,RGB"
-msgstr "Alfa,Luma,KYM"
+msgstr "Alfa,Luma,RGB"
 
 #: data/effects/mask_start_rotoscoping.xml:13 data/effects/rotoscoping.xml:10
 #, kde-format
@@ -9851,7 +9851,7 @@ msgstr "DirectX (AÇI)"
 #: src/mainwindow.cpp:1422
 #, kde-format
 msgid "Software OpenGL"
-msgstr "OpenGL yazılımı"
+msgstr "Yazılım OpenGL"
 
 #: src/mainwindow.cpp:1432
 #, kde-format
@@ -10001,7 +10001,7 @@ msgstr "Rec. 709 (TV)"
 #: src/mainwindow.cpp:1574
 #, kde-format
 msgid "Insert Zone in Project Bin"
-msgstr "Bölgeyi Proje Kovasına Ekle"
+msgstr "Proje Kovasına Bölge Ekle"
 
 #: src/mainwindow.cpp:1576
 #, kde-kuit-format
@@ -12946,7 +12946,7 @@ msgstr[1] "İmleyiciler oluştur"
 #: src/project/dialogs/noteswidget.cpp:50
 #, kde-format
 msgid "Assign timestamps to current Bin Clip"
-msgstr "Geçerli Bin Clip'e zaman damgaları atayın"
+msgstr "Geçerli kova klibine zaman damgaları ata"
 
 #: src/project/dialogs/noteswidget.cpp:185
 #, kde-format
@@ -13458,7 +13458,7 @@ msgstr "Bölüntü kıyaslama"
 #: src/project/notesplugin.cpp:37
 #, kde-format
 msgid "Enter your project notes here …"
-msgstr "Proje notlarınızı buraya girin …"
+msgstr "Proje notlarınızı buraya girin…"
 
 #: src/project/notesplugin.cpp:38
 #, kde-format
@@ -13468,12 +13468,12 @@ msgstr "Proje Notları"
 #: src/project/notesplugin.cpp:50
 #, kde-format
 msgid "Reassign selected timecodes to current Bin clip"
-msgstr "Seçili zaman kodlarını geçerli Bin klibine yeniden atayın"
+msgstr "Geçerli kova klibine seçili zaman kodlarını yeniden ata"
 
 #: src/project/notesplugin.cpp:53
 #, kde-format
 msgid "Create markers from selected timecodes"
-msgstr "Seçili zaman kodlarından imleyiciler oluşturun"
+msgstr "Seçili zaman kodlarından imleyiciler oluştur"
 
 #: src/project/notesplugin.cpp:55
 #, kde-kuit-format
@@ -14782,7 +14782,7 @@ msgstr "YCbCr CbCr düzlemi"
 #: src/scopes/colorscopes/colorplaneexport.cpp:32
 #, kde-format
 msgid "RGB plane, one component varying"
-msgstr "KYM düzlemi, tek bileşen değişken"
+msgstr "RGB düzlemi, tek bileşen değişken"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:33
 #, kde-format
@@ -14891,7 +14891,7 @@ msgstr "aza"
 #: src/scopes/colorscopes/rgbparade.cpp:25
 #, kde-format
 msgid "RGB"
-msgstr "KYM"
+msgstr "RGB"
 
 #: src/scopes/colorscopes/rgbparade.cpp:29
 #: src/scopes/colorscopes/vectorscope.cpp:84
@@ -14985,7 +14985,7 @@ msgstr "Dalga Biçimi"
 #: src/scopes/scopemanager.cpp:295 src/ui/rgbparade_ui.ui:18
 #, kde-format
 msgid "RGB Parade"
-msgstr "KYM Geçidi"
+msgstr "RGB Geçidi"
 
 #: src/scopes/scopemanager.cpp:296
 #, kde-format
@@ -19157,7 +19157,7 @@ msgstr "Bileşenler:"
 #: src/ui/histogram_ui.ui:38
 #, kde-format
 msgid "RGB summed up."
-msgstr "KYM özetlendi."
+msgstr "RGB özetlendi."
 
 #. i18n: ectx: property (text), widget (QCheckBox, cbS)
 #: src/ui/histogram_ui.ui:41

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-04-30 00:47+0000\n"
-"PO-Revision-Date: 2023-04-28 07:15+0100\n"
+"PO-Revision-Date: 2023-05-01 05:19+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -7045,8 +7045,7 @@ msgstr "Neniu parolado"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
 #: src/dialogs/textbasededit.cpp:575 src/ui/speechdialog_ui.ui:154
-#, fuzzy, kde-format
-#| msgid "Translate to english"
+#, kde-format
 msgid "Translate to English"
 msgstr "Traduki al la angla"
 
@@ -7509,8 +7508,8 @@ msgstr "La projektdosiero enhavas mankantajn aŭdvidaĵojn aŭ dosierojn."
 #, kde-format
 msgid "Missing effect: %2 will be removed from project."
 msgid_plural "Missing effects: %2 will be removed from project."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Mankanta efekto: %2 estos forigata de projekto."
+msgstr[1] "Mankantaj efektoj: %2 estos forigata de projekto."
 
 #: src/doc/documentchecker.cpp:472
 #, kde-format
@@ -7607,8 +7606,8 @@ msgstr "Enigu novan lokon por dosiero"
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Ĉi tio forigos la elektitan aŭdvidaĵon de ĉi projekto"
+msgstr[1] "Ĉi tio forigos la elektitajn aŭdvidaĵojn de ĉi projekto"
 
 #: src/doc/documentchecker.cpp:1719
 #, kde-format
@@ -9514,7 +9513,11 @@ msgid_plural ""
 "You have %1 rendering jobs waiting in the queue.\n"
 "What do you want to do with these jobs?"
 msgstr[0] ""
+"Vi havas 1 bildigotaskon atendante en la vico.\n"
+"Kion vi volas fari kun tiu tasko?"
 msgstr[1] ""
+"Vi havas %1 bildigotaskojn atendante en la vico.\n"
+"Kion vi volas fari kun tiuj taskoj?"
 
 #: src/mainwindow.cpp:960
 #, kde-format
@@ -18429,8 +18432,7 @@ msgstr "Flustro-pretigo sur CPU estas tre malrapida"
 
 #. i18n: ectx: property (text), widget (QCheckBox, wr_translate)
 #: src/ui/configspeech_ui.ui:167
-#, fuzzy, kde-format
-#| msgid "Translate text to english"
+#, kde-format
 msgid "Translate text to English"
 msgstr "Traduki tekston al la angla"
 
