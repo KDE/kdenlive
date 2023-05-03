@@ -1096,7 +1096,13 @@ void ProjectManager::saveZone(const QStringList &info, const QDir &dir)
 void ProjectManager::moveProjectData(const QString &src, const QString &dest)
 {
     // Move proxies
-    const QList<QUrl> proxyUrls = m_project->getProjectData(dest);
+    bool ok;
+    const QList<QUrl> proxyUrls = m_project->getProjectData(dest, &ok);
+    if (!ok) {
+        // Could not move temporary data, abort
+        KMessageBox::error(pCore->window(), i18n("Error moving project folder, cannot access cache folder"));
+        return;
+    }
     Fun copyTmp = [this, src, dest]() {
         // Move tmp folder (thumbnails, timeline preview)
         KIO::CopyJob *copyJob = KIO::move(QUrl::fromLocalFile(src), QUrl::fromLocalFile(dest), KIO::DefaultFlags);
