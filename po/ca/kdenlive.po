@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-30 00:47+0000\n"
-"PO-Revision-Date: 2023-04-30 11:13+0200\n"
+"POT-Creation-Date: 2023-05-03 00:48+0000\n"
+"PO-Revision-Date: 2023-05-02 16:25+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -1252,7 +1252,7 @@ msgid "Correct audio loudness as recommended by EBU R128"
 msgstr ""
 "Corregeix la sonoritat de l'àudio d'acord amb la recomanació d'EBU R128"
 
-#: data/effects/loudness.xml:11 data/effects/tracker.xml:41
+#: data/effects/loudness.xml:13 data/effects/tracker.xml:41
 #, kde-format
 msgid "Analyse"
 msgstr "Anàlisi"
@@ -3466,7 +3466,14 @@ msgstr "Reinicialitza efecte"
 msgid "Delete keyframes"
 msgstr "Suprimeix els fotogrames clau"
 
-#: src/assets/keyframes/model/keyframemodellist.cpp:597
+#: src/assets/keyframes/model/keyframemodellist.cpp:445
+#: src/assets/model/assetparametermodel.cpp:1386
+#, fuzzy, kde-format
+#| msgid "Paste effect"
+msgid "Update effect"
+msgstr "Enganxa l'efecte"
+
+#: src/assets/keyframes/model/keyframemodellist.cpp:659
 #, kde-format
 msgid "Missing keyframe detected at %1, automatically re-added"
 msgstr ""
@@ -3550,8 +3557,8 @@ msgstr "Edita el fotograma clau %1"
 msgid "Update %1"
 msgstr "Actualitza el %1"
 
-#: src/assets/model/assetparametermodel.cpp:1232
-#: src/assets/model/assetparametermodel.cpp:1279
+#: src/assets/model/assetparametermodel.cpp:1238
+#: src/assets/model/assetparametermodel.cpp:1285
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "No s'ha pogut obrir el fitxer %1 de valors predefinits"
@@ -3596,7 +3603,7 @@ msgstr "Introducció del nom dels valors predefinits"
 msgid "Enter the name of this preset:"
 msgstr "Introduïu el nom d'aquests valors predefinits:"
 
-#: src/assets/view/widgets/buttonparamwidget.cpp:202
+#: src/assets/view/widgets/buttonparamwidget.cpp:201
 #: src/project/dialogs/archivewidget.cpp:367
 #, kde-format
 msgid "Abort processing"
@@ -4500,7 +4507,7 @@ msgstr "Imatge"
 #: src/bin/bin.cpp:2322
 #, kde-format
 msgid "Slideshow"
-msgstr "Passi de diapositives"
+msgstr "Presentació de diapositives"
 
 #: src/bin/bin.cpp:2326
 #, kde-format
@@ -4704,7 +4711,7 @@ msgstr ""
 "organització millor dels fitxers d'origen. Les carpetes poden estar "
 "imbricades."
 
-#: src/bin/bin.cpp:3583 src/dialogs/speechdialog.cpp:96
+#: src/bin/bin.cpp:3583 src/dialogs/speechdialog.cpp:48
 #: src/dialogs/textbasededit.cpp:656 src/monitor/recmanager.cpp:43
 #, kde-format
 msgid "Show log"
@@ -5000,7 +5007,7 @@ msgstr "No s'ha pogut crear el clip"
 #: src/bin/clipcreator.cpp:340
 #, kde-format
 msgid "Create slideshow clip"
-msgstr "Crea un clip de passi de diapositives"
+msgstr "Crea un clip de presentació de diapositives"
 
 #: src/bin/clipcreator.cpp:372
 #, kde-format
@@ -5411,7 +5418,7 @@ msgstr "Zona %1"
 msgid "Tag %1"
 msgstr "Etiqueta %1"
 
-#: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:94
+#: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:43
 #: src/dialogs/textbasededit.cpp:589
 #, kde-format
 msgid "Configure"
@@ -6879,73 +6886,73 @@ msgstr ""
 msgid "Add to current project"
 msgstr "Afegeix al projecte actual"
 
-#: src/dialogs/speechdialog.cpp:41
+#: src/dialogs/speechdialog.cpp:42
 #, kde-format
 msgid "Automatic Subtitling"
 msgstr "Subtitulació automàtica"
 
-#: src/dialogs/speechdialog.cpp:79 src/dialogs/textbasededit.cpp:635
-#, kde-format
-msgid "Please install speech recognition models"
-msgstr "Instal·leu els models de reconeixement de la veu"
-
-#: src/dialogs/speechdialog.cpp:92
-#, kde-format
-msgid "Process"
-msgstr "Procés"
-
-#: src/dialogs/speechdialog.cpp:97
+#: src/dialogs/speechdialog.cpp:49
 #, kde-format
 msgid "Speech Recognition log"
 msgstr "Registre del reconeixement de veu"
 
-#: src/dialogs/speechdialog.cpp:128
+#: src/dialogs/speechdialog.cpp:85
+#, kde-format
+msgid "Process"
+msgstr "Procés"
+
+#: src/dialogs/speechdialog.cpp:116
 #, kde-format
 msgid "No audio track available for selected clip"
 msgstr "No hi ha cap pista d'àudio disponible del clip seleccionat"
 
-#: src/dialogs/speechdialog.cpp:138
+#: src/dialogs/speechdialog.cpp:126
 #, kde-format
 msgid "Select a clip in timeline to perform analysis"
 msgstr "Seleccioneu un clip en la línia de temps per realitzar una anàlisi"
 
-#: src/dialogs/speechdialog.cpp:150
+#: src/dialogs/speechdialog.cpp:138
 #, kde-format
 msgid "No audio track found"
 msgstr "No s'ha trobat cap pista d'àudio"
 
-#: src/dialogs/speechdialog.cpp:188 src/dialogs/textbasededit.cpp:828
+#: src/dialogs/speechdialog.cpp:175 src/dialogs/textbasededit.cpp:635
+#, kde-format
+msgid "Please install speech recognition models"
+msgstr "Instal·leu els models de reconeixement de la veu"
+
+#: src/dialogs/speechdialog.cpp:194 src/dialogs/textbasededit.cpp:828
 #: src/dialogs/textbasededit.cpp:836
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "Si us plau, configureu la veu a text."
 
-#: src/dialogs/speechdialog.cpp:195
+#: src/dialogs/speechdialog.cpp:201
 #, kde-format
 msgid "Starting audio export"
 msgstr "S'ha iniciat l'exportació de l'àudio"
 
-#: src/dialogs/speechdialog.cpp:263
+#: src/dialogs/speechdialog.cpp:269
 #, kde-format
 msgid "Audio export failed"
 msgstr "Ha fallat l'exportació de l'àudio"
 
-#: src/dialogs/speechdialog.cpp:289 src/dialogs/textbasededit.cpp:855
+#: src/dialogs/speechdialog.cpp:295 src/dialogs/textbasededit.cpp:855
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "S'ha iniciat el reconeixement de la veu"
 
-#: src/dialogs/speechdialog.cpp:321 src/dialogs/textbasededit.cpp:1018
+#: src/dialogs/speechdialog.cpp:327 src/dialogs/textbasededit.cpp:1018
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "S'ha interromput el reconeixement de la veu."
 
-#: src/dialogs/speechdialog.cpp:327
+#: src/dialogs/speechdialog.cpp:333
 #, kde-format
 msgid "Subtitles imported"
 msgstr "S'han importat els subtítols"
 
-#: src/dialogs/speechdialog.cpp:330
+#: src/dialogs/speechdialog.cpp:336
 #, kde-format
 msgid "Speech recognition failed"
 msgstr "Ha fallat el reconeixement de la veu"
@@ -7104,7 +7111,7 @@ msgid "No speech"
 msgstr "No hi ha veu"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
-#: src/dialogs/textbasededit.cpp:575 src/ui/speechdialog_ui.ui:154
+#: src/dialogs/textbasededit.cpp:575 src/ui/speechdialog_ui.ui:144
 #, kde-format
 msgid "Translate to English"
 msgstr "Tradueix a l'anglès"
@@ -7524,7 +7531,7 @@ msgstr "Clip de vídeo"
 #: src/doc/documentchecker.cpp:341
 #, kde-format
 msgid "Slideshow clip"
-msgstr "Clip de passi de diapositives"
+msgstr "Clip de presentació de diapositives"
 
 #: src/doc/documentchecker.cpp:344
 #, kde-format
@@ -8569,7 +8576,7 @@ msgstr "No s'ha pogut crear el consumidor."
 msgid "Cannot create filter %1"
 msgstr "No s'ha pogut crear el filtre %1"
 
-#: src/jobs/filtertask.cpp:227
+#: src/jobs/filtertask.cpp:228
 #, kde-format
 msgid "Failed to filter source."
 msgstr "Ha fallat en filtrar l'origen."
@@ -12649,7 +12656,7 @@ msgstr "Clips d'imatges"
 #: src/project/dialogs/archivewidget.cpp:71
 #, kde-format
 msgid "Slideshow Clips"
-msgstr "Clips de passi de diapositives"
+msgstr "Clips de presentació de diapositives"
 
 #: src/project/dialogs/archivewidget.cpp:75
 #, kde-format
@@ -13243,7 +13250,7 @@ msgstr "Clips d'imatges"
 #: src/project/dialogs/projectsettings.cpp:410
 #, kde-format
 msgid "Slideshow clips"
-msgstr "Clips de passi de diapositives"
+msgstr "Clips de presentació de diapositives"
 
 #: src/project/dialogs/projectsettings.cpp:413
 #, kde-format
@@ -13629,7 +13636,7 @@ msgstr "Desa una còpia…"
 #: src/project/projectmanager.cpp:89
 #, kde-format
 msgid "Open Backup File…"
-msgstr "Obre una còpia de seguretat…"
+msgstr "Obre un fitxer de còpia de seguretat…"
 
 #: src/project/projectmanager.cpp:364
 #, kde-format
@@ -13708,7 +13715,7 @@ msgid ""
 msgstr ""
 "No s'ha pogut obrir el fitxer de projecte. Error:\n"
 "%1\n"
-"Voleu obrir una còpia de seguretat?"
+"Voleu obrir un fitxer de còpia de seguretat?"
 
 #: src/project/projectmanager.cpp:708
 #, kde-format
@@ -17445,7 +17452,7 @@ msgstr "Suprimeix el punt actual."
 #: src/ui/projectsettings_ui.ui:571 src/ui/projectsettings_ui.ui:578
 #: src/ui/qtextclip_ui.ui:94 src/ui/renderwidget_ui.ui:567
 #: src/ui/renderwidget_ui.ui:1001 src/ui/resourcewidget_ui.ui:214
-#: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:55
+#: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:75
 #: src/ui/textbasededit_ui.ui:67 src/ui/textbasededit_ui.ui:100
 #: src/ui/textbasededit_ui.ui:121 src/ui/textbasededit_ui.ui:137
 #: src/ui/textbasededit_ui.ui:216 src/ui/textbasededit_ui.ui:240
@@ -20445,7 +20452,7 @@ msgstr "Retalla escenes"
 #: src/ui/slideshowclip_ui.ui:18
 #, kde-format
 msgid "Slideshow Clip"
-msgstr "Clip de passi de diapositives"
+msgstr "Clip de presentació de diapositives"
 
 #. i18n: ectx: property (text), widget (QCheckBox, slide_crop)
 #: src/ui/slideshowclip_ui.ui:40
@@ -20556,7 +20563,7 @@ msgid "True FFT size:"
 msgstr "Mida real de la FFT:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_track)
-#: src/ui/speechdialog_ui.ui:79
+#: src/ui/speechdialog_ui.ui:47
 #, kde-format
 msgid "Timeline zone (selected track)"
 msgstr "Zona de la línia de temps (pista seleccionada)"
@@ -20574,13 +20581,13 @@ msgid "Timeline zone (all tracks)"
 msgstr "Zona de la línia de temps (totes les pistes)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/speechdialog_ui.ui:161
+#: src/ui/speechdialog_ui.ui:151
 #, kde-format
 msgid "Language"
 msgstr "Idioma"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/speechdialog_ui.ui:168
+#: src/ui/speechdialog_ui.ui:164
 #, kde-format
 msgid "Model"
 msgstr "Model"
