@@ -2019,6 +2019,7 @@ const QString ProjectClip::getAudioThumbPath(int stream)
     bool ok = false;
     QDir thumbFolder = pCore->projectManager()->cacheDir(true, &ok);
     if (!ok) {
+        qWarning() << "Cannot write to cache folder: " << thumbFolder.absolutePath();
         return QString();
     }
     const QString clipHash = hash(false);

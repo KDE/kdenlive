@@ -834,22 +834,30 @@ void KdenliveDoc::setProjectFolder(const QUrl &url)
     updateProjectFolderPlacesEntry();
 }
 
-const QList<QUrl> KdenliveDoc::getProjectData(const QString &dest)
+const QList<QUrl> KdenliveDoc::getProjectData(const QString &dest, bool *ok)
 {
     // Move proxies
     QList<QUrl> cacheUrls;
     auto binClips = pCore->projectItemModel()->getAllClipIds();
+    QDir proxyFolder = getCacheDir(CacheProxy, ok);
+    if (!*ok) {
+        qWarning() << "Cannot write to cache folder: " << proxyFolder.absolutePath();
+        return cacheUrls;
+    }
     // First step: all clips referenced by the bin model exist and are inserted
     for (const auto &binClip : binClips) {
         auto projClip = pCore->projectItemModel()->getClipByBinID(binClip);
         QString proxy = projClip->getProducerProperty(QStringLiteral("kdenlive:proxy"));
-        if (proxy.length() > 2 && QFile::exists(proxy)) {
+        QFileInfo p(proxy);
+        if (proxy.length() > 2 && p.exists() && p.absoluteDir() == proxyFolder) {
+            // Only move proxy clips that are inside our own proxy folder, not external ones.
             QUrl pUrl = QUrl::fromLocalFile(proxy);
             if (!cacheUrls.contains(pUrl)) {
                 cacheUrls << pUrl;
             }
         }
     }
+    *ok = true;
     return cacheUrls;
 }
 
@@ -947,13 +955,17 @@ void KdenliveDoc::updateWorkFilesBeforeSave(const QString &newUrl, bool onRender
         }
     }
     QDir sequenceFolder;
-    bool ok;
     if (onRender) {
         sequenceFolder = QFileInfo(newUrl).dir();
         sequenceFolder.mkpath(QFileInfo(newUrl).baseName());
         sequenceFolder.cd(QFileInfo(newUrl).baseName());
     } else {
-        sequenceFolder = pCore->currentDoc()->getCacheDir(CacheSequence, &ok);
+        bool ok;
+        sequenceFolder = getCacheDir(CacheSequence, &ok);
+        if (!ok) {
+            // Warning, could not access project folder...
+            qWarning() << "Cannot write to cache folder: " << sequenceFolder.absolutePath();
+        }
     }
     pCore->bin()->moveTimeWarpToFolder(sequenceFolder, true);
 }
@@ -969,7 +981,7 @@ void KdenliveDoc::updateWorkFilesAfterSave()
     }
 
     bool ok;
-    QDir sequenceFolder = pCore->currentDoc()->getCacheDir(CacheTmpWorkFiles, &ok);
+    QDir sequenceFolder = getCacheDir(CacheTmpWorkFiles, &ok);
     pCore->bin()->moveTimeWarpToFolder(sequenceFolder, false);
 }
 
