@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-30 04:14+0000\n"
+"POT-Creation-Date: 2023-05-03 02:53+0000\n"
 "PO-Revision-Date: 2023-04-29 15:23+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -1253,7 +1253,7 @@ msgstr "Normalizza (2 passaggi)"
 msgid "Correct audio loudness as recommended by EBU R128"
 msgstr "Corregge il volume audio come raccomandato da EBU R128"
 
-#: data/effects/loudness.xml:11 data/effects/tracker.xml:41
+#: data/effects/loudness.xml:13 data/effects/tracker.xml:41
 #, kde-format
 msgid "Analyse"
 msgstr "Analizza"
@@ -3470,7 +3470,14 @@ msgstr "Ripristina effetto"
 msgid "Delete keyframes"
 msgstr "Elimina i fotogrammi chiave"
 
-#: src/assets/keyframes/model/keyframemodellist.cpp:597
+#: src/assets/keyframes/model/keyframemodellist.cpp:445
+#: src/assets/model/assetparametermodel.cpp:1386
+#, fuzzy, kde-format
+#| msgid "Paste effect"
+msgid "Update effect"
+msgstr "Incolla effetto"
+
+#: src/assets/keyframes/model/keyframemodellist.cpp:659
 #, kde-format
 msgid "Missing keyframe detected at %1, automatically re-added"
 msgstr "Fotogramma chiave mancante rilevato a %1, ripristinato automaticamente"
@@ -3553,8 +3560,8 @@ msgstr "Modifica il fotogramma chiave %1"
 msgid "Update %1"
 msgstr "Aggiorna %1"
 
-#: src/assets/model/assetparametermodel.cpp:1232
-#: src/assets/model/assetparametermodel.cpp:1279
+#: src/assets/model/assetparametermodel.cpp:1238
+#: src/assets/model/assetparametermodel.cpp:1285
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Impossibile aprire il file di preimpostazioni %1"
@@ -3599,7 +3606,7 @@ msgstr "Inserisci il nome della preimpostazione"
 msgid "Enter the name of this preset:"
 msgstr "Inserisci il nome di questa preimpostazione:"
 
-#: src/assets/view/widgets/buttonparamwidget.cpp:202
+#: src/assets/view/widgets/buttonparamwidget.cpp:201
 #: src/project/dialogs/archivewidget.cpp:367
 #, kde-format
 msgid "Abort processing"
@@ -4709,7 +4716,7 @@ msgstr ""
 "Consente una miglior organizzazione dei file sorgenti. Le cartelle possono "
 "essere annidate."
 
-#: src/bin/bin.cpp:3583 src/dialogs/speechdialog.cpp:96
+#: src/bin/bin.cpp:3583 src/dialogs/speechdialog.cpp:48
 #: src/dialogs/textbasededit.cpp:656 src/monitor/recmanager.cpp:43
 #, kde-format
 msgid "Show log"
@@ -5417,7 +5424,7 @@ msgstr "Zona %1"
 msgid "Tag %1"
 msgstr "Etichetta %1"
 
-#: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:94
+#: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:43
 #: src/dialogs/textbasededit.cpp:589
 #, kde-format
 msgid "Configure"
@@ -6894,73 +6901,73 @@ msgstr ""
 msgid "Add to current project"
 msgstr "Aggiungi al progetto corrente"
 
-#: src/dialogs/speechdialog.cpp:41
+#: src/dialogs/speechdialog.cpp:42
 #, kde-format
 msgid "Automatic Subtitling"
 msgstr "Sottotitolazione automatica"
 
-#: src/dialogs/speechdialog.cpp:79 src/dialogs/textbasededit.cpp:635
-#, kde-format
-msgid "Please install speech recognition models"
-msgstr "Installa i modelli per il riconoscimento vocale"
-
-#: src/dialogs/speechdialog.cpp:92
-#, kde-format
-msgid "Process"
-msgstr "Elabora"
-
-#: src/dialogs/speechdialog.cpp:97
+#: src/dialogs/speechdialog.cpp:49
 #, kde-format
 msgid "Speech Recognition log"
 msgstr "Registro del riconoscimento vocale"
 
-#: src/dialogs/speechdialog.cpp:128
+#: src/dialogs/speechdialog.cpp:85
+#, kde-format
+msgid "Process"
+msgstr "Elabora"
+
+#: src/dialogs/speechdialog.cpp:116
 #, kde-format
 msgid "No audio track available for selected clip"
 msgstr "Per la clip selezionata non è disponibile nessuna traccia audio"
 
-#: src/dialogs/speechdialog.cpp:138
+#: src/dialogs/speechdialog.cpp:126
 #, kde-format
 msgid "Select a clip in timeline to perform analysis"
 msgstr "Seleziona clip nella linea temporale per eseguire l'analisi"
 
-#: src/dialogs/speechdialog.cpp:150
+#: src/dialogs/speechdialog.cpp:138
 #, kde-format
 msgid "No audio track found"
 msgstr "Non è stata trovata nessuna traccia audio"
 
-#: src/dialogs/speechdialog.cpp:188 src/dialogs/textbasededit.cpp:828
+#: src/dialogs/speechdialog.cpp:175 src/dialogs/textbasededit.cpp:635
+#, kde-format
+msgid "Please install speech recognition models"
+msgstr "Installa i modelli per il riconoscimento vocale"
+
+#: src/dialogs/speechdialog.cpp:194 src/dialogs/textbasededit.cpp:828
 #: src/dialogs/textbasededit.cpp:836
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "Configura il riconoscimento vocale."
 
-#: src/dialogs/speechdialog.cpp:195
+#: src/dialogs/speechdialog.cpp:201
 #, kde-format
 msgid "Starting audio export"
 msgstr "Avvio dell'esportazione audio"
 
-#: src/dialogs/speechdialog.cpp:263
+#: src/dialogs/speechdialog.cpp:269
 #, kde-format
 msgid "Audio export failed"
 msgstr "Esportazione dell'audio non riuscita"
 
-#: src/dialogs/speechdialog.cpp:289 src/dialogs/textbasededit.cpp:855
+#: src/dialogs/speechdialog.cpp:295 src/dialogs/textbasededit.cpp:855
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "Avvio del riconoscimento vocale"
 
-#: src/dialogs/speechdialog.cpp:321 src/dialogs/textbasededit.cpp:1018
+#: src/dialogs/speechdialog.cpp:327 src/dialogs/textbasededit.cpp:1018
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "Riconoscimento vocale interrotto"
 
-#: src/dialogs/speechdialog.cpp:327
+#: src/dialogs/speechdialog.cpp:333
 #, kde-format
 msgid "Subtitles imported"
 msgstr "Sottotitoli importati"
 
-#: src/dialogs/speechdialog.cpp:330
+#: src/dialogs/speechdialog.cpp:336
 #, kde-format
 msgid "Speech recognition failed"
 msgstr "Riconoscimento vocale non riuscito"
@@ -7119,7 +7126,7 @@ msgid "No speech"
 msgstr "Nessun discorso"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
-#: src/dialogs/textbasededit.cpp:575 src/ui/speechdialog_ui.ui:154
+#: src/dialogs/textbasededit.cpp:575 src/ui/speechdialog_ui.ui:144
 #, kde-format
 msgid "Translate to english"
 msgstr "Traduci in inglese"
@@ -8591,7 +8598,7 @@ msgstr "Impossibile creare il consumer."
 msgid "Cannot create filter %1"
 msgstr "Impossibile creare il filtro %1"
 
-#: src/jobs/filtertask.cpp:227
+#: src/jobs/filtertask.cpp:228
 #, kde-format
 msgid "Failed to filter source."
 msgstr "Impossibile filtrare la sorgente."
@@ -17499,7 +17506,7 @@ msgstr "Elimina il punto corrente."
 #: src/ui/projectsettings_ui.ui:571 src/ui/projectsettings_ui.ui:578
 #: src/ui/qtextclip_ui.ui:94 src/ui/renderwidget_ui.ui:567
 #: src/ui/renderwidget_ui.ui:1001 src/ui/resourcewidget_ui.ui:214
-#: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:55
+#: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:75
 #: src/ui/textbasededit_ui.ui:67 src/ui/textbasededit_ui.ui:100
 #: src/ui/textbasededit_ui.ui:121 src/ui/textbasededit_ui.ui:137
 #: src/ui/textbasededit_ui.ui:216 src/ui/textbasededit_ui.ui:240
@@ -20611,7 +20618,7 @@ msgid "True FFT size:"
 msgstr "Dimensioni FFT reali:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_track)
-#: src/ui/speechdialog_ui.ui:79
+#: src/ui/speechdialog_ui.ui:47
 #, kde-format
 msgid "Timeline zone (selected track)"
 msgstr "Zona dalla linea temporale (tracce selezionate)"
@@ -20629,13 +20636,13 @@ msgid "Timeline zone (all tracks)"
 msgstr "Zona dalla linea temporale (tutte le tracce)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/speechdialog_ui.ui:161
+#: src/ui/speechdialog_ui.ui:151
 #, kde-format
 msgid "Language"
 msgstr "Lingua"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/speechdialog_ui.ui:168
+#: src/ui/speechdialog_ui.ui:164
 #, kde-format
 msgid "Model"
 msgstr "Modello"
