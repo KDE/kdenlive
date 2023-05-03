@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-30 04:14+0000\n"
+"POT-Creation-Date: 2023-05-03 02:53+0000\n"
 "PO-Revision-Date: 2023-04-29 12:43+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
@@ -1240,7 +1240,7 @@ msgstr "Normalise (2 pass)"
 msgid "Correct audio loudness as recommended by EBU R128"
 msgstr "Correct audio loudness as recommended by EBU R128"
 
-#: data/effects/loudness.xml:11 data/effects/tracker.xml:41
+#: data/effects/loudness.xml:13 data/effects/tracker.xml:41
 #, kde-format
 msgid "Analyse"
 msgstr "Analyse"
@@ -3432,7 +3432,14 @@ msgstr "Reset effect"
 msgid "Delete keyframes"
 msgstr "Delete keyframes"
 
-#: src/assets/keyframes/model/keyframemodellist.cpp:597
+#: src/assets/keyframes/model/keyframemodellist.cpp:445
+#: src/assets/model/assetparametermodel.cpp:1386
+#, fuzzy, kde-format
+#| msgid "Paste effect"
+msgid "Update effect"
+msgstr "Paste effect"
+
+#: src/assets/keyframes/model/keyframemodellist.cpp:659
 #, kde-format
 msgid "Missing keyframe detected at %1, automatically re-added"
 msgstr "Missing keyframe detected at %1, automatically re-added"
@@ -3514,8 +3521,8 @@ msgstr "Edit %1 keyframe"
 msgid "Update %1"
 msgstr "Update %1"
 
-#: src/assets/model/assetparametermodel.cpp:1232
-#: src/assets/model/assetparametermodel.cpp:1279
+#: src/assets/model/assetparametermodel.cpp:1238
+#: src/assets/model/assetparametermodel.cpp:1285
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Cannot open preset file %1"
@@ -3560,7 +3567,7 @@ msgstr "Enter Preset Name"
 msgid "Enter the name of this preset:"
 msgstr "Enter the name of this preset:"
 
-#: src/assets/view/widgets/buttonparamwidget.cpp:202
+#: src/assets/view/widgets/buttonparamwidget.cpp:201
 #: src/project/dialogs/archivewidget.cpp:367
 #, kde-format
 msgid "Abort processing"
@@ -4661,7 +4668,7 @@ msgstr ""
 "Creates a folder in the current position in the project bin. Allows for "
 "better organisation of source files. Folders can be nested."
 
-#: src/bin/bin.cpp:3583 src/dialogs/speechdialog.cpp:96
+#: src/bin/bin.cpp:3583 src/dialogs/speechdialog.cpp:48
 #: src/dialogs/textbasededit.cpp:656 src/monitor/recmanager.cpp:43
 #, kde-format
 msgid "Show log"
@@ -5369,7 +5376,7 @@ msgstr "Zone %1"
 msgid "Tag %1"
 msgstr "Tag %1"
 
-#: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:94
+#: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:43
 #: src/dialogs/textbasededit.cpp:589
 #, kde-format
 msgid "Configure"
@@ -6830,73 +6837,73 @@ msgstr ""
 msgid "Add to current project"
 msgstr "Add to current project"
 
-#: src/dialogs/speechdialog.cpp:41
+#: src/dialogs/speechdialog.cpp:42
 #, kde-format
 msgid "Automatic Subtitling"
 msgstr "Automatic Subtitling"
 
-#: src/dialogs/speechdialog.cpp:79 src/dialogs/textbasededit.cpp:635
-#, kde-format
-msgid "Please install speech recognition models"
-msgstr "Please install speech recognition models"
-
-#: src/dialogs/speechdialog.cpp:92
-#, kde-format
-msgid "Process"
-msgstr "Process"
-
-#: src/dialogs/speechdialog.cpp:97
+#: src/dialogs/speechdialog.cpp:49
 #, kde-format
 msgid "Speech Recognition log"
 msgstr "Speech Recognition log"
 
-#: src/dialogs/speechdialog.cpp:128
+#: src/dialogs/speechdialog.cpp:85
+#, kde-format
+msgid "Process"
+msgstr "Process"
+
+#: src/dialogs/speechdialog.cpp:116
 #, kde-format
 msgid "No audio track available for selected clip"
 msgstr "No audio track available for selected clip"
 
-#: src/dialogs/speechdialog.cpp:138
+#: src/dialogs/speechdialog.cpp:126
 #, kde-format
 msgid "Select a clip in timeline to perform analysis"
 msgstr "Select a clip in timeline to perform analysis"
 
-#: src/dialogs/speechdialog.cpp:150
+#: src/dialogs/speechdialog.cpp:138
 #, kde-format
 msgid "No audio track found"
 msgstr "No audio track found"
 
-#: src/dialogs/speechdialog.cpp:188 src/dialogs/textbasededit.cpp:828
+#: src/dialogs/speechdialog.cpp:175 src/dialogs/textbasededit.cpp:635
+#, kde-format
+msgid "Please install speech recognition models"
+msgstr "Please install speech recognition models"
+
+#: src/dialogs/speechdialog.cpp:194 src/dialogs/textbasededit.cpp:828
 #: src/dialogs/textbasededit.cpp:836
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "Please configure speech to text."
 
-#: src/dialogs/speechdialog.cpp:195
+#: src/dialogs/speechdialog.cpp:201
 #, kde-format
 msgid "Starting audio export"
 msgstr "Starting audio export"
 
-#: src/dialogs/speechdialog.cpp:263
+#: src/dialogs/speechdialog.cpp:269
 #, kde-format
 msgid "Audio export failed"
 msgstr "Audio export failed"
 
-#: src/dialogs/speechdialog.cpp:289 src/dialogs/textbasededit.cpp:855
+#: src/dialogs/speechdialog.cpp:295 src/dialogs/textbasededit.cpp:855
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "Starting speech recognition"
 
-#: src/dialogs/speechdialog.cpp:321 src/dialogs/textbasededit.cpp:1018
+#: src/dialogs/speechdialog.cpp:327 src/dialogs/textbasededit.cpp:1018
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "Speech recognition aborted."
 
-#: src/dialogs/speechdialog.cpp:327
+#: src/dialogs/speechdialog.cpp:333
 #, kde-format
 msgid "Subtitles imported"
 msgstr "Subtitles imported"
 
-#: src/dialogs/speechdialog.cpp:330
+#: src/dialogs/speechdialog.cpp:336
 #, kde-format
 msgid "Speech recognition failed"
 msgstr "Speech recognition failed"
@@ -7054,7 +7061,7 @@ msgid "No speech"
 msgstr "No speech"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
-#: src/dialogs/textbasededit.cpp:575 src/ui/speechdialog_ui.ui:154
+#: src/dialogs/textbasededit.cpp:575 src/ui/speechdialog_ui.ui:144
 #, kde-format
 msgid "Translate to english"
 msgstr "Translate to English"
@@ -8476,7 +8483,7 @@ msgstr "Cannot create consumer."
 msgid "Cannot create filter %1"
 msgstr "Cannot create filter %1"
 
-#: src/jobs/filtertask.cpp:227
+#: src/jobs/filtertask.cpp:228
 #, kde-format
 msgid "Failed to filter source."
 msgstr "Failed to filter source."
@@ -17213,7 +17220,7 @@ msgstr "Delete current point."
 #: src/ui/projectsettings_ui.ui:571 src/ui/projectsettings_ui.ui:578
 #: src/ui/qtextclip_ui.ui:94 src/ui/renderwidget_ui.ui:567
 #: src/ui/renderwidget_ui.ui:1001 src/ui/resourcewidget_ui.ui:214
-#: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:55
+#: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:75
 #: src/ui/textbasededit_ui.ui:67 src/ui/textbasededit_ui.ui:100
 #: src/ui/textbasededit_ui.ui:121 src/ui/textbasededit_ui.ui:137
 #: src/ui/textbasededit_ui.ui:216 src/ui/textbasededit_ui.ui:240
@@ -20310,7 +20317,7 @@ msgid "True FFT size:"
 msgstr "True FFT size:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_track)
-#: src/ui/speechdialog_ui.ui:79
+#: src/ui/speechdialog_ui.ui:47
 #, kde-format
 msgid "Timeline zone (selected track)"
 msgstr "Timeline zone (selected track)"
@@ -20328,13 +20335,13 @@ msgid "Timeline zone (all tracks)"
 msgstr "Timeline zone (all tracks)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/speechdialog_ui.ui:161
+#: src/ui/speechdialog_ui.ui:151
 #, kde-format
 msgid "Language"
 msgstr "Language"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/speechdialog_ui.ui:168
+#: src/ui/speechdialog_ui.ui:164
 #, kde-format
 msgid "Model"
 msgstr "Model"
