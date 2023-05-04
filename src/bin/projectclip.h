@@ -209,7 +209,7 @@ public:
     */
     std::pair<std::shared_ptr<Mlt::Producer>, bool> giveMasterAndGetTimelineProducer(int clipId, std::shared_ptr<Mlt::Producer> master, PlaylistState::ClipState state, int tid, bool secondPlaylist = false);
 
-    std::shared_ptr<Mlt::Producer> cloneProducer(bool removeEffects = false);
+    std::shared_ptr<Mlt::Producer> cloneProducer(bool removeEffects = false, bool timelineProducer = false);
     void cloneProducerToFile(const QString &path);
     static std::shared_ptr<Mlt::Producer> cloneProducer(const std::shared_ptr<Mlt::Producer> &producer);
     std::shared_ptr<Mlt::Producer> softClone(const char *list);
