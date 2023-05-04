@@ -59,12 +59,16 @@ private:
     QMap<QString, QString> m_missingTitleImages;
     QMap<QString, QString> m_missingTitleFonts;
     QList<QDomElement> m_missingClips;
+    QDomNodeList m_binEntries;
     QStringList m_missingFilters;
     QStringList m_missingFonts;
     QStringList m_safeImages;
     QStringList m_safeFonts;
     QStringList m_missingProxyIds;
     QStringList m_changedClips;
+    QStringList m_fixedSequences;
+    QStringList m_tractorsList;
+    QStringList m_binIds;
     // List clips whose proxy is missing
     QList<QDomElement> m_missingProxies;
     // List clips who have a working proxy but no source clip

@@ -46,7 +46,11 @@ bool loadProjectBin(const std::shared_ptr<ProjectItemModel> &projectModel, Mlt::
     QStringList expandedFolders;
     int zoomLevel = -1;
     binIdCorresp.clear();
-    projectModel->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, zoomLevel, progressDialog);
+    QList<QUuid> brokenSequences = projectModel->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, zoomLevel, progressDialog);
+    if (!brokenSequences.isEmpty()) {
+        KMessageBox::error(qApp->activeWindow(), i18n("Found an invalid sequence clip in Bin"));
+        return false;
+    }
     QStringList foldersToExpand;
     // Find updated ids for expanded folders
     for (const QString &folderId : expandedFolders) {

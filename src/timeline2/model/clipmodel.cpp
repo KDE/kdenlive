@@ -440,15 +440,6 @@ QSize ClipModel::getFrameSize() const
     return QSize();
 }
 
-double ClipModel::getDoubleProperty(const QString &name) const
-{
-    READ_LOCK();
-    if (service()->parent().is_valid()) {
-        return service()->parent().get_double(name.toUtf8().constData());
-    }
-    return service()->get_double(name.toUtf8().constData());
-}
-
 Mlt::Producer *ClipModel::service() const
 {
     READ_LOCK();

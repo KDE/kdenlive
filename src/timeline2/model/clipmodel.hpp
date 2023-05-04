@@ -55,7 +55,6 @@ public:
      */
     const QString getProperty(const QString &name) const override;
     int getIntProperty(const QString &name) const;
-    double getDoubleProperty(const QString &name) const;
     /** @brief returns the bin clip name
      */
     const QString clipName() const;
