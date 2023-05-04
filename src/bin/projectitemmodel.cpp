@@ -1153,11 +1153,12 @@ bool ProjectItemModel::isIdFree(const QString &id) const
     return true;
 }
 
-void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders,
-                                       int &zoomLevel, QProgressDialog *progressDialog)
+QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders,
+                                               int &zoomLevel, QProgressDialog *progressDialog)
 {
     QWriteLocker locker(&m_lock);
     clean();
+    QList<QUuid> brokenSequences;
     Mlt::Properties retainList(mlt_properties(documentTractor->get_data("xml_retain")));
     if (retainList.is_valid()) {
         Mlt::Playlist playlist(mlt_playlist(retainList.get_data(BinPlaylist::binPlaylistId.toUtf8().constData())));
@@ -1212,11 +1213,11 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, std::unord
                 }
                 std::shared_ptr<Mlt::Producer> producer;
                 if (prod->parent().property_exists("kdenlive:uuid")) {
+                    const QString uuid = prod->parent().get("kdenlive:uuid");
                     if (prod->parent().type() == mlt_service_tractor_type) {
                         // Load sequence properties
                         Mlt::Properties sequenceProps;
                         sequenceProps.pass_values(prod->parent(), "kdenlive:sequenceproperties.");
-                        const QString uuid = prod->parent().get("kdenlive:uuid");
                         pCore->currentDoc()->loadSequenceProperties(QUuid(uuid), sequenceProps);
 
                         std::shared_ptr<Mlt::Tractor> trac = std::make_shared<Mlt::Tractor>(prod->parent());
@@ -1249,6 +1250,8 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, std::unord
                         QString resource = prod->parent().get("resource");
                         if (resource.endsWith(QLatin1String("<tractor>"))) {
                             // Buggy internal xml producer, drop
+                            qDebug() << "/// AARGH INCORRECT SEQUENCE CLIP IN PROJECT BIN... TRY TO RECOVER";
+                            brokenSequences << uuid;
                             continue;
                         }
                     }
@@ -1289,6 +1292,7 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, std::unord
     } else {
         qDebug() << "HHHHHHHHHHHH\nINVALID BIN PLAYLIST...";
     }
+    return brokenSequences;
 }
 
 void ProjectItemModel::loadTractorPlaylist(Mlt::Tractor documentTractor, std::unordered_map<QString, QString> &binIdCorresp)

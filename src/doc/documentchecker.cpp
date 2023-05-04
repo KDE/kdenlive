@@ -121,8 +121,22 @@ bool DocumentChecker::hasErrorInClips()
                 Xml::setXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagefolder"), projectDir.absoluteFilePath(m_documentid));
                 m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
             }
+            m_binEntries = mainBinPlaylist.elementsByTagName(QLatin1String("entry"));
+            for (int i = 0; i < m_binEntries.count(); ++i) {
+                QDomElement e = m_binEntries.item(i).toElement();
+                m_binIds << e.attribute(QStringLiteral("producer"));
+            }
             break;
         }
+    }
+
+    // Fill list of project tractors to detect corruptions
+    m_tractorsList.clear();
+    QDomNodeList documentTractors = m_doc.elementsByTagName(QStringLiteral("tractor"));
+    max = documentTractors.count();
+    for (int i = 0; i < max; ++i) {
+        QDomElement e = documentTractors.item(i).toElement();
+        m_tractorsList.append(e.attribute(QStringLiteral("id")));
     }
 
     QDomNodeList documentProducers = m_doc.elementsByTagName(QStringLiteral("producer"));
@@ -139,10 +153,11 @@ bool DocumentChecker::hasErrorInClips()
     m_safeFonts.clear();
     m_missingFonts.clear();
     m_changedClips.clear();
+    m_fixedSequences.clear();
     QStringList verifiedPaths;
     QStringList missingPaths;
     QStringList serviceToCheck = {QStringLiteral("kdenlivetitle"), QStringLiteral("qimage"), QStringLiteral("pixbuf"), QStringLiteral("timewarp"),
-                                  QStringLiteral("framebuffer"),   QStringLiteral("xml"),    QStringLiteral("qtext")};
+                                  QStringLiteral("framebuffer"),   QStringLiteral("xml"),    QStringLiteral("qtext"),  QStringLiteral("tractor")};
     max = documentProducers.count();
     for (int i = 0; i < max; ++i) {
         QDomElement e = documentProducers.item(i).toElement();
@@ -291,8 +306,9 @@ bool DocumentChecker::hasErrorInClips()
         }
     }
     // Abort here if our MainWindow is not built (it means we are doing tests and don't want a dialog to pop up
-    if (pCore->window() == nullptr || (m_missingClips.isEmpty() && missingLumas.isEmpty() && missingAssets.isEmpty() && m_missingProxies.isEmpty() &&
-                                       m_missingSources.isEmpty() && m_missingFonts.isEmpty() && m_missingFilters.isEmpty() && m_changedClips.isEmpty())) {
+    if (pCore->window() == nullptr ||
+        (m_missingClips.isEmpty() && missingLumas.isEmpty() && missingAssets.isEmpty() && m_missingProxies.isEmpty() && m_missingSources.isEmpty() &&
+         m_missingFonts.isEmpty() && m_missingFilters.isEmpty() && m_changedClips.isEmpty() && m_fixedSequences.isEmpty())) {
         return false;
     }
 
@@ -451,6 +467,15 @@ bool DocumentChecker::hasErrorInClips()
         item->setData(0, statusRole, CLIPPLACEHOLDER);
         item->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-information")));
         item->setText(1, i18n("Clip %1 will be reloaded", url));
+        item->setData(0, typeRole, TITLE_FONT_ELEMENT);
+    }
+
+    for (const QString &url : qAsConst(m_fixedSequences)) {
+        QString clipType = i18n("Fixed Sequence Clips");
+        QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << clipType);
+        item->setData(0, statusRole, CLIPPLACEHOLDER);
+        item->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-information")));
+        item->setText(1, i18n("Clip %1 has been fixed", url));
         item->setData(0, typeRole, TITLE_FONT_ELEMENT);
     }
 
@@ -700,6 +725,7 @@ QString DocumentChecker::getMissingProducers(const QDomElement &e, const QDomNod
             }
         }
     }
+    bool isBinClip = m_binIds.contains(e.attribute(QLatin1String("id")));
     if (service == QLatin1String("qtext")) {
         QString text = Xml::getXmlProperty(e, QStringLiteral("text"));
         if (text == QLatin1String("INVALID")) {
@@ -738,14 +764,33 @@ QString DocumentChecker::getMissingProducers(const QDomElement &e, const QDomNod
         checkMissingImagesAndFonts(QStringList(), QStringList(Xml::getXmlProperty(e, QStringLiteral("family"))), e.attribute(QStringLiteral("id")),
                                    e.attribute(QStringLiteral("name")));
         return QString();
-    }
-    if (service == QLatin1String("kdenlivetitle")) {
+    } else if (service == QLatin1String("kdenlivetitle")) {
         // TODO: Check is clip template is missing (xmltemplate) or hash changed
         QString xml = Xml::getXmlProperty(e, QStringLiteral("xmldata"));
         QStringList images = TitleWidget::extractImageList(xml);
         QStringList fonts = TitleWidget::extractFontList(xml);
         checkMissingImagesAndFonts(images, fonts, Xml::getXmlProperty(e, QStringLiteral("kdenlive:id")), e.attribute(QStringLiteral("name")));
         return QString();
+    } else if (isBinClip && service == QLatin1String("tractor")) {
+        // Check if this is a broken sequence clip / bug in Kdenlive 23.04.04
+        QString resource = Xml::getXmlProperty(e, QStringLiteral("resource"));
+        if (resource.endsWith(QLatin1String("tractor>"))) {
+            const QString brokenId = e.attribute(QStringLiteral("id"));
+            const QString brokenUuid = Xml::getXmlProperty(e, QStringLiteral("kdenlive:uuid"));
+            // Check that we have the original clip somewhere in the producers list
+            if (brokenId != brokenUuid && m_tractorsList.contains(brokenUuid)) {
+                // Replace bin clip entry
+                for (int i = 0; i < m_binEntries.count(); ++i) {
+                    QDomElement e = m_binEntries.item(i).toElement();
+                    if (e.attribute(QStringLiteral("producer")) == brokenId) {
+                        // Match
+                        e.setAttribute(QStringLiteral("producer"), brokenUuid);
+                        m_fixedSequences.append(brokenId);
+                        return QString();
+                    }
+                }
+            }
+        }
     }
     QString resource = Xml::getXmlProperty(e, QStringLiteral("resource"));
     if (resource.isEmpty()) {
@@ -781,6 +826,7 @@ QString DocumentChecker::getMissingProducers(const QDomElement &e, const QDomNod
     }
     QString producerResource = resource;
     QString proxy = Xml::getXmlProperty(e, QStringLiteral("kdenlive:proxy"));
+    // TODO: should this only apply to bin clips (isBinClip)
     if (proxy.length() > 1) {
         bool proxyFound = true;
         if (QFileInfo(proxy).isRelative()) {
@@ -895,7 +941,8 @@ QString DocumentChecker::getMissingProducers(const QDomElement &e, const QDomNod
             m_missingClips.append(e);
             missingPaths.append(resource);
         }
-    } else if (service.startsWith(QLatin1String("avformat")) || slideshow || service == QLatin1String("qimage") || service == QLatin1String("pixbuf")) {
+    } else if (isBinClip &&
+               (service.startsWith(QLatin1String("avformat")) || slideshow || service == QLatin1String("qimage") || service == QLatin1String("pixbuf"))) {
         // Check if file changed
         const QByteArray hash = Xml::getXmlProperty(e, "kdenlive:file_hash").toLatin1();
         if (!hash.isEmpty()) {

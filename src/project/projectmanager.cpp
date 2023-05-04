@@ -818,7 +818,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
         if (!binId.isEmpty()) {
             openTimeline(binId, activeUuid);
         } else {
-            qDebug() << ":::::::::\n\nNO BINID FOR TIMELINE\n\n:::::::::::::";
+            qDebug() << ":::::::::\n\nNO BINID FOR TIMELINE: " << activeUuid << "\n\n:::::::::::::";
         }
     }
     pCore->window()->connectDocument();
@@ -1189,8 +1189,7 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
         m_project->cleanupTimelinePreview(documentDate);
         pCore->projectItemModel()->buildPlaylist(uuid);
         // Load bin playlist
-        loadProjectBin(pCore->projectItemModel(), tractor, m_progressDialog);
-        return true;
+        return loadProjectBin(pCore->projectItemModel(), tractor, m_progressDialog);
     }
     if (tractor.count() == 0) {
         // Wow we have a project file with empty tractor, probably corrupted, propose to open a recovery file
