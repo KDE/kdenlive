@@ -566,7 +566,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     if (pCore->currentDoc()->useExternalProxy() && producer->get("kdenlive:proxy") != QLatin1String("-")) {
         // We have a camcorder profile, check if we have opened a proxy clip
         QString path = producer->get("resource");
-        if (QFileInfo(path).isRelative()) {
+        if (QFileInfo(path).isRelative() && path != QLatin1String("<tractor>")) {
             path.prepend(pCore->currentDoc()->documentRoot());
             producer->set("resource", path.toUtf8().constData());
         }
@@ -584,12 +584,16 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
             skipProducer = true;
         }
     }
-    // Make sure we have a hash for this clip
+    pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::LOADJOB);
+    // Abort thumbnail tasks if any
+    m_thumbMutex.lock();
+    m_thumbsProducer.reset();
     updateProducer(producer);
+    m_thumbMutex.unlock();
     isReloading = false;
+    // Make sure we have a hash for this clip
     getFileHash();
     Q_EMIT producerChanged(m_binId, m_masterProducer);
-    m_thumbsProducer.reset();
     connectEffectStack();
 
     // Update info
@@ -984,7 +988,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
                     std::shared_ptr<Mlt::Producer> prod(m_masterProducer->cut(0, -1));
                     m_audioProducers[trackId] = prod;
                 } else {
-                    m_audioProducers[trackId] = cloneProducer(true);
+                    m_audioProducers[trackId] = cloneProducer(true, true);
                 }
                 m_audioProducers[trackId]->set("set.test_audio", 0);
                 m_audioProducers[trackId]->set("set.test_image", 1);
@@ -1026,7 +1030,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
                     std::shared_ptr<Mlt::Producer> prod(m_masterProducer->cut(0, -1));
                     m_videoProducers[trackId] = prod;
                 } else {
-                    m_videoProducers[trackId] = cloneProducer(true);
+                    m_videoProducers[trackId] = cloneProducer(true, true);
                 }
                 if (m_masterProducer->property_exists("kdenlive:maxduration")) {
                     qDebug() << "ZZZZZZZZZZZZZZ\nFOUND MAXKDENLIVE DURATION: " << m_masterProducer->get_int("kdenlive:maxduration");
@@ -1348,7 +1352,7 @@ void ProjectClip::saveZone(QPoint zone, const QDir &dir)
     xmlConsumer.run();
 }
 
-std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects)
+std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects, bool timelineProducer)
 {
     Mlt::Consumer c(*pCore->getProjectProfile(), "xml", "string");
     Mlt::Service s(m_masterProducer->get_service());
@@ -1374,7 +1378,25 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects)
         prod->set("mlt_service", "avformat-novalidate");
         prod->set("mute_on_pause", 0);
     }
-
+    // TODO: needs more testing, removes clutter from project files
+    /*if (timelineProducer) {
+        // Strip the kdenlive: properties, not useful in timeline
+        const char *prefix = "kdenlive:";
+        const size_t prefix_len = strlen(prefix);
+        QStringList propertiesToRemove;
+        for (int i = prod->count() - 1; i >= 0; --i) {
+            char *current = prod->get_name(i);
+            if (strlen(current) >= prefix_len && strncmp(current, prefix, prefix_len) == 0) {
+                propertiesToRemove << qstrdup(current);
+            }
+        }
+        propertiesToRemove.removeAll(QLatin1String("kdenlive:id"));
+        qDebug()<<"::: CLEARING PROPERTIES: "<<propertiesToRemove;
+        Mlt::Properties props(*prod.get());
+        for (auto &p : propertiesToRemove) {
+            props.clear(p.toUtf8().constData());
+        }
+    } else {*/
     // we pass some properties that wouldn't be passed because of the novalidate
     const char *prefix = "meta.";
     const size_t prefix_len = strlen(prefix);
@@ -1384,6 +1406,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects)
             prod->set(current, m_masterProducer->get(i));
         }
     }
+    //}
 
     if (removeEffects) {
         int ct = 0;

@@ -192,7 +192,7 @@ void ClipController::getInfoForProducer()
     QString proxy = m_properties->get("kdenlive:proxy");
     QString path = m_properties->get("resource");
     if (!m_service.isEmpty() && proxy.length() > 2) {
-        if (QFileInfo(path).isRelative()) {
+        if (QFileInfo(path).isRelative() && path != QLatin1String("<tractor>")) {
             path.prepend(pCore->currentDoc()->documentRoot());
             m_properties->set("resource", path.toUtf8().constData());
         }
@@ -209,7 +209,7 @@ void ClipController::getInfoForProducer()
             m_usesProxy = true;
         }
     } else if (m_service != QLatin1String("color") && m_service != QLatin1String("colour") && !path.isEmpty() && QFileInfo(path).isRelative() &&
-               path != QLatin1String("<producer>")) {
+               path != QLatin1String("<producer>") && path != QLatin1String("<tractor>")) {
         path.prepend(pCore->currentDoc()->documentRoot());
         m_properties->set("resource", path.toUtf8().constData());
     }
