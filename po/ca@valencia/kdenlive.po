@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-03 00:48+0000\n"
-"PO-Revision-Date: 2023-05-02 16:25+0200\n"
+"POT-Creation-Date: 2023-05-04 00:47+0000\n"
+"PO-Revision-Date: 2023-05-03 17:55+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -463,7 +463,7 @@ msgstr "Ona d'àudio"
 #: data/effects/audiowave.xml:5
 #, kde-format
 msgid "Display the audio waveform instead of the video"
-msgstr "Mostra la forma de l'ona de l'àudio en lloc del vídeo"
+msgstr "Mostra la forma d'ona de l'àudio en lloc del vídeo"
 
 #: data/effects/audiowaveform.xml:4
 #, kde-format
@@ -3469,10 +3469,9 @@ msgstr "Suprimix els fotogrames clau"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:445
 #: src/assets/model/assetparametermodel.cpp:1386
-#, fuzzy, kde-format
-#| msgid "Paste effect"
+#, kde-format
 msgid "Update effect"
-msgstr "Apega l'efecte"
+msgstr "Actualitza l'efecte"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:659
 #, kde-format
@@ -4517,7 +4516,7 @@ msgstr "Llista de reproducció"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2330 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/project/projectmanager.cpp:1239 src/project/projectmanager.cpp:1241
+#: src/project/projectmanager.cpp:1245 src/project/projectmanager.cpp:1247
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -5335,12 +5334,12 @@ msgstr "No vàlida"
 msgid "File already exists"
 msgstr "El fitxer ja existix"
 
-#: src/bin/projectclip.cpp:2635
+#: src/bin/projectclip.cpp:2636
 #, kde-format
 msgid "Add stream effect"
 msgstr "Afig un nou de flux"
 
-#: src/bin/projectclip.cpp:2660
+#: src/bin/projectclip.cpp:2661
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Elimina l'efecte de flux"
@@ -5821,7 +5820,7 @@ msgstr "Clip de text"
 msgid "Create Text clip"
 msgstr "Crea un clip de text"
 
-#: src/dialogs/clipcreationdialog.cpp:390 src/doc/kdenlivedoc.cpp:1097
+#: src/dialogs/clipcreationdialog.cpp:390 src/doc/kdenlivedoc.cpp:1109
 #, kde-format
 msgid "Template title clip"
 msgstr "Plantilla de clip de títol"
@@ -6079,7 +6078,7 @@ msgstr "Exporteu les dades de les guies"
 #: src/dialogs/renderwidget.cpp:947 src/dialogs/renderwidget.cpp:1000
 #: src/dialogs/renderwidget.cpp:1005 src/dialogs/renderwidget.cpp:1962
 #: src/dialogs/renderwidget.cpp:1989 src/doc/kdenlivedoc.cpp:743
-#: src/doc/kdenlivedoc.cpp:751 src/doc/kdenlivedoc.cpp:1231
+#: src/doc/kdenlivedoc.cpp:751 src/doc/kdenlivedoc.cpp:1243
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
 #: src/effects/effectsrepository.cpp:394
@@ -6093,7 +6092,7 @@ msgstr "Exporteu les dades de les guies"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1523
+#: src/project/projectmanager.cpp:1529
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5094
@@ -7898,36 +7897,36 @@ msgstr ""
 "El fitxer del projecte s'ha actualitzat a l'última versió de document de "
 "Kdenlive, però no ha sigut possible crear la còpia de seguretat %1."
 
-#: src/doc/kdenlivedoc.cpp:859 src/project/projectmanager.cpp:1119
-#: src/project/projectmanager.cpp:1155
+#: src/doc/kdenlivedoc.cpp:867 src/project/projectmanager.cpp:1125
+#: src/project/projectmanager.cpp:1161
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "S'ha produït un error en moure la carpeta del projecte: %1"
 
-#: src/doc/kdenlivedoc.cpp:1022 src/doc/kdenlivedoc.cpp:2145
+#: src/doc/kdenlivedoc.cpp:1034 src/doc/kdenlivedoc.cpp:2157
 #: src/project/dialogs/archivewidget.cpp:214
-#: src/project/projectmanager.cpp:1356
+#: src/project/projectmanager.cpp:1362
 #, kde-format
 msgid "Untitled"
 msgstr "Sense títol"
 
-#: src/doc/kdenlivedoc.cpp:1083
+#: src/doc/kdenlivedoc.cpp:1095
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Introduïu el camí de les plantilles"
 
-#: src/doc/kdenlivedoc.cpp:1238
+#: src/doc/kdenlivedoc.cpp:1250
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "Els efectes següents s'han importat des del projecte:"
 
-#: src/doc/kdenlivedoc.cpp:1271 src/doc/kdenlivedoc.cpp:1285
+#: src/doc/kdenlivedoc.cpp:1283 src/doc/kdenlivedoc.cpp:1297
 #, kde-format
 msgid "Project Folder"
 msgstr "Carpeta del projecte"
 
-#: src/doc/kdenlivedoc.cpp:1329 src/doc/kdenlivedoc.cpp:1337
+#: src/doc/kdenlivedoc.cpp:1341 src/doc/kdenlivedoc.cpp:1349
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -7936,26 +7935,26 @@ msgstr ""
 "No s'ha pogut crear la còpia de seguretat:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1482
+#: src/doc/kdenlivedoc.cpp:1494
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "Afig un clip intermediari"
 msgstr[1] "Afig un clip"
 
-#: src/doc/kdenlivedoc.cpp:1484
+#: src/doc/kdenlivedoc.cpp:1496
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "Elimina el clip intermediari"
 msgstr[1] "Elimina els clips intermediaris"
 
-#: src/doc/kdenlivedoc.cpp:1528 src/doc/kdenlivedoc.cpp:1563
+#: src/doc/kdenlivedoc.cpp:1540 src/doc/kdenlivedoc.cpp:1575
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "El tipus del clip no admet intermediaris"
 
-#: src/doc/kdenlivedoc.cpp:1766
+#: src/doc/kdenlivedoc.cpp:1778
 #, kde-format
 msgid ""
 "\n"
@@ -7965,7 +7964,7 @@ msgstr ""
 "Avís: FPS no enter desconegut, pot provocar una visualització incorrecta de "
 "la duració."
 
-#: src/doc/kdenlivedoc.cpp:1785
+#: src/doc/kdenlivedoc.cpp:1797
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -7975,43 +7974,43 @@ msgstr ""
 "és %3.\n"
 "Voleu canviar el perfil predeterminat per als projectes futurs?"
 
-#: src/doc/kdenlivedoc.cpp:1787
+#: src/doc/kdenlivedoc.cpp:1799
 #, kde-format
 msgid "Change default project profile"
 msgstr "Canvia el perfil predeterminat del projecte"
 
-#: src/doc/kdenlivedoc.cpp:1787
+#: src/doc/kdenlivedoc.cpp:1799
 #, kde-format
 msgid "Change default to %1"
 msgstr "Canvia el predeterminat a %1"
 
-#: src/doc/kdenlivedoc.cpp:1788
+#: src/doc/kdenlivedoc.cpp:1800
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Mantín el predeterminat actual %1"
 
-#: src/doc/kdenlivedoc.cpp:1788
+#: src/doc/kdenlivedoc.cpp:1800
 #, kde-format
 msgid "Ask me later"
 msgstr "Pregunta-ho més tard"
 
-#: src/doc/kdenlivedoc.cpp:1808
+#: src/doc/kdenlivedoc.cpp:1820
 #, kde-format
 msgid "Switch"
 msgstr "Canvia"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1810 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1822 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "Cancel·la"
 
-#: src/doc/kdenlivedoc.cpp:1812
+#: src/doc/kdenlivedoc.cpp:1824
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Voleu canviar al perfil %2 del clip (%1)?"
 
-#: src/doc/kdenlivedoc.cpp:1817
+#: src/doc/kdenlivedoc.cpp:1829
 #, kde-format
 msgid ""
 "\n"
@@ -8020,7 +8019,7 @@ msgstr ""
 "\n"
 "FPS del perfil ajustat a partir de l'original %1"
 
-#: src/doc/kdenlivedoc.cpp:1819
+#: src/doc/kdenlivedoc.cpp:1831
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -8029,13 +8028,13 @@ msgstr ""
 "No s'ha trobat cap perfil per al clip %1.\n"
 "El cree i canvie al perfil nou (%2x%3, %4fps)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2184 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2196 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "Roig"
 
-#: src/doc/kdenlivedoc.cpp:2185 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2197 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -8043,23 +8042,23 @@ msgstr "Roig"
 msgid "Green"
 msgstr "Verd"
 
-#: src/doc/kdenlivedoc.cpp:2186 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2198 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "Blau"
 
-#: src/doc/kdenlivedoc.cpp:2187 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2199 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Groc"
 
-#: src/doc/kdenlivedoc.cpp:2188
+#: src/doc/kdenlivedoc.cpp:2200
 #, kde-format
 msgid "Cyan"
 msgstr "Cian"
 
-#: src/doc/kdenlivedoc.cpp:2368
+#: src/doc/kdenlivedoc.cpp:2380
 #, kde-format
 msgid "Category %1:%2:%3"
 msgstr "Categoria %1:%2:%3"
@@ -13021,7 +13020,7 @@ msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 "El fitxer de marcadors és superior a 1 MB. Segur que el voleu importar?"
 
-#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1417
+#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1423
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:5000
 #, kde-format
@@ -13644,7 +13643,7 @@ msgstr "Obri un fitxer de còpia de seguretat…"
 msgid "Save changes to document?"
 msgstr "Voleu guardar els canvis en el document?"
 
-#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1355
+#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1361
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13772,25 +13771,31 @@ msgstr ""
 "torneu a obrir el fitxer de projecte per a recuperar l'última còpia de "
 "seguretat"
 
-#: src/project/projectmanager.cpp:1133
+#: src/project/projectmanager.cpp:1103
+#, fuzzy, kde-format
+#| msgid "Error moving project folder: %1"
+msgid "Error moving project folder, cannot access cache folder"
+msgstr "S'ha produït un error en moure la carpeta del projecte: %1"
+
+#: src/project/projectmanager.cpp:1139
 #, kde-format
 msgid "Moving project folder"
 msgstr "Movent la carpeta del projecte"
 
-#: src/project/projectmanager.cpp:1191
+#: src/project/projectmanager.cpp:1197
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 "El fitxer del projecte està corromput (sense pistes). Intente buscar un "
 "fitxer de còpia de seguretat?"
 
-#: src/project/projectmanager.cpp:1218 src/project/projectmanager.cpp:1248
-#: src/project/projectmanager.cpp:1252
+#: src/project/projectmanager.cpp:1224 src/project/projectmanager.cpp:1254
+#: src/project/projectmanager.cpp:1258
 #, kde-format
 msgid "Sequence 1"
 msgstr "Seqüència 1"
 
-#: src/project/projectmanager.cpp:1229
+#: src/project/projectmanager.cpp:1235
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -13798,13 +13803,13 @@ msgstr ""
 "El fitxer del projecte està corromput: falla en carregar les pistes. Intente "
 "buscar un fitxer de còpia de seguretat?"
 
-#: src/project/projectmanager.cpp:1361 src/project/projectmanager.cpp:1366
-#: src/project/projectmanager.cpp:1376 src/project/projectmanager.cpp:1392
+#: src/project/projectmanager.cpp:1367 src/project/projectmanager.cpp:1372
+#: src/project/projectmanager.cpp:1382 src/project/projectmanager.cpp:1398
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "S'ha interromput el canvi del perfil del projecte"
 
-#: src/project/projectmanager.cpp:1508
+#: src/project/projectmanager.cpp:1514
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -13813,12 +13818,12 @@ msgstr ""
 "El fitxer d'eixida %1 ja existix.\n"
 "Voleu sobreescriure'l?"
 
-#: src/project/projectmanager.cpp:1533
+#: src/project/projectmanager.cpp:1539
 #, kde-format
 msgid "Project profile changed"
 msgstr "S'ha canviat el perfil del projecte"
 
-#: src/project/projectmanager.cpp:1583
+#: src/project/projectmanager.cpp:1589
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -13827,18 +13832,18 @@ msgstr ""
 "No s'ha pogut crear una línia de temps a partir d'este clip:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1662
+#: src/project/projectmanager.cpp:1668
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Actualment, la importació d'un clip de seqüència està en estat experimental"
 
-#: src/project/projectmanager.cpp:1815
+#: src/project/projectmanager.cpp:1821
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Seleccioneu un clip per a crear una seqüència"
 
-#: src/project/projectmanager.cpp:1852
+#: src/project/projectmanager.cpp:1858
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Crea un clip de seqüència"

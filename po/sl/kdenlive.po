@@ -10,18 +10,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-03 00:48+0000\n"
-"PO-Revision-Date: 2023-05-02 10:56+0200\n"
-"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
+"POT-Creation-Date: 2023-05-04 00:47+0000\n"
+"PO-Revision-Date: 2023-05-03 09:09+0200\n"
+"Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
-"%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100>=3 && n"
+"%100<=4 ? 2 : 3);\n"
 "Translator: Martin Srebotnjak <miles@filmsi.net>\n"
-"X-Generator: Poedit 3.3\n"
+"X-Generator: Poedit 3.2.2\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
 
 #, kde-format
@@ -3443,10 +3443,9 @@ msgstr "Izbriši ključne sličice"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:445
 #: src/assets/model/assetparametermodel.cpp:1386
-#, fuzzy, kde-format
-#| msgid "Paste effect"
+#, kde-format
 msgid "Update effect"
-msgstr "Prilepi učinek"
+msgstr "Osveži učinek"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:659
 #, kde-format
@@ -4493,7 +4492,7 @@ msgstr "Seznam predvajanja"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2330 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/project/projectmanager.cpp:1239 src/project/projectmanager.cpp:1241
+#: src/project/projectmanager.cpp:1245 src/project/projectmanager.cpp:1247
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -5312,12 +5311,12 @@ msgstr "Neveljaven"
 msgid "File already exists"
 msgstr "Datoteka že obstaja"
 
-#: src/bin/projectclip.cpp:2635
+#: src/bin/projectclip.cpp:2636
 #, kde-format
 msgid "Add stream effect"
 msgstr "Dodaj tokovni učinek"
 
-#: src/bin/projectclip.cpp:2660
+#: src/bin/projectclip.cpp:2661
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Odstrani tokovni učinek"
@@ -5800,7 +5799,7 @@ msgstr "Posnetek iz besedila"
 msgid "Create Text clip"
 msgstr "Ustvari besedilni posnetek"
 
-#: src/dialogs/clipcreationdialog.cpp:390 src/doc/kdenlivedoc.cpp:1097
+#: src/dialogs/clipcreationdialog.cpp:390 src/doc/kdenlivedoc.cpp:1109
 #, kde-format
 msgid "Template title clip"
 msgstr "Predloga posnetka napisa"
@@ -6056,7 +6055,7 @@ msgstr "Izvozi podatke vodil"
 #: src/dialogs/renderwidget.cpp:947 src/dialogs/renderwidget.cpp:1000
 #: src/dialogs/renderwidget.cpp:1005 src/dialogs/renderwidget.cpp:1962
 #: src/dialogs/renderwidget.cpp:1989 src/doc/kdenlivedoc.cpp:743
-#: src/doc/kdenlivedoc.cpp:751 src/doc/kdenlivedoc.cpp:1231
+#: src/doc/kdenlivedoc.cpp:751 src/doc/kdenlivedoc.cpp:1243
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
 #: src/effects/effectsrepository.cpp:394
@@ -6070,7 +6069,7 @@ msgstr "Izvozi podatke vodil"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1523
+#: src/project/projectmanager.cpp:1529
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5094
@@ -7877,36 +7876,36 @@ msgstr ""
 "Vaša projektna datoteka je bila nadgrajena na najnovejšo različico "
 "dokumentov Kdenlive, ni pa bilo mogoče ustvariti varnostne kopije %1."
 
-#: src/doc/kdenlivedoc.cpp:859 src/project/projectmanager.cpp:1119
-#: src/project/projectmanager.cpp:1155
+#: src/doc/kdenlivedoc.cpp:867 src/project/projectmanager.cpp:1125
+#: src/project/projectmanager.cpp:1161
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Napaka med premikanjem mape projekta: %1"
 
-#: src/doc/kdenlivedoc.cpp:1022 src/doc/kdenlivedoc.cpp:2145
+#: src/doc/kdenlivedoc.cpp:1034 src/doc/kdenlivedoc.cpp:2157
 #: src/project/dialogs/archivewidget.cpp:214
-#: src/project/projectmanager.cpp:1356
+#: src/project/projectmanager.cpp:1362
 #, kde-format
 msgid "Untitled"
 msgstr "Neimenovano"
 
-#: src/doc/kdenlivedoc.cpp:1083
+#: src/doc/kdenlivedoc.cpp:1095
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Vnesite pot do predloge"
 
-#: src/doc/kdenlivedoc.cpp:1238
+#: src/doc/kdenlivedoc.cpp:1250
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "Naslednji učinki so bili uvoženi iz projekta:"
 
-#: src/doc/kdenlivedoc.cpp:1271 src/doc/kdenlivedoc.cpp:1285
+#: src/doc/kdenlivedoc.cpp:1283 src/doc/kdenlivedoc.cpp:1297
 #, kde-format
 msgid "Project Folder"
 msgstr "Mapa projekta"
 
-#: src/doc/kdenlivedoc.cpp:1329 src/doc/kdenlivedoc.cpp:1337
+#: src/doc/kdenlivedoc.cpp:1341 src/doc/kdenlivedoc.cpp:1349
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -7915,7 +7914,7 @@ msgstr ""
 "Ni mogoče ustvariti varnostne kopije:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1482
+#: src/doc/kdenlivedoc.cpp:1494
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
@@ -7924,7 +7923,7 @@ msgstr[1] "Dodaj posredna posnetka"
 msgstr[2] "Dodaj posredne posnetke"
 msgstr[3] "Dodaj posredne posnetke"
 
-#: src/doc/kdenlivedoc.cpp:1484
+#: src/doc/kdenlivedoc.cpp:1496
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
@@ -7933,12 +7932,12 @@ msgstr[1] "Odstrani posredna posnetka"
 msgstr[2] "Odstrani posredne posnetke"
 msgstr[3] "Odstrani posredne posnetke"
 
-#: src/doc/kdenlivedoc.cpp:1528 src/doc/kdenlivedoc.cpp:1563
+#: src/doc/kdenlivedoc.cpp:1540 src/doc/kdenlivedoc.cpp:1575
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "Vrsta posnetka ne podpira posrednih posnetkov"
 
-#: src/doc/kdenlivedoc.cpp:1766
+#: src/doc/kdenlivedoc.cpp:1778
 #, kde-format
 msgid ""
 "\n"
@@ -7948,7 +7947,7 @@ msgstr ""
 "Opozorilo: število sličic na sekundo, ki ni celoštevilčno. Morda bo prišlo "
 "do napačnega prikaza trajanja."
 
-#: src/doc/kdenlivedoc.cpp:1785
+#: src/doc/kdenlivedoc.cpp:1797
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -7957,43 +7956,43 @@ msgstr ""
 "Privzeti profil za vaš projekt je %1, za vaše posnetke (%2) pa %3.\n"
 "Ali želite spremeniti privzeti profil za prihodnje projekte?"
 
-#: src/doc/kdenlivedoc.cpp:1787
+#: src/doc/kdenlivedoc.cpp:1799
 #, kde-format
 msgid "Change default project profile"
 msgstr "Spremeni privzeti profil projekta"
 
-#: src/doc/kdenlivedoc.cpp:1787
+#: src/doc/kdenlivedoc.cpp:1799
 #, kde-format
 msgid "Change default to %1"
 msgstr "Spremeni privzeti profil v %1"
 
-#: src/doc/kdenlivedoc.cpp:1788
+#: src/doc/kdenlivedoc.cpp:1800
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Ohrani trenutno privzetega %1"
 
-#: src/doc/kdenlivedoc.cpp:1788
+#: src/doc/kdenlivedoc.cpp:1800
 #, kde-format
 msgid "Ask me later"
 msgstr "Vprašaj kasneje"
 
-#: src/doc/kdenlivedoc.cpp:1808
+#: src/doc/kdenlivedoc.cpp:1820
 #, kde-format
 msgid "Switch"
 msgstr "Preklopi"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1810 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1822 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "Prekliči"
 
-#: src/doc/kdenlivedoc.cpp:1812
+#: src/doc/kdenlivedoc.cpp:1824
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Ali želite preklopiti na posnetkov (%1) profil %2?"
 
-#: src/doc/kdenlivedoc.cpp:1817
+#: src/doc/kdenlivedoc.cpp:1829
 #, kde-format
 msgid ""
 "\n"
@@ -8002,7 +8001,7 @@ msgstr ""
 "\n"
 "Sličice na sekundo profila prilagojene iz izvornega %1"
 
-#: src/doc/kdenlivedoc.cpp:1819
+#: src/doc/kdenlivedoc.cpp:1831
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -8011,13 +8010,13 @@ msgstr ""
 "Za vaš posnetek %1 ni zadetkov med profili.\n"
 "Ali želite ustvariti nov profil (%2x%3, %4 sl/s) in preklopiti nanj?%5"
 
-#: src/doc/kdenlivedoc.cpp:2184 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2196 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "Rdeča"
 
-#: src/doc/kdenlivedoc.cpp:2185 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2197 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -8025,23 +8024,23 @@ msgstr "Rdeča"
 msgid "Green"
 msgstr "Zelena"
 
-#: src/doc/kdenlivedoc.cpp:2186 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2198 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "Modra"
 
-#: src/doc/kdenlivedoc.cpp:2187 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2199 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Rumena"
 
-#: src/doc/kdenlivedoc.cpp:2188
+#: src/doc/kdenlivedoc.cpp:2200
 #, kde-format
 msgid "Cyan"
 msgstr "Sinja"
 
-#: src/doc/kdenlivedoc.cpp:2368
+#: src/doc/kdenlivedoc.cpp:2380
 #, kde-format
 msgid "Category %1:%2:%3"
 msgstr "Kategorija %1:%2:%3"
@@ -12969,7 +12968,7 @@ msgstr ""
 "Datoteka označevalnikov je večja od 1 MB, ali ste prepričani, da jo želite "
 "uvoziti?"
 
-#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1417
+#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1423
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:5000
 #, kde-format
@@ -13593,7 +13592,7 @@ msgstr "Odpri datoteko varnostne kopije …"
 msgid "Save changes to document?"
 msgstr "Ali želite shraniti spremembe v dokument?"
 
-#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1355
+#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1361
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13720,25 +13719,31 @@ msgstr ""
 "Projekt je bil poškodovan, izdelava varnostne kopije ni mogoča. Zaprite in "
 "znova odprite svojo datoteko projekta za obnovitev iz zadnje varovalne kopije"
 
-#: src/project/projectmanager.cpp:1133
+#: src/project/projectmanager.cpp:1103
+#, fuzzy, kde-format
+#| msgid "Error moving project folder: %1"
+msgid "Error moving project folder, cannot access cache folder"
+msgstr "Napaka med premikanjem mape projekta: %1"
+
+#: src/project/projectmanager.cpp:1139
 #, kde-format
 msgid "Moving project folder"
 msgstr "Premikanje mape projekta"
 
-#: src/project/projectmanager.cpp:1191
+#: src/project/projectmanager.cpp:1197
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 "Projektna datoteka je okvarjena (ni stez). Ali želite poiskati varnostno "
 "kopijo?"
 
-#: src/project/projectmanager.cpp:1218 src/project/projectmanager.cpp:1248
-#: src/project/projectmanager.cpp:1252
+#: src/project/projectmanager.cpp:1224 src/project/projectmanager.cpp:1254
+#: src/project/projectmanager.cpp:1258
 #, kde-format
 msgid "Sequence 1"
 msgstr "Zaporedje 1"
 
-#: src/project/projectmanager.cpp:1229
+#: src/project/projectmanager.cpp:1235
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -13746,13 +13751,13 @@ msgstr ""
 "Projektna datoteka je okvarjena (ni mogoče naložiti stez). Ali želite "
 "poiskati varnostno kopijo?"
 
-#: src/project/projectmanager.cpp:1361 src/project/projectmanager.cpp:1366
-#: src/project/projectmanager.cpp:1376 src/project/projectmanager.cpp:1392
+#: src/project/projectmanager.cpp:1367 src/project/projectmanager.cpp:1372
+#: src/project/projectmanager.cpp:1382 src/project/projectmanager.cpp:1398
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Sprememba profila projekta prekinjena"
 
-#: src/project/projectmanager.cpp:1508
+#: src/project/projectmanager.cpp:1514
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -13761,12 +13766,12 @@ msgstr ""
 "Izhodna datoteka %1 že obstaja.\n"
 "Ali jo želite prepisati?"
 
-#: src/project/projectmanager.cpp:1533
+#: src/project/projectmanager.cpp:1539
 #, kde-format
 msgid "Project profile changed"
 msgstr "Profil projekta spremenjen"
 
-#: src/project/projectmanager.cpp:1583
+#: src/project/projectmanager.cpp:1589
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -13775,17 +13780,17 @@ msgstr ""
 "Ni mogoče ustvariti časovnice iz tega posnetka:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1662
+#: src/project/projectmanager.cpp:1668
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "Uvažanje posnetka zaporedja je trenutno v stanju preizkušanja"
 
-#: src/project/projectmanager.cpp:1815
+#: src/project/projectmanager.cpp:1821
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Izberite posnetek za ustvarjanje zaporedja"
 
-#: src/project/projectmanager.cpp:1852
+#: src/project/projectmanager.cpp:1858
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Ustvari posnetek zaporedja"
@@ -20795,7 +20800,7 @@ msgstr "po &vrsticah"
 #: src/ui/titlewidget_ui.ui:981
 #, kde-format
 msgid "Custo&m"
-msgstr "po &meri"
+msgstr "Po &meri"
 
 #. i18n: ectx: property (text), widget (QLabel, label_frameStep)
 #: src/ui/titlewidget_ui.ui:991

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-03 00:48+0000\n"
+"POT-Creation-Date: 2023-05-04 00:47+0000\n"
 "PO-Revision-Date: 2023-03-23 12:33+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -4453,7 +4453,7 @@ msgstr "قائمة التشغيل"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2330 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/project/projectmanager.cpp:1239 src/project/projectmanager.cpp:1241
+#: src/project/projectmanager.cpp:1245 src/project/projectmanager.cpp:1247
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -5276,12 +5276,12 @@ msgstr "غير صالح"
 msgid "File already exists"
 msgstr "الملفّ موجود بالفعل"
 
-#: src/bin/projectclip.cpp:2635
+#: src/bin/projectclip.cpp:2636
 #, kde-format
 msgid "Add stream effect"
 msgstr "أضف تّأثير دفق"
 
-#: src/bin/projectclip.cpp:2660
+#: src/bin/projectclip.cpp:2661
 #, kde-format
 msgid "Remove stream effect"
 msgstr "أزل  تّأثير دفق"
@@ -5766,7 +5766,7 @@ msgstr "مقطع نصي"
 msgid "Create Text clip"
 msgstr "أنشئ مقطع نصي"
 
-#: src/dialogs/clipcreationdialog.cpp:390 src/doc/kdenlivedoc.cpp:1097
+#: src/dialogs/clipcreationdialog.cpp:390 src/doc/kdenlivedoc.cpp:1109
 #, kde-format
 msgid "Template title clip"
 msgstr "مقطع قالب عنوان"
@@ -6019,7 +6019,7 @@ msgstr "صدر بيانات الأدلة"
 #: src/dialogs/renderwidget.cpp:947 src/dialogs/renderwidget.cpp:1000
 #: src/dialogs/renderwidget.cpp:1005 src/dialogs/renderwidget.cpp:1962
 #: src/dialogs/renderwidget.cpp:1989 src/doc/kdenlivedoc.cpp:743
-#: src/doc/kdenlivedoc.cpp:751 src/doc/kdenlivedoc.cpp:1231
+#: src/doc/kdenlivedoc.cpp:751 src/doc/kdenlivedoc.cpp:1243
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
 #: src/effects/effectsrepository.cpp:394
@@ -6033,7 +6033,7 @@ msgstr "صدر بيانات الأدلة"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1523
+#: src/project/projectmanager.cpp:1529
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5094
@@ -7812,36 +7812,36 @@ msgstr ""
 "لقد رُقّي ملفّ المشروع إلى آخر إصدارة من مستندات «كِيدِينلايف»، ولكن لم يكن ممكنًا "
 "إنشاء النّسخة الاحتياطيّة %1."
 
-#: src/doc/kdenlivedoc.cpp:859 src/project/projectmanager.cpp:1119
-#: src/project/projectmanager.cpp:1155
+#: src/doc/kdenlivedoc.cpp:867 src/project/projectmanager.cpp:1125
+#: src/project/projectmanager.cpp:1161
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "خطأ في نقل مجلّد المشروع: %1"
 
-#: src/doc/kdenlivedoc.cpp:1022 src/doc/kdenlivedoc.cpp:2145
+#: src/doc/kdenlivedoc.cpp:1034 src/doc/kdenlivedoc.cpp:2157
 #: src/project/dialogs/archivewidget.cpp:214
-#: src/project/projectmanager.cpp:1356
+#: src/project/projectmanager.cpp:1362
 #, kde-format
 msgid "Untitled"
 msgstr "غير معنون"
 
-#: src/doc/kdenlivedoc.cpp:1083
+#: src/doc/kdenlivedoc.cpp:1095
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "أدخل مسار القالب"
 
-#: src/doc/kdenlivedoc.cpp:1238
+#: src/doc/kdenlivedoc.cpp:1250
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "استُوردت التّأثيرات الآتية من المشروع:"
 
-#: src/doc/kdenlivedoc.cpp:1271 src/doc/kdenlivedoc.cpp:1285
+#: src/doc/kdenlivedoc.cpp:1283 src/doc/kdenlivedoc.cpp:1297
 #, kde-format
 msgid "Project Folder"
 msgstr "مجلّد المشروع"
 
-#: src/doc/kdenlivedoc.cpp:1329 src/doc/kdenlivedoc.cpp:1337
+#: src/doc/kdenlivedoc.cpp:1341 src/doc/kdenlivedoc.cpp:1349
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -7850,7 +7850,7 @@ msgstr ""
 "تعذّر إنشاء نسخة احتياطيّة:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1482
+#: src/doc/kdenlivedoc.cpp:1494
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
@@ -7861,7 +7861,7 @@ msgstr[3] "أضف مقاطع وسيطة"
 msgstr[4] "أضف مقاطع وسيطة"
 msgstr[5] "أضف مقاطع وسيطة"
 
-#: src/doc/kdenlivedoc.cpp:1484
+#: src/doc/kdenlivedoc.cpp:1496
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
@@ -7872,12 +7872,12 @@ msgstr[3] "أزل مقاطع وسيطة"
 msgstr[4] "أزل مقاطع وسيطة"
 msgstr[5] "أزل مقاطع وسيطة"
 
-#: src/doc/kdenlivedoc.cpp:1528 src/doc/kdenlivedoc.cpp:1563
+#: src/doc/kdenlivedoc.cpp:1540 src/doc/kdenlivedoc.cpp:1575
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "نوع المقطع لا يدعم الوسطاء"
 
-#: src/doc/kdenlivedoc.cpp:1766
+#: src/doc/kdenlivedoc.cpp:1778
 #, kde-format
 msgid ""
 "\n"
@@ -7886,7 +7886,7 @@ msgstr ""
 "\n"
 "تحذير: معدل أطر ليس بعدد صحيح ومجهول، قد يسبب هذا عرض المدة بشكل خاطئ."
 
-#: src/doc/kdenlivedoc.cpp:1785
+#: src/doc/kdenlivedoc.cpp:1797
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -7895,43 +7895,43 @@ msgstr ""
 "تشكيلة المشروع الافتراضيّة هي %1، بينما تشكيلة المقطع (%2) هي %3.\n"
 "أتريد تغيير التشكيلة الافتراضيّة للمشاريع القادمة؟"
 
-#: src/doc/kdenlivedoc.cpp:1787
+#: src/doc/kdenlivedoc.cpp:1799
 #, kde-format
 msgid "Change default project profile"
 msgstr "غيّر تشكيلة المشاريع الافتراضيّة"
 
-#: src/doc/kdenlivedoc.cpp:1787
+#: src/doc/kdenlivedoc.cpp:1799
 #, kde-format
 msgid "Change default to %1"
 msgstr "غيّر الافتراضيّ إلى %1"
 
-#: src/doc/kdenlivedoc.cpp:1788
+#: src/doc/kdenlivedoc.cpp:1800
 #, kde-format
 msgid "Keep current default %1"
 msgstr "أبقِ الحاليّ %1 افتراضيّ"
 
-#: src/doc/kdenlivedoc.cpp:1788
+#: src/doc/kdenlivedoc.cpp:1800
 #, kde-format
 msgid "Ask me later"
 msgstr "اسألني لاحقًا"
 
-#: src/doc/kdenlivedoc.cpp:1808
+#: src/doc/kdenlivedoc.cpp:1820
 #, kde-format
 msgid "Switch"
 msgstr "بدّل"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1810 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1822 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "ألغِ"
 
-#: src/doc/kdenlivedoc.cpp:1812
+#: src/doc/kdenlivedoc.cpp:1824
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "أأبدّل إلى تشكيلة (%1) المقطع %2؟"
 
-#: src/doc/kdenlivedoc.cpp:1817
+#: src/doc/kdenlivedoc.cpp:1829
 #, kde-format
 msgid ""
 "\n"
@@ -7940,7 +7940,7 @@ msgstr ""
 "\n"
 "عُدلت تشكيلة معدل الأطر عن الأصل %1"
 
-#: src/doc/kdenlivedoc.cpp:1819
+#: src/doc/kdenlivedoc.cpp:1831
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -7949,13 +7949,13 @@ msgstr ""
 "لم يُعثر على تشكيلة لمقطعك %1.\n"
 "أأنشئ واحدة وأحوّل إلى التشكيلة الجديدة (%2×%3، %4 إطار/ثا)؟%5"
 
-#: src/doc/kdenlivedoc.cpp:2184 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2196 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "الأحمر"
 
-#: src/doc/kdenlivedoc.cpp:2185 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2197 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -7963,23 +7963,23 @@ msgstr "الأحمر"
 msgid "Green"
 msgstr "الأخضر"
 
-#: src/doc/kdenlivedoc.cpp:2186 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2198 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "الأزرق"
 
-#: src/doc/kdenlivedoc.cpp:2187 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2199 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "الأصفر"
 
-#: src/doc/kdenlivedoc.cpp:2188
+#: src/doc/kdenlivedoc.cpp:2200
 #, kde-format
 msgid "Cyan"
 msgstr "أزرق سماوي"
 
-#: src/doc/kdenlivedoc.cpp:2368
+#: src/doc/kdenlivedoc.cpp:2380
 #, kde-format
 msgid "Category %1:%2:%3"
 msgstr "الصنف %1:%2:%3"
@@ -12870,7 +12870,7 @@ msgstr "حمّل علامات المقطع"
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr "ملف العلامة أكبر من ١ ميجابايت، هل ترغب في استيراده؟"
 
-#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1417
+#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1423
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:5000
 #, kde-format
@@ -13489,7 +13489,7 @@ msgstr "افتح ملفّ نسخة احتياطيّة…"
 msgid "Save changes to document?"
 msgstr "أأحفظ التّغييرات على المستند؟"
 
-#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1355
+#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1361
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13609,24 +13609,30 @@ msgstr ""
 "المشروع معطوب، لا يمكن أخذ نسخة احتياطية عنه. يرجى إغلاق ملف المشروع وإعادة "
 "فتحه لاسترداد النسخ الاحتياطي الأخير"
 
-#: src/project/projectmanager.cpp:1133
+#: src/project/projectmanager.cpp:1103
+#, fuzzy, kde-format
+#| msgid "Error moving project folder: %1"
+msgid "Error moving project folder, cannot access cache folder"
+msgstr "خطأ في نقل مجلّد المشروع: %1"
+
+#: src/project/projectmanager.cpp:1139
 #, kde-format
 msgid "Moving project folder"
 msgstr "ينقل مجلد المشروع"
 
-#: src/project/projectmanager.cpp:1191
+#: src/project/projectmanager.cpp:1197
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 "ملف المشروع معطوب (بدون مسارات). محاولة العثور على ملف النسخة الاحتياطيّة؟"
 
-#: src/project/projectmanager.cpp:1218 src/project/projectmanager.cpp:1248
-#: src/project/projectmanager.cpp:1252
+#: src/project/projectmanager.cpp:1224 src/project/projectmanager.cpp:1254
+#: src/project/projectmanager.cpp:1258
 #, kde-format
 msgid "Sequence 1"
 msgstr "التسلسل ١"
 
-#: src/project/projectmanager.cpp:1229
+#: src/project/projectmanager.cpp:1235
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -13634,13 +13640,13 @@ msgstr ""
 "ملف المشروع معطوب - فشل في تحميل المسارات. محاولة العثور على ملف النسخة "
 "الاحتياطيّة؟"
 
-#: src/project/projectmanager.cpp:1361 src/project/projectmanager.cpp:1366
-#: src/project/projectmanager.cpp:1376 src/project/projectmanager.cpp:1392
+#: src/project/projectmanager.cpp:1367 src/project/projectmanager.cpp:1372
+#: src/project/projectmanager.cpp:1382 src/project/projectmanager.cpp:1398
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "احبط تغيير تشكيلة المشروع"
 
-#: src/project/projectmanager.cpp:1508
+#: src/project/projectmanager.cpp:1514
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -13649,12 +13655,12 @@ msgstr ""
 "الملفّ الخرج %1 موجود فعلاً.\n"
 " أتريد الكتابة فوقه؟"
 
-#: src/project/projectmanager.cpp:1533
+#: src/project/projectmanager.cpp:1539
 #, kde-format
 msgid "Project profile changed"
 msgstr "تغيرت تشكيلة المشروع"
 
-#: src/project/projectmanager.cpp:1583
+#: src/project/projectmanager.cpp:1589
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -13663,17 +13669,17 @@ msgstr ""
 "تعذّر إنشاء خط زمني لهذا المقطع:\n"
 " %1"
 
-#: src/project/projectmanager.cpp:1662
+#: src/project/projectmanager.cpp:1668
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "يستورد مقطع تسلسل، هذا الميزة تجريبية"
 
-#: src/project/projectmanager.cpp:1815
+#: src/project/projectmanager.cpp:1821
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "اختر مقطع لتنشئ تسلسل"
 
-#: src/project/projectmanager.cpp:1852
+#: src/project/projectmanager.cpp:1858
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "أنشئ مقطع تسلسلي جديدًا"

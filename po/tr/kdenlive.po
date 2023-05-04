@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-03 00:48+0000\n"
-"PO-Revision-Date: 2023-05-02 00:45+0300\n"
+"POT-Creation-Date: 2023-05-04 00:47+0000\n"
+"PO-Revision-Date: 2023-05-03 12:10+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -3445,10 +3445,9 @@ msgstr "Anahtar kareleri sil"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:445
 #: src/assets/model/assetparametermodel.cpp:1386
-#, fuzzy, kde-format
-#| msgid "Paste effect"
+#, kde-format
 msgid "Update effect"
-msgstr "Efekti Yapıştır"
+msgstr "Efekti Güncelle"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:659
 #, kde-format
@@ -4487,7 +4486,7 @@ msgstr "Oynatma Listesi"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2330 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/project/projectmanager.cpp:1239 src/project/projectmanager.cpp:1241
+#: src/project/projectmanager.cpp:1245 src/project/projectmanager.cpp:1247
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -5303,12 +5302,12 @@ msgstr "Geçersiz"
 msgid "File already exists"
 msgstr "Dosya halihazırda var"
 
-#: src/bin/projectclip.cpp:2635
+#: src/bin/projectclip.cpp:2636
 #, kde-format
 msgid "Add stream effect"
 msgstr "Akış efekti ekle"
 
-#: src/bin/projectclip.cpp:2660
+#: src/bin/projectclip.cpp:2661
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Akış efektini kaldır"
@@ -5789,7 +5788,7 @@ msgstr "Metin klibi"
 msgid "Create Text clip"
 msgstr "Metin klibi oluştur"
 
-#: src/dialogs/clipcreationdialog.cpp:390 src/doc/kdenlivedoc.cpp:1097
+#: src/dialogs/clipcreationdialog.cpp:390 src/doc/kdenlivedoc.cpp:1109
 #, kde-format
 msgid "Template title clip"
 msgstr "Şablon başlık klibi"
@@ -6045,7 +6044,7 @@ msgstr "Kılavuzlar Verisini Dışa Aktar"
 #: src/dialogs/renderwidget.cpp:947 src/dialogs/renderwidget.cpp:1000
 #: src/dialogs/renderwidget.cpp:1005 src/dialogs/renderwidget.cpp:1962
 #: src/dialogs/renderwidget.cpp:1989 src/doc/kdenlivedoc.cpp:743
-#: src/doc/kdenlivedoc.cpp:751 src/doc/kdenlivedoc.cpp:1231
+#: src/doc/kdenlivedoc.cpp:751 src/doc/kdenlivedoc.cpp:1243
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
 #: src/effects/effectsrepository.cpp:394
@@ -6059,7 +6058,7 @@ msgstr "Kılavuzlar Verisini Dışa Aktar"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1523
+#: src/project/projectmanager.cpp:1529
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5094
@@ -7831,36 +7830,36 @@ msgstr ""
 "Proje dosyanız en son Kdenlive belge sürümüne yükseltildi, fakat bir yedek "
 "kopyası %1 oluşturmak mümkün olmadı."
 
-#: src/doc/kdenlivedoc.cpp:859 src/project/projectmanager.cpp:1119
-#: src/project/projectmanager.cpp:1155
+#: src/doc/kdenlivedoc.cpp:867 src/project/projectmanager.cpp:1125
+#: src/project/projectmanager.cpp:1161
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Proje klasörü taşınırken hata: %1"
 
-#: src/doc/kdenlivedoc.cpp:1022 src/doc/kdenlivedoc.cpp:2145
+#: src/doc/kdenlivedoc.cpp:1034 src/doc/kdenlivedoc.cpp:2157
 #: src/project/dialogs/archivewidget.cpp:214
-#: src/project/projectmanager.cpp:1356
+#: src/project/projectmanager.cpp:1362
 #, kde-format
 msgid "Untitled"
 msgstr "Başlıksız"
 
-#: src/doc/kdenlivedoc.cpp:1083
+#: src/doc/kdenlivedoc.cpp:1095
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Şablon Yolunu Girin"
 
-#: src/doc/kdenlivedoc.cpp:1238
+#: src/doc/kdenlivedoc.cpp:1250
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "Aşağıdaki efektler projeden içe aktarıldı:"
 
-#: src/doc/kdenlivedoc.cpp:1271 src/doc/kdenlivedoc.cpp:1285
+#: src/doc/kdenlivedoc.cpp:1283 src/doc/kdenlivedoc.cpp:1297
 #, kde-format
 msgid "Project Folder"
 msgstr "Proje Klasörü"
 
-#: src/doc/kdenlivedoc.cpp:1329 src/doc/kdenlivedoc.cpp:1337
+#: src/doc/kdenlivedoc.cpp:1341 src/doc/kdenlivedoc.cpp:1349
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -7869,26 +7868,26 @@ msgstr ""
 "Yedek kopya oluşturulamıyor:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1482
+#: src/doc/kdenlivedoc.cpp:1494
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "Vekil klip ekle"
 msgstr[1] "Vekil klipler ekle"
 
-#: src/doc/kdenlivedoc.cpp:1484
+#: src/doc/kdenlivedoc.cpp:1496
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "Vekil klibi kaldır"
 msgstr[1] "Vekil klipleri kaldır"
 
-#: src/doc/kdenlivedoc.cpp:1528 src/doc/kdenlivedoc.cpp:1563
+#: src/doc/kdenlivedoc.cpp:1540 src/doc/kdenlivedoc.cpp:1575
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "Klip tipi vekili desteklemiyor"
 
-#: src/doc/kdenlivedoc.cpp:1766
+#: src/doc/kdenlivedoc.cpp:1778
 #, kde-format
 msgid ""
 "\n"
@@ -7898,7 +7897,7 @@ msgstr ""
 "Dikkat: Bilinmeyen tamsayı olmayan fps, bu doğru olmayan süre "
 "görüntülenmesine neden olabilir."
 
-#: src/doc/kdenlivedoc.cpp:1785
+#: src/doc/kdenlivedoc.cpp:1797
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -7907,43 +7906,43 @@ msgstr ""
 "Öntanımlı proje profiliniz %1 ancak klip profiliniz %2 (%3).\n"
 "Gelecek projeler için öntanımlı profilinizi değiştirmek ister misiniz?"
 
-#: src/doc/kdenlivedoc.cpp:1787
+#: src/doc/kdenlivedoc.cpp:1799
 #, kde-format
 msgid "Change default project profile"
 msgstr "Öntanımlı proje profilini değiştir"
 
-#: src/doc/kdenlivedoc.cpp:1787
+#: src/doc/kdenlivedoc.cpp:1799
 #, kde-format
 msgid "Change default to %1"
 msgstr "Varsayılanı %1 olarak değiştir"
 
-#: src/doc/kdenlivedoc.cpp:1788
+#: src/doc/kdenlivedoc.cpp:1800
 #, kde-format
 msgid "Keep current default %1"
 msgstr "%1 mevcut varsayılanı koru"
 
-#: src/doc/kdenlivedoc.cpp:1788
+#: src/doc/kdenlivedoc.cpp:1800
 #, kde-format
 msgid "Ask me later"
 msgstr "Daha sonra sor"
 
-#: src/doc/kdenlivedoc.cpp:1808
+#: src/doc/kdenlivedoc.cpp:1820
 #, kde-format
 msgid "Switch"
 msgstr "Değiştir"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1810 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1822 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "Vazgeç"
 
-#: src/doc/kdenlivedoc.cpp:1812
+#: src/doc/kdenlivedoc.cpp:1824
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "%2 klip profiline (%1) geçilsin mi?"
 
-#: src/doc/kdenlivedoc.cpp:1817
+#: src/doc/kdenlivedoc.cpp:1829
 #, kde-format
 msgid ""
 "\n"
@@ -7952,7 +7951,7 @@ msgstr ""
 "\n"
 "Profil fps'i %1 orjinaline ayarlandı"
 
-#: src/doc/kdenlivedoc.cpp:1819
+#: src/doc/kdenlivedoc.cpp:1831
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -7961,13 +7960,13 @@ msgstr ""
 "%1 klibiniz için profil bulunamadı.\n"
 "Yeni bir profil oluşturup ona geçin (%2x%3, %4fps)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2184 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2196 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "Kırmızı"
 
-#: src/doc/kdenlivedoc.cpp:2185 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2197 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -7975,23 +7974,23 @@ msgstr "Kırmızı"
 msgid "Green"
 msgstr "Yeşil"
 
-#: src/doc/kdenlivedoc.cpp:2186 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2198 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "Mavi"
 
-#: src/doc/kdenlivedoc.cpp:2187 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2199 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Sarı"
 
-#: src/doc/kdenlivedoc.cpp:2188
+#: src/doc/kdenlivedoc.cpp:2200
 #, kde-format
 msgid "Cyan"
 msgstr "Turkuaz"
 
-#: src/doc/kdenlivedoc.cpp:2368
+#: src/doc/kdenlivedoc.cpp:2380
 #, kde-format
 msgid "Category %1:%2:%3"
 msgstr "Kategori %1:%2:%3"
@@ -12916,7 +12915,7 @@ msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 "İmleyici dosyası 1MB'den büyük, içe aktarmak istediğinize emin misiniz?"
 
-#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1417
+#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1423
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:5000
 #, kde-format
@@ -13527,7 +13526,7 @@ msgstr "Yedek Dosyası Aç…"
 msgid "Save changes to document?"
 msgstr "Değişiklikler belgeye kaydedilsin mi?"
 
-#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1355
+#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1361
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13654,37 +13653,43 @@ msgstr ""
 "Proje bozulmuş, yedeklenemiyor. Lütfen projenizi kapatın ve yeniden açınson "
 "yedeği kurtarmak için dosya"
 
-#: src/project/projectmanager.cpp:1133
+#: src/project/projectmanager.cpp:1103
+#, fuzzy, kde-format
+#| msgid "Error moving project folder: %1"
+msgid "Error moving project folder, cannot access cache folder"
+msgstr "Proje klasörü taşınırken hata: %1"
+
+#: src/project/projectmanager.cpp:1139
 #, kde-format
 msgid "Moving project folder"
 msgstr "Proje klasörü taşınıyor"
 
-#: src/project/projectmanager.cpp:1191
+#: src/project/projectmanager.cpp:1197
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 "Proje dosyası bozuk (iz yok). Bir yedekleme dosyası mı bulmaya "
 "çalışıyorsunuz?"
 
-#: src/project/projectmanager.cpp:1218 src/project/projectmanager.cpp:1248
-#: src/project/projectmanager.cpp:1252
+#: src/project/projectmanager.cpp:1224 src/project/projectmanager.cpp:1254
+#: src/project/projectmanager.cpp:1258
 #, kde-format
 msgid "Sequence 1"
 msgstr "Sıra 1"
 
-#: src/project/projectmanager.cpp:1229
+#: src/project/projectmanager.cpp:1235
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "Proje dosyası bozuk - izler yüklenemedi. Bir yedek dosyası aransın mı?"
 
-#: src/project/projectmanager.cpp:1361 src/project/projectmanager.cpp:1366
-#: src/project/projectmanager.cpp:1376 src/project/projectmanager.cpp:1392
+#: src/project/projectmanager.cpp:1367 src/project/projectmanager.cpp:1372
+#: src/project/projectmanager.cpp:1382 src/project/projectmanager.cpp:1398
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Proje profil değişimi iptal edildi"
 
-#: src/project/projectmanager.cpp:1508
+#: src/project/projectmanager.cpp:1514
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -13693,12 +13698,12 @@ msgstr ""
 "Çıktı dosyası %1 halihazırda var.\n"
 "Üzerine yazmak istiyor musunuz?"
 
-#: src/project/projectmanager.cpp:1533
+#: src/project/projectmanager.cpp:1539
 #, kde-format
 msgid "Project profile changed"
 msgstr "Proje profili değiştirildi"
 
-#: src/project/projectmanager.cpp:1583
+#: src/project/projectmanager.cpp:1589
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -13707,17 +13712,17 @@ msgstr ""
 "Bu klipten bir zaman akışı oluşturulamıyor:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1662
+#: src/project/projectmanager.cpp:1668
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "Bir sıra klibi içe aktarılıyor, bu şu anda deneysel bir özelliktir"
 
-#: src/project/projectmanager.cpp:1815
+#: src/project/projectmanager.cpp:1821
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Sıra oluşturmak için bir klip seç"
 
-#: src/project/projectmanager.cpp:1852
+#: src/project/projectmanager.cpp:1858
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Sıra Klibi Oluştur"
