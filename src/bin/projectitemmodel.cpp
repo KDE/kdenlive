@@ -1251,7 +1251,7 @@ QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, st
                         if (resource.endsWith(QLatin1String("<tractor>"))) {
                             // Buggy internal xml producer, drop
                             qDebug() << "/// AARGH INCORRECT SEQUENCE CLIP IN PROJECT BIN... TRY TO RECOVER";
-                            brokenSequences << uuid;
+                            brokenSequences.append(QUuid(uuid));
                             continue;
                         }
                     }
