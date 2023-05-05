@@ -258,9 +258,6 @@ void ProxyTask::run()
             QMetaObject::invokeMethod(m_object, "updateJobProgress");
             return;
         }
-        // Only output error data, make sure we don't block when proxy file already exists
-        QStringList parameters = {QStringLiteral("-hide_banner"), QStringLiteral("-y"),    QStringLiteral("-stats"),
-                                  QStringLiteral("-v"),           QStringLiteral("error"), QStringLiteral("-noautorotate")};
         m_jobDuration = int(binClip->duration().seconds());
         QString proxyParams = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyparams")).simplified();
         if (proxyParams.isEmpty()) {
@@ -268,6 +265,12 @@ void ProxyTask::run()
             proxyParams = pCore->currentDoc()->getAutoProxyProfile();
         }
         int proxyResize = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyresize")).toInt();
+        // Only output error data, make sure we don't block when proxy file already exists
+        QStringList parameters = {QStringLiteral("-hide_banner"), QStringLiteral("-y"), QStringLiteral("-stats"), QStringLiteral("-v"),
+                                  QStringLiteral("error")};
+        if (!proxyParams.contains(QLatin1String("mjpeg")) && !proxyParams.contains(QLatin1String("mpeg2video"))) {
+            parameters << QStringLiteral("-noautorotate");
+        }
         bool nvenc = proxyParams.contains(QStringLiteral("%nvcodec"));
         if (nvenc) {
             QString pix_fmt = binClip->videoCodecProperty(QStringLiteral("pix_fmt"));
