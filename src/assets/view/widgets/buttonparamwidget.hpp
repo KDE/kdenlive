@@ -10,7 +10,6 @@
 
 class QPushButton;
 class QProgressBar;
-class KMessageWidget;
 
 /** @brief This class represents a parameter that requires
            the user to choose tick a checkbox
@@ -43,10 +42,10 @@ public Q_SLOTS:
 private:
     QPushButton *m_button;
     QProgressBar *m_progress;
-    KMessageWidget *m_label;
     QString m_keyParam;
     QString m_buttonName;
     QString m_alternatebuttonName;
+    QString m_conditionalText;
     bool m_displayConditional;
     bool m_animated;
 };
