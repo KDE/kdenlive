@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-04 00:47+0000\n"
+"POT-Creation-Date: 2023-05-05 00:47+0000\n"
 "PO-Revision-Date: 2023-03-09 21:18-0800\n"
 "Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -4391,7 +4391,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "クリップの削除(D)"
 
-#: src/bin/bin.cpp:1888 src/doc/documentchecker.cpp:586
+#: src/bin/bin.cpp:1888 src/doc/documentchecker.cpp:611
 #, kde-format
 msgid "Missing source clip"
 msgstr "存在しないソースクリップ"
@@ -4567,7 +4567,7 @@ msgstr "プレイリスト"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2330 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/project/projectmanager.cpp:1245 src/project/projectmanager.cpp:1247
+#: src/project/projectmanager.cpp:1244 src/project/projectmanager.cpp:1246
 #: src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
 #| msgid "Image sequence"
@@ -4839,7 +4839,7 @@ msgid "Edit Tags"
 msgstr "レーティング情報の編集"
 
 #: src/bin/bin.cpp:4280 src/bin/projectclip.cpp:190
-#: src/bin/projectclip.cpp:1902 src/onlineresources/resourcewidget.cpp:266
+#: src/bin/projectclip.cpp:1925 src/onlineresources/resourcewidget.cpp:266
 #: src/onlineresources/resourcewidget.cpp:557
 #: src/onlineresources/resourcewidget.cpp:572
 #, kde-format
@@ -5416,7 +5416,7 @@ msgctxt "The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "P"
 
-#: src/bin/projectclip.cpp:611
+#: src/bin/projectclip.cpp:615
 #, kde-format
 msgid ""
 "Image dimension smaller than 8 pixels.\n"
@@ -5425,7 +5425,7 @@ msgstr ""
 "画像サイズが8ピクセルよりも小さいです。\n"
 "私たちのビデオフレームワークでは正しくサポートされません。"
 
-#: src/bin/projectclip.cpp:889
+#: src/bin/projectclip.cpp:893
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -5434,13 +5434,13 @@ msgstr ""
 "次のメタデータを正しく展開できません %1\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1122 src/jobs/cliploadtask.cpp:254
+#: src/bin/projectclip.cpp:1126 src/jobs/cliploadtask.cpp:254
 #, fuzzy, kde-format
 #| msgid "Invalid clip"
 msgid "Invalid"
 msgstr "正しくないクリップ"
 
-#: src/bin/projectclip.cpp:1323 src/dialogs/clipcreationdialog.cpp:202
+#: src/bin/projectclip.cpp:1327 src/dialogs/clipcreationdialog.cpp:202
 #: src/jobs/cuttask.cpp:171 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1358
 #, fuzzy, kde-format
@@ -5448,13 +5448,13 @@ msgstr "正しくないクリップ"
 msgid "File already exists"
 msgstr "プロファイルは既に存在しています"
 
-#: src/bin/projectclip.cpp:2636
+#: src/bin/projectclip.cpp:2659
 #, fuzzy, kde-format
 #| msgid "Edit effect %1"
 msgid "Add stream effect"
 msgstr "効果 %1 の編集"
 
-#: src/bin/projectclip.cpp:2661
+#: src/bin/projectclip.cpp:2684
 #, fuzzy, kde-format
 #| msgid "Reset effect"
 msgid "Remove stream effect"
@@ -5485,7 +5485,7 @@ msgstr "I"
 msgid "Usage"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:332 src/doc/documentchecker.cpp:355
+#: src/bin/projectitemmodel.cpp:332 src/doc/documentchecker.cpp:371
 #: src/mltcontroller/clipcontroller.cpp:464 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -5528,7 +5528,7 @@ msgstr "フォルダの名前変更"
 msgid "Clean Project"
 msgstr "プロジェクトのクリーン"
 
-#: src/bin/projectitemmodel.cpp:1167
+#: src/bin/projectitemmodel.cpp:1168
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Loading project clips…"
@@ -6259,7 +6259,7 @@ msgstr "マーカーの編集(E)"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1529
+#: src/project/projectmanager.cpp:1528
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5094
@@ -7743,84 +7743,96 @@ msgstr "NVIDIA ハードウェアエンコーダーが見つかり有効化さ�
 msgid "VAAPI hardware encoders found and enabled."
 msgstr "VAAPI ハードウェアエンコーダーが見つかり有効化されました。"
 
-#: src/doc/documentchecker.cpp:304
+#: src/doc/documentchecker.cpp:320
 #, kde-format
 msgid "Luma file"
 msgstr "Luma ファイル"
 
-#: src/doc/documentchecker.cpp:310
+#: src/doc/documentchecker.cpp:326
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Asset file"
 msgstr "ファイルの削除"
 
-#: src/doc/documentchecker.cpp:337
+#: src/doc/documentchecker.cpp:353
 #, kde-format
 msgid "Video clip"
 msgstr "ビデオクリップ"
 
-#: src/doc/documentchecker.cpp:341
+#: src/doc/documentchecker.cpp:357
 #, kde-format
 msgid "Slideshow clip"
 msgstr "スライドショー・クリップ"
 
-#: src/doc/documentchecker.cpp:344
+#: src/doc/documentchecker.cpp:360
 #, kde-format
 msgid "Image clip"
 msgstr "イメージ・クリップ"
 
-#: src/doc/documentchecker.cpp:348
+#: src/doc/documentchecker.cpp:364
 #, kde-format
 msgid "Playlist clip"
 msgstr "プレイリスト・クリップ"
 
-#: src/doc/documentchecker.cpp:351
+#: src/doc/documentchecker.cpp:367
 #, kde-format
 msgid "Title Image"
 msgstr "タイトルイメージ"
 
-#: src/doc/documentchecker.cpp:387
+#: src/doc/documentchecker.cpp:403
 #, kde-format
 msgid "Missing item"
 msgstr "存在しない項目"
 
-#: src/doc/documentchecker.cpp:401 src/doc/documentchecker.cpp:426
-#: src/doc/documentchecker.cpp:1329
+#: src/doc/documentchecker.cpp:417 src/doc/documentchecker.cpp:442
+#: src/doc/documentchecker.cpp:1376
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Relocated item"
 msgstr "クリップの再読み込み(R)"
 
-#: src/doc/documentchecker.cpp:439
+#: src/doc/documentchecker.cpp:455
 #, kde-format
 msgid "Title Font"
 msgstr "タイトルフォント"
 
-#: src/doc/documentchecker.cpp:444
+#: src/doc/documentchecker.cpp:460
 #, kde-format
 msgid "%1 will be replaced by %2"
 msgstr "%1 は %2 に置き換えられます"
 
-#: src/doc/documentchecker.cpp:449
+#: src/doc/documentchecker.cpp:465
 #, fuzzy, kde-format
 #| msgid "Move clip"
 msgid "Modified Clips"
 msgstr "クリップの移動"
 
-#: src/doc/documentchecker.cpp:453
+#: src/doc/documentchecker.cpp:469
 #, fuzzy, kde-format
 #| msgid "%1 will be replaced by %2"
 msgid "Clip %1 will be reloaded"
 msgstr "%1 は %2 に置き換えられます"
 
-#: src/doc/documentchecker.cpp:459
+#: src/doc/documentchecker.cpp:474
+#, fuzzy, kde-format
+#| msgid "Image sequence"
+msgid "Fixed Sequence Clips"
+msgstr "イメージ・シーケンス"
+
+#: src/doc/documentchecker.cpp:478
+#, fuzzy, kde-format
+#| msgid "Clip has no markers"
+msgid "Clip %1 has been fixed"
+msgstr "クリップにはマーカーがありません"
+
+#: src/doc/documentchecker.cpp:484
 #, fuzzy, kde-format
 #| msgid "The project file contains missing clips or files"
 msgid "The project file contains missing clips or files."
 msgstr ""
 "プロジェクトファイルには、存在しないクリップまたはファイルが含まれています"
 
-#: src/doc/documentchecker.cpp:465
+#: src/doc/documentchecker.cpp:490
 #, fuzzy, kde-format
 #| msgid "The following effects were imported from the project:"
 msgid "Missing effect: %2 will be removed from project."
@@ -7828,13 +7840,13 @@ msgid_plural "Missing effects: %2 will be removed from project."
 msgstr[0] "下記の効果をプロジェクトからインポートしました:"
 msgstr[1] "下記の効果をプロジェクトからインポートしました:"
 
-#: src/doc/documentchecker.cpp:472
+#: src/doc/documentchecker.cpp:497
 #, fuzzy, kde-format
 #| msgid "Missing proxies will be recreated after opening."
 msgid "Missing proxies can be recreated on opening."
 msgstr "存在しない代用情報は、ファイルを開いた後に再作成します。"
 
-#: src/doc/documentchecker.cpp:490
+#: src/doc/documentchecker.cpp:515
 #, fuzzy, kde-format
 #| msgid ""
 #| "The project file contains a missing clip, you can still work with its "
@@ -7854,7 +7866,7 @@ msgstr[1] ""
 "プロジェクトファイルには存在しないクリップが含まれていますが、この代用情報を"
 "利用した作業を行なうことはできます。"
 
-#: src/doc/documentchecker.cpp:497
+#: src/doc/documentchecker.cpp:522
 #, fuzzy, kde-format
 #| msgid "The project file contains missing clips or files"
 msgid "The project file contains one modified clip, it will be reloaded."
@@ -7865,13 +7877,13 @@ msgstr[0] ""
 msgstr[1] ""
 "プロジェクトファイルには、存在しないクリップまたはファイルが含まれています"
 
-#: src/doc/documentchecker.cpp:564
+#: src/doc/documentchecker.cpp:589
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr "代用クリップ"
 
-#: src/doc/documentchecker.cpp:567
+#: src/doc/documentchecker.cpp:592
 #, fuzzy, kde-format
 #| msgid "%1 missing proxy clips, will be recreated on project opening"
 msgid "%1 missing proxy clip, will be recreated on project opening"
@@ -7883,76 +7895,76 @@ msgstr[1] ""
 "%1 には存在しない代用情報が含まれています。プロジェクトを開いた後に再作成しま"
 "す"
 
-#: src/doc/documentchecker.cpp:570
+#: src/doc/documentchecker.cpp:595
 #, kde-format
 msgid "Missing proxy"
 msgstr "存在しない代用情報"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/doc/documentchecker.cpp:581 src/doc/documentchecker.cpp:595
+#: src/doc/documentchecker.cpp:606 src/doc/documentchecker.cpp:620
 #: src/ui/timeremap_ui.ui:90
 #, kde-format
 msgid "Source clip"
 msgstr "ソースクリップ"
 
-#: src/doc/documentchecker.cpp:583
+#: src/doc/documentchecker.cpp:608
 #, kde-format
 msgid "%1 missing source clips, you can only use the proxies"
 msgstr ""
 "%1 には存在しないソースクリップがあります。代用情報のみを利用できます。"
 
-#: src/doc/documentchecker.cpp:976
+#: src/doc/documentchecker.cpp:1023
 #, fuzzy, kde-format
 #| msgid "Clips folder"
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "クリップのフォルダ"
 
-#: src/doc/documentchecker.cpp:1008 src/doc/documentchecker.cpp:1032
-#: src/doc/documentchecker.cpp:1042 src/doc/documentchecker.cpp:1051
-#: src/doc/documentchecker.cpp:1063
+#: src/doc/documentchecker.cpp:1055 src/doc/documentchecker.cpp:1079
+#: src/doc/documentchecker.cpp:1089 src/doc/documentchecker.cpp:1098
+#: src/doc/documentchecker.cpp:1110
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Recovered item"
 msgstr "クリップの再読み込み(R)"
 
-#: src/doc/documentchecker.cpp:1076
+#: src/doc/documentchecker.cpp:1123
 #, fuzzy, kde-format
 #| msgid "Search scale"
 msgid "Search aborted"
 msgstr "検索スケール"
 
-#: src/doc/documentchecker.cpp:1078
+#: src/doc/documentchecker.cpp:1125
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Search done"
 msgstr "検索"
 
-#: src/doc/documentchecker.cpp:1194
+#: src/doc/documentchecker.cpp:1241
 #, fuzzy, kde-format
 #| msgid "Scanning"
 msgid "Scanning %1"
 msgstr "スキャン"
 
-#: src/doc/documentchecker.cpp:1291
+#: src/doc/documentchecker.cpp:1338
 #, fuzzy, kde-format
 #| msgid "Enter new location for file"
 msgid "Enter new location for folder"
 msgstr "ファイルに対する新しい場所を入力してください"
 
-#: src/doc/documentchecker.cpp:1317
+#: src/doc/documentchecker.cpp:1364
 #, kde-format
 msgid "Enter new location for file"
 msgstr "ファイルに対する新しい場所を入力してください"
 
-#: src/doc/documentchecker.cpp:1717
+#: src/doc/documentchecker.cpp:1764
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
 msgstr[0] "これを実行すると、このプロジェクトから選択したクリップを削除します"
 msgstr[1] "これを実行すると、このプロジェクトから選択したクリップを削除します"
 
-#: src/doc/documentchecker.cpp:1719
+#: src/doc/documentchecker.cpp:1766
 #, kde-format
 msgid "Remove clips"
 msgstr "クリップの削除"
@@ -8176,7 +8188,7 @@ msgstr "プロジェクトのフォルダ: %1"
 
 #: src/doc/kdenlivedoc.cpp:1034 src/doc/kdenlivedoc.cpp:2157
 #: src/project/dialogs/archivewidget.cpp:214
-#: src/project/projectmanager.cpp:1362
+#: src/project/projectmanager.cpp:1361
 #, kde-format
 msgid "Untitled"
 msgstr "タイトル未定"
@@ -13582,7 +13594,7 @@ msgstr "クリップマーカーを追加"
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1423
+#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1422
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:5000
 #, fuzzy, kde-format
@@ -14218,7 +14230,7 @@ msgstr "バックアップファイルを開く"
 msgid "Save changes to document?"
 msgstr "ドキュメントに変更点を保存しますか？"
 
-#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1361
+#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1360
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -14361,21 +14373,21 @@ msgstr "プロジェクトのフォルダ: %1"
 msgid "Moving project folder"
 msgstr "プロジェクトフォルダの使用"
 
-#: src/project/projectmanager.cpp:1197
+#: src/project/projectmanager.cpp:1196
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 "プロジェクトファイルが破損しています (トラックがありません)。バックアップファ"
 "イルを探しますか？"
 
-#: src/project/projectmanager.cpp:1224 src/project/projectmanager.cpp:1254
-#: src/project/projectmanager.cpp:1258
+#: src/project/projectmanager.cpp:1223 src/project/projectmanager.cpp:1253
+#: src/project/projectmanager.cpp:1257
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Sequence 1"
 msgstr "イメージ・シーケンス"
 
-#: src/project/projectmanager.cpp:1235
+#: src/project/projectmanager.cpp:1234
 #, fuzzy, kde-format
 #| msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgid ""
@@ -14384,14 +14396,14 @@ msgstr ""
 "プロジェクトファイルが破損しています (トラックがありません)。バックアップファ"
 "イルを探しますか？"
 
-#: src/project/projectmanager.cpp:1367 src/project/projectmanager.cpp:1372
-#: src/project/projectmanager.cpp:1382 src/project/projectmanager.cpp:1398
+#: src/project/projectmanager.cpp:1366 src/project/projectmanager.cpp:1371
+#: src/project/projectmanager.cpp:1381 src/project/projectmanager.cpp:1397
 #, fuzzy, kde-format
 #| msgid "Project profile: %1"
 msgid "Project profile change aborted"
 msgstr "プロジェクトのプロファイル: %1"
 
-#: src/project/projectmanager.cpp:1514
+#: src/project/projectmanager.cpp:1513
 #, fuzzy, kde-format
 #| msgid "Output file already exists. Do you want to overwrite it?"
 msgid ""
@@ -14399,13 +14411,13 @@ msgid ""
 "Do you want to overwrite it?"
 msgstr "出力先のファイルは既に存在しています。上書きしてよろしいですか？"
 
-#: src/project/projectmanager.cpp:1539
+#: src/project/projectmanager.cpp:1538
 #, fuzzy, kde-format
 #| msgid "Project profile: %1"
 msgid "Project profile changed"
 msgstr "プロジェクトのプロファイル: %1"
 
-#: src/project/projectmanager.cpp:1589
+#: src/project/projectmanager.cpp:1588
 #, fuzzy, kde-format
 #| msgid "Cannot create consumer %1."
 msgid ""
@@ -14413,18 +14425,18 @@ msgid ""
 "%1"
 msgstr "コンシューマ %1 を作成できません。"
 
-#: src/project/projectmanager.cpp:1668
+#: src/project/projectmanager.cpp:1667
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1821
+#: src/project/projectmanager.cpp:1820
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip to create sequence"
 msgstr "効果を適用したい場合は、クリップを選択してください"
 
-#: src/project/projectmanager.cpp:1858
+#: src/project/projectmanager.cpp:1857
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Create Sequence Clip"
@@ -15733,62 +15745,67 @@ msgstr "RGB パレード(G)"
 msgid "Histogram"
 msgstr "ヒストグラム(H)"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:260
-#: src/timeline2/model/builders/meltBuilder.cpp:489
-#: src/timeline2/model/builders/meltBuilder.cpp:499
+#: src/timeline2/model/builders/meltBuilder.cpp:51
+#, kde-format
+msgid "Found an invalid sequence clip in Bin"
+msgstr ""
+
+#: src/timeline2/model/builders/meltBuilder.cpp:264
+#: src/timeline2/model/builders/meltBuilder.cpp:493
+#: src/timeline2/model/builders/meltBuilder.cpp:503
 #, kde-format
 msgid ""
 "Invalid composition %1 found on track %2 at %3, compositing with track %4."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:269
-#: src/timeline2/model/builders/meltBuilder.cpp:513
+#: src/timeline2/model/builders/meltBuilder.cpp:273
+#: src/timeline2/model/builders/meltBuilder.cpp:517
 #, kde-format
 msgid ""
 "Incorrect composition %1 found on track %2 at %3, compositing with track %4 "
 "was set to forced track."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:278
-#: src/timeline2/model/builders/meltBuilder.cpp:527
+#: src/timeline2/model/builders/meltBuilder.cpp:282
+#: src/timeline2/model/builders/meltBuilder.cpp:531
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "Invalid composition %1 found on track %2 at %3."
 msgstr "トラック %1 内の %2 にある不正なクリップは削除されました\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:299
-#: src/timeline2/model/builders/meltBuilder.cpp:558
-#: src/timeline2/model/builders/meltBuilder.cpp:560
+#: src/timeline2/model/builders/meltBuilder.cpp:303
+#: src/timeline2/model/builders/meltBuilder.cpp:562
+#: src/timeline2/model/builders/meltBuilder.cpp:564
 #, fuzzy, kde-format
 #| msgid "Default folder for project files"
 msgid "Problems found in your project file"
 msgstr "プロジェクトファイル用の既定のフォルダ"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:488
-#: src/timeline2/model/builders/meltBuilder.cpp:498
+#: src/timeline2/model/builders/meltBuilder.cpp:492
+#: src/timeline2/model/builders/meltBuilder.cpp:502
 #, kde-format
 msgid "%1 Composition (%2) with invalid track reference found and removed."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:512
+#: src/timeline2/model/builders/meltBuilder.cpp:516
 #, kde-format
 msgid ""
 "%1 Composition was not applied on expected track, manually enforce the track."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:526
+#: src/timeline2/model/builders/meltBuilder.cpp:530
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "%1 Invalid composition found and removed."
 msgstr "トラック %1 内の %2 にある不正なクリップは削除されました\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:549
+#: src/timeline2/model/builders/meltBuilder.cpp:553
 #, fuzzy, kde-format
 #| msgid "Project folder: %1"
 msgid "Errors found when opening project file (%1)"
 msgstr "プロジェクトのフォルダ: %1"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:556
+#: src/timeline2/model/builders/meltBuilder.cpp:560
 #, kde-format
 msgid ""
 "Some errors were detected in the project file.\n"
@@ -15797,103 +15814,103 @@ msgid ""
 "please review them to ensure your project integrity."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:636
-#: src/timeline2/model/builders/meltBuilder.cpp:646
+#: src/timeline2/model/builders/meltBuilder.cpp:640
+#: src/timeline2/model/builders/meltBuilder.cpp:650
 #, kde-format
 msgid "Incorrect Mix, clip %1 was removed at %2."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:637
+#: src/timeline2/model/builders/meltBuilder.cpp:641
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "Incorrect mix found on track %1 at %2, clip %3 removed."
 msgstr "トラック %1 内の %2 にある不正なクリップは削除されました\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:647
+#: src/timeline2/model/builders/meltBuilder.cpp:651
 #, kde-format
 msgid "Incorrect mix found at track %1 at %2, clip %3 removed."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:742
+#: src/timeline2/model/builders/meltBuilder.cpp:746
 #, kde-format
 msgid "%1 Timeline clip (%2) with incorrect bin reference found and recovered."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:743
+#: src/timeline2/model/builders/meltBuilder.cpp:747
 #, kde-format
 msgid "Invalid clip %1 (%2) not found in project bin, recovered."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:745
+#: src/timeline2/model/builders/meltBuilder.cpp:749
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "%1 Timeline clip (%2) without bin reference found and removed."
 msgstr "トラック %1 内の %2 にある不正なクリップは削除されました\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:746
+#: src/timeline2/model/builders/meltBuilder.cpp:750
 #, kde-format
 msgid "Project corrupted. Clip %1 (%2) not found in project bin."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:814
-#: src/timeline2/model/builders/meltBuilder.cpp:847
+#: src/timeline2/model/builders/meltBuilder.cpp:818
+#: src/timeline2/model/builders/meltBuilder.cpp:851
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and resized"
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:815
-#: src/timeline2/model/builders/meltBuilder.cpp:845
+#: src/timeline2/model/builders/meltBuilder.cpp:819
+#: src/timeline2/model/builders/meltBuilder.cpp:849
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "Clip without mix %1 found and resized on track %2 at %3."
 msgstr "トラック %1 内の %2 にある不正なクリップは削除されました\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:820
-#: src/timeline2/model/builders/meltBuilder.cpp:851
+#: src/timeline2/model/builders/meltBuilder.cpp:824
+#: src/timeline2/model/builders/meltBuilder.cpp:855
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "Invalid clip without mix %1 found and removed on track %2 at %3."
 msgstr "トラック %1 内の %2 にある不正なクリップは削除されました\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:822
-#: src/timeline2/model/builders/meltBuilder.cpp:853
+#: src/timeline2/model/builders/meltBuilder.cpp:826
+#: src/timeline2/model/builders/meltBuilder.cpp:857
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and removed"
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:840
-#: src/timeline2/model/builders/meltBuilder.cpp:884
+#: src/timeline2/model/builders/meltBuilder.cpp:844
+#: src/timeline2/model/builders/meltBuilder.cpp:888
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "Invalid clip %1 found on track %2 at %3."
 msgstr "トラック %1 内の %2 にある不正なクリップは削除されました\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:842
-#: src/timeline2/model/builders/meltBuilder.cpp:889
+#: src/timeline2/model/builders/meltBuilder.cpp:846
+#: src/timeline2/model/builders/meltBuilder.cpp:893
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "%1 Invalid clip (%2) found and removed"
 msgstr "トラック %1 内の %2 にある不正なクリップは削除されました\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:860
+#: src/timeline2/model/builders/meltBuilder.cpp:864
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "Clip %1 on incorrect subtrack found and fixed on track %2 at %3."
 msgstr "トラック %1 内の %2 にある不正なクリップは削除されました\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:865
+#: src/timeline2/model/builders/meltBuilder.cpp:869
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "%1 Clip (%2) on incorrect subtrack found and fixed / %3"
 msgstr "トラック %1 内の %2 にある不正なクリップは削除されました\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:868
+#: src/timeline2/model/builders/meltBuilder.cpp:872
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "Clip %1 on incorrect subtrack found on track %2 at %3."
 msgstr "トラック %1 内の %2 にある不正なクリップは削除されました\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:873
+#: src/timeline2/model/builders/meltBuilder.cpp:877
 #, kde-format
 msgid "%1 Clip (%2) with incorrect subplaylist found"
 msgstr ""
