@@ -577,7 +577,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         m_neededScene = MonitorSceneType::MonitorSceneRoto;
     } else if (type == ParamType::Color) {
         QString value = m_keyframes->getInterpolatedValue(getPosition(), index).toString();
-        bool alphaEnabled = m_model->data(m_index, AssetParameterModel::AlphaRole).toBool();
+        bool alphaEnabled = m_model->data(index, AssetParameterModel::AlphaRole).toBool();
         labelWidget = new QLabel(name, this);
         auto colorWidget = new ChooseColorWidget(this, QColorUtils::stringToColor(value), alphaEnabled);
         colorWidget->setToolTip(comment);
