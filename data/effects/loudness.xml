@@ -10,7 +10,7 @@
     <parameter type="hidden" name="results" default="">
     </parameter>
     <parameter type="filterjob" filtertag="loudness" filterparams="%params" consumer="null" consumerparams="video_off=1 no_meta=1 all=1 terminate_on_pause=1">
-        <name conditional="Reset">Analyse</name>
+        <name conditional="Reset">Analyse to Apply Effect</name>
         <jobparam name="conditionalinfo">Click Analyse to Apply Effect</jobparam>
         <jobparam name="key">results</jobparam>
         <jobparam name="keydefault"></jobparam>

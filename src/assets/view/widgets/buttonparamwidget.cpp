@@ -10,14 +10,12 @@
 #include "jobs/filtertask.h"
 #include <mlt++/Mlt.h>
 
-#include <KMessageWidget>
 #include <QProgressBar>
 #include <QPushButton>
 #include <QVBoxLayout>
 
 ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
-    , m_label(nullptr)
     , m_animated(false)
 {
     // setup the comment
@@ -31,13 +29,12 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
     QVariantList filterData = m_model->data(m_index, AssetParameterModel::FilterJobParamsRole).toList();
     QStringList filterAddedParams = m_model->data(m_index, AssetParameterModel::FilterParamsRole).toString().split(QLatin1Char(' '), Qt::SkipEmptyParts);
     QStringList consumerParams = m_model->data(m_index, AssetParameterModel::FilterConsumerParamsRole).toString().split(QLatin1Char(' '), Qt::SkipEmptyParts);
-    QString conditionalInfo;
     QString defaultValue;
     for (const QVariant &jobElement : qAsConst(filterData)) {
         QStringList d = jobElement.toStringList();
         if (d.size() == 2) {
             if (d.at(0) == QLatin1String("conditionalinfo")) {
-                conditionalInfo = d.at(1);
+                m_conditionalText = d.at(1);
             } else if (d.at(0) == QLatin1String("key")) {
                 m_keyParam = d.at(1);
             } else if (d.at(0) == QLatin1String("keydefault")) {
@@ -51,11 +48,8 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
     bool valueIsNotSet = paramValue.isEmpty() || (m_animated && !paramValue.contains(QLatin1Char(';')));
     m_displayConditional = valueIsNotSet;
 
-    if (!conditionalInfo.isEmpty()) {
-        m_label = new KMessageWidget(conditionalInfo, this);
-        m_label->setWordWrap(true);
-        layout->addWidget(m_label);
-        m_label->setVisible(m_displayConditional);
+    if (m_displayConditional && !m_conditionalText.isEmpty()) {
+        setToolTip(m_conditionalText);
     }
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
@@ -67,7 +61,7 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
     m_progress->setStyleSheet(QString("QProgressBar::chunk {background-color: %1;}").arg(m_progress->palette().highlight().color().name()));
     layout->addWidget(m_progress);
     m_progress->setVisible(false);
-    setMinimumHeight(m_button->sizeHint().height() + (m_label != nullptr ? m_label->sizeHint().height() : 0));
+    setMinimumHeight(m_button->sizeHint().height());
 
     // Q_EMIT the signal of the base class when appropriate
     connect(this->m_button, &QPushButton::clicked, this, [&, filterData, filterAddedParams, consumerParams, defaultValue]() {
@@ -165,11 +159,10 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
         if (m_progress->value() > 0 && m_progress->value() < 100) {
             // The task is in progress, abort it
             pCore->taskManager.discardJobs(owner, AbstractTask::FILTERCLIPJOB);
+            setToolTip(m_conditionalText);
         } else {
             FilterTask::start(owner, binId, m_model, assetId, in, out, assetId, fParams, fData, consumerParams, this);
-            if (m_label) {
-                m_label->setVisible(false);
-            }
+            setToolTip(QString());
             m_button->setEnabled(false);
         }
     });
@@ -188,10 +181,6 @@ void ButtonParamWidget::slotRefresh()
     const QString paramValue = m_model->getParamFromName(m_keyParam).toString();
     bool valueIsNotSet = paramValue.isEmpty() || (m_animated && !paramValue.contains(QLatin1Char(';')));
     m_displayConditional = valueIsNotSet;
-
-    if (m_label) {
-        m_label->setVisible(m_displayConditional);
-    }
     m_button->setEnabled(true);
     // Check running job percentage
     int progress = m_model->data(m_index, AssetParameterModel::FilterProgressRole).toInt();
@@ -206,8 +195,10 @@ void ButtonParamWidget::slotRefresh()
         m_button->setText(m_displayConditional ? m_buttonName : m_alternatebuttonName);
         m_progress->setValue(0);
         m_progress->setVisible(false);
+        if (m_displayConditional) {
+            setToolTip(m_conditionalText);
+        }
     }
-    updateGeometry();
 }
 
 bool ButtonParamWidget::getValue()
