@@ -315,13 +315,32 @@ QString Core::openExternalApp(QString appPath, QStringList args)
     if (pCore->packageType() == QStringLiteral("appimage")) {
         // Strip appimage custom LD_LIBRARY_PATH...
         QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-        qDebug() << "::: GOT ENV: " << env.value("LD_LIBRARY_PATH");
-        QStringList libPath = env.value(QStringLiteral("LD_LIBRARY_PATH")).split(QLatin1Char(':'));
-        if (libPath.contains(QStringLiteral("/tmp/.mount_"))) {
-            libPath.takeFirst();
-            env.insert(QStringLiteral("LD_LIBRARY_PATH"), libPath.join(QLatin1Char(':')));
-            process.setProcessEnvironment(env);
+        qDebug() << "::: GOT ENV: " << env.value("LD_LIBRARY_PATH") << ", PATH: " << env.value("PATH");
+        QStringList libPath = env.value(QStringLiteral("LD_LIBRARY_PATH")).split(QLatin1Char(':'), Qt::SkipEmptyParts);
+        QStringList updatedLDPath;
+        for (auto &s : libPath) {
+            if (!s.startsWith(QStringLiteral("/tmp/.mount_"))) {
+                updatedLDPath << s;
+            }
         }
+        if (updatedLDPath.isEmpty()) {
+            env.remove(QStringLiteral("LD_LIBRARY_PATH"));
+        } else {
+            env.insert(QStringLiteral("LD_LIBRARY_PATH"), updatedLDPath.join(QLatin1Char(':')));
+        }
+        libPath = env.value(QStringLiteral("PATH")).split(QLatin1Char(':'), Qt::SkipEmptyParts);
+        updatedLDPath.clear();
+        for (auto &s : libPath) {
+            if (!s.startsWith(QStringLiteral("/tmp/.mount_"))) {
+                updatedLDPath << s;
+            }
+        }
+        if (updatedLDPath.isEmpty()) {
+            env.remove(QStringLiteral("PATH"));
+        } else {
+            env.insert(QStringLiteral("PATH"), updatedLDPath.join(QLatin1Char(':')));
+        }
+        process.setProcessEnvironment(env);
     }
     qDebug() << "Starting external app" << appPath << "with arguments" << args;
     if (!process.startDetached()) {
