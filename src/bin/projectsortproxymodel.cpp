@@ -33,10 +33,11 @@ bool ProjectSortProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &s
 
 bool ProjectSortProxyModel::filterAcceptsRowItself(int sourceRow, const QModelIndex &sourceParent) const
 {
-    if (m_unusedFilter) {
+    if (m_usageFilter != UsageFilter::All) {
         // Column 8 contains the usage
         QModelIndex indexTag = sourceModel()->index(sourceRow, 8, sourceParent);
-        if (sourceModel()->data(indexTag).toInt() > 0) {
+        int usageCount = sourceModel()->data(indexTag).toInt();
+        if (usageCount > 0 && m_usageFilter == UsageFilter::Unused || usageCount == 0 && m_usageFilter == UsageFilter::Used) {
             return false;
         }
     }
@@ -63,7 +64,14 @@ bool ProjectSortProxyModel::filterAcceptsRowItself(int sourceRow, const QModelIn
         auto tagData = sourceModel()->data(indexTag);
         bool found = false;
         for (const QString &tag : m_searchTag) {
-            if (tagData.toString().contains(tag, Qt::CaseInsensitive)) {
+            if (tag == QLatin1Char('#')) {
+                // a single # means we are looking for clips without tags
+                if (tagData.toString().isEmpty()) {
+                    // a single # means we are looking for clips without tags
+                    found = true;
+                    break;
+                }
+            } else if (tagData.toString().contains(tag, Qt::CaseInsensitive)) {
                 found = true;
                 break;
             }
@@ -158,12 +166,12 @@ void ProjectSortProxyModel::slotSetSearchString(const QString &str)
     invalidateFilter();
 }
 
-void ProjectSortProxyModel::slotSetFilters(const QStringList &tagFilters, const QList<int> rateFilters, const QList<int> typeFilters, bool unusedFilter)
+void ProjectSortProxyModel::slotSetFilters(const QStringList &tagFilters, const QList<int> rateFilters, const QList<int> typeFilters, UsageFilter unusedFilter)
 {
     m_searchType = typeFilters;
     m_searchRating = rateFilters;
     m_searchTag = tagFilters;
-    m_unusedFilter = unusedFilter;
+    m_usageFilter = unusedFilter;
     invalidateFilter();
 }
 
@@ -172,7 +180,7 @@ void ProjectSortProxyModel::slotClearSearchFilters()
     m_searchTag.clear();
     m_searchRating.clear();
     m_searchType.clear();
-    m_unusedFilter = false;
+    m_usageFilter = UsageFilter::All;
     invalidateFilter();
 }
 

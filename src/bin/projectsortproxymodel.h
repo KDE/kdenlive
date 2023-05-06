@@ -21,6 +21,8 @@ class ProjectSortProxyModel : public QSortFilterProxyModel
     Q_OBJECT
 
 public:
+    enum UsageFilter { All, Used, Unused };
+
     explicit ProjectSortProxyModel(QObject *parent = nullptr);
     QItemSelectionModel *selectionModel();
 
@@ -28,7 +30,7 @@ public Q_SLOTS:
     /** @brief Set search string that will filter the view */
     void slotSetSearchString(const QString &str);
     /** @brief Set search tag that will filter the view */
-    void slotSetFilters(const QStringList &tagFilters, const QList<int> rateFilters, const QList<int> typeFilters, bool unusedFilter);
+    void slotSetFilters(const QStringList &tagFilters, const QList<int> rateFilters, const QList<int> typeFilters, UsageFilter unusedFilter);
     /** @brief Reset search filters */
     void slotClearSearchFilters();
     /** @brief Relay datachanged signal from view's model  */
@@ -55,7 +57,7 @@ private:
     QStringList m_searchTag;
     QList<int> m_searchType;
     QList<int> m_searchRating;
-    bool m_unusedFilter{false};
+    UsageFilter m_usageFilter{UsageFilter::All};
     QCollator m_collator;
 
 Q_SIGNALS:

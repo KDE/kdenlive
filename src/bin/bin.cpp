@@ -1146,8 +1146,9 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     , m_monitor(nullptr)
     , m_blankThumb()
     , m_browserWidget(nullptr)
-    , m_filterGroup(this)
+    , m_filterTagGroup(this)
     , m_filterRateGroup(this)
+    , m_filterUsageGroup(this)
     , m_filterTypeGroup(this)
     , m_invalidClipDialog(nullptr)
     , m_transcodingDialog(nullptr)
@@ -1381,8 +1382,9 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     });
 
     // Filter menu
-    m_filterGroup.setExclusive(false);
+    m_filterTagGroup.setExclusive(false);
     m_filterRateGroup.setExclusive(false);
+    m_filterUsageGroup.setExclusive(true);
     m_filterTypeGroup.setExclusive(false);
     m_filterMenu = new QMenu(i18n("Filter"), this);
     m_filterButton = new QToolButton;
@@ -1400,39 +1402,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
             m_proxyModel->slotClearSearchFilters();
             return;
         }
-        QList<QAction *> list = m_filterMenu->actions();
-        QList<int> rateFilters;
-        QList<int> typeFilters;
-        bool usedFilter = false;
-        QStringList tagFilters;
-        for (QAction *ac : qAsConst(list)) {
-            if (ac->isChecked()) {
-                QString actionData = ac->data().toString();
-                if (actionData == QLatin1String("unused")) {
-                    usedFilter = true;
-                } else if (actionData.startsWith(QLatin1Char('#'))) {
-                    // Filter by tag
-                    tagFilters << actionData;
-                } else if (actionData.startsWith(QLatin1Char('.'))) {
-                    // Filter by rating
-                    rateFilters << actionData.remove(0, 1).toInt();
-                }
-            }
-        }
-        // Type actions
-        list = m_filterTypeGroup.actions();
-        for (QAction *ac : qAsConst(list)) {
-            if (ac->isChecked()) {
-                typeFilters << ac->data().toInt();
-            }
-        }
-        QSignalBlocker bkt(m_filterButton);
-        if (!rateFilters.isEmpty() || !tagFilters.isEmpty() || !typeFilters.isEmpty() || usedFilter) {
-            m_filterButton->setChecked(true);
-        } else {
-            m_filterButton->setChecked(false);
-        }
-        m_proxyModel->slotSetFilters(tagFilters, rateFilters, typeFilters, usedFilter);
+        slotApplyFilters();
     });
 
     connect(m_filterMenu, &QMenu::triggered, this, [this](QAction *action) {
@@ -1448,39 +1418,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
             m_filterButton->setChecked(false);
             return;
         }
-        QList<QAction *> list = m_filterMenu->actions();
-        QList<int> rateFilters;
-        QList<int> typeFilters;
-        bool usedFilter = false;
-        QStringList tagFilters;
-        for (QAction *ac : qAsConst(list)) {
-            if (ac->isChecked()) {
-                QString actionData = ac->data().toString();
-                if (actionData == QLatin1String("unused")) {
-                    usedFilter = true;
-                } else if (actionData.startsWith(QLatin1Char('#'))) {
-                    // Filter by tag
-                    tagFilters << actionData;
-                } else if (actionData.startsWith(QLatin1Char('.'))) {
-                    // Filter by rating
-                    rateFilters << actionData.remove(0, 1).toInt();
-                }
-            }
-        }
-        // Type actions
-        list = m_filterTypeGroup.actions();
-        for (QAction *ac : qAsConst(list)) {
-            if (ac->isChecked()) {
-                typeFilters << ac->data().toInt();
-            }
-        }
-        QSignalBlocker bkt(m_filterButton);
-        if (!rateFilters.isEmpty() || !tagFilters.isEmpty() || !typeFilters.isEmpty() || usedFilter) {
-            m_filterButton->setChecked(true);
-        } else {
-            m_filterButton->setChecked(false);
-        }
-        m_proxyModel->slotSetFilters(tagFilters, rateFilters, typeFilters, usedFilter);
+        slotApplyFilters();
     });
 
     m_tagAction->setCheckable(true);
@@ -2228,7 +2166,7 @@ const QString Bin::setDocument(KdenliveDoc *project, const QString &id)
     QSignalBlocker bk(m_filterButton);
     m_filterButton->setChecked(false);
     m_filterButton->setToolTip(i18n("Filter"));
-    connect(m_proxyAction, SIGNAL(toggled(bool)), m_doc, SLOT(slotProxyCurrentItem(bool)));
+    connect(m_proxyAction, &QAction::toggled, m_doc, [&](bool doProxy) { m_doc->slotProxyCurrentItem(doProxy); });
 
     // connect(m_itemModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), m_itemView
     // connect(m_itemModel, SIGNAL(updateCurrentItem()), this, SLOT(autoSelect()));
@@ -2271,32 +2209,56 @@ const QString Bin::setDocument(KdenliveDoc *project, const QString &id)
 void Bin::rebuildFilters(int tagsCount)
 {
     m_filterMenu->clear();
-    // Add tag filters
+
+    // Add clear entry
     QAction *clearFilter = new QAction(QIcon::fromTheme(QStringLiteral("edit-clear")), i18n("Clear Filters"), this);
     m_filterMenu->addAction(clearFilter);
+
+    // Add tag filters
+    m_filterMenu->addSeparator();
+
+    QAction *tagFilter = new QAction(i18n("No Tags"), &m_filterTagGroup);
+    tagFilter->setData(QStringLiteral("#"));
+    tagFilter->setCheckable(true);
+    m_filterMenu->addAction(tagFilter);
+
     for (int i = 1; i <= tagsCount; i++) {
         QAction *tag = pCore->window()->actionCollection()->action(QString("tag_%1").arg(i));
         if (tag) {
-            QAction *tagFilter = new QAction(tag->icon(), tag->text(), &m_filterGroup);
+            QAction *tagFilter = new QAction(tag->icon(), tag->text(), &m_filterTagGroup);
             tagFilter->setData(tag->data());
             tagFilter->setCheckable(true);
             m_filterMenu->addAction(tagFilter);
         }
     }
+
     // Add rating filters
     m_filterMenu->addSeparator();
-    for (int i = 1; i < 6; ++i) {
+
+    for (int i = 0; i < 6; ++i) {
         auto *rateFilter = new QAction(QIcon::fromTheme(QStringLiteral("favorite")), i18np("%1 Star", "%1 Stars", i), &m_filterRateGroup);
         rateFilter->setData(QString(".%1").arg(2 * i));
         rateFilter->setCheckable(true);
         m_filterMenu->addAction(rateFilter);
     }
-    // Add unused filter
+    // Add usage filter
     m_filterMenu->addSeparator();
-    auto *unusedFilter = new QAction(i18n("Unused Clips"), this);
-    unusedFilter->setData(QStringLiteral("unused"));
-    unusedFilter->setCheckable(true);
-    m_filterMenu->addAction(unusedFilter);
+    auto *usageMenu = new QMenu(i18n("Filter by Usage"), m_filterMenu);
+    m_filterMenu->addMenu(usageMenu);
+
+    auto *usageFilter = new QAction(i18n("All Clips"), &m_filterUsageGroup);
+    usageFilter->setData(ProjectSortProxyModel::All);
+    usageFilter->setCheckable(true);
+    usageFilter->setChecked(true);
+    usageMenu->addAction(usageFilter);
+    usageFilter = new QAction(i18n("Unused Clips"), &m_filterUsageGroup);
+    usageFilter->setData(ProjectSortProxyModel::Unused);
+    usageFilter->setCheckable(true);
+    usageMenu->addAction(usageFilter);
+    usageFilter = new QAction(i18n("Used Clips"), &m_filterUsageGroup);
+    usageFilter->setData(ProjectSortProxyModel::Used);
+    usageFilter->setCheckable(true);
+    usageMenu->addAction(usageFilter);
 
     // Add type filters
     m_filterMenu->addSeparator();
@@ -2343,6 +2305,41 @@ void Bin::rebuildFilters(int tagsCount)
     typeFilter->setData(ClipType::Color);
     typeFilter->setCheckable(true);
     typeMenu->addAction(typeFilter);
+}
+
+void Bin::slotApplyFilters()
+{
+    QList<QAction *> list = m_filterMenu->actions();
+    QList<int> rateFilters;
+    QList<int> typeFilters;
+    ProjectSortProxyModel::UsageFilter usageFilter = ProjectSortProxyModel::UsageFilter(m_filterUsageGroup.checkedAction()->data().toInt());
+    QStringList tagFilters;
+    for (QAction *ac : qAsConst(list)) {
+        if (ac->isChecked()) {
+            QString actionData = ac->data().toString();
+            if (actionData.startsWith(QLatin1Char('#'))) {
+                // Filter by tag
+                tagFilters << actionData;
+            } else if (actionData.startsWith(QLatin1Char('.'))) {
+                // Filter by rating
+                rateFilters << actionData.remove(0, 1).toInt();
+            }
+        }
+    }
+    // Type actions
+    list = m_filterTypeGroup.actions();
+    for (QAction *ac : qAsConst(list)) {
+        if (ac->isChecked()) {
+            typeFilters << ac->data().toInt();
+        }
+    }
+    QSignalBlocker bkt(m_filterButton);
+    if (!rateFilters.isEmpty() || !tagFilters.isEmpty() || !typeFilters.isEmpty() || usageFilter != ProjectSortProxyModel::All) {
+        m_filterButton->setChecked(true);
+    } else {
+        m_filterButton->setChecked(false);
+    }
+    m_proxyModel->slotSetFilters(tagFilters, rateFilters, typeFilters, usageFilter);
 }
 
 void Bin::createClip(const QDomElement &xml)

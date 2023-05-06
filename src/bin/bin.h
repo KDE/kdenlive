@@ -436,8 +436,11 @@ private Q_SLOTS:
     void updateTimelineOccurrences();
     /** @brief Set (or unset) the default folder for newly created sequence clips. */
     void setDefaultSequenceFolder(bool enable);
+    /** @brief Fetch the filters from the UI and apply them to the proxy model */
+    void slotApplyFilters();
 
 public Q_SLOTS:
+
     void slotRemoveInvalidClip(const QString &id, bool replace, const QString &errorMessage);
     /** @brief Reload clip thumbnail - when frame for thumbnail changed */
     void slotRefreshClipThumbnail(const QString &id);
@@ -569,8 +572,9 @@ private:
     TagWidget *m_tagsWidget;
     KFileWidget *m_browserWidget;
     QMenu *m_filterMenu;
-    QActionGroup m_filterGroup;
+    QActionGroup m_filterTagGroup;
     QActionGroup m_filterRateGroup;
+    QActionGroup m_filterUsageGroup;
     QActionGroup m_filterTypeGroup;
     QToolButton *m_filterButton;
     /** @brief The info widget for failed jobs. */
