@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-05 00:47+0000\n"
+"POT-Creation-Date: 2023-05-06 00:46+0000\n"
 "PO-Revision-Date: 2023-05-02 19:21+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
@@ -1240,10 +1240,11 @@ msgstr "Normalise (2 pass)"
 msgid "Correct audio loudness as recommended by EBU R128"
 msgstr "Correct audio loudness as recommended by EBU R128"
 
-#: data/effects/loudness.xml:13 data/effects/tracker.xml:41
-#, kde-format
-msgid "Analyse"
-msgstr "Analyse"
+#: data/effects/loudness.xml:13 data/effects/tracker.xml:42
+#, fuzzy, kde-format
+#| msgid "Enable Effect"
+msgid "Analyse to Apply Effect"
+msgstr "Enable Effect"
 
 #: data/effects/lumaliftgaingamma.xml:4
 #, kde-format
@@ -1753,7 +1754,7 @@ msgstr "Pillar Echo"
 msgid "Create an echo effect (blur) outside of an area of interest."
 msgstr "Create an echo effect (blur) outside of an area of interest."
 
-#: data/effects/pillar_echo.xml:11 data/effects/tracker.xml:30
+#: data/effects/pillar_echo.xml:11 data/effects/tracker.xml:31
 #, kde-format
 msgid "Blur"
 msgstr "Blur"
@@ -2267,8 +2268,9 @@ msgid "Select a zone to follow its movements"
 msgstr "Select a zone to follow its movements"
 
 #: data/effects/tracker.xml:11
-#, kde-format
-msgid "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM"
+#, fuzzy, kde-format
+#| msgid "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM"
+msgid "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM,Nano"
 msgstr "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM"
 
 #: data/effects/tracker.xml:12
@@ -2276,12 +2278,12 @@ msgstr "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM"
 msgid "Tracker algorithm"
 msgstr "Tracker algorithm"
 
-#: data/effects/tracker.xml:16
+#: data/effects/tracker.xml:17
 #, kde-format
 msgid "Keyframes spacing"
 msgstr "Keyframes spacing"
 
-#: data/effects/tracker.xml:17
+#: data/effects/tracker.xml:18
 #, kde-format
 msgid ""
 "Defines the frequency of stored keyframes. A keyframe is created every steps "
@@ -2290,32 +2292,32 @@ msgstr ""
 "Defines the frequency of stored keyframes. A keyframe is created every steps "
 "frames."
 
-#: data/effects/tracker.xml:20
+#: data/effects/tracker.xml:21
 #, kde-format
 msgid "Rectangle,Ellipse,Arrow"
 msgstr "Rectangle,Ellipse,Arrow"
 
-#: data/effects/tracker.xml:21
+#: data/effects/tracker.xml:22
 #, kde-format
 msgid "Frame shape"
 msgstr "Frame shape"
 
-#: data/effects/tracker.xml:24
+#: data/effects/tracker.xml:25
 #, kde-format
 msgid "Shape width"
 msgstr "Shape width"
 
-#: data/effects/tracker.xml:27
+#: data/effects/tracker.xml:28
 #, kde-format
 msgid "Shape color"
 msgstr "Shape colour"
 
-#: data/effects/tracker.xml:33
+#: data/effects/tracker.xml:34
 #, kde-format
 msgid "Median Blur,Gaussian Blur,Pixelate,Opaque fill,None"
 msgstr "Median Blur,Gaussian Blur,Pixelate,Opaque fill,None"
 
-#: data/effects/tracker.xml:34
+#: data/effects/tracker.xml:35
 #, kde-format
 msgid "Blur type"
 msgstr "Blur type"
@@ -3567,7 +3569,7 @@ msgstr "Enter Preset Name"
 msgid "Enter the name of this preset:"
 msgstr "Enter the name of this preset:"
 
-#: src/assets/view/widgets/buttonparamwidget.cpp:201
+#: src/assets/view/widgets/buttonparamwidget.cpp:190
 #: src/project/dialogs/archivewidget.cpp:367
 #, kde-format
 msgid "Abort processing"
@@ -4985,7 +4987,7 @@ msgstr ""
 msgid "Duplicate"
 msgstr "Duplicate"
 
-#: src/bin/clipcreator.cpp:421 src/core.cpp:942
+#: src/bin/clipcreator.cpp:421 src/core.cpp:961
 #: src/project/projectmanager.cpp:768
 #, kde-format
 msgid "Loading clips"
@@ -5472,253 +5474,253 @@ msgstr ""
 msgid "Loading project…"
 msgstr "Loading project…"
 
-#: src/core.cpp:336
+#: src/core.cpp:355
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "Square 2 Bars"
 
-#: src/core.cpp:337
+#: src/core.cpp:356
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "Checkerboard Small"
 
-#: src/core.cpp:338
+#: src/core.cpp:357
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Horizontal Blinds"
 
-#: src/core.cpp:339
+#: src/core.cpp:358
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Radial"
 
-#: src/core.cpp:340
+#: src/core.cpp:359
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Linear X"
 
-#: src/core.cpp:341
+#: src/core.cpp:360
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "Bi-Linear X"
 
-#: src/core.cpp:342
+#: src/core.cpp:361
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Linear Y"
 
-#: src/core.cpp:343
+#: src/core.cpp:362
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Bi-Linear Y"
 
-#: src/core.cpp:344
+#: src/core.cpp:363
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "Square"
 
-#: src/core.cpp:345
+#: src/core.cpp:364
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "Square 2"
 
-#: src/core.cpp:346
+#: src/core.cpp:365
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "Cloud"
 
-#: src/core.cpp:347
+#: src/core.cpp:366
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "Symmetric Clock"
 
-#: src/core.cpp:348
+#: src/core.cpp:367
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "Radial Bars"
 
-#: src/core.cpp:349
+#: src/core.cpp:368
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "Spiral"
 
-#: src/core.cpp:350
+#: src/core.cpp:369
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "Spiral 2"
 
-#: src/core.cpp:351
+#: src/core.cpp:370
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "Curtain"
 
-#: src/core.cpp:352
+#: src/core.cpp:371
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "Burst"
 
-#: src/core.cpp:353
+#: src/core.cpp:372
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "Clock"
 
-#: src/core.cpp:355
+#: src/core.cpp:374
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Bar Horizontal"
 
-#: src/core.cpp:356
+#: src/core.cpp:375
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Bar Vertical"
 
-#: src/core.cpp:357
+#: src/core.cpp:376
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Barn Door Horizontal"
 
-#: src/core.cpp:358
+#: src/core.cpp:377
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "Barn Door Vertical"
 
-#: src/core.cpp:359
+#: src/core.cpp:378
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "Barn Door Diagonal SW-NE"
 
-#: src/core.cpp:360
+#: src/core.cpp:379
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "Barn Door Diagonal NW-SE"
 
-#: src/core.cpp:361
+#: src/core.cpp:380
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "Diagonal Top Left"
 
-#: src/core.cpp:362
+#: src/core.cpp:381
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "Diagonal Top Right"
 
-#: src/core.cpp:363
+#: src/core.cpp:382
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "Matrix Waterfall Horizontal"
 
-#: src/core.cpp:364
+#: src/core.cpp:383
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "Matrix Waterfall Vertical"
 
-#: src/core.cpp:365
+#: src/core.cpp:384
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Matrix Snake Horizontal"
 
-#: src/core.cpp:366
+#: src/core.cpp:385
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "Matrix Snake Parallel Horizontal"
 
-#: src/core.cpp:367
+#: src/core.cpp:386
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "Matrix Snake Vertical"
 
-#: src/core.cpp:368
+#: src/core.cpp:387
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "Matrix Snake Parallel Vertical"
 
-#: src/core.cpp:369
+#: src/core.cpp:388
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "Barn V Up"
 
-#: src/core.cpp:370
+#: src/core.cpp:389
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "Iris Circle"
 
-#: src/core.cpp:371
+#: src/core.cpp:390
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "Double Iris"
 
-#: src/core.cpp:372
+#: src/core.cpp:391
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "Iris Box"
 
-#: src/core.cpp:373
+#: src/core.cpp:392
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Box Bottom Right"
 
-#: src/core.cpp:374
+#: src/core.cpp:393
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Box Bottom Left"
 
-#: src/core.cpp:375
+#: src/core.cpp:394
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "Box Right Centre"
 
-#: src/core.cpp:376
+#: src/core.cpp:395
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "Clock Top"
 
-#: src/core.cpp:596
+#: src/core.cpp:615
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "Your project profile is invalid, rendering might fail."
 
 #. i18n: ectx: Menu (subtitles)
-#: src/core.cpp:651 src/kdenliveui.rc:30 src/mainwindow.cpp:277
+#: src/core.cpp:670 src/kdenliveui.rc:30 src/mainwindow.cpp:277
 #: src/timeline2/view/qml/timeline.qml:1056
 #, kde-format
 msgid "Subtitles"
@@ -8521,7 +8523,7 @@ msgstr "Image too small to be proxied."
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr "FFmpeg not found, please set path in Kdenlive's settings Environment"
 
-#: src/jobs/proxytask.cpp:356 src/jobs/proxytask.cpp:369
+#: src/jobs/proxytask.cpp:359 src/jobs/proxytask.cpp:372
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "Failed to create proxy clip."
@@ -21009,6 +21011,9 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "Analyse"
+#~ msgstr "Analyse"
 
 #~ msgid "Insert Zone to Project Bin"
 #~ msgstr "Insert Zone to Project Bin"
