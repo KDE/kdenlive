@@ -60,10 +60,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
           </property>
           <item row="8" column="0">
            <widget class="KMessageWidget" name="infoMessage">
-            <property name="wordWrap">
+            <property name="wordWrap" stdset="0">
              <bool>true</bool>
             </property>
-            <property name="closeButtonVisible">
+            <property name="closeButtonVisible" stdset="0">
              <bool>false</bool>
             </property>
            </widget>
@@ -121,18 +121,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
              </widget>
             </item>
             <item>
-             <widget class="KUrlRequester" name="out_file">
+             <widget class="KUrlRequester" name="out_file" native="true">
               <property name="focusPolicy">
                <enum>Qt::ClickFocus</enum>
               </property>
               <property name="toolTip">
                <string>Select output destination</string>
-              </property>
-              <property name="mode">
-               <set>KFile::File</set>
-              </property>
-              <property name="acceptMode">
-               <enum>QFileDialog::AcceptSave</enum>
               </property>
              </widget>
             </item>
@@ -393,13 +387,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
              </widget>
             </item>
             <item>
-             <widget class="QRadioButton" name="render_multi">
-              <property name="text">
-               <string>Guide Multi-Export</string>
-              </property>
-             </widget>
-            </item>
-            <item>
              <spacer name="zoneSpace">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
@@ -416,6 +403,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
           </item>
           <item row="5" column="0">
            <widget class="QGroupBox" name="guide_multi_box">
+            <property name="title">
+             <string>Guide Multi-Export</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
             <layout class="QHBoxLayout" name="horizontalLayout_3">
              <item>
               <widget class="QLabel" name="label">
@@ -432,7 +425,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
-               <property name="onlyUsed">
+               <property name="onlyUsed" stdset="0">
                 <bool>true</bool>
                </property>
               </widget>
@@ -462,8 +455,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>324</width>
-            <height>946</height>
+            <width>372</width>
+            <height>853</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout">
@@ -789,17 +782,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
               </item>
               <item row="0" column="0" colspan="2">
                <widget class="KMessageWidget" name="processing_warning">
-                <property name="text">
+                <property name="text" stdset="0">
                  <string>Parallel processing may cause render artifacts</string>
                 </property>
-                <property name="wordWrap">
+                <property name="wordWrap" stdset="0">
                  <bool>true</bool>
                 </property>
-                <property name="closeButtonVisible">
+                <property name="closeButtonVisible" stdset="0">
                  <bool>false</bool>
-                </property>
-                <property name="messageType">
-                 <enum>KMessageWidget::Information</enum>
                 </property>
                </widget>
               </item>
@@ -1032,7 +1022,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
        </item>
        <item row="2" column="0" colspan="6">
         <widget class="KMessageWidget" name="jobInfo">
-         <property name="closeButtonVisible">
+         <property name="closeButtonVisible" stdset="0">
           <bool>false</bool>
          </property>
         </widget>
@@ -1152,7 +1142,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
   <tabstop>render_full</tabstop>
   <tabstop>render_zone</tabstop>
   <tabstop>render_guide</tabstop>
-  <tabstop>render_multi</tabstop>
   <tabstop>guide_start</tabstop>
   <tabstop>guide_end</tabstop>
   <tabstop>options</tabstop>

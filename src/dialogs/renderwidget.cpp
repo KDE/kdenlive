@@ -192,7 +192,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     connect(m_view.out_file, &KUrlRequester::textChanged, this, static_cast<void (RenderWidget::*)()>(&RenderWidget::slotUpdateButtons));
     connect(m_view.out_file, &KUrlRequester::urlSelected, this, static_cast<void (RenderWidget::*)(const QUrl &)>(&RenderWidget::slotUpdateButtons));
 
-    connect(m_view.render_multi, &QAbstractButton::clicked, this, &RenderWidget::slotRenderModeChanged);
+    connect(m_view.guide_multi_box, &QGroupBox::toggled, this, &RenderWidget::slotRenderModeChanged);
     connect(m_view.render_guide, &QAbstractButton::clicked, this, &RenderWidget::slotRenderModeChanged);
     connect(m_view.render_zone, &QAbstractButton::clicked, this, &RenderWidget::slotRenderModeChanged);
     connect(m_view.render_full, &QAbstractButton::clicked, this, &RenderWidget::slotRenderModeChanged);
@@ -200,10 +200,10 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     connect(m_view.guide_end, static_cast<void (KComboBox::*)(int)>(&KComboBox::activated), this, &RenderWidget::slotCheckStartGuidePosition);
     connect(m_view.guide_start, static_cast<void (KComboBox::*)(int)>(&KComboBox::activated), this, &RenderWidget::slotCheckEndGuidePosition);
 
+    m_view.guide_zone_box->setVisible(false);
+
     // === "More Options" widget ===
     setRescaleEnabled(false);
-    m_view.guide_zone_box->setVisible(false);
-    m_view.guide_multi_box->setVisible(false);
     m_view.error_box->setVisible(false);
     m_view.tc_type->addItem(i18n("None"));
     m_view.tc_type->addItem(i18n("Timecode"), QStringLiteral("#timecode#"));
@@ -417,8 +417,7 @@ void RenderWidget::updateDocumentPath()
 void RenderWidget::slotRenderModeChanged()
 {
     m_view.guide_zone_box->setVisible(m_view.render_guide->isChecked());
-    m_view.guide_multi_box->setVisible(m_view.render_multi->isChecked());
-    m_view.buttonGenerateScript->setVisible(!m_view.render_multi->isChecked());
+    m_view.buttonGenerateScript->setVisible(!m_view.guide_multi_box->isChecked());
     showRenderDuration();
 }
 
@@ -497,8 +496,11 @@ void RenderWidget::reloadGuides()
         m_view.guideCategoryChooser->setMarkerModel(ptr.get());
         QList<CommentedTime> markers = ptr->getAllMarkers();
         double fps = pCore->getCurrentFps();
-        m_view.render_guide->setEnabled(!markers.isEmpty());
-        m_view.render_multi->setEnabled(!markers.isEmpty());
+        m_view.render_guide->setDisabled(markers.isEmpty());
+        m_view.guide_multi_box->setDisabled(markers.isEmpty());
+        if (markers.isEmpty()) {
+            m_view.guide_multi_box->setChecked(false);
+        }
         if (!markers.isEmpty()) {
             m_view.guide_start->addItem(i18n("Beginning"), 0);
             for (const auto &marker : qAsConst(markers)) {
@@ -517,16 +519,18 @@ void RenderWidget::reloadGuides()
                 m_view.guide_end->setCurrentIndex(ix);
             }
         } else {
-            if (m_view.render_guide->isChecked() || m_view.render_multi->isChecked()) {
+            if (m_view.render_guide->isChecked()) {
                 m_view.render_full->setChecked(true);
             }
+            m_view.guide_multi_box->setChecked(false);
         }
     } else {
         m_view.render_guide->setEnabled(false);
-        m_view.render_multi->setEnabled(false);
-        if (m_view.render_guide->isChecked() || m_view.render_multi->isChecked()) {
+        m_view.guide_multi_box->setEnabled(false);
+        if (m_view.render_guide->isChecked()) {
             m_view.render_full->setChecked(true);
         }
+        m_view.guide_multi_box->setChecked(false);
     }
     slotRenderModeChanged();
 }
@@ -698,10 +702,7 @@ void RenderWidget::prepareRendering(bool delayedRendering)
     }
 
     QString outputFile = m_view.out_file->url().toLocalFile();
-    // in/out points
-    int in = 0;
-    // Remove last black frame
-    int out = pCore->projectDuration() - 1;
+
     Monitor *pMon = pCore->getMonitor(Kdenlive::ProjectMonitor);
     double fps = pCore->getCurrentProfile()->fps();
     QString subtitleFile;
@@ -723,43 +724,47 @@ void RenderWidget::prepareRendering(bool delayedRendering)
         }
     }
     const QUuid currentUuid = pCore->currentTimelineId();
+
+    // in/out points
+    int in = 0;
+    // Remove last black frame
+    int out = pCore->projectDuration() - 1;
+
     if (m_view.render_zone->isChecked()) {
         in = pMon->getZoneStart();
         out = pMon->getZoneEnd() - 1;
-        if (!subtitleFile.isEmpty()) {
-            project->generateRenderSubtitleFile(currentUuid, in, out, subtitleFile);
-        }
-        generateRenderFiles(playlistPath, doc, in, out, outputFile, delayedRendering, subtitleFile);
     } else if (m_view.render_guide->isChecked()) {
         double guideStart = m_view.guide_start->itemData(m_view.guide_start->currentIndex()).toDouble();
         double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
-        in = int(GenTime(guideStart).frames(fps));
+        in = int(GenTime(qMin(guideStart, guideEnd)).frames(fps));
         // End rendering at frame before last guide
-        out = int(GenTime(guideEnd).frames(fps)) - 1;
-        if (!subtitleFile.isEmpty()) {
-            project->generateRenderSubtitleFile(currentUuid, in, out, subtitleFile);
-        }
-        generateRenderFiles(playlistPath, doc, in, out, outputFile, delayedRendering, subtitleFile);
-    } else if (m_view.render_multi->isChecked()) {
+        out = int(GenTime(qMax(guideStart, guideEnd)).frames(fps)) - 1;
+
+    } // else: full project
+
+    if (m_view.guide_multi_box->isChecked()) {
         if (auto ptr = m_guidesModel.lock()) {
             int category = m_view.guideCategoryChooser->currentCategory();
-            QList<CommentedTime> markers = ptr->getAllMarkers(category);
+            QList<CommentedTime> markers;
+            for (auto marker : ptr->getAllMarkers(category)) {
+                int pos = marker.time().frames(fps);
+                if (pos < in || pos > out) continue;
+                markers << marker;
+            }
             if (!markers.isEmpty()) {
                 bool beginParsed = false;
                 QStringList names;
                 for (int i = 0; i < markers.count(); i++) {
                     QString name;
-                    int absoluteOut = pCore->projectDuration() - 2;
-                    in = 0;
-                    out = absoluteOut;
-                    if (!beginParsed && i == 0 && markers.at(i).time().frames(fps) != 0) {
+                    if (!beginParsed && i == 0 && markers.at(i).time().frames(fps) != in) {
                         i -= 1;
                         beginParsed = true;
                         name = i18n("begin");
                     }
+                    int sectionIn = in;
                     if (i >= 0) {
                         name = markers.at(i).comment();
-                        in = markers.at(i).time().frames(fps);
+                        sectionIn = markers.at(i).time().frames(fps);
                     }
                     int j = 0;
                     QString newName = name;
@@ -770,37 +775,42 @@ void RenderWidget::prepareRendering(bool delayedRendering)
                     }
                     names.append(newName);
                     name = newName;
-                    if (in < absoluteOut) {
-                        if (i + 1 < markers.count()) {
-                            out = qMin(markers.at(i + 1).time().frames(fps) - 1, absoluteOut);
+
+                    int sectionOut = out;
+                    if (i + 1 < markers.count()) {
+                        sectionOut = qMin(markers.at(i + 1).time().frames(fps) - 1, out);
+                    }
+                    QString filename =
+                        outputFile.section(QLatin1Char('.'), 0, -2) + QStringLiteral("-%1.").arg(name) + outputFile.section(QLatin1Char('.'), -1);
+                    QDomDocument docCopy = doc.cloneNode(true).toDocument();
+                    if (!subtitleFile.isEmpty()) {
+                        project->generateRenderSubtitleFile(currentUuid, sectionIn, sectionOut, subtitleFile);
+                    }
+
+                    QString newPlaylistPath = playlistPath;
+                    newPlaylistPath = newPlaylistPath.replace(QStringLiteral(".mlt"), QString("-%1.mlt").arg(i));
+                    QFile::copy(playlistPath, newPlaylistPath);
+                    generateRenderFiles(newPlaylistPath, docCopy, sectionIn, sectionOut, filename, false, subtitleFile);
+                    if (!subtitleFile.isEmpty() && i < markers.count() - 1) {
+                        QTemporaryFile src(QDir::temp().absoluteFilePath(QString("XXXXXX.srt")));
+                        if (!src.open()) {
+                            // Something went wrong
+                            KMessageBox::error(this, i18n("Could not create temporary subtitle file"));
+                            return;
                         }
-                        QString filename =
-                            outputFile.section(QLatin1Char('.'), 0, -2) + QStringLiteral("-%1.").arg(name) + outputFile.section(QLatin1Char('.'), -1);
-                        QDomDocument docCopy = doc.cloneNode(true).toDocument();
-                        if (!subtitleFile.isEmpty()) {
-                            project->generateRenderSubtitleFile(currentUuid, in, out, subtitleFile);
-                        }
-                        generateRenderFiles(playlistPath, docCopy, in, out, filename, false, subtitleFile);
-                        if (!subtitleFile.isEmpty() && i < markers.count() - 1) {
-                            QTemporaryFile src(QDir::temp().absoluteFilePath(QString("XXXXXX.srt")));
-                            if (!src.open()) {
-                                // Something went wrong
-                                KMessageBox::error(this, i18n("Could not create temporary subtitle file"));
-                                return;
-                            }
-                            subtitleFile = src.fileName();
-                            src.setAutoRemove(false);
-                        }
+                        subtitleFile = src.fileName();
+                        src.setAutoRemove(false);
                     }
                 }
+                return;
             }
         }
-    } else {
-        if (!subtitleFile.isEmpty()) {
-            project->generateRenderSubtitleFile(currentUuid, in, out, subtitleFile);
-        }
-        generateRenderFiles(playlistPath, doc, in, out, outputFile, delayedRendering, subtitleFile);
     }
+
+    if (!subtitleFile.isEmpty()) {
+        project->generateRenderSubtitleFile(currentUuid, in, out, subtitleFile);
+    }
+    generateRenderFiles(playlistPath, doc, in, out, outputFile, delayedRendering, subtitleFile);
 }
 
 QString RenderWidget::generatePlaylistFile(bool delayedRendering)
@@ -1873,8 +1883,6 @@ void RenderWidget::setRenderProfile(const QMap<QString, QString> &props)
         m_view.render_guide->setChecked(true);
         m_view.guide_start->setCurrentIndex(props.value(QStringLiteral("renderstartguide")).toInt());
         m_view.guide_end->setCurrentIndex(props.value(QStringLiteral("renderendguide")).toInt());
-    } else if (mode == 3) {
-        m_view.render_multi->setChecked(true);
     } else {
         m_view.render_full->setChecked(true);
     }
@@ -1913,8 +1921,6 @@ void RenderWidget::saveRenderProfile()
         mode = 1;
     } else if (m_view.render_guide->isChecked()) {
         mode = 2;
-    } else if (m_view.render_multi->isChecked()) {
-        mode = 3;
     }
     renderProps.insert(QStringLiteral("rendermode"), QString::number(mode));
     renderProps.insert(QStringLiteral("renderstartguide"), QString::number(m_view.guide_start->currentIndex()));
@@ -2038,7 +2044,7 @@ void RenderWidget::errorMessage(RenderError type, const QString &message)
 
 void RenderWidget::projectDurationChanged(int duration)
 {
-    if (m_view.render_full->isChecked() || m_view.render_multi->isChecked()) {
+    if (m_view.render_full->isChecked()) {
         m_view.infoMessage->setMessageType(KMessageWidget::Information);
         QString stringDuration = pCore->timecode().getDisplayTimecodeFromFrames(qMax(0, duration + 1), false);
         m_view.infoMessage->setText(i18n("Render Duration: %1", stringDuration));
