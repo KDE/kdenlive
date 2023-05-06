@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-05 03:11+0000\n"
+"POT-Creation-Date: 2023-05-06 02:56+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -1274,9 +1274,10 @@ msgid "Correct audio loudness as recommended by EBU R128"
 msgstr ""
 
 #: data/effects/loudness.xml:13 data/effects/tracker.xml:41
-#, kde-format
-msgid "Analyse"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Save effect"
+msgid "Analyse to Apply Effect"
+msgstr "Spremi efekt"
 
 #: data/effects/lumaliftgaingamma.xml:4
 #, kde-format
@@ -3626,7 +3627,7 @@ msgstr "Centriraj frekvenciju"
 msgid "Enter the name of this preset:"
 msgstr ""
 
-#: src/assets/view/widgets/buttonparamwidget.cpp:201
+#: src/assets/view/widgets/buttonparamwidget.cpp:190
 #: src/project/dialogs/archivewidget.cpp:367
 #, kde-format
 msgid "Abort processing"
@@ -5116,7 +5117,7 @@ msgstr ""
 msgid "Duplicate"
 msgstr "Obriši isječak"
 
-#: src/bin/clipcreator.cpp:421 src/core.cpp:942
+#: src/bin/clipcreator.cpp:421 src/core.cpp:961
 #: src/project/projectmanager.cpp:768
 #, fuzzy, kde-format
 msgid "Loading clips"
@@ -5632,255 +5633,255 @@ msgstr ""
 msgid "Loading project…"
 msgstr "Cijeli projekt"
 
-#: src/core.cpp:336
+#: src/core.cpp:355
 #, fuzzy, kde-format
 #| msgid "Square Blur"
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "Pravokutno zamućenje"
 
-#: src/core.cpp:337
+#: src/core.cpp:356
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr ""
 
-#: src/core.cpp:338
+#: src/core.cpp:357
 #, fuzzy, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Horizontalni scatter"
 
-#: src/core.cpp:339
+#: src/core.cpp:358
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr ""
 
-#: src/core.cpp:340
+#: src/core.cpp:359
 #, fuzzy, kde-format
 #| msgid "Shear X"
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Smikni po X"
 
-#: src/core.cpp:341
+#: src/core.cpp:360
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr ""
 
-#: src/core.cpp:342
+#: src/core.cpp:361
 #, fuzzy, kde-format
 #| msgid "Shear Y"
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Smikni po Y"
 
-#: src/core.cpp:343
+#: src/core.cpp:362
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr ""
 
-#: src/core.cpp:344
+#: src/core.cpp:363
 #, fuzzy, kde-format
 #| msgid "Square Blur"
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "Pravokutno zamućenje"
 
-#: src/core.cpp:345
+#: src/core.cpp:364
 #, fuzzy, kde-format
 #| msgid "Square Blur"
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "Pravokutno zamućenje"
 
-#: src/core.cpp:346
+#: src/core.cpp:365
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr ""
 
-#: src/core.cpp:347
+#: src/core.cpp:366
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr ""
 
-#: src/core.cpp:348
+#: src/core.cpp:367
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr ""
 
-#: src/core.cpp:349
+#: src/core.cpp:368
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr ""
 
-#: src/core.cpp:350
+#: src/core.cpp:369
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr ""
 
-#: src/core.cpp:351
+#: src/core.cpp:370
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr ""
 
-#: src/core.cpp:352
+#: src/core.cpp:371
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr ""
 
-#: src/core.cpp:353
+#: src/core.cpp:372
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr ""
 
-#: src/core.cpp:355
+#: src/core.cpp:374
 #, fuzzy, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Horizontalni scatter"
 
-#: src/core.cpp:356
+#: src/core.cpp:375
 #, fuzzy, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Vertikalno raspršenje"
 
-#: src/core.cpp:357
+#: src/core.cpp:376
 #, fuzzy, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Horizontalni scatter"
 
-#: src/core.cpp:358
+#: src/core.cpp:377
 #, fuzzy, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "Vertikalno raspršenje"
 
-#: src/core.cpp:359
+#: src/core.cpp:378
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr ""
 
-#: src/core.cpp:360
+#: src/core.cpp:379
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr ""
 
-#: src/core.cpp:361
+#: src/core.cpp:380
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr ""
 
-#: src/core.cpp:362
+#: src/core.cpp:381
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr ""
 
-#: src/core.cpp:363
+#: src/core.cpp:382
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr ""
 
-#: src/core.cpp:364
+#: src/core.cpp:383
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr ""
 
-#: src/core.cpp:365
+#: src/core.cpp:384
 #, fuzzy, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Horizontalni scatter"
 
-#: src/core.cpp:366
+#: src/core.cpp:385
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr ""
 
-#: src/core.cpp:367
+#: src/core.cpp:386
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr ""
 
-#: src/core.cpp:368
+#: src/core.cpp:387
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr ""
 
-#: src/core.cpp:369
+#: src/core.cpp:388
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr ""
 
-#: src/core.cpp:370
+#: src/core.cpp:389
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr ""
 
-#: src/core.cpp:371
+#: src/core.cpp:390
 #, fuzzy, kde-format
 #| msgid "Delete profile"
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "Obriši profil"
 
-#: src/core.cpp:372
+#: src/core.cpp:391
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr ""
 
-#: src/core.cpp:373
+#: src/core.cpp:392
 #, fuzzy, kde-format
 #| msgid "Bottom"
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Dno"
 
-#: src/core.cpp:374
+#: src/core.cpp:393
 #, fuzzy, kde-format
 #| msgid "Bottom"
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Dno"
 
-#: src/core.cpp:375
+#: src/core.cpp:394
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr ""
 
-#: src/core.cpp:376
+#: src/core.cpp:395
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr ""
 
-#: src/core.cpp:596
+#: src/core.cpp:615
 #, fuzzy, kde-format
 #| msgid ""
 #| "Document project folder is invalid, setting it to the default one: %1"
@@ -5888,7 +5889,7 @@ msgid "Your project profile is invalid, rendering might fail."
 msgstr "Dokumentno projektna mapa je neispravna, postavite na zadano: %1%1"
 
 #. i18n: ectx: Menu (subtitles)
-#: src/core.cpp:651 src/kdenliveui.rc:30 src/mainwindow.cpp:277
+#: src/core.cpp:670 src/kdenliveui.rc:30 src/mainwindow.cpp:277
 #: src/timeline2/view/qml/timeline.qml:1056
 #, fuzzy, kde-format
 msgid "Subtitles"
@@ -8760,7 +8761,7 @@ msgstr ""
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr ""
 
-#: src/jobs/proxytask.cpp:356 src/jobs/proxytask.cpp:369
+#: src/jobs/proxytask.cpp:359 src/jobs/proxytask.cpp:372
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr ""
