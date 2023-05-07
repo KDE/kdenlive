@@ -783,6 +783,8 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
         KMessageBox::error(pCore->window(), i18n("Could not recover corrupted file."));
         delete m_progressDialog;
         m_progressDialog = nullptr;
+        // Don't propose to save corrupted doc
+        m_project->setModified(false);
         // Open default blank document
         newFile(false);
         return;
@@ -810,6 +812,8 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
                 KMessageBox::error(pCore->window(), i18n("Could not recover corrupted file."));
                 delete m_progressDialog;
                 m_progressDialog = nullptr;
+                // Don't propose to save broken document
+                m_project->setModified(false);
                 // Open default blank document
                 newFile(false);
                 return;
