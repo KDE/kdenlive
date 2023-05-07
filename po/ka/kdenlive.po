@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-05 03:11+0000\n"
-"PO-Revision-Date: 2023-05-04 06:08+0200\n"
+"POT-Creation-Date: 2023-05-07 02:47+0000\n"
+"PO-Revision-Date: 2023-05-06 05:53+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -1210,8 +1210,8 @@ msgstr ""
 
 #: data/effects/loudness.xml:13 data/effects/tracker.xml:41
 #, kde-format
-msgid "Analyse"
-msgstr "ანალიზი"
+msgid "Analyse to Apply Effect"
+msgstr "ეფექტის გამოსაყენებლად გააანალიზეთ"
 
 #: data/effects/lumaliftgaingamma.xml:4
 #, kde-format
@@ -1510,7 +1510,7 @@ msgstr ""
 #: data/effects/mask_start_shape.xml:30 data/effects/shape.xml:27
 #, kde-format
 msgid "Use Threshold"
-msgstr ""
+msgstr "ზღვრის გამოყენება"
 
 #: data/effects/mask_start_shape.xml:31 data/effects/shape.xml:28
 #, kde-format
@@ -1559,7 +1559,7 @@ msgstr ""
 #: data/effects/mono.xml:9
 #, kde-format
 msgid "number of output channels"
-msgstr ""
+msgstr "გამომავალი არხების რაოდენობა"
 
 #: data/effects/mute.xml:4
 #, kde-format
@@ -1575,7 +1575,7 @@ msgstr "კლიპის დადუმება"
 #: data/effects/normalise.xml:4
 #, kde-format
 msgid "Normalise (deprecated)"
-msgstr ""
+msgstr "ნორმალიზაცია (მოძველებული)"
 
 #: data/effects/normalise.xml:5
 #, kde-format
@@ -2050,12 +2050,12 @@ msgstr ""
 #: data/effects/tcolor.xml:8
 #, kde-format
 msgid "Blue/Yellow axis"
-msgstr ""
+msgstr "ლურჯი/ყვითელი ღერძი"
 
 #: data/effects/tcolor.xml:11
 #, kde-format
 msgid "Red/Green axis"
-msgstr ""
+msgstr "წითელი/მწვანე ღერძი"
 
 #: data/effects/threshold.xml:4
 #, kde-format
@@ -2070,7 +2070,7 @@ msgstr ""
 #: data/effects/threshold.xml:8
 #, kde-format
 msgid "Threshold value"
-msgstr ""
+msgstr "ზღვრის მნიშვნელობა"
 
 #: data/effects/threshold.xml:11 data/transitions/luma.xml:14
 #, kde-format
@@ -2158,7 +2158,7 @@ msgstr ""
 #: data/effects/tracker.xml:4
 #, kde-format
 msgid "Motion Tracker"
-msgstr ""
+msgstr "მოძრაობის ტრეკერი"
 
 #: data/effects/tracker.xml:5
 #, kde-format
@@ -2901,7 +2901,7 @@ msgstr ""
 #, kde-format
 msgctxt "Regionalize Transition Name"
 msgid "Regionalize"
-msgstr ""
+msgstr "რეგიონალიზაცია"
 
 #: data/transitions/region.xml:5
 #, kde-format
@@ -3014,7 +3014,7 @@ msgstr "შენახვა"
 #: plugins/sampleplugin/countdown_ui.ui:29
 #, kde-format
 msgid "Duration (seconds)"
-msgstr ""
+msgstr "ხანგრძლივობა (წამი)"
 
 #. i18n: ectx: property (text), widget (QLabel, font_label)
 #: plugins/sampleplugin/countdown_ui.ui:46
@@ -3441,7 +3441,7 @@ msgstr "შეიყვანეთ პრესეტის სახელი"
 msgid "Enter the name of this preset:"
 msgstr "შეიყვანეთ პრესეტის სახელი:"
 
-#: src/assets/view/widgets/buttonparamwidget.cpp:201
+#: src/assets/view/widgets/buttonparamwidget.cpp:190
 #: src/project/dialogs/archivewidget.cpp:367
 #, kde-format
 msgid "Abort processing"
@@ -3629,7 +3629,7 @@ msgstr "სიმაღლე"
 #: src/assets/view/widgets/keyframeimport.cpp:465
 #, kde-format
 msgid "Source range: (%1-%2), (%3-%4)"
-msgstr ""
+msgstr "წყაროს დიაპაზონი: (%1-%2), (%3-%4)"
 
 #: src/assets/view/widgets/keyframeimport.cpp:762
 #, kde-format
@@ -3915,12 +3915,12 @@ msgstr "მარჯ"
 #: src/audiomixer/mixerwidget.cpp:249
 #, kde-format
 msgid "Mute track"
-msgstr ""
+msgstr "ტრეკის დადუმება"
 
 #: src/audiomixer/mixerwidget.cpp:249
 #, kde-format
 msgid "Unmute track"
-msgstr ""
+msgstr "ტრეკის დადუმების გაუქმება"
 
 #: src/audiomixer/mixerwidget.cpp:250
 #, kde-kuit-format
@@ -3931,7 +3931,7 @@ msgstr ""
 #: src/audiomixer/mixerwidget.cpp:293
 #, kde-format
 msgid "Solo mode"
-msgstr ""
+msgstr "სოლო რეჟიმი"
 
 #: src/audiomixer/mixerwidget.cpp:294
 #, kde-kuit-format
@@ -4001,15 +4001,15 @@ msgstr ""
 #, kde-format
 msgid "%1 job"
 msgid_plural "%1 jobs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 დავალება"
+msgstr[1] "%1 დავალება"
 
 #: src/bin/bin.cpp:1069
 #, kde-format
 msgid "%1 pending job"
 msgid_plural "%1 pending jobs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 დარჩენილი დავალება"
+msgstr[1] "%1 დარჩენილი დავალება"
 
 #: src/bin/bin.cpp:1189
 #, kde-format
@@ -4111,7 +4111,7 @@ msgstr "რეიტინგის ჩვენება"
 #: src/bin/bin.cpp:1372
 #, kde-format
 msgid "Tags Panel"
-msgstr ""
+msgstr "ჭდეების პანელი"
 
 #: src/bin/bin.cpp:1393
 #, kde-kuit-format
@@ -4335,7 +4335,7 @@ msgstr "სათაური"
 #: src/bin/bin.cpp:2338
 #, kde-format
 msgid "Title Template"
-msgstr ""
+msgstr "სათაურის შაბლონი"
 
 #: src/bin/bin.cpp:2342 src/layoutmanagement.cpp:37
 #: src/mltcontroller/clippropertiescontroller.cpp:346
@@ -4386,7 +4386,7 @@ msgstr "პროქსის საქაღალდე"
 #: src/bin/bin.cpp:2773
 #, kde-format
 msgid "Edit rating"
-msgstr ""
+msgstr "რეიტინგის ჩასწორება"
 
 #: src/bin/bin.cpp:2775
 #, kde-format
@@ -4603,7 +4603,7 @@ msgstr ""
 #: src/renderpresets/renderpresetrepository.cpp:374
 #, kde-format
 msgid "Cannot open file %1"
-msgstr ""
+msgstr "ფაილის '%1' გახსნის შეცდომა"
 
 #: src/bin/bin.cpp:4553 src/dialogs/profilesdialog.cpp:213
 #, kde-format
@@ -4815,7 +4815,7 @@ msgstr ""
 msgid "Duplicate"
 msgstr "დუბლირება"
 
-#: src/bin/clipcreator.cpp:421 src/core.cpp:942
+#: src/bin/clipcreator.cpp:421 src/core.cpp:961
 #: src/project/projectmanager.cpp:768
 #, kde-format
 msgid "Loading clips"
@@ -4833,7 +4833,7 @@ msgstr ""
 #: src/bin/clipcreator.cpp:525
 #, kde-format
 msgid "Removable device"
-msgstr ""
+msgstr "მოხსნადი მოწყობილობა"
 
 #: src/bin/clipcreator.cpp:548
 #, kde-format
@@ -5284,253 +5284,253 @@ msgstr ""
 msgid "Loading project…"
 msgstr "პროექტის ჩატვირთვა…"
 
-#: src/core.cpp:336
+#: src/core.cpp:355
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr ""
 
-#: src/core.cpp:337
+#: src/core.cpp:356
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr ""
 
-#: src/core.cpp:338
+#: src/core.cpp:357
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr ""
 
-#: src/core.cpp:339
+#: src/core.cpp:358
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "რადიალური"
 
-#: src/core.cpp:340
+#: src/core.cpp:359
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
-msgstr ""
+msgstr "წრფივი X"
 
-#: src/core.cpp:341
+#: src/core.cpp:360
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr ""
 
-#: src/core.cpp:342
+#: src/core.cpp:361
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
-msgstr ""
+msgstr "წრფივი Y"
 
-#: src/core.cpp:343
+#: src/core.cpp:362
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr ""
 
-#: src/core.cpp:344
+#: src/core.cpp:363
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "კვადრატი"
 
-#: src/core.cpp:345
+#: src/core.cpp:364
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr ""
 
-#: src/core.cpp:346
+#: src/core.cpp:365
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "ღრუბელი"
 
-#: src/core.cpp:347
+#: src/core.cpp:366
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr ""
 
-#: src/core.cpp:348
+#: src/core.cpp:367
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr ""
 
-#: src/core.cpp:349
+#: src/core.cpp:368
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "სპირალური"
 
-#: src/core.cpp:350
+#: src/core.cpp:369
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr ""
 
-#: src/core.cpp:351
+#: src/core.cpp:370
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr ""
 
-#: src/core.cpp:352
+#: src/core.cpp:371
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "იმპულსი"
 
-#: src/core.cpp:353
+#: src/core.cpp:372
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "საათი"
 
-#: src/core.cpp:355
+#: src/core.cpp:374
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr ""
 
-#: src/core.cpp:356
+#: src/core.cpp:375
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr ""
 
-#: src/core.cpp:357
+#: src/core.cpp:376
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr ""
 
-#: src/core.cpp:358
+#: src/core.cpp:377
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr ""
 
-#: src/core.cpp:359
+#: src/core.cpp:378
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr ""
 
-#: src/core.cpp:360
+#: src/core.cpp:379
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr ""
 
-#: src/core.cpp:361
+#: src/core.cpp:380
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr ""
 
-#: src/core.cpp:362
+#: src/core.cpp:381
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr ""
 
-#: src/core.cpp:363
+#: src/core.cpp:382
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr ""
 
-#: src/core.cpp:364
+#: src/core.cpp:383
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr ""
 
-#: src/core.cpp:365
+#: src/core.cpp:384
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr ""
 
-#: src/core.cpp:366
+#: src/core.cpp:385
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr ""
 
-#: src/core.cpp:367
+#: src/core.cpp:386
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr ""
 
-#: src/core.cpp:368
+#: src/core.cpp:387
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr ""
 
-#: src/core.cpp:369
+#: src/core.cpp:388
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr ""
 
-#: src/core.cpp:370
+#: src/core.cpp:389
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr ""
 
-#: src/core.cpp:371
+#: src/core.cpp:390
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr ""
 
-#: src/core.cpp:372
+#: src/core.cpp:391
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr ""
 
-#: src/core.cpp:373
+#: src/core.cpp:392
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr ""
 
-#: src/core.cpp:374
+#: src/core.cpp:393
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr ""
 
-#: src/core.cpp:375
+#: src/core.cpp:394
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr ""
 
-#: src/core.cpp:376
+#: src/core.cpp:395
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr ""
 
-#: src/core.cpp:596
+#: src/core.cpp:615
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr ""
 
 #. i18n: ectx: Menu (subtitles)
-#: src/core.cpp:651 src/kdenliveui.rc:30 src/mainwindow.cpp:277
+#: src/core.cpp:670 src/kdenliveui.rc:30 src/mainwindow.cpp:277
 #: src/timeline2/view/qml/timeline.qml:1056
 #, kde-format
 msgid "Subtitles"
@@ -6137,6 +6137,8 @@ msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
 "\">https://alphacephei.com/vosk/models</a>"
 msgstr ""
+"გადმოწერეთ მეტყველების მოდელები: <a href=\"https://alphacephei.com/vosk/"
+"models\">https://alphacephei.com/vosk/models</a>"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1866
 #, kde-format
@@ -6181,7 +6183,7 @@ msgstr "გადმოწერის შეცდომა %1"
 #: src/dialogs/kdenlivesettingsdialog.cpp:1954
 #, kde-format
 msgid "Extracting archive…"
-msgstr ""
+msgstr "არქივის გაშლა…"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1961
 #, kde-format
@@ -6422,7 +6424,7 @@ msgstr ""
 #: src/dialogs/renderwidget.cpp:503
 #, kde-format
 msgid "Beginning"
-msgstr ""
+msgstr "დასაწყისი"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/dialogs/renderwidget.cpp:510 src/ui/wipeval_ui.ui:172
@@ -6530,12 +6532,12 @@ msgstr "უსახელო"
 #: src/dialogs/renderwidget.cpp:1239
 #, kde-format
 msgid "No preset selected"
-msgstr ""
+msgstr "პრესეტი არჩეული არაა"
 
 #: src/dialogs/renderwidget.cpp:1241
 #, kde-format
 msgid "No matching preset"
-msgstr ""
+msgstr "ასეთი პრესეტი არ არსებობს"
 
 #: src/dialogs/renderwidget.cpp:1253
 #, kde-format
@@ -6664,27 +6666,27 @@ msgstr ""
 #: src/dialogs/speechdialog.cpp:269
 #, kde-format
 msgid "Audio export failed"
-msgstr ""
+msgstr "აუდიოს გატანის შეცდომა"
 
 #: src/dialogs/speechdialog.cpp:295 src/dialogs/textbasededit.cpp:855
 #, kde-format
 msgid "Starting speech recognition"
-msgstr ""
+msgstr "საუბრის ამოცნობის დაწყება"
 
 #: src/dialogs/speechdialog.cpp:327 src/dialogs/textbasededit.cpp:1018
 #, kde-format
 msgid "Speech recognition aborted."
-msgstr ""
+msgstr "საუბრის ამოცნობა გაუქმდა"
 
 #: src/dialogs/speechdialog.cpp:333
 #, kde-format
 msgid "Subtitles imported"
-msgstr ""
+msgstr "სუბტიტრები შემოტნილია"
 
 #: src/dialogs/speechdialog.cpp:336
 #, kde-format
 msgid "Speech recognition failed"
-msgstr ""
+msgstr "საუბრის ამოცნობის შეცდომა"
 
 #: src/dialogs/splash.cpp:35
 #, kde-format
@@ -6694,7 +6696,7 @@ msgstr "შეიქმნა KDE-ის მიერ"
 #: src/dialogs/subtitleedit.cpp:105
 #, kde-format
 msgid "Go to next subtitle"
-msgstr ""
+msgstr "შემდეგ სუბტიტრზე გადასვლა"
 
 #: src/dialogs/subtitleedit.cpp:106
 #, kde-kuit-format
@@ -6707,7 +6709,7 @@ msgstr ""
 #: src/dialogs/subtitleedit.cpp:107
 #, kde-format
 msgid "Go to previous subtitle"
-msgstr ""
+msgstr "წინა სუბტიტრზე გადასვლა"
 
 #: src/dialogs/subtitleedit.cpp:108
 #, kde-kuit-format
@@ -6742,7 +6744,7 @@ msgstr ""
 #: src/dialogs/subtitleedit.cpp:115
 #, kde-format
 msgid "Update subtitle text"
-msgstr ""
+msgstr "სუბტიტრის ტექსტის განახლება"
 
 #: src/dialogs/subtitleedit.cpp:116
 #, kde-kuit-format
@@ -6753,7 +6755,7 @@ msgstr ""
 #: src/dialogs/subtitleedit.cpp:117
 #, kde-format
 msgid "Show style options"
-msgstr ""
+msgstr "სტილის პარამეტრების ჩვენება"
 
 #: src/dialogs/subtitleedit.cpp:118
 #, kde-kuit-format
@@ -6830,7 +6832,7 @@ msgstr "საუბრის გარეშე"
 #: src/dialogs/textbasededit.cpp:575 src/ui/speechdialog_ui.ui:144
 #, kde-format
 msgid "Translate to english"
-msgstr ""
+msgstr "ინგლისურად თარგმნა"
 
 #: src/dialogs/textbasededit.cpp:578
 #, kde-format
@@ -6840,7 +6842,7 @@ msgstr "საუბრის ამოცნობის მორგება"
 #: src/dialogs/textbasededit.cpp:625
 #, kde-format
 msgid "Speech model"
-msgstr ""
+msgstr "საუბრის მოდელი"
 
 #: src/dialogs/textbasededit.cpp:626
 #, kde-format
@@ -7252,10 +7254,9 @@ msgid "Clip %1 will be reloaded"
 msgstr ""
 
 #: src/doc/documentchecker.cpp:474
-#, fuzzy, kde-format
-#| msgid "Create Sequence Clip"
+#, kde-format
 msgid "Fixed Sequence Clips"
-msgstr "მიმდევრობის კლიპის შექმნა"
+msgstr "ფიქსირებული მიმდევრობის კლიპები"
 
 #: src/doc/documentchecker.cpp:478
 #, kde-format
@@ -8212,7 +8213,7 @@ msgstr ""
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr ""
 
-#: src/jobs/proxytask.cpp:356 src/jobs/proxytask.cpp:369
+#: src/jobs/proxytask.cpp:359 src/jobs/proxytask.cpp:372
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr ""
@@ -8798,17 +8799,17 @@ msgstr "Nicolas Carion"
 
 #: src/main.cpp:128
 #, kde-format
-msgid "Code re-architecture & timeline rewrite"
+msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr ""
 
 #: src/main.cpp:129
 #, kde-format
-msgid "Simon A. Eugster"
-msgstr "Simon A. Eugster"
+msgid "Julius Künzel"
+msgstr "Julius Künzel"
 
 #: src/main.cpp:129
 #, kde-format
-msgid "Color scopes, bug fixing, etc."
+msgid "Feature developement, packaging, bug fixing"
 msgstr ""
 
 #: src/main.cpp:130
@@ -8828,27 +8829,27 @@ msgstr "Dan Dennedy"
 
 #: src/main.cpp:132
 #, kde-format
-msgid "MLT, Bug fixing, etc."
+msgid "MLT maintainer, Bug fixing, etc."
 msgstr ""
 
 #: src/main.cpp:133
 #, kde-format
-msgid "Julius Künzel"
-msgstr "Julius Künzel"
+msgid "Simon A. Eugster"
+msgstr "Simon A. Eugster"
 
 #: src/main.cpp:133
 #, kde-format
-msgid "Bug fixing, etc."
+msgid "Color scopes, bug fixing, etc."
 msgstr ""
 
 #: src/main.cpp:134
 #, kde-format
-msgid "Sashmita Raghav"
-msgstr "Sashmita Raghav"
+msgid "Eric Jiang"
+msgstr ""
 
 #: src/main.cpp:134
 #, kde-format
-msgid "Subtitle feature (GSoC), timeline colours"
+msgid "Bug fixing and test improvements"
 msgstr ""
 
 #: src/main.cpp:136
@@ -8878,7 +8879,7 @@ msgstr "Eugen Mohr"
 
 #: src/main.cpp:139
 #, kde-format
-msgid "Bug triage, testing"
+msgid "Bug triage, testing, documentation maintainer"
 msgstr ""
 
 #: src/main.cpp:140
@@ -20328,6 +20329,12 @@ msgstr "%1მ"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1სთ"
+
+#~ msgid "Sashmita Raghav"
+#~ msgstr "Sashmita Raghav"
+
+#~ msgid "Analyse"
+#~ msgstr "ანალიზი"
 
 #~ msgid "Stabilized"
 #~ msgstr "სტაბილიზებულია"

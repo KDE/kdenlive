@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-05 03:11+0000\n"
+"POT-Creation-Date: 2023-05-07 02:47+0000\n"
 "PO-Revision-Date: 2023-03-26 18:17+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -1245,9 +1245,10 @@ msgid "Correct audio loudness as recommended by EBU R128"
 msgstr "Popravi glasnost zvoka po priporočilih EBU R128"
 
 #: data/effects/loudness.xml:13 data/effects/tracker.xml:41
-#, kde-format
-msgid "Analyse"
-msgstr "Preuči"
+#, fuzzy, kde-format
+#| msgid "Enable Effect"
+msgid "Analyse to Apply Effect"
+msgstr "Omogoči učinek"
 
 #: data/effects/lumaliftgaingamma.xml:4
 #, kde-format
@@ -3580,7 +3581,7 @@ msgstr "Vnesite ime prednastavitve"
 msgid "Enter the name of this preset:"
 msgstr "Vnesite ime te prednastavitve:"
 
-#: src/assets/view/widgets/buttonparamwidget.cpp:201
+#: src/assets/view/widgets/buttonparamwidget.cpp:190
 #: src/project/dialogs/archivewidget.cpp:367
 #, kde-format
 msgid "Abort processing"
@@ -5004,7 +5005,7 @@ msgstr "Naslednji kadri so že vstavljeni v projekt. Ali jih želite podvojiti?"
 msgid "Duplicate"
 msgstr "Podvoji"
 
-#: src/bin/clipcreator.cpp:421 src/core.cpp:942
+#: src/bin/clipcreator.cpp:421 src/core.cpp:961
 #: src/project/projectmanager.cpp:768
 #, kde-format
 msgid "Loading clips"
@@ -5494,253 +5495,253 @@ msgstr ""
 msgid "Loading project…"
 msgstr "Nalaganje projekta …"
 
-#: src/core.cpp:336
+#: src/core.cpp:355
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "Kvadrat, dva stolpca"
 
-#: src/core.cpp:337
+#: src/core.cpp:356
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "Majhna šahovnica"
 
-#: src/core.cpp:338
+#: src/core.cpp:357
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Vodoravne žaluzije"
 
-#: src/core.cpp:339
+#: src/core.cpp:358
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Radialno"
 
-#: src/core.cpp:340
+#: src/core.cpp:359
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Linearno X"
 
-#: src/core.cpp:341
+#: src/core.cpp:360
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "Bilinearno X"
 
-#: src/core.cpp:342
+#: src/core.cpp:361
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Linearno Y"
 
-#: src/core.cpp:343
+#: src/core.cpp:362
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Bilinearno Y"
 
-#: src/core.cpp:344
+#: src/core.cpp:363
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "Kvadrat"
 
-#: src/core.cpp:345
+#: src/core.cpp:364
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "Kvadrat 2"
 
-#: src/core.cpp:346
+#: src/core.cpp:365
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "Oblaček"
 
-#: src/core.cpp:347
+#: src/core.cpp:366
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "Simetrična ura"
 
-#: src/core.cpp:348
+#: src/core.cpp:367
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "Radialni stolpci"
 
-#: src/core.cpp:349
+#: src/core.cpp:368
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "Spirala"
 
-#: src/core.cpp:350
+#: src/core.cpp:369
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "Spirala 2"
 
-#: src/core.cpp:351
+#: src/core.cpp:370
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "Zavesa"
 
-#: src/core.cpp:352
+#: src/core.cpp:371
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "Razpočenost"
 
-#: src/core.cpp:353
+#: src/core.cpp:372
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "Ura"
 
-#: src/core.cpp:355
+#: src/core.cpp:374
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Stolpec, vodoravno"
 
-#: src/core.cpp:356
+#: src/core.cpp:375
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Stolpec, navpično"
 
-#: src/core.cpp:357
+#: src/core.cpp:376
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Klapa, vodoravno"
 
-#: src/core.cpp:358
+#: src/core.cpp:377
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "Klapa, navpično"
 
-#: src/core.cpp:359
+#: src/core.cpp:378
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "Diagonalna klapa JZ-SV"
 
-#: src/core.cpp:360
+#: src/core.cpp:379
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "Diagonalna klapa SZ-JV"
 
-#: src/core.cpp:361
+#: src/core.cpp:380
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "Diagonalno levo zgoraj"
 
-#: src/core.cpp:362
+#: src/core.cpp:381
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "Diagonalno desno zgoraj"
 
-#: src/core.cpp:363
+#: src/core.cpp:382
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "Matrica slapa, vodoravno"
 
-#: src/core.cpp:364
+#: src/core.cpp:383
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "Matrica slapa, navpično"
 
-#: src/core.cpp:365
+#: src/core.cpp:384
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Matrica kače, vodoravno"
 
-#: src/core.cpp:366
+#: src/core.cpp:385
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "Matrica kače, vzporedno, vodoravno"
 
-#: src/core.cpp:367
+#: src/core.cpp:386
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "Matrica kače, navpično"
 
-#: src/core.cpp:368
+#: src/core.cpp:387
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "Matrica kače, vzporedno, navpično"
 
-#: src/core.cpp:369
+#: src/core.cpp:388
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "Klapa, navpično navzgor"
 
-#: src/core.cpp:370
+#: src/core.cpp:389
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "Krog zaslonke"
 
-#: src/core.cpp:371
+#: src/core.cpp:390
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "Dvojna zaslonka"
 
-#: src/core.cpp:372
+#: src/core.cpp:391
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "Okvir zaslonke"
 
-#: src/core.cpp:373
+#: src/core.cpp:392
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Okvir desno spodaj"
 
-#: src/core.cpp:374
+#: src/core.cpp:393
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Okvir levo spodaj"
 
-#: src/core.cpp:375
+#: src/core.cpp:394
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "Okvir sredinsko spodaj"
 
-#: src/core.cpp:376
+#: src/core.cpp:395
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "Ura, zgoraj"
 
-#: src/core.cpp:596
+#: src/core.cpp:615
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "Vaš profil projekta ni veljaven, izrisovanje morda ne bo uspelo."
 
 #. i18n: ectx: Menu (subtitles)
-#: src/core.cpp:651 src/kdenliveui.rc:30 src/mainwindow.cpp:277
+#: src/core.cpp:670 src/kdenliveui.rc:30 src/mainwindow.cpp:277
 #: src/timeline2/view/qml/timeline.qml:1056
 #, kde-format
 msgid "Subtitles"
@@ -8588,7 +8589,7 @@ msgstr "Slika je premajhna, da bi lahko izdelali posredni posnetek."
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr "FFmpeg ni bil najden. Nastavite pot v nastavitvah okolja Kdenlive"
 
-#: src/jobs/proxytask.cpp:356 src/jobs/proxytask.cpp:369
+#: src/jobs/proxytask.cpp:359 src/jobs/proxytask.cpp:372
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "Ni bilo mogoče ustvariti posrednega posnetka."
@@ -9183,19 +9184,20 @@ msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
 #: src/main.cpp:128
-#, kde-format
-msgid "Code re-architecture & timeline rewrite"
+#, fuzzy, kde-format
+#| msgid "Code re-architecture & timeline rewrite"
+msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr "Preurejanje kode in ponovno programiranje časovnice"
 
 #: src/main.cpp:129
 #, kde-format
-msgid "Simon A. Eugster"
-msgstr "Simon A. Eugster"
+msgid "Julius Künzel"
+msgstr "Julius Künzel"
 
 #: src/main.cpp:129
 #, kde-format
-msgid "Color scopes, bug fixing, etc."
-msgstr "Barvni obsegi, odpravljanje hroščev itn."
+msgid "Feature developement, packaging, bug fixing"
+msgstr ""
 
 #: src/main.cpp:130
 #, kde-format
@@ -9213,29 +9215,30 @@ msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
 #: src/main.cpp:132
-#, kde-format
-msgid "MLT, Bug fixing, etc."
+#, fuzzy, kde-format
+#| msgid "MLT, Bug fixing, etc."
+msgid "MLT maintainer, Bug fixing, etc."
 msgstr "MLT, odpravljanje hroščev itn."
 
 #: src/main.cpp:133
 #, kde-format
-msgid "Julius Künzel"
-msgstr "Julius Künzel"
+msgid "Simon A. Eugster"
+msgstr "Simon A. Eugster"
 
 #: src/main.cpp:133
 #, kde-format
-msgid "Bug fixing, etc."
-msgstr "Odpravljanje hroščev itn."
+msgid "Color scopes, bug fixing, etc."
+msgstr "Barvni obsegi, odpravljanje hroščev itn."
 
 #: src/main.cpp:134
 #, kde-format
-msgid "Sashmita Raghav"
-msgstr "Sashmita Raghav"
+msgid "Eric Jiang"
+msgstr ""
 
 #: src/main.cpp:134
 #, kde-format
-msgid "Subtitle feature (GSoC), timeline colours"
-msgstr "Funkcija podnaslavljanja (GSoC), barve časovnice"
+msgid "Bug fixing and test improvements"
+msgstr ""
 
 #: src/main.cpp:136
 #, kde-format
@@ -9264,8 +9267,8 @@ msgstr "Eugen Mohr"
 
 #: src/main.cpp:139
 #, kde-format
-msgid "Bug triage, testing"
-msgstr "Triaža napak, preizkušanje"
+msgid "Bug triage, testing, documentation maintainer"
+msgstr ""
 
 #: src/main.cpp:140
 #, kde-format
@@ -21160,6 +21163,21 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
+
+#~ msgid "Bug fixing, etc."
+#~ msgstr "Odpravljanje hroščev itn."
+
+#~ msgid "Sashmita Raghav"
+#~ msgstr "Sashmita Raghav"
+
+#~ msgid "Subtitle feature (GSoC), timeline colours"
+#~ msgstr "Funkcija podnaslavljanja (GSoC), barve časovnice"
+
+#~ msgid "Bug triage, testing"
+#~ msgstr "Triaža napak, preizkušanje"
+
+#~ msgid "Analyse"
+#~ msgstr "Preuči"
 
 #~ msgid "Insert Zone to Project Bin"
 #~ msgstr "Vstavi območje v projektno posodo"
