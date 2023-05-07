@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-06 02:56+0000\n"
-"PO-Revision-Date: 2023-04-29 12:43+0100\n"
+"POT-Creation-Date: 2023-05-07 02:47+0000\n"
+"PO-Revision-Date: 2023-05-06 15:48+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
 "Language: en_GB\n"
@@ -1241,10 +1241,9 @@ msgid "Correct audio loudness as recommended by EBU R128"
 msgstr "Correct audio loudness as recommended by EBU R128"
 
 #: data/effects/loudness.xml:13 data/effects/tracker.xml:41
-#, fuzzy, kde-format
-#| msgid "Enable Effect"
+#, kde-format
 msgid "Analyse to Apply Effect"
-msgstr "Enable Effect"
+msgstr "Analyse to Apply Effect"
 
 #: data/effects/lumaliftgaingamma.xml:4
 #, kde-format
@@ -3435,10 +3434,9 @@ msgstr "Delete keyframes"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:445
 #: src/assets/model/assetparametermodel.cpp:1386
-#, fuzzy, kde-format
-#| msgid "Paste effect"
+#, kde-format
 msgid "Update effect"
-msgstr "Paste effect"
+msgstr "Update effect"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:659
 #, kde-format
@@ -7514,16 +7512,14 @@ msgid "Clip %1 will be reloaded"
 msgstr "Clip %1 will be reloaded"
 
 #: src/doc/documentchecker.cpp:474
-#, fuzzy, kde-format
-#| msgid "Create Sequence Clip"
+#, kde-format
 msgid "Fixed Sequence Clips"
-msgstr "Create Sequence Clip"
+msgstr "Fixed Sequence Clips"
 
 #: src/doc/documentchecker.cpp:478
-#, fuzzy, kde-format
-#| msgid "Clip has no effects"
+#, kde-format
 msgid "Clip %1 has been fixed"
-msgstr "Clip has no effects"
+msgstr "Clip %1 has been fixed"
 
 #: src/doc/documentchecker.cpp:484
 #, kde-format
@@ -9115,19 +9111,20 @@ msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
 #: src/main.cpp:128
-#, kde-format
-msgid "Code re-architecture & timeline rewrite"
+#, fuzzy, kde-format
+#| msgid "Code re-architecture & timeline rewrite"
+msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr "Code re-architecture & timeline rewrite"
 
 #: src/main.cpp:129
 #, kde-format
-msgid "Simon A. Eugster"
-msgstr "Simon A. Eugster"
+msgid "Julius Künzel"
+msgstr "Julius Künzel"
 
 #: src/main.cpp:129
 #, kde-format
-msgid "Color scopes, bug fixing, etc."
-msgstr "Colour scopes, bug fixing, etc."
+msgid "Feature developement, packaging, bug fixing"
+msgstr ""
 
 #: src/main.cpp:130
 #, kde-format
@@ -9145,29 +9142,30 @@ msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
 #: src/main.cpp:132
-#, kde-format
-msgid "MLT, Bug fixing, etc."
+#, fuzzy, kde-format
+#| msgid "MLT, Bug fixing, etc."
+msgid "MLT maintainer, Bug fixing, etc."
 msgstr "MLT, Bug fixing, etc."
 
 #: src/main.cpp:133
 #, kde-format
-msgid "Julius Künzel"
-msgstr "Julius Künzel"
+msgid "Simon A. Eugster"
+msgstr "Simon A. Eugster"
 
 #: src/main.cpp:133
 #, kde-format
-msgid "Bug fixing, etc."
-msgstr "Bug fixing, etc."
+msgid "Color scopes, bug fixing, etc."
+msgstr "Colour scopes, bug fixing, etc."
 
 #: src/main.cpp:134
 #, kde-format
-msgid "Sashmita Raghav"
-msgstr "Sashmita Raghav"
+msgid "Eric Jiang"
+msgstr ""
 
 #: src/main.cpp:134
 #, kde-format
-msgid "Subtitle feature (GSoC), timeline colours"
-msgstr "Subtitle feature (GSoC), timeline colours"
+msgid "Bug fixing and test improvements"
+msgstr ""
 
 #: src/main.cpp:136
 #, kde-format
@@ -9196,8 +9194,8 @@ msgstr "Eugen Mohr"
 
 #: src/main.cpp:139
 #, kde-format
-msgid "Bug triage, testing"
-msgstr "Bug triage, testing"
+msgid "Bug triage, testing, documentation maintainer"
+msgstr ""
 
 #: src/main.cpp:140
 #, kde-format
@@ -13608,10 +13606,9 @@ msgstr ""
 "file to recover last backup"
 
 #: src/project/projectmanager.cpp:1103
-#, fuzzy, kde-format
-#| msgid "Error moving project folder: %1"
+#, kde-format
 msgid "Error moving project folder, cannot access cache folder"
-msgstr "Error moving project folder: %1"
+msgstr "Error moving project folder, cannot access cache folder"
 
 #: src/project/projectmanager.cpp:1139
 #, kde-format
@@ -14960,10 +14957,9 @@ msgid "Histogram"
 msgstr "Histogram"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:51
-#, fuzzy, kde-format
-#| msgid "You cannot insert a sequence containing itself"
+#, kde-format
 msgid "Found an invalid sequence clip in Bin"
-msgstr "You cannot insert a sequence containing itself"
+msgstr "Found an invalid sequence clip in Bin"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:264
 #: src/timeline2/model/builders/meltBuilder.cpp:493
@@ -21009,6 +21005,18 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "Bug fixing, etc."
+#~ msgstr "Bug fixing, etc."
+
+#~ msgid "Sashmita Raghav"
+#~ msgstr "Sashmita Raghav"
+
+#~ msgid "Subtitle feature (GSoC), timeline colours"
+#~ msgstr "Subtitle feature (GSoC), timeline colours"
+
+#~ msgid "Bug triage, testing"
+#~ msgstr "Bug triage, testing"
 
 #~ msgid "Analyse"
 #~ msgstr "Analyse"

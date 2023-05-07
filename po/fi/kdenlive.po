@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-06 02:56+0000\n"
+"POT-Creation-Date: 2023-05-07 02:47+0000\n"
 "PO-Revision-Date: 2023-04-17 17:09+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -9176,19 +9176,20 @@ msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
 #: src/main.cpp:128
-#, kde-format
-msgid "Code re-architecture & timeline rewrite"
+#, fuzzy, kde-format
+#| msgid "Code re-architecture & timeline rewrite"
+msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr "Koodin arkkitehtuuri ja aikajanan uudelleenkirjoitus"
 
 #: src/main.cpp:129
 #, kde-format
-msgid "Simon A. Eugster"
-msgstr "Simon A. Eugster"
+msgid "Julius Künzel"
+msgstr "Julius Künzel"
 
 #: src/main.cpp:129
 #, kde-format
-msgid "Color scopes, bug fixing, etc."
-msgstr "Värialueet, virhekorjaukset jne."
+msgid "Feature developement, packaging, bug fixing"
+msgstr ""
 
 #: src/main.cpp:130
 #, kde-format
@@ -9206,29 +9207,30 @@ msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
 #: src/main.cpp:132
-#, kde-format
-msgid "MLT, Bug fixing, etc."
+#, fuzzy, kde-format
+#| msgid "MLT, Bug fixing, etc."
+msgid "MLT maintainer, Bug fixing, etc."
 msgstr "MLT, virheenkorjaus jne."
 
 #: src/main.cpp:133
 #, kde-format
-msgid "Julius Künzel"
-msgstr "Julius Künzel"
+msgid "Simon A. Eugster"
+msgstr "Simon A. Eugster"
 
 #: src/main.cpp:133
 #, kde-format
-msgid "Bug fixing, etc."
-msgstr "Vikojen korjaus jne."
+msgid "Color scopes, bug fixing, etc."
+msgstr "Värialueet, virhekorjaukset jne."
 
 #: src/main.cpp:134
 #, kde-format
-msgid "Sashmita Raghav"
-msgstr "Sashmita Raghav"
+msgid "Eric Jiang"
+msgstr ""
 
 #: src/main.cpp:134
 #, kde-format
-msgid "Subtitle feature (GSoC), timeline colours"
-msgstr "Tekstitysominaisuus (GSoC), aikajanan värit"
+msgid "Bug fixing and test improvements"
+msgstr ""
 
 #: src/main.cpp:136
 #, kde-format
@@ -9257,8 +9259,8 @@ msgstr "Eugen Mohr"
 
 #: src/main.cpp:139
 #, kde-format
-msgid "Bug triage, testing"
-msgstr "Virheiden seulonta, testaus"
+msgid "Bug triage, testing, documentation maintainer"
+msgstr ""
 
 #: src/main.cpp:140
 #, kde-format
@@ -21171,6 +21173,18 @@ msgstr "%1 min"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 t"
+
+#~ msgid "Bug fixing, etc."
+#~ msgstr "Vikojen korjaus jne."
+
+#~ msgid "Sashmita Raghav"
+#~ msgstr "Sashmita Raghav"
+
+#~ msgid "Subtitle feature (GSoC), timeline colours"
+#~ msgstr "Tekstitysominaisuus (GSoC), aikajanan värit"
+
+#~ msgid "Bug triage, testing"
+#~ msgstr "Virheiden seulonta, testaus"
 
 #~ msgid "Analyse"
 #~ msgstr "Analysoi"

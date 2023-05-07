@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-06 02:56+0000\n"
-"PO-Revision-Date: 2023-05-05 10:50+0200\n"
+"POT-Creation-Date: 2023-05-07 02:47+0000\n"
+"PO-Revision-Date: 2023-05-06 12:28+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
@@ -1247,10 +1247,9 @@ msgid "Correct audio loudness as recommended by EBU R128"
 msgstr "Corrigeer luidheid van audio zoals aanbevolen door EBU R128"
 
 #: data/effects/loudness.xml:13 data/effects/tracker.xml:41
-#, fuzzy, kde-format
-#| msgid "Enable Effect"
+#, kde-format
 msgid "Analyse to Apply Effect"
-msgstr "Effect inschakelen"
+msgstr "Analyseren om effect toe te passen"
 
 #: data/effects/lumaliftgaingamma.xml:4
 #, kde-format
@@ -9183,19 +9182,20 @@ msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
 #: src/main.cpp:128
-#, kde-format
-msgid "Code re-architecture & timeline rewrite"
+#, fuzzy, kde-format
+#| msgid "Code re-architecture & timeline rewrite"
+msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr "Opnieuw ontwerp van codearchitectuur & herschrijven van tijdlijn"
 
 #: src/main.cpp:129
 #, kde-format
-msgid "Simon A. Eugster"
-msgstr "Simon A. Eugster"
+msgid "Julius Künzel"
+msgstr "Julius Künzel"
 
 #: src/main.cpp:129
 #, kde-format
-msgid "Color scopes, bug fixing, etc."
-msgstr "Kleur scopes, bug fixing, enz."
+msgid "Feature developement, packaging, bug fixing"
+msgstr ""
 
 #: src/main.cpp:130
 #, kde-format
@@ -9215,29 +9215,30 @@ msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
 #: src/main.cpp:132
-#, kde-format
-msgid "MLT, Bug fixing, etc."
+#, fuzzy, kde-format
+#| msgid "MLT, Bug fixing, etc."
+msgid "MLT maintainer, Bug fixing, etc."
 msgstr "MLT, reparaties van bugs, etc."
 
 #: src/main.cpp:133
 #, kde-format
-msgid "Julius Künzel"
-msgstr "Julius Künzel"
+msgid "Simon A. Eugster"
+msgstr "Simon A. Eugster"
 
 #: src/main.cpp:133
 #, kde-format
-msgid "Bug fixing, etc."
-msgstr "Bug fixing, enz."
+msgid "Color scopes, bug fixing, etc."
+msgstr "Kleur scopes, bug fixing, enz."
 
 #: src/main.cpp:134
 #, kde-format
-msgid "Sashmita Raghav"
-msgstr "Sashmita Raghav"
+msgid "Eric Jiang"
+msgstr ""
 
 #: src/main.cpp:134
 #, kde-format
-msgid "Subtitle feature (GSoC), timeline colours"
-msgstr "Ondertitel functie (GSoC), tijdlijnkleuren"
+msgid "Bug fixing and test improvements"
+msgstr ""
 
 #: src/main.cpp:136
 #, kde-format
@@ -9266,8 +9267,8 @@ msgstr "Eugen Mohr"
 
 #: src/main.cpp:139
 #, kde-format
-msgid "Bug triage, testing"
-msgstr "Triage van bugs, testen"
+msgid "Bug triage, testing, documentation maintainer"
+msgstr ""
 
 #: src/main.cpp:140
 #, kde-format
@@ -21150,6 +21151,18 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
+
+#~ msgid "Bug fixing, etc."
+#~ msgstr "Bug fixing, enz."
+
+#~ msgid "Sashmita Raghav"
+#~ msgstr "Sashmita Raghav"
+
+#~ msgid "Subtitle feature (GSoC), timeline colours"
+#~ msgstr "Ondertitel functie (GSoC), tijdlijnkleuren"
+
+#~ msgid "Bug triage, testing"
+#~ msgstr "Triage van bugs, testen"
 
 #~ msgid "Analyse"
 #~ msgstr "Analyse"

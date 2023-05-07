@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-06 02:56+0000\n"
-"PO-Revision-Date: 2023-05-05 21:21+0300\n"
+"POT-Creation-Date: 2023-05-07 02:47+0000\n"
+"PO-Revision-Date: 2023-05-06 09:30+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -1250,10 +1250,9 @@ msgid "Correct audio loudness as recommended by EBU R128"
 msgstr "Виправити гучність звуку, як рекомендується EBU R128"
 
 #: data/effects/loudness.xml:13 data/effects/tracker.xml:41
-#, fuzzy, kde-format
-#| msgid "Enable Effect"
+#, kde-format
 msgid "Analyse to Apply Effect"
-msgstr "Увімкнути ефект"
+msgstr "Аналізувати для застосування ефекту"
 
 #: data/effects/lumaliftgaingamma.xml:4
 #, kde-format
@@ -9260,19 +9259,20 @@ msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
 #: src/main.cpp:128
-#, kde-format
-msgid "Code re-architecture & timeline rewrite"
+#, fuzzy, kde-format
+#| msgid "Code re-architecture & timeline rewrite"
+msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr "Зміна архітектури коду та переписування коду монтажного столу"
 
 #: src/main.cpp:129
 #, kde-format
-msgid "Simon A. Eugster"
-msgstr "Simon A. Eugster"
+msgid "Julius Künzel"
+msgstr "Julius Künzel"
 
 #: src/main.cpp:129
 #, kde-format
-msgid "Color scopes, bug fixing, etc."
-msgstr "Контексти кольорів, виправлення вад тощо."
+msgid "Feature developement, packaging, bug fixing"
+msgstr ""
 
 #: src/main.cpp:130
 #, kde-format
@@ -9292,29 +9292,30 @@ msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
 #: src/main.cpp:132
-#, kde-format
-msgid "MLT, Bug fixing, etc."
+#, fuzzy, kde-format
+#| msgid "MLT, Bug fixing, etc."
+msgid "MLT maintainer, Bug fixing, etc."
 msgstr "MLT, виправлення вад тощо."
 
 #: src/main.cpp:133
 #, kde-format
-msgid "Julius Künzel"
-msgstr "Julius Künzel"
+msgid "Simon A. Eugster"
+msgstr "Simon A. Eugster"
 
 #: src/main.cpp:133
 #, kde-format
-msgid "Bug fixing, etc."
-msgstr "Виправлення вад тощо."
+msgid "Color scopes, bug fixing, etc."
+msgstr "Контексти кольорів, виправлення вад тощо."
 
 #: src/main.cpp:134
 #, kde-format
-msgid "Sashmita Raghav"
-msgstr "Sashmita Raghav"
+msgid "Eric Jiang"
+msgstr ""
 
 #: src/main.cpp:134
 #, kde-format
-msgid "Subtitle feature (GSoC), timeline colours"
-msgstr "Субтитри (GSoC), кольори на монтажному столі"
+msgid "Bug fixing and test improvements"
+msgstr ""
 
 #: src/main.cpp:136
 #, kde-format
@@ -9343,8 +9344,8 @@ msgstr "Eugen Mohr"
 
 #: src/main.cpp:139
 #, kde-format
-msgid "Bug triage, testing"
-msgstr "Визначення причин вад, тестування"
+msgid "Bug triage, testing, documentation maintainer"
+msgstr ""
 
 #: src/main.cpp:140
 #, kde-format
@@ -21316,6 +21317,18 @@ msgstr "%1 хв."
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 год."
+
+#~ msgid "Bug fixing, etc."
+#~ msgstr "Виправлення вад тощо."
+
+#~ msgid "Sashmita Raghav"
+#~ msgstr "Sashmita Raghav"
+
+#~ msgid "Subtitle feature (GSoC), timeline colours"
+#~ msgstr "Субтитри (GSoC), кольори на монтажному столі"
+
+#~ msgid "Bug triage, testing"
+#~ msgstr "Визначення причин вад, тестування"
 
 #~ msgid "Analyse"
 #~ msgstr "Аналіз"
