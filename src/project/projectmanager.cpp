@@ -1783,6 +1783,10 @@ bool ProjectManager::closeTimeline(const QUuid &uuid, bool onDeletion)
             } else {
                 position = -1;
             }
+            // Store sequence properties for later re-use
+            Mlt::Properties sequenceProps;
+            sequenceProps.pass_values(*model->tractor(), "kdenlive:sequenceproperties.");
+            pCore->currentDoc()->loadSequenceProperties(uuid, sequenceProps);
             pCore->bin()->updateSequenceClip(uuid, model->duration(), position, prod);
         }
         m_project->closeTimeline(uuid);

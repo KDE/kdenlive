@@ -117,15 +117,13 @@ TimelineWidget *TimelineTabs::addTimeline(const QUuid uuid, const QString &tabNa
 void TimelineTabs::connectCurrent(int ix)
 {
     QUuid previousTab = QUuid();
-    int duration = 0;
-    int pos = 0;
     if (m_activeTimeline && m_activeTimeline->model()) {
         previousTab = m_activeTimeline->getUuid();
         qDebug() << "===== DISCONNECTING PREVIOUS: " << previousTab;
         pCore->window()->disableMulticam();
-        pos = pCore->getMonitorPosition();
+        int pos = pCore->getMonitorPosition();
         m_activeTimeline->model()->updateDuration();
-        duration = m_activeTimeline->model()->duration();
+        int duration = m_activeTimeline->model()->duration();
         m_activeTimeline->controller()->saveSequenceProperties();
         pCore->bin()->updateSequenceClip(previousTab, duration, pos, nullptr);
         pCore->window()->disconnectTimeline(m_activeTimeline);
