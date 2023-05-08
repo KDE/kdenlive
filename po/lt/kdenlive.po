@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l 10n\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-07 02:47+0000\n"
+"POT-Creation-Date: 2023-05-08 02:40+0000\n"
 "PO-Revision-Date: 2019-07-12 21:09+0300\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -4479,7 +4479,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "Pašalinti scenarijų"
 
-#: src/bin/bin.cpp:1888 src/doc/documentchecker.cpp:611
+#: src/bin/bin.cpp:1888 src/doc/documentchecker.cpp:612
 #, kde-format
 msgid "Missing source clip"
 msgstr ""
@@ -4648,7 +4648,7 @@ msgstr "Grojaraštis"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2330 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/project/projectmanager.cpp:1244 src/project/projectmanager.cpp:1246
+#: src/project/projectmanager.cpp:1248 src/project/projectmanager.cpp:1250
 #: src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
 #| msgid "Image size"
@@ -6314,7 +6314,7 @@ msgstr "Importuoti"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1528
+#: src/project/projectmanager.cpp:1532
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5094
@@ -7783,7 +7783,7 @@ msgid "Missing item"
 msgstr "Trūkstantis elementas"
 
 #: src/doc/documentchecker.cpp:417 src/doc/documentchecker.cpp:442
-#: src/doc/documentchecker.cpp:1376
+#: src/doc/documentchecker.cpp:1387
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "Relocated item"
@@ -7819,15 +7819,15 @@ msgstr "Sukurti naują seką"
 #: src/doc/documentchecker.cpp:478
 #, fuzzy, kde-format
 #| msgid "effect"
-msgid "Clip %1 has been fixed"
+msgid "Clip %1 will be fixed"
 msgstr "efektas"
 
-#: src/doc/documentchecker.cpp:484
+#: src/doc/documentchecker.cpp:485
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:490
+#: src/doc/documentchecker.cpp:491
 #, kde-format
 msgid "Missing effect: %2 will be removed from project."
 msgid_plural "Missing effects: %2 will be removed from project."
@@ -7836,12 +7836,12 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: src/doc/documentchecker.cpp:497
+#: src/doc/documentchecker.cpp:498
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:515
+#: src/doc/documentchecker.cpp:516
 #, kde-format
 msgid ""
 "The project file contains a missing clip, you can still work with its proxy."
@@ -7853,7 +7853,7 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: src/doc/documentchecker.cpp:522
+#: src/doc/documentchecker.cpp:523
 #, kde-format
 msgid "The project file contains one modified clip, it will be reloaded."
 msgid_plural ""
@@ -7863,13 +7863,13 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: src/doc/documentchecker.cpp:589
+#: src/doc/documentchecker.cpp:590
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:592
+#: src/doc/documentchecker.cpp:593
 #, kde-format
 msgid "%1 missing proxy clip, will be recreated on project opening"
 msgid_plural "%1 missing proxy clips, will be recreated on project opening"
@@ -7878,67 +7878,67 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: src/doc/documentchecker.cpp:595
+#: src/doc/documentchecker.cpp:596
 #, kde-format
 msgid "Missing proxy"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/doc/documentchecker.cpp:606 src/doc/documentchecker.cpp:620
+#: src/doc/documentchecker.cpp:607 src/doc/documentchecker.cpp:621
 #: src/ui/timeremap_ui.ui:90
 #, kde-format
 msgid "Source clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:608
+#: src/doc/documentchecker.cpp:609
 #, kde-format
 msgid "%1 missing source clips, you can only use the proxies"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1023
+#: src/doc/documentchecker.cpp:1034
 #, fuzzy, kde-format
 #| msgid "Add folder"
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Pridėti aplankalą"
 
-#: src/doc/documentchecker.cpp:1055 src/doc/documentchecker.cpp:1079
-#: src/doc/documentchecker.cpp:1089 src/doc/documentchecker.cpp:1098
-#: src/doc/documentchecker.cpp:1110
+#: src/doc/documentchecker.cpp:1066 src/doc/documentchecker.cpp:1090
+#: src/doc/documentchecker.cpp:1100 src/doc/documentchecker.cpp:1109
+#: src/doc/documentchecker.cpp:1121
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "Recovered item"
 msgstr "Pašalinti pažymėtus elementus"
 
-#: src/doc/documentchecker.cpp:1123
+#: src/doc/documentchecker.cpp:1134
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Search aborted"
 msgstr "Ieškoti"
 
-#: src/doc/documentchecker.cpp:1125
+#: src/doc/documentchecker.cpp:1136
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Search done"
 msgstr "Ieškoti"
 
-#: src/doc/documentchecker.cpp:1241
+#: src/doc/documentchecker.cpp:1252
 #, fuzzy, kde-format
 #| msgid "Scanning"
 msgid "Scanning %1"
 msgstr "Skenuojama"
 
-#: src/doc/documentchecker.cpp:1338
+#: src/doc/documentchecker.cpp:1349
 #, kde-format
 msgid "Enter new location for folder"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1364
+#: src/doc/documentchecker.cpp:1375
 #, kde-format
 msgid "Enter new location for file"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1764
+#: src/doc/documentchecker.cpp:1850
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
@@ -7947,7 +7947,7 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: src/doc/documentchecker.cpp:1766
+#: src/doc/documentchecker.cpp:1852
 #, kde-format
 msgid "Remove clips"
 msgstr ""
@@ -8053,7 +8053,7 @@ msgid "Invalid file path"
 msgstr "Išsaugoti profilį"
 
 #: src/doc/kdenlivedoc.cpp:213 src/project/projectmanager.cpp:719
-#: src/project/projectmanager.cpp:783 src/project/projectmanager.cpp:810
+#: src/project/projectmanager.cpp:783 src/project/projectmanager.cpp:812
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr ""
@@ -8121,8 +8121,8 @@ msgid ""
 "it was not possible to create the backup copy %1."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:867 src/project/projectmanager.cpp:1125
-#: src/project/projectmanager.cpp:1161
+#: src/doc/kdenlivedoc.cpp:867 src/project/projectmanager.cpp:1129
+#: src/project/projectmanager.cpp:1165
 #, fuzzy, kde-format
 #| msgid "Project folder: %1"
 msgid "Error moving project folder: %1"
@@ -8130,7 +8130,7 @@ msgstr "Projekto aplankas: %1"
 
 #: src/doc/kdenlivedoc.cpp:1034 src/doc/kdenlivedoc.cpp:2157
 #: src/project/dialogs/archivewidget.cpp:214
-#: src/project/projectmanager.cpp:1361
+#: src/project/projectmanager.cpp:1365
 #, kde-format
 msgid "Untitled"
 msgstr "Be pavadinimo"
@@ -13400,7 +13400,7 @@ msgstr ""
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1422
+#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1426
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:5000
 #, fuzzy, kde-format
@@ -13995,7 +13995,7 @@ msgstr "Atverti atsarginę kopiją"
 msgid "Save changes to document?"
 msgstr "Įrašyti pakeitimus į dokumentą?"
 
-#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1360
+#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1364
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -14089,75 +14089,75 @@ msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:837
+#: src/project/projectmanager.cpp:841
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
 "sure you want to continue?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:838
+#: src/project/projectmanager.cpp:842
 #, kde-format
 msgid "Revert to last saved version"
 msgstr ""
 
-#: src/project/projectmanager.cpp:918
+#: src/project/projectmanager.cpp:922
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
 "file to recover last backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1103
+#: src/project/projectmanager.cpp:1107
 #, fuzzy, kde-format
 #| msgid "Project folder: %1"
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Projekto aplankas: %1"
 
-#: src/project/projectmanager.cpp:1139
+#: src/project/projectmanager.cpp:1143
 #, fuzzy, kde-format
 #| msgid "Project folder"
 msgid "Moving project folder"
 msgstr "Projekto aplankas"
 
-#: src/project/projectmanager.cpp:1196
+#: src/project/projectmanager.cpp:1200
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1223 src/project/projectmanager.cpp:1253
-#: src/project/projectmanager.cpp:1257
+#: src/project/projectmanager.cpp:1227 src/project/projectmanager.cpp:1257
+#: src/project/projectmanager.cpp:1261
 #, fuzzy, kde-format
 #| msgid "Image size"
 msgid "Sequence 1"
 msgstr "Paveikslėlio dydis"
 
-#: src/project/projectmanager.cpp:1234
+#: src/project/projectmanager.cpp:1238
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1366 src/project/projectmanager.cpp:1371
-#: src/project/projectmanager.cpp:1381 src/project/projectmanager.cpp:1397
+#: src/project/projectmanager.cpp:1370 src/project/projectmanager.cpp:1375
+#: src/project/projectmanager.cpp:1385 src/project/projectmanager.cpp:1401
 #, kde-format
 msgid "Project profile change aborted"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1513
+#: src/project/projectmanager.cpp:1517
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
 "Do you want to overwrite it?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1538
+#: src/project/projectmanager.cpp:1542
 #, fuzzy, kde-format
 #| msgid "Project files"
 msgid "Project profile changed"
 msgstr "Projektų failai"
 
-#: src/project/projectmanager.cpp:1588
+#: src/project/projectmanager.cpp:1592
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid ""
@@ -14165,18 +14165,18 @@ msgid ""
 "%1"
 msgstr "Negaliu sukurti laikinos bylos!"
 
-#: src/project/projectmanager.cpp:1667
+#: src/project/projectmanager.cpp:1671
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1820
+#: src/project/projectmanager.cpp:1824
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select a clip to create sequence"
 msgstr "Žymėjimo įrankis"
 
-#: src/project/projectmanager.cpp:1857
+#: src/project/projectmanager.cpp:1861
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Create Sequence Clip"

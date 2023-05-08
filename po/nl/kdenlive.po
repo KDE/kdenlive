@@ -9,15 +9,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-07 02:47+0000\n"
-"PO-Revision-Date: 2023-05-06 12:28+0200\n"
+"POT-Creation-Date: 2023-05-08 02:40+0000\n"
+"PO-Revision-Date: 2023-05-07 15:07+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 23.04.0\n"
+"X-Generator: Lokalize 22.12.3\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -4343,7 +4343,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "Bin-clips verwijderen"
 
-#: src/bin/bin.cpp:1888 src/doc/documentchecker.cpp:611
+#: src/bin/bin.cpp:1888 src/doc/documentchecker.cpp:612
 #, kde-format
 msgid "Missing source clip"
 msgstr "Ontbrekende oorspronkelijke clip"
@@ -4501,7 +4501,7 @@ msgstr "Afspeellijst"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2330 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/project/projectmanager.cpp:1244 src/project/projectmanager.cpp:1246
+#: src/project/projectmanager.cpp:1248 src/project/projectmanager.cpp:1250
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -6075,7 +6075,7 @@ msgstr "Hulplijngegevens exporteren"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1528
+#: src/project/projectmanager.cpp:1532
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5094
@@ -7533,7 +7533,7 @@ msgid "Missing item"
 msgstr "Ontbrekend item"
 
 #: src/doc/documentchecker.cpp:417 src/doc/documentchecker.cpp:442
-#: src/doc/documentchecker.cpp:1376
+#: src/doc/documentchecker.cpp:1387
 #, kde-format
 msgid "Relocated item"
 msgstr "Herplaatst item"
@@ -7564,28 +7564,29 @@ msgid "Fixed Sequence Clips"
 msgstr "Vaste sequentie-clips"
 
 #: src/doc/documentchecker.cpp:478
-#, kde-format
-msgid "Clip %1 has been fixed"
-msgstr "Clip %1 is vastgezet"
+#, fuzzy, kde-format
+#| msgid "Clip %1 will be reloaded"
+msgid "Clip %1 will be fixed"
+msgstr "Clip %1 zal opnieuw geladen worden"
 
-#: src/doc/documentchecker.cpp:484
+#: src/doc/documentchecker.cpp:485
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Het projectbestand bevat ontbrekende clips of bestanden."
 
-#: src/doc/documentchecker.cpp:490
+#: src/doc/documentchecker.cpp:491
 #, kde-format
 msgid "Missing effect: %2 will be removed from project."
 msgid_plural "Missing effects: %2 will be removed from project."
 msgstr[0] "Ontbrekend effect: %2 zal uit het project verwijderd worden."
 msgstr[1] "Ontbrekende effecten: %2 zal uit het project verwijderd worden."
 
-#: src/doc/documentchecker.cpp:497
+#: src/doc/documentchecker.cpp:498
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Ontbrekende proxies kunnen opnieuw aangemaakt worden bij het openen"
 
-#: src/doc/documentchecker.cpp:515
+#: src/doc/documentchecker.cpp:516
 #, kde-format
 msgid ""
 "The project file contains a missing clip, you can still work with its proxy."
@@ -7599,7 +7600,7 @@ msgstr[1] ""
 "Dit project heeft %1 clips die worden vermist, maar met de proxies daarvan "
 "kan nog steeds worden gewerkt."
 
-#: src/doc/documentchecker.cpp:522
+#: src/doc/documentchecker.cpp:523
 #, kde-format
 msgid "The project file contains one modified clip, it will be reloaded."
 msgid_plural ""
@@ -7610,13 +7611,13 @@ msgstr[1] ""
 "Het projectbestand bevat %1 gewijzigde clips, ze zullen opnieuw geladen "
 "worden."
 
-#: src/doc/documentchecker.cpp:589
+#: src/doc/documentchecker.cpp:590
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr "Proxy-clip"
 
-#: src/doc/documentchecker.cpp:592
+#: src/doc/documentchecker.cpp:593
 #, kde-format
 msgid "%1 missing proxy clip, will be recreated on project opening"
 msgid_plural "%1 missing proxy clips, will be recreated on project opening"
@@ -7627,69 +7628,69 @@ msgstr[1] ""
 "%1 ontbrekende proxy-clips, deze worden opnieuw aangemaakt bij het openen "
 "van het project"
 
-#: src/doc/documentchecker.cpp:595
+#: src/doc/documentchecker.cpp:596
 #, kde-format
 msgid "Missing proxy"
 msgstr "Ontbrekende proxy"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/doc/documentchecker.cpp:606 src/doc/documentchecker.cpp:620
+#: src/doc/documentchecker.cpp:607 src/doc/documentchecker.cpp:621
 #: src/ui/timeremap_ui.ui:90
 #, kde-format
 msgid "Source clip"
 msgstr "Oorspronkelijke clip"
 
-#: src/doc/documentchecker.cpp:608
+#: src/doc/documentchecker.cpp:609
 #, kde-format
 msgid "%1 missing source clips, you can only use the proxies"
 msgstr "%1 ontbrekende clips, alleen de proxies kunnen nog gebruikt worden."
 
-#: src/doc/documentchecker.cpp:1023
+#: src/doc/documentchecker.cpp:1034
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Clipmap"
 
-#: src/doc/documentchecker.cpp:1055 src/doc/documentchecker.cpp:1079
-#: src/doc/documentchecker.cpp:1089 src/doc/documentchecker.cpp:1098
-#: src/doc/documentchecker.cpp:1110
+#: src/doc/documentchecker.cpp:1066 src/doc/documentchecker.cpp:1090
+#: src/doc/documentchecker.cpp:1100 src/doc/documentchecker.cpp:1109
+#: src/doc/documentchecker.cpp:1121
 #, kde-format
 msgid "Recovered item"
 msgstr "Hersteld item"
 
-#: src/doc/documentchecker.cpp:1123
+#: src/doc/documentchecker.cpp:1134
 #, kde-format
 msgid "Search aborted"
 msgstr "Zoeken afgebroken"
 
-#: src/doc/documentchecker.cpp:1125
+#: src/doc/documentchecker.cpp:1136
 #, kde-format
 msgid "Search done"
 msgstr "Zoeken gedaan"
 
-#: src/doc/documentchecker.cpp:1241
+#: src/doc/documentchecker.cpp:1252
 #, kde-format
 msgid "Scanning %1"
 msgstr "Scant %1"
 
-#: src/doc/documentchecker.cpp:1338
+#: src/doc/documentchecker.cpp:1349
 #, kde-format
 msgid "Enter new location for folder"
 msgstr "Nieuwe locatie voor map invoeren"
 
-#: src/doc/documentchecker.cpp:1364
+#: src/doc/documentchecker.cpp:1375
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Geef nieuwe locatie voor bestand op"
 
-#: src/doc/documentchecker.cpp:1764
+#: src/doc/documentchecker.cpp:1850
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
 msgstr[0] "De gemarkeerde clip zal verwijderd worden van het project"
 msgstr[1] "De gemarkeerde clips zullen verwijderd worden van het project"
 
-#: src/doc/documentchecker.cpp:1766
+#: src/doc/documentchecker.cpp:1852
 #, kde-format
 msgid "Remove clips"
 msgstr "Verwijder clips"
@@ -7810,7 +7811,7 @@ msgid "Invalid file path"
 msgstr "Ongeldig bestandspad"
 
 #: src/doc/kdenlivedoc.cpp:213 src/project/projectmanager.cpp:719
-#: src/project/projectmanager.cpp:783 src/project/projectmanager.cpp:810
+#: src/project/projectmanager.cpp:783 src/project/projectmanager.cpp:812
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Kon beschadigd bestand niet herstellen."
@@ -7888,15 +7889,15 @@ msgstr ""
 "Het projectbestand is bijgewerkt naar de laatst bekende Kdenlive "
 "documentversie, maar helaas kon er geen backup %1 gemaakt worden."
 
-#: src/doc/kdenlivedoc.cpp:867 src/project/projectmanager.cpp:1125
-#: src/project/projectmanager.cpp:1161
+#: src/doc/kdenlivedoc.cpp:867 src/project/projectmanager.cpp:1129
+#: src/project/projectmanager.cpp:1165
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Fout bij projectmap verplaatsen: %1"
 
 #: src/doc/kdenlivedoc.cpp:1034 src/doc/kdenlivedoc.cpp:2157
 #: src/project/dialogs/archivewidget.cpp:214
-#: src/project/projectmanager.cpp:1361
+#: src/project/projectmanager.cpp:1365
 #, kde-format
 msgid "Untitled"
 msgstr "Zonder titel"
@@ -9182,10 +9183,10 @@ msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
 #: src/main.cpp:128
-#, fuzzy, kde-format
-#| msgid "Code re-architecture & timeline rewrite"
+#, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
-msgstr "Opnieuw ontwerp van codearchitectuur & herschrijven van tijdlijn"
+msgstr ""
+"Opnieuw ontwerp van codearchitectuur & herschrijven van tijdlijn (2019)"
 
 #: src/main.cpp:129
 #, kde-format
@@ -9195,7 +9196,7 @@ msgstr "Julius Künzel"
 #: src/main.cpp:129
 #, kde-format
 msgid "Feature developement, packaging, bug fixing"
-msgstr ""
+msgstr "Ontwikkeling van mogelijkheden, pakketvorm, repareren van bugs"
 
 #: src/main.cpp:130
 #, kde-format
@@ -9215,10 +9216,9 @@ msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
 #: src/main.cpp:132
-#, fuzzy, kde-format
-#| msgid "MLT, Bug fixing, etc."
+#, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
-msgstr "MLT, reparaties van bugs, etc."
+msgstr "MLT onderhouder, reparaties van bugs, etc."
 
 #: src/main.cpp:133
 #, kde-format
@@ -9233,12 +9233,12 @@ msgstr "Kleur scopes, bug fixing, enz."
 #: src/main.cpp:134
 #, kde-format
 msgid "Eric Jiang"
-msgstr ""
+msgstr "Eric Jiang"
 
 #: src/main.cpp:134
 #, kde-format
 msgid "Bug fixing and test improvements"
-msgstr ""
+msgstr "Bug reparaties en verbeteringen van testen"
 
 #: src/main.cpp:136
 #, kde-format
@@ -9268,7 +9268,7 @@ msgstr "Eugen Mohr"
 #: src/main.cpp:139
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
-msgstr ""
+msgstr "Triage van bugs, testen, onderhouder van documentatie"
 
 #: src/main.cpp:140
 #, kde-format
@@ -12974,7 +12974,7 @@ msgstr "Markeringen van clip laden"
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr "Bestand met markeringen is groter dan 1 MB, wilt u deze importeren?"
 
-#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1422
+#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1426
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:5000
 #, kde-format
@@ -13591,7 +13591,7 @@ msgstr "Back-up-bestand openen…"
 msgid "Save changes to document?"
 msgstr "Wijzigingen opslaan in document?"
 
-#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1360
+#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1364
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13695,7 +13695,7 @@ msgstr ""
 "Uw project is gewijzigd bij openen, een backup zal aangemaakt worden bij "
 "volgende keer opslaan"
 
-#: src/project/projectmanager.cpp:837
+#: src/project/projectmanager.cpp:841
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -13704,12 +13704,12 @@ msgstr ""
 "Dit verwijdert alle wijzigingen sinds de laatste opslag van het project. "
 "Wilt U doorgaan?"
 
-#: src/project/projectmanager.cpp:838
+#: src/project/projectmanager.cpp:842
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Terugkeren naar laatste bewaarde versie"
 
-#: src/project/projectmanager.cpp:918
+#: src/project/projectmanager.cpp:922
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -13718,30 +13718,30 @@ msgstr ""
 "Project was beschadigd, kan geen reservekopie maken. Sluit en heropen uw "
 "projectbestand om de laatste reservekopie te herstellen"
 
-#: src/project/projectmanager.cpp:1103
+#: src/project/projectmanager.cpp:1107
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Fout bij projectmap verplaatsen, geen toegang tot cachemap "
 
-#: src/project/projectmanager.cpp:1139
+#: src/project/projectmanager.cpp:1143
 #, kde-format
 msgid "Moving project folder"
 msgstr "Projectmap wordt verplaatst"
 
-#: src/project/projectmanager.cpp:1196
+#: src/project/projectmanager.cpp:1200
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 "Projectbestand is beschadigd (geen tracks). Probeer een reservekopiebestand "
 "te vinden?"
 
-#: src/project/projectmanager.cpp:1223 src/project/projectmanager.cpp:1253
-#: src/project/projectmanager.cpp:1257
+#: src/project/projectmanager.cpp:1227 src/project/projectmanager.cpp:1257
+#: src/project/projectmanager.cpp:1261
 #, kde-format
 msgid "Sequence 1"
 msgstr "Sequentie 1"
 
-#: src/project/projectmanager.cpp:1234
+#: src/project/projectmanager.cpp:1238
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -13749,13 +13749,13 @@ msgstr ""
 "Projectbestand is beschadigd -tracks laden is mislukt. Probeer een "
 "reservekopiebestand te vinden?"
 
-#: src/project/projectmanager.cpp:1366 src/project/projectmanager.cpp:1371
-#: src/project/projectmanager.cpp:1381 src/project/projectmanager.cpp:1397
+#: src/project/projectmanager.cpp:1370 src/project/projectmanager.cpp:1375
+#: src/project/projectmanager.cpp:1385 src/project/projectmanager.cpp:1401
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Projectprofiel wijzigen afgebroken"
 
-#: src/project/projectmanager.cpp:1513
+#: src/project/projectmanager.cpp:1517
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -13764,12 +13764,12 @@ msgstr ""
 "Uitvoerbestand %1 bestaat al.\n"
 "Wilt u het overschrijven?"
 
-#: src/project/projectmanager.cpp:1538
+#: src/project/projectmanager.cpp:1542
 #, kde-format
 msgid "Project profile changed"
 msgstr "Project profiel gewijzigd"
 
-#: src/project/projectmanager.cpp:1588
+#: src/project/projectmanager.cpp:1592
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -13778,18 +13778,18 @@ msgstr ""
 "Kan geen tijdlijn uit deze clip maken:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1667
+#: src/project/projectmanager.cpp:1671
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Een clip met sequentie importeren, dit is nu in een experimentele status"
 
-#: src/project/projectmanager.cpp:1820
+#: src/project/projectmanager.cpp:1824
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Een clip selecteren om sequentie aan te maken"
 
-#: src/project/projectmanager.cpp:1857
+#: src/project/projectmanager.cpp:1861
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Sequentie-clip aanmaken"
@@ -21151,6 +21151,9 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
+
+#~ msgid "Clip %1 has been fixed"
+#~ msgstr "Clip %1 is vastgezet"
 
 #~ msgid "Bug fixing, etc."
 #~ msgstr "Bug fixing, enz."

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-07 02:47+0000\n"
+"POT-Creation-Date: 2023-05-08 02:40+0000\n"
 "PO-Revision-Date: 2014-12-09 21:11+0100\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -4471,7 +4471,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "Klip törlése"
 
-#: src/bin/bin.cpp:1888 src/doc/documentchecker.cpp:611
+#: src/bin/bin.cpp:1888 src/doc/documentchecker.cpp:612
 #, kde-format
 msgid "Missing source clip"
 msgstr "Hiányzó forrásklip"
@@ -4651,7 +4651,7 @@ msgstr "Lejátszólista klip"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2330 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/project/projectmanager.cpp:1244 src/project/projectmanager.cpp:1246
+#: src/project/projectmanager.cpp:1248 src/project/projectmanager.cpp:1250
 #: src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
 #| msgid "Sequence name"
@@ -6364,7 +6364,7 @@ msgstr "Jelölők betöltése"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1528
+#: src/project/projectmanager.cpp:1532
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5094
@@ -7885,7 +7885,7 @@ msgid "Missing item"
 msgstr "Hiányzó elem"
 
 #: src/doc/documentchecker.cpp:417 src/doc/documentchecker.cpp:442
-#: src/doc/documentchecker.cpp:1376
+#: src/doc/documentchecker.cpp:1387
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Relocated item"
@@ -7921,17 +7921,17 @@ msgstr "Új szekvencia készítése"
 
 #: src/doc/documentchecker.cpp:478
 #, fuzzy, kde-format
-#| msgid "Clip has no markers"
-msgid "Clip %1 has been fixed"
-msgstr "A klipnek nincsenek jelölői"
+#| msgid "%1 will be replaced by %2"
+msgid "Clip %1 will be fixed"
+msgstr "%1 le lesz cserélve %2 által."
 
-#: src/doc/documentchecker.cpp:484
+#: src/doc/documentchecker.cpp:485
 #, fuzzy, kde-format
 #| msgid "The project file contains missing clips or files"
 msgid "The project file contains missing clips or files."
 msgstr "A projektfájl hiányzó klipeket vagy fájlokat tartalmaz"
 
-#: src/doc/documentchecker.cpp:490
+#: src/doc/documentchecker.cpp:491
 #, fuzzy, kde-format
 #| msgid "Clip is invalid, will be removed from project."
 msgid "Missing effect: %2 will be removed from project."
@@ -7939,13 +7939,13 @@ msgid_plural "Missing effects: %2 will be removed from project."
 msgstr[0] "A klip érvénytelen, ezért el lesz távolítva a projektből."
 msgstr[1] "A klip érvénytelen, ezért el lesz távolítva a projektből."
 
-#: src/doc/documentchecker.cpp:497
+#: src/doc/documentchecker.cpp:498
 #, fuzzy, kde-format
 #| msgid "Missing proxies will be recreated after opening."
 msgid "Missing proxies can be recreated on opening."
 msgstr "A hiányzó proxyk újra létre lesznek hozva megnyitás után."
 
-#: src/doc/documentchecker.cpp:515
+#: src/doc/documentchecker.cpp:516
 #, fuzzy, kde-format
 #| msgid ""
 #| "The project file contains a missing clip, you can still work with its "
@@ -7965,7 +7965,7 @@ msgstr[1] ""
 "A projekt fájl hiányzó klipeket tartalmaz, még mindig dolgozhat a "
 "proxyjaival."
 
-#: src/doc/documentchecker.cpp:522
+#: src/doc/documentchecker.cpp:523
 #, fuzzy, kde-format
 #| msgid "The project file contains missing clips or files"
 msgid "The project file contains one modified clip, it will be reloaded."
@@ -7974,13 +7974,13 @@ msgid_plural ""
 msgstr[0] "A projektfájl hiányzó klipeket vagy fájlokat tartalmaz"
 msgstr[1] "A projektfájl hiányzó klipeket vagy fájlokat tartalmaz"
 
-#: src/doc/documentchecker.cpp:589
+#: src/doc/documentchecker.cpp:590
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr "Proxyklip"
 
-#: src/doc/documentchecker.cpp:592
+#: src/doc/documentchecker.cpp:593
 #, fuzzy, kde-format
 #| msgid "%1 missing proxy clips, will be recreated on project opening"
 msgid "%1 missing proxy clip, will be recreated on project opening"
@@ -7990,68 +7990,68 @@ msgstr[0] ""
 msgstr[1] ""
 "%1 hiányzó proxyklip, újra létre lesznek hozva a projekt megnyitásánál"
 
-#: src/doc/documentchecker.cpp:595
+#: src/doc/documentchecker.cpp:596
 #, kde-format
 msgid "Missing proxy"
 msgstr "Hiányzó proxy"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/doc/documentchecker.cpp:606 src/doc/documentchecker.cpp:620
+#: src/doc/documentchecker.cpp:607 src/doc/documentchecker.cpp:621
 #: src/ui/timeremap_ui.ui:90
 #, kde-format
 msgid "Source clip"
 msgstr "Forrásklip"
 
-#: src/doc/documentchecker.cpp:608
+#: src/doc/documentchecker.cpp:609
 #, kde-format
 msgid "%1 missing source clips, you can only use the proxies"
 msgstr "%1 hiányzó forrásklipek, csak a proxykat tudja használni"
 
-#: src/doc/documentchecker.cpp:1023
+#: src/doc/documentchecker.cpp:1034
 #, fuzzy, kde-format
 #| msgid "Clips folder"
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Klip mappa"
 
-#: src/doc/documentchecker.cpp:1055 src/doc/documentchecker.cpp:1079
-#: src/doc/documentchecker.cpp:1089 src/doc/documentchecker.cpp:1098
-#: src/doc/documentchecker.cpp:1110
+#: src/doc/documentchecker.cpp:1066 src/doc/documentchecker.cpp:1090
+#: src/doc/documentchecker.cpp:1100 src/doc/documentchecker.cpp:1109
+#: src/doc/documentchecker.cpp:1121
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Recovered item"
 msgstr "Klip újratöltése"
 
-#: src/doc/documentchecker.cpp:1123
+#: src/doc/documentchecker.cpp:1134
 #, fuzzy, kde-format
 #| msgid "Search scale"
 msgid "Search aborted"
 msgstr "Arány keresése"
 
-#: src/doc/documentchecker.cpp:1125
+#: src/doc/documentchecker.cpp:1136
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Search done"
 msgstr "Keresés"
 
-#: src/doc/documentchecker.cpp:1241
+#: src/doc/documentchecker.cpp:1252
 #, fuzzy, kde-format
 #| msgid "Scanning"
 msgid "Scanning %1"
 msgstr "Keresés"
 
-#: src/doc/documentchecker.cpp:1338
+#: src/doc/documentchecker.cpp:1349
 #, fuzzy, kde-format
 #| msgid "Enter new location for file"
 msgid "Enter new location for folder"
 msgstr "Kérem adja meg a fájl új helyét"
 
-#: src/doc/documentchecker.cpp:1364
+#: src/doc/documentchecker.cpp:1375
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Kérem adja meg a fájl új helyét"
 
-#: src/doc/documentchecker.cpp:1764
+#: src/doc/documentchecker.cpp:1850
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
@@ -8061,7 +8061,7 @@ msgstr[1] ""
 "A művelet folytatásával eltávolítja a kiválasztott klipeket ebből a "
 "projektből"
 
-#: src/doc/documentchecker.cpp:1766
+#: src/doc/documentchecker.cpp:1852
 #, kde-format
 msgid "Remove clips"
 msgstr "Klipek eltávolítása"
@@ -8182,7 +8182,7 @@ msgid "Invalid file path"
 msgstr "Érvénytelen klip"
 
 #: src/doc/kdenlivedoc.cpp:213 src/project/projectmanager.cpp:719
-#: src/project/projectmanager.cpp:783 src/project/projectmanager.cpp:810
+#: src/project/projectmanager.cpp:783 src/project/projectmanager.cpp:812
 #, fuzzy, kde-format
 msgid "Could not recover corrupted file."
 msgstr "A súgófájl nem nyitható meg – %s nem található."
@@ -8269,8 +8269,8 @@ msgstr ""
 "A projektfájl a legújabb Kdenlive dokumentum verzióra lett frissítve, de nem "
 "volt lehetséges a(z) %1 biztonsági mentés létrehozása."
 
-#: src/doc/kdenlivedoc.cpp:867 src/project/projectmanager.cpp:1125
-#: src/project/projectmanager.cpp:1161
+#: src/doc/kdenlivedoc.cpp:867 src/project/projectmanager.cpp:1129
+#: src/project/projectmanager.cpp:1165
 #, fuzzy, kde-format
 #| msgid "Project folder: %1"
 msgid "Error moving project folder: %1"
@@ -8278,7 +8278,7 @@ msgstr "Projektmappa: %1"
 
 #: src/doc/kdenlivedoc.cpp:1034 src/doc/kdenlivedoc.cpp:2157
 #: src/project/dialogs/archivewidget.cpp:214
-#: src/project/projectmanager.cpp:1361
+#: src/project/projectmanager.cpp:1365
 #, kde-format
 msgid "Untitled"
 msgstr "Névtelen"
@@ -13660,7 +13660,7 @@ msgstr "Jelölők betöltése"
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1422
+#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1426
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:5000
 #, fuzzy, kde-format
@@ -14270,7 +14270,7 @@ msgstr "Biztonsági mentés fájl megnyitása"
 msgid "Save changes to document?"
 msgstr "Menti a dokumentum változásait?"
 
-#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1360
+#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1364
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -14375,7 +14375,7 @@ msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:837
+#: src/project/projectmanager.cpp:841
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -14384,56 +14384,56 @@ msgstr ""
 "Ez a művelet eltávolítja az összes módosítást, amelyet a projekt legutóbbi "
 "mentése óta végzett. Biztosan végre kívánja hajtani a műveletet?"
 
-#: src/project/projectmanager.cpp:838
+#: src/project/projectmanager.cpp:842
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Visszatérés a dokumentum legutóbb mentett változatához"
 
-#: src/project/projectmanager.cpp:918
+#: src/project/projectmanager.cpp:922
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
 "file to recover last backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1103
+#: src/project/projectmanager.cpp:1107
 #, fuzzy, kde-format
 #| msgid "Project folder: %1"
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Projektmappa: %1"
 
-#: src/project/projectmanager.cpp:1139
+#: src/project/projectmanager.cpp:1143
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Moving project folder"
 msgstr "Projekt mappa használata"
 
-#: src/project/projectmanager.cpp:1196
+#: src/project/projectmanager.cpp:1200
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1223 src/project/projectmanager.cpp:1253
-#: src/project/projectmanager.cpp:1257
+#: src/project/projectmanager.cpp:1227 src/project/projectmanager.cpp:1257
+#: src/project/projectmanager.cpp:1261
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequence 1"
 msgstr "Sorozatnév"
 
-#: src/project/projectmanager.cpp:1234
+#: src/project/projectmanager.cpp:1238
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1366 src/project/projectmanager.cpp:1371
-#: src/project/projectmanager.cpp:1381 src/project/projectmanager.cpp:1397
+#: src/project/projectmanager.cpp:1370 src/project/projectmanager.cpp:1375
+#: src/project/projectmanager.cpp:1385 src/project/projectmanager.cpp:1401
 #, fuzzy, kde-format
 #| msgid "Project profile: %1"
 msgid "Project profile change aborted"
 msgstr "Projekt profil: %1"
 
-#: src/project/projectmanager.cpp:1513
+#: src/project/projectmanager.cpp:1517
 #, fuzzy, kde-format
 #| msgid "Output file already exists. Do you want to overwrite it?"
 msgid ""
@@ -14441,13 +14441,13 @@ msgid ""
 "Do you want to overwrite it?"
 msgstr "A fájl már létezik. Felül kívánja írni a fájlt?"
 
-#: src/project/projectmanager.cpp:1538
+#: src/project/projectmanager.cpp:1542
 #, fuzzy, kde-format
 #| msgid "Project profile: %1"
 msgid "Project profile changed"
 msgstr "Projekt profil: %1"
 
-#: src/project/projectmanager.cpp:1588
+#: src/project/projectmanager.cpp:1592
 #, fuzzy, kde-format
 #| msgid "Cannot create consumer %1."
 msgid ""
@@ -14455,18 +14455,18 @@ msgid ""
 "%1"
 msgstr "%1 fogyasztó nem hozható létre."
 
-#: src/project/projectmanager.cpp:1667
+#: src/project/projectmanager.cpp:1671
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1820
+#: src/project/projectmanager.cpp:1824
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip to create sequence"
 msgstr "Jelölje ki a klipet, ha alkalmazni kívánja az effektet"
 
-#: src/project/projectmanager.cpp:1857
+#: src/project/projectmanager.cpp:1861
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Create Sequence Clip"
@@ -22399,6 +22399,11 @@ msgstr ""
 msgctxt "h as hours"
 msgid "%1h"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Clip has no markers"
+#~ msgid "Clip %1 has been fixed"
+#~ msgstr "A klipnek nincsenek jelölői"
 
 #~ msgid "Bug fixing, etc."
 #~ msgstr "Hibajavítások, stb."

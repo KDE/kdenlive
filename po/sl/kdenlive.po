@@ -2,26 +2,26 @@
 # This file is distributed under the same license as the kdenlive package.
 #
 #
-#
 # Andrej Mernik <andrejm@ubuntu.si>, 2015, 2016, 2017, 2018, 2019, 2020.
 # Martin Srebotnjak <miles@filmsi.net>, 2015, 2019, 2020, 2021, 2022, 2023.
 # Matjaž Jeran <matjaz.jeran@amis.net>, 2020, 2021, 2022, 2023.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-07 02:47+0000\n"
-"PO-Revision-Date: 2023-03-26 18:17+0200\n"
-"Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
+"POT-Creation-Date: 2023-05-08 02:40+0000\n"
+"PO-Revision-Date: 2023-05-07 11:30+0200\n"
+"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
-"%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100>=3 && n"
+"%100<=4 ? 2 : 3);\n"
 "Translator: Martin Srebotnjak <miles@filmsi.net>\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.3\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
 
 #, kde-format
@@ -1245,10 +1245,9 @@ msgid "Correct audio loudness as recommended by EBU R128"
 msgstr "Popravi glasnost zvoka po priporočilih EBU R128"
 
 #: data/effects/loudness.xml:13 data/effects/tracker.xml:41
-#, fuzzy, kde-format
-#| msgid "Enable Effect"
+#, kde-format
 msgid "Analyse to Apply Effect"
-msgstr "Omogoči učinek"
+msgstr "Analiziraj za uveljavitev učinka"
 
 #: data/effects/lumaliftgaingamma.xml:4
 #, kde-format
@@ -2273,9 +2272,10 @@ msgid "Select a zone to follow its movements"
 msgstr "Izberite območje za sledenje njegovemu premikanju"
 
 #: data/effects/tracker.xml:11
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM,Nano"
 msgid "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM"
-msgstr "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM"
+msgstr "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM,Nano"
 
 #: data/effects/tracker.xml:12
 #, kde-format
@@ -3444,10 +3444,9 @@ msgstr "Izbriši ključne sličice"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:445
 #: src/assets/model/assetparametermodel.cpp:1386
-#, fuzzy, kde-format
-#| msgid "Paste effect"
+#, kde-format
 msgid "Update effect"
-msgstr "Prilepi učinek"
+msgstr "Osveži učinek"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:659
 #, kde-format
@@ -4334,7 +4333,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "Izbriši posnetke posode"
 
-#: src/bin/bin.cpp:1888 src/doc/documentchecker.cpp:611
+#: src/bin/bin.cpp:1888 src/doc/documentchecker.cpp:612
 #, kde-format
 msgid "Missing source clip"
 msgstr "Manjkajoči izvorni posnetek"
@@ -4494,7 +4493,7 @@ msgstr "Seznam predvajanja"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2330 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/project/projectmanager.cpp:1244 src/project/projectmanager.cpp:1246
+#: src/project/projectmanager.cpp:1248 src/project/projectmanager.cpp:1250
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -5838,7 +5837,9 @@ msgid "Arguments for the command line script"
 msgstr "Argumenti za skript ukazne vrstice"
 
 #: src/dialogs/clipjobmanager.cpp:48
-#, kde-kuit-format
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info:whatsthis"
+#| msgid "<b>&#x25;1</b> will be replaced by the path of the source clip."
 msgctxt "@info:whatsthis"
 msgid "<b>&#x25;1</b> will be replaced be the path of the source clip."
 msgstr "<b>&#x25;1</b> bo zamenjan s potjo izvornega posnetka."
@@ -6071,7 +6072,7 @@ msgstr "Izvozi podatke vodil"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1528
+#: src/project/projectmanager.cpp:1532
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5094
@@ -7084,7 +7085,8 @@ msgstr "Ni govora"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
 #: src/dialogs/textbasededit.cpp:575 src/ui/speechdialog_ui.ui:144
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Translate to English"
 msgid "Translate to english"
 msgstr "Prevedi v angleški jezik"
 
@@ -7482,10 +7484,9 @@ msgid "Luma file"
 msgstr "Datoteka svetilnosti"
 
 #: src/doc/documentchecker.cpp:326
-#, fuzzy, kde-format
-#| msgid "Delete files"
+#, kde-format
 msgid "Asset file"
-msgstr "Izbriši datoteke"
+msgstr "Datoteka sredstev"
 
 #: src/doc/documentchecker.cpp:353
 #, kde-format
@@ -7518,7 +7519,7 @@ msgid "Missing item"
 msgstr "Manjkajoči predmet"
 
 #: src/doc/documentchecker.cpp:417 src/doc/documentchecker.cpp:442
-#: src/doc/documentchecker.cpp:1376
+#: src/doc/documentchecker.cpp:1387
 #, kde-format
 msgid "Relocated item"
 msgstr "Prestavljen predmet"
@@ -7544,23 +7545,22 @@ msgid "Clip %1 will be reloaded"
 msgstr "Posnetek %1 bo ponovno naložen"
 
 #: src/doc/documentchecker.cpp:474
-#, fuzzy, kde-format
-#| msgid "Create Sequence Clip"
+#, kde-format
 msgid "Fixed Sequence Clips"
-msgstr "Ustvari posnetek zaporedja"
+msgstr "Fiksirano zaporedje posnetkov"
 
 #: src/doc/documentchecker.cpp:478
 #, fuzzy, kde-format
-#| msgid "Clip has no effects"
-msgid "Clip %1 has been fixed"
-msgstr "Posnetek nima učinkov"
+#| msgid "Clip %1 will be reloaded"
+msgid "Clip %1 will be fixed"
+msgstr "Posnetek %1 bo ponovno naložen"
 
-#: src/doc/documentchecker.cpp:484
+#: src/doc/documentchecker.cpp:485
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Datoteka projekta vsebuje manjkajoče posnetke ali datoteke."
 
-#: src/doc/documentchecker.cpp:490
+#: src/doc/documentchecker.cpp:491
 #, kde-format
 msgid "Missing effect: %2 will be removed from project."
 msgid_plural "Missing effects: %2 will be removed from project."
@@ -7569,12 +7569,12 @@ msgstr[1] "Manjkajoča učinka: %2 bosta odstranjena iz projekta."
 msgstr[2] "Manjkajoči učinki: %2 bodo odstranjeni iz projekta."
 msgstr[3] "Manjkajoči učinki: %2 bodo odstranjeni iz projekta."
 
-#: src/doc/documentchecker.cpp:497
+#: src/doc/documentchecker.cpp:498
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Manjkajoče pooblaščence je mogoče obnoviti ob odpiranju."
 
-#: src/doc/documentchecker.cpp:515
+#: src/doc/documentchecker.cpp:516
 #, kde-format
 msgid ""
 "The project file contains a missing clip, you can still work with its proxy."
@@ -7594,7 +7594,7 @@ msgstr[3] ""
 "Projektna datoteka vsebuje %1 manjkajočih posnetkov, ampak še vseeno lahko "
 "uporabljate njihove posredne posnetke."
 
-#: src/doc/documentchecker.cpp:522
+#: src/doc/documentchecker.cpp:523
 #, kde-format
 msgid "The project file contains one modified clip, it will be reloaded."
 msgid_plural ""
@@ -7608,13 +7608,13 @@ msgstr[2] ""
 msgstr[3] ""
 "Datoteka projekta vsebuje %1 spremenjenih posnetkov, bodo ponovno naloženi."
 
-#: src/doc/documentchecker.cpp:589
+#: src/doc/documentchecker.cpp:590
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr "Posredni posnetek"
 
-#: src/doc/documentchecker.cpp:592
+#: src/doc/documentchecker.cpp:593
 #, kde-format
 msgid "%1 missing proxy clip, will be recreated on project opening"
 msgid_plural "%1 missing proxy clips, will be recreated on project opening"
@@ -7627,63 +7627,63 @@ msgstr[2] ""
 msgstr[3] ""
 "%1 manjkajočih posrednih posnetkov bo znova ustvarjenih ob odprtju projekta"
 
-#: src/doc/documentchecker.cpp:595
+#: src/doc/documentchecker.cpp:596
 #, kde-format
 msgid "Missing proxy"
 msgstr "Manjkajoči posredni posnetek"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/doc/documentchecker.cpp:606 src/doc/documentchecker.cpp:620
+#: src/doc/documentchecker.cpp:607 src/doc/documentchecker.cpp:621
 #: src/ui/timeremap_ui.ui:90
 #, kde-format
 msgid "Source clip"
 msgstr "Izvorni posnetek"
 
-#: src/doc/documentchecker.cpp:608
+#: src/doc/documentchecker.cpp:609
 #, kde-format
 msgid "%1 missing source clips, you can only use the proxies"
 msgstr ""
 "%1 manjkajočih izvornih posnetkov, uporabite lahko le posredne posnetke"
 
-#: src/doc/documentchecker.cpp:1023
+#: src/doc/documentchecker.cpp:1034
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Mapa s posnetki"
 
-#: src/doc/documentchecker.cpp:1055 src/doc/documentchecker.cpp:1079
-#: src/doc/documentchecker.cpp:1089 src/doc/documentchecker.cpp:1098
-#: src/doc/documentchecker.cpp:1110
+#: src/doc/documentchecker.cpp:1066 src/doc/documentchecker.cpp:1090
+#: src/doc/documentchecker.cpp:1100 src/doc/documentchecker.cpp:1109
+#: src/doc/documentchecker.cpp:1121
 #, kde-format
 msgid "Recovered item"
 msgstr "Obnovljen predmet"
 
-#: src/doc/documentchecker.cpp:1123
+#: src/doc/documentchecker.cpp:1134
 #, kde-format
 msgid "Search aborted"
 msgstr "Iskanja preklicano"
 
-#: src/doc/documentchecker.cpp:1125
+#: src/doc/documentchecker.cpp:1136
 #, kde-format
 msgid "Search done"
 msgstr "Iskanje opravljeno"
 
-#: src/doc/documentchecker.cpp:1241
+#: src/doc/documentchecker.cpp:1252
 #, kde-format
 msgid "Scanning %1"
 msgstr "Preiskovanje %1"
 
-#: src/doc/documentchecker.cpp:1338
+#: src/doc/documentchecker.cpp:1349
 #, kde-format
 msgid "Enter new location for folder"
 msgstr "Vnesite novo mesto za mapo"
 
-#: src/doc/documentchecker.cpp:1364
+#: src/doc/documentchecker.cpp:1375
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Vnesite novo mesto za datoteko"
 
-#: src/doc/documentchecker.cpp:1764
+#: src/doc/documentchecker.cpp:1850
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
@@ -7692,7 +7692,7 @@ msgstr[1] "To bo odstranilo izbrana posnetka iz tega projekta"
 msgstr[2] "To bo odstranilo izbrane posnetke iz tega projekta"
 msgstr[3] "To bo odstranilo izbrane posnetke iz tega projekta"
 
-#: src/doc/documentchecker.cpp:1766
+#: src/doc/documentchecker.cpp:1852
 #, kde-format
 msgid "Remove clips"
 msgstr "Odstrani posnetke"
@@ -7811,7 +7811,7 @@ msgid "Invalid file path"
 msgstr "Neveljavna pot datoteke"
 
 #: src/doc/kdenlivedoc.cpp:213 src/project/projectmanager.cpp:719
-#: src/project/projectmanager.cpp:783 src/project/projectmanager.cpp:810
+#: src/project/projectmanager.cpp:783 src/project/projectmanager.cpp:812
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Poškodovane datoteke ni bilo mogoče obnoviti."
@@ -7891,15 +7891,15 @@ msgstr ""
 "Vaša projektna datoteka je bila nadgrajena na najnovejšo različico "
 "dokumentov Kdenlive, ni pa bilo mogoče ustvariti varnostne kopije %1."
 
-#: src/doc/kdenlivedoc.cpp:867 src/project/projectmanager.cpp:1125
-#: src/project/projectmanager.cpp:1161
+#: src/doc/kdenlivedoc.cpp:867 src/project/projectmanager.cpp:1129
+#: src/project/projectmanager.cpp:1165
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Napaka med premikanjem mape projekta: %1"
 
 #: src/doc/kdenlivedoc.cpp:1034 src/doc/kdenlivedoc.cpp:2157
 #: src/project/dialogs/archivewidget.cpp:214
-#: src/project/projectmanager.cpp:1361
+#: src/project/projectmanager.cpp:1365
 #, kde-format
 msgid "Untitled"
 msgstr "Neimenovano"
@@ -9184,10 +9184,9 @@ msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
 #: src/main.cpp:128
-#, fuzzy, kde-format
-#| msgid "Code re-architecture & timeline rewrite"
+#, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
-msgstr "Preurejanje kode in ponovno programiranje časovnice"
+msgstr "Preurejanje kode in ponovno programiranje časovnice (2019)"
 
 #: src/main.cpp:129
 #, kde-format
@@ -9197,7 +9196,7 @@ msgstr "Julius Künzel"
 #: src/main.cpp:129
 #, kde-format
 msgid "Feature developement, packaging, bug fixing"
-msgstr ""
+msgstr "Razvoj zmožnosti, pakiranje, odpravljanje napak"
 
 #: src/main.cpp:130
 #, kde-format
@@ -9215,10 +9214,9 @@ msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
 #: src/main.cpp:132
-#, fuzzy, kde-format
-#| msgid "MLT, Bug fixing, etc."
+#, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
-msgstr "MLT, odpravljanje hroščev itn."
+msgstr "Vzdrževalec MLT, odpravljanje hroščev itn."
 
 #: src/main.cpp:133
 #, kde-format
@@ -9233,12 +9231,12 @@ msgstr "Barvni obsegi, odpravljanje hroščev itn."
 #: src/main.cpp:134
 #, kde-format
 msgid "Eric Jiang"
-msgstr ""
+msgstr "Eric Jiang"
 
 #: src/main.cpp:134
 #, kde-format
 msgid "Bug fixing and test improvements"
-msgstr ""
+msgstr "Popravljanje napak in izboljšave preizkusov"
 
 #: src/main.cpp:136
 #, kde-format
@@ -9268,7 +9266,7 @@ msgstr "Eugen Mohr"
 #: src/main.cpp:139
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
-msgstr ""
+msgstr "Triaža napak, preizkušanje, vzdrževanje dokumentacije"
 
 #: src/main.cpp:140
 #, kde-format
@@ -12985,7 +12983,7 @@ msgstr ""
 "Datoteka označevalnikov je večja od 1 MB, ali ste prepričani, da jo želite "
 "uvoziti?"
 
-#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1422
+#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1426
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:5000
 #, kde-format
@@ -13609,7 +13607,7 @@ msgstr "Odpri datoteko varnostne kopije …"
 msgid "Save changes to document?"
 msgstr "Ali želite shraniti spremembe v dokument?"
 
-#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1360
+#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1364
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13713,7 +13711,7 @@ msgstr ""
 "Vaš projekt je bil spremenjen, varnostna kopija bo ustvarjena pri naslednjem "
 "shranjevanju"
 
-#: src/project/projectmanager.cpp:837
+#: src/project/projectmanager.cpp:841
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -13722,12 +13720,12 @@ msgstr ""
 "To bo izbrisalo vse opravljene spremembe od zadnjega shranjevanja projekta. "
 "Ali ste prepričani, da želite nadaljevati?"
 
-#: src/project/projectmanager.cpp:838
+#: src/project/projectmanager.cpp:842
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Povrni na nazadnje shranjeno različico"
 
-#: src/project/projectmanager.cpp:918
+#: src/project/projectmanager.cpp:922
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -13736,31 +13734,32 @@ msgstr ""
 "Projekt je bil poškodovan, izdelava varnostne kopije ni mogoča. Zaprite in "
 "znova odprite svojo datoteko projekta za obnovitev iz zadnje varovalne kopije"
 
-#: src/project/projectmanager.cpp:1103
-#, fuzzy, kde-format
-#| msgid "Error moving project folder: %1"
+#: src/project/projectmanager.cpp:1107
+#, kde-format
 msgid "Error moving project folder, cannot access cache folder"
-msgstr "Napaka med premikanjem mape projekta: %1"
+msgstr ""
+"Napaka med premikanjem mape projekta, ni mogoče dostopati do mape "
+"medpomnilnika"
 
-#: src/project/projectmanager.cpp:1139
+#: src/project/projectmanager.cpp:1143
 #, kde-format
 msgid "Moving project folder"
 msgstr "Premikanje mape projekta"
 
-#: src/project/projectmanager.cpp:1196
+#: src/project/projectmanager.cpp:1200
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 "Projektna datoteka je okvarjena (ni stez). Ali želite poiskati varnostno "
 "kopijo?"
 
-#: src/project/projectmanager.cpp:1223 src/project/projectmanager.cpp:1253
-#: src/project/projectmanager.cpp:1257
+#: src/project/projectmanager.cpp:1227 src/project/projectmanager.cpp:1257
+#: src/project/projectmanager.cpp:1261
 #, kde-format
 msgid "Sequence 1"
 msgstr "Zaporedje 1"
 
-#: src/project/projectmanager.cpp:1234
+#: src/project/projectmanager.cpp:1238
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -13768,13 +13767,13 @@ msgstr ""
 "Projektna datoteka je okvarjena (ni mogoče naložiti stez). Ali želite "
 "poiskati varnostno kopijo?"
 
-#: src/project/projectmanager.cpp:1366 src/project/projectmanager.cpp:1371
-#: src/project/projectmanager.cpp:1381 src/project/projectmanager.cpp:1397
+#: src/project/projectmanager.cpp:1370 src/project/projectmanager.cpp:1375
+#: src/project/projectmanager.cpp:1385 src/project/projectmanager.cpp:1401
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Sprememba profila projekta prekinjena"
 
-#: src/project/projectmanager.cpp:1513
+#: src/project/projectmanager.cpp:1517
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -13783,12 +13782,12 @@ msgstr ""
 "Izhodna datoteka %1 že obstaja.\n"
 "Ali jo želite prepisati?"
 
-#: src/project/projectmanager.cpp:1538
+#: src/project/projectmanager.cpp:1542
 #, kde-format
 msgid "Project profile changed"
 msgstr "Profil projekta spremenjen"
 
-#: src/project/projectmanager.cpp:1588
+#: src/project/projectmanager.cpp:1592
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -13797,17 +13796,17 @@ msgstr ""
 "Ni mogoče ustvariti časovnice iz tega posnetka:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1667
+#: src/project/projectmanager.cpp:1671
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "Uvažanje posnetka zaporedja je trenutno v stanju preizkušanja"
 
-#: src/project/projectmanager.cpp:1820
+#: src/project/projectmanager.cpp:1824
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Izberite posnetek za ustvarjanje zaporedja"
 
-#: src/project/projectmanager.cpp:1857
+#: src/project/projectmanager.cpp:1861
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Ustvari posnetek zaporedja"
@@ -15090,10 +15089,9 @@ msgid "Histogram"
 msgstr "Histogram"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:51
-#, fuzzy, kde-format
-#| msgid "You cannot insert a sequence containing itself"
+#, kde-format
 msgid "Found an invalid sequence clip in Bin"
-msgstr "Ni mogoče vstaviti zaporedja, ki vsebuje samega sebe."
+msgstr "Najden neveljaven posnetek zaporedja v posodi"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:264
 #: src/timeline2/model/builders/meltBuilder.cpp:493
@@ -16399,6 +16397,9 @@ msgid "Character encoding used to save the subtitle file."
 msgstr "Kodiranje znakov, uporabljeno pri shranjevanju datoteke podnaslovov."
 
 #: src/timeline2/view/timelinecontroller.cpp:4992
+#, fuzzy
+#| msgctxt "@info:whatsthis"
+#| msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgctxt "@info:whatsthis"
 msgid "If unsure,try :<br><b>Unicode (UTF-8)</b>."
 msgstr "Če niste prepričani, poskusite:<br/><b>Unicode (UTF-8)</b>."
@@ -17522,7 +17523,8 @@ msgstr "Postavljeno na najvišjo raven"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
 #: src/ui/clipjobmanager_ui.ui:80
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Placed in the original clip folder"
 msgid "Placed in the the original clip folder"
 msgstr "Postavljeno v izvorno mapo posnetka"
 
@@ -18568,7 +18570,8 @@ msgstr "Obdelava šepeta je na CPE zelo počasna"
 
 #. i18n: ectx: property (text), widget (QCheckBox, wr_translate)
 #: src/ui/configspeech_ui.ui:167
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Translate text to English"
 msgid "Translate text to english"
 msgstr "Prevedi besedilo v angleški jezik"
 
@@ -20822,7 +20825,7 @@ msgstr "po &vrsticah"
 #: src/ui/titlewidget_ui.ui:981
 #, kde-format
 msgid "Custo&m"
-msgstr "po &meri"
+msgstr "Po &meri"
 
 #. i18n: ectx: property (text), widget (QLabel, label_frameStep)
 #: src/ui/titlewidget_ui.ui:991
@@ -21164,20 +21167,17 @@ msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
 
-#~ msgid "Bug fixing, etc."
-#~ msgstr "Odpravljanje hroščev itn."
+#~ msgid "No Tags"
+#~ msgstr "Ni značk"
 
-#~ msgid "Sashmita Raghav"
-#~ msgstr "Sashmita Raghav"
+#~ msgid "Filter by Usage"
+#~ msgstr "Filtriraj po rabi"
 
-#~ msgid "Subtitle feature (GSoC), timeline colours"
-#~ msgstr "Funkcija podnaslavljanja (GSoC), barve časovnice"
+#~ msgid "All Clips"
+#~ msgstr "Vsi posnetki"
 
-#~ msgid "Bug triage, testing"
-#~ msgstr "Triaža napak, preizkušanje"
+#~ msgid "Used Clips"
+#~ msgstr "Uporabljeni posnetki"
 
-#~ msgid "Analyse"
-#~ msgstr "Preuči"
-
-#~ msgid "Insert Zone to Project Bin"
-#~ msgstr "Vstavi območje v projektno posodo"
+#~ msgid "Clip %1 has been fixed"
+#~ msgstr "Posnetek %1 je bil fiksiran"
