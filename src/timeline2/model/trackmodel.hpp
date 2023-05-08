@@ -162,7 +162,7 @@ protected:
        @param right is true if we change the right side of the clip, false otherwise
        @param hasMix is true if we change the right side of the clip, false otherwise
     */
-    Fun requestClipResize_lambda(int clipId, int in, int out, bool right, bool hasMix = false);
+    Fun requestClipResize_lambda(int clipId, int in, int out, bool right, bool hasMix = false, bool finalMove = false);
 
     /** @brief Performs an insertion of the given clip.
        Returns true if the operation succeeded, and otherwise, the track is not modified.

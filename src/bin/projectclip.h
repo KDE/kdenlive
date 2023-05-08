@@ -210,13 +210,12 @@ public:
     std::pair<std::shared_ptr<Mlt::Producer>, bool> giveMasterAndGetTimelineProducer(int clipId, std::shared_ptr<Mlt::Producer> master, PlaylistState::ClipState state, int tid, bool secondPlaylist = false);
 
     std::shared_ptr<Mlt::Producer> cloneProducer(bool removeEffects = false, bool timelineProducer = false);
-    void cloneProducerToFile(const QString &path);
+    void cloneProducerToFile(const QString &path, bool thumbsProducer = false);
     static std::shared_ptr<Mlt::Producer> cloneProducer(const std::shared_ptr<Mlt::Producer> &producer);
     std::shared_ptr<Mlt::Producer> softClone(const char *list);
     /** @brief Returns a clone of the producer, useful for movit clip jobs
      */
     std::unique_ptr<Mlt::Producer> getClone();
-    void updateTimelineClips(const QVector<int> &roles);
     /** @brief Saves the subclips data as json
      */
     void updateZones();
@@ -279,6 +278,8 @@ public:
     void saveZone(QPoint zone, const QDir &dir);
     /** @brief When a sequence clip has a track change, update info and properties panel */
     void refreshTracksState(int tracksCount = -1);
+    /** @brief Returns true if stored duration is different than current producer's duration */
+    bool durationChanged();
 
 protected:
     friend class ClipModel;
@@ -316,7 +317,10 @@ public Q_SLOTS:
 
     /** @brief A proxy clip is available or disabled, update path and reload */
     void updateProxyProducer(const QString &path);
-    
+
+    /** @brief Request updating some clip droles */
+    void updateTimelineClips(const QVector<int> &roles);
+
     /** @brief If a clip is invalid on load, mark it as such so we don't try to re-insert it on undo/redo. */
     void setInvalid();
 

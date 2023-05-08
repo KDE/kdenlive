@@ -621,7 +621,7 @@ int TrackModel::getBlankSizeNearComposition(int compoId, bool after)
     return length;
 }
 
-Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right, bool hasMix)
+Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right, bool hasMix, bool finalMove)
 {
     QWriteLocker locker(&m_lock);
     int clip_position = m_allClips[clipId]->getPosition();
@@ -669,7 +669,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
         return []() { return true; };
     }
     if (delta > 0) { // we shrink clip
-        return [right, target_clip, target_track, clip_position, delta, in, out, clipId, update_snaps, this]() {
+        return [right, target_clip, target_track, clip_position, delta, in, out, clipId, update_snaps, finalMove, this]() {
             if (isLocked()) return false;
             int target_clip_mutable = target_clip;
             int blank_index = right ? (target_clip_mutable + 1) : target_clip_mutable;
@@ -688,7 +688,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
             m_playlists[target_track].unlock();
             if (err == 0) {
                 update_snaps(m_allClips[clipId]->getPosition(), m_allClips[clipId]->getPosition() + out - in + 1);
-                if (right && m_playlists[target_track].count() - 1 == target_clip_mutable) {
+                if (right && finalMove && m_playlists[target_track].count() - 1 == target_clip_mutable) {
                     // deleted last clip in playlist
                     if (auto ptr = m_parent.lock()) {
                         ptr->updateDuration();
@@ -712,7 +712,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
                 // If clip has a start mix only, limit to next clip on other track
                 return []() { return false; };
             }
-            return [this, target_clip, target_track, in, out, update_snaps, clipId]() {
+            return [this, target_clip, target_track, in, out, update_snaps, clipId, finalMove]() {
                 if (isLocked()) return false;
                 // color, image and title clips can have unlimited resize
                 QScopedPointer<Mlt::Producer> clip(m_playlists[target_track].get_clip(target_clip));
@@ -726,7 +726,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
                     update_snaps(m_allClips[clipId]->getPosition(), m_allClips[clipId]->getPosition() + out - in + 1);
                 }
                 m_playlists[target_track].consolidate_blanks();
-                if (m_playlists[target_track].count() - 1 == target_clip) {
+                if (finalMove && m_playlists[target_track].count() - 1 == target_clip) {
                     // Resized last clip in playlist
                     if (auto ptr = m_parent.lock()) {
                         ptr->updateDuration();

@@ -2285,6 +2285,11 @@ void Monitor::slotSwitchCompare(bool enable)
     slotActivateMonitor();
 }
 
+void Monitor::resetScene()
+{
+    loadQmlScene(MonitorSceneDefault);
+}
+
 void Monitor::buildSplitEffect(Mlt::Producer *original)
 {
     m_splitEffect.reset(new Mlt::Filter(*pCore->getProjectProfile(), "frei0r.alphagrad"));

@@ -398,10 +398,16 @@ size_t ProjectClip::frameDuration() const
 
 void ProjectClip::resetSequenceThumbnails()
 {
+    QMutexLocker lk(&m_thumbMutex);
+    pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::LOADJOB, true);
     m_thumbsProducer.reset();
     ThumbnailCache::get()->invalidateThumbsForClip(m_binId);
+    // Force refeshing thumbs producer
+    lk.unlock();
     m_uuid = QUuid::createUuid();
-    updateTimelineClips({TimelineModel::ClipThumbRole});
+    thumbProducer();
+    // Clips will be replanted so no need to refresh thumbs
+    // updateTimelineClips({TimelineModel::ClipThumbRole});
 }
 
 void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudioReload)
@@ -622,6 +628,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     }
     m_duration = getStringDuration();
     m_clipStatus = m_usesProxy ? FileStatus::StatusProxy : FileStatus::StatusReady;
+    locker.unlock();
     if (m_clipStatus != currentStatus) {
         updateRoles << AbstractProjectItem::ClipStatus << AbstractProjectItem::IconOverlay;
         updateTimelineClips({TimelineModel::StatusRole, TimelineModel::ClipThumbRole});
@@ -782,6 +789,7 @@ const QString ProjectClip::getProxyFromOriginal(QString originalPath) const
 
 void ProjectClip::setThumbProducer(std::shared_ptr<Mlt::Producer> prod)
 {
+    QMutexLocker lock(&m_thumbMutex);
     m_thumbsProducer = std::move(prod);
 }
 
@@ -803,7 +811,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::thumbProducer()
             qWarning() << "Cannot write to temporary file: " << m_sequenceThumbFile.fileName();
             return nullptr;
         }
-        cloneProducerToFile(m_sequenceThumbFile.fileName());
+        cloneProducerToFile(m_sequenceThumbFile.fileName(), true);
         m_thumbsProducer.reset(new Mlt::Producer(*pCore->thumbProfile(), "consumer", m_sequenceThumbFile.fileName().toUtf8().constData()));
     } else {
         QString mltService = m_masterProducer->get("mlt_service");
@@ -1010,7 +1018,9 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
             }
             std::shared_ptr<Mlt::Producer> prod(m_audioProducers[trackId]->cut());
             if (m_clipType == ClipType::Timeline && m_audioProducers[trackId]->property_exists("kdenlive:maxduration")) {
-                prod->set("kdenlive:maxduration", m_audioProducers[trackId]->get_int("kdenlive:maxduration"));
+                int max = m_audioProducers[trackId]->get_int("kdenlive:maxduration");
+                prod->set("kdenlive:maxduration", max);
+                prod->set("length", max);
             }
             return prod;
         }
@@ -1033,7 +1043,6 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
                     m_videoProducers[trackId] = cloneProducer(true, true);
                 }
                 if (m_masterProducer->property_exists("kdenlive:maxduration")) {
-                    qDebug() << "ZZZZZZZZZZZZZZ\nFOUND MAXKDENLIVE DURATION: " << m_masterProducer->get_int("kdenlive:maxduration");
                     m_videoProducers[trackId]->set("kdenlive:maxduration", m_masterProducer->get_int("kdenlive:maxduration"));
                 }
 
@@ -1054,7 +1063,9 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
         int duration = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
         std::shared_ptr<Mlt::Producer> prod(m_disabledProducer->cut(-1, duration > 0 ? duration - 1 : -1));
         if (m_clipType == ClipType::Timeline && m_videoProducers[trackId]->property_exists("kdenlive:maxduration")) {
-            prod->set("kdenlive:maxduration", m_videoProducers[trackId]->get_int("kdenlive:maxduration"));
+            int max = m_videoProducers[trackId]->get_int("kdenlive:maxduration");
+            prod->set("kdenlive:maxduration", max);
+            prod->set("length", max);
         }
         return prod;
     }
@@ -1279,8 +1290,9 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
     return {std::shared_ptr<Mlt::Producer>(ClipController::mediaUnavailable->cut()), false};
 }
 
-void ProjectClip::cloneProducerToFile(const QString &path)
+void ProjectClip::cloneProducerToFile(const QString &path, bool thumbsProducer)
 {
+    QMutexLocker lk(&m_producerMutex);
     Mlt::Consumer c(*pCore->getProjectProfile(), "xml", path.toUtf8().constData());
     // Mlt::Service s(m_masterProducer->get_service());
     /*int ignore = s.get_int("ignore_points");
@@ -1296,13 +1308,15 @@ void ProjectClip::cloneProducerToFile(const QString &path)
         c.set("no_profile", 1);
     }
     c.set("root", "/");
-    c.set("store", "kdenlive");
+    if (!thumbsProducer) {
+        c.set("store", "kdenlive");
+    }
     c.connect(m_masterProducer->parent());
     c.run();
     /*if (ignore) {
         s.set("ignore_points", ignore);
     }*/
-    if (m_usesProxy) {
+    if (!thumbsProducer && m_usesProxy) {
         QFile file(path);
         if (file.open(QIODevice::ReadOnly)) {
             QTextStream in(&file);
@@ -1354,6 +1368,7 @@ void ProjectClip::saveZone(QPoint zone, const QDir &dir)
 
 std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects, bool timelineProducer)
 {
+    QMutexLocker lk(&m_producerMutex);
     Mlt::Consumer c(*pCore->getProjectProfile(), "xml", "string");
     Mlt::Service s(m_masterProducer->get_service());
     int ignore = s.get_int("ignore_points");
@@ -1515,6 +1530,9 @@ const QString ProjectClip::hashForThumbs()
     if (m_clipStatus == FileStatus::StatusWaiting) {
         // Clip is not ready
         return QString();
+    }
+    if (m_clipType == ClipType::Timeline) {
+        return m_sequenceUuid.toString();
     }
     QString clipHash = getProducerProperty(QStringLiteral("kdenlive:file_hash"));
     if (!clipHash.isEmpty() && m_hasMultipleVideoStreams) {
@@ -2901,4 +2919,9 @@ void ProjectClip::updateDescription()
             m_description = getProducerProperty(QStringLiteral("meta.attr.comment.markup"));
         }
     }
+}
+
+bool ProjectClip::durationChanged()
+{
+    return m_duration != getStringDuration();
 }

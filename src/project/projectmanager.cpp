@@ -1634,8 +1634,9 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
             if (clip) {
                 std::shared_ptr<TimelineItemModel> timelineModel = pCore->currentDoc()->getTimeline(uuid);
                 QMap<QString, QString> properties;
-                properties.insert(QStringLiteral("kdenlive:duration"), QString(timelineModel->tractor()->frames_to_time(timelineModel->duration())));
-                properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(timelineModel->duration()));
+                int duration = timelineModel->duration();
+                properties.insert(QStringLiteral("kdenlive:duration"), QString(timelineModel->tractor()->frames_to_time(duration)));
+                properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(duration));
                 clip->setProperties(properties, true);
             }
         });
@@ -1772,6 +1773,7 @@ bool ProjectManager::closeTimeline(const QUuid &uuid, bool onDeletion)
         pCore->bin()->removeReferencedClips(uuid);
         pCore->window()->closeTimeline(uuid);
     } else {
+        pCore->projectItemModel()->setExtraTimelineSaved(uuid.toString());
         pCore->bin()->removeReferencedClips(uuid);
         if (!m_project->closing) {
             std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(model->tractor());
