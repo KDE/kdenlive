@@ -8,6 +8,7 @@
 #include "audiomixer/mixermanager.hpp"
 #include "bin/projectitemmodel.h"
 #include "core.h"
+#include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 #include "mainwindow.h"
 #include "monitor/monitor.h"
@@ -17,6 +18,7 @@
 #include "timelinecontroller.h"
 #include "timelinewidget.h"
 
+#include <KMessageBox>
 #include <QMenu>
 #include <QQmlContext>
 
@@ -167,6 +169,11 @@ void TimelineTabs::renameTab(const QUuid &uuid, const QString &name)
 
 void TimelineTabs::closeTimelineByIndex(int ix)
 {
+    if (KMessageBox::warningContinueCancel(this, i18n("Closing a sequence will clear the undo history"), QString(), KStandardGuiItem::cont(),
+                                           KStandardGuiItem::cancel(), QStringLiteral("clearHistoryOnSequenceClose")) != KMessageBox::Continue) {
+        return;
+    }
+    // Closing a sequence currently causes many undo crashes, so disable for now
     QMutexLocker lk(&m_lock);
     bool closingCurrent = ix == currentIndex();
     const QString seqName = tabText(ix);
@@ -194,13 +201,13 @@ void TimelineTabs::closeTimelineByIndex(int ix)
         }
         return true;
     };
-    Fun undo = [this, uuid]() {
+    /*Fun undo = [this, uuid]() {
         const QString binId = pCore->bin()->sequenceBinId(uuid);
         if (!binId.isEmpty()) {
             return pCore->projectManager()->openTimeline(binId, uuid);
         }
         return false;
-    };
+    };*/
     if (closingCurrent) {
         pCore->window()->disableMulticam();
         int pos = pCore->getMonitorPosition();
@@ -210,7 +217,8 @@ void TimelineTabs::closeTimelineByIndex(int ix)
         pCore->bin()->updateSequenceClip(uuid, duration, pos, nullptr);
     }
     redo();
-    pCore->pushUndo(undo, redo, i18n("Close %1", seqName));
+    pCore->undoStack()->clear();
+    // pCore->pushUndo(undo, redo, i18n("Close %1", seqName));
 }
 
 TimelineWidget *TimelineTabs::getCurrentTimeline() const
