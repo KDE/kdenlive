@@ -278,8 +278,6 @@ public:
     void saveZone(QPoint zone, const QDir &dir);
     /** @brief When a sequence clip has a track change, update info and properties panel */
     void refreshTracksState(int tracksCount = -1);
-    /** @brief Returns true if stored duration is different than current producer's duration */
-    bool durationChanged();
 
 protected:
     friend class ClipModel;

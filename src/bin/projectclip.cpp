@@ -2920,8 +2920,3 @@ void ProjectClip::updateDescription()
         }
     }
 }
-
-bool ProjectClip::durationChanged()
-{
-    return m_duration != getStringDuration();
-}
