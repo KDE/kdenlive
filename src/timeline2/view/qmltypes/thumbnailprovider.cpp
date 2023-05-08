@@ -41,6 +41,7 @@ QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSi
             }
             result = ThumbnailCache::get()->getThumbnail(binClip->hashForThumbs(), binId, frameNumber);
             if (!result.isNull()) {
+
                 *size = result.size();
                 return result;
             }

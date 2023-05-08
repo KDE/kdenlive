@@ -1616,7 +1616,7 @@ QMap<QString, QString> KdenliveDoc::documentProperties()
 
 void KdenliveDoc::loadDocumentGuides(const QUuid &uuid, std::shared_ptr<TimelineItemModel> model)
 {
-    QString guides = getSequenceProperty(uuid, QStringLiteral("guides"));
+    const QString guides = getSequenceProperty(uuid, QStringLiteral("guides"));
     if (!guides.isEmpty()) {
         model->getGuideModel()->importFromJson(guides, true, false);
         clearSequenceProperty(uuid, QStringLiteral("guides"));

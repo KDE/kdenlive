@@ -4759,6 +4759,8 @@ void MainWindow::connectTimeline()
     } else {
         getCurrentTimeline()->model()->rebuildMixer();
     }
+    // We just switched timeline, ensure a monitor effects view does not remain from previous
+    m_projectMonitor->resetScene();
     const QUuid uuid = getCurrentTimeline()->getUuid();
     pCore->projectManager()->setActiveTimeline(uuid);
     connect(m_projectMonitor, &Monitor::multitrackView, getCurrentTimeline()->controller(), &TimelineController::slotMultitrackView, Qt::UniqueConnection);

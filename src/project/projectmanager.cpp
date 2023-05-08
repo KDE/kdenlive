@@ -783,6 +783,8 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
         KMessageBox::error(pCore->window(), i18n("Could not recover corrupted file."));
         delete m_progressDialog;
         m_progressDialog = nullptr;
+        // Don't propose to save corrupted doc
+        m_project->setModified(false);
         // Open default blank document
         newFile(false);
         return;
@@ -810,6 +812,8 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
                 KMessageBox::error(pCore->window(), i18n("Could not recover corrupted file."));
                 delete m_progressDialog;
                 m_progressDialog = nullptr;
+                // Don't propose to save broken document
+                m_project->setModified(false);
                 // Open default blank document
                 newFile(false);
                 return;
@@ -1630,8 +1634,9 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
             if (clip) {
                 std::shared_ptr<TimelineItemModel> timelineModel = pCore->currentDoc()->getTimeline(uuid);
                 QMap<QString, QString> properties;
-                properties.insert(QStringLiteral("kdenlive:duration"), QString(timelineModel->tractor()->frames_to_time(timelineModel->duration())));
-                properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(timelineModel->duration()));
+                int duration = timelineModel->duration();
+                properties.insert(QStringLiteral("kdenlive:duration"), QString(timelineModel->tractor()->frames_to_time(duration)));
+                properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(duration));
                 clip->setProperties(properties, true);
             }
         });
@@ -1768,6 +1773,7 @@ bool ProjectManager::closeTimeline(const QUuid &uuid, bool onDeletion)
         pCore->bin()->removeReferencedClips(uuid);
         pCore->window()->closeTimeline(uuid);
     } else {
+        pCore->projectItemModel()->setExtraTimelineSaved(uuid.toString());
         pCore->bin()->removeReferencedClips(uuid);
         if (!m_project->closing) {
             std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(model->tractor());
@@ -1777,6 +1783,10 @@ bool ProjectManager::closeTimeline(const QUuid &uuid, bool onDeletion)
             } else {
                 position = -1;
             }
+            // Store sequence properties for later re-use
+            Mlt::Properties sequenceProps;
+            sequenceProps.pass_values(*model->tractor(), "kdenlive:sequenceproperties.");
+            pCore->currentDoc()->loadSequenceProperties(uuid, sequenceProps);
             pCore->bin()->updateSequenceClip(uuid, model->duration(), position, prod);
         }
         m_project->closeTimeline(uuid);

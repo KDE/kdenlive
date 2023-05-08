@@ -1231,7 +1231,7 @@ QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, st
                         trac->set("kdenlive:folderid", prod->parent().get("kdenlive:folderid"));
                         trac->set("kdenlive:duration", prod->parent().get("kdenlive:duration"));
                         trac->set("kdenlive:producer_type", ClipType::Timeline);
-                        trac->set("kdenlive:maxduration", prod->parent().get("kdenlive:maxduration"));
+                        trac->set("kdenlive:maxduration", prod->parent().get_int("kdenlive:maxduration"));
                         std::shared_ptr<Mlt::Producer> prod2(trac->cut());
 
                         prod2->set("kdenlive:id", id);
@@ -1243,7 +1243,7 @@ QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, st
                         prod2->set("kdenlive:folderid", prod->parent().get("kdenlive:folderid"));
                         prod2->set("kdenlive:duration", prod->parent().get("kdenlive:duration"));
                         prod2->set("kdenlive:producer_type", ClipType::Timeline);
-                        prod2->set("kdenlive:maxduration", prod->parent().get("kdenlive:maxduration"));
+                        prod2->set("kdenlive:maxduration", prod->parent().get_int("kdenlive:maxduration"));
                         binProducers.insert(id, prod2);
                         continue;
                     } else {
@@ -1457,6 +1457,13 @@ std::shared_ptr<Mlt::Tractor> ProjectItemModel::getExtraTimeline(const QString &
         return m_extraPlaylists.at(uuid);
     }
     return nullptr;
+}
+
+void ProjectItemModel::setExtraTimelineSaved(const QString &uuid)
+{
+    if (m_extraPlaylists.count(uuid) > 0) {
+        m_extraPlaylists.at(uuid)->set("_dontmapids", 1);
+    }
 }
 
 /** @brief Save document properties in MLT's bin playlist */

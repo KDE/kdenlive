@@ -153,6 +153,8 @@ public:
     /** @brief Show a rec countdown over the monitor **/
     void startCountDown();
     void stopCountDown();
+    /** @brief Reset monitor scene to default **/
+    void resetScene();
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;

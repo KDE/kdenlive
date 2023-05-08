@@ -5742,6 +5742,9 @@ QStringList Bin::sequenceReferencedClips(const QUuid &uuid) const
 void Bin::updateSequenceClip(const QUuid &uuid, int duration, int pos, std::shared_ptr<Mlt::Producer> prod)
 {
     Q_ASSERT(m_openedPlaylists.contains(uuid));
+    if (pos > -1) {
+        m_doc->setSequenceProperty(uuid, QStringLiteral("position"), pos);
+    }
     if (m_openedPlaylists.contains(uuid) && m_doc->isModified()) {
         const QString binId = m_openedPlaylists.value(uuid);
         std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(binId);
@@ -5751,16 +5754,15 @@ void Bin::updateSequenceClip(const QUuid &uuid, int duration, int pos, std::shar
             std::shared_ptr<Mlt::Tractor> trac(new Mlt::Tractor(prod->parent()));
             pCore->projectItemModel()->storeSequence(uuid.toString(), trac);
         }
-        QMap<QString, QString> properties;
-        properties.insert(QStringLiteral("length"), QString::number(duration));
-        properties.insert(QStringLiteral("out"), QString::number(duration - 1));
-        properties.insert(QStringLiteral("kdenlive:duration"), clip->framesToTime(duration));
-        properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(duration));
         // Store general sequence properties
-        if (pos > -1) {
-            m_doc->setSequenceProperty(uuid, QStringLiteral("position"), pos);
+        if (clip->durationChanged()) {
+            QMap<QString, QString> properties;
+            properties.insert(QStringLiteral("length"), QString::number(duration));
+            properties.insert(QStringLiteral("out"), QString::number(duration - 1));
+            properties.insert(QStringLiteral("kdenlive:duration"), clip->framesToTime(duration));
+            properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(duration));
+            clip->setProperties(properties);
         }
-        clip->setProperties(properties);
         if (m_doc->sequenceThumbRequiresRefresh(uuid)) {
             // Reset thumbs producer
             clip->resetSequenceThumbnails();

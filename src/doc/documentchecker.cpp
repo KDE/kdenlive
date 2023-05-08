@@ -47,7 +47,7 @@ const int LUMAPLACEHOLDER = 12;
 const int ASSETMISSING = 13;
 const int ASSETOK = 14;
 
-enum MISSINGTYPE { TITLE_IMAGE_ELEMENT = 20, TITLE_FONT_ELEMENT = 21 };
+enum MISSINGTYPE { TITLE_IMAGE_ELEMENT = 20, TITLE_FONT_ELEMENT = 21, SEQUENCE_ELEMENT = 22 };
 
 DocumentChecker::DocumentChecker(QUrl url, const QDomDocument &doc)
     : m_url(std::move(url))
@@ -470,13 +470,14 @@ bool DocumentChecker::hasErrorInClips()
         item->setData(0, typeRole, TITLE_FONT_ELEMENT);
     }
 
-    for (const QString &url : qAsConst(m_fixedSequences)) {
+    for (const QString &id : qAsConst(m_fixedSequences)) {
         QString clipType = i18n("Fixed Sequence Clips");
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << clipType);
         item->setData(0, statusRole, CLIPPLACEHOLDER);
         item->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-information")));
-        item->setText(1, i18n("Clip %1 has been fixed", url));
-        item->setData(0, typeRole, TITLE_FONT_ELEMENT);
+        item->setText(1, i18n("Clip %1 will be fixed", id));
+        item->setData(0, typeRole, SEQUENCE_ELEMENT);
+        item->setData(0, idRole, id);
     }
 
     QString infoLabel;
@@ -702,7 +703,7 @@ const QString DocumentChecker::relocateResource(QString sourceResource)
     return QString();
 }
 
-QString DocumentChecker::getMissingProducers(const QDomElement &e, const QDomNodeList &entries, const QStringList &verifiedPaths, QStringList &missingPaths,
+QString DocumentChecker::getMissingProducers(QDomElement &e, const QDomNodeList &entries, const QStringList &verifiedPaths, QStringList &missingPaths,
                                              const QStringList &serviceToCheck, const QString &root, const QString &storageFolder)
 {
     QString service = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
@@ -789,6 +790,16 @@ QString DocumentChecker::getMissingProducers(const QDomElement &e, const QDomNod
                         return QString();
                     }
                 }
+            } else {
+                // entry not found, this is a more complex recovery:
+                // Change tag to tractor
+                // Reinsert all tractor as tracks
+                // Move the node just before main_bin to ensure its children tracks are defined before it
+                // e.setTagName(QStringLiteral("tractor"));
+                // Xml::removeXmlProperty(e, QStringLiteral("resource"));
+                e.setAttribute(QStringLiteral("_fixbroken_tractor"), 1);
+                m_fixedSequences.append(brokenId);
+                return QString();
             }
         }
     }
@@ -1327,7 +1338,7 @@ void DocumentChecker::slotEditItem(QTreeWidgetItem *item, int)
         return;
     }
     int t = item->data(0, typeRole).toInt();
-    if (t == TITLE_FONT_ELEMENT) {
+    if (t == TITLE_FONT_ELEMENT || t == SEQUENCE_ELEMENT) {
         return;
     }
     //|| t == TITLE_IMAGE_ELEMENT) {
@@ -1432,6 +1443,77 @@ void DocumentChecker::acceptDialog()
     QDomNodeList trans = m_doc.elementsByTagName(QStringLiteral("transition"));
     QDomNodeList filters = m_doc.elementsByTagName(QStringLiteral("filter"));
 
+    // Check if we have corrupted sequences first (Kdenlive 23.04.0 did produce some corruptions)
+    if (!m_fixedSequences.isEmpty()) {
+        QTreeWidgetItem *child = m_ui.treeWidget->topLevelItem(ix);
+        QDomElement e;
+        while (child != nullptr) {
+            int t = child->data(0, typeRole).toInt();
+            if (t == SEQUENCE_ELEMENT) {
+                const QString id = child->data(0, idRole).toString();
+                for (int i = 0; i < producers.count(); ++i) {
+                    e = producers.item(i).toElement();
+                    if (e.attribute(QStringLiteral("id")) == id) {
+                        if (e.hasAttribute(QStringLiteral("_fixbroken_tractor")) && e.elementsByTagName(QStringLiteral("track")).isEmpty()) {
+                            // Change tag, add tracks and move to the end of the document (just before the main_bin)
+                            QDomNodeList tractors = m_doc.elementsByTagName(QStringLiteral("tractor"));
+                            QDomNodeList playlists = m_doc.elementsByTagName(QStringLiteral("playlist"));
+                            QDomNodeList tracks = m_doc.elementsByTagName(QStringLiteral("track"));
+                            QStringList insertedTractors;
+                            for (int k = 0; k < tracks.count(); ++k) {
+                                // Collect names of already inserted tractors / playlists
+                                QDomElement prod = tracks.item(k).toElement();
+                                insertedTractors << prod.attribute(QStringLiteral("producer"));
+                            }
+                            // Tracks must be inserted before transitions / filters
+                            QDomNode lastProperty = e.lastChildElement(QStringLiteral("property"));
+                            if (lastProperty.isNull()) {
+                                lastProperty = e.firstChildElement();
+                            }
+                            // Find black producer id
+                            for (int k = 0; k < producers.count(); ++k) {
+                                QDomElement prod = producers.item(k).toElement();
+                                if (Xml::hasXmlProperty(prod, QStringLiteral("kdenlive:playlistid"))) {
+                                    // Match, we found black track producer
+                                    QDomElement tk = m_doc.createElement(QStringLiteral("track"));
+                                    tk.setAttribute(QStringLiteral("producer"), prod.attribute(QStringLiteral("id")));
+                                    lastProperty = e.insertAfter(tk, lastProperty);
+                                    break;
+                                }
+                            }
+                            // Insert real tracks
+                            for (int j = 0; j < tractors.count(); ++j) {
+                                QDomElement current = tractors.item(j).toElement();
+                                // Check all non used tractors and attach them as tracks
+                                if (!Xml::hasXmlProperty(current, QStringLiteral("kdenlive:projectTractor")) &&
+                                    !insertedTractors.contains(current.attribute("id"))) {
+                                    QDomElement tk = m_doc.createElement(QStringLiteral("track"));
+                                    tk.setAttribute(QStringLiteral("producer"), current.attribute(QStringLiteral("id")));
+                                    lastProperty = e.insertAfter(tk, lastProperty);
+                                }
+                            }
+                            e.removeAttribute(QStringLiteral("_fixbroken_tractor"));
+                            QDomNode brokenSequence = m_doc.documentElement().removeChild(producers.item(i));
+                            QDomElement fixedSequence = brokenSequence.toElement();
+                            fixedSequence.setTagName(QStringLiteral("tractor"));
+                            Xml::removeXmlProperty(fixedSequence, QStringLiteral("resource"));
+                            Xml::removeXmlProperty(fixedSequence, QStringLiteral("mlt_service"));
+                            for (int p = 0; p < playlists.count(); ++p) {
+                                if (playlists.at(p).toElement().attribute(QStringLiteral("id")) == BinPlaylist::binPlaylistId) {
+                                    QDomNode mainBinPlaylist = playlists.at(p);
+                                    m_doc.documentElement().insertBefore(brokenSequence, mainBinPlaylist);
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+            ix++;
+            child = m_ui.treeWidget->topLevelItem(ix);
+        }
+    }
+    ix = 0;
     // Mark document as modified
     m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
 
@@ -1560,6 +1642,10 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
     int t = child->data(0, typeRole).toInt();
     QString id = child->data(0, idRole).toString();
     qDebug() << "==== FIXING PRODUCER WITH ID: " << id;
+    if (t == SEQUENCE_ELEMENT) {
+        // Already processed
+        return;
+    }
     if (child->data(0, statusRole).toInt() == CLIPOK) {
         QString fixedResource = child->text(1);
         if (t == TITLE_IMAGE_ELEMENT) {
@@ -1630,7 +1716,7 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
                 fixUrl(e, id, fixedResource);
             }
         }
-    } else if (child->data(0, statusRole).toInt() == CLIPPLACEHOLDER && t != TITLE_FONT_ELEMENT && t != TITLE_IMAGE_ELEMENT) {
+    } else if (child->data(0, statusRole).toInt() == CLIPPLACEHOLDER && t != TITLE_FONT_ELEMENT && t != TITLE_IMAGE_ELEMENT && t != SEQUENCE_ELEMENT) {
         // QString id = child->data(0, idRole).toString();
         for (int i = 0; i < producers.count(); ++i) {
             e = producers.item(i).toElement();

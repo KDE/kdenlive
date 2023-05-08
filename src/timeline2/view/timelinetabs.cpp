@@ -117,16 +117,15 @@ TimelineWidget *TimelineTabs::addTimeline(const QUuid uuid, const QString &tabNa
 void TimelineTabs::connectCurrent(int ix)
 {
     QUuid previousTab = QUuid();
-    int duration = 0;
-    int pos = 0;
     if (m_activeTimeline && m_activeTimeline->model()) {
         previousTab = m_activeTimeline->getUuid();
         qDebug() << "===== DISCONNECTING PREVIOUS: " << previousTab;
         pCore->window()->disableMulticam();
-        pos = pCore->getMonitorPosition();
+        int pos = pCore->getMonitorPosition();
         m_activeTimeline->model()->updateDuration();
-        duration = m_activeTimeline->model()->duration();
+        int duration = m_activeTimeline->model()->duration();
         m_activeTimeline->controller()->saveSequenceProperties();
+        pCore->bin()->updateSequenceClip(previousTab, duration, pos, nullptr);
         pCore->window()->disconnectTimeline(m_activeTimeline);
         disconnectTimeline(m_activeTimeline);
     } else {
@@ -149,9 +148,6 @@ void TimelineTabs::connectCurrent(int ix)
     if (!m_activeTimeline->model()->isLoading) {
         pCore->bin()->updateTargets();
     }
-    if (!previousTab.isNull()) {
-        pCore->bin()->updateSequenceClip(previousTab, duration, pos, nullptr);
-    }
 }
 
 void TimelineTabs::renameTab(const QUuid &uuid, const QString &name)
@@ -172,10 +168,10 @@ void TimelineTabs::renameTab(const QUuid &uuid, const QString &name)
 void TimelineTabs::closeTimelineByIndex(int ix)
 {
     QMutexLocker lk(&m_lock);
+    bool closingCurrent = ix == currentIndex();
     const QString seqName = tabText(ix);
     TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(ix));
     const QUuid uuid = timeline->getUuid();
-    timeline->controller()->saveSequenceProperties();
     Fun redo = [this, ix, uuid]() {
         TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(ix));
         timeline->blockSignals(true);
@@ -205,6 +201,14 @@ void TimelineTabs::closeTimelineByIndex(int ix)
         }
         return false;
     };
+    if (closingCurrent) {
+        pCore->window()->disableMulticam();
+        int pos = pCore->getMonitorPosition();
+        m_activeTimeline->model()->updateDuration();
+        int duration = m_activeTimeline->model()->duration();
+        timeline->controller()->saveSequenceProperties();
+        pCore->bin()->updateSequenceClip(uuid, duration, pos, nullptr);
+    }
     redo();
     pCore->pushUndo(undo, redo, i18n("Close %1", seqName));
 }

@@ -158,7 +158,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
 {
     QWriteLocker locker(&m_lock);
     // qDebug() << "RESIZE CLIP" << m_id << "target size=" << size << "right=" << right << "endless=" << m_endlessResize << "length" <<
-    // m_producer->get_length();
+    // m_producer->get_length()<<" > "<<m_producer->get("kdenlive:duration")<<" = "<<m_producer->get("kdenlive:maxduration");
     if (!m_endlessResize && (size <= 0 || size > m_producer->get_length()) && !hasTimeRemap()) {
         return false;
     }
@@ -213,7 +213,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
             if (right && ptr->getTrackById_const(m_currentTrackId)->isLastClip(getPosition())) {
                 trackDuration = ptr->getTrackById_const(m_currentTrackId)->trackDuration();
             }
-            track_operation = ptr->getTrackById(m_currentTrackId)->requestClipResize_lambda(m_id, inPoint, outPoint, right, hasMix);
+            track_operation = ptr->getTrackById(m_currentTrackId)->requestClipResize_lambda(m_id, inPoint, outPoint, right, hasMix, logUndo);
         } else {
             qDebug() << "Error : Moving clip failed because parent timeline is not available anymore";
             Q_ASSERT(false);
@@ -274,7 +274,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
                         ptr->getTrackById(m_currentTrackId)->m_effectStack->adjustStackLength(true, 0, trackDuration, 0, newDuration, 0, undo, redo, logUndo);
                     }
                 }
-                track_reverse = ptr->getTrackById(m_currentTrackId)->requestClipResize_lambda(m_id, old_in, old_out, right, hasMix);
+                track_reverse = ptr->getTrackById(m_currentTrackId)->requestClipResize_lambda(m_id, old_in, old_out, right, hasMix, logUndo);
             }
         }
         Fun reverse = [this, old_in, old_out, track_reverse, logUndo, roles]() {

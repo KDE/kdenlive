@@ -216,6 +216,7 @@ public:
     int clipsCount() const;
     /** @brief Get a secondary timeline tractor by its uuid */
     std::shared_ptr<Mlt::Tractor> getExtraTimeline(const QString &uuid);
+    void setExtraTimelineSaved(const QString &uuid);
     /** @brief Check if  a file is already in Bin */
     bool urlExists(const QString &path) const;
     /** @brief Returns the unique uuid for this project item model */
