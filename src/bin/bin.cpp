@@ -5754,16 +5754,15 @@ void Bin::updateSequenceClip(const QUuid &uuid, int duration, int pos, std::shar
             std::shared_ptr<Mlt::Tractor> trac(new Mlt::Tractor(prod->parent()));
             pCore->projectItemModel()->storeSequence(uuid.toString(), trac);
         }
-        // Store general sequence properties
-        if (clip->durationChanged()) {
+
+        if (m_doc->sequenceThumbRequiresRefresh(uuid)) {
+            // Store general sequence properties
             QMap<QString, QString> properties;
             properties.insert(QStringLiteral("length"), QString::number(duration));
             properties.insert(QStringLiteral("out"), QString::number(duration - 1));
             properties.insert(QStringLiteral("kdenlive:duration"), clip->framesToTime(duration));
             properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(duration));
             clip->setProperties(properties);
-        }
-        if (m_doc->sequenceThumbRequiresRefresh(uuid)) {
             // Reset thumbs producer
             clip->resetSequenceThumbnails();
             ClipLoadTask::start({ObjectType::BinClip, binId.toInt()}, QDomElement(), true, -1, -1, this);

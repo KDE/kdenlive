@@ -996,7 +996,8 @@ void KdenliveDoc::setModified(bool mod)
     if ((m_autosave != nullptr) && mod && KdenliveSettings::crashrecovery()) {
         Q_EMIT startAutoSave();
     }
-    m_sequenceThumbsNeedsRefresh.append(pCore->currentTimelineId());
+    m_sequenceThumbsNeedsRefresh.insert(pCore->currentTimelineId());
+
     if (mod == m_modified) {
         return;
     }
@@ -1011,7 +1012,7 @@ bool KdenliveDoc::sequenceThumbRequiresRefresh(const QUuid &uuid) const
 
 void KdenliveDoc::sequenceThumbUpdated(const QUuid &uuid)
 {
-    m_sequenceThumbsNeedsRefresh.removeAll(uuid);
+    m_sequenceThumbsNeedsRefresh.remove(uuid);
 }
 
 bool KdenliveDoc::isModified() const
