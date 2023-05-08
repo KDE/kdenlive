@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-07 00:49+0000\n"
+"POT-Creation-Date: 2023-05-08 00:45+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -9522,7 +9522,7 @@ msgstr ""
 
 #: src/main.cpp:129
 #, kde-format
-msgid "Feature developement, packaging, bug fixing"
+msgid "Feature development, packaging, bug fixing"
 msgstr ""
 
 #: src/main.cpp:130

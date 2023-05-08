@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-07 00:49+0000\n"
-"PO-Revision-Date: 2023-05-06 05:51+0100\n"
+"POT-Creation-Date: 2023-05-08 00:45+0000\n"
+"PO-Revision-Date: 2023-05-07 13:09+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -2217,7 +2217,7 @@ msgstr ""
 #: data/effects/timer.xml:60 src/ui/configcapture_ui.ui:322
 #, kde-format
 msgid "Offset"
-msgstr "Ofseto"
+msgstr "Deŝovo"
 
 #: data/effects/timer.xml:63
 #, kde-format
@@ -2228,7 +2228,7 @@ msgid ""
 "When the direction is up, the timer will count up starting from \"offset"
 "\".]]>"
 msgstr ""
-"<![CDATA[Ofseto aldonota al la tempigilo-valoro.\n"
+"<![CDATA[Deŝovo aldonota al la tempigilo-valoro.\n"
 "Kiam la direkto estas \"malsupren\", la tempigilo kalkulos malsupren al "
 "\"offseto\" anstataŭ 00:00:00.000.\n"
 "Kiam la direkto estas supren, la tempigilo kalkulos ekde \"offset\".]]>"
@@ -4411,10 +4411,9 @@ msgid "Clear Filters"
 msgstr "Forigi Filtrilojn"
 
 #: src/bin/bin.cpp:2220
-#, fuzzy, kde-format
-#| msgid "Bin Tags"
+#, kde-format
 msgid "No Tags"
-msgstr "Bin Etikedoj"
+msgstr "Neniuj Etikedoj"
 
 #: src/bin/bin.cpp:2239
 #, kde-format
@@ -4424,16 +4423,14 @@ msgstr[0] "%1 stelo"
 msgstr[1] "%1 steloj"
 
 #: src/bin/bin.cpp:2246
-#, fuzzy, kde-format
-#| msgid "Filter by Type"
+#, kde-format
 msgid "Filter by Usage"
-msgstr "Filtri laŭ Tipo"
+msgstr "Filtri laŭ Uzado"
 
 #: src/bin/bin.cpp:2249
-#, fuzzy, kde-format
-#| msgid "Cut All Clips"
+#, kde-format
 msgid "All Clips"
-msgstr "Tranĉi ĉiujn aŭdvidaĵojn"
+msgstr "Ĉiuj tondaĵoj"
 
 #: src/bin/bin.cpp:2254
 #, kde-format
@@ -4441,10 +4438,9 @@ msgid "Unused Clips"
 msgstr "Neuzataj tondaĵoj"
 
 #: src/bin/bin.cpp:2258
-#, fuzzy, kde-format
-#| msgid "Unused Clips"
+#, kde-format
 msgid "Used Clips"
-msgstr "Neuzataj tondaĵoj"
+msgstr "Uzitaj tondaĵoj"
 
 #: src/bin/bin.cpp:2265
 #, kde-format
@@ -9146,10 +9142,9 @@ msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
 #: src/main.cpp:128
-#, fuzzy, kde-format
-#| msgid "Code re-architecture & timeline rewrite"
+#, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
-msgstr "Kodo re-arkitekturigo & templinio reverko"
+msgstr "Koda re-arkitekturigo & reverko de templinio (2019)"
 
 #: src/main.cpp:129
 #, kde-format
@@ -9157,9 +9152,10 @@ msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
 #: src/main.cpp:129
-#, kde-format
-msgid "Feature developement, packaging, bug fixing"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Feature developement, packaging, bug fixing"
+msgid "Feature development, packaging, bug fixing"
+msgstr "Evoluigo de trajtoj, pakado, cimriparado"
 
 #: src/main.cpp:130
 #, kde-format
@@ -9177,10 +9173,9 @@ msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
 #: src/main.cpp:132
-#, fuzzy, kde-format
-#| msgid "MLT, Bug fixing, etc."
+#, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
-msgstr "MLT, Cimo-solvado, ktp."
+msgstr "Prizorganto de MLT, Cimo-solvado, ktp."
 
 #: src/main.cpp:133
 #, kde-format
@@ -9195,12 +9190,12 @@ msgstr "Koloraj medioj, korektado de cimoj ktp."
 #: src/main.cpp:134
 #, kde-format
 msgid "Eric Jiang"
-msgstr ""
+msgstr "Eric Jiang"
 
 #: src/main.cpp:134
 #, kde-format
 msgid "Bug fixing and test improvements"
-msgstr ""
+msgstr "Cimsolvado kaj plibonigoj de testoj"
 
 #: src/main.cpp:136
 #, kde-format
@@ -9230,7 +9225,7 @@ msgstr "Eugen Mohr"
 #: src/main.cpp:139
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
-msgstr ""
+msgstr "Cimtaksado, testado, prizorgo de dokumentado"
 
 #: src/main.cpp:140
 #, kde-format
@@ -9483,7 +9478,7 @@ msgstr ""
 #: src/mainwindow.cpp:543 src/mainwindow.cpp:1436
 #, kde-format
 msgid "Render…"
-msgstr "Redonu…"
+msgstr "Bildigi…"
 
 #: src/mainwindow.cpp:548
 #, kde-format
@@ -10798,8 +10793,8 @@ msgid ""
 msgstr ""
 "<shortcut>Shift-treni</shortcut> por kaŭĉuka elekto, <shortcut>Shift-klako</"
 "shortcut> por multobla elekto, <shortcut>Meta + Alt-treni</shortcut> por "
-"movi grupigitan tranĉeton al alia trako, <shortcut> >Ctrl trenu</shortcut> "
-"al panoramo"
+"movi grupigitan tranĉeton al alia trako, <shortcut>Ctrl trenu</shortcut> al "
+"panoramo"
 
 #: src/mainwindow.cpp:3332
 #, kde-format
@@ -12959,8 +12954,8 @@ msgstr "Enigi aktualan tempokodon"
 #, kde-format
 msgid "Create marker"
 msgid_plural "create markers"
-msgstr[0] "keri markilon"
-msgstr[1] "keri markilojn"
+msgstr[0] "krei markilon"
+msgstr[1] "krei markilojn"
 
 #: src/project/dialogs/noteswidget.cpp:50
 #, kde-format
@@ -15878,12 +15873,12 @@ msgstr "El:%1, Pozicio:%2"
 #: src/timeline2/view/qml/Clip.qml:973
 #, kde-format
 msgid "Offset: -%1"
-msgstr "Ofseto: -%1"
+msgstr "Deŝovo: -%1"
 
 #: src/timeline2/view/qml/Clip.qml:973
 #, kde-format
 msgid "Offset: %1"
-msgstr "Ofseto: %1"
+msgstr "Deŝovo: %1"
 
 #: src/timeline2/view/qml/Clip.qml:1190 src/timeline2/view/qml/Clip.qml:1226
 #, kde-format
@@ -15989,7 +15984,7 @@ msgstr "<b>Duoble alklaku</b> por aldoni subtitolon"
 #: src/timeline2/view/qml/timeline.qml:1883
 #, kde-format
 msgid "Offset: %1, Position: %2"
-msgstr "Ofseto: %1, Pozicio: %2"
+msgstr "Deŝovo: %1, Pozicio: %2"
 
 #: src/timeline2/view/qml/timeline.qml:2031
 #: src/timeline2/view/qml/timeline.qml:2040
@@ -19089,7 +19084,7 @@ msgstr "Tekstaj Opcioj"
 #: src/ui/exportguidesdialog_ui.ui:89 src/ui/titlewidget_ui.ui:794
 #, kde-format
 msgid "Offset:"
-msgstr "Ofseto:"
+msgstr "Deŝovo:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/exportguidesdialog_ui.ui:96
@@ -21088,15 +21083,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Bug fixing, etc."
-#~ msgstr "Cimsolvado, ktp."
-
-#~ msgid "Sashmita Raghav"
-#~ msgstr "Sashmita Raghav"
-
-#~ msgid "Subtitle feature (GSoC), timeline colours"
-#~ msgstr "Subtitola funkcio (GSoC), templiniokoloroj"
-
-#~ msgid "Bug triage, testing"
-#~ msgstr "Cimo-triado, testado"

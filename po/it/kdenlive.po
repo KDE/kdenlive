@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-07 00:49+0000\n"
-"PO-Revision-Date: 2023-04-29 15:23+0200\n"
+"POT-Creation-Date: 2023-05-08 00:45+0000\n"
+"PO-Revision-Date: 2023-05-03 16:25+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -7150,12 +7150,11 @@ msgstr "Elimina colonne"
 #: src/dialogs/textbasededit.cpp:1135
 #, kde-format
 msgid "No speech"
-msgstr "Nessun discorso"
+msgstr "Nessuna voce"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
 #: src/dialogs/textbasededit.cpp:575 src/ui/speechdialog_ui.ui:144
-#, fuzzy, kde-format
-#| msgid "Translate to english"
+#, kde-format
 msgid "Translate to English"
 msgstr "Traduci in inglese"
 
@@ -7167,7 +7166,7 @@ msgstr "Configura il riconoscimento vocale"
 #: src/dialogs/textbasededit.cpp:625
 #, kde-format
 msgid "Speech model"
-msgstr "Modelli di discorso"
+msgstr "Modelli vocali"
 
 #: src/dialogs/textbasededit.cpp:626
 #, kde-format
@@ -7237,7 +7236,7 @@ msgstr "Errore, controlla la configurazione del riconoscimento vocale."
 #: src/dialogs/textbasededit.cpp:1023
 #, kde-format
 msgid "No speech detected."
-msgstr "Nessun discorso rilevato."
+msgstr "Nessuna voce rilevata."
 
 #: src/dialogs/textbasededit.cpp:1044
 #, kde-format
@@ -9283,7 +9282,7 @@ msgstr "Julius Künzel"
 
 #: src/main.cpp:129
 #, kde-format
-msgid "Feature developement, packaging, bug fixing"
+msgid "Feature development, packaging, bug fixing"
 msgstr ""
 
 #: src/main.cpp:130
@@ -9489,7 +9488,7 @@ msgstr "Libreria"
 #: src/mainwindow.cpp:278
 #, kde-format
 msgid "Speech Editor"
-msgstr "Editor del discorso"
+msgstr "Editor vocale"
 
 #: src/mainwindow.cpp:279
 #, kde-format
@@ -9558,7 +9557,7 @@ msgstr "Pulisci"
 #: src/mainwindow.cpp:446
 #, kde-format
 msgid "Undo History"
-msgstr "Cronologia azioni"
+msgstr "Annulla la cronologia"
 
 #: src/mainwindow.cpp:452
 #, kde-format
@@ -18712,7 +18711,7 @@ msgstr "Cartella dei modelli personalizzati"
 #: src/ui/configspeech_ui.ui:112
 #, kde-format
 msgid "VOSK Speech Models"
-msgstr "Modelli di discorso VOSK"
+msgstr "Modelli vocali VOSK"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configspeech_ui.ui:123
@@ -18734,8 +18733,7 @@ msgstr "L'elaborazione Whisper nella CPU è molto lenta"
 
 #. i18n: ectx: property (text), widget (QCheckBox, wr_translate)
 #: src/ui/configspeech_ui.ui:167
-#, fuzzy, kde-format
-#| msgid "Translate text to english"
+#, kde-format
 msgid "Translate text to English"
 msgstr "Traduci il testo in inglese"
 
@@ -18749,7 +18747,7 @@ msgstr "Aggiungi un nuovo modello vocale da un file di archivio"
 #: src/ui/configspeech_ui.ui:224
 #, kde-format
 msgid "Delete the selected speech model"
-msgstr "Elimina il modello di discorso selezionato"
+msgstr "Elimina il modello vocale selezionato"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:251

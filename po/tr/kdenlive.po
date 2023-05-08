@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-07 00:49+0000\n"
-"PO-Revision-Date: 2023-05-06 10:39+0300\n"
+"POT-Creation-Date: 2023-05-08 00:45+0000\n"
+"PO-Revision-Date: 2023-05-07 13:48+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -4429,10 +4429,9 @@ msgid "Clear Filters"
 msgstr "Süzgeçleri temizle"
 
 #: src/bin/bin.cpp:2220
-#, fuzzy, kde-format
-#| msgid "Bin Tags"
+#, kde-format
 msgid "No Tags"
-msgstr "Kova Etiketleri"
+msgstr "Etiket Yok"
 
 #: src/bin/bin.cpp:2239
 #, kde-format
@@ -4442,16 +4441,14 @@ msgstr[0] "%1 Yıldız"
 msgstr[1] "%1 Yıldız"
 
 #: src/bin/bin.cpp:2246
-#, fuzzy, kde-format
-#| msgid "Filter by Type"
+#, kde-format
 msgid "Filter by Usage"
-msgstr "Türe Göre Süz"
+msgstr "Kullanıma Göre Süz"
 
 #: src/bin/bin.cpp:2249
-#, fuzzy, kde-format
-#| msgid "Cut All Clips"
+#, kde-format
 msgid "All Clips"
-msgstr "Tüm Klipleri Kes"
+msgstr "Tüm Klipler"
 
 #: src/bin/bin.cpp:2254
 #, kde-format
@@ -4459,10 +4456,9 @@ msgid "Unused Clips"
 msgstr "Kullanılmayan Klipler"
 
 #: src/bin/bin.cpp:2258
-#, fuzzy, kde-format
-#| msgid "Unused Clips"
+#, kde-format
 msgid "Used Clips"
-msgstr "Kullanılmayan Klipler"
+msgstr "Kullanılan Klipler"
 
 #: src/bin/bin.cpp:2265
 #, kde-format
@@ -9161,10 +9157,10 @@ msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
 #: src/main.cpp:128
-#, fuzzy, kde-format
-#| msgid "Code re-architecture & timeline rewrite"
+#, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
-msgstr "Kod mimarisin yeniden düzenlenmesi ve zaman akışının yeniden yazılması"
+msgstr ""
+"Kod mimarisin yeniden düzenlenmesi ve zaman akışının yeniden yazılması (2019)"
 
 #: src/main.cpp:129
 #, kde-format
@@ -9172,9 +9168,10 @@ msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
 #: src/main.cpp:129
-#, kde-format
-msgid "Feature developement, packaging, bug fixing"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Feature developement, packaging, bug fixing"
+msgid "Feature development, packaging, bug fixing"
+msgstr "Özellik geliştirmeleri, paketleme, hata düzeltmeleri"
 
 #: src/main.cpp:130
 #, kde-format
@@ -9192,10 +9189,9 @@ msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
 #: src/main.cpp:132
-#, fuzzy, kde-format
-#| msgid "MLT, Bug fixing, etc."
+#, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
-msgstr "MLT, hata giderme vb."
+msgstr "MLT bakımcısı, hata düzeltmeleri vb."
 
 #: src/main.cpp:133
 #, kde-format
@@ -9210,12 +9206,12 @@ msgstr "Renk kapsamları, hata onarımları, vb."
 #: src/main.cpp:134
 #, kde-format
 msgid "Eric Jiang"
-msgstr ""
+msgstr "Eric Jiang"
 
 #: src/main.cpp:134
 #, kde-format
 msgid "Bug fixing and test improvements"
-msgstr ""
+msgstr "Hata düzeltmeleri ve sınama iyileştirmeleri"
 
 #: src/main.cpp:136
 #, kde-format
@@ -9245,7 +9241,7 @@ msgstr "Eugen Mohr"
 #: src/main.cpp:139
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
-msgstr ""
+msgstr "Hata triyajı, sınama, belgelendirme bakımcısı"
 
 #: src/main.cpp:140
 #, kde-format

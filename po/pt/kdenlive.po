@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-07 00:49+0000\n"
-"PO-Revision-Date: 2023-05-06 11:48+0100\n"
+"POT-Creation-Date: 2023-05-08 00:45+0000\n"
+"PO-Revision-Date: 2023-05-07 13:50+0100\n"
 "Last-Translator: Jose Jorge <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
 "Language: pt\n"
@@ -113,7 +113,7 @@ msgstr ""
 "X-POFile-SpellExtra: Lingala Malayalam Maori Marati Myanmar Nynorsk\n"
 "X-POFile-SpellExtra: Panjabi Pashto Punjabi Pushto Shona Sindhi Sinhala\n"
 "X-POFile-SpellExtra: Sinhalês Swahili Tagalog Tatar Turquemeno Urdu\n"
-"X-POFile-SpellExtra: Yiddish Yoruba Whisper\n"
+"X-POFile-SpellExtra: Yiddish Yoruba Whisper Eric Jiang\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4545,10 +4545,9 @@ msgid "Clear Filters"
 msgstr "Limpar os Filtros"
 
 #: src/bin/bin.cpp:2220
-#, fuzzy, kde-format
-#| msgid "Bin Tags"
+#, kde-format
 msgid "No Tags"
-msgstr "Marcas de Grupos"
+msgstr "Sem Marcas"
 
 #: src/bin/bin.cpp:2239
 #, kde-format
@@ -4558,16 +4557,14 @@ msgstr[0] "%1 Estrela"
 msgstr[1] "%1 Estrelas"
 
 #: src/bin/bin.cpp:2246
-#, fuzzy, kde-format
-#| msgid "Filter by Type"
+#, kde-format
 msgid "Filter by Usage"
-msgstr "Filtrar por Tipo"
+msgstr "Filtrar por Utilização"
 
 #: src/bin/bin.cpp:2249
-#, fuzzy, kde-format
-#| msgid "Cut All Clips"
+#, kde-format
 msgid "All Clips"
-msgstr "Cortar Todos os 'Clips'"
+msgstr "Todos os 'Clips'"
 
 #: src/bin/bin.cpp:2254
 #, kde-format
@@ -4575,10 +4572,9 @@ msgid "Unused Clips"
 msgstr "'Clips' não Usados"
 
 #: src/bin/bin.cpp:2258
-#, fuzzy, kde-format
-#| msgid "Unused Clips"
+#, kde-format
 msgid "Used Clips"
-msgstr "'Clips' não Usados"
+msgstr "'Clips' Usados"
 
 #: src/bin/bin.cpp:2265
 #, kde-format
@@ -9330,10 +9326,9 @@ msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
 #: src/main.cpp:128
-#, fuzzy, kde-format
-#| msgid "Code re-architecture & timeline rewrite"
+#, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
-msgstr "Reorganização do código & remodelação da linha temporal"
+msgstr "Reorganização do código & remodelação da linha temporal (2019)"
 
 #: src/main.cpp:129
 #, kde-format
@@ -9341,9 +9336,11 @@ msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
 #: src/main.cpp:129
-#, kde-format
-msgid "Feature developement, packaging, bug fixing"
+#, fuzzy, kde-format
+#| msgid "Feature developement, packaging, bug fixing"
+msgid "Feature development, packaging, bug fixing"
 msgstr ""
+"Desenvolvimento de funcionalidades, criação de pacotes, correcção de erros"
 
 #: src/main.cpp:130
 #, kde-format
@@ -9363,10 +9360,9 @@ msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
 #: src/main.cpp:132
-#, fuzzy, kde-format
-#| msgid "MLT, Bug fixing, etc."
+#, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
-msgstr "MLT, correcções de erros, etc."
+msgstr "Manutenção do MLT, correcções de erros, etc."
 
 #: src/main.cpp:133
 #, kde-format
@@ -9381,12 +9377,12 @@ msgstr "Âmbitos de cores, correcção de erros, etc."
 #: src/main.cpp:134
 #, kde-format
 msgid "Eric Jiang"
-msgstr ""
+msgstr "Eric Jiang"
 
 #: src/main.cpp:134
 #, kde-format
 msgid "Bug fixing and test improvements"
-msgstr ""
+msgstr "Correcção de erros e melhorias nos testes"
 
 #: src/main.cpp:136
 #, kde-format
@@ -9416,7 +9412,7 @@ msgstr "Eugen Mohr"
 #: src/main.cpp:139
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
-msgstr ""
+msgstr "Triagem de erros, testes, manutenção da documentação"
 
 #: src/main.cpp:140
 #, kde-format
@@ -21352,15 +21348,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Bug fixing, etc."
-#~ msgstr "Correcções de erros, etc."
-
-#~ msgid "Sashmita Raghav"
-#~ msgstr "Sashmita Raghav"
-
-#~ msgid "Subtitle feature (GSoC), timeline colours"
-#~ msgstr "Funcionalidade de legendas (GSoC), cores da linha temporal"
-
-#~ msgid "Bug triage, testing"
-#~ msgstr "Triagem de erros, testes"

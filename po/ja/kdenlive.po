@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-07 00:49+0000\n"
+"POT-Creation-Date: 2023-05-08 00:45+0000\n"
 "PO-Revision-Date: 2023-03-09 21:18-0800\n"
 "Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -9604,7 +9604,7 @@ msgstr ""
 
 #: src/main.cpp:129
 #, kde-format
-msgid "Feature developement, packaging, bug fixing"
+msgid "Feature development, packaging, bug fixing"
 msgstr ""
 
 #: src/main.cpp:130

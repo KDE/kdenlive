@@ -9,15 +9,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-07 00:49+0000\n"
-"PO-Revision-Date: 2023-05-06 12:35+0200\n"
+"POT-Creation-Date: 2023-05-08 00:45+0000\n"
+"PO-Revision-Date: 2023-05-07 15:20+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 23.04.0\n"
+"X-Generator: Lokalize 22.12.3\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -4444,10 +4444,9 @@ msgid "Clear Filters"
 msgstr "Filters wissen"
 
 #: src/bin/bin.cpp:2220
-#, fuzzy, kde-format
-#| msgid "Bin Tags"
+#, kde-format
 msgid "No Tags"
-msgstr "Tags op bin"
+msgstr "Geen tags"
 
 #: src/bin/bin.cpp:2239
 #, kde-format
@@ -4457,14 +4456,12 @@ msgstr[0] "%1 ster"
 msgstr[1] "%1 sterren"
 
 #: src/bin/bin.cpp:2246
-#, fuzzy, kde-format
-#| msgid "Filter by Type"
+#, kde-format
 msgid "Filter by Usage"
-msgstr "Op type filteren"
+msgstr "Op gebruik filteren"
 
 #: src/bin/bin.cpp:2249
-#, fuzzy, kde-format
-#| msgid "All clips"
+#, kde-format
 msgid "All Clips"
 msgstr "Alle clips"
 
@@ -4474,10 +4471,9 @@ msgid "Unused Clips"
 msgstr "Ongebruikte clips"
 
 #: src/bin/bin.cpp:2258
-#, fuzzy, kde-format
-#| msgid "Unused Clips"
+#, kde-format
 msgid "Used Clips"
-msgstr "Ongebruikte clips"
+msgstr "Gebruikte clips"
 
 #: src/bin/bin.cpp:2265
 #, kde-format
@@ -9206,10 +9202,10 @@ msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
 #: src/main.cpp:128
-#, fuzzy, kde-format
-#| msgid "Code re-architecture & timeline rewrite"
+#, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
-msgstr "Opnieuw ontwerp van codearchitectuur & herschrijven van tijdlijn"
+msgstr ""
+"Opnieuw ontwerp van codearchitectuur & herschrijven van tijdlijn (2019)"
 
 #: src/main.cpp:129
 #, kde-format
@@ -9217,9 +9213,10 @@ msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
 #: src/main.cpp:129
-#, kde-format
-msgid "Feature developement, packaging, bug fixing"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Feature developement, packaging, bug fixing"
+msgid "Feature development, packaging, bug fixing"
+msgstr "Ontwikkeling van mogelijkheden, pakketvorm, repareren van bugs"
 
 #: src/main.cpp:130
 #, kde-format
@@ -9239,10 +9236,9 @@ msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
 #: src/main.cpp:132
-#, fuzzy, kde-format
-#| msgid "MLT, Bug fixing, etc."
+#, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
-msgstr "MLT, reparaties van bugs, etc."
+msgstr "MLT onderhouder, reparaties van bugs, etc."
 
 #: src/main.cpp:133
 #, kde-format
@@ -9257,12 +9253,12 @@ msgstr "Kleur scopes, bug fixing, enz."
 #: src/main.cpp:134
 #, kde-format
 msgid "Eric Jiang"
-msgstr ""
+msgstr "Eric Jiang"
 
 #: src/main.cpp:134
 #, kde-format
 msgid "Bug fixing and test improvements"
-msgstr ""
+msgstr "Bug reparaties en verbeteringen van testen"
 
 #: src/main.cpp:136
 #, kde-format
@@ -9292,7 +9288,7 @@ msgstr "Eugen Mohr"
 #: src/main.cpp:139
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
-msgstr ""
+msgstr "Triage van bugs, testen, onderhouder van documentatie"
 
 #: src/main.cpp:140
 #, kde-format

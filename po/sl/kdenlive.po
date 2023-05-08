@@ -10,18 +10,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-07 00:49+0000\n"
-"PO-Revision-Date: 2023-05-03 09:09+0200\n"
-"Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
+"POT-Creation-Date: 2023-05-08 00:45+0000\n"
+"PO-Revision-Date: 2023-05-07 11:30+0200\n"
+"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
-"%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100>=3 && n"
+"%100<=4 ? 2 : 3);\n"
 "Translator: Martin Srebotnjak <miles@filmsi.net>\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.3\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
 
 #, kde-format
@@ -1245,10 +1245,9 @@ msgid "Correct audio loudness as recommended by EBU R128"
 msgstr "Popravi glasnost zvoka po priporočilih EBU R128"
 
 #: data/effects/loudness.xml:13 data/effects/tracker.xml:42
-#, fuzzy, kde-format
-#| msgid "Enable Effect"
+#, kde-format
 msgid "Analyse to Apply Effect"
-msgstr "Omogoči učinek"
+msgstr "Analiziraj za uveljavitev učinka"
 
 #: data/effects/lumaliftgaingamma.xml:4
 #, kde-format
@@ -2273,10 +2272,9 @@ msgid "Select a zone to follow its movements"
 msgstr "Izberite območje za sledenje njegovemu premikanju"
 
 #: data/effects/tracker.xml:11
-#, fuzzy, kde-format
-#| msgid "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM"
+#, kde-format
 msgid "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM,Nano"
-msgstr "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM"
+msgstr "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM,Nano"
 
 #: data/effects/tracker.xml:12
 #, kde-format
@@ -4435,10 +4433,9 @@ msgid "Clear Filters"
 msgstr "Počisti filtre"
 
 #: src/bin/bin.cpp:2220
-#, fuzzy, kde-format
-#| msgid "Bin Tags"
+#, kde-format
 msgid "No Tags"
-msgstr "Značke posode"
+msgstr "Ni značk"
 
 #: src/bin/bin.cpp:2239
 #, kde-format
@@ -4450,16 +4447,14 @@ msgstr[2] "%1 zvezdice"
 msgstr[3] "%1 zvezdic"
 
 #: src/bin/bin.cpp:2246
-#, fuzzy, kde-format
-#| msgid "Filter by Type"
+#, kde-format
 msgid "Filter by Usage"
-msgstr "Filtriraj po vrsti"
+msgstr "Filtriraj po rabi"
 
 #: src/bin/bin.cpp:2249
-#, fuzzy, kde-format
-#| msgid "Cut All Clips"
+#, kde-format
 msgid "All Clips"
-msgstr "Odreži vse posnetke"
+msgstr "Vsi posnetki"
 
 #: src/bin/bin.cpp:2254
 #, kde-format
@@ -4467,10 +4462,9 @@ msgid "Unused Clips"
 msgstr "Neuporabljeni posnetki"
 
 #: src/bin/bin.cpp:2258
-#, fuzzy, kde-format
-#| msgid "Unused Clips"
+#, kde-format
 msgid "Used Clips"
-msgstr "Neuporabljeni posnetki"
+msgstr "Uporabljeni posnetki"
 
 #: src/bin/bin.cpp:2265
 #, kde-format
@@ -7567,16 +7561,14 @@ msgid "Clip %1 will be reloaded"
 msgstr "Posnetek %1 bo ponovno naložen"
 
 #: src/doc/documentchecker.cpp:474
-#, fuzzy, kde-format
-#| msgid "Create Sequence Clip"
+#, kde-format
 msgid "Fixed Sequence Clips"
-msgstr "Ustvari posnetek zaporedja"
+msgstr "Fiksirano zaporedje posnetkov"
 
 #: src/doc/documentchecker.cpp:478
-#, fuzzy, kde-format
-#| msgid "Clip has no effects"
+#, kde-format
 msgid "Clip %1 has been fixed"
-msgstr "Posnetek nima učinkov"
+msgstr "Posnetek %1 je bil fiksiran"
 
 #: src/doc/documentchecker.cpp:484
 #, kde-format
@@ -9207,10 +9199,9 @@ msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
 #: src/main.cpp:128
-#, fuzzy, kde-format
-#| msgid "Code re-architecture & timeline rewrite"
+#, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
-msgstr "Preurejanje kode in ponovno programiranje časovnice"
+msgstr "Preurejanje kode in ponovno programiranje časovnice (2019)"
 
 #: src/main.cpp:129
 #, kde-format
@@ -9218,9 +9209,10 @@ msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
 #: src/main.cpp:129
-#, kde-format
-msgid "Feature developement, packaging, bug fixing"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Feature developement, packaging, bug fixing"
+msgid "Feature development, packaging, bug fixing"
+msgstr "Razvoj zmožnosti, pakiranje, odpravljanje napak"
 
 #: src/main.cpp:130
 #, kde-format
@@ -9238,10 +9230,9 @@ msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
 #: src/main.cpp:132
-#, fuzzy, kde-format
-#| msgid "MLT, Bug fixing, etc."
+#, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
-msgstr "MLT, odpravljanje hroščev itn."
+msgstr "Vzdrževalec MLT, odpravljanje hroščev itn."
 
 #: src/main.cpp:133
 #, kde-format
@@ -9256,12 +9247,12 @@ msgstr "Barvni obsegi, odpravljanje hroščev itn."
 #: src/main.cpp:134
 #, kde-format
 msgid "Eric Jiang"
-msgstr ""
+msgstr "Eric Jiang"
 
 #: src/main.cpp:134
 #, kde-format
 msgid "Bug fixing and test improvements"
-msgstr ""
+msgstr "Popravljanje napak in izboljšave preizkusov"
 
 #: src/main.cpp:136
 #, kde-format
@@ -9291,7 +9282,7 @@ msgstr "Eugen Mohr"
 #: src/main.cpp:139
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
-msgstr ""
+msgstr "Triaža napak, preizkušanje, vzdrževanje dokumentacije"
 
 #: src/main.cpp:140
 #, kde-format
@@ -13760,10 +13751,11 @@ msgstr ""
 "znova odprite svojo datoteko projekta za obnovitev iz zadnje varovalne kopije"
 
 #: src/project/projectmanager.cpp:1103
-#, fuzzy, kde-format
-#| msgid "Error moving project folder: %1"
+#, kde-format
 msgid "Error moving project folder, cannot access cache folder"
-msgstr "Napaka med premikanjem mape projekta: %1"
+msgstr ""
+"Napaka med premikanjem mape projekta, ni mogoče dostopati do mape "
+"medpomnilnika"
 
 #: src/project/projectmanager.cpp:1139
 #, kde-format
@@ -15113,10 +15105,9 @@ msgid "Histogram"
 msgstr "Histogram"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:51
-#, fuzzy, kde-format
-#| msgid "You cannot insert a sequence containing itself"
+#, kde-format
 msgid "Found an invalid sequence clip in Bin"
-msgstr "Ni mogoče vstaviti zaporedja, ki vsebuje samega sebe."
+msgstr "Najden neveljaven posnetek zaporedja v posodi"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:264
 #: src/timeline2/model/builders/meltBuilder.cpp:493
@@ -21187,18 +21178,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "Bug fixing, etc."
-#~ msgstr "Odpravljanje hroščev itn."
-
-#~ msgid "Sashmita Raghav"
-#~ msgstr "Sashmita Raghav"
-
-#~ msgid "Subtitle feature (GSoC), timeline colours"
-#~ msgstr "Funkcija podnaslavljanja (GSoC), barve časovnice"
-
-#~ msgid "Bug triage, testing"
-#~ msgstr "Triaža napak, preizkušanje"
-
-#~ msgid "Analyse"
-#~ msgstr "Preuči"
