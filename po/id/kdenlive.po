@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-08 00:45+0000\n"
+"POT-Creation-Date: 2023-05-09 00:47+0000\n"
 "PO-Revision-Date: 2023-01-13 08:32+0700\n"
 "Last-Translator: Linerly <linerly@protonmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -4307,7 +4307,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "Hapus Klip bin"
 
-#: src/bin/bin.cpp:1826 src/doc/documentchecker.cpp:611
+#: src/bin/bin.cpp:1826 src/doc/documentchecker.cpp:612
 #, kde-format
 msgid "Missing source clip"
 msgstr "Klip sumber hilang"
@@ -4502,7 +4502,7 @@ msgstr "Playlist"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2292 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/project/projectmanager.cpp:1244 src/project/projectmanager.cpp:1246
+#: src/project/projectmanager.cpp:1248 src/project/projectmanager.cpp:1250
 #: src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
 #| msgid "Image Sequence"
@@ -4756,7 +4756,7 @@ msgid "Edit Tags"
 msgstr "Edit Tag"
 
 #: src/bin/bin.cpp:4277 src/bin/projectclip.cpp:190
-#: src/bin/projectclip.cpp:1925 src/onlineresources/resourcewidget.cpp:266
+#: src/bin/projectclip.cpp:1943 src/onlineresources/resourcewidget.cpp:266
 #: src/onlineresources/resourcewidget.cpp:557
 #: src/onlineresources/resourcewidget.cpp:572
 #, kde-format
@@ -5289,13 +5289,13 @@ msgstr "Hapus subtitel"
 msgid "Timeline sequence"
 msgstr "Rentetan citra:"
 
-#: src/bin/projectclip.cpp:525
+#: src/bin/projectclip.cpp:531
 #, kde-format
 msgctxt "The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "P"
 
-#: src/bin/projectclip.cpp:615
+#: src/bin/projectclip.cpp:621
 #, kde-format
 msgid ""
 "Image dimension smaller than 8 pixels.\n"
@@ -5304,7 +5304,7 @@ msgstr ""
 "Dimensi citra lebih kecil dari 8 pixel.\n"
 "Ini tidak didukung dengan benar oleh framework video kita."
 
-#: src/bin/projectclip.cpp:893
+#: src/bin/projectclip.cpp:901
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -5313,24 +5313,24 @@ msgstr ""
 "Tidak bisa mengekstrak metadata dari %1\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1126 src/jobs/cliploadtask.cpp:254
+#: src/bin/projectclip.cpp:1137 src/jobs/cliploadtask.cpp:254
 #, kde-format
 msgid "Invalid"
 msgstr "Tidak valid"
 
-#: src/bin/projectclip.cpp:1327 src/dialogs/clipcreationdialog.cpp:202
+#: src/bin/projectclip.cpp:1341 src/dialogs/clipcreationdialog.cpp:202
 #: src/jobs/cuttask.cpp:171 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1358
 #, kde-format
 msgid "File already exists"
 msgstr "File sudah ada"
 
-#: src/bin/projectclip.cpp:2659
+#: src/bin/projectclip.cpp:2677
 #, kde-format
 msgid "Add stream effect"
 msgstr "Tambahkan efek stream"
 
-#: src/bin/projectclip.cpp:2684
+#: src/bin/projectclip.cpp:2702
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Singkirkan efek stream"
@@ -5816,7 +5816,7 @@ msgstr "Klip Teks"
 msgid "Create Text clip"
 msgstr "Buat klip Teks"
 
-#: src/dialogs/clipcreationdialog.cpp:390 src/doc/kdenlivedoc.cpp:1109
+#: src/dialogs/clipcreationdialog.cpp:390 src/doc/kdenlivedoc.cpp:1110
 #, kde-format
 msgid "Template title clip"
 msgstr "Templat klip judul"
@@ -6067,7 +6067,7 @@ msgstr "Ekspor Data Panduan"
 #: src/dialogs/renderwidget.cpp:957 src/dialogs/renderwidget.cpp:1010
 #: src/dialogs/renderwidget.cpp:1015 src/dialogs/renderwidget.cpp:1968
 #: src/dialogs/renderwidget.cpp:1995 src/doc/kdenlivedoc.cpp:743
-#: src/doc/kdenlivedoc.cpp:751 src/doc/kdenlivedoc.cpp:1243
+#: src/doc/kdenlivedoc.cpp:751 src/doc/kdenlivedoc.cpp:1244
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
 #: src/effects/effectsrepository.cpp:394
@@ -6081,7 +6081,7 @@ msgstr "Ekspor Data Panduan"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1528
+#: src/project/projectmanager.cpp:1532
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5094
@@ -7527,7 +7527,7 @@ msgid "Missing item"
 msgstr "Item yang hilang"
 
 #: src/doc/documentchecker.cpp:417 src/doc/documentchecker.cpp:442
-#: src/doc/documentchecker.cpp:1376
+#: src/doc/documentchecker.cpp:1387
 #, kde-format
 msgid "Relocated item"
 msgstr "Item yang direlokasikan"
@@ -7560,28 +7560,28 @@ msgstr "Rentetan citra:"
 
 #: src/doc/documentchecker.cpp:478
 #, fuzzy, kde-format
-#| msgid "Clip has no effects"
-msgid "Clip %1 has been fixed"
-msgstr "Klip tidak memiliki efek"
+#| msgid "Clip %1 will be reloaded"
+msgid "Clip %1 will be fixed"
+msgstr "Klip %1 akan dimuat ulang"
 
-#: src/doc/documentchecker.cpp:484
+#: src/doc/documentchecker.cpp:485
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "File proyek kehilangan beberapa klip atau file."
 
-#: src/doc/documentchecker.cpp:490
+#: src/doc/documentchecker.cpp:491
 #, kde-format
 msgid "Missing effect: %2 will be removed from project."
 msgid_plural "Missing effects: %2 will be removed from project."
 msgstr[0] "Efek yang hilang: %2 akan disingkirkan dari proyek."
 msgstr[1] "Efek yang hilang: %2 akan disingkirkan dari proyek."
 
-#: src/doc/documentchecker.cpp:497
+#: src/doc/documentchecker.cpp:498
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Klip proxy yang hilang bisa dibuat ulang saat pembukaan."
 
-#: src/doc/documentchecker.cpp:515
+#: src/doc/documentchecker.cpp:516
 #, kde-format
 msgid ""
 "The project file contains a missing clip, you can still work with its proxy."
@@ -7595,7 +7595,7 @@ msgstr[1] ""
 "File proyek berisi %1 klip yang hilang, Anda masih bisa bekerja dengan proxy "
 "itu."
 
-#: src/doc/documentchecker.cpp:522
+#: src/doc/documentchecker.cpp:523
 #, kde-format
 msgid "The project file contains one modified clip, it will be reloaded."
 msgid_plural ""
@@ -7605,82 +7605,82 @@ msgstr[0] ""
 msgstr[1] ""
 "File proyek berisi %1 klip yang termodifikasi, itu akan dimuat ulang."
 
-#: src/doc/documentchecker.cpp:589
+#: src/doc/documentchecker.cpp:590
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr "Klip proxy"
 
-#: src/doc/documentchecker.cpp:592
+#: src/doc/documentchecker.cpp:593
 #, kde-format
 msgid "%1 missing proxy clip, will be recreated on project opening"
 msgid_plural "%1 missing proxy clips, will be recreated on project opening"
 msgstr[0] "%1 klip proxy hilang, akan diciptakan ulang saat pembukaan proyek"
 msgstr[1] "%1 klip proxy hilang, akan diciptakan ulang saat pembukaan proyek"
 
-#: src/doc/documentchecker.cpp:595
+#: src/doc/documentchecker.cpp:596
 #, kde-format
 msgid "Missing proxy"
 msgstr "Proxy yang hilang"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/doc/documentchecker.cpp:606 src/doc/documentchecker.cpp:620
+#: src/doc/documentchecker.cpp:607 src/doc/documentchecker.cpp:621
 #: src/ui/timeremap_ui.ui:90
 #, kde-format
 msgid "Source clip"
 msgstr "Klip sumber"
 
-#: src/doc/documentchecker.cpp:608
+#: src/doc/documentchecker.cpp:609
 #, kde-format
 msgid "%1 missing source clips, you can only use the proxies"
 msgstr "%1 klip sumber hilang, Anda hanya bisa menggunakan proxy"
 
-#: src/doc/documentchecker.cpp:1023
+#: src/doc/documentchecker.cpp:1034
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Folder Klip"
 
-#: src/doc/documentchecker.cpp:1055 src/doc/documentchecker.cpp:1079
-#: src/doc/documentchecker.cpp:1089 src/doc/documentchecker.cpp:1098
-#: src/doc/documentchecker.cpp:1110
+#: src/doc/documentchecker.cpp:1066 src/doc/documentchecker.cpp:1090
+#: src/doc/documentchecker.cpp:1100 src/doc/documentchecker.cpp:1109
+#: src/doc/documentchecker.cpp:1121
 #, kde-format
 msgid "Recovered item"
 msgstr "Item yang dipulihkan"
 
-#: src/doc/documentchecker.cpp:1123
+#: src/doc/documentchecker.cpp:1134
 #, kde-format
 msgid "Search aborted"
 msgstr "Pencarian yang digugurkan"
 
-#: src/doc/documentchecker.cpp:1125
+#: src/doc/documentchecker.cpp:1136
 #, kde-format
 msgid "Search done"
 msgstr "Pencarian selesai"
 
-#: src/doc/documentchecker.cpp:1241
+#: src/doc/documentchecker.cpp:1252
 #, kde-format
 msgid "Scanning %1"
 msgstr "Memindai %1"
 
-#: src/doc/documentchecker.cpp:1338
+#: src/doc/documentchecker.cpp:1349
 #, kde-format
 msgid "Enter new location for folder"
 msgstr "Masukkan lokasi baru untuk folder"
 
-#: src/doc/documentchecker.cpp:1364
+#: src/doc/documentchecker.cpp:1375
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Masukkan lokasi baru untuk file"
 
-#: src/doc/documentchecker.cpp:1764
+#: src/doc/documentchecker.cpp:1850
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
 msgstr[0] "Ini akan menghapus klip yang dipilih dari proyek ini"
 msgstr[1] "Ini akan menghapus klip yang dipilih dari proyek ini"
 
-#: src/doc/documentchecker.cpp:1766
+#: src/doc/documentchecker.cpp:1852
 #, kde-format
 msgid "Remove clips"
 msgstr "Singkirkan klip"
@@ -7798,7 +7798,7 @@ msgid "Invalid file path"
 msgstr "Alur file tidak valid"
 
 #: src/doc/kdenlivedoc.cpp:213 src/project/projectmanager.cpp:719
-#: src/project/projectmanager.cpp:783 src/project/projectmanager.cpp:810
+#: src/project/projectmanager.cpp:783 src/project/projectmanager.cpp:812
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Tidak bisa memulihkan file rusak."
@@ -7876,36 +7876,36 @@ msgstr ""
 "File proyek Anda telah ditingkatkan ke versi dokumen Kdenlive terkini, "
 "tetapi itu tidak mungkin untuk menciptakan salinan cadangan %1."
 
-#: src/doc/kdenlivedoc.cpp:867 src/project/projectmanager.cpp:1125
-#: src/project/projectmanager.cpp:1161
+#: src/doc/kdenlivedoc.cpp:867 src/project/projectmanager.cpp:1129
+#: src/project/projectmanager.cpp:1165
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Galat memindah folder proyek: %1"
 
-#: src/doc/kdenlivedoc.cpp:1034 src/doc/kdenlivedoc.cpp:2157
+#: src/doc/kdenlivedoc.cpp:1035 src/doc/kdenlivedoc.cpp:2158
 #: src/project/dialogs/archivewidget.cpp:214
-#: src/project/projectmanager.cpp:1361
+#: src/project/projectmanager.cpp:1365
 #, kde-format
 msgid "Untitled"
 msgstr "Belum diberi judul"
 
-#: src/doc/kdenlivedoc.cpp:1095
+#: src/doc/kdenlivedoc.cpp:1096
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Masukkan Alur Templat"
 
-#: src/doc/kdenlivedoc.cpp:1250
+#: src/doc/kdenlivedoc.cpp:1251
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "Efek berikut yang diimpor dari proyek:"
 
-#: src/doc/kdenlivedoc.cpp:1283 src/doc/kdenlivedoc.cpp:1297
+#: src/doc/kdenlivedoc.cpp:1284 src/doc/kdenlivedoc.cpp:1298
 #, kde-format
 msgid "Project Folder"
 msgstr "Folder Proyek"
 
-#: src/doc/kdenlivedoc.cpp:1341 src/doc/kdenlivedoc.cpp:1349
+#: src/doc/kdenlivedoc.cpp:1342 src/doc/kdenlivedoc.cpp:1350
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -7914,26 +7914,26 @@ msgstr ""
 "Tidak dapat membuat salinan cadangan:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1494
+#: src/doc/kdenlivedoc.cpp:1495
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "Tambahkan klip proxy"
 msgstr[1] "Tambahkan klip proxy"
 
-#: src/doc/kdenlivedoc.cpp:1496
+#: src/doc/kdenlivedoc.cpp:1497
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "Singkirkan klip proxy"
 msgstr[1] "Singkirkan klip proxy"
 
-#: src/doc/kdenlivedoc.cpp:1540 src/doc/kdenlivedoc.cpp:1575
+#: src/doc/kdenlivedoc.cpp:1541 src/doc/kdenlivedoc.cpp:1576
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "Tipe klip belum mendukung proxy"
 
-#: src/doc/kdenlivedoc.cpp:1778
+#: src/doc/kdenlivedoc.cpp:1779
 #, kde-format
 msgid ""
 "\n"
@@ -7943,7 +7943,7 @@ msgstr ""
 "Peringatan: fps non integer tidak diketahui, dapat menyebabkan tampilan "
 "durasi yang salah."
 
-#: src/doc/kdenlivedoc.cpp:1797
+#: src/doc/kdenlivedoc.cpp:1798
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -7953,43 +7953,43 @@ msgstr ""
 "%3.\n"
 "Apakah Anda ingin mengubah profil default untuk proyek nantinya?"
 
-#: src/doc/kdenlivedoc.cpp:1799
+#: src/doc/kdenlivedoc.cpp:1800
 #, kde-format
 msgid "Change default project profile"
 msgstr "Ubah profil proyek default"
 
-#: src/doc/kdenlivedoc.cpp:1799
+#: src/doc/kdenlivedoc.cpp:1800
 #, kde-format
 msgid "Change default to %1"
 msgstr "Ubah default untuk %1"
 
-#: src/doc/kdenlivedoc.cpp:1800
+#: src/doc/kdenlivedoc.cpp:1801
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Jaga default %1 saat ini"
 
-#: src/doc/kdenlivedoc.cpp:1800
+#: src/doc/kdenlivedoc.cpp:1801
 #, kde-format
 msgid "Ask me later"
 msgstr "Tanya saya nanti"
 
-#: src/doc/kdenlivedoc.cpp:1820
+#: src/doc/kdenlivedoc.cpp:1821
 #, kde-format
 msgid "Switch"
 msgstr "Alihkan"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1822 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1823 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "Batal"
 
-#: src/doc/kdenlivedoc.cpp:1824
+#: src/doc/kdenlivedoc.cpp:1825
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Beralih ke klip (%1) profil %2?"
 
-#: src/doc/kdenlivedoc.cpp:1829
+#: src/doc/kdenlivedoc.cpp:1830
 #, kde-format
 msgid ""
 "\n"
@@ -7998,7 +7998,7 @@ msgstr ""
 "\n"
 "Fps profil diatur dari %1 yang asli"
 
-#: src/doc/kdenlivedoc.cpp:1831
+#: src/doc/kdenlivedoc.cpp:1832
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -8007,13 +8007,13 @@ msgstr ""
 "Tidak ada profil yang ditemukan untuk klip %1 Anda.\n"
 "Buat dan alihkan ke profil baru (%2x%3, %4fps)?%5 "
 
-#: src/doc/kdenlivedoc.cpp:2196 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2197 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "Merah"
 
-#: src/doc/kdenlivedoc.cpp:2197 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2198 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -8021,23 +8021,23 @@ msgstr "Merah"
 msgid "Green"
 msgstr "Hijau"
 
-#: src/doc/kdenlivedoc.cpp:2198 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2199 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "Biru"
 
-#: src/doc/kdenlivedoc.cpp:2199 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2200 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Kuning"
 
-#: src/doc/kdenlivedoc.cpp:2200
+#: src/doc/kdenlivedoc.cpp:2201
 #, kde-format
 msgid "Cyan"
 msgstr "Sian"
 
-#: src/doc/kdenlivedoc.cpp:2380
+#: src/doc/kdenlivedoc.cpp:2381
 #, kde-format
 msgid "Category %1:%2:%3"
 msgstr "Kategori %1:%2:%3"
@@ -11682,7 +11682,7 @@ msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 "Tidak bisa menginisial manajer Movit's GLSL, silakan nonfungsikan Movit"
 
-#: src/monitor/monitor.cpp:2245 src/monitor/monitor.cpp:2297
+#: src/monitor/monitor.cpp:2245 src/monitor/monitor.cpp:2302
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -11701,7 +11701,7 @@ msgstr "Klip tidak memiliki efek"
 msgid "Select a clip in project bin to compare effect"
 msgstr "Pilih klip di bin proyek untuk membandingkan efek"
 
-#: src/monitor/monitor.cpp:2304
+#: src/monitor/monitor.cpp:2309
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -11710,7 +11710,7 @@ msgstr ""
 "Transisi cairoblend diperlukan untuk fitur tersebut, mohon instal frei0r dan "
 "jalankan ulang Kdenlive"
 
-#: src/monitor/monitor.cpp:2350
+#: src/monitor/monitor.cpp:2355
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Fungsikan mode edit di monitor untuk mengedit efek"
@@ -12950,7 +12950,7 @@ msgstr "Muat Penanda Klip"
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1422
+#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1426
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:5000
 #, fuzzy, kde-format
@@ -13551,7 +13551,7 @@ msgstr "Buka File Cadangan..."
 msgid "Save changes to document?"
 msgstr "Simpan perubahan ke dokumen?"
 
-#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1360
+#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1364
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13656,7 +13656,7 @@ msgstr ""
 "Proyek Anda telah dimodifikasi saat membuka, sebuah cadangan akan dibuat "
 "pada penyimpanan berikutnya"
 
-#: src/project/projectmanager.cpp:837
+#: src/project/projectmanager.cpp:841
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -13665,12 +13665,12 @@ msgstr ""
 "Ini akan menghapus semua perubahan yang dibuat sejak terakhir kali Anda "
 "menyimpan proyek Anda. Apakah anda yakin ingin melanjutkan?"
 
-#: src/project/projectmanager.cpp:838
+#: src/project/projectmanager.cpp:842
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Kembalikan ke versi tersimpan yang terakhir"
 
-#: src/project/projectmanager.cpp:918
+#: src/project/projectmanager.cpp:922
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -13679,43 +13679,43 @@ msgstr ""
 "Proyek telah rusak, tidak bisa mencadangkan. Silakan tutup dan buka ulang "
 "file proyek Anda untuk memulihkan cadangan yang terakhir"
 
-#: src/project/projectmanager.cpp:1103
+#: src/project/projectmanager.cpp:1107
 #, fuzzy, kde-format
 #| msgid "Error moving project folder: %1"
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Galat memindah folder proyek: %1"
 
-#: src/project/projectmanager.cpp:1139
+#: src/project/projectmanager.cpp:1143
 #, kde-format
 msgid "Moving project folder"
 msgstr "Memindah folder proyek"
 
-#: src/project/projectmanager.cpp:1196
+#: src/project/projectmanager.cpp:1200
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr "File proyek telah rusak (tidak ada trek). Coba temukan file cadangan?"
 
-#: src/project/projectmanager.cpp:1223 src/project/projectmanager.cpp:1253
-#: src/project/projectmanager.cpp:1257
+#: src/project/projectmanager.cpp:1227 src/project/projectmanager.cpp:1257
+#: src/project/projectmanager.cpp:1261
 #, fuzzy, kde-format
 #| msgid "Image Sequence"
 msgid "Sequence 1"
 msgstr "Rentetan Citra"
 
-#: src/project/projectmanager.cpp:1234
+#: src/project/projectmanager.cpp:1238
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 "File proyek telah rusak - gagal memuat trek. Coba cari sebuah file cadangan?"
 
-#: src/project/projectmanager.cpp:1366 src/project/projectmanager.cpp:1371
-#: src/project/projectmanager.cpp:1381 src/project/projectmanager.cpp:1397
+#: src/project/projectmanager.cpp:1370 src/project/projectmanager.cpp:1375
+#: src/project/projectmanager.cpp:1385 src/project/projectmanager.cpp:1401
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Perubahan profil proyek digugurkan"
 
-#: src/project/projectmanager.cpp:1513
+#: src/project/projectmanager.cpp:1517
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -13724,12 +13724,12 @@ msgstr ""
 "File output %1 sudah ada.\n"
 "Apakah Anda ingin menimpanya?"
 
-#: src/project/projectmanager.cpp:1538
+#: src/project/projectmanager.cpp:1542
 #, kde-format
 msgid "Project profile changed"
 msgstr "Profil proyek diubah"
 
-#: src/project/projectmanager.cpp:1588
+#: src/project/projectmanager.cpp:1592
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
 msgid ""
@@ -13737,18 +13737,18 @@ msgid ""
 "%1"
 msgstr "Tidak bisa membuat filter %1"
 
-#: src/project/projectmanager.cpp:1667
+#: src/project/projectmanager.cpp:1672
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1820
+#: src/project/projectmanager.cpp:1830
 #, fuzzy, kde-format
 #| msgid "Select a clip to compare effect"
 msgid "Select a clip to create sequence"
 msgstr "Pilih klip untuk membandingkan efek"
 
-#: src/project/projectmanager.cpp:1857
+#: src/project/projectmanager.cpp:1867
 #, fuzzy, kde-format
 #| msgid "Image sequence:"
 msgid "Create Sequence Clip"
@@ -15057,9 +15057,9 @@ msgstr "Histogram"
 msgid "Found an invalid sequence clip in Bin"
 msgstr "Anda tidak bisa menambahkan proyek di dalam dirinya sendiri."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:264
-#: src/timeline2/model/builders/meltBuilder.cpp:493
-#: src/timeline2/model/builders/meltBuilder.cpp:503
+#: src/timeline2/model/builders/meltBuilder.cpp:270
+#: src/timeline2/model/builders/meltBuilder.cpp:499
+#: src/timeline2/model/builders/meltBuilder.cpp:509
 #, kde-format
 msgid ""
 "Invalid composition %1 found on track %2 at %3, compositing with track %4."
@@ -15067,8 +15067,8 @@ msgstr ""
 "Komposisi %1 tidak valid yang ditemukan pada trek %2 di %3, pengomposisian "
 "dengan trek %4."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:273
-#: src/timeline2/model/builders/meltBuilder.cpp:517
+#: src/timeline2/model/builders/meltBuilder.cpp:279
+#: src/timeline2/model/builders/meltBuilder.cpp:523
 #, kde-format
 msgid ""
 "Incorrect composition %1 found on track %2 at %3, compositing with track %4 "
@@ -15077,28 +15077,28 @@ msgstr ""
 "Komposisi %1 salah yang ditemukan pada trek %2 di %3, pengomposisian dengan "
 "trek %4 telah diatur untuk trek yang dipaksa."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:282
-#: src/timeline2/model/builders/meltBuilder.cpp:531
+#: src/timeline2/model/builders/meltBuilder.cpp:288
+#: src/timeline2/model/builders/meltBuilder.cpp:537
 #, kde-format
 msgid "Invalid composition %1 found on track %2 at %3."
 msgstr "Komposisi tidak valid %1 yang ditemukan pada trek %2 di %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:303
-#: src/timeline2/model/builders/meltBuilder.cpp:562
-#: src/timeline2/model/builders/meltBuilder.cpp:564
+#: src/timeline2/model/builders/meltBuilder.cpp:309
+#: src/timeline2/model/builders/meltBuilder.cpp:568
+#: src/timeline2/model/builders/meltBuilder.cpp:570
 #, kde-format
 msgid "Problems found in your project file"
 msgstr "Masalah ditemukan di file proyek Anda"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:492
-#: src/timeline2/model/builders/meltBuilder.cpp:502
+#: src/timeline2/model/builders/meltBuilder.cpp:498
+#: src/timeline2/model/builders/meltBuilder.cpp:508
 #, kde-format
 msgid "%1 Composition (%2) with invalid track reference found and removed."
 msgstr ""
 "%1 Komposisi (%2) dengan referensi trek tidak valid yang ditemukan dan yang "
 "disingkirkan."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:516
+#: src/timeline2/model/builders/meltBuilder.cpp:522
 #, kde-format
 msgid ""
 "%1 Composition was not applied on expected track, manually enforce the track."
@@ -15106,17 +15106,17 @@ msgstr ""
 "%1 Komposisi tidak diterapkan pada trek yang diharapkan, terapkan trek "
 "secara manual."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:530
+#: src/timeline2/model/builders/meltBuilder.cpp:536
 #, kde-format
 msgid "%1 Invalid composition found and removed."
 msgstr "%1 Komposisi tidak valid yang  ditemukan dan disingkirkan."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:553
+#: src/timeline2/model/builders/meltBuilder.cpp:559
 #, kde-format
 msgid "Errors found when opening project file (%1)"
 msgstr "Galat ditemukan ketika membuka file proyek (%1)"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:560
+#: src/timeline2/model/builders/meltBuilder.cpp:566
 #, kde-format
 msgid ""
 "Some errors were detected in the project file.\n"
@@ -15129,105 +15129,105 @@ msgstr ""
 "pada proyek telah dicantumkan di tab Catatan Proyek,\n"
 "harap meninjaunya untuk memastikan integritas proyek Anda."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:640
-#: src/timeline2/model/builders/meltBuilder.cpp:650
+#: src/timeline2/model/builders/meltBuilder.cpp:646
+#: src/timeline2/model/builders/meltBuilder.cpp:656
 #, kde-format
 msgid "Incorrect Mix, clip %1 was removed at %2."
 msgstr "Campuran tidak benar, klip %1 dihapus di %2."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:641
+#: src/timeline2/model/builders/meltBuilder.cpp:647
 #, kde-format
 msgid "Incorrect mix found on track %1 at %2, clip %3 removed."
 msgstr ""
 "Ditemukan mix yang tidak benar pada trek %1 di %2, klip %3 disingkirkan."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:651
+#: src/timeline2/model/builders/meltBuilder.cpp:657
 #, kde-format
 msgid "Incorrect mix found at track %1 at %2, clip %3 removed."
 msgstr "Campuran tidak benar ditemukan di trek %1 di %2, klip %3 dihapus."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:746
+#: src/timeline2/model/builders/meltBuilder.cpp:752
 #, kde-format
 msgid "%1 Timeline clip (%2) with incorrect bin reference found and recovered."
 msgstr ""
 "%1 klip lini masa (%2) dengan referensi bin salah yang ditemukan dan "
 "dipulihkan."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:747
+#: src/timeline2/model/builders/meltBuilder.cpp:753
 #, kde-format
 msgid "Invalid clip %1 (%2) not found in project bin, recovered."
 msgstr ""
 "Klip %1 (%2) yang tidak valid tidak ditemukan di dalam bin proyek, "
 "dipulihkan."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:749
+#: src/timeline2/model/builders/meltBuilder.cpp:755
 #, kde-format
 msgid "%1 Timeline clip (%2) without bin reference found and removed."
 msgstr ""
 "%1 klip lini masa (%2) tanpa referensi bin yang ditemukan dan disingkirkan."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:750
+#: src/timeline2/model/builders/meltBuilder.cpp:756
 #, kde-format
 msgid "Project corrupted. Clip %1 (%2) not found in project bin."
 msgstr "Proyek rusak. Klip %1 (%2) tidak ditemukan di bin proyek."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:818
-#: src/timeline2/model/builders/meltBuilder.cpp:851
+#: src/timeline2/model/builders/meltBuilder.cpp:824
+#: src/timeline2/model/builders/meltBuilder.cpp:857
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and resized"
 msgstr "%1 Klip (%2) dengan campuran hilang yang ditemukan dan disingkirkan"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:819
-#: src/timeline2/model/builders/meltBuilder.cpp:849
+#: src/timeline2/model/builders/meltBuilder.cpp:825
+#: src/timeline2/model/builders/meltBuilder.cpp:855
 #, kde-format
 msgid "Clip without mix %1 found and resized on track %2 at %3."
 msgstr ""
 "Klip tanpa campuran %1 yang ditemukan dan diubah ukuran pada trek %2 di %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:824
-#: src/timeline2/model/builders/meltBuilder.cpp:855
+#: src/timeline2/model/builders/meltBuilder.cpp:830
+#: src/timeline2/model/builders/meltBuilder.cpp:861
 #, kde-format
 msgid "Invalid clip without mix %1 found and removed on track %2 at %3."
 msgstr ""
 "Klip tidak valid tanpa campuran %1 yang ditemukan dan disingkirkan pada trek "
 "%2 di %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:826
-#: src/timeline2/model/builders/meltBuilder.cpp:857
+#: src/timeline2/model/builders/meltBuilder.cpp:832
+#: src/timeline2/model/builders/meltBuilder.cpp:863
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and removed"
 msgstr "%1 Klip (%2) dengan campuran hilang yang ditemukan dan disingkirkan"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:844
-#: src/timeline2/model/builders/meltBuilder.cpp:888
+#: src/timeline2/model/builders/meltBuilder.cpp:850
+#: src/timeline2/model/builders/meltBuilder.cpp:894
 #, kde-format
 msgid "Invalid clip %1 found on track %2 at %3."
 msgstr "Klip %1 tidak valid yang ditemukan pada trek %2 di %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:846
-#: src/timeline2/model/builders/meltBuilder.cpp:893
+#: src/timeline2/model/builders/meltBuilder.cpp:852
+#: src/timeline2/model/builders/meltBuilder.cpp:899
 #, kde-format
 msgid "%1 Invalid clip (%2) found and removed"
 msgstr "%1 Klip tidak valid (%2) yang ditemukan dan disingkirkan"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:864
+#: src/timeline2/model/builders/meltBuilder.cpp:870
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found and fixed on track %2 at %3."
 msgstr ""
 "Klip %1 pada subtrek salah yang ditemukan dan diperbaiki pada trek %2 di %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:869
+#: src/timeline2/model/builders/meltBuilder.cpp:875
 #, kde-format
 msgid "%1 Clip (%2) on incorrect subtrack found and fixed / %3"
 msgstr ""
 "%1 Klip (%2) pada subtrek tidak benar telah ditemukan dan diperbaiki / %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:872
+#: src/timeline2/model/builders/meltBuilder.cpp:878
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found on track %2 at %3."
 msgstr "Klip %1 pada subtrek salah yang ditemukan pada trek %2 di %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:877
+#: src/timeline2/model/builders/meltBuilder.cpp:883
 #, kde-format
 msgid "%1 Clip (%2) with incorrect subplaylist found"
 msgstr "%1 Klip (%2) dengan subplaylist salah yang ditemukan"
@@ -16427,24 +16427,23 @@ msgstr "Lepas kunci trek subtitel"
 msgid "Lock subtitle track"
 msgstr "Kunci trek subtitel"
 
-#: src/timeline2/view/timelinetabs.cpp:44
+#: src/timeline2/view/timelinetabs.cpp:46
 #, fuzzy, kde-format
 #| msgid "Image sequence:"
 msgid "Add Timeline Sequence"
 msgstr "Rentetan citra:"
 
-#: src/timeline2/view/timelinetabs.cpp:46
+#: src/timeline2/view/timelinetabs.cpp:48
 #, kde-format
 msgid ""
 "Add Timeline Sequence. This will create a new timeline for editing. Each "
 "timeline corresponds to a Sequence Clip in the Project Bin"
 msgstr ""
 
-#: src/timeline2/view/timelinetabs.cpp:209
-#, fuzzy, kde-format
-#| msgid "Close"
-msgid "Close %1"
-msgstr "Tutup"
+#: src/timeline2/view/timelinetabs.cpp:172
+#, kde-format
+msgid "Closing a sequence will clear the undo history"
+msgstr ""
 
 #: src/timeline2/view/timelinewidget.cpp:71
 #, kde-format
@@ -21173,6 +21172,16 @@ msgstr "%1mnt"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1jm"
+
+#, fuzzy
+#~| msgid "Clip has no effects"
+#~ msgid "Clip %1 has been fixed"
+#~ msgstr "Klip tidak memiliki efek"
+
+#, fuzzy
+#~| msgid "Close"
+#~ msgid "Close %1"
+#~ msgstr "Tutup"
 
 #~ msgid "Bug fixing, etc."
 #~ msgstr "Memperbaiki bug, dll."
