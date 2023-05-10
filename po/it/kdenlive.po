@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-09 02:52+0000\n"
-"PO-Revision-Date: 2023-05-03 16:25+0200\n"
+"PO-Revision-Date: 2023-05-08 18:03+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -1254,10 +1254,9 @@ msgid "Correct audio loudness as recommended by EBU R128"
 msgstr "Corregge il volume audio come raccomandato da EBU R128"
 
 #: data/effects/loudness.xml:13 data/effects/tracker.xml:41
-#, fuzzy, kde-format
-#| msgid "Enable Effect"
+#, kde-format
 msgid "Analyse to Apply Effect"
-msgstr "Abilita effetto"
+msgstr "Analizza per applicare l'effetto"
 
 #: data/effects/lumaliftgaingamma.xml:4
 #, kde-format
@@ -3473,10 +3472,9 @@ msgstr "Elimina i fotogrammi chiave"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:445
 #: src/assets/model/assetparametermodel.cpp:1386
-#, fuzzy, kde-format
-#| msgid "Paste effect"
+#, kde-format
 msgid "Update effect"
-msgstr "Incolla effetto"
+msgstr "Aggiorna effetto"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:659
 #, kde-format
@@ -7601,16 +7599,14 @@ msgid "Clip %1 will be reloaded"
 msgstr "La clip %1 verrà ricaricata"
 
 #: src/doc/documentchecker.cpp:474
-#, fuzzy, kde-format
-#| msgid "Create Sequence Clip"
+#, kde-format
 msgid "Fixed Sequence Clips"
-msgstr "Crea una clip di sequenze"
+msgstr "Clip di sequenze corretta"
 
 #: src/doc/documentchecker.cpp:478
-#, fuzzy, kde-format
-#| msgid "Clip %1 will be reloaded"
+#, kde-format
 msgid "Clip %1 will be fixed"
-msgstr "La clip %1 verrà ricaricata"
+msgstr "La clip %1 verrà corretta"
 
 #: src/doc/documentchecker.cpp:485
 #, kde-format
@@ -9244,10 +9240,9 @@ msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
 #: src/main.cpp:128
-#, fuzzy, kde-format
-#| msgid "Code re-architecture & timeline rewrite"
+#, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
-msgstr "Ri-architettura del codice e riscrittura della linea temporale"
+msgstr "Ri-architettura del codice e riscrittura della linea temporale (2019)"
 
 #: src/main.cpp:129
 #, kde-format
@@ -9257,7 +9252,7 @@ msgstr "Julius Künzel"
 #: src/main.cpp:129
 #, kde-format
 msgid "Feature developement, packaging, bug fixing"
-msgstr ""
+msgstr "Sviluppo della funzionalità, pacchetti e correzione di errori"
 
 #: src/main.cpp:130
 #, kde-format
@@ -9276,10 +9271,9 @@ msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
 #: src/main.cpp:132
-#, fuzzy, kde-format
-#| msgid "MLT, Bug fixing, etc."
+#, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
-msgstr "MLT, correzione di bug ed altro"
+msgstr "Responsabile MLT, correzione di bug ed altro"
 
 #: src/main.cpp:133
 #, kde-format
@@ -9294,12 +9288,12 @@ msgstr "Diagrammi di colore, correzione di bug ed altro"
 #: src/main.cpp:134
 #, kde-format
 msgid "Eric Jiang"
-msgstr ""
+msgstr "Eric Jiang"
 
 #: src/main.cpp:134
 #, kde-format
 msgid "Bug fixing and test improvements"
-msgstr ""
+msgstr "Correzioni di bug, prove e miglioramenti"
 
 #: src/main.cpp:136
 #, kde-format
@@ -9329,7 +9323,7 @@ msgstr "Eugen Mohr"
 #: src/main.cpp:139
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
-msgstr ""
+msgstr "Ricerca di errori, prove, responsabile della documentazione"
 
 #: src/main.cpp:140
 #, kde-format
@@ -13827,10 +13821,11 @@ msgstr ""
 "sicurezza"
 
 #: src/project/projectmanager.cpp:1107
-#, fuzzy, kde-format
-#| msgid "Error moving project folder: %1"
+#, kde-format
 msgid "Error moving project folder, cannot access cache folder"
-msgstr "Errore nello spostamento della cartella del progetto: %1"
+msgstr ""
+"Errore nello spostamento della cartella del progetto, impossibile accedere "
+"alla cartella della cache"
 
 #: src/project/projectmanager.cpp:1143
 #, kde-format
@@ -15194,10 +15189,9 @@ msgid "Histogram"
 msgstr "Istogramma"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:51
-#, fuzzy, kde-format
-#| msgid "You cannot insert a sequence containing itself"
+#, kde-format
 msgid "Found an invalid sequence clip in Bin"
-msgstr "Non puoi inserire una sequenza che contiene se stessa"
+msgstr "Trovata una sequenza non valida nel contenitore"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:270
 #: src/timeline2/model/builders/meltBuilder.cpp:499
