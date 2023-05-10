@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-09 00:47+0000\n"
-"PO-Revision-Date: 2023-05-08 11:30+0200\n"
+"PO-Revision-Date: 2023-05-09 09:30+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.04.0\n"
+"X-Generator: Lokalize 20.12.0\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -7604,10 +7604,9 @@ msgid "Fixed Sequence Clips"
 msgstr "Clips de seqüència corregits"
 
 #: src/doc/documentchecker.cpp:478
-#, fuzzy, kde-format
-#| msgid "Clip %1 will be reloaded"
+#, kde-format
 msgid "Clip %1 will be fixed"
-msgstr "El clip %1 es tornarà a carregar"
+msgstr "El clip %1 es corregirà"
 
 #: src/doc/documentchecker.cpp:485
 #, kde-format
@@ -15334,13 +15333,13 @@ msgstr "S'ha trobat i eliminat el clip no vàlid %1 (%2)"
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found and fixed on track %2 at %3."
 msgstr ""
-"S'ha trobat i esmenat la subpista incorrecta en el clip %1 a la pista %2 a "
+"S'ha trobat i corregit la subpista incorrecta en el clip %1 a la pista %2 a "
 "%3."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:875
 #, kde-format
 msgid "%1 Clip (%2) on incorrect subtrack found and fixed / %3"
-msgstr "S'ha trobat i esmenat la subpista incorrecta en el clip %1 (%2) / %3"
+msgstr "S'ha trobat i corregit la subpista incorrecta en el clip %1 (%2) / %3"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:878
 #, kde-format
@@ -16569,7 +16568,7 @@ msgstr ""
 #: src/timeline2/view/timelinetabs.cpp:172
 #, kde-format
 msgid "Closing a sequence will clear the undo history"
-msgstr ""
+msgstr "En tancar una seqüència es netejarà l'historial de desfer"
 
 #: src/timeline2/view/timelinewidget.cpp:71
 #, kde-format
@@ -21272,9 +21271,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Clip %1 has been fixed"
-#~ msgstr "El clip %1 s'ha corregit"
-
-#~ msgid "Close %1"
-#~ msgstr "Tanca %1"
