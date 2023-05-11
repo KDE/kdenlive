@@ -38,10 +38,10 @@ KIO::ThumbnailResult MltPreview::create(const KIO::ThumbnailRequest &request)
     std::unique_ptr<Mlt::Profile> profile(new Mlt::Profile());
     std::shared_ptr<Mlt::Producer> producer(new Mlt::Producer(*profile.get(), request.url().toLocalFile().toUtf8().data()));
 
-    if (producer->is_blank()) {
+    if (producer == nullptr || !producer->is_valid() || producer->is_blank()) {
         return KIO::ThumbnailResult::fail();
     }
-    int frame = 75;
+
     uint variance = 10;
     int ct = 1;
     double ar = profile->dar();
@@ -49,7 +49,7 @@ KIO::ThumbnailResult MltPreview::create(const KIO::ThumbnailRequest &request)
         ar = 1.0;
     }
     int wanted_width = width;
-    int wanted_height = int(width / profile->dar());
+    int wanted_height = int(width / ar);
     if (wanted_height > height) {
         wanted_height = height;
         wanted_width = int(height * ar);
@@ -73,8 +73,12 @@ KIO::ThumbnailResult MltPreview::create(const KIO::ThumbnailRequest &request)
     }
 
     QImage img;
-    // img = getFrame(producer, frame, width, height);
-    while (variance <= 40 && ct < 4) {
+    int length = producer->get_length();
+    if (length < 1) {
+        return KIO::ThumbnailResult::fail();
+    }
+    int frame = qMin(75, length - 1);
+    while (variance <= 40 && ct < 4 && frame < length) {
         img = getFrame(producer, frame, wanted_width, wanted_height);
         variance = uint(imageVariance(img));
         frame += 100 * ct;
@@ -94,9 +98,8 @@ QImage MltPreview::getFrame(std::shared_ptr<Mlt::Producer> producer, int framepo
     if (producer == nullptr) {
         return mltImage;
     }
-
     producer->seek(framepos);
-    Mlt::Frame *frame = producer->get_frame();
+    std::shared_ptr<Mlt::Frame> frame(producer->get_frame());
     if (frame == nullptr || !frame->is_valid()) {
         return mltImage;
     }
@@ -107,8 +110,6 @@ QImage MltPreview::getFrame(std::shared_ptr<Mlt::Producer> producer, int framepo
         memcpy(mltImage.bits(), imagedata, size_t(width * height * 4));
         mltImage = mltImage.rgbSwapped();
     }
-
-    delete frame;
     return mltImage;
 }
 
