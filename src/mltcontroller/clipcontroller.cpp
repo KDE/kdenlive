@@ -112,7 +112,6 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
         setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
         getInfoForProducer();
         checkAudioVideo();
-        emitProducerChanged(m_controllerBinId, m_masterProducer);
         if (!m_hasMultipleVideoStreams && m_service.startsWith(QLatin1String("avformat")) && (m_clipType == ClipType::AV || m_clipType == ClipType::Video)) {
             // Check if clip has multiple video streams
             QList<int> videoStreams;
@@ -440,7 +439,6 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
             getInfoForProducer();
         }
         checkAudioVideo();
-        emitProducerChanged(m_controllerBinId, m_masterProducer);
         // URL and name should not be updated otherwise when proxying a clip we cannot find back the original url
         /*m_url = QUrl::fromLocalFile(m_masterProducer->get("resource"));
         if (m_url.isValid()) {

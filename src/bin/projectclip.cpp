@@ -1017,8 +1017,8 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
                 m_effectStack->addService(m_audioProducers[trackId]);
             }
             std::shared_ptr<Mlt::Producer> prod(m_audioProducers[trackId]->cut());
-            if (m_clipType == ClipType::Timeline && m_audioProducers[trackId]->property_exists("kdenlive:maxduration")) {
-                int max = m_audioProducers[trackId]->get_int("kdenlive:maxduration");
+            if (m_clipType == ClipType::Timeline && m_audioProducers[trackId]->parent().property_exists("kdenlive:maxduration")) {
+                int max = m_audioProducers[trackId]->parent().get_int("kdenlive:maxduration");
                 prod->set("kdenlive:maxduration", max);
                 prod->set("length", max);
             }
@@ -1062,8 +1062,8 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
         createDisabledMasterProducer();
         int duration = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
         std::shared_ptr<Mlt::Producer> prod(m_disabledProducer->cut(-1, duration > 0 ? duration - 1 : -1));
-        if (m_clipType == ClipType::Timeline && m_videoProducers[trackId]->property_exists("kdenlive:maxduration")) {
-            int max = m_videoProducers[trackId]->get_int("kdenlive:maxduration");
+        if (m_clipType == ClipType::Timeline && m_videoProducers[trackId]->parent().property_exists("kdenlive:maxduration")) {
+            int max = m_videoProducers[trackId]->parent().get_int("kdenlive:maxduration");
             prod->set("kdenlive:maxduration", max);
             prod->set("length", max);
         }

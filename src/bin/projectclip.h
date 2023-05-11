@@ -295,8 +295,6 @@ protected:
         @param clipId id of the deleted clip
     */
     void deregisterTimelineClip(int clipId, bool audioClip);
-
-    void emitProducerChanged(const QString &id, const std::shared_ptr<Mlt::Producer> &producer) override { Q_EMIT producerChanged(id, producer); };
     void replaceInTimeline();
     void connectEffectStack() override;
 
