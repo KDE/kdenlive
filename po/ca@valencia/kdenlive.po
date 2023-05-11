@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-09 02:52+0000\n"
-"PO-Revision-Date: 2023-05-06 11:01+0200\n"
+"PO-Revision-Date: 2023-05-09 09:30+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -6261,8 +6261,8 @@ msgstr "Transcodifica"
 #, kde-format
 msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
 msgstr ""
-"El processament de la GPU necessita que el MLT estiga compilat amb els "
-"mòduls Movit i Rtaudio"
+"El processament de la GPU necessita que MLT estiga compilat amb els mòduls "
+"Movit i Rtaudio"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:689
 #, kde-format
@@ -6467,7 +6467,7 @@ msgid ""
 "A profile with same name already exists in MLT's default profiles, please "
 "choose another description for your custom profile."
 msgstr ""
-"Ja hi ha un perfil amb el mateix nom als perfils predeterminats del MLT. "
+"Ja hi ha un perfil amb el mateix nom als perfils predeterminats de MLT. "
 "Escolliu una altra descripció per al vostre perfil personalitzat."
 
 #: src/dialogs/profilesdialog.cpp:316
@@ -6699,8 +6699,8 @@ msgstr "Afig un clip en la línia de temps abans de renderitzar"
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr ""
-"No s'ha pogut trobar el programa «melt» necessari per a renderitzar (part "
-"del MLT)"
+"No s'ha pogut trobar el programa «melt» necessari per a renderitzar (part de "
+"MLT)"
 
 #: src/dialogs/renderwidget.cpp:642 src/dialogs/renderwidget.cpp:1758
 #: src/project/dialogs/archivewidget.cpp:896
@@ -7290,7 +7290,7 @@ msgstr "Us donem la benvinguda a Kdenlive %1"
 #: src/dialogs/wizard.cpp:76
 #, kde-format
 msgid "Using MLT %1"
-msgstr "Utilitza el MLT %1"
+msgstr "Utilitza MLT %1"
 
 #: src/dialogs/wizard.cpp:86 src/project/cliptranscode.cpp:194
 #: src/project/cliptranscode.cpp:226 src/project/dialogs/archivewidget.cpp:592
@@ -7362,8 +7362,7 @@ msgstr ""
 #, kde-format
 msgid "<li>Unsupported MLT version<br/>Please <b>upgrade</b> to %1.%2.%3</li>"
 msgstr ""
-"<li>Versió no admesa del MLT<br/>Per favor, <b>actualitzeu</b> a %1.%2.%3</"
-"li>"
+"<li>Versió no admesa de MLT<br/>Per favor, <b>actualitzeu</b> a %1.%2.%3</li>"
 
 #: src/dialogs/wizard.cpp:225
 #, kde-format
@@ -7407,14 +7406,14 @@ msgid ""
 "<li>Missing MLT module: <b>sdl</b> or <b>rtaudio</b><br/>required for audio "
 "output</li>"
 msgstr ""
-"<li>Falta un mòdul del MLT: <b>sdl</b> o <b>rtaudio</b><br/>requerit per a "
+"<li>Falta un mòdul de MLT: <b>sdl</b> o <b>rtaudio</b><br/>requerit per a "
 "l'eixida de l'àudio</li>"
 
 #: src/dialogs/wizard.cpp:315
 #, kde-format
 msgid "<li>Missing MLT module: <b>xml</b> <br/>required for audio/video</li>"
 msgstr ""
-"<li>Falta un mòdul del MLT: <b>xml</b> <br/>requerit per a l'àudio/vídeo</li>"
+"<li>Falta un mòdul de MLT: <b>xml</b> <br/>requerit per a l'àudio/vídeo</li>"
 
 #: src/dialogs/wizard.cpp:325
 #, kde-format
@@ -7422,7 +7421,7 @@ msgid ""
 "<li>Missing MLT module: <b>avformat</b> (FFmpeg)<br/>required for audio/"
 "video</li>"
 msgstr ""
-"<li>Falta un mòdul del MLT: <b>avformat</b> (FFmpeg)<br/>requerit per a "
+"<li>Falta un mòdul de MLT: <b>avformat</b> (FFmpeg)<br/>requerit per a "
 "l'àudio/vídeo</li>"
 
 #: src/dialogs/wizard.cpp:334
@@ -7431,7 +7430,7 @@ msgid ""
 "<li>Missing MLT module: <b>qimage</b> or <b>pixbuf</b><br/>required for "
 "images and titles</li>"
 msgstr ""
-"<li>Falta un mòdul del MLT: <b>qimage</b> o <b>pixbuf</b><br/>requerit per a "
+"<li>Falta un mòdul de MLT: <b>qimage</b> o <b>pixbuf</b><br/>requerit per a "
 "les imatges i els títols</li>"
 
 #: src/dialogs/wizard.cpp:341
@@ -7440,8 +7439,8 @@ msgid ""
 "<li>Missing MLT module: <b>kdenlivetitle</b><br/>required to create titles</"
 "li>"
 msgstr ""
-"<li>Falta un mòdul del MLT: <b>kdenlivetitle</b><br/>requerit per a crear "
-"els títols</li>"
+"<li>Falta un mòdul de MLT: <b>kdenlivetitle</b><br/>requerit per a crear els "
+"títols</li>"
 
 #: src/dialogs/wizard.cpp:347
 #, kde-format
@@ -7449,8 +7448,8 @@ msgid ""
 "<li>Missing MLT module: <b>glaxnimate</b><br/>required to load Lottie "
 "animations</li>"
 msgstr ""
-"<li>Falta un mòdul del MLT: <b>glaxnimate</b><br/>requerit per a carregar "
-"les animacions de Lottie</li>"
+"<li>Falta un mòdul de MLT: <b>glaxnimate</b><br/>requerit per a carregar les "
+"animacions de Lottie</li>"
 
 #: src/dialogs/wizard.cpp:380
 #, kde-format
@@ -7491,7 +7490,7 @@ msgstr ""
 msgid ""
 "Your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
 msgstr ""
-"No s'ha trobat la vostra instal·lació del MLT. Instal·leu-lo i reinicieu "
+"No s'ha trobat la vostra instal·lació de MLT. Instal·leu-lo i reinicieu "
 "Kdenlive.\n"
 
 #: src/dialogs/wizard.cpp:587
@@ -7586,10 +7585,9 @@ msgid "Fixed Sequence Clips"
 msgstr "Clips de seqüència corregits"
 
 #: src/doc/documentchecker.cpp:478
-#, fuzzy, kde-format
-#| msgid "Clip %1 will be reloaded"
+#, kde-format
 msgid "Clip %1 will be fixed"
-msgstr "El clip %1 es tornarà a carregar"
+msgstr "El clip %1 es corregirà"
 
 #: src/doc/documentchecker.cpp:485
 #, kde-format
@@ -9209,7 +9207,7 @@ msgstr "Jean-Baptiste Mardelle"
 #, kde-format
 msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
 msgstr ""
-"Adaptació al MLT i la KDE SC 4 / els KF5. Desenvolupador i mantenidor "
+"Adaptació a MLT i la KDE SC 4 / els KF5. Desenvolupador i mantenidor "
 "principal"
 
 #: src/main.cpp:128
@@ -9218,10 +9216,9 @@ msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
 #: src/main.cpp:128
-#, fuzzy, kde-format
-#| msgid "Code re-architecture & timeline rewrite"
+#, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
-msgstr "Rearquitectura del codi i reescriptura de la línia de temps"
+msgstr "Rearquitectura del codi i reescriptura de la línia de temps (2019)"
 
 #: src/main.cpp:129
 #, kde-format
@@ -9231,7 +9228,7 @@ msgstr "Julius Künzel"
 #: src/main.cpp:129
 #, kde-format
 msgid "Feature developement, packaging, bug fixing"
-msgstr ""
+msgstr "Desenvolupament de característiques, empaquetatge, correcció d'errors"
 
 #: src/main.cpp:130
 #, kde-format
@@ -9242,7 +9239,7 @@ msgstr "Vincent Pinon"
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr ""
-"Adaptació als KF5, compilació creuada de Windows, empaquetatge, esmena "
+"Adaptació als KF5, compilació creuada de Windows, empaquetatge, correcció "
 "d'errors"
 
 #: src/main.cpp:132
@@ -9251,10 +9248,9 @@ msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
 #: src/main.cpp:132
-#, fuzzy, kde-format
-#| msgid "MLT, Bug fixing, etc."
+#, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
-msgstr "MLT, esmena d'errors, etc."
+msgstr "Mantenidor de MLT, correcció d'errors, etc."
 
 #: src/main.cpp:133
 #, kde-format
@@ -9269,12 +9265,12 @@ msgstr "Electroscopis de color, esmena d'errors, etc."
 #: src/main.cpp:134
 #, kde-format
 msgid "Eric Jiang"
-msgstr ""
+msgstr "Eric Jiang"
 
 #: src/main.cpp:134
 #, kde-format
 msgid "Bug fixing and test improvements"
-msgstr ""
+msgstr "Correcció d'errors i millora de les proves"
 
 #: src/main.cpp:136
 #, kde-format
@@ -9304,7 +9300,7 @@ msgstr "Eugen Mohr"
 #: src/main.cpp:139
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
-msgstr ""
+msgstr "Triatge d'errors, proves, mantenidor de la documentació"
 
 #: src/main.cpp:140
 #, kde-format
@@ -9386,7 +9382,7 @@ msgstr "Establix el camí per a l'entorn MLT."
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr ""
-"Establix el nivell de registre del MLT. Deixeu-ho sense establir per al "
+"Establix el nivell de registre de MLT. Deixeu-ho sense establir per al "
 "nivell «avís»."
 
 #: src/main.cpp:179
@@ -11079,13 +11075,13 @@ msgstr "Comprovació de la mida de les dades en la memòria cau"
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of MLT)"
 msgstr ""
-"No s'ha pogut trobar el programa «melt» necessari per a renderitzar (part "
-"del MLT)"
+"No s'ha pogut trobar el programa «melt» necessari per a renderitzar (part de "
+"MLT)"
 
 #: src/mltconnection.cpp:234
 #, kde-format
 msgid "Cannot find your MLT profiles, please give the path"
-msgstr "No es troben els perfils del MLT. Indiqueu el camí"
+msgstr "No es troben els perfils de MLT. Indiqueu el camí"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:176
 #: src/mltcontroller/clippropertiescontroller.cpp:1364
@@ -12025,7 +12021,7 @@ msgstr "Captura trencada. Verifiqueu els paràmetres"
 #, kde-format
 msgid "MLT must be compiled with libfftw3 to enable Audio Spectrum"
 msgstr ""
-"Cal que el MLT estiga compilat amb la «libfftw3» per a activar l'espectre "
+"Cal que MLT estiga compilat amb la «libfftw3» per a activar l'espectre "
 "d'àudio"
 
 #: src/monitor/scopes/audiographspectrum.cpp:289
@@ -15319,13 +15315,13 @@ msgstr "S'ha trobat i eliminat el clip no vàlid %1 (%2)"
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found and fixed on track %2 at %3."
 msgstr ""
-"S'ha trobat i esmenat la subpista incorrecta en el clip %1 en la pista %2 a "
+"S'ha trobat i corregit la subpista incorrecta en el clip %1 en la pista %2 a "
 "%3."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:875
 #, kde-format
 msgid "%1 Clip (%2) on incorrect subtrack found and fixed / %3"
-msgstr "S'ha trobat i esmenat la subpista incorrecta en el clip %1 (%2) / %3"
+msgstr "S'ha trobat i corregit la subpista incorrecta en el clip %1 (%2) / %3"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:878
 #, kde-format
@@ -15872,8 +15868,8 @@ msgstr "Velocitat del clip"
 #, kde-format
 msgid "MLT must be compiled with rubberband library to enable pitch correction"
 msgstr ""
-"Cal que el MLT estiga compilat amb la biblioteca «rubberband» per a activar "
-"la correcció del to"
+"Cal que MLT estiga compilat amb la biblioteca «rubberband» per a activar la "
+"correcció del to"
 
 #: src/timeline2/view/dialogs/speeddialog.cpp:47
 #, kde-format
@@ -16554,7 +16550,7 @@ msgstr ""
 #: src/timeline2/view/timelinetabs.cpp:172
 #, kde-format
 msgid "Closing a sequence will clear the undo history"
-msgstr ""
+msgstr "En tancar una seqüència es netejarà l'historial de desfer"
 
 #: src/timeline2/view/timelinewidget.cpp:71
 #, kde-format
@@ -18032,7 +18028,7 @@ msgstr "FFprobe:"
 #: src/ui/configenv_ui.ui:151
 #, kde-format
 msgid "MLT profiles folder:"
-msgstr "Carpeta de perfils del MLT:"
+msgstr "Carpeta de perfils de MLT:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configenv_ui.ui:161
@@ -19136,7 +19132,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Vegeu la <a href=\"https://www.mltframework.org/"
 "plugins/ConsumerAvformat/\"><span style=\" text-decoration: underline; color:"
-"#2980b9;\">documentació del MLT</span></a> per a consultes.</p></body></html>"
+"#2980b9;\">documentació de MLT</span></a> per a consultes.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
 #: src/ui/editrenderpreset_ui.ui:1072
@@ -21256,21 +21252,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Close %1"
-#~ msgstr "Tanca %1"
-
-#~ msgid "Clip %1 has been fixed"
-#~ msgstr "El clip %1 s'ha corregit"
-
-#~ msgid "Bug fixing, etc."
-#~ msgstr "Esmena d'errors, etc."
-
-#~ msgid "Sashmita Raghav"
-#~ msgstr "Sashmita Raghav"
-
-#~ msgid "Subtitle feature (GSoC), timeline colours"
-#~ msgstr "Característica de subtítols (GSoC), colors en la línia de temps"
-
-#~ msgid "Bug triage, testing"
-#~ msgstr "Triatge dels errors, proves"

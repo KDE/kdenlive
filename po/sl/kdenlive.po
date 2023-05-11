@@ -2,16 +2,16 @@
 # This file is distributed under the same license as the kdenlive package.
 #
 #
+#
 # Andrej Mernik <andrejm@ubuntu.si>, 2015, 2016, 2017, 2018, 2019, 2020.
 # Martin Srebotnjak <miles@filmsi.net>, 2015, 2019, 2020, 2021, 2022, 2023.
 # Matjaž Jeran <matjaz.jeran@amis.net>, 2020, 2021, 2022, 2023.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-09 02:52+0000\n"
-"PO-Revision-Date: 2023-05-08 08:22+0200\n"
+"PO-Revision-Date: 2023-05-10 11:53+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Martin Srebotnjak <miles@filmsi.net>\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Lokalize 22.12.3\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
 
 #, kde-format
@@ -16467,7 +16467,7 @@ msgstr ""
 #: src/timeline2/view/timelinetabs.cpp:172
 #, kde-format
 msgid "Closing a sequence will clear the undo history"
-msgstr ""
+msgstr "Če zaprete zaporedje, boste izbrisali zgodovino razveljavitev"
 
 #: src/timeline2/view/timelinewidget.cpp:71
 #, kde-format

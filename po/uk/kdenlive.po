@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-09 02:52+0000\n"
-"PO-Revision-Date: 2023-05-08 17:36+0300\n"
+"PO-Revision-Date: 2023-05-10 09:33+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -16603,7 +16603,7 @@ msgstr ""
 #: src/timeline2/view/timelinetabs.cpp:172
 #, kde-format
 msgid "Closing a sequence will clear the undo history"
-msgstr ""
+msgstr "Закриття послідовності призведе до вилучення журналу скасування"
 
 #: src/timeline2/view/timelinewidget.cpp:71
 #, kde-format
