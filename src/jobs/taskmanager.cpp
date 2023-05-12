@@ -236,12 +236,18 @@ int TaskManager::getJobProgressForClip(const ObjectId &owner)
     }
     int total = 0;
     for (AbstractTask *t : taskList) {
-        if (owner.second == displayedClip) {
+        if (t->m_type == AbstractTask::LOADJOB) {
+            // Don't show progress for load task
+            cnt--;
+        } else if (owner.second == displayedClip) {
             jobNames << t->m_description;
             jobsProgress << t->m_progress;
             jobsUuids << t->m_uuid.toString();
         }
         total += t->m_progress;
+    }
+    if (cnt == 0) {
+        return 100;
     }
     total /= cnt;
     if (owner.second == displayedClip) {

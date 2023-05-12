@@ -347,7 +347,7 @@ public:
                     }
                     int jobProgress = index.data(AbstractProjectItem::JobProgress).toInt();
                     auto status = index.data(AbstractProjectItem::JobStatus).value<TaskManagerStatus>();
-                    if (status == TaskManagerStatus::Pending || status == TaskManagerStatus::Running) {
+                    if (jobProgress < 100 && (status == TaskManagerStatus::Pending || status == TaskManagerStatus::Running)) {
                         // Draw job progress bar
                         int progressWidth = option.fontMetrics.averageCharWidth() * 8;
                         int progressHeight = option.fontMetrics.ascent() / 4;
@@ -585,7 +585,7 @@ public:
             }
             int jobProgress = index.data(AbstractProjectItem::JobProgress).toInt();
             auto status = index.data(AbstractProjectItem::JobStatus).value<TaskManagerStatus>();
-            if (status == TaskManagerStatus::Pending || status == TaskManagerStatus::Running) {
+            if (jobProgress < 100 && (status == TaskManagerStatus::Pending || status == TaskManagerStatus::Running)) {
                 // Draw job progress bar
                 int progressHeight = option.fontMetrics.ascent() / 4;
                 QRect thumbRect = m_thumbRect.adjusted(2, 2, -2, -2);
