@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-09 02:52+0000\n"
-"PO-Revision-Date: 2023-05-04 10:05+0400\n"
+"POT-Creation-Date: 2023-05-12 02:36+0000\n"
+"PO-Revision-Date: 2023-05-11 10:04+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -1229,10 +1229,9 @@ msgid "Correct audio loudness as recommended by EBU R128"
 msgstr "تصحيح علو الصوت موصى به بواسطة EBU R128"
 
 #: data/effects/loudness.xml:13 data/effects/tracker.xml:41
-#, fuzzy, kde-format
-#| msgid "Enable Effect"
+#, kde-format
 msgid "Analyse to Apply Effect"
-msgstr "فعّل التّأثير"
+msgstr "حلل لتطبيق التّأثير"
 
 #: data/effects/lumaliftgaingamma.xml:4
 #, kde-format
@@ -5313,7 +5312,7 @@ msgid "Usage"
 msgstr "الاستخدام"
 
 #: src/bin/projectitemmodel.cpp:332 src/doc/documentchecker.cpp:371
-#: src/mltcontroller/clipcontroller.cpp:464 src/profiles/profileinfo.cpp:46
+#: src/mltcontroller/clipcontroller.cpp:462 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
 msgid "Unknown"
@@ -7487,16 +7486,14 @@ msgid "Clip %1 will be reloaded"
 msgstr "سيعاد تحميل المقطع %1"
 
 #: src/doc/documentchecker.cpp:474
-#, fuzzy, kde-format
-#| msgid "Create Sequence Clip"
+#, kde-format
 msgid "Fixed Sequence Clips"
-msgstr "أنشئ مقطع تسلسلي جديدًا"
+msgstr "مقاطع تسلسلية ثابتة"
 
 #: src/doc/documentchecker.cpp:478
-#, fuzzy, kde-format
-#| msgid "Clip %1 will be reloaded"
+#, kde-format
 msgid "Clip %1 will be fixed"
-msgstr "سيعاد تحميل المقطع %1"
+msgstr "سيثبت المقطع %1"
 
 #: src/doc/documentchecker.cpp:485
 #, kde-format
@@ -9114,10 +9111,9 @@ msgid "Nicolas Carion"
 msgstr "نيكولاس كاريون"
 
 #: src/main.cpp:128
-#, fuzzy, kde-format
-#| msgid "Code re-architecture & timeline rewrite"
+#, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
-msgstr "إعادة بناء معمارية التطبيق وكتابة الخط الزمني"
+msgstr "إعادة بناء معمارية التطبيق وكتابة الخط الزمني (2019)"
 
 #: src/main.cpp:129
 #, kde-format
@@ -9145,10 +9141,9 @@ msgid "Dan Dennedy"
 msgstr "دان ديننيدي"
 
 #: src/main.cpp:132
-#, fuzzy, kde-format
-#| msgid "MLT, Bug fixing, etc."
+#, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
-msgstr "ام ال تي ،وإصلاح العلل وغيرها."
+msgstr "مصين مكتبة ام ال تي ،وإصلاح العلل وغيرها."
 
 #: src/main.cpp:133
 #, kde-format
@@ -9163,12 +9158,12 @@ msgstr "نطاقات الألوان، إصلاح الأخطاء، إلخ."
 #: src/main.cpp:134
 #, kde-format
 msgid "Eric Jiang"
-msgstr ""
+msgstr "اريك جيانغ"
 
 #: src/main.cpp:134
 #, kde-format
 msgid "Bug fixing and test improvements"
-msgstr ""
+msgstr "إصلاح العِلل والتحسينات"
 
 #: src/main.cpp:136
 #, kde-format
@@ -9198,7 +9193,7 @@ msgstr "يوجين موهر"
 #: src/main.cpp:139
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
-msgstr ""
+msgstr "فرز الأخطاء والاختبار ومصين التوثيق"
 
 #: src/main.cpp:140
 #, kde-format
@@ -14968,10 +14963,9 @@ msgid "Histogram"
 msgstr "المخطّط الدّرجيّ"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:51
-#, fuzzy, kde-format
-#| msgid "You cannot insert a sequence containing itself"
+#, kde-format
 msgid "Found an invalid sequence clip in Bin"
-msgstr "لا يمكنك إضافة تسلسل يحوي نفسه."
+msgstr "عثر على مقطع تسلسلي غير صالح في السلة"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:270
 #: src/timeline2/model/builders/meltBuilder.cpp:499
@@ -16337,7 +16331,7 @@ msgstr ""
 #: src/timeline2/view/timelinetabs.cpp:172
 #, kde-format
 msgid "Closing a sequence will clear the undo history"
-msgstr ""
+msgstr "إغلاق التسلسل سيمحو تاريخ الإعادة"
 
 #: src/timeline2/view/timelinewidget.cpp:71
 #, kde-format

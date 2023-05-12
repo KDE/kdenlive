@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-09 02:52+0000\n"
+"POT-Creation-Date: 2023-05-12 02:36+0000\n"
 "PO-Revision-Date: 2023-05-09 09:30+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -5366,7 +5366,7 @@ msgid "Usage"
 msgstr "Ús"
 
 #: src/bin/projectitemmodel.cpp:332 src/doc/documentchecker.cpp:371
-#: src/mltcontroller/clipcontroller.cpp:464 src/profiles/profileinfo.cpp:46
+#: src/mltcontroller/clipcontroller.cpp:462 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
 msgid "Unknown"

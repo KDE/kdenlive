@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-09 02:52+0000\n"
+"POT-Creation-Date: 2023-05-12 02:36+0000\n"
 "PO-Revision-Date: 2022-10-04 11:00+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -5405,7 +5405,7 @@ msgid "Usage"
 msgstr "Использование"
 
 #: src/bin/projectitemmodel.cpp:332 src/doc/documentchecker.cpp:371
-#: src/mltcontroller/clipcontroller.cpp:464 src/profiles/profileinfo.cpp:46
+#: src/mltcontroller/clipcontroller.cpp:462 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
 msgid "Unknown"
