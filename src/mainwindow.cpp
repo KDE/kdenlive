@@ -95,6 +95,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KConfigGroup>
 #include <QAction>
 #include <QClipboard>
+#include <QDesktopServices>
 #include <QDialogButtonBox>
 #include <QFileDialog>
 #include <QMenu>
@@ -560,8 +561,22 @@ void MainWindow::init(const QString &mltPath)
     previewButtonAction->setIcon(QIcon::fromTheme(QStringLiteral("preview-render-on")));
     previewButtonAction->setDefaultWidget(timelinePreview);
     addAction(QStringLiteral("timeline_preview_button"), previewButtonAction);
-
     setupGUI(KXmlGuiWindow::ToolBar | KXmlGuiWindow::StatusBar | KXmlGuiWindow::Save | KXmlGuiWindow::Create);
+
+    // Redirect help entry to our own function
+    // First delete the default help action
+    QAction *officialHelp = actionCollection()->action(KStandardAction::name(KStandardAction::HelpContents));
+    actionCollection()->removeAction(officialHelp);
+    // Now recreate our own
+    KStandardAction::helpContents(this, &MainWindow::appHelpActivated, actionCollection());
+    officialHelp = actionCollection()->action(KStandardAction::name(KStandardAction::HelpContents));
+    // Replug it in the Help menu
+    QMenu *helpMenu = static_cast<QMenu *>(factory()->container(QStringLiteral("help"), this));
+    if (helpMenu) {
+        QAction *whatsThis = actionCollection()->action(KStandardAction::name(KStandardAction::WhatsThis));
+        helpMenu->insertAction(whatsThis, officialHelp);
+    }
+
     LocaleHandling::resetLocale();
     if (firstRun) {
         if (QScreen *current = QApplication::primaryScreen()) {
@@ -4826,6 +4841,13 @@ void MainWindow::disconnectTimeline(TimelineWidget *timeline)
     timeline->controller()->clipActions = QList<QAction *>();
     disconnect(pCore->bin(), &Bin::processDragEnd, timeline, &TimelineWidget::endDrag);
     pCore->monitorManager()->projectMonitor()->setProducer(nullptr, -2);
+}
+
+void MainWindow::appHelpActivated()
+{
+    // Don't use default help, show our website
+    // QDesktopServices::openUrl(QUrl(QStringLiteral("help:kdenlive")));
+    QDesktopServices::openUrl(QUrl(QStringLiteral("https://docs.kdenlive.org")));
 }
 
 void MainWindow::slotCreateSequenceFromSelection()

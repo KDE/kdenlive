@@ -337,6 +337,7 @@ public Q_SLOTS:
 
     void slotSwitchVideoThumbs();
     void slotSwitchAudioThumbs();
+    void appHelpActivated();
 
     void slotPreferences();
     void slotShowPreferencePage(Kdenlive::ConfigPage page, int option = -1);
