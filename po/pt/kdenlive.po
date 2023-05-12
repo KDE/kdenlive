@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-09 00:47+0000\n"
-"PO-Revision-Date: 2023-05-07 13:50+0100\n"
+"POT-Creation-Date: 2023-05-12 00:47+0000\n"
+"PO-Revision-Date: 2023-05-11 19:38+0100\n"
 "Last-Translator: Jose Jorge <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
 "Language: pt\n"
@@ -5476,7 +5476,7 @@ msgid "Usage"
 msgstr "Utilização"
 
 #: src/bin/projectitemmodel.cpp:332 src/doc/documentchecker.cpp:371
-#: src/mltcontroller/clipcontroller.cpp:464 src/profiles/profileinfo.cpp:46
+#: src/mltcontroller/clipcontroller.cpp:462 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
 msgid "Unknown"
@@ -7695,10 +7695,9 @@ msgid "Fixed Sequence Clips"
 msgstr "'Clips' da Sequência Corrigidos"
 
 #: src/doc/documentchecker.cpp:478
-#, fuzzy, kde-format
-#| msgid "Clip %1 will be reloaded"
+#, kde-format
 msgid "Clip %1 will be fixed"
-msgstr "O 'clip' %1 será carregado de novo"
+msgstr "O 'clip' %1 será corrigido"
 
 #: src/doc/documentchecker.cpp:485
 #, kde-format
@@ -9337,8 +9336,7 @@ msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
 #: src/main.cpp:129
-#, fuzzy, kde-format
-#| msgid "Feature developement, packaging, bug fixing"
+#, kde-format
 msgid "Feature development, packaging, bug fixing"
 msgstr ""
 "Desenvolvimento de funcionalidades, criação de pacotes, correcção de erros"
@@ -16651,7 +16649,7 @@ msgstr ""
 #: src/timeline2/view/timelinetabs.cpp:172
 #, kde-format
 msgid "Closing a sequence will clear the undo history"
-msgstr ""
+msgstr "Ao fechar uma sequência, irá limpar o histórico de anulações"
 
 #: src/timeline2/view/timelinewidget.cpp:71
 #, kde-format
@@ -21349,9 +21347,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Clip %1 has been fixed"
-#~ msgstr "O 'clip' %1 foi corrigido"
-
-#~ msgid "Close %1"
-#~ msgstr "Fechar o %1"
