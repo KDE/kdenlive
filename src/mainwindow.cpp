@@ -4847,7 +4847,59 @@ void MainWindow::appHelpActivated()
 {
     // Don't use default help, show our website
     // QDesktopServices::openUrl(QUrl(QStringLiteral("help:kdenlive")));
-    QDesktopServices::openUrl(QUrl(QStringLiteral("https://docs.kdenlive.org")));
+    if (pCore->packageType() == QStringLiteral("appimage")) {
+        qDebug() << "::::: LAUNCHING APPIMAGE BROWSER.........";
+        QProcess process;
+        QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+        qDebug() << "::: GOT ENV: " << env.value("LD_LIBRARY_PATH") << ", PATH: " << env.value("PATH") << "\n\nXDG:\n" << env.value("XDG_DATA_DIRS");
+        QStringList libPath = env.value(QStringLiteral("LD_LIBRARY_PATH")).split(QLatin1Char(':'), Qt::SkipEmptyParts);
+        QStringList updatedLDPath;
+        for (auto &s : libPath) {
+            if (!s.startsWith(QStringLiteral("/tmp/.mount_"))) {
+                updatedLDPath << s;
+            }
+        }
+        if (updatedLDPath.isEmpty()) {
+            env.remove(QStringLiteral("LD_LIBRARY_PATH"));
+        } else {
+            env.insert(QStringLiteral("LD_LIBRARY_PATH"), updatedLDPath.join(QLatin1Char(':')));
+        }
+        // Path
+        libPath = env.value(QStringLiteral("PATH")).split(QLatin1Char(':'), Qt::SkipEmptyParts);
+        updatedLDPath.clear();
+        for (auto &s : libPath) {
+            if (!s.startsWith(QStringLiteral("/tmp/.mount_"))) {
+                updatedLDPath << s;
+            }
+        }
+        if (updatedLDPath.isEmpty()) {
+            env.remove(QStringLiteral("PATH"));
+        } else {
+            env.insert(QStringLiteral("PATH"), updatedLDPath.join(QLatin1Char(':')));
+        }
+        // XDG
+        libPath = env.value(QStringLiteral("XDG_DATA_DIRS")).split(QLatin1Char(':'), Qt::SkipEmptyParts);
+        updatedLDPath.clear();
+        for (auto &s : libPath) {
+            if (!s.startsWith(QStringLiteral("/tmp/.mount_"))) {
+                updatedLDPath << s;
+            }
+        }
+        if (updatedLDPath.isEmpty()) {
+            env.remove(QStringLiteral("XDG_DATA_DIRS"));
+        } else {
+            env.insert(QStringLiteral("XDG_DATA_DIRS"), updatedLDPath.join(QLatin1Char(':')));
+        }
+        env.remove(QStringLiteral("QT_QPA_PLATFORM"));
+        process.setProcessEnvironment(env);
+        QString openPath = QStandardPaths::findExecutable(QStringLiteral("xdg-open"));
+        qDebug() << "------------\nFOUND OPEN PATH: " << openPath;
+        process.setProgram(openPath.isEmpty() ? QStringLiteral("xdg-open") : openPath);
+        process.setArguments({QStringLiteral("https://docs.kdenlive.org")});
+        process.startDetached();
+    } else {
+        QDesktopServices::openUrl(QUrl(QStringLiteral("https://docs.kdenlive.org")));
+    }
 }
 
 void MainWindow::slotCreateSequenceFromSelection()
