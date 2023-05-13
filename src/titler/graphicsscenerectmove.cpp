@@ -222,7 +222,7 @@ void MyTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
             QColor outlineColor = variant.value<QColor>();
             QPen pen(outlineColor);
             pen.setWidthF(outline);
-            painter->strokePath(m_path, pen);
+            painter->strokePath(m_path.simplified(), pen);
         }
         if (TITLERVERSION >= 300) {
             painter->fillPath(m_path, paintBrush);
@@ -277,7 +277,15 @@ void MyTextItem::updateShadow()
     QImage shadow(int(fullSize.width()) + qAbs(m_shadowOffset.x()) + 4 * m_shadowBlur, int(fullSize.height()) + qAbs(m_shadowOffset.y()) + 4 * m_shadowBlur,
                   QImage::Format_ARGB32_Premultiplied);
     shadow.fill(Qt::transparent);
+
     QPainter painter(&shadow);
+    int outline = data(TitleDocument::OutlineWidth).toInt();
+    if (outline > 0) {
+        QPainterPathStroker strokePath;
+        strokePath.setWidth(outline);
+        QPainterPath stroke = strokePath.createStroke(path);
+        path.addPath(stroke);
+    }
     painter.fillPath(path, QBrush(m_shadowColor));
     painter.end();
     if (m_shadowBlur > 0) {
