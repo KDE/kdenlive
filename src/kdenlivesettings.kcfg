@@ -1072,11 +1072,6 @@
       <default>#00ffff</default>
     </entry>
 
-    <entry name="rescalekeepratio" type="Bool">
-      <label>Keep aspect ratio in render dialog rescale widget.</label>
-      <default>true</default>
-    </entry>
-
     <entry name="defaultrescalewidth" type="Int">
       <label>default width for rendering rescale.</label>
       <default>320</default>

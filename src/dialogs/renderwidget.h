@@ -182,7 +182,6 @@ private Q_SLOTS:
     void slotRenderModeChanged();
     void slotUpdateRescaleHeight(int);
     void slotUpdateRescaleWidth(int);
-    void slotSwitchAspectRatio();
     void slotCheckStartGuidePosition();
     void slotCheckEndGuidePosition();
     /** @brief Enable / disable the rescale options. */
