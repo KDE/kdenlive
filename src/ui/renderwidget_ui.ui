@@ -552,29 +552,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                  </widget>
                 </item>
                 <item>
-                 <widget class="QToolButton" name="rescale_keep">
-                  <property name="toolTip">
-                   <string>Preserve aspect ratio</string>
-                  </property>
-                  <property name="text">
-                   <string>...</string>
-                  </property>
-                  <property name="icon">
-                   <iconset theme="edit-link">
-                    <normaloff>.</normaloff>.</iconset>
-                  </property>
-                  <property name="checkable">
-                   <bool>true</bool>
-                  </property>
-                  <property name="checked">
-                   <bool>false</bool>
-                  </property>
-                  <property name="autoRaise">
-                   <bool>true</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item>
                  <spacer name="rescaleSpace">
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
@@ -1153,7 +1130,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
   <tabstop>rescale</tabstop>
   <tabstop>rescale_width</tabstop>
   <tabstop>rescale_height</tabstop>
-  <tabstop>rescale_keep</tabstop>
   <tabstop>tc_type</tabstop>
   <tabstop>audio_box</tabstop>
   <tabstop>stemAudioExport</tabstop>

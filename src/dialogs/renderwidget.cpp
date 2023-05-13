@@ -225,12 +225,10 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
 
     connect(m_view.video_box, &QGroupBox::toggled, this, &RenderWidget::refreshParams);
     connect(m_view.audio_box, &QGroupBox::toggled, this, &RenderWidget::refreshParams);
-    m_view.rescale_keep->setChecked(KdenliveSettings::rescalekeepratio());
     connect(m_view.rescale, &QAbstractButton::toggled, this, &RenderWidget::setRescaleEnabled);
     connect(m_view.rescale, &QAbstractButton::toggled, this, &RenderWidget::refreshParams);
     connect(m_view.rescale_width, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderWidget::slotUpdateRescaleWidth);
     connect(m_view.rescale_height, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderWidget::slotUpdateRescaleHeight);
-    connect(m_view.rescale_keep, &QAbstractButton::clicked, this, &RenderWidget::slotSwitchAspectRatio);
     connect(m_view.render_at_preview_res, &QCheckBox::stateChanged, this, &RenderWidget::refreshParams);
     connect(m_view.render_full_color, &QCheckBox::stateChanged, this, &RenderWidget::refreshParams);
     m_view.processing_threads->setMaximum(QThread::idealThreadCount());
@@ -424,10 +422,6 @@ void RenderWidget::slotRenderModeChanged()
 void RenderWidget::slotUpdateRescaleWidth(int val)
 {
     KdenliveSettings::setDefaultrescalewidth(val);
-    if (!m_view.rescale_keep->isChecked()) {
-        refreshParams();
-        return;
-    }
     m_view.rescale_height->blockSignals(true);
     std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
     m_view.rescale_height->setValue(val * profile->height() / profile->width());
@@ -439,24 +433,12 @@ void RenderWidget::slotUpdateRescaleWidth(int val)
 void RenderWidget::slotUpdateRescaleHeight(int val)
 {
     KdenliveSettings::setDefaultrescaleheight(val);
-    if (!m_view.rescale_keep->isChecked()) {
-        refreshParams();
-        return;
-    }
     m_view.rescale_width->blockSignals(true);
     std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
     m_view.rescale_width->setValue(val * profile->width() / profile->height());
     KdenliveSettings::setDefaultrescaleheight(m_view.rescale_width->value());
     m_view.rescale_width->blockSignals(false);
     refreshParams();
-}
-
-void RenderWidget::slotSwitchAspectRatio()
-{
-    KdenliveSettings::setRescalekeepratio(m_view.rescale_keep->isChecked());
-    if (m_view.rescale_keep->isChecked()) {
-        slotUpdateRescaleWidth(m_view.rescale_width->value());
-    }
 }
 
 void RenderWidget::slotCheckStartGuidePosition()
@@ -1175,11 +1157,7 @@ int RenderWidget::runningJobsCount() const
 void RenderWidget::adjustViewToProfile()
 {
     m_view.rescale_width->setValue(KdenliveSettings::defaultrescalewidth());
-    if (!m_view.rescale_keep->isChecked()) {
-        m_view.rescale_height->blockSignals(true);
-        m_view.rescale_height->setValue(KdenliveSettings::defaultrescaleheight());
-        m_view.rescale_height->blockSignals(false);
-    }
+    m_view.rescale_height->setValue(KdenliveSettings::defaultrescaleheight());
     refreshView();
 }
 
@@ -1332,20 +1310,23 @@ void RenderWidget::refreshParams()
     // Rescale
     bool rescale = m_view.rescale->isEnabled() && m_view.rescale->isChecked();
     if (rescale) {
+        QSize frameSize = pCore->getCurrentFrameSize();
+        double scale;
+        if (frameSize.width() > frameSize.height()) {
+            scale = (double)m_view.rescale_width->value() / frameSize.width();
+        } else {
+            scale = (double)m_view.rescale_height->value() / frameSize.height();
+        }
+        m_params.insert(QStringLiteral("scale"), QString::number(scale));
         m_params.remove(QStringLiteral("width"));
         m_params.remove(QStringLiteral("height"));
-        m_params.insert(QStringLiteral("s"), QStringLiteral("%1x%2").arg(m_view.rescale_width->value()).arg(m_view.rescale_height->value()));
-        if (preset->hasParam(QStringLiteral("sample_aspect_num")) || preset->hasParam(QStringLiteral("sample_aspect_den"))) {
-            // reset display aspect ratio to 1:1 if we override the resolution to avoid errors
-            m_params.insert(QStringLiteral("sample_aspect_num"), QString::number(1));
-            m_params.insert(QStringLiteral("sample_aspect_den"), QString::number(1));
+        m_params.remove(QStringLiteral("s"));
+    } else {
+        // Preview rendering
+        bool previewRes = m_view.render_at_preview_res->isChecked() && pCore->getMonitorProfile().height() != pCore->getCurrentFrameSize().height();
+        if (previewRes) {
+            m_params.insert(QStringLiteral("scale"), QString::number(double(pCore->getMonitorProfile().height()) / pCore->getCurrentFrameSize().height()));
         }
-    }
-
-    // Preview rendering
-    bool previewRes = m_view.render_at_preview_res->isChecked() && pCore->getMonitorProfile().height() != pCore->getCurrentFrameSize().height();
-    if (previewRes) {
-        m_params.insert(QStringLiteral("scale"), QString::number(double(pCore->getMonitorProfile().height()) / pCore->getCurrentFrameSize().height()));
     }
 
     // Full color range
@@ -1848,9 +1829,6 @@ void RenderWidget::setRenderProfile(const QMap<QString, QString> &props)
             m_view.tc_type->setCurrentIndex(0);
         }
     }
-    if (props.contains(QStringLiteral("renderratio"))) {
-        m_view.rescale_keep->setChecked(props.value(QStringLiteral("renderratio")).toInt() != 0);
-    }
     if (props.contains(QStringLiteral("rendercustomquality")) && props.value(QStringLiteral("rendercustomquality")).toInt() >= 0) {
         m_view.qualityGroup->setChecked(true);
         m_view.quality->setValue(props.value(QStringLiteral("rendercustomquality")).toInt());
@@ -1936,7 +1914,6 @@ void RenderWidget::saveRenderProfile()
     renderProps.insert(QStringLiteral("rendertcoverlay"), QString::number(static_cast<int>(!m_view.tc_type->currentData().toString().isEmpty())));
 
     renderProps.insert(QStringLiteral("rendertctype"), QString::number(m_view.tc_type->currentIndex() - 1));
-    renderProps.insert(QStringLiteral("renderratio"), QString::number(static_cast<int>(m_view.rescale_keep->isChecked())));
     renderProps.insert(QStringLiteral("renderplay"), QString::number(static_cast<int>(m_view.play_after->isChecked())));
     renderProps.insert(QStringLiteral("rendertwopass"), QString::number(static_cast<int>(m_view.checkTwoPass->isChecked())));
     renderProps.insert(QStringLiteral("rendercustomquality"), QString::number(m_view.qualityGroup->isChecked() ? m_view.quality->value() : -1));
