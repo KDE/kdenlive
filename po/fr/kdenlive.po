@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-12 02:36+0000\n"
-"PO-Revision-Date: 2023-05-05 16:22+0200\n"
+"PO-Revision-Date: 2023-05-10 12:17+0200\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -1261,10 +1261,9 @@ msgid "Correct audio loudness as recommended by EBU R128"
 msgstr "Corriger le volume audio comme recommandé par l'EBU R128"
 
 #: data/effects/loudness.xml:13 data/effects/tracker.xml:41
-#, fuzzy, kde-format
-#| msgid "Enable Effect"
+#, kde-format
 msgid "Analyse to Apply Effect"
-msgstr "Activer l'effet"
+msgstr "Analyse pour appliquer un effet"
 
 #: data/effects/lumaliftgaingamma.xml:4
 #, kde-format
@@ -7616,16 +7615,14 @@ msgid "Clip %1 will be reloaded"
 msgstr "Le clip %1 sera re-chargé"
 
 #: src/doc/documentchecker.cpp:474
-#, fuzzy, kde-format
-#| msgid "Create Sequence Clip"
+#, kde-format
 msgid "Fixed Sequence Clips"
-msgstr "Créer une vidéo de séquences"
+msgstr "Vidéo de séquences fixes"
 
 #: src/doc/documentchecker.cpp:478
-#, fuzzy, kde-format
-#| msgid "Clip %1 will be reloaded"
+#, kde-format
 msgid "Clip %1 will be fixed"
-msgstr "Le clip %1 sera re-chargé"
+msgstr "La vidéo %1 sera fixe"
 
 #: src/doc/documentchecker.cpp:485
 #, kde-format
@@ -9258,10 +9255,10 @@ msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
 #: src/main.cpp:128
-#, fuzzy, kde-format
-#| msgid "Code re-architecture & timeline rewrite"
+#, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
-msgstr "Ré-architecture du code et ré-écriture de la timeline"
+msgstr ""
+"Ré-architecture du code et ré-écriture de la frise chronologique (2019)"
 
 #: src/main.cpp:129
 #, kde-format
@@ -9271,7 +9268,7 @@ msgstr "seexpr_scripts"
 #: src/main.cpp:129
 #, kde-format
 msgid "Feature developement, packaging, bug fixing"
-msgstr ""
+msgstr "Développement de fonctionnalités, empaquetage, correction de bogues"
 
 #: src/main.cpp:130
 #, kde-format
@@ -9291,10 +9288,9 @@ msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
 #: src/main.cpp:132
-#, fuzzy, kde-format
-#| msgid "MLT, Bug fixing, etc."
+#, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
-msgstr "MLT, correction de bogues, etc."
+msgstr "Mainteneur de MLT, correction de bogues, etc."
 
 #: src/main.cpp:133
 #, kde-format
@@ -9309,12 +9305,12 @@ msgstr "Graphes des couleurs, correction de bogues, etc."
 #: src/main.cpp:134
 #, kde-format
 msgid "Eric Jiang"
-msgstr ""
+msgstr "Eric Jiang"
 
 #: src/main.cpp:134
 #, kde-format
 msgid "Bug fixing and test improvements"
-msgstr ""
+msgstr "Correction de bogues et améliorations des tests"
 
 #: src/main.cpp:136
 #, kde-format
@@ -9345,7 +9341,7 @@ msgstr "Eugen Mohr"
 #: src/main.cpp:139
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
-msgstr ""
+msgstr "Tri de bogues, tests, mainteneur de la documentation"
 
 #: src/main.cpp:140
 #, kde-format
@@ -15217,11 +15213,9 @@ msgid "Histogram"
 msgstr "Histogramme"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:51
-#, fuzzy, kde-format
-#| msgid "You cannot insert a sequence containing itself"
+#, kde-format
 msgid "Found an invalid sequence clip in Bin"
-msgstr ""
-"Il vous est impossible d'insérer une séquence à l'intérieur d'elle-même."
+msgstr "Une vidéo non valable de séquences a été trouvée dans le dossier."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:270
 #: src/timeline2/model/builders/meltBuilder.cpp:499
@@ -16627,7 +16621,7 @@ msgstr ""
 #: src/timeline2/view/timelinetabs.cpp:172
 #, kde-format
 msgid "Closing a sequence will clear the undo history"
-msgstr ""
+msgstr "La fermeture de la séquence effacera l'historique d'annulation."
 
 #: src/timeline2/view/timelinewidget.cpp:71
 #, kde-format
