@@ -1,7 +1,7 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Safa Alfulaij <safa1996alfulaij@gmail.com>, ٢٠١٥, 2017.
+# Safa Alfulaij <safa1996alfulaij@gmail.com>, 2015, 2017.
 # Zayed Al-Saidi <zayed.alsaidi@gmail.com>, 2021, 2022, 2023.
 msgid ""
 msgstr ""
@@ -98,7 +98,7 @@ msgstr "لون الخلفية التي ستطبق على كامل الإطار."
 #: data/effects/audiolevelgraph.xml:17
 #, kde-format
 msgid "Gradient Color 1"
-msgstr "التّدرّج اللوني ١"
+msgstr "التّدرّج اللوني 1"
 
 #: data/effects/audiolevelgraph.xml:18 data/effects/audiolevelgraph.xml:22
 #: data/effects/audiolevelgraph.xml:26
@@ -109,12 +109,12 @@ msgstr "لون التدرج الموجيّ."
 #: data/effects/audiolevelgraph.xml:21
 #, kde-format
 msgid "Gradient Color 2"
-msgstr "التّدرّج اللوني ٢"
+msgstr "التّدرّج اللوني 2"
 
 #: data/effects/audiolevelgraph.xml:25
 #, kde-format
 msgid "Gradient Color 3"
-msgstr "التّدرّج اللوني ٣"
+msgstr "التّدرّج اللوني 3"
 
 #: data/effects/audiolevelgraph.xml:29 data/effects/audiospectrum.xml:22
 #: data/effects/audiowaveform.xml:13
@@ -237,32 +237,32 @@ msgstr ""
 #: data/effects/audiomap.xml:9
 #, kde-format
 msgid "CH1 source"
-msgstr "مصدر قناة ١"
+msgstr "مصدر قناة 1"
 
 #: data/effects/audiomap.xml:13
 #, kde-format
 msgid "CH2 source"
-msgstr "مصدر قناة ٢"
+msgstr "مصدر قناة 2"
 
 #: data/effects/audiomap.xml:17
 #, kde-format
 msgid "CH3 source"
-msgstr "مصدر قناة ٣"
+msgstr "مصدر قناة 3"
 
 #: data/effects/audiomap.xml:21
 #, kde-format
 msgid "CH4 source"
-msgstr "مصدر قناة ٤"
+msgstr "مصدر قناة 4"
 
 #: data/effects/audiomap.xml:25
 #, kde-format
 msgid "CH5 source"
-msgstr "مصدر قناة ٥"
+msgstr "مصدر قناة 5"
 
 #: data/effects/audiomap.xml:29
 #, kde-format
 msgid "CH6 source"
-msgstr "مصدر قناة ٦"
+msgstr "مصدر قناة 6"
 
 #: data/effects/audiopan.xml:4
 #, kde-format
@@ -2300,7 +2300,7 @@ msgstr "الكتابة (لعنوان المقطع)"
 #: data/effects/typewriter.xml:5
 #, kde-format
 msgid "Typewriter effect v0.3.3 To be applied on title clips only."
-msgstr "تأثير الكتابة الإصدارة ٠٫٣٫٣ يطبق فقط على مقاطع العنوان."
+msgstr "تأثير الكتابة الإصدارة 0٫3٫3 يطبق فقط على مقاطع العنوان."
 
 #: data/effects/typewriter.xml:8
 #, kde-format
@@ -2599,7 +2599,7 @@ msgstr "نمط العداد"
 #: data/generators/count.xml:17
 #, kde-format
 msgid "Silent,1kHz beep before end,1kHz beep each second"
-msgstr "صامت, ١ ك هرتز صفير قبل النهاية,١ ك هرتز صفير كل ثانية"
+msgstr "صامت, 1 ك هرتز صفير قبل النهاية,1 ك هرتز صفير كل ثانية"
 
 #: data/generators/count.xml:18
 #, kde-format
@@ -2714,7 +2714,7 @@ msgstr "تأثيرات وحدة معالجة الرسومات"
 #: data/kdenliveeffectscategory.rc:58
 #, kde-format
 msgid "VR360 and 3D"
-msgstr "في ار ٣٦٠ و ٣أبعاد"
+msgstr "في ار 360 و 3أبعاد"
 
 #: data/kdenliveeffectscategory.rc:62
 #, kde-format
@@ -5517,7 +5517,7 @@ msgstr "مربع"
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
-msgstr "مربع ٢"
+msgstr "مربع 2"
 
 #: src/core.cpp:365
 #, kde-format
@@ -5547,7 +5547,7 @@ msgstr "لولبيّ"
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
-msgstr "لولبيّ ٢"
+msgstr "لولبيّ 2"
 
 #: src/core.cpp:370
 #, kde-format
@@ -6382,12 +6382,12 @@ msgstr "ثبت معجم جديد."
 #: src/dialogs/profilesdialog.cpp:111
 #, kde-format
 msgid "Profile width must be a multiple of 2. It was adjusted to %1"
-msgstr "يجب أن يكون عرض التشكيلة إحدى مضاعفات العدد ٢. لقد تعدّل إلى %1"
+msgstr "يجب أن يكون عرض التشكيلة إحدى مضاعفات العدد 2. لقد تعدّل إلى %1"
 
 #: src/dialogs/profilesdialog.cpp:126
 #, kde-format
 msgid "Profile height must be a multiple of 2. It was adjusted to %1"
-msgstr "يجب أن يكون عرض التشكيلة إحدى مضاعفات العدد ٢. لقد تعدّل إلى %1"
+msgstr "يجب أن يكون عرض التشكيلة إحدى مضاعفات العدد 2. لقد تعدّل إلى %1"
 
 #: src/dialogs/profilesdialog.cpp:199
 #, kde-format
@@ -6444,7 +6444,7 @@ msgstr "تعذّر إنشاء ملفات مؤقتة"
 #: src/dialogs/proxytest.cpp:124
 #, kde-format
 msgid "Generating a 60 seconds test video %1"
-msgstr "توليد ٦٠ ثانية فيديو اختباري %1"
+msgstr "توليد 60 ثانية فيديو اختباري %1"
 
 #: src/dialogs/proxytest.cpp:148
 #, kde-format
@@ -9093,7 +9093,7 @@ msgstr "محرّر فيديوهات مفتوح المصدر."
 #: src/main.cpp:124
 #, kde-format
 msgid "Copyright © 2007–2023 Kdenlive authors"
-msgstr "الحقوق محفوظة © ٢٠٠٧-٢٠٢٣، لمؤلّفي كِيدِينلايف"
+msgstr "الحقوق محفوظة © 2007-2023، لمؤلّفي كِيدِينلايف"
 
 #: src/main.cpp:126
 #, kde-format
@@ -9942,22 +9942,22 @@ msgstr "دقة عالية (1:1)"
 #: src/mainwindow.cpp:1517 src/monitor/monitor.cpp:178
 #, kde-format
 msgid "720p"
-msgstr "٧٢٠ب"
+msgstr "720ب"
 
 #: src/mainwindow.cpp:1521 src/monitor/monitor.cpp:178
 #, kde-format
 msgid "540p"
-msgstr "٥٤٠ب"
+msgstr "540ب"
 
 #: src/mainwindow.cpp:1525 src/monitor/monitor.cpp:179
 #, kde-format
 msgid "360p"
-msgstr "٣٦٠ب"
+msgstr "360ب"
 
 #: src/mainwindow.cpp:1529 src/monitor/monitor.cpp:179
 #, kde-format
 msgid "270p"
-msgstr "٢٧٠ب"
+msgstr "270ب"
 
 #: src/mainwindow.cpp:1560
 #, kde-format
@@ -11147,14 +11147,14 @@ msgstr "نسخ القناة:"
 #: src/ui/projectsettings_ui.ui:556
 #, kde-format
 msgid "1"
-msgstr "١"
+msgstr "1"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
 #: src/mltcontroller/clippropertiescontroller.cpp:854
 #: src/ui/projectsettings_ui.ui:561
 #, kde-format
 msgid "2"
-msgstr "٢"
+msgstr "2"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:883
 #, kde-format
@@ -12418,7 +12418,7 @@ msgstr "Full HD 1080"
 #: src/profiles/tree/profiletreemodel.cpp:51
 #, kde-format
 msgid "HD 720"
-msgstr "إتش دي ٧٢٠"
+msgstr "إتش دي 720"
 
 #: src/profiles/tree/profiletreemodel.cpp:52
 #, kde-format
@@ -12875,7 +12875,7 @@ msgstr "حمّل علامات المقطع"
 #: src/project/dialogs/guideslist.cpp:173
 #, kde-format
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
-msgstr "ملف العلامة أكبر من ١ ميجابايت، هل ترغب في استيراده؟"
+msgstr "ملف العلامة أكبر من 1 ميجابايت، هل ترغب في استيراده؟"
 
 #: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1426
 #: src/renderpresets/renderpresetrepository.cpp:313
@@ -13636,7 +13636,7 @@ msgstr ""
 #: src/project/projectmanager.cpp:1261
 #, kde-format
 msgid "Sequence 1"
-msgstr "التسلسل ١"
+msgstr "التسلسل 1"
 
 #: src/project/projectmanager.cpp:1238
 #, kde-format
@@ -13810,7 +13810,7 @@ msgid ""
 "Error while running python3 script:\n"
 " %1"
 msgstr ""
-"خطأ أثناء تشغيل سكربت بايثون٣:\n"
+"خطأ أثناء تشغيل سكربت بايثون3:\n"
 " %1"
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
@@ -14924,7 +14924,7 @@ msgstr "خيارات الرّسم"
 #: src/scopes/colorscopes/vectorscope.cpp:79
 #, kde-format
 msgid "75% box"
-msgstr "صندوق ٧٥٪"
+msgstr "صندوق 75٪"
 
 #: src/scopes/colorscopes/vectorscope.cpp:89
 #, kde-format
@@ -20869,7 +20869,7 @@ msgstr ""
 #: src/widgets/doublewidget.cpp:27
 #, kde-format
 msgid "Rotate by 90 ° steps"
-msgstr "أدر بخطوات ٩٠°"
+msgstr "أدر بخطوات 90°"
 
 #: src/widgets/dragvalue.cpp:115
 #, kde-format
@@ -21587,7 +21587,7 @@ msgstr "%1س"
 #, fuzzy
 #~| msgid "270p"
 #~ msgid "270"
-#~ msgstr "٢٧٠ب"
+#~ msgstr "270ب"
 
 #, fuzzy
 #~| msgid "Pixel Aspect Ratio: %1<br/>"
