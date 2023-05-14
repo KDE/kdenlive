@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-13 00:46+0000\n"
+"POT-Creation-Date: 2023-05-14 00:47+0000\n"
 "PO-Revision-Date: 2020-10-31 22:29+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -904,7 +904,7 @@ msgstr "Lodret justering"
 
 #. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:875 src/ui/templateclip_ui.ui:38
+#: src/titler/graphicsscenerectmove.cpp:883 src/ui/templateclip_ui.ui:38
 #, kde-format
 msgid "Text"
 msgstr "Tekst"
@@ -4566,7 +4566,7 @@ msgstr "Afbryd lyd på video"
 #: src/monitor/recmanager.cpp:47 src/onlineresources/resourcewidget.cpp:547
 #: src/ui/configcapture_ui.ui:525 src/ui/cutjobdialog_ui.ui:61
 #: src/ui/editrenderpreset_ui.ui:834 src/ui/projectsettings_ui.ui:180
-#: src/ui/renderwidget_ui.ui:612
+#: src/ui/renderwidget_ui.ui:589
 #, kde-format
 msgid "Audio"
 msgstr "Lyd"
@@ -5385,7 +5385,7 @@ msgstr "Slet hjælpelinje"
 msgid "Move subtitle"
 msgstr "Flyt element"
 
-#: src/bin/model/subtitlemodel.cpp:1139 src/dialogs/renderwidget.cpp:847
+#: src/bin/model/subtitlemodel.cpp:1139 src/dialogs/renderwidget.cpp:829
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:515
 #: src/effects/effectstack/view/effectstackview.cpp:571
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:837
@@ -6229,10 +6229,10 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "Importér hjælpelinjer"
 
-#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:952
-#: src/dialogs/renderwidget.cpp:957 src/dialogs/renderwidget.cpp:1010
-#: src/dialogs/renderwidget.cpp:1015 src/dialogs/renderwidget.cpp:1968
-#: src/dialogs/renderwidget.cpp:1995 src/doc/kdenlivedoc.cpp:743
+#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:934
+#: src/dialogs/renderwidget.cpp:939 src/dialogs/renderwidget.cpp:992
+#: src/dialogs/renderwidget.cpp:997 src/dialogs/renderwidget.cpp:1945
+#: src/dialogs/renderwidget.cpp:1972 src/doc/kdenlivedoc.cpp:743
 #: src/doc/kdenlivedoc.cpp:751 src/doc/kdenlivedoc.cpp:1244
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
@@ -6762,7 +6762,7 @@ msgid ""
 "overwritten by the equivalent user interface options: <icode>%1</icode>"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:110 src/dialogs/renderwidget.cpp:1794
+#: src/dialogs/renderwidget.cpp:110 src/dialogs/renderwidget.cpp:1775
 #, fuzzy, kde-format
 #| msgid "Waiting..."
 msgid "Waiting…"
@@ -6812,78 +6812,78 @@ msgstr "Begræns antallet af keyframes"
 msgid "Rendering using low quality proxy"
 msgstr "Rendering med proxy i lav kvalitet"
 
-#: src/dialogs/renderwidget.cpp:299
+#: src/dialogs/renderwidget.cpp:297
 #, kde-format
 msgid "File"
 msgstr "Fil"
 
-#: src/dialogs/renderwidget.cpp:308
+#: src/dialogs/renderwidget.cpp:306
 #, kde-format
 msgid "Stored Playlists"
 msgstr "Gemte afspilningslister"
 
-#: src/dialogs/renderwidget.cpp:325 src/timeline2/view/previewmanager.cpp:52
+#: src/dialogs/renderwidget.cpp:323 src/timeline2/view/previewmanager.cpp:52
 #, kde-format
 msgid ""
 "Could not find the kdenlive_render application, something is wrong with your "
 "installation. Rendering will not work"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:348
+#: src/dialogs/renderwidget.cpp:346
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:356
+#: src/dialogs/renderwidget.cpp:354
 #, kde-format
 msgid "There was a problem sharing the document: %1"
 msgstr "Der opstod en fejl ved deling af dokumentet: %1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
-#: src/dialogs/renderwidget.cpp:356 src/dialogs/renderwidget.cpp:364
-#: src/ui/renderwidget_ui.ui:895
+#: src/dialogs/renderwidget.cpp:354 src/dialogs/renderwidget.cpp:362
+#: src/ui/renderwidget_ui.ui:872
 #, kde-format
 msgid "Share"
 msgstr "Del"
 
-#: src/dialogs/renderwidget.cpp:361
+#: src/dialogs/renderwidget.cpp:359
 #, kde-format
 msgid "Document shared successfully"
 msgstr "Dokumentet blev delt"
 
-#: src/dialogs/renderwidget.cpp:364
+#: src/dialogs/renderwidget.cpp:362
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
 msgstr "Du kan finde det delte dokument på: <a href=\"%1\">%1</a>"
 
-#: src/dialogs/renderwidget.cpp:505
+#: src/dialogs/renderwidget.cpp:487
 #, kde-format
 msgid "Beginning"
 msgstr "Start"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/dialogs/renderwidget.cpp:512 src/ui/wipeval_ui.ui:172
+#: src/dialogs/renderwidget.cpp:494 src/ui/wipeval_ui.ui:172
 #, kde-format
 msgid "End"
 msgstr "Slutningen"
 
-#: src/dialogs/renderwidget.cpp:634
+#: src/dialogs/renderwidget.cpp:616
 #, kde-format
 msgid "Add a clip to timeline before rendering"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:640
+#: src/dialogs/renderwidget.cpp:622
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr "Kan ikke finde programmet melt, som kræves til at rendere (del af MLT)"
 
-#: src/dialogs/renderwidget.cpp:646 src/dialogs/renderwidget.cpp:1768
+#: src/dialogs/renderwidget.cpp:628 src/dialogs/renderwidget.cpp:1749
 #: src/project/dialogs/archivewidget.cpp:896
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Outputfilen findes allerede. Vil du overskrive den?"
 
-#: src/dialogs/renderwidget.cpp:654 src/monitor/recmanager.cpp:192
+#: src/dialogs/renderwidget.cpp:636 src/monitor/recmanager.cpp:192
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -6892,7 +6892,7 @@ msgstr ""
 "Mappen %1 kunne ikke oprettes.\n"
 "Sørg for at du har de nødvendige rettigheder."
 
-#: src/dialogs/renderwidget.cpp:676
+#: src/dialogs/renderwidget.cpp:658
 #, fuzzy, kde-format
 #| msgid "Cannot create autosave file %1"
 msgid ""
@@ -6900,42 +6900,42 @@ msgid ""
 " %1"
 msgstr "Kan ikke oprette autogemt fil %1"
 
-#: src/dialogs/renderwidget.cpp:713 src/dialogs/renderwidget.cpp:798
+#: src/dialogs/renderwidget.cpp:695 src/dialogs/renderwidget.cpp:780
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Could not create temporary subtitle file"
 msgstr "Kan ikke oprette midlertidig fil"
 
-#: src/dialogs/renderwidget.cpp:762
+#: src/dialogs/renderwidget.cpp:744
 #, kde-format
 msgid "begin"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:823
+#: src/dialogs/renderwidget.cpp:805
 #, kde-format
 msgid "export"
 msgstr "eksportér"
 
-#: src/dialogs/renderwidget.cpp:838
+#: src/dialogs/renderwidget.cpp:820
 #, fuzzy, kde-format
 #| msgid "Delayed rendering"
 msgctxt "@title:window"
 msgid "Delayed Rendering"
 msgstr "Forsinket rendering"
 
-#: src/dialogs/renderwidget.cpp:838
+#: src/dialogs/renderwidget.cpp:820
 #, kde-format
 msgid "Select a name for this rendering."
 msgstr "Vælg et navn til renderingen."
 
-#: src/dialogs/renderwidget.cpp:913
+#: src/dialogs/renderwidget.cpp:895
 #, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together.\n"
 "Script will be saved without multi track export."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1053 src/dialogs/renderwidget.cpp:1781
+#: src/dialogs/renderwidget.cpp:1035 src/dialogs/renderwidget.cpp:1762
 #, fuzzy, kde-format
 #| msgid ""
 #| "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -6947,114 +6947,114 @@ msgstr ""
 "Der er allerede et job der skriver filen:<br /><b>%1</b><br />Afbryd jobbet "
 "hvis du vil overskrive filen..."
 
-#: src/dialogs/renderwidget.cpp:1054 src/dialogs/renderwidget.cpp:1782
+#: src/dialogs/renderwidget.cpp:1036 src/dialogs/renderwidget.cpp:1763
 #, kde-format
 msgid "Already running"
 msgstr "Kører allerede"
 
-#: src/dialogs/renderwidget.cpp:1079
+#: src/dialogs/renderwidget.cpp:1061
 #, kde-format
 msgid "Video without audio track"
 msgstr "Video uden lydspor"
 
-#: src/dialogs/renderwidget.cpp:1081
+#: src/dialogs/renderwidget.cpp:1063
 #, fuzzy, kde-format
 #| msgid "Video without audio track"
 msgid "Audio without video track"
 msgstr "Video uden lydspor"
 
-#: src/dialogs/renderwidget.cpp:1145
+#: src/dialogs/renderwidget.cpp:1127
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "Rendering af <i>%1</i> påbegyndt"
 
-#: src/dialogs/renderwidget.cpp:1211 src/monitor/monitor.cpp:1151
+#: src/dialogs/renderwidget.cpp:1189 src/monitor/monitor.cpp:1151
 #, kde-format
 msgid "untitled"
 msgstr "unavngivet"
 
-#: src/dialogs/renderwidget.cpp:1249
+#: src/dialogs/renderwidget.cpp:1227
 #, fuzzy, kde-format
 #| msgid "No profile selected"
 msgid "No preset selected"
 msgstr "Ingen profil valgt"
 
-#: src/dialogs/renderwidget.cpp:1251
+#: src/dialogs/renderwidget.cpp:1229
 #, fuzzy, kde-format
 #| msgid "No matching profile"
 msgid "No matching preset"
 msgstr "Ingen matchende profil"
 
-#: src/dialogs/renderwidget.cpp:1263
+#: src/dialogs/renderwidget.cpp:1241
 #, fuzzy, kde-format
 #| msgid "Invalid profile"
 msgid "Invalid preset"
 msgstr "Ugyldig profil"
 
-#: src/dialogs/renderwidget.cpp:1374
+#: src/dialogs/renderwidget.cpp:1355
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1533
+#: src/dialogs/renderwidget.cpp:1514
 #, fuzzy, kde-format
 #| msgid "Remaining time %1"
 msgid "Remaining time "
 msgstr "Tilbageværende tid %1"
 
-#: src/dialogs/renderwidget.cpp:1535 src/dialogs/renderwidget.cpp:1579
+#: src/dialogs/renderwidget.cpp:1516 src/dialogs/renderwidget.cpp:1560
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
 msgstr[0] "%1 dag "
 msgstr[1] "%1 dage "
 
-#: src/dialogs/renderwidget.cpp:1539
+#: src/dialogs/renderwidget.cpp:1520
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1551
+#: src/dialogs/renderwidget.cpp:1532
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1581
+#: src/dialogs/renderwidget.cpp:1562
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Renderingen gennemført på %1"
 
-#: src/dialogs/renderwidget.cpp:1590
+#: src/dialogs/renderwidget.cpp:1571
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "Generéring af %1 afsluttede i %2"
 
-#: src/dialogs/renderwidget.cpp:1614
+#: src/dialogs/renderwidget.cpp:1595
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>Rendering af %1 brød sammen</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1657 src/ui/renderwidget_ui.ui:888
+#: src/dialogs/renderwidget.cpp:1638 src/ui/renderwidget_ui.ui:865
 #, kde-format
 msgid "Abort Job"
 msgstr "Afbryd job"
 
-#: src/dialogs/renderwidget.cpp:1660
+#: src/dialogs/renderwidget.cpp:1641
 #, kde-format
 msgid "Remove Job"
 msgstr "Fjern job"
 
-#: src/dialogs/renderwidget.cpp:2050 src/dialogs/renderwidget.cpp:2060
-#: src/dialogs/renderwidget.cpp:2082
+#: src/dialogs/renderwidget.cpp:2027 src/dialogs/renderwidget.cpp:2037
+#: src/dialogs/renderwidget.cpp:2059
 #, fuzzy, kde-format
 #| msgid "Render Button"
 msgid "Render Duration: %1"
 msgstr "Rendér-knap"
 
-#: src/dialogs/renderwidget.cpp:2140
+#: src/dialogs/renderwidget.cpp:2117
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -7063,7 +7063,7 @@ msgstr ""
 "Codec hastighedsparametre:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2160
+#: src/dialogs/renderwidget.cpp:2137
 #, kde-format
 msgid "Add to current project"
 msgstr "Tilføj til aktuelt projekt"
@@ -7552,7 +7552,7 @@ msgstr "Tjek hardwareacceleration"
 #: src/dialogs/wizard.cpp:168 src/project/cliptranscode.cpp:270
 #: src/project/dialogs/archivewidget.cpp:784
 #: src/project/dialogs/archivewidget.cpp:1181 src/ui/renderwidget_ui.ui:357
-#: src/ui/renderwidget_ui.ui:931 src/ui/renderwidget_ui.ui:1089
+#: src/ui/renderwidget_ui.ui:908 src/ui/renderwidget_ui.ui:1066
 #, kde-format
 msgid "Close"
 msgstr "Luk"
@@ -10217,7 +10217,7 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, bFramesSpinner)
 #: src/mainwindow.cpp:1422 src/ui/editrenderpreset_ui.ui:551
-#: src/ui/editrenderpreset_ui.ui:694 src/ui/renderwidget_ui.ui:753
+#: src/ui/editrenderpreset_ui.ui:694 src/ui/renderwidget_ui.ui:730
 #, kde-format
 msgid "Auto"
 msgstr "Automatisk"
@@ -17763,7 +17763,6 @@ msgstr "Slet nuværende punkt"
 #. i18n: ectx: property (text), widget (QToolButton, arrowUp)
 #. i18n: ectx: property (text), widget (QToolButton, arrowDown)
 #. i18n: ectx: property (text), widget (QToolButton, toolBtnReload)
-#. i18n: ectx: property (text), widget (QToolButton, rescale_keep)
 #. i18n: ectx: property (text), widget (QToolButton, hide_log)
 #. i18n: ectx: property (text), widget (QToolButton, reload_blackmagic)
 #. i18n: ectx: property (text), widget (QToolButton, button_edit)
@@ -17875,26 +17874,26 @@ msgstr "Slet nuværende punkt"
 #: src/ui/manageencodingprofile_ui.ui:84 src/ui/projectsettings_ui.ui:276
 #: src/ui/projectsettings_ui.ui:283 src/ui/projectsettings_ui.ui:293
 #: src/ui/projectsettings_ui.ui:571 src/ui/projectsettings_ui.ui:578
-#: src/ui/qtextclip_ui.ui:94 src/ui/renderwidget_ui.ui:560
-#: src/ui/renderwidget_ui.ui:991 src/ui/resourcewidget_ui.ui:214
-#: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:75
-#: src/ui/textbasededit_ui.ui:67 src/ui/textbasededit_ui.ui:100
-#: src/ui/textbasededit_ui.ui:121 src/ui/textbasededit_ui.ui:137
-#: src/ui/textbasededit_ui.ui:216 src/ui/textbasededit_ui.ui:240
-#: src/ui/textbasededit_ui.ui:253 src/ui/textbasededit_ui.ui:267
-#: src/ui/textbasededit_ui.ui:283 src/ui/timeremap_ui.ui:97
-#: src/ui/timeremap_ui.ui:151 src/ui/timeremap_ui.ui:182
-#: src/ui/timeremap_ui.ui:192 src/ui/timeremap_ui.ui:202
-#: src/ui/timeremap_ui.ui:379 src/ui/titlewidget_ui.ui:830
-#: src/ui/titlewidget_ui.ui:840 src/ui/titlewidget_ui.ui:1045
-#: src/ui/titlewidget_ui.ui:1100 src/ui/titlewidget_ui.ui:1150
-#: src/ui/titlewidget_ui.ui:1173 src/ui/titlewidget_ui.ui:1206
-#: src/ui/titlewidget_ui.ui:1296 src/ui/titlewidget_ui.ui:1594
-#: src/ui/titlewidget_ui.ui:1611 src/ui/titlewidget_ui.ui:1625
-#: src/ui/titlewidget_ui.ui:1692 src/ui/titlewidget_ui.ui:1706
-#: src/ui/titlewidget_ui.ui:1720 src/ui/titlewidget_ui.ui:1734
-#: src/ui/titlewidget_ui.ui:1748 src/ui/titlewidget_ui.ui:1762
-#: src/ui/unicodewidget_ui.ui:201 src/ui/unicodewidget_ui.ui:226
+#: src/ui/qtextclip_ui.ui:94 src/ui/renderwidget_ui.ui:968
+#: src/ui/resourcewidget_ui.ui:214 src/ui/resourcewidget_ui.ui:281
+#: src/ui/speechdialog_ui.ui:75 src/ui/textbasededit_ui.ui:67
+#: src/ui/textbasededit_ui.ui:100 src/ui/textbasededit_ui.ui:121
+#: src/ui/textbasededit_ui.ui:137 src/ui/textbasededit_ui.ui:216
+#: src/ui/textbasededit_ui.ui:240 src/ui/textbasededit_ui.ui:253
+#: src/ui/textbasededit_ui.ui:267 src/ui/textbasededit_ui.ui:283
+#: src/ui/timeremap_ui.ui:97 src/ui/timeremap_ui.ui:151
+#: src/ui/timeremap_ui.ui:182 src/ui/timeremap_ui.ui:192
+#: src/ui/timeremap_ui.ui:202 src/ui/timeremap_ui.ui:379
+#: src/ui/titlewidget_ui.ui:830 src/ui/titlewidget_ui.ui:840
+#: src/ui/titlewidget_ui.ui:1045 src/ui/titlewidget_ui.ui:1100
+#: src/ui/titlewidget_ui.ui:1150 src/ui/titlewidget_ui.ui:1173
+#: src/ui/titlewidget_ui.ui:1206 src/ui/titlewidget_ui.ui:1296
+#: src/ui/titlewidget_ui.ui:1594 src/ui/titlewidget_ui.ui:1611
+#: src/ui/titlewidget_ui.ui:1625 src/ui/titlewidget_ui.ui:1692
+#: src/ui/titlewidget_ui.ui:1706 src/ui/titlewidget_ui.ui:1720
+#: src/ui/titlewidget_ui.ui:1734 src/ui/titlewidget_ui.ui:1748
+#: src/ui/titlewidget_ui.ui:1762 src/ui/unicodewidget_ui.ui:201
+#: src/ui/unicodewidget_ui.ui:226
 #, kde-format
 msgid "..."
 msgstr "..."
@@ -20812,63 +20811,56 @@ msgstr "Genskalér"
 msgid "Enabled"
 msgstr "Aktivér %1"
 
-#. i18n: ectx: property (toolTip), widget (QToolButton, rescale_keep)
-#. i18n: ectx: property (text), widget (QCheckBox, preserveAspectRatio)
-#: src/ui/renderwidget_ui.ui:557 src/ui/titlewidget_ui.ui:1385
-#, kde-format
-msgid "Preserve aspect ratio"
-msgstr "Bevar aspektforhold"
-
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/renderwidget_ui.ui:595
+#: src/ui/renderwidget_ui.ui:572
 #, fuzzy, kde-format
 #| msgid "Overlay"
 msgid "Overlay:"
 msgstr "Overlægning"
 
 #. i18n: ectx: property (text), widget (QCheckBox, stemAudioExport)
-#: src/ui/renderwidget_ui.ui:621
+#: src/ui/renderwidget_ui.ui:598
 #, fuzzy, kde-format
 #| msgid "Fade in audio track"
 msgid "Separate file for each audio track"
 msgstr "Ton lydsporet ind"
 
 #. i18n: ectx: property (title), widget (QGroupBox, qualityGroup)
-#: src/ui/renderwidget_ui.ui:631
+#: src/ui/renderwidget_ui.ui:608
 #, fuzzy, kde-format
 #| msgid "Quality"
 msgid "Custom Quality"
 msgstr "Kvalitet"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/renderwidget_ui.ui:645
+#: src/ui/renderwidget_ui.ui:622
 #, fuzzy, kde-format
 #| msgid "Log"
 msgid "Low"
 msgstr "Log"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, quality)
-#: src/ui/renderwidget_ui.ui:658
+#: src/ui/renderwidget_ui.ui:635
 #, fuzzy, kde-format
 #| msgid "Compromise file size versus quality"
 msgid "Compromise file size versus quality."
 msgstr "Kompromis mellem filstørrelse og kvalitet"
 
 #. i18n: ectx: property (text), widget (QLabel, qualityPercent)
-#: src/ui/renderwidget_ui.ui:677
+#: src/ui/renderwidget_ui.ui:654
 #, fuzzy, no-c-format, kde-format
 #| msgid "50%"
 msgid "75%"
 msgstr "50%"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/ui/renderwidget_ui.ui:684
+#: src/ui/renderwidget_ui.ui:661
 #, kde-format
 msgid "High"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, encoder_box)
-#: src/ui/renderwidget_ui.ui:696
+#: src/ui/renderwidget_ui.ui:673
 #, fuzzy, kde-format
 #| msgid "Encoder speed"
 msgid "Encoder"
@@ -20876,7 +20868,7 @@ msgstr "Koderhastighed"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, speedLabel)
 #. i18n: ectx: property (toolTip), widget (QSlider, speed)
-#: src/ui/renderwidget_ui.ui:702 src/ui/renderwidget_ui.ui:718
+#: src/ui/renderwidget_ui.ui:679 src/ui/renderwidget_ui.ui:695
 #, fuzzy, kde-format
 #| msgid ""
 #| "For a given quality, tune the compromise between encoding time and output "
@@ -20889,7 +20881,7 @@ msgstr ""
 "filstørrelse (hurtigere kodning giver større fil)"
 
 #. i18n: ectx: property (text), widget (QLabel, speedLabel)
-#: src/ui/renderwidget_ui.ui:705
+#: src/ui/renderwidget_ui.ui:682
 #, fuzzy, kde-format
 #| msgid "Speed"
 msgid "Speed:"
@@ -20897,114 +20889,114 @@ msgstr "Hastighed"
 
 #. i18n: ectx: property (text), widget (QLabel, threadsLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/renderwidget_ui.ui:737 src/ui/renderwidget_ui.ui:772
+#: src/ui/renderwidget_ui.ui:714 src/ui/renderwidget_ui.ui:749
 #, fuzzy, kde-format
 #| msgid "Threads"
 msgid "Threads:"
 msgstr "Tråde"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, encoder_threads)
-#: src/ui/renderwidget_ui.ui:750
+#: src/ui/renderwidget_ui.ui:727
 #, fuzzy, kde-format
 #| msgid "Decoding threads"
 msgid "Encoding threads"
 msgstr "Afkoder tråde"
 
 #. i18n: ectx: property (title), widget (QGroupBox, processing_box)
-#: src/ui/renderwidget_ui.ui:763
+#: src/ui/renderwidget_ui.ui:740
 #, fuzzy, kde-format
 #| msgid "Parallel processing"
 msgid "Parallel Processing"
 msgstr "Parallel behandling"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, processing_warning)
-#: src/ui/renderwidget_ui.ui:786
+#: src/ui/renderwidget_ui.ui:763
 #, fuzzy, kde-format
 #| msgid "Parallel processing"
 msgid "Parallel processing may cause render artifacts"
 msgstr "Parallel behandling"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkTwoPass)
-#: src/ui/renderwidget_ui.ui:802
+#: src/ui/renderwidget_ui.ui:779
 #, kde-format
 msgid "2 pass"
 msgstr "2 gennemløb"
 
 #. i18n: ectx: property (text), widget (QCheckBox, export_meta)
-#: src/ui/renderwidget_ui.ui:811
+#: src/ui/renderwidget_ui.ui:788
 #, kde-format
 msgid "Export metadata"
 msgstr "Eksportér metadata"
 
 #. i18n: ectx: property (text), widget (QLabel, edit_metadata)
-#: src/ui/renderwidget_ui.ui:818
+#: src/ui/renderwidget_ui.ui:795
 #, kde-format
 msgid "<a href=\"#\">Edit metadata</a>"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, embed_subtitles)
-#: src/ui/renderwidget_ui.ui:843
+#: src/ui/renderwidget_ui.ui:820
 #, kde-format
 msgid "Embed subtitles instead of burning them"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, open_browser)
-#: src/ui/renderwidget_ui.ui:850
+#: src/ui/renderwidget_ui.ui:827
 #, fuzzy, kde-format
 #| msgid "Open browser window after export"
 msgid "Open folder after export"
 msgstr "Åbn browservindue efter eksport"
 
 #. i18n: ectx: property (text), widget (QCheckBox, play_after)
-#: src/ui/renderwidget_ui.ui:857
+#: src/ui/renderwidget_ui.ui:834
 #, kde-format
 msgid "Play after render"
 msgstr "Afspil efter rendering"
 
 #. i18n: ectx: attribute (title), widget (QWidget, jobTab)
-#: src/ui/renderwidget_ui.ui:879
+#: src/ui/renderwidget_ui.ui:856
 #, kde-format
 msgid "Job Queue"
 msgstr "Jobkø"
 
 #. i18n: ectx: property (text), widget (QPushButton, start_job)
-#: src/ui/renderwidget_ui.ui:914
+#: src/ui/renderwidget_ui.ui:891
 #, kde-format
 msgid "Start Job"
 msgstr "Start job"
 
 #. i18n: ectx: property (text), widget (QPushButton, clean_up)
-#: src/ui/renderwidget_ui.ui:924
+#: src/ui/renderwidget_ui.ui:901
 #, kde-format
 msgid "Clean Up"
 msgstr "Ryd op"
 
 #. i18n: ectx: property (text), widget (QLabel, errorLabel_2)
-#: src/ui/renderwidget_ui.ui:984
+#: src/ui/renderwidget_ui.ui:961
 #, kde-format
 msgid "Error Log"
 msgstr "Fejllog"
 
 #. i18n: ectx: property (text), widget (QCheckBox, shutdown)
-#: src/ui/renderwidget_ui.ui:1019
+#: src/ui/renderwidget_ui.ui:996
 #, kde-format
 msgid "Shutdown computer after renderings"
 msgstr "Sluk computeren efter renderinger"
 
 #. i18n: ectx: attribute (title), widget (QWidget, scriptsTab)
-#: src/ui/renderwidget_ui.ui:1034
+#: src/ui/renderwidget_ui.ui:1011
 #, kde-format
 msgid "Scripts"
 msgstr "Scripts"
 
 #. i18n: ectx: property (text), widget (QPushButton, start_script)
-#: src/ui/renderwidget_ui.ui:1062
+#: src/ui/renderwidget_ui.ui:1039
 #, kde-format
 msgid "Start Script"
 msgstr "Start script"
 
 #. i18n: ectx: property (text), widget (QPushButton, delete_script)
-#: src/ui/renderwidget_ui.ui:1069
+#: src/ui/renderwidget_ui.ui:1046
 #, kde-format
 msgid "Delete Script"
 msgstr "Slet script"
@@ -21612,6 +21604,12 @@ msgstr "Venstrejusteret"
 #, kde-format
 msgid "Border "
 msgstr "Kant "
+
+#. i18n: ectx: property (text), widget (QCheckBox, preserveAspectRatio)
+#: src/ui/titlewidget_ui.ui:1385
+#, kde-format
+msgid "Preserve aspect ratio"
+msgstr "Bevar aspektforhold"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_animation)
 #: src/ui/titlewidget_ui.ui:1471
