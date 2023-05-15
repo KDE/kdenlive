@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-14 00:47+0000\n"
-"PO-Revision-Date: 2023-04-06 19:45-0300\n"
+"PO-Revision-Date: 2023-05-13 14:39-0300\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -180,7 +180,7 @@ msgstr "Simetriza en espectro en torno al centro del rectángulo."
 #: data/transitions/mix.xml:8
 #, kde-format
 msgid "Reverse"
-msgstr "Invertir"
+msgstr "En reversa"
 
 #: data/effects/audiolevelgraph.xml:46
 #, kde-format
@@ -1254,10 +1254,9 @@ msgstr ""
 "R128"
 
 #: data/effects/loudness.xml:13 data/effects/tracker.xml:42
-#, fuzzy, kde-format
-#| msgid "Enable Effect"
+#, kde-format
 msgid "Analyse to Apply Effect"
-msgstr "Habilitar efecto"
+msgstr "Analizar para aplicar efecto"
 
 #: data/effects/lumaliftgaingamma.xml:4
 #, kde-format
@@ -1501,7 +1500,7 @@ msgstr "Escribir en limpio,Máximo,Mínimo,Adicionar,Sustraer"
 #: data/effects/mask_start_rotoscoping.xml:17 data/effects/rotoscoping.xml:14
 #, kde-format
 msgid "Alpha Operation"
-msgstr "Operación del alfa"
+msgstr "Operación de alfa"
 
 #: data/effects/mask_start_rotoscoping.xml:23 data/effects/rotoscoping.xml:20
 #, kde-format
@@ -1552,7 +1551,7 @@ msgid ""
 msgstr ""
 "Convierte los valores de alfa o luminosidad que se encuentren por debajo de "
 "este nivel en opacos y los que estén por encima en transparentes. Mayormente "
-"útil para imágenes de barridos por luminosidad."
+"útil para imágenes de transiciones por luminosidad."
 
 #: data/effects/mask_start_shape.xml:18 data/effects/shape.xml:15
 #: data/transitions/composite.xml:32 data/transitions/dissolve.xml:10
@@ -2296,10 +2295,9 @@ msgid "Select a zone to follow its movements"
 msgstr "Seleccionar una zona para rastrear su movimiento"
 
 #: data/effects/tracker.xml:11
-#, fuzzy, kde-format
-#| msgid "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM"
+#, kde-format
 msgid "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM,Nano"
-msgstr "KCF,CSRT,MOSSE,MIL,FlujoMediano,DaSIAM"
+msgstr "KCF,CSRT,MOSSE,MIL,FlujoMedio,DaSIAM,Nano"
 
 #: data/effects/tracker.xml:12
 #, kde-format
@@ -2501,7 +2499,7 @@ msgstr ""
 #: data/effects/vidstab.xml:48
 #, kde-format
 msgid "Optimal Zoom Speed"
-msgstr "Velocidad de zoom óptimo"
+msgstr "Velocidad óptima de zoom"
 
 #: data/effects/vidstab.xml:49
 #, kde-format
@@ -2935,7 +2933,7 @@ msgstr "Realiza una transformación afín para la composición."
 #, kde-format
 msgctxt "Composite Transition Name"
 msgid "Composite"
-msgstr "Componer"
+msgstr "Composición"
 
 #: data/transitions/composite.xml:5
 #, kde-format
@@ -3015,7 +3013,7 @@ msgstr ""
 #: data/transitions/wipe.xml:8
 #, kde-format
 msgid "Wipe Method"
-msgstr "Método de barrido"
+msgstr "Método de transición"
 
 #: data/transitions/matte.xml:4
 #, kde-format
@@ -3037,7 +3035,7 @@ msgstr "Mezcla de audio"
 #: data/transitions/qtblend.xml:4
 #, kde-format
 msgid "Composite and transform"
-msgstr "Componer y transformar"
+msgstr "Composición y transformación"
 
 #: data/transitions/qtblend.xml:5
 #, kde-format
@@ -3045,8 +3043,8 @@ msgid ""
 "Composites second input on the first input with user-defined blend mode, "
 "opacity and scale."
 msgstr ""
-"Compone la segunda entrada sobre la primera usando un modo de fusión, "
-"opacidad y escala definidos por el usuario."
+"Compone la segunda entrada sobre la primera usando un modo de fusión, una "
+"opacidad y una escala definidos por el usuario."
 
 #: data/transitions/region.xml:4
 #, kde-format
@@ -3127,12 +3125,12 @@ msgstr ""
 #, kde-format
 msgctxt "Wipe Transition Name"
 msgid "Wipe"
-msgstr "Barrido"
+msgstr "Transición"
 
 #: data/transitions/wipe.xml:17
 #, kde-format
 msgid "Revert"
-msgstr "Revertir"
+msgstr "En reversa"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CountDown_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, QTextClip_UI)
@@ -3252,7 +3250,7 @@ msgstr "Mostrar elementos favoritos"
 #: src/assets/assetlist/view/qml/assetList.qml:118
 #, kde-format
 msgid "Download New Wipes..."
-msgstr "Descargar nuevos barridos..."
+msgstr "Descargar nuevas transiciones..."
 
 #: src/assets/assetlist/view/qml/assetList.qml:131
 #, kde-format
@@ -3478,10 +3476,9 @@ msgstr "Borrar claves"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:445
 #: src/assets/model/assetparametermodel.cpp:1386
-#, fuzzy, kde-format
-#| msgid "Paste effect"
+#, kde-format
 msgid "Update effect"
-msgstr "Pegar efecto"
+msgstr "Actualizar efecto"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:659
 #, kde-format
@@ -4468,10 +4465,9 @@ msgid "Clear Filters"
 msgstr "Eliminar filtros"
 
 #: src/bin/bin.cpp:2220
-#, fuzzy, kde-format
-#| msgid "Bin Tags"
+#, kde-format
 msgid "No Tags"
-msgstr "Etiquetas de bandeja"
+msgstr "Sin etiquetas"
 
 #: src/bin/bin.cpp:2239
 #, kde-format
@@ -4481,14 +4477,12 @@ msgstr[0] "%1 estrella"
 msgstr[1] "%1 estrellas"
 
 #: src/bin/bin.cpp:2246
-#, fuzzy, kde-format
-#| msgid "Filter by Type"
+#, kde-format
 msgid "Filter by Usage"
-msgstr "Filtrar por tipo"
+msgstr "Filtrar por uso"
 
 #: src/bin/bin.cpp:2249
-#, fuzzy, kde-format
-#| msgid "All clips"
+#, kde-format
 msgid "All Clips"
 msgstr "Todos los clips"
 
@@ -4498,10 +4492,9 @@ msgid "Unused Clips"
 msgstr "Clips no usados"
 
 #: src/bin/bin.cpp:2258
-#, fuzzy, kde-format
-#| msgid "Unused Clips"
+#, kde-format
 msgid "Used Clips"
-msgstr "Clips no usados"
+msgstr "Clips usados"
 
 #: src/bin/bin.cpp:2265
 #, kde-format
@@ -5922,12 +5915,12 @@ msgstr "Estabilizar"
 #: src/dialogs/clipjobmanager.cpp:94 src/dialogs/clipjobmanager.cpp:174
 #, kde-format
 msgid "Duplicate Clip with Speed Change…"
-msgstr "Duplicar clip con cambio de velocidad…"
+msgstr "Cambiar velocidad (duplicando clip)…"
 
 #: src/dialogs/clipjobmanager.cpp:172
 #, kde-format
 msgid "Automatic Scene Split…"
-msgstr "Dividir automáticamente en escenas…"
+msgstr "Detección automática de escenas…"
 
 #: src/dialogs/clipjobmanager.cpp:202
 #, kde-format
@@ -6291,7 +6284,7 @@ msgstr "JogShuttle"
 #: src/project/transcodeseek.cpp:40 src/project/transcodeseek.cpp:53
 #, kde-format
 msgid "Transcode"
-msgstr "Transcodificar"
+msgstr "Transcodificación"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:520
 #, kde-format
@@ -7152,8 +7145,7 @@ msgstr "Sin voz"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
 #: src/dialogs/textbasededit.cpp:575 src/ui/speechdialog_ui.ui:144
-#, fuzzy, kde-format
-#| msgid "Translate to english"
+#, kde-format
 msgid "Translate to English"
 msgstr "Traducir al inglés"
 
@@ -7554,10 +7546,9 @@ msgid "Luma file"
 msgstr "Archivo de luma"
 
 #: src/doc/documentchecker.cpp:326
-#, fuzzy, kde-format
-#| msgid "Delete files"
+#, kde-format
 msgid "Asset file"
-msgstr "Borrar archivos"
+msgstr "Archivo de recurso"
 
 #: src/doc/documentchecker.cpp:353
 #, kde-format
@@ -7616,16 +7607,14 @@ msgid "Clip %1 will be reloaded"
 msgstr "El clip %1 será recargado"
 
 #: src/doc/documentchecker.cpp:474
-#, fuzzy, kde-format
-#| msgid "Create Sequence Clip"
+#, kde-format
 msgid "Fixed Sequence Clips"
-msgstr "Crear clip de secuencia"
+msgstr "Clips de secuencia fijos"
 
 #: src/doc/documentchecker.cpp:478
-#, fuzzy, kde-format
-#| msgid "Clip %1 will be reloaded"
+#, kde-format
 msgid "Clip %1 will be fixed"
-msgstr "El clip %1 será recargado"
+msgstr "El clip %1 se fijará"
 
 #: src/doc/documentchecker.cpp:485
 #, kde-format
@@ -8724,7 +8713,7 @@ msgstr "Porcentaje"
 #: src/ui/timeremap_ui.ui:345
 #, kde-format
 msgid "Pitch compensation"
-msgstr "Compensación de tono"
+msgstr "Compensar tono del audio"
 
 #: src/jobs/speedtask.cpp:244
 #, kde-format
@@ -8756,7 +8745,7 @@ msgstr "&Proyecto"
 #: src/kdenliveui.rc:28
 #, kde-format
 msgid "Generators"
-msgstr "Generadores"
+msgstr "Generados"
 
 #. i18n: ectx: Menu (tool)
 #: src/kdenliveui.rc:53
@@ -9249,10 +9238,9 @@ msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
 #: src/main.cpp:128
-#, fuzzy, kde-format
-#| msgid "Code re-architecture & timeline rewrite"
+#, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
-msgstr "Rearquitectura del código y reescritura de la línea de tiempo"
+msgstr "Rearquitectura del código y reescritura de la línea de tiempo (2019)"
 
 #: src/main.cpp:129
 #, kde-format
@@ -9262,7 +9250,7 @@ msgstr "Julius Künzel"
 #: src/main.cpp:129
 #, kde-format
 msgid "Feature development, packaging, bug fixing"
-msgstr ""
+msgstr "Desarrollo de características, empaque, corrección de errores"
 
 #: src/main.cpp:130
 #, kde-format
@@ -9281,10 +9269,9 @@ msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
 #: src/main.cpp:132
-#, fuzzy, kde-format
-#| msgid "MLT, Bug fixing, etc."
+#, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
-msgstr "MLT, corrección de errores, etc."
+msgstr "Mantenimiento de MLT, corrección de errores, etc."
 
 #: src/main.cpp:133
 #, kde-format
@@ -9299,12 +9286,12 @@ msgstr "Indicadores de color, corrección de errores, etc."
 #: src/main.cpp:134
 #, kde-format
 msgid "Eric Jiang"
-msgstr ""
+msgstr "Eric Jiang"
 
 #: src/main.cpp:134
 #, kde-format
 msgid "Bug fixing and test improvements"
-msgstr ""
+msgstr "Corrección de errores y mejoras en las comprobaciones"
 
 #: src/main.cpp:136
 #, kde-format
@@ -9334,7 +9321,7 @@ msgstr "Eugen Mohr"
 #: src/main.cpp:139
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
-msgstr ""
+msgstr "Comprobación de errores, pruebas, mantenimiento de la documentación"
 
 #: src/main.cpp:140
 #, kde-format
@@ -9423,7 +9410,7 @@ msgstr ""
 #, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
 msgstr ""
-"Lista de archivos (separados por coma) a agregar como clips a la carpeta."
+"Lista de archivos (separados por coma) a agregar como clips a la bandeja."
 
 #: src/main.cpp:181
 #, kde-format
@@ -9448,7 +9435,7 @@ msgstr "Navegación y reproducción"
 #: src/mainwindow.cpp:147
 #, kde-format
 msgid "Bin Tags"
-msgstr "Etiquetas de bandeja"
+msgstr "Etiquetas de la bandeja"
 
 #: src/mainwindow.cpp:166
 #, kde-format
@@ -9716,7 +9703,7 @@ msgid ""
 "action when handling clips in the timeline."
 msgstr ""
 "Alterna entre los modos Normal, Superposición e Inserción. Define la acción "
-"predeterminada para tratar a los clips en la línea de tiempo."
+"predeterminada al manipular clips en la línea de tiempo."
 
 #: src/mainwindow.cpp:1149
 #, kde-format
@@ -9855,7 +9842,7 @@ msgstr "Colapsar/Expandir elemento"
 #: src/mainwindow.cpp:1289
 #, kde-format
 msgid "Mix Clips"
-msgstr "Mezclar clips"
+msgstr "Fundir clips"
 
 #: src/mainwindow.cpp:1291
 #, kde-kuit-format
@@ -9864,8 +9851,8 @@ msgid ""
 "Creates a same-track transition between the selected clip and the adjacent "
 "one closest to the playhead."
 msgstr ""
-"Crea una transición, dentro de una misma pista, entre el clip seleccionado y "
-"el adyacente más cercano al cursor de tiempo."
+"Crea una transición de fundido, dentro de una misma pista, entre el clip "
+"seleccionado y el adyacente más cercano al cursor de tiempo."
 
 #: src/mainwindow.cpp:1299
 #, kde-format
@@ -10516,7 +10503,7 @@ msgstr "Eliminar todos los clips posteriores al cursor"
 #: src/mainwindow.cpp:1819
 #, kde-format
 msgid "Remove Space in All Tracks"
-msgstr "Eliminar espacio en todas las pistas"
+msgstr "Eliminar espacio (todas las pistas)"
 
 #: src/mainwindow.cpp:1822
 #, kde-format
@@ -11037,7 +11024,7 @@ msgstr "Archivando proyecto"
 #: src/mainwindow.cpp:4170
 #, kde-format
 msgid "Icon Size"
-msgstr "Tamaño del ícono"
+msgstr "Tamaño de íconos"
 
 #: src/mainwindow.cpp:4174
 #, kde-format
@@ -13794,10 +13781,11 @@ msgstr ""
 "cerrarlo y volver a abrirlo para recuperar el último respaldo"
 
 #: src/project/projectmanager.cpp:1107
-#, fuzzy, kde-format
-#| msgid "Error moving project folder: %1"
+#, kde-format
 msgid "Error moving project folder, cannot access cache folder"
-msgstr "Error al mover la carpeta del proyecto: %1"
+msgstr ""
+"Error al mover la carpeta del proyecto, no es posible acceder a la carpeta "
+"de cachés"
 
 #: src/project/projectmanager.cpp:1143
 #, kde-format
@@ -15159,10 +15147,9 @@ msgid "Histogram"
 msgstr "Histograma"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:51
-#, fuzzy, kde-format
-#| msgid "You cannot insert a sequence containing itself"
+#, kde-format
 msgid "Found an invalid sequence clip in Bin"
-msgstr "No es posible insertar una secuencia que se contenga a sí misma"
+msgstr "Se encontró un clip de secuencia inválido en la bandeja"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:270
 #: src/timeline2/model/builders/meltBuilder.cpp:499
@@ -15258,8 +15245,8 @@ msgstr ""
 #, kde-format
 msgid "%1 Timeline clip (%2) with incorrect bin reference found and recovered."
 msgstr ""
-"%1 Se encontró un clip de la línea de tiempo (%2) con una referencia "
-"incorrecta a una bandeja del proyecto y fue recuperado."
+"Se encontró y recuperó el clip de la línea de tiempo %1 (%2) que contenía "
+"una referencia de bandeja incorrecta."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:753
 #, kde-format
@@ -15271,8 +15258,8 @@ msgstr ""
 #, kde-format
 msgid "%1 Timeline clip (%2) without bin reference found and removed."
 msgstr ""
-"%1 Se encontró un clip de la línea de tiempo (%2) sin referencia a ninguna "
-"bandeja del proyecto y fue eliminado."
+"Se encontró y eliminó un clip de la línea de tiempo %1 (%2) que no contenía "
+"ninguna referencia de bandeja."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:756
 #, kde-format
@@ -15472,7 +15459,7 @@ msgstr "Recuperar video"
 #: src/timeline2/model/timelinefunctions.cpp:1181
 #, kde-format
 msgid "Change Composition Track"
-msgstr "Cambiar pista de composición"
+msgstr "Cambiar pista para composición"
 
 #: src/timeline2/model/timelinefunctions.cpp:1196
 #, kde-format
@@ -16562,17 +16549,17 @@ msgstr ""
 #: src/timeline2/view/timelinetabs.cpp:172
 #, kde-format
 msgid "Closing a sequence will clear the undo history"
-msgstr ""
+msgstr "Al cerrar una secuencia se eliminará el historial de deshacer"
 
 #: src/timeline2/view/timelinewidget.cpp:71
 #, kde-format
 msgid "Insert an effect..."
-msgstr "Insertar un efecto..."
+msgstr "Insertar efecto..."
 
 #: src/timeline2/view/timelinewidget.cpp:72
 #, kde-format
 msgid "Insert a composition..."
-msgstr "Insertar un método de composición..."
+msgstr "Insertar método de composición..."
 
 #: src/timeline2/view/timelinewidget.cpp:305
 #, kde-format
@@ -17255,7 +17242,7 @@ msgstr "Fondo"
 #: src/transitions/view/transitionstackview.cpp:59
 #, kde-format
 msgid "Composition track:"
-msgstr "Pista de composición:"
+msgstr "Componer con pista:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, before_select)
 #: src/ui/addtrack_ui.ui:22
@@ -17581,7 +17568,7 @@ msgstr "Recortar fin:"
 #: src/ui/clipjobmanager_ui.ui:41
 #, kde-format
 msgid "Project Bin behavior on completion"
-msgstr "Comportamiento al finalizar bandeja de proyecto"
+msgstr "Comportamiento de la bandeja de proyecto al finalizar"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radio_replace)
 #: src/ui/clipjobmanager_ui.ui:47
@@ -17653,7 +17640,7 @@ msgstr "Tareas de clips personalizadas"
 #: src/ui/clipspeed_ui.ui:103
 #, kde-format
 msgid "Reverse clip"
-msgstr "Invertir clip"
+msgstr "Clip en reversa"
 
 #. i18n: ectx: property (text), widget (QLabel, label_dest)
 #: src/ui/clipspeed_ui.ui:112 src/ui/cliptranscode_ui.ui:87
@@ -18069,7 +18056,7 @@ msgstr "Archivos temporales:"
 #: src/ui/configenv_ui.ui:211
 #, kde-format
 msgid "Capture folder:"
-msgstr "Carpeta de captura:"
+msgstr "Carpeta para capturas:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_librarytodefaultfolder)
@@ -18098,7 +18085,7 @@ msgstr "Siempre usar una carpeta personalizada"
 #: src/ui/configenv_ui.ui:240
 #, kde-format
 msgid "Library folder:"
-msgstr "Carpeta en biblioteca:"
+msgstr "Carpeta para bibliotecas:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: src/ui/configenv_ui.ui:257
@@ -18412,7 +18399,7 @@ msgstr "Fundidos:"
 #: src/ui/configmisc_ui.ui:210
 #, kde-format
 msgid "Image sequence:"
-msgstr "Secuencia de imágenes:"
+msgstr "Secuencias de imágenes:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/configmisc_ui.ui:226
@@ -18631,7 +18618,7 @@ msgstr "Whisper"
 #: src/ui/configspeech_ui.ui:95
 #, kde-format
 msgid "Custom models folder"
-msgstr "Carpeta de modelos personalizada"
+msgstr "Carpeta personalizada de modelos"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configspeech_ui.ui:112
@@ -18659,10 +18646,9 @@ msgstr "El procesamiento de Whisper en la CPU es muy lento"
 
 #. i18n: ectx: property (text), widget (QCheckBox, wr_translate)
 #: src/ui/configspeech_ui.ui:167
-#, fuzzy, kde-format
-#| msgid "Translate text to english"
+#, kde-format
 msgid "Translate text to English"
-msgstr "Traducir texto a inglés"
+msgstr "Traducir texto al inglés"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_add)
 #: src/ui/configspeech_ui.ui:210
@@ -20454,7 +20440,7 @@ msgstr "Agregar marcadores de clip:"
 #: src/ui/scenecutdialog_ui.ui:37
 #, kde-format
 msgid "Minimum scene length:"
-msgstr "Longitud mínima de escenas:"
+msgstr "Longitud mínima de escena:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, minDuration)
 #: src/ui/scenecutdialog_ui.ui:67
@@ -20466,7 +20452,7 @@ msgstr " fotogramas"
 #: src/ui/scenecutdialog_ui.ui:77
 #, kde-format
 msgid "Change threshold"
-msgstr "Cambiar umbral"
+msgstr "Umbral de cambio"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cut_scenes)
 #: src/ui/scenecutdialog_ui.ui:97
@@ -20496,7 +20482,7 @@ msgstr "Duración del fotograma:"
 #: src/ui/slideshowclip_ui.ui:126
 #, kde-format
 msgid "Wipe:"
-msgstr "Barrido:"
+msgstr "Transición:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, slide_fade)
 #: src/ui/slideshowclip_ui.ui:133
