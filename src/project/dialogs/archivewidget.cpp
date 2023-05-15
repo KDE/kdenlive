@@ -94,6 +94,18 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData,
     proxies->setData(0, Qt::UserRole, QStringLiteral("proxy"));
     proxies->setExpanded(false);
 
+    QTreeWidgetItem *subtitles = new QTreeWidgetItem(files_list, QStringList() << i18n("Subtitles"));
+    subtitles->setIcon(0, QIcon::fromTheme(QStringLiteral("text-plain")));
+    // subtitles->setData(0, Qt::UserRole, QStringLiteral("subtitles"));
+    subtitles->setExpanded(false);
+
+    QStringList subtitlePath = pCore->currentDoc()->getAllSubtitlesPath(true);
+    for (auto &path : subtitlePath) {
+        QFileInfo info(path);
+        m_requestedSize += static_cast<KIO::filesize_t>(info.size());
+        QTreeWidgetItem *item = new QTreeWidgetItem(subtitles, QStringList() << path);
+    }
+
     // process all files
     QStringList allFonts;
     QStringList extraImageUrls;
@@ -228,6 +240,14 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData,
         m_infoMessage->setText(i18n("There was an error processing project file"));
         m_infoMessage->animatedShow();
         buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
+    } else {
+        // Don't allow archiving a modified or unsaved project
+        if (pCore->currentDoc()->isModified()) {
+            m_infoMessage->setMessageType(KMessageWidget::Warning);
+            m_infoMessage->setText(i18n("Please save your project before archiving"));
+            m_infoMessage->animatedShow();
+            buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
+        }
     }
 }
 
@@ -801,7 +821,11 @@ void ArchiveWidget::slotArchivingFinished(KJob *job, bool finished)
 
 void ArchiveWidget::slotArchivingProgress(KJob *, qulonglong size)
 {
-    progressBar->setValue(static_cast<int>(100 * size / m_requestedSize));
+    if (m_requestedSize == 0) {
+        progressBar->setValue(100);
+    } else {
+        progressBar->setValue(static_cast<int>(100 * size / m_requestedSize));
+    }
 }
 
 QString ArchiveWidget::processPlaylistFile(const QString &filename)
@@ -858,37 +882,6 @@ bool ArchiveWidget::processProjectFile()
         // Error
         KMessageBox::error(this, i18n("Cannot write to file %1", path));
         return false;
-    }
-
-    // Copy subtitle files if any
-    QString sub = pCore->currentDoc()->url().toLocalFile();
-    if (QFileInfo::exists(sub + QStringLiteral(".srt"))) {
-        QFile subFile(sub + QStringLiteral(".srt"));
-        path = archive_url->url().toLocalFile() + QDir::separator() + QFileInfo(subFile).fileName();
-        if (QFile::exists(path) && KMessageBox::warningTwoActions(this, i18n("File %1 already exists.\nDo you want to overwrite it?", path), {},
-                                                                  KStandardGuiItem::overwrite(), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
-            return false;
-        }
-        QFile::remove(path);
-        if (!subFile.copy(path)) {
-            // Error
-            KMessageBox::error(this, i18n("Cannot write to file %1", path));
-            return false;
-        }
-    }
-    if (QFileInfo::exists(sub + QStringLiteral(".ass"))) {
-        QFile subFile(sub + QStringLiteral(".ass"));
-        path = archive_url->url().toLocalFile() + QDir::separator() + QFileInfo(subFile).fileName();
-        if (QFile::exists(path) && KMessageBox::warningTwoActions(this, i18n("File %1 already exists.\nDo you want to overwrite it?", path), {},
-                                                                  KStandardGuiItem::overwrite(), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
-            return false;
-        }
-        QFile::remove(path);
-        if (!subFile.copy(path)) {
-            // Error
-            KMessageBox::error(this, i18n("Cannot write to file %1", path));
-            return false;
-        }
     }
 
     path = archive_url->url().toLocalFile() + QDir::separator() + m_name + QStringLiteral(".kdenlive");
@@ -1144,15 +1137,6 @@ void ArchiveWidget::createArchive()
         success = m_archive->addLocalFile(m_temp->fileName(), m_name + QStringLiteral(".kdenlive"));
         delete m_temp;
         m_temp = nullptr;
-    }
-    if (success) {
-        // Add subtitle files if any
-        QStringList subtitles = pCore->currentDoc()->getAllSubtitlesPath(false);
-        for (auto &path : subtitles) {
-            if (QFileInfo::exists(path)) {
-                success = success && m_archive->addLocalFile(path, m_name + QStringLiteral(".kdenlive.") + QFileInfo(path).completeSuffix());
-            }
-        }
     }
 
     if (errorString.isEmpty()) {

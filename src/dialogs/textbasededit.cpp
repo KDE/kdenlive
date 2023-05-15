@@ -568,7 +568,6 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     setupUi(this);
     setFocusPolicy(Qt::StrongFocus);
     connect(pCore.get(), &Core::speechEngineChanged, this, &TextBasedEdit::updateEngine);
-    updateEngine();
 
     // Settings menu
     QMenu *menu = new QMenu(this);
@@ -652,6 +651,7 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
         }
     });
     info_message->hide();
+    updateEngine();
 
     m_logAction = new QAction(i18n("Show log"), this);
     connect(m_logAction, &QAction::triggered, this, [this]() { KMessageBox::error(this, m_errorString, i18n("Detailed log")); });

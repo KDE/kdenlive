@@ -419,6 +419,9 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     QTreeWidgetItem *others = new QTreeWidgetItem(files_list, QStringList() << i18n("Other clips"));
     others->setIcon(0, QIcon::fromTheme(QStringLiteral("unknown")));
     others->setExpanded(true);
+    QTreeWidgetItem *subtitles = new QTreeWidgetItem(files_list, QStringList() << i18n("Subtitles"));
+    subtitles->setIcon(0, QIcon::fromTheme(QStringLiteral("text-plain")));
+    subtitles->setExpanded(true);
     int count = 0;
     QStringList allFonts;
     for (const QString &file : qAsConst(m_lumas)) {
@@ -471,6 +474,11 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
             new QTreeWidgetItem(videos, QStringList() << clip->clipUrl());
             break;
         }
+    }
+    // Subtitles
+    QStringList subtitleFiles = pCore->currentDoc()->getAllSubtitlesPath(true);
+    for (auto &path : subtitleFiles) {
+        new QTreeWidgetItem(subtitles, QStringList() << path);
     }
 
     uint used = 0;

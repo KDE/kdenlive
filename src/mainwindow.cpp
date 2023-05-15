@@ -1187,6 +1187,7 @@ void MainWindow::setupActions()
     auto tlsettings = new QMenu(this);
     tlsettings->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
     tlsettings->addAction(m_compositeAction);
+    tlsettings->addSeparator();
     tlsettings->addAction(mixedView);
     tlsettings->addAction(splitView);
     tlsettings->addAction(splitView2);
