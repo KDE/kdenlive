@@ -829,7 +829,12 @@ void TextBasedEdit::startRecognition()
             return;
         }
         modelName = language_box->currentData().toString();
-        language = speech_language->isEnabled() ? speech_language->currentData().toString() : QString();
+        language = speech_language->isEnabled() && !speech_language->currentData().isNull()
+                       ? QStringLiteral("language=%1").arg(speech_language->currentData().toString())
+                       : QString();
+        if (KdenliveSettings::whisperDisableFP16()) {
+            language.append(QStringLiteral(" fp16=False"));
+        }
     } else {
         // VOSK engine
         if (!m_stt->checkSetup() || !m_stt->missingDependencies({QStringLiteral("vosk")}).isEmpty()) {
@@ -930,7 +935,7 @@ void TextBasedEdit::startRecognition()
                                 m_playlistWav.remove();
                                 slotProcessSpeechStatus(code, status);
                             });
-                    qDebug() << "::: STARTING SPEECH: " << modelDirectory << " / " << modelName;
+                    qDebug() << "::: STARTING SPEECH: " << modelDirectory << " / " << modelName << " / " << language;
                     if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
                         // Whisper
                         connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &TextBasedEdit::slotProcessWhisperSpeech);
@@ -981,7 +986,7 @@ void TextBasedEdit::startRecognition()
             qDebug() << "=== STARTING Whisper reco: " << m_stt->speechScript() << " / " << language_box->currentData() << " / "
                      << KdenliveSettings::whisperDevice() << " / "
                      << (KdenliveSettings::whisperTranslate() ? QStringLiteral("translate") : QStringLiteral("transcribe")) << " / " << m_sourceUrl
-                     << ", START: " << m_clipOffset << ", DUR: " << endPos;
+                     << ", START: " << m_clipOffset << ", DUR: " << endPos << " / " << language;
             connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &TextBasedEdit::slotProcessWhisperSpeech);
             if (speech_zone->isChecked()) {
                 m_tmpCutWav.setFileTemplate(QDir::temp().absoluteFilePath(QStringLiteral("kdenlive-XXXXXX.wav")));

@@ -303,10 +303,15 @@ void SpeechDialog::slotProcessSpeech()
         QString modelName = speech_model->currentData().toString();
         m_speechJob->setProcessChannelMode(QProcess::MergedChannels);
         connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &SpeechDialog::slotProcessWhisperProgress);
-        const QString language = speech_language->isEnabled() ? speech_language->currentData().toString() : QString();
+        QString language = speech_language->isEnabled() && !speech_language->currentData().isNull()
+                               ? QString("language=%1").arg(speech_language->currentData().toString())
+                               : QString();
         qDebug() << "==== ANALYSIS SPEECH: " << m_stt->subtitleScript() << " " << audio << " " << modelName << " " << speech << " "
                  << KdenliveSettings::whisperDevice() << " " << (translate_box->isChecked() ? QStringLiteral("translate") : QStringLiteral("transcribe")) << " "
                  << language;
+        if (KdenliveSettings::whisperDisableFP16()) {
+            language.append(QStringLiteral(" fp16=False"));
+        }
         m_speechJob->start(m_stt->pythonExec(), {m_stt->subtitleScript(), audio, modelName, speech, KdenliveSettings::whisperDevice(),
                                                  translate_box->isChecked() ? QStringLiteral("translate") : QStringLiteral("transcribe"), language});
     } else {

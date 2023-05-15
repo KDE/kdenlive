@@ -137,21 +137,21 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
        <item row="1" column="1">
         <widget class="QComboBox" name="combo_wr_lang"/>
        </item>
-       <item row="2" column="0">
+       <item row="3" column="0">
         <widget class="QLabel" name="label_5">
          <property name="text">
           <string>Device:</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
+       <item row="3" column="1">
         <widget class="QComboBox" name="combo_wr_device">
          <property name="sizeAdjustPolicy">
           <enum>QComboBox::AdjustToContents</enum>
          </property>
         </widget>
        </item>
-       <item row="3" column="0" colspan="2">
+       <item row="6" column="0" colspan="2">
         <widget class="KMessageWidget" name="kmessagewidget">
          <property name="text">
           <string>Whisper processing on cpu is very slow</string>
@@ -161,17 +161,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
          </property>
         </widget>
        </item>
-       <item row="4" column="0" colspan="2">
-        <widget class="QCheckBox" name="wr_translate">
-         <property name="text">
-          <string>Translate text to English</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0" colspan="2">
+       <item row="8" column="0" colspan="2">
         <layout class="QVBoxLayout" name="message_layout_wr"/>
        </item>
-       <item row="6" column="1">
+       <item row="9" column="1">
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -183,6 +176,20 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
           </size>
          </property>
         </spacer>
+       </item>
+       <item row="4" column="1">
+        <widget class="QCheckBox" name="kcfg_whisperDisableFP16">
+         <property name="text">
+          <string>Disable half precision (FP16 )</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QCheckBox" name="kcfg_whisperTranslate">
+         <property name="text">
+          <string>Translate text to English</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>

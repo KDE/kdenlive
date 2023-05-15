@@ -1310,9 +1310,6 @@ void KdenliveSettingsDialog::updateSettings()
     if (m_configSpeech.combo_wr_device->currentData().toString() != KdenliveSettings::whisperDevice()) {
         KdenliveSettings::setWhisperDevice(m_configSpeech.combo_wr_device->currentData().toString());
     }
-    if (m_configSpeech.wr_translate->isChecked() != KdenliveSettings::whisperTranslate()) {
-        KdenliveSettings::setWhisperTranslate(m_configSpeech.wr_translate->isChecked());
-    }
 
     // Mimes
     if (m_configEnv.kcfg_addedExtensions->text() != KdenliveSettings::addedExtensions()) {
@@ -1757,7 +1754,6 @@ void KdenliveSettingsDialog::initSpeechPage()
         m_configSpeech.combo_wr_lang->setCurrentIndex(ix);
     }
     m_configSpeech.script_log->hide();
-    m_configSpeech.wr_translate->setChecked(KdenliveSettings::whisperTranslate());
     connect(m_sttWhisper, &SpeechToText::scriptStarted, [this]() { QMetaObject::invokeMethod(m_configSpeech.script_log, "clear"); });
     connect(m_sttWhisper, &SpeechToText::installFeedback, [this](const QString jobData) {
         QMetaObject::invokeMethod(m_configSpeech.script_log, "show", Qt::QueuedConnection);

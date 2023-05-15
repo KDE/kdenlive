@@ -49,7 +49,7 @@ def extract_zone(source, outfile, in_point, out_point):
                             stdout=subprocess.PIPE)
 
 
-def run_whisper(source, model, device="cpu", task="transcribe", language=""):
+def run_whisper(source, model, device="cpu", task="transcribe", extraparams=""):
     model = whisper.load_model(model, device)
 
     transcribe_kwargs = {
@@ -57,8 +57,13 @@ def run_whisper(source, model, device="cpu", task="transcribe", language=""):
         "verbose": False
     }
 
-    if len(language) > 1:
-        transcribe_kwargs["language"] = language
+    if len(extraparams) > 1:
+        extraArgs = extraparams.split()
+        for x in extraArgs:
+            param = x.split('=')
+            if (len(param) > 1):
+                transcribe_kwargs[param[0]] = param[1]
+
     if avoid_fp16(device):
         transcribe_kwargs["fp16"] = False
 

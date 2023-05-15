@@ -1303,6 +1303,10 @@
            <label>Translate speech detection to English</label>
            <default>false</default>
        </entry>
+       <entry name="whisperDisableFP16" type="Bool">
+           <label>Disable FP16 in whisper engine</label>
+           <default>false</default>
+       </entry>
        <entry name="whisperExtra" type="String">
            <label>Extra parameters for Whisper</label>
            <default></default>
