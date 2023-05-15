@@ -2,13 +2,16 @@
 # SPDX-FileCopyrightText: 2023 Jean-Baptiste Mardelle <jb@kdenlive.org>
 # SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
-import whisper
-import sys
-import os
-import wave
-import subprocess
 import codecs
 import datetime
+import os
+import re
+import subprocess
+import sys
+import wave
+
+import torch
+import whisper
 
 # Call this script with the following arguments
 # 1. source av file
@@ -20,44 +23,73 @@ import datetime
 # 7. out point
 # 8. tmp file name to extract a clip's part
 
-if sys.platform == 'darwin':
-    from os.path import abspath, dirname, join
-    path = abspath(join(dirname(__file__), '../../MacOS/ffmpeg'))
-else:
-    path = 'ffmpeg'
+def avoid_fp16(device):
+    """fp16 doesn't work on some GPUs, such as Nvidia GTX 16xx. See bug 467573."""
+    if device == "cpu": # fp16 option doesn't matter for CPU
+        return False
+    device = torch.cuda.get_device_name(device)
+    if re.search(r"GTX 16\d\d", device):
+        sys.stderr.write("GTX 16xx series GPU detected, disabling fp16\n")
+        return True
 
-sample_rate=16000
-source=sys.argv[1]
-# zone rendering
-if len(sys.argv) > 7 and (float(sys.argv[6])>0 or float(sys.argv[7])>0):
+def ffmpeg_path():
+    if sys.platform == 'darwin':
+        from os.path import abspath, dirname, join
+        return abspath(join(dirname(__file__), '../../MacOS/ffmpeg'))
+    else:
+        return 'ffmpeg'
+
+
+def extract_zone(source, outfile, in_point, out_point):
+    sample_rate = 16000
+    path = ffmpeg_path()
     process = subprocess.run([path, '-loglevel', 'quiet', '-y', '-i',
-                            sys.argv[1], '-ss', sys.argv[6], '-t', sys.argv[7],
-                            '-vn', '-ar', str(sample_rate) , '-ac', '1', '-f', 'wav', sys.argv[8]],
+                            source, '-ss', in_point, '-t', out_point,
+                            '-vn', '-ar', str(sample_rate) , '-ac', '1', '-f', 'wav', outfile],
                             stdout=subprocess.PIPE)
-    source=sys.argv[8]
-
-#else:
-#    process = subprocess.run([path, '-loglevel', 'quiet', '-y', '-i',
-#                            sys.argv[1],
-#                            '-ar', str(sample_rate) , '-ac', '1', '-f', 's16le', '/tmp/out.wav'])
 
 
-model = whisper.load_model(sys.argv[2], device=sys.argv[3])
-if len(sys.argv[5]) > 1 :
-    result = model.transcribe(source, task=sys.argv[4], language=sys.argv[5], verbose=False)
-else :
-    result = model.transcribe(source, task=sys.argv[4], verbose=False)
+def run_whisper(source, model, device="cpu", task="transcribe", language=""):
+    model = whisper.load_model(model, device)
 
-for i in range(len(result["segments"])):
-    start_time = result["segments"][i]["start"]
-    end_time = result["segments"][i]["end"]
-    duration = end_time - start_time
-    timestamp = f"{start_time:.3f} - {end_time:.3f}"
-    text = result["segments"][i]["text"]
-    res = '[' + str(start_time) + '>' + str(end_time) + ']' + text + '\n'
-    sys.stdout.buffer.write(res.encode('utf-8'))
+    transcribe_kwargs = {
+        "task": task,
+        "verbose": False
+    }
 
-#sys.stdout.buffer.write(result["json"].encode('utf-8'))
-sys.stdout.flush()
+    if len(language) > 1:
+        transcribe_kwargs["language"] = language
+    if avoid_fp16(device):
+        transcribe_kwargs["fp16"] = False
+
+    return model.transcribe(source, **transcribe_kwargs)
 
 
+def main():
+    source=sys.argv[1]
+    if len(sys.argv) > 8 and (float(sys.argv[6])>0 or float(sys.argv[7])>0):
+        tmp_file = sys.argv[8]
+        extract_zone(source, tmp_file, sys.argv[6], sys.argv[7])
+        source = tmp_file
+
+    model = sys.argv[2]
+    device = sys.argv[3]
+    task = sys.argv[4]
+    language = sys.argv[5]
+    result = run_whisper(source, model, device, task, language)
+
+    for i in range(len(result["segments"])):
+        start_time = result["segments"][i]["start"]
+        end_time = result["segments"][i]["end"]
+        duration = end_time - start_time
+        timestamp = f"{start_time:.3f} - {end_time:.3f}"
+        text = result["segments"][i]["text"]
+        res = '[' + str(start_time) + '>' + str(end_time) + ']' + text + '\n'
+        sys.stdout.buffer.write(res.encode('utf-8'))
+
+    sys.stdout.flush()
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
