@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-15 02:31+0000\n"
-"PO-Revision-Date: 2023-05-10 09:33+0300\n"
+"POT-Creation-Date: 2023-05-16 02:46+0000\n"
+"PO-Revision-Date: 2023-05-15 18:54+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -5429,7 +5429,7 @@ msgid "Tag %1"
 msgstr "Мітка %1"
 
 #: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:43
-#: src/dialogs/textbasededit.cpp:589
+#: src/dialogs/textbasededit.cpp:588
 #, kde-format
 msgid "Configure"
 msgstr "Налаштувати"
@@ -6933,7 +6933,7 @@ msgstr "Позначте на монтажному столі кліп для а
 msgid "No audio track found"
 msgstr "Не знайдено звукової доріжки"
 
-#: src/dialogs/speechdialog.cpp:175 src/dialogs/textbasededit.cpp:635
+#: src/dialogs/speechdialog.cpp:175 src/dialogs/textbasededit.cpp:634
 #, kde-format
 msgid "Please install speech recognition models"
 msgstr "Будь ласка, встановіть моделі розпізнавання мовлення"
@@ -7128,22 +7128,22 @@ msgid "No speech"
 msgstr "Немає озвучення"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
-#: src/dialogs/textbasededit.cpp:575 src/ui/speechdialog_ui.ui:144
+#: src/dialogs/textbasededit.cpp:574 src/ui/speechdialog_ui.ui:144
 #, kde-format
 msgid "Translate to english"
 msgstr "Перекласти англійською"
 
-#: src/dialogs/textbasededit.cpp:578
+#: src/dialogs/textbasededit.cpp:577
 #, kde-format
 msgid "Configure Speech Recognition"
 msgstr "Налаштувати розпізнавання мовлення"
 
-#: src/dialogs/textbasededit.cpp:625
+#: src/dialogs/textbasededit.cpp:624
 #, kde-format
 msgid "Speech model"
 msgstr "Моделі мовлення"
 
-#: src/dialogs/textbasededit.cpp:626
+#: src/dialogs/textbasededit.cpp:625
 #, kde-format
 msgid "Speech language"
 msgstr "Мова мовлення"
@@ -12780,7 +12780,7 @@ msgstr "Під час обробки файла проєкту сталася п
 #: src/project/dialogs/archivewidget.cpp:247
 #, kde-format
 msgid "Please save your project before archiving"
-msgstr ""
+msgstr "Будь ласка, збережіть ваш проєкт до архівування"
 
 #: src/project/dialogs/archivewidget.cpp:283
 #, kde-format

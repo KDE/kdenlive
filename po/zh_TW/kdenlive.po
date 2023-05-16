@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-15 02:31+0000\n"
+"POT-Creation-Date: 2023-05-16 02:46+0000\n"
 "PO-Revision-Date: 2020-01-16 14:40+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -5502,7 +5502,7 @@ msgid "Tag %1"
 msgstr ""
 
 #: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:43
-#: src/dialogs/textbasededit.cpp:589
+#: src/dialogs/textbasededit.cpp:588
 #, fuzzy, kde-format
 msgid "Configure"
 msgstr "設定"
@@ -7017,7 +7017,7 @@ msgstr "選取工具"
 msgid "No audio track found"
 msgstr "淡入音軌"
 
-#: src/dialogs/speechdialog.cpp:175 src/dialogs/textbasededit.cpp:635
+#: src/dialogs/speechdialog.cpp:175 src/dialogs/textbasededit.cpp:634
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please install speech recognition models"
@@ -7218,23 +7218,23 @@ msgid "No speech"
 msgstr "沒有複製任何素材"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
-#: src/dialogs/textbasededit.cpp:575 src/ui/speechdialog_ui.ui:144
+#: src/dialogs/textbasededit.cpp:574 src/ui/speechdialog_ui.ui:144
 #, kde-format
 msgid "Translate to english"
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:578
+#: src/dialogs/textbasededit.cpp:577
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Configure Speech Recognition"
 msgstr "選取轉場特效"
 
-#: src/dialogs/textbasededit.cpp:625
+#: src/dialogs/textbasededit.cpp:624
 #, fuzzy, kde-format
 msgid "Speech model"
 msgstr "更多選項"
 
-#: src/dialogs/textbasededit.cpp:626
+#: src/dialogs/textbasededit.cpp:625
 #, fuzzy, kde-format
 #| msgid "Change"
 msgid "Speech language"

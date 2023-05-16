@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-15 02:31+0000\n"
+"POT-Creation-Date: 2023-05-16 02:46+0000\n"
 "PO-Revision-Date: 2020-04-15 11:41+0300\n"
 "Last-Translator: Petros Vidalis <pvidalis@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -5596,7 +5596,7 @@ msgid "Tag %1"
 msgstr ""
 
 #: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:43
-#: src/dialogs/textbasededit.cpp:589
+#: src/dialogs/textbasededit.cpp:588
 #, kde-format
 msgid "Configure"
 msgstr "Διαμόρφωση"
@@ -7161,7 +7161,7 @@ msgstr "Επιλέξτε ένα κλιπ πριν την αντιγραφή"
 msgid "No audio track found"
 msgstr "Δε βρέθηκε προηγούμενο καρέ"
 
-#: src/dialogs/speechdialog.cpp:175 src/dialogs/textbasededit.cpp:635
+#: src/dialogs/speechdialog.cpp:175 src/dialogs/textbasededit.cpp:634
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please install speech recognition models"
@@ -7365,24 +7365,24 @@ msgid "No speech"
 msgstr "Καμία αντιγραφή κλιπ"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
-#: src/dialogs/textbasededit.cpp:575 src/ui/speechdialog_ui.ui:144
+#: src/dialogs/textbasededit.cpp:574 src/ui/speechdialog_ui.ui:144
 #, kde-format
 msgid "Translate to english"
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:578
+#: src/dialogs/textbasededit.cpp:577
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Configure Speech Recognition"
 msgstr "Επιλογή μετάβασης"
 
-#: src/dialogs/textbasededit.cpp:625
+#: src/dialogs/textbasededit.cpp:624
 #, fuzzy, kde-format
 #| msgid "Show/Hide options"
 msgid "Speech model"
 msgstr "Εμφάνιση/απόκρυψη επιλογών"
 
-#: src/dialogs/textbasededit.cpp:626
+#: src/dialogs/textbasededit.cpp:625
 #, fuzzy, kde-format
 #| msgid "Change"
 msgid "Speech language"

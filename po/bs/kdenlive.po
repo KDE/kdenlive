@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-15 02:31+0000\n"
+"POT-Creation-Date: 2023-05-16 02:46+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -5565,7 +5565,7 @@ msgid "Tag %1"
 msgstr ""
 
 #: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:43
-#: src/dialogs/textbasededit.cpp:589
+#: src/dialogs/textbasededit.cpp:588
 #, kde-format
 msgid "Configure"
 msgstr "Podešavanje"
@@ -7118,7 +7118,7 @@ msgstr "Odaberi snimak prije kopiranja"
 msgid "No audio track found"
 msgstr "Niti jedan prijašnji kadar nije pronađen"
 
-#: src/dialogs/speechdialog.cpp:175 src/dialogs/textbasededit.cpp:635
+#: src/dialogs/speechdialog.cpp:175 src/dialogs/textbasededit.cpp:634
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please install speech recognition models"
@@ -7323,24 +7323,24 @@ msgid "No speech"
 msgstr "Nema dostupnih  selektovanih isječaka"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
-#: src/dialogs/textbasededit.cpp:575 src/ui/speechdialog_ui.ui:144
+#: src/dialogs/textbasededit.cpp:574 src/ui/speechdialog_ui.ui:144
 #, kde-format
 msgid "Translate to english"
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:578
+#: src/dialogs/textbasededit.cpp:577
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Configure Speech Recognition"
 msgstr "Odaberi prijelaz"
 
-#: src/dialogs/textbasededit.cpp:625
+#: src/dialogs/textbasededit.cpp:624
 #, fuzzy, kde-format
 #| msgid "Show/Hide options"
 msgid "Speech model"
 msgstr "Pokaži/sakrij opcije"
 
-#: src/dialogs/textbasededit.cpp:626
+#: src/dialogs/textbasededit.cpp:625
 #, fuzzy, kde-format
 #| msgid "Change"
 msgid "Speech language"

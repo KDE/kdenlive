@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-15 02:31+0000\n"
+"POT-Creation-Date: 2023-05-16 02:46+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -5410,7 +5410,7 @@ msgid "Tag %1"
 msgstr ""
 
 #: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:43
-#: src/dialogs/textbasededit.cpp:589
+#: src/dialogs/textbasededit.cpp:588
 #, fuzzy, kde-format
 msgid "Configure"
 msgstr "संयोजीत करा"
@@ -6887,7 +6887,7 @@ msgstr "निवड साधन (&S)"
 msgid "No audio track found"
 msgstr "बिटदर"
 
-#: src/dialogs/speechdialog.cpp:175 src/dialogs/textbasededit.cpp:635
+#: src/dialogs/speechdialog.cpp:175 src/dialogs/textbasededit.cpp:634
 #, fuzzy, kde-format
 msgid "Please install speech recognition models"
 msgstr "निवड साधन (&S)"
@@ -7076,22 +7076,22 @@ msgid "No speech"
 msgstr "परियोजना : %1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
-#: src/dialogs/textbasededit.cpp:575 src/ui/speechdialog_ui.ui:144
+#: src/dialogs/textbasededit.cpp:574 src/ui/speechdialog_ui.ui:144
 #, kde-format
 msgid "Translate to english"
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:578
+#: src/dialogs/textbasededit.cpp:577
 #, fuzzy, kde-format
 msgid "Configure Speech Recognition"
 msgstr "निवड साधन (&S)"
 
-#: src/dialogs/textbasededit.cpp:625
+#: src/dialogs/textbasededit.cpp:624
 #, fuzzy, kde-format
 msgid "Speech model"
 msgstr "निवड साधन (&S)"
 
-#: src/dialogs/textbasededit.cpp:626
+#: src/dialogs/textbasededit.cpp:625
 #, fuzzy, kde-format
 #| msgid "Change"
 msgid "Speech language"

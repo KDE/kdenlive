@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-15 02:31+0000\n"
+"POT-Creation-Date: 2023-05-16 02:46+0000\n"
 "PO-Revision-Date: 2011-12-28 12:28-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -5648,7 +5648,7 @@ msgid "Tag %1"
 msgstr ""
 
 #: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:43
-#: src/dialogs/textbasededit.cpp:589
+#: src/dialogs/textbasededit.cpp:588
 #, kde-format
 msgid "Configure"
 msgstr "Cumraigh"
@@ -7188,7 +7188,7 @@ msgstr "Uirlis roghnúcháin"
 msgid "No audio track found"
 msgstr "Cuir rian leis"
 
-#: src/dialogs/speechdialog.cpp:175 src/dialogs/textbasededit.cpp:635
+#: src/dialogs/speechdialog.cpp:175 src/dialogs/textbasededit.cpp:634
 #, fuzzy, kde-format
 #| msgid "Selection"
 msgid "Please install speech recognition models"
@@ -7390,24 +7390,24 @@ msgid "No speech"
 msgstr "Amlíne"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
-#: src/dialogs/textbasededit.cpp:575 src/ui/speechdialog_ui.ui:144
+#: src/dialogs/textbasededit.cpp:574 src/ui/speechdialog_ui.ui:144
 #, kde-format
 msgid "Translate to english"
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:578
+#: src/dialogs/textbasededit.cpp:577
 #, fuzzy, kde-format
 #| msgid "Selection"
 msgid "Configure Speech Recognition"
 msgstr "Roghnú"
 
-#: src/dialogs/textbasededit.cpp:625
+#: src/dialogs/textbasededit.cpp:624
 #, fuzzy, kde-format
 #| msgid "Selection"
 msgid "Speech model"
 msgstr "Roghnú"
 
-#: src/dialogs/textbasededit.cpp:626
+#: src/dialogs/textbasededit.cpp:625
 #, fuzzy, kde-format
 #| msgid "Change"
 msgid "Speech language"

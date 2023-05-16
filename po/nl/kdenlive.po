@@ -9,15 +9,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-15 02:31+0000\n"
-"PO-Revision-Date: 2023-05-09 10:21+0200\n"
+"POT-Creation-Date: 2023-05-16 02:46+0000\n"
+"PO-Revision-Date: 2023-05-15 12:20+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 23.04.0\n"
+"X-Generator: Lokalize 23.04.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -5402,7 +5402,7 @@ msgid "Tag %1"
 msgstr "Tag %1"
 
 #: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:43
-#: src/dialogs/textbasededit.cpp:589
+#: src/dialogs/textbasededit.cpp:588
 #, kde-format
 msgid "Configure"
 msgstr "Configureren"
@@ -6899,7 +6899,7 @@ msgstr "Een clips in de tijdbalk selecteren om te analyseren"
 msgid "No audio track found"
 msgstr "Geen audiotrack gevonden"
 
-#: src/dialogs/speechdialog.cpp:175 src/dialogs/textbasededit.cpp:635
+#: src/dialogs/speechdialog.cpp:175 src/dialogs/textbasededit.cpp:634
 #, kde-format
 msgid "Please install speech recognition models"
 msgstr "Graag spraakherkenningsmodellen installeren"
@@ -7094,22 +7094,22 @@ msgid "No speech"
 msgstr "Geen spraak"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
-#: src/dialogs/textbasededit.cpp:575 src/ui/speechdialog_ui.ui:144
+#: src/dialogs/textbasededit.cpp:574 src/ui/speechdialog_ui.ui:144
 #, kde-format
 msgid "Translate to english"
 msgstr "Vertalen naar Engels"
 
-#: src/dialogs/textbasededit.cpp:578
+#: src/dialogs/textbasededit.cpp:577
 #, kde-format
 msgid "Configure Speech Recognition"
 msgstr "Spraakherkenning configureren"
 
-#: src/dialogs/textbasededit.cpp:625
+#: src/dialogs/textbasededit.cpp:624
 #, kde-format
 msgid "Speech model"
 msgstr "Spraakmodel"
 
-#: src/dialogs/textbasededit.cpp:626
+#: src/dialogs/textbasededit.cpp:625
 #, kde-format
 msgid "Speech language"
 msgstr "Taal van spraak"
@@ -12670,7 +12670,7 @@ msgstr "Er is een fout opgetreden bij het bewerken van het project-bestand."
 #: src/project/dialogs/archivewidget.cpp:247
 #, kde-format
 msgid "Please save your project before archiving"
-msgstr ""
+msgstr "Sla uw project op alvorens het te archiveren"
 
 #: src/project/dialogs/archivewidget.cpp:283
 #, kde-format

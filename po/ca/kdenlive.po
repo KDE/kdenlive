@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-15 02:31+0000\n"
-"PO-Revision-Date: 2023-05-09 09:30+0200\n"
+"POT-Creation-Date: 2023-05-16 02:46+0000\n"
+"PO-Revision-Date: 2023-05-15 09:53+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -5416,7 +5416,7 @@ msgid "Tag %1"
 msgstr "Etiqueta %1"
 
 #: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:43
-#: src/dialogs/textbasededit.cpp:589
+#: src/dialogs/textbasededit.cpp:588
 #, kde-format
 msgid "Configure"
 msgstr "Configura"
@@ -6913,7 +6913,7 @@ msgstr "Seleccioneu un clip en la línia de temps per realitzar una anàlisi"
 msgid "No audio track found"
 msgstr "No s'ha trobat cap pista d'àudio"
 
-#: src/dialogs/speechdialog.cpp:175 src/dialogs/textbasededit.cpp:635
+#: src/dialogs/speechdialog.cpp:175 src/dialogs/textbasededit.cpp:634
 #, kde-format
 msgid "Please install speech recognition models"
 msgstr "Instal·leu els models de reconeixement de la veu"
@@ -7108,22 +7108,22 @@ msgid "No speech"
 msgstr "No hi ha veu"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
-#: src/dialogs/textbasededit.cpp:575 src/ui/speechdialog_ui.ui:144
+#: src/dialogs/textbasededit.cpp:574 src/ui/speechdialog_ui.ui:144
 #, kde-format
 msgid "Translate to english"
 msgstr "Tradueix a l'anglès"
 
-#: src/dialogs/textbasededit.cpp:578
+#: src/dialogs/textbasededit.cpp:577
 #, kde-format
 msgid "Configure Speech Recognition"
 msgstr "Configura el reconeixement de veu"
 
-#: src/dialogs/textbasededit.cpp:625
+#: src/dialogs/textbasededit.cpp:624
 #, kde-format
 msgid "Speech model"
 msgstr "Models de veu"
 
-#: src/dialogs/textbasededit.cpp:626
+#: src/dialogs/textbasededit.cpp:625
 #, kde-format
 msgid "Speech language"
 msgstr "Idioma de la veu"
@@ -12725,7 +12725,7 @@ msgstr "S'ha produït un error en processar el fitxer de projecte"
 #: src/project/dialogs/archivewidget.cpp:247
 #, kde-format
 msgid "Please save your project before archiving"
-msgstr ""
+msgstr "Deseu el projecte abans del seu arxivat"
 
 #: src/project/dialogs/archivewidget.cpp:283
 #, kde-format

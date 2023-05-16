@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-15 02:31+0000\n"
+"POT-Creation-Date: 2023-05-16 02:46+0000\n"
 "PO-Revision-Date: 2023-05-10 12:17+0200\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
 "Language-Team: fr\n"
@@ -5436,7 +5436,7 @@ msgid "Tag %1"
 msgstr "Étiquette %1"
 
 #: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:43
-#: src/dialogs/textbasededit.cpp:589
+#: src/dialogs/textbasededit.cpp:588
 #, kde-format
 msgid "Configure"
 msgstr "Configurer"
@@ -6941,7 +6941,7 @@ msgstr ""
 msgid "No audio track found"
 msgstr "Aucune piste audio trouvée"
 
-#: src/dialogs/speechdialog.cpp:175 src/dialogs/textbasededit.cpp:635
+#: src/dialogs/speechdialog.cpp:175 src/dialogs/textbasededit.cpp:634
 #, kde-format
 msgid "Please install speech recognition models"
 msgstr "Veuillez installer des modèles de reconnaissance vocale"
@@ -7137,22 +7137,22 @@ msgid "No speech"
 msgstr "Aucune parole"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
-#: src/dialogs/textbasededit.cpp:575 src/ui/speechdialog_ui.ui:144
+#: src/dialogs/textbasededit.cpp:574 src/ui/speechdialog_ui.ui:144
 #, kde-format
 msgid "Translate to english"
 msgstr "Traduire vers l'Anglais"
 
-#: src/dialogs/textbasededit.cpp:578
+#: src/dialogs/textbasededit.cpp:577
 #, kde-format
 msgid "Configure Speech Recognition"
 msgstr "Configurer la reconnaissance vocale"
 
-#: src/dialogs/textbasededit.cpp:625
+#: src/dialogs/textbasededit.cpp:624
 #, kde-format
 msgid "Speech model"
 msgstr "Modèle vocal"
 
-#: src/dialogs/textbasededit.cpp:626
+#: src/dialogs/textbasededit.cpp:625
 #, kde-format
 msgid "Speech language"
 msgstr "Langue vocale"

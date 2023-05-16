@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-15 02:31+0000\n"
+"POT-Creation-Date: 2023-05-16 02:46+0000\n"
 "PO-Revision-Date: 2023-04-29 10:08+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -5395,7 +5395,7 @@ msgid "Tag %1"
 msgstr "%1 etiketa"
 
 #: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:43
-#: src/dialogs/textbasededit.cpp:589
+#: src/dialogs/textbasededit.cpp:588
 #, kde-format
 msgid "Configure"
 msgstr "Konfiguratu"
@@ -6892,7 +6892,7 @@ msgstr "Hautatu klipa denbora-lerroan azterketa egiteko"
 msgid "No audio track found"
 msgstr "Ez da audio pistarik topatu"
 
-#: src/dialogs/speechdialog.cpp:175 src/dialogs/textbasededit.cpp:635
+#: src/dialogs/speechdialog.cpp:175 src/dialogs/textbasededit.cpp:634
 #, kde-format
 msgid "Please install speech recognition models"
 msgstr "Instalatu mesedez hizketaren ezagutza ereduak"
@@ -7086,22 +7086,22 @@ msgid "No speech"
 msgstr "Hizketarik ez"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
-#: src/dialogs/textbasededit.cpp:575 src/ui/speechdialog_ui.ui:144
+#: src/dialogs/textbasededit.cpp:574 src/ui/speechdialog_ui.ui:144
 #, kde-format
 msgid "Translate to english"
 msgstr "Itzuli ingelesera"
 
-#: src/dialogs/textbasededit.cpp:578
+#: src/dialogs/textbasededit.cpp:577
 #, kde-format
 msgid "Configure Speech Recognition"
 msgstr "Konfiguratu hizketaren ezagutza"
 
-#: src/dialogs/textbasededit.cpp:625
+#: src/dialogs/textbasededit.cpp:624
 #, kde-format
 msgid "Speech model"
 msgstr "Hizketa eredua"
 
-#: src/dialogs/textbasededit.cpp:626
+#: src/dialogs/textbasededit.cpp:625
 #, kde-format
 msgid "Speech language"
 msgstr "Hizketaren hizkuntza"
