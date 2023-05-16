@@ -3174,7 +3174,6 @@ void MainWindow::slotUpdateZoomSliderToolTip(int zoomlevel)
 {
     int max = m_zoomSlider->maximum() + 1;
     m_zoomSlider->setToolTip(i18n("Zoom Level: %1/%2", max - zoomlevel, max));
-    m_zoomSlider->setWhatsThis(xi18nc("@info:whatsthis", "Slider to adjust the zoom level."));
 }
 
 void MainWindow::customEvent(QEvent *e)
