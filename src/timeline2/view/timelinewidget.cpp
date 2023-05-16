@@ -259,9 +259,9 @@ void TimelineWidget::showHeaderMenu()
     bool isAudio = m_proxy->isActiveTrackAudio();
     QList<QAction *> menuActions = m_headerMenu->actions();
     QList<QAction *> audioActions;
+    QStringList allowedActions = {QLatin1String("show_track_record"), QLatin1String("separate_channels"), QLatin1String("normalize_channels")};
     for (QAction *ac : qAsConst(menuActions)) {
-        if (ac->data().toString() == QLatin1String("show_track_record") || ac->data().toString() == QLatin1String("separate_channels") ||
-            ac->data().toString() == QLatin1String("normalize_channels")) {
+        if (allowedActions.contains(ac->data().toString())) {
             audioActions << ac;
         }
     }

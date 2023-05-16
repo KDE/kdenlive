@@ -259,6 +259,9 @@ Rectangle {
                         controller.setTrackProperty(trackId, "kdenlive:collapsed", root.collapsedHeight)
                     }
                 }
+                if (root.autoTrackHeight) {
+                    timeline.autofitTrackHeight(scrollView.height - subtitleTrack.height, root.collapsedHeight)
+                }
             }
             MouseArea {
                 // Used to pass modifier state to expand button

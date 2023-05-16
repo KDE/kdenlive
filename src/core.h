@@ -426,4 +426,6 @@ Q_SIGNALS:
     void updateDefaultMarkerCategory();
     /** @brief The default speech engine was changed */
     void speechEngineChanged();
+    /** @brief Auto fit track height property changed, adjust size */
+    void autoTrackHeight(bool);
 };

@@ -452,6 +452,7 @@ Rectangle {
     property int collapsedHeight: Math.max(28, baseUnit * 1.8)
     property int minHeaderWidth: 6 * collapsedHeight
     property int headerWidth: Math.max(minHeaderWidth, timeline.headerWidth())
+    property bool autoTrackHeight: timeline.autotrackHeight
     property color selectedTrackColor: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.2)
     property color frameColor: Qt.rgba(activePalette.shadow.r, activePalette.shadow.g, activePalette.shadow.b, 0.5)
     property bool autoScrolling: timeline.autoScroll
@@ -508,12 +509,33 @@ Rectangle {
     property bool scrollVertically: timeline.scrollVertically
     property int spacerMinPos: 0
 
+    onAutoTrackHeightChanged: {
+        trackHeightTimer.stop()
+        if (root.autoTrackHeight) {
+            timeline.autofitTrackHeight(scrollView.height - subtitleTrack.height, root.collapsedHeight)
+        }
+    }
+
     onSeekingFinishedChanged : {
         playhead.opacity = seekingFinished ? 1 : 0.5
     }
 
     onShowSubtitlesChanged: {
         subtitleTrack.height = showSubtitles? root.baseUnit * 5 : 0
+        if (root.autoTrackHeight) {
+            timeline.autofitTrackHeight(scrollView.height - subtitleTrack.height, root.collapsedHeight)
+        }
+    }
+    Timer {
+        id: trackHeightTimer
+        interval: 300; running: false; repeat: false
+        onTriggered: timeline.autofitTrackHeight(scrollView.height - subtitleTrack.height, root.collapsedHeight)
+    }
+
+    onHeightChanged: {
+        if (root.autoTrackHeight) {
+            trackHeightTimer.restart()
+        }
     }
 
     //onCurrentTrackChanged: timeline.selection = []
@@ -1178,6 +1200,12 @@ Rectangle {
                     Repeater {
                         id: trackHeaderRepeater
                         model: multitrack
+                        property int tracksCount: count
+                        onTracksCountChanged: {
+                            if (root.autoTrackHeight) {
+                                trackHeightTimer.restart()
+                            }
+                        }
                         TrackHead {
                             trackName: model.name
                             thumbsFormat: model.thumbsFormat

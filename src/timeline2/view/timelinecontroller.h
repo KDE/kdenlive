@@ -74,6 +74,7 @@ class TimelineController : public QObject
     Q_PROPERTY(bool subtitlesDisabled READ subtitlesDisabled NOTIFY subtitlesDisabledChanged)
     Q_PROPERTY(bool subtitlesLocked READ subtitlesLocked NOTIFY subtitlesLockedChanged)
     Q_PROPERTY(bool guidesLocked READ guidesLocked NOTIFY guidesLockedChanged)
+    Q_PROPERTY(bool autotrackHeight MEMBER m_autotrackHeight NOTIFY autotrackHeightChanged)
     Q_PROPERTY(QPoint effectZone MEMBER m_effectZone NOTIFY effectZoneChanged)
     Q_PROPERTY(int trimmingMainClip READ trimmingMainClip NOTIFY trimmingMainClipChanged)
     Q_PROPERTY(int multicamIn MEMBER multicamIn NOTIFY multicamInChanged)
@@ -706,6 +707,8 @@ public Q_SLOTS:
     void updateTrimmingMode();
     /** @brief When a clip or composition is moved, inform asset panel to update cursor position in keyframe views. */
     void checkClipPosition(const QModelIndex &topLeft, const QModelIndex &, const QVector<int> &roles);
+    /** @brief Adjust all tracks height to fit in view. */
+    Q_INVOKABLE void autofitTrackHeight(int timelineHeight, int collapsedHeight);
 
 private Q_SLOTS:
     void updateClipActions();
@@ -754,6 +757,7 @@ private:
     QMetaObject::Connection m_connection;
     QMetaObject::Connection m_deleteConnection;
     QPoint m_effectZone;
+    bool m_autotrackHeight;
     QVariantList m_masterEffectZones;
     /** @brief The clip that is displayed in the preview monitor during a trimming operation*/
     int m_trimmingMainClip;
@@ -788,6 +792,7 @@ Q_SIGNALS:
     void scrubChanged();
     void subtitlesWarningChanged();
     void multicamInChanged();
+    void autotrackHeightChanged();
     void seeked(int position);
     void zoneChanged();
     void zoneMoved(const QPoint &zone);

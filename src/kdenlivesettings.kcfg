@@ -344,7 +344,10 @@
       <label>Normalize audio channels in thumbnails.</label>
       <default>true</default>
     </entry>
-
+    <entry name="autotrackheight" type="Bool">
+      <label>Adjust all tracks height to fit in view.</label>
+      <default>false</default>
+    </entry>
     <entry name="autoscroll" type="Bool">
       <label>Auto scroll timeline while playing.</label>
       <default>true</default>

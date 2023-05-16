@@ -673,6 +673,7 @@ void MainWindow::init(const QString &mltPath)
     auto *timelineHeadersMenu = new QMenu(this);
     timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("insert_track")));
     timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("delete_track")));
+    timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("fit_all_tracks")));
     timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("show_track_record")));
 
     QAction *separate_channels = new QAction(QIcon(), i18n("Separate Channels"), this);
@@ -1824,6 +1825,12 @@ void MainWindow::setupActions()
     connect(insertTrack, &QAction::triggered, this, &MainWindow::slotInsertTrack);
     timelineActions->addAction(QStringLiteral("insert_track"), insertTrack);
 
+    QAction *autoTrackHeight = new QAction(QIcon(), i18n("Fit all Tracks in View"), this);
+    autoTrackHeight->setCheckable(true);
+    autoTrackHeight->setChecked(KdenliveSettings::autotrackheight());
+    connect(autoTrackHeight, &QAction::triggered, this, &MainWindow::slotAutoTrackHeight);
+    timelineActions->addAction(QStringLiteral("fit_all_tracks"), autoTrackHeight);
+
     QAction *masterEffectStack = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-composite")), i18n("Master effects"), this);
     connect(masterEffectStack, &QAction::triggered, this, [&]() {
         pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
@@ -2841,6 +2848,12 @@ void MainWindow::slotSeparateAudioChannel()
     if (m_clipMonitor) {
         m_clipMonitor->refreshAudioThumbs();
     }
+}
+
+void MainWindow::slotAutoTrackHeight(bool enable)
+{
+    KdenliveSettings::setAutotrackheight(enable);
+    Q_EMIT pCore->autoTrackHeight(enable);
 }
 
 void MainWindow::slotNormalizeAudioChannel()

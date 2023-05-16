@@ -68,6 +68,7 @@ TimelineController::TimelineController(QObject *parent)
     , m_ready(false)
     , m_snapStackIndex(-1)
     , m_effectZone({0, 0})
+    , m_autotrackHeight(KdenliveSettings::autotrackheight())
 {
     m_disablePreview = pCore->currentDoc()->getAction(QStringLiteral("disable_preview"));
     connect(m_disablePreview, &QAction::triggered, this, &TimelineController::disablePreview);
@@ -76,6 +77,10 @@ TimelineController::TimelineController(QObject *parent)
     connect(pCore.get(), &Core::autoScrollChanged, this, &TimelineController::autoScrollChanged);
     connect(pCore.get(), &Core::recordAudio, this, &TimelineController::switchRecording);
     connect(pCore.get(), &Core::refreshActiveGuides, this, [this]() { m_activeSnaps.clear(); });
+    connect(pCore.get(), &Core::autoTrackHeight, this, [this](bool enable) {
+        m_autotrackHeight = enable;
+        Q_EMIT autotrackHeightChanged();
+    });
 }
 
 TimelineController::~TimelineController() {}
@@ -5262,4 +5267,37 @@ void TimelineController::checkClipPosition(const QModelIndex &topLeft, const QMo
             Q_EMIT updateAssetPosition(id);
         }
     }
+}
+
+void TimelineController::autofitTrackHeight(int timelineHeight, int collapsedHeight)
+{
+    int tracksCount = m_model->getTracksCount();
+    if (tracksCount < 1) {
+        return;
+    }
+    // Check how many collapsed tracks we have
+    int collapsed = 0;
+    auto it = m_model->m_allTracks.cbegin();
+    while (it != m_model->m_allTracks.cend()) {
+        if ((*it)->getProperty(QStringLiteral("kdenlive:collapsed")).toInt() > 0) {
+            collapsed++;
+        }
+        ++it;
+    }
+    if (collapsed == tracksCount) {
+        // All tracks are collapsed, do nothing
+        return;
+    }
+    int trackHeight = qMax(collapsedHeight, (timelineHeight - (collapsed * collapsedHeight)) / (tracksCount - collapsed));
+    it = m_model->m_allTracks.cbegin();
+    while (it != m_model->m_allTracks.cend()) {
+        if ((*it)->getProperty(QStringLiteral("kdenlive:collapsed")).toInt() == 0) {
+            (*it)->setProperty(QStringLiteral("kdenlive:trackheight"), QString::number(trackHeight));
+        }
+        ++it;
+    }
+    // m_model->setTrackProperty(trackId, "kdenlive:collapsed", QStringLiteral("0"));
+    QModelIndex modelStart = m_model->makeTrackIndexFromID(m_model->getTrackIndexFromPosition(0));
+    QModelIndex modelEnd = m_model->makeTrackIndexFromID(m_model->getTrackIndexFromPosition(tracksCount - 1));
+    Q_EMIT m_model->dataChanged(modelStart, modelEnd, {TimelineModel::HeightRole});
 }

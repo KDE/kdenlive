@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="224" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="225" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="file_save"/>
@@ -167,6 +167,7 @@
         <Action name="insert_track" />
         <Action name="delete_track" />
         <Action name="switch_target_stream" />
+        <Action name="fit_all_tracks" />
 	<Separator />
 	<Action name="select_track" />
 	<Action name="select_all_tracks" />

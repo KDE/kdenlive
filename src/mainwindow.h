@@ -481,6 +481,8 @@ private Q_SLOTS:
     void slotSeparateAudioChannel();
     /** @brief Normalize audio channels before displaying them */
     void slotNormalizeAudioChannel();
+    /** @brief Toggle automatic fit track height */
+    void slotAutoTrackHeight(bool enable);
     void slotInsertTrack();
     void slotDeleteTrack();
     /** @brief Show context menu to switch current track target audio stream. */
