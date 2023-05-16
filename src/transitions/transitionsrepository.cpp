@@ -105,7 +105,7 @@ QStringList TransitionsRepository::assetDirs() const
     return QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("transitions"), QStandardPaths::LocateDirectory);
 }
 
-void TransitionsRepository::parseType(QScopedPointer<Mlt::Properties> &metadata, Info &res)
+void TransitionsRepository::parseType(Mlt::Properties *metadata, Info &res)
 {
     Mlt::Properties tags(mlt_properties(metadata->get_data("tags")));
     bool audio = QString(tags.get(0)) == QLatin1String("Audio");

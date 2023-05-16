@@ -233,7 +233,7 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
                 if (frameNumber > 0) {
                     thumbProd->seek(frameNumber);
                 }
-                QScopedPointer<Mlt::Frame> frame(thumbProd->get_frame());
+                std::unique_ptr<Mlt::Frame> frame(thumbProd->get_frame());
                 if ((frame != nullptr) && frame->is_valid()) {
                     frame->set("consumer.deinterlacer", "onefield");
                     frame->set("consumer.top_field_first", -1);
@@ -244,7 +244,7 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
                     if (m_isCanceled.loadAcquire() || pCore->taskManager.isBlocked()) {
                         return;
                     }
-                    QImage result = KThumb::getFrame(frame.data(), imageWidth, imageHeight, fullWidth);
+                    QImage result = KThumb::getFrame(frame.get(), imageWidth, imageHeight, fullWidth);
                     if (result.isNull() && !m_isCanceled.loadAcquire()) {
                         qDebug() << "+++++\nINVALID RESULT IMAGE\n++++++++++++++";
                         result = QImage(fullWidth, imageHeight, QImage::Format_ARGB32_Premultiplied);

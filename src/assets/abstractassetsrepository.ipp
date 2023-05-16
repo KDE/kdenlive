@@ -144,7 +144,7 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::parseAss
 
 template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInfoFromMlt(const QString &assetId, Info &res)
 {
-    QScopedPointer<Mlt::Properties> metadata(getMetadata(assetId));
+    std::unique_ptr<Mlt::Properties> metadata(getMetadata(assetId));
     if (metadata && metadata->is_valid()) {
         if (metadata->get("title") && metadata->get("identifier") && strlen(metadata->get("title")) > 0) {
             QString id = metadata->get("identifier");
@@ -155,7 +155,7 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
             res.version_str = metadata->get("version");
             res.version = int(ceil(100 * metadata->get_double("version")));
             res.id = res.mltId = assetId;
-            parseType(metadata, res);
+            parseType(metadata.get(), res);
             // Create params
             QDomDocument doc;
             QDomElement eff = doc.createElement(QStringLiteral("effect"));

@@ -64,7 +64,7 @@ protected:
 
     QStringList assetDirs() const override;
 
-    void parseType(QScopedPointer<Mlt::Properties> &metadata, Info &res) override;
+    void parseType(Mlt::Properties *metadata, Info &res) override;
 
     /** @brief Returns the metadata associated with the given asset*/
     Mlt::Properties *getMetadata(const QString &assetId) const override;

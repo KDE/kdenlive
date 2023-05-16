@@ -80,7 +80,7 @@ protected:
     bool parseInfoFromXml(const QDomElement &currentAsset, Info &res) const;
 
     /** @brief Figure what is the type of the asset based on its metadata and store it in res*/
-    virtual void parseType(QScopedPointer<Mlt::Properties> &metadata, Info &res) = 0;
+    virtual void parseType(Mlt::Properties *metadata, Info &res) = 0;
 
     /** @brief Retrieves additional info about asset from a custom XML file
        The resulting assets are stored in customAssets
