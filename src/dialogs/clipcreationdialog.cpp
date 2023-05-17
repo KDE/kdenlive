@@ -574,7 +574,7 @@ KFileWidget *ClipCreationDialog::browserWidget(QWidget *parent)
     f->setLayout(l);
     fileWidget->setCustomWidget(f);
     // Required to only add file on double click and not on single click
-    fileWidget->setOperationMode(KFileWidget::Saving);
+    fileWidget->setOperationMode(KFileWidget::Other);
     QObject::connect(fileWidget, &KFileWidget::accepted, fileWidget, [fileWidget, importseq]() {
         if (importseq->isChecked()) {
             // We are importing an image sequence, abort
