@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-17 00:46+0000\n"
+"POT-Creation-Date: 2023-05-18 00:47+0000\n"
 "PO-Revision-Date: 2017-05-16 07:02-0400\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -5851,7 +5851,7 @@ msgstr "תדמית סרטון כותר"
 #: src/dialogs/clipcreationdialog.cpp:561
 #: src/effects/effectlist/view/effectlistwidget.cpp:130
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:300
-#: src/mainwindow.cpp:3872 src/onlineresources/resourcewidget.cpp:553
+#: src/mainwindow.cpp:3871 src/onlineresources/resourcewidget.cpp:553
 #, kde-format
 msgid "All Files"
 msgstr "כל הקבצים"
@@ -6144,7 +6144,7 @@ msgstr ""
 msgid "Guide comment"
 msgstr "קטע מונחה"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:115 src/mainwindow.cpp:3793
+#: src/dialogs/kdenlivesettingsdialog.cpp:115 src/mainwindow.cpp:3792
 #, kde-format
 msgid "Timeline"
 msgstr "ציר זמן"
@@ -8690,13 +8690,13 @@ msgid "Markers"
 msgstr "סמנים"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:76 src/mainwindow.cpp:3748
+#: src/kdenliveui.rc:76 src/mainwindow.cpp:3747
 #, fuzzy, kde-format
 msgid "Extract Audio"
 msgstr "שלוף מסגרת"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:79 src/mainwindow.cpp:3711
+#: src/kdenliveui.rc:79 src/mainwindow.cpp:3710
 #, fuzzy, kde-format
 msgid "Clip Jobs"
 msgstr "חתוך מלמעלה"
@@ -9861,7 +9861,7 @@ msgstr ""
 msgid "Experimental GPU processing enabled - not for production"
 msgstr ""
 
-#: src/mainwindow.cpp:1371 src/mainwindow.cpp:3386
+#: src/mainwindow.cpp:1371 src/mainwindow.cpp:3385
 #, kde-format
 msgid "Multicam"
 msgstr ""
@@ -10793,13 +10793,7 @@ msgstr "לא נמצא סרטון להוספת אפקט"
 msgid "Zoom Level: %1/%2"
 msgstr "ערך זום: %1/13"
 
-#: src/mainwindow.cpp:3205
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid "Slider to adjust the zoom level."
-msgstr ""
-
-#: src/mainwindow.cpp:3354
+#: src/mainwindow.cpp:3353
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10808,7 +10802,7 @@ msgid ""
 "move a grouped clip to another track, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3358
+#: src/mainwindow.cpp:3357
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10818,26 +10812,26 @@ msgid ""
 "shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3361
+#: src/mainwindow.cpp:3360
 #, fuzzy, kde-format
 #| msgid "Selection"
 msgid "Select"
 msgstr "בחירה"
 
-#: src/mainwindow.cpp:3363
+#: src/mainwindow.cpp:3362
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3364 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3363 src/ui/configtools_ui.ui:21
 #, fuzzy, kde-format
 #| msgid "Razor tool"
 msgid "Razor"
 msgstr "כלי חיתוך"
 
-#: src/mainwindow.cpp:3368
+#: src/mainwindow.cpp:3367
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10845,13 +10839,13 @@ msgid ""
 "shortcut> to also move guides. You can combine both modifiers."
 msgstr ""
 
-#: src/mainwindow.cpp:3369
+#: src/mainwindow.cpp:3368
 #, fuzzy, kde-format
 #| msgid "Space"
 msgid "Spacer"
 msgstr "רווח"
 
-#: src/mainwindow.cpp:3371
+#: src/mainwindow.cpp:3370
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10859,14 +10853,14 @@ msgid ""
 "shortcut> for multiple selection"
 msgstr ""
 
-#: src/mainwindow.cpp:3372
+#: src/mainwindow.cpp:3371
 #, fuzzy, kde-format
 #| msgid "Spacer tool"
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "כלי ריווח"
 
-#: src/mainwindow.cpp:3377
+#: src/mainwindow.cpp:3376
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10875,13 +10869,13 @@ msgid ""
 "pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3379
+#: src/mainwindow.cpp:3378
 #, fuzzy, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "הרחבה"
 
-#: src/mainwindow.cpp:3385
+#: src/mainwindow.cpp:3384
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10889,115 +10883,115 @@ msgid ""
 "a lift of all tracks except active one"
 msgstr ""
 
-#: src/mainwindow.cpp:3397
+#: src/mainwindow.cpp:3396
 #, fuzzy, kde-format
 #| msgid "Insertion"
 msgid "Insert"
 msgstr "הכנסה"
 
-#: src/mainwindow.cpp:3400
+#: src/mainwindow.cpp:3399
 #, fuzzy, kde-format
 #| msgid "Overwrite mode"
 msgid "Overwrite"
 msgstr "מצב דריסה"
 
-#: src/mainwindow.cpp:3732
+#: src/mainwindow.cpp:3731
 #, fuzzy, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "עבודות עדכניות"
 
-#: src/mainwindow.cpp:3747
+#: src/mainwindow.cpp:3746
 #, fuzzy, kde-format
 msgid "Transcoders"
 msgstr "קידוד"
 
-#: src/mainwindow.cpp:3792
+#: src/mainwindow.cpp:3791
 #, fuzzy, kde-format
 msgid "Interface"
 msgstr "סריקה שלובה"
 
-#: src/mainwindow.cpp:3808
+#: src/mainwindow.cpp:3807
 #, fuzzy, kde-format
 msgid "Raise %1"
 msgstr "לכידת שמע"
 
-#: src/mainwindow.cpp:3874
+#: src/mainwindow.cpp:3873
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "אין סרטון לקידוד"
 
-#: src/mainwindow.cpp:4022
+#: src/mainwindow.cpp:4021
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr ""
 
-#: src/mainwindow.cpp:4028
+#: src/mainwindow.cpp:4027
 #, fuzzy, kde-format
 msgid "Archiving project"
 msgstr "שמור פרוייקט DVD"
 
-#: src/mainwindow.cpp:4184
+#: src/mainwindow.cpp:4183
 #, fuzzy, kde-format
 msgid "Icon Size"
 msgstr "גודל"
 
-#: src/mainwindow.cpp:4188
+#: src/mainwindow.cpp:4187
 #, fuzzy, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "ברירת מחדל"
 
-#: src/mainwindow.cpp:4209 src/mainwindow.cpp:4237
+#: src/mainwindow.cpp:4208 src/mainwindow.cpp:4236
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4211 src/mainwindow.cpp:4239
+#: src/mainwindow.cpp:4210 src/mainwindow.cpp:4238
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4213 src/mainwindow.cpp:4241
+#: src/mainwindow.cpp:4212 src/mainwindow.cpp:4240
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4215 src/mainwindow.cpp:4243
+#: src/mainwindow.cpp:4214 src/mainwindow.cpp:4242
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4300
+#: src/mainwindow.cpp:4299
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
 "+M."
 msgstr ""
 
-#: src/mainwindow.cpp:4300
+#: src/mainwindow.cpp:4299
 #, fuzzy, kde-format
 msgid "Hide menu bar"
 msgstr "הסתר מסגרת"
 
-#: src/mainwindow.cpp:4315
+#: src/mainwindow.cpp:4314
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
 msgstr ""
 
-#: src/mainwindow.cpp:4545 src/timeline2/view/timelinecontroller.cpp:5082
+#: src/mainwindow.cpp:4544 src/timeline2/view/timelinecontroller.cpp:5082
 #, fuzzy, kde-format
 #| msgid "No guide at cursor time"
 msgid "No subtitles in current project"
 msgstr "אין מנחה במיקום סמן"
 
-#: src/mainwindow.cpp:4638
+#: src/mainwindow.cpp:4637
 #, fuzzy, kde-format
 msgid "Project Bin %1"
 msgstr "פרוייקט"
 
-#: src/mainwindow.cpp:4739
+#: src/mainwindow.cpp:4738
 #, fuzzy, kde-format
 msgid "Checking cached data size"
 msgstr "מחק סרטונים נבחרים"
