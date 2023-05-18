@@ -95,10 +95,20 @@ TEST_CASE("Basic tests of the render preset model", "[RenderPresets]")
         CHECK_FALSE(model->params({QStringLiteral("two")}).contains("two"));
     }
 
+    SECTION("Test profile with no parameters")
+    {
+        std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(QStringLiteral("EmptyParamTest"), QStringLiteral("Test"), QString(), QString(),
+                                                                       QString(), QString(), QString(), QString(), QString(), false));
+
+        // check there are really no parameters
+        CHECK(model->params().toString().length() == 0);
+        CHECK(model->params().size() == 0);
+    }
+
     SECTION("Test unknown rate control")
     {
-        std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(QStringLiteral("Constant"), QStringLiteral("Test"), QStringLiteral(""),
-                                                                       QStringLiteral("mp4"), QString(), QString(), QString(), QString(), QString(), false));
+        std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(QStringLiteral("UnknownRate"), QStringLiteral("Test"), QString(), QStringLiteral("mp4"),
+                                                                       QString(), QString(), QString(), QString(), QString(), false));
         CHECK(model->params().videoRateControl() == RenderPresetParams::RateControl::Unknown);
     }
 
