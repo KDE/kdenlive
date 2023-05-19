@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-18 00:47+0000\n"
-"PO-Revision-Date: 2023-05-10 12:17+0200\n"
+"PO-Revision-Date: 2023-05-17 18:04+0200\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -12804,7 +12804,7 @@ msgstr "Il y a eu une erreur durant le traitement du fichier du projet"
 #: src/project/dialogs/archivewidget.cpp:247
 #, kde-format
 msgid "Please save your project before archiving"
-msgstr ""
+msgstr "Veuillez enregistrer votre projet avant son archivage"
 
 #: src/project/dialogs/archivewidget.cpp:283
 #, kde-format
@@ -18764,7 +18764,7 @@ msgstr "Le traitement du murmure par un processeur est très lent."
 #: src/ui/configspeech_ui.ui:183
 #, kde-format
 msgid "Disable half precision (FP16 )"
-msgstr ""
+msgstr "Désactiver la demi-précision (FP16)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperTranslate)
 #: src/ui/configspeech_ui.ui:190
