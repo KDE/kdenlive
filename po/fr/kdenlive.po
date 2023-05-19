@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-17 02:34+0000\n"
-"PO-Revision-Date: 2023-05-10 12:17+0200\n"
+"PO-Revision-Date: 2023-05-17 18:04+0200\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -12778,7 +12778,7 @@ msgstr "Il y a eu une erreur durant le traitement du fichier du projet"
 #: src/project/dialogs/archivewidget.cpp:247
 #, kde-format
 msgid "Please save your project before archiving"
-msgstr ""
+msgstr "Veuillez enregistrer votre projet avant son archivage"
 
 #: src/project/dialogs/archivewidget.cpp:283
 #, kde-format
