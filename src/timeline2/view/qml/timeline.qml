@@ -124,6 +124,7 @@ Rectangle {
         root.textColor = activePalette.text
         playhead.fillColor = activePalette.windowText
         ruler.dimmedColor = (activePalette.text.r + activePalette.text.g + activePalette.text.b > 1.5) ? Qt.darker(activePalette.text, 1.3) : Qt.lighter(activePalette.text, 1.3)
+        ruler.dimmedColor2 = (activePalette.text.r + activePalette.text.g + activePalette.text.b > 1.5) ? Qt.darker(activePalette.text, 2.2) : Qt.lighter(activePalette.text, 2.2)
         ruler.repaintRuler()
         // Disable caching for track header icons
         root.paletteUnchanged = false

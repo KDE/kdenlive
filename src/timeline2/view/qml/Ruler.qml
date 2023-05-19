@@ -27,9 +27,10 @@ Item {
     property bool hoverGuide: false
     property int cursorShape: resizeActive ? Qt.SizeHorCursor : hoverGuide ? Qt.PointingHandCursor : Qt.ArrowCursor
     property var effectZones: timeline.masterEffectZones
-    property int guideLabelHeight: timeline.showMarkers ? fontMetrics.height + 2 : 0
+    property int guideLabelHeight: timeline.showMarkers ? fontMetrics.height : 0
     property int previewHeight: Math.ceil(timecodeContainer.height / 5)
     property color dimmedColor: (activePalette.text.r + activePalette.text.g + activePalette.text.b > 1.5) ? Qt.darker(activePalette.text, 1.3) : Qt.lighter(activePalette.text, 1.3)
+    property color dimmedColor2: (activePalette.text.r + activePalette.text.g + activePalette.text.b > 1.5) ? Qt.darker(activePalette.text, 2.2) : Qt.lighter(activePalette.text, 2.2)
     
     function adjustStepSize() {
         if (timeline.scaleFactor > 19) {
@@ -97,7 +98,9 @@ Item {
 
     // Guides
     Repeater {
+        id: guidesRepeater
         model: guidesModel
+        property int radiusSize: timeline.guidesLocked ? 0 : guideLabelHeight / 2
         delegate:
         Item {
             id: guideRoot
@@ -111,10 +114,10 @@ Item {
                 color: guideRoot.activated ? Qt.lighter(model.color, 1.3) : model.color
                 property int markerId: model.id
                 Rectangle {
+                    
                     visible: timeline.showMarkers
-                    width: mlabel.contentWidth + 4
+                    width: mlabel.contentWidth + 4 - guidesRepeater.radiusSize
                     height: guideLabelHeight
-                    radius: timeline.guidesLocked ? 0 : height / 4
                     color: markerBase.color
                     anchors {
                         top: parent.top
@@ -125,6 +128,13 @@ Item {
                     ToolTip.delay: 1000
                     ToolTip.timeout: 5000
                     Rectangle {
+                        visible: !timeline.guidesLocked
+                        color: markerBase.color
+                        anchors.fill: parent
+                        radius: guidesRepeater.radiusSize
+                        anchors.rightMargin: -guidesRepeater.radiusSize - 2
+                    }
+                    Rectangle {
                         // Shadow delimiting marker start
                         width: 1
                         height: guideLabelHeight
@@ -133,11 +143,16 @@ Item {
                             right: parent.left
                         }
                     }
-
+                    Rectangle {
+                        // Shadow on marker top
+                        height: 1
+                        width: parent.width + guidesRepeater.radiusSize / 2
+                        color: Qt.darker(markerBase.color, 1.8)
+                    }
                     Text {
                         id: mlabel
                         text: model.comment
-                        bottomPadding: 2
+                        topPadding: -1
                         leftPadding: 2
                         rightPadding: 2
                         font: miniFont
@@ -148,7 +163,7 @@ Item {
                         id: guideArea
                         anchors.left: parent.left
                         anchors.top: parent.top
-                        width: parent.width
+                        width: parent.width + guidesRepeater.radiusSize
                         height: parent.height
                         acceptedButtons: Qt.LeftButton | Qt.RightButton
                         cursorShape: Qt.PointingHandCursor
@@ -222,14 +237,14 @@ Item {
         property int offset: Math.floor(scrollView.contentX /rulerRoot.tickSpacing)
         Item {
             property int realPos: (tickRepeater.offset + index) * rulerRoot.tickSpacing / timeline.scaleFactor
-            x: realPos * timeline.scaleFactor
+            x: Math.round(realPos * timeline.scaleFactor)
             height: parent.height
             property bool showText: (tickRepeater.offset + index)%rulerRoot.labelMod == 0
             Rectangle {
                 anchors.bottom: parent.bottom
-                height: parent.showText ? 8 : 4
+                height: parent.showText ? root.baseUnit * 0.8 : 4
                 width: 1
-                color: dimmedColor
+                color: dimmedColor2
             }
             Label {
                 visible: parent.showText
