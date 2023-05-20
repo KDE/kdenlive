@@ -771,7 +771,6 @@ void RenderWidget::prepareRendering(bool delayedRendering)
 
                     QString newPlaylistPath = playlistPath;
                     newPlaylistPath = newPlaylistPath.replace(QStringLiteral(".mlt"), QString("-%1.mlt").arg(i));
-                    QFile::copy(playlistPath, newPlaylistPath);
                     generateRenderFiles(newPlaylistPath, docCopy, sectionIn, sectionOut, filename, false, subtitleFile);
                     if (!subtitleFile.isEmpty() && i < markers.count() - 1) {
                         QTemporaryFile src(QDir::temp().absoluteFilePath(QString("XXXXXX.srt")));
