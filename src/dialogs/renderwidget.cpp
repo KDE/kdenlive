@@ -762,7 +762,12 @@ void RenderWidget::prepareRendering(bool delayedRendering)
                         if (!subtitleFile.isEmpty()) {
                             project->generateRenderSubtitleFile(currentUuid, in, out, subtitleFile);
                         }
-                        generateRenderFiles(playlistPath, docCopy, in, out, filename, false, subtitleFile);
+                        // Make a different version of the playlist file for each rendering
+                        QFileInfo plInfo(playlistPath);
+                        QString playlistSeqPath = plInfo.fileName();
+                        playlistSeqPath.prepend(QString("%1-").arg(i));
+                        playlistSeqPath = plInfo.dir().absoluteFilePath(playlistSeqPath);
+                        generateRenderFiles(playlistSeqPath, docCopy, in, out, filename, false, subtitleFile);
                         if (!subtitleFile.isEmpty() && i < markers.count() - 1) {
                             QTemporaryFile src(QDir::temp().absoluteFilePath(QString("XXXXXX.srt")));
                             if (!src.open()) {
@@ -1110,7 +1115,7 @@ void RenderWidget::checkRenderStatus()
 void RenderWidget::startRendering(RenderJobItem *item)
 {
     auto rendererArgs = item->data(1, ParametersRole).toStringList();
-    qDebug() << "starting kdenlive_render process using: " << m_renderer;
+    qDebug() << "starting kdenlive_render process using: " << m_renderer << " = " << rendererArgs;
     if (!QProcess::startDetached(m_renderer, rendererArgs)) {
         item->setStatus(FAILEDJOB);
     } else {
