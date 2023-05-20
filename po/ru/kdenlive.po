@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-17 02:34+0000\n"
+"POT-Creation-Date: 2023-05-20 02:32+0000\n"
 "PO-Revision-Date: 2022-10-04 11:00+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -3619,17 +3619,17 @@ msgstr "Введите имя текущей предустановки:"
 msgid "Abort processing"
 msgstr "Отменить обработку"
 
-#: src/assets/view/widgets/colorwheel.cpp:461
+#: src/assets/view/widgets/colorwheel.cpp:477
 #, kde-format
 msgid "R: "
 msgstr "R: "
 
-#: src/assets/view/widgets/colorwheel.cpp:468
+#: src/assets/view/widgets/colorwheel.cpp:484
 #, kde-format
 msgid "G: "
 msgstr "G: "
 
-#: src/assets/view/widgets/colorwheel.cpp:474
+#: src/assets/view/widgets/colorwheel.cpp:490
 #, kde-format
 msgid "B: "
 msgstr "B: "
@@ -4050,7 +4050,7 @@ msgstr ""
 "Слежение за звуковым сигналом. Нажмите клавишу <b>пробел</b> для начала/"
 "приостановки записи, <b>Esc</b> для завершения."
 
-#: src/audiomixer/mixermanager.cpp:205 src/timeline2/view/qml/timeline.qml:964
+#: src/audiomixer/mixermanager.cpp:205 src/timeline2/view/qml/timeline.qml:965
 #, kde-format
 msgid "Master"
 msgstr "Мастер"
@@ -5804,7 +5804,7 @@ msgstr "Недопустимый профиль проекта, возможен
 #: src/core.cpp:670 src/kdenliveui.rc:30 src/mainwindow.cpp:277
 #: src/project/dialogs/archivewidget.cpp:97
 #: src/project/dialogs/projectsettings.cpp:422
-#: src/timeline2/view/qml/timeline.qml:1056
+#: src/timeline2/view/qml/timeline.qml:1057
 #, kde-format
 msgid "Subtitles"
 msgstr "Субтитры"
@@ -15851,14 +15851,14 @@ msgid "Change clip speed"
 msgstr "Изменить скорость клипа"
 
 #: src/timeline2/model/timelinemodel.cpp:6227
-#: src/timeline2/view/qml/timeline.qml:1158
+#: src/timeline2/view/qml/timeline.qml:1159
 #: src/timeline2/view/qml/TrackHead.qml:502
 #, kde-format
 msgid "Lock track"
 msgstr "Заблокировать дорожку"
 
 #: src/timeline2/model/timelinemodel.cpp:6232
-#: src/timeline2/view/qml/timeline.qml:1158
+#: src/timeline2/view/qml/timeline.qml:1159
 #: src/timeline2/view/qml/TrackHead.qml:502
 #, kde-format
 msgid "Unlock track"
@@ -15994,7 +15994,7 @@ msgid "Stop"
 msgstr "Остановить"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2042
+#: src/timeline2/view/qml/timeline.qml:2043
 #, kde-format
 msgid "Paused"
 msgstr "Приостановлено"
@@ -16133,57 +16133,57 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>Двойной щелчок</b>: редактирование текста"
 
-#: src/timeline2/view/qml/timeline.qml:952
+#: src/timeline2/view/qml/timeline.qml:953
 #, kde-format
 msgctxt "Initial for Master"
 msgid "M"
 msgstr "M"
 
-#: src/timeline2/view/qml/timeline.qml:961
+#: src/timeline2/view/qml/timeline.qml:962
 #, kde-format
 msgid "Show master effects"
 msgstr "Показать мастер-эффекты"
 
-#: src/timeline2/view/qml/timeline.qml:1092
+#: src/timeline2/view/qml/timeline.qml:1093
 #, kde-format
 msgid "Click to see details"
 msgstr "Щёлкните для получения дополнительной информации"
 
-#: src/timeline2/view/qml/timeline.qml:1114
+#: src/timeline2/view/qml/timeline.qml:1115
 #, kde-format
 msgid "Speech recognition"
 msgstr "Распознать речь"
 
-#: src/timeline2/view/qml/timeline.qml:1134
+#: src/timeline2/view/qml/timeline.qml:1135
 #: src/timeline2/view/qml/TrackHead.qml:468
 #, kde-format
 msgid "Show"
 msgstr "Показать"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1134
+#: src/timeline2/view/qml/timeline.qml:1135
 #: src/timeline2/view/qml/TrackHead.qml:468 src/ui/configcapture_ui.ui:397
 #, kde-format
 msgid "Hide"
 msgstr "Скрыть"
 
-#: src/timeline2/view/qml/timeline.qml:1719
+#: src/timeline2/view/qml/timeline.qml:1720
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Двойной щелчок</b>: добавление субтитра"
 
-#: src/timeline2/view/qml/timeline.qml:1883
+#: src/timeline2/view/qml/timeline.qml:1884
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Смещение: %1, Позиция: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2031
-#: src/timeline2/view/qml/timeline.qml:2040
+#: src/timeline2/view/qml/timeline.qml:2032
+#: src/timeline2/view/qml/timeline.qml:2041
 #, kde-format
 msgid "Recording"
 msgstr "Запись"
 
-#: src/timeline2/view/qml/timeline.qml:2129
+#: src/timeline2/view/qml/timeline.qml:2130
 #, kde-format
 msgid "Multicam In"
 msgstr "Вход многокамерного монтажа"
