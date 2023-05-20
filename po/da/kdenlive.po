@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-17 02:34+0000\n"
+"POT-Creation-Date: 2023-05-20 02:32+0000\n"
 "PO-Revision-Date: 2020-10-31 22:29+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -3622,17 +3622,17 @@ msgstr ""
 msgid "Abort processing"
 msgstr ""
 
-#: src/assets/view/widgets/colorwheel.cpp:461
+#: src/assets/view/widgets/colorwheel.cpp:477
 #, kde-format
 msgid "R: "
 msgstr "R: "
 
-#: src/assets/view/widgets/colorwheel.cpp:468
+#: src/assets/view/widgets/colorwheel.cpp:484
 #, kde-format
 msgid "G: "
 msgstr "G: "
 
-#: src/assets/view/widgets/colorwheel.cpp:474
+#: src/assets/view/widgets/colorwheel.cpp:490
 #, kde-format
 msgid "B: "
 msgstr "B: "
@@ -4079,7 +4079,7 @@ msgid ""
 "end."
 msgstr ""
 
-#: src/audiomixer/mixermanager.cpp:205 src/timeline2/view/qml/timeline.qml:964
+#: src/audiomixer/mixermanager.cpp:205 src/timeline2/view/qml/timeline.qml:965
 #, kde-format
 msgid "Master"
 msgstr "Master"
@@ -5884,7 +5884,7 @@ msgstr ""
 #: src/core.cpp:670 src/kdenliveui.rc:30 src/mainwindow.cpp:277
 #: src/project/dialogs/archivewidget.cpp:97
 #: src/project/dialogs/projectsettings.cpp:422
-#: src/timeline2/view/qml/timeline.qml:1056
+#: src/timeline2/view/qml/timeline.qml:1057
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Subtitles"
@@ -16111,14 +16111,14 @@ msgid "Change clip speed"
 msgstr "Ændr kliphastighed"
 
 #: src/timeline2/model/timelinemodel.cpp:6227
-#: src/timeline2/view/qml/timeline.qml:1158
+#: src/timeline2/view/qml/timeline.qml:1159
 #: src/timeline2/view/qml/TrackHead.qml:502
 #, kde-format
 msgid "Lock track"
 msgstr "Lås spor"
 
 #: src/timeline2/model/timelinemodel.cpp:6232
-#: src/timeline2/view/qml/timeline.qml:1158
+#: src/timeline2/view/qml/timeline.qml:1159
 #: src/timeline2/view/qml/TrackHead.qml:502
 #, kde-format
 msgid "Unlock track"
@@ -16257,7 +16257,7 @@ msgid "Stop"
 msgstr "Stop"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2042
+#: src/timeline2/view/qml/timeline.qml:2043
 #, fuzzy, kde-format
 #| msgid "Pause"
 msgid "Paused"
@@ -16425,49 +16425,49 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:952
+#: src/timeline2/view/qml/timeline.qml:953
 #, kde-format
 msgctxt "Initial for Master"
 msgid "M"
 msgstr "M"
 
-#: src/timeline2/view/qml/timeline.qml:961
+#: src/timeline2/view/qml/timeline.qml:962
 #, kde-format
 msgid "Show master effects"
 msgstr "Vis mastereffekter"
 
-#: src/timeline2/view/qml/timeline.qml:1092
+#: src/timeline2/view/qml/timeline.qml:1093
 #, fuzzy, kde-format
 #| msgid "Click to open cache folder"
 msgid "Click to see details"
 msgstr "Klik for at åbne cache-mappe"
 
-#: src/timeline2/view/qml/timeline.qml:1114
+#: src/timeline2/view/qml/timeline.qml:1115
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Speech recognition"
 msgstr "Markér overgang"
 
-#: src/timeline2/view/qml/timeline.qml:1134
+#: src/timeline2/view/qml/timeline.qml:1135
 #: src/timeline2/view/qml/TrackHead.qml:468
 #, kde-format
 msgid "Show"
 msgstr "Vis"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1134
+#: src/timeline2/view/qml/timeline.qml:1135
 #: src/timeline2/view/qml/TrackHead.qml:468 src/ui/configcapture_ui.ui:397
 #, kde-format
 msgid "Hide"
 msgstr "Skjul"
 
-#: src/timeline2/view/qml/timeline.qml:1719
+#: src/timeline2/view/qml/timeline.qml:1720
 #, fuzzy, kde-format
 #| msgid "Click to add composition"
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Klik for at tilføje komposition"
 
-#: src/timeline2/view/qml/timeline.qml:1883
+#: src/timeline2/view/qml/timeline.qml:1884
 #, fuzzy, kde-format
 #| msgid ""
 #| "In:%1\n"
@@ -16477,14 +16477,14 @@ msgstr ""
 "I:%1\n"
 "Position:%2"
 
-#: src/timeline2/view/qml/timeline.qml:2031
-#: src/timeline2/view/qml/timeline.qml:2040
+#: src/timeline2/view/qml/timeline.qml:2032
+#: src/timeline2/view/qml/timeline.qml:2041
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "Optag"
 
-#: src/timeline2/view/qml/timeline.qml:2129
+#: src/timeline2/view/qml/timeline.qml:2130
 #, kde-format
 msgid "Multicam In"
 msgstr ""

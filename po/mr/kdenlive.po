@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-17 02:34+0000\n"
+"POT-Creation-Date: 2023-05-20 02:32+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -3584,17 +3584,17 @@ msgstr ""
 msgid "Abort processing"
 msgstr ""
 
-#: src/assets/view/widgets/colorwheel.cpp:461
+#: src/assets/view/widgets/colorwheel.cpp:477
 #, kde-format
 msgid "R: "
 msgstr ""
 
-#: src/assets/view/widgets/colorwheel.cpp:468
+#: src/assets/view/widgets/colorwheel.cpp:484
 #, kde-format
 msgid "G: "
 msgstr ""
 
-#: src/assets/view/widgets/colorwheel.cpp:474
+#: src/assets/view/widgets/colorwheel.cpp:490
 #, kde-format
 msgid "B: "
 msgstr ""
@@ -4025,7 +4025,7 @@ msgid ""
 "end."
 msgstr ""
 
-#: src/audiomixer/mixermanager.cpp:205 src/timeline2/view/qml/timeline.qml:964
+#: src/audiomixer/mixermanager.cpp:205 src/timeline2/view/qml/timeline.qml:965
 #, kde-format
 msgid "Master"
 msgstr ""
@@ -5750,7 +5750,7 @@ msgstr ""
 #: src/core.cpp:670 src/kdenliveui.rc:30 src/mainwindow.cpp:277
 #: src/project/dialogs/archivewidget.cpp:97
 #: src/project/dialogs/projectsettings.cpp:422
-#: src/timeline2/view/qml/timeline.qml:1056
+#: src/timeline2/view/qml/timeline.qml:1057
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Subtitles"
@@ -15526,7 +15526,7 @@ msgid "Change clip speed"
 msgstr "रंग उलट करा (&I)"
 
 #: src/timeline2/model/timelinemodel.cpp:6227
-#: src/timeline2/view/qml/timeline.qml:1158
+#: src/timeline2/view/qml/timeline.qml:1159
 #: src/timeline2/view/qml/TrackHead.qml:502
 #, fuzzy, kde-format
 #| msgid "Track"
@@ -15534,7 +15534,7 @@ msgid "Lock track"
 msgstr "ट्रॅक"
 
 #: src/timeline2/model/timelinemodel.cpp:6232
-#: src/timeline2/view/qml/timeline.qml:1158
+#: src/timeline2/view/qml/timeline.qml:1159
 #: src/timeline2/view/qml/TrackHead.qml:502
 #, fuzzy, kde-format
 #| msgid "Track"
@@ -15668,7 +15668,7 @@ msgid "Stop"
 msgstr "थांबा"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2042
+#: src/timeline2/view/qml/timeline.qml:2043
 #, fuzzy, kde-format
 msgid "Paused"
 msgstr "स्तब्ध करा"
@@ -15804,28 +15804,28 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:952
+#: src/timeline2/view/qml/timeline.qml:953
 #, fuzzy, kde-format
 msgctxt "Initial for Master"
 msgid "M"
 msgstr "M"
 
-#: src/timeline2/view/qml/timeline.qml:961
+#: src/timeline2/view/qml/timeline.qml:962
 #, fuzzy, kde-format
 msgid "Show master effects"
 msgstr "परिणाम :"
 
-#: src/timeline2/view/qml/timeline.qml:1092
+#: src/timeline2/view/qml/timeline.qml:1093
 #, kde-format
 msgid "Click to see details"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:1114
+#: src/timeline2/view/qml/timeline.qml:1115
 #, fuzzy, kde-format
 msgid "Speech recognition"
 msgstr "निवड साधन (&S)"
 
-#: src/timeline2/view/qml/timeline.qml:1134
+#: src/timeline2/view/qml/timeline.qml:1135
 #: src/timeline2/view/qml/TrackHead.qml:468
 #, fuzzy, kde-format
 #| msgid "Track"
@@ -15833,30 +15833,30 @@ msgid "Show"
 msgstr "ट्रॅक"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1134
+#: src/timeline2/view/qml/timeline.qml:1135
 #: src/timeline2/view/qml/TrackHead.qml:468 src/ui/configcapture_ui.ui:397
 #, kde-format
 msgid "Hide"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:1719
+#: src/timeline2/view/qml/timeline.qml:1720
 #, fuzzy, kde-format
 #| msgid "Options"
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "पर्याय"
 
-#: src/timeline2/view/qml/timeline.qml:1883
+#: src/timeline2/view/qml/timeline.qml:1884
 #, fuzzy, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "स्थिती"
 
-#: src/timeline2/view/qml/timeline.qml:2031
-#: src/timeline2/view/qml/timeline.qml:2040
+#: src/timeline2/view/qml/timeline.qml:2032
+#: src/timeline2/view/qml/timeline.qml:2041
 #, fuzzy, kde-format
 msgid "Recording"
 msgstr "मॉनिटर %1"
 
-#: src/timeline2/view/qml/timeline.qml:2129
+#: src/timeline2/view/qml/timeline.qml:2130
 #, kde-format
 msgid "Multicam In"
 msgstr ""

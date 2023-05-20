@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-17 02:34+0000\n"
+"POT-Creation-Date: 2023-05-20 02:32+0000\n"
 "PO-Revision-Date: 2023-02-17 01:07+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -3576,17 +3576,17 @@ msgstr "Bu ön ayara ad verin:"
 msgid "Abort processing"
 msgstr "İşlənməni ləğv edin"
 
-#: src/assets/view/widgets/colorwheel.cpp:461
+#: src/assets/view/widgets/colorwheel.cpp:477
 #, kde-format
 msgid "R: "
 msgstr "R: "
 
-#: src/assets/view/widgets/colorwheel.cpp:468
+#: src/assets/view/widgets/colorwheel.cpp:484
 #, kde-format
 msgid "G: "
 msgstr "G: "
 
-#: src/assets/view/widgets/colorwheel.cpp:474
+#: src/assets/view/widgets/colorwheel.cpp:490
 #, kde-format
 msgid "B: "
 msgstr "B: "
@@ -4008,7 +4008,7 @@ msgstr ""
 "klaviaturada <b>Boşluq</b> düyməsinə, sonlandırmaq üçün <b>Esc</b> düyməsinə "
 "vurun."
 
-#: src/audiomixer/mixermanager.cpp:205 src/timeline2/view/qml/timeline.qml:964
+#: src/audiomixer/mixermanager.cpp:205 src/timeline2/view/qml/timeline.qml:965
 #, kde-format
 msgid "Master"
 msgstr "Ustad"
@@ -5746,7 +5746,7 @@ msgstr "Sizin layihə profiliniz səhvdir, render uğursuz ola bilər."
 #: src/core.cpp:670 src/kdenliveui.rc:30 src/mainwindow.cpp:277
 #: src/project/dialogs/archivewidget.cpp:97
 #: src/project/dialogs/projectsettings.cpp:422
-#: src/timeline2/view/qml/timeline.qml:1056
+#: src/timeline2/view/qml/timeline.qml:1057
 #, kde-format
 msgid "Subtitles"
 msgstr "Altyazılar"
@@ -15726,14 +15726,14 @@ msgid "Change clip speed"
 msgstr "Klipin sürətini dəyişin"
 
 #: src/timeline2/model/timelinemodel.cpp:6227
-#: src/timeline2/view/qml/timeline.qml:1158
+#: src/timeline2/view/qml/timeline.qml:1159
 #: src/timeline2/view/qml/TrackHead.qml:502
 #, kde-format
 msgid "Lock track"
 msgstr "Cığırı kilidləyin"
 
 #: src/timeline2/model/timelinemodel.cpp:6232
-#: src/timeline2/view/qml/timeline.qml:1158
+#: src/timeline2/view/qml/timeline.qml:1159
 #: src/timeline2/view/qml/TrackHead.qml:502
 #, kde-format
 msgid "Unlock track"
@@ -15867,7 +15867,7 @@ msgid "Stop"
 msgstr "Dayandırın"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2042
+#: src/timeline2/view/qml/timeline.qml:2043
 #, kde-format
 msgid "Paused"
 msgstr "Fasilədə"
@@ -16008,57 +16008,57 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "Mətnə düzəliş etmək üçün - <b>Cüt klik</b>"
 
-#: src/timeline2/view/qml/timeline.qml:952
+#: src/timeline2/view/qml/timeline.qml:953
 #, kde-format
 msgctxt "Initial for Master"
 msgid "M"
 msgstr "M"
 
-#: src/timeline2/view/qml/timeline.qml:961
+#: src/timeline2/view/qml/timeline.qml:962
 #, kde-format
 msgid "Show master effects"
 msgstr "Əsas effektləri göstərmək"
 
-#: src/timeline2/view/qml/timeline.qml:1092
+#: src/timeline2/view/qml/timeline.qml:1093
 #, kde-format
 msgid "Click to see details"
 msgstr "Təfərrüatları görmək üçün vurun"
 
-#: src/timeline2/view/qml/timeline.qml:1114
+#: src/timeline2/view/qml/timeline.qml:1115
 #, kde-format
 msgid "Speech recognition"
 msgstr "Nitqin tanınması"
 
-#: src/timeline2/view/qml/timeline.qml:1134
+#: src/timeline2/view/qml/timeline.qml:1135
 #: src/timeline2/view/qml/TrackHead.qml:468
 #, kde-format
 msgid "Show"
 msgstr "Göstərmək"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1134
+#: src/timeline2/view/qml/timeline.qml:1135
 #: src/timeline2/view/qml/TrackHead.qml:468 src/ui/configcapture_ui.ui:397
 #, kde-format
 msgid "Hide"
 msgstr "Gizlətmək"
 
-#: src/timeline2/view/qml/timeline.qml:1719
+#: src/timeline2/view/qml/timeline.qml:1720
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Altyazılar əlavə etçmək üçün - <b>Cüt klik</b>"
 
-#: src/timeline2/view/qml/timeline.qml:1883
+#: src/timeline2/view/qml/timeline.qml:1884
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Sürüşmə: %1, Mövqe: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2031
-#: src/timeline2/view/qml/timeline.qml:2040
+#: src/timeline2/view/qml/timeline.qml:2032
+#: src/timeline2/view/qml/timeline.qml:2041
 #, kde-format
 msgid "Recording"
 msgstr "Yazılır"
 
-#: src/timeline2/view/qml/timeline.qml:2129
+#: src/timeline2/view/qml/timeline.qml:2130
 #, kde-format
 msgid "Multicam In"
 msgstr "Çoxsaylı kamera rejimi girişi"
