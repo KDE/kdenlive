@@ -763,11 +763,9 @@ void RenderWidget::prepareRendering(bool delayedRendering)
                             project->generateRenderSubtitleFile(currentUuid, in, out, subtitleFile);
                         }
                         // Make a different version of the playlist file for each rendering
-                        QFileInfo plInfo(playlistPath);
-                        QString playlistSeqPath = plInfo.fileName();
-                        playlistSeqPath.prepend(QString("%1-").arg(i));
-                        playlistSeqPath = plInfo.dir().absoluteFilePath(playlistSeqPath);
-                        generateRenderFiles(playlistSeqPath, docCopy, in, out, filename, false, subtitleFile);
+                        QString newPlaylistPath = playlistPath;
+                        newPlaylistPath = newPlaylistPath.replace(QStringLiteral(".mlt"), QString("-%1.mlt").arg(i));
+                        generateRenderFiles(newPlaylistPath, docCopy, in, out, filename, false, subtitleFile);
                         if (!subtitleFile.isEmpty() && i < markers.count() - 1) {
                             QTemporaryFile src(QDir::temp().absoluteFilePath(QString("XXXXXX.srt")));
                             if (!src.open()) {
