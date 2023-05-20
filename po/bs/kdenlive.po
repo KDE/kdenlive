@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-18 00:47+0000\n"
+"POT-Creation-Date: 2023-05-20 00:45+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -3608,17 +3608,17 @@ msgstr ""
 msgid "Abort processing"
 msgstr ""
 
-#: src/assets/view/widgets/colorwheel.cpp:461
+#: src/assets/view/widgets/colorwheel.cpp:477
 #, kde-format
 msgid "R: "
 msgstr ""
 
-#: src/assets/view/widgets/colorwheel.cpp:468
+#: src/assets/view/widgets/colorwheel.cpp:484
 #, kde-format
 msgid "G: "
 msgstr ""
 
-#: src/assets/view/widgets/colorwheel.cpp:474
+#: src/assets/view/widgets/colorwheel.cpp:490
 #, kde-format
 msgid "B: "
 msgstr ""
@@ -4064,7 +4064,7 @@ msgid ""
 "end."
 msgstr ""
 
-#: src/audiomixer/mixermanager.cpp:205 src/timeline2/view/qml/timeline.qml:986
+#: src/audiomixer/mixermanager.cpp:205 src/timeline2/view/qml/timeline.qml:987
 #, kde-format
 msgid "Master"
 msgstr ""
@@ -5942,7 +5942,7 @@ msgstr ""
 #: src/core.cpp:670 src/kdenliveui.rc:30 src/mainwindow.cpp:278
 #: src/project/dialogs/archivewidget.cpp:97
 #: src/project/dialogs/projectsettings.cpp:422
-#: src/timeline2/view/qml/timeline.qml:1078
+#: src/timeline2/view/qml/timeline.qml:1079
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Subtitles"
@@ -16363,14 +16363,14 @@ msgid "Change clip speed"
 msgstr "Izmjeni tip snimka"
 
 #: src/timeline2/model/timelinemodel.cpp:6227
-#: src/timeline2/view/qml/timeline.qml:1180
+#: src/timeline2/view/qml/timeline.qml:1181
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "Zaključaj traku"
 
 #: src/timeline2/model/timelinemodel.cpp:6232
-#: src/timeline2/view/qml/timeline.qml:1180
+#: src/timeline2/view/qml/timeline.qml:1181
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
@@ -16511,7 +16511,7 @@ msgid "Stop"
 msgstr "Zaustavi"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2070
+#: src/timeline2/view/qml/timeline.qml:2071
 #, fuzzy, kde-format
 #| msgid "Pause"
 msgid "Paused"
@@ -16654,32 +16654,32 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:974
+#: src/timeline2/view/qml/timeline.qml:975
 #, fuzzy, kde-format
 #| msgid "M"
 msgctxt "Initial for Master"
 msgid "M"
 msgstr "M"
 
-#: src/timeline2/view/qml/timeline.qml:983
+#: src/timeline2/view/qml/timeline.qml:984
 #, fuzzy, kde-format
 #| msgid "Show all profiles"
 msgid "Show master effects"
 msgstr "Prikaži sve profile"
 
-#: src/timeline2/view/qml/timeline.qml:1114
+#: src/timeline2/view/qml/timeline.qml:1115
 #, fuzzy, kde-format
 #| msgid "Copy file to project folder"
 msgid "Click to see details"
 msgstr "Kopiraj fajl u folder projekta"
 
-#: src/timeline2/view/qml/timeline.qml:1136
+#: src/timeline2/view/qml/timeline.qml:1137
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Speech recognition"
 msgstr "Odaberi prijelaz"
 
-#: src/timeline2/view/qml/timeline.qml:1156
+#: src/timeline2/view/qml/timeline.qml:1157
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, fuzzy, kde-format
 #| msgid "Show log"
@@ -16687,32 +16687,32 @@ msgid "Show"
 msgstr "Prikaži dnevnik"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1156
+#: src/timeline2/view/qml/timeline.qml:1157
 #: src/timeline2/view/qml/TrackHead.qml:471 src/ui/configcapture_ui.ui:397
 #, kde-format
 msgid "Hide"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:1747
+#: src/timeline2/view/qml/timeline.qml:1748
 #, fuzzy, kde-format
 #| msgid "Click to add a transition."
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Klikni za dodavanje prelaza."
 
-#: src/timeline2/view/qml/timeline.qml:1911
+#: src/timeline2/view/qml/timeline.qml:1912
 #, fuzzy, kde-format
 #| msgid "Position: %1"
 msgid "Offset: %1, Position: %2"
 msgstr "Pozicija %1"
 
-#: src/timeline2/view/qml/timeline.qml:2059
-#: src/timeline2/view/qml/timeline.qml:2068
+#: src/timeline2/view/qml/timeline.qml:2060
+#: src/timeline2/view/qml/timeline.qml:2069
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "Snimaj"
 
-#: src/timeline2/view/qml/timeline.qml:2157
+#: src/timeline2/view/qml/timeline.qml:2158
 #, kde-format
 msgid "Multicam In"
 msgstr ""

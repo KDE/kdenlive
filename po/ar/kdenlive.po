@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-18 00:47+0000\n"
+"POT-Creation-Date: 2023-05-20 00:45+0000\n"
 "PO-Revision-Date: 2023-05-17 19:57+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -3549,17 +3549,17 @@ msgstr "أدخِل اسم الملف المعد مسبقا هذا:"
 msgid "Abort processing"
 msgstr "أجهض المعالجة"
 
-#: src/assets/view/widgets/colorwheel.cpp:461
+#: src/assets/view/widgets/colorwheel.cpp:477
 #, kde-format
 msgid "R: "
 msgstr "ح: "
 
-#: src/assets/view/widgets/colorwheel.cpp:468
+#: src/assets/view/widgets/colorwheel.cpp:484
 #, kde-format
 msgid "G: "
 msgstr "خ: "
 
-#: src/assets/view/widgets/colorwheel.cpp:474
+#: src/assets/view/widgets/colorwheel.cpp:490
 #, kde-format
 msgid "B: "
 msgstr "ز: "
@@ -3976,7 +3976,7 @@ msgid ""
 msgstr ""
 "مراقبة الصوت. اضغط <b>مسافة</b> لتبدأ أو تلبث التسجيل، <b>هروب</b> للإنهاء."
 
-#: src/audiomixer/mixermanager.cpp:205 src/timeline2/view/qml/timeline.qml:986
+#: src/audiomixer/mixermanager.cpp:205 src/timeline2/view/qml/timeline.qml:987
 #, kde-format
 msgid "Master"
 msgstr "الرئيس"
@@ -5726,7 +5726,7 @@ msgstr "ملف تعريف مشروعك غير صالح، قد يفشل التص�
 #: src/core.cpp:670 src/kdenliveui.rc:30 src/mainwindow.cpp:278
 #: src/project/dialogs/archivewidget.cpp:97
 #: src/project/dialogs/projectsettings.cpp:422
-#: src/timeline2/view/qml/timeline.qml:1078
+#: src/timeline2/view/qml/timeline.qml:1079
 #, kde-format
 msgid "Subtitles"
 msgstr "الترجمة"
@@ -15624,14 +15624,14 @@ msgid "Change clip speed"
 msgstr "غيّر سرعة مقطع"
 
 #: src/timeline2/model/timelinemodel.cpp:6227
-#: src/timeline2/view/qml/timeline.qml:1180
+#: src/timeline2/view/qml/timeline.qml:1181
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "اقفل المسار"
 
 #: src/timeline2/model/timelinemodel.cpp:6232
-#: src/timeline2/view/qml/timeline.qml:1180
+#: src/timeline2/view/qml/timeline.qml:1181
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
@@ -15765,7 +15765,7 @@ msgid "Stop"
 msgstr "أوقف"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2070
+#: src/timeline2/view/qml/timeline.qml:2071
 #, kde-format
 msgid "Paused"
 msgstr "مُلبثة"
@@ -15903,57 +15903,57 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "انقر <b>نقرًا مزدوجًا</b> لتحرير النص"
 
-#: src/timeline2/view/qml/timeline.qml:974
+#: src/timeline2/view/qml/timeline.qml:975
 #, kde-format
 msgctxt "Initial for Master"
 msgid "M"
 msgstr "ر"
 
-#: src/timeline2/view/qml/timeline.qml:983
+#: src/timeline2/view/qml/timeline.qml:984
 #, kde-format
 msgid "Show master effects"
 msgstr "أظهر التّأثيرات الرئيسة"
 
-#: src/timeline2/view/qml/timeline.qml:1114
+#: src/timeline2/view/qml/timeline.qml:1115
 #, kde-format
 msgid "Click to see details"
 msgstr "انقر لرؤية التفاصيل"
 
-#: src/timeline2/view/qml/timeline.qml:1136
+#: src/timeline2/view/qml/timeline.qml:1137
 #, kde-format
 msgid "Speech recognition"
 msgstr "تعرف على الكلام"
 
-#: src/timeline2/view/qml/timeline.qml:1156
+#: src/timeline2/view/qml/timeline.qml:1157
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, kde-format
 msgid "Show"
 msgstr "أظهر"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1156
+#: src/timeline2/view/qml/timeline.qml:1157
 #: src/timeline2/view/qml/TrackHead.qml:471 src/ui/configcapture_ui.ui:397
 #, kde-format
 msgid "Hide"
 msgstr "أخفِ"
 
-#: src/timeline2/view/qml/timeline.qml:1747
+#: src/timeline2/view/qml/timeline.qml:1748
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>انقر مزدوجًا</b> لإضافة ترجمة"
 
-#: src/timeline2/view/qml/timeline.qml:1911
+#: src/timeline2/view/qml/timeline.qml:1912
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "الإزاحة: %1, الموضع: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2059
-#: src/timeline2/view/qml/timeline.qml:2068
+#: src/timeline2/view/qml/timeline.qml:2060
+#: src/timeline2/view/qml/timeline.qml:2069
 #, kde-format
 msgid "Recording"
 msgstr "يسجّل"
 
-#: src/timeline2/view/qml/timeline.qml:2157
+#: src/timeline2/view/qml/timeline.qml:2158
 #, kde-format
 msgid "Multicam In"
 msgstr "عدة كاميرات في"

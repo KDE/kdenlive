@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-18 00:47+0000\n"
+"POT-Creation-Date: 2023-05-20 00:45+0000\n"
 "PO-Revision-Date: 2020-01-11 11:21+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
@@ -3664,17 +3664,17 @@ msgstr "Escribir o nome desta predefinición"
 msgid "Abort processing"
 msgstr ""
 
-#: src/assets/view/widgets/colorwheel.cpp:461
+#: src/assets/view/widgets/colorwheel.cpp:477
 #, kde-format
 msgid "R: "
 msgstr ""
 
-#: src/assets/view/widgets/colorwheel.cpp:468
+#: src/assets/view/widgets/colorwheel.cpp:484
 #, kde-format
 msgid "G: "
 msgstr ""
 
-#: src/assets/view/widgets/colorwheel.cpp:474
+#: src/assets/view/widgets/colorwheel.cpp:490
 #, kde-format
 msgid "B: "
 msgstr ""
@@ -4120,7 +4120,7 @@ msgid ""
 "end."
 msgstr ""
 
-#: src/audiomixer/mixermanager.cpp:205 src/timeline2/view/qml/timeline.qml:986
+#: src/audiomixer/mixermanager.cpp:205 src/timeline2/view/qml/timeline.qml:987
 #, kde-format
 msgid "Master"
 msgstr "Mestre"
@@ -5974,7 +5974,7 @@ msgstr "O perfil de proxecto é incorrecto, a renderización podería fallar."
 #: src/core.cpp:670 src/kdenliveui.rc:30 src/mainwindow.cpp:278
 #: src/project/dialogs/archivewidget.cpp:97
 #: src/project/dialogs/projectsettings.cpp:422
-#: src/timeline2/view/qml/timeline.qml:1078
+#: src/timeline2/view/qml/timeline.qml:1079
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Subtitles"
@@ -16338,14 +16338,14 @@ msgid "Change clip speed"
 msgstr "Cambiar a velocidade do fragmento"
 
 #: src/timeline2/model/timelinemodel.cpp:6227
-#: src/timeline2/view/qml/timeline.qml:1180
+#: src/timeline2/view/qml/timeline.qml:1181
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "Bloquear pista"
 
 #: src/timeline2/model/timelinemodel.cpp:6232
-#: src/timeline2/view/qml/timeline.qml:1180
+#: src/timeline2/view/qml/timeline.qml:1181
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
@@ -16487,7 +16487,7 @@ msgid "Stop"
 msgstr "Parar"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2070
+#: src/timeline2/view/qml/timeline.qml:2071
 #, fuzzy, kde-format
 #| msgid "Pause"
 msgid "Paused"
@@ -16647,51 +16647,51 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:974
+#: src/timeline2/view/qml/timeline.qml:975
 #, fuzzy, kde-format
 #| msgid "M"
 msgctxt "Initial for Master"
 msgid "M"
 msgstr "M"
 
-#: src/timeline2/view/qml/timeline.qml:983
+#: src/timeline2/view/qml/timeline.qml:984
 #, fuzzy, kde-format
 #| msgid "Show all effects"
 msgid "Show master effects"
 msgstr "Mostrar todos os efectos"
 
-#: src/timeline2/view/qml/timeline.qml:1114
+#: src/timeline2/view/qml/timeline.qml:1115
 #, fuzzy, kde-format
 #| msgid "Click to open cache folder"
 msgid "Click to see details"
 msgstr "Prema para abrir o cartafol da caché"
 
-#: src/timeline2/view/qml/timeline.qml:1136
+#: src/timeline2/view/qml/timeline.qml:1137
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Speech recognition"
 msgstr "Seleccionar a transición"
 
-#: src/timeline2/view/qml/timeline.qml:1156
+#: src/timeline2/view/qml/timeline.qml:1157
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, kde-format
 msgid "Show"
 msgstr "Mostrar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1156
+#: src/timeline2/view/qml/timeline.qml:1157
 #: src/timeline2/view/qml/TrackHead.qml:471 src/ui/configcapture_ui.ui:397
 #, kde-format
 msgid "Hide"
 msgstr "Agochar"
 
-#: src/timeline2/view/qml/timeline.qml:1747
+#: src/timeline2/view/qml/timeline.qml:1748
 #, fuzzy, kde-format
 #| msgid "Click to add composition"
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Prema para engadir unha composición"
 
-#: src/timeline2/view/qml/timeline.qml:1911
+#: src/timeline2/view/qml/timeline.qml:1912
 #, fuzzy, kde-format
 #| msgid ""
 #| "In:%1\n"
@@ -16701,14 +16701,14 @@ msgstr ""
 "Entrada:%1\n"
 "Posición:%2"
 
-#: src/timeline2/view/qml/timeline.qml:2059
-#: src/timeline2/view/qml/timeline.qml:2068
+#: src/timeline2/view/qml/timeline.qml:2060
+#: src/timeline2/view/qml/timeline.qml:2069
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "Gravar"
 
-#: src/timeline2/view/qml/timeline.qml:2157
+#: src/timeline2/view/qml/timeline.qml:2158
 #, kde-format
 msgid "Multicam In"
 msgstr ""
