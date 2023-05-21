@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-20 00:45+0000\n"
+"POT-Creation-Date: 2023-05-21 00:45+0000\n"
 "PO-Revision-Date: 2023-04-29 08:33\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -5164,7 +5164,7 @@ msgstr "调整字幕大小"
 msgid "Move subtitle"
 msgstr "移动字幕"
 
-#: src/bin/model/subtitlemodel.cpp:1139 src/dialogs/renderwidget.cpp:829
+#: src/bin/model/subtitlemodel.cpp:1139 src/dialogs/renderwidget.cpp:828
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:515
 #: src/effects/effectstack/view/effectstackview.cpp:571
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:861
@@ -5966,10 +5966,10 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "导出辅助线数据…"
 
-#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:934
-#: src/dialogs/renderwidget.cpp:939 src/dialogs/renderwidget.cpp:992
-#: src/dialogs/renderwidget.cpp:997 src/dialogs/renderwidget.cpp:1945
-#: src/dialogs/renderwidget.cpp:1972 src/doc/kdenlivedoc.cpp:743
+#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:933
+#: src/dialogs/renderwidget.cpp:938 src/dialogs/renderwidget.cpp:991
+#: src/dialogs/renderwidget.cpp:996 src/dialogs/renderwidget.cpp:1944
+#: src/dialogs/renderwidget.cpp:1971 src/doc/kdenlivedoc.cpp:743
 #: src/doc/kdenlivedoc.cpp:751 src/doc/kdenlivedoc.cpp:1244
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
@@ -6470,7 +6470,7 @@ msgid ""
 msgstr ""
 "以下参数将不会生效，因为它们被对应的用户界面选项覆盖：<icode>%1</icode>"
 
-#: src/dialogs/renderwidget.cpp:110 src/dialogs/renderwidget.cpp:1775
+#: src/dialogs/renderwidget.cpp:110 src/dialogs/renderwidget.cpp:1774
 #, kde-format
 msgid "Waiting…"
 msgstr "正在等待…"
@@ -6583,7 +6583,7 @@ msgstr "请在进行渲染前添加一段剪辑到时间轴"
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr "无法找到导出所需的 melt 程序 (MLT 组件)"
 
-#: src/dialogs/renderwidget.cpp:628 src/dialogs/renderwidget.cpp:1749
+#: src/dialogs/renderwidget.cpp:628 src/dialogs/renderwidget.cpp:1748
 #: src/project/dialogs/archivewidget.cpp:889
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
@@ -6607,7 +6607,7 @@ msgstr ""
 "无法创建资产文件夹：\n"
 " %1"
 
-#: src/dialogs/renderwidget.cpp:695 src/dialogs/renderwidget.cpp:780
+#: src/dialogs/renderwidget.cpp:695 src/dialogs/renderwidget.cpp:779
 #, kde-format
 msgid "Could not create temporary subtitle file"
 msgstr "无法创建临时字幕文件"
@@ -6617,23 +6617,23 @@ msgstr "无法创建临时字幕文件"
 msgid "begin"
 msgstr "开始"
 
-#: src/dialogs/renderwidget.cpp:805
+#: src/dialogs/renderwidget.cpp:804
 #, kde-format
 msgid "export"
 msgstr "导出"
 
-#: src/dialogs/renderwidget.cpp:820
+#: src/dialogs/renderwidget.cpp:819
 #, kde-format
 msgctxt "@title:window"
 msgid "Delayed Rendering"
 msgstr "延迟导出"
 
-#: src/dialogs/renderwidget.cpp:820
+#: src/dialogs/renderwidget.cpp:819
 #, kde-format
 msgid "Select a name for this rendering."
 msgstr "选择此导出任务的名称。"
 
-#: src/dialogs/renderwidget.cpp:895
+#: src/dialogs/renderwidget.cpp:894
 #, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together.\n"
@@ -6642,7 +6642,7 @@ msgstr ""
 "无法同时使用脚本渲染和多轨音频导出。\n"
 "脚本将在没有多轨导出的情况下保存。"
 
-#: src/dialogs/renderwidget.cpp:1035 src/dialogs/renderwidget.cpp:1762
+#: src/dialogs/renderwidget.cpp:1034 src/dialogs/renderwidget.cpp:1761
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -6651,107 +6651,107 @@ msgstr ""
 "当前已经有一项任务正在写入文件：<br/><b>%1</b><br/>如果您想要覆盖它，请中止这"
 "项任务…"
 
-#: src/dialogs/renderwidget.cpp:1036 src/dialogs/renderwidget.cpp:1763
+#: src/dialogs/renderwidget.cpp:1035 src/dialogs/renderwidget.cpp:1762
 #, kde-format
 msgid "Already running"
 msgstr "已在执行"
 
-#: src/dialogs/renderwidget.cpp:1061
+#: src/dialogs/renderwidget.cpp:1060
 #, kde-format
 msgid "Video without audio track"
 msgstr "无音轨视频"
 
-#: src/dialogs/renderwidget.cpp:1063
+#: src/dialogs/renderwidget.cpp:1062
 #, kde-format
 msgid "Audio without video track"
 msgstr "无视频的音频轨道"
 
-#: src/dialogs/renderwidget.cpp:1127
+#: src/dialogs/renderwidget.cpp:1126
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "导出 %1 已开始"
 
-#: src/dialogs/renderwidget.cpp:1189 src/monitor/monitor.cpp:1151
+#: src/dialogs/renderwidget.cpp:1188 src/monitor/monitor.cpp:1151
 #, kde-format
 msgid "untitled"
 msgstr "未命名"
 
-#: src/dialogs/renderwidget.cpp:1227
+#: src/dialogs/renderwidget.cpp:1226
 #, kde-format
 msgid "No preset selected"
 msgstr "未选择预设"
 
-#: src/dialogs/renderwidget.cpp:1229
+#: src/dialogs/renderwidget.cpp:1228
 #, kde-format
 msgid "No matching preset"
 msgstr "无匹配预设"
 
-#: src/dialogs/renderwidget.cpp:1241
+#: src/dialogs/renderwidget.cpp:1240
 #, kde-format
 msgid "Invalid preset"
 msgstr "无效预设"
 
-#: src/dialogs/renderwidget.cpp:1355
+#: src/dialogs/renderwidget.cpp:1354
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
 msgstr "无法在没有音频和视频的情况下进行渲染。请启用至少一种轨道。"
 
-#: src/dialogs/renderwidget.cpp:1514
+#: src/dialogs/renderwidget.cpp:1513
 #, kde-format
 msgid "Remaining time "
 msgstr "剩余时间 "
 
-#: src/dialogs/renderwidget.cpp:1516 src/dialogs/renderwidget.cpp:1560
+#: src/dialogs/renderwidget.cpp:1515 src/dialogs/renderwidget.cpp:1559
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
 msgstr[0] "%1 天"
 
-#: src/dialogs/renderwidget.cpp:1520
+#: src/dialogs/renderwidget.cpp:1519
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (帧 %1 @ %2 fps)"
 
-#: src/dialogs/renderwidget.cpp:1532
+#: src/dialogs/renderwidget.cpp:1531
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr "剩余的可用内存小于 %1MB。"
 
-#: src/dialogs/renderwidget.cpp:1562
+#: src/dialogs/renderwidget.cpp:1561
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "导出已完成，耗时：%1"
 
-#: src/dialogs/renderwidget.cpp:1571
+#: src/dialogs/renderwidget.cpp:1570
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "导出 %1 已完成，耗时 %2"
 
-#: src/dialogs/renderwidget.cpp:1595
+#: src/dialogs/renderwidget.cpp:1594
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>导出 %1 已崩溃</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1638 src/ui/renderwidget_ui.ui:865
+#: src/dialogs/renderwidget.cpp:1637 src/ui/renderwidget_ui.ui:865
 #, kde-format
 msgid "Abort Job"
 msgstr "中止任务"
 
-#: src/dialogs/renderwidget.cpp:1641
+#: src/dialogs/renderwidget.cpp:1640
 #, kde-format
 msgid "Remove Job"
 msgstr "移除任务"
 
-#: src/dialogs/renderwidget.cpp:2027 src/dialogs/renderwidget.cpp:2037
-#: src/dialogs/renderwidget.cpp:2059
+#: src/dialogs/renderwidget.cpp:2026 src/dialogs/renderwidget.cpp:2036
+#: src/dialogs/renderwidget.cpp:2058
 #, kde-format
 msgid "Render Duration: %1"
 msgstr "导出持续时间：%1"
 
-#: src/dialogs/renderwidget.cpp:2117
+#: src/dialogs/renderwidget.cpp:2116
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -6760,7 +6760,7 @@ msgstr ""
 "编解码器速度参数：\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2137
+#: src/dialogs/renderwidget.cpp:2136
 #, kde-format
 msgid "Add to current project"
 msgstr "添加到当前项目"
