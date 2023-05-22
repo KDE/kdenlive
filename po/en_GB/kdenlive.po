@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-21 02:34+0000\n"
-"PO-Revision-Date: 2023-05-06 15:48+0100\n"
+"PO-Revision-Date: 2023-05-21 15:21+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
 "Language: en_GB\n"
@@ -7515,10 +7515,9 @@ msgid "Fixed Sequence Clips"
 msgstr "Fixed Sequence Clips"
 
 #: src/doc/documentchecker.cpp:478
-#, fuzzy, kde-format
-#| msgid "Clip %1 will be reloaded"
+#, kde-format
 msgid "Clip %1 will be fixed"
-msgstr "Clip %1 will be reloaded"
+msgstr "Clip %1 will be fixed"
 
 #: src/doc/documentchecker.cpp:485
 #, kde-format
@@ -9110,10 +9109,9 @@ msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
 #: src/main.cpp:128
-#, fuzzy, kde-format
-#| msgid "Code re-architecture & timeline rewrite"
+#, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
-msgstr "Code re-architecture & timeline rewrite"
+msgstr "Code re-architecture & timeline rewrite (2019)"
 
 #: src/main.cpp:129
 #, kde-format
@@ -9123,7 +9121,7 @@ msgstr "Julius Künzel"
 #: src/main.cpp:129
 #, kde-format
 msgid "Feature developement, packaging, bug fixing"
-msgstr ""
+msgstr "Feature development, packaging, bug fixing"
 
 #: src/main.cpp:130
 #, kde-format
@@ -9141,10 +9139,9 @@ msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
 #: src/main.cpp:132
-#, fuzzy, kde-format
-#| msgid "MLT, Bug fixing, etc."
+#, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
-msgstr "MLT, Bug fixing, etc."
+msgstr "MLT maintainer, Bug fixing, etc."
 
 #: src/main.cpp:133
 #, kde-format
@@ -9159,12 +9156,12 @@ msgstr "Colour scopes, bug fixing, etc."
 #: src/main.cpp:134
 #, kde-format
 msgid "Eric Jiang"
-msgstr ""
+msgstr "Eric Jiang"
 
 #: src/main.cpp:134
 #, kde-format
 msgid "Bug fixing and test improvements"
-msgstr ""
+msgstr "Bug fixing and test improvements"
 
 #: src/main.cpp:136
 #, kde-format
@@ -9194,7 +9191,7 @@ msgstr "Eugen Mohr"
 #: src/main.cpp:139
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
-msgstr ""
+msgstr "Bug triage, testing, documentation maintainer"
 
 #: src/main.cpp:140
 #, kde-format
@@ -12570,7 +12567,7 @@ msgstr "There was an error processing project file"
 #: src/project/dialogs/archivewidget.cpp:247
 #, kde-format
 msgid "Please save your project before archiving"
-msgstr ""
+msgstr "Please save your project before archiving"
 
 #: src/project/dialogs/archivewidget.cpp:283
 #, kde-format
@@ -16316,7 +16313,7 @@ msgstr ""
 #: src/timeline2/view/timelinetabs.cpp:172
 #, kde-format
 msgid "Closing a sequence will clear the undo history"
-msgstr ""
+msgstr "Closing a sequence will clear the undo history"
 
 #: src/timeline2/view/timelinewidget.cpp:71
 #, kde-format
