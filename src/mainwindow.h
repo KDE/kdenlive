@@ -385,6 +385,8 @@ public Q_SLOTS:
     void slotUpdateDocumentState(bool modified);
     /** @brief Open the clip job management dialog */
     void manageClipJobs(AbstractTask::JOBTYPE type = AbstractTask::NOJOBTYPE, QWidget *parentWidget = nullptr);
+    /** @brief Deletes item in timeline, project tree or effect stack depending on focus. */
+    void slotDeleteItem();
 
 private Q_SLOTS:
     /** @brief Shows the shortcut dialog. */
@@ -413,8 +415,6 @@ private Q_SLOTS:
      *
      * Adopted from Dolphin (src/statusbar/dolphinstatusbar.cpp) */
     void slotShowZoomSliderToolTip(int zoomlevel = -1);
-    /** @brief Deletes item in timeline, project tree or effect stack depending on focus. */
-    void slotDeleteItem();
     void slotAddClipMarker();
     void slotDeleteClipMarker(bool allowGuideDeletion = false);
     void slotDeleteAllClipMarkers();

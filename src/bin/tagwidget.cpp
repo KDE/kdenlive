@@ -258,6 +258,7 @@ void TagWidget::showTagsConfig()
     };
     // set the editable triggers for the list widget
     QAction *a = KStandardAction::renameFile(this, editItem, &d);
+    a->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     list.addAction(a);
     d.connect(&list, &QListWidget::itemDoubleClicked, &d, [=]() { editItem(); });
     QToolButton *tb = new QToolButton(&d);

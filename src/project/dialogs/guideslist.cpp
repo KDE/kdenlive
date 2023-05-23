@@ -78,6 +78,7 @@ GuidesList::GuidesList(QWidget *parent)
     connect(pCore.get(), &Core::updateDefaultMarkerCategory, this, &GuidesList::refreshDefaultCategory);
     QAction *a = KStandardAction::renameFile(this, &GuidesList::editGuides, this);
     guides_list->addAction(a);
+    a->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
     //  Settings menu
     QMenu *settingsMenu = new QMenu(this);

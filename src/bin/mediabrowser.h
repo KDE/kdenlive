@@ -27,6 +27,8 @@ public:
     ~MediaBrowser() override;
     const QUrl url() const;
     void setUrl(const QUrl url);
+    void back();
+    void forward();
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;

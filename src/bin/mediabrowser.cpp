@@ -35,6 +35,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QProcessEnvironment>
 #include <QToolBar>
 #include <QVBoxLayout>
+#include <kio_version.h>
 
 MediaBrowser::MediaBrowser(QWidget *parent)
     : QWidget(parent)
@@ -70,23 +71,48 @@ MediaBrowser::MediaBrowser(QWidget *parent)
 
     // Create View
     m_op = new KDirOperator(QUrl(), parent);
+    // Ensure shortcuts are only active on this widget to avoid conflicts with app shortcuts
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
+    QList<QAction *> actions = m_op->allActions();
+    QAction *trash = m_op->action(KDirOperator::Trash) QAction *up = m_op->action(KDirOperator::Up) QAction *back =
+        m_op->action(KDirOperator::Back) QAction *forward = m_op->action(KDirOperator::Forward) QAction *preview =
+            m_op->action(KDirOperator::ShowPreviewPanel) QAction *viewMenu = m_op->action(KDirOperator::ViewModeMenu)
+#else
+    QList<QAction *> actions = m_op->actionCollection()->actions();
+    QAction *trash = m_op->actionCollection()->action("trash");
+    QAction *up = m_op->actionCollection()->action("up");
+    QAction *back = m_op->actionCollection()->action("back");
+    QAction *forward = m_op->actionCollection()->action("forward");
+    QAction *preview = m_op->actionCollection()->action("preview");
+    QAction *viewMenu = m_op->actionCollection()->action("view menu");
+#endif
+                                                                                 for (auto &a : actions)
+    {
+        a->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    }
+    // Disable "Del" shortcut to move item to trash - too dangerous
+    trash->setShortcut({});
+    // Disable back/forwards shortcuts to avoid conflicts with monitor shortcut. Let MainWindow handle the shortcuts
+    back->setShortcut({});
+    forward->setShortcut({});
     // Plug actions
-    tb->addAction(m_op->actionCollection()->action("up"));
-    tb->addAction(m_op->actionCollection()->action("back"));
-    tb->addAction(m_op->actionCollection()->action("forward"));
+    tb->addAction(up);
+    tb->addAction(back);
+    tb->addAction(forward);
+
     tb->addAction(zoomOut);
     tb->addAction(zoomIn);
     tb->addAction(showPreview);
     tb->addSeparator();
     tb->addAction(importAction);
-    m_op->actionCollection()->action("preview")->setIcon(QIcon::fromTheme(QStringLiteral("fileview-preview")));
+    preview->setIcon(QIcon::fromTheme(QStringLiteral("fileview-preview")));
 
     // Menu button with extra actions
     QToolButton *but = new QToolButton(this);
     QMenu *configMenu = new QMenu(this);
     configMenu->addAction(importOnDoubleClick);
-    configMenu->addAction(m_op->actionCollection()->action("preview"));
-    configMenu->addAction(m_op->actionCollection()->action("view menu"));
+    configMenu->addAction(preview);
+    configMenu->addAction(viewMenu);
     but->setIcon(QIcon::fromTheme(QStringLiteral("application-menu")));
     but->setMenu(configMenu);
     but->setPopupMode(QToolButton::InstantPopup);
@@ -99,7 +125,8 @@ MediaBrowser::MediaBrowser(QWidget *parent)
 
     connect(zoomIn, &QAction::triggered, this, [this]() {
         int iconZoom = m_op->iconSize();
-        m_op->setIconSize(qMin(512, iconZoom * 2));
+        int newZoom = iconZoom * 1.5;
+        m_op->setIconSize(qMin(512, newZoom));
         if (iconZoom == int(KIconLoader::SizeSmall) && KdenliveSettings::mediaInlinePreview()) {
             m_op->setInlinePreviewShown(true);
             m_op->updateDir();
@@ -107,7 +134,8 @@ MediaBrowser::MediaBrowser(QWidget *parent)
         KdenliveSettings::setMediaIconSize(m_op->iconSize());
     });
     connect(zoomOut, &QAction::triggered, this, [this]() {
-        int iconZoom = qMax(int(KIconLoader::SizeSmall), m_op->iconSize() / 2);
+        int iconZoom = m_op->iconSize() / 1.5;
+        iconZoom = qMax(int(KIconLoader::SizeSmall), iconZoom);
         m_op->setIconSize(iconZoom);
         if (iconZoom == int(KIconLoader::SizeSmall) && KdenliveSettings::mediaInlinePreview()) {
             m_op->setInlinePreviewShown(false);
@@ -409,4 +437,14 @@ void MediaBrowser::openExternalFile(const QUrl &url)
     } else {
         QDesktopServices::openUrl(url);
     }
+}
+
+void MediaBrowser::back()
+{
+    m_op->back();
+}
+
+void MediaBrowser::forward()
+{
+    m_op->forward();
 }

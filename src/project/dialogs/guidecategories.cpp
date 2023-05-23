@@ -123,6 +123,8 @@ GuideCategories::GuideCategories(KdenliveDoc *doc, QWidget *parent)
     std::sort(existingCategories.begin(), existingCategories.end());
     m_categoryIndex = existingCategories.last() + 1;
     QAction *a = KStandardAction::renameFile(this, editItem, this);
+    a->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    ;
     guides_list->addAction(a);
     connect(guides_list, &QListWidget::itemDoubleClicked, this, [=]() { editItem(); });
     connect(guide_edit, &QPushButton::clicked, this, [=]() { editItem(); });

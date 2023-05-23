@@ -1592,10 +1592,13 @@ void MainWindow::setupActions()
     QAction *insertBinZone = addAction(QStringLiteral("insert_project_tree"), i18n("Insert Zone in Project Bin"), this, SLOT(slotInsertZoneToTree()),
                                        QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")), Qt::CTRL | Qt::Key_I);
     insertBinZone->setWhatsThis(xi18nc("@info:whatsthis", "Creates a new clip in the project bin from the defined zone."));
+
+    // TODO: Make these 2 shortcuts context aware to avoid conflict with media browser
     addAction(QStringLiteral("monitor_seek_snap_backward"), i18n("Go to Previous Snap Point"), this, SLOT(slotSnapRewind()),
               QIcon::fromTheme(QStringLiteral("media-seek-backward")), Qt::ALT | Qt::Key_Left, QStringLiteral("navandplayback"));
     addAction(QStringLiteral("monitor_seek_snap_forward"), i18n("Go to Next Snap Point"), this, SLOT(slotSnapForward()),
               QIcon::fromTheme(QStringLiteral("media-seek-forward")), Qt::ALT | Qt::Key_Right, QStringLiteral("navandplayback"));
+
     addAction(QStringLiteral("seek_clip_start"), i18n("Go to Clip Start"), this, SLOT(slotClipStart()), QIcon::fromTheme(QStringLiteral("media-seek-backward")),
               Qt::Key_Home, QStringLiteral("navandplayback"));
     addAction(QStringLiteral("seek_clip_end"), i18n("Go to Clip End"), this, SLOT(slotClipEnd()), QIcon::fromTheme(QStringLiteral("media-seek-forward")),
@@ -3214,6 +3217,14 @@ void MainWindow::customEvent(QEvent *e)
 
 void MainWindow::slotSnapRewind()
 {
+    QWidget *widget = QApplication::focusWidget();
+    while ((widget != nullptr) && widget != this) {
+        if (widget == pCore->mediaBrowser()) {
+            pCore->mediaBrowser()->back();
+            return;
+        }
+        widget = widget->parentWidget();
+    }
     if (m_projectMonitor->isActive()) {
         getCurrentTimeline()->controller()->gotoPreviousSnap();
     } else {
@@ -3223,6 +3234,14 @@ void MainWindow::slotSnapRewind()
 
 void MainWindow::slotSnapForward()
 {
+    QWidget *widget = QApplication::focusWidget();
+    while ((widget != nullptr) && widget != this) {
+        if (widget == pCore->mediaBrowser()) {
+            pCore->mediaBrowser()->forward();
+            return;
+        }
+        widget = widget->parentWidget();
+    }
     if (m_projectMonitor->isActive()) {
         getCurrentTimeline()->controller()->gotoNextSnap();
     } else {

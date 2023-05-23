@@ -2738,6 +2738,8 @@ void Bin::slotInitView(QAction *action)
     QPixmap pix(m_iconSize);
     pix.fill(Qt::lightGray);
     m_blankThumb.addPixmap(pix);
+    m_itemView->addAction(m_renameAction);
+    m_renameAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     m_proxyModel = std::make_unique<ProjectSortProxyModel>(this);
     // Connect models
     m_proxyModel->setSourceModel(m_itemModel.get());
@@ -3476,8 +3478,12 @@ void Bin::setupMenu()
     m_openAction->setEnabled(false);
     connect(m_openAction, &QAction::triggered, this, &Bin::slotOpenClipExtern);
 
-    m_renameAction = KStandardAction::renameFile(this, SLOT(slotRenameItem()), pCore->window()->actionCollection());
+    m_renameAction = KStandardAction::renameFile(this, SLOT(slotRenameItem()), this);
     m_renameAction->setEnabled(false);
+    if (m_itemView) {
+        m_itemView->addAction(m_renameAction);
+        m_renameAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    }
 
     m_deleteAction = addAction(QStringLiteral("delete_clip"), i18n("Delete Clip"), QIcon::fromTheme(QStringLiteral("edit-delete")));
     m_deleteAction->setData("delete_clip");
