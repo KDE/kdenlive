@@ -74,9 +74,12 @@ MediaBrowser::MediaBrowser(QWidget *parent)
     // Ensure shortcuts are only active on this widget to avoid conflicts with app shortcuts
 #if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
     QList<QAction *> actions = m_op->allActions();
-    QAction *trash = m_op->action(KDirOperator::Trash) QAction *up = m_op->action(KDirOperator::Up) QAction *back =
-        m_op->action(KDirOperator::Back) QAction *forward = m_op->action(KDirOperator::Forward) QAction *preview =
-            m_op->action(KDirOperator::ShowPreviewPanel) QAction *viewMenu = m_op->action(KDirOperator::ViewModeMenu)
+    QAction *trash = m_op->action(KDirOperator::Trash);
+    QAction *up = m_op->action(KDirOperator::Up);
+    QAction *back = m_op->action(KDirOperator::Back);
+    QAction *forward = m_op->action(KDirOperator::Forward);
+    QAction *preview = m_op->action(KDirOperator::ShowPreviewPanel);
+    QAction *viewMenu = m_op->action(KDirOperator::ViewModeMenu);
 #else
     QList<QAction *> actions = m_op->actionCollection()->actions();
     QAction *trash = m_op->actionCollection()->action("trash");
@@ -86,8 +89,8 @@ MediaBrowser::MediaBrowser(QWidget *parent)
     QAction *preview = m_op->actionCollection()->action("preview");
     QAction *viewMenu = m_op->actionCollection()->action("view menu");
 #endif
-                                                                                 for (auto &a : actions)
-    {
+    // Make all actions shortcuts local only
+    for (auto &a : actions) {
         a->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     }
     // Disable "Del" shortcut to move item to trash - too dangerous
@@ -146,7 +149,11 @@ MediaBrowser::MediaBrowser(QWidget *parent)
     KConfigGroup grp(KSharedConfig::openConfig(), "Media Browser");
     m_op->readConfig(grp);
     m_op->setInlinePreviewShown(KdenliveSettings::mediaInlinePreview() && KdenliveSettings::mediaIconSize() > int(KIconLoader::SizeSmall));
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
+    m_op->setViewMode(KFile::Default);
+#else
     m_op->setView(KFile::Default);
+#endif
     m_op->setMode(KFile::ExistingOnly | KFile::Files | KFile::Directory);
     m_filterCombo = new KFileFilterCombo(this);
     m_filenameEdit = new KUrlComboBox(KUrlComboBox::Files, true, this);
@@ -430,7 +437,6 @@ void MediaBrowser::openExternalFile(const QUrl &url)
         env.remove(QStringLiteral("QT_QPA_PLATFORM"));
         process.setProcessEnvironment(env);
         QString openPath = QStandardPaths::findExecutable(QStringLiteral("xdg-open"));
-        qDebug() << "------------\nFOUND OPEN PATH: " << openPath;
         process.setProgram(openPath.isEmpty() ? QStringLiteral("xdg-open") : openPath);
         process.setArguments({url.toLocalFile()});
         process.startDetached();
