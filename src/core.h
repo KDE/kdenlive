@@ -32,6 +32,7 @@ class KdenliveDoc;
 class LibraryWidget;
 class MainWindow;
 class MediaCapture;
+class MediaBrowser;
 class MixerManager;
 class Monitor;
 class MonitorManager;
@@ -112,6 +113,8 @@ public:
     Timecode timecode() const;
     /** @brief Returns a pointer to the monitor manager. */
     MonitorManager *monitorManager();
+    /** @brief Returns a pointer to the media browser widget. */
+    MediaBrowser *mediaBrowser();
     /** @brief Returns a pointer to the view of the project bin. */
     Bin *bin();
     /** @brief Returns a pointer to the view of the active bin (or main bin on no focus). */
@@ -327,6 +330,7 @@ private:
     GuidesList *m_guidesList{nullptr};
     TimeRemap *m_timeRemapWidget{nullptr};
     MixerManager *m_mixerWidget{nullptr};
+    MediaBrowser *m_mediaBrowser{nullptr};
 
     /** @brief Current project's profile path */
     QString m_currentProfile;

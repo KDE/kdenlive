@@ -30,6 +30,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 #include "macros.hpp"
 #include "mainwindow.h"
+#include "mediabrowser.h"
 #include "mlt++/Mlt.h"
 #include "mltcontroller/clipcontroller.h"
 #include "mltcontroller/clippropertiescontroller.h"
@@ -1145,7 +1146,6 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     , m_propertiesPanel(nullptr)
     , m_monitor(nullptr)
     , m_blankThumb()
-    , m_browserWidget(nullptr)
     , m_filterTagGroup(this)
     , m_filterRateGroup(this)
     , m_filterUsageGroup(this)
@@ -2114,14 +2114,6 @@ void Bin::setMonitor(Monitor *monitor)
     });
 }
 
-const QString Bin::lastBrowserUrl() const
-{
-    if (m_browserWidget == nullptr) {
-        return {};
-    }
-    return m_browserWidget->baseUrl().toLocalFile();
-}
-
 void Bin::cleanDocument()
 {
     blockSignals(true);
@@ -2172,14 +2164,13 @@ const QString Bin::setDocument(KdenliveDoc *project, const QString &id)
     // connect(m_itemModel, SIGNAL(updateCurrentItem()), this, SLOT(autoSelect()));
     slotInitView(nullptr);
     bool binEffectsDisabled = getDocumentProperty(QStringLiteral("disablebineffects")).toInt() == 1;
-    if (m_browserWidget) {
-        QString url = getDocumentProperty(QStringLiteral("browserurl"));
-        if (!url.isEmpty()) {
-            if (QFileInfo(url).isRelative()) {
-                url.prepend(m_doc->documentRoot());
-            }
-            m_browserWidget->setUrl(QUrl::fromLocalFile(url));
+    // Set media browser url
+    QString url = getDocumentProperty(QStringLiteral("browserurl"));
+    if (!url.isEmpty()) {
+        if (QFileInfo(url).isRelative()) {
+            url.prepend(m_doc->documentRoot());
         }
+        pCore->mediaBrowser()->setUrl(QUrl::fromLocalFile(url));
     }
     QAction *disableEffects = pCore->window()->actionCollection()->action(QStringLiteral("disable_bin_effects"));
     if (disableEffects) {
@@ -5305,14 +5296,6 @@ QList<int> Bin::getUsedClipIds()
         }
     }
     return timelineClipIds;
-}
-
-KFileWidget *Bin::initBrowserWidget()
-{
-    if (!m_browserWidget) {
-        m_browserWidget = ClipCreationDialog::browserWidget(pCore->window());
-    }
-    return m_browserWidget;
 }
 
 void Bin::savePlaylist(const QString &binId, const QString &savePath, const QVector<QPoint> &zones, const QMap<QString, QString> &properties, bool createNew)

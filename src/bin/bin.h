@@ -26,8 +26,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QWidget>
 #include <QActionGroup>
 
-#include "KFileWidget"
-#include "KRecentDirs"
+#include <KRecentDirs>
 
 class AbstractProjectItem;
 class BinItemDelegate;
@@ -52,6 +51,7 @@ class QToolButton;
 class QUndoCommand;
 class QVBoxLayout;
 class SmallJobLabel;
+class MediaBrowser;
 
 namespace Mlt {
 class Producer;
@@ -322,7 +322,6 @@ public:
     void loadBinProperties(const QStringList &foldersToExpand, int zoomLevel = -1);
     /** @brief gets a QList of all clips used in timeline */
     QList<int> getUsedClipIds();
-    KFileWidget *initBrowserWidget();
     /** @brief Register a new timeline clip
      * @param uuid the uuid of the new playlist (equals the uuid of the timelinemodel)
      * @param id the bin id of the clip
@@ -373,7 +372,6 @@ public:
      * @param vTracks the video tracks count, use default if -1 */
     void buildSequenceClip(int aTracks = -1, int vTracks = -1);
     const QString buildSequenceClipWithUndo(Fun &undo, Fun &redo, int aTracks = -1, int vTracks = -1);
-    const QString lastBrowserUrl() const;
 
 private Q_SLOTS:
     void slotAddClip();
@@ -570,7 +568,6 @@ private:
     QActionGroup *m_sortGroup;
     SmallJobLabel *m_infoLabel;
     TagWidget *m_tagsWidget;
-    KFileWidget *m_browserWidget;
     QMenu *m_filterMenu;
     QActionGroup m_filterTagGroup;
     QActionGroup m_filterRateGroup;

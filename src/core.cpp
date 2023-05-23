@@ -6,6 +6,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "core.h"
 #include "audiomixer/mixermanager.hpp"
 #include "bin/bin.h"
+#include "bin/mediabrowser.h"
 #include "bin/projectitemmodel.h"
 #include "capture/mediacapture.h"
 #include "dialogs/proxytest.h"
@@ -251,6 +252,9 @@ void Core::buildDocks()
     connect(m_monitorManager, &MonitorManager::cleanMixer, m_mixerWidget, &MixerManager::clearMixers);
     m_mixerWidget->checkAudioLevelVersion();
 
+    // Media Browser
+    m_mediaBrowser = new MediaBrowser(m_mainWindow);
+
     // Library
     m_library = new LibraryWidget(m_projectManager, m_mainWindow);
     connect(m_library, SIGNAL(addProjectClips(QList<QUrl>)), m_mainWindow->getBin(), SLOT(droppedUrls(QList<QUrl>)));
@@ -438,6 +442,14 @@ void Core::seekMonitor(int id, int position)
     } else {
         m_monitorManager->clipMonitor()->requestSeek(position);
     }
+}
+
+MediaBrowser *Core::mediaBrowser()
+{
+    if (!m_mainWindow) {
+        return nullptr;
+    }
+    return m_mediaBrowser;
 }
 
 Bin *Core::bin()

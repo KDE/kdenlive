@@ -9,6 +9,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bin/bincommands.h"
 #include "bin/binplaylist.hpp"
 #include "bin/clipcreator.hpp"
+#include "bin/mediabrowser.h"
 #include "bin/model/markerlistmodel.hpp"
 #include "bin/model/markersortmodel.h"
 #include "bin/model/subtitlemodel.hpp"
@@ -1604,8 +1605,8 @@ QMap<QString, QString> KdenliveDoc::documentProperties()
         // "kdenlive:docproperties.decimalPoint" was removed in document version 100
         m_documentProperties.remove(QStringLiteral("decimalPoint"));
     }
-    if (pCore->bin()) {
-        m_documentProperties.insert(QStringLiteral("browserurl"), pCore->bin()->lastBrowserUrl());
+    if (pCore->mediaBrowser()) {
+        m_documentProperties.insert(QStringLiteral("browserurl"), pCore->mediaBrowser()->url().toLocalFile());
     }
     QMapIterator<QUuid, std::shared_ptr<TimelineItemModel>> j(m_timelines);
     while (j.hasNext()) {
