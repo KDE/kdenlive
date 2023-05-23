@@ -41,10 +41,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 ProjectItemModel::ProjectItemModel(QObject *parent)
     : AbstractTreeModel(parent)
+    , closing(false)
     , m_lock(QReadWriteLock::Recursive)
     , m_binPlaylist(nullptr)
     , m_fileWatcher(new FileWatcher())
-    , closing(false)
     , m_nextId(1)
     , m_blankThumb()
     , m_dragType(PlaylistState::Disabled)
