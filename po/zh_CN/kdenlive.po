@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-21 00:45+0000\n"
-"PO-Revision-Date: 2023-04-29 08:33\n"
+"PO-Revision-Date: 2023-05-22 14:00\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -1225,10 +1225,9 @@ msgid "Correct audio loudness as recommended by EBU R128"
 msgstr "按照 EBU R128 规范的建议值校正音频响度"
 
 #: data/effects/loudness.xml:13 data/effects/tracker.xml:42
-#, fuzzy, kde-format
-#| msgid "Enable Effect"
+#, kde-format
 msgid "Analyse to Apply Effect"
-msgstr "启用效果"
+msgstr "分析以应用效果"
 
 #: data/effects/lumaliftgaingamma.xml:4
 #, kde-format
@@ -2231,10 +2230,9 @@ msgid "Select a zone to follow its movements"
 msgstr "选择要跟随移动的区段"
 
 #: data/effects/tracker.xml:11
-#, fuzzy, kde-format
-#| msgid "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM"
+#, kde-format
 msgid "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM,Nano"
-msgstr "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM"
+msgstr "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM,Nano"
 
 #: data/effects/tracker.xml:12
 #, kde-format
@@ -3385,10 +3383,9 @@ msgstr "删除关键帧"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:445
 #: src/assets/model/assetparametermodel.cpp:1386
-#, fuzzy, kde-format
-#| msgid "Paste effect"
+#, kde-format
 msgid "Update effect"
-msgstr "粘贴效果"
+msgstr "更新效果"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:659
 #, kde-format
@@ -4349,10 +4346,9 @@ msgid "Clear Filters"
 msgstr "清除筛选条件"
 
 #: src/bin/bin.cpp:2220
-#, fuzzy, kde-format
-#| msgid "Bin Tags"
+#, kde-format
 msgid "No Tags"
-msgstr "素材箱标签"
+msgstr "无标签"
 
 #: src/bin/bin.cpp:2239
 #, kde-format
@@ -4361,16 +4357,14 @@ msgid_plural "%1 Stars"
 msgstr[0] "%1 星"
 
 #: src/bin/bin.cpp:2246
-#, fuzzy, kde-format
-#| msgid "Filter by Type"
+#, kde-format
 msgid "Filter by Usage"
-msgstr "按类型筛选"
+msgstr "按使用情况筛选"
 
 #: src/bin/bin.cpp:2249
-#, fuzzy, kde-format
-#| msgid "Cut All Clips"
+#, kde-format
 msgid "All Clips"
-msgstr "剪切所有剪辑"
+msgstr "所有剪辑"
 
 #: src/bin/bin.cpp:2254
 #, kde-format
@@ -4378,10 +4372,9 @@ msgid "Unused Clips"
 msgstr "未使用剪辑"
 
 #: src/bin/bin.cpp:2258
-#, fuzzy, kde-format
-#| msgid "Unused Clips"
+#, kde-format
 msgid "Used Clips"
-msgstr "未使用剪辑"
+msgstr "已使用剪辑"
 
 #: src/bin/bin.cpp:2265
 #, kde-format
@@ -6983,10 +6976,9 @@ msgstr "无语音"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
 #: src/dialogs/textbasededit.cpp:574 src/ui/speechdialog_ui.ui:144
-#, fuzzy, kde-format
-#| msgid "Translate to english"
+#, kde-format
 msgid "Translate to English"
-msgstr "翻译成英语"
+msgstr "翻译为英语"
 
 #: src/dialogs/textbasededit.cpp:577
 #, kde-format
@@ -7421,16 +7413,14 @@ msgid "Clip %1 will be reloaded"
 msgstr "剪辑 %1 将被重新加载"
 
 #: src/doc/documentchecker.cpp:474
-#, fuzzy, kde-format
-#| msgid "Create Sequence Clip"
+#, kde-format
 msgid "Fixed Sequence Clips"
-msgstr "创建序列剪辑"
+msgstr "已修复的序列剪辑"
 
 #: src/doc/documentchecker.cpp:478
-#, fuzzy, kde-format
-#| msgid "Clip %1 will be reloaded"
+#, kde-format
 msgid "Clip %1 will be fixed"
-msgstr "剪辑 %1 将被重新加载"
+msgstr "剪辑 %1 将被修复"
 
 #: src/doc/documentchecker.cpp:485
 #, kde-format
@@ -9009,10 +8999,9 @@ msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
 #: src/main.cpp:128
-#, fuzzy, kde-format
-#| msgid "Code re-architecture & timeline rewrite"
+#, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
-msgstr "代码重构和时间轴重写"
+msgstr "代码重构和时间轴重写 (2019)"
 
 #: src/main.cpp:129
 #, kde-format
@@ -9022,7 +9011,7 @@ msgstr "Julius Künzel"
 #: src/main.cpp:129
 #, kde-format
 msgid "Feature development, packaging, bug fixing"
-msgstr ""
+msgstr "功能开发、打包、程序缺陷修复"
 
 #: src/main.cpp:130
 #, kde-format
@@ -9040,10 +9029,9 @@ msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
 #: src/main.cpp:132
-#, fuzzy, kde-format
-#| msgid "MLT, Bug fixing, etc."
+#, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
-msgstr "MLT、程序缺陷修复等。"
+msgstr "MLT 维护者、程序缺陷修复等"
 
 #: src/main.cpp:133
 #, kde-format
@@ -9058,12 +9046,12 @@ msgstr "颜色示波器、程序缺陷修复等。"
 #: src/main.cpp:134
 #, kde-format
 msgid "Eric Jiang"
-msgstr ""
+msgstr "Eric Jiang"
 
 #: src/main.cpp:134
 #, kde-format
 msgid "Bug fixing and test improvements"
-msgstr ""
+msgstr "程序缺陷修复和测试改进"
 
 #: src/main.cpp:136
 #, kde-format
@@ -9093,7 +9081,7 @@ msgstr "Eugen Mohr"
 #: src/main.cpp:139
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
-msgstr ""
+msgstr "程序缺陷分拣、测试、文档维护者"
 
 #: src/main.cpp:140
 #, kde-format
@@ -10252,10 +10240,9 @@ msgid "Insert Track…"
 msgstr "插入轨道…"
 
 #: src/mainwindow.cpp:1828
-#, fuzzy, kde-format
-#| msgid "Switch All Tracks Active"
+#, kde-format
 msgid "Fit all Tracks in View"
-msgstr "切换所有轨道活动状态"
+msgstr "视图缩放至适合所有轨道"
 
 #: src/mainwindow.cpp:1834 src/timeline2/view/timelinecontroller.cpp:4814
 #, kde-format
@@ -12422,7 +12409,7 @@ msgstr "处理项目文件时出错"
 #: src/project/dialogs/archivewidget.cpp:247
 #, kde-format
 msgid "Please save your project before archiving"
-msgstr ""
+msgstr "请在归档前保存您的项目"
 
 #: src/project/dialogs/archivewidget.cpp:283
 #, kde-format
@@ -13438,10 +13425,9 @@ msgstr ""
 "备份。"
 
 #: src/project/projectmanager.cpp:1107
-#, fuzzy, kde-format
-#| msgid "Error moving project folder: %1"
+#, kde-format
 msgid "Error moving project folder, cannot access cache folder"
-msgstr "移动项目文件夹时出错：%1"
+msgstr "移动项目文件夹时出错，无法访问缓存文件夹"
 
 #: src/project/projectmanager.cpp:1143
 #, kde-format
@@ -14780,10 +14766,9 @@ msgid "Histogram"
 msgstr "直方图"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:51
-#, fuzzy, kde-format
-#| msgid "You cannot insert a sequence containing itself"
+#, kde-format
 msgid "Found an invalid sequence clip in Bin"
-msgstr "您不能插入一个包含它自身的序列"
+msgstr "在素材箱中发现一条无效的序列剪辑"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:270
 #: src/timeline2/model/builders/meltBuilder.cpp:499
@@ -16126,7 +16111,7 @@ msgstr ""
 #: src/timeline2/view/timelinetabs.cpp:172
 #, kde-format
 msgid "Closing a sequence will clear the undo history"
-msgstr ""
+msgstr "关闭序列将清除撤消历史记录"
 
 #: src/timeline2/view/timelinewidget.cpp:71
 #, kde-format
@@ -18197,12 +18182,11 @@ msgstr "Whisper 在 CPU 上的处理速度非常缓慢"
 #: src/ui/configspeech_ui.ui:183
 #, kde-format
 msgid "Disable half precision (FP16 )"
-msgstr ""
+msgstr "禁用半精度 (FP16)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperTranslate)
 #: src/ui/configspeech_ui.ui:190
-#, fuzzy, kde-format
-#| msgid "Translate text to english"
+#, kde-format
 msgid "Translate text to English"
 msgstr "翻译文本为英语"
 
@@ -20783,30 +20767,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid "Slider to adjust the zoom level."
-#~ msgstr "用于调整缩放级别的滑动条。"
-
-#, fuzzy
-#~| msgid "Clip has no effects"
-#~ msgid "Clip %1 has been fixed"
-#~ msgstr "剪辑没有使用效果"
-
-#~ msgid "Close %1"
-#~ msgstr "关闭 %1"
-
-#~ msgid "Bug fixing, etc."
-#~ msgstr "程序缺陷修复等。"
-
-#~ msgid "Sashmita Raghav"
-#~ msgstr "Sashmita Raghav"
-
-#~ msgid "Subtitle feature (GSoC), timeline colours"
-#~ msgstr "字幕功能 (GSoC)、时间轴颜色"
-
-#~ msgid "Bug triage, testing"
-#~ msgstr "程序缺陷分拣、测试"
-
-#~ msgid "Analyse"
-#~ msgstr "分析"
