@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-24 00:46+0000\n"
-"PO-Revision-Date: 2023-05-16 18:34+0400\n"
+"PO-Revision-Date: 2023-05-24 13:23+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
 "Language: az\n"
@@ -9747,7 +9747,7 @@ msgstr "Səs cığırlarını ayırmaq (tərsinə)"
 #: src/mainwindow.cpp:1177
 #, kde-format
 msgid "Mixed Audio tracks"
-msgstr "Səs cığırları ilə qarışdırmaq"
+msgstr "Qarışdırılmış səs cığırları"
 
 #: src/mainwindow.cpp:1203
 #, kde-format
@@ -9798,6 +9798,9 @@ msgid ""
 "When selected, clicking and dragging the mouse in the timeline temporarily "
 "groups separate clips and creates or removes space between clips."
 msgstr ""
+"Seçildiyi zaman zaman xəttində siçan ilə üzərinə vurduğunda və "
+"sürüşdürüldüyündə ayrı-ayrı klipləri müvəqqəti qruplaşdırır və ya kliplər "
+"arasındakı boşluğu silir."
 
 #: src/mainwindow.cpp:1247
 #, kde-format
@@ -9811,6 +9814,8 @@ msgid ""
 "When selected, dragging the edges of a clip lengthens or shortens the clip "
 "and moves adjacent clips back and forth while doing that."
 msgstr ""
+"Seçildiyi zaman klipin kənarlarında sürükləmək klipi uzadır və ya qısaldır "
+"və bunu edərkən bitişik və geri və irəli hərəkət etdirir."
 
 #. i18n("Roll Tool"), this);
 #.
@@ -9828,6 +9833,8 @@ msgid ""
 "When selected, dragging a clip slips the clip beneath the given window back "
 "and forth."
 msgstr ""
+"Seçildikdə, klipi sürükləmək klipi verilmiş pəncərənin altından geri və "
+"irəli sürüşdürür."
 
 #: src/mainwindow.cpp:1266
 #, kde-format
@@ -9851,6 +9858,8 @@ msgid ""
 "Creates a same-track transition between the selected clip and the adjacent "
 "one closest to the playhead."
 msgstr ""
+"Seçilmiş klip ilə oynatma başlığına yaxın qonşu klip arasında təkcığırlı "
+"keçid yaradır."
 
 #: src/mainwindow.cpp:1302
 #, kde-format

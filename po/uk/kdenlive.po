@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-24 00:46+0000\n"
-"PO-Revision-Date: 2023-05-17 08:34+0300\n"
+"PO-Revision-Date: 2023-05-24 08:20+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -5111,33 +5111,29 @@ msgid "MLT Playlist (*.mlt)"
 msgstr "список відтворення MLT (*.mlt)"
 
 #: src/bin/mediabrowser.cpp:51
-#, fuzzy, kde-format
-#| msgid "Zoom in"
+#, kde-format
 msgid "Zoom In"
 msgstr "Збільшити"
 
 #: src/bin/mediabrowser.cpp:52
-#, fuzzy, kde-format
-#| msgid "Zoom out"
+#, kde-format
 msgid "Zoom Out"
 msgstr "Зменшити"
 
 #: src/bin/mediabrowser.cpp:53
-#, fuzzy, kde-format
-#| msgid "Invert selection"
+#, kde-format
 msgid "Import Selection"
-msgstr "Інвертувати вибір"
+msgstr "Імпортувати позначене"
 
 #: src/bin/mediabrowser.cpp:55
-#, fuzzy, kde-format
-#| msgid "Subtitle Preview"
+#, kde-format
 msgid "Show File Preview"
-msgstr "Перегляд субтитрів"
+msgstr "Показати попередній перегляд файлів"
 
 #: src/bin/mediabrowser.cpp:67
 #, kde-format
 msgid "Import File on Double Click"
-msgstr ""
+msgstr "Імпортувати файл за подвійним клацанням"
 
 #: src/bin/mediabrowser.cpp:199 src/dialogs/clipcreationdialog.cpp:465
 #: src/effects/effectlist/view/effectlistwidget.cpp:130
@@ -5164,10 +5160,9 @@ msgid "Name:"
 msgstr "Назва:"
 
 #: src/bin/mediabrowser.cpp:239
-#, fuzzy, kde-format
-#| msgid "Filter"
+#, kde-format
 msgid "Filter:"
-msgstr "Фільтр"
+msgstr "Фільтр:"
 
 #: src/bin/mediabrowser.cpp:243 src/dialogs/clipcreationdialog.cpp:471
 #, kde-format
@@ -5175,10 +5170,9 @@ msgid "Ignore subfolder structure"
 msgstr "Ігнорувати структуру підтек"
 
 #: src/bin/mediabrowser.cpp:245 src/dialogs/clipcreationdialog.cpp:473
-#, fuzzy, kde-format
-#| msgid "Insert Zone in Project Bin"
+#, kde-format
 msgid "Do not create subfolders in Project Bin"
-msgstr "Вставити ділянку до пункту проєкту"
+msgstr "Не створювати підтеки у контейнері проєкту"
 
 #: src/bin/mediabrowser.cpp:248 src/dialogs/clipcreationdialog.cpp:476
 #, kde-kuit-format
@@ -5187,6 +5181,8 @@ msgid ""
 "When enabled, Kdenlive will import all clips contained in the folder and its "
 "subfolders without creating the subfolders in Project Bin."
 msgstr ""
+"Якщо позначено, Kdenlive імпортуватиме усі кліпи, що містяться у теці та її "
+"підтеках без створення підтек у контейнері проєкту."
 
 #: src/bin/mediabrowser.cpp:251 src/dialogs/clipcreationdialog.cpp:466
 #, kde-format
@@ -5194,10 +5190,9 @@ msgid "Import image sequence"
 msgstr "Імпортувати послідовність зображень"
 
 #: src/bin/mediabrowser.cpp:254 src/dialogs/clipcreationdialog.cpp:467
-#, fuzzy, kde-format
-#| msgid "Import image sequence"
+#, kde-format
 msgid "Try to import an image sequence"
-msgstr "Імпортувати послідовність зображень"
+msgstr "Спробувати імпортувати як послідовність зображень"
 
 #: src/bin/mediabrowser.cpp:256 src/dialogs/clipcreationdialog.cpp:469
 #, kde-kuit-format
@@ -5206,6 +5201,8 @@ msgid ""
 "When enabled, Kdenlive will look for other images with the same name pattern "
 "and import them as an image sequence."
 msgstr ""
+"Якщо позначено, Kdenlive шукатиме інші зображення із тим самим взірцем назв "
+"та імпортує їх як послідовність зображень."
 
 #: src/bin/model/markerlistmodel.cpp:87
 #, kde-format

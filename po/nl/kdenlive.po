@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-24 00:46+0000\n"
-"PO-Revision-Date: 2023-05-17 11:48+0200\n"
+"PO-Revision-Date: 2023-05-24 12:32+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -5097,21 +5097,19 @@ msgid "Zoom Out"
 msgstr "Uitzoomen"
 
 #: src/bin/mediabrowser.cpp:53
-#, fuzzy, kde-format
-#| msgid "Color Selection"
+#, kde-format
 msgid "Import Selection"
-msgstr "Kleur selectie"
+msgstr "Selectie importeren"
 
 #: src/bin/mediabrowser.cpp:55
-#, fuzzy, kde-format
-#| msgid "Subtitle Preview"
+#, kde-format
 msgid "Show File Preview"
-msgstr "Ondertitelvoorbeeld"
+msgstr "Bestandsvoorbeeld tonen"
 
 #: src/bin/mediabrowser.cpp:67
 #, kde-format
 msgid "Import File on Double Click"
-msgstr ""
+msgstr "Bestand importeren bij dubbelklikken"
 
 #: src/bin/mediabrowser.cpp:199 src/dialogs/clipcreationdialog.cpp:465
 #: src/effects/effectlist/view/effectlistwidget.cpp:130
@@ -5138,10 +5136,9 @@ msgid "Name:"
 msgstr "Naam:"
 
 #: src/bin/mediabrowser.cpp:239
-#, fuzzy, kde-format
-#| msgid "Filter"
+#, kde-format
 msgid "Filter:"
-msgstr "Filter"
+msgstr "Filter:"
 
 #: src/bin/mediabrowser.cpp:243 src/dialogs/clipcreationdialog.cpp:471
 #, kde-format
@@ -5149,10 +5146,9 @@ msgid "Ignore subfolder structure"
 msgstr "Submapstructuur negeren"
 
 #: src/bin/mediabrowser.cpp:245 src/dialogs/clipcreationdialog.cpp:473
-#, fuzzy, kde-format
-#| msgid "Insert Zone in Project Bin"
+#, kde-format
 msgid "Do not create subfolders in Project Bin"
-msgstr "Zone invoegen in project-bin"
+msgstr "Geen submappen aanmaken in project-bin"
 
 #: src/bin/mediabrowser.cpp:248 src/dialogs/clipcreationdialog.cpp:476
 #, kde-kuit-format
@@ -5161,6 +5157,8 @@ msgid ""
 "When enabled, Kdenlive will import all clips contained in the folder and its "
 "subfolders without creating the subfolders in Project Bin."
 msgstr ""
+"Indien ingeschakeld zal Kdenlive alle clips in de map en zijn submappen "
+"importeren zonder de submappen in de project-bin aan te maken."
 
 #: src/bin/mediabrowser.cpp:251 src/dialogs/clipcreationdialog.cpp:466
 #, kde-format
@@ -5168,10 +5166,9 @@ msgid "Import image sequence"
 msgstr "Afbeeldingsreeks importeren"
 
 #: src/bin/mediabrowser.cpp:254 src/dialogs/clipcreationdialog.cpp:467
-#, fuzzy, kde-format
-#| msgid "Import image sequence"
+#, kde-format
 msgid "Try to import an image sequence"
-msgstr "Afbeeldingsreeks importeren"
+msgstr "Een afbeeldingsreeks proberen te importeren"
 
 #: src/bin/mediabrowser.cpp:256 src/dialogs/clipcreationdialog.cpp:469
 #, kde-kuit-format
@@ -5180,6 +5177,8 @@ msgid ""
 "When enabled, Kdenlive will look for other images with the same name pattern "
 "and import them as an image sequence."
 msgstr ""
+"Indien ingeschakeld zal Kdenlive zoeken naar andere afbeeldingen met "
+"hetzelfde namenpatroon en ze importeren als een afbeeldingsreeks."
 
 #: src/bin/model/markerlistmodel.cpp:87
 #, kde-format

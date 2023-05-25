@@ -5121,12 +5121,14 @@ msgid "MLT Playlist (*.mlt)"
 msgstr "Liste de lecture MLT (*.mlt)"
 
 #: src/bin/mediabrowser.cpp:51
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Zoom In"
 msgid "Zoom In"
 msgstr "Zoom avant"
 
 #: src/bin/mediabrowser.cpp:52
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Zoom Out"
 msgid "Zoom Out"
 msgstr "Zoom arrière"
 

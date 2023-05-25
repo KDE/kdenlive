@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-24 00:46+0000\n"
-"PO-Revision-Date: 2023-05-17 09:51+0200\n"
+"PO-Revision-Date: 2023-05-24 12:59+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -519,12 +519,12 @@ msgstr "Factor de difuminat"
 #: data/effects/brightness.xml:4
 #, kde-format
 msgid "Brightness (keyframable)"
-msgstr "Lluminositat (amb fotogrames clau)"
+msgstr "Brillantor (amb fotogrames clau)"
 
 #: data/effects/brightness.xml:5
 #, kde-format
 msgid "Change image brightness with keyframes"
-msgstr "Canvia la lluminositat d'imatge amb fotogrames clau"
+msgstr "Canvia la brillantor de la imatge amb els fotogrames clau"
 
 #: data/effects/brightness.xml:8
 #, kde-format
@@ -1128,7 +1128,7 @@ msgstr "Contrast"
 #: data/effects/grain.xml:14
 #, kde-format
 msgid "Brightness"
-msgstr "Lluminositat"
+msgstr "Brillantor"
 
 #: data/effects/greyscale.xml:4
 #, kde-format
@@ -1696,7 +1696,7 @@ msgstr "Film antic"
 #: data/effects/oldfilm.xml:5
 #, kde-format
 msgid "Moves the Picture up and down and random brightness change"
-msgstr "Mou la imatge amunt i avall i fa canvis aleatoris de lluminositat"
+msgstr "Mou la imatge amunt i avall i fa canvis aleatoris de brillantor"
 
 #: data/effects/oldfilm.xml:8
 #, kde-format
@@ -1711,17 +1711,17 @@ msgstr "% de la imatge té un delta"
 #: data/effects/oldfilm.xml:14
 #, kde-format
 msgid "Brightness up"
-msgstr "Augmenta la lluminositat"
+msgstr "Augmenta la brillantor"
 
 #: data/effects/oldfilm.xml:17
 #, kde-format
 msgid "Brightness down"
-msgstr "Baixa la lluminositat"
+msgstr "Baixa la brillantor"
 
 #: data/effects/oldfilm.xml:20
 #, kde-format
 msgid "Brightness every"
-msgstr "Lluminositat cada"
+msgstr "Brillantor cada"
 
 #: data/effects/oldfilm.xml:23
 #, kde-format
@@ -5102,33 +5102,29 @@ msgid "MLT Playlist (*.mlt)"
 msgstr "Llista de reproducció MLT (*.mlt)"
 
 #: src/bin/mediabrowser.cpp:51
-#, fuzzy, kde-format
-#| msgid "Zoom in"
+#, kde-format
 msgid "Zoom In"
 msgstr "Acosta"
 
 #: src/bin/mediabrowser.cpp:52
-#, fuzzy, kde-format
-#| msgid "Zoom out"
+#, kde-format
 msgid "Zoom Out"
 msgstr "Allunya"
 
 #: src/bin/mediabrowser.cpp:53
-#, fuzzy, kde-format
-#| msgid "Invert selection"
+#, kde-format
 msgid "Import Selection"
-msgstr "Invertix la selecció"
+msgstr "Importa la selecció"
 
 #: src/bin/mediabrowser.cpp:55
-#, fuzzy, kde-format
-#| msgid "Subtitle Preview"
+#, kde-format
 msgid "Show File Preview"
-msgstr "Vista prèvia dels subtítols"
+msgstr "Mostra una vista prèvia del fitxer"
 
 #: src/bin/mediabrowser.cpp:67
 #, kde-format
 msgid "Import File on Double Click"
-msgstr ""
+msgstr "Importa el fitxer en fer doble clic"
 
 #: src/bin/mediabrowser.cpp:199 src/dialogs/clipcreationdialog.cpp:465
 #: src/effects/effectlist/view/effectlistwidget.cpp:130
@@ -5155,10 +5151,9 @@ msgid "Name:"
 msgstr "Nom:"
 
 #: src/bin/mediabrowser.cpp:239
-#, fuzzy, kde-format
-#| msgid "Filter"
+#, kde-format
 msgid "Filter:"
-msgstr "Filtre"
+msgstr "Filtre:"
 
 #: src/bin/mediabrowser.cpp:243 src/dialogs/clipcreationdialog.cpp:471
 #, kde-format
@@ -5166,10 +5161,9 @@ msgid "Ignore subfolder structure"
 msgstr "Ignora l'estructura de subcarpetes"
 
 #: src/bin/mediabrowser.cpp:245 src/dialogs/clipcreationdialog.cpp:473
-#, fuzzy, kde-format
-#| msgid "Insert Zone in Project Bin"
+#, kde-format
 msgid "Do not create subfolders in Project Bin"
-msgstr "Inserix una zona a la safata del projecte"
+msgstr "No crees subcarpetes a la safata del projecte"
 
 #: src/bin/mediabrowser.cpp:248 src/dialogs/clipcreationdialog.cpp:476
 #, kde-kuit-format
@@ -5178,6 +5172,9 @@ msgid ""
 "When enabled, Kdenlive will import all clips contained in the folder and its "
 "subfolders without creating the subfolders in Project Bin."
 msgstr ""
+"Quan està activada, Kdenlive importarà tots els clips continguts en la "
+"carpeta i les seues subcarpetes sense crear subcarpetes a la safata del "
+"projecte."
 
 #: src/bin/mediabrowser.cpp:251 src/dialogs/clipcreationdialog.cpp:466
 #, kde-format
@@ -5185,10 +5182,9 @@ msgid "Import image sequence"
 msgstr "Importa una seqüència d'imatges"
 
 #: src/bin/mediabrowser.cpp:254 src/dialogs/clipcreationdialog.cpp:467
-#, fuzzy, kde-format
-#| msgid "Import image sequence"
+#, kde-format
 msgid "Try to import an image sequence"
-msgstr "Importa una seqüència d'imatges"
+msgstr "Intenta importar una seqüència d'imatges"
 
 #: src/bin/mediabrowser.cpp:256 src/dialogs/clipcreationdialog.cpp:469
 #, kde-kuit-format
@@ -5197,6 +5193,8 @@ msgid ""
 "When enabled, Kdenlive will look for other images with the same name pattern "
 "and import them as an image sequence."
 msgstr ""
+"Quan està activada, Kdenlive buscarà imatges amb el mateix patró de nom i "
+"les importarà com una seqüència d'imatges."
 
 #: src/bin/model/markerlistmodel.cpp:87
 #, kde-format
@@ -13315,7 +13313,8 @@ msgid ""
 "Are you sure you want to continue?"
 msgstr ""
 "Eliminarà els fitxers següents del disc dur.\n"
-"Esta acció no es pot desfer, utilitzeu-la només si sabeu el que esteu fent.\n"
+"Esta acció no es podrà desfer, utilitzeu-la només si sabeu el que esteu "
+"fent.\n"
 "Segur que voleu continuar?"
 
 #: src/project/dialogs/projectsettings.cpp:380
@@ -15068,7 +15067,7 @@ msgstr "Valor Y"
 #: src/scopes/colorscopes/colorplaneexport.cpp:211
 #, kde-format
 msgid "The Y value describes the brightness of the colors."
-msgstr "El valor Y descriu la lluminositat dels colors."
+msgstr "El valor Y descriu la brillantor dels colors."
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:223
 #, kde-format
@@ -21339,7 +21338,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid "Slider to adjust the zoom level."
-#~ msgstr "Control lliscant per a ajustar el nivell de zoom."
