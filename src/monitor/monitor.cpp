@@ -993,7 +993,8 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
         m_glWidget->showNormal();
         auto *lay = static_cast<QVBoxLayout *>(layout());
         lay->insertWidget(0, m_glWidget, 10);
-        activateWindow();
+        // After restoring widget from fullscreen, focus is broken, so it is necessary to re-activate window
+        QApplication::setActiveWindow(this);
         setFocus();
     }
 }
