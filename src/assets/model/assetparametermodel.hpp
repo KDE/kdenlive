@@ -264,7 +264,7 @@ protected:
     /** @brief Set the parameter with given name to the given value. This should be called when first
      *  building an effect in the constructor, so that we don't call shared_from_this
      */
-    void internalSetParameter(const QString &name, const QString &paramValue, const QModelIndex &paramIndex = QModelIndex());
+    void internalSetParameter(const QString name, const QString paramValue, const QModelIndex &paramIndex = QModelIndex());
 
 Q_SIGNALS:
     void modelChanged();

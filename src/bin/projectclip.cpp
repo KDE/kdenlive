@@ -1371,6 +1371,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects, bo
     QMutexLocker lk(&m_producerMutex);
     Mlt::Consumer c(*pCore->getProjectProfile(), "xml", "string");
     Mlt::Service s(m_masterProducer->get_service());
+    m_masterProducer->lock();
     int ignore = s.get_int("ignore_points");
     if (ignore) {
         s.set("ignore_points", 0);
@@ -1386,6 +1387,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects, bo
     if (ignore) {
         s.set("ignore_points", ignore);
     }
+    m_masterProducer->unlock();
     const QByteArray clipXml = c.get("string");
     qDebug() << "============= CLONED CLIP: \n\n" << clipXml << "\n\n======================";
     std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(*pCore->getProjectProfile(), "xml-string", clipXml.constData()));
