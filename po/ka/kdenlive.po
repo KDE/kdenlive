@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-24 00:46+0000\n"
-"PO-Revision-Date: 2023-05-08 05:23+0200\n"
+"PO-Revision-Date: 2023-05-25 05:46+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.3.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -767,17 +767,17 @@ msgstr "გაზომვის ფანჯარა"
 #: data/effects/dynamic_loudness.xml:14
 #, kde-format
 msgid "Maximum Gain Increase"
-msgstr ""
+msgstr "მაქსიმალური გაძლიერების გაზრდა"
 
 #: data/effects/dynamic_loudness.xml:17
 #, kde-format
 msgid "Maximum Gain Decrease"
-msgstr ""
+msgstr "მაქსიმალური გაძლიერების შემცირება"
 
 #: data/effects/dynamic_loudness.xml:20
 #, kde-format
 msgid "Maximum Rate Change"
-msgstr ""
+msgstr "მაქსიმალური სიხშირის შეცვლა"
 
 #: data/effects/dynamictext.xml:4
 #, kde-format
@@ -1201,7 +1201,7 @@ msgstr "მეორე ფერი"
 #: data/effects/loudness.xml:4
 #, kde-format
 msgid "Normalize (2 pass)"
-msgstr ""
+msgstr "ნორმალიზება (2 გავლა)"
 
 #: data/effects/loudness.xml:5
 #, kde-format
@@ -1601,7 +1601,7 @@ msgstr "ბუნდოვანი"
 #: data/effects/obscure.xml:5
 #, kde-format
 msgid "Hide a region of the clip"
-msgstr ""
+msgstr "კლიპის რეგიონის დამალვა"
 
 #: data/effects/obscure.xml:8
 #, kde-format
@@ -2195,7 +2195,7 @@ msgstr ""
 #: data/effects/tracker.xml:22
 #, kde-format
 msgid "Frame shape"
-msgstr ""
+msgstr "კადრის ფორმა"
 
 #: data/effects/tracker.xml:25
 #, kde-format
@@ -2286,7 +2286,7 @@ msgstr ""
 #: data/effects/vidstab.xml:16
 #, kde-format
 msgid "Stepsize"
-msgstr ""
+msgstr "ბიჯისზომა"
 
 #: data/effects/vidstab.xml:17
 #, kde-format
@@ -2615,7 +2615,7 @@ msgstr "აუდიოს კორექცია"
 #: data/kdenliveeffectscategory.rc:42
 #, kde-format
 msgid "Image adjustment"
-msgstr ""
+msgstr "გამოსახულების რეგულირება"
 
 #: data/kdenliveeffectscategory.rc:46
 #, kde-format
@@ -3071,17 +3071,17 @@ msgstr ""
 #: src/assets/assetlist/view/qml/assetList.qml:78
 #, kde-format
 msgid "Show all video effects"
-msgstr ""
+msgstr "ყველა ვიდეოეფექტის ჩვენება"
 
 #: src/assets/assetlist/view/qml/assetList.qml:89
 #, kde-format
 msgid "Show all audio effects"
-msgstr ""
+msgstr "ყველა აუდიოეფექტის ჩვენება"
 
 #: src/assets/assetlist/view/qml/assetList.qml:100
 #, kde-format
 msgid "Show all custom effects"
-msgstr ""
+msgstr "ყველა ხელით მითითებული ეფექტის ჩვენება"
 
 #: src/assets/assetlist/view/qml/assetList.qml:110
 #, kde-format
@@ -3835,9 +3835,9 @@ msgid "None (Dissolve)"
 msgstr ""
 
 #: src/assets/view/widgets/urllistparamwidget.cpp:205
-#, kde-format
+#, fuzzy, kde-format
 msgid "Custom…"
-msgstr ""
+msgstr "ხელით…"
 
 #: src/assets/view/widgets/urllistparamwidget.cpp:254
 #, kde-format
@@ -4886,28 +4886,24 @@ msgid "MLT Playlist (*.mlt)"
 msgstr ""
 
 #: src/bin/mediabrowser.cpp:51
-#, fuzzy, kde-format
-#| msgid "Zoom in"
+#, kde-format
 msgid "Zoom In"
-msgstr "&გადიდება"
+msgstr "გადიდება"
 
 #: src/bin/mediabrowser.cpp:52
-#, fuzzy, kde-format
-#| msgid "Zoom out"
+#, kde-format
 msgid "Zoom Out"
 msgstr "დაპატარავება"
 
 #: src/bin/mediabrowser.cpp:53
-#, fuzzy, kde-format
-#| msgid "Invert selection"
+#, kde-format
 msgid "Import Selection"
-msgstr "მონიშვნის ინვერსია"
+msgstr "მონიშნულის შემოტანა"
 
 #: src/bin/mediabrowser.cpp:55
-#, fuzzy, kde-format
-#| msgid "Subtitle Preview"
+#, kde-format
 msgid "Show File Preview"
-msgstr "სუბტიტრის მინიატურა"
+msgstr "ფაილის მინიატურის ჩვენება"
 
 #: src/bin/mediabrowser.cpp:67
 #, kde-format
@@ -4939,10 +4935,9 @@ msgid "Name:"
 msgstr "სახელი:"
 
 #: src/bin/mediabrowser.cpp:239
-#, fuzzy, kde-format
-#| msgid "Filter"
+#, kde-format
 msgid "Filter:"
-msgstr "ფილტრი"
+msgstr "ფილტრი:"
 
 #: src/bin/mediabrowser.cpp:243 src/dialogs/clipcreationdialog.cpp:471
 #, kde-format
@@ -11784,10 +11779,10 @@ msgid "Created by %1"
 msgstr "შექმნილია %1-ის მიერ"
 
 #: src/onlineresources/resourcewidget.cpp:335
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "the url link pointing to a web page"
 msgid "link"
-msgstr ""
+msgstr "ბული"
 
 #: src/onlineresources/resourcewidget.cpp:341
 #, kde-format

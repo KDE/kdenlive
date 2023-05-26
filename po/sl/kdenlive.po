@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-24 00:46+0000\n"
-"PO-Revision-Date: 2023-05-18 09:15+0200\n"
+"PO-Revision-Date: 2023-05-25 08:36+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Martin Srebotnjak <miles@filmsi.net>\n"
-"X-Generator: Poedit 3.3.1\n"
+"X-Generator: Poedit 2.2.1\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
 
 #, kde-format
@@ -5079,33 +5079,29 @@ msgid "MLT Playlist (*.mlt)"
 msgstr "Seznam predvajanja MLT (*.mlt)"
 
 #: src/bin/mediabrowser.cpp:51
-#, fuzzy, kde-format
-#| msgid "Zoom in"
+#, kde-format
 msgid "Zoom In"
 msgstr "Približaj"
 
 #: src/bin/mediabrowser.cpp:52
-#, fuzzy, kde-format
-#| msgid "Zoom out"
+#, kde-format
 msgid "Zoom Out"
 msgstr "Oddalji"
 
 #: src/bin/mediabrowser.cpp:53
-#, fuzzy, kde-format
-#| msgid "Invert selection"
+#, kde-format
 msgid "Import Selection"
-msgstr "Obrni izbiro"
+msgstr "Uvozi izbor"
 
 #: src/bin/mediabrowser.cpp:55
-#, fuzzy, kde-format
-#| msgid "Subtitle Preview"
+#, kde-format
 msgid "Show File Preview"
-msgstr "Predogled podnaslovov"
+msgstr "Pokaži predogled datoteke"
 
 #: src/bin/mediabrowser.cpp:67
 #, kde-format
 msgid "Import File on Double Click"
-msgstr ""
+msgstr "Uvozi datoteko z dvoklikom"
 
 #: src/bin/mediabrowser.cpp:199 src/dialogs/clipcreationdialog.cpp:465
 #: src/effects/effectlist/view/effectlistwidget.cpp:130
@@ -5132,10 +5128,9 @@ msgid "Name:"
 msgstr "Ime:"
 
 #: src/bin/mediabrowser.cpp:239
-#, fuzzy, kde-format
-#| msgid "Filter"
+#, kde-format
 msgid "Filter:"
-msgstr "Filter"
+msgstr "Filter:"
 
 #: src/bin/mediabrowser.cpp:243 src/dialogs/clipcreationdialog.cpp:471
 #, kde-format
@@ -5143,10 +5138,9 @@ msgid "Ignore subfolder structure"
 msgstr "Prezri strukturo podmape"
 
 #: src/bin/mediabrowser.cpp:245 src/dialogs/clipcreationdialog.cpp:473
-#, fuzzy, kde-format
-#| msgid "Insert Zone in Project Bin"
+#, kde-format
 msgid "Do not create subfolders in Project Bin"
-msgstr "Vstavi območje v posodo projekta"
+msgstr "Ne ustvarjaj podmap v košu projektov"
 
 #: src/bin/mediabrowser.cpp:248 src/dialogs/clipcreationdialog.cpp:476
 #, kde-kuit-format
@@ -5155,6 +5149,8 @@ msgid ""
 "When enabled, Kdenlive will import all clips contained in the folder and its "
 "subfolders without creating the subfolders in Project Bin."
 msgstr ""
+"Če je ta možnost omogočena, bo Kdenlive uvozil vse posnetke iz mape in "
+"njenih podmap, ne da bi ustvaril podmape v košu projekta."
 
 #: src/bin/mediabrowser.cpp:251 src/dialogs/clipcreationdialog.cpp:466
 #, kde-format
@@ -5162,10 +5158,9 @@ msgid "Import image sequence"
 msgstr "Uvozi zaporedje slik"
 
 #: src/bin/mediabrowser.cpp:254 src/dialogs/clipcreationdialog.cpp:467
-#, fuzzy, kde-format
-#| msgid "Import image sequence"
+#, kde-format
 msgid "Try to import an image sequence"
-msgstr "Uvozi zaporedje slik"
+msgstr "Poskusi uvoziti zaporedje slik"
 
 #: src/bin/mediabrowser.cpp:256 src/dialogs/clipcreationdialog.cpp:469
 #, kde-kuit-format
@@ -5174,6 +5169,8 @@ msgid ""
 "When enabled, Kdenlive will look for other images with the same name pattern "
 "and import them as an image sequence."
 msgstr ""
+"Če je ta možnost omogočena, bo Kdenlive poiskal druge slike z enakim vzorcem "
+"imena in jih uvozil kot zaporedje slik."
 
 #: src/bin/model/markerlistmodel.cpp:87
 #, kde-format
