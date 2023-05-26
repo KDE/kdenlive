@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-21 02:34+0000\n"
-"PO-Revision-Date: 2023-05-16 12:11+0300\n"
+"PO-Revision-Date: 2023-05-26 01:07+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.03.70\n"
+"X-Generator: Lokalize 23.07.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4305,12 +4305,12 @@ msgstr "Bekleyen İşleri İptal Et"
 #: src/bin/bin.cpp:1830
 #, kde-format
 msgid "You cannot delete all sequences of a project"
-msgstr "Bir projenin tüm sıralarını silemezsiniz"
+msgstr "Bir projenin tüm dizilerini silemezsiniz"
 
 #: src/bin/bin.cpp:1833
 #, kde-format
 msgid "Deleting sequences cannot be undone"
-msgstr "Sıraları silmek geri alınamaz"
+msgstr "Dizileri silmek geri alınamaz"
 
 #: src/bin/bin.cpp:1841
 #, kde-format
@@ -4400,7 +4400,7 @@ msgstr "%1 yeri belirlenemedi"
 #: src/bin/bin.cpp:2086 src/timeline2/view/timelinecontroller.cpp:3867
 #, kde-format
 msgid "Open sequence"
-msgstr "Sıra aç"
+msgstr "Dizi aç"
 
 #: src/bin/bin.cpp:2104
 #, kde-format
@@ -4410,7 +4410,7 @@ msgstr "%1 içinde geçici dosya oluşturulamadı"
 #: src/bin/bin.cpp:2112
 #, kde-format
 msgid "Duplicating sequence failed"
-msgstr "Sırayı çoğaltma başarısız oldu"
+msgstr "Diziyi çoğaltma başarısız oldu"
 
 #: src/bin/bin.cpp:2124
 #, kde-format
@@ -4495,7 +4495,7 @@ msgstr "Oynatma Listesi"
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
-msgstr "Sıralar"
+msgstr "Diziler"
 
 #: src/bin/bin.cpp:2334 src/project/dialogs/projectsettings.cpp:215
 #, kde-format
@@ -4596,7 +4596,7 @@ msgstr "Renk Klibi Ekle…"
 #: src/bin/bin.cpp:3433
 #, kde-format
 msgid "Add Image Sequence…"
-msgstr "Görsel Sırası Ekle…"
+msgstr "Görsel Dizisi Ekle…"
 
 #: src/bin/bin.cpp:3435
 #, kde-format
@@ -4616,7 +4616,7 @@ msgstr "Canlandırma Oluştur…"
 #: src/bin/bin.cpp:3441
 #, kde-format
 msgid "Add Sequence…"
-msgstr "Sıra Ekle…"
+msgstr "Dizi Ekle…"
 
 #: src/bin/bin.cpp:3444 src/mainwindow.cpp:361
 #, kde-format
@@ -4666,7 +4666,7 @@ msgstr "Yeni kovada aç"
 #: src/bin/bin.cpp:3511
 #, kde-format
 msgid "Default Target Folder for Sequences"
-msgstr "Sıralar için Öntanımlı Hedef Klasör"
+msgstr "Diziler için Öntanımlı Hedef Klasör"
 
 #: src/bin/bin.cpp:3515
 #, kde-format
@@ -4699,12 +4699,12 @@ msgstr "Ayrıntılı günlük"
 #, kde-format
 msgctxt "@title:window"
 msgid "Create New Sequence"
-msgstr "Yeni Sıra Oluştur"
+msgstr "Yeni Dizi Oluştur"
 
 #: src/bin/bin.cpp:3648 src/bin/bin.cpp:3673
 #, kde-format
 msgid "Sequence %1"
-msgstr "Sıra %1"
+msgstr "Dizi %1"
 
 #: src/bin/bin.cpp:3702
 #, kde-format
@@ -4965,7 +4965,7 @@ msgstr "Renk klibi oluştur"
 #: src/bin/clipcreator.cpp:151 src/bin/clipcreator.cpp:250
 #, kde-format
 msgid "Create sequence"
-msgstr "Sıra oluştur"
+msgstr "Sekans oluştur"
 
 #: src/bin/clipcreator.cpp:260
 #, kde-format
@@ -5267,7 +5267,7 @@ msgstr "Altyazı sil"
 #: src/bin/projectclip.cpp:226
 #, kde-format
 msgid "Timeline sequence"
-msgstr "Zaman akışı sırası"
+msgstr "Zaman akışı sekansı"
 
 #: src/bin/projectclip.cpp:531
 #, kde-format
@@ -5811,7 +5811,7 @@ msgstr "Tüm Dosyalar"
 #: src/dialogs/clipcreationdialog.cpp:563
 #, kde-format
 msgid "Import image sequence"
-msgstr "Görsel sırasını içe aktar"
+msgstr "Görsel sekansı içe aktar"
 
 #: src/dialogs/clipcreationdialog.cpp:467
 #: src/dialogs/clipcreationdialog.cpp:566
@@ -7531,7 +7531,7 @@ msgstr "%1 klibi yeniden yüklenecek"
 #: src/doc/documentchecker.cpp:474
 #, kde-format
 msgid "Fixed Sequence Clips"
-msgstr "Sabit Sıra Klipleri"
+msgstr "Sabit Sekans Klipleri"
 
 #: src/doc/documentchecker.cpp:478
 #, kde-format
@@ -10381,7 +10381,7 @@ msgstr "Klipleri Gruptan Çıkar"
 #: src/mainwindow.cpp:1769
 #, kde-format
 msgid "Create Sequence from Selection"
-msgstr "Seçimden Sıra Oluştur"
+msgstr "Seçimden Sekans Oluştur"
 
 #: src/mainwindow.cpp:1772
 #, kde-kuit-format
@@ -10390,8 +10390,8 @@ msgid ""
 "Adds the clip(s) currently selected in the timeline to a new sequence clip "
 "that can be opened in another timeline tab."
 msgstr ""
-"Zaman akışında seçili olan klipleri, başka bir zaman akışı sekmesinde "
-"açılabilen yeni bir sıra klibine ekler."
+"Zaman akışında seçili klipleri, başka bir zaman akışı sekmesinde açılabilen "
+"yeni bir sekans klibine ekler."
 
 #: src/mainwindow.cpp:1784
 #, kde-format
@@ -13260,12 +13260,12 @@ msgstr "Üst Veri"
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Image Sequence"
-msgstr "Görsel Sırası Ekle"
+msgstr "Görsel Sekansı Ekle"
 
 #: src/project/dialogs/slideshowclip.cpp:36
 #, kde-format
 msgid "Image Sequence"
-msgstr "Görsel Sırası"
+msgstr "Görsel Sekansı"
 
 #: src/project/dialogs/slideshowclip.cpp:58
 #, kde-format
@@ -13709,7 +13709,7 @@ msgstr ""
 #: src/project/projectmanager.cpp:1261
 #, kde-format
 msgid "Sequence 1"
-msgstr "Sıra 1"
+msgstr "Sekans 1"
 
 #: src/project/projectmanager.cpp:1238
 #, kde-format
@@ -13749,17 +13749,18 @@ msgstr ""
 #: src/project/projectmanager.cpp:1672
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
-msgstr "Bir sıra klibi içe aktarılıyor, bu şu anda deneysel bir özelliktir"
+msgstr ""
+"Bir sekans klibi içe aktarılıyor, bu özellik şu anda deneysel durumdadır"
 
 #: src/project/projectmanager.cpp:1830
 #, kde-format
 msgid "Select a clip to create sequence"
-msgstr "Sıra oluşturmak için bir klip seç"
+msgstr "Sekans oluşturmak için bir klip seç"
 
 #: src/project/projectmanager.cpp:1867
 #, kde-format
 msgid "Create Sequence Clip"
-msgstr "Sıra Klibi Oluştur"
+msgstr "Dizi Sekansı Oluştur"
 
 #: src/project/transcodeseek.cpp:36 src/project/transcodeseek.cpp:49
 #, kde-format
@@ -14671,7 +14672,7 @@ msgstr "Kayıpsız/YK"
 #, kde-format
 msgctxt "Category Name"
 msgid "Images sequence"
-msgstr "Görseller sırası"
+msgstr "Görseller sekansı"
 
 #: src/renderpresets/renderpresetrepository.cpp:349
 #, kde-format
@@ -15041,7 +15042,7 @@ msgstr "Sütun Grafiği"
 #: src/timeline2/model/builders/meltBuilder.cpp:51
 #, kde-format
 msgid "Found an invalid sequence clip in Bin"
-msgstr "Kovada bir geçersiz sıra klibi bulundu"
+msgstr "Kovada geçersiz bir sekans klibi bulundu"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:270
 #: src/timeline2/model/builders/meltBuilder.cpp:499
@@ -15512,7 +15513,7 @@ msgstr "Klip Ekle"
 #: src/timeline2/model/timelinemodel.cpp:1769
 #, kde-format
 msgid "You cannot insert a sequence containing itself"
-msgstr "Kendini içeren bir sıra ekleyemezsiniz"
+msgstr "Kendini içeren bir sekans ekleyemezsiniz"
 
 #: src/timeline2/model/timelinemodel.cpp:1817
 #: src/timeline2/model/timelinemodel.cpp:1839
@@ -16399,7 +16400,7 @@ msgstr "Altyazı izini kilitle"
 #: src/timeline2/view/timelinetabs.cpp:46
 #, kde-format
 msgid "Add Timeline Sequence"
-msgstr "Zaman Akışı Sırası Ekle"
+msgstr "Zaman Akışı Sekansı Ekle"
 
 #: src/timeline2/view/timelinetabs.cpp:48
 #, kde-format
@@ -16407,14 +16408,14 @@ msgid ""
 "Add Timeline Sequence. This will create a new timeline for editing. Each "
 "timeline corresponds to a Sequence Clip in the Project Bin"
 msgstr ""
-"Zaman Akışı Sırası Ekle. Bu, düzenleme için yeni bir zaman akışı "
-"oluşturacaktır. Her bir zaman akışı, Proje Kovası'nda bir Sıralama Klibine "
+"Zaman Akışı Sekansı Ekle. Bu, düzenleme için yeni bir zaman akışı "
+"oluşturacaktır. Her bir zaman akışı, Proje Kovası'nda bir Sekans Klibine "
 "denk gelir"
 
 #: src/timeline2/view/timelinetabs.cpp:172
 #, kde-format
 msgid "Closing a sequence will clear the undo history"
-msgstr "Bir sırayı kapatmak, geri al geçmişini temizler"
+msgstr "Bir sekansı kapatmak, geri al geçmişini temizler"
 
 #: src/timeline2/view/timelinewidget.cpp:71
 #, kde-format
@@ -18183,7 +18184,7 @@ msgstr "Çok akışlı kliplerde tüm akışları otomatik olarak içe aktar"
 #: src/ui/configmisc_ui.ui:70
 #, kde-format
 msgid "Automatically import image sequences"
-msgstr "Görsel sıralarını kendiliğinden içe aktar"
+msgstr "Görsel sekanslarını kendiliğinden içe aktar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_use_exiftool)
 #: src/ui/configmisc_ui.ui:77
@@ -18264,7 +18265,7 @@ msgstr "Solmalar:"
 #: src/ui/configmisc_ui.ui:210
 #, kde-format
 msgid "Image sequence:"
-msgstr "Görsel sırası:"
+msgstr "Görsel sekansı:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/configmisc_ui.ui:226
@@ -19627,7 +19628,7 @@ msgstr "Başlangıç Konumu"
 #: src/ui/newtimeline_ui.ui:47
 #, kde-format
 msgid "Sequence Name"
-msgstr "Sıra Adı"
+msgstr "Sekans Adı"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ProfilesDialog_UI)
 #: src/ui/profiledialog_ui.ui:18
