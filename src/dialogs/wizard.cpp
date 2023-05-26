@@ -136,18 +136,44 @@ Wizard::Wizard(bool autoClose, QWidget *parent)
         lab->setCloseButtonVisible(false);
         m_startLayout->addWidget(lab);
         // HW accel
+        const QString detectedCodecs = KdenliveSettings::supportedHWCodecs().join(QLatin1Char(' '));
         QCheckBox *cb = new QCheckBox(i18n("VAAPI hardware acceleration"), this);
         m_startLayout->addWidget(cb);
-        cb->setChecked(KdenliveSettings::vaapiEnabled());
+        cb->setChecked(detectedCodecs.contains(QLatin1String("_vaapi")));
         QCheckBox *cbn = new QCheckBox(i18n("NVIDIA hardware acceleration"), this);
         m_startLayout->addWidget(cbn);
-        cbn->setChecked(KdenliveSettings::nvencEnabled());
+        cbn->setChecked(detectedCodecs.contains(QLatin1String("_nvenc")));
+        QCheckBox *cba = new QCheckBox(i18n("AMF hardware acceleration"), this);
+        m_startLayout->addWidget(cba);
+        cba->setChecked(detectedCodecs.contains(QLatin1String("_amf")));
+        QCheckBox *cbq = new QCheckBox(i18n("QSV hardware acceleration"), this);
+        m_startLayout->addWidget(cbq);
+        cbq->setChecked(detectedCodecs.contains(QLatin1String("_qsv")));
+        QCheckBox *cbv = new QCheckBox(i18n("Video Toolbox hardware acceleration"), this);
+        m_startLayout->addWidget(cbv);
+        cbv->setChecked(detectedCodecs.contains(QLatin1String("_videotoolbox")));
+#if !defined(Q_OS_WIN)
+        cba->setVisible(false);
+        cbq->setVisible(false);
+#endif
+#if !defined(Q_OS_MAC)
+        cbv->setVisible(false);
+#else
+        cbn->setVisible(false);
+#endif
+#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
+        cb->setVisible(false);
+#endif
         QPushButton *pb = new QPushButton(i18n("Check hardware acceleration"), this);
-        connect(pb, &QPushButton::clicked, this, [&, cb, cbn, pb]() {
+        connect(pb, &QPushButton::clicked, this, [&, cb, cbn, cba, cbq, cbv, pb]() {
             testHwEncoders();
             pb->setEnabled(false);
-            cb->setChecked(KdenliveSettings::vaapiEnabled());
-            cbn->setChecked(KdenliveSettings::nvencEnabled());
+            const QString detectedCodecs = KdenliveSettings::supportedHWCodecs().join(QLatin1Char(' '));
+            cb->setChecked(detectedCodecs.contains(QLatin1String("_vaapi")));
+            cbn->setChecked(detectedCodecs.contains(QLatin1String("_nvenc")));
+            cba->setChecked(detectedCodecs.contains(QLatin1String("_amf")));
+            cbq->setChecked(detectedCodecs.contains(QLatin1String("_qsv")));
+            cbv->setChecked(detectedCodecs.contains(QLatin1String("_videotoolbox")));
             updateHwStatus();
             pb->setEnabled(true);
         });
@@ -648,68 +674,80 @@ bool Wizard::checkHwEncoder(const QString &name, const QStringList &args, const 
     return false;
 }
 
+// static
+QStringList Wizard::codecs()
+{
+    QStringList codecs;
+#if defined(Q_OS_WIN)
+    codecs << "h264_nvenc";
+    codecs << "hevc_nvenc";
+    codecs << "av1_nvenc";
+    codecs << "h264_amf";
+    codecs << "hevc_amf";
+    codecs << "av1_amf";
+    codecs << "h264_qsv";
+    codecs << "hevc_qsv";
+    codecs << "vp9_qsv";
+    codecs << "av1_qsv";
+#elif defined(Q_OS_MAC)
+    codecs << "h264_videotoolbox";
+    codecs << "hevc_videotoolbox";
+#else
+    codecs << "h264_nvenc";
+    codecs << "hevc_nvenc";
+    codecs << "av1_nvenc";
+    codecs << "h264_vaapi";
+    codecs << "hevc_vaapi";
+    codecs << "vp9_vaapi";
+#endif
+    return codecs;
+}
+
 void Wizard::testHwEncoders()
 {
     QProcess hwEncoders;
-    // Testing vaapi support
-    QTemporaryFile tmp(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.mp4")));
-    if (!tmp.open()) {
-        // Something went wrong
-        return;
+    QStringList workingCodecs;
+    QStringList possibleCodecs = codecs();
+    for (auto &codec : possibleCodecs) {
+        QStringList args;
+        args << "-hide_banner"
+             << "-f"
+             << "lavfi"
+             << "-i"
+             << "color=s=640x360"
+             << "-frames"
+             << "1"
+             << "-an";
+        if (codec.endsWith("_vaapi"))
+            args << "-init_hw_device"
+                 << "vaapi=vaapi0:"
+                 << "-filter_hw_device"
+                 << "vaapi0"
+                 << "-vf"
+                 << "format=nv12,hwupload";
+        else if (codec == "hevc_qsv")
+            args << "-load_plugin"
+                 << "hevc_hw";
+        args << "-c:v" << codec << "-f"
+             << "rawvideo"
+             << "pipe:";
+        QProcess proc;
+        proc.setStandardOutputFile(QProcess::nullDevice());
+        proc.setReadChannel(QProcess::StandardError);
+        proc.start(KdenliveSettings::ffmpegpath(), args, QIODevice::ReadOnly);
+        bool started = proc.waitForStarted(2000);
+        bool finished = false;
+        QCoreApplication::processEvents();
+        if (started) {
+            finished = proc.waitForFinished(4000);
+            QCoreApplication::processEvents();
+        }
+        if (started && finished && proc.exitStatus() == QProcess::NormalExit && !proc.exitCode()) {
+            workingCodecs << codec;
+        }
     }
-    tmp.close();
-
-    // VAAPI testing
-    QStringList args{"-hide_banner",
-                     "-y",
-                     "-vaapi_device",
-                     "/dev/dri/renderD128",
-                     "-f",
-                     "lavfi",
-                     "-i",
-                     "smptebars=duration=5:size=1280x720:rate=25",
-                     "-vf",
-                     "format=nv12,hwupload",
-                     "-c:v",
-                     "h264_vaapi",
-                     "-an",
-                     "-f",
-                     "mp4",
-                     tmp.fileName()};
-    KdenliveSettings::setVaapiEnabled(checkHwEncoder(QStringLiteral("VAAPI"), args, tmp));
-
-    // VAAPI with scaling support
-    QStringList scaleargs{"-hide_banner",
-                          "-y",
-                          "-hwaccel",
-                          "vaapi",
-                          "-hwaccel_output_format",
-                          "vaapi",
-                          "/dev/dri/renderD128",
-                          "-f",
-                          "lavfi",
-                          "-i",
-                          "smptebars=duration=5:size=1280x720:rate=25",
-                          "-vf",
-                          "scale_vaapi=w=640:h=-2:format=nv12,hwupload",
-                          "-c:v",
-                          "h264_vaapi",
-                          "-an",
-                          "-f",
-                          "mp4",
-                          tmp.fileName()};
-    KdenliveSettings::setVaapiScalingEnabled(checkHwEncoder(QStringLiteral("VAAPI with SCALING"), scaleargs, tmp));
-
-    // NVIDIA testing
-    QTemporaryFile tmp2(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.mp4")));
-    if (!tmp2.open()) {
-        // Something went wrong
-        return;
-    }
-    tmp2.close();
-    QStringList args2{"-hide_banner", "-y",         "-hwaccel", "cuvid", "-f",  "lavfi",        "-i", "smptebars=duration=5:size=1280x720:rate=25",
-                      "-c:v",         "h264_nvenc", "-an",      "-f",    "mp4", tmp2.fileName()};
-    KdenliveSettings::setNvencEnabled(checkHwEncoder(QStringLiteral("NVENC"), args2, tmp2));
+    KdenliveSettings::setSupportedHWCodecs(workingCodecs);
+    qDebug() << "==========\nFOUND SUPPORTED CODECS: " << KdenliveSettings::supportedHWCodecs();
 
     // Testing NVIDIA SCALER
     QStringList args3{"-hide_banner", "-filters"};
@@ -729,22 +767,34 @@ void Wizard::testHwEncoders()
     KdenliveSettings::setNvScalingEnabled(nvScalingSupported);
 }
 
+const QString Wizard::getHWCodecFriendlyName()
+{
+    const QString hwCodecs = KdenliveSettings::supportedHWCodecs().join(QLatin1Char(' '));
+    if (hwCodecs.contains(QLatin1String("_nvenc"))) {
+        return QStringLiteral("NVIDIA");
+    } else if (hwCodecs.contains(QLatin1String("_vaapi"))) {
+        return QStringLiteral("VAAPI");
+    } else if (hwCodecs.contains(QLatin1String("_amf"))) {
+        return QStringLiteral("AMD AMF");
+    } else if (hwCodecs.contains(QLatin1String("_qsv"))) {
+        return QStringLiteral("Intel QuickSync");
+    } else if (hwCodecs.contains(QLatin1String("_videotoolbox"))) {
+        return QStringLiteral("VideoToolBox");
+    }
+    return QString();
+}
+
 void Wizard::updateHwStatus()
 {
     auto *statusLabel = new KMessageWidget(this);
-    bool hwEnabled = KdenliveSettings::vaapiEnabled() || KdenliveSettings::nvencEnabled();
+    bool hwEnabled = !KdenliveSettings::supportedHWCodecs().isEmpty();
     statusLabel->setMessageType(hwEnabled ? KMessageWidget::Positive : KMessageWidget::Information);
     statusLabel->setWordWrap(true);
     QString statusMessage;
     if (!hwEnabled) {
         statusMessage = i18n("No hardware encoders found.");
     } else {
-        if (KdenliveSettings::nvencEnabled()) {
-            statusMessage += i18n("NVIDIA hardware encoders found and enabled.");
-        }
-        if (KdenliveSettings::vaapiEnabled()) {
-            statusMessage += i18n("VAAPI hardware encoders found and enabled.");
-        }
+        statusMessage = i18n("hardware encoders found and enabled (%1).", getHWCodecFriendlyName());
     }
     statusLabel->setText(statusMessage);
     statusLabel->setCloseButtonVisible(false);

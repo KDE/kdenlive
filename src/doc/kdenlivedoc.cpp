@@ -1883,17 +1883,15 @@ void KdenliveDoc::selectPreviewProfile()
     KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
     KConfigGroup group(&conf, "timelinepreview");
     QMap<QString, QString> values = group.entryMap();
-    if (KdenliveSettings::nvencEnabled() && values.contains(QStringLiteral("x264-nvenc"))) {
-        const QString bestMatch = values.value(QStringLiteral("x264-nvenc"));
-        setDocumentProperty(QStringLiteral("previewparameters"), bestMatch.section(QLatin1Char(';'), 0, 0));
-        setDocumentProperty(QStringLiteral("previewextension"), bestMatch.section(QLatin1Char(';'), 1, 1));
-        return;
-    }
-    if (KdenliveSettings::vaapiEnabled() && values.contains(QStringLiteral("x264-vaapi"))) {
-        const QString bestMatch = values.value(QStringLiteral("x264-vaapi"));
-        setDocumentProperty(QStringLiteral("previewparameters"), bestMatch.section(QLatin1Char(';'), 0, 0));
-        setDocumentProperty(QStringLiteral("previewextension"), bestMatch.section(QLatin1Char(';'), 1, 1));
-        return;
+    if (KdenliveSettings::supportedHWCodecs().isEmpty()) {
+        QString codecFormat = QStringLiteral("x264-");
+        codecFormat.append(KdenliveSettings::supportedHWCodecs().first().section(QLatin1Char('_'), 1));
+        if (values.contains(codecFormat)) {
+            const QString bestMatch = values.value(codecFormat);
+            setDocumentProperty(QStringLiteral("previewparameters"), bestMatch.section(QLatin1Char(';'), 0, 0));
+            setDocumentProperty(QStringLiteral("previewextension"), bestMatch.section(QLatin1Char(';'), 1, 1));
+            return;
+        }
     }
     QMapIterator<QString, QString> i(values);
     QStringList matchingProfiles;
@@ -1962,15 +1960,14 @@ void KdenliveDoc::initProxySettings()
     QString params;
     QMap<QString, QString> values = group.entryMap();
     // Select best proxy profile depending on hw encoder support
-    if (KdenliveSettings::nvencEnabled() && values.contains(QStringLiteral("x264-nvenc"))) {
-        params = values.value(QStringLiteral("x264-nvenc"));
-    } else if (KdenliveSettings::vaapiEnabled()) {
-        if (KdenliveSettings::vaapiScalingEnabled() && values.contains(QStringLiteral("x264-vaapi-scale"))) {
-            params = values.value(QStringLiteral("x264-vaapi-scale"));
-        } else if (values.contains(QStringLiteral("x264-vaapi"))) {
-            params = values.value(QStringLiteral("x264-vaapi"));
+    if (KdenliveSettings::supportedHWCodecs().isEmpty()) {
+        QString codecFormat = QStringLiteral("x264-");
+        codecFormat.append(KdenliveSettings::supportedHWCodecs().first().section(QLatin1Char('_'), 1));
+        if (values.contains(codecFormat)) {
+            params = values.value(codecFormat);
         }
-    } else {
+    }
+    if (params.isEmpty()) {
         params = values.value(QStringLiteral("MJPEG"));
     }
     m_proxyParams = params.section(QLatin1Char(';'), 0, 0);

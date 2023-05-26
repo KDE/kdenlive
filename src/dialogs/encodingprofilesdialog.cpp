@@ -6,6 +6,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "encodingprofilesdialog.h"
 #include "core.h"
+#include "dialogs/wizard.h"
 #include "kdenlivesettings.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
@@ -254,8 +255,8 @@ void EncodingProfilesChooser::loadEncodingProfiles()
     QString currentItem = m_profilesCombo->currentText();
     m_profilesCombo->clear();
     if (m_showAutoItem) {
-        if (m_type == EncodingProfilesManager::TimelinePreview && (KdenliveSettings::nvencEnabled() || KdenliveSettings::vaapiEnabled())) {
-            m_profilesCombo->addItem(QIcon::fromTheme(QStringLiteral("speedometer")), i18n("Automatic"));
+        if (m_type == EncodingProfilesManager::TimelinePreview && !KdenliveSettings::supportedHWCodecs().isEmpty()) {
+            m_profilesCombo->addItem(QIcon::fromTheme(QStringLiteral("speedometer")), i18n("Automatic (%1)", Wizard::getHWCodecFriendlyName()));
         } else {
             m_profilesCombo->addItem(i18n("Automatic"));
         }
@@ -343,8 +344,8 @@ void EncodingTimelinePreviewProfilesChooser::loadEncodingProfiles()
     QString currentItem = m_profilesCombo->currentText();
     m_profilesCombo->clear();
     if (m_showAutoItem) {
-        if (KdenliveSettings::nvencEnabled() || KdenliveSettings::vaapiEnabled()) {
-            m_profilesCombo->addItem(QIcon::fromTheme(QStringLiteral("speedometer")), i18n("Automatic"));
+        if (!KdenliveSettings::supportedHWCodecs().isEmpty()) {
+            m_profilesCombo->addItem(QIcon::fromTheme(QStringLiteral("speedometer")), i18n("Automatic (%1)", Wizard::getHWCodecFriendlyName()));
         } else {
             m_profilesCombo->addItem(i18n("Automatic"));
         }
@@ -354,23 +355,29 @@ void EncodingTimelinePreviewProfilesChooser::loadEncodingProfiles()
     KConfigGroup group(&conf, EncodingProfilesManager::configGroupName(m_type));
     QMap<QString, QString> values = group.entryMap();
     QMapIterator<QString, QString> i(values);
+    const QStringList allHWCodecs = Wizard::codecs();
     while (i.hasNext()) {
         i.next();
         if (!i.key().isEmpty()) {
-            // We filter out incompatible profiles
-            if (i.value().contains(QLatin1String("nvenc"))) {
-                if (KdenliveSettings::nvencEnabled()) {
-                    m_profilesCombo->addItem(QIcon::fromTheme(QStringLiteral("speedometer")), i.key(), i.value());
+            // We filter out incompatible profiles, find out vcodec if mentionned
+            QString itemCodec;
+            QStringList values = i.value().split(QLatin1Char(' '));
+            for (auto &v : values) {
+                if (v.startsWith(QLatin1String("vcodec=")) || v.startsWith(QLatin1String("codec:v="))) {
+                    itemCodec = v.section(QLatin1Char('='), 1);
+                    break;
                 }
-                continue;
             }
-            if (i.value().contains(QLatin1String("vaapi"))) {
-                if (KdenliveSettings::vaapiEnabled()) {
-                    m_profilesCombo->addItem(QIcon::fromTheme(QStringLiteral("speedometer")), i.key(), i.value());
+            if (!itemCodec.isEmpty()) {
+                if (allHWCodecs.contains(itemCodec)) {
+                    // This is an HW codec, chech if supported
+                    if (KdenliveSettings::supportedHWCodecs().contains(itemCodec)) {
+                        m_profilesCombo->addItem(QIcon::fromTheme(QStringLiteral("speedometer")), i.key(), i.value());
+                    }
+                    continue;
                 }
-                continue;
+                m_profilesCombo->addItem(i.key(), i.value());
             }
-            m_profilesCombo->addItem(i.key(), i.value());
         }
     }
     if (!currentItem.isEmpty()) {

@@ -33,6 +33,8 @@ public:
     bool checkHwEncoder(const QString &name, const QStringList &args, const QTemporaryFile &file);
     void testHwEncoders();
     static void slotCheckPrograms(QString &infos, QString &warnings);
+    static QStringList codecs();
+    static const QString getHWCodecFriendlyName();
 
 private:
     QVBoxLayout *m_startLayout;
