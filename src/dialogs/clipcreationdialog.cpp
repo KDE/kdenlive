@@ -574,7 +574,14 @@ KFileWidget *ClipCreationDialog::browserWidget(QWidget *parent)
     f->setLayout(l);
     fileWidget->setCustomWidget(f);
     // Required to only add file on double click and not on single click
-    fileWidget->setOperationMode(KFileWidget::Other);
+    QStyleOptionViewItem option;
+    if (fileWidget->style()->styleHint(QStyle::SH_ItemView_ActivateItemOnSingleClick, &option, fileWidget)) {
+        // SIngle click activation in file browser, use Saving to enforece double click to import
+        fileWidget->setOperationMode(KFileWidget::Saving);
+    } else {
+        // Doubel click to import, ok.
+        fileWidget->setOperationMode(KFileWidget::Other);
+    }
     QObject::connect(fileWidget, &KFileWidget::accepted, fileWidget, [fileWidget, importseq]() {
         if (importseq->isChecked()) {
             // We are importing an image sequence, abort
