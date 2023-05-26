@@ -879,6 +879,9 @@ void MainWindow::init(const QString &mltPath)
     m_hamburgerMenu->setMenuBar(menuBar());
     m_hamburgerMenu->setShowMenuBarAction(showMenuBarAction);
 
+    // Detect shortcut conflicts bewtween mainwindow and media browser
+    pCore->mediaBrowser()->detectShortcutConflicts();
+
     connect(toolBar(), &KToolBar::visibilityChanged, this, [&, showMenuBarAction](bool visible) {
         if (visible && !toolBar()->actions().contains(m_hamburgerMenu)) {
             // hack to be able to insert the hamburger menu at the first position
@@ -2528,6 +2531,8 @@ void MainWindow::slotEditKeys()
     }
 #endif
     dialog.addCollection(actionCollection(), i18nc("general keyboard shortcuts", "General"));
+    // Update the shortcut conflicts list bewtween mainwindow and media browser
+    connect(&dialog, &KShortcutsDialog::saved, pCore->mediaBrowser(), &MediaBrowser::detectShortcutConflicts);
     dialog.configure();
 }
 
@@ -3217,14 +3222,6 @@ void MainWindow::customEvent(QEvent *e)
 
 void MainWindow::slotSnapRewind()
 {
-    QWidget *widget = QApplication::focusWidget();
-    while ((widget != nullptr) && widget != this) {
-        if (widget == pCore->mediaBrowser()) {
-            pCore->mediaBrowser()->back();
-            return;
-        }
-        widget = widget->parentWidget();
-    }
     if (m_projectMonitor->isActive()) {
         getCurrentTimeline()->controller()->gotoPreviousSnap();
     } else {
@@ -3234,14 +3231,6 @@ void MainWindow::slotSnapRewind()
 
 void MainWindow::slotSnapForward()
 {
-    QWidget *widget = QApplication::focusWidget();
-    while ((widget != nullptr) && widget != this) {
-        if (widget == pCore->mediaBrowser()) {
-            pCore->mediaBrowser()->forward();
-            return;
-        }
-        widget = widget->parentWidget();
-    }
     if (m_projectMonitor->isActive()) {
         getCurrentTimeline()->controller()->gotoNextSnap();
     } else {

@@ -1324,10 +1324,6 @@
       <label>Default size for media browser icons.</label>
       <default>16</default>
     </entry>
-    <entry name="mediaInlinePreview" type="Bool">
-      <label>Show inline preview in media browser.</label>
-      <default>false</default>
-    </entry>
     <entry name="mediaDoubleClickImport" type="Bool">
       <label>Show inline preview in media browser.</label>
       <default>true</default>

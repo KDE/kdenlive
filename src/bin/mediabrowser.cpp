@@ -11,6 +11,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "core.h"
 #include "dialogs/clipcreationdialog.h"
 #include "kdenlivesettings.h"
+#include "mainwindow.h"
 #include "project/dialogs/slideshowclip.h"
 
 #include <KActionCollection>
@@ -52,18 +53,6 @@ MediaBrowser::MediaBrowser(QWidget *parent)
     QAction *zoomOut = new QAction(QIcon::fromTheme("zoom-out"), i18n("Zoom Out"));
     QAction *importAction = new QAction(QIcon::fromTheme("document-open"), i18n("Import Selection"));
     connect(importAction, &QAction::triggered, this, [this]() { importSelection(); });
-    QAction *showPreview = new QAction(QIcon::fromTheme("fileview-preview"), i18n("Show File Preview"));
-    showPreview->setCheckable(true);
-    showPreview->setChecked(KdenliveSettings::mediaInlinePreview());
-    connect(showPreview, &QAction::triggered, this, [this](bool enabled) {
-        KdenliveSettings::setMediaInlinePreview(enabled);
-        if (enabled && m_op->iconSize() > int(KIconLoader::SizeSmall)) {
-            m_op->setInlinePreviewShown(true);
-        } else {
-            m_op->setInlinePreviewShown(false);
-        }
-        m_op->updateDir();
-    });
     QAction *importOnDoubleClick = new QAction(QIcon::fromTheme("document-open"), i18n("Import File on Double Click"));
     importOnDoubleClick->setCheckable(true);
     importOnDoubleClick->setChecked(KdenliveSettings::mediaDoubleClickImport());
@@ -78,6 +67,7 @@ MediaBrowser::MediaBrowser(QWidget *parent)
     QAction *up = m_op->action(KDirOperator::Up);
     QAction *back = m_op->action(KDirOperator::Back);
     QAction *forward = m_op->action(KDirOperator::Forward);
+    QAction *inlinePreview = m_op->action(KDirOperator::ShowPreviewPanel);
     QAction *preview = m_op->action(KDirOperator::ShowPreviewPanel);
     QAction *viewMenu = m_op->action(KDirOperator::ViewModeMenu);
 #else
@@ -86,18 +76,12 @@ MediaBrowser::MediaBrowser(QWidget *parent)
     QAction *up = m_op->actionCollection()->action("up");
     QAction *back = m_op->actionCollection()->action("back");
     QAction *forward = m_op->actionCollection()->action("forward");
+    QAction *inlinePreview = m_op->actionCollection()->action("inline preview");
     QAction *preview = m_op->actionCollection()->action("preview");
     QAction *viewMenu = m_op->actionCollection()->action("view menu");
 #endif
-    // Make all actions shortcuts local only
-    for (auto &a : actions) {
-        a->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-    }
-    // Disable "Del" shortcut to move item to trash - too dangerous
+    // Disable "Del" shortcut to move item to trash - too dangerous ??
     trash->setShortcut({});
-    // Disable back/forwards shortcuts to avoid conflicts with monitor shortcut. Let MainWindow handle the shortcuts
-    back->setShortcut({});
-    forward->setShortcut({});
     // Plug actions
     tb->addAction(up);
     tb->addAction(back);
@@ -105,7 +89,7 @@ MediaBrowser::MediaBrowser(QWidget *parent)
 
     tb->addAction(zoomOut);
     tb->addAction(zoomIn);
-    tb->addAction(showPreview);
+    tb->addAction(inlinePreview);
     tb->addSeparator();
     tb->addAction(importAction);
     preview->setIcon(QIcon::fromTheme(QStringLiteral("fileview-preview")));
@@ -130,25 +114,16 @@ MediaBrowser::MediaBrowser(QWidget *parent)
         int iconZoom = m_op->iconSize();
         int newZoom = iconZoom * 1.5;
         m_op->setIconSize(qMin(512, newZoom));
-        if (iconZoom == int(KIconLoader::SizeSmall) && KdenliveSettings::mediaInlinePreview()) {
-            m_op->setInlinePreviewShown(true);
-            m_op->updateDir();
-        }
         KdenliveSettings::setMediaIconSize(m_op->iconSize());
     });
     connect(zoomOut, &QAction::triggered, this, [this]() {
         int iconZoom = m_op->iconSize() / 1.5;
         iconZoom = qMax(int(KIconLoader::SizeSmall), iconZoom);
         m_op->setIconSize(iconZoom);
-        if (iconZoom == int(KIconLoader::SizeSmall) && KdenliveSettings::mediaInlinePreview()) {
-            m_op->setInlinePreviewShown(false);
-            m_op->updateDir();
-        }
         KdenliveSettings::setMediaIconSize(m_op->iconSize());
     });
     KConfigGroup grp(KSharedConfig::openConfig(), "Media Browser");
     m_op->readConfig(grp);
-    m_op->setInlinePreviewShown(KdenliveSettings::mediaInlinePreview() && KdenliveSettings::mediaIconSize() > int(KIconLoader::SizeSmall));
 #if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
     m_op->setViewMode(KFile::Default);
 #else
@@ -161,21 +136,7 @@ MediaBrowser::MediaBrowser(QWidget *parent)
     connect(m_locationEdit, &KUrlNavigator::urlChanged, this, [this](const QUrl url) { m_op->setUrl(url, true); });
 
     connect(m_op, &KDirOperator::urlEntered, this, &MediaBrowser::slotUrlEntered);
-    connect(m_op->view(), &QAbstractItemView::doubleClicked, this, [this](QModelIndex) {
-        if (KdenliveSettings::mediaDoubleClickImport()) {
-            importSelection();
-            return;
-        }
-        KFileItemList files = m_op->selectedItems();
-        if (files.isEmpty()) {
-            return;
-        }
-        if (files.first().isDir()) {
-            return;
-        }
-        openExternalFile(files.first().url());
-    });
-    m_op->installEventFilter(this);
+    connect(m_op, &KDirOperator::viewChanged, this, &MediaBrowser::connectView);
     connect(m_op, &KDirOperator::fileHighlighted, this, [this](const KFileItem &item) {
         KFileItemList files = m_op->selectedItems();
         if (item.isDir() || files.size() == 0) {
@@ -262,12 +223,70 @@ MediaBrowser::MediaBrowser(QWidget *parent)
     lay->addLayout(hlay1);
     lay->addLayout(hlay2);
     lay->addLayout(hlay3);
+    for (QObject *child : children()) {
+        if (child->isWidgetType()) {
+            child->installEventFilter(this);
+        }
+    }
+    connectView();
 }
 
 MediaBrowser::~MediaBrowser()
 {
     KConfigGroup grp(KSharedConfig::openConfig(), "Media Browser");
     m_op->writeConfig(grp);
+}
+
+void MediaBrowser::connectView()
+{
+    connect(m_op->view(), &QAbstractItemView::doubleClicked, this, &MediaBrowser::slotViewDoubleClicked);
+    m_op->view()->installEventFilter(this);
+    setFocusProxy(m_op->view());
+    setFocusPolicy(Qt::ClickFocus);
+}
+
+void MediaBrowser::slotViewDoubleClicked()
+{
+    if (KdenliveSettings::mediaDoubleClickImport()) {
+        importSelection();
+        return;
+    }
+    KFileItemList files = m_op->selectedItems();
+    if (files.isEmpty()) {
+        return;
+    }
+    if (files.first().isDir()) {
+        return;
+    }
+    openExternalFile(files.first().url());
+}
+
+void MediaBrowser::detectShortcutConflicts()
+{
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
+    QList<QAction *> actions = m_op->allActions();
+#else
+    QList<QAction *> actions = m_op->actionCollection()->actions();
+#endif
+    QList<QKeySequence> shortcutsList;
+    m_browserActions.clear();
+    m_conflictingAppActions.clear();
+    for (auto &a : actions) {
+        QKeySequence sh = a->shortcut();
+        if (!sh.isEmpty()) {
+            shortcutsList << sh;
+            m_browserActions << a;
+            a->setEnabled(false);
+        }
+    }
+    // qDebug()<<"::: FOUND BROWSER SHORTCUTS: "<<shortcutsList<<"\n__________________________";
+    QList<QAction *> appActions = pCore->window()->actionCollection()->actions();
+    for (auto &a : appActions) {
+        QKeySequence sh = a->shortcut();
+        if (!sh.isEmpty() && shortcutsList.contains(sh)) {
+            m_conflictingAppActions << a;
+        }
+    }
 }
 
 void MediaBrowser::importSelection()
@@ -317,8 +336,15 @@ const QUrl MediaBrowser::url() const
 
 bool MediaBrowser::eventFilter(QObject *watched, QEvent *event)
 {
+    // To avoid shortcut conflicts between the media browser and main app, we dis/enable actions when we gain/lose focus
+    if (event->type() == QEvent::FocusIn) {
+        qDebug() << ":::::: \n\nFOCUS IN\n\n:::::::::::::::::";
+        disableAppShortcuts();
+    } else if (event->type() == QEvent::FocusOut) {
+        qDebug() << ":::::: \n\nFOCUS OUT\n\n:::::::::::::::::";
+        enableAppShortcuts();
+    }
     const bool res = QWidget::eventFilter(watched, event);
-
     QKeyEvent *keyEvent = dynamic_cast<QKeyEvent *>(event);
     if (!keyEvent) {
         return res;
@@ -334,6 +360,34 @@ bool MediaBrowser::eventFilter(QObject *watched, QEvent *event)
         return true;
     }
     return res;
+}
+
+void MediaBrowser::disableAppShortcuts()
+{
+    for (auto &a : m_conflictingAppActions) {
+        if (a) {
+            a->setEnabled(false);
+        }
+    }
+    for (auto &a : m_browserActions) {
+        if (a) {
+            a->setEnabled(true);
+        }
+    }
+}
+
+void MediaBrowser::enableAppShortcuts()
+{
+    for (auto &a : m_browserActions) {
+        if (a) {
+            a->setEnabled(false);
+        }
+    }
+    for (auto &a : m_conflictingAppActions) {
+        if (a) {
+            a->setEnabled(true);
+        }
+    }
 }
 
 void MediaBrowser::slotUrlEntered(const QUrl &url)

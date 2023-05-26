@@ -29,6 +29,7 @@ public:
     void setUrl(const QUrl url);
     void back();
     void forward();
+    /** @brief create a map of all actions having shortcut conflicts between Kdenlive's actioncollection and the KDirOperator */
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
@@ -39,11 +40,19 @@ private:
     KFileFilterCombo *m_filterCombo;
     KUrlComboBox *m_filenameEdit;
     QTimer m_filterDelayTimer;
+    QList<QAction *> m_browserActions;
+    QList<QAction *> m_conflictingAppActions;
     void importSelection();
     void openExternalFile(const QUrl &url);
+    void enableAppShortcuts();
+    void disableAppShortcuts();
+public Q_SLOTS:
+    void detectShortcutConflicts();
 
 private Q_SLOTS:
     void slotFilterChanged();
     void slotLocationChanged(const QString &text);
     void slotUrlEntered(const QUrl &url);
+    void connectView();
+    void slotViewDoubleClicked();
 };
