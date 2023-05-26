@@ -226,6 +226,8 @@ Rectangle {
 
     function continuousScrolling(x, y) {
         // This provides continuous scrolling at the left/right edges.
+        var maxScroll = trackHeaders.height - tracksArea.height + horZoomBar.height + ruler.height + subtitleTrack.height
+        y = Math.min(y, maxScroll)
         y += ruler.height + subtitleTrack.height
         if (x > scrollView.contentX + scrollView.width - root.baseUnit * 3) {
             scrollTimer.horizontal = root.baseUnit
