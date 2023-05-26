@@ -1033,7 +1033,7 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
                 }
                 continue;
             }
-            if (filter->get("kdenlive_id") == nullptr) {
+            if (!filter->property_exists("kdenlive_id")) {
                 // don't consider internal MLT stuff
                 continue;
             }
@@ -1199,7 +1199,7 @@ bool EffectStackModel::checkConsistency()
         int kdenliveFilterCount = 0;
         for (int i = 0; i < ptr->filter_count(); i++) {
             std::shared_ptr<Mlt::Filter> filt(ptr->filter(i));
-            if (filt->get("kdenlive_id") != nullptr) {
+            if (filt->property_exists("kdenlive_id")) {
                 kdenliveFilterCount++;
             }
             // qDebug() << "FILTER: "<<i<<" : "<<ptr->filter(i)->get("mlt_service");
@@ -1475,5 +1475,18 @@ void EffectStackModel::updateEffectZones()
     Q_EMIT dataChanged(QModelIndex(), QModelIndex(), {TimelineModel::EffectZonesRole});
     if (m_ownerId.first == ObjectType::Master) {
         Q_EMIT updateMasterZones();
+    }
+}
+
+void EffectStackModel::passEffects(Mlt::Producer *producer)
+{
+    auto ms = m_masterService.lock();
+    int ct = ms->filter_count();
+    for (int i = 0; i < ct; i++) {
+        if (ms->filter(i)->get_int("internal_added") > 0 || !ms->filter(i)->property_exists("kdenlive_id")) {
+            continue;
+        }
+        auto *filter = new Mlt::Filter(*ms->filter(i));
+        producer->attach(*filter);
     }
 }

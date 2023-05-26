@@ -295,7 +295,7 @@ void AssetParameterModel::setParameter(const QString &name, int value, bool upda
     }
 }
 
-void AssetParameterModel::internalSetParameter(const QString &name, const QString &paramValue, const QModelIndex &paramIndex)
+void AssetParameterModel::internalSetParameter(const QString name, const QString paramValue, const QModelIndex &paramIndex)
 {
     Q_ASSERT(m_asset->is_valid());
     // TODO: this does not really belong here, but I don't see another way to do it so that undo works
