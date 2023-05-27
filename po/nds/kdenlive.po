@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-21 02:34+0000\n"
+"POT-Creation-Date: 2023-05-27 02:33+0000\n"
 "PO-Revision-Date: 2011-11-16 15:57+0100\n"
 "Last-Translator: Manfred Wiese <m.j.wiese@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -4157,7 +4157,7 @@ msgid ""
 "end."
 msgstr ""
 
-#: src/audiomixer/mixermanager.cpp:205 src/timeline2/view/qml/timeline.qml:965
+#: src/audiomixer/mixermanager.cpp:205 src/timeline2/view/qml/timeline.qml:967
 #, kde-format
 msgid "Master"
 msgstr ""
@@ -4925,7 +4925,7 @@ msgid "Edit Tags"
 msgstr "Vöransichten wiesen"
 
 #: src/bin/bin.cpp:4280 src/bin/projectclip.cpp:190
-#: src/bin/projectclip.cpp:1943 src/onlineresources/resourcewidget.cpp:266
+#: src/bin/projectclip.cpp:1945 src/onlineresources/resourcewidget.cpp:266
 #: src/onlineresources/resourcewidget.cpp:557
 #: src/onlineresources/resourcewidget.cpp:572
 #, fuzzy, kde-format
@@ -4954,9 +4954,9 @@ msgid "Please set a default application to open audio files"
 msgstr ""
 
 #: src/bin/bin.cpp:4373 src/core.cpp:302 src/doc/kdenlivedoc.cpp:171
-#: src/jobs/cliploadtask.cpp:458 src/jobs/filtertask.cpp:85
-#: src/layoutmanagement.cpp:466 src/layoutmanagement.cpp:527
-#: src/profiles/profilerepository.cpp:173
+#: src/jobs/cliploadtask.cpp:458 src/jobs/filtertask.cpp:93
+#: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:466
+#: src/layoutmanagement.cpp:527 src/profiles/profilerepository.cpp:173
 #: src/renderpresets/renderpresetrepository.cpp:374
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
@@ -5515,13 +5515,13 @@ msgstr "Profil sekern"
 msgid "File already exists"
 msgstr "Dateiverwiedern:"
 
-#: src/bin/projectclip.cpp:2677
+#: src/bin/projectclip.cpp:2679
 #, fuzzy, kde-format
 #| msgid "Enable Stretch"
 msgid "Add stream effect"
 msgstr "Utwiedern anmaken"
 
-#: src/bin/projectclip.cpp:2702
+#: src/bin/projectclip.cpp:2704
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Remove stream effect"
@@ -5965,7 +5965,7 @@ msgstr ""
 #: src/core.cpp:670 src/kdenliveui.rc:30 src/mainwindow.cpp:277
 #: src/project/dialogs/archivewidget.cpp:97
 #: src/project/dialogs/projectsettings.cpp:422
-#: src/timeline2/view/qml/timeline.qml:1057
+#: src/timeline2/view/qml/timeline.qml:1059
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Subtitles"
@@ -7016,7 +7016,7 @@ msgstr "Klangkanaals"
 msgid "Rendering <i>%1</i> started"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1182 src/monitor/monitor.cpp:1151
+#: src/dialogs/renderwidget.cpp:1182 src/monitor/monitor.cpp:1153
 #, kde-format
 msgid "untitled"
 msgstr "ahn Titel"
@@ -8756,7 +8756,7 @@ msgstr "Ümkoderen"
 msgid "Extracting %1 out of %2"
 msgstr ""
 
-#: src/jobs/cuttask.cpp:209 src/jobs/cuttask.cpp:211 src/jobs/filtertask.cpp:70
+#: src/jobs/cuttask.cpp:209 src/jobs/cuttask.cpp:211 src/jobs/filtertask.cpp:71
 #: src/jobs/speedtask.cpp:184 src/jobs/speedtask.cpp:196
 #: src/jobs/stabilizetask.cpp:106 src/jobs/stabilizetask.cpp:123
 #, kde-format
@@ -8773,31 +8773,37 @@ msgstr ""
 msgid "Cut job failed."
 msgstr ""
 
-#: src/jobs/filtertask.cpp:40
+#: src/jobs/filtertask.cpp:41
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgid "Processing filter %1"
 msgstr "Ümkoderen"
 
-#: src/jobs/filtertask.cpp:111
+#: src/jobs/filtertask.cpp:96 src/jobs/filtertask.cpp:134
+#, fuzzy, kde-format
+#| msgid "Opening file %1"
+msgid "Cannot process file %1"
+msgstr "Datei \"%1\" warrt opmaakt"
+
+#: src/jobs/filtertask.cpp:150
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgid "Cannot open source."
 msgstr "Datei \"%1\" warrt opmaakt"
 
-#: src/jobs/filtertask.cpp:135
+#: src/jobs/filtertask.cpp:174
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgid "Cannot create consumer."
 msgstr "Datei \"%1\" warrt opmaakt"
 
-#: src/jobs/filtertask.cpp:147
+#: src/jobs/filtertask.cpp:186
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgid "Cannot create filter %1"
 msgstr "Datei \"%1\" warrt opmaakt"
 
-#: src/jobs/filtertask.cpp:228
+#: src/jobs/filtertask.cpp:267
 #, kde-format
 msgid "Failed to filter source."
 msgstr ""
@@ -11539,7 +11545,7 @@ msgid "Audio streams"
 msgstr "Klangkanaals"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:710
-#: src/monitor/monitor.cpp:1766
+#: src/monitor/monitor.cpp:1768
 #, kde-format
 msgid "Merge all streams"
 msgstr ""
@@ -12033,26 +12039,26 @@ msgstr ""
 msgid "Set Zone"
 msgstr "Sekern"
 
-#: src/monitor/monitor.cpp:1163
+#: src/monitor/monitor.cpp:1165
 #, fuzzy, kde-format
 #| msgid "Title Image"
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Titelbild"
 
-#: src/monitor/monitor.cpp:1163
+#: src/monitor/monitor.cpp:1165
 #, fuzzy, kde-format
 #| msgid "Title Image"
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "Titelbild"
 
-#: src/monitor/monitor.cpp:1170
+#: src/monitor/monitor.cpp:1172
 #, kde-format
 msgid "Export image using source resolution"
 msgstr ""
 
-#: src/monitor/monitor.cpp:1751 src/monitor/monitor.cpp:1869
+#: src/monitor/monitor.cpp:1753 src/monitor/monitor.cpp:1871
 #, fuzzy, kde-format
 #| msgid "Audio channels"
 msgid "%1 audio stream"
@@ -12060,37 +12066,37 @@ msgid_plural "%1 audio streams"
 msgstr[0] "Klangkanaals"
 msgstr[1] "Klangkanaals"
 
-#: src/monitor/monitor.cpp:2203
+#: src/monitor/monitor.cpp:2205
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2245 src/monitor/monitor.cpp:2302
+#: src/monitor/monitor.cpp:2247 src/monitor/monitor.cpp:2304
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
 "restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2265
+#: src/monitor/monitor.cpp:2267
 #, fuzzy, kde-format
 #| msgid "Enable Stretch"
 msgid "Clip has no effects"
 msgstr "Utwiedern anmaken"
 
-#: src/monitor/monitor.cpp:2267
+#: src/monitor/monitor.cpp:2269
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2309
+#: src/monitor/monitor.cpp:2311
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
 "frei0r and restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2355
+#: src/monitor/monitor.cpp:2357
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""
@@ -15769,24 +15775,24 @@ msgid "All clips were not successfully copied"
 msgstr ""
 
 #: src/timeline2/model/timelinefunctions.cpp:2242
-#: src/timeline2/model/timelinefunctions.cpp:2411
+#: src/timeline2/model/timelinefunctions.cpp:2416
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2431
+#: src/timeline2/model/timelinefunctions.cpp:2436
 #, fuzzy, kde-format
 #| msgid "Edit profile"
 msgid "Paste timeline clips"
 msgstr "Profil bewerken"
 
-#: src/timeline2/model/timelinefunctions.cpp:2649
+#: src/timeline2/model/timelinefunctions.cpp:2654
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Remove space on track"
 msgstr "Profil sekern"
 
-#: src/timeline2/model/timelinefunctions.cpp:2676
+#: src/timeline2/model/timelinefunctions.cpp:2681
 #, fuzzy, kde-format
 #| msgid "Source Color"
 msgid "Delete clips on track"
@@ -16061,7 +16067,7 @@ msgid "Change clip speed"
 msgstr "Füllklöör"
 
 #: src/timeline2/model/timelinemodel.cpp:6227
-#: src/timeline2/view/qml/timeline.qml:1159
+#: src/timeline2/view/qml/timeline.qml:1161
 #: src/timeline2/view/qml/TrackHead.qml:502
 #, fuzzy, kde-format
 #| msgid " frames"
@@ -16069,7 +16075,7 @@ msgid "Lock track"
 msgstr " Biller"
 
 #: src/timeline2/model/timelinemodel.cpp:6232
-#: src/timeline2/view/qml/timeline.qml:1159
+#: src/timeline2/view/qml/timeline.qml:1161
 #: src/timeline2/view/qml/TrackHead.qml:502
 #, fuzzy, kde-format
 #| msgid "Audio channels"
@@ -16208,7 +16214,7 @@ msgid "Stop"
 msgstr "Anhollen"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2043
+#: src/timeline2/view/qml/timeline.qml:2045
 #, fuzzy, kde-format
 #| msgid "Pause"
 msgid "Paused"
@@ -16354,30 +16360,30 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:953
+#: src/timeline2/view/qml/timeline.qml:955
 #, kde-format
 msgctxt "Initial for Master"
 msgid "M"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:962
+#: src/timeline2/view/qml/timeline.qml:964
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Show master effects"
 msgstr "Profil sekern"
 
-#: src/timeline2/view/qml/timeline.qml:1093
+#: src/timeline2/view/qml/timeline.qml:1095
 #, kde-format
 msgid "Click to see details"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:1115
+#: src/timeline2/view/qml/timeline.qml:1117
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Speech recognition"
 msgstr "Utsöök-Warktüüch"
 
-#: src/timeline2/view/qml/timeline.qml:1135
+#: src/timeline2/view/qml/timeline.qml:1137
 #: src/timeline2/view/qml/TrackHead.qml:468
 #, fuzzy, kde-format
 #| msgid "Show histogram"
@@ -16385,32 +16391,32 @@ msgid "Show"
 msgstr "Histogramm wiesen"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1135
+#: src/timeline2/view/qml/timeline.qml:1137
 #: src/timeline2/view/qml/TrackHead.qml:468 src/ui/configcapture_ui.ui:397
 #, kde-format
 msgid "Hide"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:1720
+#: src/timeline2/view/qml/timeline.qml:1722
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Positschoon"
 
-#: src/timeline2/view/qml/timeline.qml:1884
+#: src/timeline2/view/qml/timeline.qml:1886
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "Offset: %1, Position: %2"
 msgstr "Positschoon"
 
-#: src/timeline2/view/qml/timeline.qml:2032
-#: src/timeline2/view/qml/timeline.qml:2041
+#: src/timeline2/view/qml/timeline.qml:2034
+#: src/timeline2/view/qml/timeline.qml:2043
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "Opnehmen"
 
-#: src/timeline2/view/qml/timeline.qml:2130
+#: src/timeline2/view/qml/timeline.qml:2132
 #, kde-format
 msgid "Multicam In"
 msgstr ""

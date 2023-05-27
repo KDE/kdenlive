@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-21 02:34+0000\n"
+"POT-Creation-Date: 2023-05-27 02:33+0000\n"
 "PO-Revision-Date: 2023-01-13 08:32+0700\n"
 "Last-Translator: Linerly <linerly@protonmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -4000,7 +4000,7 @@ msgstr ""
 "Memantau audio. Tekan <b>Space</b> untuk memulai/menjeda perekaman, <b>Esc</"
 "b> untuk membatalkan."
 
-#: src/audiomixer/mixermanager.cpp:205 src/timeline2/view/qml/timeline.qml:965
+#: src/audiomixer/mixermanager.cpp:205 src/timeline2/view/qml/timeline.qml:967
 #, kde-format
 msgid "Master"
 msgstr "Master"
@@ -4731,7 +4731,7 @@ msgid "Edit Tags"
 msgstr "Edit Tag"
 
 #: src/bin/bin.cpp:4280 src/bin/projectclip.cpp:190
-#: src/bin/projectclip.cpp:1943 src/onlineresources/resourcewidget.cpp:266
+#: src/bin/projectclip.cpp:1945 src/onlineresources/resourcewidget.cpp:266
 #: src/onlineresources/resourcewidget.cpp:557
 #: src/onlineresources/resourcewidget.cpp:572
 #, kde-format
@@ -4759,9 +4759,9 @@ msgid "Please set a default application to open audio files"
 msgstr "Silakan atur aplikasi default untuk membuka file audio"
 
 #: src/bin/bin.cpp:4373 src/core.cpp:302 src/doc/kdenlivedoc.cpp:171
-#: src/jobs/cliploadtask.cpp:458 src/jobs/filtertask.cpp:85
-#: src/layoutmanagement.cpp:466 src/layoutmanagement.cpp:527
-#: src/profiles/profilerepository.cpp:173
+#: src/jobs/cliploadtask.cpp:458 src/jobs/filtertask.cpp:93
+#: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:466
+#: src/layoutmanagement.cpp:527 src/profiles/profilerepository.cpp:173
 #: src/renderpresets/renderpresetrepository.cpp:374
 #, kde-format
 msgid "Cannot open file %1"
@@ -5298,12 +5298,12 @@ msgstr "Tidak valid"
 msgid "File already exists"
 msgstr "File sudah ada"
 
-#: src/bin/projectclip.cpp:2677
+#: src/bin/projectclip.cpp:2679
 #, kde-format
 msgid "Add stream effect"
 msgstr "Tambahkan efek stream"
 
-#: src/bin/projectclip.cpp:2702
+#: src/bin/projectclip.cpp:2704
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Singkirkan efek stream"
@@ -5732,7 +5732,7 @@ msgstr "Profil proyek Anda tidak valid, rendering mungkin gagal."
 #: src/core.cpp:670 src/kdenliveui.rc:30 src/mainwindow.cpp:277
 #: src/project/dialogs/archivewidget.cpp:97
 #: src/project/dialogs/projectsettings.cpp:422
-#: src/timeline2/view/qml/timeline.qml:1057
+#: src/timeline2/view/qml/timeline.qml:1059
 #, kde-format
 msgid "Subtitles"
 msgstr "Subtitel"
@@ -6752,7 +6752,7 @@ msgstr "Audio tanpa trek video"
 msgid "Rendering <i>%1</i> started"
 msgstr "Perenderan <i>%1</i> dimulai"
 
-#: src/dialogs/renderwidget.cpp:1182 src/monitor/monitor.cpp:1151
+#: src/dialogs/renderwidget.cpp:1182 src/monitor/monitor.cpp:1153
 #, kde-format
 msgid "untitled"
 msgstr "tidak berjudul"
@@ -8484,7 +8484,7 @@ msgstr "Enkoding AAC"
 msgid "Extracting %1 out of %2"
 msgstr "Mengekstrak %1 dari %2"
 
-#: src/jobs/cuttask.cpp:209 src/jobs/cuttask.cpp:211 src/jobs/filtertask.cpp:70
+#: src/jobs/cuttask.cpp:209 src/jobs/cuttask.cpp:211 src/jobs/filtertask.cpp:71
 #: src/jobs/speedtask.cpp:184 src/jobs/speedtask.cpp:196
 #: src/jobs/stabilizetask.cpp:106 src/jobs/stabilizetask.cpp:123
 #, kde-format
@@ -8501,28 +8501,34 @@ msgstr "Anda tidak bisa menimpa klip asli."
 msgid "Cut job failed."
 msgstr "Tugas memotong gagal."
 
-#: src/jobs/filtertask.cpp:40
+#: src/jobs/filtertask.cpp:41
 #, fuzzy, kde-format
 #| msgid "Processing %1"
 msgid "Processing filter %1"
 msgstr "Memproses %1"
 
-#: src/jobs/filtertask.cpp:111
+#: src/jobs/filtertask.cpp:96 src/jobs/filtertask.cpp:134
+#, fuzzy, kde-format
+#| msgid "Cannot open file %1"
+msgid "Cannot process file %1"
+msgstr "Tidak bisa membuka file %1"
+
+#: src/jobs/filtertask.cpp:150
 #, kde-format
 msgid "Cannot open source."
 msgstr "Tidak bisa membuka sumber."
 
-#: src/jobs/filtertask.cpp:135
+#: src/jobs/filtertask.cpp:174
 #, kde-format
 msgid "Cannot create consumer."
 msgstr "Tidak bisa membuat konsumen."
 
-#: src/jobs/filtertask.cpp:147
+#: src/jobs/filtertask.cpp:186
 #, kde-format
 msgid "Cannot create filter %1"
 msgstr "Tidak bisa membuat filter %1"
 
-#: src/jobs/filtertask.cpp:228
+#: src/jobs/filtertask.cpp:267
 #, kde-format
 msgid "Failed to filter source."
 msgstr "Gagal memfilter sumber."
@@ -11154,7 +11160,7 @@ msgid "Audio streams"
 msgstr "Stream audio"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:710
-#: src/monitor/monitor.cpp:1766
+#: src/monitor/monitor.cpp:1768
 #, kde-format
 msgid "Merge all streams"
 msgstr "Gabungkan semua stream"
@@ -11619,37 +11625,37 @@ msgstr "Resolusi layar Anda tidak cukup untuk tindakan ini"
 msgid "Set Zone"
 msgstr "Atur Zona"
 
-#: src/monitor/monitor.cpp:1163
+#: src/monitor/monitor.cpp:1165
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Simpan Citra"
 
-#: src/monitor/monitor.cpp:1163
+#: src/monitor/monitor.cpp:1165
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "Simpan Citra ke Proyek"
 
-#: src/monitor/monitor.cpp:1170
+#: src/monitor/monitor.cpp:1172
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "Ekspor citra menggunakan resolusi sumber"
 
-#: src/monitor/monitor.cpp:1751 src/monitor/monitor.cpp:1869
+#: src/monitor/monitor.cpp:1753 src/monitor/monitor.cpp:1871
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 stream audio"
 msgstr[1] "%1 stream audio"
 
-#: src/monitor/monitor.cpp:2203
+#: src/monitor/monitor.cpp:2205
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 "Tidak bisa menginisial manajer Movit's GLSL, silakan nonfungsikan Movit"
 
-#: src/monitor/monitor.cpp:2245 src/monitor/monitor.cpp:2302
+#: src/monitor/monitor.cpp:2247 src/monitor/monitor.cpp:2304
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -11658,17 +11664,17 @@ msgstr ""
 "Filter alphagrad diperlukan untuk fitur tersebut, mohon instal frei0r dan "
 "jalankan ulang Kdenlive"
 
-#: src/monitor/monitor.cpp:2265
+#: src/monitor/monitor.cpp:2267
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Klip tidak memiliki efek"
 
-#: src/monitor/monitor.cpp:2267
+#: src/monitor/monitor.cpp:2269
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Pilih klip di bin proyek untuk membandingkan efek"
 
-#: src/monitor/monitor.cpp:2309
+#: src/monitor/monitor.cpp:2311
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -11677,7 +11683,7 @@ msgstr ""
 "Transisi cairoblend diperlukan untuk fitur tersebut, mohon instal frei0r dan "
 "jalankan ulang Kdenlive"
 
-#: src/monitor/monitor.cpp:2355
+#: src/monitor/monitor.cpp:2357
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Fungsikan mode edit di monitor untuk mengedit efek"
@@ -15416,23 +15422,23 @@ msgid "All clips were not successfully copied"
 msgstr "Semua klip tidak berhasil disalin"
 
 #: src/timeline2/model/timelinefunctions.cpp:2242
-#: src/timeline2/model/timelinefunctions.cpp:2411
+#: src/timeline2/model/timelinefunctions.cpp:2416
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Tidak bisa menempelkan item di lini masa"
 
-#: src/timeline2/model/timelinefunctions.cpp:2431
+#: src/timeline2/model/timelinefunctions.cpp:2436
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Tempel klip lini masa"
 
-#: src/timeline2/model/timelinefunctions.cpp:2649
+#: src/timeline2/model/timelinefunctions.cpp:2654
 #, fuzzy, kde-format
 #| msgid "Remove Space in All Tracks"
 msgid "Remove space on track"
 msgstr "Singkirkan Spasi di Semua Trek"
 
-#: src/timeline2/model/timelinefunctions.cpp:2676
+#: src/timeline2/model/timelinefunctions.cpp:2681
 #, kde-format
 msgid "Delete clips on track"
 msgstr "Hapus klip di trek"
@@ -15680,14 +15686,14 @@ msgid "Change clip speed"
 msgstr "Ubah kecepatan klip"
 
 #: src/timeline2/model/timelinemodel.cpp:6227
-#: src/timeline2/view/qml/timeline.qml:1159
+#: src/timeline2/view/qml/timeline.qml:1161
 #: src/timeline2/view/qml/TrackHead.qml:502
 #, kde-format
 msgid "Lock track"
 msgstr "Kunci trek"
 
 #: src/timeline2/model/timelinemodel.cpp:6232
-#: src/timeline2/view/qml/timeline.qml:1159
+#: src/timeline2/view/qml/timeline.qml:1161
 #: src/timeline2/view/qml/TrackHead.qml:502
 #, kde-format
 msgid "Unlock track"
@@ -15822,7 +15828,7 @@ msgid "Stop"
 msgstr "Hentikan"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2043
+#: src/timeline2/view/qml/timeline.qml:2045
 #, kde-format
 msgid "Paused"
 msgstr "Jeda"
@@ -15961,57 +15967,57 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>Klik dua kali</b> untuk mengedit teks"
 
-#: src/timeline2/view/qml/timeline.qml:953
+#: src/timeline2/view/qml/timeline.qml:955
 #, kde-format
 msgctxt "Initial for Master"
 msgid "M"
 msgstr "M"
 
-#: src/timeline2/view/qml/timeline.qml:962
+#: src/timeline2/view/qml/timeline.qml:964
 #, kde-format
 msgid "Show master effects"
 msgstr "Tampilkan efek master"
 
-#: src/timeline2/view/qml/timeline.qml:1093
+#: src/timeline2/view/qml/timeline.qml:1095
 #, kde-format
 msgid "Click to see details"
 msgstr "Klik untuk melihat detailnya"
 
-#: src/timeline2/view/qml/timeline.qml:1115
+#: src/timeline2/view/qml/timeline.qml:1117
 #, kde-format
 msgid "Speech recognition"
 msgstr "Pengenalan lisan"
 
-#: src/timeline2/view/qml/timeline.qml:1135
+#: src/timeline2/view/qml/timeline.qml:1137
 #: src/timeline2/view/qml/TrackHead.qml:468
 #, kde-format
 msgid "Show"
 msgstr "Tampilkan"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1135
+#: src/timeline2/view/qml/timeline.qml:1137
 #: src/timeline2/view/qml/TrackHead.qml:468 src/ui/configcapture_ui.ui:397
 #, kde-format
 msgid "Hide"
 msgstr "Sembunyikan"
 
-#: src/timeline2/view/qml/timeline.qml:1720
+#: src/timeline2/view/qml/timeline.qml:1722
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Klik ganda</b> untuk menambahkan subtitel"
 
-#: src/timeline2/view/qml/timeline.qml:1884
+#: src/timeline2/view/qml/timeline.qml:1886
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Ofset: %1, Posisi: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2032
-#: src/timeline2/view/qml/timeline.qml:2041
+#: src/timeline2/view/qml/timeline.qml:2034
+#: src/timeline2/view/qml/timeline.qml:2043
 #, kde-format
 msgid "Recording"
 msgstr "Merekam"
 
-#: src/timeline2/view/qml/timeline.qml:2130
+#: src/timeline2/view/qml/timeline.qml:2132
 #, kde-format
 msgid "Multicam In"
 msgstr "Multicam Masuk"
