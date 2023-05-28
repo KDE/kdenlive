@@ -45,13 +45,17 @@ void AssetListWidget::setup()
 {
     setResizeMode(QQuickWidget::SizeRootObjectToView);
     engine()->addImageProvider(QStringLiteral("asseticon"), m_assetIconProvider);
-    setSource(QUrl(QStringLiteral("qrc:/qml/assetList.qml")));
+    reset();
     setFocusPolicy(Qt::StrongFocus);
 }
 
 void AssetListWidget::reset()
 {
+#if QT_VERSION > QT_VERSION_CHECK(6,0,0)
+    setSource(QUrl(QStringLiteral("qrc:/qml/assetList-qt6.qml")));
+#else
     setSource(QUrl(QStringLiteral("qrc:/qml/assetList.qml")));
+#endif
 }
 
 QString AssetListWidget::getName(const QModelIndex &index) const
