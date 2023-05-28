@@ -1784,6 +1784,8 @@ void KdenliveSettingsDialog::initSpeechPage()
     connect(m_sttWhisper, &SpeechToText::dependenciesAvailable, this, [&]() { m_sttWhisper->runConcurrentScript(QStringLiteral("checkgpu.py"), {}); });
 
     // VOSK
+    m_configSpeech.vosk_folder->setPlaceholderText(
+        QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("speechmodels"), QStandardPaths::LocateDirectory));
     PythonDependencyMessage *msg = new PythonDependencyMessage(this, m_stt);
     m_configSpeech.message_layout->addWidget(msg);
 
