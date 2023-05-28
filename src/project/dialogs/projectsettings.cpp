@@ -899,7 +899,7 @@ void ProjectSettings::loadProxyProfiles()
             QString itemCodec;
             QStringList values = params.split(QLatin1Char('-'));
             for (auto &v : values) {
-                if (v.startsWith(QLatin1String("vcodec ")) || v.startsWith(QLatin1String("codec:v "))) {
+                if (v.startsWith(QLatin1String("vcodec ")) || v.startsWith(QLatin1String("codec:v ")) || v.startsWith(QLatin1String("c:v "))) {
                     itemCodec = v.section(QLatin1Char(' '), 1);
                     break;
                 }
