@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-27 00:46+0000\n"
-"PO-Revision-Date: 2023-04-17 17:09+0300\n"
+"PO-Revision-Date: 2023-05-15 16:30+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-POT-Import-Date: 2013-01-13 20:43:15+0000\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.04.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -483,8 +483,7 @@ msgid "Channel to draw"
 msgstr "Piirrettävä kanava"
 
 #: data/effects/box_blur.xml:4
-#, fuzzy, kde-format
-#| msgid "Box Blur"
+#, kde-format
 msgid "BoxBlur"
 msgstr "Laatikkosumennus"
 
@@ -649,13 +648,12 @@ msgstr "1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16"
 #: data/effects/copychannelstostereo.xml:9
 #, kde-format
 msgid "FROM"
-msgstr ""
+msgstr "Kanavasta"
 
 #: data/effects/copychannelstostereo.xml:13
-#, fuzzy, kde-format
-#| msgid "T"
+#, kde-format
 msgid "TO"
-msgstr "T"
+msgstr "MIHIN"
 
 #: data/effects/crop.xml:4
 #, kde-format
@@ -747,10 +745,9 @@ msgid "Clockwise"
 msgstr "Myötäpäivään"
 
 #: data/effects/dance.xml:41
-#, fuzzy, kde-format
-#| msgid "Clockwise"
+#, kde-format
 msgid "Counter Clockwise"
-msgstr "Myötäpäivään"
+msgstr "Vastapäivään"
 
 #: data/effects/dust.xml:4
 #, kde-format
@@ -4051,7 +4048,7 @@ msgstr "Poista raidan vaimennus"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
-msgstr ""
+msgstr "Vaimentaa ääniraidan tai poistaa sen vaimennuksen."
 
 #: src/audiomixer/mixerwidget.cpp:293
 #, kde-format
@@ -4062,7 +4059,7 @@ msgstr "Tavallinen tila"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
-msgstr ""
+msgstr "Jos valittu, kaikki muut ääniraidat vaimennetaan."
 
 #: src/audiomixer/mixerwidget.cpp:303
 #: src/timeline2/view/timelinecontroller.cpp:4773
@@ -4074,7 +4071,7 @@ msgstr "Nauhoita ääntä"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
-msgstr ""
+msgstr "Asettaa ääniraidan nauhoitustilaan."
 
 #: src/audiomixer/mixerwidget.cpp:317
 #, kde-format
@@ -4371,10 +4368,9 @@ msgid "Could not locate %1"
 msgstr "Ei löytynyt %1"
 
 #: src/bin/bin.cpp:2024 src/timeline2/view/timelinecontroller.cpp:3872
-#, fuzzy, kde-format
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Open sequence"
-msgstr "Luo uusi jakso"
+msgstr "Avaa sekvenssi"
 
 #: src/bin/bin.cpp:2042
 #, fuzzy, kde-format
@@ -4493,10 +4489,9 @@ msgstr "Soittolista"
 #: src/bin/bin.cpp:2283 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
 #: src/project/projectmanager.cpp:1248 src/project/projectmanager.cpp:1250
 #: src/ui/managecache_ui.ui:192
-#, fuzzy, kde-format
-#| msgid "Sequence name"
+#, kde-format
 msgid "Sequences"
-msgstr "Sekvenssin nimi"
+msgstr "Sekvenssit"
 
 #: src/bin/bin.cpp:2287 src/project/dialogs/projectsettings.cpp:216
 #, kde-format
@@ -4565,10 +4560,9 @@ msgid "Cannot set rating on this item"
 msgstr "Tälle kohteelle ei voi asettaa arviota"
 
 #: src/bin/bin.cpp:3011
-#, fuzzy, kde-format
-#| msgid "Opening file %1"
+#, kde-format
 msgid "Open %1"
-msgstr "Avataan tiedostoa %1"
+msgstr "Avaa %1"
 
 #: src/bin/bin.cpp:3414
 #, kde-format
@@ -4606,16 +4600,14 @@ msgid "Add Template Title…"
 msgstr "Lisää tekstileikkeen mallipohja…"
 
 #: src/bin/bin.cpp:3429
-#, fuzzy, kde-format
-#| msgid "Create mix"
+#, kde-format
 msgid "Create Animation…"
-msgstr "Luo käsittely"
+msgstr "Luo animaatio…"
 
 #: src/bin/bin.cpp:3431
-#, fuzzy, kde-format
-#| msgid "Add Image Sequence…"
+#, kde-format
 msgid "Add Sequence…"
-msgstr "Lisää kuvasarja…"
+msgstr "Lisää sekvenssi…"
 
 #: src/bin/bin.cpp:3434 src/mainwindow.cpp:363
 #, kde-format
@@ -4663,10 +4655,9 @@ msgid "Open in new bin"
 msgstr "Avaa uuteen kansioon"
 
 #: src/bin/bin.cpp:3505
-#, fuzzy, kde-format
-#| msgid "Default folder for project files"
+#, kde-format
 msgid "Default Target Folder for Sequences"
-msgstr "Projektitiedostojen oletuskansio"
+msgstr "Sekvenssien oletuskohdekansio"
 
 #: src/bin/bin.cpp:3509
 #, kde-format
@@ -4693,17 +4684,15 @@ msgid "Detailed log"
 msgstr "Yksityiskohdat"
 
 #: src/bin/bin.cpp:3640 src/bin/bin.cpp:3665
-#, fuzzy, kde-format
-#| msgid "Create New Sequence"
+#, kde-format
 msgctxt "@title:window"
 msgid "Create New Sequence"
-msgstr "Luo uusi jakso"
+msgstr "Luo uusi sekvenssi"
 
 #: src/bin/bin.cpp:3642 src/bin/bin.cpp:3667
-#, fuzzy, kde-format
-#| msgid "Sequence name"
+#, kde-format
 msgid "Sequence %1"
-msgstr "Sekvenssin nimi"
+msgstr "Sekvenssi %1"
 
 #: src/bin/bin.cpp:3696
 #, kde-format
@@ -4913,7 +4902,7 @@ msgstr[0] "Lisää leikkeelle lisävirrat"
 msgstr[1] "Lisää leikkeelle lisävirrat"
 
 #: src/bin/bin.cpp:5615
-#, fuzzy, kde-format
+#, kde-format
 msgid "Import selected clips"
 msgstr "Tuo valitut leikkeet"
 
@@ -4932,7 +4921,7 @@ msgid "Video stream %1"
 msgstr "Videon suoratoisto %1"
 
 #: src/bin/bin.cpp:5642
-#, fuzzy, kde-format
+#, kde-format
 msgid "Audio stream %1"
 msgstr "Äänivirta %1"
 
@@ -4969,10 +4958,9 @@ msgid "Create color clip"
 msgstr "Luo värileike"
 
 #: src/bin/clipcreator.cpp:151 src/bin/clipcreator.cpp:250
-#, fuzzy, kde-format
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create sequence"
-msgstr "Luo uusi jakso"
+msgstr "Luo sekvenssi"
 
 #: src/bin/clipcreator.cpp:260
 #, kde-format
@@ -5002,10 +4990,9 @@ msgid ""
 msgstr "Seuraavat leikkeet on jo lisätty projektiin. Haluatko monistaa ne?"
 
 #: src/bin/clipcreator.cpp:397
-#, fuzzy, kde-format
-#| msgid "Duplicate clip"
+#, kde-format
 msgid "Duplicate"
-msgstr "Monista leike"
+msgstr "Monista"
 
 #: src/bin/clipcreator.cpp:421 src/core.cpp:973
 #: src/project/projectmanager.cpp:768
@@ -5062,12 +5049,14 @@ msgid "MLT Playlist (*.mlt)"
 msgstr "MLT-soittolista (*.mlt)"
 
 #: src/bin/mediabrowser.cpp:52
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Zoom In"
 msgid "Zoom In"
 msgstr "Lähennä"
 
 #: src/bin/mediabrowser.cpp:53
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Zoom Out"
 msgid "Zoom Out"
 msgstr "Loitonna"
 
@@ -5316,10 +5305,9 @@ msgid "Add markers"
 msgstr "Lisää merkintä"
 
 #: src/bin/model/subtitlemodel.cpp:84
-#, fuzzy, kde-format
-#| msgid "Edit subtitle"
+#, kde-format
 msgid "Edit subtitle style"
-msgstr "Lisää tekstitys"
+msgstr "Muokkaa tekstitystyyliä"
 
 #: src/bin/model/subtitlemodel.cpp:379 src/bin/model/subtitlemodel.cpp:597
 #: src/bin/model/subtitlemodel.cpp:1501
@@ -5374,10 +5362,9 @@ msgid "Delete subtitle"
 msgstr "Poista tekstitys"
 
 #: src/bin/projectclip.cpp:226
-#, fuzzy, kde-format
-#| msgid "Preview sequence"
+#, kde-format
 msgid "Timeline sequence"
-msgstr "Esikatsele sekvenssiä"
+msgstr "Aikajanasekvenssi"
 
 #: src/bin/projectclip.cpp:531
 #, kde-format
@@ -5445,7 +5432,7 @@ msgstr "Id"
 #: src/bin/projectitemmodel.cpp:329
 #, kde-format
 msgid "Usage"
-msgstr ""
+msgstr "Käyttö"
 
 #: src/bin/projectitemmodel.cpp:332 src/doc/documentchecker.cpp:371
 #: src/mltcontroller/clipcontroller.cpp:462 src/profiles/profileinfo.cpp:46
@@ -5455,10 +5442,9 @@ msgid "Unknown"
 msgstr "Tuntematon"
 
 #: src/bin/projectitemmodel.cpp:636
-#, fuzzy, kde-format
-#| msgid "Add a sub clip"
+#, kde-format
 msgid "Add sub clips"
-msgstr "Lisää alileike"
+msgstr "Lisää alileikkeitä"
 
 #: src/bin/projectitemmodel.cpp:671
 #, kde-format
@@ -5512,10 +5498,9 @@ msgid "Configure Project Tags"
 msgstr "Määritä projektin tunnisteet"
 
 #: src/bin/tagwidget.cpp:198
-#, fuzzy, kde-format
-#| msgid "Edit rating"
+#, kde-format
 msgid "Edit Tag"
-msgstr "Muokkaa arviota"
+msgstr "Muokkaa luokitusta"
 
 #: src/bin/tagwidget.cpp:213 src/bin/tagwidget.cpp:286
 #, kde-format
@@ -5530,7 +5515,7 @@ msgstr "Lisää luokitus"
 #: src/bin/tagwidget.cpp:282
 #, kde-format
 msgid "New tag"
-msgstr ""
+msgstr "Uusi luokitus"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_import)
 #: src/capture/managecapturesdialog.cpp:27 src/layoutmanagement.cpp:448
@@ -5540,22 +5525,18 @@ msgid "Import"
 msgstr "Tuo"
 
 #: src/core.cpp:107
-#, fuzzy, kde-format
-#| msgid ""
-#| "Kdenlive crashed on last startup.\n"
-#| "Do you want to reset the configuration files ?"
+#, kde-format
 msgid ""
 "Kdenlive crashed on last startup.\n"
 "Do you want to disable experimental GPU processing (Movit) ?"
 msgstr ""
-"Kdenlive kaatui käynnistettäessä.\n"
-"Haluatko nollata määritystiedostot?"
+"Kdenlive kaatui viimeksi käynnistettäessä.\n"
+"Haluatko poistaa kokeellisen GPU-laskennan (Movit) käytöstä?"
 
 #: src/core.cpp:108
-#, fuzzy, kde-format
-#| msgid "Disable proxies"
+#, kde-format
 msgid "Disable GPU processing"
-msgstr "Poista puskuri"
+msgstr "Poista GPU-laskenta käytöstä"
 
 #: src/core.cpp:114
 #, kde-format
@@ -5867,28 +5848,24 @@ msgid "Color Clip"
 msgstr "Värileike"
 
 #: src/dialogs/clipcreationdialog.cpp:180
-#, fuzzy, kde-format
-#| msgid "Create mix"
+#, kde-format
 msgid "Create animation"
-msgstr "Luo käsittely"
+msgstr "Luo animaatio"
 
 #: src/dialogs/clipcreationdialog.cpp:188
-#, fuzzy, kde-format
-#| msgid "Save clip zone as:"
+#, kde-format
 msgid "Save animation as"
-msgstr "Tallenna leikkeen alue nimellä:"
+msgstr "Tallenna animaatio nimellä"
 
 #: src/dialogs/clipcreationdialog.cpp:191
-#, fuzzy, kde-format
-#| msgid " Selection duration:"
+#, kde-format
 msgid "Animation duration"
-msgstr " Valinnan kesto:"
+msgstr "Animaation kesto"
 
 #: src/dialogs/clipcreationdialog.cpp:247
-#, fuzzy, kde-format
-#| msgid "Create title clip"
+#, kde-format
 msgid "Create Animation clip"
-msgstr "Luo tekstileike"
+msgstr "Luo animaatioleike"
 
 #: src/dialogs/clipcreationdialog.cpp:263
 #, kde-format
@@ -5902,8 +5879,7 @@ msgid "Text Clip"
 msgstr "Tekstileike"
 
 #: src/dialogs/clipcreationdialog.cpp:336
-#, fuzzy, kde-format
-#| msgid "Create Title clip"
+#, kde-format
 msgid "Create Text clip"
 msgstr "Luo tekstileike"
 
@@ -5958,10 +5934,9 @@ msgid "Automatic Scene Split…"
 msgstr "Automaattinen kohtauksen jako…"
 
 #: src/dialogs/clipjobmanager.cpp:202
-#, fuzzy, kde-format
-#| msgid "Show Description"
+#, kde-format
 msgid "Job description"
-msgstr "Näytä kuvaus"
+msgstr "Työn kuvaus"
 
 #: src/dialogs/clipjobmanager.cpp:252
 #, fuzzy, kde-format
@@ -6112,8 +6087,7 @@ msgid "Copy to Clipboard"
 msgstr "Kopioi leikepöydälle"
 
 #: src/dialogs/exportguidesdialog.cpp:54
-#, fuzzy, kde-format
-#| msgid "Save"
+#, kde-format
 msgid "Save"
 msgstr "Tallenna"
 
@@ -6124,10 +6098,9 @@ msgid "Text File"
 msgstr "Tekstitiedosto"
 
 #: src/dialogs/exportguidesdialog.cpp:74
-#, fuzzy, kde-format
-#| msgid "GPS File"
+#, kde-format
 msgid "JSON File"
-msgstr "GPS-tiedosto"
+msgstr "JSON-tiedosto"
 
 #: src/dialogs/exportguidesdialog.cpp:76
 #, fuzzy, kde-format
@@ -6168,10 +6141,9 @@ msgid "Guides saved to %1"
 msgstr "Resurssi tallennettiin kohteeseen %1"
 
 #: src/dialogs/exportguidesdialog.cpp:103
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Category name"
-msgstr "Luokka"
+msgstr "Luokan nimi"
 
 #: src/dialogs/exportguidesdialog.cpp:104
 #, fuzzy, kde-format
@@ -6345,7 +6317,7 @@ msgstr "PulseAudio"
 #: src/dialogs/kdenlivesettingsdialog.cpp:691
 #, kde-format
 msgid "PipeWire"
-msgstr ""
+msgstr "PipeWire"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:692
 #, kde-format
@@ -6389,12 +6361,12 @@ msgstr "Näyttö %1"
 #: src/dialogs/kdenlivesettingsdialog.cpp:880
 #, kde-format
 msgid "Enter path to the audio editing application"
-msgstr ""
+msgstr "Anna äänenmuokkaussovelluksen sijainti"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:888
 #, kde-format
 msgid "Enter path to the image editing application"
-msgstr ""
+msgstr "Anna kuvanmuokkaussovelluksen sijainti"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:896 src/glaxnimatelauncher.cpp:30
 #, fuzzy, kde-format
@@ -6542,7 +6514,7 @@ msgstr ""
 msgid ""
 "The profile of the current project cannot be edited while the project is "
 "open."
-msgstr ""
+msgstr "Projektin ollessa auki sen profiilia ei voi muokata"
 
 #: src/dialogs/proxytest.cpp:30
 #, fuzzy, kde-format
@@ -6585,7 +6557,7 @@ msgstr "Laskenta %1"
 #: src/dialogs/renderpresetdialog.cpp:88 src/dialogs/renderpresetdialog.cpp:162
 #, kde-format
 msgid "(Not set)"
-msgstr ""
+msgstr "(Ei asetettu)"
 
 #: src/dialogs/renderpresetdialog.cpp:89 src/dialogs/renderpresetdialog.cpp:163
 #, kde-format
@@ -6595,12 +6567,12 @@ msgstr "Keskimääräinen bittinopeus"
 #: src/dialogs/renderpresetdialog.cpp:90 src/dialogs/renderpresetdialog.cpp:164
 #, kde-format
 msgid "CBR – Constant Bitrate"
-msgstr ""
+msgstr "CBR – Vakiobittinopeus"
 
 #: src/dialogs/renderpresetdialog.cpp:91 src/dialogs/renderpresetdialog.cpp:165
 #, kde-format
 msgid "VBR – Variable Bitrate"
-msgstr ""
+msgstr "VBR – Vaihteleva bittinopeus"
 
 #: src/dialogs/renderpresetdialog.cpp:93
 #, kde-format
@@ -6629,10 +6601,9 @@ msgid "Edit Render Preset"
 msgstr "Muokkaa hahmonnuksen esiasetusta"
 
 #: src/dialogs/renderpresetdialog.cpp:166
-#, fuzzy, kde-format
-#| msgid "Contains proxies"
+#, kde-format
 msgid "Constrained VBR"
-msgstr "Sisältää naapureita"
+msgstr "Rajoitettu VBR"
 
 #: src/dialogs/renderpresetdialog.cpp:414
 #: src/dialogs/renderpresetdialog.cpp:435
@@ -6800,7 +6771,7 @@ msgstr "Väliaikaista tiedostoa ei voitu luoda"
 #: src/dialogs/renderwidget.cpp:744
 #, kde-format
 msgid "begin"
-msgstr ""
+msgstr "alku"
 
 #: src/dialogs/renderwidget.cpp:804
 #, kde-format
@@ -6951,16 +6922,14 @@ msgid "Add to current project"
 msgstr "Lisää projektiin"
 
 #: src/dialogs/speechdialog.cpp:42
-#, fuzzy, kde-format
-#| msgid "automated subtitling"
+#, kde-format
 msgid "Automatic Subtitling"
-msgstr "automaattitekstitys"
+msgstr "Automaattitekstitys"
 
 #: src/dialogs/speechdialog.cpp:49
-#, fuzzy, kde-format
-#| msgid "Speech recognition"
+#, kde-format
 msgid "Speech Recognition log"
-msgstr "Puheentunnistus"
+msgstr "Puheentunnistusloki"
 
 #: src/dialogs/speechdialog.cpp:85
 #, kde-format
@@ -6979,10 +6948,9 @@ msgid "Select a clip in timeline to perform analysis"
 msgstr "Valitse leikkeet aikajanalta kirjastoon"
 
 #: src/dialogs/speechdialog.cpp:138
-#, fuzzy, kde-format
-#| msgid "No previous frame found"
+#, kde-format
 msgid "No audio track found"
-msgstr "Edellistä ruutua ei löytynyt"
+msgstr "Ääniraitoja ei löytynyt"
 
 #: src/dialogs/speechdialog.cpp:175 src/dialogs/textbasededit.cpp:634
 #, kde-format
@@ -7087,13 +7055,12 @@ msgstr "Päivitä tekstitys"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Updates the subtitle display in the timeline."
-msgstr ""
+msgstr "Päivittää tekstitysnäkymän aikajanalla."
 
 #: src/dialogs/subtitleedit.cpp:117
-#, fuzzy, kde-format
-#| msgid "Show/Hide options"
+#, kde-format
 msgid "Show style options"
-msgstr "Näytä tai piilota valinnat"
+msgstr "Näytä tyylivalinnat"
 
 #: src/dialogs/subtitleedit.cpp:118
 #, kde-kuit-format
@@ -7116,16 +7083,14 @@ msgid "Bottom Center"
 msgstr "Alakeski"
 
 #: src/dialogs/subtitleedit.cpp:138
-#, fuzzy, kde-format
-#| msgid "Bottom left"
+#, kde-format
 msgid "Bottom Left"
-msgstr "Alas vasen"
+msgstr "Alavasemmalla"
 
 #: src/dialogs/subtitleedit.cpp:139
-#, fuzzy, kde-format
-#| msgid "Bottom right"
+#, kde-format
 msgid "Bottom Right"
-msgstr "Alas oikea"
+msgstr "Alaoikealla"
 
 #: src/dialogs/subtitleedit.cpp:140
 #, kde-format
@@ -7138,10 +7103,9 @@ msgid "Center Right"
 msgstr "Keskellä oikealla"
 
 #: src/dialogs/subtitleedit.cpp:143
-#, fuzzy, kde-format
-#| msgid "Top left"
+#, kde-format
 msgid "Top Left"
-msgstr "Ylös vasen"
+msgstr "Ylävasemmalla"
 
 #: src/dialogs/subtitleedit.cpp:144
 #, kde-format
@@ -7149,10 +7113,9 @@ msgid "Top Center"
 msgstr "Yläkeski"
 
 #: src/dialogs/subtitleedit.cpp:145
-#, fuzzy, kde-format
-#| msgid "Top right"
+#, kde-format
 msgid "Top Right"
-msgstr "Ylös oikea"
+msgstr "Yläoikealla"
 
 #: src/dialogs/textbasededit.cpp:52
 #, kde-format
@@ -7178,22 +7141,19 @@ msgid "Translate to English"
 msgstr "Tekstileikkeen mallipohja"
 
 #: src/dialogs/textbasededit.cpp:577
-#, fuzzy, kde-format
-#| msgid "Select Transition"
+#, kde-format
 msgid "Configure Speech Recognition"
-msgstr "Valitse siirtymätehoste"
+msgstr "Puheentunnistusasetukset"
 
 #: src/dialogs/textbasededit.cpp:624
-#, fuzzy, kde-format
-#| msgid "VOSK Speech Models"
+#, kde-format
 msgid "Speech model"
-msgstr "VOSK-puhemallit"
+msgstr "Puhemalli"
 
 #: src/dialogs/textbasededit.cpp:625
-#, fuzzy, kde-format
-#| msgid "Speed Change"
+#, kde-format
 msgid "Speech language"
-msgstr "Nopeuden muutos"
+msgstr "Puhekieli"
 
 #: src/dialogs/textbasededit.cpp:662
 #, kde-format
@@ -7928,6 +7888,8 @@ msgid ""
 "GPU acceleration is turned off in Kdenlive settings, but is required for "
 "this project's Movit filters."
 msgstr ""
+"Grafiikkakiihdytys ei ole Kdenliven asetuksissa käytössä, mutta projektin "
+"Movit-suodattimet vaativat sitä."
 
 #: src/doc/kdenlivedoc.cpp:284
 #, kde-format
@@ -8417,7 +8379,7 @@ msgstr "Esiasetukset"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
-msgstr ""
+msgstr "Avaa lisäasetusten luettelon tehosteen esiasetusten hallinnoimiseksi."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:242
 #, kde-format
@@ -8478,6 +8440,8 @@ msgid ""
 "No description provided. \n"
 "Save effect with no description?"
 msgstr ""
+"Kuvausta ei ole annettu.\n"
+"Tallennetaanko tehoste kuvauksetta?"
 
 #: src/glaxnimatelauncher.cpp:32
 #, kde-format
@@ -8497,10 +8461,9 @@ msgid "Item is not an animation clip"
 msgstr "Kohde ei ole tekstileike"
 
 #: src/jobs/audiolevelstask.cpp:38
-#, fuzzy, kde-format
-#| msgid "Audio thumbnails:"
+#, kde-format
 msgid "Audio thumbs"
-msgstr "Äänipienoiskuvia:"
+msgstr "Äänipienoiskuvat"
 
 #: src/jobs/audiolevelstask.cpp:75 src/jobs/audiolevelstask.cpp:138
 #, kde-format
@@ -8513,21 +8476,19 @@ msgid "Audio thumbs: unknown file length for %1"
 msgstr "Äänen jäljet: tiedoston tuntematon pituus %1"
 
 #: src/jobs/cachetask.cpp:31 src/jobs/cliploadtask.cpp:42
-#, fuzzy, kde-format
-#| msgid "Video thumbnails:"
+#, kde-format
 msgid "Video thumbs"
-msgstr "Videopienoiskuvia:"
+msgstr "Videopienoiskuvat"
 
 #: src/jobs/cliploadtask.cpp:42
-#, fuzzy, kde-format
-#| msgid "Loading clips"
+#, kde-format
 msgid "Loading clip"
-msgstr "Avataan leikkeitä"
+msgstr "Ladataan leikettä"
 
 #: src/jobs/cliploadtask.cpp:486
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
-msgstr ""
+msgstr "Tiedoston <b>%1</b> kestoa ei voitu tunnistaa."
 
 #: src/jobs/cliploadtask.cpp:644
 #, kde-format
@@ -8535,10 +8496,9 @@ msgid "File <b>%1</b> is not seekable."
 msgstr ""
 
 #: src/jobs/cliploadtask.cpp:686
-#, fuzzy, kde-format
-#| msgid "File uses a variable frame rate, not recommended"
+#, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
-msgstr "Tiedosto käyttää vaihtelevaa nopeutta, ei suositella"
+msgstr "Tiedoston <b>%1</b> kuvanopeus vaihtelee."
 
 #: src/jobs/customjobtask.cpp:95
 #, kde-format
@@ -8621,10 +8581,9 @@ msgid "Cut job failed."
 msgstr "Leikkaustyö epäonnistui."
 
 #: src/jobs/filtertask.cpp:41
-#, fuzzy, kde-format
-#| msgid "Processing %1"
+#, kde-format
 msgid "Processing filter %1"
-msgstr "Laskenta %1"
+msgstr "Käsitellään suodatinta %1"
 
 #: src/jobs/filtertask.cpp:96 src/jobs/filtertask.cpp:134
 #, fuzzy, kde-format
@@ -8712,10 +8671,9 @@ msgid "Failed to analyse clip."
 msgstr "Leikkeen analysointi epäonnistui."
 
 #: src/jobs/speedtask.cpp:35
-#, fuzzy, kde-format
-#| msgid "Change clip speed"
+#, kde-format
 msgid "Changing speed"
-msgstr "Muuta leikkeen nopeutta"
+msgstr "Muutetaan nopeutta"
 
 #: src/jobs/speedtask.cpp:47
 #, kde-format
@@ -8757,10 +8715,9 @@ msgid "Failed to create speed clip."
 msgstr "Nopean leikkeen luominen epäonnistui."
 
 #: src/jobs/stabilizetask.cpp:36
-#, fuzzy, kde-format
-#| msgid "Stabilize"
+#, kde-format
 msgid "Stabilizing"
-msgstr "Vakauta"
+msgstr "Vakautetaan"
 
 #: src/jobs/stabilizetask.cpp:178
 #, kde-format
@@ -8768,10 +8725,9 @@ msgid "Failed to stabilize."
 msgstr "Vakauttaminen epäonnistui."
 
 #: src/jobs/transcodetask.cpp:40
-#, fuzzy, kde-format
-#| msgid "Transcoding: %1"
+#, kde-format
 msgid "Transcoding"
-msgstr "Muunnetaan: %1"
+msgstr "Muunnetaan"
 
 #. i18n: ectx: Menu (go)
 #: src/kdenliveui.rc:19
@@ -8853,10 +8809,9 @@ msgstr "Nykyinen leike"
 
 #. i18n: ectx: Menu (current_track)
 #: src/kdenliveui.rc:141
-#, fuzzy, kde-format
-#| msgid "Current clip"
+#, kde-format
 msgid "&Current track"
-msgstr "Nykyinen leike"
+msgstr "N&ykyinen raita"
 
 #. i18n: ectx: Menu (guide_menu)
 #: src/kdenliveui.rc:146
@@ -9241,7 +9196,7 @@ msgstr "Ilmoita bugeista <a href=\"%1\">%2</a>"
 #: src/main.cpp:121
 #, kde-format
 msgid "You are using the %1 package.<br>"
-msgstr ""
+msgstr "Käytät pakettia %1.<br>"
 
 # pmap: =:gen=Kdenliven:
 # pmap: =:elat=Kdenlivestä:
@@ -11164,7 +11119,7 @@ msgstr "Vie analyysi…"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to export/save the analysis data."
-msgstr ""
+msgstr "Avaa ikkunan, jossa viedä tai tallentaa analyysitietoa."
 
 #: src/mltcontroller/clippropertiescontroller.cpp:267
 #, kde-format
@@ -11175,7 +11130,7 @@ msgstr "…Tuo analyysi"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to import/load analysis data."
-msgstr ""
+msgstr "Avaa ikkunan, jossa tuoda tai ladata analyysitietoa."
 
 #: src/mltcontroller/clippropertiescontroller.cpp:320
 #: src/mltcontroller/clippropertiescontroller.cpp:578
@@ -11369,12 +11324,12 @@ msgstr "Värialue:"
 #: src/mltcontroller/clippropertiescontroller.cpp:969
 #, kde-format
 msgid "Broadcast limited (MPEG)"
-msgstr ""
+msgstr "Lähetyksen rajoittama (MPEG)"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:970
 #, kde-format
 msgid "Full (JPEG)"
-msgstr ""
+msgstr "Täysi (JPEG)"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:987
 #, kde-format
@@ -13267,7 +13222,7 @@ msgstr "Vuosi"
 #: src/project/dialogs/projectsettings.cpp:371
 #, kde-format
 msgid "No files to delete on your drive."
-msgstr ""
+msgstr "Asemalla ei ole poistettavia tiedostoja."
 
 #: src/project/dialogs/projectsettings.cpp:379
 #, kde-format
@@ -14833,7 +14788,7 @@ msgstr "Reaaliaikainen (häviötä tarkkuudessa)"
 #: src/scopes/audioscopes/spectrogram.cpp:45
 #, kde-format
 msgid "Reset maximum frequency to sampling rate"
-msgstr "Palauta maksimitaajuus näytteenottotaajuuteen"
+msgstr "Palauta enimmäistaajuudeksi näytteenottotaajuus"
 
 #: src/scopes/audioscopes/audiospectrum.cpp:55
 #: src/scopes/audioscopes/spectrogram.cpp:48
@@ -14844,7 +14799,7 @@ msgstr "Seuraa hiirtä"
 #: src/scopes/audioscopes/audiospectrum.cpp:57
 #, kde-format
 msgid "Show maximum"
-msgstr "Näytä maksimi"
+msgstr "Näytä enimmäisarvo"
 
 #: src/scopes/audioscopes/audiospectrum.cpp:71
 #: src/scopes/audioscopes/spectrogram.cpp:65
@@ -15898,7 +15853,7 @@ msgstr "Miniminopeus on %1"
 #: src/timeline2/view/dialogs/speeddialog.cpp:104
 #, kde-format
 msgid "Maximum speed is %1"
-msgstr "Maksiminopeus on %1"
+msgstr "Enimmäisnopeus on %1"
 
 #: src/timeline2/view/dialogs/trackdialog.cpp:22
 #, kde-format
@@ -16483,12 +16438,12 @@ msgstr ""
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
-msgstr ""
+msgstr "Ellet ole varma, kokeile:<br/><b>Unicode (UTF-8)</b>."
 
 #: src/timeline2/view/timelinecontroller.cpp:5037
 #, kde-format
 msgid "Encoding could not be guessed, using UTF-8"
-msgstr ""
+msgstr "Koodausta ei voitu arvata, käytetään UTF-8:aa."
 
 #: src/timeline2/view/timelinecontroller.cpp:5041
 #, kde-format
@@ -21133,7 +21088,7 @@ msgstr "Läpikuultavuus:"
 #: src/widgets/colorpickerwidget.cpp:102
 #, kde-format
 msgid "Pick a color on the screen."
-msgstr ""
+msgstr "Poimi näytöltä väri."
 
 #: src/widgets/colorpickerwidget.cpp:105
 #, kde-kuit-format
@@ -21149,7 +21104,7 @@ msgstr ""
 #: src/widgets/doublewidget.cpp:27
 #, kde-format
 msgid "Rotate by 90 ° steps"
-msgstr ""
+msgstr "Kierrä 90° askelin"
 
 #: src/widgets/dragvalue.cpp:115
 #, kde-format
@@ -21184,7 +21139,7 @@ msgstr "Näytä %1 aikajanalla"
 #: src/widgets/dragvalue.cpp:413
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
-msgstr ""
+msgstr "Vaihto+vedolla arvoa voi säätää yksi kerrallaan."
 
 #: src/widgets/geometrywidget.cpp:40
 #, kde-format

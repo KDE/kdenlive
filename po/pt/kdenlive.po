@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-27 00:46+0000\n"
-"PO-Revision-Date: 2023-05-24 19:02+0100\n"
+"PO-Revision-Date: 2023-05-27 17:12+0100\n"
 "Last-Translator: Jose Jorge <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
 "Language: pt\n"
@@ -113,7 +113,7 @@ msgstr ""
 "X-POFile-SpellExtra: Lingala Malayalam Maori Marati Myanmar Nynorsk\n"
 "X-POFile-SpellExtra: Panjabi Pashto Punjabi Pushto Shona Sindhi Sinhala\n"
 "X-POFile-SpellExtra: Sinhalês Swahili Tagalog Tatar Turquemeno Urdu\n"
-"X-POFile-SpellExtra: Yiddish Yoruba Whisper Eric Jiang VF\n"
+"X-POFile-SpellExtra: Yiddish Yoruba Whisper Eric Jiang VF AMF QSV Toolbox\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -6171,10 +6171,9 @@ msgstr ""
 #: src/dialogs/encodingprofilesdialog.cpp:259
 #: src/dialogs/encodingprofilesdialog.cpp:348
 #: src/project/dialogs/projectsettings.cpp:885
-#, fuzzy, kde-format
-#| msgid "Automatic"
+#, kde-format
 msgid "Automatic (%1)"
-msgstr "Automático"
+msgstr "Automático (%1)"
 
 #: src/dialogs/encodingprofilesdialog.cpp:261
 #: src/dialogs/encodingprofilesdialog.cpp:350
@@ -7507,22 +7506,19 @@ msgid "NVIDIA hardware acceleration"
 msgstr "Aceleração por 'hardware' NVIDIA"
 
 #: src/dialogs/wizard.cpp:146
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware acceleration"
+#, kde-format
 msgid "AMF hardware acceleration"
-msgstr "Aceleração por 'hardware' VAAPI"
+msgstr "Aceleração por 'hardware' AMF"
 
 #: src/dialogs/wizard.cpp:149
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware acceleration"
+#, kde-format
 msgid "QSV hardware acceleration"
-msgstr "Aceleração por 'hardware' VAAPI"
+msgstr "Aceleração por 'hardware' QSV"
 
 #: src/dialogs/wizard.cpp:152
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware acceleration"
+#, kde-format
 msgid "Video Toolbox hardware acceleration"
-msgstr "Aceleração por 'hardware' VAAPI"
+msgstr "Aceleração por 'hardware' do Video Toolbox"
 
 #: src/dialogs/wizard.cpp:167
 #, kde-format
@@ -7695,10 +7691,9 @@ msgid "No hardware encoders found."
 msgstr "Não foram detectados codificadores por 'hardware'."
 
 #: src/dialogs/wizard.cpp:797
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware encoders found and enabled."
+#, kde-format
 msgid "hardware encoders found and enabled (%1)."
-msgstr "Foram detectados e activados os codificadores por 'hardware' da VAAPI."
+msgstr "Foram detectados e activados os codificadores por 'hardware' (%1)."
 
 #: src/doc/documentchecker.cpp:320
 #, kde-format
@@ -8751,10 +8746,9 @@ msgid "Processing filter %1"
 msgstr "A processar o filtro %1"
 
 #: src/jobs/filtertask.cpp:96 src/jobs/filtertask.cpp:134
-#, fuzzy, kde-format
-#| msgid "Cannot open file %1"
+#, kde-format
 msgid "Cannot process file %1"
-msgstr "Não é possível aceder ao ficheiro %1"
+msgstr "Não é possível processar o ficheiro %1"
 
 #: src/jobs/filtertask.cpp:150
 #, kde-format
@@ -21429,10 +21423,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Show File Preview"
-#~ msgstr "Mostrar a Antevisão dos Ficheiros"
-
-#~ msgid "NVIDIA hardware encoders found and enabled."
-#~ msgstr ""
-#~ "Foram detectados e activados os codificadores por 'hardware' da NVIDIA."

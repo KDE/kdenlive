@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-27 00:46+0000\n"
-"PO-Revision-Date: 2023-05-24 08:20+0300\n"
+"PO-Revision-Date: 2023-05-27 09:03+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -6096,10 +6096,9 @@ msgstr ""
 #: src/dialogs/encodingprofilesdialog.cpp:259
 #: src/dialogs/encodingprofilesdialog.cpp:348
 #: src/project/dialogs/projectsettings.cpp:885
-#, fuzzy, kde-format
-#| msgid "Automatic"
+#, kde-format
 msgid "Automatic (%1)"
-msgstr "Автоматично"
+msgstr "Автоматично (%1)"
 
 #: src/dialogs/encodingprofilesdialog.cpp:261
 #: src/dialogs/encodingprofilesdialog.cpp:350
@@ -7436,22 +7435,19 @@ msgid "NVIDIA hardware acceleration"
 msgstr "Апаратне прискорення NVIDIA"
 
 #: src/dialogs/wizard.cpp:146
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware acceleration"
+#, kde-format
 msgid "AMF hardware acceleration"
-msgstr "Апаратне прискорення VAAPI"
+msgstr "Апаратне прискорення AMF"
 
 #: src/dialogs/wizard.cpp:149
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware acceleration"
+#, kde-format
 msgid "QSV hardware acceleration"
-msgstr "Апаратне прискорення VAAPI"
+msgstr "Апаратне прискорення QSV"
 
 #: src/dialogs/wizard.cpp:152
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware acceleration"
+#, kde-format
 msgid "Video Toolbox hardware acceleration"
-msgstr "Апаратне прискорення VAAPI"
+msgstr "Апаратне прискорення Video Toolbox"
 
 #: src/dialogs/wizard.cpp:167
 #, kde-format
@@ -7623,10 +7619,9 @@ msgid "No hardware encoders found."
 msgstr "Не знайдено апаратних засобів кодування."
 
 #: src/dialogs/wizard.cpp:797
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware encoders found and enabled."
+#, kde-format
 msgid "hardware encoders found and enabled (%1)."
-msgstr "Апаратні засоби кодування VAAPI виявлено і увімкнено."
+msgstr "Апаратні засоби кодування виявлено і увімкнено (%1)."
 
 #: src/doc/documentchecker.cpp:320
 #, kde-format
@@ -8703,10 +8698,9 @@ msgid "Processing filter %1"
 msgstr "Обробляємо фільтр %1"
 
 #: src/jobs/filtertask.cpp:96 src/jobs/filtertask.cpp:134
-#, fuzzy, kde-format
-#| msgid "Cannot open file %1"
+#, kde-format
 msgid "Cannot process file %1"
-msgstr "Не вдалося відкрити файл %1"
+msgstr "Не вдалося обробити файл %1"
 
 #: src/jobs/filtertask.cpp:150
 #, kde-format

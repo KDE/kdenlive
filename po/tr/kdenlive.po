@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-27 00:46+0000\n"
-"PO-Revision-Date: 2023-05-27 00:55+0300\n"
+"PO-Revision-Date: 2023-05-27 22:53+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.07.70\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -6049,10 +6049,9 @@ msgstr ""
 #: src/dialogs/encodingprofilesdialog.cpp:259
 #: src/dialogs/encodingprofilesdialog.cpp:348
 #: src/project/dialogs/projectsettings.cpp:885
-#, fuzzy, kde-format
-#| msgid "Automatic"
+#, kde-format
 msgid "Automatic (%1)"
-msgstr "Otomatik"
+msgstr "Otomatik (%1)"
 
 #: src/dialogs/encodingprofilesdialog.cpp:261
 #: src/dialogs/encodingprofilesdialog.cpp:350
@@ -7369,22 +7368,19 @@ msgid "NVIDIA hardware acceleration"
 msgstr "NVIDIA donanım ivmelendirmesi"
 
 #: src/dialogs/wizard.cpp:146
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware acceleration"
+#, kde-format
 msgid "AMF hardware acceleration"
-msgstr "VAAPI donanım ivmelendirmesi"
+msgstr "AMF donanım ivmelendirmesi"
 
 #: src/dialogs/wizard.cpp:149
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware acceleration"
+#, kde-format
 msgid "QSV hardware acceleration"
-msgstr "VAAPI donanım ivmelendirmesi"
+msgstr "QSV donanım ivmelendirmesi"
 
 #: src/dialogs/wizard.cpp:152
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware acceleration"
+#, kde-format
 msgid "Video Toolbox hardware acceleration"
-msgstr "VAAPI donanım ivmelendirmesi"
+msgstr "Video Toolbox donanım ivmelendirmesi"
 
 #: src/dialogs/wizard.cpp:167
 #, kde-format
@@ -7552,10 +7548,9 @@ msgid "No hardware encoders found."
 msgstr "Herhangi bir donanım kodlayıcı bulunamadı."
 
 #: src/dialogs/wizard.cpp:797
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware encoders found and enabled."
+#, kde-format
 msgid "hardware encoders found and enabled (%1)."
-msgstr "VAAPI donanım kodlayıcıları bulundu ve etkinleştirildi."
+msgstr "donanım kodlayıcıları bulundu ve etkinleştirildi (%1)."
 
 #: src/doc/documentchecker.cpp:320
 #, kde-format
@@ -8589,10 +8584,9 @@ msgid "Processing filter %1"
 msgstr "%1 süzgeci işleniyor"
 
 #: src/jobs/filtertask.cpp:96 src/jobs/filtertask.cpp:134
-#, fuzzy, kde-format
-#| msgid "Cannot open file %1"
+#, kde-format
 msgid "Cannot process file %1"
-msgstr "%1 dosyası açılamıyor"
+msgstr "%1 dosyası işlenemiyor"
 
 #: src/jobs/filtertask.cpp:150
 #, kde-format

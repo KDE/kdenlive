@@ -10,15 +10,15 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-27 00:46+0000\n"
-"PO-Revision-Date: 2023-05-24 12:59+0200\n"
-"Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
+"PO-Revision-Date: 2023-05-27 16:06+0200\n"
+"Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 20.12.0\n"
+"X-Generator: Lokalize 23.07.70\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -6081,10 +6081,9 @@ msgstr ""
 #: src/dialogs/encodingprofilesdialog.cpp:259
 #: src/dialogs/encodingprofilesdialog.cpp:348
 #: src/project/dialogs/projectsettings.cpp:885
-#, fuzzy, kde-format
-#| msgid "Automatic"
+#, kde-format
 msgid "Automatic (%1)"
-msgstr "Automàtic"
+msgstr "Automàtic (%1)"
 
 #: src/dialogs/encodingprofilesdialog.cpp:261
 #: src/dialogs/encodingprofilesdialog.cpp:350
@@ -7420,22 +7419,20 @@ msgid "NVIDIA hardware acceleration"
 msgstr "Acceleració de maquinari NVIDIA"
 
 #: src/dialogs/wizard.cpp:146
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware acceleration"
+#, kde-format
 msgid "AMF hardware acceleration"
-msgstr "Acceleració de maquinari VAAPI"
+msgstr "Acceleració de maquinari AMF"
 
 #: src/dialogs/wizard.cpp:149
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware acceleration"
+#, kde-format
 msgid "QSV hardware acceleration"
-msgstr "Acceleració de maquinari VAAPI"
+msgstr "Acceleració de maquinari QSV"
 
+# skip-rule: kct-toolbox
 #: src/dialogs/wizard.cpp:152
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware acceleration"
+#, kde-format
 msgid "Video Toolbox hardware acceleration"
-msgstr "Acceleració de maquinari VAAPI"
+msgstr "Acceleració de maquinari Video Toolbox"
 
 #: src/dialogs/wizard.cpp:167
 #, kde-format
@@ -7606,10 +7603,9 @@ msgid "No hardware encoders found."
 msgstr "No s'ha trobat cap codificador per maquinari."
 
 #: src/dialogs/wizard.cpp:797
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware encoders found and enabled."
+#, kde-format
 msgid "hardware encoders found and enabled (%1)."
-msgstr "S'han trobat codificadors per maquinari de VAAPI i s'han activat."
+msgstr "S'han trobat i activat els codificadors per maquinari (%1)."
 
 #: src/doc/documentchecker.cpp:320
 #, kde-format
@@ -8661,10 +8657,9 @@ msgid "Processing filter %1"
 msgstr "S'està processant el filtre %1"
 
 #: src/jobs/filtertask.cpp:96 src/jobs/filtertask.cpp:134
-#, fuzzy, kde-format
-#| msgid "Cannot open file %1"
+#, kde-format
 msgid "Cannot process file %1"
-msgstr "No s'ha pogut obrir el fitxer %1"
+msgstr "No s'ha pogut processar el fitxer %1"
 
 #: src/jobs/filtertask.cpp:150
 #, kde-format
@@ -21355,13 +21350,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Show File Preview"
-#~ msgstr "Mostra una vista prèvia del fitxer"
-
-#~ msgid "NVIDIA hardware encoders found and enabled."
-#~ msgstr "S'han trobat codificadors per maquinari de NVIDIA i s'han activat."
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid "Slider to adjust the zoom level."
-#~ msgstr "Control lliscant per a ajustar el nivell de zoom."
