@@ -72,6 +72,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "jogshuttle/jogmanager.h"
 #endif
 
+#include "kwidgetsaddons_version.h"
 #include "utils/KMessageBox_KdenliveCompat.h"
 #include <KAboutData>
 #include <KActionCollection>
@@ -1147,7 +1148,11 @@ void MainWindow::setupActions()
     sceneMode->addAction(m_overwriteEditTool);
     sceneMode->addAction(m_insertEditTool);
     sceneMode->setCurrentItem(0);
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 240, 0)
+    connect(sceneMode, &KSelectAction::actionTriggered, this, &MainWindow::slotChangeEdit);
+#else
     connect(sceneMode, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &MainWindow::slotChangeEdit);
+#endif
     addAction(QStringLiteral("timeline_mode"), sceneMode);
     actionCollection()->setShortcutsConfigurable(sceneMode, false);
 
