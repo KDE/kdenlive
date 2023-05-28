@@ -1883,7 +1883,7 @@ void KdenliveDoc::selectPreviewProfile()
     KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
     KConfigGroup group(&conf, "timelinepreview");
     QMap<QString, QString> values = group.entryMap();
-    if (KdenliveSettings::supportedHWCodecs().isEmpty()) {
+    if (!KdenliveSettings::supportedHWCodecs().isEmpty()) {
         QString codecFormat = QStringLiteral("x264-");
         codecFormat.append(KdenliveSettings::supportedHWCodecs().first().section(QLatin1Char('_'), 1));
         if (values.contains(codecFormat)) {
@@ -1960,7 +1960,7 @@ void KdenliveDoc::initProxySettings()
     QString params;
     QMap<QString, QString> values = group.entryMap();
     // Select best proxy profile depending on hw encoder support
-    if (KdenliveSettings::supportedHWCodecs().isEmpty()) {
+    if (!KdenliveSettings::supportedHWCodecs().isEmpty()) {
         QString codecFormat = QStringLiteral("x264-");
         codecFormat.append(KdenliveSettings::supportedHWCodecs().first().section(QLatin1Char('_'), 1));
         if (values.contains(codecFormat)) {

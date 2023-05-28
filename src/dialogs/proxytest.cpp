@@ -157,6 +157,12 @@ void ProxyTest::startTest()
             }
             tmp.close();
             params.replace(QStringLiteral("%width"), QString::number(proxyResize));
+            if (params.contains(QStringLiteral("%frameSize"))) {
+                int w = proxyResize;
+                int h = w * 1080 / 1920;
+                params.replace(QStringLiteral("%frameSize"), QString("%1x%2").arg(w).arg(h));
+            }
+            params.replace(QStringLiteral("%nvcodec"), QStringLiteral("h264_cuvid"));
             m_process.reset(new QProcess());
             connect(this, &ProxyTest::jobCanceled, m_process.get(), &QProcess::kill, Qt::DirectConnection);
             QStringList parameters = {QStringLiteral("-hide_banner"), QStringLiteral("-y"), QStringLiteral("-stats"), QStringLiteral("-v"),
