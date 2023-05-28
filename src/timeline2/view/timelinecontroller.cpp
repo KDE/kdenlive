@@ -49,7 +49,9 @@
 #include <QClipboard>
 #include <QFontDatabase>
 #include <QQuickItem>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QTextCodec>
+#endif
 #include <QtMath>
 
 #include <memory>
