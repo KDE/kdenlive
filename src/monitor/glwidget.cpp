@@ -12,14 +12,6 @@
     SPDX-License-Identifier: BSD-3-Clause
 */
 
-#include <KDeclarative/KDeclarative>
-#include <kdeclarative_version.h>
-#if KDECLARATIVE_VERSION >= QT_VERSION_CHECK(5, 98, 0)
-#include <KQuickIconProvider>
-#endif
-#include <KLocalizedContext>
-#include <KLocalizedString>
-#include <KMessageBox>
 #include <QApplication>
 #include <QFontDatabase>
 #include <QOpenGLContext>
@@ -27,7 +19,21 @@
 #include <QPainter>
 #include <QQmlContext>
 #include <QQuickItem>
+#include <QtVersionChecks>
 #include <memory>
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+#include <kdeclarative_version.h>
+#endif
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0) || KDECLARATIVE_VERSION >= QT_VERSION_CHECK(5, 98, 0)
+#include <KQuickIconProvider>
+#else
+#include <KDeclarative/KDeclarative>
+#endif
+#include <KLocalizedContext>
+#include <KLocalizedString>
+#include <KMessageBox>
+
 
 #include "bin/model/markersortmodel.h"
 #include "core.h"
@@ -106,12 +112,12 @@ GLWidget::GLWidget(int id, QWidget *parent)
     , m_openGLSync(false)
     , m_ClientWaitSync(nullptr)
 {
-#if KDECLARATIVE_VERSION < QT_VERSION_CHECK(5, 98, 0)
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0) || KDECLARATIVE_VERSION > QT_VERSION_CHECK(5, 98, 0)
+    engine()->addImageProvider(QStringLiteral("icon"), new KQuickIconProvider);
+#else
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());
     kdeclarative.setupEngine(engine());
-#else
-    engine()->addImageProvider(QStringLiteral("icon"), new KQuickIconProvider);
 #endif
     engine()->rootContext()->setContextObject(new KLocalizedContext(this));
 
@@ -1561,7 +1567,10 @@ void FrameRenderer::pipelineSyncToFrame(Mlt::Frame &frame)
     // On Windows, use QOpenGLFunctions_3_2_Core instead of getProcAddress.
     // TODO: move to initialization of m_ClientWaitSync
     if (!m_gl32) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        // TODO: Qt6
         m_gl32 = m_context->versionFunctions<QOpenGLFunctions_3_2_Core>();
+#endif
         if (m_gl32) {
             m_gl32->initializeOpenGLFunctions();
         }
