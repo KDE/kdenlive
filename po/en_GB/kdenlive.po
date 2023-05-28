@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-27 02:33+0000\n"
-"PO-Revision-Date: 2023-05-21 15:21+0100\n"
+"PO-Revision-Date: 2023-05-27 13:11+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
 "Language: en_GB\n"
@@ -8476,10 +8476,9 @@ msgid "Processing filter %1"
 msgstr "Processing filter %1"
 
 #: src/jobs/filtertask.cpp:96 src/jobs/filtertask.cpp:134
-#, fuzzy, kde-format
-#| msgid "Cannot open file %1"
+#, kde-format
 msgid "Cannot process file %1"
-msgstr "Cannot open file %1"
+msgstr "Cannot process file %1"
 
 #: src/jobs/filtertask.cpp:150
 #, kde-format

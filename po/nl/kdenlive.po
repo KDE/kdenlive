@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-27 02:33+0000\n"
-"PO-Revision-Date: 2023-05-15 12:20+0200\n"
+"PO-Revision-Date: 2023-05-27 10:36+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
@@ -8543,10 +8543,9 @@ msgid "Processing filter %1"
 msgstr "Filter %1 wordt verwerkt"
 
 #: src/jobs/filtertask.cpp:96 src/jobs/filtertask.cpp:134
-#, fuzzy, kde-format
-#| msgid "Cannot open file %1"
+#, kde-format
 msgid "Cannot process file %1"
-msgstr "Kan bestand %1 niet openen"
+msgstr "Kan bestand %1 niet verwerken"
 
 #: src/jobs/filtertask.cpp:150
 #, kde-format

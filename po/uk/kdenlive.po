@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-27 02:33+0000\n"
-"PO-Revision-Date: 2023-05-15 18:54+0300\n"
+"PO-Revision-Date: 2023-05-27 09:11+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -8612,10 +8612,9 @@ msgid "Processing filter %1"
 msgstr "Обробляємо фільтр %1"
 
 #: src/jobs/filtertask.cpp:96 src/jobs/filtertask.cpp:134
-#, fuzzy, kde-format
-#| msgid "Cannot open file %1"
+#, kde-format
 msgid "Cannot process file %1"
-msgstr "Не вдалося відкрити файл %1"
+msgstr "Не вдалося обробити файл %1"
 
 #: src/jobs/filtertask.cpp:150
 #, kde-format

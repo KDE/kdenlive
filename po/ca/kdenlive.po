@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-27 02:33+0000\n"
-"PO-Revision-Date: 2023-05-15 09:53+0200\n"
+"PO-Revision-Date: 2023-05-27 11:24+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -8569,10 +8569,9 @@ msgid "Processing filter %1"
 msgstr "S'està processant el filtre %1"
 
 #: src/jobs/filtertask.cpp:96 src/jobs/filtertask.cpp:134
-#, fuzzy, kde-format
-#| msgid "Cannot open file %1"
+#, kde-format
 msgid "Cannot process file %1"
-msgstr "No s'ha pogut obrir el fitxer %1"
+msgstr "No s'ha pogut processar el fitxer %1"
 
 #: src/jobs/filtertask.cpp:150
 #, kde-format
@@ -21251,28 +21250,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid "Slider to adjust the zoom level."
-#~ msgstr "Control lliscant per a ajustar el nivell de zoom."
-
-#~ msgid "Close %1"
-#~ msgstr "Tanca %1"
-
-#~ msgid "Clip %1 has been fixed"
-#~ msgstr "El clip %1 s'ha corregit"
-
-#~ msgid "Bug fixing, etc."
-#~ msgstr "Esmena d'errors, etc."
-
-#~ msgid "Sashmita Raghav"
-#~ msgstr "Sashmita Raghav"
-
-#~ msgid "Subtitle feature (GSoC), timeline colours"
-#~ msgstr "Característica de subtítols (GSoC), colors a la línia de temps"
-
-#~ msgid "Bug triage, testing"
-#~ msgstr "Triatge dels errors, proves"
-
-#~ msgid "Analyse"
-#~ msgstr "Anàlisi"
