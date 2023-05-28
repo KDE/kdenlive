@@ -86,7 +86,6 @@ find_package(KF${KF_MAJOR} ${KF_DEP_VERSION}
     GuiAddons
     TextWidgets
     IconThemes
-    Declarative
     Solid
     FileMetaData
 

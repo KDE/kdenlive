@@ -194,7 +194,7 @@ endif()
 
 if (KF_MAJOR LESS "6")
     target_link_libraries(kdenliveLib
-        KF${KF_MAJOR}Declarative)
+        KF${KF_MAJOR}::Declarative)
 endif()
 
 if(USE_VERSIONLESS_TARGETS)
