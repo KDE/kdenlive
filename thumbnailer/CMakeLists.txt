@@ -10,8 +10,8 @@ target_include_directories(mltpreview PRIVATE
 target_link_libraries(mltpreview
         Qt${QT_MAJOR_VERSION}::Core
         Qt${QT_MAJOR_VERSION}::Gui
-        KF5::KIOCore
-        KF5::KIOGui
+        KF${KF_MAJOR}::KIOCore
+        KF${KF_MAJOR}::KIOGui
         ${MLT_LIBRARIES}
         ${MLTPP_LIBRARIES}
 )
