@@ -120,6 +120,7 @@ KdenliveDoc::KdenliveDoc(QString projectFolder, QUndoGroup *undoGroup, const QSt
 
 KdenliveDoc::KdenliveDoc(const QUrl &url, QDomDocument &newDom, QString projectFolder, QUndoGroup *undoGroup, MainWindow *parent)
     : QObject(parent)
+    , closing(false)
     , m_autosave(nullptr)
     , m_uuid(QUuid::createUuid())
     , m_document(newDom)
