@@ -14,12 +14,11 @@
 #include <QQuickItem>
 #include <QStandardPaths>
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+#include <KDeclarative/KDeclarative>
 #include "kdeclarative_version.h"
 #endif
 #if QT_VERSION > QT_VERSION_CHECK(6, 0, 0) || KDECLARATIVE_VERSION >= QT_VERSION_CHECK(5, 98, 0)
 #include <KQuickIconProvider>
-#else
-#include <KDeclarative/KDeclarative>
 #endif
 
 AssetListWidget::AssetListWidget(QWidget *parent)
