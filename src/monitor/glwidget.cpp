@@ -19,7 +19,7 @@
 #include <QPainter>
 #include <QQmlContext>
 #include <QQuickItem>
-#include <QtVersionChecks>
+#include <QtGlobal>
 #include <memory>
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
