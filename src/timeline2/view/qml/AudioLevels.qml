@@ -5,7 +5,6 @@
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import QtGraphicalEffects 1.0
 import QtQuick.Layouts 1.15
 
 Item {
@@ -76,20 +75,14 @@ Item {
                 id: bgRepeater
                 Rectangle {
                     color: 'transparent'
-                    LinearGradient {
-                        anchors.fill: parent
-                        anchors.margins: 0.5
-                        start: Qt.point(0,0)
-                        end: Qt.point(levelsContainer.width, 0)
-                        gradient: Gradient {
-                            GradientStop { position: 0.0; color: "darkgreen" }
-                            GradientStop { position: 0.69; color: "darkgreen" }
-                            GradientStop { position: 0.7; color: "green" }
-                            GradientStop { position: 0.84; color: "green" }
-                            GradientStop { position: 0.85; color: "yellow" }
-                            GradientStop { position: 0.99; color: "yellow" }
-                            GradientStop { position: 1.0; color: "red" }
-                        }
+                    gradient: Gradient {
+                        GradientStop { position: 0.0; color: "darkgreen" }
+                        GradientStop { position: 0.69; color: "darkgreen" }
+                        GradientStop { position: 0.7; color: "green" }
+                        GradientStop { position: 0.84; color: "green" }
+                        GradientStop { position: 0.85; color: "yellow" }
+                        GradientStop { position: 0.99; color: "yellow" }
+                        GradientStop { position: 1.0; color: "red" }
                     }
                     width: parent.width - 1
                     height: parent.height / bgRepeater.count
