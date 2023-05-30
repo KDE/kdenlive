@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-29 02:33+0000\n"
-"PO-Revision-Date: 2023-05-27 11:24+0200\n"
+"PO-Revision-Date: 2023-05-28 17:29+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -4663,7 +4663,7 @@ msgstr "Torna a carregar el clip"
 #: src/bin/bin.cpp:3459
 #, kde-format
 msgid "Transcode to Edit Friendly Format…"
-msgstr "Transcodifica per a editar en un format amistós…"
+msgstr "Transcodifica el clip en format fàcil d'editar…"
 
 #: src/bin/bin.cpp:3464
 #, kde-format
@@ -4683,7 +4683,7 @@ msgstr "Propietats del clip"
 #: src/bin/bin.cpp:3486 src/mltcontroller/clippropertiescontroller.cpp:283
 #, kde-format
 msgid "Edit Clip"
-msgstr "Edita clip"
+msgstr "Edita el clip"
 
 #: src/bin/bin.cpp:3499
 #, kde-format
@@ -4977,7 +4977,7 @@ msgstr "Canvia el nom d'una zona"
 #: src/bin/bincommands.cpp:84
 #, kde-format
 msgid "Edit clip"
-msgstr "Edita clip"
+msgstr "Edita el clip"
 
 #: src/bin/clipcreator.cpp:66
 #, kde-format
@@ -5849,7 +5849,7 @@ msgstr "Ignora l'estructura de subcarpetes"
 #: src/dialogs/clipjobmanager.cpp:24
 #, kde-format
 msgid "Manage Bin Clip Jobs"
-msgstr "Gestiona els treballs dels clip de la safata"
+msgstr "Gestiona els treballs de clips de la safata"
 
 #: src/dialogs/clipjobmanager.cpp:47
 #, kde-format
@@ -7653,7 +7653,7 @@ msgstr "Falta intermediari"
 #: src/ui/timeremap_ui.ui:90
 #, kde-format
 msgid "Source clip"
-msgstr "Clip origen"
+msgstr "Clip d'origen"
 
 #: src/doc/documentchecker.cpp:609
 #, kde-format
@@ -8755,7 +8755,7 @@ msgstr "Extrau l'àudio"
 #: src/kdenliveui.rc:79 src/mainwindow.cpp:3682
 #, kde-format
 msgid "Clip Jobs"
-msgstr "Treballs del clip"
+msgstr "Treballs de clip"
 
 #. i18n: ectx: Menu (clip_in_timeline)
 #: src/kdenliveui.rc:92
@@ -13490,7 +13490,7 @@ msgstr ""
 "%1\n"
 "La carpeta d'intermediaris conté els clips intermediaris de tots els "
 "projectes. Estos intermediaris es poden tornar a crear a partir dels clips "
-"origen."
+"d'origen."
 
 #: src/project/dialogs/temporarydata.cpp:490
 #, kde-format
@@ -20456,7 +20456,7 @@ msgstr " fotogrames"
 #: src/ui/scenecutdialog_ui.ui:77
 #, kde-format
 msgid "Change threshold"
-msgstr "Canvia el llindar"
+msgstr "Llindar de canvi"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cut_scenes)
 #: src/ui/scenecutdialog_ui.ui:97

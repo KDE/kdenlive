@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
 "X-Generator: Lokalize 22.12.2\n"
@@ -3485,7 +3485,6 @@ msgstr "クリップを位置 %1 に移動できません"
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
 msgstr[0] "キーフレームの削除"
-msgstr[1] "キーフレームの削除"
 
 #: src/assets/keyframes/view/keyframeview.cpp:644
 #, fuzzy, kde-format
@@ -3493,7 +3492,6 @@ msgstr[1] "キーフレームの削除"
 msgid "Move keyframe"
 msgid_plural "Move keyframes"
 msgstr[0] "キーフレームの削除"
-msgstr[1] "キーフレームの削除"
 
 #: src/assets/keyframes/view/keyframeview.cpp:900
 #, fuzzy, kde-format
@@ -4215,14 +4213,12 @@ msgstr "選択した項目を削除(D)"
 msgid "%1 job"
 msgid_plural "%1 jobs"
 msgstr[0] "%1 個のジョブ"
-msgstr[1] "%1 個のジョブ"
 
 #: src/bin/bin.cpp:1069
 #, kde-format
 msgid "%1 pending job"
 msgid_plural "%1 pending jobs"
 msgstr[0] "%1 個の保留中ジョブ"
-msgstr[1] "%1 個の保留中ジョブ"
 
 #: src/bin/bin.cpp:1189
 #, fuzzy, kde-format
@@ -4512,7 +4508,6 @@ msgstr "フィルタを消去"
 msgid "%1 Star"
 msgid_plural "%1 Stars"
 msgstr[0] "開始"
-msgstr[1] "開始"
 
 #: src/bin/bin.cpp:2296
 #, fuzzy, kde-format
@@ -4798,7 +4793,6 @@ msgstr "ゾーンの終了: %1"
 msgid "Move Clip"
 msgid_plural "Move Clips"
 msgstr[0] "クリップの移動"
-msgstr[1] "クリップの移動"
 
 #: src/bin/bin.cpp:3739
 #, fuzzy, kde-format
@@ -5012,7 +5006,6 @@ msgstr ""
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] ""
-msgstr[1] ""
 
 #: src/bin/bin.cpp:5629
 #, fuzzy, kde-format
@@ -5151,7 +5144,6 @@ msgstr "プロジェクトを読み込んでいます"
 msgid "Add clip"
 msgid_plural "Add clips"
 msgstr[0] "クリップの追加"
-msgstr[1] "クリップの追加"
 
 #. i18n: ectx: property (text), widget (QLabel, label_duration)
 #. i18n: ectx: property (text), widget (QLabel, duration_label)
@@ -5466,7 +5458,6 @@ msgstr "効果をリセット"
 msgid "%1 clip"
 msgid_plural "%1 clips"
 msgstr[0] "(%1 個のクリップ)"
-msgstr[1] "(%1 個のクリップ)"
 
 #: src/bin/projectitemmodel.cpp:317
 #, kde-format
@@ -7021,7 +7012,6 @@ msgstr "ファイル %1 を開いています"
 msgid "%1 day "
 msgid_plural "%1 days "
 msgstr[0] "%1 日"
-msgstr[1] "%1 日"
 
 #: src/dialogs/renderwidget.cpp:1513
 #, kde-format
@@ -7837,7 +7827,6 @@ msgstr ""
 msgid "Missing effect: %2 will be removed from project."
 msgid_plural "Missing effects: %2 will be removed from project."
 msgstr[0] "下記の効果をプロジェクトからインポートしました:"
-msgstr[1] "下記の効果をプロジェクトからインポートしました:"
 
 #: src/doc/documentchecker.cpp:498
 #, fuzzy, kde-format
@@ -7861,9 +7850,6 @@ msgid_plural ""
 msgstr[0] ""
 "プロジェクトファイルには存在しないクリップが含まれていますが、この代用情報を"
 "利用した作業を行なうことはできます。"
-msgstr[1] ""
-"プロジェクトファイルには存在しないクリップが含まれていますが、この代用情報を"
-"利用した作業を行なうことはできます。"
 
 #: src/doc/documentchecker.cpp:523
 #, fuzzy, kde-format
@@ -7872,8 +7858,6 @@ msgid "The project file contains one modified clip, it will be reloaded."
 msgid_plural ""
 "The project file contains %1 modified clips, they will be reloaded."
 msgstr[0] ""
-"プロジェクトファイルには、存在しないクリップまたはファイルが含まれています"
-msgstr[1] ""
 "プロジェクトファイルには、存在しないクリップまたはファイルが含まれています"
 
 #: src/doc/documentchecker.cpp:590
@@ -7888,9 +7872,6 @@ msgstr "代用クリップ"
 msgid "%1 missing proxy clip, will be recreated on project opening"
 msgid_plural "%1 missing proxy clips, will be recreated on project opening"
 msgstr[0] ""
-"%1 には存在しない代用情報が含まれています。プロジェクトを開いた後に再作成しま"
-"す"
-msgstr[1] ""
 "%1 には存在しない代用情報が含まれています。プロジェクトを開いた後に再作成しま"
 "す"
 
@@ -7961,7 +7942,6 @@ msgstr "ファイルに対する新しい場所を入力してください"
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
 msgstr[0] "これを実行すると、このプロジェクトから選択したクリップを削除します"
-msgstr[1] "これを実行すると、このプロジェクトから選択したクリップを削除します"
 
 #: src/doc/documentchecker.cpp:1852
 #, kde-format
@@ -8223,14 +8203,12 @@ msgstr ""
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "代用クリップの追加"
-msgstr[1] "代用クリップの追加"
 
 #: src/doc/kdenlivedoc.cpp:1498
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "代用クリップの削除"
-msgstr[1] "代用クリップの削除"
 
 #: src/doc/kdenlivedoc.cpp:1542 src/doc/kdenlivedoc.cpp:1577
 #, kde-format
@@ -10002,9 +9980,6 @@ msgid_plural ""
 "You have %1 rendering jobs waiting in the queue.\n"
 "What do you want to do with these jobs?"
 msgstr[0] ""
-"キューには 1 個のジョブが待機状態で保持されています。\n"
-"対応方法を指定してください。"
-msgstr[1] ""
 "キューには %1 個のジョブが待機状態で保持されています。\n"
 "対応方法を指定してください。"
 
@@ -12249,7 +12224,6 @@ msgstr "ソース解像度を使用して画像をエクスポート"
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "オーディオトラック"
-msgstr[1] "オーディオトラック"
 
 #: src/monitor/monitor.cpp:2205
 #, kde-format
@@ -13158,7 +13132,6 @@ msgctxt "@action"
 msgid "Add clip to project"
 msgid_plural "Add clips to project"
 msgstr[0] "プロジェクトにクリップを追加"
-msgstr[1] "プロジェクトにクリップを追加"
 
 #: src/project/cliptranscode.cpp:59
 #, kde-format
@@ -13241,7 +13214,6 @@ msgstr "Luma ファイル"
 msgid "You have %1 missing clip in your project."
 msgid_plural "You have %1 missing clips in your project."
 msgstr[0] "お使いのプロジェクトには、存在しないクリップが %1 個あります。"
-msgstr[1] "お使いのプロジェクトには、存在しないクリップが %1 個あります。"
 
 #: src/project/dialogs/archivewidget.cpp:222
 #: src/project/dialogs/archivewidget.cpp:1332
@@ -13250,7 +13222,6 @@ msgstr[1] "お使いのプロジェクトには、存在しないクリップが
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
 msgstr[0] "(%1 個)"
-msgstr[1] "(%1 個)"
 
 #: src/project/dialogs/archivewidget.cpp:228
 #: src/project/dialogs/archivewidget.cpp:1334
@@ -13259,7 +13230,6 @@ msgstr[1] "(%1 個)"
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
 msgstr[0] "アーカイブ対象のファイルは %1 個、%2 が必要です"
-msgstr[1] "アーカイブ対象のファイルは %1 個、%2 が必要です"
 
 #: src/project/dialogs/archivewidget.cpp:229
 #: src/project/dialogs/archivewidget.cpp:320
@@ -13634,7 +13604,6 @@ msgstr "現在のタイムコードに挿入"
 msgid "Create marker"
 msgid_plural "create markers"
 msgstr[0] "マーカーの作成"
-msgstr[1] "マーカーの作成"
 
 #: src/project/dialogs/noteswidget.cpp:50
 #, kde-format
@@ -13907,8 +13876,7 @@ msgstr ""
 #, kde-format
 msgid "1 image found"
 msgid_plural "%1 images found"
-msgstr[0] "1 個の画像が見つかりました"
-msgstr[1] "%1 個の画像が見つかりました"
+msgstr[0] "%1 個の画像が見つかりました"
 
 #: src/project/dialogs/projectsettings.cpp:794
 #, kde-format
@@ -13978,7 +13946,6 @@ msgstr "画像が見つかりません"
 msgid " month"
 msgid_plural " months"
 msgstr[0] "月"
-msgstr[1] "月"
 
 #: src/project/dialogs/temporarydata.cpp:178
 #, kde-format
@@ -16337,7 +16304,6 @@ msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
 msgid_plural "Slip clips"
 msgstr[0] "スリップ・クリップ"
-msgstr[1] "スリップ・クリップ"
 
 #: src/timeline2/model/timelinemodel.cpp:4005
 #, kde-format
@@ -16534,7 +16500,6 @@ msgctxt "Spinbox suffix"
 msgid " track"
 msgid_plural " tracks"
 msgstr[0] " トラック"
-msgstr[1] " トラック"
 
 #: src/timeline2/view/previewmanager.cpp:86
 #, fuzzy, kde-format
@@ -17115,7 +17080,6 @@ msgstr "クリップの追加"
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "トラックの挿入"
-msgstr[1] "トラックの挿入"
 
 #: src/timeline2/view/timelinecontroller.cpp:4991
 #, kde-format
@@ -17577,7 +17541,6 @@ msgstr "画像の追加"
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "選択した項目の削除"
-msgstr[1] "選択した項目の削除"
 
 #: src/titler/titlewidget.cpp:2243 src/titler/unicodedialog.cpp:28
 #, kde-format

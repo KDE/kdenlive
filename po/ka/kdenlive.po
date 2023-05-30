@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-29 02:33+0000\n"
-"PO-Revision-Date: 2023-05-06 05:53+0200\n"
+"PO-Revision-Date: 2023-05-29 07:03+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.3.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -767,17 +767,17 @@ msgstr "გაზომვის ფანჯარა"
 #: data/effects/dynamic_loudness.xml:14
 #, kde-format
 msgid "Maximum Gain Increase"
-msgstr ""
+msgstr "მაქსიმალური გაძლიერების გაზრდა"
 
 #: data/effects/dynamic_loudness.xml:17
 #, kde-format
 msgid "Maximum Gain Decrease"
-msgstr ""
+msgstr "მაქსიმალური გაძლიერების შემცირება"
 
 #: data/effects/dynamic_loudness.xml:20
 #, kde-format
 msgid "Maximum Rate Change"
-msgstr ""
+msgstr "მაქსიმალური სიხშირის შეცვლა"
 
 #: data/effects/dynamictext.xml:4
 #, kde-format
@@ -1201,7 +1201,7 @@ msgstr "მეორე ფერი"
 #: data/effects/loudness.xml:4
 #, kde-format
 msgid "Normalize (2 pass)"
-msgstr ""
+msgstr "ნორმალიზება (2 გავლა)"
 
 #: data/effects/loudness.xml:5
 #, kde-format
@@ -2615,7 +2615,7 @@ msgstr "აუდიოს კორექცია"
 #: data/kdenliveeffectscategory.rc:42
 #, kde-format
 msgid "Image adjustment"
-msgstr ""
+msgstr "გამოსახულების რეგულირება"
 
 #: data/kdenliveeffectscategory.rc:46
 #, kde-format
@@ -3071,17 +3071,17 @@ msgstr ""
 #: src/assets/assetlist/view/qml/assetList.qml:78
 #, kde-format
 msgid "Show all video effects"
-msgstr ""
+msgstr "ყველა ვიდეოეფექტის ჩვენება"
 
 #: src/assets/assetlist/view/qml/assetList.qml:89
 #, kde-format
 msgid "Show all audio effects"
-msgstr ""
+msgstr "ყველა აუდიოეფექტის ჩვენება"
 
 #: src/assets/assetlist/view/qml/assetList.qml:100
 #, kde-format
 msgid "Show all custom effects"
-msgstr ""
+msgstr "ყველა ხელით მითითებული ეფექტის ჩვენება"
 
 #: src/assets/assetlist/view/qml/assetList.qml:110
 #, kde-format
@@ -6674,7 +6674,7 @@ msgstr "საუბრის ამოცნობის დაწყება"
 #: src/dialogs/speechdialog.cpp:327 src/dialogs/textbasededit.cpp:1018
 #, kde-format
 msgid "Speech recognition aborted."
-msgstr "საუბრის ამოცნობა გაუქმდა"
+msgstr "საუბრის ამოცნობა გაუქმდა."
 
 #: src/dialogs/speechdialog.cpp:333
 #, kde-format
@@ -8171,10 +8171,9 @@ msgid "Processing filter %1"
 msgstr "მუშავდება ფილტრი %1"
 
 #: src/jobs/filtertask.cpp:96 src/jobs/filtertask.cpp:134
-#, fuzzy, kde-format
-#| msgid "Cannot open file %1"
+#, kde-format
 msgid "Cannot process file %1"
-msgstr "ფაილის '%1' გახსნის შეცდომა"
+msgstr "ფაილის '%1' დამუშავების შეცდომა"
 
 #: src/jobs/filtertask.cpp:150
 #, kde-format

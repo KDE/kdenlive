@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-29 02:33+0000\n"
-"PO-Revision-Date: 2023-05-14 10:59+0100\n"
+"PO-Revision-Date: 2023-05-29 23:56+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -8573,10 +8573,9 @@ msgid "Processing filter %1"
 msgstr "Procesando filtro %1"
 
 #: src/jobs/filtertask.cpp:96 src/jobs/filtertask.cpp:134
-#, fuzzy, kde-format
-#| msgid "Cannot open file %1"
+#, kde-format
 msgid "Cannot process file %1"
-msgstr "No es posible abrir el archivo %1"
+msgstr "No es posible procesar el archivo %1"
 
 #: src/jobs/filtertask.cpp:150
 #, kde-format
@@ -12712,7 +12711,7 @@ msgstr "Hubo un error al procesar el archivo del proyecto"
 #: src/project/dialogs/archivewidget.cpp:247
 #, kde-format
 msgid "Please save your project before archiving"
-msgstr ""
+msgstr "Por favor guardar el proyecto antes de archivarlo"
 
 #: src/project/dialogs/archivewidget.cpp:283
 #, kde-format
