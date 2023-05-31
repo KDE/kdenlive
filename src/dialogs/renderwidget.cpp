@@ -64,8 +64,13 @@
 #include <QtGlobal>
 
 #ifdef KF5_USE_PURPOSE
+#include "purpose_version.h"
 #include <Purpose/AlternativesModel>
+#if PURPOSE_VERSION >= QT_VERSION_CHECK(5, 240, 0)
+#include <Purpose/Menu>
+#else
 #include <PurposeWidgets/Menu>
+#endif
 #endif
 
 #include <locale>

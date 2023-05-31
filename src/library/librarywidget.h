@@ -19,8 +19,8 @@
 
 #include <KIO/ListJob>
 #include <KIO/PreviewJob>
-#include <KIOCore/KCoreDirLister>
-#include <KIOCore/KFileItem>
+#include <KCoreDirLister>
+#include <KFileItem>
 #include <KMessageWidget>
 
 class ProjectManager;

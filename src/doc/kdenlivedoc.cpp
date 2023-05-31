@@ -36,7 +36,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KBookmarkManager>
 #include <KIO/CopyJob>
 #include <KIO/FileCopyJob>
-#include <KJobWidgets/KJobWidgets>
+#include <KJobWidgets>
 #include <KLocalizedString>
 #include <KMessageBox>
 
@@ -120,6 +120,7 @@ KdenliveDoc::KdenliveDoc(QString projectFolder, QUndoGroup *undoGroup, const QSt
 
 KdenliveDoc::KdenliveDoc(const QUrl &url, QDomDocument &newDom, QString projectFolder, QUndoGroup *undoGroup, MainWindow *parent)
     : QObject(parent)
+    , closing(false)
     , m_autosave(nullptr)
     , m_uuid(QUuid::createUuid())
     , m_document(newDom)
@@ -1883,7 +1884,7 @@ void KdenliveDoc::selectPreviewProfile()
     KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
     KConfigGroup group(&conf, "timelinepreview");
     QMap<QString, QString> values = group.entryMap();
-    if (KdenliveSettings::supportedHWCodecs().isEmpty()) {
+    if (!KdenliveSettings::supportedHWCodecs().isEmpty()) {
         QString codecFormat = QStringLiteral("x264-");
         codecFormat.append(KdenliveSettings::supportedHWCodecs().first().section(QLatin1Char('_'), 1));
         if (values.contains(codecFormat)) {
@@ -1960,7 +1961,7 @@ void KdenliveDoc::initProxySettings()
     QString params;
     QMap<QString, QString> values = group.entryMap();
     // Select best proxy profile depending on hw encoder support
-    if (KdenliveSettings::supportedHWCodecs().isEmpty()) {
+    if (!KdenliveSettings::supportedHWCodecs().isEmpty()) {
         QString codecFormat = QStringLiteral("x264-");
         codecFormat.append(KdenliveSettings::supportedHWCodecs().first().section(QLatin1Char('_'), 1));
         if (values.contains(codecFormat)) {

@@ -11,7 +11,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 
-#include <KDiskFreeSpaceInfo>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <QDesktopServices>

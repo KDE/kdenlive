@@ -20,7 +20,6 @@
 #include <KLocalizedString>
 #include <KMessageWidget>
 #include <KProcess>
-#include <KRun>
 
 #include "kdenlive_debug.h"
 #include <QApplication>

@@ -1333,7 +1333,11 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     connect(hoverPreview, &QAction::triggered, [](bool checked) { KdenliveSettings::setHoverPreview(checked); });
 
     listType->setToolBarMode(KSelectAction::MenuMode);
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 240, 0)
+    connect(listType, &KSelectAction::actionTriggered, this, &Bin::slotInitView);
+#else
     connect(listType, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &Bin::slotInitView);
+#endif
 
     // Settings menu
     auto *settingsAction = new KActionMenu(QIcon::fromTheme(QStringLiteral("application-menu")), i18n("Options"), this);

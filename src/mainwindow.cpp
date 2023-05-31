@@ -72,6 +72,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "jogshuttle/jogmanager.h"
 #endif
 
+#include "kwidgetsaddons_version.h"
 #include "utils/KMessageBox_KdenliveCompat.h"
 #include <KAboutData>
 #include <KActionCollection>
@@ -84,7 +85,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KIconTheme>
 #include <KLocalizedString>
 #include <KMessageBox>
+#include "knewstuff_version.h"
+#if KNEWSTUFF_VERSION >= QT_VERSION_CHECK(5, 240, 0)
+#include <KNSWidgets/Dialog>
+#else
 #include <KNS3/QtQuickDialogWrapper>
+#endif
 #include <KNotifyConfigWidget>
 #include <KRecentDirs>
 #include <KShortcutsDialog>
@@ -1147,7 +1153,11 @@ void MainWindow::setupActions()
     sceneMode->addAction(m_overwriteEditTool);
     sceneMode->addAction(m_insertEditTool);
     sceneMode->setCurrentItem(0);
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 240, 0)
+    connect(sceneMode, &KSelectAction::actionTriggered, this, &MainWindow::slotChangeEdit);
+#else
     connect(sceneMode, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &MainWindow::slotChangeEdit);
+#endif
     addAction(QStringLiteral("timeline_mode"), sceneMode);
     actionCollection()->setShortcutsConfigurable(sceneMode, false);
 
@@ -3587,7 +3597,11 @@ void MainWindow::slotResizeItemEnd()
 #if KXMLGUI_VERSION < QT_VERSION_CHECK(5, 98, 0)
 int MainWindow::getNewStuff(const QString &configFile)
 {
+#if KNEWSTUFF_VERSION > QT_VERSION_CHECK(5, 240, 0)
+    KNSWidgets::Dialog dialog(configFile);
+#else
     KNS3::QtQuickDialogWrapper dialog(configFile);
+#endif
     const QList<KNSCore::EntryInternal> entries = dialog.exec();
     for (const auto &entry : qAsConst(entries)) {
         if (entry.status() == KNS3::Entry::Installed) {
