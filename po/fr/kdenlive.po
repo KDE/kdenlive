@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-29 02:33+0000\n"
-"PO-Revision-Date: 2023-05-17 18:04+0200\n"
-"Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
+"PO-Revision-Date: 2023-05-28 15:28+0200\n"
+"Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -8608,10 +8608,9 @@ msgid "Processing filter %1"
 msgstr "Filtre de traitement %1"
 
 #: src/jobs/filtertask.cpp:96 src/jobs/filtertask.cpp:134
-#, fuzzy, kde-format
-#| msgid "Cannot open file %1"
+#, kde-format
 msgid "Cannot process file %1"
-msgstr "Impossible d'ouvrir le ficher %1"
+msgstr "Impossible de traiter le ficher %1"
 
 #: src/jobs/filtertask.cpp:150
 #, kde-format
