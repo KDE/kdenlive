@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-30 00:45+0000\n"
-"PO-Revision-Date: 2023-05-26 09:00+0200\n"
-"Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
+"PO-Revision-Date: 2023-05-28 15:28+0200\n"
+"Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -6113,10 +6113,9 @@ msgstr ""
 #: src/dialogs/encodingprofilesdialog.cpp:259
 #: src/dialogs/encodingprofilesdialog.cpp:348
 #: src/project/dialogs/projectsettings.cpp:885
-#, fuzzy, kde-format
-#| msgid "Automatic"
+#, kde-format
 msgid "Automatic (%1)"
-msgstr "Automatique"
+msgstr "Automatique (%1)"
 
 #: src/dialogs/encodingprofilesdialog.cpp:261
 #: src/dialogs/encodingprofilesdialog.cpp:350
@@ -7464,22 +7463,19 @@ msgid "NVIDIA hardware acceleration"
 msgstr "Accélération matérielle NVIDIA"
 
 #: src/dialogs/wizard.cpp:145
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware acceleration"
+#, kde-format
 msgid "AMF hardware acceleration"
-msgstr "Accélération matérielle VA-API"
+msgstr "Accélération matérielle « AMF »"
 
 #: src/dialogs/wizard.cpp:148
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware acceleration"
+#, kde-format
 msgid "QSV hardware acceleration"
-msgstr "Accélération matérielle VA-API"
+msgstr "Accélération matérielle « QSV »"
 
 #: src/dialogs/wizard.cpp:151
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware acceleration"
+#, kde-format
 msgid "Video Toolbox hardware acceleration"
-msgstr "Accélération matérielle VA-API"
+msgstr "Accélération matérielle de la boîte à outils vidéo"
 
 #: src/dialogs/wizard.cpp:166
 #, kde-format
@@ -7653,10 +7649,9 @@ msgid "No hardware encoders found."
 msgstr "Aucun encodeur matériel trouvé."
 
 #: src/dialogs/wizard.cpp:796
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware encoders found and enabled."
+#, kde-format
 msgid "hardware encoders found and enabled (%1)."
-msgstr "Encodeur matériel VA-API trouvé et activé."
+msgstr "encodeur matériel trouvé et activé (%1)."
 
 #: src/doc/documentchecker.cpp:320
 #, kde-format
@@ -8711,10 +8706,9 @@ msgid "Processing filter %1"
 msgstr "Filtre de traitement %1"
 
 #: src/jobs/filtertask.cpp:96 src/jobs/filtertask.cpp:134
-#, fuzzy, kde-format
-#| msgid "Cannot open file %1"
+#, kde-format
 msgid "Cannot process file %1"
-msgstr "Impossible d'ouvrir le ficher %1"
+msgstr "Impossible de traiter le ficher %1"
 
 #: src/jobs/filtertask.cpp:150
 #, kde-format
