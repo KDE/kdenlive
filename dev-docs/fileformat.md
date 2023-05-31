@@ -1,6 +1,6 @@
 <!--
     SPDX-FileCopyrightText: 2021-2022 Julius Künzel <jk.kdedev@smartlab.uber.space>
-    SPDX-FileCopyrightText: 2015 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-FileCopyrightText: 2015-2023 Jean-Baptiste Mardelle <jb@kdenlive.org>
     SPDX-License-Identifier: CC0-1.0
 -->
 
@@ -52,17 +52,24 @@ Generation 3 projects are those projects created or edited using Kdenlive versio
 
 ### Generation 4: Comma / Point
 
-*Used in Kdenlive versions since 20.08.0, Kdenlive document version: 1.00*
+*Used in Kdenlive versions 20.08.0 to 22.12.3, Kdenlive document version: 1.00*
 
 With version 20.08.0 a major refactoring of the project file fixed a long standing [issue with the decimal separator][comma-point-issue] (comma/point) conflict causing many crashes. Projects created with 20.08 forward are not backwards compatible.
 
-### Generation 5: Current format
-
-Since Generation 4 there has not been a new major generation, however the Kdenlive file format evolves constantly to support new features.
-
-Here is a list of noteworth changes:
+some minor updates were done to support new features, like:
 
 * 20.12.0: Mixes (in-track-transitions) were introduced
+
+### Generation 5: Current format
+
+*Used in Kdenlive versions from 23.04.0, Kdenlive document version: 1.1*
+
+An important change was introduced with Kdenlive 23.04.0: multiple sequences. Each timeline sequence clip is embeded in an MLT *tractor*.
+The "main_bin" playlist lists all clips and timeline sequences used in the project as *entries*.
+
+The very last *tractor* in the project file is just a wrapper for the last opened timeline sequence, so that when playing the project file through the *melt* command line, it will play the last active sequence clip.
+
+Previously, all timeline properties were stored in the "main_bin" playlist as *kdenlive:documentproperty.*. With the new format, all timeline properties are stored inside their timeline sequence as *kdenlive:sequenceproperty.*, and only global project settings are stored in the "main_bin".
 
 ## Project XML Structure
 
@@ -71,42 +78,25 @@ The overall structure of the XML data inside Kdenlive project files is roughly a
 ```xml
 <mlt producer="main_bin" ...>
 
-  <!-- definition of rendering profile -->
+  <!-- the profile - definition of the project profile (frame size, aspect ration, etc) -->
   <profile frame_rate_num="25" .../>
 
-  <!-- definition of master clips, as well as derived producers -->
-  <producer id="producer0">
-    <property name="kdenlive:clipname">Some Clip</property>
-    ...
-  </producer>
-  <producer id="producer1"/>
-  <producer id="producer2"/>
-  <producer id="producer3"/>
-  ...
+  <!-- definition of master and timeline clips used in the first sequence clips -->
+  <producer id="producer0" .../>
+  <producer id="producer1" .../>
 
-  <!-- project settings, and more -->
-  <playlist id="main_bin">
-    <property name="kdenlive:...">...</property>
-    ...
-    <entry producer="producer0" .../>
-    ...
-  </playlist>
-
-  <producer id="black_track"/>
-
-  <!-- each timeline track has a playlist -->
+  <!-- then comes the playlist definition - a list of the empty spaces and clips on a track -->
   <playlist id="playlist0">
     <!-- entries linking to the producers defined above -->
-    <entry producer="producer1" in="00:00:00.000" out="00:00:04.960">
+    <entry producer="producer0" in="00:00:00.000" out="00:00:04.960">
       <property name="kdenlive:id">3</property>
     </entry>
     <blank length="00:00:03.720"/> <!-- space between clips -->
     <entry producer="producer1" />
     ...
   <playlist id="playlist1"/>
-  ...
 
-  <!-- the individual timeline tracks -->
+  <!-- After that we have the tracks embeded in a tractor. Each Kdenlive timeline track is made of 2 *tracks* to allow mixes-->
   <tractor id="tractor0" in="00:00:00.000" out="00:02:20.840">
     <property name="kdenlive:..">...</property>
     ...
@@ -114,18 +104,44 @@ The overall structure of the XML data inside Kdenlive project files is roughly a
     <track hide="audio" producer="playlist1"/>
   </tractor>
 
-  <!-- the main tractor is the last producer in the document, so MLT takes it as the default for playout -->
-  <tractor id="tractor1">
-    <track producer="black_track"/>
-    <track producer="..."/>
-    ...
+  <!-- After the tracks definition, we have the first timeline sequence tractor that has a kdenlive:uuid attribute, and transitions between the tracks -->
+  <tractor id="tractor6" ...>
+    <property name="kdenlive:uuid">...</property>
+    <track hide="audio" producer="tractor0"/>
+    <track hide="audio" producer="tractor1"/>
 
     <!-- all transitions -->
     <transition id="transition0"/> <!-- user transitions -->
-    <transition id="transition1"> <!-- internally added trans -->
+    <transition id="transition1"> <!-- internally added transition (for example audio mix) -->
       <property name="internal_added">237</property>
     </transition>
+
+    </tractor>
+
+  <!-- If we have multiple timeline sequence clips, we repeat the above steps -->
+  <producer id="producer3" .../>
+  <playlist id="playlist3" ../>
+  <tractor id="tractor7" .../>
+  <tractor id="tractor11" ...>
+    <property name="kdenlive:uuid">...</property>
+    <track hide="audio" producer="tractor7"/>
+    <track hide="audio" producer="tractor8"/>
   </tractor>
+
+  <!-- The *main bin* playlist, keeping all project settings, and a list of all project bin clips, including the sequence clips  -->
+  <playlist id="main_bin">
+    <property name="kdenlive:documentproperty...">...</property>
+    <entry producer="producer0" .../>
+    <entry producer="producer1" .../>
+    <entry producer="tractor6" .../>
+    <entry producer="tractor11" .../>
+  </playlist>
+
+  <!-- the last tractor of the xml file only contains one producerm is a the main tractor, containing the default sequence clip that will be played -->
+  <tractor id="tractor23" in="00:00:00.000" out="00:00:45.000">
+    <property name="kdenlive:projectTractor">1</property>
+    <track producer="tractor11" in="00:00:00.000" out="00:00:45.000"/>
+ </tractor>
 
 </mlt>
 ```
