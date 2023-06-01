@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-30 00:45+0000\n"
-"PO-Revision-Date: 2023-05-28 17:29+0200\n"
+"PO-Revision-Date: 2023-05-31 17:40+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -8877,7 +8877,7 @@ msgstr "Selecció"
 #: src/kdenliveui.rc:110
 #, kde-format
 msgid "Insertion"
-msgstr "Insereix"
+msgstr "Inserció"
 
 #. i18n: ectx: Menu (keyboard_remove)
 #: src/kdenliveui.rc:114
@@ -10307,7 +10307,7 @@ msgstr ""
 #: src/mainwindow.cpp:1647
 #, kde-format
 msgid "Lift Timeline Zone"
-msgstr "Eleva una zona de la línia de temps"
+msgstr "Remou una zona de la línia de temps"
 
 #: src/mainwindow.cpp:1649
 #, kde-kuit-format
@@ -11054,8 +11054,7 @@ msgid ""
 "a lift of all tracks except active one"
 msgstr ""
 "Feu <shortcut>clic</shortcut> sobre una vista de pista a la pantalla del "
-"projecte per a realitzar una elevació de totes les pistes, excepte de "
-"l'activa"
+"projecte per a remoure totes les pistes, excepte l'activa"
 
 #: src/mainwindow.cpp:3415
 #, kde-format
@@ -15478,7 +15477,7 @@ msgstr "Elimina l'espai"
 #: src/timeline2/model/timelinefunctions.cpp:643
 #, kde-format
 msgid "Lift zone"
-msgstr "Eleva una zona"
+msgstr "Remou una zona"
 
 #: src/timeline2/model/timelinefunctions.cpp:643
 #, kde-format

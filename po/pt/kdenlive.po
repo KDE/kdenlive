@@ -4775,7 +4775,7 @@ msgstr "Localizar o 'Clip'…"
 #: src/bin/bin.cpp:3447
 #, kde-format
 msgid "Reload Clip"
-msgstr "'Clip' de Cor"
+msgstr "Recarregar o 'Clip'"
 
 #: src/bin/bin.cpp:3453
 #, kde-format
