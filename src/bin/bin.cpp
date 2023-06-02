@@ -1776,7 +1776,6 @@ void Bin::slotDeleteClip()
             return;
         }
         for (auto seq : sequences) {
-            qDebug() << ":::: CLOSING TIMELINE: " << seq;
             pCore->projectManager()->closeTimeline(seq, true);
         }
     }
@@ -2039,7 +2038,7 @@ void Bin::slotDuplicateClip()
                 if (currentItem->clipType() == ClipType::Timeline) {
                     // Sync last changes for this timeline
                     const QUuid uuid = currentItem->getSequenceUuid();
-                    pCore->projectManager()->syncTimeline(uuid);
+                    pCore->projectManager()->syncTimeline(uuid, true);
                     QTemporaryFile src(QDir::temp().absoluteFilePath(QString("XXXXXX.mlt")));
                     src.setAutoRemove(false);
                     if (!src.open()) {
@@ -3004,16 +3003,19 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint &pos, uint m
             if (clip) {
                 if (clip->clipType() == ClipType::Timeline) {
                     const QUuid uuid = clip->getSequenceUuid();
-                    Fun redo = [this, uuid, binId = clip->binId()]() { return pCore->projectManager()->openTimeline(binId, uuid); };
+                    pCore->projectManager()->openTimeline(clip->binId(), uuid);
+                    // Undo / redo timeline close crashes because the undo stack keeps reference to deleted timeline/marker models
+                    /*Fun redo = [this, uuid, binId = clip->binId()]() { return pCore->projectManager()->openTimeline(binId, uuid); };
                     if (redo()) {
                         Fun undo = [this, uuid]() {
-                            if (pCore->projectManager()->closeTimeline(uuid)) {
+                            qDebug()<<":::::::::READY TO UNDO TIMELINE OPEN!!!!!!";
+                            if (pCore->projectManager()->closeTimeline(uuid, false, false)) {
                                 pCore->window()->closeTimeline(uuid);
                             }
                             return true;
                         };
                         pCore->pushUndo(undo, redo, i18n("Open %1", clip->clipName()));
-                    }
+                    }*/
                 } else if (clip->clipType() == ClipType::Text || clip->clipType() == ClipType::TextTemplate) {
                     // m_propertiesPanel->setEnabled(false);
                     showTitleWidget(clip);
@@ -5707,16 +5709,6 @@ void Bin::registerSequence(const QUuid uuid, const QString id)
     }
 }
 
-void Bin::removeReferencedClips(const QUuid &uuid)
-{
-    QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
-    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
-        if (clip->refCount() > 0) {
-            clip->purgeReferences(uuid);
-        }
-    }
-}
-
 QStringList Bin::sequenceReferencedClips(const QUuid &uuid) const
 {
     QStringList results;
@@ -5732,7 +5724,7 @@ QStringList Bin::sequenceReferencedClips(const QUuid &uuid) const
     return results;
 }
 
-void Bin::updateSequenceClip(const QUuid &uuid, int duration, int pos, std::shared_ptr<Mlt::Producer> prod)
+void Bin::updateSequenceClip(const QUuid &uuid, int duration, int pos)
 {
     Q_ASSERT(m_openedPlaylists.contains(uuid));
     if (pos > -1) {
@@ -5742,12 +5734,6 @@ void Bin::updateSequenceClip(const QUuid &uuid, int duration, int pos, std::shar
         const QString binId = m_openedPlaylists.value(uuid);
         std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(binId);
         Q_ASSERT(clip != nullptr);
-        if (prod) {
-            // On timeline close, update the stored sequence producer
-            std::shared_ptr<Mlt::Tractor> trac(new Mlt::Tractor(prod->parent()));
-            pCore->projectItemModel()->storeSequence(uuid.toString(), trac);
-        }
-
         if (m_doc->sequenceThumbRequiresRefresh(uuid)) {
             // Store general sequence properties
             QMap<QString, QString> properties;

@@ -8,6 +8,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
+#include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
@@ -69,32 +70,8 @@ static QString getProjectNameFilters(bool ark = true)
 ProjectManager::ProjectManager(QObject *parent)
     : QObject(parent)
     , m_activeTimelineModel(nullptr)
+    , m_notesPlugin(nullptr)
 {
-    m_fileRevert = KStandardAction::revert(this, SLOT(slotRevert()), pCore->window()->actionCollection());
-    m_fileRevert->setIcon(QIcon::fromTheme(QStringLiteral("document-revert")));
-    m_fileRevert->setEnabled(false);
-
-    QAction *a = KStandardAction::open(this, SLOT(openFile()), pCore->window()->actionCollection());
-    a->setIcon(QIcon::fromTheme(QStringLiteral("document-open")));
-    a = KStandardAction::saveAs(this, SLOT(saveFileAs()), pCore->window()->actionCollection());
-    a->setIcon(QIcon::fromTheme(QStringLiteral("document-save-as")));
-    a = KStandardAction::openNew(this, SLOT(newFile()), pCore->window()->actionCollection());
-    a->setIcon(QIcon::fromTheme(QStringLiteral("document-new")));
-    m_recentFilesAction = KStandardAction::openRecent(this, SLOT(openFile(QUrl)), pCore->window()->actionCollection());
-
-    QAction *saveCopyAction = new QAction(QIcon::fromTheme(QStringLiteral("document-save-as")), i18n("Save Copy…"), this);
-    pCore->window()->addAction(QStringLiteral("file_save_copy"), saveCopyAction);
-    connect(saveCopyAction, &QAction::triggered, this, [this] { saveFileAs(true); });
-
-    QAction *backupAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-undo")), i18n("Open Backup File…"), this);
-    pCore->window()->addAction(QStringLiteral("open_backup"), backupAction);
-    connect(backupAction, SIGNAL(triggered(bool)), SLOT(slotOpenBackup()));
-
-    m_notesPlugin = new NotesPlugin(this);
-
-    m_autoSaveTimer.setSingleShot(true);
-    connect(&m_autoSaveTimer, &QTimer::timeout, this, &ProjectManager::slotAutoSave);
-
     // Ensure the default data folder exist
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
     dir.mkpath(QStringLiteral(".backup"));
@@ -146,6 +123,29 @@ void ProjectManager::init(const QUrl &projectUrl, const QString &clipList)
 {
     m_startUrl = projectUrl;
     m_loadClipsOnOpen = clipList;
+    m_fileRevert = KStandardAction::revert(this, SLOT(slotRevert()), pCore->window()->actionCollection());
+    m_fileRevert->setIcon(QIcon::fromTheme(QStringLiteral("document-revert")));
+    m_fileRevert->setEnabled(false);
+
+    QAction *a = KStandardAction::open(this, SLOT(openFile()), pCore->window()->actionCollection());
+    a->setIcon(QIcon::fromTheme(QStringLiteral("document-open")));
+    a = KStandardAction::saveAs(this, SLOT(saveFileAs()), pCore->window()->actionCollection());
+    a->setIcon(QIcon::fromTheme(QStringLiteral("document-save-as")));
+    a = KStandardAction::openNew(this, SLOT(newFile()), pCore->window()->actionCollection());
+    a->setIcon(QIcon::fromTheme(QStringLiteral("document-new")));
+    m_recentFilesAction = KStandardAction::openRecent(this, SLOT(openFile(QUrl)), pCore->window()->actionCollection());
+
+    QAction *saveCopyAction = new QAction(QIcon::fromTheme(QStringLiteral("document-save-as")), i18n("Save Copy…"), this);
+    pCore->window()->addAction(QStringLiteral("file_save_copy"), saveCopyAction);
+    connect(saveCopyAction, &QAction::triggered, this, [this] { saveFileAs(true); });
+
+    QAction *backupAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-undo")), i18n("Open Backup File…"), this);
+    pCore->window()->addAction(QStringLiteral("open_backup"), backupAction);
+    connect(backupAction, SIGNAL(triggered(bool)), SLOT(slotOpenBackup()));
+    m_notesPlugin = new NotesPlugin(this);
+
+    m_autoSaveTimer.setSingleShot(true);
+    connect(&m_autoSaveTimer, &QTimer::timeout, this, &ProjectManager::slotAutoSave);
 }
 
 void ProjectManager::newFile(bool showProjectSettings)
@@ -330,11 +330,10 @@ std::shared_ptr<TimelineItemModel> ProjectManager::getTimeline()
 bool ProjectManager::testSaveFileAs(const QString &outputFileName)
 {
     QString saveFolder = QFileInfo(outputFileName).absolutePath();
-    m_project->setDocumentProperty(QStringLiteral("timelineHash"), m_activeTimelineModel->timelineHash().toHex());
     m_project->setDocumentProperty(QStringLiteral("opensequences"), m_project->uuid().toString());
     m_project->setDocumentProperty(QStringLiteral("activetimeline"), m_project->uuid().toString());
 
-    QMap<QString, QString> docProperties = m_project->documentProperties();
+    QMap<QString, QString> docProperties = m_project->documentProperties(true);
     pCore->projectItemModel()->saveDocumentProperties(docProperties, QMap<QString, QString>());
     // QString scene = m_activeTimelineModel->sceneList(saveFolder);
     int duration = m_activeTimelineModel->duration();
@@ -380,32 +379,42 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             break;
         }
     }
-    pCore->window()->disableMulticam();
+    bool guiConstructed = pCore->window() != nullptr;
+    if (guiConstructed) {
+        pCore->window()->disableMulticam();
+    }
     if (m_project) {
         m_project->closing = true;
-        ::mlt_pool_purge();
-        pCore->cleanup();
-        if (!quit && !qApp->isSavingSession()) {
+        if (guiConstructed && !quit && !qApp->isSavingSession()) {
             pCore->bin()->abortOperations();
         }
+        pCore->taskManager.slotCancelJobs(true);
+        ::mlt_pool_purge();
+        pCore->cleanup();
         QList<QUuid> uuids = m_project->getTimelinesUuids();
-        for (auto &uid : uuids) {
-            pCore->window()->closeTimeline(uid);
-            pCore->window()->resetSubtitles(uid);
+        if (guiConstructed) {
+            for (auto &uid : uuids) {
+                pCore->window()->closeTimeline(uid);
+                pCore->window()->resetSubtitles(uid);
+            }
         }
     }
     // Release model shared pointers
     m_activeTimelineModel.reset();
-    if (!quit && !qApp->isSavingSession() && m_project) {
-        Q_EMIT pCore->window()->clearAssetPanel();
+    if (guiConstructed) {
+        if (!quit && !qApp->isSavingSession() && m_project) {
+            Q_EMIT pCore->window()->clearAssetPanel();
+        }
+        pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
+        pCore->monitorManager()->projectMonitor()->setProducer(nullptr);
+        pCore->bin()->cleanDocument();
+        pCore->mixer()->unsetModel();
+        delete m_project;
+        m_project = nullptr;
+    } else {
+        pCore->projectItemModel()->clean();
+        m_project = nullptr;
     }
-    pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
-    pCore->monitorManager()->projectMonitor()->setProducer(nullptr);
-
-    pCore->bin()->cleanDocument();
-    delete m_project;
-    m_project = nullptr;
-    pCore->mixer()->unsetModel();
     return true;
 }
 
@@ -532,7 +541,7 @@ bool ProjectManager::saveFileAs(bool saveACopy)
 
     QString outputFile = fd.selectedFiles().constFirst();
 
-    bool ok = false;
+    bool ok;
     QDir cacheDir = m_project->getCacheDir(CacheBase, &ok);
     if (ok) {
         QFile file(cacheDir.absoluteFilePath(QString::fromLatin1(QUrl::toPercentEncoding(QStringLiteral(".") + outputFile))));
@@ -1291,7 +1300,7 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
     if (pCore->window()) {
         pCore->bin()->registerSequence(uuid, mainId);
         QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, [id = mainId, model = timelineModel]() {
-            std::shared_ptr<ProjectClip> mainClip = pCore->bin()->getBinClip(id);
+            std::shared_ptr<ProjectClip> mainClip = pCore->projectItemModel()->getClipByBinID(id);
             qDebug() << "::: UPDATING MAIN TIMELINE DURATION: " << model->duration();
             if (mainClip) {
                 QMap<QString, QString> properties;
@@ -1556,33 +1565,33 @@ void ProjectManager::initSequenceProperties(const QUuid &uuid, std::pair<int, in
 {
     // Initialize default timeline properties
     m_project->setSequenceProperty(uuid, QStringLiteral("documentuuid"), m_project->uuid().toString());
-    m_project->setSequenceProperty(uuid, QStringLiteral("zoom"), QStringLiteral("8"));
-    m_project->setSequenceProperty(uuid, QStringLiteral("verticalzoom"), QStringLiteral("1"));
-    m_project->setSequenceProperty(uuid, QStringLiteral("zonein"), QStringLiteral("0"));
-    m_project->setSequenceProperty(uuid, QStringLiteral("zoneout"), QStringLiteral("75"));
-    m_project->setSequenceProperty(uuid, QStringLiteral("tracks"), QString::number(tracks.first + tracks.second));
-    m_project->setSequenceProperty(uuid, QStringLiteral("hasAudio"), tracks.first > 0 ? QStringLiteral("1") : QStringLiteral("0"));
-    m_project->setSequenceProperty(uuid, QStringLiteral("hasVideo"), tracks.second > 0 ? QStringLiteral("1") : QStringLiteral("0"));
+    m_project->setSequenceProperty(uuid, QStringLiteral("zoom"), 8);
+    m_project->setSequenceProperty(uuid, QStringLiteral("verticalzoom"), 1);
+    m_project->setSequenceProperty(uuid, QStringLiteral("zonein"), 0);
+    m_project->setSequenceProperty(uuid, QStringLiteral("zoneout"), 75);
+    m_project->setSequenceProperty(uuid, QStringLiteral("tracks"), tracks.first + tracks.second);
+    m_project->setSequenceProperty(uuid, QStringLiteral("hasAudio"), tracks.first > 0 ? 1 : 0);
+    m_project->setSequenceProperty(uuid, QStringLiteral("hasVideo"), tracks.second > 0 ? 1 : 0);
     const int activeTrack = tracks.second > 0 ? tracks.first : tracks.first - 1;
-    m_project->setSequenceProperty(uuid, QStringLiteral("activeTrack"), QString::number(activeTrack));
+    m_project->setSequenceProperty(uuid, QStringLiteral("activeTrack"), activeTrack);
 }
 
 bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int position)
 {
     if (position > -1) {
-        m_project->setSequenceProperty(uuid, QStringLiteral("position"), QString::number(position));
+        m_project->setSequenceProperty(uuid, QStringLiteral("position"), position);
     }
-    if (pCore->window()->raiseTimeline(uuid)) {
+    if (pCore->window() && pCore->window()->raiseTimeline(uuid)) {
         return false;
     }
+
     // Disable autosave while creating timelines
     m_autoSaveTimer.stop();
-    std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(id);
+    std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(id);
     std::unique_ptr<Mlt::Producer> xmlProd = nullptr;
     // Check if a tractor for this playlist already exists in the main timeline
     std::shared_ptr<Mlt::Tractor> tc = pCore->projectItemModel()->getExtraTimeline(uuid.toString());
     bool internalLoad = false;
-
     if (tc != nullptr && tc->is_valid()) {
         internalLoad = true;
     } else {
@@ -1598,11 +1607,11 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
     // Build timeline
     std::shared_ptr<TimelineItemModel> timelineModel = TimelineItemModel::construct(uuid, pCore->getProjectProfile(), m_project->commandStack());
     m_project->addTimeline(uuid, timelineModel);
-    TimelineWidget *timeline =
+    TimelineWidget *timeline = nullptr;
+    if (pCore->window()) {
+        // Create tab widget
         pCore->window()->openTimeline(uuid, clip->clipName(), timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
-    // pCore->buildProjectModel(timeline->uuid);
-    // timeline->setModel(timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
-    // QDomDocument doc = m_project->createEmptyDocument(2, 2);
+    }
     if (internalLoad) {
         qDebug() << "QQQQQQQQQQQQQQQQQQQQ\nINTERNAL SEQUENCE LOAD\n\nQQQQQQQQQQQQQQQQQQQQQQ";
         qDebug() << "============= LOADING INTERNAL PLAYLIST: " << uuid;
@@ -1611,7 +1620,15 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
         if (!constructTimelineFromTractor(timelineModel, nullptr, *tc.get(), m_progressDialog, m_project->modifiedDecimalPoint(), chunks, dirty)) {
             qDebug() << "===== LOADING PROJECT INTERNAL ERROR";
         }
-        std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(timeline->tractor());
+        std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(timelineModel->tractor());
+
+        // Load stored sequence properties
+        Mlt::Properties playlistProps(tc->get_properties());
+        Mlt::Properties sequenceProperties;
+        sequenceProperties.pass_values(playlistProps, "kdenlive:sequenceproperties.");
+        for (int i = 0; i < sequenceProperties.count(); i++) {
+            m_project->setSequenceProperty(uuid, qstrdup(sequenceProperties.get_name(i)), qstrdup(sequenceProperties.get(i)));
+        }
         prod->set("kdenlive:duration", prod->frames_to_time(timelineModel->duration()));
         prod->set("kdenlive:maxduration", timelineModel->duration());
         prod->set("length", timelineModel->duration());
@@ -1630,7 +1647,7 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
         prod->parent().set("kdenlive:uuid", uuid.toString().toUtf8().constData());
         prod->parent().set("kdenlive:producer_type", ClipType::Timeline);
         QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, [uuid, id]() {
-            std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(id);
+            std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(id);
             if (clip) {
                 std::shared_ptr<TimelineItemModel> timelineModel = pCore->currentDoc()->getTimeline(uuid);
                 QMap<QString, QString> properties;
@@ -1660,7 +1677,7 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
         Mlt::Properties sequenceProperties;
         sequenceProperties.pass_values(playlistProps, "kdenlive:sequenceproperties.");
         for (int i = 0; i < sequenceProperties.count(); i++) {
-            m_project->setSequenceProperty(uuid, QString(sequenceProperties.get_name(i)), QString(sequenceProperties.get(i)));
+            m_project->setSequenceProperty(uuid, qstrdup(sequenceProperties.get_name(i)), qstrdup(sequenceProperties.get(i)));
         }
 
         const QUuid sourceDocUuid(m_project->getSequenceProperty(uuid, QStringLiteral("documentuuid")));
@@ -1682,8 +1699,8 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
             m_autoSaveTimer.start();
             return false;
         }
-        qDebug() << "::: SEQUENCE LOADED WITH TRACKS: " << timeline->tractor()->count() << "\nZZZZZZZZZZZZ";
-        std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(timeline->tractor());
+        qDebug() << "::: SEQUENCE LOADED WITH TRACKS: " << timelineModel->tractor()->count() << "\nZZZZZZZZZZZZ";
+        std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(timelineModel->tractor());
         prod->set("kdenlive:duration", timelineModel->tractor()->frames_to_time(timelineModel->duration()));
         prod->set("kdenlive:maxduration", timelineModel->duration());
         prod->set("length", timelineModel->duration());
@@ -1703,13 +1720,18 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
         prod->parent().set("kdenlive:producer_type", ClipType::Timeline);
         if (pCore->bin()) {
             pCore->bin()->registerSequence(uuid, id);
-            pCore->bin()->updateSequenceClip(uuid, timelineModel->duration(), -1, prod);
+            pCore->bin()->updateSequenceClip(uuid, timelineModel->duration(), -1);
         }
+        updateSequenceProducer(uuid, prod);
         clip->setProducer(prod, false, false);
     }
     m_project->loadSequenceGroupsAndGuides(uuid);
 
     int activeTrackPosition = m_project->getSequenceProperty(uuid, QStringLiteral("activeTrack"), QString::number(-1)).toInt();
+    if (timeline == nullptr) {
+        // We are in testing mode
+        return true;
+    }
     if (activeTrackPosition == -2) {
         // Subtitle model track always has ID == -2
         timeline->controller()->setActiveTrack(-2);
@@ -1747,7 +1769,7 @@ int ProjectManager::getTimelinesCount() const
     return m_project->timelineCount();
 }
 
-void ProjectManager::syncTimeline(const QUuid &uuid)
+void ProjectManager::syncTimeline(const QUuid &uuid, bool refresh)
 {
     std::shared_ptr<TimelineItemModel> model = m_project->getTimeline(uuid);
     if (model) {
@@ -1755,41 +1777,49 @@ void ProjectManager::syncTimeline(const QUuid &uuid)
         int position = -1;
         if (model == m_activeTimelineModel) {
             position = pCore->getMonitorPosition();
-            pCore->window()->getCurrentTimeline()->controller()->saveSequenceProperties();
+            if (pCore->window()) {
+                pCore->window()->getCurrentTimeline()->controller()->saveSequenceProperties();
+            }
         }
-        pCore->bin()->updateSequenceClip(uuid, model->duration(), position, prod);
+        if (refresh) {
+            // Store sequence properties for later re-use
+            Mlt::Properties sequenceProps;
+            sequenceProps.pass_values(*model->tractor(), "kdenlive:sequenceproperties.");
+            pCore->currentDoc()->loadSequenceProperties(uuid, sequenceProps);
+        }
+        updateSequenceProducer(uuid, prod);
+        if (pCore->bin()) {
+            pCore->bin()->updateSequenceClip(uuid, model->duration(), position);
+        }
     }
 }
 
-bool ProjectManager::closeTimeline(const QUuid &uuid, bool onDeletion)
+bool ProjectManager::closeTimeline(const QUuid &uuid, bool onDeletion, bool clearUndo)
 {
     std::shared_ptr<TimelineItemModel> model = m_project->getTimeline(uuid);
     if (model == nullptr) {
         qDebug() << "=== ERROR CANNOT FIND TIMELINE TO CLOSE: " << uuid << "\n\nHHHHHHHHHHHH";
         return false;
     }
+    pCore->projectItemModel()->removeReferencedClips(uuid);
     if (onDeletion) {
         // triggered when deleting bin clip, also close timeline tab
-        pCore->bin()->removeReferencedClips(uuid);
         pCore->window()->closeTimeline(uuid);
     } else {
         pCore->projectItemModel()->setExtraTimelineSaved(uuid.toString());
-        pCore->bin()->removeReferencedClips(uuid);
-        if (!m_project->closing) {
-            std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(model->tractor());
-            int position;
-            if (model == m_activeTimelineModel) {
-                position = pCore->getMonitorPosition();
-            } else {
-                position = -1;
+        if (!m_project->closing && !onDeletion) {
+            if (m_project->isModified()) {
+                syncTimeline(uuid);
             }
-            // Store sequence properties for later re-use
-            Mlt::Properties sequenceProps;
-            sequenceProps.pass_values(*model->tractor(), "kdenlive:sequenceproperties.");
-            pCore->currentDoc()->loadSequenceProperties(uuid, sequenceProps);
-            pCore->bin()->updateSequenceClip(uuid, model->duration(), position, prod);
         }
         m_project->closeTimeline(uuid);
+    }
+    // The undo stack keeps references to guides model and will crash on undo if not cleared
+    if (clearUndo) {
+        undoStack()->clear();
+    }
+    if (!m_project->closing) {
+        m_project->setModified(true);
     }
     return true;
 }
@@ -1865,4 +1895,12 @@ void ProjectManager::slotCreateSequenceFromSelection()
         return;
     }
     pCore->pushUndo(undo, redo, i18n("Create Sequence Clip"));
+}
+
+void ProjectManager::updateSequenceProducer(const QUuid &uuid, std::shared_ptr<Mlt::Producer> prod)
+{
+    // On timeline close, update the stored sequence producer
+    std::shared_ptr<Mlt::Tractor> trac(new Mlt::Tractor(prod->parent()));
+    qDebug() << "====== STORING SEQUENCE " << uuid << " WITH TKS: " << trac->count();
+    pCore->projectItemModel()->storeSequence(uuid.toString(), trac);
 }

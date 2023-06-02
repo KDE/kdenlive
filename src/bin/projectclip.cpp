@@ -650,7 +650,9 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
         (m_clipType == ClipType::AV || m_clipType == ClipType::Audio || (m_hasAudio && m_clipType != ClipType::Timeline))) {
         AudioLevelsTask::start({ObjectType::BinClip, m_binId.toInt()}, this, false);
     }
-    pCore->bin()->reloadMonitorIfActive(clipId());
+    if (pCore->bin()) {
+        pCore->bin()->reloadMonitorIfActive(clipId());
+    }
     if (clearTrackProducers) {
         for (auto &p : m_audioProducers) {
             m_effectStack->removeService(p.second);
@@ -806,6 +808,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::thumbProducer()
         // TODO: when the original producer changes, we must reload this thumb producer
         m_thumbsProducer = softClone(ClipController::getPassPropertiesList());
     } else if (m_clipType == ClipType::Timeline) {
+        return nullptr;
         if (!m_sequenceThumbFile.isOpen() && !m_sequenceThumbFile.open()) {
             // Something went wrong
             qWarning() << "Cannot write to temporary file: " << m_sequenceThumbFile.fileName();
@@ -1293,7 +1296,7 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
 void ProjectClip::cloneProducerToFile(const QString &path, bool thumbsProducer)
 {
     QMutexLocker lk(&m_producerMutex);
-    Mlt::Consumer c(*pCore->getProjectProfile(), "xml", path.toUtf8().constData());
+    Mlt::Consumer c(m_masterProducer->get_profile(), "xml", path.toUtf8().constData());
     // Mlt::Service s(m_masterProducer->get_service());
     /*int ignore = s.get_int("ignore_points");
     if (ignore) {
@@ -2059,7 +2062,7 @@ const QString ProjectClip::getAudioThumbPath(int stream)
     if (audioInfo() == nullptr) {
         return QString();
     }
-    bool ok = false;
+    bool ok;
     QDir thumbFolder = pCore->projectManager()->cacheDir(true, &ok);
     if (!ok) {
         qWarning() << "Cannot write to cache folder: " << thumbFolder.absolutePath();
@@ -2541,7 +2544,7 @@ void ProjectClip::getThumbFromPercent(int percent, bool storeFrame)
     }
     if (storeFrame) {
         if (m_clipType == ClipType::Timeline) {
-            pCore->currentDoc()->setSequenceProperty(m_sequenceUuid, QStringLiteral("thumbnailFrame"), QString::number(framePos));
+            pCore->currentDoc()->setSequenceProperty(m_sequenceUuid, QStringLiteral("thumbnailFrame"), framePos);
         } else {
             setProducerProperty(QStringLiteral("kdenlive:thumbnailFrame"), framePos);
         }

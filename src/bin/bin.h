@@ -332,7 +332,7 @@ public:
      * @param id the updated duration of the timeline clip
      * * @param current the uuid of the currently active timeline
      */
-    void updateSequenceClip(const QUuid &uuid, int duration, int pos, std::shared_ptr<Mlt::Producer> prod);
+    void updateSequenceClip(const QUuid &uuid, int duration, int pos);
     /** @brief Returns the bin id of the clip managing a timeline sequence changed
      * @param uuid the uuid of the timeline clip
      */
@@ -359,8 +359,6 @@ public:
     /** @brief Returns true if a clip with id cid is visible in this bin. */
     bool containsId(const QString &cid) const;
     void replaceSingleClip(const QString clipId, const QString &newUrl);
-    /** @brief Remove clip references for a timeline. */
-    void removeReferencedClips(const QUuid &uuid);
     /** @brief List all clips referenced in a timeline sequence. */
     QStringList sequenceReferencedClips(const QUuid &uuid) const;
     /** @brief Define a thumbnail for a sequence clip. */

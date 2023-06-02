@@ -119,10 +119,10 @@ public:
     void activateDocument(const QUuid &uuid);
     /** @brief Close a timeline tab through its uuid
      */
-    bool closeTimeline(const QUuid &uuid, bool onDeletion = false);
+    bool closeTimeline(const QUuid &uuid, bool onDeletion = false, bool clearUndo = true);
     /** @brief Update a timeline sequence before saving or extracting xml
      */
-    void syncTimeline(const QUuid &uuid);
+    void syncTimeline(const QUuid &uuid, bool refresh = false);
     void setActiveTimeline(const QUuid &uuid);
 
 public Q_SLOTS:
@@ -226,6 +226,8 @@ protected:
 private:
     /** @brief checks if autoback files exists, recovers from it if user says yes, returns true if files were recovered. */
     bool checkForBackupFile(const QUrl &url, bool newFile = false);
+    /** @brief Update the sequence producer stored in the project model. */
+    void updateSequenceProducer(const QUuid &uuid, std::shared_ptr<Mlt::Producer> prod);
 
     KdenliveDoc *m_project{nullptr};
     std::shared_ptr<TimelineItemModel> m_activeTimelineModel;

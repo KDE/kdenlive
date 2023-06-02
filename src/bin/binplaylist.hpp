@@ -71,6 +71,9 @@ public:
     /** @brief id of the mlt object */
     static QString binPlaylistId;
 
+    /** @brief Returns uuid / bin id of all sequence clips in the project */
+    QMap<QUuid, QString> getAllSequenceClips() const;
+
 protected:
     /** @brief This is an helper function that removes a clip from the playlist given its id
      */

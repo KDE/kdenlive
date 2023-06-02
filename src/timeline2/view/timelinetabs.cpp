@@ -127,7 +127,7 @@ void TimelineTabs::connectCurrent(int ix)
         m_activeTimeline->model()->updateDuration();
         int duration = m_activeTimeline->model()->duration();
         m_activeTimeline->controller()->saveSequenceProperties();
-        pCore->bin()->updateSequenceClip(previousTab, duration, pos, nullptr);
+        pCore->bin()->updateSequenceClip(previousTab, duration, pos);
         pCore->window()->disconnectTimeline(m_activeTimeline);
         disconnectTimeline(m_activeTimeline);
     } else {
@@ -182,7 +182,6 @@ void TimelineTabs::closeTimelineByIndex(int ix)
     Fun redo = [this, ix, uuid]() {
         TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(ix));
         timeline->blockSignals(true);
-        timeline->model()->prepareClose(true);
         timeline->setSource(QUrl());
         if (timeline == m_activeTimeline) {
             pCore->window()->disconnectTimeline(timeline);
@@ -214,10 +213,8 @@ void TimelineTabs::closeTimelineByIndex(int ix)
         m_activeTimeline->model()->updateDuration();
         int duration = m_activeTimeline->model()->duration();
         timeline->controller()->saveSequenceProperties();
-        pCore->bin()->updateSequenceClip(uuid, duration, pos, nullptr);
     }
     redo();
-    pCore->undoStack()->clear();
     // pCore->pushUndo(undo, redo, i18n("Close %1", seqName));
 }
 
@@ -240,7 +237,6 @@ void TimelineTabs::closeTimeline(const QUuid &uuid)
         TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(i));
         if (uuid == timeline->getUuid()) {
             timeline->blockSignals(true);
-            timeline->model()->prepareClose(true);
             timeline->setSource(QUrl());
             timeline->blockSignals(true);
             if (timeline == m_activeTimeline) {
