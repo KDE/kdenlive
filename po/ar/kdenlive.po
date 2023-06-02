@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-30 00:45+0000\n"
-"PO-Revision-Date: 2023-05-17 19:57+0400\n"
+"PO-Revision-Date: 2023-06-01 09:49+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -5064,15 +5064,14 @@ msgid "Zoom Out"
 msgstr "بعّد"
 
 #: src/bin/mediabrowser.cpp:54
-#, fuzzy, kde-format
-#| msgid "Invert selection"
+#, kde-format
 msgid "Import Selection"
-msgstr "اعكس التّحديد"
+msgstr "استورد التّحديد"
 
 #: src/bin/mediabrowser.cpp:56
 #, kde-format
 msgid "Import File on Double Click"
-msgstr ""
+msgstr "استورد الملف عند النقر المزدوج"
 
 #: src/bin/mediabrowser.cpp:160 src/dialogs/clipcreationdialog.cpp:465
 #: src/effects/effectlist/view/effectlistwidget.cpp:130
@@ -5099,10 +5098,9 @@ msgid "Name:"
 msgstr "الاسم:"
 
 #: src/bin/mediabrowser.cpp:200
-#, fuzzy, kde-format
-#| msgid "Filter"
+#, kde-format
 msgid "Filter:"
-msgstr "المرشّح"
+msgstr "المرشح:"
 
 #: src/bin/mediabrowser.cpp:204 src/dialogs/clipcreationdialog.cpp:471
 #, kde-format
@@ -5110,10 +5108,9 @@ msgid "Ignore subfolder structure"
 msgstr "تجاهل بنية المجلد الفرعي"
 
 #: src/bin/mediabrowser.cpp:206 src/dialogs/clipcreationdialog.cpp:473
-#, fuzzy, kde-format
-#| msgid "Insert Zone in Project Bin"
+#, kde-format
 msgid "Do not create subfolders in Project Bin"
-msgstr "أدرج منطقة في سلة المشروع"
+msgstr "لا تنشئ مجلدات فرعية في سلة المشروع"
 
 #: src/bin/mediabrowser.cpp:209 src/dialogs/clipcreationdialog.cpp:476
 #, kde-kuit-format
@@ -5122,6 +5119,8 @@ msgid ""
 "When enabled, Kdenlive will import all clips contained in the folder and its "
 "subfolders without creating the subfolders in Project Bin."
 msgstr ""
+"عند التفعيل، سيستورد كيدنكلايف كل المقاطع الموجودة في المجلد و مجلدته "
+"الفرعية دون إنشاء مجلدات فرعية في سلة المشروع."
 
 #: src/bin/mediabrowser.cpp:212 src/dialogs/clipcreationdialog.cpp:466
 #, kde-format
@@ -5129,10 +5128,9 @@ msgid "Import image sequence"
 msgstr "استورد تسلسل صور"
 
 #: src/bin/mediabrowser.cpp:215 src/dialogs/clipcreationdialog.cpp:467
-#, fuzzy, kde-format
-#| msgid "Import image sequence"
+#, kde-format
 msgid "Try to import an image sequence"
-msgstr "استورد تسلسل صور"
+msgstr "حاول استيراد تسلسل صور"
 
 #: src/bin/mediabrowser.cpp:217 src/dialogs/clipcreationdialog.cpp:469
 #, kde-kuit-format
@@ -5141,6 +5139,8 @@ msgid ""
 "When enabled, Kdenlive will look for other images with the same name pattern "
 "and import them as an image sequence."
 msgstr ""
+"عند التفعيل، سيبحث كيدنلايف عن الصور ذات نمط أسماء مشابه ويستوردها كتسلسل "
+"صور."
 
 #: src/bin/model/markerlistmodel.cpp:87
 #, kde-format
@@ -6035,10 +6035,9 @@ msgstr ""
 #: src/dialogs/encodingprofilesdialog.cpp:259
 #: src/dialogs/encodingprofilesdialog.cpp:348
 #: src/project/dialogs/projectsettings.cpp:885
-#, fuzzy, kde-format
-#| msgid "Automatic"
+#, kde-format
 msgid "Automatic (%1)"
-msgstr "آليّ"
+msgstr "آليّ (%1)"
 
 #: src/dialogs/encodingprofilesdialog.cpp:261
 #: src/dialogs/encodingprofilesdialog.cpp:350
@@ -7350,22 +7349,19 @@ msgid "NVIDIA hardware acceleration"
 msgstr "تسريع بعتاد انفيديا"
 
 #: src/dialogs/wizard.cpp:145
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware acceleration"
+#, kde-format
 msgid "AMF hardware acceleration"
-msgstr "تسريع بعتاد VAAPI"
+msgstr "تسريع بعتاد AMF"
 
 #: src/dialogs/wizard.cpp:148
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware acceleration"
+#, kde-format
 msgid "QSV hardware acceleration"
-msgstr "تسريع بعتاد VAAPI"
+msgstr "تسريع بعتاد QSV"
 
 #: src/dialogs/wizard.cpp:151
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware acceleration"
+#, kde-format
 msgid "Video Toolbox hardware acceleration"
-msgstr "تسريع بعتاد VAAPI"
+msgstr "تسريع بعتاد Video Toolbox"
 
 #: src/dialogs/wizard.cpp:166
 #, kde-format
@@ -7523,10 +7519,9 @@ msgid "No hardware encoders found."
 msgstr "لم يعثر على عتاد ترميز"
 
 #: src/dialogs/wizard.cpp:796
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware encoders found and enabled."
+#, kde-format
 msgid "hardware encoders found and enabled (%1)."
-msgstr "عثر على عتاد ترميز VAAPI ومكنه."
+msgstr "عثر على مرمزات عتاد وفٌعلت (%1)."
 
 #: src/doc/documentchecker.cpp:320
 #, kde-format
@@ -8578,10 +8573,9 @@ msgid "Processing filter %1"
 msgstr "ينفذ مرشح %1"
 
 #: src/jobs/filtertask.cpp:96 src/jobs/filtertask.cpp:134
-#, fuzzy, kde-format
-#| msgid "Cannot open file %1"
+#, kde-format
 msgid "Cannot process file %1"
-msgstr "تعذّر فتح الملفّ %1"
+msgstr "تعذّر معالجة الملفّ %1"
 
 #: src/jobs/filtertask.cpp:150
 #, kde-format
