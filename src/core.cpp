@@ -127,6 +127,7 @@ bool Core::build(const QString &packageType, bool testMode)
     }
 
     m_self->m_projectItemModel = ProjectItemModel::construct();
+    m_self->m_projectManager = new ProjectManager(m_self.get());
     return true;
 }
 
@@ -148,7 +149,6 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
 
     connect(this, &Core::showConfigDialog, m_mainWindow, &MainWindow::slotShowPreferencePage);
 
-    m_projectManager = new ProjectManager(this);
     Bin *bin = new Bin(m_projectItemModel, m_mainWindow);
     m_mainWindow->addBin(bin);
 
@@ -164,6 +164,10 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
     connect(m_projectItemModel.get(), &QAbstractItemModel::dataChanged, m_mainWindow->activeBin(), &Bin::slotItemEdited);
 
     m_monitorManager = new MonitorManager(this);
+    if (!Url.isEmpty()) {
+        Q_EMIT loadingMessageUpdated(i18n("Loading project…"));
+    }
+    projectManager()->init(Url, clipsToLoad);
 
     // The MLT Factory will be initiated there, all MLT classes will be usable only after this
     if (inSandbox) {
@@ -227,10 +231,6 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
     ClipController::mediaUnavailable = std::make_shared<Mlt::Producer>(ProfileRepository::get()->getProfile(m_self->m_profile)->profile(), "color:blue");
     ClipController::mediaUnavailable->set("length", 99999999);
 
-    if (!Url.isEmpty()) {
-        Q_EMIT loadingMessageUpdated(i18n("Loading project…"));
-    }
-    projectManager()->init(Url, clipsToLoad);
     if (qApp->isSessionRestored()) {
         // NOTE: we are restoring only one window, because Kdenlive only uses one MainWindow
         m_mainWindow->restore(1, false);
@@ -572,8 +572,8 @@ bool Core::setCurrentProfile(const QString profilePath)
         return true;
     }
     if (ProfileRepository::get()->profileExists(profilePath)) {
-        m_currentProfile = profilePath;
         m_thumbProfile.reset();
+        m_currentProfile = profilePath;
         if (m_projectProfile) {
             m_projectProfile->set_colorspace(getCurrentProfile()->colorspace());
             m_projectProfile->set_frame_rate(getCurrentProfile()->frame_rate_num(), getCurrentProfile()->frame_rate_den());
@@ -586,6 +586,8 @@ bool Core::setCurrentProfile(const QString profilePath)
             m_projectProfile->set_explicit(true);
             updateMonitorProfile();
         }
+        // Regenerate thumbs profile
+        thumbProfile();
         // inform render widget
         m_timecode.setFormat(getCurrentProfile()->fps());
         profileChanged();
@@ -1088,15 +1090,16 @@ Mlt::Profile *Core::thumbProfile()
 {
     QMutexLocker lck(&m_thumbProfileMutex);
     if (!m_thumbProfile) {
-        m_thumbProfile = std::make_unique<Mlt::Profile>(m_currentProfile.toUtf8().constData());
-        double factor = 144. / m_thumbProfile->height();
-        m_thumbProfile->set_height(144);
-        int width = qRound(m_thumbProfile->width() * factor);
+        Mlt::Profile *thbProfile = new Mlt::Profile(m_currentProfile.toUtf8().constData());
+        double factor = 144. / thbProfile->height();
+        thbProfile->set_height(144);
+        int width = qRound(thbProfile->width() * factor);
         if (width % 2 > 0) {
             width++;
         }
-        m_thumbProfile->set_width(width);
-        m_thumbProfile->set_explicit(true);
+        thbProfile->set_width(width);
+        thbProfile->set_explicit(true);
+        m_thumbProfile.reset(thbProfile);
     }
     return m_thumbProfile.get();
 }

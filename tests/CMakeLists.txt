@@ -15,6 +15,7 @@ set(KdenliveTest_SOURCES
     mixtest.cpp
     modeltest.cpp
     movetest.cpp
+    nestingtest.cpp
     regressions.cpp
     rendermodeltest.cpp
     snaptest.cpp

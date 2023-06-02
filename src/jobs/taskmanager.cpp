@@ -67,9 +67,10 @@ void TaskManager::discardJobs(const ObjectId &owner, AbstractTask::JOBTYPE type,
                 continue;
             }
             t->cancelJob(softDelete);
-            qDebug() << "========== DELETING JOB!!!!";
             // Block until the task is finished
             t->m_runMutex.lock();
+            // t->m_runMutex.unlock();
+            // t->deleteLater();
         }
     }
 }
@@ -93,6 +94,8 @@ void TaskManager::discardJob(const ObjectId &owner, const QUuid &uuid)
             t->cancelJob();
             // Block until the task is finished
             t->m_runMutex.lock();
+            // t->m_runMutex.unlock();
+            // t->deleteLater();
         }
     }
 }
@@ -161,7 +164,7 @@ void TaskManager::taskDone(int cid, AbstractTask *task)
     QMetaObject::invokeMethod(this, "updateJobCount");
 }
 
-void TaskManager::slotCancelJobs(const QVector<AbstractTask::JOBTYPE> exceptions)
+void TaskManager::slotCancelJobs(bool leaveBlocked, const QVector<AbstractTask::JOBTYPE> exceptions)
 {
     if (m_blockUpdates) {
         // Already canceling
@@ -189,8 +192,15 @@ void TaskManager::slotCancelJobs(const QVector<AbstractTask::JOBTYPE> exceptions
         m_taskList.clear();
         m_taskPool.clear();
     }
-    m_blockUpdates = false;
+    if (!leaveBlocked) {
+        m_blockUpdates = false;
+    }
     updateJobCount();
+}
+
+void TaskManager::unBlock()
+{
+    m_blockUpdates = false;
 }
 
 void TaskManager::startTask(int ownerId, AbstractTask *task)

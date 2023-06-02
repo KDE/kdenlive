@@ -225,6 +225,8 @@ public:
     const QString getSequenceId(const QUuid &uuid);
     /** @brief Check if we already have a sequence with this uuid */
     bool hasSequenceId(const QUuid &uuid) const;
+    /** @brief Returns uuid / bin id of all sequence clips in the project */
+    QMap<QUuid, QString> getAllSequenceClips() const;
     /** @brief Return the main project tractor (container of all playlists) */
     std::shared_ptr<Mlt::Tractor> projectTractor();
     const QString sceneList(const QString &root, const QString &fullPath, const QString &filterData, Mlt::Tractor *activeTractor, int duration);
@@ -237,6 +239,8 @@ public:
     /** @brief The id of the folder where new sequences will be created, -1 if none */
     int defaultSequencesFolder() const;
     void setSequencesFolder(int id);
+    /** @brief Remove clip references for a timeline. */
+    void removeReferencedClips(const QUuid &uuid);
 
 protected:
     bool closing;

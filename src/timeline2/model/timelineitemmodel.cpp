@@ -17,6 +17,7 @@
 #include "kdenlivesettings.h"
 #include "macros.hpp"
 #include "snapmodel.hpp"
+#include "timeline2/view/previewmanager.h"
 #include "trackmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
 #include <QDebug>
@@ -808,4 +809,33 @@ void TimelineItemModel::_resetView()
 {
     beginResetModel();
     endResetModel();
+}
+
+void TimelineItemModel::passSequenceProperties(const QMap<QString, QString> baseProperties)
+{
+    QMapIterator<QString, QString> i(baseProperties);
+    while (i.hasNext()) {
+        i.next();
+        tractor()->set(QString("kdenlive:sequenceproperties.%1").arg(i.key()).toUtf8().constData(), i.value().toUtf8().constData());
+    }
+    // Store groups data
+    tractor()->set("kdenlive:sequenceproperties.groups", groupsData().toUtf8().constData());
+    tractor()->set("kdenlive:sequenceproperties.documentuuid", pCore->currentDoc()->uuid().toString().toUtf8().constData());
+    // Save timeline guides
+    const QString guidesData = getGuideModel()->toJson();
+    tractor()->set("kdenlive:sequenceproperties.guides", guidesData.toUtf8().constData());
+    int audioTarget = m_audioTarget.isEmpty() ? -1 : getTrackPosition(m_audioTarget.firstKey());
+    int videoTarget = m_videoTarget == -1 ? -1 : getTrackPosition(m_videoTarget);
+    QPair<int, int> tracks = getAVtracksCount();
+    tractor()->set("kdenlive:sequenceproperties.hasAudio", tracks.first > 0 ? 1 : 0);
+    tractor()->set("kdenlive:sequenceproperties.hasVideo", tracks.second > 0 ? 1 : 0);
+    tractor()->set("kdenlive:sequenceproperties.tracksCount", tracks.first + tracks.second);
+
+    tractor()->set("kdenlive:sequenceproperties.position", pCore->getMonitorPosition());
+
+    if (hasTimelinePreview()) {
+        QPair<QStringList, QStringList> chunks = previewManager()->previewChunks();
+        tractor()->set("kdenlive:sequenceproperties.previewchunks", chunks.first.join(QLatin1Char(',')).toUtf8().constData());
+        tractor()->set("kdenlive:sequenceproperties.dirtypreviewchunks", chunks.second.join(QLatin1Char(',')).toUtf8().constData());
+    }
 }

@@ -45,7 +45,7 @@ void BinPlaylist::manageBinItemInsertion(const std::shared_ptr<AbstractProjectIt
             }
         } else {
             // if clip is not loaded yet, we insert a dummy producer
-            Mlt::Producer dummy(*pCore->getProjectProfile(), "color:blue");
+            Mlt::Producer dummy(*pCore->getProjectProfile(), "color", "blue");
             dummy.set("kdenlive:id", id.toUtf8().constData());
             m_binPlaylist->append(dummy);
         }
@@ -69,6 +69,11 @@ const QString BinPlaylist::getSequenceId(const QUuid &uuid)
 bool BinPlaylist::hasSequenceId(const QUuid &uuid) const
 {
     return m_sequenceClips.contains(uuid);
+}
+
+QMap<QUuid, QString> BinPlaylist::getAllSequenceClips() const
+{
+    return m_sequenceClips;
 }
 
 void BinPlaylist::manageBinItemDeletion(AbstractProjectItem *binElem)

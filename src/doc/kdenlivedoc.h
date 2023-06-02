@@ -100,7 +100,7 @@ public:
     friend class LoadJob;
     QUuid activeUuid;
     /** @brief True if we are currently closing the project. */
-    bool closing;
+    bool closing{false};
     /** @brief Get current document's producer. */
     const QByteArray getAndClearProjectXml();
     double fps() const;
@@ -133,9 +133,6 @@ public:
      * will be created the next time the document is saved.
      */
     void requestBackup();
-    /** @brief prepare timelinemodels for closing
-     */
-    void prepareClose();
 
     /** @brief Returns the project folder, used to store project temporary files. */
     QString projectTempFolder() const;
@@ -166,7 +163,7 @@ public:
     void setSequenceProperty(const QUuid &uuid, const QString &name, const QString &value);
     void setSequenceProperty(const QUuid &uuid, const QString &name, int value);
     /** @brief Get a timeline sequence property. */
-    const QString getSequenceProperty(const QUuid &uuid, const QString &name, const QString &defaultValue = QString()) const;
+    const QString getSequenceProperty(const QUuid &uuid, const QString &name, const QString defaultValue = QString()) const;
     /** @brief Returns true if a sequence property exists. */
     bool hasSequenceProperty(const QUuid &uuid, const QString &name) const;
     /** @brief Delete the sequence property after it has been used. */
@@ -186,7 +183,7 @@ public:
     /** @brief Set the document metadata (author, copyright, ...) */
     void setMetadata(const QMap<QString, QString> &meta);
     /** @brief Get all document properties that need to be saved */
-    QMap<QString, QString> documentProperties();
+    QMap<QString, QString> documentProperties(bool saveHash = false);
     bool useProxy() const;
     bool useExternalProxy() const;
     /** @brief Returns true if a proxy clip should be automatically generated for this width.
@@ -211,8 +208,8 @@ public:
     /** @brief Select most appropriate rendering profile for timeline preview based on fps / size. */
     void selectPreviewProfile();
     void displayMessage(const QString &text, MessageType type = DefaultMessage, int timeOut = 0);
-    /** @brief Get a cache directory for this project. */
-    const QDir getCacheDir(CacheType type, bool *ok, const QUuid uuid = QUuid()) const;
+    /** @brief Get a cache directory for this project. virtual to allow mocking */
+    virtual const QDir getCacheDir(CacheType type, bool *ok, const QUuid uuid = QUuid()) const;
     /** @brief Create standard cache dirs for the project */
     void initCacheDirs();
     /** @brief Get a list of all proxy hash used in this project */

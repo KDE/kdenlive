@@ -30,22 +30,16 @@ TEST_CASE("Cache insert-remove", "[Cache]")
     // We mock the project class so that the undoStack function returns our undoStack
     KdenliveDoc document(undoStack);
     Mock<KdenliveDoc> docMock(document);
+    When(Method(docMock, getCacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
     KdenliveDoc &mockedDoc = docMock.get();
 
-    // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
-    Mock<ProjectManager> pmMock;
-    When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
-    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
-    When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
-    ProjectManager &mocked = pmMock.get();
-    pCore->m_projectManager = &mocked;
-    mocked.m_project = &mockedDoc;
+    pCore->projectManager()->m_project = &mockedDoc;
     QDateTime documentDate = QDateTime::currentDateTime();
-    mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
     auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
-    mocked.m_activeTimelineModel = timeline;
+    pCore->projectManager()->m_activeTimelineModel = timeline;
 
-    mocked.testSetActiveDocument(&mockedDoc, timeline);
+    pCore->projectManager()->testSetActiveDocument(&mockedDoc, timeline);
 
     // Create bin clip
     QString binId = createProducer(*timeline->getProfile(), "red", binModel, 20, false);
@@ -59,8 +53,7 @@ TEST_CASE("Cache insert-remove", "[Cache]")
         ThumbnailCache::get()->storeThumbnail(binId, 0, img, false);
         REQUIRE(ThumbnailCache::get()->checkIntegrity());
     }
-    binModel->clean();
-    pCore->m_projectManager = nullptr;
+    pCore->projectManager()->closeCurrentDocument(false, false);
 }
 
 TEST_CASE("getAudioKey() should dereference `ok` param", "ThumbnailCache") {
@@ -72,22 +65,16 @@ TEST_CASE("getAudioKey() should dereference `ok` param", "ThumbnailCache") {
     // We mock the project class so that the undoStack function returns our undoStack
     KdenliveDoc document(undoStack);
     Mock<KdenliveDoc> docMock(document);
+    When(Method(docMock, getCacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
     KdenliveDoc &mockedDoc = docMock.get();
 
-    // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
-    Mock<ProjectManager> pmMock;
-    When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
-    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
-    When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
-    ProjectManager &mocked = pmMock.get();
-    pCore->m_projectManager = &mocked;
-    mocked.m_project = &mockedDoc;
+    pCore->m_projectManager->m_project = &mockedDoc;
     QDateTime documentDate = QDateTime::currentDateTime();
-    mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    pCore->m_projectManager->updateTimeline(0, false, QString(), QString(), documentDate, 0);
     auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
-    mocked.m_activeTimelineModel = timeline;
+    pCore->m_projectManager->m_activeTimelineModel = timeline;
 
-    mocked.testSetActiveDocument(&mockedDoc, timeline);
+    pCore->m_projectManager->testSetActiveDocument(&mockedDoc, timeline);
 
     // Create bin clip
     QString binId = createProducer(*timeline->getProfile(), "red", binModel, 20, false);
@@ -108,6 +95,5 @@ TEST_CASE("getAudioKey() should dereference `ok` param", "ThumbnailCache") {
         ThumbnailCache::getAudioKey(binId, &ok);
         REQUIRE(ok == true);
     }
-    binModel->clean();
-    pCore->m_projectManager = nullptr;
+    pCore->projectManager()->closeCurrentDocument(false, false);
 }

@@ -245,10 +245,10 @@ void ClipCreationDialog::createAnimationClip(KdenliveDoc *doc, const QString &pa
     pCore->projectItemModel()->requestAddBinClip(clipId, xml.documentElement(), parentId, i18n("Create Animation clip"));
 }
 
-void ClipCreationDialog::createPlaylistClip(const QString &name, std::pair<int, int> tracks, const QString &parentFolder,
-                                            std::shared_ptr<ProjectItemModel> model)
+const QString ClipCreationDialog::createPlaylistClip(const QString &name, std::pair<int, int> tracks, const QString &parentFolder,
+                                                     std::shared_ptr<ProjectItemModel> model)
 {
-    ClipCreator::createPlaylistClip(name, tracks, parentFolder, std::move(model));
+    return ClipCreator::createPlaylistClip(name, tracks, parentFolder, model);
 }
 
 void ClipCreationDialog::createQTextClip(const QString &parentId, Bin *bin, ProjectClip *clip)
