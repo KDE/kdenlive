@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-30 00:45+0000\n"
-"PO-Revision-Date: 2023-05-28 18:14+0300\n"
+"PO-Revision-Date: 2023-06-02 20:03+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -10619,12 +10619,12 @@ msgstr "Вставити розпірку…"
 #: src/mainwindow.cpp:1835
 #, kde-format
 msgid "Remove Space"
-msgstr "Вилучити пробіл"
+msgstr "Вилучити розпірку"
 
 #: src/mainwindow.cpp:1836
 #, kde-format
 msgid "Remove All Spaces After Cursor"
-msgstr "Вилучити усі пробіли після курсора"
+msgstr "Вилучити усі розпірки після курсора"
 
 #: src/mainwindow.cpp:1837
 #, kde-format
@@ -10726,7 +10726,7 @@ msgid ""
 "or inserting/removing blank in tracks."
 msgstr ""
 "Заблокувати напрямні. Якщо напрямну заблоковано, вона не пересуватиметься "
-"при використанні інструмента інтервалів або вставлянні чи вилучанні пробілів "
+"при використанні інструмента інтервалів або вставлянні чи вилучанні розпірок "
 "на доріжках."
 
 #: src/mainwindow.cpp:1912
@@ -10798,12 +10798,12 @@ msgstr "Перемкнути стан вимикання доріжки"
 #: src/mainwindow.cpp:1970
 #, kde-format
 msgid "Toggle Track Lock"
-msgstr "Увімкнути або вимкнути блокування доріжки"
+msgstr "Перемкнути блокування доріжки"
 
 #: src/mainwindow.cpp:1972
 #, kde-format
 msgid "Toggle All Track Lock"
-msgstr "Увімкнути або вимкнути блокування усіх доріжок"
+msgstr "Перемкнути блокування усіх доріжок"
 
 #: src/mainwindow.cpp:1974
 #, kde-format
@@ -10813,17 +10813,17 @@ msgstr "Перемкнути призначення доріжки"
 #: src/mainwindow.cpp:1976
 #, kde-format
 msgid "Toggle Track Active"
-msgstr "Увімкнути або вимкнути активацію доріжки"
+msgstr "Перемкнути активацію доріжки"
 
 #: src/mainwindow.cpp:1978
 #, kde-format
 msgid "Toggle All Tracks Active"
-msgstr "Увімкнути або вимкнути активацію усіх доріжок"
+msgstr "Перемкнути активацію усіх доріжок"
 
 #: src/mainwindow.cpp:1980
 #, kde-format
 msgid "Switch All Tracks Active"
-msgstr "Увімкнути або вимкнути активацію усіх доріжок"
+msgstr "Зробити усі доріжки активними"
 
 #: src/mainwindow.cpp:1982
 #, kde-format
@@ -15516,13 +15516,13 @@ msgstr "Розрізати усі кліпи"
 #: src/timeline2/view/timelinecontroller.cpp:1404
 #, kde-format
 msgid "Insert space"
-msgstr "Вставити пробіл"
+msgstr "Вставити розпірку"
 
 #: src/timeline2/model/timelinefunctions.cpp:563
 #: src/timeline2/view/timelinecontroller.cpp:1406
 #, kde-format
 msgid "Remove space"
-msgstr "Вилучити пробіл"
+msgstr "Вилучити розпірку"
 
 #: src/timeline2/model/timelinefunctions.cpp:643
 #, kde-format
@@ -15712,7 +15712,7 @@ msgstr "Вставити кліпи монтажного стола"
 #: src/timeline2/model/timelinefunctions.cpp:2654
 #, kde-format
 msgid "Remove space on track"
-msgstr "Вилучити пробіл на доріжці"
+msgstr "Вилучити розпірку на доріжці"
 
 #: src/timeline2/model/timelinefunctions.cpp:2681
 #, kde-format
@@ -16488,7 +16488,7 @@ msgstr "Не вдалося вилучити розпірку у вказані�
 #: src/timeline2/view/timelinecontroller.cpp:2751
 #, kde-format
 msgid "Cannot remove all spaces"
-msgstr "Не вдалося вилучити усі пробіли"
+msgstr "Не вдалося вилучити усі розпірки"
 
 #: src/timeline2/view/timelinecontroller.cpp:2765
 #, kde-format
