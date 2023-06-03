@@ -377,7 +377,6 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
         QDateTime documentDate = QDateTime::currentDateTime();
         pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
         auto timeline = document.getTimeline(document.uuid());
-        pCore->projectManager()->m_activeTimelineModel = timeline;
         pCore->projectManager()->testSetActiveDocument(&document, timeline);
 
         QDir dir = QDir::temp();
