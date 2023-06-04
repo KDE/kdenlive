@@ -933,18 +933,10 @@ void RenderWidget::generateRenderFiles(const QString playlistPath, QDomDocument 
                     }
                 }
 
-                QFile file(playlistFile);
-                if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                if (!Xml::docContentToFile(docCopy, playlistFile)) {
                     pCore->displayMessage(i18n("Cannot write to file %1", playlistFile), ErrorMessage);
                     return;
                 }
-                file.write(docCopy.toString().toUtf8());
-                if (file.error() != QFile::NoError) {
-                    pCore->displayMessage(i18n("Cannot write to file %1", playlistFile), ErrorMessage);
-                    file.close();
-                    return;
-                }
-                file.close();
                 audioCount++;
             }
         }
@@ -991,18 +983,10 @@ void RenderWidget::generateRenderFiles(const QString playlistPath, QDomDocument 
                 finalConsumer.removeAttribute("fastfirstpass");
             }
         }
-        QFile file(playlistName);
-        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        if (!Xml::docContentToFile(final, playlistName)) {
             pCore->displayMessage(i18n("Cannot write to file %1", playlistName), ErrorMessage);
             return;
         }
-        file.write(final.toString().toUtf8());
-        if (file.error() != QFile::NoError) {
-            pCore->displayMessage(i18n("Cannot write to file %1", playlistName), ErrorMessage);
-            file.close();
-            return;
-        }
-        file.close();
     }
 
     // Create jobs

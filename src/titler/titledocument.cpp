@@ -17,6 +17,7 @@
 #include "graphicsscenerectmove.h"
 #include "kdenlivesettings.h"
 #include "utils/timecode.h"
+#include "xml/xml.hpp"
 
 #include <KIO/FileCopyJob>
 #include <KLocalizedString>
@@ -366,16 +367,7 @@ bool TitleDocument::saveDocument(const QUrl &url, QGraphicsRectItem *startv, QGr
     doc.documentElement().setAttribute(QStringLiteral("duration"), duration);
     // keep some time for backwards compatibility (opening projects with older versions) - 26/12/12
     doc.documentElement().setAttribute(QStringLiteral("out"), duration);
-    QSaveFile outFile(url.toLocalFile());
-    if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qCWarning(KDENLIVE_LOG) << "/////  CANNOT WRITE TO FILE : " << url.toLocalFile();
-        return false;
-    }
-    outFile.write(doc.toString().toUtf8());
-    if (!outFile.commit()) {
-        return false;
-    }
-    return true;
+    return Xml::docContentToFile(doc, url.toLocalFile());
 }
 
 int TitleDocument::loadFromXml(const QDomDocument &doc, GraphicsSceneRectMove *scene, QGraphicsRectItem *startv, QGraphicsRectItem *endv, int *duration,
