@@ -3381,7 +3381,7 @@ msgid ""
 "Toggles the effect stack to be enabled or disabled. Useful to see the "
 "difference between original and edited or to speed up scrubbing."
 msgstr ""
-"Active ou désactive la pile d’effets. Utile pour voir la différence entre la "
+"Active ou désactive la pile d'effets. Utile pour voir la différence entre la "
 "vidéo originale et celle modifiée ou pour accélérer le nettoyage."
 
 #: src/assets/assetpanel.cpp:117
@@ -4656,8 +4656,8 @@ msgid ""
 msgstr ""
 "Boîte de dialogue principale pour l'ajout de matériel source à votre dossier "
 "de projet (vidéos, images, audio, titres, animations). <nl/>Cliquez sur "
-"l’icône fléchée vers le bas pour obtenir une liste de types de sources à "
-"sélectionner. <nl/>Cliquez sur l’icône de média pour l'ouverture d'une "
+"l'icône fléchée vers le bas pour obtenir une liste de types de sources à "
+"sélectionner. <nl/>Cliquez sur l'icône de média pour l'ouverture d'une "
 "fenêtre pour sélectionner les fichiers source."
 
 #: src/bin/bin.cpp:3425
@@ -5218,8 +5218,8 @@ msgid ""
 "When enabled, Kdenlive will look for other images with the same name pattern "
 "and import them as an image sequence."
 msgstr ""
-"Lorsque cette option est activée, Kdenlive recherchera d’autres images ayant "
-"un nom similaire et les importera sous forme de séquence d’images."
+"Lorsque cette option est activée, Kdenlive recherchera d'autres images ayant "
+"un nom similaire et les importera sous forme de séquence d'images."
 
 #: src/bin/model/markerlistmodel.cpp:87
 #, kde-format
@@ -9830,7 +9830,7 @@ msgid ""
 "action when handling clips in the timeline."
 msgstr ""
 "Bascule entre les modes « Normal », « Écrasement » et« Insertion ». "
-"Détermine l’action par défaut lors de la manipulation des vidéos dans la "
+"Détermine l'action par défaut lors de la manipulation des vidéos dans la "
 "frise chronologique de montage."
 
 #: src/mainwindow.cpp:1164
@@ -9923,7 +9923,7 @@ msgid ""
 msgstr ""
 "Quand cette option est sélectionnée, un clic et un glisser avec la sourie "
 "dans la frise chronologique, regroupent temporairement les vidéos séparées "
-"et crée ou supprime de l’espace entre les vidéos."
+"et crée ou supprime de l'espace entre les vidéos."
 
 #: src/mainwindow.cpp:1260
 #, kde-format
@@ -9937,8 +9937,8 @@ msgid ""
 "When selected, dragging the edges of a clip lengthens or shortens the clip "
 "and moves adjacent clips back and forth while doing that."
 msgstr ""
-"Quand cette option est sélectionnée, un glisser des bords d’une vidéo permet "
-"de l'allonger ou de la raccourcir et déplace les vidéos adjacentes d’avant "
+"Quand cette option est sélectionnée, un glisser des bords d'une vidéo permet "
+"de l'allonger ou de la raccourcir et déplace les vidéos adjacentes d'avant "
 "en arrière en même temps."
 
 #. i18n("Roll Tool"), this);
@@ -10321,7 +10321,7 @@ msgid ""
 msgstr ""
 "Lorsque vous cliquez, la zone de la vidéo actuellement sélectionnée dans le "
 "dossier du projet est insérée à la position de la tête de lecture dans la "
-"frise chronologique active. Les vidéos à la position d’insertion sont coupés "
+"frise chronologique active. Les vidéos à la position d'insertion sont coupés "
 "et écrasées."
 
 #: src/mainwindow.cpp:1640
@@ -10339,7 +10339,7 @@ msgid ""
 msgstr ""
 "Lorsque vous cliquez, la zone de la vidéo actuellement sélectionnée dans le "
 "dossier du projet est insérée à la position de la tête de lecture dans la "
-"frise chronologique active. Les vidéos en position d’insertion sont coupées "
+"frise chronologique active. Les vidéos en position d'insertion sont coupées "
 "et décalées vers la droite."
 
 #: src/mainwindow.cpp:1644
@@ -10400,8 +10400,8 @@ msgid ""
 "render zone. Note that this can leave gaps in the preview render zones."
 msgstr ""
 "Supprime la zone actuellement définie de la frise chronologique / sélection "
-"à partir de la zone d’aperçu de rendu. Veuillez noter que cela peut laisser "
-"des trous dans les zones d’aperçu de rendu."
+"à partir de la zone d'aperçu de rendu. Veuillez noter que cela peut laisser "
+"des trous dans les zones d'aperçu de rendu."
 
 #: src/mainwindow.cpp:1658
 #, kde-format
@@ -10427,10 +10427,10 @@ msgid ""
 "with complex and many effects).<nl/>Click on the down-arrow icon to get a "
 "list of options (for example: add preview render zone, remove all zones)."
 msgstr ""
-"Cliquez pour lancer le rendu de toutes les zones d’aperçu (Recommandé pour "
-"les zones avec des effets complexes et nombreux). <nl/>Cliquez sur l’icône "
-"fléchée vers le bas pour obtenir une liste d’options (Par exemple : ajouter "
-"une zone de rendu d’aperçu, supprimer toutes les zones)."
+"Cliquez pour lancer le rendu de toutes les zones d'aperçu (Recommandé pour "
+"les zones avec des effets complexes et nombreux). <nl/>Cliquez sur l'icône "
+"fléchée vers le bas pour obtenir une liste d'options (Par exemple : ajouter "
+"une zone de rendu d'aperçu, supprimer toutes les zones)."
 
 #: src/mainwindow.cpp:1666
 #, kde-format
@@ -16721,7 +16721,7 @@ msgid ""
 "timeline corresponds to a Sequence Clip in the Project Bin"
 msgstr ""
 "Ajouter une séquence à la frise chronologique. Ceci créera une nouvelle "
-"frise chronologique pour l’édition. Chaque frise chronologique correspond à "
+"frise chronologique pour l'édition. Chaque frise chronologique correspond à "
 "une séquence vidéo dans le dossier du projet."
 
 #: src/timeline2/view/timelinetabs.cpp:172

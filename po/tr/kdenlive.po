@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-30 00:45+0000\n"
-"PO-Revision-Date: 2023-05-27 22:53+0300\n"
+"PO-Revision-Date: 2023-06-04 02:02+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.07.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4155,8 +4155,8 @@ msgid ""
 "<b>Shift+seek</b> over thumbnail to set default thumbnail, <b>F2</b> to "
 "rename selected item"
 msgstr ""
-"Öntanımlı küçük görseli ayarlamak için <b>Shift+arama</b>yapın, seçili ögeyi "
-"yeniden adlandırmak için <b>F2</b>'ye basın"
+"Öntanımlı küçük görseli ayarlamak için <b>Üst Karakter+arama</b>yapın, "
+"seçili ögeyi yeniden adlandırmak için <b>F2</b>'ye basın"
 
 #: src/bin/bin.cpp:807 src/bin/bin.cpp:916
 #, kde-format
@@ -10873,10 +10873,10 @@ msgid ""
 "click</shortcut> for multiple selection, <shortcut>Meta drag</shortcut> to "
 "move a grouped clip to another track, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
-"Lastik seçimi için <shortcut>Shift+sürükle</shortcut>, çoklu seçim "
-"için<shortcut>Shift+tıkla</shortcut>, gruplanmış bir klibi başka bir ize "
-"taşımak için <shortcut>Meta+sürükle</shortcut>, kaydırma için <shortcut>Ctrl"
-"+sürükle</shortcut>"
+"Lastik seçimi için <shortcut>Üst Karakter+sürükle</shortcut>, çoklu seçim "
+"için<shortcut>Üst Karakter+tıkla</shortcut>, gruplanmış bir klibi başka bir "
+"ize taşımak için <shortcut>Meta+sürükle</shortcut>, kaydırma için "
+"<shortcut>Kontrol+sürükle</shortcut>"
 
 #: src/mainwindow.cpp:3376
 #, kde-kuit-format
@@ -10887,10 +10887,10 @@ msgid ""
 "shortcut> to move a grouped clip to another track, <shortcut>Ctrl drag</"
 "shortcut> to pan"
 msgstr ""
-"Lastik seçimi için <shortcut>Shift+sürükle</shortcut>, çoklu seçim "
-"için<shortcut>Shift+tıkla</shortcut>, gruplanmış bir klibi başka bir ize "
-"taşımak için <shortcut>Meta+Alt+sürükle</shortcut>, kaydırma için "
-"<shortcut>Ctrl+sürükle</shortcut>"
+"Lastik seçimi için <shortcut>Üst Karakter+sürükle</shortcut>, çoklu seçim "
+"için<shortcut>Üst Karakter+tıkla</shortcut>, gruplanmış bir klibi başka bir "
+"ize taşımak için <shortcut>Meta+Alt+sürükle</shortcut>, kaydırma için "
+"<shortcut>Kontrol+sürükle</shortcut>"
 
 #: src/mainwindow.cpp:3379
 #, kde-format
@@ -10901,7 +10901,7 @@ msgstr "Seç"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
-msgstr "Kesilen kareyi önizlemek için <b> Shift </b>'e basın"
+msgstr "Kesilen kareyi önizlemek için <b> Üst Karakter </b>'e basın"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
 #: src/mainwindow.cpp:3382 src/ui/configtools_ui.ui:21
@@ -10916,9 +10916,9 @@ msgid ""
 "<shortcut>Ctrl</shortcut> to apply on current track only, <shortcut>Shift</"
 "shortcut> to also move guides. You can combine both modifiers."
 msgstr ""
-"<shortcut>Ctrl</shortcut>, yalnızca geçerli ize uygulanır, <shortcut>Shift</"
-"shortcut>, ayrıca kılavuzları da taşır. İki değiştiriciyi aynı anda "
-"kullanabilirsiniz."
+"<shortcut>Kontrol</shortcut>, yalnızca geçerli ize uygulanır, <shortcut>Üst "
+"Karakter</shortcut>, ayrıca kılavuzları da taşır. İki değiştiriciyi aynı "
+"anda kullanabilirsiniz."
 
 #: src/mainwindow.cpp:3387
 #, kde-format
@@ -10933,7 +10933,7 @@ msgid ""
 "shortcut> for multiple selection"
 msgstr ""
 "Sürçmek için bir ögenin üzerine <shortcut>tıklayın</shortcut>, çoklu seçim "
-"için <shortcut>Shift+tıklayın</shortcut>"
+"için <shortcut>Üst Karakter+tıklayın</shortcut>"
 
 #: src/mainwindow.cpp:3390
 #, kde-format
@@ -10949,9 +10949,9 @@ msgid ""
 "click</shortcut> for multiple selection, <shortcut>Ctrl drag</shortcut> to "
 "pan"
 msgstr ""
-"Lastik seçimi için <shortcut>Shift+sürükle</shortcut>, çoklu seçim "
-"için<shortcut>Shift+tıkla</shortcut>, kaydırma için <shortcut>Ctrl+sürükle</"
-"shortcut>"
+"Lastik seçimi için <shortcut>Üst Karakter+sürükle</shortcut>, çoklu seçim "
+"için<shortcut>Üst Karakter+tıkla</shortcut>, kaydırma için <shortcut>Kontrol"
+"+sürükle</shortcut>"
 
 #: src/mainwindow.cpp:3397
 #, kde-format
@@ -11052,7 +11052,7 @@ msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
 "+M."
 msgstr ""
-"Bu, menü çubuğunu tümüyle gizleyecektir. Ctrl+M ile yeniden "
+"Bu, menü çubuğunu tümüyle gizleyecektir. Kontrol+M ile yeniden "
 "gösterebilirsiniz."
 
 #: src/mainwindow.cpp:4322
@@ -12096,7 +12096,7 @@ msgstr ""
 "tıklayın</shortcut>, araç çubuğu için <shortcut>fareyle sağa gelin</"
 "shortcut>, aramak için <shortcut>fare tekerleğini</shortcut> veya "
 "<shortcut>ok düğmelerini</shortcut> kullanın, yakınlaştırmak için "
-"<shortcut>Ctrl+fare tekerleği</shortcut> kullanın"
+"<shortcut>Kontrol+fare tekerleği</shortcut> kullanın"
 
 #: src/monitor/view/kdenliveclipmonitor.qml:460
 #: src/monitor/view/kdenlivemonitor.qml:196
@@ -12134,7 +12134,7 @@ msgid ""
 msgstr ""
 "Oynatmak için <b> tıklayın </b>, tam ekran için <b> Çift tıklayın </b>, <b> "
 "Sağa gelin </b>araç çubuğu için, aramak için <b> Tekerlek </b> veya <b> "
-"oklar </b>, yakınlaştırmak için <b> Ctrl tekerleği </b>"
+"oklar </b>, yakınlaştırmak için <b> Kontrol tekerleği </b>"
 
 #: src/monitor/view/kdenlivemonitoreffectscene.qml:253
 #, kde-kuit-format
@@ -12146,8 +12146,8 @@ msgid ""
 "<shortcut>Click</shortcut> on a center to seek to its keyframe"
 msgstr ""
 "Bir anahtar kare eklemek için <shortcut>çift tıklayın</shortcut>, oranı "
-"koruyan ölçeklendirme için <shortcut>Shift sürükle</shortcut>, merkez "
-"tabanlı ölçeklendirme için<shortcut>Ctrl sürükle</shortcut>, araç çubuğu "
+"koruyan ölçeklendirme için <shortcut>Üst Karakter sürükle</shortcut>, merkez "
+"tabanlı ölçeklendirme için<shortcut>Kontrol sürükle</shortcut>, araç çubuğu "
 "için <shortcut>sağa gelin</shortcut>, bir merkezin anahtar karesine gitmek "
 "için <shortcut>tıklayın</shortcut>"
 
@@ -12208,9 +12208,9 @@ msgid ""
 "to first / last frame"
 msgstr ""
 "1 kare atlamak için <shortcut>tekerlek</shortcut> veya <shortcut>oklar</"
-"shortcut>, 1 saniye atlamak için <shortcut>Shift</shortcut>, imleyiciye "
-"gitmek için <shortcut>Alt</shortcut>, ilk/son kareye gitmek için "
-"<shortcut>Home</shortcut>/<shortcut>End</shortcut>"
+"shortcut>, 1 saniye atlamak için <shortcut>Üst Karakter</shortcut>, "
+"imleyiciye gitmek için <shortcut>Seçenek</shortcut>, ilk/son kareye gitmek "
+"için <shortcut>Baş</shortcut>/<shortcut>Son</shortcut>"
 
 #: src/monitor/view/MonitorRuler.qml:332
 #, kde-kuit-format
@@ -12220,7 +12220,7 @@ msgid ""
 "shortcut> to seek while adjusting zone in"
 msgstr ""
 "Bölgeye giriş noktası ayarlamak için <shortcut>sürükle</shortcut>, bölgeye "
-"girerken gezinmek içinse <shortcut>Shift+sürükle</shortcut>"
+"girerken gezinmek içinse <shortcut>Üst Karakter+sürükle</shortcut>"
 
 #: src/monitor/view/MonitorRuler.qml:379
 #, kde-kuit-format
@@ -12230,7 +12230,7 @@ msgid ""
 "shortcut> to seek while adjusting zone out"
 msgstr ""
 "Bölgeden çıkış noktası ayarlamak için <shortcut>sürükle</shortcut>, bölgeden "
-"çıkarken gezinmek içinse <shortcut>Shift+sürükle</shortcut>"
+"çıkarken gezinmek içinse <shortcut>Üst Karakter+sürükle</shortcut>"
 
 #: src/monitor/view/SceneToolBar.qml:94
 #, kde-format
@@ -15959,7 +15959,7 @@ msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
 "clip"
 msgstr ""
-"Hızı değiştirmek için <b> Ctrl ile sürükleyin </b>, bitişik kliple "
+"Hızı değiştirmek için <b> Kontrol ile sürükleyin </b>, bitişik kliple "
 "karıştırmak için <b> çift tıklayın </b>"
 
 #: src/timeline2/view/qml/Clip.qml:708
@@ -16029,7 +16029,7 @@ msgid ""
 "all keyframes after this one."
 msgstr ""
 "Seçili anahtar karelerin konumlarını taşımak için <b>sürükleyin</b>. Bundan "
-"sonraki tüm anahtar kareleri taşımak için <b>Shift ile</b> sürükleyin."
+"sonraki tüm anahtar kareleri taşımak için <b>Üst Karakter ile</b> sürükleyin."
 
 #: src/timeline2/view/qml/KeyframeView.qml:281
 #, kde-format
@@ -16037,8 +16037,8 @@ msgid ""
 "<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> "
 "for multiple keyframe selection."
 msgstr ""
-"Seçili anahtar karelerin değerini değiştirmek için <b>Shift ile sürükleyin</"
-"b>, birden çok anahtar kare seçimi için <b>Ctrl+tık</b> yapın."
+"Seçili anahtar karelerin değerini değiştirmek için <b>Üst Karakter ile "
+"sürükleyin</b>, birden çok anahtar kare seçimi için <b>Kontrol+tık</b> yapın."
 
 #: src/timeline2/view/qml/SubTitle.qml:89
 #, kde-format
@@ -16123,7 +16123,8 @@ msgstr ""
 #, kde-format
 msgid ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
-msgstr "<b>Shift</b>, aynı türdeki tüm izleri genişletir/daraltır (ses/video)"
+msgstr ""
+"<b>Üst Karakter</b>, aynı türdeki tüm izleri genişletir/daraltır (ses/video)"
 
 #: src/timeline2/view/qml/TrackHead.qml:296
 #, kde-format
@@ -18697,8 +18698,8 @@ msgstr "Oynatırken otomatik sar"
 msgid ""
 "Scroll vertically with scroll wheel, horizontally with Shift + scroll wheel"
 msgstr ""
-"Sarma tekerleği ile dikey olarak, Shift + sarma tekerleği ile yatay olarak "
-"sarın"
+"Sarma tekerleği ile dikey olarak, Üst Karakter + sarma tekerleği ile yatay "
+"olarak sarın"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showmarkers)
 #: src/ui/configtimeline_ui.ui:122
@@ -21100,7 +21101,8 @@ msgstr "%1 ögesini zaman akışında göster"
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr ""
-"Değeri birer birer değiştirmek için Shift düğmesini basılı tutup sürükleyin."
+"Değeri birer birer değiştirmek için Üst Karakter düğmesini basılı tutup "
+"sürükleyin."
 
 #: src/widgets/geometrywidget.cpp:40
 #, kde-format
