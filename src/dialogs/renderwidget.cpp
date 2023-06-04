@@ -884,7 +884,7 @@ void RenderWidget::generateRenderFiles(const QString playlistPath, QDomDocument 
         }
     }
 
-    if (m_params.value(QStringLiteral("properties")).startsWith("stills/")) {
+    if (m_params.isImageSequence()) {
         // Image sequence, ensure we have a %0xd at file end.
         // Format string for counter
         static const QRegularExpression rx(QRegularExpression::anchoredPattern(QStringLiteral(".*%[0-9]*d.*")));

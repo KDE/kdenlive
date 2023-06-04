@@ -134,6 +134,11 @@ bool RenderPresetParams::hasAlpha()
     return alphaFormats.contains(value(QStringLiteral("pix_fmt")));
 }
 
+bool RenderPresetParams::isImageSequence()
+{
+    return value(QStringLiteral("properties")).startsWith("stills/");
+}
+
 RenderPresetModel::RenderPresetModel(QDomElement preset, const QString &presetFile, bool editable, const QString &groupName, const QString &renderer)
     : m_presetFile(presetFile)
     , m_editable(editable)
