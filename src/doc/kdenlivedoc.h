@@ -263,9 +263,6 @@ public:
     QDomDocument createEmptyDocument(int videotracks, int audiotracks, bool disableProfile = true);
     /** @brief Return the document version. */
     double getDocumentVersion() const;
-    /** @brief Replace proxy clips with originals for rendering. */
-    void useOriginals(QDomDocument &doc);
-    void processProxyNodes(QDomNodeList producers, const QString &root, const QMap<QString, QString> &proxies);
     /** @brief Returns true if this project has subtitles. */
     bool hasSubtitles() const;
     /** @brief Generate a temporary subtitle file for a zone. */
@@ -290,6 +287,10 @@ public:
     bool sequenceThumbRequiresRefresh(const QUuid &uuid) const;
     /** @brief Thumbnail for a sequence was updated, remove it from the update list.*/
     void sequenceThumbUpdated(const QUuid &uuid);
+
+    /** @brief Replace proxy clips with originals for rendering. */
+    static void useOriginals(QDomDocument &doc);
+    static void processProxyNodes(QDomNodeList producers, const QString &root, const QMap<QString, QString> &proxies);
 
 private:
     /** @brief Create a new KdenliveDoc using the provided QDomDocument (an

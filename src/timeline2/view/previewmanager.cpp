@@ -551,7 +551,7 @@ void PreviewManager::startPreviewRender()
                 pCore->projectItemModel()->sceneList(m_cacheDir.absolutePath(), QString(), QString(), pCore->currentDoc()->getTimeline(m_uuid)->tractor(), -1);
             QDomDocument doc;
             doc.setContent(playlist);
-            pCore->currentDoc()->useOriginals(doc);
+            KdenliveDoc::useOriginals(doc);
             if (!Xml::docContentToFile(doc, sceneList)) {
                 return;
             }

@@ -685,7 +685,7 @@ void RenderWidget::prepareRendering(bool delayedRendering)
 
     // Do we want proxy rendering
     if (project->useProxy() && !m_view.proxy_render->isChecked()) {
-        pCore->currentDoc()->useOriginals(doc);
+        KdenliveDoc::useOriginals(doc);
     }
 
     QString outputFile = m_view.out_file->url().toLocalFile();
