@@ -808,7 +808,6 @@ std::shared_ptr<Mlt::Producer> ProjectClip::thumbProducer()
         // TODO: when the original producer changes, we must reload this thumb producer
         m_thumbsProducer = softClone(ClipController::getPassPropertiesList());
     } else if (m_clipType == ClipType::Timeline) {
-        return nullptr;
         if (!m_sequenceThumbFile.isOpen() && !m_sequenceThumbFile.open()) {
             // Something went wrong
             qWarning() << "Cannot write to temporary file: " << m_sequenceThumbFile.fileName();
