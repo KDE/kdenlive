@@ -2261,6 +2261,16 @@ void KdenliveDoc::useOriginals(QDomDocument &doc)
     processProxyNodes(chains, root, proxies);
 }
 
+void KdenliveDoc::disableSubtitles(QDomDocument &doc)
+{
+    QDomNodeList filters = doc.elementsByTagName(QStringLiteral("filter"));
+    for (int i = 0; i < filters.length(); ++i) {
+        if (Xml::getXmlProperty(filters.item(i).toElement(), QStringLiteral("mlt_service")) == QLatin1String("avfilter.subtitles")) {
+            Xml::setXmlProperty(filters.item(i).toElement(), QStringLiteral("disable"), QStringLiteral("1"));
+        }
+    }
+}
+
 void KdenliveDoc::processProxyNodes(QDomNodeList producers, const QString &root, const QMap<QString, QString> &proxies)
 {
 

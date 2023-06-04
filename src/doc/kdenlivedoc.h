@@ -291,6 +291,8 @@ public:
     /** @brief Replace proxy clips with originals for rendering. */
     static void useOriginals(QDomDocument &doc);
     static void processProxyNodes(QDomNodeList producers, const QString &root, const QMap<QString, QString> &proxies);
+    /** @brief Disable all subtitle filters of @param doc */
+    static void disableSubtitles(QDomDocument &doc);
 
 private:
     /** @brief Create a new KdenliveDoc using the provided QDomDocument (an

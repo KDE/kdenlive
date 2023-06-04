@@ -703,12 +703,7 @@ void RenderWidget::prepareRendering(bool delayedRendering)
         subtitleFile = src.fileName();
         src.setAutoRemove(false);
         // disable subtitle filter(s) as they will be embeded in a second step of rendering
-        QDomNodeList filters = doc.elementsByTagName(QStringLiteral("filter"));
-        for (int i = 0; i < filters.length(); ++i) {
-            if (Xml::getXmlProperty(filters.item(i).toElement(), QStringLiteral("mlt_service")) == QLatin1String("avfilter.subtitles")) {
-                Xml::setXmlProperty(filters.item(i).toElement(), QStringLiteral("disable"), QStringLiteral("1"));
-            }
-        }
+        KdenliveDoc::disableSubtitles(doc);
     }
     const QUuid currentUuid = pCore->currentTimelineId();
 
