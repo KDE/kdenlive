@@ -84,7 +84,13 @@ private:
 class KdenliveDoc : public QObject
 {
     Q_OBJECT
+
 public:
+    // static members
+    /** @brief Replace proxy clips with originals for rendering. */
+    static void useOriginals(QDomDocument &doc);
+    static void processProxyNodes(QDomNodeList producers, const QString &root, const QMap<QString, QString> &proxies);
+
     /** @brief Create a new empty Kdenlive project with the specified profile and requested number of tracks.
      *
      * @param tracks The number of <video, audio> tracks to create in the project.
@@ -265,9 +271,7 @@ public:
     QDomDocument createEmptyDocument(int videotracks, int audiotracks, bool disableProfile = true);
     /** @brief Return the document version. */
     double getDocumentVersion() const;
-    /** @brief Replace proxy clips with originals for rendering. */
-    void useOriginals(QDomDocument &doc);
-    void processProxyNodes(QDomNodeList producers, const QString &root, const QMap<QString, QString> &proxies);
+
     /** @brief Returns true if this project has subtitles. */
     bool hasSubtitles() const;
     /** @brief Generate a temporary subtitle file for a zone. */

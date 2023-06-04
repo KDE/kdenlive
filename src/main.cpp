@@ -17,6 +17,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kcoreaddons_version.h"
 #include "kxmlgui_version.h"
 #include "mainwindow.h"
+#include <project/projectmanager.h>
 
 #include <KAboutData>
 #include <KConfigGroup>
@@ -49,6 +50,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QUrl> //new
 #include <kiconthemes_version.h>
 
+#include "render/rendermanager.h"
+
 #ifdef Q_OS_WIN
 extern "C" {
 // Inform the driver we could make use of the discrete gpu
@@ -59,6 +62,7 @@ extern "C" {
 
 int main(int argc, char *argv[])
 {
+    int result = EXIT_SUCCESS;
 #ifdef USE_DRMINGW
     ExcHndlInit();
 #endif
@@ -178,13 +182,60 @@ int main(int argc, char *argv[])
     parser.addOption(mltLogLevelOption);
     QCommandLineOption clipsOption(QStringLiteral("i"), i18n("Comma separated list of files to add as clips to the bin."), QStringLiteral("clips"));
     parser.addOption(clipsOption);
+
+    // render options
+    QCommandLineOption renderOption(QStringLiteral("render"), i18n("Directly render the project and exit."));
+    parser.addOption(renderOption);
+
     parser.addPositionalArgument(QStringLiteral("file"), i18n("Kdenlive document to open."));
 
     // Parse command line
     parser.process(app);
     aboutData.processCommandLine(&parser);
 
+    QUrl url;
+    if (parser.positionalArguments().count() != 0) {
+        const QString inputFilename = parser.positionalArguments().at(0);
+        const QFileInfo fileInfo(inputFilename);
+        url = QUrl(inputFilename);
+        if (fileInfo.exists() || url.scheme().isEmpty()) { // easiest way to detect "invalid"/unintended URLs is no scheme
+            url = QUrl::fromLocalFile(fileInfo.absoluteFilePath());
+        }
+    }
+
     qApp->processEvents(QEventLoop::AllEvents);
+
+    url = QUrl::fromLocalFile("/home/julius/Videos/checkwaiting.kdenlive");
+
+    // if (parser.isSet(renderOption)) {
+    if (true) {
+        if (url.isEmpty()) {
+            qCritical() << "You need to give a valid file if you want to render from the command line.";
+            return EXIT_FAILURE;
+        }
+        if (!Core::build(packageType)) {
+            return EXIT_FAILURE;
+        }
+        pCore->initHeadless(url);
+        app.processEvents();
+        RenderManager *rendermanager = new RenderManager();
+        rendermanager->prepareRendering(url);
+        app.processEvents();
+        QMapIterator<QString, QString> i(rendermanager->m_renderFiles);
+        while (i.hasNext()) {
+            i.next();
+            // qDebug() << i.key() << i.value() << rendermanager->startRendering(i.key(), i.value(), {});
+        }
+        qDebug() << "Test 1";
+        qDebug() << pCore->getTrackNames(false);
+        qDebug() << "Test 2";
+        app.processEvents();
+        Core::clean();
+        app.processEvents();
+        // result = app.exec();
+        // return result;
+        return 0;
+    }
 
 #if defined(Q_OS_WIN)
     KSharedConfigPtr configWin = KSharedConfig::openConfig("kdenliverc");
@@ -331,17 +382,7 @@ int main(int argc, char *argv[])
         mlt_log_set_level(MLT_LOG_DEBUG);
     }
     const QString clipsToLoad = parser.value(clipsOption);
-    QUrl url;
-    if (parser.positionalArguments().count() != 0) {
-        const QString inputFilename = parser.positionalArguments().at(0);
-        const QFileInfo fileInfo(inputFilename);
-        url = QUrl(inputFilename);
-        if (fileInfo.exists() || url.scheme().isEmpty()) { // easiest way to detect "invalid"/unintended URLs is no scheme
-            url = QUrl::fromLocalFile(fileInfo.absoluteFilePath());
-        }
-    }
     qApp->processEvents(QEventLoop::AllEvents);
-    int result = 0;
     if (!Core::build(packageType)) {
         // App is crashing, delete config files and restart
         result = EXIT_CLEAN_RESTART;

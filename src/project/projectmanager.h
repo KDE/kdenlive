@@ -52,6 +52,7 @@ public:
     void init(const QUrl &projectUrl, const QString &clipList);
 
     void doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBackup = false);
+    void doOpenFileHeadless(const QUrl &url);
     KRecentFilesAction *recentFilesAction();
     void prepareSave();
     /** @brief Disable all bin effects in current project
@@ -133,6 +134,8 @@ public Q_SLOTS:
     void openLastFile();
     /** @brief Load files / clips passed on the command line. */
     void slotLoadOnOpen();
+
+    void slotLoadHeadless();
 
     /** @brief Checks whether a URL is available to save to.
      * @return Whether the file was saved. */

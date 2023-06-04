@@ -550,7 +550,7 @@ void PreviewManager::startPreviewRender()
                 pCore->projectItemModel()->sceneList(m_cacheDir.absolutePath(), QString(), QString(), pCore->currentDoc()->getTimeline(m_uuid)->tractor(), -1);
             QDomDocument doc;
             doc.setContent(playlist);
-            pCore->currentDoc()->useOriginals(doc);
+            KdenliveDoc::useOriginals(doc);
             const QString final = doc.toString().toUtf8();
             QSaveFile file(sceneList);
             if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {

@@ -56,6 +56,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QProgressDialog>
 #include <QSaveFile>
 #include <QTimeZone>
+#include <QUndoGroup>
 
 static QString getProjectNameFilters(bool ark = true)
 {
@@ -70,27 +71,29 @@ ProjectManager::ProjectManager(QObject *parent)
     : QObject(parent)
     , m_activeTimelineModel(nullptr)
 {
-    m_fileRevert = KStandardAction::revert(this, SLOT(slotRevert()), pCore->window()->actionCollection());
-    m_fileRevert->setIcon(QIcon::fromTheme(QStringLiteral("document-revert")));
-    m_fileRevert->setEnabled(false);
+    /*
+        m_fileRevert = KStandardAction::revert(this, SLOT(slotRevert()), pCore->window()->actionCollection());
+        m_fileRevert->setIcon(QIcon::fromTheme(QStringLiteral("document-revert")));
+        m_fileRevert->setEnabled(false);
 
-    QAction *a = KStandardAction::open(this, SLOT(openFile()), pCore->window()->actionCollection());
-    a->setIcon(QIcon::fromTheme(QStringLiteral("document-open")));
-    a = KStandardAction::saveAs(this, SLOT(saveFileAs()), pCore->window()->actionCollection());
-    a->setIcon(QIcon::fromTheme(QStringLiteral("document-save-as")));
-    a = KStandardAction::openNew(this, SLOT(newFile()), pCore->window()->actionCollection());
-    a->setIcon(QIcon::fromTheme(QStringLiteral("document-new")));
-    m_recentFilesAction = KStandardAction::openRecent(this, SLOT(openFile(QUrl)), pCore->window()->actionCollection());
+        QAction *a = KStandardAction::open(this, SLOT(openFile()), pCore->window()->actionCollection());
+        a->setIcon(QIcon::fromTheme(QStringLiteral("document-open")));
+        a = KStandardAction::saveAs(this, SLOT(saveFileAs()), pCore->window()->actionCollection());
+        a->setIcon(QIcon::fromTheme(QStringLiteral("document-save-as")));
+        a = KStandardAction::openNew(this, SLOT(newFile()), pCore->window()->actionCollection());
+        a->setIcon(QIcon::fromTheme(QStringLiteral("document-new")));
+        m_recentFilesAction = KStandardAction::openRecent(this, SLOT(openFile(QUrl)), pCore->window()->actionCollection());
 
-    QAction *saveCopyAction = new QAction(QIcon::fromTheme(QStringLiteral("document-save-as")), i18n("Save Copy…"), this);
-    pCore->window()->addAction(QStringLiteral("file_save_copy"), saveCopyAction);
-    connect(saveCopyAction, &QAction::triggered, this, [this] { saveFileAs(true); });
+        QAction *saveCopyAction = new QAction(QIcon::fromTheme(QStringLiteral("document-save-as")), i18n("Save Copy…"), this);
+        pCore->window()->addAction(QStringLiteral("file_save_copy"), saveCopyAction);
+        connect(saveCopyAction, &QAction::triggered, this, [this] { saveFileAs(true); });
 
-    QAction *backupAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-undo")), i18n("Open Backup File…"), this);
-    pCore->window()->addAction(QStringLiteral("open_backup"), backupAction);
-    connect(backupAction, SIGNAL(triggered(bool)), SLOT(slotOpenBackup()));
+        QAction *backupAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-undo")), i18n("Open Backup File…"), this);
+        pCore->window()->addAction(QStringLiteral("open_backup"), backupAction);
+        connect(backupAction, SIGNAL(triggered(bool)), SLOT(slotOpenBackup()));
 
-    m_notesPlugin = new NotesPlugin(this);
+        m_notesPlugin = new NotesPlugin(this);
+    */
 
     m_autoSaveTimer.setSingleShot(true);
     connect(&m_autoSaveTimer, &QTimer::timeout, this, &ProjectManager::slotAutoSave);
@@ -129,17 +132,31 @@ void ProjectManager::slotLoadOnOpen()
     // Release startup crash lock file
     QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
     lockFile.remove();
-    // For some reason Qt seems to be doing some stuff that modifies the tabs text after window is shown, so use a timer
-    QTimer::singleShot(1000, this, []() {
-        QList<QTabBar *> tabbars = pCore->window()->findChildren<QTabBar *>();
-        for (QTabBar *tab : qAsConst(tabbars)) {
-            // Fix tabbar tooltip containing ampersand
-            for (int i = 0; i < tab->count(); i++) {
-                tab->setTabToolTip(i, tab->tabText(i).replace('&', ""));
+    if (pCore->window()) {
+        // For some reason Qt seems to be doing some stuff that modifies the tabs text after window is shown, so use a timer
+        QTimer::singleShot(1000, this, []() {
+            QList<QTabBar *> tabbars = pCore->window()->findChildren<QTabBar *>();
+            for (QTabBar *tab : qAsConst(tabbars)) {
+                // Fix tabbar tooltip containing ampersand
+                for (int i = 0; i < tab->count(); i++) {
+                    tab->setTabToolTip(i, tab->tabText(i).replace('&', ""));
+                }
             }
-        }
-    });
-    pCore->window()->checkMaxCacheSize();
+        });
+        pCore->window()->checkMaxCacheSize();
+    }
+}
+
+void ProjectManager::slotLoadHeadless()
+{
+    m_loading = true;
+    if (m_startUrl.isValid()) {
+        doOpenFileHeadless(m_startUrl);
+    }
+    m_loading = false;
+    // Release startup crash lock file
+    QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
+    lockFile.remove();
 }
 
 void ProjectManager::init(const QUrl &projectUrl, const QString &clipList)
@@ -380,7 +397,9 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             break;
         }
     }
-    pCore->window()->disableMulticam();
+    if (pCore->window()) {
+        pCore->window()->disableMulticam();
+    }
     if (m_project) {
         m_project->closing = true;
         ::mlt_pool_purge();
@@ -399,13 +418,17 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     if (!quit && !qApp->isSavingSession() && m_project) {
         Q_EMIT pCore->window()->clearAssetPanel();
     }
-    pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
-    pCore->monitorManager()->projectMonitor()->setProducer(nullptr);
+    if (pCore->window()) {
+        pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
+        pCore->monitorManager()->projectMonitor()->setProducer(nullptr);
 
-    pCore->bin()->cleanDocument();
+        pCore->bin()->cleanDocument();
+    }
     delete m_project;
     m_project = nullptr;
-    pCore->mixer()->unsetModel();
+    if (pCore->window()) {
+        pCore->mixer()->unsetModel();
+    }
     return true;
 }
 
@@ -680,13 +703,15 @@ void ProjectManager::openFile(const QUrl &url)
 void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBackup)
 {
     Q_ASSERT(m_project == nullptr);
-    m_fileRevert->setEnabled(true);
+    // m_fileRevert->setEnabled(true);
 
     delete m_progressDialog;
     m_progressDialog = nullptr;
     ThumbnailCache::get()->clearCache();
-    pCore->monitorManager()->resetDisplay();
-    pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
+    if (pCore->monitorManager()) {
+        pCore->monitorManager()->resetDisplay();
+        pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
+    }
     if (!m_loading) {
         m_progressDialog = new QProgressDialog(pCore->window());
         m_progressDialog->setWindowTitle(i18nc("@title:window", "Loading Project"));
@@ -695,7 +720,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
         m_progressDialog->setMaximum(0);
         m_progressDialog->show();
     }
-    m_notesPlugin->clear();
+    // m_notesPlugin->clear();
 
     DocOpenResult openResult = KdenliveDoc::Open(stale ? QUrl::fromLocalFile(stale->fileName()) : url,
         QString(), pCore->window()->m_commandStack, false, pCore->window());
@@ -832,6 +857,93 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     m_lastSave.start();
     delete m_progressDialog;
     m_progressDialog = nullptr;
+}
+
+void ProjectManager::doOpenFileHeadless(const QUrl &url)
+{
+    Q_ASSERT(m_project == nullptr);
+    QUndoGroup *commandStack = new QUndoGroup();
+    DocOpenResult openResult = KdenliveDoc::Open(url, QString(), commandStack, false, pCore->window());
+
+    KdenliveDoc *doc = nullptr;
+    if (!openResult.isSuccessful() && !openResult.isAborted()) {
+        qCritical() << i18n("Cannot open the project file. Error:\n%1\n", openResult.getError());
+    } else {
+        doc = openResult.getDocument().release();
+    }
+
+    // if we could not open the file, and could not recover (or user declined), stop now
+    if (!openResult.isSuccessful() || !doc) {
+        return;
+    }
+
+    // const QString projectId = QCryptographicHash::hash(url.fileName().toUtf8(), QCryptographicHash::Md5).toHex();
+    // QUrl autosaveUrl = QUrl::fromLocalFile(QFileInfo(url.path()).absoluteDir().absoluteFilePath(projectId + QStringLiteral(".kdenlive")));
+    // stale = new KAutoSaveFile(autosaveUrl, doc);
+    // doc->m_autosave = stale;
+    // Q_EMIT pCore->loadingMessageUpdated(QString(), 0, doc->clipsCount());
+
+    // pCore->bin()->setDocument(doc);
+
+    // Set default target tracks to upper audio / lower video tracks
+    m_project = doc;
+    /*QDateTime documentDate = QFileInfo(m_project->url().toLocalFile()).lastModified();
+
+    if (!updateTimeline(m_project->getDocumentProperty(QStringLiteral("position")).toInt(), true,
+                        m_project->getDocumentProperty(QStringLiteral("previewchunks")), m_project->getDocumentProperty(QStringLiteral("dirtypreviewchunks")),
+                        documentDate, m_project->getDocumentProperty(QStringLiteral("disablepreview")).toInt())) {
+        KMessageBox::error(pCore->window(), i18n("Could not recover corrupted file."));
+        delete m_progressDialog;
+        m_progressDialog = nullptr;
+        // Don't propose to save corrupted doc
+        m_project->setModified(false);
+        // Open default blank document
+        newFile(false);
+        return;
+    }
+
+    // Re-open active timelines
+    QStringList openedTimelines = m_project->getDocumentProperty(QStringLiteral("opensequences")).split(QLatin1Char(';'), Qt::SkipEmptyParts);
+    for (auto &uid : openedTimelines) {
+        const QUuid uuid(uid);
+        const QString binId = pCore->projectItemModel()->getSequenceId(uuid);
+        if (!binId.isEmpty()) {
+            openTimeline(binId, uuid);
+        }
+    }
+    // Raise last active timeline
+    QUuid activeUuid(m_project->getDocumentProperty(QStringLiteral("activetimeline")));
+    if (activeUuid.isNull()) {
+        activeUuid = m_project->uuid();
+    }
+    if (!activeUuid.isNull()) {
+        const QString binId = pCore->projectItemModel()->getSequenceId(activeUuid);
+        if (binId.isEmpty()) {
+            if (pCore->projectItemModel()->sequenceCount() == 0) {
+                // Something is broken here, abort
+                KMessageBox::error(pCore->window(), i18n("Could not recover corrupted file."));
+                delete m_progressDialog;
+                m_progressDialog = nullptr;
+                // Don't propose to save broken document
+                m_project->setModified(false);
+                // Open default blank document
+                newFile(false);
+                return;
+            }
+        }
+        if (!binId.isEmpty()) {
+            openTimeline(binId, activeUuid);
+        } else {
+            qDebug() << ":::::::::\n\nNO BINID FOR TIMELINE: " << activeUuid << "\n\n:::::::::::::";
+        }
+    }
+    pCore->window()->connectDocument();
+
+    Q_EMIT docOpened(m_project);
+    pCore->displayMessage(QString(), OperationCompletedMessage, 100);
+    m_lastSave.start();
+    delete m_progressDialog;
+    m_progressDialog = nullptr;*/
 }
 
 void ProjectManager::slotRevert()

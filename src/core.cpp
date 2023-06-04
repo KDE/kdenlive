@@ -130,6 +130,14 @@ bool Core::build(const QString &packageType, bool testMode)
     return true;
 }
 
+void Core::initHeadless(const QUrl &url)
+{
+    // m_mainWindow = new MainWindow();
+    m_projectManager = new ProjectManager(this);
+    projectManager()->init(url, QString());
+    QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadHeadless", Qt::QueuedConnection);
+}
+
 void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, const QString &clipsToLoad)
 {
     m_profile = KdenliveSettings::default_profile();

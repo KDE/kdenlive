@@ -24,6 +24,8 @@
 #include "renderpresets/renderpresetmodel.hpp"
 #include "renderpresets/renderpresetrepository.hpp"
 
+#include "render/rendermanager.h"
+
 #include <KColorScheme>
 #include <KIO/DesktopExecParser>
 #include <kio_version.h>
@@ -660,13 +662,12 @@ void RenderWidget::prepareRendering(bool delayedRendering)
         }
         dir.cd(QFileInfo(playlistPath).baseName());
         project->prepareRenderAssets(dir);
-    }
-    QString playlistContent =
-        pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile(), overlayData);
 
-    if (delayedRendering) {
         project->restoreRenderAssets();
     }
+
+    QString playlistContent =
+        pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile(), overlayData);
 
     // Set playlist audio volume to 100%
     QDomDocument doc;
@@ -680,12 +681,11 @@ void RenderWidget::prepareRendering(bool delayedRendering)
 
     // Do we want proxy rendering
     if (project->useProxy() && !m_view.proxy_render->isChecked()) {
-        pCore->currentDoc()->useOriginals(doc);
+        KdenliveDoc::useOriginals(doc);
     }
 
     QString outputFile = m_view.out_file->url().toLocalFile();
 
-    Monitor *pMon = pCore->getMonitor(Kdenlive::ProjectMonitor);
     double fps = pCore->getCurrentProfile()->fps();
     QString subtitleFile;
     if (m_view.embed_subtitles->isEnabled() && m_view.embed_subtitles->isChecked() && project->hasSubtitles()) {
@@ -712,6 +712,7 @@ void RenderWidget::prepareRendering(bool delayedRendering)
     // Remove last black frame
     int out = pCore->projectDuration() - 1;
 
+    Monitor *pMon = pCore->getMonitor(Kdenlive::ProjectMonitor);
     if (m_view.render_zone->isChecked()) {
         in = pMon->getZoneStart();
         out = pMon->getZoneEnd() - 1;

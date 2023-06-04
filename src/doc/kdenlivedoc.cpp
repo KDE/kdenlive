@@ -256,7 +256,7 @@ DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, Q
 
     // TODO: DocumentChecker is still tightly coupled to the GUI
     DocumentChecker d(url, domDoc);
-    success = !d.hasErrorInClips();
+    // success = !d.hasErrorInClips();
     if (!success) {
         // Loading aborted
         result.setAborted();
