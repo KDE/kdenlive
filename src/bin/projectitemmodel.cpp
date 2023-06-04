@@ -41,10 +41,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 ProjectItemModel::ProjectItemModel(QObject *parent)
     : AbstractTreeModel(parent)
+    , closing(false)
     , m_lock(QReadWriteLock::Recursive)
     , m_binPlaylist(nullptr)
     , m_fileWatcher(new FileWatcher())
-    , closing(false)
     , m_nextId(1)
     , m_blankThumb()
     , m_dragType(PlaylistState::Disabled)
@@ -588,7 +588,6 @@ void ProjectItemModel::clean()
 {
     // QWriteLocker locker(&m_lock);
     closing = true;
-    pCore->taskManager.slotCancelJobs();
     m_extraPlaylists.clear();
     std::vector<std::shared_ptr<AbstractProjectItem>> toDelete;
     toDelete.reserve(size_t(rootItem->childCount()));
@@ -763,6 +762,11 @@ void ProjectItemModel::deregisterItem(int id, TreeItem *item)
 bool ProjectItemModel::hasSequenceId(const QUuid &uuid) const
 {
     return m_binPlaylist->hasSequenceId(uuid);
+}
+
+QMap<QUuid, QString> ProjectItemModel::getAllSequenceClips() const
+{
+    return m_binPlaylist->getAllSequenceClips();
 }
 
 const QString ProjectItemModel::getSequenceId(const QUuid &uuid)
@@ -1463,6 +1467,16 @@ void ProjectItemModel::setExtraTimelineSaved(const QString &uuid)
 {
     if (m_extraPlaylists.count(uuid) > 0) {
         m_extraPlaylists.at(uuid)->set("_dontmapids", 1);
+    }
+}
+
+void ProjectItemModel::removeReferencedClips(const QUuid &uuid)
+{
+    QList<std::shared_ptr<ProjectClip>> clipList = getRootFolder()->childClips();
+    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
+        if (clip->refCount() > 0) {
+            clip->purgeReferences(uuid);
+        }
     }
 }
 

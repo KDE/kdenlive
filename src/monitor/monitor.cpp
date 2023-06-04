@@ -371,7 +371,11 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     freeAction->setData(0);
     m_configMenuAction->addAction(m_forceSize);
     m_forceSize->setCurrentAction(freeAction);
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 240, 0)
+    connect(m_forceSize, &KSelectAction::actionTriggered, this, &Monitor::slotForceSize);
+#else
     connect(m_forceSize, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &Monitor::slotForceSize);
+#endif
 
     if (m_id == Kdenlive::ClipMonitor) {
         m_background = new KSelectAction(QIcon::fromTheme(QStringLiteral("paper-color")), i18n("Background Color"), this);
@@ -389,7 +393,11 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         } else {
             m_background->setCurrentAction(blackAction);
         }
-        connect(m_background, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, [this](QAction *a) {
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 240, 0)
+    connect(m_background, &KSelectAction::actionTriggered, this, [this](QAction *a) {
+#else
+    connect(m_background, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, [this](QAction *a) {
+#endif
             KdenliveSettings::setMonitor_background(a->data().toString());
             buildBackgroundedProducer(position());
         });
@@ -993,7 +1001,9 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
         m_glWidget->showNormal();
         auto *lay = static_cast<QVBoxLayout *>(layout());
         lay->insertWidget(0, m_glWidget, 10);
-        activateWindow();
+        // With some Qt versions, focus was lost after switching back from fullscreen,
+        // QApplication::setActiveWindow restores focus to the correct window
+        QApplication::setActiveWindow(this);
         setFocus();
     }
 }

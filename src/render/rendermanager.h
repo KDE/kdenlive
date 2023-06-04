@@ -43,10 +43,7 @@ public:
 
     QString createEmptyTempFile(const QString &extension);
 
-    void disableSubtitles(QDomDocument &doc);
     void setAutoClosePlaylists(QDomDocument &doc);
-
-    bool writeToFile(const QDomDocument &doc, const QString &filename);
 
     struct RenderSection
     {

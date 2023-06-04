@@ -30,6 +30,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 #include "macros.hpp"
 #include "mainwindow.h"
+#include "mediabrowser.h"
 #include "mlt++/Mlt.h"
 #include "mltcontroller/clipcontroller.h"
 #include "mltcontroller/clippropertiescontroller.h"
@@ -1145,7 +1146,6 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     , m_propertiesPanel(nullptr)
     , m_monitor(nullptr)
     , m_blankThumb()
-    , m_browserWidget(nullptr)
     , m_filterTagGroup(this)
     , m_filterRateGroup(this)
     , m_filterUsageGroup(this)
@@ -1333,7 +1333,11 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     connect(hoverPreview, &QAction::triggered, [](bool checked) { KdenliveSettings::setHoverPreview(checked); });
 
     listType->setToolBarMode(KSelectAction::MenuMode);
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 240, 0)
+    connect(listType, &KSelectAction::actionTriggered, this, &Bin::slotInitView);
+#else
     connect(listType, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &Bin::slotInitView);
+#endif
 
     // Settings menu
     auto *settingsAction = new KActionMenu(QIcon::fromTheme(QStringLiteral("application-menu")), i18n("Options"), this);
@@ -1772,7 +1776,6 @@ void Bin::slotDeleteClip()
             return;
         }
         for (auto seq : sequences) {
-            qDebug() << ":::: CLOSING TIMELINE: " << seq;
             pCore->projectManager()->closeTimeline(seq, true);
         }
     }
@@ -2035,7 +2038,7 @@ void Bin::slotDuplicateClip()
                 if (currentItem->clipType() == ClipType::Timeline) {
                     // Sync last changes for this timeline
                     const QUuid uuid = currentItem->getSequenceUuid();
-                    pCore->projectManager()->syncTimeline(uuid);
+                    pCore->projectManager()->syncTimeline(uuid, true);
                     QTemporaryFile src(QDir::temp().absoluteFilePath(QString("XXXXXX.mlt")));
                     src.setAutoRemove(false);
                     if (!src.open()) {
@@ -2114,14 +2117,6 @@ void Bin::setMonitor(Monitor *monitor)
     });
 }
 
-const QString Bin::lastBrowserUrl() const
-{
-    if (m_browserWidget == nullptr) {
-        return {};
-    }
-    return m_browserWidget->baseUrl().toLocalFile();
-}
-
 void Bin::cleanDocument()
 {
     blockSignals(true);
@@ -2172,14 +2167,13 @@ const QString Bin::setDocument(KdenliveDoc *project, const QString &id)
     // connect(m_itemModel, SIGNAL(updateCurrentItem()), this, SLOT(autoSelect()));
     slotInitView(nullptr);
     bool binEffectsDisabled = getDocumentProperty(QStringLiteral("disablebineffects")).toInt() == 1;
-    if (m_browserWidget) {
-        QString url = getDocumentProperty(QStringLiteral("browserurl"));
-        if (!url.isEmpty()) {
-            if (QFileInfo(url).isRelative()) {
-                url.prepend(m_doc->documentRoot());
-            }
-            m_browserWidget->setUrl(QUrl::fromLocalFile(url));
+    // Set media browser url
+    QString url = getDocumentProperty(QStringLiteral("browserurl"));
+    if (!url.isEmpty()) {
+        if (QFileInfo(url).isRelative()) {
+            url.prepend(m_doc->documentRoot());
         }
+        pCore->mediaBrowser()->setUrl(QUrl::fromLocalFile(url));
     }
     QAction *disableEffects = pCore->window()->actionCollection()->action(QStringLiteral("disable_bin_effects"));
     if (disableEffects) {
@@ -2747,6 +2741,8 @@ void Bin::slotInitView(QAction *action)
     QPixmap pix(m_iconSize);
     pix.fill(Qt::lightGray);
     m_blankThumb.addPixmap(pix);
+    m_itemView->addAction(m_renameAction);
+    m_renameAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     m_proxyModel = std::make_unique<ProjectSortProxyModel>(this);
     // Connect models
     m_proxyModel->setSourceModel(m_itemModel.get());
@@ -3007,16 +3003,19 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint &pos, uint m
             if (clip) {
                 if (clip->clipType() == ClipType::Timeline) {
                     const QUuid uuid = clip->getSequenceUuid();
-                    Fun redo = [this, uuid, binId = clip->binId()]() { return pCore->projectManager()->openTimeline(binId, uuid); };
+                    pCore->projectManager()->openTimeline(clip->binId(), uuid);
+                    // Undo / redo timeline close crashes because the undo stack keeps reference to deleted timeline/marker models
+                    /*Fun redo = [this, uuid, binId = clip->binId()]() { return pCore->projectManager()->openTimeline(binId, uuid); };
                     if (redo()) {
                         Fun undo = [this, uuid]() {
-                            if (pCore->projectManager()->closeTimeline(uuid)) {
+                            qDebug()<<":::::::::READY TO UNDO TIMELINE OPEN!!!!!!";
+                            if (pCore->projectManager()->closeTimeline(uuid, false, false)) {
                                 pCore->window()->closeTimeline(uuid);
                             }
                             return true;
                         };
                         pCore->pushUndo(undo, redo, i18n("Open %1", clip->clipName()));
-                    }
+                    }*/
                 } else if (clip->clipType() == ClipType::Text || clip->clipType() == ClipType::TextTemplate) {
                     // m_propertiesPanel->setEnabled(false);
                     showTitleWidget(clip);
@@ -3485,8 +3484,12 @@ void Bin::setupMenu()
     m_openAction->setEnabled(false);
     connect(m_openAction, &QAction::triggered, this, &Bin::slotOpenClipExtern);
 
-    m_renameAction = KStandardAction::renameFile(this, SLOT(slotRenameItem()), pCore->window()->actionCollection());
+    m_renameAction = KStandardAction::renameFile(this, SLOT(slotRenameItem()), this);
     m_renameAction->setEnabled(false);
+    if (m_itemView) {
+        m_itemView->addAction(m_renameAction);
+        m_renameAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    }
 
     m_deleteAction = addAction(QStringLiteral("delete_clip"), i18n("Delete Clip"), QIcon::fromTheme(QStringLiteral("edit-delete")));
     m_deleteAction->setData("delete_clip");
@@ -5307,14 +5310,6 @@ QList<int> Bin::getUsedClipIds()
     return timelineClipIds;
 }
 
-KFileWidget *Bin::initBrowserWidget()
-{
-    if (!m_browserWidget) {
-        m_browserWidget = ClipCreationDialog::browserWidget(pCore->window());
-    }
-    return m_browserWidget;
-}
-
 void Bin::savePlaylist(const QString &binId, const QString &savePath, const QVector<QPoint> &zones, const QMap<QString, QString> &properties, bool createNew)
 {
     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(binId);
@@ -5714,16 +5709,6 @@ void Bin::registerSequence(const QUuid uuid, const QString id)
     }
 }
 
-void Bin::removeReferencedClips(const QUuid &uuid)
-{
-    QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
-    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
-        if (clip->refCount() > 0) {
-            clip->purgeReferences(uuid);
-        }
-    }
-}
-
 QStringList Bin::sequenceReferencedClips(const QUuid &uuid) const
 {
     QStringList results;
@@ -5739,7 +5724,7 @@ QStringList Bin::sequenceReferencedClips(const QUuid &uuid) const
     return results;
 }
 
-void Bin::updateSequenceClip(const QUuid &uuid, int duration, int pos, std::shared_ptr<Mlt::Producer> prod)
+void Bin::updateSequenceClip(const QUuid &uuid, int duration, int pos)
 {
     Q_ASSERT(m_openedPlaylists.contains(uuid));
     if (pos > -1) {
@@ -5749,12 +5734,6 @@ void Bin::updateSequenceClip(const QUuid &uuid, int duration, int pos, std::shar
         const QString binId = m_openedPlaylists.value(uuid);
         std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(binId);
         Q_ASSERT(clip != nullptr);
-        if (prod) {
-            // On timeline close, update the stored sequence producer
-            std::shared_ptr<Mlt::Tractor> trac(new Mlt::Tractor(prod->parent()));
-            pCore->projectItemModel()->storeSequence(uuid.toString(), trac);
-        }
-
         if (m_doc->sequenceThumbRequiresRefresh(uuid)) {
             // Store general sequence properties
             QMap<QString, QString> properties;

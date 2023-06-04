@@ -71,9 +71,12 @@ public:
     /** @brief The clip currently opened in Clip Monitor (to display clip jobs) */
     int displayedClip;
 
+    /** @brief Allow starting new tasks */
+    void unBlock();
+
 public Q_SLOTS:
     /** @brief Discard all running jobs. */
-    void slotCancelJobs(const QVector<AbstractTask::JOBTYPE> exceptions = {});
+    void slotCancelJobs(bool leaveBlocked = false, const QVector<AbstractTask::JOBTYPE> exceptions = {});
 
 private Q_SLOTS:
     /** @brief Update number of running jobs. */

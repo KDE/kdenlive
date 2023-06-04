@@ -87,6 +87,8 @@ public:
 
     /** @brief Import track effects */
     void importTrackEffects(int tid, std::weak_ptr<Mlt::Service> service);
+    /** @brief Save the sequence properties in MLT tractor */
+    void passSequenceProperties(const QMap<QString, QString> baseProperties);
 
     const QString groupsData();
     bool loadGroups(const QString &groupsData);

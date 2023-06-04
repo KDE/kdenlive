@@ -10,6 +10,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
+#include "effects/effectstack/model/effectstackmodel.hpp"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
@@ -73,28 +74,66 @@ void FilterTask::run()
         }
         if (KdenliveSettings::gpu_accel()) {
             producer = binClip->getClone();
+            if (m_outPoint == -1) {
+                m_outPoint = producer->get_length() - 1;
+            }
+            if (m_inPoint == -1) {
+                m_inPoint = 0;
+            }
+            if (m_inPoint != 0 || m_outPoint != producer->get_length() - 1) {
+                producer->set_in_and_out(m_inPoint, m_outPoint);
+            }
             Mlt::Filter converter(profile, "avcolor_space");
             producer->attach(converter);
         } else {
-            qDebug() << "==== BUILDING PRODUCER: " << url;
             producer = std::make_unique<Mlt::Producer>(profile, url.toUtf8().constData());
+            if (!producer || !producer->is_valid()) {
+                if (!binClip->isReloading) {
+                    QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection,
+                                              Q_ARG(QString, i18n("Cannot open file %1", binClip->url())), Q_ARG(int, int(KMessageWidget::Warning)));
+                } else {
+                    QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection,
+                                              Q_ARG(QString, i18n("Cannot process file %1", binClip->url())), Q_ARG(int, int(KMessageWidget::Warning)));
+                }
+            }
+            if (m_outPoint == -1) {
+                m_outPoint = producer->get_length() - 1;
+            }
+            if (m_inPoint == -1) {
+                m_inPoint = 0;
+            }
+            if (m_inPoint != 0 || m_outPoint != producer->get_length() - 1) {
+                producer->set_in_and_out(m_inPoint, m_outPoint);
+            }
+            // Ensure all user defined properties are passed
+            const char *list = ClipController::getPassPropertiesList();
+            std::shared_ptr<Mlt::Producer> sourceProducer = binClip->originalProducer();
+            Mlt::Properties original(sourceProducer->get_properties());
+            Mlt::Properties cloneProps(producer->get_properties());
+            cloneProps.pass_list(original, list);
+            for (int i = 0; i < sourceProducer->filter_count(); i++) {
+                std::shared_ptr<Mlt::Filter> filt(sourceProducer->filter(i));
+                if (filt->property_exists("kdenlive_id")) {
+                    auto *filter = new Mlt::Filter(*filt.get());
+                    producer->attach(*filter);
+                }
+            }
+            if (m_owner.first == ObjectType::TimelineClip) {
+                // Add the timeline clip effects
+                std::shared_ptr<EffectStackModel> stack = pCore->getItemEffectStack(pCore->currentTimelineId(), int(m_owner.first), m_owner.second);
+                stack->passEffects(producer.get());
+            }
         }
         if ((producer == nullptr) || !producer->is_valid()) {
             // Clip was removed or something went wrong
             if (!binClip->isReloading) {
                 QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot open file %1", binClip->url())),
                                           Q_ARG(int, int(KMessageWidget::Warning)));
+            } else {
+                QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection,
+                                          Q_ARG(QString, i18n("Cannot process file %1", binClip->url())), Q_ARG(int, int(KMessageWidget::Warning)));
             }
             return;
-        }
-        if (m_outPoint == -1) {
-            m_outPoint = producer->get_length() - 1;
-        }
-        if (m_inPoint == -1) {
-            m_inPoint = 0;
-        }
-        if (m_inPoint != 0 || m_outPoint != producer->get_length() - 1) {
-            producer->set_in_and_out(m_inPoint, m_outPoint);
         }
     } else {
         // Filter applied on a track of master producer, leave config to source job

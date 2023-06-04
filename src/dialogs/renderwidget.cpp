@@ -66,8 +66,13 @@
 #include <QtGlobal>
 
 #ifdef KF5_USE_PURPOSE
+#include "purpose_version.h"
 #include <Purpose/AlternativesModel>
+#if PURPOSE_VERSION >= QT_VERSION_CHECK(5, 240, 0)
+#include <Purpose/Menu>
+#else
 #include <PurposeWidgets/Menu>
+#endif
 #endif
 
 #include <locale>
@@ -698,12 +703,7 @@ void RenderWidget::prepareRendering(bool delayedRendering)
         subtitleFile = src.fileName();
         src.setAutoRemove(false);
         // disable subtitle filter(s) as they will be embeded in a second step of rendering
-        QDomNodeList filters = doc.elementsByTagName(QStringLiteral("filter"));
-        for (int i = 0; i < filters.length(); ++i) {
-            if (Xml::getXmlProperty(filters.item(i).toElement(), QStringLiteral("mlt_service")) == QLatin1String("avfilter.subtitles")) {
-                Xml::setXmlProperty(filters.item(i).toElement(), QStringLiteral("disable"), QStringLiteral("1"));
-            }
-        }
+        KdenliveDoc::disableSubtitles(doc);
     }
     const QUuid currentUuid = pCore->currentTimelineId();
 
@@ -772,7 +772,6 @@ void RenderWidget::prepareRendering(bool delayedRendering)
 
                     QString newPlaylistPath = playlistPath;
                     newPlaylistPath = newPlaylistPath.replace(QStringLiteral(".mlt"), QString("-%1.mlt").arg(i));
-                    QFile::copy(playlistPath, newPlaylistPath);
                     generateRenderFiles(newPlaylistPath, docCopy, sectionIn, sectionOut, filename, false, subtitleFile);
                     if (!subtitleFile.isEmpty() && i < markers.count() - 1) {
                         QTemporaryFile src(QDir::temp().absoluteFilePath(QString("XXXXXX.srt")));
@@ -881,7 +880,7 @@ void RenderWidget::generateRenderFiles(const QString playlistPath, QDomDocument 
         }
     }
 
-    if (m_params.value(QStringLiteral("properties")).startsWith("stills/")) {
+    if (m_params.isImageSequence()) {
         // Image sequence, ensure we have a %0xd at file end.
         // Format string for counter
         static const QRegularExpression rx(QRegularExpression::anchoredPattern(QStringLiteral(".*%[0-9]*d.*")));
@@ -930,18 +929,10 @@ void RenderWidget::generateRenderFiles(const QString playlistPath, QDomDocument 
                     }
                 }
 
-                QFile file(playlistFile);
-                if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                if (!Xml::docContentToFile(docCopy, playlistFile)) {
                     pCore->displayMessage(i18n("Cannot write to file %1", playlistFile), ErrorMessage);
                     return;
                 }
-                file.write(docCopy.toString().toUtf8());
-                if (file.error() != QFile::NoError) {
-                    pCore->displayMessage(i18n("Cannot write to file %1", playlistFile), ErrorMessage);
-                    file.close();
-                    return;
-                }
-                file.close();
                 audioCount++;
             }
         }
@@ -988,18 +979,10 @@ void RenderWidget::generateRenderFiles(const QString playlistPath, QDomDocument 
                 finalConsumer.removeAttribute("fastfirstpass");
             }
         }
-        QFile file(playlistName);
-        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        if (!Xml::docContentToFile(final, playlistName)) {
             pCore->displayMessage(i18n("Cannot write to file %1", playlistName), ErrorMessage);
             return;
         }
-        file.write(final.toString().toUtf8());
-        if (file.error() != QFile::NoError) {
-            pCore->displayMessage(i18n("Cannot write to file %1", playlistName), ErrorMessage);
-            file.close();
-            return;
-        }
-        file.close();
     }
 
     // Create jobs

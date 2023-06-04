@@ -6,6 +6,7 @@
 #include "xml.hpp"
 #include <QDebug>
 #include <QFile>
+#include <QSaveFile>
 
 // static
 bool Xml::docContentFromFile(QDomDocument &doc, const QString &fileName, bool namespaceProcessing)
@@ -21,6 +22,21 @@ bool Xml::docContentFromFile(QDomDocument &doc, const QString &fileName, bool na
         return false;
     }
     file.close();
+    return true;
+}
+
+bool Xml::docContentToFile(const QDomDocument &doc, const QString &fileName)
+{
+    QSaveFile file(fileName);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qWarning() << "Cannot write to file" << file.fileName();
+        return false;
+    }
+    file.write(doc.toString().toUtf8());
+    if (!file.commit()) {
+        qWarning() << "Error while writing to file" << file.fileName();
+        return false;
+    }
     return true;
 }
 

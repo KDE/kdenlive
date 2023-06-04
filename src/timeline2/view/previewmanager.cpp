@@ -15,6 +15,7 @@
 #include "profiles/profilemodel.hpp"
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinewidget.h"
+#include "xml/xml.hpp"
 
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -551,15 +552,7 @@ void PreviewManager::startPreviewRender()
             QDomDocument doc;
             doc.setContent(playlist);
             KdenliveDoc::useOriginals(doc);
-            const QString final = doc.toString().toUtf8();
-            QSaveFile file(sceneList);
-            if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                qDebug() << "//////  ERROR writing to file: " << sceneList;
-                return;
-            }
-            file.write(final.toUtf8());
-            if (!file.commit()) {
-                qDebug() << "Cannot write to file " << sceneList;
+            if (!Xml::docContentToFile(doc, sceneList)) {
                 return;
             }
         } else {

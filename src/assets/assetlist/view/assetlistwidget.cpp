@@ -10,12 +10,14 @@
 #include "assets/assetlist/model/assettreemodel.hpp"
 #include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
 
-#include <KDeclarative/KDeclarative>
 #include <QQmlContext>
 #include <QQuickItem>
 #include <QStandardPaths>
-#include <kdeclarative_version.h>
-#if KDECLARATIVE_VERSION >= QT_VERSION_CHECK(5, 98, 0)
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+#include <KDeclarative/KDeclarative>
+#include "kdeclarative_version.h"
+#endif
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0) || KDECLARATIVE_VERSION >= QT_VERSION_CHECK(5, 98, 0)
 #include <KQuickIconProvider>
 #endif
 
@@ -23,12 +25,12 @@ AssetListWidget::AssetListWidget(QWidget *parent)
     : QQuickWidget(parent)
 
 {
-#if KDECLARATIVE_VERSION < QT_VERSION_CHECK(5, 98, 0)
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0) || KDECLARATIVE_VERSION > QT_VERSION_CHECK(5, 98, 0)
+    engine()->addImageProvider(QStringLiteral("icon"), new KQuickIconProvider);
+#else
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());
     kdeclarative.setupEngine(engine());
-#else
-    engine()->addImageProvider(QStringLiteral("icon"), new KQuickIconProvider);
 #endif
     engine()->rootContext()->setContextObject(new KLocalizedContext(this));
 }
@@ -43,13 +45,17 @@ void AssetListWidget::setup()
 {
     setResizeMode(QQuickWidget::SizeRootObjectToView);
     engine()->addImageProvider(QStringLiteral("asseticon"), m_assetIconProvider);
-    setSource(QUrl(QStringLiteral("qrc:/qml/assetList.qml")));
+    reset();
     setFocusPolicy(Qt::StrongFocus);
 }
 
 void AssetListWidget::reset()
 {
+#if QT_VERSION > QT_VERSION_CHECK(6,0,0)
+    setSource(QUrl(QStringLiteral("qrc:/qml/assetList-qt6.qml")));
+#else
     setSource(QUrl(QStringLiteral("qrc:/qml/assetList.qml")));
+#endif
 }
 
 QString AssetListWidget::getName(const QModelIndex &index) const

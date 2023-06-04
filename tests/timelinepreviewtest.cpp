@@ -12,6 +12,9 @@
 #include <tuple>
 #include <unordered_set>
 
+#include <chrono>
+#include <thread>
+
 #include "definitions.h"
 #define private public
 #define protected public
@@ -74,7 +77,7 @@ TEST_CASE("Timeline preview insert-remove", "[TimelinePreview]")
 
     // Wait until the preview rendering is over
     while (timeline->previewManager()->isRunning()) {
-        sleep(2);
+        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
         qDebug() << ":::: WAITING FOR PROGRESS...";
         qApp->processEvents();
     }

@@ -27,10 +27,11 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QRegularExpression>
-#include <QTextCodec>
 #include <utility>
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <QStringConverter>
+#else
+#include <QTextCodec>
 #endif
 
 SubtitleModel::SubtitleModel(std::shared_ptr<TimelineItemModel> timeline, QObject *parent)

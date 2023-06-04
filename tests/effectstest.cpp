@@ -32,21 +32,15 @@ TEST_CASE("Effects stack", "[Effects]")
     // We mock the project class so that the undoStack function returns our undoStack
     KdenliveDoc document(undoStack);
     Mock<KdenliveDoc> docMock(document);
+    When(Method(docMock, getCacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
     KdenliveDoc &mockedDoc = docMock.get();
 
-    // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
-    Mock<ProjectManager> pmMock;
-    When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
-    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
-    When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
-    ProjectManager &mocked = pmMock.get();
-    pCore->m_projectManager = &mocked;
-    mocked.m_project = &mockedDoc;
+    pCore->projectManager()->m_project = &mockedDoc;
     QDateTime documentDate = QDateTime::currentDateTime();
-    mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
     auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
-    mocked.m_activeTimelineModel = timeline;
-    mocked.testSetActiveDocument(&mockedDoc, timeline);
+    pCore->projectManager()->m_activeTimelineModel = timeline;
+    pCore->projectManager()->testSetActiveDocument(&mockedDoc, timeline);
 
     // Create a request
     int tid1;
@@ -118,5 +112,4 @@ TEST_CASE("Effects stack", "[Effects]")
         REQUIRE(splitModel->rowCount() == 1);
     }
     binModel->clean();
-    pCore->m_projectManager = nullptr;
 }

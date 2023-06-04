@@ -270,13 +270,13 @@
       <label>Enables vaapi hw accel in encoders.</label>
       <default>false</default>
     </entry>
-    <entry name="vaapiScalingEnabled" type="Bool">
-      <label>Enables scale_vaapi hw accel in encoders.</label>
+    <entry name="amfEnabled" type="Bool">
+      <label>Enables amf hw accel in encoders.</label>
       <default>false</default>
     </entry>
-    <entry name="nvencEnabled" type="Bool">
-      <label>Enables nvenc hw accel in encoders.</label>
-      <default>false</default>
+    <entry name="SupportedHWCodecs" type="StringList">
+      <label>Lists supported hw accel encoders.</label>
+      <default></default>
     </entry>
     <entry name="nvScalingEnabled" type="Bool">
       <label>Enables nvenc hw accel scaling.</label>
@@ -1319,4 +1319,14 @@
            <default></default>
        </entry>
    </group>
+    <group name="Media Browser">
+    <entry name="mediaIconSize" type="Int">
+      <label>Default size for media browser icons.</label>
+      <default>16</default>
+    </entry>
+    <entry name="mediaDoubleClickImport" type="Bool">
+      <label>Show inline preview in media browser.</label>
+      <default>true</default>
+    </entry>
+    </group>
 </kcfg>

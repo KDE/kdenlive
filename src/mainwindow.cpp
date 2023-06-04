@@ -9,6 +9,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "audiomixer/mixermanager.hpp"
 #include "bin/clipcreator.hpp"
 #include "bin/generators/generators.h"
+#include "bin/mediabrowser.h"
 #include "bin/model/subtitlemodel.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectfolder.h"
@@ -71,6 +72,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "jogshuttle/jogmanager.h"
 #endif
 
+#include "kwidgetsaddons_version.h"
 #include "utils/KMessageBox_KdenliveCompat.h"
 #include <KAboutData>
 #include <KActionCollection>
@@ -83,7 +85,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KIconTheme>
 #include <KLocalizedString>
 #include <KMessageBox>
+#include "knewstuff_version.h"
+#if KNEWSTUFF_VERSION >= QT_VERSION_CHECK(5, 240, 0)
+#include <KNSWidgets/Dialog>
+#else
 #include <KNS3/QtQuickDialogWrapper>
+#endif
 #include <KNotifyConfigWidget>
 #include <KRecentDirs>
 #include <KShortcutsDialog>
@@ -355,7 +362,7 @@ void MainWindow::init(const QString &mltPath)
     m_projectBinDock = addDock(i18n("Project Bin"), QStringLiteral("project_bin"), pCore->bin());
 
     // Media browser widget
-    QDockWidget *clipDockWidget = addDock(i18n("Media Browser"), QStringLiteral("bin_clip"), pCore->bin()->initBrowserWidget());
+    QDockWidget *clipDockWidget = addDock(i18n("Media Browser"), QStringLiteral("bin_clip"), pCore->mediaBrowser());
 
     // Online resources widget
     auto *onlineResources = new ResourceWidget(this);
@@ -878,6 +885,9 @@ void MainWindow::init(const QString &mltPath)
     m_hamburgerMenu->setMenuBar(menuBar());
     m_hamburgerMenu->setShowMenuBarAction(showMenuBarAction);
 
+    // Detect shortcut conflicts bewtween mainwindow and media browser
+    pCore->mediaBrowser()->detectShortcutConflicts();
+
     connect(toolBar(), &KToolBar::visibilityChanged, this, [&, showMenuBarAction](bool visible) {
         if (visible && !toolBar()->actions().contains(m_hamburgerMenu)) {
             // hack to be able to insert the hamburger menu at the first position
@@ -1143,7 +1153,11 @@ void MainWindow::setupActions()
     sceneMode->addAction(m_overwriteEditTool);
     sceneMode->addAction(m_insertEditTool);
     sceneMode->setCurrentItem(0);
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 240, 0)
+    connect(sceneMode, &KSelectAction::actionTriggered, this, &MainWindow::slotChangeEdit);
+#else
     connect(sceneMode, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &MainWindow::slotChangeEdit);
+#endif
     addAction(QStringLiteral("timeline_mode"), sceneMode);
     actionCollection()->setShortcutsConfigurable(sceneMode, false);
 
@@ -1591,10 +1605,13 @@ void MainWindow::setupActions()
     QAction *insertBinZone = addAction(QStringLiteral("insert_project_tree"), i18n("Insert Zone in Project Bin"), this, SLOT(slotInsertZoneToTree()),
                                        QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")), Qt::CTRL | Qt::Key_I);
     insertBinZone->setWhatsThis(xi18nc("@info:whatsthis", "Creates a new clip in the project bin from the defined zone."));
+
+    // TODO: Make these 2 shortcuts context aware to avoid conflict with media browser
     addAction(QStringLiteral("monitor_seek_snap_backward"), i18n("Go to Previous Snap Point"), this, SLOT(slotSnapRewind()),
               QIcon::fromTheme(QStringLiteral("media-seek-backward")), Qt::ALT | Qt::Key_Left, QStringLiteral("navandplayback"));
     addAction(QStringLiteral("monitor_seek_snap_forward"), i18n("Go to Next Snap Point"), this, SLOT(slotSnapForward()),
               QIcon::fromTheme(QStringLiteral("media-seek-forward")), Qt::ALT | Qt::Key_Right, QStringLiteral("navandplayback"));
+
     addAction(QStringLiteral("seek_clip_start"), i18n("Go to Clip Start"), this, SLOT(slotClipStart()), QIcon::fromTheme(QStringLiteral("media-seek-backward")),
               Qt::Key_Home, QStringLiteral("navandplayback"));
     addAction(QStringLiteral("seek_clip_end"), i18n("Go to Clip End"), this, SLOT(slotClipEnd()), QIcon::fromTheme(QStringLiteral("media-seek-forward")),
@@ -2524,6 +2541,8 @@ void MainWindow::slotEditKeys()
     }
 #endif
     dialog.addCollection(actionCollection(), i18nc("general keyboard shortcuts", "General"));
+    // Update the shortcut conflicts list bewtween mainwindow and media browser
+    connect(&dialog, &KShortcutsDialog::saved, pCore->mediaBrowser(), &MediaBrowser::detectShortcutConflicts);
     dialog.configure();
 }
 
@@ -3578,7 +3597,11 @@ void MainWindow::slotResizeItemEnd()
 #if KXMLGUI_VERSION < QT_VERSION_CHECK(5, 98, 0)
 int MainWindow::getNewStuff(const QString &configFile)
 {
+#if KNEWSTUFF_VERSION > QT_VERSION_CHECK(5, 240, 0)
+    KNSWidgets::Dialog dialog(configFile);
+#else
     KNS3::QtQuickDialogWrapper dialog(configFile);
+#endif
     const QList<KNSCore::EntryInternal> entries = dialog.exec();
     for (const auto &entry : qAsConst(entries)) {
         if (entry.status() == KNS3::Entry::Installed) {

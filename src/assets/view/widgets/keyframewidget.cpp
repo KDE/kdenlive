@@ -114,7 +114,11 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     curve->setCheckable(true);
     m_selectType->addAction(curve);
     m_selectType->setCurrentAction(linear);
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 240, 0)
+    connect(m_selectType, &KSelectAction::actionTriggered, this, &KeyframeWidget::slotEditKeyframeType);
+#else
     connect(m_selectType, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &KeyframeWidget::slotEditKeyframeType);
+#endif
     m_selectType->setToolBarMode(KSelectAction::MenuMode);
     m_selectType->setToolTip(i18n("Keyframe interpolation"));
     m_selectType->setWhatsThis(xi18nc("@info:whatsthis", "Keyframe interpolation. This defines which interpolation will be used for the current keyframe."));
@@ -182,8 +186,13 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
         kfType->setCurrentAction(linear2);
         break;
     }
-    connect(kfType, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this,
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 240, 0)
+    connect(kfType, &KSelectAction::actionTriggered, this,
             [&](QAction *ac) { KdenliveSettings::setDefaultkeyframeinterp(ac->data().toInt()); });
+#else
+    connect(kfType, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this,
+                [&](QAction *ac) { KdenliveSettings::setDefaultkeyframeinterp(ac->data().toInt()); });
+#endif
 
     // rotoscoping only supports linear keyframes
     if (m_model->getAssetId() == QLatin1String("rotoscoping")) {

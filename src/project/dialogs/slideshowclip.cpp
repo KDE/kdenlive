@@ -81,7 +81,7 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
     if (clipFolder.isEmpty()) {
         clipFolder = QDir::homePath();
     }
-    m_view.folder_url->setUrl(QUrl::fromLocalFile(clipFolder));
+    m_view.folder_url->setUrl(QUrl::fromLocalFile(QFileInfo(clipFolder).dir().absolutePath()));
 
     m_view.clip_duration_format->addItem(i18n("hh:mm:ss:ff"));
     m_view.clip_duration_format->addItem(i18n("Frames"));
@@ -106,14 +106,23 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
             m_view.pattern_url->setText(url);
         }
     } else {
-        if (!KdenliveSettings::slideshowmimeextension().isEmpty()) {
-            int ix = m_view.image_type->findData(KdenliveSettings::slideshowmimeextension());
+        // Using clipfolder file path
+        QFileInfo file(clipFolder);
+        QString extension = KdenliveSettings::slideshowmimeextension();
+        if (file.isFile()) {
+            extension = file.suffix();
+            m_view.folder_url->setText(file.dir().absolutePath());
+        }
+        if (!extension.isEmpty()) {
+            int ix = m_view.image_type->findData(extension);
             if (ix > -1) {
                 m_view.image_type->setCurrentIndex(ix);
             }
         }
+        m_view.pattern_url->setUrl(QUrl::fromLocalFile(clipFolder));
         m_view.method_mime->setChecked(KdenliveSettings::slideshowbymime());
         slotMethodChanged(m_view.method_mime->isChecked());
+        parseFolder();
     }
     connect(m_view.method_mime, &QAbstractButton::toggled, this, &SlideshowClip::slotMethodChanged);
     connect(m_view.image_type, SIGNAL(currentIndexChanged(int)), this, SLOT(parseFolder()));
@@ -290,7 +299,7 @@ void SlideshowClip::parseFolder()
                 filter.remove(filter.count() - 1, 1);
             }
         }
-        // qCDebug(KDENLIVE_LOG) << " / /" << path_pattern << " / " << ext << " / " << filter;
+        qDebug() << " / /" << path_pattern << " / " << ext << " / " << filter;
         QString regexp = QLatin1Char('^') + filter + QStringLiteral("\\d+\\.") + ext + QLatin1Char('$');
         static const QRegularExpression rx(QRegularExpression::anchoredPattern(regexp));
         QStringList entries;

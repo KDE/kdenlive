@@ -27,6 +27,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "widgets/timecodedisplay.h"
 #include "xml/xml.hpp"
 
+#include <KDirOperator>
+#include <KFileWidget>
 #include <KIO/RenameDialog>
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -245,10 +247,10 @@ void ClipCreationDialog::createAnimationClip(KdenliveDoc *doc, const QString &pa
     pCore->projectItemModel()->requestAddBinClip(clipId, xml.documentElement(), parentId, i18n("Create Animation clip"));
 }
 
-void ClipCreationDialog::createPlaylistClip(const QString &name, std::pair<int, int> tracks, const QString &parentFolder,
-                                            std::shared_ptr<ProjectItemModel> model)
+const QString ClipCreationDialog::createPlaylistClip(const QString &name, std::pair<int, int> tracks, const QString &parentFolder,
+                                                     std::shared_ptr<ProjectItemModel> model)
 {
-    ClipCreator::createPlaylistClip(name, tracks, parentFolder, std::move(model));
+    return ClipCreator::createPlaylistClip(name, tracks, parentFolder, model);
 }
 
 void ClipCreationDialog::createQTextClip(const QString &parentId, Bin *bin, ProjectClip *clip)
@@ -356,7 +358,6 @@ void ClipCreationDialog::createSlideshowClip(KdenliveDoc *doc, const QString &pa
         properties[QStringLiteral("softness")] = QString::number(dia->softness());
         properties[QStringLiteral("animation")] = dia->animation();
         properties[QStringLiteral("low-pass")] = QString::number(dia->lowPass());
-
         int duration = doc->getFramePos(dia->clipDuration()) * dia->imageCount();
         ClipCreator::createSlideshowClip(dia->selectedPath(), duration, dia->clipName(), parentId, properties, std::move(model));
     }
@@ -463,9 +464,16 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &par
     QString allExtensions = getExtensions().join(QLatin1Char(' '));
     QString dialogFilter = allExtensions + QLatin1Char('|') + i18n("All Supported Files") + QStringLiteral("\n*|") + i18n("All Files");
     QCheckBox *b = new QCheckBox(i18n("Import image sequence"));
+    b->setToolTip(i18n("Try to import an image sequence"));
+    b->setWhatsThis(
+        xi18nc("@info:whatsthis", "When enabled, Kdenlive will look for other images with the same name pattern and import them as an image sequence."));
     b->setChecked(KdenliveSettings::autoimagesequence());
     QCheckBox *bf = new QCheckBox(i18n("Ignore subfolder structure"));
     bf->setChecked(KdenliveSettings::ignoresubdirstructure());
+    bf->setToolTip(i18n("Do not create subfolders in Project Bin"));
+    bf->setWhatsThis(
+        xi18nc("@info:whatsthis",
+               "When enabled, Kdenlive will import all clips contained in the folder and its subfolders without creating the subfolders in Project Bin."));
     QFrame *f = new QFrame();
     f->setFrameShape(QFrame::NoFrame);
     auto *l = new QHBoxLayout;
@@ -550,71 +558,4 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &par
     if (!id.isEmpty()) {
         pCore->pushUndo(undo, redo, i18np("Add clip", "Add clips", list.size()));
     }
-}
-
-KFileWidget *ClipCreationDialog::browserWidget(QWidget *parent)
-{
-    QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
-    KFileWidget *fileWidget = new KFileWidget(QUrl::fromLocalFile(clipFolder), parent);
-    fileWidget->setMode(KFile::Files | KFile::ExistingOnly | KFile::LocalOnly | KFile::Directory);
-    QString allExtensions = getExtensions().join(QLatin1Char(' '));
-    QString dialogFilter = allExtensions + QLatin1Char('|') + i18n("All Supported Files") + QStringLiteral("\n*|") + i18n("All Files");
-
-    QPushButton *importseq = new QPushButton(i18n("Import image sequence"));
-    // Make importseq checkable so that we can differentiate between a double click in filewidget and a click on the pushbutton
-    importseq->setCheckable(true);
-    QCheckBox *b = new QCheckBox(i18n("Ignore subfolder structure"));
-    b->setChecked(KdenliveSettings::ignoresubdirstructure());
-    QFrame *f = new QFrame();
-    f->setFrameShape(QFrame::NoFrame);
-    auto *l = new QHBoxLayout;
-    l->addWidget(b);
-    l->addStretch(5);
-    l->addWidget(importseq);
-    f->setLayout(l);
-    fileWidget->setCustomWidget(f);
-    // Required to only add file on double click and not on single click
-    fileWidget->setOperationMode(KFileWidget::Other);
-    QObject::connect(fileWidget, &KFileWidget::accepted, fileWidget, [fileWidget, importseq]() {
-        if (importseq->isChecked()) {
-            // We are importing an image sequence, abort
-            return;
-        }
-        fileWidget->accept();
-        QList<QUrl> urls = fileWidget->selectedUrls();
-        pCore->bin()->droppedUrls(urls);
-    });
-    fileWidget->setFilter(dialogFilter);
-    QObject::connect(b, &QCheckBox::toggled, [](bool checked) { KdenliveSettings::setIgnoresubdirstructure(checked); });
-    QObject::connect(importseq, &QPushButton::clicked, fileWidget, [=] {
-        fileWidget->slotOk();
-        Q_EMIT fileWidget->accepted();
-        fileWidget->accept();
-        QUrl url = fileWidget->selectedUrl();
-        QStringList patternlist;
-        QString pattern = SlideshowClip::selectedPath(url, false, QString(), &patternlist);
-        int count = patternlist.size();
-
-        QString fileName = url.fileName().section(QLatin1Char('.'), 0, -2);
-        importseq->setChecked(false);
-        if (count >= 1) {
-            while (fileName.size() > 0 && fileName.at(fileName.size() - 1).isDigit()) {
-                fileName.chop(1);
-            }
-            QString parentFolder = "-1";
-            KdenliveDoc *doc = pCore->currentDoc();
-            QString duration = doc->timecode().reformatSeparators(KdenliveSettings::sequence_duration());
-            std::unordered_map<QString, QString> properties;
-            properties[QStringLiteral("ttl")] = QString::number(doc->getFramePos(duration));
-            properties[QStringLiteral("loop")] = QString::number(0);
-            properties[QStringLiteral("crop")] = QString::number(0);
-            properties[QStringLiteral("fade")] = QString::number(0);
-            properties[QStringLiteral("luma_duration")] =
-                QString::number(doc->getFramePos(doc->timecode().getTimecodeFromFrames(int(ceil(doc->timecode().fps())))));
-            int frame_duration = doc->getFramePos(duration) * count;
-            ClipCreator::createSlideshowClip(pattern, frame_duration, fileName, parentFolder, properties, pCore->projectItemModel());
-            return;
-        }
-    });
-    return fileWidget;
 }

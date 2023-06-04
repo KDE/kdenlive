@@ -29,6 +29,17 @@ namespace Xml {
  */
 bool docContentFromFile(QDomDocument &doc, const QString &fileName, bool namespaceProcessing);
 
+/** @brief Write the content of the given @param doc from to file.
+ *
+ *  It makes sure that the file is open for writing
+ *
+ *  @param doc
+ *  @param fileName
+ *
+ *  @returns false if an error occured while writing the document to the file
+ */
+bool docContentToFile(const QDomDocument &doc, const QString &fileName);
+
 /** @brief Returns the content of a given tag within the current DomElement.
    For example, if your \@param element looks like <html><title>foo</title><head>bar</head></html>, passing \@tagName = "title" will return foo, and \@tagName
    = "head" returns bar

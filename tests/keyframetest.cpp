@@ -261,5 +261,4 @@ TEST_CASE("Keyframe model", "[KeyframeModel]")
         undoStack->undo();
         state1(6.1);
     }
-    pCore->m_projectManager = nullptr;
 }

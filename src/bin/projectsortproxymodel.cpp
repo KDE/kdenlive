@@ -37,7 +37,7 @@ bool ProjectSortProxyModel::filterAcceptsRowItself(int sourceRow, const QModelIn
         // Column 8 contains the usage
         QModelIndex indexTag = sourceModel()->index(sourceRow, 8, sourceParent);
         int usageCount = sourceModel()->data(indexTag).toInt();
-        if (usageCount > 0 && m_usageFilter == UsageFilter::Unused || usageCount == 0 && m_usageFilter == UsageFilter::Used) {
+        if ((usageCount > 0 && m_usageFilter == UsageFilter::Unused) || (usageCount == 0 && m_usageFilter == UsageFilter::Used)) {
             return false;
         }
     }

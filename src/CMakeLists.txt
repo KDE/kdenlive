@@ -160,21 +160,21 @@ target_include_directories(kdenliveLib
 # (to avoid breaking builds when KDE and/or Qt are installed to different
 # prefixes).
 target_link_libraries(kdenliveLib
-    KF5::WidgetsAddons
-    KF5::Archive
-    KF5::CoreAddons
-    KF5::KIOCore
-    KF5::KIOFileWidgets
-    KF5::KIOWidgets
-    KF5::NotifyConfig
-    KF5::XmlGui
-    KF5::GuiAddons
-    KF5::Notifications
-    KF5::TextWidgets
-    KF5::Declarative
-    KF5::IconThemes
-    KF5::Solid
-    KF5::FileMetaData
+    KF${KF_MAJOR}::WidgetsAddons
+    KF${KF_MAJOR}::Archive
+    KF${KF_MAJOR}::CoreAddons
+    KF${KF_MAJOR}::KIOCore
+    KF${KF_MAJOR}::Codecs
+    KF${KF_MAJOR}::KIOFileWidgets
+    KF${KF_MAJOR}::KIOWidgets
+    KF${KF_MAJOR}::NotifyConfig
+    KF${KF_MAJOR}::XmlGui
+    KF${KF_MAJOR}::GuiAddons
+    KF${KF_MAJOR}::Notifications
+    KF${KF_MAJOR}::TextWidgets
+    KF${KF_MAJOR}::IconThemes
+    KF${KF_MAJOR}::Solid
+    KF${KF_MAJOR}::FileMetaData
     ${OPENGL_LIBRARIES}
     ${OPENGLES_LIBRARIES}
     ${MLT_LIBRARIES}
@@ -183,12 +183,17 @@ target_link_libraries(kdenliveLib
     ${CMAKE_THREAD_LIBS_INIT}
     kiss_fft)
 
-if(KF5NewStuff_VERSION VERSION_LESS "5.90")
+if(KF${KF_MAJOR}NewStuff_VERSION VERSION_LESS "5.90")
     target_link_libraries(kdenliveLib
-        KF5::NewStuff)
+        KF${KF_MAJOR}::NewStuff)
 else()
     target_link_libraries(kdenliveLib
-        KF5::NewStuffWidgets)
+        KF${KF_MAJOR}::NewStuffWidgets)
+endif()
+
+if (KF_MAJOR LESS "6")
+    target_link_libraries(kdenliveLib
+        KF${KF_MAJOR}::Declarative)
 endif()
 
 if(USE_VERSIONLESS_TARGETS)
@@ -215,7 +220,7 @@ if (QT_MAJOR_VERSION STREQUAL "6")
 endif()
 
 if(NOT NODBUS)
-  target_link_libraries(kdenliveLib KF5::DBusAddons)
+  target_link_libraries(kdenliveLib KF${KF_MAJOR}::DBusAddons)
 endif()
 if(BUILD_COVERAGE)
   target_link_libraries(kdenliveLib gcov)
@@ -237,14 +242,14 @@ if(DRMINGW_FOUND)
     target_compile_definitions(kdenlive PRIVATE -DUSE_DRMINGW)
     target_include_directories(kdenlive SYSTEM PRIVATE ${DRMINGW_INCLUDE_DIR})
     target_link_libraries(kdenlive ${DRMINGW_LIBRARY})
-elseif(KF5Crash_FOUND)
+elseif(KF${KF_MAJOR}Crash_FOUND)
     target_compile_definitions(kdenlive PRIVATE -DKF5_USE_CRASH)
-    target_link_libraries(kdenlive KF5::Crash)
+    target_link_libraries(kdenlive KF${KF_MAJOR}::Crash)
 endif()
 
 if(KF5_PURPOSE)
     target_compile_definitions(kdenliveLib PRIVATE -DKF5_USE_PURPOSE)
-    target_link_libraries(kdenliveLib KF5::Purpose KF5::PurposeWidgets)
+    target_link_libraries(kdenliveLib KF${KF_MAJOR}::Purpose KF${KF_MAJOR}::PurposeWidgets)
 endif()
 
 if(Q_WS_X11)

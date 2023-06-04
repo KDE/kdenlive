@@ -6,6 +6,7 @@ set(kdenlive_SRCS
   bin/binplaylist.cpp
   bin/clipcreator.cpp
   bin/filewatcher.cpp
+  bin/mediabrowser.cpp
   bin/generators/generators.cpp
   bin/model/markerlistmodel.cpp
   bin/model/markersortmodel.cpp

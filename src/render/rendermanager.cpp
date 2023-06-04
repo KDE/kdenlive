@@ -82,7 +82,7 @@ void RenderManager::prepareRendering(KdenliveDoc *project, const QDomDocument &d
 
     if (job.embedSubtitle && project->hasSubtitles()) {
         // disable subtitle filter(s) as they will be embeded in a second step of rendering
-        disableSubtitles(doc);
+        KdenliveDoc::disableSubtitles(doc);
     }
     const QUuid currentUuid = pCore->currentTimelineId();
 
@@ -301,7 +301,7 @@ void RenderManager::generateRenderFiles(RenderJob job, QDomDocument doc, int in,
                 finalConsumer.removeAttribute("fastfirstpass");
             }
         }
-        writeToFile(final, playlistName);
+        Xml::docContentToFile(final, playlistName);
     }
 
     // startRendering()
@@ -347,16 +347,6 @@ bool RenderManager::startRendering(RenderJob job)
     }
 #endif
     return true;
-}
-
-void RenderManager::disableSubtitles(QDomDocument &doc)
-{
-    QDomNodeList filters = doc.elementsByTagName(QStringLiteral("filter"));
-    for (int i = 0; i < filters.length(); ++i) {
-        if (Xml::getXmlProperty(filters.item(i).toElement(), QStringLiteral("mlt_service")) == QLatin1String("avfilter.subtitles")) {
-            Xml::setXmlProperty(filters.item(i).toElement(), QStringLiteral("disable"), QStringLiteral("1"));
-        }
-    }
 }
 
 void RenderManager::setAutoClosePlaylists(QDomDocument &doc)
@@ -468,24 +458,7 @@ void RenderManager::prepareMultiAudioFiles(QMap<QString, QString> &renderFiles, 
                 }
             }
         }
-        writeToFile(docCopy, playlistFile);
+        Xml::docContentToFile(docCopy, playlistFile);
         audioCount++;
     }
-}
-
-bool RenderManager::writeToFile(const QDomDocument &doc, const QString &filename)
-{
-    QFile file(filename);
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        pCore->displayMessage(i18n("Cannot write to file %1", filename), ErrorMessage);
-        return false;
-    }
-    file.write(doc.toString().toUtf8());
-    if (file.error() != QFile::NoError) {
-        pCore->displayMessage(i18n("Cannot write to file %1", filename), ErrorMessage);
-        file.close();
-        return false;
-    }
-    file.close();
-    return true;
 }

@@ -24,24 +24,13 @@ TEST_CASE("Remove all spaces", "[Spacer]")
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
     KdenliveDoc document(undoStack, {1, 2});
-    Mock<KdenliveDoc> docMock(document);
-    KdenliveDoc &mockedDoc = docMock.get();
 
-    // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
-    Mock<ProjectManager> pmMock;
-    When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
-    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
-    When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
-
-    ProjectManager &mocked = pmMock.get();
-    pCore->m_projectManager = &mocked;
-
-    mocked.m_project = &mockedDoc;
+    pCore->projectManager()->m_project = &document;
     QDateTime documentDate = QDateTime::currentDateTime();
-    mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
-    auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
-    mocked.m_activeTimelineModel = timeline;
-    mocked.testSetActiveDocument(&mockedDoc, timeline);
+    pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    auto timeline = document.getTimeline(document.uuid());
+    pCore->projectManager()->m_activeTimelineModel = timeline;
+    pCore->projectManager()->testSetActiveDocument(&document, timeline);
 
     int tid1 = timeline->getTrackIndexFromPosition(2);
     int tid2 = timeline->getTrackIndexFromPosition(1);
@@ -257,7 +246,5 @@ TEST_CASE("Remove all spaces", "[Spacer]")
         undoStack->undo();
         state1();*/
     }
-
-    binModel->clean();
-    pCore->m_projectManager = nullptr;
+    pCore->projectManager()->closeCurrentDocument(false, false);
 }

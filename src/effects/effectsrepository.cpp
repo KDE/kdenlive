@@ -159,11 +159,7 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
                     result.type = AssetListType::AssetType::Custom;
                     currentEffect.setAttribute(QStringLiteral("type"), QStringLiteral("customVideo"));
                 }
-                QFile effectFile(file_name);
-                if (effectFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                    effectFile.write(doc.toString().toUtf8());
-                }
-                effectFile.close();
+                Xml::docContentToFile(doc, file_name);
             }
         } else if (type == QLatin1String("text")) {
             result.type = AssetListType::AssetType::Text;

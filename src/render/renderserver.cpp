@@ -6,7 +6,7 @@
 #include "renderserver.h"
 #include "core.h"
 #include "mainwindow.h"
-#include <KI18n/KLocalizedString>
+#include <KLocalizedString>
 #include <QCoreApplication>
 #include <QJsonDocument>
 

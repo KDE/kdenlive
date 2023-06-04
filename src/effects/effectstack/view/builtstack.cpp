@@ -11,24 +11,27 @@
 #include "effects/effectstack/model/effectstackmodel.hpp"
 //#include "qml/colorwheelitem.h"
 
-#include <KDeclarative/KDeclarative>
 #include <QQmlContext>
 #include <QQuickItem>
-#include <kdeclarative_version.h>
-#if KDECLARATIVE_VERSION >= QT_VERSION_CHECK(5, 98, 0)
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+#include "kdeclarative_version.h"
+#endif
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0) || KDECLARATIVE_VERSION > QT_VERSION_CHECK(5, 98, 0)
 #include <KQuickIconProvider>
+#else
+#include <KDeclarative/KDeclarative>
 #endif
 
 BuiltStack::BuiltStack(AssetPanel *parent)
     : QQuickWidget(parent)
     , m_model(nullptr)
 {
-#if KDECLARATIVE_VERSION < QT_VERSION_CHECK(5, 98, 0)
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0) || KDECLARATIVE_VERSION > QT_VERSION_CHECK(5, 98, 0)
+    engine()->addImageProvider(QStringLiteral("icon"), new KQuickIconProvider);
+#else
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());
     kdeclarative.setupEngine(engine());
-#else
-    engine()->addImageProvider(QStringLiteral("icon"), new KQuickIconProvider);
 #endif
     engine()->rootContext()->setContextObject(new KLocalizedContext(this));
 

@@ -49,7 +49,9 @@
 #include <QClipboard>
 #include <QFontDatabase>
 #include <QQuickItem>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QTextCodec>
+#endif
 #include <QtMath>
 
 #include <memory>
@@ -2645,39 +2647,15 @@ void TimelineController::loadPreview(const QString &chunks, const QString &dirty
 
 void TimelineController::saveSequenceProperties()
 {
-    const QStringList passProperties = {QStringLiteral("groups"), QStringLiteral("zoom"), QStringLiteral("verticalzoom"), QStringLiteral("thumbnailFrame")};
-    for (auto &prop : passProperties) {
-        const QString propValue = pCore->currentDoc()->getSequenceProperty(m_model->uuid(), prop);
-        m_model->tractor()->set(QString("kdenlive:sequenceproperties.%1").arg(prop).toUtf8().constData(), propValue.toUtf8().constData());
-    }
-    m_model->tractor()->set("kdenlive:sequenceproperties.documentuuid", pCore->currentDoc()->uuid().toString().toUtf8().constData());
-    // Save timeline guides
-    const QString guidesData = m_model->getGuideModel()->toJson();
-    m_model->tractor()->set("kdenlive:sequenceproperties.guides", guidesData.toUtf8().constData());
-    int audioTarget = m_model->m_audioTarget.isEmpty() ? -1 : m_model->getTrackPosition(m_model->m_audioTarget.firstKey());
-    int videoTarget = m_model->m_videoTarget == -1 ? -1 : m_model->getTrackPosition(m_model->m_videoTarget);
     int activeTrack = m_activeTrack < 0 ? m_activeTrack : m_model->getTrackPosition(m_activeTrack);
-    m_model->tractor()->set("kdenlive:sequenceproperties.audioTarget", audioTarget);
-    m_model->tractor()->set("kdenlive:sequenceproperties.videoTarget", videoTarget);
     m_model->tractor()->set("kdenlive:sequenceproperties.activeTrack", activeTrack);
-    QPair<int, int> tracks = m_model->getAVtracksCount();
-    m_model->tractor()->set("kdenlive:sequenceproperties.hasAudio", tracks.first > 0 ? 1 : 0);
-    m_model->tractor()->set("kdenlive:sequenceproperties.hasVideo", tracks.second > 0 ? 1 : 0);
-    m_model->tractor()->set("kdenlive:sequenceproperties.tracksCount", tracks.first + tracks.second);
-
-    m_model->tractor()->set("kdenlive:sequenceproperties.position", pCore->getMonitorPosition());
     QVariant returnedValue;
     QMetaObject::invokeMethod(m_root, "getScrollPos", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
     int scrollPos = returnedValue.toInt();
     m_model->tractor()->set("kdenlive:sequenceproperties.scrollPos", scrollPos);
     m_model->tractor()->set("kdenlive:sequenceproperties.zonein", m_zone.x());
     m_model->tractor()->set("kdenlive:sequenceproperties.zoneout", m_zone.y());
-    if (m_model->hasTimelinePreview()) {
-        QPair<QStringList, QStringList> chunks = m_model->previewManager()->previewChunks();
-        m_model->tractor()->set("kdenlive:sequenceproperties.previewchunks", chunks.first.join(QLatin1Char(',')).toUtf8().constData());
-        m_model->tractor()->set("kdenlive:sequenceproperties.dirtypreviewchunks", chunks.second.join(QLatin1Char(',')).toUtf8().constData());
-    }
-    m_model->tractor()->set("kdenlive:sequenceproperties.disablepreview", m_disablePreview->isChecked());
+    tractor()->set("kdenlive:sequenceproperties.disablepreview", m_disablePreview->isChecked());
 }
 
 QMap<QString, QString> TimelineController::documentProperties()
