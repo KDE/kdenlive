@@ -13,6 +13,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "core.h"
 #include "projectsettings.h"
 #include "titler/titlewidget.h"
+#include "utils/qstringutils.h"
 #include "xml/xml.hpp"
 
 #include "doc/kdenlivedoc.h"
@@ -455,15 +456,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
             }
         } else if (filesList.contains(fileName) && !filesPath.contains(file)) {
             // we have 2 different files with same name
-            int i = 0;
-            QString newFileName =
-                fileName.section(QLatin1Char('.'), 0, -2) + QLatin1Char('_') + QString::number(i) + QLatin1Char('.') + fileName.section(QLatin1Char('.'), -1);
-            while (filesList.contains(newFileName)) {
-                i++;
-                newFileName = fileName.section(QLatin1Char('.'), 0, -2) + QLatin1Char('_') + QString::number(i) + QLatin1Char('.') +
-                              fileName.section(QLatin1Char('.'), -1);
-            }
-            fileName = newFileName;
+            QString fileName = QStringUtils::getUniqueName(filesList, fileName);
             item->setData(0, Qt::UserRole, fileName);
         }
         if (!isSlideshow) {
@@ -548,15 +541,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
             }
         } else if (filesList.contains(fileName) && !filesPath.contains(file)) {
             // we have 2 different files with same name
-            int index2 = 0;
-            QString newFileName = fileName.section(QLatin1Char('.'), 0, -2) + QLatin1Char('_') + QString::number(index2) + QLatin1Char('.') +
-                                  fileName.section(QLatin1Char('.'), -1);
-            while (filesList.contains(newFileName)) {
-                index2++;
-                newFileName = fileName.section(QLatin1Char('.'), 0, -2) + QLatin1Char('_') + QString::number(index2) + QLatin1Char('.') +
-                              fileName.section(QLatin1Char('.'), -1);
-            }
-            fileName = newFileName;
+            QString fileName = QStringUtils::getUniqueName(filesList, fileName);
             item->setData(0, Qt::UserRole, fileName);
         }
         if (!isSlideshow) {
