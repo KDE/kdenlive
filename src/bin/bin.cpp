@@ -2074,17 +2074,10 @@ void Bin::slotDuplicateClip()
             if (clip && clip->clipType() == ClipType::Timeline) {
                 // For duplicated timeline clips, we need to build the timelinemodel otherwise the producer is not correctly saved
                 const QUuid uuid = clip->getSequenceUuid();
-                Fun local_redo = [uuid, binId]() { return pCore->projectManager()->openTimeline(binId, uuid); };
-                Fun local_undo = [uuid]() {
-                    if (pCore->projectManager()->closeTimeline(uuid)) {
-                        pCore->window()->closeTimeline(uuid);
-                    }
-                    return true;
-                };
-                local_redo();
-                pCore->pushUndo(local_undo, local_redo, i18n("Open sequence"));
+                return pCore->projectManager()->openTimeline(binId, uuid, -1, true);
             }
         }
+        return true;
     };
     int ix = 0;
     QString lastId;
