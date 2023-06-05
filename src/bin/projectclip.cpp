@@ -566,6 +566,7 @@ QPixmap ProjectClip::thumbnail(int width, int height)
 bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool generateThumb, bool clearTrackProducers)
 {
     qDebug() << "################### ProjectClip::setproducer #################";
+    // Discard running tasks for this producer
     QMutexLocker locker(&m_producerMutex);
     FileStatus::ClipStatus currentStatus = m_clipStatus;
     bool skipProducer = false;
@@ -590,12 +591,13 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
             skipProducer = true;
         }
     }
+    updateProducer(producer);
     pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::LOADJOB);
     // Abort thumbnail tasks if any
     m_thumbMutex.lock();
     m_thumbsProducer.reset();
-    updateProducer(producer);
     m_thumbMutex.unlock();
+
     isReloading = false;
     // Make sure we have a hash for this clip
     getFileHash();
@@ -629,6 +631,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     m_duration = getStringDuration();
     m_clipStatus = m_usesProxy ? FileStatus::StatusProxy : FileStatus::StatusReady;
     locker.unlock();
+
     if (m_clipStatus != currentStatus) {
         updateRoles << AbstractProjectItem::ClipStatus << AbstractProjectItem::IconOverlay;
         updateTimelineClips({TimelineModel::StatusRole, TimelineModel::ClipThumbRole});

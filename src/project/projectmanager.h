@@ -108,7 +108,7 @@ public:
     /** @brief Open a timeline clip in a tab.
      *  @returns true if the timeline was not previously opened
      */
-    bool openTimeline(const QString &id, const QUuid &uuid, int position = -1);
+    bool openTimeline(const QString &id, const QUuid &uuid, int position = -1, bool duplicate = false);
     /** @brief Set a property on timeline uuid
      */
     void setTimelinePropery(QUuid uuid, const QString &prop, const QString &val);

@@ -1576,7 +1576,7 @@ void ProjectManager::initSequenceProperties(const QUuid &uuid, std::pair<int, in
     m_project->setSequenceProperty(uuid, QStringLiteral("activeTrack"), activeTrack);
 }
 
-bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int position)
+bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int position, bool duplicate)
 {
     if (position > -1) {
         m_project->setSequenceProperty(uuid, QStringLiteral("position"), position);
@@ -1594,6 +1594,9 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
     bool internalLoad = false;
     if (tc != nullptr && tc->is_valid()) {
         internalLoad = true;
+        if (duplicate) {
+            pCore->projectItemModel()->setExtraTimelineSaved(uuid.toString());
+        }
     } else {
         xmlProd.reset(new Mlt::Producer(clip->originalProducer().get()));
         if (xmlProd == nullptr || !xmlProd->is_valid()) {
@@ -1658,7 +1661,9 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
             }
         });
         m_project->loadSequenceGroupsAndGuides(uuid);
-        clip->setProducer(prod, false, false);
+        if (!duplicate) {
+            clip->setProducer(prod, false, false);
+        }
         if (pCore->bin()) {
             pCore->bin()->registerSequence(uuid, id);
         }
