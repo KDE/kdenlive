@@ -19,6 +19,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "project/dialogs/noteswidget.h"
 #include "project/dialogs/projectsettings.h"
 #include "timeline2/model/timelinefunctions.hpp"
+#include "utils/qstringutils.h"
 #include "utils/thumbnailcache.hpp"
 #include "xml/xml.hpp"
 #include <audiomixer/mixermanager.hpp>
@@ -1500,9 +1501,7 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
 
     // Now update to new profile
     auto &newProfile = ProfileRepository::get()->getProfile(updatedProfile);
-    QString convertedFile = currentFile.section(QLatin1Char('.'), 0, -2);
-    double fpsRatio = newProfile->fps() / pCore->getCurrentFps();
-    convertedFile.append(QString("-%1.kdenlive").arg(int(newProfile->fps() * 100)));
+    QString convertedFile = QStringUtils::appendToFilename(currentFile, QString("-%1").arg(int(newProfile->fps() * 100)));
     QString saveFolder = m_project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile();
     QTemporaryFile tmpFile(saveFolder + "/kdenlive-XXXXXX.mlt");
     if (saveInTempFile) {
@@ -1553,6 +1552,7 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
         mltProfile.setAttribute(QStringLiteral("height"), newProfile->height());
     }
     QDomNodeList playlists = doc.documentElement().elementsByTagName(QStringLiteral("playlist"));
+    double fpsRatio = newProfile->fps() / pCore->getCurrentFps();
     for (int i = 0; i < playlists.count(); ++i) {
         QDomElement e = playlists.at(i).toElement();
         if (e.attribute(QStringLiteral("id")) == QLatin1String("main_bin")) {
@@ -1678,7 +1678,7 @@ void ProjectManager::initSequenceProperties(const QUuid &uuid, std::pair<int, in
     m_project->setSequenceProperty(uuid, QStringLiteral("activeTrack"), activeTrack);
 }
 
-bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int position)
+bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int position, bool duplicate)
 {
     if (position > -1) {
         m_project->setSequenceProperty(uuid, QStringLiteral("position"), position);
@@ -1696,6 +1696,9 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
     bool internalLoad = false;
     if (tc != nullptr && tc->is_valid()) {
         internalLoad = true;
+        if (duplicate) {
+            pCore->projectItemModel()->setExtraTimelineSaved(uuid.toString());
+        }
     } else {
         xmlProd.reset(new Mlt::Producer(clip->originalProducer().get()));
         if (xmlProd == nullptr || !xmlProd->is_valid()) {
@@ -1760,7 +1763,9 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
             }
         });
         m_project->loadSequenceGroupsAndGuides(uuid);
-        clip->setProducer(prod, false, false);
+        if (!duplicate) {
+            clip->setProducer(prod, false, false);
+        }
         if (pCore->bin()) {
             pCore->bin()->registerSequence(uuid, id);
         }

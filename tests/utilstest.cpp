@@ -16,7 +16,17 @@ TEST_CASE("Testing for different utils", "[Utils]")
         QString filename("myfile.mp4");
         QString appendix("-hello");
         QString newName = QStringUtils::appendToFilename(filename, appendix);
-
+        qDebug() << newName;
         REQUIRE(newName == QStringLiteral("myfile-hello.mp4"));
+    }
+
+    SECTION("Unique names should really be unique")
+    {
+        QStringList names;
+        for (int i = 0; i < 1000; i++) {
+            names << QStringUtils::getUniqueName(names, QStringLiteral("my923test.string-1"));
+        }
+
+        REQUIRE(names.removeDuplicates() == 0);
     }
 }

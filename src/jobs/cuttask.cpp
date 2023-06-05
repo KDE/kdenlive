@@ -16,6 +16,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "mainwindow.h"
 #include "profiles/profilemodel.hpp"
 #include "ui_cutjobdialog_ui.h"
+#include "utils/qstringutils.h"
 #include "xml/xml.hpp"
 
 #include <KIO/RenameDialog>
@@ -84,14 +85,13 @@ void CutTask::start(const ObjectId &owner, int in, int out, QObject *object, boo
         }
         warnMessage.append(i18n("Cannot copy audio codec %1, will re-encode.", audioCodec));
     }
-    QString transcoderExt = source.section(QLatin1Char('.'), -1);
-    transcoderExt.prepend(QLatin1Char('.'));
+
     QFileInfo finfo(source);
-    QString fileName = finfo.fileName().section(QLatin1Char('.'), 0, -2);
     QDir dir = finfo.absoluteDir();
     QString inString = QString::number(int(GenTime(in, pCore->getCurrentFps()).seconds()));
     QString outString = QString::number(int(GenTime(out, pCore->getCurrentFps()).seconds()));
-    QString path = dir.absoluteFilePath(fileName + QString("-%1-%2").arg(inString, outString) + transcoderExt);
+    QString fileName = QStringUtils::appendToFilename(finfo.fileName(), QString("-%1-%2").arg(inString, outString));
+    QString path = dir.absoluteFilePath(fileName);
 
     QPointer<QDialog> d = new QDialog(QApplication::activeWindow());
     Ui::CutJobDialog_UI ui;
@@ -123,6 +123,8 @@ void CutTask::start(const ObjectId &owner, int in, int out, QObject *object, boo
     ui.file_url->setMode(KFile::File);
     ui.extra_params->setMaximumHeight(QFontMetrics(QApplication::font()).lineSpacing() * 5);
     ui.file_url->setUrl(QUrl::fromLocalFile(path));
+
+    QString transcoderExt = QLatin1Char('.') + finfo.suffix();
 
     std::function<void()> callBack = [&ui, transcoderExt]() {
         if (ui.acodec->currentData().isNull()) {

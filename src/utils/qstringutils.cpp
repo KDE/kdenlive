@@ -1,3 +1,8 @@
+/*
+    SPDX-FileCopyrightText: 2023 Julius Künzel <jk.kdedev@smartlab.uber.space>
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
+
 #include "qstringutils.h"
 
 #include <QString>
@@ -7,7 +12,7 @@ QString QStringUtils::getUniqueName(const QStringList &names, const QString &nam
 {
     int i = 0;
     QString newName = name;
-    while (names.contains(name)) {
+    while (names.contains(newName)) {
         // name is not unique, add a suffix
         newName = name + QString("-%1").arg(i);
         i++;
@@ -19,5 +24,5 @@ QString QStringUtils::appendToFilename(const QString &filename, const QString &a
 {
     QString name = filename.section(QLatin1Char('.'), 0, -2);
     QString extension = filename.section(QLatin1Char('.'), -1);
-    return name + appendix + extension;
+    return name + appendix + QLatin1Char('.') + extension;
 }
