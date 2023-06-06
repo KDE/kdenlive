@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-05 00:46+0000\n"
+"POT-Creation-Date: 2023-06-06 00:46+0000\n"
 "PO-Revision-Date: 2023-05-28 17:02-0300\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -1401,7 +1401,7 @@ msgstr ""
 #: data/effects/mask_start_frei0r_select0r.xml:8
 #: data/effects/mask_start_rotoscoping.xml:8
 #: data/effects/mask_start_shape.xml:8 src/bin/bin.cpp:1393
-#: src/bin/bin.cpp:1398 src/bin/bin.cpp:2163
+#: src/bin/bin.cpp:1398 src/bin/bin.cpp:2156
 #, kde-format
 msgid "Filter"
 msgstr "Filtrar"
@@ -3623,7 +3623,7 @@ msgid "Enter the name of this preset:"
 msgstr "Ingresar el nombre del ajuste:"
 
 #: src/assets/view/widgets/buttonparamwidget.cpp:190
-#: src/project/dialogs/archivewidget.cpp:386
+#: src/project/dialogs/archivewidget.cpp:387
 #, kde-format
 msgid "Abort processing"
 msgstr "Interrumpir procesamiento"
@@ -4380,7 +4380,7 @@ msgstr "Borrar clips en bandeja"
 msgid "Missing source clip"
 msgstr "Clip original faltante"
 
-#: src/bin/bin.cpp:1845 src/bin/bin.cpp:2360
+#: src/bin/bin.cpp:1845 src/bin/bin.cpp:2353
 #: src/effects/effectlist/view/effectlistwidget.cpp:142
 #: src/renderpresets/renderpresetrepository.cpp:156
 #: src/renderpresets/renderpresetrepository.cpp:433
@@ -4388,7 +4388,7 @@ msgstr "Clip original faltante"
 msgid "Unable to write to file %1"
 msgstr "No es posible escribir en el archivo %1"
 
-#: src/bin/bin.cpp:1855 src/bin/bin.cpp:2369 src/doc/kdenlivedoc.cpp:718
+#: src/bin/bin.cpp:1855 src/bin/bin.cpp:2362 src/doc/kdenlivedoc.cpp:718
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -4440,85 +4440,80 @@ msgstr "Abrir archivo de reemplazo"
 msgid "Could not locate %1"
 msgstr "No fue posible ubicar %1"
 
-#: src/bin/bin.cpp:2027 src/timeline2/view/timelinecontroller.cpp:3850
-#, kde-format
-msgid "Open sequence"
-msgstr "Abrir secuencia"
-
-#: src/bin/bin.cpp:2045
+#: src/bin/bin.cpp:2038
 #, kde-format
 msgid "Could not create temporary file in %1"
 msgstr "No fue posible crear archivo temporal en %1"
 
-#: src/bin/bin.cpp:2053
+#: src/bin/bin.cpp:2046
 #, kde-format
 msgid "Duplicating sequence failed"
 msgstr "Falla al duplicar secuencia"
 
-#: src/bin/bin.cpp:2065
+#: src/bin/bin.cpp:2058
 #, kde-format
 msgid "%1 (copy)"
 msgstr "%1 (copia)"
 
-#: src/bin/bin.cpp:2080
+#: src/bin/bin.cpp:2073
 #, kde-format
 msgctxt "append to clip name to indicate a copied idem"
 msgid " (copy)"
 msgstr " (copia)"
 
-#: src/bin/bin.cpp:2085 src/bin/bin.cpp:2087
+#: src/bin/bin.cpp:2078 src/bin/bin.cpp:2080
 #, kde-format
 msgid "Duplicate clip"
 msgstr "Duplicar clip"
 
-#: src/bin/bin.cpp:2208
+#: src/bin/bin.cpp:2201
 #, kde-format
 msgid "Clear Filters"
 msgstr "Eliminar filtros"
 
-#: src/bin/bin.cpp:2214
+#: src/bin/bin.cpp:2207
 #, kde-format
 msgid "No Tags"
 msgstr "Sin etiquetas"
 
-#: src/bin/bin.cpp:2233
+#: src/bin/bin.cpp:2226
 #, kde-format
 msgid "%1 Star"
 msgid_plural "%1 Stars"
 msgstr[0] "%1 estrella"
 msgstr[1] "%1 estrellas"
 
-#: src/bin/bin.cpp:2240
+#: src/bin/bin.cpp:2233
 #, kde-format
 msgid "Filter by Usage"
 msgstr "Filtrar por uso"
 
-#: src/bin/bin.cpp:2243
+#: src/bin/bin.cpp:2236
 #, kde-format
 msgid "All Clips"
 msgstr "Todos los clips"
 
-#: src/bin/bin.cpp:2248
+#: src/bin/bin.cpp:2241
 #, kde-format
 msgid "Unused Clips"
 msgstr "Clips no usados"
 
-#: src/bin/bin.cpp:2252
+#: src/bin/bin.cpp:2245
 #, kde-format
 msgid "Used Clips"
 msgstr "Clips usados"
 
-#: src/bin/bin.cpp:2259
+#: src/bin/bin.cpp:2252
 #, kde-format
 msgid "Filter by Type"
 msgstr "Filtrar por tipo"
 
-#: src/bin/bin.cpp:2262
+#: src/bin/bin.cpp:2255
 #, kde-format
 msgid "AV Clip"
 msgstr "Video"
 
-#: src/bin/bin.cpp:2266
+#: src/bin/bin.cpp:2259
 #, kde-format
 msgid "Mute Video"
 msgstr "Video (sin audio)"
@@ -4527,7 +4522,7 @@ msgstr "Video (sin audio)"
 #. i18n: ectx: property (text), widget (QCheckBox, audio_thumbs)
 #. i18n: ectx: attribute (title), widget (QWidget, audio_tab)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/bin/bin.cpp:2270 src/effects/effectlist/model/effecttreemodel.cpp:60
+#: src/bin/bin.cpp:2263 src/effects/effectlist/model/effecttreemodel.cpp:60
 #: src/layoutmanagement.cpp:36 src/lib/audio/audioStreamInfo.cpp:24
 #: src/monitor/recmanager.cpp:47 src/onlineresources/resourcewidget.cpp:547
 #: src/ui/configcapture_ui.ui:525 src/ui/cutjobdialog_ui.ui:61
@@ -4537,63 +4532,63 @@ msgstr "Video (sin audio)"
 msgid "Audio"
 msgstr "Audio"
 
-#: src/bin/bin.cpp:2274 src/mltcontroller/clippropertiescontroller.cpp:432
+#: src/bin/bin.cpp:2267 src/mltcontroller/clippropertiescontroller.cpp:432
 #, kde-format
 msgid "Image"
 msgstr "Imagen"
 
-#: src/bin/bin.cpp:2278
+#: src/bin/bin.cpp:2271
 #, kde-format
 msgid "Slideshow"
 msgstr "Presentación"
 
-#: src/bin/bin.cpp:2282
+#: src/bin/bin.cpp:2275
 #, kde-format
 msgid "Playlist"
 msgstr "Lista de reproducción"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/bin/bin.cpp:2286 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/project/projectmanager.cpp:1257 src/project/projectmanager.cpp:1259
+#: src/bin/bin.cpp:2279 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
+#: src/project/projectmanager.cpp:1258 src/project/projectmanager.cpp:1260
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "Secuencia"
 
-#: src/bin/bin.cpp:2290 src/project/dialogs/projectsettings.cpp:216
+#: src/bin/bin.cpp:2283 src/project/dialogs/projectsettings.cpp:216
 #, kde-format
 msgid "Title"
 msgstr "Título"
 
-#: src/bin/bin.cpp:2294
+#: src/bin/bin.cpp:2287
 #, kde-format
 msgid "Title Template"
 msgstr "Plantilla de título"
 
-#: src/bin/bin.cpp:2298 src/layoutmanagement.cpp:38
+#: src/bin/bin.cpp:2291 src/layoutmanagement.cpp:38
 #: src/mltcontroller/clippropertiescontroller.cpp:346
 #, kde-format
 msgid "Color"
 msgstr "Color"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:2390 src/ui/managecache_ui.ui:359
+#: src/bin/bin.cpp:2383 src/ui/managecache_ui.ui:359
 #, kde-format
 msgid "Folder"
 msgstr "Carpeta"
 
-#: src/bin/bin.cpp:2391
+#: src/bin/bin.cpp:2384
 #, kde-format
 msgid "Create bin folder"
 msgstr "Crear bandeja"
 
-#: src/bin/bin.cpp:2523 src/bin/bin.cpp:2536 src/bin/bin.cpp:3494
+#: src/bin/bin.cpp:2516 src/bin/bin.cpp:2529 src/bin/bin.cpp:3487
 #: src/timeline2/model/timelinemodel.cpp:2033
 #, kde-format
 msgid "Delete Clip"
 msgstr "Borrar clip"
 
-#: src/bin/bin.cpp:2525 src/bin/bin.cpp:2538
+#: src/bin/bin.cpp:2518 src/bin/bin.cpp:2531
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4603,37 +4598,37 @@ msgstr ""
 "Borra los clips seleccionados de la bandeja del proyecto y también de la "
 "línea de tiempo."
 
-#: src/bin/bin.cpp:2526 src/bin/bin.cpp:2539 src/bin/bin.cpp:3470
+#: src/bin/bin.cpp:2519 src/bin/bin.cpp:2532 src/bin/bin.cpp:3463
 #, kde-format
 msgid "Proxy Clip"
 msgstr "Clip de reemplazo"
 
-#: src/bin/bin.cpp:2530
+#: src/bin/bin.cpp:2523
 #, kde-format
 msgid "Delete Folder"
 msgstr "Borrar carpeta"
 
-#: src/bin/bin.cpp:2531
+#: src/bin/bin.cpp:2524
 #, kde-format
 msgid "Proxy Folder"
 msgstr "Carpeta de reemplazos"
 
-#: src/bin/bin.cpp:2766
+#: src/bin/bin.cpp:2759
 #, kde-format
 msgid "Edit rating"
 msgstr "Editar valoración"
 
-#: src/bin/bin.cpp:2768
+#: src/bin/bin.cpp:2761
 #, kde-format
 msgid "Cannot set rating on this item"
 msgstr "No es posible establecer una valoración para este elemento"
 
-#: src/bin/bin.cpp:3420
+#: src/bin/bin.cpp:3413
 #, kde-format
 msgid "Add Clip or Folder…"
 msgstr "Agregar clip o carpeta…"
 
-#: src/bin/bin.cpp:3421
+#: src/bin/bin.cpp:3414
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4648,92 +4643,92 @@ msgstr ""
 "de fuentes.<nl/>Hacer clic sobre el ícono de medios para abrir una ventana "
 "para seleccionar archivos."
 
-#: src/bin/bin.cpp:3427
+#: src/bin/bin.cpp:3420
 #, kde-format
 msgid "Add Color Clip…"
 msgstr "Agregar clip de color…"
 
-#: src/bin/bin.cpp:3429
+#: src/bin/bin.cpp:3422
 #, kde-format
 msgid "Add Image Sequence…"
 msgstr "Agregar secuencia de imágenes…"
 
-#: src/bin/bin.cpp:3431
+#: src/bin/bin.cpp:3424
 #, kde-format
 msgid "Add Title Clip…"
 msgstr "Agregar clip de títulos…"
 
-#: src/bin/bin.cpp:3433
+#: src/bin/bin.cpp:3426
 #, kde-format
 msgid "Add Template Title…"
 msgstr "Agregar plantilla de título…"
 
-#: src/bin/bin.cpp:3435
+#: src/bin/bin.cpp:3428
 #, kde-format
 msgid "Create Animation…"
 msgstr "Crear animación…"
 
-#: src/bin/bin.cpp:3437
+#: src/bin/bin.cpp:3430
 #, kde-format
 msgid "Add Sequence…"
 msgstr "Agregar secuencia…"
 
-#: src/bin/bin.cpp:3440 src/mainwindow.cpp:369
+#: src/bin/bin.cpp:3433 src/mainwindow.cpp:369
 #, kde-format
 msgid "Online Resources"
 msgstr "Recursos en línea"
 
-#: src/bin/bin.cpp:3444
+#: src/bin/bin.cpp:3437
 #, kde-format
 msgid "Locate Clip…"
 msgstr "Ubicar clip…"
 
-#: src/bin/bin.cpp:3449
+#: src/bin/bin.cpp:3442
 #, kde-format
 msgid "Reload Clip"
 msgstr "Recargar clip"
 
-#: src/bin/bin.cpp:3455
+#: src/bin/bin.cpp:3448
 #, kde-format
 msgid "Transcode to Edit Friendly Format…"
 msgstr "Transcodificar a formato editable…"
 
-#: src/bin/bin.cpp:3460
+#: src/bin/bin.cpp:3453
 #, kde-format
 msgid "Replace Clip…"
 msgstr "Reemplazar clip…"
 
-#: src/bin/bin.cpp:3465
+#: src/bin/bin.cpp:3458
 #, kde-format
 msgid "Duplicate Clip"
 msgstr "Duplicar clip"
 
-#: src/bin/bin.cpp:3477 src/bin/bin.cpp:3538
+#: src/bin/bin.cpp:3470 src/bin/bin.cpp:3531
 #, kde-format
 msgid "Clip Properties"
 msgstr "Propiedades del clip"
 
-#: src/bin/bin.cpp:3482 src/mltcontroller/clippropertiescontroller.cpp:283
+#: src/bin/bin.cpp:3475 src/mltcontroller/clippropertiescontroller.cpp:283
 #, kde-format
 msgid "Edit Clip"
 msgstr "Editar clip"
 
-#: src/bin/bin.cpp:3499
+#: src/bin/bin.cpp:3492
 #, kde-format
 msgid "Open in new bin"
 msgstr "Abrir en nueva bandeja"
 
-#: src/bin/bin.cpp:3511
+#: src/bin/bin.cpp:3504
 #, kde-format
 msgid "Default Target Folder for Sequences"
 msgstr "Carpeta predeterminada para secuencias"
 
-#: src/bin/bin.cpp:3515
+#: src/bin/bin.cpp:3508
 #, kde-format
 msgid "Create Folder"
 msgstr "Crear carpeta"
 
-#: src/bin/bin.cpp:3518
+#: src/bin/bin.cpp:3511
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4744,100 +4739,100 @@ msgstr ""
 "una mejor organización de los archivos originales. Las carpetas podrán ser "
 "anidadas."
 
-#: src/bin/bin.cpp:3583 src/dialogs/speechdialog.cpp:48
+#: src/bin/bin.cpp:3576 src/dialogs/speechdialog.cpp:48
 #: src/dialogs/textbasededit.cpp:656 src/monitor/recmanager.cpp:43
 #, kde-format
 msgid "Show log"
 msgstr "Mostrar registro"
 
-#: src/bin/bin.cpp:3586 src/dialogs/textbasededit.cpp:657
+#: src/bin/bin.cpp:3579 src/dialogs/textbasededit.cpp:657
 #, kde-format
 msgid "Detailed log"
 msgstr "Registro detallado"
 
-#: src/bin/bin.cpp:3646 src/bin/bin.cpp:3671
+#: src/bin/bin.cpp:3639 src/bin/bin.cpp:3664
 #, kde-format
 msgctxt "@title:window"
 msgid "Create New Sequence"
 msgstr "Crear nueva secuencia"
 
-#: src/bin/bin.cpp:3648 src/bin/bin.cpp:3673
+#: src/bin/bin.cpp:3641 src/bin/bin.cpp:3666
 #, kde-format
 msgid "Sequence %1"
 msgstr "Secuencia %1"
 
-#: src/bin/bin.cpp:3702
+#: src/bin/bin.cpp:3695
 #, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
 msgstr[0] "Mover clip"
 msgstr[1] "Mover clips"
 
-#: src/bin/bin.cpp:3739
+#: src/bin/bin.cpp:3732
 #, kde-format
 msgid "No valid clip to insert"
 msgstr "No es un clip válido para insertar"
 
-#: src/bin/bin.cpp:3764 src/timeline2/view/timelinecontroller.cpp:1482
+#: src/bin/bin.cpp:3757 src/timeline2/view/timelinecontroller.cpp:1482
 #: src/timeline2/view/timelinecontroller.cpp:3359
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "Seleccionar un clip para aplicarle un efecto"
 
-#: src/bin/bin.cpp:3773
+#: src/bin/bin.cpp:3766
 #, kde-format
 msgid "Cannot apply effects on folders"
 msgstr "No es posible agregar efectos a carpetas"
 
-#: src/bin/bin.cpp:3799 src/effects/effectstack/model/effectstackmodel.cpp:500
+#: src/bin/bin.cpp:3792 src/effects/effectstack/model/effectstackmodel.cpp:500
 #: src/effects/effectstack/model/effectstackmodel.cpp:506
 #: src/mainwindow.cpp:3164
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "No es posible agregar el efecto al clip"
 
-#: src/bin/bin.cpp:3845 src/bin/bin.cpp:3852
+#: src/bin/bin.cpp:3838 src/bin/bin.cpp:3845
 #, kde-format
 msgid "Select a clip to add a tag"
 msgstr "Seleccionar un clip para agregar una etiqueta"
 
-#: src/bin/bin.cpp:3991
+#: src/bin/bin.cpp:3984
 #, kde-format
 msgid "Edit Tags"
 msgstr "Editar etiquetas"
 
-#: src/bin/bin.cpp:4280 src/bin/projectclip.cpp:190
-#: src/bin/projectclip.cpp:1947 src/onlineresources/resourcewidget.cpp:266
+#: src/bin/bin.cpp:4273 src/bin/projectclip.cpp:190
+#: src/bin/projectclip.cpp:1950 src/onlineresources/resourcewidget.cpp:266
 #: src/onlineresources/resourcewidget.cpp:557
 #: src/onlineresources/resourcewidget.cpp:572
 #, kde-format
 msgid "Unnamed"
 msgstr "Sin nombre"
 
-#: src/bin/bin.cpp:4334
+#: src/bin/bin.cpp:4327
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr "Ingresar la ruta a la aplicación de edición de imágenes"
 
-#: src/bin/bin.cpp:4346
+#: src/bin/bin.cpp:4339
 #, kde-format
 msgid "Please set a default application to open image files"
 msgstr ""
 "Por favor, definir una aplicación predeterminada para abrir archivos de "
 "imagen"
 
-#: src/bin/bin.cpp:4351
+#: src/bin/bin.cpp:4344
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr "Ingresar la ruta a la aplicación de edición de audio"
 
-#: src/bin/bin.cpp:4363
+#: src/bin/bin.cpp:4356
 #, kde-format
 msgid "Please set a default application to open audio files"
 msgstr ""
 "Por favor, definir una aplicación predeterminada para abrir archivos de audio"
 
-#: src/bin/bin.cpp:4373 src/core.cpp:306 src/doc/kdenlivedoc.cpp:172
+#: src/bin/bin.cpp:4366 src/core.cpp:306 src/doc/kdenlivedoc.cpp:172
 #: src/jobs/cliploadtask.cpp:458 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:471
 #: src/layoutmanagement.cpp:532 src/profiles/profilerepository.cpp:173
@@ -4846,12 +4841,12 @@ msgstr ""
 msgid "Cannot open file %1"
 msgstr "No es posible abrir el archivo %1"
 
-#: src/bin/bin.cpp:4553 src/dialogs/profilesdialog.cpp:213
+#: src/bin/bin.cpp:4546 src/dialogs/profilesdialog.cpp:213
 #, kde-format
 msgid "(copy)"
 msgstr "(copia)"
 
-#: src/bin/bin.cpp:4563
+#: src/bin/bin.cpp:4556
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -4860,75 +4855,75 @@ msgstr ""
 "Se está editando un clip de títulos externo (%1). ¿Guardar los cambios en el "
 "archivo de títulos o sólo en este proyecto?"
 
-#: src/bin/bin.cpp:4566 src/titler/titlewidget.cpp:2192
+#: src/bin/bin.cpp:4559 src/titler/titlewidget.cpp:2192
 #, kde-format
 msgid "Save Title"
 msgstr "Guardar título"
 
-#: src/bin/bin.cpp:4566
+#: src/bin/bin.cpp:4559
 #, kde-format
 msgid "Save to title file"
 msgstr "Guardar en archivo de título"
 
-#: src/bin/bin.cpp:4567
+#: src/bin/bin.cpp:4560
 #, kde-format
 msgid "Save in project only"
 msgstr "Guardar sólo en el proyecto"
 
-#: src/bin/bin.cpp:4585 src/dialogs/clipcreationdialog.cpp:379
+#: src/bin/bin.cpp:4578 src/dialogs/clipcreationdialog.cpp:379
 #, kde-format
 msgid "Title clip"
 msgstr "Clip de títulos"
 
-#: src/bin/bin.cpp:4635
+#: src/bin/bin.cpp:4628
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "El clip no es válido, será eliminado del proyecto."
 
-#: src/bin/bin.cpp:4639
+#: src/bin/bin.cpp:4632
 #, kde-format
 msgid "Invalid clip"
 msgstr "Clip no válido"
 
-#: src/bin/bin.cpp:4762
+#: src/bin/bin.cpp:4755
 #, kde-format
 msgid "Enable proxies"
 msgstr "Habilitar reemplazos"
 
-#: src/bin/bin.cpp:4762
+#: src/bin/bin.cpp:4755
 #, kde-format
 msgid "Disable proxies"
 msgstr "Deshabilitar reemplazos"
 
-#: src/bin/bin.cpp:4943
+#: src/bin/bin.cpp:4936
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "Reconstruir reemplazos"
 
-#: src/bin/bin.cpp:5176
+#: src/bin/bin.cpp:5169
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Bandeja del proyecto"
 
-#: src/bin/bin.cpp:5192
+#: src/bin/bin.cpp:5185
 #, kde-format
 msgid "Add Tracks"
 msgstr "Agregar pistas"
 
-#: src/bin/bin.cpp:5194
+#: src/bin/bin.cpp:5187
 #, kde-format
 msgid "Edit Streams"
 msgstr "Editar fuentes"
 
-#: src/bin/bin.cpp:5209
+#: src/bin/bin.cpp:5202
 #, kde-format
 msgid "Don't ask again"
 msgstr "No preguntar nuevamente"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5213
+#: src/bin/bin.cpp:5206
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -4937,45 +4932,45 @@ msgstr ""
 "El proyecto necesita más pistas de audio para manipular todas las fuentes. "
 "¿Agregar %1 pistas de audio?"
 
-#: src/bin/bin.cpp:5225 src/mainwindow.cpp:2730
+#: src/bin/bin.cpp:5218 src/mainwindow.cpp:2730
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "No se encuentra clip al cual agregar un marcador"
 
-#: src/bin/bin.cpp:5317
+#: src/bin/bin.cpp:5310
 #, kde-format
 msgid "Could not find master clip"
 msgstr "No fue posible encontrar el clip maestro"
 
-#: src/bin/bin.cpp:5511 src/bin/clipcreator.cpp:325
+#: src/bin/bin.cpp:5504 src/bin/clipcreator.cpp:325
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
 msgstr "Agregar clip"
 
-#: src/bin/bin.cpp:5533
+#: src/bin/bin.cpp:5526
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> clips | "
 
-#: src/bin/bin.cpp:5535
+#: src/bin/bin.cpp:5528
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> clips (%2 seleccionados) | "
 
-#: src/bin/bin.cpp:5600 src/bin/bin.cpp:5674
+#: src/bin/bin.cpp:5593 src/bin/bin.cpp:5667
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "Agregar una fuente adicional al clip"
 msgstr[1] "Agregar fuentes adicionales al clip"
 
-#: src/bin/bin.cpp:5621
+#: src/bin/bin.cpp:5614
 #, kde-format
 msgid "Import selected clips"
 msgstr "Importar clips seleccionados"
 
-#: src/bin/bin.cpp:5623
+#: src/bin/bin.cpp:5616
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -4984,17 +4979,17 @@ msgstr ""
 "Fuentes adicionales del clip\n"
 " %1"
 
-#: src/bin/bin.cpp:5633 src/mltcontroller/clippropertiescontroller.cpp:634
+#: src/bin/bin.cpp:5626 src/mltcontroller/clippropertiescontroller.cpp:634
 #, kde-format
 msgid "Video stream %1"
 msgstr "Fuente de video %1"
 
-#: src/bin/bin.cpp:5648
+#: src/bin/bin.cpp:5641
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Fuente de audio %1"
 
-#: src/bin/bin.cpp:5701
+#: src/bin/bin.cpp:5694
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Eliminar marcadores del clip"
@@ -5064,7 +5059,7 @@ msgid "Duplicate"
 msgstr "Duplicar"
 
 #: src/bin/clipcreator.cpp:421 src/core.cpp:975
-#: src/project/projectmanager.cpp:777
+#: src/project/projectmanager.cpp:778
 #, kde-format
 msgid "Loading clips"
 msgstr "Cargando clips"
@@ -5388,11 +5383,11 @@ msgstr "Redimensionar subtítulo"
 msgid "Move subtitle"
 msgstr "Mover subtítulo"
 
-#: src/bin/model/subtitlemodel.cpp:1140 src/dialogs/renderwidget.cpp:828
+#: src/bin/model/subtitlemodel.cpp:1140 src/dialogs/renderwidget.cpp:821
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:515
 #: src/effects/effectstack/view/effectstackview.cpp:571
-#: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:860
-#: src/project/dialogs/archivewidget.cpp:874
+#: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:845
+#: src/project/dialogs/archivewidget.cpp:859
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -5427,7 +5422,7 @@ msgctxt "The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "R"
 
-#: src/bin/projectclip.cpp:621
+#: src/bin/projectclip.cpp:623
 #, kde-format
 msgid ""
 "Image dimension smaller than 8 pixels.\n"
@@ -5436,7 +5431,7 @@ msgstr ""
 "La dimensión de la imagen es menor de 8 píxeles.\n"
 "Esto no es soportado correctamente por nuestra infraestructura de video."
 
-#: src/bin/projectclip.cpp:903
+#: src/bin/projectclip.cpp:906
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -5445,24 +5440,24 @@ msgstr ""
 "No es posible extraer metadatos desde %1\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1139 src/jobs/cliploadtask.cpp:254
+#: src/bin/projectclip.cpp:1142 src/jobs/cliploadtask.cpp:254
 #, kde-format
 msgid "Invalid"
 msgstr "No válido"
 
-#: src/bin/projectclip.cpp:1343 src/dialogs/clipcreationdialog.cpp:204
-#: src/jobs/cuttask.cpp:171 src/jobs/speedtask.cpp:120
+#: src/bin/projectclip.cpp:1346 src/dialogs/clipcreationdialog.cpp:204
+#: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1358
 #, kde-format
 msgid "File already exists"
 msgstr "El archivo ya existe"
 
-#: src/bin/projectclip.cpp:2681
+#: src/bin/projectclip.cpp:2684
 #, kde-format
 msgid "Add stream effect"
 msgstr "Agregar efecto de fuente"
 
-#: src/bin/projectclip.cpp:2706
+#: src/bin/projectclip.cpp:2709
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Eliminar efecto de fuente"
@@ -5885,7 +5880,7 @@ msgstr "El perfil del proyecto no es válido, el procesamiento podría fallar."
 
 #. i18n: ectx: Menu (subtitles)
 #: src/core.cpp:684 src/kdenliveui.rc:30 src/mainwindow.cpp:285
-#: src/project/dialogs/archivewidget.cpp:96
+#: src/project/dialogs/archivewidget.cpp:97
 #: src/project/dialogs/projectsettings.cpp:423
 #: src/timeline2/view/qml/timeline.qml:1081
 #, kde-format
@@ -6022,7 +6017,7 @@ msgstr "Administrar perfiles de codificación"
 
 #: src/dialogs/encodingprofilesdialog.cpp:52
 #: src/dialogs/kdenlivesettingsdialog.cpp:314
-#: src/project/dialogs/archivewidget.cpp:91
+#: src/project/dialogs/archivewidget.cpp:92
 #, kde-format
 msgid "Proxy Clips"
 msgstr "Clips de reemplazo"
@@ -6175,9 +6170,9 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "Exportar datos de guías"
 
-#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:932
-#: src/dialogs/renderwidget.cpp:982 src/dialogs/renderwidget.cpp:1928
-#: src/dialogs/renderwidget.cpp:1955 src/doc/kdenlivedoc.cpp:735
+#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:925
+#: src/dialogs/renderwidget.cpp:975 src/dialogs/renderwidget.cpp:1921
+#: src/dialogs/renderwidget.cpp:1948 src/doc/kdenlivedoc.cpp:735
 #: src/doc/kdenlivedoc.cpp:743 src/doc/kdenlivedoc.cpp:1239
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
@@ -6185,11 +6180,11 @@ msgstr "Exportar datos de guías"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:593
 #: src/effects/effectstack/view/effectstackview.cpp:609
 #: src/profiles/profilerepository.cpp:190
-#: src/project/dialogs/archivewidget.cpp:693
-#: src/project/dialogs/archivewidget.cpp:697
-#: src/project/dialogs/archivewidget.cpp:882
-#: src/project/dialogs/archivewidget.cpp:894
-#: src/project/dialogs/archivewidget.cpp:900
+#: src/project/dialogs/archivewidget.cpp:678
+#: src/project/dialogs/archivewidget.cpp:682
+#: src/project/dialogs/archivewidget.cpp:867
+#: src/project/dialogs/archivewidget.cpp:879
+#: src/project/dialogs/archivewidget.cpp:885
 #: src/project/projectmanager.cpp:1541
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
@@ -6687,63 +6682,63 @@ msgstr ""
 "sobrescritos por opciones equivalentes de la interfaz de usuario: <icode>%1</"
 "icode>"
 
-#: src/dialogs/renderwidget.cpp:115 src/dialogs/renderwidget.cpp:1758
+#: src/dialogs/renderwidget.cpp:116 src/dialogs/renderwidget.cpp:1751
 #, kde-format
 msgid "Waiting…"
 msgstr "Esperando…"
 
-#: src/dialogs/renderwidget.cpp:118
+#: src/dialogs/renderwidget.cpp:119
 #, kde-format
 msgid "Rendering finished"
 msgstr "Procesamiento finalizado"
 
-#: src/dialogs/renderwidget.cpp:123
+#: src/dialogs/renderwidget.cpp:124
 #, kde-format
 msgid "Rendering crashed"
 msgstr "Falló el procesamiento"
 
-#: src/dialogs/renderwidget.cpp:128
+#: src/dialogs/renderwidget.cpp:129
 #, kde-format
 msgid "Rendering aborted"
 msgstr "Procesamiento cancelado"
 
-#: src/dialogs/renderwidget.cpp:213 src/project/dialogs/slideshowclip.cpp:60
+#: src/dialogs/renderwidget.cpp:214 src/project/dialogs/slideshowclip.cpp:60
 #: src/scopes/colorscopes/vectorscope.cpp:55
 #, kde-format
 msgid "None"
 msgstr "Ninguno"
 
-#: src/dialogs/renderwidget.cpp:214
+#: src/dialogs/renderwidget.cpp:215
 #, kde-format
 msgid "Timecode"
 msgstr "Código de tiempo"
 
-#: src/dialogs/renderwidget.cpp:215
+#: src/dialogs/renderwidget.cpp:216
 #, kde-format
 msgid "Timecode Non Drop Frame"
 msgstr "Código de tiempo (sin pérdida de fotogramas)"
 
-#: src/dialogs/renderwidget.cpp:216
+#: src/dialogs/renderwidget.cpp:217
 #, kde-format
 msgid "Frame Number"
 msgstr "Número de fotograma"
 
-#: src/dialogs/renderwidget.cpp:220
+#: src/dialogs/renderwidget.cpp:221
 #, kde-format
 msgid "Rendering using low quality proxy"
 msgstr "Procesando con reemplazo de baja calidad"
 
-#: src/dialogs/renderwidget.cpp:302
+#: src/dialogs/renderwidget.cpp:303
 #, kde-format
 msgid "File"
 msgstr "Archivo"
 
-#: src/dialogs/renderwidget.cpp:311
+#: src/dialogs/renderwidget.cpp:312
 #, kde-format
 msgid "Stored Playlists"
 msgstr "Listas de reproducción almacenadas"
 
-#: src/dialogs/renderwidget.cpp:328 src/timeline2/view/previewmanager.cpp:53
+#: src/dialogs/renderwidget.cpp:329 src/timeline2/view/previewmanager.cpp:53
 #, kde-format
 msgid ""
 "Could not find the kdenlive_render application, something is wrong with your "
@@ -6752,63 +6747,63 @@ msgstr ""
 "No fue posible encontrar la aplicación kdenlive_render, algo no está bien en "
 "la instalación. El procesamiento no podrá funcionar"
 
-#: src/dialogs/renderwidget.cpp:351
+#: src/dialogs/renderwidget.cpp:352
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
 msgstr "Sólo funciona con el formato matroska (mkv)"
 
-#: src/dialogs/renderwidget.cpp:359
+#: src/dialogs/renderwidget.cpp:360
 #, kde-format
 msgid "There was a problem sharing the document: %1"
 msgstr "Hubo un problema al compartir el documento: %1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
-#: src/dialogs/renderwidget.cpp:359 src/dialogs/renderwidget.cpp:367
+#: src/dialogs/renderwidget.cpp:360 src/dialogs/renderwidget.cpp:368
 #: src/ui/renderwidget_ui.ui:872
 #, kde-format
 msgid "Share"
 msgstr "Compartir"
 
-#: src/dialogs/renderwidget.cpp:364
+#: src/dialogs/renderwidget.cpp:365
 #, kde-format
 msgid "Document shared successfully"
 msgstr "Documento compartido exitosamente"
 
-#: src/dialogs/renderwidget.cpp:367
+#: src/dialogs/renderwidget.cpp:368
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
 msgstr "Es posible encontrar el documento compartido en: <a href=\"%1\">%1</a>"
 
-#: src/dialogs/renderwidget.cpp:492
+#: src/dialogs/renderwidget.cpp:493
 #, kde-format
 msgid "Beginning"
 msgstr "Comienzo"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/dialogs/renderwidget.cpp:499 src/ui/wipeval_ui.ui:172
+#: src/dialogs/renderwidget.cpp:500 src/ui/wipeval_ui.ui:172
 #, kde-format
 msgid "End"
 msgstr "Fin"
 
-#: src/dialogs/renderwidget.cpp:621
+#: src/dialogs/renderwidget.cpp:622
 #, kde-format
 msgid "Add a clip to timeline before rendering"
 msgstr "Agregar un clip a la línea de tiempo antes de procesar"
 
-#: src/dialogs/renderwidget.cpp:627
+#: src/dialogs/renderwidget.cpp:628
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr ""
 "No se encuentra el programa Melt (parte de MLT) requerido para el "
 "procesamiento"
 
-#: src/dialogs/renderwidget.cpp:633 src/dialogs/renderwidget.cpp:1732
-#: src/project/dialogs/archivewidget.cpp:888
+#: src/dialogs/renderwidget.cpp:634 src/dialogs/renderwidget.cpp:1725
+#: src/project/dialogs/archivewidget.cpp:873
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "El archivo de salida ya existe. ¿Sobrescribirlo?"
 
-#: src/dialogs/renderwidget.cpp:641 src/monitor/recmanager.cpp:192
+#: src/dialogs/renderwidget.cpp:642 src/monitor/recmanager.cpp:192
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -6817,7 +6812,7 @@ msgstr ""
 "No fue posible crear la carpeta %1\n"
 "Por favor, asegurarse de tener los permisos necesarios."
 
-#: src/dialogs/renderwidget.cpp:663
+#: src/dialogs/renderwidget.cpp:664
 #, kde-format
 msgid ""
 "Could not create assets folder:\n"
@@ -6826,33 +6821,33 @@ msgstr ""
 "No fue posible crear carpeta de recursos:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:700 src/dialogs/renderwidget.cpp:779
+#: src/dialogs/renderwidget.cpp:701 src/dialogs/renderwidget.cpp:772
 #, kde-format
 msgid "Could not create temporary subtitle file"
 msgstr "No fue posible crear archivo temporal de subtítulos"
 
-#: src/dialogs/renderwidget.cpp:744
+#: src/dialogs/renderwidget.cpp:745
 #, kde-format
 msgid "begin"
 msgstr "inicio"
 
-#: src/dialogs/renderwidget.cpp:804
+#: src/dialogs/renderwidget.cpp:797
 #, kde-format
 msgid "export"
 msgstr "exportar"
 
-#: src/dialogs/renderwidget.cpp:819
+#: src/dialogs/renderwidget.cpp:812
 #, kde-format
 msgctxt "@title:window"
 msgid "Delayed Rendering"
 msgstr "Procesar en forma diferida"
 
-#: src/dialogs/renderwidget.cpp:819
+#: src/dialogs/renderwidget.cpp:812
 #, kde-format
 msgid "Select a name for this rendering."
 msgstr "Seleccionar un nombre este procesamiento."
 
-#: src/dialogs/renderwidget.cpp:894
+#: src/dialogs/renderwidget.cpp:887
 #, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together.\n"
@@ -6862,7 +6857,7 @@ msgstr ""
 "de audio multipistas.\n"
 "El script será guardado sin la exportación multipistas."
 
-#: src/dialogs/renderwidget.cpp:1018 src/dialogs/renderwidget.cpp:1745
+#: src/dialogs/renderwidget.cpp:1011 src/dialogs/renderwidget.cpp:1738
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -6871,47 +6866,47 @@ msgstr ""
 "Ya existe una tarea escribiendo en el archivo:<br /><b>%1</b><br /"
 ">Interrumpir esa tarea si se desea su sobrescritura…"
 
-#: src/dialogs/renderwidget.cpp:1019 src/dialogs/renderwidget.cpp:1746
+#: src/dialogs/renderwidget.cpp:1012 src/dialogs/renderwidget.cpp:1739
 #, kde-format
 msgid "Already running"
 msgstr "Ya se está ejecutando"
 
-#: src/dialogs/renderwidget.cpp:1044
+#: src/dialogs/renderwidget.cpp:1037
 #, kde-format
 msgid "Video without audio track"
 msgstr "Video sin pista de audio"
 
-#: src/dialogs/renderwidget.cpp:1046
+#: src/dialogs/renderwidget.cpp:1039
 #, kde-format
 msgid "Audio without video track"
 msgstr "Audio sin pista de video"
 
-#: src/dialogs/renderwidget.cpp:1110
+#: src/dialogs/renderwidget.cpp:1103
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "Procesamiento de <i>%1</i> iniciado"
 
-#: src/dialogs/renderwidget.cpp:1172 src/monitor/monitor.cpp:1161
+#: src/dialogs/renderwidget.cpp:1165 src/monitor/monitor.cpp:1161
 #, kde-format
 msgid "untitled"
 msgstr "sin nombre"
 
-#: src/dialogs/renderwidget.cpp:1210
+#: src/dialogs/renderwidget.cpp:1203
 #, kde-format
 msgid "No preset selected"
 msgstr "Ningún ajuste seleccionado"
 
-#: src/dialogs/renderwidget.cpp:1212
+#: src/dialogs/renderwidget.cpp:1205
 #, kde-format
 msgid "No matching preset"
 msgstr "No hay un ajuste coincidente"
 
-#: src/dialogs/renderwidget.cpp:1224
+#: src/dialogs/renderwidget.cpp:1217
 #, kde-format
 msgid "Invalid preset"
 msgstr "Ajuste inválido"
 
-#: src/dialogs/renderwidget.cpp:1338
+#: src/dialogs/renderwidget.cpp:1331
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
@@ -6920,61 +6915,61 @@ msgstr ""
 "No es posible efectuar un procesamiento sin audio ni video. Por favor "
 "habilitar al menos uno de ellos."
 
-#: src/dialogs/renderwidget.cpp:1497
+#: src/dialogs/renderwidget.cpp:1490
 #, kde-format
 msgid "Remaining time "
 msgstr "Tiempo restante "
 
-#: src/dialogs/renderwidget.cpp:1499 src/dialogs/renderwidget.cpp:1543
+#: src/dialogs/renderwidget.cpp:1492 src/dialogs/renderwidget.cpp:1536
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
 msgstr[0] "%1 día "
 msgstr[1] "%1 días "
 
-#: src/dialogs/renderwidget.cpp:1503
+#: src/dialogs/renderwidget.cpp:1496
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (fotograma %1 a %2 fps)"
 
-#: src/dialogs/renderwidget.cpp:1515
+#: src/dialogs/renderwidget.cpp:1508
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr "Queda menos de %1MB de memoria disponible."
 
-#: src/dialogs/renderwidget.cpp:1545
+#: src/dialogs/renderwidget.cpp:1538
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Procesamiento finalizado en %1"
 
-#: src/dialogs/renderwidget.cpp:1554
+#: src/dialogs/renderwidget.cpp:1547
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "Procesamiento de %1 finalizado en %2"
 
-#: src/dialogs/renderwidget.cpp:1578
+#: src/dialogs/renderwidget.cpp:1571
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>Falló el procesamiento de %1</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1621 src/ui/renderwidget_ui.ui:865
+#: src/dialogs/renderwidget.cpp:1614 src/ui/renderwidget_ui.ui:865
 #, kde-format
 msgid "Abort Job"
 msgstr "Interrumpir tarea"
 
-#: src/dialogs/renderwidget.cpp:1624
+#: src/dialogs/renderwidget.cpp:1617
 #, kde-format
 msgid "Remove Job"
 msgstr "Eliminar tarea"
 
-#: src/dialogs/renderwidget.cpp:2010 src/dialogs/renderwidget.cpp:2020
-#: src/dialogs/renderwidget.cpp:2042
+#: src/dialogs/renderwidget.cpp:2003 src/dialogs/renderwidget.cpp:2013
+#: src/dialogs/renderwidget.cpp:2035
 #, kde-format
 msgid "Render Duration: %1"
 msgstr "Duración del procesamiento: %1"
 
-#: src/dialogs/renderwidget.cpp:2100
+#: src/dialogs/renderwidget.cpp:2093
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -6983,7 +6978,7 @@ msgstr ""
 "Parámetros de velocidad del compresor:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2120
+#: src/dialogs/renderwidget.cpp:2113
 #, kde-format
 msgid "Add to current project"
 msgstr "Agregar al proyecto actual"
@@ -7388,9 +7383,9 @@ msgid "Using MLT %1"
 msgstr "Usando MLT %1"
 
 #: src/dialogs/wizard.cpp:85 src/project/cliptranscode.cpp:194
-#: src/project/cliptranscode.cpp:226 src/project/dialogs/archivewidget.cpp:611
-#: src/project/dialogs/archivewidget.cpp:782
-#: src/project/dialogs/archivewidget.cpp:1185
+#: src/project/cliptranscode.cpp:226 src/project/dialogs/archivewidget.cpp:596
+#: src/project/dialogs/archivewidget.cpp:767
+#: src/project/dialogs/archivewidget.cpp:1170
 #, kde-format
 msgid "Abort"
 msgstr "Interrumpir"
@@ -7455,8 +7450,8 @@ msgstr "Comprobar aceleración por hardware"
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose2)
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose3)
 #: src/dialogs/wizard.cpp:193 src/project/cliptranscode.cpp:270
-#: src/project/dialogs/archivewidget.cpp:803
-#: src/project/dialogs/archivewidget.cpp:1164 src/ui/renderwidget_ui.ui:357
+#: src/project/dialogs/archivewidget.cpp:788
+#: src/project/dialogs/archivewidget.cpp:1149 src/ui/renderwidget_ui.ui:357
 #: src/ui/renderwidget_ui.ui:908 src/ui/renderwidget_ui.ui:1066
 #, kde-format
 msgid "Close"
@@ -7930,8 +7925,8 @@ msgstr "Los siguientes filtros/transiciones fueron eliminados del proyecto:"
 msgid "Invalid file path"
 msgstr "Ruta de archivo inválida"
 
-#: src/doc/kdenlivedoc.cpp:214 src/project/projectmanager.cpp:728
-#: src/project/projectmanager.cpp:792 src/project/projectmanager.cpp:821
+#: src/doc/kdenlivedoc.cpp:214 src/project/projectmanager.cpp:729
+#: src/project/projectmanager.cpp:793 src/project/projectmanager.cpp:822
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "No fue posible recuperar el archivo corrupto."
@@ -8011,15 +8006,15 @@ msgstr ""
 "El archivo de proyecto fue actualizado al formato de la última versión de "
 "Kdenlive, pero no fue posible crear una copia de respaldo %1."
 
-#: src/doc/kdenlivedoc.cpp:859 src/project/projectmanager.cpp:1138
-#: src/project/projectmanager.cpp:1174
+#: src/doc/kdenlivedoc.cpp:859 src/project/projectmanager.cpp:1139
+#: src/project/projectmanager.cpp:1175
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Error al mover la carpeta del proyecto: %1"
 
 #: src/doc/kdenlivedoc.cpp:1028 src/doc/kdenlivedoc.cpp:2158
-#: src/project/dialogs/archivewidget.cpp:225
-#: src/project/projectmanager.cpp:1374
+#: src/project/dialogs/archivewidget.cpp:226
+#: src/project/projectmanager.cpp:1375
 #, kde-format
 msgid "Untitled"
 msgstr "Sin nombre"
@@ -8586,23 +8581,23 @@ msgstr ""
 "la tarea"
 
 #: src/jobs/customjobtask.cpp:166 src/jobs/customjobtask.cpp:176
-#: src/jobs/cuttask.cpp:250 src/jobs/transcodetask.cpp:231
+#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:231
 #: src/jobs/transcodetask.cpp:267
 #, kde-format
 msgid "Failed to create file."
 msgstr "Falla al crear archivo."
 
-#: src/jobs/cuttask.cpp:39
+#: src/jobs/cuttask.cpp:40
 #, kde-format
 msgid "Extracting zone"
 msgstr "Extrayendo zona"
 
-#: src/jobs/cuttask.cpp:79
+#: src/jobs/cuttask.cpp:80
 #, kde-format
 msgid "Cannot copy video codec %1, will re-encode."
 msgstr "No es posible copiar el compresor de video %1, se recodificará."
 
-#: src/jobs/cuttask.cpp:85
+#: src/jobs/cuttask.cpp:86
 #, kde-format
 msgid "Cannot copy audio codec %1, will re-encode."
 msgstr "No es posible copiar el compresor de audio %1, se recodificará."
@@ -8637,24 +8632,24 @@ msgstr "Compresión PCM"
 msgid "AAC encoding"
 msgstr "Compresión AAC"
 
-#: src/jobs/cuttask.cpp:153
+#: src/jobs/cuttask.cpp:155
 #, kde-format
 msgid "Extracting %1 out of %2"
 msgstr "Extrayendo %1 de %2"
 
-#: src/jobs/cuttask.cpp:209 src/jobs/cuttask.cpp:211 src/jobs/filtertask.cpp:71
+#: src/jobs/cuttask.cpp:211 src/jobs/cuttask.cpp:213 src/jobs/filtertask.cpp:71
 #: src/jobs/speedtask.cpp:184 src/jobs/speedtask.cpp:196
 #: src/jobs/stabilizetask.cpp:106 src/jobs/stabilizetask.cpp:123
 #, kde-format
 msgid "No producer for this clip."
 msgstr "No hay productor para este clip."
 
-#: src/jobs/cuttask.cpp:215 src/jobs/cuttask.cpp:217
+#: src/jobs/cuttask.cpp:217 src/jobs/cuttask.cpp:219
 #, kde-format
 msgid "You cannot overwrite original clip."
 msgstr "No es posible sobrescribir el clip original."
 
-#: src/jobs/cuttask.cpp:261
+#: src/jobs/cuttask.cpp:263
 #, kde-format
 msgid "Cut job failed."
 msgstr "Falla al cortar."
@@ -10847,13 +10842,13 @@ msgstr ""
 "Esta acción moverá todos los archivos temporales desde<br/><b>%1</b> hasta "
 "<b>%2</b>,<br/>luego se recargará el proyecto"
 
-#: src/mainwindow.cpp:2226 src/project/projectmanager.cpp:502
+#: src/mainwindow.cpp:2226 src/project/projectmanager.cpp:503
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr ""
 "No es posible realizar la operación, identificador de documento inválido: %1"
 
-#: src/mainwindow.cpp:2231 src/project/projectmanager.cpp:508
+#: src/mainwindow.cpp:2231 src/project/projectmanager.cpp:509
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr ""
@@ -12722,116 +12717,116 @@ msgstr "Transcodificación finalizada."
 msgid "Transcoding failed"
 msgstr "Falló la transcodificación"
 
-#: src/project/dialogs/archivewidget.cpp:46
+#: src/project/dialogs/archivewidget.cpp:47
 #, kde-format
 msgctxt "@title:window"
 msgid "Archive Project"
 msgstr "Archivar proyecto"
 
-#: src/project/dialogs/archivewidget.cpp:58
+#: src/project/dialogs/archivewidget.cpp:59
 #, kde-format
 msgid "Video Clips"
 msgstr "Clips de video"
 
-#: src/project/dialogs/archivewidget.cpp:62
+#: src/project/dialogs/archivewidget.cpp:63
 #, kde-format
 msgid "Audio Clips"
 msgstr "Clips de audio"
 
-#: src/project/dialogs/archivewidget.cpp:66
+#: src/project/dialogs/archivewidget.cpp:67
 #, kde-format
 msgid "Image Clips"
 msgstr "Clips de imagen"
 
-#: src/project/dialogs/archivewidget.cpp:70
+#: src/project/dialogs/archivewidget.cpp:71
 #, kde-format
 msgid "Slideshow Clips"
 msgstr "Clips de presentación"
 
-#: src/project/dialogs/archivewidget.cpp:74
+#: src/project/dialogs/archivewidget.cpp:75
 #, kde-format
 msgid "Text Clips"
 msgstr "Clips de texto"
 
-#: src/project/dialogs/archivewidget.cpp:78
+#: src/project/dialogs/archivewidget.cpp:79
 #, kde-format
 msgid "Playlist Clips"
 msgstr "Clips de lista de reproducción"
 
-#: src/project/dialogs/archivewidget.cpp:82
+#: src/project/dialogs/archivewidget.cpp:83
 #, kde-format
 msgid "Other Clips"
 msgstr "Otros clips"
 
-#: src/project/dialogs/archivewidget.cpp:86
+#: src/project/dialogs/archivewidget.cpp:87
 #, kde-format
 msgid "Luma Files"
 msgstr "Archivos de luma"
 
-#: src/project/dialogs/archivewidget.cpp:197
+#: src/project/dialogs/archivewidget.cpp:198
 #, kde-format
 msgid "You have %1 missing clip in your project."
 msgid_plural "You have %1 missing clips in your project."
 msgstr[0] "Existe %1 clip faltante en el proyecto."
 msgstr[1] "Existen %1 clips perdidos en el proyecto."
 
-#: src/project/dialogs/archivewidget.cpp:221
-#: src/project/dialogs/archivewidget.cpp:1331
-#: src/project/dialogs/archivewidget.cpp:1373
+#: src/project/dialogs/archivewidget.cpp:222
+#: src/project/dialogs/archivewidget.cpp:1316
+#: src/project/dialogs/archivewidget.cpp:1358
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
 msgstr[0] "(%1 elemento)"
 msgstr[1] "(%1 elementos)"
 
-#: src/project/dialogs/archivewidget.cpp:227
-#: src/project/dialogs/archivewidget.cpp:1333
-#: src/project/dialogs/archivewidget.cpp:1375
+#: src/project/dialogs/archivewidget.cpp:228
+#: src/project/dialogs/archivewidget.cpp:1318
+#: src/project/dialogs/archivewidget.cpp:1360
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
 msgstr[0] "%1 archivo a ser archivado, se necesitarán %2"
 msgstr[1] "%1 archivos a ser archivados, se necesitarán %2"
 
-#: src/project/dialogs/archivewidget.cpp:228
-#: src/project/dialogs/archivewidget.cpp:319
+#: src/project/dialogs/archivewidget.cpp:229
+#: src/project/dialogs/archivewidget.cpp:320
 #, kde-format
 msgid "Archive"
 msgstr "Archivar"
 
-#: src/project/dialogs/archivewidget.cpp:239
-#: src/project/dialogs/archivewidget.cpp:801
+#: src/project/dialogs/archivewidget.cpp:240
+#: src/project/dialogs/archivewidget.cpp:786
 #, kde-format
 msgid "There was an error processing project file"
 msgstr "Hubo un error al procesar el archivo del proyecto"
 
-#: src/project/dialogs/archivewidget.cpp:246
+#: src/project/dialogs/archivewidget.cpp:247
 #, kde-format
 msgid "Please save your project before archiving"
 msgstr "Por favor guardar el proyecto antes de archivarlo"
 
-#: src/project/dialogs/archivewidget.cpp:282
+#: src/project/dialogs/archivewidget.cpp:283
 #, kde-format
 msgid "Extract to"
 msgstr "Extraer a"
 
-#: src/project/dialogs/archivewidget.cpp:283
+#: src/project/dialogs/archivewidget.cpp:284
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Archived Project"
 msgstr "Abrir proyecto archivado"
 
-#: src/project/dialogs/archivewidget.cpp:285
+#: src/project/dialogs/archivewidget.cpp:286
 #, kde-format
 msgid "Extract"
 msgstr "Extraer"
 
-#: src/project/dialogs/archivewidget.cpp:324
+#: src/project/dialogs/archivewidget.cpp:325
 #, kde-format
 msgid "Opening archive…"
 msgstr "Abriendo archivo…"
 
-#: src/project/dialogs/archivewidget.cpp:334
+#: src/project/dialogs/archivewidget.cpp:335
 #, kde-format
 msgid ""
 "Cannot open archive file:\n"
@@ -12840,7 +12835,7 @@ msgstr ""
 "No es posible abrir el archivo de proyecto:\n"
 " %1"
 
-#: src/project/dialogs/archivewidget.cpp:351
+#: src/project/dialogs/archivewidget.cpp:352
 #, kde-format
 msgid ""
 "File %1\n"
@@ -12849,83 +12844,83 @@ msgstr ""
 "El archivo %1\n"
 " no es un proyecto archivado de Kdenlive"
 
-#: src/project/dialogs/archivewidget.cpp:357
+#: src/project/dialogs/archivewidget.cpp:358
 #, kde-format
 msgid "Ready"
 msgstr "Listo"
 
-#: src/project/dialogs/archivewidget.cpp:381
+#: src/project/dialogs/archivewidget.cpp:382
 #, kde-format
 msgid "Archiving in progress, do you want to stop it?"
 msgstr "Archivado en proceso, ¿detenerlo?"
 
-#: src/project/dialogs/archivewidget.cpp:381
 #: src/project/dialogs/archivewidget.cpp:382
+#: src/project/dialogs/archivewidget.cpp:383
 #, kde-format
 msgid "Stop Archiving"
 msgstr "Detener archivado"
 
-#: src/project/dialogs/archivewidget.cpp:585
+#: src/project/dialogs/archivewidget.cpp:570
 #, kde-format
 msgid "Available space on drive: %1"
 msgstr "Espacio disponible en el disco: %1"
 
-#: src/project/dialogs/archivewidget.cpp:588
+#: src/project/dialogs/archivewidget.cpp:573
 #, kde-format
 msgid "Not enough space on drive, free space: %1"
 msgstr "Insuficiente espacio en el disco, espacio disponible: %1"
 
-#: src/project/dialogs/archivewidget.cpp:603
+#: src/project/dialogs/archivewidget.cpp:588
 #, kde-format
 msgid "Starting archive job"
 msgstr "Comenzando tarea de archivado"
 
-#: src/project/dialogs/archivewidget.cpp:623
+#: src/project/dialogs/archivewidget.cpp:608
 #, kde-format
 msgid "Archiving…"
 msgstr "Archivando…"
 
-#: src/project/dialogs/archivewidget.cpp:654
-#: src/project/dialogs/archivewidget.cpp:688
-#: src/project/dialogs/archivewidget.cpp:774
-#: src/project/dialogs/archivewidget.cpp:1182
+#: src/project/dialogs/archivewidget.cpp:639
+#: src/project/dialogs/archivewidget.cpp:673
+#: src/project/dialogs/archivewidget.cpp:759
+#: src/project/dialogs/archivewidget.cpp:1167
 #, kde-format
 msgid "Cannot create directory %1"
 msgstr "No es posible crear el directorio %1"
 
-#: src/project/dialogs/archivewidget.cpp:675
-#: src/project/dialogs/archivewidget.cpp:755
+#: src/project/dialogs/archivewidget.cpp:660
+#: src/project/dialogs/archivewidget.cpp:740
 #, kde-format
 msgid "Copying %1"
 msgstr "Copiando %1"
 
-#: src/project/dialogs/archivewidget.cpp:680
-#: src/project/dialogs/archivewidget.cpp:849
+#: src/project/dialogs/archivewidget.cpp:665
+#: src/project/dialogs/archivewidget.cpp:834
 #, kde-format
 msgid "Cannot create temporary file"
 msgstr "No es posible crear archivo temporal"
 
-#: src/project/dialogs/archivewidget.cpp:799
+#: src/project/dialogs/archivewidget.cpp:784
 #, kde-format
 msgid "Project was successfully archived."
 msgstr "El proyecto fue archivado satisfactoriamente."
 
-#: src/project/dialogs/archivewidget.cpp:809
+#: src/project/dialogs/archivewidget.cpp:794
 #, kde-format
 msgid "There was an error while copying the files: %1"
 msgstr "Hubo un error al copiar los archivos: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1100
+#: src/project/dialogs/archivewidget.cpp:1085
 #, kde-format
 msgid "Cannot open archive file %1"
 msgstr "No es posible abrir el archivo %1"
 
-#: src/project/dialogs/archivewidget.cpp:1117
+#: src/project/dialogs/archivewidget.cpp:1102
 #, kde-format
 msgid "Archiving %1"
 msgstr "Archivando %1"
 
-#: src/project/dialogs/archivewidget.cpp:1152
+#: src/project/dialogs/archivewidget.cpp:1137
 #, kde-format
 msgid ""
 "Project was successfully archived.\n"
@@ -12934,27 +12929,27 @@ msgstr ""
 "El proyecto fue archivado exitosamente.\n"
 "%1"
 
-#: src/project/dialogs/archivewidget.cpp:1155
+#: src/project/dialogs/archivewidget.cpp:1140
 #, kde-format
 msgid "Unknown Error"
 msgstr "Error desconocido"
 
-#: src/project/dialogs/archivewidget.cpp:1155
+#: src/project/dialogs/archivewidget.cpp:1140
 #, kde-format
 msgid "There was an error while archiving the project: %1"
 msgstr "Hubo un error al archivar el proyecto: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1184
+#: src/project/dialogs/archivewidget.cpp:1169
 #, kde-format
 msgid "Extracting…"
 msgstr "Extrayendo…"
 
-#: src/project/dialogs/archivewidget.cpp:1250
+#: src/project/dialogs/archivewidget.cpp:1235
 #, kde-format
 msgid "Cannot open project file %1"
 msgstr "No es posible abrir el archivo de proyecto %1"
 
-#: src/project/dialogs/archivewidget.cpp:1250
+#: src/project/dialogs/archivewidget.cpp:1235
 #, kde-format
 msgid "Cannot open file"
 msgstr "No es posible abrir el archivo"
@@ -13112,7 +13107,7 @@ msgstr "Cargar marcadores de clip"
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr "El tamaño del marcador es mayor a 1MB, ¿seguro importarlo?"
 
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1435
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1434
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:4983
 #, kde-format
@@ -13707,32 +13702,32 @@ msgstr ""
 msgid "Cannot perform assign"
 msgstr "No es posible realizar la asignación"
 
-#: src/project/projectmanager.cpp:63
+#: src/project/projectmanager.cpp:64
 #, kde-format
 msgid "Kdenlive Project (*.kdenlive)"
 msgstr "Proyecto de Kdenlive (*.kdenlive)"
 
-#: src/project/projectmanager.cpp:65
+#: src/project/projectmanager.cpp:66
 #, kde-format
 msgid "Archived Project (*.tar.gz *.zip)"
 msgstr "Proyecto archivado (*.tar.gz *.zip)"
 
-#: src/project/projectmanager.cpp:138
+#: src/project/projectmanager.cpp:139
 #, kde-format
 msgid "Save Copy…"
 msgstr "Guardar copia…"
 
-#: src/project/projectmanager.cpp:142
+#: src/project/projectmanager.cpp:143
 #, kde-format
 msgid "Open Backup File…"
 msgstr "Abrir archivo de respaldo…"
 
-#: src/project/projectmanager.cpp:363
+#: src/project/projectmanager.cpp:364
 #, kde-format
 msgid "Save changes to document?"
 msgstr "¿Guardar cambios al proyecto?"
 
-#: src/project/projectmanager.cpp:365 src/project/projectmanager.cpp:1373
+#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1374
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13741,7 +13736,7 @@ msgstr ""
 "El proyecto <b>«%1»</b> ha sido modificado.\n"
 "¿Guardar los cambios?"
 
-#: src/project/projectmanager.cpp:490
+#: src/project/projectmanager.cpp:491
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -13753,49 +13748,49 @@ msgstr ""
 "archivos temporales desde <b>%1</b> hacia <b>%2</b>, finalmente el proyecto "
 "será recargado"
 
-#: src/project/projectmanager.cpp:531
+#: src/project/projectmanager.cpp:532
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Guardar copia"
 
-#: src/project/projectmanager.cpp:632
+#: src/project/projectmanager.cpp:633
 #, kde-format
 msgid "Auto-saved file exist. Do you want to recover now?"
 msgstr "Existe un archivo autoguardado. ¿Recuperarlo ahora?"
 
-#: src/project/projectmanager.cpp:632
+#: src/project/projectmanager.cpp:633
 #, kde-format
 msgid "File Recovery"
 msgstr "Recuperación de archivo"
 
-#: src/project/projectmanager.cpp:633 src/project/projectmanager.cpp:717
+#: src/project/projectmanager.cpp:634 src/project/projectmanager.cpp:718
 #, kde-format
 msgid "Recover"
 msgstr "Recuperar"
 
-#: src/project/projectmanager.cpp:633
+#: src/project/projectmanager.cpp:634
 #, kde-format
 msgid "Do not recover"
 msgstr "No recuperar"
 
-#: src/project/projectmanager.cpp:685
+#: src/project/projectmanager.cpp:686
 #, kde-format
 msgid "Opening file %1"
 msgstr "Abriendo archivo %1"
 
-#: src/project/projectmanager.cpp:701
+#: src/project/projectmanager.cpp:702
 #, kde-format
 msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "Cargando proyecto"
 
-#: src/project/projectmanager.cpp:703
+#: src/project/projectmanager.cpp:704
 #, kde-format
 msgid "Loading project"
 msgstr "Cargando proyecto"
 
-#: src/project/projectmanager.cpp:716
+#: src/project/projectmanager.cpp:717
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -13806,29 +13801,29 @@ msgstr ""
 "%1,\n"
 "¿Abrir un archivo de respaldo?"
 
-#: src/project/projectmanager.cpp:717
+#: src/project/projectmanager.cpp:718
 #, kde-format
 msgid "Error opening file"
 msgstr "Error al abrir el archivo"
 
-#: src/project/projectmanager.cpp:717
+#: src/project/projectmanager.cpp:718
 #, kde-format
 msgid "Open Backup"
 msgstr "Abrir respaldo"
 
-#: src/project/projectmanager.cpp:732
+#: src/project/projectmanager.cpp:733
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "No fue posible abrir el archivo de respaldo del proyecto."
 
-#: src/project/projectmanager.cpp:748
+#: src/project/projectmanager.cpp:749
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "El proyecto fue actualizado, se creará un respaldo la próxima vez que sea "
 "guardado"
 
-#: src/project/projectmanager.cpp:751
+#: src/project/projectmanager.cpp:752
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -13836,7 +13831,7 @@ msgstr ""
 "El proyecto fue modificado al abrirse, se creará un respaldo la próxima vez "
 "que sea guardado"
 
-#: src/project/projectmanager.cpp:850
+#: src/project/projectmanager.cpp:851
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -13845,12 +13840,12 @@ msgstr ""
 "Esto borrará todos los cambios hechos desde que el proyecto fue guardado. "
 "¿Seguro que desea continuar?"
 
-#: src/project/projectmanager.cpp:851
+#: src/project/projectmanager.cpp:852
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Volver a última versión guardada"
 
-#: src/project/projectmanager.cpp:931
+#: src/project/projectmanager.cpp:932
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -13859,32 +13854,32 @@ msgstr ""
 "El proyecto se encuentra corrupto, no es posible respaldarlo. Por favor "
 "cerrarlo y volver a abrirlo para recuperar el último respaldo"
 
-#: src/project/projectmanager.cpp:1116
+#: src/project/projectmanager.cpp:1117
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr ""
 "Error al mover la carpeta del proyecto, no es posible acceder a la carpeta "
 "de cachés"
 
-#: src/project/projectmanager.cpp:1152
+#: src/project/projectmanager.cpp:1153
 #, kde-format
 msgid "Moving project folder"
 msgstr "Moviendo la carpeta del proyecto"
 
-#: src/project/projectmanager.cpp:1209
+#: src/project/projectmanager.cpp:1210
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 "Archivo de proyecto corrupto (sin pistas). ¿Intentar encontrar un archivo de "
 "respaldo?"
 
-#: src/project/projectmanager.cpp:1236 src/project/projectmanager.cpp:1266
-#: src/project/projectmanager.cpp:1270
+#: src/project/projectmanager.cpp:1237 src/project/projectmanager.cpp:1267
+#: src/project/projectmanager.cpp:1271
 #, kde-format
 msgid "Sequence 1"
 msgstr "Secuencia 1"
 
-#: src/project/projectmanager.cpp:1247
+#: src/project/projectmanager.cpp:1248
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -13892,8 +13887,8 @@ msgstr ""
 "Archivo de proyecto corrupto - no fue posible cargar las pistas. ¿Intentar "
 "encontrar un archivo de respaldo?"
 
-#: src/project/projectmanager.cpp:1379 src/project/projectmanager.cpp:1384
-#: src/project/projectmanager.cpp:1394 src/project/projectmanager.cpp:1410
+#: src/project/projectmanager.cpp:1380 src/project/projectmanager.cpp:1385
+#: src/project/projectmanager.cpp:1395 src/project/projectmanager.cpp:1409
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Cambio del perfil del proyecto cancelado"
@@ -13912,7 +13907,7 @@ msgstr ""
 msgid "Project profile changed"
 msgstr "Perfil del proyecto cambiado"
 
-#: src/project/projectmanager.cpp:1601
+#: src/project/projectmanager.cpp:1604
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -13921,19 +13916,19 @@ msgstr ""
 "No es posible crear una línea de tiempo a partir de este clip:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1689
+#: src/project/projectmanager.cpp:1694
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Importando un clip de secuencia; esto se encuentra actualmente en estado "
 "experimental"
 
-#: src/project/projectmanager.cpp:1860
+#: src/project/projectmanager.cpp:1865
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Seleccionar un clip para crear una secuencia"
 
-#: src/project/projectmanager.cpp:1897
+#: src/project/projectmanager.cpp:1902
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Crear clip de secuencia"
@@ -16487,6 +16482,11 @@ msgstr "No es posible pegar el efecto en el clip seleccionado"
 #, kde-format
 msgid "Edit item"
 msgstr "Editar elemento"
+
+#: src/timeline2/view/timelinecontroller.cpp:3850
+#, kde-format
+msgid "Open sequence"
+msgstr "Abrir secuencia"
 
 #: src/timeline2/view/timelinecontroller.cpp:3872
 #, kde-format
