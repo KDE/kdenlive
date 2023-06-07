@@ -231,12 +231,15 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
             }
             if (auto ptr = m_parent.lock()) {
                 // Lock MLT playlist so that we don't end up with an invalid frame being displayed
+                std::unique_ptr<Mlt::Field> field(m_track->field());
+                field->block();
                 m_playlists[target_playlist].lock();
                 std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
                 clip->setCurrentTrackId(m_id, finalMove);
                 int index = m_playlists[target_playlist].insert_at(position, *clip, 1);
                 m_playlists[target_playlist].consolidate_blanks();
                 m_playlists[target_playlist].unlock();
+                field->unblock();
                 if (finalMove && !groupMove) {
                     ptr->updateDuration();
                 }
@@ -405,6 +408,8 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
         int target_clip = clip_loc.second;
         // lock MLT playlist so that we don't end up with invalid frames in monitor
         m_playlists[target_track].lock();
+        std::unique_ptr<Mlt::Field> field(m_track->field());
+        field->block();
         Q_ASSERT(target_clip < m_playlists[target_track].count());
         Q_ASSERT(!m_playlists[target_track].is_blank(target_clip));
         auto prod = m_playlists[target_track].replace_with_blank(target_clip);
@@ -414,6 +419,7 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
             // m_allClips[clipId]->setSubPlaylistIndex(-1);
             m_allClips.erase(clipId);
             delete prod;
+            field->unblock();
             m_playlists[target_track].unlock();
             if (auto ptr = m_parent.lock()) {
                 ptr->m_snaps->removePoint(old_in);
@@ -434,6 +440,7 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
             }
             return true;
         }
+        field->unblock();
         m_playlists[target_track].unlock();
         return false;
     };
