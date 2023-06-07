@@ -17,6 +17,7 @@
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "project/projectmanager.h"
+#include "utils/qstringutils.h"
 #include "utils/sysinfo.hpp"
 #include "utils/timecode.h"
 #include "xml/xml.hpp"
@@ -748,22 +749,14 @@ void RenderWidget::prepareRendering(bool delayedRendering)
                         name = markers.at(i).comment();
                         sectionIn = markers.at(i).time().frames(fps);
                     }
-                    int j = 0;
-                    QString newName = name;
-                    // if name alrady exist, add a suffix
-                    while (names.contains(newName)) {
-                        newName = QStringLiteral("%1_%2").arg(name).arg(j);
-                        j++;
-                    }
-                    names.append(newName);
-                    name = newName;
+                    name = QStringUtils::getUniqueName(names, name);
+                    names.append(name);
 
                     int sectionOut = out;
                     if (i + 1 < markers.count()) {
                         sectionOut = qMin(markers.at(i + 1).time().frames(fps) - 1, out);
                     }
-                    QString filename =
-                        outputFile.section(QLatin1Char('.'), 0, -2) + QStringLiteral("-%1.").arg(name) + outputFile.section(QLatin1Char('.'), -1);
+                    QString filename = QStringUtils::appendToFilename(outputFile, QStringLiteral("-%1").arg(name));
                     QDomDocument docCopy = doc.cloneNode(true).toDocument();
                     if (!subtitleFile.isEmpty()) {
                         project->generateRenderSubtitleFile(currentUuid, sectionIn, sectionOut, subtitleFile);
@@ -884,7 +877,7 @@ void RenderWidget::generateRenderFiles(const QString playlistPath, QDomDocument 
         // Format string for counter
         static const QRegularExpression rx(QRegularExpression::anchoredPattern(QStringLiteral(".*%[0-9]*d.*")));
         if (!rx.match(outputFile).hasMatch()) {
-            outputFile = outputFile.section(QLatin1Char('.'), 0, -2) + QStringLiteral("_%05d.") + extension;
+            outputFile = QStringUtils::appendToFilename(outputFile, QStringLiteral("_%05d"));
         }
     }
 
@@ -904,12 +897,12 @@ void RenderWidget::generateRenderFiles(const QString playlistPath, QDomDocument 
             QString trackName = Xml::getXmlProperty(orginalTractors.at(i).toElement(), QStringLiteral("kdenlive:track_name"));
             if (isAudio) {
                 // setup filenames
-                QString appendix = QString("_Audio_%1%2%3.")
+                QString appendix = QString("_Audio_%1%2%3")
                                        .arg(audioCount + 1)
                                        .arg(trackName.isEmpty() ? QString() : QStringLiteral("-"))
                                        .arg(trackName.replace(QStringLiteral(" "), QStringLiteral("_")));
-                QString playlistFile = playlistPath.section(QLatin1Char('.'), 0, -2) + appendix + playlistPath.section(QLatin1Char('.'), -1);
-                QString targetFile = outputFile.section(QLatin1Char('.'), 0, -2) + appendix + extension;
+                QString playlistFile = QStringUtils::appendToFilename(playlistPath, appendix);
+                QString targetFile = QStringUtils::appendToFilename(outputFile, appendix);
                 renderFiles.insert(playlistFile, targetFile);
 
                 // init doc copy
@@ -953,7 +946,7 @@ void RenderWidget::generateRenderFiles(const QString playlistPath, QDomDocument 
         int pass = passes == 2 ? i + 1 : 0;
         QString playlistName = playlistPath;
         if (pass == 2) {
-            playlistName = playlistName.section(QLatin1Char('.'), 0, -2) + QStringLiteral("-pass%1.").arg(2) + extension;
+            playlistName = QStringUtils::appendToFilename(playlistName, QStringLiteral("-pass%1").arg(2));
         }
         renderFiles.insert(playlistName, outputFile);
 
