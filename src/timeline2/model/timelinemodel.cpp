@@ -408,6 +408,9 @@ int TimelineModel::getClipByStartPosition(int trackId, int position) const
 int TimelineModel::getClipByPosition(int trackId, int position, int playlist) const
 {
     READ_LOCK();
+    if (isSubtitleTrack(trackId)) {
+        return getSubtitleByPosition(position);
+    }
     Q_ASSERT(isTrack(trackId));
     return getTrackById_const(trackId)->getClipByPosition(position, playlist);
 }
