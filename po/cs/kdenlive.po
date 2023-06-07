@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-06 00:46+0000\n"
-"PO-Revision-Date: 2023-03-20 14:19+0100\n"
+"PO-Revision-Date: 2023-06-06 10:40+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.04.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1210,10 +1210,9 @@ msgid "Correct audio loudness as recommended by EBU R128"
 msgstr "Správná hlasitost zvuku, jak doporučuje EBU R128"
 
 #: data/effects/loudness.xml:13 data/effects/tracker.xml:42
-#, fuzzy, kde-format
-#| msgid "Enable Effect"
+#, kde-format
 msgid "Analyse to Apply Effect"
-msgstr "Povolit efekt"
+msgstr ""
 
 #: data/effects/lumaliftgaingamma.xml:4
 #, kde-format
@@ -3336,10 +3335,9 @@ msgstr ""
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:445
 #: src/assets/model/assetparametermodel.cpp:1386
-#, fuzzy, kde-format
-#| msgid "Paste effects"
+#, kde-format
 msgid "Update effect"
-msgstr "Vložit efekty"
+msgstr ""
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:659
 #, kde-format
@@ -4291,10 +4289,9 @@ msgid "Clear Filters"
 msgstr ""
 
 #: src/bin/bin.cpp:2207
-#, fuzzy, kde-format
-#| msgid "Edit Tags"
+#, kde-format
 msgid "No Tags"
-msgstr "Upravit značky"
+msgstr "Žádné značky"
 
 #: src/bin/bin.cpp:2226
 #, kde-format
@@ -4305,16 +4302,14 @@ msgstr[1] "%1 hvězdy"
 msgstr[2] "%1 hvězd"
 
 #: src/bin/bin.cpp:2233
-#, fuzzy, kde-format
-#| msgid "Filter by Type"
+#, kde-format
 msgid "Filter by Usage"
-msgstr "Filtrovat podle typu"
+msgstr ""
 
 #: src/bin/bin.cpp:2236
-#, fuzzy, kde-format
-#| msgid "Clips"
+#, kde-format
 msgid "All Clips"
-msgstr "Klipy"
+msgstr ""
 
 #: src/bin/bin.cpp:2241
 #, kde-format
@@ -4322,10 +4317,9 @@ msgid "Unused Clips"
 msgstr "Nepoužívané klipy"
 
 #: src/bin/bin.cpp:2245
-#, fuzzy, kde-format
-#| msgid "Unused Clips"
+#, kde-format
 msgid "Used Clips"
-msgstr "Nepoužívané klipy"
+msgstr ""
 
 #: src/bin/bin.cpp:2252
 #, kde-format
@@ -4921,22 +4915,19 @@ msgid "MLT Playlist (*.mlt)"
 msgstr "Seznam klipů MLT (*.mlt)"
 
 #: src/bin/mediabrowser.cpp:52
-#, fuzzy, kde-format
-#| msgid "Zoom in"
+#, kde-format
 msgid "Zoom In"
 msgstr "Přiblížit"
 
 #: src/bin/mediabrowser.cpp:53
-#, fuzzy, kde-format
-#| msgid "Zoom out"
+#, kde-format
 msgid "Zoom Out"
 msgstr "Oddálit"
 
 #: src/bin/mediabrowser.cpp:54
-#, fuzzy, kde-format
-#| msgid "Invert selection"
+#, kde-format
 msgid "Import Selection"
-msgstr "Obrátit výběr"
+msgstr ""
 
 #: src/bin/mediabrowser.cpp:56
 #, kde-format
@@ -4968,10 +4959,9 @@ msgid "Name:"
 msgstr "Název:"
 
 #: src/bin/mediabrowser.cpp:200
-#, fuzzy, kde-format
-#| msgid "Filter"
+#, kde-format
 msgid "Filter:"
-msgstr "Filtr"
+msgstr "Filtr:"
 
 #: src/bin/mediabrowser.cpp:204 src/dialogs/clipcreationdialog.cpp:471
 #, kde-format
@@ -4979,10 +4969,9 @@ msgid "Ignore subfolder structure"
 msgstr "Ignorovat podadresářovou strukturu"
 
 #: src/bin/mediabrowser.cpp:206 src/dialogs/clipcreationdialog.cpp:473
-#, fuzzy, kde-format
-#| msgid "Insert Zone in Project Bin"
+#, kde-format
 msgid "Do not create subfolders in Project Bin"
-msgstr "Vložit zónu do zásobníku projektu"
+msgstr ""
 
 #: src/bin/mediabrowser.cpp:209 src/dialogs/clipcreationdialog.cpp:476
 #, kde-kuit-format
@@ -4998,10 +4987,9 @@ msgid "Import image sequence"
 msgstr "Importovat sekvenci obrázků"
 
 #: src/bin/mediabrowser.cpp:215 src/dialogs/clipcreationdialog.cpp:467
-#, fuzzy, kde-format
-#| msgid "Import image sequence"
+#, kde-format
 msgid "Try to import an image sequence"
-msgstr "Importovat sekvenci obrázků"
+msgstr ""
 
 #: src/bin/mediabrowser.cpp:217 src/dialogs/clipcreationdialog.cpp:469
 #, kde-kuit-format
@@ -5887,10 +5875,9 @@ msgstr ""
 #: src/dialogs/encodingprofilesdialog.cpp:259
 #: src/dialogs/encodingprofilesdialog.cpp:348
 #: src/project/dialogs/projectsettings.cpp:885
-#, fuzzy, kde-format
-#| msgid "Automatic"
+#, kde-format
 msgid "Automatic (%1)"
-msgstr "Automaticky"
+msgstr "Automaticky (%1)"
 
 #: src/dialogs/encodingprofilesdialog.cpp:261
 #: src/dialogs/encodingprofilesdialog.cpp:350
@@ -6959,8 +6946,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
 #: src/dialogs/textbasededit.cpp:574 src/ui/speechdialog_ui.ui:144
-#, fuzzy, kde-format
-#| msgid "Translate to english"
+#, kde-format
 msgid "Translate to English"
 msgstr "Přeložit do angličtiny"
 
@@ -7357,10 +7343,9 @@ msgid "Luma file"
 msgstr "Soubor Luma"
 
 #: src/doc/documentchecker.cpp:326
-#, fuzzy, kde-format
-#| msgid "Delete files"
+#, kde-format
 msgid "Asset file"
-msgstr "Smazat soubory"
+msgstr ""
 
 #: src/doc/documentchecker.cpp:353
 #, kde-format
@@ -7419,10 +7404,9 @@ msgid "Clip %1 will be reloaded"
 msgstr ""
 
 #: src/doc/documentchecker.cpp:474
-#, fuzzy, kde-format
-#| msgid "Sequences"
+#, kde-format
 msgid "Fixed Sequence Clips"
-msgstr "Sekvence"
+msgstr ""
 
 #: src/doc/documentchecker.cpp:478
 #, kde-format
@@ -8366,10 +8350,9 @@ msgid "Processing filter %1"
 msgstr ""
 
 #: src/jobs/filtertask.cpp:96 src/jobs/filtertask.cpp:134
-#, fuzzy, kde-format
-#| msgid "Cannot open file %1"
+#, kde-format
 msgid "Cannot process file %1"
-msgstr "Nelze otevřít soubor %1"
+msgstr ""
 
 #: src/jobs/filtertask.cpp:150
 #, kde-format
@@ -9033,10 +9016,9 @@ msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
 #: src/main.cpp:132
-#, fuzzy, kde-format
-#| msgid "Bug fixing, etc."
+#, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
-msgstr "Opravování chyb apod."
+msgstr ""
 
 #: src/main.cpp:133
 #, kde-format
@@ -9051,7 +9033,7 @@ msgstr "Analyzátory barev, opravování chyb apod."
 #: src/main.cpp:134
 #, kde-format
 msgid "Eric Jiang"
-msgstr ""
+msgstr "Eric Jiang"
 
 #: src/main.cpp:134
 #, kde-format
@@ -13346,10 +13328,9 @@ msgid ""
 msgstr ""
 
 #: src/project/projectmanager.cpp:1117
-#, fuzzy, kde-format
-#| msgid "Error moving project folder: %1"
+#, kde-format
 msgid "Error moving project folder, cannot access cache folder"
-msgstr "Chyba při přesouvání složky projektu: %1"
+msgstr ""
 
 #: src/project/projectmanager.cpp:1153
 #, kde-format
@@ -14683,10 +14664,9 @@ msgid "Histogram"
 msgstr "Histogram"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:51
-#, fuzzy, kde-format
-#| msgid "You cannot insert a sequence containing itself"
+#, kde-format
 msgid "Found an invalid sequence clip in Bin"
-msgstr "Nelze vložit sekvenci obsahující sebe samu"
+msgstr ""
 
 #: src/timeline2/model/builders/meltBuilder.cpp:270
 #: src/timeline2/model/builders/meltBuilder.cpp:499
@@ -18096,10 +18076,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperTranslate)
 #: src/ui/configspeech_ui.ui:190
-#, fuzzy, kde-format
-#| msgid "Translate to english"
+#, kde-format
 msgid "Translate text to English"
-msgstr "Přeložit do angličtiny"
+msgstr "Přeložit text do angličtiny"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_add)
 #: src/ui/configspeech_ui.ui:217
@@ -20670,20 +20649,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Open %1"
-#~ msgstr "Otevřít %1"
-
-#, fuzzy
-#~| msgid "Subtitle Preview"
-#~ msgid "Show File Preview"
-#~ msgstr "Náhled titulků"
-
-#~ msgid "Close %1"
-#~ msgstr "Zavřít %1"
-
-#~ msgid "Sashmita Raghav"
-#~ msgstr "Sashmita Raghav"
-
-#~ msgid "Analyse"
-#~ msgstr "Analyzovat"
