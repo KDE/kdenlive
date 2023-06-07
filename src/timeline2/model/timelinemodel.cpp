@@ -2512,6 +2512,27 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             }
         }
     }
+    if (delta_track != 0) {
+        // Ensure destination tracks are empty
+        for (const std::pair<int, int> &item : sorted_clips) {
+            int currentTrack = getClipTrackId(item.first);
+            int trackOffset = delta_track;
+            // Adjust delta_track depending on master
+            if (getTrackById_const(currentTrack)->isAudioTrack()) {
+                if (!masterIsAudio) {
+                    trackOffset = -delta_track;
+                }
+            } else if (masterIsAudio) {
+                trackOffset = -delta_track;
+            }
+            int newItemTrackId = getTrackIndexFromPosition(getTrackPosition(currentTrack) + trackOffset);
+            int newIn = item.second + delta_pos;
+            if (!getTrackById_const(newItemTrackId)->isAvailable(newIn, getClipPlaytime(item.first), -1)) {
+                delta_track = 0;
+                break;
+            }
+        }
+    }
     bool updateSubtitles = updateView;
     if (delta_track == 0 && updateView) {
         updateView = false;
@@ -6874,11 +6895,13 @@ bool TimelineModel::hasSubtitleModel()
 
 void TimelineModel::makeTransparentBg(bool transparent)
 {
+    m_blackClip->lock();
     if (transparent) {
         m_blackClip->set("resource", 0);
     } else {
         m_blackClip->set("resource", "black");
     }
+    m_blackClip->unlock();
 }
 
 void TimelineModel::prepareShutDown()
