@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-06 00:46+0000\n"
+"POT-Creation-Date: 2023-06-08 00:46+0000\n"
 "PO-Revision-Date: 2023-05-22 14:00\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -4462,7 +4462,7 @@ msgid "Create bin folder"
 msgstr "创建项目素材箱文件夹"
 
 #: src/bin/bin.cpp:2516 src/bin/bin.cpp:2529 src/bin/bin.cpp:3487
-#: src/timeline2/model/timelinemodel.cpp:2033
+#: src/timeline2/model/timelinemodel.cpp:2036
 #, kde-format
 msgid "Delete Clip"
 msgstr "删除剪辑"
@@ -5238,13 +5238,13 @@ msgid "Cut clip"
 msgstr "切割剪辑"
 
 #: src/bin/model/subtitlemodel.cpp:788 src/bin/model/subtitlemodel.cpp:1521
-#: src/timeline2/model/timelinemodel.cpp:3509
+#: src/timeline2/model/timelinemodel.cpp:3533
 #, kde-format
 msgid "Resize subtitle"
 msgstr "调整字幕大小"
 
 #: src/bin/model/subtitlemodel.cpp:984
-#: src/timeline2/model/timelinemodel.cpp:1260
+#: src/timeline2/model/timelinemodel.cpp:1263
 #, kde-format
 msgid "Move subtitle"
 msgstr "移动字幕"
@@ -10333,7 +10333,7 @@ msgstr "主效果"
 msgid "Switch Track Target Audio Stream"
 msgstr "切换轨道目标音频流"
 
-#: src/mainwindow.cpp:1863 src/timeline2/model/timelinemodel.cpp:4281
+#: src/mainwindow.cpp:1863 src/timeline2/model/timelinemodel.cpp:4305
 #: src/timeline2/view/timelinecontroller.cpp:878
 #, kde-format
 msgid "Delete Track"
@@ -10434,7 +10434,7 @@ msgstr "导入字幕文件…"
 msgid "Export Subtitle File…"
 msgstr "导出字幕文件…"
 
-#: src/mainwindow.cpp:1923 src/timeline2/model/timelinemodel.cpp:2037
+#: src/mainwindow.cpp:1923 src/timeline2/model/timelinemodel.cpp:2040
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "删除字幕"
@@ -15238,7 +15238,7 @@ msgid "Delete clips on track"
 msgstr "删除轨道中的剪辑"
 
 #: src/timeline2/model/timelineitemmodel.cpp:136
-#: src/timeline2/model/timelinemodel.cpp:4172
+#: src/timeline2/model/timelinemodel.cpp:4196
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -15260,270 +15260,270 @@ msgstr "重命名轨道"
 msgid "Could not setup track compositing, check your install"
 msgstr "无法设置轨道合成，请检查软件的安装情况"
 
-#: src/timeline2/model/timelinemodel.cpp:923
-#: src/timeline2/model/timelinemodel.cpp:1050
+#: src/timeline2/model/timelinemodel.cpp:926
+#: src/timeline2/model/timelinemodel.cpp:1053
 #, kde-format
 msgid "Select a clip to apply the mix"
 msgstr "选择剪辑以应用混合"
 
-#: src/timeline2/model/timelinemodel.cpp:1046
+#: src/timeline2/model/timelinemodel.cpp:1049
 #, kde-format
 msgid "start"
 msgstr "开始"
 
-#: src/timeline2/model/timelinemodel.cpp:1046
+#: src/timeline2/model/timelinemodel.cpp:1049
 #, kde-format
 msgid "end"
 msgstr "结束"
 
-#: src/timeline2/model/timelinemodel.cpp:1046
+#: src/timeline2/model/timelinemodel.cpp:1049
 #, kde-format
 msgid "Not enough frames at clip %1 to apply the mix"
 msgstr "剪辑 %1 没有足够的帧以应用该混合"
 
-#: src/timeline2/model/timelinemodel.cpp:1113
+#: src/timeline2/model/timelinemodel.cpp:1116
 #, kde-format
 msgid "Create mix"
 msgstr "创建混合"
 
-#: src/timeline2/model/timelinemodel.cpp:1192
-#: src/timeline2/model/timelinemodel.cpp:1222
+#: src/timeline2/model/timelinemodel.cpp:1195
+#: src/timeline2/model/timelinemodel.cpp:1225
 #, kde-format
 msgid "Move clip"
 msgstr "移动剪辑"
 
-#: src/timeline2/model/timelinemodel.cpp:1711
-#: src/timeline2/model/timelinemodel.cpp:1801
-#: src/timeline2/model/timelinemodel.cpp:1824
-#: src/timeline2/model/timelinemodel.cpp:1847
+#: src/timeline2/model/timelinemodel.cpp:1714
+#: src/timeline2/model/timelinemodel.cpp:1804
+#: src/timeline2/model/timelinemodel.cpp:1827
+#: src/timeline2/model/timelinemodel.cpp:1850
 #, kde-format
 msgid "No available track for insert operation"
 msgstr "没有可用于插入操作的轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:1716
+#: src/timeline2/model/timelinemodel.cpp:1719
 #, kde-format
 msgid "Insert Clip"
 msgstr "插入剪辑"
 
-#: src/timeline2/model/timelinemodel.cpp:1769
+#: src/timeline2/model/timelinemodel.cpp:1772
 #, kde-format
 msgid "You cannot insert a sequence containing itself"
 msgstr "您不能插入一个包含它自身的序列"
 
-#: src/timeline2/model/timelinemodel.cpp:1817
-#: src/timeline2/model/timelinemodel.cpp:1839
+#: src/timeline2/model/timelinemodel.cpp:1820
+#: src/timeline2/model/timelinemodel.cpp:1842
 #, kde-format
 msgid "Not enough audio tracks for all streams (%1)"
 msgstr "没有足够的音频轨道来承载所有流 (%1)"
 
-#: src/timeline2/model/timelinemodel.cpp:1923
+#: src/timeline2/model/timelinemodel.cpp:1926
 #, kde-format
 msgid "No available track for split operation"
 msgstr "没有可用于拆分操作的轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:1960
+#: src/timeline2/model/timelinemodel.cpp:1963
 #, kde-format
 msgid "Audio split failed: no viable track"
 msgstr "音频拆分失败：无可用轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:1968
+#: src/timeline2/model/timelinemodel.cpp:1971
 #, kde-format
 msgid "Audio split failed: impossible to create audio clip"
 msgstr "音频拆分失败：无法创建音频剪辑"
 
-#: src/timeline2/model/timelinemodel.cpp:2030
+#: src/timeline2/model/timelinemodel.cpp:2033
 #, kde-format
 msgid "Remove group"
 msgstr "移除组合"
 
-#: src/timeline2/model/timelinemodel.cpp:2035
+#: src/timeline2/model/timelinemodel.cpp:2038
 #, kde-format
 msgid "Delete Composition"
 msgstr "删除合成"
 
-#: src/timeline2/model/timelinemodel.cpp:2187
-#: src/timeline2/model/timelinemodel.cpp:2349
+#: src/timeline2/model/timelinemodel.cpp:2190
+#: src/timeline2/model/timelinemodel.cpp:2352
 #: src/timeline2/view/timelinecontroller.cpp:4205
 #, kde-format
 msgid "Move group"
 msgstr "移动组合"
 
-#: src/timeline2/model/timelinemodel.cpp:2955
+#: src/timeline2/model/timelinemodel.cpp:2979
 #, kde-format
 msgid "Resize group"
 msgstr "调整组合大小"
 
-#: src/timeline2/model/timelinemodel.cpp:3079
+#: src/timeline2/model/timelinemodel.cpp:3103
 #, kde-format
 msgid "Resize clip speed"
 msgstr "调整剪辑速度"
 
-#: src/timeline2/model/timelinemodel.cpp:3226
+#: src/timeline2/model/timelinemodel.cpp:3250
 #, kde-format
 msgid "Remove mix"
 msgstr "移除混合"
 
-#: src/timeline2/model/timelinemodel.cpp:3228
+#: src/timeline2/model/timelinemodel.cpp:3252
 #, kde-format
 msgid "Removing mix failed"
 msgstr "移除混合失败"
 
-#: src/timeline2/model/timelinemodel.cpp:3505
+#: src/timeline2/model/timelinemodel.cpp:3529
 #, kde-format
 msgid "Resize clip"
 msgstr "调整剪辑大小"
 
-#: src/timeline2/model/timelinemodel.cpp:3507
+#: src/timeline2/model/timelinemodel.cpp:3531
 #, kde-format
 msgid "Resize composition"
 msgstr "调整合成大小"
 
-#: src/timeline2/model/timelinemodel.cpp:3824
+#: src/timeline2/model/timelinemodel.cpp:3848
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "波纹调整剪辑大小"
 
-#: src/timeline2/model/timelinemodel.cpp:3826
+#: src/timeline2/model/timelinemodel.cpp:3850
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "波纹调整合成大小"
 
-#: src/timeline2/model/timelinemodel.cpp:3828
+#: src/timeline2/model/timelinemodel.cpp:3852
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "波纹调整字幕大小"
 
-#: src/timeline2/model/timelinemodel.cpp:3970
+#: src/timeline2/model/timelinemodel.cpp:3994
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
 msgid_plural "Slip clips"
 msgstr[0] "外滑剪辑"
 
-#: src/timeline2/model/timelinemodel.cpp:4005
+#: src/timeline2/model/timelinemodel.cpp:4029
 #, kde-format
 msgid "Slip clip"
 msgstr "外滑剪辑"
 
-#: src/timeline2/model/timelinemodel.cpp:4040
+#: src/timeline2/model/timelinemodel.cpp:4064
 #, kde-format
 msgid "Group clips"
 msgstr "组合剪辑"
 
-#: src/timeline2/model/timelinemodel.cpp:4125
-#: src/timeline2/model/timelinemodel.cpp:4141
+#: src/timeline2/model/timelinemodel.cpp:4149
+#: src/timeline2/model/timelinemodel.cpp:4165
 #, kde-format
 msgid "Ungroup clips"
 msgstr "取消组合剪辑"
 
-#: src/timeline2/model/timelinemodel.cpp:4291
+#: src/timeline2/model/timelinemodel.cpp:4315
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "无法删除时间轴中的最后一条轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:4536
+#: src/timeline2/model/timelinemodel.cpp:4560
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "无法添加效果 %1 到主轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:4543
+#: src/timeline2/model/timelinemodel.cpp:4567
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "无法添加效果 %1 到所选轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:4564
+#: src/timeline2/model/timelinemodel.cpp:4588
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "无法粘贴效果到主轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:4570
+#: src/timeline2/model/timelinemodel.cpp:4594
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "无法粘贴效果到所选轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:4596
+#: src/timeline2/model/timelinemodel.cpp:4620
 #: src/timeline2/view/timelinecontroller.cpp:1471
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "无法添加效果 %1 到所选剪辑"
 
-#: src/timeline2/model/timelinemodel.cpp:4620
+#: src/timeline2/model/timelinemodel.cpp:4644
 #, kde-format
 msgid "Adjust Fade"
 msgstr "调整渐隐渐显"
 
-#: src/timeline2/model/timelinemodel.cpp:4922
+#: src/timeline2/model/timelinemodel.cpp:4946
 #, kde-format
 msgid "Insert Composition"
 msgstr "插入合成"
 
-#: src/timeline2/model/timelinemodel.cpp:5109
+#: src/timeline2/model/timelinemodel.cpp:5133
 #, kde-format
 msgid "Move composition"
 msgstr "移动合成"
 
-#: src/timeline2/model/timelinemodel.cpp:5765
+#: src/timeline2/model/timelinemodel.cpp:5789
 #, kde-format
 msgid "Enable time remap"
 msgstr "启用时间重新映射"
 
-#: src/timeline2/model/timelinemodel.cpp:5838
+#: src/timeline2/model/timelinemodel.cpp:5862
 #, kde-format
 msgid "Change speed failed"
 msgstr "更改速度失败"
 
-#: src/timeline2/model/timelinemodel.cpp:5848
+#: src/timeline2/model/timelinemodel.cpp:5872
 #, kde-format
 msgid "Change clip speed"
 msgstr "更改剪辑速度"
 
-#: src/timeline2/model/timelinemodel.cpp:6227
+#: src/timeline2/model/timelinemodel.cpp:6251
 #: src/timeline2/view/qml/timeline.qml:1183
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "锁定轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:6232
+#: src/timeline2/model/timelinemodel.cpp:6256
 #: src/timeline2/view/qml/timeline.qml:1183
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
 msgstr "解锁轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:6266
-#: src/timeline2/model/timelinemodel.cpp:6328
+#: src/timeline2/model/timelinemodel.cpp:6290
+#: src/timeline2/model/timelinemodel.cpp:6352
 #, kde-format
 msgid "Change composition"
 msgstr "更改合成"
 
-#: src/timeline2/model/timelinemodel.cpp:6280
+#: src/timeline2/model/timelinemodel.cpp:6304
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "无法对组合的合成进行操作，请先取消组合"
 
-#: src/timeline2/model/timelinemodel.cpp:6473
-#: src/timeline2/model/timelinemodel.cpp:6510
-#: src/timeline2/model/timelinemodel.cpp:6543
-#: src/timeline2/model/timelinemodel.cpp:6624
+#: src/timeline2/model/timelinemodel.cpp:6497
+#: src/timeline2/model/timelinemodel.cpp:6534
+#: src/timeline2/model/timelinemodel.cpp:6567
+#: src/timeline2/model/timelinemodel.cpp:6648
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "无法调整混合大小到小于 1 帧"
 
-#: src/timeline2/model/timelinemodel.cpp:6484
-#: src/timeline2/model/timelinemodel.cpp:6518
-#: src/timeline2/model/timelinemodel.cpp:6562
-#: src/timeline2/model/timelinemodel.cpp:6648
+#: src/timeline2/model/timelinemodel.cpp:6508
+#: src/timeline2/model/timelinemodel.cpp:6542
+#: src/timeline2/model/timelinemodel.cpp:6586
+#: src/timeline2/model/timelinemodel.cpp:6672
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "无法调整混合大小"
 
-#: src/timeline2/model/timelinemodel.cpp:6662
+#: src/timeline2/model/timelinemodel.cpp:6686
 #, kde-format
 msgid "Resize mix"
 msgstr "调整混合大小"
 
-#: src/timeline2/model/timelinemodel.cpp:6799
+#: src/timeline2/model/timelinemodel.cpp:6823
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "初始化时间轴预览出错"
