@@ -2029,7 +2029,7 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
                 t->set_in_and_out(mixPosition, mixPosition + mixDurations.first + mixDurations.second);
                 xml = TransitionsRepository::get()->getXml(assetName);
                 t->set("kdenlive:mixcut", secondClipCut);
-                t->set("kdenlive_id", "luma");
+                t->set("kdenlive_id", assetName.toUtf8().constData());
                 if (dest_track == 0) {
                     t->set("reverse", 1);
                 }
