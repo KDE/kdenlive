@@ -1115,11 +1115,9 @@ void Core::resetThumbProfile()
     m_thumbProfile->set_sample_aspect(m_projectProfile->sample_aspect_num(), m_projectProfile->sample_aspect_den());
     m_thumbProfile->set_display_aspect(m_projectProfile->display_aspect_num(), m_projectProfile->display_aspect_den());
     m_thumbProfile->set_explicit(true);
-    qDebug() << "====================0\n\nUPDATED THUMBNAILS PROFILE: " << m_thumbProfile->width() << "x" << m_thumbProfile->height() << "\n_______________";
 }
 Mlt::Profile *Core::thumbProfile()
 {
-    qDebug() << "AAAAAAAAAAAAAAAAAAAAa\n\nQUERYING THUMB PROFILE: " << m_thumbProfile->width() << "x" << m_thumbProfile->height() << "\n\nAAAAAAAAAAAAAAAAAAAA";
     return m_thumbProfile.get();
 }
 

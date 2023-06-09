@@ -31,16 +31,13 @@ TEST_CASE("Effects stack", "[Effects]")
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
     KdenliveDoc document(undoStack);
-    Mock<KdenliveDoc> docMock(document);
-    When(Method(docMock, getCacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
-    KdenliveDoc &mockedDoc = docMock.get();
 
-    pCore->projectManager()->m_project = &mockedDoc;
+    pCore->projectManager()->m_project = &document;
     QDateTime documentDate = QDateTime::currentDateTime();
     pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
-    auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
+    auto timeline = document.getTimeline(document.uuid());
     pCore->projectManager()->m_activeTimelineModel = timeline;
-    pCore->projectManager()->testSetActiveDocument(&mockedDoc, timeline);
+    pCore->projectManager()->testSetActiveDocument(&document, timeline);
 
     // Create a request
     int tid1;
@@ -111,5 +108,5 @@ TEST_CASE("Effects stack", "[Effects]")
         REQUIRE(clipModel->rowCount() == 0);
         REQUIRE(splitModel->rowCount() == 1);
     }
-    binModel->clean();
+    pCore->projectManager()->closeCurrentDocument(false, false);
 }
