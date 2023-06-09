@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-08 00:46+0000\n"
+"POT-Creation-Date: 2023-06-09 00:47+0000\n"
 "PO-Revision-Date: 2023-05-31 11:23-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -17773,7 +17773,7 @@ msgstr "Excluir o ponto atual."
 #: src/ui/editrenderpreset_ui.ui:470 src/ui/editsub_ui.ui:23
 #: src/ui/editsub_ui.ui:33 src/ui/editsub_ui.ui:43 src/ui/editsub_ui.ui:54
 #: src/ui/editsub_ui.ui:65 src/ui/editsub_ui.ui:76 src/ui/editsub_ui.ui:135
-#: src/ui/editsub_ui.ui:156 src/ui/editsub_ui.ui:189 src/ui/editsub_ui.ui:423
+#: src/ui/editsub_ui.ui:156 src/ui/editsub_ui.ui:189 src/ui/editsub_ui.ui:457
 #: src/ui/exportguidesdialog_ui.ui:108 src/ui/exportguidesdialog_ui.ui:128
 #: src/ui/gradientedit_ui.ui:130 src/ui/gradientedit_ui.ui:150
 #: src/ui/guideslist_ui.ui:19 src/ui/guideslist_ui.ui:36
@@ -19503,74 +19503,74 @@ msgstr "Ativar edição manual"
 msgid "End:"
 msgstr "Fim:"
 
-#. i18n: ectx: property (suffix), widget (QSpinBox, outlineSize)
-#. i18n: ectx: property (suffix), widget (QSpinBox, shadowSize)
-#: src/ui/editsub_ui.ui:267 src/ui/editsub_ui.ui:368
-#, kde-format
-msgid "px"
-msgstr "px"
-
-#. i18n: ectx: property (text), widget (QCheckBox, checkShadowSize)
-#: src/ui/editsub_ui.ui:277
-#, fuzzy, kde-format
-#| msgid "Create Folder"
-msgid "Custom Shadow"
-msgstr "Criar pasta"
-
-#. i18n: ectx: property (text), widget (QCheckBox, checkFont)
-#: src/ui/editsub_ui.ui:284
-#, fuzzy, kde-format
-#| msgid "Create Folder"
-msgid "Custom Font"
-msgstr "Criar pasta"
-
-#. i18n: ectx: property (suffix), widget (QSpinBox, fontSize)
-#: src/ui/editsub_ui.ui:294
-#, kde-format
-msgid "pt"
-msgstr "pt"
-
-#. i18n: ectx: property (text), widget (QCheckBox, checkFontColor)
-#: src/ui/editsub_ui.ui:320
-#, fuzzy, kde-format
-#| msgid "Create Folder"
-msgid "Custom Font Color"
-msgstr "Criar pasta"
-
 #. i18n: ectx: property (text), widget (QCheckBox, checkPosition)
-#: src/ui/editsub_ui.ui:327
+#: src/ui/editsub_ui.ui:270
 #, fuzzy, kde-format
 #| msgid "Compositions"
 msgid "Custom Position"
 msgstr "Composições"
 
-#. i18n: ectx: property (text), widget (QCheckBox, checkFontSize)
-#: src/ui/editsub_ui.ui:334
-#, fuzzy, kde-format
-#| msgid "Font Size"
-msgid "Custom Font Size"
-msgstr "Tamanho da fonte"
+#. i18n: ectx: property (suffix), widget (QSpinBox, shadowSize)
+#. i18n: ectx: property (suffix), widget (QSpinBox, outlineSize)
+#: src/ui/editsub_ui.ui:280 src/ui/editsub_ui.ui:389
+#, kde-format
+msgid "px"
+msgstr "px"
 
-#. i18n: ectx: property (text), widget (QCheckBox, checkOutlineColor)
-#: src/ui/editsub_ui.ui:382
+#. i18n: ectx: property (text), widget (QCheckBox, checkFontColor)
+#: src/ui/editsub_ui.ui:287
 #, fuzzy, kde-format
-#| msgid "Outline Color"
-msgid "Custom Outline Color"
-msgstr "Cor do destaque"
+#| msgid "Create Folder"
+msgid "Custom Font Color"
+msgstr "Criar pasta"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOutlineSize)
-#: src/ui/editsub_ui.ui:389
+#: src/ui/editsub_ui.ui:294
 #, fuzzy, kde-format
 #| msgid "Quality"
 msgid "Custom Outline Size"
 msgstr "Qualidade"
 
+#. i18n: ectx: property (text), widget (QCheckBox, checkShadowSize)
+#: src/ui/editsub_ui.ui:301
+#, fuzzy, kde-format
+#| msgid "Create Folder"
+msgid "Custom Shadow"
+msgstr "Criar pasta"
+
 #. i18n: ectx: property (text), widget (QCheckBox, checkOpaque)
-#: src/ui/editsub_ui.ui:396
+#: src/ui/editsub_ui.ui:332
 #, fuzzy, kde-format
 #| msgid "Image background"
 msgid "Opaque background"
 msgstr "Imagem de fundo"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, fontSize)
+#: src/ui/editsub_ui.ui:349
+#, kde-format
+msgid "pt"
+msgstr "pt"
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkOutlineColor)
+#: src/ui/editsub_ui.ui:362
+#, fuzzy, kde-format
+#| msgid "Outline Color"
+msgid "Custom Outline Color"
+msgstr "Cor do destaque"
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkFontSize)
+#: src/ui/editsub_ui.ui:406
+#, fuzzy, kde-format
+#| msgid "Font Size"
+msgid "Custom Font Size"
+msgstr "Tamanho da fonte"
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkFont)
+#: src/ui/editsub_ui.ui:426
+#, fuzzy, kde-format
+#| msgid "Create Folder"
+msgid "Custom Font"
+msgstr "Criar pasta"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/exportguidesdialog_ui.ui:30
