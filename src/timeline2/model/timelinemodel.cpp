@@ -2371,7 +2371,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
     std::vector<std::pair<int, int>> sorted_clips;
-    std::vector<int> sorted_clips_ids;
+    QVector<int> sorted_clips_ids;
     std::vector<std::pair<int, std::pair<int, int>>> sorted_compositions;
     std::vector<std::pair<int, GenTime>> sorted_subtitles;
     int lowerTrack = -1;
@@ -2530,7 +2530,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             }
             int newItemTrackId = getTrackIndexFromPosition(getTrackPosition(currentTrack) + trackOffset);
             int newIn = item.second + delta_pos;
-            if (!getTrackById_const(newItemTrackId)->isAvailable(newIn, getClipPlaytime(item.first), -1)) {
+            if (!getTrackById_const(newItemTrackId)->isAvailableWithExceptions(newIn, getClipPlaytime(item.first) - 1, sorted_clips_ids)) {
                 delta_track = 0;
                 break;
             }

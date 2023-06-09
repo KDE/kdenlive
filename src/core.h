@@ -348,7 +348,7 @@ private:
     void checkProfileValidity();
     std::unique_ptr<MediaCapture> m_capture;
     QUrl m_mediaCaptureFile;
-    QMutex m_thumbProfileMutex;
+    void resetThumbProfile();
 
 public Q_SLOTS:
     /** @brief Trigger (launch) an action by its actionCollection name */
