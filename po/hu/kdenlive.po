@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-08 00:46+0000\n"
+"POT-Creation-Date: 2023-06-09 00:47+0000\n"
 "PO-Revision-Date: 2014-12-09 21:11+0100\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -18410,7 +18410,7 @@ msgstr "Aktuális gomb törlése"
 #: src/ui/editrenderpreset_ui.ui:470 src/ui/editsub_ui.ui:23
 #: src/ui/editsub_ui.ui:33 src/ui/editsub_ui.ui:43 src/ui/editsub_ui.ui:54
 #: src/ui/editsub_ui.ui:65 src/ui/editsub_ui.ui:76 src/ui/editsub_ui.ui:135
-#: src/ui/editsub_ui.ui:156 src/ui/editsub_ui.ui:189 src/ui/editsub_ui.ui:423
+#: src/ui/editsub_ui.ui:156 src/ui/editsub_ui.ui:189 src/ui/editsub_ui.ui:457
 #: src/ui/exportguidesdialog_ui.ui:108 src/ui/exportguidesdialog_ui.ui:128
 #: src/ui/gradientedit_ui.ui:130 src/ui/gradientedit_ui.ui:150
 #: src/ui/guideslist_ui.ui:19 src/ui/guideslist_ui.ui:36
@@ -20234,75 +20234,75 @@ msgstr "Hang rögzítése"
 msgid "End:"
 msgstr ""
 
-#. i18n: ectx: property (suffix), widget (QSpinBox, outlineSize)
-#. i18n: ectx: property (suffix), widget (QSpinBox, shadowSize)
-#: src/ui/editsub_ui.ui:267 src/ui/editsub_ui.ui:368
-#, fuzzy, kde-format
-#| msgid "x"
-msgid "px"
-msgstr "x"
-
-#. i18n: ectx: property (text), widget (QCheckBox, checkShadowSize)
-#: src/ui/editsub_ui.ui:277
-#, fuzzy, kde-format
-#| msgid "Create Folder"
-msgid "Custom Shadow"
-msgstr "Mappa létrehozása"
-
-#. i18n: ectx: property (text), widget (QCheckBox, checkFont)
-#: src/ui/editsub_ui.ui:284
-#, fuzzy, kde-format
-#| msgid "Create Folder"
-msgid "Custom Font"
-msgstr "Mappa létrehozása"
-
-#. i18n: ectx: property (suffix), widget (QSpinBox, fontSize)
-#: src/ui/editsub_ui.ui:294
-#, kde-format
-msgid "pt"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QCheckBox, checkFontColor)
-#: src/ui/editsub_ui.ui:320
-#, fuzzy, kde-format
-#| msgid "Create Folder"
-msgid "Custom Font Color"
-msgstr "Mappa létrehozása"
-
 #. i18n: ectx: property (text), widget (QCheckBox, checkPosition)
-#: src/ui/editsub_ui.ui:327
+#: src/ui/editsub_ui.ui:270
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Custom Position"
 msgstr "Kompozit"
 
-#. i18n: ectx: property (text), widget (QCheckBox, checkFontSize)
-#: src/ui/editsub_ui.ui:334
+#. i18n: ectx: property (suffix), widget (QSpinBox, shadowSize)
+#. i18n: ectx: property (suffix), widget (QSpinBox, outlineSize)
+#: src/ui/editsub_ui.ui:280 src/ui/editsub_ui.ui:389
 #, fuzzy, kde-format
-#| msgid "Font Size"
-msgid "Custom Font Size"
-msgstr "Betűméret"
+#| msgid "x"
+msgid "px"
+msgstr "x"
 
-#. i18n: ectx: property (text), widget (QCheckBox, checkOutlineColor)
-#: src/ui/editsub_ui.ui:382
+#. i18n: ectx: property (text), widget (QCheckBox, checkFontColor)
+#: src/ui/editsub_ui.ui:287
 #, fuzzy, kde-format
-#| msgid "Outline Color"
-msgid "Custom Outline Color"
-msgstr "Körvonal színe"
+#| msgid "Create Folder"
+msgid "Custom Font Color"
+msgstr "Mappa létrehozása"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOutlineSize)
-#: src/ui/editsub_ui.ui:389
+#: src/ui/editsub_ui.ui:294
 #, fuzzy, kde-format
 #| msgid "Medium Quality"
 msgid "Custom Outline Size"
 msgstr "Közepes minőség"
 
+#. i18n: ectx: property (text), widget (QCheckBox, checkShadowSize)
+#: src/ui/editsub_ui.ui:301
+#, fuzzy, kde-format
+#| msgid "Create Folder"
+msgid "Custom Shadow"
+msgstr "Mappa létrehozása"
+
 #. i18n: ectx: property (text), widget (QCheckBox, checkOpaque)
-#: src/ui/editsub_ui.ui:396
+#: src/ui/editsub_ui.ui:332
 #, fuzzy, kde-format
 #| msgid "Image background"
 msgid "Opaque background"
 msgstr "Háttérkép"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, fontSize)
+#: src/ui/editsub_ui.ui:349
+#, kde-format
+msgid "pt"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkOutlineColor)
+#: src/ui/editsub_ui.ui:362
+#, fuzzy, kde-format
+#| msgid "Outline Color"
+msgid "Custom Outline Color"
+msgstr "Körvonal színe"
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkFontSize)
+#: src/ui/editsub_ui.ui:406
+#, fuzzy, kde-format
+#| msgid "Font Size"
+msgid "Custom Font Size"
+msgstr "Betűméret"
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkFont)
+#: src/ui/editsub_ui.ui:426
+#, fuzzy, kde-format
+#| msgid "Create Folder"
+msgid "Custom Font"
+msgstr "Mappa létrehozása"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/exportguidesdialog_ui.ui:30
