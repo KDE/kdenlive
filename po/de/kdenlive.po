@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-08 02:45+0000\n"
+"POT-Creation-Date: 2023-06-09 02:49+0000\n"
 "PO-Revision-Date: 2023-05-19 18:02+0200\n"
 "Last-Translator: Jannick Alexander Kuhr <opensource@kuhr.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -17378,7 +17378,7 @@ msgstr "Aktuellen Punkt löschen."
 #: src/ui/editrenderpreset_ui.ui:470 src/ui/editsub_ui.ui:23
 #: src/ui/editsub_ui.ui:33 src/ui/editsub_ui.ui:43 src/ui/editsub_ui.ui:54
 #: src/ui/editsub_ui.ui:65 src/ui/editsub_ui.ui:76 src/ui/editsub_ui.ui:135
-#: src/ui/editsub_ui.ui:156 src/ui/editsub_ui.ui:189 src/ui/editsub_ui.ui:423
+#: src/ui/editsub_ui.ui:156 src/ui/editsub_ui.ui:189 src/ui/editsub_ui.ui:457
 #: src/ui/exportguidesdialog_ui.ui:108 src/ui/exportguidesdialog_ui.ui:128
 #: src/ui/gradientedit_ui.ui:130 src/ui/gradientedit_ui.ui:150
 #: src/ui/guideslist_ui.ui:19 src/ui/guideslist_ui.ui:36
@@ -19087,67 +19087,67 @@ msgstr "Manuelle Bearbeitung aktivieren"
 msgid "End:"
 msgstr "Ende:"
 
-#. i18n: ectx: property (suffix), widget (QSpinBox, outlineSize)
-#. i18n: ectx: property (suffix), widget (QSpinBox, shadowSize)
-#: src/ui/editsub_ui.ui:267 src/ui/editsub_ui.ui:368
-#, kde-format
-msgid "px"
-msgstr "px"
-
-#. i18n: ectx: property (text), widget (QCheckBox, checkShadowSize)
-#: src/ui/editsub_ui.ui:277
-#, kde-format
-msgid "Custom Shadow"
-msgstr "Benutzerdefinierter Schatten"
-
-#. i18n: ectx: property (text), widget (QCheckBox, checkFont)
-#: src/ui/editsub_ui.ui:284
-#, kde-format
-msgid "Custom Font"
-msgstr "Benutzerdefinierte Schriftart"
-
-#. i18n: ectx: property (suffix), widget (QSpinBox, fontSize)
-#: src/ui/editsub_ui.ui:294
-#, kde-format
-msgid "pt"
-msgstr "pt"
-
-#. i18n: ectx: property (text), widget (QCheckBox, checkFontColor)
-#: src/ui/editsub_ui.ui:320
-#, kde-format
-msgid "Custom Font Color"
-msgstr "Benutzerdefinierte Schriftfarbe"
-
 # Übergänge wurden im Englischen von "Transition" nach "Composition" umbenannt.
 #. i18n: ectx: property (text), widget (QCheckBox, checkPosition)
-#: src/ui/editsub_ui.ui:327
+#: src/ui/editsub_ui.ui:270
 #, kde-format
 msgid "Custom Position"
 msgstr "Benutzerdefinierte Position"
 
-#. i18n: ectx: property (text), widget (QCheckBox, checkFontSize)
-#: src/ui/editsub_ui.ui:334
+#. i18n: ectx: property (suffix), widget (QSpinBox, shadowSize)
+#. i18n: ectx: property (suffix), widget (QSpinBox, outlineSize)
+#: src/ui/editsub_ui.ui:280 src/ui/editsub_ui.ui:389
 #, kde-format
-msgid "Custom Font Size"
-msgstr "Benutzerdefinierte Schriftgröße"
+msgid "px"
+msgstr "px"
 
-#. i18n: ectx: property (text), widget (QCheckBox, checkOutlineColor)
-#: src/ui/editsub_ui.ui:382
+#. i18n: ectx: property (text), widget (QCheckBox, checkFontColor)
+#: src/ui/editsub_ui.ui:287
 #, kde-format
-msgid "Custom Outline Color"
-msgstr "Benutzerdefinierte Umrissfarbe"
+msgid "Custom Font Color"
+msgstr "Benutzerdefinierte Schriftfarbe"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOutlineSize)
-#: src/ui/editsub_ui.ui:389
+#: src/ui/editsub_ui.ui:294
 #, kde-format
 msgid "Custom Outline Size"
 msgstr "Benutzerdefinierte Umrissgröße"
 
+#. i18n: ectx: property (text), widget (QCheckBox, checkShadowSize)
+#: src/ui/editsub_ui.ui:301
+#, kde-format
+msgid "Custom Shadow"
+msgstr "Benutzerdefinierter Schatten"
+
 #. i18n: ectx: property (text), widget (QCheckBox, checkOpaque)
-#: src/ui/editsub_ui.ui:396
+#: src/ui/editsub_ui.ui:332
 #, kde-format
 msgid "Opaque background"
 msgstr "Undurchsichtiger Hintergrund"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, fontSize)
+#: src/ui/editsub_ui.ui:349
+#, kde-format
+msgid "pt"
+msgstr "pt"
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkOutlineColor)
+#: src/ui/editsub_ui.ui:362
+#, kde-format
+msgid "Custom Outline Color"
+msgstr "Benutzerdefinierte Umrissfarbe"
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkFontSize)
+#: src/ui/editsub_ui.ui:406
+#, kde-format
+msgid "Custom Font Size"
+msgstr "Benutzerdefinierte Schriftgröße"
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkFont)
+#: src/ui/editsub_ui.ui:426
+#, kde-format
+msgid "Custom Font"
+msgstr "Benutzerdefinierte Schriftart"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/exportguidesdialog_ui.ui:30
