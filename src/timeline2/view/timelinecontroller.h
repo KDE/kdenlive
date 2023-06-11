@@ -236,7 +236,7 @@ public:
     Q_INVOKABLE int insertComposition(int tid, int position, const QString &transitionId, bool logUndo);
     /** @brief Request inserting a new mix in timeline (dragged from compositions list)
        @param tid is the destination track
-       @param position is the timeline position
+       @param position is the timeline position (clip start of the second clip)
        @param transitionId is the data describing the dropped composition
     */
     Q_INVOKABLE void insertNewMix(int tid, int position, const QString &transitionId);

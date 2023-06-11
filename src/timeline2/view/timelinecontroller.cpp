@@ -468,7 +468,7 @@ void TimelineController::insertNewMix(int tid, int position, const QString &tran
 {
     int clipId = m_model->getTrackById_const(tid)->getClipByPosition(position);
     if (clipId > 0) {
-        m_model->mixClip(clipId, transitionId);
+        m_model->mixClip(clipId, transitionId, -1);
     }
 }
 

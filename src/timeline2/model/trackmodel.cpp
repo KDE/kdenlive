@@ -2049,6 +2049,10 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
                 }
                 return true;
             }
+            // Clear asset panel if mix was selected
+            if (ptr->m_selectedMix == clipIds.second) {
+                ptr->requestClearAssetView(clipIds.second);
+            }
             Mlt::Transition &transition = *static_cast<Mlt::Transition *>(m_sameCompositions[clipIds.second]->getAsset());
             std::shared_ptr<ClipModel> movedClip(ptr->getClipPtr(clipIds.second));
             movedClip->setMixDuration(0);
