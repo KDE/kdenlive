@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-10 00:47+0000\n"
-"PO-Revision-Date: 2023-05-19 17:19+0200\n"
+"PO-Revision-Date: 2023-06-02 09:23+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -4057,7 +4057,7 @@ msgstr ""
 #: src/audiomixer/mixermanager.cpp:205 src/timeline2/view/qml/timeline.qml:989
 #, kde-format
 msgid "Master"
-msgstr "Principali"
+msgstr "Principale"
 
 #: src/audiomixer/mixerwidget.cpp:149
 #, kde-format
@@ -5118,15 +5118,14 @@ msgid "Zoom Out"
 msgstr "Rimpicciolisci"
 
 #: src/bin/mediabrowser.cpp:54
-#, fuzzy, kde-format
-#| msgid "Color Selection"
+#, kde-format
 msgid "Import Selection"
-msgstr "Selezione colore"
+msgstr "Importa selezione"
 
 #: src/bin/mediabrowser.cpp:56
 #, kde-format
 msgid "Import File on Double Click"
-msgstr ""
+msgstr "Importa file al doppio clic"
 
 #: src/bin/mediabrowser.cpp:160 src/dialogs/clipcreationdialog.cpp:465
 #: src/effects/effectlist/view/effectlistwidget.cpp:130
@@ -5153,10 +5152,9 @@ msgid "Name:"
 msgstr "Nome:"
 
 #: src/bin/mediabrowser.cpp:200
-#, fuzzy, kde-format
-#| msgid "Filter"
+#, kde-format
 msgid "Filter:"
-msgstr "Filtro"
+msgstr "Filtro:"
 
 #: src/bin/mediabrowser.cpp:204 src/dialogs/clipcreationdialog.cpp:471
 #, kde-format
@@ -5164,10 +5162,9 @@ msgid "Ignore subfolder structure"
 msgstr "Ignora struttura delle sottocartelle"
 
 #: src/bin/mediabrowser.cpp:206 src/dialogs/clipcreationdialog.cpp:473
-#, fuzzy, kde-format
-#| msgid "Insert Zone in Project Bin"
+#, kde-format
 msgid "Do not create subfolders in Project Bin"
-msgstr "Inserisci zona nel contenitore del progetto"
+msgstr "Non creare sottocartelle nel contenitore del progetto"
 
 #: src/bin/mediabrowser.cpp:209 src/dialogs/clipcreationdialog.cpp:476
 #, kde-kuit-format
@@ -5176,6 +5173,9 @@ msgid ""
 "When enabled, Kdenlive will import all clips contained in the folder and its "
 "subfolders without creating the subfolders in Project Bin."
 msgstr ""
+"Quando è abilitato, Kdenlive importerà tutte le clip contenute nella "
+"cartella e nelle sue sottocartelle senza creare delle sottocartelle nel "
+"contenitore del progetto."
 
 #: src/bin/mediabrowser.cpp:212 src/dialogs/clipcreationdialog.cpp:466
 #, kde-format
@@ -5183,10 +5183,9 @@ msgid "Import image sequence"
 msgstr "Importa sequenza di immagini"
 
 #: src/bin/mediabrowser.cpp:215 src/dialogs/clipcreationdialog.cpp:467
-#, fuzzy, kde-format
-#| msgid "Import image sequence"
+#, kde-format
 msgid "Try to import an image sequence"
-msgstr "Importa sequenza di immagini"
+msgstr "Cerca di importare una sequenza di immagini"
 
 #: src/bin/mediabrowser.cpp:217 src/dialogs/clipcreationdialog.cpp:469
 #, kde-kuit-format
@@ -5195,6 +5194,8 @@ msgid ""
 "When enabled, Kdenlive will look for other images with the same name pattern "
 "and import them as an image sequence."
 msgstr ""
+"Quando è abilitato, Kdenlive cercherà tutte le immagini con lo stesso schema "
+"del nome e le importerà come sequenza di immagini."
 
 #: src/bin/model/markerlistmodel.cpp:87
 #, kde-format
@@ -6089,10 +6090,9 @@ msgstr ""
 #: src/dialogs/encodingprofilesdialog.cpp:259
 #: src/dialogs/encodingprofilesdialog.cpp:348
 #: src/project/dialogs/projectsettings.cpp:885
-#, fuzzy, kde-format
-#| msgid "Automatic"
+#, kde-format
 msgid "Automatic (%1)"
-msgstr "Automatico"
+msgstr "Automatico (%1)"
 
 #: src/dialogs/encodingprofilesdialog.cpp:261
 #: src/dialogs/encodingprofilesdialog.cpp:350
@@ -7441,22 +7441,19 @@ msgid "NVIDIA hardware acceleration"
 msgstr "Accelerazione hardware NVIDIA"
 
 #: src/dialogs/wizard.cpp:145
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware acceleration"
+#, kde-format
 msgid "AMF hardware acceleration"
-msgstr "Accelerazione hardware VAAPI"
+msgstr "Accelerazione hardware AMF"
 
 #: src/dialogs/wizard.cpp:148
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware acceleration"
+#, kde-format
 msgid "QSV hardware acceleration"
-msgstr "Accelerazione hardware VAAPI"
+msgstr "Accelerazione hardware QSV"
 
 #: src/dialogs/wizard.cpp:151
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware acceleration"
+#, kde-format
 msgid "Video Toolbox hardware acceleration"
-msgstr "Accelerazione hardware VAAPI"
+msgstr "Accelerazione hardware Video Toolbox"
 
 #: src/dialogs/wizard.cpp:166
 #, kde-format
@@ -7625,10 +7622,9 @@ msgid "No hardware encoders found."
 msgstr "Nessun codificatore hardware trovato."
 
 #: src/dialogs/wizard.cpp:796
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware encoders found and enabled."
+#, kde-format
 msgid "hardware encoders found and enabled (%1)."
-msgstr "Codificatore hardware VAAPI trovato ed abilitato."
+msgstr "codificatori hardware trovati ed abilitati (%1)."
 
 #: src/doc/documentchecker.cpp:320
 #, kde-format
@@ -8682,10 +8678,9 @@ msgid "Processing filter %1"
 msgstr "Elaborazione del filtro %1"
 
 #: src/jobs/filtertask.cpp:96 src/jobs/filtertask.cpp:134
-#, fuzzy, kde-format
-#| msgid "Cannot open file %1"
+#, kde-format
 msgid "Cannot process file %1"
-msgstr "Impossibile aprire il file %1"
+msgstr "Impossibile elaborare il file %1"
 
 #: src/jobs/filtertask.cpp:150
 #, kde-format

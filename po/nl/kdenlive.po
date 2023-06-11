@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-10 00:47+0000\n"
-"PO-Revision-Date: 2023-06-05 11:49+0200\n"
+"PO-Revision-Date: 2023-06-10 11:45+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -1276,7 +1276,7 @@ msgstr "Verhogen"
 #, kde-format
 msgctxt "Mask Apply Effect Name"
 msgid "Mask Apply"
-msgstr "Toepassen maskeren"
+msgstr "Masker toepassen"
 
 #: data/effects/mask_apply.xml:5
 #, kde-format
