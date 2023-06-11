@@ -40,10 +40,21 @@ set(MLT_MIN_MINOR_VERSION 14)
 set(MLT_MIN_PATCH_VERSION 0)
 set(MLT_MIN_VERSION ${MLT_MIN_MAJOR_VERSION}.${MLT_MIN_MINOR_VERSION}.${MLT_MIN_PATCH_VERSION})
 
+# Qt version
+set(QT_MIN_VERSION 5.15.2)
+if (NOT DEFINED QT_MAJOR_VERSION)
+    set(QT_MAJOR_VERSION 5)
+endif()
+
+if (QT_MAJOR_VERSION STREQUAL "6")
+    set(USE_VERSIONLESS_TARGETS ON)
+endif()
+
 # KDE Frameworks
 if (NOT DEFINED KF_MAJOR)
-  set(KF_MAJOR 5)
+  set(KF_MAJOR ${QT_MAJOR_VERSION})
 endif()
+
 if (KF_MAJOR LESS "6")
   set(KF_DEP_VERSION "5.92.0")
 else()
@@ -102,21 +113,12 @@ if (KF_MAJOR LESS "6")
   )
 endif()
 
-# Qt
-set(QT_MIN_VERSION 5.15.2)
-if (NOT DEFINED QT_MAJOR_VERSION)
-    set(QT_MAJOR_VERSION 5)
-endif()
-
-if (QT_MAJOR_VERSION STREQUAL "6")
-    set(USE_VERSIONLESS_TARGETS ON)
-endif()
-
 ecm_set_disabled_deprecation_versions(
     QT ${QT_MIN_VERSION}
     KF ${KF_DEP_VERSION}
 )
 
+# Qt targets
 find_package(Qt${QT_MAJOR_VERSION}
     REQUIRED COMPONENTS
     Core Widgets

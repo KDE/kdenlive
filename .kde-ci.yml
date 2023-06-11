@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: CC0-1.0
 
 Dependencies:
-- 'on': ['Linux', 'FreeBSD', 'Windows', 'macOS']
+- 'on': ['Linux/Qt5', 'FreeBSD/Qt5', 'Windows/Qt5', 'macOS/Qt5']
   'require':
     'frameworks/extra-cmake-modules': '@stable'
     'frameworks/breeze-icons' : '@stable'
@@ -32,6 +32,34 @@ Dependencies:
     'frameworks/kxmlgui' : '@stable'
     'frameworks/kfilemetadata' : '@stable'
     'frameworks/purpose' : '@stable'
+- 'on': ['Linux/Qt6', 'FreeBSD/Qt6', 'Windows/Qt6', 'macOS/Qt6']
+  'require':
+    'frameworks/extra-cmake-modules': '@latest-kf6'
+    'frameworks/breeze-icons' : '@latest-kf6'
+    'frameworks/karchive' : '@latest-kf6'
+    'frameworks/kbookmarks' : '@latest-kf6'
+    'frameworks/kconfig' : '@latest-kf6'
+    'frameworks/kconfigwidgets' : '@latest-kf6'
+    'frameworks/kcompletion' : '@latest-kf6'
+    'frameworks/kcoreaddons' : '@latest-kf6'
+    'frameworks/kcrash' : '@latest-kf6'
+    'frameworks/kdbusaddons' : '@latest-kf6'
+    'frameworks/kguiaddons' : '@latest-kf6'
+    'frameworks/ki18n' : '@latest-kf6'
+    'frameworks/kiconthemes' : '@latest-kf6'
+    'frameworks/kio' : '@latest-kf6'
+    'frameworks/kitemviews' : '@latest-kf6'
+    'frameworks/kjobwidgets' : '@latest-kf6'
+    'frameworks/knewstuff' : '@latest-kf6'
+    'frameworks/knotifications' : '@latest-kf6'
+    'frameworks/knotifyconfig' : '@latest-kf6'
+    'frameworks/kplotting' : '@latest-kf6'
+    'frameworks/kservice' : '@latest-kf6'
+    'frameworks/ktextwidgets' : '@latest-kf6'
+    'frameworks/kwidgetsaddons' : '@latest-kf6'
+    'frameworks/kxmlgui' : '@latest-kf6'
+    'frameworks/kfilemetadata' : '@latest-kf6'
+    'frameworks/purpose' : '@latest-kf6'
 
 #- 'on': ['Linux', 'FreeBSD']
   #'require':
