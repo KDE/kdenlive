@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-10 00:47+0000\n"
-"PO-Revision-Date: 2023-06-01 12:30+0200\n"
+"PO-Revision-Date: 2023-06-10 13:32+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -2704,7 +2704,7 @@ msgstr "Productor de soroll blanc"
 #: data/kdenliveeffectscategory.rc:6
 #, kde-format
 msgid "Alpha, Mask and Keying"
-msgstr "Alfa, Màscara i Clau"
+msgstr "Alfa, màscara i clau"
 
 #: data/kdenliveeffectscategory.rc:10
 #, kde-format
@@ -21357,6 +21357,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Open %1"
-#~ msgstr "Obri %1"
