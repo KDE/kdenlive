@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-09 02:49+0000\n"
-"PO-Revision-Date: 2023-06-01 12:30+0200\n"
+"PO-Revision-Date: 2023-06-12 13:45+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 20.12.0\n"
+"X-Generator: Lokalize 22.12.3\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -1377,7 +1377,7 @@ msgstr "Operació"
 #: data/effects/mask_start_frei0r_select0r.xml:4
 #, kde-format
 msgid "Secondary Color Correction Area Selection (Mask)"
-msgstr "Color secundari de la selecció de l'àrea de correcció (màscara)"
+msgstr "Selecció de l'àrea de correcció del color secundari (màscara)"
 
 #: data/effects/mask_start_frei0r_select0r.xml:5
 #, kde-format
@@ -1390,7 +1390,7 @@ msgid ""
 "effects, mask_apply."
 msgstr ""
 "Aquest filtre fa una instantània del fotograma abans que s'apliqui una "
-"selecció clau de croma de fotograma clau amb opcions més avançades (p. ex., "
+"selecció del croma de fotograma clau amb opcions més avançades (p. ex., "
 "models de color diferents). Useu-lo juntament amb l'efecte mask_apply, el "
 "qual usa una transició per a compondre la imatge del fotograma actual sobre "
 "la instantània. El cas d'ús típic és afegir efectes en la seqüència següent: "
@@ -1507,12 +1507,12 @@ msgstr "Pista"
 #: data/effects/mask_start_rotoscoping.xml:26 data/effects/rotoscoping.xml:23
 #, kde-format
 msgid "Feather width"
-msgstr "Amplada de la ploma"
+msgstr "Amplada de difuminació"
 
 #: data/effects/mask_start_rotoscoping.xml:29 data/effects/rotoscoping.xml:26
 #, kde-format
 msgid "Feathering passes"
-msgstr "Passades de la ploma"
+msgstr "Passades de difuminació"
 
 #: data/effects/mask_start_shape.xml:4
 #, kde-format
@@ -2703,7 +2703,7 @@ msgstr "Productor de soroll blanc"
 #: data/kdenliveeffectscategory.rc:6
 #, kde-format
 msgid "Alpha, Mask and Keying"
-msgstr "Alfa, Màscara i Clau"
+msgstr "Alfa, màscara i clau"
 
 #: data/kdenliveeffectscategory.rc:10
 #, kde-format
