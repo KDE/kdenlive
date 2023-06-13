@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-10 00:47+0000\n"
-"PO-Revision-Date: 2023-06-02 09:23+0200\n"
+"PO-Revision-Date: 2023-06-11 09:38+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -1294,7 +1294,7 @@ msgstr ""
 #: data/effects/mask_start_frei0r_alphaspot.xml:4
 #, kde-format
 msgid "Alpha shapes (Mask)"
-msgstr "Forme sul canale alfa (Maschera)"
+msgstr "Forme nel canale alfa (Maschera)"
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:5
 #, kde-format
@@ -8316,7 +8316,7 @@ msgstr "Sposta effetto %1"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:51
 #, kde-format
 msgid "Move effect up"
-msgstr "Muovi effetto verso l'alto"
+msgstr "Sposta in su l'effetto"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:53
 #, kde-kuit-format
@@ -8332,7 +8332,7 @@ msgstr ""
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:55
 #, kde-format
 msgid "Move effect down"
-msgstr "Muovi effetto verso il basso"
+msgstr "Sposta in giù l'effetto"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:57
 #, kde-kuit-format
@@ -10621,7 +10621,7 @@ msgstr "Adatta tutte le tracce nella vista"
 #: src/mainwindow.cpp:1851 src/timeline2/view/timelinecontroller.cpp:4792
 #, kde-format
 msgid "Master effects"
-msgstr "Effetti principali"
+msgstr "Effetti nel principale"
 
 #: src/mainwindow.cpp:1858
 #, kde-format
@@ -16333,12 +16333,12 @@ msgstr ""
 #: src/timeline2/view/qml/TrackHead.qml:441
 #, kde-format
 msgid "Disable track effects"
-msgstr "Disabilita gli effetti della traccia"
+msgstr "Disabilita gli effetti nella traccia"
 
 #: src/timeline2/view/qml/TrackHead.qml:441
 #, kde-format
 msgid "Enable track effects"
-msgstr "Abilita gli effetti della traccia"
+msgstr "Abilita gli effetti nella traccia"
 
 #: src/timeline2/view/qml/TrackHead.qml:441
 #, kde-format

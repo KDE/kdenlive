@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-10 00:47+0000\n"
-"PO-Revision-Date: 2023-05-29 21:38+0400\n"
+"PO-Revision-Date: 2023-06-12 19:24+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
 "Language: az\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 23.04.1\n"
+"X-Generator: Lokalize 23.04.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -7658,10 +7658,9 @@ msgid "Fixed Sequence Clips"
 msgstr "Şəkillər seriyası:"
 
 #: src/doc/documentchecker.cpp:478
-#, fuzzy, kde-format
-#| msgid "Clip %1 will be reloaded"
+#, kde-format
 msgid "Clip %1 will be fixed"
-msgstr "%1 klipi yenidən yükləndi"
+msgstr "%1 klipi düzəldiləcəkdir."
 
 #: src/doc/documentchecker.cpp:485
 #, kde-format
@@ -12249,20 +12248,15 @@ msgstr ""
 "zonanı ayarlayan zaman axtarış üçün isə <shortcut>Shift+Sürükləmək</shortcut>"
 
 #: src/monitor/view/MonitorRuler.qml:379
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<shortcut>Ctrl</shortcut> to apply on current track only, "
-#| "<shortcut>Shift</shortcut> to also move guides. You can combine both "
-#| "modifiers."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Drag</shortcut> to set zone out point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone out"
 msgstr ""
-"Yalnız cari cığıra tətbiq etmək üçün <shortcut>Ctrl</shortcut>, "
-"istiqamətləndiricilərin əlavə hərəkəti üçün <shortcut>Shift</shortcut>. Hər "
-"iki dəyişdiri-düymələr birləşdirə bilər."
+"Zonadan çıxış nöqtədini təyin etmək üçün <shortcut>Sürükləmək</shortcut>, "
+"zonanın çıxışını təyin edərkən axtarmaq üçün <shortcut>Shift+Sürükləmək</"
+"shortcut>"
 
 #: src/monitor/view/SceneToolBar.qml:94
 #, kde-format
@@ -12758,7 +12752,7 @@ msgstr "Layihə faylının işlənməsində xəta var"
 #: src/project/dialogs/archivewidget.cpp:247
 #, kde-format
 msgid "Please save your project before archiving"
-msgstr ""
+msgstr "Arxivləmədən öncə, lütfən layihənizi saxlayın"
 
 #: src/project/dialogs/archivewidget.cpp:283
 #, kde-format
@@ -12866,14 +12860,9 @@ msgid "There was an error while copying the files: %1"
 msgstr "Faylların kopyalanmasında xəta baş verdi: %1"
 
 #: src/project/dialogs/archivewidget.cpp:1085
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot open archive file:\n"
-#| " %1"
+#, kde-format
 msgid "Cannot open archive file %1"
-msgstr ""
-"Arxiv faylı açıla bilmədi:\n"
-"%1"
+msgstr "%1 arxiv faylını açmaq mümkün deyil"
 
 #: src/project/dialogs/archivewidget.cpp:1102
 #, kde-format
@@ -12890,16 +12879,14 @@ msgstr ""
 "%1"
 
 #: src/project/dialogs/archivewidget.cpp:1140
-#, fuzzy, kde-format
-#| msgid "Unknown"
+#, kde-format
 msgid "Unknown Error"
-msgstr "Naməlum"
+msgstr "Naməlum xəta"
 
 #: src/project/dialogs/archivewidget.cpp:1140
-#, fuzzy, kde-format
-#| msgid "There was an error while copying the files: %1"
+#, kde-format
 msgid "There was an error while archiving the project: %1"
-msgstr "Faylların kopyalanmasında xəta baş verdi: %1"
+msgstr "Layihənin arxivlənməsi zamanı xəta baş verdi: %1"
 
 #: src/project/dialogs/archivewidget.cpp:1169
 #, kde-format
@@ -12933,16 +12920,14 @@ msgid "Showing backup files for %1"
 msgstr "%1 üçün ehtiyyat nüsxə faylları göstərilir"
 
 #: src/project/dialogs/guidecategories.cpp:42
-#, fuzzy, kde-format
-#| msgid "Edit Guide"
+#, kde-format
 msgid "Edit Guide Category"
-msgstr "İstiqamətləndiriciyə düzəliş edin"
+msgstr "Bələdçi kateqoriyasına düzəliş edin"
 
 #: src/project/dialogs/guidecategories.cpp:57
-#, fuzzy, kde-format
-#| msgid "This color is already used in another tag"
+#, kde-format
 msgid "This color is already used in another category"
-msgstr "Bu rəng artıq başqa etiketdə istifadə olunur"
+msgstr "Bu rəng artıq başqa kateqoriyada istifadə olunur"
 
 #: src/project/dialogs/guidecategories.cpp:133
 #, kde-format
@@ -12950,86 +12935,76 @@ msgid "Category %1"
 msgstr "Kateqoriya %1"
 
 #: src/project/dialogs/guidecategories.cpp:152
-#, fuzzy, kde-format
-#| msgid "Delete Guide"
+#, kde-format
 msgid "Delete Guide Category"
-msgstr "İstiqamətləndiricini silin"
+msgstr "Bələdçi kateqoriyasını silin"
 
 #: src/project/dialogs/guidecategories.cpp:157
 #, kde-format
 msgid "Delete the %1 markers using this category"
-msgstr ""
+msgstr "Bu kateqoriyanın istifadə etdiyi %1 markerlərini silin"
 
 #: src/project/dialogs/guidecategories.cpp:158
 #, kde-format
 msgid "Reassign the markers to :"
-msgstr ""
+msgstr "Markerləri buraya yenidən təyin edin :"
 
 #: src/project/dialogs/guideslist.cpp:85
-#, fuzzy, kde-format
-#| msgid "Import"
+#, kde-format
 msgid "Import..."
-msgstr "İdxal edin"
+msgstr "İdxal edin..."
 
 #: src/project/dialogs/guideslist.cpp:88
-#, fuzzy, kde-format
-#| msgid "Exported:"
+#, kde-format
 msgid "Export..."
-msgstr "İxrac edilmiş:"
+msgstr "İxrac edin..."
 
 #: src/project/dialogs/guideslist.cpp:91
-#, fuzzy, kde-format
-#| msgid "Configure profiles"
+#, kde-format
 msgid "Configure Categories"
-msgstr "Profilləri tənziləyin"
+msgstr "Kateqoriyaları tənzimləyin"
 
 #: src/project/dialogs/guideslist.cpp:99
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Sort by Category"
-msgstr "Kateqoriya"
+msgstr "Kateqoriyalara görə çeşidləyin"
 
 #: src/project/dialogs/guideslist.cpp:101
-#, fuzzy, kde-format
-#| msgid "Sort By"
+#, kde-format
 msgid "Sort by Time"
-msgstr "Düzülüş sırası"
+msgstr "Vaxta görə çeşidləyin"
 
 #: src/project/dialogs/guideslist.cpp:103
-#, fuzzy, kde-format
-#| msgid "Comment"
+#, kde-format
 msgid "Sort by Comment"
-msgstr "Şərh"
+msgstr "Şərhə görə çeşidləyin"
 
 #: src/project/dialogs/guideslist.cpp:136
-#, fuzzy, kde-format
-#| msgid "Add guide"
+#, kde-format
 msgid "Add new guide."
-msgstr "Bələdçi əlavə edin"
+msgstr "Yeni bələdçi əlavə edin."
 
 #: src/project/dialogs/guideslist.cpp:137
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Add new guide. This will add a guide at the current frame position."
-msgstr ""
+msgstr "Yeni bələdçi əlavə edin. Bu, yeni bələdçinin cari kadra əlavə edəcək."
 
 #: src/project/dialogs/guideslist.cpp:138
-#, fuzzy, kde-format
-#| msgid "Delete guide"
+#, kde-format
 msgid "Delete guide."
-msgstr "Bələdçini silin"
+msgstr "Bələdçini silin."
 
 #: src/project/dialogs/guideslist.cpp:139
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Delete guide. This will erase all selected guides."
-msgstr ""
+msgstr "Bələdçini silin. Bu, bütün seçilmiş bələdçiləri siləcək."
 
 #: src/project/dialogs/guideslist.cpp:140
-#, fuzzy, kde-format
-#| msgid "Delete guide"
+#, kde-format
 msgid "Edit selected guide."
-msgstr "Bələdçini silin"
+msgstr "Seçilmiş bələdçiyə düzəliş edin."
 
 #: src/project/dialogs/guideslist.cpp:141
 #, kde-kuit-format
@@ -13038,6 +13013,8 @@ msgid ""
 "Edit selected guide. Selecting multiple guides allows changing their "
 "category."
 msgstr ""
+"Seçilmiş bələdçiyə düzəliş edin. Bir neçə bələdçinin seçilməsi onların "
+"kateqoriyasını dəyişməyə imkan verir."
 
 #: src/project/dialogs/guideslist.cpp:142
 #, kde-format

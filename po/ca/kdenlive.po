@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-10 00:47+0000\n"
-"PO-Revision-Date: 2023-06-11 17:27+0200\n"
+"PO-Revision-Date: 2023-06-12 13:45+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -1377,7 +1377,7 @@ msgstr "Operació"
 #: data/effects/mask_start_frei0r_select0r.xml:4
 #, kde-format
 msgid "Secondary Color Correction Area Selection (Mask)"
-msgstr "Color secundari de la selecció de l'àrea de correcció (màscara)"
+msgstr "Selecció de l'àrea de correcció del color secundari (màscara)"
 
 #: data/effects/mask_start_frei0r_select0r.xml:5
 #, kde-format
@@ -1390,7 +1390,7 @@ msgid ""
 "effects, mask_apply."
 msgstr ""
 "Aquest filtre fa una instantània del fotograma abans que s'apliqui una "
-"selecció clau de croma de fotograma clau amb opcions més avançades (p. ex., "
+"selecció del croma de fotograma clau amb opcions més avançades (p. ex., "
 "models de color diferents). Useu-lo juntament amb l'efecte mask_apply, el "
 "qual usa una transició per a compondre la imatge del fotograma actual sobre "
 "la instantània. El cas d'ús típic és afegir efectes en la seqüència següent: "
