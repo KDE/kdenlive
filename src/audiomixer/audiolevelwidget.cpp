@@ -86,8 +86,7 @@ void AudioLevelWidget::drawBackground(int channels)
         return;
     }
     // Channel labels are vertical along the left.
-    QVector<int> dbscale;
-    dbscale << 0 << -5 << -10 << -15 << -20 << -25 << -30 << -35 << -40 << -50;
+    QVector<int> dbscale = {0, -6, -12, -18, -24, -30, -36, -42, -48, -54};
     m_maxDb = dbscale.first();
     int dbLabelCount = dbscale.size();
 
@@ -96,14 +95,12 @@ void AudioLevelWidget::drawBackground(int channels)
     double gradientVal = 0.;
     gradient.setColorAt(gradientVal, Qt::darkGreen);
     gradientVal = IEC_ScaleMax(-12, m_maxDb);
-    gradient.setColorAt(gradientVal - 0.001, Qt::darkGreen);
-    gradient.setColorAt(gradientVal, Qt::green); // -12db
-    gradientVal = IEC_ScaleMax(-6, m_maxDb);
-    gradient.setColorAt(gradientVal - 0.001, Qt::green);
-    gradient.setColorAt(gradientVal, Qt::yellow); // -6db
-    gradientVal = IEC_ScaleMax(0, m_maxDb);
-    gradient.setColorAt(gradientVal - 0.001, Qt::yellow);
-    gradient.setColorAt(gradientVal, Qt::red); // 0db
+    gradient.setColorAt(gradientVal, Qt::green); // -12db, green
+    gradientVal = IEC_ScaleMax(-8, m_maxDb);
+    gradient.setColorAt(gradientVal, Qt::yellow); // -8db, yellow
+    gradientVal = IEC_ScaleMax(-5, m_maxDb);
+    gradient.setColorAt(gradientVal, QColor(255, 200, 20)); // -5db, orange
+    gradient.setColorAt(1., Qt::red);                       // 0db, red
     m_pixmap.fill(Qt::transparent);
     int totalWidth;
     if (channels < 2) {
