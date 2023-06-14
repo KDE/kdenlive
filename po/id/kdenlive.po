@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-10 00:47+0000\n"
+"POT-Creation-Date: 2023-06-14 00:46+0000\n"
 "PO-Revision-Date: 2023-05-28 12:50+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -3987,13 +3987,13 @@ msgstr "Kustom..."
 msgid "Invalid LUT file %1"
 msgstr "LUT file %1 tidak valid"
 
-#: src/audiomixer/audiolevelwidget.cpp:242
+#: src/audiomixer/audiolevelwidget.cpp:239
 #, kde-format
 msgctxt "L as in Left"
 msgid "L:"
 msgstr "Kiri:"
 
-#: src/audiomixer/audiolevelwidget.cpp:243
+#: src/audiomixer/audiolevelwidget.cpp:240
 #, kde-format
 msgctxt "R as in Right"
 msgid ""

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-10 00:47+0000\n"
+"POT-Creation-Date: 2023-06-14 00:46+0000\n"
 "PO-Revision-Date: 2021-06-03 18:11+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian\n"
@@ -4154,14 +4154,14 @@ msgstr "Personalizat"
 msgid "Invalid LUT file %1"
 msgstr "Clip nevalid"
 
-#: src/audiomixer/audiolevelwidget.cpp:242
+#: src/audiomixer/audiolevelwidget.cpp:239
 #, fuzzy, kde-format
 #| msgid ":"
 msgctxt "L as in Left"
 msgid "L:"
 msgstr ":"
 
-#: src/audiomixer/audiolevelwidget.cpp:243
+#: src/audiomixer/audiolevelwidget.cpp:240
 #, kde-format
 msgctxt "R as in Right"
 msgid ""

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-10 00:47+0000\n"
+"POT-Creation-Date: 2023-06-14 00:46+0000\n"
 "PO-Revision-Date: 2023-05-15 16:30+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -3977,14 +3977,14 @@ msgstr "Mukautettu..."
 msgid "Invalid LUT file %1"
 msgstr "Virheellinen profiili"
 
-#: src/audiomixer/audiolevelwidget.cpp:242
+#: src/audiomixer/audiolevelwidget.cpp:239
 #, fuzzy, kde-format
 #| msgid ":"
 msgctxt "L as in Left"
 msgid "L:"
 msgstr ":"
 
-#: src/audiomixer/audiolevelwidget.cpp:243
+#: src/audiomixer/audiolevelwidget.cpp:240
 #, fuzzy, kde-format
 #| msgid "R: "
 msgctxt "R as in Right"

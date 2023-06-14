@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-10 00:47+0000\n"
+"POT-Creation-Date: 2023-06-14 00:46+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -4015,13 +4015,13 @@ msgstr "ऐच्छिक"
 msgid "Invalid LUT file %1"
 msgstr "प्रोफाईल \"%1\" संपादित करा"
 
-#: src/audiomixer/audiolevelwidget.cpp:242
+#: src/audiomixer/audiolevelwidget.cpp:239
 #, kde-format
 msgctxt "L as in Left"
 msgid "L:"
 msgstr ""
 
-#: src/audiomixer/audiolevelwidget.cpp:243
+#: src/audiomixer/audiolevelwidget.cpp:240
 #, kde-format
 msgctxt "R as in Right"
 msgid ""

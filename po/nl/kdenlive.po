@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-10 00:47+0000\n"
+"POT-Creation-Date: 2023-06-14 00:46+0000\n"
 "PO-Revision-Date: 2023-06-10 11:45+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -4011,13 +4011,13 @@ msgstr "Aangepast…"
 msgid "Invalid LUT file %1"
 msgstr "Ongeldig LUT-bestand %1"
 
-#: src/audiomixer/audiolevelwidget.cpp:242
+#: src/audiomixer/audiolevelwidget.cpp:239
 #, kde-format
 msgctxt "L as in Left"
 msgid "L:"
 msgstr "L:"
 
-#: src/audiomixer/audiolevelwidget.cpp:243
+#: src/audiomixer/audiolevelwidget.cpp:240
 #, kde-format
 msgctxt "R as in Right"
 msgid ""
