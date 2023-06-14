@@ -21,9 +21,24 @@
 #include <QModelIndex>
 #include <QScreen>
 #include <QScrollArea>
+#include <QStyle>
+#include <QStyleOptionSlider>
 #include <QTimer>
 
 const double log_factor = 1.0 / log10(1.0 / 127);
+
+MySlider::MySlider(QWidget *parent)
+    : QSlider(parent)
+{
+}
+
+int MySlider::getHandleHeight()
+{
+    // Get slider handle size
+    QStyleOptionSlider opt;
+    initStyleOption(&opt);
+    return style()->subControlRect(QStyle::CC_Slider, &opt, QStyle::SC_SliderHandle).height();
+}
 
 MixerManager::MixerManager(QWidget *parent)
     : QWidget(parent)
@@ -59,6 +74,8 @@ MixerManager::MixerManager(QWidget *parent)
     m_box->addWidget(line);
     m_box->addLayout(m_masterBox);
     setLayout(m_box);
+    MySlider slider;
+    m_sliderHandle = slider.getHandleHeight();
 }
 
 void MixerManager::checkAudioLevelVersion()
@@ -104,7 +121,7 @@ void MixerManager::registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service,
         // Track already registered
         return;
     }
-    std::shared_ptr<MixerWidget> mixer(new MixerWidget(tid, service, trackTag, trackName, this));
+    std::shared_ptr<MixerWidget> mixer(new MixerWidget(tid, service, trackTag, trackName, m_sliderHandle, this));
     connect(mixer.get(), &MixerWidget::muteTrack, this,
             [&](int id, bool mute) { m_model->setTrackProperty(id, "hide", mute ? QStringLiteral("1") : QStringLiteral("3")); });
     if (m_visibleMixerManager) {
@@ -202,7 +219,7 @@ void MixerManager::setModel(std::shared_ptr<TimelineItemModel> model)
         // delete previous master mixer
         m_masterBox->removeWidget(m_masterMixer.get());
     }
-    m_masterMixer.reset(new MixerWidget(-1, service, i18n("Master"), QString(), this));
+    m_masterMixer.reset(new MixerWidget(-1, service, i18n("Master"), QString(), m_sliderHandle, this));
     connect(m_masterMixer.get(), &MixerWidget::muteTrack, this, [&](int /*id*/, bool mute) { m_model->tractor()->set("hide", mute ? 3 : 1); });
     if (m_visibleMixerManager) {
         m_masterMixer->connectMixer(true);
