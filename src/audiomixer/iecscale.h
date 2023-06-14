@@ -6,6 +6,8 @@
 #ifndef IECSCALE_H
 #define IECSCALE_H
 
+#include <cmath>
+
 //----------------------------------------------------------------------------
 // IEC standard dB scaling -- as borrowed from meterbridge (c) Steve Harris
 
@@ -34,6 +36,18 @@ static inline double IEC_Scale(double dB)
 static inline double IEC_ScaleMax(double dB, double max)
 {
     return IEC_Scale(dB) / IEC_Scale(max);
+}
+
+static inline int fromDB(double level)
+{
+    int value = 60;
+    if (level > 0.) {
+        // increase volume
+        value = 100 - int((pow(10, 1. - level / 24) - 1) / .225);
+    } else if (level < 0.) {
+        value = int((10 - pow(10, 1. - level / -50)) / -0.11395) + 59;
+    }
+    return value;
 }
 
 #endif // IECSCALE_H
