@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-09 02:49+0000\n"
-"PO-Revision-Date: 2023-06-01 12:30+0200\n"
+"POT-Creation-Date: 2023-06-14 02:35+0000\n"
+"PO-Revision-Date: 2023-06-12 13:45+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 20.12.0\n"
+"X-Generator: Lokalize 22.12.3\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -1377,7 +1377,7 @@ msgstr "Operació"
 #: data/effects/mask_start_frei0r_select0r.xml:4
 #, kde-format
 msgid "Secondary Color Correction Area Selection (Mask)"
-msgstr "Color secundari de la selecció de l'àrea de correcció (màscara)"
+msgstr "Seleccioneu l'àrea de correcció del color secundari (màscara)"
 
 #: data/effects/mask_start_frei0r_select0r.xml:5
 #, kde-format
@@ -1390,7 +1390,7 @@ msgid ""
 "effects, mask_apply."
 msgstr ""
 "Este filtre fa una instantània del fotograma abans que s'aplique una "
-"selecció clau de croma de fotograma clau amb opcions més avançades (p. ex., "
+"selecció del croma de fotograma clau amb opcions més avançades (p. ex., "
 "models de color diferents). Utilitzeu-lo juntament amb l'efecte mask_apply, "
 "el qual utilitza una transició per a compondre la imatge del fotograma "
 "actual sobre la instantània. El cas d'ús típic és afegir efectes en la "
@@ -1508,12 +1508,12 @@ msgstr "Pista"
 #: data/effects/mask_start_rotoscoping.xml:26 data/effects/rotoscoping.xml:23
 #, kde-format
 msgid "Feather width"
-msgstr "Amplària de la ploma"
+msgstr "Amplària de difuminació"
 
 #: data/effects/mask_start_rotoscoping.xml:29 data/effects/rotoscoping.xml:26
 #, kde-format
 msgid "Feathering passes"
-msgstr "Passades de la ploma"
+msgstr "Passades de difuminació"
 
 #: data/effects/mask_start_shape.xml:4
 #, kde-format
@@ -2704,7 +2704,7 @@ msgstr "Productor de soroll blanc"
 #: data/kdenliveeffectscategory.rc:6
 #, kde-format
 msgid "Alpha, Mask and Keying"
-msgstr "Alfa, Màscara i Clau"
+msgstr "Alfa, màscara i clau"
 
 #: data/kdenliveeffectscategory.rc:10
 #, kde-format
@@ -4015,13 +4015,13 @@ msgstr "Personalitzat…"
 msgid "Invalid LUT file %1"
 msgstr "Fitxer LUT no vàlid %1"
 
-#: src/audiomixer/audiolevelwidget.cpp:242
+#: src/audiomixer/audiolevelwidget.cpp:239
 #, kde-format
 msgctxt "L as in Left"
 msgid "L:"
 msgstr "E:"
 
-#: src/audiomixer/audiolevelwidget.cpp:243
+#: src/audiomixer/audiolevelwidget.cpp:240
 #, kde-format
 msgctxt "R as in Right"
 msgid ""
@@ -21247,6 +21247,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Open %1"
-#~ msgstr "Obri %1"
