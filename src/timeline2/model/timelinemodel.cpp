@@ -6877,11 +6877,13 @@ bool TimelineModel::hasSubtitleModel()
 
 void TimelineModel::makeTransparentBg(bool transparent)
 {
+    m_blackClip->lock();
     if (transparent) {
         m_blackClip->set("resource", 0);
     } else {
         m_blackClip->set("resource", "black");
     }
+    m_blackClip->unlock();
 }
 
 void TimelineModel::prepareShutDown()
