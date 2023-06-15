@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-14 02:35+0000\n"
-"PO-Revision-Date: 2023-06-06 10:40+0200\n"
+"POT-Creation-Date: 2023-06-15 02:44+0000\n"
+"PO-Revision-Date: 2023-06-14 14:50+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 23.04.1\n"
+"X-Generator: Lokalize 23.04.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -30,7 +30,7 @@ msgid "Your emails"
 msgstr "repli2dev@gmail.com, vit@pelcak.org, petr.simacek@gmail.com"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
-#: src/audiomixer/mixerwidget.cpp:172 src/audiomixer/mixerwidget.cpp:185
+#: src/audiomixer/mixerwidget.cpp:161 src/audiomixer/mixerwidget.cpp:174
 #, kde-format
 msgid "Balance"
 msgstr "Zůstatek"
@@ -74,7 +74,7 @@ msgstr ""
 #: data/effects/audiolevelgraph.xml:9 data/effects/audiospectrum.xml:10
 #, kde-format
 msgid "Graph type"
-msgstr ""
+msgstr "Typ graf"
 
 #: data/effects/audiolevelgraph.xml:10
 #, kde-format
@@ -231,36 +231,38 @@ msgid ""
 "CH1,CH2,CH3,CH4,CH5,CH6,CH7,CH8,CH9,CH10,CH11,CH12,CH13,CH14,CH15,CH16,CH17,"
 "CH18,CH19,CH20,CH21,CH22,CH23,CH24,CH25,CH26,CH27,CH28,CH29,CH30,CH31,CH32"
 msgstr ""
+"CH1,CH2,CH3,CH4,CH5,CH6,CH7,CH8,CH9,CH10,CH11,CH12,CH13,CH14,CH15,CH16,CH17,"
+"CH18,CH19,CH20,CH21,CH22,CH23,CH24,CH25,CH26,CH27,CH28,CH29,CH30,CH31,CH32"
 
 #: data/effects/audiomap.xml:9
 #, kde-format
 msgid "CH1 source"
-msgstr ""
+msgstr "Zdroj CH1"
 
 #: data/effects/audiomap.xml:13
 #, kde-format
 msgid "CH2 source"
-msgstr ""
+msgstr "Zdroj CH2"
 
 #: data/effects/audiomap.xml:17
 #, kde-format
 msgid "CH3 source"
-msgstr ""
+msgstr "Zdroj CH3"
 
 #: data/effects/audiomap.xml:21
 #, kde-format
 msgid "CH4 source"
-msgstr ""
+msgstr "Zdroj CH4"
 
 #: data/effects/audiomap.xml:25
 #, kde-format
 msgid "CH5 source"
-msgstr ""
+msgstr "Zdroj CH5"
 
 #: data/effects/audiomap.xml:29
 #, kde-format
 msgid "CH6 source"
-msgstr ""
+msgstr "Zdroj CH6"
 
 #: data/effects/audiopan.xml:4
 #, kde-format
@@ -293,7 +295,7 @@ msgstr "Rozprostření"
 #: data/effects/audiospectrum.xml:5
 #, kde-format
 msgid "Audio Spectrum Filter"
-msgstr "Filtr spektra audia"
+msgstr "Filtr spektra zvuku"
 
 #: data/effects/audiospectrum.xml:6
 #, kde-format
@@ -430,7 +432,7 @@ msgstr ""
 #: data/effects/audiowave.xml:4
 #, kde-format
 msgid "Audio Wave"
-msgstr "Audio signál"
+msgstr "Zvukový signál"
 
 #: data/effects/audiowave.xml:5
 #, kde-format
@@ -696,7 +698,7 @@ msgstr ""
 #: data/effects/dance.xml:17 data/effects/lightshow.xml:17
 #, kde-format
 msgid "Oscillation"
-msgstr ""
+msgstr "Oscilace"
 
 #: data/effects/dance.xml:20
 #, kde-format
@@ -929,7 +931,7 @@ msgstr "Postupné zesílení signálu"
 #: data/effects/fadein.xml:5
 #, kde-format
 msgid "Fade in audio track"
-msgstr "Postupně zesílení audio stopy"
+msgstr "Postupně zesílení zvukové stopy"
 
 #: data/effects/fadein.xml:14 data/effects/fadeout.xml:14
 #, kde-format
@@ -950,7 +952,7 @@ msgstr "Postupné zeslabení signálu"
 #: data/effects/fadeout.xml:5
 #, kde-format
 msgid "Fade out audio track"
-msgstr "Postupně zeslabení audio stopy"
+msgstr "Postupně zeslabení zvukové stopy"
 
 #: data/effects/freeze.xml:4
 #, kde-format
@@ -987,7 +989,7 @@ msgstr "Zesílení"
 #: data/effects/gain.xml:5
 #, kde-format
 msgid "Adjust the audio volume without keyframes"
-msgstr "Nastavit hlasitost audia bez klíčových snímků"
+msgstr "Nastavit hlasitost zvuku bez klíčových snímků"
 
 #: data/effects/gain.xml:8 data/effects/lumaliftgaingamma.xml:11
 #: data/effects/mute.xml:8 data/effects/normalise.xml:8
@@ -1192,12 +1194,12 @@ msgstr "Práh"
 #: data/effects/lightshow.xml:20
 #, kde-format
 msgid "1st Color"
-msgstr ""
+msgstr "1. barva"
 
 #: data/effects/lightshow.xml:23
 #, kde-format
 msgid "2nd Color"
-msgstr ""
+msgstr "2. barva"
 
 #: data/effects/loudness.xml:4
 #, kde-format
@@ -2178,7 +2180,7 @@ msgstr "Zvolte zónu, která bude sledovat své pohyby"
 #: data/effects/tracker.xml:11
 #, kde-format
 msgid "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM"
-msgstr ""
+msgstr "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM"
 
 #: data/effects/tracker.xml:12
 #, kde-format
@@ -2620,7 +2622,7 @@ msgstr ""
 #: data/kdenliveeffectscategory.rc:38
 #, kde-format
 msgid "Audio correction"
-msgstr "Oprava audia"
+msgstr "Oprava zvuku"
 
 #: data/kdenliveeffectscategory.rc:42
 #, kde-format
@@ -3861,13 +3863,13 @@ msgstr "Vlastní…"
 msgid "Invalid LUT file %1"
 msgstr ""
 
-#: src/audiomixer/audiolevelwidget.cpp:239
+#: src/audiomixer/audiolevelwidget.cpp:270
 #, kde-format
 msgctxt "L as in Left"
 msgid "L:"
 msgstr "L:"
 
-#: src/audiomixer/audiolevelwidget.cpp:240
+#: src/audiomixer/audiolevelwidget.cpp:271
 #, kde-format
 msgctxt "R as in Right"
 msgid ""
@@ -3877,24 +3879,24 @@ msgstr ""
 "\n"
 "P:"
 
-#: src/audiomixer/mixermanager.cpp:89
+#: src/audiomixer/mixermanager.cpp:106
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
 "end."
 msgstr ""
 
-#: src/audiomixer/mixermanager.cpp:205 src/timeline2/view/qml/timeline.qml:967
+#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:967
 #, kde-format
 msgid "Master"
 msgstr "Master"
 
-#: src/audiomixer/mixerwidget.cpp:149
+#: src/audiomixer/mixerwidget.cpp:138
 #, kde-format
 msgid "Volume"
 msgstr "Hlasitost"
 
-#: src/audiomixer/mixerwidget.cpp:150
+#: src/audiomixer/mixerwidget.cpp:139
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3902,13 +3904,13 @@ msgid ""
 "equally)."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:153 src/audiomixer/mixerwidget.cpp:551
+#: src/audiomixer/mixerwidget.cpp:142 src/audiomixer/mixerwidget.cpp:542
 #: src/mltcontroller/clippropertiescontroller.cpp:886
 #, kde-format
 msgid "dB"
 msgstr "dB"
 
-#: src/audiomixer/mixerwidget.cpp:173 src/audiomixer/mixerwidget.cpp:186
+#: src/audiomixer/mixerwidget.cpp:162 src/audiomixer/mixerwidget.cpp:175
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3917,81 +3919,81 @@ msgid ""
 "equally."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:176
+#: src/audiomixer/mixerwidget.cpp:165
 #, kde-format
 msgctxt "Left"
 msgid "L"
 msgstr "L"
 
-#: src/audiomixer/mixerwidget.cpp:178
+#: src/audiomixer/mixerwidget.cpp:167
 #, kde-format
 msgctxt "Right"
 msgid "R"
 msgstr "P"
 
-#: src/audiomixer/mixerwidget.cpp:249
+#: src/audiomixer/mixerwidget.cpp:238
 #, kde-format
 msgid "Mute track"
 msgstr "Stopa"
 
-#: src/audiomixer/mixerwidget.cpp:249
+#: src/audiomixer/mixerwidget.cpp:238
 #, kde-format
 msgid "Unmute track"
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:250
+#: src/audiomixer/mixerwidget.cpp:239
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:293
+#: src/audiomixer/mixerwidget.cpp:282
 #, kde-format
 msgid "Solo mode"
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:294
+#: src/audiomixer/mixerwidget.cpp:283
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:303
+#: src/audiomixer/mixerwidget.cpp:292
 #: src/timeline2/view/timelinecontroller.cpp:4744
 #, kde-format
 msgid "Record audio"
 msgstr "Nahrávat zvuk"
 
-#: src/audiomixer/mixerwidget.cpp:304
+#: src/audiomixer/mixerwidget.cpp:293
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:317
+#: src/audiomixer/mixerwidget.cpp:306
 #, kde-format
 msgid "Show channels"
 msgstr "Zobrazit kanály"
 
-#: src/audiomixer/mixerwidget.cpp:318
+#: src/audiomixer/mixerwidget.cpp:307
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of the audio track controls in the audio mixer view."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:330
+#: src/audiomixer/mixerwidget.cpp:319
 #, kde-format
 msgid "Open Effect Stack"
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:332
+#: src/audiomixer/mixerwidget.cpp:321
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:334
+#: src/audiomixer/mixerwidget.cpp:323
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
@@ -4317,7 +4319,7 @@ msgstr ""
 #: src/ui/renderwidget_ui.ui:596
 #, kde-format
 msgid "Audio"
-msgstr "Audio  "
+msgstr "Zvuk "
 
 #: src/bin/bin.cpp:2310 src/mltcontroller/clippropertiescontroller.cpp:432
 #, kde-format
@@ -4431,7 +4433,7 @@ msgstr "Vytvořit klip barvy…"
 #: src/bin/bin.cpp:3428
 #, kde-format
 msgid "Add Image Sequence…"
-msgstr ""
+msgstr "Přidat obrázkovou sekvenci…"
 
 #: src/bin/bin.cpp:3430
 #, kde-format
@@ -4663,7 +4665,7 @@ msgstr "Neplatný klip"
 #: src/bin/bin.cpp:4757
 #, kde-format
 msgid "Enable proxies"
-msgstr "Povolit proxy"
+msgstr "Povolit zástupné"
 
 #: src/bin/bin.cpp:4757
 #, kde-format
@@ -4973,7 +4975,7 @@ msgstr ""
 #: src/bin/model/markerlistmodel.cpp:886
 #, kde-format
 msgid "Edit Guides Category"
-msgstr ""
+msgstr "Upravit kategorii vodítek"
 
 #: src/bin/model/markerlistmodel.cpp:886
 #, kde-format
@@ -6160,6 +6162,8 @@ msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
 "\">https://alphacephei.com/vosk/models</a>"
 msgstr ""
+"Stáhněte modely řeči z: <a href=\"https://alphacephei.com/vosk/models"
+"\">https://alphacephei.com/vosk/models</a>"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1868
 #, kde-format
@@ -6536,12 +6540,12 @@ msgstr "Již běží"
 #: src/dialogs/renderwidget.cpp:1054
 #, kde-format
 msgid "Video without audio track"
-msgstr "Video bez audio stopy"
+msgstr "Video bez zvukové stopy"
 
 #: src/dialogs/renderwidget.cpp:1056
 #, kde-format
 msgid "Audio without video track"
-msgstr "Audio bez video stopy"
+msgstr "Zvuk bez video stopy"
 
 #: src/dialogs/renderwidget.cpp:1120
 #, kde-format
@@ -6675,7 +6679,7 @@ msgstr ""
 #: src/dialogs/speechdialog.cpp:175 src/dialogs/textbasededit.cpp:634
 #, kde-format
 msgid "Please install speech recognition models"
-msgstr ""
+msgstr "Prosím, nainstalujte modely rozpoznání řeči"
 
 #: src/dialogs/speechdialog.cpp:194 src/dialogs/textbasededit.cpp:828
 #: src/dialogs/textbasededit.cpp:836
@@ -6915,7 +6919,7 @@ msgstr "Nelze vytvořit dočasný soubor."
 #: src/dialogs/textbasededit.cpp:910
 #, kde-format
 msgid "Extracting audio for %1."
-msgstr "Extrahuje se audio pro %1."
+msgstr "Extrahuje se zvuk pro %1."
 
 #: src/dialogs/textbasededit.cpp:918
 #, kde-format
@@ -8136,7 +8140,7 @@ msgstr ""
 #: src/jobs/audiolevelstask.cpp:38
 #, kde-format
 msgid "Audio thumbs"
-msgstr "Náhledy audia"
+msgstr "Náhledy zvuku"
 
 #: src/jobs/audiolevelstask.cpp:75 src/jobs/audiolevelstask.cpp:138
 #, kde-format
@@ -8435,7 +8439,7 @@ msgstr "Záložky"
 #: src/kdenliveui.rc:76 src/mainwindow.cpp:3719
 #, kde-format
 msgid "Extract Audio"
-msgstr "Extrahovat audio"
+msgstr "Extrahovat zvuk"
 
 #. i18n: ectx: Menu (clip_actions)
 #: src/kdenliveui.rc:79 src/mainwindow.cpp:3682
@@ -8539,7 +8543,7 @@ msgstr "Aktuální zobrazení monitoru"
 #: src/kdenliveui.rc:241 src/mainwindow.cpp:1510
 #, kde-format
 msgid "Preview Resolution"
-msgstr ""
+msgstr "Rozlišení náhledu"
 
 #. i18n: ectx: Menu (monitor_config)
 #: src/kdenliveui.rc:248
@@ -8557,7 +8561,7 @@ msgstr "Pohled"
 #: src/kdenliveui.rc:267
 #, kde-format
 msgid "Dock Area Orientation"
-msgstr ""
+msgstr "Orientace dokovací oblasti"
 
 #. i18n: ectx: Menu (qt_opengl)
 #: src/kdenliveui.rc:278
@@ -8615,12 +8619,12 @@ msgstr "Spravovat rozvržení…"
 #: src/layoutmanagement.cpp:62
 #, kde-format
 msgid "Arrange Dock Areas In Rows"
-msgstr ""
+msgstr "Uspořádat dokovací oblasti v řadách"
 
 #: src/layoutmanagement.cpp:66
 #, kde-format
 msgid "Arrange Dock Areas In Columns"
-msgstr ""
+msgstr "Uspořádat dokovací oblasti ve sloupcích"
 
 #: src/layoutmanagement.cpp:171
 #, kde-format
@@ -8871,7 +8875,7 @@ msgstr "Kdenlive"
 #: src/main.cpp:123
 #, kde-format
 msgid "An open source video editor."
-msgstr "Open source video editor"
+msgstr "Open source editor videí"
 
 #: src/main.cpp:124
 #, kde-format
@@ -9105,7 +9109,7 @@ msgstr "Knihovna"
 #: src/mainwindow.cpp:278
 #, kde-format
 msgid "Speech Editor"
-msgstr ""
+msgstr "Editor řeči"
 
 #: src/mainwindow.cpp:279
 #, kde-format
@@ -9701,7 +9705,7 @@ msgstr ""
 #: src/mainwindow.cpp:1514
 #, kde-format
 msgid "Full Resolution (1:1)"
-msgstr ""
+msgstr "Plné rozlišení (1:1)"
 
 #: src/mainwindow.cpp:1518 src/monitor/monitor.cpp:178
 #, kde-format
@@ -9991,7 +9995,7 @@ msgstr "Zakázat klip"
 #: src/mainwindow.cpp:1692
 #, kde-format
 msgid "Set Audio Reference"
-msgstr "Nastavit audio frekvenci"
+msgstr "Nastavit zvukovou frekvenci"
 
 #: src/mainwindow.cpp:1699
 #, kde-format
@@ -10248,7 +10252,7 @@ msgstr ""
 #: src/mainwindow.cpp:1921
 #, kde-format
 msgid "Copy Debug Information"
-msgstr ""
+msgstr "Kopírovat ladicí informace"
 
 #: src/mainwindow.cpp:1923
 #, kde-format
@@ -10836,7 +10840,7 @@ msgstr "Zakázat zvuk"
 #: src/mltcontroller/clippropertiescontroller.cpp:680
 #, kde-format
 msgid "Enable audio"
-msgstr "Povolit audio"
+msgstr "Povolit zvuk"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:688
 #: src/monitor/monitor.cpp:245
@@ -11055,12 +11059,12 @@ msgstr "Zvukový kodek:"
 #: src/ui/configproject_ui.ui:117 src/ui/projectsettings_ui.ui:134
 #, kde-format
 msgid "Audio channels:"
-msgstr "Audio kanály:"
+msgstr "Zvukové kanály:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1405
 #, kde-format
 msgid "Audio frequency:"
-msgstr "Frekvence audio:"
+msgstr "Frekvence zvuku:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1405
 #, kde-format
@@ -11133,7 +11137,7 @@ msgstr ""
 #: src/monitor/monitor.cpp:77
 #, kde-format
 msgid "Audio volume"
-msgstr "Hlasitost audia"
+msgstr "Hlasitost zvuku"
 
 #: src/monitor/monitor.cpp:82
 #, kde-format
@@ -11555,7 +11559,7 @@ msgstr "Video"
 #: src/monitor/recmanager.cpp:73 src/monitor/recmanager.cpp:79
 #, kde-format
 msgid "Audio Capture Volume"
-msgstr ""
+msgstr "Hlasitost nahrávky zvuku"
 
 #. i18n("Firewire") << i18n("Webcam") << i18n("Screen Grab") << i18n("Blackmagic Decklink"));
 #: src/monitor/recmanager.cpp:94
@@ -11592,7 +11596,7 @@ msgstr ""
 #: src/monitor/scopes/audiographspectrum.cpp:289
 #, kde-format
 msgid "Enable Audio Spectrum"
-msgstr "Povolit spektrum audia"
+msgstr "Povolit spektrum zvuku"
 
 #: src/monitor/view/EffectToolBar.qml:58
 #: src/monitor/view/MultiScreenToolBar.qml:56
@@ -11604,7 +11608,7 @@ msgstr ""
 #: src/monitor/view/EffectToolBar.qml:64 src/monitor/view/SceneToolBar.qml:65
 #, kde-format
 msgid "Change Overlay"
-msgstr ""
+msgstr "Změnit překrytí"
 
 #: src/monitor/view/EffectToolBar.qml:77
 #, kde-format
@@ -12177,7 +12181,7 @@ msgstr "Video klipy"
 #: src/project/dialogs/archivewidget.cpp:63
 #, kde-format
 msgid "Audio Clips"
-msgstr "Audio klipy"
+msgstr "Zvukové klipy"
 
 #: src/project/dialogs/archivewidget.cpp:67
 #, kde-format
@@ -12207,7 +12211,7 @@ msgstr "Ostatní klipy"
 #: src/project/dialogs/archivewidget.cpp:87
 #, kde-format
 msgid "Luma Files"
-msgstr "Luma soubory"
+msgstr "Soubory Luma"
 
 #: src/project/dialogs/archivewidget.cpp:198
 #, kde-format
@@ -12422,7 +12426,7 @@ msgstr "Záložní soubory pro %1"
 #: src/project/dialogs/guidecategories.cpp:42
 #, kde-format
 msgid "Edit Guide Category"
-msgstr ""
+msgstr "Upravit kategorii vodítka"
 
 #: src/project/dialogs/guidecategories.cpp:57
 #, kde-format
@@ -12768,7 +12772,7 @@ msgstr "Video klipy"
 #: src/project/dialogs/projectsettings.cpp:404
 #, kde-format
 msgid "Audio clips"
-msgstr "Audio klipy"
+msgstr "Zvukové klipy"
 
 #: src/project/dialogs/projectsettings.cpp:407
 #, kde-format
@@ -12856,7 +12860,7 @@ msgstr "Metadata"
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Image Sequence"
-msgstr ""
+msgstr "Přidat obrázkovou sekvenci"
 
 #: src/project/dialogs/slideshowclip.cpp:36
 #, kde-format
@@ -13335,7 +13339,7 @@ msgstr ""
 #: src/pythoninterfaces/abstractpythoninterface.cpp:78
 #, kde-format
 msgid "Install missing dependencies"
-msgstr ""
+msgstr "Nainstalujte chybějící závislosti"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:59
 #: src/pythoninterfaces/abstractpythoninterface.cpp:69
@@ -13382,12 +13386,12 @@ msgstr ""
 #: src/pythoninterfaces/abstractpythoninterface.cpp:207
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
-msgstr ""
+msgstr "Je vyžadován modul pythonu <application>%1</application>."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:209
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required for %2."
-msgstr ""
+msgstr "Pro %2 je vyžadován modul pythonu <application>%1</application>."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:249
 #: src/pythoninterfaces/abstractpythoninterface.cpp:323
@@ -13511,13 +13515,13 @@ msgstr ""
 #: src/pythoninterfaces/speechtotext.cpp:27
 #, kde-format
 msgid "speech features"
-msgstr ""
+msgstr "vlastnosti řeči"
 
 #: src/pythoninterfaces/speechtotext.cpp:23
 #: src/pythoninterfaces/speechtotext.cpp:28
 #, kde-format
 msgid "automated subtitling"
-msgstr ""
+msgstr "automatické titulky"
 
 #: src/pythoninterfaces/speechtotext.cpp:29
 #, kde-format
@@ -13537,7 +13541,7 @@ msgstr "Drobný"
 #: src/pythoninterfaces/speechtotext.cpp:53
 #, kde-format
 msgid "Base"
-msgstr "Základna"
+msgstr "Základní"
 
 #: src/pythoninterfaces/speechtotext.cpp:54
 #, kde-format
@@ -13743,7 +13747,7 @@ msgstr "Řecký"
 #: src/pythoninterfaces/speechtotext.cpp:100
 #, kde-format
 msgid "Gujarati"
-msgstr "Gudžarátsky"
+msgstr "Gudžaráštna"
 
 # HT
 #: src/pythoninterfaces/speechtotext.cpp:101
@@ -13814,7 +13818,7 @@ msgstr "Kannada"
 #: src/pythoninterfaces/speechtotext.cpp:114
 #, kde-format
 msgid "Kazakh"
-msgstr "Kazachština"
+msgstr "Kazaština"
 
 #: src/pythoninterfaces/speechtotext.cpp:115
 #, kde-format
@@ -13881,7 +13885,7 @@ msgstr "Malajský"
 #: src/pythoninterfaces/speechtotext.cpp:127
 #, kde-format
 msgid "Malayalam"
-msgstr "Malayalam"
+msgstr "Malajálamština"
 
 #: src/pythoninterfaces/speechtotext.cpp:128
 #, kde-format
@@ -13971,7 +13975,7 @@ msgstr "Pandžábština"
 #: src/pythoninterfaces/speechtotext.cpp:145
 #, kde-format
 msgid "Pushto"
-msgstr "Paštunština"
+msgstr "Puštunština"
 
 #: src/pythoninterfaces/speechtotext.cpp:146
 #, kde-format
@@ -14037,7 +14041,7 @@ msgstr "Španělština"
 #: src/pythoninterfaces/speechtotext.cpp:158
 #, kde-format
 msgid "Sundanese"
-msgstr "Sundanský"
+msgstr "Sundanéština"
 
 #: src/pythoninterfaces/speechtotext.cpp:159
 #, kde-format
@@ -14072,7 +14076,7 @@ msgstr "Tatarština"
 #: src/pythoninterfaces/speechtotext.cpp:165
 #, kde-format
 msgid "Telugu"
-msgstr "Telugsky"
+msgstr "Telugština"
 
 #: src/pythoninterfaces/speechtotext.cpp:166
 #, kde-format
@@ -14171,7 +14175,7 @@ msgstr "Nepodporovaný formát videa: %1"
 #: src/renderpresets/renderpresetmodel.cpp:301
 #, kde-format
 msgid "Unsupported audio codec: %1"
-msgstr "Nepodporovaný audio kodek: %1"
+msgstr "Nepodporovaný zvukový kodek: %1"
 
 #: src/renderpresets/renderpresetmodel.cpp:307
 #, kde-format
@@ -14807,7 +14811,7 @@ msgstr ""
 #: src/timeline2/view/timelinecontroller.cpp:4017
 #, kde-format
 msgid "Enable clip"
-msgstr ""
+msgstr "Povolit klip"
 
 #: src/timeline2/model/timelinefunctions.cpp:977
 #: src/timeline2/model/timelinefunctions.cpp:981
@@ -16840,7 +16844,7 @@ msgid ""
 "spline."
 msgstr ""
 "Propojte polohu rukojeti s aktuálním bodem.<br />Výsledkem je přirozený "
-"spline."
+"splajn."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonResetSpline)
 #: src/ui/bezierspline_ui.ui:118
@@ -17156,7 +17160,7 @@ msgstr "Upravit"
 #: src/ui/configcapture_ui.ui:191
 #, kde-format
 msgid "Capture audio (ALSA)"
-msgstr "Nahrávat audio (ALSA)"
+msgstr "Nahrávat zvuk (ALSA)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -17181,7 +17185,7 @@ msgstr "Kódovací profil:"
 #: src/ui/configcapture_ui.ui:261
 #, kde-format
 msgid "Region to capture:"
-msgstr ""
+msgstr "Oblast, kterou zachycovat:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_grab_capture_type)
 #: src/ui/configcapture_ui.ui:269
@@ -17248,7 +17252,7 @@ msgstr "Zařízení:"
 #: src/ui/configcapture_ui.ui:541
 #, kde-format
 msgid "Capture volume:"
-msgstr ""
+msgstr "Hlasitost nahrávky:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configcapture_ui.ui:583
@@ -17266,19 +17270,19 @@ msgstr ""
 #: src/ui/configcapture_ui.ui:618
 #, kde-format
 msgid "Disable countdown before recording"
-msgstr ""
+msgstr "Zrušit odpočet před zahájením nahrávání"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_thumbs)
 #: src/ui/configcolors_ui.ui:21
 #, kde-format
 msgid "Audio thumbnail colors:"
-msgstr ""
+msgstr "Barvy náhledu zvuku:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_monitor_overlay)
 #: src/ui/configcolors_ui.ui:41
 #, kde-format
 msgid "Monitor overlay color:"
-msgstr ""
+msgstr "Barva vrstvy monitoru:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_monitor_bg)
 #: src/ui/configcolors_ui.ui:61
@@ -17290,13 +17294,13 @@ msgstr "Barva pozadí monitoru:"
 #: src/ui/configenv_ui.ui:33
 #, kde-format
 msgid "Proxy and Transcode Jobs"
-msgstr ""
+msgstr "Zástupné a převodní úlohy"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_nice_tasks)
 #: src/ui/configenv_ui.ui:39
 #, kde-format
 msgid "Use lower CPU priority for proxy and transcode tasks"
-msgstr ""
+msgstr "Použít nižší prioritu CPU pro zástupné a převodní úlohy"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/ui/configenv_ui.ui:59
@@ -17308,7 +17312,7 @@ msgstr "Souběžná vlákna:"
 #: src/ui/configenv_ui.ui:69
 #, kde-format
 msgid "Cached Data"
-msgstr ""
+msgstr "Data v mezipaměti"
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: src/ui/configenv_ui.ui:75
@@ -17317,6 +17321,8 @@ msgid ""
 "Kdenlive will check this limit every 2 weeks. Set to zero to disable "
 "checking."
 msgstr ""
+"Kdenlive bude tento limit kontrolovat každé 2 týdny. Kontrolu vypnete "
+"nastavením hodnoty na 0."
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_maxcachesize)
 #: src/ui/configenv_ui.ui:88
@@ -17328,7 +17334,7 @@ msgstr " MiB"
 #: src/ui/configenv_ui.ui:101
 #, kde-format
 msgid "Warn if cached data exceeds:"
-msgstr ""
+msgstr "Varovat pokud data v mezipaměti překročí:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: src/ui/configenv_ui.ui:115
@@ -17423,7 +17429,7 @@ msgstr "Složka knihovny:"
 #: src/ui/configenv_ui.ui:257
 #, kde-format
 msgid "Folder for rendering, titles, scripts:"
-msgstr ""
+msgstr "Složka pro renderování, titulky a skripty:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/ui/configenv_ui.ui:313
@@ -17462,7 +17468,7 @@ msgstr ""
 #: src/ui/configenv_ui.ui:368
 #, kde-format
 msgid "Audio editing:"
-msgstr "Úprava audia:"
+msgstr "Úprava zvuku:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_glaxnimatePath)
 #: src/ui/configenv_ui.ui:377
@@ -17474,7 +17480,7 @@ msgstr ""
 #: src/ui/configenv_ui.ui:393
 #, kde-format
 msgid "Animation editing:"
-msgstr ""
+msgstr "Úprava animace:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
 #: src/ui/configenv_ui.ui:414
@@ -17630,7 +17636,7 @@ msgstr "Zapnout automatické ukládání (pro případ pádu)"
 #: src/ui/configmisc_ui.ui:49
 #, kde-format
 msgid "Clip import:"
-msgstr ""
+msgstr "Import klipu:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkfirstprojectclip)
 #: src/ui/configmisc_ui.ui:56
@@ -17668,6 +17674,8 @@ msgstr "Získat metadata klipu vytvořená Magickou lucernou (Magic Lantern)"
 msgid ""
 "Ignore subfolder structure on import (import all files into toplevel folder)"
 msgstr ""
+"Ignorovat podadresářovou strukturu (importovat všechny soubory do složky "
+"nejvyšší úrovně)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_disable_effect_parameters)
 #: src/ui/configmisc_ui.ui:105
@@ -17733,7 +17741,7 @@ msgstr "Obrázková sekvence:"
 #: src/ui/configmisc_ui.ui:226
 #, kde-format
 msgid "Mixes:"
-msgstr ""
+msgstr "Mixy:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/ui/configmisc_ui.ui:239
@@ -17748,6 +17756,8 @@ msgid ""
 "These are the default settings for new projects. To edit the parameters of "
 "the current project, use the project settings."
 msgstr ""
+"Tot je výchozí nastavení pro nové projekty. Pro úpravu parametrů současného "
+"projektu použijte nastavení projektu."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_project_folder)
@@ -17760,7 +17770,7 @@ msgstr "Složka projektu:"
 #: src/ui/configproject_ui.ui:58
 #, kde-format
 msgid "Parent folder of project file"
-msgstr ""
+msgstr "Rodičovská složka souboru projektu"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_customprojectfolder)
 #: src/ui/configproject_ui.ui:67
@@ -17780,7 +17790,7 @@ msgstr "Video stopy:"
 #: src/ui/projectsettings_ui.ui:124
 #, kde-format
 msgid "Audio tracks:"
-msgstr "Audio stopy:"
+msgstr "Zvukové stopy:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_audio_channels)
 #: src/ui/configproject_ui.ui:125
@@ -17804,13 +17814,13 @@ msgstr "6 kanálů"
 #: src/ui/configproject_ui.ui:149
 #, kde-format
 msgid "Timeline Preview profile:"
-msgstr ""
+msgstr "Profil náhledu časové osy:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableproxy)
 #: src/ui/configproxy_ui.ui:32
 #, kde-format
 msgid "Enable proxy clips"
-msgstr ""
+msgstr "Povolit zástupné klipy"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimageminsize)
@@ -17840,7 +17850,7 @@ msgstr "Generovat pro obrázky větší než"
 #: src/ui/configproxy_ui.ui:167 src/ui/projectsettings_ui.ui:341
 #, kde-format
 msgid "Proxy image size"
-msgstr ""
+msgstr "Velikost zástupného obrázku"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_externalproxy)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_external_display)
@@ -17878,37 +17888,37 @@ msgstr ""
 #: src/ui/configsdl_ui.ui:43
 #, kde-format
 msgid "GPU processing (Movit library):"
-msgstr ""
+msgstr "Zpracování pomocí GPU (knihovna Movit):"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_gpu_accel)
 #: src/ui/configsdl_ui.ui:50
 #, kde-format
 msgid "Enable - restart Kdenlive to apply"
-msgstr ""
+msgstr "Povolit - vyžaduje restart Kdenlive"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_backend)
 #: src/ui/configsdl_ui.ui:64
 #, kde-format
 msgid "Audio Backend:"
-msgstr ""
+msgstr "Podpůrná vrstva zvuku:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_driver)
 #: src/ui/configsdl_ui.ui:80
 #, kde-format
 msgid "Audio driver:"
-msgstr "Audio ovladač:"
+msgstr "Ovladač zvuku:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_device)
 #: src/ui/configsdl_ui.ui:93
 #, kde-format
 msgid "Audio device:"
-msgstr "Audio zařízení:"
+msgstr "Zařízení zvuku:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/configsdl_ui.ui:113
 #, kde-format
 msgid "Monitor for fullscreen output:"
-msgstr ""
+msgstr "Monitor pro výstup na celou obrazovku:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configsdl_ui.ui:130
@@ -17932,7 +17942,7 @@ msgstr "Nástroj pro mluvu"
 #: src/ui/configspeech_ui.ui:30
 #, kde-format
 msgid "VOSK"
-msgstr ""
+msgstr "VOSK"
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
 #: src/ui/configspeech_ui.ui:37
@@ -17944,13 +17954,13 @@ msgstr "Šeptat"
 #: src/ui/configspeech_ui.ui:95
 #, kde-format
 msgid "Custom models folder"
-msgstr ""
+msgstr "Vlastní složka modelů"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configspeech_ui.ui:112
 #, kde-format
 msgid "VOSK Speech Models"
-msgstr ""
+msgstr "Modely řeči VOSK"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configspeech_ui.ui:123
@@ -17992,7 +18002,7 @@ msgstr ""
 #: src/ui/configspeech_ui.ui:251
 #, kde-format
 msgid "Check VOSK installation"
-msgstr ""
+msgstr "Zkontrolujte instalaci VOSK"
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:254
@@ -18011,43 +18021,45 @@ msgstr "Miniatury:"
 #: src/ui/configtimeline_ui.ui:28
 #, kde-format
 msgid "Enable for Video"
-msgstr ""
+msgstr "Povolit pro video"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_audiothumbnails)
 #: src/ui/configtimeline_ui.ui:35
 #, kde-format
 msgid "Enable for Audio"
-msgstr ""
+msgstr "Povolit pro zvuk"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_displayallchannels)
 #: src/ui/configtimeline_ui.ui:45
 #, kde-format
 msgid "Separate audio channels"
-msgstr ""
+msgstr "Oddělené kanály zvuku"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configtimeline_ui.ui:59
 #, kde-format
 msgid "Playback and Seeking:"
-msgstr ""
+msgstr "Přehrávání a posun:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_pauseonseek)
 #: src/ui/configtimeline_ui.ui:66
 #, kde-format
 msgid "Pause playback when seeking"
-msgstr ""
+msgstr "Pozastavit přehrávání při posunu"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_jumptostart)
 #: src/ui/configtimeline_ui.ui:73
 #, kde-format
 msgid "Jump to timeline start if playback is started on last frame in timeline"
 msgstr ""
+"Skočit na začátek časové osy pokud je přehrávání zahájeno na posledním rámci "
+"časové osy"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_seekonaddeffect)
 #: src/ui/configtimeline_ui.ui:80
 #, kde-format
 msgid "Seek to clip when adding effect"
-msgstr ""
+msgstr "Při přidávání efektu posunout na klip"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configtimeline_ui.ui:94
@@ -18066,7 +18078,7 @@ msgstr "Automatický posun při přehrávání "
 #, kde-format
 msgid ""
 "Scroll vertically with scroll wheel, horizontally with Shift + scroll wheel"
-msgstr ""
+msgstr "Rolovat svisle kolečkem myši, vodorovně se Shift + kolečko myši"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showmarkers)
 #: src/ui/configtimeline_ui.ui:122
@@ -18078,7 +18090,7 @@ msgstr "Zobrazit komentáře značek"
 #: src/ui/configtimeline_ui.ui:129
 #, kde-format
 msgid "Default track height:"
-msgstr ""
+msgstr "Výchozí výška stopy:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/configtimeline_ui.ui:149
@@ -18096,7 +18108,7 @@ msgstr "Klipy"
 #: src/ui/configtimeline_ui.ui:192
 #, kde-format
 msgid "Multi Stream Audio Clips"
-msgstr ""
+msgstr "Zvukové klipy s více proudy"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_multistream)
 #: src/ui/configtimeline_ui.ui:205
@@ -18108,31 +18120,31 @@ msgstr "Všechny zvukové proudy"
 #: src/ui/configtimeline_ui.ui:210
 #, kde-format
 msgid "First Audio Stream"
-msgstr ""
+msgstr "První zvukový proud "
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_multistream)
 #: src/ui/configtimeline_ui.ui:215
 #, kde-format
 msgid "First 2 Audio Streams"
-msgstr ""
+msgstr "První 2 zvukové proudy"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configtimeline_ui.ui:223
 #, kde-format
 msgid "On import, enable:"
-msgstr ""
+msgstr "Při importu povolit:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_multistream_checktrack)
 #: src/ui/configtimeline_ui.ui:230
 #, kde-format
 msgid "Check if project contains enough tracks"
-msgstr ""
+msgstr "Zkontrolovat jestli projekt obsahuje dost stop"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configtools_ui.ui:27
 #, kde-format
 msgid "When cutting subtitles:"
-msgstr ""
+msgstr "Při stříhání titulků:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_subtitle_razor_mode)
 #: src/ui/configtools_ui.ui:41
@@ -18144,7 +18156,7 @@ msgstr "Duplikovat text"
 #: src/ui/configtools_ui.ui:46
 #, kde-format
 msgid "Split after first line"
-msgstr ""
+msgstr "Rozdělit po prvním řádku"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -18461,7 +18473,7 @@ msgstr ""
 #: src/ui/editrenderpreset_ui.ui:1088
 #, kde-format
 msgid "Enable manual editing"
-msgstr ""
+msgstr "Povolit ruční úpravy"
 
 #. i18n: ectx: property (text), widget (QLabel, label_end)
 #: src/ui/editsub_ui.ui:146
@@ -18473,7 +18485,7 @@ msgstr "Konec:"
 #: src/ui/editsub_ui.ui:270
 #, kde-format
 msgid "Custom Position"
-msgstr ""
+msgstr "Vybrat pozice"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, shadowSize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, outlineSize)
@@ -18486,7 +18498,7 @@ msgstr "px"
 #: src/ui/editsub_ui.ui:287
 #, kde-format
 msgid "Custom Font Color"
-msgstr ""
+msgstr "Vlastní barva písma"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOutlineSize)
 #: src/ui/editsub_ui.ui:294
@@ -18498,7 +18510,7 @@ msgstr ""
 #: src/ui/editsub_ui.ui:301
 #, kde-format
 msgid "Custom Shadow"
-msgstr ""
+msgstr "Vlastní stín"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOpaque)
 #: src/ui/editsub_ui.ui:332
@@ -18522,7 +18534,7 @@ msgstr ""
 #: src/ui/editsub_ui.ui:406
 #, kde-format
 msgid "Custom Font Size"
-msgstr ""
+msgstr "Vlastní velikost písma"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFont)
 #: src/ui/editsub_ui.ui:426
@@ -18631,7 +18643,7 @@ msgstr "Upravit kategorii"
 #: src/ui/guidecategories_ui.ui:66
 #, kde-format
 msgid "Guides and Markers Categories"
-msgstr ""
+msgstr "Kategorie vodítek a značek"
 
 #. i18n: ectx: property (text), widget (KSqueezedTextLabel, guideslist_label)
 #: src/ui/guideslist_ui.ui:122
@@ -18788,7 +18800,7 @@ msgstr "Náhled časové osy:"
 #: src/ui/managecache_ui.ui:199
 #, kde-format
 msgid "Audio thumbnails:"
-msgstr "Náhledy audia:"
+msgstr "Náhledy zvuku:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, currentPath)
 #: src/ui/managecache_ui.ui:220
@@ -18910,7 +18922,7 @@ msgstr ""
 #: src/ui/managecache_ui.ui:582
 #, kde-format
 msgid "Proxy clip data"
-msgstr ""
+msgstr "Data zástupného klipu"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, gProxyPath)
 #: src/ui/managecache_ui.ui:620
@@ -18934,7 +18946,7 @@ msgstr ""
 #: src/ui/managecache_ui.ui:654
 #, kde-format
 msgid "Delete all proxy clips."
-msgstr ""
+msgstr "Smazat všechny zástupné klipy."
 
 #. i18n: ectx: property (text), widget (QLabel, gCleanupLabel)
 #: src/ui/managecache_ui.ui:679
@@ -19183,7 +19195,7 @@ msgstr "Výchozí složka"
 #: src/ui/projectsettings_ui.ui:67
 #, kde-format
 msgid "Parent folder of the project file"
-msgstr ""
+msgstr "Rodičovská složka souboru projektu"
 
 #. i18n: ectx: property (text), widget (QRadioButton, custom_folder)
 #: src/ui/projectsettings_ui.ui:76
@@ -19241,13 +19253,13 @@ msgstr "pixelů"
 #: src/ui/projectsettings_ui.ui:382
 #, kde-format
 msgid "Suffix of proxy:"
-msgstr ""
+msgstr "Přípona zástupného:"
 
 #. i18n: ectx: property (text), widget (QLabel, l_prefix_proxy)
 #: src/ui/projectsettings_ui.ui:399
 #, kde-format
 msgid "Prefix of proxy:"
-msgstr ""
+msgstr "Předpona zástupného:"
 
 #. i18n: ectx: property (text), widget (QLabel, l_relPathProxyToOrig)
 #: src/ui/projectsettings_ui.ui:416
@@ -19277,7 +19289,7 @@ msgstr ""
 #: src/ui/projectsettings_ui.ui:515
 #, kde-format
 msgid "Proxy video resize (width)"
-msgstr ""
+msgstr "Změna velikosti zástupného videa (šířka)"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: src/ui/projectsettings_ui.ui:601
@@ -19470,7 +19482,7 @@ msgstr "Ce&lý projekt"
 #: src/ui/renderwidget_ui.ui:384
 #, kde-format
 msgid "Selected &zone"
-msgstr "Vý&běr"
+msgstr "V&ybrané pásmo"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_guide)
 #: src/ui/renderwidget_ui.ui:391
@@ -19506,7 +19518,7 @@ msgstr ""
 #: src/ui/renderwidget_ui.ui:508
 #, kde-format
 msgid "Use Proxy Clips"
-msgstr ""
+msgstr "Použít zástupné klipy"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/renderwidget_ui.ui:515
@@ -19530,7 +19542,7 @@ msgstr "Překrytí:"
 #: src/ui/renderwidget_ui.ui:605
 #, kde-format
 msgid "Separate file for each audio track"
-msgstr ""
+msgstr "Oddělený soubor pro každou zvukovou stopu"
 
 #. i18n: ectx: property (title), widget (QGroupBox, qualityGroup)
 #: src/ui/renderwidget_ui.ui:615
@@ -19766,7 +19778,7 @@ msgstr "Vyjmout scény"
 #: src/ui/slideshowclip_ui.ui:18
 #, kde-format
 msgid "Slideshow Clip"
-msgstr "Slideshow"
+msgstr "Promítání"
 
 #. i18n: ectx: property (text), widget (QCheckBox, slide_crop)
 #: src/ui/slideshowclip_ui.ui:40
@@ -19935,7 +19947,7 @@ msgstr ""
 #: src/ui/textbasededit_ui.ui:233
 #, kde-format
 msgid "Selected zone only"
-msgstr ""
+msgstr "Pouze vybrané pásmo"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_insert)
 #: src/ui/textbasededit_ui.ui:250
