@@ -6,16 +6,18 @@
 <book id="kdenlive" lang="&language;">
 <bookinfo>
 <title
->The Kdenlive Quick Start Guide</title>
+>Het snelstarthandboek van Kdenlive (verouderd)</title>
 <authorgroup>
 <author>
 <personname
 ><firstname
->This documentation was converted from the KDE UserBase <ulink url=" http://userbase.kde.org/Kdenlive/Manual/QuickStart"
->Kdenlive/Manual/QuickStart</ulink
-> page.</firstname
+>Deze documentatie is nu verouderd, bekijk in plaats daarvan het nieuwe <ulink url="https://docs.kdenlive.org/"
+>Kdenlive handboek</ulink
+>.</firstname
 > <surname
-></surname
+>Deze handleiding is afgeleid van de KDE UserBase <ulink url=" http://userbase.kde.org/Kdenlive/Manual/QuickStart"
+>Kdenlive/Manual/QuickStart</ulink
+> pagina.</surname
 > </personname>
     </author>
 &Ronald.Stroethoff; 
