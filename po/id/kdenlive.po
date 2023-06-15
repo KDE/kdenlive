@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-14 00:46+0000\n"
+"POT-Creation-Date: 2023-06-15 00:45+0000\n"
 "PO-Revision-Date: 2023-05-28 12:50+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -31,7 +31,7 @@ msgid "Your emails"
 msgstr "wantoyek@gmail.com,linerly@protonmail.com"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
-#: src/audiomixer/mixerwidget.cpp:172 src/audiomixer/mixerwidget.cpp:185
+#: src/audiomixer/mixerwidget.cpp:161 src/audiomixer/mixerwidget.cpp:174
 #, kde-format
 msgid "Balance"
 msgstr "Keseimbangan"
@@ -3987,13 +3987,13 @@ msgstr "Kustom..."
 msgid "Invalid LUT file %1"
 msgstr "LUT file %1 tidak valid"
 
-#: src/audiomixer/audiolevelwidget.cpp:239
+#: src/audiomixer/audiolevelwidget.cpp:270
 #, kde-format
 msgctxt "L as in Left"
 msgid "L:"
 msgstr "Kiri:"
 
-#: src/audiomixer/audiolevelwidget.cpp:240
+#: src/audiomixer/audiolevelwidget.cpp:271
 #, kde-format
 msgctxt "R as in Right"
 msgid ""
@@ -4003,7 +4003,7 @@ msgstr ""
 "\n"
 "Kanan:"
 
-#: src/audiomixer/mixermanager.cpp:89
+#: src/audiomixer/mixermanager.cpp:106
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -4012,17 +4012,17 @@ msgstr ""
 "Memantau audio. Tekan <b>Space</b> untuk memulai/menjeda perekaman, <b>Esc</"
 "b> untuk membatalkan."
 
-#: src/audiomixer/mixermanager.cpp:205 src/timeline2/view/qml/timeline.qml:989
+#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:989
 #, kde-format
 msgid "Master"
 msgstr "Master"
 
-#: src/audiomixer/mixerwidget.cpp:149
+#: src/audiomixer/mixerwidget.cpp:138
 #, kde-format
 msgid "Volume"
 msgstr "Volume"
 
-#: src/audiomixer/mixerwidget.cpp:150
+#: src/audiomixer/mixerwidget.cpp:139
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4030,13 +4030,13 @@ msgid ""
 "equally)."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:153 src/audiomixer/mixerwidget.cpp:551
+#: src/audiomixer/mixerwidget.cpp:142 src/audiomixer/mixerwidget.cpp:542
 #: src/mltcontroller/clippropertiescontroller.cpp:886
 #, kde-format
 msgid "dB"
 msgstr "dB"
 
-#: src/audiomixer/mixerwidget.cpp:173 src/audiomixer/mixerwidget.cpp:186
+#: src/audiomixer/mixerwidget.cpp:162 src/audiomixer/mixerwidget.cpp:175
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4045,82 +4045,82 @@ msgid ""
 "equally."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:176
+#: src/audiomixer/mixerwidget.cpp:165
 #, kde-format
 msgctxt "Left"
 msgid "L"
 msgstr "Kr"
 
-#: src/audiomixer/mixerwidget.cpp:178
+#: src/audiomixer/mixerwidget.cpp:167
 #, kde-format
 msgctxt "Right"
 msgid "R"
 msgstr "Kn"
 
-#: src/audiomixer/mixerwidget.cpp:249
+#: src/audiomixer/mixerwidget.cpp:238
 #, kde-format
 msgid "Mute track"
 msgstr "Senyapkan trek"
 
-#: src/audiomixer/mixerwidget.cpp:249
+#: src/audiomixer/mixerwidget.cpp:238
 #, kde-format
 msgid "Unmute track"
 msgstr "Bunyikan trek"
 
-#: src/audiomixer/mixerwidget.cpp:250
+#: src/audiomixer/mixerwidget.cpp:239
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:293
+#: src/audiomixer/mixerwidget.cpp:282
 #, kde-format
 msgid "Solo mode"
 msgstr "Mode solo"
 
-#: src/audiomixer/mixerwidget.cpp:294
+#: src/audiomixer/mixerwidget.cpp:283
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:303
+#: src/audiomixer/mixerwidget.cpp:292
 #: src/timeline2/view/timelinecontroller.cpp:4751
 #, kde-format
 msgid "Record audio"
 msgstr "Rekam audio"
 
-#: src/audiomixer/mixerwidget.cpp:304
+#: src/audiomixer/mixerwidget.cpp:293
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:317
+#: src/audiomixer/mixerwidget.cpp:306
 #, kde-format
 msgid "Show channels"
 msgstr "Tampilkan kanal"
 
-#: src/audiomixer/mixerwidget.cpp:318
+#: src/audiomixer/mixerwidget.cpp:307
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of the audio track controls in the audio mixer view."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:330
+#: src/audiomixer/mixerwidget.cpp:319
 #, kde-format
 msgid "Open Effect Stack"
 msgstr "Buka Tumpukan Efek"
 
-#: src/audiomixer/mixerwidget.cpp:332
+#: src/audiomixer/mixerwidget.cpp:321
 #, fuzzy, kde-kuit-format
 #| msgid "Separate file for each audio track"
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
 msgstr "File terpisah untuk setiap trek audio"
 
-#: src/audiomixer/mixerwidget.cpp:334
+#: src/audiomixer/mixerwidget.cpp:323
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."

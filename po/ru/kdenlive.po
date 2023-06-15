@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-14 00:46+0000\n"
+"POT-Creation-Date: 2023-06-15 00:45+0000\n"
 "PO-Revision-Date: 2022-10-04 11:00+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -50,7 +50,7 @@ msgstr ""
 "team@basealt.ru,translation-team@basealt.ru"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
-#: src/audiomixer/mixerwidget.cpp:172 src/audiomixer/mixerwidget.cpp:185
+#: src/audiomixer/mixerwidget.cpp:161 src/audiomixer/mixerwidget.cpp:174
 #, kde-format
 msgid "Balance"
 msgstr "Баланс"
@@ -4037,13 +4037,13 @@ msgstr "Пользовательский…"
 msgid "Invalid LUT file %1"
 msgstr "Недопустимый файл LUT %1"
 
-#: src/audiomixer/audiolevelwidget.cpp:239
+#: src/audiomixer/audiolevelwidget.cpp:270
 #, kde-format
 msgctxt "L as in Left"
 msgid "L:"
 msgstr "Л:"
 
-#: src/audiomixer/audiolevelwidget.cpp:240
+#: src/audiomixer/audiolevelwidget.cpp:271
 #, kde-format
 msgctxt "R as in Right"
 msgid ""
@@ -4053,7 +4053,7 @@ msgstr ""
 "\n"
 "П:"
 
-#: src/audiomixer/mixermanager.cpp:89
+#: src/audiomixer/mixermanager.cpp:106
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -4062,17 +4062,17 @@ msgstr ""
 "Слежение за звуковым сигналом. Нажмите клавишу <b>пробел</b> для начала/"
 "приостановки записи, <b>Esc</b> для завершения."
 
-#: src/audiomixer/mixermanager.cpp:205 src/timeline2/view/qml/timeline.qml:989
+#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:989
 #, kde-format
 msgid "Master"
 msgstr "Мастер"
 
-#: src/audiomixer/mixerwidget.cpp:149
+#: src/audiomixer/mixerwidget.cpp:138
 #, kde-format
 msgid "Volume"
 msgstr "Громкость"
 
-#: src/audiomixer/mixerwidget.cpp:150
+#: src/audiomixer/mixerwidget.cpp:139
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4080,13 +4080,13 @@ msgid ""
 "equally)."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:153 src/audiomixer/mixerwidget.cpp:551
+#: src/audiomixer/mixerwidget.cpp:142 src/audiomixer/mixerwidget.cpp:542
 #: src/mltcontroller/clippropertiescontroller.cpp:886
 #, kde-format
 msgid "dB"
 msgstr "дБ"
 
-#: src/audiomixer/mixerwidget.cpp:173 src/audiomixer/mixerwidget.cpp:186
+#: src/audiomixer/mixerwidget.cpp:162 src/audiomixer/mixerwidget.cpp:175
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4095,82 +4095,82 @@ msgid ""
 "equally."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:176
+#: src/audiomixer/mixerwidget.cpp:165
 #, kde-format
 msgctxt "Left"
 msgid "L"
 msgstr "Л"
 
-#: src/audiomixer/mixerwidget.cpp:178
+#: src/audiomixer/mixerwidget.cpp:167
 #, kde-format
 msgctxt "Right"
 msgid "R"
 msgstr "П"
 
-#: src/audiomixer/mixerwidget.cpp:249
+#: src/audiomixer/mixerwidget.cpp:238
 #, kde-format
 msgid "Mute track"
 msgstr "Выключить дорожку"
 
-#: src/audiomixer/mixerwidget.cpp:249
+#: src/audiomixer/mixerwidget.cpp:238
 #, kde-format
 msgid "Unmute track"
 msgstr "Включить дорожку"
 
-#: src/audiomixer/mixerwidget.cpp:250
+#: src/audiomixer/mixerwidget.cpp:239
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:293
+#: src/audiomixer/mixerwidget.cpp:282
 #, kde-format
 msgid "Solo mode"
 msgstr "Режим соло"
 
-#: src/audiomixer/mixerwidget.cpp:294
+#: src/audiomixer/mixerwidget.cpp:283
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:303
+#: src/audiomixer/mixerwidget.cpp:292
 #: src/timeline2/view/timelinecontroller.cpp:4751
 #, kde-format
 msgid "Record audio"
 msgstr "Записать звук"
 
-#: src/audiomixer/mixerwidget.cpp:304
+#: src/audiomixer/mixerwidget.cpp:293
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:317
+#: src/audiomixer/mixerwidget.cpp:306
 #, kde-format
 msgid "Show channels"
 msgstr "Показать каналы"
 
-#: src/audiomixer/mixerwidget.cpp:318
+#: src/audiomixer/mixerwidget.cpp:307
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of the audio track controls in the audio mixer view."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:330
+#: src/audiomixer/mixerwidget.cpp:319
 #, kde-format
 msgid "Open Effect Stack"
 msgstr "Открыть стек эффектов"
 
-#: src/audiomixer/mixerwidget.cpp:332
+#: src/audiomixer/mixerwidget.cpp:321
 #, fuzzy, kde-kuit-format
 #| msgid "Separate file for each audio track"
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
 msgstr "Отдельный файл для каждой звуковой дорожки"
 
-#: src/audiomixer/mixerwidget.cpp:334
+#: src/audiomixer/mixerwidget.cpp:323
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."

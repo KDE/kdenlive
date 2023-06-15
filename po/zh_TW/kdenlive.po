@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-14 00:46+0000\n"
+"POT-Creation-Date: 2023-06-15 00:45+0000\n"
 "PO-Revision-Date: 2020-01-16 14:40+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -27,7 +27,7 @@ msgid "Your emails"
 msgstr ""
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
-#: src/audiomixer/mixerwidget.cpp:172 src/audiomixer/mixerwidget.cpp:185
+#: src/audiomixer/mixerwidget.cpp:161 src/audiomixer/mixerwidget.cpp:174
 #, kde-format
 msgid "Balance"
 msgstr "平衡"
@@ -4053,14 +4053,14 @@ msgstr "自訂"
 msgid "Invalid LUT file %1"
 msgstr "編輯編碼方案"
 
-#: src/audiomixer/audiolevelwidget.cpp:239
+#: src/audiomixer/audiolevelwidget.cpp:270
 #, fuzzy, kde-format
 #| msgid ":"
 msgctxt "L as in Left"
 msgid "L:"
 msgstr ":"
 
-#: src/audiomixer/audiolevelwidget.cpp:240
+#: src/audiomixer/audiolevelwidget.cpp:271
 #, kde-format
 msgctxt "R as in Right"
 msgid ""
@@ -4068,24 +4068,24 @@ msgid ""
 "R:"
 msgstr ""
 
-#: src/audiomixer/mixermanager.cpp:89
+#: src/audiomixer/mixermanager.cpp:106
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
 "end."
 msgstr ""
 
-#: src/audiomixer/mixermanager.cpp:205 src/timeline2/view/qml/timeline.qml:989
+#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:989
 #, kde-format
 msgid "Master"
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:149
+#: src/audiomixer/mixerwidget.cpp:138
 #, kde-format
 msgid "Volume"
 msgstr "音量"
 
-#: src/audiomixer/mixerwidget.cpp:150
+#: src/audiomixer/mixerwidget.cpp:139
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4093,14 +4093,14 @@ msgid ""
 "equally)."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:153 src/audiomixer/mixerwidget.cpp:551
+#: src/audiomixer/mixerwidget.cpp:142 src/audiomixer/mixerwidget.cpp:542
 #: src/mltcontroller/clippropertiescontroller.cpp:886
 #, fuzzy, kde-format
 #| msgid "B"
 msgid "dB"
 msgstr "B"
 
-#: src/audiomixer/mixerwidget.cpp:173 src/audiomixer/mixerwidget.cpp:186
+#: src/audiomixer/mixerwidget.cpp:162 src/audiomixer/mixerwidget.cpp:175
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4109,87 +4109,87 @@ msgid ""
 "equally."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:176
+#: src/audiomixer/mixerwidget.cpp:165
 #, kde-format
 msgctxt "Left"
 msgid "L"
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:178
+#: src/audiomixer/mixerwidget.cpp:167
 #, fuzzy, kde-format
 #| msgid "R"
 msgctxt "Right"
 msgid "R"
 msgstr "R"
 
-#: src/audiomixer/mixerwidget.cpp:249
+#: src/audiomixer/mixerwidget.cpp:238
 #, fuzzy, kde-format
 msgid "Mute track"
 msgstr "軌道"
 
-#: src/audiomixer/mixerwidget.cpp:249
+#: src/audiomixer/mixerwidget.cpp:238
 #, fuzzy, kde-format
 msgid "Unmute track"
 msgstr "靜音預覽"
 
-#: src/audiomixer/mixerwidget.cpp:250
+#: src/audiomixer/mixerwidget.cpp:239
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:293
+#: src/audiomixer/mixerwidget.cpp:282
 #, fuzzy, kde-format
 #| msgid "Normal mode"
 msgid "Solo mode"
 msgstr "普通型態"
 
-#: src/audiomixer/mixerwidget.cpp:294
+#: src/audiomixer/mixerwidget.cpp:283
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:303
+#: src/audiomixer/mixerwidget.cpp:292
 #: src/timeline2/view/timelinecontroller.cpp:4751
 #, fuzzy, kde-format
 #| msgid "Extract Audio"
 msgid "Record audio"
 msgstr "提取音訊"
 
-#: src/audiomixer/mixerwidget.cpp:304
+#: src/audiomixer/mixerwidget.cpp:293
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:317
+#: src/audiomixer/mixerwidget.cpp:306
 #, fuzzy, kde-format
 #| msgid "Swap channels"
 msgid "Show channels"
 msgstr "交換聲道"
 
-#: src/audiomixer/mixerwidget.cpp:318
+#: src/audiomixer/mixerwidget.cpp:307
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of the audio track controls in the audio mixer view."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:330
+#: src/audiomixer/mixerwidget.cpp:319
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgid "Open Effect Stack"
 msgstr "儲存特效"
 
-#: src/audiomixer/mixerwidget.cpp:332
+#: src/audiomixer/mixerwidget.cpp:321
 #, fuzzy, kde-kuit-format
 #| msgid "Fade in audio track"
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
 msgstr "淡入音軌"
 
-#: src/audiomixer/mixerwidget.cpp:334
+#: src/audiomixer/mixerwidget.cpp:323
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."

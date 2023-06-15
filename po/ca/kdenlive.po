@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-14 00:46+0000\n"
+"POT-Creation-Date: 2023-06-15 00:45+0000\n"
 "PO-Revision-Date: 2023-06-12 13:45+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -32,7 +32,7 @@ msgid "Your emails"
 msgstr "txemaq@gmail.com,orestes@tsc.upc.edu"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
-#: src/audiomixer/mixerwidget.cpp:172 src/audiomixer/mixerwidget.cpp:185
+#: src/audiomixer/mixerwidget.cpp:161 src/audiomixer/mixerwidget.cpp:174
 #, kde-format
 msgid "Balance"
 msgstr "Balanç"
@@ -4025,13 +4025,13 @@ msgstr "Personalitzat…"
 msgid "Invalid LUT file %1"
 msgstr "Fitxer LUT no vàlid %1"
 
-#: src/audiomixer/audiolevelwidget.cpp:239
+#: src/audiomixer/audiolevelwidget.cpp:270
 #, kde-format
 msgctxt "L as in Left"
 msgid "L:"
 msgstr "E:"
 
-#: src/audiomixer/audiolevelwidget.cpp:240
+#: src/audiomixer/audiolevelwidget.cpp:271
 #, kde-format
 msgctxt "R as in Right"
 msgid ""
@@ -4041,7 +4041,7 @@ msgstr ""
 "\n"
 "D:"
 
-#: src/audiomixer/mixermanager.cpp:89
+#: src/audiomixer/mixermanager.cpp:106
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -4050,17 +4050,17 @@ msgstr ""
 "Monitoratge de l'àudio. Premeu <b>Espai</b> per iniciar/fer una pausa de "
 "l'enregistrament, <b>Esc</b> per a finalitzar."
 
-#: src/audiomixer/mixermanager.cpp:205 src/timeline2/view/qml/timeline.qml:989
+#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:989
 #, kde-format
 msgid "Master"
 msgstr "Mestre"
 
-#: src/audiomixer/mixerwidget.cpp:149
+#: src/audiomixer/mixerwidget.cpp:138
 #, kde-format
 msgid "Volume"
 msgstr "Volum"
 
-#: src/audiomixer/mixerwidget.cpp:150
+#: src/audiomixer/mixerwidget.cpp:139
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4070,13 +4070,13 @@ msgstr ""
 "Ajusta el volum de la sortida de pista d'àudio (afecta a tots els clips "
 "d'àudio per igual)."
 
-#: src/audiomixer/mixerwidget.cpp:153 src/audiomixer/mixerwidget.cpp:551
+#: src/audiomixer/mixerwidget.cpp:142 src/audiomixer/mixerwidget.cpp:542
 #: src/mltcontroller/clippropertiescontroller.cpp:886
 #, kde-format
 msgid "dB"
 msgstr "dB"
 
-#: src/audiomixer/mixerwidget.cpp:173 src/audiomixer/mixerwidget.cpp:186
+#: src/audiomixer/mixerwidget.cpp:162 src/audiomixer/mixerwidget.cpp:175
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4088,63 +4088,63 @@ msgstr ""
 "sortida cap a l'esquerra, els valors positius cap a la dreta. Afecta a tots "
 "els clips d'àudio per igual."
 
-#: src/audiomixer/mixerwidget.cpp:176
+#: src/audiomixer/mixerwidget.cpp:165
 #, kde-format
 msgctxt "Left"
 msgid "L"
 msgstr "E"
 
-#: src/audiomixer/mixerwidget.cpp:178
+#: src/audiomixer/mixerwidget.cpp:167
 #, kde-format
 msgctxt "Right"
 msgid "R"
 msgstr "D"
 
-#: src/audiomixer/mixerwidget.cpp:249
+#: src/audiomixer/mixerwidget.cpp:238
 #, kde-format
 msgid "Mute track"
 msgstr "Silencia la pista"
 
-#: src/audiomixer/mixerwidget.cpp:249
+#: src/audiomixer/mixerwidget.cpp:238
 #, kde-format
 msgid "Unmute track"
 msgstr "Activa el so de la pista"
 
-#: src/audiomixer/mixerwidget.cpp:250
+#: src/audiomixer/mixerwidget.cpp:239
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr "Silencia/activa el so de la pista d'àudio."
 
-#: src/audiomixer/mixerwidget.cpp:293
+#: src/audiomixer/mixerwidget.cpp:282
 #, kde-format
 msgid "Solo mode"
 msgstr "Mode individual"
 
-#: src/audiomixer/mixerwidget.cpp:294
+#: src/audiomixer/mixerwidget.cpp:283
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
 msgstr "Quan està seleccionat silencia totes les altres pistes d'àudio."
 
-#: src/audiomixer/mixerwidget.cpp:303
+#: src/audiomixer/mixerwidget.cpp:292
 #: src/timeline2/view/timelinecontroller.cpp:4751
 #, kde-format
 msgid "Record audio"
 msgstr "Enregistra l'àudio"
 
-#: src/audiomixer/mixerwidget.cpp:304
+#: src/audiomixer/mixerwidget.cpp:293
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
 msgstr "Posa la pista d'àudio en mode d'enregistrament."
 
-#: src/audiomixer/mixerwidget.cpp:317
+#: src/audiomixer/mixerwidget.cpp:306
 #, kde-format
 msgid "Show channels"
 msgstr "Mostra els canals"
 
-#: src/audiomixer/mixerwidget.cpp:318
+#: src/audiomixer/mixerwidget.cpp:307
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4153,18 +4153,18 @@ msgstr ""
 "Alterna la visualització dels controls de la pista d'àudio a la vista del "
 "mesclador d'àudio."
 
-#: src/audiomixer/mixerwidget.cpp:330
+#: src/audiomixer/mixerwidget.cpp:319
 #, kde-format
 msgid "Open Effect Stack"
 msgstr "Obre la pila d'efectes"
 
-#: src/audiomixer/mixerwidget.cpp:332
+#: src/audiomixer/mixerwidget.cpp:321
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
 msgstr "Obre la pila d'efectes per a la pista d'àudio."
 
-#: src/audiomixer/mixerwidget.cpp:334
+#: src/audiomixer/mixerwidget.cpp:323
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
