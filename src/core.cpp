@@ -47,7 +47,7 @@ Core::Core(const QString &packageType)
     : audioThumbCache(QStringLiteral("audioCache"), 2000000)
     , taskManager(this)
     , m_packageType(packageType)
-    , m_thumbProfile(nullptr)
+    , m_thumbProfile(new Mlt::Profile())
     , m_capture(new MediaCapture(this))
     , m_currentProfile(QStringLiteral("atsc_720p_25"))
 {
@@ -202,6 +202,7 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
         KdenliveSettings::setDefault_profile(m_profile);
     }
     profileChanged();
+    resetThumbProfile();
 
     if (!ProfileRepository::get()->profileExists(m_profile)) {
         KMessageBox::error(m_mainWindow, i18n("The default profile of Kdenlive is not set or invalid, press OK to set it to a correct value."));
@@ -592,7 +593,8 @@ bool Core::setCurrentProfile(const QString profilePath)
         return true;
     }
     if (ProfileRepository::get()->profileExists(profilePath)) {
-        m_thumbProfile.reset();
+        // Ensure all running tasks are stopped before attempting a global profile change
+        taskManager.slotCancelJobs();
         m_currentProfile = profilePath;
         if (m_projectProfile) {
             m_projectProfile->set_colorspace(getCurrentProfile()->colorspace());
@@ -607,7 +609,7 @@ bool Core::setCurrentProfile(const QString profilePath)
             updateMonitorProfile();
         }
         // Regenerate thumbs profile
-        thumbProfile();
+        resetThumbProfile();
         // inform render widget
         m_timecode.setFormat(getCurrentProfile()->fps());
         profileChanged();
@@ -1106,21 +1108,24 @@ void Core::showClipKeyframes(ObjectId id, bool enable)
     }
 }
 
+void Core::resetThumbProfile()
+{
+    m_thumbProfile->set_colorspace(m_projectProfile->colorspace());
+    m_thumbProfile->set_frame_rate(m_projectProfile->frame_rate_num(), m_projectProfile->frame_rate_den());
+    double factor = 144. / m_projectProfile->height();
+    m_thumbProfile->set_height(144);
+    int width = qRound(m_projectProfile->width() * factor);
+    if (width % 2 > 0) {
+        width++;
+    }
+    m_thumbProfile->set_width(width);
+    m_thumbProfile->set_progressive(m_projectProfile->progressive());
+    m_thumbProfile->set_sample_aspect(m_projectProfile->sample_aspect_num(), m_projectProfile->sample_aspect_den());
+    m_thumbProfile->set_display_aspect(m_projectProfile->display_aspect_num(), m_projectProfile->display_aspect_den());
+    m_thumbProfile->set_explicit(true);
+}
 Mlt::Profile *Core::thumbProfile()
 {
-    QMutexLocker lck(&m_thumbProfileMutex);
-    if (!m_thumbProfile) {
-        Mlt::Profile *thbProfile = new Mlt::Profile(m_currentProfile.toUtf8().constData());
-        double factor = 144. / thbProfile->height();
-        thbProfile->set_height(144);
-        int width = qRound(thbProfile->width() * factor);
-        if (width % 2 > 0) {
-            width++;
-        }
-        thbProfile->set_width(width);
-        thbProfile->set_explicit(true);
-        m_thumbProfile.reset(thbProfile);
-    }
     return m_thumbProfile.get();
 }
 

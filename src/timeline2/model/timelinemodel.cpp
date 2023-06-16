@@ -408,6 +408,9 @@ int TimelineModel::getClipByStartPosition(int trackId, int position) const
 int TimelineModel::getClipByPosition(int trackId, int position, int playlist) const
 {
     READ_LOCK();
+    if (isSubtitleTrack(trackId)) {
+        return getSubtitleByPosition(position);
+    }
     Q_ASSERT(isTrack(trackId));
     return getTrackById_const(trackId)->getClipByPosition(position, playlist);
 }
@@ -2368,7 +2371,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
     std::vector<std::pair<int, int>> sorted_clips;
-    std::vector<int> sorted_clips_ids;
+    QVector<int> sorted_clips_ids;
     std::vector<std::pair<int, std::pair<int, int>>> sorted_compositions;
     std::vector<std::pair<int, GenTime>> sorted_subtitles;
     int lowerTrack = -1;
@@ -2509,6 +2512,27 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
                     // Trying to drag audio above topmost track or on video track
                     delta_track = 0;
                 }
+            }
+        }
+    }
+    if (delta_track != 0) {
+        // Ensure destination tracks are empty
+        for (const std::pair<int, int> &item : sorted_clips) {
+            int currentTrack = getClipTrackId(item.first);
+            int trackOffset = delta_track;
+            // Adjust delta_track depending on master
+            if (getTrackById_const(currentTrack)->isAudioTrack()) {
+                if (!masterIsAudio) {
+                    trackOffset = -delta_track;
+                }
+            } else if (masterIsAudio) {
+                trackOffset = -delta_track;
+            }
+            int newItemTrackId = getTrackIndexFromPosition(getTrackPosition(currentTrack) + trackOffset);
+            int newIn = item.second + delta_pos;
+            if (!getTrackById_const(newItemTrackId)->isAvailableWithExceptions(newIn, getClipPlaytime(item.first) - 1, sorted_clips_ids)) {
+                delta_track = 0;
+                break;
             }
         }
     }
@@ -6874,11 +6898,13 @@ bool TimelineModel::hasSubtitleModel()
 
 void TimelineModel::makeTransparentBg(bool transparent)
 {
+    m_blackClip->lock();
     if (transparent) {
         m_blackClip->set("resource", 0);
     } else {
         m_blackClip->set("resource", "black");
     }
+    m_blackClip->unlock();
 }
 
 void TimelineModel::prepareShutDown()

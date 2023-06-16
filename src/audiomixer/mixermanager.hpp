@@ -9,6 +9,7 @@
 #include <memory>
 #include <unordered_map>
 
+#include <QSlider>
 #include <QWidget>
 
 namespace Mlt {
@@ -19,6 +20,14 @@ class MixerWidget;
 class QHBoxLayout;
 class TimelineItemModel;
 class QScrollArea;
+
+/** MySlider class is only here to get the slider handle size used when painting the audio level scale */
+class MySlider : public QSlider
+{
+public:
+    explicit MySlider(QWidget *parent = nullptr);
+    int getHandleHeight();
+};
 
 class MixerManager : public QWidget
 {
@@ -78,4 +87,5 @@ private:
     int m_recommendedWidth;
     int m_monitorTrack;
     bool m_filterIsV2;
+    int m_sliderHandle;
 };

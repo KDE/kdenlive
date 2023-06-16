@@ -5,8 +5,8 @@
 
 #pragma once
 
-class QString;
-class QStringList;
+#include <QString>
+#include <QStringList>
 
 class QStringUtils
 {

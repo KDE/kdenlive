@@ -16,7 +16,7 @@ class AudioLevelWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit AudioLevelWidget(int width, QWidget *parent = nullptr);
+    explicit AudioLevelWidget(int width, int sliderHandle, QWidget *parent = nullptr);
     ~AudioLevelWidget() override;
     void refreshPixmap();
     int audioChannels;
@@ -45,6 +45,7 @@ private:
     int m_channelDistance;
     int m_channelFillWidth;
     bool m_displayToolTip;
+    int m_sliderHandle;
     void drawBackground(int channels = 2);
     /** @brief Update tooltip with current dB values */
     void updateToolTip();
