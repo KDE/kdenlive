@@ -693,20 +693,11 @@ void RenderWidget::prepareRendering(bool delayedRendering)
 
     Monitor *pMon = pCore->getMonitor(Kdenlive::ProjectMonitor);
     double fps = pCore->getCurrentProfile()->fps();
-    QString subtitleFile;
-    if (m_view.embed_subtitles->isEnabled() && m_view.embed_subtitles->isChecked() && project->hasSubtitles()) {
-        QTemporaryFile src(QDir::temp().absoluteFilePath(QString("XXXXXX.srt")));
-        if (!src.open()) {
-            // Something went wrong
-            KMessageBox::error(this, i18n("Could not create temporary subtitle file"));
-            return;
-        }
-        subtitleFile = src.fileName();
-        src.setAutoRemove(false);
+    bool embed_subtitles = m_view.embed_subtitles->isEnabled() && m_view.embed_subtitles->isChecked() && project->hasSubtitles();
+    if (embed_subtitles) {
         // disable subtitle filter(s) as they will be embeded in a second step of rendering
         KdenliveDoc::disableSubtitles(doc);
     }
-    const QUuid currentUuid = pCore->currentTimelineId();
 
     // in/out points
     int in = 0;
@@ -725,66 +716,64 @@ void RenderWidget::prepareRendering(bool delayedRendering)
 
     } // else: full project
 
+    std::vector<RenderManager::RenderSection> sections;
+
     if (m_view.guide_multi_box->isChecked()) {
-        if (auto ptr = m_guidesModel.lock()) {
-            int category = m_view.guideCategoryChooser->currentCategory();
-            QList<CommentedTime> markers;
-            for (auto marker : ptr->getAllMarkers(category)) {
-                int pos = marker.time().frames(fps);
-                if (pos < in || pos > out) continue;
-                markers << marker;
-            }
-            if (!markers.isEmpty()) {
-                bool beginParsed = false;
-                QStringList names;
-                for (int i = 0; i < markers.count(); i++) {
-                    QString name;
-                    if (!beginParsed && i == 0 && markers.at(i).time().frames(fps) != in) {
-                        i -= 1;
-                        beginParsed = true;
-                        name = i18n("begin");
-                    }
-                    int sectionIn = in;
-                    if (i >= 0) {
-                        name = markers.at(i).comment();
-                        sectionIn = markers.at(i).time().frames(fps);
-                    }
-                    name = QStringUtils::getUniqueName(names, name);
-                    names.append(name);
+        int guideCategory = m_view.guideCategoryChooser->currentCategory();
+        sections = RenderManager::getGuideSections(m_guidesModel, guideCategory, in, out);
+    }
 
-                    int sectionOut = out;
-                    if (i + 1 < markers.count()) {
-                        sectionOut = qMin(markers.at(i + 1).time().frames(fps) - 1, out);
-                    }
-                    QString filename = QStringUtils::appendToFilename(outputFile, QStringLiteral("-%1").arg(name));
-                    QDomDocument docCopy = doc.cloneNode(true).toDocument();
-                    if (!subtitleFile.isEmpty()) {
-                        project->generateRenderSubtitleFile(currentUuid, sectionIn, sectionOut, subtitleFile);
-                    }
+    if (sections.empty()) {
+        RenderManager::RenderSection section;
+        section.in = in;
+        section.out = out;
+        sections.push_back(section);
+    }
 
-                    QString newPlaylistPath = playlistPath;
-                    newPlaylistPath = newPlaylistPath.replace(QStringLiteral(".mlt"), QString("-%1.mlt").arg(i));
-                    generateRenderFiles(newPlaylistPath, docCopy, sectionIn, sectionOut, filename, false, subtitleFile);
-                    if (!subtitleFile.isEmpty() && i < markers.count() - 1) {
-                        QTemporaryFile src(QDir::temp().absoluteFilePath(QString("XXXXXX.srt")));
-                        if (!src.open()) {
-                            // Something went wrong
-                            KMessageBox::error(this, i18n("Could not create temporary subtitle file"));
-                            return;
-                        }
-                        subtitleFile = src.fileName();
-                        src.setAutoRemove(false);
-                    }
-                }
+    const QUuid currentUuid = pCore->currentTimelineId();
+
+    int i = 0;
+    for (auto section : sections) {
+        i++;
+        QString outputPath = outputFile;
+        if (!section.name.isEmpty()) {
+            outputPath = QStringUtils::appendToFilename(outputPath, QStringLiteral("-%1.").arg(section.name));
+        }
+        QDomDocument docCopy = doc.cloneNode(true).toDocument();
+
+        QString subtitleFile;
+        if (embed_subtitles) {
+            subtitleFile = createEmptyTempFile(QStringLiteral("srt"));
+            if (subtitleFile.isEmpty()) {
+                KMessageBox::error(this, i18n("Could not create temporary subtitle file"));
                 return;
             }
+            project->generateRenderSubtitleFile(currentUuid, section.in, section.out, subtitleFile);
         }
-    }
 
-    if (!subtitleFile.isEmpty()) {
-        project->generateRenderSubtitleFile(currentUuid, in, out, subtitleFile);
+        QString newPlaylistPath = playlistPath;
+        newPlaylistPath = newPlaylistPath.replace(QStringLiteral(".mlt"), QString("-%1.mlt").arg(i));
+        // QString newPlaylistPath = createEmptyTempFile(QStringLiteral("mlt")); // !!! This does not take the delayed rendering logic of generatePlaylistFile()
+        // in to account QFile::copy(job.playlistPath, newJob.playlistPath); // TODO: if we have a single item in sections this is unnesessary and produces just
+        // unused files
+
+        generateRenderFiles(newPlaylistPath, docCopy, section.in, section.out, outputPath, delayedRendering, subtitleFile);
     }
-    generateRenderFiles(playlistPath, doc, in, out, outputFile, delayedRendering, subtitleFile);
+}
+
+QString RenderWidget::createEmptyTempFile(const QString &extension)
+{
+    QTemporaryFile tmp(QDir::temp().absoluteFilePath(QString("kdenlive-XXXXXX.%1").arg(extension)));
+    if (!tmp.open()) {
+        // Something went wrong
+        qDebug() << "Could not create temporary file";
+        // TODO: some kind of warning to the UI?
+        return {};
+    }
+    tmp.setAutoRemove(false);
+    tmp.close();
+
+    return tmp.fileName();
 }
 
 QString RenderWidget::generatePlaylistFile(bool delayedRendering)
@@ -826,13 +815,7 @@ QString RenderWidget::generatePlaylistFile(bool delayedRendering)
         return projectFolder.absoluteFilePath(filename);
     }
     // No delayed rendering, we can use a temp file
-    QTemporaryFile tmp(QDir::temp().absoluteFilePath(QStringLiteral("kdenlive-XXXXXX.mlt")));
-    if (!tmp.open()) {
-        // Something went wrong
-        return {};
-    }
-    tmp.close();
-    return tmp.fileName();
+    return createEmptyTempFile(QStringLiteral("mlt"));
 }
 
 void RenderWidget::generateRenderFiles(const QString playlistPath, QDomDocument doc, int in, int out, QString outputFile, bool delayedRendering,
@@ -2149,4 +2132,46 @@ void RenderWidget::updateMetadataToolTip()
         tipText.append(QString("%1: <b>%2</b><br/>").arg(metaName, i.value()));
     }
     m_view.edit_metadata->setToolTip(tipText);
+}
+
+std::vector<RenderManager::RenderSection> RenderManager::getGuideSections(std::weak_ptr<MarkerListModel> model, int guideCategory, int boundingIn,
+                                                                          int boundingOut)
+{
+    std::vector<RenderSection> sections;
+    if (auto ptr = model.lock()) {
+        QList<CommentedTime> markers;
+        double fps = pCore->getCurrentFps();
+        for (auto marker : ptr->getAllMarkers(guideCategory)) {
+            int pos = marker.time().frames(fps);
+            if (pos < boundingIn || (boundingOut > 0 && pos > boundingOut)) continue;
+            markers << marker;
+        }
+        if (!markers.isEmpty()) {
+            bool beginParsed = false;
+            QStringList names;
+            for (int i = 0; i < markers.count(); i++) {
+                RenderSection section;
+                if (!beginParsed && i == 0 && markers.at(i).time().frames(fps) != boundingIn) {
+                    i -= 1;
+                    beginParsed = true;
+                    section.name = i18n("begin");
+                }
+                section.in = boundingIn;
+                if (i >= 0) {
+                    section.name = markers.at(i).comment();
+                    section.in = markers.at(i).time().frames(fps);
+                }
+                section.name = QStringUtils::getUniqueName(names, section.name);
+                names << section.name;
+
+                section.out = boundingOut;
+                if (i + 1 < markers.count()) {
+                    section.out = qMin(markers.at(i + 1).time().frames(fps) - 1, boundingOut);
+                }
+
+                sections.push_back(section);
+            }
+        }
+    }
+    return sections;
 }

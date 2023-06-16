@@ -102,6 +102,19 @@ private:
     QString m_data;
 };
 
+class RenderManager
+{
+public:
+    struct RenderSection
+    {
+        int in;
+        int out;
+        QString name;
+    };
+
+    static std::vector<RenderManager::RenderSection> getGuideSections(std::weak_ptr<MarkerListModel> model, int guideCategory, int boundingIn, int boundingOut);
+};
+
 class RenderWidget : public QDialog
 {
     Q_OBJECT
@@ -237,6 +250,7 @@ private:
     void prepareRendering(bool delayedRendering);
     /** @brief Create a new empty playlist (*.mlt) file and @returns the filename of the created file */
     QString generatePlaylistFile(bool delayedRendering);
+    QString createEmptyTempFile(const QString &extension);
     void generateRenderFiles(const QString playlistPath, QDomDocument doc, int in, int out, QString outputFile, bool delayedRendering,
                              const QString &subtitleFile = QString());
     RenderJobItem *createRenderJob(const QString &playlist, const QString &outputFile, const QString &subtitleFile = QString());
