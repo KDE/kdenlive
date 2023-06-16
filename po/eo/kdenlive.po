@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-15 00:45+0000\n"
-"PO-Revision-Date: 2023-05-28 11:37+0100\n"
+"PO-Revision-Date: 2023-06-15 21:48+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -11525,7 +11525,7 @@ msgid ""
 "please fix it."
 msgstr ""
 "Ne eblis krei la vidbendan antaŭrigardon.\n"
-"Estas io malĝusta kun via instalado de Kdenlive aŭ viaj ŝoforaj agordoj, "
+"Estas io malĝusta kun via instalado de Kdenlive aŭ viaj pelilaj agordoj, "
 "bonvolu ripari ĝin."
 
 #: src/monitor/monitor.cpp:77
@@ -16918,8 +16918,8 @@ msgid ""
 "Control character. Cannot be inserted/printed. See <a href=\"https://en."
 "wikipedia.org/wiki/Control_character\">Wikipedia:Control_character</a>"
 msgstr ""
-"Kontrola karaktero. Ne povas esti enmetita/presita. Vidu <a href=\"https://"
-"en.wikipedia.org/wiki/Control_character\">Vikipedio:Kontrol_character</a>"
+"Kontrola signo. Ne povas esti enmetita/presita. Vidu <a href=\"https://en."
+"wikipedia.org/wiki/Control_character\">Vikipedio:Kontrol_character</a>"
 
 #: src/titler/unicodedialog.cpp:147
 #, kde-format
@@ -17133,7 +17133,7 @@ msgstr ""
 #: src/titler/unicodedialog.cpp:211
 #, kde-format
 msgid "<small>No additional information available for this character.</small>"
-msgstr "<small>Neniu plia informo disponebla por ĉi tiu karaktero.</small>"
+msgstr "<small>Neniu plia informo disponebla por ĉi tiu signo.</small>"
 
 #: src/transitions/transitionsrepository.cpp:30
 #, kde-format
@@ -18462,7 +18462,7 @@ msgid ""
 "Warning: changes to the drivers and devices can make Kdenlive unstable. "
 "Change only if you know what you do."
 msgstr ""
-"Averto: ŝanĝoj al la ŝoforoj kaj aparatoj povas malstabila Kdenlive. Ŝanĝu "
+"Averto: ŝanĝoj al la peliloj kaj aparatoj povas malstabila Kdenlive. Ŝanĝu "
 "nur se vi scias, kion vi faras."
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpu)
@@ -18487,7 +18487,7 @@ msgstr "Audio Backend:"
 #: src/ui/configsdl_ui.ui:80
 #, kde-format
 msgid "Audio driver:"
-msgstr "Aŭdŝoforo:"
+msgstr "Aŭdpelilo:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_device)
 #: src/ui/configsdl_ui.ui:93
@@ -21164,12 +21164,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Open %1"
-#~ msgstr "Malfermi %1"
-
-#~ msgid "Show File Preview"
-#~ msgstr "Antaŭrigardo de subtitoloj"
-
-#~ msgid "NVIDIA hardware encoders found and enabled."
-#~ msgstr "NVIDIA aparataj kodiloj trovitaj kaj ebligitaj."
