@@ -102,54 +102,6 @@ private:
     QString m_data;
 };
 
-class RenderManager
-{
-public:
-    struct RenderSection
-    {
-        int in;
-        int out;
-        QString name;
-    };
-
-    struct RenderJob
-    {
-        QString playlistPath;
-        QString outputPath;
-        QString subtitlePath;
-        // bool embedSubtitle = false;
-        // bool delayedRendering = false;
-    };
-
-    struct RenderRequest
-    {
-        QString overlayData;
-        std::weak_ptr<MarkerListModel> guidesModel;
-        bool proxyRendering = false;
-        RenderPresetParams presetParams;
-        bool audioFilePerTrack = false;
-        bool delayedRendering = false;
-        QString outputFile;
-        bool embedSubtitles = false;
-        int boundingIn = -1;  // -1 means project start
-        int boundingOut = -1; // -1 means project end
-        bool guideMultiExport = false;
-        int guideCategory = -1; /// category used as filter if @variable guideMultiExport is @value true
-        bool twoPass = false;
-    };
-
-    static std::vector<RenderManager::RenderSection> getGuideSections(std::weak_ptr<MarkerListModel> model, int guideCategory, int boundingIn, int boundingOut);
-    static void setDocGeneralParams(QDomDocument doc, int in, int out, const RenderPresetParams &params = {});
-    static void setDocTwoPassParams(int pass, QDomDocument &doc, const QString &outputFile, RenderRequest request);
-    static void prepareMultiAudioFiles(std::vector<RenderJob> &jobs, const QDomDocument &doc, const QString &playlistFile, const QString &targetFile);
-    static QString createEmptyTempFile(const QString &extension);
-    static std::vector<RenderManager::RenderJob> prepareRendering(RenderRequest request);
-    /** @brief Create a new empty playlist (*.mlt) file and @returns the filename of the created file */
-    static QString generatePlaylistFile(bool delayedRendering);
-    static void generateRenderFiles(std::vector<RenderManager::RenderJob> &jobs, const QString playlistPath, QDomDocument doc, QString outputFile,
-                                    const QString &subtitleFile, RenderRequest request);
-};
-
 class RenderWidget : public QDialog
 {
     Q_OBJECT

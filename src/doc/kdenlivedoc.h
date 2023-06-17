@@ -295,6 +295,9 @@ public:
     static void disableSubtitles(QDomDocument &doc);
     /** @brief Sets the color of the first producer in @param doc with id "black_track" to transparent */
     static void makeBackgroundTrackTransparent(QDomDocument &doc);
+    /** @brief Set the autoclose attribute to all playlists in @param doc.
+     *   This is eg. needed for rendering, as the process would not stop at the end of the playlist if it was not closed */
+    static void setAutoclosePlaylists(QDomDocument &doc);
 
 private:
     /** @brief Create a new KdenliveDoc using the provided QDomDocument (an

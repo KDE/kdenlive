@@ -2,10 +2,11 @@
     SPDX-FileCopyrightText: 2022 Julius Künzel <jk.kdedev@smartlab.uber.space>
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
-#include "dialogs/renderwidget.h"
 #include "test_utils.hpp"
 #define protected public
 
+#include "doc/kdenlivedoc.h"
+#include "render/renderrequest.h"
 #include "renderpresets/renderpresetmodel.hpp"
 #include "renderpresets/renderpresetrepository.hpp"
 
@@ -202,53 +203,60 @@ TEST_CASE("Basic tests of the render preset model", "[RenderPresets]")
     }
 }
 
-TEST_CASE("Tests of the render functions to use guides for sections", "[RenderManagerGuides]")
+TEST_CASE("Tests of the render functions to use guides for sections", "[RenderRequestGuides]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     std::shared_ptr<MarkerListModel> markerModel(new MarkerListModel(undoStack));
-    markerModel->loadCategories(KdenliveSettings::guidesCategories());
+    markerModel->loadCategories(KdenliveDoc::getDefaultGuideCategories());
 
     int guideCategory = 3;
 
     // create some guides at different positions and in different categories
-    markerModel->addMarker(GenTime(35, pCore->getCurrentFps()), QLatin1String("test marker"), 1);
-    markerModel->addMarker(GenTime(70, pCore->getCurrentFps()), QLatin1String("test marker"), guideCategory);
-    markerModel->addMarker(GenTime(25, pCore->getCurrentFps()), QLatin1String("test marker"), guideCategory);
+    markerModel->addMarker(GenTime(35, pCore->getCurrentFps()), QStringLiteral("test marker"), 1);
+    markerModel->addMarker(GenTime(70, pCore->getCurrentFps()), QStringLiteral("test marker"), guideCategory);
+    markerModel->addMarker(GenTime(25, pCore->getCurrentFps()), QStringLiteral("test marker"), guideCategory);
 
     // set the bounding range
     int in = 0;
     int out = 100;
 
-    std::vector<RenderManager::RenderSection> sections;
+    RenderRequest *r = new RenderRequest();
+    r->m_boundingIn = in;
+    r->m_boundingOut = out;
+
+    std::vector<RenderRequest::RenderSection> sections;
 
     SECTION("Single Guide")
     {
         // Category 1 contains only one guide and hence should have 2 sections
-        sections = RenderManager::getGuideSections(markerModel, 1, in, out);
+        r->setGuideParams(markerModel, true, 1);
+        sections = r->getGuideSections();
         CHECK(sections.size() == 2);
     }
 
     SECTION("No markers at all")
     {
         // Category 0 has no guides and should return no sections at all
-        sections = RenderManager::getGuideSections(markerModel, 0, in, out);
+        r->setGuideParams(markerModel, true, 0);
+        sections = r->getGuideSections();
         CHECK(sections.size() == 0);
     }
 
     SECTION("Multiple Guides")
     {
-        sections = RenderManager::getGuideSections(markerModel, guideCategory, in, out);
+        r->setGuideParams(markerModel, true, guideCategory);
+        sections = r->getGuideSections();
         CHECK(sections.size() == 3);
 
         // Add one more marker and check this leads to one more section
-        markerModel->addMarker(GenTime(51, pCore->getCurrentFps()), QLatin1String("test marker"), guideCategory);
-        sections = RenderManager::getGuideSections(markerModel, guideCategory, in, out);
+        markerModel->addMarker(GenTime(51, pCore->getCurrentFps()), QStringLiteral("test marker"), guideCategory);
+        sections = r->getGuideSections();
         CHECK(sections.size() == 4);
 
         // The size should not change if we add a guide at the start, because there should always be a section from the start.
         // Our guide should only replace the automatically generated section which in our case should only affect the name.
-        markerModel->addMarker(GenTime(0, pCore->getCurrentFps()), QLatin1String("test marker"), guideCategory);
-        sections = RenderManager::getGuideSections(markerModel, guideCategory, in, out);
+        markerModel->addMarker(GenTime(0, pCore->getCurrentFps()), QStringLiteral("test marker"), guideCategory);
+        sections = r->getGuideSections();
         CHECK(sections.size() == 4);
 
         // check in and out points
@@ -263,7 +271,7 @@ TEST_CASE("Tests of the render functions to use guides for sections", "[RenderMa
 
         // check no section name appears twice, eventhough we have guides with the same name
         QStringList names;
-        for (auto section : sections) {
+        for (const auto &section : sections) {
             names << section.name;
         }
         CHECK(names.removeDuplicates() == 0);
@@ -271,8 +279,10 @@ TEST_CASE("Tests of the render functions to use guides for sections", "[RenderMa
         // change the bounding range
         in = 10;
         out = 60;
+        r->m_boundingIn = in;
+        r->m_boundingOut = out;
 
-        sections = RenderManager::getGuideSections(markerModel, guideCategory, in, out);
+        sections = r->getGuideSections();
         CHECK(sections.size() == 3);
 
         // check in and out points

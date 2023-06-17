@@ -51,7 +51,7 @@ void RenderPresetParams::replacePlaceholder(const QString &placeholder, const QS
 
 void RenderPresetParams::refreshX265Params()
 {
-    if (value(QStringLiteral("vcodec")).toLower() != QStringLiteral("libx265")) {
+    if (!isX265()) {
         remove(QStringLiteral("x265-params"));
         return;
     }
@@ -138,6 +138,11 @@ bool RenderPresetParams::hasAlpha()
 bool RenderPresetParams::isImageSequence()
 {
     return value(QStringLiteral("properties")).startsWith("stills/");
+}
+
+bool RenderPresetParams::isX265()
+{
+    return value(QStringLiteral("vcodec")).toLower() == QStringLiteral("libx265");
 }
 
 RenderPresetModel::RenderPresetModel(QDomElement preset, const QString &presetFile, bool editable, const QString &groupName, const QString &renderer)
