@@ -13,6 +13,7 @@
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "kdenlivesettings.h"
+#include "transitions/transitionsrepository.hpp"
 
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -261,6 +262,7 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
     }
     // Sort compositions and insert
     bool compositionOk = true;
+    QStringList validCompositions;
     while (!compositions.isEmpty()) {
         QScopedPointer<Mlt::Transition> t(compositions.takeFirst());
         QString id(t->get("kdenlive_id"));
@@ -280,6 +282,12 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
                                        t->get_b_track(), t->get_in(), t->get_a_track());
             }
         }
+        if (!validCompositions.contains(id) && !TransitionsRepository::get()->exists(id)) {
+            m_errorMessage << i18n("Unknown composition %1 found on track %2 at %3, compositing with track %4.", id, t->get_b_track(), t->get_in(),
+                                   t->get_a_track());
+            continue;
+        }
+        validCompositions << id;
         auto transProps = std::make_unique<Mlt::Properties>(t->get_properties());
         compositionOk = timeline->requestCompositionInsertion(id, timeline->getTrackIndexFromPosition(t->get_b_track() - 1), t->get_a_track(), t->get_in(),
                                                               t->get_length(), std::move(transProps), compoId, undo, redo, false, originalDecimalPoint);

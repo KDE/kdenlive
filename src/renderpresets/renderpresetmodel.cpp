@@ -114,7 +114,8 @@ RenderPresetParams::RateControl RenderPresetParams::videoRateControl() const
     if (contains(QStringLiteral("crf"))) {
         return !vbufsize.isEmpty() ? (vcodec.endsWith("_videotoolbox") ? RateControl::Average : RateControl::Quality) : RateControl::Constrained;
     }
-    if (contains(QStringLiteral("vq")) || contains(QStringLiteral("vglobal_quality")) || contains(QStringLiteral("qscale"))) {
+    if (contains(QStringLiteral("vq")) || contains(QStringLiteral("vqp")) || contains(QStringLiteral("vglobal_quality")) ||
+        contains(QStringLiteral("qscale"))) {
         return vbufsize.isEmpty() ? RateControl::Quality : RateControl::Constrained;
     } else if (!vbufsize.isEmpty()) {
         return RateControl::Constant;
