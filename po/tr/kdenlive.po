@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-15 02:44+0000\n"
-"PO-Revision-Date: 2023-06-04 01:51+0300\n"
+"PO-Revision-Date: 2023-06-16 12:31+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -9112,7 +9112,7 @@ msgstr "Kdenlive"
 #: src/main.cpp:123
 #, kde-format
 msgid "An open source video editor."
-msgstr "Açık kaynak kodlu bir video düzenleyici."
+msgstr "Açık kaynak kodlu bir video düzenleyicisi."
 
 #: src/main.cpp:124
 #, kde-format
