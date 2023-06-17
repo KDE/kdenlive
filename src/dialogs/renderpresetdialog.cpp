@@ -253,6 +253,9 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
             QString vqParam = preset->getParam(QStringLiteral("vq"));
             QString vbParam = preset->getParam(QStringLiteral("vb"));
             if (vqParam.isEmpty()) {
+                vqParam = preset->getParam(QStringLiteral("vqp"));
+            }
+            if (vqParam.isEmpty()) {
                 vqParam = preset->getParam(QStringLiteral("vglobal_quality"));
             }
             if (vqParam.isEmpty()) {
@@ -653,7 +656,7 @@ void RenderPresetDialog::slotUpdateParams()
         }
         case RenderPresetParams::RateControl::Quality: {
             params.append(QStringLiteral("rc=constqp"));
-            params.append(QStringLiteral("vglobal_quality=%quality"));
+            params.append(QStringLiteral("vqp=%quality"));
             params.append(QStringLiteral("vq=%quality"));
             break;
         }

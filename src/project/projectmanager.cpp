@@ -733,6 +733,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
                 i18n("Error opening file"), KGuiItem(i18n("Open Backup")), KGuiItem(i18n("Recover")));
             if (answer == KMessageBox::PrimaryAction) { // Open Backup
                 slotOpenBackup(url);
+                return;
             } else if (answer == KMessageBox::SecondaryAction) { // Recover
                 // if file was broken by Kdenlive 0.9.4, we can try recovering it. If successful, continue through rest of this function.
                 openResult = KdenliveDoc::Open(stale ? QUrl::fromLocalFile(stale->fileName()) : url,
@@ -983,8 +984,10 @@ bool ProjectManager::slotOpenBackup(const QUrl &url)
     QPointer<BackupWidget> dia = new BackupWidget(projectFile, projectFolder, projectId, pCore->window());
     if (dia->exec() == QDialog::Accepted) {
         QString requestedBackup = dia->selectedFile();
-        m_project->backupLastSavedVersion(projectFile.toLocalFile());
-        closeCurrentDocument(false);
+        if (m_project) {
+            m_project->backupLastSavedVersion(projectFile.toLocalFile());
+            closeCurrentDocument(false);
+        }
         doOpenFile(QUrl::fromLocalFile(requestedBackup), nullptr, true);
         if (m_project) {
             if (!m_project->url().isEmpty()) {

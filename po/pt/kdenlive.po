@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-15 00:45+0000\n"
+"POT-Creation-Date: 2023-06-17 00:47+0000\n"
 "PO-Revision-Date: 2023-05-27 17:12+0100\n"
 "Last-Translator: Jose Jorge <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
@@ -5462,7 +5462,7 @@ msgstr "Dimensionar a legenda"
 msgid "Move subtitle"
 msgstr "Mover a legenda"
 
-#: src/bin/model/subtitlemodel.cpp:1140 src/dialogs/renderwidget.cpp:821
+#: src/bin/model/subtitlemodel.cpp:1140 src/dialogs/renderwidget.cpp:810
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:515
 #: src/effects/effectstack/view/effectstackview.cpp:571
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:845
@@ -6248,9 +6248,9 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "Exportar os Dados das Guias"
 
-#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:925
-#: src/dialogs/renderwidget.cpp:975 src/dialogs/renderwidget.cpp:1921
-#: src/dialogs/renderwidget.cpp:1948 src/doc/kdenlivedoc.cpp:735
+#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:908
+#: src/dialogs/renderwidget.cpp:958 src/dialogs/renderwidget.cpp:1904
+#: src/dialogs/renderwidget.cpp:1931 src/doc/kdenlivedoc.cpp:735
 #: src/doc/kdenlivedoc.cpp:743 src/doc/kdenlivedoc.cpp:1239
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
@@ -6759,7 +6759,7 @@ msgstr ""
 "Os seguintes parâmetros não terão qualquer efeito, porque serão substituídos "
 "pelas opções equivalentes da interface do utilizador: <icode>%1</icode>"
 
-#: src/dialogs/renderwidget.cpp:116 src/dialogs/renderwidget.cpp:1751
+#: src/dialogs/renderwidget.cpp:116 src/dialogs/renderwidget.cpp:1734
 #, kde-format
 msgid "Waiting…"
 msgstr "À espera…"
@@ -6874,7 +6874,7 @@ msgstr ""
 "Não é possível achar o programa 'melt', necessário para a rasterização "
 "(parte do MLT)"
 
-#: src/dialogs/renderwidget.cpp:634 src/dialogs/renderwidget.cpp:1725
+#: src/dialogs/renderwidget.cpp:634 src/dialogs/renderwidget.cpp:1708
 #: src/project/dialogs/archivewidget.cpp:873
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
@@ -6898,33 +6898,28 @@ msgstr ""
 "Não foi possível criar a pasta de conteúdos:\n"
 " %1"
 
-#: src/dialogs/renderwidget.cpp:701 src/dialogs/renderwidget.cpp:772
+#: src/dialogs/renderwidget.cpp:748
 #, kde-format
 msgid "Could not create temporary subtitle file"
 msgstr "Não foi possível criar o ficheiro de legendas temporário"
 
-#: src/dialogs/renderwidget.cpp:745
-#, kde-format
-msgid "begin"
-msgstr "início"
-
-#: src/dialogs/renderwidget.cpp:797
+#: src/dialogs/renderwidget.cpp:786
 #, kde-format
 msgid "export"
 msgstr "exportar"
 
-#: src/dialogs/renderwidget.cpp:812
+#: src/dialogs/renderwidget.cpp:801
 #, kde-format
 msgctxt "@title:window"
 msgid "Delayed Rendering"
 msgstr "Desenho Atrasado"
 
-#: src/dialogs/renderwidget.cpp:812
+#: src/dialogs/renderwidget.cpp:801
 #, kde-format
 msgid "Select a name for this rendering."
 msgstr "Seleccione um nome para este desenho."
 
-#: src/dialogs/renderwidget.cpp:887
+#: src/dialogs/renderwidget.cpp:870
 #, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together.\n"
@@ -6934,7 +6929,7 @@ msgstr ""
 "usadas em conjunto.\n"
 "O programa será gravado sem a exportação de faixas múltiplas."
 
-#: src/dialogs/renderwidget.cpp:1011 src/dialogs/renderwidget.cpp:1738
+#: src/dialogs/renderwidget.cpp:994 src/dialogs/renderwidget.cpp:1721
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -6943,47 +6938,47 @@ msgstr ""
 "Já existe uma tarefa a gravar o ficheiro:<br /><b>%1</b><br />Interrompa a "
 "tarefa se não o quiser sobrepor…"
 
-#: src/dialogs/renderwidget.cpp:1012 src/dialogs/renderwidget.cpp:1739
+#: src/dialogs/renderwidget.cpp:995 src/dialogs/renderwidget.cpp:1722
 #, kde-format
 msgid "Already running"
 msgstr "Já em execução"
 
-#: src/dialogs/renderwidget.cpp:1037
+#: src/dialogs/renderwidget.cpp:1020
 #, kde-format
 msgid "Video without audio track"
 msgstr "Vídeo sem faixa de áudio"
 
-#: src/dialogs/renderwidget.cpp:1039
+#: src/dialogs/renderwidget.cpp:1022
 #, kde-format
 msgid "Audio without video track"
 msgstr "Áudio sem faixa de vídeo"
 
-#: src/dialogs/renderwidget.cpp:1103
+#: src/dialogs/renderwidget.cpp:1086
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "A rasterização <i>%1</i> foi iniciada"
 
-#: src/dialogs/renderwidget.cpp:1165 src/monitor/monitor.cpp:1161
+#: src/dialogs/renderwidget.cpp:1148 src/monitor/monitor.cpp:1161
 #, kde-format
 msgid "untitled"
 msgstr "sem título"
 
-#: src/dialogs/renderwidget.cpp:1203
+#: src/dialogs/renderwidget.cpp:1186
 #, kde-format
 msgid "No preset selected"
 msgstr "Nenhum perfil seleccionado"
 
-#: src/dialogs/renderwidget.cpp:1205
+#: src/dialogs/renderwidget.cpp:1188
 #, kde-format
 msgid "No matching preset"
 msgstr "Nenhum perfil correspondente"
 
-#: src/dialogs/renderwidget.cpp:1217
+#: src/dialogs/renderwidget.cpp:1200
 #, kde-format
 msgid "Invalid preset"
 msgstr "Perfil inválido"
 
-#: src/dialogs/renderwidget.cpp:1331
+#: src/dialogs/renderwidget.cpp:1314
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
@@ -6992,61 +6987,61 @@ msgstr ""
 "O desenho sem o áudio e o vídeo não funciona. Active por favor pelo menos um "
 "dos dois."
 
-#: src/dialogs/renderwidget.cpp:1490
+#: src/dialogs/renderwidget.cpp:1473
 #, kde-format
 msgid "Remaining time "
 msgstr "Tempo restante "
 
-#: src/dialogs/renderwidget.cpp:1492 src/dialogs/renderwidget.cpp:1536
+#: src/dialogs/renderwidget.cpp:1475 src/dialogs/renderwidget.cpp:1519
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
 msgstr[0] "%1 dia "
 msgstr[1] "%1 dias "
 
-#: src/dialogs/renderwidget.cpp:1496
+#: src/dialogs/renderwidget.cpp:1479
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (imagem %1 @ %2 ips)"
 
-#: src/dialogs/renderwidget.cpp:1508
+#: src/dialogs/renderwidget.cpp:1491
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr "Existem menos de %1MB de memória disponível."
 
-#: src/dialogs/renderwidget.cpp:1538
+#: src/dialogs/renderwidget.cpp:1521
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Rasterização terminada em %1"
 
-#: src/dialogs/renderwidget.cpp:1547
+#: src/dialogs/renderwidget.cpp:1530
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "A rasterização de %1 terminou em %2"
 
-#: src/dialogs/renderwidget.cpp:1571
+#: src/dialogs/renderwidget.cpp:1554
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>A rasterização do %1 estoirou</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1614 src/ui/renderwidget_ui.ui:865
+#: src/dialogs/renderwidget.cpp:1597 src/ui/renderwidget_ui.ui:865
 #, kde-format
 msgid "Abort Job"
 msgstr "Interromper a Tarefa"
 
-#: src/dialogs/renderwidget.cpp:1617
+#: src/dialogs/renderwidget.cpp:1600
 #, kde-format
 msgid "Remove Job"
 msgstr "Remover a Tarefa"
 
-#: src/dialogs/renderwidget.cpp:2003 src/dialogs/renderwidget.cpp:2013
-#: src/dialogs/renderwidget.cpp:2035
+#: src/dialogs/renderwidget.cpp:1986 src/dialogs/renderwidget.cpp:1996
+#: src/dialogs/renderwidget.cpp:2018
 #, kde-format
 msgid "Render Duration: %1"
 msgstr "Duração do Desenho: %1"
 
-#: src/dialogs/renderwidget.cpp:2093
+#: src/dialogs/renderwidget.cpp:2076
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -7055,10 +7050,15 @@ msgstr ""
 "Parâmetros de velocidade do codificador:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2113
+#: src/dialogs/renderwidget.cpp:2096
 #, kde-format
 msgid "Add to current project"
 msgstr "Adicionar ao projecto actual"
+
+#: src/dialogs/renderwidget.cpp:2157
+#, kde-format
+msgid "begin"
+msgstr "início"
 
 #: src/dialogs/speechdialog.cpp:42
 #, kde-format

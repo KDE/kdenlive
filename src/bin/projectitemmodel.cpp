@@ -1217,17 +1217,17 @@ QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, st
                 }
                 std::shared_ptr<Mlt::Producer> producer;
                 if (prod->parent().property_exists("kdenlive:uuid")) {
-                    const QString uuid = prod->parent().get("kdenlive:uuid");
+                    const QUuid uuid(prod->parent().get("kdenlive:uuid"));
                     if (prod->parent().type() == mlt_service_tractor_type) {
                         // Load sequence properties
                         Mlt::Properties sequenceProps;
                         sequenceProps.pass_values(prod->parent(), "kdenlive:sequenceproperties.");
-                        pCore->currentDoc()->loadSequenceProperties(QUuid(uuid), sequenceProps);
+                        pCore->currentDoc()->loadSequenceProperties(uuid, sequenceProps);
 
                         std::shared_ptr<Mlt::Tractor> trac = std::make_shared<Mlt::Tractor>(prod->parent());
                         int id(prod->parent().get_int("kdenlive:id"));
                         trac->set("kdenlive:id", id);
-                        trac->set("kdenlive:uuid", uuid.toUtf8().constData());
+                        trac->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
                         trac->set("length", prod->parent().get("length"));
                         trac->set("out", prod->parent().get("out"));
                         trac->set("kdenlive:clipname", prod->parent().get("kdenlive:clipname"));
@@ -1239,7 +1239,7 @@ QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, st
                         std::shared_ptr<Mlt::Producer> prod2(trac->cut());
 
                         prod2->set("kdenlive:id", id);
-                        prod2->set("kdenlive:uuid", uuid.toUtf8().constData());
+                        prod2->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
                         prod2->set("length", prod->parent().get("length"));
                         prod2->set("out", prod->parent().get("out"));
                         prod2->set("kdenlive:clipname", prod->parent().get("kdenlive:clipname"));

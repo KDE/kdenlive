@@ -149,7 +149,7 @@ protected:
 
 public Q_SLOTS:
     void slotAbortCurrentJob();
-    void slotPrepareExport(bool scriptExport = false, const QString &scriptPath = QString());
+    void slotPrepareExport(bool scriptExport = false);
     void adjustViewToProfile();
     void reloadGuides();
     /** @brief Adjust render file name to current project name. */
@@ -233,11 +233,6 @@ private:
     void startRendering(RenderJobItem *item);
     /** @brief Create a rendering profile from MLT preset. */
     QTreeWidgetItem *loadFromMltPreset(const QString &groupName, const QString &path, QString profileName, bool codecInName = false);
-    void prepareRendering(bool delayedRendering);
-    /** @brief Create a new empty playlist (*.mlt) file and @returns the filename of the created file */
-    QString generatePlaylistFile(bool delayedRendering);
-    void generateRenderFiles(const QString playlistPath, QDomDocument doc, int in, int out, QString outputFile, bool delayedRendering,
-                             const QString &subtitleFile = QString());
     RenderJobItem *createRenderJob(const QString &playlist, const QString &outputFile, const QString &subtitleFile = QString());
 
 Q_SIGNALS:

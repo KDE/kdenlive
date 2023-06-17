@@ -51,7 +51,7 @@ void RenderPresetParams::replacePlaceholder(const QString &placeholder, const QS
 
 void RenderPresetParams::refreshX265Params()
 {
-    if (value(QStringLiteral("vcodec")).toLower() != QStringLiteral("libx265")) {
+    if (!isX265()) {
         remove(QStringLiteral("x265-params"));
         return;
     }
@@ -114,7 +114,8 @@ RenderPresetParams::RateControl RenderPresetParams::videoRateControl() const
     if (contains(QStringLiteral("crf"))) {
         return !vbufsize.isEmpty() ? (vcodec.endsWith("_videotoolbox") ? RateControl::Average : RateControl::Quality) : RateControl::Constrained;
     }
-    if (contains(QStringLiteral("vq")) || contains(QStringLiteral("vglobal_quality")) || contains(QStringLiteral("qscale"))) {
+    if (contains(QStringLiteral("vq")) || contains(QStringLiteral("vqp")) || contains(QStringLiteral("vglobal_quality")) ||
+        contains(QStringLiteral("qscale"))) {
         return vbufsize.isEmpty() ? RateControl::Quality : RateControl::Constrained;
     } else if (!vbufsize.isEmpty()) {
         return RateControl::Constant;
@@ -137,6 +138,11 @@ bool RenderPresetParams::hasAlpha()
 bool RenderPresetParams::isImageSequence()
 {
     return value(QStringLiteral("properties")).startsWith("stills/");
+}
+
+bool RenderPresetParams::isX265()
+{
+    return value(QStringLiteral("vcodec")).toLower() == QStringLiteral("libx265");
 }
 
 RenderPresetModel::RenderPresetModel(QDomElement preset, const QString &presetFile, bool editable, const QString &groupName, const QString &renderer)

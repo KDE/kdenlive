@@ -1,6 +1,6 @@
 set(kdenlive_SRCS
   ${kdenlive_SRCS}
-  render/rendermanager.cpp
+  render/renderrequest.cpp
   PARENT_SCOPE)
 
 if(NODBUS)

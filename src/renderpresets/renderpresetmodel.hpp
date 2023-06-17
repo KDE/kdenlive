@@ -25,6 +25,7 @@ public:
     RateControl videoRateControl() const;
     bool hasAlpha();
     bool isImageSequence();
+    bool isX265();
 };
 
 /** @class RenderPresetModel

@@ -2267,13 +2267,34 @@ void KdenliveDoc::disableSubtitles(QDomDocument &doc)
 {
     QDomNodeList filters = doc.elementsByTagName(QStringLiteral("filter"));
     for (int i = 0; i < filters.length(); ++i) {
-        if (Xml::getXmlProperty(filters.item(i).toElement(), QStringLiteral("mlt_service")) == QLatin1String("avfilter.subtitles")) {
-            Xml::setXmlProperty(filters.item(i).toElement(), QStringLiteral("disable"), QStringLiteral("1"));
+        auto filter = filters.at(i).toElement();
+        if (Xml::getXmlProperty(filter, QStringLiteral("mlt_service")) == QLatin1String("avfilter.subtitles")) {
+            Xml::setXmlProperty(filter, QStringLiteral("disable"), QStringLiteral("1"));
         }
     }
 }
 
-// static
+void KdenliveDoc::makeBackgroundTrackTransparent(QDomDocument &doc)
+{
+    QDomNodeList prods = doc.elementsByTagName(QStringLiteral("producer"));
+    for (int i = 0; i < prods.length(); ++i) {
+        auto prod = prods.at(i).toElement();
+        if (Xml::getXmlProperty(prod, QStringLiteral("kdenlive:playlistid")) == QStringLiteral("black_track")) {
+            Xml::setXmlProperty(prod, QStringLiteral("resource"), QStringLiteral("transparent"));
+            break;
+        }
+    }
+}
+
+void KdenliveDoc::setAutoclosePlaylists(QDomDocument &doc)
+{
+    QDomNodeList playlists = doc.elementsByTagName(QStringLiteral("playlist"));
+    for (int i = 0; i < playlists.length(); ++i) {
+        auto playlist = playlists.at(i).toElement();
+        playlist.setAttribute(QStringLiteral("autoclose"), 1);
+    }
+}
+
 void KdenliveDoc::processProxyNodes(QDomNodeList producers, const QString &root, const QMap<QString, QString> &proxies)
 {
 
