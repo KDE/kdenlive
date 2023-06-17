@@ -2361,7 +2361,7 @@ void MainWindow::addTimelineClip(const QString &url)
 void MainWindow::scriptRender(const QString &url)
 {
     slotRenderProject();
-    m_renderWidget->slotPrepareExport(true, url);
+    m_renderWidget->slotPrepareExport(true);
 }
 
 #ifndef NODBUS

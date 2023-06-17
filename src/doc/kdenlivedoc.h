@@ -293,6 +293,8 @@ public:
     static void processProxyNodes(QDomNodeList producers, const QString &root, const QMap<QString, QString> &proxies);
     /** @brief Disable all subtitle filters of @param doc */
     static void disableSubtitles(QDomDocument &doc);
+    /** @brief Sets the color of the first producer in @param doc with id "black_track" to transparent */
+    static void makeBackgroundTrackTransparent(QDomDocument &doc);
 
 private:
     /** @brief Create a new KdenliveDoc using the provided QDomDocument (an

@@ -2265,8 +2265,21 @@ void KdenliveDoc::disableSubtitles(QDomDocument &doc)
 {
     QDomNodeList filters = doc.elementsByTagName(QStringLiteral("filter"));
     for (int i = 0; i < filters.length(); ++i) {
-        if (Xml::getXmlProperty(filters.item(i).toElement(), QStringLiteral("mlt_service")) == QLatin1String("avfilter.subtitles")) {
-            Xml::setXmlProperty(filters.item(i).toElement(), QStringLiteral("disable"), QStringLiteral("1"));
+        auto filter = filters.item(i).toElement();
+        if (Xml::getXmlProperty(filter, QStringLiteral("mlt_service")) == QLatin1String("avfilter.subtitles")) {
+            Xml::setXmlProperty(filter, QStringLiteral("disable"), QStringLiteral("1"));
+        }
+    }
+}
+
+void KdenliveDoc::makeBackgroundTrackTransparent(QDomDocument &doc)
+{
+    QDomNodeList prods = doc.elementsByTagName(QStringLiteral("producer"));
+    for (int i = 0; i < prods.count(); ++i) {
+        auto prod = prods.at(i).toElement();
+        if (Xml::getXmlProperty(prod, QStringLiteral("kdenlive:playlistid")) == QStringLiteral("black_track")) {
+            Xml::setXmlProperty(prod, QStringLiteral("resource"), QStringLiteral("transparent"));
+            break;
         }
     }
 }

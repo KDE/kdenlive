@@ -613,9 +613,8 @@ void RenderWidget::focusItem(const QString &profile)
     }
 }
 
-void RenderWidget::slotPrepareExport(bool delayedRendering, const QString &scriptPath)
+void RenderWidget::slotPrepareExport(bool delayedRendering)
 {
-    Q_UNUSED(scriptPath)
     if (pCore->projectDuration() < 2) {
         // Empty project, don't attempt to render
         m_view.infoMessage->setMessageType(KMessageWidget::Warning);
@@ -644,335 +643,50 @@ void RenderWidget::slotPrepareExport(bool delayedRendering, const QString &scrip
         return;
     }
 
-    prepareRendering(delayedRendering);
-}
-
-void RenderWidget::prepareRendering(bool delayedRendering)
-{
     saveRenderProfile();
-    KdenliveDoc *project = pCore->currentDoc();
-    QString overlayData = m_view.tc_type->currentData().toString();
-    QString playlistPath = generatePlaylistFile(delayedRendering);
 
-    if (playlistPath.isEmpty()) {
-        return;
-    }
-    // On delayed rendering, make a copy of all assets
-    if (delayedRendering) {
-        QDir dir = QFileInfo(playlistPath).absoluteDir();
-        if (!dir.mkpath(QFileInfo(playlistPath).baseName())) {
-            KMessageBox::error(this, i18n("Could not create assets folder:\n %1", dir.absoluteFilePath(QFileInfo(playlistPath).baseName())));
-            return;
-        }
-        dir.cd(QFileInfo(playlistPath).baseName());
-        project->prepareRenderAssets(dir);
-    }
-    QString playlistContent =
-        pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile(), overlayData);
-
-    if (delayedRendering) {
-        project->restoreRenderAssets();
-    }
-
-    // Set playlist audio volume to 100%
-    QDomDocument doc;
-    doc.setContent(playlistContent);
-
-    // Add autoclose to playlists.
-    QDomNodeList playlists = doc.elementsByTagName(QStringLiteral("playlist"));
-    for (int i = 0; i < playlists.length(); ++i) {
-        playlists.item(i).toElement().setAttribute(QStringLiteral("autoclose"), 1);
-    }
-
-    // Do we want proxy rendering
-    if (project->useProxy() && !m_view.proxy_render->isChecked()) {
-        KdenliveDoc::useOriginals(doc);
-    }
-
-    QString outputFile = m_view.out_file->url().toLocalFile();
-
-    Monitor *pMon = pCore->getMonitor(Kdenlive::ProjectMonitor);
-    double fps = pCore->getCurrentProfile()->fps();
-    bool embed_subtitles = m_view.embed_subtitles->isEnabled() && m_view.embed_subtitles->isChecked() && project->hasSubtitles();
-    if (embed_subtitles) {
-        // disable subtitle filter(s) as they will be embeded in a second step of rendering
-        KdenliveDoc::disableSubtitles(doc);
-    }
-
-    // in/out points
-    int in = 0;
-    // Remove last black frame
-    int out = pCore->projectDuration() - 1;
+    RenderManager::RenderRequest request;
+    request.delayedRendering = delayedRendering;
+    request.overlayData = m_view.tc_type->currentData().toString();
+    request.guidesModel = m_guidesModel;
+    request.proxyRendering = m_view.proxy_render->isChecked();
+    request.presetParams = m_params;
+    request.audioFilePerTrack = m_view.stemAudioExport->isChecked() && m_view.stemAudioExport->isEnabled();
+    request.outputFile = m_view.out_file->url().toLocalFile();
+    request.embedSubtitles = m_view.embed_subtitles->isEnabled() && m_view.embed_subtitles->isChecked();
+    request.guideMultiExport = m_view.guide_multi_box->isChecked();
+    request.guideCategory = m_view.guideCategoryChooser->currentCategory();
+    request.twoPass = m_view.checkTwoPass->isChecked();
 
     if (m_view.render_zone->isChecked()) {
-        in = pMon->getZoneStart();
-        out = pMon->getZoneEnd() - 1;
+        Monitor *pMon = pCore->getMonitor(Kdenlive::ProjectMonitor);
+        request.boundingIn = pMon->getZoneStart();
+        request.boundingOut = pMon->getZoneEnd() - 1;
     } else if (m_view.render_guide->isChecked()) {
         double guideStart = m_view.guide_start->itemData(m_view.guide_start->currentIndex()).toDouble();
         double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
-        in = int(GenTime(qMin(guideStart, guideEnd)).frames(fps));
+        double fps = pCore->getCurrentProfile()->fps();
+
+        request.boundingIn = int(GenTime(qMin(guideStart, guideEnd)).frames(fps));
         // End rendering at frame before last guide
-        out = int(GenTime(qMax(guideStart, guideEnd)).frames(fps)) - 1;
+        request.boundingOut = int(GenTime(qMax(guideStart, guideEnd)).frames(fps)) - 1;
 
-    } // else: full project
+    } // else: full project is the default
 
-    std::vector<RenderManager::RenderSection> sections;
-
-    if (m_view.guide_multi_box->isChecked()) {
-        int guideCategory = m_view.guideCategoryChooser->currentCategory();
-        sections = RenderManager::getGuideSections(m_guidesModel, guideCategory, in, out);
-    }
-
-    if (sections.empty()) {
-        RenderManager::RenderSection section;
-        section.in = in;
-        section.out = out;
-        sections.push_back(section);
-    }
-
-    const QUuid currentUuid = pCore->currentTimelineId();
-
-    int i = 0;
-    for (auto section : sections) {
-        i++;
-        QString outputPath = outputFile;
-        if (!section.name.isEmpty()) {
-            outputPath = QStringUtils::appendToFilename(outputPath, QStringLiteral("-%1.").arg(section.name));
-        }
-        QDomDocument docCopy = doc.cloneNode(true).toDocument();
-
-        QString subtitleFile;
-        if (embed_subtitles) {
-            subtitleFile = createEmptyTempFile(QStringLiteral("srt"));
-            if (subtitleFile.isEmpty()) {
-                KMessageBox::error(this, i18n("Could not create temporary subtitle file"));
-                return;
-            }
-            project->generateRenderSubtitleFile(currentUuid, section.in, section.out, subtitleFile);
-        }
-
-        QString newPlaylistPath = playlistPath;
-        newPlaylistPath = newPlaylistPath.replace(QStringLiteral(".mlt"), QString("-%1.mlt").arg(i));
-        // QString newPlaylistPath = createEmptyTempFile(QStringLiteral("mlt")); // !!! This does not take the delayed rendering logic of generatePlaylistFile()
-        // in to account QFile::copy(job.playlistPath, newJob.playlistPath); // TODO: if we have a single item in sections this is unnesessary and produces just
-        // unused files
-
-        generateRenderFiles(newPlaylistPath, docCopy, section.in, section.out, outputPath, delayedRendering, subtitleFile);
-    }
-}
-
-QString RenderWidget::createEmptyTempFile(const QString &extension)
-{
-    QTemporaryFile tmp(QDir::temp().absoluteFilePath(QString("kdenlive-XXXXXX.%1").arg(extension)));
-    if (!tmp.open()) {
-        // Something went wrong
-        qDebug() << "Could not create temporary file";
-        // TODO: some kind of warning to the UI?
-        return {};
-    }
-    tmp.setAutoRemove(false);
-    tmp.close();
-
-    return tmp.fileName();
-}
-
-QString RenderWidget::generatePlaylistFile(bool delayedRendering)
-{
-    if (delayedRendering) {
-        bool ok;
-        QString filename = QFileInfo(pCore->currentDoc()->url().toLocalFile()).fileName();
-        const QString fileExtension = QStringLiteral(".mlt");
-        if (filename.isEmpty()) {
-            filename = i18n("export");
-        } else {
-            filename = filename.section(QLatin1Char('.'), 0, -2);
-        }
-
-        QDir projectFolder(pCore->currentDoc()->projectDataFolder());
-        projectFolder.mkpath(QStringLiteral("kdenlive-renderqueue"));
-        projectFolder.cd(QStringLiteral("kdenlive-renderqueue"));
-        int ix = 1;
-        QString newFilename = filename;
-        // if name alrady exist, add a suffix
-        while (projectFolder.exists(newFilename + fileExtension)) {
-            newFilename = QStringLiteral("%1-%2").arg(filename).arg(ix);
-            ix++;
-        }
-        filename = QInputDialog::getText(this, i18nc("@title:window", "Delayed Rendering"), i18n("Select a name for this rendering."), QLineEdit::Normal,
-                                         newFilename, &ok);
-        if (!ok) {
-            return {};
-        }
-        if (!filename.endsWith(fileExtension)) {
-            filename.append(fileExtension);
-        }
-        if (projectFolder.exists(newFilename)) {
-            if (KMessageBox::questionTwoActions(this, i18n("File %1 already exists.\nDo you want to overwrite it?", filename), {},
-                                                KStandardGuiItem::overwrite(), KStandardGuiItem::cancel()) == KMessageBox::PrimaryAction) {
-                return {};
-            }
-        }
-        return projectFolder.absoluteFilePath(filename);
-    }
-    // No delayed rendering, we can use a temp file
-    return createEmptyTempFile(QStringLiteral("mlt"));
-}
-
-void RenderWidget::generateRenderFiles(const QString playlistPath, QDomDocument doc, int in, int out, QString outputFile, bool delayedRendering,
-                                       const QString &subtitleFile)
-{
-    QString extension = outputFile.section(QLatin1Char('.'), -1);
-    QDomElement consumer = doc.createElement(QStringLiteral("consumer"));
-    consumer.setAttribute(QStringLiteral("in"), in);
-    consumer.setAttribute(QStringLiteral("out"), out);
-    consumer.setAttribute(QStringLiteral("mlt_service"), QStringLiteral("avformat"));
-
-    QDomNodeList profiles = doc.elementsByTagName(QStringLiteral("profile"));
-    if (profiles.isEmpty()) {
-        doc.documentElement().insertAfter(consumer, doc.documentElement());
-    } else {
-        doc.documentElement().insertAfter(consumer, profiles.at(profiles.length() - 1));
-    }
-
-    QMapIterator<QString, QString> it(m_params);
-
-    while (it.hasNext()) {
-        it.next();
-        // insert params from preset.
-        consumer.setAttribute(it.key(), it.value());
-    }
-
-    // If we use a pix_fmt with alpha channel (ie. transparent),
-    // we need to remove the black background track
-    if (m_params.hasAlpha()) {
-        auto prods = doc.elementsByTagName(QStringLiteral("producer"));
-        for (int i = 0; i < prods.count(); ++i) {
-            auto prod = prods.at(i).toElement();
-            if (Xml::getXmlProperty(prod, QStringLiteral("kdenlive:playlistid")) == QStringLiteral("black_track")) {
-                Xml::setXmlProperty(prod, QStringLiteral("resource"), QStringLiteral("transparent"));
-                break;
-            }
-        }
-    }
-
-    if (m_params.isImageSequence()) {
-        // Image sequence, ensure we have a %0xd at file end.
-        // Format string for counter
-        static const QRegularExpression rx(QRegularExpression::anchoredPattern(QStringLiteral(".*%[0-9]*d.*")));
-        if (!rx.match(outputFile).hasMatch()) {
-            outputFile = QStringUtils::appendToFilename(outputFile, QStringLiteral("_%05d"));
-        }
-    }
-
-    QMap<QString, QString> renderFiles;
-    if (m_view.stemAudioExport->isChecked() && m_view.stemAudioExport->isEnabled()) {
-        if (delayedRendering) {
-            if (KMessageBox::warningContinueCancel(this, i18n("Script rendering and multi track audio export can not be used together.\n"
-                                                              "Script will be saved without multi track export.")) == KMessageBox::Cancel) {
-                return;
-            };
-        }
-        int audioCount = 0;
-        QDomNodeList orginalTractors = doc.elementsByTagName(QStringLiteral("tractor"));
-        // process in reversed order to make file naming fit to UI
-        for (int i = orginalTractors.size(); i >= 0; i--) {
-            bool isAudio = Xml::getXmlProperty(orginalTractors.at(i).toElement(), QStringLiteral("kdenlive:audio_track")).toInt() == 1;
-            QString trackName = Xml::getXmlProperty(orginalTractors.at(i).toElement(), QStringLiteral("kdenlive:track_name"));
-            if (isAudio) {
-                // setup filenames
-                QString appendix = QString("_Audio_%1%2%3")
-                                       .arg(audioCount + 1)
-                                       .arg(trackName.isEmpty() ? QString() : QStringLiteral("-"))
-                                       .arg(trackName.replace(QStringLiteral(" "), QStringLiteral("_")));
-                QString playlistFile = QStringUtils::appendToFilename(playlistPath, appendix);
-                QString targetFile = QStringUtils::appendToFilename(outputFile, appendix);
-                renderFiles.insert(playlistFile, targetFile);
-
-                // init doc copy
-                QDomDocument docCopy = doc.cloneNode(true).toDocument();
-                QDomElement copyConsumer = docCopy.elementsByTagName(QStringLiteral("consumer")).at(0).toElement();
-                copyConsumer.setAttribute(QStringLiteral("target"), targetFile);
-
-                QDomNodeList tracktors = docCopy.elementsByTagName(QStringLiteral("tractor"));
-                // the last tractor is the main tracktor, don't process it (-1)
-                for (int j = 0; j < tracktors.size() - 1; j++) {
-                    QDomNodeList tracks = tracktors.at(j).toElement().elementsByTagName(QStringLiteral("track"));
-                    for (int l = 0; l < tracks.size(); l++) {
-                        if (i != j) {
-                            tracks.at(l).toElement().setAttribute(QStringLiteral("hide"), QStringLiteral("both"));
-                        }
-                    }
-                }
-
-                if (!Xml::docContentToFile(docCopy, playlistFile)) {
-                    pCore->displayMessage(i18n("Cannot write to file %1", playlistFile), ErrorMessage);
-                    return;
-                }
-                audioCount++;
-            }
-        }
-    }
-
-    QDomDocument clone;
-    int passes = m_view.checkTwoPass->isChecked() ? 2 : 1;
-    if (passes == 2) {
-        // We will generate 2 files, one for each pass.
-        clone = doc.cloneNode(true).toDocument();
-    }
-
-    for (int i = 0; i < passes; i++) {
-        // Append consumer settings
-        QDomDocument final = i > 0 ? clone : doc;
-        QDomNodeList consList = final.elementsByTagName(QStringLiteral("consumer"));
-        QDomElement finalConsumer = consList.at(0).toElement();
-        finalConsumer.setAttribute(QStringLiteral("target"), outputFile);
-        int pass = passes == 2 ? i + 1 : 0;
-        QString playlistName = playlistPath;
-        if (pass == 2) {
-            playlistName = QStringUtils::appendToFilename(playlistName, QStringLiteral("-pass%1").arg(2));
-        }
-        renderFiles.insert(playlistName, outputFile);
-
-        // Prepare rendering args
-        QString logFile = QStringLiteral("%1_2pass.log").arg(outputFile);
-        if (m_params.value(QStringLiteral("vcodec")).toLower() == QStringLiteral("libx265")) {
-            if (pass == 1 || pass == 2) {
-                QString x265params = finalConsumer.attribute("x265-params");
-                x265params = QString("pass=%1:stats=%2:%3").arg(pass).arg(logFile.replace(":", "\\:"), x265params);
-                finalConsumer.setAttribute("x265-params", x265params);
-            }
-        } else {
-            if (pass == 1 || pass == 2) {
-                finalConsumer.setAttribute("pass", pass);
-                finalConsumer.setAttribute("passlogfile", logFile);
-            }
-            if (pass == 1) {
-                finalConsumer.setAttribute("fastfirstpass", 1);
-                finalConsumer.removeAttribute("acodec");
-                finalConsumer.setAttribute("an", 1);
-            } else {
-                finalConsumer.removeAttribute("fastfirstpass");
-            }
-        }
-        if (!Xml::docContentToFile(final, playlistName)) {
-            pCore->displayMessage(i18n("Cannot write to file %1", playlistName), ErrorMessage);
-            return;
-        }
-    }
+    std::vector<RenderManager::RenderJob> jobs = RenderManager::prepareRendering(request);
 
     // Create jobs
     if (delayedRendering) {
         parseScriptFiles();
         return;
     }
+
     QList<RenderJobItem *> jobList;
-    QMap<QString, QString>::const_iterator i = renderFiles.constBegin();
-    while (i != renderFiles.constEnd()) {
-        RenderJobItem *renderItem = createRenderJob(i.key(), i.value(), subtitleFile);
+    for (auto job : jobs) {
+        RenderJobItem *renderItem = createRenderJob(job.playlistPath, job.outputPath, job.subtitlePath);
         if (renderItem != nullptr) {
             jobList << renderItem;
         }
-        ++i;
     }
     if (jobList.count() > 0) {
         m_view.running_jobs->setCurrentItem(jobList.at(0));
@@ -2134,6 +1848,228 @@ void RenderWidget::updateMetadataToolTip()
     m_view.edit_metadata->setToolTip(tipText);
 }
 
+std::vector<RenderManager::RenderJob> RenderManager::prepareRendering(RenderRequest request)
+{
+    KdenliveDoc *project = pCore->currentDoc();
+    QString overlayData = request.overlayData;
+    QString playlistPath = generatePlaylistFile(request.delayedRendering);
+
+    if (playlistPath.isEmpty()) {
+        return {};
+    }
+    // On delayed rendering, make a copy of all assets
+    if (request.delayedRendering) {
+        QDir dir = QFileInfo(playlistPath).absoluteDir();
+        if (!dir.mkpath(QFileInfo(playlistPath).baseName())) {
+            KMessageBox::error(nullptr, i18n("Could not create assets folder:\n %1", dir.absoluteFilePath(QFileInfo(playlistPath).baseName())));
+            return {};
+        }
+        dir.cd(QFileInfo(playlistPath).baseName());
+        project->prepareRenderAssets(dir);
+    }
+    QString playlistContent =
+        pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile(), overlayData);
+
+    if (request.delayedRendering) {
+        project->restoreRenderAssets();
+    }
+
+    QDomDocument doc;
+    doc.setContent(playlistContent);
+
+    // Add autoclose to playlists.
+    QDomNodeList playlists = doc.elementsByTagName(QStringLiteral("playlist"));
+    for (int i = 0; i < playlists.length(); ++i) {
+        playlists.item(i).toElement().setAttribute(QStringLiteral("autoclose"), 1);
+    }
+
+    // Do we want proxy rendering
+    if (!request.proxyRendering && project->useProxy()) {
+        KdenliveDoc::useOriginals(doc);
+    }
+
+    if (request.embedSubtitles && project->hasSubtitles()) {
+        // disable subtitle filter(s) as they will be embeded in a second step of rendering
+        KdenliveDoc::disableSubtitles(doc);
+    }
+
+    // in/out points
+    int in = qMax(0, request.boundingIn);
+    int out = request.boundingOut;
+    if (out < 0 || out > pCore->projectDuration() - 1) {
+        // Remove last black frame
+        out = pCore->projectDuration() - 1;
+    }
+
+    std::vector<RenderManager::RenderSection> sections;
+
+    if (request.guideMultiExport) {
+        sections = RenderManager::getGuideSections(request.guidesModel, request.guideCategory, in, out);
+    }
+
+    if (sections.empty()) {
+        RenderManager::RenderSection section;
+        section.in = in;
+        section.out = out;
+        sections.push_back(section);
+    }
+
+    const QUuid currentUuid = pCore->currentTimelineId();
+
+    int i = 0;
+
+    std::vector<RenderManager::RenderJob> jobs;
+    for (auto section : sections) {
+        i++;
+        QString outputPath = request.outputFile;
+        if (!section.name.isEmpty()) {
+            outputPath = QStringUtils::appendToFilename(outputPath, QStringLiteral("-%1.").arg(section.name));
+        }
+        QDomDocument docCopy = doc.cloneNode(true).toDocument();
+
+        QString subtitleFile;
+        if (request.embedSubtitles) {
+            subtitleFile = RenderManager::createEmptyTempFile(QStringLiteral("srt"));
+            if (subtitleFile.isEmpty()) {
+                KMessageBox::error(nullptr, i18n("Could not create temporary subtitle file"));
+                return {};
+            }
+            project->generateRenderSubtitleFile(currentUuid, section.in, section.out, subtitleFile);
+        }
+
+        QString newPlaylistPath = playlistPath;
+        newPlaylistPath = newPlaylistPath.replace(QStringLiteral(".mlt"), QString("-%1.mlt").arg(i));
+        // QString newPlaylistPath = createEmptyTempFile(QStringLiteral("mlt")); // !!! This does not take the delayed rendering logic of generatePlaylistFile()
+        // in to account
+
+        // QFile::copy(job.playlistPath, newJob.playlistPath); // TODO: if we have a single item in sections this is unnesessary and produces just unused files
+
+        // set parameters
+        RenderManager::setDocGeneralParams(docCopy, section.in, section.out, request.presetParams);
+
+        generateRenderFiles(jobs, newPlaylistPath, docCopy, outputPath, subtitleFile, request);
+    }
+
+    return jobs;
+}
+
+QString RenderManager::generatePlaylistFile(bool delayedRendering)
+{
+    if (delayedRendering) {
+        bool ok;
+        QString filename = QFileInfo(pCore->currentDoc()->url().toLocalFile()).fileName();
+        const QString fileExtension = QStringLiteral(".mlt");
+        if (filename.isEmpty()) {
+            filename = i18n("export");
+        } else {
+            filename = filename.section(QLatin1Char('.'), 0, -2);
+        }
+
+        QDir projectFolder(pCore->currentDoc()->projectDataFolder());
+        projectFolder.mkpath(QStringLiteral("kdenlive-renderqueue"));
+        projectFolder.cd(QStringLiteral("kdenlive-renderqueue"));
+        int ix = 1;
+        QString newFilename = filename;
+        // if name alrady exist, add a suffix
+        while (projectFolder.exists(newFilename + fileExtension)) {
+            newFilename = QStringLiteral("%1-%2").arg(filename).arg(ix);
+            ix++;
+        }
+        filename = QInputDialog::getText(nullptr, i18nc("@title:window", "Delayed Rendering"), i18n("Select a name for this rendering."), QLineEdit::Normal,
+                                         newFilename, &ok);
+        if (!ok) {
+            return {};
+        }
+        if (!filename.endsWith(fileExtension)) {
+            filename.append(fileExtension);
+        }
+        if (projectFolder.exists(newFilename)) {
+            if (KMessageBox::questionTwoActions(nullptr, i18n("File %1 already exists.\nDo you want to overwrite it?", filename), {},
+                                                KStandardGuiItem::overwrite(), KStandardGuiItem::cancel()) == KMessageBox::PrimaryAction) {
+                return {};
+            }
+        }
+        return projectFolder.absoluteFilePath(filename);
+    }
+    // No delayed rendering, we can use a temp file
+    return RenderManager::createEmptyTempFile(QStringLiteral("mlt"));
+}
+
+void RenderManager::generateRenderFiles(std::vector<RenderManager::RenderJob> &jobs, const QString playlistPath, QDomDocument doc, QString outputFile,
+                                        const QString &subtitleFile, RenderRequest request)
+{
+    // If we use a pix_fmt with alpha channel (ie. transparent),
+    // we need to remove the black background track
+    if (request.presetParams.hasAlpha()) {
+        KdenliveDoc::makeBackgroundTrackTransparent(doc);
+    }
+
+    if (request.presetParams.isImageSequence()) {
+        // Image sequence, ensure we have a %0xd at file end.
+        // Format string for counter
+        static const QRegularExpression rx(QRegularExpression::anchoredPattern(QStringLiteral(".*%[0-9]*d.*")));
+        if (!rx.match(outputFile).hasMatch()) {
+            outputFile = QStringUtils::appendToFilename(outputFile, QStringLiteral("_%05d"));
+        }
+    }
+
+    if (request.audioFilePerTrack) {
+        if (request.delayedRendering) {
+            if (KMessageBox::warningContinueCancel(nullptr, i18n("Script rendering and multi track audio export can not be used together.\n"
+                                                                 "Script will be saved without multi track export.")) == KMessageBox::Cancel) {
+                return;
+            };
+        }
+        RenderManager::prepareMultiAudioFiles(jobs, doc, playlistPath, outputFile);
+    }
+
+    int passes = request.twoPass ? 2 : 1;
+
+    for (int i = 0; i < passes; i++) {
+        // clone the dom if this is not the first iteration (happens with two pass)
+        QDomDocument final = i > 0 ? doc.cloneNode(true).toDocument() : doc;
+
+        int pass = request.twoPass ? i + 1 : 0;
+        RenderManager::RenderJob job;
+        job.playlistPath = playlistPath;
+        job.outputPath = outputFile;
+        job.subtitlePath = subtitleFile;
+        if (pass == 2) {
+            job.playlistPath = QStringUtils::appendToFilename(job.playlistPath, QStringLiteral("-pass%1").arg(2));
+        }
+        jobs.push_back(job);
+
+        // get the consumer element
+        QDomNodeList consumers = final.elementsByTagName(QStringLiteral("consumer"));
+        QDomElement consumer = consumers.at(0).toElement();
+
+        consumer.setAttribute(QStringLiteral("target"), job.outputPath);
+
+        // Set two pass parameters. In case pass is 0 the function does nothing.
+        RenderManager::setDocTwoPassParams(pass, final, job.outputPath, request);
+
+        if (!Xml::docContentToFile(final, job.playlistPath)) {
+            pCore->displayMessage(i18n("Cannot write to file %1", job.playlistPath), ErrorMessage);
+            return;
+        }
+    }
+}
+
+QString RenderManager::createEmptyTempFile(const QString &extension)
+{
+    QTemporaryFile tmp(QDir::temp().absoluteFilePath(QString("kdenlive-XXXXXX.%1").arg(extension)));
+    if (!tmp.open()) {
+        // Something went wrong
+        qDebug() << "Could not create temporary file";
+        // TODO: some kind of warning to the UI?
+        return {};
+    }
+    tmp.setAutoRemove(false);
+    tmp.close();
+
+    return tmp.fileName();
+}
+
 std::vector<RenderManager::RenderSection> RenderManager::getGuideSections(std::weak_ptr<MarkerListModel> model, int guideCategory, int boundingIn,
                                                                           int boundingOut)
 {
@@ -2174,4 +2110,102 @@ std::vector<RenderManager::RenderSection> RenderManager::getGuideSections(std::w
         }
     }
     return sections;
+}
+
+void RenderManager::setDocGeneralParams(QDomDocument doc, int in, int out, const RenderPresetParams &params)
+{
+    QDomElement consumer = doc.createElement(QStringLiteral("consumer"));
+    consumer.setAttribute(QStringLiteral("in"), in);
+    consumer.setAttribute(QStringLiteral("out"), out);
+    consumer.setAttribute(QStringLiteral("mlt_service"), QStringLiteral("avformat"));
+
+    QMapIterator<QString, QString> it(params);
+
+    while (it.hasNext()) {
+        it.next();
+        // insert params from preset
+        consumer.setAttribute(it.key(), it.value());
+    }
+
+    // Insert consumer to document, after the profiles (if they exist)
+    QDomNodeList profiles = doc.elementsByTagName(QStringLiteral("profile"));
+    if (profiles.isEmpty()) {
+        doc.documentElement().insertAfter(consumer, doc.documentElement());
+    } else {
+        doc.documentElement().insertAfter(consumer, profiles.at(profiles.length() - 1));
+    }
+}
+
+void RenderManager::setDocTwoPassParams(int pass, QDomDocument &doc, const QString &outputFile, RenderRequest request)
+{
+    if (pass != 1 && pass != 2) {
+        return;
+    }
+
+    QDomNodeList consumers = doc.elementsByTagName(QStringLiteral("consumer"));
+    QDomElement consumer = consumers.at(0).toElement();
+
+    QString logFile = QStringLiteral("%1_2pass.log").arg(outputFile);
+
+    if (request.presetParams.value(QStringLiteral("vcodec")).toLower() == QStringLiteral("libx265")) {
+        // the x265 is special
+        QString x265params = consumer.attribute("x265-params");
+        x265params = QString("pass=%1:stats=%2:%3").arg(pass).arg(logFile.replace(":", "\\:"), x265params);
+        consumer.setAttribute("x265-params", x265params);
+    } else {
+        consumer.setAttribute("pass", pass);
+        consumer.setAttribute("passlogfile", logFile);
+
+        if (pass == 1) {
+            consumer.setAttribute("fastfirstpass", 1);
+            consumer.setAttribute("an", 1);
+
+            consumer.removeAttribute("acodec");
+        } else { // pass == 2
+            consumer.removeAttribute("fastfirstpass");
+        }
+    }
+}
+
+void RenderManager::prepareMultiAudioFiles(std::vector<RenderJob> &jobs, const QDomDocument &doc, const QString &playlistFile, const QString &targetFile)
+{
+    int audioCount = 0;
+    QDomNodeList orginalTractors = doc.elementsByTagName(QStringLiteral("tractor"));
+    // process in reversed order to make file naming fit to UI
+    for (int i = orginalTractors.size(); i >= 0; i--) {
+        bool isAudio = Xml::getXmlProperty(orginalTractors.at(i).toElement(), QStringLiteral("kdenlive:audio_track")).toInt() == 1;
+        QString trackName = Xml::getXmlProperty(orginalTractors.at(i).toElement(), QStringLiteral("kdenlive:track_name"));
+
+        if (!isAudio) {
+            continue;
+        }
+
+        // setup filenames
+        QString appendix = QString("_Audio_%1%2%3.")
+                               .arg(audioCount + 1)
+                               .arg(trackName.isEmpty() ? QString() : QStringLiteral("-"))
+                               .arg(trackName.replace(QStringLiteral(" "), QStringLiteral("_")));
+        RenderJob job;
+        job.playlistPath = QStringUtils::appendToFilename(playlistFile, appendix);
+        job.outputPath = QStringUtils::appendToFilename(targetFile, appendix);
+        jobs.push_back(job);
+
+        // init doc copy
+        QDomDocument docCopy = doc.cloneNode(true).toDocument();
+        QDomElement consumer = docCopy.elementsByTagName(QStringLiteral("consumer")).at(0).toElement();
+        consumer.setAttribute(QStringLiteral("target"), job.outputPath);
+
+        QDomNodeList tracktors = docCopy.elementsByTagName(QStringLiteral("tractor"));
+        // the last tractor is the main tracktor, don't process it (-1)
+        for (int j = 0; j < tracktors.size() - 1; j++) {
+            QDomNodeList tracks = tracktors.at(j).toElement().elementsByTagName(QStringLiteral("track"));
+            for (int l = 0; l < tracks.size(); l++) {
+                if (i != j) {
+                    tracks.at(l).toElement().setAttribute(QStringLiteral("hide"), QStringLiteral("both"));
+                }
+            }
+        }
+        Xml::docContentToFile(docCopy, job.playlistPath);
+        audioCount++;
+    }
 }
