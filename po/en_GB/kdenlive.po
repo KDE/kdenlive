@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-15 02:44+0000\n"
+"POT-Creation-Date: 2023-06-18 04:12+0000\n"
 "PO-Revision-Date: 2023-05-27 13:11+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
@@ -4469,7 +4469,7 @@ msgstr "Playlist"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2322 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/project/projectmanager.cpp:1257 src/project/projectmanager.cpp:1259
+#: src/project/projectmanager.cpp:1260 src/project/projectmanager.cpp:1262
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -4975,7 +4975,7 @@ msgid "Duplicate"
 msgstr "Duplicate"
 
 #: src/bin/clipcreator.cpp:421 src/core.cpp:963
-#: src/project/projectmanager.cpp:777
+#: src/project/projectmanager.cpp:778
 #, kde-format
 msgid "Loading clips"
 msgstr "Loading clips"
@@ -6034,7 +6034,7 @@ msgstr "Export Guides Data"
 #: src/project/dialogs/archivewidget.cpp:883
 #: src/project/dialogs/archivewidget.cpp:895
 #: src/project/dialogs/archivewidget.cpp:901
-#: src/project/projectmanager.cpp:1541
+#: src/project/projectmanager.cpp:1544
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5070
@@ -6494,7 +6494,7 @@ msgid "6"
 msgstr "6"
 
 #: src/dialogs/renderpresetdialog.cpp:117
-#: src/dialogs/renderpresetdialog.cpp:418
+#: src/dialogs/renderpresetdialog.cpp:421
 #, kde-format
 msgid "Edit Render Preset"
 msgstr "Edit Render Preset"
@@ -6504,19 +6504,19 @@ msgstr "Edit Render Preset"
 msgid "Constrained VBR"
 msgstr "Constrained VBR"
 
-#: src/dialogs/renderpresetdialog.cpp:414
-#: src/dialogs/renderpresetdialog.cpp:435
+#: src/dialogs/renderpresetdialog.cpp:417
+#: src/dialogs/renderpresetdialog.cpp:438
 #, kde-format
 msgctxt "Group Name"
 msgid "Custom"
 msgstr "Custom"
 
-#: src/dialogs/renderpresetdialog.cpp:430
+#: src/dialogs/renderpresetdialog.cpp:433
 #, kde-format
 msgid "The preset name can't be empty"
 msgstr "The preset name can't be empty"
 
-#: src/dialogs/renderpresetdialog.cpp:846
+#: src/dialogs/renderpresetdialog.cpp:849
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -7737,8 +7737,8 @@ msgstr "The following filters/transitions were deleted from the project:"
 msgid "Invalid file path"
 msgstr "Invalid file path"
 
-#: src/doc/kdenlivedoc.cpp:213 src/project/projectmanager.cpp:728
-#: src/project/projectmanager.cpp:792 src/project/projectmanager.cpp:821
+#: src/doc/kdenlivedoc.cpp:213 src/project/projectmanager.cpp:729
+#: src/project/projectmanager.cpp:793 src/project/projectmanager.cpp:822
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Could not recover corrupted file."
@@ -7815,15 +7815,15 @@ msgstr ""
 "Your project file was upgraded to the latest Kdenlive document version, but "
 "it was not possible to create the backup copy %1."
 
-#: src/doc/kdenlivedoc.cpp:858 src/project/projectmanager.cpp:1138
-#: src/project/projectmanager.cpp:1174
+#: src/doc/kdenlivedoc.cpp:858 src/project/projectmanager.cpp:1141
+#: src/project/projectmanager.cpp:1177
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Error moving project folder: %1"
 
 #: src/doc/kdenlivedoc.cpp:1027 src/doc/kdenlivedoc.cpp:2160
 #: src/project/dialogs/archivewidget.cpp:226
-#: src/project/projectmanager.cpp:1374
+#: src/project/projectmanager.cpp:1377
 #, kde-format
 msgid "Untitled"
 msgstr "Untitled"
@@ -12863,7 +12863,7 @@ msgstr "Load Clip Markers"
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr "Marker file is larger than 1MB, are you sure you want to import ?"
 
-#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1435
+#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1438
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:4976
 #, kde-format
@@ -13472,7 +13472,7 @@ msgstr "Open Backup File…"
 msgid "Save changes to document?"
 msgstr "Save changes to document?"
 
-#: src/project/projectmanager.cpp:365 src/project/projectmanager.cpp:1373
+#: src/project/projectmanager.cpp:365 src/project/projectmanager.cpp:1376
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13555,38 +13555,38 @@ msgstr "Error opening file"
 msgid "Open Backup"
 msgstr "Open Backup"
 
-#: src/project/projectmanager.cpp:732
+#: src/project/projectmanager.cpp:733
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "Could not open the backup project file."
 
-#: src/project/projectmanager.cpp:748
+#: src/project/projectmanager.cpp:749
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr "Your project was upgraded, a backup will be created on next save"
 
-#: src/project/projectmanager.cpp:751
+#: src/project/projectmanager.cpp:752
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 "Your project was modified on opening, a backup will be created on next save"
-
-#: src/project/projectmanager.cpp:850
-#, kde-format
-msgid ""
-"This will delete all changes made since you last saved your project. Are you "
-"sure you want to continue?"
-msgstr ""
-"This will delete all changes made since you last saved your project. Are you "
-"sure you want to continue?"
 
 #: src/project/projectmanager.cpp:851
+#, kde-format
+msgid ""
+"This will delete all changes made since you last saved your project. Are you "
+"sure you want to continue?"
+msgstr ""
+"This will delete all changes made since you last saved your project. Are you "
+"sure you want to continue?"
+
+#: src/project/projectmanager.cpp:852
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Revert to last saved version"
 
-#: src/project/projectmanager.cpp:931
+#: src/project/projectmanager.cpp:934
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -13595,41 +13595,41 @@ msgstr ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
 "file to recover last backup"
 
-#: src/project/projectmanager.cpp:1116
+#: src/project/projectmanager.cpp:1119
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Error moving project folder, cannot access cache folder"
 
-#: src/project/projectmanager.cpp:1152
+#: src/project/projectmanager.cpp:1155
 #, kde-format
 msgid "Moving project folder"
 msgstr "Moving project folder"
 
-#: src/project/projectmanager.cpp:1209
+#: src/project/projectmanager.cpp:1212
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr "Project file is corrupted (no tracks). Try to find a backup file?"
 
-#: src/project/projectmanager.cpp:1236 src/project/projectmanager.cpp:1266
-#: src/project/projectmanager.cpp:1270
+#: src/project/projectmanager.cpp:1239 src/project/projectmanager.cpp:1269
+#: src/project/projectmanager.cpp:1273
 #, kde-format
 msgid "Sequence 1"
 msgstr "Sequence 1"
 
-#: src/project/projectmanager.cpp:1247
+#: src/project/projectmanager.cpp:1250
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 
-#: src/project/projectmanager.cpp:1379 src/project/projectmanager.cpp:1384
-#: src/project/projectmanager.cpp:1394 src/project/projectmanager.cpp:1410
+#: src/project/projectmanager.cpp:1382 src/project/projectmanager.cpp:1387
+#: src/project/projectmanager.cpp:1397 src/project/projectmanager.cpp:1413
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Project profile change aborted"
 
-#: src/project/projectmanager.cpp:1526
+#: src/project/projectmanager.cpp:1529
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -13638,12 +13638,12 @@ msgstr ""
 "Output file %1 already exists.\n"
 "Do you want to overwrite it?"
 
-#: src/project/projectmanager.cpp:1551
+#: src/project/projectmanager.cpp:1554
 #, kde-format
 msgid "Project profile changed"
 msgstr "Project profile changed"
 
-#: src/project/projectmanager.cpp:1604
+#: src/project/projectmanager.cpp:1607
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -13652,17 +13652,17 @@ msgstr ""
 "Cannot create a timeline from this clip:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1694
+#: src/project/projectmanager.cpp:1697
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "Importing a sequence clip, this is currently in experimental state"
 
-#: src/project/projectmanager.cpp:1865
+#: src/project/projectmanager.cpp:1868
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Select a clip to create sequence"
 
-#: src/project/projectmanager.cpp:1902
+#: src/project/projectmanager.cpp:1905
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Create Sequence Clip"
@@ -14522,40 +14522,40 @@ msgstr "Cannot open communication with render job %1"
 msgid "Communication error with render job"
 msgstr "Communication error with render job"
 
-#: src/renderpresets/renderpresetmodel.cpp:152
-#: src/renderpresets/renderpresetmodel.cpp:238
+#: src/renderpresets/renderpresetmodel.cpp:153
+#: src/renderpresets/renderpresetmodel.cpp:239
 #: src/renderpresets/renderpresetrepository.cpp:135
 #, kde-format
 msgctxt "Category Name"
 msgid "Custom"
 msgstr "Custom"
 
-#: src/renderpresets/renderpresetmodel.cpp:274
+#: src/renderpresets/renderpresetmodel.cpp:275
 #, kde-format
 msgid "Standard (%1) not compatible with project profile (%2)"
 msgstr "Standard (%1) not compatible with project profile (%2)"
 
-#: src/renderpresets/renderpresetmodel.cpp:284
+#: src/renderpresets/renderpresetmodel.cpp:285
 #, kde-format
 msgid "Frame rate (%1) not compatible with project profile (%2)"
 msgstr "Frame rate (%1) not compatible with project profile (%2)"
 
-#: src/renderpresets/renderpresetmodel.cpp:294
+#: src/renderpresets/renderpresetmodel.cpp:295
 #, kde-format
 msgid "Unsupported video format: %1"
 msgstr "Unsupported video format: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:301
+#: src/renderpresets/renderpresetmodel.cpp:302
 #, kde-format
 msgid "Unsupported audio codec: %1"
 msgstr "Unsupported audio codec: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:307
+#: src/renderpresets/renderpresetmodel.cpp:308
 #, kde-format
 msgid "Unsupported video codec: %1"
 msgstr "Unsupported video codec: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:312
+#: src/renderpresets/renderpresetmodel.cpp:313
 #, kde-format
 msgid ""
 "This render preset uses a 'profile' parameter.<br />Unless you know what you "
@@ -14946,22 +14946,22 @@ msgstr "RGB Parade"
 msgid "Histogram"
 msgstr "Histogram"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:51
+#: src/timeline2/model/builders/meltBuilder.cpp:52
 #, kde-format
 msgid "Found an invalid sequence clip in Bin"
 msgstr "Found an invalid sequence clip in Bin"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:270
-#: src/timeline2/model/builders/meltBuilder.cpp:499
-#: src/timeline2/model/builders/meltBuilder.cpp:509
+#: src/timeline2/model/builders/meltBuilder.cpp:272
+#: src/timeline2/model/builders/meltBuilder.cpp:507
+#: src/timeline2/model/builders/meltBuilder.cpp:517
 #, kde-format
 msgid ""
 "Invalid composition %1 found on track %2 at %3, compositing with track %4."
 msgstr ""
 "Invalid composition %1 found on track %2 at %3, compositing with track %4."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:279
-#: src/timeline2/model/builders/meltBuilder.cpp:523
+#: src/timeline2/model/builders/meltBuilder.cpp:281
+#: src/timeline2/model/builders/meltBuilder.cpp:531
 #, kde-format
 msgid ""
 "Incorrect composition %1 found on track %2 at %3, compositing with track %4 "
@@ -14970,43 +14970,52 @@ msgstr ""
 "Incorrect composition %1 found on track %2 at %3, compositing with track %4 "
 "was set to forced track."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:288
-#: src/timeline2/model/builders/meltBuilder.cpp:537
+#: src/timeline2/model/builders/meltBuilder.cpp:286
+#, fuzzy, kde-format
+#| msgid ""
+#| "Invalid composition %1 found on track %2 at %3, compositing with track %4."
+msgid ""
+"Unknown composition %1 found on track %2 at %3, compositing with track %4."
+msgstr ""
+"Invalid composition %1 found on track %2 at %3, compositing with track %4."
+
+#: src/timeline2/model/builders/meltBuilder.cpp:296
+#: src/timeline2/model/builders/meltBuilder.cpp:545
 #, kde-format
 msgid "Invalid composition %1 found on track %2 at %3."
 msgstr "Invalid composition %1 found on track %2 at %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:309
-#: src/timeline2/model/builders/meltBuilder.cpp:568
-#: src/timeline2/model/builders/meltBuilder.cpp:570
+#: src/timeline2/model/builders/meltBuilder.cpp:317
+#: src/timeline2/model/builders/meltBuilder.cpp:576
+#: src/timeline2/model/builders/meltBuilder.cpp:578
 #, kde-format
 msgid "Problems found in your project file"
 msgstr "Problems found in your project file"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:498
-#: src/timeline2/model/builders/meltBuilder.cpp:508
+#: src/timeline2/model/builders/meltBuilder.cpp:506
+#: src/timeline2/model/builders/meltBuilder.cpp:516
 #, kde-format
 msgid "%1 Composition (%2) with invalid track reference found and removed."
 msgstr "%1 Composition (%2) with invalid track reference found and removed."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:522
+#: src/timeline2/model/builders/meltBuilder.cpp:530
 #, kde-format
 msgid ""
 "%1 Composition was not applied on expected track, manually enforce the track."
 msgstr ""
 "%1 Composition was not applied on expected track, manually enforce the track."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:536
+#: src/timeline2/model/builders/meltBuilder.cpp:544
 #, kde-format
 msgid "%1 Invalid composition found and removed."
 msgstr "%1 Invalid composition found and removed."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:559
+#: src/timeline2/model/builders/meltBuilder.cpp:567
 #, kde-format
 msgid "Errors found when opening project file (%1)"
 msgstr "Errors found when opening project file (%1)"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:566
+#: src/timeline2/model/builders/meltBuilder.cpp:574
 #, kde-format
 msgid ""
 "Some errors were detected in the project file.\n"
@@ -15019,95 +15028,95 @@ msgstr ""
 "have been listed in the Project Notes tab,\n"
 "please review them to ensure your project integrity."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:646
-#: src/timeline2/model/builders/meltBuilder.cpp:656
+#: src/timeline2/model/builders/meltBuilder.cpp:654
+#: src/timeline2/model/builders/meltBuilder.cpp:664
 #, kde-format
 msgid "Incorrect Mix, clip %1 was removed at %2."
 msgstr "Incorrect Mix, clip %1 was removed at %2."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:647
+#: src/timeline2/model/builders/meltBuilder.cpp:655
 #, kde-format
 msgid "Incorrect mix found on track %1 at %2, clip %3 removed."
 msgstr "Incorrect mix found on track %1 at %2, clip %3 removed."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:657
+#: src/timeline2/model/builders/meltBuilder.cpp:665
 #, kde-format
 msgid "Incorrect mix found at track %1 at %2, clip %3 removed."
 msgstr "Incorrect mix found at track %1 at %2, clip %3 removed."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:752
+#: src/timeline2/model/builders/meltBuilder.cpp:760
 #, kde-format
 msgid "%1 Timeline clip (%2) with incorrect bin reference found and recovered."
 msgstr ""
 "%1 Timeline clip (%2) with incorrect bin reference found and recovered."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:753
+#: src/timeline2/model/builders/meltBuilder.cpp:761
 #, kde-format
 msgid "Invalid clip %1 (%2) not found in project bin, recovered."
 msgstr "Invalid clip %1 (%2) not found in project bin, recovered."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:755
+#: src/timeline2/model/builders/meltBuilder.cpp:763
 #, kde-format
 msgid "%1 Timeline clip (%2) without bin reference found and removed."
 msgstr "%1 Timeline clip (%2) without bin reference found and removed."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:756
+#: src/timeline2/model/builders/meltBuilder.cpp:764
 #, kde-format
 msgid "Project corrupted. Clip %1 (%2) not found in project bin."
 msgstr "Project corrupted. Clip %1 (%2) not found in project bin."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:824
-#: src/timeline2/model/builders/meltBuilder.cpp:857
+#: src/timeline2/model/builders/meltBuilder.cpp:832
+#: src/timeline2/model/builders/meltBuilder.cpp:865
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and resized"
 msgstr "%1 Clip (%2) with missing mix found and resized"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:825
-#: src/timeline2/model/builders/meltBuilder.cpp:855
+#: src/timeline2/model/builders/meltBuilder.cpp:833
+#: src/timeline2/model/builders/meltBuilder.cpp:863
 #, kde-format
 msgid "Clip without mix %1 found and resized on track %2 at %3."
 msgstr "Clip without mix %1 found and resized on track %2 at %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:830
-#: src/timeline2/model/builders/meltBuilder.cpp:861
+#: src/timeline2/model/builders/meltBuilder.cpp:838
+#: src/timeline2/model/builders/meltBuilder.cpp:869
 #, kde-format
 msgid "Invalid clip without mix %1 found and removed on track %2 at %3."
 msgstr "Invalid clip without mix %1 found and removed on track %2 at %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:832
-#: src/timeline2/model/builders/meltBuilder.cpp:863
+#: src/timeline2/model/builders/meltBuilder.cpp:840
+#: src/timeline2/model/builders/meltBuilder.cpp:871
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and removed"
 msgstr "%1 Clip (%2) with missing mix found and removed"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:850
-#: src/timeline2/model/builders/meltBuilder.cpp:894
+#: src/timeline2/model/builders/meltBuilder.cpp:858
+#: src/timeline2/model/builders/meltBuilder.cpp:902
 #, kde-format
 msgid "Invalid clip %1 found on track %2 at %3."
 msgstr "Invalid clip %1 found on track %2 at %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:852
-#: src/timeline2/model/builders/meltBuilder.cpp:899
+#: src/timeline2/model/builders/meltBuilder.cpp:860
+#: src/timeline2/model/builders/meltBuilder.cpp:907
 #, kde-format
 msgid "%1 Invalid clip (%2) found and removed"
 msgstr "%1 Invalid clip (%2) found and removed"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:870
+#: src/timeline2/model/builders/meltBuilder.cpp:878
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found and fixed on track %2 at %3."
 msgstr "Clip %1 on incorrect subtrack found and fixed on track %2 at %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:875
+#: src/timeline2/model/builders/meltBuilder.cpp:883
 #, kde-format
 msgid "%1 Clip (%2) on incorrect subtrack found and fixed / %3"
 msgstr "%1 Clip (%2) on incorrect subtrack found and fixed / %3"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:878
+#: src/timeline2/model/builders/meltBuilder.cpp:886
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found on track %2 at %3."
 msgstr "Clip %1 on incorrect subtrack found on track %2 at %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:883
+#: src/timeline2/model/builders/meltBuilder.cpp:891
 #, kde-format
 msgid "%1 Clip (%2) with incorrect subplaylist found"
 msgstr "%1 Clip (%2) with incorrect subplaylist found"
