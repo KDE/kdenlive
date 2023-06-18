@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-17 00:47+0000\n"
+"POT-Creation-Date: 2023-06-18 00:52+0000\n"
 "PO-Revision-Date: 2022-10-03 17:18+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -4500,7 +4500,7 @@ msgstr "Spellista"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2279 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/project/projectmanager.cpp:1258 src/project/projectmanager.cpp:1260
+#: src/project/projectmanager.cpp:1261 src/project/projectmanager.cpp:1263
 #: src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
 #| msgid "Sequence name"
@@ -5004,7 +5004,7 @@ msgid "Duplicate"
 msgstr "Duplicera klipp"
 
 #: src/bin/clipcreator.cpp:421 src/core.cpp:977
-#: src/project/projectmanager.cpp:778
+#: src/project/projectmanager.cpp:779
 #, kde-format
 msgid "Loading clips"
 msgstr "Läser in klipp"
@@ -5338,11 +5338,11 @@ msgstr "Ändra storlek på textning"
 msgid "Move subtitle"
 msgstr "Flytta textning"
 
-#: src/bin/model/subtitlemodel.cpp:1140 src/dialogs/renderwidget.cpp:810
+#: src/bin/model/subtitlemodel.cpp:1140
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:515
 #: src/effects/effectstack/view/effectstackview.cpp:571
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:845
-#: src/project/dialogs/archivewidget.cpp:859
+#: src/project/dialogs/archivewidget.cpp:859 src/render/renderrequest.cpp:285
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -6131,9 +6131,8 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "Exportera flaggor…"
 
-#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:908
-#: src/dialogs/renderwidget.cpp:958 src/dialogs/renderwidget.cpp:1904
-#: src/dialogs/renderwidget.cpp:1931 src/doc/kdenlivedoc.cpp:735
+#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:1626
+#: src/dialogs/renderwidget.cpp:1653 src/doc/kdenlivedoc.cpp:735
 #: src/doc/kdenlivedoc.cpp:743 src/doc/kdenlivedoc.cpp:1239
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
@@ -6146,7 +6145,7 @@ msgstr "Exportera flaggor…"
 #: src/project/dialogs/archivewidget.cpp:867
 #: src/project/dialogs/archivewidget.cpp:879
 #: src/project/dialogs/archivewidget.cpp:885
-#: src/project/projectmanager.cpp:1541
+#: src/project/projectmanager.cpp:1544 src/render/renderrequest.cpp:228
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5077
@@ -6612,7 +6611,7 @@ msgid "6"
 msgstr "6"
 
 #: src/dialogs/renderpresetdialog.cpp:117
-#: src/dialogs/renderpresetdialog.cpp:418
+#: src/dialogs/renderpresetdialog.cpp:421
 #, kde-format
 msgid "Edit Render Preset"
 msgstr "Redigera återgivningsförinställning"
@@ -6622,19 +6621,19 @@ msgstr "Redigera återgivningsförinställning"
 msgid "Constrained VBR"
 msgstr "Begränsad variabel bithastighet"
 
-#: src/dialogs/renderpresetdialog.cpp:414
-#: src/dialogs/renderpresetdialog.cpp:435
+#: src/dialogs/renderpresetdialog.cpp:417
+#: src/dialogs/renderpresetdialog.cpp:438
 #, kde-format
 msgctxt "Group Name"
 msgid "Custom"
 msgstr "Egen"
 
-#: src/dialogs/renderpresetdialog.cpp:430
+#: src/dialogs/renderpresetdialog.cpp:433
 #, kde-format
 msgid "The preset name can't be empty"
 msgstr "Förinställningsnamnet kan inte vara tomt"
 
-#: src/dialogs/renderpresetdialog.cpp:846
+#: src/dialogs/renderpresetdialog.cpp:849
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -6644,63 +6643,63 @@ msgstr ""
 "Följande parametrar får ingen effekt, eftersom de skrivs över av motsvarande "
 "gränssnittsalternativ: <icode>%1</icode>"
 
-#: src/dialogs/renderwidget.cpp:116 src/dialogs/renderwidget.cpp:1734
+#: src/dialogs/renderwidget.cpp:117 src/dialogs/renderwidget.cpp:1456
 #, kde-format
 msgid "Waiting…"
 msgstr "Väntar…"
 
-#: src/dialogs/renderwidget.cpp:119
+#: src/dialogs/renderwidget.cpp:120
 #, kde-format
 msgid "Rendering finished"
 msgstr "Återgivning klar"
 
-#: src/dialogs/renderwidget.cpp:124
+#: src/dialogs/renderwidget.cpp:125
 #, kde-format
 msgid "Rendering crashed"
 msgstr "Återgivning kraschade"
 
-#: src/dialogs/renderwidget.cpp:129
+#: src/dialogs/renderwidget.cpp:130
 #, kde-format
 msgid "Rendering aborted"
 msgstr "Återgivning avbruten"
 
-#: src/dialogs/renderwidget.cpp:214 src/project/dialogs/slideshowclip.cpp:60
+#: src/dialogs/renderwidget.cpp:215 src/project/dialogs/slideshowclip.cpp:60
 #: src/scopes/colorscopes/vectorscope.cpp:55
 #, kde-format
 msgid "None"
 msgstr "Ingen"
 
-#: src/dialogs/renderwidget.cpp:215
+#: src/dialogs/renderwidget.cpp:216
 #, kde-format
 msgid "Timecode"
 msgstr "Tidskod"
 
-#: src/dialogs/renderwidget.cpp:216
+#: src/dialogs/renderwidget.cpp:217
 #, kde-format
 msgid "Timecode Non Drop Frame"
 msgstr "Tidskod för icke överhoppad bildruta"
 
-#: src/dialogs/renderwidget.cpp:217
+#: src/dialogs/renderwidget.cpp:218
 #, kde-format
 msgid "Frame Number"
 msgstr "Bildnummer"
 
-#: src/dialogs/renderwidget.cpp:221
+#: src/dialogs/renderwidget.cpp:222
 #, kde-format
 msgid "Rendering using low quality proxy"
 msgstr "Återgivning med ersättning av låg kvalitet"
 
-#: src/dialogs/renderwidget.cpp:303
+#: src/dialogs/renderwidget.cpp:304
 #, kde-format
 msgid "File"
 msgstr "Fil"
 
-#: src/dialogs/renderwidget.cpp:312
+#: src/dialogs/renderwidget.cpp:313
 #, kde-format
 msgid "Stored Playlists"
 msgstr "Lagrade spellistor"
 
-#: src/dialogs/renderwidget.cpp:329 src/timeline2/view/previewmanager.cpp:53
+#: src/dialogs/renderwidget.cpp:330 src/timeline2/view/previewmanager.cpp:53
 #, kde-format
 msgid ""
 "Could not find the kdenlive_render application, something is wrong with your "
@@ -6709,40 +6708,40 @@ msgstr ""
 "Kunde inte hitta programmet kdenlive_render, någonting är fel med "
 "installationen. Återgivning kommer inte att fungera."
 
-#: src/dialogs/renderwidget.cpp:352
+#: src/dialogs/renderwidget.cpp:353
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
 msgstr "Fungerar bara med formatet matroska (mkv)"
 
-#: src/dialogs/renderwidget.cpp:360
+#: src/dialogs/renderwidget.cpp:361
 #, kde-format
 msgid "There was a problem sharing the document: %1"
 msgstr "Ett problem uppstod när dokumentet skulle delas: %1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
-#: src/dialogs/renderwidget.cpp:360 src/dialogs/renderwidget.cpp:368
+#: src/dialogs/renderwidget.cpp:361 src/dialogs/renderwidget.cpp:369
 #: src/ui/renderwidget_ui.ui:872
 #, kde-format
 msgid "Share"
 msgstr "Dela"
 
-#: src/dialogs/renderwidget.cpp:365
+#: src/dialogs/renderwidget.cpp:366
 #, kde-format
 msgid "Document shared successfully"
 msgstr "Dokument delat med lyckat resultat"
 
-#: src/dialogs/renderwidget.cpp:368
+#: src/dialogs/renderwidget.cpp:369
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
 msgstr "Det delade dokumentet finns på: <a href=\"%1\">%1</a>"
 
-#: src/dialogs/renderwidget.cpp:493
+#: src/dialogs/renderwidget.cpp:494
 #, kde-format
 msgid "Beginning"
 msgstr "Början"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/dialogs/renderwidget.cpp:500 src/ui/wipeval_ui.ui:172
+#: src/dialogs/renderwidget.cpp:501 src/ui/wipeval_ui.ui:172
 #, kde-format
 msgid "End"
 msgstr "Slut"
@@ -6757,7 +6756,7 @@ msgstr "Lägg till ett klipp i tidslinje innan återgivning"
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr "Kan inte hitta programmet melt som krävs för återgivning (del av MLT)"
 
-#: src/dialogs/renderwidget.cpp:634 src/dialogs/renderwidget.cpp:1708
+#: src/dialogs/renderwidget.cpp:634 src/dialogs/renderwidget.cpp:1430
 #: src/project/dialogs/archivewidget.cpp:873
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
@@ -6772,46 +6771,13 @@ msgstr ""
 "Katalogen %1 kunde inte skapas.\n"
 "Försäkra dig om att du har nödvändiga rättigheter."
 
-#: src/dialogs/renderwidget.cpp:664
+#: src/dialogs/renderwidget.cpp:683
 #, fuzzy, kde-format
-#| msgid "Cannot create autosave file %1"
-msgid ""
-"Could not create assets folder:\n"
-" %1"
-msgstr "Kan inte skapa filen %1 för att spara automatiskt"
+#| msgid "An error occurred while deleting markers"
+msgid "The following errors occured while trying to render"
+msgstr "Ett fel uppstod när markörer skulle tas bort"
 
-#: src/dialogs/renderwidget.cpp:748
-#, kde-format
-msgid "Could not create temporary subtitle file"
-msgstr "Kunde inte skapa tillfällig textningsfil"
-
-#: src/dialogs/renderwidget.cpp:786
-#, kde-format
-msgid "export"
-msgstr "exportera"
-
-#: src/dialogs/renderwidget.cpp:801
-#, kde-format
-msgctxt "@title:window"
-msgid "Delayed Rendering"
-msgstr "Fördröjd återgivning"
-
-#: src/dialogs/renderwidget.cpp:801
-#, kde-format
-msgid "Select a name for this rendering."
-msgstr "Välj ett namn för återgivningen."
-
-#: src/dialogs/renderwidget.cpp:870
-#, kde-format
-msgid ""
-"Script rendering and multi track audio export can not be used together.\n"
-"Script will be saved without multi track export."
-msgstr ""
-"Skriptåtergivning och export av flera ljudspår kan inte användas "
-"tillsammans.\n"
-"Skriptet sparas utan export av flera ljudspår."
-
-#: src/dialogs/renderwidget.cpp:994 src/dialogs/renderwidget.cpp:1721
+#: src/dialogs/renderwidget.cpp:716 src/dialogs/renderwidget.cpp:1443
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -6820,47 +6786,47 @@ msgstr ""
 "Det finns redan ett jobb som skriver i filen:<br /><b>%1</b><br />Avbryt "
 "jobbet om du vill skriva över den…"
 
-#: src/dialogs/renderwidget.cpp:995 src/dialogs/renderwidget.cpp:1722
+#: src/dialogs/renderwidget.cpp:717 src/dialogs/renderwidget.cpp:1444
 #, kde-format
 msgid "Already running"
 msgstr "Kör redan"
 
-#: src/dialogs/renderwidget.cpp:1020
+#: src/dialogs/renderwidget.cpp:742
 #, kde-format
 msgid "Video without audio track"
 msgstr "Video utan ljudspår"
 
-#: src/dialogs/renderwidget.cpp:1022
+#: src/dialogs/renderwidget.cpp:744
 #, kde-format
 msgid "Audio without video track"
 msgstr "Ljud utan videospår"
 
-#: src/dialogs/renderwidget.cpp:1086
+#: src/dialogs/renderwidget.cpp:808
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "Återgivning <i>%1</i> startad"
 
-#: src/dialogs/renderwidget.cpp:1148 src/monitor/monitor.cpp:1161
+#: src/dialogs/renderwidget.cpp:870 src/monitor/monitor.cpp:1161
 #, kde-format
 msgid "untitled"
 msgstr "namnlös"
 
-#: src/dialogs/renderwidget.cpp:1186
+#: src/dialogs/renderwidget.cpp:908
 #, kde-format
 msgid "No preset selected"
 msgstr "Ingen förinställningar vald"
 
-#: src/dialogs/renderwidget.cpp:1188
+#: src/dialogs/renderwidget.cpp:910
 #, kde-format
 msgid "No matching preset"
 msgstr "Ingen matchande förinställning"
 
-#: src/dialogs/renderwidget.cpp:1200
+#: src/dialogs/renderwidget.cpp:922
 #, kde-format
 msgid "Invalid preset"
 msgstr "Ogiltig förinställning"
 
-#: src/dialogs/renderwidget.cpp:1314
+#: src/dialogs/renderwidget.cpp:1036
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
@@ -6868,62 +6834,62 @@ msgid ""
 msgstr ""
 "Återgivning utan ljud och video fungerar inte. Aktivera minst en av dem."
 
-#: src/dialogs/renderwidget.cpp:1473
+#: src/dialogs/renderwidget.cpp:1195
 #, kde-format
 msgid "Remaining time "
 msgstr "Återstående tid"
 
-#: src/dialogs/renderwidget.cpp:1475 src/dialogs/renderwidget.cpp:1519
+#: src/dialogs/renderwidget.cpp:1197 src/dialogs/renderwidget.cpp:1241
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
 msgstr[0] "%1 dag "
 msgstr[1] "%1 dagar "
 
-#: src/dialogs/renderwidget.cpp:1479
+#: src/dialogs/renderwidget.cpp:1201
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (bildruta %1 @ %2 rutor/s)"
 
-#: src/dialogs/renderwidget.cpp:1491
+#: src/dialogs/renderwidget.cpp:1213
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1521
+#: src/dialogs/renderwidget.cpp:1243
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Återgivning klar på %1"
 
-#: src/dialogs/renderwidget.cpp:1530
+#: src/dialogs/renderwidget.cpp:1252
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "Återgivning av %1 klar på %2"
 
-#: src/dialogs/renderwidget.cpp:1554
+#: src/dialogs/renderwidget.cpp:1276
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>Återgivning av %1 kraschade</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1597 src/ui/renderwidget_ui.ui:865
+#: src/dialogs/renderwidget.cpp:1319 src/ui/renderwidget_ui.ui:865
 #, kde-format
 msgid "Abort Job"
 msgstr "Avbryt jobb"
 
-#: src/dialogs/renderwidget.cpp:1600
+#: src/dialogs/renderwidget.cpp:1322
 #, kde-format
 msgid "Remove Job"
 msgstr "Ta bort jobb"
 
-#: src/dialogs/renderwidget.cpp:1986 src/dialogs/renderwidget.cpp:1996
-#: src/dialogs/renderwidget.cpp:2018
+#: src/dialogs/renderwidget.cpp:1708 src/dialogs/renderwidget.cpp:1718
+#: src/dialogs/renderwidget.cpp:1740
 #, fuzzy, kde-format
 #| msgid "Duration: "
 msgid "Render Duration: %1"
 msgstr "Längd: "
 
-#: src/dialogs/renderwidget.cpp:2076
+#: src/dialogs/renderwidget.cpp:1798
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -6932,15 +6898,10 @@ msgstr ""
 "Hastighetsparametrar för kodare:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2096
+#: src/dialogs/renderwidget.cpp:1818
 #, kde-format
 msgid "Add to current project"
 msgstr "Lägg till i aktuellt projekt"
-
-#: src/dialogs/renderwidget.cpp:2157
-#, kde-format
-msgid "begin"
-msgstr "börja"
 
 #: src/dialogs/speechdialog.cpp:42
 #, fuzzy, kde-format
@@ -7880,8 +7841,8 @@ msgstr "Följande filter och övertoningar togs bort från projektet:"
 msgid "Invalid file path"
 msgstr "Ogiltig filsökväg"
 
-#: src/doc/kdenlivedoc.cpp:214 src/project/projectmanager.cpp:729
-#: src/project/projectmanager.cpp:793 src/project/projectmanager.cpp:822
+#: src/doc/kdenlivedoc.cpp:214 src/project/projectmanager.cpp:730
+#: src/project/projectmanager.cpp:794 src/project/projectmanager.cpp:823
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Kan inte återställa skadad fil."
@@ -7961,15 +7922,15 @@ msgstr ""
 "Projektfilen uppgraderades till den senaste Kdenlive-dokumentversion, men "
 "det var inte möjligt att skapa säkerhetskopian %1."
 
-#: src/doc/kdenlivedoc.cpp:859 src/project/projectmanager.cpp:1139
-#: src/project/projectmanager.cpp:1175
+#: src/doc/kdenlivedoc.cpp:859 src/project/projectmanager.cpp:1142
+#: src/project/projectmanager.cpp:1178
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Fel när projektkatalogen skulle flyttas: %1"
 
 #: src/doc/kdenlivedoc.cpp:1028 src/doc/kdenlivedoc.cpp:2158
 #: src/project/dialogs/archivewidget.cpp:226
-#: src/project/projectmanager.cpp:1375
+#: src/project/projectmanager.cpp:1378
 #, kde-format
 msgid "Untitled"
 msgstr "Namnlös"
@@ -8121,7 +8082,7 @@ msgstr "Gul"
 msgid "Cyan"
 msgstr "Turkos"
 
-#: src/doc/kdenlivedoc.cpp:2391
+#: src/doc/kdenlivedoc.cpp:2413
 #, fuzzy, kde-format
 #| msgid "Category %1"
 msgid "Category %1:%2:%3"
@@ -13054,7 +13015,7 @@ msgstr "Läs in klippmarkörer"
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1434
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1437
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:4983
 #, fuzzy, kde-format
@@ -13667,7 +13628,7 @@ msgstr "Öppna säkerhetskopia…"
 msgid "Save changes to document?"
 msgstr "Spara ändringar i dokument?"
 
-#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1374
+#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1377
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13750,19 +13711,19 @@ msgstr "Fel när filen skulle öppnas"
 msgid "Open Backup"
 msgstr "Öppna säkerhetskopia"
 
-#: src/project/projectmanager.cpp:733
+#: src/project/projectmanager.cpp:734
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid "Could not open the backup project file."
 msgstr "Kan inte öppna projektfil %1"
 
-#: src/project/projectmanager.cpp:749
+#: src/project/projectmanager.cpp:750
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Projektet har uppgraderats, en säkerhetskopia skapas nästa gång det sparas"
 
-#: src/project/projectmanager.cpp:752
+#: src/project/projectmanager.cpp:753
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -13770,7 +13731,7 @@ msgstr ""
 "Projektet har ändrats när det öppnades, en säkerhetskopia skapas nästa gång "
 "det sparas"
 
-#: src/project/projectmanager.cpp:851
+#: src/project/projectmanager.cpp:852
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -13779,12 +13740,12 @@ msgstr ""
 "Detta tar bort alla ändringar som gjorts sedan projektet senast sparades. Är "
 "du säker på att du vill fortsätta?"
 
-#: src/project/projectmanager.cpp:852
+#: src/project/projectmanager.cpp:853
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Återgå till senast sparade version"
 
-#: src/project/projectmanager.cpp:932
+#: src/project/projectmanager.cpp:935
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -13793,30 +13754,30 @@ msgstr ""
 "Projektet är skadat, kan inte säkerhetskopiera. Stäng och öppna projektfilen "
 "igen för att återställa senaste säkerhetskopia."
 
-#: src/project/projectmanager.cpp:1117
+#: src/project/projectmanager.cpp:1120
 #, fuzzy, kde-format
 #| msgid "Error moving project folder: %1"
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Fel när projektkatalogen skulle flyttas: %1"
 
-#: src/project/projectmanager.cpp:1153
+#: src/project/projectmanager.cpp:1156
 #, kde-format
 msgid "Moving project folder"
 msgstr "Flyttar projektkatalog"
 
-#: src/project/projectmanager.cpp:1210
+#: src/project/projectmanager.cpp:1213
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr "Projektfilen är skadad (inga spår). Försök hitta en säkerhetskopia?"
 
-#: src/project/projectmanager.cpp:1237 src/project/projectmanager.cpp:1267
-#: src/project/projectmanager.cpp:1271
+#: src/project/projectmanager.cpp:1240 src/project/projectmanager.cpp:1270
+#: src/project/projectmanager.cpp:1274
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequence 1"
 msgstr "Sekvensnamn"
 
-#: src/project/projectmanager.cpp:1248
+#: src/project/projectmanager.cpp:1251
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -13824,13 +13785,13 @@ msgstr ""
 "Projektfilen är skadad. Misslyckades läsa in spår. Försök hitta en "
 "säkerhetskopia?"
 
-#: src/project/projectmanager.cpp:1380 src/project/projectmanager.cpp:1385
-#: src/project/projectmanager.cpp:1395 src/project/projectmanager.cpp:1409
+#: src/project/projectmanager.cpp:1383 src/project/projectmanager.cpp:1388
+#: src/project/projectmanager.cpp:1398 src/project/projectmanager.cpp:1412
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Projektprofil ändring avbruten"
 
-#: src/project/projectmanager.cpp:1526
+#: src/project/projectmanager.cpp:1529
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -13839,12 +13800,12 @@ msgstr ""
 "Utdatafilen %1 finns redan.\n"
 "Vill du skriva över den?"
 
-#: src/project/projectmanager.cpp:1551
+#: src/project/projectmanager.cpp:1554
 #, kde-format
 msgid "Project profile changed"
 msgstr "Projektprofil ändrad"
 
-#: src/project/projectmanager.cpp:1604
+#: src/project/projectmanager.cpp:1607
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
 msgid ""
@@ -13852,18 +13813,18 @@ msgid ""
 "%1"
 msgstr "Kan inte skapa filter %1"
 
-#: src/project/projectmanager.cpp:1694
+#: src/project/projectmanager.cpp:1697
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1865
+#: src/project/projectmanager.cpp:1868
 #, fuzzy, kde-format
 #| msgid "Select a clip to compare effect"
 msgid "Select a clip to create sequence"
 msgstr "Välj ett klipp för att jämföra effekt"
 
-#: src/project/projectmanager.cpp:1902
+#: src/project/projectmanager.cpp:1905
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Create Sequence Clip"
@@ -14731,6 +14692,53 @@ msgstr ""
 msgid "Yoruba"
 msgstr ""
 
+#: src/render/renderrequest.cpp:96
+#, fuzzy, kde-format
+#| msgid "Cannot create autosave file %1"
+msgid ""
+"Could not create assets folder:\n"
+" %1"
+msgstr "Kan inte skapa filen %1 för att spara automatiskt"
+
+#: src/render/renderrequest.cpp:161
+#, kde-format
+msgid "Could not create temporary subtitle file"
+msgstr "Kunde inte skapa tillfällig textningsfil"
+
+#: src/render/renderrequest.cpp:188
+#, fuzzy, kde-format
+#| msgid ""
+#| "Script rendering and multi track audio export can not be used together.\n"
+#| "Script will be saved without multi track export."
+msgid ""
+"Script rendering and multi track audio export can not be used together. "
+"Script will be saved without multi track export."
+msgstr ""
+"Skriptåtergivning och export av flera ljudspår kan inte användas "
+"tillsammans.\n"
+"Skriptet sparas utan export av flera ljudspår."
+
+#: src/render/renderrequest.cpp:261
+#, kde-format
+msgid "export"
+msgstr "exportera"
+
+#: src/render/renderrequest.cpp:276
+#, kde-format
+msgctxt "@title:window"
+msgid "Delayed Rendering"
+msgstr "Fördröjd återgivning"
+
+#: src/render/renderrequest.cpp:276
+#, kde-format
+msgid "Select a name for this rendering."
+msgstr "Välj ett namn för återgivningen."
+
+#: src/render/renderrequest.cpp:372
+#, kde-format
+msgid "begin"
+msgstr "börja"
+
 #: src/render/renderserver.cpp:22 src/render/renderserver.cpp:87
 #, kde-format
 msgid "Can't open communication with render job %1"
@@ -14741,40 +14749,40 @@ msgstr "Kan inte kommunicera med återgivningsjobb %1"
 msgid "Communication error with render job"
 msgstr "Kommunikationsfel med återgivningsjobb"
 
-#: src/renderpresets/renderpresetmodel.cpp:157
-#: src/renderpresets/renderpresetmodel.cpp:243
+#: src/renderpresets/renderpresetmodel.cpp:163
+#: src/renderpresets/renderpresetmodel.cpp:249
 #: src/renderpresets/renderpresetrepository.cpp:135
 #, kde-format
 msgctxt "Category Name"
 msgid "Custom"
 msgstr "Egen"
 
-#: src/renderpresets/renderpresetmodel.cpp:279
+#: src/renderpresets/renderpresetmodel.cpp:285
 #, kde-format
 msgid "Standard (%1) not compatible with project profile (%2)"
 msgstr "Standard (%1) är inte kompatibel med projektprofilen (%2)"
 
-#: src/renderpresets/renderpresetmodel.cpp:289
+#: src/renderpresets/renderpresetmodel.cpp:295
 #, kde-format
 msgid "Frame rate (%1) not compatible with project profile (%2)"
 msgstr "Bildfrekvens (%1) är inte kompatibel med projektprofilen (%2)"
 
-#: src/renderpresets/renderpresetmodel.cpp:299
+#: src/renderpresets/renderpresetmodel.cpp:305
 #, kde-format
 msgid "Unsupported video format: %1"
 msgstr "Videoformatet stöds inte: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:306
+#: src/renderpresets/renderpresetmodel.cpp:312
 #, kde-format
 msgid "Unsupported audio codec: %1"
 msgstr "Ljudkodning stöds inte: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:312
+#: src/renderpresets/renderpresetmodel.cpp:318
 #, kde-format
 msgid "Unsupported video codec: %1"
 msgstr "Videokodning stöds inte: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:317
+#: src/renderpresets/renderpresetmodel.cpp:323
 #, kde-format
 msgid ""
 "This render preset uses a 'profile' parameter.<br />Unless you know what you "
@@ -15168,23 +15176,23 @@ msgstr "RGB-parad"
 msgid "Histogram"
 msgstr "Histogram"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:51
+#: src/timeline2/model/builders/meltBuilder.cpp:52
 #, fuzzy, kde-format
 #| msgid "You cannot add a project inside itself."
 msgid "Found an invalid sequence clip in Bin"
 msgstr "Det går inte att lägga till ett projekt inne i sig själv."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:270
-#: src/timeline2/model/builders/meltBuilder.cpp:499
-#: src/timeline2/model/builders/meltBuilder.cpp:509
+#: src/timeline2/model/builders/meltBuilder.cpp:272
+#: src/timeline2/model/builders/meltBuilder.cpp:507
+#: src/timeline2/model/builders/meltBuilder.cpp:517
 #, kde-format
 msgid ""
 "Invalid composition %1 found on track %2 at %3, compositing with track %4."
 msgstr ""
 "Ogiltig komposition %1 hittades på spår %2 vid %3, sammanfogar med spår %4."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:279
-#: src/timeline2/model/builders/meltBuilder.cpp:523
+#: src/timeline2/model/builders/meltBuilder.cpp:281
+#: src/timeline2/model/builders/meltBuilder.cpp:531
 #, kde-format
 msgid ""
 "Incorrect composition %1 found on track %2 at %3, compositing with track %4 "
@@ -15193,43 +15201,52 @@ msgstr ""
 "Felaktig komposition %1 hittades på spår %2 vid %3, sammanfogar med spår %4 "
 "var satt till tvingat spår."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:288
-#: src/timeline2/model/builders/meltBuilder.cpp:537
+#: src/timeline2/model/builders/meltBuilder.cpp:286
+#, fuzzy, kde-format
+#| msgid ""
+#| "Invalid composition %1 found on track %2 at %3, compositing with track %4."
+msgid ""
+"Unknown composition %1 found on track %2 at %3, compositing with track %4."
+msgstr ""
+"Ogiltig komposition %1 hittades på spår %2 vid %3, sammanfogar med spår %4."
+
+#: src/timeline2/model/builders/meltBuilder.cpp:296
+#: src/timeline2/model/builders/meltBuilder.cpp:545
 #, kde-format
 msgid "Invalid composition %1 found on track %2 at %3."
 msgstr "Ogiltig komposition %1 hittades på spår %2 vid %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:309
-#: src/timeline2/model/builders/meltBuilder.cpp:568
-#: src/timeline2/model/builders/meltBuilder.cpp:570
+#: src/timeline2/model/builders/meltBuilder.cpp:317
+#: src/timeline2/model/builders/meltBuilder.cpp:576
+#: src/timeline2/model/builders/meltBuilder.cpp:578
 #, kde-format
 msgid "Problems found in your project file"
 msgstr "Problem hittades i projektfilen"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:498
-#: src/timeline2/model/builders/meltBuilder.cpp:508
+#: src/timeline2/model/builders/meltBuilder.cpp:506
+#: src/timeline2/model/builders/meltBuilder.cpp:516
 #, kde-format
 msgid "%1 Composition (%2) with invalid track reference found and removed."
 msgstr "%1 komposition (%2) med ogiltig spårreferens hittades och togs bort."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:522
+#: src/timeline2/model/builders/meltBuilder.cpp:530
 #, kde-format
 msgid ""
 "%1 Composition was not applied on expected track, manually enforce the track."
 msgstr ""
 "%1 komposition infördes inte på förväntat spår, tvinga spåret manuellt."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:536
+#: src/timeline2/model/builders/meltBuilder.cpp:544
 #, kde-format
 msgid "%1 Invalid composition found and removed."
 msgstr "%1 ogiltig komposition hittades och togs bort"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:559
+#: src/timeline2/model/builders/meltBuilder.cpp:567
 #, kde-format
 msgid "Errors found when opening project file (%1)"
 msgstr "Fel hittades när projektfilen öppnades (%1)"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:566
+#: src/timeline2/model/builders/meltBuilder.cpp:574
 #, kde-format
 msgid ""
 "Some errors were detected in the project file.\n"
@@ -15242,98 +15259,98 @@ msgstr ""
 "listas under fliken projektanteckningar,\n"
 "granska dem för att säkerställa projektets integritet."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:646
-#: src/timeline2/model/builders/meltBuilder.cpp:656
+#: src/timeline2/model/builders/meltBuilder.cpp:654
+#: src/timeline2/model/builders/meltBuilder.cpp:664
 #, kde-format
 msgid "Incorrect Mix, clip %1 was removed at %2."
 msgstr "Felaktig mix, klipp %1 borttaget vid %2."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:647
+#: src/timeline2/model/builders/meltBuilder.cpp:655
 #, kde-format
 msgid "Incorrect mix found on track %1 at %2, clip %3 removed."
 msgstr "Felaktig mix hittades på spår %1 vid %2, klipp %3 borttaget."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:657
+#: src/timeline2/model/builders/meltBuilder.cpp:665
 #, kde-format
 msgid "Incorrect mix found at track %1 at %2, clip %3 removed."
 msgstr "Felaktig mix hittades på spår %1 vid %2, klipp %3 borttaget."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:752
+#: src/timeline2/model/builders/meltBuilder.cpp:760
 #, kde-format
 msgid "%1 Timeline clip (%2) with incorrect bin reference found and recovered."
 msgstr ""
 "%1 tidslinjeklipp (%2) med felaktig korgreferens hittades och återställdes."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:753
+#: src/timeline2/model/builders/meltBuilder.cpp:761
 #, kde-format
 msgid "Invalid clip %1 (%2) not found in project bin, recovered."
 msgstr "Ogiltigt klipp %1 (%2) hittades inte i projektkorgen, återställt."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:755
+#: src/timeline2/model/builders/meltBuilder.cpp:763
 #, kde-format
 msgid "%1 Timeline clip (%2) without bin reference found and removed."
 msgstr "%1 tidslinjeklipp (%2) utan korgreferens hittades och togs bort."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:756
+#: src/timeline2/model/builders/meltBuilder.cpp:764
 #, kde-format
 msgid "Project corrupted. Clip %1 (%2) not found in project bin."
 msgstr "Projektet skadat. Klipp %1 (%2) hittades inte i projektkorgen."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:824
-#: src/timeline2/model/builders/meltBuilder.cpp:857
+#: src/timeline2/model/builders/meltBuilder.cpp:832
+#: src/timeline2/model/builders/meltBuilder.cpp:865
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and resized"
 msgstr "%1 klipp (%2) med saknad mixning hittades och dess storlek ändrades"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:825
-#: src/timeline2/model/builders/meltBuilder.cpp:855
+#: src/timeline2/model/builders/meltBuilder.cpp:833
+#: src/timeline2/model/builders/meltBuilder.cpp:863
 #, kde-format
 msgid "Clip without mix %1 found and resized on track %2 at %3."
 msgstr ""
 "Klipp utan mixning %1 hittades och dess storlek ändrades på spår %2 vid %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:830
-#: src/timeline2/model/builders/meltBuilder.cpp:861
+#: src/timeline2/model/builders/meltBuilder.cpp:838
+#: src/timeline2/model/builders/meltBuilder.cpp:869
 #, kde-format
 msgid "Invalid clip without mix %1 found and removed on track %2 at %3."
 msgstr ""
 "Ogiltigt klipp utan mixning %1 hittades och togs bort på spår %2 vid %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:832
-#: src/timeline2/model/builders/meltBuilder.cpp:863
+#: src/timeline2/model/builders/meltBuilder.cpp:840
+#: src/timeline2/model/builders/meltBuilder.cpp:871
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and removed"
 msgstr "%1 klipp (%2) som saknar mixning hittades och togs bort"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:850
-#: src/timeline2/model/builders/meltBuilder.cpp:894
+#: src/timeline2/model/builders/meltBuilder.cpp:858
+#: src/timeline2/model/builders/meltBuilder.cpp:902
 #, kde-format
 msgid "Invalid clip %1 found on track %2 at %3."
 msgstr "Ogiltigt klipp %1 hittades på spår %2 vid %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:852
-#: src/timeline2/model/builders/meltBuilder.cpp:899
+#: src/timeline2/model/builders/meltBuilder.cpp:860
+#: src/timeline2/model/builders/meltBuilder.cpp:907
 #, kde-format
 msgid "%1 Invalid clip (%2) found and removed"
 msgstr "%1 ogiltigt klipp (%2) hittades och togs bort"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:870
+#: src/timeline2/model/builders/meltBuilder.cpp:878
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found and fixed on track %2 at %3."
 msgstr ""
 "Klipp %1 eller felaktigt delspår hittades och rättades på spår %2 vid %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:875
+#: src/timeline2/model/builders/meltBuilder.cpp:883
 #, kde-format
 msgid "%1 Clip (%2) on incorrect subtrack found and fixed / %3"
 msgstr "Klipp %1 (%2) på felaktigt delspår hittades och rättades / %3"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:878
+#: src/timeline2/model/builders/meltBuilder.cpp:886
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found on track %2 at %3."
 msgstr "Klipp %1 på felaktigt delspår hittades på spår %2 vid %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:883
+#: src/timeline2/model/builders/meltBuilder.cpp:891
 #, kde-format
 msgid "%1 Clip (%2) with incorrect subplaylist found"
 msgstr "%1 klipp (%2) med felaktig delspellista hittades"

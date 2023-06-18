@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-17 00:47+0000\n"
+"POT-Creation-Date: 2023-06-18 00:52+0000\n"
 "PO-Revision-Date: 2014-12-09 21:11+0100\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -4680,7 +4680,7 @@ msgstr "Lejátszólista klip"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2279 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/project/projectmanager.cpp:1258 src/project/projectmanager.cpp:1260
+#: src/project/projectmanager.cpp:1261 src/project/projectmanager.cpp:1263
 #: src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
 #| msgid "Sequence name"
@@ -5246,7 +5246,7 @@ msgid "Duplicate"
 msgstr "Klip törlése"
 
 #: src/bin/clipcreator.cpp:421 src/core.cpp:977
-#: src/project/projectmanager.cpp:778
+#: src/project/projectmanager.cpp:779
 #, kde-format
 msgid "Loading clips"
 msgstr "Klipek betöltése"
@@ -5600,11 +5600,11 @@ msgstr "Klip törlése "
 msgid "Move subtitle"
 msgstr "Segédpont áthelyezése"
 
-#: src/bin/model/subtitlemodel.cpp:1140 src/dialogs/renderwidget.cpp:810
+#: src/bin/model/subtitlemodel.cpp:1140
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:515
 #: src/effects/effectstack/view/effectstackview.cpp:571
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:845
-#: src/project/dialogs/archivewidget.cpp:859
+#: src/project/dialogs/archivewidget.cpp:859 src/render/renderrequest.cpp:285
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -6436,9 +6436,8 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "Jelölők betöltése"
 
-#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:908
-#: src/dialogs/renderwidget.cpp:958 src/dialogs/renderwidget.cpp:1904
-#: src/dialogs/renderwidget.cpp:1931 src/doc/kdenlivedoc.cpp:735
+#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:1626
+#: src/dialogs/renderwidget.cpp:1653 src/doc/kdenlivedoc.cpp:735
 #: src/doc/kdenlivedoc.cpp:743 src/doc/kdenlivedoc.cpp:1239
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
@@ -6451,7 +6450,7 @@ msgstr "Jelölők betöltése"
 #: src/project/dialogs/archivewidget.cpp:867
 #: src/project/dialogs/archivewidget.cpp:879
 #: src/project/dialogs/archivewidget.cpp:885
-#: src/project/projectmanager.cpp:1541
+#: src/project/projectmanager.cpp:1544 src/render/renderrequest.cpp:228
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5077
@@ -6945,7 +6944,7 @@ msgid "6"
 msgstr ""
 
 #: src/dialogs/renderpresetdialog.cpp:117
-#: src/dialogs/renderpresetdialog.cpp:418
+#: src/dialogs/renderpresetdialog.cpp:421
 #, fuzzy, kde-format
 #| msgid "Render Project"
 msgid "Edit Render Preset"
@@ -6957,19 +6956,19 @@ msgstr "Projekt leképzése"
 msgid "Constrained VBR"
 msgstr "Folytatás"
 
-#: src/dialogs/renderpresetdialog.cpp:414
-#: src/dialogs/renderpresetdialog.cpp:435
+#: src/dialogs/renderpresetdialog.cpp:417
+#: src/dialogs/renderpresetdialog.cpp:438
 #, kde-format
 msgctxt "Group Name"
 msgid "Custom"
 msgstr "Egyéni"
 
-#: src/dialogs/renderpresetdialog.cpp:430
+#: src/dialogs/renderpresetdialog.cpp:433
 #, kde-format
 msgid "The preset name can't be empty"
 msgstr ""
 
-#: src/dialogs/renderpresetdialog.cpp:846
+#: src/dialogs/renderpresetdialog.cpp:849
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -6977,69 +6976,69 @@ msgid ""
 "overwritten by the equivalent user interface options: <icode>%1</icode>"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:116 src/dialogs/renderwidget.cpp:1734
+#: src/dialogs/renderwidget.cpp:117 src/dialogs/renderwidget.cpp:1456
 #, fuzzy, kde-format
 #| msgid "Waiting..."
 msgid "Waiting…"
 msgstr "Várakozás…"
 
-#: src/dialogs/renderwidget.cpp:119
+#: src/dialogs/renderwidget.cpp:120
 #, kde-format
 msgid "Rendering finished"
 msgstr "Leképzés befejeződött"
 
-#: src/dialogs/renderwidget.cpp:124
+#: src/dialogs/renderwidget.cpp:125
 #, kde-format
 msgid "Rendering crashed"
 msgstr "A leképzés összeomlott"
 
-#: src/dialogs/renderwidget.cpp:129
+#: src/dialogs/renderwidget.cpp:130
 #, kde-format
 msgid "Rendering aborted"
 msgstr "Leképzés megszakítva"
 
-#: src/dialogs/renderwidget.cpp:214 src/project/dialogs/slideshowclip.cpp:60
+#: src/dialogs/renderwidget.cpp:215 src/project/dialogs/slideshowclip.cpp:60
 #: src/scopes/colorscopes/vectorscope.cpp:55
 #, kde-format
 msgid "None"
 msgstr "Nincs"
 
-#: src/dialogs/renderwidget.cpp:215
+#: src/dialogs/renderwidget.cpp:216
 #, fuzzy, kde-format
 #| msgid "Timecode overlay"
 msgid "Timecode"
 msgstr "Időkód megjelenítése"
 
-#: src/dialogs/renderwidget.cpp:216
+#: src/dialogs/renderwidget.cpp:217
 #, fuzzy, kde-format
 #| msgid "Real time (drop frames)"
 msgid "Timecode Non Drop Frame"
 msgstr "Valósidejű (képkockák eldobásával)"
 
-#: src/dialogs/renderwidget.cpp:217
+#: src/dialogs/renderwidget.cpp:218
 #, fuzzy, kde-format
 #| msgid "Limit keyframes number"
 msgid "Frame Number"
 msgstr "Kulcsképkockák számának korlátozása"
 
-#: src/dialogs/renderwidget.cpp:221
+#: src/dialogs/renderwidget.cpp:222
 #, fuzzy, kde-format
 #| msgid "Render using proxy clips"
 msgid "Rendering using low quality proxy"
 msgstr "Leképezés a proxy klipek használatával"
 
-#: src/dialogs/renderwidget.cpp:303
+#: src/dialogs/renderwidget.cpp:304
 #, kde-format
 msgid "File"
 msgstr "Fájl"
 
-#: src/dialogs/renderwidget.cpp:312
+#: src/dialogs/renderwidget.cpp:313
 #, fuzzy, kde-format
 #| msgid "Playlist"
 msgid "Stored Playlists"
 msgstr "Lejátszólista"
 
-#: src/dialogs/renderwidget.cpp:329 src/timeline2/view/previewmanager.cpp:53
+#: src/dialogs/renderwidget.cpp:330 src/timeline2/view/previewmanager.cpp:53
 #, fuzzy, kde-format
 #| msgid ""
 #| "Could not create the video preview window.\n"
@@ -7053,42 +7052,42 @@ msgstr ""
 "Valami probléma lehet a Kdenlive telepítéssel. \n"
 "A program futása most befejeződik…"
 
-#: src/dialogs/renderwidget.cpp:352
+#: src/dialogs/renderwidget.cpp:353
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:360
+#: src/dialogs/renderwidget.cpp:361
 #, fuzzy, kde-format
 #| msgid "There was an error while copying the files: %1"
 msgid "There was a problem sharing the document: %1"
 msgstr "Hiba történt a fájlok másolása közben: %1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
-#: src/dialogs/renderwidget.cpp:360 src/dialogs/renderwidget.cpp:368
+#: src/dialogs/renderwidget.cpp:361 src/dialogs/renderwidget.cpp:369
 #: src/ui/renderwidget_ui.ui:872
 #, fuzzy, kde-format
 #| msgid "Sharpen"
 msgid "Share"
 msgstr "Élesítés"
 
-#: src/dialogs/renderwidget.cpp:365
+#: src/dialogs/renderwidget.cpp:366
 #, kde-format
 msgid "Document shared successfully"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:368
+#: src/dialogs/renderwidget.cpp:369
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:493
+#: src/dialogs/renderwidget.cpp:494
 #, kde-format
 msgid "Beginning"
 msgstr "Kezdet"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/dialogs/renderwidget.cpp:500 src/ui/wipeval_ui.ui:172
+#: src/dialogs/renderwidget.cpp:501 src/ui/wipeval_ui.ui:172
 #, kde-format
 msgid "End"
 msgstr "Leállítás"
@@ -7106,7 +7105,7 @@ msgstr ""
 "A leképzéshez szüksége melt program nem található. A melt program az MLT "
 "csomag része."
 
-#: src/dialogs/renderwidget.cpp:634 src/dialogs/renderwidget.cpp:1708
+#: src/dialogs/renderwidget.cpp:634 src/dialogs/renderwidget.cpp:1430
 #: src/project/dialogs/archivewidget.cpp:873
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
@@ -7121,47 +7120,12 @@ msgstr ""
 "A(z) „%1” mappa nem hozható létre.\n"
 "Bizonyosodjon meg róla, hogy rendelkezik a szükséges jogosultságokkal."
 
-#: src/dialogs/renderwidget.cpp:664
-#, fuzzy, kde-format
-#| msgid "Cannot create consumer %1."
-msgid ""
-"Could not create assets folder:\n"
-" %1"
-msgstr "%1 fogyasztó nem hozható létre."
-
-#: src/dialogs/renderwidget.cpp:748
-#, fuzzy, kde-format
-#| msgid "Cannot create temporary file"
-msgid "Could not create temporary subtitle file"
-msgstr "Nem hozható létre átmeneti fájl"
-
-#: src/dialogs/renderwidget.cpp:786
-#, fuzzy, kde-format
-#| msgid "import"
-msgid "export"
-msgstr "Importálás"
-
-#: src/dialogs/renderwidget.cpp:801
-#, fuzzy, kde-format
-#| msgid "File rendering"
-msgctxt "@title:window"
-msgid "Delayed Rendering"
-msgstr "Fájl leképzés"
-
-#: src/dialogs/renderwidget.cpp:801
-#, fuzzy, kde-format
-#| msgid "Hide a selected zone and follow its movements"
-msgid "Select a name for this rendering."
-msgstr "Kiválasztott zóna elrejtése és mozgásának követése"
-
-#: src/dialogs/renderwidget.cpp:870
+#: src/dialogs/renderwidget.cpp:683
 #, kde-format
-msgid ""
-"Script rendering and multi track audio export can not be used together.\n"
-"Script will be saved without multi track export."
+msgid "The following errors occured while trying to render"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:994 src/dialogs/renderwidget.cpp:1721
+#: src/dialogs/renderwidget.cpp:716 src/dialogs/renderwidget.cpp:1443
 #, fuzzy, kde-format
 #| msgid ""
 #| "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -7173,64 +7137,64 @@ msgstr ""
 "Már van feladat a következő fájl írásához:<br />„<b>%1</b>”<br />Szakítsa "
 "meg a feladatot, ha felül kívánja írni a fájlt…"
 
-#: src/dialogs/renderwidget.cpp:995 src/dialogs/renderwidget.cpp:1722
+#: src/dialogs/renderwidget.cpp:717 src/dialogs/renderwidget.cpp:1444
 #, kde-format
 msgid "Already running"
 msgstr "A program már fut."
 
-#: src/dialogs/renderwidget.cpp:1020
+#: src/dialogs/renderwidget.cpp:742
 #, kde-format
 msgid "Video without audio track"
 msgstr "Video hangsáv nélkül"
 
-#: src/dialogs/renderwidget.cpp:1022
+#: src/dialogs/renderwidget.cpp:744
 #, fuzzy, kde-format
 #| msgid "Video without audio track"
 msgid "Audio without video track"
 msgstr "Video hangsáv nélkül"
 
-#: src/dialogs/renderwidget.cpp:1086
+#: src/dialogs/renderwidget.cpp:808
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "<i>%1</i> leképzése elkezdődött"
 
-#: src/dialogs/renderwidget.cpp:1148 src/monitor/monitor.cpp:1161
+#: src/dialogs/renderwidget.cpp:870 src/monitor/monitor.cpp:1161
 #, kde-format
 msgid "untitled"
 msgstr "névtelen"
 
-#: src/dialogs/renderwidget.cpp:1186
+#: src/dialogs/renderwidget.cpp:908
 #, fuzzy, kde-format
 #| msgid "No available clip selected"
 msgid "No preset selected"
 msgstr "Nincs elérhető klip kiválasztva"
 
-#: src/dialogs/renderwidget.cpp:1188
+#: src/dialogs/renderwidget.cpp:910
 #, fuzzy, kde-format
 #| msgid "No matching profile"
 msgid "No matching preset"
 msgstr "Nincs illeszkedő profil"
 
-#: src/dialogs/renderwidget.cpp:1200
+#: src/dialogs/renderwidget.cpp:922
 #, fuzzy, kde-format
 #| msgid "Invalid clip"
 msgid "Invalid preset"
 msgstr "Érvénytelen klip"
 
-#: src/dialogs/renderwidget.cpp:1314
+#: src/dialogs/renderwidget.cpp:1036
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1473
+#: src/dialogs/renderwidget.cpp:1195
 #, fuzzy, kde-format
 #| msgid "Remaining time"
 msgid "Remaining time "
 msgstr "Hátralévő idő"
 
-#: src/dialogs/renderwidget.cpp:1475 src/dialogs/renderwidget.cpp:1519
+#: src/dialogs/renderwidget.cpp:1197 src/dialogs/renderwidget.cpp:1241
 #, fuzzy, kde-format
 #| msgid "%1 dB"
 msgid "%1 day "
@@ -7238,50 +7202,50 @@ msgid_plural "%1 days "
 msgstr[0] "%1 dB"
 msgstr[1] "%1 dB"
 
-#: src/dialogs/renderwidget.cpp:1479
+#: src/dialogs/renderwidget.cpp:1201
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1491
+#: src/dialogs/renderwidget.cpp:1213
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1521
+#: src/dialogs/renderwidget.cpp:1243
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Leképzés befejeződött %1 idő alatt"
 
-#: src/dialogs/renderwidget.cpp:1530
+#: src/dialogs/renderwidget.cpp:1252
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "%1 leképzése, hátralévő idő: %2"
 
-#: src/dialogs/renderwidget.cpp:1554
+#: src/dialogs/renderwidget.cpp:1276
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>%1 leképezése összeomlott</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1597 src/ui/renderwidget_ui.ui:865
+#: src/dialogs/renderwidget.cpp:1319 src/ui/renderwidget_ui.ui:865
 #, kde-format
 msgid "Abort Job"
 msgstr "Feladat megszakítása"
 
-#: src/dialogs/renderwidget.cpp:1600
+#: src/dialogs/renderwidget.cpp:1322
 #, kde-format
 msgid "Remove Job"
 msgstr "Feladat eltávolítása"
 
-#: src/dialogs/renderwidget.cpp:1986 src/dialogs/renderwidget.cpp:1996
-#: src/dialogs/renderwidget.cpp:2018
+#: src/dialogs/renderwidget.cpp:1708 src/dialogs/renderwidget.cpp:1718
+#: src/dialogs/renderwidget.cpp:1740
 #, fuzzy, kde-format
 #| msgid "Zone duration: %1"
 msgid "Render Duration: %1"
 msgstr "Zóna időtartama: %1"
 
-#: src/dialogs/renderwidget.cpp:2076
+#: src/dialogs/renderwidget.cpp:1798
 #, fuzzy, kde-format
 #| msgid "FFmpeg parameters"
 msgid ""
@@ -7289,16 +7253,11 @@ msgid ""
 "%1"
 msgstr "FFmpeg paraméterek"
 
-#: src/dialogs/renderwidget.cpp:2096
+#: src/dialogs/renderwidget.cpp:1818
 #, fuzzy, kde-format
 #| msgid "Add to project"
 msgid "Add to current project"
 msgstr "Hozzáadás a projekthez"
-
-#: src/dialogs/renderwidget.cpp:2157
-#, kde-format
-msgid "begin"
-msgstr ""
 
 #: src/dialogs/speechdialog.cpp:42
 #, fuzzy, kde-format
@@ -8279,8 +8238,8 @@ msgstr "A következő effektusok kerültek importálásra a projektből:"
 msgid "Invalid file path"
 msgstr "Érvénytelen klip"
 
-#: src/doc/kdenlivedoc.cpp:214 src/project/projectmanager.cpp:729
-#: src/project/projectmanager.cpp:793 src/project/projectmanager.cpp:822
+#: src/doc/kdenlivedoc.cpp:214 src/project/projectmanager.cpp:730
+#: src/project/projectmanager.cpp:794 src/project/projectmanager.cpp:823
 #, fuzzy, kde-format
 msgid "Could not recover corrupted file."
 msgstr "A súgófájl nem nyitható meg – %s nem található."
@@ -8367,8 +8326,8 @@ msgstr ""
 "A projektfájl a legújabb Kdenlive dokumentum verzióra lett frissítve, de nem "
 "volt lehetséges a(z) %1 biztonsági mentés létrehozása."
 
-#: src/doc/kdenlivedoc.cpp:859 src/project/projectmanager.cpp:1139
-#: src/project/projectmanager.cpp:1175
+#: src/doc/kdenlivedoc.cpp:859 src/project/projectmanager.cpp:1142
+#: src/project/projectmanager.cpp:1178
 #, fuzzy, kde-format
 #| msgid "Project folder: %1"
 msgid "Error moving project folder: %1"
@@ -8376,7 +8335,7 @@ msgstr "Projektmappa: %1"
 
 #: src/doc/kdenlivedoc.cpp:1028 src/doc/kdenlivedoc.cpp:2158
 #: src/project/dialogs/archivewidget.cpp:226
-#: src/project/projectmanager.cpp:1375
+#: src/project/projectmanager.cpp:1378
 #, kde-format
 msgid "Untitled"
 msgstr "Névtelen"
@@ -8526,7 +8485,7 @@ msgstr "Sárga"
 msgid "Cyan"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2391
+#: src/doc/kdenlivedoc.cpp:2413
 #, fuzzy, kde-format
 #| msgid "Category %1"
 msgid "Category %1:%2:%3"
@@ -13759,7 +13718,7 @@ msgstr "Jelölők betöltése"
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1434
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1437
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:4983
 #, fuzzy, kde-format
@@ -14369,7 +14328,7 @@ msgstr "Biztonsági mentés fájl megnyitása"
 msgid "Save changes to document?"
 msgstr "Menti a dokumentum változásait?"
 
-#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1374
+#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1377
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -14457,24 +14416,24 @@ msgstr "Hiba történt a fájl megnyitásakor"
 msgid "Open Backup"
 msgstr "Biztonsági mentés megnyitása"
 
-#: src/project/projectmanager.cpp:733
+#: src/project/projectmanager.cpp:734
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid "Could not open the backup project file."
 msgstr "Nem lehet megnyitni a(z) %1 projektfájlt"
 
-#: src/project/projectmanager.cpp:749
+#: src/project/projectmanager.cpp:750
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:752
+#: src/project/projectmanager.cpp:753
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:851
+#: src/project/projectmanager.cpp:852
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -14483,56 +14442,56 @@ msgstr ""
 "Ez a művelet eltávolítja az összes módosítást, amelyet a projekt legutóbbi "
 "mentése óta végzett. Biztosan végre kívánja hajtani a műveletet?"
 
-#: src/project/projectmanager.cpp:852
+#: src/project/projectmanager.cpp:853
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Visszatérés a dokumentum legutóbb mentett változatához"
 
-#: src/project/projectmanager.cpp:932
+#: src/project/projectmanager.cpp:935
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
 "file to recover last backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1117
+#: src/project/projectmanager.cpp:1120
 #, fuzzy, kde-format
 #| msgid "Project folder: %1"
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Projektmappa: %1"
 
-#: src/project/projectmanager.cpp:1153
+#: src/project/projectmanager.cpp:1156
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Moving project folder"
 msgstr "Projekt mappa használata"
 
-#: src/project/projectmanager.cpp:1210
+#: src/project/projectmanager.cpp:1213
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1237 src/project/projectmanager.cpp:1267
-#: src/project/projectmanager.cpp:1271
+#: src/project/projectmanager.cpp:1240 src/project/projectmanager.cpp:1270
+#: src/project/projectmanager.cpp:1274
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequence 1"
 msgstr "Sorozatnév"
 
-#: src/project/projectmanager.cpp:1248
+#: src/project/projectmanager.cpp:1251
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1380 src/project/projectmanager.cpp:1385
-#: src/project/projectmanager.cpp:1395 src/project/projectmanager.cpp:1409
+#: src/project/projectmanager.cpp:1383 src/project/projectmanager.cpp:1388
+#: src/project/projectmanager.cpp:1398 src/project/projectmanager.cpp:1412
 #, fuzzy, kde-format
 #| msgid "Project profile: %1"
 msgid "Project profile change aborted"
 msgstr "Projekt profil: %1"
 
-#: src/project/projectmanager.cpp:1526
+#: src/project/projectmanager.cpp:1529
 #, fuzzy, kde-format
 #| msgid "Output file already exists. Do you want to overwrite it?"
 msgid ""
@@ -14540,13 +14499,13 @@ msgid ""
 "Do you want to overwrite it?"
 msgstr "A fájl már létezik. Felül kívánja írni a fájlt?"
 
-#: src/project/projectmanager.cpp:1551
+#: src/project/projectmanager.cpp:1554
 #, fuzzy, kde-format
 #| msgid "Project profile: %1"
 msgid "Project profile changed"
 msgstr "Projekt profil: %1"
 
-#: src/project/projectmanager.cpp:1604
+#: src/project/projectmanager.cpp:1607
 #, fuzzy, kde-format
 #| msgid "Cannot create consumer %1."
 msgid ""
@@ -14554,18 +14513,18 @@ msgid ""
 "%1"
 msgstr "%1 fogyasztó nem hozható létre."
 
-#: src/project/projectmanager.cpp:1694
+#: src/project/projectmanager.cpp:1697
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1865
+#: src/project/projectmanager.cpp:1868
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip to create sequence"
 msgstr "Jelölje ki a klipet, ha alkalmazni kívánja az effektet"
 
-#: src/project/projectmanager.cpp:1902
+#: src/project/projectmanager.cpp:1905
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Create Sequence Clip"
@@ -15435,6 +15394,51 @@ msgstr ""
 msgid "Yoruba"
 msgstr ""
 
+#: src/render/renderrequest.cpp:96
+#, fuzzy, kde-format
+#| msgid "Cannot create consumer %1."
+msgid ""
+"Could not create assets folder:\n"
+" %1"
+msgstr "%1 fogyasztó nem hozható létre."
+
+#: src/render/renderrequest.cpp:161
+#, fuzzy, kde-format
+#| msgid "Cannot create temporary file"
+msgid "Could not create temporary subtitle file"
+msgstr "Nem hozható létre átmeneti fájl"
+
+#: src/render/renderrequest.cpp:188
+#, kde-format
+msgid ""
+"Script rendering and multi track audio export can not be used together. "
+"Script will be saved without multi track export."
+msgstr ""
+
+#: src/render/renderrequest.cpp:261
+#, fuzzy, kde-format
+#| msgid "import"
+msgid "export"
+msgstr "Importálás"
+
+#: src/render/renderrequest.cpp:276
+#, fuzzy, kde-format
+#| msgid "File rendering"
+msgctxt "@title:window"
+msgid "Delayed Rendering"
+msgstr "Fájl leképzés"
+
+#: src/render/renderrequest.cpp:276
+#, fuzzy, kde-format
+#| msgid "Hide a selected zone and follow its movements"
+msgid "Select a name for this rendering."
+msgstr "Kiválasztott zóna elrejtése és mozgásának követése"
+
+#: src/render/renderrequest.cpp:372
+#, kde-format
+msgid "begin"
+msgstr ""
+
 #: src/render/renderserver.cpp:22 src/render/renderserver.cpp:87
 #, kde-format
 msgid "Can't open communication with render job %1"
@@ -15445,41 +15449,41 @@ msgstr ""
 msgid "Communication error with render job"
 msgstr ""
 
-#: src/renderpresets/renderpresetmodel.cpp:157
-#: src/renderpresets/renderpresetmodel.cpp:243
+#: src/renderpresets/renderpresetmodel.cpp:163
+#: src/renderpresets/renderpresetmodel.cpp:249
 #: src/renderpresets/renderpresetrepository.cpp:135
 #, kde-format
 msgctxt "Category Name"
 msgid "Custom"
 msgstr "Egyéni"
 
-#: src/renderpresets/renderpresetmodel.cpp:279
+#: src/renderpresets/renderpresetmodel.cpp:285
 #, fuzzy, kde-format
 #| msgid "Frame rate (%1) not compatible with project profile (%2)"
 msgid "Standard (%1) not compatible with project profile (%2)"
 msgstr "Képkocka arány (%1) nem kompatibilis a projekt fájllal (%2)"
 
-#: src/renderpresets/renderpresetmodel.cpp:289
+#: src/renderpresets/renderpresetmodel.cpp:295
 #, kde-format
 msgid "Frame rate (%1) not compatible with project profile (%2)"
 msgstr "Képkocka arány (%1) nem kompatibilis a projekt fájllal (%2)"
 
-#: src/renderpresets/renderpresetmodel.cpp:299
+#: src/renderpresets/renderpresetmodel.cpp:305
 #, kde-format
 msgid "Unsupported video format: %1"
 msgstr "Nem támogatott videó formátum: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:306
+#: src/renderpresets/renderpresetmodel.cpp:312
 #, kde-format
 msgid "Unsupported audio codec: %1"
 msgstr "Nem támogatott hangtömörítés: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:312
+#: src/renderpresets/renderpresetmodel.cpp:318
 #, kde-format
 msgid "Unsupported video codec: %1"
 msgstr "Nem támogatott videótömörítés: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:317
+#: src/renderpresets/renderpresetmodel.cpp:323
 #, fuzzy, kde-format
 #| msgid ""
 #| "This render profile uses a 'profile' parameter.<br />Unless you know what "
@@ -15882,68 +15886,75 @@ msgstr "RGB parádé"
 msgid "Histogram"
 msgstr "Hisztogram"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:51
+#: src/timeline2/model/builders/meltBuilder.cpp:52
 #, fuzzy, kde-format
 #| msgid "You cannot include the current Kdenlive document in itself."
 msgid "Found an invalid sequence clip in Bin"
 msgstr "Nem lehet beszúrni az aktuális Kdenlive dokumentumot saját magába."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:270
-#: src/timeline2/model/builders/meltBuilder.cpp:499
-#: src/timeline2/model/builders/meltBuilder.cpp:509
+#: src/timeline2/model/builders/meltBuilder.cpp:272
+#: src/timeline2/model/builders/meltBuilder.cpp:507
+#: src/timeline2/model/builders/meltBuilder.cpp:517
 #, kde-format
 msgid ""
 "Invalid composition %1 found on track %2 at %3, compositing with track %4."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:279
-#: src/timeline2/model/builders/meltBuilder.cpp:523
+#: src/timeline2/model/builders/meltBuilder.cpp:281
+#: src/timeline2/model/builders/meltBuilder.cpp:531
 #, kde-format
 msgid ""
 "Incorrect composition %1 found on track %2 at %3, compositing with track %4 "
 "was set to forced track."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:288
-#: src/timeline2/model/builders/meltBuilder.cpp:537
+#: src/timeline2/model/builders/meltBuilder.cpp:286
+#, fuzzy, kde-format
+#| msgid "Invalid clip removed from track %1 at %2\n"
+msgid ""
+"Unknown composition %1 found on track %2 at %3, compositing with track %4."
+msgstr "A hibás „%1” klip eltávolításra került innen: %2\n"
+
+#: src/timeline2/model/builders/meltBuilder.cpp:296
+#: src/timeline2/model/builders/meltBuilder.cpp:545
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "Invalid composition %1 found on track %2 at %3."
 msgstr "A hibás „%1” klip eltávolításra került innen: %2\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:309
-#: src/timeline2/model/builders/meltBuilder.cpp:568
-#: src/timeline2/model/builders/meltBuilder.cpp:570
+#: src/timeline2/model/builders/meltBuilder.cpp:317
+#: src/timeline2/model/builders/meltBuilder.cpp:576
+#: src/timeline2/model/builders/meltBuilder.cpp:578
 #, fuzzy, kde-format
 #| msgid "Default folder for project files"
 msgid "Problems found in your project file"
 msgstr "Alapértelmezett projekt mappa"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:498
-#: src/timeline2/model/builders/meltBuilder.cpp:508
+#: src/timeline2/model/builders/meltBuilder.cpp:506
+#: src/timeline2/model/builders/meltBuilder.cpp:516
 #, kde-format
 msgid "%1 Composition (%2) with invalid track reference found and removed."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:522
+#: src/timeline2/model/builders/meltBuilder.cpp:530
 #, kde-format
 msgid ""
 "%1 Composition was not applied on expected track, manually enforce the track."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:536
+#: src/timeline2/model/builders/meltBuilder.cpp:544
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "%1 Invalid composition found and removed."
 msgstr "A hibás „%1” klip eltávolításra került innen: %2\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:559
+#: src/timeline2/model/builders/meltBuilder.cpp:567
 #, fuzzy, kde-format
 #| msgid "Project folder: %1"
 msgid "Errors found when opening project file (%1)"
 msgstr "Projektmappa: %1"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:566
+#: src/timeline2/model/builders/meltBuilder.cpp:574
 #, kde-format
 msgid ""
 "Some errors were detected in the project file.\n"
@@ -15952,103 +15963,103 @@ msgid ""
 "please review them to ensure your project integrity."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:646
-#: src/timeline2/model/builders/meltBuilder.cpp:656
+#: src/timeline2/model/builders/meltBuilder.cpp:654
+#: src/timeline2/model/builders/meltBuilder.cpp:664
 #, kde-format
 msgid "Incorrect Mix, clip %1 was removed at %2."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:647
+#: src/timeline2/model/builders/meltBuilder.cpp:655
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "Incorrect mix found on track %1 at %2, clip %3 removed."
 msgstr "A hibás „%1” klip eltávolításra került innen: %2\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:657
+#: src/timeline2/model/builders/meltBuilder.cpp:665
 #, kde-format
 msgid "Incorrect mix found at track %1 at %2, clip %3 removed."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:752
+#: src/timeline2/model/builders/meltBuilder.cpp:760
 #, kde-format
 msgid "%1 Timeline clip (%2) with incorrect bin reference found and recovered."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:753
+#: src/timeline2/model/builders/meltBuilder.cpp:761
 #, kde-format
 msgid "Invalid clip %1 (%2) not found in project bin, recovered."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:755
+#: src/timeline2/model/builders/meltBuilder.cpp:763
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "%1 Timeline clip (%2) without bin reference found and removed."
 msgstr "A hibás „%1” klip eltávolításra került innen: %2\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:756
+#: src/timeline2/model/builders/meltBuilder.cpp:764
 #, kde-format
 msgid "Project corrupted. Clip %1 (%2) not found in project bin."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:824
-#: src/timeline2/model/builders/meltBuilder.cpp:857
+#: src/timeline2/model/builders/meltBuilder.cpp:832
+#: src/timeline2/model/builders/meltBuilder.cpp:865
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and resized"
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:825
-#: src/timeline2/model/builders/meltBuilder.cpp:855
+#: src/timeline2/model/builders/meltBuilder.cpp:833
+#: src/timeline2/model/builders/meltBuilder.cpp:863
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "Clip without mix %1 found and resized on track %2 at %3."
 msgstr "A hibás „%1” klip eltávolításra került innen: %2\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:830
-#: src/timeline2/model/builders/meltBuilder.cpp:861
+#: src/timeline2/model/builders/meltBuilder.cpp:838
+#: src/timeline2/model/builders/meltBuilder.cpp:869
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "Invalid clip without mix %1 found and removed on track %2 at %3."
 msgstr "A hibás „%1” klip eltávolításra került innen: %2\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:832
-#: src/timeline2/model/builders/meltBuilder.cpp:863
+#: src/timeline2/model/builders/meltBuilder.cpp:840
+#: src/timeline2/model/builders/meltBuilder.cpp:871
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and removed"
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:850
-#: src/timeline2/model/builders/meltBuilder.cpp:894
+#: src/timeline2/model/builders/meltBuilder.cpp:858
+#: src/timeline2/model/builders/meltBuilder.cpp:902
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "Invalid clip %1 found on track %2 at %3."
 msgstr "A hibás „%1” klip eltávolításra került innen: %2\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:852
-#: src/timeline2/model/builders/meltBuilder.cpp:899
+#: src/timeline2/model/builders/meltBuilder.cpp:860
+#: src/timeline2/model/builders/meltBuilder.cpp:907
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "%1 Invalid clip (%2) found and removed"
 msgstr "A hibás „%1” klip eltávolításra került innen: %2\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:870
+#: src/timeline2/model/builders/meltBuilder.cpp:878
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "Clip %1 on incorrect subtrack found and fixed on track %2 at %3."
 msgstr "A hibás „%1” klip eltávolításra került innen: %2\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:875
+#: src/timeline2/model/builders/meltBuilder.cpp:883
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "%1 Clip (%2) on incorrect subtrack found and fixed / %3"
 msgstr "A hibás „%1” klip eltávolításra került innen: %2\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:878
+#: src/timeline2/model/builders/meltBuilder.cpp:886
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "Clip %1 on incorrect subtrack found on track %2 at %3."
 msgstr "A hibás „%1” klip eltávolításra került innen: %2\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:883
+#: src/timeline2/model/builders/meltBuilder.cpp:891
 #, kde-format
 msgid "%1 Clip (%2) with incorrect subplaylist found"
 msgstr ""
