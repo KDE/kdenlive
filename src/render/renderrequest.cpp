@@ -10,6 +10,8 @@
 #include "utils/qstringutils.h"
 #include "xml/xml.hpp"
 
+#include "utils/KMessageBox_KdenliveCompat.h"
+
 #include <QTemporaryFile>
 
 // TODO: remove, see generatePlaylistFile()
