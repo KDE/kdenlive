@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-18 00:52+0000\n"
-"PO-Revision-Date: 2023-06-12 13:45+0200\n"
+"PO-Revision-Date: 2023-06-18 11:24+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -6801,10 +6801,9 @@ msgstr ""
 "Assegureu-vos que teniu els permisos requerits."
 
 #: src/dialogs/renderwidget.cpp:683
-#, fuzzy, kde-format
-#| msgid "An error occurred while deleting markers"
+#, kde-format
 msgid "The following errors occured while trying to render"
-msgstr "S'ha produït un error en suprimir marcadors"
+msgstr "S'han detectat els errors següents en intentar la renderització"
 
 #: src/dialogs/renderwidget.cpp:716 src/dialogs/renderwidget.cpp:1443
 #, kde-format
@@ -14777,17 +14776,14 @@ msgid "Could not create temporary subtitle file"
 msgstr "No s'ha pogut crear el fitxer temporal de subtítols"
 
 #: src/render/renderrequest.cpp:188
-#, fuzzy, kde-format
-#| msgid ""
-#| "Script rendering and multi track audio export can not be used together.\n"
-#| "Script will be saved without multi track export."
+#, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together. "
 "Script will be saved without multi track export."
 msgstr ""
 "La renderització de scripts i l'exportació d'àudio de pistes múltiples no es "
-"poden utilitzar junts.\n"
-"L'script es guardarà sense l'exportació de pistes múltiples."
+"poden utilitzar junts. L'script es guardarà sense l'exportació de pistes "
+"múltiples."
 
 #: src/render/renderrequest.cpp:261
 #, kde-format
@@ -15276,14 +15272,12 @@ msgstr ""
 "amb la pista %4 es va fer amb la pista forçada."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:286
-#, fuzzy, kde-format
-#| msgid ""
-#| "Invalid composition %1 found on track %2 at %3, compositing with track %4."
+#, kde-format
 msgid ""
 "Unknown composition %1 found on track %2 at %3, compositing with track %4."
 msgstr ""
-"S'ha trobat la composició no vàlida %1 a la pista %2 de %3, es compondrà amb "
-"la pista %4."
+"S'ha trobat la composició desconeguda %1 en la pista %2 de %3, es compondrà "
+"amb la pista %4."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:296
 #: src/timeline2/model/builders/meltBuilder.cpp:545

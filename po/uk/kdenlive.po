@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-18 00:52+0000\n"
-"PO-Revision-Date: 2023-06-02 20:03+0300\n"
+"PO-Revision-Date: 2023-06-18 08:50+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -6815,10 +6815,9 @@ msgstr ""
 "Переконайтеся, що маєте потрібні права доступу."
 
 #: src/dialogs/renderwidget.cpp:683
-#, fuzzy, kde-format
-#| msgid "An error occurred while deleting markers"
+#, kde-format
 msgid "The following errors occured while trying to render"
-msgstr "Під час вилучення позначок сталася помилка"
+msgstr "Під час спроби обробки сталися вказані нижче помилки"
 
 #: src/dialogs/renderwidget.cpp:716 src/dialogs/renderwidget.cpp:1443
 #, kde-format
@@ -14835,17 +14834,14 @@ msgid "Could not create temporary subtitle file"
 msgstr "Не вдалося створити тимчасовий файл субтитрів"
 
 #: src/render/renderrequest.cpp:188
-#, fuzzy, kde-format
-#| msgid ""
-#| "Script rendering and multi track audio export can not be used together.\n"
-#| "Script will be saved without multi track export."
+#, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together. "
 "Script will be saved without multi track export."
 msgstr ""
 "Не можна одночасно використовувати обробку за допомогою скрипту та "
-"експортування багатодоріжкового звуку.\n"
-"Скрипт буде збережено без багатодоріжкового експортування."
+"експортування багатодоріжкового звуку. Скрипт буде збережено без "
+"багатодоріжкового експортування."
 
 #: src/render/renderrequest.cpp:261
 #, kde-format
@@ -15330,13 +15326,11 @@ msgstr ""
 "примусове компонування з доріжкою %4."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:286
-#, fuzzy, kde-format
-#| msgid ""
-#| "Invalid composition %1 found on track %2 at %3, compositing with track %4."
+#, kde-format
 msgid ""
 "Unknown composition %1 found on track %2 at %3, compositing with track %4."
 msgstr ""
-"Знайдено некоректну композицію %1 на доріжці %2 у позиції %3, композиція з "
+"Знайдено невідому композицію %1 на доріжці %2 у позиції %3, композиція з "
 "доріжкою %4."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:296

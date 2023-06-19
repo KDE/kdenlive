@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-18 00:52+0000\n"
-"PO-Revision-Date: 2023-06-16 12:31+0300\n"
+"PO-Revision-Date: 2023-06-18 21:21+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -6760,10 +6760,9 @@ msgstr ""
 "Yeterli izne sahip olduğunuzdan emin olun."
 
 #: src/dialogs/renderwidget.cpp:683
-#, fuzzy, kde-format
-#| msgid "An error occurred while deleting markers"
+#, kde-format
 msgid "The following errors occured while trying to render"
-msgstr "İmleyiciler silinirken bir hata oluştu"
+msgstr "Sunmaya çalışırken aşağıdaki hatalar oluştu"
 
 #: src/dialogs/renderwidget.cpp:716 src/dialogs/renderwidget.cpp:1443
 #, kde-format
@@ -14649,16 +14648,13 @@ msgid "Could not create temporary subtitle file"
 msgstr "Geçici altyazı dosyası oluşturulamadı"
 
 #: src/render/renderrequest.cpp:188
-#, fuzzy, kde-format
-#| msgid ""
-#| "Script rendering and multi track audio export can not be used together.\n"
-#| "Script will be saved without multi track export."
+#, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together. "
 "Script will be saved without multi track export."
 msgstr ""
-"Betik sunumu ve çok izli ses dışa aktarımı birlikte kullanılamaz.\n"
-"Betik, çoklu iz dışa aktarma desteği olmadan kaydedilecek."
+"Betik sunumu ve çok izli ses dışa aktarımı birlikte kullanılamaz. Betik, "
+"çoklu iz dışa aktarma desteği olmadan kaydedilecek."
 
 #: src/render/renderrequest.cpp:261
 #, kde-format
@@ -15142,13 +15138,11 @@ msgstr ""
 "%4 iziyle bileşikleştiriliyor."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:286
-#, fuzzy, kde-format
-#| msgid ""
-#| "Invalid composition %1 found on track %2 at %3, compositing with track %4."
+#, kde-format
 msgid ""
 "Unknown composition %1 found on track %2 at %3, compositing with track %4."
 msgstr ""
-"%2 ve %3 izlerinde geçersiz %1 bileşikleştirme bulundu, %4 iziyle birlikte "
+"%2 ve %3 izlerinde bilinmeyen %1 bileşikleştirme bulundu, %4 iziyle birlikte "
 "bileşikleştiriliyor."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:296

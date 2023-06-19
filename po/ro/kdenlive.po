@@ -5308,12 +5308,14 @@ msgid "MLT Playlist (*.mlt)"
 msgstr "Clip cu listă de redare"
 
 #: src/bin/mediabrowser.cpp:52
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Zoom In"
 msgid "Zoom In"
 msgstr "Apropie"
 
 #: src/bin/mediabrowser.cpp:53
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Zoom Out"
 msgid "Zoom Out"
 msgstr "Depărtează"
 
