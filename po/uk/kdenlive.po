@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-18 04:12+0000\n"
-"PO-Revision-Date: 2023-06-02 20:03+0300\n"
+"PO-Revision-Date: 2023-06-18 08:59+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -15221,13 +15221,11 @@ msgstr ""
 "примусове компонування з доріжкою %4."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:286
-#, fuzzy, kde-format
-#| msgid ""
-#| "Invalid composition %1 found on track %2 at %3, compositing with track %4."
+#, kde-format
 msgid ""
 "Unknown composition %1 found on track %2 at %3, compositing with track %4."
 msgstr ""
-"Знайдено некоректну композицію %1 на доріжці %2 у позиції %3, композиція з "
+"Знайдено невідому композицію %1 на доріжці %2 у позиції %3, композиція з "
 "доріжкою %4."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:296
