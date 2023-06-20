@@ -84,15 +84,15 @@ QString ClipCreator::createPlaylistClip(const QString &name, std::pair<int, int>
                                         const std::shared_ptr<ProjectItemModel> &model)
 {
     const QUuid uuid = QUuid::createUuid();
-    std::shared_ptr<Mlt::Tractor> timeline(new Mlt::Tractor(*pCore->getProjectProfile()));
+    std::shared_ptr<Mlt::Tractor> timeline(new Mlt::Tractor(pCore->getProjectProfile()));
     timeline->lock();
-    Mlt::Producer bk(*pCore->getProjectProfile(), "colour:0");
+    Mlt::Producer bk(pCore->getProjectProfile(), "colour:0");
     bk.set_in_and_out(0, 1);
     bk.set("kdenlive:playlistid", "black_track");
     timeline->insert_track(bk, 0);
     // Audio tracks
     for (int ix = 1; ix <= tracks.first; ix++) {
-        Mlt::Playlist pl(*pCore->getProjectProfile());
+        Mlt::Playlist pl(pCore->getProjectProfile());
         timeline->insert_track(pl, ix);
         std::unique_ptr<Mlt::Producer> track(timeline->track(ix));
         track->set("kdenlive:audio_track", 1);
@@ -100,7 +100,7 @@ QString ClipCreator::createPlaylistClip(const QString &name, std::pair<int, int>
     }
     // Video tracks
     for (int ix = tracks.first + 1; ix <= (tracks.first + tracks.second); ix++) {
-        Mlt::Playlist pl(*pCore->getProjectProfile());
+        Mlt::Playlist pl(pCore->getProjectProfile());
         timeline->insert_track(pl, ix);
         std::unique_ptr<Mlt::Producer> track(timeline->track(ix));
         track->set("kdenlive:timeline_active", 1);
@@ -156,15 +156,15 @@ QString ClipCreator::createPlaylistClipWithUndo(const QString &name, std::pair<i
                                                 const std::shared_ptr<ProjectItemModel> &model, Fun &undo, Fun &redo)
 {
     const QUuid uuid = QUuid::createUuid();
-    std::shared_ptr<Mlt::Tractor> timeline(new Mlt::Tractor(*pCore->getProjectProfile()));
+    std::shared_ptr<Mlt::Tractor> timeline(new Mlt::Tractor(pCore->getProjectProfile()));
     timeline->lock();
-    Mlt::Producer bk(*pCore->getProjectProfile(), "colour:0");
+    Mlt::Producer bk(pCore->getProjectProfile(), "colour:0");
     bk.set_in_and_out(0, 1);
     bk.set("kdenlive:playlistid", "black_track");
     timeline->insert_track(bk, 0);
     // Audio tracks
     for (int ix = 1; ix <= tracks.first; ix++) {
-        Mlt::Playlist pl(*pCore->getProjectProfile());
+        Mlt::Playlist pl(pCore->getProjectProfile());
         timeline->insert_track(pl, ix);
         std::unique_ptr<Mlt::Producer> track(timeline->track(ix));
         track->set("kdenlive:audio_track", 1);
@@ -172,7 +172,7 @@ QString ClipCreator::createPlaylistClipWithUndo(const QString &name, std::pair<i
     }
     // Video tracks
     for (int ix = tracks.first + 1; ix <= (tracks.first + tracks.second); ix++) {
-        Mlt::Playlist pl(*pCore->getProjectProfile());
+        Mlt::Playlist pl(pCore->getProjectProfile());
         timeline->insert_track(pl, ix);
         std::unique_ptr<Mlt::Producer> track(timeline->track(ix));
         track->set("kdenlive:timeline_active", 1);

@@ -2077,22 +2077,22 @@ bool TimelineController::createSplitOverlay(int clipId, std::shared_ptr<Mlt::Fil
     std::shared_ptr<Mlt::Producer> clipProducer(new Mlt::Producer(*clip));
 
     // Built tractor and compositing
-    Mlt::Tractor trac(*pCore->getProjectProfile());
-    Mlt::Playlist play(*pCore->getProjectProfile());
-    Mlt::Playlist play2(*pCore->getProjectProfile());
+    Mlt::Tractor trac(pCore->getProjectProfile());
+    Mlt::Playlist play(pCore->getProjectProfile());
+    Mlt::Playlist play2(pCore->getProjectProfile());
     play.append(*clipProducer.get());
     play2.append(*binProd);
     trac.set_track(play, 0);
     trac.set_track(play2, 1);
     play2.attach(*filter.get());
     QString splitTransition = TransitionsRepository::get()->getCompositingTransition();
-    Mlt::Transition t(*pCore->getProjectProfile(), splitTransition.toUtf8().constData());
+    Mlt::Transition t(pCore->getProjectProfile(), splitTransition.toUtf8().constData());
     t.set("always_active", 1);
     trac.plant_transition(t, 0, 1);
     int startPos = m_model->getClipPosition(clipId);
 
     // plug in overlay playlist
-    auto *overlay = new Mlt::Playlist(*pCore->getProjectProfile());
+    auto *overlay = new Mlt::Playlist(pCore->getProjectProfile());
     overlay->insert_blank(0, startPos);
     Mlt::Producer split(trac.get_producer());
     overlay->insert_at(startPos, &split, 1);
@@ -2275,12 +2275,12 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool addToSele
     if (pCore->activeTool() == ToolType::SlipTool && previousClipId > -1) {
         std::shared_ptr<ClipModel> previousClip = m_model->getClipPtr(previousClipId);
         previousFrame = std::shared_ptr<Mlt::Producer>(previousClip->getProducer()->cut(0));
-        Mlt::Filter filter(*pCore->getProjectProfile(), "freeze");
+        Mlt::Filter filter(pCore->getProjectProfile(), "freeze");
         filter.set("mlt_service", "freeze");
         filter.set("frame", previousClip->getOut());
         previousFrame->attach(filter);
     } else {
-        previousFrame = std::shared_ptr<Mlt::Producer>(new Mlt::Producer(*pCore->getProjectProfile(), "color:black"));
+        previousFrame = std::shared_ptr<Mlt::Producer>(new Mlt::Producer(pCore->getProjectProfile(), "color:black"));
     }
 
     const int nextClipId = m_model->getTrackById_const(mainClip->getCurrentTrackId())->getClipByPosition(mainClip->getPosition() + mainClip->getPlaytime());
@@ -2288,18 +2288,18 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool addToSele
     if (pCore->activeTool() == ToolType::SlipTool && nextClipId > -1) {
         std::shared_ptr<ClipModel> nextClip = m_model->getClipPtr(nextClipId);
         nextFrame = std::shared_ptr<Mlt::Producer>(nextClip->getProducer()->cut(0));
-        Mlt::Filter filter(*pCore->getProjectProfile(), "freeze");
+        Mlt::Filter filter(pCore->getProjectProfile(), "freeze");
         filter.set("mlt_service", "freeze");
         filter.set("frame", nextClip->getIn());
         nextFrame->attach(filter);
     } else {
-        nextFrame = std::shared_ptr<Mlt::Producer>(new Mlt::Producer(*pCore->getProjectProfile(), "color:black"));
+        nextFrame = std::shared_ptr<Mlt::Producer>(new Mlt::Producer(pCore->getProjectProfile(), "color:black"));
     }
 
     std::shared_ptr<Mlt::Producer> inOutFrame;
     if (pCore->activeTool() == ToolType::RippleTool) {
         inOutFrame = std::shared_ptr<Mlt::Producer>(mainClip->getProducer()->cut(0));
-        Mlt::Filter filter(*pCore->getProjectProfile(), "freeze");
+        Mlt::Filter filter(pCore->getProjectProfile(), "freeze");
         filter.set("mlt_service", "freeze");
         filter.set("frame", right ? mainClip->getIn() : mainClip->getOut());
         inOutFrame->attach(filter);
@@ -2336,10 +2336,10 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool addToSele
     }
 
     // Built tractor
-    Mlt::Tractor trac(*pCore->getProjectProfile());
+    Mlt::Tractor trac(pCore->getProjectProfile());
 
     // Now that we know the length of the preview create and add black background producer
-    std::shared_ptr<Mlt::Producer> black(new Mlt::Producer(*pCore->getProjectProfile(), "color:black"));
+    std::shared_ptr<Mlt::Producer> black(new Mlt::Producer(pCore->getProjectProfile(), "color:black"));
     black->set("length", previewLength);
     black->set_in_and_out(0, previewLength);
     black->set("mlt_image_format", "rgba");
@@ -2356,7 +2356,7 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool addToSele
         // Add "composite" transitions for multi clip view
         for (int i = 0; i < int(producers.size()); i++) {
             // Construct transition
-            Mlt::Transition transition(*pCore->getProjectProfile(), "composite");
+            Mlt::Transition transition(pCore->getProjectProfile(), "composite");
             transition.set("mlt_service", "composite");
             transition.set("a_track", 0);
             transition.set("b_track", i + 1);
@@ -2866,7 +2866,7 @@ void TimelineController::switchCompositing(bool enable)
         for (int track = 0; track < m_model->getTracksCount(); track++) {
             if (m_model->getTrackById(m_model->getTrackIndexFromPosition(track))->getProperty("kdenlive:audio_track").toInt() == 0) {
                 // This is a video track
-                Mlt::Transition t(*pCore->getProjectProfile(), TransitionsRepository::get()->getCompositingTransition().toUtf8().constData());
+                Mlt::Transition t(pCore->getProjectProfile(), TransitionsRepository::get()->getCompositingTransition().toUtf8().constData());
                 t.set("always_active", 1);
                 t.set_tracks(0, track + 1);
                 t.set("internal_added", 237);

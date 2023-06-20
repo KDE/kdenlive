@@ -27,9 +27,6 @@ TEST_CASE("Save File", "[SF]")
     {
         // Create document
         KdenliveDoc document(undoStack);
-        /*Mock<KdenliveDoc> docMock(document);
-        When(Method(docMock, getCacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
-        KdenliveDoc &mockedDoc = docMock.get();*/
 
         pCore->projectManager()->m_project = &document;
         QDateTime documentDate = QDateTime::currentDateTime();
@@ -40,8 +37,8 @@ TEST_CASE("Save File", "[SF]")
         TimelineModel::next_id = 0;
         QDir dir = QDir::temp();
 
-        QString binId = createProducerWithSound(*timeline->getProfile(), binModel);
-        QString binId2 = createProducer(*timeline->getProfile(), "red", binModel, 20, false);
+        QString binId = createProducerWithSound(pCore->getProjectProfile(), binModel);
+        QString binId2 = createProducer(pCore->getProjectProfile(), "red", binModel, 20, false);
 
         int tid1 = timeline->getTrackIndexFromPosition(2);
 
@@ -103,7 +100,7 @@ TEST_CASE("Save File", "[SF]")
         QDateTime documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
         pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
         std::shared_ptr<Mlt::Tractor> tc = binModel->getExtraTimeline(uuid.toString());
-        std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(uuid, pCore->getProjectProfile(), undoStack);
+        std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(uuid, undoStack);
         openedDoc->addTimeline(uuid, timeline);
         constructTimelineFromTractor(timeline, nullptr, *tc.get(), nullptr, openedDoc->modifiedDecimalPoint(), QString(), QString());
         pCore->projectManager()->testSetActiveDocument(openedDoc.get(), timeline);
@@ -144,19 +141,16 @@ TEST_CASE("Save File", "[SF]")
         undoGroup->addStack(undoStack.get());
         DocOpenResult openResults = KdenliveDoc::Open(openURL, QDir::temp().path(), undoGroup, false, nullptr);
         REQUIRE(openResults.isSuccessful() == true);
-
         std::unique_ptr<KdenliveDoc> openedDoc = openResults.getDocument();
-        // Mock<KdenliveDoc> docMock(*openedDoc.get());
-        // When(Method(docMock, getCacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
-        // KdenliveDoc &mockedDoc = docMock.get();
 
         pCore->projectManager()->m_project = openedDoc.get();
         const QUuid uuid = openedDoc->uuid();
         QDateTime documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
         pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
-        std::shared_ptr<TimelineItemModel> timeline = openedDoc->getTimeline(uuid);
-
-        // auto timeline = openedDoc->getTimeline(uuid);
+        std::shared_ptr<Mlt::Tractor> tc = binModel->getExtraTimeline(uuid.toString());
+        std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(uuid, undoStack);
+        openedDoc->addTimeline(uuid, timeline);
+        constructTimelineFromTractor(timeline, nullptr, *tc.get(), nullptr, openedDoc->modifiedDecimalPoint(), QString(), QString());
         pCore->projectManager()->testSetActiveDocument(openedDoc.get(), timeline);
 
         REQUIRE(timeline->checkConsistency());
@@ -310,7 +304,7 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
             QString("</content>\n </item>\n <startviewport rect=\"0,0,1920,1080\"/>\n <endviewport rect=\"0,0,1920,1080\"/>\n <background "
                     "color=\"0,0,0,0\"/>\n</kdenlivetitle>\n");
 
-        QString binId2 = createTextProducer(*timeline->getProfile(), binModel, titleXml, emojiTestString, 150);
+        QString binId2 = createTextProducer(pCore->getProjectProfile(), binModel, titleXml, emojiTestString, 150);
 
         TrackModel::construct(timeline, -1, -1, QString(), true);
         TrackModel::construct(timeline, -1, -1, QString(), true);

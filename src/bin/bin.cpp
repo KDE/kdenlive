@@ -1889,7 +1889,7 @@ void Bin::replaceSingleClip(const QString clipId, const QString &newUrl)
         // Check if replacement clip is long enough
         if (currentItem->hasLimitedDuration() && currentItem->isIncludedInTimeline()) {
             // Clip is used in timeline, make sure length is similar
-            std::unique_ptr<Mlt::Producer> replacementProd(new Mlt::Producer(*pCore->getProjectProfile(), newUrl.toUtf8().constData()));
+            std::unique_ptr<Mlt::Producer> replacementProd(new Mlt::Producer(pCore->getProjectProfile(), newUrl.toUtf8().constData()));
             int currentDuration = int(currentItem->frameDuration());
             if (replacementProd->is_valid()) {
                 int replacementDuration = replacementProd->get_length();
@@ -1946,7 +1946,7 @@ void Bin::slotReplaceClip()
                 // Check if replacement clip is long enough
                 if (currentItem->hasLimitedDuration() && currentItem->isIncludedInTimeline()) {
                     // Clip is used in timeline, make sure length is similar
-                    std::unique_ptr<Mlt::Producer> replacementProd(new Mlt::Producer(*pCore->getProjectProfile(), fileName.toUtf8().constData()));
+                    std::unique_ptr<Mlt::Producer> replacementProd(new Mlt::Producer(pCore->getProjectProfile(), fileName.toUtf8().constData()));
                     int currentDuration = int(currentItem->frameDuration());
                     if (replacementProd->is_valid()) {
                         int replacementDuration = replacementProd->get_length();
@@ -2051,7 +2051,7 @@ void Bin::slotDuplicateClip()
                         return;
                     }
                     const QByteArray result = doc.toString().toUtf8();
-                    std::shared_ptr<Mlt::Producer> xmlProd(new Mlt::Producer(*pCore->getProjectProfile(), "xml-string", result.constData()));
+                    std::shared_ptr<Mlt::Producer> xmlProd(new Mlt::Producer(pCore->getProjectProfile(), "xml-string", result.constData()));
                     QString id;
                     Fun undo = []() { return true; };
                     Fun redo = []() { return true; };
@@ -5310,9 +5310,9 @@ void Bin::savePlaylist(const QString &binId, const QString &savePath, const QVec
         pCore->displayMessage(i18n("Could not find master clip"), MessageType::ErrorMessage, 300);
         return;
     }
-    Mlt::Tractor t(*pCore->getProjectProfile());
+    Mlt::Tractor t(pCore->getProjectProfile());
     std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(clip->originalProducer().get()));
-    Mlt::Playlist main(*pCore->getProjectProfile());
+    Mlt::Playlist main(pCore->getProjectProfile());
     main.set("id", "main_bin");
     main.set("xml_retain", 1);
     // Here we could store some kdenlive settings in the main playlist
@@ -5323,13 +5323,13 @@ void Bin::savePlaylist(const QString &binId, const QString &savePath, const QVec
     }*/
     main.append(*prod.get());
     t.set("xml_retain main_bin", main.get_service(), 0);
-    Mlt::Playlist pl(*pCore->getProjectProfile());
+    Mlt::Playlist pl(pCore->getProjectProfile());
     for (auto &zone : zones) {
         std::shared_ptr<Mlt::Producer> cut(prod->cut(zone.x(), zone.y()));
         pl.append(*cut.get());
     }
     t.set_track(pl, 0);
-    Mlt::Consumer cons(*pCore->getProjectProfile(), "xml", savePath.toUtf8().constData());
+    Mlt::Consumer cons(pCore->getProjectProfile(), "xml", savePath.toUtf8().constData());
     cons.set("store", "kdenlive");
     cons.connect(t);
     cons.run();

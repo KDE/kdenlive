@@ -83,8 +83,8 @@ QImage ThumbnailProvider::makeThumbnail(const std::shared_ptr<Mlt::Producer> &pr
         return QImage();
     }
     // TODO: cache these values ?
-    int imageHeight = pCore->thumbProfile()->height();
-    int imageWidth = pCore->thumbProfile()->width();
+    int imageHeight = pCore->thumbProfile().height();
+    int imageWidth = pCore->thumbProfile().width();
     int fullWidth = qRound(imageHeight * pCore->getCurrentDar());
     return KThumb::getFrame(frame.data(), imageWidth, imageHeight, fullWidth);
 }

@@ -11,6 +11,7 @@
 #include <QSharedPointer>
 #include <memory>
 #include <mlt++/MltPlaylist.h>
+#include <mlt++/MltProfile.h>
 #include <mlt++/MltTractor.h>
 #include <unordered_map>
 #include <unordered_set>

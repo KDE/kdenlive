@@ -45,7 +45,7 @@ ProfileModel::ProfileModel(const QString &path)
         f.close();
     }
     m_profile = std::make_unique<Mlt::Profile>(path.toUtf8().constData());
-    m_description = QString(m_profile->description());
+    m_description = QString(qstrdup(m_profile->description()));
 }
 
 bool ProfileModel::is_valid() const
@@ -55,7 +55,7 @@ bool ProfileModel::is_valid() const
 
 QString ProfileModel::description() const
 {
-    return m_profile->description();
+    return QString(qstrdup(m_profile->description()));
 }
 
 int ProfileModel::frame_rate_num() const

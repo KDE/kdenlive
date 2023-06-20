@@ -100,16 +100,16 @@ std::shared_ptr<Mlt::Producer> ClipLoadTask::loadResource(QString resource, cons
         resource.prepend(type);
     }
     if (resource.startsWith(QLatin1String("avformat"))) {
-        return std::make_shared<Mlt::Chain>(*pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
+        return std::make_shared<Mlt::Chain>(pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
     } else {
-        return std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
+        return std::make_shared<Mlt::Producer>(pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
     }
 }
 
 std::shared_ptr<Mlt::Producer> ClipLoadTask::loadPlaylist(QString &resource)
 {
     // since MLT 7.14.0, playlists with different fps can be used in a project without corrupting the profile
-    return std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
+    return std::make_shared<Mlt::Producer>(pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
 }
 
 // Read the properties of the xml and pass them to the producer. Note that some properties like resource are ignored
@@ -153,17 +153,17 @@ void ClipLoadTask::processSlideShow(std::shared_ptr<Mlt::Producer> producer)
     QString anim = Xml::getXmlProperty(m_xml, QStringLiteral("animation"));
     bool lowPass = Xml::getXmlProperty(m_xml, QStringLiteral("low-pass"), QStringLiteral("0")).toInt() == 1;
     if (lowPass) {
-        auto *blur = new Mlt::Filter(*pCore->getProjectProfile(), "avfilter.avgblur");
+        auto *blur = new Mlt::Filter(pCore->getProjectProfile(), "avfilter.avgblur");
         if ((blur == nullptr) || !blur->is_valid()) {
             delete blur;
-            blur = new Mlt::Filter(*pCore->getProjectProfile(), "boxblur");
+            blur = new Mlt::Filter(pCore->getProjectProfile(), "boxblur");
         }
         if ((blur != nullptr) && blur->is_valid()) {
             producer->attach(*blur);
         }
     }
     if (!anim.isEmpty()) {
-        auto *filter = new Mlt::Filter(*pCore->getProjectProfile(), "affine");
+        auto *filter = new Mlt::Filter(pCore->getProjectProfile(), "affine");
         if ((filter != nullptr) && filter->is_valid()) {
             int cycle = ttl;
             QString geometry = SlideshowClip::animationToGeometry(anim, cycle);
@@ -178,7 +178,7 @@ void ClipLoadTask::processSlideShow(std::shared_ptr<Mlt::Producer> producer)
     QString fade = Xml::getXmlProperty(m_xml, QStringLiteral("fade"));
     if (fade == QLatin1String("1")) {
         // user wants a fade effect to slideshow
-        auto *filter = new Mlt::Filter(*pCore->getProjectProfile(), "luma");
+        auto *filter = new Mlt::Filter(pCore->getProjectProfile(), "luma");
         if ((filter != nullptr) && filter->is_valid()) {
             if (ttl != 0) {
                 filter->set("cycle", ttl);
@@ -202,7 +202,7 @@ void ClipLoadTask::processSlideShow(std::shared_ptr<Mlt::Producer> producer)
     QString crop = Xml::getXmlProperty(m_xml, QStringLiteral("crop"));
     if (crop == QLatin1String("1")) {
         // user wants to center crop the slides
-        auto *filter = new Mlt::Filter(*pCore->getProjectProfile(), "crop");
+        auto *filter = new Mlt::Filter(pCore->getProjectProfile(), "crop");
         if ((filter != nullptr) && filter->is_valid()) {
             filter->set("center", 1);
             producer->attach(*filter);
@@ -238,8 +238,8 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
                     frame->set("consumer.deinterlacer", "onefield");
                     frame->set("consumer.top_field_first", -1);
                     frame->set("consumer.rescale", "nearest");
-                    int imageHeight(pCore->thumbProfile()->height());
-                    int imageWidth(pCore->thumbProfile()->width());
+                    int imageHeight(pCore->thumbProfile().height());
+                    int imageWidth(pCore->thumbProfile().width());
                     int fullWidth(qRound(imageHeight * pCore->getCurrentDar()));
                     if (m_isCanceled.loadAcquire() || pCore->taskManager.isBlocked()) {
                         return;
@@ -426,7 +426,7 @@ void ClipLoadTask::run()
     case ClipType::SlideShow:
     case ClipType::Image: {
         resource.prepend(QStringLiteral("qimage:"));
-        producer = std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
+        producer = std::make_shared<Mlt::Producer>(pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
         break;
     }
     default:
@@ -437,7 +437,7 @@ void ClipLoadTask::run()
             }
             producer = loadResource(resource, service);
         } else {
-            producer = std::make_shared<Mlt::Chain>(*pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
+            producer = std::make_shared<Mlt::Chain>(pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
         }
         break;
     }

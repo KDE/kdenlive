@@ -29,9 +29,9 @@ TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id, const
     , m_softDelete(false)
 {
     if (auto ptr = parent.lock()) {
-        m_track = std::make_shared<Mlt::Tractor>(*ptr->getProfile());
-        m_playlists[0].set_profile(*ptr->getProfile());
-        m_playlists[1].set_profile(*ptr->getProfile());
+        m_track = std::make_shared<Mlt::Tractor>(pCore->getProjectProfile());
+        m_playlists[0].set_profile(pCore->getProjectProfile().get_profile());
+        m_playlists[1].set_profile(pCore->getProjectProfile().get_profile());
         m_track->insert_track(m_playlists[0], 0);
         m_track->insert_track(m_playlists[1], 1);
         m_mainPlaylist = std::make_shared<Mlt::Producer>(&m_playlists[0]);
@@ -2232,7 +2232,7 @@ bool TrackModel::createMix(MixInfo info, std::pair<QString, QVector<QPair<QStrin
         movedClip->setMixDuration(duration, info.mixOffset);
         std::unique_ptr<Mlt::Transition> t;
         const QString assetId = params.first;
-        t = std::make_unique<Mlt::Transition>(*ptr->getProfile(), assetId.toUtf8().constData());
+        t = std::make_unique<Mlt::Transition>(pCore->getProjectProfile().get_profile(), assetId.toUtf8().constData());
         t->set_in_and_out(in, out);
         t->set("kdenlive:mixcut", info.mixOffset);
         t->set("kdenlive_id", assetId.toUtf8().constData());
@@ -2279,7 +2279,7 @@ bool TrackModel::createMix(MixInfo info, bool isAudio)
         QString assetName;
         std::unique_ptr<Mlt::Transition> t;
         if (isAudio) {
-            t = std::make_unique<Mlt::Transition>(*ptr->getProfile(), "mix");
+            t = std::make_unique<Mlt::Transition>(pCore->getProjectProfile().get_profile(), "mix");
             t->set_in_and_out(in, out);
             t->set("start", -1);
             t->set("accepts_blanks", 1);
@@ -2289,7 +2289,7 @@ bool TrackModel::createMix(MixInfo info, bool isAudio)
             m_track->plant_transition(*t.get(), 0, 1);
             assetName = QStringLiteral("mix");
         } else {
-            t = std::make_unique<Mlt::Transition>(*ptr->getProfile(), "luma");
+            t = std::make_unique<Mlt::Transition>(pCore->getProjectProfile().get_profile(), "luma");
             t->set_in_and_out(in, out);
             t->set("kdenlive_id", "luma");
             if (reverse) {
@@ -2323,7 +2323,7 @@ bool TrackModel::createMix(std::pair<int, int> clipIds, std::pair<int, int> mixD
         QString assetName;
         std::unique_ptr<Mlt::Transition> t;
         if (isAudioTrack()) {
-            t = std::make_unique<Mlt::Transition>(*ptr->getProfile(), "mix");
+            t = std::make_unique<Mlt::Transition>(pCore->getProjectProfile().get_profile(), "mix");
             t->set_in_and_out(mixData.first, mixData.first + mixData.second);
             t->set("start", -1);
             t->set("accepts_blanks", 1);
@@ -2333,7 +2333,7 @@ bool TrackModel::createMix(std::pair<int, int> clipIds, std::pair<int, int> mixD
             m_track->plant_transition(*t.get(), 0, 1);
             assetName = QStringLiteral("mix");
         } else {
-            t = std::make_unique<Mlt::Transition>(*ptr->getProfile(), "luma");
+            t = std::make_unique<Mlt::Transition>(pCore->getProjectProfile().get_profile(), "luma");
             t->set("kdenlive_id", "luma");
             t->set_in_and_out(mixData.first, mixData.first + mixData.second);
             if (reverse) {

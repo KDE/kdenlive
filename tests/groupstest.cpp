@@ -505,7 +505,7 @@ TEST_CASE("Integration with timeline", "[GroupsModel]")
     TimelineItemModel::finishConstruct(timeline);
 
     QUuid uuid2 = QUuid::createUuid();
-    TimelineItemModel tim2(uuid2, timeline->getProfile(), undoStack);
+    TimelineItemModel tim2(uuid2, pCore->getProjectProfile(), undoStack);
     Mock<TimelineItemModel> timMock2(tim2);
     auto timeline2 = std::shared_ptr<TimelineItemModel>(&timMock2.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline2);
@@ -513,8 +513,8 @@ TEST_CASE("Integration with timeline", "[GroupsModel]")
 
     RESET(timMock2);*/
 
-    QString binId = createProducer(*timeline->getProfile(), "red", binModel);
-    QString binId2 = createProducerWithSound(*timeline->getProfile(), binModel);
+    QString binId = createProducer(pCore->getProjectProfile(), "red", binModel);
+    QString binId2 = createProducerWithSound(pCore->getProjectProfile(), binModel);
 
     int length = binModel->getClipByBinID(binId)->frameDuration();
     GroupsModel groups(timeline);

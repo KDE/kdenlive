@@ -38,7 +38,7 @@ TEST_CASE("Open and Close Sequence", "[OCS]")
         pCore->projectManager()->testSetActiveDocument(&mockedDoc, timeline);
         TimelineModel::next_id = 0;
         QDir dir = QDir::temp();
-        QString binId = createProducerWithSound(*timeline->getProfile(), binModel);
+        QString binId = createProducerWithSound(pCore->getProjectProfile(), binModel);
 
         // Create a new sequence clip
         std::pair<int, int> tracks = {2, 2};
@@ -125,8 +125,8 @@ TEST_CASE("Save File With 2 Sequences", "[SF2]")
         TimelineModel::next_id = 0;
         QDir dir = QDir::temp();
 
-        QString binId = createProducerWithSound(*timeline->getProfile(), binModel);
-        QString binId2 = createProducer(*timeline->getProfile(), "red", binModel, 20, false);
+        QString binId = createProducerWithSound(pCore->getProjectProfile(), binModel);
+        QString binId2 = createProducer(pCore->getProjectProfile(), "red", binModel, 20, false);
 
         int tid1 = timeline->getTrackIndexFromPosition(2);
 

@@ -136,7 +136,7 @@ bool PreviewManager::buildPreviewTrack()
     }
     // Create overlay track
     qDebug() << "/// BUILDING PREVIEW TRACK\n----------------------\n----------------__";
-    m_previewTrack = new Mlt::Playlist(*pCore->getProjectProfile());
+    m_previewTrack = new Mlt::Playlist(pCore->getProjectProfile());
     m_previewTrack->set("kdenlive:playlistid", "timeline_preview");
     m_tractor->lock();
     reconnectTrack();
@@ -615,7 +615,7 @@ void PreviewManager::processEnded(int exitCode, QProcess::ExitStatus status)
 {
     const QString sceneList = m_cacheDir.absoluteFilePath(QStringLiteral("preview.mlt"));
     QFile::remove(sceneList);
-    if (status == QProcess::QProcess::CrashExit || exitCode != 0) {
+    if (pCore->window() && (status == QProcess::QProcess::CrashExit || exitCode != 0)) {
         Q_EMIT previewRender(0, m_errorLog, -1);
         if (workingPreview >= 0) {
             const QString fileName = QStringLiteral("%1.%2").arg(workingPreview).arg(m_extension);
@@ -742,7 +742,7 @@ void PreviewManager::reloadChunks(const QVariantList &chunks)
         if (m_previewTrack->is_blank_at(ix.toInt())) {
             QString fileName = m_cacheDir.absoluteFilePath(QStringLiteral("%1.%2").arg(ix.toInt()).arg(m_extension));
             fileName.prepend(QStringLiteral("avformat:"));
-            Mlt::Producer prod(*pCore->getProjectProfile(), fileName.toUtf8().constData());
+            Mlt::Producer prod(pCore->getProjectProfile(), fileName.toUtf8().constData());
             if (prod.is_valid()) {
                 // m_ruler->updatePreview(ix, true);
                 prod.set("mlt_service", "avformat-novalidate");
@@ -778,7 +778,7 @@ void PreviewManager::gotPreviewRender(int frame, const QString &file, int progre
         return;
     }
     if (m_previewTrack->is_blank_at(frame)) {
-        Mlt::Producer prod(*pCore->getProjectProfile(), QString("avformat:%1").arg(file).toUtf8().constData());
+        Mlt::Producer prod(pCore->getProjectProfile(), QString("avformat:%1").arg(file).toUtf8().constData());
         if (prod.is_valid() && prod.get_length() == KdenliveSettings::timelinechunks()) {
             m_dirtyMutex.lock();
             m_dirtyChunks.removeAll(QVariant(frame));

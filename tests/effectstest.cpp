@@ -44,7 +44,7 @@ TEST_CASE("Effects stack", "[Effects]")
     REQUIRE(timeline->requestTrackInsertion(-1, tid1));
 
     // Create clip
-    QString binId = createProducer(*timeline->getProfile(), "red", binModel);
+    QString binId = createProducer(pCore->getProjectProfile(), "red", binModel);
     int cid1;
     REQUIRE(timeline->requestClipInsertion(binId, tid1, 100, cid1));
     std::shared_ptr<ProjectClip> clip = binModel->getClipByBinID(binId);

@@ -36,8 +36,8 @@ TEST_CASE("Remove all spaces", "[Spacer]")
     int tid2 = timeline->getTrackIndexFromPosition(1);
 
     // Create clip with audio (40 frames long)
-    QString binId = createProducer(*timeline->getProfile(), "red", binModel, 20);
-    QString avBinId = createProducerWithSound(*timeline->getProfile(), binModel, 100);
+    QString binId = createProducer(pCore->getProjectProfile(), "red", binModel, 20);
+    QString avBinId = createProducerWithSound(pCore->getProjectProfile(), binModel, 100);
 
     // Setup insert stream data
     QMap<int, QString> audioInfo;

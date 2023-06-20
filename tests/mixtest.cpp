@@ -47,10 +47,10 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
     int tid4 = timeline->getTrackIndexFromPosition(3);
 
     // Create clip with audio
-    QString binId = createProducerWithSound(*timeline->getProfile(), binModel, 100);
+    QString binId = createProducerWithSound(pCore->getProjectProfile(), binModel, 100);
 
     // Create video clip
-    QString binId2 = createProducer(*timeline->getProfile(), "red", binModel, 50, false);
+    QString binId2 = createProducer(pCore->getProjectProfile(), "red", binModel, 50, false);
     // Setup insert stream data
     QMap<int, QString> audioInfo;
     audioInfo.insert(1, QStringLiteral("stream1"));
