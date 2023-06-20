@@ -55,7 +55,7 @@
   <summary xml:lang="eu">Bideo editorea</summary>
   <summary xml:lang="fi">Videoeditori</summary>
   <summary xml:lang="fr">Éditeur vidéo</summary>
-  <summary xml:lang="gl">Editor de vídeo</summary>
+  <summary xml:lang="gl">Editor de vídeo.</summary>
   <summary xml:lang="id">Editor Video</summary>
   <summary xml:lang="it">Editor video</summary>
   <summary xml:lang="ja">動画編集</summary>
@@ -281,6 +281,7 @@
       <caption xml:lang="eu">Kdenlive-n denbora-lerroa</caption>
       <caption xml:lang="fi">Kdenlive aikajana</caption>
       <caption xml:lang="fr">Montage Kdenlive</caption>
+      <caption xml:lang="gl">Liña de tempo de Kdenlive.</caption>
       <caption xml:lang="id">Lini Masa Kdenlive</caption>
       <caption xml:lang="it">Linea temporale Kdenlive</caption>
       <caption xml:lang="ja">Kdenlive タイムライン</caption>
@@ -318,6 +319,7 @@
       <caption xml:lang="eu">Kdenlive audio doikuntzak</caption>
       <caption xml:lang="fi">Kdenlive äänen säädöt</caption>
       <caption xml:lang="fr">Ajustements audio Kdenlive</caption>
+      <caption xml:lang="gl">Axustes de son de Kdenlive.</caption>
       <caption xml:lang="id">Penyetelan Audio Kdenlive</caption>
       <caption xml:lang="it">Regolazioni audio Kdenlive</caption>
       <caption xml:lang="ja">Kdenlive 音声調整</caption>
@@ -355,6 +357,7 @@
       <caption xml:lang="eu">Kdenlive efektuak</caption>
       <caption xml:lang="fi">Kdenlive tehosteet</caption>
       <caption xml:lang="fr">Effets Kdenlive</caption>
+      <caption xml:lang="gl">Efectos de Kdenlive.</caption>
       <caption xml:lang="id">Efek Kdenlive</caption>
       <caption xml:lang="it">Effetti Kdenlive</caption>
       <caption xml:lang="ja">Kdenlive エフェクト</caption>
