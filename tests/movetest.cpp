@@ -37,8 +37,8 @@ TEST_CASE("Cut undo/redo", "[MoveClips]")
     int tid2 = timeline->getTrackIndexFromPosition(2);
 
     // Create clip with audio (40 frames long)
-    // QString binId = createAVProducer(*timeline->getProfile(), binModel);
-    QString binId = createProducerWithSound(*timeline->getProfile(), binModel, 100);
+    // QString binId = createAVProducer(*pCore->getProjectProfile(), binModel);
+    QString binId = createProducerWithSound(pCore->getProjectProfile(), binModel, 100);
 
     // Setup insert stream data
     QMap<int, QString> audioInfo;

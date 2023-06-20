@@ -42,7 +42,7 @@ TEST_CASE("Cache insert-remove", "[Cache]")
     pCore->projectManager()->testSetActiveDocument(&mockedDoc, timeline);
 
     // Create bin clip
-    QString binId = createProducer(*timeline->getProfile(), "red", binModel, 20, false);
+    QString binId = createProducer(pCore->getProjectProfile(), "red", binModel, 20, false);
 
     SECTION("Insert and remove thumbnail")
     {
@@ -77,7 +77,7 @@ TEST_CASE("getAudioKey() should dereference `ok` param", "ThumbnailCache") {
     pCore->m_projectManager->testSetActiveDocument(&mockedDoc, timeline);
 
     // Create bin clip
-    QString binId = createProducer(*timeline->getProfile(), "red", binModel, 20, false);
+    QString binId = createProducer(pCore->getProjectProfile(), "red", binModel, 20, false);
 
     SECTION("Request invalid id")
     {

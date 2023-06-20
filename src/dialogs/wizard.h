@@ -32,7 +32,7 @@ public:
     bool isOk() const;
     bool checkHwEncoder(const QString &name, const QStringList &args, const QTemporaryFile &file);
     void testHwEncoders();
-    static void slotCheckPrograms(QString &infos, QString &warnings);
+    static void slotCheckPrograms(QString &infos, QString &warnings, QString &errors);
     static QStringList codecs();
     static const QString getHWCodecFriendlyName();
 

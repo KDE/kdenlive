@@ -36,7 +36,7 @@ MonitorManager::MonitorManager(QObject *parent)
     connect(pCore.get(), &Core::monitorProfileUpdated, this, [&]() {
         QAction *prog = pCore->window()->actionCollection()->action(QStringLiteral("mlt_progressive"));
         if (prog) {
-            prog->setEnabled(!pCore->getProjectProfile()->progressive());
+            prog->setEnabled(!pCore->getProjectProfile().progressive());
             slotProgressivePlay(prog->isChecked());
         }
     });
@@ -694,7 +694,7 @@ void MonitorManager::slotMuteCurrentMonitor(bool active)
 
 void MonitorManager::slotProgressivePlay(bool active)
 {
-    if (pCore->getProjectProfile()->progressive()) {
+    if (pCore->getProjectProfile().progressive()) {
         // nothing to do
         return;
     }

@@ -1310,7 +1310,7 @@ const QString RemapView::getKeyframesData(QMap<int, int> keyframes) const
             offset = 1;
         }
         Mlt::Properties props;
-        props.set("_profile", pCore->getProjectProfile()->get_profile(), 0);
+        props.set("_profile", pCore->getProjectProfile().get_profile(), 0);
         result << QString("%1=%2").arg(props.frames_to_time(i.key() + offset, mlt_time_clock)).arg(GenTime(i.value(), pCore->getCurrentFps()).seconds());
     }
     return result.join(QLatin1Char(';'));
@@ -1322,7 +1322,7 @@ void RemapView::reloadProducer()
         qDebug() << "==== this is not a playlist clip, aborting";
         return;
     }
-    Mlt::Consumer c(*pCore->getProjectProfile(), "xml", m_clip->clipUrl().toUtf8().constData());
+    Mlt::Consumer c(pCore->getProjectProfile(), "xml", m_clip->clipUrl().toUtf8().constData());
     QScopedPointer<Mlt::Service> serv(m_clip->originalProducer()->producer());
     if (serv == nullptr) {
         return;
@@ -1330,7 +1330,7 @@ void RemapView::reloadProducer()
     qDebug() << "==== GOR PLAYLIST SERVICE: " << serv->type() << " / " << serv->consumer()->type() << ", SAVING TO " << m_clip->clipUrl();
     Mlt::Multitrack s2(*serv.data());
     qDebug() << "==== MULTITRACK: " << s2.count();
-    Mlt::Tractor s(*pCore->getProjectProfile());
+    Mlt::Tractor s(pCore->getProjectProfile());
     s.set_track(*s2.track(0), 0);
     qDebug() << "==== GOT TRACKS: " << s.count();
     int ignore = s.get_int("ignore_points");

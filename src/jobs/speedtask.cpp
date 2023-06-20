@@ -233,7 +233,7 @@ void SpeedTask::run()
     QObject::connect(this, &AbstractTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
     QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &SpeedTask::processLogInfo);
     qDebug() << "=== STARTING PROCESS: " << producerArgs;
-    m_jobProcess->start(KdenliveSettings::rendererpath(), producerArgs);
+    m_jobProcess->start(KdenliveSettings::meltpath(), producerArgs);
     m_jobProcess->waitForFinished(-1);
     qDebug() << " + + + + + + + + SOURCE FILE PROCESSED: " << m_jobProcess->exitStatus();
     bool result = m_jobProcess->exitStatus() == QProcess::NormalExit;

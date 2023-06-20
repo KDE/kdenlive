@@ -106,19 +106,18 @@ RTTR_REGISTRATION
 int TimelineModel::next_id = 0;
 int TimelineModel::seekDuration = 30000;
 
-TimelineModel::TimelineModel(const QUuid &uuid, Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack)
+TimelineModel::TimelineModel(const QUuid &uuid, std::weak_ptr<DocUndoStack> undo_stack)
     : QAbstractItemModel_shared_from_this()
     , isLoading(true)
     , m_blockRefresh(false)
     , m_uuid(uuid)
-    , m_tractor(new Mlt::Tractor(*profile))
+    , m_tractor(new Mlt::Tractor(pCore->getProjectProfile()))
     , m_masterStack(nullptr)
     , m_masterService(nullptr)
     , m_timelinePreview(nullptr)
     , m_snaps(new SnapModel())
     , m_undoStack(std::move(undo_stack))
-    , m_profile(profile)
-    , m_blackClip(new Mlt::Producer(*profile, "color:black"))
+    , m_blackClip(new Mlt::Producer(pCore->getProjectProfile(), "color:black"))
     , m_lock(QReadWriteLock::Recursive)
     , m_timelineEffectsEnabled(true)
     , m_id(getNextId())
@@ -800,16 +799,17 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         if (mixGroupMove) {
             // We are moving a group on another track, delete and re-add
             // Get mix properties
+            std::pair<int, int> tracks = getTrackById_const(previous_track)->getMixTracks(mixData.first.secondClipId);
             std::pair<QString, QVector<QPair<QString, QVariant>>> mixParams = getTrackById_const(previous_track)->getMixParams(mixData.first.secondClipId);
-            simple_move_mix = [this, previous_track, trackId, finalMove, mixData, mixParams]() {
+            simple_move_mix = [this, previous_track, trackId, finalMove, mixData, tracks, mixParams]() {
                 // Insert mix on new track
-                bool result = getTrackById_const(trackId)->createMix(mixData.first, mixParams, finalMove);
+                bool result = getTrackById_const(trackId)->createMix(mixData.first, mixParams, tracks, finalMove);
                 // Remove mix on old track
                 getTrackById_const(previous_track)->removeMix(mixData.first);
                 return result;
             };
-            simple_restore_mix = [this, previous_track, trackId, finalMove, mixData, mixParams]() {
-                bool result = getTrackById_const(previous_track)->createMix(mixData.first, mixParams, finalMove);
+            simple_restore_mix = [this, previous_track, trackId, finalMove, mixData, tracks, mixParams]() {
+                bool result = getTrackById_const(previous_track)->createMix(mixData.first, mixParams, tracks, finalMove);
                 // Remove mix on old track
                 getTrackById_const(trackId)->removeMix(mixData.first);
 
@@ -1578,7 +1578,7 @@ QVariantList TimelineModel::suggestClipMove(int clipId, int trackId, int positio
         if (blank_length > 10 * snapDistance) {
             blank_length = 0;
         }
-    } else if (blank_length / m_profile->fps() > 5) {
+    } else if (blank_length / pCore->getProjectProfile().fps() > 5) {
         blank_length = 0;
     }
     if (blank_length != 0) {
@@ -4743,11 +4743,6 @@ std::unordered_set<int> TimelineModel::getGroupElements(int clipId)
     return m_groups->getLeaves(groupId);
 }
 
-Mlt::Profile *TimelineModel::getProfile()
-{
-    return m_profile;
-}
-
 bool TimelineModel::requestReset(Fun &undo, Fun &redo)
 {
     std::vector<int> all_ids;
@@ -5566,7 +5561,7 @@ const QString TimelineModel::sceneList(const QString &root, const QString &fullP
 {
     LocaleHandling::resetLocale();
     QString playlist;
-    Mlt::Consumer xmlConsumer(*m_profile, "xml", fullPath.isEmpty() ? "kdenlive_playlist" : fullPath.toUtf8().constData());
+    Mlt::Consumer xmlConsumer(pCore->getProjectProfile(), "xml", fullPath.isEmpty() ? "kdenlive_playlist" : fullPath.toUtf8().constData());
     if (!root.isEmpty()) {
         xmlConsumer.set("root", root.toUtf8().constData());
     }
@@ -5581,7 +5576,7 @@ const QString TimelineModel::sceneList(const QString &root, const QString &fullP
     Mlt::Service s(m_tractor->get_service());
     std::unique_ptr<Mlt::Filter> filter = nullptr;
     if (!filterData.isEmpty()) {
-        filter = std::make_unique<Mlt::Filter>(*m_profile, QString("dynamictext:%1").arg(filterData).toUtf8().constData());
+        filter = std::make_unique<Mlt::Filter>(pCore->getProjectProfile().get_profile(), QString("dynamictext:%1").arg(filterData).toUtf8().constData());
         filter->set("fgcolour", "#ffffff");
         filter->set("bgcolour", "#bb333333");
         s.attach(*filter.get());
@@ -5901,25 +5896,25 @@ const QString TimelineModel::getTrackTagById(int trackId) const
     return isAudio ? QStringLiteral("A%1").arg(totalAudio - count) : QStringLiteral("V%1").arg(count - 1);
 }
 
-void TimelineModel::updateProfile(Mlt::Profile *profile)
+/*void TimelineModel::updateProfile(Mlt::Profile profile)
 {
     m_profile = profile;
-    m_tractor->set_profile(*m_profile);
+    m_tractor->set_profile(m_profile.get_profile());
     for (int i = 0; i < m_tractor->count(); i++) {
         std::shared_ptr<Mlt::Producer> tk(m_tractor->track(i));
-        tk->set_profile(*m_profile);
+        tk->set_profile(m_profile.get_profile());
         if (tk->type() == mlt_service_tractor_type) {
             Mlt::Tractor sub(*tk.get());
             for (int j = 0; j < sub.count(); j++) {
                 std::shared_ptr<Mlt::Producer> subtk(sub.track(j));
-                subtk->set_profile(*m_profile);
+                subtk->set_profile(m_profile.get_profile());
             }
         }
     }
-    m_blackClip->set_profile(*m_profile);
+    m_blackClip->set_profile(m_profile.get_profile());
     // Rebuild compositions since profile has changed
     buildTrackCompositing(true);
-}
+}*/
 
 void TimelineModel::updateFieldOrderFilter(std::unique_ptr<ProfileModel> &ptr)
 {
@@ -6358,7 +6353,9 @@ void TimelineModel::switchComposition(int cid, const QString &compoId)
 bool TimelineModel::plantMix(int tid, Mlt::Transition *t)
 {
     if (getTrackById_const(tid)->hasClipStart(t->get_in())) {
-        getTrackById_const(tid)->getTrackService()->plant_transition(*t, 0, 1);
+        int a_track = t->get_a_track();
+        int b_track = t->get_b_track();
+        getTrackById_const(tid)->getTrackService()->plant_transition(*t, a_track, b_track);
         return getTrackById_const(tid)->loadMix(t);
     } else {
         qDebug() << "=== INVALID MIX FOUND AT: " << t->get_in() << " - " << t->get("mlt_service");

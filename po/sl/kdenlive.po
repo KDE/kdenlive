@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-18 00:52+0000\n"
-"PO-Revision-Date: 2023-06-05 09:01+0200\n"
+"PO-Revision-Date: 2023-06-19 16:49+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -6773,10 +6773,9 @@ msgstr ""
 "Prepričajte se, da imate zahtevana dovoljenja."
 
 #: src/dialogs/renderwidget.cpp:683
-#, fuzzy, kde-format
-#| msgid "An error occurred while deleting markers"
+#, kde-format
 msgid "The following errors occured while trying to render"
-msgstr "Prišlo je do napaka pri brisanju označevalnikov"
+msgstr "Pri poskusu izrisa je prišlo do naslednjih napak"
 
 #: src/dialogs/renderwidget.cpp:716 src/dialogs/renderwidget.cpp:1443
 #, kde-format
@@ -14718,17 +14717,13 @@ msgid "Could not create temporary subtitle file"
 msgstr "Ni mogoče ustvariti začasne datoteke podnaslovov"
 
 #: src/render/renderrequest.cpp:188
-#, fuzzy, kde-format
-#| msgid ""
-#| "Script rendering and multi track audio export can not be used together.\n"
-#| "Script will be saved without multi track export."
+#, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together. "
 "Script will be saved without multi track export."
 msgstr ""
 "Skriptnega izrisovanja in večsteznega izvoza zvoka ni mogoče uporabiti "
-"skupaj.\n"
-"Skript bo shranjen brez izvoza več stez."
+"skupaj. Skript bo shranjen brez izvoza več stez."
 
 #: src/render/renderrequest.cpp:261
 #, kde-format
@@ -15209,9 +15204,7 @@ msgstr ""
 "je bil nastavljen za prisilno sledenje."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:286
-#, fuzzy, kde-format
-#| msgid ""
-#| "Invalid composition %1 found on track %2 at %3, compositing with track %4."
+#, kde-format
 msgid ""
 "Unknown composition %1 found on track %2 at %3, compositing with track %4."
 msgstr ""
@@ -21276,6 +21269,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "Open %1"
-#~ msgstr "Odpri %1"

@@ -817,22 +817,22 @@ std::shared_ptr<Mlt::Producer> ProjectClip::thumbProducer()
             return nullptr;
         }
         cloneProducerToFile(m_sequenceThumbFile.fileName(), true);
-        m_thumbsProducer.reset(new Mlt::Producer(*pCore->thumbProfile(), "consumer", m_sequenceThumbFile.fileName().toUtf8().constData()));
+        m_thumbsProducer.reset(new Mlt::Producer(pCore->thumbProfile().get_profile(), "consumer", m_sequenceThumbFile.fileName().toUtf8().constData()));
     } else {
         QString mltService = m_masterProducer->get("mlt_service");
         const QString mltResource = m_masterProducer->get("resource");
         if (mltService == QLatin1String("avformat")) {
             mltService = QStringLiteral("avformat-novalidate");
         }
-        m_thumbsProducer.reset(new Mlt::Producer(*pCore->thumbProfile(), mltService.toUtf8().constData(), mltResource.toUtf8().constData()));
+        m_thumbsProducer.reset(new Mlt::Producer(pCore->thumbProfile().get_profile(), mltService.toUtf8().constData(), mltResource.toUtf8().constData()));
     }
     if (m_thumbsProducer->is_valid()) {
         Mlt::Properties original(m_masterProducer->get_properties());
         Mlt::Properties cloneProps(m_thumbsProducer->get_properties());
         cloneProps.pass_list(original, ClipController::getPassPropertiesList());
-        Mlt::Filter scaler(*pCore->thumbProfile(), "swscale");
-        Mlt::Filter padder(*pCore->thumbProfile(), "resize");
-        Mlt::Filter converter(*pCore->thumbProfile(), "avcolor_space");
+        Mlt::Filter scaler(pCore->thumbProfile().get_profile(), "swscale");
+        Mlt::Filter padder(pCore->thumbProfile().get_profile(), "resize");
+        Mlt::Filter converter(pCore->thumbProfile().get_profile(), "avcolor_space");
         m_thumbsProducer->set("audio_index", -1);
         // Required to make get_playtime() return > 1
         m_thumbsProducer->set("out", m_thumbsProducer->get_length() - 1);
@@ -886,7 +886,7 @@ int ProjectClip::getRecordTime()
         } else {
             if (KdenliveSettings::mediainfopath().isEmpty() || !QFileInfo::exists(KdenliveSettings::mediainfopath())) {
                 // Try to find binary
-                const QStringList mltpath({QFileInfo(KdenliveSettings::rendererpath()).canonicalPath(), qApp->applicationDirPath()});
+                const QStringList mltpath({QFileInfo(KdenliveSettings::meltpath()).canonicalPath(), qApp->applicationDirPath()});
                 QString mediainfopath = QStandardPaths::findExecutable(QStringLiteral("mediainfo"), mltpath);
                 if (mediainfopath.isEmpty()) {
                     mediainfopath = QStandardPaths::findExecutable(QStringLiteral("mediainfo"));
@@ -1111,7 +1111,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
             }
         }
         if (timeremap) {
-            Mlt::Chain *chain = new Mlt::Chain(*pCore->getProjectProfile(), resource.toUtf8().constData());
+            Mlt::Chain *chain = new Mlt::Chain(pCore->getProjectProfile(), resource.toUtf8().constData());
             Mlt::Link link("timeremap");
             chain->attach(link);
             warpProducer.reset(chain);
@@ -1132,7 +1132,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
                 }
                 url = QString("timewarp:%1:%2").arg(QString::fromStdString(std::to_string(speed)), resource);
             }
-            warpProducer.reset(new Mlt::Producer(*pCore->getProjectProfile(), url.toUtf8().constData()));
+            warpProducer.reset(new Mlt::Producer(pCore->getProjectProfile(), url.toUtf8().constData()));
             int original_length = originalProducer()->get_length();
             int updated_length = qRound(original_length / std::abs(speed));
             warpProducer->set("length", updated_length);
@@ -1353,7 +1353,7 @@ void ProjectClip::saveZone(QPoint zone, const QDir &dir)
             return;
         }
     }
-    Mlt::Consumer xmlConsumer(*pCore->getProjectProfile(), "xml", fullPath.toUtf8().constData());
+    Mlt::Consumer xmlConsumer(pCore->getProjectProfile(), "xml", fullPath.toUtf8().constData());
     xmlConsumer.set("terminate_on_pause", 1);
     xmlConsumer.set("store", "kdenlive");
     xmlConsumer.set("no_meta", 1);
@@ -1361,7 +1361,7 @@ void ProjectClip::saveZone(QPoint zone, const QDir &dir)
     if (m_clipType != ClipType::Timeline) {
         Mlt::Producer prod(m_masterProducer->parent());
         std::unique_ptr<Mlt::Producer> prod2(prod.cut(zone.x(), zone.y()));
-        Mlt::Playlist list(*pCore->getProjectProfile());
+        Mlt::Playlist list(pCore->getProjectProfile());
         list.insert_at(0, *prod2.get(), 0);
         // list.set("title", desc.toUtf8().constData());
         xmlConsumer.connect(list);
@@ -1374,7 +1374,7 @@ void ProjectClip::saveZone(QPoint zone, const QDir &dir)
 std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects, bool timelineProducer)
 {
     QMutexLocker lk(&m_producerMutex);
-    Mlt::Consumer c(*pCore->getProjectProfile(), "xml", "string");
+    Mlt::Consumer c(pCore->getProjectProfile(), "xml", "string");
     Mlt::Service s(m_masterProducer->get_service());
     m_masterProducer->lock();
     int ignore = s.get_int("ignore_points");
@@ -1394,8 +1394,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects, bo
     }
     m_masterProducer->unlock();
     const QByteArray clipXml = c.get("string");
-    qDebug() << "============= CLONED CLIP: \n\n" << clipXml << "\n\n======================";
-    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(*pCore->getProjectProfile(), "xml-string", clipXml.constData()));
+    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(pCore->getProjectProfile(), "xml-string", clipXml.constData()));
     if (strcmp(prod->get("mlt_service"), "avformat") == 0) {
         prod->set("mlt_service", "avformat-novalidate");
         prod->set("mute_on_pause", 0);
@@ -1455,7 +1454,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects, bo
 
 std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(const std::shared_ptr<Mlt::Producer> &producer)
 {
-    Mlt::Consumer c(producer->get_profile(), "xml", "string");
+    Mlt::Consumer c(pCore->getProjectProfile(), "xml", "string");
     Mlt::Service s(producer->get_service());
     int ignore = s.get_int("ignore_points");
     if (ignore) {
@@ -1473,7 +1472,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(const std::shared_ptr<
         s.set("ignore_points", ignore);
     }
     const QByteArray clipXml = c.get("string");
-    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(producer->get_profile(), "xml-string", clipXml.constData()));
+    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(pCore->getProjectProfile(), "xml-string", clipXml.constData()));
     if (strcmp(prod->get("mlt_service"), "avformat") == 0) {
         prod->set("mlt_service", "avformat-novalidate");
         prod->set("mute_on_pause", 0);
@@ -1485,9 +1484,9 @@ std::shared_ptr<Mlt::Producer> ProjectClip::softClone(const char *list)
 {
     QString service = QString::fromLatin1(m_masterProducer->get("mlt_service"));
     QString resource = QString::fromUtf8(m_masterProducer->get("resource"));
-    std::shared_ptr<Mlt::Producer> clone(new Mlt::Producer(*pCore->thumbProfile(), service.toUtf8().constData(), resource.toUtf8().constData()));
-    Mlt::Filter scaler(*pCore->thumbProfile(), "swscale");
-    Mlt::Filter converter(*pCore->getProjectProfile(), "avcolor_space");
+    std::shared_ptr<Mlt::Producer> clone(new Mlt::Producer(pCore->thumbProfile(), service.toUtf8().constData(), resource.toUtf8().constData()));
+    Mlt::Filter scaler(pCore->thumbProfile(), "swscale");
+    Mlt::Filter converter(pCore->getProjectProfile(), "avcolor_space");
     clone->attach(scaler);
     clone->attach(converter);
     Mlt::Properties original(m_masterProducer->get_properties());

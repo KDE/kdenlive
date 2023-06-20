@@ -47,9 +47,7 @@ Core::Core(const QString &packageType)
     : audioThumbCache(QStringLiteral("audioCache"), 2000000)
     , taskManager(this)
     , m_packageType(packageType)
-    , m_thumbProfile(new Mlt::Profile())
     , m_capture(new MediaCapture(this))
-    , m_currentProfile(QStringLiteral("atsc_720p_25"))
 {
 }
 
@@ -134,8 +132,6 @@ bool Core::build(const QString &packageType, bool testMode)
 
 void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, const QString &clipsToLoad)
 {
-    m_profile = KdenliveSettings::default_profile();
-    m_currentProfile = m_profile;
     m_mainWindow = new MainWindow();
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 
@@ -177,7 +173,7 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
         KdenliveSettings::setFfmpegpath(QDir::cleanPath(appPath + QStringLiteral("/ffmpeg")));
         KdenliveSettings::setFfplaypath(QDir::cleanPath(appPath + QStringLiteral("/ffplay")));
         KdenliveSettings::setFfprobepath(QDir::cleanPath(appPath + QStringLiteral("/ffprobe")));
-        KdenliveSettings::setRendererpath(QDir::cleanPath(appPath + QStringLiteral("/melt")));
+        KdenliveSettings::setMeltpath(QDir::cleanPath(appPath + QStringLiteral("/melt")));
         m_mainWindow->init(QDir::cleanPath(appPath + QStringLiteral("/../share/mlt/profiles")));
     } else {
         // Open connection with Mlt
@@ -193,6 +189,7 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
         m_profile = ProjectManager::getDefaultProjectFormat();
         KdenliveSettings::setDefault_profile(m_profile);
     }
+    setCurrentProfile(m_profile);
     profileChanged();
     resetThumbProfile();
 
@@ -548,25 +545,20 @@ Mlt::Profile &Core::getMonitorProfile()
     return m_monitorProfile;
 }
 
-Mlt::Profile *Core::getProjectProfile()
+Mlt::Profile &Core::getProjectProfile()
 {
-    if (!m_projectProfile) {
-        m_projectProfile = std::make_unique<Mlt::Profile>(m_currentProfile.toUtf8().constData());
-        m_projectProfile->set_explicit(true);
-        updateMonitorProfile();
-    }
-    return m_projectProfile.get();
+    return m_projectProfile;
 }
 
 void Core::updateMonitorProfile()
 {
-    m_monitorProfile.set_colorspace(m_projectProfile->colorspace());
-    m_monitorProfile.set_frame_rate(m_projectProfile->frame_rate_num(), m_projectProfile->frame_rate_den());
-    m_monitorProfile.set_width(m_projectProfile->width());
-    m_monitorProfile.set_height(m_projectProfile->height());
-    m_monitorProfile.set_progressive(m_projectProfile->progressive());
-    m_monitorProfile.set_sample_aspect(m_projectProfile->sample_aspect_num(), m_projectProfile->sample_aspect_den());
-    m_monitorProfile.set_display_aspect(m_projectProfile->display_aspect_num(), m_projectProfile->display_aspect_den());
+    m_monitorProfile.set_colorspace(m_projectProfile.colorspace());
+    m_monitorProfile.set_frame_rate(m_projectProfile.frame_rate_num(), m_projectProfile.frame_rate_den());
+    m_monitorProfile.set_width(m_projectProfile.width());
+    m_monitorProfile.set_height(m_projectProfile.height());
+    m_monitorProfile.set_progressive(m_projectProfile.progressive());
+    m_monitorProfile.set_sample_aspect(m_projectProfile.sample_aspect_num(), m_projectProfile.sample_aspect_den());
+    m_monitorProfile.set_display_aspect(m_projectProfile.display_aspect_num(), m_projectProfile.display_aspect_den());
     m_monitorProfile.set_explicit(true);
     Q_EMIT monitorProfileUpdated();
 }
@@ -588,30 +580,30 @@ bool Core::setCurrentProfile(const QString profilePath)
         // Ensure all running tasks are stopped before attempting a global profile change
         taskManager.slotCancelJobs();
         m_currentProfile = profilePath;
-        if (m_projectProfile) {
-            m_projectProfile->set_colorspace(getCurrentProfile()->colorspace());
-            m_projectProfile->set_frame_rate(getCurrentProfile()->frame_rate_num(), getCurrentProfile()->frame_rate_den());
-            m_projectProfile->set_height(getCurrentProfile()->height());
-            m_projectProfile->set_progressive(getCurrentProfile()->progressive());
-            m_projectProfile->set_sample_aspect(getCurrentProfile()->sample_aspect_num(), getCurrentProfile()->sample_aspect_den());
-            m_projectProfile->set_display_aspect(getCurrentProfile()->display_aspect_num(), getCurrentProfile()->display_aspect_den());
-            m_projectProfile->set_width(getCurrentProfile()->width());
-            m_projectProfile->get_profile()->description = qstrdup(getCurrentProfile()->description().toUtf8().constData());
-            m_projectProfile->set_explicit(true);
-            updateMonitorProfile();
-        }
+        std::unique_ptr<ProfileModel> &currentProfile = getCurrentProfile();
+        m_projectProfile.set_colorspace(currentProfile->colorspace());
+        m_projectProfile.set_frame_rate(currentProfile->frame_rate_num(), currentProfile->frame_rate_den());
+        m_projectProfile.set_height(currentProfile->height());
+        m_projectProfile.set_progressive(currentProfile->progressive());
+        m_projectProfile.set_sample_aspect(currentProfile->sample_aspect_num(), currentProfile->sample_aspect_den());
+        m_projectProfile.set_display_aspect(currentProfile->display_aspect_num(), currentProfile->display_aspect_den());
+        m_projectProfile.set_width(currentProfile->width());
+        free(m_projectProfile.get_profile()->description);
+        m_projectProfile.get_profile()->description = strdup(currentProfile->description().toUtf8().constData());
+        m_projectProfile.set_explicit(true);
+        updateMonitorProfile();
         // Regenerate thumbs profile
         resetThumbProfile();
         // inform render widget
-        m_timecode.setFormat(getCurrentProfile()->fps());
+        m_timecode.setFormat(currentProfile->fps());
         profileChanged();
         if (m_guiConstructed) {
             Q_EMIT m_mainWindow->updateRenderWidgetProfile();
             m_monitorManager->resetProfiles();
             Q_EMIT m_monitorManager->updatePreviewScaling();
             if (m_mainWindow->hasTimeline() && m_mainWindow->getCurrentTimeline() && m_mainWindow->getCurrentTimeline()->model()) {
-                m_mainWindow->getCurrentTimeline()->model()->updateProfile(getProjectProfile());
-                m_mainWindow->getCurrentTimeline()->model()->updateFieldOrderFilter(getCurrentProfile());
+                // m_mainWindow->getCurrentTimeline()->model()->updateProfile(getProjectProfile());
+                m_mainWindow->getCurrentTimeline()->model()->updateFieldOrderFilter(currentProfile);
                 checkProfileValidity();
                 Q_EMIT m_mainWindow->getCurrentTimeline()->controller()->frameFormatChanged();
             }
@@ -624,7 +616,7 @@ bool Core::setCurrentProfile(const QString profilePath)
 
 void Core::checkProfileValidity()
 {
-    int offset = (getProjectProfile()->width() % 2) + (getProjectProfile()->height() % 2);
+    int offset = (getProjectProfile().width() % 2) + (getProjectProfile().height() % 2);
     if (offset > 0) {
         // Profile is broken, warn user
         if (m_mainWindow->getBin()) {
@@ -1102,23 +1094,24 @@ void Core::showClipKeyframes(ObjectId id, bool enable)
 
 void Core::resetThumbProfile()
 {
-    m_thumbProfile->set_colorspace(m_projectProfile->colorspace());
-    m_thumbProfile->set_frame_rate(m_projectProfile->frame_rate_num(), m_projectProfile->frame_rate_den());
-    double factor = 144. / m_projectProfile->height();
-    m_thumbProfile->set_height(144);
-    int width = qRound(m_projectProfile->width() * factor);
+    m_thumbProfile.set_colorspace(m_projectProfile.colorspace());
+    m_thumbProfile.set_frame_rate(m_projectProfile.frame_rate_num(), m_projectProfile.frame_rate_den());
+    double factor = 144. / m_projectProfile.height();
+    m_thumbProfile.set_height(144);
+    int width = qRound(m_projectProfile.width() * factor);
     if (width % 2 > 0) {
         width++;
     }
-    m_thumbProfile->set_width(width);
-    m_thumbProfile->set_progressive(m_projectProfile->progressive());
-    m_thumbProfile->set_sample_aspect(m_projectProfile->sample_aspect_num(), m_projectProfile->sample_aspect_den());
-    m_thumbProfile->set_display_aspect(m_projectProfile->display_aspect_num(), m_projectProfile->display_aspect_den());
-    m_thumbProfile->set_explicit(true);
+    m_thumbProfile.set_width(width);
+    m_thumbProfile.set_progressive(m_projectProfile.progressive());
+    m_thumbProfile.set_sample_aspect(m_projectProfile.sample_aspect_num(), m_projectProfile.sample_aspect_den());
+    m_thumbProfile.set_display_aspect(m_projectProfile.display_aspect_num(), m_projectProfile.display_aspect_den());
+    m_thumbProfile.set_explicit(true);
 }
-Mlt::Profile *Core::thumbProfile()
+
+Mlt::Profile &Core::thumbProfile()
 {
-    return m_thumbProfile.get();
+    return m_thumbProfile;
 }
 
 int Core::getMonitorPosition(Kdenlive::MonitorId id) const
