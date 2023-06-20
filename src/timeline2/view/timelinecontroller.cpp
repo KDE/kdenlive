@@ -4244,6 +4244,7 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
     std::vector<int> affected_trackIds;
     std::unordered_map<int, std::pair<QString, QVector<QPair<QString, QVariant>>>> mixToMove;
     std::unordered_map<int, MixInfo> mixInfoToMove;
+    std::unordered_map<int, std::pair<int, int>> mixTracksToMove;
     // Remove mixes not part of the group move
     for (int item : sorted_clips) {
         if (m_model->isClip(item)) {
@@ -4259,6 +4260,7 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
                     std::pair<QString, QVector<QPair<QString, QVariant>>> mixParams =
                         m_model->getTrackById_const(tid)->getMixParams(mixData.first.secondClipId);
                     mixToMove[item] = mixParams;
+                    mixTracksToMove[item] = m_model->getTrackById_const(tid)->getMixTracks(mixData.first.secondClipId);
                     mixInfoToMove[item] = mixData.first;
                 }
             }
@@ -4362,16 +4364,17 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
         int trackId = new_track_ids[item];
         int previous_track = old_track_ids[item];
         MixInfo mixData = mixInfoToMove[item];
+        std::pair<int, int> mixTracks = mixTracksToMove[item];
         std::pair<QString, QVector<QPair<QString, QVariant>>> mixParams = mixToMove[item];
-        Fun simple_move_mix = [this, previous_track, trackId, finalMove, mixData, mixParams]() {
+        Fun simple_move_mix = [this, previous_track, trackId, finalMove, mixData, mixTracks, mixParams]() {
             // Insert mix on new track
-            bool result = m_model->getTrackById_const(trackId)->createMix(mixData, mixParams, finalMove);
+            bool result = m_model->getTrackById_const(trackId)->createMix(mixData, mixParams, mixTracks, finalMove);
             // Remove mix on old track
             m_model->getTrackById_const(previous_track)->removeMix(mixData);
             return result;
         };
-        Fun simple_restore_mix = [this, previous_track, trackId, finalMove, mixData, mixParams]() {
-            bool result = m_model->getTrackById_const(previous_track)->createMix(mixData, mixParams, finalMove);
+        Fun simple_restore_mix = [this, previous_track, trackId, finalMove, mixData, mixTracks, mixParams]() {
+            bool result = m_model->getTrackById_const(previous_track)->createMix(mixData, mixParams, mixTracks, finalMove);
             // Remove mix on old track
             m_model->getTrackById_const(trackId)->removeMix(mixData);
             return result;

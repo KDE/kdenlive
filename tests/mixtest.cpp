@@ -62,13 +62,18 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
     int cid3;
     int cid4;
     int cid5;
+    int audio1;
+    int audio2;
+    int audio5;
     REQUIRE(timeline->requestClipInsertion(binId, tid2, 100, cid1));
     REQUIRE(timeline->requestItemResize(cid1, 10, true, true));
+    audio1 = timeline->getClipSplitPartner(cid1);
 
     // Create AV clip 2
     REQUIRE(timeline->requestClipInsertion(binId, tid2, 110, cid2));
     REQUIRE(timeline->requestItemResize(cid2, 10, true, true));
     REQUIRE(timeline->requestClipMove(cid2, tid2, 110));
+    audio2 = timeline->getClipSplitPartner(cid2);
 
     // Create color clip 1
     REQUIRE(timeline->requestClipInsertion(binId2, tid2, 500, cid3));
@@ -123,10 +128,16 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->getClipsCount() == 8);
         REQUIRE(timeline->getClipPlaytime(cid1) > 10);
         REQUIRE(timeline->getClipPosition(cid1) == 100);
+        REQUIRE(timeline->m_allClips[cid1]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[audio1]->getSubPlaylistIndex() == 0);
         REQUIRE(timeline->getClipPlaytime(cid2) > 10);
         REQUIRE(timeline->getClipPosition(cid2) < 110);
+        REQUIRE(timeline->m_allClips[cid2]->getSubPlaylistIndex() == 1);
+        REQUIRE(timeline->m_allClips[audio2]->getSubPlaylistIndex() == 1);
         REQUIRE(timeline->getClipPlaytime(cid5) == 10);
         REQUIRE(timeline->getClipPosition(cid5) == 120);
+        REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[audio5]->getSubPlaylistIndex() == 0);
         REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 1);
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
     };
@@ -241,6 +252,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->requestClipInsertion(binId2, tid2, 540, cid5));
         REQUIRE(timeline->requestItemResize(cid5, 20, true, true));
         REQUIRE(timeline->getClipPosition(cid5) == 540);
+        audio5 = timeline->getClipSplitPartner(cid5);
 
         // CID 3 length=20, pos=500, CID4 length=20, pos=520, CID5 length=20, pos=540
         // Default mix duration = 25 frames (12 before / 13 after)
@@ -381,16 +393,17 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->requestItemResize(cid5, 30, true, true) == 30);
         REQUIRE(timeline->requestItemResize(cid5, 10, false, true) == 10);
         REQUIRE(timeline->requestClipMove(cid5, tid2, 120));
+        audio5 = timeline->getClipSplitPartner(cid5);
 
         state0b();
 
         // CID 1 length=10, pos=100, CID2 length=20, pos=130, CID5 length=20, pos=130
 
         // Create mix between cid1 and cid2
+        REQUIRE(timeline->m_allClips[cid2]->getSubPlaylistIndex() == 0);
         REQUIRE(timeline->mixClip(cid2));
         state1b();
         REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid2) == false);
-        int audio2 = timeline->getClipSplitPartner(cid2);
         REQUIRE(timeline->getTrackById_const(tid3)->mixIsReversed(audio2) == false);
 
         // Create mix between cid2 and cid5
@@ -398,7 +411,6 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid2) == false);
         REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid5) == true);
         REQUIRE(timeline->getTrackById_const(tid3)->mixIsReversed(audio2) == false);
-        int audio5 = timeline->getClipSplitPartner(cid5);
         REQUIRE(timeline->getTrackById_const(tid3)->mixIsReversed(audio5) == true);
         // Undo cid5 mix
         undoStack->undo();
@@ -583,6 +595,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->requestItemResize(cid6, 40, true, true));
         REQUIRE(timeline->requestClipInsertion(binId2, tid2, 600, cid7));
         REQUIRE(timeline->requestItemResize(cid7, 20, true, true));
+        audio5 = timeline->getClipSplitPartner(cid5);
 
         // Cid3 pos=500, duration=20
         // Cid4 pos=520, duration=20
@@ -651,7 +664,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
 
     SECTION("Test chained mixes and check mix direction")
     {
-        // Add 2 more color clips
+        // Add 3 more color clips
         cid5 = -1;
         int cid6;
         int cid7;
@@ -800,19 +813,20 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         state0();
     }
 
-    SECTION("Test chained mixes and check mix direction")
+    SECTION("Test mixes track move and direction")
     {
-        // Add 2 more color clips
+        // Add 3 more av clips
         cid5 = -1;
         int cid6;
         int cid7;
         state0();
-        REQUIRE(timeline->requestClipInsertion(binId2, tid2, 540, cid5));
+        REQUIRE(timeline->requestClipInsertion(binId, tid2, 540, cid5));
         REQUIRE(timeline->requestItemResize(cid5, 20, true, true));
-        REQUIRE(timeline->requestClipInsertion(binId2, tid2, 560, cid6));
+        REQUIRE(timeline->requestClipInsertion(binId, tid2, 560, cid6));
         REQUIRE(timeline->requestItemResize(cid6, 40, true, true));
-        REQUIRE(timeline->requestClipInsertion(binId2, tid2, 600, cid7));
+        REQUIRE(timeline->requestClipInsertion(binId, tid2, 600, cid7));
         REQUIRE(timeline->requestItemResize(cid7, 20, true, true));
+        audio5 = timeline->getClipSplitPartner(cid5);
 
         // Cid3 pos=500, duration=20
         // Cid4 pos=520, duration=20
@@ -821,7 +835,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         // Cid7 pos=600, duration=20
 
         auto mix0 = [&]() {
-            REQUIRE(timeline->getClipsCount() == 9);
+            REQUIRE(timeline->getClipsCount() == 12);
             REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
             REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
             REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 1);
@@ -867,6 +881,20 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
             REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid7) == true);
         };
 
+        auto mix3b = [&]() {
+            REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
+            REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+            REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
+            REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 1);
+            REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 0);
+            REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
+            REQUIRE(timeline->getTrackById_const(tid4)->mixCount() == 4);
+            REQUIRE(timeline->getTrackById_const(tid4)->mixIsReversed(cid4) == false);
+            REQUIRE(timeline->getTrackById_const(tid4)->mixIsReversed(cid5) == true);
+            REQUIRE(timeline->getTrackById_const(tid4)->mixIsReversed(cid6) == false);
+            REQUIRE(timeline->getTrackById_const(tid4)->mixIsReversed(cid7) == true);
+        };
+
         // Mix 4 and 5
         REQUIRE(timeline->mixClip(cid5));
         mix0();
@@ -883,61 +911,24 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->mixClip(cid4));
         mix3();
 
-        // Undo mix 3 and 4
+        // Move everything to another track
+        auto g1 = std::unordered_set<int>({cid3, cid4, cid5, cid6, cid7});
+        REQUIRE(timeline->requestClipsGroup(g1));
+
+        REQUIRE(timeline->requestClipMove(cid3, tid4, 600));
+        // Now clips 3, 4, 5, 6 and 7 will be on top video track. Check mixes have the correct direction
+        mix3b();
+        // Undo track move
         undoStack->undo();
-        mix2();
-
-        // Now switch mixes to Slide type
-        timeline->switchComposition(cid7, QString("slide"));
-        timeline->switchComposition(cid6, QString("slide"));
-        timeline->switchComposition(cid5, QString("slide"));
-        mix2();
-
-        // Mix 3 and 4, this will revert all subsequent mixes
-        REQUIRE(timeline->mixClip(cid4));
         mix3();
-
-        // Undo mix 3 and 4
+        // Redo track move
+        undoStack->redo();
+        mix3b();
         undoStack->undo();
-        mix2();
-
-        // Now switch mixes to Wipe type
-        timeline->switchComposition(cid7, QString("wipe"));
-        timeline->switchComposition(cid6, QString("wipe"));
-        timeline->switchComposition(cid5, QString("wipe"));
-        mix2();
-
-        // Mix 3 and 4, this will revert all subsequent mixes
-        REQUIRE(timeline->mixClip(cid4));
-        mix3();
-
-        // Undo mix 3 and 4
         undoStack->undo();
-        mix2();
-
-        // Undo Wipe mix switch on cid5
         undoStack->undo();
-        // Undo mix switch on cid6
         undoStack->undo();
-        // Undo mix switch on cid7
         undoStack->undo();
-        mix2();
-
-        // Undo Slide mix switch on cid5
-        undoStack->undo();
-        // Undo mix switch on cid6
-        undoStack->undo();
-        // Undo mix switch on cid7
-        undoStack->undo();
-        mix2();
-
-        // Undo mix 6 and 7
-        undoStack->undo();
-        mix1();
-        // Undo mix 5 and 6
-        undoStack->undo();
-        mix0();
-        // Undo mix 4 and 5
         undoStack->undo();
 
         // Undo insert/resize ops

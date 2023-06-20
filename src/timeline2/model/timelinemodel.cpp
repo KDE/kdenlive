@@ -799,16 +799,17 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         if (mixGroupMove) {
             // We are moving a group on another track, delete and re-add
             // Get mix properties
+            std::pair<int, int> tracks = getTrackById_const(previous_track)->getMixTracks(mixData.first.secondClipId);
             std::pair<QString, QVector<QPair<QString, QVariant>>> mixParams = getTrackById_const(previous_track)->getMixParams(mixData.first.secondClipId);
-            simple_move_mix = [this, previous_track, trackId, finalMove, mixData, mixParams]() {
+            simple_move_mix = [this, previous_track, trackId, finalMove, mixData, tracks, mixParams]() {
                 // Insert mix on new track
-                bool result = getTrackById_const(trackId)->createMix(mixData.first, mixParams, finalMove);
+                bool result = getTrackById_const(trackId)->createMix(mixData.first, mixParams, tracks, finalMove);
                 // Remove mix on old track
                 getTrackById_const(previous_track)->removeMix(mixData.first);
                 return result;
             };
-            simple_restore_mix = [this, previous_track, trackId, finalMove, mixData, mixParams]() {
-                bool result = getTrackById_const(previous_track)->createMix(mixData.first, mixParams, finalMove);
+            simple_restore_mix = [this, previous_track, trackId, finalMove, mixData, tracks, mixParams]() {
+                bool result = getTrackById_const(previous_track)->createMix(mixData.first, mixParams, tracks, finalMove);
                 // Remove mix on old track
                 getTrackById_const(trackId)->removeMix(mixData.first);
 
@@ -6352,7 +6353,9 @@ void TimelineModel::switchComposition(int cid, const QString &compoId)
 bool TimelineModel::plantMix(int tid, Mlt::Transition *t)
 {
     if (getTrackById_const(tid)->hasClipStart(t->get_in())) {
-        getTrackById_const(tid)->getTrackService()->plant_transition(*t, 0, 1);
+        int a_track = t->get_a_track();
+        int b_track = t->get_b_track();
+        getTrackById_const(tid)->getTrackService()->plant_transition(*t, a_track, b_track);
         return getTrackById_const(tid)->loadMix(t);
     } else {
         qDebug() << "=== INVALID MIX FOUND AT: " << t->get_in() << " - " << t->get("mlt_service");

@@ -2336,7 +2336,11 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
             mixData.firstClipInOut.second = mix.attribute(QLatin1String("mixEnd")).toInt() * ratio;
             mixData.secondClipInOut.first = mix.attribute(QLatin1String("mixStart")).toInt() * ratio;
             mixData.mixOffset = mix.attribute(QLatin1String("mixOffset")).toInt() * ratio;
-            timeline->getTrackById_const(mix.attribute(QLatin1String("tid")).toInt())->createMix(mixData, mixParams, true);
+            std::pair<int, int> tracks = {mix.attribute(QLatin1String("a_track")).toInt(), mix.attribute(QLatin1String("b_track")).toInt()};
+            if (tracks.first == tracks.second) {
+                tracks = {0, 1};
+            }
+            timeline->getTrackById_const(mix.attribute(QLatin1String("tid")).toInt())->createMix(mixData, mixParams, tracks, true);
         }
     }
     // Compositions

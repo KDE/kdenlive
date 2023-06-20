@@ -118,13 +118,15 @@ public:
     bool deleteMix(int clipId, bool final, bool notify = true);
     /** @brief Create a mix composition using clip ids */
     bool createMix(std::pair<int, int> clipIds, std::pair<int, int> mixData);
-    bool createMix(MixInfo info, std::pair<QString, QVector<QPair<QString, QVariant>>> params, bool finalMove);
+    bool createMix(MixInfo info, std::pair<QString, QVector<QPair<QString, QVariant>>> params, std::pair<int, int> tracks, bool finalMove);
     /** @brief Create a mix composition using mix info */
     bool createMix(MixInfo info, bool isAudio);
     /** @brief Change id of first clip in a mix (in case of clip cut) */
     bool reAssignEndMix(int currentId, int newId);
     /** @brief Get all necessary infos to clone a mix */
     std::pair<QString, QVector<QPair<QString, QVariant>>> getMixParams(int cid);
+    /** @brief Get the mix tracks */
+    std::pair<int, int> getMixTracks(int cid) const;
     void switchMix(int cid, const QString &composition, Fun &undo, Fun &redo);
     /** @brief Ensure we don't have unsynced mixes in the playlist (mixes without owner clip) */
     void syncronizeMixes(bool finalMove);
