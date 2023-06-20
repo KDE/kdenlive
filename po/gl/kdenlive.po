@@ -341,7 +341,7 @@ msgstr "Liña,Barra"
 #: data/effects/audiospectrum.xml:11
 #, kde-format
 msgid "The type of graph to display the spectrum."
-msgstr "O tipo de gráfico para mostrar o espectro."
+msgstr "O tipo de gráfico para amosar o espectro."
 
 #: data/effects/audiospectrum.xml:15
 #, kde-format
@@ -470,7 +470,7 @@ msgid ""
 "performed as a sliding window so that the most recent samples are always "
 "transformed."
 msgstr ""
-"O número de mostrar nas que se realizará a FFT. Se o tamaño da xanela é "
+"O número de amosar nas que se realizará a FFT. Se o tamaño da xanela é "
 "inferior ao número de mostras dun fotograma, as mostras adicionais "
 "ignoraranse. Se o tamaño da xanela é superior ao número de mostras dun "
 "fotograma, as mostras gardaranse nunha reserva de fotogramas anteriores para "
@@ -485,7 +485,7 @@ msgstr "Onda sonora"
 #: data/effects/audiowave.xml:5
 #, kde-format
 msgid "Display the audio waveform instead of the video"
-msgstr "Mostrar a onda sonora no canto do vídeo"
+msgstr "Amosar a onda sonora no canto do vídeo"
 
 #: data/effects/audiowaveform.xml:4
 #, kde-format
@@ -2527,12 +2527,12 @@ msgstr "Aumentar a nitidez da imaxe transformada"
 #: data/effects/vidstab.xml:56
 #, kde-format
 msgid "Show fields"
-msgstr "Mostrar os campos"
+msgstr "Amosar os campos"
 
 #: data/effects/vidstab.xml:57
 #, kde-format
 msgid "0 = draw nothing 1 or 2 = show fields and transforms"
-msgstr "0 = non debuxar nada 1 ou 2 = mostrar os campos e as transformacións"
+msgstr "0 = non debuxar nada 1 ou 2 = amosar os campos e as transformacións"
 
 #: data/effects/vidstab.xml:60
 #, kde-format
@@ -2585,7 +2585,7 @@ msgstr "opacidade"
 #: data/effects/vignette.xml:23
 #, kde-format
 msgid "use cos instead of linear"
-msgstr "empregar coseno no canto de lineal"
+msgstr "usar coseno no canto de lineal"
 
 #: data/effects/volume.xml:4
 #, kde-format
@@ -3087,7 +3087,7 @@ msgstr "Rexionalizar"
 #: data/transitions/region.xml:5
 #, kde-format
 msgid "Use alpha channel of another clip to create a transition."
-msgstr "Empregar a canle alfa doutro fragmento para crear unha transición."
+msgstr "Usar a canle alfa doutro fragmento para crear unha transición."
 
 #: data/transitions/region.xml:8
 #, kde-format
@@ -3261,22 +3261,22 @@ msgstr "Mostrar todas as transicións"
 #: src/assets/assetlist/view/qml/assetList.qml:78
 #, kde-format
 msgid "Show all video effects"
-msgstr "Mostrar todos os efectos de vídeo"
+msgstr "Amosar todos os efectos de vídeo"
 
 #: src/assets/assetlist/view/qml/assetList.qml:89
 #, kde-format
 msgid "Show all audio effects"
-msgstr "Mostrar todos os efectos de son"
+msgstr "Amosar todos os efectos de son"
 
 #: src/assets/assetlist/view/qml/assetList.qml:100
 #, kde-format
 msgid "Show all custom effects"
-msgstr "Mostrar todos os efectos personalizados"
+msgstr "Amosar todos os efectos personalizados"
 
 #: src/assets/assetlist/view/qml/assetList.qml:110
 #, kde-format
 msgid "Show favorite items"
-msgstr "Mostrar os elementos favoritos"
+msgstr "Amosar os elementos favoritos"
 
 #: src/assets/assetlist/view/qml/assetList.qml:118
 #, kde-format
@@ -3292,12 +3292,12 @@ msgstr "Descargar novos limpadores…"
 #: src/assets/assetlist/view/qml/assetList.qml:150
 #, kde-format
 msgid "Show/hide description of the effects"
-msgstr "Mostrar ou agochar as descricións dos efectos"
+msgstr "Amosar ou agochar as descricións dos efectos"
 
 #: src/assets/assetlist/view/qml/assetList.qml:150
 #, kde-format
 msgid "Show/hide description of the compositions"
-msgstr "Mostrar ou agochar as descricións das composicións"
+msgstr "Amosar ou agochar as descricións das composicións"
 
 #: src/assets/assetlist/view/qml/assetList.qml:332
 #, kde-format
@@ -3400,7 +3400,7 @@ msgstr ""
 #: src/assets/assetpanel.cpp:117
 #, kde-format
 msgid "Display keyframes in timeline"
-msgstr "Mostrar os fotogramas clave na liña de tempo"
+msgstr "Amosar os fotogramas clave na liña de tempo"
 
 #: src/assets/assetpanel.cpp:117
 #, fuzzy, kde-format
@@ -4455,7 +4455,7 @@ msgid ""
 "To make sure you do not lose data, a backup copy called %1 was created."
 msgstr ""
 "Kdenlive modificou o ficheiro de proxecto.\n"
-"Para estar seguro de que non perde datos, creouse unha copia de seguranza "
+"Para estar seguro de que non perde datos, creouse unha copia de seguridade "
 "chamada %1."
 
 #: src/bin/bin.cpp:1919
@@ -4806,7 +4806,7 @@ msgstr ""
 #: src/dialogs/textbasededit.cpp:656 src/monitor/recmanager.cpp:43
 #, kde-format
 msgid "Show log"
-msgstr "Mostrar o rexistro"
+msgstr "Amosar o rexistro"
 
 #: src/bin/bin.cpp:3581 src/dialogs/textbasededit.cpp:657
 #, kde-format
@@ -6839,7 +6839,7 @@ msgstr "Limitar o número de fotogramas clave"
 #: src/dialogs/renderwidget.cpp:215
 #, kde-format
 msgid "Rendering using low quality proxy"
-msgstr "Renderizar empregando os proxys de baixa calidade."
+msgstr "Renderizar usando os proxys de baixa calidade."
 
 #: src/dialogs/renderwidget.cpp:297
 #, kde-format
@@ -7920,7 +7920,7 @@ msgstr "Fragmento orixinal"
 #: src/doc/documentchecker.cpp:609
 #, kde-format
 msgid "%1 missing source clips, you can only use the proxies"
-msgstr "Faltan %1 fragmentos orixinais; só pode empregar os proxys."
+msgstr "Faltan %1 fragmentos orixinais; só pode usar os proxys."
 
 #: src/doc/documentchecker.cpp:1034
 #, fuzzy, kde-format
@@ -8163,7 +8163,7 @@ msgid ""
 "To make sure you do not lose data, a backup copy called %1 was created."
 msgstr ""
 "O ficheiro do proxecto anovouse á última versión de documento de Kdenlive.\n"
-"Para estar seguro de que non perde datos, creouse unha copia de seguranza "
+"Para estar seguro de que non perde datos, creouse unha copia de seguridade "
 "chamada %1."
 
 #: src/doc/kdenlivedoc.cpp:727
@@ -8173,7 +8173,7 @@ msgid ""
 "it was not possible to create the backup copy %1."
 msgstr ""
 "O ficheiro do proxecto anovouse para usar a última versión de documento de "
-"Kdenlive, pero non foi posíbel crear a copia de seguranza %1."
+"Kdenlive, pero non foi posíbel crear a copia de seguridade %1."
 
 #: src/doc/kdenlivedoc.cpp:858 src/project/projectmanager.cpp:1141
 #: src/project/projectmanager.cpp:1177
@@ -8211,7 +8211,7 @@ msgid ""
 "Cannot create backup copy:\n"
 "%1"
 msgstr ""
-"Non se pode crear unha copia de seguranza:\n"
+"Non se pode crear unha copia de seguridade:\n"
 "%1"
 
 #: src/doc/kdenlivedoc.cpp:1489
@@ -8240,8 +8240,8 @@ msgid ""
 "Warning: unknown non integer fps, might cause incorrect duration display."
 msgstr ""
 "\n"
-"Aviso: FPS non enteiro descoñecido, podería facer que se mostre unha "
-"duración incorrecta."
+"Aviso: FPS non enteiro descoñecido, podería facer que se amose unha duración "
+"incorrecta."
 
 #: src/doc/kdenlivedoc.cpp:1795
 #, fuzzy, kde-format
@@ -8353,7 +8353,7 @@ msgstr "Categoría %1"
 #: src/docktitlebarmanager.cpp:19
 #, kde-format
 msgid "Show Title Bars"
-msgstr "Mostrar as barras de título"
+msgstr "Amosar as barras de título"
 
 #: src/effects/effectlist/model/effecttreemodel.cpp:45
 #, kde-format
@@ -10881,7 +10881,7 @@ msgstr "Eliminar a pista"
 #: src/mainwindow.cpp:1829
 #, kde-format
 msgid "Show Record Controls"
-msgstr "Mostrar os controis de gravación"
+msgstr "Amosar os controis de gravación"
 
 #: src/mainwindow.cpp:1835
 #, kde-format
@@ -11434,7 +11434,7 @@ msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
 "+M."
 msgstr ""
-"Isto fai agochar a barra de menú completamente. Pódea mostrar de novo "
+"Isto fai agochar a barra de menú completamente. Pódea amosar de novo "
 "escribindo Ctrl+M."
 
 #: src/mainwindow.cpp:4271
@@ -12016,12 +12016,12 @@ msgstr "X11"
 #: src/monitor/monitor.cpp:306 src/monitor/monitormanager.cpp:626
 #, kde-format
 msgid "Set Zone In"
-msgstr "Estabelecer o inicio da zona"
+msgstr "Definir o inicio da zona"
 
 #: src/monitor/monitor.cpp:307 src/monitor/monitormanager.cpp:630
 #, kde-format
 msgid "Set Zone Out"
-msgstr "Estabelecer o final da zona"
+msgstr "Definir o final da zona"
 
 #: src/monitor/monitor.cpp:319 src/monitor/monitormanager.cpp:510
 #, kde-format
@@ -12135,7 +12135,7 @@ msgstr "Extraer a zona"
 #: src/monitor/monitor.cpp:610
 #, kde-format
 msgid "Set current image as thumbnail"
-msgstr "Estabelecer a imaxe actual como miniatura"
+msgstr "Definir a imaxe actual como miniatura"
 
 #: src/monitor/monitor.cpp:615
 #, fuzzy, kde-format
@@ -12146,7 +12146,7 @@ msgstr "Mostrar as miniaturas de son"
 #: src/monitor/monitor.cpp:632
 #, kde-format
 msgid "Show Audio Levels"
-msgstr "Mostrar os niveis de son"
+msgstr "Amosar os niveis de son"
 
 #: src/monitor/monitor.cpp:639
 #, fuzzy, kde-format
@@ -12307,7 +12307,7 @@ msgstr ""
 #: src/monitor/monitormanager.cpp:557
 #, kde-format
 msgid "Show/Hide edit mode"
-msgstr "Mostrar/Agochar o modo de edición"
+msgstr "Amosar/Agochar o modo de edición"
 
 #: src/monitor/monitormanager.cpp:558
 #, kde-kuit-format
@@ -12436,7 +12436,7 @@ msgstr "Cámara web"
 #: src/monitor/recmanager.cpp:107
 #, kde-format
 msgid "Show Record Control"
-msgstr "Mostrar o control de gravación"
+msgstr "Amosar o control de gravación"
 
 #: src/monitor/recmanager.cpp:298
 #, kde-format
@@ -13344,12 +13344,12 @@ msgstr "Restaurar o ficheiro de seguranza"
 #: src/project/dialogs/backupwidget.cpp:22
 #, kde-format
 msgid "Showing all backup files in folder"
-msgstr "Móstranse todos os ficheiros de seguranza que hai no cartafol"
+msgstr "Amósanse todos os ficheiros de seguridade que hai no cartafol"
 
 #: src/project/dialogs/backupwidget.cpp:25
 #, kde-format
 msgid "Showing backup files for %1"
-msgstr "Móstranse os ficheiros de seguranza de %1"
+msgstr "Amósanse os ficheiros de seguridade de %1"
 
 #: src/project/dialogs/guidecategories.cpp:42
 #, fuzzy, kde-format
@@ -13659,7 +13659,7 @@ msgstr "Datos da caché"
 #: src/project/dialogs/projectsettings.cpp:189
 #, kde-format
 msgid "Show default profile parameters"
-msgstr "Mostrar os parámetros do perfil predeterminado"
+msgstr "Amosar os parámetros do perfil predeterminado"
 
 #: src/project/dialogs/projectsettings.cpp:191
 #, kde-format
@@ -14185,7 +14185,7 @@ msgstr "Produciuse un erro ao abrir o ficheiro"
 #: src/project/projectmanager.cpp:717
 #, kde-format
 msgid "Open Backup"
-msgstr "Abrir unha copia de seguranza"
+msgstr "Abrir unha copia de seguridade"
 
 #: src/project/projectmanager.cpp:733
 #, fuzzy, kde-format
@@ -14198,7 +14198,7 @@ msgstr "Non se pode abrir o ficheiro de proxecto %1"
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Anovouse o proxecto, a seguinte vez que garde crearase unha copia de "
-"seguranza"
+"seguridade"
 
 #: src/project/projectmanager.cpp:752
 #, kde-format
@@ -14206,7 +14206,7 @@ msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 "Modificouse o proxecto ao abrilo, a seguinte vez que garde crearase unha "
-"copia de seguranza"
+"copia de seguridade"
 
 #: src/project/projectmanager.cpp:851
 #, kde-format
@@ -14245,7 +14245,7 @@ msgstr "Movendo o cartafol do proxecto"
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 "O ficheiro de proxecto está corrompido (non hai pistas). Quere intentar "
-"atopar un ficheiro de copia de seguranza?"
+"atopar un ficheiro de copia de seguridade?"
 
 #: src/project/projectmanager.cpp:1239 src/project/projectmanager.cpp:1269
 #: src/project/projectmanager.cpp:1273
@@ -15286,7 +15286,7 @@ msgstr "Seguir o rato"
 #: src/scopes/audioscopes/audiospectrum.cpp:57
 #, kde-format
 msgid "Show maximum"
-msgstr "Mostrar o máximo"
+msgstr "Amosar o máximo"
 
 #: src/scopes/audioscopes/audiospectrum.cpp:71
 #: src/scopes/audioscopes/spectrogram.cpp:65
@@ -15353,7 +15353,7 @@ msgstr "%1 kHz"
 #: src/scopes/audioscopes/spectrogram.cpp:46
 #, kde-format
 msgid "Draw grid"
-msgstr "Mostrar a grade"
+msgstr "Amosar a grade"
 
 #: src/scopes/audioscopes/spectrogram.cpp:50
 #, kde-format
@@ -15521,7 +15521,7 @@ msgstr "RGB"
 #: src/scopes/colorscopes/vectorscope.cpp:84
 #, kde-format
 msgid "Draw axis"
-msgstr "Mostrar o eixo"
+msgstr "Amosar o eixo"
 
 #: src/scopes/colorscopes/rgbparade.cpp:34
 #, kde-format
@@ -15583,7 +15583,7 @@ msgstr "75% caixa"
 #: src/scopes/colorscopes/vectorscope.cpp:89
 #, kde-format
 msgid "Draw I/Q lines"
-msgstr "Mostrar as liñas I/Q"
+msgstr "Amosar as liñas I/Q"
 
 #: src/scopes/colorscopes/vectorscope.cpp:94
 #, kde-format
@@ -16649,7 +16649,7 @@ msgstr "Seleccionar a transición"
 #: src/timeline2/view/qml/TrackHead.qml:468
 #, kde-format
 msgid "Show"
-msgstr "Mostrar"
+msgstr "Amosar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
 #: src/timeline2/view/qml/timeline.qml:1137
@@ -18164,7 +18164,7 @@ msgstr "Restaurar o spline escollido"
 #, kde-format
 msgid "Show background indicating changes caused by modifying the curve."
 msgstr ""
-"Mostrar un fondo que indique os cambios causados pola modificación da curva."
+"Amosar un fondo que indique os cambios causados pola modificación da curva."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonGridChange)
 #: src/ui/bezierspline_ui.ui:153
@@ -19482,7 +19482,7 @@ msgstr ""
 #: src/ui/configtimeline_ui.ui:122
 #, kde-format
 msgid "Display clip markers comments"
-msgstr "Mostrar os comentarios dos marcadores do fragmento"
+msgstr "Amosar os comentarios dos marcadores do fragmento"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configtimeline_ui.ui:129
@@ -21419,7 +21419,7 @@ msgstr "Bucle"
 #: src/ui/slideshowclip_ui.ui:279
 #, kde-format
 msgid "Show thumbnails"
-msgstr "Mostrar as miniaturas"
+msgstr "Amosar as miniaturas"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/slideshowclip_ui.ui:311
@@ -21601,7 +21601,7 @@ msgstr "V"
 #: src/ui/titlewidget_ui.ui:112
 #, kde-format
 msgid "Show background"
-msgstr "Mostrar o fondo"
+msgstr "Amosar o fondo"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
 #: src/ui/titlewidget_ui.ui:120
@@ -22076,7 +22076,7 @@ msgstr "Reiniciar o valor"
 #: src/widgets/dragvalue.cpp:131
 #, kde-format
 msgid "Show %1 in timeline"
-msgstr "Mostrar %1 na liña de tempo"
+msgstr "Amosar %1 na liña de tempo"
 
 #: src/widgets/dragvalue.cpp:413
 #, kde-kuit-format
