@@ -38,7 +38,7 @@ SubtitleModel::SubtitleModel(std::shared_ptr<TimelineItemModel> timeline, QObjec
     : QAbstractListModel(parent)
     , m_timeline(timeline)
     , m_lock(QReadWriteLock::Recursive)
-    , m_subtitleFilter(new Mlt::Filter(*pCore->getProjectProfile(), "avfilter.subtitles"))
+    , m_subtitleFilter(new Mlt::Filter(pCore->getProjectProfile(), "avfilter.subtitles"))
 {
     qDebug() << "subtitle constructor";
     qDebug() << "Filter!";

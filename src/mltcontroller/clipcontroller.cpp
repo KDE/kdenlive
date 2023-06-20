@@ -946,7 +946,7 @@ void ClipController::mirrorOriginalProperties(std::shared_ptr<Mlt::Properties> p
         // This is a proxy, we need to use the real source properties
         if (m_properties->get_int("kdenlive:original.backup") == 0) {
             // We have a proxy clip, load original source producer
-            std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), nullptr, m_path.toUtf8().constData());
+            std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(pCore->getProjectProfile(), nullptr, m_path.toUtf8().constData());
             // Probe to retrieve all original props
             prod->probe();
             Mlt::Properties sourceProps(prod->get_properties());

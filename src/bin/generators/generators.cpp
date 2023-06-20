@@ -50,7 +50,7 @@ Generators::Generators(const QString &path, QWidget *parent)
         m_preview = new QLabel;
         m_preview->setMinimumSize(1, 1);
         lay->addWidget(m_preview);
-        m_producer = new Mlt::Producer(*pCore->getProjectProfile(), generatorTag.toUtf8().constData());
+        m_producer = new Mlt::Producer(pCore->getProjectProfile(), generatorTag.toUtf8().constData());
         m_pixmap = QPixmap::fromImage(KThumb::getFrame(m_producer, 0, pCore->getCurrentProfile()->width(), pCore->getCurrentProfile()->height()));
         m_preview->setPixmap(m_pixmap.scaledToWidth(m_preview->width()));
         auto *hlay = new QHBoxLayout;
@@ -172,11 +172,11 @@ QUrl Generators::getSavedClip(QString clipFolder)
     QUrl url = fd.selectedUrls().constFirst();
 
     if (url.isValid()) {
-        Mlt::Tractor trac(*pCore->getProjectProfile());
+        Mlt::Tractor trac(pCore->getProjectProfile());
         m_producer->set("length", m_timePos->getValue());
         m_producer->set_in_and_out(0, m_timePos->getValue() - 1);
         trac.set_track(*m_producer, 0);
-        Mlt::Consumer c(*pCore->getProjectProfile(), "xml", url.toLocalFile().toUtf8().constData());
+        Mlt::Consumer c(pCore->getProjectProfile(), "xml", url.toLocalFile().toUtf8().constData());
         c.connect(trac);
         c.run();
         return url;

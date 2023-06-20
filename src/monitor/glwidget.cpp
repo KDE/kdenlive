@@ -152,7 +152,7 @@ GLWidget::GLWidget(int id, QWidget *parent)
 
     m_refreshTimer.setSingleShot(true);
     m_refreshTimer.setInterval(10);
-    m_blackClip.reset(new Mlt::Producer(*pCore->getProjectProfile(), "color:0"));
+    m_blackClip.reset(new Mlt::Producer(pCore->getProjectProfile(), "color:0"));
     m_blackClip->set("mlt_image_format", "rgba");
     m_blackClip->set("kdenlive:id", "black");
     m_blackClip->set("out", 3);
@@ -521,7 +521,7 @@ bool GLWidget::initGPUAccel()
 {
     if (!KdenliveSettings::gpu_accel()) return false;
 
-    m_glslManager = new Mlt::Filter(*pCore->getProjectProfile(), "glsl.manager");
+    m_glslManager = new Mlt::Filter(pCore->getProjectProfile(), "glsl.manager");
     return m_glslManager->is_valid();
 }
 
@@ -979,7 +979,7 @@ int GLWidget::setProducer(const QString &file)
     if (m_producer) {
         m_producer.reset();
     }
-    m_producer = std::make_shared<Mlt::Producer>(new Mlt::Producer(*pCore->getProjectProfile(), nullptr, file.toUtf8().constData()));
+    m_producer = std::make_shared<Mlt::Producer>(new Mlt::Producer(pCore->getProjectProfile(), nullptr, file.toUtf8().constData()));
     if (!m_producer || !m_producer->is_valid()) {
         m_producer.reset();
         m_producer = m_blackClip;
@@ -1188,7 +1188,7 @@ int GLWidget::reconfigure()
                 m_consumer->set("audio_driver", audioDriver.toUtf8().constData());
             }
         }
-        if (!pCore->getProjectProfile()->progressive()) {
+        if (!pCore->getProjectProfile().progressive()) {
             m_consumer->set("progressive", KdenliveSettings::monitor_progressive());
         }
         m_consumer->set("volume", volume / 100.0);
@@ -1239,7 +1239,7 @@ void GLWidget::reloadProfile()
         m_consumer.reset();
         existingConsumer = true;
     }
-    m_blackClip.reset(new Mlt::Producer(*pCore->getProjectProfile(), "color:0"));
+    m_blackClip.reset(new Mlt::Producer(pCore->getProjectProfile(), "color:0"));
     m_blackClip->set("kdenlive:id", "black");
     m_blackClip->set("mlt_image_format", "rgba");
     if (existingConsumer) {

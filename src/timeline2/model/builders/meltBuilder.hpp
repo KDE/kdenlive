@@ -18,7 +18,7 @@ class QProgressDialog;
 /** @brief This function can be used to construct a TimelineModel object from a Mlt object hierarchy
  */
 
-bool loadProjectBin(const std::shared_ptr<ProjectItemModel> &projectModel, Mlt::Tractor tractor, QProgressDialog *progressDialog = nullptr);
+bool loadProjectBin(Mlt::Tractor tractor, QProgressDialog *progressDialog = nullptr);
 
 bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, Mlt::Tractor mlt_timeline, QProgressDialog *progressDialog = nullptr,
                                const QString &originalDecimalPoint = QString(), const QString &chunks = QString(), bool enablePreview = false,

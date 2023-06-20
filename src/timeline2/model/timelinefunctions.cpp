@@ -1395,7 +1395,7 @@ void TimelineFunctions::saveTimelineSelection(const std::shared_ptr<TimelineItem
     }
     qDebug() << "==========\nGOT SOUREC TRACKS: " << sourceTracks << "\n\nGGGGGGGGGGGGGGGGGGGGGGG";
     // Build target timeline
-    Mlt::Tractor newTractor(*pCore->getProjectProfile());
+    Mlt::Tractor newTractor(pCore->getProjectProfile());
     QScopedPointer<Mlt::Field> field(newTractor.field());
     int ix = 0;
     QString composite = TransitionsRepository::get()->getCompositingTransition();
@@ -2114,7 +2114,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
             }
             waitingBinIds << clipId;
             clipsImported = true;
-            std::shared_ptr<Mlt::Producer> xmlProd(new Mlt::Producer(*pCore->getProjectProfile(), "xml-string", doc.toString().toUtf8().constData()));
+            std::shared_ptr<Mlt::Producer> xmlProd(new Mlt::Producer(pCore->getProjectProfile(), "xml-string", doc.toString().toUtf8().constData()));
             if (!xmlProd->is_valid()) {
                 qDebug() << ":::: CANNOT IMPORT SEQUENCE: " << clipId;
                 continue;
@@ -2336,7 +2336,11 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
             mixData.firstClipInOut.second = mix.attribute(QLatin1String("mixEnd")).toInt() * ratio;
             mixData.secondClipInOut.first = mix.attribute(QLatin1String("mixStart")).toInt() * ratio;
             mixData.mixOffset = mix.attribute(QLatin1String("mixOffset")).toInt() * ratio;
-            timeline->getTrackById_const(mix.attribute(QLatin1String("tid")).toInt())->createMix(mixData, mixParams, true);
+            std::pair<int, int> tracks = {mix.attribute(QLatin1String("a_track")).toInt(), mix.attribute(QLatin1String("b_track")).toInt()};
+            if (tracks.first == tracks.second) {
+                tracks = {0, 1};
+            }
+            timeline->getTrackById_const(mix.attribute(QLatin1String("tid")).toInt())->createMix(mixData, mixParams, tracks, true);
         }
     }
     // Compositions

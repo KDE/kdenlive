@@ -39,7 +39,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                             Fun &undo, Fun &redo, bool audioTrack, const QString &originalDecimalPoint, int playlist,
                             const QList<Mlt::Transition *> &compositions, QProgressDialog *progressDialog = nullptr);
 
-bool loadProjectBin(const std::shared_ptr<ProjectItemModel> &projectModel, Mlt::Tractor tractor, QProgressDialog *progressDialog)
+bool loadProjectBin(Mlt::Tractor tractor, QProgressDialog *progressDialog)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
@@ -47,7 +47,7 @@ bool loadProjectBin(const std::shared_ptr<ProjectItemModel> &projectModel, Mlt::
     QStringList expandedFolders;
     int zoomLevel = -1;
     binIdCorresp.clear();
-    QList<QUuid> brokenSequences = projectModel->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, zoomLevel, progressDialog);
+    QList<QUuid> brokenSequences = pCore->projectItemModel()->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, zoomLevel, progressDialog);
     if (!brokenSequences.isEmpty()) {
         KMessageBox::error(qApp->activeWindow(), i18n("Found an invalid sequence clip in Bin"));
         return false;

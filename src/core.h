@@ -224,7 +224,7 @@ public:
     void updateItemModel(ObjectId id, const QString &service);
     /** Show / hide keyframes for a timeline clip */
     void showClipKeyframes(ObjectId id, bool enable);
-    Mlt::Profile *thumbProfile();
+    Mlt::Profile &thumbProfile();
     /** @brief Returns the current project duration */
     int projectDuration() const;
     /** @brief Returns true if current project has some rendered timeline preview  */
@@ -252,7 +252,7 @@ public:
     /** @brief Update current project's tags */
     void updateProjectTags(int previousCount, const QMap <int, QStringList> &tags);
     /** @brief Returns the project profile */
-    Mlt::Profile *getProjectProfile();
+    Mlt::Profile &getProjectProfile();
     /** @brief Returns the consumer profile, that will be scaled
      *  according to preview settings. Should only be used on the consumer */
     Mlt::Profile &getMonitorProfile();
@@ -340,11 +340,11 @@ private:
     QString m_profile;
     QString m_packageType;
     Timecode m_timecode;
-    std::unique_ptr<Mlt::Profile> m_thumbProfile;
+    Mlt::Profile m_thumbProfile;
     /** @brief Mlt profile used in the consumer 's monitors */
     Mlt::Profile m_monitorProfile;
     /** @brief Mlt profile used to build the project's clips */
-    std::unique_ptr<Mlt::Profile> m_projectProfile;
+    Mlt::Profile m_projectProfile;
     bool m_guiConstructed = false;
     /** @brief Check that the profile is valid (width is a multiple of 8 and height a multiple of 2 */
     void checkProfileValidity();

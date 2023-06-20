@@ -1451,7 +1451,7 @@ int AssetParameterModel::time_to_frames(const QString &time) const
 
 void AssetParameterModel::passProperties(Mlt::Properties &target)
 {
-    target.set("_profile", pCore->getProjectProfile()->get_profile(), 0);
+    target.set("_profile", pCore->getProjectProfile().get_profile(), 0);
     target.set_lcnumeric(m_asset->get_lcnumeric());
 }
 

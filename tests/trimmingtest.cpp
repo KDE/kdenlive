@@ -25,9 +25,9 @@ TEST_CASE("Simple trimming operations", "[Trimming]")
     pCore->projectManager()->m_activeTimelineModel = timeline;
     pCore->projectManager()->testSetActiveDocument(&document, timeline);
 
-    QString binId = createProducer(*timeline->getProfile(), "red", binModel);
-    QString binId2 = createProducer(*timeline->getProfile(), "blue", binModel);
-    QString binId3 = createProducerWithSound(*timeline->getProfile(), binModel);
+    QString binId = createProducer(pCore->getProjectProfile(), "red", binModel);
+    QString binId2 = createProducer(pCore->getProjectProfile(), "blue", binModel);
+    QString binId3 = createProducerWithSound(pCore->getProjectProfile(), binModel);
 
     int cid1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
     int tid1 = timeline->getTrackIndexFromPosition(3);
@@ -442,7 +442,7 @@ TEST_CASE("Simple trimming operations", "[Trimming]")
     }
     SECTION("Cut should preserve AV groups")
     {
-        QString binId3 = createProducerWithSound(*timeline->getProfile(), binModel);
+        QString binId3 = createProducerWithSound(pCore->getProjectProfile(), binModel);
 
         int tid6 = TrackModel::construct(timeline, -1, -1, QString(), true);
         int tid5 = TrackModel::construct(timeline);
@@ -543,9 +543,9 @@ TEST_CASE("Spacer operations", "[Spacer]")
 
     std::shared_ptr<MarkerListModel> guideModel = document.getGuideModel(document.uuid());
 
-    QString binId = createProducer(*timeline->getProfile(), "red", binModel);
-    QString binId2 = createProducer(*timeline->getProfile(), "blue", binModel);
-    QString binId3 = createProducerWithSound(*timeline->getProfile(), binModel);
+    QString binId = createProducer(pCore->getProjectProfile(), "red", binModel);
+    QString binId2 = createProducer(pCore->getProjectProfile(), "blue", binModel);
+    QString binId3 = createProducerWithSound(pCore->getProjectProfile(), binModel);
 
     int cid1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
     int tid1 = timeline->getTrackIndexFromPosition(0);
@@ -656,7 +656,7 @@ TEST_CASE("Spacer operations", "[Spacer]")
         REQUIRE(timeline->requestClipMove(cid2, tid1, p2));
         int p3 = l + l + 20;
         REQUIRE(timeline->requestClipMove(cid3, tid1, p3));
-        double fps = timeline->getProfile()->fps();
+        double fps = pCore->getProjectProfile().fps();
         guideModel->addMarker(GenTime(l / 2, fps), "guide1");
         guideModel->addMarker(GenTime(l + 2, fps), "guide2");
         guideModel->addMarker(GenTime(l + 7, fps), "guide3");
@@ -828,7 +828,7 @@ TEST_CASE("Insert/delete", "[Trimming2]")
     pCore->projectManager()->m_activeTimelineModel = timeline;
     pCore->projectManager()->testSetActiveDocument(&document, timeline);
 
-    QString binId = createProducerWithSound(*timeline->getProfile(), binModel);
+    QString binId = createProducerWithSound(pCore->getProjectProfile(), binModel);
     int tid2 = timeline->getTrackIndexFromPosition(1);
     int tid1 = timeline->getTrackIndexFromPosition(2);
 
@@ -975,8 +975,8 @@ TEST_CASE("Copy/paste", "[CP]")
     pCore->projectManager()->m_activeTimelineModel = timeline;
     pCore->projectManager()->testSetActiveDocument(&document, timeline);
 
-    QString binId = createProducerWithSound(*timeline->getProfile(), binModel);
-    QString binId2 = createProducer(*timeline->getProfile(), "red", binModel);
+    QString binId = createProducerWithSound(pCore->getProjectProfile(), binModel);
+    QString binId2 = createProducer(pCore->getProjectProfile(), "red", binModel);
 
     int tid2b = timeline->getTrackIndexFromPosition(0);
     int tid2 = timeline->getTrackIndexFromPosition(1);
@@ -1330,8 +1330,8 @@ TEST_CASE("Advanced trimming operations: Slip", "[TrimmingSlip]")
     pCore->projectManager()->m_activeTimelineModel = timeline;
     pCore->projectManager()->testSetActiveDocument(&document, timeline);
 
-    QString binId = createProducer(*timeline->getProfile(), "red", binModel);
-    QString binId2 = createProducer(*timeline->getProfile(), "blue", binModel);
+    QString binId = createProducer(pCore->getProjectProfile(), "red", binModel);
+    QString binId2 = createProducer(pCore->getProjectProfile(), "blue", binModel);
 
     int tid1 = timeline->getTrackIndexFromPosition(0);
     int tid2 = timeline->getTrackIndexFromPosition(1);
@@ -1640,8 +1640,8 @@ TEST_CASE("Advanced trimming operations: Ripple", "[TrimmingRipple]")
     pCore->projectManager()->m_activeTimelineModel = timeline;
     pCore->projectManager()->testSetActiveDocument(&document, timeline);
 
-    QString binId = createProducer(*timeline->getProfile(), "red", binModel);
-    QString binId2 = createProducer(*timeline->getProfile(), "blue", binModel);
+    QString binId = createProducer(pCore->getProjectProfile(), "red", binModel);
+    QString binId2 = createProducer(pCore->getProjectProfile(), "blue", binModel);
 
     int tid1 = timeline->getTrackIndexFromPosition(0);
     int tid2 = timeline->getTrackIndexFromPosition(1);

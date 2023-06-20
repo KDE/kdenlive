@@ -75,7 +75,7 @@ void ProjectItemModel::buildPlaylist(const QUuid uuid)
     m_extraPlaylists.clear();
     m_projectTractor.reset();
     m_binPlaylist.reset(new BinPlaylist(uuid));
-    m_projectTractor.reset(new Mlt::Tractor(*pCore->getProjectProfile()));
+    m_projectTractor.reset(new Mlt::Tractor(pCore->getProjectProfile()));
     m_projectTractor->set("kdenlive:projectTractor", 1);
     m_binPlaylist->setRetainIn(m_projectTractor.get());
 }
@@ -1419,7 +1419,7 @@ const QString ProjectItemModel::sceneList(const QString &root, const QString &fu
 {
     LocaleHandling::resetLocale();
     QString playlist;
-    Mlt::Consumer xmlConsumer(*pCore->getProjectProfile(), "xml", fullPath.isEmpty() ? "kdenlive_playlist" : fullPath.toUtf8().constData());
+    Mlt::Consumer xmlConsumer(pCore->getProjectProfile(), "xml", fullPath.isEmpty() ? "kdenlive_playlist" : fullPath.toUtf8().constData());
     if (!root.isEmpty()) {
         xmlConsumer.set("root", root.toUtf8().constData());
     }
@@ -1441,7 +1441,7 @@ const QString ProjectItemModel::sceneList(const QString &root, const QString &fu
     Mlt::Service s(m_projectTractor->get_service());
     std::unique_ptr<Mlt::Filter> filter = nullptr;
     if (!filterData.isEmpty()) {
-        filter = std::make_unique<Mlt::Filter>(*pCore->getProjectProfile(), QString("dynamictext:%1").arg(filterData).toUtf8().constData());
+        filter = std::make_unique<Mlt::Filter>(pCore->getProjectProfile(), QString("dynamictext:%1").arg(filterData).toUtf8().constData());
         filter->set("fgcolour", "#ffffff");
         filter->set("bgcolour", "#bb333333");
         s.attach(*filter.get());

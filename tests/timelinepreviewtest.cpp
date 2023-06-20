@@ -64,7 +64,7 @@ TEST_CASE("Timeline preview insert-remove", "[TimelinePreview]")
     dir.mkdir(QLatin1String("preview"));
 
     int tid3 = timeline->getTrackIndexFromPosition(2);
-    QString binId = createProducer(*timeline->getProfile(), "red", binModel);
+    QString binId = createProducer(pCore->getProjectProfile(), "red", binModel);
 
     // Initialize timeline preview
     timeline->initializePreviewManager();

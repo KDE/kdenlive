@@ -713,7 +713,7 @@ void Monitor::buildBackgroundedProducer(int pos)
         return;
     }
     if (KdenliveSettings::monitor_background() != "black") {
-        Mlt::Tractor trac(*pCore->getProjectProfile());
+        Mlt::Tractor trac(pCore->getProjectProfile());
         QString color = QString("color:%1").arg(KdenliveSettings::monitor_background());
         std::shared_ptr<Mlt::Producer> bg(new Mlt::Producer(*trac.profile(), color.toUtf8().constData()));
         int maxLength = m_controller->originalProducer()->get_length();
@@ -2245,7 +2245,7 @@ void Monitor::slotSwitchCompare(bool enable)
                 // Split scene is already active
                 return;
             }
-            m_splitEffect.reset(new Mlt::Filter(*pCore->getProjectProfile(), "frei0r.alphagrad"));
+            m_splitEffect.reset(new Mlt::Filter(pCore->getProjectProfile(), "frei0r.alphagrad"));
             if ((m_splitEffect != nullptr) && m_splitEffect->is_valid()) {
                 m_splitEffect->set("0", 0.5);    // 0 is the Clip left parameter
                 m_splitEffect->set("1", 0);      // 1 is gradient width
@@ -2302,7 +2302,7 @@ void Monitor::resetScene()
 
 void Monitor::buildSplitEffect(Mlt::Producer *original)
 {
-    m_splitEffect.reset(new Mlt::Filter(*pCore->getProjectProfile(), "frei0r.alphagrad"));
+    m_splitEffect.reset(new Mlt::Filter(pCore->getProjectProfile(), "frei0r.alphagrad"));
     if ((m_splitEffect != nullptr) && m_splitEffect->is_valid()) {
         m_splitEffect->set("0", 0.5);    // 0 is the Clip left parameter
         m_splitEffect->set("1", 0);      // 1 is gradient width
@@ -2313,13 +2313,13 @@ void Monitor::buildSplitEffect(Mlt::Producer *original)
         return;
     }
     QString splitTransition = TransitionsRepository::get()->getCompositingTransition();
-    Mlt::Transition t(*pCore->getProjectProfile(), splitTransition.toUtf8().constData());
+    Mlt::Transition t(pCore->getProjectProfile(), splitTransition.toUtf8().constData());
     if (!t.is_valid()) {
         m_splitEffect.reset();
         pCore->displayMessage(i18n("The cairoblend transition is required for that feature, please install frei0r and restart Kdenlive"), ErrorMessage);
         return;
     }
-    Mlt::Tractor trac(*pCore->getProjectProfile());
+    Mlt::Tractor trac(pCore->getProjectProfile());
     std::shared_ptr<Mlt::Producer> clone = ProjectClip::cloneProducer(std::make_shared<Mlt::Producer>(original));
     // Delete all effects
     int ct = 0;

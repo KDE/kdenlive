@@ -14,6 +14,7 @@
 #include <cassert>
 #include <memory>
 #include <mlt++/MltTractor.h>
+
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -89,7 +90,7 @@ class TimelineModel : public QAbstractItemModel_shared_from_this<TimelineModel>
 protected:
     /** @brief this constructor should not be called. Call the static construct instead
      */
-    TimelineModel(const QUuid &uuid, Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack);
+    TimelineModel(const QUuid &uuid, std::weak_ptr<DocUndoStack> undo_stack);
 
 public:
     friend class TrackModel;
@@ -175,7 +176,7 @@ public:
     /** @brief Returns the current tractor's producer, useful for control seeking, playing, etc
      */
     std::shared_ptr<Mlt::Producer> producer();
-    Mlt::Profile *getProfile();
+    Mlt::Profile &getProfile();
 
     /** @brief returns the number of tracks */
     int getTracksCount() const;
@@ -800,7 +801,7 @@ public:
     void replugClip(int clipId);
 
     /** @brief Refresh the tractor profile in case a change was requested. */
-    void updateProfile(Mlt::Profile *profile);
+    // void updateProfile(Mlt::Profile profile);
 
     /** @brief Add, remove or refresh the internal added avfilter.fieldorder effect based on the given profile*/
     void updateFieldOrderFilter(std::unique_ptr<ProfileModel> &ptr);
@@ -1010,8 +1011,6 @@ protected:
     std::unordered_set<int> m_allGroups; /// ids of all the groups
 
     std::weak_ptr<DocUndoStack> m_undoStack;
-
-    Mlt::Profile *m_profile;
 
     // The black track producer. Its length / out should always be adjusted to the projects's length
     std::unique_ptr<Mlt::Producer> m_blackClip;

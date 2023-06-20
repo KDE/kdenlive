@@ -210,7 +210,7 @@ std::unique_ptr<Mlt::Filter> EffectsRepository::getEffect(const QString &effectI
     Q_ASSERT(exists(effectId));
     QString service_name = m_assets.at(effectId).mltId;
     // We create the Mlt element from its name
-    auto filter = std::make_unique<Mlt::Filter>(*pCore->getProjectProfile(), service_name.toLatin1().constData(), nullptr);
+    auto filter = std::make_unique<Mlt::Filter>(pCore->getProjectProfile(), service_name.toLatin1().constData(), nullptr);
     return filter;
 }
 

@@ -326,7 +326,7 @@ void ProjectManager::testSetActiveDocument(KdenliveDoc *doc, std::shared_ptr<Tim
     if (timeline == nullptr) {
         // New nested document format, build timeline model now
         const QUuid uuid = m_project->uuid();
-        timeline = TimelineItemModel::construct(uuid, pCore->getProjectProfile(), m_project->commandStack());
+        timeline = TimelineItemModel::construct(uuid, m_project->commandStack());
         std::shared_ptr<Mlt::Tractor> tc = pCore->projectItemModel()->getExtraTimeline(uuid.toString());
         if (!constructTimelineFromTractor(timeline, nullptr, *tc.get(), m_progressDialog, m_project->modifiedDecimalPoint(), QString(), QString())) {
             qDebug() << "===== LOADING PROJECT INTERNAL ERROR";
@@ -405,6 +405,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             pCore->bin()->abortOperations();
         }
         pCore->taskManager.slotCancelJobs(true);
+        m_project->commandStack()->clear();
         ::mlt_pool_purge();
         pCore->cleanup();
         QList<QUuid> uuids = m_project->getTimelinesUuids();
@@ -1300,7 +1301,8 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
 {
     pCore->taskManager.slotCancelJobs();
     const QUuid uuid = m_project->uuid();
-    std::unique_ptr<Mlt::Producer> xmlProd(new Mlt::Producer(*pCore->getProjectProfile(), "xml-string", m_project->getAndClearProjectXml().constData()));
+    std::unique_ptr<Mlt::Producer> xmlProd(
+        new Mlt::Producer(pCore->getProjectProfile().get_profile(), "xml-string", m_project->getAndClearProjectXml().constData()));
     Mlt::Service s(*xmlProd.get());
     Mlt::Tractor tractor(s);
     if (xmlProd->property_exists("kdenlive:projectTractor")) {
@@ -1308,14 +1310,14 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
         m_project->cleanupTimelinePreview(documentDate);
         pCore->projectItemModel()->buildPlaylist(uuid);
         // Load bin playlist
-        return loadProjectBin(pCore->projectItemModel(), tractor, m_progressDialog);
+        return loadProjectBin(tractor, m_progressDialog);
     }
     if (tractor.count() == 0) {
         // Wow we have a project file with empty tractor, probably corrupted, propose to open a recovery file
         requestBackup(i18n("Project file is corrupted (no tracks). Try to find a backup file?"));
         return false;
     }
-    std::shared_ptr<TimelineItemModel> timelineModel = TimelineItemModel::construct(uuid, pCore->getProjectProfile(), m_project->commandStack());
+    std::shared_ptr<TimelineItemModel> timelineModel = TimelineItemModel::construct(uuid, m_project->commandStack());
 
     if (m_project->hasDocumentProperty(QStringLiteral("groups"))) {
         // This is a pre-nesting project file, move all timeline properties to the timelineModel's tractor
@@ -1713,7 +1715,7 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
     }
 
     // Build timeline
-    std::shared_ptr<TimelineItemModel> timelineModel = TimelineItemModel::construct(uuid, pCore->getProjectProfile(), m_project->commandStack());
+    std::shared_ptr<TimelineItemModel> timelineModel = TimelineItemModel::construct(uuid, m_project->commandStack());
     m_project->addTimeline(uuid, timelineModel);
     TimelineWidget *timeline = nullptr;
     if (pCore->window()) {

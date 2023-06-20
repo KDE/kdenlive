@@ -31,9 +31,9 @@ TEST_CASE("Test of timewarping", "[Timewarp]")
 
     TimelineModel::next_id = 0;
 
-    QString binId = createProducer(*timeline->getProfile(), "red", binModel);
-    QString binId2 = createProducer(*timeline->getProfile(), "blue", binModel);
-    QString binId3 = createProducerWithSound(*timeline->getProfile(), binModel);
+    QString binId = createProducer(pCore->getProjectProfile(), "red", binModel);
+    QString binId2 = createProducer(pCore->getProjectProfile(), "blue", binModel);
+    QString binId3 = createProducerWithSound(pCore->getProjectProfile(), binModel);
 
     int cid1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
     int tid1 = timeline->getTrackIndexFromPosition(1);
