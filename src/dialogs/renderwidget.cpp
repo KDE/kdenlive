@@ -318,17 +318,8 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     header->resizeSection(0, size + 4);
 
     // Find path for Kdenlive renderer
-#ifdef Q_OS_WIN
-    m_renderer = QCoreApplication::applicationDirPath() + QStringLiteral("/kdenlive_render.exe");
-#else
-    m_renderer = QCoreApplication::applicationDirPath() + QStringLiteral("/kdenlive_render");
-#endif
-    if (!QFile::exists(m_renderer)) {
-        m_renderer = QStandardPaths::findExecutable(QStringLiteral("kdenlive_render"));
-        if (m_renderer.isEmpty()) {
-            KMessageBox::error(this,
-                               i18n("Could not find the kdenlive_render application, something is wrong with your installation. Rendering will not work"));
-        }
+    if (KdenliveSettings::kdenliverendererpath().isEmpty()) {
+        KMessageBox::error(this, i18n("Could not find the kdenlive_render application, something is wrong with your installation. Rendering will not work"));
     }
 
     QDBusConnectionInterface *interface = QDBusConnection::sessionBus().interface();
@@ -623,7 +614,7 @@ void RenderWidget::slotPrepareExport(bool delayedRendering)
         m_view.infoMessage->animatedShow();
         return;
     }
-    if (!QFile::exists(KdenliveSettings::rendererpath())) {
+    if (!QFile::exists(KdenliveSettings::meltpath())) {
         m_view.infoMessage->setMessageType(KMessageWidget::Warning);
         m_view.infoMessage->setText(i18n("Cannot find the melt program required for rendering (part of Mlt)"));
         m_view.infoMessage->animatedShow();
@@ -729,7 +720,7 @@ RenderJobItem *RenderWidget::createRenderJob(const QString &playlist, const QStr
     renderItem->setData(1, StartTimeRole, t);
     renderItem->setData(1, LastTimeRole, t);
     renderItem->setData(1, LastFrameRole, 0);
-    QStringList argsJob = {QStringLiteral("delivery"), KdenliveSettings::rendererpath(), playlist, QStringLiteral("--pid"),
+    QStringList argsJob = {QStringLiteral("delivery"), KdenliveSettings::meltpath(), playlist, QStringLiteral("--pid"),
                            QString::number(QCoreApplication::applicationPid())};
     if (!subtitleFile.isEmpty()) {
         argsJob << QStringLiteral("--subtitle") << subtitleFile;
@@ -801,8 +792,8 @@ void RenderWidget::checkRenderStatus()
 void RenderWidget::startRendering(RenderJobItem *item)
 {
     auto rendererArgs = item->data(1, ParametersRole).toStringList();
-    qDebug() << "starting kdenlive_render process using: " << m_renderer;
-    if (!QProcess::startDetached(m_renderer, rendererArgs)) {
+    qDebug() << "starting kdenlive_render process using: " << KdenliveSettings::kdenliverendererpath();
+    if (!QProcess::startDetached(KdenliveSettings::kdenliverendererpath(), rendererArgs)) {
         item->setStatus(FAILEDJOB);
     } else {
         KNotification::event(QStringLiteral("RenderStarted"), i18n("Rendering <i>%1</i> started", item->text(1)), QPixmap(), this);
@@ -1457,7 +1448,7 @@ void RenderWidget::slotStartScript()
         QDateTime t = QDateTime::currentDateTime();
         renderItem->setData(1, StartTimeRole, t);
         renderItem->setData(1, LastTimeRole, t);
-        QStringList argsJob = {QStringLiteral("delivery"), KdenliveSettings::rendererpath(), path, QStringLiteral("--pid"),
+        QStringList argsJob = {QStringLiteral("delivery"), KdenliveSettings::meltpath(), path, QStringLiteral("--pid"),
                                QString::number(QCoreApplication::applicationPid())};
         renderItem->setData(1, ParametersRole, argsJob);
         checkRenderStatus();
@@ -1639,7 +1630,7 @@ bool RenderWidget::startWaitingRenderJobs()
         if (item->status() == WAITINGJOB) {
             // Add render process for item
             const QString params = item->data(1, ParametersRole).toStringList().join(QLatin1Char(' '));
-            outStream << '\"' << m_renderer << "\" " << params << '\n';
+            outStream << '\"' << KdenliveSettings::kdenliverendererpath() << "\" " << params << '\n';
         }
         item = static_cast<RenderJobItem *>(m_view.running_jobs->itemBelow(item));
     }

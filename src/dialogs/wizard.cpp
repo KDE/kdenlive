@@ -387,10 +387,10 @@ void Wizard::checkMltComponents()
     }
 }
 
-void Wizard::slotCheckPrograms(QString &infos, QString &warnings)
+void Wizard::slotCheckPrograms(QString &infos, QString &warnings, QString &errors)
 {
     // Check first in same folder as melt exec
-    const QStringList mltpath({QFileInfo(KdenliveSettings::rendererpath()).canonicalPath(), qApp->applicationDirPath()});
+    const QStringList mltpath({QFileInfo(KdenliveSettings::meltpath()).canonicalPath(), qApp->applicationDirPath()});
     QString exepath;
     if (KdenliveSettings::ffmpegpath().isEmpty() || !QFileInfo::exists(KdenliveSettings::ffmpegpath())) {
         exepath = QStandardPaths::findExecutable(QString("ffmpeg%1").arg(FFMPEG_SUFFIX), mltpath);
@@ -434,6 +434,16 @@ void Wizard::slotCheckPrograms(QString &infos, QString &warnings)
             }
         }
     }
+    QString kdenliverenderpath;
+    if (KdenliveSettings::kdenliverendererpath().isEmpty() || !QFileInfo::exists(KdenliveSettings::kdenliverendererpath())) {
+        kdenliverenderpath = QStandardPaths::findExecutable(QStringLiteral("kdenlive_render"), mltpath);
+        if (kdenliverenderpath.isEmpty()) {
+            kdenliverenderpath = QStandardPaths::findExecutable(QStringLiteral("kdenlive_render"));
+        }
+        if (kdenliverenderpath.isEmpty()) {
+            errors.append(i18n("<li>Missing app: <b>kdenlive_render</b><br/>needed for rendering.</li>"));
+        }
+    }
 
     if (!exepath.isEmpty()) {
         KdenliveSettings::setFfmpegpath(exepath);
@@ -443,6 +453,10 @@ void Wizard::slotCheckPrograms(QString &infos, QString &warnings)
     }
     if (!probepath.isEmpty()) {
         KdenliveSettings::setFfprobepath(probepath);
+    }
+
+    if (!kdenliverenderpath.isEmpty()) {
+        KdenliveSettings::setKdenliverendererpath(kdenliverenderpath);
     }
 
     // set up some default applications
@@ -604,7 +618,7 @@ void Wizard::adjustSettings()
 void Wizard::slotCheckMlt()
 {
     QString errorMessage;
-    if (KdenliveSettings::rendererpath().isEmpty()) {
+    if (KdenliveSettings::meltpath().isEmpty()) {
         errorMessage.append(i18n("Your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"));
     }
 
@@ -626,7 +640,7 @@ void Wizard::slotCheckMlt()
     if (m_systemCheckIsOk) {
         checkMltComponents();
     }
-    slotCheckPrograms(m_infos, m_warnings);
+    slotCheckPrograms(m_infos, m_warnings, m_errors);
 }
 
 bool Wizard::isOk() const

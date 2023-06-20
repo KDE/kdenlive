@@ -216,7 +216,6 @@ private:
     RenderViewDelegate *m_scriptsDelegate;
     RenderViewDelegate *m_jobsDelegate;
     bool m_blockProcessing;
-    QString m_renderer;
     QMap<int, QString> m_errorMessages;
     std::weak_ptr<MarkerListModel> m_guidesModel;
 

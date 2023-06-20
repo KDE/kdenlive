@@ -170,7 +170,7 @@ void TranscodeTask::run()
         // m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
         QObject::connect(this, &TranscodeTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
         QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &TranscodeTask::processLogInfo);
-        m_jobProcess->start(KdenliveSettings::rendererpath(), mltParameters);
+        m_jobProcess->start(KdenliveSettings::meltpath(), mltParameters);
         AbstractTask::setPreferredPriority(m_jobProcess->processId());
         m_jobProcess->waitForFinished(-1);
         result = m_jobProcess->exitStatus() == QProcess::NormalExit;

@@ -520,7 +520,12 @@
       <default></default>
     </entry>
 
-    <entry name="rendererpath" type="Path">
+    <entry name="kdenliverendererpath" type="Path">
+      <label>Kdenlive renderer install path.</label>
+      <default></default>
+    </entry>
+
+    <entry name="meltpath" type="Path">
       <label>Mlt melt renderer install path.</label>
       <default></default>
     </entry>
