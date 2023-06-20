@@ -886,7 +886,7 @@ int ProjectClip::getRecordTime()
         } else {
             if (KdenliveSettings::mediainfopath().isEmpty() || !QFileInfo::exists(KdenliveSettings::mediainfopath())) {
                 // Try to find binary
-                const QStringList mltpath({QFileInfo(KdenliveSettings::rendererpath()).canonicalPath(), qApp->applicationDirPath()});
+                const QStringList mltpath({QFileInfo(KdenliveSettings::meltpath()).canonicalPath(), qApp->applicationDirPath()});
                 QString mediainfopath = QStandardPaths::findExecutable(QStringLiteral("mediainfo"), mltpath);
                 if (mediainfopath.isEmpty()) {
                     mediainfopath = QStandardPaths::findExecutable(QStringLiteral("mediainfo"));

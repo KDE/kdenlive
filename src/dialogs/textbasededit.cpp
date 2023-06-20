@@ -969,7 +969,7 @@ void TextBasedEdit::startRecognition()
             int percent = saveData.section(QLatin1Char(' '), 0, 0).toInt();
             speech_progress->setValue(percent);
         });
-        m_tCodeJob->start(KdenliveSettings::rendererpath(),
+        m_tCodeJob->start(KdenliveSettings::meltpath(),
                           {QStringLiteral("-progress"), m_sourceUrl, QStringLiteral("-consumer"), QString("avformat:%1").arg(m_playlistWav.fileName()),
                            QStringLiteral("vn=1"), QStringLiteral("ar=16000")});
         speech_progress->setValue(0);

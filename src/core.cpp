@@ -181,7 +181,7 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
         KdenliveSettings::setFfmpegpath(QDir::cleanPath(appPath + QStringLiteral("/ffmpeg")));
         KdenliveSettings::setFfplaypath(QDir::cleanPath(appPath + QStringLiteral("/ffplay")));
         KdenliveSettings::setFfprobepath(QDir::cleanPath(appPath + QStringLiteral("/ffprobe")));
-        KdenliveSettings::setRendererpath(QDir::cleanPath(appPath + QStringLiteral("/melt")));
+        KdenliveSettings::setMeltpath(QDir::cleanPath(appPath + QStringLiteral("/melt")));
         m_mainWindow->init(QDir::cleanPath(appPath + QStringLiteral("/../share/mlt/profiles")));
     } else {
         // Open connection with Mlt

@@ -170,7 +170,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
 #if (!(defined(Q_OS_WIN) || defined(Q_OS_MAC)))
     // stored setting should not be considered on windows as MLT is distributed with each new Kdenlive version
     if (meltPath.isEmpty() || !QFile::exists(meltPath)) {
-        meltPath = KdenliveSettings::rendererpath();
+        meltPath = KdenliveSettings::meltpath();
         qWarning() << "meltPath from KdenliveSetting::rendererPath: " << meltPath;
     }
 #endif
@@ -192,7 +192,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
         meltPath = QStandardPaths::findExecutable("mlt-melt");
         qWarning() << "meltPath from findExe \"mlt-melt\" : " << meltPath;
     }
-    KdenliveSettings::setRendererpath(meltPath);
+    KdenliveSettings::setMeltpath(meltPath);
 
     if (meltPath.isEmpty() && !qEnvironmentVariableIsSet("MLT_TESTS")) {
         // Cannot find the MLT melt renderer, ask for location
@@ -205,7 +205,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
             if (meltPath.isEmpty()) {
                 ::exit(0);
             } else {
-                KdenliveSettings::setRendererpath(meltPath);
+                KdenliveSettings::setMeltpath(meltPath);
             }
         }
     }
