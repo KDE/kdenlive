@@ -393,8 +393,8 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         m_project->commandStack()->clear();
         ::mlt_pool_purge();
         pCore->cleanup();
-        QList<QUuid> uuids = m_project->getTimelinesUuids();
         if (guiConstructed) {
+            const QList<QUuid> uuids = m_project->getTimelinesUuids();
             for (auto &uid : uuids) {
                 pCore->window()->closeTimeline(uid);
                 pCore->window()->resetSubtitles(uid);
@@ -415,6 +415,11 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         m_project = nullptr;
     } else {
         pCore->projectItemModel()->clean();
+        // Close all timelines
+        const QList<QUuid> uuids = m_project->getTimelinesUuids();
+        for (auto &uid : uuids) {
+            m_project->closeTimeline(uid);
+        }
         m_project = nullptr;
     }
     return true;
