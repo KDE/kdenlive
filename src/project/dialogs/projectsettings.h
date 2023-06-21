@@ -25,7 +25,7 @@ public:
     ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metadata, QStringList lumas, int videotracks, int audiotracks, int audiochannels, const QString &projectPath,
                     bool readOnlyTracks, bool unsavedProject, QWidget *parent = nullptr);
     QString selectedProfile() const;
-    QPair<int, int> tracks() const;
+    std::pair<int, int> tracks() const;
     const QStringList guidesCategories() const;
     const QMap<int, int> remapGuidesCategories() const;
     int audioChannels() const;

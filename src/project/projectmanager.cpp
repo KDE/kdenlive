@@ -168,7 +168,7 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     QString projectFolder;
     QMap<QString, QString> documentProperties;
     QMap<QString, QString> documentMetadata;
-    QPair<int, int> projectTracks{KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()};
+    std::pair<int, int> projectTracks{KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()};
     int audioChannels = 2;
     if (KdenliveSettings::audio_channels() == 1) {
         audioChannels = 4;

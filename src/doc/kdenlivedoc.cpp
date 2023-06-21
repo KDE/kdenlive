@@ -64,7 +64,7 @@ const double DOCUMENTVERSION = 1.1;
 
 // create a new blank document
 KdenliveDoc::KdenliveDoc(QString projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties,
-                         const QMap<QString, QString> &metadata, const QPair<int, int> &tracks, int audioChannels, MainWindow *parent)
+                         const QMap<QString, QString> &metadata, const std::pair<int, int> &tracks, int audioChannels, MainWindow *parent)
     : QObject(parent)
     , m_autosave(nullptr)
     , m_uuid(QUuid::createUuid())
@@ -82,20 +82,7 @@ KdenliveDoc::KdenliveDoc(QString projectFolder, QUndoGroup *undoGroup, const QSt
     connect(m_commandStack.get(), &DocUndoStack::invalidate, this, &KdenliveDoc::checkPreviewStack, Qt::DirectConnection);
     // connect(m_commandStack, SIGNAL(cleanChanged(bool)), this, SLOT(setModified(bool)));
     pCore->taskManager.unBlock();
-    initializeProperties();
-    QMap<QString, QString> sequenceProperties;
-    // video tracks are after audio tracks, and the UI shows them from highest position to lowest position
-    sequenceProperties[QStringLiteral("videoTarget")] = QString::number(tracks.second);
-    sequenceProperties[QStringLiteral("audioTarget")] = QString::number(tracks.second - 1);
-    // If there is at least one video track, set activeTrack to be the first
-    // video track (which comes after the audio tracks). Otherwise, set the
-    // activeTrack to be the last audio track (the top-most audio track in the
-    // UI).
-    const int activeTrack = tracks.first > 0 ? tracks.second : tracks.second - 1;
-    sequenceProperties[QStringLiteral("activeTrack")] = QString::number(activeTrack);
-    sequenceProperties[QStringLiteral("audioChannels")] = QString::number(audioChannels);
-    sequenceProperties[QStringLiteral("documentuuid")] = m_uuid.toString();
-    m_sequenceProperties.insert(m_uuid, sequenceProperties);
+    initializeProperties(true, tracks, audioChannels);
 
     // Load properties
     QMapIterator<QString, QString> i(properties);
@@ -149,9 +136,9 @@ KdenliveDoc::KdenliveDoc(std::shared_ptr<DocUndoStack> undoStack, std::pair<int,
 {
     m_commandStack = undoStack;
     m_document = createEmptyDocument(tracks.second, tracks.first);
+    initializeProperties(true, tracks, 2);
     loadDocumentProperties();
     pCore->taskManager.unBlock();
-    initializeProperties();
 }
 
 DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup,
@@ -335,7 +322,7 @@ KdenliveDoc::~KdenliveDoc()
     }
 }
 
-void KdenliveDoc::initializeProperties(bool newDocument)
+void KdenliveDoc::initializeProperties(bool newDocument, std::pair<int, int> tracks, int audioChannels)
 {
     // init default document properties
     m_documentProperties[QStringLiteral("enableproxy")] = QString::number(int(KdenliveSettings::enableproxy()));
@@ -354,9 +341,24 @@ void KdenliveDoc::initializeProperties(bool newDocument)
     m_documentProperties[QStringLiteral("enableTimelineZone")] = QLatin1Char('0');
     m_documentProperties[QStringLiteral("seekOffset")] = QString::number(TimelineModel::seekDuration);
     m_documentProperties[QStringLiteral("uuid")] = m_uuid.toString();
-    if (newDocument && m_timelines.contains(m_uuid)) {
-        // For existing documents, don't define guidesCategories, so that we can use the getDefaultGuideCategories() for backwards compatibility
-        m_documentProperties[QStringLiteral("guidesCategories")] = getGuideModel(m_uuid)->categoriesListToJSon(KdenliveSettings::guidesCategories());
+    if (newDocument) {
+        QMap<QString, QString> sequenceProperties;
+        // video tracks are after audio tracks, and the UI shows them from highest position to lowest position
+        sequenceProperties[QStringLiteral("videoTarget")] = QString::number(tracks.second);
+        sequenceProperties[QStringLiteral("audioTarget")] = QString::number(tracks.second - 1);
+        // If there is at least one video track, set activeTrack to be the first
+        // video track (which comes after the audio tracks). Otherwise, set the
+        // activeTrack to be the last audio track (the top-most audio track in the
+        // UI).
+        const int activeTrack = tracks.first > 0 ? tracks.second : tracks.second - 1;
+        sequenceProperties[QStringLiteral("activeTrack")] = QString::number(activeTrack);
+        sequenceProperties[QStringLiteral("audioChannels")] = QString::number(audioChannels);
+        sequenceProperties[QStringLiteral("documentuuid")] = m_uuid.toString();
+        m_sequenceProperties.insert(m_uuid, sequenceProperties);
+        if (m_timelines.contains(m_uuid)) {
+            // For existing documents, don't define guidesCategories, so that we can use the getDefaultGuideCategories() for backwards compatibility
+            m_documentProperties[QStringLiteral("guidesCategories")] = getGuideModel(m_uuid)->categoriesListToJSon(KdenliveSettings::guidesCategories());
+        }
     }
 }
 
