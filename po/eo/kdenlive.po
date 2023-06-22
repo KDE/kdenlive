@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-21 00:46+0000\n"
-"PO-Revision-Date: 2023-06-15 21:48+0100\n"
+"POT-Creation-Date: 2023-06-22 00:47+0000\n"
+"PO-Revision-Date: 2023-06-21 20:18+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -4334,7 +4334,7 @@ msgstr "Mankas fonta tondaĵo"
 msgid "Unable to write to file %1"
 msgstr "Ne eblas skribi al dosiero %1"
 
-#: src/bin/bin.cpp:1855 src/bin/bin.cpp:2362 src/doc/kdenlivedoc.cpp:720
+#: src/bin/bin.cpp:1855 src/bin/bin.cpp:2362 src/doc/kdenlivedoc.cpp:722
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -4494,7 +4494,7 @@ msgstr "Ludlisto"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2279 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/project/projectmanager.cpp:1263 src/project/projectmanager.cpp:1265
+#: src/project/projectmanager.cpp:1268 src/project/projectmanager.cpp:1270
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -4772,7 +4772,7 @@ msgstr "Enigu vojon por via sona redakta aplikaĵo"
 msgid "Please set a default application to open audio files"
 msgstr "Bonvolu agordi defaŭltan aplikaĵon por malfermi sondosierojn"
 
-#: src/bin/bin.cpp:4366 src/core.cpp:304 src/doc/kdenlivedoc.cpp:172
+#: src/bin/bin.cpp:4366 src/core.cpp:304 src/doc/kdenlivedoc.cpp:159
 #: src/jobs/cliploadtask.cpp:458 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:471
 #: src/layoutmanagement.cpp:532 src/profiles/profilerepository.cpp:173
@@ -5000,7 +5000,7 @@ msgid "Duplicate"
 msgstr "Duobligi"
 
 #: src/bin/clipcreator.cpp:421 src/core.cpp:969
-#: src/project/projectmanager.cpp:780
+#: src/project/projectmanager.cpp:785
 #, kde-format
 msgid "Loading clips"
 msgstr "Ŝargante aŭdvidaĵoj"
@@ -5874,7 +5874,7 @@ msgstr "Teksta aŭdvidaĵo"
 msgid "Create Text clip"
 msgstr "Krei Tekstan tondaĵon"
 
-#: src/dialogs/clipcreationdialog.cpp:391 src/doc/kdenlivedoc.cpp:1105
+#: src/dialogs/clipcreationdialog.cpp:391 src/doc/kdenlivedoc.cpp:1107
 #, kde-format
 msgid "Template title clip"
 msgstr "Ŝablona titoltondaĵo"
@@ -6109,8 +6109,8 @@ msgid "Export Guides Data"
 msgstr "Eksporti Gvidilojn Datumojn"
 
 #: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:1617
-#: src/dialogs/renderwidget.cpp:1644 src/doc/kdenlivedoc.cpp:737
-#: src/doc/kdenlivedoc.cpp:745 src/doc/kdenlivedoc.cpp:1241
+#: src/dialogs/renderwidget.cpp:1644 src/doc/kdenlivedoc.cpp:739
+#: src/doc/kdenlivedoc.cpp:747 src/doc/kdenlivedoc.cpp:1243
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
 #: src/effects/effectsrepository.cpp:390
@@ -6122,7 +6122,7 @@ msgstr "Eksporti Gvidilojn Datumojn"
 #: src/project/dialogs/archivewidget.cpp:867
 #: src/project/dialogs/archivewidget.cpp:879
 #: src/project/dialogs/archivewidget.cpp:885
-#: src/project/projectmanager.cpp:1546 src/render/renderrequest.cpp:230
+#: src/project/projectmanager.cpp:1551 src/render/renderrequest.cpp:230
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5080
@@ -6743,10 +6743,9 @@ msgstr ""
 "Bonvolu certigi ke vi havas la bezonatajn permesojn."
 
 #: src/dialogs/renderwidget.cpp:674
-#, fuzzy, kde-format
-#| msgid "An error occurred while deleting markers"
+#, kde-format
 msgid "The following errors occured while trying to render"
-msgstr "Okazis eraro dum forigo de markiloj"
+msgstr "La sekvontaj eraroj okazis dum klopodo bildigi"
 
 #: src/dialogs/renderwidget.cpp:707 src/dialogs/renderwidget.cpp:1434
 #, kde-format
@@ -7464,14 +7463,10 @@ msgstr ""
 "aŭdvidaĵo</li>"
 
 #: src/dialogs/wizard.cpp:444
-#, fuzzy, kde-format
-#| msgid ""
-#| "<li>Missing app: <b>ffprobe</b><br/>recommended for extra clip analysis</"
-#| "li>"
+#, kde-format
 msgid "<li>Missing app: <b>kdenlive_render</b><br/>needed for rendering.</li>"
 msgstr ""
-"<li>Mankas aplikaĵo: <b>ffprobe</b><br/>rekomendita por ekstra analizo de "
-"aŭdvidaĵo</li>"
+"<li>Mankas aplikaĵo: <b>kdenlive_render</b><br/>bezonata por bildigo.</li>"
 
 #: src/dialogs/wizard.cpp:517
 #, kde-format
@@ -7809,18 +7804,18 @@ msgstr "La sekvaj filtriloj/transiroj estis konvertitaj al ne-GPU-versioj:"
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "La sekvaj filtriloj/transiroj estis forigitaj de la projekto:"
 
-#: src/doc/kdenlivedoc.cpp:164
+#: src/doc/kdenlivedoc.cpp:151
 #, kde-format
 msgid "Invalid file path"
 msgstr "Nevalida dosiera vojo"
 
-#: src/doc/kdenlivedoc.cpp:214 src/project/projectmanager.cpp:731
-#: src/project/projectmanager.cpp:795 src/project/projectmanager.cpp:824
+#: src/doc/kdenlivedoc.cpp:201 src/project/projectmanager.cpp:736
+#: src/project/projectmanager.cpp:800 src/project/projectmanager.cpp:829
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Ne eblis reakiri koruptitan dosieron."
 
-#: src/doc/kdenlivedoc.cpp:221
+#: src/doc/kdenlivedoc.cpp:208
 #, kde-format
 msgid ""
 "Cannot open file %1:\n"
@@ -7829,17 +7824,17 @@ msgstr ""
 "Ne povas malfermi dosieron %1:\n"
 "%2 (linio %3, kol %4)"
 
-#: src/doc/kdenlivedoc.cpp:234
+#: src/doc/kdenlivedoc.cpp:221
 #, kde-format
 msgid "File %1 is not a Kdenlive project file"
 msgstr "Dosiero %1 ne estas Kdenlive projektdosiero"
 
-#: src/doc/kdenlivedoc.cpp:241
+#: src/doc/kdenlivedoc.cpp:228
 #, kde-format
 msgid "File %1 is not a valid Kdenlive project file."
 msgstr "Dosiero %1 ne estas valida projektdosiero de Kdenlive."
 
-#: src/doc/kdenlivedoc.cpp:254
+#: src/doc/kdenlivedoc.cpp:241
 #, kde-format
 msgid ""
 "GPU acceleration is turned off in Kdenlive settings, but is required for "
@@ -7848,7 +7843,7 @@ msgstr ""
 "GPU-akcelo estas malŝaltita en Kdenlive-agordoj, sed necesas por la Movit-"
 "filtriloj de ĉi tiu projekto."
 
-#: src/doc/kdenlivedoc.cpp:284
+#: src/doc/kdenlivedoc.cpp:271
 #, kde-format
 msgid ""
 "The project directory %1, could not be created.\n"
@@ -7859,24 +7854,24 @@ msgstr ""
 "Bonvolu certigi, ke vi havas la bezonatajn permesojn.\n"
 "Defaŭlte al sistemaj dosierujoj"
 
-#: src/doc/kdenlivedoc.cpp:287
+#: src/doc/kdenlivedoc.cpp:274
 #, kde-format
 msgid "Document project folder is invalid, using system default folders"
 msgstr ""
 "Dokumentprojekta dosierujo estas nevalida, uzante sistemajn defaŭltajn "
 "dosierujojn"
 
-#: src/doc/kdenlivedoc.cpp:555 src/doc/kdenlivedoc.cpp:565
+#: src/doc/kdenlivedoc.cpp:557 src/doc/kdenlivedoc.cpp:567
 #, kde-format
 msgid "Cannot create autosave file %1"
 msgstr "Ne povas krei aŭtomatan konservan dosieron %1"
 
-#: src/doc/kdenlivedoc.cpp:560 src/doc/kdenlivedoc.cpp:698
+#: src/doc/kdenlivedoc.cpp:562 src/doc/kdenlivedoc.cpp:700
 #, kde-format
 msgid "Cannot write to file %1, scene list is corrupted."
 msgstr "Ne povas skribi al dosiero %1, scenolisto estas difektita."
 
-#: src/doc/kdenlivedoc.cpp:716
+#: src/doc/kdenlivedoc.cpp:718
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
@@ -7886,7 +7881,7 @@ msgstr ""
 "Kdenlive.\n"
 "Por certigi, ke vi ne perdas datumojn, sekurkopio nomata %1 estis kreita."
 
-#: src/doc/kdenlivedoc.cpp:730
+#: src/doc/kdenlivedoc.cpp:732
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version, but "
@@ -7895,36 +7890,36 @@ msgstr ""
 "Via projektdosiero estis ĝisdatigita al la plej nova dokumentversio de "
 "Kdenlive, sed ne eblis krei la rezervan kopion %1."
 
-#: src/doc/kdenlivedoc.cpp:861 src/project/projectmanager.cpp:1143
-#: src/project/projectmanager.cpp:1179
+#: src/doc/kdenlivedoc.cpp:863 src/project/projectmanager.cpp:1148
+#: src/project/projectmanager.cpp:1184
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Eraro dum la dosierujo de la projekto: %1"
 
-#: src/doc/kdenlivedoc.cpp:1030 src/doc/kdenlivedoc.cpp:2160
+#: src/doc/kdenlivedoc.cpp:1032 src/doc/kdenlivedoc.cpp:2162
 #: src/project/dialogs/archivewidget.cpp:226
-#: src/project/projectmanager.cpp:1380
+#: src/project/projectmanager.cpp:1385
 #, kde-format
 msgid "Untitled"
 msgstr "Sentitola"
 
-#: src/doc/kdenlivedoc.cpp:1091
+#: src/doc/kdenlivedoc.cpp:1093
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Enigi Ŝablonan Vojon"
 
-#: src/doc/kdenlivedoc.cpp:1248
+#: src/doc/kdenlivedoc.cpp:1250
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "La sekvaj efikoj estis importitaj de la projekto:"
 
-#: src/doc/kdenlivedoc.cpp:1281 src/doc/kdenlivedoc.cpp:1295
+#: src/doc/kdenlivedoc.cpp:1283 src/doc/kdenlivedoc.cpp:1297
 #, kde-format
 msgid "Project Folder"
 msgstr "Projekta Dosierujo"
 
-#: src/doc/kdenlivedoc.cpp:1339 src/doc/kdenlivedoc.cpp:1347
+#: src/doc/kdenlivedoc.cpp:1341 src/doc/kdenlivedoc.cpp:1349
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -7933,26 +7928,26 @@ msgstr ""
 "Ne povas krei rezervan kopion:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1492
+#: src/doc/kdenlivedoc.cpp:1494
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "Aldoni prokurilan tondaĵon"
 msgstr[1] "Aldoni prokurilajn tondaĵojn"
 
-#: src/doc/kdenlivedoc.cpp:1494
+#: src/doc/kdenlivedoc.cpp:1496
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "Forigi prokurilan tondaĵon"
 msgstr[1] "Forigi prokurilajn tondaĵojn"
 
-#: src/doc/kdenlivedoc.cpp:1538 src/doc/kdenlivedoc.cpp:1573
+#: src/doc/kdenlivedoc.cpp:1540 src/doc/kdenlivedoc.cpp:1575
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "Tondtipo ne subtenas prokurilojn"
 
-#: src/doc/kdenlivedoc.cpp:1779
+#: src/doc/kdenlivedoc.cpp:1781
 #, kde-format
 msgid ""
 "\n"
@@ -7961,7 +7956,7 @@ msgstr ""
 "\n"
 "Averto: nekonataj ne entjeraj fps, povus kaŭzi malĝustan daŭromontradon."
 
-#: src/doc/kdenlivedoc.cpp:1798
+#: src/doc/kdenlivedoc.cpp:1800
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -7971,43 +7966,43 @@ msgstr ""
 "estas %3.\n"
 "Ĉu vi volas ŝanĝi defaŭltan profilon por estontaj projektoj?"
 
-#: src/doc/kdenlivedoc.cpp:1800
+#: src/doc/kdenlivedoc.cpp:1802
 #, kde-format
 msgid "Change default project profile"
 msgstr "Ŝanĝi defaŭltan projektoprofilon"
 
-#: src/doc/kdenlivedoc.cpp:1800
+#: src/doc/kdenlivedoc.cpp:1802
 #, kde-format
 msgid "Change default to %1"
 msgstr "Ŝanĝi defaŭlton al %1"
 
-#: src/doc/kdenlivedoc.cpp:1801
+#: src/doc/kdenlivedoc.cpp:1803
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Konservi nunan defaŭltan %1"
 
-#: src/doc/kdenlivedoc.cpp:1801
+#: src/doc/kdenlivedoc.cpp:1803
 #, kde-format
 msgid "Ask me later"
 msgstr "Demandu min poste"
 
-#: src/doc/kdenlivedoc.cpp:1821
+#: src/doc/kdenlivedoc.cpp:1823
 #, kde-format
 msgid "Switch"
 msgstr "Ŝalti"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1823 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1825 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "Nuligi"
 
-#: src/doc/kdenlivedoc.cpp:1825
+#: src/doc/kdenlivedoc.cpp:1827
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Ĉu ŝanĝi al tondaĵo (%1) profilo %2?"
 
-#: src/doc/kdenlivedoc.cpp:1830
+#: src/doc/kdenlivedoc.cpp:1832
 #, kde-format
 msgid ""
 "\n"
@@ -8016,7 +8011,7 @@ msgstr ""
 "\n"
 "Profilo fps alĝustigita de originala %1"
 
-#: src/doc/kdenlivedoc.cpp:1832
+#: src/doc/kdenlivedoc.cpp:1834
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -8025,13 +8020,13 @@ msgstr ""
 "Neniu profilo trovita por via tondaĵo %1.\n"
 "Ĉu krei kaj ŝanĝi al nova profilo (%2x%3, %4fps)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2199 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2201 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "Ruĝa"
 
-#: src/doc/kdenlivedoc.cpp:2200 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2202 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -8039,23 +8034,23 @@ msgstr "Ruĝa"
 msgid "Green"
 msgstr "Verda"
 
-#: src/doc/kdenlivedoc.cpp:2201 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2203 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "Blua"
 
-#: src/doc/kdenlivedoc.cpp:2202 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2204 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Flava"
 
-#: src/doc/kdenlivedoc.cpp:2203
+#: src/doc/kdenlivedoc.cpp:2205
 #, kde-format
 msgid "Cyan"
 msgstr "Cejana"
 
-#: src/doc/kdenlivedoc.cpp:2415
+#: src/doc/kdenlivedoc.cpp:2417
 #, kde-format
 msgid "Category %1:%2:%3"
 msgstr "Kategorio %1:%2:%3"
@@ -10712,12 +10707,12 @@ msgstr ""
 "Ĉi tio movos ĉiujn provizorajn dosierojn de<br/><b>%1</b> al <b>%2</b>,<br/"
 ">la projektdosiero tiam estos reŝargita"
 
-#: src/mainwindow.cpp:2226 src/project/projectmanager.cpp:504
+#: src/mainwindow.cpp:2226 src/project/projectmanager.cpp:509
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Ne povas fari operacion, nevalida dokumentid: %1"
 
-#: src/mainwindow.cpp:2231 src/project/projectmanager.cpp:510
+#: src/mainwindow.cpp:2231 src/project/projectmanager.cpp:515
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Ne povas fari operacion, cela dosierujo jam ekzistas: %1"
@@ -12966,7 +12961,7 @@ msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 "Marka dosiero estas pli granda ol 1MB, ĉu vi certas, ke vi volas importi?"
 
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1439
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1444
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:4986
 #, kde-format
@@ -13583,7 +13578,7 @@ msgstr "Malfermi Rezervan Dosieron…"
 msgid "Save changes to document?"
 msgstr "Ĉu konservi ŝanĝojn al dokumento?"
 
-#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1379
+#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1384
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13592,7 +13587,7 @@ msgstr ""
 "La projekto <b>\"%1\"</b> estas ŝanĝita.\n"
 "Ĉu vi volas konservi viajn ŝanĝojn?"
 
-#: src/project/projectmanager.cpp:492
+#: src/project/projectmanager.cpp:497
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -13604,49 +13599,49 @@ msgstr ""
 "provizorajn dosierojn de <b>%1</b> al <b>%2</b>, la projektdosiero tiam "
 "estos reŝargita"
 
-#: src/project/projectmanager.cpp:533
+#: src/project/projectmanager.cpp:538
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Konservi Kopion"
 
-#: src/project/projectmanager.cpp:634
+#: src/project/projectmanager.cpp:639
 #, kde-format
 msgid "Auto-saved file exist. Do you want to recover now?"
 msgstr "Aŭtomate konservita dosiero ekzistas. Ĉu vi volas resaniĝi nun?"
 
-#: src/project/projectmanager.cpp:634
+#: src/project/projectmanager.cpp:639
 #, kde-format
 msgid "File Recovery"
 msgstr "Dosiera Reakiro"
 
-#: src/project/projectmanager.cpp:635 src/project/projectmanager.cpp:719
+#: src/project/projectmanager.cpp:640 src/project/projectmanager.cpp:724
 #, kde-format
 msgid "Recover"
 msgstr "Resaniĝi"
 
-#: src/project/projectmanager.cpp:635
+#: src/project/projectmanager.cpp:640
 #, kde-format
 msgid "Do not recover"
 msgstr "Ne resaniĝi"
 
-#: src/project/projectmanager.cpp:687
+#: src/project/projectmanager.cpp:692
 #, kde-format
 msgid "Opening file %1"
 msgstr "Malfermante dosieron %1"
 
-#: src/project/projectmanager.cpp:703
+#: src/project/projectmanager.cpp:708
 #, kde-format
 msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "Ŝargante Projekton"
 
-#: src/project/projectmanager.cpp:705
+#: src/project/projectmanager.cpp:710
 #, kde-format
 msgid "Loading project"
 msgstr "Ŝargante projekton"
 
-#: src/project/projectmanager.cpp:718
+#: src/project/projectmanager.cpp:723
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -13657,28 +13652,28 @@ msgstr ""
 "%1\n"
 "Ĉu vi volas malfermi rezervan dosieron?"
 
-#: src/project/projectmanager.cpp:719
+#: src/project/projectmanager.cpp:724
 #, kde-format
 msgid "Error opening file"
 msgstr "Eraro dum malfermo de dosiero"
 
-#: src/project/projectmanager.cpp:719
+#: src/project/projectmanager.cpp:724
 #, kde-format
 msgid "Open Backup"
 msgstr "Malfermi Rezervon"
 
-#: src/project/projectmanager.cpp:735
+#: src/project/projectmanager.cpp:740
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "Ne eblis malfermi la rezervan projektdosieron."
 
-#: src/project/projectmanager.cpp:751
+#: src/project/projectmanager.cpp:756
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Via projekto estis ĝisdatigita, sekurkopio estos kreita ĉe venonta konservado"
 
-#: src/project/projectmanager.cpp:754
+#: src/project/projectmanager.cpp:759
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -13686,7 +13681,7 @@ msgstr ""
 "Via projekto estis modifita je la malfermo, sekurkopio estos kreita ĉe la "
 "venonta konservado"
 
-#: src/project/projectmanager.cpp:853
+#: src/project/projectmanager.cpp:858
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -13695,12 +13690,12 @@ msgstr ""
 "Ĉi tio forigos ĉiujn ŝanĝojn faritajn de kiam vi laste konservis vian "
 "projekton. Ĉu vi certas, ke vi volas daŭrigi?"
 
-#: src/project/projectmanager.cpp:854
+#: src/project/projectmanager.cpp:859
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Reiri al la lasta konservita versio"
 
-#: src/project/projectmanager.cpp:936
+#: src/project/projectmanager.cpp:941
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -13709,30 +13704,30 @@ msgstr ""
 "Projekto estis koruptita, ne povas rezerva. Bonvolu fermi kaj remalfermi "
 "vian projektdosieron por reakiri lastan sekurkopion"
 
-#: src/project/projectmanager.cpp:1121
+#: src/project/projectmanager.cpp:1126
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Eraro movante projektdosierujon, ne povas aliri kaŝmemordosierujon"
 
-#: src/project/projectmanager.cpp:1157
+#: src/project/projectmanager.cpp:1162
 #, kde-format
 msgid "Moving project folder"
 msgstr "Movante projektdosierujon"
 
-#: src/project/projectmanager.cpp:1215
+#: src/project/projectmanager.cpp:1220
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 "Projektdosiero estas koruptita (neniu spuroj). Ĉu provi trovi rezervan "
 "dosieron?"
 
-#: src/project/projectmanager.cpp:1242 src/project/projectmanager.cpp:1272
-#: src/project/projectmanager.cpp:1276
+#: src/project/projectmanager.cpp:1247 src/project/projectmanager.cpp:1277
+#: src/project/projectmanager.cpp:1281
 #, kde-format
 msgid "Sequence 1"
 msgstr "Sekvenco 1"
 
-#: src/project/projectmanager.cpp:1253
+#: src/project/projectmanager.cpp:1258
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -13740,13 +13735,13 @@ msgstr ""
 "Projektdosiero estas koruptita - malsukcesis ŝargi trakojn. Ĉu provi trovi "
 "rezervan dosieron?"
 
-#: src/project/projectmanager.cpp:1385 src/project/projectmanager.cpp:1390
-#: src/project/projectmanager.cpp:1400 src/project/projectmanager.cpp:1414
+#: src/project/projectmanager.cpp:1390 src/project/projectmanager.cpp:1395
+#: src/project/projectmanager.cpp:1405 src/project/projectmanager.cpp:1419
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Ŝanĝo de la profila projekto ĉesigita"
 
-#: src/project/projectmanager.cpp:1531
+#: src/project/projectmanager.cpp:1536
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -13755,12 +13750,12 @@ msgstr ""
 "Eligaĵdosiero %1 jam ekzistas.\n"
 "Ĉu vi volas anstataŭigi ĝin?"
 
-#: src/project/projectmanager.cpp:1556
+#: src/project/projectmanager.cpp:1561
 #, kde-format
 msgid "Project profile changed"
 msgstr "Projektprofilo ŝanĝita"
 
-#: src/project/projectmanager.cpp:1609
+#: src/project/projectmanager.cpp:1614
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -13769,18 +13764,18 @@ msgstr ""
 "Ne povas krei templinion el ĉi tiu tondaĵo:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1699
+#: src/project/projectmanager.cpp:1704
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Importante sekvencotondaĵon, ĉi tio estas nuntempe en eksperimenta stato"
 
-#: src/project/projectmanager.cpp:1870
+#: src/project/projectmanager.cpp:1875
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Elekti tondaĵon por krei sekvencon"
 
-#: src/project/projectmanager.cpp:1907
+#: src/project/projectmanager.cpp:1912
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Krei sekvencan aŭdvidaĵon"
@@ -14646,16 +14641,13 @@ msgid "Could not create temporary subtitle file"
 msgstr "Ne eblis krei provizoran subtitolan dosieron"
 
 #: src/render/renderrequest.cpp:190
-#, fuzzy, kde-format
-#| msgid ""
-#| "Script rendering and multi track audio export can not be used together.\n"
-#| "Script will be saved without multi track export."
+#, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together. "
 "Script will be saved without multi track export."
 msgstr ""
-"Skriptobildigo kaj plurtraka soneksporto ne povas esti uzataj kune.\n"
-"Skripto estos konservita sen plurtraka eksporto."
+"Skriptobildigo kaj plurtraka soneksporto ne povas esti uzataj kune. Skripto "
+"estos konservita sen plurtraka eksporto."
 
 #: src/render/renderrequest.cpp:263
 #, kde-format
@@ -15139,13 +15131,11 @@ msgstr ""
 "estis agordita al devigita trako."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:286
-#, fuzzy, kde-format
-#| msgid ""
-#| "Invalid composition %1 found on track %2 at %3, compositing with track %4."
+#, kde-format
 msgid ""
 "Unknown composition %1 found on track %2 at %3, compositing with track %4."
 msgstr ""
-"Nevalida komponaĵo %1 trovita sur trako %2 ĉe %3, kunmetante kun trako %4."
+"Nekonata kunmetaĵo %1 trovita sur trako %2 ĉe %3, kunmetante kun trako %4."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:296
 #: src/timeline2/model/builders/meltBuilder.cpp:545
