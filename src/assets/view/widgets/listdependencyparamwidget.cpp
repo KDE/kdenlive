@@ -51,8 +51,7 @@ ListDependencyParamWidget::ListDependencyParamWidget(std::shared_ptr<AssetParame
 
     QString dependencies = m_model->data(m_index, AssetParameterModel::ListDependenciesRole).toString();
     if (!dependencies.isEmpty()) {
-        // We have conditionnal dependencies, some values in the list might not be available. Check if the dependencies were already parsed
-        QStringList checkedNames = m_model->data(m_index, AssetParameterModel::InstalledValuesRole).toStringList();
+        // We have conditionnal dependencies, some values in the list might not be available.
         QDomDocument doc;
         doc.setContent(dependencies);
         QDomNodeList deps = doc.elementsByTagName(QLatin1String("paramdependencies"));
@@ -63,7 +62,7 @@ ListDependencyParamWidget::ListDependencyParamWidget(std::shared_ptr<AssetParame
             if (!folder.isEmpty()) {
                 m_dependencyFiles.insert(modelName, {folder, deps.at(i).toElement().attribute(QLatin1String("files")).split(QLatin1Char(';'))});
                 QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + folder);
-                infoText.replace(QLatin1String("\%folder"), dir.absolutePath());
+                infoText.replace(QLatin1String("%folder"), dir.absolutePath());
             }
             m_dependencyInfos.insert(modelName, infoText);
         }

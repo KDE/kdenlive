@@ -7,7 +7,7 @@
     <parameter type="fixed" name="filter" value="shape">
         <name>Filter</name>
     </parameter>
-    <parameter type="url" name="filter.resource" filter="*|Video files">
+    <parameter type="url" name="filter.resource" filter="Video files (*)">
         <name>Image or video resource</name>
     </parameter>
     <parameter type="constant" name="filter.mix" max="100" min="0" default="100" suffix="%">

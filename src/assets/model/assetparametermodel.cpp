@@ -563,8 +563,6 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
     }
     case ListValuesRole:
         return element.attribute(QStringLiteral("paramlist")).split(QLatin1Char(';'));
-    case InstalledValuesRole:
-        return QString(m_asset->get("kdenlive:paramlist"));
     case ListNamesRole: {
         QDomElement namesElem = element.firstChildElement(QStringLiteral("paramlistdisplay"));
         return i18n(namesElem.text().toUtf8().data()).split(QLatin1Char(','));

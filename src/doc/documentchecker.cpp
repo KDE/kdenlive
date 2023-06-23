@@ -180,10 +180,10 @@ bool DocumentChecker::hasErrorInClips()
     max = trans.count();
     for (int i = 0; i < max; ++i) {
         QDomElement transition = trans.at(i).toElement();
-        QString service = getProperty(transition, QStringLiteral("mlt_service"));
+        QString service = Xml::getXmlProperty(transition, QStringLiteral("mlt_service"));
         QString luma;
         if (lumaSearchPairs.contains(service)) {
-            luma = getProperty(transition, lumaSearchPairs.value(service));
+            luma = Xml::getXmlProperty(transition, lumaSearchPairs.value(service));
         }
         if (!luma.isEmpty() && !filesToCheck.contains(luma)) {
             filesToCheck.append(luma);
@@ -245,13 +245,13 @@ bool DocumentChecker::hasErrorInClips()
     if (!autoFixLuma.isEmpty()) {
         for (int i = 0; i < max; ++i) {
             QDomElement transition = trans.at(i).toElement();
-            QString service = getProperty(transition, QStringLiteral("mlt_service"));
+            QString service = Xml::getXmlProperty(transition, QStringLiteral("mlt_service"));
             QString luma;
             if (lumaSearchPairs.contains(service)) {
-                luma = getProperty(transition, lumaSearchPairs.value(service));
+                luma = Xml::getXmlProperty(transition, lumaSearchPairs.value(service));
             }
             if (!luma.isEmpty() && autoFixLuma.contains(luma)) {
-                updateProperty(transition, lumaSearchPairs.value(service), autoFixLuma.value(luma));
+                Xml::setXmlProperty(transition, lumaSearchPairs.value(service), autoFixLuma.value(luma));
             }
         }
     }
@@ -263,12 +263,12 @@ bool DocumentChecker::hasErrorInClips()
     QStringList assetsToCheck;
     for (int i = 0; i < max; ++i) {
         QDomElement filter = effs.at(i).toElement();
-        QString service = getProperty(filter, QStringLiteral("kdenlive_id"));
+        QString service = Xml::getXmlProperty(filter, QStringLiteral("kdenlive_id"));
         if (service.isEmpty()) {
-            service = getProperty(filter, QStringLiteral("mlt_service"));
+            service = Xml::getXmlProperty(filter, QStringLiteral("mlt_service"));
         }
         if (assetSearchPairs.contains(service)) {
-            const QString asset = getProperty(filter, assetSearchPairs.value(service));
+            const QString asset = Xml::getXmlProperty(filter, assetSearchPairs.value(service));
             if (!asset.isEmpty()) {
                 assetsToCheck << asset;
             }
@@ -298,7 +298,7 @@ bool DocumentChecker::hasErrorInClips()
         // Delete missing effects
         for (int i = 0; i < effs.count(); ++i) {
             QDomElement e = effs.item(i).toElement();
-            if (m_missingFilters.contains(getProperty(e, QStringLiteral("kdenlive_id")))) {
+            if (m_missingFilters.contains(Xml::getXmlProperty(e, QStringLiteral("kdenlive_id")))) {
                 // Remove clip
                 e.parentNode().removeChild(e);
                 --i;
@@ -567,8 +567,8 @@ bool DocumentChecker::hasErrorInClips()
 
                 if (missingPaths.contains(realPath)) {
                     // Proxy AND source missing
-                    setProperty(mltProd, QStringLiteral("_placeholder"), QStringLiteral("1"));
-                    setProperty(mltProd, QStringLiteral("kdenlive:orig_service"), Xml::getXmlProperty(mltProd, "mlt_service"));
+                    Xml::setXmlProperty(mltProd, QStringLiteral("_placeholder"), QStringLiteral("1"));
+                    Xml::setXmlProperty(mltProd, QStringLiteral("kdenlive:orig_service"), Xml::getXmlProperty(mltProd, "mlt_service"));
                 }
             }
             return true;
@@ -975,54 +975,6 @@ QString DocumentChecker::getMissingProducers(QDomElement &e, const QDomNodeList 
     return producerResource;
 }
 
-QString DocumentChecker::getProperty(const QDomElement &effect, const QString &name)
-{
-    QDomNodeList params = effect.elementsByTagName(QStringLiteral("property"));
-    for (int i = 0; i < params.count(); ++i) {
-        QDomElement e = params.item(i).toElement();
-        if (e.attribute(QStringLiteral("name")) == name) {
-            return e.firstChild().nodeValue();
-        }
-    }
-    return QString();
-}
-
-void DocumentChecker::updateProperty(const QDomElement &effect, const QString &name, const QString &value)
-{
-    QDomNodeList params = effect.elementsByTagName(QStringLiteral("property"));
-    for (int i = 0; i < params.count(); ++i) {
-        QDomElement e = params.item(i).toElement();
-        if (e.attribute(QStringLiteral("name")) == name) {
-            e.firstChild().setNodeValue(value);
-            break;
-        }
-    }
-}
-
-void DocumentChecker::setProperty(QDomElement &effect, const QString &name, const QString &value)
-{
-    QDomNodeList params = effect.elementsByTagName(QStringLiteral("property"));
-    bool found = false;
-    for (int i = 0; i < params.count(); ++i) {
-        QDomElement e = params.item(i).toElement();
-        if (e.attribute(QStringLiteral("name")) == name) {
-            e.firstChild().setNodeValue(value);
-            found = true;
-            break;
-        }
-    }
-
-    if (!found) {
-        // create property
-        QDomDocument doc = effect.ownerDocument();
-        QDomElement e = doc.createElement(QStringLiteral("property"));
-        e.setAttribute(QStringLiteral("name"), name);
-        QDomText val = doc.createTextNode(value);
-        e.appendChild(val);
-        effect.appendChild(e);
-    }
-}
-
 void DocumentChecker::slotCheckClips()
 {
     if (m_checkRunning) {
@@ -1250,7 +1202,6 @@ QString DocumentChecker::searchDirRecursively(const QDir &dir, const QString &ma
         return QString();
     }
     Q_EMIT showScanning(i18n("Scanning %1", dir.absolutePath()));
-    QStringList filesAndDirs;
     QString fileName = QFileInfo(fullName).fileName();
     // Check main dir
     QString fileHash = ProjectClip::getFolderHash(dir, fileName).toHex();
@@ -1677,13 +1628,13 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
             auto fixUrl = [this](QDomElement &e, const QString &id, const QString &fixedResource) {
                 if (Xml::getXmlProperty(e, QStringLiteral("kdenlive:id")) == id) {
                     // Fix clip
-                    QString resource = getProperty(e, QStringLiteral("resource"));
-                    QString service = getProperty(e, QStringLiteral("mlt_service"));
+                    QString resource = Xml::getXmlProperty(e, QStringLiteral("resource"));
+                    QString service = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
                     QString updatedResource = fixedResource;
                     qDebug() << "===== UPDATING RESOURCE FOR: " << id << ": " << resource << " > " << fixedResource;
                     if (service == QLatin1String("timewarp")) {
-                        updateProperty(e, QStringLiteral("warp_resource"), updatedResource);
-                        updatedResource.prepend(getProperty(e, QStringLiteral("warp_speed")) + QLatin1Char(':'));
+                        Xml::setXmlProperty(e, QStringLiteral("warp_resource"), updatedResource);
+                        updatedResource.prepend(Xml::getXmlProperty(e, QStringLiteral("warp_speed")) + QLatin1Char(':'));
                     } else if (service.startsWith(QLatin1String("avformat")) && e.tagName() == QLatin1String("producer")) {
                         e.setTagName(QStringLiteral("chain"));
                     }
@@ -1695,11 +1646,11 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
                         // Only set original.resource on master producer
                         Xml::setXmlProperty(e, QStringLiteral("kdenlive:original.resource"), fixedResource);
                     }
-                    updateProperty(e, QStringLiteral("resource"), updatedResource);
+                    Xml::setXmlProperty(e, QStringLiteral("resource"), updatedResource);
                     QString proxy = Xml::getXmlProperty(e, QStringLiteral("kdenlive:proxy"));
                     if (proxy.length() > 1) {
                         // Disable proxy
-                        updateProperty(e, QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
+                        Xml::setXmlProperty(e, QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
                     }
                 }
                 return true;
@@ -1722,8 +1673,8 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
             e = producers.item(i).toElement();
             if (Xml::getXmlProperty(e, QStringLiteral("kdenlive:id")) == id) {
                 // Fix clip
-                setProperty(e, QStringLiteral("_placeholder"), QStringLiteral("1"));
-                setProperty(e, QStringLiteral("kdenlive:orig_service"), getProperty(e, QStringLiteral("mlt_service")));
+                Xml::setXmlProperty(e, QStringLiteral("_placeholder"), QStringLiteral("1"));
+                Xml::setXmlProperty(e, QStringLiteral("kdenlive:orig_service"), Xml::getXmlProperty(e, QStringLiteral("mlt_service")));
             }
         }
         for (int i = chains.count() - 1; i >= 0; --i) {
@@ -1731,8 +1682,8 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
             e = chains.item(i).toElement();
             if (Xml::getXmlProperty(e, QStringLiteral("kdenlive:id")) == id) {
                 // Fix clip
-                setProperty(e, QStringLiteral("_placeholder"), QStringLiteral("1"));
-                setProperty(e, QStringLiteral("kdenlive:orig_service"), getProperty(e, QStringLiteral("mlt_service")));
+                Xml::setXmlProperty(e, QStringLiteral("_placeholder"), QStringLiteral("1"));
+                Xml::setXmlProperty(e, QStringLiteral("kdenlive:orig_service"), Xml::getXmlProperty(e, QStringLiteral("mlt_service")));
 
                 // In MLT 7.14/15, link_swresample crashes on invalid avformat clips,
                 // so switch to producer instead of chain to use filter_swresample
@@ -1743,11 +1694,11 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
         QMap<QString, QString> lumaSearchPairs = getLumaPairs();
         QString luma;
         for (int i = 0; i < trans.count(); ++i) {
-            QString service = getProperty(trans.at(i).toElement(), QStringLiteral("mlt_service"));
+            QString service = Xml::getXmlProperty(trans.at(i).toElement(), QStringLiteral("mlt_service"));
             if (lumaSearchPairs.contains(service)) {
-                luma = getProperty(trans.at(i).toElement(), lumaSearchPairs.value(service));
+                luma = Xml::getXmlProperty(trans.at(i).toElement(), lumaSearchPairs.value(service));
                 if (!luma.isEmpty() && luma == child->data(0, idRole).toString()) {
-                    updateProperty(trans.at(i).toElement(), lumaSearchPairs.value(service), child->text(1));
+                    Xml::setXmlProperty(trans.at(i).toElement(), lumaSearchPairs.value(service), child->text(1));
                     // qCDebug(KDENLIVE_LOG) << "replace with; " << child->text(1);
                 }
             }
@@ -1756,12 +1707,12 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
         QMap<QString, QString> assetSearchPairs = getAssetPairs();
         QString asset;
         for (int i = 0; i < filters.count(); ++i) {
-            QString service = getProperty(filters.at(i).toElement(), QStringLiteral("mlt_service"));
+            QString service = Xml::getXmlProperty(filters.at(i).toElement(), QStringLiteral("mlt_service"));
 
             if (assetSearchPairs.contains(service)) {
-                asset = getProperty(filters.at(i).toElement(), assetSearchPairs.value(service));
+                asset = Xml::getXmlProperty(filters.at(i).toElement(), assetSearchPairs.value(service));
                 if (!asset.isEmpty() && asset == child->data(0, idRole).toString()) {
-                    updateProperty(filters.at(i).toElement(), assetSearchPairs.value(service), child->text(1));
+                    Xml::setXmlProperty(filters.at(i).toElement(), assetSearchPairs.value(service), child->text(1));
                     // qCDebug(KDENLIVE_LOG) << "replace with; " << child->text(1);
                 }
             }
@@ -1770,11 +1721,11 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
         QMap<QString, QString> lumaSearchPairs = getLumaPairs();
         QString luma;
         for (int i = 0; i < trans.count(); ++i) {
-            QString service = getProperty(trans.at(i).toElement(), QStringLiteral("mlt_service"));
+            QString service = Xml::getXmlProperty(trans.at(i).toElement(), QStringLiteral("mlt_service"));
             if (lumaSearchPairs.contains(service)) {
-                luma = getProperty(trans.at(i).toElement(), lumaSearchPairs.value(service));
+                luma = Xml::getXmlProperty(trans.at(i).toElement(), lumaSearchPairs.value(service));
                 if (!luma.isEmpty() && luma == child->data(0, idRole).toString()) {
-                    updateProperty(trans.at(i).toElement(), lumaSearchPairs.value(service), QString());
+                    Xml::setXmlProperty(trans.at(i).toElement(), lumaSearchPairs.value(service), QString());
                 }
             }
         }
@@ -1877,7 +1828,7 @@ void DocumentChecker::slotDeleteSelected()
                 QString service = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
                 QString resource;
                 if (lumaSearchPairs.contains(service)) {
-                    resource = getProperty(e, lumaSearchPairs.value(service));
+                    resource = Xml::getXmlProperty(e, lumaSearchPairs.value(service));
                 }
                 if (!resource.isEmpty() && resource == lumaPath) {
                     Xml::removeXmlProperty(e, lumaSearchPairs.value(service));

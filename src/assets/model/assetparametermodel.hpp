@@ -90,7 +90,6 @@ public:
         ValueRole,
         AlphaRole,
         ListValuesRole,
-        InstalledValuesRole,
         ListNamesRole,
         ListDependenciesRole,
         NewStuffRole,
