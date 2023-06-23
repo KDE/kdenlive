@@ -157,12 +157,7 @@ MediaBrowser::MediaBrowser(QWidget *parent)
         }
     });
     QString allExtensions = ClipCreationDialog::getExtensions().join(QLatin1Char(' '));
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 108, 0)
     m_filterCombo->setNameFilters({QString("%1 (%2)").arg(i18n("All Supported Files"), allExtensions), QString("%1 (*)").arg(i18n("All Files"))});
-#else
-    QString dialogFilter = allExtensions + QLatin1Char('|') + i18n("All Supported Files") + QStringLiteral("\n*|") + i18n("All Files");
-    m_filterCombo->setFilter(dialogFilter);
-#endif
     m_op->setNameFilter(m_filterCombo->currentFilter());
     m_op->setIconSize(KdenliveSettings::mediaIconSize());
 

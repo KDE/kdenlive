@@ -34,7 +34,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KMessageBox>
 #include <KRecentDirs>
 #include <KWindowConfig>
-#include <kio_version.h>
 
 #include <QDialog>
 #include <QDir>
@@ -494,12 +493,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &par
     QObject::connect(fileWidget->cancelButton(), &QPushButton::clicked, dlg.data(), &QDialog::reject);
     dlg->setLayout(layout);
     QString allExtensions = getExtensions().join(QLatin1Char(' '));
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 108, 0)
     fileWidget->setNameFilters({QString("%1 (%2)").arg(i18n("All Supported Files"), allExtensions), QString("%1 (*)").arg(i18n("All Files"))});
-#else
-    QString dialogFilter = allExtensions + QLatin1Char('|') + i18n("All Supported Files") + QStringLiteral("\n*|") + i18n("All Files");
-    fileWidget->setFilter(dialogFilter);
-#endif
     fileWidget->setMode(KFile::Files | KFile::ExistingOnly | KFile::LocalOnly | KFile::Directory);
     KSharedConfig::Ptr conf = KSharedConfig::openConfig();
     QWindow *handle = dlg->windowHandle();
