@@ -10,11 +10,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QPushButton>
 #include <QStyledItemDelegate>
 
-#ifdef KF5_USE_PURPOSE
 namespace Purpose {
 class Menu;
 }
-#endif
 
 #include "bin/model/markerlistmodel.hpp"
 #include "definitions.h"
@@ -223,9 +221,7 @@ private:
     QString m_currentProfile;
     RenderPresetParams m_params;
 
-#ifdef KF5_USE_PURPOSE
     Purpose::Menu *m_shareMenu;
-#endif
     void parseProfiles(const QString &selectedProfile = QString());
     QUrl filenameWithExtension(QUrl url, const QString &extension);
     /** @brief Check if a job needs to be started. */
