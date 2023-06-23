@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-18 04:12+0000\n"
-"PO-Revision-Date: 2023-06-01 09:49+0400\n"
+"PO-Revision-Date: 2023-06-22 09:22+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -14977,12 +14977,10 @@ msgstr ""
 "عُثر على تركيب %1 غير صحيح في المسار %2 عند %3، فرض التراكب مع مسار %4 بالقوة."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:286
-#, fuzzy, kde-format
-#| msgid ""
-#| "Invalid composition %1 found on track %2 at %3, compositing with track %4."
+#, kde-format
 msgid ""
 "Unknown composition %1 found on track %2 at %3, compositing with track %4."
-msgstr "عُثر على تركيب %1 غير صالح في المسار %2 عند %3، يتركب مع مسار %4."
+msgstr "عُثر على تركيب %1 مجهول في المسار %2 عند %3، يتركب مع مسار %4."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:296
 #: src/timeline2/model/builders/meltBuilder.cpp:545
