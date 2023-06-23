@@ -920,8 +920,11 @@ void RenderWidget::loadProfile()
 
     QUrl url = filenameWithExtension(m_view.out_file->url(), profile->extension());
     m_view.out_file->setUrl(url);
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 108, 0)
+    m_view.out_file->setNameFilter("*." + profile->extension());
+#else
     m_view.out_file->setFilter("*." + profile->extension());
-
+#endif
     m_view.buttonDelete->setEnabled(profile->editable());
     m_view.buttonEdit->setEnabled(profile->editable());
 
