@@ -92,7 +92,7 @@ public:
      * @param tracks The number of <video, audio> tracks to create in the project.
     */
     KdenliveDoc(QString projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties,
-                const QMap<QString, QString> &metadata, const QPair<int, int> &tracks, int audioChannels, MainWindow *parent = nullptr);
+                const QMap<QString, QString> &metadata, const std::pair<int, int> &tracks, int audioChannels, MainWindow *parent = nullptr);
     /** @brief Open an existing Kdenlive project, returning nothing if the project cannot be opened. */
     static DocOpenResult Open(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup,
                 bool recoverCorruption, MainWindow *parent = nullptr);
@@ -309,7 +309,7 @@ private:
     /** @brief Set document default properties using hard-coded values and KdenliveSettings.
      *  @param newDocument true if we are creating a new document, false when opening an existing one
      */
-    void initializeProperties(bool newDocument = true);
+    void initializeProperties(bool newDocument = true, std::pair<int, int> tracks = {}, int audioChannels = 0);
     QUuid m_uuid;
     QDomDocument m_document;
     int m_clipsCount;

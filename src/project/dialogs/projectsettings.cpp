@@ -568,7 +568,7 @@ QString ProjectSettings::selectedProfile() const
     return m_pw->selectedProfile();
 }
 
-QPair<int, int> ProjectSettings::tracks() const
+std::pair<int, int> ProjectSettings::tracks() const
 {
     return {video_tracks->value(), audio_tracks->value()};
 }

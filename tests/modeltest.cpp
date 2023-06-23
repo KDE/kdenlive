@@ -2173,18 +2173,35 @@ TEST_CASE("New KdenliveDoc activeTrack", "KdenliveDoc")
     SECTION("0 video tracks")
     {
         // Create document
-        KdenliveDoc doc{QString(), undoGroup, QString(), emptyMap,
-            emptyMap, qMakePair<int, int>(0, 2), 2, nullptr};
-
+        KdenliveDoc doc(undoStack, {0, 2});
+        pCore->projectManager()->m_project = &doc;
+        QDateTime documentDate = QDateTime::currentDateTime();
+        pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
+        QMap<QUuid, QString> allSequences = binModel->getAllSequenceClips();
+        const QString firstSeqId = allSequences.value(doc.uuid());
+        pCore->projectManager()->openTimeline(firstSeqId, doc.uuid());
+        auto timeline = doc.getTimeline(doc.uuid());
+        pCore->projectManager()->m_activeTimelineModel = timeline;
+        pCore->projectManager()->testSetActiveDocument(&doc, timeline);
         // since there are only 2 tracks, the activeTrack position should be 0 or 1
         CHECK(doc.getDocumentProperty("activeTrack").toInt() >= 0);
         CHECK(doc.getDocumentProperty("activeTrack").toInt() < 2);
+        pCore->projectManager()->closeCurrentDocument(false, false);
     }
 
     SECTION("both audio and video tracks")
     {
-        KdenliveDoc doc{QString(), undoGroup, QString(), emptyMap,
-            emptyMap, qMakePair<int, int>(2, 2), 2, nullptr};
+        KdenliveDoc doc(undoStack, {2, 2});
+        pCore->projectManager()->m_project = &doc;
+        QDateTime documentDate = QDateTime::currentDateTime();
+        pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
+        QMap<QUuid, QString> allSequences = binModel->getAllSequenceClips();
+        const QString firstSeqId = allSequences.value(doc.uuid());
+        pCore->projectManager()->openTimeline(firstSeqId, doc.uuid());
+        auto timeline = doc.getTimeline(doc.uuid());
+        pCore->projectManager()->m_activeTimelineModel = timeline;
+        pCore->projectManager()->testSetActiveDocument(&doc, timeline);
+
         CHECK(doc.getSequenceProperty(doc.uuid(), "activeTrack").toInt() >= 0);
         CHECK(doc.getSequenceProperty(doc.uuid(), "activeTrack").toInt() < 4);
         // because video tracks come after audio tracks, videoTarget position
@@ -2194,17 +2211,26 @@ TEST_CASE("New KdenliveDoc activeTrack", "KdenliveDoc")
 
         CHECK(doc.getSequenceProperty(doc.uuid(), "audioTarget").toInt() >= 0);
         CHECK(doc.getSequenceProperty(doc.uuid(), "audioTarget").toInt() < 2);
+        pCore->projectManager()->closeCurrentDocument(false, false);
     }
 
     SECTION("0 audio tracks")
     {
-        KdenliveDoc doc{QString(), undoGroup, QString(), emptyMap,
-            emptyMap, qMakePair<int, int>(2, 0), 2, nullptr};
+        KdenliveDoc doc(undoStack, {2, 0});
+        pCore->projectManager()->m_project = &doc;
+        QDateTime documentDate = QDateTime::currentDateTime();
+        pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
+        QMap<QUuid, QString> allSequences = binModel->getAllSequenceClips();
+        const QString firstSeqId = allSequences.value(doc.uuid());
+        pCore->projectManager()->openTimeline(firstSeqId, doc.uuid());
+        auto timeline = doc.getTimeline(doc.uuid());
+        pCore->projectManager()->m_activeTimelineModel = timeline;
+        pCore->projectManager()->testSetActiveDocument(&doc, timeline);
+
         CHECK(doc.getSequenceProperty(doc.uuid(), "activeTrack").toInt() >= 0);
         CHECK(doc.getSequenceProperty(doc.uuid(), "activeTrack").toInt() < 2);
         CHECK(doc.getSequenceProperty(doc.uuid(), "videoTarget").toInt() >= 0);
         CHECK(doc.getSequenceProperty(doc.uuid(), "videoTarget").toInt() < 2);
+        pCore->projectManager()->closeCurrentDocument(false, false);
     }
-    delete undoGroup;
-    pCore->projectManager()->closeCurrentDocument(false, false);
 }

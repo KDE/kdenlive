@@ -183,7 +183,7 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     QString projectFolder;
     QMap<QString, QString> documentProperties;
     QMap<QString, QString> documentMetadata;
-    QPair<int, int> projectTracks{KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()};
+    std::pair<int, int> projectTracks{KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()};
     int audioChannels = 2;
     if (KdenliveSettings::audio_channels() == 1) {
         audioChannels = 4;
@@ -408,8 +408,8 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         m_project->commandStack()->clear();
         ::mlt_pool_purge();
         pCore->cleanup();
-        QList<QUuid> uuids = m_project->getTimelinesUuids();
         if (guiConstructed) {
+            const QList<QUuid> uuids = m_project->getTimelinesUuids();
             for (auto &uid : uuids) {
                 pCore->window()->closeTimeline(uid);
                 pCore->window()->resetSubtitles(uid);
@@ -430,6 +430,11 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         m_project = nullptr;
     } else {
         pCore->projectItemModel()->clean();
+        // Close all timelines
+        const QList<QUuid> uuids = m_project->getTimelinesUuids();
+        for (auto &uid : uuids) {
+            m_project->closeTimeline(uid);
+        }
         m_project = nullptr;
     }
     return true;
