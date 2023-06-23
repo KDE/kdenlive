@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-22 00:47+0000\n"
-"PO-Revision-Date: 2023-06-01 09:49+0400\n"
+"PO-Revision-Date: 2023-06-22 09:22+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -6735,10 +6735,9 @@ msgstr ""
 "رجاء تحقّق من امتلاكك التّصاريح المطلوبة."
 
 #: src/dialogs/renderwidget.cpp:674
-#, fuzzy, kde-format
-#| msgid "An error occurred while deleting markers"
+#, kde-format
 msgid "The following errors occured while trying to render"
-msgstr "حدث خطأ في أثناء حذف العلامات"
+msgstr "حدث الخطأ التالي أثناء محاولة التصيير"
 
 #: src/dialogs/renderwidget.cpp:707 src/dialogs/renderwidget.cpp:1434
 #, kde-format
@@ -7444,9 +7443,9 @@ msgstr ""
 "<li>تطبيق ناقص: <b>ffprobe</b><br/>مستحسن لتحليل المقاطع بشكل أكثر</li>"
 
 #: src/dialogs/wizard.cpp:444
-#, fuzzy, kde-format
+#, kde-format
 msgid "<li>Missing app: <b>kdenlive_render</b><br/>needed for rendering.</li>"
-msgstr "<li>تطبيق ناقص: <b>dvdauther</b><br/>مطلوب لإنشاء DVD</li>"
+msgstr "<li>تطبيق ناقص: <b>kdenlive_render</b><br/>مطلوب للتصيير</li>"
 
 #: src/dialogs/wizard.cpp:517
 #, kde-format
@@ -14606,15 +14605,12 @@ msgid "Could not create temporary subtitle file"
 msgstr "تعذّر إنشاء ملف ترجمة مؤّقت"
 
 #: src/render/renderrequest.cpp:190
-#, fuzzy, kde-format
-#| msgid ""
-#| "Script rendering and multi track audio export can not be used together.\n"
-#| "Script will be saved without multi track export."
+#, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together. "
 "Script will be saved without multi track export."
 msgstr ""
-"لا يمكن استخدام التصيير بالبرنامج النصي و تصدير الصوت متعدد المسارات معًا. \n"
+"لا يمكن استخدام التصيير بالبرنامج النصي و تصدير الصوت متعدد المسارات معًا. "
 "سيحفظ البرنامج النصي دون تصدير المسار المتعدد."
 
 #: src/render/renderrequest.cpp:263
@@ -15091,12 +15087,10 @@ msgstr ""
 "عُثر على تركيب %1 غير صحيح في المسار %2 عند %3، فرض التراكب مع مسار %4 بالقوة."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:286
-#, fuzzy, kde-format
-#| msgid ""
-#| "Invalid composition %1 found on track %2 at %3, compositing with track %4."
+#, kde-format
 msgid ""
 "Unknown composition %1 found on track %2 at %3, compositing with track %4."
-msgstr "عُثر على تركيب %1 غير صالح في المسار %2 عند %3، يتركب مع مسار %4."
+msgstr "عُثر على تركيب %1 مجهول في المسار %2 عند %3، يتركب مع مسار %4."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:296
 #: src/timeline2/model/builders/meltBuilder.cpp:545

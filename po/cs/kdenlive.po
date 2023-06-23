@@ -7276,14 +7276,9 @@ msgstr ""
 "li>"
 
 #: src/dialogs/wizard.cpp:444
-#, fuzzy, kde-format
-#| msgid ""
-#| "<li>Missing app: <b>ffprobe</b><br/>recommended for extra clip analysis</"
-#| "li>"
+#, kde-format
 msgid "<li>Missing app: <b>kdenlive_render</b><br/>needed for rendering.</li>"
 msgstr ""
-"<li>Chybí aplikace: <b>ffprobe</b><br/>doporučeno pro extra analýzu klipů</"
-"li>"
 
 #: src/dialogs/wizard.cpp:517
 #, kde-format

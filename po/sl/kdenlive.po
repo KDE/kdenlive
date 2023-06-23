@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-22 00:47+0000\n"
-"PO-Revision-Date: 2023-06-19 16:49+0200\n"
+"PO-Revision-Date: 2023-06-22 08:55+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -7495,14 +7495,10 @@ msgstr ""
 "posnetkov</li>"
 
 #: src/dialogs/wizard.cpp:444
-#, fuzzy, kde-format
-#| msgid ""
-#| "<li>Missing app: <b>ffprobe</b><br/>recommended for extra clip analysis</"
-#| "li>"
+#, kde-format
 msgid "<li>Missing app: <b>kdenlive_render</b><br/>needed for rendering.</li>"
 msgstr ""
-"<li>Manjka program: <b>ffprobe</b>,<br/>priporočen za dodatno preučevanje "
-"posnetkov</li>"
+"<li>Manjka program: <b>kdenlive_render</b>,<br/>potreben za izris.</li>"
 
 #: src/dialogs/wizard.cpp:517
 #, kde-format
