@@ -28,6 +28,7 @@ public:
      * @return
      */
     bool hasErrorInClips();
+    bool showDialog();
     QString fixLuma(const QString &file);
     QString searchLuma(const QDir &dir, const QString &file);
 
@@ -43,9 +44,39 @@ private Q_SLOTS:
     void slotCheckButtons();
 
 private:
+    enum MissingStatus { OK, Missing, Placeholder };
+
+    struct DocumentResource
+    {
+        MissingStatus status;
+    };
+
+    /*enum MissingStatus {
+        ClipMissing = 0,
+        ClipOK,
+        ClipPlaceholder,
+        ProxyMissing,
+        SourceMissing,
+        LumaMissing,
+        LumaOK,
+        LumaPlaceholder,
+        AssetMissing,
+        AssetOK,
+        TitleImageMissing,
+        TitleFontMissig,
+        SequenceMissing
+    };
+
+    enum MissingType {
+        TitleImageMissing,
+        TitleFontMissig,
+        SequenceMissing
+    };*/
+
     QUrl m_url;
     QDomDocument m_doc;
     QString m_documentid;
+    QString m_root;
     Ui::MissingClips_UI m_ui;
     QDialog *m_dialog;
     QPair<QString, QString> m_rootReplacement;
@@ -60,6 +91,8 @@ private:
     QStringList m_missingFilters;
     QStringList m_missingTransitions;
     QStringList m_missingFonts;
+    QStringList m_missingLumas;
+    QStringList m_missingAssets;
     QStringList m_safeImages;
     QStringList m_safeFonts;
     QStringList m_missingProxyIds;
@@ -68,6 +101,7 @@ private:
     QStringList m_tractorsList;
     QStringList m_binIds;
     QStringList m_warnings;
+    QStringList m_missingPaths;
     // List clips whose proxy is missing
     QList<QDomElement> m_missingProxies;
     // List clips who have a working proxy but no source clip
@@ -75,7 +109,7 @@ private:
     bool m_abortSearch;
     bool m_checkRunning;
 
-    static QString ensureAbsoultePath(const QString &root, QString filepath);
+    QString ensureAbsoultePath(QString filepath);
     static QStringList getAssetsFiles(const QDomDocument &doc, const QString &tagName, const QMap<QString, QString> &searchPairs);
     static QStringList getAssetsServiceIds(const QDomDocument &doc, const QString &tagName);
     static void removeAssetsById(QDomDocument &doc, const QString &tagName, const QStringList &idsToDelete);
@@ -98,6 +132,11 @@ private:
                                 const QStringList &serviceToCheck, const QString &root, const QString &storageFolder);
     /** @brief If project path changed, try to relocate its resources */
     const QString relocateResource(QString sourceResource);
+
+    static ClipType::ProducerType getClipType(const QString &service, const QString &resource);
+    static QString readableNameForClipType(ClipType::ProducerType type);
+
+    QStringList getInfoMessages();
 
 Q_SIGNALS:
     void showScanning(const QString);
