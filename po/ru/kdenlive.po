@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-22 00:47+0000\n"
+"POT-Creation-Date: 2023-06-24 00:49+0000\n"
 "PO-Revision-Date: 2022-10-04 11:00+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -3485,7 +3485,7 @@ msgid "Delete keyframes"
 msgstr "Удалить ключевые кадры"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:445
-#: src/assets/model/assetparametermodel.cpp:1386
+#: src/assets/model/assetparametermodel.cpp:1384
 #, fuzzy, kde-format
 #| msgid "Paste effect"
 msgid "Update effect"
@@ -3578,8 +3578,8 @@ msgstr "Изменить ключевой кадр %1"
 msgid "Update %1"
 msgstr "Обновлено %1"
 
-#: src/assets/model/assetparametermodel.cpp:1238
-#: src/assets/model/assetparametermodel.cpp:1285
+#: src/assets/model/assetparametermodel.cpp:1236
+#: src/assets/model/assetparametermodel.cpp:1283
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Не удалось открыть файл предустановок «%1»"
@@ -4020,7 +4020,7 @@ msgstr "Значение ключевого кадра скопировано"
 msgid "<Select a Keyword>"
 msgstr "<выберите ключевое слово>"
 
-#: src/assets/view/widgets/listdependencyparamwidget.cpp:171
+#: src/assets/view/widgets/listdependencyparamwidget.cpp:170
 #: src/assets/view/widgets/listparamwidget.cpp:95
 #: src/assets/view/widgets/urllistparamwidget.cpp:129
 #, kde-format
@@ -5150,7 +5150,7 @@ msgstr "Выделение по цвету"
 msgid "Import File on Double Click"
 msgstr ""
 
-#: src/bin/mediabrowser.cpp:160 src/dialogs/clipcreationdialog.cpp:465
+#: src/bin/mediabrowser.cpp:160 src/dialogs/clipcreationdialog.cpp:496
 #: src/effects/effectlist/view/effectlistwidget.cpp:130
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:300
 #: src/mainwindow.cpp:3894 src/onlineresources/resourcewidget.cpp:553
@@ -5159,7 +5159,7 @@ msgid "All Files"
 msgstr "Все файлы"
 
 #: src/bin/mediabrowser.cpp:160 src/dialogs/clipcreationdialog.cpp:128
-#: src/dialogs/clipcreationdialog.cpp:465
+#: src/dialogs/clipcreationdialog.cpp:496
 #, kde-format
 msgid "All Supported Files"
 msgstr "Все поддерживаемые файлы"
@@ -5180,18 +5180,18 @@ msgstr "Имя:"
 msgid "Filter:"
 msgstr "Фильтр"
 
-#: src/bin/mediabrowser.cpp:204 src/dialogs/clipcreationdialog.cpp:471
+#: src/bin/mediabrowser.cpp:204 src/dialogs/clipcreationdialog.cpp:469
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr "Игнорировать структуру подпапок"
 
-#: src/bin/mediabrowser.cpp:206 src/dialogs/clipcreationdialog.cpp:473
+#: src/bin/mediabrowser.cpp:206 src/dialogs/clipcreationdialog.cpp:471
 #, fuzzy, kde-format
 #| msgid "Insert Zone in Project Bin"
 msgid "Do not create subfolders in Project Bin"
 msgstr "Вставить участок в корзину проекта"
 
-#: src/bin/mediabrowser.cpp:209 src/dialogs/clipcreationdialog.cpp:476
+#: src/bin/mediabrowser.cpp:209 src/dialogs/clipcreationdialog.cpp:474
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5199,18 +5199,18 @@ msgid ""
 "subfolders without creating the subfolders in Project Bin."
 msgstr ""
 
-#: src/bin/mediabrowser.cpp:212 src/dialogs/clipcreationdialog.cpp:466
+#: src/bin/mediabrowser.cpp:212 src/dialogs/clipcreationdialog.cpp:464
 #, kde-format
 msgid "Import image sequence"
 msgstr "Импортировать серию изображений"
 
-#: src/bin/mediabrowser.cpp:215 src/dialogs/clipcreationdialog.cpp:467
+#: src/bin/mediabrowser.cpp:215 src/dialogs/clipcreationdialog.cpp:465
 #, fuzzy, kde-format
 #| msgid "Import image sequence"
 msgid "Try to import an image sequence"
 msgstr "Импортировать серию изображений"
 
-#: src/bin/mediabrowser.cpp:217 src/dialogs/clipcreationdialog.cpp:469
+#: src/bin/mediabrowser.cpp:217 src/dialogs/clipcreationdialog.cpp:467
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6203,8 +6203,8 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "Экспортировать направляющие…"
 
-#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:1617
-#: src/dialogs/renderwidget.cpp:1644 src/doc/kdenlivedoc.cpp:739
+#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:1620
+#: src/dialogs/renderwidget.cpp:1647 src/doc/kdenlivedoc.cpp:739
 #: src/doc/kdenlivedoc.cpp:747 src/doc/kdenlivedoc.cpp:1243
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
@@ -6716,7 +6716,7 @@ msgstr ""
 "значениями эквивалентных параметров интерфейса пользователя: <icode>%1</"
 "icode>"
 
-#: src/dialogs/renderwidget.cpp:117 src/dialogs/renderwidget.cpp:1447
+#: src/dialogs/renderwidget.cpp:117 src/dialogs/renderwidget.cpp:1450
 #, kde-format
 msgid "Waiting…"
 msgstr "Ожидание…"
@@ -6832,7 +6832,7 @@ msgstr ""
 "Не удалось найти приложение melt (является частью MLT), необходимое для "
 "проведения сборки"
 
-#: src/dialogs/renderwidget.cpp:625 src/dialogs/renderwidget.cpp:1421
+#: src/dialogs/renderwidget.cpp:625 src/dialogs/renderwidget.cpp:1424
 #: src/project/dialogs/archivewidget.cpp:873
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
@@ -6853,7 +6853,7 @@ msgstr ""
 msgid "The following errors occured while trying to render"
 msgstr "Во время удаления маркеров произошла ошибка"
 
-#: src/dialogs/renderwidget.cpp:707 src/dialogs/renderwidget.cpp:1434
+#: src/dialogs/renderwidget.cpp:707 src/dialogs/renderwidget.cpp:1437
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -6862,7 +6862,7 @@ msgstr ""
 "Уже выполняется задание по записи файла:<br><b>%1</b><br>Отмените это "
 "задание, чтобы перезаписать файл…"
 
-#: src/dialogs/renderwidget.cpp:708 src/dialogs/renderwidget.cpp:1435
+#: src/dialogs/renderwidget.cpp:708 src/dialogs/renderwidget.cpp:1438
 #, kde-format
 msgid "Already running"
 msgstr "Уже выполняется"
@@ -6902,19 +6902,19 @@ msgstr "Нет соответствующей предустановки"
 msgid "Invalid preset"
 msgstr "Недопустимая предустановка"
 
-#: src/dialogs/renderwidget.cpp:1027
+#: src/dialogs/renderwidget.cpp:1030
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
 msgstr "Сборка невозможна без звука и видео. Включите хотя бы что-то одно."
 
-#: src/dialogs/renderwidget.cpp:1186
+#: src/dialogs/renderwidget.cpp:1189
 #, kde-format
 msgid "Remaining time "
 msgstr "Осталось времени "
 
-#: src/dialogs/renderwidget.cpp:1188 src/dialogs/renderwidget.cpp:1232
+#: src/dialogs/renderwidget.cpp:1191 src/dialogs/renderwidget.cpp:1235
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
@@ -6923,50 +6923,50 @@ msgstr[1] "%1 дня "
 msgstr[2] "%1 дней "
 msgstr[3] "%1 день "
 
-#: src/dialogs/renderwidget.cpp:1192
+#: src/dialogs/renderwidget.cpp:1195
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (кадр %1 @ %2 кадров/с)"
 
-#: src/dialogs/renderwidget.cpp:1204
+#: src/dialogs/renderwidget.cpp:1207
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1234
+#: src/dialogs/renderwidget.cpp:1237
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Сборка завершена за %1"
 
-#: src/dialogs/renderwidget.cpp:1243
+#: src/dialogs/renderwidget.cpp:1246
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "Сборка %1 завершена за %2"
 
-#: src/dialogs/renderwidget.cpp:1267
+#: src/dialogs/renderwidget.cpp:1270
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>Во время сборки %1 произошёл сбой</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1310 src/ui/renderwidget_ui.ui:865
+#: src/dialogs/renderwidget.cpp:1313 src/ui/renderwidget_ui.ui:865
 #, kde-format
 msgid "Abort Job"
 msgstr "Прервать задание"
 
-#: src/dialogs/renderwidget.cpp:1313
+#: src/dialogs/renderwidget.cpp:1316
 #, kde-format
 msgid "Remove Job"
 msgstr "Удалить задание"
 
-#: src/dialogs/renderwidget.cpp:1699 src/dialogs/renderwidget.cpp:1709
-#: src/dialogs/renderwidget.cpp:1731
+#: src/dialogs/renderwidget.cpp:1702 src/dialogs/renderwidget.cpp:1712
+#: src/dialogs/renderwidget.cpp:1734
 #, fuzzy, kde-format
 #| msgid "Render Button"
 msgid "Render Duration: %1"
 msgstr "Кнопка сборки"
 
-#: src/dialogs/renderwidget.cpp:1789
+#: src/dialogs/renderwidget.cpp:1792
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -6975,7 +6975,7 @@ msgstr ""
 "Параметры скорости кодека:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:1809
+#: src/dialogs/renderwidget.cpp:1812
 #, kde-format
 msgid "Add to current project"
 msgstr "Добавить в текущий проект"
@@ -7659,7 +7659,7 @@ msgid "Missing item"
 msgstr "Элемент отсутствует"
 
 #: src/doc/documentchecker.cpp:417 src/doc/documentchecker.cpp:442
-#: src/doc/documentchecker.cpp:1387
+#: src/doc/documentchecker.cpp:1338
 #, kde-format
 msgid "Relocated item"
 msgstr "Элемент перемещён"
@@ -7778,45 +7778,45 @@ msgstr "Исходный клип"
 msgid "%1 missing source clips, you can only use the proxies"
 msgstr "Утеряно исходных клипов: %1, можно использовать только их прокси"
 
-#: src/doc/documentchecker.cpp:1034
+#: src/doc/documentchecker.cpp:986
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Папка с клипами"
 
-#: src/doc/documentchecker.cpp:1066 src/doc/documentchecker.cpp:1090
-#: src/doc/documentchecker.cpp:1100 src/doc/documentchecker.cpp:1109
-#: src/doc/documentchecker.cpp:1121
+#: src/doc/documentchecker.cpp:1018 src/doc/documentchecker.cpp:1042
+#: src/doc/documentchecker.cpp:1052 src/doc/documentchecker.cpp:1061
+#: src/doc/documentchecker.cpp:1073
 #, kde-format
 msgid "Recovered item"
 msgstr "Элемент восстановлен"
 
-#: src/doc/documentchecker.cpp:1134
+#: src/doc/documentchecker.cpp:1086
 #, kde-format
 msgid "Search aborted"
 msgstr "Поиск прерван"
 
-#: src/doc/documentchecker.cpp:1136
+#: src/doc/documentchecker.cpp:1088
 #, kde-format
 msgid "Search done"
 msgstr "Поиск завершён"
 
-#: src/doc/documentchecker.cpp:1252
+#: src/doc/documentchecker.cpp:1204
 #, kde-format
 msgid "Scanning %1"
 msgstr "Сканирование %1"
 
-#: src/doc/documentchecker.cpp:1349
+#: src/doc/documentchecker.cpp:1300
 #, kde-format
 msgid "Enter new location for folder"
 msgstr "Укажите новый адрес папки"
 
-#: src/doc/documentchecker.cpp:1375
+#: src/doc/documentchecker.cpp:1326
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Укажите новое расположение файла"
 
-#: src/doc/documentchecker.cpp:1850
+#: src/doc/documentchecker.cpp:1801
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
@@ -7825,7 +7825,7 @@ msgstr[1] "Выбранные клипы будут удалены из прое
 msgstr[2] "Выбранные клипы будут удалены из проекта"
 msgstr[3] "Выбранный клип будет удалён из проекта"
 
-#: src/doc/documentchecker.cpp:1852
+#: src/doc/documentchecker.cpp:1803
 #, kde-format
 msgid "Remove clips"
 msgstr "Удалить клипы"

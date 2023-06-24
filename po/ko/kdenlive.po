@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-22 00:47+0000\n"
+"POT-Creation-Date: 2023-06-24 00:49+0000\n"
 "PO-Revision-Date: 2022-05-08 16:25+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -3419,7 +3419,7 @@ msgid "Delete keyframes"
 msgstr "키프레임 삭제"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:445
-#: src/assets/model/assetparametermodel.cpp:1386
+#: src/assets/model/assetparametermodel.cpp:1384
 #, fuzzy, kde-format
 #| msgid "Paste effect"
 msgid "Update effect"
@@ -3505,8 +3505,8 @@ msgstr "%1 키프레임 편집"
 msgid "Update %1"
 msgstr "%1 업데이트"
 
-#: src/assets/model/assetparametermodel.cpp:1238
-#: src/assets/model/assetparametermodel.cpp:1285
+#: src/assets/model/assetparametermodel.cpp:1236
+#: src/assets/model/assetparametermodel.cpp:1283
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "%1 사전 설정 파일을 열 수 없음"
@@ -3958,7 +3958,7 @@ msgstr "키프레임 값 복사됨"
 msgid "<Select a Keyword>"
 msgstr "<키워드 선택>"
 
-#: src/assets/view/widgets/listdependencyparamwidget.cpp:171
+#: src/assets/view/widgets/listdependencyparamwidget.cpp:170
 #: src/assets/view/widgets/listparamwidget.cpp:95
 #: src/assets/view/widgets/urllistparamwidget.cpp:129
 #, kde-format
@@ -5093,7 +5093,7 @@ msgstr "반전 선택"
 msgid "Import File on Double Click"
 msgstr ""
 
-#: src/bin/mediabrowser.cpp:160 src/dialogs/clipcreationdialog.cpp:465
+#: src/bin/mediabrowser.cpp:160 src/dialogs/clipcreationdialog.cpp:496
 #: src/effects/effectlist/view/effectlistwidget.cpp:130
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:300
 #: src/mainwindow.cpp:3894 src/onlineresources/resourcewidget.cpp:553
@@ -5102,7 +5102,7 @@ msgid "All Files"
 msgstr "모든 파일"
 
 #: src/bin/mediabrowser.cpp:160 src/dialogs/clipcreationdialog.cpp:128
-#: src/dialogs/clipcreationdialog.cpp:465
+#: src/dialogs/clipcreationdialog.cpp:496
 #, kde-format
 msgid "All Supported Files"
 msgstr "모든 지원하는 파일"
@@ -5123,18 +5123,18 @@ msgstr "이름:"
 msgid "Filter:"
 msgstr "필터"
 
-#: src/bin/mediabrowser.cpp:204 src/dialogs/clipcreationdialog.cpp:471
+#: src/bin/mediabrowser.cpp:204 src/dialogs/clipcreationdialog.cpp:469
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr "하위 폴더 구조 무시"
 
-#: src/bin/mediabrowser.cpp:206 src/dialogs/clipcreationdialog.cpp:473
+#: src/bin/mediabrowser.cpp:206 src/dialogs/clipcreationdialog.cpp:471
 #, fuzzy, kde-format
 #| msgid "Insert Zone in Project Bin"
 msgid "Do not create subfolders in Project Bin"
 msgstr "프로젝트 보관함에 영역 삽입"
 
-#: src/bin/mediabrowser.cpp:209 src/dialogs/clipcreationdialog.cpp:476
+#: src/bin/mediabrowser.cpp:209 src/dialogs/clipcreationdialog.cpp:474
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5142,18 +5142,18 @@ msgid ""
 "subfolders without creating the subfolders in Project Bin."
 msgstr ""
 
-#: src/bin/mediabrowser.cpp:212 src/dialogs/clipcreationdialog.cpp:466
+#: src/bin/mediabrowser.cpp:212 src/dialogs/clipcreationdialog.cpp:464
 #, kde-format
 msgid "Import image sequence"
 msgstr "이미지 시퀀스 가져오기"
 
-#: src/bin/mediabrowser.cpp:215 src/dialogs/clipcreationdialog.cpp:467
+#: src/bin/mediabrowser.cpp:215 src/dialogs/clipcreationdialog.cpp:465
 #, fuzzy, kde-format
 #| msgid "Import image sequence"
 msgid "Try to import an image sequence"
 msgstr "이미지 시퀀스 가져오기"
 
-#: src/bin/mediabrowser.cpp:217 src/dialogs/clipcreationdialog.cpp:469
+#: src/bin/mediabrowser.cpp:217 src/dialogs/clipcreationdialog.cpp:467
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6156,8 +6156,8 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "안내선 가져오기"
 
-#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:1617
-#: src/dialogs/renderwidget.cpp:1644 src/doc/kdenlivedoc.cpp:739
+#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:1620
+#: src/dialogs/renderwidget.cpp:1647 src/doc/kdenlivedoc.cpp:739
 #: src/doc/kdenlivedoc.cpp:747 src/doc/kdenlivedoc.cpp:1243
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
@@ -6678,7 +6678,7 @@ msgid ""
 "overwritten by the equivalent user interface options: <icode>%1</icode>"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:117 src/dialogs/renderwidget.cpp:1447
+#: src/dialogs/renderwidget.cpp:117 src/dialogs/renderwidget.cpp:1450
 #, kde-format
 msgid "Waiting…"
 msgstr "대기 중…"
@@ -6791,7 +6791,7 @@ msgstr ""
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr "렌더링에 필요한 melt 프로그램을 찾을 수 없습니다(MLT의 일부)."
 
-#: src/dialogs/renderwidget.cpp:625 src/dialogs/renderwidget.cpp:1421
+#: src/dialogs/renderwidget.cpp:625 src/dialogs/renderwidget.cpp:1424
 #: src/project/dialogs/archivewidget.cpp:873
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
@@ -6812,7 +6812,7 @@ msgstr ""
 msgid "The following errors occured while trying to render"
 msgstr "마커 삭제 중 오류"
 
-#: src/dialogs/renderwidget.cpp:707 src/dialogs/renderwidget.cpp:1434
+#: src/dialogs/renderwidget.cpp:707 src/dialogs/renderwidget.cpp:1437
 #, fuzzy, kde-format
 #| msgid ""
 #| "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -6824,7 +6824,7 @@ msgstr ""
 "파일을 기록하고 있는 작업이 있습니다:<br /><b>%1</b><br />파일에 덮어쓰려면 "
 "작업을 중단하십시오..."
 
-#: src/dialogs/renderwidget.cpp:708 src/dialogs/renderwidget.cpp:1435
+#: src/dialogs/renderwidget.cpp:708 src/dialogs/renderwidget.cpp:1438
 #, kde-format
 msgid "Already running"
 msgstr "이미 실행 중"
@@ -6868,68 +6868,68 @@ msgstr "일치하는 프로필 없음"
 msgid "Invalid preset"
 msgstr "프로필 잘못됨"
 
-#: src/dialogs/renderwidget.cpp:1027
+#: src/dialogs/renderwidget.cpp:1030
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1186
+#: src/dialogs/renderwidget.cpp:1189
 #, kde-format
 msgid "Remaining time "
 msgstr "남은 시간 "
 
-#: src/dialogs/renderwidget.cpp:1188 src/dialogs/renderwidget.cpp:1232
+#: src/dialogs/renderwidget.cpp:1191 src/dialogs/renderwidget.cpp:1235
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
 msgstr[0] "%1일 "
 
-#: src/dialogs/renderwidget.cpp:1192
+#: src/dialogs/renderwidget.cpp:1195
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (프레임 %1 @ %2 fps)"
 
-#: src/dialogs/renderwidget.cpp:1204
+#: src/dialogs/renderwidget.cpp:1207
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1234
+#: src/dialogs/renderwidget.cpp:1237
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "렌더링 완료: %1"
 
-#: src/dialogs/renderwidget.cpp:1243
+#: src/dialogs/renderwidget.cpp:1246
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "%1 렌더링이 %2에 완료됨"
 
-#: src/dialogs/renderwidget.cpp:1267
+#: src/dialogs/renderwidget.cpp:1270
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>%1의 렌더링이 충돌했습니다</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1310 src/ui/renderwidget_ui.ui:865
+#: src/dialogs/renderwidget.cpp:1313 src/ui/renderwidget_ui.ui:865
 #, kde-format
 msgid "Abort Job"
 msgstr "작업 중단"
 
-#: src/dialogs/renderwidget.cpp:1313
+#: src/dialogs/renderwidget.cpp:1316
 #, kde-format
 msgid "Remove Job"
 msgstr "작업 삭제"
 
-#: src/dialogs/renderwidget.cpp:1699 src/dialogs/renderwidget.cpp:1709
-#: src/dialogs/renderwidget.cpp:1731
+#: src/dialogs/renderwidget.cpp:1702 src/dialogs/renderwidget.cpp:1712
+#: src/dialogs/renderwidget.cpp:1734
 #, fuzzy, kde-format
 #| msgid "Render Button"
 msgid "Render Duration: %1"
 msgstr "렌더 단추"
 
-#: src/dialogs/renderwidget.cpp:1789
+#: src/dialogs/renderwidget.cpp:1792
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -6938,7 +6938,7 @@ msgstr ""
 "코덱 속도 인자:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:1809
+#: src/dialogs/renderwidget.cpp:1812
 #, kde-format
 msgid "Add to current project"
 msgstr "현재 프로젝트에 추가"
@@ -7633,7 +7633,7 @@ msgid "Missing item"
 msgstr "누락된 항목"
 
 #: src/doc/documentchecker.cpp:417 src/doc/documentchecker.cpp:442
-#: src/doc/documentchecker.cpp:1387
+#: src/doc/documentchecker.cpp:1338
 #, kde-format
 msgid "Relocated item"
 msgstr "이전된 항목"
@@ -7733,52 +7733,52 @@ msgstr "원본 클립"
 msgid "%1 missing source clips, you can only use the proxies"
 msgstr "원본 클립 %1개가 누락되었습니다. 프록시만 사용할 수 있습니다"
 
-#: src/doc/documentchecker.cpp:1034
+#: src/doc/documentchecker.cpp:986
 #, fuzzy, kde-format
 #| msgid "Clips folder"
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "클립 폴더"
 
-#: src/doc/documentchecker.cpp:1066 src/doc/documentchecker.cpp:1090
-#: src/doc/documentchecker.cpp:1100 src/doc/documentchecker.cpp:1109
-#: src/doc/documentchecker.cpp:1121
+#: src/doc/documentchecker.cpp:1018 src/doc/documentchecker.cpp:1042
+#: src/doc/documentchecker.cpp:1052 src/doc/documentchecker.cpp:1061
+#: src/doc/documentchecker.cpp:1073
 #, kde-format
 msgid "Recovered item"
 msgstr "복구된 항목"
 
-#: src/doc/documentchecker.cpp:1134
+#: src/doc/documentchecker.cpp:1086
 #, kde-format
 msgid "Search aborted"
 msgstr "검색 중단됨"
 
-#: src/doc/documentchecker.cpp:1136
+#: src/doc/documentchecker.cpp:1088
 #, kde-format
 msgid "Search done"
 msgstr "검색 완료됨"
 
-#: src/doc/documentchecker.cpp:1252
+#: src/doc/documentchecker.cpp:1204
 #, kde-format
 msgid "Scanning %1"
 msgstr "%1 검색 중"
 
-#: src/doc/documentchecker.cpp:1349
+#: src/doc/documentchecker.cpp:1300
 #, kde-format
 msgid "Enter new location for folder"
 msgstr "폴더의 새 위치 입력"
 
-#: src/doc/documentchecker.cpp:1375
+#: src/doc/documentchecker.cpp:1326
 #, kde-format
 msgid "Enter new location for file"
 msgstr "파일의 새 위치 입력"
 
-#: src/doc/documentchecker.cpp:1850
+#: src/doc/documentchecker.cpp:1801
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
 msgstr[0] "이 프로젝트에서 선택한 클립이 삭제됩니다"
 
-#: src/doc/documentchecker.cpp:1852
+#: src/doc/documentchecker.cpp:1803
 #, kde-format
 msgid "Remove clips"
 msgstr "클립 삭제"

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-22 00:47+0000\n"
+"POT-Creation-Date: 2023-06-24 00:49+0000\n"
 "PO-Revision-Date: 2014-12-09 21:11+0100\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -3529,7 +3529,7 @@ msgid "Delete keyframes"
 msgstr "Kulcskép törlése"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:445
-#: src/assets/model/assetparametermodel.cpp:1386
+#: src/assets/model/assetparametermodel.cpp:1384
 #, fuzzy, kde-format
 #| msgid "Paste Effects"
 msgid "Update effect"
@@ -3631,8 +3631,8 @@ msgstr "Kulcskép szerkesztés"
 msgid "Update %1"
 msgstr "Profil frissítése"
 
-#: src/assets/model/assetparametermodel.cpp:1238
-#: src/assets/model/assetparametermodel.cpp:1285
+#: src/assets/model/assetparametermodel.cpp:1236
+#: src/assets/model/assetparametermodel.cpp:1283
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid "Cannot open preset file %1"
@@ -4113,7 +4113,7 @@ msgstr "Interpolálás"
 msgid "<Select a Keyword>"
 msgstr "<válasszon egy kulcsszót>"
 
-#: src/assets/view/widgets/listdependencyparamwidget.cpp:171
+#: src/assets/view/widgets/listdependencyparamwidget.cpp:170
 #: src/assets/view/widgets/listparamwidget.cpp:95
 #: src/assets/view/widgets/urllistparamwidget.cpp:129
 #, fuzzy, kde-format
@@ -5324,7 +5324,7 @@ msgstr "Szín kiválasztása"
 msgid "Import File on Double Click"
 msgstr ""
 
-#: src/bin/mediabrowser.cpp:160 src/dialogs/clipcreationdialog.cpp:465
+#: src/bin/mediabrowser.cpp:160 src/dialogs/clipcreationdialog.cpp:496
 #: src/effects/effectlist/view/effectlistwidget.cpp:130
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:300
 #: src/mainwindow.cpp:3894 src/onlineresources/resourcewidget.cpp:553
@@ -5333,7 +5333,7 @@ msgid "All Files"
 msgstr "Minden fájl"
 
 #: src/bin/mediabrowser.cpp:160 src/dialogs/clipcreationdialog.cpp:128
-#: src/dialogs/clipcreationdialog.cpp:465
+#: src/dialogs/clipcreationdialog.cpp:496
 #, kde-format
 msgid "All Supported Files"
 msgstr "Összes támogatott fájltípus"
@@ -5355,18 +5355,18 @@ msgstr "Név"
 msgid "Filter:"
 msgstr "%1 szűrése"
 
-#: src/bin/mediabrowser.cpp:204 src/dialogs/clipcreationdialog.cpp:471
+#: src/bin/mediabrowser.cpp:204 src/dialogs/clipcreationdialog.cpp:469
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr ""
 
-#: src/bin/mediabrowser.cpp:206 src/dialogs/clipcreationdialog.cpp:473
+#: src/bin/mediabrowser.cpp:206 src/dialogs/clipcreationdialog.cpp:471
 #, fuzzy, kde-format
 #| msgid "Insert zone in project tree"
 msgid "Do not create subfolders in Project Bin"
 msgstr "Zóna beszúrása a projektfába"
 
-#: src/bin/mediabrowser.cpp:209 src/dialogs/clipcreationdialog.cpp:476
+#: src/bin/mediabrowser.cpp:209 src/dialogs/clipcreationdialog.cpp:474
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5374,18 +5374,18 @@ msgid ""
 "subfolders without creating the subfolders in Project Bin."
 msgstr ""
 
-#: src/bin/mediabrowser.cpp:212 src/dialogs/clipcreationdialog.cpp:466
+#: src/bin/mediabrowser.cpp:212 src/dialogs/clipcreationdialog.cpp:464
 #, kde-format
 msgid "Import image sequence"
 msgstr "Képsorozat importálása"
 
-#: src/bin/mediabrowser.cpp:215 src/dialogs/clipcreationdialog.cpp:467
+#: src/bin/mediabrowser.cpp:215 src/dialogs/clipcreationdialog.cpp:465
 #, fuzzy, kde-format
 #| msgid "Import image sequence"
 msgid "Try to import an image sequence"
 msgstr "Képsorozat importálása"
 
-#: src/bin/mediabrowser.cpp:217 src/dialogs/clipcreationdialog.cpp:469
+#: src/bin/mediabrowser.cpp:217 src/dialogs/clipcreationdialog.cpp:467
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6436,8 +6436,8 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "Jelölők betöltése"
 
-#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:1617
-#: src/dialogs/renderwidget.cpp:1644 src/doc/kdenlivedoc.cpp:739
+#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:1620
+#: src/dialogs/renderwidget.cpp:1647 src/doc/kdenlivedoc.cpp:739
 #: src/doc/kdenlivedoc.cpp:747 src/doc/kdenlivedoc.cpp:1243
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
@@ -6976,7 +6976,7 @@ msgid ""
 "overwritten by the equivalent user interface options: <icode>%1</icode>"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:117 src/dialogs/renderwidget.cpp:1447
+#: src/dialogs/renderwidget.cpp:117 src/dialogs/renderwidget.cpp:1450
 #, fuzzy, kde-format
 #| msgid "Waiting..."
 msgid "Waiting…"
@@ -7105,7 +7105,7 @@ msgstr ""
 "A leképzéshez szüksége melt program nem található. A melt program az MLT "
 "csomag része."
 
-#: src/dialogs/renderwidget.cpp:625 src/dialogs/renderwidget.cpp:1421
+#: src/dialogs/renderwidget.cpp:625 src/dialogs/renderwidget.cpp:1424
 #: src/project/dialogs/archivewidget.cpp:873
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
@@ -7125,7 +7125,7 @@ msgstr ""
 msgid "The following errors occured while trying to render"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:707 src/dialogs/renderwidget.cpp:1434
+#: src/dialogs/renderwidget.cpp:707 src/dialogs/renderwidget.cpp:1437
 #, fuzzy, kde-format
 #| msgid ""
 #| "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -7137,7 +7137,7 @@ msgstr ""
 "Már van feladat a következő fájl írásához:<br />„<b>%1</b>”<br />Szakítsa "
 "meg a feladatot, ha felül kívánja írni a fájlt…"
 
-#: src/dialogs/renderwidget.cpp:708 src/dialogs/renderwidget.cpp:1435
+#: src/dialogs/renderwidget.cpp:708 src/dialogs/renderwidget.cpp:1438
 #, kde-format
 msgid "Already running"
 msgstr "A program már fut."
@@ -7181,20 +7181,20 @@ msgstr "Nincs illeszkedő profil"
 msgid "Invalid preset"
 msgstr "Érvénytelen klip"
 
-#: src/dialogs/renderwidget.cpp:1027
+#: src/dialogs/renderwidget.cpp:1030
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1186
+#: src/dialogs/renderwidget.cpp:1189
 #, fuzzy, kde-format
 #| msgid "Remaining time"
 msgid "Remaining time "
 msgstr "Hátralévő idő"
 
-#: src/dialogs/renderwidget.cpp:1188 src/dialogs/renderwidget.cpp:1232
+#: src/dialogs/renderwidget.cpp:1191 src/dialogs/renderwidget.cpp:1235
 #, fuzzy, kde-format
 #| msgid "%1 dB"
 msgid "%1 day "
@@ -7202,50 +7202,50 @@ msgid_plural "%1 days "
 msgstr[0] "%1 dB"
 msgstr[1] "%1 dB"
 
-#: src/dialogs/renderwidget.cpp:1192
+#: src/dialogs/renderwidget.cpp:1195
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1204
+#: src/dialogs/renderwidget.cpp:1207
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1234
+#: src/dialogs/renderwidget.cpp:1237
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Leképzés befejeződött %1 idő alatt"
 
-#: src/dialogs/renderwidget.cpp:1243
+#: src/dialogs/renderwidget.cpp:1246
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "%1 leképzése, hátralévő idő: %2"
 
-#: src/dialogs/renderwidget.cpp:1267
+#: src/dialogs/renderwidget.cpp:1270
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>%1 leképezése összeomlott</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1310 src/ui/renderwidget_ui.ui:865
+#: src/dialogs/renderwidget.cpp:1313 src/ui/renderwidget_ui.ui:865
 #, kde-format
 msgid "Abort Job"
 msgstr "Feladat megszakítása"
 
-#: src/dialogs/renderwidget.cpp:1313
+#: src/dialogs/renderwidget.cpp:1316
 #, kde-format
 msgid "Remove Job"
 msgstr "Feladat eltávolítása"
 
-#: src/dialogs/renderwidget.cpp:1699 src/dialogs/renderwidget.cpp:1709
-#: src/dialogs/renderwidget.cpp:1731
+#: src/dialogs/renderwidget.cpp:1702 src/dialogs/renderwidget.cpp:1712
+#: src/dialogs/renderwidget.cpp:1734
 #, fuzzy, kde-format
 #| msgid "Zone duration: %1"
 msgid "Render Duration: %1"
 msgstr "Zóna időtartama: %1"
 
-#: src/dialogs/renderwidget.cpp:1789
+#: src/dialogs/renderwidget.cpp:1792
 #, fuzzy, kde-format
 #| msgid "FFmpeg parameters"
 msgid ""
@@ -7253,7 +7253,7 @@ msgid ""
 "%1"
 msgstr "FFmpeg paraméterek"
 
-#: src/dialogs/renderwidget.cpp:1809
+#: src/dialogs/renderwidget.cpp:1812
 #, fuzzy, kde-format
 #| msgid "Add to project"
 msgid "Add to current project"
@@ -7947,7 +7947,7 @@ msgid "Missing item"
 msgstr "Hiányzó elem"
 
 #: src/doc/documentchecker.cpp:417 src/doc/documentchecker.cpp:442
-#: src/doc/documentchecker.cpp:1387
+#: src/doc/documentchecker.cpp:1338
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Relocated item"
@@ -8069,51 +8069,51 @@ msgstr "Forrásklip"
 msgid "%1 missing source clips, you can only use the proxies"
 msgstr "%1 hiányzó forrásklipek, csak a proxykat tudja használni"
 
-#: src/doc/documentchecker.cpp:1034
+#: src/doc/documentchecker.cpp:986
 #, fuzzy, kde-format
 #| msgid "Clips folder"
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Klip mappa"
 
-#: src/doc/documentchecker.cpp:1066 src/doc/documentchecker.cpp:1090
-#: src/doc/documentchecker.cpp:1100 src/doc/documentchecker.cpp:1109
-#: src/doc/documentchecker.cpp:1121
+#: src/doc/documentchecker.cpp:1018 src/doc/documentchecker.cpp:1042
+#: src/doc/documentchecker.cpp:1052 src/doc/documentchecker.cpp:1061
+#: src/doc/documentchecker.cpp:1073
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Recovered item"
 msgstr "Klip újratöltése"
 
-#: src/doc/documentchecker.cpp:1134
+#: src/doc/documentchecker.cpp:1086
 #, fuzzy, kde-format
 #| msgid "Search scale"
 msgid "Search aborted"
 msgstr "Arány keresése"
 
-#: src/doc/documentchecker.cpp:1136
+#: src/doc/documentchecker.cpp:1088
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Search done"
 msgstr "Keresés"
 
-#: src/doc/documentchecker.cpp:1252
+#: src/doc/documentchecker.cpp:1204
 #, fuzzy, kde-format
 #| msgid "Scanning"
 msgid "Scanning %1"
 msgstr "Keresés"
 
-#: src/doc/documentchecker.cpp:1349
+#: src/doc/documentchecker.cpp:1300
 #, fuzzy, kde-format
 #| msgid "Enter new location for file"
 msgid "Enter new location for folder"
 msgstr "Kérem adja meg a fájl új helyét"
 
-#: src/doc/documentchecker.cpp:1375
+#: src/doc/documentchecker.cpp:1326
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Kérem adja meg a fájl új helyét"
 
-#: src/doc/documentchecker.cpp:1850
+#: src/doc/documentchecker.cpp:1801
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
@@ -8123,7 +8123,7 @@ msgstr[1] ""
 "A művelet folytatásával eltávolítja a kiválasztott klipeket ebből a "
 "projektből"
 
-#: src/doc/documentchecker.cpp:1852
+#: src/doc/documentchecker.cpp:1803
 #, kde-format
 msgid "Remove clips"
 msgstr "Klipek eltávolítása"

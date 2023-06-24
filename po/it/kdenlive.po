@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-22 00:47+0000\n"
-"PO-Revision-Date: 2023-06-11 09:38+0200\n"
+"POT-Creation-Date: 2023-06-24 00:49+0000\n"
+"PO-Revision-Date: 2023-06-22 16:30+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 23.04.1\n"
+"X-Generator: Lokalize 23.04.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1277,7 +1277,7 @@ msgstr ""
 #: src/effects/effectstack/view/qml/LiftGammaGain.qml:46
 #, kde-format
 msgid "Lift"
-msgstr "Alza"
+msgstr "Solleva"
 
 #: data/effects/mask_apply.xml:4
 #, kde-format
@@ -3482,7 +3482,7 @@ msgid "Delete keyframes"
 msgstr "Elimina i fotogrammi chiave"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:445
-#: src/assets/model/assetparametermodel.cpp:1386
+#: src/assets/model/assetparametermodel.cpp:1384
 #, kde-format
 msgid "Update effect"
 msgstr "Aggiorna effetto"
@@ -3570,8 +3570,8 @@ msgstr "Modifica il fotogramma chiave %1"
 msgid "Update %1"
 msgstr "Aggiorna %1"
 
-#: src/assets/model/assetparametermodel.cpp:1238
-#: src/assets/model/assetparametermodel.cpp:1285
+#: src/assets/model/assetparametermodel.cpp:1236
+#: src/assets/model/assetparametermodel.cpp:1283
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Impossibile aprire il file di preimpostazioni %1"
@@ -4011,7 +4011,7 @@ msgstr "Valori correnti copiati"
 msgid "<Select a Keyword>"
 msgstr "<seleziona una parola chiave>"
 
-#: src/assets/view/widgets/listdependencyparamwidget.cpp:171
+#: src/assets/view/widgets/listdependencyparamwidget.cpp:170
 #: src/assets/view/widgets/listparamwidget.cpp:95
 #: src/assets/view/widgets/urllistparamwidget.cpp:129
 #, kde-format
@@ -5127,7 +5127,7 @@ msgstr "Importa selezione"
 msgid "Import File on Double Click"
 msgstr "Importa file al doppio clic"
 
-#: src/bin/mediabrowser.cpp:160 src/dialogs/clipcreationdialog.cpp:465
+#: src/bin/mediabrowser.cpp:160 src/dialogs/clipcreationdialog.cpp:496
 #: src/effects/effectlist/view/effectlistwidget.cpp:130
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:300
 #: src/mainwindow.cpp:3894 src/onlineresources/resourcewidget.cpp:553
@@ -5136,7 +5136,7 @@ msgid "All Files"
 msgstr "Tutti i file"
 
 #: src/bin/mediabrowser.cpp:160 src/dialogs/clipcreationdialog.cpp:128
-#: src/dialogs/clipcreationdialog.cpp:465
+#: src/dialogs/clipcreationdialog.cpp:496
 #, kde-format
 msgid "All Supported Files"
 msgstr "Tutti i file supportati"
@@ -5156,17 +5156,17 @@ msgstr "Nome:"
 msgid "Filter:"
 msgstr "Filtro:"
 
-#: src/bin/mediabrowser.cpp:204 src/dialogs/clipcreationdialog.cpp:471
+#: src/bin/mediabrowser.cpp:204 src/dialogs/clipcreationdialog.cpp:469
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr "Ignora struttura delle sottocartelle"
 
-#: src/bin/mediabrowser.cpp:206 src/dialogs/clipcreationdialog.cpp:473
+#: src/bin/mediabrowser.cpp:206 src/dialogs/clipcreationdialog.cpp:471
 #, kde-format
 msgid "Do not create subfolders in Project Bin"
 msgstr "Non creare sottocartelle nel contenitore del progetto"
 
-#: src/bin/mediabrowser.cpp:209 src/dialogs/clipcreationdialog.cpp:476
+#: src/bin/mediabrowser.cpp:209 src/dialogs/clipcreationdialog.cpp:474
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5177,17 +5177,17 @@ msgstr ""
 "cartella e nelle sue sottocartelle senza creare delle sottocartelle nel "
 "contenitore del progetto."
 
-#: src/bin/mediabrowser.cpp:212 src/dialogs/clipcreationdialog.cpp:466
+#: src/bin/mediabrowser.cpp:212 src/dialogs/clipcreationdialog.cpp:464
 #, kde-format
 msgid "Import image sequence"
 msgstr "Importa sequenza di immagini"
 
-#: src/bin/mediabrowser.cpp:215 src/dialogs/clipcreationdialog.cpp:467
+#: src/bin/mediabrowser.cpp:215 src/dialogs/clipcreationdialog.cpp:465
 #, kde-format
 msgid "Try to import an image sequence"
 msgstr "Cerca di importare una sequenza di immagini"
 
-#: src/bin/mediabrowser.cpp:217 src/dialogs/clipcreationdialog.cpp:469
+#: src/bin/mediabrowser.cpp:217 src/dialogs/clipcreationdialog.cpp:467
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6166,8 +6166,8 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "Esporta i dati delle guide"
 
-#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:1617
-#: src/dialogs/renderwidget.cpp:1644 src/doc/kdenlivedoc.cpp:739
+#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:1620
+#: src/dialogs/renderwidget.cpp:1647 src/doc/kdenlivedoc.cpp:739
 #: src/doc/kdenlivedoc.cpp:747 src/doc/kdenlivedoc.cpp:1243
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
@@ -6679,7 +6679,7 @@ msgstr ""
 "I seguenti parametri non avranno effetto perché saranno sovrascritti da "
 "opzioni equivalenti nell'interfaccia: <icode>%1</icode>"
 
-#: src/dialogs/renderwidget.cpp:117 src/dialogs/renderwidget.cpp:1447
+#: src/dialogs/renderwidget.cpp:117 src/dialogs/renderwidget.cpp:1450
 #, kde-format
 msgid "Waiting…"
 msgstr "In attesa…"
@@ -6795,7 +6795,7 @@ msgstr ""
 "Impossibile trovare il programma «melt», richiesto per l'esportazione del "
 "filmato (fa parte di MLT)."
 
-#: src/dialogs/renderwidget.cpp:625 src/dialogs/renderwidget.cpp:1421
+#: src/dialogs/renderwidget.cpp:625 src/dialogs/renderwidget.cpp:1424
 #: src/project/dialogs/archivewidget.cpp:873
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
@@ -6811,12 +6811,11 @@ msgstr ""
 "Accertati di avere i permessi necessari per compiere l'operazione."
 
 #: src/dialogs/renderwidget.cpp:674
-#, fuzzy, kde-format
-#| msgid "An error occurred while deleting markers"
+#, kde-format
 msgid "The following errors occured while trying to render"
-msgstr "Si è verificato un errore nell'eliminazione dei marcatori"
+msgstr "Nel tentativo di esportazione si sono verificati i seguenti errori"
 
-#: src/dialogs/renderwidget.cpp:707 src/dialogs/renderwidget.cpp:1434
+#: src/dialogs/renderwidget.cpp:707 src/dialogs/renderwidget.cpp:1437
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -6825,7 +6824,7 @@ msgstr ""
 "C'è un altro processo che sta scrivendo il file <br /><b>%1</b><br />. Ferma "
 "il processo se vuoi sovrascriverlo…"
 
-#: src/dialogs/renderwidget.cpp:708 src/dialogs/renderwidget.cpp:1435
+#: src/dialogs/renderwidget.cpp:708 src/dialogs/renderwidget.cpp:1438
 #, kde-format
 msgid "Already running"
 msgstr "Già in esecuzione"
@@ -6865,7 +6864,7 @@ msgstr "Nessuna preimpostazione corrispondente"
 msgid "Invalid preset"
 msgstr "Preimpostazione non valida"
 
-#: src/dialogs/renderwidget.cpp:1027
+#: src/dialogs/renderwidget.cpp:1030
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
@@ -6873,64 +6872,64 @@ msgid ""
 msgstr "L'esportazione senza audio e video non funziona: abilitane almeno uno."
 
 # , kde-format, kde-format
-#: src/dialogs/renderwidget.cpp:1186
+#: src/dialogs/renderwidget.cpp:1189
 #, kde-format
 msgid "Remaining time "
 msgstr "Tempo restante "
 
-#: src/dialogs/renderwidget.cpp:1188 src/dialogs/renderwidget.cpp:1232
+#: src/dialogs/renderwidget.cpp:1191 src/dialogs/renderwidget.cpp:1235
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
 msgstr[0] "%1 giorno "
 msgstr[1] "%1 giorni "
 
-#: src/dialogs/renderwidget.cpp:1192
+#: src/dialogs/renderwidget.cpp:1195
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (fotogramma %1 @ %2 fps)"
 
-#: src/dialogs/renderwidget.cpp:1204
+#: src/dialogs/renderwidget.cpp:1207
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr "Meno di %1MB di memoria disponibile rimanente."
 
 # , kde-format, kde-format
-#: src/dialogs/renderwidget.cpp:1234
+#: src/dialogs/renderwidget.cpp:1237
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Esportazione conclusa in %1"
 
 # , kde-format, kde-format
-#: src/dialogs/renderwidget.cpp:1243
+#: src/dialogs/renderwidget.cpp:1246
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "Esportazione di %1 conclusa in %2"
 
-#: src/dialogs/renderwidget.cpp:1267
+#: src/dialogs/renderwidget.cpp:1270
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr ""
 "<strong>Il processo di esportazione di %1 è andato in crash</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1310 src/ui/renderwidget_ui.ui:865
+#: src/dialogs/renderwidget.cpp:1313 src/ui/renderwidget_ui.ui:865
 #, kde-format
 msgid "Abort Job"
 msgstr "Annulla processo"
 
-#: src/dialogs/renderwidget.cpp:1313
+#: src/dialogs/renderwidget.cpp:1316
 #, kde-format
 msgid "Remove Job"
 msgstr "Elimina processo"
 
-#: src/dialogs/renderwidget.cpp:1699 src/dialogs/renderwidget.cpp:1709
-#: src/dialogs/renderwidget.cpp:1731
+#: src/dialogs/renderwidget.cpp:1702 src/dialogs/renderwidget.cpp:1712
+#: src/dialogs/renderwidget.cpp:1734
 #, kde-format
 msgid "Render Duration: %1"
 msgstr "Durata dell'esportazione: %1"
 
-#: src/dialogs/renderwidget.cpp:1789
+#: src/dialogs/renderwidget.cpp:1792
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -6939,7 +6938,7 @@ msgstr ""
 "Parametri di velocità dei codec:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:1809
+#: src/dialogs/renderwidget.cpp:1812
 #, kde-format
 msgid "Add to current project"
 msgstr "Aggiungi al progetto corrente"
@@ -7555,13 +7554,11 @@ msgstr ""
 "aggiuntiva della clip</li>"
 
 #: src/dialogs/wizard.cpp:444
-#, fuzzy, kde-format
-#| msgid ""
-#| "<li>Missing app: <b>dvdauthor</b><br/>required for creation of DVD</li>"
+#, kde-format
 msgid "<li>Missing app: <b>kdenlive_render</b><br/>needed for rendering.</li>"
 msgstr ""
-"<li>Applicazione mancante: <b>dvdauthor</b><br/>richiesta per la creazione "
-"dei DVD</li>"
+"<li>Applicazione mancante: <b>kdenlive_render</b><br/>richiesta per "
+"l'esportazione</li>"
 
 #: src/dialogs/wizard.cpp:517
 #, kde-format
@@ -7636,7 +7633,7 @@ msgid "Missing item"
 msgstr "Elemento mancante"
 
 #: src/doc/documentchecker.cpp:417 src/doc/documentchecker.cpp:442
-#: src/doc/documentchecker.cpp:1387
+#: src/doc/documentchecker.cpp:1338
 #, kde-format
 msgid "Relocated item"
 msgstr "Elemento trasferito"
@@ -7745,52 +7742,52 @@ msgid "%1 missing source clips, you can only use the proxies"
 msgstr ""
 "%1 clip sorgenti mancanti, puoi utilizzare solo le clip rappresentative"
 
-#: src/doc/documentchecker.cpp:1034
+#: src/doc/documentchecker.cpp:986
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Cartella di clip"
 
-#: src/doc/documentchecker.cpp:1066 src/doc/documentchecker.cpp:1090
-#: src/doc/documentchecker.cpp:1100 src/doc/documentchecker.cpp:1109
-#: src/doc/documentchecker.cpp:1121
+#: src/doc/documentchecker.cpp:1018 src/doc/documentchecker.cpp:1042
+#: src/doc/documentchecker.cpp:1052 src/doc/documentchecker.cpp:1061
+#: src/doc/documentchecker.cpp:1073
 #, kde-format
 msgid "Recovered item"
 msgstr "Elemento recuperato"
 
-#: src/doc/documentchecker.cpp:1134
+#: src/doc/documentchecker.cpp:1086
 #, kde-format
 msgid "Search aborted"
 msgstr "Ricerca interrotta"
 
-#: src/doc/documentchecker.cpp:1136
+#: src/doc/documentchecker.cpp:1088
 #, kde-format
 msgid "Search done"
 msgstr "Ricerca completata"
 
-#: src/doc/documentchecker.cpp:1252
+#: src/doc/documentchecker.cpp:1204
 #, kde-format
 msgid "Scanning %1"
 msgstr "Scansione di %1"
 
-#: src/doc/documentchecker.cpp:1349
+#: src/doc/documentchecker.cpp:1300
 #, kde-format
 msgid "Enter new location for folder"
 msgstr "Inserisci una nuova posizione per la cartella"
 
-#: src/doc/documentchecker.cpp:1375
+#: src/doc/documentchecker.cpp:1326
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Imposta una nuova posizione per il file"
 
-#: src/doc/documentchecker.cpp:1850
+#: src/doc/documentchecker.cpp:1801
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
 msgstr[0] "Questa azione eliminerà la clip selezionata dal progetto"
 msgstr[1] "Questa azione eliminerà le clip selezionate dal progetto"
 
-#: src/doc/documentchecker.cpp:1852
+#: src/doc/documentchecker.cpp:1803
 #, kde-format
 msgid "Remove clips"
 msgstr "Rimuovi le clip"
@@ -8393,7 +8390,7 @@ msgstr "Attacco:"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:140
 #, kde-format
 msgid "Set zone in"
-msgstr "Imposta zona di attacco"
+msgstr "Imposta il punto di attacco della zona"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:141
 #, kde-kuit-format
@@ -8411,7 +8408,7 @@ msgstr "Stacco:"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:152
 #, kde-format
 msgid "Set zone out"
-msgstr "Imposta zona di stacco"
+msgstr "Imposta il punto di stacco della zona"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:153
 #, kde-kuit-format
@@ -9870,8 +9867,8 @@ msgid ""
 "and moves adjacent clips back and forth while doing that."
 msgstr ""
 "Quando selezionato, un trascinamento delle estremità di una clip la accorcia "
-"o la allunga, e sposta le clip adiacenti in avanti o indietro mentre lo si "
-"fa."
+"o la allunga, e contemporaneamente sposta in avanti o indietro le clip "
+"adiacenti."
 
 #. i18n("Roll Tool"), this);
 #.
@@ -9889,7 +9886,7 @@ msgid ""
 "When selected, dragging a clip slips the clip beneath the given window back "
 "and forth."
 msgstr ""
-"Quando selezionato, un trascinamento di una clip la fa scorrere sotto alla "
+"Quando selezionato, un trascinamento di una clip la fa scivolare sotto alla "
 "finestra data in avanti o indietro."
 
 #: src/mainwindow.cpp:1279
@@ -10275,7 +10272,7 @@ msgstr ""
 #: src/mainwindow.cpp:1644
 #, kde-format
 msgid "Extract Timeline Zone"
-msgstr "Estrai zona della linea temporale"
+msgstr "Estrai zona dalla linea temporale"
 
 #: src/mainwindow.cpp:1646
 #, kde-kuit-format
@@ -10290,7 +10287,7 @@ msgstr ""
 #: src/mainwindow.cpp:1647
 #, kde-format
 msgid "Lift Timeline Zone"
-msgstr "Togli zona dalla linea temporale"
+msgstr "Solleva zona dalla linea temporale"
 
 #: src/mainwindow.cpp:1649
 #, kde-kuit-format
@@ -10590,7 +10587,7 @@ msgstr "Adatta tutte le tracce nella vista"
 #: src/mainwindow.cpp:1851 src/timeline2/view/timelinecontroller.cpp:4795
 #, kde-format
 msgid "Master effects"
-msgstr "Effetti nel principale"
+msgstr "Effetti principali"
 
 #: src/mainwindow.cpp:1858
 #, kde-format
@@ -10752,17 +10749,17 @@ msgstr "Attiva/non attivare la traccia come destinazione"
 #: src/mainwindow.cpp:1976
 #, kde-format
 msgid "Toggle Track Active"
-msgstr "Attiva/disattiva la traccia attiva"
+msgstr "Attiva/disattiva la traccia"
 
 #: src/mainwindow.cpp:1978
 #, kde-format
 msgid "Toggle All Tracks Active"
-msgstr "Attiva/disattiva tutte le tracce attive"
+msgstr "Attiva/disattiva tutte le tracce"
 
 #: src/mainwindow.cpp:1980
 #, kde-format
 msgid "Switch All Tracks Active"
-msgstr "Cambia tutte le tracce attive"
+msgstr "Imposta tutte le tracce come attive"
 
 #: src/mainwindow.cpp:1982
 #, kde-format
@@ -11678,12 +11675,12 @@ msgstr "1:1"
 #: src/monitor/monitor.cpp:306 src/monitor/monitormanager.cpp:626
 #, kde-format
 msgid "Set Zone In"
-msgstr "Imposta zona di attacco"
+msgstr "Imposta il punto di attacco della zona"
 
 #: src/monitor/monitor.cpp:307 src/monitor/monitormanager.cpp:630
 #, kde-format
 msgid "Set Zone Out"
-msgstr "Imposta zona di stacco"
+msgstr "Imposta il punto di stacco della zona"
 
 #: src/monitor/monitor.cpp:319 src/monitor/monitormanager.cpp:510
 #, kde-format
@@ -14826,17 +14823,14 @@ msgid "Could not create temporary subtitle file"
 msgstr "Impossibile creare il file di sottotitoli temporaneo"
 
 #: src/render/renderrequest.cpp:190
-#, fuzzy, kde-format
-#| msgid ""
-#| "Script rendering and multi track audio export can not be used together.\n"
-#| "Script will be saved without multi track export."
+#, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together. "
 "Script will be saved without multi track export."
 msgstr ""
 "L'esportazione mediante script e quella audio multi-traccia non possono "
-"essere usate insieme.\n"
-"Lo script verrà salvato senza l'esportazione multi-traccia."
+"essere usate insieme. Lo script verrà salvato senza l'esportazione multi-"
+"traccia."
 
 #: src/render/renderrequest.cpp:263
 #, kde-format
@@ -15325,14 +15319,12 @@ msgstr ""
 "la traccia %4 è stata impostato con la traccia forzata."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:286
-#, fuzzy, kde-format
-#| msgid ""
-#| "Invalid composition %1 found on track %2 at %3, compositing with track %4."
+#, kde-format
 msgid ""
 "Unknown composition %1 found on track %2 at %3, compositing with track %4."
 msgstr ""
-"Composizione %1 non valida trovata nella traccia %2 a %3, compositing con la "
-"traccia %4"
+"Trovata la composizione sconosciuta %1 nella traccia %2 a %3, in compositing "
+"con la traccia %4."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:296
 #: src/timeline2/model/builders/meltBuilder.cpp:545
@@ -15534,7 +15526,7 @@ msgstr "Rimuovi spazio"
 #: src/timeline2/model/timelinefunctions.cpp:643
 #, kde-format
 msgid "Lift zone"
-msgstr "Alza zona"
+msgstr "Solleva zona"
 
 #: src/timeline2/model/timelinefunctions.cpp:643
 #, kde-format
