@@ -7,6 +7,7 @@ set(KdenliveTest_SOURCES
     cachetest.cpp
     colorscopestest.cpp
     compositiontest.cpp
+    documenttest.cpp
     effectstest.cpp
     filetest.cpp
     groupstest.cpp
