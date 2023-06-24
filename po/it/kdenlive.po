@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-18 04:12+0000\n"
-"PO-Revision-Date: 2023-06-11 09:38+0200\n"
+"PO-Revision-Date: 2023-06-22 16:30+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 23.04.1\n"
+"X-Generator: Lokalize 23.04.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1277,7 +1277,7 @@ msgstr ""
 #: src/effects/effectstack/view/qml/LiftGammaGain.qml:46
 #, kde-format
 msgid "Lift"
-msgstr "Alza"
+msgstr "Solleva"
 
 #: data/effects/mask_apply.xml:4
 #, kde-format
@@ -8318,7 +8318,7 @@ msgstr "Attacco:"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:140
 #, kde-format
 msgid "Set zone in"
-msgstr "Imposta zona di attacco"
+msgstr "Imposta il punto di attacco della zona"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:141
 #, kde-kuit-format
@@ -8336,7 +8336,7 @@ msgstr "Stacco:"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:152
 #, kde-format
 msgid "Set zone out"
-msgstr "Imposta zona di stacco"
+msgstr "Imposta il punto di stacco della zona"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:153
 #, kde-kuit-format
@@ -9804,8 +9804,8 @@ msgid ""
 "and moves adjacent clips back and forth while doing that."
 msgstr ""
 "Quando selezionato, un trascinamento delle estremità di una clip la accorcia "
-"o la allunga, e sposta le clip adiacenti in avanti o indietro mentre lo si "
-"fa."
+"o la allunga, e contemporaneamente sposta in avanti o indietro le clip "
+"adiacenti."
 
 #. i18n("Roll Tool"), this);
 #.
@@ -9823,7 +9823,7 @@ msgid ""
 "When selected, dragging a clip slips the clip beneath the given window back "
 "and forth."
 msgstr ""
-"Quando selezionato, un trascinamento di una clip la fa scorrere sotto alla "
+"Quando selezionato, un trascinamento di una clip la fa scivolare sotto alla "
 "finestra data in avanti o indietro."
 
 #: src/mainwindow.cpp:1249
@@ -10209,7 +10209,7 @@ msgstr ""
 #: src/mainwindow.cpp:1611
 #, kde-format
 msgid "Extract Timeline Zone"
-msgstr "Estrai zona della linea temporale"
+msgstr "Estrai zona dalla linea temporale"
 
 #: src/mainwindow.cpp:1613
 #, kde-kuit-format
@@ -10224,7 +10224,7 @@ msgstr ""
 #: src/mainwindow.cpp:1614
 #, kde-format
 msgid "Lift Timeline Zone"
-msgstr "Togli zona dalla linea temporale"
+msgstr "Solleva zona dalla linea temporale"
 
 #: src/mainwindow.cpp:1616
 #, kde-kuit-format
@@ -10519,7 +10519,7 @@ msgstr "Inserisci traccia…"
 #: src/mainwindow.cpp:1812 src/timeline2/view/timelinecontroller.cpp:4785
 #, kde-format
 msgid "Master effects"
-msgstr "Effetti nel principale"
+msgstr "Effetti principali"
 
 #: src/mainwindow.cpp:1819
 #, kde-format
@@ -10681,17 +10681,17 @@ msgstr "Attiva/non attivare la traccia come destinazione"
 #: src/mainwindow.cpp:1937
 #, kde-format
 msgid "Toggle Track Active"
-msgstr "Attiva/disattiva la traccia attiva"
+msgstr "Attiva/disattiva la traccia"
 
 #: src/mainwindow.cpp:1939
 #, kde-format
 msgid "Toggle All Tracks Active"
-msgstr "Attiva/disattiva tutte le tracce attive"
+msgstr "Attiva/disattiva tutte le tracce"
 
 #: src/mainwindow.cpp:1941
 #, kde-format
 msgid "Switch All Tracks Active"
-msgstr "Cambia tutte le tracce attive"
+msgstr "Imposta tutte le tracce come attive"
 
 #: src/mainwindow.cpp:1943
 #, kde-format
@@ -11607,12 +11607,12 @@ msgstr "1:1"
 #: src/monitor/monitor.cpp:306 src/monitor/monitormanager.cpp:626
 #, kde-format
 msgid "Set Zone In"
-msgstr "Imposta zona di attacco"
+msgstr "Imposta il punto di attacco della zona"
 
 #: src/monitor/monitor.cpp:307 src/monitor/monitormanager.cpp:630
 #, kde-format
 msgid "Set Zone Out"
-msgstr "Imposta zona di stacco"
+msgstr "Imposta il punto di stacco della zona"
 
 #: src/monitor/monitor.cpp:319 src/monitor/monitormanager.cpp:510
 #, kde-format
@@ -15206,14 +15206,12 @@ msgstr ""
 "la traccia %4 è stata impostato con la traccia forzata."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:286
-#, fuzzy, kde-format
-#| msgid ""
-#| "Invalid composition %1 found on track %2 at %3, compositing with track %4."
+#, kde-format
 msgid ""
 "Unknown composition %1 found on track %2 at %3, compositing with track %4."
 msgstr ""
-"Composizione %1 non valida trovata nella traccia %2 a %3, compositing con la "
-"traccia %4"
+"Trovata la composizione sconosciuta %1 nella traccia %2 a %3, in compositing "
+"con la traccia %4."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:296
 #: src/timeline2/model/builders/meltBuilder.cpp:545
@@ -15415,7 +15413,7 @@ msgstr "Rimuovi spazio"
 #: src/timeline2/model/timelinefunctions.cpp:643
 #, kde-format
 msgid "Lift zone"
-msgstr "Alza zona"
+msgstr "Solleva zona"
 
 #: src/timeline2/model/timelinefunctions.cpp:643
 #, kde-format

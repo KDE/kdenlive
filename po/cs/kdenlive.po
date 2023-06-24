@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-18 04:12+0000\n"
-"PO-Revision-Date: 2023-06-14 14:50+0200\n"
+"PO-Revision-Date: 2023-06-23 11:51+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -1746,7 +1746,7 @@ msgstr "Transformovat"
 #: data/effects/qtblend.xml:40 data/transitions/qtblend.xml:21
 #, kde-format
 msgid "Rotate from center"
-msgstr "Rotovat od ztředu"
+msgstr "Rotovat od středu"
 
 #: data/effects/qtcrop.xml:4
 #, kde-format
@@ -13386,12 +13386,12 @@ msgstr ""
 #: src/pythoninterfaces/abstractpythoninterface.cpp:207
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
-msgstr "Je vyžadován modul pythonu <application>%1</application>."
+msgstr "Je vyžadován modul Pythonu <application>%1</application>."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:209
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required for %2."
-msgstr "Pro %2 je vyžadován modul pythonu <application>%1</application>."
+msgstr "Pro %2 je vyžadován modul Pythonu <application>%1</application>."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:249
 #: src/pythoninterfaces/abstractpythoninterface.cpp:323

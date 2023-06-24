@@ -4970,12 +4970,12 @@ msgstr "Activar os proxies."
 #: src/bin/bin.cpp:4757
 #, kde-format
 msgid "Disable proxies"
-msgstr "Desactivar os proxys"
+msgstr "Desactivar os mandatarios"
 
 #: src/bin/bin.cpp:4938
 #, kde-format
 msgid "Rebuild proxies"
-msgstr "Reconstruír os proxys"
+msgstr "Reconstruír os mandatarios"
 
 #: src/bin/bin.cpp:5171
 #, fuzzy, kde-format
@@ -5220,12 +5220,12 @@ msgstr "actualizar valores na liña de tempo"
 #: src/bin/model/markerlistmodel.cpp:269 src/bin/model/markerlistmodel.cpp:287
 #, kde-format
 msgid "Rename guide"
-msgstr "Cambiar de nome a guía"
+msgstr "Renomear a guía"
 
 #: src/bin/model/markerlistmodel.cpp:269 src/bin/model/markerlistmodel.cpp:287
 #, kde-format
 msgid "Rename marker"
-msgstr "Cambiar de nome o marcador"
+msgstr "Renomear o marcador"
 
 #: src/bin/model/markerlistmodel.cpp:271 src/bin/model/markerlistmodel.cpp:289
 #, kde-format
@@ -6839,7 +6839,7 @@ msgstr "Limitar o número de fotogramas clave"
 #: src/dialogs/renderwidget.cpp:215
 #, kde-format
 msgid "Rendering using low quality proxy"
-msgstr "Renderizar usando os proxys de baixa calidade."
+msgstr "Renderizar usando os mandatarios de baixa calidade."
 
 #: src/dialogs/renderwidget.cpp:297
 #, kde-format
@@ -7920,7 +7920,7 @@ msgstr "Fragmento orixinal"
 #: src/doc/documentchecker.cpp:609
 #, kde-format
 msgid "%1 missing source clips, you can only use the proxies"
-msgstr "Faltan %1 fragmentos orixinais; só pode usar os proxys."
+msgstr "Faltan %1 fragmentos orixinais; só pode usar os mandatarios."
 
 #: src/doc/documentchecker.cpp:1034
 #, fuzzy, kde-format
@@ -11099,7 +11099,7 @@ msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
 "clips for this project?"
 msgstr ""
-"Vostede cambiou os parámetros do proxy. Quere crear de novo todos os "
+"Vostede cambiou os parámetros do mandatario. Quere crear de novo todos os "
 "fragmentos proxy deste proxecto?"
 
 #: src/mainwindow.cpp:2113
@@ -11554,12 +11554,12 @@ msgstr "Proporcións:"
 #: src/mltcontroller/clippropertiescontroller.cpp:470
 #, kde-format
 msgid "Delete proxy file"
-msgstr "Eliminar o ficheiro de proxy"
+msgstr "Eliminar o ficheiro de mandatario"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:476
 #, kde-format
 msgid "Proxy options"
-msgstr "Opcións de proxy"
+msgstr "Opcións de mandatario"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:481
 #, fuzzy, kde-format
@@ -20999,7 +20999,7 @@ msgstr "Renderizar a ficheiro"
 #: src/ui/renderwidget_ui.ui:343
 #, kde-format
 msgid "Generate Script"
-msgstr "Xerar un script"
+msgstr "Xerar un guión"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_full)
 #: src/ui/renderwidget_ui.ui:374
@@ -21249,13 +21249,13 @@ msgstr "Scripts"
 #: src/ui/renderwidget_ui.ui:1049
 #, kde-format
 msgid "Start Script"
-msgstr "Iniciar o script"
+msgstr "Iniciar o guión"
 
 #. i18n: ectx: property (text), widget (QPushButton, delete_script)
 #: src/ui/renderwidget_ui.ui:1056
 #, kde-format
 msgid "Delete Script"
-msgstr "Eliminar o script"
+msgstr "Eliminar o guión"
 
 #. i18n: ectx: property (placeholderText), widget (KLineEdit, search_text)
 #: src/ui/resourcewidget_ui.ui:53
