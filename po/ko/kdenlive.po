@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-24 00:49+0000\n"
+"POT-Creation-Date: 2023-06-25 00:51+0000\n"
 "PO-Revision-Date: 2022-05-08 16:25+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -4308,7 +4308,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "보관함 클립 삭제"
 
-#: src/bin/bin.cpp:1829 src/doc/documentchecker.cpp:612
+#: src/bin/bin.cpp:1829 src/doc/documentchecker.cpp:565
 #, kde-format
 msgid "Missing source clip"
 msgstr "누락된 원본 클립"
@@ -5457,7 +5457,7 @@ msgstr "Id"
 msgid "Usage"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:332 src/doc/documentchecker.cpp:371
+#: src/bin/projectitemmodel.cpp:332 src/doc/documentchecker.cpp:332
 #: src/mltcontroller/clipcontroller.cpp:462 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -7591,102 +7591,116 @@ msgstr "하드웨어 인코더가 없습니다."
 msgid "hardware encoders found and enabled (%1)."
 msgstr "VAAPI 하드웨어 인코더가 발견되어 활성화되었습니다."
 
-#: src/doc/documentchecker.cpp:320
+#: src/doc/documentchecker.cpp:116
+#, kde-format
+msgid ""
+"The document id of your project was invalid, a new one has been created."
+msgstr ""
+
+#: src/doc/documentchecker.cpp:281
 #, kde-format
 msgid "Luma file"
 msgstr "광도 파일"
 
-#: src/doc/documentchecker.cpp:326
+#: src/doc/documentchecker.cpp:287
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Asset file"
 msgstr "파일 삭제"
 
-#: src/doc/documentchecker.cpp:353
+#: src/doc/documentchecker.cpp:314
 #, kde-format
 msgid "Video clip"
 msgstr "동영상 클립"
 
-#: src/doc/documentchecker.cpp:357
+#: src/doc/documentchecker.cpp:318
 #, kde-format
 msgid "Slideshow clip"
 msgstr "슬라이드 쇼 클립"
 
-#: src/doc/documentchecker.cpp:360
+#: src/doc/documentchecker.cpp:321
 #, kde-format
 msgid "Image clip"
 msgstr "이미지 클립"
 
-#: src/doc/documentchecker.cpp:364
+#: src/doc/documentchecker.cpp:325
 #, kde-format
 msgid "Playlist clip"
 msgstr "재생 목록 클립"
 
-#: src/doc/documentchecker.cpp:367
+#: src/doc/documentchecker.cpp:328
 #, kde-format
 msgid "Title Image"
 msgstr "타이틀 이미지"
 
-#: src/doc/documentchecker.cpp:403
+#: src/doc/documentchecker.cpp:364
 #, kde-format
 msgid "Missing item"
 msgstr "누락된 항목"
 
-#: src/doc/documentchecker.cpp:417 src/doc/documentchecker.cpp:442
-#: src/doc/documentchecker.cpp:1338
+#: src/doc/documentchecker.cpp:378 src/doc/documentchecker.cpp:403
+#: src/doc/documentchecker.cpp:1394
 #, kde-format
 msgid "Relocated item"
 msgstr "이전된 항목"
 
-#: src/doc/documentchecker.cpp:455
+#: src/doc/documentchecker.cpp:416
 #, kde-format
 msgid "Title Font"
 msgstr "타이틀 글꼴"
 
-#: src/doc/documentchecker.cpp:460
+#: src/doc/documentchecker.cpp:421
 #, kde-format
 msgid "%1 will be replaced by %2"
 msgstr "%1이(가) %2(으)로 변경됨"
 
-#: src/doc/documentchecker.cpp:465
+#: src/doc/documentchecker.cpp:426
 #, kde-format
 msgid "Modified Clips"
 msgstr "수정된 클립"
 
-#: src/doc/documentchecker.cpp:469
+#: src/doc/documentchecker.cpp:430
 #, kde-format
 msgid "Clip %1 will be reloaded"
 msgstr "클립 %1을(를) 다시 불러올 것임"
 
-#: src/doc/documentchecker.cpp:474
+#: src/doc/documentchecker.cpp:435
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Fixed Sequence Clips"
 msgstr "이미지 시퀀스"
 
-#: src/doc/documentchecker.cpp:478
+#: src/doc/documentchecker.cpp:439
 #, fuzzy, kde-format
 #| msgid "Clip %1 will be reloaded"
 msgid "Clip %1 will be fixed"
 msgstr "클립 %1을(를) 다시 불러올 것임"
 
-#: src/doc/documentchecker.cpp:485
+#: src/doc/documentchecker.cpp:446
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "프로젝트 파일에 누락된 클립 또는 파일이 있습니다."
 
-#: src/doc/documentchecker.cpp:491
+#: src/doc/documentchecker.cpp:449
 #, kde-format
 msgid "Missing effect: %2 will be removed from project."
 msgid_plural "Missing effects: %2 will be removed from project."
 msgstr[0] "효과 누락됨: %2이(가) 프로젝트에서 삭제됩니다."
 
-#: src/doc/documentchecker.cpp:498
+#: src/doc/documentchecker.cpp:453
+#, fuzzy, kde-format
+#| msgid "Missing effect: %2 will be removed from project."
+#| msgid_plural "Missing effects: %2 will be removed from project."
+msgid "Missing transition: %2 will be removed from project."
+msgid_plural "Missing transitions: %2 will be removed from project."
+msgstr[0] "효과 누락됨: %2이(가) 프로젝트에서 삭제됩니다."
+
+#: src/doc/documentchecker.cpp:457
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "누락된 프록시는 여는 동안 다시 생성할 수 있습니다."
 
-#: src/doc/documentchecker.cpp:516
+#: src/doc/documentchecker.cpp:472
 #, kde-format
 msgid ""
 "The project file contains a missing clip, you can still work with its proxy."
@@ -7697,88 +7711,88 @@ msgstr[0] ""
 "프로젝트 파일에 누락된 클립 %1개가 들어 있습니다. 해당 클립의 프록시로도 작업"
 "할 수 있습니다."
 
-#: src/doc/documentchecker.cpp:523
+#: src/doc/documentchecker.cpp:476
 #, kde-format
 msgid "The project file contains one modified clip, it will be reloaded."
 msgid_plural ""
 "The project file contains %1 modified clips, they will be reloaded."
 msgstr[0] "프로젝트 파일에 수정된 클립이 %1개 있습니다. 다시 불러올 것입니다."
 
-#: src/doc/documentchecker.cpp:590
+#: src/doc/documentchecker.cpp:543
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr "프록시 클립"
 
-#: src/doc/documentchecker.cpp:593
+#: src/doc/documentchecker.cpp:546
 #, kde-format
 msgid "%1 missing proxy clip, will be recreated on project opening"
 msgid_plural "%1 missing proxy clips, will be recreated on project opening"
 msgstr[0] "프록시 클립 %1개가 누락되었습니다. 프로젝트를 열 때 다시 생성됩니다"
 
-#: src/doc/documentchecker.cpp:596
+#: src/doc/documentchecker.cpp:549
 #, kde-format
 msgid "Missing proxy"
 msgstr "프록시 누락됨"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/doc/documentchecker.cpp:607 src/doc/documentchecker.cpp:621
+#: src/doc/documentchecker.cpp:560 src/doc/documentchecker.cpp:574
 #: src/ui/timeremap_ui.ui:90
 #, kde-format
 msgid "Source clip"
 msgstr "원본 클립"
 
-#: src/doc/documentchecker.cpp:609
+#: src/doc/documentchecker.cpp:562
 #, kde-format
 msgid "%1 missing source clips, you can only use the proxies"
 msgstr "원본 클립 %1개가 누락되었습니다. 프록시만 사용할 수 있습니다"
 
-#: src/doc/documentchecker.cpp:986
+#: src/doc/documentchecker.cpp:939
 #, fuzzy, kde-format
 #| msgid "Clips folder"
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "클립 폴더"
 
-#: src/doc/documentchecker.cpp:1018 src/doc/documentchecker.cpp:1042
-#: src/doc/documentchecker.cpp:1052 src/doc/documentchecker.cpp:1061
-#: src/doc/documentchecker.cpp:1073
+#: src/doc/documentchecker.cpp:971 src/doc/documentchecker.cpp:995
+#: src/doc/documentchecker.cpp:1005 src/doc/documentchecker.cpp:1014
+#: src/doc/documentchecker.cpp:1026
 #, kde-format
 msgid "Recovered item"
 msgstr "복구된 항목"
 
-#: src/doc/documentchecker.cpp:1086
+#: src/doc/documentchecker.cpp:1039
 #, kde-format
 msgid "Search aborted"
 msgstr "검색 중단됨"
 
-#: src/doc/documentchecker.cpp:1088
+#: src/doc/documentchecker.cpp:1041
 #, kde-format
 msgid "Search done"
 msgstr "검색 완료됨"
 
-#: src/doc/documentchecker.cpp:1204
+#: src/doc/documentchecker.cpp:1157
 #, kde-format
 msgid "Scanning %1"
 msgstr "%1 검색 중"
 
-#: src/doc/documentchecker.cpp:1300
+#: src/doc/documentchecker.cpp:1356
 #, kde-format
 msgid "Enter new location for folder"
 msgstr "폴더의 새 위치 입력"
 
-#: src/doc/documentchecker.cpp:1326
+#: src/doc/documentchecker.cpp:1382
 #, kde-format
 msgid "Enter new location for file"
 msgstr "파일의 새 위치 입력"
 
-#: src/doc/documentchecker.cpp:1801
+#: src/doc/documentchecker.cpp:1857
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
 msgstr[0] "이 프로젝트에서 선택한 클립이 삭제됩니다"
 
-#: src/doc/documentchecker.cpp:1803
+#: src/doc/documentchecker.cpp:1859
 #, kde-format
 msgid "Remove clips"
 msgstr "클립 삭제"

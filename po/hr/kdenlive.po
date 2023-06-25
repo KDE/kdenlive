@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-24 00:49+0000\n"
+"POT-Creation-Date: 2023-06-25 00:51+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -4412,7 +4412,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "Obriši isječak"
 
-#: src/bin/bin.cpp:1829 src/doc/documentchecker.cpp:612
+#: src/bin/bin.cpp:1829 src/doc/documentchecker.cpp:565
 #, fuzzy, kde-format
 #| msgid "Missing clips"
 msgid "Missing source clip"
@@ -5589,7 +5589,7 @@ msgstr "I"
 msgid "Usage"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:332 src/doc/documentchecker.cpp:371
+#: src/bin/projectitemmodel.cpp:332 src/doc/documentchecker.cpp:332
 #: src/mltcontroller/clipcontroller.cpp:462 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, fuzzy, kde-format
@@ -7701,92 +7701,98 @@ msgstr ""
 msgid "hardware encoders found and enabled (%1)."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:320
+#: src/doc/documentchecker.cpp:116
+#, kde-format
+msgid ""
+"The document id of your project was invalid, a new one has been created."
+msgstr ""
+
+#: src/doc/documentchecker.cpp:281
 #, kde-format
 msgid "Luma file"
 msgstr "Luma datoteka"
 
-#: src/doc/documentchecker.cpp:326
+#: src/doc/documentchecker.cpp:287
 #, fuzzy, kde-format
 msgid "Asset file"
 msgstr "Obriši profil"
 
-#: src/doc/documentchecker.cpp:353
+#: src/doc/documentchecker.cpp:314
 #, kde-format
 msgid "Video clip"
 msgstr "Video isječak"
 
-#: src/doc/documentchecker.cpp:357
+#: src/doc/documentchecker.cpp:318
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Isječak prikaza slajdova"
 
-#: src/doc/documentchecker.cpp:360
+#: src/doc/documentchecker.cpp:321
 #, kde-format
 msgid "Image clip"
 msgstr "isječak slike"
 
-#: src/doc/documentchecker.cpp:364
+#: src/doc/documentchecker.cpp:325
 #, kde-format
 msgid "Playlist clip"
 msgstr "Playlista isječak"
 
-#: src/doc/documentchecker.cpp:367
+#: src/doc/documentchecker.cpp:328
 #, fuzzy, kde-format
 msgid "Title Image"
 msgstr "Slika"
 
-#: src/doc/documentchecker.cpp:403
+#: src/doc/documentchecker.cpp:364
 #, fuzzy, kde-format
 msgid "Missing item"
 msgstr "Uredi profil"
 
-#: src/doc/documentchecker.cpp:417 src/doc/documentchecker.cpp:442
-#: src/doc/documentchecker.cpp:1338
+#: src/doc/documentchecker.cpp:378 src/doc/documentchecker.cpp:403
+#: src/doc/documentchecker.cpp:1394
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Relocated item"
 msgstr "Iznova učitaj isječak"
 
-#: src/doc/documentchecker.cpp:455
+#: src/doc/documentchecker.cpp:416
 #, fuzzy, kde-format
 msgid "Title Font"
 msgstr "isječak naslova"
 
-#: src/doc/documentchecker.cpp:460
+#: src/doc/documentchecker.cpp:421
 #, kde-format
 msgid "%1 will be replaced by %2"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:465
+#: src/doc/documentchecker.cpp:426
 #, fuzzy, kde-format
 #| msgid "Move clip"
 msgid "Modified Clips"
 msgstr "Pomakni isječak"
 
-#: src/doc/documentchecker.cpp:469
+#: src/doc/documentchecker.cpp:430
 #, kde-format
 msgid "Clip %1 will be reloaded"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:474
+#: src/doc/documentchecker.cpp:435
 #, fuzzy, kde-format
 #| msgid "Center Frequency"
 msgid "Fixed Sequence Clips"
 msgstr "Centriraj frekvenciju"
 
-#: src/doc/documentchecker.cpp:478
+#: src/doc/documentchecker.cpp:439
 #, fuzzy, kde-format
 #| msgid "Clip has no markers"
 msgid "Clip %1 will be fixed"
 msgstr "Isječak nema oznaka"
 
-#: src/doc/documentchecker.cpp:485
+#: src/doc/documentchecker.cpp:446
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:491
+#: src/doc/documentchecker.cpp:449
 #, fuzzy, kde-format
 msgid "Missing effect: %2 will be removed from project."
 msgid_plural "Missing effects: %2 will be removed from project."
@@ -7794,12 +7800,20 @@ msgstr[0] "isječak <b>%1</b><br>nije valjan, bit će uklonjen iz projekta."
 msgstr[1] "isječak <b>%1</b><br>nije valjan, bit će uklonjen iz projekta."
 msgstr[2] "isječak <b>%1</b><br>nije valjan, bit će uklonjen iz projekta."
 
-#: src/doc/documentchecker.cpp:498
+#: src/doc/documentchecker.cpp:453
+#, fuzzy, kde-format
+msgid "Missing transition: %2 will be removed from project."
+msgid_plural "Missing transitions: %2 will be removed from project."
+msgstr[0] "isječak <b>%1</b><br>nije valjan, bit će uklonjen iz projekta."
+msgstr[1] "isječak <b>%1</b><br>nije valjan, bit će uklonjen iz projekta."
+msgstr[2] "isječak <b>%1</b><br>nije valjan, bit će uklonjen iz projekta."
+
+#: src/doc/documentchecker.cpp:457
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:516
+#: src/doc/documentchecker.cpp:472
 #, kde-format
 msgid ""
 "The project file contains a missing clip, you can still work with its proxy."
@@ -7810,7 +7824,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: src/doc/documentchecker.cpp:523
+#: src/doc/documentchecker.cpp:476
 #, kde-format
 msgid "The project file contains one modified clip, it will be reloaded."
 msgid_plural ""
@@ -7819,14 +7833,14 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: src/doc/documentchecker.cpp:590
+#: src/doc/documentchecker.cpp:543
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, fuzzy, kde-format
 #| msgid "Group clips"
 msgid "Proxy clip"
 msgstr "Grupiraj isječke"
 
-#: src/doc/documentchecker.cpp:593
+#: src/doc/documentchecker.cpp:546
 #, kde-format
 msgid "%1 missing proxy clip, will be recreated on project opening"
 msgid_plural "%1 missing proxy clips, will be recreated on project opening"
@@ -7834,76 +7848,76 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: src/doc/documentchecker.cpp:596
+#: src/doc/documentchecker.cpp:549
 #, fuzzy, kde-format
 msgid "Missing proxy"
 msgstr "Uredi profil"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/doc/documentchecker.cpp:607 src/doc/documentchecker.cpp:621
+#: src/doc/documentchecker.cpp:560 src/doc/documentchecker.cpp:574
 #: src/ui/timeremap_ui.ui:90
 #, fuzzy, kde-format
 #| msgid "Source"
 msgid "Source clip"
 msgstr "Izvor"
 
-#: src/doc/documentchecker.cpp:609
+#: src/doc/documentchecker.cpp:562
 #, kde-format
 msgid "%1 missing source clips, you can only use the proxies"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:986
+#: src/doc/documentchecker.cpp:939
 #, fuzzy, kde-format
 #| msgid "Clips folder"
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Mapa isječaka"
 
-#: src/doc/documentchecker.cpp:1018 src/doc/documentchecker.cpp:1042
-#: src/doc/documentchecker.cpp:1052 src/doc/documentchecker.cpp:1061
-#: src/doc/documentchecker.cpp:1073
+#: src/doc/documentchecker.cpp:971 src/doc/documentchecker.cpp:995
+#: src/doc/documentchecker.cpp:1005 src/doc/documentchecker.cpp:1014
+#: src/doc/documentchecker.cpp:1026
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Recovered item"
 msgstr "Iznova učitaj isječak"
 
-#: src/doc/documentchecker.cpp:1086
+#: src/doc/documentchecker.cpp:1039
 #, fuzzy, kde-format
 #| msgid "Search manually"
 msgid "Search aborted"
 msgstr "Traži ručno"
 
-#: src/doc/documentchecker.cpp:1088
+#: src/doc/documentchecker.cpp:1041
 #, fuzzy, kde-format
 #| msgid "Search manually"
 msgid "Search done"
 msgstr "Traži ručno"
 
-#: src/doc/documentchecker.cpp:1204
+#: src/doc/documentchecker.cpp:1157
 #, fuzzy, kde-format
 #| msgid "Scanning"
 msgid "Scanning %1"
 msgstr "Skeniranje"
 
-#: src/doc/documentchecker.cpp:1300
+#: src/doc/documentchecker.cpp:1356
 #, fuzzy, kde-format
 #| msgid "Enter new location for file"
 msgid "Enter new location for folder"
 msgstr "Unesi novu lokaciju datoteke"
 
-#: src/doc/documentchecker.cpp:1326
+#: src/doc/documentchecker.cpp:1382
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Unesi novu lokaciju datoteke"
 
-#: src/doc/documentchecker.cpp:1801
+#: src/doc/documentchecker.cpp:1857
 #, fuzzy, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
 msgstr[0] "Ovo će izbaciti odabrane isječke iz projekta"
 msgstr[1] "Ovo će izbaciti odabrane isječke iz projekta"
 
-#: src/doc/documentchecker.cpp:1803
+#: src/doc/documentchecker.cpp:1859
 #, kde-format
 msgid "Remove clips"
 msgstr "Ukloni isječke"
