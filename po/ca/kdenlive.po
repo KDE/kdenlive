@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-25 00:51+0000\n"
-"PO-Revision-Date: 2023-06-21 09:11+0200\n"
+"PO-Revision-Date: 2023-06-25 08:26+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -7577,7 +7577,7 @@ msgstr "S'han trobat i activat els codificadors per maquinari (%1)."
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
-msgstr ""
+msgstr "L'ID del document del projecte no era vàlid, se n'ha creat un de nou."
 
 #: src/doc/documentchecker.cpp:281
 #, kde-format
@@ -7668,13 +7668,11 @@ msgstr[0] "Manca un efecte: s'eliminarà %2 del projecte."
 msgstr[1] "Manquen efectes: s'eliminaran %2 del projecte."
 
 #: src/doc/documentchecker.cpp:453
-#, fuzzy, kde-format
-#| msgid "Missing effect: %2 will be removed from project."
-#| msgid_plural "Missing effects: %2 will be removed from project."
+#, kde-format
 msgid "Missing transition: %2 will be removed from project."
 msgid_plural "Missing transitions: %2 will be removed from project."
-msgstr[0] "Manca un efecte: s'eliminarà %2 del projecte."
-msgstr[1] "Manquen efectes: s'eliminaran %2 del projecte."
+msgstr[0] "Manca una transició: %2 s'eliminarà del projecte."
+msgstr[1] "Manquen transicions: %2 s'eliminaran del projecte."
 
 #: src/doc/documentchecker.cpp:457
 #, kde-format

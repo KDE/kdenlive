@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-25 00:51+0000\n"
-"PO-Revision-Date: 2023-06-21 09:24+0300\n"
+"PO-Revision-Date: 2023-06-25 09:10+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -7593,7 +7593,7 @@ msgstr "Апаратні засоби кодування виявлено і у�
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
-msgstr ""
+msgstr "Ідентифікатор документа вашого проєкту є некоректним, створено новий."
 
 #: src/doc/documentchecker.cpp:281
 #, kde-format
@@ -7686,9 +7686,7 @@ msgstr[2] "Немає ефектів: %2 буде вилучено з проєк
 msgstr[3] "Немає ефекту: %2 буде вилучено з проєкту."
 
 #: src/doc/documentchecker.cpp:453
-#, fuzzy, kde-format
-#| msgid "Missing effect: %2 will be removed from project."
-#| msgid_plural "Missing effects: %2 will be removed from project."
+#, kde-format
 msgid "Missing transition: %2 will be removed from project."
 msgid_plural "Missing transitions: %2 will be removed from project."
 msgstr[0] "Немає ефектів: %2 буде вилучено з проєкту."

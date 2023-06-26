@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-25 00:51+0000\n"
-"PO-Revision-Date: 2023-06-21 18:13+0200\n"
+"PO-Revision-Date: 2023-06-25 15:03+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -7555,6 +7555,7 @@ msgstr "hardwarecodeerders gevonden en ingeschakeld (%1)."
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr ""
+"Het document-id van uw project was ongeldig, er is een nieuwe aangemaakt."
 
 #: src/doc/documentchecker.cpp:281
 #, kde-format
@@ -7645,13 +7646,11 @@ msgstr[0] "Ontbrekend effect: %2 zal uit het project verwijderd worden."
 msgstr[1] "Ontbrekende effecten: %2 zal uit het project verwijderd worden."
 
 #: src/doc/documentchecker.cpp:453
-#, fuzzy, kde-format
-#| msgid "Missing effect: %2 will be removed from project."
-#| msgid_plural "Missing effects: %2 will be removed from project."
+#, kde-format
 msgid "Missing transition: %2 will be removed from project."
 msgid_plural "Missing transitions: %2 will be removed from project."
-msgstr[0] "Ontbrekend effect: %2 zal uit het project verwijderd worden."
-msgstr[1] "Ontbrekende effecten: %2 zal uit het project verwijderd worden."
+msgstr[0] "Ontbrekende overgang: %2 zal uit het project verwijderd worden."
+msgstr[1] "Ontbrekende overgangen: %2 zal uit het project verwijderd worden."
 
 #: src/doc/documentchecker.cpp:457
 #, kde-format

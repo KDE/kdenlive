@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-25 00:51+0000\n"
-"PO-Revision-Date: 2023-06-21 21:30+0100\n"
+"PO-Revision-Date: 2023-06-25 22:41+0100\n"
 "Last-Translator: Jose Jorge <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
 "Language: pt\n"
@@ -7665,7 +7665,7 @@ msgstr "Foram detectados e activados os codificadores por 'hardware' (%1)."
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
-msgstr ""
+msgstr "O ID do documento do seu projecto era inválido; foi criado um novo."
 
 #: src/doc/documentchecker.cpp:281
 #, kde-format
@@ -7752,16 +7752,14 @@ msgstr "O ficheiro do projecto contém 'clips' ou ficheiros em falta."
 #, kde-format
 msgid "Missing effect: %2 will be removed from project."
 msgid_plural "Missing effects: %2 will be removed from project."
-msgstr[0] "Faltam um efeito: o %2 será removido do projecto."
+msgstr[0] "Falta um efeito: o %2 será removido do projecto."
 msgstr[1] "Faltam efeitos: os %2 serão removidos do projecto."
 
 #: src/doc/documentchecker.cpp:453
-#, fuzzy, kde-format
-#| msgid "Missing effect: %2 will be removed from project."
-#| msgid_plural "Missing effects: %2 will be removed from project."
+#, kde-format
 msgid "Missing transition: %2 will be removed from project."
 msgid_plural "Missing transitions: %2 will be removed from project."
-msgstr[0] "Faltam um efeito: o %2 será removido do projecto."
+msgstr[0] "Falta uma transição: o %2 será removido do projecto."
 msgstr[1] "Faltam efeitos: os %2 serão removidos do projecto."
 
 #: src/doc/documentchecker.cpp:457

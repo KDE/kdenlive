@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-25 00:51+0000\n"
-"PO-Revision-Date: 2023-06-21 11:45+0300\n"
+"PO-Revision-Date: 2023-06-25 12:23+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -7522,7 +7522,7 @@ msgstr "donanım kodlayıcıları bulundu ve etkinleştirildi (%1)."
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
-msgstr ""
+msgstr "Projenizin belge kimliği geçersizdi; yeni bir tane oluşturuldu."
 
 #: src/doc/documentchecker.cpp:281
 #, kde-format
@@ -7613,13 +7613,11 @@ msgstr[0] "Eksik efekt: %2, projeden kaldırılacak."
 msgstr[1] "Eksik efektler: %2, projeden kaldırılacak."
 
 #: src/doc/documentchecker.cpp:453
-#, fuzzy, kde-format
-#| msgid "Missing effect: %2 will be removed from project."
-#| msgid_plural "Missing effects: %2 will be removed from project."
+#, kde-format
 msgid "Missing transition: %2 will be removed from project."
 msgid_plural "Missing transitions: %2 will be removed from project."
-msgstr[0] "Eksik efekt: %2, projeden kaldırılacak."
-msgstr[1] "Eksik efektler: %2, projeden kaldırılacak."
+msgstr[0] "Eksik geçiş: %2, projeden kaldırılacak."
+msgstr[1] "Eksik geçişler: %2, projeden kaldırılacak."
 
 #: src/doc/documentchecker.cpp:457
 #, kde-format

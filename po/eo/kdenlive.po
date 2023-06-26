@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-25 00:51+0000\n"
-"PO-Revision-Date: 2023-06-21 20:18+0100\n"
+"PO-Revision-Date: 2023-06-25 13:51+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -7503,6 +7503,7 @@ msgstr "aparataj kodiloj trovitaj kaj ebligitaj (%1)."
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr ""
+"La dokumento de via projekto estis nevalida, nova dokumento estis kreata."
 
 #: src/doc/documentchecker.cpp:281
 #, kde-format
@@ -7590,16 +7591,14 @@ msgstr "La projektdosiero enhavas mankantajn aŭdvidaĵojn aŭ dosierojn."
 msgid "Missing effect: %2 will be removed from project."
 msgid_plural "Missing effects: %2 will be removed from project."
 msgstr[0] "Mankanta efekto: %2 estos forigata de projekto."
-msgstr[1] "Mankantaj efektoj: %2 estos forigata de projekto."
+msgstr[1] "Mankantaj efektoj: %2 estos forigataj de projekto."
 
 #: src/doc/documentchecker.cpp:453
-#, fuzzy, kde-format
-#| msgid "Missing effect: %2 will be removed from project."
-#| msgid_plural "Missing effects: %2 will be removed from project."
+#, kde-format
 msgid "Missing transition: %2 will be removed from project."
 msgid_plural "Missing transitions: %2 will be removed from project."
-msgstr[0] "Mankanta efekto: %2 estos forigata de projekto."
-msgstr[1] "Mankantaj efektoj: %2 estos forigata de projekto."
+msgstr[0] "Mankanta transiro: %2 estos forigata de projekto."
+msgstr[1] "Mankantaj transiroj: %2 estos forigataj de projekto."
 
 #: src/doc/documentchecker.cpp:457
 #, kde-format
