@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-25 00:51+0000\n"
-"PO-Revision-Date: 2023-06-22 08:55+0200\n"
+"PO-Revision-Date: 2023-06-26 06:40+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -7536,7 +7536,7 @@ msgstr "najdeni in omogočeni strojni kodirniki (%1)."
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
-msgstr ""
+msgstr "ID dokumenta vašega projekta je bil neveljaven, ustvarjen je bil nov."
 
 #: src/doc/documentchecker.cpp:281
 #, kde-format
@@ -7629,15 +7629,13 @@ msgstr[2] "Manjkajoči učinki: %2 bodo odstranjeni iz projekta."
 msgstr[3] "Manjkajoči učinki: %2 bodo odstranjeni iz projekta."
 
 #: src/doc/documentchecker.cpp:453
-#, fuzzy, kde-format
-#| msgid "Missing effect: %2 will be removed from project."
-#| msgid_plural "Missing effects: %2 will be removed from project."
+#, kde-format
 msgid "Missing transition: %2 will be removed from project."
 msgid_plural "Missing transitions: %2 will be removed from project."
-msgstr[0] "Manjkajoči učinek: %2 bo odstranjen iz projekta."
-msgstr[1] "Manjkajoča učinka: %2 bosta odstranjena iz projekta."
-msgstr[2] "Manjkajoči učinki: %2 bodo odstranjeni iz projekta."
-msgstr[3] "Manjkajoči učinki: %2 bodo odstranjeni iz projekta."
+msgstr[0] "Manjkajoči prehod: %2 bo odstranjen iz projekta."
+msgstr[1] "Manjkajoča prehoda: %2 bosta odstranjena iz projekta."
+msgstr[2] "Manjkajoči prehodi: %2 bodo odstranjeni iz projekta."
+msgstr[3] "Manjkajoči prehodi: %2 bodo odstranjeni iz projekta."
 
 #: src/doc/documentchecker.cpp:457
 #, kde-format

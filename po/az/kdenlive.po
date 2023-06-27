@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-25 00:51+0000\n"
-"PO-Revision-Date: 2023-06-16 18:47+0400\n"
+"PO-Revision-Date: 2023-06-26 17:17+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
 "Language: az\n"
@@ -6775,10 +6775,9 @@ msgstr ""
 "Tələb edilən icazələrinizin olduğunuza əmin olun."
 
 #: src/dialogs/renderwidget.cpp:674
-#, fuzzy, kde-format
-#| msgid "An error occurred while deleting markers"
+#, kde-format
 msgid "The following errors occured while trying to render"
-msgstr "Markerlər silinərkən xəta baş verdi"
+msgstr "Təsvirin işlənməsinə cəhd zamanı aşağıdakı xətalar baş verdi"
 
 #: src/dialogs/renderwidget.cpp:707 src/dialogs/renderwidget.cpp:1437
 #, kde-format
@@ -7499,14 +7498,11 @@ msgstr ""
 "olunur<br/>"
 
 #: src/dialogs/wizard.cpp:444
-#, fuzzy, kde-format
-#| msgid ""
-#| "<li>Missing app: <b>ffprobe</b><br/>recommended for extra clip analysis</"
-#| "li>"
+#, kde-format
 msgid "<li>Missing app: <b>kdenlive_render</b><br/>needed for rendering.</li>"
 msgstr ""
-"<li>Çatışmayan tətbiq: <b>ffprobe</b>Klipin əlavə analizi üçün tələb "
-"olunur<br/>"
+"</li>Çatışmayan tətbiq: <li>təsvirin işlınməsi üçün<b></b>kdenlive render<br/"
+"> lazımdır."
 
 #: src/dialogs/wizard.cpp:517
 #, kde-format
@@ -7543,7 +7539,7 @@ msgstr "avadanlıq kodlayıcısı tapıldı və aktiv edildi (%1)."
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
-msgstr ""
+msgstr "Layihəniz üçün sənədin İD-si səhvdir, yenisi yaradılacaq."
 
 #: src/doc/documentchecker.cpp:281
 #, kde-format
@@ -7634,13 +7630,11 @@ msgstr[0] "Çatışmayan effekt: %2 layihədən silinəcək."
 msgstr[1] "Çatışmayan effektlər: %2 layihədən silinəcək."
 
 #: src/doc/documentchecker.cpp:453
-#, fuzzy, kde-format
-#| msgid "Missing effect: %2 will be removed from project."
-#| msgid_plural "Missing effects: %2 will be removed from project."
+#, kde-format
 msgid "Missing transition: %2 will be removed from project."
 msgid_plural "Missing transitions: %2 will be removed from project."
-msgstr[0] "Çatışmayan effekt: %2 layihədən silinəcək."
-msgstr[1] "Çatışmayan effektlər: %2 layihədən silinəcək."
+msgstr[0] "Çatışmayan keçid: %2 layihədən silinəcək."
+msgstr[1] "Çatışmayan keçidlər: %2 layihədən silinəcək."
 
 #: src/doc/documentchecker.cpp:457
 #, kde-format
@@ -14702,17 +14696,13 @@ msgid "Could not create temporary subtitle file"
 msgstr "Müvəqqəti alt yazı faylı yaratmaq mümkün olmadı"
 
 #: src/render/renderrequest.cpp:190
-#, fuzzy, kde-format
-#| msgid ""
-#| "Script rendering and multi track audio export can not be used together.\n"
-#| "Script will be saved without multi track export."
+#, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together. "
 "Script will be saved without multi track export."
 msgstr ""
 "Görüntünün işlənməsi skripti və çoxcığırlı audionun ixracı birlikdə istifadə "
-"oluna bilməz.\n"
-"Skript çoxcığırlı audio ixracı olmadan saxlanılacaq."
+"oluna bilməz. Skript çoxcığırlı audio ixracı olmadan saxlanılacaq."
 
 #: src/render/renderrequest.cpp:263
 #, kde-format
@@ -15198,13 +15188,11 @@ msgstr ""
 "ilə məcburi kompozisiya olunur."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:286
-#, fuzzy, kde-format
-#| msgid ""
-#| "Invalid composition %1 found on track %2 at %3, compositing with track %4."
+#, kde-format
 msgid ""
 "Unknown composition %1 found on track %2 at %3, compositing with track %4."
 msgstr ""
-"%3 üzərindəki %2 cığırında %1 yararsız kompozisiyası tapıldı, %4 cığırı ilə "
+"%3 üzərindəki %2 cığırında %1 naməlum kompozisiyası tapıldı, %4 cığırı ilə "
 "kompozisiya olunur."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:296
@@ -19885,34 +19873,31 @@ msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_4)
 #: src/ui/projectsettings_ui.ui:50
-#, fuzzy, kde-format
-#| msgid "Project folder to store proxy clips, thumbnails, previews"
+#, kde-format
 msgid ""
 " The project folder is the place where assets like proxy clips, thumbnails "
 "or previews get stored."
 msgstr ""
-"Proksi klipləri, miniatürləri, önizləmələri saxlamaq üçün layihə qovluğu"
+"Layihə qovluğu proksi klipləri, miniatürləri və ya önziləmələr kimi "
+"elementləri saxalmaq üçün yerdir."
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/ui/projectsettings_ui.ui:60
-#, fuzzy, kde-format
-#| msgid "Default Folders"
+#, kde-format
 msgid "Default folder"
-msgstr "Standart qovluqlar"
+msgstr "Standart qovluq"
 
 #. i18n: ectx: property (text), widget (QRadioButton, same_folder)
 #: src/ui/projectsettings_ui.ui:67
-#, fuzzy, kde-format
-#| msgid "Default folder for project files"
+#, kde-format
 msgid "Parent folder of the project file"
-msgstr "Layihə faylları üçün standrt qovluq"
+msgstr "Layihə fayllarının əsas qovluğu"
 
 #. i18n: ectx: property (text), widget (QRadioButton, custom_folder)
 #: src/ui/projectsettings_ui.ui:76
-#, fuzzy, kde-format
-#| msgid "Custom"
+#, kde-format
 msgid "Custom:"
-msgstr "Xüsusi"
+msgstr "Xüsusi:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audio_channels)
 #: src/ui/projectsettings_ui.ui:148
@@ -19934,10 +19919,9 @@ msgstr "6 kanallı"
 
 #. i18n: ectx: property (text), widget (QLabel, label_25)
 #: src/ui/projectsettings_ui.ui:193
-#, fuzzy, kde-format
-#| msgid "Timeline Preview"
+#, kde-format
 msgid "Timeline Preview:"
-msgstr "Zaman qrafikində öncədən baxış"
+msgstr "Zaman xətti önbaxışı:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
 #: src/ui/projectsettings_ui.ui:204
@@ -19947,10 +19931,9 @@ msgstr "Proksi"
 
 #. i18n: ectx: property (title), widget (QGroupBox, proxy_box)
 #: src/ui/projectsettings_ui.ui:210
-#, fuzzy, kde-format
-#| msgid "Proxy clips:"
+#, kde-format
 msgid "Proxy clips"
-msgstr "Proksi klipləri:"
+msgstr "Proksi kliplər"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_minsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_imageminsize)
@@ -20141,7 +20124,7 @@ msgstr "Yeni render hazır ayarlarını endirin…"
 #: src/ui/renderwidget_ui.ui:239
 #, kde-format
 msgid ":data/kdenlive_renderprofiles.knsrc"
-msgstr ""
+msgstr ":data/kdenlive_renderprofiles.knsrc"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonSaveAs)
 #: src/ui/renderwidget_ui.ui:256
@@ -20217,10 +20200,9 @@ msgstr "Ayırıcı kimi istifadə olunmasını göstərir:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_full_color)
 #: src/ui/renderwidget_ui.ui:487
-#, fuzzy, kde-format
-#| msgid "Select fill color"
+#, kde-format
 msgid "Render full color range"
-msgstr "Doldurmaq üçün rəngi seçin"
+msgstr "Tam rəng diapozonunun işlənməsi"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_at_preview_res)
 #: src/ui/renderwidget_ui.ui:494
@@ -20353,7 +20335,7 @@ msgstr "Meta məlumatlarını ixrac edin"
 #: src/ui/renderwidget_ui.ui:795
 #, kde-format
 msgid "<a href=\"#\">Edit metadata</a>"
-msgstr ""
+msgstr "<a href=\"#\">Meta verilənlərə düəzliş edin</a>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, embed_subtitles)
 #: src/ui/renderwidget_ui.ui:820
@@ -20623,17 +20605,15 @@ msgstr "Zaman qrafiki sahəsi (bütün cığırlar)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/speechdialog_ui.ui:151
-#, fuzzy, kde-format
-#| msgid "Language:"
+#, kde-format
 msgid "Language"
-msgstr "Dil:"
+msgstr "Dil"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/speechdialog_ui.ui:164
-#, fuzzy, kde-format
-#| msgid "Mode"
+#, kde-format
 msgid "Model"
-msgstr "Rejim"
+msgstr "Model"
 
 #. i18n: ectx: property (text), widget (QLabel, label_template)
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -21128,27 +21108,23 @@ msgstr "Şəffaflıq:"
 #: src/widgets/colorpickerwidget.cpp:102
 #, kde-format
 msgid "Pick a color on the screen."
-msgstr ""
+msgstr "Ekrandakı rəngdən seçin."
 
 #: src/widgets/colorpickerwidget.cpp:105
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "Pick a color on the screen. By pressing the mouse button and then moving "
-#| "your mouse you can select a section of the screen from which to get an "
-#| "average color."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Pick a color on the screen. By pressing the mouse button and then moving "
 "your mouse you can select a section of the screen from which to get an "
 "average color."
 msgstr ""
-"Ekrandan rəngi götürün. Siçanın düyməsini basılı saxlamaqla orta rəngi "
-"götürəcəyiniz sahəni seçə bilərsiniz."
+"Ekrandakı rəngdən seçin. Siçanın düyməsinə basmaq və onu sürüşdürməklə ortaq "
+"rəngi ala biləcəyiniz ekran sahəsini seçə bilərsiniz."
 
 #: src/widgets/doublewidget.cpp:27
 #, kde-format
 msgid "Rotate by 90 ° steps"
-msgstr ""
+msgstr "90 ° addımla döndərin"
 
 #: src/widgets/dragvalue.cpp:115
 #, kde-format
@@ -21183,7 +21159,7 @@ msgstr "Zaman qrafikində %1 göstərilsin"
 #: src/widgets/dragvalue.cpp:413
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
-msgstr ""
+msgstr "Shift ilə sürüşdürərək dəyərləri bir bir tənzimləyin"
 
 #: src/widgets/geometrywidget.cpp:40
 #, kde-format
@@ -21256,10 +21232,9 @@ msgstr "Aşağıya düzləndirmək"
 
 #: src/widgets/markercategorybutton.cpp:129
 #: src/widgets/markercategorychooser.cpp:41
-#, fuzzy, kde-format
-#| msgid "Color to select"
+#, kde-format
 msgid "Nothing to select"
-msgstr "Rəng seçimi"
+msgstr "Seçiləcək heç nə yoxdur"
 
 #: src/widgets/markercategorybutton.cpp:134
 #: src/widgets/markercategorychooser.cpp:47

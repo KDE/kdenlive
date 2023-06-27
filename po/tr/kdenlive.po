@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-25 00:51+0000\n"
-"PO-Revision-Date: 2023-06-25 12:23+0300\n"
+"PO-Revision-Date: 2023-06-26 22:31+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -2751,7 +2751,7 @@ msgstr "GPU efektleri"
 #: data/kdenliveeffectscategory.rc:58
 #, kde-format
 msgid "VR360 and 3D"
-msgstr "VR360 ve 3D"
+msgstr "VR360 ve 3B"
 
 #: data/kdenliveeffectscategory.rc:62
 #, kde-format
