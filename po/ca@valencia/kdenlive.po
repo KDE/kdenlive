@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-25 00:51+0000\n"
-"PO-Revision-Date: 2023-06-18 11:24+0200\n"
+"PO-Revision-Date: 2023-06-25 08:26+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -3328,8 +3328,8 @@ msgstr "Guarda la pila d'efectes…"
 msgctxt "@info:whatsthis"
 msgid "Saves the entire effect stack as an XML file for use in other projects."
 msgstr ""
-"Guarda tota la pila d'efectes com un fitxer XML per a utilitzar-lo en altres "
-"projectes."
+"Guarda tota la pila d'efectes com un fitxer XML per a fer-lo servir en "
+"altres projectes."
 
 #: src/assets/assetpanel.cpp:96
 #, kde-format
@@ -7536,14 +7536,11 @@ msgstr ""
 "de vídeos</li>"
 
 #: src/dialogs/wizard.cpp:444
-#, fuzzy, kde-format
-#| msgid ""
-#| "<li>Missing app: <b>ffprobe</b><br/>recommended for extra clip analysis</"
-#| "li>"
+#, kde-format
 msgid "<li>Missing app: <b>kdenlive_render</b><br/>needed for rendering.</li>"
 msgstr ""
-"<li>Falta una aplicació: <b>ffprobe</b><br/>recomanada per a anàlisis extres "
-"de vídeos</li>"
+"<li>Falta una aplicació: <b>kdenlive_render</b><br/>necessària per a la "
+"renderització.</li>"
 
 #: src/dialogs/wizard.cpp:517
 #, kde-format
@@ -7581,7 +7578,7 @@ msgstr "S'han trobat i activat els codificadors per maquinari (%1)."
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
-msgstr ""
+msgstr "L'ID del document del projecte no era vàlid, se n'ha creat un de nou."
 
 #: src/doc/documentchecker.cpp:281
 #, kde-format
@@ -7672,13 +7669,11 @@ msgstr[0] "Falta un efecte: s'eliminarà %2 del projecte."
 msgstr[1] "Falten efectes: s'eliminaran %2 del projecte."
 
 #: src/doc/documentchecker.cpp:453
-#, fuzzy, kde-format
-#| msgid "Missing effect: %2 will be removed from project."
-#| msgid_plural "Missing effects: %2 will be removed from project."
+#, kde-format
 msgid "Missing transition: %2 will be removed from project."
 msgid_plural "Missing transitions: %2 will be removed from project."
-msgstr[0] "Falta un efecte: s'eliminarà %2 del projecte."
-msgstr[1] "Falten efectes: s'eliminaran %2 del projecte."
+msgstr[0] "Falta una transició: %2 s'eliminarà del projecte."
+msgstr[1] "Falten transicions: %2 s'eliminaran del projecte."
 
 #: src/doc/documentchecker.cpp:457
 #, kde-format
