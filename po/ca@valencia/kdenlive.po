@@ -3328,8 +3328,8 @@ msgstr "Guarda la pila d'efectes…"
 msgctxt "@info:whatsthis"
 msgid "Saves the entire effect stack as an XML file for use in other projects."
 msgstr ""
-"Guarda tota la pila d'efectes com un fitxer XML per a fer-lo servir en "
-"altres projectes."
+"Guarda tota la pila d'efectes com un fitxer XML per a utilitzar-la en altres "
+"projectes."
 
 #: src/assets/assetpanel.cpp:96
 #, kde-format

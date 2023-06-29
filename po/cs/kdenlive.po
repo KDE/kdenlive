@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-25 00:51+0000\n"
-"PO-Revision-Date: 2023-06-23 11:51+0200\n"
+"PO-Revision-Date: 2023-06-28 14:16+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -7406,13 +7406,12 @@ msgstr[1] ""
 msgstr[2] ""
 
 #: src/doc/documentchecker.cpp:453
-#, fuzzy, kde-format
-#| msgid "Clip is invalid, will be removed from project."
+#, kde-format
 msgid "Missing transition: %2 will be removed from project."
 msgid_plural "Missing transitions: %2 will be removed from project."
-msgstr[0] "Klip je neplatný a z projektu bude odebrán."
-msgstr[1] "Klip je neplatný a z projektu bude odebrán."
-msgstr[2] "Klip je neplatný a z projektu bude odebrán."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: src/doc/documentchecker.cpp:457
 #, kde-format
@@ -9686,7 +9685,7 @@ msgstr "Spustit konfiguračního průvodce…"
 #: src/mainwindow.cpp:1464
 #, kde-format
 msgid "Project Settings…"
-msgstr "Vlastnosti projektu…"
+msgstr "Nastavení projektu…"
 
 #: src/mainwindow.cpp:1470
 #, kde-format
@@ -19297,7 +19296,7 @@ msgstr "Použít jako výchozí"
 #: src/ui/projectsettings_ui.ui:18
 #, kde-format
 msgid "Project Settings"
-msgstr "Vlastnosti projektu"
+msgstr "Nastavení projektu"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: src/ui/projectsettings_ui.ui:41

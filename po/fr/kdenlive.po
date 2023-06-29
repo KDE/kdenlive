@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-25 00:51+0000\n"
-"PO-Revision-Date: 2023-05-28 15:28+0200\n"
+"PO-Revision-Date: 2023-06-27 08:53+0200\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -28,7 +28,7 @@ msgstr ""
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.04.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -6823,10 +6823,10 @@ msgstr ""
 "Veuillez vérifier que vous avez les droits nécessaires."
 
 #: src/dialogs/renderwidget.cpp:674
-#, fuzzy, kde-format
-#| msgid "An error occurred while deleting markers"
+#, kde-format
 msgid "The following errors occured while trying to render"
-msgstr "Une erreur est survenue lors de la suppression des repères"
+msgstr ""
+"Les erreurs suivantes ont été rencontrées lors de la tentative de rendu."
 
 #: src/dialogs/renderwidget.cpp:707 src/dialogs/renderwidget.cpp:1437
 #, kde-format
@@ -7571,13 +7571,11 @@ msgstr ""
 "clip supplémentaires</li>"
 
 #: src/dialogs/wizard.cpp:444
-#, fuzzy, kde-format
-#| msgid ""
-#| "<li>Missing app: <b>dvdauthor</b><br/>required for creation of DVD</li>"
+#, kde-format
 msgid "<li>Missing app: <b>kdenlive_render</b><br/>needed for rendering.</li>"
 msgstr ""
-"<li>Programme manquant : <b>dvdauthor</b><br/>nécessaire à la création de "
-"DVD</li>"
+"<li>Application manquante : <b>kdenlive_render</b><br/>nécessaire au rendu.</"
+"li>"
 
 #: src/dialogs/wizard.cpp:517
 #, kde-format
@@ -7616,6 +7614,8 @@ msgstr "encodeur matériel trouvé et activé (%1)."
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr ""
+"L'identifiant de document de votre projet était invalide. Un nouvel "
+"identifiant a été créé."
 
 #: src/doc/documentchecker.cpp:281
 #, kde-format
@@ -7706,13 +7706,11 @@ msgstr[0] "Effet manquant : %2 va être supprimé du projet."
 msgstr[1] "Effets manquants : %2 vont être supprimés du projet."
 
 #: src/doc/documentchecker.cpp:453
-#, fuzzy, kde-format
-#| msgid "Missing effect: %2 will be removed from project."
-#| msgid_plural "Missing effects: %2 will be removed from project."
+#, kde-format
 msgid "Missing transition: %2 will be removed from project."
 msgid_plural "Missing transitions: %2 will be removed from project."
-msgstr[0] "Effet manquant : %2 va être supprimé du projet."
-msgstr[1] "Effets manquants : %2 vont être supprimés du projet."
+msgstr[0] "Transition manquante : %2 va être supprimé du projet."
+msgstr[1] "Transitions manquantes : %2 va être supprimé du projet."
 
 #: src/doc/documentchecker.cpp:457
 #, kde-format
@@ -14866,17 +14864,13 @@ msgid "Could not create temporary subtitle file"
 msgstr "Impossible de créer le fichier temporaire de sous-titres"
 
 #: src/render/renderrequest.cpp:190
-#, fuzzy, kde-format
-#| msgid ""
-#| "Script rendering and multi track audio export can not be used together.\n"
-#| "Script will be saved without multi track export."
+#, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together. "
 "Script will be saved without multi track export."
 msgstr ""
 "Le rendu du script et l'exportation audio multi-piste ne peuvent pas être "
-"utilisés ensemble.\n"
-"Le script sera enregistré sans l'exportation multi-piste."
+"utilisés ensemble. Le script sera enregistré sans l'exportation multi-piste."
 
 #: src/render/renderrequest.cpp:263
 #, kde-format
@@ -15363,13 +15357,12 @@ msgstr ""
 "la piste %4 a été définie comme piste forcée."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:286
-#, fuzzy, kde-format
-#| msgid ""
-#| "Invalid composition %1 found on track %2 at %3, compositing with track %4."
+#, kde-format
 msgid ""
 "Unknown composition %1 found on track %2 at %3, compositing with track %4."
 msgstr ""
-"Composition non valable %1 trouvée sur la piste %2 à %3, avec la piste %4."
+"Composition inconnue %1 trouvée sur la piste %2 à %3. Composition avec la "
+"piste %4."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:296
 #: src/timeline2/model/builders/meltBuilder.cpp:545
