@@ -262,10 +262,10 @@
     </ul>
   </description>
   <releases>
+    <release version="23.04.3" date="2023-07-06"/>
     <release version="23.04.2" date="2023-06-08"/>
     <release version="23.04.1" date="2023-05-11"/>
     <release version="23.04.0" date="2023-04-20"/>
-    <release version="22.12.3" date="2023-03-02"/>
   </releases>
   <url type="homepage">https://kdenlive.org/</url>
   <url type="bugtracker">https://bugs.kde.org</url>
