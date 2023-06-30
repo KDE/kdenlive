@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-18 04:12+0000\n"
-"PO-Revision-Date: 2023-06-22 16:30+0200\n"
+"PO-Revision-Date: 2023-06-24 21:06+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -6609,7 +6609,7 @@ msgstr "Esportazione annullata"
 #: src/scopes/colorscopes/vectorscope.cpp:55
 #, kde-format
 msgid "None"
-msgstr "Nessuno"
+msgstr "Nessuna"
 
 #: src/dialogs/renderwidget.cpp:209
 #, kde-format
@@ -20235,13 +20235,13 @@ msgstr "&Zona selezionata"
 #: src/ui/renderwidget_ui.ui:391
 #, kde-format
 msgid "&Guide zone"
-msgstr "Zona &guida"
+msgstr "Zona tra le &guide"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_multi)
 #: src/ui/renderwidget_ui.ui:398
 #, kde-format
 msgid "Guide Multi-Export"
-msgstr "Esportazione multi-guida"
+msgstr "Esportazione multi-guide"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/renderwidget_ui.ui:423
