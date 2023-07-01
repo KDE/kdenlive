@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-25 00:51+0000\n"
+"POT-Creation-Date: 2023-07-01 00:47+0000\n"
 "PO-Revision-Date: 2023-03-09 21:18-0800\n"
 "Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -6325,8 +6325,8 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "マーカーの編集(E)"
 
-#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:1620
-#: src/dialogs/renderwidget.cpp:1647 src/doc/kdenlivedoc.cpp:739
+#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:1605
+#: src/dialogs/renderwidget.cpp:1632 src/doc/kdenlivedoc.cpp:739
 #: src/doc/kdenlivedoc.cpp:747 src/doc/kdenlivedoc.cpp:1243
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
@@ -6848,133 +6848,133 @@ msgid ""
 "overwritten by the equivalent user interface options: <icode>%1</icode>"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:117 src/dialogs/renderwidget.cpp:1450
+#: src/dialogs/renderwidget.cpp:115 src/dialogs/renderwidget.cpp:1435
 #, fuzzy, kde-format
 #| msgid "Waiting..."
 msgid "Waiting…"
 msgstr "お待ちください..."
 
-#: src/dialogs/renderwidget.cpp:120
+#: src/dialogs/renderwidget.cpp:118
 #, kde-format
 msgid "Rendering finished"
 msgstr "レンダリングが完了しました"
 
-#: src/dialogs/renderwidget.cpp:125
+#: src/dialogs/renderwidget.cpp:123
 #, kde-format
 msgid "Rendering crashed"
 msgstr "レンダリングの処理内でクラッシュしました"
 
-#: src/dialogs/renderwidget.cpp:130
+#: src/dialogs/renderwidget.cpp:128
 #, kde-format
 msgid "Rendering aborted"
 msgstr "レンダリングを中止しました"
 
-#: src/dialogs/renderwidget.cpp:215 src/project/dialogs/slideshowclip.cpp:60
+#: src/dialogs/renderwidget.cpp:213 src/project/dialogs/slideshowclip.cpp:60
 #: src/scopes/colorscopes/vectorscope.cpp:55
 #, kde-format
 msgid "None"
 msgstr "なし"
 
-#: src/dialogs/renderwidget.cpp:216
+#: src/dialogs/renderwidget.cpp:214
 #, fuzzy, kde-format
 #| msgid "Time"
 msgid "Timecode"
 msgstr "時間"
 
-#: src/dialogs/renderwidget.cpp:217
+#: src/dialogs/renderwidget.cpp:215
 #, fuzzy, kde-format
 #| msgid "Real time (drop frames)"
 msgid "Timecode Non Drop Frame"
 msgstr "リアルタイム (フレーム欠落)"
 
-#: src/dialogs/renderwidget.cpp:218
+#: src/dialogs/renderwidget.cpp:216
 #, fuzzy, kde-format
 #| msgid "Frame rate"
 msgid "Frame Number"
 msgstr "フレームレート"
 
-#: src/dialogs/renderwidget.cpp:222
+#: src/dialogs/renderwidget.cpp:220
 #, fuzzy, kde-format
 #| msgid "Render using proxy clips"
 msgid "Rendering using low quality proxy"
 msgstr "代用クリップを利用してレンダリング"
 
-#: src/dialogs/renderwidget.cpp:304
+#: src/dialogs/renderwidget.cpp:302
 #, kde-format
 msgid "File"
 msgstr "ファイル"
 
-#: src/dialogs/renderwidget.cpp:313
+#: src/dialogs/renderwidget.cpp:311
 #, fuzzy, kde-format
 #| msgid "Playlist clips"
 msgid "Stored Playlists"
 msgstr "プレイリスト・クリップ"
 
-#: src/dialogs/renderwidget.cpp:322 src/timeline2/view/previewmanager.cpp:53
+#: src/dialogs/renderwidget.cpp:320 src/timeline2/view/previewmanager.cpp:53
 #, kde-format
 msgid ""
 "Could not find the kdenlive_render application, something is wrong with your "
 "installation. Rendering will not work"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:344
+#: src/dialogs/renderwidget.cpp:338
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:352
+#: src/dialogs/renderwidget.cpp:345
 #, fuzzy, kde-format
 #| msgid "There was an error while copying the files: %1"
 msgid "There was a problem sharing the document: %1"
 msgstr "ファイルをコピーする際にエラーが発生しました: %1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
-#: src/dialogs/renderwidget.cpp:352 src/dialogs/renderwidget.cpp:360
+#: src/dialogs/renderwidget.cpp:345 src/dialogs/renderwidget.cpp:353
 #: src/ui/renderwidget_ui.ui:872
 #, kde-format
 msgid "Share"
 msgstr "共有"
 
-#: src/dialogs/renderwidget.cpp:357
+#: src/dialogs/renderwidget.cpp:350
 #, kde-format
 msgid "Document shared successfully"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:360
+#: src/dialogs/renderwidget.cpp:353
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:485
+#: src/dialogs/renderwidget.cpp:473
 #, kde-format
 msgid "Beginning"
 msgstr "開始"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/dialogs/renderwidget.cpp:492 src/ui/wipeval_ui.ui:172
+#: src/dialogs/renderwidget.cpp:480 src/ui/wipeval_ui.ui:172
 #, kde-format
 msgid "End"
 msgstr "終了"
 
-#: src/dialogs/renderwidget.cpp:613
+#: src/dialogs/renderwidget.cpp:601
 #, kde-format
 msgid "Add a clip to timeline before rendering"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:619
+#: src/dialogs/renderwidget.cpp:607
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr ""
 "レンダリングに必要な melt プログラムが見つかりません (mlt パッケージに含まれ"
 "ています)"
 
-#: src/dialogs/renderwidget.cpp:625 src/dialogs/renderwidget.cpp:1424
+#: src/dialogs/renderwidget.cpp:613 src/dialogs/renderwidget.cpp:1409
 #: src/project/dialogs/archivewidget.cpp:873
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "出力先のファイルは既に存在しています。上書きしてよろしいですか？"
 
-#: src/dialogs/renderwidget.cpp:633 src/monitor/recmanager.cpp:192
+#: src/dialogs/renderwidget.cpp:621 src/monitor/recmanager.cpp:192
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -6983,13 +6983,13 @@ msgstr ""
 "ディレクトリ %1 を作成することができませんでした。\n"
 "必要な権限が設定されているか、ご確認ください。"
 
-#: src/dialogs/renderwidget.cpp:674
+#: src/dialogs/renderwidget.cpp:662
 #, fuzzy, kde-format
 #| msgid "An error occurred while deleting markers"
 msgid "The following errors occured while trying to render"
 msgstr "マーカーを削除する際にエラーが発生しました"
 
-#: src/dialogs/renderwidget.cpp:707 src/dialogs/renderwidget.cpp:1437
+#: src/dialogs/renderwidget.cpp:695 src/dialogs/renderwidget.cpp:1422
 #, fuzzy, kde-format
 #| msgid ""
 #| "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -7001,113 +7001,113 @@ msgstr ""
 "ファイル <br /><b>%1</b><br /> に書き込んでいるジョブが既に存在しています。上"
 "書きしたい場合は、ジョブを中止してください..."
 
-#: src/dialogs/renderwidget.cpp:708 src/dialogs/renderwidget.cpp:1438
+#: src/dialogs/renderwidget.cpp:696 src/dialogs/renderwidget.cpp:1423
 #, kde-format
 msgid "Already running"
 msgstr "既に実行中です"
 
-#: src/dialogs/renderwidget.cpp:733
+#: src/dialogs/renderwidget.cpp:721
 #, kde-format
 msgid "Video without audio track"
 msgstr "オーディオトラックなしのビデオ"
 
-#: src/dialogs/renderwidget.cpp:735
+#: src/dialogs/renderwidget.cpp:723
 #, fuzzy, kde-format
 #| msgid "Video without audio track"
 msgid "Audio without video track"
 msgstr "オーディオトラックなしのビデオ"
 
-#: src/dialogs/renderwidget.cpp:799
+#: src/dialogs/renderwidget.cpp:787
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "レンダリング <i>%1</i> を開始しました"
 
-#: src/dialogs/renderwidget.cpp:861 src/monitor/monitor.cpp:1161
+#: src/dialogs/renderwidget.cpp:849 src/monitor/monitor.cpp:1161
 #, kde-format
 msgid "untitled"
 msgstr "タイトル未定"
 
-#: src/dialogs/renderwidget.cpp:899
+#: src/dialogs/renderwidget.cpp:887
 #, fuzzy, kde-format
 #| msgid "No available clip selected"
 msgid "No preset selected"
 msgstr "利用可能なクリップが選択されていません"
 
-#: src/dialogs/renderwidget.cpp:901
+#: src/dialogs/renderwidget.cpp:889
 #, fuzzy, kde-format
 #| msgid "No matching profile"
 msgid "No matching preset"
 msgstr "該当するプロファイルがありません"
 
-#: src/dialogs/renderwidget.cpp:913
+#: src/dialogs/renderwidget.cpp:901
 #, fuzzy, kde-format
 #| msgid "Invalid profile"
 msgid "Invalid preset"
 msgstr "無効なプロファイル"
 
-#: src/dialogs/renderwidget.cpp:1030
+#: src/dialogs/renderwidget.cpp:1018
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1189
+#: src/dialogs/renderwidget.cpp:1177
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgid "Remaining time "
 msgstr "ファイル %1 を開いています"
 
-#: src/dialogs/renderwidget.cpp:1191 src/dialogs/renderwidget.cpp:1235
+#: src/dialogs/renderwidget.cpp:1179 src/dialogs/renderwidget.cpp:1223
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
 msgstr[0] "%1 日"
 
-#: src/dialogs/renderwidget.cpp:1195
+#: src/dialogs/renderwidget.cpp:1183
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1207
+#: src/dialogs/renderwidget.cpp:1195
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1237
+#: src/dialogs/renderwidget.cpp:1225
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "%1 でレンダリングが完了しました"
 
-#: src/dialogs/renderwidget.cpp:1246
+#: src/dialogs/renderwidget.cpp:1233
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1270
+#: src/dialogs/renderwidget.cpp:1257
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>%1 のレンダリングがクラッシュしました</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1313 src/ui/renderwidget_ui.ui:865
+#: src/dialogs/renderwidget.cpp:1300 src/ui/renderwidget_ui.ui:865
 #, kde-format
 msgid "Abort Job"
 msgstr "ジョブの中止"
 
-#: src/dialogs/renderwidget.cpp:1316
+#: src/dialogs/renderwidget.cpp:1303
 #, kde-format
 msgid "Remove Job"
 msgstr "ジョブの削除"
 
-#: src/dialogs/renderwidget.cpp:1702 src/dialogs/renderwidget.cpp:1712
-#: src/dialogs/renderwidget.cpp:1734
+#: src/dialogs/renderwidget.cpp:1687 src/dialogs/renderwidget.cpp:1697
+#: src/dialogs/renderwidget.cpp:1719
 #, fuzzy, kde-format
 #| msgid "Render to File"
 msgid "Render Duration: %1"
 msgstr "ファイルにレンダリング"
 
-#: src/dialogs/renderwidget.cpp:1792
+#: src/dialogs/renderwidget.cpp:1777
 #, fuzzy, kde-format
 #| msgid "FFmpeg parameters"
 msgid ""
@@ -7115,7 +7115,7 @@ msgid ""
 "%1"
 msgstr "FFmpeg のパラメータ"
 
-#: src/dialogs/renderwidget.cpp:1812
+#: src/dialogs/renderwidget.cpp:1797
 #, fuzzy, kde-format
 #| msgid "Clean Project"
 msgid "Add to current project"

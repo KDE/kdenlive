@@ -14,20 +14,20 @@
 # Olga Mironova <omiro@basealt.ru>, 2018.
 # Mikhail Novosyolov <m.novosyolov@rosalinux.ru>, 2018.
 # Alexander Yavorsky <kekcuha@gmail.com>, 2020, 2021, 2022.
-# Sergey Kazorin <translation-team@basealt.ru>, 2022.
+# Sergey Kazorin <translation-team@basealt.ru>, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-25 00:51+0000\n"
-"PO-Revision-Date: 2022-10-04 11:00+0300\n"
+"POT-Creation-Date: 2023-07-01 00:47+0000\n"
+"PO-Revision-Date: 2023-06-30 15:26+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.04.3\n"
+"X-Generator: Lokalize 22.12.3\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
@@ -6203,8 +6203,8 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "Экспортировать направляющие…"
 
-#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:1620
-#: src/dialogs/renderwidget.cpp:1647 src/doc/kdenlivedoc.cpp:739
+#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:1605
+#: src/dialogs/renderwidget.cpp:1632 src/doc/kdenlivedoc.cpp:739
 #: src/doc/kdenlivedoc.cpp:747 src/doc/kdenlivedoc.cpp:1243
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
@@ -6716,64 +6716,64 @@ msgstr ""
 "значениями эквивалентных параметров интерфейса пользователя: <icode>%1</"
 "icode>"
 
-#: src/dialogs/renderwidget.cpp:117 src/dialogs/renderwidget.cpp:1450
+#: src/dialogs/renderwidget.cpp:115 src/dialogs/renderwidget.cpp:1435
 #, kde-format
 msgid "Waiting…"
 msgstr "Ожидание…"
 
-#: src/dialogs/renderwidget.cpp:120
+#: src/dialogs/renderwidget.cpp:118
 #, kde-format
 msgid "Rendering finished"
 msgstr "Сборка завершена"
 
-#: src/dialogs/renderwidget.cpp:125
+#: src/dialogs/renderwidget.cpp:123
 #, kde-format
 msgid "Rendering crashed"
 msgstr "Во время сборки произошёл сбой"
 
-#: src/dialogs/renderwidget.cpp:130
+#: src/dialogs/renderwidget.cpp:128
 #, kde-format
 msgid "Rendering aborted"
 msgstr "Сборка прервана"
 
-#: src/dialogs/renderwidget.cpp:215 src/project/dialogs/slideshowclip.cpp:60
+#: src/dialogs/renderwidget.cpp:213 src/project/dialogs/slideshowclip.cpp:60
 #: src/scopes/colorscopes/vectorscope.cpp:55
 #, kde-format
 msgid "None"
 msgstr "Отсутствует"
 
-#: src/dialogs/renderwidget.cpp:216
+#: src/dialogs/renderwidget.cpp:214
 #, kde-format
 msgid "Timecode"
 msgstr "Тайм-код"
 
-#: src/dialogs/renderwidget.cpp:217
+#: src/dialogs/renderwidget.cpp:215
 #, kde-format
 msgid "Timecode Non Drop Frame"
 msgstr "Тайм-код без пропуска кадров"
 
-#: src/dialogs/renderwidget.cpp:218
+#: src/dialogs/renderwidget.cpp:216
 #, kde-format
 msgid "Frame Number"
 msgstr "Номер кадра"
 
 # https://userbase.kde.org/Kdenlive/Manual/Projects_and_Files/Clips#Proxy_clips
-#: src/dialogs/renderwidget.cpp:222
+#: src/dialogs/renderwidget.cpp:220
 #, kde-format
 msgid "Rendering using low quality proxy"
 msgstr "Сборка с использованием низкокачественного прокси"
 
-#: src/dialogs/renderwidget.cpp:304
+#: src/dialogs/renderwidget.cpp:302
 #, kde-format
 msgid "File"
 msgstr "Файл"
 
-#: src/dialogs/renderwidget.cpp:313
+#: src/dialogs/renderwidget.cpp:311
 #, kde-format
 msgid "Stored Playlists"
 msgstr "Сохранённые списки воспроизведения"
 
-#: src/dialogs/renderwidget.cpp:322 src/timeline2/view/previewmanager.cpp:53
+#: src/dialogs/renderwidget.cpp:320 src/timeline2/view/previewmanager.cpp:53
 #, kde-format
 msgid ""
 "Could not find the kdenlive_render application, something is wrong with your "
@@ -6782,63 +6782,63 @@ msgstr ""
 "Не удалось найти приложение kdenlive_render, что-то не так с установленным "
 "пакетом. Сборка не будет работать."
 
-#: src/dialogs/renderwidget.cpp:344
+#: src/dialogs/renderwidget.cpp:338
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
 msgstr "Работает только для формата matroska (mkv)"
 
-#: src/dialogs/renderwidget.cpp:352
+#: src/dialogs/renderwidget.cpp:345
 #, kde-format
 msgid "There was a problem sharing the document: %1"
 msgstr "При публикации документа возникла ошибка: %1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
-#: src/dialogs/renderwidget.cpp:352 src/dialogs/renderwidget.cpp:360
+#: src/dialogs/renderwidget.cpp:345 src/dialogs/renderwidget.cpp:353
 #: src/ui/renderwidget_ui.ui:872
 #, kde-format
 msgid "Share"
 msgstr "Поделиться"
 
-#: src/dialogs/renderwidget.cpp:357
+#: src/dialogs/renderwidget.cpp:350
 #, kde-format
 msgid "Document shared successfully"
 msgstr "Документ успешно опубликован"
 
-#: src/dialogs/renderwidget.cpp:360
+#: src/dialogs/renderwidget.cpp:353
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
 msgstr "Опубликованный документ можно найти здесь: <a href=\"%1\">%1</a>"
 
-#: src/dialogs/renderwidget.cpp:485
+#: src/dialogs/renderwidget.cpp:473
 #, kde-format
 msgid "Beginning"
 msgstr "Начало"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/dialogs/renderwidget.cpp:492 src/ui/wipeval_ui.ui:172
+#: src/dialogs/renderwidget.cpp:480 src/ui/wipeval_ui.ui:172
 #, kde-format
 msgid "End"
 msgstr "Конец"
 
-#: src/dialogs/renderwidget.cpp:613
+#: src/dialogs/renderwidget.cpp:601
 #, kde-format
 msgid "Add a clip to timeline before rendering"
 msgstr "Добавить клип на монтажную дорожку прежде сборки"
 
-#: src/dialogs/renderwidget.cpp:619
+#: src/dialogs/renderwidget.cpp:607
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr ""
 "Не удалось найти приложение melt (является частью MLT), необходимое для "
 "проведения сборки"
 
-#: src/dialogs/renderwidget.cpp:625 src/dialogs/renderwidget.cpp:1424
+#: src/dialogs/renderwidget.cpp:613 src/dialogs/renderwidget.cpp:1409
 #: src/project/dialogs/archivewidget.cpp:873
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Выходной файл уже существует. Перезаписать?"
 
-#: src/dialogs/renderwidget.cpp:633 src/monitor/recmanager.cpp:192
+#: src/dialogs/renderwidget.cpp:621 src/monitor/recmanager.cpp:192
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -6847,13 +6847,13 @@ msgstr ""
 "Не удалось создать папку «%1».\n"
 "Убедитесь в наличии соответствующих прав."
 
-#: src/dialogs/renderwidget.cpp:674
+#: src/dialogs/renderwidget.cpp:662
 #, fuzzy, kde-format
 #| msgid "An error occurred while deleting markers"
 msgid "The following errors occured while trying to render"
 msgstr "Во время удаления маркеров произошла ошибка"
 
-#: src/dialogs/renderwidget.cpp:707 src/dialogs/renderwidget.cpp:1437
+#: src/dialogs/renderwidget.cpp:695 src/dialogs/renderwidget.cpp:1422
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -6862,59 +6862,59 @@ msgstr ""
 "Уже выполняется задание по записи файла:<br><b>%1</b><br>Отмените это "
 "задание, чтобы перезаписать файл…"
 
-#: src/dialogs/renderwidget.cpp:708 src/dialogs/renderwidget.cpp:1438
+#: src/dialogs/renderwidget.cpp:696 src/dialogs/renderwidget.cpp:1423
 #, kde-format
 msgid "Already running"
 msgstr "Уже выполняется"
 
-#: src/dialogs/renderwidget.cpp:733
+#: src/dialogs/renderwidget.cpp:721
 #, kde-format
 msgid "Video without audio track"
 msgstr "Видео без звуковой дорожки"
 
-#: src/dialogs/renderwidget.cpp:735
+#: src/dialogs/renderwidget.cpp:723
 #, kde-format
 msgid "Audio without video track"
 msgstr "Звук без видеодорожки"
 
-#: src/dialogs/renderwidget.cpp:799
+#: src/dialogs/renderwidget.cpp:787
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "Сборка <i>%1</i> запущена"
 
-#: src/dialogs/renderwidget.cpp:861 src/monitor/monitor.cpp:1161
+#: src/dialogs/renderwidget.cpp:849 src/monitor/monitor.cpp:1161
 #, kde-format
 msgid "untitled"
 msgstr "безымянный"
 
-#: src/dialogs/renderwidget.cpp:899
+#: src/dialogs/renderwidget.cpp:887
 #, kde-format
 msgid "No preset selected"
 msgstr "Предустановка не выбрана"
 
-#: src/dialogs/renderwidget.cpp:901
+#: src/dialogs/renderwidget.cpp:889
 #, kde-format
 msgid "No matching preset"
 msgstr "Нет соответствующей предустановки"
 
-#: src/dialogs/renderwidget.cpp:913
+#: src/dialogs/renderwidget.cpp:901
 #, kde-format
 msgid "Invalid preset"
 msgstr "Недопустимая предустановка"
 
-#: src/dialogs/renderwidget.cpp:1030
+#: src/dialogs/renderwidget.cpp:1018
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
 msgstr "Сборка невозможна без звука и видео. Включите хотя бы что-то одно."
 
-#: src/dialogs/renderwidget.cpp:1189
+#: src/dialogs/renderwidget.cpp:1177
 #, kde-format
 msgid "Remaining time "
 msgstr "Осталось времени "
 
-#: src/dialogs/renderwidget.cpp:1191 src/dialogs/renderwidget.cpp:1235
+#: src/dialogs/renderwidget.cpp:1179 src/dialogs/renderwidget.cpp:1223
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
@@ -6923,50 +6923,50 @@ msgstr[1] "%1 дня "
 msgstr[2] "%1 дней "
 msgstr[3] "%1 день "
 
-#: src/dialogs/renderwidget.cpp:1195
+#: src/dialogs/renderwidget.cpp:1183
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (кадр %1 @ %2 кадров/с)"
 
-#: src/dialogs/renderwidget.cpp:1207
+#: src/dialogs/renderwidget.cpp:1195
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1237
+#: src/dialogs/renderwidget.cpp:1225
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Сборка завершена за %1"
 
-#: src/dialogs/renderwidget.cpp:1246
+#: src/dialogs/renderwidget.cpp:1233
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "Сборка %1 завершена за %2"
 
-#: src/dialogs/renderwidget.cpp:1270
+#: src/dialogs/renderwidget.cpp:1257
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>Во время сборки %1 произошёл сбой</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1313 src/ui/renderwidget_ui.ui:865
+#: src/dialogs/renderwidget.cpp:1300 src/ui/renderwidget_ui.ui:865
 #, kde-format
 msgid "Abort Job"
 msgstr "Прервать задание"
 
-#: src/dialogs/renderwidget.cpp:1316
+#: src/dialogs/renderwidget.cpp:1303
 #, kde-format
 msgid "Remove Job"
 msgstr "Удалить задание"
 
-#: src/dialogs/renderwidget.cpp:1702 src/dialogs/renderwidget.cpp:1712
-#: src/dialogs/renderwidget.cpp:1734
+#: src/dialogs/renderwidget.cpp:1687 src/dialogs/renderwidget.cpp:1697
+#: src/dialogs/renderwidget.cpp:1719
 #, fuzzy, kde-format
 #| msgid "Render Button"
 msgid "Render Duration: %1"
 msgstr "Кнопка сборки"
 
-#: src/dialogs/renderwidget.cpp:1792
+#: src/dialogs/renderwidget.cpp:1777
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -6975,7 +6975,7 @@ msgstr ""
 "Параметры скорости кодека:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:1812
+#: src/dialogs/renderwidget.cpp:1797
 #, kde-format
 msgid "Add to current project"
 msgstr "Добавить в текущий проект"
@@ -14175,7 +14175,7 @@ msgstr "Экспорт проекта"
 #: src/pythoninterfaces/otioconvertions.cpp:154
 #, kde-format
 msgid "OpenTimelineIO adapters (%1)(%1)"
-msgstr "Адаптеры OpenTimelineIO (%1)"
+msgstr "Адаптеры OpenTimelineIO (%1)(%1)"
 
 #: src/pythoninterfaces/otioconvertions.cpp:132
 #, kde-format
