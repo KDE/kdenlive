@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-01 00:47+0000\n"
-"PO-Revision-Date: 2023-07-01 09:47+0200\n"
-"Last-Translator: Ronald Stroethoff <stroet43@zonnet.nl>\n"
-"Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
+"PO-Revision-Date: 2023-07-03 10:56+0200\n"
+"Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
+"Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.04.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -6783,10 +6783,9 @@ msgstr ""
 "Zorg ervoor dat U de nodige rechten heeft."
 
 #: src/dialogs/renderwidget.cpp:662
-#, fuzzy, kde-format
-#| msgid "An error occurred while deleting markers"
+#, kde-format
 msgid "The following errors occured while trying to render"
-msgstr "Er is een fout opgetreden tijdens het verwijderen van markeringen"
+msgstr "De volgende fouten deden zich voor tijdens de poging te renderen"
 
 #: src/dialogs/renderwidget.cpp:695 src/dialogs/renderwidget.cpp:1422
 #, kde-format
@@ -7514,13 +7513,10 @@ msgstr ""
 "clips</li>"
 
 #: src/dialogs/wizard.cpp:444
-#, fuzzy, kde-format
-#| msgid ""
-#| "<li>Missing app: <b>dvdauthor</b><br/>required for creation of DVD</li>"
+#, kde-format
 msgid "<li>Missing app: <b>kdenlive_render</b><br/>needed for rendering.</li>"
 msgstr ""
-"<li>Ontbrekende app: <b>dvdauthor</b><br/>vereist voor het maken van een "
-"dvd</li>"
+"<li>Ontbrekende app: <b>kdenlive_render</b><br/>vereist voor renderen</li>"
 
 #: src/dialogs/wizard.cpp:517
 #, kde-format
@@ -7559,6 +7555,7 @@ msgstr "hardwarecodeerders gevonden en ingeschakeld (%1)."
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr ""
+"Het document-id van uw project was ongeldig, er is een nieuwe aangemaakt."
 
 #: src/doc/documentchecker.cpp:281
 #, kde-format
@@ -7649,13 +7646,11 @@ msgstr[0] "Ontbrekend effect: %2 zal uit het project verwijderd worden."
 msgstr[1] "Ontbrekende effecten: %2 zal uit het project verwijderd worden."
 
 #: src/doc/documentchecker.cpp:453
-#, fuzzy, kde-format
-#| msgid "Missing effect: %2 will be removed from project."
-#| msgid_plural "Missing effects: %2 will be removed from project."
+#, kde-format
 msgid "Missing transition: %2 will be removed from project."
 msgid_plural "Missing transitions: %2 will be removed from project."
-msgstr[0] "Ontbrekend effect: %2 zal uit het project verwijderd worden."
-msgstr[1] "Ontbrekende effecten: %2 zal uit het project verwijderd worden."
+msgstr[0] "Ontbrekende overgang: %2 zal uit het project verwijderd worden."
+msgstr[1] "Ontbrekende overgangen: %2 zal uit het project verwijderd worden."
 
 #: src/doc/documentchecker.cpp:457
 #, kde-format
@@ -14731,17 +14726,14 @@ msgid "Could not create temporary subtitle file"
 msgstr "Kon geen tijdelijk bestand voor ondertitels maken"
 
 #: src/render/renderrequest.cpp:190
-#, fuzzy, kde-format
-#| msgid ""
-#| "Script rendering and multi track audio export can not be used together.\n"
-#| "Script will be saved without multi track export."
+#, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together. "
 "Script will be saved without multi track export."
 msgstr ""
 "Renderen met script en exporteren van multi-trackaudio kan niet tegelijk "
-"worden gebruikt.\n"
-"Script zal opgeslagen worden zonder exporteren van multi-track."
+"worden gebruikt. Script zal opgeslagen worden zonder exporteren van multi-"
+"track."
 
 #: src/render/renderrequest.cpp:263
 #, kde-format
@@ -15227,13 +15219,11 @@ msgstr ""
 "was ingesteld op afgedwongen track."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:286
-#, fuzzy, kde-format
-#| msgid ""
-#| "Invalid composition %1 found on track %2 at %3, compositing with track %4."
+#, kde-format
 msgid ""
 "Unknown composition %1 found on track %2 at %3, compositing with track %4."
 msgstr ""
-"Ongeldige compositie %1 gevonden op track %2 bij %3, compositing met track "
+"Onbekende compositie %1 gevonden op track %2 bij %3, compositing met track "
 "%4."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:296

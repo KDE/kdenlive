@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-01 00:47+0000\n"
-"PO-Revision-Date: 2023-06-17 04:11\n"
+"PO-Revision-Date: 2023-07-03 11:38\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -6656,10 +6656,9 @@ msgstr ""
 "请确保您具备所需的权限。"
 
 #: src/dialogs/renderwidget.cpp:662
-#, fuzzy, kde-format
-#| msgid "An error occurred while deleting markers"
+#, kde-format
 msgid "The following errors occured while trying to render"
-msgstr "删除标记时出错"
+msgstr "尝试渲染时发生以下错误"
 
 #: src/dialogs/renderwidget.cpp:695 src/dialogs/renderwidget.cpp:1422
 #, kde-format
@@ -7354,12 +7353,9 @@ msgid ""
 msgstr "<li>缺少应用程序：<b>ffprobe</b><br/>额外剪辑分析需要此程序</li>"
 
 #: src/dialogs/wizard.cpp:444
-#, fuzzy, kde-format
-#| msgid ""
-#| "<li>Missing app: <b>ffprobe</b><br/>recommended for extra clip analysis</"
-#| "li>"
+#, kde-format
 msgid "<li>Missing app: <b>kdenlive_render</b><br/>needed for rendering.</li>"
-msgstr "<li>缺少应用程序：<b>ffprobe</b><br/>额外剪辑分析需要此程序</li>"
+msgstr "<li>缺少应用程序：需要 <b>kdenlive_render</b><br/> 才能进行渲染。</li>"
 
 #: src/dialogs/wizard.cpp:517
 #, kde-format
@@ -7394,7 +7390,7 @@ msgstr "已发现并启用了硬件编码器 (%1)。"
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
-msgstr ""
+msgstr "此项目的文档 ID 无效，已创建一个新的文档。"
 
 #: src/doc/documentchecker.cpp:281
 #, kde-format
@@ -7484,12 +7480,10 @@ msgid_plural "Missing effects: %2 will be removed from project."
 msgstr[0] "缺少效果：%2 将从项目中移除。"
 
 #: src/doc/documentchecker.cpp:453
-#, fuzzy, kde-format
-#| msgid "Missing effect: %2 will be removed from project."
-#| msgid_plural "Missing effects: %2 will be removed from project."
+#, kde-format
 msgid "Missing transition: %2 will be removed from project."
 msgid_plural "Missing transitions: %2 will be removed from project."
-msgstr[0] "缺少效果：%2 将从项目中移除。"
+msgstr[0] "缺少转场：%2 将从项目中移除。"
 
 #: src/doc/documentchecker.cpp:457
 #, kde-format
@@ -14404,16 +14398,11 @@ msgid "Could not create temporary subtitle file"
 msgstr "无法创建临时字幕文件"
 
 #: src/render/renderrequest.cpp:190
-#, fuzzy, kde-format
-#| msgid ""
-#| "Script rendering and multi track audio export can not be used together.\n"
-#| "Script will be saved without multi track export."
+#, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together. "
 "Script will be saved without multi track export."
-msgstr ""
-"无法同时使用脚本渲染和多轨音频导出。\n"
-"脚本将在没有多轨导出的情况下保存。"
+msgstr "无法同时使用脚本渲染和多轨音频导出。脚本将在没有多轨导出的情况下保存。"
 
 #: src/render/renderrequest.cpp:263
 #, kde-format
@@ -14890,12 +14879,10 @@ msgstr ""
 "道。"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:286
-#, fuzzy, kde-format
-#| msgid ""
-#| "Invalid composition %1 found on track %2 at %3, compositing with track %4."
+#, kde-format
 msgid ""
 "Unknown composition %1 found on track %2 at %3, compositing with track %4."
-msgstr "发现无效合成 %1 位于轨道 %2 的 %3，它将与轨道 %4 合成。"
+msgstr "发现未知合成 %1 位于轨道 %2 的 %3，它将与轨道 %4 合成。"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:296
 #: src/timeline2/model/builders/meltBuilder.cpp:545
