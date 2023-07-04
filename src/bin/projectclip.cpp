@@ -2408,7 +2408,9 @@ void ProjectClip::copyTimeWarpProducers(const QDir sequenceFolder, bool copy)
 
 void ProjectClip::reloadTimeline()
 {
-    pCore->bin()->reloadMonitorIfActive(m_binId);
+    if (pCore->bin()) {
+        pCore->bin()->reloadMonitorIfActive(m_binId);
+    }
     for (auto &p : m_audioProducers) {
         m_effectStack->removeService(p.second);
     }
