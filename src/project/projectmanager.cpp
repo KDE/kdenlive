@@ -1666,6 +1666,7 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
         m_project->loadSequenceGroupsAndGuides(uuid);
         if (!duplicate) {
             clip->setProducer(prod, false, false);
+            clip->reloadTimeline();
         }
         if (pCore->bin()) {
             pCore->bin()->registerSequence(uuid, id);
