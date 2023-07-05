@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l 10n\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-18 04:12+0000\n"
+"POT-Creation-Date: 2023-07-05 03:38+0000\n"
 "PO-Revision-Date: 2019-07-12 21:09+0300\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -5505,13 +5505,13 @@ msgstr "Išsaugoti profilį"
 msgid "File already exists"
 msgstr "Failo plėtinys:"
 
-#: src/bin/projectclip.cpp:2684
+#: src/bin/projectclip.cpp:2686
 #, fuzzy, kde-format
 #| msgid "Add new video file"
 msgid "Add stream effect"
 msgstr "Pridėti naują video failą"
 
-#: src/bin/projectclip.cpp:2709
+#: src/bin/projectclip.cpp:2711
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Remove stream effect"
@@ -14156,18 +14156,18 @@ msgid ""
 "%1"
 msgstr "Negaliu sukurti laikinos bylos!"
 
-#: src/project/projectmanager.cpp:1697
+#: src/project/projectmanager.cpp:1698
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1868
+#: src/project/projectmanager.cpp:1869
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select a clip to create sequence"
 msgstr "Žymėjimo įrankis"
 
-#: src/project/projectmanager.cpp:1905
+#: src/project/projectmanager.cpp:1906
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Create Sequence Clip"
