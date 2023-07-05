@@ -10,7 +10,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>661</width>
+    <width>539</width>
     <height>313</height>
    </rect>
   </property>
@@ -66,11 +66,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
              </widget>
             </item>
             <item>
-             <widget class="KUrlRequester" name="subtitle_url">
-              <property name="filter">
-               <string>*.srt *.ass *.vtt *.sbv</string>
-              </property>
-             </widget>
+             <widget class="KUrlRequester" name="subtitle_url"/>
             </item>
            </layout>
           </item>
@@ -298,6 +294,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <class>KMessageWidget</class>
    <extends>QFrame</extends>
    <header>kmessagewidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

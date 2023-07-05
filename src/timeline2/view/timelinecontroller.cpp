@@ -49,6 +49,8 @@
 #include <QClipboard>
 #include <QFontDatabase>
 #include <QQuickItem>
+#include <kio_version.h>
+
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QTextCodec>
 #endif
@@ -4966,6 +4968,12 @@ void TimelineController::importSubtitle(const QString &path)
     Ui::ImportSub_UI view;
     view.setupUi(d);
     QStringList listCodecs = KCharsets::charsets()->descriptiveEncodingNames();
+    const QString filter = QStringLiteral("*.srt *.ass *.vtt *.sbv");
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 108, 0)
+    view.subtitle_url->setNameFilter(filter);
+#else
+    view.subtitle_url->setFilter(filter);
+#endif
     view.codecs_list->addItems(listCodecs);
     view.info_message->setVisible(false);
     // Set UTF-8 as default codec
