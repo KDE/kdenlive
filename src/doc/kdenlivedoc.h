@@ -86,6 +86,8 @@ class KdenliveDoc : public QObject
 {
     Q_OBJECT
 public:
+    friend class LoadJob;
+    friend class TimelineModel;
     /** @brief Create a new empty Kdenlive project with the specified profile and requested number of tracks.
      *
      * @param tracks The number of <video, audio> tracks to create in the project.
@@ -98,7 +100,6 @@ public:
     /** @brief Create a dummy project, used for testing. */
     KdenliveDoc(std::shared_ptr<DocUndoStack> undoStack, std::pair<int, int> tracks = {2, 2}, MainWindow *parent = nullptr);
     ~KdenliveDoc() override;
-    friend class LoadJob;
     QUuid activeUuid;
     /** @brief True if we are currently closing the project. */
     bool closing{false};
@@ -298,6 +299,9 @@ public:
     /** @brief Set the autoclose attribute to all playlists in @param doc.
      *   This is eg. needed for rendering, as the process would not stop at the end of the playlist if it was not closed */
     static void setAutoclosePlaylists(QDomDocument &doc);
+
+protected:
+    static int next_id; /// next valid id to assign
 
 private:
     /** @brief Create a new KdenliveDoc using the provided QDomDocument (an

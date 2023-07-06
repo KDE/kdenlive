@@ -103,7 +103,6 @@ RTTR_REGISTRATION
 #define TRACE(...)
 #endif
 
-int TimelineModel::next_id = 0;
 int TimelineModel::seekDuration = 30000;
 
 TimelineModel::TimelineModel(const QUuid &uuid, std::weak_ptr<DocUndoStack> undo_stack)
@@ -1661,6 +1660,7 @@ bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, Playl
     }
     int clipId = TimelineModel::getNextId();
     id = clipId;
+    qDebug() << "======\nCREATING TIMELINE OBJECT: " << clipId << "\n========================";
     Fun local_undo = deregisterClip_lambda(clipId);
     ClipModel::construct(shared_from_this(), bid, clipId, state, audioStream, speed, warp_pitch);
     auto clip = m_allClips[clipId];
@@ -4654,7 +4654,7 @@ std::shared_ptr<CompositionModel> TimelineModel::getCompositionPtr(int compoId) 
 
 int TimelineModel::getNextId()
 {
-    return TimelineModel::next_id++;
+    return KdenliveDoc::next_id++;
 }
 
 bool TimelineModel::isClip(int id) const

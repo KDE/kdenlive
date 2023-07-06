@@ -3,30 +3,28 @@
     SPDX-FileCopyrightText: 2017-2019 Nicolas Carion <french.ebook.lover@gmail.com>
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
-#include "bin/model/markerlistmodel.hpp"
 #include "catch.hpp"
+#include "test_utils.hpp"
 #pragma GCC diagnostic ignored "-Wnon-virtual-dtor"
 #pragma GCC diagnostic push
-#include "fakeit.hpp"
-#include <iostream>
-#include <unordered_set>
-#define private public
-#define protected public
+#include "bin/model/markerlistmodel.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectfolder.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
+#include "fakeit.hpp"
 #include "project/projectmanager.h"
-#include "test_utils.hpp"
 #include "timeline2/model/clipmodel.hpp"
 #include "timeline2/model/groupsmodel.hpp"
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "timeline2/model/timelinemodel.hpp"
 #include "timeline2/model/trackmodel.hpp"
+#include <iostream>
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltProfile.h>
+#include <unordered_set>
 
 TEST_CASE("Functional test of the group hierarchy", "[GroupsModel]")
 {
@@ -46,7 +44,7 @@ TEST_CASE("Functional test of the group hierarchy", "[GroupsModel]")
     auto timeline = document.getTimeline(document.uuid());
     pCore->projectManager()->m_activeTimelineModel = timeline;
     pCore->projectManager()->testSetActiveDocument(&document, timeline);
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
 
     GroupsModel groups(timeline);
     for (int i = 0; i < 10; i++) {
@@ -264,7 +262,7 @@ TEST_CASE("Interface test of the group hierarchy", "[GroupsModel]")
         REQUIRE(groups.getSubtree(i).size() == 1);
         REQUIRE(groups.checkConsistency(false));
     }
-    TimelineModel::next_id = 10;
+    KdenliveDoc::next_id = 10;
 
     auto g1 = std::unordered_set<int>({4, 6, 7, 9});
     int gid1 = groups.groupItems(g1, undo, redo);
@@ -403,13 +401,13 @@ TEST_CASE("Orphan groups deletion", "[GroupsModel]")
     pCore->projectManager()->m_activeTimelineModel = timeline;
     pCore->projectManager()->testSetActiveDocument(&document, timeline);
 
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
     GroupsModel groups(timeline);
 
     for (int i = 0; i < 4; i++) {
         groups.createGroupItem(i);
     }
-    TimelineModel::next_id = 5;
+    KdenliveDoc::next_id = 5;
     auto g1 = std::unordered_set<int>({0, 1});
     int gid1 = groups.groupItems(g1, undo, redo);
 
@@ -1007,7 +1005,7 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
     auto timeline = document.getTimeline(document.uuid());
     pCore->projectManager()->m_activeTimelineModel = timeline;
     pCore->projectManager()->testSetActiveDocument(&document, timeline);
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
 
     GroupsModel groups(timeline);
 
@@ -1180,7 +1178,7 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
 
         // This is a dummy split criterion
         auto criterion = [](int a) { return a % 2 == 0; };
-        TimelineModel::next_id = 0;
+        KdenliveDoc::next_id = 0;
 
         // We create a very simple tree
         for (int i = 0; i < 3; i++) {
@@ -1188,7 +1186,7 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
         }
         groups.setGroup(1, 0);
         groups.setGroup(2, 0);
-        TimelineModel::next_id = 3;
+        KdenliveDoc::next_id = 3;
         auto test_tree = [&]() {
             REQUIRE(groups.getRootId(0) == 0);
             REQUIRE(groups.getRootId(1) == 0);
@@ -1232,7 +1230,7 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
         for (int i = 0; i < 9; i++) {
             groups.createGroupItem(i);
         }
-        TimelineModel::next_id = 9;
+        KdenliveDoc::next_id = 9;
         groups.setGroup(0, 3);
         groups.setGroup(1, 0);
         groups.setGroup(3, 2);
@@ -1308,7 +1306,7 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
         for (int i = 0; i <= 6; i++) {
             groups.createGroupItem(i);
         }
-        TimelineModel::next_id = 7;
+        KdenliveDoc::next_id = 7;
         groups.setGroup(0, 4);
         groups.setGroup(2, 4);
         groups.setGroup(1, 5);

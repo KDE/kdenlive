@@ -4,15 +4,13 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 #include "catch.hpp"
-
+#include "test_utils.hpp"
 #include <QString>
 #include <cmath>
 #include <iostream>
 #include <tuple>
 #include <unordered_set>
 
-#define private public
-#define protected public
 #include "abstractmodel/abstracttreemodel.hpp"
 #include "abstractmodel/treeitem.hpp"
 #include "effects/effectlist/model/effecttreemodel.hpp"

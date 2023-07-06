@@ -62,6 +62,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 // Increasing the document version means that older Kdenlive versions won't be able to open the project files
 const double DOCUMENTVERSION = 1.1;
 
+// The index for all timeline objects
+int KdenliveDoc::next_id = 0;
+
 // create a new blank document
 KdenliveDoc::KdenliveDoc(QString projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties,
                          const QMap<QString, QString> &metadata, const std::pair<int, int> &tracks, int audioChannels, MainWindow *parent)
@@ -75,6 +78,7 @@ KdenliveDoc::KdenliveDoc(QString projectFolder, QUndoGroup *undoGroup, const QSt
     , m_url(QUrl())
     , m_projectFolder(std::move(projectFolder))
 {
+    next_id = 0;
     if (parent) {
         connect(this, &KdenliveDoc::updateCompositionMode, parent, &MainWindow::slotUpdateCompositeAction);
     }
@@ -116,6 +120,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QDomDocument &newDom, QString projectF
     , m_url(url)
     , m_projectFolder(std::move(projectFolder))
 {
+    next_id = 0;
     if (parent) {
         connect(this, &KdenliveDoc::updateCompositionMode, parent, &MainWindow::slotUpdateCompositeAction);
     }
@@ -134,6 +139,7 @@ KdenliveDoc::KdenliveDoc(std::shared_ptr<DocUndoStack> undoStack, std::pair<int,
     , m_modified(false)
     , m_documentOpenStatus(CleanProject)
 {
+    next_id = 0;
     m_commandStack = undoStack;
     m_document = createEmptyDocument(tracks.second, tracks.first);
     initializeProperties(true, tracks, 2);

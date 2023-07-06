@@ -6,10 +6,8 @@
 #include "catch.hpp"
 #include "test_utils.hpp"
 
-#include "definitions.h"
-#define private public
-#define protected public
 #include "core.h"
+#include "definitions.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 

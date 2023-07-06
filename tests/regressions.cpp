@@ -33,7 +33,7 @@ TEST_CASE("Regression")
     TimelineItemModel::finishConstruct(timeline);
 
     RESET(timMock);
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
     undoStack->undo();
     undoStack->redo();
     undoStack->redo();
@@ -100,7 +100,7 @@ TEST_CASE("Regression2")
     TimelineItemModel::finishConstruct(timeline);
 
     RESET(timMock);
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
     int dummy_id;
     undoStack->undo();
     undoStack->undo();
@@ -235,7 +235,7 @@ TEST_CASE("Regression 3")
     Mlt::Profile profile;
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     std::shared_ptr<TimelineModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), undoStack);
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
     int dummy_id;
     std::shared_ptr<Mlt::Producer> producer0 = std::make_shared<Mlt::Producer>(profile, "color", "red");
     producer0->set("length", 20);
@@ -392,7 +392,7 @@ TEST_CASE("Regression 4")
     Mlt::Profile profile;
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     std::shared_ptr<TimelineModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), undoStack);
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
     int dummy_id;
     timeline->requestTrackInsertion(-1, dummy_id );
     timeline->requestTrackInsertion(-1, dummy_id );
@@ -430,7 +430,7 @@ TEST_CASE("FuzzBug1")
 {
     auto binModel = pCore->projectItemModel();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
     {
         KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
@@ -579,7 +579,7 @@ TEST_CASE("FuzzBug2")
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
     {
         KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
@@ -671,7 +671,7 @@ TEST_CASE("FuzzBug3")
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
     {
         KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
@@ -729,7 +729,7 @@ TEST_CASE("FuzzBug4")
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
     {
         KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
@@ -813,7 +813,7 @@ TEST_CASE("FuzzBug5")
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
     {
         KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
@@ -1020,7 +1020,7 @@ TEST_CASE("FuzzBug6")
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
     {
         KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
@@ -1116,7 +1116,7 @@ TEST_CASE("FuzzBug7")
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
     {
         KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
@@ -1286,7 +1286,7 @@ TEST_CASE("FuzzBug8")
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
     {
         KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
@@ -1357,7 +1357,7 @@ TEST_CASE("FuzzBug9")
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
     {
         KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
@@ -1419,7 +1419,7 @@ TEST_CASE("FuzzBug10")
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
     {
         KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
@@ -1475,7 +1475,7 @@ TEST_CASE("FuzzBug11")
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
     {
         KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);

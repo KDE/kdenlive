@@ -1002,8 +1002,6 @@ protected:
     // TODO: move this in subtitlemodel.h
     std::map<int, GenTime> m_allSubtitles;
 
-    static int next_id; /// next valid id to assign
-
     std::unique_ptr<GroupsModel> m_groups;
     std::shared_ptr<SnapModel> m_snaps;
     std::shared_ptr<SubtitleModel> m_subtitleModel{nullptr};

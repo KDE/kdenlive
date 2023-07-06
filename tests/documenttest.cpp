@@ -4,7 +4,6 @@
 */
 
 #include "test_utils.hpp"
-//#define protected public
 
 #include "doc/documentchecker.h"
 

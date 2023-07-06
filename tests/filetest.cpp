@@ -4,8 +4,6 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 #include "test_utils.hpp"
-#define private public
-#define protected public
 
 #include "bin/binplaylist.hpp"
 #include "doc/kdenlivedoc.h"
@@ -34,7 +32,7 @@ TEST_CASE("Save File", "[SF]")
         auto timeline = document.getTimeline(document.uuid());
         pCore->projectManager()->m_activeTimelineModel = timeline;
         pCore->projectManager()->testSetActiveDocument(&document, timeline);
-        TimelineModel::next_id = 0;
+        KdenliveDoc::next_id = 0;
         QDir dir = QDir::temp();
 
         QString binId = createProducerWithSound(pCore->getProjectProfile(), binModel);
@@ -81,7 +79,7 @@ TEST_CASE("Save File", "[SF]")
     {
         // Create new document
         // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
-        TimelineModel::next_id = 0;
+        KdenliveDoc::next_id = 0;
         QString saveFile = QDir::temp().absoluteFilePath(QStringLiteral("test.kdenlive"));
         QUrl openURL = QUrl::fromLocalFile(saveFile);
 

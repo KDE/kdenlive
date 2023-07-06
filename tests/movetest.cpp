@@ -7,10 +7,8 @@
 #include "doc/kdenlivedoc.h"
 #include "test_utils.hpp"
 
-#include "definitions.h"
-#define private public
-#define protected public
 #include "core.h"
+#include "definitions.h"
 
 using namespace fakeit;
 

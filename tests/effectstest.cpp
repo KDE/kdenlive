@@ -6,17 +6,14 @@
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 #include "test_utils.hpp"
-
 #include <QString>
 #include <cmath>
 #include <iostream>
 #include <tuple>
 #include <unordered_set>
 
-#include "definitions.h"
-#define private public
-#define protected public
 #include "core.h"
+#include "definitions.h"
 #include "effects/effectsrepository.hpp"
 #include "effects/effectstack/model/effectitemmodel.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"

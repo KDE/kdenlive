@@ -4,8 +4,6 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 #include "test_utils.hpp"
-#define private public
-#define protected public
 
 #include "bin/binplaylist.hpp"
 #include "doc/kdenlivedoc.h"
@@ -36,7 +34,7 @@ TEST_CASE("Open and Close Sequence", "[OCS]")
         auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
         pCore->projectManager()->m_activeTimelineModel = timeline;
         pCore->projectManager()->testSetActiveDocument(&mockedDoc, timeline);
-        TimelineModel::next_id = 0;
+        KdenliveDoc::next_id = 0;
         QDir dir = QDir::temp();
         QString binId = createProducerWithSound(pCore->getProjectProfile(), binModel);
 
@@ -122,7 +120,7 @@ TEST_CASE("Save File With 2 Sequences", "[SF2]")
         pCore->projectManager()->m_activeTimelineModel = timeline;
 
         pCore->projectManager()->testSetActiveDocument(&mockedDoc, timeline);
-        TimelineModel::next_id = 0;
+        KdenliveDoc::next_id = 0;
         QDir dir = QDir::temp();
 
         QString binId = createProducerWithSound(pCore->getProjectProfile(), binModel);
@@ -197,7 +195,7 @@ TEST_CASE("Save File With 2 Sequences", "[SF2]")
     {
         // Create new document
         // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
-        TimelineModel::next_id = 0;
+        KdenliveDoc::next_id = 0;
         QString saveFile = QDir::temp().absoluteFilePath(QStringLiteral("test-nest.kdenlive"));
         QUrl openURL = QUrl::fromLocalFile(saveFile);
 
@@ -298,7 +296,7 @@ TEST_CASE("Save File With 2 Sequences", "[SF2]")
     {
         // Create new document
         // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
-        TimelineModel::next_id = 0;
+        KdenliveDoc::next_id = 0;
         QString saveFile = QDir::temp().absoluteFilePath(QStringLiteral("test-nest.kdenlive"));
         QUrl openURL = QUrl::fromLocalFile(saveFile);
 
