@@ -4,8 +4,9 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#include "doc/kdenlivedoc.h"
 #include "test_utils.hpp"
+// test specific headers
+#include "doc/kdenlivedoc.h"
 
 TEST_CASE("Regression")
 {
