@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-01 00:47+0000\n"
+"POT-Creation-Date: 2023-07-06 00:56+0000\n"
 "PO-Revision-Date: 2023-04-29 10:08+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -542,7 +542,7 @@ msgstr "Kopiatu kanal bat beste batera"
 
 #. i18n: ectx: property (text), widget (QLabel, fromLabel)
 #. i18n: ectx: property (text), widget (QLabel, caption_convert_framerate_label2)
-#: data/effects/channelcopy.xml:9 src/ui/import_subtitle_ui.ui:209
+#: data/effects/channelcopy.xml:9 src/ui/import_subtitle_ui.ui:205
 #: src/ui/renderwidget_ui.ui:97
 #, kde-format
 msgid "From"
@@ -3699,7 +3699,7 @@ msgstr "Mapatu "
 
 #. i18n: ectx: property (text), widget (QLabel, caption_convert_framerate_label1)
 #: src/assets/view/widgets/keyframeimport.cpp:247
-#: src/ui/import_subtitle_ui.ui:148
+#: src/ui/import_subtitle_ui.ui:144
 #, kde-format
 msgid " to "
 msgstr " hona "
@@ -4112,7 +4112,7 @@ msgid "When selected mutes all other audio tracks."
 msgstr "Hautatuta dagoenean gainerako audio-pista guztiak isilarazten ditu."
 
 #: src/audiomixer/mixerwidget.cpp:292
-#: src/timeline2/view/timelinecontroller.cpp:4754
+#: src/timeline2/view/timelinecontroller.cpp:4756
 #, kde-format
 msgid "Record audio"
 msgstr "Grabatu audioa"
@@ -4750,8 +4750,8 @@ msgstr[1] "Mugitu klipak"
 msgid "No valid clip to insert"
 msgstr "Txertatzeko baliogabeko klipa"
 
-#: src/bin/bin.cpp:3757 src/timeline2/view/timelinecontroller.cpp:1482
-#: src/timeline2/view/timelinecontroller.cpp:3359
+#: src/bin/bin.cpp:3757 src/timeline2/view/timelinecontroller.cpp:1484
+#: src/timeline2/view/timelinecontroller.cpp:3361
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "Hautatu klipa efektua aplikatzeko"
@@ -5256,7 +5256,7 @@ msgstr "Ezabatu markatzaile guztiak"
 
 #: src/bin/model/markerlistmodel.cpp:883 src/bin/model/markerlistmodel.cpp:921
 #: src/bin/model/markerlistmodel.cpp:946
-#: src/timeline2/view/timelinecontroller.cpp:1433
+#: src/timeline2/view/timelinecontroller.cpp:1435
 #, kde-format
 msgid "No guide found at current position"
 msgstr "Ez da gidalerrorik topatu uneko posizioan"
@@ -5292,7 +5292,7 @@ msgid "Edit markers"
 msgstr "Editatu markatzaileak"
 
 #: src/bin/model/markerlistmodel.cpp:925 src/bin/model/markerlistmodel.cpp:950
-#: src/timeline2/view/timelinecontroller.cpp:1441
+#: src/timeline2/view/timelinecontroller.cpp:1443
 #, kde-format
 msgid "guide"
 msgstr "gidalerroa"
@@ -5425,12 +5425,12 @@ msgstr "Baliogabea"
 msgid "File already exists"
 msgstr "Fitxategia badago lehendik ere"
 
-#: src/bin/projectclip.cpp:2683
+#: src/bin/projectclip.cpp:2685
 #, kde-format
 msgid "Add stream effect"
 msgstr "Gehitu korronte efektua"
 
-#: src/bin/projectclip.cpp:2708
+#: src/bin/projectclip.cpp:2710
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Ezabatu korronte efektua"
@@ -6160,7 +6160,7 @@ msgstr "Esportatu Gidalerroen datuak"
 #: src/project/projectmanager.cpp:1551 src/render/renderrequest.cpp:230
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
-#: src/timeline2/view/timelinecontroller.cpp:5080
+#: src/timeline2/view/timelinecontroller.cpp:5088
 #: src/titler/titlewidget.cpp:2205
 #, kde-format
 msgid "Cannot write to file %1"
@@ -9698,7 +9698,7 @@ msgstr "Hasi lanak orain"
 msgid "Delete them"
 msgstr "Kendu lanak"
 
-#: src/mainwindow.cpp:1090 src/timeline2/view/timelinecontroller.cpp:2066
+#: src/mainwindow.cpp:1090 src/timeline2/view/timelinecontroller.cpp:2068
 #, kde-format
 msgid "Select a clip to compare effect"
 msgstr "Hautatu klipa efektua alderatzeko"
@@ -10547,7 +10547,7 @@ msgstr "Txertatu Pista…"
 msgid "Fit all Tracks in View"
 msgstr "Txandakatu pista guztiak aktibora"
 
-#: src/mainwindow.cpp:1851 src/timeline2/view/timelinecontroller.cpp:4795
+#: src/mainwindow.cpp:1851 src/timeline2/view/timelinecontroller.cpp:4797
 #, kde-format
 msgid "Master effects"
 msgstr "Maisuaren efektuak"
@@ -10558,7 +10558,7 @@ msgid "Switch Track Target Audio Stream"
 msgstr "Aldatu helburu pistaren audio korrontea"
 
 #: src/mainwindow.cpp:1863 src/timeline2/model/timelinemodel.cpp:4305
-#: src/timeline2/view/timelinecontroller.cpp:878
+#: src/timeline2/view/timelinecontroller.cpp:880
 #, kde-format
 msgid "Delete Track"
 msgstr "Ezabatu pista"
@@ -10872,11 +10872,11 @@ msgstr "Ez da markatzailerik topatu kurtsorearen denboran"
 msgid "An error occurred while deleting markers"
 msgstr "Errorea gertatu da markatzaileak ezabatzean"
 
-#: src/mainwindow.cpp:2797 src/timeline2/view/timelinecontroller.cpp:1245
-#: src/timeline2/view/timelinecontroller.cpp:1253
-#: src/timeline2/view/timelinecontroller.cpp:1274
-#: src/timeline2/view/timelinecontroller.cpp:1314
-#: src/timeline2/view/timelinecontroller.cpp:1340
+#: src/mainwindow.cpp:2797 src/timeline2/view/timelinecontroller.cpp:1247
+#: src/timeline2/view/timelinecontroller.cpp:1255
+#: src/timeline2/view/timelinecontroller.cpp:1276
+#: src/timeline2/view/timelinecontroller.cpp:1316
+#: src/timeline2/view/timelinecontroller.cpp:1342
 #, kde-format
 msgid "Cannot find clip to edit marker"
 msgstr "Ezin izan da klipa aurkitu markatzailea editatzeko"
@@ -11097,7 +11097,7 @@ msgid ""
 msgstr ""
 "Kdenlive berrabiarazi behar da  ikonoen gaia aldatzeko. Berrabiarazi orain?"
 
-#: src/mainwindow.cpp:4567 src/timeline2/view/timelinecontroller.cpp:5063
+#: src/mainwindow.cpp:4567 src/timeline2/view/timelinecontroller.cpp:5071
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "Ez dago azpidatzirik uneko proiektuan"
@@ -11698,7 +11698,7 @@ msgstr "Aldatu tamaina modu askean"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
 #: src/monitor/monitor.cpp:382 src/scopes/colorscopes/vectorscope.cpp:50
-#: src/timeline2/view/timelinecontroller.cpp:234 src/ui/titlewidget_ui.ui:125
+#: src/timeline2/view/timelinecontroller.cpp:236 src/ui/titlewidget_ui.ui:125
 #, kde-format
 msgid "Black"
 msgstr "Beltza"
@@ -11767,7 +11767,7 @@ msgid "Your screen resolution is not sufficient for this action"
 msgstr "Zure monitorearen bereizmena ez da nahikoa ekintza hau burutzeko"
 
 #: src/monitor/monitor.cpp:827 src/monitor/monitor.cpp:860
-#: src/timeline2/view/timelinecontroller.cpp:1724
+#: src/timeline2/view/timelinecontroller.cpp:1726
 #, kde-format
 msgid "Set Zone"
 msgstr "Ezarri eskualdea"
@@ -13067,7 +13067,7 @@ msgstr ""
 
 #: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1444
 #: src/renderpresets/renderpresetrepository.cpp:313
-#: src/timeline2/view/timelinecontroller.cpp:4986
+#: src/timeline2/view/timelinecontroller.cpp:4994
 #, kde-format
 msgid "Cannot read file %1"
 msgstr "Ezin du %1 fitxategia irakurri"
@@ -13868,17 +13868,17 @@ msgstr ""
 "Klip honetatik ezin da denbora-lerro bat sortu:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1704
+#: src/project/projectmanager.cpp:1705
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "Sekuentzia-klip bat inportatzen, une honetan egoera esperimentalean"
 
-#: src/project/projectmanager.cpp:1875
+#: src/project/projectmanager.cpp:1876
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Hautatu klip bat sortzeko sekuentzia"
 
-#: src/project/projectmanager.cpp:1912
+#: src/project/projectmanager.cpp:1913
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Sortu sekuentzia-klipa"
@@ -15425,13 +15425,13 @@ msgid "Cut all clips"
 msgstr "Moztu klip guztiak"
 
 #: src/timeline2/model/timelinefunctions.cpp:561
-#: src/timeline2/view/timelinecontroller.cpp:1404
+#: src/timeline2/view/timelinecontroller.cpp:1406
 #, kde-format
 msgid "Insert space"
 msgstr "Txertatu zuriunea"
 
 #: src/timeline2/model/timelinefunctions.cpp:563
-#: src/timeline2/view/timelinecontroller.cpp:1406
+#: src/timeline2/view/timelinecontroller.cpp:1408
 #, kde-format
 msgid "Remove space"
 msgstr "Ezabatu zuriunea"
@@ -15447,22 +15447,22 @@ msgid "Extract zone"
 msgstr "Erauzketa eskualdea"
 
 #: src/timeline2/model/timelinefunctions.cpp:654
-#: src/timeline2/view/timelinecontroller.cpp:3083
-#: src/timeline2/view/timelinecontroller.cpp:3149
+#: src/timeline2/view/timelinecontroller.cpp:3085
+#: src/timeline2/view/timelinecontroller.cpp:3151
 #, kde-format
 msgid "Overwrite zone"
 msgstr "Gainidazte eskualdea"
 
 #: src/timeline2/model/timelinefunctions.cpp:654
-#: src/timeline2/view/timelinecontroller.cpp:3083
-#: src/timeline2/view/timelinecontroller.cpp:3149
+#: src/timeline2/view/timelinecontroller.cpp:3085
+#: src/timeline2/view/timelinecontroller.cpp:3151
 #, kde-format
 msgid "Insert zone"
 msgstr "Txertatze eskualdea"
 
 #: src/timeline2/model/timelinefunctions.cpp:656
-#: src/timeline2/view/timelinecontroller.cpp:3085
-#: src/timeline2/view/timelinecontroller.cpp:3151
+#: src/timeline2/view/timelinecontroller.cpp:3087
+#: src/timeline2/view/timelinecontroller.cpp:3153
 #, kde-format
 msgid "Could not insert zone"
 msgstr "Ezin izan da eskualdea txertatu"
@@ -15480,7 +15480,7 @@ msgstr "Ezin da hautatutako taldea mugitu"
 #: src/timeline2/model/timelinefunctions.cpp:977
 #: src/timeline2/model/timelinefunctions.cpp:981
 #: src/timeline2/model/timelinefunctions.cpp:988
-#: src/timeline2/view/timelinecontroller.cpp:4024
+#: src/timeline2/view/timelinecontroller.cpp:4026
 #, kde-format
 msgid "Enable clip"
 msgstr "Gaitu klipa"
@@ -15488,7 +15488,7 @@ msgstr "Gaitu klipa"
 #: src/timeline2/model/timelinefunctions.cpp:977
 #: src/timeline2/model/timelinefunctions.cpp:981
 #: src/timeline2/model/timelinefunctions.cpp:988
-#: src/timeline2/view/timelinecontroller.cpp:4024
+#: src/timeline2/view/timelinecontroller.cpp:4026
 #, kde-format
 msgid "Disable clip"
 msgstr "Desgaitu klipa"
@@ -15736,7 +15736,7 @@ msgstr "Ezabatu konposizioa"
 
 #: src/timeline2/model/timelinemodel.cpp:2190
 #: src/timeline2/model/timelinemodel.cpp:2352
-#: src/timeline2/view/timelinecontroller.cpp:4205
+#: src/timeline2/view/timelinecontroller.cpp:4207
 #, kde-format
 msgid "Move group"
 msgstr "Mugitu taldea"
@@ -15836,7 +15836,7 @@ msgid "Cannot paste effect to selected track"
 msgstr "Ezin da efektua itsatsi hautatutako pistan"
 
 #: src/timeline2/model/timelinemodel.cpp:4620
-#: src/timeline2/view/timelinecontroller.cpp:1471
+#: src/timeline2/view/timelinecontroller.cpp:1473
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "Ezin izan zaio efektua gehitu hautatutako %1 klipari"
@@ -16283,228 +16283,228 @@ msgstr "Isilarazi"
 msgid "Edit track name"
 msgstr "Editatu pistaren izena"
 
-#: src/timeline2/view/timelinecontroller.cpp:231
+#: src/timeline2/view/timelinecontroller.cpp:233
 #, kde-format
 msgid "unknown"
 msgstr "Ezezaguna"
 
-#: src/timeline2/view/timelinecontroller.cpp:313
+#: src/timeline2/view/timelinecontroller.cpp:315
 #, kde-format
 msgid "Hide Track"
 msgstr "Ezkutatu pista"
 
-#: src/timeline2/view/timelinecontroller.cpp:313
+#: src/timeline2/view/timelinecontroller.cpp:315
 #, kde-format
 msgid "Enable Track"
 msgstr "Gaitu pista"
 
-#: src/timeline2/view/timelinecontroller.cpp:375
+#: src/timeline2/view/timelinecontroller.cpp:377
 #, kde-format
 msgid "No item under timeline cursor in active track"
 msgstr ""
 "Ez dago elementurik denbora-lerroaren kurtsorearen azpian pista aktiboan"
 
-#: src/timeline2/view/timelinecontroller.cpp:565
+#: src/timeline2/view/timelinecontroller.cpp:567
 #, kde-format
 msgid "Could not add composition at selected position"
 msgstr "Ezin izan da konposizioa gehitu hautatutako posizioan"
 
-#: src/timeline2/view/timelinecontroller.cpp:627
-#: src/timeline2/view/timelinecontroller.cpp:1024
-#: src/timeline2/view/timelinecontroller.cpp:1041
-#: src/timeline2/view/timelinecontroller.cpp:1072
-#: src/timeline2/view/timelinecontroller.cpp:1152
+#: src/timeline2/view/timelinecontroller.cpp:629
+#: src/timeline2/view/timelinecontroller.cpp:1026
+#: src/timeline2/view/timelinecontroller.cpp:1043
+#: src/timeline2/view/timelinecontroller.cpp:1074
+#: src/timeline2/view/timelinecontroller.cpp:1154
 #, kde-format
 msgid "Cannot perform operation while dragging in timeline"
 msgstr "Ezin da eragiketa burutu denbora-lerroan arrastatzen zauden bitartean"
 
-#: src/timeline2/view/timelinecontroller.cpp:855
-#: src/timeline2/view/timelinecontroller.cpp:4938
+#: src/timeline2/view/timelinecontroller.cpp:857
+#: src/timeline2/view/timelinecontroller.cpp:4940
 #, kde-format
 msgid "Could not insert track"
 msgstr "Ezin izan da pista txertatu"
 
-#: src/timeline2/view/timelinecontroller.cpp:878
+#: src/timeline2/view/timelinecontroller.cpp:880
 #, kde-format
 msgid "Delete Tracks"
 msgstr "Ezabatu pistak"
 
-#: src/timeline2/view/timelinecontroller.cpp:891
+#: src/timeline2/view/timelinecontroller.cpp:893
 #, kde-format
 msgid "Select an audio track to display record controls"
 msgstr "Hautatu audio pista bat grabaketarako kontrolak erakusteko"
 
-#: src/timeline2/view/timelinecontroller.cpp:1029
+#: src/timeline2/view/timelinecontroller.cpp:1031
 #, kde-format
 msgid "Select at least 2 items to group"
 msgstr "Hautatu gutxienez bi klip taldekatzea egiteko"
 
-#: src/timeline2/view/timelinecontroller.cpp:1143
-#: src/timeline2/view/timelinecontroller.cpp:1223
-#: src/timeline2/view/timelinecontroller.cpp:1233
-#: src/timeline2/view/timelinecontroller.cpp:1262
-#: src/timeline2/view/timelinecontroller.cpp:1302
-#: src/timeline2/view/timelinecontroller.cpp:1328
-#: src/timeline2/view/timelinecontroller.cpp:1353
-#: src/timeline2/view/timelinecontroller.cpp:2230
-#: src/timeline2/view/timelinecontroller.cpp:2917
-#: src/timeline2/view/timelinecontroller.cpp:2972
-#: src/timeline2/view/timelinecontroller.cpp:3192
-#: src/timeline2/view/timelinecontroller.cpp:3221
-#: src/timeline2/view/timelinecontroller.cpp:3270
-#: src/timeline2/view/timelinecontroller.cpp:3299
-#: src/timeline2/view/timelinecontroller.cpp:3613
-#: src/timeline2/view/timelinecontroller.cpp:3628
-#: src/timeline2/view/timelinecontroller.cpp:3653
-#: src/timeline2/view/timelinecontroller.cpp:3668
-#: src/timeline2/view/timelinecontroller.cpp:3730
-#: src/timeline2/view/timelinecontroller.cpp:3865
-#: src/timeline2/view/timelinecontroller.cpp:3889
+#: src/timeline2/view/timelinecontroller.cpp:1145
+#: src/timeline2/view/timelinecontroller.cpp:1225
+#: src/timeline2/view/timelinecontroller.cpp:1235
+#: src/timeline2/view/timelinecontroller.cpp:1264
+#: src/timeline2/view/timelinecontroller.cpp:1304
+#: src/timeline2/view/timelinecontroller.cpp:1330
+#: src/timeline2/view/timelinecontroller.cpp:1355
+#: src/timeline2/view/timelinecontroller.cpp:2232
+#: src/timeline2/view/timelinecontroller.cpp:2919
+#: src/timeline2/view/timelinecontroller.cpp:2974
+#: src/timeline2/view/timelinecontroller.cpp:3194
+#: src/timeline2/view/timelinecontroller.cpp:3223
+#: src/timeline2/view/timelinecontroller.cpp:3272
+#: src/timeline2/view/timelinecontroller.cpp:3301
+#: src/timeline2/view/timelinecontroller.cpp:3615
+#: src/timeline2/view/timelinecontroller.cpp:3630
+#: src/timeline2/view/timelinecontroller.cpp:3655
+#: src/timeline2/view/timelinecontroller.cpp:3670
+#: src/timeline2/view/timelinecontroller.cpp:3732
+#: src/timeline2/view/timelinecontroller.cpp:3867
+#: src/timeline2/view/timelinecontroller.cpp:3891
 #, kde-format
 msgid "No clip selected"
 msgstr "Ez da klipik hautatu"
 
-#: src/timeline2/view/timelinecontroller.cpp:1622
+#: src/timeline2/view/timelinecontroller.cpp:1624
 #, kde-format
 msgid "No active track"
 msgstr "Pista aktiborik ez"
 
-#: src/timeline2/view/timelinecontroller.cpp:1828
+#: src/timeline2/view/timelinecontroller.cpp:1830
 #, kde-format
 msgid "No clip to cut"
 msgstr "Ez dago mozteko klipik"
 
-#: src/timeline2/view/timelinecontroller.cpp:2148
+#: src/timeline2/view/timelinecontroller.cpp:2150
 #, kde-format
 msgid "In:%1, Out:%2 (%3%4)"
 msgstr "Sarrera:%1, Irteera:%2 (%3%4)"
 
-#: src/timeline2/view/timelinecontroller.cpp:2696
+#: src/timeline2/view/timelinecontroller.cpp:2698
 #, kde-format
 msgid "No clips found to insert space"
 msgstr "Ez da klipik topatu zuriunea txertatzeko"
 
-#: src/timeline2/view/timelinecontroller.cpp:2713
+#: src/timeline2/view/timelinecontroller.cpp:2715
 #, kde-format
 msgid "Cannot remove space at given position"
 msgstr "Ezin da espazioa ezabatu emandako posizioan"
 
-#: src/timeline2/view/timelinecontroller.cpp:2727
+#: src/timeline2/view/timelinecontroller.cpp:2729
 #, kde-format
 msgid "Cannot remove all spaces"
 msgstr "Ezin ditu zuriune guztiak ezabatu"
 
-#: src/timeline2/view/timelinecontroller.cpp:2741
+#: src/timeline2/view/timelinecontroller.cpp:2743
 #, kde-format
 msgid "Cannot remove all clips"
 msgstr "Ezin ditu klip guztiak kendu"
 
-#: src/timeline2/view/timelinecontroller.cpp:2776
-#: src/timeline2/view/timelinecontroller.cpp:2781
-#: src/timeline2/view/timelinecontroller.cpp:2804
-#: src/timeline2/view/timelinecontroller.cpp:3736
-#: src/timeline2/view/timelinecontroller.cpp:3754
+#: src/timeline2/view/timelinecontroller.cpp:2778
+#: src/timeline2/view/timelinecontroller.cpp:2783
+#: src/timeline2/view/timelinecontroller.cpp:2806
+#: src/timeline2/view/timelinecontroller.cpp:3738
+#: src/timeline2/view/timelinecontroller.cpp:3756
 #, kde-format
 msgid "No item to edit"
 msgstr "Ez dago editatzeko elementurik"
 
-#: src/timeline2/view/timelinecontroller.cpp:2893
-#: src/timeline2/view/timelinecontroller.cpp:5227
+#: src/timeline2/view/timelinecontroller.cpp:2895
+#: src/timeline2/view/timelinecontroller.cpp:5235
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr ""
 "Mesedez, aktibatu pista bat eragiketa hau burutzeko bere etiketan klik eginez"
 
-#: src/timeline2/view/timelinecontroller.cpp:3128
+#: src/timeline2/view/timelinecontroller.cpp:3130
 #, kde-format
 msgid "Please select a target track by clicking on a track's target zone"
 msgstr ""
 "Mesedez, hautatu helburu pista bat pistaren helburu eskualdean klik eginez"
 
-#: src/timeline2/view/timelinecontroller.cpp:3204
+#: src/timeline2/view/timelinecontroller.cpp:3206
 #, kde-format
 msgid "Select a favorite composition"
 msgstr "Aukeratu konposizio gogokoa"
 
-#: src/timeline2/view/timelinecontroller.cpp:3249
+#: src/timeline2/view/timelinecontroller.cpp:3251
 #, kde-format
 msgid "No clip found to perform AV split operation"
 msgstr "Ez da klipik topatu AV banatze eragiketa egiteko"
 
-#: src/timeline2/view/timelinecontroller.cpp:3283
-#: src/timeline2/view/timelinecontroller.cpp:3346
+#: src/timeline2/view/timelinecontroller.cpp:3285
+#: src/timeline2/view/timelinecontroller.cpp:3348
 #, kde-format
 msgid "Cannot move clip to frame %1."
 msgstr "Ezin da klipa mugitu %1 fotogramara."
 
-#: src/timeline2/view/timelinecontroller.cpp:3304
+#: src/timeline2/view/timelinecontroller.cpp:3306
 #, kde-format
 msgid "Set audio reference before attempting to align"
 msgstr "Ezarri audio erreferentzia lerrokatzen saiatu aurretik"
 
-#: src/timeline2/view/timelinecontroller.cpp:3636
+#: src/timeline2/view/timelinecontroller.cpp:3638
 #, kde-format
 msgid "Delete effects"
 msgstr "Kendu efektuak"
 
-#: src/timeline2/view/timelinecontroller.cpp:3674
-#: src/timeline2/view/timelinecontroller.cpp:3680
-#: src/timeline2/view/timelinecontroller.cpp:3685
+#: src/timeline2/view/timelinecontroller.cpp:3676
+#: src/timeline2/view/timelinecontroller.cpp:3682
+#: src/timeline2/view/timelinecontroller.cpp:3687
 #, kde-format
 msgid "No information in clipboard"
 msgstr "Informaziorik ez arbelean"
 
-#: src/timeline2/view/timelinecontroller.cpp:3708
+#: src/timeline2/view/timelinecontroller.cpp:3710
 #, kde-format
 msgid "Paste effects"
 msgstr "Itsatsi efektuak"
 
-#: src/timeline2/view/timelinecontroller.cpp:3710
+#: src/timeline2/view/timelinecontroller.cpp:3712
 #, kde-format
 msgid "Cannot paste effect on selected clip"
 msgstr "Ezin izan zaio efektua itsatsi hautatutako klipari "
 
-#: src/timeline2/view/timelinecontroller.cpp:3822
+#: src/timeline2/view/timelinecontroller.cpp:3824
 #, kde-format
 msgid "Edit item"
 msgstr "Editatu klipa"
 
-#: src/timeline2/view/timelinecontroller.cpp:3850
+#: src/timeline2/view/timelinecontroller.cpp:3852
 #, kde-format
 msgid "Open sequence"
 msgstr "Ireki sekuentzia"
 
-#: src/timeline2/view/timelinecontroller.cpp:3872
+#: src/timeline2/view/timelinecontroller.cpp:3874
 #, kde-format
 msgid "Item is not a title clip"
 msgstr "Elementua ez da titulu klipa"
 
-#: src/timeline2/view/timelinecontroller.cpp:3965
+#: src/timeline2/view/timelinecontroller.cpp:3967
 #, kde-format
 msgid "%1 items selected (%2) |"
 msgstr "%1 item hautatuta (%2) |"
 
-#: src/timeline2/view/timelinecontroller.cpp:4019
+#: src/timeline2/view/timelinecontroller.cpp:4021
 #, kde-format
 msgid "Restore video"
 msgstr "Leheneratu bideoa"
 
-#: src/timeline2/view/timelinecontroller.cpp:4019
+#: src/timeline2/view/timelinecontroller.cpp:4021
 #, kde-format
 msgid "Restore audio"
 msgstr "Leheneratu audioa"
 
-#: src/timeline2/view/timelinecontroller.cpp:4186
+#: src/timeline2/view/timelinecontroller.cpp:4188
 #, kde-format
 msgid "Move item"
 msgstr "Mugitu elementua"
 
-#: src/timeline2/view/timelinecontroller.cpp:4668
+#: src/timeline2/view/timelinecontroller.cpp:4670
 #, kde-format
 msgid "Impossible to capture on a locked track"
 msgstr "Ezin da atzeman giltzatutako pista batean"
 
-#: src/timeline2/view/timelinecontroller.cpp:4679
+#: src/timeline2/view/timelinecontroller.cpp:4681
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
@@ -16513,60 +16513,60 @@ msgstr ""
 "Ezinezkoa hemen kapturatzea: kapturak klipak gainidatzi ditzake. Mesedez "
 "ezabatu klipak uneko posiziotik aurrera edo aukeratu beste pista bat"
 
-#: src/timeline2/view/timelinecontroller.cpp:4892
+#: src/timeline2/view/timelinecontroller.cpp:4894
 #, kde-format
 msgid "Expand clip"
 msgstr "Zabaldu klipa"
 
-#: src/timeline2/view/timelinecontroller.cpp:4895
+#: src/timeline2/view/timelinecontroller.cpp:4897
 #, kde-format
 msgid "Could not expand clip"
 msgstr "Ezin da klipa zabaldu"
 
-#: src/timeline2/view/timelinecontroller.cpp:4936
+#: src/timeline2/view/timelinecontroller.cpp:4938
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "Txertatu pista"
 msgstr[1] "Txertatu pista"
 
-#: src/timeline2/view/timelinecontroller.cpp:4977
+#: src/timeline2/view/timelinecontroller.cpp:4985
 #, kde-format
 msgid "Character encoding used to save the subtitle file."
 msgstr "Azpidatzi fitxategia gordetzeko erabilitako kodeketa."
 
-#: src/timeline2/view/timelinecontroller.cpp:4978
+#: src/timeline2/view/timelinecontroller.cpp:4986
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Ziur ez badago, saiatu honekin:<br/><b>Unicode (UTF-8)</b>."
 
-#: src/timeline2/view/timelinecontroller.cpp:5018
+#: src/timeline2/view/timelinecontroller.cpp:5026
 #, kde-format
 msgid "Encoding could not be guessed, using UTF-8"
 msgstr "Kodetzea ezin izan da antzeman, UTF-8 erabiliko da"
 
-#: src/timeline2/view/timelinecontroller.cpp:5022
+#: src/timeline2/view/timelinecontroller.cpp:5030
 #, kde-format
 msgid "Encoding detected as %1"
 msgstr "Kodetzea %1 dela antzeman da"
 
-#: src/timeline2/view/timelinecontroller.cpp:5039
+#: src/timeline2/view/timelinecontroller.cpp:5047
 #, kde-format
 msgid "Import Subtitle"
 msgstr "Inportatu Azpidatzia"
 
-#: src/timeline2/view/timelinecontroller.cpp:5066
+#: src/timeline2/view/timelinecontroller.cpp:5074
 #, kde-format
 msgid "Export subtitle file"
 msgstr "Esportatu azpidatzi fitxategia"
 
-#: src/timeline2/view/timelinecontroller.cpp:5067
+#: src/timeline2/view/timelinecontroller.cpp:5075
 #, kde-format
 msgid "Subtitle File (*.srt)"
 msgstr "Azpidatzi fitxategia (*.srt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5097
+#: src/timeline2/view/timelinecontroller.cpp:5105
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
@@ -16575,22 +16575,22 @@ msgstr ""
 "avfilter.subtitles iragazkia beharrezkoa da, baina ez da aurkitu. "
 "Azpidatzien ezaugarriak segur aski ez du espero moduan funtzionatuko."
 
-#: src/timeline2/view/timelinecontroller.cpp:5114
+#: src/timeline2/view/timelinecontroller.cpp:5122
 #, kde-format
 msgid "Show subtitle track"
 msgstr "Erakutsi azpidatzien pista"
 
-#: src/timeline2/view/timelinecontroller.cpp:5114
+#: src/timeline2/view/timelinecontroller.cpp:5122
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "Ezkutatu azpidatzien pista"
 
-#: src/timeline2/view/timelinecontroller.cpp:5137
+#: src/timeline2/view/timelinecontroller.cpp:5145
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "Giltzapetik askatu azpidatzien pista"
 
-#: src/timeline2/view/timelinecontroller.cpp:5137
+#: src/timeline2/view/timelinecontroller.cpp:5145
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "Azpidatzien pista giltzatu"
@@ -19466,32 +19466,26 @@ msgstr "Logaritmikoa"
 msgid "Subtitle file:"
 msgstr "Azpidatzien fitxategia:"
 
-#. i18n: ectx: property (filter), widget (KUrlRequester, subtitle_url)
-#: src/ui/import_subtitle_ui.ui:71
-#, kde-format
-msgid "*.srt *.ass *.vtt *.sbv"
-msgstr "*.srt *.ass *.vtt *.sbv"
-
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/import_subtitle_ui.ui:85
+#: src/ui/import_subtitle_ui.ui:81
 #, kde-format
 msgid "Encoding"
 msgstr "Kodeketa"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cursor_pos)
-#: src/ui/import_subtitle_ui.ui:113
+#: src/ui/import_subtitle_ui.ui:109
 #, kde-format
 msgid "Import at timeline cursor position"
 msgstr "Inportatu denbora-lerroko kurtsorearen posizioan"
 
 #. i18n: ectx: property (text), widget (QCheckBox, transform_framerate_check_box)
-#: src/ui/import_subtitle_ui.ui:135
+#: src/ui/import_subtitle_ui.ui:131
 #, kde-format
 msgid "Transform framerate"
 msgstr "Eraldatu fotograma-emaria"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/import_subtitle_ui.ui:258
+#: src/ui/import_subtitle_ui.ui:254
 #, kde-format
 msgid "Subtitle Preview"
 msgstr "Azpidatziak aurreikustea"
@@ -21321,6 +21315,9 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "*.srt *.ass *.vtt *.sbv"
+#~ msgstr "*.srt *.ass *.vtt *.sbv"
 
 #~ msgid "Open %1"
 #~ msgstr "Ireki %1"
