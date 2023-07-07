@@ -2100,6 +2100,22 @@ void KdenliveDoc::addTimeline(const QUuid &uuid, std::shared_ptr<TimelineItemMod
     m_timelines.insert(uuid, model);
 }
 
+bool KdenliveDoc::checkConsistency()
+{
+    if (m_timelines.isEmpty()) {
+        qDebug() << "==== CONSISTENCY CHECK FAILED; NO TIMELINE";
+        return false;
+    }
+    QMapIterator<QUuid, std::shared_ptr<TimelineItemModel>> j(m_timelines);
+    while (j.hasNext()) {
+        j.next();
+        if (!j.value()->checkConsistency()) {
+            return false;
+        }
+    }
+    return true;
+}
+
 void KdenliveDoc::loadSequenceGroupsAndGuides(const QUuid &uuid)
 {
     Q_ASSERT(m_timelines.find(uuid) != m_timelines.end());

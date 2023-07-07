@@ -299,6 +299,8 @@ public:
     /** @brief Set the autoclose attribute to all playlists in @param doc.
      *   This is eg. needed for rendering, as the process would not stop at the end of the playlist if it was not closed */
     static void setAutoclosePlaylists(QDomDocument &doc);
+    /** @brief Check that the timelines hash have not changed between saved version and current status */
+    bool checkConsistency();
 
 protected:
     static int next_id; /// next valid id to assign

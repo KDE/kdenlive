@@ -10,6 +10,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
+#include "jobs/cliploadtask.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "monitor/monitormanager.h"
@@ -339,7 +340,6 @@ bool ProjectManager::testSaveFileAs(const QString &outputFileName)
     // QString scene = m_activeTimelineModel->sceneList(saveFolder);
     int duration = m_activeTimelineModel->duration();
     QString scene = pCore->projectItemModel()->sceneList(saveFolder, QString(), QString(), m_activeTimelineModel->tractor(), duration);
-
     QSaveFile file(outputFileName);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         qDebug() << "//////  ERROR writing to file: " << outputFileName;
@@ -412,7 +412,6 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         pCore->bin()->cleanDocument();
         pCore->mixer()->unsetModel();
         delete m_project;
-        m_project = nullptr;
     } else {
         pCore->projectItemModel()->clean();
         // Close all timelines
@@ -420,8 +419,8 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         for (auto &uid : uuids) {
             m_project->closeTimeline(uid);
         }
-        m_project = nullptr;
     }
+    m_project = nullptr;
     return true;
 }
 
@@ -815,6 +814,11 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
         if (!binId.isEmpty()) {
             openTimeline(binId, uuid);
         }
+    }
+    // Now that sequence clips are fully built, fetch thumbnails
+    const QStringList sequenceIds = pCore->projectItemModel()->getAllSequenceClips().values();
+    for (auto &id : sequenceIds) {
+        ClipLoadTask::start({ObjectType::BinClip, id.toInt()}, QDomElement(), true, -1, -1, this);
     }
     // Raise last active timeline
     QUuid activeUuid(m_project->getDocumentProperty(QStringLiteral("activetimeline")));
@@ -1621,10 +1625,6 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
     std::shared_ptr<TimelineItemModel> timelineModel = TimelineItemModel::construct(uuid, m_project->commandStack());
     m_project->addTimeline(uuid, timelineModel);
     TimelineWidget *timeline = nullptr;
-    if (pCore->window()) {
-        // Create tab widget
-        pCore->window()->openTimeline(uuid, clip->clipName(), timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
-    }
     if (internalLoad) {
         qDebug() << "QQQQQQQQQQQQQQQQQQQQ\nINTERNAL SEQUENCE LOAD\n\nQQQQQQQQQQQQQQQQQQQQQQ";
         qDebug() << "============= LOADING INTERNAL PLAYLIST: " << uuid;
@@ -1740,8 +1740,12 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
         }
         updateSequenceProducer(uuid, prod);
         clip->setProducer(prod, false, false);
+        m_project->loadSequenceGroupsAndGuides(uuid);
     }
-    m_project->loadSequenceGroupsAndGuides(uuid);
+    if (pCore->window()) {
+        // Create tab widget
+        pCore->window()->openTimeline(uuid, clip->clipName(), timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
+    }
 
     int activeTrackPosition = m_project->getSequenceProperty(uuid, QStringLiteral("activeTrack"), QString::number(-1)).toInt();
     if (timeline == nullptr) {

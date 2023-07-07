@@ -3,10 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 #include <QString>
-<<<<<<< HEAD
 
-=======
->>>>>>> c39fc17768d72eac9e49c6041d2ff5f301efb8c3
 static const QString sourcesPath("@TEST_SOURCES@");
 
 

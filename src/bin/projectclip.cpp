@@ -131,7 +131,9 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
     setTags(getProducerProperty(QStringLiteral("kdenlive:tags")));
     AbstractProjectItem::setRating(uint(getProducerIntProperty(QStringLiteral("kdenlive:rating"))));
     connectEffectStack();
-    if (m_clipStatus == FileStatus::StatusProxy || m_clipStatus == FileStatus::StatusReady || m_clipStatus == FileStatus::StatusProxyOnly) {
+    // Timeline clip thumbs will be generated later after the tractor has been updated
+    if (m_clipType != ClipType::Timeline &&
+        (m_clipStatus == FileStatus::StatusProxy || m_clipStatus == FileStatus::StatusReady || m_clipStatus == FileStatus::StatusProxyOnly)) {
         // Generate clip thumbnail
         ClipLoadTask::start({ObjectType::BinClip, m_binId.toInt()}, QDomElement(), true, -1, -1, this);
         // Generate audio thumbnail
@@ -631,7 +633,6 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     m_duration = getStringDuration();
     m_clipStatus = m_usesProxy ? FileStatus::StatusProxy : FileStatus::StatusReady;
     locker.unlock();
-
     if (m_clipStatus != currentStatus) {
         updateRoles << AbstractProjectItem::ClipStatus << AbstractProjectItem::IconOverlay;
         updateTimelineClips({TimelineModel::StatusRole, TimelineModel::ClipThumbRole});
@@ -2231,10 +2232,12 @@ void ProjectClip::deregisterTimelineClip(int clipId, bool audioClip)
     Q_EMIT registeredClipChanged();
 }
 
-QList<int> ProjectClip::timelineInstances() const
+QList<int> ProjectClip::timelineInstances(QUuid activeUuid) const
 {
     QList<int> ids;
-    const QUuid activeUuid = pCore->currentTimelineId();
+    if (activeUuid.isNull()) {
+        activeUuid = pCore->currentTimelineId();
+    }
     for (const auto &registeredClip : m_registeredClips) {
         if (auto ptr = registeredClip.second.lock()) {
             if (ptr->uuid() != activeUuid) {

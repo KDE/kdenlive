@@ -1348,7 +1348,7 @@ QDomElement ClipModel::toXml(QDomDocument &document)
 bool ClipModel::checkConsistency()
 {
     if (!m_effectStack->checkConsistency()) {
-        qDebug() << "Consistency check failed for effecstack";
+        qDebug() << "Consistency check failed for effectstack";
         return false;
     }
     if (m_currentTrackId == -1) {
@@ -1356,7 +1356,11 @@ bool ClipModel::checkConsistency()
         return true;
     }
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
-    auto instances = binClip->timelineInstances();
+    QUuid timelineUuid;
+    if (auto ptr = m_parent.lock()) {
+        timelineUuid = ptr->uuid();
+    }
+    auto instances = binClip->timelineInstances(timelineUuid);
     bool found = instances.contains(m_id);
     if (!found) {
         qDebug() << "ERROR: binClip doesn't acknowledge timeline clip existence: " << m_id << ", CURRENT TRACK: " << m_currentTrackId;

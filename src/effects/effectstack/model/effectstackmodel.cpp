@@ -1232,7 +1232,6 @@ bool EffectStackModel::checkConsistency()
             ct++;
         }
     }
-
     return true;
 }
 
