@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-05 03:38+0000\n"
-"PO-Revision-Date: 2023-06-24 21:06+0200\n"
+"PO-Revision-Date: 2023-07-02 17:26+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -2744,7 +2744,7 @@ msgstr "Nel principale"
 #: data/kdenliveeffectscategory.rc:34
 #, kde-format
 msgid "Color and Image correction"
-msgstr "Colore e correzione dell'immagine"
+msgstr "Correzione del colore e dell'immagine"
 
 #: data/kdenliveeffectscategory.rc:38
 #, kde-format
@@ -16587,7 +16587,7 @@ msgstr "Blocca traccia sottotitoli"
 #: src/timeline2/view/timelinetabs.cpp:46
 #, kde-format
 msgid "Add Timeline Sequence"
-msgstr "Aggiungi sequenza di linea temporale"
+msgstr "Aggiungi sequenza nella linea temporale"
 
 #: src/timeline2/view/timelinetabs.cpp:48
 #, kde-format
@@ -16595,7 +16595,7 @@ msgid ""
 "Add Timeline Sequence. This will create a new timeline for editing. Each "
 "timeline corresponds to a Sequence Clip in the Project Bin"
 msgstr ""
-"Aggiungi sequenza di linea temporale. Questo creerà una nuova linea "
+"Aggiungi sequenza nella linea temporale. Quest'azione creerà una nuova linea "
 "temporale per la modifica. Ciascuna linea temporale corrisponde a una clip "
 "di sequenze nel contenitore del progetto"
 

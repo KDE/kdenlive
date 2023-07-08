@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-05 03:38+0000\n"
-"PO-Revision-Date: 2023-06-18 10:31+0200\n"
+"PO-Revision-Date: 2023-07-07 09:01+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -925,7 +925,7 @@ msgstr "Durada"
 #: src/timeline2/view/qml/Track.qml:355
 #, kde-format
 msgid "In"
-msgstr "Dins"
+msgstr "Entrada"
 
 #: data/effects/fade_from_black.xml:14
 #, kde-format
@@ -16313,7 +16313,7 @@ msgstr "No hi ha cap clip a retallar"
 #: src/timeline2/view/timelinecontroller.cpp:2141
 #, kde-format
 msgid "In:%1, Out:%2 (%3%4)"
-msgstr "Cap endins:%1, Cap enfora:%2 (%3%4)"
+msgstr "Entrada:%1, sortida:%2 (%3%4)"
 
 #: src/timeline2/view/timelinecontroller.cpp:2689
 #, kde-format
@@ -21252,6 +21252,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Open %1"
-#~ msgstr "Obre %1"
