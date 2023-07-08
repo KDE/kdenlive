@@ -830,7 +830,7 @@ void Monitor::slotSetZoneStart()
 void Monitor::slotSetZoneEnd()
 {
     QPoint oldZone = m_glMonitor->getControllerProxy()->zone();
-    int currentOut = m_glMonitor->getCurrentPos();
+    int currentOut = m_glMonitor->getCurrentPos() + 1;
     int updatedZoneIn = -1;
     if (currentOut < oldZone.x()) {
         updatedZoneIn = qMax(0, currentOut - (oldZone.y() - oldZone.x()));
@@ -1051,7 +1051,7 @@ void Monitor::slotStartDrag()
         QStringList list;
         list.append(m_controller->AbstractProjectItem::clipId());
         list.append(QString::number(p.x()));
-        list.append(QString::number(p.y()));
+        list.append(QString::number(p.y() - 1));
         prodData.append(list.join(QLatin1Char('/')).toUtf8());
     }
     mimeData->setData(QStringLiteral("kdenlive/producerslist"), prodData);

@@ -4975,7 +4975,7 @@ void Bin::setCurrent(const std::shared_ptr<AbstractProjectItem> &item)
         QPoint zone = subClip->zone();
         std::shared_ptr<ProjectClip> master = subClip->getMasterClip();
         if (master && master->statusReady()) {
-            openProducer(master, zone.x(), zone.y());
+            openProducer(master, zone.x(), zone.y() + 1);
         }
         break;
     }
