@@ -65,7 +65,8 @@ public:
        @param id Requested id of the track. Automatic if id = -1
        @param pos is the optional position of the track. If left to -1, it will be added at the end
      */
-    static int construct(const std::weak_ptr<TimelineModel> &parent, int id = -1, int pos = -1, const QString &trackName = QString(), bool audioTrack = false);
+    static int construct(const std::weak_ptr<TimelineModel> &parent, int id = -1, int pos = -1, const QString &trackName = QString(), bool audioTrack = false,
+                         bool singleOperation = true);
 
     /** @brief returns the number of clips */
     int getClipsCount();

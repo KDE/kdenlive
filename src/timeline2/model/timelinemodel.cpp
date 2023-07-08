@@ -4215,7 +4215,7 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
     int trackId = TimelineModel::getNextId();
     id = trackId;
     Fun local_undo = deregisterTrack_lambda(trackId);
-    TrackModel::construct(shared_from_this(), trackId, position, trackName, audioTrack);
+    TrackModel::construct(shared_from_this(), trackId, position, trackName, audioTrack, addCompositing);
     // Adjust compositions that were affecting track at previous pos
     QList<std::shared_ptr<CompositionModel>> updatedCompositions;
     if (previousId > -1) {
@@ -4417,7 +4417,7 @@ bool TimelineModel::requestTrackDeletion(int trackId, Fun &undo, Fun &redo)
     return false;
 }
 
-void TimelineModel::registerTrack(std::shared_ptr<TrackModel> track, int pos, bool doInsert)
+void TimelineModel::registerTrack(std::shared_ptr<TrackModel> track, int pos, bool doInsert, bool singleOperation)
 {
     int id = track->getId();
     if (pos == -1) {
@@ -4428,7 +4428,13 @@ void TimelineModel::registerTrack(std::shared_ptr<TrackModel> track, int pos, bo
 
     // effective insertion (MLT operation), add 1 to account for black background track
     if (doInsert) {
+        if (!singleOperation) {
+            m_tractor->block();
+        }
         int error = m_tractor->insert_track(*track, pos + 1);
+        if (!singleOperation) {
+            m_tractor->unblock();
+        }
         Q_ASSERT(error == 0); // we might need better error handling...
     }
 
@@ -4703,7 +4709,10 @@ void TimelineModel::updateDuration()
     }
     if (duration != current) {
         // update black track length
+        std::unique_ptr<Mlt::Field> field(m_tractor->field());
+        field->lock();
         m_blackClip->set("out", duration + TimelineModel::seekDuration);
+        field->unlock();
         Q_EMIT durationUpdated();
         if (m_masterStack) {
             Q_EMIT m_masterStack->dataChanged(QModelIndex(), QModelIndex(), {});

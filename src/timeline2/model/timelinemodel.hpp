@@ -874,7 +874,7 @@ protected:
     /** @brief Register a new track. This is a call-back meant to be called from TrackModel
        @param pos indicates the number of the track we are adding. If this is -1, then we add at the end.
      */
-    void registerTrack(std::shared_ptr<TrackModel> track, int pos = -1, bool doInsert = true);
+    void registerTrack(std::shared_ptr<TrackModel> track, int pos = -1, bool doInsert = true, bool singleOperation = true);
 
     /** @brief Register a new clip. This is a call-back meant to be called from ClipModel
      */

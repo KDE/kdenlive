@@ -89,13 +89,13 @@ TrackModel::~TrackModel()
     }
 }
 
-int TrackModel::construct(const std::weak_ptr<TimelineModel> &parent, int id, int pos, const QString &trackName, bool audioTrack)
+int TrackModel::construct(const std::weak_ptr<TimelineModel> &parent, int id, int pos, const QString &trackName, bool audioTrack, bool singleOperation)
 {
     std::shared_ptr<TrackModel> track(new TrackModel(parent, id, trackName, audioTrack));
     TRACE_CONSTR(track.get(), parent, id, pos, trackName, audioTrack);
     id = track->m_id;
     if (auto ptr = parent.lock()) {
-        ptr->registerTrack(std::move(track), pos);
+        ptr->registerTrack(std::move(track), pos, true, singleOperation);
     } else {
         qDebug() << "Error : construction of track failed because parent timeline is not available anymore";
         Q_ASSERT(false);
@@ -256,12 +256,15 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
                 if (isLocked()) return false;
                 if (auto ptr = m_parent.lock()) {
                     // Lock MLT playlist so that we don't end up with an invalid frame being displayed
+                    std::unique_ptr<Mlt::Field> field(m_track->field());
+                    field->block();
                     m_playlists[target_playlist].lock();
                     std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
                     clip->setCurrentTrackId(m_id);
                     int index = m_playlists[target_playlist].insert_at(position, *clip, 1);
                     m_playlists[target_playlist].consolidate_blanks();
                     m_playlists[target_playlist].unlock();
+                    field->unblock();
                     return index != -1 && end_function(target_playlist);
                 }
                 qDebug() << "Error : Clip Insertion failed because timeline is not available anymore";
