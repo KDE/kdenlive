@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-07 00:49+0000\n"
+"POT-Creation-Date: 2023-07-08 01:14+0000\n"
 "PO-Revision-Date: 2023-06-07 21:36+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -1988,6 +1988,18 @@ msgstr "Animoi murtuma (Y)"
 msgid "Pan and Zoom"
 msgstr "Panorointi ja lähennys"
 
+#: data/effects/rotation.xml:44 data/effects/rotation_keyframable.xml:27
+#: data/transitions/affine.xml:24
+#, kde-format
+msgid "Disable repeat"
+msgstr "Poista toisto käytöstä"
+
+#: data/effects/rotation.xml:47 data/effects/rotation_keyframable.xml:30
+#: data/transitions/affine.xml:27
+#, kde-format
+msgid "Disable mirror"
+msgstr "Poista peilaus käytöstä"
+
 #: data/effects/rotation_keyframable.xml:4
 #, kde-format
 msgid "Rotate (keyframable)"
@@ -2002,16 +2014,6 @@ msgstr "X-siirtymä"
 #, kde-format
 msgid "Offset Y"
 msgstr "Y-siirtymä"
-
-#: data/effects/rotation_keyframable.xml:27 data/transitions/affine.xml:24
-#, kde-format
-msgid "Disable repeat"
-msgstr "Poista toisto käytöstä"
-
-#: data/effects/rotation_keyframable.xml:30 data/transitions/affine.xml:27
-#, kde-format
-msgid "Disable mirror"
-msgstr "Poista peilaus käytöstä"
 
 #: data/effects/rotoscoping.xml:4
 #, kde-format
@@ -4480,7 +4482,7 @@ msgstr "Soittolista"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2279 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/project/projectmanager.cpp:1268 src/project/projectmanager.cpp:1270
+#: src/project/projectmanager.cpp:1272 src/project/projectmanager.cpp:1274
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -4713,7 +4715,7 @@ msgstr "Tehosteita ei voi käyttää kansioihin"
 
 #: src/bin/bin.cpp:3792 src/effects/effectstack/model/effectstackmodel.cpp:500
 #: src/effects/effectstack/model/effectstackmodel.cpp:506
-#: src/mainwindow.cpp:3164
+#: src/mainwindow.cpp:3160
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Tehostetta ei voitu lisätä tähän leikkeeseen"
@@ -4728,8 +4730,8 @@ msgstr "Lisää luokitus valitsemalla leike"
 msgid "Edit Tags"
 msgstr "Muokkaa tunnisteita"
 
-#: src/bin/bin.cpp:4273 src/bin/projectclip.cpp:190
-#: src/bin/projectclip.cpp:1949 src/onlineresources/resourcewidget.cpp:266
+#: src/bin/bin.cpp:4273 src/bin/projectclip.cpp:192
+#: src/bin/projectclip.cpp:1950 src/onlineresources/resourcewidget.cpp:266
 #: src/onlineresources/resourcewidget.cpp:557
 #: src/onlineresources/resourcewidget.cpp:572
 #, kde-format
@@ -4779,7 +4781,7 @@ msgstr ""
 "Muokkaat ulkoista tekstileikettä (%1). Haluatko tallentaa muutokset myös "
 "tekstitiedostoon vai ainoastaan tähän projektiin?"
 
-#: src/bin/bin.cpp:4559 src/titler/titlewidget.cpp:2192
+#: src/bin/bin.cpp:4559 src/titler/titlewidget.cpp:2188
 #, kde-format
 msgid "Save Title"
 msgstr "Tallenna teksti"
@@ -4856,7 +4858,7 @@ msgstr ""
 "Projektisi tarvitsee lisää ääniraitoja kaiken videon käsittelemiseksi. "
 "Lisätäänkö %1 ääniraitaa?"
 
-#: src/bin/bin.cpp:5218 src/mainwindow.cpp:2730
+#: src/bin/bin.cpp:5218 src/mainwindow.cpp:2726
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Leikettä merkkauksen lisäämiseen ei löydy"
@@ -4984,7 +4986,7 @@ msgid "Duplicate"
 msgstr "Monista"
 
 #: src/bin/clipcreator.cpp:421 src/core.cpp:969
-#: src/project/projectmanager.cpp:785
+#: src/project/projectmanager.cpp:784
 #, kde-format
 msgid "Loading clips"
 msgstr "Avataan leikkeitä"
@@ -5060,7 +5062,7 @@ msgstr "Tuo tiedosto kaksoisnapsautuksella"
 #: src/bin/mediabrowser.cpp:160 src/dialogs/clipcreationdialog.cpp:496
 #: src/effects/effectlist/view/effectlistwidget.cpp:130
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:300
-#: src/mainwindow.cpp:3894 src/onlineresources/resourcewidget.cpp:553
+#: src/mainwindow.cpp:3890 src/onlineresources/resourcewidget.cpp:553
 #, kde-format
 msgid "All Files"
 msgstr "Kaikki tiedostot"
@@ -5347,18 +5349,18 @@ msgstr "Lisää tekstitys"
 msgid "Delete subtitle"
 msgstr "Poista tekstitys"
 
-#: src/bin/projectclip.cpp:226
+#: src/bin/projectclip.cpp:228
 #, kde-format
 msgid "Timeline sequence"
 msgstr "Aikajanasekvenssi"
 
-#: src/bin/projectclip.cpp:531
+#: src/bin/projectclip.cpp:533
 #, kde-format
 msgctxt "The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "P"
 
-#: src/bin/projectclip.cpp:623
+#: src/bin/projectclip.cpp:625
 #, kde-format
 msgid ""
 "Image dimension smaller than 8 pixels.\n"
@@ -5367,7 +5369,7 @@ msgstr ""
 "Kuvan koko on alle 8 kuvapistettä.\n"
 "Video-ohjelmisto ei tue tätä oikein."
 
-#: src/bin/projectclip.cpp:906
+#: src/bin/projectclip.cpp:907
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -5376,24 +5378,24 @@ msgstr ""
 "Metatietoja ei voi poimia kohteesta %1\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1142 src/jobs/cliploadtask.cpp:254
+#: src/bin/projectclip.cpp:1143 src/jobs/cliploadtask.cpp:254
 #, kde-format
 msgid "Invalid"
 msgstr "Virheellinen"
 
-#: src/bin/projectclip.cpp:1346 src/dialogs/clipcreationdialog.cpp:204
+#: src/bin/projectclip.cpp:1347 src/dialogs/clipcreationdialog.cpp:204
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1358
 #, kde-format
 msgid "File already exists"
 msgstr "Tiedosto on jo olemassa"
 
-#: src/bin/projectclip.cpp:2685
+#: src/bin/projectclip.cpp:2688
 #, kde-format
 msgid "Add stream effect"
 msgstr "Lisää video tehoste"
 
-#: src/bin/projectclip.cpp:2710
+#: src/bin/projectclip.cpp:2713
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Poista video tehoste"
@@ -6105,11 +6107,11 @@ msgstr "Tuo opasteet"
 #: src/project/dialogs/archivewidget.cpp:867
 #: src/project/dialogs/archivewidget.cpp:879
 #: src/project/dialogs/archivewidget.cpp:885
-#: src/project/projectmanager.cpp:1551 src/render/renderrequest.cpp:230
+#: src/project/projectmanager.cpp:1555 src/render/renderrequest.cpp:230
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5088
-#: src/titler/titlewidget.cpp:2205
+#: src/titler/titlewidget.cpp:2201
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Tiedostoon %1 ei voida kirjoittaa"
@@ -6155,7 +6157,7 @@ msgstr ""
 msgid "Guide comment"
 msgstr "Opasteen huomautus"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:115 src/mainwindow.cpp:3815
+#: src/dialogs/kdenlivesettingsdialog.cpp:115 src/mainwindow.cpp:3811
 #, kde-format
 msgid "Timeline"
 msgstr "Aikajana"
@@ -7813,8 +7815,8 @@ msgstr "Seuraavat suodattimet/siirtymät poistettiin projektista:"
 msgid "Invalid file path"
 msgstr "Virheellinen tiedoston sijainti"
 
-#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:736
-#: src/project/projectmanager.cpp:800 src/project/projectmanager.cpp:829
+#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:735
+#: src/project/projectmanager.cpp:799 src/project/projectmanager.cpp:833
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Vioittunutta tiedostoa ei voitu palauttaa."
@@ -7894,15 +7896,15 @@ msgstr ""
 "Projekti päivitettiin Kdenliven uusimpaan versioon, mutta varmuuskopiota %1 "
 "ei ollut mahdollista luoda."
 
-#: src/doc/kdenlivedoc.cpp:869 src/project/projectmanager.cpp:1148
-#: src/project/projectmanager.cpp:1184
+#: src/doc/kdenlivedoc.cpp:869 src/project/projectmanager.cpp:1152
+#: src/project/projectmanager.cpp:1188
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Virhe siirrettäessä projektin kansiota: %1"
 
-#: src/doc/kdenlivedoc.cpp:1038 src/doc/kdenlivedoc.cpp:2168
+#: src/doc/kdenlivedoc.cpp:1038 src/doc/kdenlivedoc.cpp:2184
 #: src/project/dialogs/archivewidget.cpp:226
-#: src/project/projectmanager.cpp:1385
+#: src/project/projectmanager.cpp:1389
 #, kde-format
 msgid "Untitled"
 msgstr "Nimetön"
@@ -8023,13 +8025,13 @@ msgstr ""
 "Leikkeelle %1 ei löytynyt profiilia.\n"
 "Luodaanko ja vaihdetaanko uuteen profiiliin (%2×%3, %4 fps)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2207 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2223 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "Punainen"
 
-#: src/doc/kdenlivedoc.cpp:2208 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2224 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -8037,23 +8039,23 @@ msgstr "Punainen"
 msgid "Green"
 msgstr "Vihreä"
 
-#: src/doc/kdenlivedoc.cpp:2209 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2225 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "Sininen"
 
-#: src/doc/kdenlivedoc.cpp:2210 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2226 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Keltainen"
 
-#: src/doc/kdenlivedoc.cpp:2211
+#: src/doc/kdenlivedoc.cpp:2227
 #, kde-format
 msgid "Cyan"
 msgstr "Syaani"
 
-#: src/doc/kdenlivedoc.cpp:2423
+#: src/doc/kdenlivedoc.cpp:2439
 #, kde-format
 msgid "Category %1:%2:%3"
 msgstr "Luokka %1:%2:%3"
@@ -8713,13 +8715,13 @@ msgid "Markers"
 msgstr "Merkinnät"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:76 src/mainwindow.cpp:3770
+#: src/kdenliveui.rc:76 src/mainwindow.cpp:3766
 #, kde-format
 msgid "Extract Audio"
 msgstr "Poimi ääni"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:79 src/mainwindow.cpp:3733
+#: src/kdenliveui.rc:79 src/mainwindow.cpp:3729
 #, kde-format
 msgid "Clip Jobs"
 msgstr "Leiketyöt"
@@ -9863,7 +9865,7 @@ msgstr ""
 msgid "Experimental GPU processing enabled - not for production"
 msgstr "Kokeellinen GPU-laskenta käytössä - ei tuotantoon"
 
-#: src/mainwindow.cpp:1385 src/mainwindow.cpp:3404
+#: src/mainwindow.cpp:1385 src/mainwindow.cpp:3400
 #, kde-format
 msgid "Multicam"
 msgstr "Useampi kamera"
@@ -10653,7 +10655,7 @@ msgstr "Luo uudelleen"
 
 #: src/mainwindow.cpp:2153 src/onlineresources/resourcewidget.cpp:568
 #: src/scopes/colorscopes/colorplaneexport.cpp:158
-#: src/titler/titlewidget.cpp:2188
+#: src/titler/titlewidget.cpp:2184
 #, fuzzy, kde-format
 #| msgid "Outline width"
 msgctxt "@action:button"
@@ -10687,13 +10689,13 @@ msgstr ""
 "Tämä siirtää kaikki väliaikaiset tiedostot kansiosta <b>%1</b> kansioon <b>"
 "%2</b> ja lataa projektin tiedoston uudelleen"
 
-#: src/mainwindow.cpp:2226 src/project/projectmanager.cpp:509
+#: src/mainwindow.cpp:2226 src/project/projectmanager.cpp:508
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr ""
 "Toimenpidettä ei voi tehdä, koska tiedoston tunniste on virheellinen: %1"
 
-#: src/mainwindow.cpp:2231 src/project/projectmanager.cpp:515
+#: src/mainwindow.cpp:2231 src/project/projectmanager.cpp:514
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Toimenpidettä ei voi tehdä, koska kohdekansio on jo olemassa: %1"
@@ -10708,28 +10710,28 @@ msgstr "Tämä poistaa kaikki käyttämättömät leikkeet projektista."
 msgid "Clean up project"
 msgstr "Siivoa projekti"
 
-#: src/mainwindow.cpp:2506 src/mainwindow.cpp:2534
+#: src/mainwindow.cpp:2506 src/mainwindow.cpp:2530
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr "Lataa uusia pikanäppäinasetteluja…"
 
-#: src/mainwindow.cpp:2521
+#: src/mainwindow.cpp:2517
 #, kde-format
 msgid "Current scheme:"
 msgstr "Nykyinen asettelu:"
 
-#: src/mainwindow.cpp:2531
+#: src/mainwindow.cpp:2527
 #, kde-format
 msgid "More Actions"
 msgstr "Lisää toimintoja"
 
-#: src/mainwindow.cpp:2543
+#: src/mainwindow.cpp:2539
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "Yleistä"
 
-#: src/mainwindow.cpp:2615
+#: src/mainwindow.cpp:2611
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
@@ -10738,29 +10740,29 @@ msgstr ""
 "Tämä poistaa Kdenliven asetustiedoston ja käynnistää ohjelman uudelleen."
 "Haluatko jatkaa?"
 
-#: src/mainwindow.cpp:2616
+#: src/mainwindow.cpp:2612
 #, fuzzy, kde-format
 #| msgid "Reset Configuration…"
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "Palauta asetukset…"
 
-#: src/mainwindow.cpp:2748 src/mainwindow.cpp:2775
+#: src/mainwindow.cpp:2744 src/mainwindow.cpp:2771
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "Leikettä merkinnän poistamiseksi ei löydy"
 
-#: src/mainwindow.cpp:2758 src/mainwindow.cpp:2804
+#: src/mainwindow.cpp:2754 src/mainwindow.cpp:2800
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "Merkintää kohdistimen kohdalta ei löydy"
 
-#: src/mainwindow.cpp:2780
+#: src/mainwindow.cpp:2776
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr "Merkkejä poistettaessa tapahtui virhe"
 
-#: src/mainwindow.cpp:2797 src/timeline2/view/timelinecontroller.cpp:1247
+#: src/mainwindow.cpp:2793 src/timeline2/view/timelinecontroller.cpp:1247
 #: src/timeline2/view/timelinecontroller.cpp:1255
 #: src/timeline2/view/timelinecontroller.cpp:1276
 #: src/timeline2/view/timelinecontroller.cpp:1316
@@ -10769,22 +10771,22 @@ msgstr "Merkkejä poistettaessa tapahtui virhe"
 msgid "Cannot find clip to edit marker"
 msgstr "Leikettä merkintään ei löydy"
 
-#: src/mainwindow.cpp:3000
+#: src/mainwindow.cpp:2996
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr "Leikettä ei ole valittu projektista"
 
-#: src/mainwindow.cpp:3167
+#: src/mainwindow.cpp:3163
 #, kde-format
 msgid "Select an item to add effect"
 msgstr "Lisää tehoste valitsemalla kohde"
 
-#: src/mainwindow.cpp:3223
+#: src/mainwindow.cpp:3219
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "Lähennystaso: %1/%2"
 
-#: src/mainwindow.cpp:3372
+#: src/mainwindow.cpp:3368
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -10801,7 +10803,7 @@ msgstr ""
 "napsautus</shortcut> useamman valintaan, <shortcut>Ctrl-vedä</shortcut> "
 "panorointi"
 
-#: src/mainwindow.cpp:3376
+#: src/mainwindow.cpp:3372
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -10819,12 +10821,12 @@ msgstr ""
 "napsautus</shortcut> useamman valintaan, <shortcut>Ctrl-vedä</shortcut> "
 "panorointi"
 
-#: src/mainwindow.cpp:3379
+#: src/mainwindow.cpp:3375
 #, kde-format
 msgid "Select"
 msgstr "Valinta"
 
-#: src/mainwindow.cpp:3381
+#: src/mainwindow.cpp:3377
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
@@ -10832,12 +10834,12 @@ msgstr "<shortcut>Shift</shortcut> katso leikattua ruutua"
 
 # *** TARKISTA: Onko razor todella videokäsittelytermistössä ”sakset”?
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3382 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3378 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr "Sakset"
 
-#: src/mainwindow.cpp:3386
+#: src/mainwindow.cpp:3382
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10847,12 +10849,12 @@ msgstr ""
 "<shortcut>Ctrl</shortcut> lisää vain nykyiselle raidalle, <shortcut>Shift</"
 "shortcut> myös opasteen siirtämiseen. Voit yhdistää molemmat muuntajat."
 
-#: src/mainwindow.cpp:3387
+#: src/mainwindow.cpp:3383
 #, kde-format
 msgid "Spacer"
 msgstr "Erotin"
 
-#: src/mainwindow.cpp:3389
+#: src/mainwindow.cpp:3385
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10862,13 +10864,13 @@ msgstr ""
 "<shortcut>Napsauta</shortcut> kohteen päällä liukua, <shortcut>Shift-"
 "napsauta</shortcut> useamman valintaan"
 
-#: src/mainwindow.cpp:3390
+#: src/mainwindow.cpp:3386
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "Liuku"
 
-#: src/mainwindow.cpp:3395
+#: src/mainwindow.cpp:3391
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10880,13 +10882,13 @@ msgstr ""
 "napsautus</shortcut> useamman valintaan, <shortcut>Ctrl-vedä</shortcut> "
 "panorointi"
 
-#: src/mainwindow.cpp:3397
+#: src/mainwindow.cpp:3393
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "Laajennus"
 
-#: src/mainwindow.cpp:3403
+#: src/mainwindow.cpp:3399
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10896,84 +10898,84 @@ msgstr ""
 "<shortcut>Napsauta</shortcut> projektin valvonnan näkymässä raitojen nosto, "
 "lukuun ottamatta aktiivista"
 
-#: src/mainwindow.cpp:3415
+#: src/mainwindow.cpp:3411
 #, kde-format
 msgid "Insert"
 msgstr "Lisää"
 
-#: src/mainwindow.cpp:3418
+#: src/mainwindow.cpp:3414
 #, kde-format
 msgid "Overwrite"
 msgstr "Korvaa"
 
-#: src/mainwindow.cpp:3754
+#: src/mainwindow.cpp:3750
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "Leiketöiden asetukset…"
 
-#: src/mainwindow.cpp:3769
+#: src/mainwindow.cpp:3765
 #, kde-format
 msgid "Transcoders"
 msgstr "Muuntimet"
 
-#: src/mainwindow.cpp:3814
+#: src/mainwindow.cpp:3810
 #, kde-format
 msgid "Interface"
 msgstr "Käyttöliittymä"
 
-#: src/mainwindow.cpp:3830
+#: src/mainwindow.cpp:3826
 #, kde-format
 msgid "Raise %1"
 msgstr "Nosta %1"
 
-#: src/mainwindow.cpp:3896
+#: src/mainwindow.cpp:3892
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Muunnettavat tiedostot"
 
-#: src/mainwindow.cpp:4044
+#: src/mainwindow.cpp:4040
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "Projektin tiedostoa ei voitu tallentaa arkistointia varten."
 
-#: src/mainwindow.cpp:4050
+#: src/mainwindow.cpp:4046
 #, kde-format
 msgid "Archiving project"
 msgstr "Arkistoidaan projektia"
 
-#: src/mainwindow.cpp:4206
+#: src/mainwindow.cpp:4202
 #, kde-format
 msgid "Icon Size"
 msgstr "Kuvakkeen koko"
 
-#: src/mainwindow.cpp:4210
+#: src/mainwindow.cpp:4206
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Oletus"
 
-#: src/mainwindow.cpp:4231 src/mainwindow.cpp:4259
+#: src/mainwindow.cpp:4227 src/mainwindow.cpp:4255
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Pieni (%1×%2)"
 
-#: src/mainwindow.cpp:4233 src/mainwindow.cpp:4261
+#: src/mainwindow.cpp:4229 src/mainwindow.cpp:4257
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Keskikokoinen (%1×%2)"
 
-#: src/mainwindow.cpp:4235 src/mainwindow.cpp:4263
+#: src/mainwindow.cpp:4231 src/mainwindow.cpp:4259
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Suuri (%1×%2)"
 
-#: src/mainwindow.cpp:4237 src/mainwindow.cpp:4265
+#: src/mainwindow.cpp:4233 src/mainwindow.cpp:4261
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Valtava (%1×%2)"
 
-#: src/mainwindow.cpp:4322
+#: src/mainwindow.cpp:4318
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -10981,12 +10983,12 @@ msgid ""
 msgstr ""
 "Tämä piilottaa valikon täysin. Saat sen uudelleen näkyviin painamalla Ctrl-M."
 
-#: src/mainwindow.cpp:4322
+#: src/mainwindow.cpp:4318
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Piilota valikko"
 
-#: src/mainwindow.cpp:4337
+#: src/mainwindow.cpp:4333
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
@@ -10994,17 +10996,17 @@ msgstr ""
 "Kdenlive on käynnistettävä uudelleen, jotta kuvakkeiden muutos otetaan "
 "käyttöön. Käynnistä uudelleen nyt?"
 
-#: src/mainwindow.cpp:4567 src/timeline2/view/timelinecontroller.cpp:5071
+#: src/mainwindow.cpp:4563 src/timeline2/view/timelinecontroller.cpp:5071
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "Projektissa ei ole tekstityksiä"
 
-#: src/mainwindow.cpp:4660
+#: src/mainwindow.cpp:4656
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Projektikansio %1"
 
-#: src/mainwindow.cpp:4761
+#: src/mainwindow.cpp:4757
 #, fuzzy, kde-format
 #| msgid "Selected cached data:"
 msgid "Checking cached data size"
@@ -12961,7 +12963,7 @@ msgstr "Lataa leikemerkit"
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1444
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1448
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:4994
 #, kde-format
@@ -13536,22 +13538,22 @@ msgstr "Muistiinpanoa ei voi lisätä, leikettä ei ole valittuna"
 msgid "Cannot perform assign"
 msgstr "Tehtävää ei voi suorittaa"
 
-#: src/project/projectmanager.cpp:64
+#: src/project/projectmanager.cpp:65
 #, kde-format
 msgid "Kdenlive Project (*.kdenlive)"
 msgstr "Kdenlive-projekti (*.kdenlive)"
 
-#: src/project/projectmanager.cpp:66
+#: src/project/projectmanager.cpp:67
 #, kde-format
 msgid "Archived Project (*.tar.gz *.zip)"
 msgstr "Arkistoprojekti (*.tar.gz *.zip)"
 
-#: src/project/projectmanager.cpp:139
+#: src/project/projectmanager.cpp:140
 #, kde-format
 msgid "Save Copy…"
 msgstr "Tallenna kopio…"
 
-#: src/project/projectmanager.cpp:143
+#: src/project/projectmanager.cpp:144
 #, kde-format
 msgid "Open Backup File…"
 msgstr "Avaa varmuuskopiotiedosto…"
@@ -13561,7 +13563,7 @@ msgstr "Avaa varmuuskopiotiedosto…"
 msgid "Save changes to document?"
 msgstr "Tallennetaanko muutokset?"
 
-#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1384
+#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1388
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13570,7 +13572,7 @@ msgstr ""
 "Projekti <b>”%1”</b> on muuttunut.\n"
 "Haluatko tallentaa muutokset?"
 
-#: src/project/projectmanager.cpp:497
+#: src/project/projectmanager.cpp:496
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -13582,50 +13584,50 @@ msgstr ""
 "tiedostot kohteesta <b>%1</b> kohteeseen <b>%2</b>, jonka jälkeen projekti "
 "ladataan uudelleen"
 
-#: src/project/projectmanager.cpp:538
+#: src/project/projectmanager.cpp:537
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Tallenna kopio"
 
-#: src/project/projectmanager.cpp:639
+#: src/project/projectmanager.cpp:638
 #, kde-format
 msgid "Auto-saved file exist. Do you want to recover now?"
 msgstr ""
 "Automaattisesti tallennettu tiedosto on olemassa. Haluatko palauttaa nyt?"
 
-#: src/project/projectmanager.cpp:639
+#: src/project/projectmanager.cpp:638
 #, kde-format
 msgid "File Recovery"
 msgstr "Tiedoston palautus"
 
-#: src/project/projectmanager.cpp:640 src/project/projectmanager.cpp:724
+#: src/project/projectmanager.cpp:639 src/project/projectmanager.cpp:723
 #, kde-format
 msgid "Recover"
 msgstr "Palauta"
 
-#: src/project/projectmanager.cpp:640
+#: src/project/projectmanager.cpp:639
 #, kde-format
 msgid "Do not recover"
 msgstr "Älä palauta"
 
-#: src/project/projectmanager.cpp:692
+#: src/project/projectmanager.cpp:691
 #, kde-format
 msgid "Opening file %1"
 msgstr "Avataan tiedostoa %1"
 
-#: src/project/projectmanager.cpp:708
+#: src/project/projectmanager.cpp:707
 #, kde-format
 msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "Avataan projektia"
 
-#: src/project/projectmanager.cpp:710
+#: src/project/projectmanager.cpp:709
 #, kde-format
 msgid "Loading project"
 msgstr "Avataan projektia"
 
-#: src/project/projectmanager.cpp:723
+#: src/project/projectmanager.cpp:722
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -13636,30 +13638,30 @@ msgstr ""
 "%1\n"
 "Haluatko avata varmuuskopion?"
 
-#: src/project/projectmanager.cpp:724
+#: src/project/projectmanager.cpp:723
 #, kde-format
 msgid "Error opening file"
 msgstr "Virhe avattaessa tiedostoa"
 
-#: src/project/projectmanager.cpp:724
+#: src/project/projectmanager.cpp:723
 #, kde-format
 msgid "Open Backup"
 msgstr "Avaa varmuuskopio"
 
-#: src/project/projectmanager.cpp:740
+#: src/project/projectmanager.cpp:739
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid "Could not open the backup project file."
 msgstr "Projektin tiedostoa %1 ei voi avata"
 
-#: src/project/projectmanager.cpp:756
+#: src/project/projectmanager.cpp:755
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Projektisi päivitettiin, varmuuskopio luodaan seuraavan tallennuksen "
 "yhteydessä"
 
-#: src/project/projectmanager.cpp:759
+#: src/project/projectmanager.cpp:758
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -13667,7 +13669,7 @@ msgstr ""
 "Projektia muokattiin avattaessa: varmuuskopio luodaan seuraavan tallennuksen "
 "yhteydessä"
 
-#: src/project/projectmanager.cpp:858
+#: src/project/projectmanager.cpp:862
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -13676,12 +13678,12 @@ msgstr ""
 "Tämä poistaa kaikki projektiin viime tallennuksen jälkeen tehdyt muutokset. "
 "Haluatko varmasti jatkaa?"
 
-#: src/project/projectmanager.cpp:859
+#: src/project/projectmanager.cpp:863
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Palauta viimeksi tallennettu versio"
 
-#: src/project/projectmanager.cpp:941
+#: src/project/projectmanager.cpp:945
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -13690,29 +13692,29 @@ msgstr ""
 "Projekti oli vioittunut, varmuuskopiointi ei onnistu. Sulje projekti ja avaa "
 "se uudelleen viimeisimmän varmuuskopion palauttamiseksi"
 
-#: src/project/projectmanager.cpp:1126
+#: src/project/projectmanager.cpp:1130
 #, fuzzy, kde-format
 #| msgid "Error moving project folder: %1"
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Virhe siirrettäessä projektin kansiota: %1"
 
-#: src/project/projectmanager.cpp:1162
+#: src/project/projectmanager.cpp:1166
 #, kde-format
 msgid "Moving project folder"
 msgstr "Siirretään projektin kansiota"
 
-#: src/project/projectmanager.cpp:1220
+#: src/project/projectmanager.cpp:1224
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr "Projekti on vioittunut (ei raitoja). Yritätkö löytää varmuuskopion?"
 
-#: src/project/projectmanager.cpp:1247 src/project/projectmanager.cpp:1277
-#: src/project/projectmanager.cpp:1281
+#: src/project/projectmanager.cpp:1251 src/project/projectmanager.cpp:1281
+#: src/project/projectmanager.cpp:1285
 #, kde-format
 msgid "Sequence 1"
 msgstr "Sekvenssi 1"
 
-#: src/project/projectmanager.cpp:1258
+#: src/project/projectmanager.cpp:1262
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -13720,25 +13722,25 @@ msgstr ""
 "Projektitiedosto on vioittunut: raitoja ei voi ladata. Yritetäänkö löytää "
 "varmuuskopio?"
 
-#: src/project/projectmanager.cpp:1390 src/project/projectmanager.cpp:1395
-#: src/project/projectmanager.cpp:1405 src/project/projectmanager.cpp:1419
+#: src/project/projectmanager.cpp:1394 src/project/projectmanager.cpp:1399
+#: src/project/projectmanager.cpp:1409 src/project/projectmanager.cpp:1423
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Projektin profiilin muutos keskeytetty"
 
-#: src/project/projectmanager.cpp:1536
+#: src/project/projectmanager.cpp:1540
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
 "Do you want to overwrite it?"
 msgstr "Tiedosto %1 on jo olemassa. Korvataanko?"
 
-#: src/project/projectmanager.cpp:1561
+#: src/project/projectmanager.cpp:1565
 #, kde-format
 msgid "Project profile changed"
 msgstr "Projektin profiili on muuttunut"
 
-#: src/project/projectmanager.cpp:1614
+#: src/project/projectmanager.cpp:1618
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
 msgid ""
@@ -13751,13 +13753,13 @@ msgstr "Ei voida luoda suodatinta %1"
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1876
+#: src/project/projectmanager.cpp:1880
 #, fuzzy, kde-format
 #| msgid "Select a clip to compare effect"
 msgid "Select a clip to create sequence"
 msgstr "Valitse leike tehosteen vertaamiseksi"
 
-#: src/project/projectmanager.cpp:1913
+#: src/project/projectmanager.cpp:1917
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Create Sequence Clip"
@@ -16517,7 +16519,7 @@ msgid "No available stream"
 msgstr "Ei suoratoistoa saatavilla"
 
 #: src/titler/gradientwidget.cpp:140 src/titler/gradientwidget.cpp:143
-#: src/titler/titlewidget.cpp:3242 src/titler/titlewidget.cpp:3245
+#: src/titler/titlewidget.cpp:3238 src/titler/titlewidget.cpp:3241
 #, kde-format
 msgid "Gradient %1"
 msgstr "Liukuväri %1"
@@ -16762,7 +16764,7 @@ msgid "Add Ellipse"
 msgstr "Lisää ellipsi"
 
 #: src/titler/titlewidget.cpp:405 src/titler/titlewidget.cpp:408
-#: src/titler/titlewidget.cpp:822
+#: src/titler/titlewidget.cpp:818
 #, kde-format
 msgid "Add Image"
 msgstr "Lisää kuva"
@@ -16782,17 +16784,17 @@ msgstr "Tallenna nimellä"
 msgid "Download New Title Templates..."
 msgstr "Lataa uudet tekstimallit..."
 
-#: src/titler/titlewidget.cpp:552
+#: src/titler/titlewidget.cpp:548
 #, kde-format
 msgid "Save and add to project"
 msgstr "Tallenna ja lisää projektiin"
 
-#: src/titler/titlewidget.cpp:553
+#: src/titler/titlewidget.cpp:549
 #, kde-format
 msgid "Create Title"
 msgstr "Luo otsikko"
 
-#: src/titler/titlewidget.cpp:702
+#: src/titler/titlewidget.cpp:698
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
@@ -16800,49 +16802,49 @@ msgid ""
 msgstr ""
 "Haluatko todella ladata uuden mallin? Muutokset tähän tekstiin menetetään!"
 
-#: src/titler/titlewidget.cpp:810
+#: src/titler/titlewidget.cpp:806
 #, kde-format
 msgid "All Images"
 msgstr "Kaikki kuvat"
 
-#: src/titler/titlewidget.cpp:812
+#: src/titler/titlewidget.cpp:808
 #, kde-format
 msgid "%1 Image"
 msgstr "%1kuva"
 
-#: src/titler/titlewidget.cpp:1646
+#: src/titler/titlewidget.cpp:1642
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1648 src/ui/titlewidget_ui.ui:260
+#: src/titler/titlewidget.cpp:1644 src/ui/titlewidget_ui.ui:260
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1670
+#: src/titler/titlewidget.cpp:1666
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1672 src/ui/titlewidget_ui.ui:290
+#: src/titler/titlewidget.cpp:1668 src/ui/titlewidget_ui.ui:290
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2139
+#: src/titler/titlewidget.cpp:2135
 #, kde-format
 msgid "Load Title"
 msgstr "Avaa otsikko"
 
-#: src/titler/titlewidget.cpp:2140
+#: src/titler/titlewidget.cpp:2136
 #, kde-format
 msgid "Kdenlive title (*.kdenlivetitle)"
 msgstr "Kdenlive-otsikko (*.kdenlivetitle)"
 
-#: src/titler/titlewidget.cpp:2186
+#: src/titler/titlewidget.cpp:2182
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -16851,58 +16853,58 @@ msgstr ""
 "Haluatko upottaa kuvia tähän otsikkoon?\n"
 "Tätä tarvitaan eniten tekstin jakamiseen."
 
-#: src/titler/titlewidget.cpp:2187
+#: src/titler/titlewidget.cpp:2183
 #, fuzzy, kde-format
 #| msgid "Add Image"
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Lisää kuva"
 
-#: src/titler/titlewidget.cpp:2242
+#: src/titler/titlewidget.cpp:2238
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "Tästä otsikosta puuttuu 1 elementti"
 msgstr[1] "Tästä otsikosta puuttuu %1 elementtiä"
 
-#: src/titler/titlewidget.cpp:2243 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2239 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Tarkemmat tiedot"
 
-#: src/titler/titlewidget.cpp:2246
+#: src/titler/titlewidget.cpp:2242
 #, kde-format
 msgid "Delete missing elements"
 msgstr "Poista puuttuvat elementit"
 
-#: src/titler/titlewidget.cpp:2306
+#: src/titler/titlewidget.cpp:2302
 #, kde-format
 msgid "Update Title"
 msgstr "Päivitä otsikko"
 
-#: src/titler/titlewidget.cpp:2309
+#: src/titler/titlewidget.cpp:2305
 #, kde-format
 msgid "Add as new Title"
 msgstr "Lisää uutena otsikkona"
 
-#: src/titler/titlewidget.cpp:2363
+#: src/titler/titlewidget.cpp:2359
 #, kde-format
 msgid "The following files are missing:"
 msgstr "Seuraavat tiedostot puuttuvat:"
 
-#: src/titler/titlewidget.cpp:2557
+#: src/titler/titlewidget.cpp:2553
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Aloita näkymä"
 
-#: src/titler/titlewidget.cpp:2558
+#: src/titler/titlewidget.cpp:2554
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Lopeta näkymä"
 
-#: src/titler/titlewidget.cpp:3275
+#: src/titler/titlewidget.cpp:3271
 #, kde-format
 msgid "Gradient"
 msgstr "Liukuväri"
