@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-07 00:49+0000\n"
+"POT-Creation-Date: 2023-07-08 01:14+0000\n"
 "PO-Revision-Date: 2023-05-29 06:56+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -1904,6 +1904,18 @@ msgstr ""
 msgid "Pan and Zoom"
 msgstr ""
 
+#: data/effects/rotation.xml:44 data/effects/rotation_keyframable.xml:27
+#: data/transitions/affine.xml:24
+#, kde-format
+msgid "Disable repeat"
+msgstr "გამეორების გამორთვა"
+
+#: data/effects/rotation.xml:47 data/effects/rotation_keyframable.xml:30
+#: data/transitions/affine.xml:27
+#, kde-format
+msgid "Disable mirror"
+msgstr "სარკის გამორთვა"
+
 #: data/effects/rotation_keyframable.xml:4
 #, kde-format
 msgid "Rotate (keyframable)"
@@ -1918,16 +1930,6 @@ msgstr "გადაწევა X-ით"
 #, kde-format
 msgid "Offset Y"
 msgstr "გადაწევა Y-ით"
-
-#: data/effects/rotation_keyframable.xml:27 data/transitions/affine.xml:24
-#, kde-format
-msgid "Disable repeat"
-msgstr "გამეორების გამორთვა"
-
-#: data/effects/rotation_keyframable.xml:30 data/transitions/affine.xml:27
-#, kde-format
-msgid "Disable mirror"
-msgstr "სარკის გამორთვა"
 
 #: data/effects/rotoscoping.xml:4
 #, kde-format
@@ -4347,7 +4349,7 @@ msgstr "დასაკრავი სია"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2279 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/project/projectmanager.cpp:1268 src/project/projectmanager.cpp:1270
+#: src/project/projectmanager.cpp:1272 src/project/projectmanager.cpp:1274
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -4574,7 +4576,7 @@ msgstr ""
 
 #: src/bin/bin.cpp:3792 src/effects/effectstack/model/effectstackmodel.cpp:500
 #: src/effects/effectstack/model/effectstackmodel.cpp:506
-#: src/mainwindow.cpp:3164
+#: src/mainwindow.cpp:3160
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr ""
@@ -4589,8 +4591,8 @@ msgstr ""
 msgid "Edit Tags"
 msgstr "ჭდეების ჩასწორება"
 
-#: src/bin/bin.cpp:4273 src/bin/projectclip.cpp:190
-#: src/bin/projectclip.cpp:1949 src/onlineresources/resourcewidget.cpp:266
+#: src/bin/bin.cpp:4273 src/bin/projectclip.cpp:192
+#: src/bin/projectclip.cpp:1950 src/onlineresources/resourcewidget.cpp:266
 #: src/onlineresources/resourcewidget.cpp:557
 #: src/onlineresources/resourcewidget.cpp:572
 #, kde-format
@@ -4638,7 +4640,7 @@ msgid ""
 "changes to the title file or save the changes for this project only?"
 msgstr ""
 
-#: src/bin/bin.cpp:4559 src/titler/titlewidget.cpp:2192
+#: src/bin/bin.cpp:4559 src/titler/titlewidget.cpp:2188
 #, kde-format
 msgid "Save Title"
 msgstr "სათაურის შენახვა"
@@ -4713,7 +4715,7 @@ msgid ""
 "tracks ?"
 msgstr ""
 
-#: src/bin/bin.cpp:5218 src/mainwindow.cpp:2730
+#: src/bin/bin.cpp:5218 src/mainwindow.cpp:2726
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr ""
@@ -4837,7 +4839,7 @@ msgid "Duplicate"
 msgstr "დუბლირება"
 
 #: src/bin/clipcreator.cpp:421 src/core.cpp:969
-#: src/project/projectmanager.cpp:785
+#: src/project/projectmanager.cpp:784
 #, kde-format
 msgid "Loading clips"
 msgstr "კლიპების ჩატვირთვა"
@@ -4909,7 +4911,7 @@ msgstr ""
 #: src/bin/mediabrowser.cpp:160 src/dialogs/clipcreationdialog.cpp:496
 #: src/effects/effectlist/view/effectlistwidget.cpp:130
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:300
-#: src/mainwindow.cpp:3894 src/onlineresources/resourcewidget.cpp:553
+#: src/mainwindow.cpp:3890 src/onlineresources/resourcewidget.cpp:553
 #, kde-format
 msgid "All Files"
 msgstr "ყველა ფაილი"
@@ -5179,49 +5181,49 @@ msgstr "სუბტიტრის დამატება"
 msgid "Delete subtitle"
 msgstr "სუბტიტრების წაშლა"
 
-#: src/bin/projectclip.cpp:226
+#: src/bin/projectclip.cpp:228
 #, kde-format
 msgid "Timeline sequence"
 msgstr "დროის ხაზის მიმდევრობა"
 
-#: src/bin/projectclip.cpp:531
+#: src/bin/projectclip.cpp:533
 #, kde-format
 msgctxt "The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "პეტა"
 
-#: src/bin/projectclip.cpp:623
+#: src/bin/projectclip.cpp:625
 #, kde-format
 msgid ""
 "Image dimension smaller than 8 pixels.\n"
 "This is not correctly supported by our video framework."
 msgstr ""
 
-#: src/bin/projectclip.cpp:906
+#: src/bin/projectclip.cpp:907
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
 "%2"
 msgstr ""
 
-#: src/bin/projectclip.cpp:1142 src/jobs/cliploadtask.cpp:254
+#: src/bin/projectclip.cpp:1143 src/jobs/cliploadtask.cpp:254
 #, kde-format
 msgid "Invalid"
 msgstr "არასწორი"
 
-#: src/bin/projectclip.cpp:1346 src/dialogs/clipcreationdialog.cpp:204
+#: src/bin/projectclip.cpp:1347 src/dialogs/clipcreationdialog.cpp:204
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1358
 #, kde-format
 msgid "File already exists"
 msgstr "ფაილი უკვე არსებობს"
 
-#: src/bin/projectclip.cpp:2685
+#: src/bin/projectclip.cpp:2688
 #, kde-format
 msgid "Add stream effect"
 msgstr ""
 
-#: src/bin/projectclip.cpp:2710
+#: src/bin/projectclip.cpp:2713
 #, kde-format
 msgid "Remove stream effect"
 msgstr ""
@@ -5923,11 +5925,11 @@ msgstr ""
 #: src/project/dialogs/archivewidget.cpp:867
 #: src/project/dialogs/archivewidget.cpp:879
 #: src/project/dialogs/archivewidget.cpp:885
-#: src/project/projectmanager.cpp:1551 src/render/renderrequest.cpp:230
+#: src/project/projectmanager.cpp:1555 src/render/renderrequest.cpp:230
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5088
-#: src/titler/titlewidget.cpp:2205
+#: src/titler/titlewidget.cpp:2201
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "ფაილში ჩაწერის შეცდომა: %1"
@@ -5972,7 +5974,7 @@ msgstr ""
 msgid "Guide comment"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:115 src/mainwindow.cpp:3815
+#: src/dialogs/kdenlivesettingsdialog.cpp:115 src/mainwindow.cpp:3811
 #, kde-format
 msgid "Timeline"
 msgstr "თაიმლაინი"
@@ -7542,8 +7544,8 @@ msgstr ""
 msgid "Invalid file path"
 msgstr "ფაილის არასწორი ბილიკი"
 
-#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:736
-#: src/project/projectmanager.cpp:800 src/project/projectmanager.cpp:829
+#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:735
+#: src/project/projectmanager.cpp:799 src/project/projectmanager.cpp:833
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr ""
@@ -7609,15 +7611,15 @@ msgid ""
 "it was not possible to create the backup copy %1."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:869 src/project/projectmanager.cpp:1148
-#: src/project/projectmanager.cpp:1184
+#: src/doc/kdenlivedoc.cpp:869 src/project/projectmanager.cpp:1152
+#: src/project/projectmanager.cpp:1188
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1038 src/doc/kdenlivedoc.cpp:2168
+#: src/doc/kdenlivedoc.cpp:1038 src/doc/kdenlivedoc.cpp:2184
 #: src/project/dialogs/archivewidget.cpp:226
-#: src/project/projectmanager.cpp:1385
+#: src/project/projectmanager.cpp:1389
 #, kde-format
 msgid "Untitled"
 msgstr "უსახელო"
@@ -7728,13 +7730,13 @@ msgid ""
 "Create and switch to new profile (%2x%3, %4fps)?%5"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2207 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2223 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "წითელი"
 
-#: src/doc/kdenlivedoc.cpp:2208 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2224 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -7742,23 +7744,23 @@ msgstr "წითელი"
 msgid "Green"
 msgstr "მწვანე"
 
-#: src/doc/kdenlivedoc.cpp:2209 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2225 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "ლურჯი"
 
-#: src/doc/kdenlivedoc.cpp:2210 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2226 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "ყვითელი"
 
-#: src/doc/kdenlivedoc.cpp:2211
+#: src/doc/kdenlivedoc.cpp:2227
 #, kde-format
 msgid "Cyan"
 msgstr "ცისფერი"
 
-#: src/doc/kdenlivedoc.cpp:2423
+#: src/doc/kdenlivedoc.cpp:2439
 #, kde-format
 msgid "Category %1:%2:%3"
 msgstr "კატეგორია %1:%2:%3"
@@ -8405,13 +8407,13 @@ msgid "Markers"
 msgstr "სანიშნები"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:76 src/mainwindow.cpp:3770
+#: src/kdenliveui.rc:76 src/mainwindow.cpp:3766
 #, kde-format
 msgid "Extract Audio"
 msgstr "აუდიოს გამოღება"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:79 src/mainwindow.cpp:3733
+#: src/kdenliveui.rc:79 src/mainwindow.cpp:3729
 #, kde-format
 msgid "Clip Jobs"
 msgstr ""
@@ -9526,7 +9528,7 @@ msgstr ""
 msgid "Experimental GPU processing enabled - not for production"
 msgstr ""
 
-#: src/mainwindow.cpp:1385 src/mainwindow.cpp:3404
+#: src/mainwindow.cpp:1385 src/mainwindow.cpp:3400
 #, kde-format
 msgid "Multicam"
 msgstr ""
@@ -10307,7 +10309,7 @@ msgstr "თავიდან შექმნა"
 
 #: src/mainwindow.cpp:2153 src/onlineresources/resourcewidget.cpp:568
 #: src/scopes/colorscopes/colorplaneexport.cpp:158
-#: src/titler/titlewidget.cpp:2188
+#: src/titler/titlewidget.cpp:2184
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -10328,12 +10330,12 @@ msgid ""
 "project file will then be reloaded"
 msgstr ""
 
-#: src/mainwindow.cpp:2226 src/project/projectmanager.cpp:509
+#: src/mainwindow.cpp:2226 src/project/projectmanager.cpp:508
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr ""
 
-#: src/mainwindow.cpp:2231 src/project/projectmanager.cpp:515
+#: src/mainwindow.cpp:2231 src/project/projectmanager.cpp:514
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr ""
@@ -10348,56 +10350,56 @@ msgstr ""
 msgid "Clean up project"
 msgstr ""
 
-#: src/mainwindow.cpp:2506 src/mainwindow.cpp:2534
+#: src/mainwindow.cpp:2506 src/mainwindow.cpp:2530
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr ""
 
-#: src/mainwindow.cpp:2521
+#: src/mainwindow.cpp:2517
 #, kde-format
 msgid "Current scheme:"
 msgstr "მიმდინარე სქემა:"
 
-#: src/mainwindow.cpp:2531
+#: src/mainwindow.cpp:2527
 #, kde-format
 msgid "More Actions"
 msgstr "მეტი ქმედება"
 
-#: src/mainwindow.cpp:2543
+#: src/mainwindow.cpp:2539
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "საერთო"
 
-#: src/mainwindow.cpp:2615
+#: src/mainwindow.cpp:2611
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
 "Do you want to proceed?"
 msgstr ""
 
-#: src/mainwindow.cpp:2616
+#: src/mainwindow.cpp:2612
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "კონფიგურაციის გასუფთავება"
 
-#: src/mainwindow.cpp:2748 src/mainwindow.cpp:2775
+#: src/mainwindow.cpp:2744 src/mainwindow.cpp:2771
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr ""
 
-#: src/mainwindow.cpp:2758 src/mainwindow.cpp:2804
+#: src/mainwindow.cpp:2754 src/mainwindow.cpp:2800
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr ""
 
-#: src/mainwindow.cpp:2780
+#: src/mainwindow.cpp:2776
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr ""
 
-#: src/mainwindow.cpp:2797 src/timeline2/view/timelinecontroller.cpp:1247
+#: src/mainwindow.cpp:2793 src/timeline2/view/timelinecontroller.cpp:1247
 #: src/timeline2/view/timelinecontroller.cpp:1255
 #: src/timeline2/view/timelinecontroller.cpp:1276
 #: src/timeline2/view/timelinecontroller.cpp:1316
@@ -10406,22 +10408,22 @@ msgstr ""
 msgid "Cannot find clip to edit marker"
 msgstr ""
 
-#: src/mainwindow.cpp:3000
+#: src/mainwindow.cpp:2996
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr ""
 
-#: src/mainwindow.cpp:3167
+#: src/mainwindow.cpp:3163
 #, kde-format
 msgid "Select an item to add effect"
 msgstr ""
 
-#: src/mainwindow.cpp:3223
+#: src/mainwindow.cpp:3219
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr ""
 
-#: src/mainwindow.cpp:3372
+#: src/mainwindow.cpp:3368
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10430,7 +10432,7 @@ msgid ""
 "move a grouped clip to another track, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3376
+#: src/mainwindow.cpp:3372
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10440,24 +10442,24 @@ msgid ""
 "shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3379
+#: src/mainwindow.cpp:3375
 #, kde-format
 msgid "Select"
 msgstr "აირჩიეთ"
 
-#: src/mainwindow.cpp:3381
+#: src/mainwindow.cpp:3377
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3382 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3378 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr ""
 
-#: src/mainwindow.cpp:3386
+#: src/mainwindow.cpp:3382
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10465,12 +10467,12 @@ msgid ""
 "shortcut> to also move guides. You can combine both modifiers."
 msgstr ""
 
-#: src/mainwindow.cpp:3387
+#: src/mainwindow.cpp:3383
 #, kde-format
 msgid "Spacer"
 msgstr ""
 
-#: src/mainwindow.cpp:3389
+#: src/mainwindow.cpp:3385
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10478,13 +10480,13 @@ msgid ""
 "shortcut> for multiple selection"
 msgstr ""
 
-#: src/mainwindow.cpp:3390
+#: src/mainwindow.cpp:3386
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr ""
 
-#: src/mainwindow.cpp:3395
+#: src/mainwindow.cpp:3391
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10493,13 +10495,13 @@ msgid ""
 "pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3397
+#: src/mainwindow.cpp:3393
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "ჭავლი"
 
-#: src/mainwindow.cpp:3403
+#: src/mainwindow.cpp:3399
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10507,112 +10509,112 @@ msgid ""
 "a lift of all tracks except active one"
 msgstr ""
 
-#: src/mainwindow.cpp:3415
+#: src/mainwindow.cpp:3411
 #, kde-format
 msgid "Insert"
 msgstr "ჩასმა"
 
-#: src/mainwindow.cpp:3418
+#: src/mainwindow.cpp:3414
 #, kde-format
 msgid "Overwrite"
 msgstr "თავზე გადაწერა"
 
-#: src/mainwindow.cpp:3754
+#: src/mainwindow.cpp:3750
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "კლიპის დავალებების მორგება…"
 
-#: src/mainwindow.cpp:3769
+#: src/mainwindow.cpp:3765
 #, kde-format
 msgid "Transcoders"
 msgstr ""
 
-#: src/mainwindow.cpp:3814
+#: src/mainwindow.cpp:3810
 #, kde-format
 msgid "Interface"
 msgstr "ინტერფეისი"
 
-#: src/mainwindow.cpp:3830
+#: src/mainwindow.cpp:3826
 #, kde-format
 msgid "Raise %1"
 msgstr ""
 
-#: src/mainwindow.cpp:3896
+#: src/mainwindow.cpp:3892
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr ""
 
-#: src/mainwindow.cpp:4044
+#: src/mainwindow.cpp:4040
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr ""
 
-#: src/mainwindow.cpp:4050
+#: src/mainwindow.cpp:4046
 #, kde-format
 msgid "Archiving project"
 msgstr ""
 
-#: src/mainwindow.cpp:4206
+#: src/mainwindow.cpp:4202
 #, kde-format
 msgid "Icon Size"
 msgstr "ხატულების ზომა"
 
-#: src/mainwindow.cpp:4210
+#: src/mainwindow.cpp:4206
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "ნაგულისხმები"
 
-#: src/mainwindow.cpp:4231 src/mainwindow.cpp:4259
+#: src/mainwindow.cpp:4227 src/mainwindow.cpp:4255
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "პატარა (%1x%2)"
 
-#: src/mainwindow.cpp:4233 src/mainwindow.cpp:4261
+#: src/mainwindow.cpp:4229 src/mainwindow.cpp:4257
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "საშუალო (%1x%2)"
 
-#: src/mainwindow.cpp:4235 src/mainwindow.cpp:4263
+#: src/mainwindow.cpp:4231 src/mainwindow.cpp:4259
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "მოზრდილი (%1x%2)"
 
-#: src/mainwindow.cpp:4237 src/mainwindow.cpp:4265
+#: src/mainwindow.cpp:4233 src/mainwindow.cpp:4261
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "ვეება (%1x%2)"
 
-#: src/mainwindow.cpp:4322
+#: src/mainwindow.cpp:4318
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
 "+M."
 msgstr ""
 
-#: src/mainwindow.cpp:4322
+#: src/mainwindow.cpp:4318
 #, kde-format
 msgid "Hide menu bar"
 msgstr "მენიუს ზოლის დამალვა"
 
-#: src/mainwindow.cpp:4337
+#: src/mainwindow.cpp:4333
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
 msgstr ""
 
-#: src/mainwindow.cpp:4567 src/timeline2/view/timelinecontroller.cpp:5071
+#: src/mainwindow.cpp:4563 src/timeline2/view/timelinecontroller.cpp:5071
 #, kde-format
 msgid "No subtitles in current project"
 msgstr ""
 
-#: src/mainwindow.cpp:4660
+#: src/mainwindow.cpp:4656
 #, kde-format
 msgid "Project Bin %1"
 msgstr ""
 
-#: src/mainwindow.cpp:4761
+#: src/mainwindow.cpp:4757
 #, kde-format
 msgid "Checking cached data size"
 msgstr ""
@@ -12488,7 +12490,7 @@ msgstr ""
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1444
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1448
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:4994
 #, kde-format
@@ -13017,22 +13019,22 @@ msgstr ""
 msgid "Cannot perform assign"
 msgstr ""
 
-#: src/project/projectmanager.cpp:64
+#: src/project/projectmanager.cpp:65
 #, kde-format
 msgid "Kdenlive Project (*.kdenlive)"
 msgstr ""
 
-#: src/project/projectmanager.cpp:66
+#: src/project/projectmanager.cpp:67
 #, kde-format
 msgid "Archived Project (*.tar.gz *.zip)"
 msgstr ""
 
-#: src/project/projectmanager.cpp:139
+#: src/project/projectmanager.cpp:140
 #, kde-format
 msgid "Save Copy…"
 msgstr ""
 
-#: src/project/projectmanager.cpp:143
+#: src/project/projectmanager.cpp:144
 #, kde-format
 msgid "Open Backup File…"
 msgstr ""
@@ -13042,14 +13044,14 @@ msgstr ""
 msgid "Save changes to document?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1384
+#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1388
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
 "Do you want to save your changes?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:497
+#: src/project/projectmanager.cpp:496
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -13057,49 +13059,49 @@ msgid ""
 "files from <b>%1</b> to <b>%2</b>, the project file will then be reloaded"
 msgstr ""
 
-#: src/project/projectmanager.cpp:538
+#: src/project/projectmanager.cpp:537
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "ასლის შენახვა"
 
-#: src/project/projectmanager.cpp:639
+#: src/project/projectmanager.cpp:638
 #, kde-format
 msgid "Auto-saved file exist. Do you want to recover now?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:639
+#: src/project/projectmanager.cpp:638
 #, kde-format
 msgid "File Recovery"
 msgstr ""
 
-#: src/project/projectmanager.cpp:640 src/project/projectmanager.cpp:724
+#: src/project/projectmanager.cpp:639 src/project/projectmanager.cpp:723
 #, kde-format
 msgid "Recover"
 msgstr "აღდგენა"
 
-#: src/project/projectmanager.cpp:640
+#: src/project/projectmanager.cpp:639
 #, kde-format
 msgid "Do not recover"
 msgstr ""
 
-#: src/project/projectmanager.cpp:692
+#: src/project/projectmanager.cpp:691
 #, kde-format
 msgid "Opening file %1"
 msgstr ""
 
-#: src/project/projectmanager.cpp:708
+#: src/project/projectmanager.cpp:707
 #, kde-format
 msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "პროექტის ჩატვირთვა"
 
-#: src/project/projectmanager.cpp:710
+#: src/project/projectmanager.cpp:709
 #, kde-format
 msgid "Loading project"
 msgstr ""
 
-#: src/project/projectmanager.cpp:723
+#: src/project/projectmanager.cpp:722
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -13107,97 +13109,97 @@ msgid ""
 "Do you want to open a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:724
+#: src/project/projectmanager.cpp:723
 #, kde-format
 msgid "Error opening file"
 msgstr "შეცდომა ფაილის გახსნისას"
 
-#: src/project/projectmanager.cpp:724
+#: src/project/projectmanager.cpp:723
 #, kde-format
 msgid "Open Backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:740
+#: src/project/projectmanager.cpp:739
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr ""
 
-#: src/project/projectmanager.cpp:756
+#: src/project/projectmanager.cpp:755
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:759
+#: src/project/projectmanager.cpp:758
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:858
+#: src/project/projectmanager.cpp:862
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
 "sure you want to continue?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:859
+#: src/project/projectmanager.cpp:863
 #, kde-format
 msgid "Revert to last saved version"
 msgstr ""
 
-#: src/project/projectmanager.cpp:941
+#: src/project/projectmanager.cpp:945
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
 "file to recover last backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1126
+#: src/project/projectmanager.cpp:1130
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1162
+#: src/project/projectmanager.cpp:1166
 #, kde-format
 msgid "Moving project folder"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1220
+#: src/project/projectmanager.cpp:1224
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1247 src/project/projectmanager.cpp:1277
-#: src/project/projectmanager.cpp:1281
+#: src/project/projectmanager.cpp:1251 src/project/projectmanager.cpp:1281
+#: src/project/projectmanager.cpp:1285
 #, kde-format
 msgid "Sequence 1"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1258
+#: src/project/projectmanager.cpp:1262
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1390 src/project/projectmanager.cpp:1395
-#: src/project/projectmanager.cpp:1405 src/project/projectmanager.cpp:1419
+#: src/project/projectmanager.cpp:1394 src/project/projectmanager.cpp:1399
+#: src/project/projectmanager.cpp:1409 src/project/projectmanager.cpp:1423
 #, kde-format
 msgid "Project profile change aborted"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1536
+#: src/project/projectmanager.cpp:1540
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
 "Do you want to overwrite it?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1561
+#: src/project/projectmanager.cpp:1565
 #, kde-format
 msgid "Project profile changed"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1614
+#: src/project/projectmanager.cpp:1618
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -13209,12 +13211,12 @@ msgstr ""
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1876
+#: src/project/projectmanager.cpp:1880
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1913
+#: src/project/projectmanager.cpp:1917
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "მიმდევრობის კლიპის შექმნა"
@@ -15878,7 +15880,7 @@ msgid "No available stream"
 msgstr ""
 
 #: src/titler/gradientwidget.cpp:140 src/titler/gradientwidget.cpp:143
-#: src/titler/titlewidget.cpp:3242 src/titler/titlewidget.cpp:3245
+#: src/titler/titlewidget.cpp:3238 src/titler/titlewidget.cpp:3241
 #, kde-format
 msgid "Gradient %1"
 msgstr ""
@@ -16120,7 +16122,7 @@ msgid "Add Ellipse"
 msgstr "ოვალის დამატება"
 
 #: src/titler/titlewidget.cpp:405 src/titler/titlewidget.cpp:408
-#: src/titler/titlewidget.cpp:822
+#: src/titler/titlewidget.cpp:818
 #, kde-format
 msgid "Add Image"
 msgstr "გამოსახულების დამატება"
@@ -16140,123 +16142,123 @@ msgstr "შენახვა როგორც"
 msgid "Download New Title Templates..."
 msgstr ""
 
-#: src/titler/titlewidget.cpp:552
+#: src/titler/titlewidget.cpp:548
 #, kde-format
 msgid "Save and add to project"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:553
+#: src/titler/titlewidget.cpp:549
 #, kde-format
 msgid "Create Title"
 msgstr "სათაურის შექმნა"
 
-#: src/titler/titlewidget.cpp:702
+#: src/titler/titlewidget.cpp:698
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
 "lost!"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:810
+#: src/titler/titlewidget.cpp:806
 #, kde-format
 msgid "All Images"
 msgstr "ყველა გამოსახულება"
 
-#: src/titler/titlewidget.cpp:812
+#: src/titler/titlewidget.cpp:808
 #, kde-format
 msgid "%1 Image"
 msgstr "%1 გამოსახულება"
 
-#: src/titler/titlewidget.cpp:1646
+#: src/titler/titlewidget.cpp:1642
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1648 src/ui/titlewidget_ui.ui:260
+#: src/titler/titlewidget.cpp:1644 src/ui/titlewidget_ui.ui:260
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1670
+#: src/titler/titlewidget.cpp:1666
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1672 src/ui/titlewidget_ui.ui:290
+#: src/titler/titlewidget.cpp:1668 src/ui/titlewidget_ui.ui:290
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2139
+#: src/titler/titlewidget.cpp:2135
 #, kde-format
 msgid "Load Title"
 msgstr "სათაურის ჩატვირთვა"
 
-#: src/titler/titlewidget.cpp:2140
+#: src/titler/titlewidget.cpp:2136
 #, kde-format
 msgid "Kdenlive title (*.kdenlivetitle)"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2186
+#: src/titler/titlewidget.cpp:2182
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
 "This is most needed for sharing Titles."
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2187
+#: src/titler/titlewidget.cpp:2183
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "გამოსახულებების ჩაშენება"
 
-#: src/titler/titlewidget.cpp:2242
+#: src/titler/titlewidget.cpp:2238
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "ამ სათაურს 1 ელემენტი აკლია"
 msgstr[1] "ამ სათაურს %1 ელემენტი აკლია"
 
-#: src/titler/titlewidget.cpp:2243 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2239 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "დეტალები"
 
-#: src/titler/titlewidget.cpp:2246
+#: src/titler/titlewidget.cpp:2242
 #, kde-format
 msgid "Delete missing elements"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2306
+#: src/titler/titlewidget.cpp:2302
 #, kde-format
 msgid "Update Title"
 msgstr "სათაურის განახლება"
 
-#: src/titler/titlewidget.cpp:2309
+#: src/titler/titlewidget.cpp:2305
 #, kde-format
 msgid "Add as new Title"
 msgstr "ახალი სათაურის დამატება"
 
-#: src/titler/titlewidget.cpp:2363
+#: src/titler/titlewidget.cpp:2359
 #, kde-format
 msgid "The following files are missing:"
 msgstr "აკლია შემდეგი ფაილები:"
 
-#: src/titler/titlewidget.cpp:2557
+#: src/titler/titlewidget.cpp:2553
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2558
+#: src/titler/titlewidget.cpp:2554
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:3275
+#: src/titler/titlewidget.cpp:3271
 #, kde-format
 msgid "Gradient"
 msgstr "გრადაცია"
