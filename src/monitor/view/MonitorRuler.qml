@@ -158,7 +158,7 @@ Rectangle {
     function updateRuler()
     {
         var projectFps = controller.fps()
-        root.timeScale = ruler.width / root.duration / root.zoomFactor
+        root.timeScale = ruler.width / (root.duration + 1) / root.zoomFactor
         var displayedLength = root.duration * root.zoomFactor / projectFps;
         if (displayedLength < 3 ) {
             // 1 frame tick
