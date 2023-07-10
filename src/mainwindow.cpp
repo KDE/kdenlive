@@ -3392,7 +3392,7 @@ void MainWindow::showToolMessage()
         toolLabel = i18n("Multicam");
     }
     TimelineMode::EditMode mode = TimelineMode::NormalEdit;
-    if (getCurrentTimeline() && getCurrentTimeline()->controller() && getCurrentTimeline()->model()) {
+    if (getCurrentTimeline() && getCurrentTimeline()->model()) {
         mode = getCurrentTimeline()->model()->editMode();
     }
     if (mode != TimelineMode::NormalEdit) {
