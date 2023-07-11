@@ -69,7 +69,7 @@ public Q_SLOTS:
     void slotNextKeyframe();
     void slotPreviousKeyframe();
     /** @brief Update timelinbe position in keyframe views */
-    void updateAssetPosition(int itemId);
+    void updateAssetPosition(int itemId, const QUuid uuid);
 
 protected:
     /** @brief Return the stylesheet used to display the panel (based on current palette). */

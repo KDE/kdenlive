@@ -60,30 +60,30 @@ void CustomJobTask::start(QObject *object, const QString &jobId)
                 qDebug() << "=== INVALID SUBCLIP DATA: " << id;
                 continue;
             }
-            owner = ObjectId(ObjectType::BinClip, binData.first().toInt());
+            owner = {ObjectType::BinClip, binData.first().toInt(), QUuid()};
             in = binData.at(1).toInt();
             out = binData.at(2).toInt();
         } else {
             // Process full clip
-            owner = ObjectId(ObjectType::BinClip, id.toInt());
+            owner = {ObjectType::BinClip, id.toInt(), QUuid()};
         }
         task = new CustomJobTask(owner, jobName, jobData, in, out, jobId, object);
         if (task) {
             // Otherwise, start a filter thread.
-            pCore->taskManager.startTask(owner.second, task);
+            pCore->taskManager.startTask(owner.itemId, task);
         }
     }
 }
 
 void CustomJobTask::run()
 {
-    AbstractTaskDone whenFinished(m_owner.second, this);
+    AbstractTaskDone whenFinished(m_owner.itemId, this);
     if (m_isCanceled || pCore->taskManager.isBlocked()) {
         return;
     }
     QMutexLocker lock(&m_runMutex);
     m_running = true;
-    auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
+    auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.itemId));
     if (!binClip) {
         return;
     }
@@ -167,7 +167,7 @@ void CustomJobTask::run()
                                       Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
         } else {
             QMetaObject::invokeMethod(pCore->bin(), "addProjectClipInFolder", Qt::QueuedConnection, Q_ARG(QString, destPath),
-                                      Q_ARG(QString, QString::number(m_owner.second)), Q_ARG(QString, folderId), Q_ARG(QString, m_jobId));
+                                      Q_ARG(QString, QString::number(m_owner.itemId)), Q_ARG(QString, folderId), Q_ARG(QString, m_jobId));
         }
     } else {
         // Proxy process crashed

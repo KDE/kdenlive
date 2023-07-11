@@ -1363,7 +1363,7 @@ void KeyframeImport::updateView()
     std::shared_ptr<Mlt::Animation> anim2(new Mlt::Animation(animData->get_animation("key2")));
     anim2->interpolate();
     m_model->getAsset()->set(paramName.toUtf8().constData(), anim2->serialize_cut());
-    if (m_model->getOwnerId().first == ObjectType::BinClip) {
+    if (m_model->getOwnerId().type == ObjectType::BinClip) {
         pCore->getMonitor(Kdenlive::ClipMonitor)->refreshMonitor();
     } else {
         pCore->getMonitor(Kdenlive::ProjectMonitor)->refreshMonitor();
@@ -1385,7 +1385,7 @@ void KeyframeImport::reject()
             m_model->getAsset()->set(paramName.toUtf8().constData(), m_originalParams.value(ix).toUtf8().constData());
         }
     }
-    if (m_model->getOwnerId().first == ObjectType::BinClip) {
+    if (m_model->getOwnerId().type == ObjectType::BinClip) {
         pCore->getMonitor(Kdenlive::ClipMonitor)->refreshMonitor();
     } else {
         pCore->getMonitor(Kdenlive::ProjectMonitor)->refreshMonitor();

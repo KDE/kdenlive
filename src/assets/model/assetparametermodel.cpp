@@ -22,7 +22,7 @@
 AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId,
                                          const QString &originalDecimalPoint, QObject *parent)
     : QAbstractListModel(parent)
-    , monitorId(ownerId.first == ObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor)
+    , monitorId(ownerId.type == ObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor)
     , m_assetId(assetId)
     , m_ownerId(ownerId)
     , m_active(false)
@@ -223,13 +223,13 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
     Q_EMIT modelChanged();
 }
 
-void AssetParameterModel::prepareKeyframes()
+void AssetParameterModel::prepareKeyframes(int in, int out)
 {
     if (m_keyframes) return;
     int ix = 0;
     for (const auto &name : qAsConst(m_rows)) {
         if (isAnimated(m_params.at(name).type)) {
-            addKeyframeParam(index(ix, 0));
+            addKeyframeParam(index(ix, 0), in, out);
         }
         ix++;
     }
@@ -414,7 +414,7 @@ void AssetParameterModel::setParameter(const QString &name, const QString &param
         Q_EMIT updateChildren({name});
     }
     // Update timeline view if necessary
-    if (m_ownerId.first == ObjectType::NoItem) {
+    if (m_ownerId.type == ObjectType::NoItem) {
         // Used for generator clips
         if (!update) Q_EMIT modelChanged();
     } else {
@@ -782,7 +782,7 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
     } else if (content.contains(QLatin1Char('%'))) {
         int in = pCore->getItemIn(owner);
         int out = in + pCore->getItemDuration(owner) - 1;
-        if (m_ownerId.first == ObjectType::TimelineComposition && out == -1) {
+        if (m_ownerId.type == ObjectType::TimelineComposition && out == -1) {
             out = m_asset->get_int("out");
         }
         int frame_duration = pCore->getDurationFromString(KdenliveSettings::fade_duration());
@@ -1387,11 +1387,11 @@ void AssetParameterModel::setParametersFromTask(const paramVector &params)
 
 void AssetParameterModel::setParameters(const paramVector &params, bool update)
 {
-    ObjectType itemId;
+    ObjectType itemType;
     if (!update) {
         // Change itemId to NoItem to ensure we don't send any update like refreshProjectItem that would trigger monitor refreshes.
-        itemId = m_ownerId.first;
-        m_ownerId.first = ObjectType::NoItem;
+        itemType = m_ownerId.type;
+        m_ownerId.type = ObjectType::NoItem;
     }
     for (const auto &param : params) {
         QModelIndex ix = index(m_rows.indexOf(param.first), 0);
@@ -1404,8 +1404,8 @@ void AssetParameterModel::setParameters(const paramVector &params, bool update)
         }
     }
     if (!update) {
-        // restore itemId
-        m_ownerId.first = itemId;
+        // restore itemType
+        m_ownerId.type = itemType;
     }
     Q_EMIT dataChanged(index(0), index(m_rows.count()), {});
 }
@@ -1415,12 +1415,12 @@ ObjectId AssetParameterModel::getOwnerId() const
     return m_ownerId;
 }
 
-void AssetParameterModel::addKeyframeParam(const QModelIndex &index)
+void AssetParameterModel::addKeyframeParam(const QModelIndex &index, int in, int out)
 {
     if (m_keyframes) {
-        m_keyframes->addParameter(index);
+        m_keyframes->addParameter(index, in, out);
     } else {
-        m_keyframes.reset(new KeyframeModelList(shared_from_this(), index, pCore->undoStack()));
+        m_keyframes.reset(new KeyframeModelList(shared_from_this(), index, pCore->undoStack(), in, out));
     }
 }
 

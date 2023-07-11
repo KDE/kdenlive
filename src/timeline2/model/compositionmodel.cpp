@@ -12,9 +12,9 @@
 #include <utility>
 
 CompositionModel::CompositionModel(std::weak_ptr<TimelineModel> parent, std::unique_ptr<Mlt::Transition> transition, int id, const QDomElement &transitionXml,
-                                   const QString &transitionId, const QString &originalDecimalPoint)
+                                   const QString &transitionId, const QString &originalDecimalPoint, const QUuid uuid)
     : MoveableItem<Mlt::Transition>(std::move(parent), id)
-    , AssetParameterModel(std::move(transition), transitionXml, transitionId, {ObjectType::TimelineComposition, m_id}, originalDecimalPoint)
+    , AssetParameterModel(std::move(transition), transitionXml, transitionId, {ObjectType::TimelineComposition, m_id, uuid}, originalDecimalPoint)
     , m_a_track(-1)
     , m_duration(0)
 {
@@ -47,7 +47,12 @@ int CompositionModel::construct(const std::weak_ptr<TimelineModel> &parent, cons
             transition->set("force_track", sourceProperties->get_int("force_track"));
         }
     }
-    std::shared_ptr<CompositionModel> composition(new CompositionModel(parent, std::move(transition), id, xml, transitionId, originalDecimalPoint));
+    QUuid timelineUuid;
+    if (auto ptr = parent.lock()) {
+        timelineUuid = ptr->uuid();
+    }
+    std::shared_ptr<CompositionModel> composition(
+        new CompositionModel(parent, std::move(transition), id, xml, transitionId, originalDecimalPoint, timelineUuid));
     id = composition->m_id;
     composition->m_duration = length - 1;
     if (sourceProperties) {

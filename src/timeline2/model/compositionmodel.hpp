@@ -28,7 +28,7 @@ class CompositionModel : public MoveableItem<Mlt::Transition>, public AssetParam
 protected:
     /** This constructor is not meant to be called, call the static construct instead */
     CompositionModel(std::weak_ptr<TimelineModel> parent, std::unique_ptr<Mlt::Transition> transition, int id, const QDomElement &transitionXml,
-                     const QString &transitionId, const QString &originalDecimalPoint);
+                     const QString &transitionId, const QString &originalDecimalPoint, const QUuid uuid = QUuid());
 
 public:
     /** @brief Creates a composition, which then registers itself to the parent timeline

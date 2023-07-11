@@ -3934,7 +3934,7 @@ void TimelineController::updateClipActions()
         Q_EMIT timelineClipSelected(false);
         // nothing selected
         Q_EMIT showItemEffectStack(QString(), nullptr, QSize(), false);
-        pCore->timeRemapWidget()->selectedClip(-1);
+        pCore->timeRemapWidget()->selectedClip(-1, QUuid());
         Q_EMIT showSubtitle(-1);
         pCore->displaySelectionMessage(QString());
         return;
@@ -5253,7 +5253,7 @@ void TimelineController::checkClipPosition(const QModelIndex &topLeft, const QMo
     if (roles.contains(TimelineModel::StartRole)) {
         int id = int(topLeft.internalId());
         if (m_model->isComposition(id) || m_model->isClip(id)) {
-            Q_EMIT updateAssetPosition(id);
+            Q_EMIT updateAssetPosition(id, m_model->uuid());
         }
     }
 }

@@ -48,12 +48,12 @@ void FilterTask::start(const ObjectId &owner, const QString &binId, const std::w
     FilterTask *task = new FilterTask(owner, binId, model, assetId, in, out, filterName, filterParams, filterData, consumerArgs, object);
     // Otherwise, start a filter thread.
     task->m_isForce = force;
-    pCore->taskManager.startTask(owner.second, task);
+    pCore->taskManager.startTask(owner.itemId, task);
 }
 
 void FilterTask::run()
 {
-    AbstractTaskDone whenFinished(m_owner.second, this);
+    AbstractTaskDone whenFinished(m_owner.itemId, this);
     if (m_isCanceled || pCore->taskManager.isBlocked()) {
         return;
     }
@@ -118,9 +118,9 @@ void FilterTask::run()
                     producer->attach(*filter);
                 }
             }
-            if (m_owner.first == ObjectType::TimelineClip) {
+            if (m_owner.type == ObjectType::TimelineClip) {
                 // Add the timeline clip effects
-                std::shared_ptr<EffectStackModel> stack = pCore->getItemEffectStack(pCore->currentTimelineId(), int(m_owner.first), m_owner.second);
+                std::shared_ptr<EffectStackModel> stack = pCore->getItemEffectStack(pCore->currentTimelineId(), int(m_owner.type), m_owner.itemId);
                 stack->passEffects(producer.get());
             }
         }
@@ -138,10 +138,10 @@ void FilterTask::run()
     } else {
         // Filter applied on a track of master producer, leave config to source job
         // We are on master or track, configure producer accordingly
-        if (m_owner.first == ObjectType::Master) {
+        if (m_owner.type == ObjectType::Master) {
             producer = pCore->getMasterProducerInstance();
-        } else if (m_owner.first == ObjectType::TimelineTrack) {
-            producer = pCore->getTrackProducerInstance(m_owner.second);
+        } else if (m_owner.type == ObjectType::TimelineTrack) {
+            producer = pCore->getTrackProducerInstance(m_owner.itemId);
         }
     }
 

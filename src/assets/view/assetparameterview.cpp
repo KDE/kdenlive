@@ -147,7 +147,7 @@ void AssetParameterView::resetValues()
 {
     const QVector<QPair<QString, QVariant>> values = getDefaultValues();
     auto *command = new AssetUpdateCommand(m_model, values);
-    if (m_model->getOwnerId().second != -1) {
+    if (m_model->getOwnerId().itemId != -1) {
         pCore->pushUndo(command);
     } else {
         command->redo();
@@ -170,7 +170,7 @@ void AssetParameterView::commitChanges(const QModelIndex &index, const QString &
 {
     // Warning: please note that some widgets (for example keyframes) do NOT send the valueChanged signal and do modifications on their own
     auto *command = new AssetCommand(m_model, index, value);
-    if (storeUndo && m_model->getOwnerId().second != -1) {
+    if (storeUndo && m_model->getOwnerId().itemId != -1) {
         pCore->pushUndo(command);
     } else {
         command->redo();

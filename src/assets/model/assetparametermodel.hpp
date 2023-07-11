@@ -181,7 +181,7 @@ public:
     Q_INVOKABLE std::shared_ptr<KeyframeModelList> getKeyframeModel();
 
     /** @brief Must be called before using the keyframes of this model */
-    void prepareKeyframes();
+    void prepareKeyframes(int in = -1, int out = -1);
     void resetAsset(std::unique_ptr<Mlt::Properties> asset);
     /** @brief Returns true if the effect has more than one keyframe */
     bool hasMoreThanOneKeyframe() const;
@@ -226,7 +226,7 @@ protected:
     /** @brief Helper function to register one more parameter that is keyframable.
        @param index is the index corresponding to this parameter
     */
-    void addKeyframeParam(const QModelIndex &index);
+    void addKeyframeParam(const QModelIndex &index, int in, int out);
 
     struct ParamRow
     {

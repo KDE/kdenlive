@@ -264,7 +264,7 @@ void EffectStackView::loadEffects()
     if (max == 0) {
         // blank stack
         ObjectId item = m_model->getOwnerId();
-        pCore->getMonitor(item.first == ObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor)->slotShowEffectScene(MonitorSceneDefault);
+        pCore->getMonitor(item.type == ObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor)->slotShowEffectScene(MonitorSceneDefault);
         updateTreeHeight();
         return;
     }
@@ -376,13 +376,13 @@ void EffectStackView::slotStartDrag(const QPixmap pix, const QString assetId, Ob
     mime->setData(QStringLiteral("kdenlive/effect"), assetId.toUtf8());
     // TODO this will break if source effect is not on the stack of a timeline clip
     QByteArray effectSource;
-    effectSource += QString::number(int(sourceObject.first)).toUtf8();
+    effectSource += QString::number(int(sourceObject.type)).toUtf8();
     effectSource += ',';
-    effectSource += QString::number(int(sourceObject.second)).toUtf8();
+    effectSource += QString::number(int(sourceObject.itemId)).toUtf8();
     effectSource += ',';
     effectSource += QString::number(row).toUtf8();
     effectSource += ',';
-    if (sourceObject.first == ObjectType::BinClip) {
+    if (sourceObject.type == ObjectType::BinClip) {
         effectSource += QByteArray();
     } else {
         // Keep a reference to the timeline model
@@ -445,7 +445,7 @@ void EffectStackView::unsetModel(bool reset)
     if (m_model) {
         ObjectId item = m_model->getOwnerId();
         pCore->showEffectZone(item, {0, 0}, false);
-        id = item.first == ObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor;
+        id = item.type == ObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor;
         disconnect(m_model.get(), &EffectStackModel::dataChanged, this, &EffectStackView::refresh);
         disconnect(m_model.get(), &EffectStackModel::enabledStateChanged, this, &EffectStackView::changeEnabledState);
         disconnect(this, &EffectStackView::removeCurrentEffect, m_model.get(), &EffectStackModel::removeCurrentEffect);
@@ -466,7 +466,7 @@ ObjectId EffectStackView::stackOwner() const
     if (m_model) {
         return m_model->getOwnerId();
     }
-    return ObjectId(ObjectType::NoItem, -1);
+    return {ObjectType::NoItem, -1, QUuid()};
 }
 
 bool EffectStackView::addEffect(const QString &effectId)

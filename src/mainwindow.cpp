@@ -291,7 +291,7 @@ void MainWindow::init(const QString &mltPath)
             timeRemapDock->show();
             timeRemapDock->raise();
         }
-        pCore->timeRemapWidget()->selectedClip(id);
+        pCore->timeRemapWidget()->selectedClip(id, pCore->currentTimelineId());
     });
     m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), this);
     pCore->bin()->setMonitor(m_clipMonitor);
@@ -410,7 +410,7 @@ void MainWindow::init(const QString &mltPath)
     connect(this, &MainWindow::assetPanelWarning, m_assetPanel, &AssetPanel::assetPanelWarning);
     connect(m_assetPanel, &AssetPanel::seekToPos, this, [this](int pos) {
         ObjectId oId = m_assetPanel->effectStackOwner();
-        switch (oId.first) {
+        switch (oId.type) {
         case ObjectType::TimelineTrack:
         case ObjectType::TimelineClip:
         case ObjectType::TimelineComposition:
@@ -1075,8 +1075,8 @@ void MainWindow::slotConnectMonitors()
 
 void MainWindow::createSplitOverlay(std::shared_ptr<Mlt::Filter> filter)
 {
-    if (m_assetPanel->effectStackOwner().first == ObjectType::TimelineClip) {
-        getCurrentTimeline()->controller()->createSplitOverlay(m_assetPanel->effectStackOwner().second, filter);
+    if (m_assetPanel->effectStackOwner().type == ObjectType::TimelineClip) {
+        getCurrentTimeline()->controller()->createSplitOverlay(m_assetPanel->effectStackOwner().itemId, filter);
         m_projectMonitor->activateSplit();
     } else {
         pCore->displayMessage(i18n("Select a clip to compare effect"), ErrorMessage);
@@ -3141,13 +3141,13 @@ void MainWindow::slotAddEffect(QAction *result)
 
 void MainWindow::addEffect(const QString &effectId)
 {
-    if (m_assetPanel->effectStackOwner().first == ObjectType::TimelineClip) {
+    if (m_assetPanel->effectStackOwner().type == ObjectType::TimelineClip) {
         // Add effect to the current timeline selection
         QVariantMap effectData;
         effectData.insert(QStringLiteral("kdenlive/effect"), effectId);
         getCurrentTimeline()->controller()->addAsset(effectData);
-    } else if (m_assetPanel->effectStackOwner().first == ObjectType::TimelineTrack || m_assetPanel->effectStackOwner().first == ObjectType::BinClip ||
-               m_assetPanel->effectStackOwner().first == ObjectType::Master) {
+    } else if (m_assetPanel->effectStackOwner().type == ObjectType::TimelineTrack || m_assetPanel->effectStackOwner().type == ObjectType::BinClip ||
+               m_assetPanel->effectStackOwner().type == ObjectType::Master) {
         if (!m_assetPanel->addEffect(effectId)) {
             pCore->displayMessage(i18n("Cannot add effect to clip"), ErrorMessage);
         }
@@ -3461,8 +3461,10 @@ void MainWindow::slotClipInTimeline(const QString &clipId, const QList<int> &ids
     QMenu *inTimelineMenu = static_cast<QMenu *>(factory()->container(QStringLiteral("clip_in_timeline"), this));
     QList<QAction *> actionList;
     for (int i = 0; i < ids.count(); ++i) {
-        QString track = getCurrentTimeline()->controller()->getTrackNameFromIndex(pCore->getItemTrack(ObjectId(ObjectType::TimelineClip, ids.at(i))));
-        QString start = pCore->currentDoc()->timecode().getTimecodeFromFrames(pCore->getItemPosition(ObjectId(ObjectType::TimelineClip, ids.at(i))));
+        QString track =
+            getCurrentTimeline()->controller()->getTrackNameFromIndex(pCore->getItemTrack({ObjectType::TimelineClip, ids.at(i), pCore->currentTimelineId()}));
+        QString start =
+            pCore->currentDoc()->timecode().getTimecodeFromFrames(pCore->getItemPosition({ObjectType::TimelineClip, ids.at(i), pCore->currentTimelineId()}));
         int j = 0;
         QAction *a = new QAction(track + QStringLiteral(": ") + start, inTimelineMenu);
         a->setData(ids.at(i));
@@ -3518,13 +3520,13 @@ void MainWindow::slotClipInProjectTree()
         if (!binFound) {
             raiseBin();
         }
-        ObjectId id(ObjectType::TimelineClip, ids.constFirst());
+        ObjectId id = {ObjectType::TimelineClip, ids.constFirst(), pCore->currentTimelineId()};
         int start = pCore->getItemIn(id);
         int duration = pCore->getItemDuration(id);
         int pos = m_projectMonitor->position();
         int itemPos = pCore->getItemPosition(id);
         bool containsPos = (pos >= itemPos && pos < itemPos + duration);
-        double speed = pCore->getClipSpeed(id.second);
+        double speed = pCore->getClipSpeed(id.itemId);
         if (containsPos) {
             pos -= itemPos - start;
         }
@@ -3537,7 +3539,7 @@ void MainWindow::slotClipInProjectTree()
                     pos = qRound(pos * speed);
                 }
             } else if (speed < 0.) {
-                int max = getCurrentTimeline()->controller()->clipMaxDuration(id.second);
+                int max = getCurrentTimeline()->controller()->clipMaxDuration(id.itemId);
                 if (max > 0) {
                     int invertedPos = itemPos + duration - m_projectMonitor->position();
                     start = qRound((max - (start + duration)) * -speed);
@@ -3775,7 +3777,7 @@ void MainWindow::buildDynamicActions()
             std::vector<QString> ids = pCore->bin()->selectedClipsIds(true);
             for (const QString &id : ids) {
                 std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(id);
-                TranscodeTask::start({ObjectType::BinClip, id.toInt()}, QString(), QString(), transcodeData.first(), -1, -1, false, clip.get());
+                TranscodeTask::start({ObjectType::BinClip, id.toInt(), QUuid()}, QString(), QString(), transcodeData.first(), -1, -1, false, clip.get());
             }
         });
         if (transList.count() > 2 && transList.at(2) == QLatin1String("audio")) {

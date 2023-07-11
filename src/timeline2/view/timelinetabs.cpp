@@ -181,6 +181,11 @@ void TimelineTabs::closeTimelineByIndex(int ix)
     const QUuid uuid = timeline->getUuid();
     Fun redo = [this, ix, uuid]() {
         TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(ix));
+        if (timeline == m_activeTimeline) {
+            Q_EMIT timeline->model()->requestClearAssetView(-1);
+            pCore->clearTimeRemap();
+            pCore->mixer()->unsetModel();
+        }
         timeline->blockSignals(true);
         timeline->setSource(QUrl());
         if (timeline == m_activeTimeline) {
@@ -189,7 +194,6 @@ void TimelineTabs::closeTimelineByIndex(int ix)
         }
         timeline->unsetModel();
         if (m_activeTimeline == timeline) {
-            pCore->mixer()->unsetModel();
             m_activeTimeline = nullptr;
         }
         delete timeline;

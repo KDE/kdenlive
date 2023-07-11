@@ -156,7 +156,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     layZone->addWidget(m_outPos);
 
     connect(setIn, &QToolButton::clicked, this, [=]() {
-        if (m_model->getOwnerId().first == ObjectType::BinClip) {
+        if (m_model->getOwnerId().type == ObjectType::BinClip) {
             m_outPos->setValue(pCore->getMonitor(Kdenlive::ClipMonitor)->position());
         } else {
             m_inPos->setValue(pCore->getMonitorPosition());
@@ -164,7 +164,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
         updateEffectZone();
     });
     connect(setOut, &QToolButton::clicked, this, [=]() {
-        if (m_model->getOwnerId().first == ObjectType::BinClip) {
+        if (m_model->getOwnerId().type == ObjectType::BinClip) {
             m_outPos->setValue(pCore->getMonitor(Kdenlive::ClipMonitor)->position());
         } else {
             m_outPos->setValue(pCore->getMonitorPosition());
@@ -184,7 +184,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     } else {
         zoneFrame->setFixedHeight(0);
     }
-    inOutButton->setVisible(m_model->getOwnerId().first != ObjectType::TimelineClip);
+    inOutButton->setVisible(m_model->getOwnerId().type != ObjectType::TimelineClip);
     connect(m_inPos, &TimecodeDisplay::timeCodeEditingFinished, this, &CollapsibleEffectView::updateEffectZone);
     connect(m_outPos, &TimecodeDisplay::timeCodeEditingFinished, this, &CollapsibleEffectView::updateEffectZone);
     connect(m_inOutButton, &QAction::triggered, this, &CollapsibleEffectView::switchInOut);
@@ -937,7 +937,7 @@ void CollapsibleEffectView::switchInOut(bool checked)
     slotSwitch(m_collapse->isActive());
     if (inOut.first == inOut.second || !checked) {
         ObjectId owner = m_model->getOwnerId();
-        switch (owner.first) {
+        switch (owner.type) {
         case ObjectType::TimelineClip: {
             int in = pCore->getItemIn(owner);
             inOut = {in, in + pCore->getItemDuration(owner)};
@@ -954,7 +954,7 @@ void CollapsibleEffectView::switchInOut(bool checked)
             break;
         }
         default:
-            qDebug() << "== UNSUPPORTED ITEM TYPE FOR EFFECT RANGE: " << int(owner.first);
+            qDebug() << "== UNSUPPORTED ITEM TYPE FOR EFFECT RANGE: " << int(owner.type);
             break;
         }
     }

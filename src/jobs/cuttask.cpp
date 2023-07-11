@@ -42,7 +42,7 @@ CutTask::CutTask(const ObjectId &owner, const QString &destination, const QStrin
 
 void CutTask::start(const ObjectId &owner, int in, int out, QObject *object, bool force)
 {
-    auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(owner.second));
+    auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(owner.itemId));
     ClipType::ProducerType type = binClip->clipType();
     if (type != ClipType::AV && type != ClipType::Audio && type != ClipType::Video) {
         // m_errorMessage.prepend(i18n("Cannot extract zone for this clip type."));
@@ -184,12 +184,12 @@ void CutTask::start(const ObjectId &owner, int in, int out, QObject *object, boo
     CutTask *task = new CutTask(owner, path, encodingParams, in, out, KdenliveSettings::add_new_clip(), object);
     // Otherwise, start a filter thread.
     task->m_isForce = force;
-    pCore->taskManager.startTask(owner.second, task);
+    pCore->taskManager.startTask(owner.itemId, task);
 }
 
 void CutTask::run()
 {
-    AbstractTaskDone whenFinished(m_owner.second, this);
+    AbstractTaskDone whenFinished(m_owner.itemId, this);
     if (m_isCanceled || pCore->taskManager.isBlocked()) {
         return;
     }
@@ -198,7 +198,7 @@ void CutTask::run()
     qDebug() << " + + + + + + + + STARTING STAB TASK";
 
     QString url;
-    auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
+    auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.itemId));
     if (binClip) {
         // Filter applied on a timeline or bin clip
         url = binClip->url();

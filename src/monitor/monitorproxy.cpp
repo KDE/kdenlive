@@ -528,7 +528,7 @@ void MonitorProxy::addEffect(const QString &effectData, const QString &effectSou
 
 void MonitorProxy::setJobsProgress(const ObjectId &owner, const QStringList &jobNames, const QList<int> &jobProgress, const QStringList &jobUuids)
 {
-    if (owner.second != m_clipId) {
+    if (owner.itemId != m_clipId) {
         // Not interested
         return;
     }
@@ -543,5 +543,5 @@ void MonitorProxy::setJobsProgress(const ObjectId &owner, const QStringList &job
 
 void MonitorProxy::terminateJob(const QString &uuid)
 {
-    pCore->taskManager.discardJob({ObjectType::BinClip, m_clipId}, QUuid(uuid));
+    pCore->taskManager.discardJob({ObjectType::BinClip, m_clipId, QUuid()}, QUuid(uuid));
 }

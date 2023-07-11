@@ -683,21 +683,20 @@ QPair<int, QString> Core::currentTrackInfo() const
 
 int Core::getItemPosition(const ObjectId &id)
 {
-    if (!m_guiConstructed) return 0;
-    switch (id.first) {
+    switch (id.type) {
     case ObjectType::TimelineClip:
-        if (m_mainWindow->getCurrentTimeline()->model()->isClip(id.second)) {
-            return m_mainWindow->getCurrentTimeline()->model()->getClipPosition(id.second);
+        if (currentDoc()->getTimeline(id.uuid)->isClip(id.itemId)) {
+            return currentDoc()->getTimeline(id.uuid)->getClipPosition(id.itemId);
         }
         break;
     case ObjectType::TimelineComposition:
-        if (m_mainWindow->getCurrentTimeline()->model()->isComposition(id.second)) {
-            return m_mainWindow->getCurrentTimeline()->model()->getCompositionPosition(id.second);
+        if (currentDoc()->getTimeline(id.uuid)->isComposition(id.itemId)) {
+            return currentDoc()->getTimeline(id.uuid)->getCompositionPosition(id.itemId);
         }
         break;
     case ObjectType::TimelineMix:
-        if (m_mainWindow->getCurrentTimeline()->model()->isClip(id.second)) {
-            return m_mainWindow->getCurrentTimeline()->model()->getMixInOut(id.second).first;
+        if (currentDoc()->getTimeline(id.uuid)->isClip(id.itemId)) {
+            return currentDoc()->getTimeline(id.uuid)->getMixInOut(id.itemId).first;
         } else {
             qWarning() << "querying non clip properties";
         }
@@ -714,14 +713,10 @@ int Core::getItemPosition(const ObjectId &id)
 
 int Core::getItemIn(const ObjectId &id)
 {
-    if (!m_guiConstructed || !m_mainWindow->getCurrentTimeline() || !m_mainWindow->getCurrentTimeline()->model()) {
-        qWarning() << "GUI not build";
-        return 0;
-    }
-    switch (id.first) {
+    switch (id.type) {
     case ObjectType::TimelineClip:
-        if (m_mainWindow->getCurrentTimeline()->model()->isClip(id.second)) {
-            return m_mainWindow->getCurrentTimeline()->model()->getClipIn(id.second);
+        if (currentDoc()->getTimeline(id.uuid)->isClip(id.itemId)) {
+            return currentDoc()->getTimeline(id.uuid)->getClipIn(id.itemId);
         } else {
             qWarning() << "querying non clip properties";
         }
@@ -744,10 +739,10 @@ int Core::getItemIn(const QUuid &uuid, const ObjectId &id)
         qWarning() << "GUI not build";
         return 0;
     }
-    switch (id.first) {
+    switch (id.type) {
     case ObjectType::TimelineClip:
-        if (currentDoc()->getTimeline(uuid)->isClip(id.second)) {
-            return currentDoc()->getTimeline(uuid)->getClipIn(id.second);
+        if (currentDoc()->getTimeline(uuid)->isClip(id.itemId)) {
+            return currentDoc()->getTimeline(uuid)->getClipIn(id.itemId);
         } else {
             qWarning() << "querying non clip properties";
         }
@@ -766,19 +761,19 @@ int Core::getItemIn(const QUuid &uuid, const ObjectId &id)
 
 PlaylistState::ClipState Core::getItemState(const ObjectId &id)
 {
-    if (!m_guiConstructed) return PlaylistState::Disabled;
-    switch (id.first) {
+    switch (id.type) {
     case ObjectType::TimelineClip:
-        if (m_mainWindow->getCurrentTimeline()->model()->isClip(id.second)) {
-            return m_mainWindow->getCurrentTimeline()->model()->getClipState(id.second);
+        if (currentDoc()->getTimeline(id.uuid)->isClip(id.itemId)) {
+            return currentDoc()->getTimeline(id.uuid)->getClipState(id.itemId);
         }
         break;
     case ObjectType::TimelineComposition:
         return PlaylistState::VideoOnly;
     case ObjectType::BinClip:
-        return m_mainWindow->getBin()->getClipState(id.second);
+        if (!m_guiConstructed) return PlaylistState::Disabled;
+        return m_mainWindow->getBin()->getClipState(id.itemId);
     case ObjectType::TimelineTrack:
-        return m_mainWindow->getCurrentTimeline()->model()->isAudioTrack(id.second) ? PlaylistState::AudioOnly : PlaylistState::VideoOnly;
+        return currentDoc()->getTimeline(id.uuid)->isAudioTrack(id.itemId) ? PlaylistState::AudioOnly : PlaylistState::VideoOnly;
     case ObjectType::Master:
         return PlaylistState::Disabled;
     default:
@@ -790,47 +785,47 @@ PlaylistState::ClipState Core::getItemState(const ObjectId &id)
 
 int Core::getItemDuration(const ObjectId &id)
 {
-    if (!m_guiConstructed) return 0;
-    switch (id.first) {
+    switch (id.type) {
     case ObjectType::TimelineClip:
-        if (m_mainWindow->getCurrentTimeline()->model()->isClip(id.second)) {
-            return m_mainWindow->getCurrentTimeline()->model()->getClipPlaytime(id.second);
+        if (currentDoc()->getTimeline(id.uuid)->isClip(id.itemId)) {
+            return currentDoc()->getTimeline(id.uuid)->getClipPlaytime(id.itemId);
         }
         break;
     case ObjectType::TimelineComposition:
-        if (m_mainWindow->getCurrentTimeline()->model()->isComposition(id.second)) {
-            return m_mainWindow->getCurrentTimeline()->model()->getCompositionPlaytime(id.second);
+        if (currentDoc()->getTimeline(id.uuid)->isComposition(id.itemId)) {
+            return currentDoc()->getTimeline(id.uuid)->getCompositionPlaytime(id.itemId);
         }
         break;
     case ObjectType::BinClip:
-        return int(m_mainWindow->getBin()->getClipDuration(id.second));
+        if (!m_guiConstructed) return 0;
+        return int(m_mainWindow->getBin()->getClipDuration(id.itemId));
     case ObjectType::TimelineTrack:
     case ObjectType::Master:
-        return m_mainWindow->getCurrentTimeline()->controller()->duration() - 1;
+        return currentDoc()->getTimeline(id.uuid)->duration();
     case ObjectType::TimelineMix:
-        if (m_mainWindow->getCurrentTimeline()->model()->isClip(id.second)) {
-            return m_mainWindow->getCurrentTimeline()->model()->getMixDuration(id.second);
+        if (currentDoc()->getTimeline(id.uuid)->isClip(id.itemId)) {
+            return currentDoc()->getTimeline(id.uuid)->getMixDuration(id.itemId);
         } else {
             qWarning() << "querying non clip properties";
         }
         break;
     default:
-        qWarning() << "unhandled object type: " << (int)id.first;
+        qWarning() << "unhandled object type: " << (int)id.type;
     }
     return 0;
 }
 
 QSize Core::getItemFrameSize(const ObjectId &id)
 {
-    if (!m_guiConstructed) return QSize();
-    switch (id.first) {
+    switch (id.type) {
     case ObjectType::TimelineClip:
-        if (m_mainWindow->getCurrentTimeline()->model()->isClip(id.second)) {
-            return m_mainWindow->getCurrentTimeline()->model()->getClipFrameSize(id.second);
+        if (currentDoc()->getTimeline(id.uuid)->isClip(id.itemId)) {
+            return currentDoc()->getTimeline(id.uuid)->getClipFrameSize(id.itemId);
         }
         break;
     case ObjectType::BinClip:
-        return m_mainWindow->getBin()->getFrameSize(id.second);
+        if (!m_guiConstructed) return QSize();
+        return m_mainWindow->getBin()->getFrameSize(id.itemId);
     case ObjectType::TimelineTrack:
     case ObjectType::Master:
     case ObjectType::TimelineComposition:
@@ -844,12 +839,11 @@ QSize Core::getItemFrameSize(const ObjectId &id)
 
 int Core::getItemTrack(const ObjectId &id)
 {
-    if (!m_guiConstructed) return 0;
-    switch (id.first) {
+    switch (id.type) {
     case ObjectType::TimelineClip:
     case ObjectType::TimelineComposition:
     case ObjectType::TimelineMix:
-        return m_mainWindow->getCurrentTimeline()->model()->getItemTrackId(id.second);
+        return currentDoc()->getTimeline(id.uuid)->getItemTrackId(id.itemId);
     default:
         qWarning() << "unhandled object type";
     }
@@ -858,21 +852,21 @@ int Core::getItemTrack(const ObjectId &id)
 
 void Core::refreshProjectItem(const ObjectId &id)
 {
-    if (!m_guiConstructed || !m_mainWindow->getCurrentTimeline() || m_mainWindow->getCurrentTimeline()->loading) return;
-    switch (id.first) {
+    if (!m_guiConstructed || !m_mainWindow->getTimeline(id.uuid) || m_mainWindow->getTimeline(id.uuid)->loading) return;
+    switch (id.type) {
     case ObjectType::TimelineClip:
     case ObjectType::TimelineMix:
-        if (m_mainWindow->getCurrentTimeline()->model()->isClip(id.second)) {
-            m_mainWindow->getCurrentTimeline()->controller()->refreshItem(id.second);
+        if (currentDoc()->getTimeline(id.uuid)->isClip(id.itemId)) {
+            m_mainWindow->getTimeline(id.uuid)->controller()->refreshItem(id.itemId);
         }
         break;
     case ObjectType::TimelineComposition:
-        if (m_mainWindow->getCurrentTimeline()->model()->isComposition(id.second)) {
-            m_mainWindow->getCurrentTimeline()->controller()->refreshItem(id.second);
+        if (currentDoc()->getTimeline(id.uuid)->isComposition(id.itemId)) {
+            m_mainWindow->getTimeline(id.uuid)->controller()->refreshItem(id.itemId);
         }
         break;
     case ObjectType::TimelineTrack:
-        if (m_mainWindow->getCurrentTimeline()->model()->isTrack(id.second)) {
+        if (m_mainWindow->getTimeline(id.uuid)->model()->isTrack(id.itemId)) {
             refreshProjectMonitorOnce();
         }
         break;
@@ -881,7 +875,7 @@ void Core::refreshProjectItem(const ObjectId &id)
             m_monitorManager->activateMonitor(Kdenlive::ClipMonitor);
             m_monitorManager->refreshClipMonitor(true);
         }
-        if (m_monitorManager->projectMonitorVisible() && m_mainWindow->getCurrentTimeline()->controller()->refreshIfVisible(id.second)) {
+        if (m_monitorManager->projectMonitorVisible() && m_mainWindow->getCurrentTimeline()->controller()->refreshIfVisible(id.itemId)) {
             m_monitorManager->refreshTimer.start();
         }
         break;
@@ -1043,16 +1037,16 @@ void Core::invalidateRange(QPair<int, int> range)
 void Core::invalidateItem(ObjectId itemId)
 {
     if (!m_guiConstructed || !m_mainWindow->getCurrentTimeline() || m_mainWindow->getCurrentTimeline()->loading) return;
-    switch (itemId.first) {
+    switch (itemId.type) {
     case ObjectType::TimelineClip:
     case ObjectType::TimelineComposition:
-        m_mainWindow->getCurrentTimeline()->controller()->invalidateItem(itemId.second);
+        m_mainWindow->getCurrentTimeline()->controller()->invalidateItem(itemId.itemId);
         break;
     case ObjectType::TimelineTrack:
-        m_mainWindow->getCurrentTimeline()->controller()->invalidateTrack(itemId.second);
+        m_mainWindow->getCurrentTimeline()->controller()->invalidateTrack(itemId.itemId);
         break;
     case ObjectType::BinClip:
-        m_mainWindow->getBin()->invalidateClip(QString::number(itemId.second));
+        m_mainWindow->getBin()->invalidateClip(QString::number(itemId.itemId));
         break;
     case ObjectType::Master:
         m_mainWindow->getCurrentTimeline()->model()->invalidateZone(0, -1);
@@ -1070,25 +1064,25 @@ double Core::getClipSpeed(int id) const
 
 void Core::updateItemKeyframes(ObjectId id)
 {
-    if (id.first == ObjectType::TimelineClip && m_guiConstructed) {
-        m_mainWindow->getCurrentTimeline()->controller()->updateClip(id.second, {TimelineModel::KeyframesRole});
+    if (id.type == ObjectType::TimelineClip && m_guiConstructed) {
+        m_mainWindow->getCurrentTimeline()->controller()->updateClip(id.itemId, {TimelineModel::KeyframesRole});
     }
 }
 
 void Core::updateItemModel(ObjectId id, const QString &service)
 {
-    if (m_guiConstructed && id.first == ObjectType::TimelineClip && !m_mainWindow->getCurrentTimeline()->loading && service.startsWith(QLatin1String("fade"))) {
+    if (m_guiConstructed && id.type == ObjectType::TimelineClip && !m_mainWindow->getCurrentTimeline()->loading && service.startsWith(QLatin1String("fade"))) {
         bool startFade = service.startsWith(QLatin1String("fadein")) || service.startsWith(QLatin1String("fade_from_"));
-        m_mainWindow->getCurrentTimeline()->controller()->updateClip(id.second, {startFade ? TimelineModel::FadeInRole : TimelineModel::FadeOutRole});
+        m_mainWindow->getCurrentTimeline()->controller()->updateClip(id.itemId, {startFade ? TimelineModel::FadeInRole : TimelineModel::FadeOutRole});
     }
 }
 
 void Core::showClipKeyframes(ObjectId id, bool enable)
 {
-    if (id.first == ObjectType::TimelineClip) {
-        m_mainWindow->getCurrentTimeline()->controller()->showClipKeyframes(id.second, enable);
-    } else if (id.first == ObjectType::TimelineComposition) {
-        m_mainWindow->getCurrentTimeline()->controller()->showCompositionKeyframes(id.second, enable);
+    if (id.type == ObjectType::TimelineClip) {
+        m_mainWindow->getCurrentTimeline()->controller()->showClipKeyframes(id.itemId, enable);
+    } else if (id.type == ObjectType::TimelineComposition) {
+        m_mainWindow->getCurrentTimeline()->controller()->showCompositionKeyframes(id.itemId, enable);
     }
 }
 
@@ -1362,7 +1356,7 @@ void Core::setWidgetKeyBinding(const QString &mess)
 
 void Core::showEffectZone(ObjectId id, QPair<int, int> inOut, bool checked)
 {
-    if (m_guiConstructed && m_mainWindow->getCurrentTimeline() && m_mainWindow->getCurrentTimeline()->controller() && id.first != ObjectType::BinClip) {
+    if (m_guiConstructed && m_mainWindow->getCurrentTimeline() && m_mainWindow->getCurrentTimeline()->controller() && id.type != ObjectType::BinClip) {
         m_mainWindow->getCurrentTimeline()->controller()->showRulerEffectZone(inOut, checked);
     }
 }
@@ -1385,14 +1379,21 @@ void Core::resizeMix(int cid, int duration, MixAlignment align, int leftFrames)
     m_mainWindow->getCurrentTimeline()->controller()->resizeMix(cid, duration, align, leftFrames);
 }
 
-MixAlignment Core::getMixAlign(int cid) const
+MixAlignment Core::getMixAlign(const ObjectId &itemInfo) const
 {
-    return m_mainWindow->getCurrentTimeline()->controller()->getMixAlign(cid);
+    return m_mainWindow->getTimeline(itemInfo.uuid)->controller()->getMixAlign(itemInfo.itemId);
 }
 
-int Core::getMixCutPos(int cid) const
+int Core::getMixCutPos(const ObjectId &itemInfo) const
 {
-    return m_mainWindow->getCurrentTimeline()->controller()->getMixCutPos(cid);
+    return m_mainWindow->getTimeline(itemInfo.uuid)->controller()->getMixCutPos(itemInfo.itemId);
+}
+
+void Core::clearTimeRemap()
+{
+    if (timeRemapWidget()) {
+        timeRemapWidget()->selectedClip(-1, QUuid());
+    }
 }
 
 void Core::cleanup()
@@ -1400,7 +1401,7 @@ void Core::cleanup()
     audioThumbCache.clear();
     taskManager.slotCancelJobs();
     if (timeRemapWidget()) {
-        timeRemapWidget()->selectedClip(-1);
+        timeRemapWidget()->selectedClip(-1, QUuid());
     }
     if (m_mainWindow && m_mainWindow->getCurrentTimeline()) {
         disconnect(m_mainWindow->getCurrentTimeline()->controller(), &TimelineController::durationChanged, m_projectManager,

@@ -196,6 +196,7 @@ public:
     bool isIncludedInTimeline() override;
     /** @brief Returns a list of all timeline clip ids for this bin clip */
     QList<int> timelineInstances(QUuid activeUuid = QUuid()) const;
+    QMap<QUuid, QList<int>> getAllTimelineInstances() const;
     /** @brief This function returns a cut to the master producer associated to the timeline clip with given ID.
         Each clip must have a different master producer (see comment of the class)
     */

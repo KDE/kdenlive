@@ -826,6 +826,6 @@ Q_SIGNALS:
     void masterZonesChanged();
     Q_INVOKABLE void ungrabHack();
     void regainFocus();
-    void updateAssetPosition(int itemId);
+    void updateAssetPosition(int itemId, const QUuid uuid);
     void stopAudioRecord();
 };

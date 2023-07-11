@@ -117,14 +117,14 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
         int cid = -1;
         int in = -1;
         int out = -1;
-        if (owner.first == ObjectType::BinClip) {
-            binId = QString::number(owner.second);
-        } else if (owner.first == ObjectType::TimelineClip) {
-            cid = owner.second;
+        if (owner.type == ObjectType::BinClip) {
+            binId = QString::number(owner.itemId);
+        } else if (owner.type == ObjectType::TimelineClip) {
+            cid = owner.itemId;
             binId = pCore->getTimelineClipBinId(cid);
             in = pCore->getItemIn(owner);
             out = in + pCore->getItemDuration(owner);
-        } else if (owner.first == ObjectType::TimelineTrack || owner.first == ObjectType::Master) {
+        } else if (owner.type == ObjectType::TimelineTrack || owner.type == ObjectType::Master) {
             in = 0;
             out = pCore->getItemDuration(owner);
             binId = QStringLiteral("-1");

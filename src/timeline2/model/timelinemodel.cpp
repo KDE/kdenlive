@@ -4316,7 +4316,7 @@ bool TimelineModel::requestTrackDeletion(int trackId, Fun &undo, Fun &redo)
         return false;
     }
     // Discard running jobs
-    pCore->taskManager.discardJobs({ObjectType::TimelineTrack, trackId});
+    pCore->taskManager.discardJobs({ObjectType::TimelineTrack, trackId, m_uuid});
 
     std::vector<int> clips_to_delete;
     for (const auto &it : getTrackById(trackId)->m_allClips) {
@@ -5643,7 +5643,7 @@ std::shared_ptr<EffectStackModel> TimelineModel::getMasterEffectStackModel()
     READ_LOCK();
     if (m_masterStack == nullptr) {
         m_masterService.reset(new Mlt::Service(*m_tractor.get()));
-        m_masterStack = EffectStackModel::construct(m_masterService, {ObjectType::Master, 0}, m_undoStack);
+        m_masterStack = EffectStackModel::construct(m_masterService, {ObjectType::Master, 0, m_uuid}, m_undoStack);
         connect(m_masterStack.get(), &EffectStackModel::updateMasterZones, pCore.get(), &Core::updateMasterZones);
     }
     return m_masterStack;
@@ -6723,8 +6723,8 @@ QVariantList TimelineModel::getMasterEffectZones() const
 
 const QSize TimelineModel::getCompositionSizeOnTrack(const ObjectId &id)
 {
-    int pos = getCompositionPosition(id.second);
-    int tid = getCompositionTrackId(id.second);
+    int pos = getCompositionPosition(id.itemId);
+    int tid = getCompositionTrackId(id.itemId);
     int cid = getTrackById_const(tid)->getClipByPosition(pos);
     if (cid > -1) {
         return getClipFrameSize(cid);

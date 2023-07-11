@@ -33,10 +33,10 @@ public:
     /** @brief Construct a keyframe list bound to the given asset
        @param init_value and index correspond to the first parameter
      */
-    explicit KeyframeModelList(std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack);
+    explicit KeyframeModelList(std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack, int in, int out);
 
     /** @brief Add a keyframable parameter to be managed by this model */
-    void addParameter(const QModelIndex &index);
+    void addParameter(const QModelIndex &index, int in, int out);
 
     /** @brief Adds a keyframe at the given position. If there is already one then we update it.
        @param pos defines the position of the keyframe, relative to the clip

@@ -46,7 +46,7 @@ ProjectSubClip::ProjectSubClip(const QString &id, const std::shared_ptr<ProjectC
     m_tags = zoneProperties.value(QLatin1String("tags"));
     qDebug() << "=== LOADING SUBCLIP WITH RATING: " << m_rating << ", TAGS: " << m_tags;
     m_clipStatus = FileStatus::StatusReady;
-    ClipLoadTask::start({ObjectType::BinClip, m_parentClipId.toInt()}, QDomElement(), true, in, out, this);
+    ClipLoadTask::start({ObjectType::BinClip, m_parentClipId.toInt(), QUuid()}, QDomElement(), true, in, out, this);
 }
 
 std::shared_ptr<ProjectSubClip> ProjectSubClip::construct(const QString &id, const std::shared_ptr<ProjectClip> &parent,
@@ -199,7 +199,7 @@ void ProjectSubClip::getThumbFromPercent(int percent)
         setThumbnail(ThumbnailCache::get()->getThumbnail(m_parentClipId, m_inPoint + framePos));
     } else {
         // Generate percent thumbs
-        CacheTask::start({ObjectType::BinClip, m_parentClipId.toInt()}, 30, m_inPoint, m_outPoint, this);
+        CacheTask::start({ObjectType::BinClip, m_parentClipId.toInt(), QUuid()}, 30, m_inPoint, m_outPoint, this);
     }
 }
 

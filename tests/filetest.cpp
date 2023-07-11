@@ -89,9 +89,6 @@ TEST_CASE("Save File", "[SF]")
         REQUIRE(openResults.isSuccessful() == true);
 
         std::unique_ptr<KdenliveDoc> openedDoc = openResults.getDocument();
-        // Mock<KdenliveDoc> docMock(*openedDoc.get());
-        // When(Method(docMock, getCacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
-        // KdenliveDoc &mockedDoc = docMock.get();
 
         pCore->projectManager()->m_project = openedDoc.get();
         const QUuid uuid = openedDoc->uuid();
@@ -435,6 +432,57 @@ TEST_CASE("Opening Mix", "[OPENMIX]")
 
         QDomDocument *newDoc = &openedDoc->m_document;
         auto producers = newDoc->elementsByTagName(QStringLiteral("producer"));
+        pCore->projectManager()->closeCurrentDocument(false, false);
+    }
+}
+
+TEST_CASE("Opening File With Keyframes", "[OPENKFRS]")
+{
+    auto binModel = pCore->projectItemModel();
+    binModel->clean();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+
+    SECTION("Open a file with Keyframes")
+    {
+        // Create new document
+        QString path = sourcesPath + "/dataset/test-keyframes.kdenlive";
+        QUrl openURL = QUrl::fromLocalFile(path);
+
+        QUndoGroup *undoGroup = new QUndoGroup();
+        undoGroup->addStack(undoStack.get());
+        DocOpenResult openResults = KdenliveDoc::Open(openURL, QDir::temp().path(), undoGroup, false, nullptr);
+        REQUIRE(openResults.isSuccessful() == true);
+        std::unique_ptr<KdenliveDoc> openedDoc = openResults.getDocument();
+
+        pCore->projectManager()->m_project = openedDoc.get();
+        const QUuid uuid = openedDoc->uuid();
+        QDateTime documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
+        pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
+        std::shared_ptr<Mlt::Tractor> tc = binModel->getExtraTimeline(uuid.toString());
+        std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(uuid, undoStack);
+        openedDoc->addTimeline(uuid, timeline);
+        constructTimelineFromTractor(timeline, nullptr, *tc.get(), nullptr, openedDoc->modifiedDecimalPoint(), QString(), QString());
+        pCore->projectManager()->testSetActiveDocument(openedDoc.get(), timeline);
+
+        REQUIRE(timeline->checkConsistency());
+        int tid1 = timeline->getTrackIndexFromPosition(0);
+        int tid2 = timeline->getTrackIndexFromPosition(1);
+        int tid3 = timeline->getTrackIndexFromPosition(2);
+        int tid4 = timeline->getTrackIndexFromPosition(3);
+        // Check we have audio and video tracks
+        REQUIRE(timeline->isAudioTrack(tid1));
+        REQUIRE(timeline->isAudioTrack(tid2));
+        REQUIRE(timeline->isAudioTrack(tid3) == false);
+        REQUIRE(timeline->isAudioTrack(tid4) == false);
+        int cid1 = timeline->getClipByStartPosition(tid1, 0);
+        int cid2 = timeline->getClipByStartPosition(tid2, 0);
+        int cid3 = timeline->getClipByStartPosition(tid3, 0);
+        int cid4 = timeline->getClipByStartPosition(tid4, 0);
+        // Check we have our clips
+        REQUIRE(cid1 == -1);
+        REQUIRE(cid2 > -1);
+        REQUIRE(cid3 > -1);
+        REQUIRE(cid4 == -1);
         pCore->projectManager()->closeCurrentDocument(false, false);
     }
 }

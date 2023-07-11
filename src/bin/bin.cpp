@@ -1452,7 +1452,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
         connect(m_discardCurrentClipJobs, &QAction::triggered, this, [&]() {
             const QString currentId = m_monitor->activeClipId();
             if (!currentId.isEmpty()) {
-                pCore->taskManager.discardJobs({ObjectType::BinClip, currentId.toInt()}, AbstractTask::NOJOBTYPE, true);
+                pCore->taskManager.discardJobs({ObjectType::BinClip, currentId.toInt(), QUuid()}, AbstractTask::NOJOBTYPE, true);
             }
         });
         connect(m_cancelJobs, &QAction::triggered, [&]() { pCore->taskManager.slotCancelJobs(); });
@@ -4651,7 +4651,7 @@ void Bin::slotRefreshClipThumbnail(const QString &id)
     if (!clip) {
         return;
     }
-    ClipLoadTask::start({ObjectType::BinClip, id.toInt()}, QDomElement(), true, -1, -1, this);
+    ClipLoadTask::start({ObjectType::BinClip, id.toInt(), QUuid()}, QDomElement(), true, -1, -1, this);
 }
 
 void Bin::slotAddClipExtraData(const QString &id, const QString &key, const QString &clipData)
@@ -4865,9 +4865,9 @@ void Bin::reloadAllProducers(bool reloadThumbs)
                 ThumbnailCache::get()->invalidateThumbsForClip(clip->clipId());
             }
             clip->setClipStatus(FileStatus::StatusWaiting);
-            pCore->taskManager.discardJobs({ObjectType::BinClip, clip->clipId().toInt()}, AbstractTask::NOJOBTYPE, true,
+            pCore->taskManager.discardJobs({ObjectType::BinClip, clip->clipId().toInt(), QUuid()}, AbstractTask::NOJOBTYPE, true,
                                            {AbstractTask::TRANSCODEJOB, AbstractTask::PROXYJOB, AbstractTask::AUDIOTHUMBJOB});
-            ClipLoadTask::start({ObjectType::BinClip, clip->clipId().toInt()}, xml, false, -1, -1, this);
+            ClipLoadTask::start({ObjectType::BinClip, clip->clipId().toInt(), QUuid()}, xml, false, -1, -1, this);
         }
     }
 }
@@ -4881,7 +4881,7 @@ void Bin::checkAudioThumbs()
     for (const auto &clip : qAsConst(clipList)) {
         ClipType::ProducerType type = clip->clipType();
         if (type == ClipType::AV || type == ClipType::Audio || type == ClipType::Playlist || type == ClipType::Unknown) {
-            AudioLevelsTask::start({ObjectType::BinClip, clip->clipId().toInt()}, clip.get(), false);
+            AudioLevelsTask::start({ObjectType::BinClip, clip->clipId().toInt(), QUuid()}, clip.get(), false);
         }
     }
 }
@@ -4925,7 +4925,7 @@ void Bin::rebuildProxies()
         if (clp->hasProxy()) {
             toProxy << clp;
             // Abort all pending jobs
-            pCore->taskManager.discardJobs({ObjectType::BinClip, clp->clipId().toInt()}, AbstractTask::PROXYJOB);
+            pCore->taskManager.discardJobs({ObjectType::BinClip, clp->clipId().toInt(), QUuid()}, AbstractTask::PROXYJOB);
             clp->deleteProxy(false);
         }
     }
@@ -5128,9 +5128,14 @@ void Bin::invalidateClip(const QString &binId)
 {
     std::shared_ptr<ProjectClip> clip = getBinClip(binId);
     if (clip && clip->clipType() != ClipType::Audio) {
-        QList<int> ids = clip->timelineInstances();
-        for (int i : qAsConst(ids)) {
-            pCore->invalidateItem({ObjectType::TimelineClip, i});
+        QMap<QUuid, QList<int>> allIds = clip->getAllTimelineInstances();
+        QMapIterator<QUuid, QList<int>> i(allIds);
+        while (i.hasNext()) {
+            i.next();
+            QList<int> values = i.value();
+            for (int j : qAsConst(values)) {
+                pCore->invalidateItem({ObjectType::TimelineClip, j, i.key()});
+            }
         }
     }
 }
@@ -5358,10 +5363,10 @@ void Bin::requestSelectionTranscoding()
                 std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(i.key());
                 if (clip->clipType() == ClipType::Timeline) {
                     // Ensure we use the correct out point
-                    TranscodeTask::start({ObjectType::BinClip, i.key().toInt()}, i.value().first(), m_transcodingDialog->preParams(),
+                    TranscodeTask::start({ObjectType::BinClip, i.key().toInt(), QUuid()}, i.value().first(), m_transcodingDialog->preParams(),
                                          m_transcodingDialog->params(i.value().at(1).toInt()), 0, clip->frameDuration(), false, clip.get(), false, false);
                 } else {
-                    TranscodeTask::start({ObjectType::BinClip, i.key().toInt()}, i.value().first(), m_transcodingDialog->preParams(),
+                    TranscodeTask::start({ObjectType::BinClip, i.key().toInt(), QUuid()}, i.value().first(), m_transcodingDialog->preParams(),
                                          m_transcodingDialog->params(i.value().at(1).toInt()), -1, -1, false, clip.get(), false, false);
                 }
             }
@@ -5404,7 +5409,7 @@ void Bin::requestTranscoding(const QString &url, const QString &id, int type, bo
                 while (i.hasNext()) {
                     i.next();
                     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(i.key());
-                    TranscodeTask::start({ObjectType::BinClip, i.key().toInt()}, i.value().first(), m_transcodingDialog->preParams(),
+                    TranscodeTask::start({ObjectType::BinClip, i.key().toInt(), QUuid()}, i.value().first(), m_transcodingDialog->preParams(),
                                          m_transcodingDialog->params(i.value().at(1).toInt()), -1, -1, true, clip.get(), false,
                                          i.key() == firstId ? checkProfile : false);
                 }
@@ -5737,7 +5742,7 @@ void Bin::updateSequenceClip(const QUuid &uuid, int duration, int pos)
             clip->setProperties(properties);
             // Reset thumbs producer
             clip->resetSequenceThumbnails();
-            ClipLoadTask::start({ObjectType::BinClip, binId.toInt()}, QDomElement(), true, -1, -1, this);
+            ClipLoadTask::start({ObjectType::BinClip, binId.toInt(), QUuid()}, QDomElement(), true, -1, -1, this);
             m_doc->sequenceThumbUpdated(uuid);
             clip->reloadTimeline();
         }
@@ -5783,7 +5788,7 @@ void Bin::setSequenceThumbnail(const QUuid &uuid, int frame)
         std::shared_ptr<ProjectClip> sequenceClip = getBinClip(bid);
         if (sequenceClip) {
             m_doc->setSequenceProperty(uuid, QStringLiteral("thumbnailFrame"), frame);
-            ClipLoadTask::start({ObjectType::BinClip, bid.toInt()}, QDomElement(), true, -1, -1, this);
+            ClipLoadTask::start({ObjectType::BinClip, bid.toInt(), QUuid()}, QDomElement(), true, -1, -1, this);
         }
     }
 }

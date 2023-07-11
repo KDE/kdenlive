@@ -818,7 +818,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     // Now that sequence clips are fully built, fetch thumbnails
     const QStringList sequenceIds = pCore->projectItemModel()->getAllSequenceClips().values();
     for (auto &id : sequenceIds) {
-        ClipLoadTask::start({ObjectType::BinClip, id.toInt()}, QDomElement(), true, -1, -1, this);
+        ClipLoadTask::start({ObjectType::BinClip, id.toInt(), QUuid()}, QDomElement(), true, -1, -1, this);
     }
     // Raise last active timeline
     QUuid activeUuid(m_project->getDocumentProperty(QStringLiteral("activetimeline")));
