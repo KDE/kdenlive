@@ -438,6 +438,7 @@ private Q_SLOTS:
     void slotRemovePreviewRender();
     void slotClearPreviewRender(bool resetZones = true);
     void slotSelectTimelineClip();
+    void slotSelectTimelineZone();
     void slotSelectTimelineTransition();
     void slotDeselectTimelineClip();
     void slotDeselectTimelineTransition();

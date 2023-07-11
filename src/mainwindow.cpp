@@ -660,6 +660,7 @@ void MainWindow::init(const QString &mltPath)
     timelineRulerMenu->addMenu(guideMenu);
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("mark_in")));
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("mark_out")));
+    timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("select_timeline_zone")));
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("add_project_note")));
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("add_subtitle")));
 
@@ -1658,6 +1659,8 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("stop_prerender_timeline"), i18n("Stop Preview Render"), this, SLOT(slotStopPreviewRender()),
               QIcon::fromTheme(QStringLiteral("preview-render-off")));
 
+    addAction(QStringLiteral("select_timeline_zone"), i18n("Adjust Timeline Zone to Selection"), this, SLOT(slotSelectTimelineZone()),
+              QIcon::fromTheme(QStringLiteral("edit-select")), Qt::SHIFT | Qt::Key_Z);
     addAction(QStringLiteral("select_timeline_clip"), i18n("Select Clip"), this, SLOT(slotSelectTimelineClip()),
               QIcon::fromTheme(QStringLiteral("edit-select")), Qt::Key_Plus);
     addAction(QStringLiteral("deselect_timeline_clip"), i18n("Deselect Clip"), this, SLOT(slotDeselectTimelineClip()),
@@ -3051,6 +3054,10 @@ void MainWindow::slotSelectTimelineClip()
     getCurrentTimeline()->controller()->selectCurrentItem(ObjectType::TimelineClip, true);
 }
 
+void MainWindow::slotSelectTimelineZone()
+{
+    getCurrentTimeline()->controller()->setZoneToSelection();
+}
 void MainWindow::slotSelectTimelineTransition()
 {
     bool res = getCurrentTimeline()->controller()->selectCurrentItem(ObjectType::TimelineComposition, true, false, false);

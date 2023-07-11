@@ -1688,6 +1688,27 @@ void TimelineController::setActiveTrack(int track)
     Q_EMIT activeTrackChanged();
 }
 
+void TimelineController::setZoneToSelection()
+{
+    std::unordered_set<int> selection = m_model->getCurrentSelection();
+    QPoint zone(-1, -1);
+    for (int cid : selection) {
+        int inPos = m_model->getItemPosition(cid);
+        int outPos = inPos + m_model->getItemPlaytime(cid);
+        if (zone.x() == -1 || inPos < zone.x()) {
+            zone.setX(inPos);
+        }
+        if (outPos > zone.y()) {
+            zone.setY(outPos);
+        }
+    }
+    if (zone.x() > -1 && zone.y() > -1) {
+        updateZone(m_zone, zone, true);
+    } else {
+        pCore->displayMessage(i18n("No item selected in timeline"), ErrorMessage, 500);
+    }
+}
+
 void TimelineController::setZone(const QPoint &zone, bool withUndo)
 {
     if (m_zone.x() > 0) {
