@@ -383,6 +383,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     bool guiConstructed = pCore->window() != nullptr;
     if (guiConstructed) {
         pCore->window()->disableMulticam();
+        Q_EMIT pCore->window()->clearAssetPanel();
     }
     if (m_project) {
         m_project->closing = true;
@@ -404,9 +405,6 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     // Release model shared pointers
     m_activeTimelineModel.reset();
     if (guiConstructed) {
-        if (!quit && !qApp->isSavingSession() && m_project) {
-            Q_EMIT pCore->window()->clearAssetPanel();
-        }
         pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
         pCore->monitorManager()->projectMonitor()->setProducer(nullptr);
         pCore->bin()->cleanDocument();
