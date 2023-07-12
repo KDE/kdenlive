@@ -2146,6 +2146,13 @@ void KdenliveDoc::closeTimeline(const QUuid &uuid)
     m_sequenceProperties.remove(uuid);
 }
 
+void KdenliveDoc::storeGroups(const QUuid &uuid)
+{
+    Q_ASSERT(m_timelines.find(uuid) != m_timelines.end());
+    setSequenceProperty(uuid, QStringLiteral("groups"), m_timelines.value(uuid)->groupsData());
+    m_timelines.value(uuid)->passSequenceProperties(getSequenceProperties(uuid));
+}
+
 void KdenliveDoc::checkUsage(const QUuid &uuid)
 {
     Q_ASSERT(m_timelines.find(uuid) != m_timelines.end());

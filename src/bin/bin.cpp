@@ -2031,6 +2031,7 @@ void Bin::slotDuplicateClip()
                 if (currentItem->clipType() == ClipType::Timeline) {
                     // Sync last changes for this timeline
                     const QUuid uuid = currentItem->getSequenceUuid();
+                    m_doc->storeGroups(uuid);
                     pCore->projectManager()->syncTimeline(uuid, true);
                     QTemporaryFile src(QDir::temp().absoluteFilePath(QString("XXXXXX.mlt")));
                     src.setAutoRemove(false);
