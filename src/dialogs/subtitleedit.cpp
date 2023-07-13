@@ -52,11 +52,13 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
         if (m_activeSub > -1) {
             buttonApply->setEnabled(true);
         }
+        updateCharInfo();
     });
     connect(subText, &KTextEdit::cursorPositionChanged, this, [this]() {
         if (m_activeSub > -1) {
             buttonCut->setEnabled(true);
         }
+        updateCharInfo();
     });
 
     connect(buttonStyle, &QToolButton::toggled, this, [this](bool toggle) { stackedWidget->setCurrentIndex(toggle ? 1 : 0); });
@@ -355,6 +357,7 @@ void SubtitleEdit::setActiveSubtitle(int id)
         QSignalBlocker bk(subText);
         subText->clear();
     }
+    updateCharInfo();
 }
 
 void SubtitleEdit::goToPrevious()
@@ -387,6 +390,7 @@ void SubtitleEdit::goToPrevious()
             pCore->selectTimelineItem(id);
         }
     }
+    updateCharInfo();
 }
 
 void SubtitleEdit::goToNext()
@@ -419,4 +423,10 @@ void SubtitleEdit::goToNext()
             pCore->selectTimelineItem(id);
         }
     }
+    updateCharInfo();
+}
+
+void SubtitleEdit::updateCharInfo()
+{
+    char_count->setText(i18n("Character: %1, total: <b>%2</b>", subText->textCursor().position(), subText->document()->characterCount()));
 }

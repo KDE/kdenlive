@@ -244,6 +244,7 @@ void TimelineTabs::closeTimeline(const QUuid &uuid)
             timeline->setSource(QUrl());
             timeline->blockSignals(true);
             if (timeline == m_activeTimeline) {
+                Q_EMIT showSubtitle(-1);
                 pCore->window()->disconnectTimeline(timeline);
                 disconnectTimeline(timeline);
             }

@@ -53,6 +53,7 @@ private:
     int m_activeSub{-1};
     GenTime m_startPos;
     GenTime m_endPos;
+    void updateCharInfo();
 
 Q_SIGNALS:
     void addSubtitle(const QString &);
