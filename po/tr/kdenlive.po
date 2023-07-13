@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-05 03:38+0000\n"
-"PO-Revision-Date: 2023-06-26 22:31+0300\n"
+"PO-Revision-Date: 2023-07-12 11:45+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -15842,7 +15842,7 @@ msgstr "Mikrofon düzeyi"
 #: src/timeline2/view/qml/Clip.qml:223 src/timeline2/view/qml/Clip.qml:840
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
-msgstr "%1 (%2-%3), Pozisyon: %4, Süre: %5"
+msgstr "%1 (%2-%3), Konum: %4, Süre: %5"
 
 #: src/timeline2/view/qml/Clip.qml:333 src/timeline2/view/qml/Clip.qml:340
 #: src/timeline2/view/qml/SubTitle.qml:164
