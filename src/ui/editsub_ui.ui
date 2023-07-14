@@ -228,12 +228,16 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
            </widget>
           </item>
           <item row="1" column="5">
-           <widget class="QToolButton" name="menu">
+           <widget class="QToolButton" name="subMenu">
             <property name="text">
              <string>...</string>
             </property>
             <property name="icon">
-             <iconset theme="application-menu"/>
+             <iconset theme="application-menu">
+              <normaloff>.</normaloff>.</iconset>
+            </property>
+            <property name="popupMode">
+             <enum>QToolButton::InstantPopup</enum>
             </property>
            </widget>
           </item>

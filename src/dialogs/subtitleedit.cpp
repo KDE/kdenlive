@@ -16,6 +16,7 @@
 
 #include <QEvent>
 #include <QKeyEvent>
+#include <QMenu>
 #include <QToolButton>
 
 ShiftEnterFilter::ShiftEnterFilter(QObject *parent)
@@ -146,6 +147,49 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     alignment->addItem(i18n("Top Center"), 6);
     alignment->addItem(i18n("Top Right"), 7);
     connect(alignment, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &SubtitleEdit::updateStyle);
+    QAction *zoomIn = new QAction(QIcon::fromTheme(QStringLiteral("zoom-in")), i18n("Zoom In"), this);
+    connect(zoomIn, &QAction::triggered, this, &SubtitleEdit::slotZoomIn);
+    QAction *zoomOut = new QAction(QIcon::fromTheme(QStringLiteral("zoom-out")), i18n("Zoom Out"), this);
+    connect(zoomOut, &QAction::triggered, this, &SubtitleEdit::slotZoomOut);
+    QMenu *menu = new QMenu(this);
+    menu->addAction(zoomIn);
+    menu->addAction(zoomOut);
+    subMenu->setMenu(menu);
+    if (KdenliveSettings::subtitleEditFontSize() > 0) {
+        QTextCursor cursor = subText->textCursor();
+        subText->selectAll();
+        subText->setFontPointSize(KdenliveSettings::subtitleEditFontSize());
+        subText->setTextCursor(cursor);
+    }
+}
+
+void SubtitleEdit::slotZoomIn()
+{
+    QTextCursor cursor = subText->textCursor();
+    subText->selectAll();
+    qreal fontSize = QFontInfo(subText->currentFont()).pointSizeF() * 1.2;
+    KdenliveSettings::setSubtitleEditFontSize(fontSize);
+    subText->setFontPointSize(KdenliveSettings::subtitleEditFontSize());
+    subText->setTextCursor(cursor);
+}
+
+void SubtitleEdit::slotZoomOut()
+{
+    QTextCursor cursor = subText->textCursor();
+    subText->selectAll();
+    qreal fontSize = QFontInfo(subText->currentFont()).pointSizeF() / 1.2;
+    fontSize = qMax(fontSize, QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pointSizeF());
+    KdenliveSettings::setSubtitleEditFontSize(fontSize);
+    subText->setFontPointSize(KdenliveSettings::subtitleEditFontSize());
+    subText->setTextCursor(cursor);
+}
+
+void SubtitleEdit::applyFontSize()
+{
+    QTextCursor cursor = subText->textCursor();
+    subText->selectAll();
+    subText->setFontPointSize(KdenliveSettings::subtitleEditFontSize());
+    subText->setTextCursor(cursor);
 }
 
 void SubtitleEdit::updateStyle()
@@ -358,6 +402,7 @@ void SubtitleEdit::setActiveSubtitle(int id)
         subText->clear();
     }
     updateCharInfo();
+    applyFontSize();
 }
 
 void SubtitleEdit::goToPrevious()

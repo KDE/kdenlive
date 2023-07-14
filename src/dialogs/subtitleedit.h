@@ -47,6 +47,8 @@ private Q_SLOTS:
     void goToNext();
     void updateStyle();
     void loadStyle(const QString &style);
+    void slotZoomIn();
+    void slotZoomOut();
 
 private:
     std::shared_ptr<SubtitleModel> m_model;
@@ -54,6 +56,7 @@ private:
     GenTime m_startPos;
     GenTime m_endPos;
     void updateCharInfo();
+    void applyFontSize();
 
 Q_SIGNALS:
     void addSubtitle(const QString &);
