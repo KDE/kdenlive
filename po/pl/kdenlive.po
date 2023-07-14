@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-13 00:48+0000\n"
+"POT-Creation-Date: 2023-07-14 00:46+0000\n"
 "PO-Revision-Date: 2023-06-24 07:10+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -172,7 +172,7 @@ msgid "Mirror the spectrum about the center of the rectangle."
 msgstr "Odbicie lustrzane widma wokół środka prostokąta."
 
 #: data/effects/audiolevelgraph.xml:45 data/effects/audiospectrum.xml:42
-#: data/transitions/dissolve.xml:13 data/transitions/luma.xml:20
+#: data/transitions/dissolve.xml:13 data/transitions/luma.xml:23
 #: data/transitions/mix.xml:8
 #, kde-format
 msgid "Reverse"
@@ -587,7 +587,7 @@ msgstr "Mieszanie"
 #: data/effects/charcoal.xml:20 data/effects/mask_start_rotoscoping.xml:20
 #: data/effects/mask_start_shape.xml:22 data/effects/mirror.xml:12
 #: data/effects/rotoscoping.xml:17 data/effects/shape.xml:19
-#: data/transitions/luma.xml:17 data/transitions/region.xml:33
+#: data/transitions/luma.xml:20 data/transitions/region.xml:33
 #: data/transitions/wipe.xml:14
 #, kde-format
 msgid "Invert"
@@ -2163,7 +2163,8 @@ msgstr "Uczyń wycinek monochromatycznym"
 msgid "Threshold value"
 msgstr "Wartość progu"
 
-#: data/effects/threshold.xml:11 data/transitions/luma.xml:14
+#: data/effects/threshold.xml:11 data/transitions/dissolve.xml:16
+#: data/transitions/luma.xml:14
 #, kde-format
 msgid "Use transparency"
 msgstr "Użyj przezroczystości"
@@ -2973,6 +2974,12 @@ msgstr "Zanikanie jednego obrazu podczas wyłaniania się kolejnego."
 msgid "Luma Map"
 msgstr "Mapa lumy"
 
+#: data/transitions/dissolve.xml:19 data/transitions/luma.xml:17
+#, fuzzy, kde-format
+#| msgid "Make selected color transparent"
+msgid "Make padding transparent"
+msgstr "Uczyń wybrany kolor przezroczystym"
+
 #: data/transitions/luma.xml:4
 #, kde-format
 msgctxt "Luma Transition Name"
@@ -3656,7 +3663,7 @@ msgstr "Lewy środkowy"
 
 #: src/assets/view/widgets/keyframeimport.cpp:229
 #: src/assets/view/widgets/keyframeimport.cpp:239
-#: src/dialogs/subtitleedit.cpp:141 src/transitions/view/mixstackview.cpp:47
+#: src/dialogs/subtitleedit.cpp:143 src/transitions/view/mixstackview.cpp:47
 #, kde-format
 msgid "Center"
 msgstr "Środek"
@@ -5076,7 +5083,7 @@ msgstr[2] "Dodaj wycinki"
 #: src/bin/generators/generators.cpp:57
 #: src/mltcontroller/clippropertiescontroller.cpp:296
 #: src/transitions/view/mixstackview.cpp:31 src/ui/clipdurationdialog_ui.ui:58
-#: src/ui/colorclip_ui.ui:41 src/ui/editsub_ui.ui:200
+#: src/ui/colorclip_ui.ui:41 src/ui/editsub_ui.ui:226
 #: src/ui/qtextclip_ui.ui:198 src/ui/spacerdialog_ui.ui:37
 #: src/ui/titlewidget_ui.ui:630
 #, kde-format
@@ -5377,12 +5384,12 @@ msgstr ""
 msgid "Add text"
 msgstr "Dodaj tekst"
 
-#: src/bin/model/subtitlemodel.cpp:1553 src/dialogs/subtitleedit.cpp:109
+#: src/bin/model/subtitlemodel.cpp:1553 src/dialogs/subtitleedit.cpp:111
 #, kde-format
 msgid "Add subtitle"
 msgstr "Dodaj napisy"
 
-#: src/bin/model/subtitlemodel.cpp:1608 src/dialogs/subtitleedit.cpp:119
+#: src/bin/model/subtitlemodel.cpp:1608 src/dialogs/subtitleedit.cpp:121
 #, kde-format
 msgid "Delete subtitle"
 msgstr "Usuń napis"
@@ -6996,12 +7003,12 @@ msgstr "Nie udało się rozpoznać mowy"
 msgid "Made by KDE"
 msgstr "Stworzone przez KDE"
 
-#: src/dialogs/subtitleedit.cpp:105
+#: src/dialogs/subtitleedit.cpp:107
 #, kde-format
 msgid "Go to next subtitle"
 msgstr "Przejdź do następnego napisu"
 
-#: src/dialogs/subtitleedit.cpp:106
+#: src/dialogs/subtitleedit.cpp:108
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7011,12 +7018,12 @@ msgstr ""
 "Przenosi głowicę odtwarzającą na osi czasu do początku napisu, który "
 "znajduje się po prawej."
 
-#: src/dialogs/subtitleedit.cpp:107
+#: src/dialogs/subtitleedit.cpp:109
 #, kde-format
 msgid "Go to previous subtitle"
 msgstr "Przejdź do poprzedniego napisu"
 
-#: src/dialogs/subtitleedit.cpp:108
+#: src/dialogs/subtitleedit.cpp:110
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7026,7 +7033,7 @@ msgstr ""
 "Przenosi głowicę odtwarzającą na osi czasu do początku napisu, który "
 "znajduje się po lewej."
 
-#: src/dialogs/subtitleedit.cpp:110
+#: src/dialogs/subtitleedit.cpp:112
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7038,12 +7045,12 @@ msgstr ""
 ">Ustawienia Kdenlive…->Różne</interface>) w bieżącym położeniu/klatce "
 "głowicy odtwarzającej."
 
-#: src/dialogs/subtitleedit.cpp:112
+#: src/dialogs/subtitleedit.cpp:114
 #, kde-format
 msgid "Split subtitle at cursor position"
 msgstr "Podziel napisy w miejscu wskaźnika"
 
-#: src/dialogs/subtitleedit.cpp:114
+#: src/dialogs/subtitleedit.cpp:116
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7053,23 +7060,23 @@ msgstr ""
 "Wycinka tekst napisu w miejscu kursora i tworzy nowy napis po prawej (tak "
 "jakby cięcie wycinka)."
 
-#: src/dialogs/subtitleedit.cpp:115
+#: src/dialogs/subtitleedit.cpp:117
 #, kde-format
 msgid "Update subtitle text"
 msgstr "Uaktualnij tekst napisu"
 
-#: src/dialogs/subtitleedit.cpp:116
+#: src/dialogs/subtitleedit.cpp:118
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Updates the subtitle display in the timeline."
 msgstr "Uaktualnia wyświetlanie napisów na osi czasu."
 
-#: src/dialogs/subtitleedit.cpp:117
+#: src/dialogs/subtitleedit.cpp:119
 #, kde-format
 msgid "Show style options"
 msgstr "Pokaż ustawienia wyglądu"
 
-#: src/dialogs/subtitleedit.cpp:118
+#: src/dialogs/subtitleedit.cpp:120
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7079,7 +7086,7 @@ msgstr ""
 "Umożliwia dostosowanie czcionki, rozmiaru, barwy, wyglądu obrysu, cienia, "
 "położenia oraz tła."
 
-#: src/dialogs/subtitleedit.cpp:120
+#: src/dialogs/subtitleedit.cpp:122
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7087,45 +7094,50 @@ msgid ""
 msgstr ""
 "Usuwa obecnie zaznaczony napis (nie zadziała, gdy zaznaczono ich wiele)."
 
-#: src/dialogs/subtitleedit.cpp:137
+#: src/dialogs/subtitleedit.cpp:139
 #, kde-format
 msgid "Bottom Center"
 msgstr "Na dole w środku"
 
-#: src/dialogs/subtitleedit.cpp:138
+#: src/dialogs/subtitleedit.cpp:140
 #, kde-format
 msgid "Bottom Left"
 msgstr "Lewy dolny"
 
-#: src/dialogs/subtitleedit.cpp:139
+#: src/dialogs/subtitleedit.cpp:141
 #, kde-format
 msgid "Bottom Right"
 msgstr "Prawy dolny"
 
-#: src/dialogs/subtitleedit.cpp:140
+#: src/dialogs/subtitleedit.cpp:142
 #, kde-format
 msgid "Center Left"
 msgstr "Na środku, w lewo"
 
-#: src/dialogs/subtitleedit.cpp:142
+#: src/dialogs/subtitleedit.cpp:144
 #, kde-format
 msgid "Center Right"
 msgstr "Na środku, w prawo"
 
-#: src/dialogs/subtitleedit.cpp:143
+#: src/dialogs/subtitleedit.cpp:145
 #, kde-format
 msgid "Top Left"
 msgstr "Lewy górny"
 
-#: src/dialogs/subtitleedit.cpp:144
+#: src/dialogs/subtitleedit.cpp:146
 #, kde-format
 msgid "Top Center"
 msgstr "Na górze w środku"
 
-#: src/dialogs/subtitleedit.cpp:145
+#: src/dialogs/subtitleedit.cpp:147
 #, kde-format
 msgid "Top Right"
 msgstr "Prawy górny"
+
+#: src/dialogs/subtitleedit.cpp:431
+#, kde-format
+msgid "Character: %1, total: <b>%2</b>"
+msgstr ""
 
 #: src/dialogs/textbasededit.cpp:52
 #, kde-format
@@ -17557,9 +17569,10 @@ msgstr "Usuń bieżący punkt."
 #. i18n: ectx: property (text), widget (QToolButton, buttonCut)
 #. i18n: ectx: property (text), widget (QToolButton, buttonApply)
 #. i18n: ectx: property (text), widget (QToolButton, buttonStyle)
-#. i18n: ectx: property (text), widget (QToolButton, buttonIn)
 #. i18n: ectx: property (text), widget (QToolButton, buttonLock)
 #. i18n: ectx: property (text), widget (QToolButton, buttonOut)
+#. i18n: ectx: property (text), widget (QToolButton, buttonIn)
+#. i18n: ectx: property (text), widget (QToolButton, menu)
 #. i18n: ectx: property (text), widget (QToolButton, buttonDelete)
 #. i18n: ectx: property (text), widget (QToolButton, button_more)
 #: src/ui/bezierspline_ui.ui:69 src/ui/bezierspline_ui.ui:94
@@ -17577,41 +17590,41 @@ msgstr "Usuń bieżący punkt."
 #: src/ui/configspeech_ui.ui:234 src/ui/cutjobdialog_ui.ui:84
 #: src/ui/editrenderpreset_ui.ui:470 src/ui/editsub_ui.ui:23
 #: src/ui/editsub_ui.ui:33 src/ui/editsub_ui.ui:43 src/ui/editsub_ui.ui:54
-#: src/ui/editsub_ui.ui:65 src/ui/editsub_ui.ui:76 src/ui/editsub_ui.ui:135
-#: src/ui/editsub_ui.ui:156 src/ui/editsub_ui.ui:189 src/ui/editsub_ui.ui:457
-#: src/ui/exportguidesdialog_ui.ui:108 src/ui/exportguidesdialog_ui.ui:128
-#: src/ui/gradientedit_ui.ui:130 src/ui/gradientedit_ui.ui:150
-#: src/ui/guideslist_ui.ui:19 src/ui/guideslist_ui.ui:36
-#: src/ui/guideslist_ui.ui:50 src/ui/guideslist_ui.ui:64
-#: src/ui/guideslist_ui.ui:77 src/ui/guideslist_ui.ui:103
-#: src/ui/guideslist_ui.ui:129 src/ui/managecache_ui.ui:65
-#: src/ui/managecache_ui.ui:79 src/ui/managecache_ui.ui:100
-#: src/ui/managecache_ui.ui:131 src/ui/managecache_ui.ui:277
-#: src/ui/managecache_ui.ui:328 src/ui/manageencodingprofile_ui.ui:48
-#: src/ui/manageencodingprofile_ui.ui:59 src/ui/manageencodingprofile_ui.ui:70
-#: src/ui/manageencodingprofile_ui.ui:84 src/ui/projectsettings_ui.ui:276
-#: src/ui/projectsettings_ui.ui:283 src/ui/projectsettings_ui.ui:293
-#: src/ui/projectsettings_ui.ui:571 src/ui/projectsettings_ui.ui:578
-#: src/ui/qtextclip_ui.ui:94 src/ui/renderwidget_ui.ui:968
-#: src/ui/resourcewidget_ui.ui:214 src/ui/resourcewidget_ui.ui:281
-#: src/ui/speechdialog_ui.ui:75 src/ui/textbasededit_ui.ui:67
-#: src/ui/textbasededit_ui.ui:100 src/ui/textbasededit_ui.ui:121
-#: src/ui/textbasededit_ui.ui:137 src/ui/textbasededit_ui.ui:216
-#: src/ui/textbasededit_ui.ui:240 src/ui/textbasededit_ui.ui:253
-#: src/ui/textbasededit_ui.ui:267 src/ui/textbasededit_ui.ui:283
-#: src/ui/timeremap_ui.ui:97 src/ui/timeremap_ui.ui:151
-#: src/ui/timeremap_ui.ui:182 src/ui/timeremap_ui.ui:192
-#: src/ui/timeremap_ui.ui:202 src/ui/timeremap_ui.ui:379
-#: src/ui/titlewidget_ui.ui:830 src/ui/titlewidget_ui.ui:840
-#: src/ui/titlewidget_ui.ui:1045 src/ui/titlewidget_ui.ui:1100
-#: src/ui/titlewidget_ui.ui:1150 src/ui/titlewidget_ui.ui:1173
-#: src/ui/titlewidget_ui.ui:1206 src/ui/titlewidget_ui.ui:1296
-#: src/ui/titlewidget_ui.ui:1594 src/ui/titlewidget_ui.ui:1611
-#: src/ui/titlewidget_ui.ui:1625 src/ui/titlewidget_ui.ui:1692
-#: src/ui/titlewidget_ui.ui:1706 src/ui/titlewidget_ui.ui:1720
-#: src/ui/titlewidget_ui.ui:1734 src/ui/titlewidget_ui.ui:1748
-#: src/ui/titlewidget_ui.ui:1762 src/ui/unicodewidget_ui.ui:201
-#: src/ui/unicodewidget_ui.ui:226
+#: src/ui/editsub_ui.ui:65 src/ui/editsub_ui.ui:76 src/ui/editsub_ui.ui:151
+#: src/ui/editsub_ui.ui:191 src/ui/editsub_ui.ui:202 src/ui/editsub_ui.ui:233
+#: src/ui/editsub_ui.ui:474 src/ui/exportguidesdialog_ui.ui:108
+#: src/ui/exportguidesdialog_ui.ui:128 src/ui/gradientedit_ui.ui:130
+#: src/ui/gradientedit_ui.ui:150 src/ui/guideslist_ui.ui:19
+#: src/ui/guideslist_ui.ui:36 src/ui/guideslist_ui.ui:50
+#: src/ui/guideslist_ui.ui:64 src/ui/guideslist_ui.ui:77
+#: src/ui/guideslist_ui.ui:103 src/ui/guideslist_ui.ui:129
+#: src/ui/managecache_ui.ui:65 src/ui/managecache_ui.ui:79
+#: src/ui/managecache_ui.ui:100 src/ui/managecache_ui.ui:131
+#: src/ui/managecache_ui.ui:277 src/ui/managecache_ui.ui:328
+#: src/ui/manageencodingprofile_ui.ui:48 src/ui/manageencodingprofile_ui.ui:59
+#: src/ui/manageencodingprofile_ui.ui:70 src/ui/manageencodingprofile_ui.ui:84
+#: src/ui/projectsettings_ui.ui:276 src/ui/projectsettings_ui.ui:283
+#: src/ui/projectsettings_ui.ui:293 src/ui/projectsettings_ui.ui:571
+#: src/ui/projectsettings_ui.ui:578 src/ui/qtextclip_ui.ui:94
+#: src/ui/renderwidget_ui.ui:968 src/ui/resourcewidget_ui.ui:214
+#: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:75
+#: src/ui/textbasededit_ui.ui:67 src/ui/textbasededit_ui.ui:100
+#: src/ui/textbasededit_ui.ui:121 src/ui/textbasededit_ui.ui:137
+#: src/ui/textbasededit_ui.ui:216 src/ui/textbasededit_ui.ui:240
+#: src/ui/textbasededit_ui.ui:253 src/ui/textbasededit_ui.ui:267
+#: src/ui/textbasededit_ui.ui:283 src/ui/timeremap_ui.ui:97
+#: src/ui/timeremap_ui.ui:151 src/ui/timeremap_ui.ui:182
+#: src/ui/timeremap_ui.ui:192 src/ui/timeremap_ui.ui:202
+#: src/ui/timeremap_ui.ui:379 src/ui/titlewidget_ui.ui:830
+#: src/ui/titlewidget_ui.ui:840 src/ui/titlewidget_ui.ui:1045
+#: src/ui/titlewidget_ui.ui:1100 src/ui/titlewidget_ui.ui:1150
+#: src/ui/titlewidget_ui.ui:1173 src/ui/titlewidget_ui.ui:1206
+#: src/ui/titlewidget_ui.ui:1296 src/ui/titlewidget_ui.ui:1594
+#: src/ui/titlewidget_ui.ui:1611 src/ui/titlewidget_ui.ui:1625
+#: src/ui/titlewidget_ui.ui:1692 src/ui/titlewidget_ui.ui:1706
+#: src/ui/titlewidget_ui.ui:1720 src/ui/titlewidget_ui.ui:1734
+#: src/ui/titlewidget_ui.ui:1748 src/ui/titlewidget_ui.ui:1762
+#: src/ui/unicodewidget_ui.ui:201 src/ui/unicodewidget_ui.ui:226
 #, kde-format
 msgid "..."
 msgstr "…"
@@ -17674,7 +17687,7 @@ msgstr "Początek przycięcia:"
 
 #. i18n: ectx: property (text), widget (QLabel, position_label)
 #. i18n: ectx: property (text), widget (QLabel, label_position)
-#: src/ui/clipdurationdialog_ui.ui:41 src/ui/editsub_ui.ui:182
+#: src/ui/clipdurationdialog_ui.ui:41 src/ui/editsub_ui.ui:219
 #, kde-format
 msgid "Position:"
 msgstr "Położenie:"
@@ -19275,68 +19288,68 @@ msgid "Enable manual editing"
 msgstr "Włącz ręczne edytowanie"
 
 #. i18n: ectx: property (text), widget (QLabel, label_end)
-#: src/ui/editsub_ui.ui:146
+#: src/ui/editsub_ui.ui:184
 #, kde-format
 msgid "End:"
 msgstr "Koniec:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkPosition)
-#: src/ui/editsub_ui.ui:270
+#: src/ui/editsub_ui.ui:287
 #, kde-format
 msgid "Custom Position"
 msgstr "Własne położenie"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, shadowSize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, outlineSize)
-#: src/ui/editsub_ui.ui:280 src/ui/editsub_ui.ui:389
+#: src/ui/editsub_ui.ui:297 src/ui/editsub_ui.ui:406
 #, kde-format
 msgid "px"
 msgstr "piks."
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFontColor)
-#: src/ui/editsub_ui.ui:287
+#: src/ui/editsub_ui.ui:304
 #, kde-format
 msgid "Custom Font Color"
 msgstr "Własny kolor czcionki"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOutlineSize)
-#: src/ui/editsub_ui.ui:294
+#: src/ui/editsub_ui.ui:311
 #, kde-format
 msgid "Custom Outline Size"
 msgstr "Własny rozmiar obrysu"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkShadowSize)
-#: src/ui/editsub_ui.ui:301
+#: src/ui/editsub_ui.ui:318
 #, kde-format
 msgid "Custom Shadow"
 msgstr "Własny cień"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOpaque)
-#: src/ui/editsub_ui.ui:332
+#: src/ui/editsub_ui.ui:349
 #, kde-format
 msgid "Opaque background"
 msgstr "Nieprzezroczyste tło"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, fontSize)
-#: src/ui/editsub_ui.ui:349
+#: src/ui/editsub_ui.ui:366
 #, kde-format
 msgid "pt"
 msgstr "punkt"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOutlineColor)
-#: src/ui/editsub_ui.ui:362
+#: src/ui/editsub_ui.ui:379
 #, kde-format
 msgid "Custom Outline Color"
 msgstr "Własny kolor obrysu"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFontSize)
-#: src/ui/editsub_ui.ui:406
+#: src/ui/editsub_ui.ui:423
 #, kde-format
 msgid "Custom Font Size"
 msgstr "Własny rozmiar czcionki"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFont)
-#: src/ui/editsub_ui.ui:426
+#: src/ui/editsub_ui.ui:443
 #, kde-format
 msgid "Custom Font"
 msgstr "Własna czcionka"
