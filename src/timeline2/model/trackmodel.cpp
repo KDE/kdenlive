@@ -84,6 +84,8 @@ TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, Mlt::Tractor 
 TrackModel::~TrackModel()
 {
     if (!m_softDelete) {
+        m_playlists[0].clear();
+        m_playlists[1].clear();
         m_track->remove_track(1);
         m_track->remove_track(0);
     }

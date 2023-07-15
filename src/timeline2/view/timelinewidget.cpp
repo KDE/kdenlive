@@ -170,6 +170,9 @@ void TimelineWidget::unsetModel()
 {
     rootContext()->setContextProperty("controller", nullptr);
     rootContext()->setContextProperty("multitrack", nullptr);
+    rootContext()->setContextProperty("timeline", nullptr);
+    rootContext()->setContextProperty("guidesModel", nullptr);
+    rootContext()->setContextProperty("subtitleModel", nullptr);
     m_sortModel.reset(new QSortFilterProxyModel(this));
     m_proxy->prepareClose();
 }

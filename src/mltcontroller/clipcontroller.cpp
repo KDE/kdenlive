@@ -63,7 +63,9 @@ ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt:
 ClipController::~ClipController()
 {
     delete m_properties;
+    Q_ASSERT(m_thumbsProducer.use_count() <= 1);
     m_thumbsProducer.reset();
+    Q_ASSERT(m_masterProducer.use_count() <= 1);
     m_masterProducer.reset();
 }
 

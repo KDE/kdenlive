@@ -208,6 +208,8 @@ public Q_SLOTS:
 
 private Q_SLOTS:
     void slotRevert();
+    /** @brief A timeline sequence duration changed, update our properties. */
+    void updateSequenceDuration(const QUuid &uuid);
     /** @brief Open the project's backupdialog. */
     bool slotOpenBackup(const QUrl &url = QUrl());
     /** @brief Start autosaving the document. */

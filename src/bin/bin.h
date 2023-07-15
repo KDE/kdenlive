@@ -388,7 +388,6 @@ private Q_SLOTS:
     /** @brief Setup the bin view type (icon view, tree view, ...).
      * @param action The action whose data defines the view type or nullptr to keep default view */
     void slotInitView(QAction *action);
-
     void slotSetIconSize(int size);
     void selectProxyModel(const QModelIndex &id);
     void slotSaveHeaders();

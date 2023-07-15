@@ -207,7 +207,24 @@ std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QDo
     return self;
 }
 
-ProjectClip::~ProjectClip() {}
+ProjectClip::~ProjectClip()
+{
+    if (pCore->currentDoc()->closing) {
+        for (auto &p : m_audioProducers) {
+            m_effectStack->removeService(p.second);
+        }
+        for (auto &p : m_videoProducers) {
+            m_effectStack->removeService(p.second);
+        }
+        for (auto &p : m_timewarpProducers) {
+            m_effectStack->removeService(p.second);
+        }
+        // Release audio producers
+        m_audioProducers.clear();
+        m_videoProducers.clear();
+        m_timewarpProducers.clear();
+    }
+}
 
 void ProjectClip::connectEffectStack()
 {

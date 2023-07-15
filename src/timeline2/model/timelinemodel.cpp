@@ -189,8 +189,11 @@ TimelineModel::~TimelineModel()
         for (auto tracks : all_ids) {
             deregisterTrack_lambda(tracks)();
         }
-        for (const auto &clip : m_allClips) {
-            clip.second->deregisterClipToBin();
+        if (!pCore->currentDoc()->closing) {
+            // If we are not closing the project, unregister this timeline clips from bin
+            for (const auto &clip : m_allClips) {
+                clip.second->deregisterClipToBin();
+            }
         }
     }
 }
@@ -4713,7 +4716,7 @@ void TimelineModel::updateDuration()
         field->lock();
         m_blackClip->set("out", duration + TimelineModel::seekDuration);
         field->unlock();
-        Q_EMIT durationUpdated();
+        Q_EMIT durationUpdated(m_uuid);
         if (m_masterStack) {
             Q_EMIT m_masterStack->dataChanged(QModelIndex(), QModelIndex(), {});
         }

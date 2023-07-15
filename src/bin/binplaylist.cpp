@@ -20,6 +20,11 @@ BinPlaylist::BinPlaylist(const QUuid &uuid)
     m_binPlaylist->set("id", binPlaylistId.toUtf8().constData());
 }
 
+BinPlaylist::~BinPlaylist()
+{
+    Q_ASSERT(m_binPlaylist->count() == 0);
+}
+
 void BinPlaylist::manageBinItemInsertion(const std::shared_ptr<AbstractProjectItem> &binElem)
 {
     QString id = binElem->clipId();

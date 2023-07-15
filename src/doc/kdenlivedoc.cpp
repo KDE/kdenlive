@@ -2140,7 +2140,7 @@ void KdenliveDoc::closeTimeline(const QUuid &uuid)
     std::shared_ptr<TimelineItemModel> model = m_timelines.take(uuid);
     setSequenceProperty(uuid, QStringLiteral("groups"), model->groupsData());
     model->passSequenceProperties(getSequenceProperties(uuid));
-    model->prepareClose(true);
+    model->prepareClose(!closing);
     model.reset();
     // Clear all sequence properties
     m_sequenceProperties.remove(uuid);

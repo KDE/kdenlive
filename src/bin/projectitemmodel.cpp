@@ -73,6 +73,7 @@ void ProjectItemModel::buildPlaylist(const QUuid uuid)
     m_uuid = uuid;
     m_fileWatcher->clear();
     m_extraPlaylists.clear();
+    Q_ASSERT(m_projectTractor.use_count() <= 1);
     m_projectTractor.reset();
     m_binPlaylist.reset(new BinPlaylist(uuid));
     m_projectTractor.reset(new Mlt::Tractor(pCore->getProjectProfile()));

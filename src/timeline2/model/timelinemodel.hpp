@@ -966,7 +966,7 @@ Q_SIGNALS:
     /** @brief signal triggered by track operations */
     void invalidateZone(int in, int out);
     /** @brief signal triggered when a track duration changed (insertion/deletion) */
-    void durationUpdated();
+    void durationUpdated(const QUuid &uuid);
 
     /** @brief Signal sent whenever the selection changes */
     void selectionChanged();

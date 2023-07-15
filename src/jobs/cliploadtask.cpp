@@ -703,7 +703,8 @@ void ClipLoadTask::run()
     if (!m_isCanceled.loadAcquire()) {
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.itemId));
         if (binClip) {
-            QMetaObject::invokeMethod(binClip.get(), "setProducer", Qt::QueuedConnection, Q_ARG(std::shared_ptr<Mlt::Producer>, producer), Q_ARG(bool, true));
+            QMetaObject::invokeMethod(binClip.get(), "setProducer", Qt::QueuedConnection, Q_ARG(std::shared_ptr<Mlt::Producer>, std::move(producer)),
+                                      Q_ARG(bool, true));
             if (checkProfile && !isVariableFrameRate && seekable) {
                 pCore->bin()->shouldCheckProfile = false;
                 QMetaObject::invokeMethod(pCore->bin(), "slotCheckProfile", Qt::QueuedConnection, Q_ARG(QString, QString::number(m_owner.itemId)));

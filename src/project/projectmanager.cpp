@@ -384,6 +384,9 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     if (guiConstructed) {
         pCore->window()->disableMulticam();
         Q_EMIT pCore->window()->clearAssetPanel();
+        pCore->mixer()->unsetModel();
+        pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
+        pCore->monitorManager()->projectMonitor()->setProducer(nullptr);
     }
     if (m_project) {
         m_project->closing = true;
@@ -392,7 +395,6 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         }
         pCore->taskManager.slotCancelJobs(true);
         m_project->commandStack()->clear();
-        ::mlt_pool_purge();
         pCore->cleanup();
         if (guiConstructed) {
             const QList<QUuid> uuids = m_project->getTimelinesUuids();
@@ -402,13 +404,13 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             }
         }
     }
-    // Release model shared pointers
+    // Ensure we don't have stuck references to timelinemodel
+    qDebug() << "TIMELINEMODEL COUNTS: " << m_activeTimelineModel.use_count();
+    Q_ASSERT(m_activeTimelineModel.use_count() <= 1);
     m_activeTimelineModel.reset();
+    // Release model shared pointers
     if (guiConstructed) {
-        pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
-        pCore->monitorManager()->projectMonitor()->setProducer(nullptr);
         pCore->bin()->cleanDocument();
-        pCore->mixer()->unsetModel();
         delete m_project;
     } else {
         pCore->projectItemModel()->clean();
@@ -418,6 +420,8 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             m_project->closeTimeline(uid);
         }
     }
+    mlt_service_cache_set_size(nullptr, "producer_avformat", 0);
+    ::mlt_pool_purge();
     m_project = nullptr;
     return true;
 }
@@ -1312,20 +1316,7 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
     pCore->projectItemModel()->setSequencesFolder(folderId.toInt());
     if (pCore->window()) {
         pCore->bin()->registerSequence(uuid, mainId);
-        QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, [id = mainId, model = timelineModel]() {
-            std::shared_ptr<ProjectClip> mainClip = pCore->projectItemModel()->getClipByBinID(id);
-            qDebug() << "::: UPDATING MAIN TIMELINE DURATION: " << model->duration();
-            if (mainClip) {
-                QMap<QString, QString> properties;
-                properties.insert(QStringLiteral("kdenlive:duration"), QString(model->tractor()->frames_to_time(model->duration())));
-                properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(model->duration()));
-                properties.insert(QStringLiteral("length"), QString::number(model->duration()));
-                properties.insert(QStringLiteral("out"), QString::number(model->duration() - 1));
-                mainClip->setProperties(properties, true);
-            } else {
-                qDebug() << ":::: MAIN CLIP PRODUCER NOT FOUND!!!";
-            }
-        });
+        QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, this, &ProjectManager::updateSequenceDuration);
     }
 
     m_project->loadSequenceGroupsAndGuides(uuid);
@@ -1342,6 +1333,24 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
     // Reset locale to C to ensure numbers are serialised correctly
     LocaleHandling::resetLocale();
     return true;
+}
+
+void ProjectManager::updateSequenceDuration(const QUuid &uuid)
+{
+    const QString binId = pCore->projectItemModel()->getSequenceId(uuid);
+    std::shared_ptr<ProjectClip> mainClip = pCore->projectItemModel()->getClipByBinID(binId);
+    std::shared_ptr<TimelineItemModel> model = m_project->getTimeline(uuid);
+    qDebug() << "::: UPDATING MAIN TIMELINE DURATION: " << model->duration();
+    if (mainClip && model) {
+        QMap<QString, QString> properties;
+        properties.insert(QStringLiteral("kdenlive:duration"), QString(model->tractor()->frames_to_time(model->duration())));
+        properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(model->duration()));
+        properties.insert(QStringLiteral("length"), QString::number(model->duration()));
+        properties.insert(QStringLiteral("out"), QString::number(model->duration() - 1));
+        mainClip->setProperties(properties, true);
+    } else {
+        qDebug() << ":::: MAIN CLIP PRODUCER NOT FOUND!!!";
+    }
 }
 
 void ProjectManager::adjustProjectDuration(int duration)
@@ -1661,17 +1670,7 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
         prod->parent().set("kdenlive:description", clip->description().toUtf8().constData());
         prod->parent().set("kdenlive:uuid", uuid.toString().toUtf8().constData());
         prod->parent().set("kdenlive:producer_type", ClipType::Timeline);
-        QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, [uuid, id]() {
-            std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(id);
-            if (clip) {
-                std::shared_ptr<TimelineItemModel> timelineModel = pCore->currentDoc()->getTimeline(uuid);
-                QMap<QString, QString> properties;
-                int duration = timelineModel->duration();
-                properties.insert(QStringLiteral("kdenlive:duration"), QString(timelineModel->tractor()->frames_to_time(duration)));
-                properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(duration));
-                clip->setProperties(properties, true);
-            }
-        });
+        QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, this, &ProjectManager::updateSequenceDuration);
         m_project->loadSequenceGroupsAndGuides(uuid);
         clip->setProducer(prod, false, false);
         if (!duplicate) {
