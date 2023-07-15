@@ -1170,7 +1170,7 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
     }
     QScopedPointer<QDialog> dlg(new QDialog(this));
     QScopedPointer<KFileWidget> fileWidget(new KFileWidget(QUrl::fromLocalFile(framesFolder), dlg.data()));
-    dlg->setWindowTitle(addToProject ? i18nc("@title:window", "Save Image") : i18nc("@title:window", "Save Image to Project"));
+    dlg->setWindowTitle(addToProject ? i18nc("@title:window", "Save Image to Project") : i18nc("@title:window", "Save Image"));
     auto *layout = new QVBoxLayout;
     layout->addWidget(fileWidget.data());
     QCheckBox *b = nullptr;
