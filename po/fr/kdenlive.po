@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-14 00:46+0000\n"
+"POT-Creation-Date: 2023-07-15 00:46+0000\n"
 "PO-Revision-Date: 2023-06-27 08:53+0200\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: fr\n"
@@ -3700,7 +3700,7 @@ msgstr "A gauche et au centre"
 
 #: src/assets/view/widgets/keyframeimport.cpp:229
 #: src/assets/view/widgets/keyframeimport.cpp:239
-#: src/dialogs/subtitleedit.cpp:143 src/transitions/view/mixstackview.cpp:47
+#: src/dialogs/subtitleedit.cpp:144 src/transitions/view/mixstackview.cpp:47
 #, kde-format
 msgid "Center"
 msgstr "Centre"
@@ -5130,12 +5130,12 @@ msgstr "Durée :"
 msgid "MLT Playlist (*.mlt)"
 msgstr "Liste de lecture MLT (*.mlt)"
 
-#: src/bin/mediabrowser.cpp:52
+#: src/bin/mediabrowser.cpp:52 src/dialogs/subtitleedit.cpp:150
 #, kde-format
 msgid "Zoom In"
 msgstr "Zoom avant"
 
-#: src/bin/mediabrowser.cpp:53
+#: src/bin/mediabrowser.cpp:53 src/dialogs/subtitleedit.cpp:152
 #, kde-format
 msgid "Zoom Out"
 msgstr "Zoom arrière"
@@ -5420,12 +5420,12 @@ msgstr ""
 msgid "Add text"
 msgstr "Ajouter du texte"
 
-#: src/bin/model/subtitlemodel.cpp:1553 src/dialogs/subtitleedit.cpp:111
+#: src/bin/model/subtitlemodel.cpp:1553 src/dialogs/subtitleedit.cpp:112
 #, kde-format
 msgid "Add subtitle"
 msgstr "Ajouter un sous-titre"
 
-#: src/bin/model/subtitlemodel.cpp:1608 src/dialogs/subtitleedit.cpp:121
+#: src/bin/model/subtitlemodel.cpp:1608 src/dialogs/subtitleedit.cpp:122
 #, kde-format
 msgid "Delete subtitle"
 msgstr "Supprimer un sous-titre"
@@ -7042,12 +7042,12 @@ msgstr "La reconnaissance vocale a échoué"
 msgid "Made by KDE"
 msgstr "Développé par KDE"
 
-#: src/dialogs/subtitleedit.cpp:107
+#: src/dialogs/subtitleedit.cpp:108
 #, kde-format
 msgid "Go to next subtitle"
 msgstr "Aller au sous-titre suivant"
 
-#: src/dialogs/subtitleedit.cpp:108
+#: src/dialogs/subtitleedit.cpp:109
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7057,12 +7057,12 @@ msgstr ""
 "Déplace la tête de lecture dans la frise chronologique au début du sous-"
 "titre à droite."
 
-#: src/dialogs/subtitleedit.cpp:109
+#: src/dialogs/subtitleedit.cpp:110
 #, kde-format
 msgid "Go to previous subtitle"
 msgstr "Aller au sous-titre précédent"
 
-#: src/dialogs/subtitleedit.cpp:110
+#: src/dialogs/subtitleedit.cpp:111
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7072,7 +7072,7 @@ msgstr ""
 "Déplace la tête de lecture dans la frise chronologique au début du sous-"
 "titre à gauche."
 
-#: src/dialogs/subtitleedit.cpp:112
+#: src/dialogs/subtitleedit.cpp:113
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7084,12 +7084,12 @@ msgstr ""
 "<interface>Configuration / Configurer Kdenlive… / Divers</interface>) à la "
 "position / à la trame de la tête de lecture."
 
-#: src/dialogs/subtitleedit.cpp:114
+#: src/dialogs/subtitleedit.cpp:115
 #, kde-format
 msgid "Split subtitle at cursor position"
 msgstr "Scinder le sous-tire à la position du curseur."
 
-#: src/dialogs/subtitleedit.cpp:116
+#: src/dialogs/subtitleedit.cpp:117
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7099,23 +7099,23 @@ msgstr ""
 "Coupe le texte de sous-titre à la position du curseur et créé un nouveau "
 "sous-titre sur la droite (Comme une coupure de vidéo)."
 
-#: src/dialogs/subtitleedit.cpp:117
+#: src/dialogs/subtitleedit.cpp:118
 #, kde-format
 msgid "Update subtitle text"
 msgstr "Mettre à jour le titre du sous-titre"
 
-#: src/dialogs/subtitleedit.cpp:118
+#: src/dialogs/subtitleedit.cpp:119
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Updates the subtitle display in the timeline."
 msgstr "Met à jour l'affichage des sous-titres dans la frise chronologique."
 
-#: src/dialogs/subtitleedit.cpp:119
+#: src/dialogs/subtitleedit.cpp:120
 #, kde-format
 msgid "Show style options"
 msgstr "Afficher les options de style"
 
-#: src/dialogs/subtitleedit.cpp:120
+#: src/dialogs/subtitleedit.cpp:121
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7125,7 +7125,7 @@ msgstr ""
 "Affiche / masque une liste pour l'ajustement de la police, de la couleur, du "
 "style des bordures, des ombres, de la position et de l'arrière-plan."
 
-#: src/dialogs/subtitleedit.cpp:122
+#: src/dialogs/subtitleedit.cpp:123
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7134,47 +7134,47 @@ msgstr ""
 "Supprime le sous-titre actuellement sélectionné (Ne fonctionne pas avec "
 "plusieurs sous-titres)."
 
-#: src/dialogs/subtitleedit.cpp:139
+#: src/dialogs/subtitleedit.cpp:140
 #, kde-format
 msgid "Bottom Center"
 msgstr "En bas et au centre"
 
-#: src/dialogs/subtitleedit.cpp:140
+#: src/dialogs/subtitleedit.cpp:141
 #, kde-format
 msgid "Bottom Left"
 msgstr "En bas et à gauche"
 
-#: src/dialogs/subtitleedit.cpp:141
+#: src/dialogs/subtitleedit.cpp:142
 #, kde-format
 msgid "Bottom Right"
 msgstr "En bas à droite"
 
-#: src/dialogs/subtitleedit.cpp:142
+#: src/dialogs/subtitleedit.cpp:143
 #, kde-format
 msgid "Center Left"
 msgstr "Au centre et à gauche"
 
-#: src/dialogs/subtitleedit.cpp:144
+#: src/dialogs/subtitleedit.cpp:145
 #, kde-format
 msgid "Center Right"
 msgstr "Au centre et à droite"
 
-#: src/dialogs/subtitleedit.cpp:145
+#: src/dialogs/subtitleedit.cpp:146
 #, kde-format
 msgid "Top Left"
 msgstr "En haut à gauche"
 
-#: src/dialogs/subtitleedit.cpp:146
+#: src/dialogs/subtitleedit.cpp:147
 #, kde-format
 msgid "Top Center"
 msgstr "En haut au centre"
 
-#: src/dialogs/subtitleedit.cpp:147
+#: src/dialogs/subtitleedit.cpp:148
 #, kde-format
 msgid "Top Right"
 msgstr "En haut et à droite"
 
-#: src/dialogs/subtitleedit.cpp:431
+#: src/dialogs/subtitleedit.cpp:476
 #, kde-format
 msgid "Character: %1, total: <b>%2</b>"
 msgstr ""
@@ -17687,7 +17687,7 @@ msgstr "Supprimer le point courant."
 #. i18n: ectx: property (text), widget (QToolButton, buttonLock)
 #. i18n: ectx: property (text), widget (QToolButton, buttonOut)
 #. i18n: ectx: property (text), widget (QToolButton, buttonIn)
-#. i18n: ectx: property (text), widget (QToolButton, menu)
+#. i18n: ectx: property (text), widget (QToolButton, subMenu)
 #. i18n: ectx: property (text), widget (QToolButton, buttonDelete)
 #. i18n: ectx: property (text), widget (QToolButton, button_more)
 #: src/ui/bezierspline_ui.ui:69 src/ui/bezierspline_ui.ui:94
@@ -17707,7 +17707,7 @@ msgstr "Supprimer le point courant."
 #: src/ui/editsub_ui.ui:33 src/ui/editsub_ui.ui:43 src/ui/editsub_ui.ui:54
 #: src/ui/editsub_ui.ui:65 src/ui/editsub_ui.ui:76 src/ui/editsub_ui.ui:151
 #: src/ui/editsub_ui.ui:191 src/ui/editsub_ui.ui:202 src/ui/editsub_ui.ui:233
-#: src/ui/editsub_ui.ui:474 src/ui/exportguidesdialog_ui.ui:108
+#: src/ui/editsub_ui.ui:478 src/ui/exportguidesdialog_ui.ui:108
 #: src/ui/exportguidesdialog_ui.ui:128 src/ui/gradientedit_ui.ui:130
 #: src/ui/gradientedit_ui.ui:150 src/ui/guideslist_ui.ui:19
 #: src/ui/guideslist_ui.ui:36 src/ui/guideslist_ui.ui:50
@@ -19424,62 +19424,62 @@ msgid "End:"
 msgstr "Fin :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkPosition)
-#: src/ui/editsub_ui.ui:287
+#: src/ui/editsub_ui.ui:291
 #, kde-format
 msgid "Custom Position"
 msgstr "Position personnalisée"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, shadowSize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, outlineSize)
-#: src/ui/editsub_ui.ui:297 src/ui/editsub_ui.ui:406
+#: src/ui/editsub_ui.ui:301 src/ui/editsub_ui.ui:410
 #, kde-format
 msgid "px"
 msgstr "px"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFontColor)
-#: src/ui/editsub_ui.ui:304
+#: src/ui/editsub_ui.ui:308
 #, kde-format
 msgid "Custom Font Color"
 msgstr "Couleur personnalisée de police"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOutlineSize)
-#: src/ui/editsub_ui.ui:311
+#: src/ui/editsub_ui.ui:315
 #, kde-format
 msgid "Custom Outline Size"
 msgstr "Taille personnalisée de bordure"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkShadowSize)
-#: src/ui/editsub_ui.ui:318
+#: src/ui/editsub_ui.ui:322
 #, kde-format
 msgid "Custom Shadow"
 msgstr "Ombrage personnalisé"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOpaque)
-#: src/ui/editsub_ui.ui:349
+#: src/ui/editsub_ui.ui:353
 #, kde-format
 msgid "Opaque background"
 msgstr "Arrière-plan opaque"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, fontSize)
-#: src/ui/editsub_ui.ui:366
+#: src/ui/editsub_ui.ui:370
 #, kde-format
 msgid "pt"
 msgstr "pt"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOutlineColor)
-#: src/ui/editsub_ui.ui:379
+#: src/ui/editsub_ui.ui:383
 #, kde-format
 msgid "Custom Outline Color"
 msgstr "Couleur personnalisée de bordure"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFontSize)
-#: src/ui/editsub_ui.ui:423
+#: src/ui/editsub_ui.ui:427
 #, kde-format
 msgid "Custom Font Size"
 msgstr "Taille personnalisée de police"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFont)
-#: src/ui/editsub_ui.ui:443
+#: src/ui/editsub_ui.ui:447
 #, kde-format
 msgid "Custom Font"
 msgstr "Police personnalisée"

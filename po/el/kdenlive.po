@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-14 00:46+0000\n"
+"POT-Creation-Date: 2023-07-15 00:46+0000\n"
 "PO-Revision-Date: 2020-04-15 11:41+0300\n"
 "Last-Translator: Petros Vidalis <pvidalis@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -3747,7 +3747,7 @@ msgstr "Κατακόρυφη στοίχιση"
 
 #: src/assets/view/widgets/keyframeimport.cpp:229
 #: src/assets/view/widgets/keyframeimport.cpp:239
-#: src/dialogs/subtitleedit.cpp:143 src/transitions/view/mixstackview.cpp:47
+#: src/dialogs/subtitleedit.cpp:144 src/transitions/view/mixstackview.cpp:47
 #, fuzzy, kde-format
 #| msgid "Countdown"
 msgid "Center"
@@ -5263,12 +5263,12 @@ msgstr "Διάρκεια:"
 msgid "MLT Playlist (*.mlt)"
 msgstr "Κλιπ λίστας αναπαραγωγής"
 
-#: src/bin/mediabrowser.cpp:52
+#: src/bin/mediabrowser.cpp:52 src/dialogs/subtitleedit.cpp:150
 #, kde-format
 msgid "Zoom In"
 msgstr "Μεγέθυνση"
 
-#: src/bin/mediabrowser.cpp:53
+#: src/bin/mediabrowser.cpp:53 src/dialogs/subtitleedit.cpp:152
 #, kde-format
 msgid "Zoom Out"
 msgstr "Σμίκρυνση"
@@ -5574,13 +5574,13 @@ msgstr ""
 msgid "Add text"
 msgstr "Προσθήκη κειμένου"
 
-#: src/bin/model/subtitlemodel.cpp:1553 src/dialogs/subtitleedit.cpp:111
+#: src/bin/model/subtitlemodel.cpp:1553 src/dialogs/subtitleedit.cpp:112
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Add subtitle"
 msgstr "Προσθήκη οδηγού"
 
-#: src/bin/model/subtitlemodel.cpp:1608 src/dialogs/subtitleedit.cpp:121
+#: src/bin/model/subtitlemodel.cpp:1608 src/dialogs/subtitleedit.cpp:122
 #, fuzzy, kde-format
 #| msgid "Delete clip"
 msgid "Delete subtitle"
@@ -7269,13 +7269,13 @@ msgstr ""
 msgid "Made by KDE"
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:107
+#: src/dialogs/subtitleedit.cpp:108
 #, fuzzy, kde-format
 #| msgid "Go to marker..."
 msgid "Go to next subtitle"
 msgstr "Μετάβαση στον δείκτη..."
 
-#: src/dialogs/subtitleedit.cpp:108
+#: src/dialogs/subtitleedit.cpp:109
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7283,13 +7283,13 @@ msgid ""
 "right."
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:109
+#: src/dialogs/subtitleedit.cpp:110
 #, fuzzy, kde-format
 #| msgid "Go to previous keyframe"
 msgid "Go to previous subtitle"
 msgstr "Μετάβαση στο προηγούμενο keyframe"
 
-#: src/dialogs/subtitleedit.cpp:110
+#: src/dialogs/subtitleedit.cpp:111
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7297,7 +7297,7 @@ msgid ""
 "left."
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:112
+#: src/dialogs/subtitleedit.cpp:113
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7306,13 +7306,13 @@ msgid ""
 "frame."
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:114
+#: src/dialogs/subtitleedit.cpp:115
 #, fuzzy, kde-format
 #| msgid "No guide at cursor time"
 msgid "Split subtitle at cursor position"
 msgstr "Δεν υπάρχει οδηγός στην χρονική στιγμή του δρομέα"
 
-#: src/dialogs/subtitleedit.cpp:116
+#: src/dialogs/subtitleedit.cpp:117
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7320,25 +7320,25 @@ msgid ""
 "the right (like cutting a clip)."
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:117
+#: src/dialogs/subtitleedit.cpp:118
 #, fuzzy, kde-format
 #| msgid "Update Profile"
 msgid "Update subtitle text"
 msgstr "Ενημέρωση προφίλ"
 
-#: src/dialogs/subtitleedit.cpp:118
+#: src/dialogs/subtitleedit.cpp:119
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Updates the subtitle display in the timeline."
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:119
+#: src/dialogs/subtitleedit.cpp:120
 #, fuzzy, kde-format
 #| msgid "Show/Hide options"
 msgid "Show style options"
 msgstr "Εμφάνιση/απόκρυψη επιλογών"
 
-#: src/dialogs/subtitleedit.cpp:120
+#: src/dialogs/subtitleedit.cpp:121
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7346,62 +7346,62 @@ msgid ""
 "and background."
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:122
+#: src/dialogs/subtitleedit.cpp:123
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Deletes the currently selected subtitle (doesn’t work on multiple subtitles)."
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:139
+#: src/dialogs/subtitleedit.cpp:140
 #, fuzzy, kde-format
 #| msgid "Horizontal center"
 msgid "Bottom Center"
 msgstr "Οριζόντια στοίχιση"
 
-#: src/dialogs/subtitleedit.cpp:140
+#: src/dialogs/subtitleedit.cpp:141
 #, fuzzy, kde-format
 #| msgid "Bottom first"
 msgid "Bottom Left"
 msgstr "Η βάση πρώτα"
 
-#: src/dialogs/subtitleedit.cpp:141
+#: src/dialogs/subtitleedit.cpp:142
 #, fuzzy, kde-format
 #| msgid "Bottom first"
 msgid "Bottom Right"
 msgstr "Η βάση πρώτα"
 
-#: src/dialogs/subtitleedit.cpp:142
+#: src/dialogs/subtitleedit.cpp:143
 #, fuzzy, kde-format
 #| msgid "Countdown"
 msgid "Center Left"
 msgstr "Αντίστροφη μέτρηση"
 
-#: src/dialogs/subtitleedit.cpp:144
+#: src/dialogs/subtitleedit.cpp:145
 #, fuzzy, kde-format
 #| msgid "Left,Center,Right"
 msgid "Center Right"
 msgstr "Αριστερά,κέντρο,δεξιά"
 
-#: src/dialogs/subtitleedit.cpp:145
+#: src/dialogs/subtitleedit.cpp:146
 #, fuzzy, kde-format
 #| msgid "Clip left"
 msgid "Top Left"
 msgstr "Περικοπή αριστερά"
 
-#: src/dialogs/subtitleedit.cpp:146
+#: src/dialogs/subtitleedit.cpp:147
 #, fuzzy, kde-format
 #| msgid "Clip left"
 msgid "Top Center"
 msgstr "Περικοπή αριστερά"
 
-#: src/dialogs/subtitleedit.cpp:147
+#: src/dialogs/subtitleedit.cpp:148
 #, fuzzy, kde-format
 #| msgid "Copyright"
 msgid "Top Right"
 msgstr "Πνευματικά δικαιώματα"
 
-#: src/dialogs/subtitleedit.cpp:431
+#: src/dialogs/subtitleedit.cpp:476
 #, kde-format
 msgid "Character: %1, total: <b>%2</b>"
 msgstr ""
@@ -18265,7 +18265,7 @@ msgstr "Διαγραφή τρέχοντος κουμπιού"
 #. i18n: ectx: property (text), widget (QToolButton, buttonLock)
 #. i18n: ectx: property (text), widget (QToolButton, buttonOut)
 #. i18n: ectx: property (text), widget (QToolButton, buttonIn)
-#. i18n: ectx: property (text), widget (QToolButton, menu)
+#. i18n: ectx: property (text), widget (QToolButton, subMenu)
 #. i18n: ectx: property (text), widget (QToolButton, buttonDelete)
 #. i18n: ectx: property (text), widget (QToolButton, button_more)
 #: src/ui/bezierspline_ui.ui:69 src/ui/bezierspline_ui.ui:94
@@ -18285,7 +18285,7 @@ msgstr "Διαγραφή τρέχοντος κουμπιού"
 #: src/ui/editsub_ui.ui:33 src/ui/editsub_ui.ui:43 src/ui/editsub_ui.ui:54
 #: src/ui/editsub_ui.ui:65 src/ui/editsub_ui.ui:76 src/ui/editsub_ui.ui:151
 #: src/ui/editsub_ui.ui:191 src/ui/editsub_ui.ui:202 src/ui/editsub_ui.ui:233
-#: src/ui/editsub_ui.ui:474 src/ui/exportguidesdialog_ui.ui:108
+#: src/ui/editsub_ui.ui:478 src/ui/exportguidesdialog_ui.ui:108
 #: src/ui/exportguidesdialog_ui.ui:128 src/ui/gradientedit_ui.ui:130
 #: src/ui/gradientedit_ui.ui:150 src/ui/guideslist_ui.ui:19
 #: src/ui/guideslist_ui.ui:36 src/ui/guideslist_ui.ui:50
@@ -20100,7 +20100,7 @@ msgid "End:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkPosition)
-#: src/ui/editsub_ui.ui:287
+#: src/ui/editsub_ui.ui:291
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Custom Position"
@@ -20108,61 +20108,61 @@ msgstr "Σύνθεση"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, shadowSize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, outlineSize)
-#: src/ui/editsub_ui.ui:297 src/ui/editsub_ui.ui:406
+#: src/ui/editsub_ui.ui:301 src/ui/editsub_ui.ui:410
 #, fuzzy, kde-format
 #| msgid "x"
 msgid "px"
 msgstr "x"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFontColor)
-#: src/ui/editsub_ui.ui:304
+#: src/ui/editsub_ui.ui:308
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Custom Font Color"
 msgstr "Δημιουργία φακέλου"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOutlineSize)
-#: src/ui/editsub_ui.ui:311
+#: src/ui/editsub_ui.ui:315
 #, fuzzy, kde-format
 msgid "Custom Outline Size"
 msgstr "Ποιότητα"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkShadowSize)
-#: src/ui/editsub_ui.ui:318
+#: src/ui/editsub_ui.ui:322
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Custom Shadow"
 msgstr "Δημιουργία φακέλου"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOpaque)
-#: src/ui/editsub_ui.ui:349
+#: src/ui/editsub_ui.ui:353
 #, fuzzy, kde-format
 #| msgid "Image background"
 msgid "Opaque background"
 msgstr "Φόντο εικόνας"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, fontSize)
-#: src/ui/editsub_ui.ui:366
+#: src/ui/editsub_ui.ui:370
 #, kde-format
 msgid "pt"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOutlineColor)
-#: src/ui/editsub_ui.ui:379
+#: src/ui/editsub_ui.ui:383
 #, fuzzy, kde-format
 #| msgid "Outline Color"
 msgid "Custom Outline Color"
 msgstr "Χρώμα περιγράμματος"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFontSize)
-#: src/ui/editsub_ui.ui:423
+#: src/ui/editsub_ui.ui:427
 #, fuzzy, kde-format
 #| msgid "Font Size"
 msgid "Custom Font Size"
 msgstr "Μέγεθος γραμματοσειράς"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFont)
-#: src/ui/editsub_ui.ui:443
+#: src/ui/editsub_ui.ui:447
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Custom Font"

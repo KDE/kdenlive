@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-14 00:46+0000\n"
+"POT-Creation-Date: 2023-07-15 00:46+0000\n"
 "PO-Revision-Date: 2023-06-07 21:36+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -3635,7 +3635,7 @@ msgstr "Vasen keskellä"
 
 #: src/assets/view/widgets/keyframeimport.cpp:229
 #: src/assets/view/widgets/keyframeimport.cpp:239
-#: src/dialogs/subtitleedit.cpp:143 src/transitions/view/mixstackview.cpp:47
+#: src/dialogs/subtitleedit.cpp:144 src/transitions/view/mixstackview.cpp:47
 #, kde-format
 msgid "Center"
 msgstr "Keskusta"
@@ -5046,12 +5046,12 @@ msgstr "Kesto:"
 msgid "MLT Playlist (*.mlt)"
 msgstr "MLT-soittolista (*.mlt)"
 
-#: src/bin/mediabrowser.cpp:52
+#: src/bin/mediabrowser.cpp:52 src/dialogs/subtitleedit.cpp:150
 #, kde-format
 msgid "Zoom In"
 msgstr "Lähennä"
 
-#: src/bin/mediabrowser.cpp:53
+#: src/bin/mediabrowser.cpp:53 src/dialogs/subtitleedit.cpp:152
 #, kde-format
 msgid "Zoom Out"
 msgstr "Loitonna"
@@ -5346,12 +5346,12 @@ msgstr ""
 msgid "Add text"
 msgstr "Lisää teksti"
 
-#: src/bin/model/subtitlemodel.cpp:1553 src/dialogs/subtitleedit.cpp:111
+#: src/bin/model/subtitlemodel.cpp:1553 src/dialogs/subtitleedit.cpp:112
 #, kde-format
 msgid "Add subtitle"
 msgstr "Lisää tekstitys"
 
-#: src/bin/model/subtitlemodel.cpp:1608 src/dialogs/subtitleedit.cpp:121
+#: src/bin/model/subtitlemodel.cpp:1608 src/dialogs/subtitleedit.cpp:122
 #, kde-format
 msgid "Delete subtitle"
 msgstr "Poista tekstitys"
@@ -6945,12 +6945,12 @@ msgstr "Puheentunnistus epäonnistui"
 msgid "Made by KDE"
 msgstr "KDE:n tekemä"
 
-#: src/dialogs/subtitleedit.cpp:107
+#: src/dialogs/subtitleedit.cpp:108
 #, kde-format
 msgid "Go to next subtitle"
 msgstr "Seuraavaan tekstitykseen"
 
-#: src/dialogs/subtitleedit.cpp:108
+#: src/dialogs/subtitleedit.cpp:109
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6958,12 +6958,12 @@ msgid ""
 "right."
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:109
+#: src/dialogs/subtitleedit.cpp:110
 #, kde-format
 msgid "Go to previous subtitle"
 msgstr "Edelliseen tekstitykseen"
 
-#: src/dialogs/subtitleedit.cpp:110
+#: src/dialogs/subtitleedit.cpp:111
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6971,7 +6971,7 @@ msgid ""
 "left."
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:112
+#: src/dialogs/subtitleedit.cpp:113
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6980,12 +6980,12 @@ msgid ""
 "frame."
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:114
+#: src/dialogs/subtitleedit.cpp:115
 #, kde-format
 msgid "Split subtitle at cursor position"
 msgstr "Jaa tekstitys kursorin kohdalta"
 
-#: src/dialogs/subtitleedit.cpp:116
+#: src/dialogs/subtitleedit.cpp:117
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6993,23 +6993,23 @@ msgid ""
 "the right (like cutting a clip)."
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:117
+#: src/dialogs/subtitleedit.cpp:118
 #, kde-format
 msgid "Update subtitle text"
 msgstr "Päivitä tekstitys"
 
-#: src/dialogs/subtitleedit.cpp:118
+#: src/dialogs/subtitleedit.cpp:119
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Updates the subtitle display in the timeline."
 msgstr "Päivittää tekstitysnäkymän aikajanalla."
 
-#: src/dialogs/subtitleedit.cpp:119
+#: src/dialogs/subtitleedit.cpp:120
 #, kde-format
 msgid "Show style options"
 msgstr "Näytä tyylivalinnat"
 
-#: src/dialogs/subtitleedit.cpp:120
+#: src/dialogs/subtitleedit.cpp:121
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7017,54 +7017,54 @@ msgid ""
 "and background."
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:122
+#: src/dialogs/subtitleedit.cpp:123
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Deletes the currently selected subtitle (doesn’t work on multiple subtitles)."
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:139
+#: src/dialogs/subtitleedit.cpp:140
 #, kde-format
 msgid "Bottom Center"
 msgstr "Alakeski"
 
-#: src/dialogs/subtitleedit.cpp:140
+#: src/dialogs/subtitleedit.cpp:141
 #, kde-format
 msgid "Bottom Left"
 msgstr "Alavasemmalla"
 
-#: src/dialogs/subtitleedit.cpp:141
+#: src/dialogs/subtitleedit.cpp:142
 #, kde-format
 msgid "Bottom Right"
 msgstr "Alaoikealla"
 
-#: src/dialogs/subtitleedit.cpp:142
+#: src/dialogs/subtitleedit.cpp:143
 #, kde-format
 msgid "Center Left"
 msgstr "Keskellä vasemmalla"
 
-#: src/dialogs/subtitleedit.cpp:144
+#: src/dialogs/subtitleedit.cpp:145
 #, kde-format
 msgid "Center Right"
 msgstr "Keskellä oikealla"
 
-#: src/dialogs/subtitleedit.cpp:145
+#: src/dialogs/subtitleedit.cpp:146
 #, kde-format
 msgid "Top Left"
 msgstr "Ylävasemmalla"
 
-#: src/dialogs/subtitleedit.cpp:146
+#: src/dialogs/subtitleedit.cpp:147
 #, kde-format
 msgid "Top Center"
 msgstr "Yläkeski"
 
-#: src/dialogs/subtitleedit.cpp:147
+#: src/dialogs/subtitleedit.cpp:148
 #, kde-format
 msgid "Top Right"
 msgstr "Yläoikealla"
 
-#: src/dialogs/subtitleedit.cpp:431
+#: src/dialogs/subtitleedit.cpp:476
 #, kde-format
 msgid "Character: %1, total: <b>%2</b>"
 msgstr ""
@@ -17420,7 +17420,7 @@ msgstr "Poista nykyinen piste."
 #. i18n: ectx: property (text), widget (QToolButton, buttonLock)
 #. i18n: ectx: property (text), widget (QToolButton, buttonOut)
 #. i18n: ectx: property (text), widget (QToolButton, buttonIn)
-#. i18n: ectx: property (text), widget (QToolButton, menu)
+#. i18n: ectx: property (text), widget (QToolButton, subMenu)
 #. i18n: ectx: property (text), widget (QToolButton, buttonDelete)
 #. i18n: ectx: property (text), widget (QToolButton, button_more)
 #: src/ui/bezierspline_ui.ui:69 src/ui/bezierspline_ui.ui:94
@@ -17440,7 +17440,7 @@ msgstr "Poista nykyinen piste."
 #: src/ui/editsub_ui.ui:33 src/ui/editsub_ui.ui:43 src/ui/editsub_ui.ui:54
 #: src/ui/editsub_ui.ui:65 src/ui/editsub_ui.ui:76 src/ui/editsub_ui.ui:151
 #: src/ui/editsub_ui.ui:191 src/ui/editsub_ui.ui:202 src/ui/editsub_ui.ui:233
-#: src/ui/editsub_ui.ui:474 src/ui/exportguidesdialog_ui.ui:108
+#: src/ui/editsub_ui.ui:478 src/ui/exportguidesdialog_ui.ui:108
 #: src/ui/exportguidesdialog_ui.ui:128 src/ui/gradientedit_ui.ui:130
 #: src/ui/gradientedit_ui.ui:150 src/ui/guideslist_ui.ui:19
 #: src/ui/guideslist_ui.ui:36 src/ui/guideslist_ui.ui:50
@@ -19151,62 +19151,62 @@ msgstr "Päättyy:"
 
 # Jälkituotanto valittu kun se oli eräässä muussa ohjelmassa. Voisi olla myös koostaminen, sommittelu, yhdistäminen. Composition on  "laitetaan yhteen" videota, ääntä, kuvaa, tekstiä. Jälkituotannon efektit laitoin "laajennuksiksi" koska niitä voi ladata lisää ja ohjelmassa on muutenkin lisäksi efektejä "tehosteita" erikseen.
 #. i18n: ectx: property (text), widget (QCheckBox, checkPosition)
-#: src/ui/editsub_ui.ui:287
+#: src/ui/editsub_ui.ui:291
 #, kde-format
 msgid "Custom Position"
 msgstr "Mukautettu sijainti"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, shadowSize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, outlineSize)
-#: src/ui/editsub_ui.ui:297 src/ui/editsub_ui.ui:406
+#: src/ui/editsub_ui.ui:301 src/ui/editsub_ui.ui:410
 #, kde-format
 msgid "px"
 msgstr "px"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFontColor)
-#: src/ui/editsub_ui.ui:304
+#: src/ui/editsub_ui.ui:308
 #, kde-format
 msgid "Custom Font Color"
 msgstr "Mukautettu fonttiväri"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOutlineSize)
-#: src/ui/editsub_ui.ui:311
+#: src/ui/editsub_ui.ui:315
 #, kde-format
 msgid "Custom Outline Size"
 msgstr "Mukautetun ääriviivan koko"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkShadowSize)
-#: src/ui/editsub_ui.ui:318
+#: src/ui/editsub_ui.ui:322
 #, kde-format
 msgid "Custom Shadow"
 msgstr "Mukautettu varjo"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOpaque)
-#: src/ui/editsub_ui.ui:349
+#: src/ui/editsub_ui.ui:353
 #, kde-format
 msgid "Opaque background"
 msgstr "Peittävä tausta"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, fontSize)
-#: src/ui/editsub_ui.ui:366
+#: src/ui/editsub_ui.ui:370
 #, kde-format
 msgid "pt"
 msgstr "pt"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOutlineColor)
-#: src/ui/editsub_ui.ui:379
+#: src/ui/editsub_ui.ui:383
 #, kde-format
 msgid "Custom Outline Color"
 msgstr "Mukautetun ääriviivan väri"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFontSize)
-#: src/ui/editsub_ui.ui:423
+#: src/ui/editsub_ui.ui:427
 #, kde-format
 msgid "Custom Font Size"
 msgstr "Mukautetun fonttikoko"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFont)
-#: src/ui/editsub_ui.ui:443
+#: src/ui/editsub_ui.ui:447
 #, kde-format
 msgid "Custom Font"
 msgstr "Mukautettu fontti"
