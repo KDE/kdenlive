@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-14 00:46+0000\n"
-"PO-Revision-Date: 2023-07-12 06:49+0100\n"
+"POT-Creation-Date: 2023-07-15 00:46+0000\n"
+"PO-Revision-Date: 2023-07-14 09:26+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -2960,10 +2960,9 @@ msgid "Luma Map"
 msgstr "Luma Mapo"
 
 #: data/transitions/dissolve.xml:19 data/transitions/luma.xml:17
-#, fuzzy, kde-format
-#| msgid "Make selected color transparent"
+#, kde-format
 msgid "Make padding transparent"
-msgstr "Fari elektitan koloron travidebla"
+msgstr "Fari remburon travidebla"
 
 #: data/transitions/luma.xml:4
 #, kde-format
@@ -3647,7 +3646,7 @@ msgstr "Maldekstra centro"
 
 #: src/assets/view/widgets/keyframeimport.cpp:229
 #: src/assets/view/widgets/keyframeimport.cpp:239
-#: src/dialogs/subtitleedit.cpp:143 src/transitions/view/mixstackview.cpp:47
+#: src/dialogs/subtitleedit.cpp:144 src/transitions/view/mixstackview.cpp:47
 #, kde-format
 msgid "Center"
 msgstr "Centro"
@@ -5062,12 +5061,12 @@ msgstr "Daŭro:"
 msgid "MLT Playlist (*.mlt)"
 msgstr "MLT-Ludlisto (*.mlt)"
 
-#: src/bin/mediabrowser.cpp:52
+#: src/bin/mediabrowser.cpp:52 src/dialogs/subtitleedit.cpp:150
 #, kde-format
 msgid "Zoom In"
 msgstr "Zomi"
 
-#: src/bin/mediabrowser.cpp:53
+#: src/bin/mediabrowser.cpp:53 src/dialogs/subtitleedit.cpp:152
 #, kde-format
 msgid "Zoom Out"
 msgstr "Malzomi"
@@ -5351,12 +5350,12 @@ msgstr ""
 msgid "Add text"
 msgstr "Aldoni tekston"
 
-#: src/bin/model/subtitlemodel.cpp:1553 src/dialogs/subtitleedit.cpp:111
+#: src/bin/model/subtitlemodel.cpp:1553 src/dialogs/subtitleedit.cpp:112
 #, kde-format
 msgid "Add subtitle"
 msgstr "Aldoni subtitolon"
 
-#: src/bin/model/subtitlemodel.cpp:1608 src/dialogs/subtitleedit.cpp:121
+#: src/bin/model/subtitlemodel.cpp:1608 src/dialogs/subtitleedit.cpp:122
 #, kde-format
 msgid "Delete subtitle"
 msgstr "Forigi subtitolon"
@@ -6957,12 +6956,12 @@ msgstr "Parola rekono malsukcesis"
 msgid "Made by KDE"
 msgstr "Farita de KDE"
 
-#: src/dialogs/subtitleedit.cpp:107
+#: src/dialogs/subtitleedit.cpp:108
 #, kde-format
 msgid "Go to next subtitle"
 msgstr "Iri al la sekva subteksto"
 
-#: src/dialogs/subtitleedit.cpp:108
+#: src/dialogs/subtitleedit.cpp:109
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6971,12 +6970,12 @@ msgid ""
 msgstr ""
 "Movas la ludkapon en la templinio al la komenco de la subtitolo dekstren."
 
-#: src/dialogs/subtitleedit.cpp:109
+#: src/dialogs/subtitleedit.cpp:110
 #, kde-format
 msgid "Go to previous subtitle"
 msgstr "Iri al la antaŭa subteksto"
 
-#: src/dialogs/subtitleedit.cpp:110
+#: src/dialogs/subtitleedit.cpp:111
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6985,7 +6984,7 @@ msgid ""
 msgstr ""
 "Movas la ludkapon en la templinio al la komenco de la subtitolo maldekstren."
 
-#: src/dialogs/subtitleedit.cpp:112
+#: src/dialogs/subtitleedit.cpp:113
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6996,12 +6995,12 @@ msgstr ""
 "Kreas novan subtitolon kun la defaŭlta longo (agordita en <interface>Agordoj-"
 ">Agordu Kdenlive…->Misc</interface>) ĉe la nuna ludkapo pozicio/kadro."
 
-#: src/dialogs/subtitleedit.cpp:114
+#: src/dialogs/subtitleedit.cpp:115
 #, kde-format
 msgid "Split subtitle at cursor position"
 msgstr "Dividi subtitolon ĉe la pozicio de la kursoro"
 
-#: src/dialogs/subtitleedit.cpp:116
+#: src/dialogs/subtitleedit.cpp:117
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7011,23 +7010,23 @@ msgstr ""
 "Tranĉas la subtitolan tekston ĉe la pozicio de la kursoro kaj kreas novan "
 "subtitolon dekstre (kiel tondi aŭdvidaĵon)."
 
-#: src/dialogs/subtitleedit.cpp:117
+#: src/dialogs/subtitleedit.cpp:118
 #, kde-format
 msgid "Update subtitle text"
 msgstr "Ĝisdatigi subtitolan tekston"
 
-#: src/dialogs/subtitleedit.cpp:118
+#: src/dialogs/subtitleedit.cpp:119
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Updates the subtitle display in the timeline."
 msgstr "Ĝisdatigas la subtitolon en la templinio."
 
-#: src/dialogs/subtitleedit.cpp:119
+#: src/dialogs/subtitleedit.cpp:120
 #, kde-format
 msgid "Show style options"
 msgstr "Montri stilopciojn"
 
-#: src/dialogs/subtitleedit.cpp:120
+#: src/dialogs/subtitleedit.cpp:121
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7037,7 +7036,7 @@ msgstr ""
 "Ŝaltas liston por ĝustigi tiparon, grandecon, koloron, skizan stilon, "
 "ombron, pozicion kaj fonon."
 
-#: src/dialogs/subtitleedit.cpp:122
+#: src/dialogs/subtitleedit.cpp:123
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -7045,50 +7044,50 @@ msgid ""
 msgstr ""
 "Forigas la nuntempe elektitan subtitolon (ne funkcias ĉe pluraj subtekstoj)."
 
-#: src/dialogs/subtitleedit.cpp:139
+#: src/dialogs/subtitleedit.cpp:140
 #, kde-format
 msgid "Bottom Center"
 msgstr "Malsupra Centro"
 
-#: src/dialogs/subtitleedit.cpp:140
+#: src/dialogs/subtitleedit.cpp:141
 #, kde-format
 msgid "Bottom Left"
 msgstr "Malsupre Maldekstre"
 
-#: src/dialogs/subtitleedit.cpp:141
+#: src/dialogs/subtitleedit.cpp:142
 #, kde-format
 msgid "Bottom Right"
 msgstr "Malsupre Dekstre"
 
-#: src/dialogs/subtitleedit.cpp:142
+#: src/dialogs/subtitleedit.cpp:143
 #, kde-format
 msgid "Center Left"
 msgstr "Centra Maldekstro"
 
-#: src/dialogs/subtitleedit.cpp:144
+#: src/dialogs/subtitleedit.cpp:145
 #, kde-format
 msgid "Center Right"
 msgstr "Centra Dekstra"
 
-#: src/dialogs/subtitleedit.cpp:145
+#: src/dialogs/subtitleedit.cpp:146
 #, kde-format
 msgid "Top Left"
 msgstr "Supre Maldekstre"
 
-#: src/dialogs/subtitleedit.cpp:146
+#: src/dialogs/subtitleedit.cpp:147
 #, kde-format
 msgid "Top Center"
 msgstr "Supra Centro"
 
-#: src/dialogs/subtitleedit.cpp:147
+#: src/dialogs/subtitleedit.cpp:148
 #, kde-format
 msgid "Top Right"
 msgstr "Supre Dekstre"
 
-#: src/dialogs/subtitleedit.cpp:431
+#: src/dialogs/subtitleedit.cpp:476
 #, kde-format
 msgid "Character: %1, total: <b>%2</b>"
-msgstr ""
+msgstr "Signo: %1, totalo: <b>%2</b>"
 
 #: src/dialogs/textbasededit.cpp:52
 #, kde-format
@@ -17419,7 +17418,7 @@ msgstr "Forigi nunan punkton."
 #. i18n: ectx: property (text), widget (QToolButton, buttonLock)
 #. i18n: ectx: property (text), widget (QToolButton, buttonOut)
 #. i18n: ectx: property (text), widget (QToolButton, buttonIn)
-#. i18n: ectx: property (text), widget (QToolButton, menu)
+#. i18n: ectx: property (text), widget (QToolButton, subMenu)
 #. i18n: ectx: property (text), widget (QToolButton, buttonDelete)
 #. i18n: ectx: property (text), widget (QToolButton, button_more)
 #: src/ui/bezierspline_ui.ui:69 src/ui/bezierspline_ui.ui:94
@@ -17439,7 +17438,7 @@ msgstr "Forigi nunan punkton."
 #: src/ui/editsub_ui.ui:33 src/ui/editsub_ui.ui:43 src/ui/editsub_ui.ui:54
 #: src/ui/editsub_ui.ui:65 src/ui/editsub_ui.ui:76 src/ui/editsub_ui.ui:151
 #: src/ui/editsub_ui.ui:191 src/ui/editsub_ui.ui:202 src/ui/editsub_ui.ui:233
-#: src/ui/editsub_ui.ui:474 src/ui/exportguidesdialog_ui.ui:108
+#: src/ui/editsub_ui.ui:478 src/ui/exportguidesdialog_ui.ui:108
 #: src/ui/exportguidesdialog_ui.ui:128 src/ui/gradientedit_ui.ui:130
 #: src/ui/gradientedit_ui.ui:150 src/ui/guideslist_ui.ui:19
 #: src/ui/guideslist_ui.ui:36 src/ui/guideslist_ui.ui:50
@@ -19139,62 +19138,62 @@ msgid "End:"
 msgstr "Fino:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkPosition)
-#: src/ui/editsub_ui.ui:287
+#: src/ui/editsub_ui.ui:291
 #, kde-format
 msgid "Custom Position"
 msgstr "Propra Pozicio"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, shadowSize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, outlineSize)
-#: src/ui/editsub_ui.ui:297 src/ui/editsub_ui.ui:406
+#: src/ui/editsub_ui.ui:301 src/ui/editsub_ui.ui:410
 #, kde-format
 msgid "px"
 msgstr "px"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFontColor)
-#: src/ui/editsub_ui.ui:304
+#: src/ui/editsub_ui.ui:308
 #, kde-format
 msgid "Custom Font Color"
 msgstr "Propra Tiparo Koloro"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOutlineSize)
-#: src/ui/editsub_ui.ui:311
+#: src/ui/editsub_ui.ui:315
 #, kde-format
 msgid "Custom Outline Size"
 msgstr "Propra Skizo Grandeco"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkShadowSize)
-#: src/ui/editsub_ui.ui:318
+#: src/ui/editsub_ui.ui:322
 #, kde-format
 msgid "Custom Shadow"
 msgstr "Propra Ombro"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOpaque)
-#: src/ui/editsub_ui.ui:349
+#: src/ui/editsub_ui.ui:353
 #, kde-format
 msgid "Opaque background"
 msgstr "Maldiafana fono"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, fontSize)
-#: src/ui/editsub_ui.ui:366
+#: src/ui/editsub_ui.ui:370
 #, kde-format
 msgid "pt"
 msgstr "pt"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOutlineColor)
-#: src/ui/editsub_ui.ui:379
+#: src/ui/editsub_ui.ui:383
 #, kde-format
 msgid "Custom Outline Color"
 msgstr "Propra Skizo Koloro"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFontSize)
-#: src/ui/editsub_ui.ui:423
+#: src/ui/editsub_ui.ui:427
 #, kde-format
 msgid "Custom Font Size"
 msgstr "Propra Tiparo Grandeco"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFont)
-#: src/ui/editsub_ui.ui:443
+#: src/ui/editsub_ui.ui:447
 #, kde-format
 msgid "Custom Font"
 msgstr "Propra Tiparo"
