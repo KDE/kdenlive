@@ -102,22 +102,26 @@ void CustomJobTask::run()
     m_jobDuration = int(binClip->duration().seconds());
 
     // Tell ffmpeg to overwrite, we do the file exist check ourselves
-    parameters << QStringLiteral("-y");
-    if (m_inPoint > -1) {
-        parameters << QStringLiteral("-ss") << QString::number(GenTime(m_inPoint, pCore->getCurrentFps()).seconds());
+    if (m_isFfmpegJob) {
+        parameters << QStringLiteral("-y");
+        if (m_inPoint > -1) {
+            parameters << QStringLiteral("-ss") << QString::number(GenTime(m_inPoint, pCore->getCurrentFps()).seconds());
+        }
+        parameters << QStringLiteral("-stats");
     }
-    parameters << QStringLiteral("-stats");
     parameters << jobParameters.split(QLatin1Char(' '));
     int inputIndex = parameters.indexOf(QStringLiteral("%1"));
     if (inputIndex > -1) {
         parameters.replace(inputIndex, source);
-        if (m_outPoint > -1) {
+        if (m_isFfmpegJob && m_outPoint > -1) {
             parameters.insert(inputIndex + 1, QStringLiteral("-to"));
             parameters.insert(inputIndex + 2, QString::number(GenTime(m_outPoint - m_inPoint, pCore->getCurrentFps()).seconds()));
         }
     }
-    // Only output error data
-    parameters << QStringLiteral("-v") << QStringLiteral("error");
+    if (m_isFfmpegJob) {
+        // Only output error data
+        parameters << QStringLiteral("-v") << QStringLiteral("error");
+    }
     // Make sure we keep the stream order
     // parameters << QStringLiteral("-sn") << QStringLiteral("-dn") << QStringLiteral("-map") << QStringLiteral("0");
     QFileInfo sourceInfo(source);
