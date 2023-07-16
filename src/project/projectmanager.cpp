@@ -402,11 +402,17 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
                 pCore->window()->closeTimeline(uid);
                 pCore->window()->resetSubtitles(uid);
             }
+        } else {
+            // Close all timelines
+            const QList<QUuid> uuids = m_project->getTimelinesUuids();
+            for (auto &uid : uuids) {
+                m_project->closeTimeline(uid);
+            }
         }
     }
     // Ensure we don't have stuck references to timelinemodel
-    qDebug() << "TIMELINEMODEL COUNTS: " << m_activeTimelineModel.use_count();
-    Q_ASSERT(m_activeTimelineModel.use_count() <= 1);
+    // qDebug() << "TIMELINEMODEL COUNTS: " << m_activeTimelineModel.use_count();
+    // Q_ASSERT(m_activeTimelineModel.use_count() <= 1);
     m_activeTimelineModel.reset();
     // Release model shared pointers
     if (guiConstructed) {
@@ -414,11 +420,6 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         delete m_project;
     } else {
         pCore->projectItemModel()->clean();
-        // Close all timelines
-        const QList<QUuid> uuids = m_project->getTimelinesUuids();
-        for (auto &uid : uuids) {
-            m_project->closeTimeline(uid);
-        }
     }
     mlt_service_cache_set_size(nullptr, "producer_avformat", 0);
     ::mlt_pool_purge();
@@ -1242,15 +1243,15 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
     TimelineWidget *documentTimeline = nullptr;
 
     m_project->cleanupTimelinePreview(documentDate);
-    if (!createNewTab) {
-        if (pCore->window()) {
+    if (pCore->window()) {
+        if (!createNewTab) {
             documentTimeline = pCore->window()->getCurrentTimeline();
             documentTimeline->setModel(timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
+        } else {
+            // Create a new timeline tab
+            documentTimeline =
+                pCore->window()->openTimeline(uuid, i18n("Sequence 1"), timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
         }
-    } else if (pCore->window()) {
-        // Create a new timeline tab
-        documentTimeline =
-            pCore->window()->openTimeline(uuid, i18n("Sequence 1"), timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
     }
     pCore->projectItemModel()->buildPlaylist(uuid);
     if (m_activeTimelineModel == nullptr) {
