@@ -108,10 +108,14 @@ void MonitorManager::focusProjectMonitor()
     }
 }
 
-void MonitorManager::refreshProjectRange(QPair<int, int> range)
+void MonitorManager::refreshProjectRange(QPair<int, int> range, bool forceRefresh)
 {
     if (m_projectMonitor->position() >= range.first && m_projectMonitor->position() <= range.second) {
-        m_projectMonitor->refreshMonitorIfActive();
+        if (forceRefresh) {
+            m_projectMonitor->refreshMonitor(false);
+        } else {
+            m_projectMonitor->refreshMonitorIfActive();
+        }
     }
 }
 

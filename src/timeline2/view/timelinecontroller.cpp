@@ -5277,6 +5277,14 @@ void TimelineController::checkClipPosition(const QModelIndex &topLeft, const QMo
             Q_EMIT updateAssetPosition(id, m_model->uuid());
         }
     }
+    if (roles.contains(TimelineModel::ResourceRole)) {
+        int id = int(topLeft.internalId());
+        if (m_model->isComposition(id) || m_model->isClip(id)) {
+            int in = m_model->getItemPosition(id);
+            int out = in + m_model->getItemPlaytime(id);
+            pCore->refreshProjectRange({in, out});
+        }
+    }
 }
 
 void TimelineController::autofitTrackHeight(int timelineHeight, int collapsedHeight)

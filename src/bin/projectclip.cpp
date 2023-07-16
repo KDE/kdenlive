@@ -443,7 +443,7 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
         m_thumbsProducer.reset();
         // Reset uuid to enforce reloading thumbnails from qml cache
         m_uuid = QUuid::createUuid();
-        updateTimelineClips({TimelineModel::ClipThumbRole});
+        updateTimelineClips({TimelineModel::ClipThumbRole, TimelineModel::ResourceRole});
         ClipLoadTask::start({ObjectType::BinClip, m_binId.toInt(), QUuid()}, QDomElement(), true, -1, -1, this);
     } else {
         // If another load job is running?
@@ -1677,16 +1677,16 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         m_description = properties.value(QStringLiteral("templatetext"));
         if (auto ptr = m_model.lock())
             std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
-                                                                           {AbstractProjectItem::ClipStatus});
+                                                                           {AbstractProjectItem::DataDescription});
         refreshPanel = true;
     }
     // Some properties also need to be passed to track producers
     QStringList timelineProperties{
         QStringLiteral("force_aspect_ratio"), QStringLiteral("set.force_full_luma"), QStringLiteral("full_luma"),         QStringLiteral("threads"),
         QStringLiteral("force_colorspace"),   QStringLiteral("force_tff"),           QStringLiteral("force_progressive"), QStringLiteral("video_delay")};
-    QStringList forceReloadProperties{QStringLiteral("rotate"),      QStringLiteral("autorotate"),  QStringLiteral("templatetext"),
-                                      QStringLiteral("resource"),    QStringLiteral("force_fps"),   QStringLiteral("set.test_image"),
-                                      QStringLiteral("video_index"), QStringLiteral("disable_exif")};
+    QStringList forceReloadProperties{QStringLiteral("rotate"),      QStringLiteral("autorotate"),     QStringLiteral("resource"),
+                                      QStringLiteral("force_fps"),   QStringLiteral("set.test_image"), QStringLiteral("video_index"),
+                                      QStringLiteral("disable_exif")};
     QStringList keys{QStringLiteral("luma_duration"), QStringLiteral("luma_file"), QStringLiteral("fade"),      QStringLiteral("ttl"),
                      QStringLiteral("softness"),      QStringLiteral("crop"),      QStringLiteral("animation"), QStringLiteral("low-pass")};
     QVector<int> updateRoles;
@@ -1707,6 +1707,15 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
     if (m_clipType == ClipType::QText && properties.contains(QStringLiteral("text"))) {
         reload = true;
         refreshOnly = false;
+    }
+    if (m_clipType == ClipType::TextTemplate && properties.contains(QStringLiteral("templatetext"))) {
+        m_masterProducer->lock();
+        m_masterProducer->set("force_reload", 1);
+        m_masterProducer->unlock();
+        ThumbnailCache::get()->invalidateThumbsForClip(m_binId);
+        reload = true;
+        refreshOnly = true;
+        updateRoles << TimelineModel::ResourceRole;
     }
     if (properties.contains(QStringLiteral("resource"))) {
         // Clip source was changed, update important stuff
@@ -2509,7 +2518,9 @@ void ProjectClip::updateTimelineClips(const QVector<int> &roles)
 {
     for (const auto &clip : m_registeredClips) {
         if (auto timeline = clip.second.lock()) {
-            timeline->requestClipUpdate(clip.first, roles);
+            if (timeline->uuid() == pCore->currentTimelineId()) {
+                timeline->requestClipUpdate(clip.first, roles);
+            }
         } else {
             qDebug() << "Error while reloading clip thumb: timeline unavailable";
             Q_ASSERT(false);

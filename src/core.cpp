@@ -659,7 +659,7 @@ void Core::refreshProjectMonitorOnce()
 void Core::refreshProjectRange(QPair<int, int> range)
 {
     if (!m_guiConstructed) return;
-    m_monitorManager->refreshProjectRange(range);
+    m_monitorManager->refreshProjectRange(range, true);
 }
 
 const QSize Core::getCompositionSizeOnTrack(const ObjectId &id)

@@ -92,7 +92,7 @@ public Q_SLOTS:
     void focusProjectMonitor();
     void refreshProjectMonitor(bool directUpdate = false);
     /** @brief Refresh project monitor if the timeline cursor is inside the range. */
-    void refreshProjectRange(QPair<int, int>range);
+    void refreshProjectRange(QPair<int, int> range, bool forceRefresh = false);
     void refreshClipMonitor(bool directUpdate = false);
 
     /** @brief Switch current monitor to fullscreen. */

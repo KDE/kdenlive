@@ -418,12 +418,13 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     if (guiConstructed) {
         pCore->bin()->cleanDocument();
         delete m_project;
+        m_project = nullptr;
     } else {
         pCore->projectItemModel()->clean();
+        m_project = nullptr;
     }
     mlt_service_cache_set_size(nullptr, "producer_avformat", 0);
     ::mlt_pool_purge();
-    m_project = nullptr;
     return true;
 }
 
