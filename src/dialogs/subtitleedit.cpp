@@ -186,10 +186,12 @@ void SubtitleEdit::slotZoomOut()
 
 void SubtitleEdit::applyFontSize()
 {
-    QTextCursor cursor = subText->textCursor();
-    subText->selectAll();
-    subText->setFontPointSize(KdenliveSettings::subtitleEditFontSize());
-    subText->setTextCursor(cursor);
+    if (KdenliveSettings::subtitleEditFontSize() > 0) {
+        QTextCursor cursor = subText->textCursor();
+        subText->selectAll();
+        subText->setFontPointSize(KdenliveSettings::subtitleEditFontSize());
+        subText->setTextCursor(cursor);
+    }
 }
 
 void SubtitleEdit::updateStyle()
