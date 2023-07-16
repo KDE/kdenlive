@@ -354,7 +354,6 @@ private:
 
     // We fake two playlists to allow same track transitions.
     std::shared_ptr<Mlt::Tractor> m_track;
-    std::shared_ptr<Mlt::Producer> m_mainPlaylist;
     Mlt::Playlist m_playlists[2];
     /// A list of clips having a same track transition, in the form: {first_clip_id, second_clip_id} where first_clip is placed before second_clip
     QMap<int, int> m_mixList;
