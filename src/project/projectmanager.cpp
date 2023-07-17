@@ -1634,10 +1634,6 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
     std::shared_ptr<TimelineItemModel> timelineModel = TimelineItemModel::construct(uuid, m_project->commandStack());
     m_project->addTimeline(uuid, timelineModel);
     TimelineWidget *timeline = nullptr;
-    if (pCore->window()) {
-        // Create tab widget
-        pCore->window()->openTimeline(uuid, clip->clipName(), timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
-    }
     if (internalLoad) {
         qDebug() << "QQQQQQQQQQQQQQQQQQQQ\nINTERNAL SEQUENCE LOAD\n\nQQQQQQQQQQQQQQQQQQQQQQ";
         qDebug() << "============= LOADING INTERNAL PLAYLIST: " << uuid;
@@ -1744,6 +1740,10 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
         updateSequenceProducer(uuid, prod);
         clip->setProducer(prod, false, false);
         m_project->loadSequenceGroupsAndGuides(uuid);
+    }
+    if (pCore->window()) {
+        // Create tab widget
+        pCore->window()->openTimeline(uuid, clip->clipName(), timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
     }
 
     int activeTrackPosition = m_project->getSequenceProperty(uuid, QStringLiteral("activeTrack"), QString::number(-1)).toInt();

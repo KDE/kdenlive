@@ -5811,3 +5811,12 @@ void Bin::moveTimeWarpToFolder(const QDir sequenceFolder, bool copy)
         c->copyTimeWarpProducers(sequenceFolder, copy);
     }
 }
+
+void Bin::sequenceActivated()
+{
+    updateTargets();
+    QList<std::shared_ptr<ProjectClip>> allClips = m_itemModel->getRootFolder()->childClips();
+    for (auto &c : allClips) {
+        c->refreshBounds();
+    }
+}
