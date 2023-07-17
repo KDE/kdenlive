@@ -253,7 +253,6 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     initSequenceProperties(m_project->uuid(), {KdenliveSettings::audiotracks(), KdenliveSettings::videotracks()});
     updateTimeline(0, true, QString(), QString(), QDateTime(), 0);
     pCore->window()->connectDocument();
-    pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
     bool disabled = m_project->getDocumentProperty(QStringLiteral("disabletimelineeffects")) == QLatin1String("1");
     QAction *disableEffects = pCore->window()->actionCollection()->action(QStringLiteral("disable_timeline_effects"));
     if (disableEffects) {
@@ -265,7 +264,15 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     }
     activateDocument(m_project->activeUuid);
     Q_EMIT docOpened(m_project);
+    m_project->loading = false;
     m_lastSave.start();
+    if (pCore->monitorManager()) {
+        Q_EMIT pCore->monitorManager()->updatePreviewScaling();
+        pCore->monitorManager()->projectMonitor()->slotActivateMonitor();
+        pCore->monitorManager()->projectMonitor()->setProducer(m_activeTimelineModel->producer(), 0);
+        const QUuid uuid = m_project->activeUuid;
+        pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_activeTimelineModel->duration() - 1, m_project->getFilteredGuideModel(uuid));
+    }
 }
 
 void ProjectManager::setActiveTimeline(const QUuid &uuid)
@@ -855,6 +862,14 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     Q_EMIT docOpened(m_project);
     pCore->displayMessage(QString(), OperationCompletedMessage, 100);
     m_lastSave.start();
+    m_project->loading = false;
+    if (pCore->monitorManager()) {
+        Q_EMIT pCore->monitorManager()->updatePreviewScaling();
+        pCore->monitorManager()->projectMonitor()->slotActivateMonitor();
+        pCore->monitorManager()->projectMonitor()->setProducer(m_activeTimelineModel->producer(), 0);
+        const QUuid uuid = m_project->activeUuid;
+        pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_activeTimelineModel->duration() - 1, m_project->getFilteredGuideModel(uuid));
+    }
     delete m_progressDialog;
     m_progressDialog = nullptr;
 }
@@ -1322,14 +1337,6 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
     }
 
     m_project->loadSequenceGroupsAndGuides(uuid);
-    if (pCore->monitorManager()) {
-        Q_EMIT pCore->monitorManager()->updatePreviewScaling();
-        pCore->monitorManager()->projectMonitor()->slotActivateMonitor();
-        pCore->monitorManager()->projectMonitor()->setProducer(timelineModel->producer(), pos);
-        const QUuid uuid = m_project->activeUuid;
-        pCore->monitorManager()->projectMonitor()->adjustRulerSize(timelineModel->duration() - 1, m_project->getFilteredGuideModel(uuid));
-    }
-
     timelineModel->setUndoStack(m_project->commandStack());
 
     // Reset locale to C to ensure numbers are serialised correctly

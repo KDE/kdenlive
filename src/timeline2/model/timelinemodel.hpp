@@ -646,7 +646,7 @@ public:
     static int seekDuration; /// Duration after project end where seeking is allowed
     /** @brief True until the timeline has all tracks and clips loaded
      */
-    bool isLoading;
+    bool isLoading{true};
 
     /** @brief Get all the elements of the same group as the given clip.
        If there is a group hierarchy, only the topmost group is considered.

@@ -101,6 +101,8 @@ public:
     KdenliveDoc(std::shared_ptr<DocUndoStack> undoStack, std::pair<int, int> tracks = {2, 2}, MainWindow *parent = nullptr);
     ~KdenliveDoc() override;
     QUuid activeUuid;
+    /** @brief True until all project timelines are loaded. */
+    bool loading{true};
     /** @brief True if we are currently closing the project. */
     bool closing{false};
     /** @brief Get current document's producer. */

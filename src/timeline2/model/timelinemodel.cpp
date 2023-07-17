@@ -107,7 +107,6 @@ int TimelineModel::seekDuration = 30000;
 
 TimelineModel::TimelineModel(const QUuid &uuid, std::weak_ptr<DocUndoStack> undo_stack)
     : QAbstractItemModel_shared_from_this()
-    , isLoading(true)
     , m_blockRefresh(false)
     , m_uuid(uuid)
     , m_tractor(new Mlt::Tractor(pCore->getProjectProfile()))
