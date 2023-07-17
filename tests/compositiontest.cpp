@@ -67,6 +67,9 @@ TEST_CASE("Basic creation/deletion of a composition", "[CompositionModel]")
     REQUIRE(timeline->getCompositionsCount() == 1);
     REQUIRE(timeline->requestItemDeletion(id1));
     REQUIRE(timeline->getCompositionsCount() == 0);
+    pCore->taskManager.slotCancelJobs();
+    mockedDoc.closeTimeline(timeline->uuid());
+    timeline.reset();
     pCore->projectItemModel()->clean();
 }
 
@@ -442,5 +445,8 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
         REQUIRE(timeline->requestItemResize(cid1, length - 2, true) > -1);
         REQUIRE(timeline->requestItemResize(cid2, length, false) > -1);
     }
+    pCore->taskManager.slotCancelJobs();
+    mockedDoc.closeTimeline(timeline->uuid());
+    timeline.reset();
     pCore->projectItemModel()->clean();
 }

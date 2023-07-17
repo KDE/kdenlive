@@ -105,5 +105,7 @@ TEST_CASE("Effects stack", "[Effects]")
         REQUIRE(clipModel->rowCount() == 0);
         REQUIRE(splitModel->rowCount() == 1);
     }
+    timeline.reset();
+    clip.reset();
     pCore->projectManager()->closeCurrentDocument(false, false);
 }

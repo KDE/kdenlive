@@ -268,5 +268,7 @@ TEST_CASE("Keyframe model", "[KeyframeModel]")
         undoStack->undo();
         state1(6.1);
     }
+    clip.reset();
+    timeline.reset();
     pCore->projectManager()->closeCurrentDocument(false, false);
 }

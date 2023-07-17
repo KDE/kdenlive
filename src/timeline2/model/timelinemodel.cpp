@@ -182,13 +182,24 @@ TimelineModel::~TimelineModel()
 {
     m_closing = true;
     if (!m_softDelete) {
-        std::vector<int> all_ids;
-        for (auto tracks : m_iteratorTable) {
-            all_ids.push_back(tracks.first);
+        qDebug() << "::::::==\n\nCLOSING TIMELINE MODEL\n\n::::::::";
+        QScopedPointer<Mlt::Service> service(m_tractor->field());
+        QScopedPointer<Mlt::Field> field(m_tractor->field());
+        field->lock();
+        // Make sure all previous track compositing is removed
+        while (service != nullptr && service->is_valid()) {
+            if (service->type() == mlt_service_transition_type) {
+                Mlt::Transition t(mlt_transition(service->get_service()));
+                service.reset(service->producer());
+                // remove all compositing
+                field->disconnect_service(t);
+                t.disconnect_all_producers();
+            } else {
+                service.reset(service->producer());
+            }
         }
-        for (auto tracks : all_ids) {
-            deregisterTrack_lambda(tracks)();
-        }
+        field->unlock();
+        m_allTracks.clear();
         if (pCore->currentDoc() && !pCore->currentDoc()->closing) {
             // If we are not closing the project, unregister this timeline clips from bin
             for (const auto &clip : m_allClips) {

@@ -115,7 +115,7 @@ void MixerManager::monitorAudio(int tid, bool monitor)
     m_monitorTrack = tid;
 }
 
-void MixerManager::registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service, const QString &trackTag, const QString &trackName)
+void MixerManager::registerTrack(int tid, Mlt::Tractor *service, const QString &trackTag, const QString &trackName)
 {
     if (m_mixers.count(tid) > 0) {
         // Track already registered
