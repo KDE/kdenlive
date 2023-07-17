@@ -2230,9 +2230,11 @@ void ProjectClip::refreshBounds()
     QVector<QPoint> boundaries;
     for (const auto &registeredClip : m_registeredClips) {
         if (auto ptr = registeredClip.second.lock()) {
-            QPoint point = ptr->getClipInDuration(registeredClip.first);
-            if (!boundaries.contains(point)) {
-                boundaries << point;
+            if (ptr->uuid() == pCore->currentTimelineId()) {
+                QPoint point = ptr->getClipInDuration(registeredClip.first);
+                if (!boundaries.contains(point)) {
+                    boundaries << point;
+                }
             }
         }
     }

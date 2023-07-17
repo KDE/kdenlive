@@ -148,7 +148,7 @@ void TimelineTabs::connectCurrent(int ix)
     pCore->window()->connectTimeline();
     connectTimeline(m_activeTimeline);
     if (!m_activeTimeline->model()->isLoading) {
-        pCore->bin()->updateTargets();
+        pCore->bin()->sequenceActivated();
     }
 }
 
