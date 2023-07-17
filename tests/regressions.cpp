@@ -32,6 +32,7 @@ TEST_CASE("Regression")
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
+    pCore->m_projectManager->testSetActiveDocument(&mockedDoc, timeline);
 
     RESET(timMock);
     KdenliveDoc::next_id = 0;
@@ -72,6 +73,9 @@ TEST_CASE("Regression")
     undoStack->redo();
     REQUIRE(timeline->getTrackById(1)->checkConsistency());
     pCore->taskManager.slotCancelJobs();
+    mocked.closeTimeline(timeline->uuid());
+    timeline.reset();
+    binModel->clean();
     pCore->m_projectManager = nullptr;
 }
 
@@ -99,6 +103,7 @@ TEST_CASE("Regression2")
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
+    pCore->m_projectManager->testSetActiveDocument(&mockedDoc, timeline);
 
     RESET(timMock);
     KdenliveDoc::next_id = 0;
@@ -227,6 +232,9 @@ TEST_CASE("Regression2")
     REQUIRE(timeline->getTrackById(6)->checkConsistency());
     undoStack->redo();
     pCore->taskManager.slotCancelJobs();
+    mocked.closeTimeline(timeline->uuid());
+    timeline.reset();
+    binModel->clean();
     pCore->m_projectManager = nullptr;
 }
 
@@ -449,6 +457,7 @@ TEST_CASE("FuzzBug1")
         Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
+        pCore->m_projectManager->testSetActiveDocument(&mockedDoc, timeline_0);
         mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
         REQUIRE(timeline_0->checkConsistency());
@@ -571,6 +580,9 @@ TEST_CASE("FuzzBug1")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         pCore->taskManager.slotCancelJobs();
+        mocked.closeTimeline(timeline_0->uuid());
+        timeline_0.reset();
+        binModel->clean();
         pCore->m_projectManager = nullptr;
     }
 }
@@ -598,6 +610,7 @@ TEST_CASE("FuzzBug2")
         Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
+        pCore->m_projectManager->testSetActiveDocument(&mockedDoc, timeline_0);
 
         mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
@@ -663,6 +676,9 @@ TEST_CASE("FuzzBug2")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         pCore->taskManager.slotCancelJobs();
+        mocked.closeTimeline(timeline_0->uuid());
+        timeline_0.reset();
+        binModel->clean();
         pCore->m_projectManager = nullptr;
     }
 }
@@ -690,6 +706,7 @@ TEST_CASE("FuzzBug3")
         Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
+        pCore->m_projectManager->testSetActiveDocument(&mockedDoc, timeline_0);
 
         mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
@@ -721,6 +738,9 @@ TEST_CASE("FuzzBug3")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         pCore->taskManager.slotCancelJobs();
+        mocked.closeTimeline(timeline_0->uuid());
+        timeline_0.reset();
+        binModel->clean();
         pCore->m_projectManager = nullptr;
     }
 }
@@ -748,6 +768,7 @@ TEST_CASE("FuzzBug4")
         Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
+        pCore->m_projectManager->testSetActiveDocument(&mockedDoc, timeline_0);
 
         mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
@@ -805,6 +826,9 @@ TEST_CASE("FuzzBug4")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         pCore->taskManager.slotCancelJobs();
+        mocked.closeTimeline(timeline_0->uuid());
+        timeline_0.reset();
+        binModel->clean();
         pCore->m_projectManager = nullptr;
     }
 }
@@ -832,6 +856,7 @@ TEST_CASE("FuzzBug5")
         Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
+        pCore->m_projectManager->testSetActiveDocument(&mockedDoc, timeline_0);
 
         mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
@@ -1012,7 +1037,12 @@ TEST_CASE("FuzzBug5")
         mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         pCore->taskManager.slotCancelJobs();
-        pCore->m_projectManager = nullptr;
+        mocked.m_activeTimelineModel.reset();
+        undoStack->clear();
+        mocked.closeTimeline(timeline_0->uuid());
+        binModel->clean();
+        timeline_0.reset();
+        timeline_1.reset();
     }
 }
 
@@ -1039,6 +1069,7 @@ TEST_CASE("FuzzBug6")
         Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
+        pCore->m_projectManager->testSetActiveDocument(&mockedDoc, timeline_0);
 
         mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
@@ -1108,7 +1139,11 @@ TEST_CASE("FuzzBug6")
         mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         pCore->taskManager.slotCancelJobs();
-        pCore->m_projectManager = nullptr;
+        mocked.closeTimeline(timeline_0->uuid());
+        mocked.closeTimeline(timeline_1->uuid());
+        timeline_0.reset();
+        timeline_1.reset();
+        binModel->clean();
     }
 }
 
@@ -1135,6 +1170,7 @@ TEST_CASE("FuzzBug7")
         Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
+        pCore->m_projectManager->testSetActiveDocument(&mockedDoc, timeline_0);
 
         mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
@@ -1278,7 +1314,11 @@ TEST_CASE("FuzzBug7")
         mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         pCore->taskManager.slotCancelJobs();
-        pCore->m_projectManager = nullptr;
+        mocked.closeTimeline(timeline_0->uuid());
+        mocked.closeTimeline(timeline_1->uuid());
+        timeline_0.reset();
+        timeline_1.reset();
+        binModel->clean();
     }
 }
 
@@ -1305,6 +1345,7 @@ TEST_CASE("FuzzBug8")
         Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
+        pCore->m_projectManager->testSetActiveDocument(&mockedDoc, timeline_0);
 
         mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
@@ -1349,7 +1390,9 @@ TEST_CASE("FuzzBug8")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         pCore->taskManager.slotCancelJobs();
-        pCore->m_projectManager = nullptr;
+        mocked.closeTimeline(timeline_0->uuid());
+        timeline_0.reset();
+        binModel->clean();
     }
 }
 
@@ -1376,6 +1419,7 @@ TEST_CASE("FuzzBug9")
         Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
+        pCore->m_projectManager->testSetActiveDocument(&mockedDoc, timeline_0);
 
         mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
@@ -1411,7 +1455,9 @@ TEST_CASE("FuzzBug9")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         pCore->taskManager.slotCancelJobs();
-        pCore->m_projectManager = nullptr;
+        mocked.closeTimeline(timeline_0->uuid());
+        timeline_0.reset();
+        binModel->clean();
     }
 }
 
@@ -1438,6 +1484,7 @@ TEST_CASE("FuzzBug10")
         Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
+        pCore->m_projectManager->testSetActiveDocument(&mockedDoc, timeline_0);
 
         mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
@@ -1467,7 +1514,9 @@ TEST_CASE("FuzzBug10")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         pCore->taskManager.slotCancelJobs();
-        pCore->m_projectManager = nullptr;
+        mocked.closeTimeline(timeline_0->uuid());
+        timeline_0.reset();
+        binModel->clean();
     }
 }
 
@@ -1494,6 +1543,7 @@ TEST_CASE("FuzzBug11")
         Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
+        pCore->m_projectManager->testSetActiveDocument(&mockedDoc, timeline_0);
 
         mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
@@ -1568,6 +1618,8 @@ TEST_CASE("FuzzBug11")
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
         pCore->taskManager.slotCancelJobs();
-        pCore->m_projectManager = nullptr;
+        mocked.closeTimeline(timeline_0->uuid());
+        timeline_0.reset();
+        binModel->clean();
     }
 }

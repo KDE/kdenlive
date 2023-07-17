@@ -83,8 +83,24 @@ TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, Mlt::Tractor 
 TrackModel::~TrackModel()
 {
     if (!m_softDelete) {
-        m_playlists[0].clear();
-        m_playlists[1].clear();
+        QScopedPointer<Mlt::Service> service(m_track->field());
+        QScopedPointer<Mlt::Field> field(m_track->field());
+        field->lock();
+        while (service != nullptr && service->is_valid()) {
+            if (service->type() == mlt_service_transition_type) {
+                Mlt::Transition t(mlt_transition(service->get_service()));
+                service.reset(service->producer());
+                // remove all compositing
+                field->disconnect_service(t);
+                t.disconnect_all_producers();
+            } else {
+                service.reset(service->producer());
+            }
+        }
+        field->unlock();
+        m_sameCompositions.clear();
+        m_allClips.clear();
+        m_allCompositions.clear();
         m_track->remove_track(1);
         m_track->remove_track(0);
     }
@@ -1576,9 +1592,9 @@ bool TrackModel::isAudioTrack() const
     return m_track->get_int("kdenlive:audio_track") == 1;
 }
 
-std::shared_ptr<Mlt::Tractor> TrackModel::getTrackService()
+Mlt::Tractor *TrackModel::getTrackService()
 {
-    return m_track;
+    return m_track.get();
 }
 
 PlaylistState::ClipState TrackModel::trackType() const

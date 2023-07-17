@@ -68,28 +68,6 @@ void MixerWidget::property_changedV2(mlt_service, MixerWidget *widget, mlt_event
     }
 }
 
-MixerWidget::MixerWidget(int tid, std::shared_ptr<Mlt::Tractor> service, QString trackTag, const QString &trackName, int sliderHandle, MixerManager *parent)
-    : QWidget(parent)
-    , m_manager(parent)
-    , m_tid(tid)
-    , m_levelFilter(nullptr)
-    , m_monitorFilter(nullptr)
-    , m_balanceFilter(nullptr)
-    , m_channels(pCore->audioChannels())
-    , m_balanceSlider(nullptr)
-    , m_maxLevels(qMax(30, int(service->get_fps() * 1.5)))
-    , m_solo(nullptr)
-    , m_collapse(nullptr)
-    , m_monitor(nullptr)
-    , m_lastVolume(0)
-    , m_listener(nullptr)
-    , m_recording(false)
-    , m_trackTag(std::move(trackTag))
-    , m_sliderHandleSize(sliderHandle)
-{
-    buildUI(service.get(), trackName);
-}
-
 MixerWidget::MixerWidget(int tid, Mlt::Tractor *service, QString trackTag, const QString &trackName, int sliderHandle, MixerManager *parent)
     : QWidget(parent)
     , m_manager(parent)
