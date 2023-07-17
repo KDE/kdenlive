@@ -1030,7 +1030,7 @@ std::shared_ptr<ProjectItemModel> Core::projectItemModel()
 
 void Core::invalidateRange(QPair<int, int> range)
 {
-    if (!m_guiConstructed || m_mainWindow->getCurrentTimeline()->loading) return;
+    if (!m_guiConstructed || currentDoc()->loading || !m_mainWindow->getCurrentTimeline() || m_mainWindow->getCurrentTimeline()->loading) return;
     m_mainWindow->getCurrentTimeline()->model()->invalidateZone(range.first, range.second);
 }
 
