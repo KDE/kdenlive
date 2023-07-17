@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-16 00:47+0000\n"
+"POT-Creation-Date: 2023-07-17 00:47+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -4534,7 +4534,7 @@ msgstr "प्ले यादी"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2280 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/project/projectmanager.cpp:1274 src/project/projectmanager.cpp:1276
+#: src/project/projectmanager.cpp:1276 src/project/projectmanager.cpp:1278
 #: src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
 msgid "Sequences"
@@ -4786,7 +4786,7 @@ msgid "Edit Tags"
 msgstr "मार्ग दर्शवा (&P)"
 
 #: src/bin/bin.cpp:4262 src/bin/projectclip.cpp:192
-#: src/bin/projectclip.cpp:1967 src/onlineresources/resourcewidget.cpp:266
+#: src/bin/projectclip.cpp:1976 src/onlineresources/resourcewidget.cpp:266
 #: src/onlineresources/resourcewidget.cpp:557
 #: src/onlineresources/resourcewidget.cpp:572
 #, fuzzy, kde-format
@@ -5042,7 +5042,7 @@ msgid "Duplicate"
 msgstr "ट्रॅक"
 
 #: src/bin/clipcreator.cpp:421 src/core.cpp:963
-#: src/project/projectmanager.cpp:786
+#: src/project/projectmanager.cpp:788
 #, kde-format
 msgid "Loading clips"
 msgstr ""
@@ -5435,12 +5435,12 @@ msgstr "प्रोफाईल \"%1\" संपादित करा"
 msgid "File already exists"
 msgstr "फाईल विस्तारण"
 
-#: src/bin/projectclip.cpp:2721
+#: src/bin/projectclip.cpp:2732
 #, fuzzy, kde-format
 msgid "Add stream effect"
 msgstr "परिणाम :"
 
-#: src/bin/projectclip.cpp:2746
+#: src/bin/projectclip.cpp:2757
 #, fuzzy, kde-format
 msgid "Remove stream effect"
 msgstr "परिणाम :"
@@ -6170,7 +6170,7 @@ msgstr "आयात"
 #: src/project/dialogs/archivewidget.cpp:867
 #: src/project/dialogs/archivewidget.cpp:879
 #: src/project/dialogs/archivewidget.cpp:885
-#: src/project/projectmanager.cpp:1562 src/render/renderrequest.cpp:230
+#: src/project/projectmanager.cpp:1564 src/render/renderrequest.cpp:230
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5109
@@ -7116,7 +7116,7 @@ msgstr "डावीकडे स्थीत करा"
 msgid "Top Right"
 msgstr "कॉपीराईट"
 
-#: src/dialogs/subtitleedit.cpp:476
+#: src/dialogs/subtitleedit.cpp:478
 #, kde-format
 msgid "Character: %1, total: <b>%2</b>"
 msgstr ""
@@ -7820,8 +7820,8 @@ msgstr ""
 msgid "Invalid file path"
 msgstr "प्रोफाईल \"%1\" संपादित करा"
 
-#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:737
-#: src/project/projectmanager.cpp:801 src/project/projectmanager.cpp:835
+#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:739
+#: src/project/projectmanager.cpp:803 src/project/projectmanager.cpp:837
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr ""
@@ -7887,15 +7887,15 @@ msgid ""
 "it was not possible to create the backup copy %1."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:869 src/project/projectmanager.cpp:1154
-#: src/project/projectmanager.cpp:1190
+#: src/doc/kdenlivedoc.cpp:869 src/project/projectmanager.cpp:1156
+#: src/project/projectmanager.cpp:1192
 #, fuzzy, kde-format
 msgid "Error moving project folder: %1"
 msgstr "फाईल उघडतेवेळी त्रुटी"
 
 #: src/doc/kdenlivedoc.cpp:1038 src/doc/kdenlivedoc.cpp:2191
 #: src/project/dialogs/archivewidget.cpp:226
-#: src/project/projectmanager.cpp:1396
+#: src/project/projectmanager.cpp:1398
 #, kde-format
 msgid "Untitled"
 msgstr "शिर्षकहीन"
@@ -8454,7 +8454,7 @@ msgstr ""
 msgid "Application %1 not found, please update the job settings"
 msgstr ""
 
-#: src/jobs/customjobtask.cpp:166 src/jobs/customjobtask.cpp:176
+#: src/jobs/customjobtask.cpp:170 src/jobs/customjobtask.cpp:180
 #: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:231
 #: src/jobs/transcodetask.cpp:267
 #, kde-format
@@ -10720,12 +10720,12 @@ msgid ""
 "project file will then be reloaded"
 msgstr ""
 
-#: src/mainwindow.cpp:2221 src/project/projectmanager.cpp:510
+#: src/mainwindow.cpp:2221 src/project/projectmanager.cpp:512
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr ""
 
-#: src/mainwindow.cpp:2226 src/project/projectmanager.cpp:516
+#: src/mainwindow.cpp:2226 src/project/projectmanager.cpp:518
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr ""
@@ -11546,34 +11546,34 @@ msgstr ""
 msgid "1:1"
 msgstr "x"
 
-#: src/monitor/monitor.cpp:306 src/monitor/monitormanager.cpp:626
+#: src/monitor/monitor.cpp:306 src/monitor/monitormanager.cpp:630
 #, kde-format
 msgid "Set Zone In"
 msgstr ""
 
-#: src/monitor/monitor.cpp:307 src/monitor/monitormanager.cpp:630
+#: src/monitor/monitor.cpp:307 src/monitor/monitormanager.cpp:634
 #, kde-format
 msgid "Set Zone Out"
 msgstr ""
 
-#: src/monitor/monitor.cpp:319 src/monitor/monitormanager.cpp:510
+#: src/monitor/monitor.cpp:319 src/monitor/monitormanager.cpp:514
 #, kde-format
 msgid "Rewind"
 msgstr ""
 
 #: src/monitor/monitor.cpp:324 src/monitor/monitor.cpp:327
-#: src/monitor/monitormanager.cpp:485
+#: src/monitor/monitormanager.cpp:489
 #, fuzzy, kde-format
 msgid "Play"
 msgstr "सुरु करा"
 
-#: src/monitor/monitor.cpp:327 src/monitor/monitormanager.cpp:485
-#: src/monitor/monitormanager.cpp:491
+#: src/monitor/monitor.cpp:327 src/monitor/monitormanager.cpp:489
+#: src/monitor/monitormanager.cpp:495
 #, fuzzy, kde-format
 msgid "Pause"
 msgstr "स्तब्ध करा"
 
-#: src/monitor/monitor.cpp:347 src/monitor/monitormanager.cpp:523
+#: src/monitor/monitor.cpp:347 src/monitor/monitormanager.cpp:527
 #, kde-format
 msgid "Forward"
 msgstr "पुढे"
@@ -11757,168 +11757,168 @@ msgstr ""
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:196
+#: src/monitor/monitormanager.cpp:200
 #, kde-format
 msgid ""
 "Do you want to <a href=\"#clipmonitor\">show the clip monitor</a> to view "
 "timeline?"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:215
+#: src/monitor/monitormanager.cpp:219
 #, kde-format
 msgid ""
 "Do you want to <a href=\"#projectmonitor\">show the project monitor</a> to "
 "view timeline?"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:495
+#: src/monitor/monitormanager.cpp:499
 #, kde-format
 msgid "Switch Monitor Fullscreen"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:500
+#: src/monitor/monitormanager.cpp:504
 #, fuzzy, kde-format
 #| msgid "Settings"
 msgid "Zoom In Monitor"
 msgstr "संयोजना"
 
-#: src/monitor/monitormanager.cpp:505
+#: src/monitor/monitormanager.cpp:509
 #, fuzzy, kde-format
 #| msgid "Settings"
 msgid "Zoom Out Monitor"
 msgstr "संयोजना"
 
-#: src/monitor/monitormanager.cpp:514
+#: src/monitor/monitormanager.cpp:518
 #, kde-format
 msgid "Rewind 1 Frame"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:518
+#: src/monitor/monitormanager.cpp:522
 #, kde-format
 msgid "Rewind 1 Second"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:527
+#: src/monitor/monitormanager.cpp:531
 #, kde-format
 msgid "Go to Project Start"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:531
+#: src/monitor/monitormanager.cpp:535
 #, kde-format
 msgid "Go to Project End"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:535
+#: src/monitor/monitormanager.cpp:539
 #, kde-format
 msgid "Forward 1 Frame"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:539
+#: src/monitor/monitormanager.cpp:543
 #, kde-format
 msgid "Forward 1 Second"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:544
+#: src/monitor/monitormanager.cpp:548
 #, fuzzy, kde-format
 #| msgid "Split view"
 msgid "Multitrack View"
 msgstr "विभाजित दृश्य पद्धती"
 
-#: src/monitor/monitormanager.cpp:553
+#: src/monitor/monitormanager.cpp:557
 #, kde-format
 msgid "Perform Multitrack Operation"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:557
+#: src/monitor/monitormanager.cpp:561
 #, kde-format
 msgid "Show/Hide edit mode"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:558
+#: src/monitor/monitormanager.cpp:562
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles edit mode (and the display of the object handles)."
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:564
+#: src/monitor/monitormanager.cpp:568
 #, fuzzy, kde-format
 #| msgid "Interface"
 msgid "Deinterlacer"
 msgstr "दुवा"
 
-#: src/monitor/monitormanager.cpp:565
+#: src/monitor/monitormanager.cpp:569
 #, kde-format
 msgid "One Field (fast)"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:566
+#: src/monitor/monitormanager.cpp:570
 #, kde-format
 msgid "Linear Blend (fast)"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:567
+#: src/monitor/monitormanager.cpp:571
 #, kde-format
 msgid "YADIF - temporal only (good)"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:568
+#: src/monitor/monitormanager.cpp:572
 #, kde-format
 msgid "YADIF - temporal + spacial (best)"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:582
+#: src/monitor/monitormanager.cpp:586
 #, kde-format
 msgid "Interpolation"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:583
+#: src/monitor/monitormanager.cpp:587
 #, kde-format
 msgid "Nearest Neighbor (fast)"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:584
+#: src/monitor/monitormanager.cpp:588
 #, kde-format
 msgid "Bilinear (good)"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:585
+#: src/monitor/monitormanager.cpp:589
 #, kde-format
 msgid "Bicubic (better)"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:586
+#: src/monitor/monitormanager.cpp:590
 #, kde-format
 msgid "Hyper/Lanczos (best)"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:600
+#: src/monitor/monitormanager.cpp:604
 #, kde-format
 msgid "Progressive playback"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:606
+#: src/monitor/monitormanager.cpp:610
 #, fuzzy, kde-format
 #| msgid "Bitrate"
 msgid "Audio Scrubbing"
 msgstr "बिटदर"
 
-#: src/monitor/monitormanager.cpp:612
+#: src/monitor/monitormanager.cpp:616
 #, fuzzy, kde-format
 msgid "Mute Monitor"
 msgstr "मॉनिटर %1"
 
-#: src/monitor/monitormanager.cpp:612
+#: src/monitor/monitormanager.cpp:616
 #, fuzzy, kde-format
 #| msgid "Settings"
 msgid "Unmute Monitor"
 msgstr "संयोजना"
 
-#: src/monitor/monitormanager.cpp:618
+#: src/monitor/monitormanager.cpp:622
 #, kde-format
 msgid "Go to Zone Start"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:622
+#: src/monitor/monitormanager.cpp:626
 #, kde-format
 msgid "Go to Zone End"
 msgstr ""
@@ -12958,7 +12958,7 @@ msgstr ""
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1455
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1457
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:5015
 #, fuzzy, kde-format
@@ -13524,14 +13524,14 @@ msgstr ""
 msgid "Save changes to document?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1395
+#: src/project/projectmanager.cpp:366 src/project/projectmanager.cpp:1397
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
 "Do you want to save your changes?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:498
+#: src/project/projectmanager.cpp:500
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -13539,50 +13539,50 @@ msgid ""
 "files from <b>%1</b> to <b>%2</b>, the project file will then be reloaded"
 msgstr ""
 
-#: src/project/projectmanager.cpp:539
+#: src/project/projectmanager.cpp:541
 #, fuzzy, kde-format
 #| msgid "Save As"
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "असे साठवा"
 
-#: src/project/projectmanager.cpp:640
+#: src/project/projectmanager.cpp:642
 #, kde-format
 msgid "Auto-saved file exist. Do you want to recover now?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:640
+#: src/project/projectmanager.cpp:642
 #, kde-format
 msgid "File Recovery"
 msgstr ""
 
-#: src/project/projectmanager.cpp:641 src/project/projectmanager.cpp:725
+#: src/project/projectmanager.cpp:643 src/project/projectmanager.cpp:727
 #, kde-format
 msgid "Recover"
 msgstr ""
 
-#: src/project/projectmanager.cpp:641
+#: src/project/projectmanager.cpp:643
 #, kde-format
 msgid "Do not recover"
 msgstr ""
 
-#: src/project/projectmanager.cpp:693
+#: src/project/projectmanager.cpp:695
 #, kde-format
 msgid "Opening file %1"
 msgstr ""
 
-#: src/project/projectmanager.cpp:709
+#: src/project/projectmanager.cpp:711
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "संग्रह करत आहे"
 
-#: src/project/projectmanager.cpp:711
+#: src/project/projectmanager.cpp:713
 #, kde-format
 msgid "Loading project"
 msgstr ""
 
-#: src/project/projectmanager.cpp:724
+#: src/project/projectmanager.cpp:726
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -13590,114 +13590,114 @@ msgid ""
 "Do you want to open a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:725
+#: src/project/projectmanager.cpp:727
 #, fuzzy, kde-format
 msgid "Error opening file"
 msgstr "फाईल उघडतेवेळी त्रुटी"
 
-#: src/project/projectmanager.cpp:725
+#: src/project/projectmanager.cpp:727
 #, kde-format
 msgid "Open Backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:741
+#: src/project/projectmanager.cpp:743
 #, fuzzy, kde-format
 msgid "Could not open the backup project file."
 msgstr "रूपरेषा नष्ट करा (&D)"
 
-#: src/project/projectmanager.cpp:757
+#: src/project/projectmanager.cpp:759
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:760
+#: src/project/projectmanager.cpp:762
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:864
+#: src/project/projectmanager.cpp:866
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
 "sure you want to continue?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:865
+#: src/project/projectmanager.cpp:867
 #, kde-format
 msgid "Revert to last saved version"
 msgstr ""
 
-#: src/project/projectmanager.cpp:947
+#: src/project/projectmanager.cpp:949
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
 "file to recover last backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1132
+#: src/project/projectmanager.cpp:1134
 #, fuzzy, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "फाईल उघडतेवेळी त्रुटी"
 
-#: src/project/projectmanager.cpp:1168
+#: src/project/projectmanager.cpp:1170
 #, fuzzy, kde-format
 msgid "Moving project folder"
 msgstr "संग्रह करत आहे"
 
-#: src/project/projectmanager.cpp:1226
+#: src/project/projectmanager.cpp:1228
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1253 src/project/projectmanager.cpp:1283
-#: src/project/projectmanager.cpp:1287
+#: src/project/projectmanager.cpp:1254 src/project/projectmanager.cpp:1285
+#: src/project/projectmanager.cpp:1289
 #, fuzzy, kde-format
 msgid "Sequence 1"
 msgstr "प्रतिमेचा आकार"
 
-#: src/project/projectmanager.cpp:1264
+#: src/project/projectmanager.cpp:1266
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1401 src/project/projectmanager.cpp:1406
-#: src/project/projectmanager.cpp:1416 src/project/projectmanager.cpp:1430
+#: src/project/projectmanager.cpp:1403 src/project/projectmanager.cpp:1408
+#: src/project/projectmanager.cpp:1418 src/project/projectmanager.cpp:1432
 #, kde-format
 msgid "Project profile change aborted"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1547
+#: src/project/projectmanager.cpp:1549
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
 "Do you want to overwrite it?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1572
+#: src/project/projectmanager.cpp:1574
 #, kde-format
 msgid "Project profile changed"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1625
+#: src/project/projectmanager.cpp:1627
 #, fuzzy, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
 "%1"
 msgstr "फाईल उघडतेवेळी त्रुटी"
 
-#: src/project/projectmanager.cpp:1706
+#: src/project/projectmanager.cpp:1708
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1877
+#: src/project/projectmanager.cpp:1879
 #, fuzzy, kde-format
 msgid "Select a clip to create sequence"
 msgstr "निवड साधन (&S)"
 
-#: src/project/projectmanager.cpp:1914
+#: src/project/projectmanager.cpp:1916
 #, fuzzy, kde-format
 msgid "Create Sequence Clip"
 msgstr "प्रतिमेचा आकार"
