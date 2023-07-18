@@ -2039,7 +2039,7 @@ bool MainWindow::readOptions()
     }
     bool firstRun = false;
     KConfigGroup initialGroup(config, "version");
-    if (!initialGroup.exists() || KdenliveSettings::sdlAudioBackend().isEmpty()) {
+    if (!initialGroup.exists() || KdenliveSettings::sdlAudioBackend().isEmpty() || KdenliveSettings::kdenliverendererpath().isEmpty()) {
         // First run, check if user is on a KDE Desktop
         firstRun = true;
         // Define default video location for first run
