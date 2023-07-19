@@ -17,6 +17,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 #include "macros.hpp"
 #include "mainwindow.h"
+#include "ui_customjobinterface_ui.h"
 
 #include <QProcess>
 #include <QTemporaryFile>
@@ -24,7 +25,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <KLocalizedString>
 
-CustomJobTask::CustomJobTask(const ObjectId &owner, const QString &jobName, const QStringList &jobParams, int in, int out, const QString &jobId,
+CustomJobTask::CustomJobTask(const ObjectId &owner, const QString &jobName, const QMap<QString, QString> &jobParams, int in, int out, const QString &jobId,
                              QObject *object)
     : AbstractTask(owner, AbstractTask::TRANSCODEJOB, object)
     , m_jobDuration(0)
@@ -41,13 +42,76 @@ CustomJobTask::CustomJobTask(const ObjectId &owner, const QString &jobName, cons
 void CustomJobTask::start(QObject *object, const QString &jobId)
 {
     std::vector<QString> binIds = pCore->bin()->selectedClipsIds(true);
-    QStringList jobData = ClipJobManager::getJobParameters(jobId);
+    QMap<QString, QString> jobData = ClipJobManager::getJobParameters(jobId);
     if (jobData.size() < 4) {
         qDebug() << ":::: INVALID JOB DATA FOR: " << jobId << "\n____________________";
         return;
     }
-    const QString jobName = jobData.takeFirst();
-
+    const QString jobName = jobData.value("description");
+    QString param1Value;
+    QString param2Value;
+    const QString paramArgs = jobData.value("parameters");
+    bool requestParam1 = paramArgs.contains(QLatin1String("{param1}"));
+    bool requestParam2 = paramArgs.contains(QLatin1String("{param2}"));
+    if (requestParam1 || requestParam2) {
+        const QString param1 = jobData.value(QLatin1String("param1type"));
+        const QString param2 = jobData.value(QLatin1String("param2type"));
+        // We need to request user data for the job parameters
+        QScopedPointer<QDialog> dia(new QDialog(QApplication::activeWindow()));
+        Ui::CustomJobInterface_UI dia_ui;
+        dia_ui.setupUi(dia.data());
+        dia->setWindowTitle(i18n("%1 parameters", jobName));
+        if (requestParam1) {
+            dia_ui.param1Label->setText(jobData.value(QLatin1String("param1name")));
+            if (param1 == QLatin1String("file")) {
+                dia_ui.param1List->setVisible(false);
+            } else {
+                dia_ui.param1Url->setVisible(false);
+                QStringList listValues = jobData.value(QLatin1String("param1list")).split(QLatin1String("  "));
+                dia_ui.param1List->addItems(listValues);
+            }
+        } else {
+            // Hide param1
+            dia_ui.param1Label->setVisible(false);
+            dia_ui.param1Url->setVisible(false);
+            dia_ui.param1List->setVisible(false);
+        }
+        if (requestParam2) {
+            dia_ui.param2Label->setText(jobData.value(QLatin1String("param2name")));
+            if (param2 == QLatin1String("file")) {
+                dia_ui.param2List->setVisible(false);
+            } else {
+                dia_ui.param2Url->setVisible(false);
+                QStringList listValues = jobData.value(QLatin1String("param2list")).split(QLatin1String("  "));
+                dia_ui.param2List->addItems(listValues);
+            }
+        } else {
+            // Hide param1
+            dia_ui.param2Label->setVisible(false);
+            dia_ui.param2Url->setVisible(false);
+            dia_ui.param2List->setVisible(false);
+        }
+        if (dia->exec() != QDialog::Accepted) {
+            // Abort
+            return;
+        }
+        if (requestParam1) {
+            if (param1 == QLatin1String("file")) {
+                param1Value = dia_ui.param1Url->url().toLocalFile();
+            } else {
+                param1Value = dia_ui.param1List->currentText();
+            }
+            jobData.insert(QLatin1String("param1value"), param1Value);
+        }
+        if (requestParam2) {
+            if (param2 == QLatin1String("file")) {
+                param2Value = dia_ui.param2Url->url().toLocalFile();
+            } else {
+                param2Value = dia_ui.param2List->currentText();
+            }
+            jobData.insert(QLatin1String("param2value"), param2Value);
+        }
+    }
     for (auto &id : binIds) {
         CustomJobTask *task = nullptr;
         ObjectId owner;
@@ -89,7 +153,7 @@ void CustomJobTask::run()
     }
     QString source = binClip->url();
     QString folderId = binClip->parent()->clipId();
-    const QString binary = m_parameters.takeFirst();
+    const QString binary = m_parameters.value(QLatin1String("binary"));
     if (!QFile::exists(binary)) {
         QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection,
                                   Q_ARG(QString, i18n("Application %1 not found, please update the job settings", binary)),
@@ -97,7 +161,7 @@ void CustomJobTask::run()
         return;
     }
     m_isFfmpegJob = QFileInfo(binary).fileName().contains(QLatin1String("ffmpeg"));
-    QString jobParameters = m_parameters.takeFirst();
+    QString jobParameters = m_parameters.value(QLatin1String("parameters"));
     QStringList parameters;
     m_jobDuration = int(binClip->duration().seconds());
 
@@ -109,23 +173,19 @@ void CustomJobTask::run()
         }
         parameters << QStringLiteral("-stats");
     }
-    parameters << jobParameters.split(QLatin1Char(' '));
-    int inputIndex = parameters.indexOf(QStringLiteral("%1"));
-    if (inputIndex > -1) {
-        parameters.replace(inputIndex, source);
-        if (m_isFfmpegJob && m_outPoint > -1) {
-            parameters.insert(inputIndex + 1, QStringLiteral("-to"));
-            parameters.insert(inputIndex + 2, QString::number(GenTime(m_outPoint - m_inPoint, pCore->getCurrentFps()).seconds()));
-        }
+    if (jobParameters.contains(QStringLiteral("{source}"))) {
+        jobParameters.replace(QStringLiteral("{source}"), source);
     }
-    if (m_isFfmpegJob) {
-        // Only output error data
-        parameters << QStringLiteral("-v") << QStringLiteral("error");
+    if (jobParameters.contains(QStringLiteral("{param1}"))) {
+        jobParameters.replace(QStringLiteral("{param1}"), m_parameters.value(QLatin1String("param1value")));
     }
-    // Make sure we keep the stream order
-    // parameters << QStringLiteral("-sn") << QStringLiteral("-dn") << QStringLiteral("-map") << QStringLiteral("0");
+    if (jobParameters.contains(QStringLiteral("{param2}"))) {
+        jobParameters.replace(QStringLiteral("{param2}"), m_parameters.value(QLatin1String("param2value")));
+    }
+
+    // Get output file name
     QFileInfo sourceInfo(source);
-    QString extension = m_parameters.takeFirst();
+    QString extension = m_parameters.value(QLatin1String("output"));
     if (extension.isEmpty()) {
         extension = sourceInfo.suffix();
     }
@@ -150,7 +210,28 @@ void CustomJobTask::run()
         }
         destPath = baseDir.absoluteFilePath(fixedName + extension);
     }
-    parameters << destPath;
+    if (jobParameters.contains(QStringLiteral("{output}"))) {
+        jobParameters.replace(QStringLiteral("{output}"), destPath);
+    } else {
+        jobParameters.append(QLatin1String(" "));
+        jobParameters.append(destPath);
+    }
+
+    parameters << jobParameters.split(QLatin1Char(' '), Qt::SkipEmptyParts);
+    if (m_isFfmpegJob && m_outPoint > -1) {
+        int inputIndex = parameters.indexOf(source);
+        if (inputIndex > -1) {
+            parameters.insert(inputIndex + 1, QStringLiteral("-to"));
+            parameters.insert(inputIndex + 2, QString::number(GenTime(m_outPoint - m_inPoint, pCore->getCurrentFps()).seconds()));
+        }
+    }
+    if (m_isFfmpegJob) {
+        // Only output error data
+        parameters << QStringLiteral("-v") << QStringLiteral("error");
+    }
+    // Make sure we keep the stream order
+    // parameters << QStringLiteral("-sn") << QStringLiteral("-dn") << QStringLiteral("-map") << QStringLiteral("0");
+
     qDebug() << "/// FULL TRANSCODE PARAMS:\n" << parameters << "\n------";
     m_jobProcess.reset(new QProcess);
     // m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);

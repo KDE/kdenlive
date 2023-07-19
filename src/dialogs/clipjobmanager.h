@@ -32,7 +32,7 @@ public:
     /** @brief Returns the {wanted action, folder name} for clip job type @jobId */
     static std::pair<JobCompletionAction, QString> getJobAction(const QString &jobId);
     /** @brief Resutrns the params list as {binary, parameters, output} for clip job type @jobId */
-    static QStringList getJobParameters(const QString &jobId);
+    static QMap<QString, QString> getJobParameters(const QString &jobId);
 
 private:
     /** @brief Populate the list view with jobs */
@@ -49,6 +49,17 @@ private:
     QMap<QString, QString> m_binaries;
     /** @brief Map of clip job output pattern */
     QMap<QString, QString> m_output;
+    /** @brief Map of clip job enablements */
+    QMap<QString, QString> m_enableType;
+    /** @brief Map of clip param types*/
+    QMap<QString, QString> m_param1Type;
+    QMap<QString, QString> m_param2Type;
+    /** @brief Map of clip param optional list*/
+    QMap<QString, QString> m_param1List;
+    QMap<QString, QString> m_param2List;
+    QMap<QString, QString> m_param1Name;
+    QMap<QString, QString> m_param2Name;
+
     /** @brief Sync a group to config file */
     void writeGroup(KConfig &conf, const QString &groupName, QMap<QString, QString> values);
     /** @brief Remember current changes */

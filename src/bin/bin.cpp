@@ -2578,9 +2578,25 @@ void Bin::selectProxyModel(const QModelIndex &id)
             m_reloadAction->setVisible(!isFolder);
             m_replaceAction->setEnabled(isClip);
             m_replaceAction->setVisible(!isFolder);
-            m_clipsActionsMenu->menuAction()->setVisible(!isFolder &&
-                                                         (clipService.contains(QStringLiteral("avformat")) || clipService.contains(QStringLiteral("xml")) ||
-                                                          clipService.contains(QStringLiteral("consumer"))));
+            // Enable actions depending on clip type
+            for (auto &a : m_clipsActionsMenu->actions()) {
+                qDebug() << "ACTION: " << a->text() << " = " << a->data().toString();
+                QString actionType = a->data().toString().section(QLatin1Char(';'), 1);
+                qDebug() << ":::: COMPARING ACTIONTYPE: " << actionType << " = " << type;
+                if (actionType.isEmpty()) {
+                    a->setEnabled(true);
+                } else if (actionType.contains(QLatin1Char('v')) && (type == ClipType::AV || type == ClipType::Video)) {
+                    a->setEnabled(true);
+                } else if (actionType.contains(QLatin1Char('a')) && (type == ClipType::AV || type == ClipType::Audio)) {
+                    a->setEnabled(true);
+                } else if (actionType.contains(QLatin1Char('i')) && type == ClipType::Image) {
+                    a->setEnabled(true);
+                } else {
+                    a->setEnabled(false);
+                }
+            }
+            m_clipsActionsMenu->menuAction()->setVisible(!isFolder && (type == ClipType::AV || type == ClipType::Timeline || type == ClipType::Playlist ||
+                                                                       type == ClipType::Image || type == ClipType::Video || type == ClipType::Audio));
 
             m_transcodeAction->setEnabled(!isFolder);
             m_transcodeAction->setVisible(!isFolder && (type == ClipType::Playlist || type == ClipType::Timeline || type == ClipType::Text ||

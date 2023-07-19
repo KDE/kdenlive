@@ -39,7 +39,7 @@ StabilizeTask::StabilizeTask(const ObjectId &owner, const QString &binId, const 
 void StabilizeTask::start(QObject *, bool force)
 {
     std::vector<QString> binIds = pCore->bin()->selectedClipsIds(true);
-    QScopedPointer<ClipStabilize> d(new ClipStabilize(binIds, QStringLiteral("vidstab")));
+    QScopedPointer<ClipStabilize> d(new ClipStabilize(binIds, QStringLiteral("vidstab"), QApplication::activeWindow()));
     if (d->exec() == QDialog::Accepted) {
         std::unordered_map<QString, QVariant> filterParams = d->filterParams();
         std::unordered_map<QString, QString> destinations; // keys are binIds, values are path to target files
