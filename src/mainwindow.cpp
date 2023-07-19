@@ -3736,14 +3736,14 @@ void MainWindow::buildDynamicActions()
         k.next();
         action = new QAction(k.value(), m_extraFactory->actionCollection());
         action->setData(k.key());
-        if (k.key() == QLatin1String("stabilize")) {
+        if (k.key() == QLatin1String("stabilize;v")) {
             connect(action, &QAction::triggered, this, [this]() { StabilizeTask::start(this); });
-        } else if (k.key() == QLatin1String("scenesplit")) {
+        } else if (k.key() == QLatin1String("scenesplit;v")) {
             connect(action, &QAction::triggered, this, [&]() { SceneSplitTask::start(this); });
-        } else if (k.key() == QLatin1String("timewarp")) {
+        } else if (k.key() == QLatin1String("timewarp;av")) {
             connect(action, &QAction::triggered, this, [&]() { SpeedTask::start(this); });
         } else {
-            connect(action, &QAction::triggered, this, [&, jobId = k.key()]() { CustomJobTask::start(this, jobId); });
+            connect(action, &QAction::triggered, this, [&, jobId = k.key().section(QLatin1Char(';'), 0, 0)]() { CustomJobTask::start(this, jobId); });
         }
         ts->addAction(action->text(), action);
     }

@@ -13,7 +13,8 @@ class QProcess;
 class CustomJobTask : public AbstractTask
 {
 public:
-    CustomJobTask(const ObjectId &owner, const QString &jobName, const QStringList &jobParams, int in, int out, const QString &jobId, QObject *object);
+    CustomJobTask(const ObjectId &owner, const QString &jobName, const QMap<QString, QString> &jobParams, int in, int out, const QString &jobId,
+                  QObject *object);
     static void start(QObject *object, const QString &jobId);
 
 protected:
@@ -25,7 +26,7 @@ private Q_SLOTS:
 private:
     int m_jobDuration;
     bool m_isFfmpegJob;
-    QStringList m_parameters;
+    QMap<QString, QString> m_parameters;
     int m_inPoint;
     int m_outPoint;
     QString m_jobId;
