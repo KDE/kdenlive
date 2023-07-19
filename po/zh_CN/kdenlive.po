@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-18 08:28+0000\n"
-"PO-Revision-Date: 2023-07-03 11:38\n"
+"PO-Revision-Date: 2023-07-18 11:14\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -14,8 +14,8 @@ msgstr ""
 "X-Crowdin-Project: kdeorg\n"
 "X-Crowdin-Project-ID: 269464\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /kf5-trunk/messages/kdenlive/kdenlive.pot\n"
-"X-Crowdin-File-ID: 5910\n"
+"X-Crowdin-File: /kf5-stable/messages/kdenlive/kdenlive.pot\n"
+"X-Crowdin-File-ID: 2972\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2921,10 +2921,9 @@ msgid "Luma Map"
 msgstr "亮度图"
 
 #: data/transitions/dissolve.xml:19 data/transitions/luma.xml:17
-#, fuzzy, kde-format
-#| msgid "Make selected color transparent"
+#, kde-format
 msgid "Make padding transparent"
-msgstr "将所选颜色转换为透明"
+msgstr "边框设置为透明"
 
 #: data/transitions/luma.xml:4
 #, kde-format
@@ -6995,7 +6994,7 @@ msgstr "右上"
 #: src/dialogs/subtitleedit.cpp:478
 #, kde-format
 msgid "Character: %1, total: <b>%2</b>"
-msgstr ""
+msgstr "字符数：%1，总计：<b>%2</b>"
 
 #: src/dialogs/textbasededit.cpp:52
 #, kde-format
@@ -10090,10 +10089,9 @@ msgid "Stop Preview Render"
 msgstr "停止预览导出"
 
 #: src/mainwindow.cpp:1662
-#, fuzzy, kde-format
-#| msgid "Add Transition to Selection"
+#, kde-format
 msgid "Adjust Timeline Zone to Selection"
-msgstr "添加转场到所选范围"
+msgstr "将时间轴区段调整到选中区域"
 
 #: src/mainwindow.cpp:1664
 #, kde-format
@@ -13637,7 +13635,7 @@ msgid ""
 "If already installed, check it is installed in a directory listed in PATH "
 "environment variable"
 msgstr ""
-"无法找到 pip3，请在本机系统上安装该软件包。\n"
+"无法找到 pip3 (python-pip) 程序，请在本机系统上安装该软件包。\n"
 "如果已经安装，请检查它是否已经安装到了 PATH 环境变量中包含的目录"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:175
@@ -15214,11 +15212,10 @@ msgid "Not enough tracks to paste clipboard"
 msgstr "没有足够的轨道来粘贴剪贴板内容"
 
 #: src/timeline2/model/timelinefunctions.cpp:1833
-#, fuzzy, kde-format
-#| msgid "Not enough tracks to paste clipboard"
+#, kde-format
 msgid ""
 "Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)"
-msgstr "没有足够的轨道来粘贴剪贴板内容"
+msgstr "没有足够的轨道以粘贴剪贴板内容 (需要 %1 条音频轨道，%2 条视频轨道)"
 
 #: src/timeline2/model/timelinefunctions.cpp:1951
 #: src/timeline2/model/timelinefunctions.cpp:1969
@@ -16000,10 +15997,9 @@ msgid "No active track"
 msgstr "无活动轨道"
 
 #: src/timeline2/view/timelinecontroller.cpp:1708
-#, fuzzy, kde-format
-#| msgid "Insert selected blocks in timeline"
+#, kde-format
 msgid "No item selected in timeline"
-msgstr "插入所选块到时间轴"
+msgstr "时间轴中没有选中的项目"
 
 #: src/timeline2/view/timelinecontroller.cpp:1851
 #, kde-format
@@ -20895,6 +20891,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgid "*.srt *.ass *.vtt *.sbv"
-#~ msgstr "*.srt *.ass *.vtt *.sbv"

@@ -21410,9 +21410,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "*.srt *.ass *.vtt *.sbv"
-#~ msgstr "*.srt *.ass *.vtt *.sbv"
-
-#~ msgid "Open %1"
-#~ msgstr "Obre %1"
