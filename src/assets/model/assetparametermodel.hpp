@@ -103,6 +103,8 @@ public:
         ScaleRole,
         OpacityRole,
         RelativePosRole,
+        // The filter in/out should always be 0 - full length
+        AppliesToFullProducer,
         ToTimePosRole,
         // Don't display this param in timeline keyframes
         ShowInTimelineRole,
@@ -255,6 +257,8 @@ protected:
     int m_activeKeyframe;
     /** @brief if true, keyframe tools will be hidden by default */
     bool m_hideKeyframesByDefault;
+    /** @brief if true, the effect in will always be 0, and out = full clip length, whether there is a cut or not */
+    bool m_appliesToFull;
     /** @brief true if this is an audio effect, used to prevent unnecessary monitor refresh / timeline invalidate */
     bool m_isAudio;
     /** @brief Store a filter's job progress */
