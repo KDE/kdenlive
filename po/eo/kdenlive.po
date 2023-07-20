@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-18 08:28+0000\n"
+"POT-Creation-Date: 2023-07-20 02:45+0000\n"
 "PO-Revision-Date: 2023-07-14 09:26+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
@@ -3099,6 +3099,7 @@ msgstr "Reiri"
 #. i18n: ectx: property (windowTitle), widget (QDialog, QTextClip_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, TestProxy_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, TranscodeSeekable_UI)
+#. i18n: ectx: property (windowTitle), widget (QDialog, CustomJobInterface_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManageEncodingProfile_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ClipSpeed_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ImportSub_UI)
@@ -3115,10 +3116,11 @@ msgstr "Reiri"
 #: src/ui/backupdialog_ui.ui:18 src/ui/clipjobmanager_ui.ui:14
 #: src/ui/clipspeed_ui.ui:18 src/ui/clipstabilize_ui.ui:18
 #: src/ui/cliptranscode_ui.ui:18 src/ui/colorclip_ui.ui:18
-#: src/ui/gradientedit_ui.ui:18 src/ui/import_subtitle_ui.ui:18
-#: src/ui/manageencodingprofile_ui.ui:18 src/ui/newtimeline_ui.ui:18
-#: src/ui/qtextclip_ui.ui:18 src/ui/speechdialog_ui.ui:18
-#: src/ui/testproxy_ui.ui:18 src/ui/transcodeseekable_ui.ui:18
+#: src/ui/customjobinterface_ui.ui:14 src/ui/gradientedit_ui.ui:18
+#: src/ui/import_subtitle_ui.ui:18 src/ui/manageencodingprofile_ui.ui:18
+#: src/ui/newtimeline_ui.ui:18 src/ui/qtextclip_ui.ui:18
+#: src/ui/speechdialog_ui.ui:18 src/ui/testproxy_ui.ui:18
+#: src/ui/transcodeseekable_ui.ui:18
 #, kde-format
 msgid "Dialog"
 msgstr "Dialogo"
@@ -3362,7 +3364,7 @@ msgstr "Ŝaltas la montradon de ŝlosilkadroj en la aŭdvidaĵo sur la templinio
 msgid "%1 effects"
 msgstr "%1 efikoj"
 
-#: src/assets/assetpanel.cpp:243
+#: src/assets/assetpanel.cpp:243 src/jobs/customjobtask.cpp:63
 #, kde-format
 msgid "%1 parameters"
 msgstr "%1 parametroj"
@@ -4473,14 +4475,15 @@ msgstr "Mute Video"
 
 #. i18n: ectx: property (title), widget (QGroupBox, audio_box)
 #. i18n: ectx: property (text), widget (QCheckBox, audio_thumbs)
+#. i18n: ectx: property (text), widget (QCheckBox, enable_audio)
 #. i18n: ectx: attribute (title), widget (QWidget, audio_tab)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/bin/bin.cpp:2264 src/effects/effectlist/model/effecttreemodel.cpp:60
 #: src/layoutmanagement.cpp:36 src/lib/audio/audioStreamInfo.cpp:24
 #: src/monitor/recmanager.cpp:47 src/onlineresources/resourcewidget.cpp:547
-#: src/ui/configcapture_ui.ui:525 src/ui/cutjobdialog_ui.ui:61
-#: src/ui/editrenderpreset_ui.ui:834 src/ui/projectsettings_ui.ui:180
-#: src/ui/renderwidget_ui.ui:589
+#: src/ui/clipjobmanager_ui.ui:239 src/ui/configcapture_ui.ui:525
+#: src/ui/cutjobdialog_ui.ui:61 src/ui/editrenderpreset_ui.ui:834
+#: src/ui/projectsettings_ui.ui:180 src/ui/renderwidget_ui.ui:589
 #, kde-format
 msgid "Audio"
 msgstr "Aŭdio"
@@ -4535,7 +4538,7 @@ msgstr "Dosierujo"
 msgid "Create bin folder"
 msgstr "Krei bin-dosierujon"
 
-#: src/bin/bin.cpp:2517 src/bin/bin.cpp:2530 src/bin/bin.cpp:3476
+#: src/bin/bin.cpp:2517 src/bin/bin.cpp:2530 src/bin/bin.cpp:3492
 #: src/timeline2/model/timelinemodel.cpp:2049
 #, kde-format
 msgid "Delete Clip"
@@ -4551,7 +4554,7 @@ msgstr ""
 "Forigas la nuntempe elektitajn tondaĵojn el la projektujo kaj ankaŭ el la "
 "templinio."
 
-#: src/bin/bin.cpp:2520 src/bin/bin.cpp:2533 src/bin/bin.cpp:3452
+#: src/bin/bin.cpp:2520 src/bin/bin.cpp:2533 src/bin/bin.cpp:3468
 #, kde-format
 msgid "Proxy Clip"
 msgstr "Prokurila aŭdvidaĵo"
@@ -4566,22 +4569,22 @@ msgstr "Forigi Dosierujon"
 msgid "Proxy Folder"
 msgstr "Prokurila Dosierujo"
 
-#: src/bin/bin.cpp:2760
+#: src/bin/bin.cpp:2776
 #, kde-format
 msgid "Edit rating"
 msgstr "Redakti takson"
 
-#: src/bin/bin.cpp:2762
+#: src/bin/bin.cpp:2778
 #, kde-format
 msgid "Cannot set rating on this item"
 msgstr "Ne povas agordi takson por ĉi tiu objekto"
 
-#: src/bin/bin.cpp:3402
+#: src/bin/bin.cpp:3418
 #, kde-format
 msgid "Add Clip or Folder…"
 msgstr "Aldoni aŭdvidaĵn aŭ dosierujon…"
 
-#: src/bin/bin.cpp:3403
+#: src/bin/bin.cpp:3419
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4595,92 +4598,92 @@ msgstr ""
 "akiri liston de fontotipoj elekteblaj.<nl/>Alklaku sur la datumportila "
 "piktogramo por malfermi fenestron por elekti fontdosierojn."
 
-#: src/bin/bin.cpp:3409
+#: src/bin/bin.cpp:3425
 #, kde-format
 msgid "Add Color Clip…"
 msgstr "Aldoni Koloran aŭdvidaĵon…"
 
-#: src/bin/bin.cpp:3411
+#: src/bin/bin.cpp:3427
 #, kde-format
 msgid "Add Image Sequence…"
 msgstr "Aldoni Bildsekvencon…"
 
-#: src/bin/bin.cpp:3413
+#: src/bin/bin.cpp:3429
 #, kde-format
 msgid "Add Title Clip…"
 msgstr "Aldoni Titolidon…"
 
-#: src/bin/bin.cpp:3415
+#: src/bin/bin.cpp:3431
 #, kde-format
 msgid "Add Template Title…"
 msgstr "Aldoni Ŝablonan titolon…"
 
-#: src/bin/bin.cpp:3417
+#: src/bin/bin.cpp:3433
 #, kde-format
 msgid "Create Animation…"
 msgstr "Krei Animacion…"
 
-#: src/bin/bin.cpp:3419
+#: src/bin/bin.cpp:3435
 #, kde-format
 msgid "Add Sequence…"
 msgstr "Aldoni sekvencon…"
 
-#: src/bin/bin.cpp:3422 src/mainwindow.cpp:361
+#: src/bin/bin.cpp:3438 src/mainwindow.cpp:361
 #, kde-format
 msgid "Online Resources"
 msgstr "Retaj Rimedoj"
 
-#: src/bin/bin.cpp:3426
+#: src/bin/bin.cpp:3442
 #, kde-format
 msgid "Locate Clip…"
 msgstr "Trovi aŭdvidaĵon…"
 
-#: src/bin/bin.cpp:3431
+#: src/bin/bin.cpp:3447
 #, kde-format
 msgid "Reload Clip"
 msgstr "Reŝargi aŭdvidaĵon"
 
-#: src/bin/bin.cpp:3437
+#: src/bin/bin.cpp:3453
 #, kde-format
 msgid "Transcode to Edit Friendly Format…"
 msgstr "Transkodi al Redakti Amika Formato…"
 
-#: src/bin/bin.cpp:3442
+#: src/bin/bin.cpp:3458
 #, kde-format
 msgid "Replace Clip…"
 msgstr "Anstataŭigi aŭdvidaĵon…"
 
-#: src/bin/bin.cpp:3447
+#: src/bin/bin.cpp:3463
 #, kde-format
 msgid "Duplicate Clip"
 msgstr "Duobligi aŭdvidaĵon"
 
-#: src/bin/bin.cpp:3459 src/bin/bin.cpp:3520
+#: src/bin/bin.cpp:3475 src/bin/bin.cpp:3536
 #, kde-format
 msgid "Clip Properties"
 msgstr "Proprecoj de aŭdvidaĵo"
 
-#: src/bin/bin.cpp:3464 src/mltcontroller/clippropertiescontroller.cpp:283
+#: src/bin/bin.cpp:3480 src/mltcontroller/clippropertiescontroller.cpp:283
 #, kde-format
 msgid "Edit Clip"
 msgstr "Redakti aŭdvidaĵon"
 
-#: src/bin/bin.cpp:3481
+#: src/bin/bin.cpp:3497
 #, kde-format
 msgid "Open in new bin"
 msgstr "Malfermi en nova rubujo"
 
-#: src/bin/bin.cpp:3493
+#: src/bin/bin.cpp:3509
 #, kde-format
 msgid "Default Target Folder for Sequences"
 msgstr "Defaŭlta Cela Dosierujo por Sekvencoj"
 
-#: src/bin/bin.cpp:3497
+#: src/bin/bin.cpp:3513
 #, kde-format
 msgid "Create Folder"
 msgstr "Krei Dosierujon"
 
-#: src/bin/bin.cpp:3500
+#: src/bin/bin.cpp:3516
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4690,69 +4693,69 @@ msgstr ""
 "Kreas dosierujon en la nuna pozicio en la projektujo. Ebligas pli bonan "
 "organizon de fontdosieroj. Dosierujoj povas esti nestitaj."
 
-#: src/bin/bin.cpp:3565 src/dialogs/speechdialog.cpp:48
+#: src/bin/bin.cpp:3581 src/dialogs/speechdialog.cpp:48
 #: src/dialogs/textbasededit.cpp:656 src/monitor/recmanager.cpp:43
 #, kde-format
 msgid "Show log"
 msgstr "Montri protokolon"
 
-#: src/bin/bin.cpp:3568 src/dialogs/textbasededit.cpp:657
+#: src/bin/bin.cpp:3584 src/dialogs/textbasededit.cpp:657
 #, kde-format
 msgid "Detailed log"
 msgstr "Detala protokolo"
 
-#: src/bin/bin.cpp:3628 src/bin/bin.cpp:3653
+#: src/bin/bin.cpp:3644 src/bin/bin.cpp:3669
 #, kde-format
 msgctxt "@title:window"
 msgid "Create New Sequence"
 msgstr "Krei Novan Sekvencon"
 
-#: src/bin/bin.cpp:3630 src/bin/bin.cpp:3655
+#: src/bin/bin.cpp:3646 src/bin/bin.cpp:3671
 #, kde-format
 msgid "Sequence %1"
 msgstr "Sekvenco %1"
 
-#: src/bin/bin.cpp:3684
+#: src/bin/bin.cpp:3700
 #, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
 msgstr[0] "Movi tondaĵon"
 msgstr[1] "Movi tondaĵon"
 
-#: src/bin/bin.cpp:3721
+#: src/bin/bin.cpp:3737
 #, kde-format
 msgid "No valid clip to insert"
 msgstr "Neniu valida aŭdvidaĵo por enmeti"
 
-#: src/bin/bin.cpp:3746 src/timeline2/view/timelinecontroller.cpp:1484
+#: src/bin/bin.cpp:3762 src/timeline2/view/timelinecontroller.cpp:1484
 #: src/timeline2/view/timelinecontroller.cpp:3382
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "Elektu aŭdvidaĵon por apliki efekton"
 
-#: src/bin/bin.cpp:3755
+#: src/bin/bin.cpp:3771
 #, kde-format
 msgid "Cannot apply effects on folders"
 msgstr "Ne povas apliki efikojn al dosierujoj"
 
-#: src/bin/bin.cpp:3781 src/effects/effectstack/model/effectstackmodel.cpp:500
+#: src/bin/bin.cpp:3797 src/effects/effectstack/model/effectstackmodel.cpp:500
 #: src/effects/effectstack/model/effectstackmodel.cpp:506
 #: src/mainwindow.cpp:3159
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Ne povas aldoni efekton al aŭdvidaĵo"
 
-#: src/bin/bin.cpp:3827 src/bin/bin.cpp:3834
+#: src/bin/bin.cpp:3843 src/bin/bin.cpp:3850
 #, kde-format
 msgid "Select a clip to add a tag"
 msgstr "Elektu aŭdvidaĵon por aldoni etikedon"
 
-#: src/bin/bin.cpp:3973
+#: src/bin/bin.cpp:3989
 #, kde-format
 msgid "Edit Tags"
 msgstr "Redakti Etikedojn"
 
-#: src/bin/bin.cpp:4262 src/bin/projectclip.cpp:192
+#: src/bin/bin.cpp:4278 src/bin/projectclip.cpp:192
 #: src/bin/projectclip.cpp:1976 src/onlineresources/resourcewidget.cpp:266
 #: src/onlineresources/resourcewidget.cpp:557
 #: src/onlineresources/resourcewidget.cpp:572
@@ -4760,27 +4763,27 @@ msgstr "Redakti Etikedojn"
 msgid "Unnamed"
 msgstr "Nenomita"
 
-#: src/bin/bin.cpp:4316
+#: src/bin/bin.cpp:4332
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr "Enigu vojon por via aplikaĵo por redaktado de bildoj"
 
-#: src/bin/bin.cpp:4328
+#: src/bin/bin.cpp:4344
 #, kde-format
 msgid "Please set a default application to open image files"
 msgstr "Bonvolu agordi defaŭltan aplikaĵon por malfermi bilddosierojn"
 
-#: src/bin/bin.cpp:4333
+#: src/bin/bin.cpp:4349
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr "Enigu vojon por via sona redakta aplikaĵo"
 
-#: src/bin/bin.cpp:4345
+#: src/bin/bin.cpp:4361
 #, kde-format
 msgid "Please set a default application to open audio files"
 msgstr "Bonvolu agordi defaŭltan aplikaĵon por malfermi sondosierojn"
 
-#: src/bin/bin.cpp:4355 src/core.cpp:304 src/doc/kdenlivedoc.cpp:165
+#: src/bin/bin.cpp:4371 src/core.cpp:304 src/doc/kdenlivedoc.cpp:165
 #: src/jobs/cliploadtask.cpp:458 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:471
 #: src/layoutmanagement.cpp:532 src/profiles/profilerepository.cpp:173
@@ -4789,12 +4792,12 @@ msgstr "Bonvolu agordi defaŭltan aplikaĵon por malfermi sondosierojn"
 msgid "Cannot open file %1"
 msgstr "Ne povas malfermi dosieron %1"
 
-#: src/bin/bin.cpp:4535 src/dialogs/profilesdialog.cpp:213
+#: src/bin/bin.cpp:4551 src/dialogs/profilesdialog.cpp:213
 #, kde-format
 msgid "(copy)"
 msgstr "(kopio)"
 
-#: src/bin/bin.cpp:4545
+#: src/bin/bin.cpp:4561
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -4803,75 +4806,75 @@ msgstr ""
 "Vi redaktas eksteran titolan aŭdvidaĵon (%1). Ĉu vi volas konservi viajn "
 "ŝanĝojn al la titoldosiero aŭ konservi la ŝanĝojn nur por ĉi tiu projekto?"
 
-#: src/bin/bin.cpp:4548 src/titler/titlewidget.cpp:2188
+#: src/bin/bin.cpp:4564 src/titler/titlewidget.cpp:2188
 #, kde-format
 msgid "Save Title"
 msgstr "Konservi Titolon"
 
-#: src/bin/bin.cpp:4548
+#: src/bin/bin.cpp:4564
 #, kde-format
 msgid "Save to title file"
 msgstr "Konservi al titoldosiero"
 
-#: src/bin/bin.cpp:4549
+#: src/bin/bin.cpp:4565
 #, kde-format
 msgid "Save in project only"
 msgstr "Konservi nur en projekto"
 
-#: src/bin/bin.cpp:4567 src/dialogs/clipcreationdialog.cpp:379
+#: src/bin/bin.cpp:4583 src/dialogs/clipcreationdialog.cpp:379
 #, kde-format
 msgid "Title clip"
 msgstr "Titola aŭdvidaĵo"
 
-#: src/bin/bin.cpp:4617
+#: src/bin/bin.cpp:4633
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "Aŭdvidaĵo estas nevalida, estos forigita de la projekto."
 
-#: src/bin/bin.cpp:4621
+#: src/bin/bin.cpp:4637
 #, kde-format
 msgid "Invalid clip"
 msgstr "Nevalida aŭdvidaĵo"
 
-#: src/bin/bin.cpp:4744
+#: src/bin/bin.cpp:4760
 #, kde-format
 msgid "Enable proxies"
 msgstr "Ebligi prokurilojn"
 
-#: src/bin/bin.cpp:4744
+#: src/bin/bin.cpp:4760
 #, kde-format
 msgid "Disable proxies"
 msgstr "Malebligi prokurilojn"
 
-#: src/bin/bin.cpp:4925
+#: src/bin/bin.cpp:4941
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "Rekonstrui prokurilojn"
 
-#: src/bin/bin.cpp:5163
+#: src/bin/bin.cpp:5179
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Projekta Rubujo"
 
-#: src/bin/bin.cpp:5179
+#: src/bin/bin.cpp:5195
 #, kde-format
 msgid "Add Tracks"
 msgstr "Aldoni Trakojn"
 
-#: src/bin/bin.cpp:5181
+#: src/bin/bin.cpp:5197
 #, kde-format
 msgid "Edit Streams"
 msgstr "Redakti fluojn"
 
-#: src/bin/bin.cpp:5196
+#: src/bin/bin.cpp:5212
 #, kde-format
 msgid "Don't ask again"
 msgstr "Ne demandi denove"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5200
+#: src/bin/bin.cpp:5216
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -4880,45 +4883,45 @@ msgstr ""
 "Via projekto bezonas pli da sonspuroj por trakti ĉiujn fluojn. Ĉu aldoni %1 "
 "sonspurojn?"
 
-#: src/bin/bin.cpp:5212 src/mainwindow.cpp:2721
+#: src/bin/bin.cpp:5228 src/mainwindow.cpp:2721
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Ne povas trovi aŭdvidaĵon por aldoni markilon"
 
-#: src/bin/bin.cpp:5304
+#: src/bin/bin.cpp:5320
 #, kde-format
 msgid "Could not find master clip"
 msgstr "Ne eblis trovi ĉefaŭdvidaĵon"
 
-#: src/bin/bin.cpp:5498 src/bin/clipcreator.cpp:325
+#: src/bin/bin.cpp:5514 src/bin/clipcreator.cpp:325
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
 msgstr "Aldoni aŭdvidaĵon"
 
-#: src/bin/bin.cpp:5520
+#: src/bin/bin.cpp:5536
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> aŭdvidaĵoj |"
 
-#: src/bin/bin.cpp:5522
+#: src/bin/bin.cpp:5538
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> aŭdvidaĵoj (%2 elektita) |"
 
-#: src/bin/bin.cpp:5587 src/bin/bin.cpp:5661
+#: src/bin/bin.cpp:5603 src/bin/bin.cpp:5677
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "Aldoni pluan fluon por tondaĵo"
 msgstr[1] "Aldoni pluajn fluojn por tondaĵo"
 
-#: src/bin/bin.cpp:5608
+#: src/bin/bin.cpp:5624
 #, kde-format
 msgid "Import selected clips"
 msgstr "Importi elektitajn aŭdvidaĵojn"
 
-#: src/bin/bin.cpp:5610
+#: src/bin/bin.cpp:5626
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -4927,17 +4930,17 @@ msgstr ""
 "Pliaj fluoj por aŭdvidaĵo\n"
 " %1"
 
-#: src/bin/bin.cpp:5620 src/mltcontroller/clippropertiescontroller.cpp:634
+#: src/bin/bin.cpp:5636 src/mltcontroller/clippropertiescontroller.cpp:634
 #, kde-format
 msgid "Video stream %1"
 msgstr "Videofluo %1"
 
-#: src/bin/bin.cpp:5635
+#: src/bin/bin.cpp:5651
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Sonfluo %1"
 
-#: src/bin/bin.cpp:5688
+#: src/bin/bin.cpp:5704
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Forigi aŭdvidaĵajn markilojn"
@@ -5887,23 +5890,25 @@ msgstr "Krei Tekstan tondaĵon"
 msgid "Template title clip"
 msgstr "Ŝablona titoltondaĵo"
 
-#: src/dialogs/clipjobmanager.cpp:24
+#: src/dialogs/clipjobmanager.cpp:25
 #, kde-format
 msgid "Manage Bin Clip Jobs"
 msgstr "Administri Bin-aŭdvidaĵajn laborojn"
 
-#: src/dialogs/clipjobmanager.cpp:47
+#: src/dialogs/clipjobmanager.cpp:44
 #, kde-format
 msgid "Arguments for the command line script"
 msgstr "Argumentoj por la komandlinia skripto"
 
-#: src/dialogs/clipjobmanager.cpp:48
+#: src/dialogs/clipjobmanager.cpp:47
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
-msgid "<b>&#x25;1</b> will be replaced by the path of the source clip."
-msgstr "<b>&#x25;</b> estos anstataŭigita per la vojo de la fonta tondaĵo."
+msgid ""
+"<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</b> "
+"by the second, , <b>{&#x25;3}</b> by the output file path."
+msgstr ""
 
-#: src/dialogs/clipjobmanager.cpp:50
+#: src/dialogs/clipjobmanager.cpp:48
 #, kde-format
 msgid "File extension for the output file"
 msgstr "Dosiera etendo por la eligodosiero"
@@ -5912,43 +5917,76 @@ msgstr "Dosiera etendo por la eligodosiero"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
-"File extension for the output file. Empty will keep the same extension as "
-"source file."
+"The output file name will be the same as the source bin clip filename, with "
+"the modified extension. It will be appended at the end of the arguments or "
+"inserted in place of <b>{&#x25;3}</b> if found. If output filename already "
+"exists, a -0001 pattern will be appended."
 msgstr ""
-"Dosiera etendo por la eligodosiero. Malplena konservos la saman etendon kiel "
-"fontdosiero."
 
-#: src/dialogs/clipjobmanager.cpp:91 src/dialogs/clipjobmanager.cpp:170
+#: src/dialogs/clipjobmanager.cpp:54
+#, kde-format
+msgid "The first parameter that will be injected in the script arguments"
+msgstr ""
+
+#: src/dialogs/clipjobmanager.cpp:56 src/dialogs/clipjobmanager.cpp:66
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<b>Source Clip Path</b> will put the selected Bin Clip path<br/><b>Request "
+"File Path</b> will ask for a file path on execution<br/><b>Request Option in "
+"List</b> will ask for a choice in the list below on execution."
+msgstr ""
+
+#: src/dialogs/clipjobmanager.cpp:59 src/dialogs/clipjobmanager.cpp:69
+#, kde-format
+msgid ""
+"A newline separated list of possible values that will be offered on execution"
+msgstr ""
+
+#: src/dialogs/clipjobmanager.cpp:62 src/dialogs/clipjobmanager.cpp:72
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"When the parameter is set to <b>Request Option in List</b> the user will be "
+"asked to choose a value in this list when the job is started."
+msgstr ""
+
+#: src/dialogs/clipjobmanager.cpp:64
+#, kde-format
+msgid "The second parameter that will be injected in the script arguments"
+msgstr ""
+
+#: src/dialogs/clipjobmanager.cpp:127 src/dialogs/clipjobmanager.cpp:252
 #, kde-format
 msgid "Stabilize"
 msgstr "Stabiligi"
 
-#: src/dialogs/clipjobmanager.cpp:94 src/dialogs/clipjobmanager.cpp:174
+#: src/dialogs/clipjobmanager.cpp:130 src/dialogs/clipjobmanager.cpp:256
 #, kde-format
 msgid "Duplicate Clip with Speed Change…"
 msgstr "Duobligi tondaĵon kun ŝanĝo de rapideco…"
 
-#: src/dialogs/clipjobmanager.cpp:172
+#: src/dialogs/clipjobmanager.cpp:254
 #, kde-format
 msgid "Automatic Scene Split…"
 msgstr "Aŭtomata Scendivido…"
 
-#: src/dialogs/clipjobmanager.cpp:202
+#: src/dialogs/clipjobmanager.cpp:284
 #, kde-format
 msgid "Job description"
 msgstr "Laborpriskribo"
 
-#: src/dialogs/clipjobmanager.cpp:252
+#: src/dialogs/clipjobmanager.cpp:372
 #, kde-format
 msgid "My Clip Job"
 msgstr "Mia aŭdvidaĵa prilaboro"
 
-#: src/dialogs/clipjobmanager.cpp:260
+#: src/dialogs/clipjobmanager.cpp:380
 #, kde-format
 msgid "My Clip Job %1"
 msgstr "Mia aŭdvidaĵa prilaboro %1"
 
-#: src/dialogs/clipjobmanager.cpp:285
+#: src/dialogs/clipjobmanager.cpp:406
 #, kde-format
 msgid ""
 "Permanently delete this Clip Job:\n"
@@ -8478,12 +8516,12 @@ msgstr "Dosiero <b>%1</b> ne estas serĉebla."
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "Dosiero <b>%1</b> havas varian framfrekvencon."
 
-#: src/jobs/customjobtask.cpp:95
+#: src/jobs/customjobtask.cpp:159
 #, kde-format
 msgid "Application %1 not found, please update the job settings"
 msgstr "Apliko %1 ne trovita, bonvolu ĝisdatigi la laborajn agordojn"
 
-#: src/jobs/customjobtask.cpp:170 src/jobs/customjobtask.cpp:180
+#: src/jobs/customjobtask.cpp:251 src/jobs/customjobtask.cpp:261
 #: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:231
 #: src/jobs/transcodetask.cpp:267
 #, kde-format
@@ -11949,11 +11987,13 @@ msgstr "Registri"
 
 #. i18n: ectx: property (title), widget (QGroupBox, video_box)
 #. i18n: ectx: property (text), widget (QCheckBox, video_thumbs)
+#. i18n: ectx: property (text), widget (QCheckBox, enable_video)
 #. i18n: ectx: attribute (title), widget (QWidget, video_tab)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/monitor/recmanager.cpp:46 src/onlineresources/resourcewidget.cpp:549
-#: src/ui/cutjobdialog_ui.ui:107 src/ui/editrenderpreset_ui.ui:122
-#: src/ui/projectsettings_ui.ui:173 src/ui/renderwidget_ui.ui:478
+#: src/ui/clipjobmanager_ui.ui:232 src/ui/cutjobdialog_ui.ui:107
+#: src/ui/editrenderpreset_ui.ui:122 src/ui/projectsettings_ui.ui:173
+#: src/ui/renderwidget_ui.ui:478
 #, kde-format
 msgid "Video"
 msgstr "Video"
@@ -12433,7 +12473,8 @@ msgstr "Elekti Dosierversion"
 msgid "Please choose the version you want to download"
 msgstr "Bonvolu elekti la version, kiun vi volas elŝuti"
 
-#: src/onlineresources/resourcewidget.cpp:551
+#. i18n: ectx: property (text), widget (QCheckBox, enable_image)
+#: src/onlineresources/resourcewidget.cpp:551 src/ui/clipjobmanager_ui.ui:246
 #, kde-format
 msgid "Images"
 msgstr "Bildoj"
@@ -17361,6 +17402,7 @@ msgstr "Forigi nunan punkton."
 #. i18n: ectx: property (text), widget (QToolButton, delete_metadata)
 #. i18n: ectx: property (text), widget (QToolButton, remove_gradient)
 #. i18n: ectx: property (text), widget (QToolButton, add_gradient)
+#. i18n: ectx: property (text), widget (QToolButton, info_button)
 #. i18n: ectx: property (text), widget (QToolButton, infoButton)
 #. i18n: ectx: property (text), widget (QToolButton, buttonReset)
 #. i18n: ectx: property (text), widget (QToolButton, button_center_top)
@@ -17425,52 +17467,53 @@ msgstr "Forigi nunan punkton."
 #: src/ui/bezierspline_ui.ui:121 src/ui/bezierspline_ui.ui:137
 #: src/ui/bezierspline_ui.ui:156 src/ui/bezierspline_ui.ui:172
 #: src/ui/bezierspline_ui.ui:189 src/ui/bezierspline_ui.ui:206
-#: src/ui/clipjobmanager_ui.ui:20 src/ui/clipjobmanager_ui.ui:166
-#: src/ui/clipstabilize_ui.ui:57 src/ui/clipstabilize_ui.ui:94
-#: src/ui/collapsiblewidget_ui.ui:103 src/ui/collapsiblewidget_ui.ui:129
-#: src/ui/collapsiblewidget_ui.ui:139 src/ui/collapsiblewidget_ui.ui:149
-#: src/ui/collapsiblewidget_ui.ui:162 src/ui/collapsiblewidget_ui.ui:175
-#: src/ui/collapsiblewidget_ui.ui:188 src/ui/collapsiblewidget_ui.ui:198
-#: src/ui/collapsiblewidget_ui.ui:208 src/ui/configjogshuttle_ui.ui:82
-#: src/ui/configsdl_ui.ui:166 src/ui/configspeech_ui.ui:220
-#: src/ui/configspeech_ui.ui:234 src/ui/cutjobdialog_ui.ui:84
-#: src/ui/editrenderpreset_ui.ui:470 src/ui/editsub_ui.ui:23
-#: src/ui/editsub_ui.ui:33 src/ui/editsub_ui.ui:43 src/ui/editsub_ui.ui:54
-#: src/ui/editsub_ui.ui:65 src/ui/editsub_ui.ui:76 src/ui/editsub_ui.ui:151
-#: src/ui/editsub_ui.ui:191 src/ui/editsub_ui.ui:202 src/ui/editsub_ui.ui:233
-#: src/ui/editsub_ui.ui:478 src/ui/exportguidesdialog_ui.ui:108
-#: src/ui/exportguidesdialog_ui.ui:128 src/ui/gradientedit_ui.ui:130
-#: src/ui/gradientedit_ui.ui:150 src/ui/guideslist_ui.ui:19
-#: src/ui/guideslist_ui.ui:36 src/ui/guideslist_ui.ui:50
-#: src/ui/guideslist_ui.ui:64 src/ui/guideslist_ui.ui:77
-#: src/ui/guideslist_ui.ui:103 src/ui/guideslist_ui.ui:129
-#: src/ui/managecache_ui.ui:65 src/ui/managecache_ui.ui:79
-#: src/ui/managecache_ui.ui:100 src/ui/managecache_ui.ui:131
-#: src/ui/managecache_ui.ui:277 src/ui/managecache_ui.ui:328
-#: src/ui/manageencodingprofile_ui.ui:48 src/ui/manageencodingprofile_ui.ui:59
-#: src/ui/manageencodingprofile_ui.ui:70 src/ui/manageencodingprofile_ui.ui:84
-#: src/ui/projectsettings_ui.ui:276 src/ui/projectsettings_ui.ui:283
-#: src/ui/projectsettings_ui.ui:293 src/ui/projectsettings_ui.ui:571
-#: src/ui/projectsettings_ui.ui:578 src/ui/qtextclip_ui.ui:94
-#: src/ui/renderwidget_ui.ui:968 src/ui/resourcewidget_ui.ui:214
-#: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:75
-#: src/ui/textbasededit_ui.ui:61 src/ui/textbasededit_ui.ui:94
-#: src/ui/textbasededit_ui.ui:115 src/ui/textbasededit_ui.ui:131
-#: src/ui/textbasededit_ui.ui:210 src/ui/textbasededit_ui.ui:234
-#: src/ui/textbasededit_ui.ui:247 src/ui/textbasededit_ui.ui:261
-#: src/ui/textbasededit_ui.ui:277 src/ui/timeremap_ui.ui:97
-#: src/ui/timeremap_ui.ui:151 src/ui/timeremap_ui.ui:182
-#: src/ui/timeremap_ui.ui:192 src/ui/timeremap_ui.ui:202
-#: src/ui/timeremap_ui.ui:379 src/ui/titlewidget_ui.ui:830
-#: src/ui/titlewidget_ui.ui:840 src/ui/titlewidget_ui.ui:1045
-#: src/ui/titlewidget_ui.ui:1100 src/ui/titlewidget_ui.ui:1150
-#: src/ui/titlewidget_ui.ui:1173 src/ui/titlewidget_ui.ui:1206
-#: src/ui/titlewidget_ui.ui:1296 src/ui/titlewidget_ui.ui:1594
-#: src/ui/titlewidget_ui.ui:1611 src/ui/titlewidget_ui.ui:1625
-#: src/ui/titlewidget_ui.ui:1692 src/ui/titlewidget_ui.ui:1706
-#: src/ui/titlewidget_ui.ui:1720 src/ui/titlewidget_ui.ui:1734
-#: src/ui/titlewidget_ui.ui:1748 src/ui/titlewidget_ui.ui:1762
-#: src/ui/unicodewidget_ui.ui:201 src/ui/unicodewidget_ui.ui:226
+#: src/ui/clipjobmanager_ui.ui:62 src/ui/clipjobmanager_ui.ui:318
+#: src/ui/clipjobmanager_ui.ui:329 src/ui/clipstabilize_ui.ui:57
+#: src/ui/clipstabilize_ui.ui:94 src/ui/collapsiblewidget_ui.ui:103
+#: src/ui/collapsiblewidget_ui.ui:129 src/ui/collapsiblewidget_ui.ui:139
+#: src/ui/collapsiblewidget_ui.ui:149 src/ui/collapsiblewidget_ui.ui:162
+#: src/ui/collapsiblewidget_ui.ui:175 src/ui/collapsiblewidget_ui.ui:188
+#: src/ui/collapsiblewidget_ui.ui:198 src/ui/collapsiblewidget_ui.ui:208
+#: src/ui/configjogshuttle_ui.ui:82 src/ui/configsdl_ui.ui:166
+#: src/ui/configspeech_ui.ui:220 src/ui/configspeech_ui.ui:234
+#: src/ui/cutjobdialog_ui.ui:84 src/ui/editrenderpreset_ui.ui:470
+#: src/ui/editsub_ui.ui:23 src/ui/editsub_ui.ui:33 src/ui/editsub_ui.ui:43
+#: src/ui/editsub_ui.ui:54 src/ui/editsub_ui.ui:65 src/ui/editsub_ui.ui:76
+#: src/ui/editsub_ui.ui:151 src/ui/editsub_ui.ui:191 src/ui/editsub_ui.ui:202
+#: src/ui/editsub_ui.ui:233 src/ui/editsub_ui.ui:478
+#: src/ui/exportguidesdialog_ui.ui:108 src/ui/exportguidesdialog_ui.ui:128
+#: src/ui/gradientedit_ui.ui:130 src/ui/gradientedit_ui.ui:150
+#: src/ui/guideslist_ui.ui:19 src/ui/guideslist_ui.ui:36
+#: src/ui/guideslist_ui.ui:50 src/ui/guideslist_ui.ui:64
+#: src/ui/guideslist_ui.ui:77 src/ui/guideslist_ui.ui:103
+#: src/ui/guideslist_ui.ui:129 src/ui/managecache_ui.ui:65
+#: src/ui/managecache_ui.ui:79 src/ui/managecache_ui.ui:100
+#: src/ui/managecache_ui.ui:131 src/ui/managecache_ui.ui:277
+#: src/ui/managecache_ui.ui:328 src/ui/manageencodingprofile_ui.ui:48
+#: src/ui/manageencodingprofile_ui.ui:59 src/ui/manageencodingprofile_ui.ui:70
+#: src/ui/manageencodingprofile_ui.ui:84 src/ui/projectsettings_ui.ui:276
+#: src/ui/projectsettings_ui.ui:283 src/ui/projectsettings_ui.ui:293
+#: src/ui/projectsettings_ui.ui:571 src/ui/projectsettings_ui.ui:578
+#: src/ui/qtextclip_ui.ui:94 src/ui/renderwidget_ui.ui:968
+#: src/ui/resourcewidget_ui.ui:214 src/ui/resourcewidget_ui.ui:281
+#: src/ui/speechdialog_ui.ui:75 src/ui/textbasededit_ui.ui:61
+#: src/ui/textbasededit_ui.ui:94 src/ui/textbasededit_ui.ui:115
+#: src/ui/textbasededit_ui.ui:131 src/ui/textbasededit_ui.ui:210
+#: src/ui/textbasededit_ui.ui:234 src/ui/textbasededit_ui.ui:247
+#: src/ui/textbasededit_ui.ui:261 src/ui/textbasededit_ui.ui:277
+#: src/ui/timeremap_ui.ui:97 src/ui/timeremap_ui.ui:151
+#: src/ui/timeremap_ui.ui:182 src/ui/timeremap_ui.ui:192
+#: src/ui/timeremap_ui.ui:202 src/ui/timeremap_ui.ui:379
+#: src/ui/titlewidget_ui.ui:830 src/ui/titlewidget_ui.ui:840
+#: src/ui/titlewidget_ui.ui:1045 src/ui/titlewidget_ui.ui:1100
+#: src/ui/titlewidget_ui.ui:1150 src/ui/titlewidget_ui.ui:1173
+#: src/ui/titlewidget_ui.ui:1206 src/ui/titlewidget_ui.ui:1296
+#: src/ui/titlewidget_ui.ui:1594 src/ui/titlewidget_ui.ui:1611
+#: src/ui/titlewidget_ui.ui:1625 src/ui/titlewidget_ui.ui:1692
+#: src/ui/titlewidget_ui.ui:1706 src/ui/titlewidget_ui.ui:1720
+#: src/ui/titlewidget_ui.ui:1734 src/ui/titlewidget_ui.ui:1748
+#: src/ui/titlewidget_ui.ui:1762 src/ui/unicodewidget_ui.ui:201
+#: src/ui/unicodewidget_ui.ui:226
 #, kde-format
 msgid "..."
 msgstr "..."
@@ -17513,12 +17556,15 @@ msgstr ""
 msgid "Show handles for all points or only for the selected one."
 msgstr "Montri tenilojn por ĉiuj punktoj aŭ nur por la elektita."
 
+#. i18n: ectx: property (text), widget (QLabel, param1Label)
+#. i18n: ectx: property (text), widget (QLabel, param2Label)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, m_labelName)
 #. i18n: ectx: property (text), widget (QLabel, labelName)
 #. i18n: ectx: property (text), widget (QLabel, video_codec)
 #. i18n: ectx: property (text), widget (QLabel, audio_codec)
-#: src/ui/boolparamwidget_ui.ui:43 src/ui/cutjobdialog_ui.ui:34
+#: src/ui/boolparamwidget_ui.ui:43 src/ui/customjobinterface_ui.ui:20
+#: src/ui/customjobinterface_ui.ui:33 src/ui/cutjobdialog_ui.ui:34
 #: src/ui/cutjobdialog_ui.ui:51 src/ui/fontval_ui.ui:36
 #: src/ui/listdependencyparamwidget_ui.ui:36 src/ui/listparamwidget_ui.ui:76
 #: src/ui/urllistparamwidget_ui.ui:42 src/ui/urlval_ui.ui:44
@@ -17545,77 +17591,138 @@ msgstr "Pozicio:"
 msgid "Crop end:"
 msgstr "Tonda fino:"
 
-#. i18n: ectx: property (title), widget (QGroupBox, folder_box)
-#: src/ui/clipjobmanager_ui.ui:41
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/ui/clipjobmanager_ui.ui:26
 #, kde-format
-msgid "Project Bin behavior on completion"
-msgstr "Projekto Bin-konduto ĉe kompletigo"
-
-#. i18n: ectx: property (text), widget (QRadioButton, radio_replace)
-#: src/ui/clipjobmanager_ui.ui:47
-#, kde-format
-msgid "Replace original with result"
-msgstr "Anstataŭigi originalon per rezulto"
-
-#. i18n: ectx: property (text), widget (QCheckBox, bin_subfolder)
-#: src/ui/clipjobmanager_ui.ui:57
-#, kde-format
-msgid "Use a subfolder"
-msgstr "Uzi subdosierujon"
-
-#. i18n: ectx: property (text), widget (QRadioButton, radio_folder)
-#: src/ui/clipjobmanager_ui.ui:64
-#, kde-format
-msgid "Put resulting clip in a folder"
-msgstr "Meti rezultan tondaĵon en dosierujon"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
-#: src/ui/clipjobmanager_ui.ui:75
-#, kde-format
-msgid "Placed at top level"
-msgstr "Lokita ĉe supra nivelo"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
-#: src/ui/clipjobmanager_ui.ui:80
-#, kde-format
-msgid "Placed in the original clip folder"
-msgstr "Lokita en la originala tondaĵo dosierujo"
-
-#. i18n: ectx: property (placeholderText), widget (QLineEdit, folder_name)
-#: src/ui/clipjobmanager_ui.ui:91
-#, kde-format
-msgid "Folder name"
-msgstr "Nomo de dosierujo"
+msgid "Custom clip jobs"
+msgstr "Propraj tondaĵaj prilaboroj"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
-#: src/ui/clipjobmanager_ui.ui:101
+#: src/ui/clipjobmanager_ui.ui:33
 #, kde-format
 msgid "Job parameters"
 msgstr "Laboraj parametroj"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/clipjobmanager_ui.ui:110
+#: src/ui/clipjobmanager_ui.ui:39
 #, kde-format
 msgid "Executable"
 msgstr "Efektivigebla"
 
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/clipjobmanager_ui.ui:123
-#, kde-format
-msgid "Output file extension"
-msgstr "Eligo-dosiera etendo"
-
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/clipjobmanager_ui.ui:136
+#: src/ui/clipjobmanager_ui.ui:55
 #, kde-format
 msgid "Arguments"
 msgstr "Argumentoj"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/clipjobmanager_ui.ui:183
+#. i18n: ectx: property (text), widget (KMessageWidget, info_message)
+#: src/ui/clipjobmanager_ui.ui:78
 #, kde-format
-msgid "Custom clip jobs"
-msgstr "Propraj tondaĵaj prilaboroj"
+msgid ""
+"In the arguments, the following options are available: <ul><li><b>{source}</"
+"b> will be replaced by the Bin Clip source file path</li><li><b>{output}</b> "
+"will be replaced by the output file name</li><li><b>{param1}</b> will be "
+"replaced by the first parameter value</li><li><b>{param2}</b> will be "
+"replaced by the second parameter value</li></ul>"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: src/ui/clipjobmanager_ui.ui:91
+#, fuzzy, kde-format
+#| msgid "Parameters"
+msgid "Parameter 1 {param1}"
+msgstr "Parametroj"
+
+#. i18n: ectx: property (text), widget (QRadioButton, param1_isfile)
+#. i18n: ectx: property (text), widget (QRadioButton, param2_isfile)
+#: src/ui/clipjobmanager_ui.ui:97 src/ui/clipjobmanager_ui.ui:190
+#, kde-format
+msgid "Request file path"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, param1_islist)
+#. i18n: ectx: property (text), widget (QRadioButton, param2_islist)
+#: src/ui/clipjobmanager_ui.ui:107 src/ui/clipjobmanager_ui.ui:183
+#, kde-format
+msgid "Request option from list"
+msgstr ""
+
+#. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param1_list)
+#. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param2_list)
+#: src/ui/clipjobmanager_ui.ui:117 src/ui/clipjobmanager_ui.ui:169
+#, fuzzy, kde-format
+#| msgid "More options"
+msgid "List of options"
+msgstr "Pli da ebloj"
+
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, param1_name)
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, param2_name)
+#: src/ui/clipjobmanager_ui.ui:124 src/ui/clipjobmanager_ui.ui:176
+#, fuzzy, kde-format
+#| msgid "Job description"
+msgid "Parameter description"
+msgstr "Laborpriskribo"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
+#: src/ui/clipjobmanager_ui.ui:147
+#, fuzzy, kde-format
+#| msgid "Parameters"
+msgid "Parameter 2 {param2}"
+msgstr "Parametroj"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: src/ui/clipjobmanager_ui.ui:203
+#, kde-format
+msgid "Output file extension"
+msgstr "Eligo-dosiera etendo"
+
+#. i18n: ectx: property (title), widget (QGroupBox, clip_types)
+#: src/ui/clipjobmanager_ui.ui:226
+#, kde-format
+msgid "Applies to"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, folder_box)
+#: src/ui/clipjobmanager_ui.ui:256
+#, kde-format
+msgid "Project Bin behavior on completion"
+msgstr "Projekto Bin-konduto ĉe kompletigo"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radio_replace)
+#: src/ui/clipjobmanager_ui.ui:262
+#, kde-format
+msgid "Replace original with result"
+msgstr "Anstataŭigi originalon per rezulto"
+
+#. i18n: ectx: property (text), widget (QCheckBox, bin_subfolder)
+#: src/ui/clipjobmanager_ui.ui:272
+#, kde-format
+msgid "Use a subfolder"
+msgstr "Uzi subdosierujon"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radio_folder)
+#: src/ui/clipjobmanager_ui.ui:279
+#, kde-format
+msgid "Put resulting clip in a folder"
+msgstr "Meti rezultan tondaĵon en dosierujon"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
+#: src/ui/clipjobmanager_ui.ui:290
+#, kde-format
+msgid "Placed at top level"
+msgstr "Lokita ĉe supra nivelo"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
+#: src/ui/clipjobmanager_ui.ui:295
+#, kde-format
+msgid "Placed in the original clip folder"
+msgstr "Lokita en la originala tondaĵo dosierujo"
+
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, folder_name)
+#: src/ui/clipjobmanager_ui.ui:306
+#, kde-format
+msgid "Folder name"
+msgstr "Nomo de dosierujo"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox)
 #: src/ui/clipspeed_ui.ui:103
@@ -21219,3 +21326,15 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgctxt "@info:whatsthis"
+#~ msgid "<b>&#x25;1</b> will be replaced by the path of the source clip."
+#~ msgstr "<b>&#x25;</b> estos anstataŭigita per la vojo de la fonta tondaĵo."
+
+#~ msgctxt "@info:whatsthis"
+#~ msgid ""
+#~ "File extension for the output file. Empty will keep the same extension as "
+#~ "source file."
+#~ msgstr ""
+#~ "Dosiera etendo por la eligodosiero. Malplena konservos la saman etendon "
+#~ "kiel fontdosiero."
