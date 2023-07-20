@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-18 00:47+0000\n"
+"POT-Creation-Date: 2023-07-20 00:48+0000\n"
 "PO-Revision-Date: 2023-06-28 14:16+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -3002,6 +3002,7 @@ msgstr "Vrátit zpět"
 #. i18n: ectx: property (windowTitle), widget (QDialog, QTextClip_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, TestProxy_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, TranscodeSeekable_UI)
+#. i18n: ectx: property (windowTitle), widget (QDialog, CustomJobInterface_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManageEncodingProfile_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ClipSpeed_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ImportSub_UI)
@@ -3018,10 +3019,11 @@ msgstr "Vrátit zpět"
 #: src/ui/backupdialog_ui.ui:18 src/ui/clipjobmanager_ui.ui:14
 #: src/ui/clipspeed_ui.ui:18 src/ui/clipstabilize_ui.ui:18
 #: src/ui/cliptranscode_ui.ui:18 src/ui/colorclip_ui.ui:18
-#: src/ui/gradientedit_ui.ui:18 src/ui/import_subtitle_ui.ui:18
-#: src/ui/manageencodingprofile_ui.ui:18 src/ui/newtimeline_ui.ui:18
-#: src/ui/qtextclip_ui.ui:18 src/ui/speechdialog_ui.ui:18
-#: src/ui/testproxy_ui.ui:18 src/ui/transcodeseekable_ui.ui:18
+#: src/ui/customjobinterface_ui.ui:14 src/ui/gradientedit_ui.ui:18
+#: src/ui/import_subtitle_ui.ui:18 src/ui/manageencodingprofile_ui.ui:18
+#: src/ui/newtimeline_ui.ui:18 src/ui/qtextclip_ui.ui:18
+#: src/ui/speechdialog_ui.ui:18 src/ui/testproxy_ui.ui:18
+#: src/ui/transcodeseekable_ui.ui:18
 #, kde-format
 msgid "Dialog"
 msgstr "Dialogové okno"
@@ -3259,7 +3261,7 @@ msgstr ""
 msgid "%1 effects"
 msgstr "%1 efekty"
 
-#: src/assets/assetpanel.cpp:243
+#: src/assets/assetpanel.cpp:243 src/jobs/customjobtask.cpp:63
 #, kde-format
 msgid "%1 parameters"
 msgstr "%1 parametry"
@@ -4349,14 +4351,15 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, audio_box)
 #. i18n: ectx: property (text), widget (QCheckBox, audio_thumbs)
+#. i18n: ectx: property (text), widget (QCheckBox, enable_audio)
 #. i18n: ectx: attribute (title), widget (QWidget, audio_tab)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/bin/bin.cpp:2264 src/effects/effectlist/model/effecttreemodel.cpp:60
 #: src/layoutmanagement.cpp:36 src/lib/audio/audioStreamInfo.cpp:24
 #: src/monitor/recmanager.cpp:47 src/onlineresources/resourcewidget.cpp:547
-#: src/ui/configcapture_ui.ui:525 src/ui/cutjobdialog_ui.ui:61
-#: src/ui/editrenderpreset_ui.ui:834 src/ui/projectsettings_ui.ui:180
-#: src/ui/renderwidget_ui.ui:589
+#: src/ui/clipjobmanager_ui.ui:239 src/ui/configcapture_ui.ui:525
+#: src/ui/cutjobdialog_ui.ui:61 src/ui/editrenderpreset_ui.ui:834
+#: src/ui/projectsettings_ui.ui:180 src/ui/renderwidget_ui.ui:589
 #, kde-format
 msgid "Audio"
 msgstr "Zvuk "
@@ -4411,7 +4414,7 @@ msgstr "Složka"
 msgid "Create bin folder"
 msgstr ""
 
-#: src/bin/bin.cpp:2517 src/bin/bin.cpp:2530 src/bin/bin.cpp:3476
+#: src/bin/bin.cpp:2517 src/bin/bin.cpp:2530 src/bin/bin.cpp:3492
 #: src/timeline2/model/timelinemodel.cpp:2049
 #, kde-format
 msgid "Delete Clip"
@@ -4425,7 +4428,7 @@ msgid ""
 "timeline."
 msgstr ""
 
-#: src/bin/bin.cpp:2520 src/bin/bin.cpp:2533 src/bin/bin.cpp:3452
+#: src/bin/bin.cpp:2520 src/bin/bin.cpp:2533 src/bin/bin.cpp:3468
 #, kde-format
 msgid "Proxy Clip"
 msgstr "Zástupný klip"
@@ -4440,22 +4443,22 @@ msgstr "Smazat složku"
 msgid "Proxy Folder"
 msgstr "Složka se zástupnými klipy"
 
-#: src/bin/bin.cpp:2760
+#: src/bin/bin.cpp:2776
 #, kde-format
 msgid "Edit rating"
 msgstr ""
 
-#: src/bin/bin.cpp:2762
+#: src/bin/bin.cpp:2778
 #, kde-format
 msgid "Cannot set rating on this item"
 msgstr ""
 
-#: src/bin/bin.cpp:3402
+#: src/bin/bin.cpp:3418
 #, kde-format
 msgid "Add Clip or Folder…"
 msgstr ""
 
-#: src/bin/bin.cpp:3403
+#: src/bin/bin.cpp:3419
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4465,92 +4468,92 @@ msgid ""
 "to select source files."
 msgstr ""
 
-#: src/bin/bin.cpp:3409
+#: src/bin/bin.cpp:3425
 #, kde-format
 msgid "Add Color Clip…"
 msgstr "Vytvořit klip barvy…"
 
-#: src/bin/bin.cpp:3411
+#: src/bin/bin.cpp:3427
 #, kde-format
 msgid "Add Image Sequence…"
 msgstr "Přidat obrázkovou sekvenci…"
 
-#: src/bin/bin.cpp:3413
+#: src/bin/bin.cpp:3429
 #, kde-format
 msgid "Add Title Clip…"
 msgstr "Vytvořit titulky…"
 
-#: src/bin/bin.cpp:3415
+#: src/bin/bin.cpp:3431
 #, kde-format
 msgid "Add Template Title…"
 msgstr "Přidat titulky dle šablony…"
 
-#: src/bin/bin.cpp:3417
+#: src/bin/bin.cpp:3433
 #, kde-format
 msgid "Create Animation…"
 msgstr "Vytvořit animaci…"
 
-#: src/bin/bin.cpp:3419
+#: src/bin/bin.cpp:3435
 #, kde-format
 msgid "Add Sequence…"
 msgstr "Přidat sekvenci..."
 
-#: src/bin/bin.cpp:3422 src/mainwindow.cpp:361
+#: src/bin/bin.cpp:3438 src/mainwindow.cpp:361
 #, kde-format
 msgid "Online Resources"
 msgstr "Zdroje Online"
 
-#: src/bin/bin.cpp:3426
+#: src/bin/bin.cpp:3442
 #, kde-format
 msgid "Locate Clip…"
 msgstr "Najít klip…"
 
-#: src/bin/bin.cpp:3431
+#: src/bin/bin.cpp:3447
 #, kde-format
 msgid "Reload Clip"
 msgstr "Znovu načíst klip"
 
-#: src/bin/bin.cpp:3437
+#: src/bin/bin.cpp:3453
 #, kde-format
 msgid "Transcode to Edit Friendly Format…"
 msgstr ""
 
-#: src/bin/bin.cpp:3442
+#: src/bin/bin.cpp:3458
 #, kde-format
 msgid "Replace Clip…"
 msgstr "Nahradit klip..."
 
-#: src/bin/bin.cpp:3447
+#: src/bin/bin.cpp:3463
 #, kde-format
 msgid "Duplicate Clip"
 msgstr "Duplikovat klip"
 
-#: src/bin/bin.cpp:3459 src/bin/bin.cpp:3520
+#: src/bin/bin.cpp:3475 src/bin/bin.cpp:3536
 #, kde-format
 msgid "Clip Properties"
 msgstr "Vlastnosti klipu"
 
-#: src/bin/bin.cpp:3464 src/mltcontroller/clippropertiescontroller.cpp:283
+#: src/bin/bin.cpp:3480 src/mltcontroller/clippropertiescontroller.cpp:283
 #, kde-format
 msgid "Edit Clip"
 msgstr "Upravit klip"
 
-#: src/bin/bin.cpp:3481
+#: src/bin/bin.cpp:3497
 #, kde-format
 msgid "Open in new bin"
 msgstr ""
 
-#: src/bin/bin.cpp:3493
+#: src/bin/bin.cpp:3509
 #, kde-format
 msgid "Default Target Folder for Sequences"
 msgstr "Výchozí cílová složka pro sekvence"
 
-#: src/bin/bin.cpp:3497
+#: src/bin/bin.cpp:3513
 #, kde-format
 msgid "Create Folder"
 msgstr "Vytvořit složku"
 
-#: src/bin/bin.cpp:3500
+#: src/bin/bin.cpp:3516
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4558,29 +4561,29 @@ msgid ""
 "better organization of source files. Folders can be nested."
 msgstr ""
 
-#: src/bin/bin.cpp:3565 src/dialogs/speechdialog.cpp:48
+#: src/bin/bin.cpp:3581 src/dialogs/speechdialog.cpp:48
 #: src/dialogs/textbasededit.cpp:656 src/monitor/recmanager.cpp:43
 #, kde-format
 msgid "Show log"
 msgstr "Zobrazit záznamy"
 
-#: src/bin/bin.cpp:3568 src/dialogs/textbasededit.cpp:657
+#: src/bin/bin.cpp:3584 src/dialogs/textbasededit.cpp:657
 #, kde-format
 msgid "Detailed log"
 msgstr ""
 
-#: src/bin/bin.cpp:3628 src/bin/bin.cpp:3653
+#: src/bin/bin.cpp:3644 src/bin/bin.cpp:3669
 #, kde-format
 msgctxt "@title:window"
 msgid "Create New Sequence"
 msgstr "Vytvořit novou sekvenci"
 
-#: src/bin/bin.cpp:3630 src/bin/bin.cpp:3655
+#: src/bin/bin.cpp:3646 src/bin/bin.cpp:3671
 #, kde-format
 msgid "Sequence %1"
 msgstr "Sekvence %1"
 
-#: src/bin/bin.cpp:3684
+#: src/bin/bin.cpp:3700
 #, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
@@ -4588,40 +4591,40 @@ msgstr[0] "Přesunout klip"
 msgstr[1] "Přesunout klipy"
 msgstr[2] "Přesunout klip"
 
-#: src/bin/bin.cpp:3721
+#: src/bin/bin.cpp:3737
 #, kde-format
 msgid "No valid clip to insert"
 msgstr ""
 
-#: src/bin/bin.cpp:3746 src/timeline2/view/timelinecontroller.cpp:1484
+#: src/bin/bin.cpp:3762 src/timeline2/view/timelinecontroller.cpp:1484
 #: src/timeline2/view/timelinecontroller.cpp:3382
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr ""
 
-#: src/bin/bin.cpp:3755
+#: src/bin/bin.cpp:3771
 #, kde-format
 msgid "Cannot apply effects on folders"
 msgstr ""
 
-#: src/bin/bin.cpp:3781 src/effects/effectstack/model/effectstackmodel.cpp:500
+#: src/bin/bin.cpp:3797 src/effects/effectstack/model/effectstackmodel.cpp:500
 #: src/effects/effectstack/model/effectstackmodel.cpp:506
 #: src/mainwindow.cpp:3159
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr ""
 
-#: src/bin/bin.cpp:3827 src/bin/bin.cpp:3834
+#: src/bin/bin.cpp:3843 src/bin/bin.cpp:3850
 #, kde-format
 msgid "Select a clip to add a tag"
 msgstr ""
 
-#: src/bin/bin.cpp:3973
+#: src/bin/bin.cpp:3989
 #, kde-format
 msgid "Edit Tags"
 msgstr "Upravit značky"
 
-#: src/bin/bin.cpp:4262 src/bin/projectclip.cpp:192
+#: src/bin/bin.cpp:4278 src/bin/projectclip.cpp:192
 #: src/bin/projectclip.cpp:1976 src/onlineresources/resourcewidget.cpp:266
 #: src/onlineresources/resourcewidget.cpp:557
 #: src/onlineresources/resourcewidget.cpp:572
@@ -4629,27 +4632,27 @@ msgstr "Upravit značky"
 msgid "Unnamed"
 msgstr "Nepojmenované"
 
-#: src/bin/bin.cpp:4316
+#: src/bin/bin.cpp:4332
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:4328
+#: src/bin/bin.cpp:4344
 #, kde-format
 msgid "Please set a default application to open image files"
 msgstr ""
 
-#: src/bin/bin.cpp:4333
+#: src/bin/bin.cpp:4349
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:4345
+#: src/bin/bin.cpp:4361
 #, kde-format
 msgid "Please set a default application to open audio files"
 msgstr ""
 
-#: src/bin/bin.cpp:4355 src/core.cpp:304 src/doc/kdenlivedoc.cpp:165
+#: src/bin/bin.cpp:4371 src/core.cpp:304 src/doc/kdenlivedoc.cpp:165
 #: src/jobs/cliploadtask.cpp:458 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:471
 #: src/layoutmanagement.cpp:532 src/profiles/profilerepository.cpp:173
@@ -4658,12 +4661,12 @@ msgstr ""
 msgid "Cannot open file %1"
 msgstr "Nelze otevřít soubor %1"
 
-#: src/bin/bin.cpp:4535 src/dialogs/profilesdialog.cpp:213
+#: src/bin/bin.cpp:4551 src/dialogs/profilesdialog.cpp:213
 #, kde-format
 msgid "(copy)"
 msgstr "(kopie)"
 
-#: src/bin/bin.cpp:4545
+#: src/bin/bin.cpp:4561
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -4672,108 +4675,108 @@ msgstr ""
 "Upravujete externí titulkový klip (%1). Přejete si uložit změny do titulků "
 "(promítne se ve všech projektech) nebo uložit pouze pro tento projekt?"
 
-#: src/bin/bin.cpp:4548 src/titler/titlewidget.cpp:2188
+#: src/bin/bin.cpp:4564 src/titler/titlewidget.cpp:2188
 #, kde-format
 msgid "Save Title"
 msgstr "Uložit titulky"
 
-#: src/bin/bin.cpp:4548
+#: src/bin/bin.cpp:4564
 #, kde-format
 msgid "Save to title file"
 msgstr "Uložit do titulků"
 
-#: src/bin/bin.cpp:4549
+#: src/bin/bin.cpp:4565
 #, kde-format
 msgid "Save in project only"
 msgstr "Uložit pouze v projektu"
 
-#: src/bin/bin.cpp:4567 src/dialogs/clipcreationdialog.cpp:379
+#: src/bin/bin.cpp:4583 src/dialogs/clipcreationdialog.cpp:379
 #, kde-format
 msgid "Title clip"
 msgstr "Titulky"
 
-#: src/bin/bin.cpp:4617
+#: src/bin/bin.cpp:4633
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "Klip je neplatný a z projektu bude odebrán."
 
-#: src/bin/bin.cpp:4621
+#: src/bin/bin.cpp:4637
 #, kde-format
 msgid "Invalid clip"
 msgstr "Neplatný klip"
 
-#: src/bin/bin.cpp:4744
+#: src/bin/bin.cpp:4760
 #, kde-format
 msgid "Enable proxies"
 msgstr "Povolit zástupné"
 
-#: src/bin/bin.cpp:4744
+#: src/bin/bin.cpp:4760
 #, kde-format
 msgid "Disable proxies"
 msgstr "Vypnout proxy"
 
-#: src/bin/bin.cpp:4925
+#: src/bin/bin.cpp:4941
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "Znovu sestavit zástupné klipy"
 
-#: src/bin/bin.cpp:5163
+#: src/bin/bin.cpp:5179
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Zásobník projektu"
 
-#: src/bin/bin.cpp:5179
+#: src/bin/bin.cpp:5195
 #, kde-format
 msgid "Add Tracks"
 msgstr ""
 
-#: src/bin/bin.cpp:5181
+#: src/bin/bin.cpp:5197
 #, kde-format
 msgid "Edit Streams"
 msgstr ""
 
-#: src/bin/bin.cpp:5196
+#: src/bin/bin.cpp:5212
 #, kde-format
 msgid "Don't ask again"
 msgstr "Příště se již nedotazovat"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5200
+#: src/bin/bin.cpp:5216
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
 "tracks ?"
 msgstr ""
 
-#: src/bin/bin.cpp:5212 src/mainwindow.cpp:2721
+#: src/bin/bin.cpp:5228 src/mainwindow.cpp:2721
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Nelze přidat značku neznámému klipu"
 
-#: src/bin/bin.cpp:5304
+#: src/bin/bin.cpp:5320
 #, kde-format
 msgid "Could not find master clip"
 msgstr ""
 
-#: src/bin/bin.cpp:5498 src/bin/clipcreator.cpp:325
+#: src/bin/bin.cpp:5514 src/bin/clipcreator.cpp:325
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
 msgstr "Přidat klip"
 
-#: src/bin/bin.cpp:5520
+#: src/bin/bin.cpp:5536
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> klipy | "
 
-#: src/bin/bin.cpp:5522
+#: src/bin/bin.cpp:5538
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr ""
 
-#: src/bin/bin.cpp:5587 src/bin/bin.cpp:5661
+#: src/bin/bin.cpp:5603 src/bin/bin.cpp:5677
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
@@ -4781,12 +4784,12 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: src/bin/bin.cpp:5608
+#: src/bin/bin.cpp:5624
 #, kde-format
 msgid "Import selected clips"
 msgstr "Importovat vybrané klipy"
 
-#: src/bin/bin.cpp:5610
+#: src/bin/bin.cpp:5626
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -4795,17 +4798,17 @@ msgstr ""
 "Dodatečné proudy pro klip\n"
 " %1"
 
-#: src/bin/bin.cpp:5620 src/mltcontroller/clippropertiescontroller.cpp:634
+#: src/bin/bin.cpp:5636 src/mltcontroller/clippropertiescontroller.cpp:634
 #, kde-format
 msgid "Video stream %1"
 msgstr "Video proud %1"
 
-#: src/bin/bin.cpp:5635
+#: src/bin/bin.cpp:5651
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Zvukový proud %1"
 
-#: src/bin/bin.cpp:5688
+#: src/bin/bin.cpp:5704
 #, kde-format
 msgid "Remove clip markers"
 msgstr ""
@@ -5740,23 +5743,25 @@ msgstr ""
 msgid "Template title clip"
 msgstr "Šablona titulků"
 
-#: src/dialogs/clipjobmanager.cpp:24
+#: src/dialogs/clipjobmanager.cpp:25
 #, kde-format
 msgid "Manage Bin Clip Jobs"
 msgstr ""
 
-#: src/dialogs/clipjobmanager.cpp:47
+#: src/dialogs/clipjobmanager.cpp:44
 #, kde-format
 msgid "Arguments for the command line script"
 msgstr ""
 
-#: src/dialogs/clipjobmanager.cpp:48
+#: src/dialogs/clipjobmanager.cpp:47
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
-msgid "<b>&#x25;1</b> will be replaced by the path of the source clip."
-msgstr "<b>&#x25;1</b> bude nahrazeno cestou ke zdrojovému klipu"
+msgid ""
+"<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</b> "
+"by the second, , <b>{&#x25;3}</b> by the output file path."
+msgstr ""
 
-#: src/dialogs/clipjobmanager.cpp:50
+#: src/dialogs/clipjobmanager.cpp:48
 #, kde-format
 msgid "File extension for the output file"
 msgstr ""
@@ -5765,41 +5770,76 @@ msgstr ""
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
-"File extension for the output file. Empty will keep the same extension as "
-"source file."
+"The output file name will be the same as the source bin clip filename, with "
+"the modified extension. It will be appended at the end of the arguments or "
+"inserted in place of <b>{&#x25;3}</b> if found. If output filename already "
+"exists, a -0001 pattern will be appended."
 msgstr ""
 
-#: src/dialogs/clipjobmanager.cpp:91 src/dialogs/clipjobmanager.cpp:170
+#: src/dialogs/clipjobmanager.cpp:54
+#, kde-format
+msgid "The first parameter that will be injected in the script arguments"
+msgstr ""
+
+#: src/dialogs/clipjobmanager.cpp:56 src/dialogs/clipjobmanager.cpp:66
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<b>Source Clip Path</b> will put the selected Bin Clip path<br/><b>Request "
+"File Path</b> will ask for a file path on execution<br/><b>Request Option in "
+"List</b> will ask for a choice in the list below on execution."
+msgstr ""
+
+#: src/dialogs/clipjobmanager.cpp:59 src/dialogs/clipjobmanager.cpp:69
+#, kde-format
+msgid ""
+"A newline separated list of possible values that will be offered on execution"
+msgstr ""
+
+#: src/dialogs/clipjobmanager.cpp:62 src/dialogs/clipjobmanager.cpp:72
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"When the parameter is set to <b>Request Option in List</b> the user will be "
+"asked to choose a value in this list when the job is started."
+msgstr ""
+
+#: src/dialogs/clipjobmanager.cpp:64
+#, kde-format
+msgid "The second parameter that will be injected in the script arguments"
+msgstr ""
+
+#: src/dialogs/clipjobmanager.cpp:127 src/dialogs/clipjobmanager.cpp:252
 #, kde-format
 msgid "Stabilize"
 msgstr "Stabilizovat"
 
-#: src/dialogs/clipjobmanager.cpp:94 src/dialogs/clipjobmanager.cpp:174
+#: src/dialogs/clipjobmanager.cpp:130 src/dialogs/clipjobmanager.cpp:256
 #, kde-format
 msgid "Duplicate Clip with Speed Change…"
 msgstr "Duplikovat klip se změnou rychlosti…"
 
-#: src/dialogs/clipjobmanager.cpp:172
+#: src/dialogs/clipjobmanager.cpp:254
 #, kde-format
 msgid "Automatic Scene Split…"
 msgstr "Automatické rozdělení scény…"
 
-#: src/dialogs/clipjobmanager.cpp:202
+#: src/dialogs/clipjobmanager.cpp:284
 #, kde-format
 msgid "Job description"
 msgstr "Popis úlohy"
 
-#: src/dialogs/clipjobmanager.cpp:252
+#: src/dialogs/clipjobmanager.cpp:372
 #, kde-format
 msgid "My Clip Job"
 msgstr ""
 
-#: src/dialogs/clipjobmanager.cpp:260
+#: src/dialogs/clipjobmanager.cpp:380
 #, kde-format
 msgid "My Clip Job %1"
 msgstr ""
 
-#: src/dialogs/clipjobmanager.cpp:285
+#: src/dialogs/clipjobmanager.cpp:406
 #, kde-format
 msgid ""
 "Permanently delete this Clip Job:\n"
@@ -8266,12 +8306,12 @@ msgstr ""
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr ""
 
-#: src/jobs/customjobtask.cpp:95
+#: src/jobs/customjobtask.cpp:159
 #, kde-format
 msgid "Application %1 not found, please update the job settings"
 msgstr ""
 
-#: src/jobs/customjobtask.cpp:170 src/jobs/customjobtask.cpp:180
+#: src/jobs/customjobtask.cpp:251 src/jobs/customjobtask.cpp:261
 #: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:231
 #: src/jobs/transcodetask.cpp:267
 #, kde-format
@@ -11647,11 +11687,13 @@ msgstr "Nahrávat"
 
 #. i18n: ectx: property (title), widget (QGroupBox, video_box)
 #. i18n: ectx: property (text), widget (QCheckBox, video_thumbs)
+#. i18n: ectx: property (text), widget (QCheckBox, enable_video)
 #. i18n: ectx: attribute (title), widget (QWidget, video_tab)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/monitor/recmanager.cpp:46 src/onlineresources/resourcewidget.cpp:549
-#: src/ui/cutjobdialog_ui.ui:107 src/ui/editrenderpreset_ui.ui:122
-#: src/ui/projectsettings_ui.ui:173 src/ui/renderwidget_ui.ui:478
+#: src/ui/clipjobmanager_ui.ui:232 src/ui/cutjobdialog_ui.ui:107
+#: src/ui/editrenderpreset_ui.ui:122 src/ui/projectsettings_ui.ui:173
+#: src/ui/renderwidget_ui.ui:478
 #, kde-format
 msgid "Video"
 msgstr "Video"
@@ -12102,7 +12144,8 @@ msgstr "Vyberte verzi souboru"
 msgid "Please choose the version you want to download"
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:551
+#. i18n: ectx: property (text), widget (QCheckBox, enable_image)
+#: src/onlineresources/resourcewidget.cpp:551 src/ui/clipjobmanager_ui.ui:246
 #, kde-format
 msgid "Images"
 msgstr "Obrázky"
@@ -16881,6 +16924,7 @@ msgstr "Odstranit aktuální bod."
 #. i18n: ectx: property (text), widget (QToolButton, delete_metadata)
 #. i18n: ectx: property (text), widget (QToolButton, remove_gradient)
 #. i18n: ectx: property (text), widget (QToolButton, add_gradient)
+#. i18n: ectx: property (text), widget (QToolButton, info_button)
 #. i18n: ectx: property (text), widget (QToolButton, infoButton)
 #. i18n: ectx: property (text), widget (QToolButton, buttonReset)
 #. i18n: ectx: property (text), widget (QToolButton, button_center_top)
@@ -16945,52 +16989,53 @@ msgstr "Odstranit aktuální bod."
 #: src/ui/bezierspline_ui.ui:121 src/ui/bezierspline_ui.ui:137
 #: src/ui/bezierspline_ui.ui:156 src/ui/bezierspline_ui.ui:172
 #: src/ui/bezierspline_ui.ui:189 src/ui/bezierspline_ui.ui:206
-#: src/ui/clipjobmanager_ui.ui:20 src/ui/clipjobmanager_ui.ui:166
-#: src/ui/clipstabilize_ui.ui:57 src/ui/clipstabilize_ui.ui:94
-#: src/ui/collapsiblewidget_ui.ui:103 src/ui/collapsiblewidget_ui.ui:129
-#: src/ui/collapsiblewidget_ui.ui:139 src/ui/collapsiblewidget_ui.ui:149
-#: src/ui/collapsiblewidget_ui.ui:162 src/ui/collapsiblewidget_ui.ui:175
-#: src/ui/collapsiblewidget_ui.ui:188 src/ui/collapsiblewidget_ui.ui:198
-#: src/ui/collapsiblewidget_ui.ui:208 src/ui/configjogshuttle_ui.ui:82
-#: src/ui/configsdl_ui.ui:166 src/ui/configspeech_ui.ui:220
-#: src/ui/configspeech_ui.ui:234 src/ui/cutjobdialog_ui.ui:84
-#: src/ui/editrenderpreset_ui.ui:470 src/ui/editsub_ui.ui:23
-#: src/ui/editsub_ui.ui:33 src/ui/editsub_ui.ui:43 src/ui/editsub_ui.ui:54
-#: src/ui/editsub_ui.ui:65 src/ui/editsub_ui.ui:76 src/ui/editsub_ui.ui:151
-#: src/ui/editsub_ui.ui:191 src/ui/editsub_ui.ui:202 src/ui/editsub_ui.ui:233
-#: src/ui/editsub_ui.ui:478 src/ui/exportguidesdialog_ui.ui:108
-#: src/ui/exportguidesdialog_ui.ui:128 src/ui/gradientedit_ui.ui:130
-#: src/ui/gradientedit_ui.ui:150 src/ui/guideslist_ui.ui:19
-#: src/ui/guideslist_ui.ui:36 src/ui/guideslist_ui.ui:50
-#: src/ui/guideslist_ui.ui:64 src/ui/guideslist_ui.ui:77
-#: src/ui/guideslist_ui.ui:103 src/ui/guideslist_ui.ui:129
-#: src/ui/managecache_ui.ui:65 src/ui/managecache_ui.ui:79
-#: src/ui/managecache_ui.ui:100 src/ui/managecache_ui.ui:131
-#: src/ui/managecache_ui.ui:277 src/ui/managecache_ui.ui:328
-#: src/ui/manageencodingprofile_ui.ui:48 src/ui/manageencodingprofile_ui.ui:59
-#: src/ui/manageencodingprofile_ui.ui:70 src/ui/manageencodingprofile_ui.ui:84
-#: src/ui/projectsettings_ui.ui:276 src/ui/projectsettings_ui.ui:283
-#: src/ui/projectsettings_ui.ui:293 src/ui/projectsettings_ui.ui:571
-#: src/ui/projectsettings_ui.ui:578 src/ui/qtextclip_ui.ui:94
-#: src/ui/renderwidget_ui.ui:968 src/ui/resourcewidget_ui.ui:214
-#: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:75
-#: src/ui/textbasededit_ui.ui:61 src/ui/textbasededit_ui.ui:94
-#: src/ui/textbasededit_ui.ui:115 src/ui/textbasededit_ui.ui:131
-#: src/ui/textbasededit_ui.ui:210 src/ui/textbasededit_ui.ui:234
-#: src/ui/textbasededit_ui.ui:247 src/ui/textbasededit_ui.ui:261
-#: src/ui/textbasededit_ui.ui:277 src/ui/timeremap_ui.ui:97
-#: src/ui/timeremap_ui.ui:151 src/ui/timeremap_ui.ui:182
-#: src/ui/timeremap_ui.ui:192 src/ui/timeremap_ui.ui:202
-#: src/ui/timeremap_ui.ui:379 src/ui/titlewidget_ui.ui:830
-#: src/ui/titlewidget_ui.ui:840 src/ui/titlewidget_ui.ui:1045
-#: src/ui/titlewidget_ui.ui:1100 src/ui/titlewidget_ui.ui:1150
-#: src/ui/titlewidget_ui.ui:1173 src/ui/titlewidget_ui.ui:1206
-#: src/ui/titlewidget_ui.ui:1296 src/ui/titlewidget_ui.ui:1594
-#: src/ui/titlewidget_ui.ui:1611 src/ui/titlewidget_ui.ui:1625
-#: src/ui/titlewidget_ui.ui:1692 src/ui/titlewidget_ui.ui:1706
-#: src/ui/titlewidget_ui.ui:1720 src/ui/titlewidget_ui.ui:1734
-#: src/ui/titlewidget_ui.ui:1748 src/ui/titlewidget_ui.ui:1762
-#: src/ui/unicodewidget_ui.ui:201 src/ui/unicodewidget_ui.ui:226
+#: src/ui/clipjobmanager_ui.ui:62 src/ui/clipjobmanager_ui.ui:318
+#: src/ui/clipjobmanager_ui.ui:329 src/ui/clipstabilize_ui.ui:57
+#: src/ui/clipstabilize_ui.ui:94 src/ui/collapsiblewidget_ui.ui:103
+#: src/ui/collapsiblewidget_ui.ui:129 src/ui/collapsiblewidget_ui.ui:139
+#: src/ui/collapsiblewidget_ui.ui:149 src/ui/collapsiblewidget_ui.ui:162
+#: src/ui/collapsiblewidget_ui.ui:175 src/ui/collapsiblewidget_ui.ui:188
+#: src/ui/collapsiblewidget_ui.ui:198 src/ui/collapsiblewidget_ui.ui:208
+#: src/ui/configjogshuttle_ui.ui:82 src/ui/configsdl_ui.ui:166
+#: src/ui/configspeech_ui.ui:220 src/ui/configspeech_ui.ui:234
+#: src/ui/cutjobdialog_ui.ui:84 src/ui/editrenderpreset_ui.ui:470
+#: src/ui/editsub_ui.ui:23 src/ui/editsub_ui.ui:33 src/ui/editsub_ui.ui:43
+#: src/ui/editsub_ui.ui:54 src/ui/editsub_ui.ui:65 src/ui/editsub_ui.ui:76
+#: src/ui/editsub_ui.ui:151 src/ui/editsub_ui.ui:191 src/ui/editsub_ui.ui:202
+#: src/ui/editsub_ui.ui:233 src/ui/editsub_ui.ui:478
+#: src/ui/exportguidesdialog_ui.ui:108 src/ui/exportguidesdialog_ui.ui:128
+#: src/ui/gradientedit_ui.ui:130 src/ui/gradientedit_ui.ui:150
+#: src/ui/guideslist_ui.ui:19 src/ui/guideslist_ui.ui:36
+#: src/ui/guideslist_ui.ui:50 src/ui/guideslist_ui.ui:64
+#: src/ui/guideslist_ui.ui:77 src/ui/guideslist_ui.ui:103
+#: src/ui/guideslist_ui.ui:129 src/ui/managecache_ui.ui:65
+#: src/ui/managecache_ui.ui:79 src/ui/managecache_ui.ui:100
+#: src/ui/managecache_ui.ui:131 src/ui/managecache_ui.ui:277
+#: src/ui/managecache_ui.ui:328 src/ui/manageencodingprofile_ui.ui:48
+#: src/ui/manageencodingprofile_ui.ui:59 src/ui/manageencodingprofile_ui.ui:70
+#: src/ui/manageencodingprofile_ui.ui:84 src/ui/projectsettings_ui.ui:276
+#: src/ui/projectsettings_ui.ui:283 src/ui/projectsettings_ui.ui:293
+#: src/ui/projectsettings_ui.ui:571 src/ui/projectsettings_ui.ui:578
+#: src/ui/qtextclip_ui.ui:94 src/ui/renderwidget_ui.ui:968
+#: src/ui/resourcewidget_ui.ui:214 src/ui/resourcewidget_ui.ui:281
+#: src/ui/speechdialog_ui.ui:75 src/ui/textbasededit_ui.ui:61
+#: src/ui/textbasededit_ui.ui:94 src/ui/textbasededit_ui.ui:115
+#: src/ui/textbasededit_ui.ui:131 src/ui/textbasededit_ui.ui:210
+#: src/ui/textbasededit_ui.ui:234 src/ui/textbasededit_ui.ui:247
+#: src/ui/textbasededit_ui.ui:261 src/ui/textbasededit_ui.ui:277
+#: src/ui/timeremap_ui.ui:97 src/ui/timeremap_ui.ui:151
+#: src/ui/timeremap_ui.ui:182 src/ui/timeremap_ui.ui:192
+#: src/ui/timeremap_ui.ui:202 src/ui/timeremap_ui.ui:379
+#: src/ui/titlewidget_ui.ui:830 src/ui/titlewidget_ui.ui:840
+#: src/ui/titlewidget_ui.ui:1045 src/ui/titlewidget_ui.ui:1100
+#: src/ui/titlewidget_ui.ui:1150 src/ui/titlewidget_ui.ui:1173
+#: src/ui/titlewidget_ui.ui:1206 src/ui/titlewidget_ui.ui:1296
+#: src/ui/titlewidget_ui.ui:1594 src/ui/titlewidget_ui.ui:1611
+#: src/ui/titlewidget_ui.ui:1625 src/ui/titlewidget_ui.ui:1692
+#: src/ui/titlewidget_ui.ui:1706 src/ui/titlewidget_ui.ui:1720
+#: src/ui/titlewidget_ui.ui:1734 src/ui/titlewidget_ui.ui:1748
+#: src/ui/titlewidget_ui.ui:1762 src/ui/unicodewidget_ui.ui:201
+#: src/ui/unicodewidget_ui.ui:226
 #, kde-format
 msgid "..."
 msgstr "..."
@@ -17031,12 +17076,15 @@ msgstr "Zvýší počet čar v mřížce.<br />Po 8 čárách se vrátí opět n
 msgid "Show handles for all points or only for the selected one."
 msgstr "Zobrazit úchyty pro všechny body nebo pouze pro vybrané."
 
+#. i18n: ectx: property (text), widget (QLabel, param1Label)
+#. i18n: ectx: property (text), widget (QLabel, param2Label)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, m_labelName)
 #. i18n: ectx: property (text), widget (QLabel, labelName)
 #. i18n: ectx: property (text), widget (QLabel, video_codec)
 #. i18n: ectx: property (text), widget (QLabel, audio_codec)
-#: src/ui/boolparamwidget_ui.ui:43 src/ui/cutjobdialog_ui.ui:34
+#: src/ui/boolparamwidget_ui.ui:43 src/ui/customjobinterface_ui.ui:20
+#: src/ui/customjobinterface_ui.ui:33 src/ui/cutjobdialog_ui.ui:34
 #: src/ui/cutjobdialog_ui.ui:51 src/ui/fontval_ui.ui:36
 #: src/ui/listdependencyparamwidget_ui.ui:36 src/ui/listparamwidget_ui.ui:76
 #: src/ui/urllistparamwidget_ui.ui:42 src/ui/urlval_ui.ui:44
@@ -17063,77 +17111,138 @@ msgstr "Pozice:"
 msgid "Crop end:"
 msgstr "Konec ořezání:"
 
-#. i18n: ectx: property (title), widget (QGroupBox, folder_box)
-#: src/ui/clipjobmanager_ui.ui:41
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/ui/clipjobmanager_ui.ui:26
 #, kde-format
-msgid "Project Bin behavior on completion"
+msgid "Custom clip jobs"
 msgstr ""
-
-#. i18n: ectx: property (text), widget (QRadioButton, radio_replace)
-#: src/ui/clipjobmanager_ui.ui:47
-#, kde-format
-msgid "Replace original with result"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QCheckBox, bin_subfolder)
-#: src/ui/clipjobmanager_ui.ui:57
-#, kde-format
-msgid "Use a subfolder"
-msgstr "Použít podsložku"
-
-#. i18n: ectx: property (text), widget (QRadioButton, radio_folder)
-#: src/ui/clipjobmanager_ui.ui:64
-#, kde-format
-msgid "Put resulting clip in a folder"
-msgstr ""
-
-#. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
-#: src/ui/clipjobmanager_ui.ui:75
-#, kde-format
-msgid "Placed at top level"
-msgstr ""
-
-#. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
-#: src/ui/clipjobmanager_ui.ui:80
-#, kde-format
-msgid "Placed in the original clip folder"
-msgstr "Umístěno ve složce původního klipu"
-
-#. i18n: ectx: property (placeholderText), widget (QLineEdit, folder_name)
-#: src/ui/clipjobmanager_ui.ui:91
-#, kde-format
-msgid "Folder name"
-msgstr "Název složky"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
-#: src/ui/clipjobmanager_ui.ui:101
+#: src/ui/clipjobmanager_ui.ui:33
 #, kde-format
 msgid "Job parameters"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/clipjobmanager_ui.ui:110
+#: src/ui/clipjobmanager_ui.ui:39
 #, kde-format
 msgid "Executable"
 msgstr "Program"
 
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/clipjobmanager_ui.ui:123
-#, kde-format
-msgid "Output file extension"
-msgstr ""
-
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/clipjobmanager_ui.ui:136
+#: src/ui/clipjobmanager_ui.ui:55
 #, kde-format
 msgid "Arguments"
 msgstr "Argumenty"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/clipjobmanager_ui.ui:183
+#. i18n: ectx: property (text), widget (KMessageWidget, info_message)
+#: src/ui/clipjobmanager_ui.ui:78
 #, kde-format
-msgid "Custom clip jobs"
+msgid ""
+"In the arguments, the following options are available: <ul><li><b>{source}</"
+"b> will be replaced by the Bin Clip source file path</li><li><b>{output}</b> "
+"will be replaced by the output file name</li><li><b>{param1}</b> will be "
+"replaced by the first parameter value</li><li><b>{param2}</b> will be "
+"replaced by the second parameter value</li></ul>"
 msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: src/ui/clipjobmanager_ui.ui:91
+#, fuzzy, kde-format
+#| msgid "Parameters"
+msgid "Parameter 1 {param1}"
+msgstr "Parametry"
+
+#. i18n: ectx: property (text), widget (QRadioButton, param1_isfile)
+#. i18n: ectx: property (text), widget (QRadioButton, param2_isfile)
+#: src/ui/clipjobmanager_ui.ui:97 src/ui/clipjobmanager_ui.ui:190
+#, kde-format
+msgid "Request file path"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, param1_islist)
+#. i18n: ectx: property (text), widget (QRadioButton, param2_islist)
+#: src/ui/clipjobmanager_ui.ui:107 src/ui/clipjobmanager_ui.ui:183
+#, kde-format
+msgid "Request option from list"
+msgstr ""
+
+#. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param1_list)
+#. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param2_list)
+#: src/ui/clipjobmanager_ui.ui:117 src/ui/clipjobmanager_ui.ui:169
+#, fuzzy, kde-format
+#| msgid "More options"
+msgid "List of options"
+msgstr "Více možností"
+
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, param1_name)
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, param2_name)
+#: src/ui/clipjobmanager_ui.ui:124 src/ui/clipjobmanager_ui.ui:176
+#, fuzzy, kde-format
+#| msgid "Job description"
+msgid "Parameter description"
+msgstr "Popis úlohy"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
+#: src/ui/clipjobmanager_ui.ui:147
+#, fuzzy, kde-format
+#| msgid "Parameters"
+msgid "Parameter 2 {param2}"
+msgstr "Parametry"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: src/ui/clipjobmanager_ui.ui:203
+#, kde-format
+msgid "Output file extension"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, clip_types)
+#: src/ui/clipjobmanager_ui.ui:226
+#, kde-format
+msgid "Applies to"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, folder_box)
+#: src/ui/clipjobmanager_ui.ui:256
+#, kde-format
+msgid "Project Bin behavior on completion"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, radio_replace)
+#: src/ui/clipjobmanager_ui.ui:262
+#, kde-format
+msgid "Replace original with result"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, bin_subfolder)
+#: src/ui/clipjobmanager_ui.ui:272
+#, kde-format
+msgid "Use a subfolder"
+msgstr "Použít podsložku"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radio_folder)
+#: src/ui/clipjobmanager_ui.ui:279
+#, kde-format
+msgid "Put resulting clip in a folder"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
+#: src/ui/clipjobmanager_ui.ui:290
+#, kde-format
+msgid "Placed at top level"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
+#: src/ui/clipjobmanager_ui.ui:295
+#, kde-format
+msgid "Placed in the original clip folder"
+msgstr "Umístěno ve složce původního klipu"
+
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, folder_name)
+#: src/ui/clipjobmanager_ui.ui:306
+#, kde-format
+msgid "Folder name"
+msgstr "Název složky"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox)
 #: src/ui/clipspeed_ui.ui:103
@@ -20716,6 +20825,10 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgctxt "@info:whatsthis"
+#~ msgid "<b>&#x25;1</b> will be replaced by the path of the source clip."
+#~ msgstr "<b>&#x25;1</b> bude nahrazeno cestou ke zdrojovému klipu"
 
 #~ msgid "*.srt *.ass *.vtt *.sbv"
 #~ msgstr "*.srt *.ass *.vtt *.sbv"
