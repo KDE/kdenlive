@@ -207,6 +207,7 @@ void FilterTask::run()
         }
         if (m_filterData.find(QLatin1String("relativeInOut")) != m_filterData.end()) {
             // leave it operate on full clip
+            filter.set_in_and_out(0, -1);
         } else {
             filter.set_in_and_out(m_inPoint, m_outPoint);
         }

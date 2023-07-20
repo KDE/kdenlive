@@ -1416,7 +1416,6 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                         }
                     }
                     Xml::setXmlProperty(eff, conversionParams.at(2), parsedValues.join(QLatin1Char(';')));
-                    // Xml::setXmlProperty(eff, QStringLiteral("kdenlive:sync_in_out"), QStringLiteral("1"));
                     eff.setAttribute(QStringLiteral("out"), out);
                 }
             }
