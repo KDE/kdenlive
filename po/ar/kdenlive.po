@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-20 02:45+0000\n"
+"POT-Creation-Date: 2023-07-21 02:53+0000\n"
 "PO-Revision-Date: 2023-07-06 10:09+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -3424,7 +3424,7 @@ msgid "Delete keyframes"
 msgstr "احذف الأطر الرئيسة"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1384
+#: src/assets/model/assetparametermodel.cpp:1388
 #, kde-format
 msgid "Update effect"
 msgstr "حدث التأثير"
@@ -3519,8 +3519,8 @@ msgstr "حرّر الإطار الرئيس %1"
 msgid "Update %1"
 msgstr "حدّث %1"
 
-#: src/assets/model/assetparametermodel.cpp:1236
-#: src/assets/model/assetparametermodel.cpp:1283
+#: src/assets/model/assetparametermodel.cpp:1240
+#: src/assets/model/assetparametermodel.cpp:1287
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "تعذّر فتح ملفّ المعد مسبقا %1"
@@ -5473,7 +5473,7 @@ msgstr "نظف المشروع"
 msgid "Loading project clips…"
 msgstr "يحمّل مقاطع المشروع…"
 
-#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2137
+#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2136
 #, kde-format
 msgid "Zone %1"
 msgstr "المنطقة %1"
@@ -6244,7 +6244,7 @@ msgstr "متنوّع"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:251
 #: src/dialogs/kdenlivesettingsdialog.cpp:792
-#: src/doc/documentvalidator.cpp:2249
+#: src/doc/documentvalidator.cpp:2248
 #: src/transitions/transitionsrepository.cpp:178
 #, kde-format
 msgid "auto"
@@ -7821,7 +7821,7 @@ msgstr ""
 msgid "Update Text Clips"
 msgstr "تحديث مقاطع النّصوص"
 
-#: src/doc/documentvalidator.cpp:725 src/doc/documentvalidator.cpp:2240
+#: src/doc/documentvalidator.cpp:725 src/doc/documentvalidator.cpp:2239
 #, kde-format
 msgid "Convert"
 msgstr "حوّل"
@@ -7831,12 +7831,12 @@ msgstr "حوّل"
 msgid "Cannot recover this project file"
 msgstr "تعذّرت استعادة ملفّ المشروع هذا"
 
-#: src/doc/documentvalidator.cpp:1615
+#: src/doc/documentvalidator.cpp:1614
 #, kde-format
 msgid "extra audio"
 msgstr "صوت إضافي"
 
-#: src/doc/documentvalidator.cpp:2238
+#: src/doc/documentvalidator.cpp:2237
 #, kde-format
 msgid ""
 "The project file uses some GPU effects. GPU acceleration is not currently "
@@ -7849,17 +7849,17 @@ msgstr ""
 "أتريد تحويل هذا المشروع إلى نسخة دون وحدة رسوميّات؟\n"
 "قد ينتج فقد للبيانات."
 
-#: src/doc/documentvalidator.cpp:2240
+#: src/doc/documentvalidator.cpp:2239
 #, kde-format
 msgid "GPU Effects"
 msgstr "تأثيرات وحدة معالجة الرسومات"
 
-#: src/doc/documentvalidator.cpp:2333
+#: src/doc/documentvalidator.cpp:2332
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr "المرشحات/الانتقالات التالية حولت إلى إصدارة لا تدعم العتاد الرسومي:"
 
-#: src/doc/documentvalidator.cpp:2336
+#: src/doc/documentvalidator.cpp:2335
 #, kde-format
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "المرشّحات/الانتقالات الآتية حُذفت من المشروع:"
@@ -8223,7 +8223,7 @@ msgstr "تأثير النسخ"
 #: src/effects/effectstack/model/effectstackmodel.cpp:323
 #: src/effects/effectstack/model/effectstackmodel.cpp:432
 #: src/effects/effectstack/model/effectstackmodel.cpp:486
-#: src/effects/effectstack/model/effectstackmodel.cpp:1042
+#: src/effects/effectstack/model/effectstackmodel.cpp:1067
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "لا يمكن إضافة التأثير %1 مرتين."
@@ -8238,7 +8238,7 @@ msgstr "تأثير اللصق"
 msgid "Add effect %1"
 msgstr "أضف تأثير %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:877
+#: src/effects/effectstack/model/effectstackmodel.cpp:895
 #, kde-format
 msgid "Move effect %1"
 msgstr "انقل التّأثير %1"
@@ -8616,7 +8616,7 @@ msgstr "تعذّر إنشاء مستهلك."
 msgid "Cannot create filter %1"
 msgstr "تعذّر إنشاء المرشح %1"
 
-#: src/jobs/filtertask.cpp:267
+#: src/jobs/filtertask.cpp:268
 #, kde-format
 msgid "Failed to filter source."
 msgstr "فشل ترشيح المصدر."

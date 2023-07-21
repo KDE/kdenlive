@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-20 02:45+0000\n"
+"POT-Creation-Date: 2023-07-21 02:53+0000\n"
 "PO-Revision-Date: 2022-05-08 16:25+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -3430,7 +3430,7 @@ msgid "Delete keyframes"
 msgstr "키프레임 삭제"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1384
+#: src/assets/model/assetparametermodel.cpp:1388
 #, fuzzy, kde-format
 #| msgid "Paste effect"
 msgid "Update effect"
@@ -3516,8 +3516,8 @@ msgstr "%1 키프레임 편집"
 msgid "Update %1"
 msgstr "%1 업데이트"
 
-#: src/assets/model/assetparametermodel.cpp:1236
-#: src/assets/model/assetparametermodel.cpp:1283
+#: src/assets/model/assetparametermodel.cpp:1240
+#: src/assets/model/assetparametermodel.cpp:1287
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "%1 사전 설정 파일을 열 수 없음"
@@ -5513,7 +5513,7 @@ msgstr "프로젝트 정리"
 msgid "Loading project clips…"
 msgstr "프로젝트 클립 불러오는 중..."
 
-#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2137
+#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2136
 #, kde-format
 msgid "Zone %1"
 msgstr "영역 %1"
@@ -6306,7 +6306,7 @@ msgstr "기타"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:251
 #: src/dialogs/kdenlivesettingsdialog.cpp:792
-#: src/doc/documentvalidator.cpp:2249
+#: src/doc/documentvalidator.cpp:2248
 #: src/transitions/transitionsrepository.cpp:178
 #, kde-format
 msgid "auto"
@@ -7913,7 +7913,7 @@ msgstr ""
 msgid "Update Text Clips"
 msgstr "텍스트 클립 업데이트"
 
-#: src/doc/documentvalidator.cpp:725 src/doc/documentvalidator.cpp:2240
+#: src/doc/documentvalidator.cpp:725 src/doc/documentvalidator.cpp:2239
 #, fuzzy, kde-format
 #| msgid "Convert to"
 msgid "Convert"
@@ -7924,12 +7924,12 @@ msgstr "다음으로 변환"
 msgid "Cannot recover this project file"
 msgstr "이 프로젝트 파일을 복구할 수 없음"
 
-#: src/doc/documentvalidator.cpp:1615
+#: src/doc/documentvalidator.cpp:1614
 #, kde-format
 msgid "extra audio"
 msgstr "추가 오디오"
 
-#: src/doc/documentvalidator.cpp:2238
+#: src/doc/documentvalidator.cpp:2237
 #, kde-format
 msgid ""
 "The project file uses some GPU effects. GPU acceleration is not currently "
@@ -7942,18 +7942,18 @@ msgstr ""
 "프로젝트를 GPU를 사용하지 않는 버전으로 변환하시겠습니까?\n"
 "데이터가 손실될 수 있습니다."
 
-#: src/doc/documentvalidator.cpp:2240
+#: src/doc/documentvalidator.cpp:2239
 #, fuzzy, kde-format
 #| msgid "GPU effects"
 msgid "GPU Effects"
 msgstr "GPU 효과"
 
-#: src/doc/documentvalidator.cpp:2333
+#: src/doc/documentvalidator.cpp:2332
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr "다음 필터/전환 효과가 GPU를 사용하지 않는 버전으로 변환됩니다:"
 
-#: src/doc/documentvalidator.cpp:2336
+#: src/doc/documentvalidator.cpp:2335
 #, kde-format
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "다음 필터/전환 효과가 프로젝트에서 삭제되었습니다:"
@@ -8317,7 +8317,7 @@ msgstr "효과 복사"
 #: src/effects/effectstack/model/effectstackmodel.cpp:323
 #: src/effects/effectstack/model/effectstackmodel.cpp:432
 #: src/effects/effectstack/model/effectstackmodel.cpp:486
-#: src/effects/effectstack/model/effectstackmodel.cpp:1042
+#: src/effects/effectstack/model/effectstackmodel.cpp:1067
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "%1 효과를 두 번 추가할 수 없습니다."
@@ -8332,7 +8332,7 @@ msgstr "효과 붙여넣기"
 msgid "Add effect %1"
 msgstr "%1 효과 추가"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:877
+#: src/effects/effectstack/model/effectstackmodel.cpp:895
 #, kde-format
 msgid "Move effect %1"
 msgstr "%1 효과 이동"
@@ -8723,7 +8723,7 @@ msgstr "소비자를 생성할 수 없습니다."
 msgid "Cannot create filter %1"
 msgstr "%1 필터를 만들 수 없음"
 
-#: src/jobs/filtertask.cpp:267
+#: src/jobs/filtertask.cpp:268
 #, kde-format
 msgid "Failed to filter source."
 msgstr "원본을 필터하지 못했습니다."

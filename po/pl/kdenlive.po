@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-20 02:45+0000\n"
+"POT-Creation-Date: 2023-07-21 02:53+0000\n"
 "PO-Revision-Date: 2023-06-24 07:10+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -3465,7 +3465,7 @@ msgid "Delete keyframes"
 msgstr "Usuń klatki kluczowe"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1384
+#: src/assets/model/assetparametermodel.cpp:1388
 #, kde-format
 msgid "Update effect"
 msgstr "Uaktualnij efekt"
@@ -3554,8 +3554,8 @@ msgstr "Edytuj klatkę kluczową %1"
 msgid "Update %1"
 msgstr "Uaktualnij %1"
 
-#: src/assets/model/assetparametermodel.cpp:1236
-#: src/assets/model/assetparametermodel.cpp:1283
+#: src/assets/model/assetparametermodel.cpp:1240
+#: src/assets/model/assetparametermodel.cpp:1287
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Nie można otworzyć pliku nastaw %1"
@@ -5513,7 +5513,7 @@ msgstr "Wyczyść projekt"
 msgid "Loading project clips…"
 msgstr "Wczytywanie wycinków projektu…"
 
-#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2137
+#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2136
 #, kde-format
 msgid "Zone %1"
 msgstr "Zakres %1"
@@ -6288,7 +6288,7 @@ msgstr "Różne"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:251
 #: src/dialogs/kdenlivesettingsdialog.cpp:792
-#: src/doc/documentvalidator.cpp:2249
+#: src/doc/documentvalidator.cpp:2248
 #: src/transitions/transitionsrepository.cpp:178
 #, kde-format
 msgid "auto"
@@ -7902,7 +7902,7 @@ msgstr ""
 msgid "Update Text Clips"
 msgstr "Uaktualnij tekst w wycinkach"
 
-#: src/doc/documentvalidator.cpp:725 src/doc/documentvalidator.cpp:2240
+#: src/doc/documentvalidator.cpp:725 src/doc/documentvalidator.cpp:2239
 #, fuzzy, kde-format
 #| msgid "Convert to"
 msgid "Convert"
@@ -7913,12 +7913,12 @@ msgstr "Przekształć"
 msgid "Cannot recover this project file"
 msgstr "Nie można przywrócić tego pliku projektu"
 
-#: src/doc/documentvalidator.cpp:1615
+#: src/doc/documentvalidator.cpp:1614
 #, kde-format
 msgid "extra audio"
 msgstr "dodatkowy dźwięk"
 
-#: src/doc/documentvalidator.cpp:2238
+#: src/doc/documentvalidator.cpp:2237
 #, kde-format
 msgid ""
 "The project file uses some GPU effects. GPU acceleration is not currently "
@@ -7931,17 +7931,17 @@ msgstr ""
 "Czy przekształcić projekt do wersji nie-GPU?\n"
 "Może spowodować utratę danych."
 
-#: src/doc/documentvalidator.cpp:2240
+#: src/doc/documentvalidator.cpp:2239
 #, kde-format
 msgid "GPU Effects"
 msgstr "Efekty GPU"
 
-#: src/doc/documentvalidator.cpp:2333
+#: src/doc/documentvalidator.cpp:2332
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr "Następujące filtry/przejścia zostały przekształcone do wersji nie-GPU:"
 
-#: src/doc/documentvalidator.cpp:2336
+#: src/doc/documentvalidator.cpp:2335
 #, kde-format
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "Następujące filtry/przejścia zostały usunięte z projektu:"
@@ -8306,7 +8306,7 @@ msgstr "Skopiuj efekt"
 #: src/effects/effectstack/model/effectstackmodel.cpp:323
 #: src/effects/effectstack/model/effectstackmodel.cpp:432
 #: src/effects/effectstack/model/effectstackmodel.cpp:486
-#: src/effects/effectstack/model/effectstackmodel.cpp:1042
+#: src/effects/effectstack/model/effectstackmodel.cpp:1067
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "Nie można dodać dwukrotnie efektu %1"
@@ -8321,7 +8321,7 @@ msgstr "Wklej efekt"
 msgid "Add effect %1"
 msgstr "Dodaj efekt %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:877
+#: src/effects/effectstack/model/effectstackmodel.cpp:895
 #, kde-format
 msgid "Move effect %1"
 msgstr "Przesuń efekt %1"
@@ -8701,7 +8701,7 @@ msgstr "Nie można utworzyć konsumenta."
 msgid "Cannot create filter %1"
 msgstr "Nie można utworzyć filtra %1"
 
-#: src/jobs/filtertask.cpp:267
+#: src/jobs/filtertask.cpp:268
 #, kde-format
 msgid "Failed to filter source."
 msgstr "Nie udało się odfiltrować źródła."
