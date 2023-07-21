@@ -332,7 +332,7 @@ int TimelineController::selectedTrack() const
 bool TimelineController::selectCurrentItem(ObjectType type, bool select, bool addToCurrent, bool showErrorMsg)
 {
     int currentClip = -1;
-    if (m_model->isSubtitleTrack(m_activeTrack) && type != ObjectType::TimelineClip) {
+    if (m_activeTrack == -1 || (m_model->isSubtitleTrack(m_activeTrack) && type != ObjectType::TimelineClip)) {
         // Cannot select item
     } else if (type == ObjectType::TimelineClip) {
         currentClip = m_model->isSubtitleTrack(m_activeTrack) ? m_model->getSubtitleByPosition(pCore->getMonitorPosition())
