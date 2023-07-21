@@ -3492,7 +3492,7 @@ void TimelineController::switchTargetTrack()
     if (m_activeTrack < 0) {
         return;
     }
-    bool isAudio = m_model->getTrackById_const(m_activeTrack)->getProperty("kdenlive:audio_track").toInt() == 1;
+    bool isAudio = m_model->isAudioTrack(m_activeTrack);
     if (isAudio) {
         QMap<int, int> current = m_model->m_audioTarget;
         if (current.contains(m_activeTrack)) {
@@ -3501,6 +3501,14 @@ void TimelineController::switchTargetTrack()
             int ix = getFirstUnassignedStream();
             if (ix > -1) {
                 current.insert(m_activeTrack, ix);
+            } else if (current.size() == 1) {
+                // If we only have one video stream, directly reassign it
+                int stream = current.first();
+                current.clear();
+                current.insert(m_activeTrack, stream);
+            } else {
+                pCore->displayMessage(i18n("All streams already assigned, deselect another audio target first"), InformationMessage, 500);
+                return;
             }
         }
         setAudioTarget(current);
