@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-20 02:45+0000\n"
+"POT-Creation-Date: 2023-07-21 02:53+0000\n"
 "PO-Revision-Date: 2020-01-11 11:21+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
@@ -3530,7 +3530,7 @@ msgid "Delete keyframes"
 msgstr "Eliminar os fotogramas clave"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1384
+#: src/assets/model/assetparametermodel.cpp:1388
 #, fuzzy, kde-format
 #| msgid "Paste effects"
 msgid "Update effect"
@@ -3629,8 +3629,8 @@ msgstr "Editar o fotograma clave %1"
 msgid "Update %1"
 msgstr "Actualizar %1"
 
-#: src/assets/model/assetparametermodel.cpp:1236
-#: src/assets/model/assetparametermodel.cpp:1283
+#: src/assets/model/assetparametermodel.cpp:1240
+#: src/assets/model/assetparametermodel.cpp:1287
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid "Cannot open preset file %1"
@@ -5701,7 +5701,7 @@ msgstr "Limpar o proxecto"
 msgid "Loading project clips…"
 msgstr "Cargando o proxecto"
 
-#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2137
+#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2136
 #, kde-format
 msgid "Zone %1"
 msgstr "Zona %1"
@@ -6512,7 +6512,7 @@ msgstr "Miscelánea"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:251
 #: src/dialogs/kdenlivesettingsdialog.cpp:792
-#: src/doc/documentvalidator.cpp:2249
+#: src/doc/documentvalidator.cpp:2248
 #: src/transitions/transitionsrepository.cpp:178
 #, kde-format
 msgid "auto"
@@ -8199,7 +8199,7 @@ msgstr ""
 msgid "Update Text Clips"
 msgstr "Actualizar os fragmentos de texto"
 
-#: src/doc/documentvalidator.cpp:725 src/doc/documentvalidator.cpp:2240
+#: src/doc/documentvalidator.cpp:725 src/doc/documentvalidator.cpp:2239
 #, fuzzy, kde-format
 #| msgid "Invert"
 msgid "Convert"
@@ -8210,12 +8210,12 @@ msgstr "Inverter"
 msgid "Cannot recover this project file"
 msgstr "Non se pode recuperar este ficheiro de proxecto"
 
-#: src/doc/documentvalidator.cpp:1615
+#: src/doc/documentvalidator.cpp:1614
 #, kde-format
 msgid "extra audio"
 msgstr "son adicional"
 
-#: src/doc/documentvalidator.cpp:2238
+#: src/doc/documentvalidator.cpp:2237
 #, kde-format
 msgid ""
 "The project file uses some GPU effects. GPU acceleration is not currently "
@@ -8228,20 +8228,20 @@ msgstr ""
 "Quere converter o proxecto a unha versión que non use a GPU?\n"
 "A conversión podería ocasionar unha perda de datos."
 
-#: src/doc/documentvalidator.cpp:2240
+#: src/doc/documentvalidator.cpp:2239
 #, fuzzy, kde-format
 #| msgid "GPU effects"
 msgid "GPU Effects"
 msgstr "Efectos da GPU"
 
-#: src/doc/documentvalidator.cpp:2333
+#: src/doc/documentvalidator.cpp:2332
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr ""
 "Os seguintes filtros e transicións convertéronse aos seus equivalentes que "
 "non fan uso da GPU:"
 
-#: src/doc/documentvalidator.cpp:2336
+#: src/doc/documentvalidator.cpp:2335
 #, kde-format
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "Os seguintes filtros e transicións elimináronse do proxecto:"
@@ -8624,7 +8624,7 @@ msgstr "Copiar o efecto"
 #: src/effects/effectstack/model/effectstackmodel.cpp:323
 #: src/effects/effectstack/model/effectstackmodel.cpp:432
 #: src/effects/effectstack/model/effectstackmodel.cpp:486
-#: src/effects/effectstack/model/effectstackmodel.cpp:1042
+#: src/effects/effectstack/model/effectstackmodel.cpp:1067
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr ""
@@ -8640,7 +8640,7 @@ msgstr "Pegar os efectos"
 msgid "Add effect %1"
 msgstr "Engadir o efecto %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:877
+#: src/effects/effectstack/model/effectstackmodel.cpp:895
 #, kde-format
 msgid "Move effect %1"
 msgstr "Mover o efecto %1"
@@ -9044,7 +9044,7 @@ msgstr "Non se pode crear o consumidor."
 msgid "Cannot create filter %1"
 msgstr "Non se pode crear o filtro %1"
 
-#: src/jobs/filtertask.cpp:267
+#: src/jobs/filtertask.cpp:268
 #, fuzzy, kde-format
 #| msgid "Failed to start capture"
 msgid "Failed to filter source."

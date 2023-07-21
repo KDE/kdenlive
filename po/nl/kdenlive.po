@@ -9,10 +9,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-20 02:45+0000\n"
-"PO-Revision-Date: 2023-07-14 10:37+0200\n"
+"POT-Creation-Date: 2023-07-21 02:53+0000\n"
+"PO-Revision-Date: 2023-07-20 10:30+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
-"Language-Team: \n"
+"Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3477,7 +3477,7 @@ msgid "Delete keyframes"
 msgstr "Keyframes verwijderen"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1384
+#: src/assets/model/assetparametermodel.cpp:1388
 #, kde-format
 msgid "Update effect"
 msgstr "Effect bijwerken"
@@ -3564,8 +3564,8 @@ msgstr "Keyframe %1 bewerken"
 msgid "Update %1"
 msgstr "%1 bijwerken"
 
-#: src/assets/model/assetparametermodel.cpp:1236
-#: src/assets/model/assetparametermodel.cpp:1283
+#: src/assets/model/assetparametermodel.cpp:1240
+#: src/assets/model/assetparametermodel.cpp:1287
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Kan bestand met voor-instellingen %1 niet openen"
@@ -5512,7 +5512,7 @@ msgstr "Project opschonen"
 msgid "Loading project clips…"
 msgstr "Projectclips worden geladen…"
 
-#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2137
+#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2136
 #, kde-format
 msgid "Zone %1"
 msgstr "Zone %1"
@@ -5941,6 +5941,8 @@ msgid ""
 "<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</b> "
 "by the second, , <b>{&#x25;3}</b> by the output file path."
 msgstr ""
+"<b>{&#x25;1}</b> zal vervagen worden door de eerste parameter, <b>{&#x25;2}</"
+"b> door de tweede, <b>{&#x25;3}</b> door het pad van het uitvoerbestand."
 
 #: src/dialogs/clipjobmanager.cpp:48
 #, kde-format
@@ -6285,7 +6287,7 @@ msgstr "Diversen"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:251
 #: src/dialogs/kdenlivesettingsdialog.cpp:792
-#: src/doc/documentvalidator.cpp:2249
+#: src/doc/documentvalidator.cpp:2248
 #: src/transitions/transitionsrepository.cpp:178
 #, kde-format
 msgid "auto"
@@ -7883,7 +7885,7 @@ msgstr ""
 msgid "Update Text Clips"
 msgstr "Tekst clips bijwerken"
 
-#: src/doc/documentvalidator.cpp:725 src/doc/documentvalidator.cpp:2240
+#: src/doc/documentvalidator.cpp:725 src/doc/documentvalidator.cpp:2239
 #, kde-format
 msgid "Convert"
 msgstr "Converteren"
@@ -7893,12 +7895,12 @@ msgstr "Converteren"
 msgid "Cannot recover this project file"
 msgstr "Kan dit project-bestand niet herstellen"
 
-#: src/doc/documentvalidator.cpp:1615
+#: src/doc/documentvalidator.cpp:1614
 #, kde-format
 msgid "extra audio"
 msgstr "extra geluid"
 
-#: src/doc/documentvalidator.cpp:2238
+#: src/doc/documentvalidator.cpp:2237
 #, kde-format
 msgid ""
 "The project file uses some GPU effects. GPU acceleration is not currently "
@@ -7911,18 +7913,18 @@ msgstr ""
 "Wilt u het project converteren naar een niet-GPU versie?\n"
 "Dit kan resulteren in gegevensverlies."
 
-#: src/doc/documentvalidator.cpp:2240
+#: src/doc/documentvalidator.cpp:2239
 #, kde-format
 msgid "GPU Effects"
 msgstr "GPU-effecten"
 
-#: src/doc/documentvalidator.cpp:2333
+#: src/doc/documentvalidator.cpp:2332
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr ""
 "De volgende filters/transities zijn geconverteerd naar niet-GPU versies:"
 
-#: src/doc/documentvalidator.cpp:2336
+#: src/doc/documentvalidator.cpp:2335
 #, kde-format
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "De volgende filters/transities zijn uit het project verwijderd:"
@@ -8280,7 +8282,7 @@ msgstr "Effect kopiëren"
 #: src/effects/effectstack/model/effectstackmodel.cpp:323
 #: src/effects/effectstack/model/effectstackmodel.cpp:432
 #: src/effects/effectstack/model/effectstackmodel.cpp:486
-#: src/effects/effectstack/model/effectstackmodel.cpp:1042
+#: src/effects/effectstack/model/effectstackmodel.cpp:1067
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "Effect %1 kan niet tweemaal worden toegevoegd."
@@ -8295,7 +8297,7 @@ msgstr "Effect plakken"
 msgid "Add effect %1"
 msgstr "Voeg effect %1 toe"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:877
+#: src/effects/effectstack/model/effectstackmodel.cpp:895
 #, kde-format
 msgid "Move effect %1"
 msgstr "Effect %1 verplaatsen"
@@ -8678,7 +8680,7 @@ msgstr "Kan consument niet aanmaken."
 msgid "Cannot create filter %1"
 msgstr "Kan filter %1 niet aanmaken"
 
-#: src/jobs/filtertask.cpp:267
+#: src/jobs/filtertask.cpp:268
 #, kde-format
 msgid "Failed to filter source."
 msgstr "Bron filteren is mislukt."
@@ -17716,48 +17718,43 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/clipjobmanager_ui.ui:91
-#, fuzzy, kde-format
-#| msgid "Parameters"
+#, kde-format
 msgid "Parameter 1 {param1}"
-msgstr "Parameters"
+msgstr "Parameter 1 {param1}"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_isfile)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_isfile)
 #: src/ui/clipjobmanager_ui.ui:97 src/ui/clipjobmanager_ui.ui:190
 #, kde-format
 msgid "Request file path"
-msgstr ""
+msgstr "Bestandspad vragen"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_islist)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_islist)
 #: src/ui/clipjobmanager_ui.ui:107 src/ui/clipjobmanager_ui.ui:183
-#, fuzzy, kde-format
-#| msgid "Delete transition from clip"
+#, kde-format
 msgid "Request option from list"
-msgstr "Verwijder overgang van clip"
+msgstr "Optie uit lijst vragen"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param1_list)
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param2_list)
 #: src/ui/clipjobmanager_ui.ui:117 src/ui/clipjobmanager_ui.ui:169
-#, fuzzy, kde-format
-#| msgid "More options"
+#, kde-format
 msgid "List of options"
-msgstr "Meer opties"
+msgstr "Lijst met opties"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param1_name)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param2_name)
 #: src/ui/clipjobmanager_ui.ui:124 src/ui/clipjobmanager_ui.ui:176
-#, fuzzy, kde-format
-#| msgid "Parameter description."
+#, kde-format
 msgid "Parameter description"
-msgstr "Parameterbeschrijving."
+msgstr "Beschrijving van parameter"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: src/ui/clipjobmanager_ui.ui:147
-#, fuzzy, kde-format
-#| msgid "Parameters"
+#, kde-format
 msgid "Parameter 2 {param2}"
-msgstr "Parameters"
+msgstr "Parameter 2 {param2}"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/clipjobmanager_ui.ui:203
@@ -17769,7 +17766,7 @@ msgstr "Uitvoerbestandsextensie"
 #: src/ui/clipjobmanager_ui.ui:226
 #, kde-format
 msgid "Applies to"
-msgstr ""
+msgstr "Van toepassing op"
 
 #. i18n: ectx: property (title), widget (QGroupBox, folder_box)
 #: src/ui/clipjobmanager_ui.ui:256

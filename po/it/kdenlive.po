@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-20 02:45+0000\n"
+"POT-Creation-Date: 2023-07-21 02:53+0000\n"
 "PO-Revision-Date: 2023-07-02 17:26+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -3493,7 +3493,7 @@ msgid "Delete keyframes"
 msgstr "Elimina i fotogrammi chiave"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1384
+#: src/assets/model/assetparametermodel.cpp:1388
 #, kde-format
 msgid "Update effect"
 msgstr "Aggiorna effetto"
@@ -3581,8 +3581,8 @@ msgstr "Modifica il fotogramma chiave %1"
 msgid "Update %1"
 msgstr "Aggiorna %1"
 
-#: src/assets/model/assetparametermodel.cpp:1236
-#: src/assets/model/assetparametermodel.cpp:1283
+#: src/assets/model/assetparametermodel.cpp:1240
+#: src/assets/model/assetparametermodel.cpp:1287
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Impossibile aprire il file di preimpostazioni %1"
@@ -5534,7 +5534,7 @@ msgstr "Ripulisci il progetto"
 msgid "Loading project clips…"
 msgstr "Caricamento delle clip del progetto..."
 
-#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2137
+#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2136
 #, kde-format
 msgid "Zone %1"
 msgstr "Zona %1"
@@ -6309,7 +6309,7 @@ msgstr "Varie"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:251
 #: src/dialogs/kdenlivesettingsdialog.cpp:792
-#: src/doc/documentvalidator.cpp:2249
+#: src/doc/documentvalidator.cpp:2248
 #: src/transitions/transitionsrepository.cpp:178
 #, kde-format
 msgid "auto"
@@ -7925,7 +7925,7 @@ msgstr ""
 msgid "Update Text Clips"
 msgstr "Aggiorna clip di testo"
 
-#: src/doc/documentvalidator.cpp:725 src/doc/documentvalidator.cpp:2240
+#: src/doc/documentvalidator.cpp:725 src/doc/documentvalidator.cpp:2239
 #, kde-format
 msgid "Convert"
 msgstr "Converti"
@@ -7935,12 +7935,12 @@ msgstr "Converti"
 msgid "Cannot recover this project file"
 msgstr "Impossibile recuperare questo file di progetto"
 
-#: src/doc/documentvalidator.cpp:1615
+#: src/doc/documentvalidator.cpp:1614
 #, kde-format
 msgid "extra audio"
 msgstr "audio aggiuntivo"
 
-#: src/doc/documentvalidator.cpp:2238
+#: src/doc/documentvalidator.cpp:2237
 #, kde-format
 msgid ""
 "The project file uses some GPU effects. GPU acceleration is not currently "
@@ -7953,19 +7953,19 @@ msgstr ""
 "Vuoi convertire il progetto in uno che non faccia uso della GPU?\n"
 "Questo potrebbe causare una perdita di dati."
 
-#: src/doc/documentvalidator.cpp:2240
+#: src/doc/documentvalidator.cpp:2239
 #, kde-format
 msgid "GPU Effects"
 msgstr "Effetti della GPU"
 
-#: src/doc/documentvalidator.cpp:2333
+#: src/doc/documentvalidator.cpp:2332
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr ""
 "Sono stati convertiti in una versione non GPU i filtri e le transizioni "
 "seguenti:"
 
-#: src/doc/documentvalidator.cpp:2336
+#: src/doc/documentvalidator.cpp:2335
 #, kde-format
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "Sono stati eliminati dal progetto i filtri e le transizioni seguenti:"
@@ -8326,7 +8326,7 @@ msgstr "Copia effetto"
 #: src/effects/effectstack/model/effectstackmodel.cpp:323
 #: src/effects/effectstack/model/effectstackmodel.cpp:432
 #: src/effects/effectstack/model/effectstackmodel.cpp:486
-#: src/effects/effectstack/model/effectstackmodel.cpp:1042
+#: src/effects/effectstack/model/effectstackmodel.cpp:1067
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "L'effetto %1 non può essere aggiunto due volte."
@@ -8341,7 +8341,7 @@ msgstr "Incolla effetto"
 msgid "Add effect %1"
 msgstr "Aggiungi effetto %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:877
+#: src/effects/effectstack/model/effectstackmodel.cpp:895
 #, kde-format
 msgid "Move effect %1"
 msgstr "Sposta effetto %1"
@@ -8730,7 +8730,7 @@ msgstr "Impossibile creare il consumer."
 msgid "Cannot create filter %1"
 msgstr "Impossibile creare il filtro %1"
 
-#: src/jobs/filtertask.cpp:267
+#: src/jobs/filtertask.cpp:268
 #, kde-format
 msgid "Failed to filter source."
 msgstr "Impossibile filtrare la sorgente."
