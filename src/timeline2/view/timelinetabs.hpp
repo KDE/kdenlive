@@ -101,6 +101,8 @@ public Q_SLOTS:
     void closeTimelineByIndex(int ix);
     void closeTimeline(const QUuid &uuid);
     void renameTab(const QUuid &uuid, const QString &name);
+    void slotNextSequence();
+    void slotPreviousSequence();
 
 private:
     TimelineWidget *m_activeTimeline;

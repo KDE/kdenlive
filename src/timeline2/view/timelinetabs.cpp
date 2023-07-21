@@ -342,3 +342,22 @@ TimelineWidget *TimelineTabs::getTimeline(const QUuid uuid) const
     }
     return nullptr;
 }
+
+void TimelineTabs::slotNextSequence()
+{
+    int max = count();
+    int focus = currentIndex() + 1;
+    if (focus >= max) {
+        focus = 0;
+    }
+    setCurrentIndex(focus);
+}
+
+void TimelineTabs::slotPreviousSequence()
+{
+    int focus = currentIndex() - 1;
+    if (focus < 0) {
+        focus = count() - 1;
+    }
+    setCurrentIndex(focus);
+}

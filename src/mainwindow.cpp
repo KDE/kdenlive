@@ -345,6 +345,15 @@ void MainWindow::init(const QString &mltPath)
     connect(recConfig, &QAction::triggered, [&]() { Q_EMIT pCore->showConfigDialog(Kdenlive::PageCapture, 0); });
     QDockWidget *screenGrabDock = addDock(i18n("Screen Grab"), QStringLiteral("screengrab"), grabWidget);
 
+    // Sequence actions
+    QAction *nextSequence = new QAction(QIcon::fromTheme(QStringLiteral("go-next")), i18n("Switch to next Sequence"), this);
+    addAction(QStringLiteral("sequence_next"), nextSequence, QKeySequence::NextChild);
+    connect(nextSequence, &QAction::triggered, m_timelineTabs, &TimelineTabs::slotNextSequence);
+
+    QAction *prevSequence = new QAction(QIcon::fromTheme(QStringLiteral("go-previous")), i18n("Switch to previous Sequence"), this);
+    addAction(QStringLiteral("sequence_previous"), prevSequence, QKeySequence::PreviousChild);
+    connect(prevSequence, &QAction::triggered, m_timelineTabs, &TimelineTabs::slotPreviousSequence);
+
     // Audio spectrum scope
     m_audioSpectrum = new AudioGraphSpectrum(pCore->monitorManager());
     QDockWidget *spectrumDock = addDock(i18n("Audio Spectrum"), QStringLiteral("audiospectrum"), m_audioSpectrum);
