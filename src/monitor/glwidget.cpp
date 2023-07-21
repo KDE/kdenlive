@@ -1647,15 +1647,26 @@ bool GLWidget::playZone(bool loop)
         pCore->displayMessage(i18n("Select a zone to play"), ErrorMessage, 500);
         return false;
     }
-    m_producer->seek(m_proxy->zoneIn());
+    double current_speed = m_producer->get_speed();
     m_producer->set_speed(0);
     m_proxy->setSpeed(0);
-    m_consumer->purge();
     m_loopOut = m_proxy->zoneOut();
-    m_producer->set_speed(1.0);
-    restartConsumer();
-    m_consumer->set("scrub_audio", 0);
-    m_consumer->set("refresh", 1);
+    m_loopIn = m_proxy->zoneIn();
+    if (qFuzzyIsNull(current_speed)) {
+        m_producer->seek(m_proxy->zoneIn());
+        m_consumer->start();
+        m_producer->set_speed(1.0);
+        m_consumer->set("scrub_audio", 0);
+        m_consumer->set("refresh", 1);
+        m_consumer->set("volume", KdenliveSettings::volume() / 100.);
+    } else {
+        // Speed change, purge to reduce latency
+        m_consumer->set("refresh", 0);
+        m_producer->seek(m_loopIn);
+        m_consumer->purge();
+        m_producer->set_speed(1.0);
+        m_consumer->set("refresh", 1);
+    }
     m_isZoneMode = true;
     m_isLoopMode = loop;
     return true;
@@ -1684,15 +1695,24 @@ bool GLWidget::loopClip(QPoint inOut)
         return false;
     }
     m_loopIn = inOut.x();
-    m_producer->seek(inOut.x());
+    double current_speed = m_producer->get_speed();
     m_producer->set_speed(0);
     m_proxy->setSpeed(0);
-    m_consumer->purge();
     m_loopOut = inOut.y();
-    m_producer->set_speed(1.0);
-    restartConsumer();
-    m_consumer->set("scrub_audio", 0);
-    m_consumer->set("refresh", 1);
+    if (qFuzzyIsNull(current_speed)) {
+        m_producer->seek(m_loopIn);
+        m_consumer->start();
+        m_consumer->set("scrub_audio", 0);
+        m_consumer->set("refresh", 1);
+        m_consumer->set("volume", KdenliveSettings::volume() / 100.);
+    } else {
+        // Speed change, purge to reduce latency
+        m_consumer->set("refresh", 0);
+        m_consumer->purge();
+        m_producer->seek(m_loopIn);
+        m_producer->set_speed(1.0);
+        m_consumer->set("refresh", 1);
+    }
     m_isZoneMode = false;
     m_isLoopMode = true;
     return true;
