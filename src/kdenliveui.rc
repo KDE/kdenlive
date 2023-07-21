@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="226" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="227" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="file_save"/>
@@ -37,6 +37,10 @@
           <Action name="export_subtitle" />
           <Separator />
           <Action name="audio_recognition" />
+      </Menu>
+      <Menu name="sequences" ><text>Sequences</text>
+          <Action name="sequence_next" />
+          <Action name="sequence_previous" />
       </Menu>
       <Separator />
       <Action name="bin_view_mode" />
