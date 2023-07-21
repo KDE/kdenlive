@@ -1717,7 +1717,6 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
             // if (!constructTimelineFromMelt(timelineModel, *tractor.get(), m_progressDialog, m_project->modifiedDecimalPoint(), chunks, dirty)) {
             //  TODO: act on project load failure
             qDebug() << "// Project failed to load!!";
-            delete timeline;
             m_autoSaveTimer.start();
             return false;
         }
@@ -1750,7 +1749,7 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
     }
     if (pCore->window()) {
         // Create tab widget
-        pCore->window()->openTimeline(uuid, clip->clipName(), timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
+        timeline = pCore->window()->openTimeline(uuid, clip->clipName(), timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
     }
 
     int activeTrackPosition = m_project->getSequenceProperty(uuid, QStringLiteral("activeTrack"), QString::number(-1)).toInt();
