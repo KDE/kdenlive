@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-20 00:48+0000\n"
+"POT-Creation-Date: 2023-07-21 00:49+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -3455,7 +3455,7 @@ msgid "Delete keyframes"
 msgstr "फ्रेम काढून टाका"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1384
+#: src/assets/model/assetparametermodel.cpp:1388
 #, fuzzy, kde-format
 msgid "Update effect"
 msgstr "परिणाम :"
@@ -3552,8 +3552,8 @@ msgstr ""
 msgid "Update %1"
 msgstr ""
 
-#: src/assets/model/assetparametermodel.cpp:1236
-#: src/assets/model/assetparametermodel.cpp:1283
+#: src/assets/model/assetparametermodel.cpp:1240
+#: src/assets/model/assetparametermodel.cpp:1287
 #, fuzzy, kde-format
 msgid "Cannot open preset file %1"
 msgstr "फाईल उघडतेवेळी त्रुटी"
@@ -5519,7 +5519,7 @@ msgstr ""
 msgid "Loading project clips…"
 msgstr "संग्रह करत आहे"
 
-#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2137
+#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2136
 #, fuzzy, kde-format
 #| msgid "Zoom Out"
 msgid "Zone %1"
@@ -6293,7 +6293,7 @@ msgstr "किरकोळ"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:251
 #: src/dialogs/kdenlivesettingsdialog.cpp:792
-#: src/doc/documentvalidator.cpp:2249
+#: src/doc/documentvalidator.cpp:2248
 #: src/transitions/transitionsrepository.cpp:178
 #, kde-format
 msgid "auto"
@@ -7816,7 +7816,7 @@ msgstr ""
 msgid "Update Text Clips"
 msgstr ""
 
-#: src/doc/documentvalidator.cpp:725 src/doc/documentvalidator.cpp:2240
+#: src/doc/documentvalidator.cpp:725 src/doc/documentvalidator.cpp:2239
 #, fuzzy, kde-format
 msgid "Convert"
 msgstr "उलट करा"
@@ -7826,12 +7826,12 @@ msgstr "उलट करा"
 msgid "Cannot recover this project file"
 msgstr ""
 
-#: src/doc/documentvalidator.cpp:1615
+#: src/doc/documentvalidator.cpp:1614
 #, fuzzy, kde-format
 msgid "extra audio"
 msgstr "मॉनिटर %1"
 
-#: src/doc/documentvalidator.cpp:2238
+#: src/doc/documentvalidator.cpp:2237
 #, kde-format
 msgid ""
 "The project file uses some GPU effects. GPU acceleration is not currently "
@@ -7840,17 +7840,17 @@ msgid ""
 "This might result in data loss."
 msgstr ""
 
-#: src/doc/documentvalidator.cpp:2240
+#: src/doc/documentvalidator.cpp:2239
 #, fuzzy, kde-format
 msgid "GPU Effects"
 msgstr "परिणाम :"
 
-#: src/doc/documentvalidator.cpp:2333
+#: src/doc/documentvalidator.cpp:2332
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr ""
 
-#: src/doc/documentvalidator.cpp:2336
+#: src/doc/documentvalidator.cpp:2335
 #, kde-format
 msgid "The following filters/transitions were deleted from the project:"
 msgstr ""
@@ -8195,7 +8195,7 @@ msgstr "परिणाम :"
 #: src/effects/effectstack/model/effectstackmodel.cpp:323
 #: src/effects/effectstack/model/effectstackmodel.cpp:432
 #: src/effects/effectstack/model/effectstackmodel.cpp:486
-#: src/effects/effectstack/model/effectstackmodel.cpp:1042
+#: src/effects/effectstack/model/effectstackmodel.cpp:1067
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr ""
@@ -8210,7 +8210,7 @@ msgstr "परिणाम :"
 msgid "Add effect %1"
 msgstr "परिणाम :"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:877
+#: src/effects/effectstack/model/effectstackmodel.cpp:895
 #, fuzzy, kde-format
 msgid "Move effect %1"
 msgstr "परिणाम :"
@@ -8595,7 +8595,7 @@ msgstr "फाईल उघडतेवेळी त्रुटी"
 msgid "Cannot create filter %1"
 msgstr "फाईल उघडतेवेळी त्रुटी"
 
-#: src/jobs/filtertask.cpp:267
+#: src/jobs/filtertask.cpp:268
 #, kde-format
 msgid "Failed to filter source."
 msgstr ""

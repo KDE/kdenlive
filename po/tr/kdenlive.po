@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-20 00:48+0000\n"
-"PO-Revision-Date: 2023-07-17 15:29+0300\n"
+"POT-Creation-Date: 2023-07-21 00:49+0000\n"
+"PO-Revision-Date: 2023-07-20 12:19+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -3465,7 +3465,7 @@ msgid "Delete keyframes"
 msgstr "Anahtar kareleri sil"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1384
+#: src/assets/model/assetparametermodel.cpp:1388
 #, kde-format
 msgid "Update effect"
 msgstr "Efekti Güncelle"
@@ -3553,8 +3553,8 @@ msgstr "%1 anahtar kareyi düzenle"
 msgid "Update %1"
 msgstr "%1 Güncelle"
 
-#: src/assets/model/assetparametermodel.cpp:1236
-#: src/assets/model/assetparametermodel.cpp:1283
+#: src/assets/model/assetparametermodel.cpp:1240
+#: src/assets/model/assetparametermodel.cpp:1287
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "%1 önayar dosyası açılamıyor"
@@ -5495,7 +5495,7 @@ msgstr "Projeyi Temizle"
 msgid "Loading project clips…"
 msgstr "Proje klipleri yükleniyor…"
 
-#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2137
+#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2136
 #, kde-format
 msgid "Zone %1"
 msgstr "Bölge %1"
@@ -5924,6 +5924,8 @@ msgid ""
 "<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</b> "
 "by the second, , <b>{&#x25;3}</b> by the output file path."
 msgstr ""
+"<b>{&#x25;1}</b> ilk parametreyle, <b>{&#x25;2}</b> ikinciyle ve <b>{&#x25;3}"
+"</b> çıktı dosyası yoluyla değiştirilecek."
 
 #: src/dialogs/clipjobmanager.cpp:48
 #, kde-format
@@ -5939,11 +5941,15 @@ msgid ""
 "inserted in place of <b>{&#x25;3}</b> if found. If output filename already "
 "exists, a -0001 pattern will be appended."
 msgstr ""
+"Çıktı dosyası adı, değiştirilmiş uzantıyla birlikte kaynak kova klibi dosya "
+"adıyla aynı olacaktır. Argümanların sonuna iliştirilir veya bulunursa "
+"<b>{&#x25;3}</b> yerine eklenir. Çıktı dosyası adı halihazırda varsa bir "
+"-0001 dizgisi iliştirilir."
 
 #: src/dialogs/clipjobmanager.cpp:54
 #, kde-format
 msgid "The first parameter that will be injected in the script arguments"
-msgstr ""
+msgstr "Betik argümanlarında iliştirilecek ilk parametre"
 
 #: src/dialogs/clipjobmanager.cpp:56 src/dialogs/clipjobmanager.cpp:66
 #, kde-kuit-format
@@ -5953,12 +5959,16 @@ msgid ""
 "File Path</b> will ask for a file path on execution<br/><b>Request Option in "
 "List</b> will ask for a choice in the list below on execution."
 msgstr ""
+"<b>Kaynak Klibi Yolu</b>, seçili Kova Klibi yolunu koyar<br/><b>Dosya Yolunu "
+"İste</b>, yürütürken bir dosya yolu ister<br/><b>Listeden Seçenek İste</b>, "
+"aşağıdaki listede yürütme için bir seçim ister."
 
 #: src/dialogs/clipjobmanager.cpp:59 src/dialogs/clipjobmanager.cpp:69
 #, kde-format
 msgid ""
 "A newline separated list of possible values that will be offered on execution"
 msgstr ""
+"Yürütme sırasında sunulacak olası listelerin yenisatırla ayrılmış bir listesi"
 
 #: src/dialogs/clipjobmanager.cpp:62 src/dialogs/clipjobmanager.cpp:72
 #, kde-kuit-format
@@ -5967,11 +5977,13 @@ msgid ""
 "When the parameter is set to <b>Request Option in List</b> the user will be "
 "asked to choose a value in this list when the job is started."
 msgstr ""
+"Parametre <b>Listeden Seçenek İste</b> olarak ayarlandığında, iş "
+"başladığında kullanıcıdan bu listeden bir değeri seçmesi istenir."
 
 #: src/dialogs/clipjobmanager.cpp:64
 #, kde-format
 msgid "The second parameter that will be injected in the script arguments"
-msgstr ""
+msgstr "Betik argümanlarında iliştirilecek ikinci parametre"
 
 #: src/dialogs/clipjobmanager.cpp:127 src/dialogs/clipjobmanager.cpp:252
 #, kde-format
@@ -6268,7 +6280,7 @@ msgstr "Çeşitli"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:251
 #: src/dialogs/kdenlivesettingsdialog.cpp:792
-#: src/doc/documentvalidator.cpp:2249
+#: src/doc/documentvalidator.cpp:2248
 #: src/transitions/transitionsrepository.cpp:178
 #, kde-format
 msgid "auto"
@@ -7837,7 +7849,7 @@ msgstr ""
 msgid "Update Text Clips"
 msgstr "Metin Kliplerini Güncelle"
 
-#: src/doc/documentvalidator.cpp:725 src/doc/documentvalidator.cpp:2240
+#: src/doc/documentvalidator.cpp:725 src/doc/documentvalidator.cpp:2239
 #, kde-format
 msgid "Convert"
 msgstr "Dönüştür"
@@ -7847,12 +7859,12 @@ msgstr "Dönüştür"
 msgid "Cannot recover this project file"
 msgstr "Bu proje dosyası kurtarılamıyor"
 
-#: src/doc/documentvalidator.cpp:1615
+#: src/doc/documentvalidator.cpp:1614
 #, kde-format
 msgid "extra audio"
 msgstr "ek ses"
 
-#: src/doc/documentvalidator.cpp:2238
+#: src/doc/documentvalidator.cpp:2237
 #, kde-format
 msgid ""
 "The project file uses some GPU effects. GPU acceleration is not currently "
@@ -7865,17 +7877,17 @@ msgstr ""
 "Projeyi GPU içermeyen bir sürüme dönüştürmek ister misiniz?\n"
 "Bu veri kaybına neden olabilir."
 
-#: src/doc/documentvalidator.cpp:2240
+#: src/doc/documentvalidator.cpp:2239
 #, kde-format
 msgid "GPU Effects"
 msgstr "GPU Efektleri"
 
-#: src/doc/documentvalidator.cpp:2333
+#: src/doc/documentvalidator.cpp:2332
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr "Aşağıdaki süzgeçler/geçişler GPU içermeyen sürüm için dönüştürüldü:"
 
-#: src/doc/documentvalidator.cpp:2336
+#: src/doc/documentvalidator.cpp:2335
 #, kde-format
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "Aşağıdaki süzgeçler/geçişler projeden silindi:"
@@ -8232,7 +8244,7 @@ msgstr "Efekti kopyala"
 #: src/effects/effectstack/model/effectstackmodel.cpp:323
 #: src/effects/effectstack/model/effectstackmodel.cpp:432
 #: src/effects/effectstack/model/effectstackmodel.cpp:486
-#: src/effects/effectstack/model/effectstackmodel.cpp:1042
+#: src/effects/effectstack/model/effectstackmodel.cpp:1067
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "%1 etkisi iki kez eklenemiyor."
@@ -8247,7 +8259,7 @@ msgstr "Efekti Yapıştır"
 msgid "Add effect %1"
 msgstr "%1 efekti ekle"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:877
+#: src/effects/effectstack/model/effectstackmodel.cpp:895
 #, kde-format
 msgid "Move effect %1"
 msgstr "%1 Efektini Taşı"
@@ -8633,7 +8645,7 @@ msgstr "Tüketici oluşturulamıyor."
 msgid "Cannot create filter %1"
 msgstr "%1 süzgeci oluşturulamıyor"
 
-#: src/jobs/filtertask.cpp:267
+#: src/jobs/filtertask.cpp:268
 #, kde-format
 msgid "Failed to filter source."
 msgstr "Kaynak süzülemedi."
@@ -17652,50 +17664,51 @@ msgid ""
 "replaced by the first parameter value</li><li><b>{param2}</b> will be "
 "replaced by the second parameter value</li></ul>"
 msgstr ""
+"Argümanlarda aşağıdaki seçenekler kullanılabilir: <ul><li><b>{source}</b>, "
+"Kova Klibi kaynak dosyası yoluyla değiştirilir</li><li><b>{output}</b>, "
+"çıktı dosyası adıyla değiştirilir</li><li><b>{param1}</b>, ilk parametre "
+"değeriyle değiştirilir</li><li><b>{param2}</b>, ikinci parametre değeriyle "
+"değiştirilir</li></ul>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/clipjobmanager_ui.ui:91
-#, fuzzy, kde-format
-#| msgid "Parameters"
+#, kde-format
 msgid "Parameter 1 {param1}"
-msgstr "Parametreler"
+msgstr "Parametre 1 {param1}"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_isfile)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_isfile)
 #: src/ui/clipjobmanager_ui.ui:97 src/ui/clipjobmanager_ui.ui:190
 #, kde-format
 msgid "Request file path"
-msgstr ""
+msgstr "Dosya yolunu iste"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_islist)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_islist)
 #: src/ui/clipjobmanager_ui.ui:107 src/ui/clipjobmanager_ui.ui:183
 #, kde-format
 msgid "Request option from list"
-msgstr ""
+msgstr "Listeden seçenek iste"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param1_list)
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param2_list)
 #: src/ui/clipjobmanager_ui.ui:117 src/ui/clipjobmanager_ui.ui:169
-#, fuzzy, kde-format
-#| msgid "More options"
+#, kde-format
 msgid "List of options"
-msgstr "Daha fazla seçenek"
+msgstr "Seçenekler listesi"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param1_name)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param2_name)
 #: src/ui/clipjobmanager_ui.ui:124 src/ui/clipjobmanager_ui.ui:176
-#, fuzzy, kde-format
-#| msgid "Job description"
+#, kde-format
 msgid "Parameter description"
-msgstr "İş tanımı"
+msgstr "Parametre açıklaması"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: src/ui/clipjobmanager_ui.ui:147
-#, fuzzy, kde-format
-#| msgid "Parameters"
+#, kde-format
 msgid "Parameter 2 {param2}"
-msgstr "Parametreler"
+msgstr "Parametre 2 {param2}"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/clipjobmanager_ui.ui:203
@@ -17707,7 +17720,7 @@ msgstr "Çıktı dosyası uzantısı"
 #: src/ui/clipjobmanager_ui.ui:226
 #, kde-format
 msgid "Applies to"
-msgstr ""
+msgstr "Şunun için geçerlidir"
 
 #. i18n: ectx: property (title), widget (QGroupBox, folder_box)
 #: src/ui/clipjobmanager_ui.ui:256

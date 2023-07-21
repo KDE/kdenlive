@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-20 00:48+0000\n"
-"PO-Revision-Date: 2023-07-14 08:59+0300\n"
+"POT-Creation-Date: 2023-07-21 00:49+0000\n"
+"PO-Revision-Date: 2023-07-20 08:32+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -3483,7 +3483,7 @@ msgid "Delete keyframes"
 msgstr "Вилучити ключові кадри"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1384
+#: src/assets/model/assetparametermodel.cpp:1388
 #, kde-format
 msgid "Update effect"
 msgstr "Оновити ефект"
@@ -3575,8 +3575,8 @@ msgstr "Зміна ключового кадру %1"
 msgid "Update %1"
 msgstr "Оновити %1"
 
-#: src/assets/model/assetparametermodel.cpp:1236
-#: src/assets/model/assetparametermodel.cpp:1283
+#: src/assets/model/assetparametermodel.cpp:1240
+#: src/assets/model/assetparametermodel.cpp:1287
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Не вдалося відкрити файл шаблона %1"
@@ -5539,7 +5539,7 @@ msgstr "Очистити проєкт"
 msgid "Loading project clips…"
 msgstr "Завантаження кліпів проєкту…"
 
-#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2137
+#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2136
 #, kde-format
 msgid "Zone %1"
 msgstr "Ділянка %1"
@@ -5971,6 +5971,8 @@ msgid ""
 "<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</b> "
 "by the second, , <b>{&#x25;3}</b> by the output file path."
 msgstr ""
+"<b>{&#x25;1}</b> буде замінено першим параметром, <b>{&#x25;2}</b> — другим, "
+"<b>{&#x25;3}</b> — шляхом до файла виведення даних."
 
 #: src/dialogs/clipjobmanager.cpp:48
 #, kde-format
@@ -5986,11 +5988,16 @@ msgid ""
 "inserted in place of <b>{&#x25;3}</b> if found. If output filename already "
 "exists, a -0001 pattern will be appended."
 msgstr ""
+"Назва файла результатів буде тією самою, що і у початкового файла кліпу у "
+"контейнері, змінено буде лише суфікс назви. Її буде дописано після "
+"аргументів або вставлено замість <b>{&#x25;3}</b>, якщо такий рядок буде "
+"знайдено. Якщо виявиться, що файл із використаною назвою вже існує, до його "
+"назви буде дописано -0001."
 
 #: src/dialogs/clipjobmanager.cpp:54
 #, kde-format
 msgid "The first parameter that will be injected in the script arguments"
-msgstr ""
+msgstr "Перший параметр, який буде вставлено до аргументів скрипту"
 
 #: src/dialogs/clipjobmanager.cpp:56 src/dialogs/clipjobmanager.cpp:66
 #, kde-kuit-format
@@ -6000,12 +6007,18 @@ msgid ""
 "File Path</b> will ask for a file path on execution<br/><b>Request Option in "
 "List</b> will ask for a choice in the list below on execution."
 msgstr ""
+"<b>Шлях до початкового кліпу</b> — вставить шлях до вибраного на панелі "
+"контейнера кліпу<br/><b>Запитати про шлях до файла</b> — запитає про шлях до "
+"файла під час виконання<br/><b>Запитати про пункт у списку</b> — попросить "
+"вибрати щось з визначеного нижче списку під час виконання."
 
 #: src/dialogs/clipjobmanager.cpp:59 src/dialogs/clipjobmanager.cpp:69
 #, kde-format
 msgid ""
 "A newline separated list of possible values that will be offered on execution"
 msgstr ""
+"Список відокремлених символами нового рядка значень, який буде запропоновано "
+"під час виконання"
 
 #: src/dialogs/clipjobmanager.cpp:62 src/dialogs/clipjobmanager.cpp:72
 #, kde-kuit-format
@@ -6014,11 +6027,14 @@ msgid ""
 "When the parameter is set to <b>Request Option in List</b> the user will be "
 "asked to choose a value in this list when the job is started."
 msgstr ""
+"Якщо для параметра встановлено значення <b>Запитати про пункт у списку</b>, "
+"програма попросить користувача вибрати значення зі списку, коли буде "
+"запущено завдання."
 
 #: src/dialogs/clipjobmanager.cpp:64
 #, kde-format
 msgid "The second parameter that will be injected in the script arguments"
-msgstr ""
+msgstr "Другий параметр, який буде вставлено до аргументів скрипту"
 
 #: src/dialogs/clipjobmanager.cpp:127 src/dialogs/clipjobmanager.cpp:252
 #, kde-format
@@ -6316,7 +6332,7 @@ msgstr "Інше"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:251
 #: src/dialogs/kdenlivesettingsdialog.cpp:792
-#: src/doc/documentvalidator.cpp:2249
+#: src/doc/documentvalidator.cpp:2248
 #: src/transitions/transitionsrepository.cpp:178
 #, kde-format
 msgid "auto"
@@ -7948,7 +7964,7 @@ msgstr ""
 msgid "Update Text Clips"
 msgstr "Оновити текстові кліпи"
 
-#: src/doc/documentvalidator.cpp:725 src/doc/documentvalidator.cpp:2240
+#: src/doc/documentvalidator.cpp:725 src/doc/documentvalidator.cpp:2239
 #, kde-format
 msgid "Convert"
 msgstr "Перетворити"
@@ -7958,12 +7974,12 @@ msgstr "Перетворити"
 msgid "Cannot recover this project file"
 msgstr "Не вдалося відновити цей файл проєкту"
 
-#: src/doc/documentvalidator.cpp:1615
+#: src/doc/documentvalidator.cpp:1614
 #, kde-format
 msgid "extra audio"
 msgstr "зайві звукові дані"
 
-#: src/doc/documentvalidator.cpp:2238
+#: src/doc/documentvalidator.cpp:2237
 #, kde-format
 msgid ""
 "The project file uses some GPU effects. GPU acceleration is not currently "
@@ -7977,19 +7993,19 @@ msgstr ""
 "Хочете перетворити проєкт на версію без використання графічного процесора?\n"
 "Перетворення може спричинити втрату даних."
 
-#: src/doc/documentvalidator.cpp:2240
+#: src/doc/documentvalidator.cpp:2239
 #, kde-format
 msgid "GPU Effects"
 msgstr "Ефекти з графічним процесором"
 
-#: src/doc/documentvalidator.cpp:2333
+#: src/doc/documentvalidator.cpp:2332
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr ""
 "Наступні фільтри і переходи було перетворено на версії без використання "
 "графічного процесора:"
 
-#: src/doc/documentvalidator.cpp:2336
+#: src/doc/documentvalidator.cpp:2335
 #, kde-format
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "З проєкту було вилучено такі фільтри і переходи:"
@@ -8351,7 +8367,7 @@ msgstr "Копіювати ефект"
 #: src/effects/effectstack/model/effectstackmodel.cpp:323
 #: src/effects/effectstack/model/effectstackmodel.cpp:432
 #: src/effects/effectstack/model/effectstackmodel.cpp:486
-#: src/effects/effectstack/model/effectstackmodel.cpp:1042
+#: src/effects/effectstack/model/effectstackmodel.cpp:1067
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "Ефект %1 не можна додавати двічі."
@@ -8366,7 +8382,7 @@ msgstr "Вставити ефект"
 msgid "Add effect %1"
 msgstr "Додавання ефекту %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:877
+#: src/effects/effectstack/model/effectstackmodel.cpp:895
 #, kde-format
 msgid "Move effect %1"
 msgstr "Пересування ефекту %1"
@@ -8749,7 +8765,7 @@ msgstr "Не вдалося створити отримувач даних."
 msgid "Cannot create filter %1"
 msgstr "Не вдалося створити фільтр %1"
 
-#: src/jobs/filtertask.cpp:267
+#: src/jobs/filtertask.cpp:268
 #, kde-format
 msgid "Failed to filter source."
 msgstr "Не вдалося виконати фільтрування джерела."
@@ -17872,50 +17888,52 @@ msgid ""
 "replaced by the first parameter value</li><li><b>{param2}</b> will be "
 "replaced by the second parameter value</li></ul>"
 msgstr ""
+"В аргументах можна використати такі замінники: <ul><li><b>{source}</b> — "
+"буде замінено на шлях до початкового файла кліпу у контейнері</"
+"li><li><b>{output}</b> — буде замінено на назву файла результату</"
+"li><li><b>{param1}</b> — буде замінено на значення першого параметра</"
+"li><li><b>{param2}</b> — буде замінено на значення другого параметра</li></"
+"ul>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/clipjobmanager_ui.ui:91
-#, fuzzy, kde-format
-#| msgid "Parameters"
+#, kde-format
 msgid "Parameter 1 {param1}"
-msgstr "Параметри"
+msgstr "Параметр 1 {param1}"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_isfile)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_isfile)
 #: src/ui/clipjobmanager_ui.ui:97 src/ui/clipjobmanager_ui.ui:190
 #, kde-format
 msgid "Request file path"
-msgstr ""
+msgstr "Запитати про шлях до файла"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_islist)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_islist)
 #: src/ui/clipjobmanager_ui.ui:107 src/ui/clipjobmanager_ui.ui:183
 #, kde-format
 msgid "Request option from list"
-msgstr ""
+msgstr "Запитати про пункт у списку"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param1_list)
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param2_list)
 #: src/ui/clipjobmanager_ui.ui:117 src/ui/clipjobmanager_ui.ui:169
-#, fuzzy, kde-format
-#| msgid "More options"
+#, kde-format
 msgid "List of options"
-msgstr "Додаткові параметри"
+msgstr "Список параметрів"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param1_name)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param2_name)
 #: src/ui/clipjobmanager_ui.ui:124 src/ui/clipjobmanager_ui.ui:176
-#, fuzzy, kde-format
-#| msgid "Parameter description."
+#, kde-format
 msgid "Parameter description"
-msgstr "Опис параметра."
+msgstr "Опис параметра"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: src/ui/clipjobmanager_ui.ui:147
-#, fuzzy, kde-format
-#| msgid "Parameters"
+#, kde-format
 msgid "Parameter 2 {param2}"
-msgstr "Параметри"
+msgstr "Параметр 2 {param2}"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/clipjobmanager_ui.ui:203
@@ -17927,7 +17945,7 @@ msgstr "Суфікс назви файла-результату"
 #: src/ui/clipjobmanager_ui.ui:226
 #, kde-format
 msgid "Applies to"
-msgstr ""
+msgstr "Стосується"
 
 #. i18n: ectx: property (title), widget (QGroupBox, folder_box)
 #: src/ui/clipjobmanager_ui.ui:256

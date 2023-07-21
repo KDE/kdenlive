@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-20 00:48+0000\n"
-"PO-Revision-Date: 2023-07-14 19:20+0300\n"
+"POT-Creation-Date: 2023-07-21 00:49+0000\n"
+"PO-Revision-Date: 2023-07-20 10:46+0300\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -3488,7 +3488,7 @@ msgid "Delete keyframes"
 msgstr "Suprimeix els fotogrames clau"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1384
+#: src/assets/model/assetparametermodel.cpp:1388
 #, kde-format
 msgid "Update effect"
 msgstr "Actualitza l'efecte"
@@ -3577,8 +3577,8 @@ msgstr "Edita el fotograma clau %1"
 msgid "Update %1"
 msgstr "Actualitza el %1"
 
-#: src/assets/model/assetparametermodel.cpp:1236
-#: src/assets/model/assetparametermodel.cpp:1283
+#: src/assets/model/assetparametermodel.cpp:1240
+#: src/assets/model/assetparametermodel.cpp:1287
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "No s'ha pogut obrir el fitxer %1 de valors predefinits"
@@ -5527,7 +5527,7 @@ msgstr "Neteja el projecte"
 msgid "Loading project clips…"
 msgstr "S'estan carregant els clips del projecte…"
 
-#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2137
+#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2136
 #, kde-format
 msgid "Zone %1"
 msgstr "Zona %1"
@@ -5956,6 +5956,8 @@ msgid ""
 "<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</b> "
 "by the second, , <b>{&#x25;3}</b> by the output file path."
 msgstr ""
+"<b>{&#x25;1}</b> se substituirà pel primer paràmetre, <b>{&#x25;2}</b> pel "
+"segon, <b>{&#x25;3}</b> pel camí del fitxer de sortida."
 
 #: src/dialogs/clipjobmanager.cpp:48
 #, kde-format
@@ -5971,11 +5973,15 @@ msgid ""
 "inserted in place of <b>{&#x25;3}</b> if found. If output filename already "
 "exists, a -0001 pattern will be appended."
 msgstr ""
+"El nom del fitxer de sortida serà el mateix que el del clip original de la "
+"safata, amb l'extensió modificada. S'afegirà al final dels arguments o "
+"s'inserirà en lloc de <b>{&#x25;3}</b> si hi és. Si el nom del fitxer de "
+"sortida ja existeix, s'afegirà un patró -0001."
 
 #: src/dialogs/clipjobmanager.cpp:54
 #, kde-format
 msgid "The first parameter that will be injected in the script arguments"
-msgstr ""
+msgstr "El primer paràmetre que s'injectarà en els arguments de l'script"
 
 #: src/dialogs/clipjobmanager.cpp:56 src/dialogs/clipjobmanager.cpp:66
 #, kde-kuit-format
@@ -5985,12 +5991,18 @@ msgid ""
 "File Path</b> will ask for a file path on execution<br/><b>Request Option in "
 "List</b> will ask for a choice in the list below on execution."
 msgstr ""
+"<b>Camí del clip original</b> posarà el camí del clip de la safata<br/> "
+"<b>Sol·licita el camí del fitxer</b> demanarà un camí de fitxer en "
+"l'execució<br/><b>Sol·licita una opció de la llista</b> demanarà que trieu "
+"de la llista de sota en l'execució."
 
 #: src/dialogs/clipjobmanager.cpp:59 src/dialogs/clipjobmanager.cpp:69
 #, kde-format
 msgid ""
 "A newline separated list of possible values that will be offered on execution"
 msgstr ""
+"Una llista separada per salts de línia de valors possibles que s'oferiran en "
+"l'execució"
 
 #: src/dialogs/clipjobmanager.cpp:62 src/dialogs/clipjobmanager.cpp:72
 #, kde-kuit-format
@@ -5999,11 +6011,14 @@ msgid ""
 "When the parameter is set to <b>Request Option in List</b> the user will be "
 "asked to choose a value in this list when the job is started."
 msgstr ""
+"Quan el paràmetre es defineix a <b>Sol·licita un opció de la llista</b> "
+"l'usuari se li preguntarà que triï un valor d'aquesta llista quan s'iniciï "
+"el treball."
 
 #: src/dialogs/clipjobmanager.cpp:64
 #, kde-format
 msgid "The second parameter that will be injected in the script arguments"
-msgstr ""
+msgstr "El segon paràmetre que s'injectarà en els arguments de l'script"
 
 #: src/dialogs/clipjobmanager.cpp:127 src/dialogs/clipjobmanager.cpp:252
 #, kde-format
@@ -6301,7 +6316,7 @@ msgstr "Miscel·lània"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:251
 #: src/dialogs/kdenlivesettingsdialog.cpp:792
-#: src/doc/documentvalidator.cpp:2249
+#: src/doc/documentvalidator.cpp:2248
 #: src/transitions/transitionsrepository.cpp:178
 #, kde-format
 msgid "auto"
@@ -7902,7 +7917,7 @@ msgstr ""
 msgid "Update Text Clips"
 msgstr "Actualitza clips de text"
 
-#: src/doc/documentvalidator.cpp:725 src/doc/documentvalidator.cpp:2240
+#: src/doc/documentvalidator.cpp:725 src/doc/documentvalidator.cpp:2239
 #, kde-format
 msgid "Convert"
 msgstr "Converteix"
@@ -7912,12 +7927,12 @@ msgstr "Converteix"
 msgid "Cannot recover this project file"
 msgstr "No s'ha pogut recuperar aquest fitxer de projecte"
 
-#: src/doc/documentvalidator.cpp:1615
+#: src/doc/documentvalidator.cpp:1614
 #, kde-format
 msgid "extra audio"
 msgstr "àudio extra"
 
-#: src/doc/documentvalidator.cpp:2238
+#: src/doc/documentvalidator.cpp:2237
 #, kde-format
 msgid ""
 "The project file uses some GPU effects. GPU acceleration is not currently "
@@ -7930,17 +7945,17 @@ msgstr ""
 "Voleu convertir el projecte a una versió sense GPU?\n"
 "Això podria resultar en la pèrdua de les dades."
 
-#: src/doc/documentvalidator.cpp:2240
+#: src/doc/documentvalidator.cpp:2239
 #, kde-format
 msgid "GPU Effects"
 msgstr "Efectes de la GPU"
 
-#: src/doc/documentvalidator.cpp:2333
+#: src/doc/documentvalidator.cpp:2332
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr "Els filtres/transicions següents s'han convertit a versions sense GPU:"
 
-#: src/doc/documentvalidator.cpp:2336
+#: src/doc/documentvalidator.cpp:2335
 #, kde-format
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "Els filtres/transicions següents s'han suprimit del projecte:"
@@ -8302,7 +8317,7 @@ msgstr "Copia l'efecte"
 #: src/effects/effectstack/model/effectstackmodel.cpp:323
 #: src/effects/effectstack/model/effectstackmodel.cpp:432
 #: src/effects/effectstack/model/effectstackmodel.cpp:486
-#: src/effects/effectstack/model/effectstackmodel.cpp:1042
+#: src/effects/effectstack/model/effectstackmodel.cpp:1067
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "No es pot afegir l'efecte %1 dues vegades."
@@ -8317,7 +8332,7 @@ msgstr "Enganxa l'efecte"
 msgid "Add effect %1"
 msgstr "Afegeix l'efecte %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:877
+#: src/effects/effectstack/model/effectstackmodel.cpp:895
 #, kde-format
 msgid "Move effect %1"
 msgstr "Mou l'efecte %1"
@@ -8706,7 +8721,7 @@ msgstr "No s'ha pogut crear el consumidor."
 msgid "Cannot create filter %1"
 msgstr "No s'ha pogut crear el filtre %1"
 
-#: src/jobs/filtertask.cpp:267
+#: src/jobs/filtertask.cpp:268
 #, kde-format
 msgid "Failed to filter source."
 msgstr "Ha fallat en filtrar l'origen."
@@ -17805,50 +17820,51 @@ msgid ""
 "replaced by the first parameter value</li><li><b>{param2}</b> will be "
 "replaced by the second parameter value</li></ul>"
 msgstr ""
+"Les opcions següents estan disponibles en el arguments: <ul><li><b>{origen}</"
+"b> se substituirà pel camí del fitxer original del clip de la safa</"
+"li><li><b>{sortida}</b> se substituirà pel nom del fitxer de sortida</"
+"li><li><b>{param1}</b> se substituirà pel valor del primer paràmetre</"
+"li><li><b>{param2}</b> se substituirà pel valor del segon paràmetre</li></ul>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/clipjobmanager_ui.ui:91
-#, fuzzy, kde-format
-#| msgid "Parameters"
+#, kde-format
 msgid "Parameter 1 {param1}"
-msgstr "Paràmetres"
+msgstr "Paràmetre 1 {param1}"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_isfile)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_isfile)
 #: src/ui/clipjobmanager_ui.ui:97 src/ui/clipjobmanager_ui.ui:190
 #, kde-format
 msgid "Request file path"
-msgstr ""
+msgstr "Sol·licita el camí al fitxer"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_islist)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_islist)
 #: src/ui/clipjobmanager_ui.ui:107 src/ui/clipjobmanager_ui.ui:183
 #, kde-format
 msgid "Request option from list"
-msgstr ""
+msgstr "Sol·licita una opció de la llista"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param1_list)
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param2_list)
 #: src/ui/clipjobmanager_ui.ui:117 src/ui/clipjobmanager_ui.ui:169
-#, fuzzy, kde-format
-#| msgid "More options"
+#, kde-format
 msgid "List of options"
-msgstr "Més opcions"
+msgstr "Llista d'opcions"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param1_name)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param2_name)
 #: src/ui/clipjobmanager_ui.ui:124 src/ui/clipjobmanager_ui.ui:176
-#, fuzzy, kde-format
-#| msgid "Job description"
+#, kde-format
 msgid "Parameter description"
-msgstr "Descripció del treball"
+msgstr "Descripció del paràmetre"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: src/ui/clipjobmanager_ui.ui:147
-#, fuzzy, kde-format
-#| msgid "Parameters"
+#, kde-format
 msgid "Parameter 2 {param2}"
-msgstr "Paràmetres"
+msgstr "Paràmetre 2 {param2}"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/clipjobmanager_ui.ui:203
@@ -17860,7 +17876,7 @@ msgstr "Extensió del fitxer de sortida"
 #: src/ui/clipjobmanager_ui.ui:226
 #, kde-format
 msgid "Applies to"
-msgstr ""
+msgstr "Aplica a"
 
 #. i18n: ectx: property (title), widget (QGroupBox, folder_box)
 #: src/ui/clipjobmanager_ui.ui:256
@@ -21517,21 +21533,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid "<b>&#x25;1</b> will be replaced by the path of the source clip."
-#~ msgstr "<b>&#x25;1</b> se substituirà pel camí del clip d'origen."
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid ""
-#~ "File extension for the output file. Empty will keep the same extension as "
-#~ "source file."
-#~ msgstr ""
-#~ "Extensió de fitxer del fitxer de sortida. Si és buida mantindrà la "
-#~ "mateixa extensió que el fitxer d'origen."
-
-#~ msgid "*.srt *.ass *.vtt *.sbv"
-#~ msgstr "*.srt *.ass *.vtt *.sbv"
-
-#~ msgid "Open %1"
-#~ msgstr "Obre %1"

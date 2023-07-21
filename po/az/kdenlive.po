@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-20 00:48+0000\n"
+"POT-Creation-Date: 2023-07-21 00:49+0000\n"
 "PO-Revision-Date: 2023-06-26 17:17+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -3473,7 +3473,7 @@ msgid "Delete keyframes"
 msgstr "Əsas kadrları silmək"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1384
+#: src/assets/model/assetparametermodel.cpp:1388
 #, kde-format
 msgid "Update effect"
 msgstr "Effekti yeniləyin"
@@ -3562,8 +3562,8 @@ msgstr "%1 əsas kadra düzəliş etmək"
 msgid "Update %1"
 msgstr "Yeniləmək: %1"
 
-#: src/assets/model/assetparametermodel.cpp:1236
-#: src/assets/model/assetparametermodel.cpp:1283
+#: src/assets/model/assetparametermodel.cpp:1240
+#: src/assets/model/assetparametermodel.cpp:1287
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Əvvəlcədən qurulmuş \"%1\" faylı açıla bilmədi"
@@ -5506,7 +5506,7 @@ msgstr "Layihəni təmizləyin"
 msgid "Loading project clips…"
 msgstr "Layihə klipi yüklənir..."
 
-#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2137
+#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2136
 #, kde-format
 msgid "Zone %1"
 msgstr "Sahə %1"
@@ -6279,7 +6279,7 @@ msgstr "Müxtəlif"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:251
 #: src/dialogs/kdenlivesettingsdialog.cpp:792
-#: src/doc/documentvalidator.cpp:2249
+#: src/doc/documentvalidator.cpp:2248
 #: src/transitions/transitionsrepository.cpp:178
 #, kde-format
 msgid "auto"
@@ -7860,7 +7860,7 @@ msgstr ""
 msgid "Update Text Clips"
 msgstr "Mətn kiplərini yeniləyin"
 
-#: src/doc/documentvalidator.cpp:725 src/doc/documentvalidator.cpp:2240
+#: src/doc/documentvalidator.cpp:725 src/doc/documentvalidator.cpp:2239
 #, kde-format
 msgid "Convert"
 msgstr "Çevir"
@@ -7870,12 +7870,12 @@ msgstr "Çevir"
 msgid "Cannot recover this project file"
 msgstr "Bu layohə faylı bərpa oluna bilmədi"
 
-#: src/doc/documentvalidator.cpp:1615
+#: src/doc/documentvalidator.cpp:1614
 #, kde-format
 msgid "extra audio"
 msgstr "əlavə səs"
 
-#: src/doc/documentvalidator.cpp:2238
+#: src/doc/documentvalidator.cpp:2237
 #, kde-format
 msgid ""
 "The project file uses some GPU effects. GPU acceleration is not currently "
@@ -7888,17 +7888,17 @@ msgstr ""
 "Layihəni, GPU tələb olunmayan versiya ilə çevirmək istəyirsiniz?\n"
 "Bu. məlumatların itirilməsi ilə nəticələnə bilər."
 
-#: src/doc/documentvalidator.cpp:2240
+#: src/doc/documentvalidator.cpp:2239
 #, kde-format
 msgid "GPU Effects"
 msgstr "GPU effektləri"
 
-#: src/doc/documentvalidator.cpp:2333
+#: src/doc/documentvalidator.cpp:2332
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr "Bu filtrlər/keçidlər, GPU tələb olunmayan versiya ilə çevrildi:"
 
-#: src/doc/documentvalidator.cpp:2336
+#: src/doc/documentvalidator.cpp:2335
 #, kde-format
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "Bu filtrlər/keçidlər, layihədən silindi:"
@@ -8257,7 +8257,7 @@ msgstr "Effekti kopyalayın"
 #: src/effects/effectstack/model/effectstackmodel.cpp:323
 #: src/effects/effectstack/model/effectstackmodel.cpp:432
 #: src/effects/effectstack/model/effectstackmodel.cpp:486
-#: src/effects/effectstack/model/effectstackmodel.cpp:1042
+#: src/effects/effectstack/model/effectstackmodel.cpp:1067
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "%1 effekti iki dəfə əlavə edilə bilməz."
@@ -8272,7 +8272,7 @@ msgstr "Effekti yerləşdirin"
 msgid "Add effect %1"
 msgstr "%1 effektini əlavə edin"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:877
+#: src/effects/effectstack/model/effectstackmodel.cpp:895
 #, kde-format
 msgid "Move effect %1"
 msgstr "%1 effektini köçürün"
@@ -8656,7 +8656,7 @@ msgstr "Klip istehlakçısı yaradəla bilmədi."
 msgid "Cannot create filter %1"
 msgstr "%1 süzgəci yaradıla bilmədi"
 
-#: src/jobs/filtertask.cpp:267
+#: src/jobs/filtertask.cpp:268
 #, kde-format
 msgid "Failed to filter source."
 msgstr "Qaynaqların filtrlənməsi alınmadı."

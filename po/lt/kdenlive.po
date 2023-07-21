@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l 10n\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-20 00:48+0000\n"
+"POT-Creation-Date: 2023-07-21 00:49+0000\n"
 "PO-Revision-Date: 2019-07-12 21:09+0300\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -3554,7 +3554,7 @@ msgid "Delete keyframes"
 msgstr "Ištrinti kadrą"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1384
+#: src/assets/model/assetparametermodel.cpp:1388
 #, fuzzy, kde-format
 #| msgid "effect"
 msgid "Update effect"
@@ -3660,8 +3660,8 @@ msgstr "Pirmas kadras"
 msgid "Update %1"
 msgstr "Atnaujinti profilį"
 
-#: src/assets/model/assetparametermodel.cpp:1236
-#: src/assets/model/assetparametermodel.cpp:1283
+#: src/assets/model/assetparametermodel.cpp:1240
+#: src/assets/model/assetparametermodel.cpp:1287
 #, fuzzy, kde-format
 #| msgid "Cannot open file %1"
 msgid "Cannot open preset file %1"
@@ -5728,7 +5728,7 @@ msgstr ""
 msgid "Loading project clips…"
 msgstr "Įkeliamas projektas"
 
-#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2137
+#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2136
 #, fuzzy, kde-format
 #| msgid "Zoom Out"
 msgid "Zone %1"
@@ -6533,7 +6533,7 @@ msgstr "Įvairūs"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:251
 #: src/dialogs/kdenlivesettingsdialog.cpp:792
-#: src/doc/documentvalidator.cpp:2249
+#: src/doc/documentvalidator.cpp:2248
 #: src/transitions/transitionsrepository.cpp:178
 #, kde-format
 msgid "auto"
@@ -8133,7 +8133,7 @@ msgstr ""
 msgid "Update Text Clips"
 msgstr ""
 
-#: src/doc/documentvalidator.cpp:725 src/doc/documentvalidator.cpp:2240
+#: src/doc/documentvalidator.cpp:725 src/doc/documentvalidator.cpp:2239
 #, fuzzy, kde-format
 #| msgid "Invert"
 msgid "Convert"
@@ -8144,13 +8144,13 @@ msgstr "Invertuoti"
 msgid "Cannot recover this project file"
 msgstr ""
 
-#: src/doc/documentvalidator.cpp:1615
+#: src/doc/documentvalidator.cpp:1614
 #, fuzzy, kde-format
 #| msgid "Extract to"
 msgid "extra audio"
 msgstr "Išskleisti į"
 
-#: src/doc/documentvalidator.cpp:2238
+#: src/doc/documentvalidator.cpp:2237
 #, kde-format
 msgid ""
 "The project file uses some GPU effects. GPU acceleration is not currently "
@@ -8159,18 +8159,18 @@ msgid ""
 "This might result in data loss."
 msgstr ""
 
-#: src/doc/documentvalidator.cpp:2240
+#: src/doc/documentvalidator.cpp:2239
 #, fuzzy, kde-format
 #| msgid "effect"
 msgid "GPU Effects"
 msgstr "efektas"
 
-#: src/doc/documentvalidator.cpp:2333
+#: src/doc/documentvalidator.cpp:2332
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr ""
 
-#: src/doc/documentvalidator.cpp:2336
+#: src/doc/documentvalidator.cpp:2335
 #, kde-format
 msgid "The following filters/transitions were deleted from the project:"
 msgstr ""
@@ -8530,7 +8530,7 @@ msgstr "efektas"
 #: src/effects/effectstack/model/effectstackmodel.cpp:323
 #: src/effects/effectstack/model/effectstackmodel.cpp:432
 #: src/effects/effectstack/model/effectstackmodel.cpp:486
-#: src/effects/effectstack/model/effectstackmodel.cpp:1042
+#: src/effects/effectstack/model/effectstackmodel.cpp:1067
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr ""
@@ -8547,7 +8547,7 @@ msgstr "efektas"
 msgid "Add effect %1"
 msgstr "Pridėti naują video failą"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:877
+#: src/effects/effectstack/model/effectstackmodel.cpp:895
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Move effect %1"
@@ -8953,7 +8953,7 @@ msgstr "Negaliu sukurti laikinos bylos!"
 msgid "Cannot create filter %1"
 msgstr "Negaliu sukurti laikinos bylos!"
 
-#: src/jobs/filtertask.cpp:267
+#: src/jobs/filtertask.cpp:268
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
 msgid "Failed to filter source."

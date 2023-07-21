@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-20 00:48+0000\n"
+"POT-Creation-Date: 2023-07-21 00:49+0000\n"
 "PO-Revision-Date: 2023-07-15 10:10+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -3463,7 +3463,7 @@ msgid "Delete keyframes"
 msgstr "Izbriši ključne sličice"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1384
+#: src/assets/model/assetparametermodel.cpp:1388
 #, kde-format
 msgid "Update effect"
 msgstr "Osveži učinek"
@@ -3554,8 +3554,8 @@ msgstr "Uredi ključno sličico %1"
 msgid "Update %1"
 msgstr "Posodobi %1"
 
-#: src/assets/model/assetparametermodel.cpp:1236
-#: src/assets/model/assetparametermodel.cpp:1283
+#: src/assets/model/assetparametermodel.cpp:1240
+#: src/assets/model/assetparametermodel.cpp:1287
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Ni mogoče odpreti datoteke prednastavitev %1"
@@ -5506,7 +5506,7 @@ msgstr "Počisti projekt"
 msgid "Loading project clips…"
 msgstr "Nalaganje posnetkov projekta …"
 
-#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2137
+#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2136
 #, kde-format
 msgid "Zone %1"
 msgstr "Območje %1"
@@ -6279,7 +6279,7 @@ msgstr "Razno"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:251
 #: src/dialogs/kdenlivesettingsdialog.cpp:792
-#: src/doc/documentvalidator.cpp:2249
+#: src/doc/documentvalidator.cpp:2248
 #: src/transitions/transitionsrepository.cpp:178
 #, kde-format
 msgid "auto"
@@ -7880,7 +7880,7 @@ msgstr ""
 msgid "Update Text Clips"
 msgstr "Posodobi posnetke z besedilom"
 
-#: src/doc/documentvalidator.cpp:725 src/doc/documentvalidator.cpp:2240
+#: src/doc/documentvalidator.cpp:725 src/doc/documentvalidator.cpp:2239
 #, kde-format
 msgid "Convert"
 msgstr "Pretvori"
@@ -7890,12 +7890,12 @@ msgstr "Pretvori"
 msgid "Cannot recover this project file"
 msgstr "Te projektne datoteke ni mogoče obnoviti"
 
-#: src/doc/documentvalidator.cpp:1615
+#: src/doc/documentvalidator.cpp:1614
 #, kde-format
 msgid "extra audio"
 msgstr "dodatni zvok"
 
-#: src/doc/documentvalidator.cpp:2238
+#: src/doc/documentvalidator.cpp:2237
 #, kde-format
 msgid ""
 "The project file uses some GPU effects. GPU acceleration is not currently "
@@ -7908,18 +7908,18 @@ msgstr ""
 "Ali želite pretvoriti projekt v različico brez podpore GPE?\n"
 "To lahko povzroči izgubo podatkov."
 
-#: src/doc/documentvalidator.cpp:2240
+#: src/doc/documentvalidator.cpp:2239
 #, kde-format
 msgid "GPU Effects"
 msgstr "Učinki GPE"
 
-#: src/doc/documentvalidator.cpp:2333
+#: src/doc/documentvalidator.cpp:2332
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr ""
 "Naslednji filtri/prehodi so bili pretvorjeni v različico brez podpore GPE:"
 
-#: src/doc/documentvalidator.cpp:2336
+#: src/doc/documentvalidator.cpp:2335
 #, kde-format
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "Naslednji filtri/prehodi so bili izbrisani iz projekta:"
@@ -8284,7 +8284,7 @@ msgstr "Kopiraj učinek"
 #: src/effects/effectstack/model/effectstackmodel.cpp:323
 #: src/effects/effectstack/model/effectstackmodel.cpp:432
 #: src/effects/effectstack/model/effectstackmodel.cpp:486
-#: src/effects/effectstack/model/effectstackmodel.cpp:1042
+#: src/effects/effectstack/model/effectstackmodel.cpp:1067
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "Učinka %1 ni mogoče dodati dvakrat."
@@ -8299,7 +8299,7 @@ msgstr "Prilepi učinek"
 msgid "Add effect %1"
 msgstr "Dodaj učinek %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:877
+#: src/effects/effectstack/model/effectstackmodel.cpp:895
 #, kde-format
 msgid "Move effect %1"
 msgstr "Premakni učinek %1"
@@ -8678,7 +8678,7 @@ msgstr "Ni mogoče ustvariti porabnika."
 msgid "Cannot create filter %1"
 msgstr "Ni mogoče ustvariti filtra %1"
 
-#: src/jobs/filtertask.cpp:267
+#: src/jobs/filtertask.cpp:268
 #, kde-format
 msgid "Failed to filter source."
 msgstr "Vira ni bilo mogoče filtrirati."

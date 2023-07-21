@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-20 00:48+0000\n"
+"POT-Creation-Date: 2023-07-21 00:49+0000\n"
 "PO-Revision-Date: 2023-07-14 09:26+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
@@ -3450,7 +3450,7 @@ msgid "Delete keyframes"
 msgstr "Forigi ŝlosilkadrojn"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1384
+#: src/assets/model/assetparametermodel.cpp:1388
 #, kde-format
 msgid "Update effect"
 msgstr "Ĝisdatigi efekton"
@@ -3537,8 +3537,8 @@ msgstr "Redakti %1 ŝlosilkadro"
 msgid "Update %1"
 msgstr "Ĝisdatigi %1"
 
-#: src/assets/model/assetparametermodel.cpp:1236
-#: src/assets/model/assetparametermodel.cpp:1283
+#: src/assets/model/assetparametermodel.cpp:1240
+#: src/assets/model/assetparametermodel.cpp:1287
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Ne povas malfermi antaŭdifinitan dosieron %1"
@@ -5478,7 +5478,7 @@ msgstr "Pura Projekto"
 msgid "Loading project clips…"
 msgstr "Ŝargante projektajn tondaĵojn…"
 
-#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2137
+#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2136
 #, kde-format
 msgid "Zone %1"
 msgstr "Zono %1"
@@ -6250,7 +6250,7 @@ msgstr "Misc"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:251
 #: src/dialogs/kdenlivesettingsdialog.cpp:792
-#: src/doc/documentvalidator.cpp:2249
+#: src/doc/documentvalidator.cpp:2248
 #: src/transitions/transitionsrepository.cpp:178
 #, kde-format
 msgid "auto"
@@ -7826,7 +7826,7 @@ msgstr ""
 msgid "Update Text Clips"
 msgstr "Ĝisdatigi Tekstajn tondaĵojn"
 
-#: src/doc/documentvalidator.cpp:725 src/doc/documentvalidator.cpp:2240
+#: src/doc/documentvalidator.cpp:725 src/doc/documentvalidator.cpp:2239
 #, kde-format
 msgid "Convert"
 msgstr "Konverti"
@@ -7836,12 +7836,12 @@ msgstr "Konverti"
 msgid "Cannot recover this project file"
 msgstr "Ne povas reakiri ĉi tiun projektdosieron"
 
-#: src/doc/documentvalidator.cpp:1615
+#: src/doc/documentvalidator.cpp:1614
 #, kde-format
 msgid "extra audio"
 msgstr "ekstra audio"
 
-#: src/doc/documentvalidator.cpp:2238
+#: src/doc/documentvalidator.cpp:2237
 #, kde-format
 msgid ""
 "The project file uses some GPU effects. GPU acceleration is not currently "
@@ -7854,17 +7854,17 @@ msgstr ""
 "Ĉu vi volas konverti la projekton al ne-GPU-versio?\n"
 "Tio povus rezultigi datumojn perdon."
 
-#: src/doc/documentvalidator.cpp:2240
+#: src/doc/documentvalidator.cpp:2239
 #, kde-format
 msgid "GPU Effects"
 msgstr "GPU-efikoj"
 
-#: src/doc/documentvalidator.cpp:2333
+#: src/doc/documentvalidator.cpp:2332
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr "La sekvaj filtriloj/transiroj estis konvertitaj al ne-GPU-versioj:"
 
-#: src/doc/documentvalidator.cpp:2336
+#: src/doc/documentvalidator.cpp:2335
 #, kde-format
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "La sekvaj filtriloj/transiroj estis forigitaj de la projekto:"
@@ -8225,7 +8225,7 @@ msgstr "Kopii efiko"
 #: src/effects/effectstack/model/effectstackmodel.cpp:323
 #: src/effects/effectstack/model/effectstackmodel.cpp:432
 #: src/effects/effectstack/model/effectstackmodel.cpp:486
-#: src/effects/effectstack/model/effectstackmodel.cpp:1042
+#: src/effects/effectstack/model/effectstackmodel.cpp:1067
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "Efiko %1 ne povas esti aldonita dufoje."
@@ -8240,7 +8240,7 @@ msgstr "Alglui efekton"
 msgid "Add effect %1"
 msgstr "Aldoni efekton %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:877
+#: src/effects/effectstack/model/effectstackmodel.cpp:895
 #, kde-format
 msgid "Move effect %1"
 msgstr "Movi efekton %1"
@@ -8620,7 +8620,7 @@ msgstr "Ne povas krei konsumanton."
 msgid "Cannot create filter %1"
 msgstr "Ne povas krei filtrilon %1"
 
-#: src/jobs/filtertask.cpp:267
+#: src/jobs/filtertask.cpp:268
 #, kde-format
 msgid "Failed to filter source."
 msgstr "Malsukcesis filtri fonton."
