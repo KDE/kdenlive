@@ -251,7 +251,7 @@ void MainWindow::init(const QString &mltPath)
     topFrame->setFrameShape(QFrame::HLine);
     topFrame->setFixedHeight(1);
     topFrame->setLineWidth(1);
-    connect(this, &MainWindow::focusTimeline, this, [topFrame](bool focus, bool highlight) {
+    connect(this, &MainWindow::showTimelineFocus, this, [topFrame](bool focus, bool highlight) {
         if (focus) {
             KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::Tooltip);
             if (highlight) {
