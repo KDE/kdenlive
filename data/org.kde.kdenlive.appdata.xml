@@ -395,5 +395,8 @@
     <binary>kdenlive</binary>
     <binary>kdenlive_render</binary>
   </provides>
+  <custom>
+    <value key="KDE::mastodon">https://floss.social/@kdenlive</value>
+  </custom>
   <content_rating type="oars-1.1"/>
 </component>
