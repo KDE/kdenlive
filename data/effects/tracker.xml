@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="opencv.tracker" id="opencv.tracker" condition="results" applies_to_full_producer="1" version="2">
+<effect tag="opencv.tracker" id="opencv.tracker" condition="results" version="2">
     <name>Motion Tracker</name>
     <description>Select a zone to follow its movements</description>
     <author>Jean-Baptiste Mardelle</author>

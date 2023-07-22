@@ -34,7 +34,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
     Q_ASSERT(m_asset->is_valid());
     QDomNodeList parameterNodes = assetXml.elementsByTagName(QStringLiteral("parameter"));
     m_hideKeyframesByDefault = assetXml.hasAttribute(QStringLiteral("hideKeyframes"));
-    m_appliesToFull = assetXml.hasAttribute(QStringLiteral("applies_to_full_producer"));
+    m_requiresInOut = assetXml.hasAttribute(QStringLiteral("requires_in_out"));
     m_isAudio = assetXml.attribute(QStringLiteral("type")) == QLatin1String("audio");
 
     bool needsLocaleConversion = false;
@@ -439,7 +439,7 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
                                       AssetParameterModel::ParentInRole,
                                       AssetParameterModel::ParentDurationRole,
                                       AssetParameterModel::ParentPositionRole,
-                                      AssetParameterModel::AppliesToFullProducer,
+                                      AssetParameterModel::RequiresInOut,
                                       AssetParameterModel::HideKeyframesFirstRole};
 
     if (bypassRoles.contains(role)) {
@@ -460,8 +460,8 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
             return pCore->getItemPosition(m_ownerId);
         case HideKeyframesFirstRole:
             return m_hideKeyframesByDefault;
-        case AppliesToFullProducer:
-            return m_appliesToFull;
+        case RequiresInOut:
+            return m_requiresInOut;
         default:
             qDebug() << "WARNING; UNHANDLED DATA: " << role;
             return QVariant();

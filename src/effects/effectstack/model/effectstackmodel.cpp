@@ -703,8 +703,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                     PUSH_LAMBDA(operation, redo);
                     PUSH_LAMBDA(reverse, undo);
                 }
-            } else if (m_ownerId.type == ObjectType::TimelineClip &&
-                       effect->data(QModelIndex(), AssetParameterModel::AppliesToFullProducer).toBool() == false) {
+            } else if (m_ownerId.type == ObjectType::TimelineClip && effect->data(QModelIndex(), AssetParameterModel::RequiresInOut).toBool() == true) {
                 int oldEffectIn = qMax(0, effect->filter().get_in());
                 int oldEffectOut = effect->filter().get_out();
                 int newIn = pCore->getItemIn(m_ownerId);
@@ -902,13 +901,11 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
     // qDebug() << "$$$$$$$$$$$$$$$$$$$$$ Planting effect";
     if (!item->isRoot()) {
         auto effectItem = std::static_pointer_cast<EffectItemModel>(item);
-        int in = 0;
-        int out = -1;
-        if (effectItem->data(QModelIndex(), AssetParameterModel::AppliesToFullProducer).toBool() != true) {
-            in = pCore->getItemIn(m_ownerId);
-            out = in + pCore->getItemDuration(m_ownerId) - 1;
+        if (effectItem->data(QModelIndex(), AssetParameterModel::RequiresInOut).toBool() == true) {
+            int in = pCore->getItemIn(m_ownerId);
+            int out = in + pCore->getItemDuration(m_ownerId) - 1;
+            effectItem->filter().set_in_and_out(in, out);
         }
-        effectItem->filter().set_in_and_out(in, out);
         if (!m_loadingExisting) {
             // qDebug() << "$$$$$$$$$$$$$$$$$$$$$ Planting effect in " << m_childServices.size();
             effectItem->plant(m_masterService);
