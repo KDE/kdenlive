@@ -742,7 +742,7 @@ void ProjectItemModel::registerItem(const std::shared_ptr<TreeItem> &item)
         if (clipItem->clipType() == ClipType::Timeline && clipItem->statusReady()) {
             const QString uuid = clipItem->getSequenceUuid().toString();
             std::shared_ptr<Mlt::Tractor> trac(new Mlt::Tractor(clipItem->originalProducer()->parent()));
-            storeSequence(uuid, trac);
+            storeSequence(uuid, trac, false);
         }
     }
 }
@@ -1398,12 +1398,16 @@ void ProjectItemModel::loadTractorPlaylist(Mlt::Tractor documentTractor, std::un
     }
 }
 
-void ProjectItemModel::storeSequence(const QString uuid, std::shared_ptr<Mlt::Tractor> tractor)
+void ProjectItemModel::storeSequence(const QString uuid, std::shared_ptr<Mlt::Tractor> tractor, bool internalSave)
 {
     if (m_extraPlaylists.count(uuid) > 0) {
         m_extraPlaylists.erase(uuid);
     }
     m_extraPlaylists.insert({uuid, std::move(tractor)});
+    if (internalSave) {
+        // Ensure we never use the mapped ids when re-opening an already opened sequence
+        setExtraTimelineSaved(uuid);
+    }
 }
 
 int ProjectItemModel::sequenceCount() const
