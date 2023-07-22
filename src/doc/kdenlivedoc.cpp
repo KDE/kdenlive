@@ -250,12 +250,13 @@ DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, Q
 
     // TODO: DocumentChecker is still tightly coupled to the GUI
     DocumentChecker d(url, domDoc);
+    d.tempTest();
     success = !d.hasErrorInClips();
-    if (!success) {
+    /*if (!success) {
         // Loading aborted
         result.setAborted();
         return result;
-    }
+    }*/
 
     // create KdenliveDoc object
     auto doc = std::unique_ptr<KdenliveDoc>(new KdenliveDoc(url, domDoc, projectFolder, undoGroup, parent));
