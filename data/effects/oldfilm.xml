@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="oldfilm" id="oldfilm" type="video" unique="1">
+<effect tag="oldfilm" id="oldfilm" type="video" requires_in_out="1" unique="1">
     <name>Oldfilm</name>
     <description>Moves the Picture up and down and random brightness change</description>
     <author>Marco Gittler</author>
