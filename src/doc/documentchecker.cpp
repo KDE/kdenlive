@@ -19,11 +19,19 @@
 #include <QCryptographicHash>
 #include <QStandardPaths>
 
+QDebug operator<<(QDebug qd, const DocumentChecker::DocumentResource &item)
+{
+    qd << "Type:" << DocumentChecker::readableNameForMissingType(item.type);
+    qd << "Status:" << DocumentChecker::readableNameForMissingStatus(item.status);
+    qd << "Original Paths:" << item.originalFilePath;
+    qd << "New Path:" << item.newFilePath;
+    qd << "clipID:" << item.clipId;
+    return qd.maybeSpace();
+}
+
 DocumentChecker::DocumentChecker(QUrl url, const QDomDocument &doc)
     : m_url(std::move(url))
     , m_doc(doc)
-    , m_abortSearch(false)
-    , m_checkRunning(false)
 {
 
     QDomElement baseElement = m_doc.documentElement();
@@ -267,9 +275,6 @@ bool DocumentChecker::hasErrorInProject()
 
     if (m_items.size() == 0) {
         return false;
-    }
-    for (auto item : m_items) {
-        qDebug() << "Type:" << item.type << "Status:" << item.status << "Paths:" << item.originalFilePath << item.newFilePath << "clipID:" << item.clipId;
     }
     return true;
 }

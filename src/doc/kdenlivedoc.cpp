@@ -250,7 +250,17 @@ DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, Q
 
     DocumentChecker d(url, domDoc);
     d.hasErrorInProject();
-    success = d.resolveProblemsWithGUI();
+    if (pCore->window() == nullptr) {
+        qDebug() << "DocumentChecker found some problems in the project:";
+        for (const auto &item : d.resourceItems()) {
+            qDebug() << &item;
+            if (item.status == DocumentChecker::MissingStatus::Missing) {
+                success = false;
+            }
+        }
+    } else {
+        success = d.resolveProblemsWithGUI();
+    }
     if (!success) {
         // Loading aborted
         result.setAborted();

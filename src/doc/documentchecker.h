@@ -53,10 +53,7 @@ public:
 
     bool resolveProblemsWithGUI();
 
-private Q_SLOTS:
-    /** @brief Check if images and fonts in this clip exists, returns a list of images that do exist so we don't check twice. */
-    void checkMissingImagesAndFonts(const QStringList &images, const QStringList &fonts, const QString &id);
-    // void slotCheckButtons();
+    std::vector<DocumentResource> resourceItems() { return m_items; }
 
 private:
     QUrl m_url;
@@ -74,28 +71,14 @@ private:
     QStringList m_binIds;
     QStringList m_warnings;
 
-    bool m_abortSearch;
-    bool m_checkRunning;
-
     QString ensureAbsoultePath(QString filepath);
-    static QStringList getAssetsFiles(const QDomDocument &doc, const QString &tagName, const QMap<QString, QString> &searchPairs);
-    static QStringList getAssetsServiceIds(const QDomDocument &doc, const QString &tagName);
-    static void removeAssetsById(QDomDocument &doc, const QString &tagName, const QStringList &idsToDelete);
 
-    static bool isMltBuildInLuma(const QString &lumaName);
-
-    // void fixClipItem(QTreeWidgetItem *child, const QDomNodeList &producers, const QDomNodeList &chains, const QDomNodeList &trans, const QDomNodeList
-    // &filters);
-    // void fixSourceClipItem(QTreeWidgetItem *child, const QDomNodeList &producers, const QDomNodeList &chains);
-    void fixProxyClip(const QString &id, const QString &oldUrl, const QString &newUrl);
-    void doFixProxyClip(QDomElement &e, const QString &oldUrl, const QString &newUrl);
     /** @brief Returns list of transitions ids / tag containing luma files */
     const QMap<QString, QString> getLumaPairs() const;
     /** @brief Returns list of filters ids / tag containing asset files */
     const QMap<QString, QString> getAssetPairs() const;
-    /** @brief Remove _missingsourcec flag in fixed clips */
-    void fixMissingSource(const QString &id, const QDomNodeList &producers, const QDomNodeList &chains);
-    /** @brief Check if the producer has an id. If not (should happen, but...) try to recover it
+
+    /** @brief Check if the producer has an id. If not (should not happen, but...) try to recover it
      *  @returns true if the producer has been changed (id recovered), false if it was either already okay or could not be recovered
      */
     bool ensureProducerHasId(QDomElement &producer, const QDomNodeList &entries);
@@ -105,40 +88,46 @@ private:
      */
     bool ensureProducerIsNotPlaceholder(QDomElement &producer);
 
-    void setReloadProxy(QDomElement &producer, const QString &realPath);
-
     /** @brief Check for various missing elements */
     QString getMissingProducers(QDomElement &e, const QDomNodeList &entries, const QStringList &verifiedPaths, const QString &storageFolder);
+    /** @brief Check if images and fonts in this clip exists, returns a list of images that do exist so we don't check twice. */
+    void checkMissingImagesAndFonts(const QStringList &images, const QStringList &fonts, const QString &id);
     /** @brief If project path changed, try to relocate its resources */
     const QString relocateResource(QString sourceResource);
 
     static ClipType::ProducerType getClipType(const QString &service, const QString &resource);
     QString getProducerResource(const QDomElement &producer);
     static QString getKdenliveClipId(const QDomElement &producer);
+    static QStringList getAssetsFiles(const QDomDocument &doc, const QString &tagName, const QMap<QString, QString> &searchPairs);
+    static QStringList getAssetsServiceIds(const QDomDocument &doc, const QString &tagName);
 
     QStringList getInfoMessages();
 
-    // TODO!!!
-    bool itemsContain(MissingType type, const QString &path = QString(), MissingStatus status = MissingStatus::Missing);
-    int itemIndexByClipId(const QString &clipId);
-
+    static bool isMltBuildInLuma(const QString &lumaName);
     static bool isSlideshow(const QString &resource);
     bool isSequenceWithSpeedEffect(const QDomElement &producer);
-    bool isProfileHD(const QDomDocument &doc);
+    static bool isProfileHD(const QDomDocument &doc);
 
     void fixSourceClipItem(const DocumentChecker::DocumentResource &resource, const QDomNodeList &producers, const QDomNodeList &chains);
     void fixMissingItem(const DocumentChecker::DocumentResource &resource, const QDomNodeList &producers, const QDomNodeList &chains, const QDomNodeList &trans,
                         const QDomNodeList &filters);
 
+    bool itemsContain(MissingType type, const QString &path = QString(), MissingStatus status = MissingStatus::Missing);
+    int itemIndexByClipId(const QString &clipId);
+
     void fixTitleImage(QDomElement &e, const QString &oldPath, const QString &newPath);
     void fixTitleFont(const QDomNodeList &producers, const QString &oldFont, const QString &newFont);
     void fixAssetResource(const QDomNodeList &assets, const QMap<QString, QString> &searchPairs, const QString &oldPath, const QString &newPath);
+    static void removeAssetsById(QDomDocument &doc, const QString &tagName, const QStringList &idsToDelete);
     void usePlaceholderForClip(const QDomNodeList &items, const QString &clipId);
     void removeClip(const QDomNodeList &producers, const QDomNodeList &playlists, const QString &clipId);
     void fixClip(const QDomNodeList &items, const QString &clipId, const QString &newPath);
 
-    QStringList fixSequences(QDomElement &e, const QDomNodeList &producers, const QStringList &tractorIds);
+    void fixProxyClip(const QString &id, const QString &oldUrl, const QString &newUrl);
+    void doFixProxyClip(QDomElement &e, const QString &oldUrl, const QString &newUrl);
+    void setReloadProxy(QDomElement &producer, const QString &realPath);
+    /** @brief Remove _missingsourcec flag in fixed clips */
+    void fixMissingSource(const QString &id, const QDomNodeList &producers, const QDomNodeList &chains);
 
-Q_SIGNALS:
-    void showScanning(const QString);
+    QStringList fixSequences(QDomElement &e, const QDomNodeList &producers, const QStringList &tractorIds);
 };
