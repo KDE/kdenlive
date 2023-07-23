@@ -108,26 +108,24 @@ void ProjectManager::slotLoadOnOpen()
     // Release startup crash lock file
     QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
     lockFile.remove();
-    if (pCore->window()) {
-        // For some reason Qt seems to be doing some stuff that modifies the tabs text after window is shown, so use a timer
-        QTimer::singleShot(1000, this, []() {
-            QList<QTabBar *> tabbars = pCore->window()->findChildren<QTabBar *>();
-            for (QTabBar *tab : qAsConst(tabbars)) {
-                // Fix tabbar tooltip containing ampersand
-                for (int i = 0; i < tab->count(); i++) {
-                    tab->setTabToolTip(i, tab->tabText(i).replace('&', ""));
-                }
+    // For some reason Qt seems to be doing some stuff that modifies the tabs text after window is shown, so use a timer
+    QTimer::singleShot(1000, this, []() {
+        QList<QTabBar *> tabbars = pCore->window()->findChildren<QTabBar *>();
+        for (QTabBar *tab : qAsConst(tabbars)) {
+            // Fix tabbar tooltip containing ampersand
+            for (int i = 0; i < tab->count(); i++) {
+                tab->setTabToolTip(i, tab->tabText(i).replace('&', ""));
             }
-        });
-        pCore->window()->checkMaxCacheSize();
-    }
+        }
+    });
+    pCore->window()->checkMaxCacheSize();
 }
 
-void ProjectManager::slotLoadHeadless()
+void ProjectManager::slotLoadHeadless(const QUrl &projectUrl)
 {
     m_loading = true;
-    if (m_startUrl.isValid()) {
-        doOpenFileHeadless(m_startUrl);
+    if (projectUrl.isValid()) {
+        doOpenFileHeadless(projectUrl);
     }
     m_loading = false;
     // Release startup crash lock file

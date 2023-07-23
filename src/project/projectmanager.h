@@ -135,7 +135,7 @@ public Q_SLOTS:
     /** @brief Load files / clips passed on the command line. */
     void slotLoadOnOpen();
 
-    void slotLoadHeadless();
+    void slotLoadHeadless(const QUrl &projectUrl);
 
     /** @brief Checks whether a URL is available to save to.
      * @return Whether the file was saved. */

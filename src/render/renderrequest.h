@@ -6,6 +6,7 @@
 #pragma once
 
 #include "bin/model/markerlistmodel.hpp"
+#include "doc/kdenlivedoc.h"
 #include "renderpresets/renderpresetmodel.hpp"
 
 class RenderRequest
@@ -35,7 +36,7 @@ public:
     void setGuideParams(std::weak_ptr<MarkerListModel> model, bool enableMultiExport, int filterCategory);
     void setOverlayData(const QString &data);
 
-    std::vector<RenderJob> process();
+    std::vector<RenderJob> process(const QUrl &openUrl = {});
 
     QStringList errorMessages();
 

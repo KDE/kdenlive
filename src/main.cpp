@@ -50,7 +50,15 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QUrl> //new
 #include <kiconthemes_version.h>
 
-#include "render/rendermanager.h"
+#include "render/renderrequest.h"
+
+// TODO: remove
+#include "doc/docundostack.hpp"
+#include "doc/kdenlivedoc.h"
+#include <QUndoGroup>
+
+#include "kdenlivesettings.h"
+#include <KNotification>
 
 #ifdef Q_OS_WIN
 extern "C" {
@@ -205,7 +213,7 @@ int main(int argc, char *argv[])
 
     qApp->processEvents(QEventLoop::AllEvents);
 
-    url = QUrl::fromLocalFile("/home/julius/Videos/checkwaiting.kdenlive");
+    url = QUrl::fromLocalFile(QStringLiteral("/home/julius/Videos/checkwaiting.kdenlive"));
 
     // if (parser.isSet(renderOption)) {
     if (true) {
@@ -218,14 +226,47 @@ int main(int argc, char *argv[])
         }
         pCore->initHeadless(url);
         app.processEvents();
-        RenderManager *rendermanager = new RenderManager();
-        rendermanager->prepareRendering(url);
+
+        RenderRequest *renderrequest = new RenderRequest();
+        renderrequest->setOutputFile(QStringLiteral("~/cli-test.mp4"));
+
+        // request->setPresetParams(m_params);
+        renderrequest->setDelayedRendering(false);
+        renderrequest->setProxyRendering(false);
+        renderrequest->setEmbedSubtitles(false);
+        renderrequest->setTwoPass(false);
+        renderrequest->setAudioFilePerTrack(false);
+
+        /*bool guideMultiExport = false;
+        int guideCategory = m_view.guideCategoryChooser->currentCategory();
+        renderrequest->setGuideParams(m_guidesModel, guideMultiExport, guideCategory);*/
+
+        renderrequest->setOverlayData(QString());
+        std::vector<RenderRequest::RenderJob> renderjobs = renderrequest->process(url);
         app.processEvents();
-        QMapIterator<QString, QString> i(rendermanager->m_renderFiles);
+
+        for (const auto &job : renderjobs) {
+            QStringList argsJob = {QStringLiteral("delivery"), KdenliveSettings::meltpath(), job.playlistPath, QStringLiteral("--pid"),
+                                   QString::number(QCoreApplication::applicationPid())};
+            if (job.subtitlePath.isEmpty()) {
+                argsJob << QStringLiteral("--subtitle") << job.subtitlePath;
+            }
+            qDebug() << "* CREATED JOB WITH ARGS: " << argsJob;
+
+            qDebug() << "starting kdenlive_render process using: " << KdenliveSettings::kdenliverendererpath();
+            if (!QProcess::startDetached(KdenliveSettings::kdenliverendererpath(), argsJob)) {
+                qDebug() << "Error starting render job" << argsJob;
+                // return false;
+            } else {
+                KNotification::event(QStringLiteral("RenderStarted"), i18n("Rendering <i>%1</i> started", job.outputPath), QPixmap());
+            }
+            // return true;
+        }
+        /*QMapIterator<QString, QString> i(rendermanager->m_renderFiles);
         while (i.hasNext()) {
             i.next();
             // qDebug() << i.key() << i.value() << rendermanager->startRendering(i.key(), i.value(), {});
-        }
+        }*/
         qDebug() << "Test 1";
         qDebug() << pCore->getTrackNames(false);
         qDebug() << "Test 2";

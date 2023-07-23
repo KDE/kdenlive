@@ -26,8 +26,6 @@
 #include "renderpresets/renderpresetmodel.hpp"
 #include "renderpresets/renderpresetrepository.hpp"
 
-#include "render/rendermanager.h"
-
 #include <KColorScheme>
 #include <KIO/DesktopExecParser>
 #include <kio_version.h>
@@ -656,7 +654,6 @@ void RenderWidget::slotPrepareExport(bool delayedRendering)
 
     request->setOverlayData(m_view.tc_type->currentData().toString());
 
-    Monitor *pMon = pCore->getMonitor(Kdenlive::ProjectMonitor);
     if (m_view.render_zone->isChecked()) {
         Monitor *pMon = pCore->getMonitor(Kdenlive::ProjectMonitor);
         request->setBounds(pMon->getZoneStart(), pMon->getZoneEnd() - 1);

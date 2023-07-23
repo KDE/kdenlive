@@ -18,6 +18,10 @@
 #include <KMessageBox>
 #include <QInputDialog>
 
+// TODO:
+#include "doc/docundostack.hpp"
+#include <QUndoGroup>
+
 RenderRequest::RenderRequest()
 {
     setBounds(-1, -1);
@@ -80,7 +84,7 @@ void RenderRequest::setOverlayData(const QString &data)
     m_overlayData = data;
 }
 
-std::vector<RenderRequest::RenderJob> RenderRequest::process()
+std::vector<RenderRequest::RenderJob> RenderRequest::process(const QUrl &openUrl)
 {
     m_errors.clear();
 
@@ -89,7 +93,25 @@ std::vector<RenderRequest::RenderJob> RenderRequest::process()
         return {};
     }
 
-    KdenliveDoc *project = pCore->currentDoc();
+    bool fromUrl = !openUrl.isEmpty();
+    KdenliveDoc *project;
+
+    QDomDocument doc;
+    if (fromUrl) {
+        QUndoGroup *undoGroup = new QUndoGroup();
+        std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+        undoGroup->addStack(undoStack.get());
+        DocOpenResult openResults = KdenliveDoc::Open(openUrl, QDir::temp().path(), undoGroup, false, nullptr);
+        if (openResults.isAborted()) {
+            return {};
+        }
+        std::unique_ptr<KdenliveDoc> openedDoc = openResults.getDocument();
+
+        doc.setContent(openedDoc.get()->getAndClearProjectXml());
+        project = openedDoc.release();
+    } else {
+        project = pCore->currentDoc();
+    }
 
     // On delayed rendering, make a copy of all assets
     if (m_delayedRendering) {
@@ -101,15 +123,16 @@ std::vector<RenderRequest::RenderJob> RenderRequest::process()
         dir.cd(QFileInfo(playlistPath).baseName());
         project->prepareRenderAssets(dir);
     }
-    QString playlistContent =
-        pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile(), m_overlayData);
+    if (!fromUrl) {
+        QString playlistContent =
+            pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile(), m_overlayData);
+
+        doc.setContent(playlistContent);
+    }
 
     if (m_delayedRendering) {
         project->restoreRenderAssets();
     }
-
-    QDomDocument doc;
-    doc.setContent(playlistContent);
 
     // Add autoclose to playlists
     KdenliveDoc::setAutoclosePlaylists(doc);
