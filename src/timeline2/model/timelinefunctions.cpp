@@ -1812,8 +1812,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
             videoTracks << trackPos;
         }
         int atrackPos = prod.attribute(QStringLiteral("a_track")).toInt();
-        // if (atrackPos == 0 || videoTracks.contains(atrackPos)) {
-        if (videoTracks.contains(atrackPos)) {
+        if (atrackPos == 0 || videoTracks.contains(atrackPos)) {
             continue;
         }
         videoTracks << atrackPos;
@@ -1831,7 +1830,8 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     int requestedVideoTracks = videoTracks.isEmpty() ? 0 : videoTracks.last() - videoTracks.first() + 1;
     int requestedAudioTracks = audioTracks.isEmpty() ? 0 : audioTracks.last() - audioTracks.first() + 1;
     if (requestedVideoTracks > projectTracks.second.size() || requestedAudioTracks > projectTracks.first.size()) {
-        pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), ErrorMessage, 500);
+        pCore->displayMessage(i18n("Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)", requestedAudioTracks, requestedVideoTracks),
+                              ErrorMessage, 500);
         semaphore.release(1);
         return false;
     }

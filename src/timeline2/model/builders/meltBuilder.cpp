@@ -671,7 +671,6 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
     }
     std::shared_ptr<Mlt::Service> serv = std::make_shared<Mlt::Service>(track.get_service());
     timeline->importTrackEffects(tid, serv);
-    timeline->isLoading = false;
     return true;
 }
 
@@ -922,6 +921,5 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
     }
     std::shared_ptr<Mlt::Service> serv = std::make_shared<Mlt::Service>(track.get_service());
     timeline->importTrackEffects(tid, serv);
-    timeline->isLoading = false;
     return true;
 }

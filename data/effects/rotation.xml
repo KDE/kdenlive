@@ -37,7 +37,13 @@
     <parameter type="animatedrect" name="transition.rect" default="0 0 100% 100%" fixed="1" opacity="false">
         <name>Pan and Zoom</name>
     </parameter>
-    <parameter type="color" name="producer.resource" default="0x00000000" alpha="1">
+    <parameter type="fixedcolor" name="producer.resource" default="0x00000000" alpha="1">
         <name>Background Color</name>
+    </parameter>
+    <parameter type="bool" name="transition.repeat_off" default="1">
+        <name>Disable repeat</name>
+    </parameter>
+    <parameter type="bool" name="transition.mirror_off" default="1">
+        <name>Disable mirror</name>
     </parameter>
 </effect>

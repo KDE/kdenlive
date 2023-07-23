@@ -175,6 +175,8 @@ target_link_libraries(kdenliveLib
     KF${KF_MAJOR}::IconThemes
     KF${KF_MAJOR}::Solid
     KF${KF_MAJOR}::FileMetaData
+    KF${KF_MAJOR}::Purpose
+    KF${KF_MAJOR}::PurposeWidgets
     ${OPENGL_LIBRARIES}
     ${OPENGLES_LIBRARIES}
     ${MLT_LIBRARIES}
@@ -245,11 +247,6 @@ if(DRMINGW_FOUND)
 elseif(KF${KF_MAJOR}Crash_FOUND)
     target_compile_definitions(kdenlive PRIVATE -DKF5_USE_CRASH)
     target_link_libraries(kdenlive KF${KF_MAJOR}::Crash)
-endif()
-
-if(KF5_PURPOSE)
-    target_compile_definitions(kdenliveLib PRIVATE -DKF5_USE_PURPOSE)
-    target_link_libraries(kdenliveLib KF${KF_MAJOR}::Purpose KF${KF_MAJOR}::PurposeWidgets)
 endif()
 
 if(Q_WS_X11)

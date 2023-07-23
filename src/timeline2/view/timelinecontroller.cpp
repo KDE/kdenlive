@@ -49,6 +49,8 @@
 #include <QClipboard>
 #include <QFontDatabase>
 #include <QQuickItem>
+#include <kio_version.h>
+
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QTextCodec>
 #endif
@@ -330,7 +332,9 @@ int TimelineController::selectedTrack() const
 bool TimelineController::selectCurrentItem(ObjectType type, bool select, bool addToCurrent, bool showErrorMsg)
 {
     int currentClip = -1;
-    if (type == ObjectType::TimelineClip) {
+    if (m_activeTrack == -1 || (m_model->isSubtitleTrack(m_activeTrack) && type != ObjectType::TimelineClip)) {
+        // Cannot select item
+    } else if (type == ObjectType::TimelineClip) {
         currentClip = m_model->isSubtitleTrack(m_activeTrack) ? m_model->getSubtitleByPosition(pCore->getMonitorPosition())
                                                               : m_model->getClipByPosition(m_activeTrack, pCore->getMonitorPosition());
     } else if (type == ObjectType::TimelineComposition) {
@@ -1686,19 +1690,40 @@ void TimelineController::setActiveTrack(int track)
     Q_EMIT activeTrackChanged();
 }
 
+void TimelineController::setZoneToSelection()
+{
+    std::unordered_set<int> selection = m_model->getCurrentSelection();
+    QPoint zone(-1, -1);
+    for (int cid : selection) {
+        int inPos = m_model->getItemPosition(cid);
+        int outPos = inPos + m_model->getItemPlaytime(cid);
+        if (zone.x() == -1 || inPos < zone.x()) {
+            zone.setX(inPos);
+        }
+        if (outPos > zone.y()) {
+            zone.setY(outPos);
+        }
+    }
+    if (zone.x() > -1 && zone.y() > -1) {
+        updateZone(m_zone, zone, true);
+    } else {
+        pCore->displayMessage(i18n("No item selected in timeline"), ErrorMessage, 500);
+    }
+}
+
 void TimelineController::setZone(const QPoint &zone, bool withUndo)
 {
     if (m_zone.x() > 0) {
         m_model->removeSnap(m_zone.x());
     }
     if (m_zone.y() > 0) {
-        m_model->removeSnap(m_zone.y());
+        m_model->removeSnap(m_zone.y() - 1);
     }
     if (zone.x() > 0) {
         m_model->addSnap(zone.x());
     }
     if (zone.y() > 0) {
-        m_model->addSnap(zone.y());
+        m_model->addSnap(zone.y() - 1);
     }
     updateZone(m_zone, zone, withUndo);
 }
@@ -1747,10 +1772,10 @@ void TimelineController::setZoneIn(int inPoint)
 void TimelineController::setZoneOut(int outPoint)
 {
     if (m_zone.y() > 0) {
-        m_model->removeSnap(m_zone.y());
+        m_model->removeSnap(m_zone.y() - 1);
     }
     if (outPoint > 0) {
-        m_model->addSnap(outPoint);
+        m_model->addSnap(outPoint - 1);
     }
     m_zone.setY(outPoint);
     Q_EMIT zoneChanged();
@@ -3467,7 +3492,7 @@ void TimelineController::switchTargetTrack()
     if (m_activeTrack < 0) {
         return;
     }
-    bool isAudio = m_model->getTrackById_const(m_activeTrack)->getProperty("kdenlive:audio_track").toInt() == 1;
+    bool isAudio = m_model->isAudioTrack(m_activeTrack);
     if (isAudio) {
         QMap<int, int> current = m_model->m_audioTarget;
         if (current.contains(m_activeTrack)) {
@@ -3476,6 +3501,14 @@ void TimelineController::switchTargetTrack()
             int ix = getFirstUnassignedStream();
             if (ix > -1) {
                 current.insert(m_activeTrack, ix);
+            } else if (current.size() == 1) {
+                // If we only have one video stream, directly reassign it
+                int stream = current.first();
+                current.clear();
+                current.insert(m_activeTrack, stream);
+            } else {
+                pCore->displayMessage(i18n("All streams already assigned, deselect another audio target first"), InformationMessage, 500);
+                return;
             }
         }
         setAudioTarget(current);
@@ -3932,7 +3965,7 @@ void TimelineController::updateClipActions()
         Q_EMIT timelineClipSelected(false);
         // nothing selected
         Q_EMIT showItemEffectStack(QString(), nullptr, QSize(), false);
-        pCore->timeRemapWidget()->selectedClip(-1);
+        pCore->timeRemapWidget()->selectedClip(-1, QUuid());
         Q_EMIT showSubtitle(-1);
         pCore->displaySelectionMessage(QString());
         return;
@@ -4966,6 +4999,12 @@ void TimelineController::importSubtitle(const QString &path)
     Ui::ImportSub_UI view;
     view.setupUi(d);
     QStringList listCodecs = KCharsets::charsets()->descriptiveEncodingNames();
+    const QString filter = QStringLiteral("*.srt *.ass *.vtt *.sbv");
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 108, 0)
+    view.subtitle_url->setNameFilter(filter);
+#else
+    view.subtitle_url->setFilter(filter);
+#endif
     view.codecs_list->addItems(listCodecs);
     view.info_message->setVisible(false);
     // Set UTF-8 as default codec
@@ -5245,7 +5284,15 @@ void TimelineController::checkClipPosition(const QModelIndex &topLeft, const QMo
     if (roles.contains(TimelineModel::StartRole)) {
         int id = int(topLeft.internalId());
         if (m_model->isComposition(id) || m_model->isClip(id)) {
-            Q_EMIT updateAssetPosition(id);
+            Q_EMIT updateAssetPosition(id, m_model->uuid());
+        }
+    }
+    if (roles.contains(TimelineModel::ResourceRole)) {
+        int id = int(topLeft.internalId());
+        if (m_model->isComposition(id) || m_model->isClip(id)) {
+            int in = m_model->getItemPosition(id);
+            int out = in + m_model->getItemPlaytime(id);
+            pCore->refreshProjectRange({in, out});
         }
     }
 }

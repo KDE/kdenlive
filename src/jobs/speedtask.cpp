@@ -141,14 +141,14 @@ void SpeedTask::start(QObject *object, bool force)
                 qDebug() << "=== INVALID SUBCLIP DATA: " << id;
                 continue;
             }
-            owner = ObjectId(ObjectType::BinClip, binData.first().toInt());
+            owner = {ObjectType::BinClip, binData.first().toInt(), QUuid()};
             binClip = pCore->projectItemModel()->getClipByBinID(binData.first());
             if (binClip) {
                 task = new SpeedTask(owner, destinations.at(id), binData.at(1).toInt(), binData.at(2).toInt(), filterParams, binClip.get());
             }
         } else {
             // Process full clip
-            owner = ObjectId(ObjectType::BinClip, id.toInt());
+            owner = {ObjectType::BinClip, id.toInt(), QUuid()};
             binClip = pCore->projectItemModel()->getClipByBinID(id);
             if (binClip) {
                 task = new SpeedTask(owner, destinations.at(id), -1, -1, filterParams, binClip.get());
@@ -157,14 +157,14 @@ void SpeedTask::start(QObject *object, bool force)
         if (task) {
             // Otherwise, start a filter thread.
             task->m_isForce = force;
-            pCore->taskManager.startTask(owner.second, task);
+            pCore->taskManager.startTask(owner.itemId, task);
         }
     }
 }
 
 void SpeedTask::run()
 {
-    AbstractTaskDone whenFinished(m_owner.second, this);
+    AbstractTaskDone whenFinished(m_owner.itemId, this);
     if (m_isCanceled || pCore->taskManager.isBlocked()) {
         return;
     }
@@ -173,7 +173,7 @@ void SpeedTask::run()
     qDebug() << " + + + + + + + + STARTING SPEED TASK";
 
     QString url;
-    auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
+    auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.itemId));
     QStringList producerArgs = {QStringLiteral("progress=1"), QStringLiteral("-profile"), pCore->getCurrentProfilePath()};
     QString folderId = QLatin1String("-1");
     if (binClip) {
@@ -199,9 +199,9 @@ void SpeedTask::run()
         // Filter applied on a track of master producer, leave config to source job
         // We are on master or track, configure producer accordingly
         // TODO
-        /*if (m_owner.first == ObjectType::Master) {
+        /*if (m_owner.type == ObjectType::Master) {
             producer = pCore->getMasterProducerInstance();
-        } else if (m_owner.first == ObjectType::TimelineTrack) {
+        } else if (m_owner.type == ObjectType::TimelineTrack) {
             producer = pCore->getTrackProducerInstance(m_owner.second);
         }
         if ((producer == nullptr) || !producer->is_valid()) {
@@ -247,7 +247,7 @@ void SpeedTask::run()
         return;
     }
     QMetaObject::invokeMethod(pCore->bin(), "addProjectClipInFolder", Qt::QueuedConnection, Q_ARG(QString, m_destination),
-                              Q_ARG(QString, QString::number(m_owner.second)), Q_ARG(QString, folderId), Q_ARG(QString, QStringLiteral("timewarp")));
+                              Q_ARG(QString, QString::number(m_owner.itemId)), Q_ARG(QString, folderId), Q_ARG(QString, QStringLiteral("timewarp")));
     return;
 }
 

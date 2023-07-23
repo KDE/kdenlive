@@ -3,9 +3,12 @@
     SPDX-FileCopyrightText: 2017-2019 Nicolas Carion <french.ebook.lover@gmail.com>
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
-#include <memory>
 
 #include "test_utils.hpp"
+// test specific includes
+#include "doc/docundostack.hpp"
+#include "doc/kdenlivedoc.h"
+#include <memory>
 
 using namespace fakeit;
 
@@ -33,20 +36,24 @@ bool check_anim_identity(const std::shared_ptr<KeyframeModel> &m)
 
 TEST_CASE("Keyframe model", "[KeyframeModel]")
 {
+    // Create timeline
+    auto binModel = pCore->projectItemModel();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
+    KdenliveDoc document(undoStack);
 
-    Mock<ProjectManager> pmMock;
-    When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
-    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+    pCore->projectManager()->m_project = &document;
+    QDateTime documentDate = QDateTime::currentDateTime();
+    pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    auto timeline = document.getTimeline(document.uuid());
+    pCore->projectManager()->m_activeTimelineModel = timeline;
+    pCore->projectManager()->testSetActiveDocument(&document, timeline);
 
-    ProjectManager &mocked = pmMock.get();
-    pCore->m_projectManager = &mocked;
-
-    Mlt::Profile pr;
-    std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(pr, "color", "red");
-    auto effectstack = EffectStackModel::construct(producer, {ObjectType::TimelineClip, 0}, undoStack);
+    const QString binId = createProducer(pCore->getProjectProfile(), "red", binModel, 100, false);
+    std::shared_ptr<ProjectClip> clip = binModel->getClipByBinID(binId);
+    auto effectstack = clip->m_effectStack;
 
     effectstack->appendEffect(QStringLiteral("audiobalance"));
     REQUIRE(effectstack->checkConsistency());
@@ -261,4 +268,7 @@ TEST_CASE("Keyframe model", "[KeyframeModel]")
         undoStack->undo();
         state1(6.1);
     }
+    clip.reset();
+    timeline.reset();
+    pCore->projectManager()->closeCurrentDocument(false, false);
 }

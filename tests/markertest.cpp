@@ -4,13 +4,11 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 #include "test_utils.hpp"
-
+// test specific headers
+#include "bin/model/markerlistmodel.hpp"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
-#define private public
-#define protected public
-#include "bin/model/markerlistmodel.hpp"
 #include "timeline2/model/snapmodel.hpp"
 
 using Marker = std::tuple<GenTime, QString, int>;

@@ -5,7 +5,7 @@
 */
 #include "catch.hpp"
 #include "test_utils.hpp"
-
+// test specific headers
 #include <QString>
 #include <cmath>
 #include <iostream>
@@ -15,10 +15,8 @@
 #include <chrono>
 #include <thread>
 
-#include "definitions.h"
-#define private public
-#define protected public
 #include "bin/binplaylist.hpp"
+#include "definitions.h"
 #include "doc/kdenlivedoc.h"
 #include "timeline2/model/builders/meltBuilder.hpp"
 #include "timeline2/view/previewmanager.h"

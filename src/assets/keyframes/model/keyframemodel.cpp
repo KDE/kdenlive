@@ -19,7 +19,8 @@
 #include <mlt++/Mlt.h>
 #include <utility>
 
-KeyframeModel::KeyframeModel(std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent)
+KeyframeModel::KeyframeModel(std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack, int in, int out,
+                             QObject *parent)
     : QAbstractListModel(parent)
     , m_model(std::move(model))
     , m_undoStack(std::move(undo_stack))
@@ -32,7 +33,7 @@ KeyframeModel::KeyframeModel(std::weak_ptr<AssetParameterModel> model, const QMo
         m_paramType = ptr->data(m_index, AssetParameterModel::TypeRole).value<ParamType>();
     }
     setup();
-    refresh();
+    refresh(in, out);
 }
 
 void KeyframeModel::setup()
@@ -893,19 +894,19 @@ QString KeyframeModel::getRotoProperty() const
     return doc.toJson();
 }
 
-void KeyframeModel::parseAnimProperty(const QString &prop)
+void KeyframeModel::parseAnimProperty(const QString &prop, int in, int out)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     disconnect(this, &KeyframeModel::modelChanged, this, &KeyframeModel::sendModification);
     removeAllKeyframes(undo, redo);
-    int in = 0;
-    int out = 0;
     bool useOpacity = true;
     Mlt::Properties mlt_prop;
     if (auto ptr = m_model.lock()) {
-        in = ptr->data(m_index, AssetParameterModel::ParentInRole).toInt();
-        out = ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
+        if (out <= in) {
+            in = ptr->data(m_index, AssetParameterModel::ParentInRole).toInt();
+            out = ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
+        }
         ptr->passProperties(mlt_prop);
         useOpacity = ptr->data(m_index, AssetParameterModel::OpacityRole).toBool();
     } else {
@@ -1231,7 +1232,7 @@ QString KeyframeModel::realValue(double normalizedValue) const
     return QString::number(value);
 }
 
-void KeyframeModel::refresh()
+void KeyframeModel::refresh(int in, int out)
 {
     Q_ASSERT(m_index.isValid());
     QString animData;
@@ -1249,7 +1250,7 @@ void KeyframeModel::refresh()
     if (m_paramType == ParamType::Roto_spline) {
         parseRotoProperty(animData);
     } else if (AssetParameterModel::isAnimated(m_paramType)) {
-        parseAnimProperty(animData);
+        parseAnimProperty(animData, in, out);
     } else {
         // first, try to convert to double
         bool ok = false;

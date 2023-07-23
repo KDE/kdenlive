@@ -58,10 +58,10 @@ AssetPanel::AssetPanel(QWidget *parent)
         }
     }
     connect(m_switchCompoButton, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [&]() {
-        if (m_transitionWidget->stackOwner().first == ObjectType::TimelineComposition) {
-            Q_EMIT switchCurrentComposition(m_transitionWidget->stackOwner().second, m_switchCompoButton->currentData().toString());
+        if (m_transitionWidget->stackOwner().type == ObjectType::TimelineComposition) {
+            Q_EMIT switchCurrentComposition(m_transitionWidget->stackOwner().itemId, m_switchCompoButton->currentData().toString());
         } else if (m_mixWidget->isVisible()) {
-            Q_EMIT switchCurrentComposition(m_mixWidget->stackOwner().second, m_switchCompoButton->currentData().toString());
+            Q_EMIT switchCurrentComposition(m_mixWidget->stackOwner().itemId, m_switchCompoButton->currentData().toString());
         }
     });
     m_switchCompoButton->setToolTip(i18n("Change composition type"));
@@ -185,7 +185,7 @@ void AssetPanel::showMix(int cid, const std::shared_ptr<AssetParameterModel> &tr
         clear();
         return;
     }
-    ObjectId id = {ObjectType::TimelineMix, cid};
+    ObjectId id = {ObjectType::TimelineMix, cid, transitionModel->getOwnerId().uuid};
     if (refreshOnly) {
         if (m_mixWidget->stackOwner() != id) {
             // item not currently displayed, ignore
@@ -223,7 +223,7 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
     if (m_effectStackWidget->stackOwner() == id) {
         // already on this effect stack, do nothing
         // Disable split effect in case clip was moved
-        if (id.first == ObjectType::TimelineClip && m_splitButton->isActive()) {
+        if (id.type == ObjectType::TimelineClip && m_splitButton->isActive()) {
             m_splitButton->setActive(false);
             processSplitEffect(false);
         }
@@ -233,7 +233,7 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
     QString title;
     bool showSplit = false;
     bool enableKeyframes = false;
-    switch (id.first) {
+    switch (id.type) {
     case ObjectType::TimelineClip:
         title = i18n("%1 effects", itemName);
         showSplit = true;
@@ -260,7 +260,7 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
     m_titleAction->setVisible(true);
     m_splitButton->setVisible(showSplit);
     m_saveEffectStack->setEnabled(true);
-    m_enableStackButton->setVisible(id.first != ObjectType::TimelineComposition);
+    m_enableStackButton->setVisible(id.type != ObjectType::TimelineComposition);
     m_enableStackButton->setActive(effectsModel->isStackEnabled());
     if (showSplit) {
         m_splitButton->setEnabled(effectsModel->rowCount() > 0);
@@ -287,17 +287,17 @@ void AssetPanel::clearAssetPanel(int itemId)
         return;
     }
     ObjectId id = m_effectStackWidget->stackOwner();
-    if (id.first == ObjectType::TimelineClip && id.second == itemId) {
+    if (id.type == ObjectType::TimelineClip && id.itemId == itemId) {
         clear();
         return;
     }
     id = m_transitionWidget->stackOwner();
-    if (id.first == ObjectType::TimelineComposition && id.second == itemId) {
+    if (id.type == ObjectType::TimelineComposition && id.itemId == itemId) {
         clear();
         return;
     }
     id = m_mixWidget->stackOwner();
-    if (id.first == ObjectType::TimelineMix && id.second == itemId) {
+    if (id.type == ObjectType::TimelineMix && id.itemId == itemId) {
         clear();
     }
 }
@@ -399,7 +399,7 @@ const QString AssetPanel::getStyleSheet()
 
 void AssetPanel::processSplitEffect(bool enable)
 {
-    ObjectType id = m_effectStackWidget->stackOwner().first;
+    ObjectType id = m_effectStackWidget->stackOwner().type;
     if (id == ObjectType::TimelineClip) {
         Q_EMIT doSplitEffect(enable);
     } else if (id == ObjectType::BinClip) {
@@ -427,7 +427,7 @@ ObjectId AssetPanel::effectStackOwner()
     if (m_mixWidget->isVisible()) {
         return m_mixWidget->stackOwner();
     }
-    return ObjectId(ObjectType::NoItem, -1);
+    return {ObjectType::NoItem, -1, QUuid()};
 }
 
 bool AssetPanel::addEffect(const QString &effectId)
@@ -533,15 +533,15 @@ void AssetPanel::slotPreviousKeyframe()
     }
 }
 
-void AssetPanel::updateAssetPosition(int itemId)
+void AssetPanel::updateAssetPosition(int itemId, const QUuid uuid)
 {
     if (m_effectStackWidget->isVisible()) {
-        ObjectId id = {ObjectType::TimelineClip, itemId};
+        ObjectId id = {ObjectType::TimelineClip, itemId, uuid};
         if (m_effectStackWidget->stackOwner() == id) {
             Q_EMIT pCore->getMonitor(Kdenlive::ProjectMonitor)->seekPosition(pCore->getMonitorPosition());
         }
     } else if (m_transitionWidget->isVisible()) {
-        ObjectId id = {ObjectType::TimelineComposition, itemId};
+        ObjectId id = {ObjectType::TimelineComposition, itemId, uuid};
         if (m_transitionWidget->stackOwner() == id) {
             Q_EMIT pCore->getMonitor(Kdenlive::ProjectMonitor)->seekPosition(pCore->getMonitorPosition());
         }

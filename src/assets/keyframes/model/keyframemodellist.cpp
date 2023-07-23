@@ -15,13 +15,14 @@
 
 #include <QDebug>
 #include <utility>
-KeyframeModelList::KeyframeModelList(std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack)
+KeyframeModelList::KeyframeModelList(std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack, int in,
+                                     int out)
     : m_model(std::move(model))
     , m_undoStack(std::move(undo_stack))
     , m_lock(QReadWriteLock::Recursive)
 {
     qDebug() << "Construct keyframemodellist. Checking model:" << m_model.expired();
-    addParameter(index);
+    addParameter(index, in, out);
 }
 
 ObjectId KeyframeModelList::getOwnerId() const
@@ -84,9 +85,9 @@ const QString KeyframeModelList::getAssetRow()
     return QString();
 }
 
-void KeyframeModelList::addParameter(const QModelIndex &index)
+void KeyframeModelList::addParameter(const QModelIndex &index, int in, int out)
 {
-    std::shared_ptr<KeyframeModel> parameter(new KeyframeModel(m_model, index, m_undoStack));
+    std::shared_ptr<KeyframeModel> parameter(new KeyframeModel(m_model, index, m_undoStack, in, out));
     connect(parameter.get(), &KeyframeModel::modelChanged, this, &KeyframeModelList::modelChanged);
     connect(parameter.get(), &KeyframeModel::requestModelUpdate, this, &KeyframeModelList::slotUpdateModels);
     m_parameters.insert({index, std::move(parameter)});

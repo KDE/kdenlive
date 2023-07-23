@@ -14,6 +14,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QHash>
 #include <QPersistentModelIndex>
 #include <QString>
+#include <QUuid>
 #include <cassert>
 #include <memory>
 
@@ -51,7 +52,41 @@ const QString groupTypeToStr(GroupType t);
 GroupType groupTypeFromStr(const QString &s);
 
 enum class ObjectType { TimelineClip, TimelineComposition, TimelineTrack, TimelineMix, TimelineSubtitle, BinClip, Master, NoItem };
-using ObjectId = std::pair<ObjectType, int>;
+// using ObjectId = std::pair<ObjectType, std::pair<int, QUuid>>;
+struct ObjectId
+{
+    ObjectType type;
+    int itemId;
+    QUuid uuid;
+    inline ObjectId &operator=(const ObjectId &a)
+    {
+        type = a.type;
+        itemId = a.itemId;
+        uuid = a.uuid;
+        return *this;
+    }
+    inline ObjectId &operator=(ObjectId &a)
+    {
+        type = a.type;
+        itemId = a.itemId;
+        uuid = a.uuid;
+        return *this;
+    }
+    inline bool operator==(const ObjectId &a) const
+    {
+        if (a.type == type && a.itemId == itemId && a.uuid == uuid)
+            return true;
+        else
+            return false;
+    }
+    inline bool operator!=(const ObjectId &a) const
+    {
+        if (a.type != type || a.itemId != itemId || a.uuid != uuid)
+            return true;
+        else
+            return false;
+    }
+};
 
 enum class MixAlignment { AlignNone, AlignLeft, AlignRight, AlignCenter };
 

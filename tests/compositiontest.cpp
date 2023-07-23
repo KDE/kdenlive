@@ -3,8 +3,10 @@
     SPDX-FileCopyrightText: 2017-2019 Nicolas Carion <french.ebook.lover@gmail.com>
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
-#include "doc/kdenlivedoc.h"
+
 #include "test_utils.hpp"
+// test specific headers
+#include "doc/kdenlivedoc.h"
 
 static QString getACompo()
 {
@@ -65,6 +67,9 @@ TEST_CASE("Basic creation/deletion of a composition", "[CompositionModel]")
     REQUIRE(timeline->getCompositionsCount() == 1);
     REQUIRE(timeline->requestItemDeletion(id1));
     REQUIRE(timeline->getCompositionsCount() == 0);
+    pCore->taskManager.slotCancelJobs();
+    mockedDoc.closeTimeline(timeline->uuid());
+    timeline.reset();
     pCore->projectItemModel()->clean();
 }
 
@@ -440,5 +445,8 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
         REQUIRE(timeline->requestItemResize(cid1, length - 2, true) > -1);
         REQUIRE(timeline->requestItemResize(cid2, length, false) > -1);
     }
+    pCore->taskManager.slotCancelJobs();
+    mockedDoc.closeTimeline(timeline->uuid());
+    timeline.reset();
     pCore->projectItemModel()->clean();
 }

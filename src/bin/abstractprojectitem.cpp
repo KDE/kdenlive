@@ -167,7 +167,7 @@ QVariant AbstractProjectItem::getData(DataType type) const
         break;
     case JobStatus:
         if (itemType() == ClipItem) {
-            data = QVariant::fromValue(pCore->taskManager.jobStatus({ObjectType::BinClip, m_binId.toInt()}));
+            data = QVariant::fromValue(pCore->taskManager.jobStatus({ObjectType::BinClip, m_binId.toInt(), QUuid()}));
             /*
             auto jobIds = pCore->jobManager()->getPendingJobsIds(clipId());
             if (jobIds.empty()) {
@@ -182,7 +182,7 @@ QVariant AbstractProjectItem::getData(DataType type) const
         break;
     case JobProgress:
         if (itemType() == ClipItem) {
-            data = pCore->taskManager.getJobProgressForClip({ObjectType::BinClip, m_binId.toInt()});
+            data = pCore->taskManager.getJobProgressForClip({ObjectType::BinClip, m_binId.toInt(), QUuid()});
         }
         break;
     case JobSuccess:

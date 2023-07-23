@@ -73,6 +73,7 @@ void ProjectItemModel::buildPlaylist(const QUuid uuid)
     m_uuid = uuid;
     m_fileWatcher->clear();
     m_extraPlaylists.clear();
+    Q_ASSERT(m_projectTractor.use_count() <= 1);
     m_projectTractor.reset();
     m_binPlaylist.reset(new BinPlaylist(uuid));
     m_projectTractor.reset(new Mlt::Tractor(pCore->getProjectProfile()));
@@ -741,7 +742,7 @@ void ProjectItemModel::registerItem(const std::shared_ptr<TreeItem> &item)
         if (clipItem->clipType() == ClipType::Timeline && clipItem->statusReady()) {
             const QString uuid = clipItem->getSequenceUuid().toString();
             std::shared_ptr<Mlt::Tractor> trac(new Mlt::Tractor(clipItem->originalProducer()->parent()));
-            storeSequence(uuid, trac);
+            storeSequence(uuid, trac, false);
         }
     }
 }
@@ -846,7 +847,7 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
         ProjectClip::construct(id, description, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()));
     bool res = addItem(new_clip, parentId, undo, redo);
     if (res) {
-        ClipLoadTask::start({ObjectType::BinClip, id.toInt()}, description, false, -1, -1, this, false, std::bind(readyCallBack, id));
+        ClipLoadTask::start({ObjectType::BinClip, id.toInt(), QUuid()}, description, false, -1, -1, this, false, std::bind(readyCallBack, id));
     }
     return res;
 }
@@ -1397,12 +1398,16 @@ void ProjectItemModel::loadTractorPlaylist(Mlt::Tractor documentTractor, std::un
     }
 }
 
-void ProjectItemModel::storeSequence(const QString uuid, std::shared_ptr<Mlt::Tractor> tractor)
+void ProjectItemModel::storeSequence(const QString uuid, std::shared_ptr<Mlt::Tractor> tractor, bool internalSave)
 {
     if (m_extraPlaylists.count(uuid) > 0) {
         m_extraPlaylists.erase(uuid);
     }
     m_extraPlaylists.insert({uuid, std::move(tractor)});
+    if (internalSave) {
+        // Ensure we never use the mapped ids when re-opening an already opened sequence
+        setExtraTimelineSaved(uuid);
+    }
 }
 
 int ProjectItemModel::sequenceCount() const

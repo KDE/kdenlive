@@ -830,7 +830,7 @@ void Monitor::slotSetZoneStart()
 void Monitor::slotSetZoneEnd()
 {
     QPoint oldZone = m_glMonitor->getControllerProxy()->zone();
-    int currentOut = m_glMonitor->getCurrentPos();
+    int currentOut = m_glMonitor->getCurrentPos() + 1;
     int updatedZoneIn = -1;
     if (currentOut < oldZone.x()) {
         updatedZoneIn = qMax(0, currentOut - (oldZone.y() - oldZone.x()));
@@ -1051,7 +1051,7 @@ void Monitor::slotStartDrag()
         QStringList list;
         list.append(m_controller->AbstractProjectItem::clipId());
         list.append(QString::number(p.x()));
-        list.append(QString::number(p.y()));
+        list.append(QString::number(p.y() - 1));
         prodData.append(list.join(QLatin1Char('/')).toUtf8());
     }
     mimeData->setData(QStringLiteral("kdenlive/producerslist"), prodData);
@@ -1135,7 +1135,7 @@ void Monitor::slotExtractCurrentZone()
     if (m_controller == nullptr) {
         return;
     }
-    CutTask::start({ObjectType::BinClip, m_controller->clipId().toInt()}, getZoneStart(), getZoneEnd(), this);
+    CutTask::start({ObjectType::BinClip, m_controller->clipId().toInt(), QUuid()}, getZoneStart(), getZoneEnd(), this);
 }
 
 std::shared_ptr<ProjectClip> Monitor::currentController() const
@@ -1170,7 +1170,7 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
     }
     QScopedPointer<QDialog> dlg(new QDialog(this));
     QScopedPointer<KFileWidget> fileWidget(new KFileWidget(QUrl::fromLocalFile(framesFolder), dlg.data()));
-    dlg->setWindowTitle(addToProject ? i18nc("@title:window", "Save Image") : i18nc("@title:window", "Save Image to Project"));
+    dlg->setWindowTitle(addToProject ? i18nc("@title:window", "Save Image to Project") : i18nc("@title:window", "Save Image"));
     auto *layout = new QVBoxLayout;
     layout->addWidget(fileWidget.data());
     QCheckBox *b = nullptr;

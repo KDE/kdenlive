@@ -646,7 +646,7 @@ public:
     static int seekDuration; /// Duration after project end where seeking is allowed
     /** @brief True until the timeline has all tracks and clips loaded
      */
-    bool isLoading;
+    bool isLoading{true};
 
     /** @brief Get all the elements of the same group as the given clip.
        If there is a group hierarchy, only the topmost group is considered.
@@ -874,7 +874,7 @@ protected:
     /** @brief Register a new track. This is a call-back meant to be called from TrackModel
        @param pos indicates the number of the track we are adding. If this is -1, then we add at the end.
      */
-    void registerTrack(std::shared_ptr<TrackModel> track, int pos = -1, bool doInsert = true);
+    void registerTrack(std::shared_ptr<TrackModel> track, int pos = -1, bool doInsert = true, bool singleOperation = true);
 
     /** @brief Register a new clip. This is a call-back meant to be called from ClipModel
      */
@@ -966,7 +966,7 @@ Q_SIGNALS:
     /** @brief signal triggered by track operations */
     void invalidateZone(int in, int out);
     /** @brief signal triggered when a track duration changed (insertion/deletion) */
-    void durationUpdated();
+    void durationUpdated(const QUuid &uuid);
 
     /** @brief Signal sent whenever the selection changes */
     void selectionChanged();
@@ -1001,8 +1001,6 @@ protected:
 
     // TODO: move this in subtitlemodel.h
     std::map<int, GenTime> m_allSubtitles;
-
-    static int next_id; /// next valid id to assign
 
     std::unique_ptr<GroupsModel> m_groups;
     std::shared_ptr<SnapModel> m_snaps;

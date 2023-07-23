@@ -4,9 +4,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 #include "test_utils.hpp"
-#define private public
-#define protected public
-
+// test specific headers
 #include "bin/binplaylist.hpp"
 #include "doc/kdenlivedoc.h"
 
@@ -29,7 +27,7 @@ TEST_CASE("Test of timewarping", "[Timewarp]")
     pCore->projectManager()->m_activeTimelineModel = timeline;
     pCore->projectManager()->testSetActiveDocument(&document, timeline);
 
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
 
     QString binId = createProducer(pCore->getProjectProfile(), "red", binModel);
     QString binId2 = createProducer(pCore->getProjectProfile(), "blue", binModel);

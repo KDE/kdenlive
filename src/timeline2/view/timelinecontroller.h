@@ -198,6 +198,8 @@ public:
     void setZoneIn(int inPoint);
     void setZoneOut(int outPoint);
     void setZone(const QPoint &zone, bool withUndo = true);
+    /** @brief Adjust timeline zone to current selection */
+    void setZoneToSelection();
     /** @brief Request a seek operation
        @param position is the desired new timeline position
      */
@@ -826,6 +828,6 @@ Q_SIGNALS:
     void masterZonesChanged();
     Q_INVOKABLE void ungrabHack();
     void regainFocus();
-    void updateAssetPosition(int itemId);
+    void updateAssetPosition(int itemId, const QUuid uuid);
     void stopAudioRecord();
 };

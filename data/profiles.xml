@@ -67,6 +67,10 @@
    args="f=asf vcodec=wmv2 acodec=wmav2 qscale=%quality aq=%audioquality"/>
  </group>
  <group name="Hardware Accelerated (experimental)" renderer="avformat" type="av">
+  <profile name="NVENC AV1 VBR" extension="mp4"
+   qualities="15,45" defaultquality="23"
+   audiobitrates="256,64" defaultaudiobitrate="160"
+   args="f=mp4 vcodec=av1_nvenc rc=constqp vqp=%quality vq=%quality acodec=aac ab=%audiobitrate+'k'"/>
   <profile name="NVENC H264 ABR" extension="mp4"
    bitrates="30000,1000" defaultbitrate="6000"
    audiobitrates="256,64" defaultaudiobitrate="160"

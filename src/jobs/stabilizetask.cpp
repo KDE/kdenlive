@@ -39,7 +39,7 @@ StabilizeTask::StabilizeTask(const ObjectId &owner, const QString &binId, const 
 void StabilizeTask::start(QObject *, bool force)
 {
     std::vector<QString> binIds = pCore->bin()->selectedClipsIds(true);
-    QScopedPointer<ClipStabilize> d(new ClipStabilize(binIds, QStringLiteral("vidstab")));
+    QScopedPointer<ClipStabilize> d(new ClipStabilize(binIds, QStringLiteral("vidstab"), QApplication::activeWindow()));
     if (d->exec() == QDialog::Accepted) {
         std::unordered_map<QString, QVariant> filterParams = d->filterParams();
         std::unordered_map<QString, QString> destinations; // keys are binIds, values are path to target files
@@ -61,7 +61,7 @@ void StabilizeTask::start(QObject *, bool force)
                     qDebug() << "=== INVALID SUBCLIP DATA: " << id;
                     continue;
                 }
-                owner = ObjectId(ObjectType::BinClip, binData.first().toInt());
+                owner = {ObjectType::BinClip, binData.first().toInt(), QUuid()};
                 auto binClip = pCore->projectItemModel()->getClipByBinID(binData.first());
                 if (binClip) {
                     task = new StabilizeTask(owner, binData.first(), destinations.at(id), binData.at(1).toInt(), binData.at(2).toInt(), filterParams,
@@ -69,7 +69,7 @@ void StabilizeTask::start(QObject *, bool force)
                 }
             } else {
                 // Process full clip
-                owner = ObjectId(ObjectType::BinClip, id.toInt());
+                owner = {ObjectType::BinClip, id.toInt(), QUuid()};
                 auto binClip = pCore->projectItemModel()->getClipByBinID(id);
                 if (binClip) {
                     task = new StabilizeTask(owner, id, destinations.at(id), -1, -1, filterParams, binClip.get());
@@ -78,7 +78,7 @@ void StabilizeTask::start(QObject *, bool force)
             if (task) {
                 // Otherwise, start a filter thread.
                 task->m_isForce = force;
-                pCore->taskManager.startTask(owner.second, task);
+                pCore->taskManager.startTask(owner.itemId, task);
             }
         }
     }
@@ -86,7 +86,7 @@ void StabilizeTask::start(QObject *, bool force)
 
 void StabilizeTask::run()
 {
-    AbstractTaskDone whenFinished(m_owner.second, this);
+    AbstractTaskDone whenFinished(m_owner.itemId, this);
     if (m_isCanceled || pCore->taskManager.isBlocked()) {
         return;
     }
@@ -123,9 +123,9 @@ void StabilizeTask::run()
         QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("No producer for this clip.")),
                                   Q_ARG(int, int(KMessageWidget::Warning)));
         return;
-        /*if (m_owner.first == ObjectType::Master) {
+        /*if (m_owner.type == ObjectType::Master) {
             producer = pCore->getMasterProducerInstance();
-        } else if (m_owner.first == ObjectType::TimelineTrack) {
+        } else if (m_owner.type == ObjectType::TimelineTrack) {
             producer = pCore->getTrackProducerInstance(m_owner.second);
         }
         if ((producer == nullptr) || !producer->is_valid()) {

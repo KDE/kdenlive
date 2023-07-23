@@ -25,7 +25,7 @@ ClipModel::ClipModel(const std::shared_ptr<TimelineModel> &parent, std::shared_p
                      PlaylistState::ClipState state, double speed)
     : MoveableItem<Mlt::Producer>(parent, id)
     , m_producer(std::move(prod))
-    , m_effectStack(EffectStackModel::construct(m_producer, {ObjectType::TimelineClip, m_id}, parent->m_undoStack))
+    , m_effectStack(EffectStackModel::construct(m_producer, {ObjectType::TimelineClip, m_id, parent->uuid()}, parent->m_undoStack))
     , m_clipMarkerModel(new ClipSnapModel())
     , m_binClipId(binClipId)
     , forceThumbReload(false)
@@ -99,7 +99,6 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     // we hand the producer to the bin clip, and in return we get a cut to a good master producer
     // We might not be able to use directly the producer that we receive as an argument, because it cannot share the same master producer with any other
     // clipModel (due to a mlt limitation, see ProjectClip doc)
-
     int id = TimelineModel::getNextId();
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(binClipId);
 
@@ -1348,7 +1347,7 @@ QDomElement ClipModel::toXml(QDomDocument &document)
 bool ClipModel::checkConsistency()
 {
     if (!m_effectStack->checkConsistency()) {
-        qDebug() << "Consistency check failed for effecstack";
+        qDebug() << "Consistency check failed for effectstack";
         return false;
     }
     if (m_currentTrackId == -1) {
@@ -1356,7 +1355,8 @@ bool ClipModel::checkConsistency()
         return true;
     }
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
-    auto instances = binClip->timelineInstances();
+    const QUuid timelineUuid = getUuid();
+    auto instances = binClip->timelineInstances(timelineUuid);
     bool found = instances.contains(m_id);
     if (!found) {
         qDebug() << "ERROR: binClip doesn't acknowledge timeline clip existence: " << m_id << ", CURRENT TRACK: " << m_currentTrackId;

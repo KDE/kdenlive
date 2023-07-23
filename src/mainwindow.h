@@ -438,6 +438,7 @@ private Q_SLOTS:
     void slotRemovePreviewRender();
     void slotClearPreviewRender(bool resetZones = true);
     void slotSelectTimelineClip();
+    void slotSelectTimelineZone();
     void slotSelectTimelineTransition();
     void slotDeselectTimelineClip();
     void slotDeselectTimelineTransition();
@@ -624,6 +625,6 @@ Q_SIGNALS:
     void adjustAssetPanelRange(int itemId, int in, int out);
     /** @brief Enable or disable the undo stack. For example undo/redo should not be enabled when dragging a clip in timeline or we risk corruption. */
     void enableUndo(bool enable);
-    bool focusTimeline(bool focus, bool highlight);
+    bool showTimelineFocus(bool focus, bool highlight);
     void removeBinDock(const QString &name);
 };

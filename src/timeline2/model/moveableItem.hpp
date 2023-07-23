@@ -26,6 +26,10 @@ public:
      */
     int getId() const;
 
+    /** @brief returns parent timeline UUID
+     */
+    QUuid getUuid() const;
+
     /** @brief returns the length of the item on the timeline
      */
     virtual int getPlaytime() const = 0;

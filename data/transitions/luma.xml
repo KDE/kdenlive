@@ -13,6 +13,9 @@
     <parameter type="bool" name="alpha_over" max="1" min="0" default="1">
         <name>Use transparency</name>
     </parameter>
+    <parameter type="bool" name="fix_background_alpha" max="1" min="0" default="1">
+        <name>Make padding transparent</name>
+    </parameter>
     <parameter type="bool" name="invert" max="1" min="0" default="0">
         <name>Invert</name>
     </parameter>

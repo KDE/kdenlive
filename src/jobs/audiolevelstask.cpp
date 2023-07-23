@@ -48,19 +48,19 @@ void AudioLevelsTask::start(const ObjectId &owner, QObject *object, bool force)
     AudioLevelsTask *task = new AudioLevelsTask(owner, object);
     // Otherwise, start a new audio levels generation thread.
     task->m_isForce = force;
-    pCore->taskManager.startTask(owner.second, task);
+    pCore->taskManager.startTask(owner.itemId, task);
 }
 
 void AudioLevelsTask::run()
 {
-    AbstractTaskDone whenFinished(m_owner.second, this);
+    AbstractTaskDone whenFinished(m_owner.itemId, this);
     if (m_isCanceled || pCore->taskManager.isBlocked()) {
         return;
     }
     QMutexLocker lock(&m_runMutex);
     m_running = true;
     // 2 channels interleaved of uchar values
-    auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
+    auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.itemId));
     if (binClip == nullptr) {
         // Clip was deleted
         return;

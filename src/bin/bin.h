@@ -265,6 +265,8 @@ public:
     void reloadMonitorStreamIfActive(const QString &id);
     /** @brief Update timeline targets according to selected audio streams */
     void updateTargets(QString id = QStringLiteral("-1"));
+    /** @brief Update some timeline related stuff, like used clips bound, audio targets,... */
+    void sequenceActivated();
 
     void doMoveClip(const QString &id, const QString &newParentId);
     void doMoveFolder(const QString &id, const QString &newParentId);
@@ -388,7 +390,6 @@ private Q_SLOTS:
     /** @brief Setup the bin view type (icon view, tree view, ...).
      * @param action The action whose data defines the view type or nullptr to keep default view */
     void slotInitView(QAction *action);
-
     void slotSetIconSize(int size);
     void selectProxyModel(const QModelIndex &id);
     void slotSaveHeaders();

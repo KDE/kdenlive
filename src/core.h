@@ -282,11 +282,13 @@ public:
     /** @brief Resize current mix item */
     void resizeMix(int cid, int duration, MixAlignment align, int leftFrames = -1);
     /** @brief Get Mix cut pos (the duration of the mix on the right clip) */
-    int getMixCutPos(int cid) const;
+    int getMixCutPos(const ObjectId &) const;
     /** @brief Get alignment info for a mix item */
-    MixAlignment getMixAlign(int cid) const;
+    MixAlignment getMixAlign(const ObjectId &) const;
     /** @brief Closing current document, do some cleanup */
     void cleanup();
+    /** @brief Clear clip reference in timeremap widget */
+    void clearTimeRemap();
     /** @brief Create the dock widgets */
     void buildDocks();
 #if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5, 98, 0)

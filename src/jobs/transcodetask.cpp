@@ -51,19 +51,19 @@ void TranscodeTask::start(const ObjectId &owner, const QString &suffix, const QS
     if (task) {
         // Otherwise, start a new audio levels generation thread.
         task->m_isForce = force;
-        pCore->taskManager.startTask(owner.second, task);
+        pCore->taskManager.startTask(owner.itemId, task);
     }
 }
 
 void TranscodeTask::run()
 {
-    AbstractTaskDone whenFinished(m_owner.second, this);
+    AbstractTaskDone whenFinished(m_owner.itemId, this);
     if (m_isCanceled || pCore->taskManager.isBlocked()) {
         return;
     }
     QMutexLocker lock(&m_runMutex);
     m_running = true;
-    auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
+    auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.itemId));
     ClipType::ProducerType type = binClip->clipType();
     QString source;
     QTemporaryFile src;

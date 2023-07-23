@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 3.16)
 
 # KDE Application Version, managed by release script
 set (RELEASE_SERVICE_VERSION_MAJOR "23")
-set (RELEASE_SERVICE_VERSION_MINOR "07")
+set (RELEASE_SERVICE_VERSION_MINOR "11")
 set (RELEASE_SERVICE_VERSION_MICRO "70")
 
 set(KDENLIVE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_VERSION_MINOR}.${RELEASE_SERVICE_VERSION_MICRO}")
@@ -99,11 +99,11 @@ find_package(KF${KF_MAJOR} ${KF_DEP_VERSION}
     IconThemes
     Solid
     FileMetaData
+    Purpose
 
     OPTIONAL_COMPONENTS
     DocTools
     Crash
-    Purpose
 )
 
 if (KF_MAJOR LESS "6")
@@ -163,13 +163,6 @@ if(APPLE)
     set(DATA_INSTALL_PREFIX "")
 else()
     set(DATA_INSTALL_PREFIX "/kdenlive")
-endif()
-
-if(KF${KF_MAJOR}Purpose_FOUND)
-  message(STATUS "Found KF${KF_MAJOR} Purpose, filesharing enabled")
-  set(KF5_PURPOSE TRUE)
-else()
-  message(STATUS "KF${KF_MAJOR} Purpose not found, filesharing disabled")
 endif()
 
 if(KF${KF_MAJOR}DocTools_FOUND)

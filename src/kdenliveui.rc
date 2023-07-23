@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="225" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="227" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="file_save"/>
@@ -37,6 +37,10 @@
           <Action name="export_subtitle" />
           <Separator />
           <Action name="audio_recognition" />
+      </Menu>
+      <Menu name="sequences" ><text>Sequences</text>
+          <Action name="sequence_next" />
+          <Action name="sequence_previous" />
       </Menu>
       <Separator />
       <Action name="bin_view_mode" />
@@ -106,6 +110,7 @@
 	  <Action name="select_timeline_transition" />
 	  <Action name="select_add_timeline_transition" />
 	  <Action name="deselect_timeline_transition" />
+      <Action name="select_timeline_zone" />
       </Menu>
       <Menu name="keyboard_insert" ><text>Insertion</text>
 	  <Action name="insert_to_in_point" />

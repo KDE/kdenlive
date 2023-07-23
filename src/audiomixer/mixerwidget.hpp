@@ -34,7 +34,6 @@ class MixerWidget : public QWidget
     Q_OBJECT
 
 public:
-    MixerWidget(int tid, std::shared_ptr<Mlt::Tractor> service, QString trackTag, const QString &trackName, int sliderHandle, MixerManager *parent = nullptr);
     MixerWidget(int tid, Mlt::Tractor *service, QString trackTag, const QString &trackName, int sliderHandle, MixerManager *parent = nullptr);
     ~MixerWidget() override;
     void buildUI(Mlt::Tractor *service, const QString &trackName);

@@ -62,6 +62,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 // Increasing the document version means that older Kdenlive versions won't be able to open the project files
 const double DOCUMENTVERSION = 1.1;
 
+// The index for all timeline objects
+int KdenliveDoc::next_id = 0;
+
 // create a new blank document
 KdenliveDoc::KdenliveDoc(QString projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties,
                          const QMap<QString, QString> &metadata, const std::pair<int, int> &tracks, int audioChannels, MainWindow *parent)
@@ -75,6 +78,7 @@ KdenliveDoc::KdenliveDoc(QString projectFolder, QUndoGroup *undoGroup, const QSt
     , m_url(QUrl())
     , m_projectFolder(std::move(projectFolder))
 {
+    next_id = 0;
     if (parent) {
         connect(this, &KdenliveDoc::updateCompositionMode, parent, &MainWindow::slotUpdateCompositeAction);
     }
@@ -116,6 +120,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QDomDocument &newDom, QString projectF
     , m_url(url)
     , m_projectFolder(std::move(projectFolder))
 {
+    next_id = 0;
     if (parent) {
         connect(this, &KdenliveDoc::updateCompositionMode, parent, &MainWindow::slotUpdateCompositeAction);
     }
@@ -134,6 +139,7 @@ KdenliveDoc::KdenliveDoc(std::shared_ptr<DocUndoStack> undoStack, std::pair<int,
     , m_modified(false)
     , m_documentOpenStatus(CleanProject)
 {
+    next_id = 0;
     m_commandStack = undoStack;
     m_document = createEmptyDocument(tracks.second, tracks.first);
     initializeProperties(true, tracks, 2);
@@ -2094,6 +2100,22 @@ void KdenliveDoc::addTimeline(const QUuid &uuid, std::shared_ptr<TimelineItemMod
     m_timelines.insert(uuid, model);
 }
 
+bool KdenliveDoc::checkConsistency()
+{
+    if (m_timelines.isEmpty()) {
+        qDebug() << "==== CONSISTENCY CHECK FAILED; NO TIMELINE";
+        return false;
+    }
+    QMapIterator<QUuid, std::shared_ptr<TimelineItemModel>> j(m_timelines);
+    while (j.hasNext()) {
+        j.next();
+        if (!j.value()->checkConsistency()) {
+            return false;
+        }
+    }
+    return true;
+}
+
 void KdenliveDoc::loadSequenceGroupsAndGuides(const QUuid &uuid)
 {
     Q_ASSERT(m_timelines.find(uuid) != m_timelines.end());
@@ -2118,10 +2140,17 @@ void KdenliveDoc::closeTimeline(const QUuid &uuid)
     std::shared_ptr<TimelineItemModel> model = m_timelines.take(uuid);
     setSequenceProperty(uuid, QStringLiteral("groups"), model->groupsData());
     model->passSequenceProperties(getSequenceProperties(uuid));
-    model->prepareClose(true);
+    model->prepareClose(!closing);
     model.reset();
     // Clear all sequence properties
     m_sequenceProperties.remove(uuid);
+}
+
+void KdenliveDoc::storeGroups(const QUuid &uuid)
+{
+    Q_ASSERT(m_timelines.find(uuid) != m_timelines.end());
+    setSequenceProperty(uuid, QStringLiteral("groups"), m_timelines.value(uuid)->groupsData());
+    m_timelines.value(uuid)->passSequenceProperties(getSequenceProperties(uuid));
 }
 
 void KdenliveDoc::checkUsage(const QUuid &uuid)

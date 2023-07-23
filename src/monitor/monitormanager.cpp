@@ -108,10 +108,14 @@ void MonitorManager::focusProjectMonitor()
     }
 }
 
-void MonitorManager::refreshProjectRange(QPair<int, int> range)
+void MonitorManager::refreshProjectRange(QPair<int, int> range, bool forceRefresh)
 {
     if (m_projectMonitor->position() >= range.first && m_projectMonitor->position() <= range.second) {
-        m_projectMonitor->refreshMonitorIfActive();
+        if (forceRefresh) {
+            m_projectMonitor->refreshMonitor(false);
+        } else {
+            m_projectMonitor->refreshMonitorIfActive();
+        }
     }
 }
 
@@ -759,7 +763,7 @@ void MonitorManager::slotSetOutPoint()
     } else if (m_activeMonitor == m_projectMonitor) {
         QPoint sourceZone = m_projectMonitor->getZoneInfo();
         QPoint destZone = sourceZone;
-        destZone.setY(m_projectMonitor->position());
+        destZone.setY(m_projectMonitor->position() + 1);
         if (destZone.y() < destZone.x()) {
             destZone.setX(qMax(0, destZone.y() - (sourceZone.y() - sourceZone.x())));
         }

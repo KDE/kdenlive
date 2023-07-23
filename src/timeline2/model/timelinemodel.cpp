@@ -103,12 +103,10 @@ RTTR_REGISTRATION
 #define TRACE(...)
 #endif
 
-int TimelineModel::next_id = 0;
 int TimelineModel::seekDuration = 30000;
 
 TimelineModel::TimelineModel(const QUuid &uuid, std::weak_ptr<DocUndoStack> undo_stack)
     : QAbstractItemModel_shared_from_this()
-    , isLoading(true)
     , m_blockRefresh(false)
     , m_uuid(uuid)
     , m_tractor(new Mlt::Tractor(pCore->getProjectProfile()))
@@ -183,15 +181,29 @@ TimelineModel::~TimelineModel()
 {
     m_closing = true;
     if (!m_softDelete) {
-        std::vector<int> all_ids;
-        for (auto tracks : m_iteratorTable) {
-            all_ids.push_back(tracks.first);
+        qDebug() << "::::::==\n\nCLOSING TIMELINE MODEL\n\n::::::::";
+        QScopedPointer<Mlt::Service> service(m_tractor->field());
+        QScopedPointer<Mlt::Field> field(m_tractor->field());
+        field->lock();
+        // Make sure all previous track compositing is removed
+        while (service != nullptr && service->is_valid()) {
+            if (service->type() == mlt_service_transition_type) {
+                Mlt::Transition t(mlt_transition(service->get_service()));
+                service.reset(service->producer());
+                // remove all compositing
+                field->disconnect_service(t);
+                t.disconnect_all_producers();
+            } else {
+                service.reset(service->producer());
+            }
         }
-        for (auto tracks : all_ids) {
-            deregisterTrack_lambda(tracks)();
-        }
-        for (const auto &clip : m_allClips) {
-            clip.second->deregisterClipToBin();
+        field->unlock();
+        m_allTracks.clear();
+        if (pCore->currentDoc() && !pCore->currentDoc()->closing) {
+            // If we are not closing the project, unregister this timeline clips from bin
+            for (const auto &clip : m_allClips) {
+                clip.second->deregisterClipToBin();
+            }
         }
     }
 }
@@ -1661,6 +1673,7 @@ bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, Playl
     }
     int clipId = TimelineModel::getNextId();
     id = clipId;
+    qDebug() << "======\nCREATING TIMELINE OBJECT: " << clipId << "\n========================";
     Fun local_undo = deregisterClip_lambda(clipId);
     ClipModel::construct(shared_from_this(), bid, clipId, state, audioStream, speed, warp_pitch);
     auto clip = m_allClips[clipId];
@@ -4215,7 +4228,7 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
     int trackId = TimelineModel::getNextId();
     id = trackId;
     Fun local_undo = deregisterTrack_lambda(trackId);
-    TrackModel::construct(shared_from_this(), trackId, position, trackName, audioTrack);
+    TrackModel::construct(shared_from_this(), trackId, position, trackName, audioTrack, addCompositing);
     // Adjust compositions that were affecting track at previous pos
     QList<std::shared_ptr<CompositionModel>> updatedCompositions;
     if (previousId > -1) {
@@ -4316,7 +4329,7 @@ bool TimelineModel::requestTrackDeletion(int trackId, Fun &undo, Fun &redo)
         return false;
     }
     // Discard running jobs
-    pCore->taskManager.discardJobs({ObjectType::TimelineTrack, trackId});
+    pCore->taskManager.discardJobs({ObjectType::TimelineTrack, trackId, m_uuid});
 
     std::vector<int> clips_to_delete;
     for (const auto &it : getTrackById(trackId)->m_allClips) {
@@ -4417,7 +4430,7 @@ bool TimelineModel::requestTrackDeletion(int trackId, Fun &undo, Fun &redo)
     return false;
 }
 
-void TimelineModel::registerTrack(std::shared_ptr<TrackModel> track, int pos, bool doInsert)
+void TimelineModel::registerTrack(std::shared_ptr<TrackModel> track, int pos, bool doInsert, bool singleOperation)
 {
     int id = track->getId();
     if (pos == -1) {
@@ -4428,7 +4441,13 @@ void TimelineModel::registerTrack(std::shared_ptr<TrackModel> track, int pos, bo
 
     // effective insertion (MLT operation), add 1 to account for black background track
     if (doInsert) {
+        if (!singleOperation) {
+            m_tractor->block();
+        }
         int error = m_tractor->insert_track(*track, pos + 1);
+        if (!singleOperation) {
+            m_tractor->unblock();
+        }
         Q_ASSERT(error == 0); // we might need better error handling...
     }
 
@@ -4654,7 +4673,7 @@ std::shared_ptr<CompositionModel> TimelineModel::getCompositionPtr(int compoId) 
 
 int TimelineModel::getNextId()
 {
-    return TimelineModel::next_id++;
+    return KdenliveDoc::next_id++;
 }
 
 bool TimelineModel::isClip(int id) const
@@ -4703,8 +4722,11 @@ void TimelineModel::updateDuration()
     }
     if (duration != current) {
         // update black track length
+        std::unique_ptr<Mlt::Field> field(m_tractor->field());
+        field->lock();
         m_blackClip->set("out", duration + TimelineModel::seekDuration);
-        Q_EMIT durationUpdated();
+        field->unlock();
+        Q_EMIT durationUpdated(m_uuid);
         if (m_masterStack) {
             Q_EMIT m_masterStack->dataChanged(QModelIndex(), QModelIndex(), {});
         }
@@ -5634,7 +5656,7 @@ std::shared_ptr<EffectStackModel> TimelineModel::getMasterEffectStackModel()
     READ_LOCK();
     if (m_masterStack == nullptr) {
         m_masterService.reset(new Mlt::Service(*m_tractor.get()));
-        m_masterStack = EffectStackModel::construct(m_masterService, {ObjectType::Master, 0}, m_undoStack);
+        m_masterStack = EffectStackModel::construct(m_masterService, {ObjectType::Master, 0, m_uuid}, m_undoStack);
         connect(m_masterStack.get(), &EffectStackModel::updateMasterZones, pCore.get(), &Core::updateMasterZones);
     }
     return m_masterStack;
@@ -6714,8 +6736,8 @@ QVariantList TimelineModel::getMasterEffectZones() const
 
 const QSize TimelineModel::getCompositionSizeOnTrack(const ObjectId &id)
 {
-    int pos = getCompositionPosition(id.second);
-    int tid = getCompositionTrackId(id.second);
+    int pos = getCompositionPosition(id.itemId);
+    int tid = getCompositionTrackId(id.itemId);
     int cid = getTrackById_const(tid)->getClipByPosition(pos);
     if (cid > -1) {
         return getClipFrameSize(cid);

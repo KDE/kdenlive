@@ -78,12 +78,12 @@ void SceneSplitTask::start(QObject *object, bool force)
                 qDebug() << "=== INVALID SUBCLIP DATA: " << id;
                 continue;
             }
-            owner = ObjectId(ObjectType::BinClip, binData.first().toInt());
+            owner = {ObjectType::BinClip, binData.first().toInt(), QUuid()};
             auto binClip = pCore->projectItemModel()->getClipByBinID(binData.first());
             task = new SceneSplitTask(owner, threshold / 100., markersCategory, addSubclips, minDuration, binClip.get());
 
         } else {
-            owner = ObjectId(ObjectType::BinClip, id.toInt());
+            owner = {ObjectType::BinClip, id.toInt(), QUuid()};
             auto binClip = pCore->projectItemModel()->getClipByBinID(id);
             task = new SceneSplitTask(owner, threshold / 100., markersCategory, addSubclips, minDuration, binClip.get());
         }
@@ -95,20 +95,20 @@ void SceneSplitTask::start(QObject *object, bool force)
         if (task) {
             // Otherwise, start a new audio levels generation thread.
             task->m_isForce = force;
-            pCore->taskManager.startTask(owner.second, task);
+            pCore->taskManager.startTask(owner.itemId, task);
         }
     }
 }
 
 void SceneSplitTask::run()
 {
-    AbstractTaskDone whenFinished(m_owner.second, this);
+    AbstractTaskDone whenFinished(m_owner.itemId, this);
     if (m_isCanceled || pCore->taskManager.isBlocked()) {
         return;
     }
     QMutexLocker lock(&m_runMutex);
     m_running = true;
-    auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
+    auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.itemId));
     const QString source = binClip->url();
     ClipType::ProducerType type = binClip->clipType();
     bool result;
@@ -167,7 +167,7 @@ void SceneSplitTask::run()
     QMetaObject::invokeMethod(m_object, "updateJobProgress");
     if (result && !m_isCanceled) {
         qDebug() << "========================\n\nGOR RESULTS: " << m_results << "\n\n=========";
-        auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
+        auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.itemId));
         if (m_markersType >= 0) {
             // Build json data for markers
             QJsonArray list;
@@ -218,7 +218,7 @@ void SceneSplitTask::run()
             json.setArray(list);
             if (!json.isEmpty()) {
                 QString dataMap(json.toJson());
-                QMetaObject::invokeMethod(pCore->projectItemModel().get(), "loadSubClips", Q_ARG(QString, QString::number(m_owner.second)),
+                QMetaObject::invokeMethod(pCore->projectItemModel().get(), "loadSubClips", Q_ARG(QString, QString::number(m_owner.itemId)),
                                           Q_ARG(QString, dataMap), Q_ARG(bool, true));
             }
         }

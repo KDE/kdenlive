@@ -87,6 +87,8 @@ class KdenliveDoc : public QObject
     Q_OBJECT
 
 public:
+    friend class LoadJob;
+    friend class TimelineModel;
     /** @brief Create a new empty Kdenlive project with the specified profile and requested number of tracks.
      *
      * @param tracks The number of <video, audio> tracks to create in the project.
@@ -99,8 +101,9 @@ public:
     /** @brief Create a dummy project, used for testing. */
     KdenliveDoc(std::shared_ptr<DocUndoStack> undoStack, std::pair<int, int> tracks = {2, 2}, MainWindow *parent = nullptr);
     ~KdenliveDoc() override;
-    friend class LoadJob;
     QUuid activeUuid;
+    /** @brief True until all project timelines are loaded. */
+    bool loading{true};
     /** @brief True if we are currently closing the project. */
     bool closing{false};
     /** @brief Get current document's producer. */
@@ -276,7 +279,10 @@ public:
     void loadSequenceGroupsAndGuides(const QUuid &uuid);
     /** @brief Get a timeline by its uuid.*/
     std::shared_ptr<TimelineItemModel> getTimeline(const QUuid &uuid);
+    /** @brief Before closing a timeline, store its groups and other properties.*/
     void closeTimeline(const QUuid &uuid);
+    /** @brief store groups in our properties.*/
+    void storeGroups(const QUuid &uuid);
     void checkUsage(const QUuid &uuid);
     QList<QUuid> getTimelinesUuids() const;
     /** @brief Returns the number of timelines in this project.*/
@@ -300,6 +306,11 @@ public:
     /** @brief Set the autoclose attribute to all playlists in @param doc.
      *   This is eg. needed for rendering, as the process would not stop at the end of the playlist if it was not closed */
     static void setAutoclosePlaylists(QDomDocument &doc);
+    /** @brief Check that the timelines hash have not changed between saved version and current status */
+    bool checkConsistency();
+
+protected:
+    static int next_id; /// next valid id to assign
 
 private:
     /** @brief Create a new KdenliveDoc using the provided QDomDocument (an

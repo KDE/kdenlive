@@ -1065,6 +1065,11 @@
       <default>false</default>
     </entry>
 
+    <entry name="subtitleEditFontSize" type="Double">
+      <label>Default font size for edit subtitle text widget.</label>
+      <default>0</default>
+    </entry>
+
     <entry name="thumbColor1" type="Color">
       <label>Color to draw even audio channels.</label>
       <default>#2ac1a0</default>

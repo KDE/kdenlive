@@ -5,10 +5,9 @@
 */
 #pragma once
 #include "abortutil.hpp"
-#include "bin/model/markerlistmodel.hpp"
 #include "catch.hpp"
-#include "doc/docundostack.hpp"
 #include "tests_definitions.h"
+#include <QString>
 #include <iostream>
 #include <memory>
 #include <random>
@@ -26,11 +25,13 @@
 #include "assets/keyframes/model/keyframemodel.hpp"
 #include "assets/model/assetparametermodel.hpp"
 #include "bin/clipcreator.hpp"
+#include "bin/model/markerlistmodel.hpp"
 #include "bin/model/subtitlemodel.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectfolder.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
+#include "doc/docundostack.hpp"
 #include "effects/effectsrepository.hpp"
 #include "effects/effectstack/model/effectitemmodel.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"

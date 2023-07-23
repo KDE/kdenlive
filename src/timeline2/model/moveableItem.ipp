@@ -23,6 +23,15 @@ template <typename Service> int MoveableItem<Service>::getId() const
     return m_id;
 }
 
+template <typename Service> QUuid MoveableItem<Service>::getUuid() const
+{
+    READ_LOCK();
+    if (auto ptr = m_parent.lock()) {
+        return ptr->uuid();
+    }
+    return QUuid();
+}
+
 template <typename Service> int MoveableItem<Service>::getCurrentTrackId() const
 {
     READ_LOCK();

@@ -38,9 +38,6 @@ private Q_SLOTS:
     void slotEditItem(QTreeWidgetItem *item, int);
     void slotPlaceholders();
     void slotDeleteSelected();
-    QString getProperty(const QDomElement &effect, const QString &name);
-    void updateProperty(const QDomElement &effect, const QString &name, const QString &value);
-    void setProperty(QDomElement &effect, const QString &name, const QString &value);
     /** @brief Check if images and fonts in this clip exists, returns a list of images that do exist so we don't check twice. */
     void checkMissingImagesAndFonts(const QStringList &images, const QStringList &fonts, const QString &id, const QString &baseClip);
     void slotCheckButtons();
@@ -61,6 +58,7 @@ private:
     QList<QDomElement> m_missingClips;
     QDomNodeList m_binEntries;
     QStringList m_missingFilters;
+    QStringList m_missingTransitions;
     QStringList m_missingFonts;
     QStringList m_safeImages;
     QStringList m_safeFonts;
@@ -69,12 +67,21 @@ private:
     QStringList m_fixedSequences;
     QStringList m_tractorsList;
     QStringList m_binIds;
+    QStringList m_warnings;
     // List clips whose proxy is missing
     QList<QDomElement> m_missingProxies;
     // List clips who have a working proxy but no source clip
     QList<QDomElement> m_missingSources;
     bool m_abortSearch;
     bool m_checkRunning;
+
+    static QString ensureAbsoultePath(const QString &root, QString filepath);
+    static QStringList getAssetsFiles(const QDomDocument &doc, const QString &tagName, const QMap<QString, QString> &searchPairs);
+    static QStringList getAssetsServiceIds(const QDomDocument &doc, const QString &tagName);
+    static void removeAssetsById(QDomDocument &doc, const QString &tagName, const QStringList &idsToDelete);
+
+    void replaceTransitionsLumas(QDomDocument &doc, const QMap<QString, QString> &names);
+    static bool isMltBuildInLuma(const QString &lumaName);
 
     void fixClipItem(QTreeWidgetItem *child, const QDomNodeList &producers, const QDomNodeList &chains, const QDomNodeList &trans, const QDomNodeList &filters);
     void fixSourceClipItem(QTreeWidgetItem *child, const QDomNodeList &producers, const QDomNodeList &chains);

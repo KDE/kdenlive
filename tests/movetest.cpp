@@ -3,14 +3,13 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 #include "catch.hpp"
+#include "test_utils.hpp"
+// test specific headers
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
-#include "test_utils.hpp"
 
-#include "definitions.h"
-#define private public
-#define protected public
 #include "core.h"
+#include "definitions.h"
 
 using namespace fakeit;
 

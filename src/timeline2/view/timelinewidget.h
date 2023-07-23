@@ -47,6 +47,7 @@ public:
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
+    void focusInEvent(QFocusEvent *event) override;
     bool eventFilter(QObject *object, QEvent *event) override;
 
 public Q_SLOTS:

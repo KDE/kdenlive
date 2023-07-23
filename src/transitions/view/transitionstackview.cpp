@@ -33,7 +33,7 @@ void TransitionStackView::refreshTracks()
     }
     QSignalBlocker bk(m_trackBox);
     m_trackBox->clear();
-    QPair<int, int> aTrack = pCore->getCompositionATrack(m_model->getOwnerId().second);
+    QPair<int, int> aTrack = pCore->getCompositionATrack(m_model->getOwnerId().itemId);
     m_trackBox->addItem(i18n("Automatic"), -1);
     QMapIterator<int, QString> i(pCore->getTrackNames(true));
     i.toBack();
@@ -44,7 +44,7 @@ void TransitionStackView::refreshTracks()
         }
     }
     m_trackBox->addItem(i18n("Background"), 0);
-    if (!pCore->compositionAutoTrack(m_model->getOwnerId().second)) {
+    if (!pCore->compositionAutoTrack(m_model->getOwnerId().itemId)) {
         m_trackBox->setCurrentIndex(m_trackBox->findData(aTrack.first));
     }
 }
@@ -92,7 +92,7 @@ void TransitionStackView::updateTrack(int newTrack)
 {
     Q_UNUSED(newTrack)
     qDebug() << "// Update transition TRACK to: " << m_trackBox->currentData().toInt();
-    pCore->setCompositionATrack(m_model->getOwnerId().second, m_trackBox->currentData().toInt());
+    pCore->setCompositionATrack(m_model->getOwnerId().itemId, m_trackBox->currentData().toInt());
 }
 
 ObjectId TransitionStackView::stackOwner() const
@@ -100,14 +100,14 @@ ObjectId TransitionStackView::stackOwner() const
     if (m_model) {
         return m_model->getOwnerId();
     }
-    return ObjectId(ObjectType::NoItem, -1);
+    return {ObjectType::NoItem, -1, QUuid()};
 }
 
 void TransitionStackView::checkCompoTrack()
 {
     refreshTracks();
-    bool autoTrack = pCore->compositionAutoTrack(m_model->getOwnerId().second);
-    QPair<int, int> aTrack = autoTrack ? QPair<int, int>(-1, -1) : pCore->getCompositionATrack(m_model->getOwnerId().second);
+    bool autoTrack = pCore->compositionAutoTrack(m_model->getOwnerId().itemId);
+    QPair<int, int> aTrack = autoTrack ? QPair<int, int>(-1, -1) : pCore->getCompositionATrack(m_model->getOwnerId().itemId);
     if (m_trackBox->currentData().toInt() != aTrack.first) {
         const QSignalBlocker blocker(m_trackBox);
         m_trackBox->setCurrentIndex(m_trackBox->findData(aTrack.first));

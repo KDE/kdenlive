@@ -44,7 +44,7 @@ void CacheTask::start(const ObjectId &owner, int thumbsCount, int in, int out, Q
     CacheTask *task = new CacheTask(owner, thumbsCount, in, out, object);
     // Otherwise, start a new audio levels generation thread.
     task->m_isForce = force;
-    pCore->taskManager.startTask(owner.second, task);
+    pCore->taskManager.startTask(owner.itemId, task);
 }
 
 void CacheTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip)
@@ -62,7 +62,7 @@ void CacheTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip)
         }
         int size = int(frames.size());
         int count = 0;
-        const QString clipId = QString::number(m_owner.second);
+        const QString clipId = QString::number(m_owner.itemId);
         for (int i : frames) {
             m_progress = 100 * count / size;
             QMetaObject::invokeMethod(m_object, "updateJobProgress");
@@ -98,12 +98,12 @@ void CacheTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip)
 
 void CacheTask::run()
 {
-    AbstractTaskDone whenFinished(m_owner.second, this);
+    AbstractTaskDone whenFinished(m_owner.itemId, this);
     if (m_isCanceled || pCore->taskManager.isBlocked()) {
         return;
     }
     QMutexLocker lock(&m_runMutex);
-    auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
+    auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.itemId));
     if (binClip) {
         generateThumbnail(binClip);
     }

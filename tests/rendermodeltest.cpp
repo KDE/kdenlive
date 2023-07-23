@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 #include "test_utils.hpp"
-#define protected public
-
+// test specific headers
 #include "doc/kdenlivedoc.h"
 #include "render/renderrequest.h"
 #include "renderpresets/renderpresetmodel.hpp"

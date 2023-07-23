@@ -233,7 +233,7 @@ public:
     /** @brief Ensure that sequence @destUuid is not embedded in any dependency of sequence @srcUuid */
     bool canBeEmbeded(const QUuid destUuid, const QUuid srcUuid);
     /** @brief Store a newly created sequence tractor for reuse */
-    void storeSequence(const QString uuid, std::shared_ptr<Mlt::Tractor> tractor);
+    void storeSequence(const QString uuid, std::shared_ptr<Mlt::Tractor> tractor, bool internalSave = true);
     /** @brief Returns the count of sequences in this project */
     int sequenceCount() const;
     /** @brief The id of the folder where new sequences will be created, -1 if none */

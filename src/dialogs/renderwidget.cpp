@@ -65,14 +65,12 @@
 #include <QTreeWidgetItem>
 #include <QtGlobal>
 
-#ifdef KF5_USE_PURPOSE
 #include "purpose_version.h"
 #include <Purpose/AlternativesModel>
-#if PURPOSE_VERSION >= QT_VERSION_CHECK(5, 240, 0)
+#if PURPOSE_VERSION >= QT_VERSION_CHECK(5, 140, 0)
 #include <Purpose/Menu>
 #else
 #include <PurposeWidgets/Menu>
-#endif
 #endif
 
 #include <locale>
@@ -328,14 +326,10 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
         m_view.shutdown->setEnabled(false);
     }
 
-#ifdef KF5_USE_PURPOSE
     m_shareMenu = new Purpose::Menu();
     m_view.shareButton->setMenu(m_shareMenu);
     m_view.shareButton->setIcon(QIcon::fromTheme(QStringLiteral("document-share")));
     connect(m_shareMenu, &Purpose::Menu::finished, this, &RenderWidget::slotShareActionFinished);
-#else
-    m_view.shareButton->setEnabled(false);
-#endif
 
     loadConfig();
     refreshView();
@@ -346,7 +340,6 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
 
 void RenderWidget::slotShareActionFinished(const QJsonObject &output, int error, const QString &message)
 {
-#ifdef KF5_USE_PURPOSE
     m_view.jobInfo->hide();
     if (error) {
         KMessageBox::error(this, i18n("There was a problem sharing the document: %1", message), i18n("Share"));
@@ -361,11 +354,6 @@ void RenderWidget::slotShareActionFinished(const QJsonObject &output, int error,
                                      KMessageBox::Notify | KMessageBox::AllowLink);
         }
     }
-#else
-    Q_UNUSED(output);
-    Q_UNUSED(error);
-    Q_UNUSED(message);
-#endif
 }
 
 QSize RenderWidget::sizeHint() const
@@ -920,8 +908,11 @@ void RenderWidget::loadProfile()
 
     QUrl url = filenameWithExtension(m_view.out_file->url(), profile->extension());
     m_view.out_file->setUrl(url);
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 108, 0)
+    m_view.out_file->setNameFilter("*." + profile->extension());
+#else
     m_view.out_file->setFilter("*." + profile->extension());
-
+#endif
     m_view.buttonDelete->setEnabled(profile->editable());
     m_view.buttonEdit->setEnabled(profile->editable());
 
@@ -1234,12 +1225,11 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         QString t = i18n("Rendering finished in %1", est);
         item->setData(1, Qt::UserRole, t);
 
-#ifdef KF5_USE_PURPOSE
         m_shareMenu->model()->setInputData(QJsonObject{{QStringLiteral("mimeType"), QMimeDatabase().mimeTypeForFile(item->text(1)).name()},
                                                        {QStringLiteral("urls"), QJsonArray({item->text(1)})}});
         m_shareMenu->model()->setPluginType(QStringLiteral("Export"));
         m_shareMenu->reload();
-#endif
+
         QString notif = i18n("Rendering of %1 finished in %2", item->text(1), est);
         KNotification *notify = new KNotification(QStringLiteral("RenderFinished"));
         notify->setText(notif);
@@ -1314,7 +1304,6 @@ void RenderWidget::slotCheckJob()
             m_view.start_job->setEnabled(current->status() == WAITINGJOB);
         }
         activate = true;
-#ifdef KF5_USE_PURPOSE
         if (current->status() == FINISHEDJOB) {
             m_shareMenu->model()->setInputData(QJsonObject{{QStringLiteral("mimeType"), QMimeDatabase().mimeTypeForFile(current->text(1)).name()},
                                                            {QStringLiteral("urls"), QJsonArray({current->text(1)})}});
@@ -1324,7 +1313,6 @@ void RenderWidget::slotCheckJob()
         } else {
             m_view.shareButton->setEnabled(false);
         }
-#endif
     }
     m_view.abort_job->setEnabled(activate);
 }

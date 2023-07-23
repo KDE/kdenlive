@@ -121,7 +121,7 @@ void fuzz(const std::string &input)
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
 
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);

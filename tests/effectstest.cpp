@@ -3,20 +3,17 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 #include "catch.hpp"
+#include "test_utils.hpp"
+// test specific headers
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
-#include "test_utils.hpp"
-
-#include <QString>
 #include <cmath>
 #include <iostream>
 #include <tuple>
 #include <unordered_set>
 
-#include "definitions.h"
-#define private public
-#define protected public
 #include "core.h"
+#include "definitions.h"
 #include "effects/effectsrepository.hpp"
 #include "effects/effectstack/model/effectitemmodel.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
@@ -108,5 +105,7 @@ TEST_CASE("Effects stack", "[Effects]")
         REQUIRE(clipModel->rowCount() == 0);
         REQUIRE(splitModel->rowCount() == 1);
     }
+    timeline.reset();
+    clip.reset();
     pCore->projectManager()->closeCurrentDocument(false, false);
 }

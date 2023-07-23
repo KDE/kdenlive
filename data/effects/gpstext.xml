@@ -8,7 +8,7 @@
         <name>Text</name>
         <paramlistdisplay>GPS latitude,GPS longitude,GPS altitude,GPS speed,distance so far,date and time of current gps point,date and time of current frame in video file,heart rate,current GPS bearing,current GPS direction,GPS altitude gain so far,GPS altitude loss so far,distance travelled uphill so far,distance travelled downhill so far,distance travelled on flat area so far</paramlistdisplay>
     </parameter>
-    <parameter type="url" name="gps.file" filter="*.gpx *.tcx |GPS files">
+    <parameter type="url" name="gps.file" filter="GPS files (*.gpx *.tcx)">
         <name>GPS File</name>
     </parameter>
     <parameter type="constant" name="time_offset" max="86400" min="-86400" defalut="0">

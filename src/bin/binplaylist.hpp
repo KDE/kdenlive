@@ -30,6 +30,7 @@ class BinPlaylist : public QObject
 
 public:
     BinPlaylist(const QUuid &uuid);
+    virtual ~BinPlaylist();
 
     /** @brief This function updates the underlying binPlaylist object to reflect deletion of a bin item
        @param binElem is the bin item deleted. Note that exceptionnally, this function takes a raw pointer instead of a smart one.

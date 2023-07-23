@@ -4,8 +4,9 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#include "doc/kdenlivedoc.h"
 #include "test_utils.hpp"
+// test specific headers
+#include "doc/kdenlivedoc.h"
 
 TEST_CASE("Regression")
 {
@@ -31,9 +32,10 @@ TEST_CASE("Regression")
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
+    pCore->m_projectManager->testSetActiveDocument(&mockedDoc, timeline);
 
     RESET(timMock);
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
     undoStack->undo();
     undoStack->redo();
     undoStack->redo();
@@ -71,6 +73,9 @@ TEST_CASE("Regression")
     undoStack->redo();
     REQUIRE(timeline->getTrackById(1)->checkConsistency());
     pCore->taskManager.slotCancelJobs();
+    mocked.closeTimeline(timeline->uuid());
+    timeline.reset();
+    binModel->clean();
     pCore->m_projectManager = nullptr;
 }
 
@@ -98,9 +103,10 @@ TEST_CASE("Regression2")
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
+    pCore->m_projectManager->testSetActiveDocument(&mockedDoc, timeline);
 
     RESET(timMock);
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
     int dummy_id;
     undoStack->undo();
     undoStack->undo();
@@ -226,6 +232,9 @@ TEST_CASE("Regression2")
     REQUIRE(timeline->getTrackById(6)->checkConsistency());
     undoStack->redo();
     pCore->taskManager.slotCancelJobs();
+    mocked.closeTimeline(timeline->uuid());
+    timeline.reset();
+    binModel->clean();
     pCore->m_projectManager = nullptr;
 }
 
@@ -235,7 +244,7 @@ TEST_CASE("Regression 3")
     Mlt::Profile profile;
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     std::shared_ptr<TimelineModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), undoStack);
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
     int dummy_id;
     std::shared_ptr<Mlt::Producer> producer0 = std::make_shared<Mlt::Producer>(profile, "color", "red");
     producer0->set("length", 20);
@@ -392,7 +401,7 @@ TEST_CASE("Regression 4")
     Mlt::Profile profile;
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     std::shared_ptr<TimelineModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), undoStack);
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
     int dummy_id;
     timeline->requestTrackInsertion(-1, dummy_id );
     timeline->requestTrackInsertion(-1, dummy_id );
@@ -430,7 +439,7 @@ TEST_CASE("FuzzBug1")
 {
     auto binModel = pCore->projectItemModel();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
     {
         KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
@@ -448,6 +457,7 @@ TEST_CASE("FuzzBug1")
         Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
+        pCore->m_projectManager->testSetActiveDocument(&mockedDoc, timeline_0);
         mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
         REQUIRE(timeline_0->checkConsistency());
@@ -570,6 +580,9 @@ TEST_CASE("FuzzBug1")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         pCore->taskManager.slotCancelJobs();
+        mocked.closeTimeline(timeline_0->uuid());
+        timeline_0.reset();
+        binModel->clean();
         pCore->m_projectManager = nullptr;
     }
 }
@@ -579,7 +592,7 @@ TEST_CASE("FuzzBug2")
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
     {
         KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
@@ -597,6 +610,7 @@ TEST_CASE("FuzzBug2")
         Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
+        pCore->m_projectManager->testSetActiveDocument(&mockedDoc, timeline_0);
 
         mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
@@ -662,6 +676,9 @@ TEST_CASE("FuzzBug2")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         pCore->taskManager.slotCancelJobs();
+        mocked.closeTimeline(timeline_0->uuid());
+        timeline_0.reset();
+        binModel->clean();
         pCore->m_projectManager = nullptr;
     }
 }
@@ -671,7 +688,7 @@ TEST_CASE("FuzzBug3")
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
     {
         KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
@@ -689,6 +706,7 @@ TEST_CASE("FuzzBug3")
         Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
+        pCore->m_projectManager->testSetActiveDocument(&mockedDoc, timeline_0);
 
         mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
@@ -720,6 +738,9 @@ TEST_CASE("FuzzBug3")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         pCore->taskManager.slotCancelJobs();
+        mocked.closeTimeline(timeline_0->uuid());
+        timeline_0.reset();
+        binModel->clean();
         pCore->m_projectManager = nullptr;
     }
 }
@@ -729,7 +750,7 @@ TEST_CASE("FuzzBug4")
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
     {
         KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
@@ -747,6 +768,7 @@ TEST_CASE("FuzzBug4")
         Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
+        pCore->m_projectManager->testSetActiveDocument(&mockedDoc, timeline_0);
 
         mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
@@ -804,6 +826,9 @@ TEST_CASE("FuzzBug4")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         pCore->taskManager.slotCancelJobs();
+        mocked.closeTimeline(timeline_0->uuid());
+        timeline_0.reset();
+        binModel->clean();
         pCore->m_projectManager = nullptr;
     }
 }
@@ -813,7 +838,7 @@ TEST_CASE("FuzzBug5")
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
     {
         KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
@@ -831,6 +856,7 @@ TEST_CASE("FuzzBug5")
         Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
+        pCore->m_projectManager->testSetActiveDocument(&mockedDoc, timeline_0);
 
         mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
@@ -1011,7 +1037,12 @@ TEST_CASE("FuzzBug5")
         mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         pCore->taskManager.slotCancelJobs();
-        pCore->m_projectManager = nullptr;
+        mocked.m_activeTimelineModel.reset();
+        undoStack->clear();
+        mocked.closeTimeline(timeline_0->uuid());
+        binModel->clean();
+        timeline_0.reset();
+        timeline_1.reset();
     }
 }
 
@@ -1020,7 +1051,7 @@ TEST_CASE("FuzzBug6")
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
     {
         KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
@@ -1038,6 +1069,7 @@ TEST_CASE("FuzzBug6")
         Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
+        pCore->m_projectManager->testSetActiveDocument(&mockedDoc, timeline_0);
 
         mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
@@ -1107,7 +1139,11 @@ TEST_CASE("FuzzBug6")
         mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         pCore->taskManager.slotCancelJobs();
-        pCore->m_projectManager = nullptr;
+        mocked.closeTimeline(timeline_0->uuid());
+        mocked.closeTimeline(timeline_1->uuid());
+        timeline_0.reset();
+        timeline_1.reset();
+        binModel->clean();
     }
 }
 
@@ -1116,7 +1152,7 @@ TEST_CASE("FuzzBug7")
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
     {
         KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
@@ -1134,6 +1170,7 @@ TEST_CASE("FuzzBug7")
         Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
+        pCore->m_projectManager->testSetActiveDocument(&mockedDoc, timeline_0);
 
         mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
@@ -1277,7 +1314,11 @@ TEST_CASE("FuzzBug7")
         mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         pCore->taskManager.slotCancelJobs();
-        pCore->m_projectManager = nullptr;
+        mocked.closeTimeline(timeline_0->uuid());
+        mocked.closeTimeline(timeline_1->uuid());
+        timeline_0.reset();
+        timeline_1.reset();
+        binModel->clean();
     }
 }
 
@@ -1286,7 +1327,7 @@ TEST_CASE("FuzzBug8")
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
     {
         KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
@@ -1304,6 +1345,7 @@ TEST_CASE("FuzzBug8")
         Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
+        pCore->m_projectManager->testSetActiveDocument(&mockedDoc, timeline_0);
 
         mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
@@ -1348,7 +1390,9 @@ TEST_CASE("FuzzBug8")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         pCore->taskManager.slotCancelJobs();
-        pCore->m_projectManager = nullptr;
+        mocked.closeTimeline(timeline_0->uuid());
+        timeline_0.reset();
+        binModel->clean();
     }
 }
 
@@ -1357,7 +1401,7 @@ TEST_CASE("FuzzBug9")
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
     {
         KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
@@ -1375,6 +1419,7 @@ TEST_CASE("FuzzBug9")
         Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
+        pCore->m_projectManager->testSetActiveDocument(&mockedDoc, timeline_0);
 
         mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
@@ -1410,7 +1455,9 @@ TEST_CASE("FuzzBug9")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         pCore->taskManager.slotCancelJobs();
-        pCore->m_projectManager = nullptr;
+        mocked.closeTimeline(timeline_0->uuid());
+        timeline_0.reset();
+        binModel->clean();
     }
 }
 
@@ -1419,7 +1466,7 @@ TEST_CASE("FuzzBug10")
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
     {
         KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
@@ -1437,6 +1484,7 @@ TEST_CASE("FuzzBug10")
         Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
+        pCore->m_projectManager->testSetActiveDocument(&mockedDoc, timeline_0);
 
         mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
@@ -1466,7 +1514,9 @@ TEST_CASE("FuzzBug10")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         pCore->taskManager.slotCancelJobs();
-        pCore->m_projectManager = nullptr;
+        mocked.closeTimeline(timeline_0->uuid());
+        timeline_0.reset();
+        binModel->clean();
     }
 }
 
@@ -1475,7 +1525,7 @@ TEST_CASE("FuzzBug11")
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    TimelineModel::next_id = 0;
+    KdenliveDoc::next_id = 0;
     {
         KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
@@ -1493,6 +1543,7 @@ TEST_CASE("FuzzBug11")
         Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
+        pCore->m_projectManager->testSetActiveDocument(&mockedDoc, timeline_0);
 
         mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
@@ -1567,6 +1618,8 @@ TEST_CASE("FuzzBug11")
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
         pCore->taskManager.slotCancelJobs();
-        pCore->m_projectManager = nullptr;
+        mocked.closeTimeline(timeline_0->uuid());
+        timeline_0.reset();
+        binModel->clean();
     }
 }

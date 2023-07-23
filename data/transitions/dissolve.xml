@@ -12,4 +12,10 @@
     <parameter type="bool" name="reverse" default="0">
         <name>Reverse</name>
     </parameter>
+    <parameter type="bool" name="alpha_over" max="1" min="0" default="1">
+        <name>Use transparency</name>
+    </parameter>
+    <parameter type="bool" name="fix_background_alpha" max="1" min="0" default="1">
+        <name>Make padding transparent</name>
+    </parameter>
 </transition>

@@ -11,9 +11,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "definitions.h"
 #include "utils/timecode.h"
 
-#include <QWidget>
-#include <QTimer>
 #include <QMutex>
+#include <QTimer>
+#include <QUuid>
+#include <QWidget>
 
 #include "mlt++/Mlt.h"
 
@@ -147,7 +148,7 @@ class TimeRemap : public QWidget, public Ui::TimeRemap_UI
 public:
     explicit TimeRemap(QWidget *parent = nullptr);
     ~TimeRemap() override;
-    void selectedClip(int cid);
+    void selectedClip(int cid, const QUuid uuid);
     void setClip(std::shared_ptr<ProjectClip> clip, int in = -1, int out = -1);
     /** @brief the bin id of the clip currently active in remap widget */
     const QString &currentClip() const;
@@ -165,6 +166,7 @@ private:
     RemapView *m_view;
     int m_lastLength;
     int m_cid;
+    QUuid m_uuid;
     int m_splitId;
     QString m_binId;
     QMetaObject::Connection m_seekConnection1;
