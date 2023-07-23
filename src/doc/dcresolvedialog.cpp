@@ -25,7 +25,10 @@ DCResolveDialog::DCResolveDialog(std::vector<DocumentChecker::DocumentResource> 
         m_model->removeItem(selectionModel->currentIndex());
     });
     connect(manualSearch, &QPushButton::clicked, this, [&]() { slotEditCurrentItem(); });
-    connect(usePlaceholders, &QPushButton::clicked, this, [&]() { m_model->usePlaceholdersForMissing(); });
+    connect(usePlaceholders, &QPushButton::clicked, this, [&]() {
+        m_model->usePlaceholdersForMissing();
+        checkStatus();
+    });
     connect(recursiveSearch, &QPushButton::clicked, this, [&]() { slotRecursiveSearch(); });
 
     connect(m_model.get(), &DocumentCheckerTreeModel::searchProgress, this, [&](int current, int total) {
@@ -45,7 +48,8 @@ DCResolveDialog::DCResolveDialog(std::vector<DocumentChecker::DocumentResource> 
     connect(selectionModel, &QItemSelectionModel::currentChanged, this, [&](const QModelIndex &current, const QModelIndex &) {
         DocumentChecker::DocumentResource resource = m_model->getDocumentResource(current);
         if (resource.type == DocumentChecker::MissingType::TitleFont || resource.type == DocumentChecker::MissingType::TitleImage ||
-            resource.type == DocumentChecker::MissingType::Proxy) {
+            resource.type == DocumentChecker::MissingType::Proxy || resource.type == DocumentChecker::MissingType::Effect ||
+            resource.type == DocumentChecker::MissingType::Transition) {
             removeSelected->setEnabled(false);
         } else {
             removeSelected->setEnabled(true);
@@ -86,8 +90,7 @@ void DCResolveDialog::slotEditCurrentItem()
         return;
     }
 
-    //|| t == TITLE_IMAGE_ELEMENT) {
-    ClipType::ProducerType type = resource.clipType; // ClipType::ProducerType(item->data(0, clipTypeRole).toInt());
+    ClipType::ProducerType type = resource.clipType;
     QUrl url;
     QString path = resource.newFilePath.isEmpty() ? resource.originalFilePath : resource.newFilePath;
     if (type == ClipType::SlideShow) {
@@ -101,21 +104,6 @@ void DCResolveDialog::slotEditCurrentItem()
         url = QUrl::fromLocalFile(QDir(dlg->selectedUrl().path()).absoluteFilePath(QFileInfo(path).fileName()));
         // Reset hash to ensure we find it next time
         m_model->setItemsFileHash(index, QString());
-        /*QDomNodeList producers = m_doc.elementsByTagName(QStringLiteral("producer"));
-        QDomElement e;
-        for (int i = 0; i < producers.count(); ++i) {
-            e = producers.item(i).toElement();
-            QString parentId = Xml::getXmlProperty(e, QStringLiteral("kdenlive:id"));
-            if (parentId.isEmpty()) {
-                // This is probably an old project file
-                QString sourceId = e.attribute(QStringLiteral("id"));
-                parentId = sourceId.section(QLatin1Char('_'), 0, 0);
-            }
-            if (parentId == resource.clipId) {
-                // Fix clip
-                Xml::removeXmlProperty(e, QStringLiteral("kdenlive:file_hash"));
-            }
-        }*/
         delete dlg;
     } else {
         url = KUrlRequesterDialog::getUrl(QUrl::fromLocalFile(path), this, i18n("Enter new location for file"));
@@ -123,19 +111,12 @@ void DCResolveDialog::slotEditCurrentItem()
     if (!url.isValid()) {
         return;
     }
-    // item->setText(1, url.toLocalFile());
     bool fixed = false;
     if (type == ClipType::SlideShow && QFile::exists(url.adjusted(QUrl::RemoveFilename).toLocalFile())) {
         fixed = true;
     }
     if (fixed || QFile::exists(url.toLocalFile())) {
         m_model->setItemsNewFilePath(index, url.toLocalFile(), DocumentChecker::MissingStatus::Fixed);
-        // TODO
-        /*if (id == SOURCEMISSING) {
-            QDomNodeList producers = m_doc.elementsByTagName(QStringLiteral("producer"));
-            QDomNodeList chains = m_doc.elementsByTagName(QStringLiteral("chain"));
-            fixMissingSource(item->data(0, idRole).toString(), producers, chains);
-        }*/
     } else {
         m_model->setItemsNewFilePath(index, url.toLocalFile(), DocumentChecker::MissingStatus::Missing);
     }
@@ -144,26 +125,19 @@ void DCResolveDialog::slotEditCurrentItem()
 
 void DCResolveDialog::slotRecursiveSearch()
 {
-    /*if (m_checkRunning) {
-        m_abortSearch = true;
-    } else {
-        m_abortSearch = false;
-        m_checkRunning = true;*/
     QString clipFolder; // = m_url.adjusted(QUrl::RemoveFilename).toLocalFile();
     const QString newpath = QFileDialog::getExistingDirectory(qApp->activeWindow(), i18nc("@title:window", "Clips Folder"), clipFolder);
     if (newpath.isEmpty()) {
-        // m_checkRunning = false;
         return;
     }
     m_model->slotSearchRecursively(newpath);
-    //}
     checkStatus();
 }
 
 void DCResolveDialog::checkStatus()
 {
     bool status = true;
-    for (auto item : m_model->getDocumentResources()) {
+    for (const auto &item : m_model->getDocumentResources()) {
         if (item.status == DocumentChecker::MissingStatus::Missing) {
             status = false;
         }
@@ -180,19 +154,3 @@ void DCResolveDialog::setEnableChangeItems(bool enabled)
     removeSelected->setEnabled(enabled);
     usePlaceholders->setEnabled(enabled);
 }
-
-/*void DCResolveDialog::slotCheckButtons()
-{
-    if (m_ui.treeWidget->currentItem()) {
-        QTreeWidgetItem *item = m_ui.treeWidget->currentItem();
-        int t = item->data(0, typeRole).toInt();
-        int s = item->data(0, statusRole).toInt();
-        if (t == TITLE_FONT_ELEMENT || t == TITLE_IMAGE_ELEMENT || s == PROXYMISSING) {
-            m_ui.removeSelected->setEnabled(false);
-        } else {
-            m_ui.removeSelected->setEnabled(true);
-        }
-        bool allowEdit = s == CLIPMISSING || s == LUMAMISSING;
-        m_ui.manualSearch->setEnabled(allowEdit);
-    }
-}*/

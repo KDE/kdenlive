@@ -32,29 +32,13 @@ std::shared_ptr<DocumentCheckerTreeModel> DocumentCheckerTreeModel::construct(co
     QList<QVariant> data;
     data.reserve(3);
     for (const auto &item : items) {
-        bool foundMatch = false;
-        // we create the data list corresponding to this preset
+        // we create the data list corresponding to this resource
         data.clear();
         data << DocumentChecker::readableNameForMissingType(item.type);
         data << DocumentChecker::readableNameForMissingStatus(item.status);
         data << item.originalFilePath;
         data << item.newFilePath;
-        /*QString catName = DocumentChecker::readableNameForMissingType(item.type);
-        for (const auto &cat : cats) {
-            if (cat->dataColumn(0) == catName) {
-                std::shared_ptr<TreeItem> newItem = cat->appendChild(data);
-                self->m_resourceItems.insert(newItem->getId(), item);
-                foundMatch = true;
-                break;
-            }
-        }
-        if (!foundMatch) {
-            // category not found, create it
-            const auto &cat = createCat(catName);
-            cats.push_back(cat);
-            std::shared_ptr<TreeItem> newItem = cat->appendChild(data);
-            self->m_resourceItems.insert(newItem->getId(), item);
-        }*/
+
         std::shared_ptr<TreeItem> newItem = self->rootItem->appendChild(data);
         self->m_resourceItems.insert(newItem->getId(), item);
     }
@@ -67,13 +51,10 @@ void DocumentCheckerTreeModel::removeItem(const QModelIndex &index)
     auto item = getItemByIndex(index);
     m_resourceItems[item->getId()].status = DocumentChecker::MissingStatus::Remove;
     item->setData(1, DocumentChecker::readableNameForMissingStatus(m_resourceItems.value(item->getId()).status));
-    // m_resourceItems.remove(item->getId());
-    // rootItem->removeChild(item);
 }
 
 void DocumentCheckerTreeModel::slotSearchRecursively(const QString &newpath)
 {
-    // QString filepath;
     QDir searchDir(newpath);
 
     QMapIterator<int, DocumentChecker::DocumentResource> i(m_resourceItems);
@@ -94,11 +75,6 @@ void DocumentCheckerTreeModel::slotSearchRecursively(const QString &newpath)
             } else {
                 newPath = DocumentChecker::searchFileRecursively(searchDir, i.value().fileSize, i.value().hash, i.value().originalFilePath);
             }
-            /*if (!clipPath.isEmpty()) {
-                QDomNodeList producers = m_doc.elementsByTagName(QStringLiteral("producer"));
-                QDomNodeList chains = m_doc.elementsByTagName(QStringLiteral("chain"));
-                fixMissingSource(id, producers, chains);
-            }*/
             if (newPath.isEmpty()) {
                 newPath = DocumentChecker::searchPathRecursively(searchDir, QUrl::fromLocalFile(i.value().originalFilePath).fileName(), type);
             }
@@ -116,9 +92,6 @@ void DocumentCheckerTreeModel::slotSearchRecursively(const QString &newpath)
         }
     }
     Q_EMIT searchDone();
-    // checkStatus();
-    // slotCheckButtons();
-    // m_checkRunning = false;
 }
 
 void DocumentCheckerTreeModel::usePlaceholdersForMissing()
@@ -126,6 +99,9 @@ void DocumentCheckerTreeModel::usePlaceholdersForMissing()
     QMapIterator<int, DocumentChecker::DocumentResource> i(m_resourceItems);
     while (i.hasNext()) {
         i.next();
+        if (i.value().type == DocumentChecker::MissingType::TitleFont) {
+            continue;
+        }
         if (i.value().status != DocumentChecker::MissingStatus::Missing) {
             continue;
         }
@@ -171,9 +147,6 @@ QVariant DocumentCheckerTreeModel::data(const QModelIndex &index, int role) cons
             if (resource.status == DocumentChecker::MissingStatus::Missing) {
                 return scheme.background(KColorScheme::NegativeBackground).color();
             }
-            /*if (resource.status == DocumentChecker::MissingStatus::Fixed) {
-                return scheme.background(KColorScheme::PositiveBackground).color();
-            }*/
         }
 
         if (role == Qt::FontRole) {

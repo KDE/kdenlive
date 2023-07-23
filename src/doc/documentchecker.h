@@ -35,13 +35,11 @@ public:
     explicit DocumentChecker(QUrl url, const QDomDocument &doc);
     ~DocumentChecker() override;
     /**
-     * @brief checks for problems with the clips in the project
-     * Checks for missing proxies, wrong duration clips, missing fonts, missing images, missing source clips
-     * Calls DocumentChecker::checkMissingImagesAndFonts () /n
-     * Called by KdenliveDoc::checkDocumentClips ()        /n
-     * @return
+     * @brief checks for problems with the project
+     * Checks for missing proxies, wrong duration clips, missing fonts, missing images, missing source clips, missing effects, missing transitions
+     * @returns whether error have been found
      */
-    bool hasErrorInClips();
+    bool hasErrorInProject();
     static QString fixLumaPath(const QString &file);
     static QString searchLuma(const QDir &dir, const QString &file);
 
@@ -53,11 +51,9 @@ public:
     static QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash, const QString &fileName);
     static QString searchDirRecursively(const QDir &dir, const QString &matchHash, const QString &fullName);
 
-    void tempTest();
+    bool resolveProblemsWithGUI();
 
 private Q_SLOTS:
-    void acceptDialog();
-
     /** @brief Check if images and fonts in this clip exists, returns a list of images that do exist so we don't check twice. */
     void checkMissingImagesAndFonts(const QStringList &images, const QStringList &fonts, const QString &id);
     // void slotCheckButtons();
@@ -123,9 +119,8 @@ private:
     QStringList getInfoMessages();
 
     // TODO!!!
-    bool itemsContain(const QString &path, MissingType type, MissingStatus status = MissingStatus::Missing);
+    bool itemsContain(MissingType type, const QString &path = QString(), MissingStatus status = MissingStatus::Missing);
     int itemIndexByClipId(const QString &clipId);
-    bool itemsByTypeAndStatus(MissingType type, MissingStatus status = MissingStatus::Missing);
 
     static bool isSlideshow(const QString &resource);
     bool isSequenceWithSpeedEffect(const QDomElement &producer);
@@ -136,15 +131,13 @@ private:
                         const QDomNodeList &filters);
 
     void fixTitleImage(QDomElement &e, const QString &oldPath, const QString &newPath);
-    void fixTitleFont(const QDomNodeList &producers);
-    void fixAsset(const QDomNodeList &assets, const QMap<QString, QString> &searchPairs, const QString &oldPath, const QString &newPath);
+    void fixTitleFont(const QDomNodeList &producers, const QString &oldFont, const QString &newFont);
+    void fixAssetResource(const QDomNodeList &assets, const QMap<QString, QString> &searchPairs, const QString &oldPath, const QString &newPath);
     void usePlaceholderForClip(const QDomNodeList &items, const QString &clipId);
     void removeClip(const QDomNodeList &producers, const QDomNodeList &playlists, const QString &clipId);
     void fixClip(const QDomNodeList &items, const QString &clipId, const QString &newPath);
 
     QStringList fixSequences(QDomElement &e, const QDomNodeList &producers, const QStringList &tractorIds);
-
-    void applyChanges();
 
 Q_SIGNALS:
     void showScanning(const QString);
