@@ -63,7 +63,7 @@ void DocumentCheckerTreeModel::slotSearchRecursively(const QString &newpath)
         i.next();
         Q_EMIT searchProgress(counter, m_resourceItems.count());
         counter++;
-        if (i.value().status != DocumentChecker::MissingStatus::Missing) {
+        if (i.value().status != DocumentChecker::MissingStatus::Missing || i.value().status != DocumentChecker::MissingStatus::MissingButProxy) {
             continue;
         }
         QString newPath;
@@ -102,7 +102,7 @@ void DocumentCheckerTreeModel::usePlaceholdersForMissing()
         if (i.value().type == DocumentChecker::MissingType::TitleFont) {
             continue;
         }
-        if (i.value().status != DocumentChecker::MissingStatus::Missing) {
+        if (i.value().status != DocumentChecker::MissingStatus::Missing || i.value().status != DocumentChecker::MissingStatus::MissingButProxy) {
             continue;
         }
         m_resourceItems[i.key()].status = DocumentChecker::MissingStatus::Placeholder;
@@ -176,7 +176,7 @@ QVariant DocumentCheckerTreeModel::data(const QModelIndex &index, int role) cons
                 return QIcon::fromTheme(QStringLiteral("view-preview"));
             }
 
-            if (resource.status == DocumentChecker::MissingStatus::Reloaded) {
+            if (resource.status == DocumentChecker::MissingStatus::Reload) {
                 return QIcon::fromTheme(QStringLiteral("dialog-information"));
             }
 

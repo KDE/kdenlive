@@ -18,7 +18,7 @@ class DocumentChecker : public QObject
     Q_OBJECT
 
 public:
-    enum MissingStatus { Fixed, Reloaded, Missing, Placeholder, Remove };
+    enum MissingStatus { Fixed, Reload, Missing, MissingButProxy, Placeholder, Remove };
     enum MissingType { Clip, Proxy, Luma, AssetFile, TitleImage, TitleFont, Effect, Transition };
     struct DocumentResource
     {
@@ -108,7 +108,6 @@ private:
     bool isSequenceWithSpeedEffect(const QDomElement &producer);
     static bool isProfileHD(const QDomDocument &doc);
 
-    void fixSourceClipItem(const DocumentChecker::DocumentResource &resource, const QDomNodeList &producers, const QDomNodeList &chains);
     void fixMissingItem(const DocumentChecker::DocumentResource &resource, const QDomNodeList &producers, const QDomNodeList &chains, const QDomNodeList &trans,
                         const QDomNodeList &filters);
 
@@ -120,12 +119,11 @@ private:
     void fixAssetResource(const QDomNodeList &assets, const QMap<QString, QString> &searchPairs, const QString &oldPath, const QString &newPath);
     static void removeAssetsById(QDomDocument &doc, const QString &tagName, const QStringList &idsToDelete);
     void usePlaceholderForClip(const QDomNodeList &items, const QString &clipId);
-    void removeClip(const QDomNodeList &producers, const QDomNodeList &playlists, const QString &clipId);
+    void removeClip(const QDomNodeList &producers, const QDomNodeList &chains, const QDomNodeList &playlists, const QString &clipId);
     void fixClip(const QDomNodeList &items, const QString &clipId, const QString &newPath);
 
-    void fixProxyClip(const QString &id, const QString &oldUrl, const QString &newUrl);
-    void doFixProxyClip(QDomElement &e, const QString &oldUrl, const QString &newUrl);
-    void setReloadProxy(QDomElement &producer, const QString &realPath);
+    void fixProxyClip(const QDomNodeList &items, const QString &id, const QString &oldUrl, const QString &newUrl);
+    void removeProxy(const QDomNodeList &items, const QString &clipId, bool recreate);
     /** @brief Remove _missingsourcec flag in fixed clips */
     void fixMissingSource(const QString &id, const QDomNodeList &producers, const QDomNodeList &chains);
 

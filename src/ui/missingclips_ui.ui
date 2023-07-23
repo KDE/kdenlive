@@ -18,33 +18,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <string> Clip Problems</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="2" column="1">
-    <widget class="QPushButton" name="recursiveSearch">
-     <property name="text">
-      <string>Search recursively</string>
+   <item row="3" column="4">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
-     <property name="icon">
-      <iconset theme="tools-wizard"/>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1">
-    <widget class="QPushButton" name="usePlaceholders">
-     <property name="text">
-      <string>Use placeholders for missing clips</string>
-     </property>
-     <property name="icon">
-      <iconset theme="view-preview"/>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0" colspan="6">
-    <widget class="KMessageWidget" name="infoLabel">
-     <property name="wordWrap" stdset="0">
-      <bool>true</bool>
-     </property>
-     <property name="closeButtonVisible" stdset="0">
-      <bool>false</bool>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Abort|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>
@@ -54,28 +34,23 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       <string>Remove selected clips</string>
      </property>
      <property name="icon">
-      <iconset theme="edit-delete"/>
+      <iconset theme="edit-delete">
+       <normaloff>.</normaloff>.</iconset>
      </property>
     </widget>
    </item>
-   <item row="2" column="2">
-    <widget class="QPushButton" name="manualSearch">
+   <item row="2" column="1">
+    <widget class="QPushButton" name="recursiveSearch">
      <property name="text">
-      <string>Search manually</string>
+      <string>Search recursively</string>
      </property>
      <property name="icon">
-      <iconset theme="find-location"/>
+      <iconset theme="tools-wizard">
+       <normaloff>.</normaloff>.</iconset>
      </property>
     </widget>
    </item>
    <item row="3" column="3">
-    <widget class="QCheckBox" name="rebuildProxies">
-     <property name="text">
-      <string>Rebuild Proxies</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="4">
     <spacer name="horizontalSpacer">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -88,18 +63,40 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </property>
     </spacer>
    </item>
-   <item row="3" column="5">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+   <item row="0" column="0" colspan="5">
+    <widget class="QTreeView" name="treeView"/>
+   </item>
+   <item row="1" column="0" colspan="5">
+    <widget class="KMessageWidget" name="infoLabel">
+     <property name="wordWrap" stdset="0">
+      <bool>true</bool>
      </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Abort|QDialogButtonBox::Ok</set>
+     <property name="closeButtonVisible" stdset="0">
+      <bool>false</bool>
      </property>
     </widget>
    </item>
-   <item row="0" column="0" colspan="6">
-    <widget class="QTreeView" name="treeView"/>
+   <item row="3" column="1">
+    <widget class="QPushButton" name="usePlaceholders">
+     <property name="text">
+      <string>Use placeholders for missing clips</string>
+     </property>
+     <property name="icon">
+      <iconset theme="view-preview">
+       <normaloff>.</normaloff>.</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="2">
+    <widget class="QPushButton" name="manualSearch">
+     <property name="text">
+      <string>Search manually</string>
+     </property>
+     <property name="icon">
+      <iconset theme="find-location">
+       <normaloff>.</normaloff>.</iconset>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

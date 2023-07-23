@@ -48,8 +48,7 @@ DCResolveDialog::DCResolveDialog(std::vector<DocumentChecker::DocumentResource> 
     connect(selectionModel, &QItemSelectionModel::currentChanged, this, [&](const QModelIndex &current, const QModelIndex &) {
         DocumentChecker::DocumentResource resource = m_model->getDocumentResource(current);
         if (resource.type == DocumentChecker::MissingType::TitleFont || resource.type == DocumentChecker::MissingType::TitleImage ||
-            resource.type == DocumentChecker::MissingType::Proxy || resource.type == DocumentChecker::MissingType::Effect ||
-            resource.type == DocumentChecker::MissingType::Transition) {
+            resource.type == DocumentChecker::MissingType::Effect || resource.type == DocumentChecker::MissingType::Transition) {
             removeSelected->setEnabled(false);
         } else {
             removeSelected->setEnabled(true);
