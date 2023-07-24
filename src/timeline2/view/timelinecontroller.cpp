@@ -3460,29 +3460,12 @@ void TimelineController::switchTrackLock(bool applyToAll)
         // Invert track lock
         const auto ids = m_model->getAllTracksIds();
         // count the number of tracks to be locked
-        int toBeLockedCount =
-            std::accumulate(ids.begin(), ids.end(), 0, [this](int s, int id) { return s + (m_model->getTrackById_const(id)->isLocked() ? 0 : 1); });
-        bool hasSubtitleTrack = false;
-        if (m_model->hasSubtitleModel()) {
-            hasSubtitleTrack = true;
-            bool subLocked = m_model->getSubtitleModel()->isLocked();
-            if (!subLocked) {
-                toBeLockedCount++;
-            }
-        }
-        bool leaveOneUnlocked = toBeLockedCount == m_model->getTracksCount() + hasSubtitleTrack ? true : false;
         for (const int id : ids) {
-            // leave active track unlocked
-            if (leaveOneUnlocked && id == m_activeTrack) {
-                continue;
-            }
             bool isLocked = m_model->getTrackById_const(id)->isLocked();
             m_model->setTrackLockedState(id, !isLocked);
         }
-        if (hasSubtitleTrack) {
-            if (!leaveOneUnlocked || !m_model->isSubtitleTrack(m_activeTrack)) {
-                switchSubtitleLock();
-            }
+        if (m_model->hasSubtitleModel()) {
+            switchSubtitleLock();
         }
     }
 }
