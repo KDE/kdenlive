@@ -133,7 +133,7 @@ void TimelineTabs::connectCurrent(int ix)
     } else {
         qDebug() << "==== NO PREVIOUS TIMELINE";
     }
-    if (ix < 0 || ix >= count()) {
+    if (ix < 0 || ix >= count() || pCore->currentDoc()->closing) {
         m_activeTimeline = nullptr;
         qDebug() << "==== ABORTING NO TIMELINE AVAILABLE";
         return;
