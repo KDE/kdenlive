@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>266</width>
-    <height>252</height>
+    <width>281</width>
+    <height>341</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -39,6 +39,16 @@
    </item>
    <item>
     <widget class="QComboBox" name="param2List"/>
+   </item>
+   <item>
+    <widget class="QTextEdit" name="taskDescription">
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item>
     <spacer name="verticalSpacer">

@@ -88,6 +88,7 @@ ClipJobManager::ClipJobManager(AbstractTask::JOBTYPE type, QWidget *parent)
     connect(folder_name, &QLineEdit::textChanged, this, &ClipJobManager::setDirty);
     connect(param1_list, &QPlainTextEdit::textChanged, this, &ClipJobManager::setDirty);
     connect(param2_list, &QPlainTextEdit::textChanged, this, &ClipJobManager::setDirty);
+    connect(taskDescription, &QPlainTextEdit::textChanged, this, &ClipJobManager::setDirty);
     connect(param1_islist, &QAbstractButton::toggled, this, &ClipJobManager::setDirty);
     connect(param2_islist, &QAbstractButton::toggled, this, &ClipJobManager::setDirty);
     connect(param1_name, &QLineEdit::textChanged, this, &ClipJobManager::setDirty);
@@ -165,6 +166,8 @@ void ClipJobManager::loadJobs()
     m_param1Name = param1Name.entryMap();
     KConfigGroup param2Name(&conf, "Param2Name");
     m_param2Name = param2Name.entryMap();
+    KConfigGroup descName(&conf, "Description");
+    m_description = descName.entryMap();
 }
 
 void ClipJobManager::displayJob(int row)
@@ -224,6 +227,7 @@ void ClipJobManager::displayJob(int row)
     }
     param1_name->setText(m_param1Name.value(jobId));
     param2_name->setText(m_param2Name.value(jobId));
+    taskDescription->setPlainText(m_description.value(jobId));
 
     QStringList option1 = m_param1List.value(jobId).split(QLatin1String("  "));
     param1_list->setPlainText(option1.join(QLatin1Char('\n')));
@@ -300,6 +304,8 @@ QMap<QString, QString> ClipJobManager::getJobParameters(const QString &jobId)
     result.insert(QLatin1String("param1name"), p1Name.readEntry(jobId, QString()));
     KConfigGroup p2Name(&conf, "Param2Name");
     result.insert(QLatin1String("param2name"), p2Name.readEntry(jobId, QString()));
+    KConfigGroup descName(&conf, "Description");
+    result.insert(QLatin1String("details"), descName.readEntry(jobId, QString()));
     return result;
 }
 
@@ -316,6 +322,7 @@ void ClipJobManager::saveCurrentPreset()
     m_binaries.insert(m_dirty, url_binary->text().simplified());
     m_params.insert(m_dirty, job_params->toPlainText().simplified());
     m_output.insert(m_dirty, destination_pattern->text().simplified());
+    m_description.insert(m_dirty, taskDescription->toPlainText().simplified());
     QString enabledTypes;
     if (enable_video->isChecked()) {
         enabledTypes.append(QLatin1String("v"));
@@ -335,6 +342,7 @@ void ClipJobManager::saveCurrentPreset()
     m_param2List.insert(m_dirty, option2.join(QLatin1String("  ")));
     m_param1Name.insert(m_dirty, param1_name->text());
     m_param2Name.insert(m_dirty, param2_name->text());
+    m_description.insert(m_dirty, taskDescription->toPlainText());
     m_dirty.clear();
 }
 
@@ -364,6 +372,7 @@ void ClipJobManager::writePresetsToConfig()
     writeGroup(conf, QStringLiteral("Param2List"), m_param2List);
     writeGroup(conf, QStringLiteral("Param1Name"), m_param1Name);
     writeGroup(conf, QStringLiteral("Param2Name"), m_param2Name);
+    writeGroup(conf, QStringLiteral("Description"), m_description);
 }
 
 void ClipJobManager::addJob()
@@ -426,6 +435,7 @@ void ClipJobManager::deleteJob()
             m_param2List.remove(jobId);
             m_param1Name.remove(jobId);
             m_param2Name.remove(jobId);
+            m_description.remove(jobId);
             m_dirty.clear();
             job_list->setCurrentRow(0);
         }
@@ -434,7 +444,6 @@ void ClipJobManager::deleteJob()
 
 void ClipJobManager::updateName(QListWidgetItem *item)
 {
-    KConfig conf(QStringLiteral("clipjobsettings.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
-    KConfigGroup idGroup(&conf, "Ids");
-    idGroup.writeEntry(item->data(Qt::UserRole).toString(), item->text());
+    setDirty();
+    m_ids.insert(m_dirty, item->text());
 }

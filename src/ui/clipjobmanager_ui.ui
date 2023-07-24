@@ -6,14 +6,31 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>709</width>
-    <height>719</height>
+    <width>646</width>
+    <height>807</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_5">
+   <item row="1" column="0">
+    <widget class="QListWidget" name="job_list">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_5">
+     <property name="text">
+      <string>Job Description</string>
+     </property>
+    </widget>
+   </item>
    <item row="0" column="0">
     <widget class="QLabel" name="label">
      <property name="sizePolicy">
@@ -27,7 +44,74 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="1" rowspan="4">
+   <item row="5" column="0">
+    <widget class="QGroupBox" name="folder_box">
+     <property name="title">
+      <string>Project Bin behavior on completion</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0" colspan="2">
+       <widget class="QRadioButton" name="radio_replace">
+        <property name="text">
+         <string>Replace original with result</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QCheckBox" name="bin_subfolder">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>Use a subfolder</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QRadioButton" name="radio_folder">
+        <property name="text">
+         <string>Put resulting clip in a folder</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QComboBox" name="combo_folder">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <item>
+         <property name="text">
+          <string>Placed at top level</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Placed in the original clip folder</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLineEdit" name="folder_name">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="placeholderText">
+         <string>Folder name</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QPlainTextEdit" name="taskDescription">
+     <property name="placeholderText">
+      <string>Optional description that will show up if a parameter is requested</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1" rowspan="6">
     <widget class="QGroupBox" name="param_box">
      <property name="title">
       <string>Job parameters</string>
@@ -62,7 +146,8 @@
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset theme="help-about"/>
+         <iconset theme="help-about">
+          <normaloff>.</normaloff>.</iconset>
         </property>
         <property name="checkable">
          <bool>true</bool>
@@ -210,17 +295,7 @@
      </layout>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QListWidget" name="job_list">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
+   <item row="4" column="0">
     <widget class="QGroupBox" name="clip_types">
      <property name="title">
       <string>Applies to</string>
@@ -250,67 +325,7 @@
      </layout>
     </widget>
    </item>
-   <item row="3" column="0">
-    <widget class="QGroupBox" name="folder_box">
-     <property name="title">
-      <string>Project Bin behavior on completion</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0" colspan="2">
-       <widget class="QRadioButton" name="radio_replace">
-        <property name="text">
-         <string>Replace original with result</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QCheckBox" name="bin_subfolder">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="text">
-         <string>Use a subfolder</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QRadioButton" name="radio_folder">
-        <property name="text">
-         <string>Put resulting clip in a folder</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QComboBox" name="combo_folder">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <item>
-         <property name="text">
-          <string>Placed at top level</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Placed in the original clip folder</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLineEdit" name="folder_name">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="placeholderText">
-         <string>Folder name</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="4" column="0" colspan="2">
+   <item row="6" column="0" colspan="2">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QToolButton" name="button_add">

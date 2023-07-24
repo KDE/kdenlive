@@ -60,6 +60,12 @@ void CustomJobTask::start(QObject *object, const QString &jobId)
         QScopedPointer<QDialog> dia(new QDialog(QApplication::activeWindow()));
         Ui::CustomJobInterface_UI dia_ui;
         dia_ui.setupUi(dia.data());
+        const QString jobDetails = jobData.value(QLatin1String("details"));
+        if (!jobDetails.isEmpty()) {
+            dia_ui.taskDescription->setPlainText(jobDetails);
+        } else {
+            dia_ui.taskDescription->setVisible(false);
+        }
         dia->setWindowTitle(i18n("%1 parameters", jobName));
         if (requestParam1) {
             dia_ui.param1Label->setText(jobData.value(QLatin1String("param1name")));
@@ -164,6 +170,7 @@ void CustomJobTask::run()
     QString jobParameters = m_parameters.value(QLatin1String("parameters"));
     QStringList parameters;
     m_jobDuration = int(binClip->duration().seconds());
+    QFileInfo sourceInfo(source);
 
     // Tell ffmpeg to overwrite, we do the file exist check ourselves
     if (m_isFfmpegJob) {
@@ -173,18 +180,8 @@ void CustomJobTask::run()
         }
         parameters << QStringLiteral("-stats");
     }
-    if (jobParameters.contains(QStringLiteral("{source}"))) {
-        jobParameters.replace(QStringLiteral("{source}"), source);
-    }
-    if (jobParameters.contains(QStringLiteral("{param1}"))) {
-        jobParameters.replace(QStringLiteral("{param1}"), m_parameters.value(QLatin1String("param1value")));
-    }
-    if (jobParameters.contains(QStringLiteral("{param2}"))) {
-        jobParameters.replace(QStringLiteral("{param2}"), m_parameters.value(QLatin1String("param2value")));
-    }
 
     // Get output file name
-    QFileInfo sourceInfo(source);
     QString extension = m_parameters.value(QLatin1String("output"));
     if (extension.isEmpty()) {
         extension = sourceInfo.suffix();
@@ -210,14 +207,30 @@ void CustomJobTask::run()
         }
         destPath = baseDir.absoluteFilePath(fixedName + extension);
     }
-    if (jobParameters.contains(QStringLiteral("{output}"))) {
-        jobParameters.replace(QStringLiteral("{output}"), destPath);
-    } else {
-        jobParameters.append(QLatin1String(" "));
-        jobParameters.append(destPath);
-    }
 
     parameters << jobParameters.split(QLatin1Char(' '), Qt::SkipEmptyParts);
+
+    bool outputPlaced = false;
+    for (auto &p : parameters) {
+        // Replace
+        if (p.contains(QStringLiteral("{output}"))) {
+            p.replace(QStringLiteral("{output}"), destPath);
+            outputPlaced = true;
+        }
+        if (p.contains(QStringLiteral("{source}"))) {
+            p.replace(QStringLiteral("{source}"), source);
+        }
+        if (p.contains(QStringLiteral("{param1}"))) {
+            p.replace(QStringLiteral("{param1}"), m_parameters.value(QLatin1String("param1value")));
+        }
+        if (p.contains(QStringLiteral("{param2}"))) {
+            p.replace(QStringLiteral("{param2}"), m_parameters.value(QLatin1String("param2value")));
+        }
+    }
+    if (!outputPlaced) {
+        parameters << destPath;
+    }
+
     if (m_isFfmpegJob && m_outPoint > -1) {
         int inputIndex = parameters.indexOf(source);
         if (inputIndex > -1) {
@@ -232,7 +245,7 @@ void CustomJobTask::run()
     // Make sure we keep the stream order
     // parameters << QStringLiteral("-sn") << QStringLiteral("-dn") << QStringLiteral("-map") << QStringLiteral("0");
 
-    qDebug() << "/// FULL TRANSCODE PARAMS:\n" << parameters << "\n------";
+    qDebug() << "/// CUSTOM TASK PARAMS:\n" << parameters << "\n------";
     m_jobProcess.reset(new QProcess);
     // m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
     QObject::connect(this, &CustomJobTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
