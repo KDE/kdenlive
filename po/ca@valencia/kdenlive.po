@@ -9,16 +9,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-22 02:39+0000\n"
-"PO-Revision-Date: 2023-07-14 19:20+0300\n"
-"Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
+"POT-Creation-Date: 2023-07-24 10:09+0000\n"
+"PO-Revision-Date: 2023-07-23 20:30+0200\n"
+"Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.07.70\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -5958,6 +5958,8 @@ msgid ""
 "<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</b> "
 "by the second, , <b>{&#x25;3}</b> by the output file path."
 msgstr ""
+"<b>{&#x25;1}</b> se substituirà pel primer paràmetre, <b>{&#x25;2}</b> pel "
+"segon, <b>{&#x25;3}</b> pel camí del fitxer d'eixida."
 
 #: src/dialogs/clipjobmanager.cpp:48
 #, kde-format
@@ -5973,11 +5975,15 @@ msgid ""
 "inserted in place of <b>{&#x25;3}</b> if found. If output filename already "
 "exists, a -0001 pattern will be appended."
 msgstr ""
+"El nom del fitxer d'eixida serà el mateix que el del clip original de la "
+"safata, amb l'extensió modificada. S'afegirà al final dels arguments o "
+"s'inserirà en lloc de <b>{&#x25;3}</b> si hi és. Si el nom del fitxer "
+"d'eixida ja existix, s'afegirà un patró -0001."
 
 #: src/dialogs/clipjobmanager.cpp:54
 #, kde-format
 msgid "The first parameter that will be injected in the script arguments"
-msgstr ""
+msgstr "El primer paràmetre que s'injectarà en els arguments de l'script"
 
 #: src/dialogs/clipjobmanager.cpp:56 src/dialogs/clipjobmanager.cpp:66
 #, kde-kuit-format
@@ -5987,12 +5993,18 @@ msgid ""
 "File Path</b> will ask for a file path on execution<br/><b>Request Option in "
 "List</b> will ask for a choice in the list below on execution."
 msgstr ""
+"<b>Camí del clip original</b> posarà el camí del clip de la safata<br/> "
+"<b>Sol·licita el camí del fitxer</b> demanarà un camí de fitxer en "
+"l'execució<br/><b>Sol·licita una opció de la llista</b> demanarà que trieu "
+"en la llista a continuació en l'execució."
 
 #: src/dialogs/clipjobmanager.cpp:59 src/dialogs/clipjobmanager.cpp:69
 #, kde-format
 msgid ""
 "A newline separated list of possible values that will be offered on execution"
 msgstr ""
+"Una llista separada per salts de línia de valors possibles que s'oferiran en "
+"l'execució"
 
 #: src/dialogs/clipjobmanager.cpp:62 src/dialogs/clipjobmanager.cpp:72
 #, kde-kuit-format
@@ -6001,11 +6013,14 @@ msgid ""
 "When the parameter is set to <b>Request Option in List</b> the user will be "
 "asked to choose a value in this list when the job is started."
 msgstr ""
+"Quan el paràmetre s'establix a <b>Sol·licita un opció de la llista</b> "
+"l'usuari se li preguntarà que trie un valor d'esta llista quan s'inicie el "
+"treball."
 
 #: src/dialogs/clipjobmanager.cpp:64
 #, kde-format
 msgid "The second parameter that will be injected in the script arguments"
-msgstr ""
+msgstr "El segon paràmetre que s'injectarà en els arguments de l'script"
 
 #: src/dialogs/clipjobmanager.cpp:127 src/dialogs/clipjobmanager.cpp:252
 #, kde-format
@@ -8302,7 +8317,7 @@ msgstr "Copia l'efecte"
 #: src/effects/effectstack/model/effectstackmodel.cpp:323
 #: src/effects/effectstack/model/effectstackmodel.cpp:432
 #: src/effects/effectstack/model/effectstackmodel.cpp:486
-#: src/effects/effectstack/model/effectstackmodel.cpp:1067
+#: src/effects/effectstack/model/effectstackmodel.cpp:1064
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "No es pot afegir l'efecte %1 dues vegades."
@@ -8317,7 +8332,7 @@ msgstr "Apega l'efecte"
 msgid "Add effect %1"
 msgstr "Afig l'efecte %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:895
+#: src/effects/effectstack/model/effectstackmodel.cpp:894
 #, kde-format
 msgid "Move effect %1"
 msgstr "Mou l'efecte %1"
@@ -9584,16 +9599,14 @@ msgid "Screen Grab"
 msgstr "Captura la pantalla"
 
 #: src/mainwindow.cpp:349
-#, fuzzy, kde-format
-#| msgid "Select a clip to create sequence"
+#, kde-format
 msgid "Switch to next Sequence"
-msgstr "Seleccioneu un clip per a crear una seqüència"
+msgstr "Canvia a la seqüència següent"
 
 #: src/mainwindow.cpp:353
-#, fuzzy, kde-format
-#| msgid "Go to previous keyframe"
+#, kde-format
 msgid "Switch to previous Sequence"
-msgstr "Ves al fotograma clau anterior"
+msgstr "Canvia a la seqüència anterior"
 
 #: src/mainwindow.cpp:359
 #, kde-format
@@ -16598,6 +16611,8 @@ msgstr "Establiu la referència d'àudio abans d'intentar l'alineació"
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
 msgstr ""
+"Ja s'han assignat tots els fluxos. Primer desseleccioneu una altra "
+"destinació d'àudio"
 
 #: src/timeline2/view/timelinecontroller.cpp:3669
 #, kde-format
@@ -17826,50 +17841,51 @@ msgid ""
 "replaced by the first parameter value</li><li><b>{param2}</b> will be "
 "replaced by the second parameter value</li></ul>"
 msgstr ""
+"Les opcions següents estan disponibles en l'arguments: <ul><li><b>{origen}</"
+"b> se substituirà pel camí del fitxer original del clip de la safata</"
+"li><li><b>{eixida}</b> se substituirà pel nom del fitxer d'eixida</"
+"li><li><b>{param1}</b> se substituirà pel valor del primer paràmetre</"
+"li><li><b>{param2}</b> se substituirà pel valor del segon paràmetre</li></ul>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/clipjobmanager_ui.ui:91
-#, fuzzy, kde-format
-#| msgid "Parameters"
+#, kde-format
 msgid "Parameter 1 {param1}"
-msgstr "Paràmetres"
+msgstr "Paràmetre 1 {param1}"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_isfile)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_isfile)
 #: src/ui/clipjobmanager_ui.ui:97 src/ui/clipjobmanager_ui.ui:190
 #, kde-format
 msgid "Request file path"
-msgstr ""
+msgstr "Sol·licita el camí cap al fitxer"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_islist)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_islist)
 #: src/ui/clipjobmanager_ui.ui:107 src/ui/clipjobmanager_ui.ui:183
 #, kde-format
 msgid "Request option from list"
-msgstr ""
+msgstr "Sol·licita una opció de la llista"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param1_list)
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param2_list)
 #: src/ui/clipjobmanager_ui.ui:117 src/ui/clipjobmanager_ui.ui:169
-#, fuzzy, kde-format
-#| msgid "More options"
+#, kde-format
 msgid "List of options"
-msgstr "Més opcions"
+msgstr "Llista d'opcions"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param1_name)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param2_name)
 #: src/ui/clipjobmanager_ui.ui:124 src/ui/clipjobmanager_ui.ui:176
-#, fuzzy, kde-format
-#| msgid "Job description"
+#, kde-format
 msgid "Parameter description"
-msgstr "Descripció del treball"
+msgstr "Descripció del paràmetre"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: src/ui/clipjobmanager_ui.ui:147
-#, fuzzy, kde-format
-#| msgid "Parameters"
+#, kde-format
 msgid "Parameter 2 {param2}"
-msgstr "Paràmetres"
+msgstr "Paràmetre 2 {param2}"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/clipjobmanager_ui.ui:203
@@ -17881,7 +17897,7 @@ msgstr "Extensió del fitxer d'eixida"
 #: src/ui/clipjobmanager_ui.ui:226
 #, kde-format
 msgid "Applies to"
-msgstr ""
+msgstr "Aplica a"
 
 #. i18n: ectx: property (title), widget (QGroupBox, folder_box)
 #: src/ui/clipjobmanager_ui.ui:256
@@ -21539,15 +21555,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid "<b>&#x25;1</b> will be replaced by the path of the source clip."
-#~ msgstr "<b>&#x25;1</b> se substituirà pel camí del clip d'origen."
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid ""
-#~ "File extension for the output file. Empty will keep the same extension as "
-#~ "source file."
-#~ msgstr ""
-#~ "Extensió del fitxer d'eixida. Si està buida mantindrà la mateixa extensió "
-#~ "que el fitxer d'origen."

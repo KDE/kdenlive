@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-22 02:39+0000\n"
-"PO-Revision-Date: 2023-07-20 12:19+0300\n"
+"PO-Revision-Date: 2023-07-22 12:20+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -9511,16 +9511,16 @@ msgid "Screen Grab"
 msgstr "Ekran Yakalama"
 
 #: src/mainwindow.cpp:349
-#, fuzzy, kde-format
+#, kde-format
 #| msgid "Select a clip to create sequence"
 msgid "Switch to next Sequence"
-msgstr "Sekans oluşturmak için bir klip seç"
+msgstr "Sonraki sekansa geç"
 
 #: src/mainwindow.cpp:353
-#, fuzzy, kde-format
+#, kde-format
 #| msgid "Go to previous keyframe"
 msgid "Switch to previous Sequence"
-msgstr "Önceki anahtar kareye git"
+msgstr "Önceki sekansa geç"
 
 #: src/mainwindow.cpp:359
 #, kde-format
@@ -16450,6 +16450,7 @@ msgstr "Hizalamaya çalışmadan önce ses başvurusunu ayarlayın"
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
 msgstr ""
+"Tüm akışlar halihazırda atandı, başka bir ses hedefinin seçimini kaldır"
 
 #: src/timeline2/view/timelinecontroller.cpp:3669
 #, kde-format
@@ -21441,3 +21442,4 @@ msgstr "%1 sa"
 
 #~ msgid "Insert Zone to Project Bin"
 #~ msgstr "Bölgeyi Proje Kovasına Ekle"
+
