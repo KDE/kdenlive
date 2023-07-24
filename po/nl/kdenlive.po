@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-22 00:49+0000\n"
-"PO-Revision-Date: 2023-07-21 23:06+0200\n"
+"POT-Creation-Date: 2023-07-24 07:32+0000\n"
+"PO-Revision-Date: 2023-07-22 11:13+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
@@ -8299,7 +8299,7 @@ msgstr "Effect kopiëren"
 #: src/effects/effectstack/model/effectstackmodel.cpp:323
 #: src/effects/effectstack/model/effectstackmodel.cpp:432
 #: src/effects/effectstack/model/effectstackmodel.cpp:486
-#: src/effects/effectstack/model/effectstackmodel.cpp:1067
+#: src/effects/effectstack/model/effectstackmodel.cpp:1064
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "Effect %1 kan niet tweemaal worden toegevoegd."
@@ -8314,7 +8314,7 @@ msgstr "Effect plakken"
 msgid "Add effect %1"
 msgstr "Voeg effect %1 toe"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:895
+#: src/effects/effectstack/model/effectstackmodel.cpp:894
 #, kde-format
 msgid "Move effect %1"
 msgstr "Effect %1 verplaatsen"
@@ -9565,16 +9565,14 @@ msgid "Screen Grab"
 msgstr "Opname van beeldscherm"
 
 #: src/mainwindow.cpp:349
-#, fuzzy, kde-format
-#| msgid "Select a clip to create sequence"
+#, kde-format
 msgid "Switch to next Sequence"
-msgstr "Een clip selecteren om sequentie aan te maken"
+msgstr "Naar de volgende sequentie omschakelen"
 
 #: src/mainwindow.cpp:353
-#, fuzzy, kde-format
-#| msgid "Go to previous keyframe"
+#, kde-format
 msgid "Switch to previous Sequence"
-msgstr "Ga naar vorig keyframe"
+msgstr "Naar de vorige sequentie omschakelen"
 
 #: src/mainwindow.cpp:359
 #, kde-format
@@ -16522,6 +16520,8 @@ msgstr "Audioreferentie instellen voor uitlijnen te proberen"
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
 msgstr ""
+"Alle streams zijn al toegekend, maak selectie van een ander audiodoel eerst "
+"ongedaan"
 
 #: src/timeline2/view/timelinecontroller.cpp:3669
 #, kde-format

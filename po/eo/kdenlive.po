@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-22 00:49+0000\n"
-"PO-Revision-Date: 2023-07-2120:51+0100\n"
-"Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
+"POT-Creation-Date: 2023-07-24 07:32+0000\n"
+"PO-Revision-Date: 2023-07-22 12:20+0100nLast-Translator: Oliver Kellogg "
+"<okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
@@ -5943,6 +5943,9 @@ msgid ""
 "File Path</b> will ask for a file path on execution<br/><b>Request Option in "
 "List</b> will ask for a choice in the list below on execution."
 msgstr ""
+"<b>Fontvojo de Tondaĵo</b> metos la elektitan vojon de Bin-tondaĵo<br/"
+"><b>Peti Dosiervojon</b> petos dosiervojon je rulado<br/><b>Peti Opcion en "
+"Listo</b> petos elekton en la suba listo je rulado."
 
 #: src/dialogs/clipjobmanager.cpp:59 src/dialogs/clipjobmanager.cpp:69
 #, kde-format
@@ -8235,7 +8238,7 @@ msgstr "Kopii efiko"
 #: src/effects/effectstack/model/effectstackmodel.cpp:323
 #: src/effects/effectstack/model/effectstackmodel.cpp:432
 #: src/effects/effectstack/model/effectstackmodel.cpp:486
-#: src/effects/effectstack/model/effectstackmodel.cpp:1067
+#: src/effects/effectstack/model/effectstackmodel.cpp:1064
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "Efiko %1 ne povas esti aldonita dufoje."
@@ -8250,7 +8253,7 @@ msgstr "Alglui efekton"
 msgid "Add effect %1"
 msgstr "Aldoni efekton %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:895
+#: src/effects/effectstack/model/effectstackmodel.cpp:894
 #, kde-format
 msgid "Move effect %1"
 msgstr "Movi efekton %1"
@@ -9494,16 +9497,14 @@ msgid "Screen Grab"
 msgstr "Ekrankapto"
 
 #: src/mainwindow.cpp:349
-#, fuzzy, kde-format
-#| msgid "Select a clip to create sequence"
+#, kde-format
 msgid "Switch to next Sequence"
-msgstr "Elekti tondaĵon por krei sekvencon"
+msgstr "Ŝalti al sekva sekvenco"
 
 #: src/mainwindow.cpp:353
-#, fuzzy, kde-format
-#| msgid "Go to previous keyframe"
+#, kde-format
 msgid "Switch to previous Sequence"
-msgstr "Iri al antaŭa ŝlosilkadro"
+msgstr "Ŝalti al antaŭa sekvenco"
 
 #: src/mainwindow.cpp:359
 #, kde-format
@@ -16427,7 +16428,7 @@ msgstr "Agordu sonreferencon antaŭ provi vicigi"
 #: src/timeline2/view/timelinecontroller.cpp:3510
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
-msgstr ""
+msgstr "Ĉiuj fluoj jam asignitaj, unue malelektu alian soncelon"
 
 #: src/timeline2/view/timelinecontroller.cpp:3669
 #, kde-format

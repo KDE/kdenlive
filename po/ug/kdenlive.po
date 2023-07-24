@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-22 00:49+0000\n"
+"POT-Creation-Date: 2023-07-24 07:32+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -8445,7 +8445,7 @@ msgstr "ئۈنۈم يوق"
 #: src/effects/effectstack/model/effectstackmodel.cpp:323
 #: src/effects/effectstack/model/effectstackmodel.cpp:432
 #: src/effects/effectstack/model/effectstackmodel.cpp:486
-#: src/effects/effectstack/model/effectstackmodel.cpp:1067
+#: src/effects/effectstack/model/effectstackmodel.cpp:1064
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr ""
@@ -8462,7 +8462,7 @@ msgstr "ئۈنۈم"
 msgid "Add effect %1"
 msgstr "ئۈنۈم يوق"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:895
+#: src/effects/effectstack/model/effectstackmodel.cpp:894
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Move effect %1"

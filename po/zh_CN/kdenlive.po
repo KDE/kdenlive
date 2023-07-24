@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-22 00:49+0000\n"
-"PO-Revision-Date: 2023-07-18 11:11\n"
+"POT-Creation-Date: 2023-07-24 07:32+0000\n"
+"PO-Revision-Date: 2023-07-23 12:28\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -5829,6 +5829,8 @@ msgid ""
 "<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</b> "
 "by the second, , <b>{&#x25;3}</b> by the output file path."
 msgstr ""
+"<b>{&#x25;1}</b> 将被第 1 个参数替换，<b>{&#x25;2}</b> 将被第 2 个参数替换，"
+"<b>{&#x25;3}</b> 将被输出文件路径替换。"
 
 #: src/dialogs/clipjobmanager.cpp:48
 #, kde-format
@@ -5844,11 +5846,14 @@ msgid ""
 "inserted in place of <b>{&#x25;3}</b> if found. If output filename already "
 "exists, a -0001 pattern will be appended."
 msgstr ""
+"输出文件名将与来源素材箱剪辑文件名相同，但扩展名不同。此文件名将被附加在参数"
+"的末尾，或者在发现 <b>{&#x25;3}</b> 时插入到它的位置。如果输出文件名已经存"
+"在，则对文件名附加 a -0001 模式的后缀。"
 
 #: src/dialogs/clipjobmanager.cpp:54
 #, kde-format
 msgid "The first parameter that will be injected in the script arguments"
-msgstr ""
+msgstr "要在脚本参数中注入的第 1 个参数"
 
 #: src/dialogs/clipjobmanager.cpp:56 src/dialogs/clipjobmanager.cpp:66
 #, kde-kuit-format
@@ -5858,12 +5863,15 @@ msgid ""
 "File Path</b> will ask for a file path on execution<br/><b>Request Option in "
 "List</b> will ask for a choice in the list below on execution."
 msgstr ""
+"<b>来源剪辑路径</b> 将使用选中的素材箱剪辑的路径<br/><b>询问文件路径</b> 将在"
+"执行时询问文件路径<br/><b>询问列表中的选项</b> 将在执行时询问要选择下表中的哪"
+"些选项。"
 
 #: src/dialogs/clipjobmanager.cpp:59 src/dialogs/clipjobmanager.cpp:69
 #, kde-format
 msgid ""
 "A newline separated list of possible values that will be offered on execution"
-msgstr ""
+msgstr "以换行分隔的可能值列表，这些值将在执行时提供给程序"
 
 #: src/dialogs/clipjobmanager.cpp:62 src/dialogs/clipjobmanager.cpp:72
 #, kde-kuit-format
@@ -5872,11 +5880,13 @@ msgid ""
 "When the parameter is set to <b>Request Option in List</b> the user will be "
 "asked to choose a value in this list when the job is started."
 msgstr ""
+"如果参数设置为 <b>询问列表中的选项</b>，程序将在任务开始时询问用户要在此列表"
+"中选择哪一项。"
 
 #: src/dialogs/clipjobmanager.cpp:64
 #, kde-format
 msgid "The second parameter that will be injected in the script arguments"
-msgstr ""
+msgstr "要在脚本参数中注入的第 2 个参数"
 
 #: src/dialogs/clipjobmanager.cpp:127 src/dialogs/clipjobmanager.cpp:252
 #, kde-format
@@ -8089,7 +8099,7 @@ msgstr "复制效果"
 #: src/effects/effectstack/model/effectstackmodel.cpp:323
 #: src/effects/effectstack/model/effectstackmodel.cpp:432
 #: src/effects/effectstack/model/effectstackmodel.cpp:486
-#: src/effects/effectstack/model/effectstackmodel.cpp:1067
+#: src/effects/effectstack/model/effectstackmodel.cpp:1064
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "效果 %1 不能被添加两次。"
@@ -8104,7 +8114,7 @@ msgstr "粘贴效果"
 msgid "Add effect %1"
 msgstr "添加效果 %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:895
+#: src/effects/effectstack/model/effectstackmodel.cpp:894
 #, kde-format
 msgid "Move effect %1"
 msgstr "移动效果 %1"
@@ -9344,16 +9354,14 @@ msgid "Screen Grab"
 msgstr "屏幕捕获"
 
 #: src/mainwindow.cpp:349
-#, fuzzy, kde-format
-#| msgid "Select a clip to create sequence"
+#, kde-format
 msgid "Switch to next Sequence"
-msgstr "选择一个剪辑以创建序列"
+msgstr "切换到下一个序列"
 
 #: src/mainwindow.cpp:353
-#, fuzzy, kde-format
-#| msgid "Go to previous keyframe"
+#, kde-format
 msgid "Switch to previous Sequence"
-msgstr "跳转到上一关键帧"
+msgstr "切换到上一个序列"
 
 #: src/mainwindow.cpp:359
 #, kde-format
@@ -16131,7 +16139,7 @@ msgstr "请在尝试对齐前设置音频辅助线"
 #: src/timeline2/view/timelinecontroller.cpp:3510
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
-msgstr ""
+msgstr "所有的流均已分配，请先取消选择一个音频目标"
 
 #: src/timeline2/view/timelinecontroller.cpp:3669
 #, kde-format
@@ -17338,50 +17346,50 @@ msgid ""
 "replaced by the first parameter value</li><li><b>{param2}</b> will be "
 "replaced by the second parameter value</li></ul>"
 msgstr ""
+"在参数中可以使用以下选项：<ul><li><b>{source}</b> 将被替换为素材箱剪辑来源文"
+"件路径</li><li><b>{output}</b> 将被替换为输出文件名</li><li><b>{param1}</b> "
+"将被替换为第 1 个参数的值</li><li><b>{param2}</b> 将被替换为第 2 个参数的值</"
+"li></ul>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/clipjobmanager_ui.ui:91
-#, fuzzy, kde-format
-#| msgid "Parameters"
+#, kde-format
 msgid "Parameter 1 {param1}"
-msgstr "参数"
+msgstr "参数 1 {param1}"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_isfile)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_isfile)
 #: src/ui/clipjobmanager_ui.ui:97 src/ui/clipjobmanager_ui.ui:190
 #, kde-format
 msgid "Request file path"
-msgstr ""
+msgstr "询问文件路径"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_islist)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_islist)
 #: src/ui/clipjobmanager_ui.ui:107 src/ui/clipjobmanager_ui.ui:183
 #, kde-format
 msgid "Request option from list"
-msgstr ""
+msgstr "询问列表中的选项"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param1_list)
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param2_list)
 #: src/ui/clipjobmanager_ui.ui:117 src/ui/clipjobmanager_ui.ui:169
-#, fuzzy, kde-format
-#| msgid "More options"
+#, kde-format
 msgid "List of options"
-msgstr "更多选项"
+msgstr "选项列表"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param1_name)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param2_name)
 #: src/ui/clipjobmanager_ui.ui:124 src/ui/clipjobmanager_ui.ui:176
-#, fuzzy, kde-format
-#| msgid "Job description"
+#, kde-format
 msgid "Parameter description"
-msgstr "任务描述"
+msgstr "参数描述"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: src/ui/clipjobmanager_ui.ui:147
-#, fuzzy, kde-format
-#| msgid "Parameters"
+#, kde-format
 msgid "Parameter 2 {param2}"
-msgstr "参数"
+msgstr "参数 2 {param2}"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/clipjobmanager_ui.ui:203
@@ -17393,7 +17401,7 @@ msgstr "输出文件扩展名"
 #: src/ui/clipjobmanager_ui.ui:226
 #, kde-format
 msgid "Applies to"
-msgstr ""
+msgstr "应用到"
 
 #. i18n: ectx: property (title), widget (QGroupBox, folder_box)
 #: src/ui/clipjobmanager_ui.ui:256
@@ -21018,13 +21026,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid "<b>&#x25;1</b> will be replaced by the path of the source clip."
-#~ msgstr "<b>&#x25;1</b> 将被替换为来源剪辑的路径。"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid ""
-#~ "File extension for the output file. Empty will keep the same extension as "
-#~ "source file."
-#~ msgstr "输出文件的扩展名。留空时将使用与来源文件相同的扩展名。"

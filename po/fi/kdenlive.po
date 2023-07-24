@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-22 00:49+0000\n"
+"POT-Creation-Date: 2023-07-24 07:32+0000\n"
 "PO-Revision-Date: 2023-06-07 21:36+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -8218,7 +8218,7 @@ msgstr "Kopioi tehoste"
 #: src/effects/effectstack/model/effectstackmodel.cpp:323
 #: src/effects/effectstack/model/effectstackmodel.cpp:432
 #: src/effects/effectstack/model/effectstackmodel.cpp:486
-#: src/effects/effectstack/model/effectstackmodel.cpp:1067
+#: src/effects/effectstack/model/effectstackmodel.cpp:1064
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "Tehostetta %1 ei voi lisätä kahdesti."
@@ -8233,7 +8233,7 @@ msgstr "Liitä tehoste"
 msgid "Add effect %1"
 msgstr "Lisää tehoste %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:895
+#: src/effects/effectstack/model/effectstackmodel.cpp:894
 #, kde-format
 msgid "Move effect %1"
 msgstr "Siirrä tehoste %1"

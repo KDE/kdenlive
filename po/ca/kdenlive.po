@@ -9,16 +9,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-22 00:49+0000\n"
-"PO-Revision-Date: 2023-07-20 10:46+0300\n"
-"Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
+"POT-Creation-Date: 2023-07-24 07:32+0000\n"
+"PO-Revision-Date: 2023-07-23 20:30+0200\n"
+"Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.07.70\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -8318,7 +8318,7 @@ msgstr "Copia l'efecte"
 #: src/effects/effectstack/model/effectstackmodel.cpp:323
 #: src/effects/effectstack/model/effectstackmodel.cpp:432
 #: src/effects/effectstack/model/effectstackmodel.cpp:486
-#: src/effects/effectstack/model/effectstackmodel.cpp:1067
+#: src/effects/effectstack/model/effectstackmodel.cpp:1064
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "No es pot afegir l'efecte %1 dues vegades."
@@ -8333,7 +8333,7 @@ msgstr "Enganxa l'efecte"
 msgid "Add effect %1"
 msgstr "Afegeix l'efecte %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:895
+#: src/effects/effectstack/model/effectstackmodel.cpp:894
 #, kde-format
 msgid "Move effect %1"
 msgstr "Mou l'efecte %1"
@@ -9597,16 +9597,14 @@ msgid "Screen Grab"
 msgstr "Captura la pantalla"
 
 #: src/mainwindow.cpp:349
-#, fuzzy, kde-format
-#| msgid "Select a clip to create sequence"
+#, kde-format
 msgid "Switch to next Sequence"
-msgstr "Seleccioneu un clip per a crear una seqüència"
+msgstr "Canvia a la seqüència següent"
 
 #: src/mainwindow.cpp:353
-#, fuzzy, kde-format
-#| msgid "Go to previous keyframe"
+#, kde-format
 msgid "Switch to previous Sequence"
-msgstr "Ves al fotograma clau anterior"
+msgstr "Canvia a la seqüència anterior"
 
 #: src/mainwindow.cpp:359
 #, kde-format
@@ -16609,6 +16607,8 @@ msgstr "Establiu la referència d'àudio abans d'intentar l'alineació"
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
 msgstr ""
+"Ja s'han assignat tots els fluxos. Primer desseleccioneu una altra "
+"destinació d'àudio"
 
 #: src/timeline2/view/timelinecontroller.cpp:3669
 #, kde-format
@@ -17839,7 +17839,7 @@ msgid ""
 "replaced by the second parameter value</li></ul>"
 msgstr ""
 "Les opcions següents estan disponibles en el arguments: <ul><li><b>{origen}</"
-"b> se substituirà pel camí del fitxer original del clip de la safa</"
+"b> se substituirà pel camí del fitxer original del clip de la safata</"
 "li><li><b>{sortida}</b> se substituirà pel nom del fitxer de sortida</"
 "li><li><b>{param1}</b> se substituirà pel valor del primer paràmetre</"
 "li><li><b>{param2}</b> se substituirà pel valor del segon paràmetre</li></ul>"
