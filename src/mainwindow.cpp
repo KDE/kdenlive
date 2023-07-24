@@ -1864,7 +1864,7 @@ void MainWindow::setupActions()
     timelineActions->addAction(QStringLiteral("switch_target_stream"), switchTrackTarget);
     actionCollection()->setDefaultShortcut(switchTrackTarget, Qt::Key_Apostrophe);
 
-    QAction *deleteTrack = new QAction(QIcon(), i18n("Delete Track"), this);
+    QAction *deleteTrack = new QAction(QIcon(), i18n("Delete Track…"), this);
     connect(deleteTrack, &QAction::triggered, this, &MainWindow::slotDeleteTrack);
     timelineActions->addAction(QStringLiteral("delete_track"), deleteTrack);
     deleteTrack->setData("delete_track");
