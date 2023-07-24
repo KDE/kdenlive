@@ -59,6 +59,7 @@ private:
     QMap<QString, QString> m_param2List;
     QMap<QString, QString> m_param1Name;
     QMap<QString, QString> m_param2Name;
+    QMap<QString, QString> m_description;
 
     /** @brief Sync a group to config file */
     void writeGroup(KConfig &conf, const QString &groupName, QMap<QString, QString> values);
