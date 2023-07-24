@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-22 00:49+0000\n"
-"PO-Revision-Date: 2023-07-20 12:19+0300\n"
+"POT-Creation-Date: 2023-07-24 07:32+0000\n"
+"PO-Revision-Date: 2023-07-22 12:20+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -8245,7 +8245,7 @@ msgstr "Efekti kopyala"
 #: src/effects/effectstack/model/effectstackmodel.cpp:323
 #: src/effects/effectstack/model/effectstackmodel.cpp:432
 #: src/effects/effectstack/model/effectstackmodel.cpp:486
-#: src/effects/effectstack/model/effectstackmodel.cpp:1067
+#: src/effects/effectstack/model/effectstackmodel.cpp:1064
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "%1 etkisi iki kez eklenemiyor."
@@ -8260,7 +8260,7 @@ msgstr "Efekti Yapıştır"
 msgid "Add effect %1"
 msgstr "%1 efekti ekle"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:895
+#: src/effects/effectstack/model/effectstackmodel.cpp:894
 #, kde-format
 msgid "Move effect %1"
 msgstr "%1 Efektini Taşı"
@@ -9511,16 +9511,14 @@ msgid "Screen Grab"
 msgstr "Ekran Yakalama"
 
 #: src/mainwindow.cpp:349
-#, fuzzy, kde-format
-#| msgid "Select a clip to create sequence"
+#, kde-format
 msgid "Switch to next Sequence"
-msgstr "Sekans oluşturmak için bir klip seç"
+msgstr "Sonraki sekansa geç"
 
 #: src/mainwindow.cpp:353
-#, fuzzy, kde-format
-#| msgid "Go to previous keyframe"
+#, kde-format
 msgid "Switch to previous Sequence"
-msgstr "Önceki anahtar kareye git"
+msgstr "Önceki sekansa geç"
 
 #: src/mainwindow.cpp:359
 #, kde-format
@@ -16450,6 +16448,7 @@ msgstr "Hizalamaya çalışmadan önce ses başvurusunu ayarlayın"
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
 msgstr ""
+"Tüm akışlar halihazırda atandı, başka bir ses hedefinin seçimini kaldır"
 
 #: src/timeline2/view/timelinecontroller.cpp:3669
 #, kde-format
