@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-24 10:09+0000\n"
+"POT-Creation-Date: 2023-07-25 02:29+0000\n"
 "PO-Revision-Date: 2023-07-22 18:49+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -3397,7 +3397,7 @@ msgstr "Вмикає або вимикає показ ключових кадр�
 msgid "%1 effects"
 msgstr "Ефекти %1"
 
-#: src/assets/assetpanel.cpp:243 src/jobs/customjobtask.cpp:63
+#: src/assets/assetpanel.cpp:243 src/jobs/customjobtask.cpp:69
 #, kde-format
 msgid "%1 parameters"
 msgstr "Параметри %1"
@@ -4135,7 +4135,7 @@ msgid "When selected mutes all other audio tracks."
 msgstr "Якщо позначено, вимикає звук на усіх інших звукових доріжках."
 
 #: src/audiomixer/mixerwidget.cpp:270
-#: src/timeline2/view/timelinecontroller.cpp:4787
+#: src/timeline2/view/timelinecontroller.cpp:4770
 #, kde-format
 msgid "Record audio"
 msgstr "Записати звук"
@@ -4533,7 +4533,7 @@ msgstr "Вимкнути звук"
 #: src/bin/bin.cpp:2264 src/effects/effectlist/model/effecttreemodel.cpp:60
 #: src/layoutmanagement.cpp:36 src/lib/audio/audioStreamInfo.cpp:24
 #: src/monitor/recmanager.cpp:47 src/onlineresources/resourcewidget.cpp:547
-#: src/ui/clipjobmanager_ui.ui:239 src/ui/configcapture_ui.ui:525
+#: src/ui/clipjobmanager_ui.ui:314 src/ui/configcapture_ui.ui:525
 #: src/ui/cutjobdialog_ui.ui:61 src/ui/editrenderpreset_ui.ui:834
 #: src/ui/projectsettings_ui.ui:180 src/ui/renderwidget_ui.ui:589
 #, kde-format
@@ -6037,37 +6037,37 @@ msgstr ""
 msgid "The second parameter that will be injected in the script arguments"
 msgstr "Другий параметр, який буде вставлено до аргументів скрипту"
 
-#: src/dialogs/clipjobmanager.cpp:127 src/dialogs/clipjobmanager.cpp:252
+#: src/dialogs/clipjobmanager.cpp:128 src/dialogs/clipjobmanager.cpp:256
 #, kde-format
 msgid "Stabilize"
 msgstr "Стабілізація"
 
-#: src/dialogs/clipjobmanager.cpp:130 src/dialogs/clipjobmanager.cpp:256
+#: src/dialogs/clipjobmanager.cpp:131 src/dialogs/clipjobmanager.cpp:260
 #, kde-format
 msgid "Duplicate Clip with Speed Change…"
 msgstr "Дублювати кліп зі зміною швидкості…"
 
-#: src/dialogs/clipjobmanager.cpp:254
+#: src/dialogs/clipjobmanager.cpp:258
 #, kde-format
 msgid "Automatic Scene Split…"
 msgstr "Автоматичний поділ на сцени…"
 
-#: src/dialogs/clipjobmanager.cpp:284
+#: src/dialogs/clipjobmanager.cpp:288
 #, kde-format
 msgid "Job description"
 msgstr "Опис завдання"
 
-#: src/dialogs/clipjobmanager.cpp:372
+#: src/dialogs/clipjobmanager.cpp:381
 #, kde-format
 msgid "My Clip Job"
 msgstr "Завдання кліпу"
 
-#: src/dialogs/clipjobmanager.cpp:380
+#: src/dialogs/clipjobmanager.cpp:389
 #, kde-format
 msgid "My Clip Job %1"
 msgstr "Завдання кліпу %1"
 
-#: src/dialogs/clipjobmanager.cpp:406
+#: src/dialogs/clipjobmanager.cpp:415
 #, kde-format
 msgid ""
 "Permanently delete this Clip Job:\n"
@@ -6254,7 +6254,7 @@ msgstr "Експортування даних напрямних"
 #: src/project/projectmanager.cpp:1571 src/render/renderrequest.cpp:230
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
-#: src/timeline2/view/timelinecontroller.cpp:5119
+#: src/timeline2/view/timelinecontroller.cpp:5102
 #: src/titler/titlewidget.cpp:2201
 #, kde-format
 msgid "Cannot write to file %1"
@@ -8660,12 +8660,12 @@ msgstr "Позиціювання у файлі <b>%1</b> неможливе."
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "Частота кадрів у файлі <b>%1</b> є змінною."
 
-#: src/jobs/customjobtask.cpp:159
+#: src/jobs/customjobtask.cpp:165
 #, kde-format
 msgid "Application %1 not found, please update the job settings"
 msgstr "Не знайдено програми %1. Будь ласка, оновіть параметри завдання"
 
-#: src/jobs/customjobtask.cpp:251 src/jobs/customjobtask.cpp:261
+#: src/jobs/customjobtask.cpp:264 src/jobs/customjobtask.cpp:274
 #: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:231
 #: src/jobs/transcodetask.cpp:267
 #, kde-format
@@ -10700,7 +10700,7 @@ msgstr "Вставити доріжку…"
 msgid "Fit all Tracks in View"
 msgstr "Підібрати розміри для усіх доріжок перегляду"
 
-#: src/mainwindow.cpp:1855 src/timeline2/view/timelinecontroller.cpp:4828
+#: src/mainwindow.cpp:1855 src/timeline2/view/timelinecontroller.cpp:4811
 #, kde-format
 msgid "Master effects"
 msgstr "Основні ефекти"
@@ -10710,10 +10710,10 @@ msgstr "Основні ефекти"
 msgid "Switch Track Target Audio Stream"
 msgstr "Перемкнути звуковий потік призначення доріжки"
 
-#: src/mainwindow.cpp:1867 src/timeline2/model/timelinemodel.cpp:4318
-#: src/timeline2/view/timelinecontroller.cpp:882
-#, kde-format
-msgid "Delete Track"
+#: src/mainwindow.cpp:1867
+#, fuzzy, kde-format
+#| msgid "Delete Track"
+msgid "Delete Track…"
 msgstr "Вилучити доріжку"
 
 #: src/mainwindow.cpp:1872
@@ -11255,7 +11255,7 @@ msgstr ""
 "Для застосування нової теми піктограм Kdenlive слід перезапустити. Зробити "
 "це зараз?"
 
-#: src/mainwindow.cpp:4573 src/timeline2/view/timelinecontroller.cpp:5102
+#: src/mainwindow.cpp:4573 src/timeline2/view/timelinecontroller.cpp:5085
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "У поточному проєкті немає субтитрів"
@@ -12182,7 +12182,7 @@ msgstr "Записати"
 #. i18n: ectx: attribute (title), widget (QWidget, video_tab)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/monitor/recmanager.cpp:46 src/onlineresources/resourcewidget.cpp:549
-#: src/ui/clipjobmanager_ui.ui:232 src/ui/cutjobdialog_ui.ui:107
+#: src/ui/clipjobmanager_ui.ui:307 src/ui/cutjobdialog_ui.ui:107
 #: src/ui/editrenderpreset_ui.ui:122 src/ui/projectsettings_ui.ui:173
 #: src/ui/renderwidget_ui.ui:478
 #, kde-format
@@ -12674,7 +12674,7 @@ msgid "Please choose the version you want to download"
 msgstr "Будь ласка, виберіть версію, яку ви хочете отримати"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_image)
-#: src/onlineresources/resourcewidget.cpp:551 src/ui/clipjobmanager_ui.ui:246
+#: src/onlineresources/resourcewidget.cpp:551 src/ui/clipjobmanager_ui.ui:321
 #, kde-format
 msgid "Images"
 msgstr "Зображення"
@@ -13244,7 +13244,7 @@ msgstr ""
 
 #: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1464
 #: src/renderpresets/renderpresetrepository.cpp:313
-#: src/timeline2/view/timelinecontroller.cpp:5025
+#: src/timeline2/view/timelinecontroller.cpp:5008
 #, kde-format
 msgid "Cannot read file %1"
 msgstr "Не вдалося прочитати файл %1"
@@ -15677,7 +15677,7 @@ msgstr "Не вдалося пересунути позначену групу"
 #: src/timeline2/model/timelinefunctions.cpp:977
 #: src/timeline2/model/timelinefunctions.cpp:981
 #: src/timeline2/model/timelinefunctions.cpp:988
-#: src/timeline2/view/timelinecontroller.cpp:4057
+#: src/timeline2/view/timelinecontroller.cpp:4040
 #, kde-format
 msgid "Enable clip"
 msgstr "Увімкнути кліп"
@@ -15685,7 +15685,7 @@ msgstr "Увімкнути кліп"
 #: src/timeline2/model/timelinefunctions.cpp:977
 #: src/timeline2/model/timelinefunctions.cpp:981
 #: src/timeline2/model/timelinefunctions.cpp:988
-#: src/timeline2/view/timelinecontroller.cpp:4057
+#: src/timeline2/view/timelinecontroller.cpp:4040
 #, kde-format
 msgid "Disable clip"
 msgstr "Вимкнути кліп"
@@ -15943,7 +15943,7 @@ msgstr "Вилучити композицію"
 
 #: src/timeline2/model/timelinemodel.cpp:2203
 #: src/timeline2/model/timelinemodel.cpp:2365
-#: src/timeline2/view/timelinecontroller.cpp:4238
+#: src/timeline2/view/timelinecontroller.cpp:4221
 #, kde-format
 msgid "Move group"
 msgstr "Пересунути групу"
@@ -16018,6 +16018,12 @@ msgstr "Згрупувати кліпи"
 #, kde-format
 msgid "Ungroup clips"
 msgstr "Розгрупувати кліпи"
+
+#: src/timeline2/model/timelinemodel.cpp:4318
+#: src/timeline2/view/timelinecontroller.cpp:882
+#, kde-format
+msgid "Delete Track"
+msgstr "Вилучити доріжку"
 
 #: src/timeline2/model/timelinemodel.cpp:4328
 #, kde-format
@@ -16531,7 +16537,7 @@ msgid "Cannot perform operation while dragging in timeline"
 msgstr "Неможливо виконати дію під час перетягування на монтажному столі"
 
 #: src/timeline2/view/timelinecontroller.cpp:859
-#: src/timeline2/view/timelinecontroller.cpp:4971
+#: src/timeline2/view/timelinecontroller.cpp:4954
 #, kde-format
 msgid "Could not insert track"
 msgstr "Не вдалося вставити доріжку"
@@ -16565,13 +16571,13 @@ msgstr "Позначте принаймні 2 записи для групува
 #: src/timeline2/view/timelinecontroller.cpp:3246
 #: src/timeline2/view/timelinecontroller.cpp:3295
 #: src/timeline2/view/timelinecontroller.cpp:3324
-#: src/timeline2/view/timelinecontroller.cpp:3646
-#: src/timeline2/view/timelinecontroller.cpp:3661
-#: src/timeline2/view/timelinecontroller.cpp:3686
-#: src/timeline2/view/timelinecontroller.cpp:3701
-#: src/timeline2/view/timelinecontroller.cpp:3763
-#: src/timeline2/view/timelinecontroller.cpp:3898
-#: src/timeline2/view/timelinecontroller.cpp:3922
+#: src/timeline2/view/timelinecontroller.cpp:3629
+#: src/timeline2/view/timelinecontroller.cpp:3644
+#: src/timeline2/view/timelinecontroller.cpp:3669
+#: src/timeline2/view/timelinecontroller.cpp:3684
+#: src/timeline2/view/timelinecontroller.cpp:3746
+#: src/timeline2/view/timelinecontroller.cpp:3881
+#: src/timeline2/view/timelinecontroller.cpp:3905
 #, kde-format
 msgid "No clip selected"
 msgstr "Не вибрано жодного кліпу"
@@ -16619,14 +16625,14 @@ msgstr "Не вдалося вилучити усі кліпи"
 #: src/timeline2/view/timelinecontroller.cpp:2801
 #: src/timeline2/view/timelinecontroller.cpp:2806
 #: src/timeline2/view/timelinecontroller.cpp:2829
-#: src/timeline2/view/timelinecontroller.cpp:3769
-#: src/timeline2/view/timelinecontroller.cpp:3787
+#: src/timeline2/view/timelinecontroller.cpp:3752
+#: src/timeline2/view/timelinecontroller.cpp:3770
 #, kde-format
 msgid "No item to edit"
 msgstr "Немає записів для редагування"
 
 #: src/timeline2/view/timelinecontroller.cpp:2918
-#: src/timeline2/view/timelinecontroller.cpp:5266
+#: src/timeline2/view/timelinecontroller.cpp:5249
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr ""
@@ -16660,76 +16666,76 @@ msgstr "Не вдалося пересунути кліп до кадру %1."
 msgid "Set audio reference before attempting to align"
 msgstr "Встановіть звукове посилання до спроби вирівнювання"
 
-#: src/timeline2/view/timelinecontroller.cpp:3510
+#: src/timeline2/view/timelinecontroller.cpp:3493
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
 msgstr ""
 "Усі потоки вже пов'язано. Спочатку зніміть позначку з якогось іншого "
 "призначення звукових даних"
 
-#: src/timeline2/view/timelinecontroller.cpp:3669
+#: src/timeline2/view/timelinecontroller.cpp:3652
 #, kde-format
 msgid "Delete effects"
 msgstr "Вилучити ефекти"
 
-#: src/timeline2/view/timelinecontroller.cpp:3707
-#: src/timeline2/view/timelinecontroller.cpp:3713
-#: src/timeline2/view/timelinecontroller.cpp:3718
+#: src/timeline2/view/timelinecontroller.cpp:3690
+#: src/timeline2/view/timelinecontroller.cpp:3696
+#: src/timeline2/view/timelinecontroller.cpp:3701
 #, kde-format
 msgid "No information in clipboard"
 msgstr "У буфері обміну даними немає придатних даних"
 
-#: src/timeline2/view/timelinecontroller.cpp:3741
+#: src/timeline2/view/timelinecontroller.cpp:3724
 #, kde-format
 msgid "Paste effects"
 msgstr "Вставити ефекти"
 
-#: src/timeline2/view/timelinecontroller.cpp:3743
+#: src/timeline2/view/timelinecontroller.cpp:3726
 #, kde-format
 msgid "Cannot paste effect on selected clip"
 msgstr "Не вдалося вставити ефект до позначеного кліпу"
 
-#: src/timeline2/view/timelinecontroller.cpp:3855
+#: src/timeline2/view/timelinecontroller.cpp:3838
 #, kde-format
 msgid "Edit item"
 msgstr "Змінити запис"
 
-#: src/timeline2/view/timelinecontroller.cpp:3883
+#: src/timeline2/view/timelinecontroller.cpp:3866
 #, kde-format
 msgid "Open sequence"
 msgstr "Відкрити послідовність"
 
-#: src/timeline2/view/timelinecontroller.cpp:3905
+#: src/timeline2/view/timelinecontroller.cpp:3888
 #, kde-format
 msgid "Item is not a title clip"
 msgstr "Запис не є кліпом із титрами"
 
-#: src/timeline2/view/timelinecontroller.cpp:3998
+#: src/timeline2/view/timelinecontroller.cpp:3981
 #, kde-format
 msgid "%1 items selected (%2) |"
 msgstr "Позначено %1 записів (%2) |"
 
-#: src/timeline2/view/timelinecontroller.cpp:4052
+#: src/timeline2/view/timelinecontroller.cpp:4035
 #, kde-format
 msgid "Restore video"
 msgstr "Відновити відео"
 
-#: src/timeline2/view/timelinecontroller.cpp:4052
+#: src/timeline2/view/timelinecontroller.cpp:4035
 #, kde-format
 msgid "Restore audio"
 msgstr "Відновити звук"
 
-#: src/timeline2/view/timelinecontroller.cpp:4219
+#: src/timeline2/view/timelinecontroller.cpp:4202
 #, kde-format
 msgid "Move item"
 msgstr "Переміщення елемента"
 
-#: src/timeline2/view/timelinecontroller.cpp:4701
+#: src/timeline2/view/timelinecontroller.cpp:4684
 #, kde-format
 msgid "Impossible to capture on a locked track"
 msgstr "Не можна виконувати захоплення до заблокованої доріжки"
 
-#: src/timeline2/view/timelinecontroller.cpp:4712
+#: src/timeline2/view/timelinecontroller.cpp:4695
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
@@ -16739,17 +16745,17 @@ msgstr ""
 "кліпи. Будь ласка, вилучіть кліпи після поточної позиції або виберіть іншу "
 "доріжку."
 
-#: src/timeline2/view/timelinecontroller.cpp:4925
+#: src/timeline2/view/timelinecontroller.cpp:4908
 #, kde-format
 msgid "Expand clip"
 msgstr "Розгорнути кліп"
 
-#: src/timeline2/view/timelinecontroller.cpp:4928
+#: src/timeline2/view/timelinecontroller.cpp:4911
 #, kde-format
 msgid "Could not expand clip"
 msgstr "Не вдалося розширити кліп"
 
-#: src/timeline2/view/timelinecontroller.cpp:4969
+#: src/timeline2/view/timelinecontroller.cpp:4952
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
@@ -16758,43 +16764,43 @@ msgstr[1] "Вставити доріжки"
 msgstr[2] "Вставити доріжки"
 msgstr[3] "Вставити доріжку"
 
-#: src/timeline2/view/timelinecontroller.cpp:5016
+#: src/timeline2/view/timelinecontroller.cpp:4999
 #, kde-format
 msgid "Character encoding used to save the subtitle file."
 msgstr "Кодування символів, яке буде використано для збереження файла."
 
-#: src/timeline2/view/timelinecontroller.cpp:5017
+#: src/timeline2/view/timelinecontroller.cpp:5000
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "якщо не певні, скористайтеся таким:<br/><b>Unicode (UTF-8)</b>."
 
-#: src/timeline2/view/timelinecontroller.cpp:5057
+#: src/timeline2/view/timelinecontroller.cpp:5040
 #, kde-format
 msgid "Encoding could not be guessed, using UTF-8"
 msgstr "Не вдалося визначити кодування, використовуємо UTF-8"
 
-#: src/timeline2/view/timelinecontroller.cpp:5061
+#: src/timeline2/view/timelinecontroller.cpp:5044
 #, kde-format
 msgid "Encoding detected as %1"
 msgstr "Виявлено кодування %1"
 
-#: src/timeline2/view/timelinecontroller.cpp:5078
+#: src/timeline2/view/timelinecontroller.cpp:5061
 #, kde-format
 msgid "Import Subtitle"
 msgstr "Імпортувати з файла субтитрів"
 
-#: src/timeline2/view/timelinecontroller.cpp:5105
+#: src/timeline2/view/timelinecontroller.cpp:5088
 #, kde-format
 msgid "Export subtitle file"
 msgstr "Експортувати до файла субтитрів"
 
-#: src/timeline2/view/timelinecontroller.cpp:5106
+#: src/timeline2/view/timelinecontroller.cpp:5089
 #, kde-format
 msgid "Subtitle File (*.srt)"
 msgstr "файл субтитрів (*.srt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5136
+#: src/timeline2/view/timelinecontroller.cpp:5119
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
@@ -16803,22 +16809,22 @@ msgstr ""
 "Потрібен фільтр avfilter.subtitles, якого не виявлено. Ймовірно, можливість "
 "роботи із субтитрами не працюватиме належним чином."
 
-#: src/timeline2/view/timelinecontroller.cpp:5153
+#: src/timeline2/view/timelinecontroller.cpp:5136
 #, kde-format
 msgid "Show subtitle track"
 msgstr "Показати доріжку субтитрів"
 
-#: src/timeline2/view/timelinecontroller.cpp:5153
+#: src/timeline2/view/timelinecontroller.cpp:5136
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "Приховати доріжку субтитрів"
 
-#: src/timeline2/view/timelinecontroller.cpp:5176
+#: src/timeline2/view/timelinecontroller.cpp:5159
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "Розблокувати доріжку субтитрів"
 
-#: src/timeline2/view/timelinecontroller.cpp:5176
+#: src/timeline2/view/timelinecontroller.cpp:5159
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "Заблокувати доріжку субтитрів"
@@ -17746,8 +17752,8 @@ msgstr "Вилучити поточну точку."
 #: src/ui/bezierspline_ui.ui:121 src/ui/bezierspline_ui.ui:137
 #: src/ui/bezierspline_ui.ui:156 src/ui/bezierspline_ui.ui:172
 #: src/ui/bezierspline_ui.ui:189 src/ui/bezierspline_ui.ui:206
-#: src/ui/clipjobmanager_ui.ui:62 src/ui/clipjobmanager_ui.ui:318
-#: src/ui/clipjobmanager_ui.ui:329 src/ui/clipstabilize_ui.ui:57
+#: src/ui/clipjobmanager_ui.ui:146 src/ui/clipjobmanager_ui.ui:333
+#: src/ui/clipjobmanager_ui.ui:344 src/ui/clipstabilize_ui.ui:57
 #: src/ui/clipstabilize_ui.ui:94 src/ui/collapsiblewidget_ui.ui:103
 #: src/ui/collapsiblewidget_ui.ui:129 src/ui/collapsiblewidget_ui.ui:139
 #: src/ui/collapsiblewidget_ui.ui:149 src/ui/collapsiblewidget_ui.ui:162
@@ -17872,32 +17878,87 @@ msgstr "Позиція:"
 msgid "Crop end:"
 msgstr "Обрізати кінець:"
 
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: src/ui/clipjobmanager_ui.ui:30
+#, fuzzy, kde-format
+#| msgid "Job description"
+msgid "Job Description"
+msgstr "Опис завдання"
+
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/clipjobmanager_ui.ui:26
+#: src/ui/clipjobmanager_ui.ui:43
 #, kde-format
 msgid "Custom clip jobs"
 msgstr "Нетипові завдання кліпів"
 
+#. i18n: ectx: property (title), widget (QGroupBox, folder_box)
+#: src/ui/clipjobmanager_ui.ui:50
+#, kde-format
+msgid "Project Bin behavior on completion"
+msgstr "Поведінка контейнера проєкту при доповненні"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radio_replace)
+#: src/ui/clipjobmanager_ui.ui:56
+#, kde-format
+msgid "Replace original with result"
+msgstr "Замінити початковий кліп на результат"
+
+#. i18n: ectx: property (text), widget (QCheckBox, bin_subfolder)
+#: src/ui/clipjobmanager_ui.ui:66
+#, kde-format
+msgid "Use a subfolder"
+msgstr "Використовувати підтеку"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radio_folder)
+#: src/ui/clipjobmanager_ui.ui:73
+#, kde-format
+msgid "Put resulting clip in a folder"
+msgstr "Розмістити кліп-результат у теці"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
+#: src/ui/clipjobmanager_ui.ui:84
+#, kde-format
+msgid "Placed at top level"
+msgstr "На найвищому рівні"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
+#: src/ui/clipjobmanager_ui.ui:89
+#, kde-format
+msgid "Placed in the original clip folder"
+msgstr "У початковій теці кліпу"
+
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, folder_name)
+#: src/ui/clipjobmanager_ui.ui:100
+#, kde-format
+msgid "Folder name"
+msgstr "Назва теки"
+
+#. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, taskDescription)
+#: src/ui/clipjobmanager_ui.ui:110
+#, kde-format
+msgid "Optional description that will show up if a parameter is requested"
+msgstr ""
+
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
-#: src/ui/clipjobmanager_ui.ui:33
+#: src/ui/clipjobmanager_ui.ui:117
 #, kde-format
 msgid "Job parameters"
 msgstr "Параметри завдання"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/clipjobmanager_ui.ui:39
+#: src/ui/clipjobmanager_ui.ui:123
 #, kde-format
 msgid "Executable"
 msgstr "Виконуваний файл"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/clipjobmanager_ui.ui:55
+#: src/ui/clipjobmanager_ui.ui:139
 #, kde-format
 msgid "Arguments"
 msgstr "Аргументи"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, info_message)
-#: src/ui/clipjobmanager_ui.ui:78
+#: src/ui/clipjobmanager_ui.ui:163
 #, kde-format
 msgid ""
 "In the arguments, the following options are available: <ul><li><b>{source}</"
@@ -17914,98 +17975,56 @@ msgstr ""
 "ul>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: src/ui/clipjobmanager_ui.ui:91
+#: src/ui/clipjobmanager_ui.ui:176
 #, kde-format
 msgid "Parameter 1 {param1}"
 msgstr "Параметр 1 {param1}"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_isfile)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_isfile)
-#: src/ui/clipjobmanager_ui.ui:97 src/ui/clipjobmanager_ui.ui:190
+#: src/ui/clipjobmanager_ui.ui:182 src/ui/clipjobmanager_ui.ui:275
 #, kde-format
 msgid "Request file path"
 msgstr "Запитати про шлях до файла"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_islist)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_islist)
-#: src/ui/clipjobmanager_ui.ui:107 src/ui/clipjobmanager_ui.ui:183
+#: src/ui/clipjobmanager_ui.ui:192 src/ui/clipjobmanager_ui.ui:268
 #, kde-format
 msgid "Request option from list"
 msgstr "Запитати про пункт у списку"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param1_list)
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param2_list)
-#: src/ui/clipjobmanager_ui.ui:117 src/ui/clipjobmanager_ui.ui:169
+#: src/ui/clipjobmanager_ui.ui:202 src/ui/clipjobmanager_ui.ui:254
 #, kde-format
 msgid "List of options"
 msgstr "Список параметрів"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param1_name)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param2_name)
-#: src/ui/clipjobmanager_ui.ui:124 src/ui/clipjobmanager_ui.ui:176
+#: src/ui/clipjobmanager_ui.ui:209 src/ui/clipjobmanager_ui.ui:261
 #, kde-format
 msgid "Parameter description"
 msgstr "Опис параметра"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
-#: src/ui/clipjobmanager_ui.ui:147
+#: src/ui/clipjobmanager_ui.ui:232
 #, kde-format
 msgid "Parameter 2 {param2}"
 msgstr "Параметр 2 {param2}"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/clipjobmanager_ui.ui:203
+#: src/ui/clipjobmanager_ui.ui:288
 #, kde-format
 msgid "Output file extension"
 msgstr "Суфікс назви файла-результату"
 
 #. i18n: ectx: property (title), widget (QGroupBox, clip_types)
-#: src/ui/clipjobmanager_ui.ui:226
+#: src/ui/clipjobmanager_ui.ui:301
 #, kde-format
 msgid "Applies to"
 msgstr "Стосується"
-
-#. i18n: ectx: property (title), widget (QGroupBox, folder_box)
-#: src/ui/clipjobmanager_ui.ui:256
-#, kde-format
-msgid "Project Bin behavior on completion"
-msgstr "Поведінка контейнера проєкту при доповненні"
-
-#. i18n: ectx: property (text), widget (QRadioButton, radio_replace)
-#: src/ui/clipjobmanager_ui.ui:262
-#, kde-format
-msgid "Replace original with result"
-msgstr "Замінити початковий кліп на результат"
-
-#. i18n: ectx: property (text), widget (QCheckBox, bin_subfolder)
-#: src/ui/clipjobmanager_ui.ui:272
-#, kde-format
-msgid "Use a subfolder"
-msgstr "Використовувати підтеку"
-
-#. i18n: ectx: property (text), widget (QRadioButton, radio_folder)
-#: src/ui/clipjobmanager_ui.ui:279
-#, kde-format
-msgid "Put resulting clip in a folder"
-msgstr "Розмістити кліп-результат у теці"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
-#: src/ui/clipjobmanager_ui.ui:290
-#, kde-format
-msgid "Placed at top level"
-msgstr "На найвищому рівні"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
-#: src/ui/clipjobmanager_ui.ui:295
-#, kde-format
-msgid "Placed in the original clip folder"
-msgstr "У початковій теці кліпу"
-
-#. i18n: ectx: property (placeholderText), widget (QLineEdit, folder_name)
-#: src/ui/clipjobmanager_ui.ui:306
-#, kde-format
-msgid "Folder name"
-msgstr "Назва теки"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox)
 #: src/ui/clipspeed_ui.ui:103
