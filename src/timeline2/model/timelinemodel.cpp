@@ -6930,3 +6930,9 @@ void TimelineModel::prepareShutDown()
 {
     m_softDelete = true;
 }
+
+void TimelineModel::updateVisibleSequenceName(const QString displayName)
+{
+    m_visibleSequenceName = displayName;
+    Q_EMIT visibleSequenceNameChanged();
+}

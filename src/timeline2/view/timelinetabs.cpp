@@ -100,6 +100,9 @@ void TimelineTabs::setModified(const QUuid &uuid, bool modified)
 TimelineWidget *TimelineTabs::addTimeline(const QUuid uuid, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel, MonitorProxy *proxy)
 {
     QMutexLocker lk(&m_lock);
+    if (count() == 1 && m_activeTimeline) {
+        m_activeTimeline->model()->updateVisibleSequenceName(QString());
+    }
     disconnect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
     TimelineWidget *newTimeline = new TimelineWidget(uuid, this);
     newTimeline->setTimelineMenu(m_timelineClipMenu, m_timelineCompositionMenu, m_timelineMenu, m_guideMenu, m_timelineRulerMenu, m_editGuideAction,
@@ -147,6 +150,9 @@ void TimelineTabs::connectCurrent(int ix)
     qDebug() << "==== CONNECT NEW TIMELINE, MODEL:" << m_activeTimeline->model()->getTracksCount();
     pCore->window()->connectTimeline();
     connectTimeline(m_activeTimeline);
+    if (count() == 1 && pCore->currentDoc()->timelineCount() > 1) {
+        m_activeTimeline->model()->updateVisibleSequenceName(tabText(0));
+    }
     if (!m_activeTimeline->model()->isLoading) {
         pCore->bin()->sequenceActivated();
     }
@@ -161,6 +167,7 @@ void TimelineTabs::renameTab(const QUuid &uuid, const QString &name)
             pCore->projectManager()->setTimelinePropery(uuid, QStringLiteral("kdenlive:clipname"), name);
             if (count() == 1) {
                 updateWindowTitle();
+                m_activeTimeline->model()->updateVisibleSequenceName(name);
             }
             break;
         }

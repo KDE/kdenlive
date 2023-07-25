@@ -27,7 +27,7 @@ Rectangle {
     property color textColor: activePalette.text
     property var groupTrimData
     property bool trimInProgress: false
-    property bool dragInProgress: dragProxyArea.pressed || dragProxyArea.drag.active || groupTrimData !== undefined || spacerGroup > -1 || trimInProgress
+    property bool dragInProgress: dragProxyArea.pressed || dragProxyArea.drag.active || groupTrimData !== undefined || spacerGroup > -1 || trimInProgress || clipDropArea.containsDrag
     property int trimmingOffset: 0
     property int trimmingClickFrame: -1
     Timer {
@@ -495,6 +495,7 @@ Rectangle {
     property int copiedClip: -1
     property int zoomOnMouse: -1
     property bool zoomOnBar: false // Whether the scaling was done with the zoombar
+    property string addedSequenceName : controller.visibleSequenceName
     property int viewActiveTrack: timeline.activeTrack
     property int wheelAccumulatedDelta: 0
     readonly property int defaultDeltasPerStep: 120
@@ -986,7 +987,7 @@ Rectangle {
                     ToolTip.text: i18n("Show master effects")
                     TextMetrics {
                         id: metrics
-                        text: i18n("Master")
+                        text: root.addedSequenceName.length == 0 ? i18n("Master") : root.addedSequenceName
                     }
                     onClicked: {
                         timeline.showMasterEffects()
