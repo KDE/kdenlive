@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-24 07:32+0000\n"
+"POT-Creation-Date: 2023-07-25 00:44+0000\n"
 "PO-Revision-Date: 2017-05-16 07:02-0400\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -3345,7 +3345,7 @@ msgstr "עדכן ערכים בציר הזמן"
 msgid "%1 effects"
 msgstr "אפקט"
 
-#: src/assets/assetpanel.cpp:243 src/jobs/customjobtask.cpp:63
+#: src/assets/assetpanel.cpp:243 src/jobs/customjobtask.cpp:69
 #, fuzzy, kde-format
 #| msgid "Parameters"
 msgid "%1 parameters"
@@ -4092,7 +4092,7 @@ msgid "When selected mutes all other audio tracks."
 msgstr ""
 
 #: src/audiomixer/mixerwidget.cpp:270
-#: src/timeline2/view/timelinecontroller.cpp:4787
+#: src/timeline2/view/timelinecontroller.cpp:4770
 #, fuzzy, kde-format
 msgid "Record audio"
 msgstr "שלוף מסגרת"
@@ -4485,7 +4485,7 @@ msgstr "פצל שמע"
 #: src/bin/bin.cpp:2264 src/effects/effectlist/model/effecttreemodel.cpp:60
 #: src/layoutmanagement.cpp:36 src/lib/audio/audioStreamInfo.cpp:24
 #: src/monitor/recmanager.cpp:47 src/onlineresources/resourcewidget.cpp:547
-#: src/ui/clipjobmanager_ui.ui:239 src/ui/configcapture_ui.ui:525
+#: src/ui/clipjobmanager_ui.ui:314 src/ui/configcapture_ui.ui:525
 #: src/ui/cutjobdialog_ui.ui:61 src/ui/editrenderpreset_ui.ui:834
 #: src/ui/projectsettings_ui.ui:180 src/ui/renderwidget_ui.ui:589
 #, kde-format
@@ -6006,37 +6006,37 @@ msgstr ""
 msgid "The second parameter that will be injected in the script arguments"
 msgstr ""
 
-#: src/dialogs/clipjobmanager.cpp:127 src/dialogs/clipjobmanager.cpp:252
+#: src/dialogs/clipjobmanager.cpp:128 src/dialogs/clipjobmanager.cpp:256
 #, fuzzy, kde-format
 msgid "Stabilize"
 msgstr "צלימה הסתיימה."
 
-#: src/dialogs/clipjobmanager.cpp:130 src/dialogs/clipjobmanager.cpp:256
+#: src/dialogs/clipjobmanager.cpp:131 src/dialogs/clipjobmanager.cpp:260
 #, fuzzy, kde-format
 msgid "Duplicate Clip with Speed Change…"
 msgstr "לא נמצא סרטון לשינוי מהירות"
 
-#: src/dialogs/clipjobmanager.cpp:254
+#: src/dialogs/clipjobmanager.cpp:258
 #, fuzzy, kde-format
 msgid "Automatic Scene Split…"
 msgstr "מרכוז חיתוך אוטומטי"
 
-#: src/dialogs/clipjobmanager.cpp:284
+#: src/dialogs/clipjobmanager.cpp:288
 #, fuzzy, kde-format
 msgid "Job description"
 msgstr "תאור"
 
-#: src/dialogs/clipjobmanager.cpp:372
+#: src/dialogs/clipjobmanager.cpp:381
 #, fuzzy, kde-format
 msgid "My Clip Job"
 msgstr "חתוך מלמעלה"
 
-#: src/dialogs/clipjobmanager.cpp:380
+#: src/dialogs/clipjobmanager.cpp:389
 #, fuzzy, kde-format
 msgid "My Clip Job %1"
 msgstr "חתוך מלמעלה"
 
-#: src/dialogs/clipjobmanager.cpp:406
+#: src/dialogs/clipjobmanager.cpp:415
 #, kde-format
 msgid ""
 "Permanently delete this Clip Job:\n"
@@ -6210,7 +6210,7 @@ msgstr "הוסף סמן"
 #: src/project/projectmanager.cpp:1571 src/render/renderrequest.cpp:230
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
-#: src/timeline2/view/timelinecontroller.cpp:5119
+#: src/timeline2/view/timelinecontroller.cpp:5102
 #: src/titler/titlewidget.cpp:2201
 #, kde-format
 msgid "Cannot write to file %1"
@@ -8529,12 +8529,12 @@ msgstr ""
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr ""
 
-#: src/jobs/customjobtask.cpp:159
+#: src/jobs/customjobtask.cpp:165
 #, kde-format
 msgid "Application %1 not found, please update the job settings"
 msgstr ""
 
-#: src/jobs/customjobtask.cpp:251 src/jobs/customjobtask.cpp:261
+#: src/jobs/customjobtask.cpp:264 src/jobs/customjobtask.cpp:274
 #: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:231
 #: src/jobs/transcodetask.cpp:267
 #, fuzzy, kde-format
@@ -10559,7 +10559,7 @@ msgstr "הכנס ערוץ"
 msgid "Fit all Tracks in View"
 msgstr "עם רצועה"
 
-#: src/mainwindow.cpp:1855 src/timeline2/view/timelinecontroller.cpp:4828
+#: src/mainwindow.cpp:1855 src/timeline2/view/timelinecontroller.cpp:4811
 #, fuzzy, kde-format
 #| msgid "Paste Effects"
 msgid "Master effects"
@@ -10570,10 +10570,10 @@ msgstr "הדבק אפקטים"
 msgid "Switch Track Target Audio Stream"
 msgstr ""
 
-#: src/mainwindow.cpp:1867 src/timeline2/model/timelinemodel.cpp:4318
-#: src/timeline2/view/timelinecontroller.cpp:882
-#, kde-format
-msgid "Delete Track"
+#: src/mainwindow.cpp:1867
+#, fuzzy, kde-format
+#| msgid "Delete Track"
+msgid "Delete Track…"
 msgstr "מחק ערוץ"
 
 #: src/mainwindow.cpp:1872
@@ -11101,7 +11101,7 @@ msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
 msgstr ""
 
-#: src/mainwindow.cpp:4573 src/timeline2/view/timelinecontroller.cpp:5102
+#: src/mainwindow.cpp:4573 src/timeline2/view/timelinecontroller.cpp:5085
 #, fuzzy, kde-format
 #| msgid "No guide at cursor time"
 msgid "No subtitles in current project"
@@ -12032,7 +12032,7 @@ msgstr "הקלט"
 #. i18n: ectx: attribute (title), widget (QWidget, video_tab)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/monitor/recmanager.cpp:46 src/onlineresources/resourcewidget.cpp:549
-#: src/ui/clipjobmanager_ui.ui:232 src/ui/cutjobdialog_ui.ui:107
+#: src/ui/clipjobmanager_ui.ui:307 src/ui/cutjobdialog_ui.ui:107
 #: src/ui/editrenderpreset_ui.ui:122 src/ui/projectsettings_ui.ui:173
 #: src/ui/renderwidget_ui.ui:478
 #, kde-format
@@ -12492,7 +12492,7 @@ msgid "Please choose the version you want to download"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_image)
-#: src/onlineresources/resourcewidget.cpp:551 src/ui/clipjobmanager_ui.ui:246
+#: src/onlineresources/resourcewidget.cpp:551 src/ui/clipjobmanager_ui.ui:321
 #, fuzzy, kde-format
 #| msgid "Image"
 msgid "Images"
@@ -13047,7 +13047,7 @@ msgstr ""
 
 #: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1464
 #: src/renderpresets/renderpresetrepository.cpp:313
-#: src/timeline2/view/timelinecontroller.cpp:5025
+#: src/timeline2/view/timelinecontroller.cpp:5008
 #, fuzzy, kde-format
 msgid "Cannot read file %1"
 msgstr "לא ניתן לכתוב לקובץ %1"
@@ -15371,7 +15371,7 @@ msgstr "לא ניתן להעביר אפקט"
 #: src/timeline2/model/timelinefunctions.cpp:977
 #: src/timeline2/model/timelinefunctions.cpp:981
 #: src/timeline2/model/timelinefunctions.cpp:988
-#: src/timeline2/view/timelinecontroller.cpp:4057
+#: src/timeline2/view/timelinecontroller.cpp:4040
 #, fuzzy, kde-format
 msgid "Enable clip"
 msgstr "סרטון כותר"
@@ -15379,7 +15379,7 @@ msgstr "סרטון כותר"
 #: src/timeline2/model/timelinefunctions.cpp:977
 #: src/timeline2/model/timelinefunctions.cpp:981
 #: src/timeline2/model/timelinefunctions.cpp:988
-#: src/timeline2/view/timelinecontroller.cpp:4057
+#: src/timeline2/view/timelinecontroller.cpp:4040
 #, fuzzy, kde-format
 msgid "Disable clip"
 msgstr "סרטון כותר"
@@ -15644,7 +15644,7 @@ msgstr "מרכב"
 
 #: src/timeline2/model/timelinemodel.cpp:2203
 #: src/timeline2/model/timelinemodel.cpp:2365
-#: src/timeline2/view/timelinecontroller.cpp:4238
+#: src/timeline2/view/timelinecontroller.cpp:4221
 #, kde-format
 msgid "Move group"
 msgstr "העבר קבוצה"
@@ -15721,6 +15721,12 @@ msgstr "קבץ סרטונים"
 #, kde-format
 msgid "Ungroup clips"
 msgstr "בטל קיבוץ סרטונים"
+
+#: src/timeline2/model/timelinemodel.cpp:4318
+#: src/timeline2/view/timelinecontroller.cpp:882
+#, kde-format
+msgid "Delete Track"
+msgstr "מחק ערוץ"
 
 #: src/timeline2/model/timelinemodel.cpp:4328
 #, fuzzy, kde-format
@@ -16240,7 +16246,7 @@ msgid "Cannot perform operation while dragging in timeline"
 msgstr "לא ניתן להשתמש ברווח ברצועה נעולה"
 
 #: src/timeline2/view/timelinecontroller.cpp:859
-#: src/timeline2/view/timelinecontroller.cpp:4971
+#: src/timeline2/view/timelinecontroller.cpp:4954
 #, fuzzy, kde-format
 #| msgid "Insert mode"
 msgid "Could not insert track"
@@ -16276,13 +16282,13 @@ msgstr ""
 #: src/timeline2/view/timelinecontroller.cpp:3246
 #: src/timeline2/view/timelinecontroller.cpp:3295
 #: src/timeline2/view/timelinecontroller.cpp:3324
-#: src/timeline2/view/timelinecontroller.cpp:3646
-#: src/timeline2/view/timelinecontroller.cpp:3661
-#: src/timeline2/view/timelinecontroller.cpp:3686
-#: src/timeline2/view/timelinecontroller.cpp:3701
-#: src/timeline2/view/timelinecontroller.cpp:3763
-#: src/timeline2/view/timelinecontroller.cpp:3898
-#: src/timeline2/view/timelinecontroller.cpp:3922
+#: src/timeline2/view/timelinecontroller.cpp:3629
+#: src/timeline2/view/timelinecontroller.cpp:3644
+#: src/timeline2/view/timelinecontroller.cpp:3669
+#: src/timeline2/view/timelinecontroller.cpp:3684
+#: src/timeline2/view/timelinecontroller.cpp:3746
+#: src/timeline2/view/timelinecontroller.cpp:3881
+#: src/timeline2/view/timelinecontroller.cpp:3905
 #, fuzzy, kde-format
 #| msgid "No clip copied"
 msgid "No clip selected"
@@ -16334,15 +16340,15 @@ msgstr "לא ניתן לכתוב לקובץ %1"
 #: src/timeline2/view/timelinecontroller.cpp:2801
 #: src/timeline2/view/timelinecontroller.cpp:2806
 #: src/timeline2/view/timelinecontroller.cpp:2829
-#: src/timeline2/view/timelinecontroller.cpp:3769
-#: src/timeline2/view/timelinecontroller.cpp:3787
+#: src/timeline2/view/timelinecontroller.cpp:3752
+#: src/timeline2/view/timelinecontroller.cpp:3770
 #, fuzzy, kde-format
 #| msgid "Align item to left"
 msgid "No item to edit"
 msgstr "יישר פריט לשמאל"
 
 #: src/timeline2/view/timelinecontroller.cpp:2918
-#: src/timeline2/view/timelinecontroller.cpp:5266
+#: src/timeline2/view/timelinecontroller.cpp:5249
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr ""
@@ -16374,100 +16380,100 @@ msgstr "לא ניתן להעביר את הסרטון לנקודה %1"
 msgid "Set audio reference before attempting to align"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3510
+#: src/timeline2/view/timelinecontroller.cpp:3493
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3669
+#: src/timeline2/view/timelinecontroller.cpp:3652
 #, fuzzy, kde-format
 #| msgid "Delete effect"
 msgid "Delete effects"
 msgstr "מחק אפקט"
 
-#: src/timeline2/view/timelinecontroller.cpp:3707
-#: src/timeline2/view/timelinecontroller.cpp:3713
-#: src/timeline2/view/timelinecontroller.cpp:3718
+#: src/timeline2/view/timelinecontroller.cpp:3690
+#: src/timeline2/view/timelinecontroller.cpp:3696
+#: src/timeline2/view/timelinecontroller.cpp:3701
 #, kde-format
 msgid "No information in clipboard"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3741
+#: src/timeline2/view/timelinecontroller.cpp:3724
 #, fuzzy, kde-format
 #| msgid "Paste Effects"
 msgid "Paste effects"
 msgstr "הדבק אפקטים"
 
-#: src/timeline2/view/timelinecontroller.cpp:3743
+#: src/timeline2/view/timelinecontroller.cpp:3726
 #, fuzzy, kde-format
 #| msgid "Cannot paste selected clips"
 msgid "Cannot paste effect on selected clip"
 msgstr "לא ניתן להדביק את הסרטונים שנבחרו"
 
-#: src/timeline2/view/timelinecontroller.cpp:3855
+#: src/timeline2/view/timelinecontroller.cpp:3838
 #, fuzzy, kde-format
 #| msgid "Edit Guide"
 msgid "Edit item"
 msgstr "ערוך מנחה"
 
-#: src/timeline2/view/timelinecontroller.cpp:3883
+#: src/timeline2/view/timelinecontroller.cpp:3866
 #, fuzzy, kde-format
 msgid "Open sequence"
 msgstr "תדר מרכז"
 
-#: src/timeline2/view/timelinecontroller.cpp:3905
+#: src/timeline2/view/timelinecontroller.cpp:3888
 #, fuzzy, kde-format
 #| msgid "Template title clip"
 msgid "Item is not a title clip"
 msgstr "תדמית סרטון כותר"
 
-#: src/timeline2/view/timelinecontroller.cpp:3998
+#: src/timeline2/view/timelinecontroller.cpp:3981
 #, kde-format
 msgid "%1 items selected (%2) |"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4052
+#: src/timeline2/view/timelinecontroller.cpp:4035
 #, fuzzy, kde-format
 msgid "Restore video"
 msgstr "מחק אפקט"
 
-#: src/timeline2/view/timelinecontroller.cpp:4052
+#: src/timeline2/view/timelinecontroller.cpp:4035
 #, fuzzy, kde-format
 msgid "Restore audio"
 msgstr "שלוף מסגרת"
 
-#: src/timeline2/view/timelinecontroller.cpp:4219
+#: src/timeline2/view/timelinecontroller.cpp:4202
 #, fuzzy, kde-format
 #| msgid "Move guide"
 msgid "Move item"
 msgstr "העברת מנחה"
 
-#: src/timeline2/view/timelinecontroller.cpp:4701
+#: src/timeline2/view/timelinecontroller.cpp:4684
 #, fuzzy, kde-format
 #| msgid "Cannot use spacer in a locked track"
 msgid "Impossible to capture on a locked track"
 msgstr "לא ניתן להשתמש ברווח ברצועה נעולה"
 
-#: src/timeline2/view/timelinecontroller.cpp:4712
+#: src/timeline2/view/timelinecontroller.cpp:4695
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
 "clips after the current position or choose a different track"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4925
+#: src/timeline2/view/timelinecontroller.cpp:4908
 #, fuzzy, kde-format
 msgid "Expand clip"
 msgstr "ערוך סרטון"
 
-#: src/timeline2/view/timelinecontroller.cpp:4928
+#: src/timeline2/view/timelinecontroller.cpp:4911
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
 msgid "Could not expand clip"
 msgstr "הוסף סרטון"
 
-#: src/timeline2/view/timelinecontroller.cpp:4969
+#: src/timeline2/view/timelinecontroller.cpp:4952
 #, fuzzy, kde-format
 #| msgid "Insert Track"
 msgid "Insert Track"
@@ -16475,70 +16481,70 @@ msgid_plural "Insert Tracks"
 msgstr[0] "הכנס ערוץ"
 msgstr[1] "הכנס ערוץ"
 
-#: src/timeline2/view/timelinecontroller.cpp:5016
+#: src/timeline2/view/timelinecontroller.cpp:4999
 #, kde-format
 msgid "Character encoding used to save the subtitle file."
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5017
+#: src/timeline2/view/timelinecontroller.cpp:5000
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5057
+#: src/timeline2/view/timelinecontroller.cpp:5040
 #, kde-format
 msgid "Encoding could not be guessed, using UTF-8"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5061
+#: src/timeline2/view/timelinecontroller.cpp:5044
 #, fuzzy, kde-format
 #| msgid "Decoding threads"
 msgid "Encoding detected as %1"
 msgstr "פתילי פענוח"
 
-#: src/timeline2/view/timelinecontroller.cpp:5078
+#: src/timeline2/view/timelinecontroller.cpp:5061
 #, fuzzy, kde-format
 msgid "Import Subtitle"
 msgstr "הוסף סמן"
 
-#: src/timeline2/view/timelinecontroller.cpp:5105
+#: src/timeline2/view/timelinecontroller.cpp:5088
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Export subtitle file"
 msgstr "הוסף מנחה"
 
-#: src/timeline2/view/timelinecontroller.cpp:5106
+#: src/timeline2/view/timelinecontroller.cpp:5089
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Subtitle File (*.srt)"
 msgstr "ללא כותרת"
 
-#: src/timeline2/view/timelinecontroller.cpp:5136
+#: src/timeline2/view/timelinecontroller.cpp:5119
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
 "feature will probably not work as expected."
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5153
+#: src/timeline2/view/timelinecontroller.cpp:5136
 #, fuzzy, kde-format
 #| msgid "Show Title Bars"
 msgid "Show subtitle track"
 msgstr "הצג פסי כותרת"
 
-#: src/timeline2/view/timelinecontroller.cpp:5153
+#: src/timeline2/view/timelinecontroller.cpp:5136
 #, fuzzy, kde-format
 msgid "Hide subtitle track"
 msgstr "מחק סרטון"
 
-#: src/timeline2/view/timelinecontroller.cpp:5176
+#: src/timeline2/view/timelinecontroller.cpp:5159
 #, fuzzy, kde-format
 #| msgid "Unlock track"
 msgid "Unlock subtitle track"
 msgstr "בטל נעילת רצועה"
 
-#: src/timeline2/view/timelinecontroller.cpp:5176
+#: src/timeline2/view/timelinecontroller.cpp:5159
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Lock subtitle track"
@@ -17409,8 +17415,8 @@ msgstr "מחק כפתור נוכחי"
 #: src/ui/bezierspline_ui.ui:121 src/ui/bezierspline_ui.ui:137
 #: src/ui/bezierspline_ui.ui:156 src/ui/bezierspline_ui.ui:172
 #: src/ui/bezierspline_ui.ui:189 src/ui/bezierspline_ui.ui:206
-#: src/ui/clipjobmanager_ui.ui:62 src/ui/clipjobmanager_ui.ui:318
-#: src/ui/clipjobmanager_ui.ui:329 src/ui/clipstabilize_ui.ui:57
+#: src/ui/clipjobmanager_ui.ui:146 src/ui/clipjobmanager_ui.ui:333
+#: src/ui/clipjobmanager_ui.ui:344 src/ui/clipstabilize_ui.ui:57
 #: src/ui/clipstabilize_ui.ui:94 src/ui/collapsiblewidget_ui.ui:103
 #: src/ui/collapsiblewidget_ui.ui:129 src/ui/collapsiblewidget_ui.ui:139
 #: src/ui/collapsiblewidget_ui.ui:149 src/ui/collapsiblewidget_ui.ui:162
@@ -17532,33 +17538,88 @@ msgstr "מיקום:"
 msgid "Crop end:"
 msgstr "סיום חיתוך"
 
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: src/ui/clipjobmanager_ui.ui:30
+#, fuzzy, kde-format
+msgid "Job Description"
+msgstr "תאור"
+
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/clipjobmanager_ui.ui:26
+#: src/ui/clipjobmanager_ui.ui:43
 #, fuzzy, kde-format
 msgid "Custom clip jobs"
 msgstr "חתוך סרטון"
 
+#. i18n: ectx: property (title), widget (QGroupBox, folder_box)
+#: src/ui/clipjobmanager_ui.ui:50
+#, fuzzy, kde-format
+msgid "Project Bin behavior on completion"
+msgstr "קיבצי פרוייקט"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radio_replace)
+#: src/ui/clipjobmanager_ui.ui:56
+#, kde-format
+msgid "Replace original with result"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, bin_subfolder)
+#: src/ui/clipjobmanager_ui.ui:66
+#, fuzzy, kde-format
+msgid "Use a subfolder"
+msgstr "תיקיית ברירת מחדל"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radio_folder)
+#: src/ui/clipjobmanager_ui.ui:73
+#, kde-format
+msgid "Put resulting clip in a folder"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
+#: src/ui/clipjobmanager_ui.ui:84
+#, kde-format
+msgid "Placed at top level"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
+#: src/ui/clipjobmanager_ui.ui:89
+#, kde-format
+msgid "Placed in the original clip folder"
+msgstr ""
+
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, folder_name)
+#: src/ui/clipjobmanager_ui.ui:100
+#, fuzzy, kde-format
+#| msgid "File name"
+msgid "Folder name"
+msgstr "שם קובץ"
+
+#. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, taskDescription)
+#: src/ui/clipjobmanager_ui.ui:110
+#, kde-format
+msgid "Optional description that will show up if a parameter is requested"
+msgstr ""
+
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
-#: src/ui/clipjobmanager_ui.ui:33
+#: src/ui/clipjobmanager_ui.ui:117
 #, fuzzy, kde-format
 #| msgid "Parameters"
 msgid "Job parameters"
 msgstr "ערכים"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/clipjobmanager_ui.ui:39
+#: src/ui/clipjobmanager_ui.ui:123
 #, fuzzy, kde-format
 msgid "Executable"
 msgstr "אפקט"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/clipjobmanager_ui.ui:55
+#: src/ui/clipjobmanager_ui.ui:139
 #, kde-format
 msgid "Arguments"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (KMessageWidget, info_message)
-#: src/ui/clipjobmanager_ui.ui:78
+#: src/ui/clipjobmanager_ui.ui:163
 #, kde-format
 msgid ""
 "In the arguments, the following options are available: <ul><li><b>{source}</"
@@ -17569,7 +17630,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: src/ui/clipjobmanager_ui.ui:91
+#: src/ui/clipjobmanager_ui.ui:176
 #, fuzzy, kde-format
 #| msgid "Parameters"
 msgid "Parameter 1 {param1}"
@@ -17577,14 +17638,14 @@ msgstr "ערכים"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_isfile)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_isfile)
-#: src/ui/clipjobmanager_ui.ui:97 src/ui/clipjobmanager_ui.ui:190
+#: src/ui/clipjobmanager_ui.ui:182 src/ui/clipjobmanager_ui.ui:275
 #, kde-format
 msgid "Request file path"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_islist)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_islist)
-#: src/ui/clipjobmanager_ui.ui:107 src/ui/clipjobmanager_ui.ui:183
+#: src/ui/clipjobmanager_ui.ui:192 src/ui/clipjobmanager_ui.ui:268
 #, fuzzy, kde-format
 #| msgid "Delete transition from clip"
 msgid "Request option from list"
@@ -17592,80 +17653,37 @@ msgstr "מחק מעבר מהסרטון"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param1_list)
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param2_list)
-#: src/ui/clipjobmanager_ui.ui:117 src/ui/clipjobmanager_ui.ui:169
+#: src/ui/clipjobmanager_ui.ui:202 src/ui/clipjobmanager_ui.ui:254
 #, fuzzy, kde-format
 msgid "List of options"
 msgstr "הצג/הסתר אופציות"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param1_name)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param2_name)
-#: src/ui/clipjobmanager_ui.ui:124 src/ui/clipjobmanager_ui.ui:176
+#: src/ui/clipjobmanager_ui.ui:209 src/ui/clipjobmanager_ui.ui:261
 #, fuzzy, kde-format
 #| msgid "parameter description"
 msgid "Parameter description"
 msgstr "תאור ערך"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
-#: src/ui/clipjobmanager_ui.ui:147
+#: src/ui/clipjobmanager_ui.ui:232
 #, fuzzy, kde-format
 #| msgid "Parameters"
 msgid "Parameter 2 {param2}"
 msgstr "ערכים"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/clipjobmanager_ui.ui:203
+#: src/ui/clipjobmanager_ui.ui:288
 #, fuzzy, kde-format
 msgid "Output file extension"
 msgstr "הרחבה"
 
 #. i18n: ectx: property (title), widget (QGroupBox, clip_types)
-#: src/ui/clipjobmanager_ui.ui:226
+#: src/ui/clipjobmanager_ui.ui:301
 #, kde-format
 msgid "Applies to"
 msgstr ""
-
-#. i18n: ectx: property (title), widget (QGroupBox, folder_box)
-#: src/ui/clipjobmanager_ui.ui:256
-#, fuzzy, kde-format
-msgid "Project Bin behavior on completion"
-msgstr "קיבצי פרוייקט"
-
-#. i18n: ectx: property (text), widget (QRadioButton, radio_replace)
-#: src/ui/clipjobmanager_ui.ui:262
-#, kde-format
-msgid "Replace original with result"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QCheckBox, bin_subfolder)
-#: src/ui/clipjobmanager_ui.ui:272
-#, fuzzy, kde-format
-msgid "Use a subfolder"
-msgstr "תיקיית ברירת מחדל"
-
-#. i18n: ectx: property (text), widget (QRadioButton, radio_folder)
-#: src/ui/clipjobmanager_ui.ui:279
-#, kde-format
-msgid "Put resulting clip in a folder"
-msgstr ""
-
-#. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
-#: src/ui/clipjobmanager_ui.ui:290
-#, kde-format
-msgid "Placed at top level"
-msgstr ""
-
-#. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
-#: src/ui/clipjobmanager_ui.ui:295
-#, kde-format
-msgid "Placed in the original clip folder"
-msgstr ""
-
-#. i18n: ectx: property (placeholderText), widget (QLineEdit, folder_name)
-#: src/ui/clipjobmanager_ui.ui:306
-#, fuzzy, kde-format
-#| msgid "File name"
-msgid "Folder name"
-msgstr "שם קובץ"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox)
 #: src/ui/clipspeed_ui.ui:103
