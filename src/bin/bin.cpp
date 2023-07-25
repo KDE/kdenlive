@@ -3646,6 +3646,8 @@ void Bin::buildSequenceClip(int aTracks, int vTracks)
     dia_ui.sequence_name->setText(i18n("Sequence %1", timelinesCount));
     dia_ui.video_tracks->setValue(vTracks == -1 ? KdenliveSettings::videotracks() : vTracks);
     dia_ui.audio_tracks->setValue(aTracks == -1 ? KdenliveSettings::audiotracks() : aTracks);
+    dia_ui.sequence_name->setFocus();
+    dia_ui.sequence_name->selectAll();
     if (dia->exec() == QDialog::Accepted) {
         int videoTracks = dia_ui.video_tracks->value();
         int audioTracks = dia_ui.audio_tracks->value();

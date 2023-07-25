@@ -105,6 +105,8 @@ public:
     friend class TimeRemap;
     friend struct TimelineFunctions;
 
+    Q_PROPERTY(QString visibleSequenceName MEMBER m_visibleSequenceName NOTIFY visibleSequenceNameChanged)
+
     /// Two level model: tracks and clips on track
     enum {
         NameRole = Qt::UserRole + 1,
@@ -869,6 +871,7 @@ public:
     /** @brief returns this timeline's guide model */
     std::shared_ptr<MarkerListModel> getGuideModel();
     std::shared_ptr<MarkerSortModel> getFilteredGuideModel();
+    void updateVisibleSequenceName(const QString displayName);
 
 protected:
     /** @brief Register a new track. This is a call-back meant to be called from TrackModel
@@ -982,6 +985,8 @@ Q_SIGNALS:
     void saveGuideCategories();
     /** @brief Highlight a subtitle item in timeline */
     void highlightSub(int index);
+    /** @brief The visible sequence name has to be changed */
+    void visibleSequenceNameChanged();
 
 protected:
     QUuid m_uuid;
@@ -1040,6 +1045,7 @@ protected:
     std::shared_ptr<MarkerListModel> m_guidesModel;
     bool m_softDelete;
     std::shared_ptr<MarkerSortModel> m_guidesFilterModel;
+    QString m_visibleSequenceName;
 
     // what follows are some virtual function that corresponds to the QML. They are implemented in TimelineItemModel
 protected:
