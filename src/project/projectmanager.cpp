@@ -547,7 +547,11 @@ bool ProjectManager::saveFileAs(bool saveACopy)
     if (saveACopy) {
         fd.setWindowTitle(i18nc("@title:window", "Save Copy"));
     }
-    fd.setDirectory(m_project->url().isValid() ? m_project->url().adjusted(QUrl::RemoveFilename).toLocalFile() : KdenliveSettings::defaultprojectfolder());
+    if (m_project->url().isValid()) {
+        fd.selectUrl(m_project->url());
+    } else {
+        fd.setDirectory(KdenliveSettings::defaultprojectfolder());
+    }
     fd.setNameFilter(getProjectNameFilters(false));
     fd.setAcceptMode(QFileDialog::AcceptSave);
     fd.setFileMode(QFileDialog::AnyFile);

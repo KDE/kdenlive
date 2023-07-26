@@ -2029,10 +2029,12 @@ void Bin::slotDuplicateClip()
             auto currentItem = std::static_pointer_cast<ProjectClip>(item);
             if (currentItem) {
                 if (currentItem->clipType() == ClipType::Timeline) {
-                    // Sync last changes for this timeline
                     const QUuid uuid = currentItem->getSequenceUuid();
-                    m_doc->storeGroups(uuid);
-                    pCore->projectManager()->syncTimeline(uuid, true);
+                    if (m_doc->getTimelinesUuids().contains(uuid)) {
+                        // Sync last changes for this timeline if it is opened
+                        m_doc->storeGroups(uuid);
+                        pCore->projectManager()->syncTimeline(uuid, true);
+                    }
                     QTemporaryFile src(QDir::temp().absoluteFilePath(QString("XXXXXX.mlt")));
                     src.setAutoRemove(false);
                     if (!src.open()) {
