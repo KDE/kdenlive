@@ -147,10 +147,9 @@ void TimelineTabs::connectCurrent(int ix)
         qDebug() << "++++++++++++\n\nCLOSING APP\n\n+++++++++++++";
         return;
     }
-    qDebug() << "==== CONNECT NEW TIMELINE, MODEL:" << m_activeTimeline->model()->getTracksCount();
     pCore->window()->connectTimeline();
     connectTimeline(m_activeTimeline);
-    if (count() == 1 && pCore->currentDoc()->openedTimelineCount() > 1) {
+    if (count() == 1 && pCore->projectItemModel()->sequenceCount() > 1) {
         m_activeTimeline->model()->updateVisibleSequenceName(tabText(0));
     }
     if (!m_activeTimeline->model()->isLoading) {
@@ -165,7 +164,7 @@ void TimelineTabs::renameTab(const QUuid &uuid, const QString &name)
         if (static_cast<TimelineWidget *>(widget(i))->getUuid() == uuid) {
             tabBar()->setTabText(i, name);
             pCore->projectManager()->setTimelinePropery(uuid, QStringLiteral("kdenlive:clipname"), name);
-            if (count() == 1) {
+            if (count() == 1 && pCore->projectItemModel()->sequenceCount() > 1) {
                 updateWindowTitle();
                 m_activeTimeline->model()->updateVisibleSequenceName(name);
             }
