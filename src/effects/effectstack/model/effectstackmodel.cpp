@@ -1502,12 +1502,15 @@ void EffectStackModel::updateEffectZones()
     }
 }
 
-void EffectStackModel::passEffects(Mlt::Producer *producer)
+void EffectStackModel::passEffects(Mlt::Producer *producer, const QString &exception)
 {
     auto ms = m_masterService.lock();
     int ct = ms->filter_count();
     for (int i = 0; i < ct; i++) {
         if (ms->filter(i)->get_int("internal_added") > 0 || !ms->filter(i)->property_exists("kdenlive_id")) {
+            continue;
+        }
+        if (!exception.isEmpty() && QString(ms->filter(i)->get("mlt_service")) == exception) {
             continue;
         }
         auto *filter = new Mlt::Filter(*ms->filter(i));
