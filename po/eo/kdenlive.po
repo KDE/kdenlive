@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-25 00:44+0000\n"
-"PO-Revision-Date: 2023-07-22 12:20+0100nLast-Translator: Oliver Kellogg "
-"<okellogg@users.sourceforge.net>\n"
+"POT-Creation-Date: 2023-07-26 00:46+0000\n"
+"PO-Revision-Date: 2023-07-25 22:32+0100\n"
+"Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
@@ -4019,7 +4019,7 @@ msgstr ""
 "Monitorado de audio. Premu <b>Spaco</b> por komenci/paŭzi registradon, "
 "<b>Esk</b> por fini."
 
-#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:989
+#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:990
 #, kde-format
 msgid "Master"
 msgstr "Majstro"
@@ -4705,58 +4705,58 @@ msgstr "Montri protokolon"
 msgid "Detailed log"
 msgstr "Detala protokolo"
 
-#: src/bin/bin.cpp:3644 src/bin/bin.cpp:3669
+#: src/bin/bin.cpp:3644 src/bin/bin.cpp:3671
 #, kde-format
 msgctxt "@title:window"
 msgid "Create New Sequence"
 msgstr "Krei Novan Sekvencon"
 
-#: src/bin/bin.cpp:3646 src/bin/bin.cpp:3671
+#: src/bin/bin.cpp:3646 src/bin/bin.cpp:3673
 #, kde-format
 msgid "Sequence %1"
 msgstr "Sekvenco %1"
 
-#: src/bin/bin.cpp:3700
+#: src/bin/bin.cpp:3702
 #, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
 msgstr[0] "Movi tondaĵon"
 msgstr[1] "Movi tondaĵon"
 
-#: src/bin/bin.cpp:3737
+#: src/bin/bin.cpp:3739
 #, kde-format
 msgid "No valid clip to insert"
 msgstr "Neniu valida aŭdvidaĵo por enmeti"
 
-#: src/bin/bin.cpp:3762 src/timeline2/view/timelinecontroller.cpp:1486
+#: src/bin/bin.cpp:3764 src/timeline2/view/timelinecontroller.cpp:1486
 #: src/timeline2/view/timelinecontroller.cpp:3384
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "Elektu aŭdvidaĵon por apliki efekton"
 
-#: src/bin/bin.cpp:3771
+#: src/bin/bin.cpp:3773
 #, kde-format
 msgid "Cannot apply effects on folders"
 msgstr "Ne povas apliki efikojn al dosierujoj"
 
-#: src/bin/bin.cpp:3797 src/effects/effectstack/model/effectstackmodel.cpp:500
+#: src/bin/bin.cpp:3799 src/effects/effectstack/model/effectstackmodel.cpp:500
 #: src/effects/effectstack/model/effectstackmodel.cpp:506
 #: src/mainwindow.cpp:3168
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Ne povas aldoni efekton al aŭdvidaĵo"
 
-#: src/bin/bin.cpp:3843 src/bin/bin.cpp:3850
+#: src/bin/bin.cpp:3845 src/bin/bin.cpp:3852
 #, kde-format
 msgid "Select a clip to add a tag"
 msgstr "Elektu aŭdvidaĵon por aldoni etikedon"
 
-#: src/bin/bin.cpp:3989
+#: src/bin/bin.cpp:3991
 #, kde-format
 msgid "Edit Tags"
 msgstr "Redakti Etikedojn"
 
-#: src/bin/bin.cpp:4278 src/bin/projectclip.cpp:192
+#: src/bin/bin.cpp:4280 src/bin/projectclip.cpp:192
 #: src/bin/projectclip.cpp:1976 src/onlineresources/resourcewidget.cpp:266
 #: src/onlineresources/resourcewidget.cpp:557
 #: src/onlineresources/resourcewidget.cpp:572
@@ -4764,27 +4764,27 @@ msgstr "Redakti Etikedojn"
 msgid "Unnamed"
 msgstr "Nenomita"
 
-#: src/bin/bin.cpp:4332
+#: src/bin/bin.cpp:4334
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr "Enigu vojon por via aplikaĵo por redaktado de bildoj"
 
-#: src/bin/bin.cpp:4344
+#: src/bin/bin.cpp:4346
 #, kde-format
 msgid "Please set a default application to open image files"
 msgstr "Bonvolu agordi defaŭltan aplikaĵon por malfermi bilddosierojn"
 
-#: src/bin/bin.cpp:4349
+#: src/bin/bin.cpp:4351
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr "Enigu vojon por via sona redakta aplikaĵo"
 
-#: src/bin/bin.cpp:4361
+#: src/bin/bin.cpp:4363
 #, kde-format
 msgid "Please set a default application to open audio files"
 msgstr "Bonvolu agordi defaŭltan aplikaĵon por malfermi sondosierojn"
 
-#: src/bin/bin.cpp:4371 src/core.cpp:304 src/doc/kdenlivedoc.cpp:165
+#: src/bin/bin.cpp:4373 src/core.cpp:304 src/doc/kdenlivedoc.cpp:165
 #: src/jobs/cliploadtask.cpp:458 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:471
 #: src/layoutmanagement.cpp:532 src/profiles/profilerepository.cpp:173
@@ -4793,12 +4793,12 @@ msgstr "Bonvolu agordi defaŭltan aplikaĵon por malfermi sondosierojn"
 msgid "Cannot open file %1"
 msgstr "Ne povas malfermi dosieron %1"
 
-#: src/bin/bin.cpp:4551 src/dialogs/profilesdialog.cpp:213
+#: src/bin/bin.cpp:4553 src/dialogs/profilesdialog.cpp:213
 #, kde-format
 msgid "(copy)"
 msgstr "(kopio)"
 
-#: src/bin/bin.cpp:4561
+#: src/bin/bin.cpp:4563
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -4807,75 +4807,75 @@ msgstr ""
 "Vi redaktas eksteran titolan aŭdvidaĵon (%1). Ĉu vi volas konservi viajn "
 "ŝanĝojn al la titoldosiero aŭ konservi la ŝanĝojn nur por ĉi tiu projekto?"
 
-#: src/bin/bin.cpp:4564 src/titler/titlewidget.cpp:2188
+#: src/bin/bin.cpp:4566 src/titler/titlewidget.cpp:2188
 #, kde-format
 msgid "Save Title"
 msgstr "Konservi Titolon"
 
-#: src/bin/bin.cpp:4564
+#: src/bin/bin.cpp:4566
 #, kde-format
 msgid "Save to title file"
 msgstr "Konservi al titoldosiero"
 
-#: src/bin/bin.cpp:4565
+#: src/bin/bin.cpp:4567
 #, kde-format
 msgid "Save in project only"
 msgstr "Konservi nur en projekto"
 
-#: src/bin/bin.cpp:4583 src/dialogs/clipcreationdialog.cpp:379
+#: src/bin/bin.cpp:4585 src/dialogs/clipcreationdialog.cpp:379
 #, kde-format
 msgid "Title clip"
 msgstr "Titola aŭdvidaĵo"
 
-#: src/bin/bin.cpp:4633
+#: src/bin/bin.cpp:4635
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "Aŭdvidaĵo estas nevalida, estos forigita de la projekto."
 
-#: src/bin/bin.cpp:4637
+#: src/bin/bin.cpp:4639
 #, kde-format
 msgid "Invalid clip"
 msgstr "Nevalida aŭdvidaĵo"
 
-#: src/bin/bin.cpp:4760
+#: src/bin/bin.cpp:4762
 #, kde-format
 msgid "Enable proxies"
 msgstr "Ebligi prokurilojn"
 
-#: src/bin/bin.cpp:4760
+#: src/bin/bin.cpp:4762
 #, kde-format
 msgid "Disable proxies"
 msgstr "Malebligi prokurilojn"
 
-#: src/bin/bin.cpp:4941
+#: src/bin/bin.cpp:4943
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "Rekonstrui prokurilojn"
 
-#: src/bin/bin.cpp:5179
+#: src/bin/bin.cpp:5181
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Projekta Rubujo"
 
-#: src/bin/bin.cpp:5195
+#: src/bin/bin.cpp:5197
 #, kde-format
 msgid "Add Tracks"
 msgstr "Aldoni Trakojn"
 
-#: src/bin/bin.cpp:5197
+#: src/bin/bin.cpp:5199
 #, kde-format
 msgid "Edit Streams"
 msgstr "Redakti fluojn"
 
-#: src/bin/bin.cpp:5212
+#: src/bin/bin.cpp:5214
 #, kde-format
 msgid "Don't ask again"
 msgstr "Ne demandi denove"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5216
+#: src/bin/bin.cpp:5218
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -4884,45 +4884,45 @@ msgstr ""
 "Via projekto bezonas pli da sonspuroj por trakti ĉiujn fluojn. Ĉu aldoni %1 "
 "sonspurojn?"
 
-#: src/bin/bin.cpp:5228 src/mainwindow.cpp:2730
+#: src/bin/bin.cpp:5230 src/mainwindow.cpp:2730
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Ne povas trovi aŭdvidaĵon por aldoni markilon"
 
-#: src/bin/bin.cpp:5320
+#: src/bin/bin.cpp:5322
 #, kde-format
 msgid "Could not find master clip"
 msgstr "Ne eblis trovi ĉefaŭdvidaĵon"
 
-#: src/bin/bin.cpp:5514 src/bin/clipcreator.cpp:325
+#: src/bin/bin.cpp:5516 src/bin/clipcreator.cpp:325
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
 msgstr "Aldoni aŭdvidaĵon"
 
-#: src/bin/bin.cpp:5536
+#: src/bin/bin.cpp:5538
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> aŭdvidaĵoj |"
 
-#: src/bin/bin.cpp:5538
+#: src/bin/bin.cpp:5540
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> aŭdvidaĵoj (%2 elektita) |"
 
-#: src/bin/bin.cpp:5603 src/bin/bin.cpp:5677
+#: src/bin/bin.cpp:5605 src/bin/bin.cpp:5679
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "Aldoni pluan fluon por tondaĵo"
 msgstr[1] "Aldoni pluajn fluojn por tondaĵo"
 
-#: src/bin/bin.cpp:5624
+#: src/bin/bin.cpp:5626
 #, kde-format
 msgid "Import selected clips"
 msgstr "Importi elektitajn aŭdvidaĵojn"
 
-#: src/bin/bin.cpp:5626
+#: src/bin/bin.cpp:5628
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -4931,17 +4931,17 @@ msgstr ""
 "Pliaj fluoj por aŭdvidaĵo\n"
 " %1"
 
-#: src/bin/bin.cpp:5636 src/mltcontroller/clippropertiescontroller.cpp:634
+#: src/bin/bin.cpp:5638 src/mltcontroller/clippropertiescontroller.cpp:634
 #, kde-format
 msgid "Video stream %1"
 msgstr "Videofluo %1"
 
-#: src/bin/bin.cpp:5651
+#: src/bin/bin.cpp:5653
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Sonfluo %1"
 
-#: src/bin/bin.cpp:5704
+#: src/bin/bin.cpp:5706
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Forigi aŭdvidaĵajn markilojn"
@@ -5834,7 +5834,7 @@ msgstr "Via projektoprofilo estas nevalida, bildigo eble malsukcesas."
 #: src/core.cpp:678 src/kdenliveui.rc:30 src/mainwindow.cpp:285
 #: src/project/dialogs/archivewidget.cpp:97
 #: src/project/dialogs/projectsettings.cpp:423
-#: src/timeline2/view/qml/timeline.qml:1081
+#: src/timeline2/view/qml/timeline.qml:1082
 #, kde-format
 msgid "Subtitles"
 msgstr "Subtekstoj"
@@ -10557,10 +10557,9 @@ msgid "Switch Track Target Audio Stream"
 msgstr "Ŝanĝi trakan cel-aŭdfluon"
 
 #: src/mainwindow.cpp:1867
-#, fuzzy, kde-format
-#| msgid "Delete Track"
+#, kde-format
 msgid "Delete Track…"
-msgstr "Forigi Trakon"
+msgstr "Forigi Trakon…"
 
 #: src/mainwindow.cpp:1872
 #, kde-format
@@ -15862,14 +15861,14 @@ msgid "Change clip speed"
 msgstr "Ŝanĝi tondaĵan rapidecon"
 
 #: src/timeline2/model/timelinemodel.cpp:6268
-#: src/timeline2/view/qml/timeline.qml:1183
+#: src/timeline2/view/qml/timeline.qml:1184
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "Ŝlosi trakon"
 
 #: src/timeline2/model/timelinemodel.cpp:6273
-#: src/timeline2/view/qml/timeline.qml:1183
+#: src/timeline2/view/qml/timeline.qml:1184
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
@@ -16001,7 +16000,7 @@ msgid "Stop"
 msgstr "Halti"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2073
+#: src/timeline2/view/qml/timeline.qml:2074
 #, kde-format
 msgid "Paused"
 msgstr "Paŭzita"
@@ -16139,57 +16138,57 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>Duoble alklaku</b> por redakti tekston"
 
-#: src/timeline2/view/qml/timeline.qml:977
+#: src/timeline2/view/qml/timeline.qml:978
 #, kde-format
 msgctxt "Initial for Master"
 msgid "M"
 msgstr "M"
 
-#: src/timeline2/view/qml/timeline.qml:986
+#: src/timeline2/view/qml/timeline.qml:987
 #, kde-format
 msgid "Show master effects"
 msgstr "Montri majstrajn efektojn"
 
-#: src/timeline2/view/qml/timeline.qml:1117
+#: src/timeline2/view/qml/timeline.qml:1118
 #, kde-format
 msgid "Click to see details"
 msgstr "Klaku por vidi detalojn"
 
-#: src/timeline2/view/qml/timeline.qml:1139
+#: src/timeline2/view/qml/timeline.qml:1140
 #, kde-format
 msgid "Speech recognition"
 msgstr "Parola rekono"
 
-#: src/timeline2/view/qml/timeline.qml:1159
+#: src/timeline2/view/qml/timeline.qml:1160
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, kde-format
 msgid "Show"
 msgstr "Montri"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1159
+#: src/timeline2/view/qml/timeline.qml:1160
 #: src/timeline2/view/qml/TrackHead.qml:471 src/ui/configcapture_ui.ui:397
 #, kde-format
 msgid "Hide"
 msgstr "Kaŝi"
 
-#: src/timeline2/view/qml/timeline.qml:1750
+#: src/timeline2/view/qml/timeline.qml:1751
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Duoble alklaku</b> por aldoni subtitolon"
 
-#: src/timeline2/view/qml/timeline.qml:1914
+#: src/timeline2/view/qml/timeline.qml:1915
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Deŝovo: %1, Pozicio: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2062
-#: src/timeline2/view/qml/timeline.qml:2071
+#: src/timeline2/view/qml/timeline.qml:2063
+#: src/timeline2/view/qml/timeline.qml:2072
 #, kde-format
 msgid "Recording"
 msgstr "Registrado"
 
-#: src/timeline2/view/qml/timeline.qml:2160
+#: src/timeline2/view/qml/timeline.qml:2161
 #, kde-format
 msgid "Multicam In"
 msgstr "Multikamera En"
@@ -16603,7 +16602,7 @@ msgstr ""
 "Aldonu Templinian Sekvencon. Ĉi tio kreos novan templinion por redaktado. "
 "Ĉiu templinio respondas al Sekvenctondaĵo en la Projektujo"
 
-#: src/timeline2/view/timelinetabs.cpp:172
+#: src/timeline2/view/timelinetabs.cpp:179
 #, kde-format
 msgid "Closing a sequence will clear the undo history"
 msgstr "Fermo de sekvenco nuligos la malfar-historion."
@@ -17627,8 +17626,7 @@ msgstr "Tonda fino:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/clipjobmanager_ui.ui:30
-#, fuzzy, kde-format
-#| msgid "Job description"
+#, kde-format
 msgid "Job Description"
 msgstr "Laborpriskribo"
 
@@ -17684,7 +17682,7 @@ msgstr "Nomo de dosierujo"
 #: src/ui/clipjobmanager_ui.ui:110
 #, kde-format
 msgid "Optional description that will show up if a parameter is requested"
-msgstr ""
+msgstr "Laŭvola priskribo, kiu aperos se parametro estas petita"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:117
