@@ -4361,9 +4361,9 @@ bool MainWindow::hasTimeline() const
     return m_timelineTabs != nullptr;
 }
 
-void MainWindow::closeTimeline(const QUuid &uuid)
+void MainWindow::closeTimelineTab(const QUuid uuid)
 {
-    m_timelineTabs->closeTimeline(uuid);
+    m_timelineTabs->closeTimelineTab(uuid);
 }
 
 const QStringList MainWindow::openedSequences() const
@@ -4791,11 +4791,11 @@ void MainWindow::manageClipJobs(AbstractTask::JOBTYPE type, QWidget *parentWidge
     loadClipActions();
 }
 
-TimelineWidget *MainWindow::openTimeline(const QUuid &uuid, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel, MonitorProxy *proxy)
+TimelineWidget *MainWindow::openTimeline(const QUuid &uuid, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel)
 {
     // Create a new timeline tab
     KdenliveDoc *project = pCore->currentDoc();
-    TimelineWidget *timeline = m_timelineTabs->addTimeline(uuid, tabName, timelineModel, proxy);
+    TimelineWidget *timeline = m_timelineTabs->addTimeline(uuid, tabName, timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
     slotSetZoom(project->zoom(uuid).x(), false);
     getCurrentTimeline()->controller()->setZone(project->zone(uuid), false);
     getCurrentTimeline()->controller()->setScrollPos(project->getSequenceProperty(uuid, QStringLiteral("scrollPos")).toInt());

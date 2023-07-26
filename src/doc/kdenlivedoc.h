@@ -272,19 +272,19 @@ public:
     void generateRenderSubtitleFile(const QUuid &uuid, int in, int out, const QString &subtitleFile);
     /** @brief Returns the default definition  for guide categories.*/
     static const QStringList getDefaultGuideCategories();
-    void addTimeline(const QUuid &uuid, std::shared_ptr<TimelineItemModel> model);
+    void addTimeline(const QUuid &uuid, std::shared_ptr<TimelineItemModel> model, bool force = false);
     /** @brief Load the guides into the model for a sequence.*/
     void loadSequenceGroupsAndGuides(const QUuid &uuid);
     /** @brief Get a timeline by its uuid.*/
     std::shared_ptr<TimelineItemModel> getTimeline(const QUuid &uuid);
     /** @brief Before closing a timeline, store its groups and other properties.*/
-    void closeTimeline(const QUuid &uuid);
+    void closeTimeline(const QUuid uuid);
     /** @brief store groups in our properties.*/
     void storeGroups(const QUuid &uuid);
     void checkUsage(const QUuid &uuid);
     QList<QUuid> getTimelinesUuids() const;
     /** @brief Returns the number of timelines in this project.*/
-    int timelineCount() const;
+    int openedTimelineCount() const;
     /** @brief Get the currently active project name.*/
     const QString projectName() const;
     /** @brief Returns the project's main uuid.*/

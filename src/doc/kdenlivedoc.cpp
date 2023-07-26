@@ -2088,8 +2088,12 @@ QList<QUuid> KdenliveDoc::getTimelinesUuids() const
     return m_timelines.keys();
 }
 
-void KdenliveDoc::addTimeline(const QUuid &uuid, std::shared_ptr<TimelineItemModel> model)
+void KdenliveDoc::addTimeline(const QUuid &uuid, std::shared_ptr<TimelineItemModel> model, bool force)
 {
+    if (force && m_timelines.find(uuid) != m_timelines.end()) {
+        std::shared_ptr<TimelineItemModel> model = m_timelines.take(uuid);
+        model.reset();
+    }
     if (m_timelines.find(uuid) != m_timelines.end()) {
         qDebug() << "::::: TIMELINE " << uuid << " already inserted in project";
         return;
@@ -2133,7 +2137,7 @@ void KdenliveDoc::loadSequenceGroupsAndGuides(const QUuid &uuid)
     connect(model.get(), &TimelineModel::saveGuideCategories, this, &KdenliveDoc::saveGuideCategories);
 }
 
-void KdenliveDoc::closeTimeline(const QUuid &uuid)
+void KdenliveDoc::closeTimeline(const QUuid uuid)
 {
     Q_ASSERT(m_timelines.find(uuid) != m_timelines.end());
     // Sync all sequence properties
@@ -2171,7 +2175,7 @@ std::shared_ptr<MarkerListModel> KdenliveDoc::getGuideModel(const QUuid uuid) co
     return m_timelines.value(uuid)->getGuideModel();
 }
 
-int KdenliveDoc::timelineCount() const
+int KdenliveDoc::openedTimelineCount() const
 {
     return m_timelines.size();
 }

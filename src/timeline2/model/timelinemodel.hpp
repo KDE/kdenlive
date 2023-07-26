@@ -95,6 +95,7 @@ protected:
 public:
     friend class TrackModel;
     friend class TimelineTabs;
+    friend class ProjectManager;
     template <typename T> friend class MoveableItem;
     friend class ClipModel;
     friend class CompositionModel;
@@ -871,7 +872,10 @@ public:
     /** @brief returns this timeline's guide model */
     std::shared_ptr<MarkerListModel> getGuideModel();
     std::shared_ptr<MarkerSortModel> getFilteredGuideModel();
+    /** @brief The sequence name displayed in master effec button needs an update */
     void updateVisibleSequenceName(const QString displayName);
+    /** @brief Register all clips in this sequence to Bin */
+    void registerTimeline();
 
 protected:
     /** @brief Register a new track. This is a call-back meant to be called from TrackModel
