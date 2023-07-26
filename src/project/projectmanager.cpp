@@ -406,7 +406,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         if (guiConstructed) {
             const QList<QUuid> uuids = m_project->getTimelinesUuids();
             for (auto &uid : uuids) {
-                pCore->window()->closeTimeline(uid);
+                pCore->window()->closeTimelineTab(uid);
                 pCore->window()->resetSubtitles(uid);
             }
         } else {
@@ -1269,8 +1269,7 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
             documentTimeline->setModel(timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
         } else {
             // Create a new timeline tab
-            documentTimeline =
-                pCore->window()->openTimeline(uuid, i18n("Sequence 1"), timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
+            documentTimeline = pCore->window()->openTimeline(uuid, i18n("Sequence 1"), timelineModel);
         }
     }
     pCore->projectItemModel()->buildPlaylist(uuid);
@@ -1610,7 +1609,7 @@ void ProjectManager::initSequenceProperties(const QUuid &uuid, std::pair<int, in
     m_project->setSequenceProperty(uuid, QStringLiteral("activeTrack"), activeTrack);
 }
 
-bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int position, bool duplicate)
+bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int position, bool duplicate, std::shared_ptr<TimelineItemModel> existingModel)
 {
     if (position > -1) {
         m_project->setSequenceProperty(uuid, QStringLiteral("position"), position);
@@ -1642,7 +1641,10 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
     }
 
     // Build timeline
-    std::shared_ptr<TimelineItemModel> timelineModel = TimelineItemModel::construct(uuid, m_project->commandStack());
+    if (existingModel) {
+        existingModel->m_closing = false;
+    }
+    std::shared_ptr<TimelineItemModel> timelineModel = existingModel != nullptr ? existingModel : TimelineItemModel::construct(uuid, m_project->commandStack());
     m_project->addTimeline(uuid, timelineModel);
     TimelineWidget *timeline = nullptr;
     if (internalLoad) {
@@ -1650,7 +1652,8 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
         qDebug() << "============= LOADING INTERNAL PLAYLIST: " << uuid;
         const QString chunks = m_project->getSequenceProperty(uuid, QStringLiteral("previewchunks"));
         const QString dirty = m_project->getSequenceProperty(uuid, QStringLiteral("dirtypreviewchunks"));
-        if (!constructTimelineFromTractor(timelineModel, nullptr, *tc.get(), m_progressDialog, m_project->modifiedDecimalPoint(), chunks, dirty)) {
+        if (existingModel == nullptr &&
+            !constructTimelineFromTractor(timelineModel, nullptr, *tc.get(), m_progressDialog, m_project->modifiedDecimalPoint(), chunks, dirty)) {
             qDebug() << "===== LOADING PROJECT INTERNAL ERROR";
         }
         std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(timelineModel->tractor());
@@ -1753,7 +1756,7 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
     }
     if (pCore->window()) {
         // Create tab widget
-        timeline = pCore->window()->openTimeline(uuid, clip->clipName(), timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
+        timeline = pCore->window()->openTimeline(uuid, clip->clipName(), timelineModel);
     }
 
     int activeTrackPosition = m_project->getSequenceProperty(uuid, QStringLiteral("activeTrack"), QString::number(-1)).toInt();
@@ -1795,7 +1798,7 @@ void ProjectManager::setTimelinePropery(QUuid uuid, const QString &prop, const Q
 
 int ProjectManager::getTimelinesCount() const
 {
-    return m_project->timelineCount();
+    return pCore->projectItemModel()->sequenceCount();
 }
 
 void ProjectManager::syncTimeline(const QUuid &uuid, bool refresh)
@@ -1831,20 +1834,21 @@ bool ProjectManager::closeTimeline(const QUuid &uuid, bool onDeletion, bool clea
         return false;
     }
     pCore->projectItemModel()->removeReferencedClips(uuid);
+    pCore->projectItemModel()->setExtraTimelineSaved(uuid.toString());
     if (onDeletion) {
         // triggered when deleting bin clip, also close timeline tab
-        pCore->window()->closeTimeline(uuid);
+        pCore->window()->closeTimelineTab(uuid);
     } else {
-        pCore->projectItemModel()->setExtraTimelineSaved(uuid.toString());
         if (!m_project->closing && !onDeletion) {
             if (m_project->isModified()) {
                 syncTimeline(uuid);
             }
         }
-        m_project->closeTimeline(uuid);
     }
+    m_project->closeTimeline(uuid);
     // The undo stack keeps references to guides model and will crash on undo if not cleared
     if (clearUndo) {
+        qDebug() << ":::::::::::::: WARNING CLEARING NUDO STACK\n\n:::::::::::::::::";
         undoStack()->clear();
     }
     if (!m_project->closing) {

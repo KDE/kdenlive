@@ -3859,7 +3859,7 @@ void TimelineController::focusTimelineSequence(int id)
         if (local_redo()) {
             Fun local_undo = [uuid]() {
                 if (pCore->projectManager()->closeTimeline(uuid)) {
-                    pCore->window()->closeTimeline(uuid);
+                    pCore->window()->closeTimelineTab(uuid);
                 }
                 return true;
             };

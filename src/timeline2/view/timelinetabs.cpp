@@ -150,7 +150,7 @@ void TimelineTabs::connectCurrent(int ix)
     qDebug() << "==== CONNECT NEW TIMELINE, MODEL:" << m_activeTimeline->model()->getTracksCount();
     pCore->window()->connectTimeline();
     connectTimeline(m_activeTimeline);
-    if (count() == 1 && pCore->currentDoc()->timelineCount() > 1) {
+    if (count() == 1 && pCore->currentDoc()->openedTimelineCount() > 1) {
         m_activeTimeline->model()->updateVisibleSequenceName(tabText(0));
     }
     if (!m_activeTimeline->model()->isLoading) {
@@ -176,25 +176,29 @@ void TimelineTabs::renameTab(const QUuid &uuid, const QString &name)
 
 void TimelineTabs::closeTimelineByIndex(int ix)
 {
-    if (KMessageBox::warningContinueCancel(this, i18n("Closing a sequence will clear the undo history"), QString(), KStandardGuiItem::cont(),
-                                           KStandardGuiItem::cancel(), QStringLiteral("clearHistoryOnSequenceClose")) != KMessageBox::Continue) {
-        return;
-    }
-    // Closing a sequence currently causes many undo crashes, so disable for now
-    QMutexLocker lk(&m_lock);
-    bool closingCurrent = ix == currentIndex();
-    const QString seqName = tabText(ix);
     TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(ix));
+    if (timeline == m_activeTimeline) {
+        Q_EMIT timeline->model()->requestClearAssetView(-1);
+        pCore->clearTimeRemap();
+        pCore->mixer()->unsetModel();
+        pCore->window()->disableMulticam();
+        m_activeTimeline->model()->updateDuration();
+        timeline->controller()->saveSequenceProperties();
+    }
+    const QString seqName = tabText(ix);
+    std::shared_ptr<TimelineItemModel> model = timeline->model();
     const QUuid uuid = timeline->getUuid();
+    const QString id = pCore->bin()->sequenceBinId(uuid);
+    Fun undo = [uuid, id, model]() {
+        model->registerTimeline();
+        return pCore->projectManager()->openTimeline(id, uuid, -1, false, model);
+    };
     Fun redo = [this, ix, uuid]() {
+        pCore->projectManager()->closeTimeline(uuid, false, false);
         TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(ix));
-        if (timeline == m_activeTimeline) {
-            Q_EMIT timeline->model()->requestClearAssetView(-1);
-            pCore->clearTimeRemap();
-            pCore->mixer()->unsetModel();
-        }
         timeline->blockSignals(true);
         timeline->setSource(QUrl());
+        pCore->projectManager()->closeTimeline(uuid, false, false);
         if (timeline == m_activeTimeline) {
             pCore->window()->disconnectTimeline(timeline);
             disconnectTimeline(timeline);
@@ -204,29 +208,10 @@ void TimelineTabs::closeTimelineByIndex(int ix)
             m_activeTimeline = nullptr;
         }
         delete timeline;
-        pCore->projectManager()->closeTimeline(uuid);
-        setTabsClosable(count() > 1);
-        if (count() == 1) {
-            updateWindowTitle();
-        }
         return true;
     };
-    /*Fun undo = [this, uuid]() {
-        const QString binId = pCore->bin()->sequenceBinId(uuid);
-        if (!binId.isEmpty()) {
-            return pCore->projectManager()->openTimeline(binId, uuid);
-        }
-        return false;
-    };*/
-    if (closingCurrent) {
-        pCore->window()->disableMulticam();
-        int pos = pCore->getMonitorPosition();
-        m_activeTimeline->model()->updateDuration();
-        int duration = m_activeTimeline->model()->duration();
-        timeline->controller()->saveSequenceProperties();
-    }
     redo();
-    // pCore->pushUndo(undo, redo, i18n("Close %1", seqName));
+    pCore->pushUndo(undo, redo, i18n("Close %1", seqName));
 }
 
 TimelineWidget *TimelineTabs::getCurrentTimeline() const
@@ -241,7 +226,7 @@ void TimelineTabs::closeTimelines()
     }
 }
 
-void TimelineTabs::closeTimeline(const QUuid &uuid)
+void TimelineTabs::closeTimelineTab(const QUuid uuid)
 {
     QMutexLocker lk(&m_lock);
     for (int i = 0; i < count(); i++) {
@@ -260,7 +245,7 @@ void TimelineTabs::closeTimeline(const QUuid &uuid)
                 m_activeTimeline = nullptr;
             }
             delete timeline;
-            pCore->projectManager()->closeTimeline(uuid);
+            // pCore->projectManager()->closeTimeline(uuid);
             setTabsClosable(count() > 1);
             if (count() == 1) {
                 updateWindowTitle();

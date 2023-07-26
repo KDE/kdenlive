@@ -135,16 +135,14 @@ QString ClipCreator::createPlaylistClip(const QString &name, std::pair<int, int>
     res = model->requestAddBinClip(id, prod, parentFolder, undo, redo);
     if (res) {
         // Open playlist timeline
-        qDebug() << "::: CREATED PLAYLIST WITH UUID: " << uuid << ", ID: " << id;
         pCore->projectManager()->initSequenceProperties(uuid, tracks);
-        Fun local_redo = [uuid, id]() { return pCore->projectManager()->openTimeline(id, uuid); };
+        pCore->projectManager()->openTimeline(id, uuid);
+        std::shared_ptr<TimelineItemModel> model = pCore->currentDoc()->getTimeline(uuid);
+        Fun local_redo = [uuid, id, model]() { return pCore->projectManager()->openTimeline(id, uuid, -1, false, model); };
         Fun local_undo = [uuid]() {
-            if (pCore->projectManager()->closeTimeline(uuid)) {
-                pCore->window()->closeTimeline(uuid);
-            }
+            pCore->projectManager()->closeTimeline(uuid, true, false);
             return true;
         };
-        local_redo();
         pCore->currentDoc()->checkUsage(uuid);
         UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
     }
@@ -205,17 +203,14 @@ QString ClipCreator::createPlaylistClipWithUndo(const QString &name, std::pair<i
     res = model->requestAddBinClip(id, prod, parentFolder, undo, redo);
     if (res) {
         // Open playlist timeline
-        qDebug() << "::: CREATED PLAYLIST WITH UUID: " << uuid << ", ID: " << id;
         pCore->projectManager()->initSequenceProperties(uuid, tracks);
-        Fun local_redo = [uuid, id]() { return pCore->projectManager()->openTimeline(id, uuid); };
+        pCore->projectManager()->openTimeline(id, uuid);
+        std::shared_ptr<TimelineItemModel> model = pCore->currentDoc()->getTimeline(uuid);
+        Fun local_redo = [uuid, id, model]() { return pCore->projectManager()->openTimeline(id, uuid, -1, false, model); };
         Fun local_undo = [uuid]() {
-            if (pCore->projectManager()->closeTimeline(uuid, true)) {
-                pCore->window()->closeTimeline(uuid);
-            }
+            pCore->projectManager()->closeTimeline(uuid, true, false);
             return true;
         };
-        local_redo();
-
         UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
     }
     return res ? id : QStringLiteral("-1");

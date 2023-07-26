@@ -99,7 +99,7 @@ public Q_SLOTS:
     TimelineWidget *addTimeline(const QUuid uuid, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel, MonitorProxy *proxy);
     void connectCurrent(int ix);
     void closeTimelineByIndex(int ix);
-    void closeTimeline(const QUuid &uuid);
+    void closeTimelineTab(const QUuid uuid);
     void renameTab(const QUuid &uuid, const QString &name);
     void slotNextSequence();
     void slotPreviousSequence();

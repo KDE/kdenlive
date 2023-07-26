@@ -6936,3 +6936,11 @@ void TimelineModel::updateVisibleSequenceName(const QString displayName)
     m_visibleSequenceName = displayName;
     Q_EMIT visibleSequenceNameChanged();
 }
+
+void TimelineModel::registerTimeline()
+{
+    qDebug() << "::: CLIPS IN THIS MODDEL: " << m_allClips.size();
+    for (auto clip : m_allClips) {
+        clip.second->registerClipToBin(clip.second->getProducer(), false);
+    }
+}
