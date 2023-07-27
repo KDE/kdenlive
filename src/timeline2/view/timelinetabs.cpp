@@ -65,9 +65,11 @@ void TimelineTabs::updateWindowTitle()
 {
     // Show current timeline name in Window title if we have multiple sequences but only one opened
     if (count() == 1 && pCore->projectItemModel()->sequenceCount() > 1) {
-        pCore->window()->setWindowTitle(pCore->currentDoc()->description(KLocalizedString::removeAcceleratorMarker(tabBar()->tabText(currentIndex()))));
+        pCore->window()->setWindowTitle(pCore->currentDoc()->description(KLocalizedString::removeAcceleratorMarker(tabText(0))));
+        m_activeTimeline->model()->updateVisibleSequenceName(tabText(0));
     } else {
         pCore->window()->setWindowTitle(pCore->currentDoc()->description());
+        m_activeTimeline->model()->updateVisibleSequenceName(QString());
     }
 }
 
@@ -149,9 +151,7 @@ void TimelineTabs::connectCurrent(int ix)
     }
     pCore->window()->connectTimeline();
     connectTimeline(m_activeTimeline);
-    if (count() == 1 && pCore->projectItemModel()->sequenceCount() > 1) {
-        m_activeTimeline->model()->updateVisibleSequenceName(tabText(0));
-    }
+    updateWindowTitle();
     if (!m_activeTimeline->model()->isLoading) {
         pCore->bin()->sequenceActivated();
     }
@@ -164,10 +164,7 @@ void TimelineTabs::renameTab(const QUuid &uuid, const QString &name)
         if (static_cast<TimelineWidget *>(widget(i))->getUuid() == uuid) {
             tabBar()->setTabText(i, name);
             pCore->projectManager()->setTimelinePropery(uuid, QStringLiteral("kdenlive:clipname"), name);
-            if (count() == 1 && pCore->projectItemModel()->sequenceCount() > 1) {
-                updateWindowTitle();
-                m_activeTimeline->model()->updateVisibleSequenceName(name);
-            }
+            updateWindowTitle();
             break;
         }
     }
@@ -207,6 +204,7 @@ void TimelineTabs::closeTimelineByIndex(int ix)
             m_activeTimeline = nullptr;
         }
         delete timeline;
+        updateWindowTitle();
         return true;
     };
     redo();
@@ -228,7 +226,8 @@ void TimelineTabs::closeTimelines()
 void TimelineTabs::closeTimelineTab(const QUuid uuid)
 {
     QMutexLocker lk(&m_lock);
-    for (int i = 0; i < count(); i++) {
+    int currentCount = count();
+    for (int i = 0; i < currentCount; i++) {
         TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(i));
         if (uuid == timeline->getUuid()) {
             timeline->blockSignals(true);
@@ -246,7 +245,7 @@ void TimelineTabs::closeTimelineTab(const QUuid uuid)
             delete timeline;
             // pCore->projectManager()->closeTimeline(uuid);
             setTabsClosable(count() > 1);
-            if (count() == 1) {
+            if (currentCount == 2) {
                 updateWindowTitle();
             }
             break;
