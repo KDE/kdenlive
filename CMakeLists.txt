@@ -62,8 +62,6 @@ include(QtVersionOption)
 include(ECMDeprecationSettings)
 remove_definitions(-DQT_NO_CAST_FROM_ASCII) # Defined in KDECompilerSettings, but we don't want that yet
 
-set(REQUIRED_QT_VERSION "5.15.2")
-
 if (NOT DEFINED QT_MAJOR_VERSION)
     set(QT_MAJOR_VERSION 5)
 endif()
@@ -77,9 +75,7 @@ if (NOT DEFINED KF_MAJOR)
   set(KF_MAJOR ${QT_MAJOR_VERSION})
 endif()
 
-if (KF_MAJOR LESS "6")
-  set(KF_DEP_VERSION "5.92.0")
-else()
+if (KF_MAJOR STREQUAL "6")
   set(KF_DEP_VERSION "5.240.0")
 endif()
 
