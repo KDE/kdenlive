@@ -129,12 +129,14 @@ NegQColor WheelContainer::colorForPoint(const QPointF &point)
     if (m_sliderClick) {
         qreal value = 1.0 - qreal(point.y() - m_margin) / (wheelSize() - m_margin * 2);
         value = qBound(0., value, 1.);
-        if (!qFuzzyIsNull(m_zeroShift)) {
-            value = value - m_zeroShift;
-        }
-        if (qFuzzyIsNull(value)) {
-            // A value of 0 completely resets the color
-            value = 0.001;
+        if (qFuzzyIsNull(m_zeroShift)) {
+            // Range is 0 to 1
+            if (value < 0.001) {
+                value = 0.001;
+            }
+        } else if (qAbs(value) < 0.001) {
+            // Range is -1 to 1
+            value = value < 0. ? -0.001 : 0.001;
         }
         return NegQColor::fromHsvF(m_color.hueF(), m_color.saturationF(), value);
     }
@@ -158,17 +160,17 @@ void WheelContainer::wheelEvent(QWheelEvent *event)
         if (event->modifiers() & Qt::ShiftModifier) {
             y += event->angleDelta().y() > 0 ? 0.002 : -0.002;
         } else {
-            y += event->angleDelta().y() > 0 ? 0.04 : -0.04;
+            y += event->angleDelta().y() > 0 ? 0.02 : -0.02;
         }
         m_sliderClick = true;
         m_sliderFocus = true;
         qreal value = qBound(-m_zeroShift, y, 1. - m_zeroShift);
         if (qFuzzyIsNull(m_zeroShift)) {
             // Range is 0 to 1
-            if (qFuzzyIsNull(value)) {
+            if (qAbs(value) < 0.001) {
                 value = 0.001;
             }
-        } else if (qFuzzyIsNull(value)) {
+        } else if (qAbs(value) < 0.001) {
             // Range is -1 to 1
             value = value < 0. ? -0.001 : 0.001;
         }
@@ -223,7 +225,19 @@ void WheelContainer::mousePressEvent(QMouseEvent *event)
         m_sliderClick = true;
         m_sliderFocus = true;
         if (event->button() == Qt::LeftButton) {
-            changeColor(colorForPoint(m_lastPoint));
+            NegQColor color = colorForPoint(m_lastPoint);
+            qreal value = color.valueF() - m_zeroShift;
+            if (qFuzzyIsNull(m_zeroShift)) {
+                // Range is 0 to 1
+                if (qAbs(value) < 0.001) {
+                    value = 0.001;
+                }
+            } else if (qAbs(value) < 0.001) {
+                // Range is -1 to 1
+                value = value < 0. ? -0.001 : 0.001;
+            }
+            m_color.setValueF(value);
+            changeColor(m_color);
         } else {
             NegQColor c;
             qreal value = m_defaultValue / m_sizeFactor;
@@ -287,7 +301,18 @@ void WheelContainer::mouseMoveEvent(QMouseEvent *event)
         changeColor(color);
     } else if (m_sliderClick) {
         const NegQColor color = colorForPoint(m_lastPoint);
-        changeColor(color);
+        qreal value = color.valueF() - m_zeroShift;
+        if (qFuzzyIsNull(m_zeroShift)) {
+            // Range is 0 to 1
+            if (qAbs(value) < 0.001) {
+                value = 0.001;
+            }
+        } else if (qAbs(value) < 0.001) {
+            // Range is -1 to 1
+            value = value < 0. ? -0.001 : 0.001;
+        }
+        m_color.setValueF(value);
+        changeColor(m_color);
     }
 }
 
