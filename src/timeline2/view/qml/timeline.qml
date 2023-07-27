@@ -975,7 +975,7 @@ Rectangle {
                 width: parent.width
                 height: ruler.height
                 Button {
-                    text: parent.width > metrics.boundingRect.width * 1.4 ? metrics.text : i18nc("Initial for Master", "M")
+                    text: metrics.elidedText
                     font: miniFont
                     flat: true
                     anchors.fill: parent
@@ -987,6 +987,9 @@ Rectangle {
                     ToolTip.text: i18n("Show master effects")
                     TextMetrics {
                         id: metrics
+                        font: miniFont
+                        elide: Text.ElideRight
+                        elideWidth: root.headerWidth * 0.8
                         text: root.addedSequenceName.length == 0 ? i18n("Master") : root.addedSequenceName
                     }
                     onClicked: {
