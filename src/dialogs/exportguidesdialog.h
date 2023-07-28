@@ -32,6 +32,7 @@ public:
 private:
     GenTime offsetTime() const;
     void updateContentByModel() const;
+    const QString getFFmpegChaptersData() const;
 
     const MarkerListModel * m_markerListModel;
     const GenTime m_projectDuration;
