@@ -1350,8 +1350,12 @@ Rectangle {
                         timeline.requestStartTrimmingMode(mainClip.clipId, shiftPress)
                     }
                     if (dragProxy.draggedItem > -1 && mouse.y > ruler.height) {
-                        mouse.accepted = false
-                        return
+                        // Check if the mouse exit event was not correctly triggered on the draggeditem
+                        regainFocus(tracksArea.mapToItem(root,mouseX, mouseY))
+                        if (dragProxy.draggedItem > -1) {
+                            mouse.accepted = false
+                            return
+                        }
                     }
                     if (root.activeTool === ProjectTool.SpacerTool && mouse.y > ruler.height) {
                         // spacer tool
