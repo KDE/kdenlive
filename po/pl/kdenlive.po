@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-27 00:45+0000\n"
+"POT-Creation-Date: 2023-07-28 00:45+0000\n"
 "PO-Revision-Date: 2023-06-24 07:10+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -3606,17 +3606,17 @@ msgstr "Wpisz nazwę dla tej nastawy:"
 msgid "Abort processing"
 msgstr "Przerwij przetwarzanie"
 
-#: src/assets/view/widgets/colorwheel.cpp:477
+#: src/assets/view/widgets/colorwheel.cpp:502
 #, kde-format
 msgid "R: "
 msgstr "R: "
 
-#: src/assets/view/widgets/colorwheel.cpp:484
+#: src/assets/view/widgets/colorwheel.cpp:509
 #, kde-format
 msgid "G: "
 msgstr "G: "
 
-#: src/assets/view/widgets/colorwheel.cpp:490
+#: src/assets/view/widgets/colorwheel.cpp:515
 #, kde-format
 msgid "B: "
 msgstr "B: "
@@ -4036,7 +4036,7 @@ msgstr ""
 "Monitorowanie dźwięku. Naciśnij <b>Spację</b>, aby rozpocząć/wstrzymać "
 "nagrywanie, <b>Esc</b>, aby je zakończyć."
 
-#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:990
+#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:993
 #, kde-format
 msgid "Master"
 msgstr "Główny"
@@ -5870,7 +5870,7 @@ msgstr ""
 #: src/core.cpp:678 src/kdenliveui.rc:30 src/mainwindow.cpp:285
 #: src/project/dialogs/archivewidget.cpp:97
 #: src/project/dialogs/projectsettings.cpp:423
-#: src/timeline2/view/qml/timeline.qml:1082
+#: src/timeline2/view/qml/timeline.qml:1085
 #, kde-format
 msgid "Subtitles"
 msgstr "Napisy"
@@ -15986,14 +15986,14 @@ msgid "Change clip speed"
 msgstr "Zmień szybkość wycinka"
 
 #: src/timeline2/model/timelinemodel.cpp:6268
-#: src/timeline2/view/qml/timeline.qml:1184
+#: src/timeline2/view/qml/timeline.qml:1187
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "Zablokuj ścieżkę"
 
 #: src/timeline2/model/timelinemodel.cpp:6273
-#: src/timeline2/view/qml/timeline.qml:1184
+#: src/timeline2/view/qml/timeline.qml:1187
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
@@ -16128,7 +16128,7 @@ msgid "Stop"
 msgstr "Stop"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2074
+#: src/timeline2/view/qml/timeline.qml:2077
 #, kde-format
 msgid "Paused"
 msgstr "Wstrzymano"
@@ -16268,57 +16268,51 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>Kliknij dwukrotnie</b>, aby edytować tekst"
 
-#: src/timeline2/view/qml/timeline.qml:978
-#, kde-format
-msgctxt "Initial for Master"
-msgid "M"
-msgstr "M"
-
 #: src/timeline2/view/qml/timeline.qml:987
 #, kde-format
 msgid "Show master effects"
 msgstr "Pokaż główne efekty"
 
-#: src/timeline2/view/qml/timeline.qml:1118
+#: src/timeline2/view/qml/timeline.qml:1121
 #, kde-format
 msgid "Click to see details"
 msgstr "Naciśnij po szczegóły"
 
-#: src/timeline2/view/qml/timeline.qml:1140
+#: src/timeline2/view/qml/timeline.qml:1143
 #, kde-format
 msgid "Speech recognition"
 msgstr "Rozpoznawanie mowy"
 
-#: src/timeline2/view/qml/timeline.qml:1160
+#: src/timeline2/view/qml/timeline.qml:1163
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, kde-format
 msgid "Show"
 msgstr "Pokaż"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1160
+#: src/timeline2/view/qml/timeline.qml:1163
 #: src/timeline2/view/qml/TrackHead.qml:471 src/ui/configcapture_ui.ui:397
 #, kde-format
 msgid "Hide"
 msgstr "Ukryj"
 
-#: src/timeline2/view/qml/timeline.qml:1751
+#: src/timeline2/view/qml/timeline.qml:1754
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Kliknij dwukrotnie</b>, aby dodać napis"
 
-#: src/timeline2/view/qml/timeline.qml:1915
+#: src/timeline2/view/qml/timeline.qml:1918
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Przesunięcie: %1, Położenie: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2063
-#: src/timeline2/view/qml/timeline.qml:2072
+#: src/timeline2/view/qml/timeline.qml:2066
+#: src/timeline2/view/qml/timeline.qml:2075
 #, kde-format
 msgid "Recording"
 msgstr "Nagrywanie"
 
-#: src/timeline2/view/qml/timeline.qml:2161
+#: src/timeline2/view/qml/timeline.qml:2164
 #, kde-format
 msgid "Multicam In"
 msgstr "Wejście Multicam"
@@ -16736,7 +16730,7 @@ msgstr ""
 "Dodaj szereg osi czasu. Utworzy to nową oś czasu do edytowania. Każda oś "
 "czasu odpowiada wycinkowi szeregu w pojemniku projektu"
 
-#: src/timeline2/view/timelinetabs.cpp:213
+#: src/timeline2/view/timelinetabs.cpp:211
 #, kde-format
 msgid "Close %1"
 msgstr "Zamknij %1"
@@ -21522,6 +21516,10 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgctxt "Initial for Master"
+#~ msgid "M"
+#~ msgstr "M"
 
 #~ msgid "Closing a sequence will clear the undo history"
 #~ msgstr "Zamknięcie szeregu wyczyści historię cofania"

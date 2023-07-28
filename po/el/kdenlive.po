@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-27 00:45+0000\n"
+"POT-Creation-Date: 2023-07-28 00:45+0000\n"
 "PO-Revision-Date: 2020-04-15 11:41+0300\n"
 "Last-Translator: Petros Vidalis <pvidalis@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -3684,17 +3684,17 @@ msgstr ""
 msgid "Abort processing"
 msgstr ""
 
-#: src/assets/view/widgets/colorwheel.cpp:477
+#: src/assets/view/widgets/colorwheel.cpp:502
 #, kde-format
 msgid "R: "
 msgstr ""
 
-#: src/assets/view/widgets/colorwheel.cpp:484
+#: src/assets/view/widgets/colorwheel.cpp:509
 #, kde-format
 msgid "G: "
 msgstr ""
 
-#: src/assets/view/widgets/colorwheel.cpp:490
+#: src/assets/view/widgets/colorwheel.cpp:515
 #, kde-format
 msgid "B: "
 msgstr ""
@@ -4143,7 +4143,7 @@ msgid ""
 "end."
 msgstr ""
 
-#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:990
+#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:993
 #, kde-format
 msgid "Master"
 msgstr ""
@@ -6083,7 +6083,7 @@ msgstr ""
 #: src/core.cpp:678 src/kdenliveui.rc:30 src/mainwindow.cpp:285
 #: src/project/dialogs/archivewidget.cpp:97
 #: src/project/dialogs/projectsettings.cpp:423
-#: src/timeline2/view/qml/timeline.qml:1082
+#: src/timeline2/view/qml/timeline.qml:1085
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Subtitles"
@@ -16546,14 +16546,14 @@ msgid "Change clip speed"
 msgstr "Τροποποίηση τύπου κλιπ"
 
 #: src/timeline2/model/timelinemodel.cpp:6268
-#: src/timeline2/view/qml/timeline.qml:1184
+#: src/timeline2/view/qml/timeline.qml:1187
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "Κλείδωμα κομματιού"
 
 #: src/timeline2/model/timelinemodel.cpp:6273
-#: src/timeline2/view/qml/timeline.qml:1184
+#: src/timeline2/view/qml/timeline.qml:1187
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
@@ -16694,7 +16694,7 @@ msgid "Stop"
 msgstr "Διακοπή"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2074
+#: src/timeline2/view/qml/timeline.qml:2077
 #, fuzzy, kde-format
 #| msgid "Pause"
 msgid "Paused"
@@ -16840,32 +16840,25 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:978
-#, fuzzy, kde-format
-#| msgid "M"
-msgctxt "Initial for Master"
-msgid "M"
-msgstr "M"
-
 #: src/timeline2/view/qml/timeline.qml:987
 #, fuzzy, kde-format
 #| msgid "Show all profiles"
 msgid "Show master effects"
 msgstr "Εμφάνιση όλων των προφίλ"
 
-#: src/timeline2/view/qml/timeline.qml:1118
+#: src/timeline2/view/qml/timeline.qml:1121
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Click to see details"
 msgstr "Χρήση φακέλου έργου"
 
-#: src/timeline2/view/qml/timeline.qml:1140
+#: src/timeline2/view/qml/timeline.qml:1143
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Speech recognition"
 msgstr "Επιλογή μετάβασης"
 
-#: src/timeline2/view/qml/timeline.qml:1160
+#: src/timeline2/view/qml/timeline.qml:1163
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, fuzzy, kde-format
 #| msgid "Show log"
@@ -16873,32 +16866,32 @@ msgid "Show"
 msgstr "Προβολή καταγραφής"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1160
+#: src/timeline2/view/qml/timeline.qml:1163
 #: src/timeline2/view/qml/TrackHead.qml:471 src/ui/configcapture_ui.ui:397
 #, kde-format
 msgid "Hide"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:1751
+#: src/timeline2/view/qml/timeline.qml:1754
 #, fuzzy, kde-format
 #| msgid "Click to add a transition."
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Κάντε κλικ για να προσθέσετε μία μετάβαση."
 
-#: src/timeline2/view/qml/timeline.qml:1915
+#: src/timeline2/view/qml/timeline.qml:1918
 #, fuzzy, kde-format
 #| msgid "Position: %1"
 msgid "Offset: %1, Position: %2"
 msgstr "Θέση: %1"
 
-#: src/timeline2/view/qml/timeline.qml:2063
-#: src/timeline2/view/qml/timeline.qml:2072
+#: src/timeline2/view/qml/timeline.qml:2066
+#: src/timeline2/view/qml/timeline.qml:2075
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "Εγγραφή"
 
-#: src/timeline2/view/qml/timeline.qml:2161
+#: src/timeline2/view/qml/timeline.qml:2164
 #, kde-format
 msgid "Multicam In"
 msgstr ""
@@ -17351,7 +17344,7 @@ msgid ""
 "timeline corresponds to a Sequence Clip in the Project Bin"
 msgstr ""
 
-#: src/timeline2/view/timelinetabs.cpp:213
+#: src/timeline2/view/timelinetabs.cpp:211
 #, fuzzy, kde-format
 #| msgid "Close"
 msgid "Close %1"
@@ -22503,6 +22496,12 @@ msgstr ""
 msgctxt "h as hours"
 msgid "%1h"
 msgstr ""
+
+#, fuzzy
+#~| msgid "M"
+#~ msgctxt "Initial for Master"
+#~ msgid "M"
+#~ msgstr "M"
 
 #, fuzzy
 #~| msgid "Opening file %1"

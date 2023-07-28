@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-27 00:45+0000\n"
+"POT-Creation-Date: 2023-07-28 00:45+0000\n"
 "PO-Revision-Date: 2023-07-25 11:43+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -3605,17 +3605,17 @@ msgstr "Bu ön ayarın adını girin:"
 msgid "Abort processing"
 msgstr "İşlemeyi iptal et"
 
-#: src/assets/view/widgets/colorwheel.cpp:477
+#: src/assets/view/widgets/colorwheel.cpp:502
 #, kde-format
 msgid "R: "
 msgstr "K: "
 
-#: src/assets/view/widgets/colorwheel.cpp:484
+#: src/assets/view/widgets/colorwheel.cpp:509
 #, kde-format
 msgid "G: "
 msgstr "Y "
 
-#: src/assets/view/widgets/colorwheel.cpp:490
+#: src/assets/view/widgets/colorwheel.cpp:515
 #, kde-format
 msgid "B: "
 msgstr "M "
@@ -4035,7 +4035,7 @@ msgstr ""
 "Ses izleniyor. Kaydı başlatmak/duraklatmak için <b>Boşluk</b>'a, "
 "sonlandırmak için <b>Esc</b>'ye basın."
 
-#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:990
+#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:993
 #, kde-format
 msgid "Master"
 msgstr "Ana"
@@ -5851,7 +5851,7 @@ msgstr "Proje profiliniz geçersiz, sunum başarısız olabilir."
 #: src/core.cpp:678 src/kdenliveui.rc:30 src/mainwindow.cpp:285
 #: src/project/dialogs/archivewidget.cpp:97
 #: src/project/dialogs/projectsettings.cpp:423
-#: src/timeline2/view/qml/timeline.qml:1082
+#: src/timeline2/view/qml/timeline.qml:1085
 #, kde-format
 msgid "Subtitles"
 msgstr "Altyazılar"
@@ -15877,14 +15877,14 @@ msgid "Change clip speed"
 msgstr "Klip hızını değiştir"
 
 #: src/timeline2/model/timelinemodel.cpp:6268
-#: src/timeline2/view/qml/timeline.qml:1184
+#: src/timeline2/view/qml/timeline.qml:1187
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "İzi kilitle"
 
 #: src/timeline2/model/timelinemodel.cpp:6273
-#: src/timeline2/view/qml/timeline.qml:1184
+#: src/timeline2/view/qml/timeline.qml:1187
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
@@ -16019,7 +16019,7 @@ msgid "Stop"
 msgstr "Durdur"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2074
+#: src/timeline2/view/qml/timeline.qml:2077
 #, kde-format
 msgid "Paused"
 msgstr "Duraklatıldı"
@@ -16158,57 +16158,51 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "Metni düzenlemek için <b>çift tıklayın</b>"
 
-#: src/timeline2/view/qml/timeline.qml:978
-#, kde-format
-msgctxt "Initial for Master"
-msgid "M"
-msgstr "A"
-
 #: src/timeline2/view/qml/timeline.qml:987
 #, kde-format
 msgid "Show master effects"
 msgstr "Ana efektleri göster"
 
-#: src/timeline2/view/qml/timeline.qml:1118
+#: src/timeline2/view/qml/timeline.qml:1121
 #, kde-format
 msgid "Click to see details"
 msgstr "Ayrıntıları görmek için tıklayın"
 
-#: src/timeline2/view/qml/timeline.qml:1140
+#: src/timeline2/view/qml/timeline.qml:1143
 #, kde-format
 msgid "Speech recognition"
 msgstr "Konuşma tanıma"
 
-#: src/timeline2/view/qml/timeline.qml:1160
+#: src/timeline2/view/qml/timeline.qml:1163
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, kde-format
 msgid "Show"
 msgstr "Göster"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1160
+#: src/timeline2/view/qml/timeline.qml:1163
 #: src/timeline2/view/qml/TrackHead.qml:471 src/ui/configcapture_ui.ui:397
 #, kde-format
 msgid "Hide"
 msgstr "Gizle"
 
-#: src/timeline2/view/qml/timeline.qml:1751
+#: src/timeline2/view/qml/timeline.qml:1754
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Altyazı eklemek için <b>çift tıklayın</b>"
 
-#: src/timeline2/view/qml/timeline.qml:1915
+#: src/timeline2/view/qml/timeline.qml:1918
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Ofset: %1, Konum: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2063
-#: src/timeline2/view/qml/timeline.qml:2072
+#: src/timeline2/view/qml/timeline.qml:2066
+#: src/timeline2/view/qml/timeline.qml:2075
 #, kde-format
 msgid "Recording"
 msgstr "Kaydediliyor"
 
-#: src/timeline2/view/qml/timeline.qml:2161
+#: src/timeline2/view/qml/timeline.qml:2164
 #, kde-format
 msgid "Multicam In"
 msgstr "Çoklu Kamera Girişi"
@@ -16623,7 +16617,7 @@ msgstr ""
 "oluşturacaktır. Her bir zaman akışı, Proje Kovası'nda bir Sekans Klibine "
 "denk gelir"
 
-#: src/timeline2/view/timelinetabs.cpp:213
+#: src/timeline2/view/timelinetabs.cpp:211
 #, kde-format
 msgid "Close %1"
 msgstr "Kapat: %1"
@@ -21405,6 +21399,10 @@ msgstr "%1 dk"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 sa"
+
+#~ msgctxt "Initial for Master"
+#~ msgid "M"
+#~ msgstr "A"
 
 #~ msgid "Closing a sequence will clear the undo history"
 #~ msgstr "Bir sekansı kapatmak, geri al geçmişini temizler"
