@@ -64,6 +64,9 @@ TimelineTabs::~TimelineTabs()
 void TimelineTabs::updateWindowTitle()
 {
     // Show current timeline name in Window title if we have multiple sequences but only one opened
+    if (m_activeTimeline == nullptr || pCore->currentDoc()->closing) {
+        return;
+    }
     if (count() == 1 && pCore->projectItemModel()->sequenceCount() > 1) {
         pCore->window()->setWindowTitle(pCore->currentDoc()->description(KLocalizedString::removeAcceleratorMarker(tabText(0))));
         m_activeTimeline->model()->updateVisibleSequenceName(tabText(0));
