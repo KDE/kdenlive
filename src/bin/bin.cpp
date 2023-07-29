@@ -1189,6 +1189,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     // m_searchLine->setClearButtonEnabled(true);
     m_searchLine->setPlaceholderText(i18n("Search…"));
     m_searchLine->setFocusPolicy(Qt::ClickFocus);
+    m_searchLine->setAccessibleName(i18n("Bin Search"));
     connect(m_searchLine, &QLineEdit::textChanged, this, [this](const QString &str) {
         m_proxyModel->slotSetSearchString(str);
         if (str.isEmpty()) {
