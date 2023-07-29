@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-28 00:45+0000\n"
+"POT-Creation-Date: 2023-07-29 00:45+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -3455,7 +3455,7 @@ msgid "Delete keyframes"
 msgstr "फ्रेम काढून टाका"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1388
+#: src/assets/model/assetparametermodel.cpp:1398
 #, fuzzy, kde-format
 msgid "Update effect"
 msgstr "परिणाम :"
@@ -3552,8 +3552,8 @@ msgstr ""
 msgid "Update %1"
 msgstr ""
 
-#: src/assets/model/assetparametermodel.cpp:1240
-#: src/assets/model/assetparametermodel.cpp:1287
+#: src/assets/model/assetparametermodel.cpp:1250
+#: src/assets/model/assetparametermodel.cpp:1297
 #, fuzzy, kde-format
 msgid "Cannot open preset file %1"
 msgstr "फाईल उघडतेवेळी त्रुटी"
@@ -5255,87 +5255,87 @@ msgstr ""
 msgid "Recovered %1"
 msgstr "प्रतिमेचा आकार"
 
-#: src/bin/model/markerlistmodel.cpp:874
+#: src/bin/model/markerlistmodel.cpp:879
 #, fuzzy, kde-format
 msgid "Delete all guides"
 msgstr "संचयीका काढून टाका (&D)"
 
-#: src/bin/model/markerlistmodel.cpp:874
+#: src/bin/model/markerlistmodel.cpp:879
 #, fuzzy, kde-format
 msgid "Delete all markers"
 msgstr "संचयीका काढून टाका (&D)"
 
-#: src/bin/model/markerlistmodel.cpp:883 src/bin/model/markerlistmodel.cpp:921
-#: src/bin/model/markerlistmodel.cpp:946
+#: src/bin/model/markerlistmodel.cpp:888 src/bin/model/markerlistmodel.cpp:926
+#: src/bin/model/markerlistmodel.cpp:951
 #: src/timeline2/view/timelinecontroller.cpp:1437
 #, kde-format
 msgid "No guide found at current position"
 msgstr ""
 
-#: src/bin/model/markerlistmodel.cpp:886
+#: src/bin/model/markerlistmodel.cpp:891
 #, fuzzy, kde-format
 msgid "Edit Guides Category"
 msgstr "प्रोफाईल \"%1\" संपादित करा"
 
-#: src/bin/model/markerlistmodel.cpp:886
+#: src/bin/model/markerlistmodel.cpp:891
 #, kde-format
 msgid "Edit Markers Category"
 msgstr ""
 
-#: src/bin/model/markerlistmodel.cpp:892
+#: src/bin/model/markerlistmodel.cpp:897
 #, fuzzy, kde-format
 msgid "Guides Category"
 msgstr "विभाग"
 
-#: src/bin/model/markerlistmodel.cpp:892
+#: src/bin/model/markerlistmodel.cpp:897
 #, fuzzy, kde-format
 msgid "Markers Category"
 msgstr "विभाग"
 
-#: src/bin/model/markerlistmodel.cpp:910
+#: src/bin/model/markerlistmodel.cpp:915
 #, fuzzy, kde-format
 msgid "Edit guides"
 msgstr "प्रोफाईल \"%1\" संपादित करा"
 
-#: src/bin/model/markerlistmodel.cpp:910
+#: src/bin/model/markerlistmodel.cpp:915
 #, fuzzy, kde-format
 msgid "Edit markers"
 msgstr "प्रोफाईल \"%1\" संपादित करा"
 
-#: src/bin/model/markerlistmodel.cpp:925 src/bin/model/markerlistmodel.cpp:950
+#: src/bin/model/markerlistmodel.cpp:930 src/bin/model/markerlistmodel.cpp:955
 #: src/timeline2/view/timelinecontroller.cpp:1445
 #, kde-format
 msgid "guide"
 msgstr ""
 
-#: src/bin/model/markerlistmodel.cpp:928
+#: src/bin/model/markerlistmodel.cpp:933
 #, kde-format
 msgid "Edit Guide"
 msgstr ""
 
-#: src/bin/model/markerlistmodel.cpp:928
+#: src/bin/model/markerlistmodel.cpp:933
 #, kde-format
 msgid "Edit Marker"
 msgstr ""
 
-#: src/bin/model/markerlistmodel.cpp:953
+#: src/bin/model/markerlistmodel.cpp:958
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Add Guides"
 msgstr "संचयीका बनवा"
 
-#: src/bin/model/markerlistmodel.cpp:953
+#: src/bin/model/markerlistmodel.cpp:958
 #, fuzzy, kde-format
 #| msgid "Add Image"
 msgid "Add Markers"
 msgstr "प्रतिमा जोडा"
 
-#: src/bin/model/markerlistmodel.cpp:968
+#: src/bin/model/markerlistmodel.cpp:973
 #, fuzzy, kde-format
 msgid "Add guides"
 msgstr "मार्ग दर्शवा (&P)"
 
-#: src/bin/model/markerlistmodel.cpp:968
+#: src/bin/model/markerlistmodel.cpp:973
 #, fuzzy, kde-format
 #| msgid "Add Image"
 msgid "Add markers"
@@ -6155,12 +6155,12 @@ msgid ""
 "reverting to Automatic."
 msgstr ""
 
-#: src/dialogs/exportguidesdialog.cpp:36
+#: src/dialogs/exportguidesdialog.cpp:38
 #, fuzzy, kde-format
 msgid "Export guides"
 msgstr "आयात"
 
-#: src/dialogs/exportguidesdialog.cpp:44
+#: src/dialogs/exportguidesdialog.cpp:46
 #, kde-format
 msgid ""
 "If you are using the exported text for YouTube, you might want to check:\n"
@@ -6169,35 +6169,35 @@ msgid ""
 "3. The minimum length for video chapters is 10 seconds."
 msgstr ""
 
-#: src/dialogs/exportguidesdialog.cpp:52
+#: src/dialogs/exportguidesdialog.cpp:54
 #, kde-format
 msgid "Copy to Clipboard"
 msgstr ""
 
-#: src/dialogs/exportguidesdialog.cpp:54
+#: src/dialogs/exportguidesdialog.cpp:56
 #, kde-format
 msgid "Save"
 msgstr "साठवा"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_text)
-#: src/dialogs/exportguidesdialog.cpp:74 src/ui/exportguidesdialog_ui.ui:44
+#: src/dialogs/exportguidesdialog.cpp:76 src/ui/exportguidesdialog_ui.ui:179
 #, fuzzy, kde-format
 msgid "Text File"
 msgstr "प्रतिमेचा आकार"
 
-#: src/dialogs/exportguidesdialog.cpp:74
+#: src/dialogs/exportguidesdialog.cpp:76
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgid "JSON File"
 msgstr "सर्व फाईल्स"
 
-#: src/dialogs/exportguidesdialog.cpp:76
+#: src/dialogs/exportguidesdialog.cpp:78
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "आयात"
 
-#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:1605
+#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1605
 #: src/dialogs/renderwidget.cpp:1632 src/doc/kdenlivedoc.cpp:745
 #: src/doc/kdenlivedoc.cpp:753 src/doc/kdenlivedoc.cpp:1249
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
@@ -6220,42 +6220,47 @@ msgstr "आयात"
 msgid "Cannot write to file %1"
 msgstr ""
 
-#: src/dialogs/exportguidesdialog.cpp:86
+#: src/dialogs/exportguidesdialog.cpp:88
 #, kde-format
 msgid "Guides saved to %1"
 msgstr ""
 
-#: src/dialogs/exportguidesdialog.cpp:103
+#: src/dialogs/exportguidesdialog.cpp:111
 #, fuzzy, kde-format
 msgid "Category name"
 msgstr "विभाग"
 
-#: src/dialogs/exportguidesdialog.cpp:104
+#: src/dialogs/exportguidesdialog.cpp:112
 #, kde-format
 msgid "Guide number"
 msgstr ""
 
-#: src/dialogs/exportguidesdialog.cpp:105
+#: src/dialogs/exportguidesdialog.cpp:113
 #, kde-format
 msgid "Guide position in HH:MM:SS:FF"
 msgstr ""
 
-#: src/dialogs/exportguidesdialog.cpp:106
+#: src/dialogs/exportguidesdialog.cpp:114
 #, kde-format
 msgid "Guide position in (HH:)MM.SS"
 msgstr ""
 
-#: src/dialogs/exportguidesdialog.cpp:107
+#: src/dialogs/exportguidesdialog.cpp:115
 #, kde-format
 msgid "Next guide position in (HH:)MM.SS"
 msgstr ""
 
-#: src/dialogs/exportguidesdialog.cpp:108
+#: src/dialogs/exportguidesdialog.cpp:116
 #, kde-format
 msgid "Guide position in frames"
 msgstr ""
 
-#: src/dialogs/exportguidesdialog.cpp:109
+#: src/dialogs/exportguidesdialog.cpp:117
+#, kde-format
+msgid "Next guide position in frames"
+msgstr ""
+
+#: src/dialogs/exportguidesdialog.cpp:118
 #, fuzzy, kde-format
 msgid "Guide comment"
 msgstr "टीप"
@@ -8992,7 +8997,7 @@ msgid "Delete the layout."
 msgstr "काढून टाका %1"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
-#: src/layoutmanagement.cpp:408 src/ui/exportguidesdialog_ui.ui:125
+#: src/layoutmanagement.cpp:408 src/ui/exportguidesdialog_ui.ui:95
 #, fuzzy, kde-format
 msgid "Reset"
 msgstr "पुन्हस्थापित करा"
@@ -15874,7 +15879,7 @@ msgid "Stop"
 msgstr "थांबा"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2077
+#: src/timeline2/view/qml/timeline.qml:2081
 #, fuzzy, kde-format
 msgid "Paused"
 msgstr "स्तब्ध करा"
@@ -16039,24 +16044,24 @@ msgstr "ट्रॅक"
 msgid "Hide"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:1754
+#: src/timeline2/view/qml/timeline.qml:1758
 #, fuzzy, kde-format
 #| msgid "Options"
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "पर्याय"
 
-#: src/timeline2/view/qml/timeline.qml:1918
+#: src/timeline2/view/qml/timeline.qml:1922
 #, fuzzy, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "स्थिती"
 
-#: src/timeline2/view/qml/timeline.qml:2066
-#: src/timeline2/view/qml/timeline.qml:2075
+#: src/timeline2/view/qml/timeline.qml:2070
+#: src/timeline2/view/qml/timeline.qml:2079
 #, fuzzy, kde-format
 msgid "Recording"
 msgstr "मॉनिटर %1"
 
-#: src/timeline2/view/qml/timeline.qml:2164
+#: src/timeline2/view/qml/timeline.qml:2168
 #, kde-format
 msgid "Multicam In"
 msgstr ""
@@ -16479,7 +16484,7 @@ msgid ""
 "timeline corresponds to a Sequence Clip in the Project Bin"
 msgstr ""
 
-#: src/timeline2/view/timelinetabs.cpp:211
+#: src/timeline2/view/timelinetabs.cpp:214
 #, fuzzy, kde-format
 #| msgid "Close"
 msgid "Close %1"
@@ -17354,7 +17359,7 @@ msgstr "वर्तमान टॅब बंद करा"
 #: src/ui/editsub_ui.ui:54 src/ui/editsub_ui.ui:65 src/ui/editsub_ui.ui:76
 #: src/ui/editsub_ui.ui:151 src/ui/editsub_ui.ui:191 src/ui/editsub_ui.ui:202
 #: src/ui/editsub_ui.ui:233 src/ui/editsub_ui.ui:478
-#: src/ui/exportguidesdialog_ui.ui:108 src/ui/exportguidesdialog_ui.ui:128
+#: src/ui/exportguidesdialog_ui.ui:78 src/ui/exportguidesdialog_ui.ui:98
 #: src/ui/gradientedit_ui.ui:130 src/ui/gradientedit_ui.ui:150
 #: src/ui/guideslist_ui.ui:19 src/ui/guideslist_ui.ui:36
 #: src/ui/guideslist_ui.ui:50 src/ui/guideslist_ui.ui:64
@@ -19230,28 +19235,14 @@ msgstr "फॉन्ट आकार"
 msgid "Custom Font"
 msgstr "ऐच्छिक"
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/exportguidesdialog_ui.ui:30
-#, fuzzy, kde-format
-#| msgid "Type"
-msgid "Marker Type:"
-msgstr "प्रकार"
-
-#. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/exportguidesdialog_ui.ui:37
-#, fuzzy, kde-format
-#| msgid "Save As"
-msgid "Save As:"
-msgstr "असे साठवा"
-
-#. i18n: ectx: property (text), widget (QRadioButton, format_json)
-#: src/ui/exportguidesdialog_ui.ui:54
+#. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
+#: src/ui/exportguidesdialog_ui.ui:27
 #, kde-format
-msgid "Kdenlive JSON"
+msgid "Formatted chapter marker text will be generated here."
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, textOptions)
-#: src/ui/exportguidesdialog_ui.ui:74
+#: src/ui/exportguidesdialog_ui.ui:44
 #, fuzzy, kde-format
 #| msgid "Options"
 msgid "Text Options"
@@ -19259,50 +19250,70 @@ msgstr "पर्याय"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_offset)
-#: src/ui/exportguidesdialog_ui.ui:89 src/ui/titlewidget_ui.ui:794
+#: src/ui/exportguidesdialog_ui.ui:59 src/ui/titlewidget_ui.ui:794
 #, fuzzy, kde-format
 #| msgid "Offset"
 msgid "Offset:"
 msgstr "ऑफसेट"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/exportguidesdialog_ui.ui:96
+#: src/ui/exportguidesdialog_ui.ui:66
 #, fuzzy, kde-format
 #| msgid "Normal"
 msgid "Format:"
 msgstr "सामान्य"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, offsetTimeComboBox)
-#: src/ui/exportguidesdialog_ui.ui:150
+#: src/ui/exportguidesdialog_ui.ui:120
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Disabled"
 msgstr "परिणाम नाही"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, offsetTimeComboBox)
-#: src/ui/exportguidesdialog_ui.ui:155
+#: src/ui/exportguidesdialog_ui.ui:125
 #, kde-format
 msgid "Add"
 msgstr "जोडा"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, offsetTimeComboBox)
-#: src/ui/exportguidesdialog_ui.ui:160
+#: src/ui/exportguidesdialog_ui.ui:130
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Subtract"
 msgstr "ट्रॅक"
 
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: src/ui/exportguidesdialog_ui.ui:159
+#, fuzzy, kde-format
+#| msgid "Type"
+msgid "Marker Type:"
+msgstr "प्रकार"
+
+#. i18n: ectx: property (text), widget (QRadioButton, format_json)
+#: src/ui/exportguidesdialog_ui.ui:189
+#, kde-format
+msgid "Kdenlive JSON"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: src/ui/exportguidesdialog_ui.ui:209
+#, fuzzy, kde-format
+#| msgid "Save As"
+msgid "Save As:"
+msgstr "असे साठवा"
+
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/exportguidesdialog_ui.ui:176
+#: src/ui/exportguidesdialog_ui.ui:216
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Exported:"
 msgstr "ट्रॅक"
 
-#. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
-#: src/ui/exportguidesdialog_ui.ui:186
+#. i18n: ectx: property (text), widget (QRadioButton, format_ffmpeg)
+#: src/ui/exportguidesdialog_ui.ui:223
 #, kde-format
-msgid "Formatted chapter marker text will be generated here."
+msgid "FFmpeg Chapters"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)

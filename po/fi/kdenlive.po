@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-28 00:45+0000\n"
+"POT-Creation-Date: 2023-07-29 00:45+0000\n"
 "PO-Revision-Date: 2023-06-07 21:36+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -3438,7 +3438,7 @@ msgid "Delete keyframes"
 msgstr "Poista leikekehykset"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1388
+#: src/assets/model/assetparametermodel.cpp:1398
 #, kde-format
 msgid "Update effect"
 msgstr "Päivitä tehoste"
@@ -3525,8 +3525,8 @@ msgstr "Muokkaa %1 leikekehystä"
 msgid "Update %1"
 msgstr "Päivitä %1"
 
-#: src/assets/model/assetparametermodel.cpp:1240
-#: src/assets/model/assetparametermodel.cpp:1287
+#: src/assets/model/assetparametermodel.cpp:1250
+#: src/assets/model/assetparametermodel.cpp:1297
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Projektitiedostoa %1 ei voi avata"
@@ -5210,94 +5210,94 @@ msgstr "Merkintä"
 msgid "Recovered %1"
 msgstr "Palautettu kohde"
 
-#: src/bin/model/markerlistmodel.cpp:874
+#: src/bin/model/markerlistmodel.cpp:879
 #, kde-format
 msgid "Delete all guides"
 msgstr "Poista opasteet"
 
-#: src/bin/model/markerlistmodel.cpp:874
+#: src/bin/model/markerlistmodel.cpp:879
 #, kde-format
 msgid "Delete all markers"
 msgstr "Poista merkinnät"
 
-#: src/bin/model/markerlistmodel.cpp:883 src/bin/model/markerlistmodel.cpp:921
-#: src/bin/model/markerlistmodel.cpp:946
+#: src/bin/model/markerlistmodel.cpp:888 src/bin/model/markerlistmodel.cpp:926
+#: src/bin/model/markerlistmodel.cpp:951
 #: src/timeline2/view/timelinecontroller.cpp:1437
 #, kde-format
 msgid "No guide found at current position"
 msgstr "Kohdalla ei ole opastetta"
 
-#: src/bin/model/markerlistmodel.cpp:886
+#: src/bin/model/markerlistmodel.cpp:891
 #, fuzzy, kde-format
 #| msgid "Edit Guide"
 msgid "Edit Guides Category"
 msgstr "Muokkaa opastetta"
 
-#: src/bin/model/markerlistmodel.cpp:886
+#: src/bin/model/markerlistmodel.cpp:891
 #, fuzzy, kde-format
 #| msgid "Edit Marker"
 msgid "Edit Markers Category"
 msgstr "Muokkaa merkintää"
 
-#: src/bin/model/markerlistmodel.cpp:892
+#: src/bin/model/markerlistmodel.cpp:897
 #, fuzzy, kde-format
 #| msgid "Category"
 msgid "Guides Category"
 msgstr "Luokka"
 
-#: src/bin/model/markerlistmodel.cpp:892
+#: src/bin/model/markerlistmodel.cpp:897
 #, fuzzy, kde-format
 #| msgid "Category"
 msgid "Markers Category"
 msgstr "Luokka"
 
-#: src/bin/model/markerlistmodel.cpp:910
+#: src/bin/model/markerlistmodel.cpp:915
 #, fuzzy, kde-format
 #| msgid "Edit guide"
 msgid "Edit guides"
 msgstr "Muokkaa opastetta"
 
-#: src/bin/model/markerlistmodel.cpp:910
+#: src/bin/model/markerlistmodel.cpp:915
 #, fuzzy, kde-format
 #| msgid "Edit marker"
 msgid "Edit markers"
 msgstr "Muokkaa merkintää"
 
-#: src/bin/model/markerlistmodel.cpp:925 src/bin/model/markerlistmodel.cpp:950
+#: src/bin/model/markerlistmodel.cpp:930 src/bin/model/markerlistmodel.cpp:955
 #: src/timeline2/view/timelinecontroller.cpp:1445
 #, kde-format
 msgid "guide"
 msgstr "opaste"
 
-#: src/bin/model/markerlistmodel.cpp:928
+#: src/bin/model/markerlistmodel.cpp:933
 #, kde-format
 msgid "Edit Guide"
 msgstr "Muokkaa opastetta"
 
-#: src/bin/model/markerlistmodel.cpp:928
+#: src/bin/model/markerlistmodel.cpp:933
 #, kde-format
 msgid "Edit Marker"
 msgstr "Muokkaa merkintää"
 
-#: src/bin/model/markerlistmodel.cpp:953
+#: src/bin/model/markerlistmodel.cpp:958
 #, fuzzy, kde-format
 #| msgid "Add Guide"
 msgid "Add Guides"
 msgstr "Lisää opaste"
 
-#: src/bin/model/markerlistmodel.cpp:953
+#: src/bin/model/markerlistmodel.cpp:958
 #, fuzzy, kde-format
 #| msgid "Add Markers"
 msgid "Add Markers"
 msgstr "Lisää merkintöjä"
 
-#: src/bin/model/markerlistmodel.cpp:968
+#: src/bin/model/markerlistmodel.cpp:973
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Add guides"
 msgstr "Lisää opaste"
 
-#: src/bin/model/markerlistmodel.cpp:968
+#: src/bin/model/markerlistmodel.cpp:973
 #, fuzzy, kde-format
 #| msgid "Add marker"
 msgid "Add markers"
@@ -6099,12 +6099,12 @@ msgid ""
 "reverting to Automatic."
 msgstr ""
 
-#: src/dialogs/exportguidesdialog.cpp:36
+#: src/dialogs/exportguidesdialog.cpp:38
 #, kde-format
 msgid "Export guides"
 msgstr "Vie opasteet"
 
-#: src/dialogs/exportguidesdialog.cpp:44
+#: src/dialogs/exportguidesdialog.cpp:46
 #, kde-format
 msgid ""
 "If you are using the exported text for YouTube, you might want to check:\n"
@@ -6113,35 +6113,35 @@ msgid ""
 "3. The minimum length for video chapters is 10 seconds."
 msgstr ""
 
-#: src/dialogs/exportguidesdialog.cpp:52
+#: src/dialogs/exportguidesdialog.cpp:54
 #, kde-format
 msgid "Copy to Clipboard"
 msgstr "Kopioi leikepöydälle"
 
-#: src/dialogs/exportguidesdialog.cpp:54
+#: src/dialogs/exportguidesdialog.cpp:56
 #, kde-format
 msgid "Save"
 msgstr "Tallenna"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_text)
-#: src/dialogs/exportguidesdialog.cpp:74 src/ui/exportguidesdialog_ui.ui:44
+#: src/dialogs/exportguidesdialog.cpp:76 src/ui/exportguidesdialog_ui.ui:179
 #, kde-format
 msgid "Text File"
 msgstr "Tekstitiedosto"
 
-#: src/dialogs/exportguidesdialog.cpp:74
+#: src/dialogs/exportguidesdialog.cpp:76
 #, kde-format
 msgid "JSON File"
 msgstr "JSON-tiedosto"
 
-#: src/dialogs/exportguidesdialog.cpp:76
+#: src/dialogs/exportguidesdialog.cpp:78
 #, fuzzy, kde-format
 #| msgid "Import guides"
 msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "Tuo opasteet"
 
-#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:1605
+#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1605
 #: src/dialogs/renderwidget.cpp:1632 src/doc/kdenlivedoc.cpp:745
 #: src/doc/kdenlivedoc.cpp:753 src/doc/kdenlivedoc.cpp:1249
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
@@ -6164,43 +6164,48 @@ msgstr "Tuo opasteet"
 msgid "Cannot write to file %1"
 msgstr "Tiedostoon %1 ei voida kirjoittaa"
 
-#: src/dialogs/exportguidesdialog.cpp:86
+#: src/dialogs/exportguidesdialog.cpp:88
 #, fuzzy, kde-format
 #| msgid "Resource saved to %1"
 msgid "Guides saved to %1"
 msgstr "Resurssi tallennettiin kohteeseen %1"
 
-#: src/dialogs/exportguidesdialog.cpp:103
+#: src/dialogs/exportguidesdialog.cpp:111
 #, kde-format
 msgid "Category name"
 msgstr "Luokan nimi"
 
-#: src/dialogs/exportguidesdialog.cpp:104
+#: src/dialogs/exportguidesdialog.cpp:112
 #, kde-format
 msgid "Guide number"
 msgstr "Opasteen numero"
 
-#: src/dialogs/exportguidesdialog.cpp:105
+#: src/dialogs/exportguidesdialog.cpp:113
 #, kde-format
 msgid "Guide position in HH:MM:SS:FF"
 msgstr ""
 
-#: src/dialogs/exportguidesdialog.cpp:106
+#: src/dialogs/exportguidesdialog.cpp:114
 #, kde-format
 msgid "Guide position in (HH:)MM.SS"
 msgstr ""
 
-#: src/dialogs/exportguidesdialog.cpp:107
+#: src/dialogs/exportguidesdialog.cpp:115
 #, kde-format
 msgid "Next guide position in (HH:)MM.SS"
 msgstr ""
 
-#: src/dialogs/exportguidesdialog.cpp:108
+#: src/dialogs/exportguidesdialog.cpp:116
 #, kde-format
 msgid "Guide position in frames"
 msgstr ""
 
-#: src/dialogs/exportguidesdialog.cpp:109
+#: src/dialogs/exportguidesdialog.cpp:117
+#, kde-format
+msgid "Next guide position in frames"
+msgstr ""
+
+#: src/dialogs/exportguidesdialog.cpp:118
 #, kde-format
 msgid "Guide comment"
 msgstr "Opasteen huomautus"
@@ -8992,7 +8997,7 @@ msgid "Delete the layout."
 msgstr "Poista asettelu"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
-#: src/layoutmanagement.cpp:408 src/ui/exportguidesdialog_ui.ui:125
+#: src/layoutmanagement.cpp:408 src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
 msgstr "Nollaa"
@@ -15989,7 +15994,7 @@ msgid "Stop"
 msgstr "Pysäytä"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2077
+#: src/timeline2/view/qml/timeline.qml:2081
 #, kde-format
 msgid "Paused"
 msgstr "Tauko"
@@ -16160,23 +16165,23 @@ msgstr "Näytä"
 msgid "Hide"
 msgstr "Piilota"
 
-#: src/timeline2/view/qml/timeline.qml:1754
+#: src/timeline2/view/qml/timeline.qml:1758
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Lisää tekstitys <b>napsauttamalla kahdesti</b>"
 
-#: src/timeline2/view/qml/timeline.qml:1918
+#: src/timeline2/view/qml/timeline.qml:1922
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Siirtymä:%1, Paikka: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2066
-#: src/timeline2/view/qml/timeline.qml:2075
+#: src/timeline2/view/qml/timeline.qml:2070
+#: src/timeline2/view/qml/timeline.qml:2079
 #, kde-format
 msgid "Recording"
 msgstr "Nauhoitus"
 
-#: src/timeline2/view/qml/timeline.qml:2164
+#: src/timeline2/view/qml/timeline.qml:2168
 #, kde-format
 msgid "Multicam In"
 msgstr "Useampi kamera sisään"
@@ -16589,7 +16594,7 @@ msgstr ""
 "Lisää aikajanasekvenssi. Tämä luo muokkausta varten uuden aikajanan. Kukin "
 "niistä vastaa projektikansion sekvenssileikettä."
 
-#: src/timeline2/view/timelinetabs.cpp:211
+#: src/timeline2/view/timelinetabs.cpp:214
 #, kde-format
 msgid "Close %1"
 msgstr "Sulje %1"
@@ -17503,7 +17508,7 @@ msgstr "Poista nykyinen piste."
 #: src/ui/editsub_ui.ui:54 src/ui/editsub_ui.ui:65 src/ui/editsub_ui.ui:76
 #: src/ui/editsub_ui.ui:151 src/ui/editsub_ui.ui:191 src/ui/editsub_ui.ui:202
 #: src/ui/editsub_ui.ui:233 src/ui/editsub_ui.ui:478
-#: src/ui/exportguidesdialog_ui.ui:108 src/ui/exportguidesdialog_ui.ui:128
+#: src/ui/exportguidesdialog_ui.ui:78 src/ui/exportguidesdialog_ui.ui:98
 #: src/ui/gradientedit_ui.ui:130 src/ui/gradientedit_ui.ui:150
 #: src/ui/guideslist_ui.ui:19 src/ui/guideslist_ui.ui:36
 #: src/ui/guideslist_ui.ui:50 src/ui/guideslist_ui.ui:64
@@ -19352,75 +19357,82 @@ msgstr "Mukautetun fonttikoko"
 msgid "Custom Font"
 msgstr "Mukautettu fontti"
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/exportguidesdialog_ui.ui:30
-#, fuzzy, kde-format
-#| msgid "Marker 1"
-msgid "Marker Type:"
-msgstr "Merkki 1"
-
-#. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/exportguidesdialog_ui.ui:37
+#. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
+#: src/ui/exportguidesdialog_ui.ui:27
 #, kde-format
-msgid "Save As:"
-msgstr "Tallenna nimellä:"
-
-# pmap: =:gen=Kdenliven:
-# pmap: =:elat=Kdenlivestä:
-#. i18n: ectx: property (text), widget (QRadioButton, format_json)
-#: src/ui/exportguidesdialog_ui.ui:54
-#, kde-format
-msgid "Kdenlive JSON"
-msgstr "Kdenliven JSON"
+msgid "Formatted chapter marker text will be generated here."
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, textOptions)
-#: src/ui/exportguidesdialog_ui.ui:74
+#: src/ui/exportguidesdialog_ui.ui:44
 #, kde-format
 msgid "Text Options"
 msgstr "Tekstivalinnat"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_offset)
-#: src/ui/exportguidesdialog_ui.ui:89 src/ui/titlewidget_ui.ui:794
+#: src/ui/exportguidesdialog_ui.ui:59 src/ui/titlewidget_ui.ui:794
 #, kde-format
 msgid "Offset:"
 msgstr "Siirtymä:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/exportguidesdialog_ui.ui:96
+#: src/ui/exportguidesdialog_ui.ui:66
 #, kde-format
 msgid "Format:"
 msgstr "Muoto:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, offsetTimeComboBox)
-#: src/ui/exportguidesdialog_ui.ui:150
+#: src/ui/exportguidesdialog_ui.ui:120
 #, kde-format
 msgid "Disabled"
 msgstr "Ei käytössä"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, offsetTimeComboBox)
-#: src/ui/exportguidesdialog_ui.ui:155
+#: src/ui/exportguidesdialog_ui.ui:125
 #, kde-format
 msgid "Add"
 msgstr "Lisää"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, offsetTimeComboBox)
-#: src/ui/exportguidesdialog_ui.ui:160
+#: src/ui/exportguidesdialog_ui.ui:130
 #, kde-format
 msgid "Subtract"
 msgstr "Vähennä"
 
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: src/ui/exportguidesdialog_ui.ui:159
+#, fuzzy, kde-format
+#| msgid "Marker 1"
+msgid "Marker Type:"
+msgstr "Merkki 1"
+
+# pmap: =:gen=Kdenliven:
+# pmap: =:elat=Kdenlivestä:
+#. i18n: ectx: property (text), widget (QRadioButton, format_json)
+#: src/ui/exportguidesdialog_ui.ui:189
+#, kde-format
+msgid "Kdenlive JSON"
+msgstr "Kdenliven JSON"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: src/ui/exportguidesdialog_ui.ui:209
+#, kde-format
+msgid "Save As:"
+msgstr "Tallenna nimellä:"
+
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/exportguidesdialog_ui.ui:176
+#: src/ui/exportguidesdialog_ui.ui:216
 #, kde-format
 msgid "Exported:"
 msgstr "Viety:"
 
-#. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
-#: src/ui/exportguidesdialog_ui.ui:186
-#, kde-format
-msgid "Formatted chapter marker text will be generated here."
-msgstr ""
+#. i18n: ectx: property (text), widget (QRadioButton, format_ffmpeg)
+#: src/ui/exportguidesdialog_ui.ui:223
+#, fuzzy, kde-format
+#| msgid "FFmpeg parameters"
+msgid "FFmpeg Chapters"
+msgstr "FFmpeg-parametrit"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/gradientedit_ui.ui:24

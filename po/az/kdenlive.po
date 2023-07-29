@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-28 00:45+0000\n"
+"POT-Creation-Date: 2023-07-29 00:45+0000\n"
 "PO-Revision-Date: 2023-06-26 17:17+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -3473,7 +3473,7 @@ msgid "Delete keyframes"
 msgstr "Əsas kadrları silmək"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1388
+#: src/assets/model/assetparametermodel.cpp:1398
 #, kde-format
 msgid "Update effect"
 msgstr "Effekti yeniləyin"
@@ -3562,8 +3562,8 @@ msgstr "%1 əsas kadra düzəliş etmək"
 msgid "Update %1"
 msgstr "Yeniləmək: %1"
 
-#: src/assets/model/assetparametermodel.cpp:1240
-#: src/assets/model/assetparametermodel.cpp:1287
+#: src/assets/model/assetparametermodel.cpp:1250
+#: src/assets/model/assetparametermodel.cpp:1297
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Əvvəlcədən qurulmuş \"%1\" faylı açıla bilmədi"
@@ -5251,85 +5251,85 @@ msgstr "Marker"
 msgid "Recovered %1"
 msgstr "%1 bərpa edildi"
 
-#: src/bin/model/markerlistmodel.cpp:874
+#: src/bin/model/markerlistmodel.cpp:879
 #, kde-format
 msgid "Delete all guides"
 msgstr "Bütün bələdçiləri silin"
 
-#: src/bin/model/markerlistmodel.cpp:874
+#: src/bin/model/markerlistmodel.cpp:879
 #, kde-format
 msgid "Delete all markers"
 msgstr "Bütün markerləri silin"
 
-#: src/bin/model/markerlistmodel.cpp:883 src/bin/model/markerlistmodel.cpp:921
-#: src/bin/model/markerlistmodel.cpp:946
+#: src/bin/model/markerlistmodel.cpp:888 src/bin/model/markerlistmodel.cpp:926
+#: src/bin/model/markerlistmodel.cpp:951
 #: src/timeline2/view/timelinecontroller.cpp:1437
 #, kde-format
 msgid "No guide found at current position"
 msgstr "Cari layihədə bələdçi tapılmadı"
 
-#: src/bin/model/markerlistmodel.cpp:886
+#: src/bin/model/markerlistmodel.cpp:891
 #, kde-format
 msgid "Edit Guides Category"
 msgstr "Bələdçilər düzəliş edin"
 
-#: src/bin/model/markerlistmodel.cpp:886
+#: src/bin/model/markerlistmodel.cpp:891
 #, kde-format
 msgid "Edit Markers Category"
 msgstr "Markerlər kateqoriyasına düzəliş edin"
 
-#: src/bin/model/markerlistmodel.cpp:892
+#: src/bin/model/markerlistmodel.cpp:897
 #, kde-format
 msgid "Guides Category"
 msgstr "Bələdçilər kateqoriyası"
 
-#: src/bin/model/markerlistmodel.cpp:892
+#: src/bin/model/markerlistmodel.cpp:897
 #, kde-format
 msgid "Markers Category"
 msgstr "Markerlər kateqoriyası"
 
-#: src/bin/model/markerlistmodel.cpp:910
+#: src/bin/model/markerlistmodel.cpp:915
 #, kde-format
 msgid "Edit guides"
 msgstr "Bələdçilərə düzəliş edin"
 
-#: src/bin/model/markerlistmodel.cpp:910
+#: src/bin/model/markerlistmodel.cpp:915
 #, kde-format
 msgid "Edit markers"
 msgstr "Markerlərə düzəliş edin"
 
-#: src/bin/model/markerlistmodel.cpp:925 src/bin/model/markerlistmodel.cpp:950
+#: src/bin/model/markerlistmodel.cpp:930 src/bin/model/markerlistmodel.cpp:955
 #: src/timeline2/view/timelinecontroller.cpp:1445
 #, kde-format
 msgid "guide"
 msgstr "istiqamətləndirici"
 
-#: src/bin/model/markerlistmodel.cpp:928
+#: src/bin/model/markerlistmodel.cpp:933
 #, kde-format
 msgid "Edit Guide"
 msgstr "İstiqamətləndiriciyə düzəliş edin"
 
-#: src/bin/model/markerlistmodel.cpp:928
+#: src/bin/model/markerlistmodel.cpp:933
 #, kde-format
 msgid "Edit Marker"
 msgstr "Markerə düzəliş edin"
 
-#: src/bin/model/markerlistmodel.cpp:953
+#: src/bin/model/markerlistmodel.cpp:958
 #, kde-format
 msgid "Add Guides"
 msgstr "Bələdçilər əlavə edin"
 
-#: src/bin/model/markerlistmodel.cpp:953
+#: src/bin/model/markerlistmodel.cpp:958
 #, kde-format
 msgid "Add Markers"
 msgstr "Markerlər əlavə edin"
 
-#: src/bin/model/markerlistmodel.cpp:968
+#: src/bin/model/markerlistmodel.cpp:973
 #, kde-format
 msgid "Add guides"
 msgstr "Bələdçilər əlavə edin"
 
-#: src/bin/model/markerlistmodel.cpp:968
+#: src/bin/model/markerlistmodel.cpp:973
 #, kde-format
 msgid "Add markers"
 msgstr "Markerlər əlavə edin"
@@ -6138,12 +6138,12 @@ msgstr ""
 "deyil.\n"
 "Avtomatik geri qaytarılır."
 
-#: src/dialogs/exportguidesdialog.cpp:36
+#: src/dialogs/exportguidesdialog.cpp:38
 #, kde-format
 msgid "Export guides"
 msgstr "Bələdçiləri ixrac edin"
 
-#: src/dialogs/exportguidesdialog.cpp:44
+#: src/dialogs/exportguidesdialog.cpp:46
 #, kde-format
 msgid ""
 "If you are using the exported text for YouTube, you might want to check:\n"
@@ -6157,34 +6157,34 @@ msgstr ""
 "2. Ən azı artan sıra ilə üç vaxt göstəricisi olmalıdır.\n"
 "3. Video başlığı üçün ən az uzunluq 10 saniyə olmalıdır."
 
-#: src/dialogs/exportguidesdialog.cpp:52
+#: src/dialogs/exportguidesdialog.cpp:54
 #, kde-format
 msgid "Copy to Clipboard"
 msgstr "Mübadilə buferinə kopyalayın"
 
-#: src/dialogs/exportguidesdialog.cpp:54
+#: src/dialogs/exportguidesdialog.cpp:56
 #, kde-format
 msgid "Save"
 msgstr "Saxlayın"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_text)
-#: src/dialogs/exportguidesdialog.cpp:74 src/ui/exportguidesdialog_ui.ui:44
+#: src/dialogs/exportguidesdialog.cpp:76 src/ui/exportguidesdialog_ui.ui:179
 #, kde-format
 msgid "Text File"
 msgstr "Mətn faylı"
 
-#: src/dialogs/exportguidesdialog.cpp:74
+#: src/dialogs/exportguidesdialog.cpp:76
 #, kde-format
 msgid "JSON File"
 msgstr "JSON faylı"
 
-#: src/dialogs/exportguidesdialog.cpp:76
+#: src/dialogs/exportguidesdialog.cpp:78
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "Bələdçilər verilənlərini ixrac edin"
 
-#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:1605
+#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1605
 #: src/dialogs/renderwidget.cpp:1632 src/doc/kdenlivedoc.cpp:745
 #: src/doc/kdenlivedoc.cpp:753 src/doc/kdenlivedoc.cpp:1249
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
@@ -6207,42 +6207,48 @@ msgstr "Bələdçilər verilənlərini ixrac edin"
 msgid "Cannot write to file %1"
 msgstr "%1 faylına yazıla bilmədi"
 
-#: src/dialogs/exportguidesdialog.cpp:86
+#: src/dialogs/exportguidesdialog.cpp:88
 #, kde-format
 msgid "Guides saved to %1"
 msgstr "Bələdçilər %1 yerində saxlanıldı"
 
-#: src/dialogs/exportguidesdialog.cpp:103
+#: src/dialogs/exportguidesdialog.cpp:111
 #, kde-format
 msgid "Category name"
 msgstr "Kateqoriyanın adı"
 
-#: src/dialogs/exportguidesdialog.cpp:104
+#: src/dialogs/exportguidesdialog.cpp:112
 #, kde-format
 msgid "Guide number"
 msgstr "Bələdçi nömrəsi"
 
-#: src/dialogs/exportguidesdialog.cpp:105
+#: src/dialogs/exportguidesdialog.cpp:113
 #, kde-format
 msgid "Guide position in HH:MM:SS:FF"
 msgstr "Bələdçinin mövqeyi HH:MM:SS:FF formatında"
 
-#: src/dialogs/exportguidesdialog.cpp:106
+#: src/dialogs/exportguidesdialog.cpp:114
 #, kde-format
 msgid "Guide position in (HH:)MM.SS"
 msgstr "Bələdçinin mövqeyi (HH:)MM.SS formatında"
 
-#: src/dialogs/exportguidesdialog.cpp:107
+#: src/dialogs/exportguidesdialog.cpp:115
 #, kde-format
 msgid "Next guide position in (HH:)MM.SS"
 msgstr "Növbəti bələdçi mövqeyi (HH:)MM.SS formatında"
 
-#: src/dialogs/exportguidesdialog.cpp:108
+#: src/dialogs/exportguidesdialog.cpp:116
 #, kde-format
 msgid "Guide position in frames"
 msgstr "Bələdçi mövqeyi kadrlarda"
 
-#: src/dialogs/exportguidesdialog.cpp:109
+#: src/dialogs/exportguidesdialog.cpp:117
+#, fuzzy, kde-format
+#| msgid "Guide position in frames"
+msgid "Next guide position in frames"
+msgstr "Bələdçi mövqeyi kadrlarda"
+
+#: src/dialogs/exportguidesdialog.cpp:118
 #, kde-format
 msgid "Guide comment"
 msgstr "Bələdçi şərhi"
@@ -9032,7 +9038,7 @@ msgid "Delete the layout."
 msgstr "Maketi silin."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
-#: src/layoutmanagement.cpp:408 src/ui/exportguidesdialog_ui.ui:125
+#: src/layoutmanagement.cpp:408 src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
 msgstr "Sifirlamaq"
@@ -16041,7 +16047,7 @@ msgid "Stop"
 msgstr "Dayandırın"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2077
+#: src/timeline2/view/qml/timeline.qml:2081
 #, kde-format
 msgid "Paused"
 msgstr "Fasilədə"
@@ -16209,23 +16215,23 @@ msgstr "Göstərmək"
 msgid "Hide"
 msgstr "Gizlətmək"
 
-#: src/timeline2/view/qml/timeline.qml:1754
+#: src/timeline2/view/qml/timeline.qml:1758
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Altyazılar əlavə etçmək üçün - <b>Cüt klik</b>"
 
-#: src/timeline2/view/qml/timeline.qml:1918
+#: src/timeline2/view/qml/timeline.qml:1922
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Sürüşmə: %1, Mövqe: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2066
-#: src/timeline2/view/qml/timeline.qml:2075
+#: src/timeline2/view/qml/timeline.qml:2070
+#: src/timeline2/view/qml/timeline.qml:2079
 #, kde-format
 msgid "Recording"
 msgstr "Yazılır"
 
-#: src/timeline2/view/qml/timeline.qml:2164
+#: src/timeline2/view/qml/timeline.qml:2168
 #, kde-format
 msgid "Multicam In"
 msgstr "Çoxsaylı kamera rejimi girişi"
@@ -16639,7 +16645,7 @@ msgstr ""
 "yaradacaq.Hər bir zaman xətti layihə səbətindəki klip ardıcıllığına uyğun "
 "olur."
 
-#: src/timeline2/view/timelinetabs.cpp:211
+#: src/timeline2/view/timelinetabs.cpp:214
 #, fuzzy, kde-format
 #| msgid "Close"
 msgid "Close %1"
@@ -17560,7 +17566,7 @@ msgstr "Cari nöqtəni seçin."
 #: src/ui/editsub_ui.ui:54 src/ui/editsub_ui.ui:65 src/ui/editsub_ui.ui:76
 #: src/ui/editsub_ui.ui:151 src/ui/editsub_ui.ui:191 src/ui/editsub_ui.ui:202
 #: src/ui/editsub_ui.ui:233 src/ui/editsub_ui.ui:478
-#: src/ui/exportguidesdialog_ui.ui:108 src/ui/exportguidesdialog_ui.ui:128
+#: src/ui/exportguidesdialog_ui.ui:78 src/ui/exportguidesdialog_ui.ui:98
 #: src/ui/gradientedit_ui.ui:130 src/ui/gradientedit_ui.ui:150
 #: src/ui/guideslist_ui.ui:19 src/ui/guideslist_ui.ui:36
 #: src/ui/guideslist_ui.ui:50 src/ui/guideslist_ui.ui:64
@@ -19401,72 +19407,79 @@ msgstr "Təyin etdiyiniz şrift ölçüsü"
 msgid "Custom Font"
 msgstr "Fərdi şrift"
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/exportguidesdialog_ui.ui:30
+#. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
+#: src/ui/exportguidesdialog_ui.ui:27
 #, kde-format
-msgid "Marker Type:"
-msgstr "Marker növü:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/exportguidesdialog_ui.ui:37
-#, kde-format
-msgid "Save As:"
-msgstr "Belə saxlayın:"
-
-#. i18n: ectx: property (text), widget (QRadioButton, format_json)
-#: src/ui/exportguidesdialog_ui.ui:54
-#, kde-format
-msgid "Kdenlive JSON"
-msgstr "Kdenlive JSON"
+msgid "Formatted chapter marker text will be generated here."
+msgstr "Formatlanmış başlıq markeri mətni burada yaradılacaq."
 
 #. i18n: ectx: property (title), widget (QGroupBox, textOptions)
-#: src/ui/exportguidesdialog_ui.ui:74
+#: src/ui/exportguidesdialog_ui.ui:44
 #, kde-format
 msgid "Text Options"
 msgstr "Mətn seçimləri"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_offset)
-#: src/ui/exportguidesdialog_ui.ui:89 src/ui/titlewidget_ui.ui:794
+#: src/ui/exportguidesdialog_ui.ui:59 src/ui/titlewidget_ui.ui:794
 #, kde-format
 msgid "Offset:"
 msgstr "Sürüşmə: -"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/exportguidesdialog_ui.ui:96
+#: src/ui/exportguidesdialog_ui.ui:66
 #, kde-format
 msgid "Format:"
 msgstr "Format:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, offsetTimeComboBox)
-#: src/ui/exportguidesdialog_ui.ui:150
+#: src/ui/exportguidesdialog_ui.ui:120
 #, kde-format
 msgid "Disabled"
 msgstr "Söndürülüb"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, offsetTimeComboBox)
-#: src/ui/exportguidesdialog_ui.ui:155
+#: src/ui/exportguidesdialog_ui.ui:125
 #, kde-format
 msgid "Add"
 msgstr "Əlavə edin"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, offsetTimeComboBox)
-#: src/ui/exportguidesdialog_ui.ui:160
+#: src/ui/exportguidesdialog_ui.ui:130
 #, kde-format
 msgid "Subtract"
 msgstr "Çıxarın"
 
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: src/ui/exportguidesdialog_ui.ui:159
+#, kde-format
+msgid "Marker Type:"
+msgstr "Marker növü:"
+
+#. i18n: ectx: property (text), widget (QRadioButton, format_json)
+#: src/ui/exportguidesdialog_ui.ui:189
+#, kde-format
+msgid "Kdenlive JSON"
+msgstr "Kdenlive JSON"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: src/ui/exportguidesdialog_ui.ui:209
+#, kde-format
+msgid "Save As:"
+msgstr "Belə saxlayın:"
+
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/exportguidesdialog_ui.ui:176
+#: src/ui/exportguidesdialog_ui.ui:216
 #, kde-format
 msgid "Exported:"
 msgstr "İxrac edilmiş:"
 
-#. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
-#: src/ui/exportguidesdialog_ui.ui:186
-#, kde-format
-msgid "Formatted chapter marker text will be generated here."
-msgstr "Formatlanmış başlıq markeri mətni burada yaradılacaq."
+#. i18n: ectx: property (text), widget (QRadioButton, format_ffmpeg)
+#: src/ui/exportguidesdialog_ui.ui:223
+#, fuzzy, kde-format
+#| msgid "FFmpeg parameters"
+msgid "FFmpeg Chapters"
+msgstr "FFmpeg parametrləri"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/gradientedit_ui.ui:24

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-28 00:45+0000\n"
+"POT-Creation-Date: 2023-07-29 00:45+0000\n"
 "PO-Revision-Date: 2017-05-16 07:02-0400\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -3436,7 +3436,7 @@ msgid "Delete keyframes"
 msgstr "מחק מסגרת מפתח"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1388
+#: src/assets/model/assetparametermodel.cpp:1398
 #, fuzzy, kde-format
 #| msgid "Paste Effects"
 msgid "Update effect"
@@ -3533,8 +3533,8 @@ msgstr "ערוך מסגרת מפתח"
 msgid "Update %1"
 msgstr "שמור פרופיל"
 
-#: src/assets/model/assetparametermodel.cpp:1240
-#: src/assets/model/assetparametermodel.cpp:1287
+#: src/assets/model/assetparametermodel.cpp:1250
+#: src/assets/model/assetparametermodel.cpp:1297
 #, fuzzy, kde-format
 msgid "Cannot open preset file %1"
 msgstr "לא ניתן לכתוב לקובץ %1"
@@ -5248,96 +5248,96 @@ msgstr "סמן"
 msgid "Recovered %1"
 msgstr "טען מחדש סרטון"
 
-#: src/bin/model/markerlistmodel.cpp:874
+#: src/bin/model/markerlistmodel.cpp:879
 #, fuzzy, kde-format
 #| msgid "Delete All Guides"
 msgid "Delete all guides"
 msgstr "מחק את כל המנחים"
 
-#: src/bin/model/markerlistmodel.cpp:874
+#: src/bin/model/markerlistmodel.cpp:879
 #, fuzzy, kde-format
 #| msgid "Delete All Markers"
 msgid "Delete all markers"
 msgstr "מחק את כל הסמנים"
 
-#: src/bin/model/markerlistmodel.cpp:883 src/bin/model/markerlistmodel.cpp:921
-#: src/bin/model/markerlistmodel.cpp:946
+#: src/bin/model/markerlistmodel.cpp:888 src/bin/model/markerlistmodel.cpp:926
+#: src/bin/model/markerlistmodel.cpp:951
 #: src/timeline2/view/timelinecontroller.cpp:1437
 #, fuzzy, kde-format
 #| msgid "No guide at cursor time"
 msgid "No guide found at current position"
 msgstr "אין מנחה במיקום סמן"
 
-#: src/bin/model/markerlistmodel.cpp:886
+#: src/bin/model/markerlistmodel.cpp:891
 #, fuzzy, kde-format
 #| msgid "Edit Guide"
 msgid "Edit Guides Category"
 msgstr "ערוך מנחה"
 
-#: src/bin/model/markerlistmodel.cpp:886
+#: src/bin/model/markerlistmodel.cpp:891
 #, fuzzy, kde-format
 #| msgid "Edit Marker"
 msgid "Edit Markers Category"
 msgstr "ערוך סמן"
 
-#: src/bin/model/markerlistmodel.cpp:892
+#: src/bin/model/markerlistmodel.cpp:897
 #, kde-format
 msgid "Guides Category"
 msgstr ""
 
-#: src/bin/model/markerlistmodel.cpp:892
+#: src/bin/model/markerlistmodel.cpp:897
 #, fuzzy, kde-format
 #| msgid "Markers"
 msgid "Markers Category"
 msgstr "סמנים"
 
-#: src/bin/model/markerlistmodel.cpp:910
+#: src/bin/model/markerlistmodel.cpp:915
 #, fuzzy, kde-format
 #| msgid "Edit guide"
 msgid "Edit guides"
 msgstr "ערוך מוביל"
 
-#: src/bin/model/markerlistmodel.cpp:910
+#: src/bin/model/markerlistmodel.cpp:915
 #, fuzzy, kde-format
 #| msgid "Edit marker"
 msgid "Edit markers"
 msgstr "ערוך סמן"
 
-#: src/bin/model/markerlistmodel.cpp:925 src/bin/model/markerlistmodel.cpp:950
+#: src/bin/model/markerlistmodel.cpp:930 src/bin/model/markerlistmodel.cpp:955
 #: src/timeline2/view/timelinecontroller.cpp:1445
 #, fuzzy, kde-format
 #| msgid "Guide"
 msgid "guide"
 msgstr "מנחה"
 
-#: src/bin/model/markerlistmodel.cpp:928
+#: src/bin/model/markerlistmodel.cpp:933
 #, kde-format
 msgid "Edit Guide"
 msgstr "ערוך מנחה"
 
-#: src/bin/model/markerlistmodel.cpp:928
+#: src/bin/model/markerlistmodel.cpp:933
 #, kde-format
 msgid "Edit Marker"
 msgstr "ערוך סמן"
 
-#: src/bin/model/markerlistmodel.cpp:953
+#: src/bin/model/markerlistmodel.cpp:958
 #, fuzzy, kde-format
 #| msgid "Add Guide"
 msgid "Add Guides"
 msgstr "הוסף מנחה"
 
-#: src/bin/model/markerlistmodel.cpp:953
+#: src/bin/model/markerlistmodel.cpp:958
 #, fuzzy, kde-format
 msgid "Add Markers"
 msgstr "הוסף סמן"
 
-#: src/bin/model/markerlistmodel.cpp:968
+#: src/bin/model/markerlistmodel.cpp:973
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Add guides"
 msgstr "הוסף מנחה"
 
-#: src/bin/model/markerlistmodel.cpp:968
+#: src/bin/model/markerlistmodel.cpp:973
 #, fuzzy, kde-format
 msgid "Add markers"
 msgstr "הוסף סמן"
@@ -6152,12 +6152,12 @@ msgid ""
 "reverting to Automatic."
 msgstr ""
 
-#: src/dialogs/exportguidesdialog.cpp:36
+#: src/dialogs/exportguidesdialog.cpp:38
 #, fuzzy, kde-format
 msgid "Export guides"
 msgstr "הוסף סמן"
 
-#: src/dialogs/exportguidesdialog.cpp:44
+#: src/dialogs/exportguidesdialog.cpp:46
 #, kde-format
 msgid ""
 "If you are using the exported text for YouTube, you might want to check:\n"
@@ -6166,34 +6166,34 @@ msgid ""
 "3. The minimum length for video chapters is 10 seconds."
 msgstr ""
 
-#: src/dialogs/exportguidesdialog.cpp:52
+#: src/dialogs/exportguidesdialog.cpp:54
 #, fuzzy, kde-format
 msgid "Copy to Clipboard"
 msgstr "ערוך מסגרת מפתח"
 
-#: src/dialogs/exportguidesdialog.cpp:54
+#: src/dialogs/exportguidesdialog.cpp:56
 #, kde-format
 msgid "Save"
 msgstr "שמור"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_text)
-#: src/dialogs/exportguidesdialog.cpp:74 src/ui/exportguidesdialog_ui.ui:44
+#: src/dialogs/exportguidesdialog.cpp:76 src/ui/exportguidesdialog_ui.ui:179
 #, fuzzy, kde-format
 msgid "Text File"
 msgstr "סרטון טקסט"
 
-#: src/dialogs/exportguidesdialog.cpp:74
+#: src/dialogs/exportguidesdialog.cpp:76
 #, fuzzy, kde-format
 msgid "JSON File"
 msgstr "כל הקבצים"
 
-#: src/dialogs/exportguidesdialog.cpp:76
+#: src/dialogs/exportguidesdialog.cpp:78
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "הוסף סמן"
 
-#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:1605
+#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1605
 #: src/dialogs/renderwidget.cpp:1632 src/doc/kdenlivedoc.cpp:745
 #: src/doc/kdenlivedoc.cpp:753 src/doc/kdenlivedoc.cpp:1249
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
@@ -6216,42 +6216,47 @@ msgstr "הוסף סמן"
 msgid "Cannot write to file %1"
 msgstr "לא ניתן לכתוב לקובץ %1"
 
-#: src/dialogs/exportguidesdialog.cpp:86
+#: src/dialogs/exportguidesdialog.cpp:88
 #, fuzzy, kde-format
 msgid "Guides saved to %1"
 msgstr "‫שם עבור שמירת אפקט:"
 
-#: src/dialogs/exportguidesdialog.cpp:103
+#: src/dialogs/exportguidesdialog.cpp:111
 #, fuzzy, kde-format
 msgid "Category name"
 msgstr "מסגרות"
 
-#: src/dialogs/exportguidesdialog.cpp:104
+#: src/dialogs/exportguidesdialog.cpp:112
 #, fuzzy, kde-format
 msgid "Guide number"
 msgstr "קטע מונחה"
 
-#: src/dialogs/exportguidesdialog.cpp:105
+#: src/dialogs/exportguidesdialog.cpp:113
 #, kde-format
 msgid "Guide position in HH:MM:SS:FF"
 msgstr ""
 
-#: src/dialogs/exportguidesdialog.cpp:106
+#: src/dialogs/exportguidesdialog.cpp:114
 #, kde-format
 msgid "Guide position in (HH:)MM.SS"
 msgstr ""
 
-#: src/dialogs/exportguidesdialog.cpp:107
+#: src/dialogs/exportguidesdialog.cpp:115
 #, kde-format
 msgid "Next guide position in (HH:)MM.SS"
 msgstr ""
 
-#: src/dialogs/exportguidesdialog.cpp:108
+#: src/dialogs/exportguidesdialog.cpp:116
 #, kde-format
 msgid "Guide position in frames"
 msgstr ""
 
-#: src/dialogs/exportguidesdialog.cpp:109
+#: src/dialogs/exportguidesdialog.cpp:117
+#, kde-format
+msgid "Next guide position in frames"
+msgstr ""
+
+#: src/dialogs/exportguidesdialog.cpp:118
 #, fuzzy, kde-format
 msgid "Guide comment"
 msgstr "קטע מונחה"
@@ -9024,7 +9029,7 @@ msgid "Delete the layout."
 msgstr "שמור קטע"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
-#: src/layoutmanagement.cpp:408 src/ui/exportguidesdialog_ui.ui:125
+#: src/layoutmanagement.cpp:408 src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
 msgstr "אפס"
@@ -15939,7 +15944,7 @@ msgid "Stop"
 msgstr "עצור"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2077
+#: src/timeline2/view/qml/timeline.qml:2081
 #, kde-format
 msgid "Paused"
 msgstr ""
@@ -16108,26 +16113,26 @@ msgstr "הראה היסטוגרמה"
 msgid "Hide"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:1754
+#: src/timeline2/view/qml/timeline.qml:1758
 #, fuzzy, kde-format
 #| msgid "Click to add a transition."
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "הקלק להוספת מעבר"
 
-#: src/timeline2/view/qml/timeline.qml:1918
+#: src/timeline2/view/qml/timeline.qml:1922
 #, fuzzy, kde-format
 #| msgid "Position: %1"
 msgid "Offset: %1, Position: %2"
 msgstr "מיקום :%1"
 
-#: src/timeline2/view/qml/timeline.qml:2066
-#: src/timeline2/view/qml/timeline.qml:2075
+#: src/timeline2/view/qml/timeline.qml:2070
+#: src/timeline2/view/qml/timeline.qml:2079
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "הקלט"
 
-#: src/timeline2/view/qml/timeline.qml:2164
+#: src/timeline2/view/qml/timeline.qml:2168
 #, kde-format
 msgid "Multicam In"
 msgstr ""
@@ -16556,7 +16561,7 @@ msgid ""
 "timeline corresponds to a Sequence Clip in the Project Bin"
 msgstr ""
 
-#: src/timeline2/view/timelinetabs.cpp:211
+#: src/timeline2/view/timelinetabs.cpp:214
 #, fuzzy, kde-format
 #| msgid "Close"
 msgid "Close %1"
@@ -17424,7 +17429,7 @@ msgstr "מחק כפתור נוכחי"
 #: src/ui/editsub_ui.ui:54 src/ui/editsub_ui.ui:65 src/ui/editsub_ui.ui:76
 #: src/ui/editsub_ui.ui:151 src/ui/editsub_ui.ui:191 src/ui/editsub_ui.ui:202
 #: src/ui/editsub_ui.ui:233 src/ui/editsub_ui.ui:478
-#: src/ui/exportguidesdialog_ui.ui:108 src/ui/exportguidesdialog_ui.ui:128
+#: src/ui/exportguidesdialog_ui.ui:78 src/ui/exportguidesdialog_ui.ui:98
 #: src/ui/gradientedit_ui.ui:130 src/ui/gradientedit_ui.ui:150
 #: src/ui/guideslist_ui.ui:19 src/ui/guideslist_ui.ui:36
 #: src/ui/guideslist_ui.ui:50 src/ui/guideslist_ui.ui:64
@@ -19295,76 +19300,83 @@ msgstr "גודל"
 msgid "Custom Font"
 msgstr "התאמה אישית"
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/exportguidesdialog_ui.ui:30
-#, fuzzy, kde-format
-#| msgid "Marker 1"
-msgid "Marker Type:"
-msgstr "סמן 1"
-
-#. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/exportguidesdialog_ui.ui:37
-#, fuzzy, kde-format
-#| msgid "Save As"
-msgid "Save As:"
-msgstr "‫שמור כ-"
-
-#. i18n: ectx: property (text), widget (QRadioButton, format_json)
-#: src/ui/exportguidesdialog_ui.ui:54
-#, fuzzy, kde-format
-#| msgid "Kdenlive"
-msgid "Kdenlive JSON"
-msgstr "Kdenlive"
+#. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
+#: src/ui/exportguidesdialog_ui.ui:27
+#, kde-format
+msgid "Formatted chapter marker text will be generated here."
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, textOptions)
-#: src/ui/exportguidesdialog_ui.ui:74
+#: src/ui/exportguidesdialog_ui.ui:44
 #, fuzzy, kde-format
 msgid "Text Options"
 msgstr "פעולות"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_offset)
-#: src/ui/exportguidesdialog_ui.ui:89 src/ui/titlewidget_ui.ui:794
+#: src/ui/exportguidesdialog_ui.ui:59 src/ui/titlewidget_ui.ui:794
 #, fuzzy, kde-format
 msgid "Offset:"
 msgstr "הסט"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/exportguidesdialog_ui.ui:96
+#: src/ui/exportguidesdialog_ui.ui:66
 #, fuzzy, kde-format
 #| msgid "Format"
 msgid "Format:"
 msgstr "תסדיר"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, offsetTimeComboBox)
-#: src/ui/exportguidesdialog_ui.ui:150
+#: src/ui/exportguidesdialog_ui.ui:120
 #, fuzzy, kde-format
 msgid "Disabled"
 msgstr "לכידת שמע"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, offsetTimeComboBox)
-#: src/ui/exportguidesdialog_ui.ui:155
+#: src/ui/exportguidesdialog_ui.ui:125
 #, fuzzy, kde-format
 msgid "Add"
 msgstr "‮הוסף %1"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, offsetTimeComboBox)
-#: src/ui/exportguidesdialog_ui.ui:160
+#: src/ui/exportguidesdialog_ui.ui:130
 #, fuzzy, kde-format
 msgid "Subtract"
 msgstr "שלוף מסגרת"
 
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: src/ui/exportguidesdialog_ui.ui:159
+#, fuzzy, kde-format
+#| msgid "Marker 1"
+msgid "Marker Type:"
+msgstr "סמן 1"
+
+#. i18n: ectx: property (text), widget (QRadioButton, format_json)
+#: src/ui/exportguidesdialog_ui.ui:189
+#, fuzzy, kde-format
+#| msgid "Kdenlive"
+msgid "Kdenlive JSON"
+msgstr "Kdenlive"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: src/ui/exportguidesdialog_ui.ui:209
+#, fuzzy, kde-format
+#| msgid "Save As"
+msgid "Save As:"
+msgstr "‫שמור כ-"
+
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/exportguidesdialog_ui.ui:176
+#: src/ui/exportguidesdialog_ui.ui:216
 #, fuzzy, kde-format
 msgid "Exported:"
 msgstr "מחק סרטונים נבחרים"
 
-#. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
-#: src/ui/exportguidesdialog_ui.ui:186
-#, kde-format
-msgid "Formatted chapter marker text will be generated here."
-msgstr ""
+#. i18n: ectx: property (text), widget (QRadioButton, format_ffmpeg)
+#: src/ui/exportguidesdialog_ui.ui:223
+#, fuzzy, kde-format
+#| msgid "FFmpeg parameters"
+msgid "FFmpeg Chapters"
+msgstr "ערכי FFmpeg"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/gradientedit_ui.ui:24

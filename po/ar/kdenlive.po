@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-28 00:45+0000\n"
+"POT-Creation-Date: 2023-07-29 00:45+0000\n"
 "PO-Revision-Date: 2023-07-06 10:09+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -3424,7 +3424,7 @@ msgid "Delete keyframes"
 msgstr "احذف الأطر الرئيسة"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1388
+#: src/assets/model/assetparametermodel.cpp:1398
 #, kde-format
 msgid "Update effect"
 msgstr "حدث التأثير"
@@ -3519,8 +3519,8 @@ msgstr "حرّر الإطار الرئيس %1"
 msgid "Update %1"
 msgstr "حدّث %1"
 
-#: src/assets/model/assetparametermodel.cpp:1240
-#: src/assets/model/assetparametermodel.cpp:1287
+#: src/assets/model/assetparametermodel.cpp:1250
+#: src/assets/model/assetparametermodel.cpp:1297
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "تعذّر فتح ملفّ المعد مسبقا %1"
@@ -5215,85 +5215,85 @@ msgstr "علامة"
 msgid "Recovered %1"
 msgstr "%1 مُستَعاد"
 
-#: src/bin/model/markerlistmodel.cpp:874
+#: src/bin/model/markerlistmodel.cpp:879
 #, kde-format
 msgid "Delete all guides"
 msgstr "احذف كل الأدلة"
 
-#: src/bin/model/markerlistmodel.cpp:874
+#: src/bin/model/markerlistmodel.cpp:879
 #, kde-format
 msgid "Delete all markers"
 msgstr "احذف كل علامات"
 
-#: src/bin/model/markerlistmodel.cpp:883 src/bin/model/markerlistmodel.cpp:921
-#: src/bin/model/markerlistmodel.cpp:946
+#: src/bin/model/markerlistmodel.cpp:888 src/bin/model/markerlistmodel.cpp:926
+#: src/bin/model/markerlistmodel.cpp:951
 #: src/timeline2/view/timelinecontroller.cpp:1437
 #, kde-format
 msgid "No guide found at current position"
 msgstr "لم يعثر على دليل في الموضع الحالي"
 
-#: src/bin/model/markerlistmodel.cpp:886
+#: src/bin/model/markerlistmodel.cpp:891
 #, kde-format
 msgid "Edit Guides Category"
 msgstr "حرر صنف الأدلة"
 
-#: src/bin/model/markerlistmodel.cpp:886
+#: src/bin/model/markerlistmodel.cpp:891
 #, kde-format
 msgid "Edit Markers Category"
 msgstr "حرر صنف العلامات"
 
-#: src/bin/model/markerlistmodel.cpp:892
+#: src/bin/model/markerlistmodel.cpp:897
 #, kde-format
 msgid "Guides Category"
 msgstr "صنف الأدلة"
 
-#: src/bin/model/markerlistmodel.cpp:892
+#: src/bin/model/markerlistmodel.cpp:897
 #, kde-format
 msgid "Markers Category"
 msgstr "صنف العلامات"
 
-#: src/bin/model/markerlistmodel.cpp:910
+#: src/bin/model/markerlistmodel.cpp:915
 #, kde-format
 msgid "Edit guides"
 msgstr "حرر الأدلة"
 
-#: src/bin/model/markerlistmodel.cpp:910
+#: src/bin/model/markerlistmodel.cpp:915
 #, kde-format
 msgid "Edit markers"
 msgstr "حرر علامات"
 
-#: src/bin/model/markerlistmodel.cpp:925 src/bin/model/markerlistmodel.cpp:950
+#: src/bin/model/markerlistmodel.cpp:930 src/bin/model/markerlistmodel.cpp:955
 #: src/timeline2/view/timelinecontroller.cpp:1445
 #, kde-format
 msgid "guide"
 msgstr "دليل"
 
-#: src/bin/model/markerlistmodel.cpp:928
+#: src/bin/model/markerlistmodel.cpp:933
 #, kde-format
 msgid "Edit Guide"
 msgstr "حرر الدليل"
 
-#: src/bin/model/markerlistmodel.cpp:928
+#: src/bin/model/markerlistmodel.cpp:933
 #, kde-format
 msgid "Edit Marker"
 msgstr "حرر علامة"
 
-#: src/bin/model/markerlistmodel.cpp:953
+#: src/bin/model/markerlistmodel.cpp:958
 #, kde-format
 msgid "Add Guides"
 msgstr "أضِف أدلة"
 
-#: src/bin/model/markerlistmodel.cpp:953
+#: src/bin/model/markerlistmodel.cpp:958
 #, kde-format
 msgid "Add Markers"
 msgstr "أضف علامات"
 
-#: src/bin/model/markerlistmodel.cpp:968
+#: src/bin/model/markerlistmodel.cpp:973
 #, kde-format
 msgid "Add guides"
 msgstr "أضِف أدلة"
 
-#: src/bin/model/markerlistmodel.cpp:968
+#: src/bin/model/markerlistmodel.cpp:973
 #, kde-format
 msgid "Add markers"
 msgstr "أضف علامات"
@@ -6104,12 +6104,12 @@ msgstr ""
 "تشكيلة الخط الزمني المحددة لا تتوافق مع معدل أطر المشروع،\n"
 "سيرجع إلى المعدل الآلي."
 
-#: src/dialogs/exportguidesdialog.cpp:36
+#: src/dialogs/exportguidesdialog.cpp:38
 #, kde-format
 msgid "Export guides"
 msgstr "صدر الأدلة"
 
-#: src/dialogs/exportguidesdialog.cpp:44
+#: src/dialogs/exportguidesdialog.cpp:46
 #, kde-format
 msgid ""
 "If you are using the exported text for YouTube, you might want to check:\n"
@@ -6122,34 +6122,34 @@ msgstr ""
 "2. يجب أن يكون هناك ثلاثة طوابع زمنية على الأقل بترتيب تصاعدي. \n"
 "3. الحد الأدنى للطول لفصول الفيديو هو 10 ثوان."
 
-#: src/dialogs/exportguidesdialog.cpp:52
+#: src/dialogs/exportguidesdialog.cpp:54
 #, kde-format
 msgid "Copy to Clipboard"
 msgstr "انسخ إلى الحافظة"
 
-#: src/dialogs/exportguidesdialog.cpp:54
+#: src/dialogs/exportguidesdialog.cpp:56
 #, kde-format
 msgid "Save"
 msgstr "احفظ"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_text)
-#: src/dialogs/exportguidesdialog.cpp:74 src/ui/exportguidesdialog_ui.ui:44
+#: src/dialogs/exportguidesdialog.cpp:76 src/ui/exportguidesdialog_ui.ui:179
 #, kde-format
 msgid "Text File"
 msgstr "ملف نصي"
 
-#: src/dialogs/exportguidesdialog.cpp:74
+#: src/dialogs/exportguidesdialog.cpp:76
 #, kde-format
 msgid "JSON File"
 msgstr "ملف  جوسن JSON"
 
-#: src/dialogs/exportguidesdialog.cpp:76
+#: src/dialogs/exportguidesdialog.cpp:78
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "صدر بيانات الأدلة"
 
-#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:1605
+#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1605
 #: src/dialogs/renderwidget.cpp:1632 src/doc/kdenlivedoc.cpp:745
 #: src/doc/kdenlivedoc.cpp:753 src/doc/kdenlivedoc.cpp:1249
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
@@ -6172,42 +6172,48 @@ msgstr "صدر بيانات الأدلة"
 msgid "Cannot write to file %1"
 msgstr "تعذرت الكتابة إلى الملف %1"
 
-#: src/dialogs/exportguidesdialog.cpp:86
+#: src/dialogs/exportguidesdialog.cpp:88
 #, kde-format
 msgid "Guides saved to %1"
 msgstr "حُفظت الأدلة في %1"
 
-#: src/dialogs/exportguidesdialog.cpp:103
+#: src/dialogs/exportguidesdialog.cpp:111
 #, kde-format
 msgid "Category name"
 msgstr "اسم الصنف"
 
-#: src/dialogs/exportguidesdialog.cpp:104
+#: src/dialogs/exportguidesdialog.cpp:112
 #, kde-format
 msgid "Guide number"
 msgstr "رقم الدليل"
 
-#: src/dialogs/exportguidesdialog.cpp:105
+#: src/dialogs/exportguidesdialog.cpp:113
 #, kde-format
 msgid "Guide position in HH:MM:SS:FF"
 msgstr "موضع الدليل في HH:MM:SS:FF"
 
-#: src/dialogs/exportguidesdialog.cpp:106
+#: src/dialogs/exportguidesdialog.cpp:114
 #, kde-format
 msgid "Guide position in (HH:)MM.SS"
 msgstr "موضع الدليل في ‎(HH:)MM.SS"
 
-#: src/dialogs/exportguidesdialog.cpp:107
+#: src/dialogs/exportguidesdialog.cpp:115
 #, kde-format
 msgid "Next guide position in (HH:)MM.SS"
 msgstr "موضع الدليل التالي في ‎(HH:)MM.SS"
 
-#: src/dialogs/exportguidesdialog.cpp:108
+#: src/dialogs/exportguidesdialog.cpp:116
 #, kde-format
 msgid "Guide position in frames"
 msgstr "موضع الدليل في ‎الإطارات"
 
-#: src/dialogs/exportguidesdialog.cpp:109
+#: src/dialogs/exportguidesdialog.cpp:117
+#, fuzzy, kde-format
+#| msgid "Guide position in frames"
+msgid "Next guide position in frames"
+msgstr "موضع الدليل في ‎الإطارات"
+
+#: src/dialogs/exportguidesdialog.cpp:118
 #, kde-format
 msgid "Guide comment"
 msgstr "تعليق الدليل"
@@ -8992,7 +8998,7 @@ msgid "Delete the layout."
 msgstr "احذف التّخطيط"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
-#: src/layoutmanagement.cpp:408 src/ui/exportguidesdialog_ui.ui:125
+#: src/layoutmanagement.cpp:408 src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
 msgstr "صفّر"
@@ -15955,7 +15961,7 @@ msgid "Stop"
 msgstr "أوقف"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2077
+#: src/timeline2/view/qml/timeline.qml:2081
 #, kde-format
 msgid "Paused"
 msgstr "مُلبثة"
@@ -16121,23 +16127,23 @@ msgstr "أظهر"
 msgid "Hide"
 msgstr "أخفِ"
 
-#: src/timeline2/view/qml/timeline.qml:1754
+#: src/timeline2/view/qml/timeline.qml:1758
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>انقر مزدوجًا</b> لإضافة ترجمة"
 
-#: src/timeline2/view/qml/timeline.qml:1918
+#: src/timeline2/view/qml/timeline.qml:1922
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "الإزاحة: %1, الموضع: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2066
-#: src/timeline2/view/qml/timeline.qml:2075
+#: src/timeline2/view/qml/timeline.qml:2070
+#: src/timeline2/view/qml/timeline.qml:2079
 #, kde-format
 msgid "Recording"
 msgstr "يسجّل"
 
-#: src/timeline2/view/qml/timeline.qml:2164
+#: src/timeline2/view/qml/timeline.qml:2168
 #, kde-format
 msgid "Multicam In"
 msgstr "عدة كاميرات في"
@@ -16551,7 +16557,7 @@ msgstr ""
 "أضف تسلسل خط زمني. سينشئ خط زمني جديد للتحرير، سيمثل كل خط زمني مقطع تسلسل "
 "في سلة المشروع"
 
-#: src/timeline2/view/timelinetabs.cpp:211
+#: src/timeline2/view/timelinetabs.cpp:214
 #, kde-format
 msgid "Close %1"
 msgstr "أغلق %1"
@@ -17458,7 +17464,7 @@ msgstr "احذف النّقطة الحاليّة."
 #: src/ui/editsub_ui.ui:54 src/ui/editsub_ui.ui:65 src/ui/editsub_ui.ui:76
 #: src/ui/editsub_ui.ui:151 src/ui/editsub_ui.ui:191 src/ui/editsub_ui.ui:202
 #: src/ui/editsub_ui.ui:233 src/ui/editsub_ui.ui:478
-#: src/ui/exportguidesdialog_ui.ui:108 src/ui/exportguidesdialog_ui.ui:128
+#: src/ui/exportguidesdialog_ui.ui:78 src/ui/exportguidesdialog_ui.ui:98
 #: src/ui/gradientedit_ui.ui:130 src/ui/gradientedit_ui.ui:150
 #: src/ui/guideslist_ui.ui:19 src/ui/guideslist_ui.ui:36
 #: src/ui/guideslist_ui.ui:50 src/ui/guideslist_ui.ui:64
@@ -19284,72 +19290,79 @@ msgstr "حجم الخطّ مخصص"
 msgid "Custom Font"
 msgstr "خط مخصّص"
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/exportguidesdialog_ui.ui:30
+#. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
+#: src/ui/exportguidesdialog_ui.ui:27
 #, kde-format
-msgid "Marker Type:"
-msgstr "نوع العلامة:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/exportguidesdialog_ui.ui:37
-#, kde-format
-msgid "Save As:"
-msgstr "احفظ ك‍:"
-
-#. i18n: ectx: property (text), widget (QRadioButton, format_json)
-#: src/ui/exportguidesdialog_ui.ui:54
-#, kde-format
-msgid "Kdenlive JSON"
-msgstr "جوسن كِيدِينلايف"
+msgid "Formatted chapter marker text will be generated here."
+msgstr "سينشئ هنا نص علامة الفصل المنسق"
 
 #. i18n: ectx: property (title), widget (QGroupBox, textOptions)
-#: src/ui/exportguidesdialog_ui.ui:74
+#: src/ui/exportguidesdialog_ui.ui:44
 #, kde-format
 msgid "Text Options"
 msgstr "خيارات النص"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_offset)
-#: src/ui/exportguidesdialog_ui.ui:89 src/ui/titlewidget_ui.ui:794
+#: src/ui/exportguidesdialog_ui.ui:59 src/ui/titlewidget_ui.ui:794
 #, kde-format
 msgid "Offset:"
 msgstr "الإزاحة:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/exportguidesdialog_ui.ui:96
+#: src/ui/exportguidesdialog_ui.ui:66
 #, kde-format
 msgid "Format:"
 msgstr "النّسق:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, offsetTimeComboBox)
-#: src/ui/exportguidesdialog_ui.ui:150
+#: src/ui/exportguidesdialog_ui.ui:120
 #, kde-format
 msgid "Disabled"
 msgstr "معطّل"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, offsetTimeComboBox)
-#: src/ui/exportguidesdialog_ui.ui:155
+#: src/ui/exportguidesdialog_ui.ui:125
 #, kde-format
 msgid "Add"
 msgstr "أضف"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, offsetTimeComboBox)
-#: src/ui/exportguidesdialog_ui.ui:160
+#: src/ui/exportguidesdialog_ui.ui:130
 #, kde-format
 msgid "Subtract"
 msgstr "اطرح"
 
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: src/ui/exportguidesdialog_ui.ui:159
+#, kde-format
+msgid "Marker Type:"
+msgstr "نوع العلامة:"
+
+#. i18n: ectx: property (text), widget (QRadioButton, format_json)
+#: src/ui/exportguidesdialog_ui.ui:189
+#, kde-format
+msgid "Kdenlive JSON"
+msgstr "جوسن كِيدِينلايف"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: src/ui/exportguidesdialog_ui.ui:209
+#, kde-format
+msgid "Save As:"
+msgstr "احفظ ك‍:"
+
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/exportguidesdialog_ui.ui:176
+#: src/ui/exportguidesdialog_ui.ui:216
 #, kde-format
 msgid "Exported:"
 msgstr "المصدّر:"
 
-#. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
-#: src/ui/exportguidesdialog_ui.ui:186
-#, kde-format
-msgid "Formatted chapter marker text will be generated here."
-msgstr "سينشئ هنا نص علامة الفصل المنسق"
+#. i18n: ectx: property (text), widget (QRadioButton, format_ffmpeg)
+#: src/ui/exportguidesdialog_ui.ui:223
+#, fuzzy, kde-format
+#| msgid "FFmpeg parameters"
+msgid "FFmpeg Chapters"
+msgstr "معاملات FFmpeg"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/gradientedit_ui.ui:24
