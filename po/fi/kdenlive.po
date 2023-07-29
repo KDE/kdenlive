@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-28 02:34+0000\n"
+"POT-Creation-Date: 2023-07-29 02:25+0000\n"
 "PO-Revision-Date: 2023-06-07 21:36+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -3438,7 +3438,7 @@ msgid "Delete keyframes"
 msgstr "Poista leikekehykset"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1388
+#: src/assets/model/assetparametermodel.cpp:1398
 #, kde-format
 msgid "Update effect"
 msgstr "Päivitä tehoste"
@@ -3525,8 +3525,8 @@ msgstr "Muokkaa %1 leikekehystä"
 msgid "Update %1"
 msgstr "Päivitä %1"
 
-#: src/assets/model/assetparametermodel.cpp:1240
-#: src/assets/model/assetparametermodel.cpp:1287
+#: src/assets/model/assetparametermodel.cpp:1250
+#: src/assets/model/assetparametermodel.cpp:1297
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Projektitiedostoa %1 ei voi avata"
@@ -15989,7 +15989,7 @@ msgid "Stop"
 msgstr "Pysäytä"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2077
+#: src/timeline2/view/qml/timeline.qml:2081
 #, kde-format
 msgid "Paused"
 msgstr "Tauko"
@@ -16160,23 +16160,23 @@ msgstr "Näytä"
 msgid "Hide"
 msgstr "Piilota"
 
-#: src/timeline2/view/qml/timeline.qml:1754
+#: src/timeline2/view/qml/timeline.qml:1758
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Lisää tekstitys <b>napsauttamalla kahdesti</b>"
 
-#: src/timeline2/view/qml/timeline.qml:1918
+#: src/timeline2/view/qml/timeline.qml:1922
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Siirtymä:%1, Paikka: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2066
-#: src/timeline2/view/qml/timeline.qml:2075
+#: src/timeline2/view/qml/timeline.qml:2070
+#: src/timeline2/view/qml/timeline.qml:2079
 #, kde-format
 msgid "Recording"
 msgstr "Nauhoitus"
 
-#: src/timeline2/view/qml/timeline.qml:2164
+#: src/timeline2/view/qml/timeline.qml:2168
 #, kde-format
 msgid "Multicam In"
 msgstr "Useampi kamera sisään"
@@ -16589,7 +16589,7 @@ msgstr ""
 "Lisää aikajanasekvenssi. Tämä luo muokkausta varten uuden aikajanan. Kukin "
 "niistä vastaa projektikansion sekvenssileikettä."
 
-#: src/timeline2/view/timelinetabs.cpp:211
+#: src/timeline2/view/timelinetabs.cpp:214
 #, kde-format
 msgid "Close %1"
 msgstr "Sulje %1"

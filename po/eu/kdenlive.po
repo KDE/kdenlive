@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-28 02:34+0000\n"
+"POT-Creation-Date: 2023-07-29 02:25+0000\n"
 "PO-Revision-Date: 2023-07-14 20:50+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -3475,7 +3475,7 @@ msgid "Delete keyframes"
 msgstr "Ezabatu gako-fotogramak"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1388
+#: src/assets/model/assetparametermodel.cpp:1398
 #, kde-format
 msgid "Update effect"
 msgstr "Eguneratu efektua"
@@ -3562,8 +3562,8 @@ msgstr "Editatu %1 fotograma-gakoa"
 msgid "Update %1"
 msgstr "%1 eguneratu"
 
-#: src/assets/model/assetparametermodel.cpp:1240
-#: src/assets/model/assetparametermodel.cpp:1287
+#: src/assets/model/assetparametermodel.cpp:1250
+#: src/assets/model/assetparametermodel.cpp:1297
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "%1 aurrezarpen-fitxategia ezin da ireki"
@@ -16071,7 +16071,7 @@ msgid "Stop"
 msgstr "Gelditu"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2077
+#: src/timeline2/view/qml/timeline.qml:2081
 #, kde-format
 msgid "Paused"
 msgstr "Pausatuta"
@@ -16238,23 +16238,23 @@ msgstr "Erakutsi"
 msgid "Hide"
 msgstr "Ezkutatu"
 
-#: src/timeline2/view/qml/timeline.qml:1754
+#: src/timeline2/view/qml/timeline.qml:1758
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Klik bikoitza</b> azpidatzia gehitzeko"
 
-#: src/timeline2/view/qml/timeline.qml:1918
+#: src/timeline2/view/qml/timeline.qml:1922
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Sarrera:%1, Posizioa: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2066
-#: src/timeline2/view/qml/timeline.qml:2075
+#: src/timeline2/view/qml/timeline.qml:2070
+#: src/timeline2/view/qml/timeline.qml:2079
 #, kde-format
 msgid "Recording"
 msgstr "Grabazio"
 
-#: src/timeline2/view/qml/timeline.qml:2164
+#: src/timeline2/view/qml/timeline.qml:2168
 #, kde-format
 msgid "Multicam In"
 msgstr "Kamer-anitz Sarrera"
@@ -16671,7 +16671,7 @@ msgstr ""
 "sortuko du. Denbora-lerro bakoitza proiektu-ontziko sekuentzia-klip bati "
 "dagokio"
 
-#: src/timeline2/view/timelinetabs.cpp:211
+#: src/timeline2/view/timelinetabs.cpp:214
 #, kde-format
 msgid "Close %1"
 msgstr "Itxi %1"

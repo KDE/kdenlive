@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-28 02:34+0000\n"
+"POT-Creation-Date: 2023-07-29 02:25+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -3480,7 +3480,7 @@ msgid "Delete keyframes"
 msgstr "Kustuta võtmekaadrid"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1388
+#: src/assets/model/assetparametermodel.cpp:1398
 #, fuzzy, kde-format
 #| msgid "Paste Effects"
 msgid "Update effect"
@@ -3579,8 +3579,8 @@ msgstr "Muuda %1 võtmekaadrit"
 msgid "Update %1"
 msgstr "Uuenda %1"
 
-#: src/assets/model/assetparametermodel.cpp:1240
-#: src/assets/model/assetparametermodel.cpp:1287
+#: src/assets/model/assetparametermodel.cpp:1250
+#: src/assets/model/assetparametermodel.cpp:1297
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Valmisseadistuse faili %1 avamine nurjus"
@@ -16543,7 +16543,7 @@ msgid "Stop"
 msgstr "Peata"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2077
+#: src/timeline2/view/qml/timeline.qml:2081
 #, fuzzy, kde-format
 #| msgid "Pause"
 msgid "Paused"
@@ -16721,24 +16721,24 @@ msgstr "Näita"
 msgid "Hide"
 msgstr "Peida"
 
-#: src/timeline2/view/qml/timeline.qml:1754
+#: src/timeline2/view/qml/timeline.qml:1758
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:1918
+#: src/timeline2/view/qml/timeline.qml:1922
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:2066
-#: src/timeline2/view/qml/timeline.qml:2075
+#: src/timeline2/view/qml/timeline.qml:2070
+#: src/timeline2/view/qml/timeline.qml:2079
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "Salvesta"
 
-#: src/timeline2/view/qml/timeline.qml:2164
+#: src/timeline2/view/qml/timeline.qml:2168
 #, kde-format
 msgid "Multicam In"
 msgstr ""
@@ -17168,7 +17168,7 @@ msgid ""
 "timeline corresponds to a Sequence Clip in the Project Bin"
 msgstr ""
 
-#: src/timeline2/view/timelinetabs.cpp:211
+#: src/timeline2/view/timelinetabs.cpp:214
 #, fuzzy, kde-format
 #| msgid "Close"
 msgid "Close %1"

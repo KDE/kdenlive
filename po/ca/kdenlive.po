@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-28 02:34+0000\n"
+"POT-Creation-Date: 2023-07-29 02:25+0000\n"
 "PO-Revision-Date: 2023-07-27 09:34+0300\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -3488,7 +3488,7 @@ msgid "Delete keyframes"
 msgstr "Suprimeix els fotogrames clau"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1388
+#: src/assets/model/assetparametermodel.cpp:1398
 #, kde-format
 msgid "Update effect"
 msgstr "Actualitza l'efecte"
@@ -3577,8 +3577,8 @@ msgstr "Edita el fotograma clau %1"
 msgid "Update %1"
 msgstr "Actualitza el %1"
 
-#: src/assets/model/assetparametermodel.cpp:1240
-#: src/assets/model/assetparametermodel.cpp:1287
+#: src/assets/model/assetparametermodel.cpp:1250
+#: src/assets/model/assetparametermodel.cpp:1297
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "No s'ha pogut obrir el fitxer %1 de valors predefinits"
@@ -16169,7 +16169,7 @@ msgid "Stop"
 msgstr "Atura"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2077
+#: src/timeline2/view/qml/timeline.qml:2081
 #, kde-format
 msgid "Paused"
 msgstr "En pausa"
@@ -16337,23 +16337,23 @@ msgstr "Mostra"
 msgid "Hide"
 msgstr "Oculta"
 
-#: src/timeline2/view/qml/timeline.qml:1754
+#: src/timeline2/view/qml/timeline.qml:1758
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Doble clic</b> per a afegir un subtítol"
 
-#: src/timeline2/view/qml/timeline.qml:1918
+#: src/timeline2/view/qml/timeline.qml:1922
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Desplaçament: %1, Posició: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2066
-#: src/timeline2/view/qml/timeline.qml:2075
+#: src/timeline2/view/qml/timeline.qml:2070
+#: src/timeline2/view/qml/timeline.qml:2079
 #, kde-format
 msgid "Recording"
 msgstr "Enregistrament"
 
-#: src/timeline2/view/qml/timeline.qml:2164
+#: src/timeline2/view/qml/timeline.qml:2168
 #, kde-format
 msgid "Multicam In"
 msgstr "Multicàmera a"
@@ -16778,7 +16778,7 @@ msgstr ""
 "nova per a l'edició. Cada línia de temps correspon a un clip de seqüència en "
 "la safata del projecte"
 
-#: src/timeline2/view/timelinetabs.cpp:211
+#: src/timeline2/view/timelinetabs.cpp:214
 #, kde-format
 msgid "Close %1"
 msgstr "Tanca %1"

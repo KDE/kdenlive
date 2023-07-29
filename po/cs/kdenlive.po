@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-28 02:34+0000\n"
+"POT-Creation-Date: 2023-07-29 02:25+0000\n"
 "PO-Revision-Date: 2023-06-28 14:16+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -2869,10 +2869,9 @@ msgid "Luma Map"
 msgstr "Mapa luny"
 
 #: data/transitions/dissolve.xml:19 data/transitions/luma.xml:17
-#, fuzzy, kde-format
-#| msgid "Make selected color transparent"
+#, kde-format
 msgid "Make padding transparent"
-msgstr "Nastavit, která barva bude průhledná"
+msgstr ""
 
 #: data/transitions/luma.xml:4
 #, kde-format
@@ -3347,7 +3346,7 @@ msgid "Delete keyframes"
 msgstr ""
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1388
+#: src/assets/model/assetparametermodel.cpp:1398
 #, kde-format
 msgid "Update effect"
 msgstr ""
@@ -3436,8 +3435,8 @@ msgstr "Upravit %1 klíčový snímek"
 msgid "Update %1"
 msgstr "Aktualizovat %1"
 
-#: src/assets/model/assetparametermodel.cpp:1240
-#: src/assets/model/assetparametermodel.cpp:1287
+#: src/assets/model/assetparametermodel.cpp:1250
+#: src/assets/model/assetparametermodel.cpp:1297
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Nelze otevřít soubor předvoleb %1"
@@ -9270,10 +9269,9 @@ msgid "Switch to next Sequence"
 msgstr ""
 
 #: src/mainwindow.cpp:353
-#, fuzzy, kde-format
-#| msgid "Go to previous keyframe"
+#, kde-format
 msgid "Switch to previous Sequence"
-msgstr "Jít na předchozí klíčový snímek"
+msgstr ""
 
 #: src/mainwindow.cpp:359
 #, kde-format
@@ -10054,10 +10052,9 @@ msgid "Stop Preview Render"
 msgstr "Zastavit náhled renderování"
 
 #: src/mainwindow.cpp:1671
-#, fuzzy, kde-format
-#| msgid "Add Transition to Selection"
+#, kde-format
 msgid "Adjust Timeline Zone to Selection"
-msgstr "Přidat přechod do výběru"
+msgstr ""
 
 #: src/mainwindow.cpp:1673
 #, kde-format
@@ -10285,10 +10282,9 @@ msgid "Switch Track Target Audio Stream"
 msgstr ""
 
 #: src/mainwindow.cpp:1867
-#, fuzzy, kde-format
-#| msgid "Delete Track"
+#, kde-format
 msgid "Delete Track…"
-msgstr "Smazat stopu"
+msgstr ""
 
 #: src/mainwindow.cpp:1872
 #, kde-format
@@ -15549,7 +15545,7 @@ msgid "Stop"
 msgstr "Zastavit"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2077
+#: src/timeline2/view/qml/timeline.qml:2081
 #, kde-format
 msgid "Paused"
 msgstr "Pozastaveno"
@@ -15708,23 +15704,23 @@ msgstr "Zobrazit"
 msgid "Hide"
 msgstr "Skrýt"
 
-#: src/timeline2/view/qml/timeline.qml:1754
+#: src/timeline2/view/qml/timeline.qml:1758
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:1918
+#: src/timeline2/view/qml/timeline.qml:1922
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Posun: %1, Pozice: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2066
-#: src/timeline2/view/qml/timeline.qml:2075
+#: src/timeline2/view/qml/timeline.qml:2070
+#: src/timeline2/view/qml/timeline.qml:2079
 #, kde-format
 msgid "Recording"
 msgstr "Nahrávání"
 
-#: src/timeline2/view/qml/timeline.qml:2164
+#: src/timeline2/view/qml/timeline.qml:2168
 #, kde-format
 msgid "Multicam In"
 msgstr ""
@@ -15885,10 +15881,9 @@ msgid "No active track"
 msgstr ""
 
 #: src/timeline2/view/timelinecontroller.cpp:1710
-#, fuzzy, kde-format
-#| msgid "Reset the selected spline."
+#, kde-format
 msgid "No item selected in timeline"
-msgstr "Vrátit vybraný Splajn na výchozí hodnoty."
+msgstr ""
 
 #: src/timeline2/view/timelinecontroller.cpp:1853
 #, kde-format
@@ -16128,11 +16123,10 @@ msgid ""
 "timeline corresponds to a Sequence Clip in the Project Bin"
 msgstr ""
 
-#: src/timeline2/view/timelinetabs.cpp:211
-#, fuzzy, kde-format
-#| msgid "Close"
+#: src/timeline2/view/timelinetabs.cpp:214
+#, kde-format
 msgid "Close %1"
-msgstr "Zavřít"
+msgstr "Zavřít %1"
 
 #: src/timeline2/view/timelinewidget.cpp:74
 #, kde-format
@@ -17131,10 +17125,9 @@ msgstr "Konec ořezání:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/clipjobmanager_ui.ui:30
-#, fuzzy, kde-format
-#| msgid "Job description"
+#, kde-format
 msgid "Job Description"
-msgstr "Popis úlohy"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/clipjobmanager_ui.ui:43
@@ -17221,10 +17214,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/clipjobmanager_ui.ui:176
-#, fuzzy, kde-format
-#| msgid "Parameters"
+#, kde-format
 msgid "Parameter 1 {param1}"
-msgstr "Parametry"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_isfile)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_isfile)
@@ -17243,25 +17235,22 @@ msgstr ""
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param1_list)
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param2_list)
 #: src/ui/clipjobmanager_ui.ui:202 src/ui/clipjobmanager_ui.ui:254
-#, fuzzy, kde-format
-#| msgid "More options"
+#, kde-format
 msgid "List of options"
-msgstr "Více možností"
+msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param1_name)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param2_name)
 #: src/ui/clipjobmanager_ui.ui:209 src/ui/clipjobmanager_ui.ui:261
-#, fuzzy, kde-format
-#| msgid "Job description"
+#, kde-format
 msgid "Parameter description"
-msgstr "Popis úlohy"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: src/ui/clipjobmanager_ui.ui:232
-#, fuzzy, kde-format
-#| msgid "Parameters"
+#, kde-format
 msgid "Parameter 2 {param2}"
-msgstr "Parametry"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/clipjobmanager_ui.ui:288
@@ -20856,10 +20845,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid "<b>&#x25;1</b> will be replaced by the path of the source clip."
-#~ msgstr "<b>&#x25;1</b> bude nahrazeno cestou ke zdrojovému klipu"
-
-#~ msgid "*.srt *.ass *.vtt *.sbv"
-#~ msgstr "*.srt *.ass *.vtt *.sbv"

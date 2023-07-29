@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-28 02:34+0000\n"
+"POT-Creation-Date: 2023-07-29 02:25+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -3511,7 +3511,7 @@ msgid "Delete keyframes"
 msgstr "Vymazať kľúčové snímky"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1388
+#: src/assets/model/assetparametermodel.cpp:1398
 #, fuzzy, kde-format
 #| msgid "Paste effects"
 msgid "Update effect"
@@ -3612,8 +3612,8 @@ msgstr "Upraviť kľúčovú snímku %1"
 msgid "Update %1"
 msgstr "Aktualizovať %1"
 
-#: src/assets/model/assetparametermodel.cpp:1240
-#: src/assets/model/assetparametermodel.cpp:1287
+#: src/assets/model/assetparametermodel.cpp:1250
+#: src/assets/model/assetparametermodel.cpp:1297
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid "Cannot open preset file %1"
@@ -16608,7 +16608,7 @@ msgid "Stop"
 msgstr "Zastaviť"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2077
+#: src/timeline2/view/qml/timeline.qml:2081
 #, fuzzy, kde-format
 #| msgid "Pause"
 msgid "Paused"
@@ -16799,13 +16799,13 @@ msgstr "Zobraziť"
 msgid "Hide"
 msgstr "Skryť"
 
-#: src/timeline2/view/qml/timeline.qml:1754
+#: src/timeline2/view/qml/timeline.qml:1758
 #, fuzzy, kde-format
 #| msgid "Click to add a transition."
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Kliknúť pre pridanie prechodu."
 
-#: src/timeline2/view/qml/timeline.qml:1918
+#: src/timeline2/view/qml/timeline.qml:1922
 #, fuzzy, kde-format
 #| msgid ""
 #| "In:%1\n"
@@ -16815,14 +16815,14 @@ msgstr ""
 "V:%1\n"
 "Pozícia:%2"
 
-#: src/timeline2/view/qml/timeline.qml:2066
-#: src/timeline2/view/qml/timeline.qml:2075
+#: src/timeline2/view/qml/timeline.qml:2070
+#: src/timeline2/view/qml/timeline.qml:2079
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "Nahrať"
 
-#: src/timeline2/view/qml/timeline.qml:2164
+#: src/timeline2/view/qml/timeline.qml:2168
 #, kde-format
 msgid "Multicam In"
 msgstr ""
@@ -17259,7 +17259,7 @@ msgid ""
 "timeline corresponds to a Sequence Clip in the Project Bin"
 msgstr ""
 
-#: src/timeline2/view/timelinetabs.cpp:211
+#: src/timeline2/view/timelinetabs.cpp:214
 #, fuzzy, kde-format
 #| msgid "Close"
 msgid "Close %1"

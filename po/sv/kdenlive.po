@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-28 02:34+0000\n"
-"PO-Revision-Date: 2023-07-27 22:09+0200\n"
+"POT-Creation-Date: 2023-07-29 02:25+0000\n"
+"PO-Revision-Date: 2023-07-28 13:33+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -2204,6 +2204,9 @@ msgid ""
 "The text will be frozen at 00:00:00.000 from the start of the filter until "
 "the start time has elapsed.]]>"
 msgstr ""
+"<![CDATA[Tiden då upp- eller nedräkningen börjar.\n"
+"Texten är fryst med 00:00:00.000 från filtrets början till starttiden har "
+"löpt ut.]]>"
 
 #: data/effects/timer.xml:57
 #, kde-format
@@ -2213,12 +2216,14 @@ msgid ""
 "The text will be frozen at the duration time after the duration has "
 "elapsed.]]>"
 msgstr ""
+"<![CDATA[Maximal förfluten tid efter starttiden har löpt ut.\n"
+"Texten fryses med den förflutna tiden efter tiden har löpt ut.]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: data/effects/timer.xml:60 src/ui/configcapture_ui.ui:322
 #, kde-format
 msgid "Offset"
-msgstr "Förskjutning"
+msgstr "Värde"
 
 #: data/effects/timer.xml:63
 #, kde-format
@@ -2229,6 +2234,10 @@ msgid ""
 "When the direction is up, the timer will count up starting from \"offset"
 "\".]]>"
 msgstr ""
+"<![CDATA[Ett värde som ska adderas till tiden.\n"
+"När riktningen är \"ned\", räknar tiden ner till \"värde\" istället för "
+"00:00:00.000.\n"
+"När riktningen är \"upp\", räknar tiden upp med början på \"värde\".]]>"
 
 #: data/effects/timer.xml:66 data/transitions/slide.xml:8
 #, kde-format
@@ -2983,7 +2992,7 @@ msgstr "Övergångsmetod"
 #: data/transitions/matte.xml:4
 #, kde-format
 msgid "Matte"
-msgstr ""
+msgstr "Matt"
 
 #: data/transitions/matte.xml:5
 #, kde-format
@@ -3438,7 +3447,7 @@ msgid "Delete keyframes"
 msgstr "Ta bort nyckelbilder"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1388
+#: src/assets/model/assetparametermodel.cpp:1398
 #, kde-format
 msgid "Update effect"
 msgstr "Uppdatera effekt"
@@ -3525,8 +3534,8 @@ msgstr "Redigera nyckelbild %1"
 msgid "Update %1"
 msgstr "Uppdatera %1"
 
-#: src/assets/model/assetparametermodel.cpp:1240
-#: src/assets/model/assetparametermodel.cpp:1287
+#: src/assets/model/assetparametermodel.cpp:1250
+#: src/assets/model/assetparametermodel.cpp:1297
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Kan inte öppna förinställningsfil %1"
@@ -9231,12 +9240,12 @@ msgstr "Färgoscilloskop, felrättning, etc."
 #: src/main.cpp:134
 #, kde-format
 msgid "Eric Jiang"
-msgstr ""
+msgstr "Eric Jiang"
 
 #: src/main.cpp:134
 #, kde-format
 msgid "Bug fixing and test improvements"
-msgstr ""
+msgstr "Felrättning och testförbättringar"
 
 #: src/main.cpp:136
 #, kde-format
@@ -11240,12 +11249,12 @@ msgstr "Färgintervall:"
 #: src/mltcontroller/clippropertiescontroller.cpp:969
 #, kde-format
 msgid "Broadcast limited (MPEG)"
-msgstr ""
+msgstr "Utsändningsbegränsat (MPEG)"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:970
 #, kde-format
 msgid "Full (JPEG)"
-msgstr ""
+msgstr "Fullständigt (JPEG)"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:987
 #, kde-format
@@ -11261,7 +11270,7 @@ msgstr "Filinformation"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the file."
-msgstr ""
+msgstr "Visar detaljinformation om filen."
 
 #. i18n: ectx: property (title), widget (QGroupBox, properties)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_properties)
@@ -11286,7 +11295,7 @@ msgstr "Ljudegenskaper"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the audio streams/data/codec."
-msgstr ""
+msgstr "Visar detaljinformation om ljudströmmar/data/kodare."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/mltcontroller/clippropertiescontroller.cpp:1027
@@ -15860,7 +15869,7 @@ msgid "Stop"
 msgstr "Stoppa"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2077
+#: src/timeline2/view/qml/timeline.qml:2081
 #, kde-format
 msgid "Paused"
 msgstr "Paus"
@@ -16027,23 +16036,23 @@ msgstr "Visa"
 msgid "Hide"
 msgstr "Dölj"
 
-#: src/timeline2/view/qml/timeline.qml:1754
+#: src/timeline2/view/qml/timeline.qml:1758
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Dubbelklicka</b> för att lägga till textning"
 
-#: src/timeline2/view/qml/timeline.qml:1918
+#: src/timeline2/view/qml/timeline.qml:1922
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Förskjutning:%1, Position:%2"
 
-#: src/timeline2/view/qml/timeline.qml:2066
-#: src/timeline2/view/qml/timeline.qml:2075
+#: src/timeline2/view/qml/timeline.qml:2070
+#: src/timeline2/view/qml/timeline.qml:2079
 #, kde-format
 msgid "Recording"
 msgstr "Inspelning"
 
-#: src/timeline2/view/qml/timeline.qml:2164
+#: src/timeline2/view/qml/timeline.qml:2168
 #, kde-format
 msgid "Multicam In"
 msgstr "Flerkamera in"
@@ -16454,7 +16463,7 @@ msgid ""
 "timeline corresponds to a Sequence Clip in the Project Bin"
 msgstr ""
 
-#: src/timeline2/view/timelinetabs.cpp:211
+#: src/timeline2/view/timelinetabs.cpp:214
 #, kde-format
 msgid "Close %1"
 msgstr "Stäng %1"
