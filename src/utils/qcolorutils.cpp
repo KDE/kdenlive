@@ -65,6 +65,17 @@ QString QColorUtils::colorToString(const QColor &color, bool alpha)
     return colorStr;
 }
 
+QColor QColorUtils::complementary(QColor color)
+{
+    color = color.toHsv();
+    int hue = color.hsvHue() + 180;
+    if (hue > 359) {
+        hue -= 360;
+    }
+    color.setHsv(hue, color.hsvSaturation(), color.value());
+    return color;
+}
+
 NegQColor::NegQColor() {}
 
 NegQColor NegQColor::fromHsvF(qreal h, qreal s, qreal l, qreal a)
