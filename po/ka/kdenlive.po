@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-29 00:45+0000\n"
+"POT-Creation-Date: 2023-07-30 00:44+0000\n"
 "PO-Revision-Date: 2023-07-25 04:53+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -876,7 +876,7 @@ msgstr ""
 #: data/effects/fade_from_black.xml:8 data/effects/fade_to_black.xml:8
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:170
-#: src/bin/bin.cpp:1290 src/bin/projectitemmodel.cpp:321
+#: src/bin/bin.cpp:1291 src/bin/projectitemmodel.cpp:321
 #: src/timeline2/view/dialogs/speeddialog.cpp:55
 #: src/timeline2/view/qml/Track.qml:332 src/timeline2/view/qml/Track.qml:406
 #: src/timeline2/view/qml/Track.qml:427 src/ui/clipdurationdialog_ui.ui:18
@@ -1339,8 +1339,8 @@ msgstr ""
 
 #: data/effects/mask_start_frei0r_select0r.xml:8
 #: data/effects/mask_start_rotoscoping.xml:8
-#: data/effects/mask_start_shape.xml:8 src/bin/bin.cpp:1393
-#: src/bin/bin.cpp:1398 src/bin/bin.cpp:2159
+#: data/effects/mask_start_shape.xml:8 src/bin/bin.cpp:1394
+#: src/bin/bin.cpp:1399 src/bin/bin.cpp:2160
 #, kde-format
 msgid "Filter"
 msgstr "ფილტრი"
@@ -3159,7 +3159,7 @@ msgstr "ინფორმაციის ჩასწორება"
 msgid "Export XML…"
 msgstr "XML-ის გატანა…"
 
-#: src/assets/assetlist/view/qml/assetList.qml:371 src/bin/bin.cpp:1274
+#: src/assets/assetlist/view/qml/assetList.qml:371 src/bin/bin.cpp:1275
 #: src/bin/projectitemmodel.cpp:306
 #, kde-format
 msgid "Name"
@@ -3782,7 +3782,7 @@ msgid "Default Keyframe Type"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/assets/view/widgets/keyframewidget.cpp:206 src/bin/bin.cpp:1343
+#: src/assets/view/widgets/keyframewidget.cpp:206 src/bin/bin.cpp:1344
 #: src/ui/clipstabilize_ui.ui:37
 #, kde-format
 msgid "Options"
@@ -4037,76 +4037,82 @@ msgstr[1] "%1 დარჩენილი დავალება"
 msgid "Search…"
 msgstr "ძებნა…"
 
-#: src/bin/bin.cpp:1233
+#: src/bin/bin.cpp:1192
+#, fuzzy, kde-format
+#| msgid "Search"
+msgid "Bin Search"
+msgstr "ძებნა"
+
+#: src/bin/bin.cpp:1234
 #, kde-format
 msgid "View Mode"
 msgstr "ხედვის რეჟიმი"
 
-#: src/bin/bin.cpp:1236
+#: src/bin/bin.cpp:1237
 #, kde-format
 msgid "Tree View"
 msgstr "ხისმაგვარი ხედი"
 
-#: src/bin/bin.cpp:1243
+#: src/bin/bin.cpp:1244
 #, kde-format
 msgid "Adjust Profile to Current Clip"
 msgstr ""
 
-#: src/bin/bin.cpp:1247
+#: src/bin/bin.cpp:1248
 #, kde-format
 msgid "Icon View"
 msgstr "ხატულებით ჩვენება"
 
-#: src/bin/bin.cpp:1255 src/project/dialogs/guideslist.cpp:105
+#: src/bin/bin.cpp:1256 src/project/dialogs/guideslist.cpp:105
 #, kde-format
 msgid "Descending"
 msgstr "Დაღმავალი"
 
-#: src/bin/bin.cpp:1271
+#: src/bin/bin.cpp:1272
 #, kde-format
 msgid "Sort By"
 msgstr "დახარისხება"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:1278 src/bin/projectitemmodel.cpp:309
+#: src/bin/bin.cpp:1279 src/bin/projectitemmodel.cpp:309
 #: src/project/dialogs/projectsettings.cpp:248 src/ui/managecache_ui.ui:369
 #, kde-format
 msgid "Date"
 msgstr "თარიღი"
 
-#: src/bin/bin.cpp:1282 src/bin/projectitemmodel.cpp:312
+#: src/bin/bin.cpp:1283 src/bin/projectitemmodel.cpp:312
 #, kde-format
 msgid "Description"
 msgstr "აღწერა"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
-#: src/bin/bin.cpp:1286 src/bin/projectitemmodel.cpp:315
+#: src/bin/bin.cpp:1287 src/bin/projectitemmodel.cpp:315
 #: src/ui/missingclips_ui.ui:77
 #, kde-format
 msgid "Type"
 msgstr "ტიპი"
 
-#: src/bin/bin.cpp:1294
+#: src/bin/bin.cpp:1295
 #, kde-format
 msgid "Insert Order"
 msgstr ""
 
-#: src/bin/bin.cpp:1298 src/bin/projectitemmodel.cpp:327
+#: src/bin/bin.cpp:1299 src/bin/projectitemmodel.cpp:327
 #, kde-format
 msgid "Rating"
 msgstr "შეფასება"
 
-#: src/bin/bin.cpp:1322
+#: src/bin/bin.cpp:1323
 #, kde-format
 msgid "Disable Bin Effects"
 msgstr ""
 
-#: src/bin/bin.cpp:1330
+#: src/bin/bin.cpp:1331
 #, kde-format
 msgid "Show Video Preview in Thumbnails"
 msgstr ""
 
-#: src/bin/bin.cpp:1344
+#: src/bin/bin.cpp:1345
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4114,27 +4120,27 @@ msgid ""
 "rating)."
 msgstr ""
 
-#: src/bin/bin.cpp:1351
+#: src/bin/bin.cpp:1352
 #, kde-format
 msgid "Show Date"
 msgstr "თარიღის ჩვენება"
 
-#: src/bin/bin.cpp:1355
+#: src/bin/bin.cpp:1356
 #, kde-format
 msgid "Show Description"
 msgstr "აღწერის ჩვენება"
 
-#: src/bin/bin.cpp:1359
+#: src/bin/bin.cpp:1360
 #, kde-format
 msgid "Show Rating"
 msgstr "რეიტინგის ჩვენება"
 
-#: src/bin/bin.cpp:1377
+#: src/bin/bin.cpp:1378
 #, kde-format
 msgid "Tags Panel"
 msgstr "ჭდეების პანელი"
 
-#: src/bin/bin.cpp:1399
+#: src/bin/bin.cpp:1400
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4143,58 +4149,58 @@ msgid ""
 "settings."
 msgstr ""
 
-#: src/bin/bin.cpp:1440
+#: src/bin/bin.cpp:1441
 #, kde-format
 msgid "Cancel All Jobs"
 msgstr "ყველა ამოცანის გაუქმება"
 
-#: src/bin/bin.cpp:1442
+#: src/bin/bin.cpp:1443
 #, kde-format
 msgid "Cancel Current Clip Jobs"
 msgstr ""
 
-#: src/bin/bin.cpp:1444
+#: src/bin/bin.cpp:1445
 #, kde-format
 msgid "Cancel Pending Jobs"
 msgstr ""
 
-#: src/bin/bin.cpp:1772
+#: src/bin/bin.cpp:1773
 #, kde-format
 msgid "You cannot delete all sequences of a project"
 msgstr ""
 
-#: src/bin/bin.cpp:1775
+#: src/bin/bin.cpp:1776
 #, kde-format
 msgid "Deleting sequences cannot be undone"
 msgstr ""
 
-#: src/bin/bin.cpp:1782
+#: src/bin/bin.cpp:1783
 #, kde-format
 msgid "This will delete all selected clips from the timeline"
 msgstr ""
 
-#: src/bin/bin.cpp:1785
+#: src/bin/bin.cpp:1786
 #, kde-format
 msgid "This will delete all folder content"
 msgstr ""
 
-#: src/bin/bin.cpp:1802
+#: src/bin/bin.cpp:1803
 #, kde-format
 msgid ""
 "Some items could not be deleted. Maybe there are instances on locked tracks?"
 msgstr ""
 
-#: src/bin/bin.cpp:1804
+#: src/bin/bin.cpp:1805
 #, kde-format
 msgid "Delete bin Clips"
 msgstr ""
 
-#: src/bin/bin.cpp:1829 src/doc/documentchecker.cpp:565
+#: src/bin/bin.cpp:1830 src/doc/documentchecker.cpp:565
 #, kde-format
 msgid "Missing source clip"
 msgstr ""
 
-#: src/bin/bin.cpp:1845 src/bin/bin.cpp:2356
+#: src/bin/bin.cpp:1846 src/bin/bin.cpp:2357
 #: src/effects/effectlist/view/effectlistwidget.cpp:142
 #: src/renderpresets/renderpresetrepository.cpp:156
 #: src/renderpresets/renderpresetrepository.cpp:433
@@ -4202,24 +4208,24 @@ msgstr ""
 msgid "Unable to write to file %1"
 msgstr "%1 ფაილში ჩაწერის შეცდომა"
 
-#: src/bin/bin.cpp:1855 src/bin/bin.cpp:2365 src/doc/kdenlivedoc.cpp:728
+#: src/bin/bin.cpp:1856 src/bin/bin.cpp:2366 src/doc/kdenlivedoc.cpp:728
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
 "To make sure you do not lose data, a backup copy called %1 was created."
 msgstr ""
 
-#: src/bin/bin.cpp:1861
+#: src/bin/bin.cpp:1862
 #, kde-format
 msgid "Unable to parse file %1"
 msgstr "ფაილის დამუშავების შეცდომა: %1"
 
-#: src/bin/bin.cpp:1872
+#: src/bin/bin.cpp:1873
 #, kde-format
 msgid "Cannot replace clip with invalid file %1"
 msgstr "კლიპის შეცვლა არასწორი ფაილით(%1) შეუძლებელია"
 
-#: src/bin/bin.cpp:1898 src/bin/bin.cpp:1956
+#: src/bin/bin.cpp:1899 src/bin/bin.cpp:1957
 #, kde-format
 msgid ""
 "You are replacing a clip with a shorter one, this might cause issues in "
@@ -4227,101 +4233,101 @@ msgid ""
 "Replacement is %1 frames shorter."
 msgstr ""
 
-#: src/bin/bin.cpp:1905 src/bin/bin.cpp:1962
+#: src/bin/bin.cpp:1906 src/bin/bin.cpp:1963
 #, kde-format
 msgid "The selected file %1 is invalid."
 msgstr ""
 
-#: src/bin/bin.cpp:1911
+#: src/bin/bin.cpp:1912
 #, kde-format
 msgid "Cannot find original clip to be replaced"
 msgstr ""
 
-#: src/bin/bin.cpp:1931
+#: src/bin/bin.cpp:1932
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Replacement File"
 msgstr ""
 
-#: src/bin/bin.cpp:1994
+#: src/bin/bin.cpp:1995
 #, kde-format
 msgid "Could not locate %1"
 msgstr "%1 ვერ ვიპოვე"
 
-#: src/bin/bin.cpp:2041
+#: src/bin/bin.cpp:2042
 #, kde-format
 msgid "Could not create temporary file in %1"
 msgstr "%1-ში დროებით ფაილების შექმნის შეცდომა"
 
-#: src/bin/bin.cpp:2049
+#: src/bin/bin.cpp:2050
 #, kde-format
 msgid "Duplicating sequence failed"
 msgstr ""
 
-#: src/bin/bin.cpp:2061
+#: src/bin/bin.cpp:2062
 #, kde-format
 msgid "%1 (copy)"
 msgstr "%1 (ასლი)"
 
-#: src/bin/bin.cpp:2076
+#: src/bin/bin.cpp:2077
 #, kde-format
 msgctxt "append to clip name to indicate a copied idem"
 msgid " (copy)"
 msgstr " (ასლი)"
 
-#: src/bin/bin.cpp:2081 src/bin/bin.cpp:2083
+#: src/bin/bin.cpp:2082 src/bin/bin.cpp:2084
 #, kde-format
 msgid "Duplicate clip"
 msgstr "კლიპის დუბლირება"
 
-#: src/bin/bin.cpp:2204
+#: src/bin/bin.cpp:2205
 #, kde-format
 msgid "Clear Filters"
 msgstr "ფილტრების გასუფთავება"
 
-#: src/bin/bin.cpp:2210
+#: src/bin/bin.cpp:2211
 #, kde-format
 msgid "No Tags"
 msgstr "ჭდეების გარეშე"
 
-#: src/bin/bin.cpp:2229
+#: src/bin/bin.cpp:2230
 #, kde-format
 msgid "%1 Star"
 msgid_plural "%1 Stars"
 msgstr[0] "%1 ვარსკვლავი"
 msgstr[1] "%1 ვარსკვლავი"
 
-#: src/bin/bin.cpp:2236
+#: src/bin/bin.cpp:2237
 #, kde-format
 msgid "Filter by Usage"
 msgstr "გამოყენებით გაფილტვრა"
 
-#: src/bin/bin.cpp:2239
+#: src/bin/bin.cpp:2240
 #, kde-format
 msgid "All Clips"
 msgstr "ყველა კლიპი"
 
-#: src/bin/bin.cpp:2244
+#: src/bin/bin.cpp:2245
 #, kde-format
 msgid "Unused Clips"
 msgstr "გამოუყენებელი ფილტრები"
 
-#: src/bin/bin.cpp:2248
+#: src/bin/bin.cpp:2249
 #, kde-format
 msgid "Used Clips"
 msgstr "გამოყენებული კლიპები"
 
-#: src/bin/bin.cpp:2255
+#: src/bin/bin.cpp:2256
 #, kde-format
 msgid "Filter by Type"
 msgstr "ტიპით გაფილტვრა"
 
-#: src/bin/bin.cpp:2258
+#: src/bin/bin.cpp:2259
 #, kde-format
 msgid "AV Clip"
 msgstr "AV კლიპი"
 
-#: src/bin/bin.cpp:2262
+#: src/bin/bin.cpp:2263
 #, kde-format
 msgid "Mute Video"
 msgstr "ვიდეოს დადუმება"
@@ -4331,7 +4337,7 @@ msgstr "ვიდეოს დადუმება"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_audio)
 #. i18n: ectx: attribute (title), widget (QWidget, audio_tab)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/bin/bin.cpp:2266 src/effects/effectlist/model/effecttreemodel.cpp:60
+#: src/bin/bin.cpp:2267 src/effects/effectlist/model/effecttreemodel.cpp:60
 #: src/layoutmanagement.cpp:36 src/lib/audio/audioStreamInfo.cpp:24
 #: src/monitor/recmanager.cpp:47 src/onlineresources/resourcewidget.cpp:547
 #: src/ui/clipjobmanager_ui.ui:314 src/ui/configcapture_ui.ui:525
@@ -4341,64 +4347,64 @@ msgstr "ვიდეოს დადუმება"
 msgid "Audio"
 msgstr "აუდიო"
 
-#: src/bin/bin.cpp:2270 src/mltcontroller/clippropertiescontroller.cpp:432
+#: src/bin/bin.cpp:2271 src/mltcontroller/clippropertiescontroller.cpp:432
 #, kde-format
 msgid "Image"
 msgstr "გამოსახულება"
 
-#: src/bin/bin.cpp:2274
+#: src/bin/bin.cpp:2275
 #, kde-format
 msgid "Slideshow"
 msgstr "სლაიდშოუ"
 
-#: src/bin/bin.cpp:2278
+#: src/bin/bin.cpp:2279
 #, kde-format
 msgid "Playlist"
 msgstr "დასაკრავი სია"
 
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/bin/bin.cpp:2282 src/bin/clipcreator.cpp:234 src/bin/clipcreator.cpp:236
+#: src/bin/bin.cpp:2283 src/bin/clipcreator.cpp:234 src/bin/clipcreator.cpp:236
 #: src/kdenliveui.rc:41 src/project/projectmanager.cpp:1294
 #: src/project/projectmanager.cpp:1296 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "მიმდევრობები"
 
-#: src/bin/bin.cpp:2286 src/project/dialogs/projectsettings.cpp:216
+#: src/bin/bin.cpp:2287 src/project/dialogs/projectsettings.cpp:216
 #, kde-format
 msgid "Title"
 msgstr "სათაური"
 
-#: src/bin/bin.cpp:2290
+#: src/bin/bin.cpp:2291
 #, kde-format
 msgid "Title Template"
 msgstr "სათაურის შაბლონი"
 
-#: src/bin/bin.cpp:2294 src/layoutmanagement.cpp:38
+#: src/bin/bin.cpp:2295 src/layoutmanagement.cpp:38
 #: src/mltcontroller/clippropertiescontroller.cpp:346
 #, kde-format
 msgid "Color"
 msgstr "ფერი"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:2386 src/ui/managecache_ui.ui:359
+#: src/bin/bin.cpp:2387 src/ui/managecache_ui.ui:359
 #, kde-format
 msgid "Folder"
 msgstr "საქაღალდე"
 
-#: src/bin/bin.cpp:2387
+#: src/bin/bin.cpp:2388
 #, kde-format
 msgid "Create bin folder"
 msgstr ""
 
-#: src/bin/bin.cpp:2519 src/bin/bin.cpp:2532 src/bin/bin.cpp:3494
+#: src/bin/bin.cpp:2520 src/bin/bin.cpp:2533 src/bin/bin.cpp:3495
 #: src/timeline2/model/timelinemodel.cpp:2049
 #, kde-format
 msgid "Delete Clip"
 msgstr "კლიპის წაშლა"
 
-#: src/bin/bin.cpp:2521 src/bin/bin.cpp:2534
+#: src/bin/bin.cpp:2522 src/bin/bin.cpp:2535
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4406,37 +4412,37 @@ msgid ""
 "timeline."
 msgstr ""
 
-#: src/bin/bin.cpp:2522 src/bin/bin.cpp:2535 src/bin/bin.cpp:3470
+#: src/bin/bin.cpp:2523 src/bin/bin.cpp:2536 src/bin/bin.cpp:3471
 #, kde-format
 msgid "Proxy Clip"
 msgstr ""
 
-#: src/bin/bin.cpp:2526
+#: src/bin/bin.cpp:2527
 #, kde-format
 msgid "Delete Folder"
 msgstr "საქაღალდის წაშლა"
 
-#: src/bin/bin.cpp:2527
+#: src/bin/bin.cpp:2528
 #, kde-format
 msgid "Proxy Folder"
 msgstr "პროქსის საქაღალდე"
 
-#: src/bin/bin.cpp:2778
+#: src/bin/bin.cpp:2779
 #, kde-format
 msgid "Edit rating"
 msgstr "რეიტინგის ჩასწორება"
 
-#: src/bin/bin.cpp:2780
+#: src/bin/bin.cpp:2781
 #, kde-format
 msgid "Cannot set rating on this item"
 msgstr ""
 
-#: src/bin/bin.cpp:3420
+#: src/bin/bin.cpp:3421
 #, kde-format
 msgid "Add Clip or Folder…"
 msgstr ""
 
-#: src/bin/bin.cpp:3421
+#: src/bin/bin.cpp:3422
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4446,92 +4452,92 @@ msgid ""
 "to select source files."
 msgstr ""
 
-#: src/bin/bin.cpp:3427
+#: src/bin/bin.cpp:3428
 #, kde-format
 msgid "Add Color Clip…"
 msgstr ""
 
-#: src/bin/bin.cpp:3429
+#: src/bin/bin.cpp:3430
 #, kde-format
 msgid "Add Image Sequence…"
 msgstr ""
 
-#: src/bin/bin.cpp:3431
+#: src/bin/bin.cpp:3432
 #, kde-format
 msgid "Add Title Clip…"
 msgstr ""
 
-#: src/bin/bin.cpp:3433
+#: src/bin/bin.cpp:3434
 #, kde-format
 msgid "Add Template Title…"
 msgstr ""
 
-#: src/bin/bin.cpp:3435
+#: src/bin/bin.cpp:3436
 #, kde-format
 msgid "Create Animation…"
 msgstr ""
 
-#: src/bin/bin.cpp:3437
+#: src/bin/bin.cpp:3438
 #, kde-format
 msgid "Add Sequence…"
 msgstr ""
 
-#: src/bin/bin.cpp:3440 src/mainwindow.cpp:370
+#: src/bin/bin.cpp:3441 src/mainwindow.cpp:370
 #, kde-format
 msgid "Online Resources"
 msgstr ""
 
-#: src/bin/bin.cpp:3444
+#: src/bin/bin.cpp:3445
 #, kde-format
 msgid "Locate Clip…"
 msgstr "კლიპის მოძებნა…"
 
-#: src/bin/bin.cpp:3449
+#: src/bin/bin.cpp:3450
 #, kde-format
 msgid "Reload Clip"
 msgstr "კლიპის თავიდან ჩატვირთვა"
 
-#: src/bin/bin.cpp:3455
+#: src/bin/bin.cpp:3456
 #, kde-format
 msgid "Transcode to Edit Friendly Format…"
 msgstr ""
 
-#: src/bin/bin.cpp:3460
+#: src/bin/bin.cpp:3461
 #, kde-format
 msgid "Replace Clip…"
 msgstr "კლიპის ჩანაცვლება…"
 
-#: src/bin/bin.cpp:3465
+#: src/bin/bin.cpp:3466
 #, kde-format
 msgid "Duplicate Clip"
 msgstr "კლიპის დუბლირება"
 
-#: src/bin/bin.cpp:3477 src/bin/bin.cpp:3538
+#: src/bin/bin.cpp:3478 src/bin/bin.cpp:3539
 #, kde-format
 msgid "Clip Properties"
 msgstr "კლიპის თვისებები"
 
-#: src/bin/bin.cpp:3482 src/mltcontroller/clippropertiescontroller.cpp:283
+#: src/bin/bin.cpp:3483 src/mltcontroller/clippropertiescontroller.cpp:283
 #, kde-format
 msgid "Edit Clip"
 msgstr "კლიპის ჩასწორება"
 
-#: src/bin/bin.cpp:3499
+#: src/bin/bin.cpp:3500
 #, kde-format
 msgid "Open in new bin"
 msgstr ""
 
-#: src/bin/bin.cpp:3511
+#: src/bin/bin.cpp:3512
 #, kde-format
 msgid "Default Target Folder for Sequences"
 msgstr "ნაგულისხმევი სამიზნე საქაღალდე მიმდევრობებისთვის"
 
-#: src/bin/bin.cpp:3515
+#: src/bin/bin.cpp:3516
 #, kde-format
 msgid "Create Folder"
 msgstr "საქაღალდის შექმნა"
 
-#: src/bin/bin.cpp:3518
+#: src/bin/bin.cpp:3519
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4539,69 +4545,69 @@ msgid ""
 "better organization of source files. Folders can be nested."
 msgstr ""
 
-#: src/bin/bin.cpp:3583 src/dialogs/speechdialog.cpp:48
+#: src/bin/bin.cpp:3584 src/dialogs/speechdialog.cpp:48
 #: src/dialogs/textbasededit.cpp:656 src/monitor/recmanager.cpp:43
 #, kde-format
 msgid "Show log"
 msgstr "ჟურნალის ჩვენება"
 
-#: src/bin/bin.cpp:3586 src/dialogs/textbasededit.cpp:657
+#: src/bin/bin.cpp:3587 src/dialogs/textbasededit.cpp:657
 #, kde-format
 msgid "Detailed log"
 msgstr "დეტალური ჟურნალი"
 
-#: src/bin/bin.cpp:3646 src/bin/bin.cpp:3673
+#: src/bin/bin.cpp:3647 src/bin/bin.cpp:3674
 #, kde-format
 msgctxt "@title:window"
 msgid "Create New Sequence"
 msgstr ""
 
-#: src/bin/bin.cpp:3648 src/bin/bin.cpp:3675
+#: src/bin/bin.cpp:3649 src/bin/bin.cpp:3676
 #, kde-format
 msgid "Sequence %1"
 msgstr "მიმდევრობა %1"
 
-#: src/bin/bin.cpp:3704
+#: src/bin/bin.cpp:3705
 #, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
 msgstr[0] "კლიპის გადატანა"
 msgstr[1] "კლიპების გადატანა"
 
-#: src/bin/bin.cpp:3741
+#: src/bin/bin.cpp:3742
 #, kde-format
 msgid "No valid clip to insert"
 msgstr ""
 
-#: src/bin/bin.cpp:3766 src/timeline2/view/timelinecontroller.cpp:1486
+#: src/bin/bin.cpp:3767 src/timeline2/view/timelinecontroller.cpp:1486
 #: src/timeline2/view/timelinecontroller.cpp:3384
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr ""
 
-#: src/bin/bin.cpp:3775
+#: src/bin/bin.cpp:3776
 #, kde-format
 msgid "Cannot apply effects on folders"
 msgstr ""
 
-#: src/bin/bin.cpp:3801 src/effects/effectstack/model/effectstackmodel.cpp:500
+#: src/bin/bin.cpp:3802 src/effects/effectstack/model/effectstackmodel.cpp:500
 #: src/effects/effectstack/model/effectstackmodel.cpp:506
 #: src/mainwindow.cpp:3168
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr ""
 
-#: src/bin/bin.cpp:3847 src/bin/bin.cpp:3854
+#: src/bin/bin.cpp:3848 src/bin/bin.cpp:3855
 #, kde-format
 msgid "Select a clip to add a tag"
 msgstr ""
 
-#: src/bin/bin.cpp:3993
+#: src/bin/bin.cpp:3994
 #, kde-format
 msgid "Edit Tags"
 msgstr "ჭდეების ჩასწორება"
 
-#: src/bin/bin.cpp:4282 src/bin/projectclip.cpp:192
+#: src/bin/bin.cpp:4283 src/bin/projectclip.cpp:192
 #: src/bin/projectclip.cpp:1976 src/onlineresources/resourcewidget.cpp:266
 #: src/onlineresources/resourcewidget.cpp:557
 #: src/onlineresources/resourcewidget.cpp:572
@@ -4609,27 +4615,27 @@ msgstr "ჭდეების ჩასწორება"
 msgid "Unnamed"
 msgstr "უსახელო"
 
-#: src/bin/bin.cpp:4336
+#: src/bin/bin.cpp:4337
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:4348
+#: src/bin/bin.cpp:4349
 #, kde-format
 msgid "Please set a default application to open image files"
 msgstr ""
 
-#: src/bin/bin.cpp:4353
+#: src/bin/bin.cpp:4354
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:4365
+#: src/bin/bin.cpp:4366
 #, kde-format
 msgid "Please set a default application to open audio files"
 msgstr ""
 
-#: src/bin/bin.cpp:4375 src/core.cpp:304 src/doc/kdenlivedoc.cpp:165
+#: src/bin/bin.cpp:4376 src/core.cpp:304 src/doc/kdenlivedoc.cpp:165
 #: src/jobs/cliploadtask.cpp:458 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:471
 #: src/layoutmanagement.cpp:532 src/profiles/profilerepository.cpp:173
@@ -4638,149 +4644,149 @@ msgstr ""
 msgid "Cannot open file %1"
 msgstr "ფაილის '%1' გახსნის შეცდომა"
 
-#: src/bin/bin.cpp:4555 src/dialogs/profilesdialog.cpp:213
+#: src/bin/bin.cpp:4556 src/dialogs/profilesdialog.cpp:213
 #, kde-format
 msgid "(copy)"
 msgstr ""
 
-#: src/bin/bin.cpp:4565
+#: src/bin/bin.cpp:4566
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
 "changes to the title file or save the changes for this project only?"
 msgstr ""
 
-#: src/bin/bin.cpp:4568 src/titler/titlewidget.cpp:2188
+#: src/bin/bin.cpp:4569 src/titler/titlewidget.cpp:2188
 #, kde-format
 msgid "Save Title"
 msgstr "სათაურის შენახვა"
 
-#: src/bin/bin.cpp:4568
+#: src/bin/bin.cpp:4569
 #, kde-format
 msgid "Save to title file"
 msgstr ""
 
-#: src/bin/bin.cpp:4569
+#: src/bin/bin.cpp:4570
 #, kde-format
 msgid "Save in project only"
 msgstr ""
 
-#: src/bin/bin.cpp:4587 src/dialogs/clipcreationdialog.cpp:379
+#: src/bin/bin.cpp:4588 src/dialogs/clipcreationdialog.cpp:382
 #, kde-format
 msgid "Title clip"
 msgstr ""
 
-#: src/bin/bin.cpp:4637
+#: src/bin/bin.cpp:4638
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr ""
 
-#: src/bin/bin.cpp:4641
+#: src/bin/bin.cpp:4642
 #, kde-format
 msgid "Invalid clip"
 msgstr "არასწორი კლიპი"
 
-#: src/bin/bin.cpp:4764
+#: src/bin/bin.cpp:4765
 #, kde-format
 msgid "Enable proxies"
 msgstr "პროქსიების ჩართვა"
 
-#: src/bin/bin.cpp:4764
+#: src/bin/bin.cpp:4765
 #, kde-format
 msgid "Disable proxies"
 msgstr "პროქსიების გამორთვა"
 
-#: src/bin/bin.cpp:4945
+#: src/bin/bin.cpp:4946
 #, kde-format
 msgid "Rebuild proxies"
 msgstr ""
 
-#: src/bin/bin.cpp:5183
+#: src/bin/bin.cpp:5184
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr ""
 
-#: src/bin/bin.cpp:5199
+#: src/bin/bin.cpp:5200
 #, kde-format
 msgid "Add Tracks"
 msgstr "ტრეკების დამატება"
 
-#: src/bin/bin.cpp:5201
+#: src/bin/bin.cpp:5202
 #, kde-format
 msgid "Edit Streams"
 msgstr "ნაკადების ჩასწორება"
 
-#: src/bin/bin.cpp:5216
+#: src/bin/bin.cpp:5217
 #, kde-format
 msgid "Don't ask again"
 msgstr "აღარ მკითხო"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5220
+#: src/bin/bin.cpp:5221
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
 "tracks ?"
 msgstr ""
 
-#: src/bin/bin.cpp:5232 src/mainwindow.cpp:2730
+#: src/bin/bin.cpp:5233 src/mainwindow.cpp:2730
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr ""
 
-#: src/bin/bin.cpp:5324
+#: src/bin/bin.cpp:5325
 #, kde-format
 msgid "Could not find master clip"
 msgstr ""
 
-#: src/bin/bin.cpp:5518 src/bin/clipcreator.cpp:320
+#: src/bin/bin.cpp:5519 src/bin/clipcreator.cpp:320
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
 msgstr "კლიპის დამატება"
 
-#: src/bin/bin.cpp:5540
+#: src/bin/bin.cpp:5541
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> კლიპი | "
 
-#: src/bin/bin.cpp:5542
+#: src/bin/bin.cpp:5543
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> კლიპი (%2 მონიშნული) | "
 
-#: src/bin/bin.cpp:5607 src/bin/bin.cpp:5681
+#: src/bin/bin.cpp:5608 src/bin/bin.cpp:5682
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/bin/bin.cpp:5628
+#: src/bin/bin.cpp:5629
 #, kde-format
 msgid "Import selected clips"
 msgstr ""
 
-#: src/bin/bin.cpp:5630
+#: src/bin/bin.cpp:5631
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
 " %1"
 msgstr ""
 
-#: src/bin/bin.cpp:5640 src/mltcontroller/clippropertiescontroller.cpp:634
+#: src/bin/bin.cpp:5641 src/mltcontroller/clippropertiescontroller.cpp:634
 #, kde-format
 msgid "Video stream %1"
 msgstr "ვიდეო ნაკადი %1"
 
-#: src/bin/bin.cpp:5655
+#: src/bin/bin.cpp:5656
 #, kde-format
 msgid "Audio stream %1"
 msgstr "აუდიო ნაკადი %1"
 
-#: src/bin/bin.cpp:5708
+#: src/bin/bin.cpp:5709
 #, kde-format
 msgid "Remove clip markers"
 msgstr "კლიპის სანიშნების წაშლა"
@@ -4873,7 +4879,7 @@ msgstr "მოხსნადი მოწყობილობა"
 msgid "Loading done"
 msgstr "ჩატვირთვა დასრულდა"
 
-#: src/bin/clipcreator.cpp:554 src/dialogs/clipcreationdialog.cpp:559
+#: src/bin/clipcreator.cpp:554 src/dialogs/clipcreationdialog.cpp:562
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -4918,7 +4924,7 @@ msgstr "მონიშნულის შემოტანა"
 msgid "Import File on Double Click"
 msgstr ""
 
-#: src/bin/mediabrowser.cpp:160 src/dialogs/clipcreationdialog.cpp:496
+#: src/bin/mediabrowser.cpp:160 src/dialogs/clipcreationdialog.cpp:499
 #: src/effects/effectlist/view/effectlistwidget.cpp:130
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:300
 #: src/mainwindow.cpp:3900 src/onlineresources/resourcewidget.cpp:553
@@ -4927,7 +4933,7 @@ msgid "All Files"
 msgstr "ყველა ფაილი"
 
 #: src/bin/mediabrowser.cpp:160 src/dialogs/clipcreationdialog.cpp:128
-#: src/dialogs/clipcreationdialog.cpp:496
+#: src/dialogs/clipcreationdialog.cpp:499
 #, kde-format
 msgid "All Supported Files"
 msgstr "ყველა მხარდაჭერილი ფაილი"
@@ -4947,17 +4953,17 @@ msgstr "სახელი:"
 msgid "Filter:"
 msgstr "ფილტრი:"
 
-#: src/bin/mediabrowser.cpp:204 src/dialogs/clipcreationdialog.cpp:469
+#: src/bin/mediabrowser.cpp:204 src/dialogs/clipcreationdialog.cpp:472
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr ""
 
-#: src/bin/mediabrowser.cpp:206 src/dialogs/clipcreationdialog.cpp:471
+#: src/bin/mediabrowser.cpp:206 src/dialogs/clipcreationdialog.cpp:474
 #, kde-format
 msgid "Do not create subfolders in Project Bin"
 msgstr ""
 
-#: src/bin/mediabrowser.cpp:209 src/dialogs/clipcreationdialog.cpp:474
+#: src/bin/mediabrowser.cpp:209 src/dialogs/clipcreationdialog.cpp:477
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4965,17 +4971,17 @@ msgid ""
 "subfolders without creating the subfolders in Project Bin."
 msgstr ""
 
-#: src/bin/mediabrowser.cpp:212 src/dialogs/clipcreationdialog.cpp:464
+#: src/bin/mediabrowser.cpp:212 src/dialogs/clipcreationdialog.cpp:467
 #, kde-format
 msgid "Import image sequence"
 msgstr ""
 
-#: src/bin/mediabrowser.cpp:215 src/dialogs/clipcreationdialog.cpp:465
+#: src/bin/mediabrowser.cpp:215 src/dialogs/clipcreationdialog.cpp:468
 #, kde-format
 msgid "Try to import an image sequence"
 msgstr ""
 
-#: src/bin/mediabrowser.cpp:217 src/dialogs/clipcreationdialog.cpp:467
+#: src/bin/mediabrowser.cpp:217 src/dialogs/clipcreationdialog.cpp:470
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5221,7 +5227,7 @@ msgstr ""
 msgid "Invalid"
 msgstr "არასწორი"
 
-#: src/bin/projectclip.cpp:1364 src/dialogs/clipcreationdialog.cpp:204
+#: src/bin/projectclip.cpp:1364 src/dialogs/clipcreationdialog.cpp:207
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1358
 #, kde-format
@@ -5656,52 +5662,69 @@ msgstr "სუბტიტრები"
 
 #: src/dialogs/clipcreationdialog.cpp:142
 #, kde-format
-msgctxt "@title:window"
-msgid "Color Clip"
+msgid "Color Clip Dialog"
 msgstr ""
 
 #: src/dialogs/clipcreationdialog.cpp:143
 #, kde-format
+msgctxt "@title:window"
 msgid "Color Clip"
 msgstr ""
 
-#: src/dialogs/clipcreationdialog.cpp:180
+#: src/dialogs/clipcreationdialog.cpp:144
+#, kde-format
+msgid "Color Clip"
+msgstr ""
+
+#: src/dialogs/clipcreationdialog.cpp:145
+#, fuzzy, kde-format
+#| msgid "Name"
+msgid "Clip Name"
+msgstr "სახელი"
+
+#: src/dialogs/clipcreationdialog.cpp:149
+#, fuzzy, kde-format
+#| msgid "Create Folder"
+msgid "Create Color Clip"
+msgstr "საქაღალდის შექმნა"
+
+#: src/dialogs/clipcreationdialog.cpp:183
 #, kde-format
 msgid "Create animation"
 msgstr ""
 
-#: src/dialogs/clipcreationdialog.cpp:188
+#: src/dialogs/clipcreationdialog.cpp:191
 #, kde-format
 msgid "Save animation as"
 msgstr ""
 
-#: src/dialogs/clipcreationdialog.cpp:191
+#: src/dialogs/clipcreationdialog.cpp:194
 #, kde-format
 msgid "Animation duration"
 msgstr ""
 
-#: src/dialogs/clipcreationdialog.cpp:247
+#: src/dialogs/clipcreationdialog.cpp:250
 #, kde-format
 msgid "Create Animation clip"
 msgstr ""
 
-#: src/dialogs/clipcreationdialog.cpp:263
+#: src/dialogs/clipcreationdialog.cpp:266
 #, kde-format
 msgctxt "@title:window"
 msgid "Text Clip"
 msgstr ""
 
-#: src/dialogs/clipcreationdialog.cpp:281
+#: src/dialogs/clipcreationdialog.cpp:284
 #, kde-format
 msgid "Text Clip"
 msgstr ""
 
-#: src/dialogs/clipcreationdialog.cpp:336
+#: src/dialogs/clipcreationdialog.cpp:339
 #, kde-format
 msgid "Create Text clip"
 msgstr ""
 
-#: src/dialogs/clipcreationdialog.cpp:391 src/doc/kdenlivedoc.cpp:1113
+#: src/dialogs/clipcreationdialog.cpp:394 src/doc/kdenlivedoc.cpp:1113
 #, kde-format
 msgid "Template title clip"
 msgstr ""
