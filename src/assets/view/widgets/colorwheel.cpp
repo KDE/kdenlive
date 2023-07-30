@@ -25,7 +25,7 @@ WheelContainer::WheelContainer(QString id, QString name, NegQColor color, int un
     : QWidget(parent)
     , m_id(std::move(id))
     , m_isMouseDown(false)
-    , m_margin(0)
+    , m_margin(2)
     , m_color(std::move(color))
     , m_unitSize(unitSize)
     , m_name(std::move(name))
@@ -36,6 +36,7 @@ WheelContainer::WheelContainer(QString id, QString name, NegQColor color, int un
     setMouseTracking(true);
     m_initialSize = QSize(m_unitSize * 11, m_unitSize * 11);
     m_sliderWidth = int(m_unitSize * 1.5);
+    m_sliderBorder = m_unitSize * .2;
     resize(m_initialSize);
     setMinimumSize(m_initialSize * .4);
     setMaximumSize(m_initialSize * 1.5);
@@ -84,6 +85,11 @@ void WheelContainer::setBlueColor(double value)
 int WheelContainer::wheelSize() const
 {
     return qMin(width() - m_sliderWidth, height());
+}
+
+int WheelContainer::sliderHeight() const
+{
+    return wheelSize() - m_margin * 2 - m_sliderBorder * 2;
 }
 
 NegQColor WheelContainer::colorForPoint(const QPointF &point)
@@ -394,7 +400,7 @@ void WheelContainer::drawWheel()
 
     painter.setBrush(Qt::gray);
     painter.setOpacity(0.4);
-    painter.drawEllipse(QPointF(0, 0), r / 2 - m_unitSize * .6, r / 2 - m_unitSize * .6);
+    painter.drawEllipse(QPointF(0, 0), r / 2 - m_unitSize * .6 - m_margin, r / 2 - m_unitSize * .6 - m_margin);
 
     m_wheelRegion = QRegion(r / 2, r / 2, r - 2 * m_margin, r - 2 * m_margin, QRegion::Ellipse);
     m_wheelRegion.translate(-(r - 2 * m_margin) / 2, -(r - 2 * m_margin) / 2);
@@ -404,23 +410,23 @@ void WheelContainer::drawSlider()
 {
     QPainter painter(&m_image);
     painter.setRenderHint(QPainter::Antialiasing);
-    int ws = int(wheelSize() + m_unitSize * .2);
-    qreal scale = qreal(ws + m_sliderWidth) / maximumWidth();
+    int pos = int(wheelSize() + m_unitSize * .2 + m_sliderBorder);
+    qreal scale = qreal(pos + m_sliderWidth) / maximumWidth();
     int w = int(m_sliderWidth * scale - m_unitSize * .2);
-    int h = ws - m_margin * 2;
-    QLinearGradient gradient(0, 0, w, h);
-    if (m_sliderFocus) {
-        gradient.setColorAt(0.0, QPalette().highlight().color());
-    } else {
-        gradient.setColorAt(0.0, Qt::white);
-    }
-    gradient.setColorAt(1.0, Qt::black);
+    QLinearGradient gradient(0, 0, w, sliderHeight());
+    NegQColor c = m_color;
+    c.setValueF(1);
+    gradient.setColorAt(0.0, c.qcolor);
+    c.setValueF(-m_zeroShift);
+    gradient.setColorAt(1.0, QColorUtils::complementary(c.qcolor));
     QBrush brush(gradient);
-    painter.setPen(Qt::NoPen);
+    QPen pen(m_sliderFocus ? QPalette().highlight().color() : Qt::NoPen);
+    pen.setWidth(m_sliderBorder);
+    painter.setPen(pen);
     painter.setBrush(brush);
-    painter.translate(ws, m_margin);
-    painter.drawRoundedRect(QRect(0, 0, w, h - m_margin), w / 3, w / 3);
-    m_sliderRegion = QRegion(ws, m_margin, w, h);
+    painter.translate(pos, m_margin + m_sliderBorder);
+    painter.drawRoundedRect(QRect(0, 0, w, sliderHeight()), w / 3, w / 3);
+    m_sliderRegion = QRegion(pos, m_margin + m_sliderBorder, w, sliderHeight() - m_margin);
 }
 
 void WheelContainer::drawWheelDot(QPainter &painter)
@@ -434,7 +440,7 @@ void WheelContainer::drawWheelDot(QPainter &painter)
     painter.rotate(360.0 - m_color.hue());
     painter.rotate(-105);
     //    r -= margin;
-    painter.drawEllipse(QPointF(m_color.saturationF() * r, 0.0), 4, 4);
+    painter.drawEllipse(QPointF(m_color.saturationF() * (r - m_margin * 2), 0.0), 4, 4);
     painter.resetTransform();
 }
 
@@ -465,16 +471,16 @@ void WheelContainer::drawSliderBar(QPainter &painter)
     if (m_id == QLatin1String("lift")) {
         value -= m_zeroShift;
     }
-    int ws = wheelSize();
-    qreal scale = qreal(ws + m_sliderWidth) / maximumWidth();
-    int w = int(m_sliderWidth * scale);
-    int h = ws - m_margin * 2;
+    int pos = wheelSize();
+    qreal scale = qreal(pos + m_sliderWidth) / maximumWidth();
+    int w = int(m_sliderWidth * scale + m_sliderBorder * 2);
+    int h = m_sliderBorder * 2;
     QPen pen(Qt::white);
-    pen.setWidth(2);
+    pen.setWidth(m_sliderBorder);
     painter.setPen(pen);
     painter.setBrush(Qt::black);
-    painter.translate(ws, m_margin + value * h);
-    painter.drawRect(0, 0, w, 4);
+    painter.translate(pos + m_sliderBorder, m_margin + value * sliderHeight() - (h / 2) + m_sliderBorder);
+    painter.drawRect(0, 0, w, h);
     painter.resetTransform();
 }
 

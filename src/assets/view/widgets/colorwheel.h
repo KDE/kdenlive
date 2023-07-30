@@ -54,6 +54,7 @@ private:
     QPointF m_lastPoint;
     int m_margin;
     int m_sliderWidth;
+    int m_sliderBorder;
     QRegion m_wheelRegion;
     QRegion m_sliderRegion;
     NegQColor m_color;
@@ -68,6 +69,7 @@ private:
     qreal m_zeroShift = 0;
 
     int wheelSize() const;
+    int sliderHeight() const;
     NegQColor colorForPoint(const QPointF &point);
     QPointF pointForColor();
     double yForColor();
