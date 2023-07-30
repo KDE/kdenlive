@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-29 02:25+0000\n"
-"PO-Revision-Date: 2023-07-28 13:33+0200\n"
+"PO-Revision-Date: 2023-07-29 13:13+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -3074,6 +3074,11 @@ msgid ""
 "delimited format for easy by another tool. The bottom half of the B frame is "
 "placed below the top half of the A frame for visual comparison."
 msgstr ""
+"Utför PSNR och SSIM videokvalitetsmätningar genom att jämföra B-bildrutor "
+"med referensbilden A. Resultaten skrivs ut på standardutmatningen åtskilda "
+"med mellanslag för enkel användning av andra verktyg. Den undre halvan av B-"
+"bildrutan placeras under den övre halvan av A-bildrutan för visuell "
+"jämförelse."
 
 #: data/transitions/vqm.xml:8
 #, kde-format
@@ -3295,14 +3300,14 @@ msgstr "Justera klipp"
 #: src/assets/assetpanel.cpp:87
 #, kde-format
 msgid "Save Effect Stack…"
-msgstr "Spara effektstack…"
+msgstr "Spara effektstapel…"
 
 #: src/assets/assetpanel.cpp:88
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Saves the entire effect stack as an XML file for use in other projects."
 msgstr ""
-"Sparar hela effektstacken som en XML-fil för användning i andra projekt."
+"Sparar hela effektstapeln som en XML-fil för användning i andra projekt."
 
 #: src/assets/assetpanel.cpp:96
 #, kde-format
@@ -3321,6 +3326,9 @@ msgid ""
 "Turns on or off the split view in the project and/or clip monitor: on the "
 "left the clip with effect is shown, on the right the clip without effect."
 msgstr ""
+"Sätter på eller stänger av den delade visningen i project- och/eller "
+"klippmonitorn: till vänster visas klippet med effekt, till höger visas "
+"klippet utan effekt."
 
 #: src/assets/assetpanel.cpp:107
 #, kde-format
@@ -3339,6 +3347,8 @@ msgid ""
 "Toggles the effect stack to be enabled or disabled. Useful to see the "
 "difference between original and edited or to speed up scrubbing."
 msgstr ""
+"Aktiverar eller inaktiverar effektstapeln. Användbart för att se skillnad "
+"mellan original och redigerad eller för att snabba upp skrubbning."
 
 #: src/assets/assetpanel.cpp:117
 #, kde-format
@@ -3818,6 +3828,8 @@ msgid ""
 "Copy keyframes. Copy the selected keyframes, or current parameters values if "
 "no keyframe is selected."
 msgstr ""
+"Kopiera nyckelbilder. Kopiera de markerade nyckelbilderna, eller nuvarande "
+"parametervärden om inga nyckelbilder är markerade."
 
 #: src/assets/view/widgets/keyframewidget.cpp:95
 #: src/assets/view/widgets/keyframewidget.cpp:856
@@ -3835,6 +3847,8 @@ msgstr "Klistra in nyckelbilder"
 msgctxt "@info:whatsthis"
 msgid "Paste keyframes. Paste clipboard data as keyframes at current position."
 msgstr ""
+"Klistra in nyckelbilder. Klistra in klippbordets data som nyckelbilder på "
+"nuvarande position."
 
 #: src/assets/view/widgets/keyframewidget.cpp:100
 #, kde-format
@@ -3873,6 +3887,8 @@ msgid ""
 "Keyframe interpolation. This defines which interpolation will be used for "
 "the current keyframe."
 msgstr ""
+"Interpolering av nyckelbild. Definierar vilken interpolation som används för "
+"den nuvarande nyckelbilden."
 
 #: src/assets/view/widgets/keyframewidget.cpp:146
 #, kde-format
@@ -3913,6 +3929,8 @@ msgid ""
 "Opens a list of further actions for managing keyframes (for example: copy to "
 "and pasting keyframes from clipboard)."
 msgstr ""
+"Visar en lista med ytterligare åtgärder för att hantera nyckelbilder (till "
+"exempel kopiera till och klistra in nyckelbilder från klippbordet)."
 
 #: src/assets/view/widgets/keyframewidget.cpp:254
 #: src/assets/view/widgets/keyframewidget.cpp:306
@@ -4025,6 +4043,7 @@ msgid ""
 "Adjusts the output volume of the audio track (affects all audio clips "
 "equally)."
 msgstr ""
+"Justerar ljudspårets utgångsvolym (påverkar alla ljudklipp lika mycket)."
 
 #: src/audiomixer/mixerwidget.cpp:120 src/audiomixer/mixerwidget.cpp:520
 #: src/mltcontroller/clippropertiescontroller.cpp:886
@@ -4040,6 +4059,9 @@ msgid ""
 "towards the left, positive values to the right. Affects all audio clips "
 "equally."
 msgstr ""
+"Justerar spårets utgångsbalans. Negativa värden flyttar balansen åt vänster, "
+"positiva värden flyttar balansen åt höger. Påverkar alla ljudklipp lika "
+"mycket."
 
 #: src/audiomixer/mixerwidget.cpp:143
 #, kde-format
@@ -4061,13 +4083,13 @@ msgstr "Tysta spår"
 #: src/audiomixer/mixerwidget.cpp:216
 #, kde-format
 msgid "Unmute track"
-msgstr "Tyst inte spår"
+msgstr "Tysta inte spår"
 
 #: src/audiomixer/mixerwidget.cpp:217
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
-msgstr ""
+msgstr "Tystar eller tystar inte ljudspåret."
 
 #: src/audiomixer/mixerwidget.cpp:260
 #, kde-format
@@ -4078,7 +4100,7 @@ msgstr "Ensamläge"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
-msgstr ""
+msgstr "Om aktiverat tystar alla andra ljudspår."
 
 #: src/audiomixer/mixerwidget.cpp:270
 #: src/timeline2/view/timelinecontroller.cpp:4770
@@ -4090,7 +4112,7 @@ msgstr "Spela in ljud"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
-msgstr ""
+msgstr "Placerar ljudspåret i inspelningsläge."
 
 #: src/audiomixer/mixerwidget.cpp:284
 #, kde-format
@@ -4102,24 +4124,24 @@ msgstr "Visa kanaler"
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of the audio track controls in the audio mixer view."
-msgstr ""
+msgstr "Visar eller döljer visning av ljudspårets kontroller i ljudmixerns vy."
 
 #: src/audiomixer/mixerwidget.cpp:297
 #, kde-format
 msgid "Open Effect Stack"
-msgstr "Öppna effektstack"
+msgstr "Öppna effektstapel"
 
 #: src/audiomixer/mixerwidget.cpp:299
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
-msgstr "Visa effektstapeln för ljudkanalen."
+msgstr "Öppnar effektstapeln för ljudkanalen."
 
 #: src/audiomixer/mixerwidget.cpp:301
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
-msgstr ""
+msgstr "Öppnar effektstapeln för ljudmastern."
 
 #: src/bin/bin.cpp:697 src/bin/bin.cpp:871
 #, kde-format
@@ -4235,6 +4257,8 @@ msgid ""
 "Opens a window to configure the project bin (e.g. view mode, sort, show "
 "rating)."
 msgstr ""
+"Öppnar ett fönster för att ställa in projektkorgen (t.ex. visningsläge, "
+"sortering, betygsvisning)."
 
 #: src/bin/bin.cpp:1351
 #, kde-format
@@ -4264,6 +4288,9 @@ msgid ""
 "filter display. Click on the arrow icon to open a list of possible filter "
 "settings."
 msgstr ""
+"Filtrera projektstapelns innehåll. Klicka på filterikonen för att visa eller "
+"dölja filtervisningen. Klicka på pilikonen för att öppna en lista med "
+"möjliga filterinställningar."
 
 #: src/bin/bin.cpp:1440
 #, kde-format
@@ -4288,7 +4315,7 @@ msgstr "Det går inte att ta bort ett projekts alla sekvenser"
 #: src/bin/bin.cpp:1775
 #, kde-format
 msgid "Deleting sequences cannot be undone"
-msgstr ""
+msgstr "Borttagning av sekvenser kan inte ångras"
 
 #: src/bin/bin.cpp:1782
 #, kde-format
@@ -4534,6 +4561,8 @@ msgid ""
 "Deletes the currently selected clips from the project bin and also from the "
 "timeline."
 msgstr ""
+"Tar bort klippen som för närvarande är markerade från projektkorgen och även "
+"från tidslinjen."
 
 #: src/bin/bin.cpp:2522 src/bin/bin.cpp:2535 src/bin/bin.cpp:3470
 #, kde-format
@@ -4574,6 +4603,10 @@ msgid ""
 "of source types to select from.<nl/>Click on the media icon to open a window "
 "to select source files."
 msgstr ""
+"Huvuddialogruta för att lägga till källmaterial i projektkorgen (videor, "
+"bilder, ljud, titlar, animeringar).<nl/>Klicka på neråtpilikonen för att få "
+"en lista med källtyper att välja bland.<nl/>Klicka på medieikonen för att "
+"öppna ett fönster för att välja källfiler."
 
 #: src/bin/bin.cpp:3427
 #, kde-format
@@ -4667,6 +4700,8 @@ msgid ""
 "Creates a folder in the current position in the project bin. Allows for "
 "better organization of source files. Folders can be nested."
 msgstr ""
+"Skapar en katalog på den nuvarande positionen i projektkorgen. Möjliggör "
+"bättre organisation av källfiler. Kataloger kan nästlas."
 
 #: src/bin/bin.cpp:3583 src/dialogs/speechdialog.cpp:48
 #: src/dialogs/textbasededit.cpp:656 src/monitor/recmanager.cpp:43
@@ -5102,6 +5137,8 @@ msgid ""
 "When enabled, Kdenlive will import all clips contained in the folder and its "
 "subfolders without creating the subfolders in Project Bin."
 msgstr ""
+"När aktiverat, importerar Kdenlive alla klipp som finns i katalogen och dess "
+"underkataloger utan att skapa underkatalogerna i projektkorgen."
 
 #: src/bin/mediabrowser.cpp:212 src/dialogs/clipcreationdialog.cpp:464
 #, kde-format
@@ -5120,6 +5157,8 @@ msgid ""
 "When enabled, Kdenlive will look for other images with the same name pattern "
 "and import them as an image sequence."
 msgstr ""
+"När aktiverat, söker Kdenlive efter andra bilder med samma namnmönster och "
+"importerar dem som en bildsekvens."
 
 #: src/bin/model/markerlistmodel.cpp:87
 #, kde-format
@@ -5866,7 +5905,7 @@ msgstr "Hantera korgklippjobb"
 #: src/dialogs/clipjobmanager.cpp:44
 #, kde-format
 msgid "Arguments for the command line script"
-msgstr ""
+msgstr "Argument för kommandoradsskript"
 
 #: src/dialogs/clipjobmanager.cpp:47
 #, kde-kuit-format
@@ -5875,11 +5914,13 @@ msgid ""
 "<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</b> "
 "by the second, , <b>{&#x25;3}</b> by the output file path."
 msgstr ""
+"<b>{&#x25;1}</b> ersätts av den första parametern, <b>{&#x25;2}</b> av den "
+"andra, och <b>{&#x25;3}</b> av utdatafilens sökväg."
 
 #: src/dialogs/clipjobmanager.cpp:48
 #, kde-format
 msgid "File extension for the output file"
-msgstr ""
+msgstr "Filändelse för utdatafilen"
 
 #: src/dialogs/clipjobmanager.cpp:51
 #, kde-kuit-format
@@ -5890,11 +5931,15 @@ msgid ""
 "inserted in place of <b>{&#x25;3}</b> if found. If output filename already "
 "exists, a -0001 pattern will be appended."
 msgstr ""
+"Utdatafilens namn är samma som filnamnet på källans korgklipp, med den "
+"ändrade filändelsen. Den läggs till sist i argumenten eller infogas istället "
+"för <b>{&#x25;3}</b>. Om utdatafilens namn redan finns, läggs mönstret -0001 "
+"till sist."
 
 #: src/dialogs/clipjobmanager.cpp:54
 #, kde-format
 msgid "The first parameter that will be injected in the script arguments"
-msgstr ""
+msgstr "Den första parametern som infogas i skriptets argument"
 
 #: src/dialogs/clipjobmanager.cpp:56 src/dialogs/clipjobmanager.cpp:66
 #, kde-kuit-format
@@ -5904,12 +5949,16 @@ msgid ""
 "File Path</b> will ask for a file path on execution<br/><b>Request Option in "
 "List</b> will ask for a choice in the list below on execution."
 msgstr ""
+"<b>Sökväg för källklippet</b> lägger till det valda korgklippets sökväg<br/"
+"><b>Sökväg för begärd fil</b> efterfrågar en filsökväg vid körning<br/"
+"><b>Begärd alternativ från lista</b> efterfrågar ett val i listan nedan vid "
+"körning."
 
 #: src/dialogs/clipjobmanager.cpp:59 src/dialogs/clipjobmanager.cpp:69
 #, kde-format
 msgid ""
 "A newline separated list of possible values that will be offered on execution"
-msgstr ""
+msgstr "En lista med möjliga värden åtskilda med nyrad som erbjuds vid körning"
 
 #: src/dialogs/clipjobmanager.cpp:62 src/dialogs/clipjobmanager.cpp:72
 #, kde-kuit-format
@@ -5918,11 +5967,13 @@ msgid ""
 "When the parameter is set to <b>Request Option in List</b> the user will be "
 "asked to choose a value in this list when the job is started."
 msgstr ""
+"När parametern är inställd till <b>Begärd alternativ från lista</b> ombeds "
+"användaren att välja ett värde i listan när jobbet startas."
 
 #: src/dialogs/clipjobmanager.cpp:64
 #, kde-format
 msgid "The second parameter that will be injected in the script arguments"
-msgstr ""
+msgstr "Den andra parametern som infogas i skriptets argument"
 
 #: src/dialogs/clipjobmanager.cpp:128 src/dialogs/clipjobmanager.cpp:256
 #, kde-format
@@ -6039,6 +6090,10 @@ msgid ""
 "can create, change, delete and download profiles used for timeline preview, "
 "proxy generation, and video, screen and decklink capture."
 msgstr ""
+"Öppnar ett fönster med kodningsprofiler och deras parametrar. Här kan man "
+"skapa, ändra, ta bort och ladda ner profiler använda för förhandsgranskning "
+"av tidslinjen, skapa ersättningsklipp, samt lagring av video, skärm och "
+"Decklink."
 
 #: src/dialogs/encodingprofilesdialog.cpp:259
 #: src/dialogs/encodingprofilesdialog.cpp:348
@@ -6839,7 +6894,7 @@ msgstr " (bildruta %1 @ %2 rutor/s)"
 #: src/dialogs/renderwidget.cpp:1195
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
-msgstr ""
+msgstr "Mindre än %1 MB tillgängligt minne återstår."
 
 #: src/dialogs/renderwidget.cpp:1225
 #, kde-format
@@ -6975,6 +7030,8 @@ msgid ""
 "Moves the playhead in the timeline to the beginning of the subtitle to the "
 "right."
 msgstr ""
+"Flyttar uppspelningspositionen i tidslinjen till början av textningen till "
+"höger."
 
 #: src/dialogs/subtitleedit.cpp:110
 #, kde-format
@@ -6988,6 +7045,8 @@ msgid ""
 "Moves the playhead in the timeline to the beginning of the subtitle to the "
 "left."
 msgstr ""
+"Flyttar uppspelningspositionen i tidslinjen till början av textningen till "
+"vänster."
 
 #: src/dialogs/subtitleedit.cpp:113
 #, kde-kuit-format
@@ -6997,6 +7056,9 @@ msgid ""
 ">Configure Kdenlive…->Misc</interface>) at the current playhead position/"
 "frame."
 msgstr ""
+"Skapar en ny text med standardlängd (inställd under <interface>Inställningar "
+"-> Anpassa Kdenlive... -> Diverse</interface>) på den nuvarande "
+"uppspelningspositionens bildruta."
 
 #: src/dialogs/subtitleedit.cpp:115
 #, kde-format
@@ -7010,6 +7072,8 @@ msgid ""
 "Cuts the subtitle text at the cursor position and creates a new subtitle to "
 "the right (like cutting a clip)."
 msgstr ""
+"Skär texten på markörpositionen och skapar en ny text till höger (som att "
+"skära ett klipp)."
 
 #: src/dialogs/subtitleedit.cpp:118
 #, kde-format
@@ -7020,7 +7084,7 @@ msgstr "Uppdatera textningens innehåll"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Updates the subtitle display in the timeline."
-msgstr ""
+msgstr "Uppdaterar visningen av textning i tidslinjen."
 
 #: src/dialogs/subtitleedit.cpp:120
 #, kde-format
@@ -7034,6 +7098,8 @@ msgid ""
 "Toggles a list to adjust font, size, color, outline style, shadow, position "
 "and background."
 msgstr ""
+"Ändrar en lista för att justera teckensnitt, storlek, färg, konturstil, "
+"skugga, position och bakgrund."
 
 #: src/dialogs/subtitleedit.cpp:123
 #, kde-kuit-format
@@ -7041,6 +7107,8 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Deletes the currently selected subtitle (doesn’t work on multiple subtitles)."
 msgstr ""
+"Tar bort texten som för närvarande är markerad (fungerar inte för flera "
+"texter)."
 
 #: src/dialogs/subtitleedit.cpp:140
 #, kde-format
@@ -7140,6 +7208,8 @@ msgid ""
 "Another recognition job is already running. It will be aborted in favor of "
 "the new job. Do you want to proceed?"
 msgstr ""
+"Ett annat igenkänningsjobb kör redan. Det kommer att avbrytas till förmån "
+"för det nya jobbet. Vill du fortsätta?"
 
 #: src/dialogs/textbasededit.cpp:847
 #, kde-format
@@ -7221,19 +7291,19 @@ msgstr "Kan inte flytta den första nyckelbilden före klippets början"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Inserts a keyframe at the current playhead position/frame."
-msgstr ""
+msgstr "Infogar en nyckelbild på nuvarande uppspelningsposition/bildruta."
 
 #: src/dialogs/timeremap.cpp:1694
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the right."
-msgstr ""
+msgstr "Flyttar uppspelningspositionen åt höger till nästa nyckelbild."
 
 #: src/dialogs/timeremap.cpp:1697
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the left."
-msgstr ""
+msgstr "Flyttar uppspelningspositionen åt vänster till nästa nyckelbild."
 
 #: src/dialogs/timeremap.cpp:1702 src/dialogs/timeremap.cpp:1704
 #, kde-kuit-format
@@ -7246,7 +7316,7 @@ msgstr ""
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the keyframe at the current position of the playhead."
-msgstr ""
+msgstr "Tar bort nyckelbilden på nuvarande uppspelningspositionen."
 
 #: src/dialogs/timeremap.cpp:1802
 #, kde-format
@@ -7515,7 +7585,7 @@ msgstr "hårdvarukodare hittades och aktiverades (%1)."
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
-msgstr ""
+msgstr "Projektets dokumentidentifierare var ogiltig, en ny har skapats."
 
 #: src/doc/documentchecker.cpp:281
 #, kde-format
@@ -8217,6 +8287,8 @@ msgid ""
 "Moves the effect above the one right above it. Effects are handled "
 "sequentially from top to bottom so sequence is important."
 msgstr ""
+"Flyttar effekten ovanför den precis ovan. Effekter hanteras i följd uppifrån "
+"och ner, så sekvensen är viktig."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:55
 #, kde-format
@@ -8230,6 +8302,8 @@ msgid ""
 "Moves the effect below the one right below it. Effects are handled "
 "sequentially from top to bottom so sequence is important."
 msgstr ""
+"Flyttar effekten nedanför den precis under. Effekter hanteras i följd "
+"uppifrån och ner, så sekvensen är viktig."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:59
 #, kde-format
@@ -8240,7 +8314,7 @@ msgstr "Ta bort effekt"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
-msgstr ""
+msgstr "Tar bort effekten från effektstapeln."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:73
 #, kde-format
@@ -8288,12 +8362,16 @@ msgstr "Aktivera effekt"
 msgctxt "@info:whatsthis"
 msgid "Disables the effect. Useful to compare before and after settings."
 msgstr ""
+"Inaktiverar effekten. Användbart för att jämföra inställningarna före och "
+"efter."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:110
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
 msgstr ""
+"Aktiverar effekten. Användbart för att jämföra inställningarna före och "
+"efter."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:127
 #, kde-format
@@ -8315,6 +8393,7 @@ msgstr "Ange zon in"
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
 msgstr ""
+"Ställer in nuvarande bildruta/uppspelningsposition till början av zonen."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:146
 #, kde-format
@@ -8331,6 +8410,7 @@ msgstr "Ange zon ut"
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr ""
+"Ställer in nuvarande bildruta/uppspelningsposition till slutet av zonen."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:175
 #, kde-format
@@ -8356,6 +8436,8 @@ msgstr "Förinställningar"
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
 msgstr ""
+"Visar en lista med avancerade alternativ för att hantera förinställningar "
+"för effekten."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:242
 #, kde-format
@@ -8387,7 +8469,7 @@ msgstr "Ingen effekt vald."
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
-msgstr "Spara aktuell effektstack"
+msgstr "Spara aktuell effektstapel"
 
 #: src/effects/effectstack/view/effectstackview.cpp:538
 #, kde-format
@@ -8404,7 +8486,7 @@ msgstr "Beskrivning:"
 #: src/effects/effectstack/view/effectstackview.cpp:552
 #, kde-format
 msgid "No name provided, effect stack not saved."
-msgstr "Inget namn angivet, effektstack har inte sparats."
+msgstr "Inget namn angivet, effektstapel har inte sparats."
 
 #: src/effects/effectstack/view/effectstackview.cpp:559
 #, kde-format
@@ -8474,7 +8556,7 @@ msgstr "Filen <b>%1</b> har en variabel bildfrekvens."
 #: src/jobs/customjobtask.cpp:165
 #, kde-format
 msgid "Application %1 not found, please update the job settings"
-msgstr ""
+msgstr "Programmet %1 hittades inte. Uppdatera jobbinställningarna."
 
 #: src/jobs/customjobtask.cpp:264 src/jobs/customjobtask.cpp:274
 #: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:231
@@ -8593,7 +8675,7 @@ msgstr "Kan inte läsa in bild %1."
 #: src/jobs/proxytask.cpp:246
 #, kde-format
 msgid "Image too small to be proxied."
-msgstr ""
+msgstr "Bilden är för liten för att ersättas."
 
 #: src/jobs/proxytask.cpp:254 src/jobs/transcodetask.cpp:183
 #: src/project/cliptranscode.cpp:123
@@ -8609,7 +8691,7 @@ msgstr "Misslyckades skapa ersättningsklipp."
 #: src/jobs/scenesplittask.cpp:42
 #, kde-format
 msgid "Detecting scene change"
-msgstr ""
+msgstr "Detekterar scenbyte"
 
 #: src/jobs/scenesplittask.cpp:57
 #, kde-format
@@ -9048,6 +9130,7 @@ msgstr "Ta bort klipp från bibliotek"
 msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected library clip from the library."
 msgstr ""
+"Tar bort biblioteksklippet som för närvarande är markerat från biblioteket."
 
 #: src/library/librarywidget.cpp:230
 #, kde-format
@@ -9077,6 +9160,9 @@ msgid ""
 "Adds the clip(s) currently selected in the timeline to the library. Note "
 "that the paths to images, video and audio files are saved as absolute paths."
 msgstr ""
+"Lägger till klippet eller klippen som för närvarande är markerade i "
+"tidslinjen till biblioteket. Observera att sökvägarna till bilder, video och "
+"ljud sparas som absoluta sökvägar."
 
 #: src/library/librarywidget.cpp:333
 #, kde-format
@@ -9205,7 +9291,7 @@ msgstr "Julius Künzel"
 #: src/main.cpp:129
 #, kde-format
 msgid "Feature development, packaging, bug fixing"
-msgstr ""
+msgstr "Utveckling av funktioner, paketering, felrättning"
 
 #: src/main.cpp:130
 #, kde-format
@@ -9275,7 +9361,7 @@ msgstr "Eugen Mohr"
 #: src/main.cpp:139
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
-msgstr ""
+msgstr "Felundersökning, testning, dokumentationsansvarig"
 
 #: src/main.cpp:140
 #, kde-format
@@ -9356,7 +9442,7 @@ msgstr "Ställ in sökväg till MLT-miljön."
 #: src/main.cpp:176
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
-msgstr ""
+msgstr "Ställ in MLT-loggnivå. Lämna den avstängt för nivån 'varning'."
 
 #: src/main.cpp:179
 #, kde-format
@@ -9529,6 +9615,8 @@ msgid ""
 "Click to show a list of favorite effects. Double-click on an effect to add "
 "it to the selected clip."
 msgstr ""
+"Klicka för att visa en lista med favoriteffekter. Dubbelklicka på en effekt "
+"för att lägga till den i det markerade klippet."
 
 #: src/mainwindow.cpp:552 src/mainwindow.cpp:1469
 #, kde-format
@@ -9660,6 +9748,8 @@ msgid ""
 "Switches between Normal, Overwrite and Insert Mode. Determines the default "
 "action when handling clips in the timeline."
 msgstr ""
+"Byter mellan normal, skriv över, och infoga. Bestämmer förvald åtgärd när "
+"klipp hanteras i tidslinjen."
 
 #: src/mainwindow.cpp:1166
 #, kde-format
@@ -9677,6 +9767,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles between using the timeline zone for inserting (on) or not (off)."
 msgstr ""
+"Byter mellan att använda tidslinjens zon för att infoga (på) eller inte (av)."
 
 #: src/mainwindow.cpp:1174
 #, kde-format
@@ -9747,6 +9838,8 @@ msgid ""
 "When selected, clicking and dragging the mouse in the timeline temporarily "
 "groups separate clips and creates or removes space between clips."
 msgstr ""
+"När aktiverat, grupperas separata klipp i tidslinjen vid klick och drag med "
+"musen och skapar eller tar bort mellanrum mellan klipp."
 
 #: src/mainwindow.cpp:1262
 #, kde-format
@@ -9760,6 +9853,8 @@ msgid ""
 "When selected, dragging the edges of a clip lengthens or shortens the clip "
 "and moves adjacent clips back and forth while doing that."
 msgstr ""
+"När aktiverat, förlängs eller förkortas klippet när klippets kanter dras och "
+"intilliggande klipp flyttas fram och tillbaka medan det utförs."
 
 #. i18n("Roll Tool"), this);
 #.
@@ -9777,6 +9872,8 @@ msgid ""
 "When selected, dragging a clip slips the clip beneath the given window back "
 "and forth."
 msgstr ""
+"När aktiverat, glider klippet under det givna fönstret fram och tillbaka när "
+"det dras."
 
 #: src/mainwindow.cpp:1281
 #, kde-format
@@ -9800,6 +9897,8 @@ msgid ""
 "Creates a same-track transition between the selected clip and the adjacent "
 "one closest to the playhead."
 msgstr ""
+"Skapar en övertoning mellan det markerade klippet och det intilliggande "
+"närmast uppspelningspositionen."
 
 #: src/mainwindow.cpp:1317
 #, kde-format
@@ -9846,6 +9945,8 @@ msgid ""
 "Toggles the snap function (clips snap to playhead, edges, markers, guides "
 "and others)."
 msgstr ""
+"Sätter på eller stänger av låsfunktionen (klipp låses till "
+"uppspelningspositionen, markörer, flaggor, och annat)."
 
 #: src/mainwindow.cpp:1344
 #, kde-format
@@ -9869,6 +9970,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Adjusts the zoom level to fit the entire project into the timeline windows."
 msgstr ""
+"Justera zoomnivå så att hela projektet får plats i tidslinjens fönster."
 
 #: src/mainwindow.cpp:1377
 #, kde-format
@@ -9989,27 +10091,27 @@ msgstr "Överlagrad information på skärm"
 #: src/mainwindow.cpp:1508
 #, kde-format
 msgid "Monitor Overlay Timecode"
-msgstr "Tidskod överlagrad på skärm"
+msgstr "Tidskod överlagrad på skärmen"
 
 #: src/mainwindow.cpp:1513
 #, kde-format
 msgid "Monitor Overlay Playback Fps"
-msgstr "Bildrutor/s för uppspelning på överlagrad skärm"
+msgstr "Bildrutor/s för uppspelning på överlagrad skärmen"
 
 #: src/mainwindow.cpp:1518
 #, kde-format
 msgid "Monitor Overlay Markers"
-msgstr "Markörer överlagrade på skärm"
+msgstr "Markörer överlagrade på skärmen"
 
 #: src/mainwindow.cpp:1523
 #, kde-format
 msgid "Monitor Overlay Audio Waveform"
-msgstr "Ljudvågform överlagrad på skärm"
+msgstr "Ljudvågform överlagrad på skärmen"
 
 #: src/mainwindow.cpp:1528
 #, kde-format
 msgid "Monitor Overlay Clip Jobs"
-msgstr ""
+msgstr "Klippjobb överlagrade på skärmen"
 
 #: src/mainwindow.cpp:1546
 #, kde-format
@@ -10125,6 +10227,9 @@ msgid ""
 "inserted at the playhead position in the active timeline. Clips at the "
 "insert position are cut and overwritten."
 msgstr ""
+"När klickad infogas zonen för klippet som för närvarande är markerat i "
+"projektkorgen på uppspelningspositionen i den aktiva tidslinjen. Klipp på "
+"infogningspositionen klipps ut och skrivs över."
 
 #: src/mainwindow.cpp:1642
 #, kde-format
@@ -10139,6 +10244,9 @@ msgid ""
 "inserted at the playhead position in the active timeline. Clips at the "
 "insert position are cut and shifted to the right."
 msgstr ""
+"När klickad infogas zonen för klippet som för närvarande är markerat i "
+"projektkorgen på uppspelningspositionen i den aktiva tidslinjen. Klipp på "
+"infogningspositionen klipps ut och skiftas åt höger."
 
 #: src/mainwindow.cpp:1646
 #, kde-format
@@ -10152,6 +10260,8 @@ msgid ""
 "Click to delete the timeline zone from the timeline. All clips to the right "
 "are shifted left."
 msgstr ""
+"Klicka på att ta bort tidslinjens zon från tidslinjen. Alla klipp till höger "
+"skiftas åt vänster."
 
 #: src/mainwindow.cpp:1649
 #, kde-format
@@ -10165,6 +10275,8 @@ msgid ""
 "Click to delete the timeline zone from the timeline. All clips to the right "
 "stay in position."
 msgstr ""
+"Klicka på att ta bort tidslinjens zon från tidslinjen. Alla klipp till höger "
+"förblir på sina positioner."
 
 #: src/mainwindow.cpp:1652
 #, kde-format
@@ -10177,6 +10289,8 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Add the currently defined timeline/selection zone as a preview render zone"
 msgstr ""
+"Lägg till den för närvarande definierade tidslinjens eller markeringens zon "
+"som förhandsgranskningszon för återgivning"
 
 #: src/mainwindow.cpp:1655
 #, kde-format
@@ -10190,6 +10304,9 @@ msgid ""
 "Removes the currently defined timeline/selection zone from the preview "
 "render zone. Note that this can leave gaps in the preview render zones."
 msgstr ""
+"Ta bort den för närvarande definierade tidslinjens eller markeringens zon "
+"som förhandsgranskningszon för återgivning. Observera att det kan lämna gap "
+"i förhandsgranskningszonerna för återgivning."
 
 #: src/mainwindow.cpp:1660
 #, kde-format
@@ -10215,6 +10332,10 @@ msgid ""
 "with complex and many effects).<nl/>Click on the down-arrow icon to get a "
 "list of options (for example: add preview render zone, remove all zones)."
 msgstr ""
+"Klicka för att starta återgivningen av alla förhandsgranskningszoner "
+"(rekommenderas för områden med komplexa och många effekter).<nl/>Klicka på "
+"neråtpilikonen för att få en lista med alternativ (till exempel: lägg till "
+"förhandsgranskningszon för återgivning, ta bort alla zoner)."
 
 #: src/mainwindow.cpp:1668
 #, kde-format
@@ -10394,6 +10515,9 @@ msgid ""
 "Adds the clip(s) currently selected in the timeline to a new sequence clip "
 "that can be opened in another timeline tab."
 msgstr ""
+"Lägger till klippet eller klippen som för närvarande är markerade i "
+"tidslinjen till ett nytt sekvensklipp som kan öppnas under en annan "
+"tidslinjeflik."
 
 #: src/mainwindow.cpp:1821
 #, kde-format
@@ -10518,6 +10642,8 @@ msgid ""
 "Lock guides. When locked, the guides won't move when using the spacer tool "
 "or inserting/removing blank in tracks."
 msgstr ""
+"Lås flaggor. När de är låsta flyttas inte flaggorna när mellanrumsverktyget "
+"används eller när tomrum infogas/tas bort i spår."
 
 #: src/mainwindow.cpp:1916
 #, kde-format
@@ -11046,7 +11172,7 @@ msgstr "Exportera analys…"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to export/save the analysis data."
-msgstr ""
+msgstr "Öppnar en fildialogfönster för att exportera/spara analysdata."
 
 #: src/mltcontroller/clippropertiescontroller.cpp:267
 #, kde-format
@@ -11057,7 +11183,7 @@ msgstr "Importera analys…"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to import/load analysis data."
-msgstr ""
+msgstr "Öppnar en fildialogfönster för att importera/läsa in analysdata."
 
 #: src/mltcontroller/clippropertiescontroller.cpp:320
 #: src/mltcontroller/clippropertiescontroller.cpp:578
@@ -11502,6 +11628,9 @@ msgid ""
 "between 1:1, 720p, 540p, 360p, 270p (the lower the resolution the faster the "
 "preview)."
 msgstr ""
+"Ställer in projekt/klippskärmens förhandsgranskningsupplösning. Man kan "
+"välja mellan 1:1, 720p, 540p, 360p, 270p (ju lägre upplösning desto snabbare "
+"förhandsgranskning)."
 
 #: src/monitor/monitor.cpp:178
 #, kde-format
@@ -11552,6 +11681,8 @@ msgid ""
 "Opens the list of project/clip monitor options (e.g. audio volume, monitor "
 "size)."
 msgstr ""
+"Visar listan med alternativ för projekt/klippskärm (t.ex. ljudvolym, "
+"skärmstorlek)."
 
 #: src/monitor/monitor.cpp:361
 #, kde-format
@@ -12636,7 +12767,7 @@ msgstr "Ett fel uppstod vid behandling av projektfil"
 #: src/project/dialogs/archivewidget.cpp:247
 #, kde-format
 msgid "Please save your project before archiving"
-msgstr ""
+msgstr "Spara projektet innan arkivering"
 
 #: src/project/dialogs/archivewidget.cpp:283
 #, kde-format
@@ -12826,12 +12957,12 @@ msgstr "Ta bort flaggkategori"
 #: src/project/dialogs/guidecategories.cpp:157
 #, kde-format
 msgid "Delete the %1 markers using this category"
-msgstr ""
+msgstr "Ta bort %1 markörer som använder kategorin"
 
 #: src/project/dialogs/guidecategories.cpp:158
 #, kde-format
 msgid "Reassign the markers to :"
-msgstr ""
+msgstr "Tilldela istället markörerna till:"
 
 #: src/project/dialogs/guideslist.cpp:85
 #, kde-format
@@ -12873,6 +13004,8 @@ msgstr "Lägg till ny flagga."
 msgctxt "@info:whatsthis"
 msgid "Add new guide. This will add a guide at the current frame position."
 msgstr ""
+"Lägg till ny flagga. Det lägger till en flagga på nuvarande "
+"bildskärmsposition."
 
 #: src/project/dialogs/guideslist.cpp:138
 #, kde-format
@@ -12883,7 +13016,7 @@ msgstr "Ta bort flagga."
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Delete guide. This will erase all selected guides."
-msgstr ""
+msgstr "Ta bort flagga. Det tar bort alla markerade flaggor."
 
 #: src/project/dialogs/guideslist.cpp:140
 #, kde-format
@@ -12897,6 +13030,8 @@ msgid ""
 "Edit selected guide. Selecting multiple guides allows changing their "
 "category."
 msgstr ""
+"Redigera markerad flagga. Genom att markera flera flaggor går det att ändra "
+"deras kategori."
 
 #: src/project/dialogs/guideslist.cpp:142
 #, kde-format
@@ -12910,6 +13045,8 @@ msgid ""
 "Filter guide categories. This allows you to show or hide selected guide "
 "categories in this dialog and in the timeline."
 msgstr ""
+"Filtrera flaggkategorier. Det låter dig visa eller dölja markerade "
+"flaggkategorier i dialogrutan och tidslinjen."
 
 #: src/project/dialogs/guideslist.cpp:145
 #, kde-format
@@ -12920,7 +13057,7 @@ msgstr "Förvald flaggkategori."
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Default guide category. The category used for newly created guides."
-msgstr ""
+msgstr "Förvald flaggkategori. Kategorin som används för nyskapade flaggor."
 
 #: src/project/dialogs/guideslist.cpp:158
 #, kde-format
@@ -12932,6 +13069,7 @@ msgstr "Läs in klippmarkörer"
 #, kde-format
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
+"Markörfilen är större än 1 MB. Är du säker på att du vill importera den?"
 
 #: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1467
 #: src/renderpresets/renderpresetrepository.cpp:313
@@ -12999,6 +13137,8 @@ msgid ""
 "Opens the profile dialog window in which you can change project profiles. "
 "Note: The profile used in the open project cannot be changed."
 msgstr ""
+"Öppnar profildialogfönstret där man kan ändra projektprofiler. Observera: "
+"Profilen som används av den öppna projektet kan inte ändras."
 
 #: src/project/dialogs/profilewidget.cpp:109
 #: src/project/dialogs/profilewidget.cpp:140
@@ -13506,6 +13646,8 @@ msgid ""
 "Creates markers in the timeline from the selected timecodes (doesn’t matter "
 "if other text is selected too)."
 msgstr ""
+"Skapar markörer i tidslinjen från de markerade tidskoderna (det spelar ingen "
+"roll om annan text också är markerad)."
 
 #: src/project/notesplugin.cpp:75
 #, kde-format
@@ -13980,7 +14122,7 @@ msgstr "automatiserad textning"
 #: src/pythoninterfaces/speechtotext.cpp:29
 #, kde-format
 msgid "machine learning framework"
-msgstr ""
+msgstr "maskininlärningsramverk"
 
 #: src/pythoninterfaces/speechtotext.cpp:37
 #, kde-format
@@ -16462,6 +16604,8 @@ msgid ""
 "Add Timeline Sequence. This will create a new timeline for editing. Each "
 "timeline corresponds to a Sequence Clip in the Project Bin"
 msgstr ""
+"Lägg till tidslinjesekvens. Det skapar en ny tidslinje för redigering. Varje "
+"tidslinje motsvarar ett sekvensklipp i projektkorgen."
 
 #: src/timeline2/view/timelinetabs.cpp:214
 #, kde-format
@@ -16713,6 +16857,8 @@ msgid ""
 "When selected, a click on an asset in the timeline selects the asset (e.g. "
 "clip, composition)."
 msgstr ""
+"När aktiverat, markeras en tillgång vid klick på den i tidslinjen (t.ex. "
+"klipp, komposition)."
 
 #: src/titler/titlewidget.cpp:387 src/titler/titlewidget.cpp:390
 #, kde-format
@@ -17573,6 +17719,11 @@ msgid ""
 "replaced by the first parameter value</li><li><b>{param2}</b> will be "
 "replaced by the second parameter value</li></ul>"
 msgstr ""
+"Följande alternativ är tillgängliga i argumenten: <ul><li><b>{source}</b> "
+"ersätts av sökvägen för korgklippets källfil</li><li><b>{output}</b> ersätts "
+"av utdatafilnamnet</li><li><b>{param1}</b> ersätts av det första "
+"parametervärdet</li><li><b>{param2}</b> ersätts av det andra "
+"parametervärdet</li></ul>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/clipjobmanager_ui.ui:176
@@ -17585,14 +17736,14 @@ msgstr "Parameter 1 {param1}"
 #: src/ui/clipjobmanager_ui.ui:182 src/ui/clipjobmanager_ui.ui:275
 #, kde-format
 msgid "Request file path"
-msgstr "Begär filsökväg"
+msgstr "Sökväg för begärd fil"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_islist)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_islist)
 #: src/ui/clipjobmanager_ui.ui:192 src/ui/clipjobmanager_ui.ui:268
 #, kde-format
 msgid "Request option from list"
-msgstr "Begär alternativ från lista"
+msgstr "Begärd alternativ från lista"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param1_list)
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param2_list)
