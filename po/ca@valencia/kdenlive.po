@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-30 00:44+0000\n"
-"PO-Revision-Date: 2023-07-26 15:59+0300\n"
+"POT-Creation-Date: 2023-07-31 00:46+0000\n"
+"PO-Revision-Date: 2023-07-30 11:01+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -3630,17 +3630,17 @@ msgstr "Introduïu el nom d'estos valors predefinits:"
 msgid "Abort processing"
 msgstr "Interromp el processament"
 
-#: src/assets/view/widgets/colorwheel.cpp:502
+#: src/assets/view/widgets/colorwheel.cpp:508
 #, kde-format
 msgid "R: "
 msgstr "R: "
 
-#: src/assets/view/widgets/colorwheel.cpp:509
+#: src/assets/view/widgets/colorwheel.cpp:515
 #, kde-format
 msgid "G: "
 msgstr "G: "
 
-#: src/assets/view/widgets/colorwheel.cpp:515
+#: src/assets/view/widgets/colorwheel.cpp:521
 #, kde-format
 msgid "B: "
 msgstr "B: "
@@ -4220,10 +4220,9 @@ msgid "Search…"
 msgstr "Busca…"
 
 #: src/bin/bin.cpp:1192
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Bin Search"
-msgstr "Busca"
+msgstr "Busca a la safata"
 
 #: src/bin/bin.cpp:1234
 #, kde-format
@@ -5896,10 +5895,9 @@ msgid "Subtitles"
 msgstr "Subtítols"
 
 #: src/dialogs/clipcreationdialog.cpp:142
-#, fuzzy, kde-format
-#| msgid "Color Clip"
+#, kde-format
 msgid "Color Clip Dialog"
-msgstr "Clip de color"
+msgstr "Diàleg del clip de color"
 
 #: src/dialogs/clipcreationdialog.cpp:143
 #, kde-format
@@ -5913,14 +5911,12 @@ msgid "Color Clip"
 msgstr "Clip de color"
 
 #: src/dialogs/clipcreationdialog.cpp:145
-#, fuzzy, kde-format
-#| msgid "Clip Speed"
+#, kde-format
 msgid "Clip Name"
-msgstr "Velocitat del clip"
+msgstr "Nom del clip"
 
 #: src/dialogs/clipcreationdialog.cpp:149
-#, fuzzy, kde-format
-#| msgid "Create color clip"
+#, kde-format
 msgid "Create Color Clip"
 msgstr "Crea un clip de color"
 
@@ -6306,10 +6302,9 @@ msgid "Guide position in frames"
 msgstr "Posició de la guia en fotogrames"
 
 #: src/dialogs/exportguidesdialog.cpp:117
-#, fuzzy, kde-format
-#| msgid "Guide position in frames"
+#, kde-format
 msgid "Next guide position in frames"
-msgstr "Posició de la guia en fotogrames"
+msgstr "Posició següent de la guia en fotogrames"
 
 #: src/dialogs/exportguidesdialog.cpp:118
 #, kde-format
@@ -16814,10 +16809,9 @@ msgstr ""
 "safata del projecte"
 
 #: src/timeline2/view/timelinetabs.cpp:214
-#, fuzzy, kde-format
-#| msgid "Close"
+#, kde-format
 msgid "Close %1"
-msgstr "Tanca"
+msgstr "Tanca %1"
 
 #: src/timeline2/view/timelinewidget.cpp:74
 #, kde-format
@@ -19638,10 +19632,9 @@ msgstr "Exportat:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_ffmpeg)
 #: src/ui/exportguidesdialog_ui.ui:223
-#, fuzzy, kde-format
-#| msgid "FFmpeg parameters"
+#, kde-format
 msgid "FFmpeg Chapters"
-msgstr "Paràmetres de FFmpeg"
+msgstr "Capítols de FFmpeg"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/gradientedit_ui.ui:24
@@ -21604,10 +21597,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgctxt "Initial for Master"
-#~ msgid "M"
-#~ msgstr "M"
-
-#~ msgid "Closing a sequence will clear the undo history"
-#~ msgstr "En tancar una seqüència es netejarà l'historial de desfer"

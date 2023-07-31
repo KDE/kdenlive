@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-30 00:44+0000\n"
-"PO-Revision-Date: 2023-07-23 12:28\n"
+"POT-Creation-Date: 2023-07-31 00:46+0000\n"
+"PO-Revision-Date: 2023-07-30 07:09\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -3540,17 +3540,17 @@ msgstr "输入此预设的名称："
 msgid "Abort processing"
 msgstr "中止处理"
 
-#: src/assets/view/widgets/colorwheel.cpp:502
+#: src/assets/view/widgets/colorwheel.cpp:508
 #, kde-format
 msgid "R: "
 msgstr "红："
 
-#: src/assets/view/widgets/colorwheel.cpp:509
+#: src/assets/view/widgets/colorwheel.cpp:515
 #, kde-format
 msgid "G: "
 msgstr "绿："
 
-#: src/assets/view/widgets/colorwheel.cpp:515
+#: src/assets/view/widgets/colorwheel.cpp:521
 #, kde-format
 msgid "B: "
 msgstr "蓝："
@@ -6167,10 +6167,9 @@ msgid "Guide position in frames"
 msgstr "辅助线位置，以帧计"
 
 #: src/dialogs/exportguidesdialog.cpp:117
-#, fuzzy, kde-format
-#| msgid "Guide position in frames"
+#, kde-format
 msgid "Next guide position in frames"
-msgstr "辅助线位置，以帧计"
+msgstr "下一个辅助线位置，以帧计"
 
 #: src/dialogs/exportguidesdialog.cpp:118
 #, kde-format
@@ -10412,10 +10411,9 @@ msgid "Switch Track Target Audio Stream"
 msgstr "切换轨道目标音频流"
 
 #: src/mainwindow.cpp:1867
-#, fuzzy, kde-format
-#| msgid "Delete Track"
+#, kde-format
 msgid "Delete Track…"
-msgstr "删除轨道"
+msgstr "删除轨道…"
 
 #: src/mainwindow.cpp:1872
 #, kde-format
@@ -16337,10 +16335,9 @@ msgstr ""
 "条序列剪辑"
 
 #: src/timeline2/view/timelinetabs.cpp:214
-#, fuzzy, kde-format
-#| msgid "Close"
+#, kde-format
 msgid "Close %1"
-msgstr "关闭"
+msgstr "关闭 %1"
 
 #: src/timeline2/view/timelinewidget.cpp:74
 #, kde-format
@@ -17345,8 +17342,7 @@ msgstr "裁剪结尾："
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/clipjobmanager_ui.ui:30
-#, fuzzy, kde-format
-#| msgid "Job description"
+#, kde-format
 msgid "Job Description"
 msgstr "任务描述"
 
@@ -17402,7 +17398,7 @@ msgstr "文件夹名称"
 #: src/ui/clipjobmanager_ui.ui:110
 #, kde-format
 msgid "Optional description that will show up if a parameter is requested"
-msgstr ""
+msgstr "请求参数时显示的可选描述信息"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:117
@@ -19124,10 +19120,9 @@ msgstr "已导出："
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_ffmpeg)
 #: src/ui/exportguidesdialog_ui.ui:223
-#, fuzzy, kde-format
-#| msgid "FFmpeg parameters"
+#, kde-format
 msgid "FFmpeg Chapters"
-msgstr "FFmpeg 参数"
+msgstr "FFmpeg 章节"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/gradientedit_ui.ui:24
@@ -21077,10 +21072,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgctxt "Initial for Master"
-#~ msgid "M"
-#~ msgstr "M"
-
-#~ msgid "Closing a sequence will clear the undo history"
-#~ msgstr "关闭序列将清除撤消历史记录"

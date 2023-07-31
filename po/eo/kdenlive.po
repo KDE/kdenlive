@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-30 00:44+0000\n"
-"PO-Revision-Date: 2023-07-29 07:08+0100\n"
+"POT-Creation-Date: 2023-07-31 00:46+0000\n"
+"PO-Revision-Date: 2023-07-30 10:06+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -3589,17 +3589,17 @@ msgstr "Enigu la nomon de ĉi tiu antaŭdiro:"
 msgid "Abort processing"
 msgstr "Ĉesigi prilaboradon"
 
-#: src/assets/view/widgets/colorwheel.cpp:502
+#: src/assets/view/widgets/colorwheel.cpp:508
 #, kde-format
 msgid "R: "
 msgstr "R:"
 
-#: src/assets/view/widgets/colorwheel.cpp:509
+#: src/assets/view/widgets/colorwheel.cpp:515
 #, kde-format
 msgid "G: "
 msgstr "G:"
 
-#: src/assets/view/widgets/colorwheel.cpp:515
+#: src/assets/view/widgets/colorwheel.cpp:521
 #, kde-format
 msgid "B: "
 msgstr "B:"
@@ -4174,10 +4174,9 @@ msgid "Search…"
 msgstr "Serĉi…"
 
 #: src/bin/bin.cpp:1192
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Bin Search"
-msgstr "Serĉi"
+msgstr "Bin-Serĉo"
 
 #: src/bin/bin.cpp:1234
 #, kde-format
@@ -5846,10 +5845,9 @@ msgid "Subtitles"
 msgstr "Subtekstoj"
 
 #: src/dialogs/clipcreationdialog.cpp:142
-#, fuzzy, kde-format
-#| msgid "Color Clip"
+#, kde-format
 msgid "Color Clip Dialog"
-msgstr "Kolora aŭdvidaĵo"
+msgstr "Kolor-Tondaĵa Dialogo"
 
 #: src/dialogs/clipcreationdialog.cpp:143
 #, kde-format
@@ -5863,16 +5861,14 @@ msgid "Color Clip"
 msgstr "Kolora aŭdvidaĵo"
 
 #: src/dialogs/clipcreationdialog.cpp:145
-#, fuzzy, kde-format
-#| msgid "Clip Speed"
+#, kde-format
 msgid "Clip Name"
-msgstr "Rapideco de aŭdvidaĵo"
+msgstr "Nomo de aŭdvidaĵo"
 
 #: src/dialogs/clipcreationdialog.cpp:149
-#, fuzzy, kde-format
-#| msgid "Create color clip"
+#, kde-format
 msgid "Create Color Clip"
-msgstr "Krei kolor-aŭdvidaĵon"
+msgstr "Krei Kolor-Tondaĵon"
 
 #: src/dialogs/clipcreationdialog.cpp:183
 #, kde-format

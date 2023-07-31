@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-30 00:44+0000\n"
-"PO-Revision-Date: 2023-07-29 07:48+0300\n"
+"POT-Creation-Date: 2023-07-31 00:46+0000\n"
+"PO-Revision-Date: 2023-07-30 08:41+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -3627,17 +3627,17 @@ msgstr "Введіть назву нового шаблона:"
 msgid "Abort processing"
 msgstr "Перервати обробку"
 
-#: src/assets/view/widgets/colorwheel.cpp:502
+#: src/assets/view/widgets/colorwheel.cpp:508
 #, kde-format
 msgid "R: "
 msgstr "Ч: "
 
-#: src/assets/view/widgets/colorwheel.cpp:509
+#: src/assets/view/widgets/colorwheel.cpp:515
 #, kde-format
 msgid "G: "
 msgstr "З: "
 
-#: src/assets/view/widgets/colorwheel.cpp:515
+#: src/assets/view/widgets/colorwheel.cpp:521
 #, kde-format
 msgid "B: "
 msgstr "С: "
@@ -4220,10 +4220,9 @@ msgid "Search…"
 msgstr "Шукати…"
 
 #: src/bin/bin.cpp:1192
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Bin Search"
-msgstr "Шукати"
+msgstr "Пошук у контейнері"
 
 #: src/bin/bin.cpp:1234
 #, kde-format
@@ -5910,10 +5909,9 @@ msgid "Subtitles"
 msgstr "Субтитри"
 
 #: src/dialogs/clipcreationdialog.cpp:142
-#, fuzzy, kde-format
-#| msgid "Color Clip"
+#, kde-format
 msgid "Color Clip Dialog"
-msgstr "Кольоровий кліп"
+msgstr "Вікно кольорового кліпу"
 
 #: src/dialogs/clipcreationdialog.cpp:143
 #, kde-format
@@ -5927,14 +5925,12 @@ msgid "Color Clip"
 msgstr "Кольоровий кліп"
 
 #: src/dialogs/clipcreationdialog.cpp:145
-#, fuzzy, kde-format
-#| msgid "Clip Speed"
+#, kde-format
 msgid "Clip Name"
-msgstr "Швидкість кліпу"
+msgstr "Назва кліпу"
 
 #: src/dialogs/clipcreationdialog.cpp:149
-#, fuzzy, kde-format
-#| msgid "Create color clip"
+#, kde-format
 msgid "Create Color Clip"
 msgstr "Створити кольоровий кліп"
 

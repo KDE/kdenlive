@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-30 00:44+0000\n"
-"PO-Revision-Date: 2023-07-29 05:28+0300\n"
+"POT-Creation-Date: 2023-07-31 00:46+0000\n"
+"PO-Revision-Date: 2023-07-30 21:41+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -3605,17 +3605,17 @@ msgstr "Bu ön ayarın adını girin:"
 msgid "Abort processing"
 msgstr "İşlemeyi iptal et"
 
-#: src/assets/view/widgets/colorwheel.cpp:502
+#: src/assets/view/widgets/colorwheel.cpp:508
 #, kde-format
 msgid "R: "
 msgstr "K: "
 
-#: src/assets/view/widgets/colorwheel.cpp:509
+#: src/assets/view/widgets/colorwheel.cpp:515
 #, kde-format
 msgid "G: "
 msgstr "Y "
 
-#: src/assets/view/widgets/colorwheel.cpp:515
+#: src/assets/view/widgets/colorwheel.cpp:521
 #, kde-format
 msgid "B: "
 msgstr "M "
@@ -4193,10 +4193,9 @@ msgid "Search…"
 msgstr "Ara…"
 
 #: src/bin/bin.cpp:1192
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Bin Search"
-msgstr "Ara"
+msgstr "Kovada Ara"
 
 #: src/bin/bin.cpp:1234
 #, kde-format
@@ -5863,10 +5862,9 @@ msgid "Subtitles"
 msgstr "Altyazılar"
 
 #: src/dialogs/clipcreationdialog.cpp:142
-#, fuzzy, kde-format
-#| msgid "Color Clip"
+#, kde-format
 msgid "Color Clip Dialog"
-msgstr "Renk Klibi"
+msgstr "Renk Klibi İletişim Kutusu"
 
 #: src/dialogs/clipcreationdialog.cpp:143
 #, kde-format
@@ -5880,16 +5878,14 @@ msgid "Color Clip"
 msgstr "Renk Klibi"
 
 #: src/dialogs/clipcreationdialog.cpp:145
-#, fuzzy, kde-format
-#| msgid "Clip Speed"
+#, kde-format
 msgid "Clip Name"
-msgstr "Klip Hızı"
+msgstr "Klip Adı"
 
 #: src/dialogs/clipcreationdialog.cpp:149
-#, fuzzy, kde-format
-#| msgid "Create color clip"
+#, kde-format
 msgid "Create Color Clip"
-msgstr "Renk klibi oluştur"
+msgstr "Renk Klibi Oluştur"
 
 #: src/dialogs/clipcreationdialog.cpp:183
 #, kde-format

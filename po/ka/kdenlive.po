@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-30 00:44+0000\n"
-"PO-Revision-Date: 2023-07-25 04:53+0200\n"
+"POT-Creation-Date: 2023-07-31 00:46+0000\n"
+"PO-Revision-Date: 2023-07-30 06:05+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -3468,17 +3468,17 @@ msgstr "შეიყვანეთ პრესეტის სახელი:
 msgid "Abort processing"
 msgstr "დამუშავების შეწყვეტა"
 
-#: src/assets/view/widgets/colorwheel.cpp:502
+#: src/assets/view/widgets/colorwheel.cpp:508
 #, kde-format
 msgid "R: "
 msgstr "წ: "
 
-#: src/assets/view/widgets/colorwheel.cpp:509
+#: src/assets/view/widgets/colorwheel.cpp:515
 #, kde-format
 msgid "G: "
 msgstr "მ: "
 
-#: src/assets/view/widgets/colorwheel.cpp:515
+#: src/assets/view/widgets/colorwheel.cpp:521
 #, kde-format
 msgid "B: "
 msgstr "ლ: "
@@ -4038,10 +4038,9 @@ msgid "Search…"
 msgstr "ძებნა…"
 
 #: src/bin/bin.cpp:1192
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Bin Search"
-msgstr "ძებნა"
+msgstr "ბინარული ძებნა"
 
 #: src/bin/bin.cpp:1234
 #, kde-format
@@ -5677,16 +5676,14 @@ msgid "Color Clip"
 msgstr ""
 
 #: src/dialogs/clipcreationdialog.cpp:145
-#, fuzzy, kde-format
-#| msgid "Name"
+#, kde-format
 msgid "Clip Name"
-msgstr "სახელი"
+msgstr "კლიპის სახელი"
 
 #: src/dialogs/clipcreationdialog.cpp:149
-#, fuzzy, kde-format
-#| msgid "Create Folder"
+#, kde-format
 msgid "Create Color Clip"
-msgstr "საქაღალდის შექმნა"
+msgstr "ფერადი ლიპის შექმნა"
 
 #: src/dialogs/clipcreationdialog.cpp:183
 #, kde-format
@@ -18701,10 +18698,9 @@ msgstr "გატანილია:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_ffmpeg)
 #: src/ui/exportguidesdialog_ui.ui:223
-#, fuzzy, kde-format
-#| msgid "FFmpeg parameters"
+#, kde-format
 msgid "FFmpeg Chapters"
-msgstr "FFmpeg -ის პარამეტრები"
+msgstr "FFmpeg-ის თავები"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/gradientedit_ui.ui:24
