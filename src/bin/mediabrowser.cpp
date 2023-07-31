@@ -16,6 +16,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <KActionCollection>
 #include <KConfigGroup>
+#include <KDirLister>
 #include <KFileFilterCombo>
 #include <KFilePlacesModel>
 #include <KIconLoader>
