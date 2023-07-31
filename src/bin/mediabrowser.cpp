@@ -60,6 +60,7 @@ MediaBrowser::MediaBrowser(QWidget *parent)
 
     // Create View
     m_op = new KDirOperator(QUrl(), parent);
+    m_op->dirLister()->setAutoUpdate(false);
     // Ensure shortcuts are only active on this widget to avoid conflicts with app shortcuts
 #if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
     QList<QAction *> actions = m_op->allActions();
@@ -343,6 +344,14 @@ bool MediaBrowser::eventFilter(QObject *watched, QEvent *event)
     } else if (event->type() == QEvent::FocusOut) {
         qDebug() << ":::::: \n\nFOCUS OUT\n\n:::::::::::::::::";
         enableAppShortcuts();
+    } else if (event->type() == QEvent::Hide) {
+        if (m_op->dirLister()->autoUpdate()) {
+            m_op->dirLister()->setAutoUpdate(false);
+        }
+    } else if (event->type() == QEvent::Show) {
+        if (!m_op->dirLister()->autoUpdate()) {
+            m_op->dirLister()->setAutoUpdate(true);
+        }
     }
     const bool res = QWidget::eventFilter(watched, event);
     QKeyEvent *keyEvent = dynamic_cast<QKeyEvent *>(event);
