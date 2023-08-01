@@ -87,8 +87,6 @@ private:
     Mlt::Playlist *m_overlayTrack;
     bool m_warnOnCrash;
     int m_previewTrackIndex;
-    /** @brief: The kdenlive renderer app. */
-    QString m_renderer;
     /** @brief: The kdenlive timeline preview process. */
     QProcess m_previewProcess;
     /** @brief: The directory used to store the preview files. */
