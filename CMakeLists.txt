@@ -42,24 +42,7 @@ set(MLT_MIN_VERSION ${MLT_MIN_MAJOR_VERSION}.${MLT_MIN_MINOR_VERSION}.${MLT_MIN_
 
 # Qt version
 set(QT_MIN_VERSION 5.15.2)
-if (NOT DEFINED QT_MAJOR_VERSION)
-    set(QT_MAJOR_VERSION 5)
-endif()
-
-if (QT_MAJOR_VERSION STREQUAL "6")
-    set(USE_VERSIONLESS_TARGETS ON)
-endif()
-
-# KDE Frameworks
-if (NOT DEFINED KF_MAJOR)
-  set(KF_MAJOR ${QT_MAJOR_VERSION})
-endif()
-
-if (KF_MAJOR LESS "6")
-  set(KF_DEP_VERSION "5.92.0")
-else()
-  set(KF_DEP_VERSION "5.240.0")
-endif()
+set(KF_DEP_VERSION "5.92.0")
 
 find_package(ECM ${KF_DEP_VERSION} REQUIRED CONFIG)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
@@ -78,6 +61,23 @@ include(ECMAddQch)
 include(QtVersionOption)
 include(ECMDeprecationSettings)
 remove_definitions(-DQT_NO_CAST_FROM_ASCII) # Defined in KDECompilerSettings, but we don't want that yet
+
+if (NOT DEFINED QT_MAJOR_VERSION)
+    set(QT_MAJOR_VERSION 5)
+endif()
+
+if (QT_MAJOR_VERSION STREQUAL "6")
+    set(USE_VERSIONLESS_TARGETS ON)
+endif()
+
+# KDE Frameworks
+if (NOT DEFINED KF_MAJOR)
+  set(KF_MAJOR ${QT_MAJOR_VERSION})
+endif()
+
+if (KF_MAJOR STREQUAL "6")
+  set(KF_DEP_VERSION "5.240.0")
+endif()
 
 add_definitions(-DTRANSLATION_DOMAIN=\"kdenlive\")
 find_package(KF${KF_MAJOR} ${KF_DEP_VERSION}

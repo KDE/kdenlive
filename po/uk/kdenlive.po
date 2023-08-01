@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-31 00:46+0000\n"
+"POT-Creation-Date: 2023-08-01 00:45+0000\n"
 "PO-Revision-Date: 2023-07-30 08:41+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -2556,7 +2556,7 @@ msgstr "радіус"
 #. i18n: ectx: property (text), widget (QLabel, xLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: data/effects/vignette.xml:14 src/ui/profiledialog_ui.ui:207
-#: src/ui/renderwidget_ui.ui:540
+#: src/ui/renderwidget_ui.ui:546
 #, kde-format
 msgid "x"
 msgstr "x"
@@ -3597,7 +3597,7 @@ msgid "Update current preset"
 msgstr "Оновити поточний шаблон"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
-#: src/assets/view/assetparameterview.cpp:56 src/ui/renderwidget_ui.ui:296
+#: src/assets/view/assetparameterview.cpp:56 src/ui/renderwidget_ui.ui:302
 #, kde-format
 msgid "Delete preset"
 msgstr "Вилучити шаблон"
@@ -4540,7 +4540,7 @@ msgstr "Вимкнути звук"
 #: src/monitor/recmanager.cpp:47 src/onlineresources/resourcewidget.cpp:547
 #: src/ui/clipjobmanager_ui.ui:314 src/ui/configcapture_ui.ui:525
 #: src/ui/cutjobdialog_ui.ui:61 src/ui/editrenderpreset_ui.ui:834
-#: src/ui/projectsettings_ui.ui:180 src/ui/renderwidget_ui.ui:589
+#: src/ui/projectsettings_ui.ui:180 src/ui/renderwidget_ui.ui:595
 #, kde-format
 msgid "Audio"
 msgstr "Звук"
@@ -5128,27 +5128,27 @@ msgstr "Тривалість:"
 msgid "MLT Playlist (*.mlt)"
 msgstr "список відтворення MLT (*.mlt)"
 
-#: src/bin/mediabrowser.cpp:52 src/dialogs/subtitleedit.cpp:150
+#: src/bin/mediabrowser.cpp:53 src/dialogs/subtitleedit.cpp:150
 #, kde-format
 msgid "Zoom In"
 msgstr "Збільшити"
 
-#: src/bin/mediabrowser.cpp:53 src/dialogs/subtitleedit.cpp:152
+#: src/bin/mediabrowser.cpp:54 src/dialogs/subtitleedit.cpp:152
 #, kde-format
 msgid "Zoom Out"
 msgstr "Зменшити"
 
-#: src/bin/mediabrowser.cpp:54
+#: src/bin/mediabrowser.cpp:55
 #, kde-format
 msgid "Import Selection"
 msgstr "Імпортувати позначене"
 
-#: src/bin/mediabrowser.cpp:56
+#: src/bin/mediabrowser.cpp:57
 #, kde-format
 msgid "Import File on Double Click"
 msgstr "Імпортувати файл за подвійним клацанням"
 
-#: src/bin/mediabrowser.cpp:160 src/dialogs/clipcreationdialog.cpp:499
+#: src/bin/mediabrowser.cpp:162 src/dialogs/clipcreationdialog.cpp:499
 #: src/effects/effectlist/view/effectlistwidget.cpp:130
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:300
 #: src/mainwindow.cpp:3900 src/onlineresources/resourcewidget.cpp:553
@@ -5156,7 +5156,7 @@ msgstr "Імпортувати файл за подвійним клацання
 msgid "All Files"
 msgstr "Всі файли"
 
-#: src/bin/mediabrowser.cpp:160 src/dialogs/clipcreationdialog.cpp:128
+#: src/bin/mediabrowser.cpp:162 src/dialogs/clipcreationdialog.cpp:128
 #: src/dialogs/clipcreationdialog.cpp:499
 #, kde-format
 msgid "All Supported Files"
@@ -5164,7 +5164,7 @@ msgstr "Всі файли, що підтримуються"
 
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/bin/mediabrowser.cpp:196
+#: src/bin/mediabrowser.cpp:198
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:493
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
@@ -5172,22 +5172,22 @@ msgstr "Всі файли, що підтримуються"
 msgid "Name:"
 msgstr "Назва:"
 
-#: src/bin/mediabrowser.cpp:200
+#: src/bin/mediabrowser.cpp:202
 #, kde-format
 msgid "Filter:"
 msgstr "Фільтр:"
 
-#: src/bin/mediabrowser.cpp:204 src/dialogs/clipcreationdialog.cpp:472
+#: src/bin/mediabrowser.cpp:206 src/dialogs/clipcreationdialog.cpp:472
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr "Ігнорувати структуру підтек"
 
-#: src/bin/mediabrowser.cpp:206 src/dialogs/clipcreationdialog.cpp:474
+#: src/bin/mediabrowser.cpp:208 src/dialogs/clipcreationdialog.cpp:474
 #, kde-format
 msgid "Do not create subfolders in Project Bin"
 msgstr "Не створювати підтеки у контейнері проєкту"
 
-#: src/bin/mediabrowser.cpp:209 src/dialogs/clipcreationdialog.cpp:477
+#: src/bin/mediabrowser.cpp:211 src/dialogs/clipcreationdialog.cpp:477
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5197,17 +5197,17 @@ msgstr ""
 "Якщо позначено, Kdenlive імпортуватиме усі кліпи, що містяться у теці та її "
 "підтеках без створення підтек у контейнері проєкту."
 
-#: src/bin/mediabrowser.cpp:212 src/dialogs/clipcreationdialog.cpp:467
+#: src/bin/mediabrowser.cpp:214 src/dialogs/clipcreationdialog.cpp:467
 #, kde-format
 msgid "Import image sequence"
 msgstr "Імпортувати послідовність зображень"
 
-#: src/bin/mediabrowser.cpp:215 src/dialogs/clipcreationdialog.cpp:468
+#: src/bin/mediabrowser.cpp:217 src/dialogs/clipcreationdialog.cpp:468
 #, kde-format
 msgid "Try to import an image sequence"
 msgstr "Спробувати імпортувати як послідовність зображень"
 
-#: src/bin/mediabrowser.cpp:217 src/dialogs/clipcreationdialog.cpp:470
+#: src/bin/mediabrowser.cpp:219 src/dialogs/clipcreationdialog.cpp:470
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6849,7 +6849,7 @@ msgstr "Під час спроби оприлюднити документ ви�
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
 #: src/dialogs/renderwidget.cpp:345 src/dialogs/renderwidget.cpp:353
-#: src/ui/renderwidget_ui.ui:872
+#: src/ui/renderwidget_ui.ui:878
 #, kde-format
 msgid "Share"
 msgstr "Оприлюднити"
@@ -7005,7 +7005,7 @@ msgstr ""
 "<strong>Спроба обробки %1 завершилася у аварійному режимі</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1300 src/ui/renderwidget_ui.ui:865
+#: src/dialogs/renderwidget.cpp:1300 src/ui/renderwidget_ui.ui:871
 #, kde-format
 msgid "Abort Job"
 msgstr "Перервати виконання"
@@ -7511,8 +7511,8 @@ msgstr "Перевірити наявність апаратного приск�
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose3)
 #: src/dialogs/wizard.cpp:193 src/project/cliptranscode.cpp:270
 #: src/project/dialogs/archivewidget.cpp:788
-#: src/project/dialogs/archivewidget.cpp:1149 src/ui/renderwidget_ui.ui:357
-#: src/ui/renderwidget_ui.ui:908 src/ui/renderwidget_ui.ui:1066
+#: src/project/dialogs/archivewidget.cpp:1149 src/ui/renderwidget_ui.ui:363
+#: src/ui/renderwidget_ui.ui:914 src/ui/renderwidget_ui.ui:1072
 #, kde-format
 msgid "Close"
 msgstr "Закрити"
@@ -8558,7 +8558,7 @@ msgstr "Вмикає або вимикає показ зони ефектів."
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:237
-#: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:166
+#: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "Шаблони"
@@ -10153,7 +10153,7 @@ msgstr "Активний інструмент і режим редагуванн
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, bFramesSpinner)
 #: src/mainwindow.cpp:1440 src/ui/editrenderpreset_ui.ui:551
-#: src/ui/editrenderpreset_ui.ui:694 src/ui/renderwidget_ui.ui:730
+#: src/ui/editrenderpreset_ui.ui:694 src/ui/renderwidget_ui.ui:736
 #, kde-format
 msgid "Auto"
 msgstr "Авто"
@@ -12208,7 +12208,7 @@ msgstr "Записати"
 #: src/monitor/recmanager.cpp:46 src/onlineresources/resourcewidget.cpp:549
 #: src/ui/clipjobmanager_ui.ui:307 src/ui/cutjobdialog_ui.ui:107
 #: src/ui/editrenderpreset_ui.ui:122 src/ui/projectsettings_ui.ui:173
-#: src/ui/renderwidget_ui.ui:478
+#: src/ui/renderwidget_ui.ui:484
 #, kde-format
 msgid "Video"
 msgstr "Відео"
@@ -17797,7 +17797,7 @@ msgstr "Вилучити поточну точку."
 #: src/ui/manageencodingprofile_ui.ui:84 src/ui/projectsettings_ui.ui:276
 #: src/ui/projectsettings_ui.ui:283 src/ui/projectsettings_ui.ui:293
 #: src/ui/projectsettings_ui.ui:571 src/ui/projectsettings_ui.ui:578
-#: src/ui/qtextclip_ui.ui:94 src/ui/renderwidget_ui.ui:968
+#: src/ui/qtextclip_ui.ui:94 src/ui/renderwidget_ui.ui:974
 #: src/ui/resourcewidget_ui.ui:214 src/ui/resourcewidget_ui.ui:281
 #: src/ui/speechdialog_ui.ui:75 src/ui/textbasededit_ui.ui:61
 #: src/ui/textbasededit_ui.ui:94 src/ui/textbasededit_ui.ui:115
@@ -20501,188 +20501,188 @@ msgid "Select output destination"
 msgstr "Виберіть місце для виведення"
 
 #. i18n: ectx: property (text), widget (QCheckBox, options)
-#: src/ui/renderwidget_ui.ui:146
+#: src/ui/renderwidget_ui.ui:152
 #, kde-format
 msgid "More options"
 msgstr "Додаткові параметри"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonNew)
-#: src/ui/renderwidget_ui.ui:213
+#: src/ui/renderwidget_ui.ui:219
 #, kde-format
 msgid "Create new preset"
 msgstr "Створити набір параметрів"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonNew)
-#: src/ui/renderwidget_ui.ui:216
+#: src/ui/renderwidget_ui.ui:222
 #, kde-format
 msgid "&Save"
 msgstr "З&берегти"
 
 #. i18n: ectx: property (toolTip), widget (KNSWidgets::Button, m_knsbutton)
-#: src/ui/renderwidget_ui.ui:230
+#: src/ui/renderwidget_ui.ui:236
 #, kde-format
 msgid "Download New Render Presets…"
 msgstr "Отримати нові набори параметрів обробки…"
 
 #. i18n: ectx: property (configFile), widget (KNSWidgets::Button, m_knsbutton)
-#: src/ui/renderwidget_ui.ui:239
+#: src/ui/renderwidget_ui.ui:245
 #, kde-format
 msgid ":data/kdenlive_renderprofiles.knsrc"
 msgstr ":data/kdenlive_renderprofiles.knsrc"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonSaveAs)
-#: src/ui/renderwidget_ui.ui:256
+#: src/ui/renderwidget_ui.ui:262
 #, kde-format
 msgid "Save current preset as new custom preset"
 msgstr "Зберегти поточний набір параметрів як новий нетиповий"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonSaveAs)
-#: src/ui/renderwidget_ui.ui:259
+#: src/ui/renderwidget_ui.ui:265
 #, kde-format
 msgid "&Favorite"
 msgstr "&Основні"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonEdit)
-#: src/ui/renderwidget_ui.ui:276
+#: src/ui/renderwidget_ui.ui:282
 #, kde-format
 msgid "Edit preset"
 msgstr "Редагувати набір параметрів"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonEdit)
-#: src/ui/renderwidget_ui.ui:279
+#: src/ui/renderwidget_ui.ui:285
 #, kde-format
 msgid "&Edit"
 msgstr "З&мінити"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonDelete)
-#: src/ui/renderwidget_ui.ui:299
+#: src/ui/renderwidget_ui.ui:305
 #, kde-format
 msgid "&Delete"
 msgstr "Ви&лучити"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonRender)
-#: src/ui/renderwidget_ui.ui:330
+#: src/ui/renderwidget_ui.ui:336
 #, kde-format
 msgid "Render to File"
 msgstr "Обробка до файла"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonGenerateScript)
-#: src/ui/renderwidget_ui.ui:337
+#: src/ui/renderwidget_ui.ui:343
 #, kde-format
 msgid "Generate Script"
 msgstr "Створити скрипт"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_full)
-#: src/ui/renderwidget_ui.ui:368
+#: src/ui/renderwidget_ui.ui:374
 #, kde-format
 msgid "Fu&ll project"
 msgstr "&Цілий проєкт"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_zone)
-#: src/ui/renderwidget_ui.ui:378
+#: src/ui/renderwidget_ui.ui:384
 #, kde-format
 msgid "Selected &zone"
 msgstr "Позначена &ділянка"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_guide)
-#: src/ui/renderwidget_ui.ui:385
+#: src/ui/renderwidget_ui.ui:391
 #, kde-format
 msgid "&Guide zone"
 msgstr "Ділянка &напрямних"
 
 #. i18n: ectx: property (title), widget (QGroupBox, guide_multi_box)
-#: src/ui/renderwidget_ui.ui:407
+#: src/ui/renderwidget_ui.ui:413
 #, kde-format
 msgid "Guide Multi-Export"
 msgstr "Мультиекспорт напрямних"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/renderwidget_ui.ui:416
+#: src/ui/renderwidget_ui.ui:422
 #, kde-format
 msgid "Guides to use as separator:"
 msgstr "Напрямні, які є роздільниками:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_full_color)
-#: src/ui/renderwidget_ui.ui:487
+#: src/ui/renderwidget_ui.ui:493
 #, kde-format
 msgid "Render full color range"
 msgstr "Обробити увесь діапазон кольорів"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_at_preview_res)
-#: src/ui/renderwidget_ui.ui:494
+#: src/ui/renderwidget_ui.ui:500
 #, kde-format
 msgid "Render at Preview Resolution"
 msgstr "Обробити у роздільності попереднього перегляду"
 
 #. i18n: ectx: property (text), widget (QCheckBox, proxy_render)
-#: src/ui/renderwidget_ui.ui:501
+#: src/ui/renderwidget_ui.ui:507
 #, kde-format
 msgid "Use Proxy Clips"
 msgstr "Проміжні кліпи"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/renderwidget_ui.ui:508
+#: src/ui/renderwidget_ui.ui:514
 #, kde-format
 msgid "Rescale:"
 msgstr "Змінити масштаб:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rescale)
-#: src/ui/renderwidget_ui.ui:515
+#: src/ui/renderwidget_ui.ui:521
 #, kde-format
 msgid "Enabled"
 msgstr "Увімкнено"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/renderwidget_ui.ui:572
+#: src/ui/renderwidget_ui.ui:578
 #, kde-format
 msgid "Overlay:"
 msgstr "Накладання:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, stemAudioExport)
-#: src/ui/renderwidget_ui.ui:598
+#: src/ui/renderwidget_ui.ui:604
 #, kde-format
 msgid "Separate file for each audio track"
 msgstr "Окремий файл для кожної звукової доріжки"
 
 #. i18n: ectx: property (title), widget (QGroupBox, qualityGroup)
-#: src/ui/renderwidget_ui.ui:608
+#: src/ui/renderwidget_ui.ui:614
 #, kde-format
 msgid "Custom Quality"
 msgstr "Нетипова якість"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/renderwidget_ui.ui:622
+#: src/ui/renderwidget_ui.ui:628
 #, kde-format
 msgid "Low"
 msgstr "Низька"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, quality)
-#: src/ui/renderwidget_ui.ui:635
+#: src/ui/renderwidget_ui.ui:641
 #, kde-format
 msgid "Compromise file size versus quality."
 msgstr "Компроміс між розміром файла і якістю."
 
 #. i18n: ectx: property (text), widget (QLabel, qualityPercent)
-#: src/ui/renderwidget_ui.ui:654
+#: src/ui/renderwidget_ui.ui:660
 #, no-c-format, kde-format
 msgid "75%"
 msgstr "75%"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/ui/renderwidget_ui.ui:661
+#: src/ui/renderwidget_ui.ui:667
 #, kde-format
 msgid "High"
 msgstr "Висока"
 
 #. i18n: ectx: property (title), widget (QGroupBox, encoder_box)
-#: src/ui/renderwidget_ui.ui:673
+#: src/ui/renderwidget_ui.ui:679
 #, kde-format
 msgid "Encoder"
 msgstr "Кодувальник"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, speedLabel)
 #. i18n: ectx: property (toolTip), widget (QSlider, speed)
-#: src/ui/renderwidget_ui.ui:679 src/ui/renderwidget_ui.ui:695
+#: src/ui/renderwidget_ui.ui:685 src/ui/renderwidget_ui.ui:701
 #, kde-format
 msgid ""
 "For a given quality, tune the compromise between encoding time and output "
@@ -20692,116 +20692,116 @@ msgstr ""
 "розміром файла результатів (швидше кодування дає файли більшого розміру)."
 
 #. i18n: ectx: property (text), widget (QLabel, speedLabel)
-#: src/ui/renderwidget_ui.ui:682
+#: src/ui/renderwidget_ui.ui:688
 #, kde-format
 msgid "Speed:"
 msgstr "Швидкість:"
 
 #. i18n: ectx: property (text), widget (QLabel, threadsLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/renderwidget_ui.ui:714 src/ui/renderwidget_ui.ui:749
+#: src/ui/renderwidget_ui.ui:720 src/ui/renderwidget_ui.ui:755
 #, kde-format
 msgid "Threads:"
 msgstr "Потоків:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, encoder_threads)
-#: src/ui/renderwidget_ui.ui:727
+#: src/ui/renderwidget_ui.ui:733
 #, kde-format
 msgid "Encoding threads"
 msgstr "Потоки декодування"
 
 #. i18n: ectx: property (title), widget (QGroupBox, processing_box)
-#: src/ui/renderwidget_ui.ui:740
+#: src/ui/renderwidget_ui.ui:746
 #, kde-format
 msgid "Parallel Processing"
 msgstr "Паралельна обробка"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, processing_warning)
-#: src/ui/renderwidget_ui.ui:763
+#: src/ui/renderwidget_ui.ui:769
 #, kde-format
 msgid "Parallel processing may cause render artifacts"
 msgstr "Паралельна обробка може спричинити помилки при обробці"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkTwoPass)
-#: src/ui/renderwidget_ui.ui:779
+#: src/ui/renderwidget_ui.ui:785
 #, kde-format
 msgid "2 pass"
 msgstr "2 проходи"
 
 #. i18n: ectx: property (text), widget (QCheckBox, export_meta)
-#: src/ui/renderwidget_ui.ui:788
+#: src/ui/renderwidget_ui.ui:794
 #, kde-format
 msgid "Export metadata"
 msgstr "Експортувати метадані"
 
 #. i18n: ectx: property (text), widget (QLabel, edit_metadata)
-#: src/ui/renderwidget_ui.ui:795
+#: src/ui/renderwidget_ui.ui:801
 #, kde-format
 msgid "<a href=\"#\">Edit metadata</a>"
 msgstr "<a href=\"#\">Редагувати метадані</a>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, embed_subtitles)
-#: src/ui/renderwidget_ui.ui:820
+#: src/ui/renderwidget_ui.ui:826
 #, kde-format
 msgid "Embed subtitles instead of burning them"
 msgstr "Вбудувати субтитри замість вписування їх"
 
 #. i18n: ectx: property (text), widget (QCheckBox, open_browser)
-#: src/ui/renderwidget_ui.ui:827
+#: src/ui/renderwidget_ui.ui:833
 #, kde-format
 msgid "Open folder after export"
 msgstr "Після експортування відкрити теку"
 
 #. i18n: ectx: property (text), widget (QCheckBox, play_after)
-#: src/ui/renderwidget_ui.ui:834
+#: src/ui/renderwidget_ui.ui:840
 #, kde-format
 msgid "Play after render"
 msgstr "Відтворити після обробки"
 
 #. i18n: ectx: attribute (title), widget (QWidget, jobTab)
-#: src/ui/renderwidget_ui.ui:856
+#: src/ui/renderwidget_ui.ui:862
 #, kde-format
 msgid "Job Queue"
 msgstr "Черга завдань"
 
 #. i18n: ectx: property (text), widget (QPushButton, start_job)
-#: src/ui/renderwidget_ui.ui:891
+#: src/ui/renderwidget_ui.ui:897
 #, kde-format
 msgid "Start Job"
 msgstr "Почати виконання завдання"
 
 #. i18n: ectx: property (text), widget (QPushButton, clean_up)
-#: src/ui/renderwidget_ui.ui:901
+#: src/ui/renderwidget_ui.ui:907
 #, kde-format
 msgid "Clean Up"
 msgstr "Спорожнити"
 
 #. i18n: ectx: property (text), widget (QLabel, errorLabel_2)
-#: src/ui/renderwidget_ui.ui:961
+#: src/ui/renderwidget_ui.ui:967
 #, kde-format
 msgid "Error Log"
 msgstr "Журнал помилок"
 
 #. i18n: ectx: property (text), widget (QCheckBox, shutdown)
-#: src/ui/renderwidget_ui.ui:996
+#: src/ui/renderwidget_ui.ui:1002
 #, kde-format
 msgid "Shutdown computer after renderings"
 msgstr "Після завершення обробки вимкнути комп’ютер"
 
 #. i18n: ectx: attribute (title), widget (QWidget, scriptsTab)
-#: src/ui/renderwidget_ui.ui:1011
+#: src/ui/renderwidget_ui.ui:1017
 #, kde-format
 msgid "Scripts"
 msgstr "Скрипти"
 
 #. i18n: ectx: property (text), widget (QPushButton, start_script)
-#: src/ui/renderwidget_ui.ui:1039
+#: src/ui/renderwidget_ui.ui:1045
 #, kde-format
 msgid "Start Script"
 msgstr "Виконати скрипт"
 
 #. i18n: ectx: property (text), widget (QPushButton, delete_script)
-#: src/ui/renderwidget_ui.ui:1046
+#: src/ui/renderwidget_ui.ui:1052
 #, kde-format
 msgid "Delete Script"
 msgstr "Вилучити скрипт"
