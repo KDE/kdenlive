@@ -387,6 +387,34 @@ void Wizard::checkMltComponents()
     }
 }
 
+// Static
+const QString Wizard::fixKdenliveRenderPath()
+{
+    QString kdenliverenderpath;
+    QString errorMessage;
+    // Find path for Kdenlive renderer
+#ifdef Q_OS_WIN
+    kdenliverenderpath = QCoreApplication::applicationDirPath() + QStringLiteral("/kdenlive_render.exe");
+#else
+    kdenliverenderpath = QCoreApplication::applicationDirPath() + QStringLiteral("/kdenlive_render");
+#endif
+    if (!QFile::exists(kdenliverenderpath)) {
+        const QStringList mltpath({QFileInfo(KdenliveSettings::meltpath()).canonicalPath(), qApp->applicationDirPath()});
+        kdenliverenderpath = QStandardPaths::findExecutable(QStringLiteral("kdenlive_render"), mltpath);
+        if (kdenliverenderpath.isEmpty()) {
+            kdenliverenderpath = QStandardPaths::findExecutable(QStringLiteral("kdenlive_render"));
+        }
+        if (kdenliverenderpath.isEmpty()) {
+            errorMessage = i18n("<li>Missing app: <b>kdenlive_render</b><br/>needed for rendering.</li>");
+        }
+    }
+
+    if (!kdenliverenderpath.isEmpty()) {
+        KdenliveSettings::setKdenliverendererpath(kdenliverenderpath);
+    }
+    return errorMessage;
+}
+
 void Wizard::slotCheckPrograms(QString &infos, QString &warnings, QString &errors)
 {
     // Check first in same folder as melt exec
@@ -434,14 +462,10 @@ void Wizard::slotCheckPrograms(QString &infos, QString &warnings, QString &error
             }
         }
     }
-    QString kdenliverenderpath;
     if (KdenliveSettings::kdenliverendererpath().isEmpty() || !QFileInfo::exists(KdenliveSettings::kdenliverendererpath())) {
-        kdenliverenderpath = QStandardPaths::findExecutable(QStringLiteral("kdenlive_render"), mltpath);
-        if (kdenliverenderpath.isEmpty()) {
-            kdenliverenderpath = QStandardPaths::findExecutable(QStringLiteral("kdenlive_render"));
-        }
-        if (kdenliverenderpath.isEmpty()) {
-            errors.append(i18n("<li>Missing app: <b>kdenlive_render</b><br/>needed for rendering.</li>"));
+        const QString renderError = fixKdenliveRenderPath();
+        if (!renderError.isEmpty()) {
+            errors.append(renderError);
         }
     }
 
@@ -453,10 +477,6 @@ void Wizard::slotCheckPrograms(QString &infos, QString &warnings, QString &error
     }
     if (!probepath.isEmpty()) {
         KdenliveSettings::setFfprobepath(probepath);
-    }
-
-    if (!kdenliverenderpath.isEmpty()) {
-        KdenliveSettings::setKdenliverendererpath(kdenliverenderpath);
     }
 
     // set up some default applications
