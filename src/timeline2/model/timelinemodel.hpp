@@ -876,6 +876,8 @@ public:
     void updateVisibleSequenceName(const QString displayName);
     /** @brief Register all clips in this sequence to Bin */
     void registerTimeline();
+    /** @brief Load timeline preview on project opening */
+    void loadPreview(const QString &chunks, const QString &dirty, bool enable, Mlt::Playlist &playlist);
 
 protected:
     /** @brief Register a new track. This is a call-back meant to be called from TrackModel

@@ -1428,9 +1428,9 @@ void Core::addBin(const QString &id)
 
 void Core::loadTimelinePreview(const QUuid uuid, const QString &chunks, const QString &dirty, bool enablePreview, Mlt::Playlist &playlist)
 {
-    TimelineWidget *tl = pCore->window()->getTimeline(uuid);
+    std::shared_ptr<TimelineItemModel> tl = pCore->currentDoc()->getTimeline(uuid);
     if (tl) {
-        tl->controller()->loadPreview(chunks, dirty, enablePreview, playlist);
+        tl->loadPreview(chunks, dirty, enablePreview, playlist);
     }
 }
 

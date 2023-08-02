@@ -766,6 +766,8 @@ private:
 
     void initializePreview();
     int getMenuOrTimelinePos() const;
+    /** @brief Prepare the preview manager */
+    void connectPreviewManager(bool onCreation);
 
 Q_SIGNALS:
     void selected(Mlt::Producer *producer);

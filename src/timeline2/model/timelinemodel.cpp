@@ -6944,3 +6944,48 @@ void TimelineModel::registerTimeline()
         clip.second->registerClipToBin(clip.second->getProducer(), false);
     }
 }
+
+void TimelineModel::loadPreview(const QString &chunks, const QString &dirty, bool enable, Mlt::Playlist &playlist)
+{
+    if (chunks.isEmpty() && dirty.isEmpty()) {
+        return;
+    }
+    if (!hasTimelinePreview()) {
+        initializePreviewManager();
+    }
+    QVariantList renderedChunks;
+    QVariantList dirtyChunks;
+    QStringList chunksList = chunks.split(QLatin1Char(','), Qt::SkipEmptyParts);
+    QStringList dirtyList = dirty.split(QLatin1Char(','), Qt::SkipEmptyParts);
+    for (const QString &frame : qAsConst(chunksList)) {
+        if (frame.contains(QLatin1Char('-'))) {
+            // Range, process
+            int start = frame.section(QLatin1Char('-'), 0, 0).toInt();
+            int end = frame.section(QLatin1Char('-'), 1, 1).toInt();
+            for (int i = start; i <= end; i += 25) {
+                renderedChunks << i;
+            }
+        } else {
+            renderedChunks << frame.toInt();
+        }
+    }
+    for (const QString &frame : qAsConst(dirtyList)) {
+        if (frame.contains(QLatin1Char('-'))) {
+            // Range, process
+            int start = frame.section(QLatin1Char('-'), 0, 0).toInt();
+            int end = frame.section(QLatin1Char('-'), 1, 1).toInt();
+            for (int i = start; i <= end; i += 25) {
+                dirtyChunks << i;
+            }
+        } else {
+            dirtyChunks << frame.toInt();
+        }
+    }
+
+    if (hasTimelinePreview()) {
+        if (!enable) {
+            buildPreviewTrack();
+        }
+        previewManager()->loadChunks(renderedChunks, dirtyChunks, playlist);
+    }
+}

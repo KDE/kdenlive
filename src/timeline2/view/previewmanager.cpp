@@ -604,7 +604,7 @@ void PreviewManager::doPreviewRender(const QString &scene)
     pCore->currentDoc()->previewProgress(0);
     m_previewProcess.start(KdenliveSettings::kdenliverendererpath(), args);
     if (m_previewProcess.waitForStarted()) {
-        qDebug() << " -  - -STARTING PREVIEW JOBS . . . STARTED";
+        qDebug() << " -  - -STARTING PREVIEW JOBS . . . STARTED: " << args;
     }
 }
 
@@ -844,11 +844,11 @@ QPair<QStringList, QStringList> PreviewManager::previewChunks()
 const QStringList PreviewManager::getCompressedList(const QVariantList items) const
 {
     QStringList resultString;
-    int lastFrame = 0;
+    int lastFrame = -1;
     QString currentString;
     for (const QVariant &frame : items) {
         int current = frame.toInt();
-        if (current - 25 == lastFrame) {
+        if (current - KdenliveSettings::timelinechunks() == lastFrame) {
             lastFrame = current;
             if (frame == items.last()) {
                 currentString.append(QString("-%1").arg(lastFrame));
