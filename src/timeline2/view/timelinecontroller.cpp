@@ -142,6 +142,7 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
     connect(m_model.get(), &TimelineModel::flashLock, this, &TimelineController::slotFlashLock);
     connect(m_model.get(), &TimelineModel::highlightSub, this,
             [this](int index) { QMetaObject::invokeMethod(m_root, "highlightSub", Qt::QueuedConnection, Q_ARG(QVariant, index)); });
+    connectPreviewManager(true);
 }
 
 void TimelineController::restoreTargetTracks()
@@ -2524,6 +2525,7 @@ void TimelineController::stopPreviewRender()
 
 void TimelineController::initializePreview()
 {
+    bool onCreation = false;
     if (m_model->hasTimelinePreview()) {
         // Update parameters
         if (!m_model->previewManager()->loadParams()) {
@@ -2536,12 +2538,21 @@ void TimelineController::initializePreview()
         }
     } else {
         m_model->initializePreviewManager();
+        onCreation = true;
+    }
+    connectPreviewManager(onCreation);
+}
+
+void TimelineController::connectPreviewManager(bool onCreation)
+{
+    if (onCreation) {
         if (m_model->hasTimelinePreview()) {
-            connect(m_model->previewManager().get(), &PreviewManager::dirtyChunksChanged, this, &TimelineController::dirtyChunksChanged, Qt::DirectConnection);
+            connect(m_model->previewManager().get(), &PreviewManager::dirtyChunksChanged, this, &TimelineController::dirtyChunksChanged,
+                    static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
             connect(m_model->previewManager().get(), &PreviewManager::renderedChunksChanged, this, &TimelineController::renderedChunksChanged,
-                    Qt::DirectConnection);
+                    static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
             connect(m_model->previewManager().get(), &PreviewManager::workingPreviewChanged, this, &TimelineController::workingPreviewChanged,
-                    Qt::DirectConnection);
+                    static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
         }
     }
     QAction *previewRender = pCore->currentDoc()->getAction(QStringLiteral("prerender_timeline_zone"));
@@ -2616,57 +2627,6 @@ void TimelineController::resetPreview()
     if (m_model->hasTimelinePreview()) {
         m_model->previewManager()->clearPreviewRange(true);
         initializePreview();
-    }
-}
-
-void TimelineController::loadPreview(const QString &chunks, const QString &dirty, bool enable, Mlt::Playlist &playlist)
-{
-    if (chunks.isEmpty() && dirty.isEmpty()) {
-        return;
-    }
-    if (!m_model->hasTimelinePreview()) {
-        initializePreview();
-    }
-    QVariantList renderedChunks;
-    QVariantList dirtyChunks;
-    QStringList chunksList = chunks.split(QLatin1Char(','), Qt::SkipEmptyParts);
-    QStringList dirtyList = dirty.split(QLatin1Char(','), Qt::SkipEmptyParts);
-    for (const QString &frame : qAsConst(chunksList)) {
-        if (frame.contains(QLatin1Char('-'))) {
-            // Range, process
-            int start = frame.section(QLatin1Char('-'), 0, 0).toInt();
-            int end = frame.section(QLatin1Char('-'), 1, 1).toInt();
-            for (int i = start; i <= end; i += 25) {
-                renderedChunks << i;
-            }
-        } else {
-            renderedChunks << frame.toInt();
-        }
-    }
-    for (const QString &frame : qAsConst(dirtyList)) {
-        if (frame.contains(QLatin1Char('-'))) {
-            // Range, process
-            int start = frame.section(QLatin1Char('-'), 0, 0).toInt();
-            int end = frame.section(QLatin1Char('-'), 1, 1).toInt();
-            for (int i = start; i <= end; i += 25) {
-                dirtyChunks << i;
-            }
-        } else {
-            dirtyChunks << frame.toInt();
-        }
-    }
-
-    if (m_disablePreview) {
-        m_disablePreview->blockSignals(true);
-        m_disablePreview->setChecked(enable);
-        m_disablePreview->blockSignals(false);
-    }
-    if (m_model->hasTimelinePreview()) {
-        if (!enable) {
-            m_model->buildPreviewTrack();
-            m_usePreview = true;
-        }
-        m_model->previewManager()->loadChunks(renderedChunks, dirtyChunks, playlist);
     }
 }
 
