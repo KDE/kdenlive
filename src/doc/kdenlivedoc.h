@@ -303,7 +303,7 @@ public:
     static void makeBackgroundTrackTransparent(QDomDocument &doc);
     /** @brief Set the autoclose attribute to all playlists in @param doc.
      *   This is eg. needed for rendering, as the process would not stop at the end of the playlist if it was not closed */
-    static void setAutoclosePlaylists(QDomDocument &doc);
+    static void setAutoclosePlaylists(QDomDocument &doc, const QString &mainSequenceUuid);
     /** @brief Check that the timelines hash have not changed between saved version and current status */
     bool checkConsistency();
 
