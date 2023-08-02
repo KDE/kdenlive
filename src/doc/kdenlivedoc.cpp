@@ -2321,12 +2321,28 @@ void KdenliveDoc::makeBackgroundTrackTransparent(QDomDocument &doc)
     }
 }
 
-void KdenliveDoc::setAutoclosePlaylists(QDomDocument &doc)
+void KdenliveDoc::setAutoclosePlaylists(QDomDocument &doc, const QString &mainSequenceUuid)
 {
+    // We should only set the autoclose atribute on the main sequence playlists.
+    // Otherwise if a sequence is reused several times, its playback will be broken
     QDomNodeList playlists = doc.elementsByTagName(QStringLiteral("playlist"));
+    QDomNodeList tractors = doc.elementsByTagName(QStringLiteral("tractor"));
+    QStringList matches;
+    for (int i = 0; i < tractors.length(); ++i) {
+        if (tractors.at(i).toElement().attribute(QStringLiteral("id")) == mainSequenceUuid) {
+            // We found the main sequence tractor, list its tracks
+            QDomNodeList tracks = tractors.at(i).toElement().elementsByTagName(QStringLiteral("track"));
+            for (int j = 0; j < tracks.length(); ++j) {
+                matches << tracks.at(j).toElement().attribute(QStringLiteral("producer"));
+            }
+            break;
+        }
+    }
     for (int i = 0; i < playlists.length(); ++i) {
         auto playlist = playlists.at(i).toElement();
-        playlist.setAttribute(QStringLiteral("autoclose"), 1);
+        if (matches.contains(playlist.attribute(QStringLiteral("id")))) {
+            playlist.setAttribute(QStringLiteral("autoclose"), 1);
+        }
     }
 }
 
