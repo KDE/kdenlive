@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-01 00:45+0000\n"
+"POT-Creation-Date: 2023-08-02 00:46+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -6418,8 +6418,8 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "Importovať vodítka"
 
-#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1605
-#: src/dialogs/renderwidget.cpp:1632 src/doc/kdenlivedoc.cpp:745
+#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1611
+#: src/dialogs/renderwidget.cpp:1638 src/doc/kdenlivedoc.cpp:745
 #: src/doc/kdenlivedoc.cpp:753 src/doc/kdenlivedoc.cpp:1249
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
@@ -6953,130 +6953,130 @@ msgid ""
 "overwritten by the equivalent user interface options: <icode>%1</icode>"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:115 src/dialogs/renderwidget.cpp:1435
+#: src/dialogs/renderwidget.cpp:116 src/dialogs/renderwidget.cpp:1441
 #, fuzzy, kde-format
 #| msgid "Waiting..."
 msgid "Waiting…"
 msgstr "Čakám..."
 
-#: src/dialogs/renderwidget.cpp:118
+#: src/dialogs/renderwidget.cpp:119
 #, kde-format
 msgid "Rendering finished"
 msgstr "Vykresľovanie ukončené"
 
-#: src/dialogs/renderwidget.cpp:123
+#: src/dialogs/renderwidget.cpp:124
 #, kde-format
 msgid "Rendering crashed"
 msgstr "Vykresľovanie spadlo"
 
-#: src/dialogs/renderwidget.cpp:128
+#: src/dialogs/renderwidget.cpp:129
 #, kde-format
 msgid "Rendering aborted"
 msgstr "Vykresľovanie prerušené"
 
-#: src/dialogs/renderwidget.cpp:213 src/project/dialogs/slideshowclip.cpp:60
+#: src/dialogs/renderwidget.cpp:214 src/project/dialogs/slideshowclip.cpp:60
 #: src/scopes/colorscopes/vectorscope.cpp:55
 #, kde-format
 msgid "None"
 msgstr "Žiadne"
 
-#: src/dialogs/renderwidget.cpp:214
+#: src/dialogs/renderwidget.cpp:215
 #, fuzzy, kde-format
 #| msgid "Time"
 msgid "Timecode"
 msgstr "Čas"
 
-#: src/dialogs/renderwidget.cpp:215
+#: src/dialogs/renderwidget.cpp:216
 #, fuzzy, kde-format
 #| msgid "Real Time (drop frames)"
 msgid "Timecode Non Drop Frame"
 msgstr "Reálny čas (vypustiť snímky)"
 
-#: src/dialogs/renderwidget.cpp:216
+#: src/dialogs/renderwidget.cpp:217
 #, fuzzy, kde-format
 #| msgid "Limit keyframe number"
 msgid "Frame Number"
 msgstr "Obmedziť počet kľúčových snímok"
 
-#: src/dialogs/renderwidget.cpp:220
+#: src/dialogs/renderwidget.cpp:221
 #, kde-format
 msgid "Rendering using low quality proxy"
 msgstr "Renderovanie pomocou zástupcu nízkej kvality"
 
-#: src/dialogs/renderwidget.cpp:302
+#: src/dialogs/renderwidget.cpp:303
 #, kde-format
 msgid "File"
 msgstr "Súbor"
 
-#: src/dialogs/renderwidget.cpp:311
+#: src/dialogs/renderwidget.cpp:312
 #, fuzzy, kde-format
 #| msgid "Playlist"
 msgid "Stored Playlists"
 msgstr "Zoznam skladieb"
 
-#: src/dialogs/renderwidget.cpp:320 src/timeline2/view/previewmanager.cpp:53
+#: src/dialogs/renderwidget.cpp:325 src/timeline2/view/previewmanager.cpp:49
 #, kde-format
 msgid ""
 "Could not find the kdenlive_render application, something is wrong with your "
 "installation. Rendering will not work"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:338
+#: src/dialogs/renderwidget.cpp:344
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:345
+#: src/dialogs/renderwidget.cpp:351
 #, fuzzy, kde-format
 #| msgid "There was an error while copying the files: %1"
 msgid "There was a problem sharing the document: %1"
 msgstr "Nastala chyba počas kopírovania súborov: %1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
-#: src/dialogs/renderwidget.cpp:345 src/dialogs/renderwidget.cpp:353
+#: src/dialogs/renderwidget.cpp:351 src/dialogs/renderwidget.cpp:359
 #: src/ui/renderwidget_ui.ui:878
 #, kde-format
 msgid "Share"
 msgstr "Zdieľať"
 
-#: src/dialogs/renderwidget.cpp:350
+#: src/dialogs/renderwidget.cpp:356
 #, kde-format
 msgid "Document shared successfully"
 msgstr "Dokument úspešne zdieľaný"
 
-#: src/dialogs/renderwidget.cpp:353
+#: src/dialogs/renderwidget.cpp:359
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
 msgstr "Zdieľaný dokument môžete nájsť na adrese: <a href=\"%1\">%1</a>"
 
-#: src/dialogs/renderwidget.cpp:473
+#: src/dialogs/renderwidget.cpp:479
 #, kde-format
 msgid "Beginning"
 msgstr "Začiatok"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/dialogs/renderwidget.cpp:480 src/ui/wipeval_ui.ui:172
+#: src/dialogs/renderwidget.cpp:486 src/ui/wipeval_ui.ui:172
 #, kde-format
 msgid "End"
 msgstr "Koniec"
 
-#: src/dialogs/renderwidget.cpp:601
+#: src/dialogs/renderwidget.cpp:607
 #, kde-format
 msgid "Add a clip to timeline before rendering"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:607
+#: src/dialogs/renderwidget.cpp:613
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr "Nie je možné nájsť program melt, potrebný pre vykresľovanie (časť Mlt)"
 
-#: src/dialogs/renderwidget.cpp:613 src/dialogs/renderwidget.cpp:1409
+#: src/dialogs/renderwidget.cpp:619 src/dialogs/renderwidget.cpp:1415
 #: src/project/dialogs/archivewidget.cpp:873
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Výstupný súbor už existuje. Chcete ho prepísať?"
 
-#: src/dialogs/renderwidget.cpp:621 src/monitor/recmanager.cpp:192
+#: src/dialogs/renderwidget.cpp:627 src/monitor/recmanager.cpp:192
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -7085,12 +7085,12 @@ msgstr ""
 "Adresár %1 nemohol byť vytvorený.\n"
 "Uistite sa, že máte požadované prístupové práva."
 
-#: src/dialogs/renderwidget.cpp:662
+#: src/dialogs/renderwidget.cpp:668
 #, kde-format
 msgid "The following errors occured while trying to render"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:695 src/dialogs/renderwidget.cpp:1422
+#: src/dialogs/renderwidget.cpp:701 src/dialogs/renderwidget.cpp:1428
 #, fuzzy, kde-format
 #| msgid ""
 #| "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -7102,63 +7102,63 @@ msgstr ""
 "Už existuje úloha, ktorá zapisuje do súboru: <br /><b>%1</b><br />Prerušiť "
 "úlohu, ak ho chcete prepísať..."
 
-#: src/dialogs/renderwidget.cpp:696 src/dialogs/renderwidget.cpp:1423
+#: src/dialogs/renderwidget.cpp:702 src/dialogs/renderwidget.cpp:1429
 #, kde-format
 msgid "Already running"
 msgstr "Už beží"
 
-#: src/dialogs/renderwidget.cpp:721
+#: src/dialogs/renderwidget.cpp:727
 #, kde-format
 msgid "Video without audio track"
 msgstr "Video bez zvukovej stopy"
 
-#: src/dialogs/renderwidget.cpp:723
+#: src/dialogs/renderwidget.cpp:729
 #, fuzzy, kde-format
 #| msgid "Video without audio track"
 msgid "Audio without video track"
 msgstr "Video bez zvukovej stopy"
 
-#: src/dialogs/renderwidget.cpp:787
+#: src/dialogs/renderwidget.cpp:793
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "Renderovanie <i>%1</i> spustené"
 
-#: src/dialogs/renderwidget.cpp:849 src/monitor/monitor.cpp:1161
+#: src/dialogs/renderwidget.cpp:855 src/monitor/monitor.cpp:1161
 #, kde-format
 msgid "untitled"
 msgstr "nepomenovaný"
 
-#: src/dialogs/renderwidget.cpp:887
+#: src/dialogs/renderwidget.cpp:893
 #, fuzzy, kde-format
 #| msgid "No profile selected"
 msgid "No preset selected"
 msgstr "Nie je vybraný profil"
 
-#: src/dialogs/renderwidget.cpp:889
+#: src/dialogs/renderwidget.cpp:895
 #, fuzzy, kde-format
 #| msgid "No matching profile"
 msgid "No matching preset"
 msgstr "Žiadny zodpovedajúcej profil"
 
-#: src/dialogs/renderwidget.cpp:901
+#: src/dialogs/renderwidget.cpp:907
 #, fuzzy, kde-format
 #| msgid "Invalid profile"
 msgid "Invalid preset"
 msgstr "Neplatný profil"
 
-#: src/dialogs/renderwidget.cpp:1018
+#: src/dialogs/renderwidget.cpp:1024
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1177
+#: src/dialogs/renderwidget.cpp:1183
 #, kde-format
 msgid "Remaining time "
 msgstr "Zostávajúci čas "
 
-#: src/dialogs/renderwidget.cpp:1179 src/dialogs/renderwidget.cpp:1223
+#: src/dialogs/renderwidget.cpp:1185 src/dialogs/renderwidget.cpp:1229
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
@@ -7166,50 +7166,50 @@ msgstr[0] "%1 deň "
 msgstr[1] "%1 dB"
 msgstr[2] "%1 dB"
 
-#: src/dialogs/renderwidget.cpp:1183
+#: src/dialogs/renderwidget.cpp:1189
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1195
+#: src/dialogs/renderwidget.cpp:1201
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1225
+#: src/dialogs/renderwidget.cpp:1231
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Vykresľovanie ukončené v %1"
 
-#: src/dialogs/renderwidget.cpp:1233
+#: src/dialogs/renderwidget.cpp:1239
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "Vykresľovanie %1 ukončené v %2"
 
-#: src/dialogs/renderwidget.cpp:1257
+#: src/dialogs/renderwidget.cpp:1263
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>Vykresľovanie %1 spadlo</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1300 src/ui/renderwidget_ui.ui:871
+#: src/dialogs/renderwidget.cpp:1306 src/ui/renderwidget_ui.ui:871
 #, kde-format
 msgid "Abort Job"
 msgstr "Prerušiť úlohu"
 
-#: src/dialogs/renderwidget.cpp:1303
+#: src/dialogs/renderwidget.cpp:1309
 #, kde-format
 msgid "Remove Job"
 msgstr "Odstrániť úlohu"
 
-#: src/dialogs/renderwidget.cpp:1687 src/dialogs/renderwidget.cpp:1697
-#: src/dialogs/renderwidget.cpp:1719
+#: src/dialogs/renderwidget.cpp:1693 src/dialogs/renderwidget.cpp:1703
+#: src/dialogs/renderwidget.cpp:1725
 #, fuzzy, kde-format
 #| msgid "Duration: "
 msgid "Render Duration: %1"
 msgstr "Trvanie: "
 
-#: src/dialogs/renderwidget.cpp:1777
+#: src/dialogs/renderwidget.cpp:1783
 #, fuzzy, kde-format
 #| msgid "Codec speed parameters:\n"
 msgid ""
@@ -7217,7 +7217,7 @@ msgid ""
 "%1"
 msgstr "Rýchlostné parametre kodeku:\n"
 
-#: src/dialogs/renderwidget.cpp:1797
+#: src/dialogs/renderwidget.cpp:1803
 #, kde-format
 msgid "Add to current project"
 msgstr "Pridať do aktuálneho projektu"
@@ -7848,7 +7848,15 @@ msgstr ""
 "<li>Chýbajúci MLT modul: <b>kdenlivetitle</b><br/>potrebný na vytváranie "
 "názvov</li>"
 
-#: src/dialogs/wizard.cpp:405
+#: src/dialogs/wizard.cpp:408
+#, fuzzy, kde-format
+#| msgid ""
+#| "<li>Missing app: <b>dvdauthor</b><br/>required for creation of DVD</li>"
+msgid "<li>Missing app: <b>kdenlive_render</b><br/>needed for rendering.</li>"
+msgstr ""
+"<li>Chýbajúca aplikácia: <b>dvdauthor</b><br/>potrebná na vytvorenie DVD</li>"
+
+#: src/dialogs/wizard.cpp:433
 #, kde-format
 msgid ""
 "<li>Missing app: <b>ffmpeg</b><br/>required for proxy clips and transcoding</"
@@ -7857,7 +7865,7 @@ msgstr ""
 "<li>Chýbajúca aplikácia: <b>ffmpeg</b><br/>potrebný na zástupné klipy a "
 "transkódovanie</li>"
 
-#: src/dialogs/wizard.cpp:419
+#: src/dialogs/wizard.cpp:447
 #, kde-format
 msgid ""
 "<li>Missing app: <b>ffplay</b><br/>recommended for some preview jobs</li>"
@@ -7865,7 +7873,7 @@ msgstr ""
 "<li>Chýbajúca aplikácia: <b>ffplay</b><br/>odporúčaná na niektoré úlohy "
 "náhľadu</li>"
 
-#: src/dialogs/wizard.cpp:433
+#: src/dialogs/wizard.cpp:461
 #, kde-format
 msgid ""
 "<li>Missing app: <b>ffprobe</b><br/>recommended for extra clip analysis</li>"
@@ -7873,15 +7881,7 @@ msgstr ""
 "<li>Chýbajúca aplikácia: <b>ffprobe</b><br/>odporúčaná na dodatočnú analýzu "
 "klipu</li>"
 
-#: src/dialogs/wizard.cpp:444
-#, fuzzy, kde-format
-#| msgid ""
-#| "<li>Missing app: <b>dvdauthor</b><br/>required for creation of DVD</li>"
-msgid "<li>Missing app: <b>kdenlive_render</b><br/>needed for rendering.</li>"
-msgstr ""
-"<li>Chýbajúca aplikácia: <b>dvdauthor</b><br/>potrebná na vytvorenie DVD</li>"
-
-#: src/dialogs/wizard.cpp:517
+#: src/dialogs/wizard.cpp:537
 #, fuzzy, kde-format
 #| msgid ""
 #| "<li>Missing app: <b>ffprobe</b><br/>recommended for extra clip analysis</"
@@ -7893,7 +7893,7 @@ msgstr ""
 "<li>Chýbajúca aplikácia: <b>ffprobe</b><br/>odporúčaná na dodatočnú analýzu "
 "klipu</li>"
 
-#: src/dialogs/wizard.cpp:622
+#: src/dialogs/wizard.cpp:642
 #, kde-format
 msgid ""
 "Your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
@@ -7901,17 +7901,17 @@ msgstr ""
 "Nie je možné nájsť vašu inštaláciu MLT. Nainštalujte MLT a reštartujte "
 "Kdenlive.\n"
 
-#: src/dialogs/wizard.cpp:626
+#: src/dialogs/wizard.cpp:646
 #, kde-format
 msgid "Fatal Error"
 msgstr "Fatálna chyba"
 
-#: src/dialogs/wizard.cpp:808
+#: src/dialogs/wizard.cpp:828
 #, kde-format
 msgid "No hardware encoders found."
 msgstr "Nenájdené žiadne enkódery."
 
-#: src/dialogs/wizard.cpp:810
+#: src/dialogs/wizard.cpp:830
 #, fuzzy, kde-format
 #| msgid "VAAPI hardware encoders found and enabled."
 msgid "hardware encoders found and enabled (%1)."
@@ -16597,34 +16597,34 @@ msgstr[0] " stopa"
 msgstr[1] " stopy"
 msgstr[2] " stôp"
 
-#: src/timeline2/view/previewmanager.cpp:87
+#: src/timeline2/view/previewmanager.cpp:84
 #, kde-format
 msgid "Wrong document ID, cannot create temporary folder"
 msgstr "Zlé ID dokumentu, nemôžem vytvoriť dočasný priečinok"
 
-#: src/timeline2/view/previewmanager.cpp:93
+#: src/timeline2/view/previewmanager.cpp:90
 #, fuzzy, kde-format
 #| msgid "Cannot create folder %1"
 msgid "Cannot read folder %1"
 msgstr "Nie je možné vytvoriť adresár %1"
 
-#: src/timeline2/view/previewmanager.cpp:99
-#: src/timeline2/view/previewmanager.cpp:105
+#: src/timeline2/view/previewmanager.cpp:96
+#: src/timeline2/view/previewmanager.cpp:102
 #, kde-format
 msgid "Something is wrong with cache folder %1"
 msgstr "Niečo nie je v poriadku s priečinkom vyrovnávacej pamäte %1"
 
-#: src/timeline2/view/previewmanager.cpp:110
+#: src/timeline2/view/previewmanager.cpp:107
 #, kde-format
 msgid "Invalid timeline preview parameters"
 msgstr "Neplatné parametre náhľadu časovej osi"
 
-#: src/timeline2/view/previewmanager.cpp:117
+#: src/timeline2/view/previewmanager.cpp:114
 #, kde-format
 msgid "Something is wrong with cache folders"
 msgstr "Niečo nie je v poriadku s priečinkami vyrovnávacej pamäte"
 
-#: src/timeline2/view/previewmanager.cpp:770
+#: src/timeline2/view/previewmanager.cpp:767
 #, kde-format
 msgid "Preview rendering failed, check your parameters. %1Show details...%2"
 msgstr ""
