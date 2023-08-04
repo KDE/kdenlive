@@ -23510,7 +23510,7 @@ msgstr "%1 год."
 #~ msgstr "Криві"
 
 #~ msgid "Nikon D90 Stairstepping fix"
-#~ msgstr "Виправлення ступінчатості для Nikon D90"
+#~ msgstr "Виправлення ступінчастості для Nikon D90"
 
 #~ msgid ""
 #~ "Removes stairstepping artifacts from Nikon D90's 720p videos.\n"
