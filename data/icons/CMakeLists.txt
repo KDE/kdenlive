@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-FileCopyrightText: Vincent Pinon <vpinon@kde.org>, Julius Künzel <jk.kdedev@smartlab.uber.space>, Jean-Baptiste Mardelle <jb@kdenlive.org>
+
 ecm_install_icons(ICONS
   16-actions-keyframe.svg
   16-actions-keyframe-add.svg

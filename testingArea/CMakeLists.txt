@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-FileCopyrightText: Simon A. Eugster <simon.eu@gmail.com>, Alberto Villa <avilla@FreeBSD.org>
+
 
 message(STATUS "Building experimental executables")
 
