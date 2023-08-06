@@ -20,6 +20,10 @@ DCResolveDialog::DCResolveDialog(std::vector<DocumentChecker::DocumentResource> 
 
     m_model = DocumentCheckerTreeModel::construct(items, this);
     treeView->setModel(m_model.get());
+    bool showTreeView = !m_model.get()->isEmpty();
+    treeView->setVisible(showTreeView);
+    actionButtonBox->setVisible(showTreeView);
+
     connect(removeSelected, &QPushButton::clicked, this, [&]() {
         QItemSelectionModel *selectionModel = treeView->selectionModel();
         m_model->removeItem(selectionModel->currentIndex());
@@ -34,13 +38,20 @@ DCResolveDialog::DCResolveDialog(std::vector<DocumentChecker::DocumentResource> 
     connect(m_model.get(), &DocumentCheckerTreeModel::searchProgress, this, [&](int current, int total) {
         setEnableChangeItems(false);
 
-        infoLabel->setVisible(true);
-        infoLabel->setText(i18n("Recursive search: processing clip %1 of %2", current, total));
+        progressBox->setVisible(true);
+        progressLabel->setText(i18n("Recursive search: processing clips"));
+        progressBar->setMinimum(0);
+        progressBar->setMaximum(total);
+        progressBar->setValue(current);
     });
 
     connect(m_model.get(), &DocumentCheckerTreeModel::searchDone, this, [&]() {
         setEnableChangeItems(true);
+        progressBox->hide();
         infoLabel->setText(i18n("Recursive search: done"));
+        infoLabel->setMessageType(KMessageWidget::MessageType::Positive);
+        infoLabel->animatedShow();
+        infoLabel->setCloseButtonVisible(true);
     });
 
     QItemSelectionModel *selectionModel = treeView->selectionModel();
@@ -53,17 +64,32 @@ DCResolveDialog::DCResolveDialog(std::vector<DocumentChecker::DocumentResource> 
         } else {
             removeSelected->setEnabled(true);
         }
-        if (resource.type == DocumentChecker::MissingType::Proxy) {
-            manualSearch->setEnabled(false);
-            usePlaceholders->setEnabled(false);
-        } else {
-            manualSearch->setEnabled(true);
-            usePlaceholders->setEnabled(true);
-        }
+        usePlaceholders->setEnabled(true);
+        manualSearch->setEnabled(true);
     });
 
+    progressBox->setVisible(false);
     infoLabel->setVisible(false);
+    proxyBox->setVisible(false);
+
+    initProxyPanel(items);
+
     checkStatus();
+    adjustSize();
+}
+
+QList<DocumentChecker::DocumentResource> DCResolveDialog::getItems()
+{
+    QList<DocumentChecker::DocumentResource> items = m_model.get()->getDocumentResources();
+    for (auto &proxy : m_proxies) {
+        if (recreateProxies->isChecked()) {
+            proxy.status = DocumentChecker::MissingStatus::Reload;
+        } else {
+            proxy.status = DocumentChecker::MissingStatus::Remove;
+        }
+        items.append(proxy);
+    }
+    return items;
 }
 
 void DCResolveDialog::slotEditCurrentItem()
@@ -122,6 +148,23 @@ void DCResolveDialog::slotEditCurrentItem()
     checkStatus();
 }
 
+void DCResolveDialog::initProxyPanel(const std::vector<DocumentChecker::DocumentResource> &items)
+{
+    m_proxies.clear();
+    for (const auto &item : items) {
+        if (item.type == DocumentChecker::MissingType::Proxy) {
+            m_proxies.push_back(item);
+        }
+    }
+
+    if (m_proxies.size() > 0) {
+        proxyLabel->setText(i18np("You project contains one missing proxy", "You project contains %1 missing proxies", m_proxies.size()));
+        proxyBox->show();
+    } else {
+        proxyBox->hide();
+    }
+}
+
 void DCResolveDialog::slotRecursiveSearch()
 {
     QString clipFolder; // = m_url.adjusted(QUrl::RemoveFilename).toLocalFile();
@@ -137,7 +180,7 @@ void DCResolveDialog::checkStatus()
 {
     bool status = true;
     for (const auto &item : m_model->getDocumentResources()) {
-        if (item.status == DocumentChecker::MissingStatus::Missing) {
+        if (item.status == DocumentChecker::MissingStatus::Missing && item.type != DocumentChecker::MissingType::Proxy) {
             status = false;
         }
     }

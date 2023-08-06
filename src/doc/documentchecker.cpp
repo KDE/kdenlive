@@ -635,7 +635,6 @@ QString DocumentChecker::getMissingProducers(QDomElement &e, const QDomNodeList 
             if (!proxyFound) {
                 item.originalFilePath = proxy;
                 item.type = MissingType::Proxy;
-                item.status = MissingStatus::Reload;
 
                 if (!resourceFixed) {
                     // Neither proxy nor original file found
@@ -655,7 +654,6 @@ QString DocumentChecker::getMissingProducers(QDomElement &e, const QDomNodeList 
         } else if (!proxyFound) {
             item.originalFilePath = proxy;
             item.type = MissingType::Proxy;
-            item.status = MissingStatus::Reload;
             m_items.push_back(item);
         }
         return resource;
@@ -1445,7 +1443,7 @@ QString DocumentChecker::readableNameForMissingStatus(MissingStatus type)
     case MissingStatus::Fixed:
         return i18n("Fixed");
     case MissingStatus::Reload:
-        return i18n("Reloaded");
+        return i18n("Reload");
     case MissingStatus::Missing:
         return i18n("Missing");
     case MissingStatus::MissingButProxy:

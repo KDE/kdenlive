@@ -32,6 +32,8 @@ public:
     QList<DocumentChecker::DocumentResource> getDocumentResources() { return m_resourceItems.values(); }
     DocumentChecker::DocumentResource getDocumentResource(const QModelIndex &index);
 
+    bool isEmpty() { return m_resourceItems.isEmpty(); }
+
 private:
     std::shared_ptr<TreeItem> getItemByIndex(const QModelIndex &index);
 

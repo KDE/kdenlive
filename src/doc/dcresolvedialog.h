@@ -15,7 +15,7 @@ class DCResolveDialog : public QDialog, public Ui::MissingClips_UI
 public:
     explicit DCResolveDialog(std::vector<DocumentChecker::DocumentResource> items, QWidget *parent = nullptr);
 
-    QList<DocumentChecker::DocumentResource> getItems() { return m_model.get()->getDocumentResources(); }
+    QList<DocumentChecker::DocumentResource> getItems();
 
 private:
     std::shared_ptr<DocumentCheckerTreeModel> m_model;
@@ -24,4 +24,7 @@ private:
     void checkStatus();
     void slotRecursiveSearch();
     void setEnableChangeItems(bool enabled);
+    void initProxyPanel(const std::vector<DocumentChecker::DocumentResource> &items);
+
+    std::vector<DocumentChecker::DocumentResource> m_proxies;
 };

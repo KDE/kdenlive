@@ -25,13 +25,17 @@ std::shared_ptr<DocumentCheckerTreeModel> DocumentCheckerTreeModel::construct(co
              << "New Path";
     self->rootItem = TreeItem::construct(rootData, self, true);
 
-    auto createCat = [&](const QString &name) { return self->rootItem->appendChild(QList<QVariant>{name}); };
-
-    std::vector<std::shared_ptr<TreeItem>> cats{};
+    // auto createCat = [&](const QString &name) { return self->rootItem->appendChild(QList<QVariant>{name}); };
+    // std::vector<std::shared_ptr<TreeItem>> cats{};
 
     QList<QVariant> data;
     data.reserve(3);
     for (const auto &item : items) {
+        if (item.type == DocumentChecker::MissingType::Proxy) {
+            // Skip proxy as they are shown in a different widget
+            continue;
+        }
+
         // we create the data list corresponding to this resource
         data.clear();
         data << DocumentChecker::readableNameForMissingType(item.type);
