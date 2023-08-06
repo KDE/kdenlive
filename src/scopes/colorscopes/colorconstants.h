@@ -1,4 +1,9 @@
 #pragma once
+/*
+    SPDX-FileCopyrightText: 2020 Simon Andreas Eugster <simon.eu@gmail.com>
+    This file is part of kdenlive. See www.kdenlive.org.
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 /**
  * ITU-R Recommendation for luminance calculation.
  * See http://www.poynton.com/ColorFAQ.html for details.

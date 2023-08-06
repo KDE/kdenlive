@@ -16,6 +16,14 @@ Files: data/lumas/PAL/* data/lumas/HD/*
 Copyright: Massimo Stella
 License: CC0-1.0
 
+Files: data/luts/*.cube
+Copyright: None
+License: CC0-1.0
+
+Files: data/knewstuff/*.knsrc
+Copyright: Kdenlive translators
+License: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+
 Files: data/icons/breeze/*
 Copyright: 2014 Uri Herrera <uri_herrera@nitrux.in> and others
 License: LGPL-3.0-or-later
@@ -31,6 +39,44 @@ License: LGPL-3.0-or-later
 Files: data/resourceproviders/*
 Copyright: 2021 Julius Künzel
 License: CC0-1.0
+
+Files: data/Info.plist
+Copyright: Jean-Baptiste Mardelle
+License: CC0-1.0
+
+Files: data/pics/breeze-light/*
+Copyright: Jean-Baptiste Mardelle
+License: LGPL-3.0-or-later
+
+Files: data/pics/kdenlive-logo.png data/icons/kdenlive.ico
+Copyright: Nara Oliveira and Farid Abdelnour
+License: LGPL-3.0-or-later
+
+Files: data/pics/splash-background.png
+Copyright: Farid Abdelnour
+License: LGPL-3.0-or-later
+
+Files: data/pics/splash-background.png
+Copyright: Farid Abdelnour
+License: LGPL-3.0-or-later
+
+Files: data/profiles/*
+Copyright: Jean-Baptiste Mardelle
+License: CC0-1.0
+
+Files: data/blacklisted_effects.txt data/blacklisted_transitions.txt
+Copyright: Jean-Baptiste Mardelle, Massimo Stella
+License: CC0-1.0
+
+Files: data/preferred_effects.txt
+Copyright: Jean-Baptiste Mardelle, Juku Trump
+License: CC0-1.0
+
+
+Files: data/org.kde.kdenlive.*
+Copyright: Kdenlive translators
+License: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+
 
 Files: .flatpak-manifest.json packaging/flatpak/python-modules.json packaging/flatpak/org.kde.kdenlive-*.json
 Copyright: none
@@ -48,6 +94,18 @@ Files:src/lib/external/kiss_fft/*
 Copyright: 2003-2004 Mark Borgerding <Mark@Borgerding.net>
 License: BSD-3-Clause
 
+Files:src/qml/qmldir src/kdenlivesettings.kcfgc
+Copyright: None
+License: CC0-1.0
+
+Files:src/uiresources.qrc
+Copyright: Julius Künzel, Jean-Baptiste Mardelle
+License: CC0-1.0
+
+Files:src/org.kdenlive.MainWindow.xml src/mlt_config.h.in src/kdenliveui.rc src/kdenlivesettings.kcfg
+Copyright: Jean-Baptiste Mardelle
+License: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+
 Files: po/*
 Copyright: Kdenlive translators (see each file for details)
 License: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
@@ -56,6 +114,18 @@ Files: tests/dataset/*
 Copyright: Jean-Baptiste Mardelle, Eric Jiang
 License: CC0-1.0
 
-Files: data/profiles/*
-Copyright: Jean-Baptiste Mardelle
+Files: tests/small.mkv
+Copyright: None
 License: CC0-1.0
+
+
+Files: thumbnailer/mltpreview.json thumbnailer-deprecated/mltpreview.desktop
+Copyright: Kdenlive translators
+License: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+
+Files: suppressions.txt .mailmap
+Copyright: None
+License: CC0-1.0
+
+
+

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-FileCopyrightText: Nicolas Carion <french.ebook.lover@gmail.com>
 
 if [ -f compile_commands.json ]; then
     echo "Using the existing compilation db"

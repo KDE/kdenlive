@@ -1,3 +1,7 @@
+# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-FileCopyrightText:  Vincent Pinon <vpinon@kde.org>, Nicolas Carion <french.ebook.lover@gmail.com>
+
+
 include(ExternalProject)
 ExternalProject_Add(rttr_project
     PREFIX rttr

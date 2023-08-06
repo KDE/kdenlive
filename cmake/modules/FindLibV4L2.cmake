@@ -1,7 +1,7 @@
 # cmake macro to find LibV4L2
 #
 # SPDX-FileCopyrightText: 2009 Jaroslav Reznik <jreznik@redhat.com>
-#
+# SPDX-License-Identifier: BSD-3-Clause
 # Once done this will define:
 #
 #  LIBV4L2_FOUND - System has LibV4L2
