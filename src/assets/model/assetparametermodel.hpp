@@ -189,8 +189,8 @@ public:
     bool hasMoreThanOneKeyframe() const;
     int time_to_frames(const QString &time) const;
     void passProperties(Mlt::Properties &target);
-    /** @brief Returns a list of the parameter names that are keyframable */
-    QStringList getKeyframableParameters() const;
+    /** @brief Returns a list of the parameter names that are keyframable, along with param type and opacity use */
+    QMap<QString, std::pair<ParamType, bool>> getKeyframableParameters() const;
 
     /** @brief Returns the current value of an effect parameter */
     const QString getParam(const QString &paramName);

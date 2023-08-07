@@ -1354,7 +1354,8 @@ std::shared_ptr<Mlt::Properties> KeyframeModel::getAnimation(std::shared_ptr<Ass
     return mlt_prop;
 }
 
-const QString KeyframeModel::getAnimationStringWithOffset(std::shared_ptr<AssetParameterModel> model, const QString &animData, int offset, int duration)
+const QString KeyframeModel::getAnimationStringWithOffset(std::shared_ptr<AssetParameterModel> model, const QString &animData, int offset, int duration,
+                                                          ParamType paramType, bool useOpacity)
 {
     Mlt::Properties mlt_prop;
     model->passProperties(mlt_prop);
@@ -1367,11 +1368,45 @@ const QString KeyframeModel::getAnimationStringWithOffset(std::shared_ptr<AssetP
             int pos = anim.key_get_frame(i) + offset;
             anim.key_set_frame(i, pos);
         }
-    } else {
+    } else if (offset < 0) {
         for (int i = 0; i < anim.key_count(); ++i) {
             int pos = anim.key_get_frame(i) + offset;
             if (pos >= 0) {
                 anim.key_set_frame(i, pos);
+            }
+        }
+    }
+    // If last key is beyond duration, add new keyframe at end
+    int lastPos = anim.key_get_frame(anim.key_count() - 1);
+    if (lastPos > duration) {
+        QVariant value;
+        switch (paramType) {
+        case ParamType::AnimatedRect: {
+            mlt_rect rect = mlt_prop.anim_get_rect("key", duration);
+            QString res = QStringLiteral("%1 %2 %3 %4").arg(int(rect.x)).arg(int(rect.y)).arg(int(rect.w)).arg(int(rect.h));
+            if (useOpacity) {
+                res.append(QStringLiteral(" %1").arg(QString::number(rect.o, 'f')));
+            }
+            value = QVariant(res);
+            break;
+        }
+        case ParamType::Color: {
+            mlt_color mltColor = mlt_prop.anim_get_color("key", duration);
+            QColor color(mltColor.r, mltColor.g, mltColor.b, mltColor.a);
+            value = QVariant(QColorUtils::colorToString(color, true));
+            break;
+        }
+        default:
+            value = QVariant(mlt_prop.anim_get_double("key", duration));
+            break;
+        }
+        mlt_prop.anim_set("key", value.toString().toUtf8().constData(), duration);
+        // Ensure the added keyframe uses the same type as last one
+        mlt_keyframe_type lastType = anim.key_get_type(anim.key_count() - 1);
+        for (int i = 0; i < anim.key_count(); i++) {
+            if (anim.key_get_frame(i) == duration) {
+                anim.key_set_type(i, lastType);
+                break;
             }
         }
     }
