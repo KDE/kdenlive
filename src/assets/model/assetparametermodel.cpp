@@ -240,14 +240,18 @@ void AssetParameterModel::prepareKeyframes(int in, int out)
     }
 }
 
-QStringList AssetParameterModel::getKeyframableParameters() const
+QMap<QString, std::pair<ParamType, bool>> AssetParameterModel::getKeyframableParameters() const
 {
-    QStringList paramNames;
+    // QMap<QString, std::pair<ParamType, bool>> paramNames;
+    QMap<QString, std::pair<ParamType, bool>> paramNames;
     int ix = 0;
     for (const auto &name : m_rows) {
-        if (isAnimated(m_params.at(name).type) && m_params.at(name).type != ParamType::Roto_spline) {
+        ParamType type = m_params.at(name).type;
+        if (isAnimated(type) && type != ParamType::Roto_spline) {
             // addKeyframeParam(index(ix, 0));
-            paramNames << name;
+            bool useOpacity = m_params.at(name).xml.attribute(QStringLiteral("opacity")) != QLatin1String("false");
+            paramNames.insert(name, {type, useOpacity});
+            // paramNames << name;
         }
         ix++;
     }

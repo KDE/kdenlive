@@ -334,7 +334,7 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
             effect->filter().set("in", in.toUtf8().constData());
             effect->filter().set("out", out.toUtf8().constData());
         }
-        QStringList keyframeParams = effect->getKeyframableParameters();
+        QMap<QString, std::pair<ParamType, bool>> keyframeParams = effect->getKeyframableParameters();
         QVector<QPair<QString, QVariant>> parameters;
         QDomNodeList params = node.elementsByTagName(QStringLiteral("property"));
         for (int j = 0; j < params.count(); j++) {
@@ -350,7 +350,8 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
                     currentDuration--;
                     currentDuration += currentIn;
                 }
-                QString pValue = KeyframeModel::getAnimationStringWithOffset(effect, pnode.text(), currentIn - parentIn, currentDuration);
+                QString pValue = KeyframeModel::getAnimationStringWithOffset(effect, pnode.text(), currentIn - parentIn, currentDuration,
+                                                                             keyframeParams.value(pName).first, keyframeParams.value(pName).second);
                 parameters.append(QPair<QString, QVariant>(pName, QVariant(pValue)));
             } else {
                 parameters.append(QPair<QString, QVariant>(pName, QVariant(pnode.text())));
