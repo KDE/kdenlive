@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l 10n\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-03 00:45+0000\n"
+"POT-Creation-Date: 2023-08-07 00:47+0000\n"
 "PO-Revision-Date: 2019-07-12 21:09+0300\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -3188,11 +3188,11 @@ msgstr "Atvirkščiai"
 #. i18n: ectx: property (windowTitle), widget (QDialog, SpeechDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ArchiveWidget_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, BackupDialog_UI)
-#: plugins/sampleplugin/countdown_ui.ui:13 src/ui/archivewidget_ui.ui:18
-#: src/ui/backupdialog_ui.ui:18 src/ui/clipjobmanager_ui.ui:14
+#: plugins/sampleplugin/countdown_ui.ui:17 src/ui/archivewidget_ui.ui:18
+#: src/ui/backupdialog_ui.ui:18 src/ui/clipjobmanager_ui.ui:18
 #: src/ui/clipspeed_ui.ui:18 src/ui/clipstabilize_ui.ui:18
 #: src/ui/cliptranscode_ui.ui:18 src/ui/colorclip_ui.ui:18
-#: src/ui/customjobinterface_ui.ui:14 src/ui/gradientedit_ui.ui:18
+#: src/ui/customjobinterface_ui.ui:18 src/ui/gradientedit_ui.ui:18
 #: src/ui/import_subtitle_ui.ui:18 src/ui/manageencodingprofile_ui.ui:18
 #: src/ui/newtimeline_ui.ui:18 src/ui/qtextclip_ui.ui:18
 #: src/ui/speechdialog_ui.ui:18 src/ui/testproxy_ui.ui:18
@@ -3203,19 +3203,19 @@ msgstr "Dialogas"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, destination_label)
-#: plugins/sampleplugin/countdown_ui.ui:19 src/ui/cutjobdialog_ui.ui:122
+#: plugins/sampleplugin/countdown_ui.ui:23 src/ui/cutjobdialog_ui.ui:122
 #, kde-format
 msgid "Save to"
 msgstr "Išsaugoti į"
 
 #. i18n: ectx: property (text), widget (QLabel, duration_label)
-#: plugins/sampleplugin/countdown_ui.ui:29
+#: plugins/sampleplugin/countdown_ui.ui:33
 #, kde-format
 msgid "Duration (seconds)"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, font_label)
-#: plugins/sampleplugin/countdown_ui.ui:46
+#: plugins/sampleplugin/countdown_ui.ui:50
 #, kde-format
 msgid "Font"
 msgstr "Šriftas"
@@ -4670,7 +4670,7 @@ msgstr "Nutildyti video iškarpą"
 #: src/bin/bin.cpp:2267 src/effects/effectlist/model/effecttreemodel.cpp:60
 #: src/layoutmanagement.cpp:36 src/lib/audio/audioStreamInfo.cpp:24
 #: src/monitor/recmanager.cpp:47 src/onlineresources/resourcewidget.cpp:547
-#: src/ui/clipjobmanager_ui.ui:314 src/ui/configcapture_ui.ui:525
+#: src/ui/clipjobmanager_ui.ui:318 src/ui/configcapture_ui.ui:525
 #: src/ui/cutjobdialog_ui.ui:61 src/ui/editrenderpreset_ui.ui:834
 #: src/ui/projectsettings_ui.ui:180 src/ui/renderwidget_ui.ui:595
 #, kde-format
@@ -12514,7 +12514,7 @@ msgstr "Įrašas"
 #. i18n: ectx: attribute (title), widget (QWidget, video_tab)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/monitor/recmanager.cpp:46 src/onlineresources/resourcewidget.cpp:549
-#: src/ui/clipjobmanager_ui.ui:307 src/ui/cutjobdialog_ui.ui:107
+#: src/ui/clipjobmanager_ui.ui:311 src/ui/cutjobdialog_ui.ui:107
 #: src/ui/editrenderpreset_ui.ui:122 src/ui/projectsettings_ui.ui:173
 #: src/ui/renderwidget_ui.ui:484
 #, kde-format
@@ -12989,7 +12989,7 @@ msgid "Please choose the version you want to download"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_image)
-#: src/onlineresources/resourcewidget.cpp:551 src/ui/clipjobmanager_ui.ui:321
+#: src/onlineresources/resourcewidget.cpp:551 src/ui/clipjobmanager_ui.ui:325
 #, fuzzy, kde-format
 #| msgid "Image"
 msgid "Images"
@@ -18054,8 +18054,8 @@ msgstr "Užverti dabartinę kortelę"
 #: src/ui/bezierspline_ui.ui:121 src/ui/bezierspline_ui.ui:137
 #: src/ui/bezierspline_ui.ui:156 src/ui/bezierspline_ui.ui:172
 #: src/ui/bezierspline_ui.ui:189 src/ui/bezierspline_ui.ui:206
-#: src/ui/clipjobmanager_ui.ui:146 src/ui/clipjobmanager_ui.ui:333
-#: src/ui/clipjobmanager_ui.ui:344 src/ui/clipstabilize_ui.ui:57
+#: src/ui/clipjobmanager_ui.ui:150 src/ui/clipjobmanager_ui.ui:337
+#: src/ui/clipjobmanager_ui.ui:348 src/ui/clipstabilize_ui.ui:57
 #: src/ui/clipstabilize_ui.ui:94 src/ui/collapsiblewidget_ui.ui:103
 #: src/ui/collapsiblewidget_ui.ui:129 src/ui/collapsiblewidget_ui.ui:139
 #: src/ui/collapsiblewidget_ui.ui:149 src/ui/collapsiblewidget_ui.ui:162
@@ -18070,10 +18070,10 @@ msgstr "Užverti dabartinę kortelę"
 #: src/ui/editsub_ui.ui:233 src/ui/editsub_ui.ui:478
 #: src/ui/exportguidesdialog_ui.ui:78 src/ui/exportguidesdialog_ui.ui:98
 #: src/ui/gradientedit_ui.ui:130 src/ui/gradientedit_ui.ui:150
-#: src/ui/guideslist_ui.ui:19 src/ui/guideslist_ui.ui:36
-#: src/ui/guideslist_ui.ui:50 src/ui/guideslist_ui.ui:64
-#: src/ui/guideslist_ui.ui:77 src/ui/guideslist_ui.ui:103
-#: src/ui/guideslist_ui.ui:129 src/ui/managecache_ui.ui:65
+#: src/ui/guideslist_ui.ui:23 src/ui/guideslist_ui.ui:40
+#: src/ui/guideslist_ui.ui:54 src/ui/guideslist_ui.ui:68
+#: src/ui/guideslist_ui.ui:81 src/ui/guideslist_ui.ui:107
+#: src/ui/guideslist_ui.ui:133 src/ui/managecache_ui.ui:65
 #: src/ui/managecache_ui.ui:79 src/ui/managecache_ui.ui:100
 #: src/ui/managecache_ui.ui:131 src/ui/managecache_ui.ui:277
 #: src/ui/managecache_ui.ui:328 src/ui/manageencodingprofile_ui.ui:48
@@ -18147,8 +18147,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, labelName)
 #. i18n: ectx: property (text), widget (QLabel, video_codec)
 #. i18n: ectx: property (text), widget (QLabel, audio_codec)
-#: src/ui/boolparamwidget_ui.ui:43 src/ui/customjobinterface_ui.ui:20
-#: src/ui/customjobinterface_ui.ui:33 src/ui/cutjobdialog_ui.ui:34
+#: src/ui/boolparamwidget_ui.ui:43 src/ui/customjobinterface_ui.ui:24
+#: src/ui/customjobinterface_ui.ui:37 src/ui/cutjobdialog_ui.ui:34
 #: src/ui/cutjobdialog_ui.ui:51 src/ui/fontval_ui.ui:36
 #: src/ui/listdependencyparamwidget_ui.ui:36 src/ui/listparamwidget_ui.ui:76
 #: src/ui/urllistparamwidget_ui.ui:42 src/ui/urlval_ui.ui:44
@@ -18179,92 +18179,92 @@ msgid "Crop end:"
 msgstr "Lygiuoti į kairę"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/clipjobmanager_ui.ui:30
+#: src/ui/clipjobmanager_ui.ui:34
 #, fuzzy, kde-format
 #| msgid "Description"
 msgid "Job Description"
 msgstr "Aprašymas"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/clipjobmanager_ui.ui:43
+#: src/ui/clipjobmanager_ui.ui:47
 #, fuzzy, kde-format
 #| msgid "Align top"
 msgid "Custom clip jobs"
 msgstr "Lygiuoti į viršų"
 
 #. i18n: ectx: property (title), widget (QGroupBox, folder_box)
-#: src/ui/clipjobmanager_ui.ui:50
+#: src/ui/clipjobmanager_ui.ui:54
 #, fuzzy, kde-format
 #| msgid "Project files"
 msgid "Project Bin behavior on completion"
 msgstr "Projektų failai"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radio_replace)
-#: src/ui/clipjobmanager_ui.ui:56
+#: src/ui/clipjobmanager_ui.ui:60
 #, kde-format
 msgid "Replace original with result"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, bin_subfolder)
-#: src/ui/clipjobmanager_ui.ui:66
+#: src/ui/clipjobmanager_ui.ui:70
 #, fuzzy, kde-format
 #| msgid "Use as default"
 msgid "Use a subfolder"
 msgstr "Naudoti kaip numatytąjį"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radio_folder)
-#: src/ui/clipjobmanager_ui.ui:73
+#: src/ui/clipjobmanager_ui.ui:77
 #, kde-format
 msgid "Put resulting clip in a folder"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
-#: src/ui/clipjobmanager_ui.ui:84
+#: src/ui/clipjobmanager_ui.ui:88
 #, kde-format
 msgid "Placed at top level"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
-#: src/ui/clipjobmanager_ui.ui:89
+#: src/ui/clipjobmanager_ui.ui:93
 #, kde-format
 msgid "Placed in the original clip folder"
 msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, folder_name)
-#: src/ui/clipjobmanager_ui.ui:100
+#: src/ui/clipjobmanager_ui.ui:104
 #, fuzzy, kde-format
 #| msgid "File name"
 msgid "Folder name"
 msgstr "Failo pavadinimas"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, taskDescription)
-#: src/ui/clipjobmanager_ui.ui:110
+#: src/ui/clipjobmanager_ui.ui:114
 #, kde-format
 msgid "Optional description that will show up if a parameter is requested"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
-#: src/ui/clipjobmanager_ui.ui:117
+#: src/ui/clipjobmanager_ui.ui:121
 #, fuzzy, kde-format
 #| msgid "Parameters"
 msgid "Job parameters"
 msgstr "Parametrai"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/clipjobmanager_ui.ui:123
+#: src/ui/clipjobmanager_ui.ui:127
 #, fuzzy, kde-format
 #| msgid "Effects"
 msgid "Executable"
 msgstr "Efektai"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/clipjobmanager_ui.ui:139
+#: src/ui/clipjobmanager_ui.ui:143
 #, kde-format
 msgid "Arguments"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (KMessageWidget, info_message)
-#: src/ui/clipjobmanager_ui.ui:163
+#: src/ui/clipjobmanager_ui.ui:167
 #, kde-format
 msgid ""
 "In the arguments, the following options are available: <ul><li><b>{source}</"
@@ -18275,7 +18275,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: src/ui/clipjobmanager_ui.ui:176
+#: src/ui/clipjobmanager_ui.ui:180
 #, fuzzy, kde-format
 #| msgid "Parameters"
 msgid "Parameter 1 {param1}"
@@ -18283,21 +18283,21 @@ msgstr "Parametrai"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_isfile)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_isfile)
-#: src/ui/clipjobmanager_ui.ui:182 src/ui/clipjobmanager_ui.ui:275
+#: src/ui/clipjobmanager_ui.ui:186 src/ui/clipjobmanager_ui.ui:279
 #, kde-format
 msgid "Request file path"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_islist)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_islist)
-#: src/ui/clipjobmanager_ui.ui:192 src/ui/clipjobmanager_ui.ui:268
+#: src/ui/clipjobmanager_ui.ui:196 src/ui/clipjobmanager_ui.ui:272
 #, kde-format
 msgid "Request option from list"
 msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param1_list)
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param2_list)
-#: src/ui/clipjobmanager_ui.ui:202 src/ui/clipjobmanager_ui.ui:254
+#: src/ui/clipjobmanager_ui.ui:206 src/ui/clipjobmanager_ui.ui:258
 #, fuzzy, kde-format
 #| msgid "Show/Hide options"
 msgid "List of options"
@@ -18305,28 +18305,28 @@ msgstr "Rodyti/slėpti pasirinktis"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param1_name)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param2_name)
-#: src/ui/clipjobmanager_ui.ui:209 src/ui/clipjobmanager_ui.ui:261
+#: src/ui/clipjobmanager_ui.ui:213 src/ui/clipjobmanager_ui.ui:265
 #, fuzzy, kde-format
 #| msgid "Description"
 msgid "Parameter description"
 msgstr "Aprašymas"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
-#: src/ui/clipjobmanager_ui.ui:232
+#: src/ui/clipjobmanager_ui.ui:236
 #, fuzzy, kde-format
 #| msgid "Parameters"
 msgid "Parameter 2 {param2}"
 msgstr "Parametrai"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/clipjobmanager_ui.ui:288
+#: src/ui/clipjobmanager_ui.ui:292
 #, fuzzy, kde-format
 #| msgid "File extension:"
 msgid "Output file extension"
 msgstr "Failo plėtinys:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, clip_types)
-#: src/ui/clipjobmanager_ui.ui:301
+#: src/ui/clipjobmanager_ui.ui:305
 #, kde-format
 msgid "Applies to"
 msgstr ""
@@ -20102,34 +20102,34 @@ msgid "Color 1"
 msgstr "Spalva 1"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_delete)
-#: src/ui/guidecategories_ui.ui:45
+#: src/ui/guidecategories_ui.ui:49
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "Delete category"
 msgstr "Šalinti %1"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_add)
-#: src/ui/guidecategories_ui.ui:52
+#: src/ui/guidecategories_ui.ui:56
 #, fuzzy, kde-format
 #| msgid "Add chapter"
 msgid "Add category"
 msgstr "Pridėti skyrių"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_edit)
-#: src/ui/guidecategories_ui.ui:59
+#: src/ui/guidecategories_ui.ui:63
 #, fuzzy, kde-format
 #| msgid "Category"
 msgid "Edit category"
 msgstr "Kategorija"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/guidecategories_ui.ui:66
+#: src/ui/guidecategories_ui.ui:70
 #, kde-format
 msgid "Guides and Markers Categories"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (KSqueezedTextLabel, guideslist_label)
-#: src/ui/guideslist_ui.ui:122
+#: src/ui/guideslist_ui.ui:126
 #, fuzzy, kde-format
 #| msgid "TextLabel"
 msgid "KSqueezedTextLabel"
@@ -20137,7 +20137,7 @@ msgstr "TekstoŽymė"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, search_line)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter_line)
-#: src/ui/guideslist_ui.ui:153 src/ui/textbasededit_ui.ui:105
+#: src/ui/guideslist_ui.ui:157 src/ui/textbasededit_ui.ui:105
 #, kde-format
 msgid "Search"
 msgstr "Ieškoti"
