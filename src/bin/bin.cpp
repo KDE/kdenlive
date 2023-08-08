@@ -5635,6 +5635,9 @@ void Bin::processMultiStream(const QString &clipId, QList<int> videoStreams, QLi
     for (int j = 1; j < videoStreams.count(); ++j) {
         auto clone = ProjectClip::cloneProducer(producer);
         clone->set("video_index", videoStreams.at(j));
+        if (clone == nullptr || !clone->is_valid()) {
+            continue;
+        }
         // TODO this keyframe should be cached
         QImage thumb = KThumb::getFrame(clone.get(), 0, width, 60);
         QGroupBox *streamFrame = new QGroupBox(i18n("Video stream %1", videoStreams.at(j)), mainWidget);
