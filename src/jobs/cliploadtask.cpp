@@ -644,20 +644,6 @@ void ClipLoadTask::run()
                                       Q_ARG(QString, i18n("File <b>%1</b> is not seekable.", QFileInfo(resource).fileName())));
         }
 
-        // check if there are multiple streams
-        // List streams
-        int streams = producer->get_int("meta.media.nb_streams");
-        QList<int> audio_list, video_list;
-        for (int i = 0; i < streams && !m_isCanceled.loadAcquire(); ++i) {
-            QByteArray propertyName = QStringLiteral("meta.media.%1.stream.type").arg(i).toLocal8Bit();
-            QString stype = producer->get(propertyName.data());
-            if (stype == QLatin1String("audio")) {
-                audio_list.append(i);
-            } else if (stype == QLatin1String("video")) {
-                video_list.append(i);
-            }
-        }
-
         // Check for variable frame rate
         isVariableFrameRate = producer->get_int("meta.media.variable_frame_rate");
         if (isVariableFrameRate && seekable) {

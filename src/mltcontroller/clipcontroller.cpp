@@ -125,6 +125,26 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
                 snprintf(property, sizeof(property), "meta.media.%d.stream.type", ix);
                 QString type = m_properties->get(property);
                 if (type == QLatin1String("video")) {
+                    QString key = QString("meta.media.%1.codec.name").arg(ix);
+                    QString codec_name = m_properties->get(key.toLatin1().constData());
+                    if (codec_name == QLatin1String("png")) {
+                        // This is a cover image, skip
+                        qDebug() << "=== FOUND PNG COVER ART STREAM: " << ix;
+                        continue;
+                    }
+                    if (codec_name == QLatin1String("mjpeg")) {
+                        key = QString("meta.media.%1.stream.frame_rate").arg(ix);
+                        QString fps = m_properties->get(key.toLatin1().constData());
+                        if (fps.isEmpty()) {
+                            key = QString("meta.media.%1.codec.frame_rate").arg(ix);
+                            fps = m_properties->get(key.toLatin1().constData());
+                        }
+                        if (fps == QLatin1String("90000")) {
+                            // This is a cover image, skip
+                            qDebug() << "=== FOUND MJPEG COVER ART STREAM: " << ix;
+                            continue;
+                        }
+                    }
                     videoStreams << ix;
                 } else if (type == QLatin1String("audio")) {
                     audioStreams << ix;
