@@ -2541,7 +2541,12 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             } else if (masterIsAudio) {
                 trackOffset = -delta_track;
             }
-            int newItemTrackId = getTrackIndexFromPosition(getTrackPosition(currentTrack) + trackOffset);
+            int newTrackPosition = getTrackPosition(currentTrack) + trackOffset;
+            if (newTrackPosition < 0 || newTrackPosition >= int(m_allTracks.size())) {
+                delta_track = 0;
+                break;
+            }
+            int newItemTrackId = getTrackIndexFromPosition(newTrackPosition);
             int newIn = item.second + delta_pos;
             if (!getTrackById_const(newItemTrackId)->isAvailableWithExceptions(newIn, getClipPlaytime(item.first) - 1, sorted_clips_ids)) {
                 delta_track = 0;
