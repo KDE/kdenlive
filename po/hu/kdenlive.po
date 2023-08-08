@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-03 03:11+0000\n"
+"POT-Creation-Date: 2023-08-08 02:36+0000\n"
 "PO-Revision-Date: 2014-12-09 21:11+0100\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -3540,7 +3540,7 @@ msgid "Delete keyframes"
 msgstr "Kulcskép törlése"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1398
+#: src/assets/model/assetparametermodel.cpp:1402
 #, fuzzy, kde-format
 #| msgid "Paste Effects"
 msgid "Update effect"
@@ -3642,8 +3642,8 @@ msgstr "Kulcskép szerkesztés"
 msgid "Update %1"
 msgstr "Profil frissítése"
 
-#: src/assets/model/assetparametermodel.cpp:1250
-#: src/assets/model/assetparametermodel.cpp:1297
+#: src/assets/model/assetparametermodel.cpp:1254
+#: src/assets/model/assetparametermodel.cpp:1301
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid "Cannot open preset file %1"
@@ -4944,8 +4944,8 @@ msgstr "Jelölje ki a klipet, ha alkalmazni kívánja az effektet"
 msgid "Cannot apply effects on folders"
 msgstr "Videóeffektus nem adható hozzá ehhez a kliphez"
 
-#: src/bin/bin.cpp:3801 src/effects/effectstack/model/effectstackmodel.cpp:500
-#: src/effects/effectstack/model/effectstackmodel.cpp:506
+#: src/bin/bin.cpp:3801 src/effects/effectstack/model/effectstackmodel.cpp:501
+#: src/effects/effectstack/model/effectstackmodel.cpp:507
 #: src/mainwindow.cpp:3168
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
@@ -8679,25 +8679,25 @@ msgid "Copy effect"
 msgstr "%1 effektus hozzáadása"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:323
-#: src/effects/effectstack/model/effectstackmodel.cpp:432
-#: src/effects/effectstack/model/effectstackmodel.cpp:486
-#: src/effects/effectstack/model/effectstackmodel.cpp:1064
+#: src/effects/effectstack/model/effectstackmodel.cpp:433
+#: src/effects/effectstack/model/effectstackmodel.cpp:487
+#: src/effects/effectstack/model/effectstackmodel.cpp:1065
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr ""
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:476
+#: src/effects/effectstack/model/effectstackmodel.cpp:477
 #, fuzzy, kde-format
 #| msgid "Paste Effects"
 msgid "Paste effect"
 msgstr "Effektek beillesztése"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:569
+#: src/effects/effectstack/model/effectstackmodel.cpp:570
 #, kde-format
 msgid "Add effect %1"
 msgstr "%1 effektus hozzáadása"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:894
+#: src/effects/effectstack/model/effectstackmodel.cpp:895
 #, fuzzy, kde-format
 #| msgid "Move effect"
 msgid "Move effect %1"
