@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="lines" id="lines" type="video" unique="1">
+<effect tag="lines" id="lines" type="video" requires_in_out="1" unique="1">
     <name>Scratchlines</name>
     <description>Scratchlines over the picture</description>
     <author>Marco Gittler</author>
