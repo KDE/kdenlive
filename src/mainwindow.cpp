@@ -4845,6 +4845,10 @@ void MainWindow::connectTimeline()
     // Ensure the active timeline has an opaque black background for compositing
     getCurrentTimeline()->model()->makeTransparentBg(false);
 
+    // Audio record actions
+    connect(pCore.get(), &Core::finalizeRecording, getCurrentTimeline()->controller(), &TimelineController::finishRecording);
+    connect(pCore.get(), &Core::recordAudio, getCurrentTimeline()->controller(), &TimelineController::switchRecording);
+
     // switch to active subtitle model
     pCore->subtitleWidget()->setModel(getCurrentTimeline()->model()->getSubtitleModel());
     bool hasSubtitleModel = getCurrentTimeline()->hasSubtitles();
@@ -4883,6 +4887,9 @@ void MainWindow::disconnectTimeline(TimelineWidget *timeline)
     timeline->controller()->clipActions = QList<QAction *>();
     disconnect(pCore->bin(), &Bin::processDragEnd, timeline, &TimelineWidget::endDrag);
     pCore->monitorManager()->projectMonitor()->setProducer(nullptr, -2);
+    // Audio record actions
+    disconnect(pCore.get(), &Core::finalizeRecording, timeline->controller(), &TimelineController::finishRecording);
+    disconnect(pCore.get(), &Core::recordAudio, timeline->controller(), &TimelineController::switchRecording);
 }
 
 void MainWindow::appHelpActivated()
