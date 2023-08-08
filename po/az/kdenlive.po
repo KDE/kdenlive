@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-03 03:11+0000\n"
+"POT-Creation-Date: 2023-08-08 02:36+0000\n"
 "PO-Revision-Date: 2023-06-26 17:17+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -3473,7 +3473,7 @@ msgid "Delete keyframes"
 msgstr "Əsas kadrları silmək"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1398
+#: src/assets/model/assetparametermodel.cpp:1402
 #, kde-format
 msgid "Update effect"
 msgstr "Effekti yeniləyin"
@@ -3562,8 +3562,8 @@ msgstr "%1 əsas kadra düzəliş etmək"
 msgid "Update %1"
 msgstr "Yeniləmək: %1"
 
-#: src/assets/model/assetparametermodel.cpp:1250
-#: src/assets/model/assetparametermodel.cpp:1297
+#: src/assets/model/assetparametermodel.cpp:1254
+#: src/assets/model/assetparametermodel.cpp:1301
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Əvvəlcədən qurulmuş \"%1\" faylı açıla bilmədi"
@@ -4767,8 +4767,8 @@ msgstr "Effekt tətbiq etmək üçün klipi seçin"
 msgid "Cannot apply effects on folders"
 msgstr "Effektlər qovluğa tətbiq edilə bilmədi"
 
-#: src/bin/bin.cpp:3801 src/effects/effectstack/model/effectstackmodel.cpp:500
-#: src/effects/effectstack/model/effectstackmodel.cpp:506
+#: src/bin/bin.cpp:3801 src/effects/effectstack/model/effectstackmodel.cpp:501
+#: src/effects/effectstack/model/effectstackmodel.cpp:507
 #: src/mainwindow.cpp:3168
 #, kde-format
 msgid "Cannot add effect to clip"
@@ -8256,24 +8256,24 @@ msgid "Copy effect"
 msgstr "Effekti kopyalayın"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:323
-#: src/effects/effectstack/model/effectstackmodel.cpp:432
-#: src/effects/effectstack/model/effectstackmodel.cpp:486
-#: src/effects/effectstack/model/effectstackmodel.cpp:1064
+#: src/effects/effectstack/model/effectstackmodel.cpp:433
+#: src/effects/effectstack/model/effectstackmodel.cpp:487
+#: src/effects/effectstack/model/effectstackmodel.cpp:1065
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "%1 effekti iki dəfə əlavə edilə bilməz."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:476
+#: src/effects/effectstack/model/effectstackmodel.cpp:477
 #, kde-format
 msgid "Paste effect"
 msgstr "Effekti yerləşdirin"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:569
+#: src/effects/effectstack/model/effectstackmodel.cpp:570
 #, kde-format
 msgid "Add effect %1"
 msgstr "%1 effektini əlavə edin"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:894
+#: src/effects/effectstack/model/effectstackmodel.cpp:895
 #, kde-format
 msgid "Move effect %1"
 msgstr "%1 effektini köçürün"

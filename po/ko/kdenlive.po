@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-03 03:11+0000\n"
+"POT-Creation-Date: 2023-08-08 02:36+0000\n"
 "PO-Revision-Date: 2023-07-23 20:34+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -3430,7 +3430,7 @@ msgid "Delete keyframes"
 msgstr "키프레임 삭제"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1398
+#: src/assets/model/assetparametermodel.cpp:1402
 #, fuzzy, kde-format
 #| msgid "Paste effect"
 msgid "Update effect"
@@ -3516,8 +3516,8 @@ msgstr "%1 키프레임 편집"
 msgid "Update %1"
 msgstr "%1 업데이트"
 
-#: src/assets/model/assetparametermodel.cpp:1250
-#: src/assets/model/assetparametermodel.cpp:1297
+#: src/assets/model/assetparametermodel.cpp:1254
+#: src/assets/model/assetparametermodel.cpp:1301
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "%1 사전 설정 파일을 열 수 없음"
@@ -4641,7 +4641,7 @@ msgstr "이미지 시퀀스 추가"
 #: src/bin/bin.cpp:3440 src/mainwindow.cpp:370
 #, kde-format
 msgid "Online Resources"
-msgstr "온라인 자원"
+msgstr "온라인 리소스"
 
 #: src/bin/bin.cpp:3444
 #, fuzzy, kde-format
@@ -4750,8 +4750,8 @@ msgstr "효과를 적용할 클립 선택"
 msgid "Cannot apply effects on folders"
 msgstr "폴더에 효과를 적용할 수 없음"
 
-#: src/bin/bin.cpp:3801 src/effects/effectstack/model/effectstackmodel.cpp:500
-#: src/effects/effectstack/model/effectstackmodel.cpp:506
+#: src/bin/bin.cpp:3801 src/effects/effectstack/model/effectstackmodel.cpp:501
+#: src/effects/effectstack/model/effectstackmodel.cpp:507
 #: src/mainwindow.cpp:3168
 #, kde-format
 msgid "Cannot add effect to clip"
@@ -8316,24 +8316,24 @@ msgid "Copy effect"
 msgstr "효과 복사"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:323
-#: src/effects/effectstack/model/effectstackmodel.cpp:432
-#: src/effects/effectstack/model/effectstackmodel.cpp:486
-#: src/effects/effectstack/model/effectstackmodel.cpp:1064
+#: src/effects/effectstack/model/effectstackmodel.cpp:433
+#: src/effects/effectstack/model/effectstackmodel.cpp:487
+#: src/effects/effectstack/model/effectstackmodel.cpp:1065
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "%1 효과를 두 번 추가할 수 없습니다."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:476
+#: src/effects/effectstack/model/effectstackmodel.cpp:477
 #, kde-format
 msgid "Paste effect"
 msgstr "효과 붙여넣기"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:569
+#: src/effects/effectstack/model/effectstackmodel.cpp:570
 #, kde-format
 msgid "Add effect %1"
 msgstr "%1 효과 추가"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:894
+#: src/effects/effectstack/model/effectstackmodel.cpp:895
 #, kde-format
 msgid "Move effect %1"
 msgstr "%1 효과 이동"

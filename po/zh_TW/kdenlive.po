@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-03 03:11+0000\n"
+"POT-Creation-Date: 2023-08-08 02:36+0000\n"
 "PO-Revision-Date: 2020-01-16 14:40+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -3492,7 +3492,7 @@ msgid "Delete keyframes"
 msgstr "移除關鍵幀"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1398
+#: src/assets/model/assetparametermodel.cpp:1402
 #, fuzzy, kde-format
 #| msgid "Paste Effects"
 msgid "Update effect"
@@ -3590,8 +3590,8 @@ msgstr "編輯關鍵幀"
 msgid "Update %1"
 msgstr "儲存編碼方案"
 
-#: src/assets/model/assetparametermodel.cpp:1250
-#: src/assets/model/assetparametermodel.cpp:1297
+#: src/assets/model/assetparametermodel.cpp:1254
+#: src/assets/model/assetparametermodel.cpp:1301
 #, fuzzy, kde-format
 msgid "Cannot open preset file %1"
 msgstr "無法寫入檔案 %1"
@@ -4833,8 +4833,8 @@ msgstr "如果您想使用特效請選取一個素材"
 msgid "Cannot apply effects on folders"
 msgstr "無法添加視訊濾鏡​​到這個素材"
 
-#: src/bin/bin.cpp:3801 src/effects/effectstack/model/effectstackmodel.cpp:500
-#: src/effects/effectstack/model/effectstackmodel.cpp:506
+#: src/bin/bin.cpp:3801 src/effects/effectstack/model/effectstackmodel.cpp:501
+#: src/effects/effectstack/model/effectstackmodel.cpp:507
 #: src/mainwindow.cpp:3168
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
@@ -8377,26 +8377,26 @@ msgid "Copy effect"
 msgstr "編輯特效 %1"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:323
-#: src/effects/effectstack/model/effectstackmodel.cpp:432
-#: src/effects/effectstack/model/effectstackmodel.cpp:486
-#: src/effects/effectstack/model/effectstackmodel.cpp:1064
+#: src/effects/effectstack/model/effectstackmodel.cpp:433
+#: src/effects/effectstack/model/effectstackmodel.cpp:487
+#: src/effects/effectstack/model/effectstackmodel.cpp:1065
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr ""
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:476
+#: src/effects/effectstack/model/effectstackmodel.cpp:477
 #, fuzzy, kde-format
 #| msgid "Paste Effects"
 msgid "Paste effect"
 msgstr "黏貼特效"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:569
+#: src/effects/effectstack/model/effectstackmodel.cpp:570
 #, fuzzy, kde-format
 #| msgid "Edit effect %1"
 msgid "Add effect %1"
 msgstr "編輯特效 %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:894
+#: src/effects/effectstack/model/effectstackmodel.cpp:895
 #, fuzzy, kde-format
 #| msgid "Move effect"
 msgid "Move effect %1"

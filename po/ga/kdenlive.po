@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-03 03:11+0000\n"
+"POT-Creation-Date: 2023-08-08 02:36+0000\n"
 "PO-Revision-Date: 2011-12-28 12:28-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -3574,7 +3574,7 @@ msgid "Delete keyframes"
 msgstr "Scrios Fráma"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1398
+#: src/assets/model/assetparametermodel.cpp:1402
 #, fuzzy, kde-format
 #| msgid "Effects"
 msgid "Update effect"
@@ -3682,8 +3682,8 @@ msgstr "Cuir Marcóirí Leis"
 msgid "Update %1"
 msgstr "Nuashonraigh próifíl"
 
-#: src/assets/model/assetparametermodel.cpp:1250
-#: src/assets/model/assetparametermodel.cpp:1297
+#: src/assets/model/assetparametermodel.cpp:1254
+#: src/assets/model/assetparametermodel.cpp:1301
 #, fuzzy, kde-format
 #| msgid "Cannot open file %1"
 msgid "Cannot open preset file %1"
@@ -4971,8 +4971,8 @@ msgstr ""
 msgid "Cannot apply effects on folders"
 msgstr "Ní féidir comhad %1 a scríobh"
 
-#: src/bin/bin.cpp:3801 src/effects/effectstack/model/effectstackmodel.cpp:500
-#: src/effects/effectstack/model/effectstackmodel.cpp:506
+#: src/bin/bin.cpp:3801 src/effects/effectstack/model/effectstackmodel.cpp:501
+#: src/effects/effectstack/model/effectstackmodel.cpp:507
 #: src/mainwindow.cpp:3168
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
@@ -8562,26 +8562,26 @@ msgid "Copy effect"
 msgstr "Sábháil an Mhaisíocht"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:323
-#: src/effects/effectstack/model/effectstackmodel.cpp:432
-#: src/effects/effectstack/model/effectstackmodel.cpp:486
-#: src/effects/effectstack/model/effectstackmodel.cpp:1064
+#: src/effects/effectstack/model/effectstackmodel.cpp:433
+#: src/effects/effectstack/model/effectstackmodel.cpp:487
+#: src/effects/effectstack/model/effectstackmodel.cpp:1065
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr ""
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:476
+#: src/effects/effectstack/model/effectstackmodel.cpp:477
 #, fuzzy, kde-format
 #| msgid "Effects"
 msgid "Paste effect"
 msgstr "Maisíochtaí"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:569
+#: src/effects/effectstack/model/effectstackmodel.cpp:570
 #, fuzzy, kde-format
 #| msgid "Add new effect"
 msgid "Add effect %1"
 msgstr "Cuir maisíocht nua leis"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:894
+#: src/effects/effectstack/model/effectstackmodel.cpp:895
 #, fuzzy, kde-format
 #| msgid "Reset Effect"
 msgid "Move effect %1"
