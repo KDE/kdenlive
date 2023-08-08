@@ -77,9 +77,7 @@ TimelineController::TimelineController(QObject *parent)
     m_disablePreview = pCore->currentDoc()->getAction(QStringLiteral("disable_preview"));
     connect(m_disablePreview, &QAction::triggered, this, &TimelineController::disablePreview);
     m_disablePreview->setEnabled(false);
-    connect(pCore.get(), &Core::finalizeRecording, this, &TimelineController::finishRecording);
     connect(pCore.get(), &Core::autoScrollChanged, this, &TimelineController::autoScrollChanged);
-    connect(pCore.get(), &Core::recordAudio, this, &TimelineController::switchRecording);
     connect(pCore.get(), &Core::refreshActiveGuides, this, [this]() { m_activeSnaps.clear(); });
     connect(pCore.get(), &Core::autoTrackHeight, this, [this](bool enable) {
         m_autotrackHeight = enable;
