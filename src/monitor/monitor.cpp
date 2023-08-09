@@ -1872,6 +1872,11 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
     checkOverlay();
 }
 
+void Monitor::loadZone(int in, int out)
+{
+    m_glMonitor->getControllerProxy()->setZone({in, out}, false);
+}
+
 void Monitor::reloadActiveStream()
 {
     if (m_controller) {
