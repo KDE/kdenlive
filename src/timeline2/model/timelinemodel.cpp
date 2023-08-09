@@ -6848,6 +6848,7 @@ void TimelineModel::initializePreviewManager()
             m_timelinePreview.reset();
             return;
         }
+        Q_EMIT connectPreviewManager();
         connect(this, &TimelineModel::invalidateZone, m_timelinePreview.get(), &PreviewManager::invalidatePreview, Qt::DirectConnection);
     }
 }

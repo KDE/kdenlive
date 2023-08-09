@@ -993,6 +993,8 @@ Q_SIGNALS:
     void highlightSub(int index);
     /** @brief The visible sequence name has to be changed */
     void visibleSequenceNameChanged();
+    /** @brief Connect the preview manager with timelinecontroller */
+    void connectPreviewManager();
 
 protected:
     QUuid m_uuid;

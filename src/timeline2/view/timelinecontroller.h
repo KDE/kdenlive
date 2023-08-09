@@ -720,6 +720,7 @@ private Q_SLOTS:
     void updateMultiTrack();
     /** @brief An operation was attempted on a locked track, animate lock icon to make user aware */
     void slotFlashLock(int trackId);
+    void initializePreview();
 
 public:
     /** @brief a list of actions that have to be enabled/disabled depending on the timeline selection */
@@ -764,10 +765,9 @@ private:
     /** @brief The clip that is displayed in the preview monitor during a trimming operation*/
     int m_trimmingMainClip;
 
-    void initializePreview();
     int getMenuOrTimelinePos() const;
     /** @brief Prepare the preview manager */
-    void connectPreviewManager(bool onCreation);
+    void connectPreviewManager();
 
 Q_SIGNALS:
     void selected(Mlt::Producer *producer);

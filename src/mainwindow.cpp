@@ -4838,9 +4838,25 @@ void MainWindow::connectTimeline()
     m_zoomSlider->setValue(pCore->currentDoc()->zoom(uuid).x());
     int position = project->getSequenceProperty(uuid, QStringLiteral("position"), QString::number(0)).toInt();
     pCore->monitorManager()->projectMonitor()->adjustRulerSize(getCurrentTimeline()->model()->duration() - 1, project->getFilteredGuideModel(uuid));
+    pCore->monitorManager()->projectMonitor()->loadZone(getCurrentTimeline()->controller()->zoneIn(), getCurrentTimeline()->controller()->zoneOut());
     pCore->monitorManager()->projectMonitor()->setProducer(getCurrentTimeline()->model()->producer(), position);
     connect(pCore->currentDoc(), &KdenliveDoc::docModified, this, &MainWindow::slotUpdateDocumentState);
     slotUpdateDocumentState(pCore->currentDoc()->isModified());
+
+    // Timeline preview
+    QAction *previewRender = actionCollection()->action(QStringLiteral("prerender_timeline_zone"));
+    if (previewRender) {
+        previewRender->setEnabled(true);
+    }
+    QAction *disablePreview = actionCollection()->action(QStringLiteral("disable_preview"));
+    if (getCurrentTimeline()->model()->hasTimelinePreview()) {
+        disablePreview->setEnabled(true);
+    } else {
+        disablePreview->setEnabled(false);
+    }
+    disablePreview->blockSignals(true);
+    disablePreview->setChecked(false);
+    disablePreview->blockSignals(false);
 
     // Ensure the active timeline has an opaque black background for compositing
     getCurrentTimeline()->model()->makeTransparentBg(false);
