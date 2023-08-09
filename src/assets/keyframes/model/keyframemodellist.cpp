@@ -30,7 +30,7 @@ ObjectId KeyframeModelList::getOwnerId() const
     if (auto ptr = m_model.lock()) {
         return ptr->getOwnerId();
     }
-    return {};
+    return ObjectId();
 }
 
 const QString KeyframeModelList::getAssetId()

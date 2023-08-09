@@ -81,7 +81,7 @@ TEST_CASE("Marker model", "[MarkerListModel]")
     pCore->m_projectManager = &mocked;
     mocked.m_project = &mockedDoc;
     QDateTime documentDate = QDateTime::currentDateTime();
-    mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    mocked.updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
     mocked.m_activeTimelineModel = timeline;
     mocked.testSetActiveDocument(&mockedDoc, timeline);

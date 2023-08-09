@@ -219,7 +219,7 @@ public:
     /** @brief Get a list of all proxy hash used in this project */
     QStringList getProxyHashList();
     /** @brief Move project data files to new url */
-    const QList<QUrl> getProjectData(const QString &dest, bool *ok);
+    const QList<QUrl> getProjectData(bool *ok);
 
     /** @brief Returns a pointer to the guide model of timeline uuid */
     std::shared_ptr<MarkerListModel> getGuideModel(const QUuid uuid) const;

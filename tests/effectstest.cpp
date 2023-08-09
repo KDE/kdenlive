@@ -31,7 +31,7 @@ TEST_CASE("Effects stack", "[Effects]")
 
     pCore->projectManager()->m_project = &document;
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = document.getTimeline(document.uuid());
     pCore->projectManager()->m_activeTimelineModel = timeline;
     pCore->projectManager()->testSetActiveDocument(&document, timeline);

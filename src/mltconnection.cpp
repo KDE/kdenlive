@@ -171,7 +171,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
     // stored setting should not be considered on windows as MLT is distributed with each new Kdenlive version
     if (meltPath.isEmpty() || !QFile::exists(meltPath)) {
         meltPath = KdenliveSettings::meltpath();
-        qWarning() << "meltPath from KdenliveSetting::rendererPath: " << meltPath;
+        qWarning() << "meltPath from KdenliveSetting::meltPath: " << meltPath;
     }
 #endif
     if (meltPath.isEmpty() || !QFile::exists(meltPath)) {

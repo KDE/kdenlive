@@ -1135,7 +1135,7 @@ void Monitor::slotExtractCurrentZone()
     if (m_controller == nullptr) {
         return;
     }
-    CutTask::start({ObjectType::BinClip, m_controller->clipId().toInt(), QUuid()}, getZoneStart(), getZoneEnd(), this);
+    CutTask::start(ObjectId(ObjectType::BinClip, m_controller->clipId().toInt(), QUuid()), getZoneStart(), getZoneEnd(), this);
 }
 
 std::shared_ptr<ProjectClip> Monitor::currentController() const

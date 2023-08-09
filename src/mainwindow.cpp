@@ -2364,6 +2364,7 @@ void MainWindow::addTimelineClip(const QString &url)
 
 void MainWindow::scriptRender(const QString &url)
 {
+    Q_UNUSED(url)
     slotRenderProject();
     m_renderWidget->slotPrepareExport(true);
 }
@@ -3477,10 +3478,9 @@ void MainWindow::slotClipInTimeline(const QString &clipId, const QList<int> &ids
     QMenu *inTimelineMenu = static_cast<QMenu *>(factory()->container(QStringLiteral("clip_in_timeline"), this));
     QList<QAction *> actionList;
     for (int i = 0; i < ids.count(); ++i) {
-        QString track =
-            getCurrentTimeline()->controller()->getTrackNameFromIndex(pCore->getItemTrack({ObjectType::TimelineClip, ids.at(i), pCore->currentTimelineId()}));
-        QString start =
-            pCore->currentDoc()->timecode().getTimecodeFromFrames(pCore->getItemPosition({ObjectType::TimelineClip, ids.at(i), pCore->currentTimelineId()}));
+        ObjectId oid(ObjectType::TimelineClip, ids.at(i), pCore->currentTimelineId());
+        QString track = getCurrentTimeline()->controller()->getTrackNameFromIndex(pCore->getItemTrack(oid));
+        QString start = pCore->currentDoc()->timecode().getTimecodeFromFrames(pCore->getItemPosition(oid));
         int j = 0;
         QAction *a = new QAction(track + QStringLiteral(": ") + start, inTimelineMenu);
         a->setData(ids.at(i));
@@ -3536,7 +3536,7 @@ void MainWindow::slotClipInProjectTree()
         if (!binFound) {
             raiseBin();
         }
-        ObjectId id = {ObjectType::TimelineClip, ids.constFirst(), pCore->currentTimelineId()};
+        ObjectId id(ObjectType::TimelineClip, ids.constFirst(), pCore->currentTimelineId());
         int start = pCore->getItemIn(id);
         int duration = pCore->getItemDuration(id);
         int pos = m_projectMonitor->position();
@@ -3793,7 +3793,8 @@ void MainWindow::buildDynamicActions()
             std::vector<QString> ids = pCore->bin()->selectedClipsIds(true);
             for (const QString &id : ids) {
                 std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(id);
-                TranscodeTask::start({ObjectType::BinClip, id.toInt(), QUuid()}, QString(), QString(), transcodeData.first(), -1, -1, false, clip.get());
+                TranscodeTask::start(ObjectId(ObjectType::BinClip, id.toInt(), QUuid()), QString(), QString(), transcodeData.first(), -1, -1, false,
+                                     clip.get());
             }
         });
         if (transList.count() > 2 && transList.at(2) == QLatin1String("audio")) {

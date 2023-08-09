@@ -210,5 +210,5 @@ ObjectId MixStackView::stackOwner() const
     if (m_model) {
         return m_model->getOwnerId();
     }
-    return {ObjectType::NoItem, -1, QUuid()};
+    return ObjectId();
 }

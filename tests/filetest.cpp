@@ -28,7 +28,7 @@ TEST_CASE("Save File", "[SF]")
 
         pCore->projectManager()->m_project = &document;
         QDateTime documentDate = QDateTime::currentDateTime();
-        pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
+        pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
         auto timeline = document.getTimeline(document.uuid());
         pCore->projectManager()->m_activeTimelineModel = timeline;
         pCore->projectManager()->testSetActiveDocument(&document, timeline);
@@ -93,7 +93,7 @@ TEST_CASE("Save File", "[SF]")
         pCore->projectManager()->m_project = openedDoc.get();
         const QUuid uuid = openedDoc->uuid();
         QDateTime documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
-        pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
+        pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
         std::shared_ptr<Mlt::Tractor> tc = binModel->getExtraTimeline(uuid.toString());
         std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(uuid, undoStack);
         openedDoc->addTimeline(uuid, timeline);
@@ -141,7 +141,7 @@ TEST_CASE("Save File", "[SF]")
         pCore->projectManager()->m_project = openedDoc.get();
         const QUuid uuid = openedDoc->uuid();
         QDateTime documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
-        pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
+        pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
         std::shared_ptr<Mlt::Tractor> tc = binModel->getExtraTimeline(uuid.toString());
         std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(uuid, undoStack);
         openedDoc->addTimeline(uuid, timeline);
@@ -197,7 +197,7 @@ TEST_CASE("Check File Corruption", "[CFC]")
         pCore->projectManager()->m_project = openedDoc.get();
         const QUuid uuid = openedDoc->uuid();
         QDateTime documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
-        pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
+        pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
 
         QMap<QUuid, QString> allSequences = binModel->getAllSequenceClips();
         const QString firstSeqId = allSequences.value(uuid);
@@ -282,7 +282,7 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
         KdenliveDoc document(undoStack);
         pCore->projectManager()->m_project = &document;
         QDateTime documentDate = QDateTime::currentDateTime();
-        pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
+        pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
         auto timeline = document.getTimeline(document.uuid());
         pCore->projectManager()->m_activeTimelineModel = timeline;
         pCore->projectManager()->testSetActiveDocument(&document, timeline);
@@ -364,7 +364,7 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
         // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
         pCore->projectManager()->m_project = &document;
         QDateTime documentDate = QDateTime::currentDateTime();
-        pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
+        pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
         auto timeline = document.getTimeline(document.uuid());
         pCore->projectManager()->testSetActiveDocument(&document, timeline);
 
@@ -420,7 +420,7 @@ TEST_CASE("Opening Mix", "[OPENMIX]")
         pCore->projectManager()->m_project = openedDoc.get();
         const QUuid uuid = openedDoc->uuid();
         QDateTime documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
-        pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
+        pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
         auto timeline = openedDoc->getTimeline(uuid);
         pCore->projectManager()->testSetActiveDocument(openedDoc.get(), timeline);
 
@@ -457,7 +457,7 @@ TEST_CASE("Opening File With Keyframes", "[OPENKFRS]")
         pCore->projectManager()->m_project = openedDoc.get();
         const QUuid uuid = openedDoc->uuid();
         QDateTime documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
-        pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
+        pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
         std::shared_ptr<Mlt::Tractor> tc = binModel->getExtraTimeline(uuid.toString());
         std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(uuid, undoStack);
         openedDoc->addTimeline(uuid, timeline);

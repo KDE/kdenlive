@@ -130,12 +130,12 @@ void CustomJobTask::start(QObject *object, const QString &jobId)
                 qDebug() << "=== INVALID SUBCLIP DATA: " << id;
                 continue;
             }
-            owner = {ObjectType::BinClip, binData.first().toInt(), QUuid()};
+            owner = ObjectId(ObjectType::BinClip, binData.first().toInt(), QUuid());
             in = binData.at(1).toInt();
             out = binData.at(2).toInt();
         } else {
             // Process full clip
-            owner = {ObjectType::BinClip, id.toInt(), QUuid()};
+            owner = ObjectId(ObjectType::BinClip, id.toInt(), QUuid());
         }
         task = new CustomJobTask(owner, jobName, jobData, in, out, jobId, object);
         if (task) {

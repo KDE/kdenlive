@@ -537,7 +537,7 @@ void TimelineItemModel::setTrackProperty(int trackId, const QString &name, const
     } else if (name == QLatin1String("hide")) {
         roles.push_back(IsDisabledRole);
         if (!track->isAudioTrack() && !isLoading) {
-            pCore->invalidateItem({ObjectType::TimelineTrack, trackId, m_uuid});
+            pCore->invalidateItem(ObjectId(ObjectType::TimelineTrack, trackId, m_uuid));
             pCore->refreshProjectMonitorOnce();
             updateMultiTrack = true;
         }
@@ -824,8 +824,6 @@ void TimelineItemModel::passSequenceProperties(const QMap<QString, QString> base
     // Save timeline guides
     const QString guidesData = getGuideModel()->toJson();
     tractor()->set("kdenlive:sequenceproperties.guides", guidesData.toUtf8().constData());
-    int audioTarget = m_audioTarget.isEmpty() ? -1 : getTrackPosition(m_audioTarget.firstKey());
-    int videoTarget = m_videoTarget == -1 ? -1 : getTrackPosition(m_videoTarget);
     QPair<int, int> tracks = getAVtracksCount();
     tractor()->set("kdenlive:sequenceproperties.hasAudio", tracks.first > 0 ? 1 : 0);
     tractor()->set("kdenlive:sequenceproperties.hasVideo", tracks.second > 0 ? 1 : 0);

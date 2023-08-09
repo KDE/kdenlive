@@ -185,7 +185,7 @@ void AssetPanel::showMix(int cid, const std::shared_ptr<AssetParameterModel> &tr
         clear();
         return;
     }
-    ObjectId id = {ObjectType::TimelineMix, cid, transitionModel->getOwnerId().uuid};
+    ObjectId id(ObjectType::TimelineMix, cid, transitionModel->getOwnerId().uuid);
     if (refreshOnly) {
         if (m_mixWidget->stackOwner() != id) {
             // item not currently displayed, ignore
@@ -427,7 +427,7 @@ ObjectId AssetPanel::effectStackOwner()
     if (m_mixWidget->isVisible()) {
         return m_mixWidget->stackOwner();
     }
-    return {ObjectType::NoItem, -1, QUuid()};
+    return ObjectId();
 }
 
 bool AssetPanel::addEffect(const QString &effectId)
@@ -536,12 +536,12 @@ void AssetPanel::slotPreviousKeyframe()
 void AssetPanel::updateAssetPosition(int itemId, const QUuid uuid)
 {
     if (m_effectStackWidget->isVisible()) {
-        ObjectId id = {ObjectType::TimelineClip, itemId, uuid};
+        ObjectId id(ObjectType::TimelineClip, itemId, uuid);
         if (m_effectStackWidget->stackOwner() == id) {
             Q_EMIT pCore->getMonitor(Kdenlive::ProjectMonitor)->seekPosition(pCore->getMonitorPosition());
         }
     } else if (m_transitionWidget->isVisible()) {
-        ObjectId id = {ObjectType::TimelineComposition, itemId, uuid};
+        ObjectId id(ObjectType::TimelineComposition, itemId, uuid);
         if (m_transitionWidget->stackOwner() == id) {
             Q_EMIT pCore->getMonitor(Kdenlive::ProjectMonitor)->seekPosition(pCore->getMonitorPosition());
         }
