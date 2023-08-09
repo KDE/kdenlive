@@ -158,6 +158,12 @@ void PreviewManager::loadChunks(QVariantList previewChunks, QVariantList dirtyCh
     int max = playlist.count();
     std::shared_ptr<Mlt::Producer> clip;
     m_tractor->lock();
+    if (max == 0) {
+        // Empty timeline preview, mark all as dirty
+        for (auto &prev : previewChunks) {
+            dirtyChunks << prev;
+        }
+    }
     for (int i = 0; i < max; i++) {
         if (playlist.is_blank(i)) {
             continue;

@@ -4842,6 +4842,21 @@ void MainWindow::connectTimeline()
     connect(pCore->currentDoc(), &KdenliveDoc::docModified, this, &MainWindow::slotUpdateDocumentState);
     slotUpdateDocumentState(pCore->currentDoc()->isModified());
 
+    // Timeline preview
+    QAction *previewRender = actionCollection()->action(QStringLiteral("prerender_timeline_zone"));
+    if (previewRender) {
+        previewRender->setEnabled(true);
+    }
+    QAction *disablePreview = actionCollection()->action(QStringLiteral("disable_preview"));
+    if (getCurrentTimeline()->model()->hasTimelinePreview()) {
+        disablePreview->setEnabled(true);
+    } else {
+        disablePreview->setEnabled(false);
+    }
+    disablePreview->blockSignals(true);
+    disablePreview->setChecked(false);
+    disablePreview->blockSignals(false);
+
     // Ensure the active timeline has an opaque black background for compositing
     getCurrentTimeline()->model()->makeTransparentBg(false);
 

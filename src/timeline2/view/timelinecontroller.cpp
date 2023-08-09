@@ -126,6 +126,11 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
             showMasterEffects();
         }
     });
+    if (m_model->hasTimelinePreview()) {
+        // this timeline model already contains a timeline preview, connect it
+        connectPreviewManager();
+    }
+    connect(m_model.get(), &TimelineModel::connectPreviewManager, this, &TimelineController::connectPreviewManager);
     connect(this, &TimelineController::selectionChanged, this, &TimelineController::updateClipActions);
     connect(this, &TimelineController::selectionChanged, this, &TimelineController::updateTrimmingMode);
     connect(this, &TimelineController::videoTargetChanged, this, &TimelineController::updateVideoTarget);
@@ -140,7 +145,6 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
     connect(m_model.get(), &TimelineModel::flashLock, this, &TimelineController::slotFlashLock);
     connect(m_model.get(), &TimelineModel::highlightSub, this,
             [this](int index) { QMetaObject::invokeMethod(m_root, "highlightSub", Qt::QueuedConnection, Q_ARG(QVariant, index)); });
-    connectPreviewManager(true);
 }
 
 void TimelineController::restoreTargetTracks()
@@ -2523,7 +2527,6 @@ void TimelineController::stopPreviewRender()
 
 void TimelineController::initializePreview()
 {
-    bool onCreation = false;
     if (m_model->hasTimelinePreview()) {
         // Update parameters
         if (!m_model->previewManager()->loadParams()) {
@@ -2536,38 +2539,19 @@ void TimelineController::initializePreview()
         }
     } else {
         m_model->initializePreviewManager();
-        onCreation = true;
     }
-    connectPreviewManager(onCreation);
 }
 
-void TimelineController::connectPreviewManager(bool onCreation)
+void TimelineController::connectPreviewManager()
 {
-    if (onCreation) {
-        if (m_model->hasTimelinePreview()) {
-            connect(m_model->previewManager().get(), &PreviewManager::dirtyChunksChanged, this, &TimelineController::dirtyChunksChanged,
-                    static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
-            connect(m_model->previewManager().get(), &PreviewManager::renderedChunksChanged, this, &TimelineController::renderedChunksChanged,
-                    static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
-            connect(m_model->previewManager().get(), &PreviewManager::workingPreviewChanged, this, &TimelineController::workingPreviewChanged,
-                    static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
-        }
-    }
-    QAction *previewRender = pCore->currentDoc()->getAction(QStringLiteral("prerender_timeline_zone"));
     if (m_model->hasTimelinePreview()) {
-        m_disablePreview->setEnabled(true);
-        if (previewRender) {
-            previewRender->setEnabled(true);
-        }
-    } else {
-        m_disablePreview->setEnabled(false);
-        if (previewRender) {
-            previewRender->setEnabled(true);
-        }
+        connect(m_model->previewManager().get(), &PreviewManager::dirtyChunksChanged, this, &TimelineController::dirtyChunksChanged,
+                static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
+        connect(m_model->previewManager().get(), &PreviewManager::renderedChunksChanged, this, &TimelineController::renderedChunksChanged,
+                static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
+        connect(m_model->previewManager().get(), &PreviewManager::workingPreviewChanged, this, &TimelineController::workingPreviewChanged,
+                static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
     }
-    m_disablePreview->blockSignals(true);
-    m_disablePreview->setChecked(false);
-    m_disablePreview->blockSignals(false);
 }
 
 bool TimelineController::hasPreviewTrack() const
