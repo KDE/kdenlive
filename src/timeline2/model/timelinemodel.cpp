@@ -3879,6 +3879,7 @@ bool TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemMo
                                             Fun &undo, Fun &redo, bool blockUndo)
 {
     Q_UNUSED(blockUndo)
+    Q_UNUSED(moveGuides)
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
     bool result = false;
@@ -4334,7 +4335,7 @@ bool TimelineModel::requestTrackDeletion(int trackId, Fun &undo, Fun &redo)
         return false;
     }
     // Discard running jobs
-    pCore->taskManager.discardJobs({ObjectType::TimelineTrack, trackId, m_uuid});
+    pCore->taskManager.discardJobs(ObjectId(ObjectType::TimelineTrack, trackId, m_uuid));
 
     std::vector<int> clips_to_delete;
     for (const auto &it : getTrackById(trackId)->m_allClips) {
@@ -4974,6 +4975,7 @@ bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int
 bool TimelineModel::requestCompositionCreation(const QString &transitionId, int length, std::unique_ptr<Mlt::Properties> transProps, int &id, Fun &undo,
                                                Fun &redo, bool finalMove, const QString &originalDecimalPoint)
 {
+    Q_UNUSED(finalMove)
     int compositionId = TimelineModel::getNextId();
     id = compositionId;
     Fun local_undo = deregisterComposition_lambda(compositionId);
@@ -5661,7 +5663,7 @@ std::shared_ptr<EffectStackModel> TimelineModel::getMasterEffectStackModel()
     READ_LOCK();
     if (m_masterStack == nullptr) {
         m_masterService.reset(new Mlt::Service(*m_tractor.get()));
-        m_masterStack = EffectStackModel::construct(m_masterService, {ObjectType::Master, 0, m_uuid}, m_undoStack);
+        m_masterStack = EffectStackModel::construct(m_masterService, ObjectId(ObjectType::Master, 0, m_uuid), m_undoStack);
         connect(m_masterStack.get(), &EffectStackModel::updateMasterZones, pCore.get(), &Core::updateMasterZones);
     }
     return m_masterStack;

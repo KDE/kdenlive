@@ -32,7 +32,7 @@ TEST_CASE("Cache insert-remove", "[Cache]")
 
     pCore->projectManager()->m_project = &mockedDoc;
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
     pCore->projectManager()->m_activeTimelineModel = timeline;
 
@@ -67,7 +67,7 @@ TEST_CASE("getAudioKey() should dereference `ok` param", "ThumbnailCache") {
 
     pCore->m_projectManager->m_project = &mockedDoc;
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->m_projectManager->updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    pCore->m_projectManager->updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
     pCore->m_projectManager->m_activeTimelineModel = timeline;
 

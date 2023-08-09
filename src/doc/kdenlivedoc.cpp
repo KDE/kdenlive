@@ -836,7 +836,7 @@ void KdenliveDoc::setProjectFolder(const QUrl &url)
     updateProjectFolderPlacesEntry();
 }
 
-const QList<QUrl> KdenliveDoc::getProjectData(const QString &dest, bool *ok)
+const QList<QUrl> KdenliveDoc::getProjectData(bool *ok)
 {
     // Move proxies
     QList<QUrl> cacheUrls;

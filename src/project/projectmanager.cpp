@@ -251,7 +251,7 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     pCore->bin()->setDocument(doc);
     m_project = doc;
     initSequenceProperties(m_project->uuid(), {KdenliveSettings::audiotracks(), KdenliveSettings::videotracks()});
-    updateTimeline(0, true, QString(), QString(), QDateTime(), 0);
+    updateTimeline(true, QString(), QString(), QDateTime(), 0);
     pCore->window()->connectDocument();
     bool disabled = m_project->getDocumentProperty(QStringLiteral("disabletimelineeffects")) == QLatin1String("1");
     QAction *disableEffects = pCore->window()->actionCollection()->action(QStringLiteral("disable_timeline_effects"));
@@ -808,9 +808,9 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     m_project = doc;
     QDateTime documentDate = QFileInfo(m_project->url().toLocalFile()).lastModified();
 
-    if (!updateTimeline(m_project->getDocumentProperty(QStringLiteral("position")).toInt(), true,
-                        m_project->getDocumentProperty(QStringLiteral("previewchunks")), m_project->getDocumentProperty(QStringLiteral("dirtypreviewchunks")),
-                        documentDate, m_project->getDocumentProperty(QStringLiteral("disablepreview")).toInt())) {
+    if (!updateTimeline(true, m_project->getDocumentProperty(QStringLiteral("previewchunks")),
+                        m_project->getDocumentProperty(QStringLiteral("dirtypreviewchunks")), documentDate,
+                        m_project->getDocumentProperty(QStringLiteral("disablepreview")).toInt())) {
         KMessageBox::error(pCore->window(), i18n("Could not recover corrupted file."));
         delete m_progressDialog;
         m_progressDialog = nullptr;
@@ -833,7 +833,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     // Now that sequence clips are fully built, fetch thumbnails
     const QStringList sequenceIds = pCore->projectItemModel()->getAllSequenceClips().values();
     for (auto &id : sequenceIds) {
-        ClipLoadTask::start({ObjectType::BinClip, id.toInt(), QUuid()}, QDomElement(), true, -1, -1, this);
+        ClipLoadTask::start(ObjectId(ObjectType::BinClip, id.toInt(), QUuid()), QDomElement(), true, -1, -1, this);
     }
     // Raise last active timeline
     QUuid activeUuid(m_project->getDocumentProperty(QStringLiteral("activetimeline")));
@@ -1147,7 +1147,7 @@ void ProjectManager::moveProjectData(const QString &src, const QString &dest)
 {
     // Move proxies
     bool ok;
-    const QList<QUrl> proxyUrls = m_project->getProjectData(dest, &ok);
+    const QList<QUrl> proxyUrls = m_project->getProjectData(&ok);
     if (!ok) {
         // Could not move temporary data, abort
         KMessageBox::error(pCore->window(), i18n("Error moving project folder, cannot access cache folder"));
@@ -1227,7 +1227,7 @@ void ProjectManager::requestBackup(const QString &errorMessage)
     }
 }
 
-bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &chunks, const QString &dirty, const QDateTime &documentDate, bool enablePreview)
+bool ProjectManager::updateTimeline(bool createNewTab, const QString &chunks, const QString &dirty, const QDateTime &documentDate, bool enablePreview)
 {
     pCore->taskManager.slotCancelJobs();
     const QUuid uuid = m_project->uuid();

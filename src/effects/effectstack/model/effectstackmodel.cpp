@@ -715,6 +715,9 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                     return true;
                 };
                 bool res = operation();
+                if (!res) {
+                    return false;
+                }
                 Fun reverse = [effect, oldEffectIn, oldEffectOut]() {
                     effect->filter().set_in_and_out(oldEffectIn, oldEffectOut);
                     return true;

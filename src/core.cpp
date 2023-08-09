@@ -1150,6 +1150,7 @@ void Core::clean()
 
 void Core::startMediaCapture(int tid, bool checkAudio, bool checkVideo)
 {
+    Q_UNUSED(checkVideo)
     // TODO: fix video capture
     /*if (checkAudio && checkVideo) {
         m_capture->recordVideo(tid, true);
@@ -1162,6 +1163,7 @@ void Core::startMediaCapture(int tid, bool checkAudio, bool checkVideo)
 
 void Core::stopMediaCapture(int tid, bool checkAudio, bool checkVideo)
 {
+    Q_UNUSED(checkVideo)
     // TODO: fix video capture
     /*if (checkAudio && checkVideo) {
         m_capture->recordVideo(tid, false);

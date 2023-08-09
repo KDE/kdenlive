@@ -466,7 +466,7 @@ ObjectId EffectStackView::stackOwner() const
     if (m_model) {
         return m_model->getOwnerId();
     }
-    return {ObjectType::NoItem, -1, QUuid()};
+    return ObjectId();
 }
 
 bool EffectStackView::addEffect(const QString &effectId)
