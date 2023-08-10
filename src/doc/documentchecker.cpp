@@ -490,53 +490,62 @@ bool DocumentChecker::hasErrorInClips()
 
     // Check missing proxies
     max = m_missingProxies.count();
+    std::map<QString, std::pair<QString, QString>> replacementData;
     for (int i = 0; i < max; ++i) {
         QDomElement e = m_missingProxies.at(i).toElement();
         QString realPath = Xml::getXmlProperty(e, QStringLiteral("kdenlive:originalurl"));
         QString id = Xml::getXmlProperty(e, QStringLiteral("kdenlive:id"));
         QString originalService = Xml::getXmlProperty(e, QStringLiteral("kdenlive:original.mlt_service"));
+        replacementData.emplace(std::make_pair(id, std::make_pair(originalService, realPath)));
         m_missingProxyIds << id;
         // Tell Kdenlive to recreate proxy
         e.setAttribute(QStringLiteral("_replaceproxy"), QStringLiteral("1"));
         // Remove reference to missing proxy
         Xml::setXmlProperty(e, QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
-        // Replace proxy url with real clip in MLT producers
-        auto replaceProxy = [this](QDomElement &mltProd, const QString &id, const QString &realPath, const QString &originalService,
-                                   const QStringList &missingPaths) {
-            QString parentId = Xml::getXmlProperty(mltProd, QStringLiteral("kdenlive:id"));
-            if (parentId == id) {
-                // Hit, we must replace url
-                QString prefix;
-                if (Xml::getXmlProperty(mltProd, QStringLiteral("mlt_service")) == QLatin1String("timewarp")) {
-                    prefix = Xml::getXmlProperty(mltProd, QStringLiteral("warp_speed"));
-                    prefix.append(QLatin1Char(':'));
-                    Xml::setXmlProperty(mltProd, QStringLiteral("warp_resource"), prefix + realPath);
-                } else if (!originalService.isEmpty()) {
-                    Xml::setXmlProperty(mltProd, QStringLiteral("mlt_service"), originalService);
-                }
-                prefix.append(realPath);
-                Xml::setXmlProperty(mltProd, QStringLiteral("resource"), prefix);
-                Xml::setXmlProperty(mltProd, QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
+    }
 
-                if (missingPaths.contains(realPath)) {
-                    // Proxy AND source missing
-                    Xml::setXmlProperty(mltProd, QStringLiteral("_placeholder"), QStringLiteral("1"));
-                    Xml::setXmlProperty(mltProd, QStringLiteral("kdenlive:orig_service"), Xml::getXmlProperty(mltProd, QStringLiteral("mlt_service")));
-                }
-            }
-            return true;
-        };
-        QDomElement mltProd;
-        int prodsCount = documentProducers.count();
-        for (int j = 0; j < prodsCount; ++j) {
-            mltProd = documentProducers.at(j).toElement();
-            replaceProxy(mltProd, id, realPath, originalService, missingPaths);
+    // Replace proxy url with real clip in MLT producers
+    auto replaceProxy = [this](QDomElement &mltProd, const std::pair<QString, QString> &replaceData, const QStringList &missingPaths) {
+        // Hit, we must replace url
+        // Replacedata contains originalService / realPath
+        QString prefix;
+        if (Xml::getXmlProperty(mltProd, QStringLiteral("mlt_service")) == QLatin1String("timewarp")) {
+            prefix = Xml::getXmlProperty(mltProd, QStringLiteral("warp_speed"));
+            prefix.append(QLatin1Char(':'));
+            Xml::setXmlProperty(mltProd, QStringLiteral("warp_resource"), prefix + replaceData.second);
+        } else if (!replaceData.first.isEmpty()) {
+            Xml::setXmlProperty(mltProd, QStringLiteral("mlt_service"), replaceData.first);
         }
-        prodsCount = documentChains.count();
-        for (int j = 0; j < prodsCount; ++j) {
-            mltProd = documentChains.at(j).toElement();
-            replaceProxy(mltProd, id, realPath, originalService, missingPaths);
+        prefix.append(replaceData.second);
+        Xml::setXmlProperty(mltProd, QStringLiteral("resource"), prefix);
+        Xml::setXmlProperty(mltProd, QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
+
+        if (missingPaths.contains(replaceData.second)) {
+            // Proxy AND source missing
+            Xml::setXmlProperty(mltProd, QStringLiteral("_placeholder"), QStringLiteral("1"));
+            Xml::setXmlProperty(mltProd, QStringLiteral("kdenlive:orig_service"), Xml::getXmlProperty(mltProd, QStringLiteral("mlt_service")));
         }
+        return true;
+    };
+    QDomElement mltProd;
+    int prodsCount = documentProducers.count();
+    std::map<QString, std::pair<QString, QString>> replacementDataBis;
+    for (int j = 0; j < prodsCount; ++j) {
+        mltProd = documentProducers.at(j).toElement();
+        const QString parentId = Xml::getXmlProperty(mltProd, QStringLiteral("kdenlive:id"));
+        if (replacementData.find(parentId) != replacementData.end()) {
+            replaceProxy(mltProd, replacementData.at(parentId), missingPaths);
+        }
+        qApp->processEvents();
+    }
+    prodsCount = documentChains.count();
+    for (int j = 0; j < prodsCount; ++j) {
+        mltProd = documentChains.at(j).toElement();
+        const QString parentId = Xml::getXmlProperty(mltProd, QStringLiteral("kdenlive:id"));
+        if (replacementData.find(parentId) != replacementData.end()) {
+            replaceProxy(mltProd, replacementData.at(parentId), missingPaths);
+        }
+        qApp->processEvents();
     }
 
     if (max > 0) {
