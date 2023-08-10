@@ -724,6 +724,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
         m_progressDialog->setLabelText(i18n("Loading project"));
         m_progressDialog->setMaximum(0);
         m_progressDialog->show();
+        qApp->processEvents();
     }
     m_notesPlugin->clear();
 
