@@ -157,9 +157,8 @@ void EffectStackModel::removeEffect(const std::shared_ptr<EffectItemModel> &effe
     if (auto ptr = effect->parentItem().lock()) parentId = ptr->getId();
     int current = getActiveEffect();
     if (current >= rootItem->childCount() - 1) {
-        current--;
+        setActiveEffect(current - 1);
     }
-    setActiveEffect(current);
     int currentRow = effect->row();
     Fun undo = addItem_lambda(effect, parentId);
     if (currentRow != rowCount() - 1) {
@@ -176,9 +175,9 @@ void EffectStackModel::removeEffect(const std::shared_ptr<EffectItemModel> &effe
         inFades = int(m_fadeIns.size()) - inFades;
         outFades = int(m_fadeOuts.size()) - outFades;
         QString effectName = EffectsRepository::get()->getName(effect->getAssetId());
-        Fun update = [this, current, inFades, outFades]() {
+        Fun update = [this, inFades, outFades]() {
             // Required to build the effect view
-            if (current < 0 || rowCount() == 0) {
+            if (rowCount() == 0) {
                 // Stack is now empty
                 Q_EMIT dataChanged(QModelIndex(), QModelIndex(), {});
             } else {
@@ -201,7 +200,7 @@ void EffectStackModel::removeEffect(const std::shared_ptr<EffectItemModel> &effe
             pCore->updateItemKeyframes(m_ownerId);
             return true;
         };
-        Fun update2 = [this, inFades, outFades]() {
+        Fun update2 = [this, inFades, outFades, current]() {
             // Required to build the effect view
             QVector<int> roles = {TimelineModel::EffectNamesRole};
             // TODO: only update if effect is fade or keyframe
@@ -213,6 +212,7 @@ void EffectStackModel::removeEffect(const std::shared_ptr<EffectItemModel> &effe
             Q_EMIT dataChanged(QModelIndex(), QModelIndex(), roles);
             updateEffectZones();
             pCore->updateItemKeyframes(m_ownerId);
+            setActiveEffect(current);
             return true;
         };
         update();
