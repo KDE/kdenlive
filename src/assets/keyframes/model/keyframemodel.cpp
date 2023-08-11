@@ -155,11 +155,10 @@ bool KeyframeModel::removeKeyframe(GenTime pos, Fun &undo, Fun &redo, bool notif
     }
     Fun redo_first = deleteKeyframe_lambda(pos, notify);
     if (redo_first()) {
-        Fun local_undo = addKeyframe_lambda(pos, oldType, oldValue, true);
-        Fun local_redo = deleteKeyframe_lambda(pos, true);
+        Fun local_undo = addKeyframe_lambda(pos, oldType, oldValue, notify);
         select_redo();
         qDebug() << "after" << getAnimProperty();
-        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+        UPDATE_UNDO_REDO(redo_first, local_undo, undo, redo);
         UPDATE_UNDO_REDO(select_redo, select_undo, undo, redo);
         return true;
     }
@@ -1428,15 +1427,13 @@ bool KeyframeModel::removeNextKeyframes(GenTime pos, Fun &undo, Fun &redo)
     std::vector<GenTime> all_pos;
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
-    int firstPos = 0;
     for (const auto &m : m_keyframeList) {
-        if (m.first <= pos) {
-            firstPos++;
-            continue;
+        if (m.first >= pos && m.first != m_keyframeList.begin()->first) {
+            all_pos.push_back(m.first);
         }
-        all_pos.push_back(m.first);
     }
-    int kfrCount = int(all_pos.size());
+    std::sort(all_pos.begin(), all_pos.end());
+    int kfrCount = int(m_keyframeList.size());
     // Remove deleted keyframes from selection
     if (auto ptr = m_model.lock()) {
         QVector<int> selection;
@@ -1448,16 +1445,17 @@ bool KeyframeModel::removeNextKeyframes(GenTime pos, Fun &undo, Fun &redo)
         ptr->m_selectedKeyframes = selection;
     }
     // we trigger only one global remove/insertrow event
-    Fun update_redo_start = [this, firstPos, kfrCount]() {
-        beginRemoveRows(QModelIndex(), firstPos, kfrCount);
+    int row = static_cast<int>(std::distance(m_keyframeList.begin(), m_keyframeList.find(all_pos.front())));
+    Fun update_redo_start = [this, row, kfrCount]() {
+        beginRemoveRows(QModelIndex(), row, kfrCount - 1);
         return true;
     };
     Fun update_redo_end = [this]() {
         endRemoveRows();
         return true;
     };
-    Fun update_undo_start = [this, firstPos, kfrCount]() {
-        beginInsertRows(QModelIndex(), firstPos, kfrCount);
+    Fun update_undo_start = [this, row, kfrCount]() {
+        beginInsertRows(QModelIndex(), row, kfrCount - 1);
         return true;
     };
     Fun update_undo_end = [this]() {
