@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-11 02:24+0000\n"
+"POT-Creation-Date: 2023-08-12 02:28+0000\n"
 "PO-Revision-Date: 2023-07-26 22:40+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -3428,20 +3428,20 @@ msgstr "Додати ключовий кадр"
 msgid "Change keyframe type"
 msgstr "Змінити тип ключового кадру"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:202
+#: src/assets/keyframes/model/keyframemodel.cpp:201
 #: src/assets/keyframes/model/keyframemodellist.cpp:182
 #: src/assets/view/widgets/keyframewidget.cpp:72 src/dialogs/timeremap.cpp:1711
 #, kde-format
 msgid "Delete keyframe"
 msgstr "Вилучити ключовий кадр"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:397
+#: src/assets/keyframes/model/keyframemodel.cpp:396
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframes"
 msgstr "Пересунути ключові кадри"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:418
+#: src/assets/keyframes/model/keyframemodel.cpp:417
 #: src/assets/keyframes/model/keyframemodellist.cpp:226
 #: src/assets/keyframes/model/keyframemodellist.cpp:270
 #: src/assets/keyframes/view/keyframeview.cpp:295
@@ -3450,29 +3450,29 @@ msgctxt "@action"
 msgid "Move keyframe"
 msgstr "Пересунути ключовий кадр"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:489
+#: src/assets/keyframes/model/keyframemodel.cpp:488
 #: src/assets/keyframes/model/keyframemodellist.cpp:306
 #, kde-format
 msgid "Update keyframe"
 msgstr "Оновити ключовий кадр"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:826
+#: src/assets/keyframes/model/keyframemodel.cpp:825
 #: src/assets/keyframes/model/keyframemodellist.cpp:208
 #, kde-format
 msgid "Delete all keyframes"
 msgstr "Вилучити усі ключові кадри"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1029
+#: src/assets/keyframes/model/keyframemodel.cpp:1028
 #, kde-format
 msgid "effect"
 msgstr "ефект"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1038
+#: src/assets/keyframes/model/keyframemodel.cpp:1037
 #, kde-format
 msgid "Reset %1"
 msgstr "Скинути %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1297
+#: src/assets/keyframes/model/keyframemodel.cpp:1296
 #, kde-format
 msgid "Reset effect"
 msgstr "Відновити параметри ефекту"

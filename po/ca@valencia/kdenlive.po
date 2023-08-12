@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-11 02:24+0000\n"
+"POT-Creation-Date: 2023-08-12 02:28+0000\n"
 "PO-Revision-Date: 2023-08-08 14:27+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -3434,20 +3434,20 @@ msgstr "Afig un fotograma clau"
 msgid "Change keyframe type"
 msgstr "Canvia el tipus de fotograma clau"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:202
+#: src/assets/keyframes/model/keyframemodel.cpp:201
 #: src/assets/keyframes/model/keyframemodellist.cpp:182
 #: src/assets/view/widgets/keyframewidget.cpp:72 src/dialogs/timeremap.cpp:1711
 #, kde-format
 msgid "Delete keyframe"
 msgstr "Suprimix el fotograma clau"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:397
+#: src/assets/keyframes/model/keyframemodel.cpp:396
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframes"
 msgstr "Mou els fotogrames clau"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:418
+#: src/assets/keyframes/model/keyframemodel.cpp:417
 #: src/assets/keyframes/model/keyframemodellist.cpp:226
 #: src/assets/keyframes/model/keyframemodellist.cpp:270
 #: src/assets/keyframes/view/keyframeview.cpp:295
@@ -3456,29 +3456,29 @@ msgctxt "@action"
 msgid "Move keyframe"
 msgstr "Mou el fotograma clau"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:489
+#: src/assets/keyframes/model/keyframemodel.cpp:488
 #: src/assets/keyframes/model/keyframemodellist.cpp:306
 #, kde-format
 msgid "Update keyframe"
 msgstr "Actualitza el fotograma clau"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:826
+#: src/assets/keyframes/model/keyframemodel.cpp:825
 #: src/assets/keyframes/model/keyframemodellist.cpp:208
 #, kde-format
 msgid "Delete all keyframes"
 msgstr "Suprimix tots els fotogrames clau"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1029
+#: src/assets/keyframes/model/keyframemodel.cpp:1028
 #, kde-format
 msgid "effect"
 msgstr "efecte"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1038
+#: src/assets/keyframes/model/keyframemodel.cpp:1037
 #, kde-format
 msgid "Reset %1"
 msgstr "Reinicialitza %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1297
+#: src/assets/keyframes/model/keyframemodel.cpp:1296
 #, kde-format
 msgid "Reset effect"
 msgstr "Reinicialitza efecte"
