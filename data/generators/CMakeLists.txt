@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-FileCopyrightText: Jean-Baptiste Mardelle <jb@kdenlive.org>
+
 INSTALL (FILES
 
 count.xml

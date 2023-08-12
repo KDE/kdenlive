@@ -112,7 +112,7 @@ std::vector<RenderRequest::RenderJob> RenderRequest::process()
     doc.setContent(playlistContent);
 
     // Add autoclose to playlists
-    KdenliveDoc::setAutoclosePlaylists(doc);
+    KdenliveDoc::setAutoclosePlaylists(doc, pCore->currentTimelineId().toString());
 
     // Do we want proxy rendering
     if (!m_proxyRendering && project->useProxy()) {

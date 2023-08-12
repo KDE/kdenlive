@@ -33,7 +33,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
 
     pCore->projectManager()->m_project = &document;
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = document.getTimeline(document.uuid());
     pCore->projectManager()->testSetActiveDocument(&document, timeline);
 

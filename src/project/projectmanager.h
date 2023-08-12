@@ -108,7 +108,8 @@ public:
     /** @brief Open a timeline clip in a tab.
      *  @returns true if the timeline was not previously opened
      */
-    bool openTimeline(const QString &id, const QUuid &uuid, int position = -1, bool duplicate = false);
+    bool openTimeline(const QString &id, const QUuid &uuid, int position = -1, bool duplicate = false,
+                      std::shared_ptr<TimelineItemModel> existingModel = nullptr);
     /** @brief Set a property on timeline uuid
      */
     void setTimelinePropery(QUuid uuid, const QString &prop, const QString &val);
@@ -223,7 +224,7 @@ Q_SIGNALS:
 
 protected:
     /** @brief Update the timeline according to the MLT XML */
-    bool updateTimeline(int pos, bool createNewTab, const QString &chunks, const QString &dirty, const QDateTime &documentDate, bool enablePreview);
+    bool updateTimeline(bool createNewTab, const QString &chunks, const QString &dirty, const QDateTime &documentDate, bool enablePreview);
 
 private:
     /** @brief checks if autoback files exists, recovers from it if user says yes, returns true if files were recovered. */

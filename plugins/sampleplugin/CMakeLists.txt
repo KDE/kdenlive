@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-FileCopyrightText: Alberto Villa <avilla@FreeBSD.org>, Laurent Montel <montel@kde.org>, Jean-Baptiste Mardelle <jb@kdenlive.org>
+
 set(sampleplugin_SRCS sampleplugin.cpp)
 
 ki18n_wrap_ui(sampleplugin_UIS countdown_ui.ui)

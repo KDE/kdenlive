@@ -69,7 +69,7 @@ Generators::Generators(const QString &path, QWidget *parent)
         QString tag = base.attribute(QStringLiteral("tag"), QString());
 
         auto prop = std::make_unique<Mlt::Properties>(m_producer->get_properties());
-        m_assetModel.reset(new AssetParameterModel(std::move(prop), base, tag, {ObjectType::NoItem, -1, QUuid()})); // NOLINT
+        m_assetModel.reset(new AssetParameterModel(std::move(prop), base, tag, ObjectId())); // NOLINT
         m_view->setModel(m_assetModel, QSize(1920, 1080), false);
         connect(m_assetModel.get(), &AssetParameterModel::modelChanged, this, [this]() { updateProducer(); });
 

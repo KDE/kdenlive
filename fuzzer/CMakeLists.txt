@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-FileCopyrightText: Vincent Pinon <vincent.pinon@asygn.com>
+
 include_directories(${MLT_INCLUDE_DIR})
 kde_enable_exceptions()
 add_executable(fuzz main_fuzzer.cpp fuzzing.cpp)

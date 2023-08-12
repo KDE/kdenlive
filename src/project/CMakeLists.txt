@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-FileCopyrightText: Vincent PINON <vincent.pinon@laposte.net>
+
 add_subdirectory(dialogs)
 set(kdenlive_SRCS
   ${kdenlive_SRCS}

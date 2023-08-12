@@ -53,12 +53,12 @@ QPixmap KThumb::getImage(const QUrl &url, int frame, int width, int height)
 QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int width, int height, int displayWidth)
 {
     if (producer == nullptr || !producer->is_valid()) {
-        QImage p(displayWidth, height, QImage::Format_ARGB32_Premultiplied);
+        QImage p(displayWidth == 0 ? width : displayWidth, height, QImage::Format_ARGB32_Premultiplied);
         p.fill(QColor(Qt::red).rgb());
         return p;
     }
     if (producer->is_blank()) {
-        QImage p(displayWidth, height, QImage::Format_ARGB32_Premultiplied);
+        QImage p(displayWidth == 0 ? width : displayWidth, height, QImage::Format_ARGB32_Premultiplied);
         p.fill(QColor(Qt::black).rgb());
         return p;
     }

@@ -155,6 +155,8 @@ public:
     void stopCountDown();
     /** @brief Reset monitor scene to default **/
     void resetScene();
+    /** @brief Set monitor zone **/
+    void loadZone(int in, int out);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;

@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-FileCopyrightText: Alberto Villa <avilla@FreeBSD.org>, Jean-Baptiste Mardelle <jb@kdenlive.org>, Vincent PINON <vincent.pinon@laposte.net>
+
 set(kdenlive_SRCS
   ${kdenlive_SRCS}
   scopes/colorscopes/colorconstants.h

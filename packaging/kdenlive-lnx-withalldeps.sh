@@ -1,6 +1,6 @@
 #!/bin/bash
 # SPDX-FileCopyrightText: 2018 V. Pinon <vpinon@kde.org>
-# License: GPLv2+
+# SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 # Tested in Debian sid x86_64
 
 # Be verbose, halt on errors

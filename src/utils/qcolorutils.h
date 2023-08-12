@@ -16,6 +16,7 @@ class QColorUtils
 public:
     static QColor stringToColor(QString strColor);
     static QString colorToString(const QColor &color, bool alpha);
+    static QColor complementary(QColor color);
 };
 
 class NegQColor

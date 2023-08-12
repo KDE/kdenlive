@@ -1598,20 +1598,24 @@ void GLWidget::refreshSceneLayout()
     rootObject()->setProperty("scaley", double(m_rect.height() * m_zoom) / s.height());
 }
 
-void GLWidget::switchPlay(bool play, int offset, double speed)
+bool GLWidget::switchPlay(bool play, double speed)
 {
     if (!m_producer || !m_consumer) {
-        return;
+        return false;
     }
     if (m_isZoneMode || m_isLoopMode) {
         resetZoneMode();
     }
     if (play) {
-        if ((m_id == Kdenlive::ClipMonitor || (m_id == Kdenlive::ProjectMonitor && KdenliveSettings::jumptostart())) &&
-            m_consumer->position() == m_producer->get_out() - offset && speed > 0) {
-            m_producer->seek(0);
+        if (m_consumer->position() == m_producer->get_playtime() - 1 && speed > 0) {
+            // We are at the end of the clip / timeline
+            if (m_id == Kdenlive::ClipMonitor || (m_id == Kdenlive::ProjectMonitor && KdenliveSettings::jumptostart())) {
+                m_producer->seek(0);
+            } else {
+                return false;
+            }
         }
-        qDebug() << "pos: " << m_consumer->position() << "out-offset: " << m_producer->get_out() - offset;
+        qDebug() << "pos: " << m_consumer->position() << "out: " << m_producer->get_playtime() - 1;
         double current_speed = m_producer->get_speed();
         m_producer->set_speed(speed);
         m_proxy->setSpeed(speed);
@@ -1639,6 +1643,7 @@ void GLWidget::switchPlay(bool play, int offset, double speed)
         m_consumer->start();
         m_consumer->set("scrub_audio", 0);
     }
+    return true;
 }
 
 bool GLWidget::playZone(bool loop)

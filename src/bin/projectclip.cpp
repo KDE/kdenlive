@@ -135,11 +135,12 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
     if (m_clipType != ClipType::Timeline &&
         (m_clipStatus == FileStatus::StatusProxy || m_clipStatus == FileStatus::StatusReady || m_clipStatus == FileStatus::StatusProxyOnly)) {
         // Generate clip thumbnail
-        ClipLoadTask::start({ObjectType::BinClip, m_binId.toInt(), QUuid()}, QDomElement(), true, -1, -1, this);
+        ObjectId oid(ObjectType::BinClip, m_binId.toInt(), QUuid());
+        ClipLoadTask::start(oid, QDomElement(), true, -1, -1, this);
         // Generate audio thumbnail
         if (KdenliveSettings::audiothumbnails() &&
             (m_clipType == ClipType::AV || m_clipType == ClipType::Audio || (m_hasAudio && m_clipType != ClipType::Timeline))) {
-            AudioLevelsTask::start({ObjectType::BinClip, m_binId.toInt(), QUuid()}, this, false);
+            AudioLevelsTask::start(oid, this, false);
         }
     }
 }
@@ -265,7 +266,7 @@ void ProjectClip::updateAudioThumbnail(bool cachedThumb)
     Q_EMIT audioThumbReady();
     if (m_clipType == ClipType::Audio) {
         QImage thumb = ThumbnailCache::get()->getThumbnail(m_binId, 0);
-        if (thumb.isNull() && !pCore->taskManager.hasPendingJob({ObjectType::BinClip, m_binId.toInt(), QUuid()}, AbstractTask::AUDIOTHUMBJOB)) {
+        if (thumb.isNull() && !pCore->taskManager.hasPendingJob(ObjectId(ObjectType::BinClip, m_binId.toInt(), QUuid()), AbstractTask::AUDIOTHUMBJOB)) {
             int iconHeight = int(QFontInfo(qApp->font()).pixelSize() * 3.5);
             QImage img(QSize(int(iconHeight * pCore->getCurrentDar()), iconHeight), QImage::Format_ARGB32);
             img.fill(Qt::darkGray);
@@ -418,7 +419,7 @@ size_t ProjectClip::frameDuration() const
 void ProjectClip::resetSequenceThumbnails()
 {
     QMutexLocker lk(&m_thumbMutex);
-    pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt(), QUuid()}, AbstractTask::LOADJOB, true);
+    pCore->taskManager.discardJobs(ObjectId(ObjectType::BinClip, m_binId.toInt(), QUuid()), AbstractTask::LOADJOB, true);
     m_thumbsProducer.reset();
     ThumbnailCache::get()->invalidateThumbsForClip(m_binId);
     // Force refeshing thumbs producer
@@ -433,22 +434,23 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
 {
     // we find if there are some loading job on that clip
     QMutexLocker lock(&m_thumbMutex);
+    ObjectId oid(ObjectType::BinClip, m_binId.toInt(), QUuid());
     if (refreshOnly) {
         // In that case, we only want a new thumbnail.
         // We thus set up a thumb job. We must make sure that there is no pending LOADJOB
         // Clear cache first
         ThumbnailCache::get()->invalidateThumbsForClip(m_binId);
-        pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt(), QUuid()}, AbstractTask::LOADJOB, true);
-        pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt(), QUuid()}, AbstractTask::CACHEJOB);
+        pCore->taskManager.discardJobs(oid, AbstractTask::LOADJOB, true);
+        pCore->taskManager.discardJobs(oid, AbstractTask::CACHEJOB);
         m_thumbsProducer.reset();
         // Reset uuid to enforce reloading thumbnails from qml cache
         m_uuid = QUuid::createUuid();
         updateTimelineClips({TimelineModel::ClipThumbRole, TimelineModel::ResourceRole});
-        ClipLoadTask::start({ObjectType::BinClip, m_binId.toInt(), QUuid()}, QDomElement(), true, -1, -1, this);
+        ClipLoadTask::start(oid, QDomElement(), true, -1, -1, this);
     } else {
         // If another load job is running?
-        pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt(), QUuid()}, AbstractTask::LOADJOB, true);
-        pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt(), QUuid()}, AbstractTask::CACHEJOB);
+        pCore->taskManager.discardJobs(oid, AbstractTask::LOADJOB, true);
+        pCore->taskManager.discardJobs(oid, AbstractTask::CACHEJOB);
         if (QFile::exists(m_path) && (!isProxy && !hasProxy()) && m_properties) {
             clearBackupProperties();
         }
@@ -489,7 +491,7 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
             }
             m_clipStatus = FileStatus::StatusWaiting;
             m_thumbsProducer.reset();
-            ClipLoadTask::start({ObjectType::BinClip, m_binId.toInt(), QUuid()}, xml, false, -1, -1, this);
+            ClipLoadTask::start(oid, xml, false, -1, -1, this);
         }
     }
 }
@@ -611,7 +613,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
         }
     }
     updateProducer(producer);
-    pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt(), QUuid()}, AbstractTask::LOADJOB);
+    pCore->taskManager.discardJobs(ObjectId(ObjectType::BinClip, m_binId.toInt(), QUuid()), AbstractTask::LOADJOB);
     // Abort thumbnail tasks if any
     m_thumbMutex.lock();
     m_thumbsProducer.reset();
@@ -665,11 +667,11 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     updateParent(parentItem().lock());
     if (generateThumb && m_clipType != ClipType::Audio) {
         // Generate video thumb
-        ClipLoadTask::start({ObjectType::BinClip, m_binId.toInt(), QUuid()}, QDomElement(), true, -1, -1, this);
+        ClipLoadTask::start(ObjectId(ObjectType::BinClip, m_binId.toInt(), QUuid()), QDomElement(), true, -1, -1, this);
     }
     if (KdenliveSettings::audiothumbnails() &&
         (m_clipType == ClipType::AV || m_clipType == ClipType::Audio || (m_hasAudio && m_clipType != ClipType::Timeline))) {
-        AudioLevelsTask::start({ObjectType::BinClip, m_binId.toInt(), QUuid()}, this, false);
+        AudioLevelsTask::start(ObjectId(ObjectType::BinClip, m_binId.toInt(), QUuid()), this, false);
     }
     if (pCore->bin()) {
         pCore->bin()->reloadMonitorIfActive(clipId());
@@ -731,7 +733,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     }
     if (!generateProxy && KdenliveSettings::hoverPreview() &&
         (m_clipType == ClipType::AV || m_clipType == ClipType::Video || m_clipType == ClipType::Playlist)) {
-        QTimer::singleShot(1000, this, [this]() { CacheTask::start({ObjectType::BinClip, m_binId.toInt(), QUuid()}, 30, 0, 0, this); });
+        QTimer::singleShot(1000, this, [this]() { CacheTask::start(ObjectId(ObjectType::BinClip, m_binId.toInt(), QUuid()), 30, 0, 0, this); });
     }
     if (generateProxy) {
         QMetaObject::invokeMethod(pCore->currentDoc(), "slotProxyCurrentItem", Q_ARG(bool, true), Q_ARG(QList<std::shared_ptr<ProjectClip>>, clipList),
@@ -1391,6 +1393,7 @@ void ProjectClip::saveZone(QPoint zone, const QDir &dir)
 
 std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects, bool timelineProducer)
 {
+    Q_UNUSED(timelineProducer);
     QMutexLocker lk(&m_producerMutex);
     Mlt::Consumer c(pCore->getProjectProfile(), "xml", "string");
     Mlt::Service s(m_masterProducer->get_service());
@@ -1749,11 +1752,12 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
     if (properties.contains(QStringLiteral("kdenlive:proxy")) && !properties.contains("_fullreload")) {
         QString value = properties.value(QStringLiteral("kdenlive:proxy"));
         // If value is "-", that means user manually disabled proxy on this clip
+        ObjectId oid(ObjectType::BinClip, m_binId.toInt(), QUuid());
         if (value.isEmpty() || value == QLatin1String("-")) {
             // reset proxy
-            if (pCore->taskManager.hasPendingJob({ObjectType::BinClip, m_binId.toInt(), QUuid()}, AbstractTask::PROXYJOB)) {
+            if (pCore->taskManager.hasPendingJob(oid, AbstractTask::PROXYJOB)) {
                 // The proxy clip is being created, abort
-                pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt(), QUuid()}, AbstractTask::PROXYJOB);
+                pCore->taskManager.discardJobs(oid, AbstractTask::PROXYJOB);
             } else {
                 reload = true;
                 refreshOnly = false;
@@ -1767,7 +1771,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
             // A proxy was requested, make sure to keep original url
             setProducerProperty(QStringLiteral("kdenlive:originalurl"), url());
             backupOriginalProperties();
-            ProxyTask::start({ObjectType::BinClip, m_binId.toInt(), QUuid()}, this);
+            ProxyTask::start(oid, this);
         }
     } else if (!reload) {
         const QList<QString> propKeys = properties.keys();
@@ -1847,9 +1851,10 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
     if (reload) {
         // producer has changed, refresh monitor and thumbnail
         if (hasProxy()) {
-            pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt(), QUuid()}, AbstractTask::PROXYJOB);
+            ObjectId oid(ObjectType::BinClip, m_binId.toInt(), QUuid());
+            pCore->taskManager.discardJobs(oid, AbstractTask::PROXYJOB);
             setProducerProperty(QStringLiteral("_overwriteproxy"), 1);
-            ProxyTask::start({ObjectType::BinClip, m_binId.toInt(), QUuid()}, this);
+            ProxyTask::start(oid, this);
         } else {
             reloadProducer(refreshOnly, properties.contains(QStringLiteral("kdenlive:proxy")));
         }
@@ -2047,7 +2052,7 @@ void ProjectClip::discardAudioThumb()
     if (!m_audioInfo) {
         return;
     }
-    pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt(), QUuid()}, AbstractTask::AUDIOTHUMBJOB);
+    pCore->taskManager.discardJobs(ObjectId(ObjectType::BinClip, m_binId.toInt(), QUuid()), AbstractTask::AUDIOTHUMBJOB);
     QString audioThumbPath;
     QList<int> streams = m_audioInfo->streams().keys();
     // Delete audio thumbnail data
@@ -2352,7 +2357,7 @@ bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
 {
     Fun operation = [this]() {
         // Free audio thumb data and timeline producers
-        pCore->taskManager.discardJobs({ObjectType::BinClip, m_binId.toInt(), QUuid()});
+        pCore->taskManager.discardJobs(ObjectId(ObjectType::BinClip, m_binId.toInt(), QUuid()));
         m_audioLevels.clear();
         m_disabledProducer.reset();
         m_audioProducers.clear();
@@ -2491,7 +2496,7 @@ Fun ProjectClip::getAudio_lambda()
         if (KdenliveSettings::audiothumbnails() &&
             (m_clipType == ClipType::AV || m_clipType == ClipType::Audio || (m_clipType == ClipType::Playlist && m_hasAudio)) && m_audioLevels.isEmpty()) {
             // Generate audio levels
-            AudioLevelsTask::start({ObjectType::BinClip, m_binId.toInt(), QUuid()}, this, false);
+            AudioLevelsTask::start(ObjectId(ObjectType::BinClip, m_binId.toInt(), QUuid()), this, false);
         }
         return true;
     };
@@ -2590,8 +2595,9 @@ void ProjectClip::getThumbFromPercent(int percent, bool storeFrame)
         setThumbnail(thumb, -1, -1);
     } else {
         // Generate percent thumbs
-        if (!pCore->taskManager.hasPendingJob({ObjectType::BinClip, m_binId.toInt(), QUuid()}, AbstractTask::CACHEJOB)) {
-            CacheTask::start({ObjectType::BinClip, m_binId.toInt(), QUuid()}, 30, 0, 0, this);
+        ObjectId oid(ObjectType::BinClip, m_binId.toInt(), QUuid());
+        if (!pCore->taskManager.hasPendingJob(oid, AbstractTask::CACHEJOB)) {
+            CacheTask::start(oid, 30, 0, 0, this);
         }
     }
     if (storeFrame) {

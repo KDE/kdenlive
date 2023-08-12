@@ -6,7 +6,10 @@
  *  Distributed under the MIT License. Please refer to the LICENSE file at:
  *  https://github.com/eranpeer/FakeIt
  */
-
+/*
+    SPDX-FileCopyrightText: (c) Eran Pe'er 2013 https://github.com/eranpeer/FakeIt
+    SPDX-License-Identifier: MIT
+*/
 
 #if defined __GNUC__
 #    pragma GCC diagnostic push

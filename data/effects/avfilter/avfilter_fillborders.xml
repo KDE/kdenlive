@@ -20,7 +20,7 @@
         <paramlistdisplay>Smear,Mirror,Fixed</paramlistdisplay>
         <name>Mode</name>
     </parameter>
-    <parameter type="color" name="av.color" default="black">
+    <parameter type="fixedcolor" name="av.color" default="black">
         <name>Color</name>
     </parameter>
 </effect>

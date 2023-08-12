@@ -58,20 +58,19 @@ struct ObjectId
     ObjectType type;
     int itemId;
     QUuid uuid;
-    inline ObjectId &operator=(const ObjectId &a)
+    explicit constexpr ObjectId(const ObjectType tp = ObjectType::NoItem, int id = -1, const QUuid uid = QUuid())
+        : type(tp)
+        , itemId(id)
+        , uuid(uid)
+    {
+    }
+    /*inline ObjectId &operator=(const ObjectId &a)
     {
         type = a.type;
         itemId = a.itemId;
         uuid = a.uuid;
         return *this;
-    }
-    inline ObjectId &operator=(ObjectId &a)
-    {
-        type = a.type;
-        itemId = a.itemId;
-        uuid = a.uuid;
-        return *this;
-    }
+    }*/
     inline bool operator==(const ObjectId &a) const
     {
         if (a.type == type && a.itemId == itemId && a.uuid == uuid)

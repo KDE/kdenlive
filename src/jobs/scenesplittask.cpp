@@ -78,12 +78,12 @@ void SceneSplitTask::start(QObject *object, bool force)
                 qDebug() << "=== INVALID SUBCLIP DATA: " << id;
                 continue;
             }
-            owner = {ObjectType::BinClip, binData.first().toInt(), QUuid()};
+            owner = ObjectId(ObjectType::BinClip, binData.first().toInt(), QUuid());
             auto binClip = pCore->projectItemModel()->getClipByBinID(binData.first());
             task = new SceneSplitTask(owner, threshold / 100., markersCategory, addSubclips, minDuration, binClip.get());
 
         } else {
-            owner = {ObjectType::BinClip, id.toInt(), QUuid()};
+            owner = ObjectId(ObjectType::BinClip, id.toInt(), QUuid());
             auto binClip = pCore->projectItemModel()->getClipByBinID(id);
             task = new SceneSplitTask(owner, threshold / 100., markersCategory, addSubclips, minDuration, binClip.get());
         }

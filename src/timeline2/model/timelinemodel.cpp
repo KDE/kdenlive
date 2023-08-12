@@ -2541,7 +2541,12 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             } else if (masterIsAudio) {
                 trackOffset = -delta_track;
             }
-            int newItemTrackId = getTrackIndexFromPosition(getTrackPosition(currentTrack) + trackOffset);
+            int newTrackPosition = getTrackPosition(currentTrack) + trackOffset;
+            if (newTrackPosition < 0 || newTrackPosition >= int(m_allTracks.size())) {
+                delta_track = 0;
+                break;
+            }
+            int newItemTrackId = getTrackIndexFromPosition(newTrackPosition);
             int newIn = item.second + delta_pos;
             if (!getTrackById_const(newItemTrackId)->isAvailableWithExceptions(newIn, getClipPlaytime(item.first) - 1, sorted_clips_ids)) {
                 delta_track = 0;
@@ -3874,6 +3879,7 @@ bool TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemMo
                                             Fun &undo, Fun &redo, bool blockUndo)
 {
     Q_UNUSED(blockUndo)
+    Q_UNUSED(moveGuides)
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
     bool result = false;
@@ -4329,7 +4335,7 @@ bool TimelineModel::requestTrackDeletion(int trackId, Fun &undo, Fun &redo)
         return false;
     }
     // Discard running jobs
-    pCore->taskManager.discardJobs({ObjectType::TimelineTrack, trackId, m_uuid});
+    pCore->taskManager.discardJobs(ObjectId(ObjectType::TimelineTrack, trackId, m_uuid));
 
     std::vector<int> clips_to_delete;
     for (const auto &it : getTrackById(trackId)->m_allClips) {
@@ -4711,7 +4717,7 @@ void TimelineModel::updateDuration()
     if (m_closing) {
         return;
     }
-    int current = m_blackClip->get_playtime() - TimelineModel::seekDuration;
+    int current = m_blackClip->get_playtime() - TimelineModel::seekDuration - 1;
     int duration = 0;
     for (const auto &tck : m_iteratorTable) {
         auto track = (*tck.second);
@@ -4721,6 +4727,7 @@ void TimelineModel::updateDuration()
         duration = qMax(duration, m_subtitleModel->trackDuration());
     }
     if (duration != current) {
+        qDebug() << ":::: DURATION FOR TIMELINE MODE:" << duration << " = " << current;
         // update black track length
         std::unique_ptr<Mlt::Field> field(m_tractor->field());
         field->lock();
@@ -4969,6 +4976,7 @@ bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int
 bool TimelineModel::requestCompositionCreation(const QString &transitionId, int length, std::unique_ptr<Mlt::Properties> transProps, int &id, Fun &undo,
                                                Fun &redo, bool finalMove, const QString &originalDecimalPoint)
 {
+    Q_UNUSED(finalMove)
     int compositionId = TimelineModel::getNextId();
     id = compositionId;
     Fun local_undo = deregisterComposition_lambda(compositionId);
@@ -5656,7 +5664,7 @@ std::shared_ptr<EffectStackModel> TimelineModel::getMasterEffectStackModel()
     READ_LOCK();
     if (m_masterStack == nullptr) {
         m_masterService.reset(new Mlt::Service(*m_tractor.get()));
-        m_masterStack = EffectStackModel::construct(m_masterService, {ObjectType::Master, 0, m_uuid}, m_undoStack);
+        m_masterStack = EffectStackModel::construct(m_masterService, ObjectId(ObjectType::Master, 0, m_uuid), m_undoStack);
         connect(m_masterStack.get(), &EffectStackModel::updateMasterZones, pCore.get(), &Core::updateMasterZones);
     }
     return m_masterStack;
@@ -6843,6 +6851,7 @@ void TimelineModel::initializePreviewManager()
             m_timelinePreview.reset();
             return;
         }
+        Q_EMIT connectPreviewManager();
         connect(this, &TimelineModel::invalidateZone, m_timelinePreview.get(), &PreviewManager::invalidatePreview, Qt::DirectConnection);
     }
 }
@@ -6929,4 +6938,63 @@ void TimelineModel::makeTransparentBg(bool transparent)
 void TimelineModel::prepareShutDown()
 {
     m_softDelete = true;
+}
+
+void TimelineModel::updateVisibleSequenceName(const QString displayName)
+{
+    m_visibleSequenceName = displayName;
+    Q_EMIT visibleSequenceNameChanged();
+}
+
+void TimelineModel::registerTimeline()
+{
+    qDebug() << "::: CLIPS IN THIS MODDEL: " << m_allClips.size();
+    for (auto clip : m_allClips) {
+        clip.second->registerClipToBin(clip.second->getProducer(), false);
+    }
+}
+
+void TimelineModel::loadPreview(const QString &chunks, const QString &dirty, bool enable, Mlt::Playlist &playlist)
+{
+    if (chunks.isEmpty() && dirty.isEmpty()) {
+        return;
+    }
+    if (!hasTimelinePreview()) {
+        initializePreviewManager();
+    }
+    QVariantList renderedChunks;
+    QVariantList dirtyChunks;
+    QStringList chunksList = chunks.split(QLatin1Char(','), Qt::SkipEmptyParts);
+    QStringList dirtyList = dirty.split(QLatin1Char(','), Qt::SkipEmptyParts);
+    for (const QString &frame : qAsConst(chunksList)) {
+        if (frame.contains(QLatin1Char('-'))) {
+            // Range, process
+            int start = frame.section(QLatin1Char('-'), 0, 0).toInt();
+            int end = frame.section(QLatin1Char('-'), 1, 1).toInt();
+            for (int i = start; i <= end; i += 25) {
+                renderedChunks << i;
+            }
+        } else {
+            renderedChunks << frame.toInt();
+        }
+    }
+    for (const QString &frame : qAsConst(dirtyList)) {
+        if (frame.contains(QLatin1Char('-'))) {
+            // Range, process
+            int start = frame.section(QLatin1Char('-'), 0, 0).toInt();
+            int end = frame.section(QLatin1Char('-'), 1, 1).toInt();
+            for (int i = start; i <= end; i += 25) {
+                dirtyChunks << i;
+            }
+        } else {
+            dirtyChunks << frame.toInt();
+        }
+    }
+
+    if (hasTimelinePreview()) {
+        if (!enable) {
+            buildPreviewTrack();
+        }
+        previewManager()->loadChunks(renderedChunks, dirtyChunks, playlist);
+    }
 }

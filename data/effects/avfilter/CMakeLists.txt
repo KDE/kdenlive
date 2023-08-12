@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-FileCopyrightText: Jean-Baptiste Mardelle <jb@kdenlive.org>, Massimo Stella <maxstar@tin.it>
+
 INSTALL (FILES 
 
 acompressor.xml

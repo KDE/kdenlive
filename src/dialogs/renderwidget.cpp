@@ -10,6 +10,7 @@
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "dialogs/renderpresetdialog.h"
+#include "dialogs/wizard.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
@@ -316,8 +317,13 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     header->resizeSection(0, size + 4);
 
     // Find path for Kdenlive renderer
-    if (KdenliveSettings::kdenliverendererpath().isEmpty()) {
-        KMessageBox::error(this, i18n("Could not find the kdenlive_render application, something is wrong with your installation. Rendering will not work"));
+    if (KdenliveSettings::kdenliverendererpath().isEmpty() || !QFileInfo::exists(KdenliveSettings::kdenliverendererpath())) {
+        KdenliveSettings::setKdenliverendererpath(QString());
+        Wizard::fixKdenliveRenderPath();
+        if (KdenliveSettings::kdenliverendererpath().isEmpty()) {
+            KMessageBox::error(this,
+                               i18n("Could not find the kdenlive_render application, something is wrong with your installation. Rendering will not work"));
+        }
     }
 
     QDBusConnectionInterface *interface = QDBusConnection::sessionBus().interface();

@@ -10,11 +10,13 @@
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
+#include "profiles/profilemodel.hpp"
 #include "project/projectmanager.h"
 
 #include "kdenlive_debug.h"
 #include <KMessageWidget>
 #include <QAction>
+#include <QButtonGroup>
 #include <QClipboard>
 #include <QDateTimeEdit>
 #include <QFileDialog>
@@ -87,10 +89,16 @@ ExportGuidesDialog::ExportGuidesDialog(const MarkerListModel *model, const GenTi
         messageWidget->setMessageType(KMessageWidget::Positive);
         messageWidget->animatedShow();
     });
+    QButtonGroup *exportType = new QButtonGroup(this);
+    exportType->addButton(format_text, 1);
+    exportType->addButton(format_ffmpeg, 2);
+    exportType->addButton(format_json, 3);
 
-    connect(format_json, &QRadioButton::toggled, this, [this](bool jsonFormat) {
-        textOptions->setEnabled(!jsonFormat);
-        updateContentByModel();
+    connect(exportType, QOverload<QAbstractButton *, bool>::of(&QButtonGroup::buttonToggled), this, [this, exportType](QAbstractButton *button, bool checked) {
+        if (checked) {
+            textOptions->setEnabled(exportType->id(button) == 1);
+            updateContentByModel();
+        }
     });
 
     connect(buttonReset, &QAbstractButton::clicked, [this, defaultFormat]() {
@@ -106,6 +114,7 @@ ExportGuidesDialog::ExportGuidesDialog(const MarkerListModel *model, const GenTi
     infoMenu.insert(QStringLiteral("{{timecode}}"), i18n("Guide position in (HH:)MM.SS"));
     infoMenu.insert(QStringLiteral("{{nexttimecode}}"), i18n("Next guide position in (HH:)MM.SS"));
     infoMenu.insert(QStringLiteral("{{frame}}"), i18n("Guide position in frames"));
+    infoMenu.insert(QStringLiteral("{{nextframe}}"), i18n("Next guide position in frames"));
     infoMenu.insert(QStringLiteral("{{comment}}"), i18n("Guide comment"));
     QMapIterator<QString, QString> i(infoMenu);
     QAction *a;
@@ -163,6 +172,11 @@ void ExportGuidesDialog::updateContentByModel() const
         generatedContent->setPlainText(m_markerListModel->toJson({markerIndex}));
         return;
     }
+    if (format_ffmpeg->isChecked()) {
+        messageWidget->setVisible(false);
+        generatedContent->setPlainText(getFFmpegChaptersData());
+        return;
+    }
     const QString format(formatEdit->text());
     const GenTime offset(offsetTime());
 
@@ -194,6 +208,7 @@ void ExportGuidesDialog::updateContentByModel() const
         line.replace("{{timecode}}", chapterTimeStringFromMs(currentTime.ms()));
         line.replace("{{nexttimecode}}", chapterTimeStringFromMs(nextTime.ms()));
         line.replace("{{frame}}", QString::number(currentTime.frames(currentFps)));
+        line.replace("{{nextframe}}", QString::number(nextTime.frames(currentFps)));
         line.replace("{{comment}}", currentMarker.comment());
         line.replace("{{category}}", pCore->markerTypes[currentMarker.markerType()].displayName);
         chapterTexts.append(line);
@@ -206,6 +221,30 @@ void ExportGuidesDialog::updateContentByModel() const
     }
 
     messageWidget->setVisible(needShowInfoMsg);
+}
+
+const QString ExportGuidesDialog::getFFmpegChaptersData() const
+{
+    QString result = QStringLiteral(";FFMETADATA1\n\n");
+    int frame_rate_num = pCore->getCurrentProfile()->frame_rate_num();
+    int frame_rate_den = pCore->getCurrentProfile()->frame_rate_den();
+    const double currentFps = pCore->getCurrentFps();
+    const GenTime offset(offsetTime());
+    const QString frameRate = QStringLiteral("[CHAPTER]\nTIMEBASE=%1/%2\n").arg(frame_rate_num).arg(frame_rate_den);
+    const int markerIndex = categoryChooser->currentCategory();
+    QList<CommentedTime> markers(m_markerListModel->getAllMarkers(markerIndex));
+    const int markerCount = markers.length();
+    for (int i = 0; i < markers.length(); i++) {
+        const CommentedTime &currentMarker = markers.at(i);
+        const GenTime &nextGenTime = markerCount - 1 == i ? m_projectDuration : markers.at(i + 1).time();
+        GenTime currentTime = currentMarker.time() + offset;
+        GenTime nextTime = nextGenTime + offset;
+        result.append(frameRate);
+        result.append(QStringLiteral("START=%1\n").arg(currentTime.frames(currentFps)));
+        result.append(QStringLiteral("END=%1\n").arg(nextTime.frames(currentFps)));
+        result.append(QStringLiteral("title=%1\n\n").arg(currentMarker.comment()));
+    }
+    return result;
 }
 
 #undef YT_FORMAT

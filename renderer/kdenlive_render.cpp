@@ -8,8 +8,8 @@
 #include "mlt++/Mlt.h"
 #include "renderjob.h"
 #include <../config-kdenlive.h>
+#include <QApplication>
 #include <QCommandLineParser>
-#include <QCoreApplication>
 #include <QDebug>
 #include <QDir>
 #include <QDomDocument>
@@ -18,7 +18,11 @@
 
 int main(int argc, char **argv)
 {
-    QCoreApplication app(argc, argv);
+    // kdenlive_render needs to be a full QApplication since some MLT modules
+    // like kdenlive_title require a full App to launch a QGraphicsView.
+    // If you need to render on a headless server, you must start rendering using a
+    // virtual server, like xvfb-run...
+    QApplication app(argc, argv);
     QCoreApplication::setApplicationName("kdenlive_render");
     QCoreApplication::setApplicationVersion(KDENLIVE_VERSION);
 

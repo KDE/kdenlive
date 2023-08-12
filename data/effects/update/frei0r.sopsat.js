@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: Till Theato <root@ttill.de>
+// SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 var update = new Object();
 

@@ -140,7 +140,7 @@ public:
     QVariantList getEffectZones() const;
 
     /** @brief Copy all Kdenlive effects of this track on a producer */
-    void passEffects(Mlt::Producer *producer);
+    void passEffects(Mlt::Producer *producer, const QString &exception = QString());
 
 public Q_SLOTS:
     /** @brief Delete an effect from the stack */

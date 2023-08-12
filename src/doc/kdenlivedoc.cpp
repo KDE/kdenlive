@@ -846,7 +846,7 @@ void KdenliveDoc::setProjectFolder(const QUrl &url)
     updateProjectFolderPlacesEntry();
 }
 
-const QList<QUrl> KdenliveDoc::getProjectData(const QString &dest, bool *ok)
+const QList<QUrl> KdenliveDoc::getProjectData(bool *ok)
 {
     // Move proxies
     QList<QUrl> cacheUrls;
@@ -2098,8 +2098,12 @@ QList<QUuid> KdenliveDoc::getTimelinesUuids() const
     return m_timelines.keys();
 }
 
-void KdenliveDoc::addTimeline(const QUuid &uuid, std::shared_ptr<TimelineItemModel> model)
+void KdenliveDoc::addTimeline(const QUuid &uuid, std::shared_ptr<TimelineItemModel> model, bool force)
 {
+    if (force && m_timelines.find(uuid) != m_timelines.end()) {
+        std::shared_ptr<TimelineItemModel> model = m_timelines.take(uuid);
+        model.reset();
+    }
     if (m_timelines.find(uuid) != m_timelines.end()) {
         qDebug() << "::::: TIMELINE " << uuid << " already inserted in project";
         return;
@@ -2143,13 +2147,15 @@ void KdenliveDoc::loadSequenceGroupsAndGuides(const QUuid &uuid)
     connect(model.get(), &TimelineModel::saveGuideCategories, this, &KdenliveDoc::saveGuideCategories);
 }
 
-void KdenliveDoc::closeTimeline(const QUuid &uuid)
+void KdenliveDoc::closeTimeline(const QUuid uuid)
 {
     Q_ASSERT(m_timelines.find(uuid) != m_timelines.end());
     // Sync all sequence properties
     std::shared_ptr<TimelineItemModel> model = m_timelines.take(uuid);
-    setSequenceProperty(uuid, QStringLiteral("groups"), model->groupsData());
-    model->passSequenceProperties(getSequenceProperties(uuid));
+    if (!closing) {
+        setSequenceProperty(uuid, QStringLiteral("groups"), model->groupsData());
+        model->passSequenceProperties(getSequenceProperties(uuid));
+    }
     model->prepareClose(!closing);
     model.reset();
     // Clear all sequence properties
@@ -2181,7 +2187,7 @@ std::shared_ptr<MarkerListModel> KdenliveDoc::getGuideModel(const QUuid uuid) co
     return m_timelines.value(uuid)->getGuideModel();
 }
 
-int KdenliveDoc::timelineCount() const
+int KdenliveDoc::openedTimelineCount() const
 {
     return m_timelines.size();
 }
@@ -2327,12 +2333,28 @@ void KdenliveDoc::makeBackgroundTrackTransparent(QDomDocument &doc)
     }
 }
 
-void KdenliveDoc::setAutoclosePlaylists(QDomDocument &doc)
+void KdenliveDoc::setAutoclosePlaylists(QDomDocument &doc, const QString &mainSequenceUuid)
 {
+    // We should only set the autoclose atribute on the main sequence playlists.
+    // Otherwise if a sequence is reused several times, its playback will be broken
     QDomNodeList playlists = doc.elementsByTagName(QStringLiteral("playlist"));
+    QDomNodeList tractors = doc.elementsByTagName(QStringLiteral("tractor"));
+    QStringList matches;
+    for (int i = 0; i < tractors.length(); ++i) {
+        if (tractors.at(i).toElement().attribute(QStringLiteral("id")) == mainSequenceUuid) {
+            // We found the main sequence tractor, list its tracks
+            QDomNodeList tracks = tractors.at(i).toElement().elementsByTagName(QStringLiteral("track"));
+            for (int j = 0; j < tracks.length(); ++j) {
+                matches << tracks.at(j).toElement().attribute(QStringLiteral("producer"));
+            }
+            break;
+        }
+    }
     for (int i = 0; i < playlists.length(); ++i) {
         auto playlist = playlists.at(i).toElement();
-        playlist.setAttribute(QStringLiteral("autoclose"), 1);
+        if (matches.contains(playlist.attribute(QStringLiteral("id")))) {
+            playlist.setAttribute(QStringLiteral("autoclose"), 1);
+        }
     }
 }
 

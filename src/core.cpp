@@ -1150,6 +1150,7 @@ void Core::clean()
 
 void Core::startMediaCapture(int tid, bool checkAudio, bool checkVideo)
 {
+    Q_UNUSED(checkVideo)
     // TODO: fix video capture
     /*if (checkAudio && checkVideo) {
         m_capture->recordVideo(tid, true);
@@ -1162,6 +1163,7 @@ void Core::startMediaCapture(int tid, bool checkAudio, bool checkVideo)
 
 void Core::stopMediaCapture(int tid, bool checkAudio, bool checkVideo)
 {
+    Q_UNUSED(checkVideo)
     // TODO: fix video capture
     /*if (checkAudio && checkVideo) {
         m_capture->recordVideo(tid, false);
@@ -1428,9 +1430,9 @@ void Core::addBin(const QString &id)
 
 void Core::loadTimelinePreview(const QUuid uuid, const QString &chunks, const QString &dirty, bool enablePreview, Mlt::Playlist &playlist)
 {
-    TimelineWidget *tl = pCore->window()->getTimeline(uuid);
+    std::shared_ptr<TimelineItemModel> tl = pCore->currentDoc()->getTimeline(uuid);
     if (tl) {
-        tl->controller()->loadPreview(chunks, dirty, enablePreview, playlist);
+        tl->loadPreview(chunks, dirty, enablePreview, playlist);
     }
 }
 

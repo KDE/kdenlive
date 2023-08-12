@@ -1752,7 +1752,8 @@ void TimeRemap::checkClipUpdate(const QModelIndex &topLeft, const QModelIndex &,
     }
     // Don't resize view if we are moving a keyframe
     if (!m_view->movingKeyframe()) {
-        int newDuration = pCore->getItemDuration({ObjectType::TimelineClip, m_cid, m_uuid});
+        ObjectId oid(ObjectType::TimelineClip, m_cid, m_uuid);
+        int newDuration = pCore->getItemDuration(oid);
         // Check if the keyframes were modified by an external resize operation
         std::shared_ptr<TimelineItemModel> model = pCore->window()->getCurrentTimeline()->model();
         std::shared_ptr<ClipModel> clip = model->getClipPtr(m_cid);
@@ -1764,8 +1765,8 @@ void TimeRemap::checkClipUpdate(const QModelIndex &topLeft, const QModelIndex &,
         // Reload keyframes
         m_lastLength = newDuration;
         m_view->m_remapLink->set("map", values.value(QLatin1String("map")).toUtf8().constData());
-        int min = pCore->getItemIn({ObjectType::TimelineClip, m_cid, m_uuid});
-        m_view->m_startPos = pCore->getItemPosition({ObjectType::TimelineClip, m_cid, m_uuid});
+        int min = pCore->getItemIn(oid);
+        m_view->m_startPos = pCore->getItemPosition(oid);
         m_in->setRange(0, m_view->m_maxLength - min);
         m_out->setRange(0, INT_MAX);
         m_view->loadKeyframes(values.value(QLatin1String("map")));
@@ -1808,8 +1809,9 @@ void TimeRemap::selectedClip(int cid, const QUuid uuid)
     }
     m_view->m_remapLink.reset();
     m_splitId = model->m_groups->getSplitPartner(cid);
-    m_lastLength = pCore->getItemDuration({ObjectType::TimelineClip, cid, m_uuid});
-    m_view->m_startPos = pCore->getItemPosition({ObjectType::TimelineClip, cid, m_uuid});
+    ObjectId oid(ObjectType::TimelineClip, cid, m_uuid);
+    m_lastLength = pCore->getItemDuration(oid);
+    m_view->m_startPos = pCore->getItemPosition(oid);
     model->requestClipTimeRemap(cid);
     connect(model.get(), &TimelineItemModel::dataChanged, this, &TimeRemap::checkClipUpdate);
     m_view->m_maxLength = prod->get_length();
@@ -1868,8 +1870,8 @@ void TimeRemap::selectedClip(int cid, const QUuid uuid)
     m_seekConnection1 = connect(m_view, &RemapView::seekToPos, this, [this](int topPos, int bottomPos) {
         if (topPos > -1) {
             if (pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId() != m_binId) {
-                int min = pCore->getItemIn({ObjectType::TimelineClip, m_cid, m_uuid});
-                int lastLength = pCore->getItemDuration({ObjectType::TimelineClip, m_cid, m_uuid});
+                int min = pCore->getItemIn(ObjectId(ObjectType::TimelineClip, m_cid, m_uuid));
+                int lastLength = pCore->getItemDuration(ObjectId(ObjectType::TimelineClip, m_cid, m_uuid));
                 int max = min + lastLength;
                 pCore->selectBinClip(m_binId, true, min, {min, max});
             }
@@ -2002,9 +2004,8 @@ void TimeRemap::updateKeyframesWithUndo(const QMap<int, int> &updatedKeyframes, 
     bool useBlend = frame_blending->isChecked();
     bool hadPitch = m_view->m_remapLink->get_int("pitch") == 1;
     bool hadBlend = m_view->m_remapLink->get("image_mode") != QLatin1String("nearest");
-    bool durationChanged = updatedKeyframes.isEmpty() ? false
-                                                      : updatedKeyframes.lastKey() - pCore->getItemIn({ObjectType::TimelineClip, m_cid, m_uuid}) + 1 !=
-                                                            pCore->getItemDuration({ObjectType::TimelineClip, m_cid, m_uuid});
+    ObjectId oid(ObjectType::TimelineClip, m_cid, m_uuid);
+    bool durationChanged = updatedKeyframes.isEmpty() ? false : updatedKeyframes.lastKey() - pCore->getItemIn(oid) + 1 != pCore->getItemDuration(oid);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     Fun local_undo = [this, link = m_view->m_remapLink, splitLink = m_splitRemap, previousKeyframes, cid = m_cid, oldIn = m_view->m_oldInFrame, hadPitch,

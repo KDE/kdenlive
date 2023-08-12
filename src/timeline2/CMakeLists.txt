@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-FileCopyrightText: Nicolas Carion <french.ebook.lover@gmail.com>, Jean-Baptiste Mardelle <jb@kdenlive.org>
+
 set(kdenlive_SRCS
   ${kdenlive_SRCS}
   timeline2/model/builders/meltBuilder.cpp

@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-FileCopyrightText: Till Theato <root@ttill.de>
+
 INSTALL(FILES
 
 frei0r.balanc0r.js

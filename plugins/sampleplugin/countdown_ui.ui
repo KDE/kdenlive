@@ -1,4 +1,8 @@
 <ui version="4.0" >
+ <author>
+SPDX-FileCopyrightText: none
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+ </author>
  <class>CountDown_UI</class>
  <widget class="QDialog" name="CountDown_UI" >
   <property name="geometry" >
