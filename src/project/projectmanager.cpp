@@ -408,6 +408,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             for (auto &uid : uuids) {
                 pCore->window()->closeTimelineTab(uid);
                 pCore->window()->resetSubtitles(uid);
+                m_project->closeTimeline(uid);
             }
         } else {
             // Close all timelines
