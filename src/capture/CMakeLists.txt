@@ -9,7 +9,6 @@ endif()
 
 set(kdenlive_SRCS
   ${kdenlive_SRCS}
-  capture/managecapturesdialog.cpp
 #  capture/mltdevicecapture.cpp
   capture/mediacapture.cpp
   PARENT_SCOPE)
