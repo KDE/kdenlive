@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-12 00:45+0000\n"
+"POT-Creation-Date: 2023-08-13 00:45+0000\n"
 "PO-Revision-Date: 2023-07-30 10:06+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
@@ -4485,7 +4485,7 @@ msgstr "Mute Video"
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/bin/bin.cpp:2267 src/effects/effectlist/model/effecttreemodel.cpp:60
 #: src/layoutmanagement.cpp:36 src/lib/audio/audioStreamInfo.cpp:24
-#: src/monitor/recmanager.cpp:47 src/onlineresources/resourcewidget.cpp:547
+#: src/monitor/recmanager.cpp:46 src/onlineresources/resourcewidget.cpp:547
 #: src/ui/clipjobmanager_ui.ui:318 src/ui/configcapture_ui.ui:525
 #: src/ui/cutjobdialog_ui.ui:61 src/ui/editrenderpreset_ui.ui:834
 #: src/ui/projectsettings_ui.ui:180 src/ui/renderwidget_ui.ui:595
@@ -4511,8 +4511,8 @@ msgstr "Ludlisto"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2283 src/bin/clipcreator.cpp:234 src/bin/clipcreator.cpp:236
-#: src/kdenliveui.rc:41 src/project/projectmanager.cpp:1295
-#: src/project/projectmanager.cpp:1297 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:41 src/project/projectmanager.cpp:1296
+#: src/project/projectmanager.cpp:1298 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "Sekvoj"
@@ -4700,7 +4700,7 @@ msgstr ""
 "organizon de fontdosieroj. Dosierujoj povas esti nestitaj."
 
 #: src/bin/bin.cpp:3584 src/dialogs/speechdialog.cpp:48
-#: src/dialogs/textbasededit.cpp:656 src/monitor/recmanager.cpp:43
+#: src/dialogs/textbasededit.cpp:656 src/monitor/recmanager.cpp:42
 #, kde-format
 msgid "Show log"
 msgstr "Montri protokolon"
@@ -5017,7 +5017,7 @@ msgid "Duplicate"
 msgstr "Duobligi"
 
 #: src/bin/clipcreator.cpp:416 src/core.cpp:963
-#: src/project/projectmanager.cpp:800
+#: src/project/projectmanager.cpp:801
 #, kde-format
 msgid "Loading clips"
 msgstr "Ŝargante aŭdvidaĵoj"
@@ -5524,13 +5524,6 @@ msgstr "Aldoni Etikedon"
 #, kde-format
 msgid "New tag"
 msgstr "Nova etikedo"
-
-#. i18n: ectx: property (text), widget (QPushButton, button_import)
-#: src/capture/managecapturesdialog.cpp:27 src/layoutmanagement.cpp:453
-#: src/ui/resourcewidget_ui.ui:234
-#, kde-format
-msgid "Import"
-msgstr "Importi"
 
 #: src/core.cpp:105
 #, kde-format
@@ -6201,7 +6194,7 @@ msgstr "Eksporti Gvidilojn Datumojn"
 #: src/project/dialogs/archivewidget.cpp:867
 #: src/project/dialogs/archivewidget.cpp:879
 #: src/project/dialogs/archivewidget.cpp:885
-#: src/project/projectmanager.cpp:1575 src/render/renderrequest.cpp:230
+#: src/project/projectmanager.cpp:1576 src/render/renderrequest.cpp:230
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5044
@@ -6817,7 +6810,7 @@ msgstr "Ne povas trovi la fandan programon necesan por bildigo (parto de Mlt)"
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Eligdosiero jam ekzistas. Ĉu vi volas anstataŭigi ĝin?"
 
-#: src/dialogs/renderwidget.cpp:627 src/monitor/recmanager.cpp:192
+#: src/dialogs/renderwidget.cpp:627 src/monitor/recmanager.cpp:191
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -7912,8 +7905,8 @@ msgstr "La sekvaj filtriloj/transiroj estis forigitaj de la projekto:"
 msgid "Invalid file path"
 msgstr "Nevalida dosiera vojo"
 
-#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:751
-#: src/project/projectmanager.cpp:815 src/project/projectmanager.cpp:849
+#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:752
+#: src/project/projectmanager.cpp:816 src/project/projectmanager.cpp:850
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Ne eblis reakiri koruptitan dosieron."
@@ -7993,15 +7986,15 @@ msgstr ""
 "Via projektdosiero estis ĝisdatigita al la plej nova dokumentversio de "
 "Kdenlive, sed ne eblis krei la rezervan kopion %1."
 
-#: src/doc/kdenlivedoc.cpp:869 src/project/projectmanager.cpp:1176
-#: src/project/projectmanager.cpp:1212
+#: src/doc/kdenlivedoc.cpp:869 src/project/projectmanager.cpp:1177
+#: src/project/projectmanager.cpp:1213
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Eraro dum la dosierujo de la projekto: %1"
 
-#: src/doc/kdenlivedoc.cpp:1038 src/doc/kdenlivedoc.cpp:2195
+#: src/doc/kdenlivedoc.cpp:1038 src/doc/kdenlivedoc.cpp:2197
 #: src/project/dialogs/archivewidget.cpp:226
-#: src/project/projectmanager.cpp:1409
+#: src/project/projectmanager.cpp:1410
 #, kde-format
 msgid "Untitled"
 msgstr "Sentitola"
@@ -8123,13 +8116,13 @@ msgstr ""
 "Neniu profilo trovita por via tondaĵo %1.\n"
 "Ĉu krei kaj ŝanĝi al nova profilo (%2x%3, %4fps)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2234 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2236 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "Ruĝa"
 
-#: src/doc/kdenlivedoc.cpp:2235 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2237 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -8137,23 +8130,23 @@ msgstr "Ruĝa"
 msgid "Green"
 msgstr "Verda"
 
-#: src/doc/kdenlivedoc.cpp:2236 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2238 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "Blua"
 
-#: src/doc/kdenlivedoc.cpp:2237 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2239 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Flava"
 
-#: src/doc/kdenlivedoc.cpp:2238
+#: src/doc/kdenlivedoc.cpp:2240
 #, kde-format
 msgid "Cyan"
 msgstr "Cejana"
 
-#: src/doc/kdenlivedoc.cpp:2466
+#: src/doc/kdenlivedoc.cpp:2468
 #, kde-format
 msgid "Category %1:%2:%3"
 msgstr "Kategorio %1:%2:%3"
@@ -9040,6 +9033,12 @@ msgstr "Forigu la aranĝon."
 msgid "Reset"
 msgstr "Restarigi"
 
+#. i18n: ectx: property (text), widget (QPushButton, button_import)
+#: src/layoutmanagement.cpp:453 src/ui/resourcewidget_ui.ui:234
+#, kde-format
+msgid "Import"
+msgstr "Importi"
+
 #: src/layoutmanagement.cpp:455
 #, kde-format
 msgctxt "@title:window"
@@ -9509,13 +9508,13 @@ msgstr "Tempo-Remapado"
 msgid "Guides"
 msgstr "Gvidistoj"
 
-#: src/mainwindow.cpp:343 src/monitor/recmanager.cpp:104
+#: src/mainwindow.cpp:343 src/monitor/recmanager.cpp:103
 #, kde-format
 msgid "Configure Recording"
 msgstr "Agordi Registradon"
 
 #. i18n: ectx: attribute (title), widget (QWidget, screen_grab_tab)
-#: src/mainwindow.cpp:346 src/monitor/recmanager.cpp:95
+#: src/mainwindow.cpp:346 src/monitor/recmanager.cpp:94
 #: src/ui/configcapture_ui.ui:255
 #, kde-format
 msgid "Screen Grab"
@@ -10824,12 +10823,12 @@ msgstr ""
 "Ĉi tio movos ĉiujn provizorajn dosierojn de<br/><b>%1</b> al <b>%2</b>,<br/"
 ">la projektdosiero tiam estos reŝargita"
 
-#: src/mainwindow.cpp:2230 src/project/projectmanager.cpp:519
+#: src/mainwindow.cpp:2230 src/project/projectmanager.cpp:520
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Ne povas fari operacion, nevalida dokumentid: %1"
 
-#: src/mainwindow.cpp:2235 src/project/projectmanager.cpp:525
+#: src/mainwindow.cpp:2235 src/project/projectmanager.cpp:526
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Ne povas fari operacion, cela dosierujo jam ekzistas: %1"
@@ -12021,12 +12020,12 @@ msgid "Go to Zone End"
 msgstr "Iri al Zona fino"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_preview)
-#: src/monitor/recmanager.cpp:35 src/ui/resourcewidget_ui.ui:251
+#: src/monitor/recmanager.cpp:34 src/ui/resourcewidget_ui.ui:251
 #, kde-format
 msgid "Preview"
 msgstr "Antaŭrigardo"
 
-#: src/monitor/recmanager.cpp:39 src/timeline2/view/qml/AudioLevels.qml:29
+#: src/monitor/recmanager.cpp:38 src/timeline2/view/qml/AudioLevels.qml:29
 #: src/timeline2/view/qml/AudioLevels.qml:45
 #, kde-format
 msgid "Record"
@@ -12037,7 +12036,7 @@ msgstr "Registri"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_video)
 #. i18n: ectx: attribute (title), widget (QWidget, video_tab)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/monitor/recmanager.cpp:46 src/onlineresources/resourcewidget.cpp:549
+#: src/monitor/recmanager.cpp:45 src/onlineresources/resourcewidget.cpp:549
 #: src/ui/clipjobmanager_ui.ui:311 src/ui/cutjobdialog_ui.ui:107
 #: src/ui/editrenderpreset_ui.ui:122 src/ui/projectsettings_ui.ui:173
 #: src/ui/renderwidget_ui.ui:484
@@ -12045,23 +12044,23 @@ msgstr "Registri"
 msgid "Video"
 msgstr "Video"
 
-#: src/monitor/recmanager.cpp:73 src/monitor/recmanager.cpp:79
+#: src/monitor/recmanager.cpp:72 src/monitor/recmanager.cpp:78
 #, kde-format
 msgid "Audio Capture Volume"
 msgstr "Aŭdio-Kapta laŭteco"
 
 #. i18n("Firewire") << i18n("Webcam") << i18n("Screen Grab") << i18n("Blackmagic Decklink"));
-#: src/monitor/recmanager.cpp:94
+#: src/monitor/recmanager.cpp:93
 #, kde-format
 msgid "Webcam"
 msgstr "Retkamerao"
 
-#: src/monitor/recmanager.cpp:107
+#: src/monitor/recmanager.cpp:106
 #, kde-format
 msgid "Show Record Control"
 msgstr "Montri Rikordan regilon"
 
-#: src/monitor/recmanager.cpp:298
+#: src/monitor/recmanager.cpp:297
 #, kde-format
 msgid ""
 "Failed to start the capture application:\n"
@@ -12070,8 +12069,8 @@ msgstr ""
 "Malsukcesis lanĉi la kaptan aplikaĵon:\n"
 "%1"
 
-#: src/monitor/recmanager.cpp:309 src/monitor/recmanager.cpp:312
-#: src/monitor/recmanager.cpp:444
+#: src/monitor/recmanager.cpp:308 src/monitor/recmanager.cpp:311
+#: src/monitor/recmanager.cpp:443
 #, kde-format
 msgid "Capture crashed, please check your parameters"
 msgstr "Kapto paneis, bonvolu kontroli viajn parametrojn"
@@ -13081,7 +13080,7 @@ msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 "Marka dosiero estas pli granda ol 1MB, ĉu vi certas, ke vi volas importi?"
 
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1468
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1469
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:4950
 #, kde-format
@@ -13698,7 +13697,7 @@ msgstr "Malfermi Rezervan Dosieron…"
 msgid "Save changes to document?"
 msgstr "Ĉu konservi ŝanĝojn al dokumento?"
 
-#: src/project/projectmanager.cpp:373 src/project/projectmanager.cpp:1408
+#: src/project/projectmanager.cpp:373 src/project/projectmanager.cpp:1409
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13707,7 +13706,7 @@ msgstr ""
 "La projekto <b>\"%1\"</b> estas ŝanĝita.\n"
 "Ĉu vi volas konservi viajn ŝanĝojn?"
 
-#: src/project/projectmanager.cpp:507
+#: src/project/projectmanager.cpp:508
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -13719,49 +13718,49 @@ msgstr ""
 "provizorajn dosierojn de <b>%1</b> al <b>%2</b>, la projektdosiero tiam "
 "estos reŝargita"
 
-#: src/project/projectmanager.cpp:548
+#: src/project/projectmanager.cpp:549
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Konservi Kopion"
 
-#: src/project/projectmanager.cpp:653
+#: src/project/projectmanager.cpp:654
 #, kde-format
 msgid "Auto-saved file exist. Do you want to recover now?"
 msgstr "Aŭtomate konservita dosiero ekzistas. Ĉu vi volas resaniĝi nun?"
 
-#: src/project/projectmanager.cpp:653
+#: src/project/projectmanager.cpp:654
 #, kde-format
 msgid "File Recovery"
 msgstr "Dosiera Reakiro"
 
-#: src/project/projectmanager.cpp:654 src/project/projectmanager.cpp:739
+#: src/project/projectmanager.cpp:655 src/project/projectmanager.cpp:740
 #, kde-format
 msgid "Recover"
 msgstr "Resaniĝi"
 
-#: src/project/projectmanager.cpp:654
+#: src/project/projectmanager.cpp:655
 #, kde-format
 msgid "Do not recover"
 msgstr "Ne resaniĝi"
 
-#: src/project/projectmanager.cpp:706
+#: src/project/projectmanager.cpp:707
 #, kde-format
 msgid "Opening file %1"
 msgstr "Malfermante dosieron %1"
 
-#: src/project/projectmanager.cpp:722
+#: src/project/projectmanager.cpp:723
 #, kde-format
 msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "Ŝargante Projekton"
 
-#: src/project/projectmanager.cpp:724
+#: src/project/projectmanager.cpp:725
 #, kde-format
 msgid "Loading project"
 msgstr "Ŝargante projekton"
 
-#: src/project/projectmanager.cpp:738
+#: src/project/projectmanager.cpp:739
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -13772,28 +13771,28 @@ msgstr ""
 "%1\n"
 "Ĉu vi volas malfermi rezervan dosieron?"
 
-#: src/project/projectmanager.cpp:739
+#: src/project/projectmanager.cpp:740
 #, kde-format
 msgid "Error opening file"
 msgstr "Eraro dum malfermo de dosiero"
 
-#: src/project/projectmanager.cpp:739
+#: src/project/projectmanager.cpp:740
 #, kde-format
 msgid "Open Backup"
 msgstr "Malfermi Rezervon"
 
-#: src/project/projectmanager.cpp:755
+#: src/project/projectmanager.cpp:756
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "Ne eblis malfermi la rezervan projektdosieron."
 
-#: src/project/projectmanager.cpp:771
+#: src/project/projectmanager.cpp:772
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Via projekto estis ĝisdatigita, sekurkopio estos kreita ĉe venonta konservado"
 
-#: src/project/projectmanager.cpp:774
+#: src/project/projectmanager.cpp:775
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -13801,7 +13800,7 @@ msgstr ""
 "Via projekto estis modifita je la malfermo, sekurkopio estos kreita ĉe la "
 "venonta konservado"
 
-#: src/project/projectmanager.cpp:886
+#: src/project/projectmanager.cpp:887
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -13810,12 +13809,12 @@ msgstr ""
 "Ĉi tio forigos ĉiujn ŝanĝojn faritajn de kiam vi laste konservis vian "
 "projekton. Ĉu vi certas, ke vi volas daŭrigi?"
 
-#: src/project/projectmanager.cpp:887
+#: src/project/projectmanager.cpp:888
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Reiri al la lasta konservita versio"
 
-#: src/project/projectmanager.cpp:969
+#: src/project/projectmanager.cpp:970
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -13824,30 +13823,30 @@ msgstr ""
 "Projekto estis koruptita, ne povas rezerva. Bonvolu fermi kaj remalfermi "
 "vian projektdosieron por reakiri lastan sekurkopion"
 
-#: src/project/projectmanager.cpp:1154
+#: src/project/projectmanager.cpp:1155
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Eraro movante projektdosierujon, ne povas aliri kaŝmemordosierujon"
 
-#: src/project/projectmanager.cpp:1190
+#: src/project/projectmanager.cpp:1191
 #, kde-format
 msgid "Moving project folder"
 msgstr "Movante projektdosierujon"
 
-#: src/project/projectmanager.cpp:1248
+#: src/project/projectmanager.cpp:1249
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 "Projektdosiero estas koruptita (neniu spuroj). Ĉu provi trovi rezervan "
 "dosieron?"
 
-#: src/project/projectmanager.cpp:1273 src/project/projectmanager.cpp:1304
-#: src/project/projectmanager.cpp:1308
+#: src/project/projectmanager.cpp:1274 src/project/projectmanager.cpp:1305
+#: src/project/projectmanager.cpp:1309
 #, kde-format
 msgid "Sequence 1"
 msgstr "Sekvenco 1"
 
-#: src/project/projectmanager.cpp:1285
+#: src/project/projectmanager.cpp:1286
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -13855,13 +13854,13 @@ msgstr ""
 "Projektdosiero estas koruptita - malsukcesis ŝargi trakojn. Ĉu provi trovi "
 "rezervan dosieron?"
 
-#: src/project/projectmanager.cpp:1414 src/project/projectmanager.cpp:1419
-#: src/project/projectmanager.cpp:1429 src/project/projectmanager.cpp:1443
+#: src/project/projectmanager.cpp:1415 src/project/projectmanager.cpp:1420
+#: src/project/projectmanager.cpp:1430 src/project/projectmanager.cpp:1444
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Ŝanĝo de la profila projekto ĉesigita"
 
-#: src/project/projectmanager.cpp:1560
+#: src/project/projectmanager.cpp:1561
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -13870,12 +13869,12 @@ msgstr ""
 "Eligaĵdosiero %1 jam ekzistas.\n"
 "Ĉu vi volas anstataŭigi ĝin?"
 
-#: src/project/projectmanager.cpp:1585
+#: src/project/projectmanager.cpp:1586
 #, kde-format
 msgid "Project profile changed"
 msgstr "Projektprofilo ŝanĝita"
 
-#: src/project/projectmanager.cpp:1638
+#: src/project/projectmanager.cpp:1639
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -13884,18 +13883,18 @@ msgstr ""
 "Ne povas krei templinion el ĉi tiu tondaĵo:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1719
+#: src/project/projectmanager.cpp:1720
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Importante sekvencotondaĵon, ĉi tio estas nuntempe en eksperimenta stato"
 
-#: src/project/projectmanager.cpp:1894
+#: src/project/projectmanager.cpp:1895
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Elekti tondaĵon por krei sekvencon"
 
-#: src/project/projectmanager.cpp:1931
+#: src/project/projectmanager.cpp:1932
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Krei sekvencan aŭdvidaĵon"
@@ -19791,37 +19790,6 @@ msgstr "Purigado forigos datumojn pli malnovajn ol:"
 msgid " months"
 msgstr "monatoj"
 
-#. i18n: ectx: property (windowTitle), widget (QDialog, ManageCaptures_UI)
-#: src/ui/managecaptures_ui.ui:18
-#, kde-format
-msgid "Captured files"
-msgstr "Kaptitaj dosieroj"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
-#: src/ui/managecaptures_ui.ui:40
-#, kde-format
-msgid "File name"
-msgstr "Dosiernomo"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
-#: src/ui/managecaptures_ui.ui:45
-#, kde-format
-msgctxt "Filesize"
-msgid "Size"
-msgstr "Grandeco"
-
-#. i18n: ectx: property (text), widget (QPushButton, deleteButton)
-#: src/ui/managecaptures_ui.ui:53
-#, kde-format
-msgid "Delete current file"
-msgstr "Forigi nunan dosieron"
-
-#. i18n: ectx: property (text), widget (QPushButton, toggleButton)
-#: src/ui/managecaptures_ui.ui:60
-#, kde-format
-msgid "Toggle selection"
-msgstr "Baskuli elekton"
-
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/manageencodingprofile_ui.ui:24
 #, kde-format
@@ -21397,3 +21365,19 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "Captured files"
+#~ msgstr "Kaptitaj dosieroj"
+
+#~ msgid "File name"
+#~ msgstr "Dosiernomo"
+
+#~ msgctxt "Filesize"
+#~ msgid "Size"
+#~ msgstr "Grandeco"
+
+#~ msgid "Delete current file"
+#~ msgstr "Forigi nunan dosieron"
+
+#~ msgid "Toggle selection"
+#~ msgstr "Baskuli elekton"

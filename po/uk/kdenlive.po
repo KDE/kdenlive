@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-12 00:45+0000\n"
+"POT-Creation-Date: 2023-08-13 00:45+0000\n"
 "PO-Revision-Date: 2023-07-30 08:41+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -4537,7 +4537,7 @@ msgstr "Вимкнути звук"
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/bin/bin.cpp:2267 src/effects/effectlist/model/effecttreemodel.cpp:60
 #: src/layoutmanagement.cpp:36 src/lib/audio/audioStreamInfo.cpp:24
-#: src/monitor/recmanager.cpp:47 src/onlineresources/resourcewidget.cpp:547
+#: src/monitor/recmanager.cpp:46 src/onlineresources/resourcewidget.cpp:547
 #: src/ui/clipjobmanager_ui.ui:318 src/ui/configcapture_ui.ui:525
 #: src/ui/cutjobdialog_ui.ui:61 src/ui/editrenderpreset_ui.ui:834
 #: src/ui/projectsettings_ui.ui:180 src/ui/renderwidget_ui.ui:595
@@ -4563,8 +4563,8 @@ msgstr "Список відтворення"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2283 src/bin/clipcreator.cpp:234 src/bin/clipcreator.cpp:236
-#: src/kdenliveui.rc:41 src/project/projectmanager.cpp:1295
-#: src/project/projectmanager.cpp:1297 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:41 src/project/projectmanager.cpp:1296
+#: src/project/projectmanager.cpp:1298 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "Послідовності"
@@ -4753,7 +4753,7 @@ msgstr ""
 "організацію файлів початкових даних. Теки можна вкладати одну в одну."
 
 #: src/bin/bin.cpp:3584 src/dialogs/speechdialog.cpp:48
-#: src/dialogs/textbasededit.cpp:656 src/monitor/recmanager.cpp:43
+#: src/dialogs/textbasededit.cpp:656 src/monitor/recmanager.cpp:42
 #, kde-format
 msgid "Show log"
 msgstr "Показати журнал"
@@ -5072,7 +5072,7 @@ msgid "Duplicate"
 msgstr "Дублювання"
 
 #: src/bin/clipcreator.cpp:416 src/core.cpp:963
-#: src/project/projectmanager.cpp:800
+#: src/project/projectmanager.cpp:801
 #, kde-format
 msgid "Loading clips"
 msgstr "Завантаження кліпів"
@@ -5585,13 +5585,6 @@ msgstr "Додати мітку"
 #, kde-format
 msgid "New tag"
 msgstr "Створити мітку"
-
-#. i18n: ectx: property (text), widget (QPushButton, button_import)
-#: src/capture/managecapturesdialog.cpp:27 src/layoutmanagement.cpp:453
-#: src/ui/resourcewidget_ui.ui:234
-#, kde-format
-msgid "Import"
-msgstr "Імпортувати"
 
 #: src/core.cpp:105
 #, kde-format
@@ -6271,7 +6264,7 @@ msgstr "Експортування даних напрямних"
 #: src/project/dialogs/archivewidget.cpp:867
 #: src/project/dialogs/archivewidget.cpp:879
 #: src/project/dialogs/archivewidget.cpp:885
-#: src/project/projectmanager.cpp:1575 src/render/renderrequest.cpp:230
+#: src/project/projectmanager.cpp:1576 src/render/renderrequest.cpp:230
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5044
@@ -6893,7 +6886,7 @@ msgstr ""
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Файл виводу даних вже існує. Перезаписати його?"
 
-#: src/dialogs/renderwidget.cpp:627 src/monitor/recmanager.cpp:192
+#: src/dialogs/renderwidget.cpp:627 src/monitor/recmanager.cpp:191
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -8041,8 +8034,8 @@ msgstr "З проєкту було вилучено такі фільтри і �
 msgid "Invalid file path"
 msgstr "Некоректний шлях до файла"
 
-#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:751
-#: src/project/projectmanager.cpp:815 src/project/projectmanager.cpp:849
+#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:752
+#: src/project/projectmanager.cpp:816 src/project/projectmanager.cpp:850
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Не вдалося відновити пошкоджений файл."
@@ -8120,15 +8113,15 @@ msgstr ""
 "Файл вашого проєкту було оновлено до поточної версії формату документів "
 "Kdenlive, але створення резервної копії %1 було неможливим."
 
-#: src/doc/kdenlivedoc.cpp:869 src/project/projectmanager.cpp:1176
-#: src/project/projectmanager.cpp:1212
+#: src/doc/kdenlivedoc.cpp:869 src/project/projectmanager.cpp:1177
+#: src/project/projectmanager.cpp:1213
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Помилка під час спроби пересунути теку проєкту: %1"
 
-#: src/doc/kdenlivedoc.cpp:1038 src/doc/kdenlivedoc.cpp:2195
+#: src/doc/kdenlivedoc.cpp:1038 src/doc/kdenlivedoc.cpp:2197
 #: src/project/dialogs/archivewidget.cpp:226
-#: src/project/projectmanager.cpp:1409
+#: src/project/projectmanager.cpp:1410
 #, kde-format
 msgid "Untitled"
 msgstr "Без назви"
@@ -8254,13 +8247,13 @@ msgstr ""
 "Не знайдено наявного профілю для вашого кліпу %1.\n"
 "Створити профіль (%2⨯%3, %4 кадрів за секунду) і перемкнутися на нього?%5"
 
-#: src/doc/kdenlivedoc.cpp:2234 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2236 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "Червоний"
 
-#: src/doc/kdenlivedoc.cpp:2235 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2237 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -8268,23 +8261,23 @@ msgstr "Червоний"
 msgid "Green"
 msgstr "Зелений"
 
-#: src/doc/kdenlivedoc.cpp:2236 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2238 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "Синій"
 
-#: src/doc/kdenlivedoc.cpp:2237 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2239 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Жовтий"
 
-#: src/doc/kdenlivedoc.cpp:2238
+#: src/doc/kdenlivedoc.cpp:2240
 #, kde-format
 msgid "Cyan"
 msgstr "Блакитний"
 
-#: src/doc/kdenlivedoc.cpp:2466
+#: src/doc/kdenlivedoc.cpp:2468
 #, kde-format
 msgid "Category %1:%2:%3"
 msgstr "Категорія %1:%2:%3"
@@ -9175,6 +9168,12 @@ msgstr "Вилучити компонування."
 msgid "Reset"
 msgstr "Відновити"
 
+#. i18n: ectx: property (text), widget (QPushButton, button_import)
+#: src/layoutmanagement.cpp:453 src/ui/resourcewidget_ui.ui:234
+#, kde-format
+msgid "Import"
+msgstr "Імпортувати"
+
 #: src/layoutmanagement.cpp:455
 #, kde-format
 msgctxt "@title:window"
@@ -9653,13 +9652,13 @@ msgstr "Переприв'язка за часом"
 msgid "Guides"
 msgstr "Напрямні"
 
-#: src/mainwindow.cpp:343 src/monitor/recmanager.cpp:104
+#: src/mainwindow.cpp:343 src/monitor/recmanager.cpp:103
 #, kde-format
 msgid "Configure Recording"
 msgstr "Налаштовування запису"
 
 #. i18n: ectx: attribute (title), widget (QWidget, screen_grab_tab)
-#: src/mainwindow.cpp:346 src/monitor/recmanager.cpp:95
+#: src/mainwindow.cpp:346 src/monitor/recmanager.cpp:94
 #: src/ui/configcapture_ui.ui:255
 #, kde-format
 msgid "Screen Grab"
@@ -10980,12 +10979,12 @@ msgstr ""
 "У результаті усі тимчасові файли буде пересунуто з<br/><b>%1</b> до <b>%2</"
 "b>,<br/>потім файл проєкту буде перезавантажено."
 
-#: src/mainwindow.cpp:2230 src/project/projectmanager.cpp:519
+#: src/mainwindow.cpp:2230 src/project/projectmanager.cpp:520
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Не вдалося виконати дію, некоректний ідентифікатор документа: %1"
 
-#: src/mainwindow.cpp:2235 src/project/projectmanager.cpp:525
+#: src/mainwindow.cpp:2235 src/project/projectmanager.cpp:526
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Не вдалося виконати дію, каталог призначення вже існує: %1"
@@ -12189,12 +12188,12 @@ msgid "Go to Zone End"
 msgstr "Перейти до кінця ділянки"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_preview)
-#: src/monitor/recmanager.cpp:35 src/ui/resourcewidget_ui.ui:251
+#: src/monitor/recmanager.cpp:34 src/ui/resourcewidget_ui.ui:251
 #, kde-format
 msgid "Preview"
 msgstr "Перегляд"
 
-#: src/monitor/recmanager.cpp:39 src/timeline2/view/qml/AudioLevels.qml:29
+#: src/monitor/recmanager.cpp:38 src/timeline2/view/qml/AudioLevels.qml:29
 #: src/timeline2/view/qml/AudioLevels.qml:45
 #, kde-format
 msgid "Record"
@@ -12205,7 +12204,7 @@ msgstr "Записати"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_video)
 #. i18n: ectx: attribute (title), widget (QWidget, video_tab)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/monitor/recmanager.cpp:46 src/onlineresources/resourcewidget.cpp:549
+#: src/monitor/recmanager.cpp:45 src/onlineresources/resourcewidget.cpp:549
 #: src/ui/clipjobmanager_ui.ui:311 src/ui/cutjobdialog_ui.ui:107
 #: src/ui/editrenderpreset_ui.ui:122 src/ui/projectsettings_ui.ui:173
 #: src/ui/renderwidget_ui.ui:484
@@ -12213,23 +12212,23 @@ msgstr "Записати"
 msgid "Video"
 msgstr "Відео"
 
-#: src/monitor/recmanager.cpp:73 src/monitor/recmanager.cpp:79
+#: src/monitor/recmanager.cpp:72 src/monitor/recmanager.cpp:78
 #, kde-format
 msgid "Audio Capture Volume"
 msgstr "Гучність захопленого звуку"
 
 #. i18n("Firewire") << i18n("Webcam") << i18n("Screen Grab") << i18n("Blackmagic Decklink"));
-#: src/monitor/recmanager.cpp:94
+#: src/monitor/recmanager.cpp:93
 #, kde-format
 msgid "Webcam"
 msgstr "Веб-камера"
 
-#: src/monitor/recmanager.cpp:107
+#: src/monitor/recmanager.cpp:106
 #, kde-format
 msgid "Show Record Control"
 msgstr "Показати керування записом"
 
-#: src/monitor/recmanager.cpp:298
+#: src/monitor/recmanager.cpp:297
 #, kde-format
 msgid ""
 "Failed to start the capture application:\n"
@@ -12238,8 +12237,8 @@ msgstr ""
 "Не вдалося запустити програму для захоплення:\n"
 "%1"
 
-#: src/monitor/recmanager.cpp:309 src/monitor/recmanager.cpp:312
-#: src/monitor/recmanager.cpp:444
+#: src/monitor/recmanager.cpp:308 src/monitor/recmanager.cpp:311
+#: src/monitor/recmanager.cpp:443
 #, kde-format
 msgid "Capture crashed, please check your parameters"
 msgstr "Спроба захоплення завершилася аварійно, перевірте вказані параметри"
@@ -13266,7 +13265,7 @@ msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 "Розмір файла позначок перевищує 1 МБ. Ви справді хочете його імпортувати?"
 
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1468
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1469
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:4950
 #, kde-format
@@ -13897,7 +13896,7 @@ msgstr "Відкриття файла резервної копії…"
 msgid "Save changes to document?"
 msgstr "Зберегти зміни у документі?"
 
-#: src/project/projectmanager.cpp:373 src/project/projectmanager.cpp:1408
+#: src/project/projectmanager.cpp:373 src/project/projectmanager.cpp:1409
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13906,7 +13905,7 @@ msgstr ""
 "До проєкту <b>«%1»</b> було внесено зміни.\n"
 "Бажаєте зберегти внесені зміни?"
 
-#: src/project/projectmanager.cpp:507
+#: src/project/projectmanager.cpp:508
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -13918,50 +13917,50 @@ msgstr ""
 "результаті усі тимчасові файли буде пересунуто з <b>%1</b> до <b>%2</b>, "
 "потім файл проєкту буде перезавантажено."
 
-#: src/project/projectmanager.cpp:548
+#: src/project/projectmanager.cpp:549
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Збереження копії"
 
-#: src/project/projectmanager.cpp:653
+#: src/project/projectmanager.cpp:654
 #, kde-format
 msgid "Auto-saved file exist. Do you want to recover now?"
 msgstr ""
 "Виявлено файл автоматичного збереження. Бажаєте відновити дані за цим файлом?"
 
-#: src/project/projectmanager.cpp:653
+#: src/project/projectmanager.cpp:654
 #, kde-format
 msgid "File Recovery"
 msgstr "Відновлення файлів"
 
-#: src/project/projectmanager.cpp:654 src/project/projectmanager.cpp:739
+#: src/project/projectmanager.cpp:655 src/project/projectmanager.cpp:740
 #, kde-format
 msgid "Recover"
 msgstr "Відновити"
 
-#: src/project/projectmanager.cpp:654
+#: src/project/projectmanager.cpp:655
 #, kde-format
 msgid "Do not recover"
 msgstr "Не відновлювати"
 
-#: src/project/projectmanager.cpp:706
+#: src/project/projectmanager.cpp:707
 #, kde-format
 msgid "Opening file %1"
 msgstr "Відкривається файл %1"
 
-#: src/project/projectmanager.cpp:722
+#: src/project/projectmanager.cpp:723
 #, kde-format
 msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "Завантаження проєкту"
 
-#: src/project/projectmanager.cpp:724
+#: src/project/projectmanager.cpp:725
 #, kde-format
 msgid "Loading project"
 msgstr "Завантаження проєкту"
 
-#: src/project/projectmanager.cpp:738
+#: src/project/projectmanager.cpp:739
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -13972,29 +13971,29 @@ msgstr ""
 "%1\n"
 "Хочете відкрити файл резервної копії?"
 
-#: src/project/projectmanager.cpp:739
+#: src/project/projectmanager.cpp:740
 #, kde-format
 msgid "Error opening file"
 msgstr "Помилка під час відкриття файла"
 
-#: src/project/projectmanager.cpp:739
+#: src/project/projectmanager.cpp:740
 #, kde-format
 msgid "Open Backup"
 msgstr "Відкрити резервну копію"
 
-#: src/project/projectmanager.cpp:755
+#: src/project/projectmanager.cpp:756
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "Не вдалося відкрити резервну копію файла проєкту."
 
-#: src/project/projectmanager.cpp:771
+#: src/project/projectmanager.cpp:772
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Ваш проєкт оновлено, резервну копію буде створено під час наступного "
 "збереження"
 
-#: src/project/projectmanager.cpp:774
+#: src/project/projectmanager.cpp:775
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -14002,7 +14001,7 @@ msgstr ""
 "Ваш проєкт було змінено при відкритті, резервну копію буде створено під час "
 "наступного збереження"
 
-#: src/project/projectmanager.cpp:886
+#: src/project/projectmanager.cpp:887
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -14011,12 +14010,12 @@ msgstr ""
 "Буде вилучено всі зміни, внесені з часу останнього зберігання вашого "
 "проєкту. Ви справді бажаєте виконати цю дію?"
 
-#: src/project/projectmanager.cpp:887
+#: src/project/projectmanager.cpp:888
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Повернутися до останньої збереженої версії"
 
-#: src/project/projectmanager.cpp:969
+#: src/project/projectmanager.cpp:970
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -14026,31 +14025,31 @@ msgstr ""
 "знову відкрийте ваш файл проєкту, щоб відновити дані з останньої резервної "
 "копії."
 
-#: src/project/projectmanager.cpp:1154
+#: src/project/projectmanager.cpp:1155
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr ""
 "Помилка під час спроби пересунути теку проєкту, не вдалося отримати доступ "
 "до теки кешу"
 
-#: src/project/projectmanager.cpp:1190
+#: src/project/projectmanager.cpp:1191
 #, kde-format
 msgid "Moving project folder"
 msgstr "Пересуваємо теку проєкту"
 
-#: src/project/projectmanager.cpp:1248
+#: src/project/projectmanager.cpp:1249
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 "Файл проєкту пошкоджено (немає доріжок). Спробувати знайти резервний файл?"
 
-#: src/project/projectmanager.cpp:1273 src/project/projectmanager.cpp:1304
-#: src/project/projectmanager.cpp:1308
+#: src/project/projectmanager.cpp:1274 src/project/projectmanager.cpp:1305
+#: src/project/projectmanager.cpp:1309
 #, kde-format
 msgid "Sequence 1"
 msgstr "Послідовність 1"
 
-#: src/project/projectmanager.cpp:1285
+#: src/project/projectmanager.cpp:1286
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -14058,13 +14057,13 @@ msgstr ""
 "Файл проєкту пошкоджено — не вдалося завантажити доріжки. Спробувати знайти "
 "резервний файл?"
 
-#: src/project/projectmanager.cpp:1414 src/project/projectmanager.cpp:1419
-#: src/project/projectmanager.cpp:1429 src/project/projectmanager.cpp:1443
+#: src/project/projectmanager.cpp:1415 src/project/projectmanager.cpp:1420
+#: src/project/projectmanager.cpp:1430 src/project/projectmanager.cpp:1444
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Перервано зміну профілю проєкту"
 
-#: src/project/projectmanager.cpp:1560
+#: src/project/projectmanager.cpp:1561
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -14073,12 +14072,12 @@ msgstr ""
 "Файл виводу даних %1 вже існує.\n"
 "Перезаписати його?"
 
-#: src/project/projectmanager.cpp:1585
+#: src/project/projectmanager.cpp:1586
 #, kde-format
 msgid "Project profile changed"
 msgstr "Профіль проєкту змінено"
 
-#: src/project/projectmanager.cpp:1638
+#: src/project/projectmanager.cpp:1639
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -14087,17 +14086,17 @@ msgstr ""
 "Не вдалося створити вміст монтажного стола з цього кліпу:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1719
+#: src/project/projectmanager.cpp:1720
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "Імпорт кліпу послідовності, у поточній версії у стані експерименту"
 
-#: src/project/projectmanager.cpp:1894
+#: src/project/projectmanager.cpp:1895
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Виберіть кліп для створення послідовності"
 
-#: src/project/projectmanager.cpp:1931
+#: src/project/projectmanager.cpp:1932
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Створити кліп послідовності"
@@ -20053,37 +20052,6 @@ msgstr "У результат очищення буде вилучено дан�
 msgid " months"
 msgstr " місяців"
 
-#. i18n: ectx: property (windowTitle), widget (QDialog, ManageCaptures_UI)
-#: src/ui/managecaptures_ui.ui:18
-#, kde-format
-msgid "Captured files"
-msgstr "Захоплені файли"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
-#: src/ui/managecaptures_ui.ui:40
-#, kde-format
-msgid "File name"
-msgstr "Назва файла"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
-#: src/ui/managecaptures_ui.ui:45
-#, kde-format
-msgctxt "Filesize"
-msgid "Size"
-msgstr "Розмір"
-
-#. i18n: ectx: property (text), widget (QPushButton, deleteButton)
-#: src/ui/managecaptures_ui.ui:53
-#, kde-format
-msgid "Delete current file"
-msgstr "Вилучити поточний файл"
-
-#. i18n: ectx: property (text), widget (QPushButton, toggleButton)
-#: src/ui/managecaptures_ui.ui:60
-#, kde-format
-msgid "Toggle selection"
-msgstr "Перемкнути стан позначення"
-
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/manageencodingprofile_ui.ui:24
 #, kde-format
@@ -21664,6 +21632,22 @@ msgstr "%1 хв."
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 год."
+
+#~ msgid "Captured files"
+#~ msgstr "Захоплені файли"
+
+#~ msgid "File name"
+#~ msgstr "Назва файла"
+
+#~ msgctxt "Filesize"
+#~ msgid "Size"
+#~ msgstr "Розмір"
+
+#~ msgid "Delete current file"
+#~ msgstr "Вилучити поточний файл"
+
+#~ msgid "Toggle selection"
+#~ msgstr "Перемкнути стан позначення"
 
 #~ msgctxt "Initial for Master"
 #~ msgid "M"
