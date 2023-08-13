@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-12 02:28+0000\n"
+"POT-Creation-Date: 2023-08-13 02:23+0000\n"
 "PO-Revision-Date: 2023-08-02 01:08+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -4524,8 +4524,8 @@ msgstr "Oynatma Listesi"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2282 src/bin/clipcreator.cpp:234 src/bin/clipcreator.cpp:236
-#: src/kdenliveui.rc:41 src/project/projectmanager.cpp:1295
-#: src/project/projectmanager.cpp:1297 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:41 src/project/projectmanager.cpp:1296
+#: src/project/projectmanager.cpp:1298 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "Sekanslar"
@@ -5029,7 +5029,7 @@ msgid "Duplicate"
 msgstr "Çoğalt"
 
 #: src/bin/clipcreator.cpp:416 src/core.cpp:963
-#: src/project/projectmanager.cpp:800
+#: src/project/projectmanager.cpp:801
 #, kde-format
 msgid "Loading clips"
 msgstr "Klipler yükleniyor"
@@ -6199,7 +6199,7 @@ msgstr "Kılavuzlar Verisini Dışa Aktar"
 #: src/project/dialogs/archivewidget.cpp:867
 #: src/project/dialogs/archivewidget.cpp:879
 #: src/project/dialogs/archivewidget.cpp:885
-#: src/project/projectmanager.cpp:1575 src/render/renderrequest.cpp:230
+#: src/project/projectmanager.cpp:1576 src/render/renderrequest.cpp:230
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5044
@@ -7898,8 +7898,8 @@ msgstr "Aşağıdaki süzgeçler/geçişler projeden silindi:"
 msgid "Invalid file path"
 msgstr "Geçersiz dosya yolu"
 
-#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:751
-#: src/project/projectmanager.cpp:815 src/project/projectmanager.cpp:849
+#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:752
+#: src/project/projectmanager.cpp:816 src/project/projectmanager.cpp:850
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Hasarlı dosya kurtarılamadı."
@@ -7976,15 +7976,15 @@ msgstr ""
 "Proje dosyanız en son Kdenlive belge sürümüne yükseltildi, fakat bir yedek "
 "kopyası %1 oluşturmak mümkün olmadı."
 
-#: src/doc/kdenlivedoc.cpp:869 src/project/projectmanager.cpp:1176
-#: src/project/projectmanager.cpp:1212
+#: src/doc/kdenlivedoc.cpp:869 src/project/projectmanager.cpp:1177
+#: src/project/projectmanager.cpp:1213
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Proje klasörü taşınırken hata: %1"
 
-#: src/doc/kdenlivedoc.cpp:1038 src/doc/kdenlivedoc.cpp:2195
+#: src/doc/kdenlivedoc.cpp:1038 src/doc/kdenlivedoc.cpp:2197
 #: src/project/dialogs/archivewidget.cpp:226
-#: src/project/projectmanager.cpp:1409
+#: src/project/projectmanager.cpp:1410
 #, kde-format
 msgid "Untitled"
 msgstr "Başlıksız"
@@ -8106,13 +8106,13 @@ msgstr ""
 "%1 klibiniz için profil bulunamadı.\n"
 "Yeni bir profil oluşturup ona geçin (%2x%3, %4fps)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2234 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2236 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "Kırmızı"
 
-#: src/doc/kdenlivedoc.cpp:2235 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2237 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -8120,23 +8120,23 @@ msgstr "Kırmızı"
 msgid "Green"
 msgstr "Yeşil"
 
-#: src/doc/kdenlivedoc.cpp:2236 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2238 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "Mavi"
 
-#: src/doc/kdenlivedoc.cpp:2237 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2239 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Sarı"
 
-#: src/doc/kdenlivedoc.cpp:2238
+#: src/doc/kdenlivedoc.cpp:2240
 #, kde-format
 msgid "Cyan"
 msgstr "Turkuaz"
 
-#: src/doc/kdenlivedoc.cpp:2466
+#: src/doc/kdenlivedoc.cpp:2468
 #, kde-format
 msgid "Category %1:%2:%3"
 msgstr "Kategori %1:%2:%3"
@@ -10816,12 +10816,12 @@ msgstr ""
 "Bu işlem, ilk olarak projeyi kaydeder, geçici dosyaların tümünü<br/><b>%1</"
 "b> üzerinden <b>%2</b> konumuna taşır ve proje dosyasını yeniden yükler"
 
-#: src/mainwindow.cpp:2230 src/project/projectmanager.cpp:519
+#: src/mainwindow.cpp:2230 src/project/projectmanager.cpp:520
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Bu işlem gerçekleştirilemez, geçersiz belge kimliği: %1"
 
-#: src/mainwindow.cpp:2235 src/project/projectmanager.cpp:525
+#: src/mainwindow.cpp:2235 src/project/projectmanager.cpp:526
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Bu işlem gerçekleştirilemez, hedef dizin halihazırda var: %1"
@@ -13079,7 +13079,7 @@ msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 "İmleyici dosyası 1MB'den büyük, içe aktarmak istediğinize emin misiniz?"
 
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1468
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1469
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:4950
 #, kde-format
@@ -13690,7 +13690,7 @@ msgstr "Yedek Dosyası Aç…"
 msgid "Save changes to document?"
 msgstr "Değişiklikler belgeye kaydedilsin mi?"
 
-#: src/project/projectmanager.cpp:373 src/project/projectmanager.cpp:1408
+#: src/project/projectmanager.cpp:373 src/project/projectmanager.cpp:1409
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13699,7 +13699,7 @@ msgstr ""
 "<b>\"%1\"</b> projesi değiştirildi.\n"
 "Değişiklikleri kaydetmek istiyor musunuz?"
 
-#: src/project/projectmanager.cpp:507
+#: src/project/projectmanager.cpp:508
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -13710,51 +13710,51 @@ msgstr ""
 "kaydetmek için seçtiniz. Bu, tüm geçici dosyaları <b>%1</b> konumundan <b>"
 "%2</b> konumuna taşıyacaktır ve proje dosyası yeniden yüklenecektir."
 
-#: src/project/projectmanager.cpp:548
+#: src/project/projectmanager.cpp:549
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Kopyayı Kaydet"
 
-#: src/project/projectmanager.cpp:653
+#: src/project/projectmanager.cpp:654
 #, kde-format
 msgid "Auto-saved file exist. Do you want to recover now?"
 msgstr ""
 "Kendiliğinden kaydedilen kaydetme dosyası var. Şimdi geri yüklemek istiyor "
 "musunuz?"
 
-#: src/project/projectmanager.cpp:653
+#: src/project/projectmanager.cpp:654
 #, kde-format
 msgid "File Recovery"
 msgstr "Dosya Kurtarma"
 
-#: src/project/projectmanager.cpp:654 src/project/projectmanager.cpp:739
+#: src/project/projectmanager.cpp:655 src/project/projectmanager.cpp:740
 #, kde-format
 msgid "Recover"
 msgstr "Kurtar"
 
-#: src/project/projectmanager.cpp:654
+#: src/project/projectmanager.cpp:655
 #, kde-format
 msgid "Do not recover"
 msgstr "Kurtarma"
 
-#: src/project/projectmanager.cpp:706
+#: src/project/projectmanager.cpp:707
 #, kde-format
 msgid "Opening file %1"
 msgstr "%1 dosyası açılıyor..."
 
-#: src/project/projectmanager.cpp:722
+#: src/project/projectmanager.cpp:723
 #, kde-format
 msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "Proje Yükleniyor"
 
-#: src/project/projectmanager.cpp:724
+#: src/project/projectmanager.cpp:725
 #, kde-format
 msgid "Loading project"
 msgstr "Proje yükleniyor"
 
-#: src/project/projectmanager.cpp:738
+#: src/project/projectmanager.cpp:739
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -13765,28 +13765,28 @@ msgstr ""
 "%1\n"
 "Önceden aldığınız bir yedeği açmak istiyor musunuz?"
 
-#: src/project/projectmanager.cpp:739
+#: src/project/projectmanager.cpp:740
 #, kde-format
 msgid "Error opening file"
 msgstr "Dosya açılamadı"
 
-#: src/project/projectmanager.cpp:739
+#: src/project/projectmanager.cpp:740
 #, kde-format
 msgid "Open Backup"
 msgstr "Yedeği Aç"
 
-#: src/project/projectmanager.cpp:755
+#: src/project/projectmanager.cpp:756
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "Yedek proje dosyası açılamadı."
 
-#: src/project/projectmanager.cpp:771
+#: src/project/projectmanager.cpp:772
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Projeniz yükseltildi, bir sonraki kaydetmede bir yedekleme oluşturulacak"
 
-#: src/project/projectmanager.cpp:774
+#: src/project/projectmanager.cpp:775
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -13794,7 +13794,7 @@ msgstr ""
 "Projeniz açıldığında değiştirildi ve bir sonraki kaydetmede bir yedekleme "
 "oluşturulacak"
 
-#: src/project/projectmanager.cpp:886
+#: src/project/projectmanager.cpp:887
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -13803,12 +13803,12 @@ msgstr ""
 "Bu, projenizi en son kaydettiğinizden bu yana olan değişiklikleri silecek. "
 "Hâlâ sürdürmek istiyor musunuz?"
 
-#: src/project/projectmanager.cpp:887
+#: src/project/projectmanager.cpp:888
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Son kaydedilen sürüme geri dön"
 
-#: src/project/projectmanager.cpp:969
+#: src/project/projectmanager.cpp:970
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -13817,42 +13817,42 @@ msgstr ""
 "Proje bozulmuş, yedeklenemiyor. Lütfen projenizi kapatın ve yeniden açınson "
 "yedeği kurtarmak için dosya"
 
-#: src/project/projectmanager.cpp:1154
+#: src/project/projectmanager.cpp:1155
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Proje klasörü taşınırken hata, önbellek klasörüne erişilemiyor"
 
-#: src/project/projectmanager.cpp:1190
+#: src/project/projectmanager.cpp:1191
 #, kde-format
 msgid "Moving project folder"
 msgstr "Proje klasörü taşınıyor"
 
-#: src/project/projectmanager.cpp:1248
+#: src/project/projectmanager.cpp:1249
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 "Proje dosyası bozuk (iz yok). Bir yedekleme dosyası mı bulmaya "
 "çalışıyorsunuz?"
 
-#: src/project/projectmanager.cpp:1273 src/project/projectmanager.cpp:1304
-#: src/project/projectmanager.cpp:1308
+#: src/project/projectmanager.cpp:1274 src/project/projectmanager.cpp:1305
+#: src/project/projectmanager.cpp:1309
 #, kde-format
 msgid "Sequence 1"
 msgstr "Sekans 1"
 
-#: src/project/projectmanager.cpp:1285
+#: src/project/projectmanager.cpp:1286
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "Proje dosyası bozuk - izler yüklenemedi. Bir yedek dosyası aransın mı?"
 
-#: src/project/projectmanager.cpp:1414 src/project/projectmanager.cpp:1419
-#: src/project/projectmanager.cpp:1429 src/project/projectmanager.cpp:1443
+#: src/project/projectmanager.cpp:1415 src/project/projectmanager.cpp:1420
+#: src/project/projectmanager.cpp:1430 src/project/projectmanager.cpp:1444
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Proje profil değişimi iptal edildi"
 
-#: src/project/projectmanager.cpp:1560
+#: src/project/projectmanager.cpp:1561
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -13861,12 +13861,12 @@ msgstr ""
 "Çıktı dosyası %1 halihazırda var.\n"
 "Üzerine yazmak istiyor musunuz?"
 
-#: src/project/projectmanager.cpp:1585
+#: src/project/projectmanager.cpp:1586
 #, kde-format
 msgid "Project profile changed"
 msgstr "Proje profili değiştirildi"
 
-#: src/project/projectmanager.cpp:1638
+#: src/project/projectmanager.cpp:1639
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -13875,18 +13875,18 @@ msgstr ""
 "Bu klipten bir zaman akışı oluşturulamıyor:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1719
+#: src/project/projectmanager.cpp:1720
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Bir sekans klibi içe aktarılıyor, bu özellik şu anda deneysel durumdadır"
 
-#: src/project/projectmanager.cpp:1894
+#: src/project/projectmanager.cpp:1895
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Sekans oluşturmak için bir klip seç"
 
-#: src/project/projectmanager.cpp:1931
+#: src/project/projectmanager.cpp:1932
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Sekans Klibi Oluştur"
