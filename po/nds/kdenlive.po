@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-13 02:23+0000\n"
+"POT-Creation-Date: 2023-08-14 02:25+0000\n"
 "PO-Revision-Date: 2011-11-16 15:57+0100\n"
 "Last-Translator: Manfred Wiese <m.j.wiese@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -16506,30 +16506,30 @@ msgstr "Alpha afswachen"
 msgid "Offset: %1"
 msgstr "Alpha afswachen"
 
-#: src/timeline2/view/qml/Clip.qml:1190 src/timeline2/view/qml/Clip.qml:1226
+#: src/timeline2/view/qml/Clip.qml:1191 src/timeline2/view/qml/Clip.qml:1228
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "<b>Click</b> to add composition"
 msgstr "Positschoon"
 
-#: src/timeline2/view/qml/Clip.qml:1294 src/timeline2/view/qml/Clip.qml:1301
+#: src/timeline2/view/qml/Clip.qml:1296 src/timeline2/view/qml/Clip.qml:1303
 #, fuzzy, kde-format
 #| msgid "Fade"
 msgid "Fade out: %1"
 msgstr "Utblennen"
 
-#: src/timeline2/view/qml/Clip.qml:1305 src/timeline2/view/qml/Clip.qml:1400
+#: src/timeline2/view/qml/Clip.qml:1307 src/timeline2/view/qml/Clip.qml:1402
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1389 src/timeline2/view/qml/Clip.qml:1396
+#: src/timeline2/view/qml/Clip.qml:1391 src/timeline2/view/qml/Clip.qml:1398
 #, fuzzy, kde-format
 #| msgid "Fade"
 msgid "Fade in: %1"
 msgstr "Utblennen"
 
-#: src/timeline2/view/qml/Clip.qml:1480
+#: src/timeline2/view/qml/Clip.qml:1482
 #, fuzzy, kde-format
 #| msgid "Align top"
 msgid "Slip Clip"
