@@ -1278,7 +1278,11 @@ void KdenliveDoc::updateProjectFolderPlacesEntry()
      */
 
     const QString file = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QStringLiteral("/user-places.xbel");
+#if QT_VERSION_MAJOR < 6
     KBookmarkManager *bookmarkManager = KBookmarkManager::managerForExternalFile(file);
+#else
+    KBookmarkManager *bookmarkManager = KBookmarkManager::managerForFile(file);
+#endif
     if (!bookmarkManager) {
         return;
     }
