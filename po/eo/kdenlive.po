@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-13 02:23+0000\n"
+"POT-Creation-Date: 2023-08-14 02:25+0000\n"
 "PO-Revision-Date: 2023-07-14 09:26+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
@@ -16067,28 +16067,28 @@ msgstr "Deŝovo: -%1"
 msgid "Offset: %1"
 msgstr "Deŝovo: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1190 src/timeline2/view/qml/Clip.qml:1226
+#: src/timeline2/view/qml/Clip.qml:1191 src/timeline2/view/qml/Clip.qml:1228
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>Alklaku</b> por aldoni komponadon"
 
-#: src/timeline2/view/qml/Clip.qml:1294 src/timeline2/view/qml/Clip.qml:1301
+#: src/timeline2/view/qml/Clip.qml:1296 src/timeline2/view/qml/Clip.qml:1303
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Forfluo: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1305 src/timeline2/view/qml/Clip.qml:1400
+#: src/timeline2/view/qml/Clip.qml:1307 src/timeline2/view/qml/Clip.qml:1402
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Trenu</b> por ĝustigi fadon, <b>Alklaku</b> por aldoni defaŭltan daŭron"
 
-#: src/timeline2/view/qml/Clip.qml:1389 src/timeline2/view/qml/Clip.qml:1396
+#: src/timeline2/view/qml/Clip.qml:1391 src/timeline2/view/qml/Clip.qml:1398
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Enfluo: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1480
+#: src/timeline2/view/qml/Clip.qml:1482
 #, kde-format
 msgid "Slip Clip"
 msgstr "Slip-aŭdvidaĵo"
