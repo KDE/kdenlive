@@ -29,6 +29,7 @@ public:
      */
     bool hasErrorInClips();
     QString fixLuma(const QString &file);
+    QString fixLutFile(const QString &file);
     QString searchLuma(const QDir &dir, const QString &file);
 
 private Q_SLOTS:
@@ -75,12 +76,12 @@ private:
     bool m_abortSearch;
     bool m_checkRunning;
 
-    static QString ensureAbsoultePath(const QString &root, QString filepath);
-    static QStringList getAssetsFiles(const QDomDocument &doc, const QString &tagName, const QMap<QString, QString> &searchPairs);
-    static QStringList getAssetsServiceIds(const QDomDocument &doc, const QString &tagName);
-    static void removeAssetsById(QDomDocument &doc, const QString &tagName, const QStringList &idsToDelete);
+    static QString ensureAbsolutePath(const QString &root, QString filepath);
+    static QStringList getAssetsFiles(const QDomNodeList &elements, const QMap<QString, QString> &searchPairs);
+    static QStringList getAssetsServiceIds(const QDomNodeList &elements);
+    static void removeAssetsById(QDomNodeList &elements, const QStringList &idsToDelete);
 
-    void replaceTransitionsLumas(QDomDocument &doc, const QMap<QString, QString> &names);
+    void replaceAssetFile(QDomNodeList &elements, const QMap<QString, QString> &assetDescription, const QMap<QString, QString> &names);
     static bool isMltBuildInLuma(const QString &lumaName);
 
     void fixClipItem(QTreeWidgetItem *child, const QDomNodeList &producers, const QDomNodeList &chains, const QDomNodeList &trans, const QDomNodeList &filters);
@@ -88,9 +89,9 @@ private:
     void fixProxyClip(const QString &id, const QString &oldUrl, const QString &newUrl);
     void doFixProxyClip(QDomElement &e, const QString &oldUrl, const QString &newUrl);
     /** @brief Returns list of transitions ids / tag containing luma files */
-    const QMap<QString, QString> getLumaPairs() const;
+    static const QMap<QString, QString> getLumaPairs();
     /** @brief Returns list of filters ids / tag containing asset files */
-    const QMap<QString, QString> getAssetPairs() const;
+    static const QMap<QString, QString> getFilterPairs();
     /** @brief Remove _missingsourcec flag in fixed clips */
     void fixMissingSource(const QString &id, const QDomNodeList &producers, const QDomNodeList &chains);
     /** @brief Check for various missing elements */

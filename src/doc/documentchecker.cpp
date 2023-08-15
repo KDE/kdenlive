@@ -63,7 +63,7 @@ DocumentChecker::DocumentChecker(QUrl url, const QDomDocument &doc)
     });
 }
 
-const QMap<QString, QString> DocumentChecker::getLumaPairs() const
+const QMap<QString, QString> DocumentChecker::getLumaPairs()
 {
     QMap<QString, QString> lumaSearchPairs;
     lumaSearchPairs.insert(QStringLiteral("luma"), QStringLiteral("resource"));
@@ -73,7 +73,7 @@ const QMap<QString, QString> DocumentChecker::getLumaPairs() const
     return lumaSearchPairs;
 }
 
-const QMap<QString, QString> DocumentChecker::getAssetPairs() const
+const QMap<QString, QString> DocumentChecker::getFilterPairs()
 {
     QMap<QString, QString> assetSearchPairs;
     assetSearchPairs.insert(QStringLiteral("avfilter.lut3d"), QStringLiteral("av.file"));
@@ -118,7 +118,7 @@ bool DocumentChecker::hasErrorInClips()
 
             // ensure the storage for temp files exists
             storageFolder = Xml::getXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagefolder"));
-            storageFolder = ensureAbsoultePath(root, storageFolder);
+            storageFolder = ensureAbsolutePath(root, storageFolder);
 
             if (!storageFolder.isEmpty() && !QFile::exists(storageFolder) && projectDir.exists(m_documentid)) {
                 storageFolder = projectDir.absolutePath();
@@ -184,9 +184,11 @@ bool DocumentChecker::hasErrorInClips()
     QMap<QString, QString> autoFixLuma;
 
     // Check existence of luma files
-    QStringList filesToCheck = getAssetsFiles(m_doc, QStringLiteral("transition"), getLumaPairs());
+    const QMap<QString, QString> lumaPairs = getLumaPairs();
+    QDomNodeList transitionNodes = m_doc.elementsByTagName(QStringLiteral("transition"));
+    QStringList filesToCheck = getAssetsFiles(transitionNodes, lumaPairs);
     for (const QString &lumafile : qAsConst(filesToCheck)) {
-        QString filePath = ensureAbsoultePath(root, lumafile);
+        QString filePath = ensureAbsolutePath(root, lumafile);
 
         if (QFile::exists(filePath)) {
             // everything is fine, we can stop here
@@ -230,11 +232,11 @@ bool DocumentChecker::hasErrorInClips()
         // we have not been able to fix or find the file
         missingLumas.append(lumafile);
     }
-    replaceTransitionsLumas(m_doc, autoFixLuma);
+    replaceAssetFile(transitionNodes, lumaPairs, autoFixLuma);
 
     // Check for missing transitions (eg. not installed)
-    QStringList transtions = getAssetsServiceIds(m_doc, QStringLiteral("transition"));
-    for (const QString &id : qAsConst(transtions)) {
+    QStringList transitions = getAssetsServiceIds(transitionNodes);
+    for (const QString &id : qAsConst(transitions)) {
         if (!TransitionsRepository::get()->exists(id)) {
             m_missingTransitions << id;
         }
@@ -242,20 +244,29 @@ bool DocumentChecker::hasErrorInClips()
     m_missingTransitions.removeDuplicates();
 
     // Delete missing transitions
-    removeAssetsById(m_doc, QStringLiteral("filter"), m_missingFilters);
+    removeAssetsById(transitionNodes, m_missingTransitions);
 
-    // Check for missing filter assets
-    QStringList assetsToCheck = getAssetsFiles(m_doc, QStringLiteral("filter"), getAssetPairs());
+    // Check for missing filter assets (lut file, etc)
+    QMap<QString, QString> autoFixLut;
+    QDomNodeList filterNodes = m_doc.elementsByTagName(QStringLiteral("filter"));
+    const QMap<QString, QString> filterPairs = getFilterPairs();
+    QStringList assetsToCheck = getAssetsFiles(filterNodes, filterPairs);
     for (const QString &filterfile : qAsConst(assetsToCheck)) {
-        QString filePath = ensureAbsoultePath(root, filterfile);
-
+        QString filePath = ensureAbsolutePath(root, filterfile);
         if (!QFile::exists(filePath)) {
-            missingAssets << filterfile;
+            // Check if file can be found in Kdenlive's folder
+            QString res = fixLutFile(filePath);
+            if (!res.isEmpty() && QFile::exists(res)) {
+                autoFixLut.insert(filterfile, res);
+            } else {
+                missingAssets << filterfile;
+            }
         }
     }
+    replaceAssetFile(filterNodes, filterPairs, autoFixLut);
 
     // Check for missing effects (eg. not installed)
-    QStringList filters = getAssetsServiceIds(m_doc, QStringLiteral("filter"));
+    QStringList filters = getAssetsServiceIds(filterNodes);
     for (const QString &id : qAsConst(filters)) {
         if (!EffectsRepository::get()->exists(id)) {
             m_missingFilters << id;
@@ -264,7 +275,7 @@ bool DocumentChecker::hasErrorInClips()
     m_missingFilters.removeDuplicates();
 
     // Delete missing effects
-    removeAssetsById(m_doc, QStringLiteral("filter"), m_missingFilters);
+    removeAssetsById(filterNodes, m_missingFilters);
 
     // Abort here if our MainWindow is not built (it means we are doing tests and don't want a dialog to pop up)
     if (pCore->window() == nullptr ||
@@ -1100,6 +1111,31 @@ QString DocumentChecker::fixLuma(const QString &file)
     return QString();
 }
 
+QString DocumentChecker::fixLutFile(const QString &file)
+{
+    QDir searchPath(QCoreApplication::applicationDirPath());
+#ifdef Q_OS_WIN
+    searchPath.cd(QStringLiteral("data/luts/"));
+#else
+    searchPath.cd(QStringLiteral("../share/kdenlive/luts/"));
+#endif
+    QString fname = QFileInfo(file).fileName();
+    QFileInfo result(searchPath, fname);
+    if (result.exists()) {
+        return result.filePath();
+    }
+    // Try in Kdenlive's standard KDE path
+    QString res = QStandardPaths::locate(QStandardPaths::AppDataLocation, "luts", QStandardPaths::LocateDirectory);
+    if (!res.isEmpty()) {
+        searchPath.setPath(res);
+        result.setFile(searchPath, fname);
+        if (result.exists()) {
+            return result.filePath();
+        }
+    }
+    return QString();
+}
+
 QString DocumentChecker::searchLuma(const QDir &dir, const QString &file)
 {
     // Try in user's chosen folder
@@ -1245,7 +1281,7 @@ QString DocumentChecker::searchFileRecursively(const QDir &dir, const QString &m
     return foundFileName;
 }
 
-QString DocumentChecker::ensureAbsoultePath(const QString &root, QString filepath)
+QString DocumentChecker::ensureAbsolutePath(const QString &root, QString filepath)
 {
     if (!filepath.isEmpty() && QFileInfo(filepath).isRelative()) {
         filepath.prepend(root);
@@ -1253,14 +1289,12 @@ QString DocumentChecker::ensureAbsoultePath(const QString &root, QString filepat
     return filepath;
 }
 
-QStringList DocumentChecker::getAssetsFiles(const QDomDocument &doc, const QString &tagName, const QMap<QString, QString> &searchPairs)
+QStringList DocumentChecker::getAssetsFiles(const QDomNodeList &elements, const QMap<QString, QString> &searchPairs)
 {
     QStringList files;
-
-    QDomNodeList assets = doc.elementsByTagName(tagName);
-    int max = assets.count();
+    int max = elements.count();
     for (int i = 0; i < max; ++i) {
-        QDomElement asset = assets.at(i).toElement();
+        QDomElement asset = elements.at(i).toElement();
         QString service = Xml::getXmlProperty(asset, QStringLiteral("kdenlive_id"));
         if (service.isEmpty()) {
             service = Xml::getXmlProperty(asset, QStringLiteral("mlt_service"));
@@ -1276,13 +1310,12 @@ QStringList DocumentChecker::getAssetsFiles(const QDomDocument &doc, const QStri
     return files;
 }
 
-QStringList DocumentChecker::getAssetsServiceIds(const QDomDocument &doc, const QString &tagName)
+QStringList DocumentChecker::getAssetsServiceIds(const QDomNodeList &elements)
 {
-    QDomNodeList filters = doc.elementsByTagName(tagName);
-    int max = filters.count();
+    int max = elements.count();
     QStringList services;
     for (int i = 0; i < max; ++i) {
-        QDomElement filter = filters.at(i).toElement();
+        QDomElement filter = elements.at(i).toElement();
         QString service = Xml::getXmlProperty(filter, QStringLiteral("kdenlive_id"));
         if (service.isEmpty()) {
             service = Xml::getXmlProperty(filter, QStringLiteral("mlt_service"));
@@ -1293,15 +1326,14 @@ QStringList DocumentChecker::getAssetsServiceIds(const QDomDocument &doc, const 
     return services;
 }
 
-void DocumentChecker::removeAssetsById(QDomDocument &doc, const QString &tagName, const QStringList &idsToDelete)
+void DocumentChecker::removeAssetsById(QDomNodeList &elements, const QStringList &idsToDelete)
 {
     if (idsToDelete.isEmpty()) {
         return;
     }
 
-    QDomNodeList assets = doc.elementsByTagName(tagName);
-    for (int i = 0; i < assets.count(); ++i) {
-        QDomElement asset = assets.item(i).toElement();
+    for (int i = 0; i < elements.count(); ++i) {
+        QDomElement asset = elements.item(i).toElement();
         QString service = Xml::getXmlProperty(asset, QStringLiteral("kdenlive_id"));
         if (service.isEmpty()) {
             service = Xml::getXmlProperty(asset, QStringLiteral("mlt_service"));
@@ -1314,25 +1346,21 @@ void DocumentChecker::removeAssetsById(QDomDocument &doc, const QString &tagName
     }
 }
 
-void DocumentChecker::replaceTransitionsLumas(QDomDocument &doc, const QMap<QString, QString> &names)
+void DocumentChecker::replaceAssetFile(QDomNodeList &elements, const QMap<QString, QString> &assetDescription, const QMap<QString, QString> &names)
 {
     if (names.isEmpty()) {
         return;
     }
-
-    QMap<QString, QString> lumaSearchPairs = getLumaPairs();
-
-    QDomNodeList trans = doc.elementsByTagName(QStringLiteral("transition"));
-    int max = trans.count();
+    int max = elements.count();
     for (int i = 0; i < max; ++i) {
-        QDomElement transition = trans.at(i).toElement();
+        QDomElement transition = elements.at(i).toElement();
         QString service = Xml::getXmlProperty(transition, QStringLiteral("mlt_service"));
-        QString luma;
-        if (lumaSearchPairs.contains(service)) {
-            luma = Xml::getXmlProperty(transition, lumaSearchPairs.value(service));
+        QString assetData;
+        if (assetDescription.contains(service)) {
+            assetData = Xml::getXmlProperty(transition, assetDescription.value(service));
         }
-        if (!luma.isEmpty() && names.contains(luma)) {
-            Xml::setXmlProperty(transition, lumaSearchPairs.value(service), names.value(luma));
+        if (!assetData.isEmpty() && names.contains(assetData)) {
+            Xml::setXmlProperty(transition, assetDescription.value(service), names.value(assetData));
         }
     }
 }
@@ -1769,7 +1797,7 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
             }
         }
     } else if (child->data(0, statusRole).toInt() == ASSETOK) {
-        QMap<QString, QString> assetSearchPairs = getAssetPairs();
+        QMap<QString, QString> assetSearchPairs = getFilterPairs();
         QString asset;
         for (int i = 0; i < filters.count(); ++i) {
             QString service = Xml::getXmlProperty(filters.at(i).toElement(), QStringLiteral("mlt_service"));

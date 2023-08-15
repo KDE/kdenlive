@@ -15,21 +15,37 @@ TEST_CASE("Basic tests of the document checker parts", "[DocumentChecker]")
     {
         QDomDocument doc;
         Xml::docContentFromFile(doc, path, false);
-
-        QStringList filters = DocumentChecker::getAssetsServiceIds(doc, QStringLiteral("filter"));
+        QDomNodeList filterNodes = doc.elementsByTagName(QStringLiteral("filter"));
+        QStringList filters = DocumentChecker::getAssetsServiceIds(filterNodes);
         CHECK(filters == QStringList({"volume", "panner", "audiolevel", "avfilter.fieldorder"}));
         qDebug() << filters;
 
-        DocumentChecker::removeAssetsById(doc, QStringLiteral("filter"), QStringList({"volume"}));
-        filters = DocumentChecker::getAssetsServiceIds(doc, QStringLiteral("filter"));
+        DocumentChecker::removeAssetsById(filterNodes, QStringList({"volume"}));
+        filters = DocumentChecker::getAssetsServiceIds(filterNodes);
 
         CHECK(filters == QStringList({"panner", "audiolevel", "avfilter.fieldorder"}));
 
-        QStringList transitions = DocumentChecker::getAssetsServiceIds(doc, QStringLiteral("transition"));
+        QDomNodeList transitionNodes = doc.elementsByTagName(QStringLiteral("transition"));
+        QStringList transitions = DocumentChecker::getAssetsServiceIds(transitionNodes);
         CHECK(transitions == QStringList{"luma", "mix", "frei0r.cairoblend"});
 
         qDebug() << filters;
         qDebug() << transitions;
+    }
+
+    path = sourcesPath + "/dataset/test-missing.kdenlive";
+    SECTION("Missing assets replacement")
+    {
+        // Ensure we detect a missing lut file
+        QDomDocument doc;
+        Xml::docContentFromFile(doc, path, false);
+        QDomNodeList filterNodes = doc.elementsByTagName(QStringLiteral("filter"));
+        QStringList filters = DocumentChecker::getAssetsServiceIds(filterNodes);
+        CHECK(filters == QStringList({"volume", "panner", "audiolevel", "brightness", "avfilter.lut3d"}));
+        const QMap<QString, QString> filterPairs = DocumentChecker::getFilterPairs();
+        QStringList assetsToCheck = DocumentChecker::getAssetsFiles(filterNodes, filterPairs);
+        qDebug() << assetsToCheck;
+        REQUIRE(!assetsToCheck.isEmpty());
     }
 
     SECTION("Check build-in luma detection")
