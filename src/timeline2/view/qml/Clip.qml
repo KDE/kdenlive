@@ -1184,6 +1184,7 @@ Rectangle {
             visible: !clipRoot.isAudio
             enabled: !clipRoot.isAudio && dragProxy.draggedItem === clipRoot.clipId && compositionIn.visible
             onPressed: {
+                root.mainItemId = -1
                 timeline.addCompositionToClip('', clipRoot.clipId, 0)
             }
             onEntered: {
@@ -1220,6 +1221,7 @@ Rectangle {
             enabled: !clipRoot.isAudio && dragProxy.draggedItem === clipRoot.clipId && compositionOut.visible
             visible: !clipRoot.isAudio
             onPressed: {
+                root.mainItemId = -1
                 timeline.addCompositionToClip('', clipRoot.clipId, clipRoot.clipDuration - 1)
             }
             onEntered: {

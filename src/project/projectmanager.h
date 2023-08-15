@@ -142,7 +142,7 @@ public Q_SLOTS:
     /** @brief Shows a save file dialog for saving the project.
      * @param saveACopy Default is false. If true, the file title of the dialog is set to "Save Copy…"
      * @return Whether the file was saved. */
-    bool saveFileAs(bool saveACopy = false);
+    bool saveFileAs(bool saveACopy = true);
 
     /** @brief Set properties to match outputFileName and save the document.
      * Creates an autosave version of the output file too (only if not in copymode), at

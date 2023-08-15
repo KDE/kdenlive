@@ -708,7 +708,7 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene)
     return sceneList;
 }
 
-bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
+bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, bool saveAsCopy)
 {
     QDomDocument sceneList = xmlSceneList(scene);
     if (sceneList.isNull()) {
@@ -719,7 +719,7 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
 
     // Backup current version
     backupLastSavedVersion(path);
-    if (m_documentOpenStatus != CleanProject) {
+    if (m_documentOpenStatus != CleanProject && !saveAsCopy) {
         // create visible backup file and warn user
         QString baseFile = path.section(QStringLiteral(".kdenlive"), 0, 0);
         int ct = 0;
