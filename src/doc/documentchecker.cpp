@@ -74,6 +74,20 @@ bool DocumentChecker::resolveProblemsWithGUI()
     if (m_items.size() == 0) {
         return true;
     }
+
+    bool onlySilent = true;
+    for (auto item : m_items) {
+        if (item.status != MissingStatus::Fixed || item.type != MissingType::AssetFile) {
+            // we don't need to warn about automatic asset file fixes
+            onlySilent = false;
+            break;
+        }
+    }
+
+    if (onlySilent) {
+        return true;
+    }
+
     DCResolveDialog *d = new DCResolveDialog(m_items);
     // d->show(getInfoMessages());
     if (d->exec() == QDialog::Rejected) {
@@ -247,11 +261,25 @@ bool DocumentChecker::hasErrorInProject()
     for (const QString &filterfile : qAsConst(assetsToCheck)) {
         QString filePath = ensureAbsoultePath(filterfile);
 
-        if (!QFile::exists(filePath) && !itemsContain(MissingType::AssetFile, filePath)) {
-            DocumentResource item;
-            item.type = MissingType::AssetFile;
-            item.originalFilePath = filePath;
+        if (QFile::exists(filePath)) {
+            // everything is fine, we can stop here
+            continue;
+        }
+
+        QString fixedPath = fixLutFile(filePath);
+
+        DocumentResource item;
+        item.type = MissingType::AssetFile;
+        item.originalFilePath = filePath;
+
+        if (!fixedPath.isEmpty()) {
+            item.newFilePath = fixedPath;
+            item.status = MissingStatus::Fixed;
+        } else {
             item.status = MissingStatus::Missing;
+        }
+
+        if (!itemsContain(item.type, item.originalFilePath, item.status)) {
             m_items.push_back(item);
         }
     }
@@ -485,7 +513,7 @@ void DocumentChecker::checkMissingImagesAndFonts(const QStringList &images, cons
             item.type = MissingType::TitleFont;
             item.originalFilePath = fontelement;
             item.newFilePath = QFontInfo(f).family();
-            item.status = MissingStatus::Fixed;
+            item.status = MissingStatus::Placeholder;
             m_items.push_back(item);
         } else {
             m_safeFonts.append(fontelement);
@@ -724,6 +752,33 @@ QString DocumentChecker::getMissingProducers(QDomElement &e, const QDomNodeList 
     return producerResource;
 }
 
+QString DocumentChecker::fixLutFile(const QString &file)
+{
+    QDir searchPath(QCoreApplication::applicationDirPath());
+#ifdef Q_OS_WIN
+    searchPath.cd(QStringLiteral("data/luts/"));
+#else
+    searchPath.cd(QStringLiteral("../share/kdenlive/luts/"));
+#endif
+    QString fname = QFileInfo(file).fileName();
+    QFileInfo result(searchPath, fname);
+    if (result.exists()) {
+        return result.filePath();
+    }
+    // Try in Kdenlive's standard KDE path
+    QStringList resList = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, "luts", QStandardPaths::LocateDirectory);
+    for (auto res : resList) {
+        if (!res.isEmpty()) {
+            searchPath.setPath(res);
+            result.setFile(searchPath, fname);
+            if (result.exists()) {
+                return result.filePath();
+            }
+        }
+    }
+    return QString();
+}
+
 QString DocumentChecker::fixLumaPath(const QString &file)
 {
     QDir searchPath(KdenliveSettings::mltpath());
@@ -754,17 +809,19 @@ QString DocumentChecker::fixLumaPath(const QString &file)
         return result.filePath();
     }
     // Try in Kdenlive's standard KDE path
-    QString res = QStandardPaths::locate(QStandardPaths::AppDataLocation, "lumas", QStandardPaths::LocateDirectory);
-    if (!res.isEmpty()) {
-        searchPath.setPath(res);
-        if (file.contains(QStringLiteral("/PAL"))) {
-            searchPath.cd(QStringLiteral("PAL"));
-        } else {
-            searchPath.cd(QStringLiteral("HD"));
-        }
-        result.setFile(searchPath, fname);
-        if (result.exists()) {
-            return result.filePath();
+    QStringList resList = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, "lumas", QStandardPaths::LocateDirectory);
+    for (auto res : resList) {
+        if (!res.isEmpty()) {
+            searchPath.setPath(res);
+            if (file.contains(QStringLiteral("/PAL"))) {
+                searchPath.cd(QStringLiteral("PAL"));
+            } else {
+                searchPath.cd(QStringLiteral("HD"));
+            }
+            result.setFile(searchPath, fname);
+            if (result.exists()) {
+                return result.filePath();
+            }
         }
     }
     return QString();

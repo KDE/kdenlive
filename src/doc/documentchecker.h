@@ -40,6 +40,7 @@ public:
      * @returns whether error have been found
      */
     bool hasErrorInProject();
+    static QString fixLutFile(const QString &file);
     static QString fixLumaPath(const QString &file);
     static QString searchLuma(const QDir &dir, const QString &file);
 
