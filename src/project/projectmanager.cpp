@@ -460,7 +460,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveACopy)
         }
     }
     m_project->updateWorkFilesAfterSave();
-    if (!m_project->saveSceneList(outputFileName, scene)) {
+    if (!m_project->saveSceneList(outputFileName, scene, saveACopy)) {
         return false;
     }
     QUrl url = QUrl::fromLocalFile(outputFileName);
@@ -581,7 +581,7 @@ bool ProjectManager::saveFile()
         return false;
     }
     if (m_project->url().isEmpty()) {
-        return saveFileAs();
+        return saveFileAs(false);
     }
     bool result = saveFileAs(m_project->url().toLocalFile());
     m_project->m_autosave->resize(0);
