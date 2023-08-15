@@ -102,6 +102,8 @@ void DCResolveDialog::slotEditCurrentItem()
         QScopedPointer<QDialog> d(new QDialog(this));
         auto *l = new QVBoxLayout;
         auto *fontcombo = new QFontComboBox;
+        QString selectedFont = resource.newFilePath.isEmpty() ? resource.originalFilePath : resource.newFilePath;
+        fontcombo->setCurrentFont(QFontInfo(selectedFont).family());
         l->addWidget(fontcombo);
         QDialogButtonBox *box = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
         l->addWidget(box);

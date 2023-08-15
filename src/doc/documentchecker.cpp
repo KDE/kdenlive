@@ -484,7 +484,8 @@ void DocumentChecker::checkMissingImagesAndFonts(const QStringList &images, cons
             DocumentResource item;
             item.type = MissingType::TitleFont;
             item.originalFilePath = fontelement;
-            item.status = MissingStatus::Missing;
+            item.newFilePath = QFontInfo(f).family();
+            item.status = MissingStatus::Fixed;
             m_items.push_back(item);
         } else {
             m_safeFonts.append(fontelement);
