@@ -927,6 +927,14 @@ QVector<QPair<QString, QVariant>> AssetParameterModel::getAllParameters() const
                 QVariant multiVal = data(ix, AssetParameterModel::ValueRole).toString();
                 res.push_back(QPair<QString, QVariant>(param.first, multiVal));
                 continue;
+            } else if (m_params.at(param.first).type == ParamType::Position) {
+                bool relative = data(ix, AssetParameterModel::RelativePosRole).toBool();
+                if (!relative) {
+                    int in = pCore->getItemIn(m_ownerId);
+                    int val = param.second.value.toInt();
+                    res.push_back(QPair<QString, QVariant>(param.first, QVariant(val - in)));
+                    continue;
+                }
             }
             res.push_back(QPair<QString, QVariant>(param.first, param.second.value));
         }
