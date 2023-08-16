@@ -53,7 +53,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       <item>
        <widget class="QLabel" name="proxyLabel">
         <property name="text">
-         <string>You project contains one missing proxy</string>
+         <string notr="true">You project contains one missing proxy</string>
         </property>
        </widget>
       </item>
