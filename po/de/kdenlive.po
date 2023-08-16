@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-14 02:25+0000\n"
+"POT-Creation-Date: 2023-08-16 02:24+0000\n"
 "PO-Revision-Date: 2023-05-19 18:02+0200\n"
 "Last-Translator: Jannick Alexander Kuhr <opensource@kuhr.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -4371,7 +4371,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "Clips im Projektinhalt löschen"
 
-#: src/bin/bin.cpp:1829 src/doc/documentchecker.cpp:574
+#: src/bin/bin.cpp:1829 src/doc/documentchecker.cpp:585
 #, kde-format
 msgid "Missing source clip"
 msgstr "Fehlender Quell-Clip"
@@ -5481,7 +5481,7 @@ msgstr "ID"
 msgid "Usage"
 msgstr "Verwendung"
 
-#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:332
+#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:343
 #: src/mltcontroller/clipcontroller.cpp:485 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -7674,99 +7674,99 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:281
+#: src/doc/documentchecker.cpp:292
 #, kde-format
 msgid "Luma file"
 msgstr "Luma-Datei"
 
-#: src/doc/documentchecker.cpp:287
+#: src/doc/documentchecker.cpp:298
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Asset file"
 msgstr "Dateien löschen"
 
-#: src/doc/documentchecker.cpp:314
+#: src/doc/documentchecker.cpp:325
 #, kde-format
 msgid "Video clip"
 msgstr "Video"
 
-#: src/doc/documentchecker.cpp:318
+#: src/doc/documentchecker.cpp:329
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Diaschau-Clip"
 
-#: src/doc/documentchecker.cpp:321
+#: src/doc/documentchecker.cpp:332
 #, kde-format
 msgid "Image clip"
 msgstr "Bild-Clip"
 
-#: src/doc/documentchecker.cpp:325
+#: src/doc/documentchecker.cpp:336
 #, kde-format
 msgid "Playlist clip"
 msgstr "Wiedergabelisten-Clip"
 
-#: src/doc/documentchecker.cpp:328
+#: src/doc/documentchecker.cpp:339
 #, kde-format
 msgid "Title Image"
 msgstr "Titelbild"
 
-#: src/doc/documentchecker.cpp:364
+#: src/doc/documentchecker.cpp:375
 #, kde-format
 msgid "Missing item"
 msgstr "Fehlendes Element"
 
-#: src/doc/documentchecker.cpp:378 src/doc/documentchecker.cpp:403
-#: src/doc/documentchecker.cpp:1403
+#: src/doc/documentchecker.cpp:389 src/doc/documentchecker.cpp:414
+#: src/doc/documentchecker.cpp:1431
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Relocated item"
 msgstr "Clip neu laden"
 
-#: src/doc/documentchecker.cpp:416
+#: src/doc/documentchecker.cpp:427
 #, kde-format
 msgid "Title Font"
 msgstr "Titelschrift"
 
-#: src/doc/documentchecker.cpp:421
+#: src/doc/documentchecker.cpp:432
 #, kde-format
 msgid "%1 will be replaced by %2"
 msgstr "%1 wird ersetzt durch %2"
 
-#: src/doc/documentchecker.cpp:426
+#: src/doc/documentchecker.cpp:437
 #, kde-format
 msgid "Modified Clips"
 msgstr "Geänderte Clips"
 
-#: src/doc/documentchecker.cpp:430
+#: src/doc/documentchecker.cpp:441
 #, kde-format
 msgid "Clip %1 will be reloaded"
 msgstr "Clip %1 wird erneut geladen"
 
-#: src/doc/documentchecker.cpp:435
+#: src/doc/documentchecker.cpp:446
 #, fuzzy, kde-format
 #| msgid "Create Sequence Clip"
 msgid "Fixed Sequence Clips"
 msgstr "Sequenz-Clip erstellen"
 
-#: src/doc/documentchecker.cpp:439
+#: src/doc/documentchecker.cpp:450
 #, fuzzy, kde-format
 #| msgid "Clip %1 will be reloaded"
 msgid "Clip %1 will be fixed"
 msgstr "Clip %1 wird erneut geladen"
 
-#: src/doc/documentchecker.cpp:446
+#: src/doc/documentchecker.cpp:457
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "In der Projektdatei fehlen Clips oder Dateien."
 
-#: src/doc/documentchecker.cpp:449
+#: src/doc/documentchecker.cpp:460
 #, kde-format
 msgid "Missing effect: %2 will be removed from project."
 msgid_plural "Missing effects: %2 will be removed from project."
 msgstr[0] "Fehlender Effekt: %2 wird aus dem Projekt entfernt."
 msgstr[1] "Fehlender Effekte: %2 wird aus dem Projekt entfernt."
 
-#: src/doc/documentchecker.cpp:453
+#: src/doc/documentchecker.cpp:464
 #, fuzzy, kde-format
 #| msgid "Missing effect: %2 will be removed from project."
 #| msgid_plural "Missing effects: %2 will be removed from project."
@@ -7775,13 +7775,13 @@ msgid_plural "Missing transitions: %2 will be removed from project."
 msgstr[0] "Fehlender Effekt: %2 wird aus dem Projekt entfernt."
 msgstr[1] "Fehlender Effekte: %2 wird aus dem Projekt entfernt."
 
-#: src/doc/documentchecker.cpp:457
+#: src/doc/documentchecker.cpp:468
 #, fuzzy, kde-format
 #| msgid "Missing proxies will be recreated after opening."
 msgid "Missing proxies can be recreated on opening."
 msgstr "Fehlende Proxy-Clips werden beim Öffnen des Projektes neu erzeugt."
 
-#: src/doc/documentchecker.cpp:472
+#: src/doc/documentchecker.cpp:483
 #, kde-format
 msgid ""
 "The project file contains a missing clip, you can still work with its proxy."
@@ -7795,7 +7795,7 @@ msgstr[1] ""
 "Die Projektdatei enthält %1 Clips, die fehlen. Sie können immer noch die "
 "Proxy-Clips verwenden."
 
-#: src/doc/documentchecker.cpp:476
+#: src/doc/documentchecker.cpp:487
 #, fuzzy, kde-format
 #| msgid "The project file contains missing clips or files."
 msgid "The project file contains one modified clip, it will be reloaded."
@@ -7804,84 +7804,84 @@ msgid_plural ""
 msgstr[0] "In der Projektdatei fehlen Clips oder Dateien."
 msgstr[1] "In der Projektdatei fehlen Clips oder Dateien."
 
-#: src/doc/documentchecker.cpp:552
+#: src/doc/documentchecker.cpp:563
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr "Proxy-Clip"
 
-#: src/doc/documentchecker.cpp:555
+#: src/doc/documentchecker.cpp:566
 #, kde-format
 msgid "%1 missing proxy clip, will be recreated on project opening"
 msgid_plural "%1 missing proxy clips, will be recreated on project opening"
 msgstr[0] "%1 fehlender Proxy-Clip wird beim Öffnen des Projekts neu erzeugt"
 msgstr[1] "%1 fehlende Proxy-Clips werden beim Öffnen des Projekts neu erzeugt"
 
-#: src/doc/documentchecker.cpp:558
+#: src/doc/documentchecker.cpp:569
 #, kde-format
 msgid "Missing proxy"
 msgstr "Fehlender Proxy"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/doc/documentchecker.cpp:569 src/doc/documentchecker.cpp:583
+#: src/doc/documentchecker.cpp:580 src/doc/documentchecker.cpp:594
 #: src/ui/timeremap_ui.ui:90
 #, kde-format
 msgid "Source clip"
 msgstr "Quell-Clip"
 
-#: src/doc/documentchecker.cpp:571
+#: src/doc/documentchecker.cpp:582
 #, kde-format
 msgid "%1 missing source clips, you can only use the proxies"
 msgstr "%1 fehlende Quell-Clips, Sie können nur die Proxy-Clips verwenden"
 
-#: src/doc/documentchecker.cpp:948
+#: src/doc/documentchecker.cpp:959
 #, fuzzy, kde-format
 #| msgid "Clips folder"
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Clip-Ordner"
 
-#: src/doc/documentchecker.cpp:980 src/doc/documentchecker.cpp:1004
-#: src/doc/documentchecker.cpp:1014 src/doc/documentchecker.cpp:1023
-#: src/doc/documentchecker.cpp:1035
+#: src/doc/documentchecker.cpp:991 src/doc/documentchecker.cpp:1015
+#: src/doc/documentchecker.cpp:1025 src/doc/documentchecker.cpp:1034
+#: src/doc/documentchecker.cpp:1046
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Recovered item"
 msgstr "Clip neu laden"
 
-#: src/doc/documentchecker.cpp:1048
+#: src/doc/documentchecker.cpp:1059
 #, kde-format
 msgid "Search aborted"
 msgstr "Suche abgebrochen"
 
-#: src/doc/documentchecker.cpp:1050
+#: src/doc/documentchecker.cpp:1061
 #, kde-format
 msgid "Search done"
 msgstr "Suche abgeschlossen"
 
-#: src/doc/documentchecker.cpp:1166
+#: src/doc/documentchecker.cpp:1202
 #, kde-format
 msgid "Scanning %1"
 msgstr "%1 wird durchsucht"
 
-#: src/doc/documentchecker.cpp:1365
+#: src/doc/documentchecker.cpp:1393
 #, kde-format
 msgid "Enter new location for folder"
 msgstr "Geben Sie den neuen Ort für den Ordner an"
 
-#: src/doc/documentchecker.cpp:1391
+#: src/doc/documentchecker.cpp:1419
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Geben Sie den neuen Ort für die Datei an"
 
-#: src/doc/documentchecker.cpp:1866
+#: src/doc/documentchecker.cpp:1894
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
 msgstr[0] "Dies wird den ausgewählten Clip aus diesem Projekt entfernen"
 msgstr[1] "Dies wird die ausgewählten Clips aus diesem Projekt entfernen"
 
-#: src/doc/documentchecker.cpp:1868
+#: src/doc/documentchecker.cpp:1896
 #, kde-format
 msgid "Remove clips"
 msgstr "Clips entfernen"

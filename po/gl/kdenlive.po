@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-14 02:25+0000\n"
+"POT-Creation-Date: 2023-08-16 02:24+0000\n"
 "PO-Revision-Date: 2020-01-11 11:21+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
@@ -4457,7 +4457,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "Eliminar os fragmentos da caixa"
 
-#: src/bin/bin.cpp:1829 src/doc/documentchecker.cpp:574
+#: src/bin/bin.cpp:1829 src/doc/documentchecker.cpp:585
 #, kde-format
 msgid "Missing source clip"
 msgstr "Fragmento orixinal ausente"
@@ -5658,7 +5658,7 @@ msgstr "I"
 msgid "Usage"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:332
+#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:343
 #: src/mltcontroller/clipcontroller.cpp:485 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -7917,101 +7917,101 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:281
+#: src/doc/documentchecker.cpp:292
 #, kde-format
 msgid "Luma file"
 msgstr "Ficheiro de Luminancia"
 
-#: src/doc/documentchecker.cpp:287
+#: src/doc/documentchecker.cpp:298
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Asset file"
 msgstr "Eliminar ficheiros"
 
-#: src/doc/documentchecker.cpp:314
+#: src/doc/documentchecker.cpp:325
 #, kde-format
 msgid "Video clip"
 msgstr "Fragmento de vídeo"
 
-#: src/doc/documentchecker.cpp:318
+#: src/doc/documentchecker.cpp:329
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Fragmento de pase de diapositivas"
 
-#: src/doc/documentchecker.cpp:321
+#: src/doc/documentchecker.cpp:332
 #, kde-format
 msgid "Image clip"
 msgstr "Fragmento de imaxe"
 
-#: src/doc/documentchecker.cpp:325
+#: src/doc/documentchecker.cpp:336
 #, kde-format
 msgid "Playlist clip"
 msgstr "Fragmento de lista de reprodución"
 
-#: src/doc/documentchecker.cpp:328
+#: src/doc/documentchecker.cpp:339
 #, kde-format
 msgid "Title Image"
 msgstr "Imaxe de título"
 
-#: src/doc/documentchecker.cpp:364
+#: src/doc/documentchecker.cpp:375
 #, kde-format
 msgid "Missing item"
 msgstr "Elemento ausente"
 
-#: src/doc/documentchecker.cpp:378 src/doc/documentchecker.cpp:403
-#: src/doc/documentchecker.cpp:1403
+#: src/doc/documentchecker.cpp:389 src/doc/documentchecker.cpp:414
+#: src/doc/documentchecker.cpp:1431
 #, kde-format
 msgid "Relocated item"
 msgstr "Elemento recolocado"
 
-#: src/doc/documentchecker.cpp:416
+#: src/doc/documentchecker.cpp:427
 #, kde-format
 msgid "Title Font"
 msgstr "Fonte do título"
 
-#: src/doc/documentchecker.cpp:421
+#: src/doc/documentchecker.cpp:432
 #, kde-format
 msgid "%1 will be replaced by %2"
 msgstr "%1 será substituído por %2"
 
-#: src/doc/documentchecker.cpp:426
+#: src/doc/documentchecker.cpp:437
 #, fuzzy, kde-format
 #| msgid "Move Clip"
 #| msgid_plural "Move Clips"
 msgid "Modified Clips"
 msgstr "Mover o fragmento"
 
-#: src/doc/documentchecker.cpp:430
+#: src/doc/documentchecker.cpp:441
 #, fuzzy, kde-format
 #| msgid "%1 will be replaced by %2"
 msgid "Clip %1 will be reloaded"
 msgstr "%1 será substituído por %2"
 
-#: src/doc/documentchecker.cpp:435
+#: src/doc/documentchecker.cpp:446
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Fixed Sequence Clips"
 msgstr "Crear unha secuencia nova"
 
-#: src/doc/documentchecker.cpp:439
+#: src/doc/documentchecker.cpp:450
 #, fuzzy, kde-format
 #| msgid "%1 will be replaced by %2"
 msgid "Clip %1 will be fixed"
 msgstr "%1 será substituído por %2"
 
-#: src/doc/documentchecker.cpp:446
+#: src/doc/documentchecker.cpp:457
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "O ficheiro do proxecto inclúe fragmentos ou ficheiros ausentes."
 
-#: src/doc/documentchecker.cpp:449
+#: src/doc/documentchecker.cpp:460
 #, kde-format
 msgid "Missing effect: %2 will be removed from project."
 msgid_plural "Missing effects: %2 will be removed from project."
 msgstr[0] "Falta un efecto: %2 retirarase do proxecto."
 msgstr[1] "Faltan efectos: %2 retiraranse do proxecto."
 
-#: src/doc/documentchecker.cpp:453
+#: src/doc/documentchecker.cpp:464
 #, fuzzy, kde-format
 #| msgid "Missing effect: %2 will be removed from project."
 #| msgid_plural "Missing effects: %2 will be removed from project."
@@ -8020,13 +8020,13 @@ msgid_plural "Missing transitions: %2 will be removed from project."
 msgstr[0] "Falta un efecto: %2 retirarase do proxecto."
 msgstr[1] "Faltan efectos: %2 retiraranse do proxecto."
 
-#: src/doc/documentchecker.cpp:457
+#: src/doc/documentchecker.cpp:468
 #, fuzzy, kde-format
 #| msgid "Missing proxies will be recreated after opening."
 msgid "Missing proxies can be recreated on opening."
 msgstr "Os proxys crearanse de novo despois de abrir."
 
-#: src/doc/documentchecker.cpp:472
+#: src/doc/documentchecker.cpp:483
 #, kde-format
 msgid ""
 "The project file contains a missing clip, you can still work with its proxy."
@@ -8040,7 +8040,7 @@ msgstr[1] ""
 "Este ficheiro de proxecto contén %1 fragmentos que faltan; aínda así, pódese "
 "traballar cos seus proxys."
 
-#: src/doc/documentchecker.cpp:476
+#: src/doc/documentchecker.cpp:487
 #, fuzzy, kde-format
 #| msgid "The project file contains missing clips or files."
 msgid "The project file contains one modified clip, it will be reloaded."
@@ -8049,13 +8049,13 @@ msgid_plural ""
 msgstr[0] "O ficheiro do proxecto inclúe fragmentos ou ficheiros ausentes."
 msgstr[1] "O ficheiro do proxecto inclúe fragmentos ou ficheiros ausentes."
 
-#: src/doc/documentchecker.cpp:552
+#: src/doc/documentchecker.cpp:563
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr "Fragmento proxy"
 
-#: src/doc/documentchecker.cpp:555
+#: src/doc/documentchecker.cpp:566
 #, kde-format
 msgid "%1 missing proxy clip, will be recreated on project opening"
 msgid_plural "%1 missing proxy clips, will be recreated on project opening"
@@ -8064,75 +8064,75 @@ msgstr[0] ""
 msgstr[1] ""
 "Faltan %1 fragmentos proxy; crearanse de novo cando se abra o proxecto."
 
-#: src/doc/documentchecker.cpp:558
+#: src/doc/documentchecker.cpp:569
 #, kde-format
 msgid "Missing proxy"
 msgstr "Proxy ausente"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/doc/documentchecker.cpp:569 src/doc/documentchecker.cpp:583
+#: src/doc/documentchecker.cpp:580 src/doc/documentchecker.cpp:594
 #: src/ui/timeremap_ui.ui:90
 #, kde-format
 msgid "Source clip"
 msgstr "Fragmento orixinal"
 
-#: src/doc/documentchecker.cpp:571
+#: src/doc/documentchecker.cpp:582
 #, kde-format
 msgid "%1 missing source clips, you can only use the proxies"
 msgstr "Faltan %1 fragmentos orixinais; só pode usar os mandatarios."
 
-#: src/doc/documentchecker.cpp:948
+#: src/doc/documentchecker.cpp:959
 #, fuzzy, kde-format
 #| msgid "Clips folder"
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Cartafol dos fragmentos"
 
-#: src/doc/documentchecker.cpp:980 src/doc/documentchecker.cpp:1004
-#: src/doc/documentchecker.cpp:1014 src/doc/documentchecker.cpp:1023
-#: src/doc/documentchecker.cpp:1035
+#: src/doc/documentchecker.cpp:991 src/doc/documentchecker.cpp:1015
+#: src/doc/documentchecker.cpp:1025 src/doc/documentchecker.cpp:1034
+#: src/doc/documentchecker.cpp:1046
 #, fuzzy, kde-format
 #| msgid "Relocated item"
 msgid "Recovered item"
 msgstr "Elemento recolocado"
 
-#: src/doc/documentchecker.cpp:1048
+#: src/doc/documentchecker.cpp:1059
 #, fuzzy, kde-format
 #| msgid "Search scale"
 msgid "Search aborted"
 msgstr "Escala da busca"
 
-#: src/doc/documentchecker.cpp:1050
+#: src/doc/documentchecker.cpp:1061
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Search done"
 msgstr "Buscar"
 
-#: src/doc/documentchecker.cpp:1166
+#: src/doc/documentchecker.cpp:1202
 #, fuzzy, kde-format
 #| msgid "Scanning"
 msgid "Scanning %1"
 msgstr "Escaneando"
 
-#: src/doc/documentchecker.cpp:1365
+#: src/doc/documentchecker.cpp:1393
 #, fuzzy, kde-format
 #| msgid "Enter new location for file"
 msgid "Enter new location for folder"
 msgstr "Inserir o novo sitio do ficheiro"
 
-#: src/doc/documentchecker.cpp:1391
+#: src/doc/documentchecker.cpp:1419
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Inserir o novo sitio do ficheiro"
 
-#: src/doc/documentchecker.cpp:1866
+#: src/doc/documentchecker.cpp:1894
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
 msgstr[0] "Isto retirará o fragmento escollido deste proxecto"
 msgstr[1] "Isto retirará os fragmentos escollidos deste proxecto"
 
-#: src/doc/documentchecker.cpp:1868
+#: src/doc/documentchecker.cpp:1896
 #, kde-format
 msgid "Remove clips"
 msgstr "Retirar estes fragmentos"
