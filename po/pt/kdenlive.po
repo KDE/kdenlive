@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-14 02:25+0000\n"
+"POT-Creation-Date: 2023-08-16 02:24+0000\n"
 "PO-Revision-Date: 2023-07-14 22:01+0100\n"
 "Last-Translator: Jose Jorge <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
@@ -4464,7 +4464,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "Apagar os 'clips' do grupo"
 
-#: src/bin/bin.cpp:1829 src/doc/documentchecker.cpp:574
+#: src/bin/bin.cpp:1829 src/doc/documentchecker.cpp:585
 #, kde-format
 msgid "Missing source clip"
 msgstr "Falta o 'clip' original"
@@ -5575,7 +5575,7 @@ msgstr "Id"
 msgid "Usage"
 msgstr "Utilização"
 
-#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:332
+#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:343
 #: src/mltcontroller/clipcontroller.cpp:485 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -7719,109 +7719,109 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "O ID do documento do seu projecto era inválido; foi criado um novo."
 
-#: src/doc/documentchecker.cpp:281
+#: src/doc/documentchecker.cpp:292
 #, kde-format
 msgid "Luma file"
 msgstr "Ficheiro do Luma"
 
-#: src/doc/documentchecker.cpp:287
+#: src/doc/documentchecker.cpp:298
 #, kde-format
 msgid "Asset file"
 msgstr "Ficheiro de activo"
 
-#: src/doc/documentchecker.cpp:314
+#: src/doc/documentchecker.cpp:325
 #, kde-format
 msgid "Video clip"
 msgstr "'Clip' de vídeo"
 
-#: src/doc/documentchecker.cpp:318
+#: src/doc/documentchecker.cpp:329
 #, kde-format
 msgid "Slideshow clip"
 msgstr "'Clip' de apresentação"
 
-#: src/doc/documentchecker.cpp:321
+#: src/doc/documentchecker.cpp:332
 #, kde-format
 msgid "Image clip"
 msgstr "'Clip' de imagem"
 
-#: src/doc/documentchecker.cpp:325
+#: src/doc/documentchecker.cpp:336
 #, kde-format
 msgid "Playlist clip"
 msgstr "'Clip' de lista de reprodução"
 
-#: src/doc/documentchecker.cpp:328
+#: src/doc/documentchecker.cpp:339
 #, kde-format
 msgid "Title Image"
 msgstr "Imagem do Título"
 
-#: src/doc/documentchecker.cpp:364
+#: src/doc/documentchecker.cpp:375
 #, kde-format
 msgid "Missing item"
 msgstr "Falta o item"
 
-#: src/doc/documentchecker.cpp:378 src/doc/documentchecker.cpp:403
-#: src/doc/documentchecker.cpp:1403
+#: src/doc/documentchecker.cpp:389 src/doc/documentchecker.cpp:414
+#: src/doc/documentchecker.cpp:1431
 #, kde-format
 msgid "Relocated item"
 msgstr "Item mudado de posição"
 
-#: src/doc/documentchecker.cpp:416
+#: src/doc/documentchecker.cpp:427
 #, kde-format
 msgid "Title Font"
 msgstr "Tipo de Letra do Título"
 
-#: src/doc/documentchecker.cpp:421
+#: src/doc/documentchecker.cpp:432
 #, kde-format
 msgid "%1 will be replaced by %2"
 msgstr "O %1 será substituído por %2"
 
-#: src/doc/documentchecker.cpp:426
+#: src/doc/documentchecker.cpp:437
 #, kde-format
 msgid "Modified Clips"
 msgstr "'Clips' Modificados"
 
-#: src/doc/documentchecker.cpp:430
+#: src/doc/documentchecker.cpp:441
 #, kde-format
 msgid "Clip %1 will be reloaded"
 msgstr "O 'clip' %1 será carregado de novo"
 
-#: src/doc/documentchecker.cpp:435
+#: src/doc/documentchecker.cpp:446
 #, kde-format
 msgid "Fixed Sequence Clips"
 msgstr "'Clips' da Sequência Corrigidos"
 
-#: src/doc/documentchecker.cpp:439
+#: src/doc/documentchecker.cpp:450
 #, kde-format
 msgid "Clip %1 will be fixed"
 msgstr "O 'clip' %1 será corrigido"
 
-#: src/doc/documentchecker.cpp:446
+#: src/doc/documentchecker.cpp:457
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "O ficheiro do projecto contém 'clips' ou ficheiros em falta."
 
-#: src/doc/documentchecker.cpp:449
+#: src/doc/documentchecker.cpp:460
 #, kde-format
 msgid "Missing effect: %2 will be removed from project."
 msgid_plural "Missing effects: %2 will be removed from project."
 msgstr[0] "Falta um efeito: o %2 será removido do projecto."
 msgstr[1] "Faltam efeitos: os %2 serão removidos do projecto."
 
-#: src/doc/documentchecker.cpp:453
+#: src/doc/documentchecker.cpp:464
 #, kde-format
 msgid "Missing transition: %2 will be removed from project."
 msgid_plural "Missing transitions: %2 will be removed from project."
 msgstr[0] "Falta uma transição: o %2 será removido do projecto."
 msgstr[1] "Faltam efeitos: os %2 serão removidos do projecto."
 
-#: src/doc/documentchecker.cpp:457
+#: src/doc/documentchecker.cpp:468
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr ""
 "Os 'clips' indirectos em falta poderão ser criados de novo após abrir o "
 "projecto."
 
-#: src/doc/documentchecker.cpp:472
+#: src/doc/documentchecker.cpp:483
 #, kde-format
 msgid ""
 "The project file contains a missing clip, you can still work with its proxy."
@@ -7835,7 +7835,7 @@ msgstr[1] ""
 "O ficheiro do projecto contém %1 'clips' em falta; poderá à mesma usar os "
 "seus 'clips' indirectos."
 
-#: src/doc/documentchecker.cpp:476
+#: src/doc/documentchecker.cpp:487
 #, kde-format
 msgid "The project file contains one modified clip, it will be reloaded."
 msgid_plural ""
@@ -7847,13 +7847,13 @@ msgstr[1] ""
 "O ficheiro do projecto contém %1 'clips' modificados; os mesmos serão "
 "carregados de novo."
 
-#: src/doc/documentchecker.cpp:552
+#: src/doc/documentchecker.cpp:563
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr "'Clip' indirecto"
 
-#: src/doc/documentchecker.cpp:555
+#: src/doc/documentchecker.cpp:566
 #, kde-format
 msgid "%1 missing proxy clip, will be recreated on project opening"
 msgid_plural "%1 missing proxy clips, will be recreated on project opening"
@@ -7861,69 +7861,69 @@ msgstr[0] "Falta %1 'clip' indirecto; será criado de novo ao abrir o projecto"
 msgstr[1] ""
 "Faltam %1 'clips' indirectos; serão criados de novo ao abrir o projecto"
 
-#: src/doc/documentchecker.cpp:558
+#: src/doc/documentchecker.cpp:569
 #, kde-format
 msgid "Missing proxy"
 msgstr "Falta um 'clip' indirecto"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/doc/documentchecker.cpp:569 src/doc/documentchecker.cpp:583
+#: src/doc/documentchecker.cpp:580 src/doc/documentchecker.cpp:594
 #: src/ui/timeremap_ui.ui:90
 #, kde-format
 msgid "Source clip"
 msgstr "'Clip' original"
 
-#: src/doc/documentchecker.cpp:571
+#: src/doc/documentchecker.cpp:582
 #, kde-format
 msgid "%1 missing source clips, you can only use the proxies"
 msgstr "O %1 não tem os 'clips' originais; só poderá usar os indirectos"
 
-#: src/doc/documentchecker.cpp:948
+#: src/doc/documentchecker.cpp:959
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Pasta de 'Clips'"
 
-#: src/doc/documentchecker.cpp:980 src/doc/documentchecker.cpp:1004
-#: src/doc/documentchecker.cpp:1014 src/doc/documentchecker.cpp:1023
-#: src/doc/documentchecker.cpp:1035
+#: src/doc/documentchecker.cpp:991 src/doc/documentchecker.cpp:1015
+#: src/doc/documentchecker.cpp:1025 src/doc/documentchecker.cpp:1034
+#: src/doc/documentchecker.cpp:1046
 #, kde-format
 msgid "Recovered item"
 msgstr "Item recuperado"
 
-#: src/doc/documentchecker.cpp:1048
+#: src/doc/documentchecker.cpp:1059
 #, kde-format
 msgid "Search aborted"
 msgstr "A procura foi interrompida"
 
-#: src/doc/documentchecker.cpp:1050
+#: src/doc/documentchecker.cpp:1061
 #, kde-format
 msgid "Search done"
 msgstr "A procura terminou"
 
-#: src/doc/documentchecker.cpp:1166
+#: src/doc/documentchecker.cpp:1202
 #, kde-format
 msgid "Scanning %1"
 msgstr "A sondar o %1"
 
-#: src/doc/documentchecker.cpp:1365
+#: src/doc/documentchecker.cpp:1393
 #, kde-format
 msgid "Enter new location for folder"
 msgstr "Indique a nova localização da pasta"
 
-#: src/doc/documentchecker.cpp:1391
+#: src/doc/documentchecker.cpp:1419
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Indique a nova localização do ficheiro"
 
-#: src/doc/documentchecker.cpp:1866
+#: src/doc/documentchecker.cpp:1894
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
 msgstr[0] "Isto irá remover o 'clip' seleccionado deste projecto"
 msgstr[1] "Isto irá remover os 'clips' seleccionado deste projecto"
 
-#: src/doc/documentchecker.cpp:1868
+#: src/doc/documentchecker.cpp:1896
 #, kde-format
 msgid "Remove clips"
 msgstr "Remover os 'clips'"
