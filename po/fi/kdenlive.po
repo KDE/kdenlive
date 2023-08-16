@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-14 00:46+0000\n"
+"POT-Creation-Date: 2023-08-16 00:45+0000\n"
 "PO-Revision-Date: 2023-06-07 21:36+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -4205,9 +4205,7 @@ msgstr "Päiväys"
 msgid "Description"
 msgstr "Kuvaus"
 
-#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
 #: src/bin/bin.cpp:1287 src/bin/projectitemmodel.cpp:315
-#: src/ui/missingclips_ui.ui:77
 #, kde-format
 msgid "Type"
 msgstr "Tyyppi"
@@ -4323,7 +4321,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "Poista kansion leikkeet"
 
-#: src/bin/bin.cpp:1830 src/doc/documentchecker.cpp:574
+#: src/bin/bin.cpp:1830
 #, kde-format
 msgid "Missing source clip"
 msgstr "Lähdeleike puuttuu"
@@ -4336,7 +4334,7 @@ msgstr "Lähdeleike puuttuu"
 msgid "Unable to write to file %1"
 msgstr "Tiedostoa %1 ei voitu kirjoittaa"
 
-#: src/bin/bin.cpp:1856 src/bin/bin.cpp:2366 src/doc/kdenlivedoc.cpp:728
+#: src/bin/bin.cpp:1856 src/bin/bin.cpp:2366 src/doc/kdenlivedoc.cpp:738
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -4798,7 +4796,7 @@ msgstr ""
 "Muokkaat ulkoista tekstileikettä (%1). Haluatko tallentaa muutokset myös "
 "tekstitiedostoon vai ainoastaan tähän projektiin?"
 
-#: src/bin/bin.cpp:4569 src/titler/titlewidget.cpp:2188
+#: src/bin/bin.cpp:4569 src/titler/titlewidget.cpp:2190
 #, kde-format
 msgid "Save Title"
 msgstr "Tallenna teksti"
@@ -5439,7 +5437,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr "Käyttö"
 
-#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:332
+#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:1468
+#: src/doc/documentchecker.cpp:1494 src/doc/documentchecker.cpp:1514
 #: src/mltcontroller/clipcontroller.cpp:485 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -5899,7 +5898,7 @@ msgstr "Tekstileike"
 msgid "Create Text clip"
 msgstr "Luo tekstileike"
 
-#: src/dialogs/clipcreationdialog.cpp:394 src/doc/kdenlivedoc.cpp:1113
+#: src/dialogs/clipcreationdialog.cpp:394 src/doc/kdenlivedoc.cpp:1123
 #, kde-format
 msgid "Template title clip"
 msgstr "Tekstileikkeen mallipohja"
@@ -6087,7 +6086,7 @@ msgstr ""
 
 #: src/dialogs/encodingprofilesdialog.cpp:259
 #: src/dialogs/encodingprofilesdialog.cpp:348
-#: src/project/dialogs/projectsettings.cpp:885
+#: src/project/dialogs/projectsettings.cpp:887
 #, kde-format
 msgid "Automatic (%1)"
 msgstr "Automaattinen (%1)"
@@ -6095,15 +6094,15 @@ msgstr "Automaattinen (%1)"
 #: src/dialogs/encodingprofilesdialog.cpp:261
 #: src/dialogs/encodingprofilesdialog.cpp:350
 #: src/dialogs/kdenlivesettingsdialog.cpp:682
-#: src/project/dialogs/projectsettings.cpp:887
+#: src/project/dialogs/projectsettings.cpp:889
 #: src/transitions/view/transitionstackview.cpp:37
 #, kde-format
 msgid "Automatic"
 msgstr "Automaattinen"
 
 #: src/dialogs/encodingprofilesdialog.cpp:329
-#: src/project/dialogs/projectsettings.cpp:922
-#: src/project/dialogs/projectsettings.cpp:953
+#: src/project/dialogs/projectsettings.cpp:924
+#: src/project/dialogs/projectsettings.cpp:955
 #, kde-format
 msgid "Current Settings"
 msgstr "Nykyiset asetukset"
@@ -6159,8 +6158,8 @@ msgid "Export Guides Data"
 msgstr "Tuo opasteet"
 
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1611
-#: src/dialogs/renderwidget.cpp:1638 src/doc/kdenlivedoc.cpp:745
-#: src/doc/kdenlivedoc.cpp:753 src/doc/kdenlivedoc.cpp:1249
+#: src/dialogs/renderwidget.cpp:1638 src/doc/kdenlivedoc.cpp:755
+#: src/doc/kdenlivedoc.cpp:763 src/doc/kdenlivedoc.cpp:1259
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
 #: src/effects/effectsrepository.cpp:390
@@ -6176,7 +6175,7 @@ msgstr "Tuo opasteet"
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5044
-#: src/titler/titlewidget.cpp:2201
+#: src/titler/titlewidget.cpp:2203
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Tiedostoon %1 ei voida kirjoittaa"
@@ -7565,220 +7564,157 @@ msgstr "Laittepohjaista koodereia ei löytynyt."
 msgid "hardware encoders found and enabled (%1)."
 msgstr "VAAPI-laitteistokooderit löydetty ja otettu käyttöön."
 
-#: src/doc/documentchecker.cpp:116
+#: src/doc/dcresolvedialog.cpp:42
 #, kde-format
-msgid ""
-"The document id of your project was invalid, a new one has been created."
+msgid "Recursive search: processing clips"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:281
-#, kde-format
-msgid "Luma file"
-msgstr "Luma-tiedosto"
-
-#: src/doc/documentchecker.cpp:287
+#: src/doc/dcresolvedialog.cpp:51
 #, fuzzy, kde-format
-#| msgid "Delete files"
-msgid "Asset file"
-msgstr "Poista tiedostot"
+#| msgid "Search done"
+msgid "Recursive search: done"
+msgstr "Haku tehty"
 
-#: src/doc/documentchecker.cpp:314
+#: src/doc/dcresolvedialog.cpp:125
 #, kde-format
-msgid "Video clip"
-msgstr "Videoleike"
+msgid "Enter new location for folder"
+msgstr "Anna kansion uusi sijainti"
 
-#: src/doc/documentchecker.cpp:318
+#: src/doc/dcresolvedialog.cpp:136
 #, kde-format
-msgid "Slideshow clip"
-msgstr "Diaesitysleike"
+msgid "Enter new location for file"
+msgstr "Anna tiedoston uusi sijainti"
 
-#: src/doc/documentchecker.cpp:321
-#, kde-format
-msgid "Image clip"
-msgstr "Kuvaleike"
-
-#: src/doc/documentchecker.cpp:325
-#, kde-format
-msgid "Playlist clip"
-msgstr "Soittolistaleike"
-
-#: src/doc/documentchecker.cpp:328
-#, kde-format
-msgid "Title Image"
-msgstr "Tekstiruudun kuva"
-
-#: src/doc/documentchecker.cpp:364
-#, kde-format
-msgid "Missing item"
-msgstr "Puuttuva kohde"
-
-#: src/doc/documentchecker.cpp:378 src/doc/documentchecker.cpp:403
-#: src/doc/documentchecker.cpp:1403
-#, kde-format
-msgid "Relocated item"
-msgstr "Siirretty kohde"
-
-#: src/doc/documentchecker.cpp:416
-#, kde-format
-msgid "Title Font"
-msgstr "Tekstileikkeen fontti"
-
-#: src/doc/documentchecker.cpp:421
-#, kde-format
-msgid "%1 will be replaced by %2"
-msgstr "%1 korvataan %2:lla"
-
-#: src/doc/documentchecker.cpp:426
-#, kde-format
-msgid "Modified Clips"
-msgstr "Muokatut leikkeet"
-
-#: src/doc/documentchecker.cpp:430
-#, kde-format
-msgid "Clip %1 will be reloaded"
-msgstr "Leike %1 ladataan uudelleen"
-
-#: src/doc/documentchecker.cpp:435
+#. i18n: ectx: property (text), widget (QLabel, proxyLabel)
+#: src/doc/dcresolvedialog.cpp:163 src/ui/missingclips_ui.ui:56
 #, fuzzy, kde-format
-#| msgid "Create New Sequence"
-msgid "Fixed Sequence Clips"
-msgstr "Luo uusi jakso"
+#| msgid "The project file contains missing clips or files."
+msgid "You project contains one missing proxy"
+msgid_plural "You project contains %1 missing proxies"
+msgstr[0] "Projektitiedostosta puuttuu leikkeitä tai tiedostoja"
+msgstr[1] "Projektitiedostosta puuttuu leikkeitä tai tiedostoja"
 
-#: src/doc/documentchecker.cpp:439
-#, fuzzy, kde-format
-#| msgid "Clip %1 will be reloaded"
-msgid "Clip %1 will be fixed"
-msgstr "Leike %1 ladataan uudelleen"
-
-#: src/doc/documentchecker.cpp:446
-#, kde-format
-msgid "The project file contains missing clips or files."
-msgstr "Projektitiedostosta puuttuu leikkeitä tai tiedostoja"
-
-#: src/doc/documentchecker.cpp:449
-#, kde-format
-msgid "Missing effect: %2 will be removed from project."
-msgid_plural "Missing effects: %2 will be removed from project."
-msgstr[0] "Puuttuva tehoste: %2 poistetaan projektista."
-msgstr[1] "Puuttuvat tehosteet: %2 poistetaan projektista."
-
-#: src/doc/documentchecker.cpp:453
-#, fuzzy, kde-format
-#| msgid "Missing effect: %2 will be removed from project."
-#| msgid_plural "Missing effects: %2 will be removed from project."
-msgid "Missing transition: %2 will be removed from project."
-msgid_plural "Missing transitions: %2 will be removed from project."
-msgstr[0] "Puuttuva tehoste: %2 poistetaan projektista."
-msgstr[1] "Puuttuvat tehosteet: %2 poistetaan projektista."
-
-#: src/doc/documentchecker.cpp:457
-#, kde-format
-msgid "Missing proxies can be recreated on opening."
-msgstr "Puuttuvat puskurit voidaan luoda uudelleen avaamisen yhteydessä."
-
-#: src/doc/documentchecker.cpp:472
-#, kde-format
-msgid ""
-"The project file contains a missing clip, you can still work with its proxy."
-msgid_plural ""
-"The project file contains %1 missing clips, you can still work with their "
-"proxies."
-msgstr[0] ""
-"Projektitiedosto sisältää puuttuvan leikkeen, voit silti työskennellä sen "
-"puskurin kanssa."
-msgstr[1] ""
-"Projektitiedosto sisältää %1 puuttuvaa leikkeitä, voit silti työskennellä "
-"sen puskurin kanssa."
-
-#: src/doc/documentchecker.cpp:476
-#, kde-format
-msgid "The project file contains one modified clip, it will be reloaded."
-msgid_plural ""
-"The project file contains %1 modified clips, they will be reloaded."
-msgstr[0] ""
-"Projektitiedosto sisältää yhden muokatun leikkeen, se ladataan uudelleen."
-msgstr[1] ""
-"Projektitiedosto sisältää %1 muuttunutta leikkeitä, ne ladataan uudelleen."
-
-#: src/doc/documentchecker.cpp:552
-#: src/mltcontroller/clippropertiescontroller.cpp:419
-#, kde-format
-msgid "Proxy clip"
-msgstr "Puskuroi leike"
-
-#: src/doc/documentchecker.cpp:555
-#, kde-format
-msgid "%1 missing proxy clip, will be recreated on project opening"
-msgid_plural "%1 missing proxy clips, will be recreated on project opening"
-msgstr[0] "%1 puuttuva puskurileike, luodaan uudelleen projektia avattaessa"
-msgstr[1] "%1 puuttuvat puskurileikket, luodaan uudelleen projektia avattaessa"
-
-#: src/doc/documentchecker.cpp:558
-#, kde-format
-msgid "Missing proxy"
-msgstr "Puskuri puuttuu"
-
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/doc/documentchecker.cpp:569 src/doc/documentchecker.cpp:583
-#: src/ui/timeremap_ui.ui:90
-#, kde-format
-msgid "Source clip"
-msgstr "Lähdeleike"
-
-#: src/doc/documentchecker.cpp:571
-#, kde-format
-msgid "%1 missing source clips, you can only use the proxies"
-msgstr "%1 puuttuvat lähdeleikkeet, voit käyttää vain puskuria"
-
-#: src/doc/documentchecker.cpp:948
+#: src/doc/dcresolvedialog.cpp:173
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Leikekansio"
 
-#: src/doc/documentchecker.cpp:980 src/doc/documentchecker.cpp:1004
-#: src/doc/documentchecker.cpp:1014 src/doc/documentchecker.cpp:1023
-#: src/doc/documentchecker.cpp:1035
+#: src/doc/documentchecker.cpp:152
 #, kde-format
-msgid "Recovered item"
-msgstr "Palautettu kohde"
+msgid ""
+"The document id of your project was invalid, a new one has been created."
+msgstr ""
 
-#: src/doc/documentchecker.cpp:1048
+#: src/doc/documentchecker.cpp:1458
 #, kde-format
-msgid "Search aborted"
-msgstr "Haku keskeytetty"
+msgid "Video clip"
+msgstr "Videoleike"
 
-#: src/doc/documentchecker.cpp:1050
+#: src/doc/documentchecker.cpp:1460
 #, kde-format
-msgid "Search done"
-msgstr "Haku tehty"
+msgid "Slideshow clip"
+msgstr "Diaesitysleike"
 
-#: src/doc/documentchecker.cpp:1166
+#: src/doc/documentchecker.cpp:1462
 #, kde-format
-msgid "Scanning %1"
-msgstr "Tarkistetaan %1"
+msgid "Image clip"
+msgstr "Kuvaleike"
 
-#: src/doc/documentchecker.cpp:1365
+#: src/doc/documentchecker.cpp:1464
 #, kde-format
-msgid "Enter new location for folder"
-msgstr "Anna kansion uusi sijainti"
+msgid "Playlist clip"
+msgstr "Soittolistaleike"
 
-#: src/doc/documentchecker.cpp:1391
+#: src/doc/documentchecker.cpp:1466 src/doc/documentchecker.cpp:1482
 #, kde-format
-msgid "Enter new location for file"
-msgstr "Anna tiedoston uusi sijainti"
+msgid "Title Image"
+msgstr "Tekstiruudun kuva"
 
-#: src/doc/documentchecker.cpp:1866
-#, kde-format
-msgid "This will remove the selected clip from this project"
-msgid_plural "This will remove the selected clips from this project"
-msgstr[0] "Tämä poistaa valitun leikkeen projektista"
-msgstr[1] "Tämä poistaa valitut leikkeet projektista"
+#: src/doc/documentchecker.cpp:1478
+#, fuzzy, kde-format
+#| msgid "&Clip"
+msgid "Clip"
+msgstr "&Leike"
 
-#: src/doc/documentchecker.cpp:1868
+#: src/doc/documentchecker.cpp:1480
 #, kde-format
-msgid "Remove clips"
-msgstr "Poista leikkeet"
+msgid "Title Font"
+msgstr "Tekstileikkeen fontti"
+
+#: src/doc/documentchecker.cpp:1484
+#, kde-format
+msgid "Luma file"
+msgstr "Luma-tiedosto"
+
+#: src/doc/documentchecker.cpp:1486
+#, fuzzy, kde-format
+#| msgid "Delete files"
+msgid "Asset file"
+msgstr "Poista tiedostot"
+
+#: src/doc/documentchecker.cpp:1488
+#: src/mltcontroller/clippropertiescontroller.cpp:419
+#, kde-format
+msgid "Proxy clip"
+msgstr "Puskuroi leike"
+
+#: src/doc/documentchecker.cpp:1490
+#: src/monitor/view/kdenlivemonitorsplit.qml:90
+#, kde-format
+msgid "Effect"
+msgstr "Tehoste"
+
+#: src/doc/documentchecker.cpp:1492
+#, kde-format
+msgid "Transition"
+msgstr "Siirtymä"
+
+#. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
+#: src/doc/documentchecker.cpp:1502 src/ui/editrenderpreset_ui.ui:538
+#, kde-format
+msgid "Fixed"
+msgstr ""
+
+#: src/doc/documentchecker.cpp:1504
+#, fuzzy, kde-format
+#| msgid "Reload Clip"
+msgid "Reload"
+msgstr "Lataa leike uudelleen"
+
+#: src/doc/documentchecker.cpp:1506
+#, kde-format
+msgid "Missing"
+msgstr "Puuttuvat"
+
+#: src/doc/documentchecker.cpp:1508
+#, fuzzy, kde-format
+#| msgid "Missing proxy"
+msgid "Missing, but proxy available"
+msgstr "Puskuri puuttuu"
+
+#. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
+#: src/doc/documentchecker.cpp:1510 src/ui/editrenderpreset_ui.ui:525
+#, kde-format
+msgid "Placeholder"
+msgstr "Paikkamerkki"
+
+#. i18n: ectx: property (text), widget (QPushButton, removeSelected)
+#: src/doc/documentchecker.cpp:1512 src/ui/missingclips_ui.ui:174
+#, fuzzy, kde-format
+#| msgid "Removal"
+msgid "Remove"
+msgstr "Poisto"
+
+#: src/doc/documentchecker.cpp:1523
+#, kde-format
+msgid "The project file contains missing clips or files."
+msgstr "Projektitiedostosta puuttuu leikkeitä tai tiedostoja"
+
+#: src/doc/documentchecker.cpp:1526
+#, kde-format
+msgid "Missing proxies can be recreated on opening."
+msgstr "Puuttuvat puskurit voidaan luoda uudelleen avaamisen yhteydessä."
 
 #: src/doc/documentvalidator.cpp:88
 #, kde-format
@@ -7925,7 +7861,7 @@ msgstr ""
 "Grafiikkakiihdytys ei ole Kdenliven asetuksissa käytössä, mutta projektin "
 "Movit-suodattimet vaativat sitä."
 
-#: src/doc/kdenlivedoc.cpp:277
+#: src/doc/kdenlivedoc.cpp:287
 #, kde-format
 msgid ""
 "The project directory %1, could not be created.\n"
@@ -7936,23 +7872,23 @@ msgstr ""
 "Varmista, että sinulla on vaadittavat oikeudet.\n"
 "Oletuksena järjestelmän kansiot"
 
-#: src/doc/kdenlivedoc.cpp:280
+#: src/doc/kdenlivedoc.cpp:290
 #, kde-format
 msgid "Document project folder is invalid, using system default folders"
 msgstr ""
 "Asiakirjan projektikansio on virheellinen, käytetään järjestelmän oletusta"
 
-#: src/doc/kdenlivedoc.cpp:563 src/doc/kdenlivedoc.cpp:573
+#: src/doc/kdenlivedoc.cpp:573 src/doc/kdenlivedoc.cpp:583
 #, kde-format
 msgid "Cannot create autosave file %1"
 msgstr "Ei voida luoda automaattista tallennusta %1"
 
-#: src/doc/kdenlivedoc.cpp:568 src/doc/kdenlivedoc.cpp:706
+#: src/doc/kdenlivedoc.cpp:578 src/doc/kdenlivedoc.cpp:716
 #, kde-format
 msgid "Cannot write to file %1, scene list is corrupted."
 msgstr "Tiedostoon %1 ei voi kirjoittaa, kohtausluettelo on vioittunut."
 
-#: src/doc/kdenlivedoc.cpp:724
+#: src/doc/kdenlivedoc.cpp:734
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
@@ -7962,7 +7898,7 @@ msgstr ""
 "Jotta varmistettaisiin, ettei tietoja menetetä, luotiin varmuuskopio nimelle "
 "%1."
 
-#: src/doc/kdenlivedoc.cpp:738
+#: src/doc/kdenlivedoc.cpp:748
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version, but "
@@ -7971,36 +7907,36 @@ msgstr ""
 "Projekti päivitettiin Kdenliven uusimpaan versioon, mutta varmuuskopiota %1 "
 "ei ollut mahdollista luoda."
 
-#: src/doc/kdenlivedoc.cpp:869 src/project/projectmanager.cpp:1177
+#: src/doc/kdenlivedoc.cpp:879 src/project/projectmanager.cpp:1177
 #: src/project/projectmanager.cpp:1213
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Virhe siirrettäessä projektin kansiota: %1"
 
-#: src/doc/kdenlivedoc.cpp:1038 src/doc/kdenlivedoc.cpp:2197
+#: src/doc/kdenlivedoc.cpp:1048 src/doc/kdenlivedoc.cpp:2211
 #: src/project/dialogs/archivewidget.cpp:226
 #: src/project/projectmanager.cpp:1410
 #, kde-format
 msgid "Untitled"
 msgstr "Nimetön"
 
-#: src/doc/kdenlivedoc.cpp:1099
+#: src/doc/kdenlivedoc.cpp:1109
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Anna mallipohjan sijainti"
 
-#: src/doc/kdenlivedoc.cpp:1256
+#: src/doc/kdenlivedoc.cpp:1266
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "Seuraavat tehosteet tuotiin projektista:"
 
-#: src/doc/kdenlivedoc.cpp:1289 src/doc/kdenlivedoc.cpp:1303
+#: src/doc/kdenlivedoc.cpp:1303 src/doc/kdenlivedoc.cpp:1317
 #, kde-format
 msgid "Project Folder"
 msgstr "Projektin kansio"
 
-#: src/doc/kdenlivedoc.cpp:1347 src/doc/kdenlivedoc.cpp:1355
+#: src/doc/kdenlivedoc.cpp:1361 src/doc/kdenlivedoc.cpp:1369
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -8009,26 +7945,26 @@ msgstr ""
 "Varmuuskopiota ei voi luoda:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1500
+#: src/doc/kdenlivedoc.cpp:1514
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "Lisää leike puskuriin"
 msgstr[1] "Lisää leikkeet puskuriin"
 
-#: src/doc/kdenlivedoc.cpp:1502
+#: src/doc/kdenlivedoc.cpp:1516
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "Poista leike puskurista"
 msgstr[1] "Poista leikkeet puskurista"
 
-#: src/doc/kdenlivedoc.cpp:1546 src/doc/kdenlivedoc.cpp:1581
+#: src/doc/kdenlivedoc.cpp:1560 src/doc/kdenlivedoc.cpp:1595
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "Leikkeen tyyppi ei tue puskuria"
 
-#: src/doc/kdenlivedoc.cpp:1787
+#: src/doc/kdenlivedoc.cpp:1801
 #, kde-format
 msgid ""
 "\n"
@@ -8037,7 +7973,7 @@ msgstr ""
 "\n"
 "Varoitus: muu kuin kokonaisluku fps, saattaa aiheuttaa virheellisen keston."
 
-#: src/doc/kdenlivedoc.cpp:1806
+#: src/doc/kdenlivedoc.cpp:1820
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -8046,43 +7982,43 @@ msgstr ""
 "Projektin oletusprofiili on %1 mutta leikkeen profiili (%2) on %3.\n"
 "Haluatko vaihtaa tulevien projektien oletusprofiilia?"
 
-#: src/doc/kdenlivedoc.cpp:1808
+#: src/doc/kdenlivedoc.cpp:1822
 #, kde-format
 msgid "Change default project profile"
 msgstr "Vaihda profiilin oletusta"
 
-#: src/doc/kdenlivedoc.cpp:1808
+#: src/doc/kdenlivedoc.cpp:1822
 #, kde-format
 msgid "Change default to %1"
 msgstr "Muuta oletukseksi %1"
 
-#: src/doc/kdenlivedoc.cpp:1809
+#: src/doc/kdenlivedoc.cpp:1823
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Säilytä nykyinen oletus %1"
 
-#: src/doc/kdenlivedoc.cpp:1809
+#: src/doc/kdenlivedoc.cpp:1823
 #, kde-format
 msgid "Ask me later"
 msgstr "Kysy myöhemmin"
 
-#: src/doc/kdenlivedoc.cpp:1829
+#: src/doc/kdenlivedoc.cpp:1843
 #, kde-format
 msgid "Switch"
 msgstr "Vaihda"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1831 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1845 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "Peru"
 
-#: src/doc/kdenlivedoc.cpp:1833
+#: src/doc/kdenlivedoc.cpp:1847
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Vaihdetaanko leikkeen (%1) profiiliksi %2?"
 
-#: src/doc/kdenlivedoc.cpp:1838
+#: src/doc/kdenlivedoc.cpp:1852
 #, kde-format
 msgid ""
 "\n"
@@ -8091,7 +8027,7 @@ msgstr ""
 "\n"
 "Profiilin fps säädetty alkuperäisestä %1"
 
-#: src/doc/kdenlivedoc.cpp:1840
+#: src/doc/kdenlivedoc.cpp:1854
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -8100,13 +8036,13 @@ msgstr ""
 "Leikkeelle %1 ei löytynyt profiilia.\n"
 "Luodaanko ja vaihdetaanko uuteen profiiliin (%2×%3, %4 fps)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2236 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2250 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "Punainen"
 
-#: src/doc/kdenlivedoc.cpp:2237 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2251 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -8114,23 +8050,23 @@ msgstr "Punainen"
 msgid "Green"
 msgstr "Vihreä"
 
-#: src/doc/kdenlivedoc.cpp:2238 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2252 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "Sininen"
 
-#: src/doc/kdenlivedoc.cpp:2239 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2253 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Keltainen"
 
-#: src/doc/kdenlivedoc.cpp:2240
+#: src/doc/kdenlivedoc.cpp:2254
 #, kde-format
 msgid "Cyan"
 msgstr "Syaani"
 
-#: src/doc/kdenlivedoc.cpp:2468
+#: src/doc/kdenlivedoc.cpp:2482
 #, kde-format
 msgid "Category %1:%2:%3"
 msgstr "Luokka %1:%2:%3"
@@ -10754,7 +10690,7 @@ msgstr "Luo uudelleen"
 
 #: src/mainwindow.cpp:2157 src/onlineresources/resourcewidget.cpp:568
 #: src/scopes/colorscopes/colorplaneexport.cpp:158
-#: src/titler/titlewidget.cpp:2184
+#: src/titler/titlewidget.cpp:2186
 #, fuzzy, kde-format
 #| msgid "Outline width"
 msgctxt "@action:button"
@@ -11410,7 +11346,7 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/mltcontroller/clippropertiescontroller.cpp:1027
-#: src/project/dialogs/projectsettings.cpp:851 src/ui/projectsettings_ui.ui:534
+#: src/project/dialogs/projectsettings.cpp:853 src/ui/projectsettings_ui.ui:534
 #, kde-format
 msgid "Metadata"
 msgstr "Metatiedot"
@@ -12216,11 +12152,6 @@ msgid ""
 msgstr ""
 "Lisää pisteitä napsauttamalla,\n"
 "oikeanpuoleinen painike sulkee muodon."
-
-#: src/monitor/view/kdenlivemonitorsplit.qml:90
-#, kde-format
-msgid "Effect"
-msgstr "Tehoste"
 
 #: src/monitor/view/MonitorRuler.qml:263
 #, kde-kuit-format
@@ -13342,8 +13273,8 @@ msgstr ""
 "mikä aiheuttaa vaurioita siirtymissä.\n"
 "Haluatko varasti jatkaa?"
 
-#: src/project/dialogs/projectsettings.cpp:764
-#: src/project/dialogs/projectsettings.cpp:779
+#: src/project/dialogs/projectsettings.cpp:766
+#: src/project/dialogs/projectsettings.cpp:781
 #: src/project/dialogs/slideshowclip.cpp:330
 #, kde-format
 msgid "1 image found"
@@ -13351,22 +13282,22 @@ msgid_plural "%1 images found"
 msgstr[0] "1 kuva löydetty"
 msgstr[1] "%1 kuvaa löydetty"
 
-#: src/project/dialogs/projectsettings.cpp:795
+#: src/project/dialogs/projectsettings.cpp:797
 #, kde-format
 msgid "Project folder: %1"
 msgstr "Projektin kansio: %1"
 
-#: src/project/dialogs/projectsettings.cpp:796
+#: src/project/dialogs/projectsettings.cpp:798
 #, kde-format
 msgid "Project profile: %1"
 msgstr "Projektin profiili: %1"
 
-#: src/project/dialogs/projectsettings.cpp:797
+#: src/project/dialogs/projectsettings.cpp:799
 #, kde-format
 msgid "Total clips: %1 (%2 used in timeline)."
 msgstr "Leikkeet yhteensä: %1 (%2 käytössä aikajanalla)."
 
-#: src/project/dialogs/projectsettings.cpp:851
+#: src/project/dialogs/projectsettings.cpp:853
 #, kde-format
 msgctxt "@title:window"
 msgid "Metadata"
@@ -16638,7 +16569,7 @@ msgid "No available stream"
 msgstr "Ei suoratoistoa saatavilla"
 
 #: src/titler/gradientwidget.cpp:140 src/titler/gradientwidget.cpp:143
-#: src/titler/titlewidget.cpp:3238 src/titler/titlewidget.cpp:3241
+#: src/titler/titlewidget.cpp:3240 src/titler/titlewidget.cpp:3243
 #, kde-format
 msgid "Gradient %1"
 msgstr "Liukuväri %1"
@@ -16883,7 +16814,7 @@ msgid "Add Ellipse"
 msgstr "Lisää ellipsi"
 
 #: src/titler/titlewidget.cpp:405 src/titler/titlewidget.cpp:408
-#: src/titler/titlewidget.cpp:818
+#: src/titler/titlewidget.cpp:820
 #, kde-format
 msgid "Add Image"
 msgstr "Lisää kuva"
@@ -16913,7 +16844,7 @@ msgstr "Tallenna ja lisää projektiin"
 msgid "Create Title"
 msgstr "Luo otsikko"
 
-#: src/titler/titlewidget.cpp:698
+#: src/titler/titlewidget.cpp:700
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
@@ -16921,49 +16852,49 @@ msgid ""
 msgstr ""
 "Haluatko todella ladata uuden mallin? Muutokset tähän tekstiin menetetään!"
 
-#: src/titler/titlewidget.cpp:806
+#: src/titler/titlewidget.cpp:808
 #, kde-format
 msgid "All Images"
 msgstr "Kaikki kuvat"
 
-#: src/titler/titlewidget.cpp:808
+#: src/titler/titlewidget.cpp:810
 #, kde-format
 msgid "%1 Image"
 msgstr "%1kuva"
 
-#: src/titler/titlewidget.cpp:1642
+#: src/titler/titlewidget.cpp:1644
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1644 src/ui/titlewidget_ui.ui:260
+#: src/titler/titlewidget.cpp:1646 src/ui/titlewidget_ui.ui:260
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1666
+#: src/titler/titlewidget.cpp:1668
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1668 src/ui/titlewidget_ui.ui:290
+#: src/titler/titlewidget.cpp:1670 src/ui/titlewidget_ui.ui:290
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2135
+#: src/titler/titlewidget.cpp:2137
 #, kde-format
 msgid "Load Title"
 msgstr "Avaa otsikko"
 
-#: src/titler/titlewidget.cpp:2136
+#: src/titler/titlewidget.cpp:2138
 #, kde-format
 msgid "Kdenlive title (*.kdenlivetitle)"
 msgstr "Kdenlive-otsikko (*.kdenlivetitle)"
 
-#: src/titler/titlewidget.cpp:2182
+#: src/titler/titlewidget.cpp:2184
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -16972,58 +16903,58 @@ msgstr ""
 "Haluatko upottaa kuvia tähän otsikkoon?\n"
 "Tätä tarvitaan eniten tekstin jakamiseen."
 
-#: src/titler/titlewidget.cpp:2183
+#: src/titler/titlewidget.cpp:2185
 #, fuzzy, kde-format
 #| msgid "Add Image"
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Lisää kuva"
 
-#: src/titler/titlewidget.cpp:2238
+#: src/titler/titlewidget.cpp:2240
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "Tästä otsikosta puuttuu 1 elementti"
 msgstr[1] "Tästä otsikosta puuttuu %1 elementtiä"
 
-#: src/titler/titlewidget.cpp:2239 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2241 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Tarkemmat tiedot"
 
-#: src/titler/titlewidget.cpp:2242
+#: src/titler/titlewidget.cpp:2244
 #, kde-format
 msgid "Delete missing elements"
 msgstr "Poista puuttuvat elementit"
 
-#: src/titler/titlewidget.cpp:2302
+#: src/titler/titlewidget.cpp:2304
 #, kde-format
 msgid "Update Title"
 msgstr "Päivitä otsikko"
 
-#: src/titler/titlewidget.cpp:2305
+#: src/titler/titlewidget.cpp:2307
 #, kde-format
 msgid "Add as new Title"
 msgstr "Lisää uutena otsikkona"
 
-#: src/titler/titlewidget.cpp:2359
+#: src/titler/titlewidget.cpp:2361
 #, kde-format
 msgid "The following files are missing:"
 msgstr "Seuraavat tiedostot puuttuvat:"
 
-#: src/titler/titlewidget.cpp:2553
+#: src/titler/titlewidget.cpp:2555
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Aloita näkymä"
 
-#: src/titler/titlewidget.cpp:2554
+#: src/titler/titlewidget.cpp:2556
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Lopeta näkymä"
 
-#: src/titler/titlewidget.cpp:3271
+#: src/titler/titlewidget.cpp:3273
 #, kde-format
 msgid "Gradient"
 msgstr "Liukuväri"
@@ -17606,6 +17537,7 @@ msgstr ""
 msgid "Show handles for all points or only for the selected one."
 msgstr "Näyttää kahvat kaikille tai vain valituille pisteille"
 
+#. i18n: ectx: property (text), widget (QLabel, progressLabel)
 #. i18n: ectx: property (text), widget (QLabel, param1Label)
 #. i18n: ectx: property (text), widget (QLabel, param2Label)
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -17617,7 +17549,8 @@ msgstr "Näyttää kahvat kaikille tai vain valituille pisteille"
 #: src/ui/customjobinterface_ui.ui:37 src/ui/cutjobdialog_ui.ui:34
 #: src/ui/cutjobdialog_ui.ui:51 src/ui/fontval_ui.ui:36
 #: src/ui/listdependencyparamwidget_ui.ui:36 src/ui/listparamwidget_ui.ui:76
-#: src/ui/urllistparamwidget_ui.ui:42 src/ui/urlval_ui.ui:44
+#: src/ui/missingclips_ui.ui:105 src/ui/urllistparamwidget_ui.ui:42
+#: src/ui/urlval_ui.ui:44
 #, kde-format
 msgid "TextLabel"
 msgstr "Tekstiselite"
@@ -19105,12 +19038,6 @@ msgstr "Kenttäjärjestys:"
 msgid "Quality:"
 msgstr "Laatu:"
 
-#. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/ui/editrenderpreset_ui.ui:525
-#, kde-format
-msgid "Placeholder"
-msgstr "Paikkamerkki"
-
 #. i18n: ectx: property (toolTip), widget (QCheckBox, fixedGop)
 #: src/ui/editrenderpreset_ui.ui:535
 #, kde-format
@@ -19120,12 +19047,6 @@ msgid ""
 msgstr ""
 "Kiinteä GOP tarkoittaa, ettei avainruutuja lisätä havaittujen "
 "kohtausvaihdosten jälkeen."
-
-#. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/ui/editrenderpreset_ui.ui:538
-#, kde-format
-msgid "Fixed"
-msgstr ""
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (suffix), widget (QSpinBox, bFramesSpinner)
@@ -19866,41 +19787,61 @@ msgstr "Kuvan esikatselu"
 msgid " Clip Problems"
 msgstr " Leikkeen ongelmat"
 
-#. i18n: ectx: property (text), widget (QCheckBox, rebuildProxies)
+#. i18n: ectx: property (title), widget (QGroupBox, proxyBox)
 #: src/ui/missingclips_ui.ui:47
-#, kde-format
-msgid "Rebuild Proxies"
-msgstr "Rakenna puskuri uudelleen"
+#, fuzzy, kde-format
+#| msgid "Proxy Clips"
+msgid "Proxies"
+msgstr "Puskuroidut leikkeet"
 
-#. i18n: ectx: property (text), widget (QPushButton, usePlaceholders)
-#: src/ui/missingclips_ui.ui:54
-#, kde-format
-msgid "Use placeholders for missing clips"
-msgstr "Käytä tilanvaraajia puuttuville leikkeille"
+#. i18n: ectx: property (text), widget (QCheckBox, recreateProxies)
+#: src/ui/missingclips_ui.ui:76
+#, fuzzy, kde-format
+#| msgid "Delete missing elements"
+msgid "Recreate missing proxies"
+msgstr "Poista puuttuvat elementit"
 
-#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
-#: src/ui/missingclips_ui.ui:82
-#, kde-format
-msgid "Path"
-msgstr "Polku"
+#. i18n: ectx: property (format), widget (QProgressBar, progressBar)
+#: src/ui/missingclips_ui.ui:128
+#, no-c-format, kde-format
+msgid "%v / %m"
+msgstr ""
 
-#. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/ui/missingclips_ui.ui:100
-#, kde-format
-msgid "Remove selected clips"
-msgstr "Poista valitut leikkeet"
-
-#. i18n: ectx: property (text), widget (QPushButton, recursiveSearch)
-#: src/ui/missingclips_ui.ui:107
-#, kde-format
-msgid "Search recursively"
-msgstr "Etsi rekursiivisesti"
+# Poista valittu kohde olisi oikein, mutta Poista valittu näyttää paremmalta.
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: src/ui/missingclips_ui.ui:156
+#, fuzzy, kde-format
+#| msgid "Delete Selected Item"
+msgid "Selected Items:"
+msgstr "Poista valittu"
 
 #. i18n: ectx: property (text), widget (QPushButton, manualSearch)
-#: src/ui/missingclips_ui.ui:114
-#, kde-format
-msgid "Search manually"
+#: src/ui/missingclips_ui.ui:163
+#, fuzzy, kde-format
+#| msgid "Search manually"
+msgid "Search Manually"
 msgstr "Etsi käsin"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/ui/missingclips_ui.ui:192
+#, fuzzy, kde-format
+#| msgid "Missing item"
+msgid "All Missing Items:"
+msgstr "Puuttuva kohde"
+
+#. i18n: ectx: property (text), widget (QPushButton, recursiveSearch)
+#: src/ui/missingclips_ui.ui:199
+#, fuzzy, kde-format
+#| msgid "Search recursively"
+msgid "Search Recursively"
+msgstr "Etsi rekursiivisesti"
+
+#. i18n: ectx: property (text), widget (QPushButton, usePlaceholders)
+#: src/ui/missingclips_ui.ui:210
+#, fuzzy, kde-format
+#| msgid "Placeholder"
+msgid "Use Placeholders"
+msgstr "Paikkamerkki"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/ui/multiplemarkerdialog_ui.ui:24
@@ -20802,6 +20743,12 @@ msgstr "Lisää valitut lohkot aikajanalle"
 msgid "Save edited text in a new playlist"
 msgstr "Tallenna muokattu teksti uuteen soittolistaan"
 
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: src/ui/timeremap_ui.ui:90
+#, kde-format
+msgid "Source clip"
+msgstr "Lähdeleike"
+
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/timeremap_ui.ui:144
 #, kde-format
@@ -21403,6 +21350,100 @@ msgstr "%1 min"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 t"
+
+#~ msgid "Relocated item"
+#~ msgstr "Siirretty kohde"
+
+#~ msgid "%1 will be replaced by %2"
+#~ msgstr "%1 korvataan %2:lla"
+
+#~ msgid "Modified Clips"
+#~ msgstr "Muokatut leikkeet"
+
+#~ msgid "Clip %1 will be reloaded"
+#~ msgstr "Leike %1 ladataan uudelleen"
+
+#, fuzzy
+#~| msgid "Create New Sequence"
+#~ msgid "Fixed Sequence Clips"
+#~ msgstr "Luo uusi jakso"
+
+#, fuzzy
+#~| msgid "Clip %1 will be reloaded"
+#~ msgid "Clip %1 will be fixed"
+#~ msgstr "Leike %1 ladataan uudelleen"
+
+#~ msgid "Missing effect: %2 will be removed from project."
+#~ msgid_plural "Missing effects: %2 will be removed from project."
+#~ msgstr[0] "Puuttuva tehoste: %2 poistetaan projektista."
+#~ msgstr[1] "Puuttuvat tehosteet: %2 poistetaan projektista."
+
+#, fuzzy
+#~| msgid "Missing effect: %2 will be removed from project."
+#~| msgid_plural "Missing effects: %2 will be removed from project."
+#~ msgid "Missing transition: %2 will be removed from project."
+#~ msgid_plural "Missing transitions: %2 will be removed from project."
+#~ msgstr[0] "Puuttuva tehoste: %2 poistetaan projektista."
+#~ msgstr[1] "Puuttuvat tehosteet: %2 poistetaan projektista."
+
+#~ msgid ""
+#~ "The project file contains a missing clip, you can still work with its "
+#~ "proxy."
+#~ msgid_plural ""
+#~ "The project file contains %1 missing clips, you can still work with their "
+#~ "proxies."
+#~ msgstr[0] ""
+#~ "Projektitiedosto sisältää puuttuvan leikkeen, voit silti työskennellä sen "
+#~ "puskurin kanssa."
+#~ msgstr[1] ""
+#~ "Projektitiedosto sisältää %1 puuttuvaa leikkeitä, voit silti työskennellä "
+#~ "sen puskurin kanssa."
+
+#~ msgid "The project file contains one modified clip, it will be reloaded."
+#~ msgid_plural ""
+#~ "The project file contains %1 modified clips, they will be reloaded."
+#~ msgstr[0] ""
+#~ "Projektitiedosto sisältää yhden muokatun leikkeen, se ladataan uudelleen."
+#~ msgstr[1] ""
+#~ "Projektitiedosto sisältää %1 muuttunutta leikkeitä, ne ladataan uudelleen."
+
+#~ msgid "%1 missing proxy clip, will be recreated on project opening"
+#~ msgid_plural "%1 missing proxy clips, will be recreated on project opening"
+#~ msgstr[0] "%1 puuttuva puskurileike, luodaan uudelleen projektia avattaessa"
+#~ msgstr[1] ""
+#~ "%1 puuttuvat puskurileikket, luodaan uudelleen projektia avattaessa"
+
+#~ msgid "%1 missing source clips, you can only use the proxies"
+#~ msgstr "%1 puuttuvat lähdeleikkeet, voit käyttää vain puskuria"
+
+#~ msgid "Recovered item"
+#~ msgstr "Palautettu kohde"
+
+#~ msgid "Search aborted"
+#~ msgstr "Haku keskeytetty"
+
+#~ msgid "Scanning %1"
+#~ msgstr "Tarkistetaan %1"
+
+#~ msgid "This will remove the selected clip from this project"
+#~ msgid_plural "This will remove the selected clips from this project"
+#~ msgstr[0] "Tämä poistaa valitun leikkeen projektista"
+#~ msgstr[1] "Tämä poistaa valitut leikkeet projektista"
+
+#~ msgid "Remove clips"
+#~ msgstr "Poista leikkeet"
+
+#~ msgid "Rebuild Proxies"
+#~ msgstr "Rakenna puskuri uudelleen"
+
+#~ msgid "Use placeholders for missing clips"
+#~ msgstr "Käytä tilanvaraajia puuttuville leikkeille"
+
+#~ msgid "Path"
+#~ msgstr "Polku"
+
+#~ msgid "Remove selected clips"
+#~ msgstr "Poista valitut leikkeet"
 
 #~ msgid "Captured files"
 #~ msgstr "Kaapatut tiedostot"
@@ -25807,9 +25848,6 @@ msgstr "%1 t"
 #~ msgid "Edit clips"
 #~ msgstr "Muokkaa leikkeitä"
 
-#~ msgid "Missing"
-#~ msgstr "Puuttuvat"
-
 #~ msgid "Delete Clip Zone"
 #~ msgstr "Poista leikealue"
 
@@ -25945,9 +25983,6 @@ msgstr "%1 t"
 #~| msgid "Reload Clip"
 #~ msgid "Expland Clip"
 #~ msgstr "Lataa leike uudelleen"
-
-#~ msgid "Transition"
-#~ msgstr "Siirtymä"
 
 #~ msgid "Show additional controls"
 #~ msgstr "Näytä lisäsäätimet"

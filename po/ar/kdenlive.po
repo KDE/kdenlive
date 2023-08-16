@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-14 00:46+0000\n"
+"POT-Creation-Date: 2023-08-16 00:45+0000\n"
 "PO-Revision-Date: 2023-07-06 10:09+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -4207,9 +4207,7 @@ msgstr "التّاريخ"
 msgid "Description"
 msgstr "الوصف"
 
-#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
 #: src/bin/bin.cpp:1287 src/bin/projectitemmodel.cpp:315
-#: src/ui/missingclips_ui.ui:77
 #, kde-format
 msgid "Type"
 msgstr "النّوع"
@@ -4319,7 +4317,7 @@ msgstr "لا يمكن حذف بعض العناصر. ربما هناك حالات
 msgid "Delete bin Clips"
 msgstr "احذف سلة المقاطع"
 
-#: src/bin/bin.cpp:1830 src/doc/documentchecker.cpp:574
+#: src/bin/bin.cpp:1830
 #, kde-format
 msgid "Missing source clip"
 msgstr "المقطع المصدر مفقود"
@@ -4332,7 +4330,7 @@ msgstr "المقطع المصدر مفقود"
 msgid "Unable to write to file %1"
 msgstr "تعذّرت الكتابة إلى الملفّ %1"
 
-#: src/bin/bin.cpp:1856 src/bin/bin.cpp:2366 src/doc/kdenlivedoc.cpp:728
+#: src/bin/bin.cpp:1856 src/bin/bin.cpp:2366 src/doc/kdenlivedoc.cpp:738
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -4799,7 +4797,7 @@ msgstr ""
 "أنت تحرّر مقطع عنوان خارجيّة (%1). أتريد حفظ تغييراتك إلى ملفّ العنوان أو حفظها "
 "لهذا المشروع فقط؟"
 
-#: src/bin/bin.cpp:4569 src/titler/titlewidget.cpp:2188
+#: src/bin/bin.cpp:4569 src/titler/titlewidget.cpp:2190
 #, kde-format
 msgid "Save Title"
 msgstr "احفظ العنوان"
@@ -5438,7 +5436,8 @@ msgstr "المعرّف"
 msgid "Usage"
 msgstr "الاستخدام"
 
-#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:332
+#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:1468
+#: src/doc/documentchecker.cpp:1494 src/doc/documentchecker.cpp:1514
 #: src/mltcontroller/clipcontroller.cpp:485 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -5898,7 +5897,7 @@ msgstr "مقطع نصي"
 msgid "Create Text clip"
 msgstr "أنشئ مقطع نصي"
 
-#: src/dialogs/clipcreationdialog.cpp:394 src/doc/kdenlivedoc.cpp:1113
+#: src/dialogs/clipcreationdialog.cpp:394 src/doc/kdenlivedoc.cpp:1123
 #, kde-format
 msgid "Template title clip"
 msgstr "مقطع قالب عنوان"
@@ -6090,7 +6089,7 @@ msgstr ""
 
 #: src/dialogs/encodingprofilesdialog.cpp:259
 #: src/dialogs/encodingprofilesdialog.cpp:348
-#: src/project/dialogs/projectsettings.cpp:885
+#: src/project/dialogs/projectsettings.cpp:887
 #, kde-format
 msgid "Automatic (%1)"
 msgstr "آليّ (%1)"
@@ -6098,15 +6097,15 @@ msgstr "آليّ (%1)"
 #: src/dialogs/encodingprofilesdialog.cpp:261
 #: src/dialogs/encodingprofilesdialog.cpp:350
 #: src/dialogs/kdenlivesettingsdialog.cpp:682
-#: src/project/dialogs/projectsettings.cpp:887
+#: src/project/dialogs/projectsettings.cpp:889
 #: src/transitions/view/transitionstackview.cpp:37
 #, kde-format
 msgid "Automatic"
 msgstr "آليّ"
 
 #: src/dialogs/encodingprofilesdialog.cpp:329
-#: src/project/dialogs/projectsettings.cpp:922
-#: src/project/dialogs/projectsettings.cpp:953
+#: src/project/dialogs/projectsettings.cpp:924
+#: src/project/dialogs/projectsettings.cpp:955
 #, kde-format
 msgid "Current Settings"
 msgstr "الإعدادات الحاليّة"
@@ -6167,8 +6166,8 @@ msgid "Export Guides Data"
 msgstr "صدر بيانات الأدلة"
 
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1611
-#: src/dialogs/renderwidget.cpp:1638 src/doc/kdenlivedoc.cpp:745
-#: src/doc/kdenlivedoc.cpp:753 src/doc/kdenlivedoc.cpp:1249
+#: src/dialogs/renderwidget.cpp:1638 src/doc/kdenlivedoc.cpp:755
+#: src/doc/kdenlivedoc.cpp:763 src/doc/kdenlivedoc.cpp:1259
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
 #: src/effects/effectsrepository.cpp:390
@@ -6184,7 +6183,7 @@ msgstr "صدر بيانات الأدلة"
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5044
-#: src/titler/titlewidget.cpp:2201
+#: src/titler/titlewidget.cpp:2203
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "تعذرت الكتابة إلى الملف %1"
@@ -7554,236 +7553,162 @@ msgstr "لم يعثر على عتاد ترميز"
 msgid "hardware encoders found and enabled (%1)."
 msgstr "عثر على مرمزات عتاد وفٌعلت (%1)."
 
-#: src/doc/documentchecker.cpp:116
+#: src/doc/dcresolvedialog.cpp:42
 #, kde-format
-msgid ""
-"The document id of your project was invalid, a new one has been created."
-msgstr "معرف مستند مشروعك غير صالح، أنشئ واحد أخر."
+msgid "Recursive search: processing clips"
+msgstr ""
 
-#: src/doc/documentchecker.cpp:281
+#: src/doc/dcresolvedialog.cpp:51
+#, fuzzy, kde-format
+#| msgid "Search done"
+msgid "Recursive search: done"
+msgstr "انتهى البحث"
+
+#: src/doc/dcresolvedialog.cpp:125
 #, kde-format
-msgid "Luma file"
-msgstr "ملفّ ”لوما“"
+msgid "Enter new location for folder"
+msgstr "أدخل مكان جديد للمجلد"
 
-#: src/doc/documentchecker.cpp:287
+#: src/doc/dcresolvedialog.cpp:136
 #, kde-format
-msgid "Asset file"
-msgstr "ملف أصل"
+msgid "Enter new location for file"
+msgstr "أدخل المكان الجديد للملفّ"
 
-#: src/doc/documentchecker.cpp:314
-#, kde-format
-msgid "Video clip"
-msgstr "مقطع فيديو"
+#. i18n: ectx: property (text), widget (QLabel, proxyLabel)
+#: src/doc/dcresolvedialog.cpp:163 src/ui/missingclips_ui.ui:56
+#, fuzzy, kde-format
+#| msgid "The project file contains missing clips or files."
+msgid "You project contains one missing proxy"
+msgid_plural "You project contains %1 missing proxies"
+msgstr[0] "يحوي ملفّ المشروع مقاطع أو ملفّات ناقصة."
+msgstr[1] "يحوي ملفّ المشروع مقاطع أو ملفّات ناقصة."
+msgstr[2] "يحوي ملفّ المشروع مقاطع أو ملفّات ناقصة."
+msgstr[3] "يحوي ملفّ المشروع مقاطع أو ملفّات ناقصة."
+msgstr[4] "يحوي ملفّ المشروع مقاطع أو ملفّات ناقصة."
+msgstr[5] "يحوي ملفّ المشروع مقاطع أو ملفّات ناقصة."
 
-#: src/doc/documentchecker.cpp:318
-#, kde-format
-msgid "Slideshow clip"
-msgstr "مقطع عرض شرائح"
-
-#: src/doc/documentchecker.cpp:321
-#, kde-format
-msgid "Image clip"
-msgstr "مقطع صورة"
-
-#: src/doc/documentchecker.cpp:325
-#, kde-format
-msgid "Playlist clip"
-msgstr "مقطع قائمة تشغيل"
-
-#: src/doc/documentchecker.cpp:328
-#, kde-format
-msgid "Title Image"
-msgstr "صورة عنوان"
-
-#: src/doc/documentchecker.cpp:364
-#, kde-format
-msgid "Missing item"
-msgstr "عنصر ناقص"
-
-#: src/doc/documentchecker.cpp:378 src/doc/documentchecker.cpp:403
-#: src/doc/documentchecker.cpp:1403
-#, kde-format
-msgid "Relocated item"
-msgstr "عنصر منقول"
-
-#: src/doc/documentchecker.cpp:416
-#, kde-format
-msgid "Title Font"
-msgstr "خطّ عنوان"
-
-#: src/doc/documentchecker.cpp:421
-#, kde-format
-msgid "%1 will be replaced by %2"
-msgstr "%1 سيُستبدل بِ‍ %2"
-
-#: src/doc/documentchecker.cpp:426
-#, kde-format
-msgid "Modified Clips"
-msgstr "مقاطع معدلة"
-
-#: src/doc/documentchecker.cpp:430
-#, kde-format
-msgid "Clip %1 will be reloaded"
-msgstr "سيعاد تحميل المقطع %1"
-
-#: src/doc/documentchecker.cpp:435
-#, kde-format
-msgid "Fixed Sequence Clips"
-msgstr "مقاطع تسلسلية ثابتة"
-
-#: src/doc/documentchecker.cpp:439
-#, kde-format
-msgid "Clip %1 will be fixed"
-msgstr "سيثبت المقطع %1"
-
-#: src/doc/documentchecker.cpp:446
-#, kde-format
-msgid "The project file contains missing clips or files."
-msgstr "يحوي ملفّ المشروع مقاطع أو ملفّات ناقصة."
-
-#: src/doc/documentchecker.cpp:449
-#, kde-format
-msgid "Missing effect: %2 will be removed from project."
-msgid_plural "Missing effects: %2 will be removed from project."
-msgstr[0] "تأثير مفقود: %2 ستُزال من المشروع."
-msgstr[1] "تأثير مفقود: %2 ستُزال من المشروع."
-msgstr[2] "تأثيران مفقودان: %2 ستُزال من المشروع."
-msgstr[3] "تأثيرات مفقودة: %2 ستُزال من المشروع."
-msgstr[4] "تأثيرات مفقودة: %2 ستُزال من المشروع."
-msgstr[5] "تأثيرات مفقودة: %2 ستُزال من المشروع."
-
-#: src/doc/documentchecker.cpp:453
-#, kde-format
-msgid "Missing transition: %2 will be removed from project."
-msgid_plural "Missing transitions: %2 will be removed from project."
-msgstr[0] "لا يوجد انتقال مفقود: %2 ستُزال من المشروع."
-msgstr[1] "انتقال مفقود: %2 ستُزال من المشروع."
-msgstr[2] "انتقالان مفقودان: %2 ستُزال من المشروع."
-msgstr[3] "انتقالات مفقودة: %2 ستُزال من المشروع."
-msgstr[4] "انتقالات مفقودة: %2 ستُزال من المشروع."
-msgstr[5] "انتقالات مفقودة: %2 ستُزال من المشروع."
-
-#: src/doc/documentchecker.cpp:457
-#, kde-format
-msgid "Missing proxies can be recreated on opening."
-msgstr "الوسطاء ناقصون سيُعاد إنشاؤهم عند الفتح."
-
-#: src/doc/documentchecker.cpp:472
-#, kde-format
-msgid ""
-"The project file contains a missing clip, you can still work with its proxy."
-msgid_plural ""
-"The project file contains %1 missing clips, you can still work with their "
-"proxies."
-msgstr[0] "يحتوي ملفّ المشروع هذا كلّ المقاطع."
-msgstr[1] "في ملفّ المشروع هذا مقطع ناقصة، ولكن ما زال يمكنك العمل بوسيطها."
-msgstr[2] ""
-"في ملفّ المشروع هذا مقطعين ناقصين، ولكن ما زال يمكنك العمل بوسيطيهما."
-msgstr[3] ""
-"في ملفّ المشروع هذا %1 مقاطع ناقصة، ولكن ما زال يمكنك العمل بوسطائها."
-msgstr[4] ""
-"في ملفّ المشروع هذا %1 مقطعاً ناقصة، ولكن ما زال يمكنك العمل بوسطائها."
-msgstr[5] "في ملفّ المشروع هذا %1 مقطع ناقصة، ولكن ما زال يمكنك العمل بوسطائها."
-
-#: src/doc/documentchecker.cpp:476
-#, kde-format
-msgid "The project file contains one modified clip, it will be reloaded."
-msgid_plural ""
-"The project file contains %1 modified clips, they will be reloaded."
-msgstr[0] "يحوي ملفّ المشروع مقطع معدل، سيعاد تحميله."
-msgstr[1] "يحوي ملفّ المشروع مقطع معدل، سيعاد تحميله."
-msgstr[2] "يحوي ملفّ المشروع مقطعين معدلين، سيعاد تحميلهما."
-msgstr[3] "يحوي ملفّ المشروع %1 مقاطع معدلة، سيعاد تحميلها."
-msgstr[4] "يحوي ملفّ المشروع %1 مقطعاً معدلاً، سيعاد تحميلها."
-msgstr[5] "يحوي ملفّ المشروع %1 مقطع معدل، سيعاد تحميلها."
-
-#: src/doc/documentchecker.cpp:552
-#: src/mltcontroller/clippropertiescontroller.cpp:419
-#, kde-format
-msgid "Proxy clip"
-msgstr "المقطع الوسيط"
-
-#: src/doc/documentchecker.cpp:555
-#, kde-format
-msgid "%1 missing proxy clip, will be recreated on project opening"
-msgid_plural "%1 missing proxy clips, will be recreated on project opening"
-msgstr[0] "هناك مقطع وسيط مفقود، سيعاد إنشاؤه عند فتح المشروع"
-msgstr[1] "هناك مقطع وسيط مفقود، سيعاد إنشاؤه عند فتح المشروع"
-msgstr[2] "هناك مقطعان وسيطان مفقودان، سيعاد إنشاؤها عند فتح المشروع"
-msgstr[3] "هناك %1 مقاطع وسيطة مفقودة، سيعاد إنشاؤها عند فتح المشروع"
-msgstr[4] "هناك %1 مقطعاً وسيطاً مفقوداً، سيعاد إنشاؤها عند فتح المشروع"
-msgstr[5] "هناك %1 مقطع وسيط مفقود، سيعاد إنشاؤها عند فتح المشروع"
-
-#: src/doc/documentchecker.cpp:558
-#, kde-format
-msgid "Missing proxy"
-msgstr "وسيط ناقص"
-
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/doc/documentchecker.cpp:569 src/doc/documentchecker.cpp:583
-#: src/ui/timeremap_ui.ui:90
-#, kde-format
-msgid "Source clip"
-msgstr "المقطع المصدر"
-
-#: src/doc/documentchecker.cpp:571
-#, kde-format
-msgid "%1 missing source clips, you can only use the proxies"
-msgstr "يفتقد %1 المقاطع المصدر، يمكنك استعمال الوسطاء فقط"
-
-#: src/doc/documentchecker.cpp:948
+#: src/doc/dcresolvedialog.cpp:173
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "مجلد المقاطع"
 
-#: src/doc/documentchecker.cpp:980 src/doc/documentchecker.cpp:1004
-#: src/doc/documentchecker.cpp:1014 src/doc/documentchecker.cpp:1023
-#: src/doc/documentchecker.cpp:1035
+#: src/doc/documentchecker.cpp:152
 #, kde-format
-msgid "Recovered item"
-msgstr "عنصر مُستَعاد"
+msgid ""
+"The document id of your project was invalid, a new one has been created."
+msgstr "معرف مستند مشروعك غير صالح، أنشئ واحد أخر."
 
-#: src/doc/documentchecker.cpp:1048
+#: src/doc/documentchecker.cpp:1458
 #, kde-format
-msgid "Search aborted"
-msgstr "أُجهض البحث"
+msgid "Video clip"
+msgstr "مقطع فيديو"
 
-#: src/doc/documentchecker.cpp:1050
+#: src/doc/documentchecker.cpp:1460
 #, kde-format
-msgid "Search done"
-msgstr "انتهى البحث"
+msgid "Slideshow clip"
+msgstr "مقطع عرض شرائح"
 
-#: src/doc/documentchecker.cpp:1166
+#: src/doc/documentchecker.cpp:1462
 #, kde-format
-msgid "Scanning %1"
-msgstr "يفحص %1"
+msgid "Image clip"
+msgstr "مقطع صورة"
 
-#: src/doc/documentchecker.cpp:1365
+#: src/doc/documentchecker.cpp:1464
 #, kde-format
-msgid "Enter new location for folder"
-msgstr "أدخل مكان جديد للمجلد"
+msgid "Playlist clip"
+msgstr "مقطع قائمة تشغيل"
 
-#: src/doc/documentchecker.cpp:1391
+#: src/doc/documentchecker.cpp:1466 src/doc/documentchecker.cpp:1482
 #, kde-format
-msgid "Enter new location for file"
-msgstr "أدخل المكان الجديد للملفّ"
+msgid "Title Image"
+msgstr "صورة عنوان"
 
-#: src/doc/documentchecker.cpp:1866
-#, kde-format
-msgid "This will remove the selected clip from this project"
-msgid_plural "This will remove the selected clips from this project"
-msgstr[0] "لن يزيل هذا أيّ مقطع من هذا المشروع"
-msgstr[1] "سيزيل هذا المقطع المحدّد من هذا المشروع"
-msgstr[2] "سيزيل هذا المقطعين المحدّدين من هذا المشروع"
-msgstr[3] "سيزيل هذا المقاطع المحدّدة من هذا المشروع"
-msgstr[4] "سيزيل هذا المقاطع المحدّدة من هذا المشروع"
-msgstr[5] "سيزيل هذا المقاطع المحدّدة من هذا المشروع"
+#: src/doc/documentchecker.cpp:1478
+#, fuzzy, kde-format
+#| msgid "&Clip"
+msgid "Clip"
+msgstr "&قص"
 
-#: src/doc/documentchecker.cpp:1868
+#: src/doc/documentchecker.cpp:1480
 #, kde-format
-msgid "Remove clips"
-msgstr "أزل مقاطع"
+msgid "Title Font"
+msgstr "خطّ عنوان"
+
+#: src/doc/documentchecker.cpp:1484
+#, kde-format
+msgid "Luma file"
+msgstr "ملفّ ”لوما“"
+
+#: src/doc/documentchecker.cpp:1486
+#, kde-format
+msgid "Asset file"
+msgstr "ملف أصل"
+
+#: src/doc/documentchecker.cpp:1488
+#: src/mltcontroller/clippropertiescontroller.cpp:419
+#, kde-format
+msgid "Proxy clip"
+msgstr "المقطع الوسيط"
+
+#: src/doc/documentchecker.cpp:1490
+#: src/monitor/view/kdenlivemonitorsplit.qml:90
+#, kde-format
+msgid "Effect"
+msgstr "التّأثير"
+
+#: src/doc/documentchecker.cpp:1492
+#, fuzzy, kde-format
+#| msgid "Transitions"
+msgid "Transition"
+msgstr "الانتقالات"
+
+#. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
+#: src/doc/documentchecker.cpp:1502 src/ui/editrenderpreset_ui.ui:538
+#, kde-format
+msgid "Fixed"
+msgstr "ثابت"
+
+#: src/doc/documentchecker.cpp:1504
+#, fuzzy, kde-format
+#| msgid "Reload Clip"
+msgid "Reload"
+msgstr "أعد تحميل المقطع"
+
+#: src/doc/documentchecker.cpp:1506
+#, fuzzy, kde-format
+#| msgid "Missing item"
+msgid "Missing"
+msgstr "عنصر ناقص"
+
+#: src/doc/documentchecker.cpp:1508
+#, fuzzy, kde-format
+#| msgid "Missing proxy"
+msgid "Missing, but proxy available"
+msgstr "وسيط ناقص"
+
+#. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
+#: src/doc/documentchecker.cpp:1510 src/ui/editrenderpreset_ui.ui:525
+#, kde-format
+msgid "Placeholder"
+msgstr "عنصر نائب"
+
+#. i18n: ectx: property (text), widget (QPushButton, removeSelected)
+#: src/doc/documentchecker.cpp:1512 src/ui/missingclips_ui.ui:174
+#, fuzzy, kde-format
+#| msgid "Removal"
+msgid "Remove"
+msgstr "الإزالة"
+
+#: src/doc/documentchecker.cpp:1523
+#, kde-format
+msgid "The project file contains missing clips or files."
+msgstr "يحوي ملفّ المشروع مقاطع أو ملفّات ناقصة."
+
+#: src/doc/documentchecker.cpp:1526
+#, kde-format
+msgid "Missing proxies can be recreated on opening."
+msgstr "الوسطاء ناقصون سيُعاد إنشاؤهم عند الفتح."
 
 #: src/doc/documentvalidator.cpp:88
 #, kde-format
@@ -7927,7 +7852,7 @@ msgstr ""
 "التسريع الرسومي بالعتاد معطل في إعدادات كِيدِينلايف لكنه مطلوب لمرشحات Movit "
 "المستعملة في هذا المشروع"
 
-#: src/doc/kdenlivedoc.cpp:277
+#: src/doc/kdenlivedoc.cpp:287
 #, kde-format
 msgid ""
 "The project directory %1, could not be created.\n"
@@ -7938,22 +7863,22 @@ msgstr ""
 "رجاء تحقّق من امتلاكك التّصاريح المطلوبة.\n"
 "سيستخدم مجلدات النظام المبدئية"
 
-#: src/doc/kdenlivedoc.cpp:280
+#: src/doc/kdenlivedoc.cpp:290
 #, kde-format
 msgid "Document project folder is invalid, using system default folders"
 msgstr "مجلّد مشروع المستند غير صالح، سأستخدم مجلّدات النّظام الافتراضيّة"
 
-#: src/doc/kdenlivedoc.cpp:563 src/doc/kdenlivedoc.cpp:573
+#: src/doc/kdenlivedoc.cpp:573 src/doc/kdenlivedoc.cpp:583
 #, kde-format
 msgid "Cannot create autosave file %1"
 msgstr "تعذّر إنشاء حفظ تلقائي للملف %1"
 
-#: src/doc/kdenlivedoc.cpp:568 src/doc/kdenlivedoc.cpp:706
+#: src/doc/kdenlivedoc.cpp:578 src/doc/kdenlivedoc.cpp:716
 #, kde-format
 msgid "Cannot write to file %1, scene list is corrupted."
 msgstr "تعذّرت الكتابة في الملفّ %1، قائمة المشاهد معطوبة."
 
-#: src/doc/kdenlivedoc.cpp:724
+#: src/doc/kdenlivedoc.cpp:734
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
@@ -7962,7 +7887,7 @@ msgstr ""
 "لقد رُقّي ملفّ المشروع إلى آخر إصدارة من مستندات كِيدِينلايف.\n"
 "للتأكّد من عدم فقدانك أيّة بيانات، أُنشئت نسخة احتياطيّة بالاسم %1."
 
-#: src/doc/kdenlivedoc.cpp:738
+#: src/doc/kdenlivedoc.cpp:748
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version, but "
@@ -7971,36 +7896,36 @@ msgstr ""
 "لقد رُقّي ملفّ المشروع إلى آخر إصدارة من مستندات «كِيدِينلايف»، ولكن لم يكن ممكنًا "
 "إنشاء النّسخة الاحتياطيّة %1."
 
-#: src/doc/kdenlivedoc.cpp:869 src/project/projectmanager.cpp:1177
+#: src/doc/kdenlivedoc.cpp:879 src/project/projectmanager.cpp:1177
 #: src/project/projectmanager.cpp:1213
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "خطأ في نقل مجلّد المشروع: %1"
 
-#: src/doc/kdenlivedoc.cpp:1038 src/doc/kdenlivedoc.cpp:2197
+#: src/doc/kdenlivedoc.cpp:1048 src/doc/kdenlivedoc.cpp:2211
 #: src/project/dialogs/archivewidget.cpp:226
 #: src/project/projectmanager.cpp:1410
 #, kde-format
 msgid "Untitled"
 msgstr "غير معنون"
 
-#: src/doc/kdenlivedoc.cpp:1099
+#: src/doc/kdenlivedoc.cpp:1109
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "أدخل مسار القالب"
 
-#: src/doc/kdenlivedoc.cpp:1256
+#: src/doc/kdenlivedoc.cpp:1266
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "استُوردت التّأثيرات الآتية من المشروع:"
 
-#: src/doc/kdenlivedoc.cpp:1289 src/doc/kdenlivedoc.cpp:1303
+#: src/doc/kdenlivedoc.cpp:1303 src/doc/kdenlivedoc.cpp:1317
 #, kde-format
 msgid "Project Folder"
 msgstr "مجلّد المشروع"
 
-#: src/doc/kdenlivedoc.cpp:1347 src/doc/kdenlivedoc.cpp:1355
+#: src/doc/kdenlivedoc.cpp:1361 src/doc/kdenlivedoc.cpp:1369
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -8009,7 +7934,7 @@ msgstr ""
 "تعذّر إنشاء نسخة احتياطيّة:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1500
+#: src/doc/kdenlivedoc.cpp:1514
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
@@ -8020,7 +7945,7 @@ msgstr[3] "أضف مقاطع وسيطة"
 msgstr[4] "أضف مقاطع وسيطة"
 msgstr[5] "أضف مقاطع وسيطة"
 
-#: src/doc/kdenlivedoc.cpp:1502
+#: src/doc/kdenlivedoc.cpp:1516
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
@@ -8031,12 +7956,12 @@ msgstr[3] "أزل مقاطع وسيطة"
 msgstr[4] "أزل مقاطع وسيطة"
 msgstr[5] "أزل مقاطع وسيطة"
 
-#: src/doc/kdenlivedoc.cpp:1546 src/doc/kdenlivedoc.cpp:1581
+#: src/doc/kdenlivedoc.cpp:1560 src/doc/kdenlivedoc.cpp:1595
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "نوع المقطع لا يدعم الوسطاء"
 
-#: src/doc/kdenlivedoc.cpp:1787
+#: src/doc/kdenlivedoc.cpp:1801
 #, kde-format
 msgid ""
 "\n"
@@ -8045,7 +7970,7 @@ msgstr ""
 "\n"
 "تحذير: معدل أطر ليس بعدد صحيح ومجهول، قد يسبب هذا عرض المدة بشكل خاطئ."
 
-#: src/doc/kdenlivedoc.cpp:1806
+#: src/doc/kdenlivedoc.cpp:1820
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -8054,43 +7979,43 @@ msgstr ""
 "تشكيلة المشروع الافتراضيّة هي %1، بينما تشكيلة المقطع (%2) هي %3.\n"
 "أتريد تغيير التشكيلة الافتراضيّة للمشاريع القادمة؟"
 
-#: src/doc/kdenlivedoc.cpp:1808
+#: src/doc/kdenlivedoc.cpp:1822
 #, kde-format
 msgid "Change default project profile"
 msgstr "غيّر تشكيلة المشاريع الافتراضيّة"
 
-#: src/doc/kdenlivedoc.cpp:1808
+#: src/doc/kdenlivedoc.cpp:1822
 #, kde-format
 msgid "Change default to %1"
 msgstr "غيّر الافتراضيّ إلى %1"
 
-#: src/doc/kdenlivedoc.cpp:1809
+#: src/doc/kdenlivedoc.cpp:1823
 #, kde-format
 msgid "Keep current default %1"
 msgstr "أبقِ الحاليّ %1 افتراضيّ"
 
-#: src/doc/kdenlivedoc.cpp:1809
+#: src/doc/kdenlivedoc.cpp:1823
 #, kde-format
 msgid "Ask me later"
 msgstr "اسألني لاحقًا"
 
-#: src/doc/kdenlivedoc.cpp:1829
+#: src/doc/kdenlivedoc.cpp:1843
 #, kde-format
 msgid "Switch"
 msgstr "بدّل"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1831 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1845 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "ألغِ"
 
-#: src/doc/kdenlivedoc.cpp:1833
+#: src/doc/kdenlivedoc.cpp:1847
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "أأبدّل إلى تشكيلة (%1) المقطع %2؟"
 
-#: src/doc/kdenlivedoc.cpp:1838
+#: src/doc/kdenlivedoc.cpp:1852
 #, kde-format
 msgid ""
 "\n"
@@ -8099,7 +8024,7 @@ msgstr ""
 "\n"
 "عُدلت تشكيلة معدل الأطر عن الأصل %1"
 
-#: src/doc/kdenlivedoc.cpp:1840
+#: src/doc/kdenlivedoc.cpp:1854
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -8108,13 +8033,13 @@ msgstr ""
 "لم يُعثر على تشكيلة لمقطعك %1.\n"
 "أأنشئ واحدة وأحوّل إلى التشكيلة الجديدة (%2×%3، %4 إطار/ثا)؟%5"
 
-#: src/doc/kdenlivedoc.cpp:2236 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2250 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "الأحمر"
 
-#: src/doc/kdenlivedoc.cpp:2237 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2251 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -8122,23 +8047,23 @@ msgstr "الأحمر"
 msgid "Green"
 msgstr "الأخضر"
 
-#: src/doc/kdenlivedoc.cpp:2238 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2252 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "الأزرق"
 
-#: src/doc/kdenlivedoc.cpp:2239 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2253 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "الأصفر"
 
-#: src/doc/kdenlivedoc.cpp:2240
+#: src/doc/kdenlivedoc.cpp:2254
 #, kde-format
 msgid "Cyan"
 msgstr "أزرق سماوي"
 
-#: src/doc/kdenlivedoc.cpp:2468
+#: src/doc/kdenlivedoc.cpp:2482
 #, kde-format
 msgid "Category %1:%2:%3"
 msgstr "الصنف %1:%2:%3"
@@ -10777,7 +10702,7 @@ msgstr "أعد الإنشاء"
 
 #: src/mainwindow.cpp:2157 src/onlineresources/resourcewidget.cpp:568
 #: src/scopes/colorscopes/colorplaneexport.cpp:158
-#: src/titler/titlewidget.cpp:2184
+#: src/titler/titlewidget.cpp:2186
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -11405,7 +11330,7 @@ msgstr "يعرض معلومات تفصيلية عن دفق الصوت/بيانا
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/mltcontroller/clippropertiescontroller.cpp:1027
-#: src/project/dialogs/projectsettings.cpp:851 src/ui/projectsettings_ui.ui:534
+#: src/project/dialogs/projectsettings.cpp:853 src/ui/projectsettings_ui.ui:534
 #, kde-format
 msgid "Metadata"
 msgstr "البيانات الوصفيّة"
@@ -12207,11 +12132,6 @@ msgid ""
 msgstr ""
 "انقر لإضافة نقاط،\n"
 "النقر باليمين لغلق الشكل."
-
-#: src/monitor/view/kdenlivemonitorsplit.qml:90
-#, kde-format
-msgid "Effect"
-msgstr "التّأثير"
 
 #: src/monitor/view/MonitorRuler.qml:263
 #, kde-kuit-format
@@ -13335,8 +13255,8 @@ msgstr ""
 "من المستحسن حفظ المشروع قبل تنفيذ هذه العمليّة التي قد تفسد بعض الانتقالات.\n"
 "هل تريد المتابعة حقاً؟"
 
-#: src/project/dialogs/projectsettings.cpp:764
-#: src/project/dialogs/projectsettings.cpp:779
+#: src/project/dialogs/projectsettings.cpp:766
+#: src/project/dialogs/projectsettings.cpp:781
 #: src/project/dialogs/slideshowclip.cpp:330
 #, kde-format
 msgid "1 image found"
@@ -13348,22 +13268,22 @@ msgstr[3] "عُثر على %1 صور"
 msgstr[4] "عُثر على %1 صورة"
 msgstr[5] "عُثر على %1 صورة"
 
-#: src/project/dialogs/projectsettings.cpp:795
+#: src/project/dialogs/projectsettings.cpp:797
 #, kde-format
 msgid "Project folder: %1"
 msgstr "مجلّد المشروع: %1"
 
-#: src/project/dialogs/projectsettings.cpp:796
+#: src/project/dialogs/projectsettings.cpp:798
 #, kde-format
 msgid "Project profile: %1"
 msgstr "تشكيلة المشروع: %1"
 
-#: src/project/dialogs/projectsettings.cpp:797
+#: src/project/dialogs/projectsettings.cpp:799
 #, kde-format
 msgid "Total clips: %1 (%2 used in timeline)."
 msgstr "مجموع المقاطع: %1 (%2 مستخدمة في الخطّ الزّمنيّ)."
 
-#: src/project/dialogs/projectsettings.cpp:851
+#: src/project/dialogs/projectsettings.cpp:853
 #, kde-format
 msgctxt "@title:window"
 msgid "Metadata"
@@ -16601,7 +16521,7 @@ msgid "No available stream"
 msgstr "لا يوجد دفق"
 
 #: src/titler/gradientwidget.cpp:140 src/titler/gradientwidget.cpp:143
-#: src/titler/titlewidget.cpp:3238 src/titler/titlewidget.cpp:3241
+#: src/titler/titlewidget.cpp:3240 src/titler/titlewidget.cpp:3243
 #, kde-format
 msgid "Gradient %1"
 msgstr "التّدرّج %1"
@@ -16847,7 +16767,7 @@ msgid "Add Ellipse"
 msgstr "أضف شكل بيضاوي"
 
 #: src/titler/titlewidget.cpp:405 src/titler/titlewidget.cpp:408
-#: src/titler/titlewidget.cpp:818
+#: src/titler/titlewidget.cpp:820
 #, kde-format
 msgid "Add Image"
 msgstr "أضف صورةً"
@@ -16877,56 +16797,56 @@ msgstr "احفظ وأضف في المشروع"
 msgid "Create Title"
 msgstr "أنشئ عنواناً"
 
-#: src/titler/titlewidget.cpp:698
+#: src/titler/titlewidget.cpp:700
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
 "lost!"
 msgstr "أمتأكّد من تحميل قالب جديد؟ ستفقد التّغييرات على هذا العنوان!"
 
-#: src/titler/titlewidget.cpp:806
+#: src/titler/titlewidget.cpp:808
 #, kde-format
 msgid "All Images"
 msgstr "كلّ الصّور"
 
-#: src/titler/titlewidget.cpp:808
+#: src/titler/titlewidget.cpp:810
 #, kde-format
 msgid "%1 Image"
 msgstr "صورة %1"
 
-#: src/titler/titlewidget.cpp:1642
+#: src/titler/titlewidget.cpp:1644
 #, kde-format
 msgid "−X"
 msgstr "−س"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1644 src/ui/titlewidget_ui.ui:260
+#: src/titler/titlewidget.cpp:1646 src/ui/titlewidget_ui.ui:260
 #, kde-format
 msgid "+X"
 msgstr "+س"
 
-#: src/titler/titlewidget.cpp:1666
+#: src/titler/titlewidget.cpp:1668
 #, kde-format
 msgid "−Y"
 msgstr "−ص"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1668 src/ui/titlewidget_ui.ui:290
+#: src/titler/titlewidget.cpp:1670 src/ui/titlewidget_ui.ui:290
 #, kde-format
 msgid "+Y"
 msgstr "+ص"
 
-#: src/titler/titlewidget.cpp:2135
+#: src/titler/titlewidget.cpp:2137
 #, kde-format
 msgid "Load Title"
 msgstr "حمّل عنوانًا"
 
-#: src/titler/titlewidget.cpp:2136
+#: src/titler/titlewidget.cpp:2138
 #, kde-format
 msgid "Kdenlive title (*.kdenlivetitle)"
 msgstr "عنوان كِيدِينلايف ‏(‎*.kdenlivetitle)"
 
-#: src/titler/titlewidget.cpp:2182
+#: src/titler/titlewidget.cpp:2184
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -16935,13 +16855,13 @@ msgstr ""
 "أتريد تضمين الصّور إلى TitleDocument هذا؟\n"
 "هذا ضروريّ لمشاركة العناوين."
 
-#: src/titler/titlewidget.cpp:2183
+#: src/titler/titlewidget.cpp:2185
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "ضمّن الصور"
 
-#: src/titler/titlewidget.cpp:2238
+#: src/titler/titlewidget.cpp:2240
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
@@ -16952,44 +16872,44 @@ msgstr[3] "هذا العنوان يفتقد %1 عناصر"
 msgstr[4] "هذا العنوان يفتقد %1 عنصراً"
 msgstr[5] "هذا العنوان يفتقد %1 عنصر"
 
-#: src/titler/titlewidget.cpp:2239 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2241 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "التفاصيل"
 
-#: src/titler/titlewidget.cpp:2242
+#: src/titler/titlewidget.cpp:2244
 #, kde-format
 msgid "Delete missing elements"
 msgstr "حذف عناصر  الناقصة"
 
-#: src/titler/titlewidget.cpp:2302
+#: src/titler/titlewidget.cpp:2304
 #, kde-format
 msgid "Update Title"
 msgstr "حدّث العنوان"
 
-#: src/titler/titlewidget.cpp:2305
+#: src/titler/titlewidget.cpp:2307
 #, kde-format
 msgid "Add as new Title"
 msgstr "أضف كعنوان جديد"
 
-#: src/titler/titlewidget.cpp:2359
+#: src/titler/titlewidget.cpp:2361
 #, kde-format
 msgid "The following files are missing:"
 msgstr "الملفات التالية مفقودة:"
 
-#: src/titler/titlewidget.cpp:2553
+#: src/titler/titlewidget.cpp:2555
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "ابدأ العرض"
 
-#: src/titler/titlewidget.cpp:2554
+#: src/titler/titlewidget.cpp:2556
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "أنهِ العرض"
 
-#: src/titler/titlewidget.cpp:3271
+#: src/titler/titlewidget.cpp:3273
 #, kde-format
 msgid "Gradient"
 msgstr "التّدرّج"
@@ -17558,6 +17478,7 @@ msgstr "يزيد عدد الخطوط في الشّبكة.<br />بعد 8 خطوط
 msgid "Show handles for all points or only for the selected one."
 msgstr "عرض مقابض لجميع النقاط أو للمحدد فقط."
 
+#. i18n: ectx: property (text), widget (QLabel, progressLabel)
 #. i18n: ectx: property (text), widget (QLabel, param1Label)
 #. i18n: ectx: property (text), widget (QLabel, param2Label)
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -17569,7 +17490,8 @@ msgstr "عرض مقابض لجميع النقاط أو للمحدد فقط."
 #: src/ui/customjobinterface_ui.ui:37 src/ui/cutjobdialog_ui.ui:34
 #: src/ui/cutjobdialog_ui.ui:51 src/ui/fontval_ui.ui:36
 #: src/ui/listdependencyparamwidget_ui.ui:36 src/ui/listparamwidget_ui.ui:76
-#: src/ui/urllistparamwidget_ui.ui:42 src/ui/urlval_ui.ui:44
+#: src/ui/missingclips_ui.ui:105 src/ui/urllistparamwidget_ui.ui:42
+#: src/ui/urlval_ui.ui:44
 #, kde-format
 msgid "TextLabel"
 msgstr "لصيقة نصّيّة"
@@ -19037,12 +18959,6 @@ msgstr "ترتيب الحقل:"
 msgid "Quality:"
 msgstr "الجودة:"
 
-#. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/ui/editrenderpreset_ui.ui:525
-#, kde-format
-msgid "Placeholder"
-msgstr "عنصر نائب"
-
 #. i18n: ectx: property (toolTip), widget (QCheckBox, fixedGop)
 #: src/ui/editrenderpreset_ui.ui:535
 #, kde-format
@@ -19051,12 +18967,6 @@ msgid ""
 "changes."
 msgstr ""
 "مجموعة صور ثابتة يعني عدم إدراج الأطر الرئيسة في تغييرات المشهد المكتشفة."
-
-#. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/ui/editrenderpreset_ui.ui:538
-#, kde-format
-msgid "Fixed"
-msgstr "ثابت"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (suffix), widget (QSpinBox, bFramesSpinner)
@@ -19783,41 +19693,60 @@ msgstr "معاينة الصّورة"
 msgid " Clip Problems"
 msgstr " مشاكل المقطع"
 
-#. i18n: ectx: property (text), widget (QCheckBox, rebuildProxies)
+#. i18n: ectx: property (title), widget (QGroupBox, proxyBox)
 #: src/ui/missingclips_ui.ui:47
-#, kde-format
-msgid "Rebuild Proxies"
-msgstr "إعادة بناء وسطاء"
+#, fuzzy, kde-format
+#| msgid "Proxy Clips"
+msgid "Proxies"
+msgstr "المقاطع وسيطة"
 
-#. i18n: ectx: property (text), widget (QPushButton, usePlaceholders)
-#: src/ui/missingclips_ui.ui:54
-#, kde-format
-msgid "Use placeholders for missing clips"
-msgstr "استخدم عنصر نائب للمقاطع النّاقصة"
+#. i18n: ectx: property (text), widget (QCheckBox, recreateProxies)
+#: src/ui/missingclips_ui.ui:76
+#, fuzzy, kde-format
+#| msgid "Delete missing elements"
+msgid "Recreate missing proxies"
+msgstr "حذف عناصر  الناقصة"
 
-#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
-#: src/ui/missingclips_ui.ui:82
-#, kde-format
-msgid "Path"
-msgstr "المسار"
+#. i18n: ectx: property (format), widget (QProgressBar, progressBar)
+#: src/ui/missingclips_ui.ui:128
+#, no-c-format, kde-format
+msgid "%v / %m"
+msgstr ""
 
-#. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/ui/missingclips_ui.ui:100
-#, kde-format
-msgid "Remove selected clips"
-msgstr "أزل المقاطع المحدّدة"
-
-#. i18n: ectx: property (text), widget (QPushButton, recursiveSearch)
-#: src/ui/missingclips_ui.ui:107
-#, kde-format
-msgid "Search recursively"
-msgstr "ابحث بشكل متكرر"
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: src/ui/missingclips_ui.ui:156
+#, fuzzy, kde-format
+#| msgid "Delete Selected Item"
+msgid "Selected Items:"
+msgstr "احذف العنصر المحدّد"
 
 #. i18n: ectx: property (text), widget (QPushButton, manualSearch)
-#: src/ui/missingclips_ui.ui:114
-#, kde-format
-msgid "Search manually"
+#: src/ui/missingclips_ui.ui:163
+#, fuzzy, kde-format
+#| msgid "Search manually"
+msgid "Search Manually"
 msgstr "ابحث يدوياً"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/ui/missingclips_ui.ui:192
+#, fuzzy, kde-format
+#| msgid "Missing item"
+msgid "All Missing Items:"
+msgstr "عنصر ناقص"
+
+#. i18n: ectx: property (text), widget (QPushButton, recursiveSearch)
+#: src/ui/missingclips_ui.ui:199
+#, fuzzy, kde-format
+#| msgid "Search recursively"
+msgid "Search Recursively"
+msgstr "ابحث بشكل متكرر"
+
+#. i18n: ectx: property (text), widget (QPushButton, usePlaceholders)
+#: src/ui/missingclips_ui.ui:210
+#, fuzzy, kde-format
+#| msgid "Placeholder"
+msgid "Use Placeholders"
+msgstr "عنصر نائب"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/ui/multiplemarkerdialog_ui.ui:24
@@ -20710,6 +20639,12 @@ msgstr "أدرج الكتل المحددة في الخط الزمني"
 msgid "Save edited text in a new playlist"
 msgstr "احفظ النص المحرر في قائمة تشغيل جديدة"
 
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: src/ui/timeremap_ui.ui:90
+#, kde-format
+msgid "Source clip"
+msgstr "المقطع المصدر"
+
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/timeremap_ui.ui:144
 #, kde-format
@@ -21310,6 +21245,114 @@ msgstr "%1د"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1س"
+
+#~ msgid "Relocated item"
+#~ msgstr "عنصر منقول"
+
+#~ msgid "%1 will be replaced by %2"
+#~ msgstr "%1 سيُستبدل بِ‍ %2"
+
+#~ msgid "Modified Clips"
+#~ msgstr "مقاطع معدلة"
+
+#~ msgid "Clip %1 will be reloaded"
+#~ msgstr "سيعاد تحميل المقطع %1"
+
+#~ msgid "Fixed Sequence Clips"
+#~ msgstr "مقاطع تسلسلية ثابتة"
+
+#~ msgid "Clip %1 will be fixed"
+#~ msgstr "سيثبت المقطع %1"
+
+#~ msgid "Missing effect: %2 will be removed from project."
+#~ msgid_plural "Missing effects: %2 will be removed from project."
+#~ msgstr[0] "تأثير مفقود: %2 ستُزال من المشروع."
+#~ msgstr[1] "تأثير مفقود: %2 ستُزال من المشروع."
+#~ msgstr[2] "تأثيران مفقودان: %2 ستُزال من المشروع."
+#~ msgstr[3] "تأثيرات مفقودة: %2 ستُزال من المشروع."
+#~ msgstr[4] "تأثيرات مفقودة: %2 ستُزال من المشروع."
+#~ msgstr[5] "تأثيرات مفقودة: %2 ستُزال من المشروع."
+
+#~ msgid "Missing transition: %2 will be removed from project."
+#~ msgid_plural "Missing transitions: %2 will be removed from project."
+#~ msgstr[0] "لا يوجد انتقال مفقود: %2 ستُزال من المشروع."
+#~ msgstr[1] "انتقال مفقود: %2 ستُزال من المشروع."
+#~ msgstr[2] "انتقالان مفقودان: %2 ستُزال من المشروع."
+#~ msgstr[3] "انتقالات مفقودة: %2 ستُزال من المشروع."
+#~ msgstr[4] "انتقالات مفقودة: %2 ستُزال من المشروع."
+#~ msgstr[5] "انتقالات مفقودة: %2 ستُزال من المشروع."
+
+#~ msgid ""
+#~ "The project file contains a missing clip, you can still work with its "
+#~ "proxy."
+#~ msgid_plural ""
+#~ "The project file contains %1 missing clips, you can still work with their "
+#~ "proxies."
+#~ msgstr[0] "يحتوي ملفّ المشروع هذا كلّ المقاطع."
+#~ msgstr[1] "في ملفّ المشروع هذا مقطع ناقصة، ولكن ما زال يمكنك العمل بوسيطها."
+#~ msgstr[2] ""
+#~ "في ملفّ المشروع هذا مقطعين ناقصين، ولكن ما زال يمكنك العمل بوسيطيهما."
+#~ msgstr[3] ""
+#~ "في ملفّ المشروع هذا %1 مقاطع ناقصة، ولكن ما زال يمكنك العمل بوسطائها."
+#~ msgstr[4] ""
+#~ "في ملفّ المشروع هذا %1 مقطعاً ناقصة، ولكن ما زال يمكنك العمل بوسطائها."
+#~ msgstr[5] ""
+#~ "في ملفّ المشروع هذا %1 مقطع ناقصة، ولكن ما زال يمكنك العمل بوسطائها."
+
+#~ msgid "The project file contains one modified clip, it will be reloaded."
+#~ msgid_plural ""
+#~ "The project file contains %1 modified clips, they will be reloaded."
+#~ msgstr[0] "يحوي ملفّ المشروع مقطع معدل، سيعاد تحميله."
+#~ msgstr[1] "يحوي ملفّ المشروع مقطع معدل، سيعاد تحميله."
+#~ msgstr[2] "يحوي ملفّ المشروع مقطعين معدلين، سيعاد تحميلهما."
+#~ msgstr[3] "يحوي ملفّ المشروع %1 مقاطع معدلة، سيعاد تحميلها."
+#~ msgstr[4] "يحوي ملفّ المشروع %1 مقطعاً معدلاً، سيعاد تحميلها."
+#~ msgstr[5] "يحوي ملفّ المشروع %1 مقطع معدل، سيعاد تحميلها."
+
+#~ msgid "%1 missing proxy clip, will be recreated on project opening"
+#~ msgid_plural "%1 missing proxy clips, will be recreated on project opening"
+#~ msgstr[0] "هناك مقطع وسيط مفقود، سيعاد إنشاؤه عند فتح المشروع"
+#~ msgstr[1] "هناك مقطع وسيط مفقود، سيعاد إنشاؤه عند فتح المشروع"
+#~ msgstr[2] "هناك مقطعان وسيطان مفقودان، سيعاد إنشاؤها عند فتح المشروع"
+#~ msgstr[3] "هناك %1 مقاطع وسيطة مفقودة، سيعاد إنشاؤها عند فتح المشروع"
+#~ msgstr[4] "هناك %1 مقطعاً وسيطاً مفقوداً، سيعاد إنشاؤها عند فتح المشروع"
+#~ msgstr[5] "هناك %1 مقطع وسيط مفقود، سيعاد إنشاؤها عند فتح المشروع"
+
+#~ msgid "%1 missing source clips, you can only use the proxies"
+#~ msgstr "يفتقد %1 المقاطع المصدر، يمكنك استعمال الوسطاء فقط"
+
+#~ msgid "Recovered item"
+#~ msgstr "عنصر مُستَعاد"
+
+#~ msgid "Search aborted"
+#~ msgstr "أُجهض البحث"
+
+#~ msgid "Scanning %1"
+#~ msgstr "يفحص %1"
+
+#~ msgid "This will remove the selected clip from this project"
+#~ msgid_plural "This will remove the selected clips from this project"
+#~ msgstr[0] "لن يزيل هذا أيّ مقطع من هذا المشروع"
+#~ msgstr[1] "سيزيل هذا المقطع المحدّد من هذا المشروع"
+#~ msgstr[2] "سيزيل هذا المقطعين المحدّدين من هذا المشروع"
+#~ msgstr[3] "سيزيل هذا المقاطع المحدّدة من هذا المشروع"
+#~ msgstr[4] "سيزيل هذا المقاطع المحدّدة من هذا المشروع"
+#~ msgstr[5] "سيزيل هذا المقاطع المحدّدة من هذا المشروع"
+
+#~ msgid "Remove clips"
+#~ msgstr "أزل مقاطع"
+
+#~ msgid "Rebuild Proxies"
+#~ msgstr "إعادة بناء وسطاء"
+
+#~ msgid "Use placeholders for missing clips"
+#~ msgstr "استخدم عنصر نائب للمقاطع النّاقصة"
+
+#~ msgid "Path"
+#~ msgstr "المسار"
+
+#~ msgid "Remove selected clips"
+#~ msgstr "أزل المقاطع المحدّدة"
 
 #~ msgid "Captured files"
 #~ msgstr "الملفّات الملتقطة"

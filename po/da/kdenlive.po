@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-14 00:46+0000\n"
+"POT-Creation-Date: 2023-08-16 00:45+0000\n"
 "PO-Revision-Date: 2020-10-31 22:29+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -4305,9 +4305,7 @@ msgstr "Dato"
 msgid "Description"
 msgstr "Beskrivelse"
 
-#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
 #: src/bin/bin.cpp:1287 src/bin/projectitemmodel.cpp:315
-#: src/ui/missingclips_ui.ui:77
 #, kde-format
 msgid "Type"
 msgstr "Type"
@@ -4419,7 +4417,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "Slet klip i papirkurv"
 
-#: src/bin/bin.cpp:1830 src/doc/documentchecker.cpp:574
+#: src/bin/bin.cpp:1830
 #, kde-format
 msgid "Missing source clip"
 msgstr "Manglende kildeklip"
@@ -4432,7 +4430,7 @@ msgstr "Manglende kildeklip"
 msgid "Unable to write to file %1"
 msgstr "Kan ikke skrive til filen %1"
 
-#: src/bin/bin.cpp:1856 src/bin/bin.cpp:2366 src/doc/kdenlivedoc.cpp:728
+#: src/bin/bin.cpp:1856 src/bin/bin.cpp:2366 src/doc/kdenlivedoc.cpp:738
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -4931,7 +4929,7 @@ msgstr ""
 "Du er ved at redigere et eksternt titelklip (%1). Vil du gemme dine "
 "ændringer af titelfilen eller kun gemme ændringerne for dette projekt?"
 
-#: src/bin/bin.cpp:4569 src/titler/titlewidget.cpp:2188
+#: src/bin/bin.cpp:4569 src/titler/titlewidget.cpp:2190
 #, kde-format
 msgid "Save Title"
 msgstr "Gem titel"
@@ -5596,7 +5594,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:332
+#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:1468
+#: src/doc/documentchecker.cpp:1494 src/doc/documentchecker.cpp:1514
 #: src/mltcontroller/clipcontroller.cpp:485 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -6089,7 +6088,7 @@ msgstr "Tekstklip"
 msgid "Create Text clip"
 msgstr "Opret titelklip"
 
-#: src/dialogs/clipcreationdialog.cpp:394 src/doc/kdenlivedoc.cpp:1113
+#: src/dialogs/clipcreationdialog.cpp:394 src/doc/kdenlivedoc.cpp:1123
 #, kde-format
 msgid "Template title clip"
 msgstr "Skabelon til titelklip"
@@ -6288,7 +6287,7 @@ msgstr ""
 
 #: src/dialogs/encodingprofilesdialog.cpp:259
 #: src/dialogs/encodingprofilesdialog.cpp:348
-#: src/project/dialogs/projectsettings.cpp:885
+#: src/project/dialogs/projectsettings.cpp:887
 #, fuzzy, kde-format
 #| msgid "Automatic"
 msgid "Automatic (%1)"
@@ -6297,15 +6296,15 @@ msgstr "Automatisk"
 #: src/dialogs/encodingprofilesdialog.cpp:261
 #: src/dialogs/encodingprofilesdialog.cpp:350
 #: src/dialogs/kdenlivesettingsdialog.cpp:682
-#: src/project/dialogs/projectsettings.cpp:887
+#: src/project/dialogs/projectsettings.cpp:889
 #: src/transitions/view/transitionstackview.cpp:37
 #, kde-format
 msgid "Automatic"
 msgstr "Automatisk"
 
 #: src/dialogs/encodingprofilesdialog.cpp:329
-#: src/project/dialogs/projectsettings.cpp:922
-#: src/project/dialogs/projectsettings.cpp:953
+#: src/project/dialogs/projectsettings.cpp:924
+#: src/project/dialogs/projectsettings.cpp:955
 #, kde-format
 msgid "Current Settings"
 msgstr "Nuværende indstillinger"
@@ -6365,8 +6364,8 @@ msgid "Export Guides Data"
 msgstr "Importér hjælpelinjer"
 
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1611
-#: src/dialogs/renderwidget.cpp:1638 src/doc/kdenlivedoc.cpp:745
-#: src/doc/kdenlivedoc.cpp:753 src/doc/kdenlivedoc.cpp:1249
+#: src/dialogs/renderwidget.cpp:1638 src/doc/kdenlivedoc.cpp:755
+#: src/doc/kdenlivedoc.cpp:763 src/doc/kdenlivedoc.cpp:1259
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
 #: src/effects/effectsrepository.cpp:390
@@ -6382,7 +6381,7 @@ msgstr "Importér hjælpelinjer"
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5044
-#: src/titler/titlewidget.cpp:2201
+#: src/titler/titlewidget.cpp:2203
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Kan ikke skrive til filen %1"
@@ -7857,227 +7856,161 @@ msgstr "Ingen hardwarekodere fundet."
 msgid "hardware encoders found and enabled (%1)."
 msgstr "VAAPI-hardwarekodere fundet og aktiveret."
 
-#: src/doc/documentchecker.cpp:116
+#: src/doc/dcresolvedialog.cpp:42
 #, kde-format
-msgid ""
-"The document id of your project was invalid, a new one has been created."
+msgid "Recursive search: processing clips"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:281
-#, kde-format
-msgid "Luma file"
-msgstr "Luma-fil"
-
-#: src/doc/documentchecker.cpp:287
+#: src/doc/dcresolvedialog.cpp:51
 #, fuzzy, kde-format
-#| msgid "Delete files"
-msgid "Asset file"
-msgstr "Slet filer"
+#| msgid "Search"
+msgid "Recursive search: done"
+msgstr "Søg"
 
-#: src/doc/documentchecker.cpp:314
-#, kde-format
-msgid "Video clip"
-msgstr "Videoklip"
-
-#: src/doc/documentchecker.cpp:318
-#, kde-format
-msgid "Slideshow clip"
-msgstr "Diasshowklip"
-
-#: src/doc/documentchecker.cpp:321
-#, kde-format
-msgid "Image clip"
-msgstr "Billedeklip"
-
-#: src/doc/documentchecker.cpp:325
-#, kde-format
-msgid "Playlist clip"
-msgstr "Afspilningslisteklip"
-
-#: src/doc/documentchecker.cpp:328
-#, kde-format
-msgid "Title Image"
-msgstr "Titelbillede"
-
-#: src/doc/documentchecker.cpp:364
-#, kde-format
-msgid "Missing item"
-msgstr "Manglende element"
-
-#: src/doc/documentchecker.cpp:378 src/doc/documentchecker.cpp:403
-#: src/doc/documentchecker.cpp:1403
-#, kde-format
-msgid "Relocated item"
-msgstr "Genfundet element"
-
-#: src/doc/documentchecker.cpp:416
-#, kde-format
-msgid "Title Font"
-msgstr "Titelskrifttype"
-
-#: src/doc/documentchecker.cpp:421
-#, kde-format
-msgid "%1 will be replaced by %2"
-msgstr "%1 erstattes af %2"
-
-#: src/doc/documentchecker.cpp:426
-#, kde-format
-msgid "Modified Clips"
-msgstr "Ændrede klip"
-
-#: src/doc/documentchecker.cpp:430
-#, kde-format
-msgid "Clip %1 will be reloaded"
-msgstr ""
-
-#: src/doc/documentchecker.cpp:435
+#: src/doc/dcresolvedialog.cpp:125
 #, fuzzy, kde-format
-#| msgid "Image sequence"
-msgid "Fixed Sequence Clips"
-msgstr "Billedsekvens"
+#| msgid "Enter new location for file"
+msgid "Enter new location for folder"
+msgstr "Angiv ny placering til fil"
 
-#: src/doc/documentchecker.cpp:439
-#, fuzzy, kde-format
-#| msgid "Clip has no effects"
-msgid "Clip %1 will be fixed"
-msgstr "Klippet har ingen effekter"
-
-#: src/doc/documentchecker.cpp:446
+#: src/doc/dcresolvedialog.cpp:136
 #, kde-format
-msgid "The project file contains missing clips or files."
-msgstr "Projektfilen indeholder manglende klip eller filer."
+msgid "Enter new location for file"
+msgstr "Angiv ny placering til fil"
 
-#: src/doc/documentchecker.cpp:449
-#, kde-format
-msgid "Missing effect: %2 will be removed from project."
-msgid_plural "Missing effects: %2 will be removed from project."
-msgstr[0] "Effekt mangler. %2 vil blive fjernet fra projektet."
-msgstr[1] "Effekter mangler. %2 vil blive fjernet fra projektet."
-
-#: src/doc/documentchecker.cpp:453
-#, fuzzy, kde-format
-#| msgid "Missing effect: %2 will be removed from project."
-#| msgid_plural "Missing effects: %2 will be removed from project."
-msgid "Missing transition: %2 will be removed from project."
-msgid_plural "Missing transitions: %2 will be removed from project."
-msgstr[0] "Effekt mangler. %2 vil blive fjernet fra projektet."
-msgstr[1] "Effekter mangler. %2 vil blive fjernet fra projektet."
-
-#: src/doc/documentchecker.cpp:457
-#, kde-format
-msgid "Missing proxies can be recreated on opening."
-msgstr "Manglende proxyer kan oprettes igen ved åbning."
-
-#: src/doc/documentchecker.cpp:472
-#, kde-format
-msgid ""
-"The project file contains a missing clip, you can still work with its proxy."
-msgid_plural ""
-"The project file contains %1 missing clips, you can still work with their "
-"proxies."
-msgstr[0] ""
-"Projektfilen indeholder et manglende klip, men du kan stadig arbejde med "
-"dens proxy."
-msgstr[1] ""
-"Projektfilen indeholder %1 manglende klip, men du kan stadig arbejde med "
-"deres proxyer."
-
-#: src/doc/documentchecker.cpp:476
+#. i18n: ectx: property (text), widget (QLabel, proxyLabel)
+#: src/doc/dcresolvedialog.cpp:163 src/ui/missingclips_ui.ui:56
 #, fuzzy, kde-format
 #| msgid "The project file contains missing clips or files."
-msgid "The project file contains one modified clip, it will be reloaded."
-msgid_plural ""
-"The project file contains %1 modified clips, they will be reloaded."
+msgid "You project contains one missing proxy"
+msgid_plural "You project contains %1 missing proxies"
 msgstr[0] "Projektfilen indeholder manglende klip eller filer."
 msgstr[1] "Projektfilen indeholder manglende klip eller filer."
 
-#: src/doc/documentchecker.cpp:552
-#: src/mltcontroller/clippropertiescontroller.cpp:419
-#, kde-format
-msgid "Proxy clip"
-msgstr "Proxyklip"
-
-#: src/doc/documentchecker.cpp:555
-#, kde-format
-msgid "%1 missing proxy clip, will be recreated on project opening"
-msgid_plural "%1 missing proxy clips, will be recreated on project opening"
-msgstr[0] ""
-"%1 manglende proxyklip, vil blive genoprettet ved åbning af projektet"
-msgstr[1] ""
-"%1 manglende proxyklip, vil blive genoprettet ved åbning af projektet"
-
-#: src/doc/documentchecker.cpp:558
-#, kde-format
-msgid "Missing proxy"
-msgstr "Manglende proxy"
-
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/doc/documentchecker.cpp:569 src/doc/documentchecker.cpp:583
-#: src/ui/timeremap_ui.ui:90
-#, kde-format
-msgid "Source clip"
-msgstr "Kildeklip"
-
-#: src/doc/documentchecker.cpp:571
-#, kde-format
-msgid "%1 missing source clips, you can only use the proxies"
-msgstr "%1 manglende kildeklip, du kan kun bruge proxyerne"
-
-#: src/doc/documentchecker.cpp:948
+#: src/doc/dcresolvedialog.cpp:173
 #, fuzzy, kde-format
 #| msgid "Clips folder"
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Klipmappe"
 
-#: src/doc/documentchecker.cpp:980 src/doc/documentchecker.cpp:1004
-#: src/doc/documentchecker.cpp:1014 src/doc/documentchecker.cpp:1023
-#: src/doc/documentchecker.cpp:1035
-#, fuzzy, kde-format
-#| msgid "Relocated item"
-msgid "Recovered item"
-msgstr "Genfundet element"
-
-#: src/doc/documentchecker.cpp:1048
-#, fuzzy, kde-format
-#| msgid "Search scale"
-msgid "Search aborted"
-msgstr "Søgningsskala"
-
-#: src/doc/documentchecker.cpp:1050
-#, fuzzy, kde-format
-#| msgid "Search"
-msgid "Search done"
-msgstr "Søg"
-
-#: src/doc/documentchecker.cpp:1166
-#, fuzzy, kde-format
-#| msgid "Scanning"
-msgid "Scanning %1"
-msgstr "Scanner"
-
-#: src/doc/documentchecker.cpp:1365
-#, fuzzy, kde-format
-#| msgid "Enter new location for file"
-msgid "Enter new location for folder"
-msgstr "Angiv ny placering til fil"
-
-#: src/doc/documentchecker.cpp:1391
+#: src/doc/documentchecker.cpp:152
 #, kde-format
-msgid "Enter new location for file"
-msgstr "Angiv ny placering til fil"
+msgid ""
+"The document id of your project was invalid, a new one has been created."
+msgstr ""
 
-#: src/doc/documentchecker.cpp:1866
+#: src/doc/documentchecker.cpp:1458
 #, kde-format
-msgid "This will remove the selected clip from this project"
-msgid_plural "This will remove the selected clips from this project"
-msgstr[0] "Dette vil fjerne det valgte klip fra dette projekt"
-msgstr[1] "Dette vil fjerne de valgte klip fra dette projekt"
+msgid "Video clip"
+msgstr "Videoklip"
 
-#: src/doc/documentchecker.cpp:1868
+#: src/doc/documentchecker.cpp:1460
 #, kde-format
-msgid "Remove clips"
-msgstr "Fjern klip"
+msgid "Slideshow clip"
+msgstr "Diasshowklip"
+
+#: src/doc/documentchecker.cpp:1462
+#, kde-format
+msgid "Image clip"
+msgstr "Billedeklip"
+
+#: src/doc/documentchecker.cpp:1464
+#, kde-format
+msgid "Playlist clip"
+msgstr "Afspilningslisteklip"
+
+#: src/doc/documentchecker.cpp:1466 src/doc/documentchecker.cpp:1482
+#, kde-format
+msgid "Title Image"
+msgstr "Titelbillede"
+
+#: src/doc/documentchecker.cpp:1478
+#, fuzzy, kde-format
+#| msgid "&Clip"
+msgid "Clip"
+msgstr "&Klip"
+
+#: src/doc/documentchecker.cpp:1480
+#, kde-format
+msgid "Title Font"
+msgstr "Titelskrifttype"
+
+#: src/doc/documentchecker.cpp:1484
+#, kde-format
+msgid "Luma file"
+msgstr "Luma-fil"
+
+#: src/doc/documentchecker.cpp:1486
+#, fuzzy, kde-format
+#| msgid "Delete files"
+msgid "Asset file"
+msgstr "Slet filer"
+
+#: src/doc/documentchecker.cpp:1488
+#: src/mltcontroller/clippropertiescontroller.cpp:419
+#, kde-format
+msgid "Proxy clip"
+msgstr "Proxyklip"
+
+#: src/doc/documentchecker.cpp:1490
+#: src/monitor/view/kdenlivemonitorsplit.qml:90
+#, kde-format
+msgid "Effect"
+msgstr "Effekt"
+
+#: src/doc/documentchecker.cpp:1492
+#, fuzzy, kde-format
+#| msgid "Transitions"
+msgid "Transition"
+msgstr "Overgange"
+
+#. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
+#: src/doc/documentchecker.cpp:1502 src/ui/editrenderpreset_ui.ui:538
+#, kde-format
+msgid "Fixed"
+msgstr ""
+
+#: src/doc/documentchecker.cpp:1504
+#, fuzzy, kde-format
+#| msgid "Reload Clip"
+msgid "Reload"
+msgstr "Genindlæs klip"
+
+#: src/doc/documentchecker.cpp:1506
+#, fuzzy, kde-format
+#| msgid "Missing item"
+msgid "Missing"
+msgstr "Manglende element"
+
+#: src/doc/documentchecker.cpp:1508
+#, fuzzy, kde-format
+#| msgid "Missing proxy"
+msgid "Missing, but proxy available"
+msgstr "Manglende proxy"
+
+#. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
+#: src/doc/documentchecker.cpp:1510 src/ui/editrenderpreset_ui.ui:525
+#, kde-format
+msgid "Placeholder"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, removeSelected)
+#: src/doc/documentchecker.cpp:1512 src/ui/missingclips_ui.ui:174
+#, fuzzy, kde-format
+#| msgid "Removal"
+msgid "Remove"
+msgstr "Fjernelse"
+
+#: src/doc/documentchecker.cpp:1523
+#, kde-format
+msgid "The project file contains missing clips or files."
+msgstr "Projektfilen indeholder manglende klip eller filer."
+
+#: src/doc/documentchecker.cpp:1526
+#, kde-format
+msgid "Missing proxies can be recreated on opening."
+msgstr "Manglende proxyer kan oprettes igen ved åbning."
 
 #: src/doc/documentvalidator.cpp:88
 #, kde-format
@@ -8229,7 +8162,7 @@ msgid ""
 "this project's Movit filters."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:277
+#: src/doc/kdenlivedoc.cpp:287
 #, kde-format
 msgid ""
 "The project directory %1, could not be created.\n"
@@ -8240,23 +8173,23 @@ msgstr ""
 "Sørg for at du har de nødvendige rettigheder.\n"
 "Bruger nu systemmapper"
 
-#: src/doc/kdenlivedoc.cpp:280
+#: src/doc/kdenlivedoc.cpp:290
 #, kde-format
 msgid "Document project folder is invalid, using system default folders"
 msgstr ""
 "Dokumentets projektmappe er ugyldig, bruger nu systemets standardmapper"
 
-#: src/doc/kdenlivedoc.cpp:563 src/doc/kdenlivedoc.cpp:573
+#: src/doc/kdenlivedoc.cpp:573 src/doc/kdenlivedoc.cpp:583
 #, kde-format
 msgid "Cannot create autosave file %1"
 msgstr "Kan ikke oprette autogemt fil %1"
 
-#: src/doc/kdenlivedoc.cpp:568 src/doc/kdenlivedoc.cpp:706
+#: src/doc/kdenlivedoc.cpp:578 src/doc/kdenlivedoc.cpp:716
 #, kde-format
 msgid "Cannot write to file %1, scene list is corrupted."
 msgstr "Kan ikke skrive til filen %1, scenelisten er defekt."
 
-#: src/doc/kdenlivedoc.cpp:724
+#: src/doc/kdenlivedoc.cpp:734
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
@@ -8267,7 +8200,7 @@ msgstr ""
 "For at sikre at du ikke mister data, blev en backupkopi oprettet med navnet "
 "%1."
 
-#: src/doc/kdenlivedoc.cpp:738
+#: src/doc/kdenlivedoc.cpp:748
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version, but "
@@ -8276,37 +8209,37 @@ msgstr ""
 "Din projektfil blev opgraderet til den seneste version af Kdenlive-dokument, "
 "men det var ikke muligt at oprette en backupkopi %1."
 
-#: src/doc/kdenlivedoc.cpp:869 src/project/projectmanager.cpp:1177
+#: src/doc/kdenlivedoc.cpp:879 src/project/projectmanager.cpp:1177
 #: src/project/projectmanager.cpp:1213
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Fejl ved flytning af projektmappe: %1"
 
-#: src/doc/kdenlivedoc.cpp:1038 src/doc/kdenlivedoc.cpp:2197
+#: src/doc/kdenlivedoc.cpp:1048 src/doc/kdenlivedoc.cpp:2211
 #: src/project/dialogs/archivewidget.cpp:226
 #: src/project/projectmanager.cpp:1410
 #, kde-format
 msgid "Untitled"
 msgstr "Unavngivet"
 
-#: src/doc/kdenlivedoc.cpp:1099
+#: src/doc/kdenlivedoc.cpp:1109
 #, fuzzy, kde-format
 #| msgid "Enter Template Path"
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Angiv skabelonsti"
 
-#: src/doc/kdenlivedoc.cpp:1256
+#: src/doc/kdenlivedoc.cpp:1266
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "Følgende effekter blev importeret fra projektet:"
 
-#: src/doc/kdenlivedoc.cpp:1289 src/doc/kdenlivedoc.cpp:1303
+#: src/doc/kdenlivedoc.cpp:1303 src/doc/kdenlivedoc.cpp:1317
 #, kde-format
 msgid "Project Folder"
 msgstr "Projektmappe"
 
-#: src/doc/kdenlivedoc.cpp:1347 src/doc/kdenlivedoc.cpp:1355
+#: src/doc/kdenlivedoc.cpp:1361 src/doc/kdenlivedoc.cpp:1369
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -8315,26 +8248,26 @@ msgstr ""
 "Kan ikke oprette backup-kopi:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1500
+#: src/doc/kdenlivedoc.cpp:1514
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "Tilføj proxyklip"
 msgstr[1] "Tilføj proxyklip"
 
-#: src/doc/kdenlivedoc.cpp:1502
+#: src/doc/kdenlivedoc.cpp:1516
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "Fjern proxyklip"
 msgstr[1] "Fjern proxyklip"
 
-#: src/doc/kdenlivedoc.cpp:1546 src/doc/kdenlivedoc.cpp:1581
+#: src/doc/kdenlivedoc.cpp:1560 src/doc/kdenlivedoc.cpp:1595
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "Kliptype understøtter ikke proxyer"
 
-#: src/doc/kdenlivedoc.cpp:1787
+#: src/doc/kdenlivedoc.cpp:1801
 #, kde-format
 msgid ""
 "\n"
@@ -8344,7 +8277,7 @@ msgstr ""
 "Advarsel: ukendt ikke-heltals fps, kan forårsage ukorrekt visning af "
 "varighed."
 
-#: src/doc/kdenlivedoc.cpp:1806
+#: src/doc/kdenlivedoc.cpp:1820
 #, fuzzy, kde-format
 #| msgid ""
 #| "Your default project profile is %1, but your clip's profile is %2.\n"
@@ -8356,44 +8289,44 @@ msgstr ""
 "Din standardprojektprofil er %1, min dit klips profil er %2.\n"
 "Vil du skifte standardprofil for fremtidige projekter?"
 
-#: src/doc/kdenlivedoc.cpp:1808
+#: src/doc/kdenlivedoc.cpp:1822
 #, kde-format
 msgid "Change default project profile"
 msgstr "Skift standardprojektprofil"
 
-#: src/doc/kdenlivedoc.cpp:1808
+#: src/doc/kdenlivedoc.cpp:1822
 #, kde-format
 msgid "Change default to %1"
 msgstr "Skift standard til %1"
 
-#: src/doc/kdenlivedoc.cpp:1809
+#: src/doc/kdenlivedoc.cpp:1823
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Behold nuværende standard %1"
 
-#: src/doc/kdenlivedoc.cpp:1809
+#: src/doc/kdenlivedoc.cpp:1823
 #, kde-format
 msgid "Ask me later"
 msgstr "Spørg mig senere"
 
-#: src/doc/kdenlivedoc.cpp:1829
+#: src/doc/kdenlivedoc.cpp:1843
 #, kde-format
 msgid "Switch"
 msgstr "Skift"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1831 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1845 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "Annullér"
 
-#: src/doc/kdenlivedoc.cpp:1833
+#: src/doc/kdenlivedoc.cpp:1847
 #, fuzzy, kde-format
 #| msgid "Switch to clip profile %1?"
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Skift til klipprofilen %1?"
 
-#: src/doc/kdenlivedoc.cpp:1838
+#: src/doc/kdenlivedoc.cpp:1852
 #, kde-format
 msgid ""
 "\n"
@@ -8402,7 +8335,7 @@ msgstr ""
 "\n"
 "Profilens fps justeret fra original %1"
 
-#: src/doc/kdenlivedoc.cpp:1840
+#: src/doc/kdenlivedoc.cpp:1854
 #, fuzzy, kde-format
 #| msgid ""
 #| "No profile found for your clip.\n"
@@ -8414,13 +8347,13 @@ msgstr ""
 "Ingen profil fundet til dit klip.\n"
 "Opret og skift til ny profil (%1x%2, %3fps)?%4"
 
-#: src/doc/kdenlivedoc.cpp:2236 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2250 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "Rød"
 
-#: src/doc/kdenlivedoc.cpp:2237 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2251 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -8428,23 +8361,23 @@ msgstr "Rød"
 msgid "Green"
 msgstr "Grøn"
 
-#: src/doc/kdenlivedoc.cpp:2238 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2252 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "Blå"
 
-#: src/doc/kdenlivedoc.cpp:2239 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2253 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Gul"
 
-#: src/doc/kdenlivedoc.cpp:2240
+#: src/doc/kdenlivedoc.cpp:2254
 #, kde-format
 msgid "Cyan"
 msgstr "Cyan"
 
-#: src/doc/kdenlivedoc.cpp:2468
+#: src/doc/kdenlivedoc.cpp:2482
 #, fuzzy, kde-format
 #| msgid "Category %1"
 msgid "Category %1:%2:%3"
@@ -11191,7 +11124,7 @@ msgstr "Opret"
 
 #: src/mainwindow.cpp:2157 src/onlineresources/resourcewidget.cpp:568
 #: src/scopes/colorscopes/colorplaneexport.cpp:158
-#: src/titler/titlewidget.cpp:2184
+#: src/titler/titlewidget.cpp:2186
 #, fuzzy, kde-format
 #| msgid "Outline width"
 msgctxt "@action:button"
@@ -11845,7 +11778,7 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/mltcontroller/clippropertiescontroller.cpp:1027
-#: src/project/dialogs/projectsettings.cpp:851 src/ui/projectsettings_ui.ui:534
+#: src/project/dialogs/projectsettings.cpp:853 src/ui/projectsettings_ui.ui:534
 #, kde-format
 msgid "Metadata"
 msgstr "Metadata"
@@ -12663,11 +12596,6 @@ msgid ""
 "Click to add points,\n"
 "right click to close shape."
 msgstr ""
-
-#: src/monitor/view/kdenlivemonitorsplit.qml:90
-#, kde-format
-msgid "Effect"
-msgstr "Effekt"
 
 #: src/monitor/view/MonitorRuler.qml:263
 #, kde-kuit-format
@@ -13824,8 +13752,8 @@ msgstr ""
 "medføre nogle defekter i overgange.\n"
 " Er du sikker på, at du vil fortsætte?"
 
-#: src/project/dialogs/projectsettings.cpp:764
-#: src/project/dialogs/projectsettings.cpp:779
+#: src/project/dialogs/projectsettings.cpp:766
+#: src/project/dialogs/projectsettings.cpp:781
 #: src/project/dialogs/slideshowclip.cpp:330
 #, kde-format
 msgid "1 image found"
@@ -13833,22 +13761,22 @@ msgid_plural "%1 images found"
 msgstr[0] "1 billede fundet"
 msgstr[1] "%1 billeder fundet"
 
-#: src/project/dialogs/projectsettings.cpp:795
+#: src/project/dialogs/projectsettings.cpp:797
 #, kde-format
 msgid "Project folder: %1"
 msgstr "Projektmappe: %1"
 
-#: src/project/dialogs/projectsettings.cpp:796
+#: src/project/dialogs/projectsettings.cpp:798
 #, kde-format
 msgid "Project profile: %1"
 msgstr "Projektprofil: %1"
 
-#: src/project/dialogs/projectsettings.cpp:797
+#: src/project/dialogs/projectsettings.cpp:799
 #, kde-format
 msgid "Total clips: %1 (%2 used in timeline)."
 msgstr "Klip i alt: %1 (%2 brugt i tidslinje)."
 
-#: src/project/dialogs/projectsettings.cpp:851
+#: src/project/dialogs/projectsettings.cpp:853
 #, fuzzy, kde-format
 #| msgid "Metadata"
 msgctxt "@title:window"
@@ -17196,7 +17124,7 @@ msgid "No available stream"
 msgstr " frames"
 
 #: src/titler/gradientwidget.cpp:140 src/titler/gradientwidget.cpp:143
-#: src/titler/titlewidget.cpp:3238 src/titler/titlewidget.cpp:3241
+#: src/titler/titlewidget.cpp:3240 src/titler/titlewidget.cpp:3243
 #, kde-format
 msgid "Gradient %1"
 msgstr "Gradient %1"
@@ -17447,7 +17375,7 @@ msgid "Add Ellipse"
 msgstr "Tilføj klip"
 
 #: src/titler/titlewidget.cpp:405 src/titler/titlewidget.cpp:408
-#: src/titler/titlewidget.cpp:818
+#: src/titler/titlewidget.cpp:820
 #, kde-format
 msgid "Add Image"
 msgstr "Tilføj billede"
@@ -17478,7 +17406,7 @@ msgstr "Gem billede til projekt"
 msgid "Create Title"
 msgstr "Opret titel"
 
-#: src/titler/titlewidget.cpp:698
+#: src/titler/titlewidget.cpp:700
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
@@ -17486,49 +17414,49 @@ msgid ""
 msgstr ""
 "Vil du virkelig indlæse en ny skabelon? Ændringer i denne titel vil gå tabt!"
 
-#: src/titler/titlewidget.cpp:806
+#: src/titler/titlewidget.cpp:808
 #, kde-format
 msgid "All Images"
 msgstr "Alle billeder"
 
-#: src/titler/titlewidget.cpp:808
+#: src/titler/titlewidget.cpp:810
 #, kde-format
 msgid "%1 Image"
 msgstr "%1 billede"
 
-#: src/titler/titlewidget.cpp:1642
+#: src/titler/titlewidget.cpp:1644
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1644 src/ui/titlewidget_ui.ui:260
+#: src/titler/titlewidget.cpp:1646 src/ui/titlewidget_ui.ui:260
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1666
+#: src/titler/titlewidget.cpp:1668
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1668 src/ui/titlewidget_ui.ui:290
+#: src/titler/titlewidget.cpp:1670 src/ui/titlewidget_ui.ui:290
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2135
+#: src/titler/titlewidget.cpp:2137
 #, kde-format
 msgid "Load Title"
 msgstr "Indlæs titel"
 
-#: src/titler/titlewidget.cpp:2136
+#: src/titler/titlewidget.cpp:2138
 #, kde-format
 msgid "Kdenlive title (*.kdenlivetitle)"
 msgstr "Kdenlive-titel (*.kdenlivetitle)"
 
-#: src/titler/titlewidget.cpp:2182
+#: src/titler/titlewidget.cpp:2184
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -17537,14 +17465,14 @@ msgstr ""
 "Vil du indlejre billeder i dette titeldokument?\n"
 "Dette er mest nødvendigt for deling af titler."
 
-#: src/titler/titlewidget.cpp:2183
+#: src/titler/titlewidget.cpp:2185
 #, fuzzy, kde-format
 #| msgid "Add Image"
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Tilføj billede"
 
-#: src/titler/titlewidget.cpp:2238
+#: src/titler/titlewidget.cpp:2240
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "This title has 1 missing element"
@@ -17552,48 +17480,48 @@ msgid_plural "This title has %1 missing elements"
 msgstr[0] "Slet valgte elementer"
 msgstr[1] "Slet valgte elementer"
 
-#: src/titler/titlewidget.cpp:2239 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2241 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Detaljer"
 
-#: src/titler/titlewidget.cpp:2242
+#: src/titler/titlewidget.cpp:2244
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "Delete missing elements"
 msgstr "Slet valgte elementer"
 
-#: src/titler/titlewidget.cpp:2302
+#: src/titler/titlewidget.cpp:2304
 #, fuzzy, kde-format
 #| msgid "Update Profile"
 msgid "Update Title"
 msgstr "Opdatér profil"
 
-#: src/titler/titlewidget.cpp:2305
+#: src/titler/titlewidget.cpp:2307
 #, fuzzy, kde-format
 #| msgid "Add Template Title"
 msgid "Add as new Title"
 msgstr "Tilføj skabelontitel"
 
-#: src/titler/titlewidget.cpp:2359
+#: src/titler/titlewidget.cpp:2361
 #, kde-format
 msgid "The following files are missing:"
 msgstr "Følgende filer mangler:"
 
-#: src/titler/titlewidget.cpp:2553
+#: src/titler/titlewidget.cpp:2555
 #, fuzzy, kde-format
 #| msgid "Start Script"
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Start script"
 
-#: src/titler/titlewidget.cpp:2554
+#: src/titler/titlewidget.cpp:2556
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:3271
+#: src/titler/titlewidget.cpp:3273
 #, kde-format
 msgid "Gradient"
 msgstr "Gradient"
@@ -18186,6 +18114,7 @@ msgstr ""
 msgid "Show handles for all points or only for the selected one."
 msgstr "Vis kontrolpunkter for alle punkter eller kun for det valgte punkt"
 
+#. i18n: ectx: property (text), widget (QLabel, progressLabel)
 #. i18n: ectx: property (text), widget (QLabel, param1Label)
 #. i18n: ectx: property (text), widget (QLabel, param2Label)
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -18197,7 +18126,8 @@ msgstr "Vis kontrolpunkter for alle punkter eller kun for det valgte punkt"
 #: src/ui/customjobinterface_ui.ui:37 src/ui/cutjobdialog_ui.ui:34
 #: src/ui/cutjobdialog_ui.ui:51 src/ui/fontval_ui.ui:36
 #: src/ui/listdependencyparamwidget_ui.ui:36 src/ui/listparamwidget_ui.ui:76
-#: src/ui/urllistparamwidget_ui.ui:42 src/ui/urlval_ui.ui:44
+#: src/ui/missingclips_ui.ui:105 src/ui/urllistparamwidget_ui.ui:42
+#: src/ui/urlval_ui.ui:44
 #, kde-format
 msgid "TextLabel"
 msgstr "Tekstetiket"
@@ -19767,24 +19697,12 @@ msgstr "Rækkefølge for felter"
 msgid "Quality:"
 msgstr "Kvalitet"
 
-#. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/ui/editrenderpreset_ui.ui:525
-#, kde-format
-msgid "Placeholder"
-msgstr ""
-
 #. i18n: ectx: property (toolTip), widget (QCheckBox, fixedGop)
 #: src/ui/editrenderpreset_ui.ui:535
 #, kde-format
 msgid ""
 "A fixed GOP means that keyframes will not be inserted at detected scene "
 "changes."
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/ui/editrenderpreset_ui.ui:538
-#, kde-format
-msgid "Fixed"
 msgstr ""
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, gopSpinner)
@@ -20581,42 +20499,60 @@ msgstr "Billedeforhåndsvisning"
 msgid " Clip Problems"
 msgstr " Problemer med klip"
 
-#. i18n: ectx: property (text), widget (QCheckBox, rebuildProxies)
+#. i18n: ectx: property (title), widget (QGroupBox, proxyBox)
 #: src/ui/missingclips_ui.ui:47
-#, kde-format
-msgid "Rebuild Proxies"
-msgstr "Genopbyg proxier"
+#, fuzzy, kde-format
+#| msgid "Proxy Clips"
+msgid "Proxies"
+msgstr "Proxyklip"
 
-#. i18n: ectx: property (text), widget (QPushButton, usePlaceholders)
-#: src/ui/missingclips_ui.ui:54
-#, kde-format
-msgid "Use placeholders for missing clips"
-msgstr "Brug pladsholdere for manglende klip"
+#. i18n: ectx: property (text), widget (QCheckBox, recreateProxies)
+#: src/ui/missingclips_ui.ui:76
+#, fuzzy, kde-format
+#| msgid "Delete selected items"
+msgid "Recreate missing proxies"
+msgstr "Slet valgte elementer"
 
-#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
-#: src/ui/missingclips_ui.ui:82
-#, kde-format
-msgid "Path"
-msgstr "Sti"
+#. i18n: ectx: property (format), widget (QProgressBar, progressBar)
+#: src/ui/missingclips_ui.ui:128
+#, no-c-format, kde-format
+msgid "%v / %m"
+msgstr ""
 
-#. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/ui/missingclips_ui.ui:100
-#, kde-format
-msgid "Remove selected clips"
-msgstr "Fjern markerede klip"
-
-#. i18n: ectx: property (text), widget (QPushButton, recursiveSearch)
-#: src/ui/missingclips_ui.ui:107
-#, kde-format
-msgid "Search recursively"
-msgstr "Søg rekursivt"
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: src/ui/missingclips_ui.ui:156
+#, fuzzy, kde-format
+#| msgid "Delete Selected Item"
+msgid "Selected Items:"
+msgstr "Slet valgt element"
 
 #. i18n: ectx: property (text), widget (QPushButton, manualSearch)
-#: src/ui/missingclips_ui.ui:114
+#: src/ui/missingclips_ui.ui:163
 #, fuzzy, kde-format
 #| msgid "Search scale"
-msgid "Search manually"
+msgid "Search Manually"
 msgstr "Søgningsskala"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/ui/missingclips_ui.ui:192
+#, fuzzy, kde-format
+#| msgid "Missing item"
+msgid "All Missing Items:"
+msgstr "Manglende element"
+
+#. i18n: ectx: property (text), widget (QPushButton, recursiveSearch)
+#: src/ui/missingclips_ui.ui:199
+#, fuzzy, kde-format
+#| msgid "Search recursively"
+msgid "Search Recursively"
+msgstr "Søg rekursivt"
+
+#. i18n: ectx: property (text), widget (QPushButton, usePlaceholders)
+#: src/ui/missingclips_ui.ui:210
+#, fuzzy, kde-format
+#| msgid "Use default folder"
+msgid "Use Placeholders"
+msgstr "Brug standardmappe"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/ui/multiplemarkerdialog_ui.ui:24
@@ -21576,6 +21512,12 @@ msgstr "Kan ikke slette sidste spor i tidslinje"
 msgid "Save edited text in a new playlist"
 msgstr ""
 
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: src/ui/timeremap_ui.ui:90
+#, kde-format
+msgid "Source clip"
+msgstr "Kildeklip"
+
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/timeremap_ui.ui:144
 #, fuzzy, kde-format
@@ -22224,6 +22166,104 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1t"
+
+#~ msgid "Relocated item"
+#~ msgstr "Genfundet element"
+
+#~ msgid "%1 will be replaced by %2"
+#~ msgstr "%1 erstattes af %2"
+
+#~ msgid "Modified Clips"
+#~ msgstr "Ændrede klip"
+
+#, fuzzy
+#~| msgid "Image sequence"
+#~ msgid "Fixed Sequence Clips"
+#~ msgstr "Billedsekvens"
+
+#, fuzzy
+#~| msgid "Clip has no effects"
+#~ msgid "Clip %1 will be fixed"
+#~ msgstr "Klippet har ingen effekter"
+
+#~ msgid "Missing effect: %2 will be removed from project."
+#~ msgid_plural "Missing effects: %2 will be removed from project."
+#~ msgstr[0] "Effekt mangler. %2 vil blive fjernet fra projektet."
+#~ msgstr[1] "Effekter mangler. %2 vil blive fjernet fra projektet."
+
+#, fuzzy
+#~| msgid "Missing effect: %2 will be removed from project."
+#~| msgid_plural "Missing effects: %2 will be removed from project."
+#~ msgid "Missing transition: %2 will be removed from project."
+#~ msgid_plural "Missing transitions: %2 will be removed from project."
+#~ msgstr[0] "Effekt mangler. %2 vil blive fjernet fra projektet."
+#~ msgstr[1] "Effekter mangler. %2 vil blive fjernet fra projektet."
+
+#~ msgid ""
+#~ "The project file contains a missing clip, you can still work with its "
+#~ "proxy."
+#~ msgid_plural ""
+#~ "The project file contains %1 missing clips, you can still work with their "
+#~ "proxies."
+#~ msgstr[0] ""
+#~ "Projektfilen indeholder et manglende klip, men du kan stadig arbejde med "
+#~ "dens proxy."
+#~ msgstr[1] ""
+#~ "Projektfilen indeholder %1 manglende klip, men du kan stadig arbejde med "
+#~ "deres proxyer."
+
+#, fuzzy
+#~| msgid "The project file contains missing clips or files."
+#~ msgid "The project file contains one modified clip, it will be reloaded."
+#~ msgid_plural ""
+#~ "The project file contains %1 modified clips, they will be reloaded."
+#~ msgstr[0] "Projektfilen indeholder manglende klip eller filer."
+#~ msgstr[1] "Projektfilen indeholder manglende klip eller filer."
+
+#~ msgid "%1 missing proxy clip, will be recreated on project opening"
+#~ msgid_plural "%1 missing proxy clips, will be recreated on project opening"
+#~ msgstr[0] ""
+#~ "%1 manglende proxyklip, vil blive genoprettet ved åbning af projektet"
+#~ msgstr[1] ""
+#~ "%1 manglende proxyklip, vil blive genoprettet ved åbning af projektet"
+
+#~ msgid "%1 missing source clips, you can only use the proxies"
+#~ msgstr "%1 manglende kildeklip, du kan kun bruge proxyerne"
+
+#, fuzzy
+#~| msgid "Relocated item"
+#~ msgid "Recovered item"
+#~ msgstr "Genfundet element"
+
+#, fuzzy
+#~| msgid "Search scale"
+#~ msgid "Search aborted"
+#~ msgstr "Søgningsskala"
+
+#, fuzzy
+#~| msgid "Scanning"
+#~ msgid "Scanning %1"
+#~ msgstr "Scanner"
+
+#~ msgid "This will remove the selected clip from this project"
+#~ msgid_plural "This will remove the selected clips from this project"
+#~ msgstr[0] "Dette vil fjerne det valgte klip fra dette projekt"
+#~ msgstr[1] "Dette vil fjerne de valgte klip fra dette projekt"
+
+#~ msgid "Remove clips"
+#~ msgstr "Fjern klip"
+
+#~ msgid "Rebuild Proxies"
+#~ msgstr "Genopbyg proxier"
+
+#~ msgid "Use placeholders for missing clips"
+#~ msgstr "Brug pladsholdere for manglende klip"
+
+#~ msgid "Path"
+#~ msgstr "Sti"
+
+#~ msgid "Remove selected clips"
+#~ msgstr "Fjern markerede klip"
 
 #~ msgid "Captured files"
 #~ msgstr "Optagede filer"

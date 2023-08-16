@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-14 00:46+0000\n"
+"POT-Creation-Date: 2023-08-16 00:45+0000\n"
 "PO-Revision-Date: 2023-07-30 08:41+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -4266,9 +4266,7 @@ msgstr "Дата"
 msgid "Description"
 msgstr "Опис"
 
-#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
 #: src/bin/bin.cpp:1287 src/bin/projectitemmodel.cpp:315
-#: src/ui/missingclips_ui.ui:77
 #, kde-format
 msgid "Type"
 msgstr "Тип"
@@ -4386,7 +4384,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "Вилучити кліп контейнера"
 
-#: src/bin/bin.cpp:1830 src/doc/documentchecker.cpp:574
+#: src/bin/bin.cpp:1830
 #, kde-format
 msgid "Missing source clip"
 msgstr "Не вистачає початкового кліпу"
@@ -4399,7 +4397,7 @@ msgstr "Не вистачає початкового кліпу"
 msgid "Unable to write to file %1"
 msgstr "Не вдалося виконати запис до файла %1"
 
-#: src/bin/bin.cpp:1856 src/bin/bin.cpp:2366 src/doc/kdenlivedoc.cpp:728
+#: src/bin/bin.cpp:1856 src/bin/bin.cpp:2366 src/doc/kdenlivedoc.cpp:738
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -4867,7 +4865,7 @@ msgstr ""
 "Ви редагуєте зовнішній кліп титрів (%1). Бажаєте зберегти зміни до файла "
 "титрів чи внести зміни лише до файлів вашого проєкту?"
 
-#: src/bin/bin.cpp:4569 src/titler/titlewidget.cpp:2188
+#: src/bin/bin.cpp:4569 src/titler/titlewidget.cpp:2190
 #, kde-format
 msgid "Save Title"
 msgstr "Збереження титрів"
@@ -5503,7 +5501,8 @@ msgstr "Ід."
 msgid "Usage"
 msgstr "Користування"
 
-#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:332
+#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:1468
+#: src/doc/documentchecker.cpp:1494 src/doc/documentchecker.cpp:1514
 #: src/mltcontroller/clipcontroller.cpp:485 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -5963,7 +5962,7 @@ msgstr "Текстовий кліп"
 msgid "Create Text clip"
 msgstr "Створення текстового кліпу"
 
-#: src/dialogs/clipcreationdialog.cpp:394 src/doc/kdenlivedoc.cpp:1113
+#: src/dialogs/clipcreationdialog.cpp:394 src/doc/kdenlivedoc.cpp:1123
 #, kde-format
 msgid "Template title clip"
 msgstr "Шаблон кліпу з титрами"
@@ -6172,7 +6171,7 @@ msgstr ""
 
 #: src/dialogs/encodingprofilesdialog.cpp:259
 #: src/dialogs/encodingprofilesdialog.cpp:348
-#: src/project/dialogs/projectsettings.cpp:885
+#: src/project/dialogs/projectsettings.cpp:887
 #, kde-format
 msgid "Automatic (%1)"
 msgstr "Автоматично (%1)"
@@ -6180,15 +6179,15 @@ msgstr "Автоматично (%1)"
 #: src/dialogs/encodingprofilesdialog.cpp:261
 #: src/dialogs/encodingprofilesdialog.cpp:350
 #: src/dialogs/kdenlivesettingsdialog.cpp:682
-#: src/project/dialogs/projectsettings.cpp:887
+#: src/project/dialogs/projectsettings.cpp:889
 #: src/transitions/view/transitionstackview.cpp:37
 #, kde-format
 msgid "Automatic"
 msgstr "Автоматично"
 
 #: src/dialogs/encodingprofilesdialog.cpp:329
-#: src/project/dialogs/projectsettings.cpp:922
-#: src/project/dialogs/projectsettings.cpp:953
+#: src/project/dialogs/projectsettings.cpp:924
+#: src/project/dialogs/projectsettings.cpp:955
 #, kde-format
 msgid "Current Settings"
 msgstr "Поточні параметри"
@@ -6251,8 +6250,8 @@ msgid "Export Guides Data"
 msgstr "Експортування даних напрямних"
 
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1611
-#: src/dialogs/renderwidget.cpp:1638 src/doc/kdenlivedoc.cpp:745
-#: src/doc/kdenlivedoc.cpp:753 src/doc/kdenlivedoc.cpp:1249
+#: src/dialogs/renderwidget.cpp:1638 src/doc/kdenlivedoc.cpp:755
+#: src/doc/kdenlivedoc.cpp:763 src/doc/kdenlivedoc.cpp:1259
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
 #: src/effects/effectsrepository.cpp:390
@@ -6268,7 +6267,7 @@ msgstr "Експортування даних напрямних"
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5044
-#: src/titler/titlewidget.cpp:2201
+#: src/titler/titlewidget.cpp:2203
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Не вдалося виконати запис до файла %1"
@@ -7675,247 +7674,166 @@ msgstr "Не знайдено апаратних засобів кодуванн
 msgid "hardware encoders found and enabled (%1)."
 msgstr "Апаратні засоби кодування виявлено і увімкнено (%1)."
 
-#: src/doc/documentchecker.cpp:116
+#: src/doc/dcresolvedialog.cpp:42
 #, kde-format
-msgid ""
-"The document id of your project was invalid, a new one has been created."
-msgstr "Ідентифікатор документа вашого проєкту є некоректним, створено новий."
-
-#: src/doc/documentchecker.cpp:281
-#, kde-format
-msgid "Luma file"
-msgstr "Файл сигналу яскравості"
-
-#: src/doc/documentchecker.cpp:287
-#, kde-format
-msgid "Asset file"
-msgstr "Файл активів"
-
-#: src/doc/documentchecker.cpp:314
-#, kde-format
-msgid "Video clip"
-msgstr "Відеокліп"
-
-#: src/doc/documentchecker.cpp:318
-#, kde-format
-msgid "Slideshow clip"
-msgstr "Кліп показу слайдів"
-
-#: src/doc/documentchecker.cpp:321
-#, kde-format
-msgid "Image clip"
-msgstr "Кліп-зображення"
-
-#: src/doc/documentchecker.cpp:325
-#, kde-format
-msgid "Playlist clip"
-msgstr "Додати кліп до списку відтворення"
-
-#: src/doc/documentchecker.cpp:328
-#, kde-format
-msgid "Title Image"
-msgstr "Зображення титрів"
-
-#: src/doc/documentchecker.cpp:364
-#, kde-format
-msgid "Missing item"
-msgstr "Не знайдено об’єкта"
-
-#: src/doc/documentchecker.cpp:378 src/doc/documentchecker.cpp:403
-#: src/doc/documentchecker.cpp:1403
-#, kde-format
-msgid "Relocated item"
-msgstr "Пересунутий запис"
-
-#: src/doc/documentchecker.cpp:416
-#, kde-format
-msgid "Title Font"
-msgstr "Шрифт титрів"
-
-#: src/doc/documentchecker.cpp:421
-#, kde-format
-msgid "%1 will be replaced by %2"
-msgstr "%1 буде замінено на %2"
-
-#: src/doc/documentchecker.cpp:426
-#, kde-format
-msgid "Modified Clips"
-msgstr "Змінені кліпи"
-
-#: src/doc/documentchecker.cpp:430
-#, kde-format
-msgid "Clip %1 will be reloaded"
-msgstr "Кліп %1 буде перезавантажено"
-
-#: src/doc/documentchecker.cpp:435
-#, kde-format
-msgid "Fixed Sequence Clips"
-msgstr "Виправлено кліпи послідовності"
-
-#: src/doc/documentchecker.cpp:439
-#, kde-format
-msgid "Clip %1 will be fixed"
-msgstr "Кліп %1 буде виправлено"
-
-#: src/doc/documentchecker.cpp:446
-#, kde-format
-msgid "The project file contains missing clips or files."
-msgstr "Файл проєкту містить посилання на кліпи або файли, яких у ньому немає."
-
-#: src/doc/documentchecker.cpp:449
-#, kde-format
-msgid "Missing effect: %2 will be removed from project."
-msgid_plural "Missing effects: %2 will be removed from project."
-msgstr[0] "Немає ефектів: %2 буде вилучено з проєкту."
-msgstr[1] "Немає ефектів: %2 буде вилучено з проєкту."
-msgstr[2] "Немає ефектів: %2 буде вилучено з проєкту."
-msgstr[3] "Немає ефекту: %2 буде вилучено з проєкту."
-
-#: src/doc/documentchecker.cpp:453
-#, kde-format
-msgid "Missing transition: %2 will be removed from project."
-msgid_plural "Missing transitions: %2 will be removed from project."
-msgstr[0] "Немає ефектів: %2 буде вилучено з проєкту."
-msgstr[1] "Немає ефектів: %2 буде вилучено з проєкту."
-msgstr[2] "Немає ефектів: %2 буде вилучено з проєкту."
-msgstr[3] "Немає ефекту: %2 буде вилучено з проєкту."
-
-#: src/doc/documentchecker.cpp:457
-#, kde-format
-msgid "Missing proxies can be recreated on opening."
+msgid "Recursive search: processing clips"
 msgstr ""
-"Проміжні кліпи, яких не вистачатиме, може бути повторно створено після "
-"відкриття."
 
-#: src/doc/documentchecker.cpp:472
+#: src/doc/dcresolvedialog.cpp:51
+#, fuzzy, kde-format
+#| msgid "Search done"
+msgid "Recursive search: done"
+msgstr "Пошук виконано"
+
+#: src/doc/dcresolvedialog.cpp:125
 #, kde-format
-msgid ""
-"The project file contains a missing clip, you can still work with its proxy."
-msgid_plural ""
-"The project file contains %1 missing clips, you can still work with their "
-"proxies."
+msgid "Enter new location for folder"
+msgstr "Введіть нову адресу теки"
+
+#: src/doc/dcresolvedialog.cpp:136
+#, kde-format
+msgid "Enter new location for file"
+msgstr "Введіть нову адресу файла"
+
+#. i18n: ectx: property (text), widget (QLabel, proxyLabel)
+#: src/doc/dcresolvedialog.cpp:163 src/ui/missingclips_ui.ui:56
+#, fuzzy, kde-format
+#| msgid "The project file contains missing clips or files."
+msgid "You project contains one missing proxy"
+msgid_plural "You project contains %1 missing proxies"
 msgstr[0] ""
-"У файлі проєкту не вистачає %1 початкового кліпу, ви можете працювати лише з "
-"проміжними кліпами."
+"Файл проєкту містить посилання на кліпи або файли, яких у ньому немає."
 msgstr[1] ""
-"У файлі проєкту не вистачає %1 початкових кліпів, ви можете працювати лише з "
-"проміжними кліпами."
+"Файл проєкту містить посилання на кліпи або файли, яких у ньому немає."
 msgstr[2] ""
-"У файлі проєкту не вистачає %1 початкових кліпів, ви можете працювати лише з "
-"проміжними кліпами."
+"Файл проєкту містить посилання на кліпи або файли, яких у ньому немає."
 msgstr[3] ""
-"У файлі проєкту не вистачає початкового кліпу, ви можете працювати лише з "
-"проміжним кліпом."
+"Файл проєкту містить посилання на кліпи або файли, яких у ньому немає."
 
-#: src/doc/documentchecker.cpp:476
-#, kde-format
-msgid "The project file contains one modified clip, it will be reloaded."
-msgid_plural ""
-"The project file contains %1 modified clips, they will be reloaded."
-msgstr[0] ""
-"Файл проєкту містить %1 змінений кліп. Ці кліпи буде перезавантажено."
-msgstr[1] ""
-"Файл проєкту містить %1 змінених кліпи. Ці кліпи буде перезавантажено."
-msgstr[2] ""
-"Файл проєкту містить %1 змінених кліпів. Ці кліпи буде перезавантажено."
-msgstr[3] "Файл проєкту містить змінений кліп. Цей кліп буде перезавантажено."
-
-#: src/doc/documentchecker.cpp:552
-#: src/mltcontroller/clippropertiescontroller.cpp:419
-#, kde-format
-msgid "Proxy clip"
-msgstr "Проміжний кліп"
-
-#: src/doc/documentchecker.cpp:555
-#, kde-format
-msgid "%1 missing proxy clip, will be recreated on project opening"
-msgid_plural "%1 missing proxy clips, will be recreated on project opening"
-msgstr[0] ""
-"У %1 немає частини проміжних кліпів, ці кліпи буде повторно створено після "
-"відкриття."
-msgstr[1] ""
-"У %1 немає частини проміжних кліпів, ці кліпи буде повторно створено після "
-"відкриття."
-msgstr[2] ""
-"У %1 немає частини проміжних кліпів, ці кліпи буде повторно створено після "
-"відкриття."
-msgstr[3] ""
-"У %1 немає частини проміжного кліпу, ці кліпи буде повторно створено після "
-"відкриття."
-
-#: src/doc/documentchecker.cpp:558
-#, kde-format
-msgid "Missing proxy"
-msgstr "Пропущено проміжний кліп"
-
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/doc/documentchecker.cpp:569 src/doc/documentchecker.cpp:583
-#: src/ui/timeremap_ui.ui:90
-#, kde-format
-msgid "Source clip"
-msgstr "Початковий кліп"
-
-#: src/doc/documentchecker.cpp:571
-#, kde-format
-msgid "%1 missing source clips, you can only use the proxies"
-msgstr ""
-"У %1 не вистачає початкових кліпів, ви можете скористатися лише проміжними"
-
-#: src/doc/documentchecker.cpp:948
+#: src/doc/dcresolvedialog.cpp:173
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Тека кліпів"
 
-#: src/doc/documentchecker.cpp:980 src/doc/documentchecker.cpp:1004
-#: src/doc/documentchecker.cpp:1014 src/doc/documentchecker.cpp:1023
-#: src/doc/documentchecker.cpp:1035
+#: src/doc/documentchecker.cpp:152
 #, kde-format
-msgid "Recovered item"
-msgstr "Відновлений запис"
+msgid ""
+"The document id of your project was invalid, a new one has been created."
+msgstr "Ідентифікатор документа вашого проєкту є некоректним, створено новий."
 
-#: src/doc/documentchecker.cpp:1048
+#: src/doc/documentchecker.cpp:1458
 #, kde-format
-msgid "Search aborted"
-msgstr "Пошук перервано"
+msgid "Video clip"
+msgstr "Відеокліп"
 
-#: src/doc/documentchecker.cpp:1050
+#: src/doc/documentchecker.cpp:1460
 #, kde-format
-msgid "Search done"
-msgstr "Пошук виконано"
+msgid "Slideshow clip"
+msgstr "Кліп показу слайдів"
 
-#: src/doc/documentchecker.cpp:1166
+#: src/doc/documentchecker.cpp:1462
 #, kde-format
-msgid "Scanning %1"
-msgstr "Шукаємо у %1"
+msgid "Image clip"
+msgstr "Кліп-зображення"
 
-#: src/doc/documentchecker.cpp:1365
+#: src/doc/documentchecker.cpp:1464
 #, kde-format
-msgid "Enter new location for folder"
-msgstr "Введіть нову адресу теки"
+msgid "Playlist clip"
+msgstr "Додати кліп до списку відтворення"
 
-#: src/doc/documentchecker.cpp:1391
+#: src/doc/documentchecker.cpp:1466 src/doc/documentchecker.cpp:1482
 #, kde-format
-msgid "Enter new location for file"
-msgstr "Введіть нову адресу файла"
+msgid "Title Image"
+msgstr "Зображення титрів"
 
-#: src/doc/documentchecker.cpp:1866
-#, kde-format
-msgid "This will remove the selected clip from this project"
-msgid_plural "This will remove the selected clips from this project"
-msgstr[0] ""
-"У результаті виконання цієї дії позначені кліпи буде вилучено з цього проєкту"
-msgstr[1] ""
-"У результаті виконання цієї дії позначені кліпи буде вилучено з цього проєкту"
-msgstr[2] ""
-"У результаті виконання цієї дії позначені кліпи буде вилучено з цього проєкту"
-msgstr[3] ""
-"У результаті виконання цієї дії позначений кліп буде вилучено з цього проєкту"
+#: src/doc/documentchecker.cpp:1478
+#, fuzzy, kde-format
+#| msgid "&Clip"
+msgid "Clip"
+msgstr "&Кліп"
 
-#: src/doc/documentchecker.cpp:1868
+#: src/doc/documentchecker.cpp:1480
 #, kde-format
-msgid "Remove clips"
-msgstr "Вилучити кліпи"
+msgid "Title Font"
+msgstr "Шрифт титрів"
+
+#: src/doc/documentchecker.cpp:1484
+#, kde-format
+msgid "Luma file"
+msgstr "Файл сигналу яскравості"
+
+#: src/doc/documentchecker.cpp:1486
+#, kde-format
+msgid "Asset file"
+msgstr "Файл активів"
+
+#: src/doc/documentchecker.cpp:1488
+#: src/mltcontroller/clippropertiescontroller.cpp:419
+#, kde-format
+msgid "Proxy clip"
+msgstr "Проміжний кліп"
+
+#: src/doc/documentchecker.cpp:1490
+#: src/monitor/view/kdenlivemonitorsplit.qml:90
+#, kde-format
+msgid "Effect"
+msgstr "Ефект"
+
+#: src/doc/documentchecker.cpp:1492
+#, fuzzy, kde-format
+#| msgid "Transitions"
+msgid "Transition"
+msgstr "Переходи"
+
+#. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
+#: src/doc/documentchecker.cpp:1502 src/ui/editrenderpreset_ui.ui:538
+#, kde-format
+msgid "Fixed"
+msgstr "Фіксована"
+
+#: src/doc/documentchecker.cpp:1504
+#, fuzzy, kde-format
+#| msgid "Reload Clip"
+msgid "Reload"
+msgstr "Перезавантажити кліп"
+
+#: src/doc/documentchecker.cpp:1506
+#, fuzzy, kde-format
+#| msgid "Missing item"
+msgid "Missing"
+msgstr "Не знайдено об’єкта"
+
+#: src/doc/documentchecker.cpp:1508
+#, fuzzy, kde-format
+#| msgid "Missing proxy"
+msgid "Missing, but proxy available"
+msgstr "Пропущено проміжний кліп"
+
+#. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
+#: src/doc/documentchecker.cpp:1510 src/ui/editrenderpreset_ui.ui:525
+#, kde-format
+msgid "Placeholder"
+msgstr "Заповнювач"
+
+#. i18n: ectx: property (text), widget (QPushButton, removeSelected)
+#: src/doc/documentchecker.cpp:1512 src/ui/missingclips_ui.ui:174
+#, fuzzy, kde-format
+#| msgid "Removal"
+msgid "Remove"
+msgstr "Вилучення"
+
+#: src/doc/documentchecker.cpp:1523
+#, kde-format
+msgid "The project file contains missing clips or files."
+msgstr "Файл проєкту містить посилання на кліпи або файли, яких у ньому немає."
+
+#: src/doc/documentchecker.cpp:1526
+#, kde-format
+msgid "Missing proxies can be recreated on opening."
+msgstr ""
+"Проміжні кліпи, яких не вистачатиме, може бути повторно створено після "
+"відкриття."
 
 #: src/doc/documentvalidator.cpp:88
 #, kde-format
@@ -8068,7 +7986,7 @@ msgstr ""
 "Прискорення обробки за допомогою графічного процесора вимкнено у параметрах "
 "Kdenlive, але воно потрібне для фільтрів Movit цього проєкту."
 
-#: src/doc/kdenlivedoc.cpp:277
+#: src/doc/kdenlivedoc.cpp:287
 #, kde-format
 msgid ""
 "The project directory %1, could not be created.\n"
@@ -8079,22 +7997,22 @@ msgstr ""
 "Будь ласка, переконайтеся, що маєте достатні права доступу.\n"
 "Повертаємося до типових тек системи"
 
-#: src/doc/kdenlivedoc.cpp:280
+#: src/doc/kdenlivedoc.cpp:290
 #, kde-format
 msgid "Document project folder is invalid, using system default folders"
 msgstr "Некоректна тека документів проєкту, використовуємо типові теки системи"
 
-#: src/doc/kdenlivedoc.cpp:563 src/doc/kdenlivedoc.cpp:573
+#: src/doc/kdenlivedoc.cpp:573 src/doc/kdenlivedoc.cpp:583
 #, kde-format
 msgid "Cannot create autosave file %1"
 msgstr "Не вдалося створити файл автоматичного збереження %1"
 
-#: src/doc/kdenlivedoc.cpp:568 src/doc/kdenlivedoc.cpp:706
+#: src/doc/kdenlivedoc.cpp:578 src/doc/kdenlivedoc.cpp:716
 #, kde-format
 msgid "Cannot write to file %1, scene list is corrupted."
 msgstr "Не вдалося виконати запис до файла %1, список сцен пошкоджено."
 
-#: src/doc/kdenlivedoc.cpp:724
+#: src/doc/kdenlivedoc.cpp:734
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
@@ -8104,7 +8022,7 @@ msgstr ""
 "Kdenlive.\n"
 "Щоб зберегти ваші дані від втрат, було створено резервну копію з назвою %1."
 
-#: src/doc/kdenlivedoc.cpp:738
+#: src/doc/kdenlivedoc.cpp:748
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version, but "
@@ -8113,36 +8031,36 @@ msgstr ""
 "Файл вашого проєкту було оновлено до поточної версії формату документів "
 "Kdenlive, але створення резервної копії %1 було неможливим."
 
-#: src/doc/kdenlivedoc.cpp:869 src/project/projectmanager.cpp:1177
+#: src/doc/kdenlivedoc.cpp:879 src/project/projectmanager.cpp:1177
 #: src/project/projectmanager.cpp:1213
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Помилка під час спроби пересунути теку проєкту: %1"
 
-#: src/doc/kdenlivedoc.cpp:1038 src/doc/kdenlivedoc.cpp:2197
+#: src/doc/kdenlivedoc.cpp:1048 src/doc/kdenlivedoc.cpp:2211
 #: src/project/dialogs/archivewidget.cpp:226
 #: src/project/projectmanager.cpp:1410
 #, kde-format
 msgid "Untitled"
 msgstr "Без назви"
 
-#: src/doc/kdenlivedoc.cpp:1099
+#: src/doc/kdenlivedoc.cpp:1109
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Введіть шлях до шаблонів"
 
-#: src/doc/kdenlivedoc.cpp:1256
+#: src/doc/kdenlivedoc.cpp:1266
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "З проєкту було імпортовано такі ефекти:"
 
-#: src/doc/kdenlivedoc.cpp:1289 src/doc/kdenlivedoc.cpp:1303
+#: src/doc/kdenlivedoc.cpp:1303 src/doc/kdenlivedoc.cpp:1317
 #, kde-format
 msgid "Project Folder"
 msgstr "Тека проєкту"
 
-#: src/doc/kdenlivedoc.cpp:1347 src/doc/kdenlivedoc.cpp:1355
+#: src/doc/kdenlivedoc.cpp:1361 src/doc/kdenlivedoc.cpp:1369
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -8151,7 +8069,7 @@ msgstr ""
 "Не вдалося створити резервну копію:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1500
+#: src/doc/kdenlivedoc.cpp:1514
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
@@ -8160,7 +8078,7 @@ msgstr[1] "Додати проміжні кліпи"
 msgstr[2] "Додати проміжні кліпи"
 msgstr[3] "Додати проміжний кліп"
 
-#: src/doc/kdenlivedoc.cpp:1502
+#: src/doc/kdenlivedoc.cpp:1516
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
@@ -8169,12 +8087,12 @@ msgstr[1] "Вилучити проміжні кліпи"
 msgstr[2] "Вилучити проміжні кліпи"
 msgstr[3] "Вилучити проміжний кліп"
 
-#: src/doc/kdenlivedoc.cpp:1546 src/doc/kdenlivedoc.cpp:1581
+#: src/doc/kdenlivedoc.cpp:1560 src/doc/kdenlivedoc.cpp:1595
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "Для кліпів цього типу не передбачено проміжних кліпів"
 
-#: src/doc/kdenlivedoc.cpp:1787
+#: src/doc/kdenlivedoc.cpp:1801
 #, kde-format
 msgid ""
 "\n"
@@ -8184,7 +8102,7 @@ msgstr ""
 "Попередження: невідоме неціле значення частоти кадрів, може призвести до "
 "показу помилкового значення тривалості."
 
-#: src/doc/kdenlivedoc.cpp:1806
+#: src/doc/kdenlivedoc.cpp:1820
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -8193,43 +8111,43 @@ msgstr ""
 "Вашим типовим профілем проєкту є %1, а профілем кліпу (%2) — %3.\n"
 "Хочете змінити типовий профіль для майбутніх проєктів?"
 
-#: src/doc/kdenlivedoc.cpp:1808
+#: src/doc/kdenlivedoc.cpp:1822
 #, kde-format
 msgid "Change default project profile"
 msgstr "Зміна типового профілю проєкту"
 
-#: src/doc/kdenlivedoc.cpp:1808
+#: src/doc/kdenlivedoc.cpp:1822
 #, kde-format
 msgid "Change default to %1"
 msgstr "Змінити типовий на %1"
 
-#: src/doc/kdenlivedoc.cpp:1809
+#: src/doc/kdenlivedoc.cpp:1823
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Зберегти поточний типовий, %1"
 
-#: src/doc/kdenlivedoc.cpp:1809
+#: src/doc/kdenlivedoc.cpp:1823
 #, kde-format
 msgid "Ask me later"
 msgstr "Спитати пізніше"
 
-#: src/doc/kdenlivedoc.cpp:1829
+#: src/doc/kdenlivedoc.cpp:1843
 #, kde-format
 msgid "Switch"
 msgstr "Перемкнутися"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1831 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1845 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "Скасувати"
 
-#: src/doc/kdenlivedoc.cpp:1833
+#: src/doc/kdenlivedoc.cpp:1847
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Перемкнутися на профіль кліпу (%1) %2?"
 
-#: src/doc/kdenlivedoc.cpp:1838
+#: src/doc/kdenlivedoc.cpp:1852
 #, kde-format
 msgid ""
 "\n"
@@ -8238,7 +8156,7 @@ msgstr ""
 "\n"
 "Частоту кадрів проєкту скориговано з початкового значення %1"
 
-#: src/doc/kdenlivedoc.cpp:1840
+#: src/doc/kdenlivedoc.cpp:1854
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -8247,13 +8165,13 @@ msgstr ""
 "Не знайдено наявного профілю для вашого кліпу %1.\n"
 "Створити профіль (%2⨯%3, %4 кадрів за секунду) і перемкнутися на нього?%5"
 
-#: src/doc/kdenlivedoc.cpp:2236 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2250 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "Червоний"
 
-#: src/doc/kdenlivedoc.cpp:2237 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2251 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -8261,23 +8179,23 @@ msgstr "Червоний"
 msgid "Green"
 msgstr "Зелений"
 
-#: src/doc/kdenlivedoc.cpp:2238 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2252 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "Синій"
 
-#: src/doc/kdenlivedoc.cpp:2239 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2253 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Жовтий"
 
-#: src/doc/kdenlivedoc.cpp:2240
+#: src/doc/kdenlivedoc.cpp:2254
 #, kde-format
 msgid "Cyan"
 msgstr "Блакитний"
 
-#: src/doc/kdenlivedoc.cpp:2468
+#: src/doc/kdenlivedoc.cpp:2482
 #, kde-format
 msgid "Category %1:%2:%3"
 msgstr "Категорія %1:%2:%3"
@@ -10953,7 +10871,7 @@ msgstr "Створити заново"
 
 #: src/mainwindow.cpp:2157 src/onlineresources/resourcewidget.cpp:568
 #: src/scopes/colorscopes/colorplaneexport.cpp:158
-#: src/titler/titlewidget.cpp:2184
+#: src/titler/titlewidget.cpp:2186
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -11596,7 +11514,7 @@ msgstr "Показує докладні відомості щодо звуков
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/mltcontroller/clippropertiescontroller.cpp:1027
-#: src/project/dialogs/projectsettings.cpp:851 src/ui/projectsettings_ui.ui:534
+#: src/project/dialogs/projectsettings.cpp:853 src/ui/projectsettings_ui.ui:534
 #, kde-format
 msgid "Metadata"
 msgstr "Метадані"
@@ -12414,11 +12332,6 @@ msgid ""
 msgstr ""
 "Клацніть лівою, щоб додати точки,\n"
 "клацніть правою, щоб замкнути форму."
-
-#: src/monitor/view/kdenlivemonitorsplit.qml:90
-#, kde-format
-msgid "Effect"
-msgstr "Ефект"
 
 #: src/monitor/view/MonitorRuler.qml:263
 #, kde-kuit-format
@@ -13546,8 +13459,8 @@ msgstr ""
 "призвести до пошкодження переходів.\n"
 " Ви справді бажаєте продовжити виконання дії?"
 
-#: src/project/dialogs/projectsettings.cpp:764
-#: src/project/dialogs/projectsettings.cpp:779
+#: src/project/dialogs/projectsettings.cpp:766
+#: src/project/dialogs/projectsettings.cpp:781
 #: src/project/dialogs/slideshowclip.cpp:330
 #, kde-format
 msgid "1 image found"
@@ -13557,22 +13470,22 @@ msgstr[1] "Знайдено %1 зображення"
 msgstr[2] "Знайдено %1 зображень"
 msgstr[3] "Знайдено одне зображення"
 
-#: src/project/dialogs/projectsettings.cpp:795
+#: src/project/dialogs/projectsettings.cpp:797
 #, kde-format
 msgid "Project folder: %1"
 msgstr "Тека проєкту: %1"
 
-#: src/project/dialogs/projectsettings.cpp:796
+#: src/project/dialogs/projectsettings.cpp:798
 #, kde-format
 msgid "Project profile: %1"
 msgstr "Профіль проєкту: %1"
 
-#: src/project/dialogs/projectsettings.cpp:797
+#: src/project/dialogs/projectsettings.cpp:799
 #, kde-format
 msgid "Total clips: %1 (%2 used in timeline)."
 msgstr "Загалом кліпів: %1 (використано на монтажному столі: %2)."
 
-#: src/project/dialogs/projectsettings.cpp:851
+#: src/project/dialogs/projectsettings.cpp:853
 #, kde-format
 msgctxt "@title:window"
 msgid "Metadata"
@@ -16882,7 +16795,7 @@ msgid "No available stream"
 msgstr "Немає доступних потоків"
 
 #: src/titler/gradientwidget.cpp:140 src/titler/gradientwidget.cpp:143
-#: src/titler/titlewidget.cpp:3238 src/titler/titlewidget.cpp:3241
+#: src/titler/titlewidget.cpp:3240 src/titler/titlewidget.cpp:3243
 #, kde-format
 msgid "Gradient %1"
 msgstr "Градієнт %1"
@@ -17130,7 +17043,7 @@ msgid "Add Ellipse"
 msgstr "Додати еліпс"
 
 #: src/titler/titlewidget.cpp:405 src/titler/titlewidget.cpp:408
-#: src/titler/titlewidget.cpp:818
+#: src/titler/titlewidget.cpp:820
 #, kde-format
 msgid "Add Image"
 msgstr "Додати зображення"
@@ -17160,7 +17073,7 @@ msgstr "Зберегти і додати до проєкту"
 msgid "Create Title"
 msgstr "Створити титри"
 
-#: src/titler/titlewidget.cpp:698
+#: src/titler/titlewidget.cpp:700
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
@@ -17169,49 +17082,49 @@ msgstr ""
 "Ви справді бажаєте завантажити новий шаблон? Всі зміни, внесені до цього "
 "документа, буде втрачено!"
 
-#: src/titler/titlewidget.cpp:806
+#: src/titler/titlewidget.cpp:808
 #, kde-format
 msgid "All Images"
 msgstr "Усі зображення"
 
-#: src/titler/titlewidget.cpp:808
+#: src/titler/titlewidget.cpp:810
 #, kde-format
 msgid "%1 Image"
 msgstr "Зображення %1"
 
-#: src/titler/titlewidget.cpp:1642
+#: src/titler/titlewidget.cpp:1644
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1644 src/ui/titlewidget_ui.ui:260
+#: src/titler/titlewidget.cpp:1646 src/ui/titlewidget_ui.ui:260
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1666
+#: src/titler/titlewidget.cpp:1668
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1668 src/ui/titlewidget_ui.ui:290
+#: src/titler/titlewidget.cpp:1670 src/ui/titlewidget_ui.ui:290
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2135
+#: src/titler/titlewidget.cpp:2137
 #, kde-format
 msgid "Load Title"
 msgstr "Завантажити титри"
 
-#: src/titler/titlewidget.cpp:2136
+#: src/titler/titlewidget.cpp:2138
 #, kde-format
 msgid "Kdenlive title (*.kdenlivetitle)"
 msgstr "субтитри Kdenlive (*.kdenlivetitle)"
 
-#: src/titler/titlewidget.cpp:2182
+#: src/titler/titlewidget.cpp:2184
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -17220,13 +17133,13 @@ msgstr ""
 "Бажаєте вбудувати зображення до цього основного документа?\n"
 "Зображення — найважливіша умова, якщо ви бажаєте поширювати дані."
 
-#: src/titler/titlewidget.cpp:2183
+#: src/titler/titlewidget.cpp:2185
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Вбудувати зображення"
 
-#: src/titler/titlewidget.cpp:2238
+#: src/titler/titlewidget.cpp:2240
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
@@ -17235,44 +17148,44 @@ msgstr[1] "У цих титрах немає %1 елементів"
 msgstr[2] "У цих титрах немає %1 елементів"
 msgstr[3] "У цих титрах немає %1 елемента"
 
-#: src/titler/titlewidget.cpp:2239 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2241 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Подробиці"
 
-#: src/titler/titlewidget.cpp:2242
+#: src/titler/titlewidget.cpp:2244
 #, kde-format
 msgid "Delete missing elements"
 msgstr "Вилучити пропущені елементи"
 
-#: src/titler/titlewidget.cpp:2302
+#: src/titler/titlewidget.cpp:2304
 #, kde-format
 msgid "Update Title"
 msgstr "Оновити титри"
 
-#: src/titler/titlewidget.cpp:2305
+#: src/titler/titlewidget.cpp:2307
 #, kde-format
 msgid "Add as new Title"
 msgstr "Додати як нові титри"
 
-#: src/titler/titlewidget.cpp:2359
+#: src/titler/titlewidget.cpp:2361
 #, kde-format
 msgid "The following files are missing:"
 msgstr "Не вистачає таких файлів:"
 
-#: src/titler/titlewidget.cpp:2553
+#: src/titler/titlewidget.cpp:2555
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Початкова позиція"
 
-#: src/titler/titlewidget.cpp:2554
+#: src/titler/titlewidget.cpp:2556
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Кінцева позиція"
 
-#: src/titler/titlewidget.cpp:3271
+#: src/titler/titlewidget.cpp:3273
 #, kde-format
 msgid "Gradient"
 msgstr "Градієнт"
@@ -17860,6 +17773,7 @@ msgstr ""
 msgid "Show handles for all points or only for the selected one."
 msgstr "Показувати елементи керування всіма точками чи лише позначеною."
 
+#. i18n: ectx: property (text), widget (QLabel, progressLabel)
 #. i18n: ectx: property (text), widget (QLabel, param1Label)
 #. i18n: ectx: property (text), widget (QLabel, param2Label)
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -17871,7 +17785,8 @@ msgstr "Показувати елементи керування всіма то
 #: src/ui/customjobinterface_ui.ui:37 src/ui/cutjobdialog_ui.ui:34
 #: src/ui/cutjobdialog_ui.ui:51 src/ui/fontval_ui.ui:36
 #: src/ui/listdependencyparamwidget_ui.ui:36 src/ui/listparamwidget_ui.ui:76
-#: src/ui/urllistparamwidget_ui.ui:42 src/ui/urlval_ui.ui:44
+#: src/ui/missingclips_ui.ui:105 src/ui/urllistparamwidget_ui.ui:42
+#: src/ui/urlval_ui.ui:44
 #, kde-format
 msgid "TextLabel"
 msgstr "Текст"
@@ -19352,12 +19267,6 @@ msgstr "Порядок полів:"
 msgid "Quality:"
 msgstr "Якість:"
 
-#. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/ui/editrenderpreset_ui.ui:525
-#, kde-format
-msgid "Placeholder"
-msgstr "Заповнювач"
-
 #. i18n: ectx: property (toolTip), widget (QCheckBox, fixedGop)
 #: src/ui/editrenderpreset_ui.ui:535
 #, kde-format
@@ -19367,12 +19276,6 @@ msgid ""
 msgstr ""
 "Фіксована група зображень означає, що ключові кадри не буде вставлено у "
 "позиції змін сцен."
-
-#. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/ui/editrenderpreset_ui.ui:538
-#, kde-format
-msgid "Fixed"
-msgstr "Фіксована"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (suffix), widget (QSpinBox, bFramesSpinner)
@@ -20100,41 +20003,60 @@ msgstr "Перегляд зображення"
 msgid " Clip Problems"
 msgstr "Проблеми з кліпом"
 
-#. i18n: ectx: property (text), widget (QCheckBox, rebuildProxies)
+#. i18n: ectx: property (title), widget (QGroupBox, proxyBox)
 #: src/ui/missingclips_ui.ui:47
-#, kde-format
-msgid "Rebuild Proxies"
-msgstr "Перебудувати проміжні"
+#, fuzzy, kde-format
+#| msgid "Proxy Clips"
+msgid "Proxies"
+msgstr "Проміжні кліпи"
 
-#. i18n: ectx: property (text), widget (QPushButton, usePlaceholders)
-#: src/ui/missingclips_ui.ui:54
-#, kde-format
-msgid "Use placeholders for missing clips"
-msgstr "Заповнювачі на місці кліпів, які не знайдено"
+#. i18n: ectx: property (text), widget (QCheckBox, recreateProxies)
+#: src/ui/missingclips_ui.ui:76
+#, fuzzy, kde-format
+#| msgid "Delete missing elements"
+msgid "Recreate missing proxies"
+msgstr "Вилучити пропущені елементи"
 
-#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
-#: src/ui/missingclips_ui.ui:82
-#, kde-format
-msgid "Path"
-msgstr "Шлях"
+#. i18n: ectx: property (format), widget (QProgressBar, progressBar)
+#: src/ui/missingclips_ui.ui:128
+#, no-c-format, kde-format
+msgid "%v / %m"
+msgstr ""
 
-#. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/ui/missingclips_ui.ui:100
-#, kde-format
-msgid "Remove selected clips"
-msgstr "Вилучити позначені кліпи"
-
-#. i18n: ectx: property (text), widget (QPushButton, recursiveSearch)
-#: src/ui/missingclips_ui.ui:107
-#, kde-format
-msgid "Search recursively"
-msgstr "Рекурсивний пошук"
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: src/ui/missingclips_ui.ui:156
+#, fuzzy, kde-format
+#| msgid "Delete Selected Item"
+msgid "Selected Items:"
+msgstr "Вилучити позначений елемент"
 
 #. i18n: ectx: property (text), widget (QPushButton, manualSearch)
-#: src/ui/missingclips_ui.ui:114
-#, kde-format
-msgid "Search manually"
+#: src/ui/missingclips_ui.ui:163
+#, fuzzy, kde-format
+#| msgid "Search manually"
+msgid "Search Manually"
 msgstr "Пошук вручну"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/ui/missingclips_ui.ui:192
+#, fuzzy, kde-format
+#| msgid "Missing item"
+msgid "All Missing Items:"
+msgstr "Не знайдено об’єкта"
+
+#. i18n: ectx: property (text), widget (QPushButton, recursiveSearch)
+#: src/ui/missingclips_ui.ui:199
+#, fuzzy, kde-format
+#| msgid "Search recursively"
+msgid "Search Recursively"
+msgstr "Рекурсивний пошук"
+
+#. i18n: ectx: property (text), widget (QPushButton, usePlaceholders)
+#: src/ui/missingclips_ui.ui:210
+#, fuzzy, kde-format
+#| msgid "Placeholder"
+msgid "Use Placeholders"
+msgstr "Заповнювач"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/ui/multiplemarkerdialog_ui.ui:24
@@ -21029,6 +20951,12 @@ msgstr "Вставити позначені блоки на монтажний �
 msgid "Save edited text in a new playlist"
 msgstr "Зберегти редагований текст у новому списку відтворення"
 
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: src/ui/timeremap_ui.ui:90
+#, kde-format
+msgid "Source clip"
+msgstr "Початковий кліп"
+
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/timeremap_ui.ui:144
 #, kde-format
@@ -21632,6 +21560,127 @@ msgstr "%1 хв."
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 год."
+
+#~ msgid "Relocated item"
+#~ msgstr "Пересунутий запис"
+
+#~ msgid "%1 will be replaced by %2"
+#~ msgstr "%1 буде замінено на %2"
+
+#~ msgid "Modified Clips"
+#~ msgstr "Змінені кліпи"
+
+#~ msgid "Clip %1 will be reloaded"
+#~ msgstr "Кліп %1 буде перезавантажено"
+
+#~ msgid "Fixed Sequence Clips"
+#~ msgstr "Виправлено кліпи послідовності"
+
+#~ msgid "Clip %1 will be fixed"
+#~ msgstr "Кліп %1 буде виправлено"
+
+#~ msgid "Missing effect: %2 will be removed from project."
+#~ msgid_plural "Missing effects: %2 will be removed from project."
+#~ msgstr[0] "Немає ефектів: %2 буде вилучено з проєкту."
+#~ msgstr[1] "Немає ефектів: %2 буде вилучено з проєкту."
+#~ msgstr[2] "Немає ефектів: %2 буде вилучено з проєкту."
+#~ msgstr[3] "Немає ефекту: %2 буде вилучено з проєкту."
+
+#~ msgid "Missing transition: %2 will be removed from project."
+#~ msgid_plural "Missing transitions: %2 will be removed from project."
+#~ msgstr[0] "Немає ефектів: %2 буде вилучено з проєкту."
+#~ msgstr[1] "Немає ефектів: %2 буде вилучено з проєкту."
+#~ msgstr[2] "Немає ефектів: %2 буде вилучено з проєкту."
+#~ msgstr[3] "Немає ефекту: %2 буде вилучено з проєкту."
+
+#~ msgid ""
+#~ "The project file contains a missing clip, you can still work with its "
+#~ "proxy."
+#~ msgid_plural ""
+#~ "The project file contains %1 missing clips, you can still work with their "
+#~ "proxies."
+#~ msgstr[0] ""
+#~ "У файлі проєкту не вистачає %1 початкового кліпу, ви можете працювати "
+#~ "лише з проміжними кліпами."
+#~ msgstr[1] ""
+#~ "У файлі проєкту не вистачає %1 початкових кліпів, ви можете працювати "
+#~ "лише з проміжними кліпами."
+#~ msgstr[2] ""
+#~ "У файлі проєкту не вистачає %1 початкових кліпів, ви можете працювати "
+#~ "лише з проміжними кліпами."
+#~ msgstr[3] ""
+#~ "У файлі проєкту не вистачає початкового кліпу, ви можете працювати лише з "
+#~ "проміжним кліпом."
+
+#~ msgid "The project file contains one modified clip, it will be reloaded."
+#~ msgid_plural ""
+#~ "The project file contains %1 modified clips, they will be reloaded."
+#~ msgstr[0] ""
+#~ "Файл проєкту містить %1 змінений кліп. Ці кліпи буде перезавантажено."
+#~ msgstr[1] ""
+#~ "Файл проєкту містить %1 змінених кліпи. Ці кліпи буде перезавантажено."
+#~ msgstr[2] ""
+#~ "Файл проєкту містить %1 змінених кліпів. Ці кліпи буде перезавантажено."
+#~ msgstr[3] ""
+#~ "Файл проєкту містить змінений кліп. Цей кліп буде перезавантажено."
+
+#~ msgid "%1 missing proxy clip, will be recreated on project opening"
+#~ msgid_plural "%1 missing proxy clips, will be recreated on project opening"
+#~ msgstr[0] ""
+#~ "У %1 немає частини проміжних кліпів, ці кліпи буде повторно створено "
+#~ "після відкриття."
+#~ msgstr[1] ""
+#~ "У %1 немає частини проміжних кліпів, ці кліпи буде повторно створено "
+#~ "після відкриття."
+#~ msgstr[2] ""
+#~ "У %1 немає частини проміжних кліпів, ці кліпи буде повторно створено "
+#~ "після відкриття."
+#~ msgstr[3] ""
+#~ "У %1 немає частини проміжного кліпу, ці кліпи буде повторно створено "
+#~ "після відкриття."
+
+#~ msgid "%1 missing source clips, you can only use the proxies"
+#~ msgstr ""
+#~ "У %1 не вистачає початкових кліпів, ви можете скористатися лише проміжними"
+
+#~ msgid "Recovered item"
+#~ msgstr "Відновлений запис"
+
+#~ msgid "Search aborted"
+#~ msgstr "Пошук перервано"
+
+#~ msgid "Scanning %1"
+#~ msgstr "Шукаємо у %1"
+
+#~ msgid "This will remove the selected clip from this project"
+#~ msgid_plural "This will remove the selected clips from this project"
+#~ msgstr[0] ""
+#~ "У результаті виконання цієї дії позначені кліпи буде вилучено з цього "
+#~ "проєкту"
+#~ msgstr[1] ""
+#~ "У результаті виконання цієї дії позначені кліпи буде вилучено з цього "
+#~ "проєкту"
+#~ msgstr[2] ""
+#~ "У результаті виконання цієї дії позначені кліпи буде вилучено з цього "
+#~ "проєкту"
+#~ msgstr[3] ""
+#~ "У результаті виконання цієї дії позначений кліп буде вилучено з цього "
+#~ "проєкту"
+
+#~ msgid "Remove clips"
+#~ msgstr "Вилучити кліпи"
+
+#~ msgid "Rebuild Proxies"
+#~ msgstr "Перебудувати проміжні"
+
+#~ msgid "Use placeholders for missing clips"
+#~ msgstr "Заповнювачі на місці кліпів, які не знайдено"
+
+#~ msgid "Path"
+#~ msgstr "Шлях"
+
+#~ msgid "Remove selected clips"
+#~ msgstr "Вилучити позначені кліпи"
 
 #~ msgid "Captured files"
 #~ msgstr "Захоплені файли"

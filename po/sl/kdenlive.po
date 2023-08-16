@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-14 00:46+0000\n"
+"POT-Creation-Date: 2023-08-16 00:45+0000\n"
 "PO-Revision-Date: 2023-07-30 12:23+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -4241,9 +4241,7 @@ msgstr "Datum"
 msgid "Description"
 msgstr "Opis"
 
-#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
 #: src/bin/bin.cpp:1287 src/bin/projectitemmodel.cpp:315
-#: src/ui/missingclips_ui.ui:77
 #, kde-format
 msgid "Type"
 msgstr "Vrsta"
@@ -4358,7 +4356,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "Izbriši posnetke posode"
 
-#: src/bin/bin.cpp:1830 src/doc/documentchecker.cpp:574
+#: src/bin/bin.cpp:1830
 #, kde-format
 msgid "Missing source clip"
 msgstr "Manjkajoči izvorni posnetek"
@@ -4371,7 +4369,7 @@ msgstr "Manjkajoči izvorni posnetek"
 msgid "Unable to write to file %1"
 msgstr "V datoteko %1 ni mogoče pisati"
 
-#: src/bin/bin.cpp:1856 src/bin/bin.cpp:2366 src/doc/kdenlivedoc.cpp:728
+#: src/bin/bin.cpp:1856 src/bin/bin.cpp:2366 src/doc/kdenlivedoc.cpp:738
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -4837,7 +4835,7 @@ msgstr ""
 "Urejate zunanji posnetek napisa (%1). Ali želite shraniti spremembe v "
 "datoteko napisa ali shraniti spremembe le za ta projekt?"
 
-#: src/bin/bin.cpp:4569 src/titler/titlewidget.cpp:2188
+#: src/bin/bin.cpp:4569 src/titler/titlewidget.cpp:2190
 #, kde-format
 msgid "Save Title"
 msgstr "Shrani napis"
@@ -5470,7 +5468,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr "Uporaba"
 
-#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:332
+#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:1468
+#: src/doc/documentchecker.cpp:1494 src/doc/documentchecker.cpp:1514
 #: src/mltcontroller/clipcontroller.cpp:485 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -5927,7 +5926,7 @@ msgstr "Posnetek iz besedila"
 msgid "Create Text clip"
 msgstr "Ustvari besedilni posnetek"
 
-#: src/dialogs/clipcreationdialog.cpp:394 src/doc/kdenlivedoc.cpp:1113
+#: src/dialogs/clipcreationdialog.cpp:394 src/doc/kdenlivedoc.cpp:1123
 #, kde-format
 msgid "Template title clip"
 msgstr "Predloga posnetka napisa"
@@ -6134,7 +6133,7 @@ msgstr ""
 
 #: src/dialogs/encodingprofilesdialog.cpp:259
 #: src/dialogs/encodingprofilesdialog.cpp:348
-#: src/project/dialogs/projectsettings.cpp:885
+#: src/project/dialogs/projectsettings.cpp:887
 #, kde-format
 msgid "Automatic (%1)"
 msgstr "Samodejno (%1)"
@@ -6142,15 +6141,15 @@ msgstr "Samodejno (%1)"
 #: src/dialogs/encodingprofilesdialog.cpp:261
 #: src/dialogs/encodingprofilesdialog.cpp:350
 #: src/dialogs/kdenlivesettingsdialog.cpp:682
-#: src/project/dialogs/projectsettings.cpp:887
+#: src/project/dialogs/projectsettings.cpp:889
 #: src/transitions/view/transitionstackview.cpp:37
 #, kde-format
 msgid "Automatic"
 msgstr "Samodejno"
 
 #: src/dialogs/encodingprofilesdialog.cpp:329
-#: src/project/dialogs/projectsettings.cpp:922
-#: src/project/dialogs/projectsettings.cpp:953
+#: src/project/dialogs/projectsettings.cpp:924
+#: src/project/dialogs/projectsettings.cpp:955
 #, kde-format
 msgid "Current Settings"
 msgstr "Trenutne nastavitve"
@@ -6212,8 +6211,8 @@ msgid "Export Guides Data"
 msgstr "Izvozi podatke vodil"
 
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1611
-#: src/dialogs/renderwidget.cpp:1638 src/doc/kdenlivedoc.cpp:745
-#: src/doc/kdenlivedoc.cpp:753 src/doc/kdenlivedoc.cpp:1249
+#: src/dialogs/renderwidget.cpp:1638 src/doc/kdenlivedoc.cpp:755
+#: src/doc/kdenlivedoc.cpp:763 src/doc/kdenlivedoc.cpp:1259
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
 #: src/effects/effectsrepository.cpp:390
@@ -6229,7 +6228,7 @@ msgstr "Izvozi podatke vodil"
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5044
-#: src/titler/titlewidget.cpp:2201
+#: src/titler/titlewidget.cpp:2203
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "V datoteko %1 ni mogoče pisati"
@@ -7616,238 +7615,160 @@ msgstr "Ni najdenih strojnih kodirnikov."
 msgid "hardware encoders found and enabled (%1)."
 msgstr "najdeni in omogočeni strojni kodirniki (%1)."
 
-#: src/doc/documentchecker.cpp:116
+#: src/doc/dcresolvedialog.cpp:42
 #, kde-format
-msgid ""
-"The document id of your project was invalid, a new one has been created."
-msgstr "ID dokumenta vašega projekta je bil neveljaven, ustvarjen je bil nov."
-
-#: src/doc/documentchecker.cpp:281
-#, kde-format
-msgid "Luma file"
-msgstr "Datoteka svetilnosti"
-
-#: src/doc/documentchecker.cpp:287
-#, kde-format
-msgid "Asset file"
-msgstr "Datoteka sredstev"
-
-#: src/doc/documentchecker.cpp:314
-#, kde-format
-msgid "Video clip"
-msgstr "Video posnetek"
-
-#: src/doc/documentchecker.cpp:318
-#, kde-format
-msgid "Slideshow clip"
-msgstr "Predstavitveni posnetek"
-
-#: src/doc/documentchecker.cpp:321
-#, kde-format
-msgid "Image clip"
-msgstr "Posnetek iz slike"
-
-#: src/doc/documentchecker.cpp:325
-#, kde-format
-msgid "Playlist clip"
-msgstr "Posnetek seznama predvajanja"
-
-#: src/doc/documentchecker.cpp:328
-#, kde-format
-msgid "Title Image"
-msgstr "Slika napisa"
-
-#: src/doc/documentchecker.cpp:364
-#, kde-format
-msgid "Missing item"
-msgstr "Manjkajoči predmet"
-
-#: src/doc/documentchecker.cpp:378 src/doc/documentchecker.cpp:403
-#: src/doc/documentchecker.cpp:1403
-#, kde-format
-msgid "Relocated item"
-msgstr "Prestavljen predmet"
-
-#: src/doc/documentchecker.cpp:416
-#, kde-format
-msgid "Title Font"
-msgstr "Pisava napisa"
-
-#: src/doc/documentchecker.cpp:421
-#, kde-format
-msgid "%1 will be replaced by %2"
-msgstr "%1 bo zamenjan z %2"
-
-#: src/doc/documentchecker.cpp:426
-#, kde-format
-msgid "Modified Clips"
-msgstr "Spremenjeni posnetki"
-
-#: src/doc/documentchecker.cpp:430
-#, kde-format
-msgid "Clip %1 will be reloaded"
-msgstr "Posnetek %1 bo ponovno naložen"
-
-#: src/doc/documentchecker.cpp:435
-#, kde-format
-msgid "Fixed Sequence Clips"
-msgstr "Fiksirano zaporedje posnetkov"
-
-#: src/doc/documentchecker.cpp:439
-#, kde-format
-msgid "Clip %1 will be fixed"
-msgstr "Posnetek %1 bo fiksiran"
-
-#: src/doc/documentchecker.cpp:446
-#, kde-format
-msgid "The project file contains missing clips or files."
-msgstr "Datoteka projekta vsebuje manjkajoče posnetke ali datoteke."
-
-#: src/doc/documentchecker.cpp:449
-#, kde-format
-msgid "Missing effect: %2 will be removed from project."
-msgid_plural "Missing effects: %2 will be removed from project."
-msgstr[0] "Manjkajoči učinek: %2 bo odstranjen iz projekta."
-msgstr[1] "Manjkajoča učinka: %2 bosta odstranjena iz projekta."
-msgstr[2] "Manjkajoči učinki: %2 bodo odstranjeni iz projekta."
-msgstr[3] "Manjkajoči učinki: %2 bodo odstranjeni iz projekta."
-
-#: src/doc/documentchecker.cpp:453
-#, kde-format
-msgid "Missing transition: %2 will be removed from project."
-msgid_plural "Missing transitions: %2 will be removed from project."
-msgstr[0] "Manjkajoči prehod: %2 bo odstranjen iz projekta."
-msgstr[1] "Manjkajoča prehoda: %2 bosta odstranjena iz projekta."
-msgstr[2] "Manjkajoči prehodi: %2 bodo odstranjeni iz projekta."
-msgstr[3] "Manjkajoči prehodi: %2 bodo odstranjeni iz projekta."
-
-#: src/doc/documentchecker.cpp:457
-#, kde-format
-msgid "Missing proxies can be recreated on opening."
-msgstr "Manjkajoče pooblaščence je mogoče obnoviti ob odpiranju."
-
-#: src/doc/documentchecker.cpp:472
-#, kde-format
-msgid ""
-"The project file contains a missing clip, you can still work with its proxy."
-msgid_plural ""
-"The project file contains %1 missing clips, you can still work with their "
-"proxies."
-msgstr[0] ""
-"Projektna datoteka vsebuje %1 manjkajoči posnetek, ampak še vseeno lahko "
-"uporabljate njegov posredni posnetek."
-msgstr[1] ""
-"Projektna datoteka vsebuje %1 manjkajoča posnetka, ampak še vseeno lahko "
-"uporabljate njuna posredna posnetka."
-msgstr[2] ""
-"Projektna datoteka vsebuje %1 manjkajoče posnetke, ampak še vseeno lahko "
-"uporabljate njihove posredne posnetke."
-msgstr[3] ""
-"Projektna datoteka vsebuje %1 manjkajočih posnetkov, ampak še vseeno lahko "
-"uporabljate njihove posredne posnetke."
-
-#: src/doc/documentchecker.cpp:476
-#, kde-format
-msgid "The project file contains one modified clip, it will be reloaded."
-msgid_plural ""
-"The project file contains %1 modified clips, they will be reloaded."
-msgstr[0] ""
-"Datoteka projekta vsebuje %1 spremenjen posnetek, bo ponovno naložen."
-msgstr[1] ""
-"Datoteka projekta vsebuje %1 spremenjena posnetka, bosta ponovno naložena."
-msgstr[2] ""
-"Datoteka projekta vsebuje %1 spremenjene posnetke, bodo ponovno naloženi."
-msgstr[3] ""
-"Datoteka projekta vsebuje %1 spremenjenih posnetkov, bodo ponovno naloženi."
-
-#: src/doc/documentchecker.cpp:552
-#: src/mltcontroller/clippropertiescontroller.cpp:419
-#, kde-format
-msgid "Proxy clip"
-msgstr "Posredni posnetek"
-
-#: src/doc/documentchecker.cpp:555
-#, kde-format
-msgid "%1 missing proxy clip, will be recreated on project opening"
-msgid_plural "%1 missing proxy clips, will be recreated on project opening"
-msgstr[0] ""
-"%1 manjkajoči posredni posnetek bo znova ustvarjen ob odprtju projekta"
-msgstr[1] ""
-"%1 manjkajoča posredna posnetka bosta znova ustvarjena ob odprtju projekta"
-msgstr[2] ""
-"%1 manjkajoči posredni posnetki bodo znova ustvarjeni ob odprtju projekta"
-msgstr[3] ""
-"%1 manjkajočih posrednih posnetkov bo znova ustvarjenih ob odprtju projekta"
-
-#: src/doc/documentchecker.cpp:558
-#, kde-format
-msgid "Missing proxy"
-msgstr "Manjkajoči posredni posnetek"
-
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/doc/documentchecker.cpp:569 src/doc/documentchecker.cpp:583
-#: src/ui/timeremap_ui.ui:90
-#, kde-format
-msgid "Source clip"
-msgstr "Izvorni posnetek"
-
-#: src/doc/documentchecker.cpp:571
-#, kde-format
-msgid "%1 missing source clips, you can only use the proxies"
+msgid "Recursive search: processing clips"
 msgstr ""
-"%1 manjkajočih izvornih posnetkov, uporabite lahko le posredne posnetke"
 
-#: src/doc/documentchecker.cpp:948
+#: src/doc/dcresolvedialog.cpp:51
+#, fuzzy, kde-format
+#| msgid "Search done"
+msgid "Recursive search: done"
+msgstr "Iskanje opravljeno"
+
+#: src/doc/dcresolvedialog.cpp:125
+#, kde-format
+msgid "Enter new location for folder"
+msgstr "Vnesite novo mesto za mapo"
+
+#: src/doc/dcresolvedialog.cpp:136
+#, kde-format
+msgid "Enter new location for file"
+msgstr "Vnesite novo mesto za datoteko"
+
+#. i18n: ectx: property (text), widget (QLabel, proxyLabel)
+#: src/doc/dcresolvedialog.cpp:163 src/ui/missingclips_ui.ui:56
+#, fuzzy, kde-format
+#| msgid "The project file contains missing clips or files."
+msgid "You project contains one missing proxy"
+msgid_plural "You project contains %1 missing proxies"
+msgstr[0] "Datoteka projekta vsebuje manjkajoče posnetke ali datoteke."
+msgstr[1] "Datoteka projekta vsebuje manjkajoče posnetke ali datoteke."
+msgstr[2] "Datoteka projekta vsebuje manjkajoče posnetke ali datoteke."
+msgstr[3] "Datoteka projekta vsebuje manjkajoče posnetke ali datoteke."
+
+#: src/doc/dcresolvedialog.cpp:173
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Mapa s posnetki"
 
-#: src/doc/documentchecker.cpp:980 src/doc/documentchecker.cpp:1004
-#: src/doc/documentchecker.cpp:1014 src/doc/documentchecker.cpp:1023
-#: src/doc/documentchecker.cpp:1035
+#: src/doc/documentchecker.cpp:152
 #, kde-format
-msgid "Recovered item"
-msgstr "Obnovljen predmet"
+msgid ""
+"The document id of your project was invalid, a new one has been created."
+msgstr "ID dokumenta vašega projekta je bil neveljaven, ustvarjen je bil nov."
 
-#: src/doc/documentchecker.cpp:1048
+#: src/doc/documentchecker.cpp:1458
 #, kde-format
-msgid "Search aborted"
-msgstr "Iskanja preklicano"
+msgid "Video clip"
+msgstr "Video posnetek"
 
-#: src/doc/documentchecker.cpp:1050
+#: src/doc/documentchecker.cpp:1460
 #, kde-format
-msgid "Search done"
-msgstr "Iskanje opravljeno"
+msgid "Slideshow clip"
+msgstr "Predstavitveni posnetek"
 
-#: src/doc/documentchecker.cpp:1166
+#: src/doc/documentchecker.cpp:1462
 #, kde-format
-msgid "Scanning %1"
-msgstr "Preiskovanje %1"
+msgid "Image clip"
+msgstr "Posnetek iz slike"
 
-#: src/doc/documentchecker.cpp:1365
+#: src/doc/documentchecker.cpp:1464
 #, kde-format
-msgid "Enter new location for folder"
-msgstr "Vnesite novo mesto za mapo"
+msgid "Playlist clip"
+msgstr "Posnetek seznama predvajanja"
 
-#: src/doc/documentchecker.cpp:1391
+#: src/doc/documentchecker.cpp:1466 src/doc/documentchecker.cpp:1482
 #, kde-format
-msgid "Enter new location for file"
-msgstr "Vnesite novo mesto za datoteko"
+msgid "Title Image"
+msgstr "Slika napisa"
 
-#: src/doc/documentchecker.cpp:1866
-#, kde-format
-msgid "This will remove the selected clip from this project"
-msgid_plural "This will remove the selected clips from this project"
-msgstr[0] "To bo odstranilo izbrani posnetek iz tega projekta"
-msgstr[1] "To bo odstranilo izbrana posnetka iz tega projekta"
-msgstr[2] "To bo odstranilo izbrane posnetke iz tega projekta"
-msgstr[3] "To bo odstranilo izbrane posnetke iz tega projekta"
+#: src/doc/documentchecker.cpp:1478
+#, fuzzy, kde-format
+#| msgid "&Clip"
+msgid "Clip"
+msgstr "Posnetek"
 
-#: src/doc/documentchecker.cpp:1868
+#: src/doc/documentchecker.cpp:1480
 #, kde-format
-msgid "Remove clips"
-msgstr "Odstrani posnetke"
+msgid "Title Font"
+msgstr "Pisava napisa"
+
+#: src/doc/documentchecker.cpp:1484
+#, kde-format
+msgid "Luma file"
+msgstr "Datoteka svetilnosti"
+
+#: src/doc/documentchecker.cpp:1486
+#, kde-format
+msgid "Asset file"
+msgstr "Datoteka sredstev"
+
+#: src/doc/documentchecker.cpp:1488
+#: src/mltcontroller/clippropertiescontroller.cpp:419
+#, kde-format
+msgid "Proxy clip"
+msgstr "Posredni posnetek"
+
+#: src/doc/documentchecker.cpp:1490
+#: src/monitor/view/kdenlivemonitorsplit.qml:90
+#, kde-format
+msgid "Effect"
+msgstr "Učinek"
+
+#: src/doc/documentchecker.cpp:1492
+#, fuzzy, kde-format
+#| msgid "Transitions"
+msgid "Transition"
+msgstr "Prehodi"
+
+#. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
+#: src/doc/documentchecker.cpp:1502 src/ui/editrenderpreset_ui.ui:538
+#, kde-format
+msgid "Fixed"
+msgstr "Nespremenljivo"
+
+#: src/doc/documentchecker.cpp:1504
+#, fuzzy, kde-format
+#| msgid "Reload Clip"
+msgid "Reload"
+msgstr "Znova naloži posnetek"
+
+#: src/doc/documentchecker.cpp:1506
+#, fuzzy, kde-format
+#| msgid "Missing item"
+msgid "Missing"
+msgstr "Manjkajoči predmet"
+
+#: src/doc/documentchecker.cpp:1508
+#, fuzzy, kde-format
+#| msgid "Missing proxy"
+msgid "Missing, but proxy available"
+msgstr "Manjkajoči posredni posnetek"
+
+#. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
+#: src/doc/documentchecker.cpp:1510 src/ui/editrenderpreset_ui.ui:525
+#, kde-format
+msgid "Placeholder"
+msgstr "Ograda"
+
+#. i18n: ectx: property (text), widget (QPushButton, removeSelected)
+#: src/doc/documentchecker.cpp:1512 src/ui/missingclips_ui.ui:174
+#, fuzzy, kde-format
+#| msgid "Removal"
+msgid "Remove"
+msgstr "Odstranitev"
+
+#: src/doc/documentchecker.cpp:1523
+#, kde-format
+msgid "The project file contains missing clips or files."
+msgstr "Datoteka projekta vsebuje manjkajoče posnetke ali datoteke."
+
+#: src/doc/documentchecker.cpp:1526
+#, kde-format
+msgid "Missing proxies can be recreated on opening."
+msgstr "Manjkajoče pooblaščence je mogoče obnoviti ob odpiranju."
 
 #: src/doc/documentvalidator.cpp:88
 #, kde-format
@@ -7996,7 +7917,7 @@ msgstr ""
 "Pospeševanje GPE je v nastavitvah Kdenlive izklopljeno, vendar je potrebno "
 "za filtre Movit tega projekta."
 
-#: src/doc/kdenlivedoc.cpp:277
+#: src/doc/kdenlivedoc.cpp:287
 #, kde-format
 msgid ""
 "The project directory %1, could not be created.\n"
@@ -8007,23 +7928,23 @@ msgstr ""
 "Prepričajte se, da imate zahtevana dovoljenja.\n"
 "Uporabljene bodo privzete sistemske mape"
 
-#: src/doc/kdenlivedoc.cpp:280
+#: src/doc/kdenlivedoc.cpp:290
 #, kde-format
 msgid "Document project folder is invalid, using system default folders"
 msgstr ""
 "Mapa dokumenta projekta ni veljavna, uporabljene bodo privzete sistemske mape"
 
-#: src/doc/kdenlivedoc.cpp:563 src/doc/kdenlivedoc.cpp:573
+#: src/doc/kdenlivedoc.cpp:573 src/doc/kdenlivedoc.cpp:583
 #, kde-format
 msgid "Cannot create autosave file %1"
 msgstr "Ni mogoče ustvariti samoshranjevalne datoteke %1"
 
-#: src/doc/kdenlivedoc.cpp:568 src/doc/kdenlivedoc.cpp:706
+#: src/doc/kdenlivedoc.cpp:578 src/doc/kdenlivedoc.cpp:716
 #, kde-format
 msgid "Cannot write to file %1, scene list is corrupted."
 msgstr "V datoteko %1 ni mogoče pisati. Seznam prizorov je pokvarjen."
 
-#: src/doc/kdenlivedoc.cpp:724
+#: src/doc/kdenlivedoc.cpp:734
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
@@ -8034,7 +7955,7 @@ msgstr ""
 "Da se izognete izgubi podatkov, je bila ustvarjena varnostna kopija "
 "imenovana %1."
 
-#: src/doc/kdenlivedoc.cpp:738
+#: src/doc/kdenlivedoc.cpp:748
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version, but "
@@ -8043,36 +7964,36 @@ msgstr ""
 "Vaša projektna datoteka je bila nadgrajena na najnovejšo različico "
 "dokumentov Kdenlive, ni pa bilo mogoče ustvariti varnostne kopije %1."
 
-#: src/doc/kdenlivedoc.cpp:869 src/project/projectmanager.cpp:1177
+#: src/doc/kdenlivedoc.cpp:879 src/project/projectmanager.cpp:1177
 #: src/project/projectmanager.cpp:1213
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Napaka med premikanjem mape projekta: %1"
 
-#: src/doc/kdenlivedoc.cpp:1038 src/doc/kdenlivedoc.cpp:2197
+#: src/doc/kdenlivedoc.cpp:1048 src/doc/kdenlivedoc.cpp:2211
 #: src/project/dialogs/archivewidget.cpp:226
 #: src/project/projectmanager.cpp:1410
 #, kde-format
 msgid "Untitled"
 msgstr "Neimenovano"
 
-#: src/doc/kdenlivedoc.cpp:1099
+#: src/doc/kdenlivedoc.cpp:1109
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Vnesite pot do predloge"
 
-#: src/doc/kdenlivedoc.cpp:1256
+#: src/doc/kdenlivedoc.cpp:1266
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "Naslednji učinki so bili uvoženi iz projekta:"
 
-#: src/doc/kdenlivedoc.cpp:1289 src/doc/kdenlivedoc.cpp:1303
+#: src/doc/kdenlivedoc.cpp:1303 src/doc/kdenlivedoc.cpp:1317
 #, kde-format
 msgid "Project Folder"
 msgstr "Mapa projekta"
 
-#: src/doc/kdenlivedoc.cpp:1347 src/doc/kdenlivedoc.cpp:1355
+#: src/doc/kdenlivedoc.cpp:1361 src/doc/kdenlivedoc.cpp:1369
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -8081,7 +8002,7 @@ msgstr ""
 "Ni mogoče ustvariti varnostne kopije:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1500
+#: src/doc/kdenlivedoc.cpp:1514
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
@@ -8090,7 +8011,7 @@ msgstr[1] "Dodaj posredna posnetka"
 msgstr[2] "Dodaj posredne posnetke"
 msgstr[3] "Dodaj posredne posnetke"
 
-#: src/doc/kdenlivedoc.cpp:1502
+#: src/doc/kdenlivedoc.cpp:1516
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
@@ -8099,12 +8020,12 @@ msgstr[1] "Odstrani posredna posnetka"
 msgstr[2] "Odstrani posredne posnetke"
 msgstr[3] "Odstrani posredne posnetke"
 
-#: src/doc/kdenlivedoc.cpp:1546 src/doc/kdenlivedoc.cpp:1581
+#: src/doc/kdenlivedoc.cpp:1560 src/doc/kdenlivedoc.cpp:1595
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "Vrsta posnetka ne podpira posrednih posnetkov"
 
-#: src/doc/kdenlivedoc.cpp:1787
+#: src/doc/kdenlivedoc.cpp:1801
 #, kde-format
 msgid ""
 "\n"
@@ -8114,7 +8035,7 @@ msgstr ""
 "Opozorilo: število sličic na sekundo, ki ni celoštevilčno. Morda bo prišlo "
 "do napačnega prikaza trajanja."
 
-#: src/doc/kdenlivedoc.cpp:1806
+#: src/doc/kdenlivedoc.cpp:1820
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -8123,43 +8044,43 @@ msgstr ""
 "Privzeti profil za vaš projekt je %1, za vaše posnetke (%2) pa %3.\n"
 "Ali želite spremeniti privzeti profil za prihodnje projekte?"
 
-#: src/doc/kdenlivedoc.cpp:1808
+#: src/doc/kdenlivedoc.cpp:1822
 #, kde-format
 msgid "Change default project profile"
 msgstr "Spremeni privzeti profil projekta"
 
-#: src/doc/kdenlivedoc.cpp:1808
+#: src/doc/kdenlivedoc.cpp:1822
 #, kde-format
 msgid "Change default to %1"
 msgstr "Spremeni privzeti profil v %1"
 
-#: src/doc/kdenlivedoc.cpp:1809
+#: src/doc/kdenlivedoc.cpp:1823
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Ohrani trenutno privzetega %1"
 
-#: src/doc/kdenlivedoc.cpp:1809
+#: src/doc/kdenlivedoc.cpp:1823
 #, kde-format
 msgid "Ask me later"
 msgstr "Vprašaj kasneje"
 
-#: src/doc/kdenlivedoc.cpp:1829
+#: src/doc/kdenlivedoc.cpp:1843
 #, kde-format
 msgid "Switch"
 msgstr "Preklopi"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1831 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1845 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "Prekliči"
 
-#: src/doc/kdenlivedoc.cpp:1833
+#: src/doc/kdenlivedoc.cpp:1847
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Ali želite preklopiti na posnetkov (%1) profil %2?"
 
-#: src/doc/kdenlivedoc.cpp:1838
+#: src/doc/kdenlivedoc.cpp:1852
 #, kde-format
 msgid ""
 "\n"
@@ -8168,7 +8089,7 @@ msgstr ""
 "\n"
 "Sličice na sekundo profila prilagojene iz izvornega %1"
 
-#: src/doc/kdenlivedoc.cpp:1840
+#: src/doc/kdenlivedoc.cpp:1854
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -8177,13 +8098,13 @@ msgstr ""
 "Za vaš posnetek %1 ni zadetkov med profili.\n"
 "Ali želite ustvariti nov profil (%2x%3, %4 sl/s) in preklopiti nanj?%5"
 
-#: src/doc/kdenlivedoc.cpp:2236 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2250 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "Rdeča"
 
-#: src/doc/kdenlivedoc.cpp:2237 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2251 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -8191,23 +8112,23 @@ msgstr "Rdeča"
 msgid "Green"
 msgstr "Zelena"
 
-#: src/doc/kdenlivedoc.cpp:2238 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2252 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "Modra"
 
-#: src/doc/kdenlivedoc.cpp:2239 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2253 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Rumena"
 
-#: src/doc/kdenlivedoc.cpp:2240
+#: src/doc/kdenlivedoc.cpp:2254
 #, kde-format
 msgid "Cyan"
 msgstr "Sinja"
 
-#: src/doc/kdenlivedoc.cpp:2468
+#: src/doc/kdenlivedoc.cpp:2482
 #, kde-format
 msgid "Category %1:%2:%3"
 msgstr "Kategorija %1:%2:%3"
@@ -10859,7 +10780,7 @@ msgstr "Ponovno ustvari"
 
 #: src/mainwindow.cpp:2157 src/onlineresources/resourcewidget.cpp:568
 #: src/scopes/colorscopes/colorplaneexport.cpp:158
-#: src/titler/titlewidget.cpp:2184
+#: src/titler/titlewidget.cpp:2186
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -11496,7 +11417,7 @@ msgstr "Prikaže podrobne informacije o tokovih/podatkih/kodeku zvoka."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/mltcontroller/clippropertiescontroller.cpp:1027
-#: src/project/dialogs/projectsettings.cpp:851 src/ui/projectsettings_ui.ui:534
+#: src/project/dialogs/projectsettings.cpp:853 src/ui/projectsettings_ui.ui:534
 #, kde-format
 msgid "Metadata"
 msgstr "Metapodatki"
@@ -12304,11 +12225,6 @@ msgid ""
 msgstr ""
 "Klik za dodajanje točk,\n"
 "desni klik za zapiranje oblike."
-
-#: src/monitor/view/kdenlivemonitorsplit.qml:90
-#, kde-format
-msgid "Effect"
-msgstr "Učinek"
 
 #: src/monitor/view/MonitorRuler.qml:263
 #, kde-kuit-format
@@ -13437,8 +13353,8 @@ msgstr ""
 "povzroči okvare v prehodih.\n"
 "Ali ste prepričani, da želite nadaljevati?"
 
-#: src/project/dialogs/projectsettings.cpp:764
-#: src/project/dialogs/projectsettings.cpp:779
+#: src/project/dialogs/projectsettings.cpp:766
+#: src/project/dialogs/projectsettings.cpp:781
 #: src/project/dialogs/slideshowclip.cpp:330
 #, kde-format
 msgid "1 image found"
@@ -13448,22 +13364,22 @@ msgstr[1] "%1 najdeni sliki"
 msgstr[2] "%1 najdene slike"
 msgstr[3] "%1 najdenih slik"
 
-#: src/project/dialogs/projectsettings.cpp:795
+#: src/project/dialogs/projectsettings.cpp:797
 #, kde-format
 msgid "Project folder: %1"
 msgstr "Mapa projekta: %1"
 
-#: src/project/dialogs/projectsettings.cpp:796
+#: src/project/dialogs/projectsettings.cpp:798
 #, kde-format
 msgid "Project profile: %1"
 msgstr "Profil projekta: %1"
 
-#: src/project/dialogs/projectsettings.cpp:797
+#: src/project/dialogs/projectsettings.cpp:799
 #, kde-format
 msgid "Total clips: %1 (%2 used in timeline)."
 msgstr "Skupnih posnetkov: %1 (%2 uporabljenih v časovnici)."
 
-#: src/project/dialogs/projectsettings.cpp:851
+#: src/project/dialogs/projectsettings.cpp:853
 #, kde-format
 msgctxt "@title:window"
 msgid "Metadata"
@@ -16740,7 +16656,7 @@ msgid "No available stream"
 msgstr "Ni razpoložljivega toka"
 
 #: src/titler/gradientwidget.cpp:140 src/titler/gradientwidget.cpp:143
-#: src/titler/titlewidget.cpp:3238 src/titler/titlewidget.cpp:3241
+#: src/titler/titlewidget.cpp:3240 src/titler/titlewidget.cpp:3243
 #, kde-format
 msgid "Gradient %1"
 msgstr "Preliv %1"
@@ -16988,7 +16904,7 @@ msgid "Add Ellipse"
 msgstr "Dodaj elipso"
 
 #: src/titler/titlewidget.cpp:405 src/titler/titlewidget.cpp:408
-#: src/titler/titlewidget.cpp:818
+#: src/titler/titlewidget.cpp:820
 #, kde-format
 msgid "Add Image"
 msgstr "Dodaj sliko"
@@ -17018,7 +16934,7 @@ msgstr "Shrani in dodaj v projekt"
 msgid "Create Title"
 msgstr "Ustvari napis"
 
-#: src/titler/titlewidget.cpp:698
+#: src/titler/titlewidget.cpp:700
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
@@ -17027,49 +16943,49 @@ msgstr ""
 "Ali resnično želite naložiti novo predlogo? Spremembe v tem napisu bodo "
 "izgubljene!"
 
-#: src/titler/titlewidget.cpp:806
+#: src/titler/titlewidget.cpp:808
 #, kde-format
 msgid "All Images"
 msgstr "Vse slike"
 
-#: src/titler/titlewidget.cpp:808
+#: src/titler/titlewidget.cpp:810
 #, kde-format
 msgid "%1 Image"
 msgstr "Slika %1"
 
-#: src/titler/titlewidget.cpp:1642
+#: src/titler/titlewidget.cpp:1644
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1644 src/ui/titlewidget_ui.ui:260
+#: src/titler/titlewidget.cpp:1646 src/ui/titlewidget_ui.ui:260
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1666
+#: src/titler/titlewidget.cpp:1668
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1668 src/ui/titlewidget_ui.ui:290
+#: src/titler/titlewidget.cpp:1670 src/ui/titlewidget_ui.ui:290
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2135
+#: src/titler/titlewidget.cpp:2137
 #, kde-format
 msgid "Load Title"
 msgstr "Naloži napis"
 
-#: src/titler/titlewidget.cpp:2136
+#: src/titler/titlewidget.cpp:2138
 #, kde-format
 msgid "Kdenlive title (*.kdenlivetitle)"
 msgstr "Napis Kdenlive (*.kdenlivetitle)"
 
-#: src/titler/titlewidget.cpp:2182
+#: src/titler/titlewidget.cpp:2184
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -17078,13 +16994,13 @@ msgstr ""
 "Ali želite vstaviti slike v ta dokument napisov?\n"
 "To je zahtevano za souporabo napisov."
 
-#: src/titler/titlewidget.cpp:2183
+#: src/titler/titlewidget.cpp:2185
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Vdelaj slike"
 
-#: src/titler/titlewidget.cpp:2238
+#: src/titler/titlewidget.cpp:2240
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
@@ -17093,44 +17009,44 @@ msgstr[1] "Temu napisu manjkata %1 predmeta"
 msgstr[2] "Temu napisu manjkajo %1 predmeti"
 msgstr[3] "Temu napisu manjka %1 predmetov"
 
-#: src/titler/titlewidget.cpp:2239 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2241 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Podrobnosti"
 
-#: src/titler/titlewidget.cpp:2242
+#: src/titler/titlewidget.cpp:2244
 #, kde-format
 msgid "Delete missing elements"
 msgstr "Izbriši manjkajoče elemente"
 
-#: src/titler/titlewidget.cpp:2302
+#: src/titler/titlewidget.cpp:2304
 #, kde-format
 msgid "Update Title"
 msgstr "Posodobi napis"
 
-#: src/titler/titlewidget.cpp:2305
+#: src/titler/titlewidget.cpp:2307
 #, kde-format
 msgid "Add as new Title"
 msgstr "Dodaj kot nov napis"
 
-#: src/titler/titlewidget.cpp:2359
+#: src/titler/titlewidget.cpp:2361
 #, kde-format
 msgid "The following files are missing:"
 msgstr "Naslednje datoteke manjkajo:"
 
-#: src/titler/titlewidget.cpp:2553
+#: src/titler/titlewidget.cpp:2555
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Začetek prikazanega"
 
-#: src/titler/titlewidget.cpp:2554
+#: src/titler/titlewidget.cpp:2556
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Konec prikazanega"
 
-#: src/titler/titlewidget.cpp:3271
+#: src/titler/titlewidget.cpp:3273
 #, kde-format
 msgid "Gradient"
 msgstr "Preliv"
@@ -17708,6 +17624,7 @@ msgstr "Poveča število črt v mreži.<br />Po 8 črtah, se bo začelo spet od 
 msgid "Show handles for all points or only for the selected one."
 msgstr "Pokaži ročice za vse točke ali samo za izbrano."
 
+#. i18n: ectx: property (text), widget (QLabel, progressLabel)
 #. i18n: ectx: property (text), widget (QLabel, param1Label)
 #. i18n: ectx: property (text), widget (QLabel, param2Label)
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -17719,7 +17636,8 @@ msgstr "Pokaži ročice za vse točke ali samo za izbrano."
 #: src/ui/customjobinterface_ui.ui:37 src/ui/cutjobdialog_ui.ui:34
 #: src/ui/cutjobdialog_ui.ui:51 src/ui/fontval_ui.ui:36
 #: src/ui/listdependencyparamwidget_ui.ui:36 src/ui/listparamwidget_ui.ui:76
-#: src/ui/urllistparamwidget_ui.ui:42 src/ui/urlval_ui.ui:44
+#: src/ui/missingclips_ui.ui:105 src/ui/urllistparamwidget_ui.ui:42
+#: src/ui/urlval_ui.ui:44
 #, kde-format
 msgid "TextLabel"
 msgstr "BesedilnaOznaka"
@@ -19191,12 +19109,6 @@ msgstr "Vrstni red polj:"
 msgid "Quality:"
 msgstr "Kakovost:"
 
-#. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/ui/editrenderpreset_ui.ui:525
-#, kde-format
-msgid "Placeholder"
-msgstr "Ograda"
-
 #. i18n: ectx: property (toolTip), widget (QCheckBox, fixedGop)
 #: src/ui/editrenderpreset_ui.ui:535
 #, kde-format
@@ -19206,12 +19118,6 @@ msgid ""
 msgstr ""
 "Nespremenljivi GOP (skupina slik) pomeni, da se ključne sličice ne bodo "
 "vstavile pri zaznanih spremembah prizora."
-
-#. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/ui/editrenderpreset_ui.ui:538
-#, kde-format
-msgid "Fixed"
-msgstr "Nespremenljivo"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (suffix), widget (QSpinBox, bFramesSpinner)
@@ -19937,41 +19843,60 @@ msgstr "Predogled slike"
 msgid " Clip Problems"
 msgstr " Težave posnetka"
 
-#. i18n: ectx: property (text), widget (QCheckBox, rebuildProxies)
+#. i18n: ectx: property (title), widget (QGroupBox, proxyBox)
 #: src/ui/missingclips_ui.ui:47
-#, kde-format
-msgid "Rebuild Proxies"
-msgstr "Obnovi posrednike"
+#, fuzzy, kde-format
+#| msgid "Proxy Clips"
+msgid "Proxies"
+msgstr "Posredni posnetki"
 
-#. i18n: ectx: property (text), widget (QPushButton, usePlaceholders)
-#: src/ui/missingclips_ui.ui:54
-#, kde-format
-msgid "Use placeholders for missing clips"
-msgstr "Za manjkajoče posnetke uporabi vsebnike"
+#. i18n: ectx: property (text), widget (QCheckBox, recreateProxies)
+#: src/ui/missingclips_ui.ui:76
+#, fuzzy, kde-format
+#| msgid "Delete missing elements"
+msgid "Recreate missing proxies"
+msgstr "Izbriši manjkajoče elemente"
 
-#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
-#: src/ui/missingclips_ui.ui:82
-#, kde-format
-msgid "Path"
-msgstr "Pot"
+#. i18n: ectx: property (format), widget (QProgressBar, progressBar)
+#: src/ui/missingclips_ui.ui:128
+#, no-c-format, kde-format
+msgid "%v / %m"
+msgstr ""
 
-#. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/ui/missingclips_ui.ui:100
-#, kde-format
-msgid "Remove selected clips"
-msgstr "Odstrani izbrane posnetke"
-
-#. i18n: ectx: property (text), widget (QPushButton, recursiveSearch)
-#: src/ui/missingclips_ui.ui:107
-#, kde-format
-msgid "Search recursively"
-msgstr "Išči rekurzivno"
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: src/ui/missingclips_ui.ui:156
+#, fuzzy, kde-format
+#| msgid "Delete Selected Item"
+msgid "Selected Items:"
+msgstr "Izbriši izbrani predmet"
 
 #. i18n: ectx: property (text), widget (QPushButton, manualSearch)
-#: src/ui/missingclips_ui.ui:114
-#, kde-format
-msgid "Search manually"
+#: src/ui/missingclips_ui.ui:163
+#, fuzzy, kde-format
+#| msgid "Search manually"
+msgid "Search Manually"
 msgstr "Poišči ročno"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/ui/missingclips_ui.ui:192
+#, fuzzy, kde-format
+#| msgid "Missing item"
+msgid "All Missing Items:"
+msgstr "Manjkajoči predmet"
+
+#. i18n: ectx: property (text), widget (QPushButton, recursiveSearch)
+#: src/ui/missingclips_ui.ui:199
+#, fuzzy, kde-format
+#| msgid "Search recursively"
+msgid "Search Recursively"
+msgstr "Išči rekurzivno"
+
+#. i18n: ectx: property (text), widget (QPushButton, usePlaceholders)
+#: src/ui/missingclips_ui.ui:210
+#, fuzzy, kde-format
+#| msgid "Placeholder"
+msgid "Use Placeholders"
+msgstr "Ograda"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/ui/multiplemarkerdialog_ui.ui:24
@@ -20864,6 +20789,12 @@ msgstr "Vstavi izbrane bloke v časovnico"
 msgid "Save edited text in a new playlist"
 msgstr "Shranjeno urejeno besedilo v novem seznamu predvajanj"
 
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: src/ui/timeremap_ui.ui:90
+#, kde-format
+msgid "Source clip"
+msgstr "Izvorni posnetek"
+
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/timeremap_ui.ui:144
 #, kde-format
@@ -21464,6 +21395,117 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
+
+#~ msgid "Relocated item"
+#~ msgstr "Prestavljen predmet"
+
+#~ msgid "%1 will be replaced by %2"
+#~ msgstr "%1 bo zamenjan z %2"
+
+#~ msgid "Modified Clips"
+#~ msgstr "Spremenjeni posnetki"
+
+#~ msgid "Clip %1 will be reloaded"
+#~ msgstr "Posnetek %1 bo ponovno naložen"
+
+#~ msgid "Fixed Sequence Clips"
+#~ msgstr "Fiksirano zaporedje posnetkov"
+
+#~ msgid "Clip %1 will be fixed"
+#~ msgstr "Posnetek %1 bo fiksiran"
+
+#~ msgid "Missing effect: %2 will be removed from project."
+#~ msgid_plural "Missing effects: %2 will be removed from project."
+#~ msgstr[0] "Manjkajoči učinek: %2 bo odstranjen iz projekta."
+#~ msgstr[1] "Manjkajoča učinka: %2 bosta odstranjena iz projekta."
+#~ msgstr[2] "Manjkajoči učinki: %2 bodo odstranjeni iz projekta."
+#~ msgstr[3] "Manjkajoči učinki: %2 bodo odstranjeni iz projekta."
+
+#~ msgid "Missing transition: %2 will be removed from project."
+#~ msgid_plural "Missing transitions: %2 will be removed from project."
+#~ msgstr[0] "Manjkajoči prehod: %2 bo odstranjen iz projekta."
+#~ msgstr[1] "Manjkajoča prehoda: %2 bosta odstranjena iz projekta."
+#~ msgstr[2] "Manjkajoči prehodi: %2 bodo odstranjeni iz projekta."
+#~ msgstr[3] "Manjkajoči prehodi: %2 bodo odstranjeni iz projekta."
+
+#~ msgid ""
+#~ "The project file contains a missing clip, you can still work with its "
+#~ "proxy."
+#~ msgid_plural ""
+#~ "The project file contains %1 missing clips, you can still work with their "
+#~ "proxies."
+#~ msgstr[0] ""
+#~ "Projektna datoteka vsebuje %1 manjkajoči posnetek, ampak še vseeno lahko "
+#~ "uporabljate njegov posredni posnetek."
+#~ msgstr[1] ""
+#~ "Projektna datoteka vsebuje %1 manjkajoča posnetka, ampak še vseeno lahko "
+#~ "uporabljate njuna posredna posnetka."
+#~ msgstr[2] ""
+#~ "Projektna datoteka vsebuje %1 manjkajoče posnetke, ampak še vseeno lahko "
+#~ "uporabljate njihove posredne posnetke."
+#~ msgstr[3] ""
+#~ "Projektna datoteka vsebuje %1 manjkajočih posnetkov, ampak še vseeno "
+#~ "lahko uporabljate njihove posredne posnetke."
+
+#~ msgid "The project file contains one modified clip, it will be reloaded."
+#~ msgid_plural ""
+#~ "The project file contains %1 modified clips, they will be reloaded."
+#~ msgstr[0] ""
+#~ "Datoteka projekta vsebuje %1 spremenjen posnetek, bo ponovno naložen."
+#~ msgstr[1] ""
+#~ "Datoteka projekta vsebuje %1 spremenjena posnetka, bosta ponovno naložena."
+#~ msgstr[2] ""
+#~ "Datoteka projekta vsebuje %1 spremenjene posnetke, bodo ponovno naloženi."
+#~ msgstr[3] ""
+#~ "Datoteka projekta vsebuje %1 spremenjenih posnetkov, bodo ponovno "
+#~ "naloženi."
+
+#~ msgid "%1 missing proxy clip, will be recreated on project opening"
+#~ msgid_plural "%1 missing proxy clips, will be recreated on project opening"
+#~ msgstr[0] ""
+#~ "%1 manjkajoči posredni posnetek bo znova ustvarjen ob odprtju projekta"
+#~ msgstr[1] ""
+#~ "%1 manjkajoča posredna posnetka bosta znova ustvarjena ob odprtju projekta"
+#~ msgstr[2] ""
+#~ "%1 manjkajoči posredni posnetki bodo znova ustvarjeni ob odprtju projekta"
+#~ msgstr[3] ""
+#~ "%1 manjkajočih posrednih posnetkov bo znova ustvarjenih ob odprtju "
+#~ "projekta"
+
+#~ msgid "%1 missing source clips, you can only use the proxies"
+#~ msgstr ""
+#~ "%1 manjkajočih izvornih posnetkov, uporabite lahko le posredne posnetke"
+
+#~ msgid "Recovered item"
+#~ msgstr "Obnovljen predmet"
+
+#~ msgid "Search aborted"
+#~ msgstr "Iskanja preklicano"
+
+#~ msgid "Scanning %1"
+#~ msgstr "Preiskovanje %1"
+
+#~ msgid "This will remove the selected clip from this project"
+#~ msgid_plural "This will remove the selected clips from this project"
+#~ msgstr[0] "To bo odstranilo izbrani posnetek iz tega projekta"
+#~ msgstr[1] "To bo odstranilo izbrana posnetka iz tega projekta"
+#~ msgstr[2] "To bo odstranilo izbrane posnetke iz tega projekta"
+#~ msgstr[3] "To bo odstranilo izbrane posnetke iz tega projekta"
+
+#~ msgid "Remove clips"
+#~ msgstr "Odstrani posnetke"
+
+#~ msgid "Rebuild Proxies"
+#~ msgstr "Obnovi posrednike"
+
+#~ msgid "Use placeholders for missing clips"
+#~ msgstr "Za manjkajoče posnetke uporabi vsebnike"
+
+#~ msgid "Path"
+#~ msgstr "Pot"
+
+#~ msgid "Remove selected clips"
+#~ msgstr "Odstrani izbrane posnetke"
 
 #~ msgid "Captured files"
 #~ msgstr "Zajete datoteke"
