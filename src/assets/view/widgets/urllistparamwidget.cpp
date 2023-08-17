@@ -33,7 +33,7 @@ UrlListParamWidget::UrlListParamWidget(std::shared_ptr<AssetParameterModel> mode
     // setup download
     if (!configFile.isEmpty()) {
         m_knsbutton->setConfigFile(configFile);
-        connect(m_knsbutton, &KNSWidgets::Button::dialogFinished, this, [&](const QList<KNSCore::Entry> &changedEntries) {
+        connect(m_knsbutton, &KNSWidgets::Button::dialogFinished, this, [this, configFile](const QList<KNSCore::Entry> &changedEntries) {
             if (changedEntries.count() > 0) {
                 if (configFile.contains(QStringLiteral("kdenlive_wipes.knsrc"))) {
                     MltConnection::refreshLumas();
