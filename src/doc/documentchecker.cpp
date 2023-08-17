@@ -161,12 +161,12 @@ bool DocumentChecker::hasErrorInClips()
     max = documentProducers.count();
     for (int i = 0; i < max; ++i) {
         QDomElement e = documentProducers.item(i).toElement();
-        verifiedPaths << getMissingProducers(e, entries, verifiedPaths, missingPaths, serviceToCheck, root, storageFolder);
+        getMissingProducers(e, entries, verifiedPaths, missingPaths, serviceToCheck, root, storageFolder);
     }
     max = documentChains.count();
     for (int i = 0; i < max; ++i) {
         QDomElement e = documentChains.item(i).toElement();
-        verifiedPaths << getMissingProducers(e, entries, verifiedPaths, missingPaths, serviceToCheck, root, storageFolder);
+        getMissingProducers(e, entries, verifiedPaths, missingPaths, serviceToCheck, root, storageFolder);
     }
 
     QStringList missingLumas;
@@ -466,7 +466,6 @@ bool DocumentChecker::hasErrorInClips()
     }
     if (!m_missingProxies.isEmpty()) {
         infoLabel.append(i18n("Missing proxies can be recreated on opening."));
-        m_ui.rebuildProxies->setChecked(true);
         connect(m_ui.rebuildProxies, &QCheckBox::stateChanged, this, [this](int state) {
             for (auto e : qAsConst(m_missingProxies)) {
                 if (state == Qt::Checked) {
@@ -476,6 +475,7 @@ bool DocumentChecker::hasErrorInClips()
                 }
             }
         });
+        m_ui.rebuildProxies->setChecked(true);
     } else {
         m_ui.rebuildProxies->setVisible(false);
     }
@@ -676,7 +676,7 @@ const QString DocumentChecker::relocateResource(QString sourceResource)
     return QString();
 }
 
-QString DocumentChecker::getMissingProducers(QDomElement &e, const QDomNodeList &entries, const QStringList &verifiedPaths, QStringList &missingPaths,
+QString DocumentChecker::getMissingProducers(QDomElement &e, const QDomNodeList &entries, QStringList &verifiedPaths, QStringList &missingPaths,
                                              const QStringList &serviceToCheck, const QString &root, const QString &storageFolder)
 {
     QString service = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
@@ -808,6 +808,9 @@ QString DocumentChecker::getMissingProducers(QDomElement &e, const QDomNodeList 
         }
         return QString();
     }
+    if (isBinClip) {
+        verifiedPaths << resource;
+    }
     QString producerResource = resource;
     QString proxy = Xml::getXmlProperty(e, QStringLiteral("kdenlive:proxy"));
     // TODO: should this only apply to bin clips (isBinClip)
@@ -871,7 +874,9 @@ QString DocumentChecker::getMissingProducers(QDomElement &e, const QDomNodeList 
                 // clip has proxy but original clip is missing
                 m_missingSources.append(e);
             }
-            missingPaths.append(original);
+            if (isBinClip) {
+                missingPaths.append(original);
+            }
         } else if (!proxyFound) {
             m_missingProxies.append(e);
         }
@@ -920,10 +925,14 @@ QString DocumentChecker::getMissingProducers(QDomElement &e, const QDomNodeList 
                          QLatin1String("timeremap")))) {
             // This is a missing timeline sequence clip with speed effect, trigger recreate on opening
             Xml::setXmlProperty(e, QStringLiteral("_rebuild"), QStringLiteral("1"));
-            missingPaths.append(resource);
+            if (isBinClip) {
+                missingPaths.append(resource);
+            }
         } else {
             m_missingClips.append(e);
-            missingPaths.append(resource);
+            if (isBinClip) {
+                missingPaths.append(resource);
+            }
         }
     } else if (isBinClip &&
                (service.startsWith(QLatin1String("avformat")) || slideshow || service == QLatin1String("qimage") || service == QLatin1String("pixbuf"))) {
