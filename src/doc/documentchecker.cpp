@@ -473,6 +473,9 @@ void DocumentChecker::removeProxy(const QDomNodeList &items, const QString &clip
             prefix.append(QLatin1Char(':'));
             Xml::setXmlProperty(e, QStringLiteral("warp_resource"), prefix + originalPath);
         } else if (!originalService.isEmpty()) {
+            if (originalService == QLatin1String("xml")) {
+                e.setTagName(QStringLiteral("producer"));
+            }
             Xml::setXmlProperty(e, QStringLiteral("mlt_service"), originalService);
         }
         prefix.append(originalPath);
