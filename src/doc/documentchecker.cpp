@@ -506,6 +506,9 @@ bool DocumentChecker::hasErrorInClips()
         QDomElement e = m_missingProxies.at(i).toElement();
         QString realPath = Xml::getXmlProperty(e, QStringLiteral("kdenlive:originalurl"));
         QString id = Xml::getXmlProperty(e, QStringLiteral("kdenlive:id"));
+        if (m_missingProxyIds.contains(id)) {
+            continue;
+        }
         QString originalService = Xml::getXmlProperty(e, QStringLiteral("kdenlive:original.mlt_service"));
         replacementData.emplace(std::make_pair(id, std::make_pair(originalService, realPath)));
         m_missingProxyIds << id;
@@ -526,6 +529,9 @@ bool DocumentChecker::hasErrorInClips()
             Xml::setXmlProperty(mltProd, QStringLiteral("warp_resource"), prefix + replaceData.second);
         } else if (!replaceData.first.isEmpty()) {
             Xml::setXmlProperty(mltProd, QStringLiteral("mlt_service"), replaceData.first);
+            if (replaceData.first == QStringLiteral("xml")) {
+                mltProd.setTagName(QStringLiteral("producer"));
+            }
         }
         prefix.append(replaceData.second);
         Xml::setXmlProperty(mltProd, QStringLiteral("resource"), prefix);
@@ -562,8 +568,8 @@ bool DocumentChecker::hasErrorInClips()
     if (max > 0) {
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << i18n("Proxy clip"));
         item->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-warning")));
-        item->setText(
-            1, i18np("%1 missing proxy clip, will be recreated on project opening", "%1 missing proxy clips, will be recreated on project opening", max));
+        item->setText(1, i18np("%1 missing proxy clip, will be recreated on project opening", "%1 missing proxy clips, will be recreated on project opening",
+                               m_missingProxyIds.size()));
         // item->setData(0, hashRole, e.attribute("file_hash"));
         item->setData(0, statusRole, PROXYMISSING);
         item->setToolTip(0, i18n("Missing proxy"));
