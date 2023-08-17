@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-16 00:45+0000\n"
-"PO-Revision-Date: 2023-07-30 08:41+0300\n"
+"POT-Creation-Date: 2023-08-17 00:45+0000\n"
+"PO-Revision-Date: 2023-08-16 07:51+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -3483,7 +3483,7 @@ msgid "Delete keyframes"
 msgstr "Вилучити ключові кадри"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1402
+#: src/assets/model/assetparametermodel.cpp:1410
 #, kde-format
 msgid "Update effect"
 msgstr "Оновити ефект"
@@ -3575,8 +3575,8 @@ msgstr "Зміна ключового кадру %1"
 msgid "Update %1"
 msgstr "Оновити %1"
 
-#: src/assets/model/assetparametermodel.cpp:1254
-#: src/assets/model/assetparametermodel.cpp:1301
+#: src/assets/model/assetparametermodel.cpp:1262
+#: src/assets/model/assetparametermodel.cpp:1309
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Не вдалося відкрити файл шаблона %1"
@@ -7677,13 +7677,12 @@ msgstr "Апаратні засоби кодування виявлено і у�
 #: src/doc/dcresolvedialog.cpp:42
 #, kde-format
 msgid "Recursive search: processing clips"
-msgstr ""
+msgstr "Рекурсивний пошук: обробляємо кліпи"
 
 #: src/doc/dcresolvedialog.cpp:51
-#, fuzzy, kde-format
-#| msgid "Search done"
+#, kde-format
 msgid "Recursive search: done"
-msgstr "Пошук виконано"
+msgstr "Рекурсивний пошук: виконано"
 
 #: src/doc/dcresolvedialog.cpp:125
 #, kde-format
@@ -7697,18 +7696,13 @@ msgstr "Введіть нову адресу файла"
 
 #. i18n: ectx: property (text), widget (QLabel, proxyLabel)
 #: src/doc/dcresolvedialog.cpp:163 src/ui/missingclips_ui.ui:56
-#, fuzzy, kde-format
-#| msgid "The project file contains missing clips or files."
+#, kde-format
 msgid "You project contains one missing proxy"
 msgid_plural "You project contains %1 missing proxies"
-msgstr[0] ""
-"Файл проєкту містить посилання на кліпи або файли, яких у ньому немає."
-msgstr[1] ""
-"Файл проєкту містить посилання на кліпи або файли, яких у ньому немає."
-msgstr[2] ""
-"Файл проєкту містить посилання на кліпи або файли, яких у ньому немає."
-msgstr[3] ""
-"Файл проєкту містить посилання на кліпи або файли, яких у ньому немає."
+msgstr[0] "У вашому проєкті міститься %1 пропущений проміжний кліп"
+msgstr[1] "У вашому проєкті міститься %1 пропущені проміжні кліпи"
+msgstr[2] "У вашому проєкті міститься %1 пропущених проміжних кліпів"
+msgstr[3] "У вашому проєкті міститься пропущений проміжний кліп"
 
 #: src/doc/dcresolvedialog.cpp:173
 #, kde-format
@@ -7748,10 +7742,9 @@ msgid "Title Image"
 msgstr "Зображення титрів"
 
 #: src/doc/documentchecker.cpp:1478
-#, fuzzy, kde-format
-#| msgid "&Clip"
+#, kde-format
 msgid "Clip"
-msgstr "&Кліп"
+msgstr "Кліп"
 
 #: src/doc/documentchecker.cpp:1480
 #, kde-format
@@ -7781,10 +7774,9 @@ msgid "Effect"
 msgstr "Ефект"
 
 #: src/doc/documentchecker.cpp:1492
-#, fuzzy, kde-format
-#| msgid "Transitions"
+#, kde-format
 msgid "Transition"
-msgstr "Переходи"
+msgstr "Перехід"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
 #: src/doc/documentchecker.cpp:1502 src/ui/editrenderpreset_ui.ui:538
@@ -7793,22 +7785,19 @@ msgid "Fixed"
 msgstr "Фіксована"
 
 #: src/doc/documentchecker.cpp:1504
-#, fuzzy, kde-format
-#| msgid "Reload Clip"
+#, kde-format
 msgid "Reload"
-msgstr "Перезавантажити кліп"
+msgstr "Перезавантажити"
 
 #: src/doc/documentchecker.cpp:1506
-#, fuzzy, kde-format
-#| msgid "Missing item"
+#, kde-format
 msgid "Missing"
-msgstr "Не знайдено об’єкта"
+msgstr "Пропущено"
 
 #: src/doc/documentchecker.cpp:1508
-#, fuzzy, kde-format
-#| msgid "Missing proxy"
+#, kde-format
 msgid "Missing, but proxy available"
-msgstr "Пропущено проміжний кліп"
+msgstr "Пропущено, але є проміжний кліп"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
 #: src/doc/documentchecker.cpp:1510 src/ui/editrenderpreset_ui.ui:525
@@ -7818,10 +7807,9 @@ msgstr "Заповнювач"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
 #: src/doc/documentchecker.cpp:1512 src/ui/missingclips_ui.ui:174
-#, fuzzy, kde-format
-#| msgid "Removal"
+#, kde-format
 msgid "Remove"
-msgstr "Вилучення"
+msgstr "Вилучити"
 
 #: src/doc/documentchecker.cpp:1523
 #, kde-format
@@ -20005,58 +19993,51 @@ msgstr "Проблеми з кліпом"
 
 #. i18n: ectx: property (title), widget (QGroupBox, proxyBox)
 #: src/ui/missingclips_ui.ui:47
-#, fuzzy, kde-format
-#| msgid "Proxy Clips"
+#, kde-format
 msgid "Proxies"
 msgstr "Проміжні кліпи"
 
 #. i18n: ectx: property (text), widget (QCheckBox, recreateProxies)
 #: src/ui/missingclips_ui.ui:76
-#, fuzzy, kde-format
-#| msgid "Delete missing elements"
+#, kde-format
 msgid "Recreate missing proxies"
-msgstr "Вилучити пропущені елементи"
+msgstr "Повторно створити пропущені проміжні кліпи"
 
 #. i18n: ectx: property (format), widget (QProgressBar, progressBar)
 #: src/ui/missingclips_ui.ui:128
 #, no-c-format, kde-format
 msgid "%v / %m"
-msgstr ""
+msgstr "%v / %m"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/missingclips_ui.ui:156
-#, fuzzy, kde-format
-#| msgid "Delete Selected Item"
+#, kde-format
 msgid "Selected Items:"
-msgstr "Вилучити позначений елемент"
+msgstr "Позначені елементи:"
 
 #. i18n: ectx: property (text), widget (QPushButton, manualSearch)
 #: src/ui/missingclips_ui.ui:163
-#, fuzzy, kde-format
-#| msgid "Search manually"
+#, kde-format
 msgid "Search Manually"
 msgstr "Пошук вручну"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/missingclips_ui.ui:192
-#, fuzzy, kde-format
-#| msgid "Missing item"
+#, kde-format
 msgid "All Missing Items:"
-msgstr "Не знайдено об’єкта"
+msgstr "Усі пропущені елементи:"
 
 #. i18n: ectx: property (text), widget (QPushButton, recursiveSearch)
 #: src/ui/missingclips_ui.ui:199
-#, fuzzy, kde-format
-#| msgid "Search recursively"
+#, kde-format
 msgid "Search Recursively"
 msgstr "Рекурсивний пошук"
 
 #. i18n: ectx: property (text), widget (QPushButton, usePlaceholders)
 #: src/ui/missingclips_ui.ui:210
-#, fuzzy, kde-format
-#| msgid "Placeholder"
+#, kde-format
 msgid "Use Placeholders"
-msgstr "Заповнювач"
+msgstr "Використовувати заповнювачі"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/ui/multiplemarkerdialog_ui.ui:24

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-16 00:45+0000\n"
-"PO-Revision-Date: 2023-08-02 01:08+0300\n"
+"POT-Creation-Date: 2023-08-17 00:45+0000\n"
+"PO-Revision-Date: 2023-08-16 14:10+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -3465,7 +3465,7 @@ msgid "Delete keyframes"
 msgstr "Anahtar kareleri sil"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1402
+#: src/assets/model/assetparametermodel.cpp:1410
 #, kde-format
 msgid "Update effect"
 msgstr "Efekti Güncelle"
@@ -3553,8 +3553,8 @@ msgstr "%1 anahtar kareyi düzenle"
 msgid "Update %1"
 msgstr "%1 Güncelle"
 
-#: src/assets/model/assetparametermodel.cpp:1254
-#: src/assets/model/assetparametermodel.cpp:1301
+#: src/assets/model/assetparametermodel.cpp:1262
+#: src/assets/model/assetparametermodel.cpp:1309
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "%1 önayar dosyası açılamıyor"
@@ -7602,13 +7602,12 @@ msgstr "donanım kodlayıcıları bulundu ve etkinleştirildi (%1)."
 #: src/doc/dcresolvedialog.cpp:42
 #, kde-format
 msgid "Recursive search: processing clips"
-msgstr ""
+msgstr "Özyineli arama: Klipler işleniyor"
 
 #: src/doc/dcresolvedialog.cpp:51
-#, fuzzy, kde-format
-#| msgid "Search done"
+#, kde-format
 msgid "Recursive search: done"
-msgstr "Arama bitti"
+msgstr "Özyineli arama: Bitti"
 
 #: src/doc/dcresolvedialog.cpp:125
 #, kde-format
@@ -7622,12 +7621,11 @@ msgstr "Dosya için yeni bir konum girin"
 
 #. i18n: ectx: property (text), widget (QLabel, proxyLabel)
 #: src/doc/dcresolvedialog.cpp:163 src/ui/missingclips_ui.ui:56
-#, fuzzy, kde-format
-#| msgid "The project file contains missing clips or files."
+#, kde-format
 msgid "You project contains one missing proxy"
 msgid_plural "You project contains %1 missing proxies"
-msgstr[0] "Proje dosyası eksik klipler veya dosyalar içeriyor."
-msgstr[1] "Proje dosyası eksik klipler veya dosyalar içeriyor."
+msgstr[0] "Projenizde 1 vekil eksik"
+msgstr[1] "Projenizde %1 vekil eksik"
 
 #: src/doc/dcresolvedialog.cpp:173
 #, kde-format
@@ -7667,10 +7665,9 @@ msgid "Title Image"
 msgstr "Başlık Resmi"
 
 #: src/doc/documentchecker.cpp:1478
-#, fuzzy, kde-format
-#| msgid "&Clip"
+#, kde-format
 msgid "Clip"
-msgstr "&Klip"
+msgstr "Klip"
 
 #: src/doc/documentchecker.cpp:1480
 #, kde-format
@@ -7700,10 +7697,9 @@ msgid "Effect"
 msgstr "Efekt"
 
 #: src/doc/documentchecker.cpp:1492
-#, fuzzy, kde-format
-#| msgid "Transitions"
+#, kde-format
 msgid "Transition"
-msgstr "Geçişler"
+msgstr "Geçiş"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
 #: src/doc/documentchecker.cpp:1502 src/ui/editrenderpreset_ui.ui:538
@@ -7712,22 +7708,19 @@ msgid "Fixed"
 msgstr "Sabit"
 
 #: src/doc/documentchecker.cpp:1504
-#, fuzzy, kde-format
-#| msgid "Reload Clip"
+#, kde-format
 msgid "Reload"
-msgstr "Klibi Yeniden Yükle"
+msgstr "Yeniden Yükle"
 
 #: src/doc/documentchecker.cpp:1506
-#, fuzzy, kde-format
-#| msgid "Missing item"
+#, kde-format
 msgid "Missing"
-msgstr "Eksik öge"
+msgstr "Eksik"
 
 #: src/doc/documentchecker.cpp:1508
-#, fuzzy, kde-format
-#| msgid "Missing proxy"
+#, kde-format
 msgid "Missing, but proxy available"
-msgstr "Kayıp vekil"
+msgstr "Eksik; ancak vekil var"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
 #: src/doc/documentchecker.cpp:1510 src/ui/editrenderpreset_ui.ui:525
@@ -7737,10 +7730,9 @@ msgstr "Yer Tutucu"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
 #: src/doc/documentchecker.cpp:1512 src/ui/missingclips_ui.ui:174
-#, fuzzy, kde-format
-#| msgid "Removal"
+#, kde-format
 msgid "Remove"
-msgstr "Kaldırma"
+msgstr "Kaldır"
 
 #: src/doc/documentchecker.cpp:1523
 #, kde-format
@@ -19799,58 +19791,51 @@ msgstr " Klip Sorunları"
 
 #. i18n: ectx: property (title), widget (QGroupBox, proxyBox)
 #: src/ui/missingclips_ui.ui:47
-#, fuzzy, kde-format
-#| msgid "Proxy Clips"
+#, kde-format
 msgid "Proxies"
 msgstr "Vekil Klipler"
 
 #. i18n: ectx: property (text), widget (QCheckBox, recreateProxies)
 #: src/ui/missingclips_ui.ui:76
-#, fuzzy, kde-format
-#| msgid "Delete missing elements"
+#, kde-format
 msgid "Recreate missing proxies"
-msgstr "Eksik ögeleri sil"
+msgstr "Eksik vekilleri yeniden oluştur"
 
 #. i18n: ectx: property (format), widget (QProgressBar, progressBar)
 #: src/ui/missingclips_ui.ui:128
 #, no-c-format, kde-format
 msgid "%v / %m"
-msgstr ""
+msgstr "%v/%m"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/missingclips_ui.ui:156
-#, fuzzy, kde-format
-#| msgid "Delete Selected Item"
+#, kde-format
 msgid "Selected Items:"
-msgstr "Seçili Ögeleri Sil"
+msgstr "Seçili ögeler:"
 
 #. i18n: ectx: property (text), widget (QPushButton, manualSearch)
 #: src/ui/missingclips_ui.ui:163
-#, fuzzy, kde-format
-#| msgid "Search manually"
+#, kde-format
 msgid "Search Manually"
-msgstr "Elle ara"
+msgstr "Elle Ara"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/missingclips_ui.ui:192
-#, fuzzy, kde-format
-#| msgid "Missing item"
+#, kde-format
 msgid "All Missing Items:"
-msgstr "Eksik öge"
+msgstr "Tüm eksik ögeler:"
 
 #. i18n: ectx: property (text), widget (QPushButton, recursiveSearch)
 #: src/ui/missingclips_ui.ui:199
-#, fuzzy, kde-format
-#| msgid "Search recursively"
+#, kde-format
 msgid "Search Recursively"
-msgstr "Özyineli olarak ara"
+msgstr "Özyineli Ara"
 
 #. i18n: ectx: property (text), widget (QPushButton, usePlaceholders)
 #: src/ui/missingclips_ui.ui:210
-#, fuzzy, kde-format
-#| msgid "Placeholder"
+#, kde-format
 msgid "Use Placeholders"
-msgstr "Yer Tutucu"
+msgstr "Yer Tutucular Kullan"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/ui/multiplemarkerdialog_ui.ui:24

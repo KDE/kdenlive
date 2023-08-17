@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-16 00:45+0000\n"
+"POT-Creation-Date: 2023-08-17 00:45+0000\n"
 "PO-Revision-Date: 2014-12-09 21:11+0100\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -3540,7 +3540,7 @@ msgid "Delete keyframes"
 msgstr "Kulcskép törlése"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1402
+#: src/assets/model/assetparametermodel.cpp:1410
 #, fuzzy, kde-format
 #| msgid "Paste Effects"
 msgid "Update effect"
@@ -3642,8 +3642,8 @@ msgstr "Kulcskép szerkesztés"
 msgid "Update %1"
 msgstr "Profil frissítése"
 
-#: src/assets/model/assetparametermodel.cpp:1254
-#: src/assets/model/assetparametermodel.cpp:1301
+#: src/assets/model/assetparametermodel.cpp:1262
+#: src/assets/model/assetparametermodel.cpp:1309
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid "Cannot open preset file %1"

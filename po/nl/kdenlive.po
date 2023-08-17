@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-16 00:45+0000\n"
-"PO-Revision-Date: 2023-07-30 11:27+0200\n"
+"POT-Creation-Date: 2023-08-17 00:45+0000\n"
+"PO-Revision-Date: 2023-08-16 11:19+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -3478,7 +3478,7 @@ msgid "Delete keyframes"
 msgstr "Keyframes verwijderen"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1402
+#: src/assets/model/assetparametermodel.cpp:1410
 #, kde-format
 msgid "Update effect"
 msgstr "Effect bijwerken"
@@ -3565,8 +3565,8 @@ msgstr "Keyframe %1 bewerken"
 msgid "Update %1"
 msgstr "%1 bijwerken"
 
-#: src/assets/model/assetparametermodel.cpp:1254
-#: src/assets/model/assetparametermodel.cpp:1301
+#: src/assets/model/assetparametermodel.cpp:1262
+#: src/assets/model/assetparametermodel.cpp:1309
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Kan bestand met voor-instellingen %1 niet openen"
@@ -7641,13 +7641,12 @@ msgstr "hardwarecodeerders gevonden en ingeschakeld (%1)."
 #: src/doc/dcresolvedialog.cpp:42
 #, kde-format
 msgid "Recursive search: processing clips"
-msgstr ""
+msgstr "Recursief zoeken: clips verwerken"
 
 #: src/doc/dcresolvedialog.cpp:51
-#, fuzzy, kde-format
-#| msgid "Search done"
+#, kde-format
 msgid "Recursive search: done"
-msgstr "Zoeken gedaan"
+msgstr "Recursief zoeken: gedaan"
 
 #: src/doc/dcresolvedialog.cpp:125
 #, kde-format
@@ -7661,12 +7660,11 @@ msgstr "Geef nieuwe locatie voor bestand op"
 
 #. i18n: ectx: property (text), widget (QLabel, proxyLabel)
 #: src/doc/dcresolvedialog.cpp:163 src/ui/missingclips_ui.ui:56
-#, fuzzy, kde-format
-#| msgid "The project file contains missing clips or files."
+#, kde-format
 msgid "You project contains one missing proxy"
 msgid_plural "You project contains %1 missing proxies"
-msgstr[0] "Het projectbestand bevat ontbrekende clips of bestanden."
-msgstr[1] "Het projectbestand bevat ontbrekende clips of bestanden."
+msgstr[0] "In uw project ontbreekt één proxy"
+msgstr[1] "In uw project ontbreken %1 proxies"
 
 #: src/doc/dcresolvedialog.cpp:173
 #, kde-format
@@ -7707,10 +7705,9 @@ msgid "Title Image"
 msgstr "Titel afbeelding"
 
 #: src/doc/documentchecker.cpp:1478
-#, fuzzy, kde-format
-#| msgid "&Clip"
+#, kde-format
 msgid "Clip"
-msgstr "&Clip"
+msgstr "Clip"
 
 #: src/doc/documentchecker.cpp:1480
 #, kde-format
@@ -7751,10 +7748,9 @@ msgid "Fixed"
 msgstr "Vastgezet"
 
 #: src/doc/documentchecker.cpp:1504
-#, fuzzy, kde-format
-#| msgid "Reload Clip"
+#, kde-format
 msgid "Reload"
-msgstr "Herlaad clip"
+msgstr "Herladen"
 
 #: src/doc/documentchecker.cpp:1506
 #, kde-format
@@ -7762,10 +7758,9 @@ msgid "Missing"
 msgstr "Ontbreekt"
 
 #: src/doc/documentchecker.cpp:1508
-#, fuzzy, kde-format
-#| msgid "Missing proxy"
+#, kde-format
 msgid "Missing, but proxy available"
-msgstr "Ontbrekende proxy"
+msgstr "Ontbreekt, maar proxy beschikbaar"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
 #: src/doc/documentchecker.cpp:1510 src/ui/editrenderpreset_ui.ui:525
@@ -7775,10 +7770,9 @@ msgstr "Plaatshouder"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
 #: src/doc/documentchecker.cpp:1512 src/ui/missingclips_ui.ui:174
-#, fuzzy, kde-format
-#| msgid "Removal"
+#, kde-format
 msgid "Remove"
-msgstr "Verwijdering"
+msgstr "Verwijderen"
 
 #: src/doc/documentchecker.cpp:1523
 #, kde-format
@@ -19857,58 +19851,51 @@ msgstr "Problemen van clip"
 
 #. i18n: ectx: property (title), widget (QGroupBox, proxyBox)
 #: src/ui/missingclips_ui.ui:47
-#, fuzzy, kde-format
-#| msgid "Proxy Clips"
+#, kde-format
 msgid "Proxies"
-msgstr "Proxy-clips"
+msgstr "Proxies"
 
 #. i18n: ectx: property (text), widget (QCheckBox, recreateProxies)
 #: src/ui/missingclips_ui.ui:76
-#, fuzzy, kde-format
-#| msgid "Delete missing elements"
+#, kde-format
 msgid "Recreate missing proxies"
-msgstr "Ontbrekende elementen verwijderen"
+msgstr "Ontbrekende proxies opnieuw aanmaken"
 
 #. i18n: ectx: property (format), widget (QProgressBar, progressBar)
 #: src/ui/missingclips_ui.ui:128
 #, no-c-format, kde-format
 msgid "%v / %m"
-msgstr ""
+msgstr "%v / %m"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/missingclips_ui.ui:156
-#, fuzzy, kde-format
-#| msgid "Delete Selected Item"
+#, kde-format
 msgid "Selected Items:"
-msgstr "Geselecteerd item verwijderen"
+msgstr "Geselecteerde items:"
 
 #. i18n: ectx: property (text), widget (QPushButton, manualSearch)
 #: src/ui/missingclips_ui.ui:163
-#, fuzzy, kde-format
-#| msgid "Search manually"
+#, kde-format
 msgid "Search Manually"
 msgstr "Handmatig zoeken"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/missingclips_ui.ui:192
-#, fuzzy, kde-format
-#| msgid "Missing item"
+#, kde-format
 msgid "All Missing Items:"
-msgstr "Ontbrekend item"
+msgstr "Alle ontbrekend items:"
 
 #. i18n: ectx: property (text), widget (QPushButton, recursiveSearch)
 #: src/ui/missingclips_ui.ui:199
-#, fuzzy, kde-format
-#| msgid "Search recursively"
+#, kde-format
 msgid "Search Recursively"
-msgstr "Omgekeerd zoeken"
+msgstr "Recursief zoeken"
 
 #. i18n: ectx: property (text), widget (QPushButton, usePlaceholders)
 #: src/ui/missingclips_ui.ui:210
-#, fuzzy, kde-format
-#| msgid "Placeholder"
+#, kde-format
 msgid "Use Placeholders"
-msgstr "Plaatshouder"
+msgstr "Plaatshouders gebruiken"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/ui/multiplemarkerdialog_ui.ui:24

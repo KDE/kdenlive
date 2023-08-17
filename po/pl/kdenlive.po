@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-16 00:45+0000\n"
+"POT-Creation-Date: 2023-08-17 00:45+0000\n"
 "PO-Revision-Date: 2023-06-24 07:10+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -3465,7 +3465,7 @@ msgid "Delete keyframes"
 msgstr "Usuń klatki kluczowe"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1402
+#: src/assets/model/assetparametermodel.cpp:1410
 #, kde-format
 msgid "Update effect"
 msgstr "Uaktualnij efekt"
@@ -3554,8 +3554,8 @@ msgstr "Edytuj klatkę kluczową %1"
 msgid "Update %1"
 msgstr "Uaktualnij %1"
 
-#: src/assets/model/assetparametermodel.cpp:1254
-#: src/assets/model/assetparametermodel.cpp:1301
+#: src/assets/model/assetparametermodel.cpp:1262
+#: src/assets/model/assetparametermodel.cpp:1309
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Nie można otworzyć pliku nastaw %1"

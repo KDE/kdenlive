@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-16 00:45+0000\n"
-"PO-Revision-Date: 2023-08-08 14:27+0200\n"
+"POT-Creation-Date: 2023-08-17 00:45+0000\n"
+"PO-Revision-Date: 2023-08-16 10:49+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -3494,7 +3494,7 @@ msgid "Delete keyframes"
 msgstr "Suprimix els fotogrames clau"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1402
+#: src/assets/model/assetparametermodel.cpp:1410
 #, kde-format
 msgid "Update effect"
 msgstr "Actualitza l'efecte"
@@ -3583,8 +3583,8 @@ msgstr "Edita el fotograma clau %1"
 msgid "Update %1"
 msgstr "Actualitza %1"
 
-#: src/assets/model/assetparametermodel.cpp:1254
-#: src/assets/model/assetparametermodel.cpp:1301
+#: src/assets/model/assetparametermodel.cpp:1262
+#: src/assets/model/assetparametermodel.cpp:1309
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "No s'ha pogut obrir el fitxer %1 de valors predefinits"
@@ -7667,13 +7667,12 @@ msgstr "S'han trobat i activat els codificadors per maquinari (%1)."
 #: src/doc/dcresolvedialog.cpp:42
 #, kde-format
 msgid "Recursive search: processing clips"
-msgstr ""
+msgstr "Busca recursiva: s'estan processant els clips"
 
 #: src/doc/dcresolvedialog.cpp:51
-#, fuzzy, kde-format
-#| msgid "Search done"
+#, kde-format
 msgid "Recursive search: done"
-msgstr "Busca efectuada"
+msgstr "Busca recursiva: efectuada"
 
 #: src/doc/dcresolvedialog.cpp:125
 #, kde-format
@@ -7687,12 +7686,11 @@ msgstr "Indiqueu la ubicació nova per al fitxer"
 
 #. i18n: ectx: property (text), widget (QLabel, proxyLabel)
 #: src/doc/dcresolvedialog.cpp:163 src/ui/missingclips_ui.ui:56
-#, fuzzy, kde-format
-#| msgid "The project file contains missing clips or files."
+#, kde-format
 msgid "You project contains one missing proxy"
 msgid_plural "You project contains %1 missing proxies"
-msgstr[0] "El fitxer del projecte conté clips o fitxers que falten."
-msgstr[1] "El fitxer del projecte conté clips o fitxers que falten."
+msgstr[0] "El projecte conté un intermediari que falta"
+msgstr[1] "El projecte conté %1 intermediaris que falten"
 
 #: src/doc/dcresolvedialog.cpp:173
 #, kde-format
@@ -7732,10 +7730,9 @@ msgid "Title Image"
 msgstr "Imatge de títol"
 
 #: src/doc/documentchecker.cpp:1478
-#, fuzzy, kde-format
-#| msgid "&Clip"
+#, kde-format
 msgid "Clip"
-msgstr "&Clip"
+msgstr "Clip"
 
 #: src/doc/documentchecker.cpp:1480
 #, kde-format
@@ -7765,10 +7762,9 @@ msgid "Effect"
 msgstr "Efecte"
 
 #: src/doc/documentchecker.cpp:1492
-#, fuzzy, kde-format
-#| msgid "Transitions"
+#, kde-format
 msgid "Transition"
-msgstr "Transicions"
+msgstr "Transició"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
 #: src/doc/documentchecker.cpp:1502 src/ui/editrenderpreset_ui.ui:538
@@ -7777,22 +7773,19 @@ msgid "Fixed"
 msgstr "Fix"
 
 #: src/doc/documentchecker.cpp:1504
-#, fuzzy, kde-format
-#| msgid "Reload Clip"
+#, kde-format
 msgid "Reload"
-msgstr "Torna a carregar el clip"
+msgstr "Torna a carregar"
 
 #: src/doc/documentchecker.cpp:1506
-#, fuzzy, kde-format
-#| msgid "Missing item"
+#, kde-format
 msgid "Missing"
-msgstr "No s'ha trobat l'element"
+msgstr "Falta"
 
 #: src/doc/documentchecker.cpp:1508
-#, fuzzy, kde-format
-#| msgid "Missing proxy"
+#, kde-format
 msgid "Missing, but proxy available"
-msgstr "Falta intermediari"
+msgstr "Falta, però hi ha disponible un intermediari"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
 #: src/doc/documentchecker.cpp:1510 src/ui/editrenderpreset_ui.ui:525
@@ -7802,10 +7795,9 @@ msgstr "Marcador de posició"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
 #: src/doc/documentchecker.cpp:1512 src/ui/missingclips_ui.ui:174
-#, fuzzy, kde-format
-#| msgid "Removal"
+#, kde-format
 msgid "Remove"
-msgstr "Eliminació"
+msgstr "Elimina"
 
 #: src/doc/documentchecker.cpp:1523
 #, kde-format
@@ -19964,58 +19956,51 @@ msgstr " Problemes del clip"
 
 #. i18n: ectx: property (title), widget (QGroupBox, proxyBox)
 #: src/ui/missingclips_ui.ui:47
-#, fuzzy, kde-format
-#| msgid "Proxy Clips"
+#, kde-format
 msgid "Proxies"
-msgstr "Clips intermediaris"
+msgstr "Intermediaris"
 
 #. i18n: ectx: property (text), widget (QCheckBox, recreateProxies)
 #: src/ui/missingclips_ui.ui:76
-#, fuzzy, kde-format
-#| msgid "Delete missing elements"
+#, kde-format
 msgid "Recreate missing proxies"
-msgstr "Suprimix els elements que falten"
+msgstr "Torna a crear els intermediaris que falten"
 
 #. i18n: ectx: property (format), widget (QProgressBar, progressBar)
 #: src/ui/missingclips_ui.ui:128
 #, no-c-format, kde-format
 msgid "%v / %m"
-msgstr ""
+msgstr "%v / %m"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/missingclips_ui.ui:156
-#, fuzzy, kde-format
-#| msgid "Delete Selected Item"
+#, kde-format
 msgid "Selected Items:"
-msgstr "Suprimix l'element seleccionat"
+msgstr "Elements seleccionats:"
 
 #. i18n: ectx: property (text), widget (QPushButton, manualSearch)
 #: src/ui/missingclips_ui.ui:163
-#, fuzzy, kde-format
-#| msgid "Search manually"
+#, kde-format
 msgid "Search Manually"
 msgstr "Busca manualment"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/missingclips_ui.ui:192
-#, fuzzy, kde-format
-#| msgid "Missing item"
+#, kde-format
 msgid "All Missing Items:"
-msgstr "No s'ha trobat l'element"
+msgstr "Tots els elements que falten:"
 
 #. i18n: ectx: property (text), widget (QPushButton, recursiveSearch)
 #: src/ui/missingclips_ui.ui:199
-#, fuzzy, kde-format
-#| msgid "Search recursively"
+#, kde-format
 msgid "Search Recursively"
 msgstr "Busca recursivament"
 
 #. i18n: ectx: property (text), widget (QPushButton, usePlaceholders)
 #: src/ui/missingclips_ui.ui:210
-#, fuzzy, kde-format
-#| msgid "Placeholder"
+#, kde-format
 msgid "Use Placeholders"
-msgstr "Marcador de posició"
+msgstr "Utilitza marcadors de posició"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/ui/multiplemarkerdialog_ui.ui:24
@@ -21521,109 +21506,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Relocated item"
-#~ msgstr "Element reubicat"
-
-#~ msgid "%1 will be replaced by %2"
-#~ msgstr "%1 se substituirà per %2"
-
-#~ msgid "Modified Clips"
-#~ msgstr "Clips modificats"
-
-#~ msgid "Clip %1 will be reloaded"
-#~ msgstr "El clip %1 es tornarà a carregar"
-
-#~ msgid "Fixed Sequence Clips"
-#~ msgstr "Clips de seqüència corregits"
-
-#~ msgid "Clip %1 will be fixed"
-#~ msgstr "El clip %1 es corregirà"
-
-#~ msgid "Missing effect: %2 will be removed from project."
-#~ msgid_plural "Missing effects: %2 will be removed from project."
-#~ msgstr[0] "Falta un efecte: s'eliminarà %2 del projecte."
-#~ msgstr[1] "Falten efectes: s'eliminaran %2 del projecte."
-
-#~ msgid "Missing transition: %2 will be removed from project."
-#~ msgid_plural "Missing transitions: %2 will be removed from project."
-#~ msgstr[0] "Falta una transició: %2 s'eliminarà del projecte."
-#~ msgstr[1] "Falten transicions: %2 s'eliminaran del projecte."
-
-#~ msgid ""
-#~ "The project file contains a missing clip, you can still work with its "
-#~ "proxy."
-#~ msgid_plural ""
-#~ "The project file contains %1 missing clips, you can still work with their "
-#~ "proxies."
-#~ msgstr[0] ""
-#~ "El fitxer del projecte conté un clip que falta, encara podeu treballar "
-#~ "amb el seu intermediari."
-#~ msgstr[1] ""
-#~ "El fitxer del projecte conté %1 clips que falten, encara podeu treballar "
-#~ "amb els seus intermediaris."
-
-#~ msgid "The project file contains one modified clip, it will be reloaded."
-#~ msgid_plural ""
-#~ "The project file contains %1 modified clips, they will be reloaded."
-#~ msgstr[0] ""
-#~ "El fitxer del projecte conté un clip modificat, que es tornarà a carregar."
-#~ msgstr[1] ""
-#~ "El fitxer del projecte conté %1 clips modificats, que es tornaran a "
-#~ "carregar."
-
-#~ msgid "%1 missing proxy clip, will be recreated on project opening"
-#~ msgid_plural "%1 missing proxy clips, will be recreated on project opening"
-#~ msgstr[0] ""
-#~ "Falta %1 clip intermediari, es tornarà a crear en l'obertura del projecte"
-#~ msgstr[1] ""
-#~ "Falten %1 clips intermediaris, es tornaran a crear en l'obertura del "
-#~ "projecte"
-
-#~ msgid "%1 missing source clips, you can only use the proxies"
-#~ msgstr "Falten %1 clips d'origen, només podeu utilitzar els intermediaris"
-
-#~ msgid "Recovered item"
-#~ msgstr "Element recuperat"
-
-#~ msgid "Search aborted"
-#~ msgstr "Busca interrompuda"
-
-#~ msgid "Scanning %1"
-#~ msgstr "S'està explorant %1"
-
-#~ msgid "This will remove the selected clip from this project"
-#~ msgid_plural "This will remove the selected clips from this project"
-#~ msgstr[0] "Eliminarà el clip seleccionat d'este projecte"
-#~ msgstr[1] "Eliminarà els clips seleccionats d'este projecte"
-
-#~ msgid "Remove clips"
-#~ msgstr "Elimina clips"
-
-#~ msgid "Rebuild Proxies"
-#~ msgstr "Reconstruïx els intermediaris"
-
-#~ msgid "Use placeholders for missing clips"
-#~ msgstr "Utilitza els marcadors de posició per als clips perduts"
-
-#~ msgid "Path"
-#~ msgstr "Camí"
-
-#~ msgid "Remove selected clips"
-#~ msgstr "Elimina els clips seleccionats"
-
-#~ msgid "Captured files"
-#~ msgstr "Fitxers de captura"
-
-#~ msgid "File name"
-#~ msgstr "Nom del fitxer"
-
-#~ msgctxt "Filesize"
-#~ msgid "Size"
-#~ msgstr "Mida"
-
-#~ msgid "Delete current file"
-#~ msgstr "Suprimix el fitxer actual"
-
-#~ msgid "Toggle selection"
-#~ msgstr "Canvia la selecció"

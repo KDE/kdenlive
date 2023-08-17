@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-16 00:45+0000\n"
-"PO-Revision-Date: 2023-08-01 08:14+0200\n"
+"POT-Creation-Date: 2023-08-17 00:45+0000\n"
+"PO-Revision-Date: 2023-08-16 11:52+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 20.08.1\n"
+"X-Generator: Lokalize 23.04.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3457,7 +3457,7 @@ msgid "Delete keyframes"
 msgstr "Ta bort nyckelbilder"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1402
+#: src/assets/model/assetparametermodel.cpp:1410
 #, kde-format
 msgid "Update effect"
 msgstr "Uppdatera effekt"
@@ -3544,8 +3544,8 @@ msgstr "Redigera nyckelbild %1"
 msgid "Update %1"
 msgstr "Uppdatera %1"
 
-#: src/assets/model/assetparametermodel.cpp:1254
-#: src/assets/model/assetparametermodel.cpp:1301
+#: src/assets/model/assetparametermodel.cpp:1262
+#: src/assets/model/assetparametermodel.cpp:1309
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Kan inte öppna förinställningsfil %1"
@@ -7601,13 +7601,12 @@ msgstr "hårdvarukodare hittades och aktiverades (%1)."
 #: src/doc/dcresolvedialog.cpp:42
 #, kde-format
 msgid "Recursive search: processing clips"
-msgstr ""
+msgstr "Rekursiv sökning: behandlar klipp"
 
 #: src/doc/dcresolvedialog.cpp:51
-#, fuzzy, kde-format
-#| msgid "Search done"
+#, kde-format
 msgid "Recursive search: done"
-msgstr "Sökning klar"
+msgstr "Rekursiv sökning: klar"
 
 #: src/doc/dcresolvedialog.cpp:125
 #, kde-format
@@ -7621,12 +7620,11 @@ msgstr "Ange ny plats för fil"
 
 #. i18n: ectx: property (text), widget (QLabel, proxyLabel)
 #: src/doc/dcresolvedialog.cpp:163 src/ui/missingclips_ui.ui:56
-#, fuzzy, kde-format
-#| msgid "The project file contains missing clips or files."
+#, kde-format
 msgid "You project contains one missing proxy"
 msgid_plural "You project contains %1 missing proxies"
-msgstr[0] "Projektfilen innehåller saknade klipp eller filer."
-msgstr[1] "Projektfilen innehåller saknade klipp eller filer."
+msgstr[0] "Projektet innehåller ett saknat ersättningsklipp"
+msgstr[1] "Projektet innehåller %1 saknade ersättningsklipp"
 
 #: src/doc/dcresolvedialog.cpp:173
 #, kde-format
@@ -7666,10 +7664,9 @@ msgid "Title Image"
 msgstr "Titelavbild"
 
 #: src/doc/documentchecker.cpp:1478
-#, fuzzy, kde-format
-#| msgid "&Clip"
+#, kde-format
 msgid "Clip"
-msgstr "&Klipp"
+msgstr "Klipp"
 
 #: src/doc/documentchecker.cpp:1480
 #, kde-format
@@ -7710,10 +7707,9 @@ msgid "Fixed"
 msgstr "Fast"
 
 #: src/doc/documentchecker.cpp:1504
-#, fuzzy, kde-format
-#| msgid "Reload Clip"
+#, kde-format
 msgid "Reload"
-msgstr "Uppdatera klipp"
+msgstr "Uppdatera"
 
 #: src/doc/documentchecker.cpp:1506
 #, kde-format
@@ -7721,10 +7717,9 @@ msgid "Missing"
 msgstr "Saknas"
 
 #: src/doc/documentchecker.cpp:1508
-#, fuzzy, kde-format
-#| msgid "Missing proxy"
+#, kde-format
 msgid "Missing, but proxy available"
-msgstr "Saknar ersättning"
+msgstr "Saknas, men ersättningsklipp tillgänglig"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
 #: src/doc/documentchecker.cpp:1510 src/ui/editrenderpreset_ui.ui:525
@@ -7734,10 +7729,9 @@ msgstr "Platsmarkör"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
 #: src/doc/documentchecker.cpp:1512 src/ui/missingclips_ui.ui:174
-#, fuzzy, kde-format
-#| msgid "Removal"
+#, kde-format
 msgid "Remove"
-msgstr "Borttagning"
+msgstr "Ta bort"
 
 #: src/doc/documentchecker.cpp:1523
 #, kde-format
@@ -19777,58 +19771,51 @@ msgstr " Problem med klipp"
 
 #. i18n: ectx: property (title), widget (QGroupBox, proxyBox)
 #: src/ui/missingclips_ui.ui:47
-#, fuzzy, kde-format
-#| msgid "Proxy Clips"
+#, kde-format
 msgid "Proxies"
 msgstr "Ersättningsklipp"
 
 #. i18n: ectx: property (text), widget (QCheckBox, recreateProxies)
 #: src/ui/missingclips_ui.ui:76
-#, fuzzy, kde-format
-#| msgid "Delete missing elements"
+#, kde-format
 msgid "Recreate missing proxies"
-msgstr "Ta bort saknade element"
+msgstr "Återskapa saknade ersättningsklipp"
 
 #. i18n: ectx: property (format), widget (QProgressBar, progressBar)
 #: src/ui/missingclips_ui.ui:128
 #, no-c-format, kde-format
 msgid "%v / %m"
-msgstr ""
+msgstr "%v / %m"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/missingclips_ui.ui:156
-#, fuzzy, kde-format
-#| msgid "Delete Selected Item"
+#, kde-format
 msgid "Selected Items:"
-msgstr "Ta bort markerat objekt"
+msgstr "Markerade objekt:"
 
 #. i18n: ectx: property (text), widget (QPushButton, manualSearch)
 #: src/ui/missingclips_ui.ui:163
-#, fuzzy, kde-format
-#| msgid "Search manually"
+#, kde-format
 msgid "Search Manually"
 msgstr "Sök manuellt"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/missingclips_ui.ui:192
-#, fuzzy, kde-format
-#| msgid "Missing item"
+#, kde-format
 msgid "All Missing Items:"
-msgstr "Saknar objekt"
+msgstr "Alla saknade objekt:"
 
 #. i18n: ectx: property (text), widget (QPushButton, recursiveSearch)
 #: src/ui/missingclips_ui.ui:199
-#, fuzzy, kde-format
-#| msgid "Search recursively"
+#, kde-format
 msgid "Search Recursively"
 msgstr "Sök rekursivt"
 
 #. i18n: ectx: property (text), widget (QPushButton, usePlaceholders)
 #: src/ui/missingclips_ui.ui:210
-#, fuzzy, kde-format
-#| msgid "Placeholder"
+#, kde-format
 msgid "Use Placeholders"
-msgstr "Platsmarkör"
+msgstr "Använd platsmarkörer"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/ui/multiplemarkerdialog_ui.ui:24

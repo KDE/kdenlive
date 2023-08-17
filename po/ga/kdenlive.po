@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-16 00:45+0000\n"
+"POT-Creation-Date: 2023-08-17 00:45+0000\n"
 "PO-Revision-Date: 2011-12-28 12:28-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -3574,7 +3574,7 @@ msgid "Delete keyframes"
 msgstr "Scrios Fráma"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1402
+#: src/assets/model/assetparametermodel.cpp:1410
 #, fuzzy, kde-format
 #| msgid "Effects"
 msgid "Update effect"
@@ -3682,8 +3682,8 @@ msgstr "Cuir Marcóirí Leis"
 msgid "Update %1"
 msgstr "Nuashonraigh próifíl"
 
-#: src/assets/model/assetparametermodel.cpp:1254
-#: src/assets/model/assetparametermodel.cpp:1301
+#: src/assets/model/assetparametermodel.cpp:1262
+#: src/assets/model/assetparametermodel.cpp:1309
 #, fuzzy, kde-format
 #| msgid "Cannot open file %1"
 msgid "Cannot open preset file %1"

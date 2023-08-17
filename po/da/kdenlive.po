@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-16 00:45+0000\n"
+"POT-Creation-Date: 2023-08-17 00:45+0000\n"
 "PO-Revision-Date: 2020-10-31 22:29+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -3491,7 +3491,7 @@ msgid "Delete keyframes"
 msgstr "Slet keyframes"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1402
+#: src/assets/model/assetparametermodel.cpp:1410
 #, fuzzy, kde-format
 #| msgid "Paste effects"
 msgid "Update effect"
@@ -3589,8 +3589,8 @@ msgstr "Rediger %1 keyframe"
 msgid "Update %1"
 msgstr "Opdatér %1"
 
-#: src/assets/model/assetparametermodel.cpp:1254
-#: src/assets/model/assetparametermodel.cpp:1301
+#: src/assets/model/assetparametermodel.cpp:1262
+#: src/assets/model/assetparametermodel.cpp:1309
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Kan ikke åbne forudindstillingsfilen %1"
