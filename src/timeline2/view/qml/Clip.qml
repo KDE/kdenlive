@@ -633,7 +633,7 @@ Rectangle {
                     clipRoot.originalX = clipRoot.x
                     clipRoot.originalDuration = clipDuration
                     shiftTrim = mouse.modifiers & Qt.ShiftModifier
-                    controlTrim = mouse.modifiers & Qt.ControlModifier
+                    controlTrim = mouse.modifiers & Qt.ControlModifier && itemType != ProducerType.Color && itemType != ProducerType.Timeline && itemType != ProducerType.Playlist && itemType != ProducerType.Image
                     if (!shiftTrim && clipRoot.grouped) {
                         clipRoot.initGroupTrim(clipRoot)
                     }
@@ -775,7 +775,7 @@ Rectangle {
                     clipRoot.originalDuration = clipDuration
                     anchors.right = undefined
                     shiftTrim = mouse.modifiers & Qt.ShiftModifier
-                    controlTrim = mouse.modifiers & Qt.ControlModifier
+                    controlTrim = mouse.modifiers & Qt.ControlModifier && itemType != ProducerType.Color && itemType != ProducerType.Timeline && itemType != ProducerType.Playlist && itemType != ProducerType.Image
                     if (!shiftTrim && clipRoot.grouped) {
                         clipRoot.initGroupTrim(clipRoot)
                     }
