@@ -3994,8 +3994,8 @@ void TimelineController::updateClipActions()
             }
         } else if (actionData == QLatin1Char('Q')) {
             // Speed change action
-            enableAction = clip != nullptr && type != ClipType::Timeline && type != ClipType::Playlist && type != ClipType::Color && type != ClipType::Image &&
-                           !clip->hasTimeRemap();
+            enableAction = clip != nullptr && (clip->getSpeed() != 1. || (type != ClipType::Timeline && type != ClipType::Playlist && type != ClipType::Color &&
+                                                                          type != ClipType::Image && !clip->hasTimeRemap()));
         }
         act->setEnabled(enableAction);
     }
