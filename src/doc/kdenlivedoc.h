@@ -148,7 +148,7 @@ public:
     /** @brief Returns the project file xml. */
     QDomDocument xmlSceneList(const QString &scene);
     /** @brief Saves the project file xml to a file. */
-    bool saveSceneList(const QString &path, const QString &scene, bool saveAsCopy = false);
+    bool saveSceneList(const QString &path, const QString &scene, bool saveOverExistingFile = true);
     void cacheImage(const QString &fileId, const QImage &img) const;
     void setProjectFolder(const QUrl &url);
     void setZone(const QUuid &uuid, int start, int end);
