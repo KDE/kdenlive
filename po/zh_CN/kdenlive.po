@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-17 02:24+0000\n"
+"POT-Creation-Date: 2023-08-18 02:23+0000\n"
 "PO-Revision-Date: 2023-08-02 12:44\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -4038,7 +4038,7 @@ msgid "When selected mutes all other audio tracks."
 msgstr "勾选时静音所有其他音频轨道。"
 
 #: src/audiomixer/mixerwidget.cpp:270
-#: src/timeline2/view/timelinecontroller.cpp:4712
+#: src/timeline2/view/timelinecontroller.cpp:4713
 #, kde-format
 msgid "Record audio"
 msgstr "录制音频"
@@ -4267,7 +4267,7 @@ msgstr "某些项目无法删除。请检查在已锁定的轨道上是否存在
 msgid "Delete bin Clips"
 msgstr "删除项目素材箱剪辑"
 
-#: src/bin/bin.cpp:1829 src/doc/documentchecker.cpp:585
+#: src/bin/bin.cpp:1829 src/doc/documentchecker.cpp:591
 #, kde-format
 msgid "Missing source clip"
 msgstr "缺少来源素材"
@@ -6101,7 +6101,7 @@ msgstr "导出辅助线数据…"
 #: src/project/projectmanager.cpp:1576 src/render/renderrequest.cpp:230
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
-#: src/timeline2/view/timelinecontroller.cpp:5044
+#: src/timeline2/view/timelinecontroller.cpp:5045
 #: src/titler/titlewidget.cpp:2201
 #, kde-format
 msgid "Cannot write to file %1"
@@ -7497,7 +7497,7 @@ msgid "Missing item"
 msgstr "缺失项目"
 
 #: src/doc/documentchecker.cpp:389 src/doc/documentchecker.cpp:414
-#: src/doc/documentchecker.cpp:1431
+#: src/doc/documentchecker.cpp:1446
 #, kde-format
 msgid "Relocated item"
 msgstr "已移位项目"
@@ -7571,80 +7571,80 @@ msgid_plural ""
 "The project file contains %1 modified clips, they will be reloaded."
 msgstr[0] "此项目文件包含 %1 段已修改剪辑，它们将被重新加载。"
 
-#: src/doc/documentchecker.cpp:563
+#: src/doc/documentchecker.cpp:569
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr "代理剪辑"
 
-#: src/doc/documentchecker.cpp:566
+#: src/doc/documentchecker.cpp:571
 #, kde-format
 msgid "%1 missing proxy clip, will be recreated on project opening"
 msgid_plural "%1 missing proxy clips, will be recreated on project opening"
 msgstr[0] "%1 段缺失代理剪辑，它们将在项目打开时重新创建。"
 
-#: src/doc/documentchecker.cpp:569
+#: src/doc/documentchecker.cpp:575
 #, kde-format
 msgid "Missing proxy"
 msgstr "缺失的代理"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/doc/documentchecker.cpp:580 src/doc/documentchecker.cpp:594
+#: src/doc/documentchecker.cpp:586 src/doc/documentchecker.cpp:600
 #: src/ui/timeremap_ui.ui:90
 #, kde-format
 msgid "Source clip"
 msgstr "来源剪辑"
 
-#: src/doc/documentchecker.cpp:582
+#: src/doc/documentchecker.cpp:588
 #, kde-format
 msgid "%1 missing source clips, you can only use the proxies"
 msgstr "%1 段缺失来源剪辑，您只能使用它们的代理剪辑。"
 
-#: src/doc/documentchecker.cpp:959
+#: src/doc/documentchecker.cpp:974
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "剪辑文件夹"
 
-#: src/doc/documentchecker.cpp:991 src/doc/documentchecker.cpp:1015
-#: src/doc/documentchecker.cpp:1025 src/doc/documentchecker.cpp:1034
-#: src/doc/documentchecker.cpp:1046
+#: src/doc/documentchecker.cpp:1006 src/doc/documentchecker.cpp:1030
+#: src/doc/documentchecker.cpp:1040 src/doc/documentchecker.cpp:1049
+#: src/doc/documentchecker.cpp:1061
 #, kde-format
 msgid "Recovered item"
 msgstr "已恢复项目"
 
-#: src/doc/documentchecker.cpp:1059
+#: src/doc/documentchecker.cpp:1074
 #, kde-format
 msgid "Search aborted"
 msgstr "搜索已中止"
 
-#: src/doc/documentchecker.cpp:1061
+#: src/doc/documentchecker.cpp:1076
 #, kde-format
 msgid "Search done"
 msgstr "搜索已完成"
 
-#: src/doc/documentchecker.cpp:1202
+#: src/doc/documentchecker.cpp:1217
 #, kde-format
 msgid "Scanning %1"
 msgstr "正在扫描 %1"
 
-#: src/doc/documentchecker.cpp:1393
+#: src/doc/documentchecker.cpp:1408
 #, kde-format
 msgid "Enter new location for folder"
 msgstr "输入文件夹的新位置"
 
-#: src/doc/documentchecker.cpp:1419
+#: src/doc/documentchecker.cpp:1434
 #, kde-format
 msgid "Enter new location for file"
 msgstr "输入文件的新位置"
 
-#: src/doc/documentchecker.cpp:1894
+#: src/doc/documentchecker.cpp:1909
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
 msgstr[0] "此操作将从项目中移除所选剪辑"
 
-#: src/doc/documentchecker.cpp:1896
+#: src/doc/documentchecker.cpp:1911
 #, kde-format
 msgid "Remove clips"
 msgstr "移除剪辑"
@@ -10371,7 +10371,7 @@ msgstr "插入轨道…"
 msgid "Fit all Tracks in View"
 msgstr "视图缩放至适合所有轨道"
 
-#: src/mainwindow.cpp:1855 src/timeline2/view/timelinecontroller.cpp:4753
+#: src/mainwindow.cpp:1855 src/timeline2/view/timelinecontroller.cpp:4754
 #, kde-format
 msgid "Master effects"
 msgstr "主效果"
@@ -10909,7 +10909,7 @@ msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
 msgstr "Kdenlive 需要重启才能应用图标主题更改。现在重新启动吗？"
 
-#: src/mainwindow.cpp:4574 src/timeline2/view/timelinecontroller.cpp:5027
+#: src/mainwindow.cpp:4574 src/timeline2/view/timelinecontroller.cpp:5028
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "当前项目不含字幕"
@@ -12838,7 +12838,7 @@ msgstr "标记文件大于 1MB，您确定要导入吗？"
 
 #: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1469
 #: src/renderpresets/renderpresetrepository.cpp:313
-#: src/timeline2/view/timelinecontroller.cpp:4950
+#: src/timeline2/view/timelinecontroller.cpp:4951
 #, kde-format
 msgid "Cannot read file %1"
 msgstr "无法读取文件 %1"
@@ -15446,7 +15446,7 @@ msgstr "删除合成"
 
 #: src/timeline2/model/timelinemodel.cpp:2203
 #: src/timeline2/model/timelinemodel.cpp:2365
-#: src/timeline2/view/timelinecontroller.cpp:4163
+#: src/timeline2/view/timelinecontroller.cpp:4164
 #, kde-format
 msgid "Move group"
 msgstr "移动组合"
@@ -16009,7 +16009,7 @@ msgid "Cannot perform operation while dragging in timeline"
 msgstr "拖动时间轴时无法进行操作"
 
 #: src/timeline2/view/timelinecontroller.cpp:862
-#: src/timeline2/view/timelinecontroller.cpp:4896
+#: src/timeline2/view/timelinecontroller.cpp:4897
 #, kde-format
 msgid "Could not insert track"
 msgstr "无法插入轨道"
@@ -16104,7 +16104,7 @@ msgid "No item to edit"
 msgstr "没有可编辑的项目"
 
 #: src/timeline2/view/timelinecontroller.cpp:2860
-#: src/timeline2/view/timelinecontroller.cpp:5191
+#: src/timeline2/view/timelinecontroller.cpp:5192
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr "请点击一条轨道的名称标记，为此操作激活一条轨道"
@@ -16192,17 +16192,17 @@ msgstr "恢复视频"
 msgid "Restore audio"
 msgstr "恢复音频"
 
-#: src/timeline2/view/timelinecontroller.cpp:4144
+#: src/timeline2/view/timelinecontroller.cpp:4145
 #, kde-format
 msgid "Move item"
 msgstr "移动项目"
 
-#: src/timeline2/view/timelinecontroller.cpp:4626
+#: src/timeline2/view/timelinecontroller.cpp:4627
 #, kde-format
 msgid "Impossible to capture on a locked track"
 msgstr "无法在已锁定轨道上进行捕获"
 
-#: src/timeline2/view/timelinecontroller.cpp:4637
+#: src/timeline2/view/timelinecontroller.cpp:4638
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
@@ -16211,59 +16211,59 @@ msgstr ""
 "无法在此捕获：捕获操作可能会覆盖剪辑。请移除当前位置之后的剪辑，或选择另一条"
 "轨道。"
 
-#: src/timeline2/view/timelinecontroller.cpp:4850
+#: src/timeline2/view/timelinecontroller.cpp:4851
 #, kde-format
 msgid "Expand clip"
 msgstr "延长剪辑"
 
-#: src/timeline2/view/timelinecontroller.cpp:4853
+#: src/timeline2/view/timelinecontroller.cpp:4854
 #, kde-format
 msgid "Could not expand clip"
 msgstr "无法延长剪辑"
 
-#: src/timeline2/view/timelinecontroller.cpp:4894
+#: src/timeline2/view/timelinecontroller.cpp:4895
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "插入轨道"
 
-#: src/timeline2/view/timelinecontroller.cpp:4941
+#: src/timeline2/view/timelinecontroller.cpp:4942
 #, kde-format
 msgid "Character encoding used to save the subtitle file."
 msgstr "用于保存字幕文件的字符编码。"
 
-#: src/timeline2/view/timelinecontroller.cpp:4942
+#: src/timeline2/view/timelinecontroller.cpp:4943
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "如果不确定，请尝试：<br/><b>Unicode (UTF-8)</b>"
 
-#: src/timeline2/view/timelinecontroller.cpp:4982
+#: src/timeline2/view/timelinecontroller.cpp:4983
 #, kde-format
 msgid "Encoding could not be guessed, using UTF-8"
 msgstr "无法猜测编码，将使用 UTF-8"
 
-#: src/timeline2/view/timelinecontroller.cpp:4986
+#: src/timeline2/view/timelinecontroller.cpp:4987
 #, kde-format
 msgid "Encoding detected as %1"
 msgstr "检测到编码为 %1"
 
-#: src/timeline2/view/timelinecontroller.cpp:5003
+#: src/timeline2/view/timelinecontroller.cpp:5004
 #, kde-format
 msgid "Import Subtitle"
 msgstr "导入字幕"
 
-#: src/timeline2/view/timelinecontroller.cpp:5030
+#: src/timeline2/view/timelinecontroller.cpp:5031
 #, kde-format
 msgid "Export subtitle file"
 msgstr "导出字幕文件"
 
-#: src/timeline2/view/timelinecontroller.cpp:5031
+#: src/timeline2/view/timelinecontroller.cpp:5032
 #, kde-format
 msgid "Subtitle File (*.srt)"
 msgstr "字幕文件 (*.srt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5061
+#: src/timeline2/view/timelinecontroller.cpp:5062
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
@@ -16271,22 +16271,22 @@ msgid ""
 msgstr ""
 "需要 avfilter.subtitles 滤镜，但无法在本机找到。字幕功能可能无法正常工作。"
 
-#: src/timeline2/view/timelinecontroller.cpp:5078
+#: src/timeline2/view/timelinecontroller.cpp:5079
 #, kde-format
 msgid "Show subtitle track"
 msgstr "显示字幕轨道"
 
-#: src/timeline2/view/timelinecontroller.cpp:5078
+#: src/timeline2/view/timelinecontroller.cpp:5079
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "隐藏字幕轨道"
 
-#: src/timeline2/view/timelinecontroller.cpp:5101
+#: src/timeline2/view/timelinecontroller.cpp:5102
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "解除锁定字幕轨道"
 
-#: src/timeline2/view/timelinecontroller.cpp:5101
+#: src/timeline2/view/timelinecontroller.cpp:5102
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "锁定字幕轨道"
