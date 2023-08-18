@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-17 02:24+0000\n"
+"POT-Creation-Date: 2023-08-18 02:23+0000\n"
 "PO-Revision-Date: 2023-07-14 09:26+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
@@ -4095,7 +4095,7 @@ msgid "When selected mutes all other audio tracks."
 msgstr "Kiam oni elektas, silentigas ĉiujn aliajn sonspurojn."
 
 #: src/audiomixer/mixerwidget.cpp:270
-#: src/timeline2/view/timelinecontroller.cpp:4712
+#: src/timeline2/view/timelinecontroller.cpp:4713
 #, kde-format
 msgid "Record audio"
 msgstr "Registra audio"
@@ -4331,7 +4331,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "Forigi bin-tondaĵojn"
 
-#: src/bin/bin.cpp:1829 src/doc/documentchecker.cpp:585
+#: src/bin/bin.cpp:1829 src/doc/documentchecker.cpp:591
 #, kde-format
 msgid "Missing source clip"
 msgstr "Mankas fonta tondaĵo"
@@ -6172,7 +6172,7 @@ msgstr "Eksporti Gvidilojn Datumojn"
 #: src/project/projectmanager.cpp:1576 src/render/renderrequest.cpp:230
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
-#: src/timeline2/view/timelinecontroller.cpp:5044
+#: src/timeline2/view/timelinecontroller.cpp:5045
 #: src/titler/titlewidget.cpp:2201
 #, kde-format
 msgid "Cannot write to file %1"
@@ -7598,7 +7598,7 @@ msgid "Missing item"
 msgstr "Mankas ero"
 
 #: src/doc/documentchecker.cpp:389 src/doc/documentchecker.cpp:414
-#: src/doc/documentchecker.cpp:1431
+#: src/doc/documentchecker.cpp:1446
 #, kde-format
 msgid "Relocated item"
 msgstr "Translokigita objekto"
@@ -7681,13 +7681,13 @@ msgstr[0] ""
 msgstr[1] ""
 "La projektdosiero enhavas %1 modifitajn aŭdvidaĵojn; ili estos reŝargataj."
 
-#: src/doc/documentchecker.cpp:563
+#: src/doc/documentchecker.cpp:569
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr "Prokurila aŭdvidaĵo"
 
-#: src/doc/documentchecker.cpp:566
+#: src/doc/documentchecker.cpp:571
 #, kde-format
 msgid "%1 missing proxy clip, will be recreated on project opening"
 msgid_plural "%1 missing proxy clips, will be recreated on project opening"
@@ -7696,69 +7696,69 @@ msgstr[0] ""
 msgstr[1] ""
 "%1 mankantaj prokuraj aŭdvidaĵoj estos rekreataj je malfermado de projekto"
 
-#: src/doc/documentchecker.cpp:569
+#: src/doc/documentchecker.cpp:575
 #, kde-format
 msgid "Missing proxy"
 msgstr "Mankas prokurilo"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/doc/documentchecker.cpp:580 src/doc/documentchecker.cpp:594
+#: src/doc/documentchecker.cpp:586 src/doc/documentchecker.cpp:600
 #: src/ui/timeremap_ui.ui:90
 #, kde-format
 msgid "Source clip"
 msgstr "Fonta tondaĵo"
 
-#: src/doc/documentchecker.cpp:582
+#: src/doc/documentchecker.cpp:588
 #, kde-format
 msgid "%1 missing source clips, you can only use the proxies"
 msgstr "%1 mankantaj fontotondaĵoj, vi povas nur uzi la prokurilojn"
 
-#: src/doc/documentchecker.cpp:959
+#: src/doc/documentchecker.cpp:974
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Dosierujo de aŭdvidaĵoj"
 
-#: src/doc/documentchecker.cpp:991 src/doc/documentchecker.cpp:1015
-#: src/doc/documentchecker.cpp:1025 src/doc/documentchecker.cpp:1034
-#: src/doc/documentchecker.cpp:1046
+#: src/doc/documentchecker.cpp:1006 src/doc/documentchecker.cpp:1030
+#: src/doc/documentchecker.cpp:1040 src/doc/documentchecker.cpp:1049
+#: src/doc/documentchecker.cpp:1061
 #, kde-format
 msgid "Recovered item"
 msgstr "Reakiris objekton"
 
-#: src/doc/documentchecker.cpp:1059
+#: src/doc/documentchecker.cpp:1074
 #, kde-format
 msgid "Search aborted"
 msgstr "Serĉo ĉesigita"
 
-#: src/doc/documentchecker.cpp:1061
+#: src/doc/documentchecker.cpp:1076
 #, kde-format
 msgid "Search done"
 msgstr "Serĉo farita"
 
-#: src/doc/documentchecker.cpp:1202
+#: src/doc/documentchecker.cpp:1217
 #, kde-format
 msgid "Scanning %1"
 msgstr "Skanante %1"
 
-#: src/doc/documentchecker.cpp:1393
+#: src/doc/documentchecker.cpp:1408
 #, kde-format
 msgid "Enter new location for folder"
 msgstr "Enigu novan lokon por dosierujo"
 
-#: src/doc/documentchecker.cpp:1419
+#: src/doc/documentchecker.cpp:1434
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Enigu novan lokon por dosiero"
 
-#: src/doc/documentchecker.cpp:1894
+#: src/doc/documentchecker.cpp:1909
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
 msgstr[0] "Ĉi tio forigos la elektitan aŭdvidaĵon de ĉi projekto"
 msgstr[1] "Ĉi tio forigos la elektitajn aŭdvidaĵojn de ĉi projekto"
 
-#: src/doc/documentchecker.cpp:1896
+#: src/doc/documentchecker.cpp:1911
 #, kde-format
 msgid "Remove clips"
 msgstr "Forigi tondaĵojn"
@@ -10536,7 +10536,7 @@ msgstr "Enigi trakon…"
 msgid "Fit all Tracks in View"
 msgstr "Ŝtopi ĉiujn trakojn en vidon"
 
-#: src/mainwindow.cpp:1855 src/timeline2/view/timelinecontroller.cpp:4753
+#: src/mainwindow.cpp:1855 src/timeline2/view/timelinecontroller.cpp:4754
 #, kde-format
 msgid "Master effects"
 msgstr "Majstraj efikoj"
@@ -11085,7 +11085,7 @@ msgstr ""
 "Kdenlive devas esti rekomencita por apliki la piktograman etosoŝanĝon. Ĉu "
 "rekomenci nun?"
 
-#: src/mainwindow.cpp:4574 src/timeline2/view/timelinecontroller.cpp:5027
+#: src/mainwindow.cpp:4574 src/timeline2/view/timelinecontroller.cpp:5028
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "Neniuj subtekstoj en nuna projekto"
@@ -13049,7 +13049,7 @@ msgstr ""
 
 #: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1469
 #: src/renderpresets/renderpresetrepository.cpp:313
-#: src/timeline2/view/timelinecontroller.cpp:4950
+#: src/timeline2/view/timelinecontroller.cpp:4951
 #, kde-format
 msgid "Cannot read file %1"
 msgstr "Ne povas legi dosieron %1"
@@ -15710,7 +15710,7 @@ msgstr "Forigi Komponaĵon"
 
 #: src/timeline2/model/timelinemodel.cpp:2203
 #: src/timeline2/model/timelinemodel.cpp:2365
-#: src/timeline2/view/timelinecontroller.cpp:4163
+#: src/timeline2/view/timelinecontroller.cpp:4164
 #, kde-format
 msgid "Move group"
 msgstr "Movi grupon"
@@ -16289,7 +16289,7 @@ msgid "Cannot perform operation while dragging in timeline"
 msgstr "Ne povas fari operacion dum trenado en templinio"
 
 #: src/timeline2/view/timelinecontroller.cpp:862
-#: src/timeline2/view/timelinecontroller.cpp:4896
+#: src/timeline2/view/timelinecontroller.cpp:4897
 #, kde-format
 msgid "Could not insert track"
 msgstr "Ne eblis enmeti trakon"
@@ -16384,7 +16384,7 @@ msgid "No item to edit"
 msgstr "Neniu aĵo por redakti"
 
 #: src/timeline2/view/timelinecontroller.cpp:2860
-#: src/timeline2/view/timelinecontroller.cpp:5191
+#: src/timeline2/view/timelinecontroller.cpp:5192
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr "Bonvolu aktivigi trakon por ĉi tiu operacio klakante sur ĝia etikedo"
@@ -16472,17 +16472,17 @@ msgstr "Restarigi videon"
 msgid "Restore audio"
 msgstr "Restarigi audio"
 
-#: src/timeline2/view/timelinecontroller.cpp:4144
+#: src/timeline2/view/timelinecontroller.cpp:4145
 #, kde-format
 msgid "Move item"
 msgstr "Movi objekton"
 
-#: src/timeline2/view/timelinecontroller.cpp:4626
+#: src/timeline2/view/timelinecontroller.cpp:4627
 #, kde-format
 msgid "Impossible to capture on a locked track"
 msgstr "Neeble kapti sur ŝlosita trako"
 
-#: src/timeline2/view/timelinecontroller.cpp:4637
+#: src/timeline2/view/timelinecontroller.cpp:4638
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
@@ -16491,60 +16491,60 @@ msgstr ""
 "Neeble kapti ĉi tie: la kapto povus superregi tondaĵojn. Bonvolu forigi "
 "tondaĵojn post la nuna pozicio aŭ elekti alian trakon"
 
-#: src/timeline2/view/timelinecontroller.cpp:4850
+#: src/timeline2/view/timelinecontroller.cpp:4851
 #, kde-format
 msgid "Expand clip"
 msgstr "Pligrandigi tondaĵon"
 
-#: src/timeline2/view/timelinecontroller.cpp:4853
+#: src/timeline2/view/timelinecontroller.cpp:4854
 #, kde-format
 msgid "Could not expand clip"
 msgstr "Ne eblis vastigi tondaĵon"
 
-#: src/timeline2/view/timelinecontroller.cpp:4894
+#: src/timeline2/view/timelinecontroller.cpp:4895
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "Enmeti trakon"
 msgstr[1] "Enmeti trakojn"
 
-#: src/timeline2/view/timelinecontroller.cpp:4941
+#: src/timeline2/view/timelinecontroller.cpp:4942
 #, kde-format
 msgid "Character encoding used to save the subtitle file."
 msgstr "Signokodado uzata por konservi la subtitolan dosieron."
 
-#: src/timeline2/view/timelinecontroller.cpp:4942
+#: src/timeline2/view/timelinecontroller.cpp:4943
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Se ne certas, provu :<br/><b>Unikodo (UTF-8)</b>."
 
-#: src/timeline2/view/timelinecontroller.cpp:4982
+#: src/timeline2/view/timelinecontroller.cpp:4983
 #, kde-format
 msgid "Encoding could not be guessed, using UTF-8"
 msgstr "Kodigado ne povis esti divenita, uzante UTF-8"
 
-#: src/timeline2/view/timelinecontroller.cpp:4986
+#: src/timeline2/view/timelinecontroller.cpp:4987
 #, kde-format
 msgid "Encoding detected as %1"
 msgstr "Kodigo detektita kiel %1"
 
-#: src/timeline2/view/timelinecontroller.cpp:5003
+#: src/timeline2/view/timelinecontroller.cpp:5004
 #, kde-format
 msgid "Import Subtitle"
 msgstr "Importi Subtitolon"
 
-#: src/timeline2/view/timelinecontroller.cpp:5030
+#: src/timeline2/view/timelinecontroller.cpp:5031
 #, kde-format
 msgid "Export subtitle file"
 msgstr "Eksporti subtitolan dosieron"
 
-#: src/timeline2/view/timelinecontroller.cpp:5031
+#: src/timeline2/view/timelinecontroller.cpp:5032
 #, kde-format
 msgid "Subtitle File (*.srt)"
 msgstr "Subtitola dosiero (*.srt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5061
+#: src/timeline2/view/timelinecontroller.cpp:5062
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
@@ -16553,22 +16553,22 @@ msgstr ""
 "La filtrilo avfilter.subtitles estas postulata, sed ne estis trovita. La "
 "subtekstoj verŝajne ne funkcios kiel atendite."
 
-#: src/timeline2/view/timelinecontroller.cpp:5078
+#: src/timeline2/view/timelinecontroller.cpp:5079
 #, kde-format
 msgid "Show subtitle track"
 msgstr "Montri subtitolon"
 
-#: src/timeline2/view/timelinecontroller.cpp:5078
+#: src/timeline2/view/timelinecontroller.cpp:5079
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "Kaŝi subtitolan trakon"
 
-#: src/timeline2/view/timelinecontroller.cpp:5101
+#: src/timeline2/view/timelinecontroller.cpp:5102
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "Malŝlosi subtitolan trakon"
 
-#: src/timeline2/view/timelinecontroller.cpp:5101
+#: src/timeline2/view/timelinecontroller.cpp:5102
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "Ŝlosi subtitolan trakon"
