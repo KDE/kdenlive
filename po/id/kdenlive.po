@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-16 00:45+0000\n"
-"PO-Revision-Date: 2023-05-28 12:50+0700\n"
+"POT-Creation-Date: 2023-08-18 00:44+0000\n"
+"PO-Revision-Date: 2023-08-17 08:17+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 23.04.0\n"
+"X-Generator: Lokalize 23.04.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -746,10 +746,9 @@ msgid "Clockwise"
 msgstr "Searah jarum jam"
 
 #: data/effects/dance.xml:41
-#, fuzzy, kde-format
-#| msgid "Clockwise"
+#, kde-format
 msgid "Counter Clockwise"
-msgstr "Searah jarum jam"
+msgstr "Lawan Arah Jarum Jam"
 
 #: data/effects/dust.xml:4
 #, kde-format
@@ -1250,10 +1249,9 @@ msgstr ""
 "Kenyaringan audio yang benar seperti yang direkomendasikan oleh EBU R128"
 
 #: data/effects/loudness.xml:13 data/effects/tracker.xml:42
-#, fuzzy, kde-format
-#| msgid "Enable Effect"
+#, kde-format
 msgid "Analyse to Apply Effect"
-msgstr "Aktifkan Efek"
+msgstr "Analisa untuk Menerapkan Efek"
 
 #: data/effects/lumaliftgaingamma.xml:4
 #, kde-format
@@ -2178,28 +2176,24 @@ msgid "Use transparency"
 msgstr "Gunakan transparensi"
 
 #: data/effects/timer.xml:4
-#, fuzzy, kde-format
-#| msgid "Time"
+#, kde-format
 msgid "Timer"
-msgstr "Waktu"
+msgstr "Timer"
 
 #: data/effects/timer.xml:5
-#, fuzzy, kde-format
-#| msgid "Overlay GPS-related text onto the video."
+#, kde-format
 msgid "Overlay a timer onto the video"
-msgstr "Teks hamparan terkait GPS ke dalam video."
+msgstr "Hamparkan timer ke dalam video"
 
 #: data/effects/timer.xml:14
-#, fuzzy, kde-format
-#| msgid "Counter Style"
+#, kde-format
 msgid "Font Style"
-msgstr "Gaya Penghitung"
+msgstr "Gaya Font"
 
 #: data/effects/timer.xml:46
-#, fuzzy, kde-format
-#| msgid "Format:"
+#, kde-format
 msgid "Format"
-msgstr "Format:"
+msgstr "Format"
 
 #: data/effects/timer.xml:47
 #, kde-format
@@ -2270,10 +2264,9 @@ msgid "Select a zone to follow its movements"
 msgstr "Pilih zona untuk mengikuti pergerakannya"
 
 #: data/effects/tracker.xml:11
-#, fuzzy, kde-format
-#| msgid "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM"
+#, kde-format
 msgid "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM,Nano"
-msgstr "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM"
+msgstr "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM,Nano"
 
 #: data/effects/tracker.xml:12
 #, kde-format
@@ -2967,10 +2960,9 @@ msgid "Luma Map"
 msgstr "Peta Luma"
 
 #: data/transitions/dissolve.xml:19 data/transitions/luma.xml:17
-#, fuzzy, kde-format
-#| msgid "Make selected color transparent"
+#, kde-format
 msgid "Make padding transparent"
-msgstr "Buat transparan warna yang dipilih"
+msgstr "Buat transparan lapisan"
 
 #: data/transitions/luma.xml:4
 #, kde-format
@@ -3082,10 +3074,9 @@ msgstr ""
 "visual."
 
 #: data/transitions/vqm.xml:8
-#, fuzzy, kde-format
-#| msgid "Render Time"
+#, kde-format
 msgid "Render line"
-msgstr "Waktu Render"
+msgstr "Render baris"
 
 #: data/transitions/vqm.xml:9
 #, kde-format
@@ -3357,11 +3348,10 @@ msgid "Hide keyframes in timeline"
 msgstr "Sembunyikan keyframes dalam lini masa"
 
 #: src/assets/assetpanel.cpp:118
-#, fuzzy, kde-kuit-format
-#| msgid "Display keyframes in timeline"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
-msgstr "Tampilan keyframe dalam linimasa"
+msgstr "Jungkitan tampilan keyframe dalam klip pada linimasa"
 
 #: src/assets/assetpanel.cpp:238
 #, kde-format
@@ -3454,11 +3444,10 @@ msgid "Delete keyframes"
 msgstr "Hapus keyframe"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:446
-#: src/assets/model/assetparametermodel.cpp:1402
-#, fuzzy, kde-format
-#| msgid "Paste effect"
+#: src/assets/model/assetparametermodel.cpp:1410
+#, kde-format
 msgid "Update effect"
-msgstr "Tempel efek"
+msgstr "Perbarui efek"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:660
 #, kde-format
@@ -3542,8 +3531,8 @@ msgstr "Edit keyframe %1"
 msgid "Update %1"
 msgstr "Perbarui %1"
 
-#: src/assets/model/assetparametermodel.cpp:1254
-#: src/assets/model/assetparametermodel.cpp:1301
+#: src/assets/model/assetparametermodel.cpp:1262
+#: src/assets/model/assetparametermodel.cpp:1309
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Tak bisa membuka file preset %1"
@@ -3570,11 +3559,10 @@ msgid "Delete preset"
 msgstr "Hapus preset"
 
 #: src/assets/view/assetparameterview.cpp:57
-#, fuzzy, kde-kuit-format
-#| msgid "Delete the selected speech model"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected preset."
-msgstr "Hapus model lisan yang dipilih"
+msgstr "Hapus prasetel yang dipilih saat ini."
 
 #: src/assets/view/assetparameterview.cpp:329
 #: src/dialogs/kdenlivesettingsdialog.cpp:1404
@@ -4125,17 +4113,16 @@ msgid "Open Effect Stack"
 msgstr "Buka Tumpukan Efek"
 
 #: src/audiomixer/mixerwidget.cpp:299
-#, fuzzy, kde-kuit-format
-#| msgid "Separate file for each audio track"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
-msgstr "File terpisah untuk setiap trek audio"
+msgstr "Buka tumpukan efek untuk trek audio."
 
 #: src/audiomixer/mixerwidget.cpp:301
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
-msgstr ""
+msgstr "Buka tumpukan efek untuk master audio."
 
 #: src/bin/bin.cpp:697 src/bin/bin.cpp:871
 #, kde-format
@@ -4301,15 +4288,14 @@ msgid "Cancel Pending Jobs"
 msgstr "Batalkan Tugas Yang Tertunda"
 
 #: src/bin/bin.cpp:1773
-#, fuzzy, kde-format
-#| msgid "You cannot add a project inside itself."
+#, kde-format
 msgid "You cannot delete all sequences of a project"
-msgstr "Anda tidak bisa menambahkan proyek di dalam dirinya sendiri."
+msgstr "Anda tidak bisa menghapus semua urutan proyek"
 
 #: src/bin/bin.cpp:1776
 #, kde-format
 msgid "Deleting sequences cannot be undone"
-msgstr ""
+msgstr "Menghapus urutan tidak bisa diurungkan"
 
 #: src/bin/bin.cpp:1783
 #, kde-format
@@ -5428,8 +5414,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr "Penggunaan"
 
-#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:1468
-#: src/doc/documentchecker.cpp:1494 src/doc/documentchecker.cpp:1514
+#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:1471
+#: src/doc/documentchecker.cpp:1497 src/doc/documentchecker.cpp:1517
 #: src/mltcontroller/clipcontroller.cpp:485 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -6077,10 +6063,9 @@ msgstr ""
 #: src/dialogs/encodingprofilesdialog.cpp:259
 #: src/dialogs/encodingprofilesdialog.cpp:348
 #: src/project/dialogs/projectsettings.cpp:887
-#, fuzzy, kde-format
-#| msgid "Automatic"
+#, kde-format
 msgid "Automatic (%1)"
-msgstr "Otomatis"
+msgstr "Otomatis (%1)"
 
 #: src/dialogs/encodingprofilesdialog.cpp:261
 #: src/dialogs/encodingprofilesdialog.cpp:350
@@ -6797,10 +6782,9 @@ msgstr ""
 "Pastikan Anda memiliki izin yang diperlukan"
 
 #: src/dialogs/renderwidget.cpp:668
-#, fuzzy, kde-format
-#| msgid "An error occurred while deleting markers"
+#, kde-format
 msgid "The following errors occured while trying to render"
-msgstr "Sebuah galat terjadi selagi menghapus penanda"
+msgstr "Galat berikut ini terjadi ketika mencoba merender"
 
 #: src/dialogs/renderwidget.cpp:701 src/dialogs/renderwidget.cpp:1428
 #, kde-format
@@ -7359,22 +7343,19 @@ msgid "NVIDIA hardware acceleration"
 msgstr "Akselerasi perangkat keras NVIDIA"
 
 #: src/dialogs/wizard.cpp:145
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware acceleration"
+#, kde-format
 msgid "AMF hardware acceleration"
-msgstr "Akselerasi perangkat keras VAAPI"
+msgstr "Akselerasi perangkat keras AMF"
 
 #: src/dialogs/wizard.cpp:148
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware acceleration"
+#, kde-format
 msgid "QSV hardware acceleration"
-msgstr "Akselerasi perangkat keras VAAPI"
+msgstr "Akselerasi perangkat keras QSV"
 
 #: src/dialogs/wizard.cpp:151
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware acceleration"
+#, kde-format
 msgid "Video Toolbox hardware acceleration"
-msgstr "Akselerasi perangkat keras VAAPI"
+msgstr "Akselerasi perangkat keras Video Toolbox"
 
 #: src/dialogs/wizard.cpp:166
 #, kde-format
@@ -7492,14 +7473,11 @@ msgstr ""
 "animasi Lottie</li>"
 
 #: src/dialogs/wizard.cpp:408
-#, fuzzy, kde-format
-#| msgid ""
-#| "<li>Missing app: <b>ffprobe</b><br/>recommended for extra clip analysis</"
-#| "li>"
+#, kde-format
 msgid "<li>Missing app: <b>kdenlive_render</b><br/>needed for rendering.</li>"
 msgstr ""
-"<li>Aplikasi yang hilang: <b>ffprobe</b><br/>dianjurkan untuk analisis klip "
-"ekstra</li>"
+"<li>Aplikasi yang hilang: <b>kdenlive_render</b><br/>diperlukan untuk "
+"perenderan.</li>"
 
 #: src/dialogs/wizard.cpp:433
 #, kde-format
@@ -7554,10 +7532,9 @@ msgid "No hardware encoders found."
 msgstr "Tidak ada enkoder perangkat keras yang ditemukan."
 
 #: src/dialogs/wizard.cpp:830
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware encoders found and enabled."
+#, kde-format
 msgid "hardware encoders found and enabled (%1)."
-msgstr "Enkoder perangkat keras VAAPI ditemukan dan difungsikan."
+msgstr "enkoder perangkat keras ditemukan dan difungsikan (%1)."
 
 #: src/doc/dcresolvedialog.cpp:42
 #, kde-format
@@ -7599,115 +7576,115 @@ msgstr "Folder Klip"
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
-msgstr ""
+msgstr "Id dokumen proyek Anda tidaklah valid, salah satunya sudah dibuat."
 
-#: src/doc/documentchecker.cpp:1458
+#: src/doc/documentchecker.cpp:1461
 #, kde-format
 msgid "Video clip"
 msgstr "Klip video"
 
-#: src/doc/documentchecker.cpp:1460
+#: src/doc/documentchecker.cpp:1463
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Klip tampilan slide"
 
-#: src/doc/documentchecker.cpp:1462
+#: src/doc/documentchecker.cpp:1465
 #, kde-format
 msgid "Image clip"
 msgstr "Klip citra"
 
-#: src/doc/documentchecker.cpp:1464
+#: src/doc/documentchecker.cpp:1467
 #, kde-format
 msgid "Playlist clip"
 msgstr "Klip playlist"
 
-#: src/doc/documentchecker.cpp:1466 src/doc/documentchecker.cpp:1482
+#: src/doc/documentchecker.cpp:1469 src/doc/documentchecker.cpp:1485
 #, kde-format
 msgid "Title Image"
 msgstr "Citra Judul"
 
-#: src/doc/documentchecker.cpp:1478
+#: src/doc/documentchecker.cpp:1481
 #, fuzzy, kde-format
 #| msgid "&Clip"
 msgid "Clip"
 msgstr "&Klip"
 
-#: src/doc/documentchecker.cpp:1480
+#: src/doc/documentchecker.cpp:1483
 #, kde-format
 msgid "Title Font"
 msgstr "Font Judul"
 
-#: src/doc/documentchecker.cpp:1484
+#: src/doc/documentchecker.cpp:1487
 #, kde-format
 msgid "Luma file"
 msgstr "File luma"
 
-#: src/doc/documentchecker.cpp:1486
+#: src/doc/documentchecker.cpp:1489
 #, kde-format
 msgid "Asset file"
 msgstr "File aset"
 
-#: src/doc/documentchecker.cpp:1488
+#: src/doc/documentchecker.cpp:1491
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr "Klip proxy"
 
-#: src/doc/documentchecker.cpp:1490
+#: src/doc/documentchecker.cpp:1493
 #: src/monitor/view/kdenlivemonitorsplit.qml:90
 #, kde-format
 msgid "Effect"
 msgstr "Efek"
 
-#: src/doc/documentchecker.cpp:1492
+#: src/doc/documentchecker.cpp:1495
 #, fuzzy, kde-format
 #| msgid "Transitions"
 msgid "Transition"
 msgstr "Transisi"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1502 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1505 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "Tetap"
 
-#: src/doc/documentchecker.cpp:1504
+#: src/doc/documentchecker.cpp:1507
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Reload"
 msgstr "Muat Ulang Klip"
 
-#: src/doc/documentchecker.cpp:1506
+#: src/doc/documentchecker.cpp:1509
 #, fuzzy, kde-format
 #| msgid "Missing item"
 msgid "Missing"
 msgstr "Item yang hilang"
 
-#: src/doc/documentchecker.cpp:1508
+#: src/doc/documentchecker.cpp:1511
 #, fuzzy, kde-format
 #| msgid "Missing proxy"
 msgid "Missing, but proxy available"
 msgstr "Proxy yang hilang"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1510 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1513 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "Pengganti"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1512 src/ui/missingclips_ui.ui:174
+#: src/doc/documentchecker.cpp:1515 src/ui/missingclips_ui.ui:174
 #, fuzzy, kde-format
 #| msgid "Removal"
 msgid "Remove"
 msgstr "Penghapusan"
 
-#: src/doc/documentchecker.cpp:1523
+#: src/doc/documentchecker.cpp:1526
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "File proyek kehilangan beberapa klip atau file."
 
-#: src/doc/documentchecker.cpp:1526
+#: src/doc/documentchecker.cpp:1529
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Klip proxy yang hilang bisa dibuat ulang saat pembukaan."
@@ -7775,10 +7752,9 @@ msgid "Update Text Clips"
 msgstr "Perbarui Klip Teks"
 
 #: src/doc/documentvalidator.cpp:725 src/doc/documentvalidator.cpp:2239
-#, fuzzy, kde-format
-#| msgid "Convert to"
+#, kde-format
 msgid "Convert"
-msgstr "Konversikan ke"
+msgstr "Konversi"
 
 #: src/doc/documentvalidator.cpp:1295
 #, kde-format
@@ -7804,8 +7780,7 @@ msgstr ""
 "Ini mungkin dapat mengakibatkan hilangnya data."
 
 #: src/doc/documentvalidator.cpp:2239
-#, fuzzy, kde-format
-#| msgid "GPU effects"
+#, kde-format
 msgid "GPU Effects"
 msgstr "Efek GPU"
 

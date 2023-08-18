@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-17 00:45+0000\n"
-"PO-Revision-Date: 2023-08-12 02:51-0300\n"
+"POT-Creation-Date: 2023-08-18 00:44+0000\n"
+"PO-Revision-Date: 2023-08-17 15:01-0300\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -5500,8 +5500,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr "Uso"
 
-#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:1468
-#: src/doc/documentchecker.cpp:1494 src/doc/documentchecker.cpp:1514
+#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:1471
+#: src/doc/documentchecker.cpp:1497 src/doc/documentchecker.cpp:1517
 #: src/mltcontroller/clipcontroller.cpp:485 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -7669,13 +7669,12 @@ msgstr "codificadores por hardware encontrados y habilitados (%1)."
 #: src/doc/dcresolvedialog.cpp:42
 #, kde-format
 msgid "Recursive search: processing clips"
-msgstr ""
+msgstr "Búsqueda recursiva: revisando clips"
 
 #: src/doc/dcresolvedialog.cpp:51
-#, fuzzy, kde-format
-#| msgid "Search done"
+#, kde-format
 msgid "Recursive search: done"
-msgstr "Búsqueda finalizada"
+msgstr "Búsqueda recursiva: finalizada"
 
 #: src/doc/dcresolvedialog.cpp:125
 #, kde-format
@@ -7689,12 +7688,11 @@ msgstr "Ingresar nueva ubicación para el archivo"
 
 #. i18n: ectx: property (text), widget (QLabel, proxyLabel)
 #: src/doc/dcresolvedialog.cpp:163 src/ui/missingclips_ui.ui:56
-#, fuzzy, kde-format
-#| msgid "The project file contains missing clips or files."
+#, kde-format
 msgid "You project contains one missing proxy"
 msgid_plural "You project contains %1 missing proxies"
-msgstr[0] "El archivo del proyecto contiene clips o archivos faltantes."
-msgstr[1] "El archivo del proyecto contiene clips o archivos faltantes."
+msgstr[0] "El proyecto contiene 1 reemplazo faltante."
+msgstr[1] "El proyecto contiene %1 reemplazos faltantes."
 
 #: src/doc/dcresolvedialog.cpp:173
 #, kde-format
@@ -7708,114 +7706,110 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "El id de documento del proyecto era inválido, se ha creado uno nuevo."
 
-#: src/doc/documentchecker.cpp:1458
+#: src/doc/documentchecker.cpp:1461
 #, kde-format
 msgid "Video clip"
 msgstr "Clip de video"
 
-#: src/doc/documentchecker.cpp:1460
+#: src/doc/documentchecker.cpp:1463
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Clip de presentación"
 
-#: src/doc/documentchecker.cpp:1462
+#: src/doc/documentchecker.cpp:1465
 #, kde-format
 msgid "Image clip"
 msgstr "Clip de imagen"
 
-#: src/doc/documentchecker.cpp:1464
+#: src/doc/documentchecker.cpp:1467
 #, kde-format
 msgid "Playlist clip"
 msgstr "Clip de lista de reproducción"
 
-#: src/doc/documentchecker.cpp:1466 src/doc/documentchecker.cpp:1482
+#: src/doc/documentchecker.cpp:1469 src/doc/documentchecker.cpp:1485
 #, kde-format
 msgid "Title Image"
 msgstr "Imagen de título"
 
-#: src/doc/documentchecker.cpp:1478
-#, fuzzy, kde-format
-#| msgid "&Clip"
+#: src/doc/documentchecker.cpp:1481
+#, kde-format
 msgid "Clip"
-msgstr "&Clip"
+msgstr "Clip"
 
-#: src/doc/documentchecker.cpp:1480
+#: src/doc/documentchecker.cpp:1483
 #, kde-format
 msgid "Title Font"
 msgstr "Tipografía del título"
 
-#: src/doc/documentchecker.cpp:1484
+#: src/doc/documentchecker.cpp:1487
 #, kde-format
 msgid "Luma file"
 msgstr "Archivo de luma"
 
-#: src/doc/documentchecker.cpp:1486
+#: src/doc/documentchecker.cpp:1489
 #, kde-format
 msgid "Asset file"
 msgstr "Archivo de recurso"
 
-#: src/doc/documentchecker.cpp:1488
+#: src/doc/documentchecker.cpp:1491
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr "Clip de reemplazo"
 
-#: src/doc/documentchecker.cpp:1490
+#: src/doc/documentchecker.cpp:1493
 #: src/monitor/view/kdenlivemonitorsplit.qml:90
 #, kde-format
 msgid "Effect"
 msgstr "Efecto"
 
-#: src/doc/documentchecker.cpp:1492
+#: src/doc/documentchecker.cpp:1495
 #, kde-format
 msgid "Transition"
 msgstr "Transición"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1502 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1505 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "Fijo"
 
-#: src/doc/documentchecker.cpp:1504
-#, fuzzy, kde-format
-#| msgid "Reload Clip"
+#: src/doc/documentchecker.cpp:1507
+#, kde-format
 msgid "Reload"
-msgstr "Recargar clip"
+msgstr "Recargar"
 
-#: src/doc/documentchecker.cpp:1506
+#: src/doc/documentchecker.cpp:1509
 #, kde-format
 msgid "Missing"
-msgstr "No encontrado"
+msgstr "Faltante"
 
-#: src/doc/documentchecker.cpp:1508
-#, fuzzy, kde-format
-#| msgid "Missing proxy"
+#: src/doc/documentchecker.cpp:1511
+#, kde-format
 msgid "Missing, but proxy available"
-msgstr "Reemplazo faltante"
+msgstr "Faltante, pero existe un reemplazo disponible"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1510 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1513 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "Marcador de posición"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1512 src/ui/missingclips_ui.ui:174
-#, fuzzy, kde-format
-#| msgid "Removal"
+#: src/doc/documentchecker.cpp:1515 src/ui/missingclips_ui.ui:174
+#, kde-format
 msgid "Remove"
-msgstr "Remoción"
+msgstr "Eliminar"
 
-#: src/doc/documentchecker.cpp:1523
+#: src/doc/documentchecker.cpp:1526
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "El archivo del proyecto contiene clips o archivos faltantes."
 
-#: src/doc/documentchecker.cpp:1526
+#: src/doc/documentchecker.cpp:1529
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
-msgstr "Los reemplazos faltantes se pueden recrear en la apertura."
+msgstr "Los reemplazos faltantes pueden ser creados nuevamente en la apertura."
 
 #: src/doc/documentvalidator.cpp:88
 #, kde-format
@@ -10831,8 +10825,8 @@ msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
 "clips for this project?"
 msgstr ""
-"Se han cambiado los parámetros de reemplazo. ¿Recrear todos los clips de "
-"reemplazo para este proyecto?"
+"Se han cambiado los parámetros de reemplazo. ¿Crear nuevamente todos los "
+"clips de reemplazo para este proyecto?"
 
 #: src/mainwindow.cpp:2156
 #, kde-format
@@ -12791,7 +12785,7 @@ msgstr "Archivos de luma"
 msgid "You have %1 missing clip in your project."
 msgid_plural "You have %1 missing clips in your project."
 msgstr[0] "Existe %1 clip faltante en el proyecto."
-msgstr[1] "Existen %1 clips perdidos en el proyecto."
+msgstr[1] "Existen %1 clips faltantes en el proyecto."
 
 #: src/project/dialogs/archivewidget.cpp:222
 #: src/project/dialogs/archivewidget.cpp:1316
@@ -13621,7 +13615,7 @@ msgstr ""
 "%1\n"
 "La carpeta de cachés contiene las miniaturas de video y gráficas de audio, "
 "así como las previsualizaciones de la línea de tiempo. Todos estos datos "
-"serán recreados al abrir el proyecto."
+"serán creados nuevamente al abrir el proyecto."
 
 #: src/project/dialogs/temporarydata.cpp:700
 #, kde-format
@@ -13644,8 +13638,8 @@ msgstr ""
 "Borrar las siguientes carpetas de caché en\n"
 "%1\n"
 "Las carpetas de caché contienen miniaturas de video y gráficas de audio, así "
-"como previsualizaciones de la línea de tiempo. Todos estos datos se crearán "
-"nuevamente al abrir el proyecto."
+"como previsualizaciones de la línea de tiempo. Todos estos datos serán "
+"creados nuevamente al abrir el proyecto."
 
 #: src/project/dialogs/temporarydata.cpp:746
 #, kde-format
@@ -15339,7 +15333,7 @@ msgstr "Se encontraron problemas en el archivo del proyecto"
 #, kde-format
 msgid "%1 Composition (%2) with invalid track reference found and removed."
 msgstr ""
-"%1 Se encontró un método de composición (%2) que hacía referencia a una "
+"Se encontró un método de composición %1 (%2) que hacía referencia a una "
 "pista inválida y fue eliminado."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:530
@@ -15347,13 +15341,13 @@ msgstr ""
 msgid ""
 "%1 Composition was not applied on expected track, manually enforce the track."
 msgstr ""
-"%1 El método de composición no fue aplicado a la pista esperada, indicar "
+"El método de composición %1 no fue aplicado a la pista esperada, indicar "
 "manualmente la pista."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:544
 #, kde-format
 msgid "%1 Invalid composition found and removed."
-msgstr "%1 Se encontró un método de composición inválido y fue eliminado."
+msgstr "Se encontró un método de composición inválido %1 y fue eliminado."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:567
 #, kde-format
@@ -15395,34 +15389,35 @@ msgstr ""
 #, kde-format
 msgid "%1 Timeline clip (%2) with incorrect bin reference found and recovered."
 msgstr ""
-"Se encontró y recuperó el clip de la línea de tiempo %1 (%2) que contenía "
-"una referencia de bandeja incorrecta."
+"Se encontró el clip de la línea de tiempo %1 (%2) que contenía una "
+"referencia de bandeja incorrecta y fue recuperado."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:760
 #, kde-format
 msgid "Invalid clip %1 (%2) not found in project bin, recovered."
 msgstr ""
-"Clip inválido %1 (%2) no encontrado en la bandeja del proyecto, recuperado."
+"No se encontró el clip inválido %1 (%2) en la bandeja del proyecto, "
+"recuperado."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:762
 #, kde-format
 msgid "%1 Timeline clip (%2) without bin reference found and removed."
 msgstr ""
-"Se encontró y eliminó un clip de la línea de tiempo %1 (%2) que no contenía "
-"ninguna referencia de bandeja."
+"Se encontró un clip de la línea de tiempo %1 (%2) que no contenía ninguna "
+"referencia de bandeja y fue eliminado."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:763
 #, kde-format
 msgid "Project corrupted. Clip %1 (%2) not found in project bin."
 msgstr ""
-"Proyecto corrupto. Clip %1 (%2) no encontrado en la bandeja del proyecto."
+"Proyecto corrupto. No se encontró el clip %1 (%2) en la bandeja del proyecto."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:831
 #: src/timeline2/model/builders/meltBuilder.cpp:864
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and resized"
 msgstr ""
-"%1 Se encontró un clip (%2) con una mezcla inválida y fue redimensionado"
+"Se encontró un clip %1 (%2) con una mezcla faltante y fue redimensionado"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:832
 #: src/timeline2/model/builders/meltBuilder.cpp:862
@@ -15442,7 +15437,7 @@ msgstr ""
 #: src/timeline2/model/builders/meltBuilder.cpp:870
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and removed"
-msgstr "%1 Se encontró un clip (%2) con una mezcla faltante y fue eliminado"
+msgstr "Se encontró un clip %1 (%2) con una mezcla faltante y fue eliminado"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:857
 #: src/timeline2/model/builders/meltBuilder.cpp:901
@@ -15454,31 +15449,32 @@ msgstr "Se encontró un clip inválido %1 en la pista %2 en %3."
 #: src/timeline2/model/builders/meltBuilder.cpp:906
 #, kde-format
 msgid "%1 Invalid clip (%2) found and removed"
-msgstr "%1 Se encontró un clip (%2) inválido y fue eliminado"
+msgstr "Se encontró un clip %1 (%2) inválido y fue eliminado"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:877
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found and fixed on track %2 at %3."
 msgstr ""
-"El clip %1 fue encontrado en la sub-pista incorrecta y corregido, en la "
-"pista %2 en %3."
+"Se encontró el clip %1 en la sub-pista incorrecta y corregido, en la pista "
+"%2 en %3."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:882
 #, kde-format
 msgid "%1 Clip (%2) on incorrect subtrack found and fixed / %3"
 msgstr ""
-"El clip %1 (%2) fue encontrado en una sub-pista incorrecta y corregido / %3"
+"Se encontró el clip %1 (%2) en una sub-pista incorrecta y corregido / %3"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:885
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found on track %2 at %3."
 msgstr ""
-"El clip %1 fue encontrado en la sub-pista incorrecta, en la pista %2 en %3."
+"Se encontró el clip %1 en la sub-pista incorrecta, en la pista %2 en %3."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:890
 #, kde-format
 msgid "%1 Clip (%2) with incorrect subplaylist found"
-msgstr "%1 Clip (%2) encontrado con una sub-lista de reproducción incorrecta"
+msgstr ""
+"Se encontró el clip %1 (%2) con una sub-lista de reproducción incorrecta"
 
 #: src/timeline2/model/timelinefunctions.cpp:117
 #, kde-format
@@ -19766,8 +19762,8 @@ msgid ""
 msgstr ""
 "Los datos en caché están compuestos por miniaturas de clips (video y audio) "
 "y previsualizaciones de videos en la línea de tiempo. Es posible borrarlos "
-"de forma segura, ya que todos estos datos podrán ser recreados al abrir "
-"nuevamente el proyecto."
+"de forma segura, ya que todos estos datos podrán ser creados nuevamente al "
+"abrir nuevamente el proyecto."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/managecache_ui.ui:308
@@ -19938,58 +19934,51 @@ msgstr " Problemas con clips"
 
 #. i18n: ectx: property (title), widget (QGroupBox, proxyBox)
 #: src/ui/missingclips_ui.ui:47
-#, fuzzy, kde-format
-#| msgid "Proxy Clips"
+#, kde-format
 msgid "Proxies"
-msgstr "Clips de reemplazo"
+msgstr "Reemplazos"
 
 #. i18n: ectx: property (text), widget (QCheckBox, recreateProxies)
 #: src/ui/missingclips_ui.ui:76
-#, fuzzy, kde-format
-#| msgid "Delete missing elements"
+#, kde-format
 msgid "Recreate missing proxies"
-msgstr "Borrar elementos faltantes"
+msgstr "Volver a crear reemplazos faltantes"
 
 #. i18n: ectx: property (format), widget (QProgressBar, progressBar)
 #: src/ui/missingclips_ui.ui:128
 #, no-c-format, kde-format
 msgid "%v / %m"
-msgstr ""
+msgstr "%v / %m"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/missingclips_ui.ui:156
-#, fuzzy, kde-format
-#| msgid "Delete Selected Item"
+#, kde-format
 msgid "Selected Items:"
-msgstr "Borrar elemento seleccionado"
+msgstr "Elementos seleccionados:"
 
 #. i18n: ectx: property (text), widget (QPushButton, manualSearch)
 #: src/ui/missingclips_ui.ui:163
-#, fuzzy, kde-format
-#| msgid "Search manually"
+#, kde-format
 msgid "Search Manually"
 msgstr "Buscar manualmente"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/missingclips_ui.ui:192
-#, fuzzy, kde-format
-#| msgid "Missing item"
+#, kde-format
 msgid "All Missing Items:"
-msgstr "Elemento faltante"
+msgstr "Total de elementos faltantes:"
 
 #. i18n: ectx: property (text), widget (QPushButton, recursiveSearch)
 #: src/ui/missingclips_ui.ui:199
-#, fuzzy, kde-format
-#| msgid "Search recursively"
+#, kde-format
 msgid "Search Recursively"
 msgstr "Buscar recursivamente"
 
 #. i18n: ectx: property (text), widget (QPushButton, usePlaceholders)
 #: src/ui/missingclips_ui.ui:210
-#, fuzzy, kde-format
-#| msgid "Placeholder"
+#, kde-format
 msgid "Use Placeholders"
-msgstr "Marcador de posición"
+msgstr "Usar marcadores de posición"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/ui/multiplemarkerdialog_ui.ui:24

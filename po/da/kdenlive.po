@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-17 00:45+0000\n"
+"POT-Creation-Date: 2023-08-18 00:44+0000\n"
 "PO-Revision-Date: 2020-10-31 22:29+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -5594,8 +5594,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:1468
-#: src/doc/documentchecker.cpp:1494 src/doc/documentchecker.cpp:1514
+#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:1471
+#: src/doc/documentchecker.cpp:1497 src/doc/documentchecker.cpp:1517
 #: src/mltcontroller/clipcontroller.cpp:485 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -7900,114 +7900,114 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1458
+#: src/doc/documentchecker.cpp:1461
 #, kde-format
 msgid "Video clip"
 msgstr "Videoklip"
 
-#: src/doc/documentchecker.cpp:1460
+#: src/doc/documentchecker.cpp:1463
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Diasshowklip"
 
-#: src/doc/documentchecker.cpp:1462
+#: src/doc/documentchecker.cpp:1465
 #, kde-format
 msgid "Image clip"
 msgstr "Billedeklip"
 
-#: src/doc/documentchecker.cpp:1464
+#: src/doc/documentchecker.cpp:1467
 #, kde-format
 msgid "Playlist clip"
 msgstr "Afspilningslisteklip"
 
-#: src/doc/documentchecker.cpp:1466 src/doc/documentchecker.cpp:1482
+#: src/doc/documentchecker.cpp:1469 src/doc/documentchecker.cpp:1485
 #, kde-format
 msgid "Title Image"
 msgstr "Titelbillede"
 
-#: src/doc/documentchecker.cpp:1478
+#: src/doc/documentchecker.cpp:1481
 #, fuzzy, kde-format
 #| msgid "&Clip"
 msgid "Clip"
 msgstr "&Klip"
 
-#: src/doc/documentchecker.cpp:1480
+#: src/doc/documentchecker.cpp:1483
 #, kde-format
 msgid "Title Font"
 msgstr "Titelskrifttype"
 
-#: src/doc/documentchecker.cpp:1484
+#: src/doc/documentchecker.cpp:1487
 #, kde-format
 msgid "Luma file"
 msgstr "Luma-fil"
 
-#: src/doc/documentchecker.cpp:1486
+#: src/doc/documentchecker.cpp:1489
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Asset file"
 msgstr "Slet filer"
 
-#: src/doc/documentchecker.cpp:1488
+#: src/doc/documentchecker.cpp:1491
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr "Proxyklip"
 
-#: src/doc/documentchecker.cpp:1490
+#: src/doc/documentchecker.cpp:1493
 #: src/monitor/view/kdenlivemonitorsplit.qml:90
 #, kde-format
 msgid "Effect"
 msgstr "Effekt"
 
-#: src/doc/documentchecker.cpp:1492
+#: src/doc/documentchecker.cpp:1495
 #, fuzzy, kde-format
 #| msgid "Transitions"
 msgid "Transition"
 msgstr "Overgange"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1502 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1505 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1504
+#: src/doc/documentchecker.cpp:1507
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Reload"
 msgstr "Genindlæs klip"
 
-#: src/doc/documentchecker.cpp:1506
+#: src/doc/documentchecker.cpp:1509
 #, fuzzy, kde-format
 #| msgid "Missing item"
 msgid "Missing"
 msgstr "Manglende element"
 
-#: src/doc/documentchecker.cpp:1508
+#: src/doc/documentchecker.cpp:1511
 #, fuzzy, kde-format
 #| msgid "Missing proxy"
 msgid "Missing, but proxy available"
 msgstr "Manglende proxy"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1510 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1513 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1512 src/ui/missingclips_ui.ui:174
+#: src/doc/documentchecker.cpp:1515 src/ui/missingclips_ui.ui:174
 #, fuzzy, kde-format
 #| msgid "Removal"
 msgid "Remove"
 msgstr "Fjernelse"
 
-#: src/doc/documentchecker.cpp:1523
+#: src/doc/documentchecker.cpp:1526
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Projektfilen indeholder manglende klip eller filer."
 
-#: src/doc/documentchecker.cpp:1526
+#: src/doc/documentchecker.cpp:1529
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Manglende proxyer kan oprettes igen ved åbning."

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-17 00:45+0000\n"
+"POT-Creation-Date: 2023-08-18 00:44+0000\n"
 "PO-Revision-Date: 2023-08-16 07:51+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -5501,8 +5501,8 @@ msgstr "Ід."
 msgid "Usage"
 msgstr "Користування"
 
-#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:1468
-#: src/doc/documentchecker.cpp:1494 src/doc/documentchecker.cpp:1514
+#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:1471
+#: src/doc/documentchecker.cpp:1497 src/doc/documentchecker.cpp:1517
 #: src/mltcontroller/clipcontroller.cpp:485 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -7716,107 +7716,107 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "Ідентифікатор документа вашого проєкту є некоректним, створено новий."
 
-#: src/doc/documentchecker.cpp:1458
+#: src/doc/documentchecker.cpp:1461
 #, kde-format
 msgid "Video clip"
 msgstr "Відеокліп"
 
-#: src/doc/documentchecker.cpp:1460
+#: src/doc/documentchecker.cpp:1463
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Кліп показу слайдів"
 
-#: src/doc/documentchecker.cpp:1462
+#: src/doc/documentchecker.cpp:1465
 #, kde-format
 msgid "Image clip"
 msgstr "Кліп-зображення"
 
-#: src/doc/documentchecker.cpp:1464
+#: src/doc/documentchecker.cpp:1467
 #, kde-format
 msgid "Playlist clip"
 msgstr "Додати кліп до списку відтворення"
 
-#: src/doc/documentchecker.cpp:1466 src/doc/documentchecker.cpp:1482
+#: src/doc/documentchecker.cpp:1469 src/doc/documentchecker.cpp:1485
 #, kde-format
 msgid "Title Image"
 msgstr "Зображення титрів"
 
-#: src/doc/documentchecker.cpp:1478
+#: src/doc/documentchecker.cpp:1481
 #, kde-format
 msgid "Clip"
 msgstr "Кліп"
 
-#: src/doc/documentchecker.cpp:1480
+#: src/doc/documentchecker.cpp:1483
 #, kde-format
 msgid "Title Font"
 msgstr "Шрифт титрів"
 
-#: src/doc/documentchecker.cpp:1484
+#: src/doc/documentchecker.cpp:1487
 #, kde-format
 msgid "Luma file"
 msgstr "Файл сигналу яскравості"
 
-#: src/doc/documentchecker.cpp:1486
+#: src/doc/documentchecker.cpp:1489
 #, kde-format
 msgid "Asset file"
 msgstr "Файл активів"
 
-#: src/doc/documentchecker.cpp:1488
+#: src/doc/documentchecker.cpp:1491
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr "Проміжний кліп"
 
-#: src/doc/documentchecker.cpp:1490
+#: src/doc/documentchecker.cpp:1493
 #: src/monitor/view/kdenlivemonitorsplit.qml:90
 #, kde-format
 msgid "Effect"
 msgstr "Ефект"
 
-#: src/doc/documentchecker.cpp:1492
+#: src/doc/documentchecker.cpp:1495
 #, kde-format
 msgid "Transition"
 msgstr "Перехід"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1502 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1505 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "Фіксована"
 
-#: src/doc/documentchecker.cpp:1504
+#: src/doc/documentchecker.cpp:1507
 #, kde-format
 msgid "Reload"
 msgstr "Перезавантажити"
 
-#: src/doc/documentchecker.cpp:1506
+#: src/doc/documentchecker.cpp:1509
 #, kde-format
 msgid "Missing"
 msgstr "Пропущено"
 
-#: src/doc/documentchecker.cpp:1508
+#: src/doc/documentchecker.cpp:1511
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr "Пропущено, але є проміжний кліп"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1510 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1513 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "Заповнювач"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1512 src/ui/missingclips_ui.ui:174
+#: src/doc/documentchecker.cpp:1515 src/ui/missingclips_ui.ui:174
 #, kde-format
 msgid "Remove"
 msgstr "Вилучити"
 
-#: src/doc/documentchecker.cpp:1523
+#: src/doc/documentchecker.cpp:1526
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Файл проєкту містить посилання на кліпи або файли, яких у ньому немає."
 
-#: src/doc/documentchecker.cpp:1526
+#: src/doc/documentchecker.cpp:1529
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr ""

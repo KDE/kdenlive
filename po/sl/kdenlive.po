@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-17 00:45+0000\n"
-"PO-Revision-Date: 2023-07-30 12:23+0200\n"
+"POT-Creation-Date: 2023-08-18 00:44+0000\n"
+"PO-Revision-Date: 2023-08-17 10:52+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -5468,8 +5468,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr "Uporaba"
 
-#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:1468
-#: src/doc/documentchecker.cpp:1494 src/doc/documentchecker.cpp:1514
+#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:1471
+#: src/doc/documentchecker.cpp:1497 src/doc/documentchecker.cpp:1517
 #: src/mltcontroller/clipcontroller.cpp:485 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -7618,13 +7618,12 @@ msgstr "najdeni in omogočeni strojni kodirniki (%1)."
 #: src/doc/dcresolvedialog.cpp:42
 #, kde-format
 msgid "Recursive search: processing clips"
-msgstr ""
+msgstr "Rekurzivno iskanje: obdelovanje posnetkov"
 
 #: src/doc/dcresolvedialog.cpp:51
-#, fuzzy, kde-format
-#| msgid "Search done"
+#, kde-format
 msgid "Recursive search: done"
-msgstr "Iskanje opravljeno"
+msgstr "Rekurzivno iskanje: opravljeno"
 
 #: src/doc/dcresolvedialog.cpp:125
 #, kde-format
@@ -7638,14 +7637,13 @@ msgstr "Vnesite novo mesto za datoteko"
 
 #. i18n: ectx: property (text), widget (QLabel, proxyLabel)
 #: src/doc/dcresolvedialog.cpp:163 src/ui/missingclips_ui.ui:56
-#, fuzzy, kde-format
-#| msgid "The project file contains missing clips or files."
+#, kde-format
 msgid "You project contains one missing proxy"
 msgid_plural "You project contains %1 missing proxies"
-msgstr[0] "Datoteka projekta vsebuje manjkajoče posnetke ali datoteke."
-msgstr[1] "Datoteka projekta vsebuje manjkajoče posnetke ali datoteke."
-msgstr[2] "Datoteka projekta vsebuje manjkajoče posnetke ali datoteke."
-msgstr[3] "Datoteka projekta vsebuje manjkajoče posnetke ali datoteke."
+msgstr[0] "Projekt vsebuje %1 manjkajočih posrednih posnetkov."
+msgstr[1] "Projekt vsebuje %1 manjkajoči posreden posnetek."
+msgstr[2] "Projekt vsebuje %1 manjkajoča posredna posnetka."
+msgstr[3] "Projekt vsebuje %1 manjkajoče posredne posnetke."
 
 #: src/doc/dcresolvedialog.cpp:173
 #, kde-format
@@ -7659,113 +7657,107 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "ID dokumenta vašega projekta je bil neveljaven, ustvarjen je bil nov."
 
-#: src/doc/documentchecker.cpp:1458
+#: src/doc/documentchecker.cpp:1461
 #, kde-format
 msgid "Video clip"
 msgstr "Video posnetek"
 
-#: src/doc/documentchecker.cpp:1460
+#: src/doc/documentchecker.cpp:1463
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Predstavitveni posnetek"
 
-#: src/doc/documentchecker.cpp:1462
+#: src/doc/documentchecker.cpp:1465
 #, kde-format
 msgid "Image clip"
 msgstr "Posnetek iz slike"
 
-#: src/doc/documentchecker.cpp:1464
+#: src/doc/documentchecker.cpp:1467
 #, kde-format
 msgid "Playlist clip"
 msgstr "Posnetek seznama predvajanja"
 
-#: src/doc/documentchecker.cpp:1466 src/doc/documentchecker.cpp:1482
+#: src/doc/documentchecker.cpp:1469 src/doc/documentchecker.cpp:1485
 #, kde-format
 msgid "Title Image"
 msgstr "Slika napisa"
 
-#: src/doc/documentchecker.cpp:1478
-#, fuzzy, kde-format
-#| msgid "&Clip"
+#: src/doc/documentchecker.cpp:1481
+#, kde-format
 msgid "Clip"
 msgstr "Posnetek"
 
-#: src/doc/documentchecker.cpp:1480
+#: src/doc/documentchecker.cpp:1483
 #, kde-format
 msgid "Title Font"
 msgstr "Pisava napisa"
 
-#: src/doc/documentchecker.cpp:1484
+#: src/doc/documentchecker.cpp:1487
 #, kde-format
 msgid "Luma file"
 msgstr "Datoteka svetilnosti"
 
-#: src/doc/documentchecker.cpp:1486
+#: src/doc/documentchecker.cpp:1489
 #, kde-format
 msgid "Asset file"
 msgstr "Datoteka sredstev"
 
-#: src/doc/documentchecker.cpp:1488
+#: src/doc/documentchecker.cpp:1491
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr "Posredni posnetek"
 
-#: src/doc/documentchecker.cpp:1490
+#: src/doc/documentchecker.cpp:1493
 #: src/monitor/view/kdenlivemonitorsplit.qml:90
 #, kde-format
 msgid "Effect"
 msgstr "Učinek"
 
-#: src/doc/documentchecker.cpp:1492
-#, fuzzy, kde-format
-#| msgid "Transitions"
+#: src/doc/documentchecker.cpp:1495
+#, kde-format
 msgid "Transition"
-msgstr "Prehodi"
+msgstr "Prehod"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1502 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1505 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "Nespremenljivo"
 
-#: src/doc/documentchecker.cpp:1504
-#, fuzzy, kde-format
-#| msgid "Reload Clip"
+#: src/doc/documentchecker.cpp:1507
+#, kde-format
 msgid "Reload"
-msgstr "Znova naloži posnetek"
+msgstr "Znova naloži"
 
-#: src/doc/documentchecker.cpp:1506
-#, fuzzy, kde-format
-#| msgid "Missing item"
+#: src/doc/documentchecker.cpp:1509
+#, kde-format
 msgid "Missing"
-msgstr "Manjkajoči predmet"
+msgstr "Manjkajoči"
 
-#: src/doc/documentchecker.cpp:1508
-#, fuzzy, kde-format
-#| msgid "Missing proxy"
+#: src/doc/documentchecker.cpp:1511
+#, kde-format
 msgid "Missing, but proxy available"
-msgstr "Manjkajoči posredni posnetek"
+msgstr "Manjkajoči, vendar je na voljo posredni posnetek"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1510 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1513 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "Ograda"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1512 src/ui/missingclips_ui.ui:174
-#, fuzzy, kde-format
-#| msgid "Removal"
+#: src/doc/documentchecker.cpp:1515 src/ui/missingclips_ui.ui:174
+#, kde-format
 msgid "Remove"
-msgstr "Odstranitev"
+msgstr "Odstrani"
 
-#: src/doc/documentchecker.cpp:1523
+#: src/doc/documentchecker.cpp:1526
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Datoteka projekta vsebuje manjkajoče posnetke ali datoteke."
 
-#: src/doc/documentchecker.cpp:1526
+#: src/doc/documentchecker.cpp:1529
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Manjkajoče pooblaščence je mogoče obnoviti ob odpiranju."
@@ -19845,58 +19837,51 @@ msgstr " Težave posnetka"
 
 #. i18n: ectx: property (title), widget (QGroupBox, proxyBox)
 #: src/ui/missingclips_ui.ui:47
-#, fuzzy, kde-format
-#| msgid "Proxy Clips"
+#, kde-format
 msgid "Proxies"
 msgstr "Posredni posnetki"
 
 #. i18n: ectx: property (text), widget (QCheckBox, recreateProxies)
 #: src/ui/missingclips_ui.ui:76
-#, fuzzy, kde-format
-#| msgid "Delete missing elements"
+#, kde-format
 msgid "Recreate missing proxies"
-msgstr "Izbriši manjkajoče elemente"
+msgstr "Ponovno izdelaj manjkajoče posredne posnetke"
 
 #. i18n: ectx: property (format), widget (QProgressBar, progressBar)
 #: src/ui/missingclips_ui.ui:128
 #, no-c-format, kde-format
 msgid "%v / %m"
-msgstr ""
+msgstr "%v / %m"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/missingclips_ui.ui:156
-#, fuzzy, kde-format
-#| msgid "Delete Selected Item"
+#, kde-format
 msgid "Selected Items:"
-msgstr "Izbriši izbrani predmet"
+msgstr "Izbrani predmeti:"
 
 #. i18n: ectx: property (text), widget (QPushButton, manualSearch)
 #: src/ui/missingclips_ui.ui:163
-#, fuzzy, kde-format
-#| msgid "Search manually"
+#, kde-format
 msgid "Search Manually"
 msgstr "Poišči ročno"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/missingclips_ui.ui:192
-#, fuzzy, kde-format
-#| msgid "Missing item"
+#, kde-format
 msgid "All Missing Items:"
-msgstr "Manjkajoči predmet"
+msgstr "Vsi manjkajoči predmeti:"
 
 #. i18n: ectx: property (text), widget (QPushButton, recursiveSearch)
 #: src/ui/missingclips_ui.ui:199
-#, fuzzy, kde-format
-#| msgid "Search recursively"
+#, kde-format
 msgid "Search Recursively"
 msgstr "Išči rekurzivno"
 
 #. i18n: ectx: property (text), widget (QPushButton, usePlaceholders)
 #: src/ui/missingclips_ui.ui:210
-#, fuzzy, kde-format
-#| msgid "Placeholder"
+#, kde-format
 msgid "Use Placeholders"
-msgstr "Ograda"
+msgstr "Uporabi ograde"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/ui/multiplemarkerdialog_ui.ui:24
@@ -21395,130 +21380,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "Relocated item"
-#~ msgstr "Prestavljen predmet"
-
-#~ msgid "%1 will be replaced by %2"
-#~ msgstr "%1 bo zamenjan z %2"
-
-#~ msgid "Modified Clips"
-#~ msgstr "Spremenjeni posnetki"
-
-#~ msgid "Clip %1 will be reloaded"
-#~ msgstr "Posnetek %1 bo ponovno naložen"
-
-#~ msgid "Fixed Sequence Clips"
-#~ msgstr "Fiksirano zaporedje posnetkov"
-
-#~ msgid "Clip %1 will be fixed"
-#~ msgstr "Posnetek %1 bo fiksiran"
-
-#~ msgid "Missing effect: %2 will be removed from project."
-#~ msgid_plural "Missing effects: %2 will be removed from project."
-#~ msgstr[0] "Manjkajoči učinek: %2 bo odstranjen iz projekta."
-#~ msgstr[1] "Manjkajoča učinka: %2 bosta odstranjena iz projekta."
-#~ msgstr[2] "Manjkajoči učinki: %2 bodo odstranjeni iz projekta."
-#~ msgstr[3] "Manjkajoči učinki: %2 bodo odstranjeni iz projekta."
-
-#~ msgid "Missing transition: %2 will be removed from project."
-#~ msgid_plural "Missing transitions: %2 will be removed from project."
-#~ msgstr[0] "Manjkajoči prehod: %2 bo odstranjen iz projekta."
-#~ msgstr[1] "Manjkajoča prehoda: %2 bosta odstranjena iz projekta."
-#~ msgstr[2] "Manjkajoči prehodi: %2 bodo odstranjeni iz projekta."
-#~ msgstr[3] "Manjkajoči prehodi: %2 bodo odstranjeni iz projekta."
-
-#~ msgid ""
-#~ "The project file contains a missing clip, you can still work with its "
-#~ "proxy."
-#~ msgid_plural ""
-#~ "The project file contains %1 missing clips, you can still work with their "
-#~ "proxies."
-#~ msgstr[0] ""
-#~ "Projektna datoteka vsebuje %1 manjkajoči posnetek, ampak še vseeno lahko "
-#~ "uporabljate njegov posredni posnetek."
-#~ msgstr[1] ""
-#~ "Projektna datoteka vsebuje %1 manjkajoča posnetka, ampak še vseeno lahko "
-#~ "uporabljate njuna posredna posnetka."
-#~ msgstr[2] ""
-#~ "Projektna datoteka vsebuje %1 manjkajoče posnetke, ampak še vseeno lahko "
-#~ "uporabljate njihove posredne posnetke."
-#~ msgstr[3] ""
-#~ "Projektna datoteka vsebuje %1 manjkajočih posnetkov, ampak še vseeno "
-#~ "lahko uporabljate njihove posredne posnetke."
-
-#~ msgid "The project file contains one modified clip, it will be reloaded."
-#~ msgid_plural ""
-#~ "The project file contains %1 modified clips, they will be reloaded."
-#~ msgstr[0] ""
-#~ "Datoteka projekta vsebuje %1 spremenjen posnetek, bo ponovno naložen."
-#~ msgstr[1] ""
-#~ "Datoteka projekta vsebuje %1 spremenjena posnetka, bosta ponovno naložena."
-#~ msgstr[2] ""
-#~ "Datoteka projekta vsebuje %1 spremenjene posnetke, bodo ponovno naloženi."
-#~ msgstr[3] ""
-#~ "Datoteka projekta vsebuje %1 spremenjenih posnetkov, bodo ponovno "
-#~ "naloženi."
-
-#~ msgid "%1 missing proxy clip, will be recreated on project opening"
-#~ msgid_plural "%1 missing proxy clips, will be recreated on project opening"
-#~ msgstr[0] ""
-#~ "%1 manjkajoči posredni posnetek bo znova ustvarjen ob odprtju projekta"
-#~ msgstr[1] ""
-#~ "%1 manjkajoča posredna posnetka bosta znova ustvarjena ob odprtju projekta"
-#~ msgstr[2] ""
-#~ "%1 manjkajoči posredni posnetki bodo znova ustvarjeni ob odprtju projekta"
-#~ msgstr[3] ""
-#~ "%1 manjkajočih posrednih posnetkov bo znova ustvarjenih ob odprtju "
-#~ "projekta"
-
-#~ msgid "%1 missing source clips, you can only use the proxies"
-#~ msgstr ""
-#~ "%1 manjkajočih izvornih posnetkov, uporabite lahko le posredne posnetke"
-
-#~ msgid "Recovered item"
-#~ msgstr "Obnovljen predmet"
-
-#~ msgid "Search aborted"
-#~ msgstr "Iskanja preklicano"
-
-#~ msgid "Scanning %1"
-#~ msgstr "Preiskovanje %1"
-
-#~ msgid "This will remove the selected clip from this project"
-#~ msgid_plural "This will remove the selected clips from this project"
-#~ msgstr[0] "To bo odstranilo izbrani posnetek iz tega projekta"
-#~ msgstr[1] "To bo odstranilo izbrana posnetka iz tega projekta"
-#~ msgstr[2] "To bo odstranilo izbrane posnetke iz tega projekta"
-#~ msgstr[3] "To bo odstranilo izbrane posnetke iz tega projekta"
-
-#~ msgid "Remove clips"
-#~ msgstr "Odstrani posnetke"
-
-#~ msgid "Rebuild Proxies"
-#~ msgstr "Obnovi posrednike"
-
-#~ msgid "Use placeholders for missing clips"
-#~ msgstr "Za manjkajoče posnetke uporabi vsebnike"
-
-#~ msgid "Path"
-#~ msgstr "Pot"
-
-#~ msgid "Remove selected clips"
-#~ msgstr "Odstrani izbrane posnetke"
-
-#~ msgid "Captured files"
-#~ msgstr "Zajete datoteke"
-
-#~ msgid "File name"
-#~ msgstr "Ime datoteke"
-
-#~ msgctxt "Filesize"
-#~ msgid "Size"
-#~ msgstr "Velikost"
-
-#~ msgid "Delete current file"
-#~ msgstr "Izbriši trenutno datoteko"
-
-#~ msgid "Toggle selection"
-#~ msgstr "Preklopi izbor"
