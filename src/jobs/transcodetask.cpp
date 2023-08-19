@@ -231,7 +231,7 @@ void TranscodeTask::run()
             QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to create file.")),
                                       Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
         } else {
-            if (m_replaceProducer && binClip) {
+            if (m_replaceProducer && binClip && binClip->clipType() != ClipType::Timeline) {
                 QMap<QString, QString> sourceProps;
                 QMap<QString, QString> newProps;
                 sourceProps.insert(QStringLiteral("resource"), binClip->url());

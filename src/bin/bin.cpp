@@ -1476,6 +1476,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     if (m_isMainBin) {
         m_propertiesPanel = new QScrollArea(this);
         m_propertiesPanel->setFrameShape(QFrame::NoFrame);
+        m_propertiesPanel->setAccessibleName(i18n("Bin Clip Properties"));
     }
     // Insert listview
     m_itemView = new MyTreeView(this);
@@ -5367,6 +5368,8 @@ void Bin::requestSelectionTranscoding()
     if (m_transcodingDialog == nullptr) {
         m_transcodingDialog = new TranscodeSeek(true, this);
         connect(m_transcodingDialog, &QDialog::accepted, this, [&]() {
+            bool replace = m_transcodingDialog->replace_original->isChecked();
+            KdenliveSettings::setTranscodingReplace(replace);
             QMap<QString, QStringList> ids = m_transcodingDialog->ids();
             QMapIterator<QString, QStringList> i(ids);
             while (i.hasNext()) {
@@ -5376,10 +5379,10 @@ void Bin::requestSelectionTranscoding()
                 if (clip->clipType() == ClipType::Timeline) {
                     // Ensure we use the correct out point
                     TranscodeTask::start(oid, i.value().first(), m_transcodingDialog->preParams(), m_transcodingDialog->params(i.value().at(1).toInt()), 0,
-                                         clip->frameDuration(), false, clip.get(), false, false);
+                                         clip->frameDuration(), replace, clip.get(), false, false);
                 } else {
                     TranscodeTask::start(oid, i.value().first(), m_transcodingDialog->preParams(), m_transcodingDialog->params(i.value().at(1).toInt()), -1, -1,
-                                         false, clip.get(), false, false);
+                                         replace, clip.get(), false, false);
                 }
             }
             m_transcodingDialog->deleteLater();
@@ -5413,6 +5416,7 @@ void Bin::requestTranscoding(const QString &url, const QString &id, int type, bo
 {
     if (m_transcodingDialog == nullptr) {
         m_transcodingDialog = new TranscodeSeek(false, this);
+        m_transcodingDialog->replace_original->setVisible(false);
         connect(m_transcodingDialog, &QDialog::accepted, this, [&, checkProfile]() {
             QMap<QString, QStringList> ids = m_transcodingDialog->ids();
             if (!ids.isEmpty()) {

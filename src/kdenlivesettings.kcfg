@@ -246,6 +246,11 @@
       <default>Lossy x264 I frame only</default>
     </entry>
 
+    <entry name="transcodingReplace" type="Bool">
+      <label>When transcoding a clip, replace it by the transcoding version in project.</label>
+      <default>false</default>
+    </entry>
+
     <entry name="previewextension" type="String">
       <label>File extension for timeline preview.</label>
       <default></default>
