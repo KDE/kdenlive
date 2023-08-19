@@ -1,6 +1,20 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="box_blur" id="box_blur">
+<effect tag="box_blur" id="box_blur" version="2">
+    <name>BoxBlur</name>
+    <description>Box blur (separate horizontal and vertical blur)</description>
+    <author>Meltytech, LLC</author>
+    <parameter type="animated" name="hradius" max="1000" min="0" default="1" suffix="%">
+        <name>Horizontal multiplicator</name>
+    </parameter>
+    <parameter type="animated" name="vradius" max="1000" min="0" default="1" suffix="%">
+        <name>Vertical multiplicator</name>
+    </parameter>
+    <parameter type="bool" name="preserve_alpha" default="0" min="0" max="1">
+        <name>Preserve alpha</name>
+    </parameter>
+</effect>
+<effect tag="box_blur" id="box_blur" version="1">
     <name>BoxBlur</name>
     <description>Box blur (separate horizontal and vertical blur)</description>
     <author>Meltytech, LLC</author>
