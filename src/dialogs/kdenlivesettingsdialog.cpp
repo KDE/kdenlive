@@ -325,7 +325,7 @@ void KdenliveSettingsDialog::initEnviromentPage()
     m_configEnv.setupUi(p2);
     m_configEnv.mltpathurl->setMode(KFile::Directory);
     m_configEnv.mltpathurl->lineEdit()->setObjectName(QStringLiteral("kcfg_mltpath"));
-    m_configEnv.rendererpathurl->lineEdit()->setObjectName(QStringLiteral("kcfg_rendererpath"));
+    m_configEnv.rendererpathurl->lineEdit()->setObjectName(QStringLiteral("kcfg_meltpath"));
     m_configEnv.ffmpegurl->lineEdit()->setObjectName(QStringLiteral("kcfg_ffmpegpath"));
     m_configEnv.ffplayurl->lineEdit()->setObjectName(QStringLiteral("kcfg_ffplaypath"));
     m_configEnv.ffprobeurl->lineEdit()->setObjectName(QStringLiteral("kcfg_ffprobepath"));

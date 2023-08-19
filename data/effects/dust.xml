@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="dust" id="dust" type="video" unique="1">
+<effect tag="dust" id="dust" type="video" requires_in_out="1" unique="1">
     <name>Dust</name>
     <description>Add dust and specks to the video, as in old movies</description>
     <author>Marco Gittler</author>

@@ -77,9 +77,7 @@ TimelineController::TimelineController(QObject *parent)
     m_disablePreview = pCore->currentDoc()->getAction(QStringLiteral("disable_preview"));
     connect(m_disablePreview, &QAction::triggered, this, &TimelineController::disablePreview);
     m_disablePreview->setEnabled(false);
-    connect(pCore.get(), &Core::finalizeRecording, this, &TimelineController::finishRecording);
     connect(pCore.get(), &Core::autoScrollChanged, this, &TimelineController::autoScrollChanged);
-    connect(pCore.get(), &Core::recordAudio, this, &TimelineController::switchRecording);
     connect(pCore.get(), &Core::refreshActiveGuides, this, [this]() { m_activeSnaps.clear(); });
     connect(pCore.get(), &Core::autoTrackHeight, this, [this](bool enable) {
         m_autotrackHeight = enable;
@@ -128,6 +126,11 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
             showMasterEffects();
         }
     });
+    if (m_model->hasTimelinePreview()) {
+        // this timeline model already contains a timeline preview, connect it
+        connectPreviewManager();
+    }
+    connect(m_model.get(), &TimelineModel::connectPreviewManager, this, &TimelineController::connectPreviewManager);
     connect(this, &TimelineController::selectionChanged, this, &TimelineController::updateClipActions);
     connect(this, &TimelineController::selectionChanged, this, &TimelineController::updateTrimmingMode);
     connect(this, &TimelineController::videoTargetChanged, this, &TimelineController::updateVideoTarget);
@@ -2536,29 +2539,19 @@ void TimelineController::initializePreview()
         }
     } else {
         m_model->initializePreviewManager();
-        if (m_model->hasTimelinePreview()) {
-            connect(m_model->previewManager().get(), &PreviewManager::dirtyChunksChanged, this, &TimelineController::dirtyChunksChanged, Qt::DirectConnection);
-            connect(m_model->previewManager().get(), &PreviewManager::renderedChunksChanged, this, &TimelineController::renderedChunksChanged,
-                    Qt::DirectConnection);
-            connect(m_model->previewManager().get(), &PreviewManager::workingPreviewChanged, this, &TimelineController::workingPreviewChanged,
-                    Qt::DirectConnection);
-        }
     }
-    QAction *previewRender = pCore->currentDoc()->getAction(QStringLiteral("prerender_timeline_zone"));
+}
+
+void TimelineController::connectPreviewManager()
+{
     if (m_model->hasTimelinePreview()) {
-        m_disablePreview->setEnabled(true);
-        if (previewRender) {
-            previewRender->setEnabled(true);
-        }
-    } else {
-        m_disablePreview->setEnabled(false);
-        if (previewRender) {
-            previewRender->setEnabled(true);
-        }
+        connect(m_model->previewManager().get(), &PreviewManager::dirtyChunksChanged, this, &TimelineController::dirtyChunksChanged,
+                static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
+        connect(m_model->previewManager().get(), &PreviewManager::renderedChunksChanged, this, &TimelineController::renderedChunksChanged,
+                static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
+        connect(m_model->previewManager().get(), &PreviewManager::workingPreviewChanged, this, &TimelineController::workingPreviewChanged,
+                static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
     }
-    m_disablePreview->blockSignals(true);
-    m_disablePreview->setChecked(false);
-    m_disablePreview->blockSignals(false);
 }
 
 bool TimelineController::hasPreviewTrack() const
@@ -2616,57 +2609,6 @@ void TimelineController::resetPreview()
     if (m_model->hasTimelinePreview()) {
         m_model->previewManager()->clearPreviewRange(true);
         initializePreview();
-    }
-}
-
-void TimelineController::loadPreview(const QString &chunks, const QString &dirty, bool enable, Mlt::Playlist &playlist)
-{
-    if (chunks.isEmpty() && dirty.isEmpty()) {
-        return;
-    }
-    if (!m_model->hasTimelinePreview()) {
-        initializePreview();
-    }
-    QVariantList renderedChunks;
-    QVariantList dirtyChunks;
-    QStringList chunksList = chunks.split(QLatin1Char(','), Qt::SkipEmptyParts);
-    QStringList dirtyList = dirty.split(QLatin1Char(','), Qt::SkipEmptyParts);
-    for (const QString &frame : qAsConst(chunksList)) {
-        if (frame.contains(QLatin1Char('-'))) {
-            // Range, process
-            int start = frame.section(QLatin1Char('-'), 0, 0).toInt();
-            int end = frame.section(QLatin1Char('-'), 1, 1).toInt();
-            for (int i = start; i <= end; i += 25) {
-                renderedChunks << i;
-            }
-        } else {
-            renderedChunks << frame.toInt();
-        }
-    }
-    for (const QString &frame : qAsConst(dirtyList)) {
-        if (frame.contains(QLatin1Char('-'))) {
-            // Range, process
-            int start = frame.section(QLatin1Char('-'), 0, 0).toInt();
-            int end = frame.section(QLatin1Char('-'), 1, 1).toInt();
-            for (int i = start; i <= end; i += 25) {
-                dirtyChunks << i;
-            }
-        } else {
-            dirtyChunks << frame.toInt();
-        }
-    }
-
-    if (m_disablePreview) {
-        m_disablePreview->blockSignals(true);
-        m_disablePreview->setChecked(enable);
-        m_disablePreview->blockSignals(false);
-    }
-    if (m_model->hasTimelinePreview()) {
-        if (!enable) {
-            m_model->buildPreviewTrack();
-            m_usePreview = true;
-        }
-        m_model->previewManager()->loadChunks(renderedChunks, dirtyChunks, playlist);
     }
 }
 
@@ -3460,29 +3402,12 @@ void TimelineController::switchTrackLock(bool applyToAll)
         // Invert track lock
         const auto ids = m_model->getAllTracksIds();
         // count the number of tracks to be locked
-        int toBeLockedCount =
-            std::accumulate(ids.begin(), ids.end(), 0, [this](int s, int id) { return s + (m_model->getTrackById_const(id)->isLocked() ? 0 : 1); });
-        bool hasSubtitleTrack = false;
-        if (m_model->hasSubtitleModel()) {
-            hasSubtitleTrack = true;
-            bool subLocked = m_model->getSubtitleModel()->isLocked();
-            if (!subLocked) {
-                toBeLockedCount++;
-            }
-        }
-        bool leaveOneUnlocked = toBeLockedCount == m_model->getTracksCount() + hasSubtitleTrack ? true : false;
         for (const int id : ids) {
-            // leave active track unlocked
-            if (leaveOneUnlocked && id == m_activeTrack) {
-                continue;
-            }
             bool isLocked = m_model->getTrackById_const(id)->isLocked();
             m_model->setTrackLockedState(id, !isLocked);
         }
-        if (hasSubtitleTrack) {
-            if (!leaveOneUnlocked || !m_model->isSubtitleTrack(m_activeTrack)) {
-                switchSubtitleLock();
-            }
+        if (m_model->hasSubtitleModel()) {
+            switchSubtitleLock();
         }
     }
 }
@@ -3876,7 +3801,7 @@ void TimelineController::focusTimelineSequence(int id)
         if (local_redo()) {
             Fun local_undo = [uuid]() {
                 if (pCore->projectManager()->closeTimeline(uuid)) {
-                    pCore->window()->closeTimeline(uuid);
+                    pCore->window()->closeTimelineTab(uuid);
                 }
                 return true;
             };
@@ -4069,7 +3994,8 @@ void TimelineController::updateClipActions()
             }
         } else if (actionData == QLatin1Char('Q')) {
             // Speed change action
-            enableAction = clip != nullptr && type != ClipType::Color && type != ClipType::Image && !clip->hasTimeRemap();
+            enableAction = clip != nullptr && (clip->getSpeed() != 1. || (type != ClipType::Timeline && type != ClipType::Playlist && type != ClipType::Color &&
+                                                                          type != ClipType::Image && !clip->hasTimeRemap()));
         }
         act->setEnabled(enableAction);
     }

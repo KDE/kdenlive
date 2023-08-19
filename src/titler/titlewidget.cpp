@@ -632,8 +632,9 @@ QStringList TitleWidget::extractImageList(const QString &xml)
     doc.setContent(xml);
     QDomNodeList images = doc.elementsByTagName(QStringLiteral("content"));
     for (int i = 0; i < images.count(); ++i) {
-        if (images.at(i).toElement().hasAttribute(QStringLiteral("url"))) {
-            result.append(images.at(i).toElement().attribute(QStringLiteral("url")));
+        QDomElement image = images.at(i).toElement();
+        if (image.hasAttribute(QStringLiteral("url"))) {
+            result.append(image.attribute(QStringLiteral("url")));
         }
     }
     return result;
@@ -648,10 +649,11 @@ QStringList TitleWidget::extractFontList(const QString &xml)
     }
     QDomDocument doc;
     doc.setContent(xml);
-    QDomNodeList images = doc.elementsByTagName(QStringLiteral("content"));
-    for (int i = 0; i < images.count(); ++i) {
-        if (images.at(i).toElement().hasAttribute(QStringLiteral("font"))) {
-            result.append(images.at(i).toElement().attribute(QStringLiteral("font")));
+    QDomNodeList elements = doc.elementsByTagName(QStringLiteral("content"));
+    for (int i = 0; i < elements.count(); ++i) {
+        QDomElement element = elements.at(i).toElement();
+        if (element.hasAttribute(QStringLiteral("font"))) {
+            result.append(element.attribute(QStringLiteral("font")));
         }
     }
     return result;

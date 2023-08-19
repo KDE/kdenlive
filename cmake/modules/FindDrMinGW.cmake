@@ -1,6 +1,7 @@
 # cmake macro to find DrMinGW Windows crash handler
 #
 # SPDX-FileCopyrightText: 2018 Vincent Pinon <vpinon@kde.org>
+# SPDX-License-Identifier: BSD-3-Clause
 #
 # once done this will define:
 #

@@ -1135,7 +1135,7 @@ void Monitor::slotExtractCurrentZone()
     if (m_controller == nullptr) {
         return;
     }
-    CutTask::start({ObjectType::BinClip, m_controller->clipId().toInt(), QUuid()}, getZoneStart(), getZoneEnd(), this);
+    CutTask::start(ObjectId(ObjectType::BinClip, m_controller->clipId().toInt(), QUuid()), getZoneStart(), getZoneEnd(), this);
 }
 
 std::shared_ptr<ProjectClip> Monitor::currentController() const
@@ -1414,7 +1414,7 @@ void Monitor::slotRewind(double speed)
         }
     }
     updatePlayAction(true);
-    m_glMonitor->switchPlay(true, m_offset, speed);
+    m_glMonitor->switchPlay(true, speed);
 }
 
 void Monitor::slotForward(double speed, bool allowNormalPlay)
@@ -1429,7 +1429,7 @@ void Monitor::slotForward(double speed, bool allowNormalPlay)
             if (allowNormalPlay) {
                 m_glMonitor->purgeCache();
                 updatePlayAction(true);
-                m_glMonitor->switchPlay(true, m_offset);
+                m_glMonitor->switchPlay(true);
                 return;
             }
         } else {
@@ -1441,7 +1441,7 @@ void Monitor::slotForward(double speed, bool allowNormalPlay)
         speed = MonitorManager::speedArray[m_speedIndex];
     }
     updatePlayAction(true);
-    m_glMonitor->switchPlay(true, m_offset, speed);
+    m_glMonitor->switchPlay(true, speed);
 }
 
 void Monitor::slotRewindOneFrame(int diff)
@@ -1579,14 +1579,16 @@ void Monitor::switchPlay(bool play)
         return;
     }
     m_speedIndex = 0;
-    m_playAction->setActive(play);
     if (!play) {
         m_droppedTimer.stop();
     }
     if (!KdenliveSettings::autoscroll()) {
         Q_EMIT pCore->autoScrollChanged();
     }
-    m_glMonitor->switchPlay(play, m_offset);
+    if (!m_glMonitor->switchPlay(play)) {
+        play = false;
+    }
+    m_playAction->setActive(play);
 }
 
 void Monitor::updatePlayAction(bool play)
@@ -1629,7 +1631,10 @@ void Monitor::slotSwitchPlay()
         }
         pCore->recordAudio(-1, true);
     }
-    m_glMonitor->switchPlay(play, m_offset);
+    if (!m_glMonitor->switchPlay(play)) {
+        play = false;
+        m_playAction->setActive(false);
+    }
     bool showDropped = false;
     if (m_id == Kdenlive::ClipMonitor) {
         showDropped = KdenliveSettings::displayClipMonitorInfo() & 0x20;
@@ -1711,7 +1716,7 @@ void Monitor::updateClipProducer(const QString &playlist)
     // TODO
     // Mlt::Producer *prod = new Mlt::Producer(*m_glMonitor->profile(), playlist.toUtf8().constData());
     // m_glMonitor->setProducer(prod, isActive(), render->seekFramePosition());
-    m_glMonitor->switchPlay(true, m_offset);
+    m_glMonitor->switchPlay(true);
 }
 
 void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int in, int out)
@@ -1865,6 +1870,11 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         start();
     }
     checkOverlay();
+}
+
+void Monitor::loadZone(int in, int out)
+{
+    m_glMonitor->getControllerProxy()->setZone({in, out}, false);
 }
 
 void Monitor::reloadActiveStream()

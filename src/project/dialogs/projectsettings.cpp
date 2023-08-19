@@ -713,6 +713,8 @@ QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
         }
     }
 
+    // TODO merge with similar logic in DocumentChecker
+
     // luma files for transitions
     files = doc.elementsByTagName(QStringLiteral("transition"));
     for (int i = 0; i < files.count(); ++i) {

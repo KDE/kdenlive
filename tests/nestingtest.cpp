@@ -31,7 +31,7 @@ TEST_CASE("Open and Close Sequence", "[OCS]")
 
         pCore->projectManager()->m_project = &mockedDoc;
         QDateTime documentDate = QDateTime::currentDateTime();
-        pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
+        pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
         auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
         pCore->projectManager()->m_activeTimelineModel = timeline;
         pCore->projectManager()->testSetActiveDocument(&mockedDoc, timeline);
@@ -117,7 +117,7 @@ TEST_CASE("Save File With 2 Sequences", "[SF2]")
 
         pCore->projectManager()->m_project = &mockedDoc;
         QDateTime documentDate = QDateTime::currentDateTime();
-        pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
+        pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
         auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
         pCore->projectManager()->m_activeTimelineModel = timeline;
 
@@ -213,7 +213,7 @@ TEST_CASE("Save File With 2 Sequences", "[SF2]")
         pCore->projectManager()->m_project = openedDoc.get();
         const QUuid uuid = openedDoc->uuid();
         QDateTime documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
-        pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
+        pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
 
         QMap<QUuid, QString> allSequences = binModel->getAllSequenceClips();
         const QString firstSeqId = allSequences.value(uuid);
@@ -314,7 +314,7 @@ TEST_CASE("Save File With 2 Sequences", "[SF2]")
         pCore->projectManager()->m_project = openedDoc.get();
         const QUuid uuid = openedDoc->uuid();
         QDateTime documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
-        pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
+        pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
 
         QMap<QUuid, QString> allSequences = binModel->getAllSequenceClips();
         const QString firstSeqId = allSequences.value(uuid);
@@ -399,7 +399,7 @@ TEST_CASE("Save File, Reopen and check for corruption", "[SF3]")
         pCore->projectManager()->m_project = openedDoc.get();
         const QUuid uuid = openedDoc->uuid();
         QDateTime documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
-        pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
+        pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
         QMap<QUuid, QString> allSequences = binModel->getAllSequenceClips();
         const QString firstSeqId = allSequences.value(uuid);
         pCore->projectManager()->openTimeline(firstSeqId, uuid);
@@ -441,7 +441,7 @@ TEST_CASE("Save File, Reopen and check for corruption", "[SF3]")
         pCore->projectManager()->m_project = openedDoc.get();
         const QUuid uuid = openedDoc->uuid();
         QDateTime documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
-        pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
+        pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
 
         QMap<QUuid, QString> allSequences = binModel->getAllSequenceClips();
         const QString firstSeqId = allSequences.value(uuid);

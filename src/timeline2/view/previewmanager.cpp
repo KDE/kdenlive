@@ -7,6 +7,7 @@
 #include "previewmanager.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
+#include "dialogs/wizard.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
@@ -40,19 +41,15 @@ PreviewManager::PreviewManager(Mlt::Tractor *tractor, QUuid uuid, QObject *paren
     m_previewGatherTimer.setInterval(200);
     QObject::connect(&m_previewProcess, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &PreviewManager::processEnded);
 
-    // Find path for Kdenlive renderer
-#ifdef Q_OS_WIN
-    m_renderer = QCoreApplication::applicationDirPath() + QStringLiteral("/kdenlive_render.exe");
-#else
-    m_renderer = QCoreApplication::applicationDirPath() + QStringLiteral("/kdenlive_render");
-#endif
-    if (!QFile::exists(m_renderer)) {
-        m_renderer = QStandardPaths::findExecutable(QStringLiteral("kdenlive_render"));
-        if (m_renderer.isEmpty()) {
-            KMessageBox::error(pCore->window(),
+    if (KdenliveSettings::kdenliverendererpath().isEmpty() || !QFileInfo::exists(KdenliveSettings::kdenliverendererpath())) {
+        KdenliveSettings::setKdenliverendererpath(QString());
+        Wizard::fixKdenliveRenderPath();
+        if (KdenliveSettings::kdenliverendererpath().isEmpty()) {
+            KMessageBox::error(QApplication::activeWindow(),
                                i18n("Could not find the kdenlive_render application, something is wrong with your installation. Rendering will not work"));
         }
     }
+
     connect(this, &PreviewManager::abortPreview, &m_previewProcess, &QProcess::kill, Qt::DirectConnection);
     connect(&m_previewProcess, &QProcess::readyReadStandardError, this, &PreviewManager::receivedStderr);
 }
@@ -161,6 +158,12 @@ void PreviewManager::loadChunks(QVariantList previewChunks, QVariantList dirtyCh
     int max = playlist.count();
     std::shared_ptr<Mlt::Producer> clip;
     m_tractor->lock();
+    if (max == 0) {
+        // Empty timeline preview, mark all as dirty
+        for (auto &prev : previewChunks) {
+            dirtyChunks << prev;
+        }
+    }
     for (int i = 0; i < max; i++) {
         if (playlist.is_blank(i)) {
             continue;
@@ -605,9 +608,9 @@ void PreviewManager::doPreviewRender(const QString &scene)
                      m_extension,
                      m_consumerParams.join(QLatin1Char(' '))};
     pCore->currentDoc()->previewProgress(0);
-    m_previewProcess.start(m_renderer, args);
+    m_previewProcess.start(KdenliveSettings::kdenliverendererpath(), args);
     if (m_previewProcess.waitForStarted()) {
-        qDebug() << " -  - -STARTING PREVIEW JOBS . . . STARTED";
+        qDebug() << " -  - -STARTING PREVIEW JOBS . . . STARTED: " << args;
     }
 }
 
@@ -847,11 +850,11 @@ QPair<QStringList, QStringList> PreviewManager::previewChunks()
 const QStringList PreviewManager::getCompressedList(const QVariantList items) const
 {
     QStringList resultString;
-    int lastFrame = 0;
+    int lastFrame = -1;
     QString currentString;
     for (const QVariant &frame : items) {
         int current = frame.toInt();
-        if (current - 25 == lastFrame) {
+        if (current - KdenliveSettings::timelinechunks() == lastFrame) {
             lastFrame = current;
             if (frame == items.last()) {
                 currentString.append(QString("-%1").arg(lastFrame));

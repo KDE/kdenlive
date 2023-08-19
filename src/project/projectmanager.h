@@ -109,7 +109,8 @@ public:
     /** @brief Open a timeline clip in a tab.
      *  @returns true if the timeline was not previously opened
      */
-    bool openTimeline(const QString &id, const QUuid &uuid, int position = -1, bool duplicate = false);
+    bool openTimeline(const QString &id, const QUuid &uuid, int position = -1, bool duplicate = false,
+                      std::shared_ptr<TimelineItemModel> existingModel = nullptr);
     /** @brief Set a property on timeline uuid
      */
     void setTimelinePropery(QUuid uuid, const QString &prop, const QString &val);
@@ -153,7 +154,7 @@ public Q_SLOTS:
      * @param outputFileName The URL to save to / The document's URL.
      * @param saveACopy Default is false. If true, the file will be saved but isn’t opened afterwards. Besides no autosave version will be created
      * @return Whether we had success. */
-    bool saveFileAs(const QString &outputFileName, bool saveACopy = false);
+    bool saveFileAs(const QString &outputFileName, bool saveOverExistingFile = true, bool saveACopy = false);
 
     /** @brief Close currently opened document. Returns false if something went wrong (cannot save modifications, ...). */
     bool closeCurrentDocument(bool saveChanges = true, bool quit = false);
@@ -226,7 +227,7 @@ Q_SIGNALS:
 
 protected:
     /** @brief Update the timeline according to the MLT XML */
-    bool updateTimeline(int pos, bool createNewTab, const QString &chunks, const QString &dirty, const QDateTime &documentDate, bool enablePreview);
+    bool updateTimeline(bool createNewTab, const QString &chunks, const QString &dirty, const QDateTime &documentDate, bool enablePreview);
 
 private:
     /** @brief checks if autoback files exists, recovers from it if user says yes, returns true if files were recovered. */

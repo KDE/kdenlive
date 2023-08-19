@@ -149,7 +149,7 @@ public:
     /** @brief Returns the project file xml. */
     QDomDocument xmlSceneList(const QString &scene);
     /** @brief Saves the project file xml to a file. */
-    bool saveSceneList(const QString &path, const QString &scene);
+    bool saveSceneList(const QString &path, const QString &scene, bool saveOverExistingFile = true);
     void cacheImage(const QString &fileId, const QImage &img) const;
     void setProjectFolder(const QUrl &url);
     void setZone(const QUuid &uuid, int start, int end);
@@ -220,7 +220,7 @@ public:
     /** @brief Get a list of all proxy hash used in this project */
     QStringList getProxyHashList();
     /** @brief Move project data files to new url */
-    const QList<QUrl> getProjectData(const QString &dest, bool *ok);
+    const QList<QUrl> getProjectData(bool *ok);
 
     /** @brief Returns a pointer to the guide model of timeline uuid */
     std::shared_ptr<MarkerListModel> getGuideModel(const QUuid uuid) const;
@@ -274,19 +274,19 @@ public:
     void generateRenderSubtitleFile(const QUuid &uuid, int in, int out, const QString &subtitleFile);
     /** @brief Returns the default definition  for guide categories.*/
     static const QStringList getDefaultGuideCategories();
-    void addTimeline(const QUuid &uuid, std::shared_ptr<TimelineItemModel> model);
+    void addTimeline(const QUuid &uuid, std::shared_ptr<TimelineItemModel> model, bool force = false);
     /** @brief Load the guides into the model for a sequence.*/
     void loadSequenceGroupsAndGuides(const QUuid &uuid);
     /** @brief Get a timeline by its uuid.*/
     std::shared_ptr<TimelineItemModel> getTimeline(const QUuid &uuid);
     /** @brief Before closing a timeline, store its groups and other properties.*/
-    void closeTimeline(const QUuid &uuid);
+    void closeTimeline(const QUuid uuid);
     /** @brief store groups in our properties.*/
     void storeGroups(const QUuid &uuid);
     void checkUsage(const QUuid &uuid);
     QList<QUuid> getTimelinesUuids() const;
     /** @brief Returns the number of timelines in this project.*/
-    int timelineCount() const;
+    int openedTimelineCount() const;
     /** @brief Get the currently active project name.*/
     const QString projectName() const;
     /** @brief Returns the project's main uuid.*/
@@ -305,7 +305,7 @@ public:
     static void makeBackgroundTrackTransparent(QDomDocument &doc);
     /** @brief Set the autoclose attribute to all playlists in @param doc.
      *   This is eg. needed for rendering, as the process would not stop at the end of the playlist if it was not closed */
-    static void setAutoclosePlaylists(QDomDocument &doc);
+    static void setAutoclosePlaylists(QDomDocument &doc, const QString &mainSequenceUuid);
     /** @brief Check that the timelines hash have not changed between saved version and current status */
     bool checkConsistency();
 

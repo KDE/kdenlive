@@ -840,14 +840,19 @@ QString MarkerListModel::toJson(QList<int> categories) const
     READ_LOCK();
     QJsonArray list;
     bool exportAllCategories = categories.isEmpty() || categories == (QList<int>() << -1);
+    QList<CommentedTime> markers;
     for (const auto &marker : m_markerList) {
-        QJsonObject currentMarker;
-        currentMarker.insert(QLatin1String("pos"), QJsonValue(marker.second.time().frames(pCore->getCurrentFps())));
-        currentMarker.insert(QLatin1String("comment"), QJsonValue(marker.second.comment()));
-        currentMarker.insert(QLatin1String("type"), QJsonValue(marker.second.markerType()));
         if (exportAllCategories || categories.contains(marker.second.markerType())) {
-            list.push_back(currentMarker);
+            markers << marker.second;
         }
+    }
+    std::sort(markers.begin(), markers.end());
+    for (const auto &marker : markers) {
+        QJsonObject currentMarker;
+        currentMarker.insert(QLatin1String("pos"), QJsonValue(marker.time().frames(pCore->getCurrentFps())));
+        currentMarker.insert(QLatin1String("comment"), QJsonValue(marker.comment()));
+        currentMarker.insert(QLatin1String("type"), QJsonValue(marker.markerType()));
+        list.push_back(currentMarker);
     }
     QJsonDocument json(list);
     return QString::fromUtf8(json.toJson());

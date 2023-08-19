@@ -21,7 +21,7 @@ TEST_CASE("Simple trimming operations", "[Trimming]")
     KdenliveDoc document(undoStack, {1, 3});
     pCore->projectManager()->m_project = &document;
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = document.getTimeline(document.uuid());
     pCore->projectManager()->m_activeTimelineModel = timeline;
     pCore->projectManager()->testSetActiveDocument(&document, timeline);
@@ -537,7 +537,7 @@ TEST_CASE("Spacer operations", "[Spacer]")
     KdenliveDoc document(undoStack, {0, 1});
     pCore->projectManager()->m_project = &document;
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = document.getTimeline(document.uuid());
     pCore->projectManager()->m_activeTimelineModel = timeline;
     pCore->projectManager()->testSetActiveDocument(&document, timeline);
@@ -824,7 +824,7 @@ TEST_CASE("Insert/delete", "[Trimming2]")
     KdenliveDoc document(undoStack);
     pCore->projectManager()->m_project = &document;
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = document.getTimeline(document.uuid());
     pCore->projectManager()->m_activeTimelineModel = timeline;
     pCore->projectManager()->testSetActiveDocument(&document, timeline);
@@ -971,7 +971,7 @@ TEST_CASE("Copy/paste", "[CP]")
     KdenliveDoc document(undoStack);
     pCore->projectManager()->m_project = &document;
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = document.getTimeline(document.uuid());
     pCore->projectManager()->m_activeTimelineModel = timeline;
     pCore->projectManager()->testSetActiveDocument(&document, timeline);
@@ -1326,7 +1326,7 @@ TEST_CASE("Advanced trimming operations: Slip", "[TrimmingSlip]")
     KdenliveDoc document(undoStack, {0, 2});
     pCore->projectManager()->m_project = &document;
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = document.getTimeline(document.uuid());
     pCore->projectManager()->m_activeTimelineModel = timeline;
     pCore->projectManager()->testSetActiveDocument(&document, timeline);
@@ -1636,7 +1636,7 @@ TEST_CASE("Advanced trimming operations: Ripple", "[TrimmingRipple]")
     KdenliveDoc document(undoStack, {0, 2});
     pCore->projectManager()->m_project = &document;
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = document.getTimeline(document.uuid());
     pCore->projectManager()->m_activeTimelineModel = timeline;
     pCore->projectManager()->testSetActiveDocument(&document, timeline);

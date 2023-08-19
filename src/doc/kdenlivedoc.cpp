@@ -248,9 +248,21 @@ DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, Q
         return result;
     }
 
-    // TODO: DocumentChecker is still tightly coupled to the GUI
     DocumentChecker d(url, domDoc);
-    // success = !d.hasErrorInClips();
+
+    d.hasErrorInProject();
+    if (pCore->window() == nullptr) {
+        qDebug() << "DocumentChecker found some problems in the project:";
+        for (const auto &item : d.resourceItems()) {
+            qDebug() << &item;
+            if (item.status == DocumentChecker::MissingStatus::Missing) {
+                success = false;
+            }
+        }
+    } else {
+        success = d.resolveProblemsWithGUI();
+    }
+
     if (!success) {
         // Loading aborted
         result.setAborted();
@@ -698,7 +710,7 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene)
     return sceneList;
 }
 
-bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
+bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, bool saveOverExistingFile)
 {
     QDomDocument sceneList = xmlSceneList(scene);
     if (sceneList.isNull()) {
@@ -709,7 +721,7 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
 
     // Backup current version
     backupLastSavedVersion(path);
-    if (m_documentOpenStatus != CleanProject) {
+    if (m_documentOpenStatus != CleanProject && saveOverExistingFile) {
         // create visible backup file and warn user
         QString baseFile = path.section(QStringLiteral(".kdenlive"), 0, 0);
         int ct = 0;
@@ -836,7 +848,7 @@ void KdenliveDoc::setProjectFolder(const QUrl &url)
     updateProjectFolderPlacesEntry();
 }
 
-const QList<QUrl> KdenliveDoc::getProjectData(const QString &dest, bool *ok)
+const QList<QUrl> KdenliveDoc::getProjectData(bool *ok)
 {
     // Move proxies
     QList<QUrl> cacheUrls;
@@ -1268,7 +1280,11 @@ void KdenliveDoc::updateProjectFolderPlacesEntry()
      */
 
     const QString file = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QStringLiteral("/user-places.xbel");
+#if QT_VERSION_MAJOR < 6
     KBookmarkManager *bookmarkManager = KBookmarkManager::managerForExternalFile(file);
+#else
+    KBookmarkManager *bookmarkManager = KBookmarkManager::managerForFile(file);
+#endif
     if (!bookmarkManager) {
         return;
     }
@@ -2088,8 +2104,12 @@ QList<QUuid> KdenliveDoc::getTimelinesUuids() const
     return m_timelines.keys();
 }
 
-void KdenliveDoc::addTimeline(const QUuid &uuid, std::shared_ptr<TimelineItemModel> model)
+void KdenliveDoc::addTimeline(const QUuid &uuid, std::shared_ptr<TimelineItemModel> model, bool force)
 {
+    if (force && m_timelines.find(uuid) != m_timelines.end()) {
+        std::shared_ptr<TimelineItemModel> model = m_timelines.take(uuid);
+        model.reset();
+    }
     if (m_timelines.find(uuid) != m_timelines.end()) {
         qDebug() << "::::: TIMELINE " << uuid << " already inserted in project";
         return;
@@ -2133,13 +2153,15 @@ void KdenliveDoc::loadSequenceGroupsAndGuides(const QUuid &uuid)
     connect(model.get(), &TimelineModel::saveGuideCategories, this, &KdenliveDoc::saveGuideCategories);
 }
 
-void KdenliveDoc::closeTimeline(const QUuid &uuid)
+void KdenliveDoc::closeTimeline(const QUuid uuid)
 {
     Q_ASSERT(m_timelines.find(uuid) != m_timelines.end());
     // Sync all sequence properties
     std::shared_ptr<TimelineItemModel> model = m_timelines.take(uuid);
-    setSequenceProperty(uuid, QStringLiteral("groups"), model->groupsData());
-    model->passSequenceProperties(getSequenceProperties(uuid));
+    if (!closing) {
+        setSequenceProperty(uuid, QStringLiteral("groups"), model->groupsData());
+        model->passSequenceProperties(getSequenceProperties(uuid));
+    }
     model->prepareClose(!closing);
     model.reset();
     // Clear all sequence properties
@@ -2171,7 +2193,7 @@ std::shared_ptr<MarkerListModel> KdenliveDoc::getGuideModel(const QUuid uuid) co
     return m_timelines.value(uuid)->getGuideModel();
 }
 
-int KdenliveDoc::timelineCount() const
+int KdenliveDoc::openedTimelineCount() const
 {
     return m_timelines.size();
 }
@@ -2319,12 +2341,28 @@ void KdenliveDoc::makeBackgroundTrackTransparent(QDomDocument &doc)
     }
 }
 
-void KdenliveDoc::setAutoclosePlaylists(QDomDocument &doc)
+void KdenliveDoc::setAutoclosePlaylists(QDomDocument &doc, const QString &mainSequenceUuid)
 {
+    // We should only set the autoclose atribute on the main sequence playlists.
+    // Otherwise if a sequence is reused several times, its playback will be broken
     QDomNodeList playlists = doc.elementsByTagName(QStringLiteral("playlist"));
+    QDomNodeList tractors = doc.elementsByTagName(QStringLiteral("tractor"));
+    QStringList matches;
+    for (int i = 0; i < tractors.length(); ++i) {
+        if (tractors.at(i).toElement().attribute(QStringLiteral("id")) == mainSequenceUuid) {
+            // We found the main sequence tractor, list its tracks
+            QDomNodeList tracks = tractors.at(i).toElement().elementsByTagName(QStringLiteral("track"));
+            for (int j = 0; j < tracks.length(); ++j) {
+                matches << tracks.at(j).toElement().attribute(QStringLiteral("producer"));
+            }
+            break;
+        }
+    }
     for (int i = 0; i < playlists.length(); ++i) {
         auto playlist = playlists.at(i).toElement();
-        playlist.setAttribute(QStringLiteral("autoclose"), 1);
+        if (matches.contains(playlist.attribute(QStringLiteral("id")))) {
+            playlist.setAttribute(QStringLiteral("autoclose"), 1);
+        }
     }
 }
 

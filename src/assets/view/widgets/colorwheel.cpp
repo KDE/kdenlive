@@ -25,7 +25,7 @@ WheelContainer::WheelContainer(QString id, QString name, NegQColor color, int un
     : QWidget(parent)
     , m_id(std::move(id))
     , m_isMouseDown(false)
-    , m_margin(0)
+    , m_margin(2)
     , m_color(std::move(color))
     , m_unitSize(unitSize)
     , m_name(std::move(name))
@@ -36,6 +36,7 @@ WheelContainer::WheelContainer(QString id, QString name, NegQColor color, int un
     setMouseTracking(true);
     m_initialSize = QSize(m_unitSize * 11, m_unitSize * 11);
     m_sliderWidth = int(m_unitSize * 1.5);
+    m_sliderBorder = m_unitSize * .2;
     resize(m_initialSize);
     setMinimumSize(m_initialSize * .4);
     setMaximumSize(m_initialSize * 1.5);
@@ -86,6 +87,11 @@ int WheelContainer::wheelSize() const
     return qMin(width() - m_sliderWidth, height());
 }
 
+int WheelContainer::sliderHeight() const
+{
+    return wheelSize() - m_margin * 2 - m_sliderBorder * 2;
+}
+
 NegQColor WheelContainer::colorForPoint(const QPointF &point)
 {
     if (m_wheelClick) {
@@ -129,12 +135,14 @@ NegQColor WheelContainer::colorForPoint(const QPointF &point)
     if (m_sliderClick) {
         qreal value = 1.0 - qreal(point.y() - m_margin) / (wheelSize() - m_margin * 2);
         value = qBound(0., value, 1.);
-        if (!qFuzzyIsNull(m_zeroShift)) {
-            value = value - m_zeroShift;
-        }
-        if (qFuzzyIsNull(value)) {
-            // A value of 0 completely resets the color
-            value = 0.001;
+        if (qFuzzyIsNull(m_zeroShift)) {
+            // Range is 0 to 1
+            if (value < 0.001) {
+                value = 0.001;
+            }
+        } else if (qAbs(value) < 0.001) {
+            // Range is -1 to 1
+            value = value < 0. ? -0.001 : 0.001;
         }
         return NegQColor::fromHsvF(m_color.hueF(), m_color.saturationF(), value);
     }
@@ -158,17 +166,17 @@ void WheelContainer::wheelEvent(QWheelEvent *event)
         if (event->modifiers() & Qt::ShiftModifier) {
             y += event->angleDelta().y() > 0 ? 0.002 : -0.002;
         } else {
-            y += event->angleDelta().y() > 0 ? 0.04 : -0.04;
+            y += event->angleDelta().y() > 0 ? 0.02 : -0.02;
         }
         m_sliderClick = true;
         m_sliderFocus = true;
         qreal value = qBound(-m_zeroShift, y, 1. - m_zeroShift);
         if (qFuzzyIsNull(m_zeroShift)) {
             // Range is 0 to 1
-            if (qFuzzyIsNull(value)) {
+            if (qAbs(value) < 0.001) {
                 value = 0.001;
             }
-        } else if (qFuzzyIsNull(value)) {
+        } else if (qAbs(value) < 0.001) {
             // Range is -1 to 1
             value = value < 0. ? -0.001 : 0.001;
         }
@@ -223,7 +231,19 @@ void WheelContainer::mousePressEvent(QMouseEvent *event)
         m_sliderClick = true;
         m_sliderFocus = true;
         if (event->button() == Qt::LeftButton) {
-            changeColor(colorForPoint(m_lastPoint));
+            NegQColor color = colorForPoint(m_lastPoint);
+            qreal value = color.valueF() - m_zeroShift;
+            if (qFuzzyIsNull(m_zeroShift)) {
+                // Range is 0 to 1
+                if (qAbs(value) < 0.001) {
+                    value = 0.001;
+                }
+            } else if (qAbs(value) < 0.001) {
+                // Range is -1 to 1
+                value = value < 0. ? -0.001 : 0.001;
+            }
+            m_color.setValueF(value);
+            changeColor(m_color);
         } else {
             NegQColor c;
             qreal value = m_defaultValue / m_sizeFactor;
@@ -287,7 +307,18 @@ void WheelContainer::mouseMoveEvent(QMouseEvent *event)
         changeColor(color);
     } else if (m_sliderClick) {
         const NegQColor color = colorForPoint(m_lastPoint);
-        changeColor(color);
+        qreal value = color.valueF() - m_zeroShift;
+        if (qFuzzyIsNull(m_zeroShift)) {
+            // Range is 0 to 1
+            if (qAbs(value) < 0.001) {
+                value = 0.001;
+            }
+        } else if (qAbs(value) < 0.001) {
+            // Range is -1 to 1
+            value = value < 0. ? -0.001 : 0.001;
+        }
+        m_color.setValueF(value);
+        changeColor(m_color);
     }
 }
 
@@ -369,7 +400,7 @@ void WheelContainer::drawWheel()
 
     painter.setBrush(Qt::gray);
     painter.setOpacity(0.4);
-    painter.drawEllipse(QPointF(0, 0), r / 2 - m_unitSize * .6, r / 2 - m_unitSize * .6);
+    painter.drawEllipse(QPointF(0, 0), r / 2 - m_unitSize * .6 - m_margin, r / 2 - m_unitSize * .6 - m_margin);
 
     m_wheelRegion = QRegion(r / 2, r / 2, r - 2 * m_margin, r - 2 * m_margin, QRegion::Ellipse);
     m_wheelRegion.translate(-(r - 2 * m_margin) / 2, -(r - 2 * m_margin) / 2);
@@ -379,23 +410,23 @@ void WheelContainer::drawSlider()
 {
     QPainter painter(&m_image);
     painter.setRenderHint(QPainter::Antialiasing);
-    int ws = int(wheelSize() + m_unitSize * .2);
-    qreal scale = qreal(ws + m_sliderWidth) / maximumWidth();
+    int pos = int(wheelSize() + m_unitSize * .2 + m_sliderBorder);
+    qreal scale = qreal(pos + m_sliderWidth) / maximumWidth();
     int w = int(m_sliderWidth * scale - m_unitSize * .2);
-    int h = ws - m_margin * 2;
-    QLinearGradient gradient(0, 0, w, h);
-    if (m_sliderFocus) {
-        gradient.setColorAt(0.0, QPalette().highlight().color());
-    } else {
-        gradient.setColorAt(0.0, Qt::white);
-    }
-    gradient.setColorAt(1.0, Qt::black);
+    QLinearGradient gradient(0, 0, w, sliderHeight());
+    NegQColor c = m_color;
+    c.setValueF(1);
+    gradient.setColorAt(0.0, c.qcolor);
+    c.setValueF(-m_zeroShift);
+    gradient.setColorAt(1.0, QColorUtils::complementary(c.qcolor));
     QBrush brush(gradient);
-    painter.setPen(Qt::NoPen);
+    QPen pen(m_sliderFocus ? QPalette().highlight().color() : Qt::NoPen);
+    pen.setWidth(m_sliderBorder);
+    painter.setPen(pen);
     painter.setBrush(brush);
-    painter.translate(ws, m_margin);
-    painter.drawRoundedRect(QRect(0, 0, w, h - m_margin), w / 3, w / 3);
-    m_sliderRegion = QRegion(ws, m_margin, w, h);
+    painter.translate(pos, m_margin + m_sliderBorder);
+    painter.drawRoundedRect(QRect(0, 0, w, sliderHeight()), w / 3, w / 3);
+    m_sliderRegion = QRegion(pos, m_margin + m_sliderBorder, w, sliderHeight() - m_margin);
 }
 
 void WheelContainer::drawWheelDot(QPainter &painter)
@@ -409,7 +440,7 @@ void WheelContainer::drawWheelDot(QPainter &painter)
     painter.rotate(360.0 - m_color.hue());
     painter.rotate(-105);
     //    r -= margin;
-    painter.drawEllipse(QPointF(m_color.saturationF() * r, 0.0), 4, 4);
+    painter.drawEllipse(QPointF(m_color.saturationF() * (r - m_margin * 2), 0.0), 4, 4);
     painter.resetTransform();
 }
 
@@ -440,16 +471,16 @@ void WheelContainer::drawSliderBar(QPainter &painter)
     if (m_id == QLatin1String("lift")) {
         value -= m_zeroShift;
     }
-    int ws = wheelSize();
-    qreal scale = qreal(ws + m_sliderWidth) / maximumWidth();
-    int w = int(m_sliderWidth * scale);
-    int h = ws - m_margin * 2;
+    int pos = wheelSize();
+    qreal scale = qreal(pos + m_sliderWidth) / maximumWidth();
+    int w = int(m_sliderWidth * scale + m_sliderBorder * 2);
+    int h = m_sliderBorder * 2;
     QPen pen(Qt::white);
-    pen.setWidth(2);
+    pen.setWidth(m_sliderBorder);
     painter.setPen(pen);
     painter.setBrush(Qt::black);
-    painter.translate(ws, m_margin + value * h);
-    painter.drawRect(0, 0, w, 4);
+    painter.translate(pos + m_sliderBorder, m_margin + value * sliderHeight() - (h / 2) + m_sliderBorder);
+    painter.drawRect(0, 0, w, h);
     painter.resetTransform();
 }
 

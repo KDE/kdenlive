@@ -633,7 +633,7 @@ Rectangle {
                     clipRoot.originalX = clipRoot.x
                     clipRoot.originalDuration = clipDuration
                     shiftTrim = mouse.modifiers & Qt.ShiftModifier
-                    controlTrim = mouse.modifiers & Qt.ControlModifier
+                    controlTrim = mouse.modifiers & Qt.ControlModifier && itemType != ProducerType.Color && itemType != ProducerType.Timeline && itemType != ProducerType.Playlist && itemType != ProducerType.Image
                     if (!shiftTrim && clipRoot.grouped) {
                         clipRoot.initGroupTrim(clipRoot)
                     }
@@ -775,7 +775,7 @@ Rectangle {
                     clipRoot.originalDuration = clipDuration
                     anchors.right = undefined
                     shiftTrim = mouse.modifiers & Qt.ShiftModifier
-                    controlTrim = mouse.modifiers & Qt.ControlModifier
+                    controlTrim = mouse.modifiers & Qt.ControlModifier && itemType != ProducerType.Color && itemType != ProducerType.Timeline && itemType != ProducerType.Playlist && itemType != ProducerType.Image
                     if (!shiftTrim && clipRoot.grouped) {
                         clipRoot.initGroupTrim(clipRoot)
                     }
@@ -1184,6 +1184,7 @@ Rectangle {
             visible: !clipRoot.isAudio
             enabled: !clipRoot.isAudio && dragProxy.draggedItem === clipRoot.clipId && compositionIn.visible
             onPressed: {
+                root.mainItemId = -1
                 timeline.addCompositionToClip('', clipRoot.clipId, 0)
             }
             onEntered: {
@@ -1220,6 +1221,7 @@ Rectangle {
             enabled: !clipRoot.isAudio && dragProxy.draggedItem === clipRoot.clipId && compositionOut.visible
             visible: !clipRoot.isAudio
             onPressed: {
+                root.mainItemId = -1
                 timeline.addCompositionToClip('', clipRoot.clipId, clipRoot.clipDuration - 1)
             }
             onEntered: {

@@ -240,14 +240,18 @@ void AssetParameterModel::prepareKeyframes(int in, int out)
     }
 }
 
-QStringList AssetParameterModel::getKeyframableParameters() const
+QMap<QString, std::pair<ParamType, bool>> AssetParameterModel::getKeyframableParameters() const
 {
-    QStringList paramNames;
+    // QMap<QString, std::pair<ParamType, bool>> paramNames;
+    QMap<QString, std::pair<ParamType, bool>> paramNames;
     int ix = 0;
     for (const auto &name : m_rows) {
-        if (isAnimated(m_params.at(name).type) && m_params.at(name).type != ParamType::Roto_spline) {
+        ParamType type = m_params.at(name).type;
+        if (isAnimated(type) && type != ParamType::Roto_spline) {
             // addKeyframeParam(index(ix, 0));
-            paramNames << name;
+            bool useOpacity = m_params.at(name).xml.attribute(QStringLiteral("opacity")) != QLatin1String("false");
+            paramNames.insert(name, {type, useOpacity});
+            // paramNames << name;
         }
         ix++;
     }
@@ -789,6 +793,15 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
         if (m_ownerId.type == ObjectType::TimelineComposition && out == -1) {
             out = m_asset->get_int("out");
         }
+        int currentPos = 0;
+        if (content.contains(QLatin1String("%position"))) {
+            // Calculate playhead position relative to clip
+            int playhead = pCore->getMonitorPosition(m_ownerId.type == ObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor);
+            int itemPosition = pCore->getItemPosition(m_ownerId);
+            int itemIn = pCore->getItemIn(m_ownerId);
+            currentPos = playhead - itemPosition + itemIn;
+            currentPos = qBound(itemIn, currentPos, itemIn + pCore->getItemDuration(m_ownerId) - 1);
+        }
         int frame_duration = pCore->getDurationFromString(KdenliveSettings::fade_duration());
         double fitScale = qMin(double(width) / double(frameSize.width()), double(height) / double(frameSize.height()));
         // replace symbols in the double parameter
@@ -796,6 +809,7 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
             .replace(QLatin1String("%maxHeight"), QString::number(height))
             .replace(QLatin1String("%width"), QString::number(width))
             .replace(QLatin1String("%height"), QString::number(height))
+            .replace(QLatin1String("%position"), QString::number(currentPos))
             .replace(QLatin1String("%contentWidth"), QString::number(frameSize.width()))
             .replace(QLatin1String("%contentHeight"), QString::number(frameSize.height()))
             .replace(QLatin1String("%fittedContentWidth"), QString::number(frameSize.width() * fitScale))
@@ -913,6 +927,14 @@ QVector<QPair<QString, QVariant>> AssetParameterModel::getAllParameters() const
                 QVariant multiVal = data(ix, AssetParameterModel::ValueRole).toString();
                 res.push_back(QPair<QString, QVariant>(param.first, multiVal));
                 continue;
+            } else if (m_params.at(param.first).type == ParamType::Position) {
+                bool relative = data(ix, AssetParameterModel::RelativePosRole).toBool();
+                if (!relative) {
+                    int in = pCore->getItemIn(m_ownerId);
+                    int val = param.second.value.toInt();
+                    res.push_back(QPair<QString, QVariant>(param.first, QVariant(val - in)));
+                    continue;
+                }
             }
             res.push_back(QPair<QString, QVariant>(param.first, param.second.value));
         }

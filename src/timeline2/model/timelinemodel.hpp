@@ -95,6 +95,7 @@ protected:
 public:
     friend class TrackModel;
     friend class TimelineTabs;
+    friend class ProjectManager;
     template <typename T> friend class MoveableItem;
     friend class ClipModel;
     friend class CompositionModel;
@@ -104,6 +105,8 @@ public:
     friend class MarkerListModel;
     friend class TimeRemap;
     friend struct TimelineFunctions;
+
+    Q_PROPERTY(QString visibleSequenceName MEMBER m_visibleSequenceName NOTIFY visibleSequenceNameChanged)
 
     /// Two level model: tracks and clips on track
     enum {
@@ -869,6 +872,12 @@ public:
     /** @brief returns this timeline's guide model */
     std::shared_ptr<MarkerListModel> getGuideModel();
     std::shared_ptr<MarkerSortModel> getFilteredGuideModel();
+    /** @brief The sequence name displayed in master effec button needs an update */
+    void updateVisibleSequenceName(const QString displayName);
+    /** @brief Register all clips in this sequence to Bin */
+    void registerTimeline();
+    /** @brief Load timeline preview on project opening */
+    void loadPreview(const QString &chunks, const QString &dirty, bool enable, Mlt::Playlist &playlist);
 
 protected:
     /** @brief Register a new track. This is a call-back meant to be called from TrackModel
@@ -982,6 +991,10 @@ Q_SIGNALS:
     void saveGuideCategories();
     /** @brief Highlight a subtitle item in timeline */
     void highlightSub(int index);
+    /** @brief The visible sequence name has to be changed */
+    void visibleSequenceNameChanged();
+    /** @brief Connect the preview manager with timelinecontroller */
+    void connectPreviewManager();
 
 protected:
     QUuid m_uuid;
@@ -1040,6 +1053,7 @@ protected:
     std::shared_ptr<MarkerListModel> m_guidesModel;
     bool m_softDelete;
     std::shared_ptr<MarkerSortModel> m_guidesFilterModel;
+    QString m_visibleSequenceName;
 
     // what follows are some virtual function that corresponds to the QML. They are implemented in TimelineItemModel
 protected:

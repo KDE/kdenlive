@@ -157,9 +157,8 @@ void EffectStackModel::removeEffect(const std::shared_ptr<EffectItemModel> &effe
     if (auto ptr = effect->parentItem().lock()) parentId = ptr->getId();
     int current = getActiveEffect();
     if (current >= rootItem->childCount() - 1) {
-        current--;
+        setActiveEffect(current - 1);
     }
-    setActiveEffect(current);
     int currentRow = effect->row();
     Fun undo = addItem_lambda(effect, parentId);
     if (currentRow != rowCount() - 1) {
@@ -176,9 +175,9 @@ void EffectStackModel::removeEffect(const std::shared_ptr<EffectItemModel> &effe
         inFades = int(m_fadeIns.size()) - inFades;
         outFades = int(m_fadeOuts.size()) - outFades;
         QString effectName = EffectsRepository::get()->getName(effect->getAssetId());
-        Fun update = [this, current, inFades, outFades]() {
+        Fun update = [this, inFades, outFades]() {
             // Required to build the effect view
-            if (current < 0 || rowCount() == 0) {
+            if (rowCount() == 0) {
                 // Stack is now empty
                 Q_EMIT dataChanged(QModelIndex(), QModelIndex(), {});
             } else {
@@ -201,7 +200,7 @@ void EffectStackModel::removeEffect(const std::shared_ptr<EffectItemModel> &effe
             pCore->updateItemKeyframes(m_ownerId);
             return true;
         };
-        Fun update2 = [this, inFades, outFades]() {
+        Fun update2 = [this, inFades, outFades, current]() {
             // Required to build the effect view
             QVector<int> roles = {TimelineModel::EffectNamesRole};
             // TODO: only update if effect is fade or keyframe
@@ -213,6 +212,7 @@ void EffectStackModel::removeEffect(const std::shared_ptr<EffectItemModel> &effe
             Q_EMIT dataChanged(QModelIndex(), QModelIndex(), roles);
             updateEffectZones();
             pCore->updateItemKeyframes(m_ownerId);
+            setActiveEffect(current);
             return true;
         };
         update();
@@ -334,7 +334,7 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
             effect->filter().set("in", in.toUtf8().constData());
             effect->filter().set("out", out.toUtf8().constData());
         }
-        QStringList keyframeParams = effect->getKeyframableParameters();
+        QMap<QString, std::pair<ParamType, bool>> keyframeParams = effect->getKeyframableParameters();
         QVector<QPair<QString, QVariant>> parameters;
         QDomNodeList params = node.elementsByTagName(QStringLiteral("property"));
         for (int j = 0; j < params.count(); j++) {
@@ -350,7 +350,8 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
                     currentDuration--;
                     currentDuration += currentIn;
                 }
-                QString pValue = KeyframeModel::getAnimationStringWithOffset(effect, pnode.text(), currentIn - parentIn, currentDuration);
+                QString pValue = KeyframeModel::getAnimationStringWithOffset(effect, pnode.text(), currentIn - parentIn, currentDuration,
+                                                                             keyframeParams.value(pName).first, keyframeParams.value(pName).second);
                 parameters.append(QPair<QString, QVariant>(pName, QVariant(pValue)));
             } else {
                 parameters.append(QPair<QString, QVariant>(pName, QVariant(pnode.text())));
@@ -714,6 +715,9 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                     return true;
                 };
                 bool res = operation();
+                if (!res) {
+                    return false;
+                }
                 Fun reverse = [effect, oldEffectIn, oldEffectOut]() {
                     effect->filter().set_in_and_out(oldEffectIn, oldEffectOut);
                     return true;
@@ -1502,12 +1506,15 @@ void EffectStackModel::updateEffectZones()
     }
 }
 
-void EffectStackModel::passEffects(Mlt::Producer *producer)
+void EffectStackModel::passEffects(Mlt::Producer *producer, const QString &exception)
 {
     auto ms = m_masterService.lock();
     int ct = ms->filter_count();
     for (int i = 0; i < ct; i++) {
         if (ms->filter(i)->get_int("internal_added") > 0 || !ms->filter(i)->property_exists("kdenlive_id")) {
+            continue;
+        }
+        if (!exception.isEmpty() && QString(ms->filter(i)->get("mlt_service")) == exception) {
             continue;
         }
         auto *filter = new Mlt::Filter(*ms->filter(i));

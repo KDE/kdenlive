@@ -1864,7 +1864,7 @@ void MainWindow::setupActions()
     timelineActions->addAction(QStringLiteral("switch_target_stream"), switchTrackTarget);
     actionCollection()->setDefaultShortcut(switchTrackTarget, Qt::Key_Apostrophe);
 
-    QAction *deleteTrack = new QAction(QIcon(), i18n("Delete Track"), this);
+    QAction *deleteTrack = new QAction(QIcon(), i18n("Delete Track…"), this);
     connect(deleteTrack, &QAction::triggered, this, &MainWindow::slotDeleteTrack);
     timelineActions->addAction(QStringLiteral("delete_track"), deleteTrack);
     deleteTrack->setData("delete_track");
@@ -2364,6 +2364,7 @@ void MainWindow::addTimelineClip(const QString &url)
 
 void MainWindow::scriptRender(const QString &url)
 {
+    Q_UNUSED(url)
     slotRenderProject();
     m_renderWidget->slotPrepareExport(true);
 }
@@ -3477,10 +3478,9 @@ void MainWindow::slotClipInTimeline(const QString &clipId, const QList<int> &ids
     QMenu *inTimelineMenu = static_cast<QMenu *>(factory()->container(QStringLiteral("clip_in_timeline"), this));
     QList<QAction *> actionList;
     for (int i = 0; i < ids.count(); ++i) {
-        QString track =
-            getCurrentTimeline()->controller()->getTrackNameFromIndex(pCore->getItemTrack({ObjectType::TimelineClip, ids.at(i), pCore->currentTimelineId()}));
-        QString start =
-            pCore->currentDoc()->timecode().getTimecodeFromFrames(pCore->getItemPosition({ObjectType::TimelineClip, ids.at(i), pCore->currentTimelineId()}));
+        ObjectId oid(ObjectType::TimelineClip, ids.at(i), pCore->currentTimelineId());
+        QString track = getCurrentTimeline()->controller()->getTrackNameFromIndex(pCore->getItemTrack(oid));
+        QString start = pCore->currentDoc()->timecode().getTimecodeFromFrames(pCore->getItemPosition(oid));
         int j = 0;
         QAction *a = new QAction(track + QStringLiteral(": ") + start, inTimelineMenu);
         a->setData(ids.at(i));
@@ -3536,7 +3536,7 @@ void MainWindow::slotClipInProjectTree()
         if (!binFound) {
             raiseBin();
         }
-        ObjectId id = {ObjectType::TimelineClip, ids.constFirst(), pCore->currentTimelineId()};
+        ObjectId id(ObjectType::TimelineClip, ids.constFirst(), pCore->currentTimelineId());
         int start = pCore->getItemIn(id);
         int duration = pCore->getItemDuration(id);
         int pos = m_projectMonitor->position();
@@ -3793,7 +3793,8 @@ void MainWindow::buildDynamicActions()
             std::vector<QString> ids = pCore->bin()->selectedClipsIds(true);
             for (const QString &id : ids) {
                 std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(id);
-                TranscodeTask::start({ObjectType::BinClip, id.toInt(), QUuid()}, QString(), QString(), transcodeData.first(), -1, -1, false, clip.get());
+                TranscodeTask::start(ObjectId(ObjectType::BinClip, id.toInt(), QUuid()), QString(), QString(), transcodeData.first(), -1, -1, false,
+                                     clip.get());
             }
         });
         if (transList.count() > 2 && transList.at(2) == QLatin1String("audio")) {
@@ -4361,9 +4362,9 @@ bool MainWindow::hasTimeline() const
     return m_timelineTabs != nullptr;
 }
 
-void MainWindow::closeTimeline(const QUuid &uuid)
+void MainWindow::closeTimelineTab(const QUuid uuid)
 {
-    m_timelineTabs->closeTimeline(uuid);
+    m_timelineTabs->closeTimelineTab(uuid);
 }
 
 const QStringList MainWindow::openedSequences() const
@@ -4791,11 +4792,11 @@ void MainWindow::manageClipJobs(AbstractTask::JOBTYPE type, QWidget *parentWidge
     loadClipActions();
 }
 
-TimelineWidget *MainWindow::openTimeline(const QUuid &uuid, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel, MonitorProxy *proxy)
+TimelineWidget *MainWindow::openTimeline(const QUuid &uuid, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel)
 {
     // Create a new timeline tab
     KdenliveDoc *project = pCore->currentDoc();
-    TimelineWidget *timeline = m_timelineTabs->addTimeline(uuid, tabName, timelineModel, proxy);
+    TimelineWidget *timeline = m_timelineTabs->addTimeline(uuid, tabName, timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
     slotSetZoom(project->zoom(uuid).x(), false);
     getCurrentTimeline()->controller()->setZone(project->zone(uuid), false);
     getCurrentTimeline()->controller()->setScrollPos(project->getSequenceProperty(uuid, QStringLiteral("scrollPos")).toInt());
@@ -4838,12 +4839,32 @@ void MainWindow::connectTimeline()
     m_zoomSlider->setValue(pCore->currentDoc()->zoom(uuid).x());
     int position = project->getSequenceProperty(uuid, QStringLiteral("position"), QString::number(0)).toInt();
     pCore->monitorManager()->projectMonitor()->adjustRulerSize(getCurrentTimeline()->model()->duration() - 1, project->getFilteredGuideModel(uuid));
+    pCore->monitorManager()->projectMonitor()->loadZone(getCurrentTimeline()->controller()->zoneIn(), getCurrentTimeline()->controller()->zoneOut());
     pCore->monitorManager()->projectMonitor()->setProducer(getCurrentTimeline()->model()->producer(), position);
     connect(pCore->currentDoc(), &KdenliveDoc::docModified, this, &MainWindow::slotUpdateDocumentState);
     slotUpdateDocumentState(pCore->currentDoc()->isModified());
 
+    // Timeline preview
+    QAction *previewRender = actionCollection()->action(QStringLiteral("prerender_timeline_zone"));
+    if (previewRender) {
+        previewRender->setEnabled(true);
+    }
+    QAction *disablePreview = actionCollection()->action(QStringLiteral("disable_preview"));
+    if (getCurrentTimeline()->model()->hasTimelinePreview()) {
+        disablePreview->setEnabled(true);
+    } else {
+        disablePreview->setEnabled(false);
+    }
+    disablePreview->blockSignals(true);
+    disablePreview->setChecked(false);
+    disablePreview->blockSignals(false);
+
     // Ensure the active timeline has an opaque black background for compositing
     getCurrentTimeline()->model()->makeTransparentBg(false);
+
+    // Audio record actions
+    connect(pCore.get(), &Core::finalizeRecording, getCurrentTimeline()->controller(), &TimelineController::finishRecording);
+    connect(pCore.get(), &Core::recordAudio, getCurrentTimeline()->controller(), &TimelineController::switchRecording);
 
     // switch to active subtitle model
     pCore->subtitleWidget()->setModel(getCurrentTimeline()->model()->getSubtitleModel());
@@ -4883,6 +4904,9 @@ void MainWindow::disconnectTimeline(TimelineWidget *timeline)
     timeline->controller()->clipActions = QList<QAction *>();
     disconnect(pCore->bin(), &Bin::processDragEnd, timeline, &TimelineWidget::endDrag);
     pCore->monitorManager()->projectMonitor()->setProducer(nullptr, -2);
+    // Audio record actions
+    disconnect(pCore.get(), &Core::finalizeRecording, timeline->controller(), &TimelineController::finishRecording);
+    disconnect(pCore.get(), &Core::recordAudio, timeline->controller(), &TimelineController::switchRecording);
 }
 
 void MainWindow::appHelpActivated()

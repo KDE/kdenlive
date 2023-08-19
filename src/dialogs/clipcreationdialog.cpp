@@ -139,11 +139,14 @@ void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QString &parent
     QScopedPointer<QDialog> dia(new QDialog(qApp->activeWindow()));
     Ui::ColorClip_UI dia_ui;
     dia_ui.setupUi(dia.data());
+    dia->setAccessibleName(i18n("Color Clip Dialog"));
     dia->setWindowTitle(i18nc("@title:window", "Color Clip"));
     dia_ui.clip_name->setText(i18n("Color Clip"));
+    dia_ui.clip_name->setAccessibleName(i18n("Clip Name"));
 
     dia_ui.clip_duration->setValue(KdenliveSettings::color_duration());
     dia_ui.clip_color->setColor(KdenliveSettings::colorclipcolor());
+    dia_ui.buttonBox->button(QDialogButtonBox::Ok)->setAccessibleName(i18n("Create Color Clip"));
 
     if (dia->exec() == QDialog::Accepted) {
         QString color = dia_ui.clip_color->color().name();

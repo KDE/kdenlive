@@ -103,7 +103,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData,
     for (auto &path : subtitlePath) {
         QFileInfo info(path);
         m_requestedSize += static_cast<KIO::filesize_t>(info.size());
-        QTreeWidgetItem *item = new QTreeWidgetItem(subtitles, QStringList() << path);
+        new QTreeWidgetItem(subtitles, QStringList() << path);
     }
 
     // process all files

@@ -121,7 +121,7 @@ void FilterTask::run()
             if (m_owner.type == ObjectType::TimelineClip) {
                 // Add the timeline clip effects
                 std::shared_ptr<EffectStackModel> stack = pCore->getItemEffectStack(pCore->currentTimelineId(), int(m_owner.type), m_owner.itemId);
-                stack->passEffects(producer.get());
+                stack->passEffects(producer.get(), m_filterName);
             }
         }
         if ((producer == nullptr) || !producer->is_valid()) {
@@ -207,7 +207,6 @@ void FilterTask::run()
         }
         if (m_filterData.find(QLatin1String("relativeInOut")) != m_filterData.end()) {
             // leave it operate on full clip
-            filter.set_in_and_out(0, -1);
         } else {
             filter.set_in_and_out(m_inPoint, m_outPoint);
         }
@@ -283,8 +282,12 @@ void FilterTask::run()
         QDomNodeList filters = dom.elementsByTagName(QLatin1String("filter"));
         for (int i = 0; i < filters.count(); ++i) {
             QDomElement currentParameter = filters.item(i).toElement();
-            if (Xml::getXmlProperty(currentParameter, QLatin1String("kdenlive:id")) == QLatin1String("kdenlive-analysis")) {
+            if (Xml::getXmlProperty(currentParameter, QLatin1String("mlt_service")) == m_filterName) {
                 resultData = Xml::getXmlProperty(currentParameter, key);
+            } else if (Xml::getXmlProperty(currentParameter, QLatin1String("kdenlive:id")) == QLatin1String("kdenlive-analysis")) {
+                resultData = Xml::getXmlProperty(currentParameter, key);
+            }
+            if (!resultData.isEmpty()) {
                 break;
             }
         }

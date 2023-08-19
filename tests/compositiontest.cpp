@@ -45,7 +45,7 @@ TEST_CASE("Basic creation/deletion of a composition", "[CompositionModel]")
 
     pCore->projectManager()->m_project = &mockedDoc;
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
     pCore->projectManager()->m_activeTimelineModel = timeline;
     pCore->projectManager()->testSetActiveDocument(&mockedDoc, timeline);
@@ -83,7 +83,7 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
 
     pCore->projectManager()->m_project = &mockedDoc;
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->projectManager()->updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
     pCore->projectManager()->m_activeTimelineModel = timeline;
     pCore->projectManager()->testSetActiveDocument(&mockedDoc, timeline);

@@ -27,7 +27,7 @@ Rectangle {
     property color textColor: activePalette.text
     property var groupTrimData
     property bool trimInProgress: false
-    property bool dragInProgress: dragProxyArea.pressed || dragProxyArea.drag.active || groupTrimData !== undefined || spacerGroup > -1 || trimInProgress
+    property bool dragInProgress: dragProxyArea.pressed || dragProxyArea.drag.active || groupTrimData !== undefined || spacerGroup > -1 || trimInProgress || clipDropArea.containsDrag
     property int trimmingOffset: 0
     property int trimmingClickFrame: -1
     Timer {
@@ -495,6 +495,7 @@ Rectangle {
     property int copiedClip: -1
     property int zoomOnMouse: -1
     property bool zoomOnBar: false // Whether the scaling was done with the zoombar
+    property string addedSequenceName : controller.visibleSequenceName
     property int viewActiveTrack: timeline.activeTrack
     property int wheelAccumulatedDelta: 0
     readonly property int defaultDeltasPerStep: 120
@@ -974,7 +975,7 @@ Rectangle {
                 width: parent.width
                 height: ruler.height
                 Button {
-                    text: parent.width > metrics.boundingRect.width * 1.4 ? metrics.text : i18nc("Initial for Master", "M")
+                    text: metrics.elidedText
                     font: miniFont
                     flat: true
                     anchors.fill: parent
@@ -986,7 +987,10 @@ Rectangle {
                     ToolTip.text: i18n("Show master effects")
                     TextMetrics {
                         id: metrics
-                        text: i18n("Master")
+                        font: miniFont
+                        elide: Text.ElideRight
+                        elideWidth: root.headerWidth * 0.8
+                        text: root.addedSequenceName.length == 0 ? i18n("Master") : root.addedSequenceName
                     }
                     onClicked: {
                         timeline.showMasterEffects()
@@ -1346,8 +1350,12 @@ Rectangle {
                         timeline.requestStartTrimmingMode(mainClip.clipId, shiftPress)
                     }
                     if (dragProxy.draggedItem > -1 && mouse.y > ruler.height) {
-                        mouse.accepted = false
-                        return
+                        // Check if the mouse exit event was not correctly triggered on the draggeditem
+                        regainFocus(tracksArea.mapToItem(root,mouseX, mouseY))
+                        if (dragProxy.draggedItem > -1) {
+                            mouse.accepted = false
+                            return
+                        }
                     }
                     if (root.activeTool === ProjectTool.SpacerTool && mouse.y > ruler.height) {
                         // spacer tool
