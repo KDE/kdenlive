@@ -608,7 +608,7 @@ QString DocumentChecker::getMissingProducers(QDomElement &e, const QDomNodeList 
     QString producerResource = resource;
     QString proxy = Xml::getXmlProperty(e, QStringLiteral("kdenlive:proxy"));
     // TODO: should this only apply to bin clips (isBinClip)
-    if (!proxy.isEmpty()) {
+    if (!proxy.isEmpty() && proxy.length() > 1) {
         bool proxyFound = true;
         proxy = ensureAbsoultePath(proxy);
         if (!QFile::exists(proxy)) {
