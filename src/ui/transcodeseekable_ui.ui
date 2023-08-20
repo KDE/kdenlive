@@ -78,7 +78,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <item row="4" column="0" colspan="2">
     <widget class="QCheckBox" name="replace_original">
      <property name="text">
-      <string>Replace clip by transcoded version in projject</string>
+      <string>Replace clip by transcoded version in project</string>
      </property>
     </widget>
    </item>
