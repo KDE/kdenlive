@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-18 02:23+0000\n"
-"PO-Revision-Date: 2023-07-06 10:09+0400\n"
+"PO-Revision-Date: 2023-08-19 22:23+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -2935,10 +2935,9 @@ msgid "Luma Map"
 msgstr "خريطة ”لوما“"
 
 #: data/transitions/dissolve.xml:19 data/transitions/luma.xml:17
-#, fuzzy, kde-format
-#| msgid "Make selected color transparent"
+#, kde-format
 msgid "Make padding transparent"
-msgstr "اجعل اللون المحدّد شفّافًا"
+msgstr "اجعل الحاشية شفّافة"
 
 #: data/transitions/luma.xml:4
 #, kde-format
@@ -9473,16 +9472,14 @@ msgid "Screen Grab"
 msgstr "التقاط الشاشة"
 
 #: src/mainwindow.cpp:349
-#, fuzzy, kde-format
-#| msgid "Select a clip to create sequence"
+#, kde-format
 msgid "Switch to next Sequence"
-msgstr "اختر مقطع لتنشئ تسلسل"
+msgstr "بدل إلى التسلسل التالي"
 
 #: src/mainwindow.cpp:353
-#, fuzzy, kde-format
-#| msgid "Go to previous keyframe"
+#, kde-format
 msgid "Switch to previous Sequence"
-msgstr "انتقل إلى الإطار الرئيس السّابق"
+msgstr "بدّل إلى التسلسل السّابق"
 
 #: src/mainwindow.cpp:359
 #, kde-format
@@ -10298,10 +10295,9 @@ msgid "Stop Preview Render"
 msgstr "أوقف تصيير المعاينة"
 
 #: src/mainwindow.cpp:1671
-#, fuzzy, kde-format
-#| msgid "Add Transition to Selection"
+#, kde-format
 msgid "Adjust Timeline Zone to Selection"
-msgstr "أضف الانتقال إلى التّحديد"
+msgstr "اضبط منطقة الخط الزمني إلى التحديد"
 
 #: src/mainwindow.cpp:1673
 #, kde-format
@@ -10531,10 +10527,9 @@ msgid "Switch Track Target Audio Stream"
 msgstr "بدّل دفق صوت المسار المستهدف"
 
 #: src/mainwindow.cpp:1867
-#, fuzzy, kde-format
-#| msgid "Delete Track"
+#, kde-format
 msgid "Delete Track…"
-msgstr "احذف المقطع"
+msgstr "احذف المسار…"
 
 #: src/mainwindow.cpp:1872
 #, kde-format
@@ -16299,10 +16294,9 @@ msgid "No active track"
 msgstr "لا يوجد مسار نشط"
 
 #: src/timeline2/view/timelinecontroller.cpp:1713
-#, fuzzy, kde-format
-#| msgid "Insert selected blocks in timeline"
+#, kde-format
 msgid "No item selected in timeline"
-msgstr "أدرج الكتل المحددة في الخط الزمني"
+msgstr "لم يحدد أي عنصر في الخط الزمني"
 
 #: src/timeline2/view/timelinecontroller.cpp:1856
 #, kde-format
@@ -17566,8 +17560,7 @@ msgstr "نهاية الاقتطاع:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/clipjobmanager_ui.ui:30
-#, fuzzy, kde-format
-#| msgid "Job description"
+#, kde-format
 msgid "Job Description"
 msgstr "وصف المهمة"
 
@@ -17656,48 +17649,43 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/clipjobmanager_ui.ui:176
-#, fuzzy, kde-format
-#| msgid "Parameters"
+#, kde-format
 msgid "Parameter 1 {param1}"
-msgstr "المعاملات"
+msgstr "المعامل1 {param1}"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_isfile)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_isfile)
 #: src/ui/clipjobmanager_ui.ui:182 src/ui/clipjobmanager_ui.ui:275
 #, kde-format
 msgid "Request file path"
-msgstr ""
+msgstr "يطلب مسار الملف"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_islist)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_islist)
 #: src/ui/clipjobmanager_ui.ui:192 src/ui/clipjobmanager_ui.ui:268
-#, fuzzy, kde-format
-#| msgid "Delete transition from clip"
+#, kde-format
 msgid "Request option from list"
-msgstr "حذف انتقال من قصاصة"
+msgstr "يطلب خيار من قائمة"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param1_list)
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param2_list)
 #: src/ui/clipjobmanager_ui.ui:202 src/ui/clipjobmanager_ui.ui:254
-#, fuzzy, kde-format
-#| msgid "More options"
+#, kde-format
 msgid "List of options"
-msgstr "خيارات أخرى"
+msgstr "قائمة خيارات"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param1_name)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param2_name)
 #: src/ui/clipjobmanager_ui.ui:209 src/ui/clipjobmanager_ui.ui:261
-#, fuzzy, kde-format
-#| msgid "Parameter description."
+#, kde-format
 msgid "Parameter description"
-msgstr "وصف المعاملات."
+msgstr "وصف المعامل"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: src/ui/clipjobmanager_ui.ui:232
-#, fuzzy, kde-format
-#| msgid "Parameters"
+#, kde-format
 msgid "Parameter 2 {param2}"
-msgstr "المعاملات"
+msgstr "المعامل 2 {param2}"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/clipjobmanager_ui.ui:288
@@ -17709,7 +17697,7 @@ msgstr "امتداد الملفّ المنتوج"
 #: src/ui/clipjobmanager_ui.ui:301
 #, kde-format
 msgid "Applies to"
-msgstr ""
+msgstr "يطبق على"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox)
 #: src/ui/clipspeed_ui.ui:103
