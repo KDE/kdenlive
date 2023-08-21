@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-20 00:45+0000\n"
-"PO-Revision-Date: 2023-08-16 07:51+0300\n"
+"POT-Creation-Date: 2023-08-21 00:45+0000\n"
+"PO-Revision-Date: 2023-08-20 09:54+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -507,10 +507,9 @@ msgid "Vertical multiplicator"
 msgstr "Вертикальний множник"
 
 #: data/effects/box_blur.xml:15
-#, fuzzy, kde-format
-#| msgid "Preserve aspect ratio"
+#, kde-format
 msgid "Preserve alpha"
-msgstr "Зберігати співвідношення розмірів"
+msgstr "Зберігати α-канал"
 
 #: data/effects/boxblur.xml:4
 #, kde-format
@@ -4359,10 +4358,9 @@ msgid "Cancel Pending Jobs"
 msgstr "Скасувати завдання з черги"
 
 #: src/bin/bin.cpp:1479
-#, fuzzy, kde-format
-#| msgid "Clip Properties"
+#, kde-format
 msgid "Bin Clip Properties"
-msgstr "Властивості кліпу"
+msgstr "Властивості кліпу контейнера"
 
 #: src/bin/bin.cpp:1774
 #, kde-format
@@ -21382,9 +21380,10 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, replace_original)
 #: src/ui/transcodeseekable_ui.ui:81
-#, kde-format
-msgid "Replace clip by transcoded version in projject"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Replace clip by transcoded version in projject"
+msgid "Replace clip by transcoded version in project"
+msgstr "Замінити кліп перекодованою версією у проєкті"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, UnicodeWidget_UI)
 #: src/ui/unicodewidget_ui.ui:24

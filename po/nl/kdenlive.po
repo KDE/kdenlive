@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-20 00:45+0000\n"
-"PO-Revision-Date: 2023-08-16 11:19+0200\n"
+"POT-Creation-Date: 2023-08-21 00:45+0000\n"
+"PO-Revision-Date: 2023-08-20 16:19+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -509,10 +509,9 @@ msgid "Vertical multiplicator"
 msgstr "Verticaal vermenigvuldigen"
 
 #: data/effects/box_blur.xml:15
-#, fuzzy, kde-format
-#| msgid "Preserve aspect ratio"
+#, kde-format
 msgid "Preserve alpha"
-msgstr "Beeld verhouding bewaren"
+msgstr "Alfa behouden"
 
 #: data/effects/boxblur.xml:4
 #, kde-format
@@ -4345,10 +4344,9 @@ msgid "Cancel Pending Jobs"
 msgstr "Stop alle taken in de wacht"
 
 #: src/bin/bin.cpp:1479
-#, fuzzy, kde-format
-#| msgid "Clip Properties"
+#, kde-format
 msgid "Bin Clip Properties"
-msgstr "Clip eigenschappen"
+msgstr "Eigenschappen van Bin-clip"
 
 #: src/bin/bin.cpp:1774
 #, kde-format
@@ -21240,9 +21238,10 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, replace_original)
 #: src/ui/transcodeseekable_ui.ui:81
-#, kde-format
-msgid "Replace clip by transcoded version in projject"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Replace clip by transcoded version in projject"
+msgid "Replace clip by transcoded version in project"
+msgstr "Clip vervangen door getranscodeerde versie in project"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, UnicodeWidget_UI)
 #: src/ui/unicodewidget_ui.ui:24

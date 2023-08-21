@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-20 00:45+0000\n"
-"PO-Revision-Date: 2023-08-16 10:49+0200\n"
+"POT-Creation-Date: 2023-08-21 00:45+0000\n"
+"PO-Revision-Date: 2023-08-20 11:03+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -509,10 +509,9 @@ msgid "Vertical multiplicator"
 msgstr "Multiplicador vertical"
 
 #: data/effects/box_blur.xml:15
-#, fuzzy, kde-format
-#| msgid "Preserve aspect ratio"
+#, kde-format
 msgid "Preserve alpha"
-msgstr "Mantén la relació d'aspecte"
+msgstr "Conserva l'alfa"
 
 #: data/effects/boxblur.xml:4
 #, kde-format
@@ -4362,10 +4361,9 @@ msgid "Cancel Pending Jobs"
 msgstr "Cancel·la els treballs pendents"
 
 #: src/bin/bin.cpp:1479
-#, fuzzy, kde-format
-#| msgid "Clip Properties"
+#, kde-format
 msgid "Bin Clip Properties"
-msgstr "Propietats del clip"
+msgstr "Propietats del clip de la safata"
 
 #: src/bin/bin.cpp:1774
 #, kde-format
@@ -21343,9 +21341,10 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, replace_original)
 #: src/ui/transcodeseekable_ui.ui:81
-#, kde-format
-msgid "Replace clip by transcoded version in projject"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Replace clip by transcoded version in projject"
+msgid "Replace clip by transcoded version in project"
+msgstr "Substitueix el clip per una versió transcodificada en el projecte"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, UnicodeWidget_UI)
 #: src/ui/unicodewidget_ui.ui:24

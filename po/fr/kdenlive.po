@@ -1,5 +1,6 @@
 # translation of kdenlive.po to français
 # translation of fr.po to
+# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023 Xavier Besnard <xavier.besnard@neuf.fr>
 # Gilles CAULIER <caulier.gilles@free.fr>, 2003, 2004.
 # Jean-Michel Pouré <jmpoure@free.fr>, 2006.
 # Sébastien Heckmann <heckmann.svt@ifrance.com>, 2006.
@@ -10,14 +11,13 @@
 # Sebastien Renard <renard@kde.org>, 2013, 2014.
 # Simon Depiets <sdepiets@gmail.com>, 2018, 2019.
 # Johnny Jazeix <jazeix@gmail.com>, 2020.
-# Xavier Besnard <xavier.besnard@neuf.fr>, 2020, 2021, 2022.
 # Xavier BESNARD <xavier.besnard@neuf.fr>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-20 00:45+0000\n"
-"PO-Revision-Date: 2023-07-21 12:06+0200\n"
+"POT-Creation-Date: 2023-08-21 00:45+0000\n"
+"PO-Revision-Date: 2023-08-19 22:28+0200\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -28,7 +28,7 @@ msgstr ""
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
-"X-Generator: Lokalize 23.04.3\n"
+"X-Generator: Lokalize 23.07.90\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4244,10 +4244,9 @@ msgid "Search…"
 msgstr "Rechercher..."
 
 #: src/bin/bin.cpp:1192
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Bin Search"
-msgstr "Rechercher"
+msgstr "Rechercher dans le projet"
 
 #: src/bin/bin.cpp:1234
 #, kde-format
@@ -5923,10 +5922,9 @@ msgid "Subtitles"
 msgstr "Sous-titres"
 
 #: src/dialogs/clipcreationdialog.cpp:142
-#, fuzzy, kde-format
-#| msgid "Color Clip"
+#, kde-format
 msgid "Color Clip Dialog"
-msgstr "Clip couleur"
+msgstr "Boîte de dialogue de couleurs"
 
 #: src/dialogs/clipcreationdialog.cpp:143
 #, kde-format
@@ -5940,16 +5938,14 @@ msgid "Color Clip"
 msgstr "Clip couleur"
 
 #: src/dialogs/clipcreationdialog.cpp:145
-#, fuzzy, kde-format
-#| msgid "Clip aligned."
+#, kde-format
 msgid "Clip Name"
-msgstr "Clip aligné."
+msgstr "Nom de la vidéo"
 
 #: src/dialogs/clipcreationdialog.cpp:149
-#, fuzzy, kde-format
-#| msgid "Create color clip"
+#, kde-format
 msgid "Create Color Clip"
-msgstr "Créer un clip couleur"
+msgstr "Créer un vidéo de couleur"
 
 #: src/dialogs/clipcreationdialog.cpp:183
 #, kde-format
@@ -6009,6 +6005,8 @@ msgid ""
 "<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</b> "
 "by the second, , <b>{&#x25;3}</b> by the output file path."
 msgstr ""
+"<b>{&#x25;1}</b> sera remplacé par le premier paramètre, <b>{&#x25;2}</b> "
+"par le second, <b>{&#x25;3}</b> dans l'emplacement du fichier de sortie."
 
 #: src/dialogs/clipjobmanager.cpp:48
 #, kde-format
@@ -6024,11 +6022,15 @@ msgid ""
 "inserted in place of <b>{&#x25;3}</b> if found. If output filename already "
 "exists, a -0001 pattern will be appended."
 msgstr ""
+"Le nom du fichier de sortie sera le même que le nom de fichier de la vidéo "
+"du projet source, avec l’extension modifiée. Il sera ajouté à la fin des "
+"arguments ou inséré à la place de <b>{&#x25;3}</b> s’il est trouvé. Si le "
+"nom de fichier de sortie existe déjà, un motif « -0001 » sera ajouté."
 
 #: src/dialogs/clipjobmanager.cpp:54
 #, kde-format
 msgid "The first parameter that will be injected in the script arguments"
-msgstr ""
+msgstr "Le premier paramètre qui sera injecté dans les arguments du script"
 
 #: src/dialogs/clipjobmanager.cpp:56 src/dialogs/clipjobmanager.cpp:66
 #, kde-kuit-format
@@ -6038,12 +6040,18 @@ msgid ""
 "File Path</b> will ask for a file path on execution<br/><b>Request Option in "
 "List</b> will ask for a choice in the list below on execution."
 msgstr ""
+"<b>Chemin vers la vidéo source</b> insérera le chemin vers la vidéo du "
+"projet sélectionné<br/><b>Demander un emplacement de fichier</b> demandera "
+"un chemin de fichier sur l’exécution<br/><b>Demander une option dans la "
+"liste</b> demandera un choix dans la liste ci-dessous pour l’exécution."
 
 #: src/dialogs/clipjobmanager.cpp:59 src/dialogs/clipjobmanager.cpp:69
 #, kde-format
 msgid ""
 "A newline separated list of possible values that will be offered on execution"
 msgstr ""
+"Une liste séparée par un retour à la ligne des valeurs possibles qui seront "
+"proposées lors de l’exécution"
 
 #: src/dialogs/clipjobmanager.cpp:62 src/dialogs/clipjobmanager.cpp:72
 #, kde-kuit-format
@@ -6052,11 +6060,14 @@ msgid ""
 "When the parameter is set to <b>Request Option in List</b> the user will be "
 "asked to choose a value in this list when the job is started."
 msgstr ""
+"Lorsque le paramètre est défini sur <b>Demander une option dans la liste</"
+"b>, l’utilisateur est invité à choisir une valeur dans cette liste au "
+"démarrage de la tâche."
 
 #: src/dialogs/clipjobmanager.cpp:64
 #, kde-format
 msgid "The second parameter that will be injected in the script arguments"
-msgstr ""
+msgstr "Le second paramètre qui sera injecté dans les arguments du script"
 
 #: src/dialogs/clipjobmanager.cpp:128 src/dialogs/clipjobmanager.cpp:256
 #, kde-format
@@ -6316,10 +6327,9 @@ msgid "Guide position in frames"
 msgstr "Position du guide en trames"
 
 #: src/dialogs/exportguidesdialog.cpp:117
-#, fuzzy, kde-format
-#| msgid "Guide position in frames"
+#, kde-format
 msgid "Next guide position in frames"
-msgstr "Position du guide en trames"
+msgstr "Prochaine position du guide dans les trames"
 
 #: src/dialogs/exportguidesdialog.cpp:118
 #, kde-format
@@ -7701,13 +7711,12 @@ msgstr "encodeur matériel trouvé et activé (%1)."
 #: src/doc/dcresolvedialog.cpp:42
 #, kde-format
 msgid "Recursive search: processing clips"
-msgstr ""
+msgstr "Recherche récursive : traitement des vidéos"
 
 #: src/doc/dcresolvedialog.cpp:51
-#, fuzzy, kde-format
-#| msgid "Search done"
+#, kde-format
 msgid "Recursive search: done"
-msgstr "Recherche effectuée"
+msgstr "Recherche récursive : effectuée"
 
 #: src/doc/dcresolvedialog.cpp:125
 #, kde-format
@@ -7720,12 +7729,11 @@ msgid "Enter new location for file"
 msgstr "Saisir l'emplacement du fichier"
 
 #: src/doc/dcresolvedialog.cpp:163
-#, fuzzy, kde-format
-#| msgid "The project file contains missing clips or files."
+#, kde-format
 msgid "You project contains one missing proxy"
 msgid_plural "You project contains %1 missing proxies"
-msgstr[0] "Le fichier projet contient des clips ou fichiers manquants."
-msgstr[1] "Le fichier projet contient des clips ou fichiers manquants."
+msgstr[0] "Votre projet contient un serveur mandataire manquant"
+msgstr[1] "Votre projet contient %1 serveurs mandataires"
 
 #: src/doc/dcresolvedialog.cpp:173
 #, kde-format
@@ -7810,10 +7818,9 @@ msgid "Fixed"
 msgstr "Fixe"
 
 #: src/doc/documentchecker.cpp:1507
-#, fuzzy, kde-format
-#| msgid "Reload Clip"
+#, kde-format
 msgid "Reload"
-msgstr "Recharger le clip"
+msgstr "Recharger"
 
 #: src/doc/documentchecker.cpp:1509
 #, kde-format
@@ -7821,10 +7828,9 @@ msgid "Missing"
 msgstr "Manquant"
 
 #: src/doc/documentchecker.cpp:1511
-#, fuzzy, kde-format
-#| msgid "Missing proxy"
+#, kde-format
 msgid "Missing, but proxy available"
-msgstr "Intermédiaire manquant"
+msgstr "Manquant mais serveur mandataire disponible"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
 #: src/doc/documentchecker.cpp:1513 src/ui/editrenderpreset_ui.ui:525
@@ -7834,10 +7840,9 @@ msgstr "Espace réservé"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
 #: src/doc/documentchecker.cpp:1515 src/ui/missingclips_ui.ui:174
-#, fuzzy, kde-format
-#| msgid "Removal"
+#, kde-format
 msgid "Remove"
-msgstr "Suppression"
+msgstr "Supprimer"
 
 #: src/doc/documentchecker.cpp:1526
 #, kde-format
@@ -9612,16 +9617,14 @@ msgid "Screen Grab"
 msgstr "Filmer l'écran"
 
 #: src/mainwindow.cpp:349
-#, fuzzy, kde-format
-#| msgid "Select a clip to create sequence"
+#, kde-format
 msgid "Switch to next Sequence"
-msgstr "Sélectionner une vidéo pour créer une séquence"
+msgstr "Basculer vers la prochaine séquence"
 
 #: src/mainwindow.cpp:353
-#, fuzzy, kde-format
-#| msgid "Go to previous keyframe"
+#, kde-format
 msgid "Switch to previous Sequence"
-msgstr "Aller à la précédente image clé"
+msgstr "Basculer vers la précédente séquence"
 
 #: src/mainwindow.cpp:359
 #, kde-format
@@ -10454,10 +10457,9 @@ msgid "Stop Preview Render"
 msgstr "Arrêter le rendu de l'aperçu"
 
 #: src/mainwindow.cpp:1671
-#, fuzzy, kde-format
-#| msgid "Add Transition to Selection"
+#, kde-format
 msgid "Adjust Timeline Zone to Selection"
-msgstr "Ajouter une transition à la sélection"
+msgstr "Ajuster la zone de frise chronologique vers la sélection"
 
 #: src/mainwindow.cpp:1673
 #, kde-format
@@ -10688,10 +10690,9 @@ msgid "Switch Track Target Audio Stream"
 msgstr "Basculer le flux audio de la piste cible"
 
 #: src/mainwindow.cpp:1867
-#, fuzzy, kde-format
-#| msgid "Delete Track"
+#, kde-format
 msgid "Delete Track…"
-msgstr "Supprimer la piste"
+msgstr "Supprimer une piste..."
 
 #: src/mainwindow.cpp:1872
 #, kde-format
@@ -16645,6 +16646,8 @@ msgstr "Définir la référence audio avant d'opérer à l'alignement"
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
 msgstr ""
+"Tous les flux sont déjà assignés. Veuillez dé-sélectionner tout d'abord une "
+"autre cible audio"
 
 #: src/timeline2/view/timelinecontroller.cpp:3594
 #, kde-format
@@ -17861,8 +17864,7 @@ msgstr "Rogner l'extrémité :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/clipjobmanager_ui.ui:34
-#, fuzzy, kde-format
-#| msgid "Job description"
+#, kde-format
 msgid "Job Description"
 msgstr "Description de tâche"
 
@@ -17918,7 +17920,7 @@ msgstr "Nom du dossier"
 #: src/ui/clipjobmanager_ui.ui:114
 #, kde-format
 msgid "Optional description that will show up if a parameter is requested"
-msgstr ""
+msgstr "Description facultative qui apparaîtra si un paramètre est requis"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:121
@@ -17948,6 +17950,12 @@ msgid ""
 "replaced by the first parameter value</li><li><b>{param2}</b> will be "
 "replaced by the second parameter value</li></ul>"
 msgstr ""
+"Dans les arguments, les options suivantes sont disponibles : "
+"<ul><li><b>{source}</b> sera remplacé par le chemin du fichier source de la "
+"vidéo du projet</li><li><b>{output}</b> sera remplacé par le nom du fichier "
+"de sortie</li><li><b>{param1}</b> sera remplacé par la première valeur du "
+"paramètre</li><li><b>{param2}</b> sera remplacé par la deuxième valeur du "
+"paramètre</li></ul>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/clipjobmanager_ui.ui:180
@@ -19652,10 +19660,9 @@ msgstr "Exporté :"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_ffmpeg)
 #: src/ui/exportguidesdialog_ui.ui:223
-#, fuzzy, kde-format
-#| msgid "FFmpeg parameters"
+#, kde-format
 msgid "FFmpeg Chapters"
-msgstr "Paramètres FFmpeg"
+msgstr "Chapitres pour FFmpeg"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/gradientedit_ui.ui:24
@@ -20055,58 +20062,51 @@ msgstr "Problèmes du clip"
 
 #. i18n: ectx: property (title), widget (QGroupBox, proxyBox)
 #: src/ui/missingclips_ui.ui:47
-#, fuzzy, kde-format
-#| msgid "Proxy Clips"
+#, kde-format
 msgid "Proxies"
-msgstr "Clips intermédiaires"
+msgstr "Serveurs mandataires"
 
 #. i18n: ectx: property (text), widget (QCheckBox, recreateProxies)
 #: src/ui/missingclips_ui.ui:76
-#, fuzzy, kde-format
-#| msgid "Delete missing elements"
+#, kde-format
 msgid "Recreate missing proxies"
-msgstr "Supprimer les éléments manquants"
+msgstr "Re-créer les serveurs mandataires"
 
 #. i18n: ectx: property (format), widget (QProgressBar, progressBar)
 #: src/ui/missingclips_ui.ui:128
 #, no-c-format, kde-format
 msgid "%v / %m"
-msgstr ""
+msgstr "%v / %m"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/missingclips_ui.ui:156
-#, fuzzy, kde-format
-#| msgid "Delete Selected Item"
+#, kde-format
 msgid "Selected Items:"
-msgstr "Supprimer les éléments sélectionnés"
+msgstr "Éléments sélectionnés :"
 
 #. i18n: ectx: property (text), widget (QPushButton, manualSearch)
 #: src/ui/missingclips_ui.ui:163
-#, fuzzy, kde-format
-#| msgid "Search manually"
+#, kde-format
 msgid "Search Manually"
-msgstr "Recherche manuelle"
+msgstr "Rechercher manuellement"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/missingclips_ui.ui:192
-#, fuzzy, kde-format
-#| msgid "Missing item"
+#, kde-format
 msgid "All Missing Items:"
-msgstr "Élément manquant"
+msgstr "Tous les éléments manquants :"
 
 #. i18n: ectx: property (text), widget (QPushButton, recursiveSearch)
 #: src/ui/missingclips_ui.ui:199
-#, fuzzy, kde-format
-#| msgid "Search recursively"
+#, kde-format
 msgid "Search Recursively"
-msgstr "Chercher récursivement"
+msgstr "Rechercher récursivement"
 
 #. i18n: ectx: property (text), widget (QPushButton, usePlaceholders)
 #: src/ui/missingclips_ui.ui:210
-#, fuzzy, kde-format
-#| msgid "Placeholder"
+#, kde-format
 msgid "Use Placeholders"
-msgstr "Espace réservé"
+msgstr "Utiliser des espaces réservés"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/ui/multiplemarkerdialog_ui.ui:24
@@ -21441,7 +21441,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, replace_original)
 #: src/ui/transcodeseekable_ui.ui:81
 #, kde-format
-msgid "Replace clip by transcoded version in projject"
+msgid "Replace clip by transcoded version in project"
 msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, UnicodeWidget_UI)

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-20 00:45+0000\n"
-"PO-Revision-Date: 2023-08-18 23:49+0100\n"
+"POT-Creation-Date: 2023-08-21 00:45+0000\n"
+"PO-Revision-Date: 2023-08-20 21:04+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -501,10 +501,9 @@ msgid "Vertical multiplicator"
 msgstr "Vertikala multiplikilo"
 
 #: data/effects/box_blur.xml:15
-#, fuzzy, kde-format
-#| msgid "Preserve aspect ratio"
+#, kde-format
 msgid "Preserve alpha"
-msgstr "Konservi bildformaton"
+msgstr "Konservi alfon"
 
 #: data/effects/boxblur.xml:4
 #, kde-format
@@ -4312,10 +4311,9 @@ msgid "Cancel Pending Jobs"
 msgstr "Nuligi pritraktotajn laborojn"
 
 #: src/bin/bin.cpp:1479
-#, fuzzy, kde-format
-#| msgid "Clip Properties"
+#, kde-format
 msgid "Bin Clip Properties"
-msgstr "Proprecoj de aŭdvidaĵo"
+msgstr "Duumtondaĵaj Proprecoj"
 
 #: src/bin/bin.cpp:1774
 #, kde-format
@@ -21144,7 +21142,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, replace_original)
 #: src/ui/transcodeseekable_ui.ui:81
 #, kde-format
-msgid "Replace clip by transcoded version in projject"
+msgid "Replace clip by transcoded version in project"
 msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, UnicodeWidget_UI)

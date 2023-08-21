@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-20 00:45+0000\n"
-"PO-Revision-Date: 2023-08-16 10:49+0200\n"
+"POT-Creation-Date: 2023-08-21 00:45+0000\n"
+"PO-Revision-Date: 2023-08-20 11:03+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -510,10 +510,9 @@ msgid "Vertical multiplicator"
 msgstr "Multiplicador vertical"
 
 #: data/effects/box_blur.xml:15
-#, fuzzy, kde-format
-#| msgid "Preserve aspect ratio"
+#, kde-format
 msgid "Preserve alpha"
-msgstr "Mantín la relació d'aspecte"
+msgstr "Conserva l'alfa"
 
 #: data/effects/boxblur.xml:4
 #, kde-format
@@ -4312,7 +4311,7 @@ msgid ""
 "Opens a window to configure the project bin (e.g. view mode, sort, show "
 "rating)."
 msgstr ""
-"Obri una finestra per a configurar la safata del projecte (p. ex. mode de "
+"Obri una finestra per a configurar la safata del projecte (p. ex., mode de "
 "vista, ordenació, mostra la puntuació)."
 
 #: src/bin/bin.cpp:1352
@@ -4363,10 +4362,9 @@ msgid "Cancel Pending Jobs"
 msgstr "Cancel·la els treballs pendents"
 
 #: src/bin/bin.cpp:1479
-#, fuzzy, kde-format
-#| msgid "Clip Properties"
+#, kde-format
 msgid "Bin Clip Properties"
-msgstr "Propietats del clip"
+msgstr "Propietats del clip de la safata"
 
 #: src/bin/bin.cpp:1774
 #, kde-format
@@ -11755,7 +11753,7 @@ msgid ""
 "Opens the list of project/clip monitor options (e.g. audio volume, monitor "
 "size)."
 msgstr ""
-"Obri la llista d'opcions del monitor de projecte/clips (p. ex. volum "
+"Obri la llista d'opcions del monitor de projecte/clips (p. ex., volum "
 "d'àudio, mida del monitor)."
 
 #: src/monitor/monitor.cpp:361
@@ -17005,7 +17003,7 @@ msgid ""
 "clip, composition)."
 msgstr ""
 "Quan està seleccionada, un clic en un recurs de la línia de temps selecciona "
-"el recurs (p. ex. clip, composició)."
+"el recurs (p. ex., clip, composició)."
 
 #: src/titler/titlewidget.cpp:387 src/titler/titlewidget.cpp:390
 #, kde-format
@@ -21348,9 +21346,10 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, replace_original)
 #: src/ui/transcodeseekable_ui.ui:81
-#, kde-format
-msgid "Replace clip by transcoded version in projject"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Replace clip by transcoded version in projject"
+msgid "Replace clip by transcoded version in project"
+msgstr "Substituïx el clip per una versió transcodificada en el projecte"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, UnicodeWidget_UI)
 #: src/ui/unicodewidget_ui.ui:24
