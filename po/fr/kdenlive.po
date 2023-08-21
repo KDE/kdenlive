@@ -1,5 +1,6 @@
 # translation of kdenlive.po to français
 # translation of fr.po to
+# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023 Xavier Besnard <xavier.besnard@neuf.fr>
 # Gilles CAULIER <caulier.gilles@free.fr>, 2003, 2004.
 # Jean-Michel Pouré <jmpoure@free.fr>, 2006.
 # Sébastien Heckmann <heckmann.svt@ifrance.com>, 2006.
@@ -10,14 +11,13 @@
 # Sebastien Renard <renard@kde.org>, 2013, 2014.
 # Simon Depiets <sdepiets@gmail.com>, 2018, 2019.
 # Johnny Jazeix <jazeix@gmail.com>, 2020.
-# Xavier Besnard <xavier.besnard@neuf.fr>, 2020, 2021, 2022.
 # Xavier BESNARD <xavier.besnard@neuf.fr>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-18 02:23+0000\n"
-"PO-Revision-Date: 2023-07-21 12:06+0200\n"
+"PO-Revision-Date: 2023-08-19 22:28+0200\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -28,7 +28,7 @@ msgstr ""
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
-"X-Generator: Lokalize 23.04.3\n"
+"X-Generator: Lokalize 23.07.90\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -5978,6 +5978,8 @@ msgid ""
 "<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</b> "
 "by the second, , <b>{&#x25;3}</b> by the output file path."
 msgstr ""
+"<b>{&#x25;1}</b> sera remplacé par le premier paramètre, <b>{&#x25;2}</b> "
+"par le second, <b>{&#x25;3}</b> dans l'emplacement du fichier de sortie."
 
 #: src/dialogs/clipjobmanager.cpp:48
 #, kde-format
@@ -5993,11 +5995,15 @@ msgid ""
 "inserted in place of <b>{&#x25;3}</b> if found. If output filename already "
 "exists, a -0001 pattern will be appended."
 msgstr ""
+"Le nom du fichier de sortie sera le même que le nom de fichier de la vidéo "
+"du projet source, avec l’extension modifiée. Il sera ajouté à la fin des "
+"arguments ou inséré à la place de <b>{&#x25;3}</b> s’il est trouvé. Si le "
+"nom de fichier de sortie existe déjà, un motif « -0001 » sera ajouté."
 
 #: src/dialogs/clipjobmanager.cpp:54
 #, kde-format
 msgid "The first parameter that will be injected in the script arguments"
-msgstr ""
+msgstr "Le premier paramètre qui sera injecté dans les arguments du script"
 
 #: src/dialogs/clipjobmanager.cpp:56 src/dialogs/clipjobmanager.cpp:66
 #, kde-kuit-format
@@ -6007,12 +6013,18 @@ msgid ""
 "File Path</b> will ask for a file path on execution<br/><b>Request Option in "
 "List</b> will ask for a choice in the list below on execution."
 msgstr ""
+"<b>Chemin vers la vidéo source</b> insérera le chemin vers la vidéo du "
+"projet sélectionné<br/><b>Demander un emplacement de fichier</b> demandera "
+"un chemin de fichier sur l’exécution<br/><b>Demander une option dans la "
+"liste</b> demandera un choix dans la liste ci-dessous pour l’exécution."
 
 #: src/dialogs/clipjobmanager.cpp:59 src/dialogs/clipjobmanager.cpp:69
 #, kde-format
 msgid ""
 "A newline separated list of possible values that will be offered on execution"
 msgstr ""
+"Une liste séparée par un retour à la ligne des valeurs possibles qui seront "
+"proposées lors de l’exécution"
 
 #: src/dialogs/clipjobmanager.cpp:62 src/dialogs/clipjobmanager.cpp:72
 #, kde-kuit-format
@@ -6021,11 +6033,14 @@ msgid ""
 "When the parameter is set to <b>Request Option in List</b> the user will be "
 "asked to choose a value in this list when the job is started."
 msgstr ""
+"Lorsque le paramètre est défini sur <b>Demander une option dans la liste</"
+"b>, l’utilisateur est invité à choisir une valeur dans cette liste au "
+"démarrage de la tâche."
 
 #: src/dialogs/clipjobmanager.cpp:64
 #, kde-format
 msgid "The second parameter that will be injected in the script arguments"
-msgstr ""
+msgstr "Le second paramètre qui sera injecté dans les arguments du script"
 
 #: src/dialogs/clipjobmanager.cpp:128 src/dialogs/clipjobmanager.cpp:256
 #, kde-format
@@ -9631,16 +9646,14 @@ msgid "Screen Grab"
 msgstr "Filmer l'écran"
 
 #: src/mainwindow.cpp:349
-#, fuzzy, kde-format
-#| msgid "Select a clip to create sequence"
+#, kde-format
 msgid "Switch to next Sequence"
-msgstr "Sélectionner une vidéo pour créer une séquence"
+msgstr "Basculer vers la prochaine séquence"
 
 #: src/mainwindow.cpp:353
-#, fuzzy, kde-format
-#| msgid "Go to previous keyframe"
+#, kde-format
 msgid "Switch to previous Sequence"
-msgstr "Aller à la précédente image clé"
+msgstr "Basculer vers la précédente séquence"
 
 #: src/mainwindow.cpp:359
 #, kde-format
@@ -10473,10 +10486,9 @@ msgid "Stop Preview Render"
 msgstr "Arrêter le rendu de l'aperçu"
 
 #: src/mainwindow.cpp:1671
-#, fuzzy, kde-format
-#| msgid "Add Transition to Selection"
+#, kde-format
 msgid "Adjust Timeline Zone to Selection"
-msgstr "Ajouter une transition à la sélection"
+msgstr "Ajuster la zone de frise chronologique vers la sélection"
 
 #: src/mainwindow.cpp:1673
 #, kde-format
@@ -10707,10 +10719,9 @@ msgid "Switch Track Target Audio Stream"
 msgstr "Basculer le flux audio de la piste cible"
 
 #: src/mainwindow.cpp:1867
-#, fuzzy, kde-format
-#| msgid "Delete Track"
+#, kde-format
 msgid "Delete Track…"
-msgstr "Supprimer la piste"
+msgstr "Supprimer une piste..."
 
 #: src/mainwindow.cpp:1872
 #, kde-format
@@ -16669,6 +16680,8 @@ msgstr "Définir la référence audio avant d'opérer à l'alignement"
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
 msgstr ""
+"Tous les flux sont déjà assignés. Veuillez dé-sélectionner tout d'abord une "
+"autre cible audio"
 
 #: src/timeline2/view/timelinecontroller.cpp:3594
 #, kde-format
@@ -17883,8 +17896,7 @@ msgstr "Rogner l'extrémité :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/clipjobmanager_ui.ui:30
-#, fuzzy, kde-format
-#| msgid "Job description"
+#, kde-format
 msgid "Job Description"
 msgstr "Description de tâche"
 
@@ -17940,7 +17952,7 @@ msgstr "Nom du dossier"
 #: src/ui/clipjobmanager_ui.ui:110
 #, kde-format
 msgid "Optional description that will show up if a parameter is requested"
-msgstr ""
+msgstr "Description facultative qui apparaîtra si un paramètre est requis"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:117
@@ -17970,6 +17982,12 @@ msgid ""
 "replaced by the first parameter value</li><li><b>{param2}</b> will be "
 "replaced by the second parameter value</li></ul>"
 msgstr ""
+"Dans les arguments, les options suivantes sont disponibles : "
+"<ul><li><b>{source}</b> sera remplacé par le chemin du fichier source de la "
+"vidéo du projet</li><li><b>{output}</b> sera remplacé par le nom du fichier "
+"de sortie</li><li><b>{param1}</b> sera remplacé par la première valeur du "
+"paramètre</li><li><b>{param2}</b> sera remplacé par la deuxième valeur du "
+"paramètre</li></ul>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/clipjobmanager_ui.ui:176
