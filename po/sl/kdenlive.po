@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-21 00:45+0000\n"
-"PO-Revision-Date: 2023-08-18 19:12+0200\n"
+"PO-Revision-Date: 2023-08-21 08:01+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -507,10 +507,9 @@ msgid "Vertical multiplicator"
 msgstr "Navpični pomnoževalnik"
 
 #: data/effects/box_blur.xml:15
-#, fuzzy, kde-format
-#| msgid "Preserve aspect ratio"
+#, kde-format
 msgid "Preserve alpha"
-msgstr "Ohrani razmerje"
+msgstr "Ohrani alfo"
 
 #: data/effects/boxblur.xml:4
 #, kde-format
@@ -2559,7 +2558,7 @@ msgstr "y"
 #: data/effects/vignette.xml:20
 #, kde-format
 msgid "opacity"
-msgstr "motnost"
+msgstr "prekrivnost"
 
 #: data/effects/vignette.xml:23
 #, kde-format
@@ -2677,8 +2676,9 @@ msgid ""
 "PAL color bars,PAL color bars with red,95% BBC color bars,75% EBU color bars,"
 "SMPTE color bars,Philips PM5544,FuBK,Simplified FuBK"
 msgstr ""
-"PAL color bars,PAL color bars with red,95% BBC color bars,75% EBU color bars,"
-"SMPTE color bars,Philips PM5544,FuBK,Simplified FuBK"
+"Barvni stolpci PAL,Barvni stolpci PAL z rdečo,95 % barvni stolpci BBC,75 % "
+"barvni stolpci EBU,Barvni stolpci SMPTE,Philips PM5544,FuBK,Poenostavljeni "
+"FuBK"
 
 #: data/generators/frei0r_test_pat_b.xml:8
 #, kde-format
@@ -4333,10 +4333,9 @@ msgid "Cancel Pending Jobs"
 msgstr "Prekliči čakajoče posle"
 
 #: src/bin/bin.cpp:1479
-#, fuzzy, kde-format
-#| msgid "Clip Properties"
+#, kde-format
 msgid "Bin Clip Properties"
-msgstr "Lastnosti posnetka"
+msgstr "Lastnosti posnetka posoode"
 
 #: src/bin/bin.cpp:1774
 #, kde-format
@@ -21225,7 +21224,7 @@ msgstr ""
 #: src/ui/transcodeseekable_ui.ui:81
 #, kde-format
 msgid "Replace clip by transcoded version in project"
-msgstr ""
+msgstr "Zamenjaj posnetek s prekodirano različico v projektu"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, UnicodeWidget_UI)
 #: src/ui/unicodewidget_ui.ui:24

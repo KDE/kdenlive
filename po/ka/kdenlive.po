@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-21 00:45+0000\n"
-"PO-Revision-Date: 2023-08-17 06:28+0200\n"
+"PO-Revision-Date: 2023-08-21 06:02+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -483,10 +483,9 @@ msgid "Vertical multiplicator"
 msgstr ""
 
 #: data/effects/box_blur.xml:15
-#, fuzzy, kde-format
-#| msgid "Preserve aspect ratio"
+#, kde-format
 msgid "Preserve alpha"
-msgstr "პროპორციების შენარჩუნება"
+msgstr "ალფას შენარჩუნება"
 
 #: data/effects/boxblur.xml:4
 #, kde-format
@@ -4171,10 +4170,9 @@ msgid "Cancel Pending Jobs"
 msgstr ""
 
 #: src/bin/bin.cpp:1479
-#, fuzzy, kde-format
-#| msgid "Clip Properties"
+#, kde-format
 msgid "Bin Clip Properties"
-msgstr "კლიპის თვისებები"
+msgstr ""
 
 #: src/bin/bin.cpp:1774
 #, kde-format

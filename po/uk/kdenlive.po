@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-21 00:45+0000\n"
-"PO-Revision-Date: 2023-08-20 09:54+0300\n"
+"PO-Revision-Date: 2023-08-21 09:55+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -21380,8 +21380,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, replace_original)
 #: src/ui/transcodeseekable_ui.ui:81
-#, fuzzy, kde-format
-#| msgid "Replace clip by transcoded version in projject"
+#, kde-format
 msgid "Replace clip by transcoded version in project"
 msgstr "Замінити кліп перекодованою версією у проєкті"
 
