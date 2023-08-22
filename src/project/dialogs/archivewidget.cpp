@@ -1104,6 +1104,9 @@ void ArchiveWidget::createArchive()
             Q_EMIT archiveProgress(100 * ix / max);
             ix++;
             if (!success || m_abortArchive) {
+                if (!success) {
+                    errorString.append(i18n("Cannot copy file %1 to %2.", i.key(), i.value()));
+                }
                 break;
             }
         }
@@ -1123,9 +1126,7 @@ void ArchiveWidget::createArchive()
         m_temp = nullptr;
     }
 
-    if (errorString.isEmpty()) {
-        errorString = m_archive->errorString();
-    }
+    errorString.append(m_archive->errorString());
     success = success && m_archive->close();
 
     Q_EMIT archivingFinished(success, errorString);
