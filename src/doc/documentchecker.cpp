@@ -556,7 +556,6 @@ QString DocumentChecker::getMissingProducers(QDomElement &e, const QDomNodeList 
     QString clipId = getKdenliveClipId(e);
     QString resource = getProducerResource(e);
     ClipType::ProducerType clipType = getClipType(service, resource);
-
     int index = itemIndexByClipId(clipId);
     if (index > -1) {
         if (m_items[index].hash.isEmpty()) {
@@ -601,7 +600,7 @@ QString DocumentChecker::getMissingProducers(QDomElement &e, const QDomNodeList 
         }
     };
 
-    if (verifiedPaths.contains(resource)) {
+    if (isBinClip && !resource.isEmpty() && verifiedPaths.contains(resource)) {
         // Don't check same url twice (for example track producers)
         return QString();
     }
@@ -1281,7 +1280,6 @@ void DocumentChecker::fixClip(const QDomNodeList &items, const QString &clipId, 
     // Changing the tag name (below) will remove the producer from the list, so we need to parse in reverse order
     for (int i = items.count() - 1; i >= 0; --i) {
         e = items.item(i).toElement();
-
         if (getKdenliveClipId(e) != clipId) {
             continue;
         }
@@ -1289,11 +1287,11 @@ void DocumentChecker::fixClip(const QDomNodeList &items, const QString &clipId, 
         QString service = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
         QString updatedPath = newPath;
 
-        if (!Xml::getXmlProperty(e, QStringLiteral("kdenlive:originalurl")).isEmpty()) {
+        if (Xml::hasXmlProperty(e, QStringLiteral("kdenlive:originalurl"))) {
             // Only set originalurl on master producer
             Xml::setXmlProperty(e, QStringLiteral("kdenlive:originalurl"), newPath);
         }
-        if (!Xml::getXmlProperty(e, QStringLiteral("kdenlive:original.resource")).isEmpty()) {
+        if (Xml::hasXmlProperty(e, QStringLiteral("kdenlive:original.resource"))) {
             // Only set original.resource on master producer
             Xml::setXmlProperty(e, QStringLiteral("kdenlive:original.resource"), newPath);
         }
@@ -1303,6 +1301,26 @@ void DocumentChecker::fixClip(const QDomNodeList &items, const QString &clipId, 
         }
         if (service.startsWith(QLatin1String("avformat")) && e.tagName() == QLatin1String("producer")) {
             e.setTagName(QStringLiteral("chain"));
+        }
+        if (Xml::hasXmlProperty(e, QStringLiteral("text"))) {
+            if (Xml::getXmlProperty(e, QStringLiteral("text")) == QLatin1String("INVALID") && service == QLatin1String("qimage")) {
+                // Clip was previously opened as placeholder, remove the extra stuff
+                Xml::removeXmlProperty(e, QStringLiteral("text"));
+                Xml::removeXmlProperty(e, QStringLiteral("fgcolour"));
+                Xml::removeXmlProperty(e, QStringLiteral("bgcolour"));
+                Xml::removeXmlProperty(e, QStringLiteral("olcolour"));
+                Xml::removeXmlProperty(e, QStringLiteral("outline"));
+                Xml::removeXmlProperty(e, QStringLiteral("align"));
+                Xml::removeXmlProperty(e, QStringLiteral("pad"));
+                Xml::removeXmlProperty(e, QStringLiteral("family"));
+                Xml::removeXmlProperty(e, QStringLiteral("size"));
+                Xml::removeXmlProperty(e, QStringLiteral("style"));
+                Xml::removeXmlProperty(e, QStringLiteral("weight"));
+                Xml::removeXmlProperty(e, QStringLiteral("encoding"));
+                // meta.media size was set to the size of the "INVALID" text, not to the original image, so remove
+                Xml::removeXmlProperty(e, QStringLiteral("meta.media.width"));
+                Xml::removeXmlProperty(e, QStringLiteral("meta.media.height"));
+            }
         }
 
         Xml::setXmlProperty(e, QStringLiteral("resource"), updatedPath);

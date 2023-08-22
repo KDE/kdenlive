@@ -138,7 +138,12 @@ void Xml::setXmlProperty(QDomElement element, const QString &propertyName, const
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();
         if (e.attribute(QStringLiteral("name")) == propertyName) {
-            e.firstChild().setNodeValue(value);
+            if (e.hasChildNodes()) {
+                e.firstChild().setNodeValue(value);
+            } else {
+                QDomText resourceValue = element.ownerDocument().createTextNode(value);
+                e.appendChild(resourceValue);
+            }
             found = true;
             break;
         }
