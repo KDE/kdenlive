@@ -27,4 +27,7 @@ private:
     void initProxyPanel(const std::vector<DocumentChecker::DocumentResource> &items);
 
     std::vector<DocumentChecker::DocumentResource> m_proxies;
+
+private Q_SLOTS:
+    void newSelection(const QItemSelection &selected, const QItemSelection &deselected);
 };

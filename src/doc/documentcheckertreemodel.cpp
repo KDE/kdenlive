@@ -15,6 +15,12 @@ DocumentCheckerTreeModel::DocumentCheckerTreeModel(QObject *parent)
 {
 }
 
+Qt::ItemFlags DocumentCheckerTreeModel::flags(const QModelIndex &index) const
+{
+    const auto flags = QAbstractItemModel::flags(index);
+    return flags;
+}
+
 std::shared_ptr<DocumentCheckerTreeModel> DocumentCheckerTreeModel::construct(const std::vector<DocumentChecker::DocumentResource> &items, QObject *parent)
 {
     std::shared_ptr<DocumentCheckerTreeModel> self(new DocumentCheckerTreeModel(parent));
@@ -147,14 +153,12 @@ QVariant DocumentCheckerTreeModel::data(const QModelIndex &index, int role) cons
             }
         }
 
-        if (role == Qt::BackgroundRole) {
-            if (resource.status == DocumentChecker::MissingStatus::Missing) {
-                return scheme.background(KColorScheme::NegativeBackground).color();
-            }
+        if (role == Qt::BackgroundRole && resource.status == DocumentChecker::MissingStatus::Missing && index.column() == 1) {
+            return scheme.background(KColorScheme::NegativeBackground).color();
         }
 
         if (role == Qt::FontRole) {
-            if (resource.status == DocumentChecker::MissingStatus::Remove) {
+            if (resource.status == DocumentChecker::MissingStatus::Remove && index.column() == 2) {
                 QFont f = qApp->font();
                 f.setStrikeOut(true);
                 return f;

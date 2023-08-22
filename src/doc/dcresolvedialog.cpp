@@ -19,14 +19,23 @@ DCResolveDialog::DCResolveDialog(std::vector<DocumentChecker::DocumentResource> 
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
 
     m_model = DocumentCheckerTreeModel::construct(items, this);
+    removeSelected->setEnabled(false);
+    manualSearch->setEnabled(false);
     treeView->setModel(m_model.get());
+    treeView->setAlternatingRowColors(true);
+    treeView->setSortingEnabled(true);
+    // treeView->header()->resizeSections(QHeaderView::ResizeToContents);
+    treeView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     bool showTreeView = !m_model.get()->isEmpty();
     treeView->setVisible(showTreeView);
     actionButtonBox->setVisible(showTreeView);
 
     connect(removeSelected, &QPushButton::clicked, this, [&]() {
         QItemSelectionModel *selectionModel = treeView->selectionModel();
-        m_model->removeItem(selectionModel->currentIndex());
+        QModelIndexList selection = selectionModel->selectedRows();
+        for (auto &i : selection) {
+            m_model->removeItem(i);
+        }
     });
     connect(manualSearch, &QPushButton::clicked, this, [&]() { slotEditCurrentItem(); });
     connect(usePlaceholders, &QPushButton::clicked, this, [&]() {
@@ -37,7 +46,6 @@ DCResolveDialog::DCResolveDialog(std::vector<DocumentChecker::DocumentResource> 
 
     connect(m_model.get(), &DocumentCheckerTreeModel::searchProgress, this, [&](int current, int total) {
         setEnableChangeItems(false);
-
         progressBox->setVisible(true);
         progressLabel->setText(i18n("Recursive search: processing clips"));
         progressBar->setMinimum(0);
@@ -55,18 +63,7 @@ DCResolveDialog::DCResolveDialog(std::vector<DocumentChecker::DocumentResource> 
     });
 
     QItemSelectionModel *selectionModel = treeView->selectionModel();
-
-    connect(selectionModel, &QItemSelectionModel::currentChanged, this, [&](const QModelIndex &current, const QModelIndex &) {
-        DocumentChecker::DocumentResource resource = m_model->getDocumentResource(current);
-        if (resource.type == DocumentChecker::MissingType::TitleFont || resource.type == DocumentChecker::MissingType::TitleImage ||
-            resource.type == DocumentChecker::MissingType::Effect || resource.type == DocumentChecker::MissingType::Transition) {
-            removeSelected->setEnabled(false);
-        } else {
-            removeSelected->setEnabled(true);
-        }
-        usePlaceholders->setEnabled(true);
-        manualSearch->setEnabled(true);
-    });
+    connect(selectionModel, &QItemSelectionModel::selectionChanged, this, &DCResolveDialog::newSelection);
 
     progressBox->setVisible(false);
     infoLabel->setVisible(false);
@@ -76,6 +73,27 @@ DCResolveDialog::DCResolveDialog(std::vector<DocumentChecker::DocumentResource> 
 
     checkStatus();
     adjustSize();
+}
+
+void DCResolveDialog::newSelection(const QItemSelection &, const QItemSelection &)
+{
+    QItemSelectionModel *selectionModel = treeView->selectionModel();
+    QModelIndexList selection = selectionModel->selectedRows();
+    bool notRemovable = false;
+    for (auto &i : selection) {
+        DocumentChecker::DocumentResource resource = m_model->getDocumentResource(i);
+        if (notRemovable == false && (resource.type == DocumentChecker::MissingType::TitleFont || resource.type == DocumentChecker::MissingType::TitleImage ||
+                                      resource.type == DocumentChecker::MissingType::Effect || resource.type == DocumentChecker::MissingType::Transition)) {
+            notRemovable = true;
+        }
+    }
+    if (notRemovable) {
+        removeSelected->setEnabled(false);
+    } else {
+        removeSelected->setEnabled(!selection.isEmpty());
+    }
+    usePlaceholders->setEnabled(!selection.isEmpty());
+    manualSearch->setEnabled(!selection.isEmpty());
 }
 
 QList<DocumentChecker::DocumentResource> DCResolveDialog::getItems()
@@ -160,7 +178,7 @@ void DCResolveDialog::initProxyPanel(const std::vector<DocumentChecker::Document
     }
 
     if (m_proxies.size() > 0) {
-        proxyLabel->setText(i18np("You project contains one missing proxy", "You project contains %1 missing proxies", m_proxies.size()));
+        proxyLabel->setText(i18np("The project contains one missing proxy", "The project contains %1 missing proxies", m_proxies.size()));
         proxyBox->show();
     } else {
         proxyBox->hide();

@@ -31,6 +31,8 @@ public:
 
     QList<DocumentChecker::DocumentResource> getDocumentResources() { return m_resourceItems.values(); }
     DocumentChecker::DocumentResource getDocumentResource(const QModelIndex &index);
+    // This is reimplemented to allow selection of the categories
+    Qt::ItemFlags flags(const QModelIndex &index) const override;
 
     bool isEmpty() { return m_resourceItems.isEmpty(); }
 

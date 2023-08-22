@@ -56,7 +56,6 @@ QVariant AbstractTreeModel::data(const QModelIndex &index, int role) const
 Qt::ItemFlags AbstractTreeModel::flags(const QModelIndex &index) const
 {
     const auto flags = QAbstractItemModel::flags(index);
-
     if (index.isValid()) {
         auto item = getItemById(int(index.internalId()));
         if (item->depth() == 1) {
