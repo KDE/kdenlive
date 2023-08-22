@@ -36,6 +36,7 @@ DCResolveDialog::DCResolveDialog(std::vector<DocumentChecker::DocumentResource> 
         for (auto &i : selection) {
             m_model->removeItem(i);
         }
+        checkStatus();
     });
     connect(manualSearch, &QPushButton::clicked, this, [&]() { slotEditCurrentItem(); });
     connect(usePlaceholders, &QPushButton::clicked, this, [&]() {
