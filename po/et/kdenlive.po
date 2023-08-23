@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-21 00:45+0000\n"
+"POT-Creation-Date: 2023-08-23 00:45+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -5610,8 +5610,8 @@ msgstr "ID"
 msgid "Usage"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:1471
-#: src/doc/documentchecker.cpp:1497 src/doc/documentchecker.cpp:1517
+#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:1489
+#: src/doc/documentchecker.cpp:1515 src/doc/documentchecker.cpp:1535
 #: src/mltcontroller/clipcontroller.cpp:485 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -7622,7 +7622,7 @@ msgstr "Kasutatakse MLT %1"
 #: src/dialogs/wizard.cpp:85 src/project/cliptranscode.cpp:194
 #: src/project/cliptranscode.cpp:226 src/project/dialogs/archivewidget.cpp:596
 #: src/project/dialogs/archivewidget.cpp:767
-#: src/project/dialogs/archivewidget.cpp:1170
+#: src/project/dialogs/archivewidget.cpp:1171
 #, kde-format
 msgid "Abort"
 msgstr "Katkesta"
@@ -7692,7 +7692,7 @@ msgstr "Riistvaralise kiirenduse kontrollimine"
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose3)
 #: src/dialogs/wizard.cpp:193 src/project/cliptranscode.cpp:270
 #: src/project/dialogs/archivewidget.cpp:788
-#: src/project/dialogs/archivewidget.cpp:1149 src/ui/renderwidget_ui.ui:363
+#: src/project/dialogs/archivewidget.cpp:1150 src/ui/renderwidget_ui.ui:363
 #: src/ui/renderwidget_ui.ui:914 src/ui/renderwidget_ui.ui:1072
 #, kde-format
 msgid "Close"
@@ -7876,37 +7876,37 @@ msgstr "Riistvaralisi kodeerijaid ei leitud."
 msgid "hardware encoders found and enabled (%1)."
 msgstr "Leiti ja lubati VAAPI riistvaralised kodeerijad."
 
-#: src/doc/dcresolvedialog.cpp:42
+#: src/doc/dcresolvedialog.cpp:51
 #, kde-format
 msgid "Recursive search: processing clips"
 msgstr ""
 
-#: src/doc/dcresolvedialog.cpp:51
+#: src/doc/dcresolvedialog.cpp:60
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Recursive search: done"
 msgstr "Otsi"
 
-#: src/doc/dcresolvedialog.cpp:125
+#: src/doc/dcresolvedialog.cpp:144
 #, fuzzy, kde-format
 #| msgid "Enter new location for file"
 msgid "Enter new location for folder"
 msgstr "Sisesta faili uus asukoht"
 
-#: src/doc/dcresolvedialog.cpp:136
+#: src/doc/dcresolvedialog.cpp:155
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Sisesta faili uus asukoht"
 
-#: src/doc/dcresolvedialog.cpp:163
+#: src/doc/dcresolvedialog.cpp:182
 #, fuzzy, kde-format
 #| msgid "The project file contains missing clips or files."
-msgid "You project contains one missing proxy"
-msgid_plural "You project contains %1 missing proxies"
+msgid "The project contains one missing proxy"
+msgid_plural "The project contains %1 missing proxies"
 msgstr[0] "Projektifail sisaldab puuduvaid klippe või faile."
 msgstr[1] "Projektifail sisaldab puuduvaid klippe või faile."
 
-#: src/doc/dcresolvedialog.cpp:173
+#: src/doc/dcresolvedialog.cpp:192
 #, fuzzy, kde-format
 #| msgid "Clips folder"
 msgctxt "@title:window"
@@ -7919,113 +7919,113 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1461
+#: src/doc/documentchecker.cpp:1479
 #, kde-format
 msgid "Video clip"
 msgstr "Videoklipp"
 
-#: src/doc/documentchecker.cpp:1463
+#: src/doc/documentchecker.cpp:1481
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Slaidiesituse klipp"
 
-#: src/doc/documentchecker.cpp:1465
+#: src/doc/documentchecker.cpp:1483
 #, kde-format
 msgid "Image clip"
 msgstr "Pildiklipp"
 
-#: src/doc/documentchecker.cpp:1467
+#: src/doc/documentchecker.cpp:1485
 #, kde-format
 msgid "Playlist clip"
 msgstr "Esitusloendi klipp"
 
-#: src/doc/documentchecker.cpp:1469 src/doc/documentchecker.cpp:1485
+#: src/doc/documentchecker.cpp:1487 src/doc/documentchecker.cpp:1503
 #, kde-format
 msgid "Title Image"
 msgstr "Tiitripilt"
 
-#: src/doc/documentchecker.cpp:1481
+#: src/doc/documentchecker.cpp:1499
 #, fuzzy, kde-format
 #| msgid "Clips"
 msgid "Clip"
 msgstr "Klipid"
 
-#: src/doc/documentchecker.cpp:1483
+#: src/doc/documentchecker.cpp:1501
 #, kde-format
 msgid "Title Font"
 msgstr "Tiitrifont"
 
-#: src/doc/documentchecker.cpp:1487
+#: src/doc/documentchecker.cpp:1505
 #, kde-format
 msgid "Luma file"
 msgstr "Luma fail"
 
-#: src/doc/documentchecker.cpp:1489
+#: src/doc/documentchecker.cpp:1507
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Asset file"
 msgstr "Kustuta failid"
 
-#: src/doc/documentchecker.cpp:1491
+#: src/doc/documentchecker.cpp:1509
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr "Asendusklipp"
 
-#: src/doc/documentchecker.cpp:1493
+#: src/doc/documentchecker.cpp:1511
 #: src/monitor/view/kdenlivemonitorsplit.qml:90
 #, kde-format
 msgid "Effect"
 msgstr "Efekt"
 
-#: src/doc/documentchecker.cpp:1495
+#: src/doc/documentchecker.cpp:1513
 #, kde-format
 msgid "Transition"
 msgstr "Üleminek"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1505 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1523 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1507
+#: src/doc/documentchecker.cpp:1525
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Reload"
 msgstr "Laadi klipp uuesti"
 
-#: src/doc/documentchecker.cpp:1509
+#: src/doc/documentchecker.cpp:1527
 #, kde-format
 msgid "Missing"
 msgstr "Puudub"
 
-#: src/doc/documentchecker.cpp:1511
+#: src/doc/documentchecker.cpp:1529
 #, fuzzy, kde-format
 #| msgid "Missing proxy"
 msgid "Missing, but proxy available"
 msgstr "Asendusklipp puudub"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1513 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1531 src/ui/editrenderpreset_ui.ui:525
 #, fuzzy, kde-format
 #| msgid "Keep as placeholder"
 msgid "Placeholder"
 msgstr "Hoia kohatäitena"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1515 src/ui/missingclips_ui.ui:174
+#: src/doc/documentchecker.cpp:1533 src/ui/missingclips_ui.ui:174
 #, fuzzy, kde-format
 #| msgid "Removal"
 msgid "Remove"
 msgstr "Eemaldamine"
 
-#: src/doc/documentchecker.cpp:1526
+#: src/doc/documentchecker.cpp:1544
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Projektifail sisaldab puuduvaid klippe või faile."
 
-#: src/doc/documentchecker.cpp:1529
+#: src/doc/documentchecker.cpp:1547
 #, fuzzy, kde-format
 #| msgid "Missing proxies will be recreated after opening."
 msgid "Missing proxies can be recreated on opening."
@@ -13140,8 +13140,8 @@ msgstr[0] "Projektis on %1 puuduv klipp."
 msgstr[1] "Projektis on %1 puuduvat klippi."
 
 #: src/project/dialogs/archivewidget.cpp:222
-#: src/project/dialogs/archivewidget.cpp:1316
-#: src/project/dialogs/archivewidget.cpp:1358
+#: src/project/dialogs/archivewidget.cpp:1317
+#: src/project/dialogs/archivewidget.cpp:1359
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
@@ -13149,8 +13149,8 @@ msgstr[0] "(%1 üksus)"
 msgstr[1] "(%1 elementi)"
 
 #: src/project/dialogs/archivewidget.cpp:228
-#: src/project/dialogs/archivewidget.cpp:1318
-#: src/project/dialogs/archivewidget.cpp:1360
+#: src/project/dialogs/archivewidget.cpp:1319
+#: src/project/dialogs/archivewidget.cpp:1361
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
@@ -13256,7 +13256,7 @@ msgstr "Arhiveerimine..."
 #: src/project/dialogs/archivewidget.cpp:639
 #: src/project/dialogs/archivewidget.cpp:673
 #: src/project/dialogs/archivewidget.cpp:759
-#: src/project/dialogs/archivewidget.cpp:1167
+#: src/project/dialogs/archivewidget.cpp:1168
 #, kde-format
 msgid "Cannot create directory %1"
 msgstr "Kataloogi %1 loomine nurjus"
@@ -13300,7 +13300,13 @@ msgstr ""
 msgid "Archiving %1"
 msgstr "Arhiveerimine..."
 
-#: src/project/dialogs/archivewidget.cpp:1137
+#: src/project/dialogs/archivewidget.cpp:1108
+#, fuzzy, kde-format
+#| msgid "Cannot open file %1"
+msgid "Cannot copy file %1 to %2."
+msgstr "Faili %1 avamine nurjus"
+
+#: src/project/dialogs/archivewidget.cpp:1138
 #, fuzzy, kde-format
 #| msgid "Project was successfully archived."
 msgid ""
@@ -13308,30 +13314,30 @@ msgid ""
 "%1"
 msgstr "Projekti arhiveeriti edukalt."
 
-#: src/project/dialogs/archivewidget.cpp:1140
+#: src/project/dialogs/archivewidget.cpp:1141
 #, fuzzy, kde-format
 #| msgid "Unknown"
 msgid "Unknown Error"
 msgstr "Tundmatu"
 
-#: src/project/dialogs/archivewidget.cpp:1140
+#: src/project/dialogs/archivewidget.cpp:1141
 #, fuzzy, kde-format
 #| msgid "There was an error while copying the files: %1"
 msgid "There was an error while archiving the project: %1"
 msgstr "Failide kopeerimisel tekkis tõrge: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1169
+#: src/project/dialogs/archivewidget.cpp:1170
 #, fuzzy, kde-format
 #| msgid "Extracting..."
 msgid "Extracting…"
 msgstr "Lahtipakkimine..."
 
-#: src/project/dialogs/archivewidget.cpp:1235
+#: src/project/dialogs/archivewidget.cpp:1236
 #, kde-format
 msgid "Cannot open project file %1"
 msgstr "Projektifaili %1 avamine nurjus"
 
-#: src/project/dialogs/archivewidget.cpp:1235
+#: src/project/dialogs/archivewidget.cpp:1236
 #, kde-format
 msgid "Cannot open file"
 msgstr "Faili avamine nurjus"
@@ -16603,24 +16609,24 @@ msgstr "Kõrvalekalle: %1"
 msgid "<b>Click</b> to add composition"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1296 src/timeline2/view/qml/Clip.qml:1303
+#: src/timeline2/view/qml/Clip.qml:1297 src/timeline2/view/qml/Clip.qml:1304
 #, fuzzy, kde-format
 #| msgid "Fade out"
 msgid "Fade out: %1"
 msgstr "Välja hajutamine"
 
-#: src/timeline2/view/qml/Clip.qml:1307 src/timeline2/view/qml/Clip.qml:1402
+#: src/timeline2/view/qml/Clip.qml:1308 src/timeline2/view/qml/Clip.qml:1407
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1391 src/timeline2/view/qml/Clip.qml:1398
+#: src/timeline2/view/qml/Clip.qml:1396 src/timeline2/view/qml/Clip.qml:1403
 #, fuzzy, kde-format
 #| msgid "Fade in"
 msgid "Fade in: %1"
 msgstr "Sisse hajutamine"
 
-#: src/timeline2/view/qml/Clip.qml:1482
+#: src/timeline2/view/qml/Clip.qml:1490
 #, fuzzy, kde-format
 #| msgid "Select Clip"
 msgid "Slip Clip"

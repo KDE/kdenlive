@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-21 00:45+0000\n"
+"POT-Creation-Date: 2023-08-23 00:45+0000\n"
 "PO-Revision-Date: 2020-01-16 14:40+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -5593,8 +5593,8 @@ msgstr "I"
 msgid "Usage"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:1471
-#: src/doc/documentchecker.cpp:1497 src/doc/documentchecker.cpp:1517
+#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:1489
+#: src/doc/documentchecker.cpp:1515 src/doc/documentchecker.cpp:1535
 #: src/mltcontroller/clipcontroller.cpp:485 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, fuzzy, kde-format
@@ -7548,7 +7548,7 @@ msgstr ""
 #: src/dialogs/wizard.cpp:85 src/project/cliptranscode.cpp:194
 #: src/project/cliptranscode.cpp:226 src/project/dialogs/archivewidget.cpp:596
 #: src/project/dialogs/archivewidget.cpp:767
-#: src/project/dialogs/archivewidget.cpp:1170
+#: src/project/dialogs/archivewidget.cpp:1171
 #, kde-format
 msgid "Abort"
 msgstr "中止"
@@ -7613,7 +7613,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose3)
 #: src/dialogs/wizard.cpp:193 src/project/cliptranscode.cpp:270
 #: src/project/dialogs/archivewidget.cpp:788
-#: src/project/dialogs/archivewidget.cpp:1149 src/ui/renderwidget_ui.ui:363
+#: src/project/dialogs/archivewidget.cpp:1150 src/ui/renderwidget_ui.ui:363
 #: src/ui/renderwidget_ui.ui:914 src/ui/renderwidget_ui.ui:1072
 #, kde-format
 msgid "Close"
@@ -7749,35 +7749,35 @@ msgstr ""
 msgid "hardware encoders found and enabled (%1)."
 msgstr ""
 
-#: src/doc/dcresolvedialog.cpp:42
+#: src/doc/dcresolvedialog.cpp:51
 #, kde-format
 msgid "Recursive search: processing clips"
 msgstr ""
 
-#: src/doc/dcresolvedialog.cpp:51
+#: src/doc/dcresolvedialog.cpp:60
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Recursive search: done"
 msgstr "搜索"
 
-#: src/doc/dcresolvedialog.cpp:125
+#: src/doc/dcresolvedialog.cpp:144
 #, fuzzy, kde-format
 #| msgid "Enter new location for file"
 msgid "Enter new location for folder"
 msgstr "匯入檔案的新位置"
 
-#: src/doc/dcresolvedialog.cpp:136
+#: src/doc/dcresolvedialog.cpp:155
 #, kde-format
 msgid "Enter new location for file"
 msgstr "匯入檔案的新位置"
 
-#: src/doc/dcresolvedialog.cpp:163
+#: src/doc/dcresolvedialog.cpp:182
 #, kde-format
-msgid "You project contains one missing proxy"
-msgid_plural "You project contains %1 missing proxies"
+msgid "The project contains one missing proxy"
+msgid_plural "The project contains %1 missing proxies"
 msgstr[0] ""
 
-#: src/doc/dcresolvedialog.cpp:173
+#: src/doc/dcresolvedialog.cpp:192
 #, fuzzy, kde-format
 #| msgid "Clips folder"
 msgctxt "@title:window"
@@ -7790,113 +7790,113 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1461
+#: src/doc/documentchecker.cpp:1479
 #, kde-format
 msgid "Video clip"
 msgstr "視訊素材"
 
-#: src/doc/documentchecker.cpp:1463
+#: src/doc/documentchecker.cpp:1481
 #, kde-format
 msgid "Slideshow clip"
 msgstr "幻燈片放映素材"
 
-#: src/doc/documentchecker.cpp:1465
+#: src/doc/documentchecker.cpp:1483
 #, kde-format
 msgid "Image clip"
 msgstr "圖片素材"
 
-#: src/doc/documentchecker.cpp:1467
+#: src/doc/documentchecker.cpp:1485
 #, kde-format
 msgid "Playlist clip"
 msgstr "素材播放清單"
 
-#: src/doc/documentchecker.cpp:1469 src/doc/documentchecker.cpp:1485
+#: src/doc/documentchecker.cpp:1487 src/doc/documentchecker.cpp:1503
 #, kde-format
 msgid "Title Image"
 msgstr "字幕 / 標題圖片"
 
-#: src/doc/documentchecker.cpp:1481
+#: src/doc/documentchecker.cpp:1499
 #, fuzzy, kde-format
 #| msgid "Clip"
 msgid "Clip"
 msgstr "素材"
 
-#: src/doc/documentchecker.cpp:1483
+#: src/doc/documentchecker.cpp:1501
 #, fuzzy, kde-format
 #| msgid "Title"
 msgid "Title Font"
 msgstr "字幕 / 標題"
 
-#: src/doc/documentchecker.cpp:1487
+#: src/doc/documentchecker.cpp:1505
 #, kde-format
 msgid "Luma file"
 msgstr "亮度檔案"
 
-#: src/doc/documentchecker.cpp:1489
+#: src/doc/documentchecker.cpp:1507
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Asset file"
 msgstr "移除檔案"
 
-#: src/doc/documentchecker.cpp:1491
+#: src/doc/documentchecker.cpp:1509
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, fuzzy, kde-format
 msgid "Proxy clip"
 msgstr "代理剪輯"
 
-#: src/doc/documentchecker.cpp:1493
+#: src/doc/documentchecker.cpp:1511
 #: src/monitor/view/kdenlivemonitorsplit.qml:90
 #, kde-format
 msgid "Effect"
 msgstr "特效"
 
-#: src/doc/documentchecker.cpp:1495
+#: src/doc/documentchecker.cpp:1513
 #, fuzzy, kde-format
 #| msgid "Transitions"
 msgid "Transition"
 msgstr "轉場特效"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1505 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1523 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1507
+#: src/doc/documentchecker.cpp:1525
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Reload"
 msgstr "重新載入素材"
 
-#: src/doc/documentchecker.cpp:1509
+#: src/doc/documentchecker.cpp:1527
 #, fuzzy, kde-format
 msgid "Missing"
 msgstr "丟失的編碼方案"
 
-#: src/doc/documentchecker.cpp:1511
+#: src/doc/documentchecker.cpp:1529
 #, fuzzy, kde-format
 msgid "Missing, but proxy available"
 msgstr "丟失的編碼方案"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1513 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1531 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1515 src/ui/missingclips_ui.ui:174
+#: src/doc/documentchecker.cpp:1533 src/ui/missingclips_ui.ui:174
 #, fuzzy, kde-format
 #| msgid "Removal"
 msgid "Remove"
 msgstr "切除"
 
-#: src/doc/documentchecker.cpp:1526
+#: src/doc/documentchecker.cpp:1544
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1529
+#: src/doc/documentchecker.cpp:1547
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr ""
@@ -12917,16 +12917,16 @@ msgid_plural "You have %1 missing clips in your project."
 msgstr[0] ""
 
 #: src/project/dialogs/archivewidget.cpp:222
-#: src/project/dialogs/archivewidget.cpp:1316
-#: src/project/dialogs/archivewidget.cpp:1358
+#: src/project/dialogs/archivewidget.cpp:1317
+#: src/project/dialogs/archivewidget.cpp:1359
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
 msgstr[0] ""
 
 #: src/project/dialogs/archivewidget.cpp:228
-#: src/project/dialogs/archivewidget.cpp:1318
-#: src/project/dialogs/archivewidget.cpp:1360
+#: src/project/dialogs/archivewidget.cpp:1319
+#: src/project/dialogs/archivewidget.cpp:1361
 #, fuzzy, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
@@ -13023,7 +13023,7 @@ msgstr "請稍等..."
 #: src/project/dialogs/archivewidget.cpp:639
 #: src/project/dialogs/archivewidget.cpp:673
 #: src/project/dialogs/archivewidget.cpp:759
-#: src/project/dialogs/archivewidget.cpp:1167
+#: src/project/dialogs/archivewidget.cpp:1168
 #, fuzzy, kde-format
 msgid "Cannot create directory %1"
 msgstr "無法寫入檔案 %1"
@@ -13061,34 +13061,39 @@ msgstr "無法寫入檔案 %1"
 msgid "Archiving %1"
 msgstr "請稍等..."
 
-#: src/project/dialogs/archivewidget.cpp:1137
+#: src/project/dialogs/archivewidget.cpp:1108
+#, fuzzy, kde-format
+msgid "Cannot copy file %1 to %2."
+msgstr "無法寫入檔案 %1"
+
+#: src/project/dialogs/archivewidget.cpp:1138
 #, kde-format
 msgid ""
 "Project was successfully archived.\n"
 "%1"
 msgstr ""
 
-#: src/project/dialogs/archivewidget.cpp:1140
+#: src/project/dialogs/archivewidget.cpp:1141
 #, fuzzy, kde-format
 msgid "Unknown Error"
 msgstr "未知的素材"
 
-#: src/project/dialogs/archivewidget.cpp:1140
+#: src/project/dialogs/archivewidget.cpp:1141
 #, kde-format
 msgid "There was an error while archiving the project: %1"
 msgstr ""
 
-#: src/project/dialogs/archivewidget.cpp:1169
+#: src/project/dialogs/archivewidget.cpp:1170
 #, fuzzy, kde-format
 msgid "Extracting…"
 msgstr "請稍等..."
 
-#: src/project/dialogs/archivewidget.cpp:1235
+#: src/project/dialogs/archivewidget.cpp:1236
 #, fuzzy, kde-format
 msgid "Cannot open project file %1"
 msgstr "無法寫入檔案 %1"
 
-#: src/project/dialogs/archivewidget.cpp:1235
+#: src/project/dialogs/archivewidget.cpp:1236
 #, fuzzy, kde-format
 msgid "Cannot open file"
 msgstr "無法移動特效"
@@ -16266,24 +16271,24 @@ msgstr "偏移"
 msgid "<b>Click</b> to add composition"
 msgstr "更多選項"
 
-#: src/timeline2/view/qml/Clip.qml:1296 src/timeline2/view/qml/Clip.qml:1303
+#: src/timeline2/view/qml/Clip.qml:1297 src/timeline2/view/qml/Clip.qml:1304
 #, fuzzy, kde-format
 #| msgid "Fade out"
 msgid "Fade out: %1"
 msgstr "音訊淡出"
 
-#: src/timeline2/view/qml/Clip.qml:1307 src/timeline2/view/qml/Clip.qml:1402
+#: src/timeline2/view/qml/Clip.qml:1308 src/timeline2/view/qml/Clip.qml:1407
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1391 src/timeline2/view/qml/Clip.qml:1398
+#: src/timeline2/view/qml/Clip.qml:1396 src/timeline2/view/qml/Clip.qml:1403
 #, fuzzy, kde-format
 #| msgid "Fade in"
 msgid "Fade in: %1"
 msgstr "音訊淡入"
 
-#: src/timeline2/view/qml/Clip.qml:1482
+#: src/timeline2/view/qml/Clip.qml:1490
 #, fuzzy, kde-format
 #| msgid "Select Clip"
 msgid "Slip Clip"
