@@ -232,6 +232,7 @@ public:
             if (type == AbstractProjectItem::ClipItem || type == AbstractProjectItem::SubClipItem) {
                 int decoWidth = 0;
                 FileStatus::ClipStatus clipStatus = FileStatus::ClipStatus(index.data(AbstractProjectItem::ClipStatus).toInt());
+                int cType = index.data(AbstractProjectItem::ClipType).toInt();
                 if (opt.decorationSize.height() > 0) {
                     r.setWidth(int(r.height() * pCore->getCurrentDar()));
                     QPixmap pix = opt.icon.pixmap(opt.icon.actualSize(r.size()));
@@ -242,25 +243,25 @@ public:
                         painter->drawPixmap(r, pix, QRect(0, 0, pix.width(), pix.height()));
                     }
                     m_thumbRect = r;
-                }
-                // Draw frame in case of missing source
-                int cType = index.data(AbstractProjectItem::ClipType).toInt();
-                if (clipStatus == FileStatus::StatusMissing || clipStatus == FileStatus::StatusProxyOnly) {
-                    painter->save();
-                    painter->setPen(QPen(clipStatus == FileStatus::StatusProxyOnly ? Qt::yellow : Qt::red, 3));
-                    painter->drawRect(m_thumbRect.adjusted(0, 0, -1, -1));
-                    painter->restore();
-                } else if (cType == ClipType::Image || cType == ClipType::SlideShow) {
-                    // Draw 'photo' frame to identify image clips
-                    painter->save();
-                    int penWidth = m_thumbRect.height() / 14;
-                    penWidth += penWidth % 2;
-                    painter->setPen(QPen(QColor(255, 255, 255, 160), penWidth));
-                    penWidth /= 2;
-                    painter->drawRoundedRect(m_thumbRect.adjusted(penWidth, penWidth, -penWidth - 1, -penWidth - 1), 4, 4);
-                    painter->setPen(QPen(Qt::black, 1));
-                    painter->drawRoundedRect(m_thumbRect.adjusted(0, 0, -1, -1), 4, 4);
-                    painter->restore();
+
+                    // Draw frame in case of missing source
+                    if (clipStatus == FileStatus::StatusMissing || clipStatus == FileStatus::StatusProxyOnly) {
+                        painter->save();
+                        painter->setPen(QPen(clipStatus == FileStatus::StatusProxyOnly ? Qt::yellow : Qt::red, 3));
+                        painter->drawRect(m_thumbRect.adjusted(0, 0, -1, -1));
+                        painter->restore();
+                    } else if (cType == ClipType::Image || cType == ClipType::SlideShow) {
+                        // Draw 'photo' frame to identify image clips
+                        painter->save();
+                        int penWidth = m_thumbRect.height() / 14;
+                        penWidth += penWidth % 2;
+                        painter->setPen(QPen(QColor(255, 255, 255, 160), penWidth));
+                        penWidth /= 2;
+                        painter->drawRoundedRect(m_thumbRect.adjusted(penWidth, penWidth, -penWidth - 1, -penWidth - 1), 4, 4);
+                        painter->setPen(QPen(Qt::black, 1));
+                        painter->drawRoundedRect(m_thumbRect.adjusted(0, 0, -1, -1), 4, 4);
+                        painter->restore();
+                    }
                 }
                 int mid = int((r1.height() / 2));
                 r1.adjust(decoWidth, 0, 0, -mid);
