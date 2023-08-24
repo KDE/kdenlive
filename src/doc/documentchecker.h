@@ -53,6 +53,8 @@ public:
     static QString searchDirRecursively(const QDir &dir, const QString &matchHash, const QString &fullName);
 
     bool resolveProblemsWithGUI();
+    /* @brief Get a count of missing items in each category */
+    QMap<DocumentChecker::MissingType, int> getCheckResults();
 
     std::vector<DocumentResource> resourceItems() { return m_items; }
 
@@ -72,7 +74,7 @@ private:
     QStringList m_binIds;
     QStringList m_warnings;
 
-    QString ensureAbsoultePath(QString filepath);
+    QString ensureAbsolutePath(QString filepath);
 
     /** @brief Returns list of transitions ids / tag containing luma files */
     const QMap<QString, QString> getLumaPairs() const;

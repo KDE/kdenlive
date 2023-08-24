@@ -21,7 +21,9 @@ DCResolveDialog::DCResolveDialog(std::vector<DocumentChecker::DocumentResource> 
     m_model = DocumentCheckerTreeModel::construct(items, this);
     removeSelected->setEnabled(false);
     manualSearch->setEnabled(false);
-    treeView->setModel(m_model.get());
+    m_sortModel = std::make_unique<QSortFilterProxyModel>(new QSortFilterProxyModel(this));
+    m_sortModel->setSourceModel(m_model.get());
+    treeView->setModel(m_sortModel.get());
     treeView->setAlternatingRowColors(true);
     treeView->setSortingEnabled(true);
     // treeView->header()->resizeSections(QHeaderView::ResizeToContents);
@@ -34,7 +36,7 @@ DCResolveDialog::DCResolveDialog(std::vector<DocumentChecker::DocumentResource> 
         QItemSelectionModel *selectionModel = treeView->selectionModel();
         QModelIndexList selection = selectionModel->selectedRows();
         for (auto &i : selection) {
-            m_model->removeItem(i);
+            m_model->removeItem(m_sortModel->mapToSource(i));
         }
         checkStatus();
     });
@@ -68,8 +70,7 @@ DCResolveDialog::DCResolveDialog(std::vector<DocumentChecker::DocumentResource> 
 
     progressBox->setVisible(false);
     infoLabel->setVisible(false);
-    proxyBox->setVisible(false);
-
+    recreateProxies->setEnabled(false);
     initProxyPanel(items);
 
     checkStatus();
@@ -82,7 +83,7 @@ void DCResolveDialog::newSelection(const QItemSelection &, const QItemSelection 
     QModelIndexList selection = selectionModel->selectedRows();
     bool notRemovable = false;
     for (auto &i : selection) {
-        DocumentChecker::DocumentResource resource = m_model->getDocumentResource(i);
+        DocumentChecker::DocumentResource resource = m_model->getDocumentResource(m_sortModel->mapToSource(i));
         if (notRemovable == false && (resource.type == DocumentChecker::MissingType::TitleFont || resource.type == DocumentChecker::MissingType::TitleImage ||
                                       resource.type == DocumentChecker::MissingType::Effect || resource.type == DocumentChecker::MissingType::Transition)) {
             notRemovable = true;
@@ -114,7 +115,7 @@ QList<DocumentChecker::DocumentResource> DCResolveDialog::getItems()
 void DCResolveDialog::slotEditCurrentItem()
 {
     QItemSelectionModel *selectionModel = treeView->selectionModel();
-    QModelIndex index = selectionModel->currentIndex();
+    QModelIndex index = m_sortModel->mapToSource(selectionModel->currentIndex());
     DocumentChecker::DocumentResource resource = m_model->getDocumentResource(index);
 
     if (resource.type == DocumentChecker::MissingType::TitleFont) {
@@ -177,12 +178,49 @@ void DCResolveDialog::initProxyPanel(const std::vector<DocumentChecker::Document
             m_proxies.push_back(item);
         }
     }
+}
 
-    if (m_proxies.size() > 0) {
-        proxyLabel->setText(i18np("The project contains one missing proxy", "The project contains %1 missing proxies", m_proxies.size()));
-        proxyBox->show();
+void DCResolveDialog::updateStatusLabel(int missingClips, int removedClips, int placeholderClips, int missingProxies, int recoverableProxies)
+{
+    if (missingClips == 0 && removedClips == 0 && missingProxies == 0) {
+        statusLabel->hide();
+        return;
+    }
+    QString statusMessage = i18n("The project contains:");
+    statusMessage.append(QStringLiteral("<ul>"));
+    QStringList missingMessage;
+    if (missingClips + placeholderClips + removedClips > 0) {
+        statusMessage.append(QStringLiteral("<li>"));
+        if (missingClips > 0) {
+            missingMessage << i18np("One missing clip", "%1 missing clips", missingClips);
+        }
+        if (placeholderClips > 0) {
+            missingMessage << i18np("One placeholder clip", "%1 placeholder clips", placeholderClips);
+        }
+        if (removedClips > 0) {
+            missingMessage << i18np("One removed clip", "%1 removed clips", removedClips);
+        }
+        statusMessage.append(missingMessage.join(QLatin1String(", ")));
+        statusMessage.append(QStringLiteral("</li>"));
+    }
+    if (missingProxies > 0 || recoverableProxies > 0) {
+        statusMessage.append(QStringLiteral("<li>"));
+        QStringList proxyMessage;
+        if (missingProxies > 0) {
+            proxyMessage << i18np("One missing proxy", "%1 missing proxies", missingProxies);
+        }
+        if (recoverableProxies > 0) {
+            proxyMessage << i18np("One proxy can be recovered", "%1 proxies can be recovered", recoverableProxies);
+        }
+        statusMessage.append(proxyMessage.join(QLatin1String(", ")));
+        statusMessage.append(QStringLiteral("</li>"));
+    }
+    statusMessage.append(QStringLiteral("</ul>"));
+    statusLabel->setText(statusMessage);
+    if (recoverableProxies > 0) {
+        recreateProxies->setEnabled(true);
     } else {
-        proxyBox->hide();
+        recreateProxies->setEnabled(false);
     }
 }
 
@@ -200,12 +238,38 @@ void DCResolveDialog::slotRecursiveSearch()
 void DCResolveDialog::checkStatus()
 {
     bool status = true;
+    int missingClips = 0;
+    int removedClips = 0;
+    int placeholderClips = 0;
+    int missingProxies = 0;
+    // Proxy clips that cannot be recovered (missing, removed or placeholder clip)
+    int lostProxies = 0;
+    QStringList idsToRemove;
+    QStringList idsNotRecovered;
     for (const auto &item : m_model->getDocumentResources()) {
         if (item.status == DocumentChecker::MissingStatus::Missing && item.type != DocumentChecker::MissingType::Proxy) {
+            missingClips++;
+            idsNotRecovered << item.clipId;
             status = false;
+        } else if (item.status == DocumentChecker::MissingStatus::Remove) {
+            idsToRemove << item.clipId;
+            removedClips++;
+        } else if (item.status == DocumentChecker::MissingStatus::Placeholder) {
+            placeholderClips++;
+            idsNotRecovered << item.clipId;
         }
     }
-
+    for (auto &proxy : m_proxies) {
+        if (idsToRemove.contains(proxy.clipId)) {
+            lostProxies++;
+        } else {
+            missingProxies++;
+            if (idsNotRecovered.contains(proxy.clipId)) {
+                lostProxies++;
+            }
+        }
+    }
+    updateStatusLabel(missingClips, removedClips, placeholderClips, missingProxies, m_proxies.size() - lostProxies);
     recursiveSearch->setEnabled(!status);
     buttonBox->button(QDialogButtonBox::Ok)->setEnabled(status);
 }

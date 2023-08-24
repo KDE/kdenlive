@@ -40,3 +40,23 @@ TEST_CASE("Basic tests of the document checker parts", "[DocumentChecker]")
         CHECK_FALSE(DocumentChecker::isMltBuildInLuma(QStringLiteral("luma87.pgm")));
     }
 }
+
+TEST_CASE("Missing project items", "[DocumentChecker]")
+{
+    QString path = sourcesPath + "/dataset/missing-proxy.kdenlive";
+
+    SECTION("Missing proxy detection")
+    {
+        QDomDocument doc;
+        Xml::docContentFromFile(doc, path, false);
+        DocumentChecker d(QUrl::fromLocalFile(path), doc);
+        d.hasErrorInProject();
+        QMap<DocumentChecker::MissingType, int> results = d.getCheckResults();
+        if (results.contains(DocumentChecker::MissingType::Clip)) {
+            qDebug() << "::: MISSING CLIP: " << results.value(DocumentChecker::MissingType::Clip);
+        }
+        CHECK_FALSE(results.contains(DocumentChecker::MissingType::Clip));
+        CHECK(results.contains(DocumentChecker::MissingType::Proxy));
+        CHECK(results.value(DocumentChecker::MissingType::Proxy) == 1);
+    }
+}

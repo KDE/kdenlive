@@ -21,10 +21,10 @@ protected:
 public:
     static std::shared_ptr<DocumentCheckerTreeModel> construct(const std::vector<DocumentChecker::DocumentResource> &items, QObject *parent = nullptr);
 
-    void removeItem(const QModelIndex &index);
+    void removeItem(const QModelIndex &ix);
     void slotSearchRecursively(const QString &newpath);
     void usePlaceholdersForMissing();
-    void setItemsNewFilePath(const QModelIndex &index, const QString &url, DocumentChecker::MissingStatus status);
+    void setItemsNewFilePath(const QModelIndex &ix, const QString &url, DocumentChecker::MissingStatus status);
     void setItemsFileHash(const QModelIndex &index, const QString &hash);
 
     QVariant data(const QModelIndex &index, int role) const override;

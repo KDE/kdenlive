@@ -4,6 +4,7 @@
 */
 
 #include <QDialog>
+#include <QSortFilterProxyModel>
 
 #include "doc/documentcheckertreemodel.h"
 #include "ui_missingclips_ui.h"
@@ -19,12 +20,14 @@ public:
 
 private:
     std::shared_ptr<DocumentCheckerTreeModel> m_model;
+    std::unique_ptr<QSortFilterProxyModel> m_sortModel;
 
     void slotEditCurrentItem();
     void checkStatus();
     void slotRecursiveSearch();
     void setEnableChangeItems(bool enabled);
     void initProxyPanel(const std::vector<DocumentChecker::DocumentResource> &items);
+    void updateStatusLabel(int missingClips, int removedClips, int placeholderClips, int missingProxies, int recoverableProxies);
 
     std::vector<DocumentChecker::DocumentResource> m_proxies;
 

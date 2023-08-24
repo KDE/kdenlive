@@ -56,11 +56,12 @@ std::shared_ptr<DocumentCheckerTreeModel> DocumentCheckerTreeModel::construct(co
     return self;
 }
 
-void DocumentCheckerTreeModel::removeItem(const QModelIndex &index)
+void DocumentCheckerTreeModel::removeItem(const QModelIndex &ix)
 {
-    auto item = getItemByIndex(index);
+    auto item = getItemByIndex(ix);
     m_resourceItems[item->getId()].status = DocumentChecker::MissingStatus::Remove;
     item->setData(1, DocumentChecker::readableNameForMissingStatus(m_resourceItems.value(item->getId()).status));
+    Q_EMIT dataChanged(index(ix.row(), 0), index(ix.row(), columnCount()));
 }
 
 void DocumentCheckerTreeModel::slotSearchRecursively(const QString &newpath)
@@ -119,15 +120,17 @@ void DocumentCheckerTreeModel::usePlaceholdersForMissing()
         auto item = getItemById(i.key());
         item->setData(1, DocumentChecker::readableNameForMissingStatus(m_resourceItems.value(item->getId()).status));
     }
+    Q_EMIT dataChanged(QModelIndex(), QModelIndex());
 }
 
-void DocumentCheckerTreeModel::setItemsNewFilePath(const QModelIndex &index, const QString &url, DocumentChecker::MissingStatus status)
+void DocumentCheckerTreeModel::setItemsNewFilePath(const QModelIndex &ix, const QString &url, DocumentChecker::MissingStatus status)
 {
-    auto item = getItemByIndex(index);
+    auto item = getItemByIndex(ix);
     m_resourceItems[item->getId()].status = status;
     m_resourceItems[item->getId()].newFilePath = url;
     item->setData(1, DocumentChecker::readableNameForMissingStatus(m_resourceItems.value(item->getId()).status));
     item->setData(3, m_resourceItems.value(item->getId()).newFilePath);
+    Q_EMIT dataChanged(index(ix.row(), 0), index(ix.row(), columnCount()));
 }
 
 void DocumentCheckerTreeModel::setItemsFileHash(const QModelIndex &index, const QString &hash)
