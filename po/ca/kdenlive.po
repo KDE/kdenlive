@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-18 02:23+0000\n"
-"PO-Revision-Date: 2023-08-08 14:27+0200\n"
+"PO-Revision-Date: 2023-08-23 20:35+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -293,7 +293,7 @@ msgstr "Canal"
 #, kde-format
 msgctxt "Audio Pan"
 msgid "Pan"
-msgstr "Panoràmic"
+msgstr "Desplaçament"
 
 #: data/effects/audiospectrum.xml:5
 #, kde-format
@@ -1352,11 +1352,13 @@ msgstr "Inclinació"
 msgid "Transition width"
 msgstr "Amplada de la transició"
 
+# skip-rule: punctuation-period-no
 #: data/effects/mask_start_frei0r_alphaspot.xml:30
 #, kde-format
 msgid "Min"
 msgstr "Mín."
 
+# skip-rule: punctuation-period-no
 #: data/effects/mask_start_frei0r_alphaspot.xml:33
 #, kde-format
 msgid "Max"
@@ -2422,6 +2424,7 @@ msgstr "Mida del pas"
 msgid "Stepsize of Detection process minimum around"
 msgstr "Mida mínima del pas del procés de detecció al voltant"
 
+# skip-rule: punctuation-period-no
 #: data/effects/vidstab.xml:20
 #, kde-format
 msgid "Min. contrast"
@@ -2442,6 +2445,7 @@ msgstr "Suavitzat"
 msgid "Number of frames for lowpass filtering"
 msgstr "Nombre de fotogrames per al filtratge de passabaix"
 
+# skip-rule: punctuation-period-no
 #: data/effects/vidstab.xml:28
 #, kde-format
 msgid "Max shift"
@@ -2452,6 +2456,7 @@ msgstr "Desplaçament màx."
 msgid "Max number of pixels to shift (-1 = no limit)"
 msgstr "Nombre màxim de píxels a desplaçar (-1 = sense límit)"
 
+# skip-rule: punctuation-period-no
 #: data/effects/vidstab.xml:32
 #, kde-format
 msgid "Max angle"
@@ -6297,7 +6302,7 @@ msgstr "Colors i guies"
 #: src/dialogs/kdenlivesettingsdialog.cpp:132
 #, kde-format
 msgid "Speech To Text"
-msgstr "Text a veu"
+msgstr "Veu a text"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:136
 #, kde-format
@@ -6786,6 +6791,7 @@ msgstr "Fitxer"
 msgid "Stored Playlists"
 msgstr "Llistes de reproducció emmagatzemades"
 
+# skip-rule: punctuation-period-no
 #: src/dialogs/renderwidget.cpp:325 src/timeline2/view/previewmanager.cpp:49
 #, kde-format
 msgid ""
@@ -9004,7 +9010,7 @@ msgstr "Vista"
 #: src/kdenliveui.rc:273
 #, kde-format
 msgid "Dock Area Orientation"
-msgstr "Orientació de l'àrea de l'acoblador"
+msgstr "Orientació de l'àrea d'acoblament"
 
 #. i18n: ectx: Menu (qt_opengl)
 #: src/kdenliveui.rc:284
@@ -9047,7 +9053,7 @@ msgstr "Disposicions"
 #: src/layoutmanagement.cpp:42
 #, kde-format
 msgid "Load Layout"
-msgstr "Carrega la disposició"
+msgstr "Carrega una disposició"
 
 #: src/layoutmanagement.cpp:53
 #, kde-format
@@ -9062,12 +9068,12 @@ msgstr "Gestió de les disposicions…"
 #: src/layoutmanagement.cpp:67
 #, kde-format
 msgid "Arrange Dock Areas In Rows"
-msgstr "Organitza les àrees de l'acoblador en files"
+msgstr "Organitza les àrees d'acoblament en files"
 
 #: src/layoutmanagement.cpp:71
 #, kde-format
 msgid "Arrange Dock Areas In Columns"
-msgstr "Organitza les àrees de l'acoblador en columnes"
+msgstr "Organitza les àrees d'acoblament en columnes"
 
 #: src/layoutmanagement.cpp:176
 #, kde-format
@@ -9110,7 +9116,7 @@ msgstr "Reinicialitza"
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Layout"
-msgstr "Carrega la disposició"
+msgstr "Càrrega de disposició"
 
 #: src/layoutmanagement.cpp:494
 #, kde-format
@@ -11012,7 +11018,7 @@ msgstr ""
 "<shortcut>Maj + arrossegar</shortcut> per a una selecció de banda elàstica, "
 "<shortcut>Maj + clic</shortcut> per a una selecció múltiple, <shortcut>Meta "
 "+ arrossegar</shortcut> per a moure un clip agrupat a una altra pista, "
-"<shortcut>Ctrl + arrossegar</shortcut> per a una panoràmica"
+"<shortcut>Ctrl + arrossegar</shortcut> per a desplaçar"
 
 #: src/mainwindow.cpp:3381
 #, kde-kuit-format
@@ -11026,7 +11032,7 @@ msgstr ""
 "<shortcut>Maj + arrossegar</shortcut> per a una selecció de banda elàstica, "
 "<shortcut>Maj + clic</shortcut> per a una selecció múltiple, <shortcut>Meta "
 "+ Alt + arrossegar</shortcut> per a moure un clip agrupat a una altra pista, "
-"<shortcut>Ctrl + arrossegar</shortcut> per a una panoràmica"
+"<shortcut>Ctrl + arrossegar</shortcut> per a desplaçar"
 
 #: src/mainwindow.cpp:3384
 #, kde-format
@@ -11087,7 +11093,7 @@ msgid ""
 msgstr ""
 "<shortcut>Maj + arrossegar</shortcut> per a una selecció de banda elàstica, "
 "<shortcut>Maj + clic</shortcut> per a una selecció múltiple, <shortcut>Ctrl "
-"+ arrossegar</shortcut> per a una panoràmica"
+"+ arrossegar</shortcut> per a desplaçar"
 
 #: src/mainwindow.cpp:3402
 #, kde-format
@@ -14260,7 +14266,7 @@ msgstr "marc de treball d'aprenentage automàtic"
 #: src/pythoninterfaces/speechtotext.cpp:37
 #, kde-format
 msgid "Speech to text"
-msgstr "Text a veu"
+msgstr "Veu a text"
 
 #: src/pythoninterfaces/speechtotext.cpp:52
 #, kde-format
