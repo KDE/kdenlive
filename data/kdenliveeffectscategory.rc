@@ -34,7 +34,7 @@
 <text>Color and Image correction</text>
 </group>
 
-<group list=".ladspa.1413,audiobalance,audiopan,swapchannels,ladspa.1406,channelcopy">
+<group list="ladspa.1413,audiobalance,audiopan,swapchannels,ladspa.1406,channelcopy">
 <text>Audio correction</text>
 </group>
 
