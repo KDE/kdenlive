@@ -27,7 +27,7 @@ private:
     void slotRecursiveSearch();
     void setEnableChangeItems(bool enabled);
     void initProxyPanel(const std::vector<DocumentChecker::DocumentResource> &items);
-    void updateStatusLabel(int missingClips, int removedClips, int placeholderClips, int missingProxies, int recoverableProxies);
+    void updateStatusLabel(int missingClips, int missingClipsWithProxy, int removedClips, int placeholderClips, int missingProxies, int recoverableProxies);
 
     std::vector<DocumentChecker::DocumentResource> m_proxies;
 
