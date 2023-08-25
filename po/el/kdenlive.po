@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-24 00:45+0000\n"
+"POT-Creation-Date: 2023-08-25 00:45+0000\n"
 "PO-Revision-Date: 2020-04-15 11:41+0300\n"
 "Last-Translator: Petros Vidalis <pvidalis@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -5685,8 +5685,8 @@ msgstr "I"
 msgid "Usage"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:1489
-#: src/doc/documentchecker.cpp:1515 src/doc/documentchecker.cpp:1535
+#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:1486
+#: src/doc/documentchecker.cpp:1512 src/doc/documentchecker.cpp:1532
 #: src/mltcontroller/clipcontroller.cpp:485 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -7900,156 +7900,193 @@ msgstr ""
 msgid "hardware encoders found and enabled (%1)."
 msgstr ""
 
-#: src/doc/dcresolvedialog.cpp:51
+#: src/doc/dcresolvedialog.cpp:53
 #, kde-format
 msgid "Recursive search: processing clips"
 msgstr ""
 
-#: src/doc/dcresolvedialog.cpp:60
+#: src/doc/dcresolvedialog.cpp:62
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Recursive search: done"
 msgstr "Αναζήτηση"
 
-#: src/doc/dcresolvedialog.cpp:144
+#: src/doc/dcresolvedialog.cpp:145
 #, fuzzy, kde-format
 #| msgid "Enter new location for file"
 msgid "Enter new location for folder"
 msgstr "Εισάγετε μία νέα τοποθεσία αρχείου"
 
-#: src/doc/dcresolvedialog.cpp:155
+#: src/doc/dcresolvedialog.cpp:156
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Εισάγετε μία νέα τοποθεσία αρχείου"
 
-#: src/doc/dcresolvedialog.cpp:182
+#: src/doc/dcresolvedialog.cpp:189
 #, fuzzy, kde-format
 #| msgid "The project file contains missing clips or files"
-msgid "The project contains one missing proxy"
-msgid_plural "The project contains %1 missing proxies"
-msgstr[0] "Το αρχείο έργου περιέχει μη διαθέσιμα κλιπ ή αρχεία"
-msgstr[1] "Το αρχείο έργου περιέχει μη διαθέσιμα κλιπ ή αρχεία"
+msgid "The project contains:"
+msgstr "Το αρχείο έργου περιέχει μη διαθέσιμα κλιπ ή αρχεία"
 
-#: src/doc/dcresolvedialog.cpp:192
+#: src/doc/dcresolvedialog.cpp:195
+#, fuzzy, kde-format
+#| msgid "Check missing clips"
+msgid "One missing clip"
+msgid_plural "%1 missing clips"
+msgstr[0] "Έλεγχος για μη διαθέσιμα κλιπ"
+msgstr[1] "Έλεγχος για μη διαθέσιμα κλιπ"
+
+#: src/doc/dcresolvedialog.cpp:198
+#, fuzzy, kde-format
+#| msgid "Use placeholders for missing clips"
+msgid "One placeholder clip"
+msgid_plural "%1 placeholder clips"
+msgstr[0] "Δέσμευση χώρου για κλιπ που δεν έχουν βρεθεί"
+msgstr[1] "Δέσμευση χώρου για κλιπ που δεν έχουν βρεθεί"
+
+#: src/doc/dcresolvedialog.cpp:201
+#, fuzzy, kde-format
+#| msgid "Remove clips"
+msgid "One removed clip"
+msgid_plural "%1 removed clips"
+msgstr[0] "Αφαίρεση κλιπ"
+msgstr[1] "Αφαίρεση κλιπ"
+
+#: src/doc/dcresolvedialog.cpp:210
+#, fuzzy, kde-format
+#| msgid "Delete selected items"
+msgid "One missing proxy"
+msgid_plural "%1 missing proxies"
+msgstr[0] "Διαγραφή των επιλεγμένων αντικειμένων"
+msgstr[1] "Διαγραφή των επιλεγμένων αντικειμένων"
+
+#: src/doc/dcresolvedialog.cpp:213
+#, kde-format
+msgid "One proxy can be recovered"
+msgid_plural "%1 proxies can be recovered"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/doc/dcresolvedialog.cpp:230
 #, fuzzy, kde-format
 #| msgid "Clips folder"
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Φάκελος κλιπ"
 
-#: src/doc/documentchecker.cpp:152
+#: src/doc/documentchecker.cpp:150
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1479
+#: src/doc/documentchecker.cpp:1476
 #, kde-format
 msgid "Video clip"
 msgstr "Βιντεοκλίπ"
 
-#: src/doc/documentchecker.cpp:1481
+#: src/doc/documentchecker.cpp:1478
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Κλιπ προβολής διαφανειών"
 
-#: src/doc/documentchecker.cpp:1483
+#: src/doc/documentchecker.cpp:1480
 #, kde-format
 msgid "Image clip"
 msgstr "Εικονοκλίπ"
 
-#: src/doc/documentchecker.cpp:1485
+#: src/doc/documentchecker.cpp:1482
 #, kde-format
 msgid "Playlist clip"
 msgstr "Κλιπ λίστας αναπαραγωγής"
 
-#: src/doc/documentchecker.cpp:1487 src/doc/documentchecker.cpp:1503
+#: src/doc/documentchecker.cpp:1484 src/doc/documentchecker.cpp:1500
 #, kde-format
 msgid "Title Image"
 msgstr "Εικόνα τίτλου"
 
-#: src/doc/documentchecker.cpp:1499
+#: src/doc/documentchecker.cpp:1496
 #, fuzzy, kde-format
 #| msgid "Clip"
 msgid "Clip"
 msgstr "Κλιπ"
 
-#: src/doc/documentchecker.cpp:1501
+#: src/doc/documentchecker.cpp:1498
 #, kde-format
 msgid "Title Font"
 msgstr "Γραμματοσειρά τίτλου"
 
-#: src/doc/documentchecker.cpp:1505
+#: src/doc/documentchecker.cpp:1502
 #, kde-format
 msgid "Luma file"
 msgstr "Αρχείο luma"
 
-#: src/doc/documentchecker.cpp:1507
+#: src/doc/documentchecker.cpp:1504
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Asset file"
 msgstr "Διαγραφή αρχείων"
 
-#: src/doc/documentchecker.cpp:1509
+#: src/doc/documentchecker.cpp:1506
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr "Κλιπ διαμεσολάβησης"
 
-#: src/doc/documentchecker.cpp:1511
+#: src/doc/documentchecker.cpp:1508
 #: src/monitor/view/kdenlivemonitorsplit.qml:90
 #, kde-format
 msgid "Effect"
 msgstr "Εφέ"
 
-#: src/doc/documentchecker.cpp:1513
+#: src/doc/documentchecker.cpp:1510
 #, kde-format
 msgid "Transition"
 msgstr "Μετάβαση"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1523 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1520 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1525
+#: src/doc/documentchecker.cpp:1522
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Reload"
 msgstr "Επαναφόρτωση κλιπ"
 
-#: src/doc/documentchecker.cpp:1527
+#: src/doc/documentchecker.cpp:1524
 #, kde-format
 msgid "Missing"
 msgstr "Μη διαθέσιμα"
 
-#: src/doc/documentchecker.cpp:1529
+#: src/doc/documentchecker.cpp:1526
 #, fuzzy, kde-format
 #| msgid "Missing proxy"
 msgid "Missing, but proxy available"
 msgstr "Μη διαθέσιμος διαμεσολαβητής"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1531 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1528 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1533 src/ui/missingclips_ui.ui:174
+#: src/doc/documentchecker.cpp:1530 src/ui/missingclips_ui.ui:152
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Remove"
 msgstr "Αφαίρεση αρχείου"
 
-#: src/doc/documentchecker.cpp:1544
+#: src/doc/documentchecker.cpp:1541
 #, fuzzy, kde-format
 #| msgid "The project file contains missing clips or files"
 msgid "The project file contains missing clips or files."
 msgstr "Το αρχείο έργου περιέχει μη διαθέσιμα κλιπ ή αρχεία"
 
-#: src/doc/documentchecker.cpp:1547
+#: src/doc/documentchecker.cpp:1544
 #, fuzzy, kde-format
 #| msgid "Missing proxies will be recreated after opening."
 msgid "Missing proxies can be recreated on opening."
@@ -18409,7 +18446,7 @@ msgstr "Εμφάνιση χειριστηρίων για όλα τα σημεί�
 #: src/ui/customjobinterface_ui.ui:37 src/ui/cutjobdialog_ui.ui:34
 #: src/ui/cutjobdialog_ui.ui:51 src/ui/fontval_ui.ui:36
 #: src/ui/listdependencyparamwidget_ui.ui:36 src/ui/listparamwidget_ui.ui:76
-#: src/ui/missingclips_ui.ui:105 src/ui/urllistparamwidget_ui.ui:42
+#: src/ui/missingclips_ui.ui:69 src/ui/urllistparamwidget_ui.ui:42
 #: src/ui/urlval_ui.ui:44
 #, kde-format
 msgid "TextLabel"
@@ -20787,56 +20824,49 @@ msgstr "Προεπισκόπηση εικόνας"
 msgid " Clip Problems"
 msgstr "Προβλήματα κλιπ"
 
-#. i18n: ectx: property (title), widget (QGroupBox, proxyBox)
-#: src/ui/missingclips_ui.ui:47
-#, fuzzy, kde-format
-#| msgid "Proxy Clip"
-msgid "Proxies"
-msgstr "Κλιπ διαμεσολάβησης"
+#. i18n: ectx: property (format), widget (QProgressBar, progressBar)
+#: src/ui/missingclips_ui.ui:92
+#, no-c-format, kde-format
+msgid "%v / %m"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, recreateProxies)
-#: src/ui/missingclips_ui.ui:76
+#: src/ui/missingclips_ui.ui:102
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "Recreate missing proxies"
 msgstr "Διαγραφή των επιλεγμένων αντικειμένων"
 
-#. i18n: ectx: property (format), widget (QProgressBar, progressBar)
-#: src/ui/missingclips_ui.ui:128
-#, no-c-format, kde-format
-msgid "%v / %m"
-msgstr ""
-
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/missingclips_ui.ui:156
+#: src/ui/missingclips_ui.ui:134
 #, fuzzy, kde-format
 #| msgid "Delete Selected Item"
 msgid "Selected Items:"
 msgstr "Διαγραφή του επιλεγμένου αντικειμένου"
 
 #. i18n: ectx: property (text), widget (QPushButton, manualSearch)
-#: src/ui/missingclips_ui.ui:163
+#: src/ui/missingclips_ui.ui:141
 #, fuzzy, kde-format
 #| msgid "Search scale"
 msgid "Search Manually"
 msgstr "Κλίμακα αναζήτησης"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/missingclips_ui.ui:192
+#: src/ui/missingclips_ui.ui:170
 #, fuzzy, kde-format
 #| msgid "Missing item"
 msgid "All Missing Items:"
 msgstr "Μη διαθέσιμο αντικείμενο"
 
 #. i18n: ectx: property (text), widget (QPushButton, recursiveSearch)
-#: src/ui/missingclips_ui.ui:199
+#: src/ui/missingclips_ui.ui:177
 #, fuzzy, kde-format
 #| msgid "Search recursively"
 msgid "Search Recursively"
 msgstr "Αναζήτηση αναδρομικά"
 
 #. i18n: ectx: property (text), widget (QPushButton, usePlaceholders)
-#: src/ui/missingclips_ui.ui:210
+#: src/ui/missingclips_ui.ui:188
 #, fuzzy, kde-format
 #| msgid "Default folders"
 msgid "Use Placeholders"
@@ -22466,6 +22496,11 @@ msgid "%1h"
 msgstr ""
 
 #, fuzzy
+#~| msgid "Proxy Clip"
+#~ msgid "Proxies"
+#~ msgstr "Κλιπ διαμεσολάβησης"
+
+#, fuzzy
 #~| msgid "Reload Clip"
 #~ msgid "Relocated item"
 #~ msgstr "Επαναφόρτωση κλιπ"
@@ -22555,16 +22590,10 @@ msgstr ""
 #~ msgstr[1] ""
 #~ "Αυτή η ενέργεια θα απομακρύνει τα επιλεγμένα κλιπ από το παρόν έργο"
 
-#~ msgid "Remove clips"
-#~ msgstr "Αφαίρεση κλιπ"
-
 #, fuzzy
 #~| msgid "Rebuild Group"
 #~ msgid "Rebuild Proxies"
 #~ msgstr "Ανασυγκρότηση ομάδας"
-
-#~ msgid "Use placeholders for missing clips"
-#~ msgstr "Δέσμευση χώρου για κλιπ που δεν έχουν βρεθεί"
 
 #~ msgid "Path"
 #~ msgstr "Διαδρομή"
@@ -23089,9 +23118,6 @@ msgstr ""
 #~ msgstr ""
 #~ "Το αρχείο %1 δεν είναι ένα έγκυρο αρχείο έργου.\n"
 #~ "Θέλετε να ανοίξετε ένα εφεδρικό αρχείο;"
-
-#~ msgid "Check missing clips"
-#~ msgstr "Έλεγχος για μη διαθέσιμα κλιπ"
 
 #, fuzzy
 #~| msgid "Manage Project Profiles"

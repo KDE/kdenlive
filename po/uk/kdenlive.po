@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-24 00:45+0000\n"
+"POT-Creation-Date: 2023-08-25 00:45+0000\n"
 "PO-Revision-Date: 2023-08-23 08:10+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -5514,8 +5514,8 @@ msgstr "Ід."
 msgid "Usage"
 msgstr "Користування"
 
-#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:1489
-#: src/doc/documentchecker.cpp:1515 src/doc/documentchecker.cpp:1535
+#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:1486
+#: src/doc/documentchecker.cpp:1512 src/doc/documentchecker.cpp:1532
 #: src/mltcontroller/clipcontroller.cpp:485 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -7687,148 +7687,195 @@ msgstr "Не знайдено апаратних засобів кодуванн
 msgid "hardware encoders found and enabled (%1)."
 msgstr "Апаратні засоби кодування виявлено і увімкнено (%1)."
 
-#: src/doc/dcresolvedialog.cpp:51
+#: src/doc/dcresolvedialog.cpp:53
 #, kde-format
 msgid "Recursive search: processing clips"
 msgstr "Рекурсивний пошук: обробляємо кліпи"
 
-#: src/doc/dcresolvedialog.cpp:60
+#: src/doc/dcresolvedialog.cpp:62
 #, kde-format
 msgid "Recursive search: done"
 msgstr "Рекурсивний пошук: виконано"
 
-#: src/doc/dcresolvedialog.cpp:144
+#: src/doc/dcresolvedialog.cpp:145
 #, kde-format
 msgid "Enter new location for folder"
 msgstr "Введіть нову адресу теки"
 
-#: src/doc/dcresolvedialog.cpp:155
+#: src/doc/dcresolvedialog.cpp:156
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Введіть нову адресу файла"
 
-#: src/doc/dcresolvedialog.cpp:182
-#, kde-format
-msgid "The project contains one missing proxy"
-msgid_plural "The project contains %1 missing proxies"
-msgstr[0] "У проєкті міститься %1 пропущений проміжний кліп"
-msgstr[1] "У проєкті міститься %1 пропущені проміжні кліпи"
-msgstr[2] "У проєкті міститься %1 пропущених проміжних кліпів"
-msgstr[3] "У проєкті міститься пропущений проміжний кліп"
+#: src/doc/dcresolvedialog.cpp:189
+#, fuzzy, kde-format
+#| msgid "The project contains one missing proxy"
+#| msgid_plural "The project contains %1 missing proxies"
+msgid "The project contains:"
+msgstr "У проєкті міститься %1 пропущений проміжний кліп"
 
-#: src/doc/dcresolvedialog.cpp:192
+#: src/doc/dcresolvedialog.cpp:195
+#, fuzzy, kde-format
+#| msgid "Check missing clips"
+msgid "One missing clip"
+msgid_plural "%1 missing clips"
+msgstr[0] "Перевірити наявність кліпів"
+msgstr[1] "Перевірити наявність кліпів"
+msgstr[2] "Перевірити наявність кліпів"
+msgstr[3] "Перевірити наявність кліпів"
+
+#: src/doc/dcresolvedialog.cpp:198
+#, fuzzy, kde-format
+#| msgid "Use placeholders for missing clips"
+msgid "One placeholder clip"
+msgid_plural "%1 placeholder clips"
+msgstr[0] "Заповнювачі на місці кліпів, які не знайдено"
+msgstr[1] "Заповнювачі на місці кліпів, які не знайдено"
+msgstr[2] "Заповнювачі на місці кліпів, які не знайдено"
+msgstr[3] "Заповнювачі на місці кліпів, які не знайдено"
+
+#: src/doc/dcresolvedialog.cpp:201
+#, fuzzy, kde-format
+#| msgid "Remove clips"
+msgid "One removed clip"
+msgid_plural "%1 removed clips"
+msgstr[0] "Вилучити кліпи"
+msgstr[1] "Вилучити кліпи"
+msgstr[2] "Вилучити кліпи"
+msgstr[3] "Вилучити кліпи"
+
+#: src/doc/dcresolvedialog.cpp:210
+#, fuzzy, kde-format
+#| msgid "Recreate missing proxies"
+msgid "One missing proxy"
+msgid_plural "%1 missing proxies"
+msgstr[0] "Повторно створити пропущені проміжні кліпи"
+msgstr[1] "Повторно створити пропущені проміжні кліпи"
+msgstr[2] "Повторно створити пропущені проміжні кліпи"
+msgstr[3] "Повторно створити пропущені проміжні кліпи"
+
+#: src/doc/dcresolvedialog.cpp:213
+#, kde-format
+msgid "One proxy can be recovered"
+msgid_plural "%1 proxies can be recovered"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: src/doc/dcresolvedialog.cpp:230
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Тека кліпів"
 
-#: src/doc/documentchecker.cpp:152
+#: src/doc/documentchecker.cpp:150
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "Ідентифікатор документа вашого проєкту є некоректним, створено новий."
 
-#: src/doc/documentchecker.cpp:1479
+#: src/doc/documentchecker.cpp:1476
 #, kde-format
 msgid "Video clip"
 msgstr "Відеокліп"
 
-#: src/doc/documentchecker.cpp:1481
+#: src/doc/documentchecker.cpp:1478
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Кліп показу слайдів"
 
-#: src/doc/documentchecker.cpp:1483
+#: src/doc/documentchecker.cpp:1480
 #, kde-format
 msgid "Image clip"
 msgstr "Кліп-зображення"
 
-#: src/doc/documentchecker.cpp:1485
+#: src/doc/documentchecker.cpp:1482
 #, kde-format
 msgid "Playlist clip"
 msgstr "Додати кліп до списку відтворення"
 
-#: src/doc/documentchecker.cpp:1487 src/doc/documentchecker.cpp:1503
+#: src/doc/documentchecker.cpp:1484 src/doc/documentchecker.cpp:1500
 #, kde-format
 msgid "Title Image"
 msgstr "Зображення титрів"
 
-#: src/doc/documentchecker.cpp:1499
+#: src/doc/documentchecker.cpp:1496
 #, kde-format
 msgid "Clip"
 msgstr "Кліп"
 
-#: src/doc/documentchecker.cpp:1501
+#: src/doc/documentchecker.cpp:1498
 #, kde-format
 msgid "Title Font"
 msgstr "Шрифт титрів"
 
-#: src/doc/documentchecker.cpp:1505
+#: src/doc/documentchecker.cpp:1502
 #, kde-format
 msgid "Luma file"
 msgstr "Файл сигналу яскравості"
 
-#: src/doc/documentchecker.cpp:1507
+#: src/doc/documentchecker.cpp:1504
 #, kde-format
 msgid "Asset file"
 msgstr "Файл активів"
 
-#: src/doc/documentchecker.cpp:1509
+#: src/doc/documentchecker.cpp:1506
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr "Проміжний кліп"
 
-#: src/doc/documentchecker.cpp:1511
+#: src/doc/documentchecker.cpp:1508
 #: src/monitor/view/kdenlivemonitorsplit.qml:90
 #, kde-format
 msgid "Effect"
 msgstr "Ефект"
 
-#: src/doc/documentchecker.cpp:1513
+#: src/doc/documentchecker.cpp:1510
 #, kde-format
 msgid "Transition"
 msgstr "Перехід"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1523 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1520 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "Фіксована"
 
-#: src/doc/documentchecker.cpp:1525
+#: src/doc/documentchecker.cpp:1522
 #, kde-format
 msgid "Reload"
 msgstr "Перезавантажити"
 
-#: src/doc/documentchecker.cpp:1527
+#: src/doc/documentchecker.cpp:1524
 #, kde-format
 msgid "Missing"
 msgstr "Пропущено"
 
-#: src/doc/documentchecker.cpp:1529
+#: src/doc/documentchecker.cpp:1526
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr "Пропущено, але є проміжний кліп"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1531 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1528 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "Заповнювач"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1533 src/ui/missingclips_ui.ui:174
+#: src/doc/documentchecker.cpp:1530 src/ui/missingclips_ui.ui:152
 #, kde-format
 msgid "Remove"
 msgstr "Вилучити"
 
-#: src/doc/documentchecker.cpp:1544
+#: src/doc/documentchecker.cpp:1541
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Файл проєкту містить посилання на кліпи або файли, яких у ньому немає."
 
-#: src/doc/documentchecker.cpp:1547
+#: src/doc/documentchecker.cpp:1544
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr ""
@@ -17790,7 +17837,7 @@ msgstr "Показувати елементи керування всіма то
 #: src/ui/customjobinterface_ui.ui:37 src/ui/cutjobdialog_ui.ui:34
 #: src/ui/cutjobdialog_ui.ui:51 src/ui/fontval_ui.ui:36
 #: src/ui/listdependencyparamwidget_ui.ui:36 src/ui/listparamwidget_ui.ui:76
-#: src/ui/missingclips_ui.ui:105 src/ui/urllistparamwidget_ui.ui:42
+#: src/ui/missingclips_ui.ui:69 src/ui/urllistparamwidget_ui.ui:42
 #: src/ui/urlval_ui.ui:44
 #, kde-format
 msgid "TextLabel"
@@ -20008,50 +20055,44 @@ msgstr "Перегляд зображення"
 msgid " Clip Problems"
 msgstr "Проблеми з кліпом"
 
-#. i18n: ectx: property (title), widget (QGroupBox, proxyBox)
-#: src/ui/missingclips_ui.ui:47
-#, kde-format
-msgid "Proxies"
-msgstr "Проміжні кліпи"
-
-#. i18n: ectx: property (text), widget (QCheckBox, recreateProxies)
-#: src/ui/missingclips_ui.ui:76
-#, kde-format
-msgid "Recreate missing proxies"
-msgstr "Повторно створити пропущені проміжні кліпи"
-
 #. i18n: ectx: property (format), widget (QProgressBar, progressBar)
-#: src/ui/missingclips_ui.ui:128
+#: src/ui/missingclips_ui.ui:92
 #, no-c-format, kde-format
 msgid "%v / %m"
 msgstr "%v / %m"
 
+#. i18n: ectx: property (text), widget (QCheckBox, recreateProxies)
+#: src/ui/missingclips_ui.ui:102
+#, kde-format
+msgid "Recreate missing proxies"
+msgstr "Повторно створити пропущені проміжні кліпи"
+
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/missingclips_ui.ui:156
+#: src/ui/missingclips_ui.ui:134
 #, kde-format
 msgid "Selected Items:"
 msgstr "Позначені елементи:"
 
 #. i18n: ectx: property (text), widget (QPushButton, manualSearch)
-#: src/ui/missingclips_ui.ui:163
+#: src/ui/missingclips_ui.ui:141
 #, kde-format
 msgid "Search Manually"
 msgstr "Пошук вручну"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/missingclips_ui.ui:192
+#: src/ui/missingclips_ui.ui:170
 #, kde-format
 msgid "All Missing Items:"
 msgstr "Усі пропущені елементи:"
 
 #. i18n: ectx: property (text), widget (QPushButton, recursiveSearch)
-#: src/ui/missingclips_ui.ui:199
+#: src/ui/missingclips_ui.ui:177
 #, kde-format
 msgid "Search Recursively"
 msgstr "Рекурсивний пошук"
 
 #. i18n: ectx: property (text), widget (QPushButton, usePlaceholders)
-#: src/ui/missingclips_ui.ui:210
+#: src/ui/missingclips_ui.ui:188
 #, kde-format
 msgid "Use Placeholders"
 msgstr "Використовувати заповнювачі"
@@ -21565,6 +21606,9 @@ msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 год."
 
+#~ msgid "Proxies"
+#~ msgstr "Проміжні кліпи"
+
 #~ msgid "Relocated item"
 #~ msgstr "Пересунутий запис"
 
@@ -21671,14 +21715,8 @@ msgstr "%1 год."
 #~ "У результаті виконання цієї дії позначений кліп буде вилучено з цього "
 #~ "проєкту"
 
-#~ msgid "Remove clips"
-#~ msgstr "Вилучити кліпи"
-
 #~ msgid "Rebuild Proxies"
 #~ msgstr "Перебудувати проміжні"
-
-#~ msgid "Use placeholders for missing clips"
-#~ msgstr "Заповнювачі на місці кліпів, які не знайдено"
 
 #~ msgid "Path"
 #~ msgstr "Шлях"
@@ -22255,9 +22293,6 @@ msgstr "%1 год."
 #~ msgstr ""
 #~ "Файл %1 не є коректним файлом проєкту.\n"
 #~ "Бажаєте відкрити файл резервної копії?"
-
-#~ msgid "Check missing clips"
-#~ msgstr "Перевірити наявність кліпів"
 
 #~ msgid "Moving proxy clips failed: %1"
 #~ msgstr "Спроба пересунути проміжні кліпи завершилася невдало: %1"

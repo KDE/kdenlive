@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-24 00:45+0000\n"
-"PO-Revision-Date: 2023-07-30 21:05+0200\n"
+"POT-Creation-Date: 2023-08-25 00:45+0000\n"
+"PO-Revision-Date: 2023-08-24 19:55+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -515,10 +515,9 @@ msgid "Vertical multiplicator"
 msgstr "Moltiplicatore verticale"
 
 #: data/effects/box_blur.xml:15
-#, fuzzy, kde-format
-#| msgid "Preserve aspect ratio"
+#, kde-format
 msgid "Preserve alpha"
-msgstr "Mantieni il rapporto d'aspetto"
+msgstr "Mantieni alfa"
 
 #: data/effects/boxblur.xml:4
 #, kde-format
@@ -5510,8 +5509,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr "Uso"
 
-#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:1489
-#: src/doc/documentchecker.cpp:1515 src/doc/documentchecker.cpp:1535
+#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:1486
+#: src/doc/documentchecker.cpp:1512 src/doc/documentchecker.cpp:1532
 #: src/mltcontroller/clipcontroller.cpp:485 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -7691,42 +7690,79 @@ msgstr "Nessun codificatore hardware trovato."
 msgid "hardware encoders found and enabled (%1)."
 msgstr "codificatori hardware trovati ed abilitati (%1)."
 
-#: src/doc/dcresolvedialog.cpp:51
+#: src/doc/dcresolvedialog.cpp:53
 #, kde-format
 msgid "Recursive search: processing clips"
-msgstr ""
+msgstr "Ricerca ricorsiva: elaborazione delle clip"
 
-#: src/doc/dcresolvedialog.cpp:60
-#, fuzzy, kde-format
-#| msgid "Search done"
+#: src/doc/dcresolvedialog.cpp:62
+#, kde-format
 msgid "Recursive search: done"
-msgstr "Ricerca completata"
+msgstr "Ricerca ricorsiva: completata"
 
-#: src/doc/dcresolvedialog.cpp:144
+#: src/doc/dcresolvedialog.cpp:145
 #, kde-format
 msgid "Enter new location for folder"
 msgstr "Inserisci una nuova posizione per la cartella"
 
-#: src/doc/dcresolvedialog.cpp:155
+#: src/doc/dcresolvedialog.cpp:156
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Imposta una nuova posizione per il file"
 
-#: src/doc/dcresolvedialog.cpp:182
+#: src/doc/dcresolvedialog.cpp:189
 #, fuzzy, kde-format
-#| msgid "The project file contains missing clips or files."
-msgid "The project contains one missing proxy"
-msgid_plural "The project contains %1 missing proxies"
-msgstr[0] "Il file del progetto contiene delle clip o dei file mancanti."
-msgstr[1] "Il file del progetto contiene delle clip o dei file mancanti."
+#| msgid "The project contains one missing proxy"
+#| msgid_plural "The project contains %1 missing proxies"
+msgid "The project contains:"
+msgstr "Il progetto contiene una clip rappresentativa mancante"
 
-#: src/doc/dcresolvedialog.cpp:192
+#: src/doc/dcresolvedialog.cpp:195
+#, fuzzy, kde-format
+#| msgid "Check missing clips"
+msgid "One missing clip"
+msgid_plural "%1 missing clips"
+msgstr[0] "Controllo delle clip mancanti"
+msgstr[1] "Controllo delle clip mancanti"
+
+#: src/doc/dcresolvedialog.cpp:198
+#, fuzzy, kde-format
+#| msgid "Use placeholders for missing clips"
+msgid "One placeholder clip"
+msgid_plural "%1 placeholder clips"
+msgstr[0] "Usa un segnaposto per le clip mancanti"
+msgstr[1] "Usa un segnaposto per le clip mancanti"
+
+#: src/doc/dcresolvedialog.cpp:201
+#, fuzzy, kde-format
+#| msgid "Remove clips"
+msgid "One removed clip"
+msgid_plural "%1 removed clips"
+msgstr[0] "Rimuovi le clip"
+msgstr[1] "Rimuovi le clip"
+
+#: src/doc/dcresolvedialog.cpp:210
+#, fuzzy, kde-format
+#| msgid "Recreate missing proxies"
+msgid "One missing proxy"
+msgid_plural "%1 missing proxies"
+msgstr[0] "Ricrea le clip rappresentative mancanti"
+msgstr[1] "Ricrea le clip rappresentative mancanti"
+
+#: src/doc/dcresolvedialog.cpp:213
+#, kde-format
+msgid "One proxy can be recovered"
+msgid_plural "%1 proxies can be recovered"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/doc/dcresolvedialog.cpp:230
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Cartella di clip"
 
-#: src/doc/documentchecker.cpp:152
+#: src/doc/documentchecker.cpp:150
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
@@ -7734,111 +7770,107 @@ msgstr ""
 "L'identificativo del documento del tuo progetto non è valido, ne è stato "
 "creato uno nuovo."
 
-#: src/doc/documentchecker.cpp:1479
+#: src/doc/documentchecker.cpp:1476
 #, kde-format
 msgid "Video clip"
 msgstr "Clip video"
 
-#: src/doc/documentchecker.cpp:1481
+#: src/doc/documentchecker.cpp:1478
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Clip di presentazione"
 
-#: src/doc/documentchecker.cpp:1483
+#: src/doc/documentchecker.cpp:1480
 #, kde-format
 msgid "Image clip"
 msgstr "Clip da immagine"
 
-#: src/doc/documentchecker.cpp:1485
+#: src/doc/documentchecker.cpp:1482
 #, kde-format
 msgid "Playlist clip"
 msgstr "Lista di riproduzione clip"
 
-#: src/doc/documentchecker.cpp:1487 src/doc/documentchecker.cpp:1503
+#: src/doc/documentchecker.cpp:1484 src/doc/documentchecker.cpp:1500
 #, kde-format
 msgid "Title Image"
 msgstr "Immagine del titolo"
 
-#: src/doc/documentchecker.cpp:1499
-#, fuzzy, kde-format
-#| msgid "&Clip"
+#: src/doc/documentchecker.cpp:1496
+#, kde-format
 msgid "Clip"
-msgstr "&Clip"
+msgstr "Clip"
 
-#: src/doc/documentchecker.cpp:1501
+#: src/doc/documentchecker.cpp:1498
 #, kde-format
 msgid "Title Font"
 msgstr "Carattere del titolo"
 
-#: src/doc/documentchecker.cpp:1505
+#: src/doc/documentchecker.cpp:1502
 #, kde-format
 msgid "Luma file"
 msgstr "File luma"
 
-#: src/doc/documentchecker.cpp:1507
+#: src/doc/documentchecker.cpp:1504
 #, kde-format
 msgid "Asset file"
 msgstr "File di risorsa"
 
-#: src/doc/documentchecker.cpp:1509
+#: src/doc/documentchecker.cpp:1506
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr "Clip rappresentativa"
 
-#: src/doc/documentchecker.cpp:1511
+#: src/doc/documentchecker.cpp:1508
 #: src/monitor/view/kdenlivemonitorsplit.qml:90
 #, kde-format
 msgid "Effect"
 msgstr "Effetto"
 
-#: src/doc/documentchecker.cpp:1513
+#: src/doc/documentchecker.cpp:1510
 #, kde-format
 msgid "Transition"
 msgstr "Transizione"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1523 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1520 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "Fisso"
 
-#: src/doc/documentchecker.cpp:1525
-#, fuzzy, kde-format
-#| msgid "Reload Clip"
+#: src/doc/documentchecker.cpp:1522
+#, kde-format
 msgid "Reload"
-msgstr "Ricarica clip"
+msgstr "Ricarica"
 
-#: src/doc/documentchecker.cpp:1527
+#: src/doc/documentchecker.cpp:1524
 #, kde-format
 msgid "Missing"
 msgstr "Non trovato"
 
-#: src/doc/documentchecker.cpp:1529
-#, fuzzy, kde-format
-#| msgid "Missing proxy"
+#: src/doc/documentchecker.cpp:1526
+#, kde-format
 msgid "Missing, but proxy available"
-msgstr "Clip rappresentativa mancante"
+msgstr "Mancante, ma la clip rappresentativa è disponibile"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1531 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1528 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "Segnaposto"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1533 src/ui/missingclips_ui.ui:174
-#, fuzzy, kde-format
-#| msgid "Removal"
+#: src/doc/documentchecker.cpp:1530 src/ui/missingclips_ui.ui:152
+#, kde-format
 msgid "Remove"
-msgstr "Rimozione"
+msgstr "Rimuovi"
 
-#: src/doc/documentchecker.cpp:1544
+#: src/doc/documentchecker.cpp:1541
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Il file del progetto contiene delle clip o dei file mancanti."
 
-#: src/doc/documentchecker.cpp:1547
+#: src/doc/documentchecker.cpp:1544
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Le clip rappresentative mancanti possono essere ricreate all'apertura."
@@ -13002,10 +13034,9 @@ msgid "Archiving %1"
 msgstr "Archiviazione di %1"
 
 #: src/project/dialogs/archivewidget.cpp:1108
-#, fuzzy, kde-format
-#| msgid "Cannot open file %1"
+#, kde-format
 msgid "Cannot copy file %1 to %2."
-msgstr "Impossibile aprire il file %1"
+msgstr "Impossibile copiare il file %1 in %2."
 
 #: src/project/dialogs/archivewidget.cpp:1138
 #, kde-format
@@ -17814,7 +17845,7 @@ msgstr "Mostra le maniglie per tutti i punti, o solo per quelli selezionati."
 #: src/ui/customjobinterface_ui.ui:37 src/ui/cutjobdialog_ui.ui:34
 #: src/ui/cutjobdialog_ui.ui:51 src/ui/fontval_ui.ui:36
 #: src/ui/listdependencyparamwidget_ui.ui:36 src/ui/listparamwidget_ui.ui:76
-#: src/ui/missingclips_ui.ui:105 src/ui/urllistparamwidget_ui.ui:42
+#: src/ui/missingclips_ui.ui:69 src/ui/urllistparamwidget_ui.ui:42
 #: src/ui/urlval_ui.ui:44
 #, kde-format
 msgid "TextLabel"
@@ -20033,60 +20064,47 @@ msgstr "Anteprima dell'immagine"
 msgid " Clip Problems"
 msgstr " Problemi con la clip"
 
-#. i18n: ectx: property (title), widget (QGroupBox, proxyBox)
-#: src/ui/missingclips_ui.ui:47
-#, fuzzy, kde-format
-#| msgid "Proxy Clips"
-msgid "Proxies"
-msgstr "Clip rappresentative"
-
-#. i18n: ectx: property (text), widget (QCheckBox, recreateProxies)
-#: src/ui/missingclips_ui.ui:76
-#, fuzzy, kde-format
-#| msgid "Delete missing elements"
-msgid "Recreate missing proxies"
-msgstr "Elimina elementi mancanti"
-
 #. i18n: ectx: property (format), widget (QProgressBar, progressBar)
-#: src/ui/missingclips_ui.ui:128
+#: src/ui/missingclips_ui.ui:92
 #, no-c-format, kde-format
 msgid "%v / %m"
-msgstr ""
+msgstr "%v / %m"
+
+#. i18n: ectx: property (text), widget (QCheckBox, recreateProxies)
+#: src/ui/missingclips_ui.ui:102
+#, kde-format
+msgid "Recreate missing proxies"
+msgstr "Ricrea le clip rappresentative mancanti"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/missingclips_ui.ui:156
-#, fuzzy, kde-format
-#| msgid "Delete Selected Item"
+#: src/ui/missingclips_ui.ui:134
+#, kde-format
 msgid "Selected Items:"
-msgstr "Elimina l'elemento selezionato"
+msgstr "Elementi selezionati:"
 
 #. i18n: ectx: property (text), widget (QPushButton, manualSearch)
-#: src/ui/missingclips_ui.ui:163
-#, fuzzy, kde-format
-#| msgid "Search manually"
+#: src/ui/missingclips_ui.ui:141
+#, kde-format
 msgid "Search Manually"
 msgstr "Cerca manualmente"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/missingclips_ui.ui:192
-#, fuzzy, kde-format
-#| msgid "Missing item"
+#: src/ui/missingclips_ui.ui:170
+#, kde-format
 msgid "All Missing Items:"
-msgstr "Elemento mancante"
+msgstr "Tutti gli elementi mancanti:"
 
 #. i18n: ectx: property (text), widget (QPushButton, recursiveSearch)
-#: src/ui/missingclips_ui.ui:199
-#, fuzzy, kde-format
-#| msgid "Search recursively"
+#: src/ui/missingclips_ui.ui:177
+#, kde-format
 msgid "Search Recursively"
 msgstr "Cerca ricorsivamente"
 
 #. i18n: ectx: property (text), widget (QPushButton, usePlaceholders)
-#: src/ui/missingclips_ui.ui:210
-#, fuzzy, kde-format
-#| msgid "Placeholder"
+#: src/ui/missingclips_ui.ui:188
+#, kde-format
 msgid "Use Placeholders"
-msgstr "Segnaposto"
+msgstr "Usa segnaposti"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/ui/multiplemarkerdialog_ui.ui:24
@@ -21419,7 +21437,7 @@ msgstr ""
 #: src/ui/transcodeseekable_ui.ui:81
 #, kde-format
 msgid "Replace clip by transcoded version in project"
-msgstr ""
+msgstr "Sostituisci la clip con la versione transcodificata nel progetto"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, UnicodeWidget_UI)
 #: src/ui/unicodewidget_ui.ui:24
@@ -21595,6 +21613,9 @@ msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1o"
 
+#~ msgid "Proxies"
+#~ msgstr "Clip rappresentative"
+
 #~ msgid "Relocated item"
 #~ msgstr "Elemento trasferito"
 
@@ -21670,14 +21691,8 @@ msgstr "%1o"
 #~ msgstr[0] "Questa azione eliminerà la clip selezionata dal progetto"
 #~ msgstr[1] "Questa azione eliminerà le clip selezionate dal progetto"
 
-#~ msgid "Remove clips"
-#~ msgstr "Rimuovi le clip"
-
 #~ msgid "Rebuild Proxies"
 #~ msgstr "Ricostruisci le clip rappresentative"
-
-#~ msgid "Use placeholders for missing clips"
-#~ msgstr "Usa un segnaposto per le clip mancanti"
 
 #~ msgid "Path"
 #~ msgstr "Percorso"
@@ -22263,9 +22278,6 @@ msgstr "%1o"
 #~ msgstr ""
 #~ "Il file %1 non è un progetto valido.\n"
 #~ "Vuoi aprire una copia di sicurezza?"
-
-#~ msgid "Check missing clips"
-#~ msgstr "Controllo delle clip mancanti"
 
 #~ msgid "Moving proxy clips failed: %1"
 #~ msgstr "Spostamento delle clip rappresentative non riuscito: %1"
