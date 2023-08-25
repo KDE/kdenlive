@@ -1520,7 +1520,7 @@ void RenderWidget::setRenderProfile(const QMap<QString, QString> &props)
         m_view.render_full_color->setChecked(false);
     }
 
-    int mode = props.value(QStringLiteral("renderguide")).toInt();
+    int mode = props.value(QStringLiteral("rendermode")).toInt();
     if (mode == 1) {
         m_view.render_zone->setChecked(true);
     } else if (mode == 2) {
