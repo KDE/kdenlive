@@ -78,7 +78,7 @@
 <group list="avfilter.flanger,avfilter.aphaser,avfilter.apulsator,sox_flanger,sox_phaser,avfilter.treble,avfilter.vibrato"><text>Modulators</text>
 </group>
 
-<group list="ladspa.9354877"><text>Noise Reduction and Audio Restoration</text>
+<group list="ladspa.9354877,avfilter.arnndn"><text>Noise Reduction and Audio Restoration</text>
 </group>
 
 <group list="panner,audiomap,channelswap,mono,channelcopy,channelswap,swapchannels,audiobalance,audiopan">

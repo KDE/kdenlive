@@ -12,6 +12,7 @@ avfilter_alimiter.xml
 avfilter_allpass.xml
 avfilter_aphaser.xml
 avfilter_apulsator.xml
+avfilter_arnndn.xml
 avfilter_atadenoise.xml
 avfilter_avgblur.xml
 avfilter_bandpass.xml

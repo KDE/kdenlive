@@ -44,8 +44,7 @@ ClipStabilize::ClipStabilize(const std::vector<QString> &binIds, QString filterN
     if (m_filtername == QLatin1String("vidstab")) {
         m_view = std::make_unique<AssetParameterView>(this);
         qDebug() << "// Fetching effect: " << m_filtername;
-        std::unique_ptr<Mlt::Filter> asset = EffectsRepository::get()->getEffect(m_filtername);
-        auto prop = std::make_unique<Mlt::Properties>(asset->get_properties());
+        std::unique_ptr<Mlt::Properties> prop = EffectsRepository::get()->getEffect(m_filtername);
         QDomElement xml = EffectsRepository::get()->getXml(m_filtername);
         m_assetModel.reset(new AssetParameterModel(std::move(prop), xml, m_filtername, ObjectId()));
         QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/presets/"));

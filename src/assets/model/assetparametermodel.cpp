@@ -113,6 +113,10 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
         }
         bool isFixed = (type == QLatin1String("fixed"));
         if (isFixed) {
+            if (value.contains(QLatin1Char('%'))) {
+                value.replace(QLatin1String("%avfiltermodels"),
+                              QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/avfiltermodels")).absolutePath());
+            }
             m_fixedParams[name] = value;
         } else if (currentRow.type == ParamType::Position) {
             int val = value.toInt();

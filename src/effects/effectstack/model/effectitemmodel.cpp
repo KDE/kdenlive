@@ -92,7 +92,13 @@ std::shared_ptr<EffectItemModel> EffectItemModel::construct(std::unique_ptr<Mlt:
 void EffectItemModel::plant(const std::weak_ptr<Mlt::Service> &service)
 {
     if (auto ptr = service.lock()) {
-        int ret = ptr->attach(filter());
+        int ret = 0;
+        if (isLink()) {
+            Mlt::Chain fromChain(static_cast<Mlt::Producer *>(ptr.get())->parent());
+            ret = fromChain.attach(getLink());
+        } else {
+            ret = ptr->attach(getFilter());
+        }
         Q_ASSERT(ret == 0);
     } else {
         qDebug() << "Error : Cannot plant effect because parent service is not available anymore";
@@ -141,7 +147,13 @@ void EffectItemModel::plantClone(const std::weak_ptr<Mlt::Service> &service)
                 ptr->set("_childid", childId);
             }
             m_childEffects.insert(childId, effect);
-            int ret = ptr->attach(effect->filter());
+            int ret = 0;
+            if (isLink()) {
+                Mlt::Chain fromChain(static_cast<Mlt::Producer *>(ptr.get())->parent());
+                ret = fromChain.attach(effect->getLink());
+            } else {
+                ret = ptr->attach(effect->getFilter());
+            }
             Q_ASSERT(ret == 0);
             return;
         }
@@ -153,7 +165,13 @@ void EffectItemModel::plantClone(const std::weak_ptr<Mlt::Service> &service)
 void EffectItemModel::unplant(const std::weak_ptr<Mlt::Service> &service)
 {
     if (auto ptr = service.lock()) {
-        int ret = ptr->detach(filter());
+        int ret = 0;
+        if (isLink()) {
+            Mlt::Chain fromChain(static_cast<Mlt::Producer *>(ptr.get())->parent());
+            ret = fromChain.detach(getLink());
+        } else {
+            ret = ptr->detach(getFilter());
+        }
         Q_ASSERT(ret == 0);
     } else {
         qDebug() << "Error : Cannot plant effect because parent service is not available anymore";
@@ -167,12 +185,23 @@ void EffectItemModel::unplantClone(const std::weak_ptr<Mlt::Service> &service)
         return;
     }
     if (auto ptr = service.lock()) {
-        int ret = ptr->detach(filter());
+        int ret = 0;
+        if (isLink()) {
+            Mlt::Chain fromChain(static_cast<Mlt::Producer *>(ptr.get())->parent());
+            ret = fromChain.detach(getLink());
+        } else {
+            ret = ptr->detach(getFilter());
+        }
         Q_ASSERT(ret == 0);
         int childId = ptr->get_int("_childid");
         auto effect = m_childEffects.take(childId);
         if (effect && effect->isValid()) {
-            ptr->detach(effect->filter());
+            if (effect->isLink()) {
+                Mlt::Chain fromChain(static_cast<Mlt::Producer *>(ptr.get())->parent());
+                ret = fromChain.detach(effect->getLink());
+            } else {
+                ret = ptr->detach(effect->getFilter());
+            }
             effect.reset();
         }
     } else {
@@ -181,9 +210,24 @@ void EffectItemModel::unplantClone(const std::weak_ptr<Mlt::Service> &service)
     }
 }
 
-Mlt::Filter &EffectItemModel::filter() const
+Mlt::Properties &EffectItemModel::filter() const
+{
+    return *(m_asset.get());
+}
+
+Mlt::Filter &EffectItemModel::getFilter() const
 {
     return *static_cast<Mlt::Filter *>(m_asset.get());
+}
+
+Mlt::Link &EffectItemModel::getLink() const
+{
+    return *static_cast<Mlt::Link *>(m_asset.get());
+}
+
+bool EffectItemModel::isLink() const
+{
+    return m_assetId.startsWith(QLatin1String("avfilter."));
 }
 
 bool EffectItemModel::isValid() const

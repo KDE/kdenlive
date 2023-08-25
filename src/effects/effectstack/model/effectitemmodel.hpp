@@ -9,6 +9,7 @@
 #include "abstractmodel/treeitem.hpp"
 #include "assets/model/assetparametermodel.hpp"
 #include <mlt++/MltFilter.h>
+#include <mlt++/MltLink.h>
 
 class EffectStackModel;
 /** @brief This represents an effect of the effectstack
@@ -37,7 +38,10 @@ public:
     void unplant(const std::weak_ptr<Mlt::Service> &service) override;
     void unplantClone(const std::weak_ptr<Mlt::Service> &service) override;
 
-    Mlt::Filter &filter() const;
+    Mlt::Properties &filter() const;
+    Mlt::Filter &getFilter() const;
+    Mlt::Link &getLink() const;
+    bool isLink() const;
 
     /** @brief Return true if the effect applies only to audio */
     bool isAudio() const override;

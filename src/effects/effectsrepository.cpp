@@ -205,11 +205,14 @@ bool EffectsRepository::isPreferred(const QString &effectId) const
     return m_preferred_list.contains(effectId);
 }
 
-std::unique_ptr<Mlt::Filter> EffectsRepository::getEffect(const QString &effectId) const
+std::unique_ptr<Mlt::Properties> EffectsRepository::getEffect(const QString &effectId) const
 {
     Q_ASSERT(exists(effectId));
     QString service_name = m_assets.at(effectId).mltId;
     // We create the Mlt element from its name
+    if (effectId.startsWith(QStringLiteral("avfilter."))) {
+        return std::make_unique<Mlt::Link>(service_name.toLatin1().constData());
+    }
     auto filter = std::make_unique<Mlt::Filter>(pCore->getProjectProfile(), service_name.toLatin1().constData(), nullptr);
     return filter;
 }

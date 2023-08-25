@@ -24,7 +24,7 @@ public:
     static std::unique_ptr<EffectsRepository> &get();
 
     /** @brief returns a fresh instance of the given effect */
-    std::unique_ptr<Mlt::Filter> getEffect(const QString &effectId) const;
+    std::unique_ptr<Mlt::Properties> getEffect(const QString &effectId) const;
     /** @brief returns true if an effect exists in MLT (bypasses the blacklist/metadata parsing) */
     bool hasInternalEffect(const QString &effectId) const;
     QPair<QString, QString> reloadCustom(const QString &path);

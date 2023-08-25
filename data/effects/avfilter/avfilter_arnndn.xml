@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.arnndn" id="avfilter.arnndn" type="audio">
+    <name>Reduce Noise From Speech</name>
+    <description>Noise reduction using neural models</description>
+    <author>libavfilter</author>
+    <parameter type="fixed" name="av.m" value="%avfiltermodels/mp.rnnn">
+        <paramdependencies files="%avfiltermodels/mp.rnnn" >Required model files for Noise Reduction Models not found in &lt;a href="file://%folder"&gt;models folder&lt;/a&gt;. Check our &lt;a href="https://docs.kdenlive.org/en/effects_and_compositions/effect_groups/alpha_manipulation/motion_tracker.html?highlight=motion%20tracker#id2"&gt;manual&lt;/a&gt; for instructions.</paramdependencies>
+    </parameter>
+    <parameter type="constant" name="av.mix" default="1" min="-1" max="1" decimals="3">
+        <name>Mix level</name>
+    </parameter>
+</effect>
