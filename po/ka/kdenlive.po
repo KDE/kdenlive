@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-24 00:45+0000\n"
-"PO-Revision-Date: 2023-08-21 06:02+0200\n"
+"POT-Creation-Date: 2023-08-25 00:45+0000\n"
+"PO-Revision-Date: 2023-08-24 05:16+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -78,7 +78,7 @@ msgstr "გრაფიკის ტიპი"
 #: data/effects/audiolevelgraph.xml:10
 #, kde-format
 msgid "The type of graph to display the levels."
-msgstr ""
+msgstr "დონეების საჩვენებელი გრაფიკების ტიპი."
 
 #: data/effects/audiolevelgraph.xml:13 data/effects/audiospectrum.xml:14
 #: data/effects/audiowaveform.xml:7 data/effects/dynamictext.xml:23
@@ -215,7 +215,7 @@ msgstr "სეგმენტებს შორის დაცილება"
 #: data/effects/audiolevelgraph.xml:59
 #, kde-format
 msgid "The space in pixels between the segments."
-msgstr ""
+msgstr "ადგილი სეგმენტებს შორის, პიქსელებში."
 
 #: data/effects/audiomap.xml:4 data/effects/audiomap.xml:5
 #, kde-format
@@ -310,7 +310,7 @@ msgstr "ხაზი, ზოლი"
 #: data/effects/audiospectrum.xml:11
 #, kde-format
 msgid "The type of graph to display the spectrum."
-msgstr ""
+msgstr "აირჩიეთ სპექტრის საჩვენებელი გრაფიკის ტიპი."
 
 #: data/effects/audiospectrum.xml:15
 #, kde-format
@@ -5276,8 +5276,8 @@ msgstr "ID"
 msgid "Usage"
 msgstr "გამოყენება"
 
-#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:1489
-#: src/doc/documentchecker.cpp:1515 src/doc/documentchecker.cpp:1535
+#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:1486
+#: src/doc/documentchecker.cpp:1512 src/doc/documentchecker.cpp:1532
 #: src/mltcontroller/clipcontroller.cpp:485 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -7327,146 +7327,183 @@ msgstr "აპარატურული ენკოდერები ვე�
 msgid "hardware encoders found and enabled (%1)."
 msgstr "აპარატურული ენკოდერები აღმოჩენილი და ჩართულია (%1)."
 
-#: src/doc/dcresolvedialog.cpp:51
+#: src/doc/dcresolvedialog.cpp:53
 #, kde-format
 msgid "Recursive search: processing clips"
 msgstr ""
 
-#: src/doc/dcresolvedialog.cpp:60
+#: src/doc/dcresolvedialog.cpp:62
 #, kde-format
 msgid "Recursive search: done"
 msgstr "რეკურსიული ძებნა: დასრულდა"
 
-#: src/doc/dcresolvedialog.cpp:144
+#: src/doc/dcresolvedialog.cpp:145
 #, kde-format
 msgid "Enter new location for folder"
 msgstr ""
 
-#: src/doc/dcresolvedialog.cpp:155
+#: src/doc/dcresolvedialog.cpp:156
 #, kde-format
 msgid "Enter new location for file"
 msgstr ""
 
-#: src/doc/dcresolvedialog.cpp:182
+#: src/doc/dcresolvedialog.cpp:189
+#, fuzzy, kde-format
+#| msgid "Use project resolution"
+msgid "The project contains:"
+msgstr "პროექტის გაფართოების გამოყენება"
+
+#: src/doc/dcresolvedialog.cpp:195
 #, kde-format
-msgid "The project contains one missing proxy"
-msgid_plural "The project contains %1 missing proxies"
+msgid "One missing clip"
+msgid_plural "%1 missing clips"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/doc/dcresolvedialog.cpp:192
+#: src/doc/dcresolvedialog.cpp:198
+#, fuzzy, kde-format
+#| msgid "Use Placeholders"
+msgid "One placeholder clip"
+msgid_plural "%1 placeholder clips"
+msgstr[0] "ადგილმჭერების გამოყენება"
+msgstr[1] "ადგილმჭერების გამოყენება"
+
+#: src/doc/dcresolvedialog.cpp:201
+#, fuzzy, kde-format
+#| msgid "Remove clips"
+msgid "One removed clip"
+msgid_plural "%1 removed clips"
+msgstr[0] "კლიპების წაშლა"
+msgstr[1] "კლიპების წაშლა"
+
+#: src/doc/dcresolvedialog.cpp:210
+#, fuzzy, kde-format
+#| msgid "Recreate missing proxies"
+msgid "One missing proxy"
+msgid_plural "%1 missing proxies"
+msgstr[0] "ნაკლული პროქსიების შექმნა"
+msgstr[1] "ნაკლული პროქსიების შექმნა"
+
+#: src/doc/dcresolvedialog.cpp:213
+#, kde-format
+msgid "One proxy can be recovered"
+msgid_plural "%1 proxies can be recovered"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/doc/dcresolvedialog.cpp:230
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "კლიპების საქაღლდე"
 
-#: src/doc/documentchecker.cpp:152
+#: src/doc/documentchecker.cpp:150
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1479
+#: src/doc/documentchecker.cpp:1476
 #, kde-format
 msgid "Video clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1481
+#: src/doc/documentchecker.cpp:1478
 #, kde-format
 msgid "Slideshow clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1483
+#: src/doc/documentchecker.cpp:1480
 #, kde-format
 msgid "Image clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1485
+#: src/doc/documentchecker.cpp:1482
 #, kde-format
 msgid "Playlist clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1487 src/doc/documentchecker.cpp:1503
+#: src/doc/documentchecker.cpp:1484 src/doc/documentchecker.cpp:1500
 #, kde-format
 msgid "Title Image"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1499
+#: src/doc/documentchecker.cpp:1496
 #, kde-format
 msgid "Clip"
 msgstr "Clip"
 
-#: src/doc/documentchecker.cpp:1501
+#: src/doc/documentchecker.cpp:1498
 #, kde-format
 msgid "Title Font"
 msgstr "სათაურის ფონტი"
 
-#: src/doc/documentchecker.cpp:1505
+#: src/doc/documentchecker.cpp:1502
 #, kde-format
 msgid "Luma file"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1507
+#: src/doc/documentchecker.cpp:1504
 #, kde-format
 msgid "Asset file"
 msgstr "აქტივების ფაილი"
 
-#: src/doc/documentchecker.cpp:1509
+#: src/doc/documentchecker.cpp:1506
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1511
+#: src/doc/documentchecker.cpp:1508
 #: src/monitor/view/kdenlivemonitorsplit.qml:90
 #, kde-format
 msgid "Effect"
 msgstr "ეფექტი"
 
-#: src/doc/documentchecker.cpp:1513
+#: src/doc/documentchecker.cpp:1510
 #, kde-format
 msgid "Transition"
 msgstr "გადასვლა"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1523 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1520 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "ფიქსირებული"
 
-#: src/doc/documentchecker.cpp:1525
+#: src/doc/documentchecker.cpp:1522
 #, kde-format
 msgid "Reload"
 msgstr "თავიდან ჩატვირთვა"
 
-#: src/doc/documentchecker.cpp:1527
+#: src/doc/documentchecker.cpp:1524
 #, kde-format
 msgid "Missing"
 msgstr "აკლია"
 
-#: src/doc/documentchecker.cpp:1529
+#: src/doc/documentchecker.cpp:1526
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr "აკლია, მაგრამ პროქსი ხელმისაწვდომია"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1531 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1528 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "შემავსებელი"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1533 src/ui/missingclips_ui.ui:174
+#: src/doc/documentchecker.cpp:1530 src/ui/missingclips_ui.ui:152
 #, kde-format
 msgid "Remove"
 msgstr "წაშლა"
 
-#: src/doc/documentchecker.cpp:1544
+#: src/doc/documentchecker.cpp:1541
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1547
+#: src/doc/documentchecker.cpp:1544
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr ""
@@ -12244,13 +12281,13 @@ msgstr ""
 #: src/project/dialogs/archivewidget.cpp:283
 #, kde-format
 msgid "Extract to"
-msgstr ""
+msgstr "გაშლა"
 
 #: src/project/dialogs/archivewidget.cpp:284
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Archived Project"
-msgstr ""
+msgstr "დაარქივებული პროექტის გახსნა"
 
 #: src/project/dialogs/archivewidget.cpp:286
 #, kde-format
@@ -12260,7 +12297,7 @@ msgstr "გაშლა"
 #: src/project/dialogs/archivewidget.cpp:325
 #, kde-format
 msgid "Opening archive…"
-msgstr ""
+msgstr "არქივის გახსნა…"
 
 #: src/project/dialogs/archivewidget.cpp:335
 #, kde-format
@@ -12268,6 +12305,8 @@ msgid ""
 "Cannot open archive file:\n"
 " %1"
 msgstr ""
+"არქივის ფაილის გახსნის შეცდომა:\n"
+"%1"
 
 #: src/project/dialogs/archivewidget.cpp:352
 #, kde-format
@@ -12275,6 +12314,8 @@ msgid ""
 "File %1\n"
 " is not an archived Kdenlive project"
 msgstr ""
+"ფაილი %1\n"
+"დაარქივებული Kdenlive-ის პროექტი არაა"
 
 #: src/project/dialogs/archivewidget.cpp:358
 #, kde-format
@@ -12284,33 +12325,33 @@ msgstr "მზადაა"
 #: src/project/dialogs/archivewidget.cpp:382
 #, kde-format
 msgid "Archiving in progress, do you want to stop it?"
-msgstr ""
+msgstr "მიმდინარეობს დაარქივება. გნებავთ, შეაჩეროთ ის?"
 
 #: src/project/dialogs/archivewidget.cpp:382
 #: src/project/dialogs/archivewidget.cpp:383
 #, kde-format
 msgid "Stop Archiving"
-msgstr ""
+msgstr "დაარქივების შეწყვეტა"
 
 #: src/project/dialogs/archivewidget.cpp:570
 #, kde-format
 msgid "Available space on drive: %1"
-msgstr ""
+msgstr "დისკზე ხელმისაწვდომი ადგილი: %1"
 
 #: src/project/dialogs/archivewidget.cpp:573
 #, kde-format
 msgid "Not enough space on drive, free space: %1"
-msgstr ""
+msgstr "დისკზე საკმარისი ადგილი არაა. თავისუფალი ადგილი: %1"
 
 #: src/project/dialogs/archivewidget.cpp:588
 #, kde-format
 msgid "Starting archive job"
-msgstr ""
+msgstr "დაარქივების დავალების გაშვება"
 
 #: src/project/dialogs/archivewidget.cpp:608
 #, kde-format
 msgid "Archiving…"
-msgstr ""
+msgstr "დაარქივება…"
 
 #: src/project/dialogs/archivewidget.cpp:639
 #: src/project/dialogs/archivewidget.cpp:673
@@ -12324,23 +12365,23 @@ msgstr "საქაღალდის შექმნის შეცდომ�
 #: src/project/dialogs/archivewidget.cpp:740
 #, kde-format
 msgid "Copying %1"
-msgstr ""
+msgstr "%1-ის კოპირება"
 
 #: src/project/dialogs/archivewidget.cpp:665
 #: src/project/dialogs/archivewidget.cpp:834
 #, kde-format
 msgid "Cannot create temporary file"
-msgstr ""
+msgstr "დროებითი ფაილის შექმნა შეუძლებელია"
 
 #: src/project/dialogs/archivewidget.cpp:784
 #, kde-format
 msgid "Project was successfully archived."
-msgstr ""
+msgstr "პროქტის დაარქივება წარმატებით დასრულდა."
 
 #: src/project/dialogs/archivewidget.cpp:794
 #, kde-format
 msgid "There was an error while copying the files: %1"
-msgstr ""
+msgstr "შეცდომა ფაილების კოპირებისას: %1"
 
 #: src/project/dialogs/archivewidget.cpp:1085
 #, kde-format
@@ -12350,13 +12391,12 @@ msgstr "არქივის ფაილის გახსნის შეც
 #: src/project/dialogs/archivewidget.cpp:1102
 #, kde-format
 msgid "Archiving %1"
-msgstr ""
+msgstr "%1-ის დაარქივება"
 
 #: src/project/dialogs/archivewidget.cpp:1108
-#, fuzzy, kde-format
-#| msgid "Cannot open file %1"
+#, kde-format
 msgid "Cannot copy file %1 to %2."
-msgstr "ფაილის '%1' გახსნის შეცდომა"
+msgstr "ფაილის %1 %2-ში კოპირების შეცდომა."
 
 #: src/project/dialogs/archivewidget.cpp:1138
 #, kde-format
@@ -12364,6 +12404,8 @@ msgid ""
 "Project was successfully archived.\n"
 "%1"
 msgstr ""
+"პროქტის დაარქივება წარმატებით დასრულდა.\n"
+"%1"
 
 #: src/project/dialogs/archivewidget.cpp:1141
 #, kde-format
@@ -12378,12 +12420,12 @@ msgstr "შეცდომა პროექტის არქივირე�
 #: src/project/dialogs/archivewidget.cpp:1170
 #, kde-format
 msgid "Extracting…"
-msgstr ""
+msgstr "გაშლა…"
 
 #: src/project/dialogs/archivewidget.cpp:1236
 #, kde-format
 msgid "Cannot open project file %1"
-msgstr ""
+msgstr "პროექტის ფაილის %1 გახსნა შეუძლებელია"
 
 #: src/project/dialogs/archivewidget.cpp:1236
 #, kde-format
@@ -12394,22 +12436,22 @@ msgstr "ფაილის გახსნის შეცდომა"
 #, kde-format
 msgctxt "@title:window"
 msgid "Restore Backup File"
-msgstr ""
+msgstr "მარქაფის ფაილის აღდგენა"
 
 #: src/project/dialogs/backupwidget.cpp:22
 #, kde-format
 msgid "Showing all backup files in folder"
-msgstr ""
+msgstr "საქაღალდეში ყველა მარქაფის ფაილის ჩვენება"
 
 #: src/project/dialogs/backupwidget.cpp:25
 #, kde-format
 msgid "Showing backup files for %1"
-msgstr ""
+msgstr "%1-ის მარქაფების ჩვენება"
 
 #: src/project/dialogs/guidecategories.cpp:42
 #, kde-format
 msgid "Edit Guide Category"
-msgstr ""
+msgstr "გიდის კატეგორიის ჩასწორება"
 
 #: src/project/dialogs/guidecategories.cpp:57
 #, kde-format
@@ -16856,7 +16898,7 @@ msgstr ""
 #: src/ui/customjobinterface_ui.ui:37 src/ui/cutjobdialog_ui.ui:34
 #: src/ui/cutjobdialog_ui.ui:51 src/ui/fontval_ui.ui:36
 #: src/ui/listdependencyparamwidget_ui.ui:36 src/ui/listparamwidget_ui.ui:76
-#: src/ui/missingclips_ui.ui:105 src/ui/urllistparamwidget_ui.ui:42
+#: src/ui/missingclips_ui.ui:69 src/ui/urllistparamwidget_ui.ui:42
 #: src/ui/urlval_ui.ui:44
 #, kde-format
 msgid "TextLabel"
@@ -19037,50 +19079,44 @@ msgstr "გამოსახულების გადახედვა"
 msgid " Clip Problems"
 msgstr ""
 
-#. i18n: ectx: property (title), widget (QGroupBox, proxyBox)
-#: src/ui/missingclips_ui.ui:47
-#, kde-format
-msgid "Proxies"
-msgstr "პროქსები"
-
-#. i18n: ectx: property (text), widget (QCheckBox, recreateProxies)
-#: src/ui/missingclips_ui.ui:76
-#, kde-format
-msgid "Recreate missing proxies"
-msgstr "ნაკლული პროქსიების შექმნა"
-
 #. i18n: ectx: property (format), widget (QProgressBar, progressBar)
-#: src/ui/missingclips_ui.ui:128
+#: src/ui/missingclips_ui.ui:92
 #, no-c-format, kde-format
 msgid "%v / %m"
 msgstr "%v / %m"
 
+#. i18n: ectx: property (text), widget (QCheckBox, recreateProxies)
+#: src/ui/missingclips_ui.ui:102
+#, kde-format
+msgid "Recreate missing proxies"
+msgstr "ნაკლული პროქსიების შექმნა"
+
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/missingclips_ui.ui:156
+#: src/ui/missingclips_ui.ui:134
 #, kde-format
 msgid "Selected Items:"
 msgstr "მონიშნული ელემენტები:"
 
 #. i18n: ectx: property (text), widget (QPushButton, manualSearch)
-#: src/ui/missingclips_ui.ui:163
+#: src/ui/missingclips_ui.ui:141
 #, kde-format
 msgid "Search Manually"
 msgstr "ხელით ძებნა"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/missingclips_ui.ui:192
+#: src/ui/missingclips_ui.ui:170
 #, kde-format
 msgid "All Missing Items:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, recursiveSearch)
-#: src/ui/missingclips_ui.ui:199
+#: src/ui/missingclips_ui.ui:177
 #, kde-format
 msgid "Search Recursively"
 msgstr "რეკურსიულად ძებნა"
 
 #. i18n: ectx: property (text), widget (QPushButton, usePlaceholders)
-#: src/ui/missingclips_ui.ui:210
+#: src/ui/missingclips_ui.ui:188
 #, kde-format
 msgid "Use Placeholders"
 msgstr "ადგილმჭერების გამოყენება"
@@ -20578,6 +20614,9 @@ msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1სთ"
 
+#~ msgid "Proxies"
+#~ msgstr "პროქსები"
+
 #~ msgid "Fixed Sequence Clips"
 #~ msgstr "ფიქსირებული მიმდევრობის კლიპები"
 
@@ -20586,9 +20625,6 @@ msgstr "%1სთ"
 
 #~ msgid "Scanning %1"
 #~ msgstr "%1-ის სკანირება"
-
-#~ msgid "Remove clips"
-#~ msgstr "კლიპების წაშლა"
 
 #~ msgid "Path"
 #~ msgstr "ბილიკი"

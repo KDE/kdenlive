@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-24 00:45+0000\n"
+"POT-Creation-Date: 2023-08-25 00:45+0000\n"
 "PO-Revision-Date: 2023-07-23 20:34+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -5489,8 +5489,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:1489
-#: src/doc/documentchecker.cpp:1515 src/doc/documentchecker.cpp:1535
+#: src/bin/projectitemmodel.cpp:333 src/doc/documentchecker.cpp:1486
+#: src/doc/documentchecker.cpp:1512 src/doc/documentchecker.cpp:1532
 #: src/mltcontroller/clipcontroller.cpp:485 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -7682,155 +7682,188 @@ msgstr "하드웨어 인코더가 없습니다."
 msgid "hardware encoders found and enabled (%1)."
 msgstr "VAAPI 하드웨어 인코더가 발견되어 활성화되었습니다."
 
-#: src/doc/dcresolvedialog.cpp:51
+#: src/doc/dcresolvedialog.cpp:53
 #, kde-format
 msgid "Recursive search: processing clips"
 msgstr ""
 
-#: src/doc/dcresolvedialog.cpp:60
+#: src/doc/dcresolvedialog.cpp:62
 #, fuzzy, kde-format
 #| msgid "Search done"
 msgid "Recursive search: done"
 msgstr "검색 완료됨"
 
-#: src/doc/dcresolvedialog.cpp:144
+#: src/doc/dcresolvedialog.cpp:145
 #, kde-format
 msgid "Enter new location for folder"
 msgstr "폴더의 새 위치 입력"
 
-#: src/doc/dcresolvedialog.cpp:155
+#: src/doc/dcresolvedialog.cpp:156
 #, kde-format
 msgid "Enter new location for file"
 msgstr "파일의 새 위치 입력"
 
-#: src/doc/dcresolvedialog.cpp:182
+#: src/doc/dcresolvedialog.cpp:189
 #, fuzzy, kde-format
 #| msgid "The project file contains missing clips or files."
-msgid "The project contains one missing proxy"
-msgid_plural "The project contains %1 missing proxies"
-msgstr[0] "프로젝트 파일에 누락된 클립 또는 파일이 있습니다."
+msgid "The project contains:"
+msgstr "프로젝트 파일에 누락된 클립 또는 파일이 있습니다."
 
-#: src/doc/dcresolvedialog.cpp:192
+#: src/doc/dcresolvedialog.cpp:195
+#, fuzzy, kde-format
+#| msgid "Check missing clips"
+msgid "One missing clip"
+msgid_plural "%1 missing clips"
+msgstr[0] "누락된 클립 확인"
+
+#: src/doc/dcresolvedialog.cpp:198
+#, fuzzy, kde-format
+#| msgid "Use placeholders for missing clips"
+msgid "One placeholder clip"
+msgid_plural "%1 placeholder clips"
+msgstr[0] "없는 클립에 자리 비움자 사용"
+
+#: src/doc/dcresolvedialog.cpp:201
+#, fuzzy, kde-format
+#| msgid "Remove clips"
+msgid "One removed clip"
+msgid_plural "%1 removed clips"
+msgstr[0] "클립 삭제"
+
+#: src/doc/dcresolvedialog.cpp:210
+#, fuzzy, kde-format
+#| msgid "Delete missing elements"
+msgid "One missing proxy"
+msgid_plural "%1 missing proxies"
+msgstr[0] "유실된 구성 요소 삭제"
+
+#: src/doc/dcresolvedialog.cpp:213
+#, kde-format
+msgid "One proxy can be recovered"
+msgid_plural "%1 proxies can be recovered"
+msgstr[0] ""
+
+#: src/doc/dcresolvedialog.cpp:230
 #, fuzzy, kde-format
 #| msgid "Clips folder"
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "클립 폴더"
 
-#: src/doc/documentchecker.cpp:152
+#: src/doc/documentchecker.cpp:150
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1479
+#: src/doc/documentchecker.cpp:1476
 #, kde-format
 msgid "Video clip"
 msgstr "동영상 클립"
 
-#: src/doc/documentchecker.cpp:1481
+#: src/doc/documentchecker.cpp:1478
 #, kde-format
 msgid "Slideshow clip"
 msgstr "슬라이드 쇼 클립"
 
-#: src/doc/documentchecker.cpp:1483
+#: src/doc/documentchecker.cpp:1480
 #, kde-format
 msgid "Image clip"
 msgstr "이미지 클립"
 
-#: src/doc/documentchecker.cpp:1485
+#: src/doc/documentchecker.cpp:1482
 #, kde-format
 msgid "Playlist clip"
 msgstr "재생 목록 클립"
 
-#: src/doc/documentchecker.cpp:1487 src/doc/documentchecker.cpp:1503
+#: src/doc/documentchecker.cpp:1484 src/doc/documentchecker.cpp:1500
 #, kde-format
 msgid "Title Image"
 msgstr "타이틀 이미지"
 
-#: src/doc/documentchecker.cpp:1499
+#: src/doc/documentchecker.cpp:1496
 #, fuzzy, kde-format
 #| msgid "&Clip"
 msgid "Clip"
 msgstr "클립(&C)"
 
-#: src/doc/documentchecker.cpp:1501
+#: src/doc/documentchecker.cpp:1498
 #, kde-format
 msgid "Title Font"
 msgstr "타이틀 글꼴"
 
-#: src/doc/documentchecker.cpp:1505
+#: src/doc/documentchecker.cpp:1502
 #, kde-format
 msgid "Luma file"
 msgstr "광도 파일"
 
-#: src/doc/documentchecker.cpp:1507
+#: src/doc/documentchecker.cpp:1504
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Asset file"
 msgstr "파일 삭제"
 
-#: src/doc/documentchecker.cpp:1509
+#: src/doc/documentchecker.cpp:1506
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr "프록시 클립"
 
-#: src/doc/documentchecker.cpp:1511
+#: src/doc/documentchecker.cpp:1508
 #: src/monitor/view/kdenlivemonitorsplit.qml:90
 #, kde-format
 msgid "Effect"
 msgstr "효과"
 
-#: src/doc/documentchecker.cpp:1513
+#: src/doc/documentchecker.cpp:1510
 #, fuzzy, kde-format
 #| msgid "Transitions"
 msgid "Transition"
 msgstr "전환"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1523 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1520 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1525
+#: src/doc/documentchecker.cpp:1522
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Reload"
 msgstr "클립 다시 불러오기"
 
-#: src/doc/documentchecker.cpp:1527
+#: src/doc/documentchecker.cpp:1524
 #, fuzzy, kde-format
 #| msgid "Missing item"
 msgid "Missing"
 msgstr "누락된 항목"
 
-#: src/doc/documentchecker.cpp:1529
+#: src/doc/documentchecker.cpp:1526
 #, fuzzy, kde-format
 #| msgid "Missing proxy"
 msgid "Missing, but proxy available"
 msgstr "프록시 누락됨"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1531 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1528 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1533 src/ui/missingclips_ui.ui:174
+#: src/doc/documentchecker.cpp:1530 src/ui/missingclips_ui.ui:152
 #, fuzzy, kde-format
 #| msgid "Removal"
 msgid "Remove"
 msgstr "없애기"
 
-#: src/doc/documentchecker.cpp:1544
+#: src/doc/documentchecker.cpp:1541
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "프로젝트 파일에 누락된 클립 또는 파일이 있습니다."
 
-#: src/doc/documentchecker.cpp:1547
+#: src/doc/documentchecker.cpp:1544
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "누락된 프록시는 여는 동안 다시 생성할 수 있습니다."
@@ -17854,7 +17887,7 @@ msgstr "모든 점 또는 선택된 점에 대해서만 핸들을 표시합니�
 #: src/ui/customjobinterface_ui.ui:37 src/ui/cutjobdialog_ui.ui:34
 #: src/ui/cutjobdialog_ui.ui:51 src/ui/fontval_ui.ui:36
 #: src/ui/listdependencyparamwidget_ui.ui:36 src/ui/listparamwidget_ui.ui:76
-#: src/ui/missingclips_ui.ui:105 src/ui/urllistparamwidget_ui.ui:42
+#: src/ui/missingclips_ui.ui:69 src/ui/urllistparamwidget_ui.ui:42
 #: src/ui/urlval_ui.ui:44
 #, kde-format
 msgid "TextLabel"
@@ -20223,56 +20256,49 @@ msgstr "이미지 미리 보기"
 msgid " Clip Problems"
 msgstr " 클립 문제"
 
-#. i18n: ectx: property (title), widget (QGroupBox, proxyBox)
-#: src/ui/missingclips_ui.ui:47
-#, fuzzy, kde-format
-#| msgid "Proxy Clips"
-msgid "Proxies"
-msgstr "프록시 클립"
+#. i18n: ectx: property (format), widget (QProgressBar, progressBar)
+#: src/ui/missingclips_ui.ui:92
+#, no-c-format, kde-format
+msgid "%v / %m"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, recreateProxies)
-#: src/ui/missingclips_ui.ui:76
+#: src/ui/missingclips_ui.ui:102
 #, fuzzy, kde-format
 #| msgid "Delete missing elements"
 msgid "Recreate missing proxies"
 msgstr "유실된 구성 요소 삭제"
 
-#. i18n: ectx: property (format), widget (QProgressBar, progressBar)
-#: src/ui/missingclips_ui.ui:128
-#, no-c-format, kde-format
-msgid "%v / %m"
-msgstr ""
-
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/missingclips_ui.ui:156
+#: src/ui/missingclips_ui.ui:134
 #, fuzzy, kde-format
 #| msgid "Delete Selected Item"
 msgid "Selected Items:"
 msgstr "선택한 항목 삭제"
 
 #. i18n: ectx: property (text), widget (QPushButton, manualSearch)
-#: src/ui/missingclips_ui.ui:163
+#: src/ui/missingclips_ui.ui:141
 #, fuzzy, kde-format
 #| msgid "Search manually"
 msgid "Search Manually"
 msgstr "수동으로 검색"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/missingclips_ui.ui:192
+#: src/ui/missingclips_ui.ui:170
 #, fuzzy, kde-format
 #| msgid "Missing item"
 msgid "All Missing Items:"
 msgstr "누락된 항목"
 
 #. i18n: ectx: property (text), widget (QPushButton, recursiveSearch)
-#: src/ui/missingclips_ui.ui:199
+#: src/ui/missingclips_ui.ui:177
 #, fuzzy, kde-format
 #| msgid "Search recursively"
 msgid "Search Recursively"
 msgstr "재귀적으로 검색"
 
 #. i18n: ectx: property (text), widget (QPushButton, usePlaceholders)
-#: src/ui/missingclips_ui.ui:210
+#: src/ui/missingclips_ui.ui:188
 #, fuzzy, kde-format
 #| msgid "Use default folder"
 msgid "Use Placeholders"
@@ -21875,6 +21901,11 @@ msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1시간"
 
+#, fuzzy
+#~| msgid "Proxy Clips"
+#~ msgid "Proxies"
+#~ msgstr "프록시 클립"
+
 #~ msgid "Relocated item"
 #~ msgstr "이전된 항목"
 
@@ -21945,14 +21976,8 @@ msgstr "%1시간"
 #~ msgid_plural "This will remove the selected clips from this project"
 #~ msgstr[0] "이 프로젝트에서 선택한 클립이 삭제됩니다"
 
-#~ msgid "Remove clips"
-#~ msgstr "클립 삭제"
-
 #~ msgid "Rebuild Proxies"
 #~ msgstr "프록시 재구축"
-
-#~ msgid "Use placeholders for missing clips"
-#~ msgstr "없는 클립에 자리 비움자 사용"
 
 #~ msgid "Path"
 #~ msgstr "경로"
@@ -22543,9 +22568,6 @@ msgstr "%1시간"
 #~ msgstr ""
 #~ "파일 %1은(는) 올바른 프로젝트 파일이 아닙니다.\n"
 #~ "백업 파일을 여시겠습니까?"
-
-#~ msgid "Check missing clips"
-#~ msgstr "누락된 클립 확인"
 
 #~ msgid "Moving proxy clips failed: %1"
 #~ msgstr "프록시 클립 이동 실패: %1"
