@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-25 00:45+0000\n"
+"POT-Creation-Date: 2023-08-26 00:45+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -2776,7 +2776,7 @@ msgstr ""
 
 #: data/kdenliveeffectscategory.rc:81
 #, kde-format
-msgid "Noise Reduction and audio Restoration"
+msgid "Noise Reduction and Audio Restoration"
 msgstr ""
 
 #: data/kdenliveeffectscategory.rc:88
@@ -7614,12 +7614,12 @@ msgstr ""
 msgid "Enter new location for file"
 msgstr ""
 
-#: src/doc/dcresolvedialog.cpp:189
+#: src/doc/dcresolvedialog.cpp:190
 #, kde-format
 msgid "The project contains:"
 msgstr ""
 
-#: src/doc/dcresolvedialog.cpp:195
+#: src/doc/dcresolvedialog.cpp:196
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgid "One missing clip"
@@ -7627,35 +7627,42 @@ msgid_plural "%1 missing clips"
 msgstr[0] "सर्व फाईल्स"
 msgstr[1] "सर्व फाईल्स"
 
-#: src/doc/dcresolvedialog.cpp:198
+#: src/doc/dcresolvedialog.cpp:199
+#, fuzzy, kde-format
+msgid "One missing source with available proxy"
+msgid_plural "%1 missing sources with available proxy"
+msgstr[0] "विभाग :"
+msgstr[1] "विभाग :"
+
+#: src/doc/dcresolvedialog.cpp:202
 #, fuzzy, kde-format
 msgid "One placeholder clip"
 msgid_plural "%1 placeholder clips"
 msgstr[0] "संचयीका काढून टाका (&D)"
 msgstr[1] "संचयीका काढून टाका (&D)"
 
-#: src/doc/dcresolvedialog.cpp:201
+#: src/doc/dcresolvedialog.cpp:205
 #, fuzzy, kde-format
 msgid "One removed clip"
 msgid_plural "%1 removed clips"
 msgstr[0] "फाईल उघडतेवेळी त्रुटी"
 msgstr[1] "फाईल उघडतेवेळी त्रुटी"
 
-#: src/doc/dcresolvedialog.cpp:210
+#: src/doc/dcresolvedialog.cpp:214
 #, fuzzy, kde-format
 msgid "One missing proxy"
 msgid_plural "%1 missing proxies"
 msgstr[0] "विभाग :"
 msgstr[1] "विभाग :"
 
-#: src/doc/dcresolvedialog.cpp:213
+#: src/doc/dcresolvedialog.cpp:217
 #, kde-format
 msgid "One proxy can be recovered"
 msgid_plural "%1 proxies can be recovered"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/doc/dcresolvedialog.cpp:230
+#: src/doc/dcresolvedialog.cpp:234
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"

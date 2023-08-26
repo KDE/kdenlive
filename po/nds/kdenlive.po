@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-25 00:45+0000\n"
+"POT-Creation-Date: 2023-08-26 00:45+0000\n"
 "PO-Revision-Date: 2011-11-16 15:57+0100\n"
 "Last-Translator: Manfred Wiese <m.j.wiese@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -2861,7 +2861,7 @@ msgstr ""
 
 #: data/kdenliveeffectscategory.rc:81
 #, kde-format
-msgid "Noise Reduction and audio Restoration"
+msgid "Noise Reduction and Audio Restoration"
 msgstr ""
 
 #: data/kdenliveeffectscategory.rc:88
@@ -7901,13 +7901,13 @@ msgstr ""
 msgid "Enter new location for file"
 msgstr ""
 
-#: src/doc/dcresolvedialog.cpp:189
+#: src/doc/dcresolvedialog.cpp:190
 #, fuzzy, kde-format
 #| msgid "Video Resolution"
 msgid "The project contains:"
 msgstr "Bildoplösen"
 
-#: src/doc/dcresolvedialog.cpp:195
+#: src/doc/dcresolvedialog.cpp:196
 #, fuzzy, kde-format
 #| msgid "Edit profile"
 msgid "One missing clip"
@@ -7915,7 +7915,15 @@ msgid_plural "%1 missing clips"
 msgstr[0] "Profil bewerken"
 msgstr[1] "Profil bewerken"
 
-#: src/doc/dcresolvedialog.cpp:198
+#: src/doc/dcresolvedialog.cpp:199
+#, fuzzy, kde-format
+#| msgid "Delete profile"
+msgid "One missing source with available proxy"
+msgid_plural "%1 missing sources with available proxy"
+msgstr[0] "Profil wegmaken"
+msgstr[1] "Profil wegmaken"
+
+#: src/doc/dcresolvedialog.cpp:202
 #, fuzzy, kde-format
 #| msgid "Delete Folder"
 msgid "One placeholder clip"
@@ -7923,7 +7931,7 @@ msgid_plural "%1 placeholder clips"
 msgstr[0] "Orner wegdoon"
 msgstr[1] "Orner wegdoon"
 
-#: src/doc/dcresolvedialog.cpp:201
+#: src/doc/dcresolvedialog.cpp:205
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgid "One removed clip"
@@ -7931,7 +7939,7 @@ msgid_plural "%1 removed clips"
 msgstr[0] "Datei \"%1\" warrt opmaakt"
 msgstr[1] "Datei \"%1\" warrt opmaakt"
 
-#: src/doc/dcresolvedialog.cpp:210
+#: src/doc/dcresolvedialog.cpp:214
 #, fuzzy, kde-format
 #| msgid "Delete profile"
 msgid "One missing proxy"
@@ -7939,14 +7947,14 @@ msgid_plural "%1 missing proxies"
 msgstr[0] "Profil wegmaken"
 msgstr[1] "Profil wegmaken"
 
-#: src/doc/dcresolvedialog.cpp:213
+#: src/doc/dcresolvedialog.cpp:217
 #, kde-format
 msgid "One proxy can be recovered"
 msgid_plural "%1 proxies can be recovered"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/doc/dcresolvedialog.cpp:230
+#: src/doc/dcresolvedialog.cpp:234
 #, fuzzy, kde-format
 #| msgid "Folder"
 msgctxt "@title:window"

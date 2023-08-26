@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-25 00:45+0000\n"
-"PO-Revision-Date: 2023-08-17 15:01-0300\n"
+"POT-Creation-Date: 2023-08-26 00:45+0000\n"
+"PO-Revision-Date: 2023-08-24 19:07-0300\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -513,10 +513,9 @@ msgid "Vertical multiplicator"
 msgstr "Multiplicador vertical"
 
 #: data/effects/box_blur.xml:15
-#, fuzzy, kde-format
-#| msgid "Preserve aspect ratio"
+#, kde-format
 msgid "Preserve alpha"
-msgstr "Preservar la proporción"
+msgstr "Preservar alfa"
 
 #: data/effects/boxblur.xml:4
 #, kde-format
@@ -1356,12 +1355,12 @@ msgstr "Tamaño Y"
 #: data/effects/mask_start_frei0r_alphaspot.xml:24
 #, kde-format
 msgid "Tilt"
-msgstr "Inclinar"
+msgstr "Rotación"
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:27
 #, kde-format
 msgid "Transition width"
-msgstr "Ancho de la transición"
+msgstr "Esfumado"
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:30
 #, kde-format
@@ -2825,8 +2824,9 @@ msgid "Modulators"
 msgstr "Moduladores"
 
 #: data/kdenliveeffectscategory.rc:81
-#, kde-format
-msgid "Noise Reduction and audio Restoration"
+#, fuzzy, kde-format
+#| msgid "Noise Reduction and audio Restoration"
+msgid "Noise Reduction and Audio Restoration"
 msgstr "Reducción de ruidos y restauración de audio"
 
 #: data/kdenliveeffectscategory.rc:88
@@ -2936,7 +2936,7 @@ msgstr "LADSPA de MLT"
 #, kde-format
 msgctxt "Affine Transform Transition Name"
 msgid "Transform"
-msgstr "Transformar"
+msgstr "Transformación"
 
 #: data/transitions/affine.xml:5
 #, kde-format
@@ -4366,8 +4366,7 @@ msgid "Cancel Pending Jobs"
 msgstr "Cancelar tareas pendientes"
 
 #: src/bin/bin.cpp:1480
-#, fuzzy, kde-format
-#| msgid "Clip Properties"
+#, kde-format
 msgid "Bin Clip Properties"
 msgstr "Propiedades del clip"
 
@@ -4384,7 +4383,7 @@ msgstr "El borrado de secuencias no podrá ser deshecho"
 #: src/bin/bin.cpp:1785
 #, kde-format
 msgid "This will delete all selected clips from the timeline"
-msgstr "Esto eliminará todos los clips seleccionados de la línea de tiempo"
+msgstr "Esto también eliminará los clips seleccionados de la línea de tiempo"
 
 #: src/bin/bin.cpp:1788
 #, kde-format
@@ -7701,14 +7700,14 @@ msgstr "Ingresar nueva ubicación para la carpeta"
 msgid "Enter new location for file"
 msgstr "Ingresar nueva ubicación para el archivo"
 
-#: src/doc/dcresolvedialog.cpp:189
+#: src/doc/dcresolvedialog.cpp:190
 #, fuzzy, kde-format
-#| msgid "You project contains one missing proxy"
-#| msgid_plural "You project contains %1 missing proxies"
+#| msgid "The project contains one missing proxy"
+#| msgid_plural "The project contains %1 missing proxies"
 msgid "The project contains:"
-msgstr "El proyecto contiene 1 reemplazo faltante."
+msgstr "El proyecto contiene 1 reemplazo faltante"
 
-#: src/doc/dcresolvedialog.cpp:195
+#: src/doc/dcresolvedialog.cpp:196
 #, fuzzy, kde-format
 #| msgid "Check missing clips"
 msgid "One missing clip"
@@ -7716,7 +7715,15 @@ msgid_plural "%1 missing clips"
 msgstr[0] "Comprobar por clips faltantes"
 msgstr[1] "Comprobar por clips faltantes"
 
-#: src/doc/dcresolvedialog.cpp:198
+#: src/doc/dcresolvedialog.cpp:199
+#, fuzzy, kde-format
+#| msgid "Recreate missing proxies"
+msgid "One missing source with available proxy"
+msgid_plural "%1 missing sources with available proxy"
+msgstr[0] "Volver a crear reemplazos faltantes"
+msgstr[1] "Volver a crear reemplazos faltantes"
+
+#: src/doc/dcresolvedialog.cpp:202
 #, fuzzy, kde-format
 #| msgid "Use placeholders for missing clips"
 msgid "One placeholder clip"
@@ -7724,7 +7731,7 @@ msgid_plural "%1 placeholder clips"
 msgstr[0] "Usar marcadores de posición para clips faltantes"
 msgstr[1] "Usar marcadores de posición para clips faltantes"
 
-#: src/doc/dcresolvedialog.cpp:201
+#: src/doc/dcresolvedialog.cpp:205
 #, fuzzy, kde-format
 #| msgid "Remove clips"
 msgid "One removed clip"
@@ -7732,7 +7739,7 @@ msgid_plural "%1 removed clips"
 msgstr[0] "Eliminar clips"
 msgstr[1] "Eliminar clips"
 
-#: src/doc/dcresolvedialog.cpp:210
+#: src/doc/dcresolvedialog.cpp:214
 #, fuzzy, kde-format
 #| msgid "Recreate missing proxies"
 msgid "One missing proxy"
@@ -7740,14 +7747,14 @@ msgid_plural "%1 missing proxies"
 msgstr[0] "Volver a crear reemplazos faltantes"
 msgstr[1] "Volver a crear reemplazos faltantes"
 
-#: src/doc/dcresolvedialog.cpp:213
+#: src/doc/dcresolvedialog.cpp:217
 #, kde-format
 msgid "One proxy can be recovered"
 msgid_plural "%1 proxies can be recovered"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/doc/dcresolvedialog.cpp:230
+#: src/doc/dcresolvedialog.cpp:234
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"
@@ -10264,7 +10271,8 @@ msgstr "Zona a bandeja del proyecto"
 msgctxt "@info:whatsthis"
 msgid "Creates a new clip in the project bin from the defined zone."
 msgstr ""
-"Crea un nuevo clip en la bandeja del proyecto, a partir de la zona definida."
+"Crea un nuevo subclip en la bandeja del proyecto, a partir de la zona "
+"definida."
 
 #: src/mainwindow.cpp:1612
 #, kde-format
@@ -12991,10 +12999,9 @@ msgid "Archiving %1"
 msgstr "Archivando %1"
 
 #: src/project/dialogs/archivewidget.cpp:1108
-#, fuzzy, kde-format
-#| msgid "Cannot open file %1"
+#, kde-format
 msgid "Cannot copy file %1 to %2."
-msgstr "No es posible abrir el archivo %1"
+msgstr "No es posible copiar el archivo %1 a %2."
 
 #: src/project/dialogs/archivewidget.cpp:1138
 #, kde-format
@@ -18466,13 +18473,13 @@ msgstr "Tipos MIME"
 #: src/ui/configenv_ui.ui:420
 #, kde-format
 msgid "Additional clip MIME types"
-msgstr "Tipos MIME adicionales de clips"
+msgstr "Tipos MIME adicionales"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: src/ui/configenv_ui.ui:434
 #, kde-format
 msgid "Supported clip MIME types"
-msgstr "Tipos MIME soportados de clips"
+msgstr "Tipos MIME soportados"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableshuttle)
 #: src/ui/configjogshuttle_ui.ui:27
@@ -18650,8 +18657,8 @@ msgstr "Obtener metadatos de clips creados por Magic Lantern"
 msgid ""
 "Ignore subfolder structure on import (import all files into toplevel folder)"
 msgstr ""
-"Ignorar estructura de subcarpetas (importa sólo archivos de la carpeta "
-"superior)"
+"Ignorar estructura de subcarpetas (importa todos los archivos a la bandeja "
+"principal)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_disable_effect_parameters)
 #: src/ui/configmisc_ui.ui:105
@@ -21365,7 +21372,7 @@ msgstr ""
 #: src/ui/transcodeseekable_ui.ui:81
 #, kde-format
 msgid "Replace clip by transcoded version in project"
-msgstr ""
+msgstr "Reemplazar el clip por la versión transcodificada del proyecto"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, UnicodeWidget_UI)
 #: src/ui/unicodewidget_ui.ui:24

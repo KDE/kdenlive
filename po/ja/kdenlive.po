@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-25 00:45+0000\n"
+"POT-Creation-Date: 2023-08-26 00:45+0000\n"
 "PO-Revision-Date: 2023-07-08 21:38-0700\n"
 "Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -2770,7 +2770,7 @@ msgstr ""
 
 #: data/kdenliveeffectscategory.rc:81
 #, kde-format
-msgid "Noise Reduction and audio Restoration"
+msgid "Noise Reduction and Audio Restoration"
 msgstr ""
 
 #: data/kdenliveeffectscategory.rc:88
@@ -7889,48 +7889,55 @@ msgstr "ファイルに対する新しい場所を入力してください"
 msgid "Enter new location for file"
 msgstr "ファイルに対する新しい場所を入力してください"
 
-#: src/doc/dcresolvedialog.cpp:189
+#: src/doc/dcresolvedialog.cpp:190
 #, fuzzy, kde-format
 #| msgid "The project file contains missing clips or files"
 msgid "The project contains:"
 msgstr ""
 "プロジェクトファイルには、存在しないクリップまたはファイルが含まれています"
 
-#: src/doc/dcresolvedialog.cpp:195
+#: src/doc/dcresolvedialog.cpp:196
 #, fuzzy, kde-format
 #| msgid "Missing source clip"
 msgid "One missing clip"
 msgid_plural "%1 missing clips"
 msgstr[0] "存在しないソースクリップ"
 
-#: src/doc/dcresolvedialog.cpp:198
+#: src/doc/dcresolvedialog.cpp:199
+#, fuzzy, kde-format
+#| msgid "Delete selected items"
+msgid "One missing source with available proxy"
+msgid_plural "%1 missing sources with available proxy"
+msgstr[0] "選択した項目の削除"
+
+#: src/doc/dcresolvedialog.cpp:202
 #, fuzzy, kde-format
 #| msgid "Use placeholders for missing clips"
 msgid "One placeholder clip"
 msgid_plural "%1 placeholder clips"
 msgstr[0] "存在しないクリップに対してプレースホルダを使用する"
 
-#: src/doc/dcresolvedialog.cpp:201
+#: src/doc/dcresolvedialog.cpp:205
 #, fuzzy, kde-format
 #| msgid "Remove clips"
 msgid "One removed clip"
 msgid_plural "%1 removed clips"
 msgstr[0] "クリップの削除"
 
-#: src/doc/dcresolvedialog.cpp:210
+#: src/doc/dcresolvedialog.cpp:214
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "One missing proxy"
 msgid_plural "%1 missing proxies"
 msgstr[0] "選択した項目の削除"
 
-#: src/doc/dcresolvedialog.cpp:213
+#: src/doc/dcresolvedialog.cpp:217
 #, kde-format
 msgid "One proxy can be recovered"
 msgid_plural "%1 proxies can be recovered"
 msgstr[0] ""
 
-#: src/doc/dcresolvedialog.cpp:230
+#: src/doc/dcresolvedialog.cpp:234
 #, fuzzy, kde-format
 #| msgid "Clips folder"
 msgctxt "@title:window"

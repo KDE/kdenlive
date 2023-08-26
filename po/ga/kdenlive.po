@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-25 00:45+0000\n"
+"POT-Creation-Date: 2023-08-26 00:45+0000\n"
 "PO-Revision-Date: 2011-12-28 12:28-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -2866,7 +2866,7 @@ msgstr ""
 
 #: data/kdenliveeffectscategory.rc:81
 #, kde-format
-msgid "Noise Reduction and audio Restoration"
+msgid "Noise Reduction and Audio Restoration"
 msgstr ""
 
 #: data/kdenliveeffectscategory.rc:88
@@ -7941,13 +7941,13 @@ msgstr ""
 msgid "Enter new location for file"
 msgstr ""
 
-#: src/doc/dcresolvedialog.cpp:189
+#: src/doc/dcresolvedialog.cpp:190
 #, fuzzy, kde-format
 #| msgid "Resolution"
 msgid "The project contains:"
 msgstr "Taifeach"
 
-#: src/doc/dcresolvedialog.cpp:195
+#: src/doc/dcresolvedialog.cpp:196
 #, fuzzy, kde-format
 #| msgid "Close the current tab"
 msgid "One missing clip"
@@ -7958,7 +7958,18 @@ msgstr[2] "Dún an cluaisín reatha"
 msgstr[3] "Dún an cluaisín reatha"
 msgstr[4] "Dún an cluaisín reatha"
 
-#: src/doc/dcresolvedialog.cpp:198
+#: src/doc/dcresolvedialog.cpp:199
+#, fuzzy, kde-format
+#| msgid "Delete files"
+msgid "One missing source with available proxy"
+msgid_plural "%1 missing sources with available proxy"
+msgstr[0] "Scrios comhaid"
+msgstr[1] "Scrios comhaid"
+msgstr[2] "Scrios comhaid"
+msgstr[3] "Scrios comhaid"
+msgstr[4] "Scrios comhaid"
+
+#: src/doc/dcresolvedialog.cpp:202
 #, fuzzy, kde-format
 #| msgid "Delete Folder"
 msgid "One placeholder clip"
@@ -7969,7 +7980,7 @@ msgstr[2] "Scrios Fillteán"
 msgstr[3] "Scrios Fillteán"
 msgstr[4] "Scrios Fillteán"
 
-#: src/doc/dcresolvedialog.cpp:201
+#: src/doc/dcresolvedialog.cpp:205
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "One removed clip"
@@ -7980,7 +7991,7 @@ msgstr[2] "Ní féidir comhad %1 a scríobh"
 msgstr[3] "Ní féidir comhad %1 a scríobh"
 msgstr[4] "Ní féidir comhad %1 a scríobh"
 
-#: src/doc/dcresolvedialog.cpp:210
+#: src/doc/dcresolvedialog.cpp:214
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "One missing proxy"
@@ -7991,7 +8002,7 @@ msgstr[2] "Scrios comhaid"
 msgstr[3] "Scrios comhaid"
 msgstr[4] "Scrios comhaid"
 
-#: src/doc/dcresolvedialog.cpp:213
+#: src/doc/dcresolvedialog.cpp:217
 #, kde-format
 msgid "One proxy can be recovered"
 msgid_plural "%1 proxies can be recovered"
@@ -8001,7 +8012,7 @@ msgstr[2] ""
 msgstr[3] ""
 msgstr[4] ""
 
-#: src/doc/dcresolvedialog.cpp:230
+#: src/doc/dcresolvedialog.cpp:234
 #, fuzzy, kde-format
 #| msgid "Add folder"
 msgctxt "@title:window"

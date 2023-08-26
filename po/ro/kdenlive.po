@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-25 00:45+0000\n"
+"POT-Creation-Date: 2023-08-26 00:45+0000\n"
 "PO-Revision-Date: 2021-06-03 18:11+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian\n"
@@ -2847,7 +2847,7 @@ msgstr ""
 
 #: data/kdenliveeffectscategory.rc:81
 #, kde-format
-msgid "Noise Reduction and audio Restoration"
+msgid "Noise Reduction and Audio Restoration"
 msgstr ""
 
 #: data/kdenliveeffectscategory.rc:88
@@ -7988,13 +7988,13 @@ msgstr "Introduceți noua locație pentru fișier"
 msgid "Enter new location for file"
 msgstr "Introduceți noua locație pentru fișier"
 
-#: src/doc/dcresolvedialog.cpp:189
+#: src/doc/dcresolvedialog.cpp:190
 #, fuzzy, kde-format
 #| msgid "Use project resolution"
 msgid "The project contains:"
 msgstr "Folosește rezoluția proiectului"
 
-#: src/doc/dcresolvedialog.cpp:195
+#: src/doc/dcresolvedialog.cpp:196
 #, fuzzy, kde-format
 #| msgid "Check missing clips"
 msgid "One missing clip"
@@ -8003,7 +8003,16 @@ msgstr[0] "Verifică clipurile lipsă"
 msgstr[1] "Verifică clipurile lipsă"
 msgstr[2] "Verifică clipurile lipsă"
 
-#: src/doc/dcresolvedialog.cpp:198
+#: src/doc/dcresolvedialog.cpp:199
+#, fuzzy, kde-format
+#| msgid "Delete selected items"
+msgid "One missing source with available proxy"
+msgid_plural "%1 missing sources with available proxy"
+msgstr[0] "Șterge elementele alese"
+msgstr[1] "Șterge elementele alese"
+msgstr[2] "Șterge elementele alese"
+
+#: src/doc/dcresolvedialog.cpp:202
 #, fuzzy, kde-format
 #| msgid "Use placeholders for missing clips"
 msgid "One placeholder clip"
@@ -8012,7 +8021,7 @@ msgstr[0] "Folosește substituenți pentru clipurile lipsă"
 msgstr[1] "Folosește substituenți pentru clipurile lipsă"
 msgstr[2] "Folosește substituenți pentru clipurile lipsă"
 
-#: src/doc/dcresolvedialog.cpp:201
+#: src/doc/dcresolvedialog.cpp:205
 #, fuzzy, kde-format
 #| msgid "Remove clips"
 msgid "One removed clip"
@@ -8021,7 +8030,7 @@ msgstr[0] "Elimină clipurile"
 msgstr[1] "Elimină clipurile"
 msgstr[2] "Elimină clipurile"
 
-#: src/doc/dcresolvedialog.cpp:210
+#: src/doc/dcresolvedialog.cpp:214
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "One missing proxy"
@@ -8030,7 +8039,7 @@ msgstr[0] "Șterge elementele alese"
 msgstr[1] "Șterge elementele alese"
 msgstr[2] "Șterge elementele alese"
 
-#: src/doc/dcresolvedialog.cpp:213
+#: src/doc/dcresolvedialog.cpp:217
 #, kde-format
 msgid "One proxy can be recovered"
 msgid_plural "%1 proxies can be recovered"
@@ -8038,7 +8047,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: src/doc/dcresolvedialog.cpp:230
+#: src/doc/dcresolvedialog.cpp:234
 #, fuzzy, kde-format
 #| msgid "Clips folder"
 msgctxt "@title:window"

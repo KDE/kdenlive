@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-25 00:45+0000\n"
+"POT-Creation-Date: 2023-08-26 00:45+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -2762,7 +2762,7 @@ msgstr ""
 
 #: data/kdenliveeffectscategory.rc:81
 #, kde-format
-msgid "Noise Reduction and audio Restoration"
+msgid "Noise Reduction and Audio Restoration"
 msgstr ""
 
 #: data/kdenliveeffectscategory.rc:88
@@ -7885,13 +7885,13 @@ msgstr "Dodaj novu lokaciju za datoteku"
 msgid "Enter new location for file"
 msgstr "Dodaj novu lokaciju za datoteku"
 
-#: src/doc/dcresolvedialog.cpp:189
+#: src/doc/dcresolvedialog.cpp:190
 #, fuzzy, kde-format
 #| msgid "The project file contains missing clips or files"
 msgid "The project contains:"
 msgstr "Datoteci projekta nedostaju snimci ili fajlovi"
 
-#: src/doc/dcresolvedialog.cpp:195
+#: src/doc/dcresolvedialog.cpp:196
 #, fuzzy, kde-format
 #| msgid "Check missing clips"
 msgid "One missing clip"
@@ -7900,7 +7900,16 @@ msgstr[0] "Provjeri klipove koji nedostaju"
 msgstr[1] "Provjeri klipove koji nedostaju"
 msgstr[2] "Provjeri klipove koji nedostaju"
 
-#: src/doc/dcresolvedialog.cpp:198
+#: src/doc/dcresolvedialog.cpp:199
+#, fuzzy, kde-format
+#| msgid "Delete selected items"
+msgid "One missing source with available proxy"
+msgid_plural "%1 missing sources with available proxy"
+msgstr[0] "Obriši odabrane detalje"
+msgstr[1] "Obriši odabrane detalje"
+msgstr[2] "Obriši odabrane detalje"
+
+#: src/doc/dcresolvedialog.cpp:202
 #, fuzzy, kde-format
 #| msgid "Use placeholders for missing clips"
 msgid "One placeholder clip"
@@ -7909,7 +7918,7 @@ msgstr[0] "Koristi rezervirana mjesta za isječke koji nedostaju"
 msgstr[1] "Koristi rezervirana mjesta za isječke koji nedostaju"
 msgstr[2] "Koristi rezervirana mjesta za isječke koji nedostaju"
 
-#: src/doc/dcresolvedialog.cpp:201
+#: src/doc/dcresolvedialog.cpp:205
 #, fuzzy, kde-format
 #| msgid "Remove clips"
 msgid "One removed clip"
@@ -7918,7 +7927,7 @@ msgstr[0] "Izbaci isječke"
 msgstr[1] "Izbaci isječke"
 msgstr[2] "Izbaci isječke"
 
-#: src/doc/dcresolvedialog.cpp:210
+#: src/doc/dcresolvedialog.cpp:214
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "One missing proxy"
@@ -7927,7 +7936,7 @@ msgstr[0] "Obriši odabrane detalje"
 msgstr[1] "Obriši odabrane detalje"
 msgstr[2] "Obriši odabrane detalje"
 
-#: src/doc/dcresolvedialog.cpp:213
+#: src/doc/dcresolvedialog.cpp:217
 #, kde-format
 msgid "One proxy can be recovered"
 msgid_plural "%1 proxies can be recovered"
@@ -7935,7 +7944,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: src/doc/dcresolvedialog.cpp:230
+#: src/doc/dcresolvedialog.cpp:234
 #, fuzzy, kde-format
 #| msgid "Clips folder"
 msgctxt "@title:window"

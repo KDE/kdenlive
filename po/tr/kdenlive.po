@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-25 00:45+0000\n"
-"PO-Revision-Date: 2023-08-23 13:29+0300\n"
+"POT-Creation-Date: 2023-08-26 00:45+0000\n"
+"PO-Revision-Date: 2023-08-25 14:06+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -2795,8 +2795,9 @@ msgid "Modulators"
 msgstr "Modülatörler"
 
 #: data/kdenliveeffectscategory.rc:81
-#, kde-format
-msgid "Noise Reduction and audio Restoration"
+#, fuzzy, kde-format
+#| msgid "Noise Reduction and audio Restoration"
+msgid "Noise Reduction and Audio Restoration"
 msgstr "Gürültü Azaltımı ve Ses Kurtarması"
 
 #: data/kdenliveeffectscategory.rc:88
@@ -7632,53 +7633,56 @@ msgstr "Klasör için yeni konum girin"
 msgid "Enter new location for file"
 msgstr "Dosya için yeni bir konum girin"
 
-#: src/doc/dcresolvedialog.cpp:189
-#, fuzzy, kde-format
-#| msgid "The project contains one missing proxy"
-#| msgid_plural "The project contains %1 missing proxies"
+#: src/doc/dcresolvedialog.cpp:190
+#, kde-format
 msgid "The project contains:"
-msgstr "Projede 1 eksik vekil var"
+msgstr "Proje şunları içeriyor:"
 
-#: src/doc/dcresolvedialog.cpp:195
-#, fuzzy, kde-format
-#| msgid "Missing source clip"
+#: src/doc/dcresolvedialog.cpp:196
+#, kde-format
 msgid "One missing clip"
 msgid_plural "%1 missing clips"
-msgstr[0] "Eksik kaynak klip"
-msgstr[1] "Eksik kaynak klip"
+msgstr[0] "1 eksik klip"
+msgstr[1] "%1 eksik klip"
 
-#: src/doc/dcresolvedialog.cpp:198
+#: src/doc/dcresolvedialog.cpp:199
 #, fuzzy, kde-format
-#| msgid "Use placeholders for missing clips"
+#| msgid "One missing proxy"
+#| msgid_plural "%1 missing proxies"
+msgid "One missing source with available proxy"
+msgid_plural "%1 missing sources with available proxy"
+msgstr[0] "1 eksik vekil"
+msgstr[1] "%1 eksik vekil"
+
+#: src/doc/dcresolvedialog.cpp:202
+#, kde-format
 msgid "One placeholder clip"
 msgid_plural "%1 placeholder clips"
-msgstr[0] "Eksik klipler için yer tutucular kullan"
-msgstr[1] "Eksik klipler için yer tutucular kullan"
+msgstr[0] "1 yer tutucu klip"
+msgstr[1] "%1 yer tutucu klip"
 
-#: src/doc/dcresolvedialog.cpp:201
-#, fuzzy, kde-format
-#| msgid "Remove clips"
+#: src/doc/dcresolvedialog.cpp:205
+#, kde-format
 msgid "One removed clip"
 msgid_plural "%1 removed clips"
-msgstr[0] "Klipleri kaldır"
-msgstr[1] "Klipleri kaldır"
+msgstr[0] "1 kaldırılmış klip"
+msgstr[1] "%1 kaldırılmış klip"
 
-#: src/doc/dcresolvedialog.cpp:210
-#, fuzzy, kde-format
-#| msgid "Recreate missing proxies"
+#: src/doc/dcresolvedialog.cpp:214
+#, kde-format
 msgid "One missing proxy"
 msgid_plural "%1 missing proxies"
-msgstr[0] "Eksik vekilleri yeniden oluştur"
-msgstr[1] "Eksik vekilleri yeniden oluştur"
+msgstr[0] "1 eksik vekil"
+msgstr[1] "%1 eksik vekil"
 
-#: src/doc/dcresolvedialog.cpp:213
+#: src/doc/dcresolvedialog.cpp:217
 #, kde-format
 msgid "One proxy can be recovered"
 msgid_plural "%1 proxies can be recovered"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 vekil kurtarılabildi"
+msgstr[1] "%1 vekil kurtarılabildi"
 
-#: src/doc/dcresolvedialog.cpp:230
+#: src/doc/dcresolvedialog.cpp:234
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"

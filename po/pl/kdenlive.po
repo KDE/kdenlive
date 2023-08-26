@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-25 00:45+0000\n"
+"POT-Creation-Date: 2023-08-26 00:45+0000\n"
 "PO-Revision-Date: 2023-06-24 07:10+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -2799,8 +2799,9 @@ msgid "Modulators"
 msgstr "Modulatory"
 
 #: data/kdenliveeffectscategory.rc:81
-#, kde-format
-msgid "Noise Reduction and audio Restoration"
+#, fuzzy, kde-format
+#| msgid "Noise Reduction and audio Restoration"
+msgid "Noise Reduction and Audio Restoration"
 msgstr "Ograniczenie szumów i restaurowanie dźwięku"
 
 #: data/kdenliveeffectscategory.rc:88
@@ -7668,13 +7669,13 @@ msgstr "Wskaż nowe miejsce dla katalogu"
 msgid "Enter new location for file"
 msgstr "Wprowadź nową lokalizację pliku"
 
-#: src/doc/dcresolvedialog.cpp:189
+#: src/doc/dcresolvedialog.cpp:190
 #, fuzzy, kde-format
 #| msgid "The project file contains missing clips or files."
 msgid "The project contains:"
 msgstr "Plik projektu zawiera brakujące wycinki lub pliki."
 
-#: src/doc/dcresolvedialog.cpp:195
+#: src/doc/dcresolvedialog.cpp:196
 #, fuzzy, kde-format
 #| msgid "Check missing clips"
 msgid "One missing clip"
@@ -7683,7 +7684,16 @@ msgstr[0] "Sprawdzanie brakujących wycinków"
 msgstr[1] "Sprawdzanie brakujących wycinków"
 msgstr[2] "Sprawdzanie brakujących wycinków"
 
-#: src/doc/dcresolvedialog.cpp:198
+#: src/doc/dcresolvedialog.cpp:199
+#, fuzzy, kde-format
+#| msgid "Delete missing elements"
+msgid "One missing source with available proxy"
+msgid_plural "%1 missing sources with available proxy"
+msgstr[0] "Usuń brakujące elementy"
+msgstr[1] "Usuń brakujące elementy"
+msgstr[2] "Usuń brakujące elementy"
+
+#: src/doc/dcresolvedialog.cpp:202
 #, fuzzy, kde-format
 #| msgid "Use placeholders for missing clips"
 msgid "One placeholder clip"
@@ -7692,7 +7702,7 @@ msgstr[0] "Użyj zastępstw dla brakujących wycinków"
 msgstr[1] "Użyj zastępstw dla brakujących wycinków"
 msgstr[2] "Użyj zastępstw dla brakujących wycinków"
 
-#: src/doc/dcresolvedialog.cpp:201
+#: src/doc/dcresolvedialog.cpp:205
 #, fuzzy, kde-format
 #| msgid "Remove clips"
 msgid "One removed clip"
@@ -7701,7 +7711,7 @@ msgstr[0] "Usuń wycinki"
 msgstr[1] "Usuń wycinki"
 msgstr[2] "Usuń wycinki"
 
-#: src/doc/dcresolvedialog.cpp:210
+#: src/doc/dcresolvedialog.cpp:214
 #, fuzzy, kde-format
 #| msgid "Delete missing elements"
 msgid "One missing proxy"
@@ -7710,7 +7720,7 @@ msgstr[0] "Usuń brakujące elementy"
 msgstr[1] "Usuń brakujące elementy"
 msgstr[2] "Usuń brakujące elementy"
 
-#: src/doc/dcresolvedialog.cpp:213
+#: src/doc/dcresolvedialog.cpp:217
 #, kde-format
 msgid "One proxy can be recovered"
 msgid_plural "%1 proxies can be recovered"
@@ -7718,7 +7728,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: src/doc/dcresolvedialog.cpp:230
+#: src/doc/dcresolvedialog.cpp:234
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"

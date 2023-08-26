@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l 10n\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-25 00:45+0000\n"
+"POT-Creation-Date: 2023-08-26 00:45+0000\n"
 "PO-Revision-Date: 2019-07-12 21:09+0300\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -2851,7 +2851,7 @@ msgstr ""
 
 #: data/kdenliveeffectscategory.rc:81
 #, kde-format
-msgid "Noise Reduction and audio Restoration"
+msgid "Noise Reduction and Audio Restoration"
 msgstr ""
 
 #: data/kdenliveeffectscategory.rc:88
@@ -7912,13 +7912,13 @@ msgstr ""
 msgid "Enter new location for file"
 msgstr ""
 
-#: src/doc/dcresolvedialog.cpp:189
+#: src/doc/dcresolvedialog.cpp:190
 #, fuzzy, kde-format
 #| msgid "Video Resolution"
 msgid "The project contains:"
 msgstr "Video skiriamoji geba"
 
-#: src/doc/dcresolvedialog.cpp:195
+#: src/doc/dcresolvedialog.cpp:196
 #, fuzzy, kde-format
 #| msgid "Analyse"
 msgid "One missing clip"
@@ -7928,7 +7928,17 @@ msgstr[1] "Analizuoti"
 msgstr[2] "Analizuoti"
 msgstr[3] "Analizuoti"
 
-#: src/doc/dcresolvedialog.cpp:198
+#: src/doc/dcresolvedialog.cpp:199
+#, fuzzy, kde-format
+#| msgid "Delete selected items"
+msgid "One missing source with available proxy"
+msgid_plural "%1 missing sources with available proxy"
+msgstr[0] "Pašalinti pažymėtus elementus"
+msgstr[1] "Pašalinti pažymėtus elementus"
+msgstr[2] "Pašalinti pažymėtus elementus"
+msgstr[3] "Pašalinti pažymėtus elementus"
+
+#: src/doc/dcresolvedialog.cpp:202
 #, fuzzy, kde-format
 #| msgid "Use as default"
 msgid "One placeholder clip"
@@ -7938,7 +7948,7 @@ msgstr[1] "Naudoti kaip numatytąjį"
 msgstr[2] "Naudoti kaip numatytąjį"
 msgstr[3] "Naudoti kaip numatytąjį"
 
-#: src/doc/dcresolvedialog.cpp:201
+#: src/doc/dcresolvedialog.cpp:205
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "One removed clip"
@@ -7948,7 +7958,7 @@ msgstr[1] "Negaliu sukurti laikinos bylos!"
 msgstr[2] "Negaliu sukurti laikinos bylos!"
 msgstr[3] "Negaliu sukurti laikinos bylos!"
 
-#: src/doc/dcresolvedialog.cpp:210
+#: src/doc/dcresolvedialog.cpp:214
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "One missing proxy"
@@ -7958,7 +7968,7 @@ msgstr[1] "Pašalinti pažymėtus elementus"
 msgstr[2] "Pašalinti pažymėtus elementus"
 msgstr[3] "Pašalinti pažymėtus elementus"
 
-#: src/doc/dcresolvedialog.cpp:213
+#: src/doc/dcresolvedialog.cpp:217
 #, kde-format
 msgid "One proxy can be recovered"
 msgid_plural "%1 proxies can be recovered"
@@ -7967,7 +7977,7 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: src/doc/dcresolvedialog.cpp:230
+#: src/doc/dcresolvedialog.cpp:234
 #, fuzzy, kde-format
 #| msgid "Add folder"
 msgctxt "@title:window"

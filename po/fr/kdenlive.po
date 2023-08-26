@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-25 00:45+0000\n"
+"POT-Creation-Date: 2023-08-26 00:45+0000\n"
 "PO-Revision-Date: 2023-08-19 22:28+0200\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: fr\n"
@@ -2833,8 +2833,9 @@ msgid "Modulators"
 msgstr "Modulateurs"
 
 #: data/kdenliveeffectscategory.rc:81
-#, kde-format
-msgid "Noise Reduction and audio Restoration"
+#, fuzzy, kde-format
+#| msgid "Noise Reduction and audio Restoration"
+msgid "Noise Reduction and Audio Restoration"
 msgstr "Réduction de bruit et restauration"
 
 #: data/kdenliveeffectscategory.rc:88
@@ -7728,14 +7729,14 @@ msgstr "Saisir le nouvel emplacement du fichier"
 msgid "Enter new location for file"
 msgstr "Saisir l'emplacement du fichier"
 
-#: src/doc/dcresolvedialog.cpp:189
+#: src/doc/dcresolvedialog.cpp:190
 #, fuzzy, kde-format
 #| msgid "You project contains one missing proxy"
 #| msgid_plural "You project contains %1 missing proxies"
 msgid "The project contains:"
 msgstr "Votre projet contient un serveur mandataire manquant"
 
-#: src/doc/dcresolvedialog.cpp:195
+#: src/doc/dcresolvedialog.cpp:196
 #, fuzzy, kde-format
 #| msgid "Check missing clips"
 msgid "One missing clip"
@@ -7743,7 +7744,15 @@ msgid_plural "%1 missing clips"
 msgstr[0] "Chercher les clips manquants"
 msgstr[1] "Chercher les clips manquants"
 
-#: src/doc/dcresolvedialog.cpp:198
+#: src/doc/dcresolvedialog.cpp:199
+#, fuzzy, kde-format
+#| msgid "Recreate missing proxies"
+msgid "One missing source with available proxy"
+msgid_plural "%1 missing sources with available proxy"
+msgstr[0] "Re-créer les serveurs mandataires"
+msgstr[1] "Re-créer les serveurs mandataires"
+
+#: src/doc/dcresolvedialog.cpp:202
 #, fuzzy, kde-format
 #| msgid "Use placeholders for missing clips"
 msgid "One placeholder clip"
@@ -7751,7 +7760,7 @@ msgid_plural "%1 placeholder clips"
 msgstr[0] "Utiliser des substituts pour les clips manquants"
 msgstr[1] "Utiliser des substituts pour les clips manquants"
 
-#: src/doc/dcresolvedialog.cpp:201
+#: src/doc/dcresolvedialog.cpp:205
 #, fuzzy, kde-format
 #| msgid "Remove clips"
 msgid "One removed clip"
@@ -7759,7 +7768,7 @@ msgid_plural "%1 removed clips"
 msgstr[0] "Supprimer fichiers"
 msgstr[1] "Supprimer fichiers"
 
-#: src/doc/dcresolvedialog.cpp:210
+#: src/doc/dcresolvedialog.cpp:214
 #, fuzzy, kde-format
 #| msgid "Recreate missing proxies"
 msgid "One missing proxy"
@@ -7767,14 +7776,14 @@ msgid_plural "%1 missing proxies"
 msgstr[0] "Re-créer les serveurs mandataires"
 msgstr[1] "Re-créer les serveurs mandataires"
 
-#: src/doc/dcresolvedialog.cpp:213
+#: src/doc/dcresolvedialog.cpp:217
 #, kde-format
 msgid "One proxy can be recovered"
 msgid_plural "%1 proxies can be recovered"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/doc/dcresolvedialog.cpp:230
+#: src/doc/dcresolvedialog.cpp:234
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"

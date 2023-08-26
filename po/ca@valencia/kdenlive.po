@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-25 00:45+0000\n"
+"POT-Creation-Date: 2023-08-26 00:45+0000\n"
 "PO-Revision-Date: 2023-08-20 11:03+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -2820,8 +2820,9 @@ msgid "Modulators"
 msgstr "Moduladors"
 
 #: data/kdenliveeffectscategory.rc:81
-#, kde-format
-msgid "Noise Reduction and audio Restoration"
+#, fuzzy, kde-format
+#| msgid "Noise Reduction and audio Restoration"
+msgid "Noise Reduction and Audio Restoration"
 msgstr "Reducció del soroll i restauració de l'àudio"
 
 #: data/kdenliveeffectscategory.rc:88
@@ -7697,14 +7698,14 @@ msgstr "Indiqueu la ubicació nova per a la carpeta"
 msgid "Enter new location for file"
 msgstr "Indiqueu la ubicació nova per al fitxer"
 
-#: src/doc/dcresolvedialog.cpp:189
+#: src/doc/dcresolvedialog.cpp:190
 #, fuzzy, kde-format
 #| msgid "You project contains one missing proxy"
 #| msgid_plural "You project contains %1 missing proxies"
 msgid "The project contains:"
 msgstr "El projecte conté un intermediari que falta"
 
-#: src/doc/dcresolvedialog.cpp:195
+#: src/doc/dcresolvedialog.cpp:196
 #, fuzzy, kde-format
 #| msgid "Missing source clip"
 msgid "One missing clip"
@@ -7712,7 +7713,15 @@ msgid_plural "%1 missing clips"
 msgstr[0] "Falta clip d'origen"
 msgstr[1] "Falta clip d'origen"
 
-#: src/doc/dcresolvedialog.cpp:198
+#: src/doc/dcresolvedialog.cpp:199
+#, fuzzy, kde-format
+#| msgid "Recreate missing proxies"
+msgid "One missing source with available proxy"
+msgid_plural "%1 missing sources with available proxy"
+msgstr[0] "Torna a crear els intermediaris que falten"
+msgstr[1] "Torna a crear els intermediaris que falten"
+
+#: src/doc/dcresolvedialog.cpp:202
 #, fuzzy, kde-format
 #| msgid "Use Placeholders"
 msgid "One placeholder clip"
@@ -7720,7 +7729,7 @@ msgid_plural "%1 placeholder clips"
 msgstr[0] "Utilitza marcadors de posició"
 msgstr[1] "Utilitza marcadors de posició"
 
-#: src/doc/dcresolvedialog.cpp:201
+#: src/doc/dcresolvedialog.cpp:205
 #, fuzzy, kde-format
 #| msgid "Cannot remove all clips"
 msgid "One removed clip"
@@ -7728,7 +7737,7 @@ msgid_plural "%1 removed clips"
 msgstr[0] "No s'han pogut eliminar tots els clips"
 msgstr[1] "No s'han pogut eliminar tots els clips"
 
-#: src/doc/dcresolvedialog.cpp:210
+#: src/doc/dcresolvedialog.cpp:214
 #, fuzzy, kde-format
 #| msgid "Recreate missing proxies"
 msgid "One missing proxy"
@@ -7736,14 +7745,14 @@ msgid_plural "%1 missing proxies"
 msgstr[0] "Torna a crear els intermediaris que falten"
 msgstr[1] "Torna a crear els intermediaris que falten"
 
-#: src/doc/dcresolvedialog.cpp:213
+#: src/doc/dcresolvedialog.cpp:217
 #, kde-format
 msgid "One proxy can be recovered"
 msgid_plural "%1 proxies can be recovered"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/doc/dcresolvedialog.cpp:230
+#: src/doc/dcresolvedialog.cpp:234
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"

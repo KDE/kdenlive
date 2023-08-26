@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-25 00:45+0000\n"
-"PO-Revision-Date: 2023-08-20 07:59+0200\n"
+"POT-Creation-Date: 2023-08-26 00:45+0000\n"
+"PO-Revision-Date: 2023-08-25 18:08+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -2788,8 +2788,9 @@ msgid "Modulators"
 msgstr "Modulatorer"
 
 #: data/kdenliveeffectscategory.rc:81
-#, kde-format
-msgid "Noise Reduction and audio Restoration"
+#, fuzzy, kde-format
+#| msgid "Noise Reduction and audio Restoration"
+msgid "Noise Reduction and Audio Restoration"
 msgstr "Brusreducering och ljudrestaurering"
 
 #: data/kdenliveeffectscategory.rc:88
@@ -7631,53 +7632,56 @@ msgstr "Ange ny plats för katalog"
 msgid "Enter new location for file"
 msgstr "Ange ny plats för fil"
 
-#: src/doc/dcresolvedialog.cpp:189
-#, fuzzy, kde-format
-#| msgid "You project contains one missing proxy"
-#| msgid_plural "You project contains %1 missing proxies"
+#: src/doc/dcresolvedialog.cpp:190
+#, kde-format
 msgid "The project contains:"
-msgstr "Projektet innehåller ett saknat ersättningsklipp"
+msgstr "Projektet innehåller:"
 
-#: src/doc/dcresolvedialog.cpp:195
-#, fuzzy, kde-format
-#| msgid "Check missing clips"
+#: src/doc/dcresolvedialog.cpp:196
+#, kde-format
 msgid "One missing clip"
 msgid_plural "%1 missing clips"
-msgstr[0] "Kontrollera saknade klipp"
-msgstr[1] "Kontrollera saknade klipp"
+msgstr[0] "Ett saknat klipp"
+msgstr[1] "%1 saknade klipp"
 
-#: src/doc/dcresolvedialog.cpp:198
+#: src/doc/dcresolvedialog.cpp:199
 #, fuzzy, kde-format
-#| msgid "Use placeholders for missing clips"
+#| msgid "One missing proxy"
+#| msgid_plural "%1 missing proxies"
+msgid "One missing source with available proxy"
+msgid_plural "%1 missing sources with available proxy"
+msgstr[0] "Ett saknat ersättningsklipp"
+msgstr[1] "%1 saknade ersättningsklipp"
+
+#: src/doc/dcresolvedialog.cpp:202
+#, kde-format
 msgid "One placeholder clip"
 msgid_plural "%1 placeholder clips"
-msgstr[0] "Använd platsmarkörer för saknade klipp"
-msgstr[1] "Använd platsmarkörer för saknade klipp"
+msgstr[0] "Ett platsmarkörklipp"
+msgstr[1] "%1 platsmarkörklipp"
 
-#: src/doc/dcresolvedialog.cpp:201
-#, fuzzy, kde-format
-#| msgid "Remove clips"
+#: src/doc/dcresolvedialog.cpp:205
+#, kde-format
 msgid "One removed clip"
 msgid_plural "%1 removed clips"
-msgstr[0] "Ta bort klipp"
-msgstr[1] "Ta bort klipp"
+msgstr[0] "Ett borttaget klipp"
+msgstr[1] "%1 borttagna klipp"
 
-#: src/doc/dcresolvedialog.cpp:210
-#, fuzzy, kde-format
-#| msgid "Recreate missing proxies"
+#: src/doc/dcresolvedialog.cpp:214
+#, kde-format
 msgid "One missing proxy"
 msgid_plural "%1 missing proxies"
-msgstr[0] "Återskapa saknade ersättningsklipp"
-msgstr[1] "Återskapa saknade ersättningsklipp"
+msgstr[0] "Ett saknat ersättningsklipp"
+msgstr[1] "%1 saknade ersättningsklipp"
 
-#: src/doc/dcresolvedialog.cpp:213
+#: src/doc/dcresolvedialog.cpp:217
 #, kde-format
 msgid "One proxy can be recovered"
 msgid_plural "%1 proxies can be recovered"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Ett ersättningsklipp kan återställas"
+msgstr[1] "%1 ersättningsklipp kan återställas"
 
-#: src/doc/dcresolvedialog.cpp:230
+#: src/doc/dcresolvedialog.cpp:234
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"
@@ -12887,10 +12891,9 @@ msgid "Archiving %1"
 msgstr "Arkiverar %1"
 
 #: src/project/dialogs/archivewidget.cpp:1108
-#, fuzzy, kde-format
-#| msgid "Cannot open file %1"
+#, kde-format
 msgid "Cannot copy file %1 to %2."
-msgstr "Kan inte öppna filen %1"
+msgstr "Kan inte kopiera filen %1 till %2."
 
 #: src/project/dialogs/archivewidget.cpp:1138
 #, kde-format
@@ -21195,8 +21198,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, replace_original)
 #: src/ui/transcodeseekable_ui.ui:81
-#, fuzzy, kde-format
-#| msgid "Replace clip by transcoded version in projject"
+#, kde-format
 msgid "Replace clip by transcoded version in project"
 msgstr "Ersätt klipp med omkodad version i projektet"
 

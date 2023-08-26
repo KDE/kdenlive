@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-25 00:45+0000\n"
+"POT-Creation-Date: 2023-08-26 00:45+0000\n"
 "PO-Revision-Date: 2023-08-19 22:23+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -2759,8 +2759,9 @@ msgid "Modulators"
 msgstr "مُعدِّلات"
 
 #: data/kdenliveeffectscategory.rc:81
-#, kde-format
-msgid "Noise Reduction and audio Restoration"
+#, fuzzy, kde-format
+#| msgid "Noise Reduction and audio Restoration"
+msgid "Noise Reduction and Audio Restoration"
 msgstr "الحد من الضوضاء واستعادة الصوت"
 
 #: data/kdenliveeffectscategory.rc:88
@@ -7583,13 +7584,13 @@ msgstr "أدخل مكان جديد للمجلد"
 msgid "Enter new location for file"
 msgstr "أدخل المكان الجديد للملفّ"
 
-#: src/doc/dcresolvedialog.cpp:189
+#: src/doc/dcresolvedialog.cpp:190
 #, fuzzy, kde-format
 #| msgid "The project file contains missing clips or files."
 msgid "The project contains:"
 msgstr "يحوي ملفّ المشروع مقاطع أو ملفّات ناقصة."
 
-#: src/doc/dcresolvedialog.cpp:195
+#: src/doc/dcresolvedialog.cpp:196
 #, fuzzy, kde-format
 #| msgid "Analysing clip"
 msgid "One missing clip"
@@ -7601,7 +7602,19 @@ msgstr[3] "يحلّل القصاصة"
 msgstr[4] "يحلّل القصاصة"
 msgstr[5] "يحلّل القصاصة"
 
-#: src/doc/dcresolvedialog.cpp:198
+#: src/doc/dcresolvedialog.cpp:199
+#, fuzzy, kde-format
+#| msgid "Recreate missing proxies"
+msgid "One missing source with available proxy"
+msgid_plural "%1 missing sources with available proxy"
+msgstr[0] "أعد توليد الوسطاء الناقصين"
+msgstr[1] "أعد توليد الوسطاء الناقصين"
+msgstr[2] "أعد توليد الوسطاء الناقصين"
+msgstr[3] "أعد توليد الوسطاء الناقصين"
+msgstr[4] "أعد توليد الوسطاء الناقصين"
+msgstr[5] "أعد توليد الوسطاء الناقصين"
+
+#: src/doc/dcresolvedialog.cpp:202
 #, fuzzy, kde-format
 #| msgid "Use placeholders for missing clips"
 msgid "One placeholder clip"
@@ -7613,7 +7626,7 @@ msgstr[3] "استخدم عنصر نائب للمقاطع النّاقصة"
 msgstr[4] "استخدم عنصر نائب للمقاطع النّاقصة"
 msgstr[5] "استخدم عنصر نائب للمقاطع النّاقصة"
 
-#: src/doc/dcresolvedialog.cpp:201
+#: src/doc/dcresolvedialog.cpp:205
 #, fuzzy, kde-format
 #| msgid "Remove clips"
 msgid "One removed clip"
@@ -7625,7 +7638,7 @@ msgstr[3] "أزل مقاطع"
 msgstr[4] "أزل مقاطع"
 msgstr[5] "أزل مقاطع"
 
-#: src/doc/dcresolvedialog.cpp:210
+#: src/doc/dcresolvedialog.cpp:214
 #, fuzzy, kde-format
 #| msgid "Recreate missing proxies"
 msgid "One missing proxy"
@@ -7637,7 +7650,7 @@ msgstr[3] "أعد توليد الوسطاء الناقصين"
 msgstr[4] "أعد توليد الوسطاء الناقصين"
 msgstr[5] "أعد توليد الوسطاء الناقصين"
 
-#: src/doc/dcresolvedialog.cpp:213
+#: src/doc/dcresolvedialog.cpp:217
 #, kde-format
 msgid "One proxy can be recovered"
 msgid_plural "%1 proxies can be recovered"
@@ -7648,7 +7661,7 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: src/doc/dcresolvedialog.cpp:230
+#: src/doc/dcresolvedialog.cpp:234
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"
