@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-26 00:45+0000\n"
-"PO-Revision-Date: 2023-08-20 11:03+0200\n"
+"PO-Revision-Date: 2023-08-26 11:02+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -294,7 +294,7 @@ msgstr "Canal"
 #, kde-format
 msgctxt "Audio Pan"
 msgid "Pan"
-msgstr "Panoràmic"
+msgstr "Desplaçament"
 
 #: data/effects/audiospectrum.xml:5
 #, kde-format
@@ -2820,8 +2820,7 @@ msgid "Modulators"
 msgstr "Moduladors"
 
 #: data/kdenliveeffectscategory.rc:81
-#, fuzzy, kde-format
-#| msgid "Noise Reduction and audio Restoration"
+#, kde-format
 msgid "Noise Reduction and Audio Restoration"
 msgstr "Reducció del soroll i restauració de l'àudio"
 
@@ -6335,7 +6334,7 @@ msgstr "Colors i guies"
 #: src/dialogs/kdenlivesettingsdialog.cpp:132
 #, kde-format
 msgid "Speech To Text"
-msgstr "Text a veu"
+msgstr "Veu a text"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:136
 #, kde-format
@@ -7699,58 +7698,51 @@ msgid "Enter new location for file"
 msgstr "Indiqueu la ubicació nova per al fitxer"
 
 #: src/doc/dcresolvedialog.cpp:190
-#, fuzzy, kde-format
-#| msgid "You project contains one missing proxy"
-#| msgid_plural "You project contains %1 missing proxies"
+#, kde-format
 msgid "The project contains:"
-msgstr "El projecte conté un intermediari que falta"
+msgstr "El projecte conté:"
 
 #: src/doc/dcresolvedialog.cpp:196
-#, fuzzy, kde-format
-#| msgid "Missing source clip"
+#, kde-format
 msgid "One missing clip"
 msgid_plural "%1 missing clips"
-msgstr[0] "Falta clip d'origen"
-msgstr[1] "Falta clip d'origen"
+msgstr[0] "Un clip que falta"
+msgstr[1] "%1 clips que falten"
 
 #: src/doc/dcresolvedialog.cpp:199
-#, fuzzy, kde-format
-#| msgid "Recreate missing proxies"
+#, kde-format
 msgid "One missing source with available proxy"
 msgid_plural "%1 missing sources with available proxy"
-msgstr[0] "Torna a crear els intermediaris que falten"
-msgstr[1] "Torna a crear els intermediaris que falten"
+msgstr[0] "Un origen que falta amb intermediari disponible"
+msgstr[1] "%1 orígens que falten amb intermediari disponible"
 
 #: src/doc/dcresolvedialog.cpp:202
-#, fuzzy, kde-format
-#| msgid "Use Placeholders"
+#, kde-format
 msgid "One placeholder clip"
 msgid_plural "%1 placeholder clips"
-msgstr[0] "Utilitza marcadors de posició"
-msgstr[1] "Utilitza marcadors de posició"
+msgstr[0] "Un clip marcador de posició"
+msgstr[1] "%1 clips marcadors de posició"
 
 #: src/doc/dcresolvedialog.cpp:205
-#, fuzzy, kde-format
-#| msgid "Cannot remove all clips"
+#, kde-format
 msgid "One removed clip"
 msgid_plural "%1 removed clips"
-msgstr[0] "No s'han pogut eliminar tots els clips"
-msgstr[1] "No s'han pogut eliminar tots els clips"
+msgstr[0] "Un clip eliminat"
+msgstr[1] "%1 clips eliminats"
 
 #: src/doc/dcresolvedialog.cpp:214
-#, fuzzy, kde-format
-#| msgid "Recreate missing proxies"
+#, kde-format
 msgid "One missing proxy"
 msgid_plural "%1 missing proxies"
-msgstr[0] "Torna a crear els intermediaris que falten"
-msgstr[1] "Torna a crear els intermediaris que falten"
+msgstr[0] "Un intermediari que falta"
+msgstr[1] "%1 intermediaris que falten"
 
 #: src/doc/dcresolvedialog.cpp:217
 #, kde-format
 msgid "One proxy can be recovered"
 msgid_plural "%1 proxies can be recovered"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Es pot recuperar un intermediari"
+msgstr[1] "Es poden recuperar %1 intermediaris"
 
 #: src/doc/dcresolvedialog.cpp:234
 #, kde-format
@@ -9021,7 +9013,7 @@ msgstr "Vista"
 #: src/kdenliveui.rc:273
 #, kde-format
 msgid "Dock Area Orientation"
-msgstr "Orientació de l'àrea de l'acoblador"
+msgstr "Orientació de l'àrea d'acoblament"
 
 #. i18n: ectx: Menu (qt_opengl)
 #: src/kdenliveui.rc:284
@@ -9064,7 +9056,7 @@ msgstr "Disposicions"
 #: src/layoutmanagement.cpp:42
 #, kde-format
 msgid "Load Layout"
-msgstr "Carrega la disposició"
+msgstr "Carrega una disposició"
 
 #: src/layoutmanagement.cpp:53
 #, kde-format
@@ -9079,12 +9071,12 @@ msgstr "Gestioneu les disposicions…"
 #: src/layoutmanagement.cpp:67
 #, kde-format
 msgid "Arrange Dock Areas In Rows"
-msgstr "Organitza les àrees de l'acoblador en files"
+msgstr "Organitza les àrees d'acoblament en files"
 
 #: src/layoutmanagement.cpp:71
 #, kde-format
 msgid "Arrange Dock Areas In Columns"
-msgstr "Organitza les àrees de l'acoblador en columnes"
+msgstr "Organitza les àrees d'acoblament en columnes"
 
 #: src/layoutmanagement.cpp:176
 #, kde-format
@@ -11035,7 +11027,7 @@ msgstr ""
 "<shortcut>Maj + arrossegar</shortcut> per a una selecció de banda elàstica, "
 "<shortcut>Maj + clic</shortcut> per a una selecció múltiple, <shortcut>Meta "
 "+ arrossegar</shortcut> per a moure un clip agrupat a una altra pista, "
-"<shortcut>Ctrl + arrossegar</shortcut> per a una panoràmica"
+"<shortcut>Ctrl + arrossegar</shortcut> per a desplaçar"
 
 #: src/mainwindow.cpp:3381
 #, kde-kuit-format
@@ -11049,7 +11041,7 @@ msgstr ""
 "<shortcut>Maj + arrossegar</shortcut> per a una selecció de banda elàstica, "
 "<shortcut>Maj + clic</shortcut> per a una selecció múltiple, <shortcut>Meta "
 "+ Alt + arrossegar</shortcut> per a moure un clip agrupat a una altra pista, "
-"<shortcut>Ctrl + arrossegar</shortcut> per a una panoràmica"
+"<shortcut>Ctrl + arrossegar</shortcut> per a desplaçar"
 
 #: src/mainwindow.cpp:3384
 #, kde-format
@@ -11110,7 +11102,7 @@ msgid ""
 msgstr ""
 "<shortcut>Maj + arrossegar</shortcut> per a una selecció de banda elàstica, "
 "<shortcut>Maj + clic</shortcut> per a una selecció múltiple, <shortcut>Ctrl "
-"+ arrossegar</shortcut> per a una panoràmica"
+"+ arrossegar</shortcut> per a desplaçar"
 
 #: src/mainwindow.cpp:3402
 #, kde-format
@@ -13016,10 +13008,9 @@ msgid "Archiving %1"
 msgstr "S'està arxivant %1"
 
 #: src/project/dialogs/archivewidget.cpp:1108
-#, fuzzy, kde-format
-#| msgid "Cannot open file %1"
+#, kde-format
 msgid "Cannot copy file %1 to %2."
-msgstr "No s'ha pogut obrir el fitxer %1"
+msgstr "No s'ha pogut copiar el fitxer %1 a %2."
 
 #: src/project/dialogs/archivewidget.cpp:1138
 #, kde-format
@@ -14286,7 +14277,7 @@ msgstr "marc de treball d'aprenentage automàtic"
 #: src/pythoninterfaces/speechtotext.cpp:37
 #, kde-format
 msgid "Speech to text"
-msgstr "Text a veu"
+msgstr "Veu a text"
 
 #: src/pythoninterfaces/speechtotext.cpp:52
 #, kde-format
@@ -21394,8 +21385,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, replace_original)
 #: src/ui/transcodeseekable_ui.ui:81
-#, fuzzy, kde-format
-#| msgid "Replace clip by transcoded version in projject"
+#, kde-format
 msgid "Replace clip by transcoded version in project"
 msgstr "Substituïx el clip per una versió transcodificada en el projecte"
 
@@ -21573,6 +21563,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Proxies"
-#~ msgstr "Intermediaris"

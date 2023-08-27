@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-26 00:45+0000\n"
-"PO-Revision-Date: 2023-08-25 13:12+0200\n"
+"PO-Revision-Date: 2023-08-26 11:02+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -2819,8 +2819,7 @@ msgid "Modulators"
 msgstr "Moduladors"
 
 #: data/kdenliveeffectscategory.rc:81
-#, fuzzy, kde-format
-#| msgid "Noise Reduction and audio Restoration"
+#, kde-format
 msgid "Noise Reduction and Audio Restoration"
 msgstr "Reducció del soroll i restauració de l'àudio"
 
@@ -7710,13 +7709,11 @@ msgstr[0] "Un clip que manca"
 msgstr[1] "%1 clips que manquen"
 
 #: src/doc/dcresolvedialog.cpp:199
-#, fuzzy, kde-format
-#| msgid "One missing proxy"
-#| msgid_plural "%1 missing proxies"
+#, kde-format
 msgid "One missing source with available proxy"
 msgid_plural "%1 missing sources with available proxy"
-msgstr[0] "Un intermediari que manca"
-msgstr[1] "%1 intermediaris que manquen"
+msgstr[0] "Un origen que manca amb intermediari disponible"
+msgstr[1] "%1 orígens que manquen amb intermediari disponible"
 
 #: src/doc/dcresolvedialog.cpp:202
 #, kde-format
@@ -21561,113 +21558,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Proxies"
-#~ msgstr "Intermediaris"
-
-#~ msgid "Relocated item"
-#~ msgstr "Element reubicat"
-
-#~ msgid "%1 will be replaced by %2"
-#~ msgstr "%1 se substituirà per %2"
-
-#~ msgid "Modified Clips"
-#~ msgstr "Clips modificats"
-
-#~ msgid "Clip %1 will be reloaded"
-#~ msgstr "El clip %1 es tornarà a carregar"
-
-#~ msgid "Fixed Sequence Clips"
-#~ msgstr "Clips de seqüència corregits"
-
-#~ msgid "Clip %1 will be fixed"
-#~ msgstr "El clip %1 es corregirà"
-
-#~ msgid "Missing effect: %2 will be removed from project."
-#~ msgid_plural "Missing effects: %2 will be removed from project."
-#~ msgstr[0] "Manca un efecte: s'eliminarà %2 del projecte."
-#~ msgstr[1] "Manquen efectes: s'eliminaran %2 del projecte."
-
-#~ msgid "Missing transition: %2 will be removed from project."
-#~ msgid_plural "Missing transitions: %2 will be removed from project."
-#~ msgstr[0] "Manca una transició: %2 s'eliminarà del projecte."
-#~ msgstr[1] "Manquen transicions: %2 s'eliminaran del projecte."
-
-#~ msgid ""
-#~ "The project file contains a missing clip, you can still work with its "
-#~ "proxy."
-#~ msgid_plural ""
-#~ "The project file contains %1 missing clips, you can still work with their "
-#~ "proxies."
-#~ msgstr[0] ""
-#~ "El fitxer del projecte conté un clip que manca, encara podeu treballar "
-#~ "amb el seu intermediari."
-#~ msgstr[1] ""
-#~ "El fitxer del projecte conté %1 clips que manquen, encara podeu treballar "
-#~ "amb els seus intermediaris."
-
-#~ msgid "The project file contains one modified clip, it will be reloaded."
-#~ msgid_plural ""
-#~ "The project file contains %1 modified clips, they will be reloaded."
-#~ msgstr[0] ""
-#~ "El fitxer del projecte conté un clip modificat, que es tornarà a carregar."
-#~ msgstr[1] ""
-#~ "El fitxer del projecte conté %1 clips modificats, que es tornaran a "
-#~ "carregar."
-
-#~ msgid "%1 missing proxy clip, will be recreated on project opening"
-#~ msgid_plural "%1 missing proxy clips, will be recreated on project opening"
-#~ msgstr[0] ""
-#~ "Manca %1 clip intermediari, es tornarà a crear en l'obertura del projecte"
-#~ msgstr[1] ""
-#~ "Manquen %1 clips intermediaris, es tornaran a crear en l'obertura del "
-#~ "projecte"
-
-#~ msgid "%1 missing source clips, you can only use the proxies"
-#~ msgstr "Manquen %1 clips d'origen, només podeu usar els intermediaris"
-
-#~ msgid "Recovered item"
-#~ msgstr "Element recuperat"
-
-#~ msgid "Search aborted"
-#~ msgstr "Cerca interrompuda"
-
-#~ msgid "Scanning %1"
-#~ msgstr "S'està explorant %1"
-
-#~ msgid "This will remove the selected clip from this project"
-#~ msgid_plural "This will remove the selected clips from this project"
-#~ msgstr[0] "Això eliminarà el clip seleccionat d'aquest projecte"
-#~ msgstr[1] "Això eliminarà els clips seleccionats d'aquest projecte"
-
-#~ msgid "Rebuild Proxies"
-#~ msgstr "Reconstrueix els intermediaris"
-
-#~ msgid "Path"
-#~ msgstr "Camí"
-
-#~ msgid "Remove selected clips"
-#~ msgstr "Elimina els clips seleccionats"
-
-#~ msgid "Captured files"
-#~ msgstr "Fitxers de captura"
-
-#~ msgid "File name"
-#~ msgstr "Nom del fitxer"
-
-#~ msgctxt "Filesize"
-#~ msgid "Size"
-#~ msgstr "Mida"
-
-#~ msgid "Delete current file"
-#~ msgstr "Suprimeix el fitxer actual"
-
-#~ msgid "Toggle selection"
-#~ msgstr "Commuta la selecció"
-
-#~ msgctxt "Initial for Master"
-#~ msgid "M"
-#~ msgstr "M"
-
-#~ msgid "Closing a sequence will clear the undo history"
-#~ msgstr "En tancar una seqüència es netejarà l'historial de desfer"

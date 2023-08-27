@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-26 00:45+0000\n"
-"PO-Revision-Date: 2023-08-25 12:21+0200\n"
+"PO-Revision-Date: 2023-08-26 10:00+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -2809,8 +2809,7 @@ msgid "Modulators"
 msgstr "Modulatoren"
 
 #: data/kdenliveeffectscategory.rc:81
-#, fuzzy, kde-format
-#| msgid "Noise Reduction and audio Restoration"
+#, kde-format
 msgid "Noise Reduction and Audio Restoration"
 msgstr "Ruisreductie en geluidsrestauratie"
 
@@ -7685,13 +7684,11 @@ msgstr[0] "Eén ontbrekende clip"
 msgstr[1] "%1 ontbrekende clips"
 
 #: src/doc/dcresolvedialog.cpp:199
-#, fuzzy, kde-format
-#| msgid "One missing proxy"
-#| msgid_plural "%1 missing proxies"
+#, kde-format
 msgid "One missing source with available proxy"
 msgid_plural "%1 missing sources with available proxy"
-msgstr[0] "Eén ontbrekende proxy"
-msgstr[1] "%1 ontbrekende proxies"
+msgstr[0] "Eén ontbrekende bron met beschikbare proxy"
+msgstr[1] "%1 ontbrekende bronnen met beschikbare proxy"
 
 #: src/doc/dcresolvedialog.cpp:202
 #, kde-format

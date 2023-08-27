@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-26 00:45+0000\n"
-"PO-Revision-Date: 2023-08-25 09:42+0300\n"
+"PO-Revision-Date: 2023-08-26 08:50+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -2816,8 +2816,7 @@ msgid "Modulators"
 msgstr "Модулятори"
 
 #: data/kdenliveeffectscategory.rc:81
-#, fuzzy, kde-format
-#| msgid "Noise Reduction and audio Restoration"
+#, kde-format
 msgid "Noise Reduction and Audio Restoration"
 msgstr "Вилучення шумів та відновлення звуку"
 
@@ -7723,15 +7722,13 @@ msgstr[2] "%1 пропущених кліпів"
 msgstr[3] "один пропущений кліп"
 
 #: src/doc/dcresolvedialog.cpp:199
-#, fuzzy, kde-format
-#| msgid "One missing proxy"
-#| msgid_plural "%1 missing proxies"
+#, kde-format
 msgid "One missing source with available proxy"
 msgid_plural "%1 missing sources with available proxy"
-msgstr[0] "%1 пропущений проміжний кліп"
-msgstr[1] "%1 пропущені проміжні кліпи"
-msgstr[2] "%1 пропущених проміжних кліпів"
-msgstr[3] "один пропущений проміжний кліп"
+msgstr[0] "%1 пропущений початковий кліп із доступними проміжними кліпами"
+msgstr[1] "%1 пропущені початкові кліпи із доступними проміжними кліпами"
+msgstr[2] "%1 пропущених початкових кліпів із доступними проміжними кліпами"
+msgstr[3] "один пропущений початковий кліп із доступним проміжним кліпом"
 
 #: src/doc/dcresolvedialog.cpp:202
 #, kde-format

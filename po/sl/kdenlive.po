@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-26 00:45+0000\n"
-"PO-Revision-Date: 2023-08-24 12:06+0200\n"
+"PO-Revision-Date: 2023-08-26 09:24+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -2797,10 +2797,9 @@ msgid "Modulators"
 msgstr "Modulatorji"
 
 #: data/kdenliveeffectscategory.rc:81
-#, fuzzy, kde-format
-#| msgid "Noise Reduction and audio Restoration"
+#, kde-format
 msgid "Noise Reduction and Audio Restoration"
-msgstr "Zmanjševanje šuma in restavriranje posnetkov"
+msgstr "Zmanjševanje šuma in restavriranje zvoka"
 
 #: data/kdenliveeffectscategory.rc:88
 #: src/dialogs/kdenlivesettingsdialog.cpp:119 src/mainwindow.cpp:1421
@@ -7651,70 +7650,64 @@ msgid "Enter new location for file"
 msgstr "Vnesite novo mesto za datoteko"
 
 #: src/doc/dcresolvedialog.cpp:190
-#, fuzzy, kde-format
-#| msgid "The project contains one missing proxy"
-#| msgid_plural "The project contains %1 missing proxies"
+#, kde-format
 msgid "The project contains:"
-msgstr "Projekt vsebuje %1 manjkajočih posrednih posnetkov."
+msgstr "Projekt vsebuje:"
 
 #: src/doc/dcresolvedialog.cpp:196
-#, fuzzy, kde-format
-#| msgid "Missing source clip"
+#, kde-format
 msgid "One missing clip"
 msgid_plural "%1 missing clips"
-msgstr[0] "Manjkajoči izvorni posnetek"
-msgstr[1] "Manjkajoči izvorni posnetek"
-msgstr[2] "Manjkajoči izvorni posnetek"
-msgstr[3] "Manjkajoči izvorni posnetek"
+msgstr[0] "%1 manjkajočih izvornih posnetkov"
+msgstr[1] "%1 manjkajoči izvorni posnetek"
+msgstr[2] "%1 manjkajoča izvorna posnetka"
+msgstr[3] "%1 manjkajoče izvorni posnetki"
 
 #: src/doc/dcresolvedialog.cpp:199
-#, fuzzy, kde-format
-#| msgid "Recreate missing proxies"
+#, kde-format
 msgid "One missing source with available proxy"
 msgid_plural "%1 missing sources with available proxy"
-msgstr[0] "Ponovno izdelaj manjkajoče posredne posnetke"
-msgstr[1] "Ponovno izdelaj manjkajoče posredne posnetke"
-msgstr[2] "Ponovno izdelaj manjkajoče posredne posnetke"
-msgstr[3] "Ponovno izdelaj manjkajoče posredne posnetke"
+msgstr[0] ""
+"%1 manjkajočih izvornih posnetkov z razpoložljivim posrednim posnetkom"
+msgstr[1] "%1 manjkajoči izvorni posnetek z razpoložljivim posrednim posnetkom"
+msgstr[2] "%1 manjkajoča izvorna posnetka z razpoložljivim posrednim posnetkom"
+msgstr[3] "%1 manjkajoče izvorni posnetki z razpoložljivim posrednim posnetkom"
 
 #: src/doc/dcresolvedialog.cpp:202
-#, fuzzy, kde-format
-#| msgid "Use Placeholders"
+#, kde-format
 msgid "One placeholder clip"
 msgid_plural "%1 placeholder clips"
-msgstr[0] "Uporabi ograde"
-msgstr[1] "Uporabi ograde"
-msgstr[2] "Uporabi ograde"
-msgstr[3] "Uporabi ograde"
+msgstr[0] "%1 nadomestnih posnetkov"
+msgstr[1] "%1 nadomestni posnetek"
+msgstr[2] "%1 nadomestna posnetka"
+msgstr[3] "%1 nadomestni posnetki"
 
 #: src/doc/dcresolvedialog.cpp:205
-#, fuzzy, kde-format
-#| msgid "Cannot remove all clips"
+#, kde-format
 msgid "One removed clip"
 msgid_plural "%1 removed clips"
-msgstr[0] "Ni možno odstraniti vseh posnetkov"
-msgstr[1] "Ni možno odstraniti vseh posnetkov"
-msgstr[2] "Ni možno odstraniti vseh posnetkov"
-msgstr[3] "Ni možno odstraniti vseh posnetkov"
+msgstr[0] "%1 odstranjenih posnetkov"
+msgstr[1] "%1 odstranjeni posnetek"
+msgstr[2] "%1 odstranjena posnetka"
+msgstr[3] "%1 odstranjene posnetke"
 
 #: src/doc/dcresolvedialog.cpp:214
-#, fuzzy, kde-format
-#| msgid "Recreate missing proxies"
+#, kde-format
 msgid "One missing proxy"
 msgid_plural "%1 missing proxies"
-msgstr[0] "Ponovno izdelaj manjkajoče posredne posnetke"
-msgstr[1] "Ponovno izdelaj manjkajoče posredne posnetke"
-msgstr[2] "Ponovno izdelaj manjkajoče posredne posnetke"
-msgstr[3] "Ponovno izdelaj manjkajoče posredne posnetke"
+msgstr[0] "%1 manjkajočih posrednih posnetkov"
+msgstr[1] "%1 manjkajoči posredni posnetek"
+msgstr[2] "%1 manjkajoča posredna posnetka"
+msgstr[3] "%1 manjkajoče posredne posnetke"
 
 #: src/doc/dcresolvedialog.cpp:217
 #, kde-format
 msgid "One proxy can be recovered"
 msgid_plural "%1 proxies can be recovered"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Obnoviti je možno %1 posrednih posnetkov"
+msgstr[1] "Obnoviti je možno %1 posreden posnetek"
+msgstr[2] "Obnoviti je možno %1 posredna posnetka"
+msgstr[3] "Obnoviti je možno %1 posredne posnetke"
 
 #: src/doc/dcresolvedialog.cpp:234
 #, kde-format
@@ -21456,6 +21449,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "Proxies"
-#~ msgstr "Posredni posnetki"

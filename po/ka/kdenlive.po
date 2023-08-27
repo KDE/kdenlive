@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-26 00:45+0000\n"
-"PO-Revision-Date: 2023-08-24 05:16+0200\n"
+"PO-Revision-Date: 2023-08-26 06:02+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -7348,10 +7348,9 @@ msgid "Enter new location for file"
 msgstr ""
 
 #: src/doc/dcresolvedialog.cpp:190
-#, fuzzy, kde-format
-#| msgid "Use project resolution"
+#, kde-format
 msgid "The project contains:"
-msgstr "პროექტის გაფართოების გამოყენება"
+msgstr "პროექტი შეიცავს:"
 
 #: src/doc/dcresolvedialog.cpp:196
 #, kde-format
@@ -7361,36 +7360,32 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/doc/dcresolvedialog.cpp:199
-#, fuzzy, kde-format
-#| msgid "Recreate missing proxies"
+#, kde-format
 msgid "One missing source with available proxy"
 msgid_plural "%1 missing sources with available proxy"
-msgstr[0] "ნაკლული პროქსიების შექმნა"
-msgstr[1] "ნაკლული პროქსიების შექმნა"
+msgstr[0] "ერთი ნაკლული წყარო ხელმისაწვდომი პროქსით"
+msgstr[1] "%1 ნაკლული წყარო ხელმისაწვდომი პროქსით"
 
 #: src/doc/dcresolvedialog.cpp:202
-#, fuzzy, kde-format
-#| msgid "Use Placeholders"
+#, kde-format
 msgid "One placeholder clip"
 msgid_plural "%1 placeholder clips"
-msgstr[0] "ადგილმჭერების გამოყენება"
-msgstr[1] "ადგილმჭერების გამოყენება"
+msgstr[0] "ერთ ადგილმჭერი კლიპი"
+msgstr[1] "%1 ადგილმჭერი კლიპი"
 
 #: src/doc/dcresolvedialog.cpp:205
-#, fuzzy, kde-format
-#| msgid "Remove clips"
+#, kde-format
 msgid "One removed clip"
 msgid_plural "%1 removed clips"
-msgstr[0] "კლიპების წაშლა"
-msgstr[1] "კლიპების წაშლა"
+msgstr[0] "1 წაშლილი კლიპი"
+msgstr[1] "%1 წაშლილი კლიპი"
 
 #: src/doc/dcresolvedialog.cpp:214
-#, fuzzy, kde-format
-#| msgid "Recreate missing proxies"
+#, kde-format
 msgid "One missing proxy"
 msgid_plural "%1 missing proxies"
-msgstr[0] "ნაკლული პროქსიების შექმნა"
-msgstr[1] "ნაკლული პროქსიების შექმნა"
+msgstr[0] "ერთი ნაკლული პროქსი"
+msgstr[1] "%1 ნაკლული პროქსი"
 
 #: src/doc/dcresolvedialog.cpp:217
 #, kde-format

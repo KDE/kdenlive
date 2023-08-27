@@ -8061,8 +8061,7 @@ msgid "Title Image"
 msgstr "Imaxe de título"
 
 #: src/doc/documentchecker.cpp:1496
-#, fuzzy, kde-format
-#| msgid "Clip"
+#, kde-format
 msgid "Clip"
 msgstr "Fragmento"
 
@@ -8095,7 +8094,8 @@ msgid "Effect"
 msgstr "Efecto"
 
 #: src/doc/documentchecker.cpp:1510
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Transition"
 msgid "Transition"
 msgstr "Transición"
 
@@ -8112,7 +8112,8 @@ msgid "Reload"
 msgstr "Recargar o fragmento"
 
 #: src/doc/documentchecker.cpp:1524
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Missing"
 msgid "Missing"
 msgstr "Faltan"
 

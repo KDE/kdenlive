@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-26 00:45+0000\n"
-"PO-Revision-Date: 2023-08-24 19:07-0300\n"
+"PO-Revision-Date: 2023-08-25 15:46-0300\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -7701,58 +7701,53 @@ msgid "Enter new location for file"
 msgstr "Ingresar nueva ubicación para el archivo"
 
 #: src/doc/dcresolvedialog.cpp:190
-#, fuzzy, kde-format
-#| msgid "The project contains one missing proxy"
-#| msgid_plural "The project contains %1 missing proxies"
+#, kde-format
 msgid "The project contains:"
-msgstr "El proyecto contiene 1 reemplazo faltante"
+msgstr "El proyecto contiene:"
 
 #: src/doc/dcresolvedialog.cpp:196
-#, fuzzy, kde-format
-#| msgid "Check missing clips"
+#, kde-format
 msgid "One missing clip"
 msgid_plural "%1 missing clips"
-msgstr[0] "Comprobar por clips faltantes"
-msgstr[1] "Comprobar por clips faltantes"
+msgstr[0] "Un clip faltante"
+msgstr[1] "%1 clips faltantes"
 
 #: src/doc/dcresolvedialog.cpp:199
 #, fuzzy, kde-format
-#| msgid "Recreate missing proxies"
+#| msgid "One missing proxy"
+#| msgid_plural "%1 missing proxies"
 msgid "One missing source with available proxy"
 msgid_plural "%1 missing sources with available proxy"
-msgstr[0] "Volver a crear reemplazos faltantes"
-msgstr[1] "Volver a crear reemplazos faltantes"
+msgstr[0] "Un reemplazo faltante"
+msgstr[1] "%1 reemplazos faltantes"
 
 #: src/doc/dcresolvedialog.cpp:202
-#, fuzzy, kde-format
-#| msgid "Use placeholders for missing clips"
+#, kde-format
 msgid "One placeholder clip"
 msgid_plural "%1 placeholder clips"
-msgstr[0] "Usar marcadores de posición para clips faltantes"
-msgstr[1] "Usar marcadores de posición para clips faltantes"
+msgstr[0] "Un marcador de posición"
+msgstr[1] "%1 marcadores de posición"
 
 #: src/doc/dcresolvedialog.cpp:205
-#, fuzzy, kde-format
-#| msgid "Remove clips"
+#, kde-format
 msgid "One removed clip"
 msgid_plural "%1 removed clips"
-msgstr[0] "Eliminar clips"
-msgstr[1] "Eliminar clips"
+msgstr[0] "Un clip eliminado"
+msgstr[1] "%1 clips eliminados"
 
 #: src/doc/dcresolvedialog.cpp:214
-#, fuzzy, kde-format
-#| msgid "Recreate missing proxies"
+#, kde-format
 msgid "One missing proxy"
 msgid_plural "%1 missing proxies"
-msgstr[0] "Volver a crear reemplazos faltantes"
-msgstr[1] "Volver a crear reemplazos faltantes"
+msgstr[0] "Un reemplazo faltante"
+msgstr[1] "%1 reemplazos faltantes"
 
 #: src/doc/dcresolvedialog.cpp:217
 #, kde-format
 msgid "One proxy can be recovered"
 msgid_plural "%1 proxies can be recovered"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Un reemplazo puede ser recuperado"
+msgstr[1] "%1 reemplazos pueden ser recuperados"
 
 #: src/doc/dcresolvedialog.cpp:234
 #, kde-format
