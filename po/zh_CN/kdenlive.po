@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-26 00:45+0000\n"
-"PO-Revision-Date: 2023-08-02 12:40\n"
+"PO-Revision-Date: 2023-08-27 03:40\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -494,10 +494,9 @@ msgid "Vertical multiplicator"
 msgstr "垂直乘数"
 
 #: data/effects/box_blur.xml:15
-#, fuzzy, kde-format
-#| msgid "Preserve aspect ratio"
+#, kde-format
 msgid "Preserve alpha"
-msgstr "保持宽高比"
+msgstr "保持透明度"
 
 #: data/effects/boxblur.xml:4
 #, kde-format
@@ -2747,8 +2746,7 @@ msgid "Modulators"
 msgstr "Modulators - 调幅器"
 
 #: data/kdenliveeffectscategory.rc:81
-#, fuzzy, kde-format
-#| msgid "Noise Reduction and audio Restoration"
+#, kde-format
 msgid "Noise Reduction and Audio Restoration"
 msgstr "Noise Reduction and audio Restoration - 降噪和音频修复"
 
@@ -4250,10 +4248,9 @@ msgid "Cancel Pending Jobs"
 msgstr "取消待处理任务"
 
 #: src/bin/bin.cpp:1480
-#, fuzzy, kde-format
-#| msgid "Clip Properties"
+#, kde-format
 msgid "Bin Clip Properties"
-msgstr "剪辑属性"
+msgstr "素材箱剪辑属性"
 
 #: src/bin/bin.cpp:1775
 #, kde-format
@@ -7486,13 +7483,12 @@ msgstr "已发现并启用了硬件编码器 (%1)。"
 #: src/doc/dcresolvedialog.cpp:53
 #, kde-format
 msgid "Recursive search: processing clips"
-msgstr ""
+msgstr "递归搜索：正在处理剪辑"
 
 #: src/doc/dcresolvedialog.cpp:62
-#, fuzzy, kde-format
-#| msgid "Search done"
+#, kde-format
 msgid "Recursive search: done"
-msgstr "搜索已完成"
+msgstr "递归搜索：完成"
 
 #: src/doc/dcresolvedialog.cpp:145
 #, kde-format
@@ -7505,51 +7501,45 @@ msgid "Enter new location for file"
 msgstr "输入文件的新位置"
 
 #: src/doc/dcresolvedialog.cpp:190
-#, fuzzy, kde-format
-#| msgid "The project file contains missing clips or files."
+#, kde-format
 msgid "The project contains:"
-msgstr "项目文件包含缺失的剪辑或文件。"
+msgstr "该项目包括："
 
 #: src/doc/dcresolvedialog.cpp:196
-#, fuzzy, kde-format
-#| msgid "Missing source clip"
+#, kde-format
 msgid "One missing clip"
 msgid_plural "%1 missing clips"
-msgstr[0] "缺少来源素材"
+msgstr[0] "%1 个缺少的剪辑"
 
 #: src/doc/dcresolvedialog.cpp:199
-#, fuzzy, kde-format
-#| msgid "Delete missing elements"
+#, kde-format
 msgid "One missing source with available proxy"
 msgid_plural "%1 missing sources with available proxy"
-msgstr[0] "删除缺失的元素"
+msgstr[0] "%1 个缺少来源 (有可用的代理剪辑)"
 
 #: src/doc/dcresolvedialog.cpp:202
-#, fuzzy, kde-format
-#| msgid "Use placeholders for missing clips"
+#, kde-format
 msgid "One placeholder clip"
 msgid_plural "%1 placeholder clips"
-msgstr[0] "为缺失的剪辑使用占位符"
+msgstr[0] "%1 个占位符剪辑"
 
 #: src/doc/dcresolvedialog.cpp:205
-#, fuzzy, kde-format
-#| msgid "Remove clips"
+#, kde-format
 msgid "One removed clip"
 msgid_plural "%1 removed clips"
-msgstr[0] "移除剪辑"
+msgstr[0] "%1 个已移除的剪辑"
 
 #: src/doc/dcresolvedialog.cpp:214
-#, fuzzy, kde-format
-#| msgid "Delete missing elements"
+#, kde-format
 msgid "One missing proxy"
 msgid_plural "%1 missing proxies"
-msgstr[0] "删除缺失的元素"
+msgstr[0] "%1 个缺少的代理剪辑"
 
 #: src/doc/dcresolvedialog.cpp:217
 #, kde-format
 msgid "One proxy can be recovered"
 msgid_plural "%1 proxies can be recovered"
-msgstr[0] ""
+msgstr[0] "%1 个可被恢复的代理剪辑"
 
 #: src/doc/dcresolvedialog.cpp:234
 #, kde-format
@@ -7589,10 +7579,9 @@ msgid "Title Image"
 msgstr "字幕图像"
 
 #: src/doc/documentchecker.cpp:1496
-#, fuzzy, kde-format
-#| msgid "&Clip"
+#, kde-format
 msgid "Clip"
-msgstr "剪辑(&C)"
+msgstr "剪辑"
 
 #: src/doc/documentchecker.cpp:1498
 #, kde-format
@@ -7622,8 +7611,7 @@ msgid "Effect"
 msgstr "效果"
 
 #: src/doc/documentchecker.cpp:1510
-#, fuzzy, kde-format
-#| msgid "Transitions"
+#, kde-format
 msgid "Transition"
 msgstr "转场"
 
@@ -7634,22 +7622,19 @@ msgid "Fixed"
 msgstr "固定"
 
 #: src/doc/documentchecker.cpp:1522
-#, fuzzy, kde-format
-#| msgid "Reload Clip"
+#, kde-format
 msgid "Reload"
-msgstr "重新加载剪辑"
+msgstr "重新加载"
 
 #: src/doc/documentchecker.cpp:1524
-#, fuzzy, kde-format
-#| msgid "Missing item"
+#, kde-format
 msgid "Missing"
-msgstr "缺失项目"
+msgstr "缺失"
 
 #: src/doc/documentchecker.cpp:1526
-#, fuzzy, kde-format
-#| msgid "Missing proxy"
+#, kde-format
 msgid "Missing, but proxy available"
-msgstr "缺失的代理"
+msgstr "缺失，但代理剪辑可用"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
 #: src/doc/documentchecker.cpp:1528 src/ui/editrenderpreset_ui.ui:525
@@ -7659,8 +7644,7 @@ msgstr "占位符"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
 #: src/doc/documentchecker.cpp:1530 src/ui/missingclips_ui.ui:152
-#, fuzzy, kde-format
-#| msgid "Removal"
+#, kde-format
 msgid "Remove"
 msgstr "移除"
 
@@ -12682,10 +12666,9 @@ msgid "Archiving %1"
 msgstr "正在压缩 %1"
 
 #: src/project/dialogs/archivewidget.cpp:1108
-#, fuzzy, kde-format
-#| msgid "Cannot open file %1"
+#, kde-format
 msgid "Cannot copy file %1 to %2."
-msgstr "无法打开文件 %1"
+msgstr "无法复制文件 %1 到 %2。"
 
 #: src/project/dialogs/archivewidget.cpp:1138
 #, kde-format
@@ -19516,49 +19499,43 @@ msgstr " 剪辑问题"
 #: src/ui/missingclips_ui.ui:92
 #, no-c-format, kde-format
 msgid "%v / %m"
-msgstr ""
+msgstr "%v / %m"
 
 #. i18n: ectx: property (text), widget (QCheckBox, recreateProxies)
 #: src/ui/missingclips_ui.ui:102
-#, fuzzy, kde-format
-#| msgid "Delete missing elements"
+#, kde-format
 msgid "Recreate missing proxies"
-msgstr "删除缺失的元素"
+msgstr "重新创建代理剪辑"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/missingclips_ui.ui:134
-#, fuzzy, kde-format
-#| msgid "Delete Selected Item"
+#, kde-format
 msgid "Selected Items:"
-msgstr "删除所选项目"
+msgstr "已选择的项目："
 
 #. i18n: ectx: property (text), widget (QPushButton, manualSearch)
 #: src/ui/missingclips_ui.ui:141
-#, fuzzy, kde-format
-#| msgid "Search manually"
+#, kde-format
 msgid "Search Manually"
 msgstr "手动搜索"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/missingclips_ui.ui:170
-#, fuzzy, kde-format
-#| msgid "Missing item"
+#, kde-format
 msgid "All Missing Items:"
-msgstr "缺失项目"
+msgstr "所有缺失的项目："
 
 #. i18n: ectx: property (text), widget (QPushButton, recursiveSearch)
 #: src/ui/missingclips_ui.ui:177
-#, fuzzy, kde-format
-#| msgid "Search recursively"
+#, kde-format
 msgid "Search Recursively"
 msgstr "递归搜索"
 
 #. i18n: ectx: property (text), widget (QPushButton, usePlaceholders)
 #: src/ui/missingclips_ui.ui:188
-#, fuzzy, kde-format
-#| msgid "Placeholder"
+#, kde-format
 msgid "Use Placeholders"
-msgstr "占位符"
+msgstr "使用占位符"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/ui/multiplemarkerdialog_ui.ui:24
@@ -20885,7 +20862,7 @@ msgstr ""
 #: src/ui/transcodeseekable_ui.ui:81
 #, kde-format
 msgid "Replace clip by transcoded version in project"
-msgstr ""
+msgstr "替换素材为项目中的转码版本"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, UnicodeWidget_UI)
 #: src/ui/unicodewidget_ui.ui:24
@@ -21058,93 +21035,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#, fuzzy
-#~| msgid "Proxy Clips"
-#~ msgid "Proxies"
-#~ msgstr "代理剪辑"
-
-#~ msgid "Relocated item"
-#~ msgstr "已移位项目"
-
-#~ msgid "%1 will be replaced by %2"
-#~ msgstr "%1 将被 %2 取代"
-
-#~ msgid "Modified Clips"
-#~ msgstr "已修改剪辑"
-
-#~ msgid "Clip %1 will be reloaded"
-#~ msgstr "剪辑 %1 将被重新加载"
-
-#~ msgid "Fixed Sequence Clips"
-#~ msgstr "已修复的序列剪辑"
-
-#~ msgid "Clip %1 will be fixed"
-#~ msgstr "剪辑 %1 将被修复"
-
-#~ msgid "Missing effect: %2 will be removed from project."
-#~ msgid_plural "Missing effects: %2 will be removed from project."
-#~ msgstr[0] "缺少效果：%2 将从项目中移除。"
-
-#~ msgid "Missing transition: %2 will be removed from project."
-#~ msgid_plural "Missing transitions: %2 will be removed from project."
-#~ msgstr[0] "缺少转场：%2 将从项目中移除。"
-
-#~ msgid ""
-#~ "The project file contains a missing clip, you can still work with its "
-#~ "proxy."
-#~ msgid_plural ""
-#~ "The project file contains %1 missing clips, you can still work with their "
-#~ "proxies."
-#~ msgstr[0] ""
-#~ "此项目文件包含 %1 段缺失剪辑，但您仍然可以对它们的代理剪辑进行处理。"
-
-#~ msgid "The project file contains one modified clip, it will be reloaded."
-#~ msgid_plural ""
-#~ "The project file contains %1 modified clips, they will be reloaded."
-#~ msgstr[0] "此项目文件包含 %1 段已修改剪辑，它们将被重新加载。"
-
-#~ msgid "%1 missing proxy clip, will be recreated on project opening"
-#~ msgid_plural "%1 missing proxy clips, will be recreated on project opening"
-#~ msgstr[0] "%1 段缺失代理剪辑，它们将在项目打开时重新创建。"
-
-#~ msgid "%1 missing source clips, you can only use the proxies"
-#~ msgstr "%1 段缺失来源剪辑，您只能使用它们的代理剪辑。"
-
-#~ msgid "Recovered item"
-#~ msgstr "已恢复项目"
-
-#~ msgid "Search aborted"
-#~ msgstr "搜索已中止"
-
-#~ msgid "Scanning %1"
-#~ msgstr "正在扫描 %1"
-
-#~ msgid "This will remove the selected clip from this project"
-#~ msgid_plural "This will remove the selected clips from this project"
-#~ msgstr[0] "此操作将从项目中移除所选剪辑"
-
-#~ msgid "Rebuild Proxies"
-#~ msgstr "重建代理剪辑"
-
-#~ msgid "Path"
-#~ msgstr "路径"
-
-#~ msgid "Remove selected clips"
-#~ msgstr "移除所选剪辑"
-
-#~ msgid "Captured files"
-#~ msgstr "已捕获文件"
-
-#~ msgid "File name"
-#~ msgstr "文件名"
-
-#~ msgctxt "Filesize"
-#~ msgid "Size"
-#~ msgstr "体积"
-
-#~ msgid "Delete current file"
-#~ msgstr "删除当前文件"
-
-#~ msgid "Toggle selection"
-#~ msgstr "切换选择范围"
