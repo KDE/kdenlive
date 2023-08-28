@@ -489,7 +489,9 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
             if (forceAudioReload || (!isProxy && hashChanged)) {
                 discardAudioThumb();
             }
-            m_clipStatus = FileStatus::StatusWaiting;
+            if (m_clipStatus != FileStatus::StatusMissing) {
+                m_clipStatus = FileStatus::StatusWaiting;
+            }
             m_thumbsProducer.reset();
             ClipLoadTask::start(oid, xml, false, -1, -1, this);
         }
@@ -662,6 +664,9 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
         updateRoles << AbstractProjectItem::DataDuration;
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()), updateRoles);
         std::static_pointer_cast<ProjectItemModel>(ptr)->updateWatcher(std::static_pointer_cast<ProjectClip>(shared_from_this()));
+        if (currentStatus == FileStatus::StatusMissing) {
+            std::static_pointer_cast<ProjectItemModel>(ptr)->missingClipTimer.start();
+        }
     }
     // set parent again (some info need to be stored in producer)
     updateParent(parentItem().lock());
@@ -2689,11 +2694,15 @@ const QVector<uint8_t> ProjectClip::audioFrameCache(int stream)
 
 void ProjectClip::setClipStatus(FileStatus::ClipStatus status)
 {
+    FileStatus::ClipStatus previousStatus = m_clipStatus;
     AbstractProjectItem::setClipStatus(status);
     updateTimelineClips({TimelineModel::StatusRole});
     if (auto ptr = m_model.lock()) {
-        std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
-                                                                       {AbstractProjectItem::IconOverlay});
+        std::shared_ptr<ProjectItemModel> model = std::static_pointer_cast<ProjectItemModel>(ptr);
+        model->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()), {AbstractProjectItem::IconOverlay});
+        if (status == FileStatus::StatusMissing || previousStatus == FileStatus::StatusMissing) {
+            model->missingClipTimer.start();
+        }
     }
 }
 

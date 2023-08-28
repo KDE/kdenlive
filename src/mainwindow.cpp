@@ -2299,6 +2299,7 @@ void MainWindow::slotRenderProject()
         connect(m_renderWidget, &RenderWidget::shutdown, this, &MainWindow::slotShutdown);
         connect(m_renderWidget, &RenderWidget::selectedRenderProfile, this, &MainWindow::slotSetDocumentRenderProfile);
         connect(m_renderWidget, &RenderWidget::abortProcess, this, &MainWindow::abortRenderJob);
+        connect(pCore.get(), &Core::gotMissingClipsCount, m_renderWidget, &RenderWidget::updateMissingClipsCount);
         connect(this, &MainWindow::updateRenderWidgetProfile, m_renderWidget, &RenderWidget::adjustViewToProfile);
         m_renderWidget->setGuides(project->getGuideModel(getCurrentTimeline()->getUuid()));
         m_renderWidget->updateDocumentPath();

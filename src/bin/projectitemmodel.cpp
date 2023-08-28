@@ -57,6 +57,9 @@ ProjectItemModel::ProjectItemModel(QObject *parent)
     connect(m_fileWatcher.get(), &FileWatcher::binClipModified, this, &ProjectItemModel::reloadClip);
     connect(m_fileWatcher.get(), &FileWatcher::binClipWaiting, this, &ProjectItemModel::setClipWaiting);
     connect(m_fileWatcher.get(), &FileWatcher::binClipMissing, this, &ProjectItemModel::setClipInvalid);
+    missingClipTimer.setInterval(500);
+    missingClipTimer.setSingleShot(true);
+    connect(&missingClipTimer, &QTimer::timeout, this, &ProjectItemModel::slotUpdateInvalidCount);
 }
 
 std::shared_ptr<ProjectItemModel> ProjectItemModel::construct(QObject *parent)
@@ -1528,6 +1531,24 @@ void ProjectItemModel::setClipInvalid(const QString &binId)
         clip->setClipStatus(FileStatus::StatusMissing);
         // TODO: set producer as blank invalid
     }
+}
+
+void ProjectItemModel::slotUpdateInvalidCount()
+{
+    READ_LOCK();
+    int missingCount = 0;
+    int missingUsed = 0;
+    for (const auto &clip : m_allItems) {
+        auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
+        if (c->clipStatus() == FileStatus::StatusMissing) {
+            int usage = c->getData(AbstractProjectItem::UsageCount).toInt();
+            if (usage > 0) {
+                missingUsed++;
+            }
+            missingCount++;
+        }
+    }
+    Q_EMIT pCore->gotMissingClipsCount(missingCount, missingUsed);
 }
 
 void ProjectItemModel::updateWatcher(const std::shared_ptr<ProjectClip> &clipItem)

@@ -264,6 +264,7 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     }
     activateDocument(m_project->activeUuid);
     Q_EMIT docOpened(m_project);
+    Q_EMIT pCore->gotMissingClipsCount(0, 0);
     m_project->loading = false;
     m_lastSave.start();
     if (pCore->monitorManager()) {
@@ -876,6 +877,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
         const QUuid uuid = m_project->activeUuid;
         pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_activeTimelineModel->duration() - 1, m_project->getFilteredGuideModel(uuid));
     }
+    pCore->projectItemModel()->missingClipTimer.start();
     delete m_progressDialog;
     m_progressDialog = nullptr;
 }

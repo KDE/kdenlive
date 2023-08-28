@@ -18,6 +18,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QIcon>
 #include <QReadWriteLock>
 #include <QSize>
+#include <QTimer>
 #include <QUuid>
 
 class BinPlaylist;
@@ -50,7 +51,9 @@ public:
     ~ProjectItemModel() override;
 
     friend class ProjectClip;
-    
+    /** @brief Timer checking if we have missing clips in the project */
+    QTimer missingClipTimer;
+
     /** @brief Builds the MLT playlist, can only be done after MLT is correctly initialized */
     void buildPlaylist(const QUuid uuid);
 
@@ -269,6 +272,10 @@ public Q_SLOTS:
     @param id is the id of the parent clip
     @param data is a definition of the subclips (keys are subclips' names, value are "in:out")*/
     void loadSubClips(const QString &id, const QString &clipData, bool logUndo);
+
+private Q_SLOTS:
+    /** @brief Check how many invalid clips we have. */
+    void slotUpdateInvalidCount();
 
 private:
     /** @brief Return reference to column specific data */
