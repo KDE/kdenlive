@@ -221,7 +221,7 @@ int main(int argc, char *argv[])
             qCritical() << "You need to give a valid file if you want to render from the command line.";
             return EXIT_FAILURE;
         }
-        if (!Core::build(packageType)) {
+        if (!Core::build(packageType, true)) {
             return EXIT_FAILURE;
         }
         pCore->initHeadless(url);
@@ -229,7 +229,7 @@ int main(int argc, char *argv[])
 
         RenderRequest *renderrequest = new RenderRequest();
         renderrequest->setOutputFile(QStringLiteral("~/cli-test.mp4"));
-
+        renderrequest->loadPresetParams(QStringLiteral("MP4-H264/AAC"));
         // request->setPresetParams(m_params);
         renderrequest->setDelayedRendering(false);
         renderrequest->setProxyRendering(false);

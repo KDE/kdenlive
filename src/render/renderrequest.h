@@ -28,6 +28,8 @@ public:
     void setBounds(int in, int out);
     void setOutputFile(const QString &filename);
     void setPresetParams(const RenderPresetParams &params);
+    /** @brief Load render params from a profile name */
+    void loadPresetParams(const QString &profileName);
     void setDelayedRendering(bool enabled);
     void setProxyRendering(bool enabled);
     void setEmbedSubtitles(bool enabled);

@@ -7,6 +7,7 @@
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "project/projectmanager.h"
+#include "renderpresets/renderpresetrepository.hpp"
 #include "utils/qstringutils.h"
 #include "xml/xml.hpp"
 
@@ -45,6 +46,13 @@ void RenderRequest::setOutputFile(const QString &filename)
 void RenderRequest::setPresetParams(const RenderPresetParams &params)
 {
     m_presetParams = params;
+}
+
+void RenderRequest::loadPresetParams(const QString &profileName)
+{
+    std::unique_ptr<RenderPresetModel> &profile = RenderPresetRepository::get()->getPreset(profileName);
+    qDebug() << "::: LOADING PRESET PARAMETER: " << profileName << " = " << profile->params().toString();
+    m_presetParams = profile->params();
 }
 
 void RenderRequest::setDelayedRendering(bool enabled)
