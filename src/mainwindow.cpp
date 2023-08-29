@@ -2499,7 +2499,6 @@ void MainWindow::connectDocument()
     connect(m_projectMonitorDock, &QDockWidget::visibilityChanged, m_projectMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
     connect(m_clipMonitorDock, &QDockWidget::visibilityChanged, m_clipMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
     pCore->guidesList()->reset();
-    pCore->guidesList()->setModel(project->getGuideModel(uuid), project->getFilteredGuideModel(uuid));
     getCurrentTimeline()->focusTimeline();
 }
 
@@ -4837,13 +4836,13 @@ void MainWindow::connectTimeline()
 
     KdenliveDoc *project = pCore->currentDoc();
     QSignalBlocker blocker(m_zoomSlider);
-    m_zoomSlider->setValue(pCore->currentDoc()->zoom(uuid).x());
+    m_zoomSlider->setValue(project->zoom(uuid).x());
     int position = project->getSequenceProperty(uuid, QStringLiteral("position"), QString::number(0)).toInt();
     pCore->monitorManager()->projectMonitor()->adjustRulerSize(getCurrentTimeline()->model()->duration() - 1, project->getFilteredGuideModel(uuid));
     pCore->monitorManager()->projectMonitor()->loadZone(getCurrentTimeline()->controller()->zoneIn(), getCurrentTimeline()->controller()->zoneOut());
     pCore->monitorManager()->projectMonitor()->setProducer(getCurrentTimeline()->model()->producer(), position);
-    connect(pCore->currentDoc(), &KdenliveDoc::docModified, this, &MainWindow::slotUpdateDocumentState);
-    slotUpdateDocumentState(pCore->currentDoc()->isModified());
+    connect(project, &KdenliveDoc::docModified, this, &MainWindow::slotUpdateDocumentState);
+    slotUpdateDocumentState(project->isModified());
 
     // Timeline preview
     QAction *previewRender = actionCollection()->action(QStringLiteral("prerender_timeline_zone"));
@@ -4862,6 +4861,7 @@ void MainWindow::connectTimeline()
 
     // Ensure the active timeline has an opaque black background for compositing
     getCurrentTimeline()->model()->makeTransparentBg(false);
+    pCore->guidesList()->setModel(project->getGuideModel(uuid), project->getFilteredGuideModel(uuid));
 
     // Audio record actions
     connect(pCore.get(), &Core::finalizeRecording, getCurrentTimeline()->controller(), &TimelineController::finishRecording);
@@ -4872,7 +4872,7 @@ void MainWindow::connectTimeline()
     bool hasSubtitleModel = getCurrentTimeline()->hasSubtitles();
     Q_EMIT getCurrentTimeline()->controller()->subtitlesLockedChanged();
     Q_EMIT getCurrentTimeline()->controller()->subtitlesDisabledChanged();
-    bool showSubs = pCore->currentDoc()->getSequenceProperty(uuid, QStringLiteral("hidesubtitle")).toInt() == 0;
+    bool showSubs = project->getSequenceProperty(uuid, QStringLiteral("hidesubtitle")).toInt() == 0;
     KdenliveSettings::setShowSubtitles(showSubs && hasSubtitleModel);
     getCurrentTimeline()->connectSubtitleModel(hasSubtitleModel);
     m_buttonSubtitleEditTool->setChecked(showSubs && hasSubtitleModel);
