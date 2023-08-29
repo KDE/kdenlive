@@ -51,7 +51,6 @@ void RenderRequest::setPresetParams(const RenderPresetParams &params)
 void RenderRequest::loadPresetParams(const QString &profileName)
 {
     std::unique_ptr<RenderPresetModel> &profile = RenderPresetRepository::get()->getPreset(profileName);
-    qDebug() << "::: LOADING PRESET PARAMETER: " << profileName << " = " << profile->params().toString();
     m_presetParams = profile->params();
 }
 
@@ -250,6 +249,19 @@ void RenderRequest::createRenderJobs(std::vector<RenderJob> &jobs, const QDomDoc
 
         // get the consumer element
         QDomNodeList consumers = final.elementsByTagName(QStringLiteral("consumer"));
+        if (consumers.count() == 0) {
+            // Headless rendering, we need to create the consumer tag
+            QDomElement cons = final.createElement(QLatin1String("consumer"));
+            cons.setAttribute(QLatin1String("mlt_service"), QStringLiteral("avformat"));
+            RenderPresetParams::const_iterator i = m_presetParams.constBegin();
+            while (i != m_presetParams.constEnd()) {
+                cons.setAttribute(i.key(), i.value());
+                qDebug() << "SETTING RENDER PARAMS: " << i.key() << " = " << i.value();
+                ++i;
+            }
+            final.documentElement().appendChild(cons);
+        }
+        consumers = final.elementsByTagName(QStringLiteral("consumer"));
         QDomElement consumer = consumers.at(0).toElement();
 
         consumer.setAttribute(QStringLiteral("target"), job.outputPath);
