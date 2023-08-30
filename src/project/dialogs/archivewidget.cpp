@@ -110,7 +110,18 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData,
     QStringList allFonts;
     QStringList extraImageUrls;
     QStringList otherUrls;
+    Qt::CaseSensitivity sensitivity = Qt::CaseSensitive;
+#ifdef Q_OS_WIN
+    // File names in Windows are not case sensitive. So "C:\my_file.mp4" and "c:\my_file.mp4" point to the same file, ensure we hanlde this
+    sensitivity = Qt::CaseInsensitive;
+    for (auto &u : other_list) {
+        if (!otherUrls.contains(u, sensitivity)) {
+            otherUrls << u;
+        }
+    }
+#else
     otherUrls << other_list;
+#endif
     generateItems(lumas, luma_list);
 
     QMap<QString, QString> slideUrls;
@@ -147,7 +158,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData,
             handledUrls << url;
             const QStringList files = ProjectSettings::extractPlaylistUrls(clip->clipUrl());
             for (auto &f : files) {
-                if (handledUrls.contains(f)) {
+                if (handledUrls.contains(f, sensitivity)) {
                     continue;
                 }
                 otherUrls << f;
@@ -167,10 +178,11 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData,
         }
         const QStringList files = clip->filesUsedByEffects();
         for (auto &f : files) {
-            if (handledUrls.contains(f)) {
+            if (handledUrls.contains(f, sensitivity)) {
                 continue;
             }
             otherUrls << f;
+            handledUrls << f;
         }
     }
 
