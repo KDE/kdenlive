@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-29 00:44+0000\n"
-"PO-Revision-Date: 2023-08-26 10:00+0200\n"
+"POT-Creation-Date: 2023-08-30 00:45+0000\n"
+"PO-Revision-Date: 2023-08-29 18:13+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -4792,7 +4792,7 @@ msgstr "Kan effecten niet toepassen aan mappen"
 
 #: src/bin/bin.cpp:3804 src/effects/effectstack/model/effectstackmodel.cpp:501
 #: src/effects/effectstack/model/effectstackmodel.cpp:507
-#: src/mainwindow.cpp:3170
+#: src/mainwindow.cpp:3169
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Kan effect niet toevoegen aan clip"
@@ -4935,7 +4935,7 @@ msgstr ""
 "Uw project heeft meer audiotracks nodig om alle streams te behandelen. %1 "
 "audiotracks toevoegen?"
 
-#: src/bin/bin.cpp:5236 src/mainwindow.cpp:2732
+#: src/bin/bin.cpp:5236 src/mainwindow.cpp:2731
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Kan clip, waaraan markering moet worden toegevoegd, niet vinden"
@@ -5139,7 +5139,7 @@ msgstr "Bestand importeren bij dubbelklikken"
 #: src/bin/mediabrowser.cpp:162 src/dialogs/clipcreationdialog.cpp:499
 #: src/effects/effectlist/view/effectlistwidget.cpp:130
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:300
-#: src/mainwindow.cpp:3902 src/onlineresources/resourcewidget.cpp:553
+#: src/mainwindow.cpp:3901 src/onlineresources/resourcewidget.cpp:553
 #, kde-format
 msgid "All Files"
 msgstr "Alle bestanden"
@@ -6302,7 +6302,7 @@ msgstr "Volgende hulplijnpositie in frames"
 msgid "Guide comment"
 msgstr "Commentaar bij hulplijn"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:115 src/mainwindow.cpp:3823
+#: src/dialogs/kdenlivesettingsdialog.cpp:115 src/mainwindow.cpp:3822
 #, kde-format
 msgid "Timeline"
 msgstr "Tijdlijn"
@@ -6990,35 +6990,28 @@ msgid "Remove Job"
 msgstr "Opdracht verwijderen"
 
 #: src/dialogs/renderwidget.cpp:1709
-#, fuzzy, kde-format
-#| msgid "Render Duration: %1"
+#, kde-format
 msgid "Render Duration: %1. "
-msgstr "Tijdsduur van renderen: %1"
+msgstr "Tijdsduur van renderen: %1. "
 
 #: src/dialogs/renderwidget.cpp:1711
-#, fuzzy, kde-format
-#| msgid "You have %1 missing clip in your project."
-#| msgid_plural "You have %1 missing clips in your project."
+#, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
-msgstr[0] "Er ontbreekt %1 clip in het project."
-msgstr[1] "Er ontbreken %1 clips in het project."
+msgstr[0] "<b>Er ontbreekt een clip gebruikt in het project.</b>"
+msgstr[1] "<b>Er ontbreken %1 clips gebruikt in het project.</b>"
 
 #: src/dialogs/renderwidget.cpp:1713
-#, fuzzy, kde-format
-#| msgid "One missing clip"
-#| msgid_plural "%1 missing clips"
+#, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
-msgstr[0] "Eén ontbrekende clip"
-msgstr[1] "%1 ontbrekende clips"
+msgstr[0] "Eén ontbrekende clip (niet gebruikt)."
+msgstr[1] "%1 ontbrekende clips (niet gebruikt)."
 
 #: src/dialogs/renderwidget.cpp:1715
-#, fuzzy, kde-format
-#| msgid "You have %1 missing clip in your project."
-#| msgid_plural "You have %1 missing clips in your project."
+#, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
-msgstr "Er ontbreekt %1 clip in het project."
+msgstr "%1 ontbrekende clips (<b>%2 worden gebruikt in het project</b>)."
 
 #: src/dialogs/renderwidget.cpp:1719
 #, kde-format
@@ -8882,13 +8875,13 @@ msgid "Markers"
 msgstr "Markeringen"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:80 src/mainwindow.cpp:3777
+#: src/kdenliveui.rc:80 src/mainwindow.cpp:3776
 #, kde-format
 msgid "Extract Audio"
 msgstr "Extract audio"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:83 src/mainwindow.cpp:3740
+#: src/kdenliveui.rc:83 src/mainwindow.cpp:3739
 #, kde-format
 msgid "Clip Jobs"
 msgstr "Cliptaken"
@@ -10065,7 +10058,7 @@ msgstr ""
 msgid "Experimental GPU processing enabled - not for production"
 msgstr "Experimentele GPU-processing ingeschakeld - niet voor productie"
 
-#: src/mainwindow.cpp:1387 src/mainwindow.cpp:3410
+#: src/mainwindow.cpp:1387 src/mainwindow.cpp:3409
 #, kde-format
 msgid "Multicam"
 msgstr "Multi-camera"
@@ -10924,28 +10917,28 @@ msgstr "Dit verwijdert alle niet gebruikte clips uit het project."
 msgid "Clean up project"
 msgstr "Project opschonen"
 
-#: src/mainwindow.cpp:2512 src/mainwindow.cpp:2536
+#: src/mainwindow.cpp:2511 src/mainwindow.cpp:2535
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr "Nieuwe toetsenbordschema's downloaden…"
 
-#: src/mainwindow.cpp:2523
+#: src/mainwindow.cpp:2522
 #, kde-format
 msgid "Current scheme:"
 msgstr "Huidig schema:"
 
-#: src/mainwindow.cpp:2533
+#: src/mainwindow.cpp:2532
 #, kde-format
 msgid "More Actions"
 msgstr "Meer acties"
 
-#: src/mainwindow.cpp:2545
+#: src/mainwindow.cpp:2544
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "Algemeen"
 
-#: src/mainwindow.cpp:2617
+#: src/mainwindow.cpp:2616
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
@@ -10954,28 +10947,28 @@ msgstr ""
 "Dit zal het configuratiebestand van Kdenlive verwijderen en de toepassing "
 "herstarten. Wilt u doorgaan?"
 
-#: src/mainwindow.cpp:2618
+#: src/mainwindow.cpp:2617
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "Configuratie resetten"
 
-#: src/mainwindow.cpp:2750 src/mainwindow.cpp:2777
+#: src/mainwindow.cpp:2749 src/mainwindow.cpp:2776
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "Kan geen clip vinden waarvan het markering dient verwijderd "
 
-#: src/mainwindow.cpp:2760 src/mainwindow.cpp:2806
+#: src/mainwindow.cpp:2759 src/mainwindow.cpp:2805
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "Geen markering gevonden op cursor tijdstip"
 
-#: src/mainwindow.cpp:2782
+#: src/mainwindow.cpp:2781
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr "Er is een fout opgetreden tijdens het verwijderen van markeringen"
 
-#: src/mainwindow.cpp:2799 src/timeline2/view/timelinecontroller.cpp:1252
+#: src/mainwindow.cpp:2798 src/timeline2/view/timelinecontroller.cpp:1252
 #: src/timeline2/view/timelinecontroller.cpp:1260
 #: src/timeline2/view/timelinecontroller.cpp:1281
 #: src/timeline2/view/timelinecontroller.cpp:1321
@@ -10984,22 +10977,22 @@ msgstr "Er is een fout opgetreden tijdens het verwijderen van markeringen"
 msgid "Cannot find clip to edit marker"
 msgstr "Kan clip niet vinden om markering te bewerken"
 
-#: src/mainwindow.cpp:3002
+#: src/mainwindow.cpp:3001
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr "Geen clip geselecteerd in project-bin"
 
-#: src/mainwindow.cpp:3173
+#: src/mainwindow.cpp:3172
 #, kde-format
 msgid "Select an item to add effect"
 msgstr "Een item selecteren waaraan effect moet worden toegevoegd"
 
-#: src/mainwindow.cpp:3229
+#: src/mainwindow.cpp:3228
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "Zoomfactor: %1/%2"
 
-#: src/mainwindow.cpp:3378
+#: src/mainwindow.cpp:3377
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11012,7 +11005,7 @@ msgstr ""
 "om een gegroepeerde clip naar een andere track te verplaatsen, "
 "<shortcut>Ctrl slepen</shortcut> om heen en weer te bewegen (pan)"
 
-#: src/mainwindow.cpp:3382
+#: src/mainwindow.cpp:3381
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11026,24 +11019,24 @@ msgstr ""
 "om een gegroepeerde clip naar een andere track te verplaatsen, <shortcut> "
 "Ctrl slepen</shortcut> om heen en weer te bewegen (pan)"
 
-#: src/mainwindow.cpp:3385
+#: src/mainwindow.cpp:3384
 #, kde-format
 msgid "Select"
 msgstr "Selecteren"
 
-#: src/mainwindow.cpp:3387
+#: src/mainwindow.cpp:3386
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr "<shortcut>Shift</shortcut> om geknipt frame te bekijken"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3388 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3387 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr "Scheermes"
 
-#: src/mainwindow.cpp:3392
+#: src/mainwindow.cpp:3391
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11054,12 +11047,12 @@ msgstr ""
 "<shortcut>Shift</shortcut> om ook geleiders te verplaatsen. U kunt beide "
 "modificatoren combineren."
 
-#: src/mainwindow.cpp:3393
+#: src/mainwindow.cpp:3392
 #, kde-format
 msgid "Spacer"
 msgstr "Afstandhouder"
 
-#: src/mainwindow.cpp:3395
+#: src/mainwindow.cpp:3394
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11069,13 +11062,13 @@ msgstr ""
 "<shortcut>Klik</shortcut> om een item te slippen, <shortcut>Shift-klik</"
 "shortcut> voor meerdere selecties."
 
-#: src/mainwindow.cpp:3396
+#: src/mainwindow.cpp:3395
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "Slippen"
 
-#: src/mainwindow.cpp:3401
+#: src/mainwindow.cpp:3400
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11087,13 +11080,13 @@ msgstr ""
 "klik</shortcut> voor meervoudige selectie, <shortcut>Ctrl slepen</shortcut> "
 "om rond te draaien (pan)"
 
-#: src/mainwindow.cpp:3403
+#: src/mainwindow.cpp:3402
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "Rimpel "
 
-#: src/mainwindow.cpp:3409
+#: src/mainwindow.cpp:3408
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11103,84 +11096,84 @@ msgstr ""
 "<shortcut>Klik</shortcut> op een trackweergave in de projectmonitor om alle "
 "tracks behalve de actieve op te liften"
 
-#: src/mainwindow.cpp:3421
+#: src/mainwindow.cpp:3420
 #, kde-format
 msgid "Insert"
 msgstr "Invoegen"
 
-#: src/mainwindow.cpp:3424
+#: src/mainwindow.cpp:3423
 #, kde-format
 msgid "Overwrite"
 msgstr "Overschrijven"
 
-#: src/mainwindow.cpp:3761
+#: src/mainwindow.cpp:3760
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "Cliptaken configureren…"
 
-#: src/mainwindow.cpp:3776
+#: src/mainwindow.cpp:3775
 #, kde-format
 msgid "Transcoders"
 msgstr "Codering overzetters"
 
-#: src/mainwindow.cpp:3822
+#: src/mainwindow.cpp:3821
 #, kde-format
 msgid "Interface"
 msgstr "Interface"
 
-#: src/mainwindow.cpp:3838
+#: src/mainwindow.cpp:3837
 #, kde-format
 msgid "Raise %1"
 msgstr "%1 naar voren brengen"
 
-#: src/mainwindow.cpp:3904
+#: src/mainwindow.cpp:3903
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Over te zetten (transcode) bestanden"
 
-#: src/mainwindow.cpp:4052
+#: src/mainwindow.cpp:4051
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "Projectbestand kon niet worden opgeslagen voor archivering"
 
-#: src/mainwindow.cpp:4058
+#: src/mainwindow.cpp:4057
 #, kde-format
 msgid "Archiving project"
 msgstr "Project archiveren"
 
-#: src/mainwindow.cpp:4214
+#: src/mainwindow.cpp:4213
 #, kde-format
 msgid "Icon Size"
 msgstr "Pictogramgrootte"
 
-#: src/mainwindow.cpp:4218
+#: src/mainwindow.cpp:4217
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Standaard"
 
-#: src/mainwindow.cpp:4239 src/mainwindow.cpp:4267
+#: src/mainwindow.cpp:4238 src/mainwindow.cpp:4266
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Klein (%1x%2)"
 
-#: src/mainwindow.cpp:4241 src/mainwindow.cpp:4269
+#: src/mainwindow.cpp:4240 src/mainwindow.cpp:4268
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Middel (%1x%2)"
 
-#: src/mainwindow.cpp:4243 src/mainwindow.cpp:4271
+#: src/mainwindow.cpp:4242 src/mainwindow.cpp:4270
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Groot (%1x%2)"
 
-#: src/mainwindow.cpp:4245 src/mainwindow.cpp:4273
+#: src/mainwindow.cpp:4244 src/mainwindow.cpp:4272
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Enorm (%1x%2)"
 
-#: src/mainwindow.cpp:4330
+#: src/mainwindow.cpp:4329
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -11189,12 +11182,12 @@ msgstr ""
 "Hierdoor wordt de menubalk geheel verborgen. U kunt die weer zichtbaar maken "
 "door Ctrl+M te typen."
 
-#: src/mainwindow.cpp:4330
+#: src/mainwindow.cpp:4329
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Menubalk verbergen"
 
-#: src/mainwindow.cpp:4345
+#: src/mainwindow.cpp:4344
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
@@ -11202,17 +11195,17 @@ msgstr ""
 "Kdenlive moet opnieuw gestart worden om deze wijzigen van pictogramthema toe "
 "te passen. Nu opnieuw starten?"
 
-#: src/mainwindow.cpp:4575 src/timeline2/view/timelinecontroller.cpp:5028
+#: src/mainwindow.cpp:4574 src/timeline2/view/timelinecontroller.cpp:5028
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "Geen ondertitels in het huidige project"
 
-#: src/mainwindow.cpp:4668
+#: src/mainwindow.cpp:4667
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Project-bin %1"
 
-#: src/mainwindow.cpp:4769
+#: src/mainwindow.cpp:4768
 #, kde-format
 msgid "Checking cached data size"
 msgstr "Grootte opgeslagen gegevens wordt gecontroleerd"
