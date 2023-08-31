@@ -10,8 +10,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>900</width>
-    <height>900</height>
+    <width>895</width>
+    <height>763</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -415,6 +415,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
             <property name="checkable">
              <bool>true</bool>
             </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
             <layout class="QHBoxLayout" name="horizontalLayout_3">
              <item>
               <widget class="QLabel" name="label">
@@ -461,7 +464,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>324</width>
+            <width>319</width>
             <height>946</height>
            </rect>
           </property>
