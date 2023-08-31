@@ -97,7 +97,7 @@ QList<int> MarkerListModel::loadCategories(const QStringList &categories, bool n
             qDebug() << "Invalid guide data found: " << cat;
             continue;
         }
-        const QColor color(cat.section(QLatin1Char(':'), -1));
+        const QColor color(cat.section(QLatin1Char(':'), -1).simplified());
         const QString name = cat.section(QLatin1Char(':'), 0, -3);
         int ix = cat.section(QLatin1Char(':'), -2, -2).toInt();
         previousCategories.removeAll(ix);
@@ -230,7 +230,6 @@ bool MarkerListModel::addMarker(GenTime pos, const QString &comment, int type, F
     Fun local_redo = []() { return true; };
     if (type == -1) type = KdenliveSettings::default_marker_type();
     Q_ASSERT(pCore->markerTypes.contains(type));
-
     if (hasMarker(pos)) {
         // In this case we simply change the comment and type
         CommentedTime current = marker(pos);
