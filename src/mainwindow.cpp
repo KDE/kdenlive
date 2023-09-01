@@ -3791,13 +3791,19 @@ void MainWindow::buildDynamicActions()
             QStringList transcodeData = a->data().toStringList();
             std::vector<QString> ids = pCore->bin()->selectedClipsIds(true);
             QMap<QString, QVector<int>> clipStreamSelection;
+            QString clipId;
             if (transcodeData.count() > 2 && transcodeData.at(2) == QLatin1String("audio")) {
                 // Audio extract, check if we have multi stream clips
                 QMap<QString, int> clipStreamCount;
                 for (const QString &id : ids) {
-                    std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(id);
+                    if (id.contains(QLatin1Char('/'))) {
+                        clipId = id.section(QLatin1Char('/'), 0, 0);
+                    } else {
+                        clipId = id;
+                    }
+                    std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(clipId);
                     if (clip->audioStreamsCount() > 1) {
-                        clipStreamCount.insert(id, clip->audioStreamsCount());
+                        clipStreamCount.insert(clipId, clip->audioStreamsCount());
                     }
                 }
                 if (!clipStreamCount.isEmpty()) {
@@ -3814,19 +3820,31 @@ void MainWindow::buildDynamicActions()
                 }
             }
             const QString tData = transcodeData.first();
+            int clipIn = -1;
+            int clipOut = -1;
             for (const QString &id : ids) {
-                std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(id);
-                if (clipStreamSelection.contains(id)) {
+                if (id.contains(QLatin1Char('/'))) {
+                    clipId = id.section(QLatin1Char('/'), 0, 0);
+                    clipIn = id.section(QLatin1Char('/'), 1, 1).toInt();
+                    clipOut = id.section(QLatin1Char('/'), 2, 2).toInt();
+                } else {
+                    clipId = id;
+                    clipIn = -1;
+                    clipOut = -1;
+                }
+                std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(clipId);
+                if (clipStreamSelection.contains(clipId)) {
                     // Extract selected audio streams only, create one task per stream
-                    QVector<int> selectedStreams = clipStreamSelection.value(id);
+                    QVector<int> selectedStreams = clipStreamSelection.value(clipId);
                     for (auto &ix : selectedStreams) {
                         QString args = QStringLiteral("-map 0:a:%1 ").arg(ix);
                         args.append(tData);
-                        TranscodeTask::start(ObjectId(ObjectType::BinClip, id.toInt(), QUuid()), i18n("-stream-%1", ix), QString(), args, -1, -1, false,
-                                             clip.get());
+                        TranscodeTask::start(ObjectId(ObjectType::BinClip, clipId.toInt(), QUuid()), i18n("-stream-%1", ix), QString(), args, clipIn, clipOut,
+                                             false, clip.get());
                     }
                 } else {
-                    TranscodeTask::start(ObjectId(ObjectType::BinClip, id.toInt(), QUuid()), QString(), QString(), tData, -1, -1, false, clip.get());
+                    TranscodeTask::start(ObjectId(ObjectType::BinClip, clipId.toInt(), QUuid()), QString(), QString(), tData, clipIn, clipOut, false,
+                                         clip.get());
                 }
             }
         });
