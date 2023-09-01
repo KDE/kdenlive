@@ -45,7 +45,7 @@ void TranscodeTask::start(const ObjectId &owner, const QString &suffix, const QS
 {
     // See if there is already a task for this MLT service and resource.
     if (pCore->taskManager.hasPendingJob(owner, AbstractTask::TRANSCODEJOB)) {
-        return;
+        // return;
     }
     TranscodeTask *task = new TranscodeTask(owner, suffix, preParams, params, in, out, replaceProducer, object, checkProfile);
     if (task) {
@@ -200,7 +200,10 @@ void TranscodeTask::run()
         // Only output error data
         parameters << QStringLiteral("-v") << QStringLiteral("error");
         // Make sure we keep the stream order
-        parameters << QStringLiteral("-sn") << QStringLiteral("-dn") << QStringLiteral("-map") << QStringLiteral("0");
+        parameters << QStringLiteral("-sn") << QStringLiteral("-dn");
+        if (!m_transcodeParams.contains(QStringLiteral("-map "))) {
+            parameters << QStringLiteral("-map") << QStringLiteral("0");
+        }
         QStringList params = m_transcodeParams.split(QLatin1Char(' '));
         for (const QString &s : qAsConst(params)) {
             QString t = s.simplified();
