@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-31 02:23+0000\n"
+"POT-Creation-Date: 2023-09-01 02:23+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -2531,7 +2531,7 @@ msgstr "raadius"
 #. i18n: ectx: property (text), widget (QLabel, xLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: data/effects/vignette.xml:14 src/ui/profiledialog_ui.ui:207
-#: src/ui/renderwidget_ui.ui:546
+#: src/ui/renderwidget_ui.ui:549
 #, kde-format
 msgid "x"
 msgstr "x"
@@ -4572,7 +4572,7 @@ msgstr "Vaigista video"
 #: src/monitor/recmanager.cpp:47 src/onlineresources/resourcewidget.cpp:547
 #: src/ui/clipjobmanager_ui.ui:314 src/ui/configcapture_ui.ui:525
 #: src/ui/cutjobdialog_ui.ui:61 src/ui/editrenderpreset_ui.ui:834
-#: src/ui/projectsettings_ui.ui:180 src/ui/renderwidget_ui.ui:595
+#: src/ui/projectsettings_ui.ui:180 src/ui/renderwidget_ui.ui:598
 #, kde-format
 msgid "Audio"
 msgstr "Heli"
@@ -5221,7 +5221,7 @@ msgstr ""
 #: src/bin/mediabrowser.cpp:161 src/dialogs/clipcreationdialog.cpp:496
 #: src/effects/effectlist/view/effectlistwidget.cpp:130
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:300
-#: src/mainwindow.cpp:3900 src/onlineresources/resourcewidget.cpp:553
+#: src/mainwindow.cpp:3952 src/onlineresources/resourcewidget.cpp:553
 #, kde-format
 msgid "All Files"
 msgstr "Kõik failid"
@@ -5293,52 +5293,52 @@ msgstr ""
 msgid "Update guides categories"
 msgstr "Väärtuste uuendamine ajateljel"
 
-#: src/bin/model/markerlistmodel.cpp:269 src/bin/model/markerlistmodel.cpp:287
+#: src/bin/model/markerlistmodel.cpp:268 src/bin/model/markerlistmodel.cpp:286
 #, kde-format
 msgid "Rename guide"
 msgstr "Muuda abijoone nime"
 
-#: src/bin/model/markerlistmodel.cpp:269 src/bin/model/markerlistmodel.cpp:287
+#: src/bin/model/markerlistmodel.cpp:268 src/bin/model/markerlistmodel.cpp:286
 #, kde-format
 msgid "Rename marker"
 msgstr "Markeri nime muutmine"
 
-#: src/bin/model/markerlistmodel.cpp:271 src/bin/model/markerlistmodel.cpp:289
+#: src/bin/model/markerlistmodel.cpp:270 src/bin/model/markerlistmodel.cpp:288
 #, kde-format
 msgid "Add guide"
 msgstr "Abijoone lisamine"
 
-#: src/bin/model/markerlistmodel.cpp:271 src/bin/model/markerlistmodel.cpp:289
+#: src/bin/model/markerlistmodel.cpp:270 src/bin/model/markerlistmodel.cpp:288
 #, kde-format
 msgid "Add marker"
 msgstr "Markeri lisamine"
 
-#: src/bin/model/markerlistmodel.cpp:319
+#: src/bin/model/markerlistmodel.cpp:318
 #, kde-format
 msgid "Delete guide"
 msgstr "Abijoone kustutamine"
 
-#: src/bin/model/markerlistmodel.cpp:319
+#: src/bin/model/markerlistmodel.cpp:318
 #, kde-format
 msgid "Delete marker"
 msgstr "Markeri kustutamine"
 
-#: src/bin/model/markerlistmodel.cpp:346
+#: src/bin/model/markerlistmodel.cpp:345
 #, kde-format
 msgid "Edit guide"
 msgstr "Abijoone muutmine"
 
-#: src/bin/model/markerlistmodel.cpp:346
+#: src/bin/model/markerlistmodel.cpp:345
 #, kde-format
 msgid "Edit marker"
 msgstr "Markeri muutmine"
 
-#: src/bin/model/markerlistmodel.cpp:710 src/bin/model/markerlistmodel.cpp:721
+#: src/bin/model/markerlistmodel.cpp:709 src/bin/model/markerlistmodel.cpp:720
 #, kde-format
 msgid "Import guides"
 msgstr "Impordi abijooned"
 
-#: src/bin/model/markerlistmodel.cpp:710 src/bin/model/markerlistmodel.cpp:721
+#: src/bin/model/markerlistmodel.cpp:709 src/bin/model/markerlistmodel.cpp:720
 #, kde-format
 msgid "Import markers"
 msgstr "Importi markerid"
@@ -5346,106 +5346,106 @@ msgstr "Importi markerid"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/model/markerlistmodel.cpp:749 src/definitions.cpp:75
+#: src/bin/model/markerlistmodel.cpp:748 src/definitions.cpp:75
 #: src/definitions.cpp:100 src/ui/exportguidesdialog_ui.ui:18
 #: src/ui/markerdialog_ui.ui:24 src/ui/multiplemarkerdialog_ui.ui:18
 #, kde-format
 msgid "Marker"
 msgstr "Marker"
 
-#: src/bin/model/markerlistmodel.cpp:757
+#: src/bin/model/markerlistmodel.cpp:756
 #, fuzzy, kde-format
 #| msgid "Relocated item"
 msgid "Recovered %1"
 msgstr "Ümber tõstetud üksus"
 
-#: src/bin/model/markerlistmodel.cpp:874
+#: src/bin/model/markerlistmodel.cpp:873
 #, kde-format
 msgid "Delete all guides"
 msgstr "Kustuta kõik abijooned"
 
-#: src/bin/model/markerlistmodel.cpp:874
+#: src/bin/model/markerlistmodel.cpp:873
 #, kde-format
 msgid "Delete all markers"
 msgstr "Kõigi markerite kustutamine"
 
-#: src/bin/model/markerlistmodel.cpp:883 src/bin/model/markerlistmodel.cpp:921
-#: src/bin/model/markerlistmodel.cpp:946
+#: src/bin/model/markerlistmodel.cpp:882 src/bin/model/markerlistmodel.cpp:920
+#: src/bin/model/markerlistmodel.cpp:945
 #: src/timeline2/view/timelinecontroller.cpp:1440
 #, kde-format
 msgid "No guide found at current position"
 msgstr "Praeguses asukohas ei leitud ühtegi abijoont"
 
-#: src/bin/model/markerlistmodel.cpp:886
+#: src/bin/model/markerlistmodel.cpp:885
 #, fuzzy, kde-format
 #| msgid "Edit Guide"
 msgid "Edit Guides Category"
 msgstr "Muuda abijoont"
 
-#: src/bin/model/markerlistmodel.cpp:886
+#: src/bin/model/markerlistmodel.cpp:885
 #, fuzzy, kde-format
 #| msgid "Edit Marker"
 msgid "Edit Markers Category"
 msgstr "Muuda markerit"
 
-#: src/bin/model/markerlistmodel.cpp:892
+#: src/bin/model/markerlistmodel.cpp:891
 #, fuzzy, kde-format
 #| msgid "Category"
 msgid "Guides Category"
 msgstr "Kategooria"
 
-#: src/bin/model/markerlistmodel.cpp:892
+#: src/bin/model/markerlistmodel.cpp:891
 #, fuzzy, kde-format
 #| msgid "Category"
 msgid "Markers Category"
 msgstr "Kategooria"
 
-#: src/bin/model/markerlistmodel.cpp:910
+#: src/bin/model/markerlistmodel.cpp:909
 #, fuzzy, kde-format
 #| msgid "Edit guide"
 msgid "Edit guides"
 msgstr "Abijoone muutmine"
 
-#: src/bin/model/markerlistmodel.cpp:910
+#: src/bin/model/markerlistmodel.cpp:909
 #, fuzzy, kde-format
 #| msgid "Edit marker"
 msgid "Edit markers"
 msgstr "Markeri muutmine"
 
-#: src/bin/model/markerlistmodel.cpp:925 src/bin/model/markerlistmodel.cpp:950
+#: src/bin/model/markerlistmodel.cpp:924 src/bin/model/markerlistmodel.cpp:949
 #: src/timeline2/view/timelinecontroller.cpp:1448
 #, kde-format
 msgid "guide"
 msgstr "abijoon"
 
-#: src/bin/model/markerlistmodel.cpp:928
+#: src/bin/model/markerlistmodel.cpp:927
 #, kde-format
 msgid "Edit Guide"
 msgstr "Muuda abijoont"
 
-#: src/bin/model/markerlistmodel.cpp:928
+#: src/bin/model/markerlistmodel.cpp:927
 #, kde-format
 msgid "Edit Marker"
 msgstr "Muuda markerit"
 
-#: src/bin/model/markerlistmodel.cpp:953
+#: src/bin/model/markerlistmodel.cpp:952
 #, fuzzy, kde-format
 #| msgid "Add Guide"
 msgid "Add Guides"
 msgstr "Lisa abijoon"
 
-#: src/bin/model/markerlistmodel.cpp:953
+#: src/bin/model/markerlistmodel.cpp:952
 #, kde-format
 msgid "Add Markers"
 msgstr "Lisa markerid"
 
-#: src/bin/model/markerlistmodel.cpp:968
+#: src/bin/model/markerlistmodel.cpp:967
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Add guides"
 msgstr "Abijoone lisamine"
 
-#: src/bin/model/markerlistmodel.cpp:968
+#: src/bin/model/markerlistmodel.cpp:967
 #, fuzzy, kde-format
 #| msgid "Add marker"
 msgid "Add markers"
@@ -6413,7 +6413,7 @@ msgstr ""
 msgid "Guide comment"
 msgstr "A&bijoone tsoon"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:115 src/mainwindow.cpp:3821
+#: src/dialogs/kdenlivesettingsdialog.cpp:115 src/mainwindow.cpp:3873
 #, kde-format
 msgid "Timeline"
 msgstr "Ajatelg"
@@ -6956,7 +6956,7 @@ msgstr "Dokumendi jagamisel tekkis probleem: %1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
 #: src/dialogs/renderwidget.cpp:351 src/dialogs/renderwidget.cpp:359
-#: src/ui/renderwidget_ui.ui:878
+#: src/ui/renderwidget_ui.ui:881
 #, kde-format
 msgid "Share"
 msgstr "Jaga"
@@ -7116,7 +7116,7 @@ msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>%1 renderdamist tabas krahh</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1306 src/ui/renderwidget_ui.ui:871
+#: src/dialogs/renderwidget.cpp:1306 src/ui/renderwidget_ui.ui:874
 #, kde-format
 msgid "Abort Job"
 msgstr "Katkesta töö "
@@ -7657,7 +7657,7 @@ msgstr "Riistvaralise kiirenduse kontrollimine"
 #: src/dialogs/wizard.cpp:193 src/project/cliptranscode.cpp:270
 #: src/project/dialogs/archivewidget.cpp:800
 #: src/project/dialogs/archivewidget.cpp:1161 src/ui/renderwidget_ui.ui:363
-#: src/ui/renderwidget_ui.ui:914 src/ui/renderwidget_ui.ui:1072
+#: src/ui/renderwidget_ui.ui:917 src/ui/renderwidget_ui.ui:1075
 #, kde-format
 msgid "Close"
 msgstr "Sulge"
@@ -8856,8 +8856,8 @@ msgid "Application %1 not found, please update the job settings"
 msgstr ""
 
 #: src/jobs/customjobtask.cpp:264 src/jobs/customjobtask.cpp:274
-#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:231
-#: src/jobs/transcodetask.cpp:267
+#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:234
+#: src/jobs/transcodetask.cpp:270
 #, kde-format
 msgid "Failed to create file."
 msgstr "Faili loomine nurjus."
@@ -10354,7 +10354,7 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, bFramesSpinner)
 #: src/mainwindow.cpp:1440 src/ui/editrenderpreset_ui.ui:551
-#: src/ui/editrenderpreset_ui.ui:694 src/ui/renderwidget_ui.ui:736
+#: src/ui/editrenderpreset_ui.ui:694 src/ui/renderwidget_ui.ui:739
 #, kde-format
 msgid "Auto"
 msgstr "Automaatne"
@@ -11426,66 +11426,72 @@ msgstr "Katkesta aktiivse klipi tööd"
 msgid "Transcoders"
 msgstr "Ümberkodeerijad"
 
-#: src/mainwindow.cpp:3820
+#: src/mainwindow.cpp:3842
+#, fuzzy, kde-format
+#| msgid "Video stream %1"
+msgid "-stream-%1"
+msgstr "Videovoog %1"
+
+#: src/mainwindow.cpp:3872
 #, kde-format
 msgid "Interface"
 msgstr "Liides"
 
-#: src/mainwindow.cpp:3836
+#: src/mainwindow.cpp:3888
 #, fuzzy, kde-format
 #| msgid "Disable %1"
 msgid "Raise %1"
 msgstr "%1 keelamine"
 
-#: src/mainwindow.cpp:3902
+#: src/mainwindow.cpp:3954
 #, fuzzy, kde-format
 #| msgid "Files to transcode"
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Ümber kodeeritavad failid"
 
-#: src/mainwindow.cpp:4050
+#: src/mainwindow.cpp:4102
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "Projektifaili ei saa arhiveerimiseks salvestada."
 
-#: src/mainwindow.cpp:4056
+#: src/mainwindow.cpp:4108
 #, kde-format
 msgid "Archiving project"
 msgstr "Projekti arhiveerimine"
 
-#: src/mainwindow.cpp:4212
+#: src/mainwindow.cpp:4264
 #, kde-format
 msgid "Icon Size"
 msgstr "Ikooni suurus"
 
-#: src/mainwindow.cpp:4216
+#: src/mainwindow.cpp:4268
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Vaikimisi"
 
-#: src/mainwindow.cpp:4237 src/mainwindow.cpp:4265
+#: src/mainwindow.cpp:4289 src/mainwindow.cpp:4317
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Väike (%1x%2)"
 
-#: src/mainwindow.cpp:4239 src/mainwindow.cpp:4267
+#: src/mainwindow.cpp:4291 src/mainwindow.cpp:4319
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Keskmine (%1x%2)"
 
-#: src/mainwindow.cpp:4241 src/mainwindow.cpp:4269
+#: src/mainwindow.cpp:4293 src/mainwindow.cpp:4321
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Suur (%1x%2)"
 
-#: src/mainwindow.cpp:4243 src/mainwindow.cpp:4271
+#: src/mainwindow.cpp:4295 src/mainwindow.cpp:4323
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Hiiglaslik (%1x%2)"
 
-#: src/mainwindow.cpp:4328
+#: src/mainwindow.cpp:4380
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -11493,12 +11499,12 @@ msgid ""
 msgstr ""
 "See peidab üldse menüüriba. Seda saab näha uuesti, kui vajutada Ctrl+M."
 
-#: src/mainwindow.cpp:4328
+#: src/mainwindow.cpp:4380
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Menüüriba peitmine"
 
-#: src/mainwindow.cpp:4343
+#: src/mainwindow.cpp:4395
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
@@ -11506,19 +11512,19 @@ msgstr ""
 "Ikooniteema muutmiseks tuleb Kdenlive taaskäivitada. Kas käivitada see kohe "
 "uuesti?"
 
-#: src/mainwindow.cpp:4573 src/timeline2/view/timelinecontroller.cpp:5028
+#: src/mainwindow.cpp:4625 src/timeline2/view/timelinecontroller.cpp:5028
 #, fuzzy, kde-format
 #| msgid "No guide found at current position"
 msgid "No subtitles in current project"
 msgstr "Praeguses asukohas ei leitud ühtegi abijoont"
 
-#: src/mainwindow.cpp:4666
+#: src/mainwindow.cpp:4718
 #, fuzzy, kde-format
 #| msgid "Project Bin"
 msgid "Project Bin %1"
 msgstr "Projektipuu"
 
-#: src/mainwindow.cpp:4767
+#: src/mainwindow.cpp:4819
 #, fuzzy, kde-format
 #| msgid "Selected Cached Data"
 msgid "Checking cached data size"
@@ -12468,7 +12474,7 @@ msgstr "Salvesta"
 #: src/monitor/recmanager.cpp:46 src/onlineresources/resourcewidget.cpp:549
 #: src/ui/clipjobmanager_ui.ui:307 src/ui/cutjobdialog_ui.ui:107
 #: src/ui/editrenderpreset_ui.ui:122 src/ui/projectsettings_ui.ui:173
-#: src/ui/renderwidget_ui.ui:484
+#: src/ui/renderwidget_ui.ui:487
 #, kde-format
 msgid "Video"
 msgstr "Video"
@@ -18111,7 +18117,7 @@ msgstr "Kustuta praegune nupp"
 #: src/ui/manageencodingprofile_ui.ui:84 src/ui/projectsettings_ui.ui:276
 #: src/ui/projectsettings_ui.ui:283 src/ui/projectsettings_ui.ui:293
 #: src/ui/projectsettings_ui.ui:571 src/ui/projectsettings_ui.ui:578
-#: src/ui/qtextclip_ui.ui:94 src/ui/renderwidget_ui.ui:974
+#: src/ui/qtextclip_ui.ui:94 src/ui/renderwidget_ui.ui:977
 #: src/ui/resourcewidget_ui.ui:214 src/ui/resourcewidget_ui.ui:281
 #: src/ui/speechdialog_ui.ui:75 src/ui/textbasededit_ui.ui:61
 #: src/ui/textbasededit_ui.ui:94 src/ui/textbasededit_ui.ui:115
@@ -21086,96 +21092,96 @@ msgid "Guide Multi-Export"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/renderwidget_ui.ui:422
+#: src/ui/renderwidget_ui.ui:425
 #, kde-format
 msgid "Guides to use as separator:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_full_color)
-#: src/ui/renderwidget_ui.ui:493
+#: src/ui/renderwidget_ui.ui:496
 #, fuzzy, kde-format
 #| msgid "Select fill color"
 msgid "Render full color range"
 msgstr "Vali täitevärv"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_at_preview_res)
-#: src/ui/renderwidget_ui.ui:500
+#: src/ui/renderwidget_ui.ui:503
 #, fuzzy, kde-format
 #| msgid "Preview Resolution"
 msgid "Render at Preview Resolution"
 msgstr "Eelvaatluse eraldusvõime"
 
 #. i18n: ectx: property (text), widget (QCheckBox, proxy_render)
-#: src/ui/renderwidget_ui.ui:507
+#: src/ui/renderwidget_ui.ui:510
 #, fuzzy, kde-format
 #| msgid "Proxy Clips"
 msgid "Use Proxy Clips"
 msgstr "Asendusklipid"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/renderwidget_ui.ui:514
+#: src/ui/renderwidget_ui.ui:517
 #, fuzzy, kde-format
 #| msgid "Rescale"
 msgid "Rescale:"
 msgstr "Mõõtmete muutmine"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rescale)
-#: src/ui/renderwidget_ui.ui:521
+#: src/ui/renderwidget_ui.ui:524
 #, fuzzy, kde-format
 #| msgid "Enable %1"
 msgid "Enabled"
 msgstr "%1 lubamine"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/renderwidget_ui.ui:578
+#: src/ui/renderwidget_ui.ui:581
 #, fuzzy, kde-format
 #| msgid "Overlay"
 msgid "Overlay:"
 msgstr "Ülekatmine"
 
 #. i18n: ectx: property (text), widget (QCheckBox, stemAudioExport)
-#: src/ui/renderwidget_ui.ui:604
+#: src/ui/renderwidget_ui.ui:607
 #, fuzzy, kde-format
 #| msgid "Fade in audio track"
 msgid "Separate file for each audio track"
 msgstr "Heliraja sisse hajutamine"
 
 #. i18n: ectx: property (title), widget (QGroupBox, qualityGroup)
-#: src/ui/renderwidget_ui.ui:614
+#: src/ui/renderwidget_ui.ui:617
 #, fuzzy, kde-format
 #| msgid "Quality"
 msgid "Custom Quality"
 msgstr "Kvaliteet"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/renderwidget_ui.ui:628
+#: src/ui/renderwidget_ui.ui:631
 #, fuzzy, kde-format
 #| msgid "Log"
 msgid "Low"
 msgstr "Logi"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, quality)
-#: src/ui/renderwidget_ui.ui:641
+#: src/ui/renderwidget_ui.ui:644
 #, fuzzy, kde-format
 #| msgid "Compromise file size versus quality"
 msgid "Compromise file size versus quality."
 msgstr "Kompromiss faili suuruse ja kvaliteedi vahel"
 
 #. i18n: ectx: property (text), widget (QLabel, qualityPercent)
-#: src/ui/renderwidget_ui.ui:660
+#: src/ui/renderwidget_ui.ui:663
 #, fuzzy, no-c-format, kde-format
 #| msgid "50%"
 msgid "75%"
 msgstr "50%"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/ui/renderwidget_ui.ui:667
+#: src/ui/renderwidget_ui.ui:670
 #, kde-format
 msgid "High"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, encoder_box)
-#: src/ui/renderwidget_ui.ui:679
+#: src/ui/renderwidget_ui.ui:682
 #, fuzzy, kde-format
 #| msgid "Encoder speed"
 msgid "Encoder"
@@ -21183,7 +21189,7 @@ msgstr "Kodeerija kiirus"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, speedLabel)
 #. i18n: ectx: property (toolTip), widget (QSlider, speed)
-#: src/ui/renderwidget_ui.ui:685 src/ui/renderwidget_ui.ui:701
+#: src/ui/renderwidget_ui.ui:688 src/ui/renderwidget_ui.ui:704
 #, fuzzy, kde-format
 #| msgid ""
 #| "For a given quality, tune the compromise between encoding time and output "
@@ -21196,7 +21202,7 @@ msgstr ""
 "väljundfaili suuruse vahel (kiirem kodeerimine tähendab suuremat faili)"
 
 #. i18n: ectx: property (text), widget (QLabel, speedLabel)
-#: src/ui/renderwidget_ui.ui:688
+#: src/ui/renderwidget_ui.ui:691
 #, fuzzy, kde-format
 #| msgid "Speed"
 msgid "Speed:"
@@ -21204,114 +21210,114 @@ msgstr "Kiirus"
 
 #. i18n: ectx: property (text), widget (QLabel, threadsLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/renderwidget_ui.ui:720 src/ui/renderwidget_ui.ui:755
+#: src/ui/renderwidget_ui.ui:723 src/ui/renderwidget_ui.ui:758
 #, fuzzy, kde-format
 #| msgid "Threads"
 msgid "Threads:"
 msgstr "Lõimed"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, encoder_threads)
-#: src/ui/renderwidget_ui.ui:733
+#: src/ui/renderwidget_ui.ui:736
 #, fuzzy, kde-format
 #| msgid "Decoding threads"
 msgid "Encoding threads"
 msgstr "Lõimede lahtikodeerimine"
 
 #. i18n: ectx: property (title), widget (QGroupBox, processing_box)
-#: src/ui/renderwidget_ui.ui:746
+#: src/ui/renderwidget_ui.ui:749
 #, fuzzy, kde-format
 #| msgid "Parallel processing"
 msgid "Parallel Processing"
 msgstr "Paralleeltöötlus"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, processing_warning)
-#: src/ui/renderwidget_ui.ui:769
+#: src/ui/renderwidget_ui.ui:772
 #, fuzzy, kde-format
 #| msgid "Parallel processing"
 msgid "Parallel processing may cause render artifacts"
 msgstr "Paralleeltöötlus"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkTwoPass)
-#: src/ui/renderwidget_ui.ui:785
+#: src/ui/renderwidget_ui.ui:788
 #, kde-format
 msgid "2 pass"
 msgstr "2 käiku"
 
 #. i18n: ectx: property (text), widget (QCheckBox, export_meta)
-#: src/ui/renderwidget_ui.ui:794
+#: src/ui/renderwidget_ui.ui:797
 #, kde-format
 msgid "Export metadata"
 msgstr "Metaandmete eksportimine"
 
 #. i18n: ectx: property (text), widget (QLabel, edit_metadata)
-#: src/ui/renderwidget_ui.ui:801
+#: src/ui/renderwidget_ui.ui:804
 #, kde-format
 msgid "<a href=\"#\">Edit metadata</a>"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, embed_subtitles)
-#: src/ui/renderwidget_ui.ui:826
+#: src/ui/renderwidget_ui.ui:829
 #, kde-format
 msgid "Embed subtitles instead of burning them"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, open_browser)
-#: src/ui/renderwidget_ui.ui:833
+#: src/ui/renderwidget_ui.ui:836
 #, fuzzy, kde-format
 #| msgid "Open browser window after export"
 msgid "Open folder after export"
 msgstr "Brauseriakna avamine pärast eksportimist"
 
 #. i18n: ectx: property (text), widget (QCheckBox, play_after)
-#: src/ui/renderwidget_ui.ui:840
+#: src/ui/renderwidget_ui.ui:843
 #, kde-format
 msgid "Play after render"
 msgstr "Esitus pärast renderdamist"
 
 #. i18n: ectx: attribute (title), widget (QWidget, jobTab)
-#: src/ui/renderwidget_ui.ui:862
+#: src/ui/renderwidget_ui.ui:865
 #, kde-format
 msgid "Job Queue"
 msgstr "Tööde järjekord"
 
 #. i18n: ectx: property (text), widget (QPushButton, start_job)
-#: src/ui/renderwidget_ui.ui:897
+#: src/ui/renderwidget_ui.ui:900
 #, kde-format
 msgid "Start Job"
 msgstr "Käivita töö"
 
 #. i18n: ectx: property (text), widget (QPushButton, clean_up)
-#: src/ui/renderwidget_ui.ui:907
+#: src/ui/renderwidget_ui.ui:910
 #, kde-format
 msgid "Clean Up"
 msgstr "Puhasta"
 
 #. i18n: ectx: property (text), widget (QLabel, errorLabel_2)
-#: src/ui/renderwidget_ui.ui:967
+#: src/ui/renderwidget_ui.ui:970
 #, kde-format
 msgid "Error Log"
 msgstr "Vealogi"
 
 #. i18n: ectx: property (text), widget (QCheckBox, shutdown)
-#: src/ui/renderwidget_ui.ui:1002
+#: src/ui/renderwidget_ui.ui:1005
 #, kde-format
 msgid "Shutdown computer after renderings"
 msgstr "Arvuti väljalülitamine pärast renderduste lõppu"
 
 #. i18n: ectx: attribute (title), widget (QWidget, scriptsTab)
-#: src/ui/renderwidget_ui.ui:1017
+#: src/ui/renderwidget_ui.ui:1020
 #, kde-format
 msgid "Scripts"
 msgstr "Skriptid"
 
 #. i18n: ectx: property (text), widget (QPushButton, start_script)
-#: src/ui/renderwidget_ui.ui:1045
+#: src/ui/renderwidget_ui.ui:1048
 #, kde-format
 msgid "Start Script"
 msgstr "Käivita skript"
 
 #. i18n: ectx: property (text), widget (QPushButton, delete_script)
-#: src/ui/renderwidget_ui.ui:1052
+#: src/ui/renderwidget_ui.ui:1055
 #, kde-format
 msgid "Delete Script"
 msgstr "Kustuta skript"
