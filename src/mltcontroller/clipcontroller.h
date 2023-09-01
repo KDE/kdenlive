@@ -197,6 +197,8 @@ public:
     QList <int> activeStreamChannels() const;
     /** @brief Returns the list of active audio streams indexes for this clip */
     QMap <int, QString> activeStreams() const;
+    /** @brief Returns the list of active audio streams ffmpeg indexes for this clip */
+    QVector<int> activeFfmpegStreams() const;
     /** @brief Returns the count of audio streams for this clip */
     int audioStreamsCount() const;
     /** @brief Get the path to the original clip url (in case it is proxied) */

@@ -201,7 +201,7 @@ void TranscodeTask::run()
         parameters << QStringLiteral("-v") << QStringLiteral("error");
         // Make sure we keep the stream order
         parameters << QStringLiteral("-sn") << QStringLiteral("-dn");
-        if (!m_transcodeParams.contains(QStringLiteral("-map "))) {
+        if (!m_transcodeParams.contains(QStringLiteral("-map ")) && !m_transcodeParams.contains(QStringLiteral(" amerge="))) {
             parameters << QStringLiteral("-map") << QStringLiteral("0");
         }
         QStringList params = m_transcodeParams.split(QLatin1Char(' '));
