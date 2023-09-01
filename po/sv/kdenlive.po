@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-31 02:23+0000\n"
+"POT-Creation-Date: 2023-09-01 02:23+0000\n"
 "PO-Revision-Date: 2023-07-29 13:13+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -2529,7 +2529,7 @@ msgstr "radie"
 #. i18n: ectx: property (text), widget (QLabel, xLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: data/effects/vignette.xml:14 src/ui/profiledialog_ui.ui:207
-#: src/ui/renderwidget_ui.ui:546
+#: src/ui/renderwidget_ui.ui:549
 #, kde-format
 msgid "x"
 msgstr "x"
@@ -4492,7 +4492,7 @@ msgstr "Tysta video"
 #: src/monitor/recmanager.cpp:47 src/onlineresources/resourcewidget.cpp:547
 #: src/ui/clipjobmanager_ui.ui:314 src/ui/configcapture_ui.ui:525
 #: src/ui/cutjobdialog_ui.ui:61 src/ui/editrenderpreset_ui.ui:834
-#: src/ui/projectsettings_ui.ui:180 src/ui/renderwidget_ui.ui:595
+#: src/ui/projectsettings_ui.ui:180 src/ui/renderwidget_ui.ui:598
 #, kde-format
 msgid "Audio"
 msgstr "Ljud"
@@ -5094,7 +5094,7 @@ msgstr "Importera fil vid dubbelklick"
 #: src/bin/mediabrowser.cpp:161 src/dialogs/clipcreationdialog.cpp:496
 #: src/effects/effectlist/view/effectlistwidget.cpp:130
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:300
-#: src/mainwindow.cpp:3900 src/onlineresources/resourcewidget.cpp:553
+#: src/mainwindow.cpp:3952 src/onlineresources/resourcewidget.cpp:553
 #, kde-format
 msgid "All Files"
 msgstr "Alla filer"
@@ -5165,52 +5165,52 @@ msgstr ""
 msgid "Update guides categories"
 msgstr "Uppdatera flaggkategorier"
 
-#: src/bin/model/markerlistmodel.cpp:269 src/bin/model/markerlistmodel.cpp:287
+#: src/bin/model/markerlistmodel.cpp:268 src/bin/model/markerlistmodel.cpp:286
 #, kde-format
 msgid "Rename guide"
 msgstr "Byt namn på flagga"
 
-#: src/bin/model/markerlistmodel.cpp:269 src/bin/model/markerlistmodel.cpp:287
+#: src/bin/model/markerlistmodel.cpp:268 src/bin/model/markerlistmodel.cpp:286
 #, kde-format
 msgid "Rename marker"
 msgstr "Byt namn på markör"
 
-#: src/bin/model/markerlistmodel.cpp:271 src/bin/model/markerlistmodel.cpp:289
+#: src/bin/model/markerlistmodel.cpp:270 src/bin/model/markerlistmodel.cpp:288
 #, kde-format
 msgid "Add guide"
 msgstr "Lägg till flagga"
 
-#: src/bin/model/markerlistmodel.cpp:271 src/bin/model/markerlistmodel.cpp:289
+#: src/bin/model/markerlistmodel.cpp:270 src/bin/model/markerlistmodel.cpp:288
 #, kde-format
 msgid "Add marker"
 msgstr "Lägg till markör"
 
-#: src/bin/model/markerlistmodel.cpp:319
+#: src/bin/model/markerlistmodel.cpp:318
 #, kde-format
 msgid "Delete guide"
 msgstr "Ta bort flagga"
 
-#: src/bin/model/markerlistmodel.cpp:319
+#: src/bin/model/markerlistmodel.cpp:318
 #, kde-format
 msgid "Delete marker"
 msgstr "Ta bort markör"
 
-#: src/bin/model/markerlistmodel.cpp:346
+#: src/bin/model/markerlistmodel.cpp:345
 #, kde-format
 msgid "Edit guide"
 msgstr "Redigera flagga"
 
-#: src/bin/model/markerlistmodel.cpp:346
+#: src/bin/model/markerlistmodel.cpp:345
 #, kde-format
 msgid "Edit marker"
 msgstr "Redigera markör"
 
-#: src/bin/model/markerlistmodel.cpp:710 src/bin/model/markerlistmodel.cpp:721
+#: src/bin/model/markerlistmodel.cpp:709 src/bin/model/markerlistmodel.cpp:720
 #, kde-format
 msgid "Import guides"
 msgstr "Importera flaggor"
 
-#: src/bin/model/markerlistmodel.cpp:710 src/bin/model/markerlistmodel.cpp:721
+#: src/bin/model/markerlistmodel.cpp:709 src/bin/model/markerlistmodel.cpp:720
 #, kde-format
 msgid "Import markers"
 msgstr "Importera markörer"
@@ -5218,97 +5218,97 @@ msgstr "Importera markörer"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/model/markerlistmodel.cpp:749 src/definitions.cpp:75
+#: src/bin/model/markerlistmodel.cpp:748 src/definitions.cpp:75
 #: src/definitions.cpp:100 src/ui/exportguidesdialog_ui.ui:18
 #: src/ui/markerdialog_ui.ui:24 src/ui/multiplemarkerdialog_ui.ui:18
 #, kde-format
 msgid "Marker"
 msgstr "Markör"
 
-#: src/bin/model/markerlistmodel.cpp:757
+#: src/bin/model/markerlistmodel.cpp:756
 #, kde-format
 msgid "Recovered %1"
 msgstr "Återställde %1"
 
-#: src/bin/model/markerlistmodel.cpp:874
+#: src/bin/model/markerlistmodel.cpp:873
 #, kde-format
 msgid "Delete all guides"
 msgstr "Ta bort alla flaggor"
 
-#: src/bin/model/markerlistmodel.cpp:874
+#: src/bin/model/markerlistmodel.cpp:873
 #, kde-format
 msgid "Delete all markers"
 msgstr "Ta bort alla markörer"
 
-#: src/bin/model/markerlistmodel.cpp:883 src/bin/model/markerlistmodel.cpp:921
-#: src/bin/model/markerlistmodel.cpp:946
+#: src/bin/model/markerlistmodel.cpp:882 src/bin/model/markerlistmodel.cpp:920
+#: src/bin/model/markerlistmodel.cpp:945
 #: src/timeline2/view/timelinecontroller.cpp:1440
 #, kde-format
 msgid "No guide found at current position"
 msgstr "Ingen flagga hittades på aktuell position"
 
-#: src/bin/model/markerlistmodel.cpp:886
+#: src/bin/model/markerlistmodel.cpp:885
 #, kde-format
 msgid "Edit Guides Category"
 msgstr "Redigera flaggkategori"
 
-#: src/bin/model/markerlistmodel.cpp:886
+#: src/bin/model/markerlistmodel.cpp:885
 #, kde-format
 msgid "Edit Markers Category"
 msgstr "Redigera markörkategori"
 
-#: src/bin/model/markerlistmodel.cpp:892
+#: src/bin/model/markerlistmodel.cpp:891
 #, kde-format
 msgid "Guides Category"
 msgstr "Flaggkategori"
 
-#: src/bin/model/markerlistmodel.cpp:892
+#: src/bin/model/markerlistmodel.cpp:891
 #, kde-format
 msgid "Markers Category"
 msgstr "Markörkategori"
 
-#: src/bin/model/markerlistmodel.cpp:910
+#: src/bin/model/markerlistmodel.cpp:909
 #, kde-format
 msgid "Edit guides"
 msgstr "Redigera flaggor"
 
-#: src/bin/model/markerlistmodel.cpp:910
+#: src/bin/model/markerlistmodel.cpp:909
 #, kde-format
 msgid "Edit markers"
 msgstr "Redigera markörer"
 
-#: src/bin/model/markerlistmodel.cpp:925 src/bin/model/markerlistmodel.cpp:950
+#: src/bin/model/markerlistmodel.cpp:924 src/bin/model/markerlistmodel.cpp:949
 #: src/timeline2/view/timelinecontroller.cpp:1448
 #, kde-format
 msgid "guide"
 msgstr "flagga"
 
-#: src/bin/model/markerlistmodel.cpp:928
+#: src/bin/model/markerlistmodel.cpp:927
 #, kde-format
 msgid "Edit Guide"
 msgstr "Redigera flagga"
 
-#: src/bin/model/markerlistmodel.cpp:928
+#: src/bin/model/markerlistmodel.cpp:927
 #, kde-format
 msgid "Edit Marker"
 msgstr "Redigera markör"
 
-#: src/bin/model/markerlistmodel.cpp:953
+#: src/bin/model/markerlistmodel.cpp:952
 #, kde-format
 msgid "Add Guides"
 msgstr "Lägg till flaggor"
 
-#: src/bin/model/markerlistmodel.cpp:953
+#: src/bin/model/markerlistmodel.cpp:952
 #, kde-format
 msgid "Add Markers"
 msgstr "Lägg till markörer"
 
-#: src/bin/model/markerlistmodel.cpp:968
+#: src/bin/model/markerlistmodel.cpp:967
 #, kde-format
 msgid "Add guides"
 msgstr "Lägg till flaggor"
 
-#: src/bin/model/markerlistmodel.cpp:968
+#: src/bin/model/markerlistmodel.cpp:967
 #, kde-format
 msgid "Add markers"
 msgstr "Lägg till markörer"
@@ -6238,7 +6238,7 @@ msgstr "Flaggposition i bildrutor"
 msgid "Guide comment"
 msgstr "Flaggkommentar"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:115 src/mainwindow.cpp:3821
+#: src/dialogs/kdenlivesettingsdialog.cpp:115 src/mainwindow.cpp:3873
 #, kde-format
 msgid "Timeline"
 msgstr "Tidslinje"
@@ -6761,7 +6761,7 @@ msgstr "Ett problem uppstod när dokumentet skulle delas: %1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
 #: src/dialogs/renderwidget.cpp:351 src/dialogs/renderwidget.cpp:359
-#: src/ui/renderwidget_ui.ui:878
+#: src/ui/renderwidget_ui.ui:881
 #, kde-format
 msgid "Share"
 msgstr "Dela"
@@ -6912,7 +6912,7 @@ msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>Återgivning av %1 kraschade</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1306 src/ui/renderwidget_ui.ui:871
+#: src/dialogs/renderwidget.cpp:1306 src/ui/renderwidget_ui.ui:874
 #, kde-format
 msgid "Abort Job"
 msgstr "Avbryt jobb"
@@ -7414,7 +7414,7 @@ msgstr "Kontrollera hårdvaruacceleration"
 #: src/dialogs/wizard.cpp:193 src/project/cliptranscode.cpp:270
 #: src/project/dialogs/archivewidget.cpp:800
 #: src/project/dialogs/archivewidget.cpp:1161 src/ui/renderwidget_ui.ui:363
-#: src/ui/renderwidget_ui.ui:914 src/ui/renderwidget_ui.ui:1072
+#: src/ui/renderwidget_ui.ui:917 src/ui/renderwidget_ui.ui:1075
 #, kde-format
 msgid "Close"
 msgstr "Stäng"
@@ -8559,8 +8559,8 @@ msgid "Application %1 not found, please update the job settings"
 msgstr "Programmet %1 hittades inte. Uppdatera jobbinställningarna."
 
 #: src/jobs/customjobtask.cpp:264 src/jobs/customjobtask.cpp:274
-#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:231
-#: src/jobs/transcodetask.cpp:267
+#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:234
+#: src/jobs/transcodetask.cpp:270
 #, kde-format
 msgid "Failed to create file."
 msgstr "Misslyckades skapa fil."
@@ -9993,7 +9993,7 @@ msgstr "Aktivt verktyg och redigeringsläge"
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, bFramesSpinner)
 #: src/mainwindow.cpp:1440 src/ui/editrenderpreset_ui.ui:551
-#: src/ui/editrenderpreset_ui.ui:694 src/ui/renderwidget_ui.ui:736
+#: src/ui/editrenderpreset_ui.ui:694 src/ui/renderwidget_ui.ui:739
 #, kde-format
 msgid "Auto"
 msgstr "Automatisk"
@@ -11037,64 +11037,70 @@ msgstr "Anpassa klippjobb…"
 msgid "Transcoders"
 msgstr "Omkodare"
 
-#: src/mainwindow.cpp:3820
+#: src/mainwindow.cpp:3842
+#, fuzzy, kde-format
+#| msgid "Video stream %1"
+msgid "-stream-%1"
+msgstr "Videoström %1"
+
+#: src/mainwindow.cpp:3872
 #, kde-format
 msgid "Interface"
 msgstr "Gränssnitt"
 
-#: src/mainwindow.cpp:3836
+#: src/mainwindow.cpp:3888
 #, kde-format
 msgid "Raise %1"
 msgstr "Höj %1"
 
-#: src/mainwindow.cpp:3902
+#: src/mainwindow.cpp:3954
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Filer att omkoda"
 
-#: src/mainwindow.cpp:4050
+#: src/mainwindow.cpp:4102
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "Projektfilen kunde inte sparas för arkivering."
 
-#: src/mainwindow.cpp:4056
+#: src/mainwindow.cpp:4108
 #, kde-format
 msgid "Archiving project"
 msgstr "Arkiverar projekt"
 
-#: src/mainwindow.cpp:4212
+#: src/mainwindow.cpp:4264
 #, kde-format
 msgid "Icon Size"
 msgstr "Ikonstorlek"
 
-#: src/mainwindow.cpp:4216
+#: src/mainwindow.cpp:4268
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Standard:"
 
-#: src/mainwindow.cpp:4237 src/mainwindow.cpp:4265
+#: src/mainwindow.cpp:4289 src/mainwindow.cpp:4317
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Liten (%1x%2)"
 
-#: src/mainwindow.cpp:4239 src/mainwindow.cpp:4267
+#: src/mainwindow.cpp:4291 src/mainwindow.cpp:4319
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Medium (%1x%2)"
 
-#: src/mainwindow.cpp:4241 src/mainwindow.cpp:4269
+#: src/mainwindow.cpp:4293 src/mainwindow.cpp:4321
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Stor (%1x%2)"
 
-#: src/mainwindow.cpp:4243 src/mainwindow.cpp:4271
+#: src/mainwindow.cpp:4295 src/mainwindow.cpp:4323
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Enorm (%1x%2)"
 
-#: src/mainwindow.cpp:4328
+#: src/mainwindow.cpp:4380
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -11103,28 +11109,28 @@ msgstr ""
 "Det här döljer menyraden fullständigt. Du kan visa den igen genom att skriva "
 "Ctrl+M.."
 
-#: src/mainwindow.cpp:4328
+#: src/mainwindow.cpp:4380
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Dölj menyrad"
 
-#: src/mainwindow.cpp:4343
+#: src/mainwindow.cpp:4395
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
 msgstr "Kdenlive måste startas om för att ändra ikontemat. Starta om nu?"
 
-#: src/mainwindow.cpp:4573 src/timeline2/view/timelinecontroller.cpp:5028
+#: src/mainwindow.cpp:4625 src/timeline2/view/timelinecontroller.cpp:5028
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "Ingen textning i nuvarande projekt"
 
-#: src/mainwindow.cpp:4666
+#: src/mainwindow.cpp:4718
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Projektkorg %1"
 
-#: src/mainwindow.cpp:4767
+#: src/mainwindow.cpp:4819
 #, kde-format
 msgid "Checking cached data size"
 msgstr "Kontrollerar storlek på data lagrad i cache"
@@ -12030,7 +12036,7 @@ msgstr "Spela in"
 #: src/monitor/recmanager.cpp:46 src/onlineresources/resourcewidget.cpp:549
 #: src/ui/clipjobmanager_ui.ui:307 src/ui/cutjobdialog_ui.ui:107
 #: src/ui/editrenderpreset_ui.ui:122 src/ui/projectsettings_ui.ui:173
-#: src/ui/renderwidget_ui.ui:484
+#: src/ui/renderwidget_ui.ui:487
 #, kde-format
 msgid "Video"
 msgstr "Video"
@@ -17535,7 +17541,7 @@ msgstr "Ta bort nuvarande punkt."
 #: src/ui/manageencodingprofile_ui.ui:84 src/ui/projectsettings_ui.ui:276
 #: src/ui/projectsettings_ui.ui:283 src/ui/projectsettings_ui.ui:293
 #: src/ui/projectsettings_ui.ui:571 src/ui/projectsettings_ui.ui:578
-#: src/ui/qtextclip_ui.ui:94 src/ui/renderwidget_ui.ui:974
+#: src/ui/qtextclip_ui.ui:94 src/ui/renderwidget_ui.ui:977
 #: src/ui/resourcewidget_ui.ui:214 src/ui/resourcewidget_ui.ui:281
 #: src/ui/speechdialog_ui.ui:75 src/ui/textbasededit_ui.ui:61
 #: src/ui/textbasededit_ui.ui:94 src/ui/textbasededit_ui.ui:115
@@ -20317,92 +20323,92 @@ msgid "Guide Multi-Export"
 msgstr "Multiexport av flaggor"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/renderwidget_ui.ui:422
+#: src/ui/renderwidget_ui.ui:425
 #, kde-format
 msgid "Guides to use as separator:"
 msgstr "Flaggor att använda som avskiljare:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_full_color)
-#: src/ui/renderwidget_ui.ui:493
+#: src/ui/renderwidget_ui.ui:496
 #, kde-format
 msgid "Render full color range"
 msgstr "Återge fullständigt färgintervall"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_at_preview_res)
-#: src/ui/renderwidget_ui.ui:500
+#: src/ui/renderwidget_ui.ui:503
 #, kde-format
 msgid "Render at Preview Resolution"
 msgstr "Återge med förhandsgranskningsupplösning"
 
 #. i18n: ectx: property (text), widget (QCheckBox, proxy_render)
-#: src/ui/renderwidget_ui.ui:507
+#: src/ui/renderwidget_ui.ui:510
 #, kde-format
 msgid "Use Proxy Clips"
 msgstr "Använd ersättningsklipp"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/renderwidget_ui.ui:514
+#: src/ui/renderwidget_ui.ui:517
 #, kde-format
 msgid "Rescale:"
 msgstr "Ändra skala:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rescale)
-#: src/ui/renderwidget_ui.ui:521
+#: src/ui/renderwidget_ui.ui:524
 #, kde-format
 msgid "Enabled"
 msgstr "Aktiverad"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/renderwidget_ui.ui:578
+#: src/ui/renderwidget_ui.ui:581
 #, kde-format
 msgid "Overlay:"
 msgstr "Överlagra:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, stemAudioExport)
-#: src/ui/renderwidget_ui.ui:604
+#: src/ui/renderwidget_ui.ui:607
 #, kde-format
 msgid "Separate file for each audio track"
 msgstr "Separat fil för varje ljudspår"
 
 #. i18n: ectx: property (title), widget (QGroupBox, qualityGroup)
-#: src/ui/renderwidget_ui.ui:614
+#: src/ui/renderwidget_ui.ui:617
 #, kde-format
 msgid "Custom Quality"
 msgstr "Egen kvalitet"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/renderwidget_ui.ui:628
+#: src/ui/renderwidget_ui.ui:631
 #, kde-format
 msgid "Low"
 msgstr "Låg"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, quality)
-#: src/ui/renderwidget_ui.ui:641
+#: src/ui/renderwidget_ui.ui:644
 #, kde-format
 msgid "Compromise file size versus quality."
 msgstr "Kompromiss mellan filstorlek och kvalitet."
 
 #. i18n: ectx: property (text), widget (QLabel, qualityPercent)
-#: src/ui/renderwidget_ui.ui:660
+#: src/ui/renderwidget_ui.ui:663
 #, no-c-format, kde-format
 msgid "75%"
 msgstr "75 %"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/ui/renderwidget_ui.ui:667
+#: src/ui/renderwidget_ui.ui:670
 #, kde-format
 msgid "High"
 msgstr "Hög"
 
 #. i18n: ectx: property (title), widget (QGroupBox, encoder_box)
-#: src/ui/renderwidget_ui.ui:679
+#: src/ui/renderwidget_ui.ui:682
 #, kde-format
 msgid "Encoder"
 msgstr "Kodare"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, speedLabel)
 #. i18n: ectx: property (toolTip), widget (QSlider, speed)
-#: src/ui/renderwidget_ui.ui:685 src/ui/renderwidget_ui.ui:701
+#: src/ui/renderwidget_ui.ui:688 src/ui/renderwidget_ui.ui:704
 #, kde-format
 msgid ""
 "For a given quality, tune the compromise between encoding time and output "
@@ -20412,116 +20418,116 @@ msgstr ""
 "kodning ger större fil)."
 
 #. i18n: ectx: property (text), widget (QLabel, speedLabel)
-#: src/ui/renderwidget_ui.ui:688
+#: src/ui/renderwidget_ui.ui:691
 #, kde-format
 msgid "Speed:"
 msgstr "Hastighet:"
 
 #. i18n: ectx: property (text), widget (QLabel, threadsLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/renderwidget_ui.ui:720 src/ui/renderwidget_ui.ui:755
+#: src/ui/renderwidget_ui.ui:723 src/ui/renderwidget_ui.ui:758
 #, kde-format
 msgid "Threads:"
 msgstr "Trådar:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, encoder_threads)
-#: src/ui/renderwidget_ui.ui:733
+#: src/ui/renderwidget_ui.ui:736
 #, kde-format
 msgid "Encoding threads"
 msgstr "Kodningstrådar"
 
 #. i18n: ectx: property (title), widget (QGroupBox, processing_box)
-#: src/ui/renderwidget_ui.ui:746
+#: src/ui/renderwidget_ui.ui:749
 #, kde-format
 msgid "Parallel Processing"
 msgstr "Parallell bearbetning"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, processing_warning)
-#: src/ui/renderwidget_ui.ui:769
+#: src/ui/renderwidget_ui.ui:772
 #, kde-format
 msgid "Parallel processing may cause render artifacts"
 msgstr "Parallell bearbetning kan orsaka återgivningsförvrängningar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkTwoPass)
-#: src/ui/renderwidget_ui.ui:785
+#: src/ui/renderwidget_ui.ui:788
 #, kde-format
 msgid "2 pass"
 msgstr "2 genomgångar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, export_meta)
-#: src/ui/renderwidget_ui.ui:794
+#: src/ui/renderwidget_ui.ui:797
 #, kde-format
 msgid "Export metadata"
 msgstr "Exportera metadata"
 
 #. i18n: ectx: property (text), widget (QLabel, edit_metadata)
-#: src/ui/renderwidget_ui.ui:801
+#: src/ui/renderwidget_ui.ui:804
 #, kde-format
 msgid "<a href=\"#\">Edit metadata</a>"
 msgstr "<a href=\"#\">Redigera metadata</a>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, embed_subtitles)
-#: src/ui/renderwidget_ui.ui:826
+#: src/ui/renderwidget_ui.ui:829
 #, kde-format
 msgid "Embed subtitles instead of burning them"
 msgstr "Inbädda textning istället för att bränna den"
 
 #. i18n: ectx: property (text), widget (QCheckBox, open_browser)
-#: src/ui/renderwidget_ui.ui:833
+#: src/ui/renderwidget_ui.ui:836
 #, kde-format
 msgid "Open folder after export"
 msgstr "Öppna katalog efter export"
 
 #. i18n: ectx: property (text), widget (QCheckBox, play_after)
-#: src/ui/renderwidget_ui.ui:840
+#: src/ui/renderwidget_ui.ui:843
 #, kde-format
 msgid "Play after render"
 msgstr "Spela upp efter återgivning"
 
 #. i18n: ectx: attribute (title), widget (QWidget, jobTab)
-#: src/ui/renderwidget_ui.ui:862
+#: src/ui/renderwidget_ui.ui:865
 #, kde-format
 msgid "Job Queue"
 msgstr "Jobbkö"
 
 #. i18n: ectx: property (text), widget (QPushButton, start_job)
-#: src/ui/renderwidget_ui.ui:897
+#: src/ui/renderwidget_ui.ui:900
 #, kde-format
 msgid "Start Job"
 msgstr "Starta jobb"
 
 #. i18n: ectx: property (text), widget (QPushButton, clean_up)
-#: src/ui/renderwidget_ui.ui:907
+#: src/ui/renderwidget_ui.ui:910
 #, kde-format
 msgid "Clean Up"
 msgstr "Rensa"
 
 #. i18n: ectx: property (text), widget (QLabel, errorLabel_2)
-#: src/ui/renderwidget_ui.ui:967
+#: src/ui/renderwidget_ui.ui:970
 #, kde-format
 msgid "Error Log"
 msgstr "Fellogg"
 
 #. i18n: ectx: property (text), widget (QCheckBox, shutdown)
-#: src/ui/renderwidget_ui.ui:1002
+#: src/ui/renderwidget_ui.ui:1005
 #, kde-format
 msgid "Shutdown computer after renderings"
 msgstr "Stäng av datorn efter återgivning"
 
 #. i18n: ectx: attribute (title), widget (QWidget, scriptsTab)
-#: src/ui/renderwidget_ui.ui:1017
+#: src/ui/renderwidget_ui.ui:1020
 #, kde-format
 msgid "Scripts"
 msgstr "Skript"
 
 #. i18n: ectx: property (text), widget (QPushButton, start_script)
-#: src/ui/renderwidget_ui.ui:1045
+#: src/ui/renderwidget_ui.ui:1048
 #, kde-format
 msgid "Start Script"
 msgstr "Starta skript"
 
 #. i18n: ectx: property (text), widget (QPushButton, delete_script)
-#: src/ui/renderwidget_ui.ui:1052
+#: src/ui/renderwidget_ui.ui:1055
 #, kde-format
 msgid "Delete Script"
 msgstr "Ta bort skript"
