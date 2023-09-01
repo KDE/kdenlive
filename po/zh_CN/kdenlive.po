@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-31 00:45+0000\n"
+"POT-Creation-Date: 2023-09-01 00:45+0000\n"
 "PO-Revision-Date: 2023-08-27 03:40\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -2497,7 +2497,7 @@ msgstr "半径"
 #. i18n: ectx: property (text), widget (QLabel, xLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: data/effects/vignette.xml:14 src/ui/profiledialog_ui.ui:207
-#: src/ui/renderwidget_ui.ui:546
+#: src/ui/renderwidget_ui.ui:549
 #, kde-format
 msgid "x"
 msgstr "x"
@@ -4433,7 +4433,7 @@ msgstr "无声视频"
 #: src/monitor/recmanager.cpp:46 src/onlineresources/resourcewidget.cpp:547
 #: src/ui/clipjobmanager_ui.ui:318 src/ui/configcapture_ui.ui:525
 #: src/ui/cutjobdialog_ui.ui:61 src/ui/editrenderpreset_ui.ui:834
-#: src/ui/projectsettings_ui.ui:180 src/ui/renderwidget_ui.ui:595
+#: src/ui/projectsettings_ui.ui:180 src/ui/renderwidget_ui.ui:598
 #, kde-format
 msgid "Audio"
 msgstr "音频"
@@ -5027,7 +5027,7 @@ msgstr "双击时导入文件"
 #: src/bin/mediabrowser.cpp:162 src/dialogs/clipcreationdialog.cpp:499
 #: src/effects/effectlist/view/effectlistwidget.cpp:130
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:300
-#: src/mainwindow.cpp:3901 src/onlineresources/resourcewidget.cpp:553
+#: src/mainwindow.cpp:3953 src/onlineresources/resourcewidget.cpp:553
 #, kde-format
 msgid "All Files"
 msgstr "所有文件"
@@ -5098,52 +5098,52 @@ msgstr ""
 msgid "Update guides categories"
 msgstr "更新辅助线类别"
 
-#: src/bin/model/markerlistmodel.cpp:269 src/bin/model/markerlistmodel.cpp:287
+#: src/bin/model/markerlistmodel.cpp:268 src/bin/model/markerlistmodel.cpp:286
 #, kde-format
 msgid "Rename guide"
 msgstr "重命名辅助线"
 
-#: src/bin/model/markerlistmodel.cpp:269 src/bin/model/markerlistmodel.cpp:287
+#: src/bin/model/markerlistmodel.cpp:268 src/bin/model/markerlistmodel.cpp:286
 #, kde-format
 msgid "Rename marker"
 msgstr "重命名标记"
 
-#: src/bin/model/markerlistmodel.cpp:271 src/bin/model/markerlistmodel.cpp:289
+#: src/bin/model/markerlistmodel.cpp:270 src/bin/model/markerlistmodel.cpp:288
 #, kde-format
 msgid "Add guide"
 msgstr "添加辅助线"
 
-#: src/bin/model/markerlistmodel.cpp:271 src/bin/model/markerlistmodel.cpp:289
+#: src/bin/model/markerlistmodel.cpp:270 src/bin/model/markerlistmodel.cpp:288
 #, kde-format
 msgid "Add marker"
 msgstr "添加标记"
 
-#: src/bin/model/markerlistmodel.cpp:319
+#: src/bin/model/markerlistmodel.cpp:318
 #, kde-format
 msgid "Delete guide"
 msgstr "删除辅助线"
 
-#: src/bin/model/markerlistmodel.cpp:319
+#: src/bin/model/markerlistmodel.cpp:318
 #, kde-format
 msgid "Delete marker"
 msgstr "删除标记"
 
-#: src/bin/model/markerlistmodel.cpp:346
+#: src/bin/model/markerlistmodel.cpp:345
 #, kde-format
 msgid "Edit guide"
 msgstr "编辑辅助线"
 
-#: src/bin/model/markerlistmodel.cpp:346
+#: src/bin/model/markerlistmodel.cpp:345
 #, kde-format
 msgid "Edit marker"
 msgstr "编辑标记"
 
-#: src/bin/model/markerlistmodel.cpp:710 src/bin/model/markerlistmodel.cpp:721
+#: src/bin/model/markerlistmodel.cpp:709 src/bin/model/markerlistmodel.cpp:720
 #, kde-format
 msgid "Import guides"
 msgstr "导入辅助线"
 
-#: src/bin/model/markerlistmodel.cpp:710 src/bin/model/markerlistmodel.cpp:721
+#: src/bin/model/markerlistmodel.cpp:709 src/bin/model/markerlistmodel.cpp:720
 #, kde-format
 msgid "Import markers"
 msgstr "导入标记"
@@ -5151,97 +5151,97 @@ msgstr "导入标记"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/model/markerlistmodel.cpp:749 src/definitions.cpp:75
+#: src/bin/model/markerlistmodel.cpp:748 src/definitions.cpp:75
 #: src/definitions.cpp:100 src/ui/exportguidesdialog_ui.ui:18
 #: src/ui/markerdialog_ui.ui:24 src/ui/multiplemarkerdialog_ui.ui:18
 #, kde-format
 msgid "Marker"
 msgstr "标记"
 
-#: src/bin/model/markerlistmodel.cpp:757
+#: src/bin/model/markerlistmodel.cpp:756
 #, kde-format
 msgid "Recovered %1"
 msgstr "已恢复 %1"
 
-#: src/bin/model/markerlistmodel.cpp:879
+#: src/bin/model/markerlistmodel.cpp:878
 #, kde-format
 msgid "Delete all guides"
 msgstr "删除所有辅助线"
 
-#: src/bin/model/markerlistmodel.cpp:879
+#: src/bin/model/markerlistmodel.cpp:878
 #, kde-format
 msgid "Delete all markers"
 msgstr "删除所有标记"
 
-#: src/bin/model/markerlistmodel.cpp:888 src/bin/model/markerlistmodel.cpp:926
-#: src/bin/model/markerlistmodel.cpp:951
+#: src/bin/model/markerlistmodel.cpp:887 src/bin/model/markerlistmodel.cpp:925
+#: src/bin/model/markerlistmodel.cpp:950
 #: src/timeline2/view/timelinecontroller.cpp:1440
 #, kde-format
 msgid "No guide found at current position"
 msgstr "当前位置未找到辅助线"
 
-#: src/bin/model/markerlistmodel.cpp:891
+#: src/bin/model/markerlistmodel.cpp:890
 #, kde-format
 msgid "Edit Guides Category"
 msgstr "编辑辅助线类别"
 
-#: src/bin/model/markerlistmodel.cpp:891
+#: src/bin/model/markerlistmodel.cpp:890
 #, kde-format
 msgid "Edit Markers Category"
 msgstr "编辑标记类别"
 
-#: src/bin/model/markerlistmodel.cpp:897
+#: src/bin/model/markerlistmodel.cpp:896
 #, kde-format
 msgid "Guides Category"
 msgstr "辅助线类别"
 
-#: src/bin/model/markerlistmodel.cpp:897
+#: src/bin/model/markerlistmodel.cpp:896
 #, kde-format
 msgid "Markers Category"
 msgstr "标记类别"
 
-#: src/bin/model/markerlistmodel.cpp:915
+#: src/bin/model/markerlistmodel.cpp:914
 #, kde-format
 msgid "Edit guides"
 msgstr "编辑辅助线"
 
-#: src/bin/model/markerlistmodel.cpp:915
+#: src/bin/model/markerlistmodel.cpp:914
 #, kde-format
 msgid "Edit markers"
 msgstr "编辑标记"
 
-#: src/bin/model/markerlistmodel.cpp:930 src/bin/model/markerlistmodel.cpp:955
+#: src/bin/model/markerlistmodel.cpp:929 src/bin/model/markerlistmodel.cpp:954
 #: src/timeline2/view/timelinecontroller.cpp:1448
 #, kde-format
 msgid "guide"
 msgstr "辅助线"
 
-#: src/bin/model/markerlistmodel.cpp:933
+#: src/bin/model/markerlistmodel.cpp:932
 #, kde-format
 msgid "Edit Guide"
 msgstr "编辑辅助线"
 
-#: src/bin/model/markerlistmodel.cpp:933
+#: src/bin/model/markerlistmodel.cpp:932
 #, kde-format
 msgid "Edit Marker"
 msgstr "编辑标记"
 
-#: src/bin/model/markerlistmodel.cpp:958
+#: src/bin/model/markerlistmodel.cpp:957
 #, kde-format
 msgid "Add Guides"
 msgstr "添加辅助线"
 
-#: src/bin/model/markerlistmodel.cpp:958
+#: src/bin/model/markerlistmodel.cpp:957
 #, kde-format
 msgid "Add Markers"
 msgstr "添加标记"
 
-#: src/bin/model/markerlistmodel.cpp:973
+#: src/bin/model/markerlistmodel.cpp:972
 #, kde-format
 msgid "Add guides"
 msgstr "添加辅助线"
 
-#: src/bin/model/markerlistmodel.cpp:973
+#: src/bin/model/markerlistmodel.cpp:972
 #, kde-format
 msgid "Add markers"
 msgstr "添加标记"
@@ -6177,7 +6177,7 @@ msgstr "下一个辅助线位置，以帧计"
 msgid "Guide comment"
 msgstr "辅助线备注"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:115 src/mainwindow.cpp:3822
+#: src/dialogs/kdenlivesettingsdialog.cpp:115 src/mainwindow.cpp:3874
 #, kde-format
 msgid "Timeline"
 msgstr "时间轴"
@@ -6693,7 +6693,7 @@ msgstr "分享文档时遇到问题：%1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
 #: src/dialogs/renderwidget.cpp:351 src/dialogs/renderwidget.cpp:359
-#: src/ui/renderwidget_ui.ui:878
+#: src/ui/renderwidget_ui.ui:881
 #, kde-format
 msgid "Share"
 msgstr "分享"
@@ -6842,7 +6842,7 @@ msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>导出 %1 已崩溃</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1306 src/ui/renderwidget_ui.ui:871
+#: src/dialogs/renderwidget.cpp:1306 src/ui/renderwidget_ui.ui:874
 #, kde-format
 msgid "Abort Job"
 msgstr "中止任务"
@@ -7361,7 +7361,7 @@ msgstr "检查硬件加速功能"
 #: src/dialogs/wizard.cpp:193 src/project/cliptranscode.cpp:270
 #: src/project/dialogs/archivewidget.cpp:800
 #: src/project/dialogs/archivewidget.cpp:1162 src/ui/renderwidget_ui.ui:363
-#: src/ui/renderwidget_ui.ui:914 src/ui/renderwidget_ui.ui:1072
+#: src/ui/renderwidget_ui.ui:917 src/ui/renderwidget_ui.ui:1075
 #, kde-format
 msgid "Close"
 msgstr "关闭"
@@ -8431,8 +8431,8 @@ msgid "Application %1 not found, please update the job settings"
 msgstr "找不到应用程序 %1，请更新任务设置"
 
 #: src/jobs/customjobtask.cpp:264 src/jobs/customjobtask.cpp:274
-#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:231
-#: src/jobs/transcodetask.cpp:267
+#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:234
+#: src/jobs/transcodetask.cpp:270
 #, kde-format
 msgid "Failed to create file."
 msgstr "无法创建文件。"
@@ -9854,7 +9854,7 @@ msgstr "活动工具和编辑模式"
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, bFramesSpinner)
 #: src/mainwindow.cpp:1440 src/ui/editrenderpreset_ui.ui:551
-#: src/ui/editrenderpreset_ui.ui:694 src/ui/renderwidget_ui.ui:736
+#: src/ui/editrenderpreset_ui.ui:694 src/ui/renderwidget_ui.ui:739
 #, kde-format
 msgid "Auto"
 msgstr "自动"
@@ -10877,92 +10877,98 @@ msgstr "配置剪辑任务…"
 msgid "Transcoders"
 msgstr "转码器"
 
-#: src/mainwindow.cpp:3821
+#: src/mainwindow.cpp:3843
+#, fuzzy, kde-format
+#| msgid "Video stream %1"
+msgid "-stream-%1"
+msgstr "视频流 %1"
+
+#: src/mainwindow.cpp:3873
 #, kde-format
 msgid "Interface"
 msgstr "接口"
 
-#: src/mainwindow.cpp:3837
+#: src/mainwindow.cpp:3889
 #, kde-format
 msgid "Raise %1"
 msgstr "上移 %1"
 
-#: src/mainwindow.cpp:3903
+#: src/mainwindow.cpp:3955
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "要转码的文件"
 
-#: src/mainwindow.cpp:4051
+#: src/mainwindow.cpp:4103
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "无法为压缩任务保存项目文件。"
 
-#: src/mainwindow.cpp:4057
+#: src/mainwindow.cpp:4109
 #, kde-format
 msgid "Archiving project"
 msgstr "正在压缩项目"
 
-#: src/mainwindow.cpp:4213
+#: src/mainwindow.cpp:4265
 #, kde-format
 msgid "Icon Size"
 msgstr "图标大小"
 
-#: src/mainwindow.cpp:4217
+#: src/mainwindow.cpp:4269
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "默认"
 
-#: src/mainwindow.cpp:4238 src/mainwindow.cpp:4266
+#: src/mainwindow.cpp:4290 src/mainwindow.cpp:4318
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "小 (%1x%2)"
 
-#: src/mainwindow.cpp:4240 src/mainwindow.cpp:4268
+#: src/mainwindow.cpp:4292 src/mainwindow.cpp:4320
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "中 (%1x%2)"
 
-#: src/mainwindow.cpp:4242 src/mainwindow.cpp:4270
+#: src/mainwindow.cpp:4294 src/mainwindow.cpp:4322
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "大 (%1x%2)"
 
-#: src/mainwindow.cpp:4244 src/mainwindow.cpp:4272
+#: src/mainwindow.cpp:4296 src/mainwindow.cpp:4324
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "特大 (%1x%2)"
 
-#: src/mainwindow.cpp:4329
+#: src/mainwindow.cpp:4381
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
 "+M."
 msgstr "此操作将完全隐藏菜单栏。您可以按 Ctrl+M 重新显示菜单栏。"
 
-#: src/mainwindow.cpp:4329
+#: src/mainwindow.cpp:4381
 #, kde-format
 msgid "Hide menu bar"
 msgstr "隐藏菜单栏"
 
-#: src/mainwindow.cpp:4344
+#: src/mainwindow.cpp:4396
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
 msgstr "Kdenlive 需要重启才能应用图标主题更改。现在重新启动吗？"
 
-#: src/mainwindow.cpp:4574 src/timeline2/view/timelinecontroller.cpp:5028
+#: src/mainwindow.cpp:4626 src/timeline2/view/timelinecontroller.cpp:5028
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "当前项目不含字幕"
 
-#: src/mainwindow.cpp:4667
+#: src/mainwindow.cpp:4719
 #, kde-format
 msgid "Project Bin %1"
 msgstr "项目素材箱 %1"
 
-#: src/mainwindow.cpp:4768
+#: src/mainwindow.cpp:4820
 #, kde-format
 msgid "Checking cached data size"
 msgstr "检查缓存的数据大小"
@@ -11856,7 +11862,7 @@ msgstr "录制"
 #: src/monitor/recmanager.cpp:45 src/onlineresources/resourcewidget.cpp:549
 #: src/ui/clipjobmanager_ui.ui:311 src/ui/cutjobdialog_ui.ui:107
 #: src/ui/editrenderpreset_ui.ui:122 src/ui/projectsettings_ui.ui:173
-#: src/ui/renderwidget_ui.ui:484
+#: src/ui/renderwidget_ui.ui:487
 #, kde-format
 msgid "Video"
 msgstr "视频"
@@ -17261,7 +17267,7 @@ msgstr "删除当前点。"
 #: src/ui/manageencodingprofile_ui.ui:84 src/ui/projectsettings_ui.ui:276
 #: src/ui/projectsettings_ui.ui:283 src/ui/projectsettings_ui.ui:293
 #: src/ui/projectsettings_ui.ui:571 src/ui/projectsettings_ui.ui:578
-#: src/ui/qtextclip_ui.ui:94 src/ui/renderwidget_ui.ui:974
+#: src/ui/qtextclip_ui.ui:94 src/ui/renderwidget_ui.ui:977
 #: src/ui/resourcewidget_ui.ui:214 src/ui/resourcewidget_ui.ui:281
 #: src/ui/speechdialog_ui.ui:75 src/ui/textbasededit_ui.ui:61
 #: src/ui/textbasededit_ui.ui:94 src/ui/textbasededit_ui.ui:115
@@ -19989,92 +19995,92 @@ msgid "Guide Multi-Export"
 msgstr "辅助线多重导出"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/renderwidget_ui.ui:422
+#: src/ui/renderwidget_ui.ui:425
 #, kde-format
 msgid "Guides to use as separator:"
 msgstr "用作分隔符的辅助线："
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_full_color)
-#: src/ui/renderwidget_ui.ui:493
+#: src/ui/renderwidget_ui.ui:496
 #, kde-format
 msgid "Render full color range"
 msgstr "渲染完整色彩范围"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_at_preview_res)
-#: src/ui/renderwidget_ui.ui:500
+#: src/ui/renderwidget_ui.ui:503
 #, kde-format
 msgid "Render at Preview Resolution"
 msgstr "按预览分辨率渲染"
 
 #. i18n: ectx: property (text), widget (QCheckBox, proxy_render)
-#: src/ui/renderwidget_ui.ui:507
+#: src/ui/renderwidget_ui.ui:510
 #, kde-format
 msgid "Use Proxy Clips"
 msgstr "使用代理剪辑"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/renderwidget_ui.ui:514
+#: src/ui/renderwidget_ui.ui:517
 #, kde-format
 msgid "Rescale:"
 msgstr "重新缩放："
 
 #. i18n: ectx: property (text), widget (QCheckBox, rescale)
-#: src/ui/renderwidget_ui.ui:521
+#: src/ui/renderwidget_ui.ui:524
 #, kde-format
 msgid "Enabled"
 msgstr "已启用"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/renderwidget_ui.ui:578
+#: src/ui/renderwidget_ui.ui:581
 #, kde-format
 msgid "Overlay:"
 msgstr "叠加："
 
 #. i18n: ectx: property (text), widget (QCheckBox, stemAudioExport)
-#: src/ui/renderwidget_ui.ui:604
+#: src/ui/renderwidget_ui.ui:607
 #, kde-format
 msgid "Separate file for each audio track"
 msgstr "拆分每条音频轨道的文件"
 
 #. i18n: ectx: property (title), widget (QGroupBox, qualityGroup)
-#: src/ui/renderwidget_ui.ui:614
+#: src/ui/renderwidget_ui.ui:617
 #, kde-format
 msgid "Custom Quality"
 msgstr "自定义品质"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/renderwidget_ui.ui:628
+#: src/ui/renderwidget_ui.ui:631
 #, kde-format
 msgid "Low"
 msgstr "低"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, quality)
-#: src/ui/renderwidget_ui.ui:641
+#: src/ui/renderwidget_ui.ui:644
 #, kde-format
 msgid "Compromise file size versus quality."
 msgstr "权衡文件体积与品质。"
 
 #. i18n: ectx: property (text), widget (QLabel, qualityPercent)
-#: src/ui/renderwidget_ui.ui:660
+#: src/ui/renderwidget_ui.ui:663
 #, no-c-format, kde-format
 msgid "75%"
 msgstr "75%"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/ui/renderwidget_ui.ui:667
+#: src/ui/renderwidget_ui.ui:670
 #, kde-format
 msgid "High"
 msgstr "高"
 
 #. i18n: ectx: property (title), widget (QGroupBox, encoder_box)
-#: src/ui/renderwidget_ui.ui:679
+#: src/ui/renderwidget_ui.ui:682
 #, kde-format
 msgid "Encoder"
 msgstr "编码器"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, speedLabel)
 #. i18n: ectx: property (toolTip), widget (QSlider, speed)
-#: src/ui/renderwidget_ui.ui:685 src/ui/renderwidget_ui.ui:701
+#: src/ui/renderwidget_ui.ui:688 src/ui/renderwidget_ui.ui:704
 #, kde-format
 msgid ""
 "For a given quality, tune the compromise between encoding time and output "
@@ -20084,116 +20090,116 @@ msgstr ""
 "大)。"
 
 #. i18n: ectx: property (text), widget (QLabel, speedLabel)
-#: src/ui/renderwidget_ui.ui:688
+#: src/ui/renderwidget_ui.ui:691
 #, kde-format
 msgid "Speed:"
 msgstr "速度："
 
 #. i18n: ectx: property (text), widget (QLabel, threadsLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/renderwidget_ui.ui:720 src/ui/renderwidget_ui.ui:755
+#: src/ui/renderwidget_ui.ui:723 src/ui/renderwidget_ui.ui:758
 #, kde-format
 msgid "Threads:"
 msgstr "线程："
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, encoder_threads)
-#: src/ui/renderwidget_ui.ui:733
+#: src/ui/renderwidget_ui.ui:736
 #, kde-format
 msgid "Encoding threads"
 msgstr "编码线程"
 
 #. i18n: ectx: property (title), widget (QGroupBox, processing_box)
-#: src/ui/renderwidget_ui.ui:746
+#: src/ui/renderwidget_ui.ui:749
 #, kde-format
 msgid "Parallel Processing"
 msgstr "并行处理"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, processing_warning)
-#: src/ui/renderwidget_ui.ui:769
+#: src/ui/renderwidget_ui.ui:772
 #, kde-format
 msgid "Parallel processing may cause render artifacts"
 msgstr "平行处理可能导致渲染画面错误"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkTwoPass)
-#: src/ui/renderwidget_ui.ui:785
+#: src/ui/renderwidget_ui.ui:788
 #, kde-format
 msgid "2 pass"
 msgstr "2 次处理"
 
 #. i18n: ectx: property (text), widget (QCheckBox, export_meta)
-#: src/ui/renderwidget_ui.ui:794
+#: src/ui/renderwidget_ui.ui:797
 #, kde-format
 msgid "Export metadata"
 msgstr "导出元数据"
 
 #. i18n: ectx: property (text), widget (QLabel, edit_metadata)
-#: src/ui/renderwidget_ui.ui:801
+#: src/ui/renderwidget_ui.ui:804
 #, kde-format
 msgid "<a href=\"#\">Edit metadata</a>"
 msgstr "<a href=\"#\">编辑元数据</a>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, embed_subtitles)
-#: src/ui/renderwidget_ui.ui:826
+#: src/ui/renderwidget_ui.ui:829
 #, kde-format
 msgid "Embed subtitles instead of burning them"
 msgstr "嵌入字幕而不是合成到画面"
 
 #. i18n: ectx: property (text), widget (QCheckBox, open_browser)
-#: src/ui/renderwidget_ui.ui:833
+#: src/ui/renderwidget_ui.ui:836
 #, kde-format
 msgid "Open folder after export"
 msgstr "导出后打开文件夹"
 
 #. i18n: ectx: property (text), widget (QCheckBox, play_after)
-#: src/ui/renderwidget_ui.ui:840
+#: src/ui/renderwidget_ui.ui:843
 #, kde-format
 msgid "Play after render"
 msgstr "导出完成后播放"
 
 #. i18n: ectx: attribute (title), widget (QWidget, jobTab)
-#: src/ui/renderwidget_ui.ui:862
+#: src/ui/renderwidget_ui.ui:865
 #, kde-format
 msgid "Job Queue"
 msgstr "任务列表"
 
 #. i18n: ectx: property (text), widget (QPushButton, start_job)
-#: src/ui/renderwidget_ui.ui:897
+#: src/ui/renderwidget_ui.ui:900
 #, kde-format
 msgid "Start Job"
 msgstr "执行任务"
 
 #. i18n: ectx: property (text), widget (QPushButton, clean_up)
-#: src/ui/renderwidget_ui.ui:907
+#: src/ui/renderwidget_ui.ui:910
 #, kde-format
 msgid "Clean Up"
 msgstr "清理"
 
 #. i18n: ectx: property (text), widget (QLabel, errorLabel_2)
-#: src/ui/renderwidget_ui.ui:967
+#: src/ui/renderwidget_ui.ui:970
 #, kde-format
 msgid "Error Log"
 msgstr "错误日志"
 
 #. i18n: ectx: property (text), widget (QCheckBox, shutdown)
-#: src/ui/renderwidget_ui.ui:1002
+#: src/ui/renderwidget_ui.ui:1005
 #, kde-format
 msgid "Shutdown computer after renderings"
 msgstr "导出完成后关机"
 
 #. i18n: ectx: attribute (title), widget (QWidget, scriptsTab)
-#: src/ui/renderwidget_ui.ui:1017
+#: src/ui/renderwidget_ui.ui:1020
 #, kde-format
 msgid "Scripts"
 msgstr "脚本"
 
 #. i18n: ectx: property (text), widget (QPushButton, start_script)
-#: src/ui/renderwidget_ui.ui:1045
+#: src/ui/renderwidget_ui.ui:1048
 #, kde-format
 msgid "Start Script"
 msgstr "执行脚本"
 
 #. i18n: ectx: property (text), widget (QPushButton, delete_script)
-#: src/ui/renderwidget_ui.ui:1052
+#: src/ui/renderwidget_ui.ui:1055
 #, kde-format
 msgid "Delete Script"
 msgstr "删除脚本"
