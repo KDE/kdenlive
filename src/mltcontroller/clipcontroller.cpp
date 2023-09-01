@@ -1086,6 +1086,20 @@ QMap<int, QString> ClipController::activeStreams() const
     return {};
 }
 
+QVector<int> ClipController::activeFfmpegStreams() const
+{
+    if (m_audioInfo) {
+        QList<int> activeStreams = m_audioInfo->activeStreams().keys();
+        QList<int> allStreams = m_audioInfo->streams().keys();
+        QVector<int> ffmpegIndexes;
+        for (auto &a : activeStreams) {
+            ffmpegIndexes << allStreams.indexOf(a);
+        }
+        return ffmpegIndexes;
+    }
+    return {};
+}
+
 int ClipController::audioStreamsCount() const
 {
     if (m_audioInfo) {

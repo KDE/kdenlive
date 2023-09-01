@@ -2640,23 +2640,21 @@ std::vector<QString> Bin::selectedClipsIds(bool allowSubClips)
 {
     const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
     std::vector<QString> ids;
-    // We define the lambda that will be executed on each item of the subset of nodes of the tree that are selected
-    auto itemAdder = [&ids, allowSubClips](std::vector<QString> &ids_vec, std::shared_ptr<TreeItem> item) {
-        auto binItem = std::static_pointer_cast<AbstractProjectItem>(item);
-        if (binItem->itemType() == AbstractProjectItem::ClipItem) {
-            ids.push_back(binItem->clipId());
-        } else if (allowSubClips && binItem->itemType() == AbstractProjectItem::SubClipItem) {
-            auto subClipItem = std::static_pointer_cast<ProjectSubClip>(item);
-            ids.push_back(subClipItem->cutClipId());
-        }
-        return ids_vec;
-    };
     for (const QModelIndex &ix : indexes) {
         if (!ix.isValid() || ix.column() != 0) {
             continue;
         }
         std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
-        item->accumulate(ids, itemAdder);
+        if (item->itemType() == AbstractProjectItem::SubClipItem) {
+            if (allowSubClips) {
+                auto subClipItem = std::static_pointer_cast<ProjectSubClip>(item);
+                ids.push_back(subClipItem->cutClipId());
+            } else {
+                ids.push_back(item->clipId());
+            }
+        } else if (item->itemType() == AbstractProjectItem::ClipItem) {
+            ids.push_back(item->clipId());
+        }
     }
     return ids;
 }

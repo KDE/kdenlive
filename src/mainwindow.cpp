@@ -3804,19 +3804,7 @@ void MainWindow::buildDynamicActions()
                     }
                     std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(clipId);
                     if (clip->audioStreamsCount() > 1) {
-                        clipStreamCount.insert(clipId, clip->audioStreamsCount());
-                    }
-                }
-                if (!clipStreamCount.isEmpty()) {
-                    // TODO: show streams selection dialog
-                    QMapIterator<QString, int> it(clipStreamCount);
-                    while (it.hasNext()) {
-                        it.next();
-                        QVector<int> streams;
-                        for (int s = 0; s < it.value(); s++) {
-                            streams << s;
-                        }
-                        clipStreamSelection.insert(it.key(), streams);
+                        clipStreamSelection.insert(clipId, clip->activeFfmpegStreams());
                     }
                 }
             }
@@ -3838,10 +3826,20 @@ void MainWindow::buildDynamicActions()
                     // Extract selected audio streams only, create one task per stream
                     QVector<int> selectedStreams = clipStreamSelection.value(clipId);
                     for (auto &ix : selectedStreams) {
-                        QString args = QStringLiteral("-map 0:a:%1 ").arg(ix);
+                        QString args;
+                        QString suffix;
+                        if (ix == -1) {
+                            // Merge all audio streams
+                            args = QStringLiteral("-filter_complex amerge=inputs=%1 ").arg(clip->audioStreamsCount());
+                            args.append(QStringLiteral("-ac %1 ").arg(clip->audioChannels()));
+                            suffix = i18n("-merged");
+                        } else {
+                            args = QStringLiteral("-map 0:a:%1 ").arg(ix);
+                            suffix = i18n("-stream-%1", ix);
+                        }
                         args.append(tData);
-                        TranscodeTask::start(ObjectId(ObjectType::BinClip, clipId.toInt(), QUuid()), i18n("-stream-%1", ix), QString(), args, clipIn, clipOut,
-                                             false, clip.get());
+                        TranscodeTask::start(ObjectId(ObjectType::BinClip, clipId.toInt(), QUuid()), suffix, QString(), args, clipIn, clipOut, false,
+                                             clip.get());
                     }
                 } else {
                     TranscodeTask::start(ObjectId(ObjectType::BinClip, clipId.toInt(), QUuid()), QString(), QString(), tData, clipIn, clipOut, false,
