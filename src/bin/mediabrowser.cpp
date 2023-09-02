@@ -116,13 +116,11 @@ MediaBrowser::MediaBrowser(QWidget *parent)
         int iconZoom = m_op->iconSize();
         int newZoom = iconZoom * 1.5;
         m_op->setIconSize(qMin(512, newZoom));
-        KdenliveSettings::setMediaIconSize(m_op->iconSize());
     });
     connect(zoomOut, &QAction::triggered, this, [this]() {
         int iconZoom = m_op->iconSize() / 1.5;
         iconZoom = qMax(int(KIconLoader::SizeSmall), iconZoom);
         m_op->setIconSize(iconZoom);
-        KdenliveSettings::setMediaIconSize(m_op->iconSize());
     });
     KConfigGroup grp(KSharedConfig::openConfig(), "Media Browser");
     m_op->readConfig(grp);
@@ -132,6 +130,7 @@ MediaBrowser::MediaBrowser(QWidget *parent)
     m_op->setView(KFile::Default);
 #endif
     m_op->setMode(KFile::ExistingOnly | KFile::Files | KFile::Directory);
+    m_op->setIconSize(KdenliveSettings::mediaIconSize());
     m_filterCombo = new KFileFilterCombo(this);
     m_filenameEdit = new KUrlComboBox(KUrlComboBox::Files, true, this);
     m_locationEdit = new KUrlNavigator(places, QUrl(), this);
@@ -139,6 +138,7 @@ MediaBrowser::MediaBrowser(QWidget *parent)
 
     connect(m_op, &KDirOperator::urlEntered, this, &MediaBrowser::slotUrlEntered);
     connect(m_op, &KDirOperator::viewChanged, this, &MediaBrowser::connectView);
+    connect(m_op, &KDirOperator::currentIconSizeChanged, this, [](int size) { KdenliveSettings::setMediaIconSize(size); });
     connect(m_op, &KDirOperator::fileHighlighted, this, [this](const KFileItem &item) {
         KFileItemList files = m_op->selectedItems();
         if (item.isDir() || files.size() == 0) {
@@ -162,7 +162,6 @@ MediaBrowser::MediaBrowser(QWidget *parent)
     QString dialogFilter = allExtensions + QLatin1Char('|') + i18n("All Supported Files") + QStringLiteral("\n*|") + i18n("All Files");
     m_filterCombo->setFilter(dialogFilter);
     m_op->setNameFilter(m_filterCombo->currentFilter());
-    m_op->setIconSize(KdenliveSettings::mediaIconSize());
 
     // Setup mime filter combo
     m_filterCombo->setEditable(true);
