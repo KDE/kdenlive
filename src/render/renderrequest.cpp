@@ -52,6 +52,7 @@ void RenderRequest::loadPresetParams(const QString &profileName)
 {
     std::unique_ptr<RenderPresetModel> &profile = RenderPresetRepository::get()->getPreset(profileName);
     m_presetParams = profile->params();
+    m_presetDefaults = profile->defaultValues();
 }
 
 void RenderRequest::setDelayedRendering(bool enabled)
@@ -255,9 +256,25 @@ void RenderRequest::createRenderJobs(std::vector<RenderJob> &jobs, const QDomDoc
             cons.setAttribute(QLatin1String("mlt_service"), QStringLiteral("avformat"));
             RenderPresetParams::const_iterator i = m_presetParams.constBegin();
             while (i != m_presetParams.constEnd()) {
-                cons.setAttribute(i.key(), i.value());
-                qDebug() << "SETTING RENDER PARAMS: " << i.key() << " = " << i.value();
+                if (i.value().contains(QLatin1Char('%'))) {
+                    QString paramValue = i.value();
+                    paramValue.replace(QLatin1String("%audioquality"), m_presetDefaults.at(2));
+                    paramValue.replace(QLatin1String("%audiobitrate+'k'"), QStringLiteral("%1k").arg(m_presetDefaults.at(1)));
+                    paramValue.replace(QLatin1String("%audiobitrate"), m_presetDefaults.at(1));
+                    paramValue.replace(QLatin1String("%quality"), m_presetDefaults.at(4));
+                    paramValue.replace(QLatin1String("%bitrate+'k'"), QStringLiteral("%1k").arg(m_presetDefaults.at(3)));
+                    paramValue.replace(QLatin1String("%bitrate"), m_presetDefaults.at(3));
+                    cons.setAttribute(i.key(), paramValue);
+                    qDebug() << "SETTING RENDER PARAMS: " << i.key() << " = " << paramValue;
+                } else {
+                    cons.setAttribute(i.key(), i.value());
+                    qDebug() << "SETTING RENDER PARAMS: " << i.key() << " = " << i.value();
+                }
                 ++i;
+            }
+            if (!m_presetDefaults.first().isEmpty() && m_presetDefaults.first().contains(QLatin1Char('='))) {
+                // Append speed parameters
+                cons.setAttribute(m_presetDefaults.first().section(QLatin1Char('='), 0, 0), m_presetDefaults.first().section(QLatin1Char('='), 1));
             }
             final.documentElement().appendChild(cons);
         }

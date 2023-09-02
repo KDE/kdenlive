@@ -67,6 +67,8 @@ public:
     QString defaultVBitrate() const;
     QStringList videoQualities() const;
     QString defaultVQuality() const;
+    /** @brief Returns a list of all default values for this profile (speed, aBitrate, aQuality, vBitrate, vQuality */
+    QStringList defaultValues() const;
     bool editable() const;
     bool isManual() const;
 
