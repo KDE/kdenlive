@@ -196,12 +196,14 @@ int main(int argc, char *argv[])
     parser.addOption(renderOption);
 
     parser.addPositionalArgument(QStringLiteral("file"), i18n("Kdenlive document to open."));
+    parser.addPositionalArgument(QStringLiteral("rendering"), i18n("Output file for rendered video."));
 
     // Parse command line
     parser.process(app);
     aboutData.processCommandLine(&parser);
 
     QUrl url;
+    QUrl renderUrl;
     if (parser.positionalArguments().count() != 0) {
         const QString inputFilename = parser.positionalArguments().at(0);
         const QFileInfo fileInfo(inputFilename);
@@ -209,16 +211,25 @@ int main(int argc, char *argv[])
         if (fileInfo.exists() || url.scheme().isEmpty()) { // easiest way to detect "invalid"/unintended URLs is no scheme
             url = QUrl::fromLocalFile(fileInfo.absoluteFilePath());
         }
+        if (parser.positionalArguments().count() > 1) {
+            // Output render
+            const QString outputFilename = parser.positionalArguments().at(1);
+            const QFileInfo outFileInfo(outputFilename);
+            if (!outFileInfo.exists()) { // easiest way to detect "invalid"/unintended URLs is no scheme
+                renderUrl = QUrl::fromLocalFile(outFileInfo.absoluteFilePath());
+            }
+        }
     }
 
     qApp->processEvents(QEventLoop::AllEvents);
 
-    url = QUrl::fromLocalFile(QStringLiteral("/home/julius/Videos/checkwaiting.kdenlive"));
-
-    // if (parser.isSet(renderOption)) {
-    if (true) {
+    if (parser.isSet(renderOption)) {
         if (url.isEmpty()) {
             qCritical() << "You need to give a valid file if you want to render from the command line.";
+            return EXIT_FAILURE;
+        }
+        if (renderUrl.isEmpty()) {
+            qCritical() << "You need to give a non existing output file to render from the command line.";
             return EXIT_FAILURE;
         }
         if (!Core::build(packageType, true)) {
@@ -228,7 +239,7 @@ int main(int argc, char *argv[])
         app.processEvents();
 
         RenderRequest *renderrequest = new RenderRequest();
-        renderrequest->setOutputFile(QStringLiteral("~/cli-test.mp4"));
+        renderrequest->setOutputFile(renderUrl.toLocalFile());
         renderrequest->loadPresetParams(QStringLiteral("MP4-H264/AAC"));
         // request->setPresetParams(m_params);
         renderrequest->setDelayedRendering(false);
