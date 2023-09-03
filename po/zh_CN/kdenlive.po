@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-02 00:46+0000\n"
-"PO-Revision-Date: 2023-08-27 03:40\n"
+"POT-Creation-Date: 2023-09-03 00:45+0000\n"
+"PO-Revision-Date: 2023-09-02 03:18\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -5040,7 +5040,7 @@ msgstr "所有支持的文件"
 
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/bin/mediabrowser.cpp:198
+#: src/bin/mediabrowser.cpp:197
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:493
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
@@ -5048,22 +5048,22 @@ msgstr "所有支持的文件"
 msgid "Name:"
 msgstr "名称："
 
-#: src/bin/mediabrowser.cpp:202
+#: src/bin/mediabrowser.cpp:201
 #, kde-format
 msgid "Filter:"
 msgstr "筛选："
 
-#: src/bin/mediabrowser.cpp:206 src/dialogs/clipcreationdialog.cpp:472
+#: src/bin/mediabrowser.cpp:205 src/dialogs/clipcreationdialog.cpp:472
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr "忽略子文件夹结构"
 
-#: src/bin/mediabrowser.cpp:208 src/dialogs/clipcreationdialog.cpp:474
+#: src/bin/mediabrowser.cpp:207 src/dialogs/clipcreationdialog.cpp:474
 #, kde-format
 msgid "Do not create subfolders in Project Bin"
 msgstr "不要在项目素材箱中创建子文件夹"
 
-#: src/bin/mediabrowser.cpp:211 src/dialogs/clipcreationdialog.cpp:477
+#: src/bin/mediabrowser.cpp:210 src/dialogs/clipcreationdialog.cpp:477
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5073,17 +5073,17 @@ msgstr ""
 "启用此项后，Kdenlive 将导入文件夹及其子文件夹中包含的所有剪辑，但不会在项目素"
 "材箱中创建子文件夹。"
 
-#: src/bin/mediabrowser.cpp:214 src/dialogs/clipcreationdialog.cpp:467
+#: src/bin/mediabrowser.cpp:213 src/dialogs/clipcreationdialog.cpp:467
 #, kde-format
 msgid "Import image sequence"
 msgstr "导入图像序列"
 
-#: src/bin/mediabrowser.cpp:217 src/dialogs/clipcreationdialog.cpp:468
+#: src/bin/mediabrowser.cpp:216 src/dialogs/clipcreationdialog.cpp:468
 #, kde-format
 msgid "Try to import an image sequence"
 msgstr "尝试导入图像序列"
 
-#: src/bin/mediabrowser.cpp:219 src/dialogs/clipcreationdialog.cpp:470
+#: src/bin/mediabrowser.cpp:218 src/dialogs/clipcreationdialog.cpp:470
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6853,33 +6853,26 @@ msgid "Remove Job"
 msgstr "移除任务"
 
 #: src/dialogs/renderwidget.cpp:1709
-#, fuzzy, kde-format
-#| msgid "Render Duration: %1"
+#, kde-format
 msgid "Render Duration: %1. "
-msgstr "导出持续时间：%1"
+msgstr "导出持续时间：%1。"
 
 #: src/dialogs/renderwidget.cpp:1711
-#, fuzzy, kde-format
-#| msgid "You have %1 missing clip in your project."
-#| msgid_plural "You have %1 missing clips in your project."
+#, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
-msgstr[0] "您的项目中包含 %1 段缺失剪辑。"
+msgstr[0] "<b>%1 个缺失的剪辑已在项目中使用。</b>"
 
 #: src/dialogs/renderwidget.cpp:1713
-#, fuzzy, kde-format
-#| msgid "One missing clip"
-#| msgid_plural "%1 missing clips"
+#, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
-msgstr[0] "%1 个缺少的剪辑"
+msgstr[0] "%1 个缺失的剪辑 (未被使用)。"
 
 #: src/dialogs/renderwidget.cpp:1715
-#, fuzzy, kde-format
-#| msgid "You have %1 missing clip in your project."
-#| msgid_plural "You have %1 missing clips in your project."
+#, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
-msgstr "您的项目中包含 %1 段缺失剪辑。"
+msgstr "%1 个缺失的剪辑 (<b>%2 个已在项目中使用</b>)。"
 
 #: src/dialogs/renderwidget.cpp:1719
 #, kde-format
@@ -10883,10 +10876,9 @@ msgid "-merged"
 msgstr ""
 
 #: src/mainwindow.cpp:3838
-#, fuzzy, kde-format
-#| msgid "Video stream %1"
+#, kde-format
 msgid "-stream-%1"
-msgstr "视频流 %1"
+msgstr "-stream-%1"
 
 #: src/mainwindow.cpp:3871
 #, kde-format

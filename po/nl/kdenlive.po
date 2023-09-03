@@ -9,10 +9,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-02 00:46+0000\n"
-"PO-Revision-Date: 2023-08-29 18:13+0200\n"
+"POT-Creation-Date: 2023-09-03 00:45+0000\n"
+"PO-Revision-Date: 2023-09-02 11:38+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
-"Language-Team: \n"
+"Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5152,7 +5152,7 @@ msgstr "Alle ondersteunde bestanden"
 
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/bin/mediabrowser.cpp:198
+#: src/bin/mediabrowser.cpp:197
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:493
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
@@ -5160,22 +5160,22 @@ msgstr "Alle ondersteunde bestanden"
 msgid "Name:"
 msgstr "Naam:"
 
-#: src/bin/mediabrowser.cpp:202
+#: src/bin/mediabrowser.cpp:201
 #, kde-format
 msgid "Filter:"
 msgstr "Filter:"
 
-#: src/bin/mediabrowser.cpp:206 src/dialogs/clipcreationdialog.cpp:472
+#: src/bin/mediabrowser.cpp:205 src/dialogs/clipcreationdialog.cpp:472
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr "Submapstructuur negeren"
 
-#: src/bin/mediabrowser.cpp:208 src/dialogs/clipcreationdialog.cpp:474
+#: src/bin/mediabrowser.cpp:207 src/dialogs/clipcreationdialog.cpp:474
 #, kde-format
 msgid "Do not create subfolders in Project Bin"
 msgstr "Geen submappen aanmaken in project-bin"
 
-#: src/bin/mediabrowser.cpp:211 src/dialogs/clipcreationdialog.cpp:477
+#: src/bin/mediabrowser.cpp:210 src/dialogs/clipcreationdialog.cpp:477
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5185,17 +5185,17 @@ msgstr ""
 "Indien ingeschakeld zal Kdenlive alle clips in de map en zijn submappen "
 "importeren zonder de submappen in de project-bin aan te maken."
 
-#: src/bin/mediabrowser.cpp:214 src/dialogs/clipcreationdialog.cpp:467
+#: src/bin/mediabrowser.cpp:213 src/dialogs/clipcreationdialog.cpp:467
 #, kde-format
 msgid "Import image sequence"
 msgstr "Afbeeldingsreeks importeren"
 
-#: src/bin/mediabrowser.cpp:217 src/dialogs/clipcreationdialog.cpp:468
+#: src/bin/mediabrowser.cpp:216 src/dialogs/clipcreationdialog.cpp:468
 #, kde-format
 msgid "Try to import an image sequence"
 msgstr "Een afbeeldingsreeks proberen te importeren"
 
-#: src/bin/mediabrowser.cpp:219 src/dialogs/clipcreationdialog.cpp:470
+#: src/bin/mediabrowser.cpp:218 src/dialogs/clipcreationdialog.cpp:470
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11117,16 +11117,14 @@ msgid "Transcoders"
 msgstr "Codering overzetters"
 
 #: src/mainwindow.cpp:3835
-#, fuzzy, kde-format
-#| msgid "Merge"
+#, kde-format
 msgid "-merged"
 msgstr "Samenvoegen"
 
 #: src/mainwindow.cpp:3838
-#, fuzzy, kde-format
-#| msgid "Video stream %1"
+#, kde-format
 msgid "-stream-%1"
-msgstr "Video-stream %1"
+msgstr "-stream-%1"
 
 #: src/mainwindow.cpp:3871
 #, kde-format
