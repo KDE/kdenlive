@@ -1815,6 +1815,9 @@ void RenderWidget::prepareJobContextMenu(const QPoint &pos)
     QAction *newAct = new QAction(i18n("Add to current project"), this);
     connect(newAct, &QAction::triggered, [&, renderItem]() { pCore->bin()->slotAddClipToProject(QUrl::fromLocalFile(renderItem->text(1))); });
     menu.addAction(newAct);
+    QAction *openContainingFolder = new QAction(i18n("Open containing folder"), this);
+    connect(openContainingFolder, &QAction::triggered, [&, renderItem]() { KIO::highlightInFileManager({QUrl::fromLocalFile(renderItem->text(1))}); });
+    menu.addAction(openContainingFolder);
 
     menu.exec(m_view.running_jobs->mapToGlobal(pos));
 }
