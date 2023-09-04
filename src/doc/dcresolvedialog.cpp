@@ -45,7 +45,10 @@ DCResolveDialog::DCResolveDialog(std::vector<DocumentChecker::DocumentResource> 
         m_model->usePlaceholdersForMissing();
         checkStatus();
     });
-    connect(recursiveSearch, &QPushButton::clicked, this, [&]() { slotRecursiveSearch(); });
+    connect(recursiveSearch, &QPushButton::clicked, this, [&]() {
+        m_searchTimer.start();
+        slotRecursiveSearch();
+    });
 
     connect(m_model.get(), &DocumentCheckerTreeModel::searchProgress, this, [&](int current, int total) {
         setEnableChangeItems(false);
@@ -59,7 +62,7 @@ DCResolveDialog::DCResolveDialog(std::vector<DocumentChecker::DocumentResource> 
     connect(m_model.get(), &DocumentCheckerTreeModel::searchDone, this, [&]() {
         setEnableChangeItems(true);
         progressBox->hide();
-        infoLabel->setText(i18n("Recursive search: done"));
+        infoLabel->setText(i18n("Recursive search: done in %1 s", QString::number(m_searchTimer.elapsed() / 1000., 'f', 2)));
         infoLabel->setMessageType(KMessageWidget::MessageType::Positive);
         infoLabel->animatedShow();
         infoLabel->setCloseButtonVisible(true);

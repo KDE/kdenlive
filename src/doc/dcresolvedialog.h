@@ -4,6 +4,7 @@
 */
 
 #include <QDialog>
+#include <QElapsedTimer>
 #include <QSortFilterProxyModel>
 
 #include "doc/documentcheckertreemodel.h"
@@ -21,6 +22,7 @@ public:
 private:
     std::shared_ptr<DocumentCheckerTreeModel> m_model;
     std::unique_ptr<QSortFilterProxyModel> m_sortModel;
+    QElapsedTimer m_searchTimer;
 
     void slotEditCurrentItem();
     void checkStatus();
