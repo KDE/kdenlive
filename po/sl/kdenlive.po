@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-03 03:11+0000\n"
-"PO-Revision-Date: 2023-08-06 08:44+0200\n"
+"PO-Revision-Date: 2023-09-03 14:21+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -11083,13 +11083,12 @@ msgstr "Prekodirniki"
 #: src/mainwindow.cpp:3834
 #, kde-format
 msgid "-merged"
-msgstr ""
+msgstr "-spojeno"
 
 #: src/mainwindow.cpp:3837
-#, fuzzy, kde-format
-#| msgid "Video stream %1"
+#, kde-format
 msgid "-stream-%1"
-msgstr "Tok videa %1"
+msgstr "-tok-%1"
 
 #: src/mainwindow.cpp:3870
 #, kde-format
