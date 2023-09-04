@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-03 00:45+0000\n"
+"POT-Creation-Date: 2023-09-04 00:45+0000\n"
 "PO-Revision-Date: 2020-10-31 22:29+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -7208,6 +7208,12 @@ msgstr ""
 #, kde-format
 msgid "Add to current project"
 msgstr "Tilføj til aktuelt projekt"
+
+#: src/dialogs/renderwidget.cpp:1818
+#, fuzzy, kde-format
+#| msgid "Destination folder"
+msgid "Open containing folder"
+msgstr "Destinationsmappe"
 
 #: src/dialogs/speechdialog.cpp:42
 #, fuzzy, kde-format

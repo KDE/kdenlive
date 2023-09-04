@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-03 00:45+0000\n"
+"POT-Creation-Date: 2023-09-04 00:45+0000\n"
 "PO-Revision-Date: 2023-06-28 14:16+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -6804,6 +6804,12 @@ msgstr ""
 #, kde-format
 msgid "Add to current project"
 msgstr ""
+
+#: src/dialogs/renderwidget.cpp:1818
+#, fuzzy, kde-format
+#| msgid "Destination folder"
+msgid "Open containing folder"
+msgstr "Cílová složka"
 
 #: src/dialogs/speechdialog.cpp:42
 #, kde-format

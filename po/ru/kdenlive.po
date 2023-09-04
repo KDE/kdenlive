@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-03 00:45+0000\n"
+"POT-Creation-Date: 2023-09-04 00:45+0000\n"
 "PO-Revision-Date: 2023-06-30 15:26+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -7099,6 +7099,12 @@ msgstr ""
 #, kde-format
 msgid "Add to current project"
 msgstr "Добавить в текущий проект"
+
+#: src/dialogs/renderwidget.cpp:1818
+#, fuzzy, kde-format
+#| msgid "Destination folder"
+msgid "Open containing folder"
+msgstr "Папка назначения"
 
 #: src/dialogs/speechdialog.cpp:42
 #, fuzzy, kde-format

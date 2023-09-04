@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-03 00:45+0000\n"
-"PO-Revision-Date: 2023-09-01 09:25+0200\n"
+"POT-Creation-Date: 2023-09-04 00:45+0000\n"
+"PO-Revision-Date: 2023-09-03 11:24+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -7023,6 +7023,12 @@ msgstr ""
 msgid "Add to current project"
 msgstr "Dodaj trenutnemu projektu"
 
+#: src/dialogs/renderwidget.cpp:1818
+#, fuzzy, kde-format
+#| msgid "Destination folder"
+msgid "Open containing folder"
+msgstr "Ciljna mapa"
+
 #: src/dialogs/speechdialog.cpp:42
 #, kde-format
 msgid "Automatic Subtitling"
@@ -11111,7 +11117,7 @@ msgstr "Prekodirniki"
 #: src/mainwindow.cpp:3835
 #, kde-format
 msgid "-merged"
-msgstr ""
+msgstr "-spojeno"
 
 #: src/mainwindow.cpp:3838
 #, kde-format

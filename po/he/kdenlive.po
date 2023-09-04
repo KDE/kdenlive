@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-03 00:45+0000\n"
+"POT-Creation-Date: 2023-09-04 00:45+0000\n"
 "PO-Revision-Date: 2017-05-16 07:02-0400\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -7018,6 +7018,12 @@ msgstr "ערכי FFmpeg"
 #, fuzzy, kde-format
 msgid "Add to current project"
 msgstr "הוסף סרטון לפרוייקט"
+
+#: src/dialogs/renderwidget.cpp:1818
+#, fuzzy, kde-format
+#| msgid "Destination folder"
+msgid "Open containing folder"
+msgstr "תיקיית יעד"
 
 #: src/dialogs/speechdialog.cpp:42
 #, fuzzy, kde-format

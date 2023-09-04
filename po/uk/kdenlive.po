@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-03 00:45+0000\n"
-"PO-Revision-Date: 2023-09-01 09:28+0300\n"
+"POT-Creation-Date: 2023-09-04 00:45+0000\n"
+"PO-Revision-Date: 2023-09-02 09:28+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -7067,6 +7067,12 @@ msgstr ""
 msgid "Add to current project"
 msgstr "Додати до поточного проєкту"
 
+#: src/dialogs/renderwidget.cpp:1818
+#, fuzzy, kde-format
+#| msgid "Destination folder"
+msgid "Open containing folder"
+msgstr "Тека призначення"
+
 #: src/dialogs/speechdialog.cpp:42
 #, kde-format
 msgid "Automatic Subtitling"
@@ -11195,10 +11201,9 @@ msgid "Transcoders"
 msgstr "Перекодувальники"
 
 #: src/mainwindow.cpp:3835
-#, fuzzy, kde-format
-#| msgid "Merge"
+#, kde-format
 msgid "-merged"
-msgstr "Об’єднати"
+msgstr "-об'єднано"
 
 #: src/mainwindow.cpp:3838
 #, kde-format

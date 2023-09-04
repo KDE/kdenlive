@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-03 00:45+0000\n"
+"POT-Creation-Date: 2023-09-04 00:45+0000\n"
 "PO-Revision-Date: 2011-12-28 12:28-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -7318,6 +7318,12 @@ msgstr "Paraiméadair"
 #| msgid "Project"
 msgid "Add to current project"
 msgstr "Tionscadal"
+
+#: src/dialogs/renderwidget.cpp:1818
+#, fuzzy, kde-format
+#| msgid "Capture format:"
+msgid "Open containing folder"
+msgstr "Formáid ghabhála:"
 
 #: src/dialogs/speechdialog.cpp:42
 #, fuzzy, kde-format

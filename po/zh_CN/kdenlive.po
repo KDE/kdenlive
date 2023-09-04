@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-03 00:45+0000\n"
+"POT-Creation-Date: 2023-09-04 00:45+0000\n"
 "PO-Revision-Date: 2023-09-02 03:18\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -6892,6 +6892,12 @@ msgstr ""
 #, kde-format
 msgid "Add to current project"
 msgstr "添加到当前项目"
+
+#: src/dialogs/renderwidget.cpp:1818
+#, fuzzy, kde-format
+#| msgid "Destination folder"
+msgid "Open containing folder"
+msgstr "目标文件夹"
 
 #: src/dialogs/speechdialog.cpp:42
 #, kde-format
