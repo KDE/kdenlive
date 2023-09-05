@@ -15,13 +15,14 @@ class DCResolveDialog : public QDialog, public Ui::MissingClips_UI
     Q_OBJECT
 
 public:
-    explicit DCResolveDialog(std::vector<DocumentChecker::DocumentResource> items, QWidget *parent = nullptr);
+    explicit DCResolveDialog(std::vector<DocumentChecker::DocumentResource> items, const QUrl &projectUrl, QWidget *parent = nullptr);
 
     QList<DocumentChecker::DocumentResource> getItems();
 
 private:
     std::shared_ptr<DocumentCheckerTreeModel> m_model;
     std::unique_ptr<QSortFilterProxyModel> m_sortModel;
+    QUrl m_url;
     QElapsedTimer m_searchTimer;
 
     void slotEditCurrentItem();

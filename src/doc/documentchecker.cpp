@@ -86,7 +86,7 @@ bool DocumentChecker::resolveProblemsWithGUI()
         return true;
     }
 
-    DCResolveDialog *d = new DCResolveDialog(m_items);
+    DCResolveDialog *d = new DCResolveDialog(m_items, m_url);
     // d->show(getInfoMessages());
     if (d->exec() == QDialog::Rejected) {
         return false;

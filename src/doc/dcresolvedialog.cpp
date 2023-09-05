@@ -12,8 +12,9 @@
 #include <QFontDatabase>
 #include <QPointer>
 
-DCResolveDialog::DCResolveDialog(std::vector<DocumentChecker::DocumentResource> items, QWidget *parent)
+DCResolveDialog::DCResolveDialog(std::vector<DocumentChecker::DocumentResource> items, const QUrl &projectUrl, QWidget *parent)
     : QDialog(parent)
+    , m_url(projectUrl)
 {
     setupUi(this);
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
@@ -233,7 +234,7 @@ void DCResolveDialog::updateStatusLabel(int missingClips, int missingClipsWithPr
 
 void DCResolveDialog::slotRecursiveSearch()
 {
-    QString clipFolder; // = m_url.adjusted(QUrl::RemoveFilename).toLocalFile();
+    QString clipFolder = m_url.adjusted(QUrl::RemoveFilename).toLocalFile();
     const QString newpath = QFileDialog::getExistingDirectory(qApp->activeWindow(), i18nc("@title:window", "Clips Folder"), clipFolder);
     if (newpath.isEmpty()) {
         return;
