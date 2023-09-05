@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-04 00:45+0000\n"
-"PO-Revision-Date: 2023-09-02 09:28+0300\n"
+"PO-Revision-Date: 2023-09-04 09:05+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -7068,10 +7068,9 @@ msgid "Add to current project"
 msgstr "Додати до поточного проєкту"
 
 #: src/dialogs/renderwidget.cpp:1818
-#, fuzzy, kde-format
-#| msgid "Destination folder"
+#, kde-format
 msgid "Open containing folder"
-msgstr "Тека призначення"
+msgstr "Відкрити теку з даними"
 
 #: src/dialogs/speechdialog.cpp:42
 #, kde-format

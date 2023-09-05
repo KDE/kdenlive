@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-04 00:45+0000\n"
-"PO-Revision-Date: 2023-09-02 15:01+0100\n"
+"PO-Revision-Date: 2023-09-04 20:29+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -6985,10 +6985,9 @@ msgid "Add to current project"
 msgstr "Aldoni al nuna projekto"
 
 #: src/dialogs/renderwidget.cpp:1818
-#, fuzzy, kde-format
-#| msgid "Destination folder"
+#, kde-format
 msgid "Open containing folder"
-msgstr "Destina dosierujo"
+msgstr "Malfermi enhavantan dosierujon"
 
 #: src/dialogs/speechdialog.cpp:42
 #, kde-format
@@ -8748,7 +8747,7 @@ msgstr "Rapida Ŝanĝo"
 #: src/jobs/speedtask.cpp:59
 #, kde-format
 msgid "Destination Folder"
-msgstr "Destina Dosierujo"
+msgstr "Cela Dosierujo"
 
 #: src/jobs/speedtask.cpp:63
 #, kde-format
@@ -12691,7 +12690,7 @@ msgstr[1] "Aldoni tondaĵojn al projekto"
 #: src/project/cliptranscode.cpp:59
 #, kde-format
 msgid "Destination folder"
-msgstr "Destina dosierujo"
+msgstr "Cela dosierujo"
 
 #: src/project/cliptranscode.cpp:151
 #, kde-format

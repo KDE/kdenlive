@@ -3,21 +3,21 @@
 #
 # Michiel Zandbelt <mmzandbelt@gmail.com>, 2008, 2009.
 # Valenstijn <Valenstyn@gmail.com>, 2010.
-# Freek de Kruijf <freekdekruijf@kde.nl>, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
+# SPDX-FileCopyrightText: 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023 Freek de Kruijf <freekdekruijf@kde.nl>
 # Ronald Stroethoff <stroet43@zonnet.nl>, 2010, 2011, 2012, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-04 00:45+0000\n"
-"PO-Revision-Date: 2023-09-02 11:38+0200\n"
+"PO-Revision-Date: 2023-09-04 11:38+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
-"Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
+"Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 23.04.3\n"
+"X-Generator: Lokalize 23.08.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -7033,10 +7033,9 @@ msgid "Add to current project"
 msgstr "Aan huidig project toevoegen"
 
 #: src/dialogs/renderwidget.cpp:1818
-#, fuzzy, kde-format
-#| msgid "Destination folder"
+#, kde-format
 msgid "Open containing folder"
-msgstr "Doel map"
+msgstr "Map openen waarin het zich bevindt"
 
 #: src/dialogs/speechdialog.cpp:42
 #, kde-format
