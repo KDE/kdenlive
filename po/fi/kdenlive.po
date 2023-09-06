@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-04 00:45+0000\n"
+"POT-Creation-Date: 2023-09-06 00:45+0000\n"
 "PO-Revision-Date: 2023-06-07 21:36+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -7615,34 +7615,34 @@ msgstr "Laittepohjaista koodereia ei löytynyt."
 msgid "hardware encoders found and enabled (%1)."
 msgstr "VAAPI-laitteistokooderit löydetty ja otettu käyttöön."
 
-#: src/doc/dcresolvedialog.cpp:53
+#: src/doc/dcresolvedialog.cpp:57
 #, kde-format
 msgid "Recursive search: processing clips"
 msgstr ""
 
-#: src/doc/dcresolvedialog.cpp:62
+#: src/doc/dcresolvedialog.cpp:66
 #, fuzzy, kde-format
 #| msgid "Search done"
-msgid "Recursive search: done"
+msgid "Recursive search: done in %1 s"
 msgstr "Haku tehty"
 
-#: src/doc/dcresolvedialog.cpp:145
+#: src/doc/dcresolvedialog.cpp:149
 #, kde-format
 msgid "Enter new location for folder"
 msgstr "Anna kansion uusi sijainti"
 
-#: src/doc/dcresolvedialog.cpp:156
+#: src/doc/dcresolvedialog.cpp:160
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Anna tiedoston uusi sijainti"
 
-#: src/doc/dcresolvedialog.cpp:190
+#: src/doc/dcresolvedialog.cpp:194
 #, fuzzy, kde-format
 #| msgid "The project file contains missing clips or files."
 msgid "The project contains:"
 msgstr "Projektitiedostosta puuttuu leikkeitä tai tiedostoja"
 
-#: src/doc/dcresolvedialog.cpp:196
+#: src/doc/dcresolvedialog.cpp:200
 #, fuzzy, kde-format
 #| msgid "Check missing clips"
 msgid "One missing clip"
@@ -7650,7 +7650,7 @@ msgid_plural "%1 missing clips"
 msgstr[0] "Tarkista puuttuvat leikkeet"
 msgstr[1] "Tarkista puuttuvat leikkeet"
 
-#: src/doc/dcresolvedialog.cpp:199
+#: src/doc/dcresolvedialog.cpp:203
 #, fuzzy, kde-format
 #| msgid "Delete missing elements"
 msgid "One missing source with available proxy"
@@ -7658,7 +7658,7 @@ msgid_plural "%1 missing sources with available proxy"
 msgstr[0] "Poista puuttuvat elementit"
 msgstr[1] "Poista puuttuvat elementit"
 
-#: src/doc/dcresolvedialog.cpp:202
+#: src/doc/dcresolvedialog.cpp:206
 #, fuzzy, kde-format
 #| msgid "Use placeholders for missing clips"
 msgid "One placeholder clip"
@@ -7666,7 +7666,7 @@ msgid_plural "%1 placeholder clips"
 msgstr[0] "Käytä tilanvaraajia puuttuville leikkeille"
 msgstr[1] "Käytä tilanvaraajia puuttuville leikkeille"
 
-#: src/doc/dcresolvedialog.cpp:205
+#: src/doc/dcresolvedialog.cpp:209
 #, fuzzy, kde-format
 #| msgid "Remove clips"
 msgid "One removed clip"
@@ -7674,7 +7674,7 @@ msgid_plural "%1 removed clips"
 msgstr[0] "Poista leikkeet"
 msgstr[1] "Poista leikkeet"
 
-#: src/doc/dcresolvedialog.cpp:214
+#: src/doc/dcresolvedialog.cpp:218
 #, fuzzy, kde-format
 #| msgid "Delete missing elements"
 msgid "One missing proxy"
@@ -7682,14 +7682,14 @@ msgid_plural "%1 missing proxies"
 msgstr[0] "Poista puuttuvat elementit"
 msgstr[1] "Poista puuttuvat elementit"
 
-#: src/doc/dcresolvedialog.cpp:217
+#: src/doc/dcresolvedialog.cpp:221
 #, kde-format
 msgid "One proxy can be recovered"
 msgid_plural "%1 proxies can be recovered"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/doc/dcresolvedialog.cpp:234
+#: src/doc/dcresolvedialog.cpp:238
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"

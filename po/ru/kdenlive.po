@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-04 00:45+0000\n"
+"POT-Creation-Date: 2023-09-06 00:45+0000\n"
 "PO-Revision-Date: 2023-06-30 15:26+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -7748,34 +7748,34 @@ msgstr "Аппаратные кодировщики не были найдены
 msgid "hardware encoders found and enabled (%1)."
 msgstr "Найдены и включены аппаратные кодировщики VAAPI."
 
-#: src/doc/dcresolvedialog.cpp:53
+#: src/doc/dcresolvedialog.cpp:57
 #, kde-format
 msgid "Recursive search: processing clips"
 msgstr ""
 
-#: src/doc/dcresolvedialog.cpp:62
+#: src/doc/dcresolvedialog.cpp:66
 #, fuzzy, kde-format
 #| msgid "Search done"
-msgid "Recursive search: done"
+msgid "Recursive search: done in %1 s"
 msgstr "Поиск завершён"
 
-#: src/doc/dcresolvedialog.cpp:145
+#: src/doc/dcresolvedialog.cpp:149
 #, kde-format
 msgid "Enter new location for folder"
 msgstr "Укажите новый адрес папки"
 
-#: src/doc/dcresolvedialog.cpp:156
+#: src/doc/dcresolvedialog.cpp:160
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Укажите новое расположение файла"
 
-#: src/doc/dcresolvedialog.cpp:190
+#: src/doc/dcresolvedialog.cpp:194
 #, fuzzy, kde-format
 #| msgid "The project file contains missing clips or files."
 msgid "The project contains:"
 msgstr "Файл проекта ссылается на потерянные клипы или файлы."
 
-#: src/doc/dcresolvedialog.cpp:196
+#: src/doc/dcresolvedialog.cpp:200
 #, fuzzy, kde-format
 #| msgid "Check missing clips"
 msgid "One missing clip"
@@ -7785,7 +7785,7 @@ msgstr[1] "Проверить наличие клипов"
 msgstr[2] "Проверить наличие клипов"
 msgstr[3] "Проверить наличие клипов"
 
-#: src/doc/dcresolvedialog.cpp:199
+#: src/doc/dcresolvedialog.cpp:203
 #, fuzzy, kde-format
 #| msgid "Delete missing elements"
 msgid "One missing source with available proxy"
@@ -7795,7 +7795,7 @@ msgstr[1] "Удалить потерянные элементы"
 msgstr[2] "Удалить потерянные элементы"
 msgstr[3] "Удалить потерянные элементы"
 
-#: src/doc/dcresolvedialog.cpp:202
+#: src/doc/dcresolvedialog.cpp:206
 #, fuzzy, kde-format
 #| msgid "Use placeholders for missing clips"
 msgid "One placeholder clip"
@@ -7805,7 +7805,7 @@ msgstr[1] "Использовать заполнители вместо поте
 msgstr[2] "Использовать заполнители вместо потерянных клипов"
 msgstr[3] "Использовать заполнители вместо потерянных клипов"
 
-#: src/doc/dcresolvedialog.cpp:205
+#: src/doc/dcresolvedialog.cpp:209
 #, fuzzy, kde-format
 #| msgid "Remove clips"
 msgid "One removed clip"
@@ -7815,7 +7815,7 @@ msgstr[1] "Удалить клипы"
 msgstr[2] "Удалить клипы"
 msgstr[3] "Удалить клипы"
 
-#: src/doc/dcresolvedialog.cpp:214
+#: src/doc/dcresolvedialog.cpp:218
 #, fuzzy, kde-format
 #| msgid "Delete missing elements"
 msgid "One missing proxy"
@@ -7825,7 +7825,7 @@ msgstr[1] "Удалить потерянные элементы"
 msgstr[2] "Удалить потерянные элементы"
 msgstr[3] "Удалить потерянные элементы"
 
-#: src/doc/dcresolvedialog.cpp:217
+#: src/doc/dcresolvedialog.cpp:221
 #, kde-format
 msgid "One proxy can be recovered"
 msgid_plural "%1 proxies can be recovered"
@@ -7834,7 +7834,7 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: src/doc/dcresolvedialog.cpp:234
+#: src/doc/dcresolvedialog.cpp:238
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"

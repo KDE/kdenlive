@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-04 00:45+0000\n"
+"POT-Creation-Date: 2023-09-06 00:45+0000\n"
 "PO-Revision-Date: 2023-09-02 03:18\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -7507,68 +7507,69 @@ msgstr "未找到硬件编码器。"
 msgid "hardware encoders found and enabled (%1)."
 msgstr "已发现并启用了硬件编码器 (%1)。"
 
-#: src/doc/dcresolvedialog.cpp:53
+#: src/doc/dcresolvedialog.cpp:57
 #, kde-format
 msgid "Recursive search: processing clips"
 msgstr "递归搜索：正在处理剪辑"
 
-#: src/doc/dcresolvedialog.cpp:62
-#, kde-format
-msgid "Recursive search: done"
+#: src/doc/dcresolvedialog.cpp:66
+#, fuzzy, kde-format
+#| msgid "Recursive search: done"
+msgid "Recursive search: done in %1 s"
 msgstr "递归搜索：完成"
 
-#: src/doc/dcresolvedialog.cpp:145
+#: src/doc/dcresolvedialog.cpp:149
 #, kde-format
 msgid "Enter new location for folder"
 msgstr "输入文件夹的新位置"
 
-#: src/doc/dcresolvedialog.cpp:156
+#: src/doc/dcresolvedialog.cpp:160
 #, kde-format
 msgid "Enter new location for file"
 msgstr "输入文件的新位置"
 
-#: src/doc/dcresolvedialog.cpp:190
+#: src/doc/dcresolvedialog.cpp:194
 #, kde-format
 msgid "The project contains:"
 msgstr "该项目包括："
 
-#: src/doc/dcresolvedialog.cpp:196
+#: src/doc/dcresolvedialog.cpp:200
 #, kde-format
 msgid "One missing clip"
 msgid_plural "%1 missing clips"
 msgstr[0] "%1 个缺少的剪辑"
 
-#: src/doc/dcresolvedialog.cpp:199
+#: src/doc/dcresolvedialog.cpp:203
 #, kde-format
 msgid "One missing source with available proxy"
 msgid_plural "%1 missing sources with available proxy"
 msgstr[0] "%1 个缺少来源 (有可用的代理剪辑)"
 
-#: src/doc/dcresolvedialog.cpp:202
+#: src/doc/dcresolvedialog.cpp:206
 #, kde-format
 msgid "One placeholder clip"
 msgid_plural "%1 placeholder clips"
 msgstr[0] "%1 个占位符剪辑"
 
-#: src/doc/dcresolvedialog.cpp:205
+#: src/doc/dcresolvedialog.cpp:209
 #, kde-format
 msgid "One removed clip"
 msgid_plural "%1 removed clips"
 msgstr[0] "%1 个已移除的剪辑"
 
-#: src/doc/dcresolvedialog.cpp:214
+#: src/doc/dcresolvedialog.cpp:218
 #, kde-format
 msgid "One missing proxy"
 msgid_plural "%1 missing proxies"
 msgstr[0] "%1 个缺少的代理剪辑"
 
-#: src/doc/dcresolvedialog.cpp:217
+#: src/doc/dcresolvedialog.cpp:221
 #, kde-format
 msgid "One proxy can be recovered"
 msgid_plural "%1 proxies can be recovered"
 msgstr[0] "%1 个可被恢复的代理剪辑"
 
-#: src/doc/dcresolvedialog.cpp:234
+#: src/doc/dcresolvedialog.cpp:238
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"

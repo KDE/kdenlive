@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-04 00:45+0000\n"
+"POT-Creation-Date: 2023-09-06 00:45+0000\n"
 "PO-Revision-Date: 2023-08-26 23:07+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -7725,74 +7725,75 @@ msgstr "Nessun codificatore hardware trovato."
 msgid "hardware encoders found and enabled (%1)."
 msgstr "codificatori hardware trovati ed abilitati (%1)."
 
-#: src/doc/dcresolvedialog.cpp:53
+#: src/doc/dcresolvedialog.cpp:57
 #, kde-format
 msgid "Recursive search: processing clips"
 msgstr "Ricerca ricorsiva: elaborazione delle clip"
 
-#: src/doc/dcresolvedialog.cpp:62
-#, kde-format
-msgid "Recursive search: done"
+#: src/doc/dcresolvedialog.cpp:66
+#, fuzzy, kde-format
+#| msgid "Recursive search: done"
+msgid "Recursive search: done in %1 s"
 msgstr "Ricerca ricorsiva: completata"
 
-#: src/doc/dcresolvedialog.cpp:145
+#: src/doc/dcresolvedialog.cpp:149
 #, kde-format
 msgid "Enter new location for folder"
 msgstr "Inserisci una nuova posizione per la cartella"
 
-#: src/doc/dcresolvedialog.cpp:156
+#: src/doc/dcresolvedialog.cpp:160
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Imposta una nuova posizione per il file"
 
-#: src/doc/dcresolvedialog.cpp:190
+#: src/doc/dcresolvedialog.cpp:194
 #, kde-format
 msgid "The project contains:"
 msgstr "Il progetto contiene:"
 
-#: src/doc/dcresolvedialog.cpp:196
+#: src/doc/dcresolvedialog.cpp:200
 #, kde-format
 msgid "One missing clip"
 msgid_plural "%1 missing clips"
 msgstr[0] "Una clip mancante"
 msgstr[1] "%1 clip mancanti"
 
-#: src/doc/dcresolvedialog.cpp:199
+#: src/doc/dcresolvedialog.cpp:203
 #, kde-format
 msgid "One missing source with available proxy"
 msgid_plural "%1 missing sources with available proxy"
 msgstr[0] "Una fonte mancante con clip rappresentativa disponibile"
 msgstr[1] "%1 fonti mancanti con clip rappresentativa disponibile"
 
-#: src/doc/dcresolvedialog.cpp:202
+#: src/doc/dcresolvedialog.cpp:206
 #, kde-format
 msgid "One placeholder clip"
 msgid_plural "%1 placeholder clips"
 msgstr[0] "Una clip segnaposto"
 msgstr[1] "%1 clip segnaposto"
 
-#: src/doc/dcresolvedialog.cpp:205
+#: src/doc/dcresolvedialog.cpp:209
 #, kde-format
 msgid "One removed clip"
 msgid_plural "%1 removed clips"
 msgstr[0] "Una clip rimossa"
 msgstr[1] "%1 clip rimosse"
 
-#: src/doc/dcresolvedialog.cpp:214
+#: src/doc/dcresolvedialog.cpp:218
 #, kde-format
 msgid "One missing proxy"
 msgid_plural "%1 missing proxies"
 msgstr[0] "Una clip rappresentativa mancante"
 msgstr[1] "%1 clip rappresentative mancanti"
 
-#: src/doc/dcresolvedialog.cpp:217
+#: src/doc/dcresolvedialog.cpp:221
 #, kde-format
 msgid "One proxy can be recovered"
 msgid_plural "%1 proxies can be recovered"
 msgstr[0] "Una clip rappresentativa può essere recuperata"
 msgstr[1] "%1 clip rappresentative possono essere recuperate"
 
-#: src/doc/dcresolvedialog.cpp:234
+#: src/doc/dcresolvedialog.cpp:238
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"

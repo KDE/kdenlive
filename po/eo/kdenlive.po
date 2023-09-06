@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-04 00:45+0000\n"
+"POT-Creation-Date: 2023-09-06 00:45+0000\n"
 "PO-Revision-Date: 2023-09-04 20:29+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
@@ -7620,74 +7620,75 @@ msgstr "Neniuj aparataj kodiloj trovitaj."
 msgid "hardware encoders found and enabled (%1)."
 msgstr "aparataj kodiloj trovitaj kaj ebligitaj (%1)."
 
-#: src/doc/dcresolvedialog.cpp:53
+#: src/doc/dcresolvedialog.cpp:57
 #, kde-format
 msgid "Recursive search: processing clips"
 msgstr "Rekursia serĉo: prilaborante tondaĵojn"
 
-#: src/doc/dcresolvedialog.cpp:62
-#, kde-format
-msgid "Recursive search: done"
+#: src/doc/dcresolvedialog.cpp:66
+#, fuzzy, kde-format
+#| msgid "Recursive search: done"
+msgid "Recursive search: done in %1 s"
 msgstr "Rikura serĉo: farita"
 
-#: src/doc/dcresolvedialog.cpp:145
+#: src/doc/dcresolvedialog.cpp:149
 #, kde-format
 msgid "Enter new location for folder"
 msgstr "Enigu novan lokon por dosierujo"
 
-#: src/doc/dcresolvedialog.cpp:156
+#: src/doc/dcresolvedialog.cpp:160
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Enigu novan lokon por dosiero"
 
-#: src/doc/dcresolvedialog.cpp:190
+#: src/doc/dcresolvedialog.cpp:194
 #, kde-format
 msgid "The project contains:"
 msgstr "La projekto enhavas:"
 
-#: src/doc/dcresolvedialog.cpp:196
+#: src/doc/dcresolvedialog.cpp:200
 #, kde-format
 msgid "One missing clip"
 msgid_plural "%1 missing clips"
 msgstr[0] "Unu mankantan tondaĵon"
 msgstr[1] "%1 mankantajn tondaĵojn"
 
-#: src/doc/dcresolvedialog.cpp:199
+#: src/doc/dcresolvedialog.cpp:203
 #, kde-format
 msgid "One missing source with available proxy"
 msgid_plural "%1 missing sources with available proxy"
 msgstr[0] "Unu mankanta fonto kun prokurilo disponebla"
 msgstr[1] "%1 mankantaj fontoj kun prokurilo disponebla"
 
-#: src/doc/dcresolvedialog.cpp:202
+#: src/doc/dcresolvedialog.cpp:206
 #, kde-format
 msgid "One placeholder clip"
 msgid_plural "%1 placeholder clips"
 msgstr[0] "Unu lokokupan tondaĵon"
 msgstr[1] "%1 lokokupajn tondaĵojn"
 
-#: src/doc/dcresolvedialog.cpp:205
+#: src/doc/dcresolvedialog.cpp:209
 #, kde-format
 msgid "One removed clip"
 msgid_plural "%1 removed clips"
 msgstr[0] "Unu forigitan tondaĵon"
 msgstr[1] "%1 forigitajn tondaĵojn"
 
-#: src/doc/dcresolvedialog.cpp:214
+#: src/doc/dcresolvedialog.cpp:218
 #, kde-format
 msgid "One missing proxy"
 msgid_plural "%1 missing proxies"
 msgstr[0] "Unu mankantan prokurilon"
 msgstr[1] "%1 mankantajn prokurilojn"
 
-#: src/doc/dcresolvedialog.cpp:217
+#: src/doc/dcresolvedialog.cpp:221
 #, kde-format
 msgid "One proxy can be recovered"
 msgid_plural "%1 proxies can be recovered"
 msgstr[0] "Unu prokurilo povas esti rekuperata"
 msgstr[1] "%1 prokuriloj povas esti rekuperataj"
 
-#: src/doc/dcresolvedialog.cpp:234
+#: src/doc/dcresolvedialog.cpp:238
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"

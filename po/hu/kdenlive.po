@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-04 00:45+0000\n"
+"POT-Creation-Date: 2023-09-06 00:45+0000\n"
 "PO-Revision-Date: 2014-12-09 21:11+0100\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -8030,35 +8030,35 @@ msgstr ""
 msgid "hardware encoders found and enabled (%1)."
 msgstr ""
 
-#: src/doc/dcresolvedialog.cpp:53
+#: src/doc/dcresolvedialog.cpp:57
 #, kde-format
 msgid "Recursive search: processing clips"
 msgstr ""
 
-#: src/doc/dcresolvedialog.cpp:62
+#: src/doc/dcresolvedialog.cpp:66
 #, fuzzy, kde-format
 #| msgid "Search"
-msgid "Recursive search: done"
+msgid "Recursive search: done in %1 s"
 msgstr "Keresés"
 
-#: src/doc/dcresolvedialog.cpp:145
+#: src/doc/dcresolvedialog.cpp:149
 #, fuzzy, kde-format
 #| msgid "Enter new location for file"
 msgid "Enter new location for folder"
 msgstr "Kérem adja meg a fájl új helyét"
 
-#: src/doc/dcresolvedialog.cpp:156
+#: src/doc/dcresolvedialog.cpp:160
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Kérem adja meg a fájl új helyét"
 
-#: src/doc/dcresolvedialog.cpp:190
+#: src/doc/dcresolvedialog.cpp:194
 #, fuzzy, kde-format
 #| msgid "The project file contains missing clips or files"
 msgid "The project contains:"
 msgstr "A projektfájl hiányzó klipeket vagy fájlokat tartalmaz"
 
-#: src/doc/dcresolvedialog.cpp:196
+#: src/doc/dcresolvedialog.cpp:200
 #, fuzzy, kde-format
 #| msgid "Check missing clips"
 msgid "One missing clip"
@@ -8066,7 +8066,7 @@ msgid_plural "%1 missing clips"
 msgstr[0] "Hiányzó klipek ellenőrzése"
 msgstr[1] "Hiányzó klipek ellenőrzése"
 
-#: src/doc/dcresolvedialog.cpp:199
+#: src/doc/dcresolvedialog.cpp:203
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "One missing source with available proxy"
@@ -8074,7 +8074,7 @@ msgid_plural "%1 missing sources with available proxy"
 msgstr[0] "Kiválasztott elemek törlése"
 msgstr[1] "Kiválasztott elemek törlése"
 
-#: src/doc/dcresolvedialog.cpp:202
+#: src/doc/dcresolvedialog.cpp:206
 #, fuzzy, kde-format
 #| msgid "Use placeholders for missing clips"
 msgid "One placeholder clip"
@@ -8082,7 +8082,7 @@ msgid_plural "%1 placeholder clips"
 msgstr[0] "Helykitöltők használata a hiányzó klipekhez"
 msgstr[1] "Helykitöltők használata a hiányzó klipekhez"
 
-#: src/doc/dcresolvedialog.cpp:205
+#: src/doc/dcresolvedialog.cpp:209
 #, fuzzy, kde-format
 #| msgid "Remove clips"
 msgid "One removed clip"
@@ -8090,7 +8090,7 @@ msgid_plural "%1 removed clips"
 msgstr[0] "Klipek eltávolítása"
 msgstr[1] "Klipek eltávolítása"
 
-#: src/doc/dcresolvedialog.cpp:214
+#: src/doc/dcresolvedialog.cpp:218
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "One missing proxy"
@@ -8098,14 +8098,14 @@ msgid_plural "%1 missing proxies"
 msgstr[0] "Kiválasztott elemek törlése"
 msgstr[1] "Kiválasztott elemek törlése"
 
-#: src/doc/dcresolvedialog.cpp:217
+#: src/doc/dcresolvedialog.cpp:221
 #, kde-format
 msgid "One proxy can be recovered"
 msgid_plural "%1 proxies can be recovered"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/doc/dcresolvedialog.cpp:234
+#: src/doc/dcresolvedialog.cpp:238
 #, fuzzy, kde-format
 #| msgid "Clips folder"
 msgctxt "@title:window"

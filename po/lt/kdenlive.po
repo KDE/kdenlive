@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l 10n\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-04 00:45+0000\n"
+"POT-Creation-Date: 2023-09-06 00:45+0000\n"
 "PO-Revision-Date: 2019-07-12 21:09+0300\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -7926,34 +7926,34 @@ msgstr ""
 msgid "hardware encoders found and enabled (%1)."
 msgstr ""
 
-#: src/doc/dcresolvedialog.cpp:53
+#: src/doc/dcresolvedialog.cpp:57
 #, kde-format
 msgid "Recursive search: processing clips"
 msgstr ""
 
-#: src/doc/dcresolvedialog.cpp:62
+#: src/doc/dcresolvedialog.cpp:66
 #, fuzzy, kde-format
 #| msgid "Search"
-msgid "Recursive search: done"
+msgid "Recursive search: done in %1 s"
 msgstr "Ieškoti"
 
-#: src/doc/dcresolvedialog.cpp:145
+#: src/doc/dcresolvedialog.cpp:149
 #, kde-format
 msgid "Enter new location for folder"
 msgstr ""
 
-#: src/doc/dcresolvedialog.cpp:156
+#: src/doc/dcresolvedialog.cpp:160
 #, kde-format
 msgid "Enter new location for file"
 msgstr ""
 
-#: src/doc/dcresolvedialog.cpp:190
+#: src/doc/dcresolvedialog.cpp:194
 #, fuzzy, kde-format
 #| msgid "Video Resolution"
 msgid "The project contains:"
 msgstr "Video skiriamoji geba"
 
-#: src/doc/dcresolvedialog.cpp:196
+#: src/doc/dcresolvedialog.cpp:200
 #, fuzzy, kde-format
 #| msgid "Analyse"
 msgid "One missing clip"
@@ -7963,7 +7963,7 @@ msgstr[1] "Analizuoti"
 msgstr[2] "Analizuoti"
 msgstr[3] "Analizuoti"
 
-#: src/doc/dcresolvedialog.cpp:199
+#: src/doc/dcresolvedialog.cpp:203
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "One missing source with available proxy"
@@ -7973,7 +7973,7 @@ msgstr[1] "Pašalinti pažymėtus elementus"
 msgstr[2] "Pašalinti pažymėtus elementus"
 msgstr[3] "Pašalinti pažymėtus elementus"
 
-#: src/doc/dcresolvedialog.cpp:202
+#: src/doc/dcresolvedialog.cpp:206
 #, fuzzy, kde-format
 #| msgid "Use as default"
 msgid "One placeholder clip"
@@ -7983,7 +7983,7 @@ msgstr[1] "Naudoti kaip numatytąjį"
 msgstr[2] "Naudoti kaip numatytąjį"
 msgstr[3] "Naudoti kaip numatytąjį"
 
-#: src/doc/dcresolvedialog.cpp:205
+#: src/doc/dcresolvedialog.cpp:209
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "One removed clip"
@@ -7993,7 +7993,7 @@ msgstr[1] "Negaliu sukurti laikinos bylos!"
 msgstr[2] "Negaliu sukurti laikinos bylos!"
 msgstr[3] "Negaliu sukurti laikinos bylos!"
 
-#: src/doc/dcresolvedialog.cpp:214
+#: src/doc/dcresolvedialog.cpp:218
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "One missing proxy"
@@ -8003,7 +8003,7 @@ msgstr[1] "Pašalinti pažymėtus elementus"
 msgstr[2] "Pašalinti pažymėtus elementus"
 msgstr[3] "Pašalinti pažymėtus elementus"
 
-#: src/doc/dcresolvedialog.cpp:217
+#: src/doc/dcresolvedialog.cpp:221
 #, kde-format
 msgid "One proxy can be recovered"
 msgid_plural "%1 proxies can be recovered"
@@ -8012,7 +8012,7 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: src/doc/dcresolvedialog.cpp:234
+#: src/doc/dcresolvedialog.cpp:238
 #, fuzzy, kde-format
 #| msgid "Add folder"
 msgctxt "@title:window"

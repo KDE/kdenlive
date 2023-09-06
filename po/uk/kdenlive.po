@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-04 00:45+0000\n"
+"POT-Creation-Date: 2023-09-06 00:45+0000\n"
 "PO-Revision-Date: 2023-09-04 09:05+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -7719,32 +7719,33 @@ msgstr "Не знайдено апаратних засобів кодуванн
 msgid "hardware encoders found and enabled (%1)."
 msgstr "Апаратні засоби кодування виявлено і увімкнено (%1)."
 
-#: src/doc/dcresolvedialog.cpp:53
+#: src/doc/dcresolvedialog.cpp:57
 #, kde-format
 msgid "Recursive search: processing clips"
 msgstr "Рекурсивний пошук: обробляємо кліпи"
 
-#: src/doc/dcresolvedialog.cpp:62
-#, kde-format
-msgid "Recursive search: done"
+#: src/doc/dcresolvedialog.cpp:66
+#, fuzzy, kde-format
+#| msgid "Recursive search: done"
+msgid "Recursive search: done in %1 s"
 msgstr "Рекурсивний пошук: виконано"
 
-#: src/doc/dcresolvedialog.cpp:145
+#: src/doc/dcresolvedialog.cpp:149
 #, kde-format
 msgid "Enter new location for folder"
 msgstr "Введіть нову адресу теки"
 
-#: src/doc/dcresolvedialog.cpp:156
+#: src/doc/dcresolvedialog.cpp:160
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Введіть нову адресу файла"
 
-#: src/doc/dcresolvedialog.cpp:190
+#: src/doc/dcresolvedialog.cpp:194
 #, kde-format
 msgid "The project contains:"
 msgstr "У проєкті міститься:"
 
-#: src/doc/dcresolvedialog.cpp:196
+#: src/doc/dcresolvedialog.cpp:200
 #, kde-format
 msgid "One missing clip"
 msgid_plural "%1 missing clips"
@@ -7753,7 +7754,7 @@ msgstr[1] "%1 пропущені кліпи"
 msgstr[2] "%1 пропущених кліпів"
 msgstr[3] "один пропущений кліп"
 
-#: src/doc/dcresolvedialog.cpp:199
+#: src/doc/dcresolvedialog.cpp:203
 #, kde-format
 msgid "One missing source with available proxy"
 msgid_plural "%1 missing sources with available proxy"
@@ -7762,7 +7763,7 @@ msgstr[1] "%1 пропущені початкові кліпи із доступ
 msgstr[2] "%1 пропущених початкових кліпів із доступними проміжними кліпами"
 msgstr[3] "один пропущений початковий кліп із доступним проміжним кліпом"
 
-#: src/doc/dcresolvedialog.cpp:202
+#: src/doc/dcresolvedialog.cpp:206
 #, kde-format
 msgid "One placeholder clip"
 msgid_plural "%1 placeholder clips"
@@ -7771,7 +7772,7 @@ msgstr[1] "%1 кліпи-замінники"
 msgstr[2] "%1 кліпів-замінників"
 msgstr[3] "один кліп-замінник"
 
-#: src/doc/dcresolvedialog.cpp:205
+#: src/doc/dcresolvedialog.cpp:209
 #, kde-format
 msgid "One removed clip"
 msgid_plural "%1 removed clips"
@@ -7780,7 +7781,7 @@ msgstr[1] "%1 вилучені кліпи"
 msgstr[2] "%1 вилучених кліпів"
 msgstr[3] "один вилучений кліп"
 
-#: src/doc/dcresolvedialog.cpp:214
+#: src/doc/dcresolvedialog.cpp:218
 #, kde-format
 msgid "One missing proxy"
 msgid_plural "%1 missing proxies"
@@ -7789,7 +7790,7 @@ msgstr[1] "%1 пропущені проміжні кліпи"
 msgstr[2] "%1 пропущених проміжних кліпів"
 msgstr[3] "один пропущений проміжний кліп"
 
-#: src/doc/dcresolvedialog.cpp:217
+#: src/doc/dcresolvedialog.cpp:221
 #, kde-format
 msgid "One proxy can be recovered"
 msgid_plural "%1 proxies can be recovered"
@@ -7798,7 +7799,7 @@ msgstr[1] "Можна відновити %1 проміжні кліпи"
 msgstr[2] "Можна відновити %1 проміжних кліпів"
 msgstr[3] "Можна відновити один проміжний кліп"
 
-#: src/doc/dcresolvedialog.cpp:234
+#: src/doc/dcresolvedialog.cpp:238
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"
