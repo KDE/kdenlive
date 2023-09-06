@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-03 03:11+0000\n"
-"PO-Revision-Date: 2023-07-26 06:28+0200\n"
+"PO-Revision-Date: 2023-09-05 06:20+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -78,7 +78,7 @@ msgstr "გრაფიკის ტიპი"
 #: data/effects/audiolevelgraph.xml:10
 #, kde-format
 msgid "The type of graph to display the levels."
-msgstr ""
+msgstr "დონეების საჩვენებელი გრაფიკების ტიპი."
 
 #: data/effects/audiolevelgraph.xml:13 data/effects/audiospectrum.xml:14
 #: data/effects/audiowaveform.xml:7 data/effects/dynamictext.xml:23
@@ -215,7 +215,7 @@ msgstr "სეგმენტებს შორის დაცილება"
 #: data/effects/audiolevelgraph.xml:59
 #, kde-format
 msgid "The space in pixels between the segments."
-msgstr ""
+msgstr "ადგილი სეგმენტებს შორის, პიქსელებში."
 
 #: data/effects/audiomap.xml:4 data/effects/audiomap.xml:5
 #, kde-format
@@ -310,7 +310,7 @@ msgstr "ხაზი, ზოლი"
 #: data/effects/audiospectrum.xml:11
 #, kde-format
 msgid "The type of graph to display the spectrum."
-msgstr ""
+msgstr "აირჩიეთ სპექტრის საჩვენებელი გრაფიკის ტიპი."
 
 #: data/effects/audiospectrum.xml:15
 #, kde-format
@@ -2274,7 +2274,7 @@ msgstr "სიზუსტე"
 #: data/effects/vidstab.xml:9
 #, kde-format
 msgid "Accuracy of Shakiness detection"
-msgstr ""
+msgstr "კანკალის აღმოჩენის სიზუსტე"
 
 #: data/effects/vidstab.xml:12
 #, kde-format
@@ -2284,7 +2284,7 @@ msgstr "კანკალი"
 #: data/effects/vidstab.xml:13
 #, kde-format
 msgid "How shaky is the Video"
-msgstr ""
+msgstr "რა ძალიან კანკალებს ვიდეო"
 
 #: data/effects/vidstab.xml:16
 #, kde-format
@@ -3891,7 +3891,7 @@ msgstr ""
 #: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:993
 #, kde-format
 msgid "Master"
-msgstr ""
+msgstr "მთავარი"
 
 #: src/audiomixer/mixerwidget.cpp:116
 #, kde-format
@@ -10596,16 +10596,14 @@ msgid "Transcoders"
 msgstr ""
 
 #: src/mainwindow.cpp:3834
-#, fuzzy, kde-format
-#| msgid "Merge"
+#, kde-format
 msgid "-merged"
-msgstr "შერწყმა"
+msgstr "-შერწყმული"
 
 #: src/mainwindow.cpp:3837
-#, fuzzy, kde-format
-#| msgid "Video stream %1"
+#, kde-format
 msgid "-stream-%1"
-msgstr "ვიდეო ნაკადი %1"
+msgstr "-ვიდეო ნაკადი-%1"
 
 #: src/mainwindow.cpp:3870
 #, kde-format
@@ -12285,13 +12283,13 @@ msgstr ""
 #: src/project/dialogs/archivewidget.cpp:295
 #, kde-format
 msgid "Extract to"
-msgstr ""
+msgstr "გაშლა"
 
 #: src/project/dialogs/archivewidget.cpp:296
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Archived Project"
-msgstr ""
+msgstr "დაარქივებული პროექტის გახსნა"
 
 #: src/project/dialogs/archivewidget.cpp:298
 #, kde-format
@@ -12301,7 +12299,7 @@ msgstr "გაშლა"
 #: src/project/dialogs/archivewidget.cpp:337
 #, kde-format
 msgid "Opening archive…"
-msgstr ""
+msgstr "არქივის გახსნა…"
 
 #: src/project/dialogs/archivewidget.cpp:347
 #, kde-format
@@ -12309,6 +12307,8 @@ msgid ""
 "Cannot open archive file:\n"
 " %1"
 msgstr ""
+"არქივის ფაილის გახსნის შეცდომა:\n"
+"%1"
 
 #: src/project/dialogs/archivewidget.cpp:364
 #, kde-format
@@ -12316,6 +12316,8 @@ msgid ""
 "File %1\n"
 " is not an archived Kdenlive project"
 msgstr ""
+"ფაილი %1\n"
+"დაარქივებული Kdenlive-ის პროექტი არაა"
 
 #: src/project/dialogs/archivewidget.cpp:370
 #, kde-format
@@ -12325,33 +12327,33 @@ msgstr "მზადაა"
 #: src/project/dialogs/archivewidget.cpp:394
 #, kde-format
 msgid "Archiving in progress, do you want to stop it?"
-msgstr ""
+msgstr "მიმდინარეობს დაარქივება. გნებავთ, შეაჩეროთ ის?"
 
 #: src/project/dialogs/archivewidget.cpp:394
 #: src/project/dialogs/archivewidget.cpp:395
 #, kde-format
 msgid "Stop Archiving"
-msgstr ""
+msgstr "დაარქივების შეწყვეტა"
 
 #: src/project/dialogs/archivewidget.cpp:582
 #, kde-format
 msgid "Available space on drive: %1"
-msgstr ""
+msgstr "დისკზე ხელმისაწვდომი ადგილი: %1"
 
 #: src/project/dialogs/archivewidget.cpp:585
 #, kde-format
 msgid "Not enough space on drive, free space: %1"
-msgstr ""
+msgstr "დისკზე საკმარისი ადგილი არაა. თავისუფალი ადგილი: %1"
 
 #: src/project/dialogs/archivewidget.cpp:600
 #, kde-format
 msgid "Starting archive job"
-msgstr ""
+msgstr "დაარქივების დავალების გაშვება"
 
 #: src/project/dialogs/archivewidget.cpp:620
 #, kde-format
 msgid "Archiving…"
-msgstr ""
+msgstr "დაარქივება…"
 
 #: src/project/dialogs/archivewidget.cpp:651
 #: src/project/dialogs/archivewidget.cpp:685
@@ -12365,23 +12367,23 @@ msgstr "საქაღალდის შექმნის შეცდომ�
 #: src/project/dialogs/archivewidget.cpp:752
 #, kde-format
 msgid "Copying %1"
-msgstr ""
+msgstr "%1-ის კოპირება"
 
 #: src/project/dialogs/archivewidget.cpp:677
 #: src/project/dialogs/archivewidget.cpp:846
 #, kde-format
 msgid "Cannot create temporary file"
-msgstr ""
+msgstr "დროებითი ფაილის შექმნა შეუძლებელია"
 
 #: src/project/dialogs/archivewidget.cpp:796
 #, kde-format
 msgid "Project was successfully archived."
-msgstr ""
+msgstr "პროქტის დაარქივება წარმატებით დასრულდა."
 
 #: src/project/dialogs/archivewidget.cpp:806
 #, kde-format
 msgid "There was an error while copying the files: %1"
-msgstr ""
+msgstr "შეცდომა ფაილების კოპირებისას: %1"
 
 #: src/project/dialogs/archivewidget.cpp:1097
 #, kde-format
@@ -12391,7 +12393,7 @@ msgstr "არქივის ფაილის გახსნის შეც
 #: src/project/dialogs/archivewidget.cpp:1114
 #, kde-format
 msgid "Archiving %1"
-msgstr ""
+msgstr "%1-ის დაარქივება"
 
 #: src/project/dialogs/archivewidget.cpp:1149
 #, kde-format
@@ -12399,6 +12401,8 @@ msgid ""
 "Project was successfully archived.\n"
 "%1"
 msgstr ""
+"პროქტის დაარქივება წარმატებით დასრულდა.\n"
+"%1"
 
 #: src/project/dialogs/archivewidget.cpp:1152
 #, kde-format
@@ -12413,12 +12417,12 @@ msgstr "შეცდომა პროექტის არქივირე�
 #: src/project/dialogs/archivewidget.cpp:1181
 #, kde-format
 msgid "Extracting…"
-msgstr ""
+msgstr "გაშლა…"
 
 #: src/project/dialogs/archivewidget.cpp:1247
 #, kde-format
 msgid "Cannot open project file %1"
-msgstr ""
+msgstr "პროექტის ფაილის %1 გახსნა შეუძლებელია"
 
 #: src/project/dialogs/archivewidget.cpp:1247
 #, kde-format
@@ -12429,22 +12433,22 @@ msgstr "ფაილის გახსნის შეცდომა"
 #, kde-format
 msgctxt "@title:window"
 msgid "Restore Backup File"
-msgstr ""
+msgstr "მარქაფის ფაილის აღდგენა"
 
 #: src/project/dialogs/backupwidget.cpp:22
 #, kde-format
 msgid "Showing all backup files in folder"
-msgstr ""
+msgstr "საქაღალდეში ყველა მარქაფის ფაილის ჩვენება"
 
 #: src/project/dialogs/backupwidget.cpp:25
 #, kde-format
 msgid "Showing backup files for %1"
-msgstr ""
+msgstr "%1-ის მარქაფების ჩვენება"
 
 #: src/project/dialogs/guidecategories.cpp:42
 #, kde-format
 msgid "Edit Guide Category"
-msgstr ""
+msgstr "გიდის კატეგორიის ჩასწორება"
 
 #: src/project/dialogs/guidecategories.cpp:57
 #, kde-format
