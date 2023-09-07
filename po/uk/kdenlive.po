@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-06 00:45+0000\n"
-"PO-Revision-Date: 2023-09-04 09:05+0300\n"
+"PO-Revision-Date: 2023-09-06 17:32+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -7725,10 +7725,9 @@ msgid "Recursive search: processing clips"
 msgstr "Рекурсивний пошук: обробляємо кліпи"
 
 #: src/doc/dcresolvedialog.cpp:66
-#, fuzzy, kde-format
-#| msgid "Recursive search: done"
+#, kde-format
 msgid "Recursive search: done in %1 s"
-msgstr "Рекурсивний пошук: виконано"
+msgstr "Рекурсивний пошук: виконано за %1 с"
 
 #: src/doc/dcresolvedialog.cpp:149
 #, kde-format

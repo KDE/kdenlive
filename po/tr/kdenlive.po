@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-06 00:45+0000\n"
-"PO-Revision-Date: 2023-09-04 12:48+0300\n"
+"PO-Revision-Date: 2023-09-06 12:26+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -7646,10 +7646,9 @@ msgid "Recursive search: processing clips"
 msgstr "Özyineli arama: Klipler işleniyor"
 
 #: src/doc/dcresolvedialog.cpp:66
-#, fuzzy, kde-format
-#| msgid "Recursive search: done"
+#, kde-format
 msgid "Recursive search: done in %1 s"
-msgstr "Özyineli arama: Bitti"
+msgstr "Özyineli arama: %1 saniyede tamamlandı"
 
 #: src/doc/dcresolvedialog.cpp:149
 #, kde-format

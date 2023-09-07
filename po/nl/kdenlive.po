@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-06 00:45+0000\n"
-"PO-Revision-Date: 2023-09-04 11:38+0200\n"
+"PO-Revision-Date: 2023-09-06 11:45+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -7685,10 +7685,9 @@ msgid "Recursive search: processing clips"
 msgstr "Recursief zoeken: clips verwerken"
 
 #: src/doc/dcresolvedialog.cpp:66
-#, fuzzy, kde-format
-#| msgid "Recursive search: done"
+#, kde-format
 msgid "Recursive search: done in %1 s"
-msgstr "Recursief zoeken: gedaan"
+msgstr "Recursief zoeken: gedaan in %1 s"
 
 #: src/doc/dcresolvedialog.cpp:149
 #, kde-format
