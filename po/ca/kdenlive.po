@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-03 03:11+0000\n"
-"PO-Revision-Date: 2023-09-02 10:37+0200\n"
+"PO-Revision-Date: 2023-09-06 20:40+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -1741,7 +1741,7 @@ msgstr "Durada de la claredat"
 #: data/effects/pan_zoom.xml:4
 #, kde-format
 msgid "Position and Zoom"
-msgstr "Posició i ampliació"
+msgstr "Posició i zoom"
 
 #: data/effects/pan_zoom.xml:5
 #, kde-format
@@ -2017,7 +2017,7 @@ msgstr "Inclina Y animat"
 #: data/effects/rotation.xml:38
 #, kde-format
 msgid "Pan and Zoom"
-msgstr "Panoràmica i ampliació"
+msgstr "Panoràmica i zoom"
 
 #: data/effects/rotation_keyframable.xml:4
 #, kde-format
@@ -13539,7 +13539,7 @@ msgstr "Panoràmica"
 #: src/project/dialogs/slideshowclip.cpp:66
 #, kde-format
 msgid "Pan and zoom"
-msgstr "Panoràmica i ampliació"
+msgstr "Panoràmica i zoom"
 
 #. i18n: ectx: property (text), widget (QLabel, label_info)
 #: src/project/dialogs/slideshowclip.cpp:328 src/ui/slideshowclip_ui.ui:299
