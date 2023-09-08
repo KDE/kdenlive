@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-06 00:45+0000\n"
-"PO-Revision-Date: 2023-09-05 06:24+0200\n"
+"PO-Revision-Date: 2023-09-07 03:41+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -7361,10 +7361,9 @@ msgid "Recursive search: processing clips"
 msgstr ""
 
 #: src/doc/dcresolvedialog.cpp:66
-#, fuzzy, kde-format
-#| msgid "Recursive search: done"
+#, kde-format
 msgid "Recursive search: done in %1 s"
-msgstr "რეკურსიული ძებნა: დასრულდა"
+msgstr "რეკურსიული ძებნა: დასრულდა %1 წმ-ში"
 
 #: src/doc/dcresolvedialog.cpp:149
 #, kde-format
@@ -11716,7 +11715,7 @@ msgstr "დაპატარავება"
 #: src/monitor/view/SceneToolBar.qml:112
 #, kde-format
 msgid "Move Toolbar"
-msgstr ""
+msgstr "ინსტრუმენტების პანელის გადატანა"
 
 #: src/monitor/view/kdenliveclipmonitor.qml:160
 #, kde-kuit-format

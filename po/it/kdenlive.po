@@ -4,14 +4,14 @@
 # Alberto Villa <villa.alberto@gmail.com>, 2009.
 # Salvatore Brigaglia <tore@studiobrigaglia.com>, 2010, 2012, 2013, 2015, 2016.
 # Vincenzo Reale <smart2128vr@gmail.com>, 2015, 2020, 2022.
-# Paolo Zamponi <feus73@gmail.com>, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
+# SPDX-FileCopyrightText: 2017, 2018, 2019, 2020, 2021, 2022, 2023 Paolo Zamponi <feus73@gmail.com>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-06 00:45+0000\n"
-"PO-Revision-Date: 2023-08-26 23:07+0200\n"
+"PO-Revision-Date: 2023-09-06 21:26+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 23.04.3\n"
+"X-Generator: Lokalize 23.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3923,7 +3923,7 @@ msgstr "Discreto"
 #: src/assets/view/widgets/keyframewidget.cpp:174
 #, kde-format
 msgid "Smooth"
-msgstr "Smussatura"
+msgstr "Liscio"
 
 #: src/assets/view/widgets/keyframewidget.cpp:124
 #, kde-kuit-format
@@ -4360,10 +4360,9 @@ msgid "Cancel Pending Jobs"
 msgstr "Annulla tutti i processi in attesa"
 
 #: src/bin/bin.cpp:1480
-#, fuzzy, kde-format
-#| msgid "Clip Properties"
+#, kde-format
 msgid "Bin Clip Properties"
-msgstr "Proprietà della clip"
+msgstr "Proprietà del contenitore della clip"
 
 #: src/bin/bin.cpp:1775
 #, kde-format
@@ -7017,34 +7016,28 @@ msgid "Remove Job"
 msgstr "Elimina processo"
 
 #: src/dialogs/renderwidget.cpp:1709
-#, fuzzy, kde-format
-#| msgid "Render Duration: %1"
+#, kde-format
 msgid "Render Duration: %1. "
-msgstr "Durata dell'esportazione: %1"
+msgstr "Durata dell'esportazione: %1. "
 
 #: src/dialogs/renderwidget.cpp:1711
-#, fuzzy, kde-format
-#| msgid "You have %1 missing clip in your project."
-#| msgid_plural "You have %1 missing clips in your project."
+#, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
-msgstr[0] "C'è %1 clip mancante nel progetto."
-msgstr[1] "Ci sono %1 clip mancanti nel progetto."
+msgstr[0] "<b>Una clip mancante usata nel progetto.</b>"
+msgstr[1] "<b>%1 clip mancanti usate nel progetto.</b>"
 
 #: src/dialogs/renderwidget.cpp:1713
-#, fuzzy, kde-format
-#| msgid "Check missing clips"
+#, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
-msgstr[0] "Controllo delle clip mancanti"
-msgstr[1] "Controllo delle clip mancanti"
+msgstr[0] "Una clip mancante (non usata)."
+msgstr[1] "%1 clip mancanti (non usate)."
 
 #: src/dialogs/renderwidget.cpp:1715
-#, fuzzy, kde-format
-#| msgid "You have %1 missing clip in your project."
-#| msgid_plural "You have %1 missing clips in your project."
+#, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
-msgstr "C'è %1 clip mancante nel progetto."
+msgstr "%1 clip mancanti (<b>%2 usate nel progetto</b>)."
 
 #: src/dialogs/renderwidget.cpp:1719
 #, kde-format
@@ -7066,10 +7059,9 @@ msgid "Add to current project"
 msgstr "Aggiungi al progetto corrente"
 
 #: src/dialogs/renderwidget.cpp:1818
-#, fuzzy, kde-format
-#| msgid "Destination folder"
+#, kde-format
 msgid "Open containing folder"
-msgstr "Cartella di destinazione"
+msgstr "Apri cartella contenitore"
 
 #: src/dialogs/speechdialog.cpp:42
 #, kde-format
@@ -7731,10 +7723,9 @@ msgid "Recursive search: processing clips"
 msgstr "Ricerca ricorsiva: elaborazione delle clip"
 
 #: src/doc/dcresolvedialog.cpp:66
-#, fuzzy, kde-format
-#| msgid "Recursive search: done"
+#, kde-format
 msgid "Recursive search: done in %1 s"
-msgstr "Ricerca ricorsiva: completata"
+msgstr "Ricerca ricorsiva: completata in %1 s"
 
 #: src/doc/dcresolvedialog.cpp:149
 #, kde-format
@@ -11204,16 +11195,14 @@ msgid "Transcoders"
 msgstr "Transcodificatori"
 
 #: src/mainwindow.cpp:3835
-#, fuzzy, kde-format
-#| msgid "Merge"
+#, kde-format
 msgid "-merged"
-msgstr "Unisci"
+msgstr "-unito"
 
 #: src/mainwindow.cpp:3838
-#, fuzzy, kde-format
-#| msgid "Video stream %1"
+#, kde-format
 msgid "-stream-%1"
-msgstr "Flusso video %1"
+msgstr "-flusso-%1"
 
 #: src/mainwindow.cpp:3871
 #, kde-format

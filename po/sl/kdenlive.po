@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-06 00:45+0000\n"
-"PO-Revision-Date: 2023-09-05 17:48+0200\n"
+"PO-Revision-Date: 2023-09-07 09:23+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -7667,10 +7667,9 @@ msgid "Recursive search: processing clips"
 msgstr "Rekurzivno iskanje: obdelovanje posnetkov"
 
 #: src/doc/dcresolvedialog.cpp:66
-#, fuzzy, kde-format
-#| msgid "Recursive search: done"
+#, kde-format
 msgid "Recursive search: done in %1 s"
-msgstr "Rekurzivno iskanje: opravljeno"
+msgstr "Rekurzivno iskanje: opravljeno v %1 s"
 
 #: src/doc/dcresolvedialog.cpp:149
 #, kde-format
