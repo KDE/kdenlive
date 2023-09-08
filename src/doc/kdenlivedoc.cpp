@@ -2465,7 +2465,7 @@ const QStringList KdenliveDoc::getDefaultGuideCategories()
                           QLatin1String("#fdbc4b"), QLatin1String("#f39c1f"), QLatin1String("#f47750"), QLatin1String("#da4453")};
     QStringList guidesCategories;
     for (int i = 0; i < 9; i++) {
-        guidesCategories << i18n("Category %1:%2:%3", QString::number(i + 1), QString::number(i), colors.at(i));
+        guidesCategories << QString("%1 %2:%3:%4").arg(i18n("Category")).arg(QString::number(i + 1)).arg(QString::number(i)).arg(colors.at(i));
     }
     return guidesCategories;
 }

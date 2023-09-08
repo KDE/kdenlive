@@ -157,7 +157,7 @@ const QString MarkerListModel::categoriesListToJSon(const QStringList categories
     QJsonArray list;
     for (auto &cat : categories) {
         QJsonObject currentMarker;
-        const QColor color(cat.section(QLatin1Char(':'), -1));
+        const QColor color(cat.section(QLatin1Char(':'), -1).simplified());
         const QString name = cat.section(QLatin1Char(':'), 0, -3);
         int ix = cat.section(QLatin1Char(':'), -2, -2).toInt();
         currentMarker.insert(QLatin1String("index"), QJsonValue(ix));
