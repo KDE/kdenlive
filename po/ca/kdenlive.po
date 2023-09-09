@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-06 00:45+0000\n"
-"PO-Revision-Date: 2023-09-06 20:34+0200\n"
+"POT-Creation-Date: 2023-09-09 00:45+0000\n"
+"PO-Revision-Date: 2023-09-08 13:46+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -8244,10 +8244,12 @@ msgstr "Groc"
 msgid "Cyan"
 msgstr "Cian"
 
-#: src/doc/kdenlivedoc.cpp:2482
+#. i18n: ectx: property (text), widget (QLabel, label_category)
+#: src/doc/kdenlivedoc.cpp:2482 src/ui/markerdialog_ui.ui:59
+#: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
-msgid "Category %1:%2:%3"
-msgstr "Categoria %1:%2:%3"
+msgid "Category"
+msgstr "Categoria"
 
 #: src/docktitlebarmanager.cpp:19
 #, kde-format
@@ -12262,7 +12264,7 @@ msgstr "Fotogrames clau automàtics"
 #: src/monitor/view/SceneToolBar.qml:77 src/ui/bezierspline_ui.ui:169
 #, kde-format
 msgid "Zoom in"
-msgstr "Apropa"
+msgstr "Amplia"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomOut)
 #: src/monitor/view/EffectToolBar.qml:107
@@ -12270,7 +12272,7 @@ msgstr "Apropa"
 #: src/monitor/view/SceneToolBar.qml:85 src/ui/bezierspline_ui.ui:186
 #, kde-format
 msgid "Zoom out"
-msgstr "Allunya"
+msgstr "Redueix"
 
 #: src/monitor/view/EffectToolBar.qml:114
 #: src/monitor/view/MultiScreenToolBar.qml:81
@@ -20003,12 +20005,6 @@ msgstr " mesos"
 msgid "Editing profiles for:"
 msgstr "S'estan editant els perfils de:"
 
-#. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/ui/markerdialog_ui.ui:59 src/ui/multiplemarkerdialog_ui.ui:68
-#, kde-format
-msgid "Category"
-msgstr "Categoria"
-
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
 #: src/ui/markerdialog_ui.ui:66 src/ui/multiplemarkerdialog_ui.ui:34
 #, kde-format
@@ -21596,3 +21592,6 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "Category %1:%2:%3"
+#~ msgstr "Categoria %1:%2:%3"

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-06 00:45+0000\n"
-"PO-Revision-Date: 2023-08-25 15:46-0300\n"
+"POT-Creation-Date: 2023-09-09 00:45+0000\n"
+"PO-Revision-Date: 2023-09-08 01:05-0300\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -2824,8 +2824,7 @@ msgid "Modulators"
 msgstr "Moduladores"
 
 #: data/kdenliveeffectscategory.rc:81
-#, fuzzy, kde-format
-#| msgid "Noise Reduction and audio Restoration"
+#, kde-format
 msgid "Noise Reduction and Audio Restoration"
 msgstr "Reducción de ruidos y restauración de audio"
 
@@ -4254,7 +4253,7 @@ msgstr "Vista de árbol"
 #: src/bin/bin.cpp:1245
 #, kde-format
 msgid "Adjust Profile to Current Clip"
-msgstr "Ajustar perfil al clip actual"
+msgstr "Ajustar proyecto al clip actual"
 
 #: src/bin/bin.cpp:1249
 #, kde-format
@@ -7018,35 +7017,28 @@ msgid "Remove Job"
 msgstr "Eliminar tarea"
 
 #: src/dialogs/renderwidget.cpp:1709
-#, fuzzy, kde-format
-#| msgid "Render Duration: %1"
+#, kde-format
 msgid "Render Duration: %1. "
-msgstr "Duración estimada del procesamiento: %1"
+msgstr "Duración estimada del procesamiento: %1. "
 
 #: src/dialogs/renderwidget.cpp:1711
-#, fuzzy, kde-format
-#| msgid "You have %1 missing clip in your project."
-#| msgid_plural "You have %1 missing clips in your project."
+#, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
-msgstr[0] "Existe %1 clip faltante en el proyecto."
-msgstr[1] "Existen %1 clips faltantes en el proyecto."
+msgstr[0] "<b>Existe un clip faltante en el proyecto.</b>"
+msgstr[1] "<b>Existen %1 clips faltantes en el proyecto.</b>"
 
 #: src/dialogs/renderwidget.cpp:1713
-#, fuzzy, kde-format
-#| msgid "One missing clip"
-#| msgid_plural "%1 missing clips"
+#, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
-msgstr[0] "Un clip faltante"
-msgstr[1] "%1 clips faltantes"
+msgstr[0] "Un clip faltante (no usado)."
+msgstr[1] "%1 clips faltantes (no usados)."
 
 #: src/dialogs/renderwidget.cpp:1715
-#, fuzzy, kde-format
-#| msgid "You have %1 missing clip in your project."
-#| msgid_plural "You have %1 missing clips in your project."
+#, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
-msgstr "Existe %1 clip faltante en el proyecto."
+msgstr "Existen %1 clips faltantes (<b>%2 de ellos usados en el proyecto</b>)."
 
 #: src/dialogs/renderwidget.cpp:1719
 #, kde-format
@@ -7068,10 +7060,9 @@ msgid "Add to current project"
 msgstr "Agregar al proyecto actual"
 
 #: src/dialogs/renderwidget.cpp:1818
-#, fuzzy, kde-format
-#| msgid "Destination folder"
+#, kde-format
 msgid "Open containing folder"
-msgstr "Carpeta de destino"
+msgstr "Abrir carpeta contenedora"
 
 #: src/dialogs/speechdialog.cpp:42
 #, kde-format
@@ -7722,10 +7713,9 @@ msgid "Recursive search: processing clips"
 msgstr "Búsqueda recursiva: revisando clips"
 
 #: src/doc/dcresolvedialog.cpp:66
-#, fuzzy, kde-format
-#| msgid "Recursive search: done"
+#, kde-format
 msgid "Recursive search: done in %1 s"
-msgstr "Búsqueda recursiva: finalizada"
+msgstr "Búsqueda recursiva: finalizada en %1 s"
 
 #: src/doc/dcresolvedialog.cpp:149
 #, kde-format
@@ -7750,13 +7740,11 @@ msgstr[0] "Un clip faltante"
 msgstr[1] "%1 clips faltantes"
 
 #: src/doc/dcresolvedialog.cpp:203
-#, fuzzy, kde-format
-#| msgid "One missing proxy"
-#| msgid_plural "%1 missing proxies"
+#, kde-format
 msgid "One missing source with available proxy"
 msgid_plural "%1 missing sources with available proxy"
-msgstr[0] "Un reemplazo faltante"
-msgstr[1] "%1 reemplazos faltantes"
+msgstr[0] "Un clip faltante con reemplazo disponible"
+msgstr[1] "%1 clips faltantes con reemplazos disponibles"
 
 #: src/doc/dcresolvedialog.cpp:206
 #, kde-format
@@ -8258,10 +8246,12 @@ msgstr "Amarillo"
 msgid "Cyan"
 msgstr "Cian"
 
-#: src/doc/kdenlivedoc.cpp:2482
+#. i18n: ectx: property (text), widget (QLabel, label_category)
+#: src/doc/kdenlivedoc.cpp:2482 src/ui/markerdialog_ui.ui:59
+#: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
-msgid "Category %1:%2:%3"
-msgstr "Categoría %1:%2:%3"
+msgid "Category"
+msgstr "Categoría"
 
 #: src/docktitlebarmanager.cpp:19
 #, kde-format
@@ -11178,16 +11168,14 @@ msgid "Transcoders"
 msgstr "Transcodificadores"
 
 #: src/mainwindow.cpp:3835
-#, fuzzy, kde-format
-#| msgid "Merge"
+#, kde-format
 msgid "-merged"
-msgstr "Mezclar"
+msgstr "-mezclado"
 
 #: src/mainwindow.cpp:3838
-#, fuzzy, kde-format
-#| msgid "Video stream %1"
+#, kde-format
 msgid "-stream-%1"
-msgstr "Fuente de video %1"
+msgstr "-fuente-%1"
 
 #: src/mainwindow.cpp:3871
 #, kde-format
@@ -20000,12 +19988,6 @@ msgstr " meses"
 msgid "Editing profiles for:"
 msgstr "Editar perfiles para:"
 
-#. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/ui/markerdialog_ui.ui:59 src/ui/multiplemarkerdialog_ui.ui:68
-#, kde-format
-msgid "Category"
-msgstr "Categoría"
-
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
 #: src/ui/markerdialog_ui.ui:66 src/ui/multiplemarkerdialog_ui.ui:34
 #, kde-format
@@ -21592,6 +21574,9 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "Category %1:%2:%3"
+#~ msgstr "Categoría %1:%2:%3"
 
 #~ msgid "Proxies"
 #~ msgstr "Reemplazos"

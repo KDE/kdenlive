@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-06 00:45+0000\n"
+"POT-Creation-Date: 2023-09-09 00:45+0000\n"
 "PO-Revision-Date: 2023-07-23 20:34+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -8263,11 +8263,12 @@ msgstr "노란색"
 msgid "Cyan"
 msgstr "청록색"
 
-#: src/doc/kdenlivedoc.cpp:2482
-#, fuzzy, kde-format
-#| msgid "Category %1"
-msgid "Category %1:%2:%3"
-msgstr "분류 %1"
+#. i18n: ectx: property (text), widget (QLabel, label_category)
+#: src/doc/kdenlivedoc.cpp:2482 src/ui/markerdialog_ui.ui:59
+#: src/ui/multiplemarkerdialog_ui.ui:68
+#, kde-format
+msgid "Category"
+msgstr "분류"
 
 #: src/docktitlebarmanager.cpp:19
 #, kde-format
@@ -20265,12 +20266,6 @@ msgstr "개월"
 msgid "Editing profiles for:"
 msgstr "다음의 프로필 편집"
 
-#. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/ui/markerdialog_ui.ui:59 src/ui/multiplemarkerdialog_ui.ui:68
-#, kde-format
-msgid "Category"
-msgstr "분류"
-
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
 #: src/ui/markerdialog_ui.ui:66 src/ui/multiplemarkerdialog_ui.ui:34
 #, kde-format
@@ -21953,6 +21948,11 @@ msgstr "%1분"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1시간"
+
+#, fuzzy
+#~| msgid "Category %1"
+#~ msgid "Category %1:%2:%3"
+#~ msgstr "분류 %1"
 
 #, fuzzy
 #~| msgid "Proxy Clips"

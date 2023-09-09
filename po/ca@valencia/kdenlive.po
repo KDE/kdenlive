@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-06 00:45+0000\n"
-"PO-Revision-Date: 2023-08-29 12:33+0200\n"
+"POT-Creation-Date: 2023-09-09 00:45+0000\n"
+"PO-Revision-Date: 2023-09-06 20:34+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.04.3\n"
+"X-Generator: Lokalize 22.12.3\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -2026,7 +2026,7 @@ msgstr "Inclina Y animat"
 #: data/effects/rotation.xml:38
 #, kde-format
 msgid "Pan and Zoom"
-msgstr "Panoràmica i ampliació"
+msgstr "Panoràmica i zoom"
 
 #: data/effects/rotation_keyframable.xml:4
 #, kde-format
@@ -7052,10 +7052,9 @@ msgid "Add to current project"
 msgstr "Afig al projecte actual"
 
 #: src/dialogs/renderwidget.cpp:1818
-#, fuzzy, kde-format
-#| msgid "Destination folder"
+#, kde-format
 msgid "Open containing folder"
-msgstr "Carpeta de destinació"
+msgstr "Obri la carpeta contenidora"
 
 #: src/dialogs/speechdialog.cpp:42
 #, kde-format
@@ -7712,10 +7711,9 @@ msgid "Recursive search: processing clips"
 msgstr "Busca recursiva: s'estan processant els clips"
 
 #: src/doc/dcresolvedialog.cpp:66
-#, fuzzy, kde-format
-#| msgid "Recursive search: done"
+#, kde-format
 msgid "Recursive search: done in %1 s"
-msgstr "Busca recursiva: efectuada"
+msgstr "Busca recursiva: s'ha efectuat en %1 s"
 
 #: src/doc/dcresolvedialog.cpp:149
 #, kde-format
@@ -8246,10 +8244,12 @@ msgstr "Groc"
 msgid "Cyan"
 msgstr "Cian"
 
-#: src/doc/kdenlivedoc.cpp:2482
+#. i18n: ectx: property (text), widget (QLabel, label_category)
+#: src/doc/kdenlivedoc.cpp:2482 src/ui/markerdialog_ui.ui:59
+#: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
-msgid "Category %1:%2:%3"
-msgstr "Categoria %1:%2:%3"
+msgid "Category"
+msgstr "Categoria"
 
 #: src/docktitlebarmanager.cpp:19
 #, kde-format
@@ -11173,13 +11173,12 @@ msgstr "Codificadors"
 #: src/mainwindow.cpp:3835
 #, kde-format
 msgid "-merged"
-msgstr ""
+msgstr "-fusionat"
 
 #: src/mainwindow.cpp:3838
-#, fuzzy, kde-format
-#| msgid "Video stream %1"
+#, kde-format
 msgid "-stream-%1"
-msgstr "Flux de vídeo %1"
+msgstr "-flux-%1"
 
 #: src/mainwindow.cpp:3871
 #, kde-format
@@ -13579,7 +13578,7 @@ msgstr "Panoràmica"
 #: src/project/dialogs/slideshowclip.cpp:66
 #, kde-format
 msgid "Pan and zoom"
-msgstr "Panoràmica i ampliació"
+msgstr "Panoràmica i zoom"
 
 #. i18n: ectx: property (text), widget (QLabel, label_info)
 #: src/project/dialogs/slideshowclip.cpp:328 src/ui/slideshowclip_ui.ui:299
@@ -20010,12 +20009,6 @@ msgstr " mesos"
 msgid "Editing profiles for:"
 msgstr "S'estan editant els perfils de:"
 
-#. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/ui/markerdialog_ui.ui:59 src/ui/multiplemarkerdialog_ui.ui:68
-#, kde-format
-msgid "Category"
-msgstr "Categoria"
-
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
 #: src/ui/markerdialog_ui.ui:66 src/ui/multiplemarkerdialog_ui.ui:34
 #, kde-format
@@ -21604,3 +21597,6 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "Category %1:%2:%3"
+#~ msgstr "Categoria %1:%2:%3"

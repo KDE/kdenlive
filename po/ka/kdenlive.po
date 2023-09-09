@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-06 00:45+0000\n"
+"POT-Creation-Date: 2023-09-09 00:45+0000\n"
 "PO-Revision-Date: 2023-09-07 03:41+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -7850,10 +7850,12 @@ msgstr "ყვითელი"
 msgid "Cyan"
 msgstr "ცისფერი"
 
-#: src/doc/kdenlivedoc.cpp:2482
+#. i18n: ectx: property (text), widget (QLabel, label_category)
+#: src/doc/kdenlivedoc.cpp:2482 src/ui/markerdialog_ui.ui:59
+#: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
-msgid "Category %1:%2:%3"
-msgstr "კატეგორია %1:%2:%3"
+msgid "Category"
+msgstr "კატეგორია"
 
 #: src/docktitlebarmanager.cpp:19
 #, kde-format
@@ -19078,12 +19080,6 @@ msgstr " თვე"
 msgid "Editing profiles for:"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/ui/markerdialog_ui.ui:59 src/ui/multiplemarkerdialog_ui.ui:68
-#, kde-format
-msgid "Category"
-msgstr "კატეგორია"
-
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
 #: src/ui/markerdialog_ui.ui:66 src/ui/multiplemarkerdialog_ui.ui:34
 #, kde-format
@@ -20654,6 +20650,9 @@ msgstr "%1მ"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1სთ"
+
+#~ msgid "Category %1:%2:%3"
+#~ msgstr "კატეგორია %1:%2:%3"
 
 #~ msgid "Proxies"
 #~ msgstr "პროქსები"

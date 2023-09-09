@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-06 00:45+0000\n"
+"POT-Creation-Date: 2023-09-09 00:45+0000\n"
 "PO-Revision-Date: 2014-12-09 21:11+0100\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -8593,11 +8593,12 @@ msgstr "Sárga"
 msgid "Cyan"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2482
-#, fuzzy, kde-format
-#| msgid "Category %1"
-msgid "Category %1:%2:%3"
-msgstr "Kategória %1"
+#. i18n: ectx: property (text), widget (QLabel, label_category)
+#: src/doc/kdenlivedoc.cpp:2482 src/ui/markerdialog_ui.ui:59
+#: src/ui/multiplemarkerdialog_ui.ui:68
+#, kde-format
+msgid "Category"
+msgstr "Kategória"
 
 #: src/docktitlebarmanager.cpp:19
 #, kde-format
@@ -21022,12 +21023,6 @@ msgstr ""
 msgid "Editing profiles for:"
 msgstr "Szerkesztő profilok"
 
-#. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/ui/markerdialog_ui.ui:59 src/ui/multiplemarkerdialog_ui.ui:68
-#, kde-format
-msgid "Category"
-msgstr "Kategória"
-
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
 #: src/ui/markerdialog_ui.ui:66 src/ui/multiplemarkerdialog_ui.ui:34
 #, kde-format
@@ -22746,6 +22741,11 @@ msgstr ""
 msgctxt "h as hours"
 msgid "%1h"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Category %1"
+#~ msgid "Category %1:%2:%3"
+#~ msgstr "Kategória %1"
 
 #, fuzzy
 #~| msgid "Proxy Clip"

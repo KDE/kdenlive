@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-06 00:45+0000\n"
+"POT-Creation-Date: 2023-09-09 00:45+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -8470,11 +8470,12 @@ msgstr "Žuta"
 msgid "Cyan"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2482
-#, fuzzy, kde-format
-#| msgid "Category %1"
-msgid "Category %1:%2:%3"
-msgstr "Kategorija %1"
+#. i18n: ectx: property (text), widget (QLabel, label_category)
+#: src/doc/kdenlivedoc.cpp:2482 src/ui/markerdialog_ui.ui:59
+#: src/ui/multiplemarkerdialog_ui.ui:68
+#, kde-format
+msgid "Category"
+msgstr "Kategorija"
 
 #: src/docktitlebarmanager.cpp:19
 #, kde-format
@@ -20815,12 +20816,6 @@ msgstr ""
 msgid "Editing profiles for:"
 msgstr "Uređivanje profila za"
 
-#. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/ui/markerdialog_ui.ui:59 src/ui/multiplemarkerdialog_ui.ui:68
-#, kde-format
-msgid "Category"
-msgstr "Kategorija"
-
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
 #: src/ui/markerdialog_ui.ui:66 src/ui/multiplemarkerdialog_ui.ui:34
 #, kde-format
@@ -22516,6 +22511,11 @@ msgstr ""
 msgctxt "h as hours"
 msgid "%1h"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Category %1"
+#~ msgid "Category %1:%2:%3"
+#~ msgstr "Kategorija %1"
 
 #, fuzzy
 #~| msgid "Proxy Clip"
