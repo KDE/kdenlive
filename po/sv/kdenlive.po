@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-03 03:11+0000\n"
+"POT-Creation-Date: 2023-09-09 02:24+0000\n"
 "PO-Revision-Date: 2023-09-02 08:34+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -8146,10 +8146,12 @@ msgstr "Gul"
 msgid "Cyan"
 msgstr "Turkos"
 
-#: src/doc/kdenlivedoc.cpp:2468
+#. i18n: ectx: property (text), widget (QLabel, label_category)
+#: src/doc/kdenlivedoc.cpp:2468 src/ui/markerdialog_ui.ui:59
+#: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
-msgid "Category %1:%2:%3"
-msgstr "Kategori %1:%2:%3"
+msgid "Category"
+msgstr "Kategori"
 
 #: src/docktitlebarmanager.cpp:19
 #, kde-format
@@ -19821,12 +19823,6 @@ msgstr "Ändra markering"
 msgid "Editing profiles for:"
 msgstr "Redigerar profiler för:"
 
-#. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/ui/markerdialog_ui.ui:59 src/ui/multiplemarkerdialog_ui.ui:68
-#, kde-format
-msgid "Category"
-msgstr "Kategori"
-
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
 #: src/ui/markerdialog_ui.ui:66 src/ui/multiplemarkerdialog_ui.ui:34
 #, kde-format
@@ -21392,6 +21388,9 @@ msgstr "%1 m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 t"
+
+#~ msgid "Category %1:%2:%3"
+#~ msgstr "Kategori %1:%2:%3"
 
 #~ msgctxt "Initial for Master"
 #~ msgid "M"

@@ -4,14 +4,14 @@
 #
 # Gabriel Gazzán <gabcorreo@gmail.com>, %Y.
 # Automatically generated, 2015.
-# Eloy Cuadra <ecuadra@eloihr.net>, 2015, 2016, 2017, 2019, 2020, 2021, 2022, 2023, %Y.
+# SPDX-FileCopyrightText: 2015, 2016, 2017, 2019, 2020, 2021, 2022, 2023 Eloy Cuadra <ecuadra@eloihr.net>
 # Gabriel Gazzan <gabcorreo@gmail.com>, 2015, 2016, 2017, 2018, 2019, 2020, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-03 03:11+0000\n"
-"PO-Revision-Date: 2023-07-27 15:16+0100\n"
+"POT-Creation-Date: 2023-09-09 02:24+0000\n"
+"PO-Revision-Date: 2023-09-09 00:57+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.04.3\n"
+"X-Generator: Lokalize 23.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -8213,10 +8213,12 @@ msgstr "Amarillo"
 msgid "Cyan"
 msgstr "Cian"
 
-#: src/doc/kdenlivedoc.cpp:2468
+#. i18n: ectx: property (text), widget (QLabel, label_category)
+#: src/doc/kdenlivedoc.cpp:2468 src/ui/markerdialog_ui.ui:59
+#: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
-msgid "Category %1:%2:%3"
-msgstr "Categoría %1:%2:%3"
+msgid "Category"
+msgstr "Categoría"
 
 #: src/docktitlebarmanager.cpp:19
 #, kde-format
@@ -11126,16 +11128,14 @@ msgid "Transcoders"
 msgstr "Transcodificadores"
 
 #: src/mainwindow.cpp:3834
-#, fuzzy, kde-format
-#| msgid "Merge"
+#, kde-format
 msgid "-merged"
-msgstr "Mezclar"
+msgstr "-mezclado"
 
 #: src/mainwindow.cpp:3837
-#, fuzzy, kde-format
-#| msgid "Video stream %1"
+#, kde-format
 msgid "-stream-%1"
-msgstr "Fuente de video %1"
+msgstr "-fuente-%1"
 
 #: src/mainwindow.cpp:3870
 #, kde-format
@@ -19982,12 +19982,6 @@ msgstr "Alternar selección"
 msgid "Editing profiles for:"
 msgstr "Editar perfiles para:"
 
-#. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/ui/markerdialog_ui.ui:59 src/ui/multiplemarkerdialog_ui.ui:68
-#, kde-format
-msgid "Category"
-msgstr "Categoría"
-
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
 #: src/ui/markerdialog_ui.ui:66 src/ui/multiplemarkerdialog_ui.ui:34
 #, kde-format
@@ -21556,6 +21550,9 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "Category %1:%2:%3"
+#~ msgstr "Categoría %1:%2:%3"
 
 #~ msgctxt "Initial for Master"
 #~ msgid "M"

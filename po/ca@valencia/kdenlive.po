@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-03 03:11+0000\n"
-"PO-Revision-Date: 2023-08-27 18:16+0200\n"
+"POT-Creation-Date: 2023-09-09 02:24+0000\n"
+"PO-Revision-Date: 2023-09-06 20:40+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.04.3\n"
+"X-Generator: Lokalize 22.12.3\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -1743,7 +1743,7 @@ msgstr "Duració de la claredat"
 #: data/effects/pan_zoom.xml:4
 #, kde-format
 msgid "Position and Zoom"
-msgstr "Posició i ampliació"
+msgstr "Posició i zoom"
 
 #: data/effects/pan_zoom.xml:5
 #, kde-format
@@ -2018,7 +2018,7 @@ msgstr "Inclina Y animat"
 #: data/effects/rotation.xml:38
 #, kde-format
 msgid "Pan and Zoom"
-msgstr "Panoràmica i ampliació"
+msgstr "Panoràmica i zoom"
 
 #: data/effects/rotation_keyframable.xml:4
 #, kde-format
@@ -8214,10 +8214,12 @@ msgstr "Groc"
 msgid "Cyan"
 msgstr "Cian"
 
-#: src/doc/kdenlivedoc.cpp:2468
+#. i18n: ectx: property (text), widget (QLabel, label_category)
+#: src/doc/kdenlivedoc.cpp:2468 src/ui/markerdialog_ui.ui:59
+#: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
-msgid "Category %1:%2:%3"
-msgstr "Categoria %1:%2:%3"
+msgid "Category"
+msgstr "Categoria"
 
 #: src/docktitlebarmanager.cpp:19
 #, kde-format
@@ -11135,13 +11137,12 @@ msgstr "Codificadors"
 #: src/mainwindow.cpp:3834
 #, kde-format
 msgid "-merged"
-msgstr ""
+msgstr "-fusionat"
 
 #: src/mainwindow.cpp:3837
-#, fuzzy, kde-format
-#| msgid "Video stream %1"
+#, kde-format
 msgid "-stream-%1"
-msgstr "Flux de vídeo %1"
+msgstr "-flux-%1"
 
 #: src/mainwindow.cpp:3870
 #, kde-format
@@ -13541,7 +13542,7 @@ msgstr "Panoràmica"
 #: src/project/dialogs/slideshowclip.cpp:66
 #, kde-format
 msgid "Pan and zoom"
-msgstr "Panoràmica i ampliació"
+msgstr "Panoràmica i zoom"
 
 #. i18n: ectx: property (text), widget (QLabel, label_info)
 #: src/project/dialogs/slideshowclip.cpp:328 src/ui/slideshowclip_ui.ui:299
@@ -20007,12 +20008,6 @@ msgstr "Canvia la selecció"
 msgid "Editing profiles for:"
 msgstr "S'estan editant els perfils de:"
 
-#. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/ui/markerdialog_ui.ui:59 src/ui/multiplemarkerdialog_ui.ui:68
-#, kde-format
-msgid "Category"
-msgstr "Categoria"
-
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
 #: src/ui/markerdialog_ui.ui:66 src/ui/multiplemarkerdialog_ui.ui:34
 #, kde-format
@@ -21583,3 +21578,6 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "Category %1:%2:%3"
+#~ msgstr "Categoria %1:%2:%3"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-03 03:11+0000\n"
+"POT-Creation-Date: 2023-09-09 02:24+0000\n"
 "PO-Revision-Date: 2023-08-19 22:23+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -8114,10 +8114,12 @@ msgstr "الأصفر"
 msgid "Cyan"
 msgstr "أزرق سماوي"
 
-#: src/doc/kdenlivedoc.cpp:2468
+#. i18n: ectx: property (text), widget (QLabel, label_category)
+#: src/doc/kdenlivedoc.cpp:2468 src/ui/markerdialog_ui.ui:59
+#: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
-msgid "Category %1:%2:%3"
-msgstr "الصنف %1:%2:%3"
+msgid "Category"
+msgstr "الفئة"
 
 #: src/docktitlebarmanager.cpp:19
 #, kde-format
@@ -19736,12 +19738,6 @@ msgstr "اقلب التّحديد"
 msgid "Editing profiles for:"
 msgstr "تشكيلات التحرير لـ:"
 
-#. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/ui/markerdialog_ui.ui:59 src/ui/multiplemarkerdialog_ui.ui:68
-#, kde-format
-msgid "Category"
-msgstr "الفئة"
-
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
 #: src/ui/markerdialog_ui.ui:66 src/ui/multiplemarkerdialog_ui.ui:34
 #, kde-format
@@ -21305,6 +21301,9 @@ msgstr "%1د"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1س"
+
+#~ msgid "Category %1:%2:%3"
+#~ msgstr "الصنف %1:%2:%3"
 
 #~ msgctxt "Initial for Master"
 #~ msgid "M"

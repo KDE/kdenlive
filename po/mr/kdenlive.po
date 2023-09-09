@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-03 03:11+0000\n"
+"POT-Creation-Date: 2023-09-09 02:24+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -8079,10 +8079,12 @@ msgstr "पिवळा"
 msgid "Cyan"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2468
+#. i18n: ectx: property (text), widget (QLabel, label_category)
+#: src/doc/kdenlivedoc.cpp:2468 src/ui/markerdialog_ui.ui:59
+#: src/ui/multiplemarkerdialog_ui.ui:68
 #, fuzzy, kde-format
-msgid "Category %1:%2:%3"
-msgstr "विभाग :"
+msgid "Category"
+msgstr "विभाग"
 
 #: src/docktitlebarmanager.cpp:19
 #, kde-format
@@ -19716,12 +19718,6 @@ msgstr ""
 msgid "Editing profiles for:"
 msgstr "प्रोफाईल \"%1\" संपादित करा"
 
-#. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/ui/markerdialog_ui.ui:59 src/ui/multiplemarkerdialog_ui.ui:68
-#, fuzzy, kde-format
-msgid "Category"
-msgstr "विभाग"
-
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
 #: src/ui/markerdialog_ui.ui:66 src/ui/multiplemarkerdialog_ui.ui:34
 #, fuzzy, kde-format
@@ -21329,6 +21325,10 @@ msgstr ""
 msgctxt "h as hours"
 msgid "%1h"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Category %1:%2:%3"
+#~ msgstr "विभाग :"
 
 #, fuzzy
 #~ msgctxt "Initial for Master"
