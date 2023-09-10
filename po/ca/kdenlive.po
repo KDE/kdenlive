@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-09 00:45+0000\n"
-"PO-Revision-Date: 2023-09-08 13:46+0200\n"
+"PO-Revision-Date: 2023-09-09 13:37+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -2268,8 +2268,8 @@ msgid ""
 "\".]]>"
 msgstr ""
 "<![CDATA[Un desplaçament que s'afegirà al valor del temporitzador.\n"
-"Quan la direcció sigui «avall», el temporitzador comptarà fins el\n"
-"«desplaçament» en lloc de 00:00:00.000. Quan la direcció sigui «amunt»,\n"
+"Quan la direcció sigui «enrere», el temporitzador comptarà fins el\n"
+"«desplaçament» en lloc de 00:00:00.000. Quan la direcció sigui «endavant»,\n"
 "el temporitzador comptarà començant des del «desplaçament».]]>"
 
 #: data/effects/timer.xml:66 data/transitions/slide.xml:8
@@ -2286,7 +2286,7 @@ msgid ""
 "        "
 msgstr ""
 "\n"
-"            <![CDATA[Si el comptador ha de comptar endevant des de "
+"            <![CDATA[Si el comptador ha de comptar endavant des de "
 "00:00:00.000 o enrere des de l'hora de la durada.]]>\n"
 "        "
 
@@ -2648,7 +2648,7 @@ msgstr ""
 #: data/generators/count.xml:7
 #, kde-format
 msgid "Count up"
-msgstr "Comptador amunt"
+msgstr "Comptador endavant"
 
 #: data/generators/count.xml:10
 #, kde-format

@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-09 00:45+0000\n"
-"PO-Revision-Date: 2023-09-06 20:34+0200\n"
+"PO-Revision-Date: 2023-09-09 13:37+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -2269,8 +2269,8 @@ msgid ""
 "\".]]>"
 msgstr ""
 "<![CDATA[Un desplaçament que s'afegirà al valor del temporitzador.\n"
-"Quan la direcció siga «avall», el temporitzador comptarà fins el\n"
-"«desplaçament» en lloc de 00:00:00.000. Quan la direcció siga «amunt»,\n"
+"Quan la direcció siga «arrere», el temporitzador comptarà fins el\n"
+"«desplaçament» en lloc de 00:00:00.000. Quan la direcció siga «avant»,\n"
 "el temporitzador comptarà començant des del «desplaçament».]]>"
 
 #: data/effects/timer.xml:66 data/transitions/slide.xml:8
@@ -2287,8 +2287,8 @@ msgid ""
 "        "
 msgstr ""
 "\n"
-"            <![CDATA[Si el comptador ha de comptar endevant des de "
-"00:00:00.000 o arrere des de l'hora de la duració.]]>\n"
+"            <![CDATA[Si el comptador ha de comptar avant des de 00:00:00.000 "
+"o arrere des de l'hora de la duració.]]>\n"
 "        "
 
 #: data/effects/tracker.xml:4
@@ -2649,7 +2649,7 @@ msgstr ""
 #: data/generators/count.xml:7
 #, kde-format
 msgid "Count up"
-msgstr "Comptador amunt"
+msgstr "Comptador avant"
 
 #: data/generators/count.xml:10
 #, kde-format
@@ -12267,7 +12267,7 @@ msgstr "Fotogrames clau automàtics"
 #: src/monitor/view/SceneToolBar.qml:77 src/ui/bezierspline_ui.ui:169
 #, kde-format
 msgid "Zoom in"
-msgstr "Acosta"
+msgstr "Amplia"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomOut)
 #: src/monitor/view/EffectToolBar.qml:107
@@ -12275,7 +12275,7 @@ msgstr "Acosta"
 #: src/monitor/view/SceneToolBar.qml:85 src/ui/bezierspline_ui.ui:186
 #, kde-format
 msgid "Zoom out"
-msgstr "Allunya"
+msgstr "Reduïx"
 
 #: src/monitor/view/EffectToolBar.qml:114
 #: src/monitor/view/MultiScreenToolBar.qml:81
@@ -21597,6 +21597,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Category %1:%2:%3"
-#~ msgstr "Categoria %1:%2:%3"
