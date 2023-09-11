@@ -356,6 +356,7 @@ void KdenliveDoc::initializeProperties(bool newDocument, std::pair<int, int> tra
     m_documentProperties[QStringLiteral("proxyresize")] = QString::number(KdenliveSettings::proxyscale());
     m_documentProperties[QStringLiteral("enableTimelineZone")] = QLatin1Char('0');
     m_documentProperties[QStringLiteral("seekOffset")] = QString::number(TimelineModel::seekDuration);
+    m_documentProperties[QStringLiteral("audioChannels")] = QString::number(audioChannels);
     m_documentProperties[QStringLiteral("uuid")] = m_uuid.toString();
     if (newDocument) {
         QMap<QString, QString> sequenceProperties;
@@ -368,7 +369,6 @@ void KdenliveDoc::initializeProperties(bool newDocument, std::pair<int, int> tra
         // UI).
         const int activeTrack = tracks.first > 0 ? tracks.second : tracks.second - 1;
         sequenceProperties[QStringLiteral("activeTrack")] = QString::number(activeTrack);
-        sequenceProperties[QStringLiteral("audioChannels")] = QString::number(audioChannels);
         sequenceProperties[QStringLiteral("documentuuid")] = m_uuid.toString();
         m_sequenceProperties.insert(m_uuid, sequenceProperties);
         if (m_timelines.contains(m_uuid)) {
