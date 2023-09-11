@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-09 02:24+0000\n"
-"PO-Revision-Date: 2023-06-24 07:10+0200\n"
+"PO-Revision-Date: 2023-09-10 10:12+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.04.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -741,8 +741,7 @@ msgid "Clockwise"
 msgstr "W prawo"
 
 #: data/effects/dance.xml:41
-#, fuzzy, kde-format
-#| msgid "Clockwise"
+#, kde-format
 msgid "Counter Clockwise"
 msgstr "W lewo"
 
@@ -2170,8 +2169,7 @@ msgid "Use transparency"
 msgstr "Użyj przezroczystości"
 
 #: data/effects/timer.xml:4
-#, fuzzy, kde-format
-#| msgid "Time"
+#, kde-format
 msgid "Timer"
 msgstr "Czasomierz"
 
@@ -2186,8 +2184,7 @@ msgid "Font Style"
 msgstr "Krój czcionki"
 
 #: data/effects/timer.xml:46
-#, fuzzy, kde-format
-#| msgid "Format:"
+#, kde-format
 msgid "Format"
 msgstr "Format"
 
@@ -2275,10 +2272,9 @@ msgid "Select a zone to follow its movements"
 msgstr "Zaznacz zakres, którego ruch ma być śledzony"
 
 #: data/effects/tracker.xml:11
-#, fuzzy, kde-format
-#| msgid "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM"
+#, kde-format
 msgid "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM,Nano"
-msgstr "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM"
+msgstr "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM,Nano"
 
 #: data/effects/tracker.xml:12
 #, kde-format
@@ -2975,10 +2971,9 @@ msgid "Luma Map"
 msgstr "Mapa lumy"
 
 #: data/transitions/dissolve.xml:19 data/transitions/luma.xml:17
-#, fuzzy, kde-format
-#| msgid "Make selected color transparent"
+#, kde-format
 msgid "Make padding transparent"
-msgstr "Uczyń wybrany kolor przezroczystym"
+msgstr "Uczyń wypełnienie przezroczystym"
 
 #: data/transitions/luma.xml:4
 #, kde-format
@@ -4431,11 +4426,9 @@ msgid "Duplicating sequence failed"
 msgstr "Nie udało się powielić szeregu"
 
 #: src/bin/bin.cpp:2062
-#, fuzzy, kde-format
-#| msgctxt "append to clip name to indicate a copied idem"
-#| msgid " (copy)"
+#, kde-format
 msgid "%1 (copy)"
-msgstr "Skopiuj"
+msgstr "%1 (kopia)"
 
 #: src/bin/bin.cpp:2077
 #, kde-format
@@ -4454,10 +4447,9 @@ msgid "Clear Filters"
 msgstr "Wyczyść filtry"
 
 #: src/bin/bin.cpp:2211
-#, fuzzy, kde-format
-#| msgid "Bin Tags"
+#, kde-format
 msgid "No Tags"
-msgstr "Znaczniki pojemników"
+msgstr "Brak znaczników"
 
 #: src/bin/bin.cpp:2230
 #, kde-format
@@ -4468,14 +4460,12 @@ msgstr[1] "%1 gwiazdy"
 msgstr[2] "%1 gwiazd"
 
 #: src/bin/bin.cpp:2237
-#, fuzzy, kde-format
-#| msgid "Filter by Type"
+#, kde-format
 msgid "Filter by Usage"
-msgstr "Odfiltruj po rodzaju"
+msgstr "Odfiltruj po użyciu"
 
 #: src/bin/bin.cpp:2240
-#, fuzzy, kde-format
-#| msgid "All clips"
+#, kde-format
 msgid "All Clips"
 msgstr "Wszystkie wycinki"
 
@@ -4485,10 +4475,9 @@ msgid "Unused Clips"
 msgstr "Nieużywane wycinki"
 
 #: src/bin/bin.cpp:2249
-#, fuzzy, kde-format
-#| msgid "Unused Clips"
+#, kde-format
 msgid "Used Clips"
-msgstr "Nieużywane wycinki"
+msgstr "Używane wycinki"
 
 #: src/bin/bin.cpp:2256
 #, kde-format
@@ -4743,10 +4732,9 @@ msgid "Create New Sequence"
 msgstr "Utwórz nowy szereg"
 
 #: src/bin/bin.cpp:3647 src/bin/bin.cpp:3674
-#, fuzzy, kde-format
-#| msgid "Sequence name"
+#, kde-format
 msgid "Sequence %1"
-msgstr "Sekwencja"
+msgstr "Szereg %1"
 
 #: src/bin/bin.cpp:3703
 #, kde-format
@@ -5110,15 +5098,14 @@ msgid "Zoom Out"
 msgstr "Pomniejsz"
 
 #: src/bin/mediabrowser.cpp:54
-#, fuzzy, kde-format
-#| msgid "Color Selection"
+#, kde-format
 msgid "Import Selection"
-msgstr "Zaznaczanie koloru"
+msgstr "Zaimportuj zaznaczenie"
 
 #: src/bin/mediabrowser.cpp:56
 #, kde-format
 msgid "Import File on Double Click"
-msgstr ""
+msgstr "Zaimportuj plik na dwukrotne kliknięcie"
 
 #: src/bin/mediabrowser.cpp:161 src/dialogs/clipcreationdialog.cpp:496
 #: src/effects/effectlist/view/effectlistwidget.cpp:130
@@ -5145,10 +5132,9 @@ msgid "Name:"
 msgstr "Nazwa:"
 
 #: src/bin/mediabrowser.cpp:200
-#, fuzzy, kde-format
-#| msgid "Filter"
+#, kde-format
 msgid "Filter:"
-msgstr "Filtr"
+msgstr "Filtr:"
 
 #: src/bin/mediabrowser.cpp:204 src/dialogs/clipcreationdialog.cpp:469
 #, kde-format
@@ -5156,10 +5142,9 @@ msgid "Ignore subfolder structure"
 msgstr "Pomiń strukturę podkatalogów"
 
 #: src/bin/mediabrowser.cpp:206 src/dialogs/clipcreationdialog.cpp:471
-#, fuzzy, kde-format
-#| msgid "Insert Zone in Project Bin"
+#, kde-format
 msgid "Do not create subfolders in Project Bin"
-msgstr "Wstaw zakres do pojemnika projektu"
+msgstr "Nie twórz podkatalogów w pojemniku projektu"
 
 #: src/bin/mediabrowser.cpp:209 src/dialogs/clipcreationdialog.cpp:474
 #, kde-kuit-format
@@ -5168,6 +5153,9 @@ msgid ""
 "When enabled, Kdenlive will import all clips contained in the folder and its "
 "subfolders without creating the subfolders in Project Bin."
 msgstr ""
+"Po włączeniu, Kdenlive zaimportuj wszystkie wycinki, znajdujące się w "
+"katalogu i jego podkatalogach bez tworzenia podkatalogów w pojemniku "
+"projektu."
 
 #: src/bin/mediabrowser.cpp:212 src/dialogs/clipcreationdialog.cpp:464
 #, kde-format
@@ -5175,10 +5163,9 @@ msgid "Import image sequence"
 msgstr "Zaimportuj szereg obrazów"
 
 #: src/bin/mediabrowser.cpp:215 src/dialogs/clipcreationdialog.cpp:465
-#, fuzzy, kde-format
-#| msgid "Import image sequence"
+#, kde-format
 msgid "Try to import an image sequence"
-msgstr "Zaimportuj szereg obrazów"
+msgstr "Spróbuj zaimportować szereg obrazów"
 
 #: src/bin/mediabrowser.cpp:217 src/dialogs/clipcreationdialog.cpp:467
 #, kde-kuit-format
@@ -5187,6 +5174,8 @@ msgid ""
 "When enabled, Kdenlive will look for other images with the same name pattern "
 "and import them as an image sequence."
 msgstr ""
+"Po włączeniu, Kdenlive poszuka pozostałych obrazów o tym samym wzorcu nazwy "
+"i zaimportuje je jako ciąg obrazów."
 
 #: src/bin/model/markerlistmodel.cpp:87
 #, kde-format
@@ -5944,6 +5933,8 @@ msgid ""
 "<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</b> "
 "by the second, , <b>{&#x25;3}</b> by the output file path."
 msgstr ""
+"<b>{&#x25;1}</b> zostanie zastąpione pierwszym parametrem, <b>{&#x25;2}</b> "
+"drugim, <b>{&#x25;3}</b> ścieżką do pliku wyjściowego."
 
 #: src/dialogs/clipjobmanager.cpp:48
 #, kde-format
@@ -5959,11 +5950,15 @@ msgid ""
 "inserted in place of <b>{&#x25;3}</b> if found. If output filename already "
 "exists, a -0001 pattern will be appended."
 msgstr ""
+"Nazwa pliku wyjściowego będzie taka sama jak wycinka źródłowego ze "
+"zmienionym rozszerzenie. Zostanie ono dołączone na końcu argumentów lub "
+"wstawione za <b>{&#x25;3}</b>, jeśli zostanie znalezione. Jeśli plik "
+"wyjściowy już istnieje, to zostanie dołączony przyrostek -0001."
 
 #: src/dialogs/clipjobmanager.cpp:54
 #, kde-format
 msgid "The first parameter that will be injected in the script arguments"
-msgstr ""
+msgstr "Pierwszy parametr, który zostanie wstrzyknięty do argumentów skryptu"
 
 #: src/dialogs/clipjobmanager.cpp:56 src/dialogs/clipjobmanager.cpp:66
 #, kde-kuit-format
@@ -5973,12 +5968,18 @@ msgid ""
 "File Path</b> will ask for a file path on execution<br/><b>Request Option in "
 "List</b> will ask for a choice in the list below on execution."
 msgstr ""
+"<b>Ścieżka wycinka źródłowego</b> umieści ścieżkę pojemnika wycinka<br/"
+"><b>Zażądaj ścieżki pliku</b> zapyta o ścieżkę przy wykonywaniu<br/"
+"><b>Zażądaj ustawienia na liście</b> zapyta o wybór z poniższej listy przy "
+"wykonywaniu."
 
 #: src/dialogs/clipjobmanager.cpp:59 src/dialogs/clipjobmanager.cpp:69
 #, kde-format
 msgid ""
 "A newline separated list of possible values that will be offered on execution"
 msgstr ""
+"Lista oddzielona znakami nowego wiersza z możliwymi wartościami zostanie "
+"przedstawiona przy wykonywaniu"
 
 #: src/dialogs/clipjobmanager.cpp:62 src/dialogs/clipjobmanager.cpp:72
 #, kde-kuit-format
@@ -5987,11 +5988,14 @@ msgid ""
 "When the parameter is set to <b>Request Option in List</b> the user will be "
 "asked to choose a value in this list when the job is started."
 msgstr ""
+"Gdy parametr jest ustawiony na <b>Zażądaj ustawienia na liście</b> to "
+"użytkownik zostanie zapytany o wybranie wartości z listy po rozpoczęciu "
+"zadania."
 
 #: src/dialogs/clipjobmanager.cpp:64
 #, kde-format
 msgid "The second parameter that will be injected in the script arguments"
-msgstr ""
+msgstr "Drugi parametr, który zostanie wstrzyknięty do argumentów skryptu"
 
 #: src/dialogs/clipjobmanager.cpp:128 src/dialogs/clipjobmanager.cpp:256
 #, kde-format
@@ -6115,10 +6119,9 @@ msgstr ""
 #: src/dialogs/encodingprofilesdialog.cpp:259
 #: src/dialogs/encodingprofilesdialog.cpp:348
 #: src/project/dialogs/projectsettings.cpp:885
-#, fuzzy, kde-format
-#| msgid "Automatic"
+#, kde-format
 msgid "Automatic (%1)"
-msgstr "Samoczynnie"
+msgstr "Samoczynnie (%1)"
 
 #: src/dialogs/encodingprofilesdialog.cpp:261
 #: src/dialogs/encodingprofilesdialog.cpp:350
@@ -6148,10 +6151,9 @@ msgstr ""
 "przywracanie do samowybranego."
 
 #: src/dialogs/exportguidesdialog.cpp:36
-#, fuzzy, kde-format
-#| msgid "Import guides"
+#, kde-format
 msgid "Export guides"
-msgstr "Wyeksportuj prowadnice…"
+msgstr "Wyeksportuj prowadnice"
 
 #: src/dialogs/exportguidesdialog.cpp:44
 #, kde-format
@@ -6834,10 +6836,9 @@ msgstr ""
 "Upewnij się że masz konieczne uprawnienia."
 
 #: src/dialogs/renderwidget.cpp:668
-#, fuzzy, kde-format
-#| msgid "An error occurred while deleting markers"
+#, kde-format
 msgid "The following errors occured while trying to render"
-msgstr "Wystąpił błąd podczas usuwania znaczników"
+msgstr "Wystąpiły następujące błędy przy próbie wyświetlania"
 
 #: src/dialogs/renderwidget.cpp:701 src/dialogs/renderwidget.cpp:1428
 #, kde-format
@@ -7176,7 +7177,7 @@ msgstr "Prawy górny"
 #: src/dialogs/subtitleedit.cpp:478
 #, kde-format
 msgid "Character: %1, total: <b>%2</b>"
-msgstr ""
+msgstr "Znak: %1, razem: <b>%2</b>"
 
 #: src/dialogs/textbasededit.cpp:52
 #, kde-format
@@ -7196,8 +7197,7 @@ msgstr "Brak mowy"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
 #: src/dialogs/textbasededit.cpp:574 src/ui/speechdialog_ui.ui:144
-#, fuzzy, kde-format
-#| msgid "Translate to english"
+#, kde-format
 msgid "Translate to English"
 msgstr "Przetłumacz na angielski"
 
@@ -7417,22 +7417,19 @@ msgid "NVIDIA hardware acceleration"
 msgstr "Przyspieszenie sprzętowe NVIDIA"
 
 #: src/dialogs/wizard.cpp:145
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware acceleration"
+#, kde-format
 msgid "AMF hardware acceleration"
-msgstr "Przyspieszenie sprzętowe VAAPI"
+msgstr "Przyspieszenie sprzętowe AMF"
 
 #: src/dialogs/wizard.cpp:148
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware acceleration"
+#, kde-format
 msgid "QSV hardware acceleration"
-msgstr "Przyspieszenie sprzętowe VAAPI"
+msgstr "Przyspieszenie sprzętowe QSV"
 
 #: src/dialogs/wizard.cpp:151
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware acceleration"
+#, kde-format
 msgid "Video Toolbox hardware acceleration"
-msgstr "Przyspieszenie sprzętowe VAAPI"
+msgstr "Przyspieszenie sprzętowe skrzynki narzędziowej obrazu"
 
 #: src/dialogs/wizard.cpp:166
 #, kde-format
@@ -7547,12 +7544,11 @@ msgstr ""
 "<b>glaxnimate</b><br/></li>"
 
 #: src/dialogs/wizard.cpp:408
-#, fuzzy, kde-format
-#| msgid ""
-#| "<li>Missing app: <b>dvdauthor</b><br/>required for creation of DVD</li>"
+#, kde-format
 msgid "<li>Missing app: <b>kdenlive_render</b><br/>needed for rendering.</li>"
 msgstr ""
-"<li>Brak aplikacji: do tworzenia DVD wymagany jest <b>dvdauthor</b><br/></li>"
+"<li>Brak aplikacji: <b>kdenlive_render</b><br/>jest wymagany do wyświetlania."
+"</li>"
 
 #: src/dialogs/wizard.cpp:433
 #, kde-format
@@ -7605,16 +7601,15 @@ msgid "No hardware encoders found."
 msgstr "Nie znaleziono sprzętowych koderów."
 
 #: src/dialogs/wizard.cpp:830
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware encoders found and enabled."
+#, kde-format
 msgid "hardware encoders found and enabled (%1)."
-msgstr "Znaleziono sprzętowe kodery VAAPI, więc zostały włączone."
+msgstr "znaleziono i włączono sprzętowe enkodery (%1)."
 
 #: src/doc/documentchecker.cpp:116
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
-msgstr ""
+msgstr "Id dokumentu twojego projektu było nieprawidłowe, więc utworzono nowe."
 
 #: src/doc/documentchecker.cpp:292
 #, kde-format
@@ -7706,14 +7701,12 @@ msgstr[1] "Brakujący efekt: %2 zostaną usunięte z projektu."
 msgstr[2] "Brakujący efekt: %2 zostanie usuniętych z projektu."
 
 #: src/doc/documentchecker.cpp:464
-#, fuzzy, kde-format
-#| msgid "Missing effect: %2 will be removed from project."
-#| msgid_plural "Missing effects: %2 will be removed from project."
+#, kde-format
 msgid "Missing transition: %2 will be removed from project."
 msgid_plural "Missing transitions: %2 will be removed from project."
-msgstr[0] "Brakujący efekt: %2 zostanie usunięty z projektu."
-msgstr[1] "Brakujący efekt: %2 zostaną usunięte z projektu."
-msgstr[2] "Brakujący efekt: %2 zostanie usuniętych z projektu."
+msgstr[0] "Brakuje przejścia: %2 zostanie usunięte z projektu."
+msgstr[1] "Brakuje przejść: %2 zostanie usunięte z projektu."
+msgstr[2] "Brakuje przejść: %2 zostanie usunięte z projektu."
 
 #: src/doc/documentchecker.cpp:468
 #, kde-format
@@ -7904,8 +7897,7 @@ msgid "Update Text Clips"
 msgstr "Uaktualnij tekst w wycinkach"
 
 #: src/doc/documentvalidator.cpp:725 src/doc/documentvalidator.cpp:2239
-#, fuzzy, kde-format
-#| msgid "Convert to"
+#, kde-format
 msgid "Convert"
 msgstr "Przekształć"
 
@@ -9305,10 +9297,9 @@ msgid "An open source video editor."
 msgstr "Edytor obrazu o otwartym źródle."
 
 #: src/main.cpp:124
-#, fuzzy, kde-format
-#| msgid "Copyright © 2007–2022 Kdenlive authors"
+#, kde-format
 msgid "Copyright © 2007–2023 Kdenlive authors"
-msgstr "Copyright © 2007–2021 Autorzy Kdenlive"
+msgstr "Copyright © 2007–2023 Autorzy Kdenlive"
 
 #: src/main.cpp:126
 #, kde-format
@@ -9338,7 +9329,7 @@ msgstr "Julius Künzel"
 #: src/main.cpp:129
 #, kde-format
 msgid "Feature development, packaging, bug fixing"
-msgstr ""
+msgstr "Rozwój funkcjonalności, pakowanie, usuwanie błędów"
 
 #: src/main.cpp:130
 #, kde-format
@@ -9572,16 +9563,14 @@ msgid "Screen Grab"
 msgstr "Przechwytywanie z ekranu"
 
 #: src/mainwindow.cpp:349
-#, fuzzy, kde-format
-#| msgid "Select a clip to create sequence"
+#, kde-format
 msgid "Switch to next Sequence"
-msgstr "Wybierz wycinek do utworzenia szeregu"
+msgstr "Przełącz do następnego ciągu"
 
 #: src/mainwindow.cpp:353
-#, fuzzy, kde-format
-#| msgid "Go to previous keyframe"
+#, kde-format
 msgid "Switch to previous Sequence"
-msgstr "Przejdź do poprzedniej klatki kluczowej"
+msgstr "Przełącz do poprzedniego ciągu"
 
 #: src/mainwindow.cpp:359
 #, kde-format
@@ -10407,10 +10396,9 @@ msgid "Stop Preview Render"
 msgstr "Zatrzymaj wyświetlanie podglądu"
 
 #: src/mainwindow.cpp:1671
-#, fuzzy, kde-format
-#| msgid "Add Transition to Selection"
+#, kde-format
 msgid "Adjust Timeline Zone to Selection"
-msgstr "Dodaj przejście do zaznaczenia"
+msgstr "Dostosuj obszar osi czasu do zaznaczenia"
 
 #: src/mainwindow.cpp:1673
 #, kde-format
@@ -10625,10 +10613,9 @@ msgid "Insert Track…"
 msgstr "Wstaw ścieżkę…"
 
 #: src/mainwindow.cpp:1849
-#, fuzzy, kde-format
-#| msgid "Switch All Tracks Active"
+#, kde-format
 msgid "Fit all Tracks in View"
-msgstr "Włącz wszystkie ścieżki"
+msgstr "Zmieść wszystkie ścieżki w widoku"
 
 #: src/mainwindow.cpp:1855 src/timeline2/view/timelinecontroller.cpp:4754
 #, kde-format
@@ -10641,10 +10628,9 @@ msgid "Switch Track Target Audio Stream"
 msgstr "Przełącz strumień dźwięku ścieżki docelowej"
 
 #: src/mainwindow.cpp:1867
-#, fuzzy, kde-format
-#| msgid "Delete Track"
+#, kde-format
 msgid "Delete Track…"
-msgstr "Usuń ścieżkę"
+msgstr "Usuń ścieżkę…"
 
 #: src/mainwindow.cpp:1872
 #, kde-format
@@ -10860,11 +10846,10 @@ msgstr "Utwórz ponownie"
 #: src/mainwindow.cpp:2157 src/onlineresources/resourcewidget.cpp:568
 #: src/scopes/colorscopes/colorplaneexport.cpp:158
 #: src/titler/titlewidget.cpp:2184
-#, fuzzy, kde-format
-#| msgid "Outline width"
+#, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
-msgstr "Kontynuuj bez tego"
+msgstr "Kontynuuj bez"
 
 #: src/mainwindow.cpp:2213
 #, kde-format
@@ -10937,8 +10922,7 @@ msgstr ""
 "kontynuować?"
 
 #: src/mainwindow.cpp:2616
-#, fuzzy, kde-format
-#| msgid "Reset Configuration…"
+#, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "Wyzeruj ustawienia"
@@ -11107,16 +11091,14 @@ msgid "Transcoders"
 msgstr "Transkodery"
 
 #: src/mainwindow.cpp:3834
-#, fuzzy, kde-format
-#| msgid "Merge"
+#, kde-format
 msgid "-merged"
-msgstr "Scal"
+msgstr "-scalone"
 
 #: src/mainwindow.cpp:3837
-#, fuzzy, kde-format
-#| msgid "Video stream %1"
+#, kde-format
 msgid "-stream-%1"
-msgstr "Strumień obrazu %1"
+msgstr "-strumień-%1"
 
 #: src/mainwindow.cpp:3870
 #, kde-format
@@ -11453,10 +11435,9 @@ msgid "Color space:"
 msgstr "Przestrzeń barw:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:964
-#, fuzzy, kde-format
-#| msgid "Color Space"
+#, kde-format
 msgid "Color range:"
-msgstr "Zakres barw"
+msgstr "Zakres barw:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:969
 #, kde-format
@@ -11529,8 +11510,7 @@ msgstr "Wyświetla dane analizy."
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1103
 #: src/mltcontroller/clippropertiescontroller.cpp:1416
-#, fuzzy, kde-format
-#| msgid "Tracks"
+#, kde-format
 msgid "Tracks:"
 msgstr "Ścieżki:"
 
@@ -13934,10 +13914,9 @@ msgstr ""
 
 #: src/project/projectmanager.cpp:1274 src/project/projectmanager.cpp:1305
 #: src/project/projectmanager.cpp:1309
-#, fuzzy, kde-format
-#| msgid "Sequence name"
+#, kde-format
 msgid "Sequence 1"
-msgstr "Sekwencja"
+msgstr "Szereg 1"
 
 #: src/project/projectmanager.cpp:1286
 #, kde-format
@@ -14852,10 +14831,7 @@ msgid "Could not create temporary subtitle file"
 msgstr "Nie można utworzyć pliku tymczasowego napisów"
 
 #: src/render/renderrequest.cpp:190
-#, fuzzy, kde-format
-#| msgid ""
-#| "Script rendering and multi track audio export can not be used together.\n"
-#| "Script will be saved without multi track export."
+#, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together. "
 "Script will be saved without multi track export."
@@ -15683,11 +15659,12 @@ msgid "Not enough tracks to paste clipboard"
 msgstr "Brak wystarczającej liczby ścieżek do wklejenia do schowka"
 
 #: src/timeline2/model/timelinefunctions.cpp:1833
-#, fuzzy, kde-format
-#| msgid "Not enough tracks to paste clipboard"
+#, kde-format
 msgid ""
 "Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)"
-msgstr "Brak wystarczającej liczby ścieżek do wklejenia do schowka"
+msgstr ""
+"Brak wystarczającej liczby ścieżek do wklejenia ze schowka (wymaga %1 "
+"ścieżek dźwięku oraz %2 ścieżek obrazu)"
 
 #: src/timeline2/model/timelinefunctions.cpp:1951
 #: src/timeline2/model/timelinefunctions.cpp:1969
@@ -16494,10 +16471,9 @@ msgid "No active track"
 msgstr "Brak uaktywnionej ścieżki"
 
 #: src/timeline2/view/timelinecontroller.cpp:1713
-#, fuzzy, kde-format
-#| msgid "Insert selected blocks in timeline"
+#, kde-format
 msgid "No item selected in timeline"
-msgstr "Wstaw zaznaczone bloki na osi czasu"
+msgstr "Nie zaznaczono żadnej rzeczy na osi czasu"
 
 #: src/timeline2/view/timelinecontroller.cpp:1856
 #, kde-format
@@ -16575,6 +16551,7 @@ msgstr "Wybierz odniesienie dla dźwięku przed próbą wyrównania"
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
 msgstr ""
+"Przypisano już wszystkie strumienie, więc najpierw odznacz inny cel dźwięku"
 
 #: src/timeline2/view/timelinecontroller.cpp:3594
 #, kde-format
@@ -16674,7 +16651,7 @@ msgstr "Kodowanie znaków używane do zapisywania plików napisów."
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
-msgstr ""
+msgstr "W przypadku wątpliwości, spróbuj :<br/><b>Unikod (UTF-8)</b>."
 
 #: src/timeline2/view/timelinecontroller.cpp:4983
 #, kde-format
@@ -17778,8 +17755,7 @@ msgstr "Koniec przycięcia:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/clipjobmanager_ui.ui:30
-#, fuzzy, kde-format
-#| msgid "Job description"
+#, kde-format
 msgid "Job Description"
 msgstr "Opis zadania"
 
@@ -17823,7 +17799,7 @@ msgstr "Umieszczone na górnym poziomie"
 #: src/ui/clipjobmanager_ui.ui:89
 #, kde-format
 msgid "Placed in the original clip folder"
-msgstr ""
+msgstr "Umieszczone w katalogu pierwotnego wycinka"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, folder_name)
 #: src/ui/clipjobmanager_ui.ui:100
@@ -17835,7 +17811,7 @@ msgstr "Nazwa katalogu"
 #: src/ui/clipjobmanager_ui.ui:110
 #, kde-format
 msgid "Optional description that will show up if a parameter is requested"
-msgstr ""
+msgstr "Niewymagany opis, który pojawi się po zażądaniu parametru"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:117
@@ -17865,51 +17841,52 @@ msgid ""
 "replaced by the first parameter value</li><li><b>{param2}</b> will be "
 "replaced by the second parameter value</li></ul>"
 msgstr ""
+"W argumentach, dostępne są następujące ustawienia: <ul><li><b>{source}</b> "
+"zostanie zastąpione ścieżką do pojemnika wycinka źródłowego</"
+"li><li><b>{output}</b> zostanie zastąpione ścieżką do pliku wyjściowego</"
+"li><li><b>{param1}</b> zostanie zastąpione wartością pierwszego parametru</"
+"li><li><b>{param2}</b> zostanie zastąpione wartością drugiego parametru</"
+"li></ul>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/clipjobmanager_ui.ui:176
-#, fuzzy, kde-format
-#| msgid "Parameters"
+#, kde-format
 msgid "Parameter 1 {param1}"
-msgstr "Parametry"
+msgstr "Parametr 1 {param1}"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_isfile)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_isfile)
 #: src/ui/clipjobmanager_ui.ui:182 src/ui/clipjobmanager_ui.ui:275
 #, kde-format
 msgid "Request file path"
-msgstr ""
+msgstr "Zażądaj ścieżki do pliku"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_islist)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_islist)
 #: src/ui/clipjobmanager_ui.ui:192 src/ui/clipjobmanager_ui.ui:268
-#, fuzzy, kde-format
-#| msgid "Delete transition from clip"
+#, kde-format
 msgid "Request option from list"
-msgstr "Usuń przejście z wycinka"
+msgstr "Zażądaj ustawienia z listy"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param1_list)
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param2_list)
 #: src/ui/clipjobmanager_ui.ui:202 src/ui/clipjobmanager_ui.ui:254
-#, fuzzy, kde-format
-#| msgid "More options"
+#, kde-format
 msgid "List of options"
-msgstr "Więcej ustawień"
+msgstr "Lista ustawień"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param1_name)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param2_name)
 #: src/ui/clipjobmanager_ui.ui:209 src/ui/clipjobmanager_ui.ui:261
-#, fuzzy, kde-format
-#| msgid "Parameter description."
+#, kde-format
 msgid "Parameter description"
-msgstr "Opis parametru."
+msgstr "Opis parametru"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: src/ui/clipjobmanager_ui.ui:232
-#, fuzzy, kde-format
-#| msgid "Parameters"
+#, kde-format
 msgid "Parameter 2 {param2}"
-msgstr "Parametry"
+msgstr "Parametr 2 {param2}"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/clipjobmanager_ui.ui:288
@@ -17921,7 +17898,7 @@ msgstr "Rozszerzenie pliku wynikowego:"
 #: src/ui/clipjobmanager_ui.ui:301
 #, kde-format
 msgid "Applies to"
-msgstr ""
+msgstr "Stosuje się do"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox)
 #: src/ui/clipspeed_ui.ui:103
@@ -18919,8 +18896,7 @@ msgstr "Model:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configspeech_ui.ui:133
-#, fuzzy, kde-format
-#| msgid "Language:"
+#, kde-format
 msgid "Language:"
 msgstr "Język:"
 
@@ -18934,12 +18910,11 @@ msgstr "Przetwarzanie szemrania na procesorze jest bardzo wolne"
 #: src/ui/configspeech_ui.ui:183
 #, kde-format
 msgid "Disable half precision (FP16 )"
-msgstr ""
+msgstr "Wyłącz półprecyzję (FP16 )"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperTranslate)
 #: src/ui/configspeech_ui.ui:190
-#, fuzzy, kde-format
-#| msgid "Translate text to english"
+#, kde-format
 msgid "Translate text to English"
 msgstr "Przetłumacz tekst na angielski"
 
@@ -19105,10 +19080,9 @@ msgstr "Przy cięciu napisów:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_subtitle_razor_mode)
 #: src/ui/configtools_ui.ui:41
-#, fuzzy, kde-format
-#| msgid "Duplicate"
+#, kde-format
 msgid "Duplicate text"
-msgstr "Powiel"
+msgstr "Powiel tekst"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_subtitle_razor_mode)
 #: src/ui/configtools_ui.ui:46
