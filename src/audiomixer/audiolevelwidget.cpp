@@ -74,7 +74,7 @@ void AudioLevelWidget::changeEvent(QEvent *event)
 
 void AudioLevelWidget::drawBackground(int channels)
 {
-    if (height() == 0) {
+    if (height() == 0 || channels == 0) {
         return;
     }
     QSize newSize = QWidget::size();
