@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-09 02:24+0000\n"
-"PO-Revision-Date: 2023-08-19 22:28+0200\n"
+"PO-Revision-Date: 2023-09-10 15:58+0200\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -11188,16 +11188,14 @@ msgid "Transcoders"
 msgstr "Convertisseurs"
 
 #: src/mainwindow.cpp:3834
-#, fuzzy, kde-format
-#| msgid "Merge"
+#, kde-format
 msgid "-merged"
-msgstr "Fusionner"
+msgstr "-merged"
 
 #: src/mainwindow.cpp:3837
-#, fuzzy, kde-format
-#| msgid "Video stream %1"
+#, kde-format
 msgid "-stream-%1"
-msgstr "Flux vidéo %1"
+msgstr "-flux-%1"
 
 #: src/mainwindow.cpp:3870
 #, kde-format
