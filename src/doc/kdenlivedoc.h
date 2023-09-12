@@ -318,7 +318,7 @@ private:
     /** @brief Set document default properties using hard-coded values and KdenliveSettings.
      *  @param newDocument true if we are creating a new document, false when opening an existing one
      */
-    void initializeProperties(bool newDocument = true, std::pair<int, int> tracks = {}, int audioChannels = 0);
+    void initializeProperties(bool newDocument = true, std::pair<int, int> tracks = {}, int audioChannels = 2);
     QUuid m_uuid;
     QDomDocument m_document;
     int m_clipsCount;
