@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-09 00:45+0000\n"
-"PO-Revision-Date: 2023-09-08 01:05-0300\n"
+"PO-Revision-Date: 2023-09-10 20:38-0300\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -6793,7 +6793,7 @@ msgstr "Falló el procesamiento"
 #: src/dialogs/renderwidget.cpp:129
 #, kde-format
 msgid "Rendering aborted"
-msgstr "Procesamiento interrumpido"
+msgstr "Procesamiento cancelado"
 
 #: src/dialogs/renderwidget.cpp:214 src/project/dialogs/slideshowclip.cpp:60
 #: src/scopes/colorscopes/vectorscope.cpp:55
@@ -7123,7 +7123,7 @@ msgstr "Comenzando reconocimiento de voz"
 #: src/dialogs/speechdialog.cpp:332 src/dialogs/textbasededit.cpp:1023
 #, kde-format
 msgid "Speech recognition aborted."
-msgstr "Reconocimiento de voz abortado."
+msgstr "Reconocimiento de voz cancelado."
 
 #: src/dialogs/speechdialog.cpp:338
 #, kde-format
@@ -7331,7 +7331,7 @@ msgid ""
 "the new job. Do you want to proceed?"
 msgstr ""
 "Ya se encuentra en ejecución otra tarea de reconocimiento de voz. Será "
-"abortada en favor de la nueva tarea. ¿Proceder?"
+"cancelada en favor de la nueva tarea. ¿Proceder?"
 
 #: src/dialogs/textbasededit.cpp:847
 #, kde-format
@@ -20052,7 +20052,7 @@ msgstr "Buscar manualmente"
 #: src/ui/missingclips_ui.ui:170
 #, kde-format
 msgid "All Missing Items:"
-msgstr "Total de elementos faltantes:"
+msgstr "Todos los elementos faltantes:"
 
 #. i18n: ectx: property (text), widget (QPushButton, recursiveSearch)
 #: src/ui/missingclips_ui.ui:177

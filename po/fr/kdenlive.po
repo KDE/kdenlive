@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-09 00:45+0000\n"
-"PO-Revision-Date: 2023-08-25 15:21+0200\n"
+"PO-Revision-Date: 2023-09-10 15:58+0200\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -2832,10 +2832,9 @@ msgid "Modulators"
 msgstr "Modulateurs"
 
 #: data/kdenliveeffectscategory.rc:81
-#, fuzzy, kde-format
-#| msgid "Noise Reduction and audio Restoration"
+#, kde-format
 msgid "Noise Reduction and Audio Restoration"
-msgstr "Réduction de bruit et restauration"
+msgstr "Réduction de bruit et restauration audio"
 
 #: data/kdenliveeffectscategory.rc:88
 #: src/dialogs/kdenlivesettingsdialog.cpp:119 src/mainwindow.cpp:1421
@@ -7029,35 +7028,28 @@ msgid "Remove Job"
 msgstr "Supprimer la tâche"
 
 #: src/dialogs/renderwidget.cpp:1709
-#, fuzzy, kde-format
-#| msgid "Render Duration: %1"
+#, kde-format
 msgid "Render Duration: %1. "
 msgstr "Durée du rendu : %1"
 
 #: src/dialogs/renderwidget.cpp:1711
-#, fuzzy, kde-format
-#| msgid "You have %1 missing clip in your project."
-#| msgid_plural "You have %1 missing clips in your project."
+#, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
-msgstr[0] "%1 clip manque dans le projet"
-msgstr[1] "%1 clips manquent dans le projet"
+msgstr[0] "<b>Une vidéo manquante utilisée dans le projet.</b>"
+msgstr[1] "<b>%1 vidéos manquantes utilisées dans le projet.</b>"
 
 #: src/dialogs/renderwidget.cpp:1713
-#, fuzzy, kde-format
-#| msgid "One missing clip"
-#| msgid_plural "%1 missing clips"
+#, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
-msgstr[0] "Une vidéo manquante"
-msgstr[1] "%1 vidéos manquantes"
+msgstr[0] "Une vidéo manquante (Inutilisée)."
+msgstr[1] "%1 vidéos manquantes (Inutilisées)"
 
 #: src/dialogs/renderwidget.cpp:1715
-#, fuzzy, kde-format
-#| msgid "You have %1 missing clip in your project."
-#| msgid_plural "You have %1 missing clips in your project."
+#, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
-msgstr "%1 clip manque dans le projet"
+msgstr "%1 vidéos manquante (<b>%2 utilisées dans le projet)."
 
 #: src/dialogs/renderwidget.cpp:1719
 #, kde-format
@@ -7079,10 +7071,9 @@ msgid "Add to current project"
 msgstr "Ajouter au projet courant"
 
 #: src/dialogs/renderwidget.cpp:1818
-#, fuzzy, kde-format
-#| msgid "Destination folder"
+#, kde-format
 msgid "Open containing folder"
-msgstr "Dossier cible"
+msgstr "Ouvrir le dossier contenant"
 
 #: src/dialogs/speechdialog.cpp:42
 #, kde-format
@@ -7749,10 +7740,9 @@ msgid "Recursive search: processing clips"
 msgstr "Recherche récursive : traitement des vidéos"
 
 #: src/doc/dcresolvedialog.cpp:66
-#, fuzzy, kde-format
-#| msgid "Recursive search: done"
+#, kde-format
 msgid "Recursive search: done in %1 s"
-msgstr "Recherche récursive : effectuée"
+msgstr "Recherche récursive : effectuée en %1 s"
 
 #: src/doc/dcresolvedialog.cpp:149
 #, kde-format
@@ -7777,12 +7767,11 @@ msgstr[0] "Une vidéo manquante"
 msgstr[1] "%1 vidéos manquantes"
 
 #: src/doc/dcresolvedialog.cpp:203
-#, fuzzy, kde-format
-#| msgid "Recreate missing proxies"
+#, kde-format
 msgid "One missing source with available proxy"
 msgid_plural "%1 missing sources with available proxy"
-msgstr[0] "Re-créer les serveurs mandataires"
-msgstr[1] "Re-créer les serveurs mandataires"
+msgstr[0] "Une source manquante avec le serveur mandataire disponible"
+msgstr[1] "%1 sources manquantes avec le serveur mandataire disponible"
 
 #: src/doc/dcresolvedialog.cpp:206
 #, kde-format
@@ -11236,16 +11225,14 @@ msgid "Transcoders"
 msgstr "Convertisseurs"
 
 #: src/mainwindow.cpp:3835
-#, fuzzy, kde-format
-#| msgid "Merge"
+#, kde-format
 msgid "-merged"
-msgstr "Fusionner"
+msgstr "-merged"
 
 #: src/mainwindow.cpp:3838
-#, fuzzy, kde-format
-#| msgid "Video stream %1"
+#, kde-format
 msgid "-stream-%1"
-msgstr "Flux vidéo %1"
+msgstr "-flux-%1"
 
 #: src/mainwindow.cpp:3871
 #, kde-format
