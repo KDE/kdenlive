@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-09 00:45+0000\n"
-"PO-Revision-Date: 2023-09-06 11:45+0200\n"
+"PO-Revision-Date: 2023-09-13 09:46+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -934,7 +934,7 @@ msgstr "In"
 #: data/effects/fade_from_black.xml:14
 #, kde-format
 msgid "Fade from Black"
-msgstr "Fade vanuit zwart"
+msgstr "Vaag vanuit zwart"
 
 #: data/effects/fade_to_black.xml:4
 #, kde-format
