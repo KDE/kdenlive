@@ -20851,6 +20851,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Category %1:%2:%3"
-#~ msgstr "Kategorie %1:%2:%3"
