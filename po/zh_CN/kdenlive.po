@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-09 00:45+0000\n"
-"PO-Revision-Date: 2023-09-02 03:18\n"
+"PO-Revision-Date: 2023-09-16 10:08\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -6894,10 +6894,9 @@ msgid "Add to current project"
 msgstr "添加到当前项目"
 
 #: src/dialogs/renderwidget.cpp:1818
-#, fuzzy, kde-format
-#| msgid "Destination folder"
+#, kde-format
 msgid "Open containing folder"
-msgstr "目标文件夹"
+msgstr "打开所在文件夹"
 
 #: src/dialogs/speechdialog.cpp:42
 #, kde-format
@@ -7513,10 +7512,9 @@ msgid "Recursive search: processing clips"
 msgstr "递归搜索：正在处理剪辑"
 
 #: src/doc/dcresolvedialog.cpp:66
-#, fuzzy, kde-format
-#| msgid "Recursive search: done"
+#, kde-format
 msgid "Recursive search: done in %1 s"
-msgstr "递归搜索：完成"
+msgstr "递归搜索：%1 秒内完成"
 
 #: src/doc/dcresolvedialog.cpp:149
 #, kde-format
@@ -10882,7 +10880,7 @@ msgstr "转码器"
 #: src/mainwindow.cpp:3835
 #, kde-format
 msgid "-merged"
-msgstr ""
+msgstr "-merged"
 
 #: src/mainwindow.cpp:3838
 #, kde-format
@@ -21069,6 +21067,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgid "Category %1:%2:%3"
-#~ msgstr "类别 %1:%2:%3"
