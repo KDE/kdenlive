@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-09 02:24+0000\n"
-"PO-Revision-Date: 2023-09-02 02:59\n"
+"PO-Revision-Date: 2023-09-16 10:11\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -10839,7 +10839,7 @@ msgstr "转码器"
 #: src/mainwindow.cpp:3834
 #, kde-format
 msgid "-merged"
-msgstr ""
+msgstr "-merged"
 
 #: src/mainwindow.cpp:3837
 #, kde-format
@@ -21043,6 +21043,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgid "Category %1:%2:%3"
-#~ msgstr "类别 %1:%2:%3"
