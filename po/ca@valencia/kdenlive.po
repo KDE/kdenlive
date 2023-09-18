@@ -11208,7 +11208,7 @@ msgid ""
 "+M."
 msgstr ""
 "Ocultarà la barra de menús completament. La podeu tornar a mostrar prement "
-"Ctrl+M."
+"«Ctrl+M»."
 
 #: src/mainwindow.cpp:4378
 #, kde-format
@@ -17227,12 +17227,12 @@ msgstr ""
 #: src/titler/unicodedialog.cpp:78
 #, kde-format
 msgid "Previous Unicode character (Arrow Up)"
-msgstr "Caràcter Unicode previ (Fletxa amunt)"
+msgstr "Caràcter Unicode previ («Fletxa amunt»)"
 
 #: src/titler/unicodedialog.cpp:79
 #, kde-format
 msgid "Next Unicode character (Arrow Down)"
-msgstr "Caràcter Unicode següent (Fletxa avall)"
+msgstr "Caràcter Unicode següent («Fletxa avall»)"
 
 #: src/titler/unicodedialog.cpp:80
 #, kde-format
@@ -17316,7 +17316,7 @@ msgstr "Espai quatre-per-ema. Amplària: 1/4 d'una <em>ema</em>"
 #: src/titler/unicodedialog.cpp:167
 #, kde-format
 msgid "Six-Per-Em Space. Width: 1/6 of one <em>em</em>"
-msgstr "Espai Sis-per-ema. Amplària: 1/6 d'una <em>ema</em>"
+msgstr "Espai sis-per-ema. Amplària: 1/6 d'una <em>ema</em>"
 
 #: src/titler/unicodedialog.cpp:169
 #, kde-format
@@ -21478,7 +21478,7 @@ msgstr "Mostra %1 en la línia de temps"
 #: src/widgets/dragvalue.cpp:413
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
-msgstr "Maj + arrossegar per a ajustar el valor un a un."
+msgstr "«Maj+arrossegar» per a ajustar el valor un a un."
 
 #: src/widgets/geometrywidget.cpp:40
 #, kde-format
