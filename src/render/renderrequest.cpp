@@ -152,7 +152,7 @@ std::vector<RenderRequest::RenderJob> RenderRequest::process()
         i++;
         QString outputPath = m_outputFile;
         if (!section.name.isEmpty()) {
-            outputPath = QStringUtils::appendToFilename(outputPath, QStringLiteral("-%1.").arg(section.name));
+            outputPath = QStringUtils::appendToFilename(outputPath, QStringLiteral("-%1").arg(section.name));
         }
         QDomDocument sectionDoc = doc.cloneNode(true).toDocument();
 
