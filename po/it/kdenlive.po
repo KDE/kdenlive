@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-09 02:24+0000\n"
-"PO-Revision-Date: 2023-09-06 21:26+0200\n"
+"PO-Revision-Date: 2023-09-16 22:20+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -9006,7 +9006,7 @@ msgstr "Salta"
 #: src/kdenliveui.rc:239
 #, kde-format
 msgid "Current Monitor Overlay"
-msgstr "Sovrimpressioni sul controllo corrente"
+msgstr "Sovrimpressione sul controllo corrente"
 
 #. i18n: ectx: Menu (monitor_scaling)
 #: src/kdenliveui.rc:247 src/mainwindow.cpp:1542
