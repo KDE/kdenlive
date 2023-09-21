@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-09 00:45+0000\n"
-"PO-Revision-Date: 2023-09-13 09:46+0200\n"
+"PO-Revision-Date: 2023-09-20 12:21+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 23.08.0\n"
+"X-Generator: Lokalize 23.08.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -10127,7 +10127,7 @@ msgstr "Sectie afspelen"
 #: src/mainwindow.cpp:1483
 #, kde-format
 msgid "Loop Zone"
-msgstr "Loop sectie"
+msgstr "Lus in zone"
 
 #: src/mainwindow.cpp:1485
 #, kde-format
@@ -10182,7 +10182,7 @@ msgstr "Tijdcode-overlay op monitor"
 #: src/mainwindow.cpp:1513
 #, kde-format
 msgid "Monitor Overlay Playback Fps"
-msgstr "Fps van overlay afspelen op monitor"
+msgstr "Monitor-overlay met FPS van afspelen"
 
 #: src/mainwindow.cpp:1518
 #, kde-format
@@ -10263,27 +10263,27 @@ msgstr "Ga naar vorig vastklikpunt"
 #: src/mainwindow.cpp:1614
 #, kde-format
 msgid "Go to Next Snap Point"
-msgstr "Ga naar volgend vastklikpunt"
+msgstr "Ga naar het volgende vastklikpunt"
 
 #: src/mainwindow.cpp:1617
 #, kde-format
 msgid "Go to Clip Start"
-msgstr "Ga naar clip begin"
+msgstr "Ga naar het begin van de clip"
 
 #: src/mainwindow.cpp:1619
 #, kde-format
 msgid "Go to Clip End"
-msgstr "Ga naar clip einde"
+msgstr "Ga naar het einde van de clip"
 
 #: src/mainwindow.cpp:1621
 #, kde-format
 msgid "Go to Previous Guide"
-msgstr "Ga naar de vorige gids"
+msgstr "Ga naar de vorige hulplijn"
 
 #: src/mainwindow.cpp:1623
 #, kde-format
 msgid "Go to Next Guide"
-msgstr "Ga naar de volgende gids"
+msgstr "Ga naar de volgende hulplijn"
 
 #: src/mainwindow.cpp:1625
 #, kde-format
@@ -11995,12 +11995,12 @@ msgstr "1 seconde terug"
 #: src/monitor/monitormanager.cpp:531
 #, kde-format
 msgid "Go to Project Start"
-msgstr "Ga naar project begin"
+msgstr "Ga naar projectbegin"
 
 #: src/monitor/monitormanager.cpp:535
 #, kde-format
 msgid "Go to Project End"
-msgstr "Ga naar project einde"
+msgstr "Ga naar het projecteinde"
 
 #: src/monitor/monitormanager.cpp:539
 #, kde-format
@@ -12106,12 +12106,12 @@ msgstr "Demping van monitor opheffen"
 #: src/monitor/monitormanager.cpp:622
 #, kde-format
 msgid "Go to Zone Start"
-msgstr "Ga naar start zone"
+msgstr "Ga naar het begin van de zone"
 
 #: src/monitor/monitormanager.cpp:626
 #, kde-format
 msgid "Go to Zone End"
-msgstr "Ga naar eind zone"
+msgstr "Ga naar het einde van de zone"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_preview)
 #: src/monitor/recmanager.cpp:34 src/ui/resourcewidget_ui.ui:251
@@ -18216,7 +18216,7 @@ msgstr "Kleuren van audio-miniaturen:"
 #: src/ui/configcolors_ui.ui:41
 #, kde-format
 msgid "Monitor overlay color:"
-msgstr "Overlaykleur op monitor:"
+msgstr "Kleur van monitor-overlay:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_monitor_bg)
 #: src/ui/configcolors_ui.ui:61
@@ -20764,7 +20764,7 @@ msgstr "Eerste frame"
 #: src/ui/slideshowclip_ui.ui:267
 #, kde-format
 msgid "Loop"
-msgstr "Loop"
+msgstr "Lus"
 
 #. i18n: ectx: property (text), widget (QCheckBox, show_thumbs)
 #: src/ui/slideshowclip_ui.ui:279
