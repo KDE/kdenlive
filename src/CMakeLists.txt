@@ -143,8 +143,6 @@ target_include_directories(kdenlive
 target_link_libraries(kdenlive kdenliveLib)
 install(TARGETS kdenlive DESTINATION ${KDE_INSTALL_BINDIR})
 
-install(FILES kdenliveui.rc DESTINATION ${KDE_INSTALL_KXMLGUIDIR}/kdenlive)
-
 ## Kdenlive Lib
 target_include_directories(kdenliveLib
     PRIVATE ${CMAKE_BINARY_DIR}
