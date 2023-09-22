@@ -67,7 +67,6 @@ TimelineWidget::TimelineWidget(const QUuid uuid, QWidget *parent)
     connect(m_proxy, &TimelineController::regainFocus, this, &TimelineWidget::regainFocus, Qt::DirectConnection);
     connect(m_proxy, &TimelineController::stopAudioRecord, this, &TimelineWidget::stopAudioRecord, Qt::DirectConnection);
     setResizeMode(QQuickWidget::SizeRootObjectToView);
-    engine()->addImageProvider(QStringLiteral("thumbnail"), new ThumbnailProvider);
     setVisible(false);
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setFocusPolicy(Qt::StrongFocus);
@@ -204,6 +203,7 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     const QStringList trans = sortedItems(KdenliveSettings::favorite_transitions(), true).values();
 
     setSource(QUrl(QStringLiteral("qrc:/qml/timeline.qml")));
+    engine()->addImageProvider(QStringLiteral("thumbnail"), new ThumbnailProvider);
     connect(rootObject(), SIGNAL(mousePosChanged(int)), pCore->window(), SLOT(slotUpdateMousePosition(int)));
     connect(rootObject(), SIGNAL(zoomIn(bool)), pCore->window(), SLOT(slotZoomIn(bool)));
     connect(rootObject(), SIGNAL(zoomOut(bool)), pCore->window(), SLOT(slotZoomOut(bool)));

@@ -420,12 +420,11 @@ void ProjectClip::resetSequenceThumbnails()
 {
     QMutexLocker lk(&m_thumbMutex);
     pCore->taskManager.discardJobs(ObjectId(ObjectType::BinClip, m_binId.toInt(), QUuid()), AbstractTask::LOADJOB, true);
-    m_thumbsProducer.reset();
+    m_thumbXml.clear();
     ThumbnailCache::get()->invalidateThumbsForClip(m_binId);
     // Force refeshing thumbs producer
     lk.unlock();
     m_uuid = QUuid::createUuid();
-    thumbProducer();
     // Clips will be replanted so no need to refresh thumbs
     // updateTimelineClips({TimelineModel::ClipThumbRole});
 }
@@ -442,7 +441,7 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
         ThumbnailCache::get()->invalidateThumbsForClip(m_binId);
         pCore->taskManager.discardJobs(oid, AbstractTask::LOADJOB, true);
         pCore->taskManager.discardJobs(oid, AbstractTask::CACHEJOB);
-        m_thumbsProducer.reset();
+        m_thumbXml.clear();
         // Reset uuid to enforce reloading thumbnails from qml cache
         m_uuid = QUuid::createUuid();
         updateTimelineClips({TimelineModel::ClipThumbRole, TimelineModel::ResourceRole});
@@ -467,7 +466,7 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
         }
         if (!xml.isNull()) {
             bool hashChanged = false;
-            m_thumbsProducer.reset();
+            m_thumbXml.clear();
             ClipType::ProducerType type = clipType();
             if (type != ClipType::Color && type != ClipType::Image && type != ClipType::SlideShow) {
                 xml.removeAttribute("out");
@@ -489,8 +488,10 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
             if (forceAudioReload || (!isProxy && hashChanged)) {
                 discardAudioThumb();
             }
-            m_clipStatus = FileStatus::StatusWaiting;
-            m_thumbsProducer.reset();
+            if (m_clipStatus != FileStatus::StatusMissing) {
+                m_clipStatus = FileStatus::StatusWaiting;
+            }
+            m_thumbXml.clear();
             ClipLoadTask::start(oid, xml, false, -1, -1, this);
         }
     }
@@ -616,7 +617,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     pCore->taskManager.discardJobs(ObjectId(ObjectType::BinClip, m_binId.toInt(), QUuid()), AbstractTask::LOADJOB);
     // Abort thumbnail tasks if any
     m_thumbMutex.lock();
-    m_thumbsProducer.reset();
+    m_thumbXml.clear();
     m_thumbMutex.unlock();
 
     isReloading = false;
@@ -812,24 +813,20 @@ const QString ProjectClip::getProxyFromOriginal(QString originalPath) const
     return QString();
 }
 
-void ProjectClip::setThumbProducer(std::shared_ptr<Mlt::Producer> prod)
+std::unique_ptr<Mlt::Producer> ProjectClip::getThumbProducer()
 {
-    QMutexLocker lock(&m_thumbMutex);
-    m_thumbsProducer = std::move(prod);
-}
-
-std::shared_ptr<Mlt::Producer> ProjectClip::thumbProducer()
-{
-    if (m_thumbsProducer) {
-        return m_thumbsProducer;
-    }
     if (clipType() == ClipType::Unknown || m_masterProducer == nullptr || m_clipStatus == FileStatus::StatusWaiting) {
         return nullptr;
     }
     QMutexLocker lock(&m_thumbMutex);
+    std::unique_ptr<Mlt::Producer> thumbProd;
+    if (!m_thumbXml.isEmpty()) {
+        thumbProd.reset(new Mlt::Producer(pCore->thumbProfile(), "xml-string", m_thumbXml.toUtf8().constData()));
+        return thumbProd;
+    }
     if (KdenliveSettings::gpu_accel()) {
         // TODO: when the original producer changes, we must reload this thumb producer
-        m_thumbsProducer = softClone(ClipController::getPassPropertiesList());
+        thumbProd = softClone(ClipController::getPassPropertiesList());
     } else if (m_clipType == ClipType::Timeline) {
         if (!m_sequenceThumbFile.isOpen() && !m_sequenceThumbFile.open()) {
             // Something went wrong
@@ -837,30 +834,31 @@ std::shared_ptr<Mlt::Producer> ProjectClip::thumbProducer()
             return nullptr;
         }
         cloneProducerToFile(m_sequenceThumbFile.fileName(), true);
-        m_thumbsProducer.reset(new Mlt::Producer(pCore->thumbProfile().get_profile(), "consumer", m_sequenceThumbFile.fileName().toUtf8().constData()));
+        thumbProd.reset(new Mlt::Producer(pCore->thumbProfile(), "consumer", m_sequenceThumbFile.fileName().toUtf8().constData()));
     } else {
         QString mltService = m_masterProducer->get("mlt_service");
         const QString mltResource = m_masterProducer->get("resource");
         if (mltService == QLatin1String("avformat")) {
             mltService = QStringLiteral("avformat-novalidate");
         }
-        m_thumbsProducer.reset(new Mlt::Producer(pCore->thumbProfile().get_profile(), mltService.toUtf8().constData(), mltResource.toUtf8().constData()));
+        thumbProd.reset(new Mlt::Producer(pCore->thumbProfile(), mltService.toUtf8().constData(), mltResource.toUtf8().constData()));
     }
-    if (m_thumbsProducer->is_valid()) {
+    if (thumbProd->is_valid()) {
         Mlt::Properties original(m_masterProducer->get_properties());
-        Mlt::Properties cloneProps(m_thumbsProducer->get_properties());
+        Mlt::Properties cloneProps(thumbProd->get_properties());
         cloneProps.pass_list(original, ClipController::getPassPropertiesList());
-        Mlt::Filter scaler(pCore->thumbProfile().get_profile(), "swscale");
-        Mlt::Filter padder(pCore->thumbProfile().get_profile(), "resize");
-        Mlt::Filter converter(pCore->thumbProfile().get_profile(), "avcolor_space");
-        m_thumbsProducer->set("audio_index", -1);
+        thumbProd->set("audio_index", -1);
         // Required to make get_playtime() return > 1
-        m_thumbsProducer->set("out", m_thumbsProducer->get_length() - 1);
-        m_thumbsProducer->attach(scaler);
-        m_thumbsProducer->attach(padder);
-        m_thumbsProducer->attach(converter);
+        thumbProd->set("out", thumbProd->get_length() - 1);
+        Mlt::Filter scaler(pCore->thumbProfile(), "swscale");
+        Mlt::Filter padder(pCore->thumbProfile(), "resize");
+        Mlt::Filter converter(pCore->thumbProfile(), "avcolor_space");
+        thumbProd->attach(scaler);
+        thumbProd->attach(padder);
+        thumbProd->attach(converter);
     }
-    return m_thumbsProducer;
+    m_thumbXml = ClipController::producerXml(*thumbProd.get(), true, false);
+    return thumbProd;
 }
 
 void ProjectClip::createDisabledMasterProducer()
@@ -1501,11 +1499,11 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(const std::shared_ptr<
     return prod;
 }
 
-std::shared_ptr<Mlt::Producer> ProjectClip::softClone(const char *list)
+std::unique_ptr<Mlt::Producer> ProjectClip::softClone(const char *list)
 {
     QString service = QString::fromLatin1(m_masterProducer->get("mlt_service"));
     QString resource = QString::fromUtf8(m_masterProducer->get("resource"));
-    std::shared_ptr<Mlt::Producer> clone(new Mlt::Producer(pCore->thumbProfile(), service.toUtf8().constData(), resource.toUtf8().constData()));
+    std::unique_ptr<Mlt::Producer> clone(new Mlt::Producer(pCore->thumbProfile(), service.toUtf8().constData(), resource.toUtf8().constData()));
     Mlt::Filter scaler(pCore->thumbProfile(), "swscale");
     Mlt::Filter converter(pCore->getProjectProfile(), "avcolor_space");
     clone->attach(scaler);
@@ -2982,4 +2980,26 @@ void ProjectClip::updateDescription()
             m_description = getProducerProperty(QStringLiteral("meta.attr.comment.markup"));
         }
     }
+}
+
+QPixmap ProjectClip::pixmap(int framePosition, int width, int height)
+{
+    // TODO refac this should use the new thumb infrastructure
+    QReadLocker lock(&m_producerLock);
+    std::unique_ptr<Mlt::Producer> thumbProducer = getThumbProducer();
+    if (thumbProducer == nullptr) {
+        return QPixmap();
+    }
+    thumbProducer->seek(framePosition);
+    QScopedPointer<Mlt::Frame> frame(thumbProducer->get_frame());
+    if (frame == nullptr || !frame->is_valid()) {
+        QPixmap p(width, height);
+        p.fill(QColor(Qt::red).rgb());
+        return p;
+    }
+    frame->set("consumer.deinterlacer", "onefield");
+    frame->set("consumer.top_field_first", -1);
+    frame->set("consumer.rescale", "nearest");
+    QImage img = KThumb::getFrame(frame.data());
+    return QPixmap::fromImage(img /*.scaled(height, width, Qt::KeepAspectRatio)*/);
 }

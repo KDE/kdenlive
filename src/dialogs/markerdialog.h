@@ -12,7 +12,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "utils/timecode.h"
 #include "widgets/timecodedisplay.h"
 
-class ClipController;
+class ProjectClip;
 
 namespace Mlt {
 }
@@ -27,7 +27,7 @@ class MarkerDialog : public QDialog, public Ui::MarkerDialog_UI
     Q_OBJECT
 
 public:
-    explicit MarkerDialog(ClipController *clip, const CommentedTime &t, const QString &caption, bool allowMultipleMarksers = false, QWidget *parent = nullptr);
+    explicit MarkerDialog(ProjectClip *clip, const CommentedTime &t, const QString &caption, bool allowMultipleMarksers = false, QWidget *parent = nullptr);
     ~MarkerDialog() override;
 
     CommentedTime newMarker();
@@ -40,7 +40,7 @@ private Q_SLOTS:
     void slotUpdateThumb();
 
 private:
-    ClipController *m_clip;
+    ProjectClip *m_clip;
     QTimer *m_previewTimer;
 
 Q_SIGNALS:

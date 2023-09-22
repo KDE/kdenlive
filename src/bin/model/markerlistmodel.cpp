@@ -912,7 +912,7 @@ bool MarkerListModel::editMultipleMarkersGui(const QList<GenTime> positions, QWi
     return false;
 }
 
-bool MarkerListModel::editMarkerGui(const GenTime &pos, QWidget *parent, bool createIfNotFound, ClipController *clip, bool createOnly)
+bool MarkerListModel::editMarkerGui(const GenTime &pos, QWidget *parent, bool createIfNotFound, ProjectClip *clip, bool createOnly)
 {
     bool exists;
     auto marker = getMarker(pos, &exists);
@@ -937,7 +937,7 @@ bool MarkerListModel::editMarkerGui(const GenTime &pos, QWidget *parent, bool cr
     return false;
 }
 
-bool MarkerListModel::addMultipleMarkersGui(const GenTime &pos, QWidget *parent, bool createIfNotFound, ClipController *clip)
+bool MarkerListModel::addMultipleMarkersGui(const GenTime &pos, QWidget *parent, bool createIfNotFound, ProjectClip *clip)
 {
     bool exists;
     auto marker = getMarker(pos, &exists);

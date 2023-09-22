@@ -51,7 +51,7 @@ void CacheTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip)
 {
     // Fetch thumbnail
     if (binClip->clipType() != ClipType::Audio) {
-        std::shared_ptr<Mlt::Producer> thumbProd(nullptr);
+        std::unique_ptr<Mlt::Producer> thumbProd(nullptr);
         int duration = m_out > 0 ? m_out - m_in : binClip->getFramePlaytime();
         std::set<int> frames;
         int steps = qCeil(qMax(pCore->getCurrentFps(), double(duration) / m_thumbsCount));
@@ -74,7 +74,7 @@ void CacheTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip)
                 continue;
             }
             if (thumbProd == nullptr) {
-                thumbProd = binClip->thumbProducer();
+                thumbProd = binClip->getThumbProducer();
             }
             if (thumbProd == nullptr) {
                 // Thumb producer not available

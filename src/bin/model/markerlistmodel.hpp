@@ -16,7 +16,7 @@
 #include <map>
 #include <memory>
 
-class ClipController;
+class ProjectClip;
 class DocUndoStack;
 class SnapInterface;
 
@@ -137,7 +137,7 @@ public:
        @param clip: pointer to the clip if we are editing a marker
        @return true if dialog was accepted and modification successful
      */
-    bool editMarkerGui(const GenTime &pos, QWidget *parent, bool createIfNotFound, ClipController *clip = nullptr, bool createOnly = false);
+    bool editMarkerGui(const GenTime &pos, QWidget *parent, bool createIfNotFound, ProjectClip *clip = nullptr, bool createOnly = false);
     /** @brief Shows a dialog to change the category of multiple markers/guides
        @param positions: List of the markers positions to edit
        @param widget: qt widget that will be the parent of the dialog
@@ -151,7 +151,7 @@ public:
        @param clip: pointer to the clip if we are editing a marker
        @return true if dialog was accepted and modification successful
      */
-    bool addMultipleMarkersGui(const GenTime &pos, QWidget *parent, bool createIfNotFound, ClipController *clip = nullptr);
+    bool addMultipleMarkersGui(const GenTime &pos, QWidget *parent, bool createIfNotFound, ProjectClip *clip = nullptr);
     void exportGuidesGui(QWidget *parent, GenTime projectDuration) const;
     /** @brief Load the marker categories from a stringList
      *  @return the list of deleted categories ids (if any)
