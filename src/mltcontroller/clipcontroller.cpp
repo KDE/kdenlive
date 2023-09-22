@@ -43,7 +43,6 @@ ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt:
                                      : nullptr)
     , m_hasAudio(false)
     , m_hasVideo(false)
-    , m_thumbsProducer(nullptr)
     , m_controllerBinId(clipId)
 {
     if (m_masterProducer && !m_masterProducer->is_valid()) {
@@ -63,8 +62,6 @@ ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt:
 ClipController::~ClipController()
 {
     delete m_properties;
-    Q_ASSERT(m_thumbsProducer.use_count() <= 1);
-    m_thumbsProducer.reset();
     Q_ASSERT(m_masterProducer.use_count() <= 1);
     m_masterProducer.reset();
 }
@@ -161,8 +158,7 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
     connectEffectStack();
 }
 
-namespace {
-QString producerXml(Mlt::Producer producer, bool includeMeta, bool includeProfile)
+const QString ClipController::producerXml(Mlt::Producer producer, bool includeMeta, bool includeProfile)
 {
     Mlt::Consumer c(*producer.profile(), "xml", "string");
     if (!producer.is_valid()) {
@@ -182,7 +178,6 @@ QString producerXml(Mlt::Producer producer, bool includeMeta, bool includeProfil
     c.run();
     return QString::fromUtf8(c.get("string"));
 }
-} // namespace
 
 void ClipController::getProducerXML(QDomDocument &document, bool includeMeta, bool includeProfile)
 {
@@ -879,27 +874,6 @@ PlaylistState::ClipState ClipController::defaultState() const
         return PlaylistState::AudioOnly;
     }
     return PlaylistState::Disabled;
-}
-
-QPixmap ClipController::pixmap(int framePosition, int width, int height)
-{
-    // TODO refac this should use the new thumb infrastructure
-    QReadLocker lock(&m_producerLock);
-    if (thumbProducer() == nullptr) {
-        return QPixmap();
-    }
-    m_thumbsProducer->seek(framePosition);
-    QScopedPointer<Mlt::Frame> frame(m_thumbsProducer->get_frame());
-    if (frame == nullptr || !frame->is_valid()) {
-        QPixmap p(width, height);
-        p.fill(QColor(Qt::red).rgb());
-        return p;
-    }
-    frame->set("consumer.deinterlacer", "onefield");
-    frame->set("consumer.top_field_first", -1);
-    frame->set("consumer.rescale", "nearest");
-    QImage img = KThumb::getFrame(frame.data());
-    return QPixmap::fromImage(img /*.scaled(height, width, Qt::KeepAspectRatio)*/);
 }
 
 void ClipController::setZone(const QPoint &zone)

@@ -13,6 +13,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "doc/kdenlivedoc.h"
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
+#include "mltcontroller/clipcontroller.h"
 #include "project/dialogs/slideshowclip.h"
 #include "utils/thumbnailcache.hpp"
 
@@ -228,7 +229,7 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
             QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage, thumb), Q_ARG(int, m_in), Q_ARG(int, m_out),
                                       Q_ARG(bool, true));
         } else {
-            std::shared_ptr<Mlt::Producer> thumbProd = binClip->thumbProducer();
+            std::unique_ptr<Mlt::Producer> thumbProd = binClip->getThumbProducer();
             if (thumbProd && thumbProd->is_valid()) {
                 if (frameNumber > 0) {
                     thumbProd->seek(frameNumber);
@@ -689,6 +690,14 @@ void ClipLoadTask::run()
     if (!m_isCanceled.loadAcquire()) {
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.itemId));
         if (binClip) {
+            bool isChain = producer->type() == mlt_service_chain_type;
+            const QString xmlData = ClipController::producerXml(*producer.get(), true, false);
+            // Reset produccer to get rid of cached frame
+            if (isChain) {
+                producer.reset(new Mlt::Chain(pCore->getProjectProfile(), "xml-string", xmlData.toUtf8().constData()));
+            } else {
+                producer.reset(new Mlt::Producer(pCore->getProjectProfile(), "xml-string", xmlData.toUtf8().constData()));
+            }
             QMetaObject::invokeMethod(binClip.get(), "setProducer", Qt::QueuedConnection, Q_ARG(std::shared_ptr<Mlt::Producer>, std::move(producer)),
                                       Q_ARG(bool, true));
             if (checkProfile && !isVariableFrameRate && seekable) {

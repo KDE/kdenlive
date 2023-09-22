@@ -45,9 +45,9 @@ QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSi
                 *size = result.size();
                 return result;
             }
-            std::shared_ptr<Mlt::Producer> prod = binClip->thumbProducer();
+            std::unique_ptr<Mlt::Producer> prod = binClip->getThumbProducer();
             if (prod && prod->is_valid()) {
-                result = makeThumbnail(prod, frameNumber, requestedSize);
+                result = makeThumbnail(prod.get(), frameNumber, requestedSize);
                 ThumbnailCache::get()->storeThumbnail(binId, frameNumber, result, false);
             }
         }
@@ -56,35 +56,20 @@ QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSi
     return result;
 }
 
-QString ThumbnailProvider::cacheKey(Mlt::Properties &properties, const QString &service, const QString &resource, const QString &hash, int frameNumber)
-{
-    QString time = properties.frames_to_time(frameNumber, mlt_time_clock);
-    // Reduce the precision to centiseconds to increase chance for cache hit
-    // without much loss of accuracy.
-    time = time.left(time.size() - 1);
-    QString key;
-    if (hash.isEmpty()) {
-        key = QString("%1 %2 %3").arg(service, resource, time);
-        QCryptographicHash hash2(QCryptographicHash::Sha1);
-        hash2.addData(key.toUtf8());
-        key = hash2.result().toHex();
-    } else {
-        key = QString("%1 %2").arg(hash, time);
-    }
-    return key;
-}
-
-QImage ThumbnailProvider::makeThumbnail(const std::shared_ptr<Mlt::Producer> &producer, int frameNumber, const QSize &requestedSize)
+QImage ThumbnailProvider::makeThumbnail(Mlt::Producer *producer, int frameNumber, const QSize &requestedSize)
 {
     Q_UNUSED(requestedSize)
     producer->seek(frameNumber);
-    QScopedPointer<Mlt::Frame> frame(producer->get_frame());
+    std::unique_ptr<Mlt::Frame> frame(producer->get_frame());
     if (frame == nullptr || !frame->is_valid()) {
         return QImage();
     }
     // TODO: cache these values ?
+    frame->set("consumer.deinterlacer", "onefield");
+    frame->set("consumer.top_field_first", -1);
+    frame->set("consumer.rescale", "nearest");
     int imageHeight = pCore->thumbProfile().height();
     int imageWidth = pCore->thumbProfile().width();
     int fullWidth = qRound(imageHeight * pCore->getCurrentDar());
-    return KThumb::getFrame(frame.data(), imageWidth, imageHeight, fullWidth);
+    return KThumb::getFrame(frame.get(), imageWidth, imageHeight, fullWidth);
 }
