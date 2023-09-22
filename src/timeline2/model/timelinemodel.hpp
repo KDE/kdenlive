@@ -367,6 +367,10 @@ public:
     */
     int getPreviousVideoTrackIndex(int trackId) const;
 
+    /** @brief Set the marker model on this timeline (usually the marker model from its Bin Sequence clip.
+     */
+    void setMarkerModel(std::shared_ptr<MarkerListModel> markerModel);
+
     /** @brief Returns the Id of the corresponding audio track. If trackId corresponds to video1, this will return audio 1 and so on */
     int getMirrorAudioTrackId(int trackId) const;
     int getMirrorVideoTrackId(int trackId) const;
@@ -1050,9 +1054,9 @@ protected:
     /// Timeline editing mode
     TimelineMode::EditMode m_editMode;
     bool m_closing;
-    std::shared_ptr<MarkerListModel> m_guidesModel;
     bool m_softDelete;
     std::shared_ptr<MarkerSortModel> m_guidesFilterModel;
+    std::shared_ptr<MarkerListModel> m_guidesModel;
     QString m_visibleSequenceName;
 
     // what follows are some virtual function that corresponds to the QML. They are implemented in TimelineItemModel

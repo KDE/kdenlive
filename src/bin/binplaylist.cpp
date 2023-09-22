@@ -120,11 +120,11 @@ void BinPlaylist::removeBinClip(const QString &id)
     Q_ASSERT(ok);
 }
 
-void BinPlaylist::changeProducer(const QString &id, const std::shared_ptr<Mlt::Producer> &producer)
+void BinPlaylist::changeProducer(const QString &id, Mlt::Producer producer)
 {
     Q_ASSERT(m_allClips.count(id) > 0);
     removeBinClip(id);
-    m_binPlaylist->append(*producer.get());
+    m_binPlaylist->append(producer);
 }
 
 void BinPlaylist::setRetainIn(Mlt::Tractor *modelTractor)

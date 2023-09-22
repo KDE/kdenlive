@@ -187,11 +187,10 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
         break;
     }
 #if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 240, 0)
-    connect(kfType, &KSelectAction::actionTriggered, this,
-            [&](QAction *ac) { KdenliveSettings::setDefaultkeyframeinterp(ac->data().toInt()); });
+    connect(kfType, &KSelectAction::actionTriggered, this, [&](QAction *ac) { KdenliveSettings::setDefaultkeyframeinterp(ac->data().toInt()); });
 #else
     connect(kfType, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this,
-                [&](QAction *ac) { KdenliveSettings::setDefaultkeyframeinterp(ac->data().toInt()); });
+            [&](QAction *ac) { KdenliveSettings::setDefaultkeyframeinterp(ac->data().toInt()); });
 #endif
 
     // rotoscoping only supports linear keyframes

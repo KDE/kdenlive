@@ -85,7 +85,7 @@ protected:
        @param id: binId of the producer
        @param producer : new producer
     */
-    void changeProducer(const QString &id, const std::shared_ptr<Mlt::Producer> &producer);
+    void changeProducer(const QString &id, Mlt::Producer producer);
 
 private:
     /** @brief The MLT playlist holding our Producers */

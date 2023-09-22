@@ -11,7 +11,6 @@
     SPDX-License-Identifier: MIT
 */
 
-
 #include <functional>
 #include <memory>
 #include <set>

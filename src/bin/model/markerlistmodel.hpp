@@ -25,7 +25,7 @@ class SnapInterface;
     A marker is defined by a time, a type (the color used to represent it) and a comment string.
     We store them in a sorted fashion using a std::map
 
-    A marker is essentially bound to a clip. We can also define guides, that are timeline-wise markers. For that, use the constructors without clipId
+    A marker is essentially bound to a clip.
  */
 class MarkerListModel : public QAbstractListModel, public enable_shared_from_this_virtual<MarkerListModel>
 {
@@ -36,9 +36,6 @@ class MarkerListModel : public QAbstractListModel, public enable_shared_from_thi
 public:
     /** @brief Construct a marker list bound to the bin clip with given id */
     explicit MarkerListModel(QString clipId, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
-
-    /** @brief Construct a guide list (bound to the timeline) */
-    MarkerListModel(std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
 
     enum { CommentRole = Qt::UserRole + 1, PosRole, FrameRole, ColorRole, TypeRole, IdRole, TCRole };
 
@@ -202,16 +199,14 @@ protected:
     Fun deleteMarker_lambda(GenTime pos);
 
     /** @brief Helper function that retrieves a pointer to the markermodel, given whether it's a guide model and its clipId*/
-    std::shared_ptr<MarkerListModel> getModel(bool guide, const QString &clipId);
+    std::shared_ptr<MarkerListModel> getModel(const QString &clipId);
 
     /** @brief Connects the signals of this object */
     void setup();
 
 private:
     std::weak_ptr<DocUndoStack> m_undoStack;
-    /** @brief whether this model represents timeline-wise guides */
-    bool m_guide;
-    /** @brief the Id of the clip this model corresponds to, if any. */
+    /** @brief the Id of the clip this model corresponds to. */
     QString m_clipId;
 
     /** @brief This is a lock that ensures safety in case of concurrent access */

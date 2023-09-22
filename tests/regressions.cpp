@@ -73,10 +73,10 @@ TEST_CASE("Regression")
     undoStack->redo();
     REQUIRE(timeline->getTrackById(1)->checkConsistency());
     pCore->taskManager.slotCancelJobs();
+    mockedDoc.closing = true;
     mocked.closeTimeline(timeline->uuid());
     timeline.reset();
     binModel->clean();
-    pCore->m_projectManager = nullptr;
 }
 
 TEST_CASE("Regression2")
@@ -232,10 +232,10 @@ TEST_CASE("Regression2")
     REQUIRE(timeline->getTrackById(6)->checkConsistency());
     undoStack->redo();
     pCore->taskManager.slotCancelJobs();
+    mockedDoc.closing = true;
     mocked.closeTimeline(timeline->uuid());
     timeline.reset();
     binModel->clean();
-    pCore->m_projectManager = nullptr;
 }
 
 /*
@@ -580,10 +580,10 @@ TEST_CASE("FuzzBug1")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         pCore->taskManager.slotCancelJobs();
+        mockedDoc.closing = true;
         mocked.closeTimeline(timeline_0->uuid());
         timeline_0.reset();
         binModel->clean();
-        pCore->m_projectManager = nullptr;
     }
 }
 
@@ -676,10 +676,10 @@ TEST_CASE("FuzzBug2")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         pCore->taskManager.slotCancelJobs();
+        mockedDoc.closing = true;
         mocked.closeTimeline(timeline_0->uuid());
         timeline_0.reset();
         binModel->clean();
-        pCore->m_projectManager = nullptr;
     }
 }
 
@@ -738,10 +738,10 @@ TEST_CASE("FuzzBug3")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         pCore->taskManager.slotCancelJobs();
+        mockedDoc.closing = true;
         mocked.closeTimeline(timeline_0->uuid());
         timeline_0.reset();
         binModel->clean();
-        pCore->m_projectManager = nullptr;
     }
 }
 
@@ -826,10 +826,10 @@ TEST_CASE("FuzzBug4")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         pCore->taskManager.slotCancelJobs();
+        mockedDoc.closing = true;
         mocked.closeTimeline(timeline_0->uuid());
         timeline_0.reset();
         binModel->clean();
-        pCore->m_projectManager = nullptr;
     }
 }
 
@@ -1039,6 +1039,7 @@ TEST_CASE("FuzzBug5")
         pCore->taskManager.slotCancelJobs();
         mocked.m_activeTimelineModel.reset();
         undoStack->clear();
+        mockedDoc.closing = true;
         mocked.closeTimeline(timeline_0->uuid());
         binModel->clean();
         timeline_0.reset();
@@ -1139,6 +1140,7 @@ TEST_CASE("FuzzBug6")
         mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         pCore->taskManager.slotCancelJobs();
+        mockedDoc.closing = true;
         mocked.closeTimeline(timeline_0->uuid());
         mocked.closeTimeline(timeline_1->uuid());
         timeline_0.reset();
@@ -1314,6 +1316,7 @@ TEST_CASE("FuzzBug7")
         mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         pCore->taskManager.slotCancelJobs();
+        mockedDoc.closing = true;
         mocked.closeTimeline(timeline_0->uuid());
         mocked.closeTimeline(timeline_1->uuid());
         timeline_0.reset();
@@ -1390,6 +1393,7 @@ TEST_CASE("FuzzBug8")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         pCore->taskManager.slotCancelJobs();
+        mockedDoc.closing = true;
         mocked.closeTimeline(timeline_0->uuid());
         timeline_0.reset();
         binModel->clean();
@@ -1455,6 +1459,7 @@ TEST_CASE("FuzzBug9")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         pCore->taskManager.slotCancelJobs();
+        mockedDoc.closing = true;
         mocked.closeTimeline(timeline_0->uuid());
         timeline_0.reset();
         binModel->clean();
@@ -1514,6 +1519,7 @@ TEST_CASE("FuzzBug10")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         pCore->taskManager.slotCancelJobs();
+        mockedDoc.closing = true;
         mocked.closeTimeline(timeline_0->uuid());
         timeline_0.reset();
         binModel->clean();
@@ -1618,6 +1624,7 @@ TEST_CASE("FuzzBug11")
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
         pCore->taskManager.slotCancelJobs();
+        mockedDoc.closing = true;
         mocked.closeTimeline(timeline_0->uuid());
         timeline_0.reset();
         binModel->clean();

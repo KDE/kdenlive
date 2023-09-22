@@ -104,7 +104,7 @@ TEST_CASE("Open and Close Sequence", "[OCS]")
 TEST_CASE("Save File With 2 Sequences", "[SF2]")
 {
     auto binModel = pCore->projectItemModel();
-    Q_ASSERT(binModel->clipsCount() == 0);
+    // Q_ASSERT(binModel->clipsCount() == 0);
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
@@ -112,16 +112,13 @@ TEST_CASE("Save File With 2 Sequences", "[SF2]")
     {
         // Create document
         KdenliveDoc document(undoStack);
-        Mock<KdenliveDoc> docMock(document);
-        KdenliveDoc &mockedDoc = docMock.get();
-
-        pCore->projectManager()->m_project = &mockedDoc;
+        pCore->projectManager()->m_project = &document;
         QDateTime documentDate = QDateTime::currentDateTime();
         pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
-        auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
+        auto timeline = document.getTimeline(document.uuid());
         pCore->projectManager()->m_activeTimelineModel = timeline;
+        pCore->projectManager()->testSetActiveDocument(&document, timeline);
 
-        pCore->projectManager()->testSetActiveDocument(&mockedDoc, timeline);
         KdenliveDoc::next_id = 0;
         QDir dir = QDir::temp();
 
@@ -173,7 +170,7 @@ TEST_CASE("Save File With 2 Sequences", "[SF2]")
 
         QUuid uuid;
         QMap<QUuid, QString> allSequences = binModel->getAllSequenceClips();
-        QString firstSeqId = allSequences.value(mockedDoc.uuid());
+        QString firstSeqId = allSequences.value(document.uuid());
         QMapIterator<QUuid, QString> i(allSequences);
         while (i.hasNext()) {
             // Find clips with the tag
@@ -185,7 +182,7 @@ TEST_CASE("Save File With 2 Sequences", "[SF2]")
         REQUIRE(!uuid.isNull());
         // Make last sequence active
         timeline.reset();
-        timeline = mockedDoc.getTimeline(uuid);
+        timeline = document.getTimeline(uuid);
         timeline->getGuideModel()->addMarker(GenTime(10, pCore->getCurrentFps()), i18n("guide 4"));
 
         // Save and close

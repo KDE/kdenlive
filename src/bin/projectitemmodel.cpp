@@ -590,12 +590,14 @@ QStringList ProjectItemModel::getEnclosingFolderInfo(const QModelIndex &index) c
 
 void ProjectItemModel::clean()
 {
-    // QWriteLocker locker(&m_lock);
+    QWriteLocker locker(&m_lock);
     closing = true;
     m_extraPlaylists.clear();
     std::vector<std::shared_ptr<AbstractProjectItem>> toDelete;
     toDelete.reserve(size_t(rootItem->childCount()));
     for (int i = 0; i < rootItem->childCount(); ++i) {
+        qDebug() << "... FOUND CLIP: " << std::static_pointer_cast<AbstractProjectItem>(rootItem->child(i))->clipId() << " = "
+                 << std::static_pointer_cast<AbstractProjectItem>(rootItem->child(i))->name();
         toDelete.push_back(std::static_pointer_cast<AbstractProjectItem>(rootItem->child(i)));
     }
     Fun undo = []() { return true; };

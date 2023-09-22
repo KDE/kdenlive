@@ -329,7 +329,13 @@ void ProjectManager::testSetActiveDocument(KdenliveDoc *doc, std::shared_ptr<Tim
     m_project->addTimeline(doc->uuid(), timeline);
     m_activeTimelineModel = timeline;
     m_project->activeUuid = doc->uuid();
-    m_project->loadSequenceGroupsAndGuides(doc->uuid());
+    std::shared_ptr<ProjectClip> mainClip = pCore->projectItemModel()->getClipByBinID(pCore->projectItemModel()->getSequenceId(doc->uuid()));
+    if (mainClip) {
+        if (timeline->getGuideModel() == nullptr) {
+            timeline->setMarkerModel(mainClip->markerModel());
+        }
+        m_project->loadSequenceGroupsAndGuides(doc->uuid());
+    }
 }
 
 std::shared_ptr<TimelineItemModel> ProjectManager::getTimeline()
@@ -709,6 +715,17 @@ void ProjectManager::openFile(const QUrl &url)
     doOpenFile(url, nullptr);
 }
 
+void ProjectManager::abortLoading()
+{
+    KMessageBox::error(pCore->window(), i18n("Could not recover corrupted file."));
+    delete m_progressDialog;
+    m_progressDialog = nullptr;
+    // Don't propose to save corrupted doc
+    m_project->setModified(false);
+    // Open default blank document
+    newFile(false);
+}
+
 void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBackup)
 {
     Q_ASSERT(m_project == nullptr);
@@ -810,7 +827,6 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     // Set default target tracks to upper audio / lower video tracks
     m_project = doc;
     QDateTime documentDate = QFileInfo(m_project->url().toLocalFile()).lastModified();
-
     if (!updateTimeline(true, m_project->getDocumentProperty(QStringLiteral("previewchunks")),
                         m_project->getDocumentProperty(QStringLiteral("dirtypreviewchunks")), documentDate,
                         m_project->getDocumentProperty(QStringLiteral("disablepreview")).toInt())) {
@@ -848,20 +864,11 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
         if (binId.isEmpty()) {
             if (pCore->projectItemModel()->sequenceCount() == 0) {
                 // Something is broken here, abort
-                KMessageBox::error(pCore->window(), i18n("Could not recover corrupted file."));
-                delete m_progressDialog;
-                m_progressDialog = nullptr;
-                // Don't propose to save broken document
-                m_project->setModified(false);
-                // Open default blank document
-                newFile(false);
+                abortLoading();
                 return;
             }
-        }
-        if (!binId.isEmpty()) {
-            openTimeline(binId, activeUuid);
         } else {
-            qDebug() << ":::::::::\n\nNO BINID FOR TIMELINE: " << activeUuid << "\n\n:::::::::::::";
+            openTimeline(binId, activeUuid);
         }
     }
     pCore->window()->connectDocument();
@@ -1342,8 +1349,12 @@ bool ProjectManager::updateTimeline(bool createNewTab, const QString &chunks, co
         pCore->bin()->registerSequence(uuid, mainId);
         QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, this, &ProjectManager::updateSequenceDuration);
     }
-
+    std::shared_ptr<ProjectClip> mainClip = pCore->projectItemModel()->getClipByBinID(mainId);
+    timelineModel->setMarkerModel(mainClip->markerModel());
     m_project->loadSequenceGroupsAndGuides(uuid);
+    if (documentTimeline) {
+        documentTimeline->loadMarkerModel();
+    }
     timelineModel->setUndoStack(m_project->commandStack());
 
     // Reset locale to C to ensure numbers are serialised correctly
@@ -1687,6 +1698,7 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
         prod->parent().set("kdenlive:uuid", uuid.toString().toUtf8().constData());
         prod->parent().set("kdenlive:producer_type", ClipType::Timeline);
         QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, this, &ProjectManager::updateSequenceDuration);
+        timelineModel->setMarkerModel(clip->markerModel());
         m_project->loadSequenceGroupsAndGuides(uuid);
         clip->setProducer(prod, false, false);
         if (!duplicate) {
@@ -1750,6 +1762,7 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
         prod->parent().set("kdenlive:description", clip->description().toUtf8().constData());
         prod->parent().set("kdenlive:uuid", uuid.toString().toUtf8().constData());
         prod->parent().set("kdenlive:producer_type", ClipType::Timeline);
+        timelineModel->setMarkerModel(clip->markerModel());
         if (pCore->bin()) {
             pCore->bin()->registerSequence(uuid, id);
             pCore->bin()->updateSequenceClip(uuid, timelineModel->duration(), -1);

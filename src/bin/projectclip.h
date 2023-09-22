@@ -104,6 +104,9 @@ public:
     /** @brief Returns the clip type as defined in definitions.h */
     ClipType::ProducerType clipType() const override;
 
+    /** @brief Get the marker model for this clip */
+    std::shared_ptr<MarkerListModel> markerModel();
+
     /** @brief Set rating on item */
     void setRating(uint rating) override;
 
@@ -378,7 +381,7 @@ private:
     void updateDescription();
 
 Q_SIGNALS:
-    void producerChanged(const QString &, const std::shared_ptr<Mlt::Producer> &);
+    void producerChanged(const QString &, Mlt::Producer prod);
     void refreshPropertiesPanel();
     void refreshAnalysisPanel();
     void refreshClipDisplay();

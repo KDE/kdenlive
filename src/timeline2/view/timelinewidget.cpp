@@ -191,11 +191,11 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     rootContext()->setContextProperty("multitrack", m_sortModel.get());
     rootContext()->setContextProperty("controller", model.get());
     rootContext()->setContextProperty("timeline", m_proxy);
+    rootContext()->setContextProperty("guidesModel", model->getFilteredGuideModel().get());
     // Create a unique id for this timeline to prevent thumbnails
     // leaking from one project to another because of qml's image caching
     rootContext()->setContextProperty("documentId", model->uuid());
     rootContext()->setContextProperty("audiorec", pCore->getAudioDevice());
-    rootContext()->setContextProperty("guidesModel", model->getFilteredGuideModel().get());
     rootContext()->setContextProperty("clipboard", new ClipboardProxy(this));
     rootContext()->setContextProperty("miniFont", QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     rootContext()->setContextProperty("subtitleModel", model->getSubtitleModel().get());
@@ -221,6 +221,13 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     setVisible(true);
     loading = false;
     m_proxy->checkDuration();
+}
+
+void TimelineWidget::loadMarkerModel()
+{
+    if (m_proxy) {
+        rootContext()->setContextProperty("guidesModel", m_proxy->getModel()->getFilteredGuideModel().get());
+    }
 }
 
 void TimelineWidget::mousePressEvent(QMouseEvent *event)

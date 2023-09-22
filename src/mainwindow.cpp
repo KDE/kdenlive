@@ -72,6 +72,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "jogshuttle/jogmanager.h"
 #endif
 
+#include "knewstuff_version.h"
 #include "kwidgetsaddons_version.h"
 #include "utils/KMessageBox_KdenliveCompat.h"
 #include <KAboutData>
@@ -85,7 +86,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KIconTheme>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include "knewstuff_version.h"
 #if KNEWSTUFF_VERSION >= QT_VERSION_CHECK(5, 240, 0)
 #include <KNSWidgets/Dialog>
 #else
@@ -4911,7 +4911,6 @@ void MainWindow::connectTimeline()
 
     // Ensure the active timeline has an opaque black background for compositing
     getCurrentTimeline()->model()->makeTransparentBg(false);
-    pCore->guidesList()->setModel(project->getGuideModel(uuid), project->getFilteredGuideModel(uuid));
 
     // Audio record actions
     connect(pCore.get(), &Core::finalizeRecording, getCurrentTimeline()->controller(), &TimelineController::finishRecording);
@@ -4929,6 +4928,8 @@ void MainWindow::connectTimeline()
     if (hasSubtitleModel) {
         slotShowSubtitles(showSubs);
     }
+    // Display timeline guides in the guides list
+    pCore->guidesList()->setModel(project->getGuideModel(uuid), project->getFilteredGuideModel(uuid));
 
     if (m_renderWidget) {
         slotCheckRenderStatus();

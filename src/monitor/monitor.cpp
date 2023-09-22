@@ -394,9 +394,9 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
             m_background->setCurrentAction(blackAction);
         }
 #if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 240, 0)
-    connect(m_background, &KSelectAction::actionTriggered, this, [this](QAction *a) {
+        connect(m_background, &KSelectAction::actionTriggered, this, [this](QAction *a) {
 #else
-    connect(m_background, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, [this](QAction *a) {
+        connect(m_background, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, [this](QAction *a) {
 #endif
             KdenliveSettings::setMonitor_background(a->data().toString());
             buildBackgroundedProducer(position());

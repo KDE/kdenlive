@@ -46,7 +46,6 @@ RTTR_REGISTRATION
 TimelineItemModel::TimelineItemModel(const QUuid &uuid, std::weak_ptr<DocUndoStack> undo_stack)
     : TimelineModel(uuid, std::move(undo_stack))
 {
-    m_guidesModel->registerSnapModel(std::static_pointer_cast<SnapInterface>(m_snaps));
 }
 
 void TimelineItemModel::finishConstruct(const std::shared_ptr<TimelineItemModel> &ptr)

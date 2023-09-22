@@ -518,7 +518,6 @@ private:
     BinItemDelegate *m_binTreeViewDelegate;
     BinListItemDelegate *m_binListViewDelegate;
     std::unique_ptr<ProjectSortProxyModel> m_proxyModel;
-    /** @brief A map of opened timeline clips {uuid, bin id} */
     QMap<QUuid, QString> m_openedPlaylists;
     QToolBar *m_toolbar;
     KdenliveDoc *m_doc;

@@ -17,10 +17,10 @@
 #include <QTimer>
 #include <QTreeWidget>
 
-#include <KIO/ListJob>
-#include <KIO/PreviewJob>
 #include <KCoreDirLister>
 #include <KFileItem>
+#include <KIO/ListJob>
+#include <KIO/PreviewJob>
 #include <KMessageWidget>
 
 class ProjectManager;
