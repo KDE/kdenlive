@@ -1,13 +1,13 @@
-# Copyright (C) YEAR This file is copyright:
+# Copyright (C) 2023 This file is copyright:
 # This file is distributed under the same license as the kdenlive package.
 #
-# Kheyyam Gojayev <xxmn77@gmail.com>, 2021, 2022, 2023.
+# SPDX-FileCopyrightText: 2021, 2022, 2023 Kheyyam Gojayev <xxmn77@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-09 00:45+0000\n"
-"PO-Revision-Date: 2023-06-26 17:17+0400\n"
+"PO-Revision-Date: 2023-09-15 17:24+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
 "Language: az\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 23.04.2\n"
+"X-Generator: Lokalize 23.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -5968,6 +5968,8 @@ msgid ""
 "<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</b> "
 "by the second, , <b>{&#x25;3}</b> by the output file path."
 msgstr ""
+"<b>{&#x25;1}</b> ilk parametr, <b>{&#x25;2}</b> ikinci parametr, <b>{&#x25;3}"
+"</b> çıxış faylına yol ilə əvəz olunacaq."
 
 #: src/dialogs/clipjobmanager.cpp:48
 #, kde-format
@@ -5983,11 +5985,15 @@ msgid ""
 "inserted in place of <b>{&#x25;3}</b> if found. If output filename already "
 "exists, a -0001 pattern will be appended."
 msgstr ""
+"Çıxış faylının adı dəyişdirilərək genişləndirimiş mənbə kilipinin fayl adı "
+"ilə eyni olacaq. Bu arqumentlərin sonuna əlavə olunacaq və ya əgər tapılarsa "
+"<b>{&#x25;3}</b> yerinə daxil ediləcək. Əgər çıxış adı artıq mövcuddursa, "
+"-0001 şablonu əlavə ediləcək."
 
 #: src/dialogs/clipjobmanager.cpp:54
 #, kde-format
 msgid "The first parameter that will be injected in the script arguments"
-msgstr ""
+msgstr "Skript arqumentləri daxilinə əlavə ediləcək ilk parametr"
 
 #: src/dialogs/clipjobmanager.cpp:56 src/dialogs/clipjobmanager.cpp:66
 #, kde-kuit-format
@@ -5997,12 +6003,17 @@ msgid ""
 "File Path</b> will ask for a file path on execution<br/><b>Request Option in "
 "List</b> will ask for a choice in the list below on execution."
 msgstr ""
+"<b>Mənbə klip yolu</b> seçilmiş klip konteyneri yoluna yerləşdiriləcək<br/"
+"><b>Fayl yolunun tələb olunması</b> icra zamanı fayl yolunu soruşacaq<br/"
+"><b>Siyahıdakı parametri soruşmaq</b>icra zamanı aşağıdakı siyahıdan seçim "
+"edilməsini soruşacaq."
 
 #: src/dialogs/clipjobmanager.cpp:59 src/dialogs/clipjobmanager.cpp:69
 #, kde-format
 msgid ""
 "A newline separated list of possible values that will be offered on execution"
 msgstr ""
+"İcra zamanı təklif ediləcək mümkün dəyərlərin yeni sətirlə ayrılmış siyahısı"
 
 #: src/dialogs/clipjobmanager.cpp:62 src/dialogs/clipjobmanager.cpp:72
 #, kde-kuit-format
@@ -6011,11 +6022,13 @@ msgid ""
 "When the parameter is set to <b>Request Option in List</b> the user will be "
 "asked to choose a value in this list when the job is started."
 msgstr ""
+"Parametr <b>Siyahıdakı parametri tələb etmək</b> təyin edildiyində iş "
+"başlayan zaman istifadəçindən bu siyahıdan bir dəyər seçilməsi istənəcək."
 
 #: src/dialogs/clipjobmanager.cpp:64
 #, kde-format
 msgid "The second parameter that will be injected in the script arguments"
-msgstr ""
+msgstr "Skript arqumentlərinə daxil ediləcək ikinci parametr"
 
 #: src/dialogs/clipjobmanager.cpp:128 src/dialogs/clipjobmanager.cpp:256
 #, kde-format
@@ -6275,10 +6288,9 @@ msgid "Guide position in frames"
 msgstr "Bələdçi mövqeyi kadrlarda"
 
 #: src/dialogs/exportguidesdialog.cpp:117
-#, fuzzy, kde-format
-#| msgid "Guide position in frames"
+#, kde-format
 msgid "Next guide position in frames"
-msgstr "Bələdçi mövqeyi kadrlarda"
+msgstr "Kadrdakı növbəti bələdçi mövqeyi"
 
 #: src/dialogs/exportguidesdialog.cpp:118
 #, kde-format
@@ -6972,19 +6984,16 @@ msgid "Remove Job"
 msgstr "Tapşırığı silmək"
 
 #: src/dialogs/renderwidget.cpp:1709
-#, fuzzy, kde-format
-#| msgid "Render Duration: %1"
+#, kde-format
 msgid "Render Duration: %1. "
-msgstr "Görünütü işlənməsi müddəti: %1"
+msgstr "Görünütü işlənməsi müddəti: %1 "
 
 #: src/dialogs/renderwidget.cpp:1711
-#, fuzzy, kde-format
-#| msgid "You have %1 missing clip in your project."
-#| msgid_plural "You have %1 missing clips in your project."
+#, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
-msgstr[0] "Layihənizdə %1 klip çatışmır."
-msgstr[1] "Layihənizdə %1 klip çatışmır."
+msgstr[0] "<b>Layihədə bir çatışmayan klip istifadə olunur.</b>"
+msgstr[1] "<b>Layihədə %1 çatışmayan klip istifadə olunur.</b>"
 
 #: src/dialogs/renderwidget.cpp:1713
 #, fuzzy, kde-format
@@ -12981,10 +12990,9 @@ msgid "Archiving %1"
 msgstr "%1 arxivlənir"
 
 #: src/project/dialogs/archivewidget.cpp:1120
-#, fuzzy, kde-format
-#| msgid "Cannot open file %1"
+#, kde-format
 msgid "Cannot copy file %1 to %2."
-msgstr "%1 faylı açıla bilmir"
+msgstr "%1 faylını %2 daxilinə kopyalamaq mümkün deyil."
 
 #: src/project/dialogs/archivewidget.cpp:1150
 #, kde-format
