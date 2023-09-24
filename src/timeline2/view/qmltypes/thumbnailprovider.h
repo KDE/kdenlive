@@ -23,5 +23,5 @@ public:
 
 private:
     Mlt::Profile m_profile;
-    QImage makeThumbnail(Mlt::Producer *producer, int frameNumber, const QSize &requestedSize);
+    QImage makeThumbnail(std::unique_ptr<Mlt::Producer> producer, int frameNumber, const QSize &requestedSize);
 };

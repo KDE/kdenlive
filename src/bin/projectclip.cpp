@@ -841,6 +841,9 @@ std::unique_ptr<Mlt::Producer> ProjectClip::getThumbProducer()
         // TODO: when the original producer changes, we must reload this thumb producer
         thumbProd = softClone(ClipController::getPassPropertiesList());
     } else if (m_clipType == ClipType::Timeline) {
+        if (pCore->currentDoc()->loading) {
+            return nullptr;
+        }
         if (!m_sequenceThumbFile.isOpen() && !m_sequenceThumbFile.open()) {
             // Something went wrong
             qWarning() << "Cannot write to temporary file: " << m_sequenceThumbFile.fileName();

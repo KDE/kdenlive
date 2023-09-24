@@ -826,6 +826,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
 
     // Set default target tracks to upper audio / lower video tracks
     m_project = doc;
+    pCore->monitorManager()->projectMonitor()->locked = true;
     QDateTime documentDate = QFileInfo(m_project->url().toLocalFile()).lastModified();
     if (!updateTimeline(true, m_project->getDocumentProperty(QStringLiteral("previewchunks")),
                         m_project->getDocumentProperty(QStringLiteral("dirtypreviewchunks")), documentDate,
@@ -836,6 +837,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
         // Don't propose to save corrupted doc
         m_project->setModified(false);
         // Open default blank document
+        pCore->monitorManager()->projectMonitor()->locked = false;
         newFile(false);
         return;
     }
@@ -872,6 +874,10 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
         }
     }
     pCore->window()->connectDocument();
+    // Now load active sequence in project monitor
+    pCore->monitorManager()->projectMonitor()->locked = false;
+    int position = m_project->getSequenceProperty(activeUuid, QStringLiteral("position"), QString::number(0)).toInt();
+    pCore->monitorManager()->projectMonitor()->setProducer(m_activeTimelineModel->producer(), position);
 
     Q_EMIT docOpened(m_project);
     pCore->displayMessage(QString(), OperationCompletedMessage, 100);

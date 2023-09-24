@@ -47,7 +47,7 @@ QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSi
             }
             std::unique_ptr<Mlt::Producer> prod = binClip->getThumbProducer();
             if (prod && prod->is_valid()) {
-                result = makeThumbnail(prod.get(), frameNumber, requestedSize);
+                result = makeThumbnail(std::move(prod), frameNumber, requestedSize);
                 ThumbnailCache::get()->storeThumbnail(binId, frameNumber, result, false);
             }
         }
@@ -56,7 +56,7 @@ QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSi
     return result;
 }
 
-QImage ThumbnailProvider::makeThumbnail(Mlt::Producer *producer, int frameNumber, const QSize &requestedSize)
+QImage ThumbnailProvider::makeThumbnail(std::unique_ptr<Mlt::Producer> producer, int frameNumber, const QSize &requestedSize)
 {
     Q_UNUSED(requestedSize)
     producer->seek(frameNumber);

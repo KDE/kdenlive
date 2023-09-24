@@ -2634,6 +2634,9 @@ void Monitor::requestSeekIfVisible(int pos)
 
 void Monitor::setProducer(std::shared_ptr<Mlt::Producer> producer, int pos)
 {
+    if (locked) {
+        return;
+    }
     m_audioMeterWidget->audioChannels = pCore->audioChannels();
     if (producer) {
         m_markerModel = pCore->currentDoc()->getGuideModel(pCore->currentTimelineId());
