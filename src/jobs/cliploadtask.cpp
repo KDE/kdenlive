@@ -229,6 +229,9 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
             QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage, thumb), Q_ARG(int, m_in), Q_ARG(int, m_out),
                                       Q_ARG(bool, true));
         } else {
+            if (m_isCanceled.loadAcquire() || pCore->taskManager.isBlocked()) {
+                return;
+            }
             std::unique_ptr<Mlt::Producer> thumbProd = binClip->getThumbProducer();
             if (thumbProd && thumbProd->is_valid()) {
                 if (frameNumber > 0) {
