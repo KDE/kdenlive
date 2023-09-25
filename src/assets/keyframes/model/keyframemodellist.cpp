@@ -286,6 +286,23 @@ bool KeyframeModelList::updateKeyframe(GenTime pos, const QVariant &value, const
     return true; // NOLINT(clang-analyzer-cplusplus.NewDeleteLeaks)
 }
 
+bool KeyframeModelList::updateMultiKeyframe(GenTime pos, const QStringList &sourceValues, const QStringList &values, const QList<QModelIndex> &indexes,
+                                            QUndoCommand *parentCommand)
+{
+    if (singleKeyframe()) {
+        bool ok = false;
+        Keyframe kf = m_parameters.begin()->second->getNextKeyframe(GenTime(-1), &ok);
+        pos = kf.first;
+    }
+    if (auto ptr = m_model.lock()) {
+        auto *command = new AssetMultiKeyframeCommand(ptr, indexes, sourceValues, values, pos, parentCommand);
+        if (parentCommand == nullptr) {
+            pCore->pushUndo(command);
+        } // clang-tidy: else "command" is leaked? no because is was pushed to parentCommand
+    }
+    return true; // NOLINT(clang-analyzer-cplusplus.NewDeleteLeaks)
+}
+
 bool KeyframeModelList::updateKeyframeType(GenTime pos, int type, const QPersistentModelIndex &index)
 {
     QWriteLocker locker(&m_lock);

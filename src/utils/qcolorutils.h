@@ -39,6 +39,9 @@ public:
     int hue() const;
     qreal hueF() const;
     qreal saturationF() const;
+    /** @brief overload of comparison operators */
+    bool operator==(const NegQColor &other) const;
+    bool operator!=(const NegQColor &other) const;
 };
 
 QDebug operator<<(QDebug qd, const NegQColor &color);

@@ -83,6 +83,16 @@ QDebug operator<<(QDebug qd, const NegQColor &c)
     return qd.maybeSpace();
 }
 
+bool NegQColor::operator==(const NegQColor &other) const
+{
+    return other.redF() == redF() && other.greenF() == greenF() && other.blueF() == blueF() && other.hueF() == hueF();
+}
+
+bool NegQColor::operator!=(const NegQColor &other) const
+{
+    return other.redF() != redF() || other.greenF() != greenF() || other.blueF() != blueF() || other.hueF() != hueF();
+}
+
 NegQColor NegQColor::fromRgbF(qreal r, qreal g, qreal b, qreal a)
 {
     NegQColor color;

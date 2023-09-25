@@ -191,6 +191,67 @@ bool AssetKeyframeCommand::mergeWith(const QUndoCommand *other)
     return true;
 }
 
+AssetMultiKeyframeCommand::AssetMultiKeyframeCommand(const std::shared_ptr<AssetParameterModel> &model, const QList<QModelIndex> &indexes,
+                                                     const QStringList &sourceValues, const QStringList &values, GenTime pos, QUndoCommand *parent)
+    : QUndoCommand(parent)
+    , m_model(model)
+    , m_indexes(indexes)
+    , m_values(values)
+    , m_oldValues(sourceValues)
+    , m_pos(pos)
+    , m_stamp(QTime::currentTime())
+{
+    const QString id = model->getAssetId();
+    if (EffectsRepository::get()->exists(id)) {
+        setText(i18n("Edit %1 keyframe", EffectsRepository::get()->getName(id)));
+    } else if (TransitionsRepository::get()->exists(id)) {
+        setText(i18n("Edit %1 keyframe", TransitionsRepository::get()->getName(id)));
+    }
+}
+
+void AssetMultiKeyframeCommand::undo()
+{
+    int indx = 0;
+    for (const QModelIndex &ix : qAsConst(m_indexes)) {
+        m_model->getKeyframeModel()->getKeyModel(ix)->directUpdateKeyframe(m_pos, m_oldValues.at(indx), false);
+        m_model->getKeyframeModel()->getKeyModel(ix)->sendModification();
+        indx++;
+    }
+    Q_EMIT m_model->getKeyframeModel()->modelChanged();
+}
+
+// virtual
+void AssetMultiKeyframeCommand::redo()
+{
+    int indx = 0;
+    for (const QModelIndex &ix : qAsConst(m_indexes)) {
+        m_model->getKeyframeModel()->getKeyModel(ix)->directUpdateKeyframe(m_pos, m_values.at(indx), false);
+        m_model->getKeyframeModel()->getKeyModel(ix)->sendModification();
+        indx++;
+    }
+    Q_EMIT m_model->getKeyframeModel()->modelChanged();
+}
+
+// virtual
+int AssetMultiKeyframeCommand::id() const
+{
+    return 4;
+}
+// virtual
+bool AssetMultiKeyframeCommand::mergeWith(const QUndoCommand *other)
+{
+    if (other->id() != id()) {
+        return false;
+    }
+    const AssetMultiKeyframeCommand *otherCommand = static_cast<const AssetMultiKeyframeCommand *>(other);
+    if (!otherCommand || otherCommand->m_model != m_model || m_stamp.msecsTo(otherCommand->m_stamp) > 3000) {
+        return false;
+    }
+    m_values = static_cast<const AssetMultiKeyframeCommand *>(other)->m_values;
+    m_stamp = static_cast<const AssetMultiKeyframeCommand *>(other)->m_stamp;
+    return true;
+}
+
 AssetUpdateCommand::AssetUpdateCommand(const std::shared_ptr<AssetParameterModel> &model, QVector<QPair<QString, QVariant>> parameters, QUndoCommand *parent)
     : QUndoCommand(parent)
     , m_model(model)

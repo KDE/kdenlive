@@ -46,6 +46,7 @@ public:
     friend class KeyframeModelList;
     friend class KeyframeWidget;
     friend class KeyframeImport;
+    friend class AssetMultiKeyframeCommand;
 
 protected:
     /** @brief These methods should ONLY be called by keyframemodellist to ensure synchronisation
@@ -100,7 +101,7 @@ public:
        @param pos is the position of the keyframe
        @param value is the new value of the param
     */
-    bool directUpdateKeyframe(GenTime pos, QVariant value);
+    bool directUpdateKeyframe(GenTime pos, QVariant value, bool notify = true);
 
     /** @brief Returns a keyframe data at given pos
        ok is a return parameter, set to true if everything went good
