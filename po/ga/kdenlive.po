@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-23 00:43+0000\n"
+"POT-Creation-Date: 2023-09-25 00:42+0000\n"
 "PO-Revision-Date: 2011-12-28 12:28-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -4741,8 +4741,8 @@ msgstr "Seinmliosta"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2285 src/bin/clipcreator.cpp:240 src/bin/clipcreator.cpp:242
-#: src/kdenliveui.rc:41 src/project/projectmanager.cpp:1305
-#: src/project/projectmanager.cpp:1307 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:41 src/project/projectmanager.cpp:1311
+#: src/project/projectmanager.cpp:1313 src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
 #| msgid "Image size"
 msgid "Sequences"
@@ -5010,7 +5010,7 @@ msgid "Edit Tags"
 msgstr "Cuir Fad Ama in Eagar"
 
 #: src/bin/bin.cpp:4283 src/bin/projectclip.cpp:198
-#: src/bin/projectclip.cpp:1994 src/onlineresources/resourcewidget.cpp:266
+#: src/bin/projectclip.cpp:1997 src/onlineresources/resourcewidget.cpp:266
 #: src/onlineresources/resourcewidget.cpp:557
 #: src/onlineresources/resourcewidget.cpp:572
 #, fuzzy, kde-format
@@ -5039,7 +5039,7 @@ msgid "Please set a default application to open audio files"
 msgstr ""
 
 #: src/bin/bin.cpp:4376 src/core.cpp:304 src/doc/kdenlivedoc.cpp:165
-#: src/jobs/cliploadtask.cpp:459 src/jobs/filtertask.cpp:93
+#: src/jobs/cliploadtask.cpp:462 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:471
 #: src/layoutmanagement.cpp:532 src/profiles/profilerepository.cpp:173
 #: src/renderpresets/renderpresetrepository.cpp:374
@@ -5596,20 +5596,20 @@ msgid ""
 "This is not correctly supported by our video framework."
 msgstr ""
 
-#: src/bin/projectclip.cpp:937
+#: src/bin/projectclip.cpp:940
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
 "%2"
 msgstr ""
 
-#: src/bin/projectclip.cpp:1173 src/jobs/cliploadtask.cpp:255
+#: src/bin/projectclip.cpp:1176 src/jobs/cliploadtask.cpp:258
 #, fuzzy, kde-format
 #| msgid "Edit profile"
 msgid "Invalid"
 msgstr "Cuir eagar ar phróifíl"
 
-#: src/bin/projectclip.cpp:1377 src/dialogs/clipcreationdialog.cpp:207
+#: src/bin/projectclip.cpp:1380 src/dialogs/clipcreationdialog.cpp:207
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1358
 #, fuzzy, kde-format
@@ -5617,13 +5617,13 @@ msgstr "Cuir eagar ar phróifíl"
 msgid "File already exists"
 msgstr "Méid an chomhaid"
 
-#: src/bin/projectclip.cpp:2757
+#: src/bin/projectclip.cpp:2760
 #, fuzzy, kde-format
 #| msgid "Add new effect"
 msgid "Add stream effect"
 msgstr "Cuir maisíocht nua leis"
 
-#: src/bin/projectclip.cpp:2782
+#: src/bin/projectclip.cpp:2785
 #, fuzzy, kde-format
 #| msgid "Reset Effect"
 msgid "Remove stream effect"
@@ -6434,7 +6434,7 @@ msgstr "Luchtaigh marcóirí"
 #: src/project/dialogs/archivewidget.cpp:879
 #: src/project/dialogs/archivewidget.cpp:891
 #: src/project/dialogs/archivewidget.cpp:897
-#: src/project/projectmanager.cpp:1589 src/render/renderrequest.cpp:230
+#: src/project/projectmanager.cpp:1595 src/render/renderrequest.cpp:230
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5045
@@ -8202,7 +8202,7 @@ msgid "Invalid file path"
 msgstr "Cuir eagar ar phróifíl"
 
 #: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:720
-#: src/project/projectmanager.cpp:770 src/project/projectmanager.cpp:833
+#: src/project/projectmanager.cpp:770 src/project/projectmanager.cpp:834
 #, fuzzy, kde-format
 #| msgid "Cannot open file"
 msgid "Could not recover corrupted file."
@@ -8271,8 +8271,8 @@ msgid ""
 "it was not possible to create the backup copy %1."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:879 src/project/projectmanager.cpp:1186
-#: src/project/projectmanager.cpp:1222
+#: src/doc/kdenlivedoc.cpp:879 src/project/projectmanager.cpp:1192
+#: src/project/projectmanager.cpp:1228
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error moving project folder: %1"
@@ -8280,7 +8280,7 @@ msgstr "Earráid agus comhad á oscailt"
 
 #: src/doc/kdenlivedoc.cpp:1048 src/doc/kdenlivedoc.cpp:2211
 #: src/project/dialogs/archivewidget.cpp:238
-#: src/project/projectmanager.cpp:1423
+#: src/project/projectmanager.cpp:1429
 #, kde-format
 msgid "Untitled"
 msgstr "Gan Teideal"
@@ -8847,17 +8847,17 @@ msgstr "Mionsamhlacha"
 msgid "Loading clip"
 msgstr "Amlíne"
 
-#: src/jobs/cliploadtask.cpp:487
+#: src/jobs/cliploadtask.cpp:490
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr ""
 
-#: src/jobs/cliploadtask.cpp:645
+#: src/jobs/cliploadtask.cpp:648
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr ""
 
-#: src/jobs/cliploadtask.cpp:673
+#: src/jobs/cliploadtask.cpp:676
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr ""
@@ -13599,7 +13599,7 @@ msgstr "Luchtaigh marcóirí"
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1482
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1488
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:4951
 #, fuzzy, kde-format
@@ -14189,7 +14189,7 @@ msgstr ""
 msgid "Save changes to document?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:380 src/project/projectmanager.cpp:1422
+#: src/project/projectmanager.cpp:380 src/project/projectmanager.cpp:1428
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -14283,75 +14283,75 @@ msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:896
+#: src/project/projectmanager.cpp:902
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
 "sure you want to continue?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:897
+#: src/project/projectmanager.cpp:903
 #, kde-format
 msgid "Revert to last saved version"
 msgstr ""
 
-#: src/project/projectmanager.cpp:979
+#: src/project/projectmanager.cpp:985
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
 "file to recover last backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1164
+#: src/project/projectmanager.cpp:1170
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Earráid agus comhad á oscailt"
 
-#: src/project/projectmanager.cpp:1200
+#: src/project/projectmanager.cpp:1206
 #, fuzzy, kde-format
 #| msgid "Project Files"
 msgid "Moving project folder"
 msgstr "Comhaid an Tionscadail"
 
-#: src/project/projectmanager.cpp:1258
+#: src/project/projectmanager.cpp:1264
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1283 src/project/projectmanager.cpp:1314
-#: src/project/projectmanager.cpp:1318
+#: src/project/projectmanager.cpp:1289 src/project/projectmanager.cpp:1320
+#: src/project/projectmanager.cpp:1324
 #, fuzzy, kde-format
 #| msgid "Image size"
 msgid "Sequence 1"
 msgstr "Méid na híomhá"
 
-#: src/project/projectmanager.cpp:1295
+#: src/project/projectmanager.cpp:1301
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1428 src/project/projectmanager.cpp:1433
-#: src/project/projectmanager.cpp:1443 src/project/projectmanager.cpp:1457
+#: src/project/projectmanager.cpp:1434 src/project/projectmanager.cpp:1439
+#: src/project/projectmanager.cpp:1449 src/project/projectmanager.cpp:1463
 #, kde-format
 msgid "Project profile change aborted"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1574
+#: src/project/projectmanager.cpp:1580
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
 "Do you want to overwrite it?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1599
+#: src/project/projectmanager.cpp:1605
 #, fuzzy, kde-format
 #| msgid "Project Files"
 msgid "Project profile changed"
 msgstr "Comhaid an Tionscadail"
 
-#: src/project/projectmanager.cpp:1652
+#: src/project/projectmanager.cpp:1658
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid ""
@@ -14359,18 +14359,18 @@ msgid ""
 "%1"
 msgstr "Ní féidir comhad %1 a scríobh"
 
-#: src/project/projectmanager.cpp:1734
+#: src/project/projectmanager.cpp:1740
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1910
+#: src/project/projectmanager.cpp:1916
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select a clip to create sequence"
 msgstr "Uirlis roghnúcháin"
 
-#: src/project/projectmanager.cpp:1947
+#: src/project/projectmanager.cpp:1953
 #, fuzzy, kde-format
 #| msgid "Preview Settings"
 msgid "Create Sequence Clip"
