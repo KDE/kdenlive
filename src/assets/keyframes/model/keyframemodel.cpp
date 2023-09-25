@@ -419,12 +419,12 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, b
     return res;
 }
 
-bool KeyframeModel::directUpdateKeyframe(GenTime pos, QVariant value)
+bool KeyframeModel::directUpdateKeyframe(GenTime pos, QVariant value, bool notify)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_keyframeList.count(pos) > 0);
     KeyframeType type = m_keyframeList[pos].first;
-    auto operation = updateKeyframe_lambda(pos, type, std::move(value), true);
+    auto operation = updateKeyframe_lambda(pos, type, std::move(value), notify);
     return operation();
 }
 

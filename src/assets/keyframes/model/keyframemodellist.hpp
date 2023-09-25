@@ -65,11 +65,19 @@ public:
     bool moveKeyframeWithUndo(GenTime oldPos, GenTime pos, Fun &undo, Fun &redo);
 
     /** @brief updates the value of a keyframe
-       @param old is the position of the keyframe
+       @param pos is the position of the keyframe
        @param value is the new value of the param
        @param index is the index of the wanted keyframe
     */
     bool updateKeyframe(GenTime pos, const QVariant &value, const QPersistentModelIndex &index, QUndoCommand *parentCommand = nullptr);
+    /** @brief updates the value of a keyframe which contains multiple params, like Lift/Gamma/Gain
+       @param pos is the position of the keyframe
+       @param sourceValues is the list of previous values (used when undoing)
+       @param values is the new values list
+       @param indexes is the index list of the wanted keyframe
+    */
+    bool updateMultiKeyframe(GenTime pos, const QStringList &sourceValues, const QStringList &values, const QList<QModelIndex> &indexes,
+                             QUndoCommand *parentCommand = nullptr);
     bool updateKeyframeType(GenTime pos, int type, const QPersistentModelIndex &index);
     bool updateKeyframe(GenTime oldPos, GenTime pos, const QVariant &normalizedVal, bool logUndo = true);
     KeyframeType keyframeType(GenTime pos) const;

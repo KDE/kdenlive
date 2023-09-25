@@ -43,10 +43,10 @@ protected:
 
 Q_SIGNALS:
     /** @brief Emitted whenever a different color was chosen. */
-    void liftChanged(const NegQColor &color);
-    void gammaChanged(const NegQColor &color);
-    void gainChanged(const NegQColor &color);
-    void valuesChanged(const QList<QModelIndex>, const QStringList &, bool);
+    void liftChanged(const NegQColor &sourceColor, const NegQColor &color, bool createUndo);
+    void gammaChanged(const NegQColor &sourceColor, const NegQColor &color, bool createUndo);
+    void gainChanged(const NegQColor &sourceColor, const NegQColor &color, bool createUndo);
+    void valuesChanged(const QList<QModelIndex>, const QStringList &, const QStringList &, bool createUndo);
     void updateHeight(int height);
 
 public Q_SLOTS:

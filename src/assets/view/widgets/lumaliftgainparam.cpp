@@ -45,23 +45,29 @@ LumaLiftGainParam::LumaLiftGainParam(std::shared_ptr<AssetParameterModel> model,
     setLayout(m_flowLayout);
     slotRefresh(0);
 
-    connect(this, &LumaLiftGainParam::liftChanged, [this, indexes](const NegQColor &color) {
+    connect(this, &LumaLiftGainParam::liftChanged, [this, indexes](const NegQColor &sourceColor, const NegQColor &color, bool createUndo) {
         QList<QModelIndex> ixes{indexes.value(QStringLiteral("lift_r")), indexes.value(QStringLiteral("lift_g")), indexes.value(QStringLiteral("lift_b"))};
+        QStringList sourceValues{QString::number(sourceColor.redF() * LIFT_FACTOR, 'f'), QString::number(sourceColor.greenF() * LIFT_FACTOR, 'f'),
+                                 QString::number(sourceColor.blueF() * LIFT_FACTOR, 'f')};
         QStringList values{QString::number(color.redF() * LIFT_FACTOR, 'f'), QString::number(color.greenF() * LIFT_FACTOR, 'f'),
                            QString::number(color.blueF() * LIFT_FACTOR, 'f')};
-        Q_EMIT valuesChanged(ixes, values, true);
+        Q_EMIT valuesChanged(ixes, sourceValues, values, createUndo);
     });
-    connect(this, &LumaLiftGainParam::gammaChanged, [this, indexes](const NegQColor &color) {
+    connect(this, &LumaLiftGainParam::gammaChanged, [this, indexes](const NegQColor &sourceColor, const NegQColor &color, bool createUndo) {
         QList<QModelIndex> ixes{indexes.value(QStringLiteral("gamma_r")), indexes.value(QStringLiteral("gamma_g")), indexes.value(QStringLiteral("gamma_b"))};
+        QStringList sourceValues{QString::number(sourceColor.redF() * GAMMA_FACTOR, 'f'), QString::number(sourceColor.greenF() * GAMMA_FACTOR, 'f'),
+                                 QString::number(sourceColor.blueF() * GAMMA_FACTOR, 'f')};
         QStringList values{QString::number(color.redF() * GAMMA_FACTOR, 'f'), QString::number(color.greenF() * GAMMA_FACTOR, 'f'),
                            QString::number(color.blueF() * GAMMA_FACTOR, 'f')};
-        Q_EMIT valuesChanged(ixes, values, true);
+        Q_EMIT valuesChanged(ixes, sourceValues, values, createUndo);
     });
-    connect(this, &LumaLiftGainParam::gainChanged, [this, indexes](const NegQColor &color) {
+    connect(this, &LumaLiftGainParam::gainChanged, [this, indexes](const NegQColor &sourceColor, const NegQColor &color, bool createUndo) {
         QList<QModelIndex> ixes{indexes.value(QStringLiteral("gain_r")), indexes.value(QStringLiteral("gain_g")), indexes.value(QStringLiteral("gain_b"))};
+        QStringList sourceValues{QString::number(sourceColor.redF() * GAIN_FACTOR, 'f'), QString::number(sourceColor.greenF() * GAIN_FACTOR, 'f'),
+                                 QString::number(sourceColor.blueF() * GAIN_FACTOR, 'f')};
         QStringList values{QString::number(color.redF() * GAIN_FACTOR, 'f'), QString::number(color.greenF() * GAIN_FACTOR, 'f'),
                            QString::number(color.blueF() * GAIN_FACTOR, 'f')};
-        Q_EMIT valuesChanged(ixes, values, true);
+        Q_EMIT valuesChanged(ixes, sourceValues, values, createUndo);
     });
 }
 
@@ -113,7 +119,7 @@ void LumaLiftGainParam::slotRefresh(int pos)
 {
     QMap<QString, double> values;
     for (int i = 0; i < m_model->rowCount(); ++i) {
-        QModelIndex local_index = m_model->index(i, 0);
+        const QModelIndex local_index = m_model->index(i, 0);
         QString name = m_model->data(local_index, AssetParameterModel::NameRole).toString();
         double val = m_model->getKeyframeModel()->getInterpolatedValue(pos, local_index).toDouble();
         values.insert(name, val);
