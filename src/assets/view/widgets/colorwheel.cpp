@@ -27,7 +27,8 @@ WheelContainer::WheelContainer(QString id, QString name, NegQColor color, int un
     , m_isMouseDown(false)
     , m_margin(0)
     , m_color(std::move(color))
-    , m_sourceColor(color)
+    , m_defaultColor(m_color)
+    , m_sourceColor(m_color)
     , m_unitSize(unitSize)
     , m_name(std::move(name))
     , m_wheelClick(false)
@@ -170,7 +171,7 @@ void WheelContainer::wheelEvent(QWheelEvent *event)
         if (event->modifiers() & Qt::ShiftModifier) {
             y += event->angleDelta().y() > 0 ? 0.002 : -0.002;
         } else {
-            y += event->angleDelta().y() > 0 ? 0.02 : -0.02;
+            y += event->angleDelta().y() > 0 ? 0.01 : -0.01;
         }
         m_sliderClick = true;
         m_sliderFocus = true;
@@ -256,11 +257,7 @@ void WheelContainer::mousePressEvent(QMouseEvent *event)
             changeColor(m_color, m_color, false);
         } else {
             m_sourceColor = m_color;
-            qreal value = m_defaultValue / m_sizeFactor;
-            if (qFuzzyIsNull(value) && m_color.hueF() != -1 && m_color.saturationF() != 0) {
-                value = 0.001;
-            }
-            m_color = NegQColor::fromHsvF(m_color.hueF(), m_color.saturationF(), value);
+            m_color = NegQColor::fromHsvF(m_color.hueF(), m_color.saturationF(), m_defaultColor.valueF());
         }
         update();
     } else {

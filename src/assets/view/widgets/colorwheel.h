@@ -57,6 +57,7 @@ private:
     QRegion m_wheelRegion;
     QRegion m_sliderRegion;
     NegQColor m_color;
+    NegQColor m_defaultColor;
     NegQColor m_sourceColor;
     int m_unitSize;
     QString m_name;
