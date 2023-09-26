@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-25 00:42+0000\n"
+"POT-Creation-Date: 2023-09-26 00:42+0000\n"
 "PO-Revision-Date: 2023-09-10 15:58+0200\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: fr\n"
@@ -3479,7 +3479,7 @@ msgid "Move keyframe"
 msgstr "Déplacer une image clé"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:488
-#: src/assets/keyframes/model/keyframemodellist.cpp:306
+#: src/assets/keyframes/model/keyframemodellist.cpp:323
 #, kde-format
 msgid "Update keyframe"
 msgstr "Actualiser l'image clé"
@@ -3510,13 +3510,13 @@ msgstr "Réinitialiser l'effet"
 msgid "Delete keyframes"
 msgstr "Supprimer les images clés"
 
-#: src/assets/keyframes/model/keyframemodellist.cpp:446
+#: src/assets/keyframes/model/keyframemodellist.cpp:463
 #: src/assets/model/assetparametermodel.cpp:1410
 #, kde-format
 msgid "Update effect"
 msgstr "Mettre à jour un effet"
 
-#: src/assets/keyframes/model/keyframemodellist.cpp:660
+#: src/assets/keyframes/model/keyframemodellist.cpp:677
 #, kde-format
 msgid "Missing keyframe detected at %1, automatically re-added"
 msgstr "Image clé manquante détectée en %1, rajoutée automatiquement"
@@ -3588,12 +3588,12 @@ msgid "Edit %1"
 msgstr "Éditer %1"
 
 #: src/assets/model/assetcommand.cpp:159 src/assets/model/assetcommand.cpp:161
-#: src/assets/view/widgets/keyframewidget.cpp:568
+#: src/assets/model/assetcommand.cpp:206 src/assets/model/assetcommand.cpp:208
 #, kde-format
 msgid "Edit %1 keyframe"
 msgstr "Modifier l'image clé %1"
 
-#: src/assets/model/assetcommand.cpp:201 src/assets/model/assetcommand.cpp:203
+#: src/assets/model/assetcommand.cpp:262 src/assets/model/assetcommand.cpp:264
 #, kde-format
 msgid "Update %1"
 msgstr "Actualiser %1"
@@ -3650,17 +3650,17 @@ msgstr "Saisissez le nom de ce préréglage :"
 msgid "Abort processing"
 msgstr "Annuler le traitement"
 
-#: src/assets/view/widgets/colorwheel.cpp:508
+#: src/assets/view/widgets/colorwheel.cpp:527
 #, kde-format
 msgid "R: "
 msgstr "R : "
 
-#: src/assets/view/widgets/colorwheel.cpp:515
+#: src/assets/view/widgets/colorwheel.cpp:534
 #, kde-format
 msgid "G: "
 msgstr "V : "
 
-#: src/assets/view/widgets/colorwheel.cpp:521
+#: src/assets/view/widgets/colorwheel.cpp:540
 #, kde-format
 msgid "B: "
 msgstr "B : "
