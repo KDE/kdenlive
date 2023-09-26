@@ -79,7 +79,13 @@ const std::unique_ptr<AudioStreamInfo> &ClipController::audioInfo() const
 void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &producer)
 {
     qDebug() << "################### ClipController::addmasterproducer FOR: " << m_controllerBinId;
-    m_masterProducer = std::move(producer);
+    if (QString(producer->get("mlt_service")).contains(QLatin1String("avformat")) && producer->type() == mlt_service_producer_type) {
+        std::shared_ptr<Mlt::Chain> chain(new Mlt::Chain(pCore->getProjectProfile()));
+        chain->set_source(*producer.get());
+        m_masterProducer = std::move(chain);
+    } else {
+        m_masterProducer = std::move(producer);
+    }
     m_properties = new Mlt::Properties(m_masterProducer->get_properties());
     m_producerLock.unlock();
     // Pass temporary properties
@@ -430,7 +436,7 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
     m_producerLock.lockForWrite();
     Mlt::Properties passProperties;
     // Keep track of necessary properties
-    QString proxy = producer->get("kdenlive:proxy");
+    const QString proxy(producer->get("kdenlive:proxy"));
     if (proxy.length() > 2 && producer->get("resource") == proxy) {
         // This is a proxy producer, read original url from kdenlive property
         m_usesProxy = true;
@@ -443,7 +449,14 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
     // This is necessary as some properties like set.test_audio are reset on producer creation
     passProperties.pass_list(*m_properties, passList);
     delete m_properties;
-    m_masterProducer = std::move(producer);
+
+    if (QString(producer->get("mlt_service")).contains(QLatin1String("avformat")) && producer->type() == mlt_service_producer_type) {
+        std::shared_ptr<Mlt::Chain> chain(new Mlt::Chain(pCore->getProjectProfile()));
+        chain->set_source(*producer.get());
+        m_masterProducer = std::move(chain);
+    } else {
+        m_masterProducer = std::move(producer);
+    }
     m_properties = new Mlt::Properties(m_masterProducer->get_properties());
     m_producerLock.unlock();
     if (!m_masterProducer->is_valid()) {
