@@ -614,6 +614,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
         }
     }
     updateProducer(producer);
+    producer.reset();
     pCore->taskManager.discardJobs(ObjectId(ObjectType::BinClip, m_binId.toInt(), QUuid()), AbstractTask::LOADJOB);
     // Abort thumbnail tasks if any
     m_thumbMutex.lock();

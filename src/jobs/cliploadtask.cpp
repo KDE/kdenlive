@@ -100,11 +100,7 @@ std::shared_ptr<Mlt::Producer> ClipLoadTask::loadResource(QString resource, cons
     if (!resource.startsWith(type)) {
         resource.prepend(type);
     }
-    if (resource.startsWith(QLatin1String("avformat"))) {
-        return std::make_shared<Mlt::Chain>(pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
-    } else {
-        return std::make_shared<Mlt::Producer>(pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
-    }
+    return std::make_shared<Mlt::Producer>(pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
 }
 
 std::shared_ptr<Mlt::Producer> ClipLoadTask::loadPlaylist(QString &resource)
@@ -441,7 +437,7 @@ void ClipLoadTask::run()
             }
             producer = loadResource(resource, service);
         } else {
-            producer = std::make_shared<Mlt::Chain>(pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
+            producer = std::make_shared<Mlt::Producer>(pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
         }
         break;
     }
@@ -693,14 +689,9 @@ void ClipLoadTask::run()
     if (!m_isCanceled.loadAcquire()) {
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.itemId));
         if (binClip) {
-            bool isChain = producer->type() == mlt_service_chain_type;
             const QString xmlData = ClipController::producerXml(*producer.get(), true, false);
             // Reset produccer to get rid of cached frame
-            if (isChain) {
-                producer.reset(new Mlt::Chain(pCore->getProjectProfile(), "xml-string", xmlData.toUtf8().constData()));
-            } else {
-                producer.reset(new Mlt::Producer(pCore->getProjectProfile(), "xml-string", xmlData.toUtf8().constData()));
-            }
+            producer.reset(new Mlt::Producer(pCore->getProjectProfile(), "xml-string", xmlData.toUtf8().constData()));
             QMetaObject::invokeMethod(binClip.get(), "setProducer", Qt::QueuedConnection, Q_ARG(std::shared_ptr<Mlt::Producer>, std::move(producer)),
                                       Q_ARG(bool, true));
             if (checkProfile && !isVariableFrameRate && seekable) {
