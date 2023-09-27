@@ -1902,8 +1902,8 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
                     int target_clip = m_playlists[0].get_clip_index_at(m_allClips[i.key()]->getPosition());
                     std::unique_ptr<Mlt::Producer> prod(m_playlists[0].replace_with_blank(target_clip));
                 }
-                m_playlists[0].consolidate_blanks();
             }
+            m_playlists[0].consolidate_blanks();
             // Then move all clips from playlist 1 to playlist 0
             i.toFront();
             if (auto ptr = m_parent.lock()) {
@@ -1914,6 +1914,7 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
                         int pos = m_allClips[i.key()]->getPosition();
                         int target_clip = m_playlists[1].get_clip_index_at(pos);
                         std::unique_ptr<Mlt::Producer> prod(m_playlists[1].replace_with_blank(target_clip));
+                        prod.reset();
                         // Replug
                         std::shared_ptr<ClipModel> clip = ptr->getClipPtr(i.key());
                         clip->setSubPlaylistIndex(0, m_id);
@@ -1926,8 +1927,8 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
                             return false;
                         }
                     }
-                    m_playlists[1].consolidate_blanks();
                 }
+                m_playlists[1].consolidate_blanks();
                 // Finally replug playlist 0 clips in playlist 1 and fix transition direction
                 i.toFront();
                 while (i.hasNext()) {
@@ -1945,12 +1946,19 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
                             return false;
                         }
                     }
+                    std::unique_ptr<Mlt::Field> field(m_track->field());
+                    field->block();
                     if (m_sameCompositions.count(i.key()) > 0) {
                         // There is a mix at clip start, adjust direction
+                        Mlt::Properties *props = m_sameCompositions[i.key()]->getAsset();
                         Mlt::Transition &transition = *static_cast<Mlt::Transition *>(m_sameCompositions[i.key()]->getAsset());
                         bool reverse = i.value() == 1;
-                        updateCompositionDirection(transition, reverse);
+                        field->disconnect_service(transition);
+                        std::unique_ptr<Mlt::Transition> newTrans = TransitionsRepository::get()->getTransition(m_sameCompositions[i.key()]->getAssetId());
+                        newTrans->inherit(*props);
+                        updateCompositionDirection(*newTrans.get(), reverse);
                     }
+                    field->unblock();
                 }
                 return true;
             } else {
@@ -2009,25 +2017,24 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
                             return false;
                         }
                     }
+                    std::unique_ptr<Mlt::Field> field(m_track->field());
+                    field->block();
                     if (m_sameCompositions.count(i.key()) > 0) {
                         // There is a mix at clip start, adjust direction
+                        Mlt::Properties *props = m_sameCompositions[i.key()]->getAsset();
                         Mlt::Transition &transition = *static_cast<Mlt::Transition *>(m_sameCompositions[i.key()]->getAsset());
                         bool reverse = i.value() == 0;
-                        updateCompositionDirection(transition, reverse);
-
-                        /*Mlt::Transition &transition = *static_cast<Mlt::Transition *>(m_sameCompositions[i.key()]->getAsset());
-                        if (mixParameters.contains(i.key())) {
-                            // Restore all original params
-                            QVector<QPair<QString, QVariant>> params = mixParameters.value(i.key());
-                            for (const auto &p : qAsConst(params)) {
-                                transition.set(p.first.toUtf8().constData(), p.second.toString().toUtf8().constData());
-                            }
-                        }*/
+                        field->disconnect_service(transition);
+                        std::unique_ptr<Mlt::Transition> newTrans = TransitionsRepository::get()->getTransition(m_sameCompositions[i.key()]->getAssetId());
+                        newTrans->inherit(*props);
+                        updateCompositionDirection(*newTrans.get(), reverse);
                     }
+                    field->unblock();
                 }
                 return true;
-            } else
+            } else {
                 return false;
+            }
         };
     }
     // Create mix compositing
