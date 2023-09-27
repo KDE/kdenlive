@@ -1812,10 +1812,10 @@ void RenderWidget::prepareJobContextMenu(const QPoint &pos)
         return;
     }
     QMenu menu(this);
-    QAction *newAct = new QAction(i18n("Add to current project"), this);
+    QAction *newAct = new QAction(i18n("Add to Current Project"), this);
     connect(newAct, &QAction::triggered, [&, renderItem]() { pCore->bin()->slotAddClipToProject(QUrl::fromLocalFile(renderItem->text(1))); });
     menu.addAction(newAct);
-    QAction *openContainingFolder = new QAction(i18n("Open containing folder"), this);
+    QAction *openContainingFolder = new QAction(i18n("Open Containing Folder"), this);
     connect(openContainingFolder, &QAction::triggered, [&, renderItem]() { KIO::highlightInFileManager({QUrl::fromLocalFile(renderItem->text(1))}); });
     menu.addAction(openContainingFolder);
 

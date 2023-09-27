@@ -22,6 +22,7 @@
 #include <QVBoxLayout>
 
 #include <KIO/FileCopyJob>
+#include <KIO/OpenFileManagerWindowJob>
 #include <KLocalizedString>
 #include <KMessageBox>
 
@@ -247,6 +248,10 @@ void LibraryWidget::setupActions()
     menuList << sentToLibrary;
     connect(this, &LibraryWidget::enableAddSelection, sentToLibrary, &QAction::setEnabled);
 
+    QAction *openFolder = new QAction(QIcon::fromTheme(QStringLiteral("edit-find")), i18n("Open Containing Folder"), this);
+    connect(openFolder, &QAction::triggered, this, &LibraryWidget::slotOpenFolder);
+    menuList << openFolder;
+
     // Create spacer
     QWidget *spacer = new QWidget();
     spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -355,6 +360,15 @@ void LibraryWidget::slotDeleteFromLibrary()
         if (!QFile::remove(path)) {
             showMessage(i18n("Error removing %1", path));
         }
+    }
+}
+
+void LibraryWidget::slotOpenFolder()
+{
+    QTreeWidgetItem *current = m_libraryTree->currentItem();
+    if (current) {
+        const QString filePath = current->data(0, Qt::UserRole).toString();
+        KIO::highlightInFileManager({QUrl::fromLocalFile(filePath)});
     }
 }
 
