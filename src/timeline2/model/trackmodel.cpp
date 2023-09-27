@@ -1893,9 +1893,9 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
             }
             ix++;
         }
-        rearrange_playlists = [this, rearrangedPlaylists]() {
+        rearrange_playlists = [this, map = rearrangedPlaylists]() {
             // First, remove all clips on playlist 0
-            QMapIterator<int, int> i(rearrangedPlaylists);
+            QMapIterator<int, int> i(map);
             while (i.hasNext()) {
                 i.next();
                 if (i.value() == 0) {
@@ -1953,10 +1953,16 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
                         Mlt::Properties *props = m_sameCompositions[i.key()]->getAsset();
                         Mlt::Transition &transition = *static_cast<Mlt::Transition *>(m_sameCompositions[i.key()]->getAsset());
                         bool reverse = i.value() == 1;
+                        const QString assetName = m_sameCompositions[i.key()]->getAssetId();
+                        const ObjectId ownerId = m_sameCompositions[i.key()]->getOwnerId();
                         field->disconnect_service(transition);
                         std::unique_ptr<Mlt::Transition> newTrans = TransitionsRepository::get()->getTransition(m_sameCompositions[i.key()]->getAssetId());
                         newTrans->inherit(*props);
                         updateCompositionDirection(*newTrans.get(), reverse);
+                        m_sameCompositions.erase(i.key());
+                        QDomElement xml = TransitionsRepository::get()->getXml(assetName);
+                        std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(std::move(newTrans), xml, assetName, ownerId, QString()));
+                        m_sameCompositions[i.key()] = asset;
                     }
                     field->unblock();
                 }
@@ -1965,9 +1971,9 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
                 return false;
             }
         };
-        rearrange_playlists_undo = [this, rearrangedPlaylists, mixParameters]() {
+        rearrange_playlists_undo = [this, map = rearrangedPlaylists, mixParameters]() {
             // First, remove all clips on playlist 1
-            QMapIterator<int, int> i(rearrangedPlaylists);
+            QMapIterator<int, int> i(map);
             while (i.hasNext()) {
                 i.next();
                 if (i.value() == 0) {
@@ -2024,10 +2030,16 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
                         Mlt::Properties *props = m_sameCompositions[i.key()]->getAsset();
                         Mlt::Transition &transition = *static_cast<Mlt::Transition *>(m_sameCompositions[i.key()]->getAsset());
                         bool reverse = i.value() == 0;
+                        const QString assetName = m_sameCompositions[i.key()]->getAssetId();
+                        const ObjectId ownerId = m_sameCompositions[i.key()]->getOwnerId();
                         field->disconnect_service(transition);
                         std::unique_ptr<Mlt::Transition> newTrans = TransitionsRepository::get()->getTransition(m_sameCompositions[i.key()]->getAssetId());
                         newTrans->inherit(*props);
                         updateCompositionDirection(*newTrans.get(), reverse);
+                        m_sameCompositions.erase(i.key());
+                        QDomElement xml = TransitionsRepository::get()->getXml(assetName);
+                        std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(std::move(newTrans), xml, assetName, ownerId, QString()));
+                        m_sameCompositions[i.key()] = asset;
                     }
                     field->unblock();
                 }
