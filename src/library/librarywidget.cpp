@@ -113,7 +113,7 @@ void LibraryTree::mousePressEvent(QMouseEvent *event)
 
 void LibraryTree::dropEvent(QDropEvent *event)
 {
-    // QTreeWidget::dropEvent(event);
+    QTreeWidget::dropEvent(event);
     const QMimeData *qMimeData = event->mimeData();
     QTreeWidgetItem *dropped = this->itemAt(event->pos());
     QString dest;
@@ -441,6 +441,7 @@ void LibraryWidget::slotSaveSequence(const QStringList &info, QString dest)
     if (!dir.exists()) {
         return;
     }
+    m_selectNewFile = true;
     m_manager->saveZone(info, dir);
 }
 
