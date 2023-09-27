@@ -49,7 +49,10 @@ private Q_SLOTS:
     void slotChangeProvider();
     void slotOpenUrl(const QString &url);
     void slotStartSearch();
+    void slotLoadImages();
+    void slotShowPixmap(const QString &url, const QPixmap &pixmap);
     void slotSearchFinished(const QList<ResourceItemInfo> &list, const int pageCount);
+    void slotDisplayError(const QString &message);
     void slotUpdateCurrentItem();
     void slotSetIconSize(int size);
     void slotPreviewItem();
@@ -62,6 +65,8 @@ private:
     std::unique_ptr<ProviderModel> *m_currentProvider{nullptr};
     QListWidgetItem *m_currentItem{nullptr};
     QTemporaryFile *m_tmpThumbFile;
+    QStringList m_imagesUrl;
+    QMutex m_imageLock;
     /** @brief Default icon size for the views. */
     QSize m_iconSize;
     int wheelAccumulatedDelta;
@@ -76,4 +81,5 @@ Q_SIGNALS:
     void addClip(const QUrl &, const QString &);
     void addLicenseInfo(const QString &);
     void previewClip(const QString &path, const QString &title);
+    void gotPixmap(const QString &url, const QPixmap &pix);
 };
