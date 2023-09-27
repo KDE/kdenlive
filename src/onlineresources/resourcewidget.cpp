@@ -69,6 +69,7 @@ ResourceWidget::ResourceWidget(QWidget *parent)
     connect(label_license, &KUrlLabel::leftClickedUrl, this, [&]() { slotOpenUrl(label_license->url()); });
     connect(search_text, &KLineEdit::returnKeyPressed, this, &ResourceWidget::slotStartSearch);
     connect(search_results, &QListWidget::currentRowChanged, this, &ResourceWidget::slotUpdateCurrentItem);
+    connect(this, &ResourceWidget::gotPixmap, this, &ResourceWidget::slotShowPixmap);
     connect(button_preview, &QAbstractButton::clicked, this, [&]() {
         if (!m_currentProvider) {
             return;
@@ -185,22 +186,9 @@ void ResourceWidget::slotChangeProvider()
 
     provider_info->setText(i18n("Media provided by %1", m_currentProvider->get()->name()));
     provider_info->setUrl(m_currentProvider->get()->homepage());
-    connect(m_currentProvider->get(), &ProviderModel::searchDone, this, [this](const QList<ResourceItemInfo> &list, int pageCount) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        QtConcurrent::run(this, &ResourceWidget::slotSearchFinished, list, pageCount);
-#else
-            QtConcurrent::run(&ResourceWidget::slotSearchFinished, this, list, pageCount);
-#endif
-    });
-    connect(m_currentProvider->get(), &ProviderModel::searchError, this, [&](const QString &msg) {
-        message_line->setText(i18n("Search failed! %1", msg));
-        message_line->setMessageType(KMessageWidget::Error);
-        message_line->show();
-        page_number->setEnabled(false);
-        service_list->setEnabled(true);
-        buildin_box->setEnabled(true);
-        setCursor(Qt::ArrowCursor);
-    });
+    connect(m_currentProvider->get(), &ProviderModel::searchDone, this, &ResourceWidget::slotSearchFinished);
+    connect(m_currentProvider->get(), &ProviderModel::searchError, this, &ResourceWidget::slotDisplayError);
+
     connect(m_currentProvider->get(), &ProviderModel::fetchedFiles, this, &ResourceWidget::slotChooseVersion);
     connect(m_currentProvider->get(), &ProviderModel::authenticated, this, &ResourceWidget::slotAccessTokenReceived);
 
@@ -240,6 +228,22 @@ void ResourceWidget::slotStartSearch()
 }
 
 /**
+ * @brief ResourceWidget::slotDisplayError
+ * @param message the error text
+ * Displays the items of list in the search_results ListView
+ */
+void ResourceWidget::slotDisplayError(const QString &message)
+{
+    message_line->setText(i18n("Search failed! %1", message));
+    message_line->setMessageType(KMessageWidget::Error);
+    message_line->show();
+    page_number->setEnabled(false);
+    service_list->setEnabled(true);
+    buildin_box->setEnabled(true);
+    setCursor(Qt::ArrowCursor);
+}
+
+/**
  * @brief ResourceWidget::slotSearchFinished
  * @param list list of the found items
  * @param pageCount number of found pages
@@ -247,7 +251,8 @@ void ResourceWidget::slotStartSearch()
  */
 void ResourceWidget::slotSearchFinished(const QList<ResourceItemInfo> &list, int pageCount)
 {
-
+    QMutexLocker lock(&m_imageLock);
+    m_imagesUrl.clear();
     if (list.isEmpty()) {
         message_line->setText(i18nc("@info", "No items found."));
         message_line->setMessageType(KMessageWidget::Error);
@@ -265,15 +270,7 @@ void ResourceWidget::slotSearchFinished(const QList<ResourceItemInfo> &list, int
         QListWidgetItem *listItem = new QListWidgetItem(
             item.name.isEmpty() ? (item.author.isEmpty() ? i18n("Unnamed") : i18nc("Created by author name", "Created by %1", item.author)) : item.name);
         if (!item.imageUrl.isEmpty()) {
-            QUrl img(item.imageUrl);
-            m_tmpThumbFile->close();
-            if (m_tmpThumbFile->open()) {
-                KIO::FileCopyJob *copyjob = KIO::file_copy(img, QUrl::fromLocalFile(m_tmpThumbFile->fileName()), -1, KIO::HideProgressInfo | KIO::Overwrite);
-                if (copyjob->exec()) {
-                    QPixmap pic(m_tmpThumbFile->fileName());
-                    listItem->setIcon(pic);
-                }
-            }
+            m_imagesUrl << item.imageUrl;
         }
 
         listItem->setData(idRole, item.id);
@@ -300,10 +297,60 @@ void ResourceWidget::slotSearchFinished(const QList<ResourceItemInfo> &list, int
         search_results->addItem(listItem);
         count++;
     }
+    m_imagesUrl.removeDuplicates();
     message_line->hide();
     page_number->setMaximum(pageCount);
     page_number->setEnabled(true);
     blockUI(false);
+    lock.unlock();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    QtConcurrent::run(this, &ResourceWidget::slotLoadImages);
+#else
+    QtConcurrent::run(&ResourceWidget::slotLoadImages, this);
+#endif
+}
+
+void ResourceWidget::slotShowPixmap(const QString &url, const QPixmap &pixmap)
+{
+    for (int i = 0; i < search_results->count(); i++) {
+        auto item = search_results->item(i);
+        if (item->data(imageRole).toString() == url) {
+            item->setIcon(pixmap);
+            break;
+        }
+    }
+}
+
+void ResourceWidget::slotLoadImages()
+{
+    if (!m_imageLock.tryLock()) {
+        // Another request is loading, wait
+        return;
+    }
+    if (m_imagesUrl.isEmpty()) {
+        // No images to load
+        m_imageLock.unlock();
+        return;
+    }
+    while (!m_imagesUrl.isEmpty()) {
+        const QString url = m_imagesUrl.takeFirst();
+        m_imageLock.unlock();
+        QUrl img(url);
+        m_tmpThumbFile->close();
+        if (m_tmpThumbFile->open()) {
+            KIO::FileCopyJob *copyjob = KIO::file_copy(img, QUrl::fromLocalFile(m_tmpThumbFile->fileName()), -1, KIO::HideProgressInfo | KIO::Overwrite);
+            if (copyjob->exec()) {
+                QPixmap pic(m_tmpThumbFile->fileName());
+                Q_EMIT gotPixmap(url, pic);
+            }
+        }
+        if (m_imagesUrl.isEmpty()) {
+            break;
+        }
+        if (!m_imageLock.tryLock()) {
+            break;
+        }
+    }
 }
 
 /**
