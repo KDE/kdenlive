@@ -762,6 +762,12 @@ void ProjectItemModel::deregisterItem(int id, TreeItem *item)
     if (clip->itemType() == AbstractProjectItem::ClipItem) {
         auto clipItem = static_cast<ProjectClip *>(clip);
         m_fileWatcher->removeFile(clipItem->clipId());
+        if (clipItem->clipType() == ClipType::Timeline) {
+            const QString uuid = clipItem->getSequenceUuid().toString();
+            if (m_extraPlaylists.count(uuid) > 0) {
+                m_extraPlaylists.erase(uuid);
+            }
+        }
     }
 }
 
