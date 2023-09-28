@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-09 02:24+0000\n"
-"PO-Revision-Date: 2023-09-20 12:22+0200\n"
+"PO-Revision-Date: 2023-09-27 13:03+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -698,7 +698,7 @@ msgstr "Automatisch gecentreerd bijsnijden"
 #: data/effects/crop.xml:23
 #, kde-format
 msgid "Center balance"
-msgstr "Middelpunt balans"
+msgstr "Middelpuntbalans"
 
 #: data/effects/crop.xml:26
 #, kde-format
