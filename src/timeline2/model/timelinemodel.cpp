@@ -2543,6 +2543,9 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             }
             int newTrackPosition = getTrackPosition(currentTrack) + trackOffset;
             if (newTrackPosition < 0 || newTrackPosition >= int(m_allTracks.size())) {
+                if (!moveMirrorTracks && item.first != itemId) {
+                    continue;
+                }
                 delta_track = 0;
                 break;
             }
