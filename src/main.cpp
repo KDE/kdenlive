@@ -195,8 +195,12 @@ int main(int argc, char *argv[])
     QCommandLineOption renderOption(QStringLiteral("render"), i18n("Directly render the project and exit."));
     parser.addOption(renderOption);
 
+    QCommandLineOption exitOption(QStringLiteral("synchronous"), i18n("Don't exit until render process is finished."));
+    parser.addOption(exitOption);
+
     parser.addPositionalArgument(QStringLiteral("file"), i18n("Kdenlive document to open."));
     parser.addPositionalArgument(QStringLiteral("rendering"), i18n("Output file for rendered video."));
+    parser.addPositionalArgument(QStringLiteral("preset"), i18n("Kdenlive render preset name (MP4-H264/AAC will be used if none given)."));
 
     // Parse command line
     parser.process(app);
@@ -204,6 +208,7 @@ int main(int argc, char *argv[])
 
     QUrl url;
     QUrl renderUrl;
+    QString presetName;
     if (parser.positionalArguments().count() != 0) {
         const QString inputFilename = parser.positionalArguments().at(0);
         const QFileInfo fileInfo(inputFilename);
@@ -219,6 +224,10 @@ int main(int argc, char *argv[])
                 renderUrl = QUrl::fromLocalFile(outFileInfo.absoluteFilePath());
             }
         }
+        if (parser.positionalArguments().count() > 2) {
+            // Render preset
+            presetName = parser.positionalArguments().at(2);
+        }
     }
 
     qApp->processEvents(QEventLoop::AllEvents);
@@ -232,6 +241,10 @@ int main(int argc, char *argv[])
             qCritical() << "You need to give a non existing output file to render from the command line.";
             return EXIT_FAILURE;
         }
+        if (presetName.isEmpty()) {
+            qDebug() << "No render preset given, using default: MP4-H264/AAC";
+            presetName = QStringLiteral("MP4-H264/AAC");
+        }
         if (!Core::build(packageType, true)) {
             return EXIT_FAILURE;
         }
@@ -240,7 +253,7 @@ int main(int argc, char *argv[])
 
         RenderRequest *renderrequest = new RenderRequest();
         renderrequest->setOutputFile(renderUrl.toLocalFile());
-        renderrequest->loadPresetParams(QStringLiteral("MP4-H264/AAC"));
+        renderrequest->loadPresetParams(presetName);
         // request->setPresetParams(m_params);
         renderrequest->setDelayedRendering(false);
         renderrequest->setProxyRendering(false);
@@ -265,11 +278,15 @@ int main(int argc, char *argv[])
             qDebug() << "* CREATED JOB WITH ARGS: " << argsJob;
 
             qDebug() << "starting kdenlive_render process using: " << KdenliveSettings::kdenliverendererpath();
-            if (!QProcess::startDetached(KdenliveSettings::kdenliverendererpath(), argsJob)) {
-                qDebug() << "Error starting render job" << argsJob;
-                // return false;
+            if (parser.isSet(exitOption)) {
+                QProcess::execute(KdenliveSettings::kdenliverendererpath(), argsJob);
             } else {
-                KNotification::event(QStringLiteral("RenderStarted"), i18n("Rendering <i>%1</i> started", job.outputPath), QPixmap());
+                if (!QProcess::startDetached(KdenliveSettings::kdenliverendererpath(), argsJob)) {
+                    qDebug() << "Error starting render job" << argsJob;
+                    // return false;
+                } else {
+                    KNotification::event(QStringLiteral("RenderStarted"), i18n("Rendering <i>%1</i> started", job.outputPath), QPixmap());
+                }
             }
             // return true;
         }
