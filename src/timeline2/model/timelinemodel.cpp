@@ -2563,6 +2563,9 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             }
         }
     }
+    if (delta_track == 0 && delta_pos == 0) {
+        return false;
+    }
     bool updateSubtitles = updateView;
     if (delta_track == 0 && updateView) {
         updateView = false;
