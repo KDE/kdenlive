@@ -34,7 +34,7 @@
 <text>Color and Image correction</text>
 </group>
 
-<group list=".ladspa.1413,audiobalance,audiopan,swapchannels,ladspa.1406,channelcopy">
+<group list="ladspa.1413,audiobalance,audiopan,swapchannels,ladspa.1406,channelcopy">
 <text>Audio correction</text>
 </group>
 
@@ -78,7 +78,7 @@
 <group list="avfilter.flanger,avfilter.aphaser,avfilter.apulsator,sox_flanger,sox_phaser,avfilter.treble,avfilter.vibrato"><text>Modulators</text>
 </group>
 
-<group list="ladspa.9354877"><text>Noise Reduction and audio Restoration</text>
+<group list="ladspa.9354877"><text>Noise Reduction and Audio Restoration</text>
 </group>
 
 <group list="panner,audiomap,channelswap,mono,channelcopy,channelswap,swapchannels,audiobalance,audiopan">
@@ -142,7 +142,7 @@
 <text>LSP plugins</text>
 </group>
 
-<group list="ladspa.1041,ladspa.1042,ladspa.1043,ladspa.1044,ladspa.1045,ladspa.1046,ladspa.1227,ladspa.1337,ladspa.1845,ladspa.1846,ladspa.1848,ladspa.1917,ladspa.1944,ladspa.1945,ladspa.1946,ladspa.1947,ladspa.1949,ladspa.1951,ladspa.1955,ladspa.1956,ladspa.1957,ladspa.1958,ladspa.1961,ladspa.1962,ladspa.1970,ladspa.1981,ladspa.1982,ladspa.2026,ladspa.2979,ladspa.3701,ladspa.3702,ladspa.4221,ladspa.9792,ladspa.9354877">
+<group list="ladspa.1041,ladspa.1042,ladspa.1043,ladspa.1044,ladspa.1045,ladspa.1046,ladspa.1227,ladspa.1337,ladspa.1845,ladspa.1846,ladspa.1848,ladspa.1917,ladspa.1944,ladspa.1945,ladspa.1946,ladspa.1947,ladspa.1949,ladspa.1951,ladspa.1955,ladspa.1956,ladspa.1957,ladspa.1958,ladspa.1961,ladspa.1962,ladspa.1970,ladspa.1981,ladspa.1982,ladspa.2026,ladspa.2979,ladspa.3701,ladspa.3702,ladspa.4221,ladspa.9792">
 <text>LADSPA Plugins</text>
 </group>
 

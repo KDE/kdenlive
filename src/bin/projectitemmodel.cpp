@@ -57,6 +57,9 @@ ProjectItemModel::ProjectItemModel(QObject *parent)
     connect(m_fileWatcher.get(), &FileWatcher::binClipModified, this, &ProjectItemModel::reloadClip);
     connect(m_fileWatcher.get(), &FileWatcher::binClipWaiting, this, &ProjectItemModel::setClipWaiting);
     connect(m_fileWatcher.get(), &FileWatcher::binClipMissing, this, &ProjectItemModel::setClipInvalid);
+    missingClipTimer.setInterval(500);
+    missingClipTimer.setSingleShot(true);
+    connect(&missingClipTimer, &QTimer::timeout, this, &ProjectItemModel::slotUpdateInvalidCount);
 }
 
 std::shared_ptr<ProjectItemModel> ProjectItemModel::construct(QObject *parent)
@@ -587,12 +590,14 @@ QStringList ProjectItemModel::getEnclosingFolderInfo(const QModelIndex &index) c
 
 void ProjectItemModel::clean()
 {
-    // QWriteLocker locker(&m_lock);
+    QWriteLocker locker(&m_lock);
     closing = true;
     m_extraPlaylists.clear();
     std::vector<std::shared_ptr<AbstractProjectItem>> toDelete;
     toDelete.reserve(size_t(rootItem->childCount()));
     for (int i = 0; i < rootItem->childCount(); ++i) {
+        qDebug() << "... FOUND CLIP: " << std::static_pointer_cast<AbstractProjectItem>(rootItem->child(i))->clipId() << " = "
+                 << std::static_pointer_cast<AbstractProjectItem>(rootItem->child(i))->name();
         toDelete.push_back(std::static_pointer_cast<AbstractProjectItem>(rootItem->child(i)));
     }
     Fun undo = []() { return true; };
@@ -757,6 +762,12 @@ void ProjectItemModel::deregisterItem(int id, TreeItem *item)
     if (clip->itemType() == AbstractProjectItem::ClipItem) {
         auto clipItem = static_cast<ProjectClip *>(clip);
         m_fileWatcher->removeFile(clipItem->clipId());
+        if (clipItem->clipType() == ClipType::Timeline) {
+            const QString uuid = clipItem->getSequenceUuid().toString();
+            if (m_extraPlaylists.count(uuid) > 0) {
+                m_extraPlaylists.erase(uuid);
+            }
+        }
     }
 }
 
@@ -1250,19 +1261,18 @@ QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, st
                         prod2->set("kdenlive:producer_type", ClipType::Timeline);
                         prod2->set("kdenlive:maxduration", prod->parent().get_int("kdenlive:maxduration"));
                         binProducers.insert(id, prod2);
-                        continue;
                     } else {
-                        QString resource = prod->parent().get("resource");
+                        const QString resource = prod->parent().get("resource");
+                        qDebug() << "/// INCORRECT SEQUENCE FOUND IN PROJECT BIN: " << resource;
                         if (resource.endsWith(QLatin1String("<tractor>"))) {
                             // Buggy internal xml producer, drop
                             qDebug() << "/// AARGH INCORRECT SEQUENCE CLIP IN PROJECT BIN... TRY TO RECOVER";
                             brokenSequences.append(QUuid(uuid));
-                            continue;
                         }
                     }
-                } else {
-                    producer.reset(new Mlt::Producer(prod->parent()));
+                    continue;
                 }
+                producer.reset(new Mlt::Producer(prod->parent()));
                 int id = producer->parent().get_int("kdenlive:id");
                 if (!id) {
                     qDebug() << "WARNING THIS SHOULD NOT HAPPEN, BIN CLIP WITHOUT ID: " << producer->parent().get("resource")
@@ -1528,6 +1538,24 @@ void ProjectItemModel::setClipInvalid(const QString &binId)
         clip->setClipStatus(FileStatus::StatusMissing);
         // TODO: set producer as blank invalid
     }
+}
+
+void ProjectItemModel::slotUpdateInvalidCount()
+{
+    READ_LOCK();
+    int missingCount = 0;
+    int missingUsed = 0;
+    for (const auto &clip : m_allItems) {
+        auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
+        if (c->clipStatus() == FileStatus::StatusMissing) {
+            int usage = c->getData(AbstractProjectItem::UsageCount).toInt();
+            if (usage > 0) {
+                missingUsed++;
+            }
+            missingCount++;
+        }
+    }
+    Q_EMIT pCore->gotMissingClipsCount(missingCount, missingUsed);
 }
 
 void ProjectItemModel::updateWatcher(const std::shared_ptr<ProjectClip> &clipItem)

@@ -15,13 +15,6 @@ set(KDENLIVE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_VERSION
 
 project(Kdenlive VERSION ${KDENLIVE_VERSION})
 
-if(POLICY CMP0063)
-  cmake_policy(SET CMP0063 NEW)
-endif()
-if(POLICY CMP0053)
-    cmake_policy(SET CMP0053 NEW)
-endif()
-
 include(FeatureSummary)
 include(GenerateExportHeader)
 

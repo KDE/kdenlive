@@ -7,10 +7,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "markerdialog.h"
 
 #include "bin/model/markerlistmodel.hpp"
+#include "bin/projectclip.h"
 #include "core.h"
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
-#include "mltcontroller/clipcontroller.h"
 #include "project/projectmanager.h"
 
 #include "kdenlive_debug.h"
@@ -21,7 +21,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "klocalizedstring.h"
 
-MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const QString &caption, bool allowMultipleMarksers, QWidget *parent)
+MarkerDialog::MarkerDialog(ProjectClip *clip, const CommentedTime &t, const QString &caption, bool allowMultipleMarksers, QWidget *parent)
     : QDialog(parent)
     , m_clip(clip)
 {

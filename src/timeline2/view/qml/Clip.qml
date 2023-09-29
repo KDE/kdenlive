@@ -1263,6 +1263,7 @@ Rectangle {
             visible: clipRoot.width > 3 * width && mouseArea.containsMouse && !dragProxyArea.pressed
             property int startFadeOut
             property int lastDuration: -1
+            property string fadeString: timeline.simplifiedTC(clipRoot.fadeOut)
             drag.smoothed: false
             onClicked: {
                 if (clipRoot.fadeOut == 0) {
@@ -1293,14 +1294,14 @@ Rectangle {
                         lastDuration = duration
                         timeline.adjustFade(clipRoot.clipId, 'fadeout', duration, -1)
                         // Show fade duration as time in a "bubble" help.
-                        timeline.showToolTip(i18n("Fade out: %1", timeline.simplifiedTC(clipRoot.fadeOut)))
+                        timeline.showToolTip(i18n("Fade out: %1", fadeString))
                     }
                 }
             }
             onEntered: {
                 if (!pressed) {
                     if (clipRoot.fadeOut > 0) {
-                        timeline.showToolTip(i18n("Fade out: %1", timeline.simplifiedTC(clipRoot.fadeOut)))
+                        timeline.showToolTip(i18n("Fade out: %1", fadeString))
                     } else {
                         clipRoot.showClipInfo()
                     }
@@ -1341,6 +1342,9 @@ Rectangle {
                     visible : clipRoot.fadeOut > 0 && (fadeOutMouseArea.containsMouse || fadeOutMouseArea.drag.active)
                 }
             }
+            ToolTip.visible: (containsMouse || pressed || drag.active)
+            ToolTip.delay: (pressed || drag.active) ? 0 : 1000
+            ToolTip.text: fadeString
         }
 
         MouseArea {
@@ -1359,6 +1363,7 @@ Rectangle {
             drag.axis: Drag.XAxis
             drag.smoothed: false
             property int startFadeIn
+            property string fadeString: timeline.simplifiedTC(clipRoot.fadeIn)
             visible: clipRoot.width > 3 * width && mouseArea.containsMouse && !dragProxyArea.pressed
             onClicked: {
                 if (clipRoot.fadeIn == 0) {
@@ -1388,14 +1393,14 @@ Rectangle {
                     if (duration != clipRoot.fadeIn) {
                         timeline.adjustFade(clipRoot.clipId, 'fadein', duration, -1)
                         // Show fade duration as time in a "bubble" help.
-                        timeline.showToolTip(i18n("Fade in: %1", timeline.simplifiedTC(clipRoot.fadeIn)))
+                        timeline.showToolTip(i18n("Fade in: %1", fadeString))
                     }
                 }
             }
             onEntered: {
                 if (!pressed) {
                     if (clipRoot.fadeIn > 0) {
-                        timeline.showToolTip(i18n("Fade in: %1", timeline.simplifiedTC(clipRoot.fadeIn)))
+                        timeline.showToolTip(i18n("Fade in: %1", fadeString))
                     } else {
                         clipRoot.showClipInfo()
                     }
@@ -1436,6 +1441,9 @@ Rectangle {
                     visible : clipRoot.fadeIn > 0 && (fadeInMouseArea.containsMouse || fadeInMouseArea.drag.active)
                 }
             }
+            ToolTip.visible: (containsMouse || pressed || drag.active)
+            ToolTip.delay: (pressed || drag.active) ? 0 : 1000
+            ToolTip.text: fadeString
         }
 
         Rectangle {

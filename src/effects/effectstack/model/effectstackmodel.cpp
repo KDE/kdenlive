@@ -1411,8 +1411,8 @@ QStringList EffectStackModel::externalFiles() const
         if (!url.isEmpty()) {
             urls << url;
         }
-        urls << url;
     }
+    urls.removeDuplicates();
     return urls;
 }
 

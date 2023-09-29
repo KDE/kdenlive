@@ -25,6 +25,23 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </property>
     </widget>
    </item>
+   <item row="5" column="0" colspan="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="2">
+    <widget class="QListWidget" name="listWidget">
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
    <item row="3" column="1">
     <widget class="QComboBox" name="encodingprofiles">
      <property name="sizePolicy">
@@ -32,26 +49,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="2">
-    <widget class="KMessageWidget" name="messagewidget">
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-     <property name="closeButtonVisible">
-      <bool>false</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0" colspan="2">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>
@@ -68,10 +65,20 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="2">
-    <widget class="QListWidget" name="listWidget">
-     <property name="alternatingRowColors">
+   <item row="2" column="0" colspan="2">
+    <widget class="KMessageWidget" name="messagewidget">
+     <property name="wordWrap">
       <bool>true</bool>
+     </property>
+     <property name="closeButtonVisible">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="2">
+    <widget class="QCheckBox" name="replace_original">
+     <property name="text">
+      <string>Replace clip by transcoded version in project</string>
      </property>
     </widget>
    </item>

@@ -64,6 +64,7 @@ public:
 
     Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent = nullptr);
     ~Monitor() override;
+    bool locked{false};
     void resetProfile();
     /** @brief Rebuild consumers after a property change */
     void resetConsumer(bool fullReset);

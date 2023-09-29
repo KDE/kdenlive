@@ -34,14 +34,20 @@ QDomElement createProducer(QDomDocument &xml, ClipType::ProducerType type, const
     xml.appendChild(prod);
     prod.setAttribute(QStringLiteral("type"), int(type));
     if (type == ClipType::Timeline) {
-        const QUuid uuid = QUuid::createUuid();
-        qDebug() << "::: CREATED XML PLAYLIST UUID: " << uuid;
-        prod.setAttribute(QStringLiteral("kdenlive:uuid"), uuid.toString());
+        // Uuid can be passed through the servce property
+        if (!service.isEmpty()) {
+            prod.setAttribute(QStringLiteral("kdenlive:uuid"), service);
+        } else {
+            const QUuid uuid = QUuid::createUuid();
+            prod.setAttribute(QStringLiteral("kdenlive:uuid"), uuid.toString());
+        }
     }
     prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
     prod.setAttribute(QStringLiteral("length"), duration);
     std::unordered_map<QString, QString> properties;
-    properties[QStringLiteral("resource")] = resource;
+    if (!resource.isEmpty()) {
+        properties[QStringLiteral("resource")] = resource;
+    }
     if (!name.isEmpty()) {
         properties[QStringLiteral("kdenlive:clipname")] = name;
     }

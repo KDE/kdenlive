@@ -13,6 +13,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "doc/kdenlivedoc.h"
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
+#include "mltcontroller/clipcontroller.h"
 #include "project/dialogs/slideshowclip.h"
 #include "utils/thumbnailcache.hpp"
 
@@ -99,11 +100,7 @@ std::shared_ptr<Mlt::Producer> ClipLoadTask::loadResource(QString resource, cons
     if (!resource.startsWith(type)) {
         resource.prepend(type);
     }
-    if (resource.startsWith(QLatin1String("avformat"))) {
-        return std::make_shared<Mlt::Chain>(pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
-    } else {
-        return std::make_shared<Mlt::Producer>(pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
-    }
+    return std::make_shared<Mlt::Producer>(pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
 }
 
 std::shared_ptr<Mlt::Producer> ClipLoadTask::loadPlaylist(QString &resource)
@@ -228,7 +225,10 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
             QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage, thumb), Q_ARG(int, m_in), Q_ARG(int, m_out),
                                       Q_ARG(bool, true));
         } else {
-            std::shared_ptr<Mlt::Producer> thumbProd = binClip->thumbProducer();
+            if (m_isCanceled.loadAcquire() || pCore->taskManager.isBlocked()) {
+                return;
+            }
+            std::unique_ptr<Mlt::Producer> thumbProd = binClip->getThumbProducer();
             if (thumbProd && thumbProd->is_valid()) {
                 if (frameNumber > 0) {
                     thumbProd->seek(frameNumber);
@@ -437,7 +437,7 @@ void ClipLoadTask::run()
             }
             producer = loadResource(resource, service);
         } else {
-            producer = std::make_shared<Mlt::Chain>(pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
+            producer = std::make_shared<Mlt::Producer>(pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
         }
         break;
     }
@@ -689,6 +689,9 @@ void ClipLoadTask::run()
     if (!m_isCanceled.loadAcquire()) {
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.itemId));
         if (binClip) {
+            const QString xmlData = ClipController::producerXml(*producer.get(), true, false);
+            // Reset produccer to get rid of cached frame
+            producer.reset(new Mlt::Producer(pCore->getProjectProfile(), "xml-string", xmlData.toUtf8().constData()));
             QMetaObject::invokeMethod(binClip.get(), "setProducer", Qt::QueuedConnection, Q_ARG(std::shared_ptr<Mlt::Producer>, std::move(producer)),
                                       Q_ARG(bool, true));
             if (checkProfile && !isVariableFrameRate && seekable) {

@@ -154,6 +154,8 @@ public Q_SLOTS:
     void resetRenderPath(const QString &path);
     /** @brief Update metadata tooltip with current values. */
     void updateMetadataToolTip();
+    /** @brief Update missing clip info. */
+    void updateMissingClipsCount(int total, int used);
 
 private Q_SLOTS:
     /**
@@ -215,10 +217,12 @@ private:
     bool m_blockProcessing;
     QMap<int, QString> m_errorMessages;
     std::weak_ptr<MarkerListModel> m_guidesModel;
-
     std::shared_ptr<RenderPresetTreeModel> m_treeModel;
     QString m_currentProfile;
     RenderPresetParams m_params;
+    int m_renderDuration{0};
+    int m_missingClips{0};
+    int m_missingUsedClips{0};
 
     Purpose::Menu *m_shareMenu;
     void parseProfiles(const QString &selectedProfile = QString());
@@ -229,6 +233,7 @@ private:
     /** @brief Create a rendering profile from MLT preset. */
     QTreeWidgetItem *loadFromMltPreset(const QString &groupName, const QString &path, QString profileName, bool codecInName = false);
     RenderJobItem *createRenderJob(const QString &playlist, const QString &outputFile, const QString &subtitleFile = QString());
+    void updateRenderInfoMessage();
 
 Q_SIGNALS:
     void abortProcess(const QString &url);

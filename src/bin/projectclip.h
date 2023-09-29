@@ -104,6 +104,9 @@ public:
     /** @brief Returns the clip type as defined in definitions.h */
     ClipType::ProducerType clipType() const override;
 
+    /** @brief Get the marker model for this clip */
+    std::shared_ptr<MarkerListModel> markerModel();
+
     /** @brief Set rating on item */
     void setRating(uint rating) override;
 
@@ -148,7 +151,7 @@ public:
     QPixmap thumbnail(int width, int height);
 
     /** @brief Returns this clip's producer. */
-    std::shared_ptr<Mlt::Producer> thumbProducer() override;
+    std::unique_ptr<Mlt::Producer> getThumbProducer() override;
 
     /** @brief Recursively disable/enable bin effects. */
     void setBinEffectsEnabled(bool enabled) override;
@@ -213,7 +216,7 @@ public:
     std::shared_ptr<Mlt::Producer> cloneProducer(bool removeEffects = false, bool timelineProducer = false);
     void cloneProducerToFile(const QString &path, bool thumbsProducer = false);
     static std::shared_ptr<Mlt::Producer> cloneProducer(const std::shared_ptr<Mlt::Producer> &producer);
-    std::shared_ptr<Mlt::Producer> softClone(const char *list);
+    std::unique_ptr<Mlt::Producer> softClone(const char *list);
     /** @brief Returns a clone of the producer, useful for movit clip jobs
      */
     std::unique_ptr<Mlt::Producer> getClone();
@@ -279,6 +282,13 @@ public:
     void saveZone(QPoint zone, const QDir &dir);
     /** @brief When a sequence clip has a track change, update info and properties panel */
     void refreshTracksState(int tracksCount = -1);
+    /**
+     * @brief Returns a pixmap created from a frame of the producer.
+     * @param position frame position
+     * @param width width of the pixmap (only a guidance)
+     * @param height height of the pixmap (only a guidance)
+     */
+    QPixmap pixmap(int position = 0, int width = 0, int height = 0);
 
 protected:
     friend class ClipModel;
@@ -310,7 +320,6 @@ public Q_SLOTS:
 
     /** @brief Sets thumbnail for this clip. */
     void setThumbnail(const QImage &, int in, int out, bool inCache = false);
-    void setThumbProducer(std::shared_ptr<Mlt::Producer>prod);
 
     /** @brief A proxy clip is available or disabled, update path and reload */
     void updateProxyProducer(const QString &path);
@@ -344,6 +353,7 @@ private:
     const QString getFileHash();
     QMutex m_producerMutex;
     QMutex m_thumbMutex;
+    QString m_thumbXml;
     const QString geometryWithOffset(const QString &data, int offset);
     QMap <QString, QByteArray> m_audioLevels;
     /** @brief If true, all timeline occurrences of this clip will be replaced from a fresh producer on reload. */
@@ -371,7 +381,7 @@ private:
     void updateDescription();
 
 Q_SIGNALS:
-    void producerChanged(const QString &, const std::shared_ptr<Mlt::Producer> &);
+    void producerChanged(const QString &, Mlt::Producer prod);
     void refreshPropertiesPanel();
     void refreshAnalysisPanel();
     void refreshClipDisplay();

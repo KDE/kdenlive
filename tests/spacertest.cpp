@@ -20,9 +20,7 @@ TEST_CASE("Remove all spaces", "[Spacer]")
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
     // Here we do some trickery to enable testing.
-    // We mock the project class so that the undoStack function returns our undoStack
     KdenliveDoc document(undoStack, {1, 2});
-
     pCore->projectManager()->m_project = &document;
     QDateTime documentDate = QDateTime::currentDateTime();
     pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);

@@ -18,10 +18,7 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
     // Here we do some trickery to enable testing.
-    // We mock the project class so that the undoStack function returns our undoStack
     KdenliveDoc document(undoStack);
-
-    // We also mock timeline object to spy few functions and mock others
     pCore->projectManager()->m_project = &document;
     TimelineItemModel tim(document.uuid(), undoStack);
     Mock<TimelineItemModel> timMock(tim);

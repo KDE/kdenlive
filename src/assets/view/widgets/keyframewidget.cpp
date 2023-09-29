@@ -187,11 +187,10 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
         break;
     }
 #if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 240, 0)
-    connect(kfType, &KSelectAction::actionTriggered, this,
-            [&](QAction *ac) { KdenliveSettings::setDefaultkeyframeinterp(ac->data().toInt()); });
+    connect(kfType, &KSelectAction::actionTriggered, this, [&](QAction *ac) { KdenliveSettings::setDefaultkeyframeinterp(ac->data().toInt()); });
 #else
     connect(kfType, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this,
-                [&](QAction *ac) { KdenliveSettings::setDefaultkeyframeinterp(ac->data().toInt()); });
+            [&](QAction *ac) { KdenliveSettings::setDefaultkeyframeinterp(ac->data().toInt()); });
 #endif
 
     // rotoscoping only supports linear keyframes
@@ -563,19 +562,19 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         paramWidget = geomWidget;
     } else if (type == ParamType::ColorWheel) {
         auto colorWheelWidget = new LumaLiftGainParam(m_model, index, this);
-        connect(colorWheelWidget, &LumaLiftGainParam::valuesChanged, this, [this, index](const QList<QModelIndex> &indexes, const QStringList &list, bool) {
-            Q_EMIT activateEffect();
-            auto *parentCommand = new QUndoCommand();
-            parentCommand->setText(i18n("Edit %1 keyframe", EffectsRepository::get()->getName(m_model->getAssetId())));
-            for (int i = 0; i < indexes.count(); i++) {
-                if (m_keyframes->getInterpolatedValue(getPosition(), indexes.at(i)) != list.at(i)) {
-                    m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(list.at(i)), indexes.at(i), parentCommand);
-                }
-            }
-            if (parentCommand->childCount() > 0) {
-                pCore->pushUndo(parentCommand);
-            }
-        });
+        connect(colorWheelWidget, &LumaLiftGainParam::valuesChanged, this,
+                [this, index](const QList<QModelIndex> &indexes, const QStringList &sourceList, const QStringList &list, bool createUndo) {
+                    Q_EMIT activateEffect();
+                    if (createUndo) {
+                        m_keyframes->updateMultiKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), sourceList, list, indexes);
+                    } else {
+                        // Execute without creating an undo/redo entry
+                        auto *parentCommand = new QUndoCommand();
+                        m_keyframes->updateMultiKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), sourceList, list, indexes, parentCommand);
+                        parentCommand->redo();
+                        delete parentCommand;
+                    }
+                });
         connect(colorWheelWidget, &LumaLiftGainParam::updateHeight, this, [&](int h) {
             setFixedHeight(m_baseHeight + m_addedHeight + h);
             Q_EMIT updateHeight();

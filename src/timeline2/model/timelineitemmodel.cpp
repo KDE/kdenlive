@@ -46,7 +46,6 @@ RTTR_REGISTRATION
 TimelineItemModel::TimelineItemModel(const QUuid &uuid, std::weak_ptr<DocUndoStack> undo_stack)
     : TimelineModel(uuid, std::move(undo_stack))
 {
-    m_guidesModel->registerSnapModel(std::static_pointer_cast<SnapInterface>(m_snaps));
 }
 
 void TimelineItemModel::finishConstruct(const std::shared_ptr<TimelineItemModel> &ptr)
@@ -835,5 +834,78 @@ void TimelineItemModel::passSequenceProperties(const QMap<QString, QString> base
         QPair<QStringList, QStringList> chunks = previewManager()->previewChunks();
         tractor()->set("kdenlive:sequenceproperties.previewchunks", chunks.first.join(QLatin1Char(',')).toUtf8().constData());
         tractor()->set("kdenlive:sequenceproperties.dirtypreviewchunks", chunks.second.join(QLatin1Char(',')).toUtf8().constData());
+    }
+}
+
+void TimelineItemModel::processTimelineReplacement(QList<int> instances, const QString &originalId, const QString &replacementId, int maxDuration,
+                                                   bool replaceAudio, bool replaceVideo)
+{
+    // Check for locked tracks
+    QList<int> lockedTracks;
+    for (const auto &track : m_allTracks) {
+        if (track->isLocked()) {
+            lockedTracks << track->getId();
+        }
+    }
+    // Check if some clips are longer than our replacement clip
+    QList<int> notReplacedIds;
+    for (auto &id : instances) {
+        Q_ASSERT(m_allClips.count(id) > 0);
+        if ((replaceAudio && m_allClips.at(id)->isAudioOnly()) || (replaceVideo && m_allClips.at(id)->clipState() == PlaylistState::VideoOnly)) {
+            // Match, replace
+            std::shared_ptr<ClipModel> clip = m_allClips.at(id);
+            if (clip->getOut() > maxDuration || lockedTracks.contains(clip->getCurrentTrackId())) {
+                notReplacedIds << id;
+            }
+        }
+    }
+    Fun local_redo = [this, instances, replacementId, replaceAudio, replaceVideo, notReplacedIds]() {
+        int replaced = 0;
+        for (auto &id : instances) {
+            if (notReplacedIds.contains(id)) {
+                continue;
+            }
+            Q_ASSERT(m_allClips.count(id) > 0);
+            if ((replaceAudio && m_allClips.at(id)->isAudioOnly()) || (replaceVideo && m_allClips.at(id)->clipState() == PlaylistState::VideoOnly)) {
+                // Match, replace
+                std::shared_ptr<ClipModel> clip = m_allClips.at(id);
+                clip->switchBinReference(replacementId);
+                replaced++;
+                QModelIndex ix = makeClipIndexFromID(id);
+                Q_EMIT dataChanged(ix, ix, {NameRole});
+            }
+        }
+        if (!notReplacedIds.isEmpty()) {
+            pCore->displayMessage(i18n("Clips replaced: %1. <b>Clips not replaced: %2</b>", replaced, notReplacedIds.size()), MessageType::ErrorMessage);
+        } else {
+            pCore->displayMessage(i18np("One clip replaced", "%1 clips replaced", replaced), MessageType::InformationMessage);
+        }
+        return replaced > 0;
+    };
+    if (local_redo()) {
+        Fun local_undo = [this, instances, originalId, replaceAudio, replaceVideo, notReplacedIds]() {
+            int replaced = 0;
+            for (auto &id : instances) {
+                if (notReplacedIds.contains(id)) {
+                    continue;
+                }
+                Q_ASSERT(m_allClips.count(id) > 0);
+                if ((replaceAudio && m_allClips.at(id)->isAudioOnly()) || (replaceVideo && m_allClips.at(id)->clipState() == PlaylistState::VideoOnly)) {
+                    // Match, replace
+                    std::shared_ptr<ClipModel> clip = m_allClips.at(id);
+                    clip->switchBinReference(originalId);
+                    replaced++;
+                    QModelIndex ix = makeClipIndexFromID(id);
+                    Q_EMIT dataChanged(ix, ix, {NameRole});
+                }
+            }
+            if (!notReplacedIds.isEmpty()) {
+                pCore->displayMessage(i18n("Clips replaced: %1, Clips too long: %2", replaced, notReplacedIds.size()), MessageType::InformationMessage);
+            } else {
+                pCore->displayMessage(i18np("One clip replaced", "%1 clips replaced", replaced), MessageType::InformationMessage);
+            }
+            return replaced > 0;
+        };
+        pCore->pushUndo(local_undo, local_redo, replaceAudio ? (replaceVideo ? i18n("Replace clip") : i18n("Replace audio")) : i18n("Replace video"));
     }
 }

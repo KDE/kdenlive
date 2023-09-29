@@ -27,6 +27,8 @@ WheelContainer::WheelContainer(QString id, QString name, NegQColor color, int un
     , m_isMouseDown(false)
     , m_margin(2)
     , m_color(std::move(color))
+    , m_defaultColor(m_color)
+    , m_sourceColor(m_color)
     , m_unitSize(unitSize)
     , m_name(std::move(name))
     , m_wheelClick(false)
@@ -58,27 +60,31 @@ void WheelContainer::setColor(const QList<double> &values)
 {
     const NegQColor color = NegQColor::fromRgbF(values.at(0) / m_sizeFactor, values.at(1) / m_sizeFactor, values.at(2) / m_sizeFactor);
     m_color = color;
+    drawSlider();
     update();
 }
 
 void WheelContainer::setRedColor(double value)
 {
+    m_sourceColor = m_color;
     m_color.setRedF(value / m_sizeFactor);
-    Q_EMIT colorChange(m_color);
+    Q_EMIT colorChange(m_sourceColor, m_color, true);
     update();
 }
 
 void WheelContainer::setGreenColor(double value)
 {
+    m_sourceColor = m_color;
     m_color.setGreenF(value / m_sizeFactor);
-    Q_EMIT colorChange(m_color);
+    Q_EMIT colorChange(m_sourceColor, m_color, true);
     update();
 }
 
 void WheelContainer::setBlueColor(double value)
 {
+    m_sourceColor = m_color;
     m_color.setBlueF(value / m_sizeFactor);
-    Q_EMIT colorChange(m_color);
+    Q_EMIT colorChange(m_sourceColor, m_color, true);
     update();
 }
 
@@ -130,7 +136,12 @@ NegQColor WheelContainer::colorForPoint(const QPointF &point)
             theta += 2.0 * M_PI;
         }
         qreal hue = (theta * 180.0 / M_PI) / 360.0;
-        return NegQColor::fromHsvF(hue, rad, m_color.valueF());
+        qreal value = m_color.valueF();
+        if (m_zeroShift != 0. && value == 0 && hue != -1 && rad != 0) {
+            // For lift, allow changing color if value slider is set to 0
+            value = 0.00214;
+        }
+        return NegQColor::fromHsvF(hue, rad, value);
     }
     if (m_sliderClick) {
         qreal value = 1.0 - qreal(point.y() - m_margin) / (wheelSize() - m_margin * 2);
@@ -140,7 +151,7 @@ NegQColor WheelContainer::colorForPoint(const QPointF &point)
             if (value < 0.001) {
                 value = 0.001;
             }
-        } else if (qAbs(value) < 0.001) {
+        } else if (m_color.hueF() != -1 && m_color.saturationF() != 0 && qAbs(value) < 0.001) {
             // Range is -1 to 1
             value = value < 0. ? -0.001 : 0.001;
         }
@@ -166,7 +177,7 @@ void WheelContainer::wheelEvent(QWheelEvent *event)
         if (event->modifiers() & Qt::ShiftModifier) {
             y += event->angleDelta().y() > 0 ? 0.002 : -0.002;
         } else {
-            y += event->angleDelta().y() > 0 ? 0.02 : -0.02;
+            y += event->angleDelta().y() > 0 ? 0.01 : -0.01;
         }
         m_sliderClick = true;
         m_sliderFocus = true;
@@ -180,8 +191,11 @@ void WheelContainer::wheelEvent(QWheelEvent *event)
             // Range is -1 to 1
             value = value < 0. ? -0.001 : 0.001;
         }
+        m_sourceColor = m_color;
         m_color.setValueF(value);
-        changeColor(m_color);
+        if (m_sourceColor != m_color) {
+            changeColor(m_sourceColor, m_color, true);
+        }
         event->accept();
     } else {
         QWidget::wheelEvent(event);
@@ -217,20 +231,23 @@ void WheelContainer::mousePressEvent(QMouseEvent *event)
         m_wheelClick = true;
         m_sliderFocus = false;
         if (event->button() == Qt::LeftButton) {
-            changeColor(colorForPoint(m_lastPoint));
+            m_sourceColor = m_color;
+            changeColor(m_color, colorForPoint(m_lastPoint), false);
         } else {
             // reset to default on middle/right button
+            m_sourceColor = m_color;
             qreal r = m_color.redF();
             qreal b = m_color.blueF();
             qreal g = m_color.greenF();
             qreal max = qMax(r, b);
             max = qMax(max, g);
-            changeColor(NegQColor::fromRgbF(max, max, max));
+            m_color = NegQColor::fromRgbF(max, max, max);
         }
     } else if (m_sliderRegion.contains(m_lastPoint.toPoint())) {
         m_sliderClick = true;
         m_sliderFocus = true;
         if (event->button() == Qt::LeftButton) {
+            m_sourceColor = m_color;
             NegQColor color = colorForPoint(m_lastPoint);
             qreal value = color.valueF() - m_zeroShift;
             if (qFuzzyIsNull(m_zeroShift)) {
@@ -243,15 +260,10 @@ void WheelContainer::mousePressEvent(QMouseEvent *event)
                 value = value < 0. ? -0.001 : 0.001;
             }
             m_color.setValueF(value);
-            changeColor(m_color);
+            changeColor(m_color, m_color, false);
         } else {
-            NegQColor c;
-            qreal value = m_defaultValue / m_sizeFactor;
-            if (qFuzzyIsNull(value)) {
-                value = 0.001;
-            }
-            c = NegQColor::fromHsvF(m_color.hueF(), m_color.saturationF(), value);
-            changeColor(c);
+            m_sourceColor = m_color;
+            m_color = NegQColor::fromHsvF(m_color.hueF(), m_color.saturationF(), m_defaultColor.valueF());
         }
         update();
     } else {
@@ -304,7 +316,7 @@ void WheelContainer::mouseMoveEvent(QMouseEvent *event)
     }
     if (m_wheelClick) {
         const NegQColor color = colorForPoint(m_lastPoint);
-        changeColor(color);
+        changeColor(color, color, false);
     } else if (m_sliderClick) {
         const NegQColor color = colorForPoint(m_lastPoint);
         qreal value = color.valueF() - m_zeroShift;
@@ -318,13 +330,17 @@ void WheelContainer::mouseMoveEvent(QMouseEvent *event)
             value = value < 0. ? -0.001 : 0.001;
         }
         m_color.setValueF(value);
-        changeColor(m_color);
+        changeColor(m_color, m_color, false);
     }
 }
 
 void WheelContainer::mouseReleaseEvent(QMouseEvent *event)
 {
     Q_UNUSED(event)
+    if ((m_sliderClick || m_wheelClick) && !(event->modifiers() & Qt::ShiftModifier)) {
+        // Create an undo entry
+        changeColor(m_sourceColor, m_color, true);
+    }
     m_wheelClick = false;
     m_sliderClick = false;
     m_isMouseDown = false;
@@ -484,13 +500,13 @@ void WheelContainer::drawSliderBar(QPainter &painter)
     painter.resetTransform();
 }
 
-void WheelContainer::changeColor(const NegQColor &color)
+void WheelContainer::changeColor(const NegQColor &sourceColor, const NegQColor &color, bool createUndo)
 {
     m_color = color;
     drawWheel();
     drawSlider();
     update();
-    Q_EMIT colorChange(m_color);
+    Q_EMIT colorChange(sourceColor, m_color, createUndo);
 }
 
 ColorWheel::ColorWheel(const QString &id, const QString &name, const NegQColor &color, QWidget *parent)
@@ -533,7 +549,7 @@ ColorWheel::ColorWheel(const QString &id, const QString &name, const NegQColor &
     hb->setContentsMargins(0, 0, 0, 0);
     lay->addLayout(hb);
     m_container->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-    connect(m_container, &WheelContainer::colorChange, this, [&](const NegQColor &col) {
+    connect(m_container, &WheelContainer::colorChange, this, [&](const NegQColor &sourceCol, const NegQColor &col, bool createUndo) {
         QList<double> vals = m_container->getNiceParamValues();
         m_redEdit->blockSignals(true);
         m_greenEdit->blockSignals(true);
@@ -544,7 +560,7 @@ ColorWheel::ColorWheel(const QString &id, const QString &name, const NegQColor &
         m_redEdit->blockSignals(false);
         m_greenEdit->blockSignals(false);
         m_blueEdit->blockSignals(false);
-        Q_EMIT colorChange(col);
+        Q_EMIT colorChange(sourceCol, col, createUndo);
     });
     connect(m_redEdit, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this,
             [&]() { m_container->setRedColor(m_redEdit->value()); });

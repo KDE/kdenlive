@@ -17,10 +17,10 @@
 #include <QTimer>
 #include <QTreeWidget>
 
-#include <KIO/ListJob>
-#include <KIO/PreviewJob>
 #include <KCoreDirLister>
 #include <KFileItem>
+#include <KIO/ListJob>
+#include <KIO/PreviewJob>
 #include <KMessageWidget>
 
 class ProjectManager;
@@ -169,6 +169,7 @@ private Q_SLOTS:
     void slotDeleteFromLibrary();
     void updateActions();
     void slotAddFolder();
+    void slotOpenFolder();
     void slotRenameItem();
     void slotMoveData(const QList<QUrl> &, QString);
     void slotSaveSequence(const QStringList &info, QString dest);

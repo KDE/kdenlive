@@ -126,6 +126,10 @@ public:
      */
     void syncTimeline(const QUuid &uuid, bool refresh = false);
     void setActiveTimeline(const QUuid &uuid);
+    /** @brief Replace all instance of a @param sourceId clip with another @param replacementId in the active timline sequence
+     * @param replaceAudio if true, only the audio clips will be replaced. if false, only the video parts.
+     */
+    void replaceTimelineInstances(const QString &sourceId, const QString &replacementId, bool replaceAudio, bool replaceVideo);
 
 public Q_SLOTS:
     void newFile(QString profileName, bool showProjectSettings = true);
@@ -250,6 +254,8 @@ private:
     /** @brief If true, means we are still opening Kdenlive, send messages to splash screen */
     bool m_loading{false};
     void saveRecentFiles();
+    /** @brief Something went wrong, stop loading file */
+    void abortLoading();
     /** @brief Project loading failed, ask user if he wants to open a backup */
     void requestBackup(const QString &errorMessage);
 };

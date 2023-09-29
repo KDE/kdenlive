@@ -59,6 +59,7 @@ public:
 
     /** @brief Replaces the master producer and (TODO) the track producers with an updated producer, for example a proxy */
     void updateProducer(const std::shared_ptr<Mlt::Producer> &producer);
+    static const QString producerXml(Mlt::Producer producer, bool includeMeta, bool includeProfile);
 
     void getProducerXML(QDomDocument &document, bool includeMeta = false, bool includeProfile = true);
 
@@ -75,7 +76,7 @@ public:
     const QString binId() const;
 
     /** @brief Returns this clip's producer. */
-    virtual std::shared_ptr<Mlt::Producer> thumbProducer() = 0;
+    virtual std::unique_ptr<Mlt::Producer> getThumbProducer() = 0;
 
     virtual void reloadProducer(bool refreshOnly = false, bool isProxy = false, bool forceAudioReload = false) = 0;
 
@@ -129,14 +130,6 @@ public:
     const QString getStringDuration();
     int getProducerDuration() const;
     char *framesToTime(int frames) const;
-
-    /**
-     * @brief Returns a pixmap created from a frame of the producer.
-     * @param position frame position
-     * @param width width of the pixmap (only a guidance)
-     * @param height height of the pixmap (only a guidance)
-     */
-    QPixmap pixmap(int position = 0, int width = 0, int height = 0);
 
     /** @brief Returns the MLT producer's service. */
     QString serviceName() const;
@@ -197,6 +190,8 @@ public:
     QList <int> activeStreamChannels() const;
     /** @brief Returns the list of active audio streams indexes for this clip */
     QMap <int, QString> activeStreams() const;
+    /** @brief Returns the list of active audio streams ffmpeg indexes for this clip */
+    QVector<int> activeFfmpegStreams() const;
     /** @brief Returns the count of audio streams for this clip */
     int audioStreamsCount() const;
     /** @brief Get the path to the original clip url (in case it is proxied) */
@@ -240,7 +235,6 @@ protected:
     QMap<int, QStringList> m_streamEffects;
     /** @brief Store clip url temporarily while the clip controller has not been created. */
     QString m_temporaryUrl;
-    std::shared_ptr<Mlt::Producer> m_thumbsProducer;
 
 private:
     /** @brief Temporarily store clip properties until producer is available */

@@ -278,6 +278,7 @@ void TimelineTabs::connectTimeline(TimelineWidget *timeline)
     connect(pCore->monitorManager()->projectMonitor(), &Monitor::addTimelineEffect, m_activeTimeline->controller(),
             &TimelineController::addEffectToCurrentClip);
     timeline->rootContext()->setContextProperty("proxy", pCore->monitorManager()->projectMonitor()->getControllerProxy());
+    Q_EMIT timeline->controller()->selectionChanged();
 }
 
 void TimelineTabs::disconnectTimeline(TimelineWidget *timeline)

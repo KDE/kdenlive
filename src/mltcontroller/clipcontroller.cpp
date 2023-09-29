@@ -43,7 +43,6 @@ ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt:
                                      : nullptr)
     , m_hasAudio(false)
     , m_hasVideo(false)
-    , m_thumbsProducer(nullptr)
     , m_controllerBinId(clipId)
 {
     if (m_masterProducer && !m_masterProducer->is_valid()) {
@@ -63,8 +62,6 @@ ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt:
 ClipController::~ClipController()
 {
     delete m_properties;
-    Q_ASSERT(m_thumbsProducer.use_count() <= 1);
-    m_thumbsProducer.reset();
     Q_ASSERT(m_masterProducer.use_count() <= 1);
     m_masterProducer.reset();
 }
@@ -82,7 +79,13 @@ const std::unique_ptr<AudioStreamInfo> &ClipController::audioInfo() const
 void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &producer)
 {
     qDebug() << "################### ClipController::addmasterproducer FOR: " << m_controllerBinId;
-    m_masterProducer = std::move(producer);
+    if (QString(producer->get("mlt_service")).contains(QLatin1String("avformat")) && producer->type() == mlt_service_producer_type) {
+        std::shared_ptr<Mlt::Chain> chain(new Mlt::Chain(pCore->getProjectProfile()));
+        chain->set_source(*producer.get());
+        m_masterProducer = std::move(chain);
+    } else {
+        m_masterProducer = std::move(producer);
+    }
     m_properties = new Mlt::Properties(m_masterProducer->get_properties());
     m_producerLock.unlock();
     // Pass temporary properties
@@ -161,8 +164,7 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
     connectEffectStack();
 }
 
-namespace {
-QString producerXml(Mlt::Producer producer, bool includeMeta, bool includeProfile)
+const QString ClipController::producerXml(Mlt::Producer producer, bool includeMeta, bool includeProfile)
 {
     Mlt::Consumer c(*producer.profile(), "xml", "string");
     if (!producer.is_valid()) {
@@ -182,7 +184,6 @@ QString producerXml(Mlt::Producer producer, bool includeMeta, bool includeProfil
     c.run();
     return QString::fromUtf8(c.get("string"));
 }
-} // namespace
 
 void ClipController::getProducerXML(QDomDocument &document, bool includeMeta, bool includeProfile)
 {
@@ -435,7 +436,7 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
     m_producerLock.lockForWrite();
     Mlt::Properties passProperties;
     // Keep track of necessary properties
-    QString proxy = producer->get("kdenlive:proxy");
+    const QString proxy(producer->get("kdenlive:proxy"));
     if (proxy.length() > 2 && producer->get("resource") == proxy) {
         // This is a proxy producer, read original url from kdenlive property
         m_usesProxy = true;
@@ -448,7 +449,14 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
     // This is necessary as some properties like set.test_audio are reset on producer creation
     passProperties.pass_list(*m_properties, passList);
     delete m_properties;
-    m_masterProducer = std::move(producer);
+
+    if (QString(producer->get("mlt_service")).contains(QLatin1String("avformat")) && producer->type() == mlt_service_producer_type) {
+        std::shared_ptr<Mlt::Chain> chain(new Mlt::Chain(pCore->getProjectProfile()));
+        chain->set_source(*producer.get());
+        m_masterProducer = std::move(chain);
+    } else {
+        m_masterProducer = std::move(producer);
+    }
     m_properties = new Mlt::Properties(m_masterProducer->get_properties());
     m_producerLock.unlock();
     if (!m_masterProducer->is_valid()) {
@@ -881,27 +889,6 @@ PlaylistState::ClipState ClipController::defaultState() const
     return PlaylistState::Disabled;
 }
 
-QPixmap ClipController::pixmap(int framePosition, int width, int height)
-{
-    // TODO refac this should use the new thumb infrastructure
-    QReadLocker lock(&m_producerLock);
-    if (thumbProducer() == nullptr) {
-        return QPixmap();
-    }
-    m_thumbsProducer->seek(framePosition);
-    QScopedPointer<Mlt::Frame> frame(m_thumbsProducer->get_frame());
-    if (frame == nullptr || !frame->is_valid()) {
-        QPixmap p(width, height);
-        p.fill(QColor(Qt::red).rgb());
-        return p;
-    }
-    frame->set("consumer.deinterlacer", "onefield");
-    frame->set("consumer.top_field_first", -1);
-    frame->set("consumer.rescale", "nearest");
-    QImage img = KThumb::getFrame(frame.data());
-    return QPixmap::fromImage(img /*.scaled(height, width, Qt::KeepAspectRatio)*/);
-}
-
 void ClipController::setZone(const QPoint &zone)
 {
     setProducerProperty(QStringLiteral("kdenlive:zone_in"), zone.x());
@@ -1082,6 +1069,20 @@ QMap<int, QString> ClipController::activeStreams() const
 {
     if (m_audioInfo) {
         return m_audioInfo->activeStreams();
+    }
+    return {};
+}
+
+QVector<int> ClipController::activeFfmpegStreams() const
+{
+    if (m_audioInfo) {
+        QList<int> activeStreams = m_audioInfo->activeStreams().keys();
+        QList<int> allStreams = m_audioInfo->streams().keys();
+        QVector<int> ffmpegIndexes;
+        for (auto &a : activeStreams) {
+            ffmpegIndexes << allStreams.indexOf(a);
+        }
+        return ffmpegIndexes;
     }
     return {};
 }

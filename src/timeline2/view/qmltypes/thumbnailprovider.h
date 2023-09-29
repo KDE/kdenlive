@@ -22,6 +22,6 @@ public:
     QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize) override;
 
 private:
-    QImage makeThumbnail(const std::shared_ptr<Mlt::Producer> &producer, int frameNumber, const QSize &requestedSize);
-    QString cacheKey(Mlt::Properties &properties, const QString &service, const QString &resource, const QString &hash, int frameNumber);
+    Mlt::Profile m_profile;
+    QImage makeThumbnail(std::unique_ptr<Mlt::Producer> producer, int frameNumber, const QSize &requestedSize);
 };

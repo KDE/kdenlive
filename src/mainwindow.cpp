@@ -72,6 +72,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "jogshuttle/jogmanager.h"
 #endif
 
+#include "knewstuff_version.h"
 #include "kwidgetsaddons_version.h"
 #include "utils/KMessageBox_KdenliveCompat.h"
 #include <KAboutData>
@@ -85,7 +86,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KIconTheme>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include "knewstuff_version.h"
 #if KNEWSTUFF_VERSION >= QT_VERSION_CHECK(5, 240, 0)
 #include <KNSWidgets/Dialog>
 #else
@@ -2299,6 +2299,7 @@ void MainWindow::slotRenderProject()
         connect(m_renderWidget, &RenderWidget::shutdown, this, &MainWindow::slotShutdown);
         connect(m_renderWidget, &RenderWidget::selectedRenderProfile, this, &MainWindow::slotSetDocumentRenderProfile);
         connect(m_renderWidget, &RenderWidget::abortProcess, this, &MainWindow::abortRenderJob);
+        connect(pCore.get(), &Core::gotMissingClipsCount, m_renderWidget, &RenderWidget::updateMissingClipsCount);
         connect(this, &MainWindow::updateRenderWidgetProfile, m_renderWidget, &RenderWidget::adjustViewToProfile);
         m_renderWidget->setGuides(project->getGuideModel(getCurrentTimeline()->getUuid()));
         m_renderWidget->updateDocumentPath();
@@ -2498,7 +2499,6 @@ void MainWindow::connectDocument()
     connect(m_projectMonitorDock, &QDockWidget::visibilityChanged, m_projectMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
     connect(m_clipMonitorDock, &QDockWidget::visibilityChanged, m_clipMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
     pCore->guidesList()->reset();
-    pCore->guidesList()->setModel(project->getGuideModel(uuid), project->getFilteredGuideModel(uuid));
     getCurrentTimeline()->focusTimeline();
 }
 
@@ -3791,10 +3791,60 @@ void MainWindow::buildDynamicActions()
         connect(a, &QAction::triggered, [&, a]() {
             QStringList transcodeData = a->data().toStringList();
             std::vector<QString> ids = pCore->bin()->selectedClipsIds(true);
+            QMap<QString, QVector<int>> clipStreamSelection;
+            QString clipId;
+            if (transcodeData.count() > 2 && transcodeData.at(2) == QLatin1String("audio")) {
+                // Audio extract, check if we have multi stream clips
+                QMap<QString, int> clipStreamCount;
+                for (const QString &id : ids) {
+                    if (id.contains(QLatin1Char('/'))) {
+                        clipId = id.section(QLatin1Char('/'), 0, 0);
+                    } else {
+                        clipId = id;
+                    }
+                    std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(clipId);
+                    if (clip->audioStreamsCount() > 1) {
+                        clipStreamSelection.insert(clipId, clip->activeFfmpegStreams());
+                    }
+                }
+            }
+            const QString tData = transcodeData.first();
+            int clipIn = -1;
+            int clipOut = -1;
             for (const QString &id : ids) {
-                std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(id);
-                TranscodeTask::start(ObjectId(ObjectType::BinClip, id.toInt(), QUuid()), QString(), QString(), transcodeData.first(), -1, -1, false,
-                                     clip.get());
+                if (id.contains(QLatin1Char('/'))) {
+                    clipId = id.section(QLatin1Char('/'), 0, 0);
+                    clipIn = id.section(QLatin1Char('/'), 1, 1).toInt();
+                    clipOut = id.section(QLatin1Char('/'), 2, 2).toInt();
+                } else {
+                    clipId = id;
+                    clipIn = -1;
+                    clipOut = -1;
+                }
+                std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(clipId);
+                if (clipStreamSelection.contains(clipId)) {
+                    // Extract selected audio streams only, create one task per stream
+                    QVector<int> selectedStreams = clipStreamSelection.value(clipId);
+                    for (auto &ix : selectedStreams) {
+                        QString args;
+                        QString suffix;
+                        if (ix == -1) {
+                            // Merge all audio streams
+                            args = QStringLiteral("-filter_complex amerge=inputs=%1 ").arg(clip->audioStreamsCount());
+                            args.append(QStringLiteral("-ac %1 ").arg(clip->audioChannels()));
+                            suffix = i18n("-merged");
+                        } else {
+                            args = QStringLiteral("-map 0:a:%1 ").arg(ix);
+                            suffix = i18n("-stream-%1", ix);
+                        }
+                        args.append(tData);
+                        TranscodeTask::start(ObjectId(ObjectType::BinClip, clipId.toInt(), QUuid()), suffix, QString(), args, clipIn, clipOut, false,
+                                             clip.get());
+                    }
+                } else {
+                    TranscodeTask::start(ObjectId(ObjectType::BinClip, clipId.toInt(), QUuid()), QString(), QString(), tData, clipIn, clipOut, false,
+                                         clip.get());
+                }
             }
         });
         if (transList.count() > 2 && transList.at(2) == QLatin1String("audio")) {
@@ -4836,13 +4886,13 @@ void MainWindow::connectTimeline()
 
     KdenliveDoc *project = pCore->currentDoc();
     QSignalBlocker blocker(m_zoomSlider);
-    m_zoomSlider->setValue(pCore->currentDoc()->zoom(uuid).x());
+    m_zoomSlider->setValue(project->zoom(uuid).x());
     int position = project->getSequenceProperty(uuid, QStringLiteral("position"), QString::number(0)).toInt();
     pCore->monitorManager()->projectMonitor()->adjustRulerSize(getCurrentTimeline()->model()->duration() - 1, project->getFilteredGuideModel(uuid));
     pCore->monitorManager()->projectMonitor()->loadZone(getCurrentTimeline()->controller()->zoneIn(), getCurrentTimeline()->controller()->zoneOut());
     pCore->monitorManager()->projectMonitor()->setProducer(getCurrentTimeline()->model()->producer(), position);
-    connect(pCore->currentDoc(), &KdenliveDoc::docModified, this, &MainWindow::slotUpdateDocumentState);
-    slotUpdateDocumentState(pCore->currentDoc()->isModified());
+    connect(project, &KdenliveDoc::docModified, this, &MainWindow::slotUpdateDocumentState);
+    slotUpdateDocumentState(project->isModified());
 
     // Timeline preview
     QAction *previewRender = actionCollection()->action(QStringLiteral("prerender_timeline_zone"));
@@ -4871,13 +4921,15 @@ void MainWindow::connectTimeline()
     bool hasSubtitleModel = getCurrentTimeline()->hasSubtitles();
     Q_EMIT getCurrentTimeline()->controller()->subtitlesLockedChanged();
     Q_EMIT getCurrentTimeline()->controller()->subtitlesDisabledChanged();
-    bool showSubs = pCore->currentDoc()->getSequenceProperty(uuid, QStringLiteral("hidesubtitle")).toInt() == 0;
+    bool showSubs = project->getSequenceProperty(uuid, QStringLiteral("hidesubtitle")).toInt() == 0;
     KdenliveSettings::setShowSubtitles(showSubs && hasSubtitleModel);
     getCurrentTimeline()->connectSubtitleModel(hasSubtitleModel);
     m_buttonSubtitleEditTool->setChecked(showSubs && hasSubtitleModel);
     if (hasSubtitleModel) {
         slotShowSubtitles(showSubs);
     }
+    // Display timeline guides in the guides list
+    pCore->guidesList()->setModel(project->getGuideModel(uuid), project->getFilteredGuideModel(uuid));
 
     if (m_renderWidget) {
         slotCheckRenderStatus();

@@ -34,7 +34,6 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 
-
 #include "bin/model/markersortmodel.h"
 #include "core.h"
 #include "glwidget.h"

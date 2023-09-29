@@ -1501,3 +1501,21 @@ const QString ClipModel::clipThumbPath()
     }
     return QString();
 }
+
+void ClipModel::switchBinReference(const QString newId)
+{
+    deregisterClipToBin();
+    m_binClipId = newId;
+    refreshProducerFromBin(-1);
+    registerClipToBin(getProducer(), false);
+    if (auto ptr = m_parent.lock()) {
+        ptr->replugClip(m_id);
+        QVector<int> roles{TimelineModel::ClipThumbRole};
+        QModelIndex ix = ptr->makeClipIndexFromID(m_id);
+        ptr->notifyChange(ix, ix, roles);
+        // invalidate timeline preview
+        if (!ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {
+            Q_EMIT ptr->invalidateZone(m_position, m_position + getPlaytime());
+        }
+    }
+}

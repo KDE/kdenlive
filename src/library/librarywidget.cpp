@@ -22,6 +22,7 @@
 #include <QVBoxLayout>
 
 #include <KIO/FileCopyJob>
+#include <KIO/OpenFileManagerWindowJob>
 #include <KLocalizedString>
 #include <KMessageBox>
 
@@ -113,7 +114,7 @@ void LibraryTree::mousePressEvent(QMouseEvent *event)
 
 void LibraryTree::dropEvent(QDropEvent *event)
 {
-    // QTreeWidget::dropEvent(event);
+    QTreeWidget::dropEvent(event);
     const QMimeData *qMimeData = event->mimeData();
     QTreeWidgetItem *dropped = this->itemAt(event->pos());
     QString dest;
@@ -247,6 +248,10 @@ void LibraryWidget::setupActions()
     menuList << sentToLibrary;
     connect(this, &LibraryWidget::enableAddSelection, sentToLibrary, &QAction::setEnabled);
 
+    QAction *openFolder = new QAction(QIcon::fromTheme(QStringLiteral("edit-find")), i18n("Open Containing Folder"), this);
+    connect(openFolder, &QAction::triggered, this, &LibraryWidget::slotOpenFolder);
+    menuList << openFolder;
+
     // Create spacer
     QWidget *spacer = new QWidget();
     spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -358,6 +363,15 @@ void LibraryWidget::slotDeleteFromLibrary()
     }
 }
 
+void LibraryWidget::slotOpenFolder()
+{
+    QTreeWidgetItem *current = m_libraryTree->currentItem();
+    if (current) {
+        const QString filePath = current->data(0, Qt::UserRole).toString();
+        KIO::highlightInFileManager({QUrl::fromLocalFile(filePath)});
+    }
+}
+
 void LibraryWidget::slotAddFolder()
 {
     bool ok;
@@ -441,6 +455,7 @@ void LibraryWidget::slotSaveSequence(const QStringList &info, QString dest)
     if (!dir.exists()) {
         return;
     }
+    m_selectNewFile = true;
     m_manager->saveZone(info, dir);
 }
 

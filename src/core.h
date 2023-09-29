@@ -436,4 +436,6 @@ Q_SIGNALS:
     void speechEngineChanged();
     /** @brief Auto fit track height property changed, adjust size */
     void autoTrackHeight(bool);
+    /** @brief The number of missing clips in the project changed, inform user when rendering */
+    void gotMissingClipsCount(int total, int used);
 };

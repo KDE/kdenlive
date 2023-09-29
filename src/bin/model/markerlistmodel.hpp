@@ -16,7 +16,7 @@
 #include <map>
 #include <memory>
 
-class ClipController;
+class ProjectClip;
 class DocUndoStack;
 class SnapInterface;
 
@@ -25,7 +25,7 @@ class SnapInterface;
     A marker is defined by a time, a type (the color used to represent it) and a comment string.
     We store them in a sorted fashion using a std::map
 
-    A marker is essentially bound to a clip. We can also define guides, that are timeline-wise markers. For that, use the constructors without clipId
+    A marker is essentially bound to a clip.
  */
 class MarkerListModel : public QAbstractListModel, public enable_shared_from_this_virtual<MarkerListModel>
 {
@@ -36,9 +36,6 @@ class MarkerListModel : public QAbstractListModel, public enable_shared_from_thi
 public:
     /** @brief Construct a marker list bound to the bin clip with given id */
     explicit MarkerListModel(QString clipId, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
-
-    /** @brief Construct a guide list (bound to the timeline) */
-    MarkerListModel(std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
 
     enum { CommentRole = Qt::UserRole + 1, PosRole, FrameRole, ColorRole, TypeRole, IdRole, TCRole };
 
@@ -137,7 +134,7 @@ public:
        @param clip: pointer to the clip if we are editing a marker
        @return true if dialog was accepted and modification successful
      */
-    bool editMarkerGui(const GenTime &pos, QWidget *parent, bool createIfNotFound, ClipController *clip = nullptr, bool createOnly = false);
+    bool editMarkerGui(const GenTime &pos, QWidget *parent, bool createIfNotFound, ProjectClip *clip = nullptr, bool createOnly = false);
     /** @brief Shows a dialog to change the category of multiple markers/guides
        @param positions: List of the markers positions to edit
        @param widget: qt widget that will be the parent of the dialog
@@ -151,7 +148,7 @@ public:
        @param clip: pointer to the clip if we are editing a marker
        @return true if dialog was accepted and modification successful
      */
-    bool addMultipleMarkersGui(const GenTime &pos, QWidget *parent, bool createIfNotFound, ClipController *clip = nullptr);
+    bool addMultipleMarkersGui(const GenTime &pos, QWidget *parent, bool createIfNotFound, ProjectClip *clip = nullptr);
     void exportGuidesGui(QWidget *parent, GenTime projectDuration) const;
     /** @brief Load the marker categories from a stringList
      *  @return the list of deleted categories ids (if any)
@@ -202,16 +199,14 @@ protected:
     Fun deleteMarker_lambda(GenTime pos);
 
     /** @brief Helper function that retrieves a pointer to the markermodel, given whether it's a guide model and its clipId*/
-    std::shared_ptr<MarkerListModel> getModel(bool guide, const QString &clipId);
+    std::shared_ptr<MarkerListModel> getModel(const QString &clipId);
 
     /** @brief Connects the signals of this object */
     void setup();
 
 private:
     std::weak_ptr<DocUndoStack> m_undoStack;
-    /** @brief whether this model represents timeline-wise guides */
-    bool m_guide;
-    /** @brief the Id of the clip this model corresponds to, if any. */
+    /** @brief the Id of the clip this model corresponds to. */
     QString m_clipId;
 
     /** @brief This is a lock that ensures safety in case of concurrent access */

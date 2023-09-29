@@ -32,10 +32,10 @@ public:
     void setBlueColor(double value);
 
 public Q_SLOTS:
-    void changeColor(const NegQColor &color);
+    void changeColor(const NegQColor &sourceColor, const NegQColor &color, bool createUndo);
 
 Q_SIGNALS:
-    void colorChange(const NegQColor &color);
+    void colorChange(const NegQColor &sourceColor, const NegQColor &color, bool createUndo);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -58,6 +58,8 @@ private:
     QRegion m_wheelRegion;
     QRegion m_sliderRegion;
     NegQColor m_color;
+    NegQColor m_defaultColor;
+    NegQColor m_sourceColor;
     int m_unitSize;
     QString m_name;
     bool m_wheelClick;
@@ -97,5 +99,5 @@ private:
     QDoubleSpinBox *m_blueEdit;
 
 Q_SIGNALS:
-    void colorChange(const NegQColor &color);
+    void colorChange(const NegQColor &sourceColor, const NegQColor &color, bool createUndo);
 };
