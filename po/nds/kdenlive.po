@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-28 00:42+0000\n"
+"POT-Creation-Date: 2023-09-29 00:42+0000\n"
 "PO-Revision-Date: 2011-11-16 15:57+0100\n"
 "Last-Translator: Manfred Wiese <m.j.wiese@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -5504,7 +5504,7 @@ msgid "Cut clip"
 msgstr "Profil bewerken"
 
 #: src/bin/model/subtitlemodel.cpp:788 src/bin/model/subtitlemodel.cpp:1521
-#: src/timeline2/model/timelinemodel.cpp:3557
+#: src/timeline2/model/timelinemodel.cpp:3560
 #, fuzzy, kde-format
 #| msgid "Delete profile"
 msgid "Resize subtitle"
@@ -5642,30 +5642,30 @@ msgstr "Bornklöör"
 msgid "Zone"
 msgstr "Lütter maken"
 
-#: src/bin/projectitemmodel.cpp:868
+#: src/bin/projectitemmodel.cpp:874
 #, fuzzy, kde-format
 #| msgid "Edit profile"
 msgid "Add bin clip"
 msgstr "Profil bewerken"
 
-#: src/bin/projectitemmodel.cpp:934
+#: src/bin/projectitemmodel.cpp:940
 #, fuzzy, kde-format
 #| msgid "Source Color"
 msgid "Add a sub clip"
 msgstr "Bornklöör"
 
-#: src/bin/projectitemmodel.cpp:975
+#: src/bin/projectitemmodel.cpp:981
 #, fuzzy, kde-format
 #| msgid "Delete Folder"
 msgid "Rename Folder"
 msgstr "Orner wegdoon"
 
-#: src/bin/projectitemmodel.cpp:1003 src/mainwindow.cpp:1475
+#: src/bin/projectitemmodel.cpp:1009 src/mainwindow.cpp:1475
 #, kde-format
 msgid "Clean Project"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:1178
+#: src/bin/projectitemmodel.cpp:1184
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Loading project clips…"
@@ -15998,7 +15998,7 @@ msgid "Delete clips on track"
 msgstr "Bornklöör"
 
 #: src/timeline2/model/timelineitemmodel.cpp:135
-#: src/timeline2/model/timelinemodel.cpp:4221
+#: src/timeline2/model/timelinemodel.cpp:4224
 #, fuzzy, kde-format
 #| msgid "Insert mode"
 msgctxt "@action"
@@ -16118,60 +16118,60 @@ msgstr "Positschoon"
 msgid "Move group"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:3003
+#: src/timeline2/model/timelinemodel.cpp:3006
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Resize group"
 msgstr "Profil sekern"
 
-#: src/timeline2/model/timelinemodel.cpp:3127
+#: src/timeline2/model/timelinemodel.cpp:3130
 #, fuzzy, kde-format
 #| msgid "Fill color"
 msgid "Resize clip speed"
 msgstr "Füllklöör"
 
-#: src/timeline2/model/timelinemodel.cpp:3274
+#: src/timeline2/model/timelinemodel.cpp:3277
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Remove mix"
 msgstr "Profil sekern"
 
-#: src/timeline2/model/timelinemodel.cpp:3276
+#: src/timeline2/model/timelinemodel.cpp:3279
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Removing mix failed"
 msgstr "Profil sekern"
 
-#: src/timeline2/model/timelinemodel.cpp:3553
+#: src/timeline2/model/timelinemodel.cpp:3556
 #, kde-format
 msgid "Resize clip"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:3555
+#: src/timeline2/model/timelinemodel.cpp:3558
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "Resize composition"
 msgstr "Positschoon"
 
-#: src/timeline2/model/timelinemodel.cpp:3872
+#: src/timeline2/model/timelinemodel.cpp:3875
 #, fuzzy, kde-format
 #| msgid "Source Color"
 msgid "Ripple resize clip"
 msgstr "Bornklöör"
 
-#: src/timeline2/model/timelinemodel.cpp:3874
+#: src/timeline2/model/timelinemodel.cpp:3877
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "Ripple resize composition"
 msgstr "Positschoon"
 
-#: src/timeline2/model/timelinemodel.cpp:3876
+#: src/timeline2/model/timelinemodel.cpp:3879
 #, fuzzy, kde-format
 #| msgid "Delete profile"
 msgid "Ripple resize subtitle"
 msgstr "Profil wegmaken"
 
-#: src/timeline2/model/timelinemodel.cpp:4019
+#: src/timeline2/model/timelinemodel.cpp:4022
 #, fuzzy, kde-format
 #| msgid "File extension:"
 msgctxt "Undo/Redo menu text"
@@ -16180,98 +16180,98 @@ msgid_plural "Slip clips"
 msgstr[0] "Dateiverwiedern:"
 msgstr[1] "Dateiverwiedern:"
 
-#: src/timeline2/model/timelinemodel.cpp:4054
+#: src/timeline2/model/timelinemodel.cpp:4057
 #, fuzzy, kde-format
 #| msgid "File extension:"
 msgid "Slip clip"
 msgstr "Dateiverwiedern:"
 
-#: src/timeline2/model/timelinemodel.cpp:4089
+#: src/timeline2/model/timelinemodel.cpp:4092
 #, kde-format
 msgid "Group clips"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4174
-#: src/timeline2/model/timelinemodel.cpp:4190
+#: src/timeline2/model/timelinemodel.cpp:4177
+#: src/timeline2/model/timelinemodel.cpp:4193
 #, kde-format
 msgid "Ungroup clips"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4330
+#: src/timeline2/model/timelinemodel.cpp:4333
 #: src/timeline2/view/timelinecontroller.cpp:885
 #, kde-format
 msgid "Delete Track"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4340
+#: src/timeline2/model/timelinemodel.cpp:4343
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4591
+#: src/timeline2/model/timelinemodel.cpp:4594
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgid "Cannot add effect %1 to master track"
 msgstr "Ümkoderen"
 
-#: src/timeline2/model/timelinemodel.cpp:4598
+#: src/timeline2/model/timelinemodel.cpp:4601
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4619
+#: src/timeline2/model/timelinemodel.cpp:4622
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgid "Cannot paste effect to master track"
 msgstr "Ümkoderen"
 
-#: src/timeline2/model/timelinemodel.cpp:4625
+#: src/timeline2/model/timelinemodel.cpp:4628
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4651
+#: src/timeline2/model/timelinemodel.cpp:4654
 #: src/timeline2/view/timelinecontroller.cpp:1478
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4675
+#: src/timeline2/model/timelinemodel.cpp:4678
 #, kde-format
 msgid "Adjust Fade"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4976
+#: src/timeline2/model/timelinemodel.cpp:4979
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "Insert Composition"
 msgstr "Positschoon"
 
-#: src/timeline2/model/timelinemodel.cpp:5164
+#: src/timeline2/model/timelinemodel.cpp:5167
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "Move composition"
 msgstr "Positschoon"
 
-#: src/timeline2/model/timelinemodel.cpp:5820
+#: src/timeline2/model/timelinemodel.cpp:5823
 #, fuzzy, kde-format
 #| msgid "Enable Stretch"
 msgid "Enable time remap"
 msgstr "Utwiedern anmaken"
 
-#: src/timeline2/model/timelinemodel.cpp:5893
+#: src/timeline2/model/timelinemodel.cpp:5896
 #, fuzzy, kde-format
 #| msgid "Edit profile"
 msgid "Change speed failed"
 msgstr "Profil bewerken"
 
-#: src/timeline2/model/timelinemodel.cpp:5903
+#: src/timeline2/model/timelinemodel.cpp:5906
 #, fuzzy, kde-format
 #| msgid "Fill color"
 msgid "Change clip speed"
 msgstr "Füllklöör"
 
-#: src/timeline2/model/timelinemodel.cpp:6282
+#: src/timeline2/model/timelinemodel.cpp:6285
 #: src/timeline2/view/qml/timeline.qml:1187
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, fuzzy, kde-format
@@ -16279,7 +16279,7 @@ msgstr "Füllklöör"
 msgid "Lock track"
 msgstr " Biller"
 
-#: src/timeline2/model/timelinemodel.cpp:6287
+#: src/timeline2/model/timelinemodel.cpp:6290
 #: src/timeline2/view/qml/timeline.qml:1187
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, fuzzy, kde-format
@@ -16287,43 +16287,43 @@ msgstr " Biller"
 msgid "Unlock track"
 msgstr "Klangkanaals"
 
-#: src/timeline2/model/timelinemodel.cpp:6321
-#: src/timeline2/model/timelinemodel.cpp:6383
+#: src/timeline2/model/timelinemodel.cpp:6324
+#: src/timeline2/model/timelinemodel.cpp:6386
 #, fuzzy, kde-format
 #| msgid "Position X"
 msgid "Change composition"
 msgstr "X-Positschoon"
 
-#: src/timeline2/model/timelinemodel.cpp:6335
+#: src/timeline2/model/timelinemodel.cpp:6338
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:6530
-#: src/timeline2/model/timelinemodel.cpp:6567
-#: src/timeline2/model/timelinemodel.cpp:6600
-#: src/timeline2/model/timelinemodel.cpp:6681
+#: src/timeline2/model/timelinemodel.cpp:6533
+#: src/timeline2/model/timelinemodel.cpp:6570
+#: src/timeline2/model/timelinemodel.cpp:6603
+#: src/timeline2/model/timelinemodel.cpp:6684
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Datei \"%1\" warrt opmaakt"
 
-#: src/timeline2/model/timelinemodel.cpp:6541
-#: src/timeline2/model/timelinemodel.cpp:6575
-#: src/timeline2/model/timelinemodel.cpp:6619
-#: src/timeline2/model/timelinemodel.cpp:6705
+#: src/timeline2/model/timelinemodel.cpp:6544
+#: src/timeline2/model/timelinemodel.cpp:6578
+#: src/timeline2/model/timelinemodel.cpp:6622
+#: src/timeline2/model/timelinemodel.cpp:6708
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgid "Cannot resize mix"
 msgstr "Datei \"%1\" warrt opmaakt"
 
-#: src/timeline2/model/timelinemodel.cpp:6719
+#: src/timeline2/model/timelinemodel.cpp:6722
 #, fuzzy, kde-format
 #| msgid "Resize"
 msgid "Resize mix"
 msgstr "Grött ännern"
 
-#: src/timeline2/model/timelinemodel.cpp:6858
+#: src/timeline2/model/timelinemodel.cpp:6861
 #, fuzzy, kde-format
 #| msgid "Image File"
 msgid "Error initializing timeline preview"
