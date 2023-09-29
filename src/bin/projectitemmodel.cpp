@@ -1261,19 +1261,18 @@ QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, st
                         prod2->set("kdenlive:producer_type", ClipType::Timeline);
                         prod2->set("kdenlive:maxduration", prod->parent().get_int("kdenlive:maxduration"));
                         binProducers.insert(id, prod2);
-                        continue;
                     } else {
-                        QString resource = prod->parent().get("resource");
+                        const QString resource = prod->parent().get("resource");
+                        qDebug() << "/// INCORRECT SEQUENCE FOUND IN PROJECT BIN: " << resource;
                         if (resource.endsWith(QLatin1String("<tractor>"))) {
                             // Buggy internal xml producer, drop
                             qDebug() << "/// AARGH INCORRECT SEQUENCE CLIP IN PROJECT BIN... TRY TO RECOVER";
                             brokenSequences.append(QUuid(uuid));
-                            continue;
                         }
                     }
-                } else {
-                    producer.reset(new Mlt::Producer(prod->parent()));
+                    continue;
                 }
+                producer.reset(new Mlt::Producer(prod->parent()));
                 int id = producer->parent().get_int("kdenlive:id");
                 if (!id) {
                     qDebug() << "WARNING THIS SHOULD NOT HAPPEN, BIN CLIP WITHOUT ID: " << producer->parent().get("resource")
