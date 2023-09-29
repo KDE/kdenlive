@@ -110,6 +110,9 @@ public:
     /** @brief Retrieve a list of all snaps for this clip */
     void allSnaps(std::vector<int> &snaps, int offset = 0) const;
 
+    /** @brief Replace the bin producer with another bin clip */
+    void switchBinReference(const QString newId);
+
 protected:
     /** @brief helper functions that creates the lambda */
     Fun setClipState_lambda(PlaylistState::ClipState state);

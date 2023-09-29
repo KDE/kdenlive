@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="227" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="228" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="file_save"/>
@@ -91,6 +91,7 @@
       <Action name="locate_clip" />
       <Action name="reload_clip" />
       <Action name="replace_clip" />
+      <Action name="replace_in_timeline" />
       <Action name="duplicate_clip" />
       <Action name="proxy_clip" />
       <Menu name="clip_in_timeline"><text>Clip in Timeline</text>

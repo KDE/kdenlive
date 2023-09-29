@@ -379,6 +379,8 @@ private Q_SLOTS:
     void slotReloadClip();
     /** @brief Replace clip with another file */
     void slotReplaceClip();
+    /** @brief Replace audio or video component in timeline with another file */
+    void slotReplaceClipInTimeline();
     /** @brief Set sorting column */
     void slotSetSorting();
     /** @brief Show/hide date column */
@@ -547,7 +549,8 @@ private:
     QAction *m_openAction;
     QAction *m_editAction;
     QAction *m_reloadAction;
-    QAction *m_replaceAction;
+    QAction *m_replaceAction{nullptr};
+    QAction *m_replaceInTimelineAction{nullptr};
     QAction *m_duplicateAction;
     QAction *m_locateAction;
     QAction *m_proxyAction;

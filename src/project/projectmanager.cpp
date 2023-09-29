@@ -1960,3 +1960,16 @@ void ProjectManager::updateSequenceProducer(const QUuid &uuid, std::shared_ptr<M
     qDebug() << "====== STORING SEQUENCE " << uuid << " WITH TKS: " << trac->count();
     pCore->projectItemModel()->storeSequence(uuid.toString(), trac);
 }
+
+void ProjectManager::replaceTimelineInstances(const QString &sourceId, const QString &replacementId, bool replaceAudio, bool replaceVideo)
+{
+    std::shared_ptr<ProjectClip> currentItem = pCore->projectItemModel()->getClipByBinID(sourceId);
+    std::shared_ptr<ProjectClip> replacementItem = pCore->projectItemModel()->getClipByBinID(replacementId);
+    if (!currentItem || !replacementItem || !m_activeTimelineModel) {
+        qDebug() << " SOURCE CLI : " << sourceId << " NOT FOUND!!!";
+        return;
+    }
+    int maxDuration = replacementItem->frameDuration();
+    QList<int> instances = currentItem->timelineInstances();
+    m_activeTimelineModel->processTimelineReplacement(instances, sourceId, replacementId, maxDuration, replaceAudio, replaceVideo);
+}

@@ -1915,9 +1915,107 @@ void Bin::replaceSingleClip(const QString clipId, const QString &newUrl)
     }
 }
 
+void Bin::slotReplaceClipInTimeline()
+{
+    // Check if we have 2 selected clips
+    const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
+    QModelIndex activeIndex = m_proxyModel->selectionModel()->currentIndex();
+    std::shared_ptr<AbstractProjectItem> selectedItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(activeIndex));
+    std::shared_ptr<AbstractProjectItem> secondaryItem = nullptr;
+    for (const QModelIndex &ix : indexes) {
+        if (!ix.isValid() || ix.column() != 0 || ix == activeIndex) {
+            continue;
+        }
+        if (secondaryItem != nullptr) {
+            // More than 2 clips selected, abort
+            secondaryItem = nullptr;
+            break;
+        }
+        secondaryItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
+    }
+    if (selectedItem == nullptr || secondaryItem == nullptr || selectedItem->itemType() != AbstractProjectItem::ClipItem ||
+        secondaryItem->itemType() != AbstractProjectItem::ClipItem) {
+        KMessageBox::information(this, i18n("You need to select 2 clips (the replacement clip and the original clip) for timeline replacement."));
+        return;
+    }
+    // Check that we don't try to embed a sequence onto itself
+    auto selected = std::static_pointer_cast<ProjectClip>(selectedItem);
+    if (selected->timelineInstances().isEmpty()) {
+        KMessageBox::information(this, i18n("The current clip <b>%1</b> is not inserted in the active timeline.", selected->clipName()));
+        return;
+    }
+    auto secondary = std::static_pointer_cast<ProjectClip>(secondaryItem);
+    if (secondary->clipType() == ClipType::Timeline && secondary->getSequenceUuid() == pCore->currentTimelineId()) {
+        KMessageBox::information(this, i18n("You cannot insert the sequence <b>%1</b> into itself.", secondary->clipName()));
+        return;
+    }
+    std::pair<bool, bool> hasAV = {selected->hasAudio(), selected->hasVideo()};
+    std::pair<bool, bool> secondaryHasAV = {secondary->hasAudio(), secondary->hasVideo()};
+    std::pair<bool, bool> replacementAV = {false, false};
+    if (secondaryHasAV.first && hasAV.first) {
+        // Both clips have audio
+        replacementAV.first = true;
+        if (secondaryHasAV.second && hasAV.second) {
+            // Both clips have video, ask what user wants
+            replacementAV.second = true;
+        }
+    } else if (secondaryHasAV.second && hasAV.second) {
+        replacementAV.second = true;
+    }
+    qDebug() << "ANALYSIS RESULT:\nMASTER: " << hasAV << "\nSECONDARY: " << secondaryHasAV << "\nRESULT: " << replacementAV;
+    if (replacementAV.first == false && replacementAV.second == false) {
+        KMessageBox::information(this,
+                                 i18n("The selected clips %1 and %2 don't match, cannot replace audio nor video", selected->clipName(), secondary->clipName()));
+        return;
+    }
+    int sourceDuration = selected->frameDuration();
+    int replaceDuration = secondary->frameDuration();
+    QDialog d(this);
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    auto *l = new QVBoxLayout;
+    d.setLayout(l);
+    if (replaceDuration != sourceDuration) {
+        // Display respective clip duration in case of mismatch
+        l->addWidget(new QLabel(i18n("Replacing instances of clip <b>%1</b> (%2)<br/>in active timeline\nwith clip <b>%3</b> (%4)", selected->clipName(),
+                                     selected->getStringDuration(), secondary->clipName(), secondary->getStringDuration()),
+                                &d));
+    } else {
+        l->addWidget(new QLabel(
+            i18n("Replacing instances of clip <b>%1</b><br/>in active timeline\nwith clip <b>%2</b>", selected->clipName(), secondary->clipName()), &d));
+    }
+    QCheckBox *cbAudio = new QCheckBox(i18n("Replace audio"), this);
+    cbAudio->setEnabled(replacementAV.first);
+    cbAudio->setChecked(replacementAV.first);
+    QCheckBox *cbVideo = new QCheckBox(i18n("Replace video"), this);
+    cbVideo->setEnabled(replacementAV.second);
+    cbVideo->setChecked(replacementAV.second && !replacementAV.first);
+    l->addWidget(cbAudio);
+    l->addWidget(cbVideo);
+    if (sourceDuration != replaceDuration) {
+        KMessageWidget *km = new KMessageWidget(this);
+        km->setCloseButtonVisible(false);
+        if (sourceDuration > replaceDuration) {
+            km->setMessageType(KMessageWidget::Warning);
+            km->setText(i18n("Replacement clip is shorter than source clip.<br><b>Some clips in timeline might not be replaced</b>"));
+        } else {
+            km->setMessageType(KMessageWidget::Information);
+            km->setText(i18n("Replacement clip duration is longer that your source clip"));
+        }
+        l->addWidget(km);
+    }
+    l->addWidget(buttonBox);
+    d.connect(buttonBox, &QDialogButtonBox::rejected, &d, &QDialog::reject);
+    d.connect(buttonBox, &QDialogButtonBox::accepted, &d, &QDialog::accept);
+    if (d.exec() != QDialog::Accepted || (!cbVideo->isCheckable() && !cbAudio->isChecked())) {
+        return;
+    }
+    pCore->projectManager()->replaceTimelineInstances(selected->clipId(), secondary->clipId(), cbAudio->isChecked(), cbVideo->isChecked());
+}
+
 void Bin::slotReplaceClip()
 {
     const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
+    QModelIndex activeSelection = m_proxyModel->selectionModel()->currentIndex();
     for (const QModelIndex &ix : indexes) {
         if (!ix.isValid() || ix.column() != 0) {
             continue;
@@ -1926,16 +2024,22 @@ void Bin::slotReplaceClip()
         std::shared_ptr<ProjectClip> currentItem = nullptr;
         if (item->itemType() == AbstractProjectItem::ClipItem) {
             currentItem = std::static_pointer_cast<ProjectClip>(item);
+            if (ix == activeSelection) {
+                qDebug() << "==== FOUND ACTIVE CLIP: " << currentItem->clipUrl();
+            } else {
+                qDebug() << "==== FOUND SELECED CLIP: " << currentItem->clipUrl();
+            }
         } else if (item->itemType() == AbstractProjectItem::SubClipItem) {
             currentItem = std::static_pointer_cast<ProjectSubClip>(item)->getMasterClip();
         }
         if (currentItem) {
             Q_EMIT openClip(std::shared_ptr<ProjectClip>());
-            QString fileName = QFileDialog::getOpenFileName(this, i18nc("@title:window", "Open Replacement File"), QFileInfo(currentItem->url()).absolutePath(),
-                                                            ClipCreationDialog::getExtensionsFilter());
+            QString fileName = QFileDialog::getOpenFileName(this, i18nc("@title:window", "Open Replacement for %1", currentItem->clipName()),
+                                                            QFileInfo(currentItem->url()).absolutePath(), ClipCreationDialog::getExtensionsFilter());
             if (!fileName.isEmpty()) {
                 QMap<QString, QString> sourceProps;
                 QMap<QString, QString> newProps;
+                std::pair<bool, bool> hasAV = {currentItem->hasAudio(), currentItem->hasVideo()};
                 sourceProps.insert(QStringLiteral("resource"), currentItem->url());
                 sourceProps.insert(QStringLiteral("kdenlive:originalurl"), currentItem->url());
                 sourceProps.insert(QStringLiteral("kdenlive:clipname"), currentItem->clipName());
@@ -1952,6 +2056,57 @@ void Bin::slotReplaceClip()
                     std::unique_ptr<Mlt::Producer> replacementProd(new Mlt::Producer(pCore->getProjectProfile(), fileName.toUtf8().constData()));
                     int currentDuration = int(currentItem->frameDuration());
                     if (replacementProd->is_valid()) {
+                        replacementProd->probe();
+                        std::pair<bool, bool> replacementHasAV = {
+                            (replacementProd->property_exists("audio_index") && replacementProd->get_int("audio_index") > -1),
+                            (replacementProd->property_exists("video_index") && replacementProd->get_int("video_index") > -1)};
+                        if (hasAV != replacementHasAV) {
+                            replacementProd.reset();
+                            QString message;
+                            std::pair<bool, bool> replaceAV = {false, false};
+                            if (hasAV.first && hasAV.second) {
+                                if (!replacementHasAV.second) {
+                                    // Original clip has audio and video, replacement has only audio
+                                    replaceAV.first = true;
+                                    message = i18n("Replacement clip does not contain a video stream. Do you want to replace only the audio component of this "
+                                                   "clip in the active timeline ?");
+                                } else if (!replacementHasAV.first) {
+                                    // Original clip has audio and video, replacement has only video
+                                    replaceAV.second = true;
+                                    message = i18n("Replacement clip does not contain an audio stream. Do you want to replace only the video component of this "
+                                                   "clip in the active timeline ?");
+                                }
+                                if (replaceAV.first == false && replaceAV.second == false) {
+                                    KMessageBox::information(this, i18n("You cannot replace a clip with a different type of clip (audio/video not matching)."));
+                                    return;
+                                }
+                                if (KMessageBox::questionTwoActions(QApplication::activeWindow(), message, {}, KGuiItem(i18n("Replace in timeline")),
+                                                                    KStandardGuiItem::cancel()) == KMessageBox::SecondaryAction) {
+                                    return;
+                                }
+                                // Replace only one component.
+                                QString folder = QStringLiteral("-1");
+                                auto containingFolder = std::static_pointer_cast<ProjectFolder>(currentItem->parent());
+                                if (containingFolder) {
+                                    folder = containingFolder->clipId();
+                                }
+                                Fun undo = []() { return true; };
+                                Fun redo = []() { return true; };
+                                std::function<void(const QString &)> callBack = [replaceAudio = replaceAV.first,
+                                                                                 sourceId = currentItem->clipId()](const QString &binId) {
+                                    qDebug() << "::: READY TO REPLACE: " << sourceId << ", WITH: " << binId;
+                                    if (!binId.isEmpty()) {
+                                        pCore->projectManager()->replaceTimelineInstances(sourceId, binId, replaceAudio, !replaceAudio);
+                                    }
+                                    return true;
+                                };
+                                const QString clipId = ClipCreator::createClipFromFile(fileName, folder, m_itemModel, undo, redo, callBack);
+                                pCore->pushUndo(undo, redo, i18nc("@action", "Add clip"));
+                            } else if ((hasAV.first && !replacementHasAV.first) || (hasAV.second && !replacementHasAV.second)) {
+                                KMessageBox::information(this, i18n("You cannot replace a clip with a different type of clip (audio/video not matching)."));
+                            }
+                            return;
+                        }
                         int replacementDuration = replacementProd->get_length();
                         if (replacementDuration < currentDuration) {
                             if (KMessageBox::warningContinueCancel(
@@ -2583,6 +2738,8 @@ void Bin::selectProxyModel(const QModelIndex &id)
             m_reloadAction->setVisible(!isFolder);
             m_replaceAction->setEnabled(isClip);
             m_replaceAction->setVisible(!isFolder);
+            m_replaceInTimelineAction->setEnabled(isClip);
+            m_replaceInTimelineAction->setVisible(!isFolder);
             // Enable actions depending on clip type
             for (auto &a : m_clipsActionsMenu->actions()) {
                 qDebug() << "ACTION: " << a->text() << " = " << a->data().toString();
@@ -2628,6 +2785,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
     m_proxyAction->setEnabled(false);
     m_reloadAction->setEnabled(false);
     m_replaceAction->setEnabled(false);
+    m_replaceInTimelineAction->setEnabled(false);
     m_locateAction->setEnabled(false);
     m_duplicateAction->setEnabled(false);
     m_openAction->setEnabled(false);
@@ -3391,6 +3549,9 @@ void Bin::setupGeneratorMenu()
     if (m_replaceAction) {
         m_menu->addAction(m_replaceAction);
     }
+    if (m_replaceInTimelineAction) {
+        m_menu->addAction(m_replaceInTimelineAction);
+    }
     if (m_duplicateAction) {
         m_menu->addAction(m_duplicateAction);
     }
@@ -3462,6 +3623,12 @@ void Bin::setupMenu()
     m_replaceAction->setData("replace_clip");
     m_replaceAction->setEnabled(false);
     connect(m_replaceAction, &QAction::triggered, this, &Bin::slotReplaceClip);
+
+    m_replaceInTimelineAction =
+        addAction(QStringLiteral("replace_in_timeline"), i18n("Replace Clip In Timeline…"), QIcon::fromTheme(QStringLiteral("edit-find-replace")));
+    m_replaceInTimelineAction->setData("replace_timeline_clip");
+    m_replaceInTimelineAction->setEnabled(false);
+    connect(m_replaceInTimelineAction, &QAction::triggered, this, &Bin::slotReplaceClipInTimeline);
 
     m_duplicateAction = addAction(QStringLiteral("duplicate_clip"), i18n("Duplicate Clip"), QIcon::fromTheme(QStringLiteral("edit-copy")));
     m_duplicateAction->setData("duplicate_clip");
