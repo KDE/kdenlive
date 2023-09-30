@@ -2552,6 +2552,9 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             int newItemTrackId = getTrackIndexFromPosition(newTrackPosition);
             int newIn = item.second + delta_pos;
             if (!getTrackById_const(newItemTrackId)->isAvailableWithExceptions(newIn, getClipPlaytime(item.first) - 1, sorted_clips_ids)) {
+                if (!moveMirrorTracks && item.first != itemId) {
+                    continue;
+                }
                 delta_track = 0;
                 break;
             }
