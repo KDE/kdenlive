@@ -42,6 +42,11 @@ TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id, const
             for (auto &m_playlist : m_playlists) {
                 m_playlist.set("hide", 1);
             }
+        } else {
+            // Video track
+            for (auto &m_playlist : m_playlists) {
+                m_playlist.set("hide", 2);
+            }
         }
         // For now we never use the second playlist, only planned for same track transitions
         m_track->set("kdenlive:trackheight", KdenliveSettings::trackheight());
