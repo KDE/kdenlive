@@ -2133,7 +2133,7 @@ void TitleWidget::loadTitle(QUrl url)
     if (!url.isValid()) {
         QString startFolder = KRecentDirs::dir(QStringLiteral(":KdenliveProjectsTitles"));
         url = QFileDialog::getOpenFileUrl(this, i18n("Load Title"), QUrl::fromLocalFile(startFolder.isEmpty() ? m_projectTitlePath : startFolder),
-                                          i18n("Kdenlive title (*.kdenlivetitle)"));
+                                          i18n("Kdenlive title") + QStringLiteral(" (*.kdenlivetitle)"));
     }
     if (url.isValid()) {
         if (anim_start->isChecked()) {
