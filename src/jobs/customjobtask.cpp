@@ -25,6 +25,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <KLocalizedString>
 
+static QStringList requestedOutput;
+
 CustomJobTask::CustomJobTask(const ObjectId &owner, const QString &jobName, const QMap<QString, QString> &jobParams, int in, int out, const QString &jobId,
                              QObject *object)
     : AbstractTask(owner, AbstractTask::TRANSCODEJOB, object)
@@ -192,22 +194,28 @@ void CustomJobTask::run()
     const QString destName = sourceInfo.baseName();
     QDir baseDir = sourceInfo.absoluteDir();
     QString destPath = baseDir.absoluteFilePath(destName + extension);
-    if (QFileInfo::exists(destPath)) {
+    if (QFileInfo::exists(destPath) || requestedOutput.contains(destPath)) {
         QString fixedName = destName;
         static const QRegularExpression regex(QRegularExpression::anchoredPattern(QStringLiteral(R"(.*-(\d{4})$)")));
         QRegularExpressionMatch match = regex.match(fixedName);
-        if (match.hasMatch()) {
-            // if the file name has already an index suffix,
-            // increase the number
-            const int currentSuffix = match.captured(1).toInt();
-            fixedName.replace(match.capturedStart(1), match.capturedLength(1), QString::asprintf("-%04d", currentSuffix + 1));
-        } else {
+        if (!match.hasMatch()) {
             // if the file has no index suffix, append -0001
             fixedName.append(QString::asprintf("-%04d", 1));
+        } else {
+            const int currentSuffix = match.captured(1).toInt();
+            fixedName.replace(match.capturedStart(1), match.capturedLength(1), QString::asprintf("-%04d", currentSuffix + 1));
         }
         destPath = baseDir.absoluteFilePath(fixedName + extension);
+        while (QFileInfo::exists(destPath) || requestedOutput.contains(destPath)) {
+            // if the file name has already an index suffix,
+            // increase the number
+            match = regex.match(fixedName);
+            const int currentSuffix = match.captured(1).toInt();
+            fixedName.replace(match.capturedStart(1), match.capturedLength(1), QString::asprintf("-%04d", currentSuffix + 1));
+            destPath = baseDir.absoluteFilePath(fixedName + extension);
+        }
     }
-
+    requestedOutput << destPath;
     parameters << jobParameters.split(QLatin1Char(' '), Qt::SkipEmptyParts);
 
     bool outputPlaced = false;
@@ -254,6 +262,7 @@ void CustomJobTask::run()
     AbstractTask::setPreferredPriority(m_jobProcess->processId());
     m_jobProcess->waitForFinished(-1);
     bool result = m_jobProcess->exitStatus() == QProcess::NormalExit;
+    requestedOutput.removeAll(destPath);
     // remove temporary playlist if it exists
     m_progress = 100;
     QMetaObject::invokeMethod(m_object, "updateJobProgress");
