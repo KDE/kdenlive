@@ -79,6 +79,8 @@ private Q_SLOTS:
     void deleteJob();
     /** @brief Check if job name was edited and correctly store it */
     void updateName(QListWidgetItem *item);
+    /** @brief Check if the script file or application exists and is executable */
+    void checkScript();
 
 private:
     QString m_dirty;

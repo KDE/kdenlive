@@ -80,7 +80,10 @@ ClipJobManager::ClipJobManager(AbstractTask::JOBTYPE type, QWidget *parent)
     bg->addButton(enable_image);
 
     // Mark preset as dirty if anything changes
-    connect(url_binary, &KUrlRequester::textChanged, this, &ClipJobManager::setDirty);
+    connect(url_binary, &KUrlRequester::textChanged, this, [this]() {
+        checkScript();
+        setDirty();
+    });
     connect(job_params, &QPlainTextEdit::textChanged, this, &ClipJobManager::setDirty);
     connect(destination_pattern, &QLineEdit::textChanged, this, &ClipJobManager::setDirty);
     connect(radio_replace, &QRadioButton::toggled, this, &ClipJobManager::setDirty);
@@ -95,7 +98,7 @@ ClipJobManager::ClipJobManager(AbstractTask::JOBTYPE type, QWidget *parent)
     connect(param2_name, &QLineEdit::textChanged, this, &ClipJobManager::setDirty);
     connect(bg, &QButtonGroup::idToggled, this, &ClipJobManager::setDirty);
     info_message->setVisible(false);
-
+    checkScript();
     connect(buttonBox->button(QDialogButtonBox::Close), &QPushButton::clicked, this, &ClipJobManager::validate);
 }
 
@@ -233,6 +236,24 @@ void ClipJobManager::displayJob(int row)
     param1_list->setPlainText(option1.join(QLatin1Char('\n')));
     QStringList option2 = m_param2List.value(jobId).split(QLatin1String("  "));
     param2_list->setPlainText(option2.join(QLatin1Char('\n')));
+}
+
+void ClipJobManager::checkScript()
+{
+    if (url_binary->text().isEmpty() || !url_binary->isEnabled()) {
+        script_message->setVisible(false);
+        return;
+    }
+    QFileInfo info(url_binary->text());
+    if (!info.exists()) {
+        script_message->setText(i18n("Missing executable"));
+        script_message->setVisible(true);
+    } else if (!info.isExecutable()) {
+        script_message->setText(i18n("Your script or application %1 is not executable, change permissions", info.fileName()));
+        script_message->setVisible(true);
+    } else {
+        script_message->setVisible(false);
+    }
 }
 
 QMap<QString, QString> ClipJobManager::getClipJobNames()
