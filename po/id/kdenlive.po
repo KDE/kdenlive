@@ -1,7 +1,7 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 # Rendiyono Wahyu Saputro <rendi.7936@gmail.com>, 2015.
-# Wantoyèk <wantoyek@gmail.com>, 2018, 2019, 2020, 2021, 2022, 2023.
+# SPDX-FileCopyrightText: 2018, 2019, 2020, 2021, 2022, 2023 Wantoyèk <wantoyek@gmail.com>
 # Linerly <linerly@protonmail.com>, 2022, 2023.
 #
 # Translators:
@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-01 00:42+0000\n"
-"PO-Revision-Date: 2023-09-17 08:04+0700\n"
+"PO-Revision-Date: 2023-09-29 08:20+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 23.04.2\n"
+"X-Generator: Lokalize 23.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1680,7 +1680,7 @@ msgstr "Samar"
 #: data/effects/obscure.xml:5
 #, kde-format
 msgid "Hide a region of the clip"
-msgstr "Sembunyikan region pada klip"
+msgstr "Sembunyikan wilayah pada klip"
 
 #: data/effects/obscure.xml:8
 #, kde-format
@@ -3308,6 +3308,8 @@ msgstr "Simpan Tumpukan Efek..."
 msgctxt "@info:whatsthis"
 msgid "Saves the entire effect stack as an XML file for use in other projects."
 msgstr ""
+"Simpanan seluruh tumpukan efek sebagai file XML untuk digunakan pada proyek "
+"lainnya."
 
 #: src/assets/assetpanel.cpp:96
 #, kde-format
@@ -3326,6 +3328,9 @@ msgid ""
 "Turns on or off the split view in the project and/or clip monitor: on the "
 "left the clip with effect is shown, on the right the clip without effect."
 msgstr ""
+"Nyalakan atau matikan tampilan belah pada proyek dan/atau monitor klip: pada "
+"sebelah kiri klip dengan efek yang ditampilkan, pada sebelah kanan klip "
+"tanpa efek."
 
 #: src/assets/assetpanel.cpp:107
 #, kde-format
@@ -3465,7 +3470,7 @@ msgstr "Keyframe hilang terdeteksi di %1, secara otomatis ditambahkan ulang"
 #: src/assets/keyframes/view/keyframeview.cpp:130
 #, kde-format
 msgid "Duplicate keyframe"
-msgstr "Duplikat keyframe"
+msgstr "Duplikatkan keyframe"
 
 #: src/assets/keyframes/view/keyframeview.cpp:183
 #, kde-format
@@ -4517,7 +4522,7 @@ msgstr " (salin)"
 #: src/bin/bin.cpp:2239 src/bin/bin.cpp:2241
 #, kde-format
 msgid "Duplicate clip"
-msgstr "Duplikat klip"
+msgstr "Duplikatkan klip"
 
 #: src/bin/bin.cpp:2362
 #, kde-format
@@ -4755,7 +4760,7 @@ msgstr "Ganti Klip..."
 #: src/bin/bin.cpp:3633
 #, kde-format
 msgid "Duplicate Clip"
-msgstr "Duplikat Klip"
+msgstr "Duplikatkan Klip"
 
 #: src/bin/bin.cpp:3645 src/bin/bin.cpp:3706
 #, kde-format
@@ -5094,7 +5099,7 @@ msgid ""
 "duplicate them?"
 msgstr ""
 "Klip berikut ini telah dimasukkan dalam proyek. Apakah Anda ingin "
-"menyalinkannya?"
+"menduplikatkannya?"
 
 #: src/bin/clipcreator.cpp:398
 #, kde-format
@@ -5243,7 +5248,7 @@ msgstr ""
 #: src/bin/model/markerlistmodel.cpp:77
 #, kde-format
 msgid "Update guides categories"
-msgstr "Perbarui kategori panduan"
+msgstr "Perbarui kategori pancangan"
 
 #: src/bin/model/markerlistmodel.cpp:258 src/bin/model/markerlistmodel.cpp:276
 #, kde-format
@@ -5295,7 +5300,7 @@ msgstr "Hapus semua penandaan"
 #: src/timeline2/view/timelinecontroller.cpp:1440
 #, kde-format
 msgid "No guide found at current position"
-msgstr "Tidak ada pandu yang ditemukan pada posisi saat ini"
+msgstr "Tidak ada pancang yang ditemukan pada posisi saat ini"
 
 #: src/bin/model/markerlistmodel.cpp:871
 #, kde-format
@@ -6134,7 +6139,7 @@ msgstr ""
 #: src/dialogs/exportguidesdialog.cpp:38
 #, kde-format
 msgid "Export guides"
-msgstr "Ekspor panduan"
+msgstr "Ekspor pancangan"
 
 #: src/dialogs/exportguidesdialog.cpp:46
 #, kde-format
@@ -6175,7 +6180,7 @@ msgstr "Berkas GPS"
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Guides Data"
-msgstr "Ekspor Data Panduan"
+msgstr "Ekspor Data Pancangan"
 
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1611
 #: src/dialogs/renderwidget.cpp:1638 src/doc/kdenlivedoc.cpp:755
@@ -6203,7 +6208,7 @@ msgstr "Tidak bisa menulis ke file %1"
 #: src/dialogs/exportguidesdialog.cpp:88
 #, kde-format
 msgid "Guides saved to %1"
-msgstr "Panduan disimpan ke %1"
+msgstr "Pancangan disimpan ke %1"
 
 #: src/dialogs/exportguidesdialog.cpp:111
 #, kde-format
@@ -6213,37 +6218,37 @@ msgstr "Nama kategori"
 #: src/dialogs/exportguidesdialog.cpp:112
 #, kde-format
 msgid "Guide number"
-msgstr "Nomor pandu"
+msgstr "Nomor pancang"
 
 #: src/dialogs/exportguidesdialog.cpp:113
 #, kde-format
 msgid "Guide position in HH:MM:SS:FF"
-msgstr "Posisi pandu di HH:MM:SS:FF"
+msgstr "Posisi pancang di HH:MM:SS:FF"
 
 #: src/dialogs/exportguidesdialog.cpp:114
 #, kde-format
 msgid "Guide position in (HH:)MM.SS"
-msgstr "Posisi pandu di (HH:)MM.SS"
+msgstr "Posisi pancang di (HH:)MM.SS"
 
 #: src/dialogs/exportguidesdialog.cpp:115
 #, kde-format
 msgid "Next guide position in (HH:)MM.SS"
-msgstr "Posisi pandu selanjutnya di (HH:)MM.SS"
+msgstr "Posisi pancang selanjutnya di (HH:)MM.SS"
 
 #: src/dialogs/exportguidesdialog.cpp:116
 #, kde-format
 msgid "Guide position in frames"
-msgstr "Posisi pandu di frame"
+msgstr "Posisi pancang di frame"
 
 #: src/dialogs/exportguidesdialog.cpp:117
 #, kde-format
 msgid "Next guide position in frames"
-msgstr "Posisi pandu selanjutnya di frame"
+msgstr "Posisi pancang selanjutnya di frame"
 
 #: src/dialogs/exportguidesdialog.cpp:118
 #, kde-format
 msgid "Guide comment"
-msgstr "Komentar pandu"
+msgstr "Komentar pancang"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:115 src/mainwindow.cpp:3872
 #, kde-format
@@ -6253,7 +6258,7 @@ msgstr "Linimasa"
 #: src/dialogs/kdenlivesettingsdialog.cpp:125
 #, kde-format
 msgid "Colors and Guides"
-msgstr "Warna dan Panduan"
+msgstr "Warna dan Pancangan"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:132
 #, kde-format
@@ -6620,7 +6625,7 @@ msgstr "Memproses %1"
 #: src/dialogs/renderpresetdialog.cpp:88 src/dialogs/renderpresetdialog.cpp:162
 #, kde-format
 msgid "(Not set)"
-msgstr ""
+msgstr "(Tidak diatur)"
 
 #: src/dialogs/renderpresetdialog.cpp:89 src/dialogs/renderpresetdialog.cpp:163
 #, kde-format
@@ -8857,7 +8862,7 @@ msgstr "&Klip saat ini"
 #: src/kdenliveui.rc:152
 #, kde-format
 msgid "&Guides"
-msgstr "&Pandu"
+msgstr "&Pancang"
 
 #. i18n: ectx: Menu (space_menu)
 #: src/kdenliveui.rc:161
@@ -9496,7 +9501,7 @@ msgstr "Pemetaan Ulang Waktu"
 #: src/mainwindow.cpp:288 src/ui/projectsettings_ui.ui:529
 #, kde-format
 msgid "Guides"
-msgstr "Panduan"
+msgstr "Pancangan"
 
 #: src/mainwindow.cpp:343 src/monitor/recmanager.cpp:103
 #, kde-format
@@ -9627,7 +9632,7 @@ msgstr "Pratinjau perenderan"
 #: src/mainwindow.cpp:660 src/monitor/monitor.cpp:361
 #, kde-format
 msgid "Go to Guide…"
-msgstr "Menuju ke Pandu…"
+msgstr "Menuju ke Pancang…"
 
 #: src/mainwindow.cpp:688
 #, kde-format
@@ -9927,7 +9932,7 @@ msgid ""
 "and others)."
 msgstr ""
 "Jungkitan fungsi jepret (jepret klip ke tajuk putar, tepian, penanda, "
-"panduan dan lainnya)."
+"pancangan dan lainnya)."
 
 #: src/mainwindow.cpp:1344
 #, kde-format
@@ -10170,12 +10175,12 @@ msgstr "Menuju ke Akhir Klip"
 #: src/mainwindow.cpp:1621
 #, kde-format
 msgid "Go to Previous Guide"
-msgstr "Menuju ke Pandu Sebelumnya"
+msgstr "Menuju ke Pancang Sebelumnya"
 
 #: src/mainwindow.cpp:1623
 #, kde-format
 msgid "Go to Next Guide"
-msgstr "Menuju ke Pandu Berikutnya"
+msgstr "Menuju ke Pancang Berikutnya"
 
 #: src/mainwindow.cpp:1625
 #, kde-format
@@ -10344,7 +10349,7 @@ msgstr "Hapus Semua Penanda"
 #: src/mainwindow.cpp:1688
 #, kde-format
 msgid "Add Marker/Guide quickly"
-msgstr "Tambahkan Penanda/Pandu secara cepat"
+msgstr "Tambahkan Penanda/Pancang secara cepat"
 
 #: src/mainwindow.cpp:1692
 #, kde-format
@@ -10559,37 +10564,37 @@ msgstr "Nonaktifkan Pratinjau Linimasa"
 #: src/mainwindow.cpp:1902
 #, kde-format
 msgid "Add/Remove Guide"
-msgstr "Tambahkan/Singkirkan Pandu"
+msgstr "Tambahkan/Singkirkan Pancang"
 
 #: src/mainwindow.cpp:1903
 #, kde-format
 msgid "Delete Guide"
-msgstr "Hapus Pandu"
+msgstr "Hapus Pancang"
 
 #: src/mainwindow.cpp:1904
 #, kde-format
 msgid "Edit Guide…"
-msgstr "Edit Pandu..."
+msgstr "Edit Pancang..."
 
 #: src/mainwindow.cpp:1905
 #, kde-format
 msgid "Search Guide…"
-msgstr "Cari Panduan..."
+msgstr "Cari Pancangan..."
 
 #: src/mainwindow.cpp:1906
 #, kde-format
 msgid "Export Guides…"
-msgstr "Impor Panduan..."
+msgstr "Impor Pancangan..."
 
 #: src/mainwindow.cpp:1909
 #, kde-format
 msgid "Guides Locked"
-msgstr "Pandu Dikunci"
+msgstr "Pancangan Digembok"
 
 #: src/mainwindow.cpp:1912
 #, kde-format
 msgid "Lock guides"
-msgstr "Kunci panduan"
+msgstr "Gembok pancangan"
 
 #: src/mainwindow.cpp:1914
 #, kde-kuit-format
@@ -10598,11 +10603,13 @@ msgid ""
 "Lock guides. When locked, the guides won't move when using the spacer tool "
 "or inserting/removing blank in tracks."
 msgstr ""
+"Gembok pancangan. Ketika digembok, pancangan tidak mau pindah menggunakan "
+"alat penyepasi atau menyisipkan/menyingkirkan blank pada trek."
 
 #: src/mainwindow.cpp:1916
 #, kde-format
 msgid "Delete All Guides"
-msgstr "Hapus Semua Pandu"
+msgstr "Hapus Semua Pancang"
 
 #: src/mainwindow.cpp:1918
 #, kde-format
@@ -10617,7 +10624,7 @@ msgstr "Nonfungsikan Subtitel"
 #: src/mainwindow.cpp:1921
 #, kde-format
 msgid "Lock Subtitle"
-msgstr "Kunci Subtitel"
+msgstr "Gembok Subtitel"
 
 #: src/mainwindow.cpp:1923
 #, kde-format
@@ -10667,12 +10674,12 @@ msgstr "Jungkit Trek Dinonfungsikan"
 #: src/mainwindow.cpp:1974
 #, kde-format
 msgid "Toggle Track Lock"
-msgstr "Jungkit Trek Kunci"
+msgstr "Jungkit Gembok Trek"
 
 #: src/mainwindow.cpp:1976
 #, kde-format
 msgid "Toggle All Track Lock"
-msgstr "Jungkit Semua Trek Kunci"
+msgstr "Jungkit Semua Gembok Trek"
 
 #: src/mainwindow.cpp:1978
 #, kde-format
@@ -10920,7 +10927,7 @@ msgid ""
 "shortcut> to also move guides. You can combine both modifiers."
 msgstr ""
 "<shortcut>Ctrl</shortcut> untuk diterapkan di trek saat ini saja, "
-"<shortcut>Shift</shortcut> untuk memindahkan pandu juga. Anda dapat "
+"<shortcut>Shift</shortcut> untuk memindahkan pancang juga. Anda dapat "
 "menggabungkan kedua pengubah."
 
 #: src/mainwindow.cpp:3392
@@ -12228,25 +12235,19 @@ msgstr ""
 "+Seret</shortcut> untuk menjangka sambil menyetel zona"
 
 #: src/monitor/view/MonitorRuler.qml:379
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<shortcut>Ctrl</shortcut> to apply on current track only, "
-#| "<shortcut>Shift</shortcut> to also move guides. You can combine both "
-#| "modifiers."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Drag</shortcut> to set zone out point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone out"
 msgstr ""
-"<shortcut>Ctrl</shortcut> untuk diterapkan di trek saat ini saja, "
-"<shortcut>Shift</shortcut> untuk memindahkan pandu juga. Anda dapat "
-"menggabungkan kedua pengubah."
+"<shortcut>Seret</shortcut> untuk mengatur zona titik akhir, <shortcut>Shift"
+"+Seret</shortcut> untuk menjangka sambil menyetel zona akhir"
 
 #: src/monitor/view/SceneToolBar.qml:94
 #, kde-format
 msgid "Add Guide"
-msgstr "Tambahkan Pandu"
+msgstr "Tambahkan Pancang"
 
 #: src/monitor/view/SceneToolBar.qml:103
 #, kde-format
@@ -12256,7 +12257,7 @@ msgstr "Singkirkan Penanda"
 #: src/monitor/view/SceneToolBar.qml:103
 #, kde-format
 msgid "Remove Guide"
-msgstr "Singkirkan Pandu"
+msgstr "Singkirkan Pancang"
 
 #: src/onlineresources/providermodel.cpp:44
 #, kde-format
@@ -12856,10 +12857,9 @@ msgid "Archiving %1"
 msgstr "Pengarsipan %1"
 
 #: src/project/dialogs/archivewidget.cpp:1120
-#, fuzzy, kde-format
-#| msgid "Cannot open file %1"
+#, kde-format
 msgid "Cannot copy file %1 to %2."
-msgstr "Tidak bisa membuka file %1"
+msgstr "Tidak bisa menyalin file %1 ke %2."
 
 #: src/project/dialogs/archivewidget.cpp:1150
 #, kde-format
@@ -12914,7 +12914,7 @@ msgstr "Menampilkan file cadangan %1"
 #: src/project/dialogs/guidecategories.cpp:42
 #, kde-format
 msgid "Edit Guide Category"
-msgstr "Sunting Kategori Panduan"
+msgstr "Sunting Kategori Pancangan"
 
 #: src/project/dialogs/guidecategories.cpp:57
 #, kde-format
@@ -12929,7 +12929,7 @@ msgstr "Kategori %1"
 #: src/project/dialogs/guidecategories.cpp:152
 #, kde-format
 msgid "Delete Guide Category"
-msgstr "Hapus Kategori Panduan"
+msgstr "Hapus Kategori Pancangan"
 
 #: src/project/dialogs/guidecategories.cpp:157
 #, kde-format
@@ -12974,15 +12974,15 @@ msgstr "Urutkan berdasarkan Komentar"
 #: src/project/dialogs/guideslist.cpp:136
 #, kde-format
 msgid "Add new guide."
-msgstr "Tambahkan pandu baru."
+msgstr "Tambahkan pancang baru."
 
 #: src/project/dialogs/guideslist.cpp:137
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Add new guide. This will add a guide at the current frame position."
 msgstr ""
-"Tambahkan pandu baru. Ini akan menambahkan sebuah pandu di posisi frame saat "
-"ini."
+"Tambahkan pancang baru. Ini akan menambahkan sebuah pancang di posisi frame "
+"saat ini."
 
 #: src/project/dialogs/guideslist.cpp:138
 #, kde-format
@@ -12993,7 +12993,7 @@ msgstr "Hapus penanda."
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Delete guide. This will erase all selected guides."
-msgstr "Hapus pandu. Ini akan menghapus semua pandu yang dipilih."
+msgstr "Hapus pancang. Ini akan menghapus semua pancang yang dipilih."
 
 #: src/project/dialogs/guideslist.cpp:140
 #, kde-format
@@ -13007,13 +13007,13 @@ msgid ""
 "Edit selected guide. Selecting multiple guides allows changing their "
 "category."
 msgstr ""
-"Edit pandu yang dipilih. Memilih beberapa pandu memungkinkan pengubahan "
+"Edit pancang yang dipilih. Memilih beberapa pancang memungkinkan pengubahan "
 "kategorinya."
 
 #: src/project/dialogs/guideslist.cpp:142
 #, kde-format
 msgid "Filter guide categories."
-msgstr "Filter kategori pandu."
+msgstr "Filter kategori pancang."
 
 #: src/project/dialogs/guideslist.cpp:144
 #, kde-kuit-format
@@ -13022,21 +13022,21 @@ msgid ""
 "Filter guide categories. This allows you to show or hide selected guide "
 "categories in this dialog and in the timeline."
 msgstr ""
-"Filter kategori pandu. Ini memungkinkan Anda untuk menampilkan atau "
-"menyembunyikan kategori pandu yang dipilih dalam dialog ini dan di dalam "
+"Filter kategori pancang. Ini memungkinkan Anda untuk menampilkan atau "
+"menyembunyikan kategori pancang yang dipilih dalam dialog ini dan di dalam "
 "linimasa."
 
 #: src/project/dialogs/guideslist.cpp:145
 #, kde-format
 msgid "Default guide category."
-msgstr "Kategori panduan bawaan."
+msgstr "Kategori pancangan bawaan."
 
 #: src/project/dialogs/guideslist.cpp:146
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Default guide category. The category used for newly created guides."
 msgstr ""
-"Kategori pandu default. Kategori digunakan untuk pandu-pandu yang baru "
+"Kategori pancang default. Kategori digunakan untuk pancang-pancang yang baru "
 "dibuat."
 
 #: src/project/dialogs/guideslist.cpp:158
@@ -13061,7 +13061,7 @@ msgstr "Tidak bisa membaca file %1"
 #: src/project/dialogs/guideslist.cpp:247
 #, kde-format
 msgid "Remove guides"
-msgstr "Hapus panduan"
+msgstr "Hapus pancangan"
 
 #: src/project/dialogs/guideslist.cpp:295
 #, kde-format
@@ -13071,7 +13071,7 @@ msgstr "Penanda untuk %1"
 #: src/project/dialogs/guideslist.cpp:321
 #, kde-format
 msgid "Timeline Guides"
-msgstr "Panduan Linimasa"
+msgstr "Pancangan Linimasa"
 
 #: src/project/dialogs/noteswidget.cpp:33
 #, kde-format
@@ -13563,10 +13563,9 @@ msgstr ""
 "Yang berisi klip proxy untuk semua proyek Anda."
 
 #: src/project/dialogs/temporarydata.cpp:774
-#, fuzzy, kde-format
-#| msgid "No proxy clips older than %1 months was found."
+#, kde-format
 msgid "No proxy clip older than %1 months found."
-msgstr "Tidak ada klip proxy yang lebih lama dari %1 bulan yang ditemukan."
+msgstr "Tidak ada yang ditemukan klip proxy yang lebih lama dari %1 bulan."
 
 #: src/project/dialogs/temporarydata.cpp:778
 #, kde-format
@@ -13739,10 +13738,9 @@ msgid "Open Backup"
 msgstr "Buka Cadangan"
 
 #: src/project/projectmanager.cpp:774
-#, fuzzy, kde-format
-#| msgid "Cannot open project file %1"
+#, kde-format
 msgid "Could not open the backup project file."
-msgstr "Tidak bisa membuka file proyek %1"
+msgstr "Tidak bisa membuka file proyek cadangan."
 
 #: src/project/projectmanager.cpp:790
 #, kde-format
@@ -13783,10 +13781,9 @@ msgstr ""
 "file proyek Anda untuk memulihkan cadangan yang terakhir"
 
 #: src/project/projectmanager.cpp:1170
-#, fuzzy, kde-format
-#| msgid "Error moving project folder: %1"
+#, kde-format
 msgid "Error moving project folder, cannot access cache folder"
-msgstr "Galat memindah folder proyek: %1"
+msgstr "Galat memindah folder proyek, tidak bisa mengakses folder cache"
 
 #: src/project/projectmanager.cpp:1206
 #, kde-format
@@ -13800,10 +13797,9 @@ msgstr "File proyek telah rusak (tidak ada trek). Coba temukan file cadangan?"
 
 #: src/project/projectmanager.cpp:1289 src/project/projectmanager.cpp:1320
 #: src/project/projectmanager.cpp:1324
-#, fuzzy, kde-format
-#| msgid "Image Sequence"
+#, kde-format
 msgid "Sequence 1"
-msgstr "Rentetan Citra"
+msgstr "Rentetan 1"
 
 #: src/project/projectmanager.cpp:1301
 #, kde-format
@@ -13833,12 +13829,13 @@ msgid "Project profile changed"
 msgstr "Profil proyek diubah"
 
 #: src/project/projectmanager.cpp:1658
-#, fuzzy, kde-format
-#| msgid "Cannot create filter %1"
+#, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
 "%1"
-msgstr "Tidak bisa membuat filter %1"
+msgstr ""
+"Tidak bisa membuat sebuah linimasa dari klip ini:\n"
+"%1"
 
 #: src/project/projectmanager.cpp:1740
 #, kde-format
@@ -14120,16 +14117,14 @@ msgid "Small"
 msgstr "Kecil"
 
 #: src/pythoninterfaces/speechtotext.cpp:55
-#, fuzzy, kde-format
-#| msgid "Medium (%1x%2)"
+#, kde-format
 msgid "Medium"
-msgstr "Sedang (%1x%2)"
+msgstr "Medium"
 
 #: src/pythoninterfaces/speechtotext.cpp:56
-#, fuzzy, kde-format
-#| msgid "Largest"
+#, kde-format
 msgid "Large"
-msgstr "Terbesar"
+msgstr "Besar"
 
 #: src/pythoninterfaces/speechtotext.cpp:57
 #, kde-format
@@ -15389,7 +15384,7 @@ msgstr "Sisipkan Klip"
 #: src/timeline2/model/timelinefunctions.cpp:295
 #, kde-format
 msgid "All tracks are locked"
-msgstr "Semua trek dikunci"
+msgstr "Semua trek digembok"
 
 #: src/timeline2/model/timelinefunctions.cpp:306
 #, kde-format
@@ -15898,14 +15893,14 @@ msgstr "Ubah kecepatan klip"
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
-msgstr "Kunci trek"
+msgstr "Gembok trek"
 
 #: src/timeline2/model/timelinemodel.cpp:6296
 #: src/timeline2/view/qml/timeline.qml:1187
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
-msgstr "Lepas kunci trek"
+msgstr "Lepas gembok trek"
 
 #: src/timeline2/model/timelinemodel.cpp:6330
 #: src/timeline2/model/timelinemodel.cpp:6392
@@ -16382,7 +16377,7 @@ msgstr "Tidak ada klip yang dipilih"
 #: src/timeline2/view/timelinecontroller.cpp:1448
 #, kde-format
 msgid "guide"
-msgstr "pandu"
+msgstr "pancang"
 
 #: src/timeline2/view/timelinecontroller.cpp:1629
 #, kde-format
@@ -16532,7 +16527,7 @@ msgstr "Pindahkan item"
 #: src/timeline2/view/timelinecontroller.cpp:4627
 #, kde-format
 msgid "Impossible to capture on a locked track"
-msgstr "Mustahil menangkap saat trek terkunci"
+msgstr "Mustahil menangkap saat trek tergembok"
 
 #: src/timeline2/view/timelinecontroller.cpp:4638
 #, kde-format
@@ -16619,12 +16614,12 @@ msgstr "Sembunyikan trek judul"
 #: src/timeline2/view/timelinecontroller.cpp:5102
 #, kde-format
 msgid "Unlock subtitle track"
-msgstr "Lepas kunci trek subtitel"
+msgstr "Lepas gembok trek subtitel"
 
 #: src/timeline2/view/timelinecontroller.cpp:5102
 #, kde-format
 msgid "Lock subtitle track"
-msgstr "Kunci trek subtitel"
+msgstr "Gembok trek subtitel"
 
 #: src/timeline2/view/timelinetabs.cpp:46
 #, fuzzy, kde-format
@@ -16640,10 +16635,9 @@ msgid ""
 msgstr ""
 
 #: src/timeline2/view/timelinetabs.cpp:214
-#, fuzzy, kde-format
-#| msgid "Close"
+#, kde-format
 msgid "Close %1"
-msgstr "Tutup"
+msgstr "Tutup %1"
 
 #: src/timeline2/view/timelinewidget.cpp:73
 #, kde-format
@@ -16997,11 +16991,10 @@ msgid ""
 msgstr "Apakah Anda ingin menanamkan Citra ke dalam TitleDocument ini?"
 
 #: src/titler/titlewidget.cpp:2185
-#, fuzzy, kde-format
-#| msgid "Add Image"
+#, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
-msgstr "Tambahkan Citra"
+msgstr "Tanamkan Citra"
 
 #: src/titler/titlewidget.cpp:2240
 #, kde-format
@@ -18036,10 +18029,9 @@ msgstr "Profil pengenkodean:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: src/ui/configcapture_ui.ui:261
-#, fuzzy, kde-format
-#| msgid "Region Capture"
+#, kde-format
 msgid "Region to capture:"
-msgstr "Tangkapan Region"
+msgstr "Wilayah untuk tangkapan:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_grab_capture_type)
 #: src/ui/configcapture_ui.ui:269
@@ -18177,6 +18169,8 @@ msgid ""
 "Kdenlive will check this limit every 2 weeks. Set to zero to disable "
 "checking."
 msgstr ""
+"Kdenlive akan memeriksa limit ini setiap 2 pekan. Setel ke nol untuk "
+"menonfungsikan pemeriksaan."
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_maxcachesize)
 #: src/ui/configenv_ui.ui:88
@@ -18186,16 +18180,15 @@ msgstr " MiB"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: src/ui/configenv_ui.ui:101
-#, fuzzy, kde-format
-#| msgid "Total cached data:"
+#, kde-format
 msgid "Warn if cached data exceeds:"
-msgstr "Total data yang dicache:"
+msgstr "Peringatkan jika data yang ter-cache melebihi:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: src/ui/configenv_ui.ui:115
 #, kde-format
 msgid "MLT Environment"
-msgstr "MLT Environment"
+msgstr "Lingkungan MLT"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: src/ui/configenv_ui.ui:121
@@ -18613,6 +18606,8 @@ msgid ""
 "These are the default settings for new projects. To edit the parameters of "
 "the current project, use the project settings."
 msgstr ""
+"Ini adalah pengaturan baku untuk proyek baru. Untuk mengedit parameter pada "
+"proyek saat ini, gunakanlah pengaturan proyek."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_project_folder)
@@ -18756,7 +18751,7 @@ msgstr "Aktifkan - mulai ulang Kdenlive untuk diterapkan"
 #: src/ui/configsdl_ui.ui:64
 #, kde-format
 msgid "Audio Backend:"
-msgstr "Backend Audio:"
+msgstr "Backend audio:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_driver)
 #: src/ui/configsdl_ui.ui:80
@@ -18790,10 +18785,9 @@ msgstr "Peranti output:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configspeech_ui.ui:23
-#, fuzzy, kde-format
-#| msgid "Speech recognition"
+#, kde-format
 msgid "Speech engine"
-msgstr "Pengenalan lisan"
+msgstr "Mesin lisan"
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_vosk)
 #: src/ui/configspeech_ui.ui:30
@@ -19010,20 +19004,19 @@ msgstr "Periksa apakah proyek berisi trek yang cukup"
 #: src/ui/configtools_ui.ui:27
 #, kde-format
 msgid "When cutting subtitles:"
-msgstr ""
+msgstr "Ketika memotong subtitel:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_subtitle_razor_mode)
 #: src/ui/configtools_ui.ui:41
-#, fuzzy, kde-format
-#| msgid "Duplicate clip"
+#, kde-format
 msgid "Duplicate text"
-msgstr "Duplikat klip"
+msgstr "Duplikatkan teks"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_subtitle_razor_mode)
 #: src/ui/configtools_ui.ui:46
 #, kde-format
 msgid "Split after first line"
-msgstr ""
+msgstr "Belah setelah baris pertama"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -19513,7 +19506,7 @@ msgstr "Sunting kategori"
 #: src/ui/guidecategories_ui.ui:70
 #, kde-format
 msgid "Guides and Markers Categories"
-msgstr ""
+msgstr "Kategori Penanda dan Pancangan"
 
 #. i18n: ectx: property (text), widget (KSqueezedTextLabel, guideslist_label)
 #: src/ui/guideslist_ui.ui:126
@@ -20341,19 +20334,19 @@ msgstr "&Zona yang dipilih"
 #: src/ui/renderwidget_ui.ui:391
 #, kde-format
 msgid "&Guide zone"
-msgstr "Zona &pandu"
+msgstr "Zona &pancang"
 
 #. i18n: ectx: property (title), widget (QGroupBox, guide_multi_box)
 #: src/ui/renderwidget_ui.ui:413
 #, kde-format
 msgid "Guide Multi-Export"
-msgstr "Pandu Multi Ekspor"
+msgstr "Pancang Multi Ekspor"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/renderwidget_ui.ui:425
 #, kde-format
 msgid "Guides to use as separator:"
-msgstr "Pandu untuk digunakan sebagai pemisah:"
+msgstr "Pancangan untuk digunakan sebagai pemisah:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_full_color)
 #: src/ui/renderwidget_ui.ui:496
@@ -20935,13 +20928,13 @@ msgstr "T"
 #: src/ui/titlewidget_ui.ui:421
 #, kde-format
 msgid "Horizontal guides."
-msgstr "Pandu horisontal."
+msgstr "Pancangan horisontal."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, vguides)
 #: src/ui/titlewidget_ui.ui:434
 #, kde-format
 msgid "Vertical guides."
-msgstr "Pandu vertikal."
+msgstr "Pancangan vertikal."
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonUnselectAll)
 #: src/ui/titlewidget_ui.ui:460
@@ -20953,7 +20946,7 @@ msgstr "N"
 #: src/ui/titlewidget_ui.ui:480
 #, kde-format
 msgid "Show guides:"
-msgstr "Tampilkan pandu:"
+msgstr "Tampilkan pancangan:"
 
 #. i18n: ectx: property (whatsThis), widget (QToolButton, buttonSelectAll)
 #: src/ui/titlewidget_ui.ui:487
@@ -21351,7 +21344,7 @@ msgstr "Lbr"
 #: src/widgets/geometrywidget.cpp:56
 #, kde-format
 msgid "Lock aspect ratio"
-msgstr "Kunci rasio aspek"
+msgstr "Gembok rasio aspek"
 
 #: src/widgets/geometrywidget.cpp:63
 #, kde-format

@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-01 00:42+0000\n"
-"PO-Revision-Date: 2023-09-30 13:34+0200\n"
+"PO-Revision-Date: 2023-10-01 10:27+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -13880,17 +13880,14 @@ msgid "Cannot perform assign"
 msgstr "No s'ha pogut portar a terme l'assignació"
 
 #: src/project/projectmanager.cpp:65
-#, fuzzy, kde-format
-#| msgid "Render Project"
+#, kde-format
 msgid "Kdenlive Project"
-msgstr "Renderitza el projecte"
+msgstr "Projecte del Kdenlive"
 
 #: src/project/projectmanager.cpp:67
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Archive Project"
+#, kde-format
 msgid "Archived Project"
-msgstr "Arxiva el projecte"
+msgstr "Projecte arxivat"
 
 #: src/project/projectmanager.cpp:140
 #, kde-format
@@ -17250,10 +17247,9 @@ msgid "Load Title"
 msgstr "Carrega un títol"
 
 #: src/titler/titlewidget.cpp:2138
-#, fuzzy, kde-format
-#| msgid "Kdenlive"
+#, kde-format
 msgid "Kdenlive title"
-msgstr "Kdenlive"
+msgstr "Títol del Kdenlive"
 
 #: src/titler/titlewidget.cpp:2184
 #, kde-format

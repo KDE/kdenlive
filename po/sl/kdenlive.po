@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-01 00:42+0000\n"
-"PO-Revision-Date: 2023-09-29 08:43+0200\n"
+"PO-Revision-Date: 2023-10-01 08:59+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -4429,23 +4429,26 @@ msgid ""
 "You need to select 2 clips (the replacement clip and the original clip) for "
 "timeline replacement."
 msgstr ""
+"Za zamenjavo v časovnici morate izbrati 2 posnetka (nadomestni posnetek in "
+"izvirni posnetek)."
 
 #: src/bin/bin.cpp:1944
 #, kde-format
 msgid "The current clip <b>%1</b> is not inserted in the active timeline."
-msgstr ""
+msgstr "Trenutni posnetek <b>%1</b> ni vstavljen v aktivno časovnico."
 
 #: src/bin/bin.cpp:1949
-#, fuzzy, kde-format
-#| msgid "You cannot insert a sequence containing itself"
+#, kde-format
 msgid "You cannot insert the sequence <b>%1</b> into itself."
-msgstr "Ni možno vstaviti zaporedja, ki vsebuje samega sebe."
+msgstr "Ni možno vstaviti zaporedja <b>%1</b>, ker vsebuje samega sebe."
 
 #: src/bin/bin.cpp:1968
 #, kde-format
 msgid ""
 "The selected clips %1 and %2 don't match, cannot replace audio nor video"
 msgstr ""
+"Izbrana posnetka %1 in %2 se ne ujemata, ni mogoče zamenjati ne zvoka ne "
+"videa"
 
 #: src/bin/bin.cpp:1979
 #, kde-format
@@ -4453,6 +4456,8 @@ msgid ""
 "Replacing instances of clip <b>%1</b> (%2)<br/>in active timeline\n"
 "with clip <b>%3</b> (%4)"
 msgstr ""
+"Zamenjava primerkov posnetka <b>%1</b> (%2)<br/>na aktivni časovnici\n"
+"s posnetkom <b>%3</b> (%4)"
 
 #: src/bin/bin.cpp:1984
 #, kde-format
@@ -4460,18 +4465,18 @@ msgid ""
 "Replacing instances of clip <b>%1</b><br/>in active timeline\n"
 "with clip <b>%2</b>"
 msgstr ""
+"Zamenjava primerkov posnetka <b>%1</b><br/>v aktivni časovnici\n"
+"s posnetkom <b>%2</b>"
 
 #: src/bin/bin.cpp:1986 src/timeline2/model/timelineitemmodel.cpp:909
-#, fuzzy, kde-format
-#| msgid "Record audio"
+#, kde-format
 msgid "Replace audio"
-msgstr "Snemaj zvok"
+msgstr "Zamenjaj zvok"
 
 #: src/bin/bin.cpp:1989 src/timeline2/model/timelineitemmodel.cpp:909
-#, fuzzy, kde-format
-#| msgid "Restore video"
+#, kde-format
 msgid "Replace video"
-msgstr "Obnovi video"
+msgstr "Zamenjaj video"
 
 #: src/bin/bin.cpp:1999
 #, kde-format
@@ -4479,19 +4484,20 @@ msgid ""
 "Replacement clip is shorter than source clip.<br><b>Some clips in timeline "
 "might not be replaced</b>"
 msgstr ""
+"Nadomestni posnetek je krajši od izvornega posnetka.<br><b>Nekateri posnetki "
+"na časovnici morda ne bodo zamenjani.</b>"
 
 #: src/bin/bin.cpp:2002
 #, kde-format
 msgid "Replacement clip duration is longer that your source clip"
 msgstr ""
+"Trajanje nadomestnega posnetka je daljše od trajanja izvornega posnetka"
 
 #: src/bin/bin.cpp:2037
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Open Replacement File"
+#, kde-format
 msgctxt "@title:window"
 msgid "Open Replacement for %1"
-msgstr "Odpri nadomestno datoteko"
+msgstr "Odpri nadomestek za %1"
 
 #: src/bin/bin.cpp:2071
 #, kde-format
@@ -4499,6 +4505,8 @@ msgid ""
 "Replacement clip does not contain a video stream. Do you want to replace "
 "only the audio component of this clip in the active timeline ?"
 msgstr ""
+"Nadomestni posnetek ne vsebuje videotoka. Ali želite zamenjati samo zvočno "
+"komponento tega posnetka na aktivni časovnici?"
 
 #: src/bin/bin.cpp:2076
 #, kde-format
@@ -4506,6 +4514,8 @@ msgid ""
 "Replacement clip does not contain an audio stream. Do you want to replace "
 "only the video component of this clip in the active timeline ?"
 msgstr ""
+"Nadomestni posnetek ne vsebuje zvočnega toka. Ali želite zamenjati samo "
+"video komponento tega posnetka na aktivni časovnici?"
 
 #: src/bin/bin.cpp:2080 src/bin/bin.cpp:2106
 #, kde-format
@@ -4513,12 +4523,13 @@ msgid ""
 "You cannot replace a clip with a different type of clip (audio/video not "
 "matching)."
 msgstr ""
+"Posnetka ne morete zamenjati s posnetkom druge vrste (zvok/video se ne "
+"ujemata)."
 
 #: src/bin/bin.cpp:2083
-#, fuzzy, kde-format
-#| msgid "Clip in Timeline"
+#, kde-format
 msgid "Replace in timeline"
-msgstr "Posnetek na časovnici"
+msgstr "Zamenjaj na časovnici"
 
 #: src/bin/bin.cpp:2104 src/bin/bin.cpp:5691 src/bin/clipcreator.cpp:326
 #, kde-format
@@ -4792,10 +4803,9 @@ msgid "Replace Clip…"
 msgstr "Zamenjaj posnetek …"
 
 #: src/bin/bin.cpp:3628
-#, fuzzy, kde-format
-#| msgid "Replace Clip…"
+#, kde-format
 msgid "Replace Clip In Timeline…"
-msgstr "Zamenjaj posnetek …"
+msgstr "Zamenjaj posnetek na časovnici …"
 
 #: src/bin/bin.cpp:3633
 #, kde-format
@@ -13810,17 +13820,14 @@ msgid "Cannot perform assign"
 msgstr "Ni možno izvesti dodeljevanja"
 
 #: src/project/projectmanager.cpp:65
-#, fuzzy, kde-format
-#| msgid "Render Project"
+#, kde-format
 msgid "Kdenlive Project"
-msgstr "Izriši projekt"
+msgstr "Projekt Kdenlive"
 
 #: src/project/projectmanager.cpp:67
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Archive Project"
+#, kde-format
 msgid "Archived Project"
-msgstr "Arhiviraj projekt"
+msgstr "Arhivirani projekt"
 
 #: src/project/projectmanager.cpp:140
 #, kde-format
@@ -15808,29 +15815,27 @@ msgstr "Ni možno nastaviti sestave stez, preverite svojo namestitev"
 #: src/timeline2/model/timelineitemmodel.cpp:879
 #, kde-format
 msgid "Clips replaced: %1. <b>Clips not replaced: %2</b>"
-msgstr ""
+msgstr "Zamenjani posnetki: %1. <b>Nezamenjani posnetki: %2</b>"
 
 #: src/timeline2/model/timelineitemmodel.cpp:881
 #: src/timeline2/model/timelineitemmodel.cpp:905
-#, fuzzy, kde-format
-#| msgid "No clip selected"
+#, kde-format
 msgid "One clip replaced"
 msgid_plural "%1 clips replaced"
-msgstr[0] "Izbranega ni nobenega posnetka"
-msgstr[1] "Izbranega ni nobenega posnetka"
-msgstr[2] "Izbranega ni nobenega posnetka"
-msgstr[3] "Izbranega ni nobenega posnetka"
+msgstr[0] "Izbranih je %1 posnetkov"
+msgstr[1] "Izbran je %1 posnetek"
+msgstr[2] "Izbrana sta %1 posnetka"
+msgstr[3] "Izbrani so %1 posnetki"
 
 #: src/timeline2/model/timelineitemmodel.cpp:903
 #, kde-format
 msgid "Clips replaced: %1, Clips too long: %2"
-msgstr ""
+msgstr "Zamenjani posnetki: %1. Predolgi posnetki: %2"
 
 #: src/timeline2/model/timelineitemmodel.cpp:909
-#, fuzzy, kde-format
-#| msgid "Replace Clip…"
+#, kde-format
 msgid "Replace clip"
-msgstr "Zamenjaj posnetek …"
+msgstr "Zamenjaj posnetek"
 
 #: src/timeline2/model/timelinemodel.cpp:944
 #: src/timeline2/model/timelinemodel.cpp:1071
@@ -17152,10 +17157,9 @@ msgid "Load Title"
 msgstr "Naloži napis"
 
 #: src/titler/titlewidget.cpp:2138
-#, fuzzy, kde-format
-#| msgid "Kdenlive"
+#, kde-format
 msgid "Kdenlive title"
-msgstr "Kdenlive"
+msgstr "Naslov Kdenlive"
 
 #: src/titler/titlewidget.cpp:2184
 #, kde-format
@@ -21554,12 +21558,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "Kdenlive Project (*.kdenlive)"
-#~ msgstr "Projekt Kdenlive (*.kdenlive)"
-
-#~ msgid "Archived Project (*.tar.gz *.zip)"
-#~ msgstr "Arhiviran projekt (*.tar.gz *.zip)"
-
-#~ msgid "Kdenlive title (*.kdenlivetitle)"
-#~ msgstr "Napis Kdenlive (*.kdenlivetitle)"

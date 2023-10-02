@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-01 00:42+0000\n"
-"PO-Revision-Date: 2023-09-10 15:58+0200\n"
+"PO-Revision-Date: 2023-09-30 11:08+0200\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -28,7 +28,7 @@ msgstr ""
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
-"X-Generator: Lokalize 23.08.0\n"
+"X-Generator: Lokalize 23.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -7087,7 +7087,7 @@ msgstr[1] "%1 vidéos manquantes (Inutilisées)"
 #: src/dialogs/renderwidget.cpp:1715
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
-msgstr "%1 vidéos manquante (<b>%2 utilisées dans le projet)."
+msgstr "%1 vidéos manquante (<b>%2 utilisées dans le projet</b>)."
 
 #: src/dialogs/renderwidget.cpp:1719
 #, kde-format
@@ -7104,14 +7104,12 @@ msgstr ""
 "%1"
 
 #: src/dialogs/renderwidget.cpp:1815
-#, fuzzy, kde-format
-#| msgid "Add to current project"
+#, kde-format
 msgid "Add to Current Project"
 msgstr "Ajouter au projet courant"
 
 #: src/dialogs/renderwidget.cpp:1818 src/library/librarywidget.cpp:251
-#, fuzzy, kde-format
-#| msgid "Open containing folder"
+#, kde-format
 msgid "Open Containing Folder"
 msgstr "Ouvrir le dossier contenant"
 

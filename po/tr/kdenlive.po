@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-01 00:42+0000\n"
-"PO-Revision-Date: 2023-09-30 11:36+0300\n"
+"PO-Revision-Date: 2023-10-01 12:51+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -13758,17 +13758,14 @@ msgid "Cannot perform assign"
 msgstr "Atama gerçekleştirilemiyor"
 
 #: src/project/projectmanager.cpp:65
-#, fuzzy, kde-format
-#| msgid "Render Project"
+#, kde-format
 msgid "Kdenlive Project"
-msgstr "Projeyi Hazırla"
+msgstr "Kdenlive Projesi"
 
 #: src/project/projectmanager.cpp:67
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Archive Project"
+#, kde-format
 msgid "Archived Project"
-msgstr "Projeyi Arşivle"
+msgstr "Arşivlenen Proje"
 
 #: src/project/projectmanager.cpp:140
 #, kde-format
@@ -17085,10 +17082,9 @@ msgid "Load Title"
 msgstr "Başlık Yükle"
 
 #: src/titler/titlewidget.cpp:2138
-#, fuzzy, kde-format
-#| msgid "Kdenlive"
+#, kde-format
 msgid "Kdenlive title"
-msgstr "Kdenlive"
+msgstr "Kdenlive başlığı"
 
 #: src/titler/titlewidget.cpp:2184
 #, kde-format

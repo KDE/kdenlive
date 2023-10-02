@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-01 00:42+0000\n"
-"PO-Revision-Date: 2023-09-28 07:05+0100\n"
+"PO-Revision-Date: 2023-10-01 06:01+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -4406,23 +4406,26 @@ msgid ""
 "You need to select 2 clips (the replacement clip and the original clip) for "
 "timeline replacement."
 msgstr ""
+"Vi devas elekti 2 klipoj (la anstataŭiga klipo kaj la originala klipo) por "
+"anstataŭigi templinion."
 
 #: src/bin/bin.cpp:1944
 #, kde-format
 msgid "The current clip <b>%1</b> is not inserted in the active timeline."
-msgstr ""
+msgstr "La aktuala tondaĵo <b>%1</b> ne estas enmetita en la aktiva templinio."
 
 #: src/bin/bin.cpp:1949
-#, fuzzy, kde-format
-#| msgid "You cannot insert a sequence containing itself"
+#, kde-format
 msgid "You cannot insert the sequence <b>%1</b> into itself."
-msgstr "Vi ne povas enmeti sinsekvon enhavantan sin"
+msgstr "Vi ne povas enmeti la sinsekvon <b>%1</b> en sin mem."
 
 #: src/bin/bin.cpp:1968
 #, kde-format
 msgid ""
 "The selected clips %1 and %2 don't match, cannot replace audio nor video"
 msgstr ""
+"La elektitaj tondaĵoj %1 kaj %2 ne kongruas, eblas anstataŭigi nek aŭdaĵon "
+"nek vidaĵon."
 
 #: src/bin/bin.cpp:1979
 #, kde-format
@@ -4430,6 +4433,8 @@ msgid ""
 "Replacing instances of clip <b>%1</b> (%2)<br/>in active timeline\n"
 "with clip <b>%3</b> (%4)"
 msgstr ""
+"Anstataŭigante okazojn de klipo <b>%1</b> (%2)<br/>en aktiva templinio\n"
+"per klipo <b>%3</b> (%4)"
 
 #: src/bin/bin.cpp:1984
 #, kde-format
@@ -4437,18 +4442,18 @@ msgid ""
 "Replacing instances of clip <b>%1</b><br/>in active timeline\n"
 "with clip <b>%2</b>"
 msgstr ""
+"Anstataŭigante okazojn de klipo <b>%1</b><br/>en aktiva templinio\n"
+"per klipo <b>%2</b>"
 
 #: src/bin/bin.cpp:1986 src/timeline2/model/timelineitemmodel.cpp:909
-#, fuzzy, kde-format
-#| msgid "Record audio"
+#, kde-format
 msgid "Replace audio"
-msgstr "Registra audio"
+msgstr "Anstataŭigi audaĵon"
 
 #: src/bin/bin.cpp:1989 src/timeline2/model/timelineitemmodel.cpp:909
-#, fuzzy, kde-format
-#| msgid "Restore video"
+#, kde-format
 msgid "Replace video"
-msgstr "Restarigi videon"
+msgstr "Anstataŭigi vidaĵon"
 
 #: src/bin/bin.cpp:1999
 #, kde-format
@@ -4456,19 +4461,19 @@ msgid ""
 "Replacement clip is shorter than source clip.<br><b>Some clips in timeline "
 "might not be replaced</b>"
 msgstr ""
+"Anstataŭiga klipo estas pli mallonga ol fonta klipo.<br><b>Kelkaj klipoj en "
+"templinio eble ne estos anstataŭigitaj</b>"
 
 #: src/bin/bin.cpp:2002
 #, kde-format
 msgid "Replacement clip duration is longer that your source clip"
-msgstr ""
+msgstr "Tempodaŭro de anstataŭiga klipo estas pli longa ol via fonta klipo"
 
 #: src/bin/bin.cpp:2037
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Open Replacement File"
+#, kde-format
 msgctxt "@title:window"
 msgid "Open Replacement for %1"
-msgstr "Malfermi Anstataŭan Dosieron"
+msgstr "Malfermi Anstataŭaĵon por %1"
 
 #: src/bin/bin.cpp:2071
 #, kde-format
@@ -4476,6 +4481,8 @@ msgid ""
 "Replacement clip does not contain a video stream. Do you want to replace "
 "only the audio component of this clip in the active timeline ?"
 msgstr ""
+"Anstataŭiga klipo ne enhavas videofluon. Ĉu vi volas anstataŭigi nur la "
+"aŭdan komponanton de ĉi tiu klipo en la aktiva templinio ?"
 
 #: src/bin/bin.cpp:2076
 #, kde-format
@@ -4483,6 +4490,8 @@ msgid ""
 "Replacement clip does not contain an audio stream. Do you want to replace "
 "only the video component of this clip in the active timeline ?"
 msgstr ""
+"Anstataŭiga klipo ne enhavas aŭdfluon. Ĉu vi volas anstataŭigi nur la vidan "
+"komponanton de ĉi tiu klipo en la aktiva templinio ?"
 
 #: src/bin/bin.cpp:2080 src/bin/bin.cpp:2106
 #, kde-format
@@ -4490,12 +4499,13 @@ msgid ""
 "You cannot replace a clip with a different type of clip (audio/video not "
 "matching)."
 msgstr ""
+"Vi ne povas anstataŭigi klipon per malsama tipo de klipo (aŭdio/video ne "
+"kongruas)."
 
 #: src/bin/bin.cpp:2083
-#, fuzzy, kde-format
-#| msgid "Clip in Timeline"
+#, kde-format
 msgid "Replace in timeline"
-msgstr "Aŭdvidaĵo en Timeline"
+msgstr "Anstataŭigi en templinio"
 
 #: src/bin/bin.cpp:2104 src/bin/bin.cpp:5691 src/bin/clipcreator.cpp:326
 #, kde-format
@@ -4765,23 +4775,22 @@ msgstr "Transkodi al Redakti Amika Formato…"
 #: src/bin/bin.cpp:3622
 #, kde-format
 msgid "Replace Clip…"
-msgstr "Anstataŭigi aŭdvidaĵon…"
+msgstr "Anstataŭigi Aŭdvidaĵon…"
 
 #: src/bin/bin.cpp:3628
-#, fuzzy, kde-format
-#| msgid "Replace Clip…"
+#, kde-format
 msgid "Replace Clip In Timeline…"
-msgstr "Anstataŭigi aŭdvidaĵon…"
+msgstr "Anstataŭigi Aŭdvidaĵon en Templinio…"
 
 #: src/bin/bin.cpp:3633
 #, kde-format
 msgid "Duplicate Clip"
-msgstr "Duobligi aŭdvidaĵon"
+msgstr "Duobligi Aŭdvidaĵon"
 
 #: src/bin/bin.cpp:3645 src/bin/bin.cpp:3706
 #, kde-format
 msgid "Clip Properties"
-msgstr "Proprecoj de aŭdvidaĵo"
+msgstr "Proprecoj de Aŭdvidaĵo"
 
 #: src/bin/bin.cpp:3650 src/mltcontroller/clippropertiescontroller.cpp:283
 #, kde-format
@@ -13728,22 +13737,19 @@ msgid "Cannot perform assign"
 msgstr "Ne povas plenumi asignon"
 
 #: src/project/projectmanager.cpp:65
-#, fuzzy, kde-format
-#| msgid "Render Project"
+#, kde-format
 msgid "Kdenlive Project"
-msgstr "Redoni Projekton"
+msgstr "Kdenlive-Projekto"
 
 #: src/project/projectmanager.cpp:67
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Archive Project"
+#, kde-format
 msgid "Archived Project"
-msgstr "Arkiva Projekto"
+msgstr "Arkivita Projekton"
 
 #: src/project/projectmanager.cpp:140
 #, kde-format
 msgid "Save Copy…"
-msgstr "Konservi kopion…"
+msgstr "Konservi Kopion…"
 
 #: src/project/projectmanager.cpp:144
 #, kde-format
@@ -15721,27 +15727,25 @@ msgstr "Ne eblis agordi trakkomponadon, kontrolu vian instalon"
 #: src/timeline2/model/timelineitemmodel.cpp:879
 #, kde-format
 msgid "Clips replaced: %1. <b>Clips not replaced: %2</b>"
-msgstr ""
+msgstr "Aŭdvidaĵoj anstataŭigitaj: %1. <b>Aŭdvidaĵoj ne anstataŭigitaj: %2</b>"
 
 #: src/timeline2/model/timelineitemmodel.cpp:881
 #: src/timeline2/model/timelineitemmodel.cpp:905
-#, fuzzy, kde-format
-#| msgid "No clip selected"
+#, kde-format
 msgid "One clip replaced"
 msgid_plural "%1 clips replaced"
-msgstr[0] "Neniu tondaĵo elektita"
-msgstr[1] "Neniu tondaĵo elektita"
+msgstr[0] "Unu tondaĵo anstataŭigita"
+msgstr[1] "%1 tondaĵoj anstataŭigita"
 
 #: src/timeline2/model/timelineitemmodel.cpp:903
 #, kde-format
 msgid "Clips replaced: %1, Clips too long: %2"
-msgstr ""
+msgstr "Aŭdvidaĵo anstataŭigita: %1, Aŭdvidaĵoj tro longaj: %2"
 
 #: src/timeline2/model/timelineitemmodel.cpp:909
-#, fuzzy, kde-format
-#| msgid "Replace Clip…"
+#, kde-format
 msgid "Replace clip"
-msgstr "Anstataŭigi aŭdvidaĵon…"
+msgstr "Anstataŭigi aŭdvidaĵon"
 
 #: src/timeline2/model/timelinemodel.cpp:944
 #: src/timeline2/model/timelinemodel.cpp:1071
@@ -17054,10 +17058,9 @@ msgid "Load Title"
 msgstr "Ŝargi titolon"
 
 #: src/titler/titlewidget.cpp:2138
-#, fuzzy, kde-format
-#| msgid "Kdenlive"
+#, kde-format
 msgid "Kdenlive title"
-msgstr "Kdenlive"
+msgstr "Kdenlive-titolo"
 
 #: src/titler/titlewidget.cpp:2184
 #, kde-format
@@ -21456,48 +21459,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Kdenlive Project (*.kdenlive)"
-#~ msgstr "Kdenlive Projekto (*.kdenlive)"
-
-#~ msgid "Archived Project (*.tar.gz *.zip)"
-#~ msgstr "Arkivita Projekto (*.tar.gz *.zip)"
-
-#~ msgid "Kdenlive title (*.kdenlivetitle)"
-#~ msgstr "Kdenlive titolo (*.kdenlivetitle)"
-
-#~ msgid "Rename guide"
-#~ msgstr "Renomi gvidilon"
-
-#~ msgid "Add guide"
-#~ msgstr "Aldoni gvidilon"
-
-#~ msgid "Delete guide"
-#~ msgstr "Forigi gvidilon"
-
-#~ msgid "Edit guide"
-#~ msgstr "Redakti gvidilon"
-
-#~ msgid "Import guides"
-#~ msgstr "Importi gvidojn"
-
-#~ msgid "Delete all guides"
-#~ msgstr "Forigi ĉiujn gvidojn"
-
-#~ msgid "Edit Guides Category"
-#~ msgstr "Redakti Gvidilojn Kategorio"
-
-#~ msgid "Guides Category"
-#~ msgstr "Gvidiloj Kategorio"
-
-#~ msgid "Edit guides"
-#~ msgstr "Redakti gvidojn"
-
-#~ msgid "Edit Guide"
-#~ msgstr "Redakti Gvidilon"
-
-#~ msgid "Add Guides"
-#~ msgstr "Aldoni Gvidilojn"
-
-#~ msgid "Add guides"
-#~ msgstr "Aldoni gvidojn"

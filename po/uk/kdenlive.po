@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-01 00:42+0000\n"
-"PO-Revision-Date: 2023-09-30 08:53+0300\n"
+"PO-Revision-Date: 2023-10-01 09:03+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -13922,17 +13922,14 @@ msgid "Cannot perform assign"
 msgstr "Не вдалося виконати прив'язку"
 
 #: src/project/projectmanager.cpp:65
-#, fuzzy, kde-format
-#| msgid "Render Project"
+#, kde-format
 msgid "Kdenlive Project"
-msgstr "Обробити проєкт"
+msgstr "Проєкт Kdenlive"
 
 #: src/project/projectmanager.cpp:67
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Archive Project"
+#, kde-format
 msgid "Archived Project"
-msgstr "Архівування проєкту"
+msgstr "Архівований проєкт"
 
 #: src/project/projectmanager.cpp:140
 #, kde-format
@@ -17290,10 +17287,9 @@ msgid "Load Title"
 msgstr "Завантажити титри"
 
 #: src/titler/titlewidget.cpp:2138
-#, fuzzy, kde-format
-#| msgid "Kdenlive"
+#, kde-format
 msgid "Kdenlive title"
-msgstr "Kdenlive"
+msgstr "Титри Kdenlive"
 
 #: src/titler/titlewidget.cpp:2184
 #, kde-format
