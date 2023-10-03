@@ -116,7 +116,8 @@ void ClipLoadTask::processProducerProperties(const std::shared_ptr<Mlt::Producer
     QString value;
     QStringList internalProperties;
     internalProperties << QStringLiteral("bypassDuplicate") << QStringLiteral("resource") << QStringLiteral("mlt_service") << QStringLiteral("audio_index")
-                       << QStringLiteral("video_index") << QStringLiteral("mlt_type") << QStringLiteral("length");
+                       << QStringLiteral("astream") << QStringLiteral("vstream") << QStringLiteral("video_index") << QStringLiteral("mlt_type")
+                       << QStringLiteral("length");
     QDomNodeList props;
 
     if (xml.tagName() == QLatin1String("producer") || xml.tagName() == QLatin1String("chain")) {

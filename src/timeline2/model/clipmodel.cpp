@@ -1078,8 +1078,7 @@ int ClipModel::audioStream() const
 int ClipModel::audioStreamIndex() const
 {
     READ_LOCK();
-    QList<int> streams = pCore->projectItemModel()->getClipByBinID(m_binClipId)->audioStreams().keys();
-    return streams.indexOf(m_producer->parent().get_int("audio_index")) + 1;
+    return pCore->projectItemModel()->getClipByBinID(m_binClipId)->audioStreamIndex(m_producer->parent().get_int("audio_index")) + 1;
 }
 
 int ClipModel::fadeIn() const
