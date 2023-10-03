@@ -58,6 +58,9 @@ public:
     /** @brief update kdenlive settings for external app path if they were changed outside config dialog */
     void updateExternalApps();
 
+protected:
+    void showHelp() override;
+
 protected Q_SLOTS:
     void updateSettings() override;
     void updateWidgets() override;
