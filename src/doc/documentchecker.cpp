@@ -181,12 +181,12 @@ bool DocumentChecker::hasErrorInProject()
     int max = documentProducers.count();
     for (int i = 0; i < max; ++i) {
         QDomElement e = documentProducers.item(i).toElement();
-        verifiedPaths << getMissingProducers(e, entries, verifiedPaths, /*m_missingPaths,*/ storageFolder);
+        verifiedPaths << getMissingProducers(e, entries, storageFolder);
     }
     max = documentChains.count();
     for (int i = 0; i < max; ++i) {
         QDomElement e = documentChains.item(i).toElement();
-        verifiedPaths << getMissingProducers(e, entries, verifiedPaths, /*m_missingPaths,*/ storageFolder);
+        verifiedPaths << getMissingProducers(e, entries, storageFolder);
     }
 
     // Check existence of luma files
@@ -522,7 +522,7 @@ void DocumentChecker::checkMissingImagesAndFonts(const QStringList &images, cons
     }
 }
 
-QString DocumentChecker::getMissingProducers(QDomElement &e, const QDomNodeList &entries, const QStringList &verifiedPaths, const QString &storageFolder)
+QString DocumentChecker::getMissingProducers(QDomElement &e, const QDomNodeList &entries, const QString &storageFolder)
 {
     QString service = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
     QStringList serviceToCheck = {QStringLiteral("kdenlivetitle"), QStringLiteral("qimage"), QStringLiteral("pixbuf"), QStringLiteral("timewarp"),

@@ -92,7 +92,7 @@ private:
     bool ensureProducerIsNotPlaceholder(QDomElement &producer);
 
     /** @brief Check for various missing elements */
-    QString getMissingProducers(QDomElement &e, const QDomNodeList &entries, const QStringList &verifiedPaths, const QString &storageFolder);
+    QString getMissingProducers(QDomElement &e, const QDomNodeList &entries, const QString &storageFolder);
     /** @brief Check if images and fonts in this clip exists, returns a list of images that do exist so we don't check twice. */
     void checkMissingImagesAndFonts(const QStringList &images, const QStringList &fonts, const QString &id);
     /** @brief If project path changed, try to relocate its resources */
