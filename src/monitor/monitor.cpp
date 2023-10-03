@@ -255,6 +255,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
             // m_audioChannels->show();
             QList<QAction *> actions = m_audioChannels->actions();
             QMap<int, QString> enabledStreams;
+            QVector<int> streamsList;
             if (ac->data().toInt() == INT_MAX) {
                 // Merge stream selected, clear all others
                 enabledStreams.clear();
@@ -264,6 +265,9 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
                 for (auto act : qAsConst(actions)) {
                     if (act->isChecked() && act != ac) {
                         act->setChecked(false);
+                    }
+                    if (act->data().toInt() != INT_MAX) {
+                        streamsList << act->data().toInt();
                     }
                 }
             } else {
@@ -277,12 +281,16 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
                             enabledStreams.insert(act->data().toInt(), act->text().remove(QLatin1Char('&')));
                         }
                     }
+                    if (act->data().toInt() != INT_MAX) {
+                        streamsList << act->data().toInt();
+                    }
                 }
             }
             if (!enabledStreams.isEmpty()) {
                 // Only 1 stream wanted, easy
                 QMap<QString, QString> props;
                 props.insert(QStringLiteral("audio_index"), QString::number(enabledStreams.firstKey()));
+                props.insert(QStringLiteral("astream"), QString::number(streamsList.indexOf(enabledStreams.firstKey())));
                 QList<int> streams = enabledStreams.keys();
                 QStringList astreams;
                 for (const int st : qAsConst(streams)) {
@@ -294,6 +302,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
                 // No active stream
                 QMap<QString, QString> props;
                 props.insert(QStringLiteral("audio_index"), QStringLiteral("-1"));
+                props.insert(QStringLiteral("astream"), QStringLiteral("-1"));
                 props.insert(QStringLiteral("kdenlive:active_streams"), QStringLiteral("-1"));
                 m_controller->setProperties(props, true);
             }

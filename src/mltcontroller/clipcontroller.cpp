@@ -1057,6 +1057,12 @@ QMap<int, QString> ClipController::audioStreams() const
     return {};
 }
 
+int ClipController::audioStreamIndex(int stream) const
+{
+    QList<int> streams = audioStreams().keys();
+    return streams.indexOf(stream);
+}
+
 QList<int> ClipController::activeStreamChannels() const
 {
     if (!audioInfo()) {

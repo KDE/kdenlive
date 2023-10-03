@@ -804,6 +804,11 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
                     vindx = audioStreamsInfo.firstKey();
                 }
                 properties.insert(QStringLiteral("audio_index"), QString::number(vindx));
+                // Find stream position in index
+                QMap<int, QString>::const_iterator it = audioStreamsInfo.constFind(vindx);
+                if (it != audioStreamsInfo.constEnd()) {
+                    properties.insert(QStringLiteral("astream"), QString::number(std::distance(audioStreamsInfo.begin(), it)));
+                }
                 properties.insert(QStringLiteral("set.test_audio"), vindx > -1 ? QStringLiteral("0") : QStringLiteral("1"));
                 Q_EMIT updateClipProperties(m_id, m_originalProperties, properties);
                 m_originalProperties = properties;

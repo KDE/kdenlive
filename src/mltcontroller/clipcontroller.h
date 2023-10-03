@@ -186,6 +186,8 @@ public:
 
     /** @brief Returns the list of all audio streams indexes for this clip */
     QMap <int, QString> audioStreams() const;
+    /** @brief Returns the absolute audio stream index (usable for MLT's astream property) */
+    int audioStreamIndex(int stream) const;
     /** @brief Returns the number of channels per audio stream. */
     QList <int> activeStreamChannels() const;
     /** @brief Returns the list of active audio streams indexes for this clip */
