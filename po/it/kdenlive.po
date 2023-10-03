@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-01 00:42+0000\n"
+"POT-Creation-Date: 2023-10-03 00:41+0000\n"
 "PO-Revision-Date: 2023-09-29 18:49+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -3414,7 +3414,7 @@ msgstr ""
 msgid "%1 effects"
 msgstr "Effetti di %1"
 
-#: src/assets/assetpanel.cpp:243 src/jobs/customjobtask.cpp:69
+#: src/assets/assetpanel.cpp:243 src/jobs/customjobtask.cpp:71
 #, kde-format
 msgid "%1 parameters"
 msgstr "Parametri di %1"
@@ -4651,7 +4651,7 @@ msgstr "Silenzia video"
 #: src/bin/bin.cpp:2424 src/effects/effectlist/model/effecttreemodel.cpp:60
 #: src/layoutmanagement.cpp:36 src/lib/audio/audioStreamInfo.cpp:24
 #: src/monitor/recmanager.cpp:46 src/onlineresources/resourcewidget.cpp:594
-#: src/ui/clipjobmanager_ui.ui:318 src/ui/configcapture_ui.ui:525
+#: src/ui/clipjobmanager_ui.ui:381 src/ui/configcapture_ui.ui:525
 #: src/ui/cutjobdialog_ui.ui:61 src/ui/editrenderpreset_ui.ui:834
 #: src/ui/projectsettings_ui.ui:180 src/ui/renderwidget_ui.ui:598
 #, kde-format
@@ -6091,37 +6091,48 @@ msgid "The second parameter that will be injected in the script arguments"
 msgstr "il secondo parametro che verrà inserito negli argomenti dello script"
 
 # , kde-format, kde-format
-#: src/dialogs/clipjobmanager.cpp:128 src/dialogs/clipjobmanager.cpp:256
+#: src/dialogs/clipjobmanager.cpp:131 src/dialogs/clipjobmanager.cpp:277
 #, kde-format
 msgid "Stabilize"
 msgstr "Stabilizza"
 
-#: src/dialogs/clipjobmanager.cpp:131 src/dialogs/clipjobmanager.cpp:260
+#: src/dialogs/clipjobmanager.cpp:134 src/dialogs/clipjobmanager.cpp:281
 #, kde-format
 msgid "Duplicate Clip with Speed Change…"
 msgstr "Duplica la clip con cambio di velocità…"
 
-#: src/dialogs/clipjobmanager.cpp:258
+#: src/dialogs/clipjobmanager.cpp:249
+#, fuzzy, kde-format
+#| msgid "Missing clip"
+msgid "Missing executable"
+msgstr "Clip mancanti"
+
+#: src/dialogs/clipjobmanager.cpp:252
+#, kde-format
+msgid "Your script or application %1 is not executable, change permissions"
+msgstr ""
+
+#: src/dialogs/clipjobmanager.cpp:279
 #, kde-format
 msgid "Automatic Scene Split…"
 msgstr "Separa automaticamente le scene…"
 
-#: src/dialogs/clipjobmanager.cpp:288
+#: src/dialogs/clipjobmanager.cpp:309
 #, kde-format
 msgid "Job description"
 msgstr "Descrizione del processo"
 
-#: src/dialogs/clipjobmanager.cpp:381
+#: src/dialogs/clipjobmanager.cpp:402
 #, kde-format
 msgid "My Clip Job"
 msgstr "Il mio processo sulla clip"
 
-#: src/dialogs/clipjobmanager.cpp:389
+#: src/dialogs/clipjobmanager.cpp:410
 #, kde-format
 msgid "My Clip Job %1"
 msgstr "Il mio processo sulla clip %1"
 
-#: src/dialogs/clipjobmanager.cpp:415
+#: src/dialogs/clipjobmanager.cpp:436
 #, kde-format
 msgid ""
 "Permanently delete this Clip Job:\n"
@@ -8709,12 +8720,12 @@ msgstr "Impossibile cercare nel file <b>%1</b>."
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "Il file <b>%1</b> ha una frequenza dei fotogrammi variabile."
 
-#: src/jobs/customjobtask.cpp:165
+#: src/jobs/customjobtask.cpp:167
 #, kde-format
 msgid "Application %1 not found, please update the job settings"
 msgstr "Applicazione %1 non trovata, aggiorna le impostazioni del processo"
 
-#: src/jobs/customjobtask.cpp:264 src/jobs/customjobtask.cpp:274
+#: src/jobs/customjobtask.cpp:273 src/jobs/customjobtask.cpp:283
 #: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:234
 #: src/jobs/transcodetask.cpp:270
 #, kde-format
@@ -12247,7 +12258,7 @@ msgstr "Registra"
 #. i18n: ectx: attribute (title), widget (QWidget, video_tab)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/monitor/recmanager.cpp:45 src/onlineresources/resourcewidget.cpp:596
-#: src/ui/clipjobmanager_ui.ui:311 src/ui/cutjobdialog_ui.ui:107
+#: src/ui/clipjobmanager_ui.ui:374 src/ui/cutjobdialog_ui.ui:107
 #: src/ui/editrenderpreset_ui.ui:122 src/ui/projectsettings_ui.ui:173
 #: src/ui/renderwidget_ui.ui:487
 #, kde-format
@@ -12734,7 +12745,7 @@ msgid "Please choose the version you want to download"
 msgstr "Scegli la versione che vuoi scaricare"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_image)
-#: src/onlineresources/resourcewidget.cpp:598 src/ui/clipjobmanager_ui.ui:325
+#: src/onlineresources/resourcewidget.cpp:598 src/ui/clipjobmanager_ui.ui:388
 #, kde-format
 msgid "Images"
 msgstr "Immagini"
@@ -17855,8 +17866,8 @@ msgstr "Elimina il punto corrente."
 #: src/ui/bezierspline_ui.ui:121 src/ui/bezierspline_ui.ui:137
 #: src/ui/bezierspline_ui.ui:156 src/ui/bezierspline_ui.ui:172
 #: src/ui/bezierspline_ui.ui:189 src/ui/bezierspline_ui.ui:206
-#: src/ui/clipjobmanager_ui.ui:150 src/ui/clipjobmanager_ui.ui:337
-#: src/ui/clipjobmanager_ui.ui:348 src/ui/clipstabilize_ui.ui:57
+#: src/ui/clipjobmanager_ui.ui:50 src/ui/clipjobmanager_ui.ui:238
+#: src/ui/clipjobmanager_ui.ui:249 src/ui/clipstabilize_ui.ui:57
 #: src/ui/clipstabilize_ui.ui:94 src/ui/collapsiblewidget_ui.ui:103
 #: src/ui/collapsiblewidget_ui.ui:129 src/ui/collapsiblewidget_ui.ui:139
 #: src/ui/collapsiblewidget_ui.ui:149 src/ui/collapsiblewidget_ui.ui:162
@@ -17981,86 +17992,26 @@ msgstr "Posizione:"
 msgid "Crop end:"
 msgstr "Fine del ritaglio:"
 
-#. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/clipjobmanager_ui.ui:34
-#, kde-format
-msgid "Job Description"
-msgstr "Descrizione del processo"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/clipjobmanager_ui.ui:47
-#, kde-format
-msgid "Custom clip jobs"
-msgstr "Processi sulla clip personalizzati"
-
-#. i18n: ectx: property (title), widget (QGroupBox, folder_box)
-#: src/ui/clipjobmanager_ui.ui:54
-#, kde-format
-msgid "Project Bin behavior on completion"
-msgstr "Comportamento del contenitore del progetto al completamento"
-
-#. i18n: ectx: property (text), widget (QRadioButton, radio_replace)
-#: src/ui/clipjobmanager_ui.ui:60
-#, kde-format
-msgid "Replace original with result"
-msgstr "Sostituisci l'originale col risultato"
-
-#. i18n: ectx: property (text), widget (QCheckBox, bin_subfolder)
-#: src/ui/clipjobmanager_ui.ui:70
-#, kde-format
-msgid "Use a subfolder"
-msgstr "Usa una sotto-cartella"
-
-#. i18n: ectx: property (text), widget (QRadioButton, radio_folder)
-#: src/ui/clipjobmanager_ui.ui:77
-#, kde-format
-msgid "Put resulting clip in a folder"
-msgstr "Metti la clip risultante in una sotto-cartella"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
-#: src/ui/clipjobmanager_ui.ui:88
-#, kde-format
-msgid "Placed at top level"
-msgstr "Posizionato al livello massimo"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
-#: src/ui/clipjobmanager_ui.ui:93
-#, kde-format
-msgid "Placed in the original clip folder"
-msgstr "Posizionato nella cartella originale della clip"
-
-#. i18n: ectx: property (placeholderText), widget (QLineEdit, folder_name)
-#: src/ui/clipjobmanager_ui.ui:104
-#, kde-format
-msgid "Folder name"
-msgstr "Nome della cartella"
-
-#. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, taskDescription)
-#: src/ui/clipjobmanager_ui.ui:114
-#, kde-format
-msgid "Optional description that will show up if a parameter is requested"
-msgstr "Descrizione facoltativa che comparirà se è richiesto un parametro"
-
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
-#: src/ui/clipjobmanager_ui.ui:121
+#: src/ui/clipjobmanager_ui.ui:24
 #, kde-format
 msgid "Job parameters"
 msgstr "Parametri del processo"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/clipjobmanager_ui.ui:127
+#: src/ui/clipjobmanager_ui.ui:30
 #, kde-format
 msgid "Executable"
 msgstr "Eseguibile"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/clipjobmanager_ui.ui:143
+#: src/ui/clipjobmanager_ui.ui:70
 #, kde-format
 msgid "Arguments"
 msgstr "Argomenti"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, info_message)
-#: src/ui/clipjobmanager_ui.ui:167
+#: src/ui/clipjobmanager_ui.ui:80
 #, kde-format
 msgid ""
 "In the arguments, the following options are available: <ul><li><b>{source}</"
@@ -18077,53 +18028,113 @@ msgstr ""
 "li></ul>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: src/ui/clipjobmanager_ui.ui:180
+#: src/ui/clipjobmanager_ui.ui:93
 #, kde-format
 msgid "Parameter 1 {param1}"
 msgstr "Parametro 1 {param1}"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_isfile)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_isfile)
-#: src/ui/clipjobmanager_ui.ui:186 src/ui/clipjobmanager_ui.ui:279
+#: src/ui/clipjobmanager_ui.ui:99 src/ui/clipjobmanager_ui.ui:192
 #, kde-format
 msgid "Request file path"
 msgstr "Richiedi percorso del file"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_islist)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_islist)
-#: src/ui/clipjobmanager_ui.ui:196 src/ui/clipjobmanager_ui.ui:272
+#: src/ui/clipjobmanager_ui.ui:109 src/ui/clipjobmanager_ui.ui:185
 #, kde-format
 msgid "Request option from list"
 msgstr "Richiedi opzione dalla lista"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param1_list)
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param2_list)
-#: src/ui/clipjobmanager_ui.ui:206 src/ui/clipjobmanager_ui.ui:258
+#: src/ui/clipjobmanager_ui.ui:119 src/ui/clipjobmanager_ui.ui:171
 #, kde-format
 msgid "List of options"
 msgstr "Lista delle opzioni"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param1_name)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param2_name)
-#: src/ui/clipjobmanager_ui.ui:213 src/ui/clipjobmanager_ui.ui:265
+#: src/ui/clipjobmanager_ui.ui:126 src/ui/clipjobmanager_ui.ui:178
 #, kde-format
 msgid "Parameter description"
 msgstr "Descrizione del parametro"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
-#: src/ui/clipjobmanager_ui.ui:236
+#: src/ui/clipjobmanager_ui.ui:149
 #, kde-format
 msgid "Parameter 2 {param2}"
 msgstr "Parametro 2 {param2}"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/clipjobmanager_ui.ui:292
+#: src/ui/clipjobmanager_ui.ui:207
 #, kde-format
 msgid "Output file extension"
 msgstr "Estensione del file di uscita"
 
+#. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, taskDescription)
+#: src/ui/clipjobmanager_ui.ui:222
+#, kde-format
+msgid "Optional description that will show up if a parameter is requested"
+msgstr "Descrizione facoltativa che comparirà se è richiesto un parametro"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: src/ui/clipjobmanager_ui.ui:229
+#, kde-format
+msgid "Job Description"
+msgstr "Descrizione del processo"
+
+#. i18n: ectx: property (title), widget (QGroupBox, folder_box)
+#: src/ui/clipjobmanager_ui.ui:285
+#, kde-format
+msgid "Project Bin behavior on completion"
+msgstr "Comportamento del contenitore del progetto al completamento"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radio_replace)
+#: src/ui/clipjobmanager_ui.ui:291
+#, kde-format
+msgid "Replace original with result"
+msgstr "Sostituisci l'originale col risultato"
+
+#. i18n: ectx: property (text), widget (QCheckBox, bin_subfolder)
+#: src/ui/clipjobmanager_ui.ui:301
+#, kde-format
+msgid "Use a subfolder"
+msgstr "Usa una sotto-cartella"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radio_folder)
+#: src/ui/clipjobmanager_ui.ui:308
+#, kde-format
+msgid "Put resulting clip in a folder"
+msgstr "Metti la clip risultante in una sotto-cartella"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
+#: src/ui/clipjobmanager_ui.ui:319
+#, kde-format
+msgid "Placed at top level"
+msgstr "Posizionato al livello massimo"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
+#: src/ui/clipjobmanager_ui.ui:324
+#, kde-format
+msgid "Placed in the original clip folder"
+msgstr "Posizionato nella cartella originale della clip"
+
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, folder_name)
+#: src/ui/clipjobmanager_ui.ui:335
+#, kde-format
+msgid "Folder name"
+msgstr "Nome della cartella"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/ui/clipjobmanager_ui.ui:361
+#, kde-format
+msgid "Custom clip jobs"
+msgstr "Processi sulla clip personalizzati"
+
 #. i18n: ectx: property (title), widget (QGroupBox, clip_types)
-#: src/ui/clipjobmanager_ui.ui:305
+#: src/ui/clipjobmanager_ui.ui:368
 #, kde-format
 msgid "Applies to"
 msgstr "Si applica a"
@@ -26836,9 +26847,6 @@ msgstr "%1o"
 
 #~ msgid "Show Log"
 #~ msgstr "Mostra il resoconto"
-
-#~ msgid "Missing clip"
-#~ msgstr "Clip mancanti"
 
 #~ msgid "Allow horizontal moves"
 #~ msgstr "Consenti movimenti orizzontali"

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-01 00:42+0000\n"
-"PO-Revision-Date: 2023-09-29 08:20+0700\n"
+"POT-Creation-Date: 2023-10-03 00:41+0000\n"
+"PO-Revision-Date: 2023-10-02 19:42+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
@@ -1814,7 +1814,7 @@ msgid ""
 "Bitwise xor,Bitwise nor,Bitwise nand,Bitwise not xor,Destination in,"
 "Destination out"
 msgstr ""
-"Campuran alpha,Xor,Plus,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,"
+"Campuran alpha,Xor,Plus,Multiply,Screen,Hamparan,Darken,Lighten,Color dodge,"
 "Warna terbakar,Cahaya keras,Cahaya lembut,Perbedaan,Pengecualian,Bitwise "
 "atau,Bitwise dan,Bitwise xor,Bitwise nor,Bitwise nand,Bitwise not xor,Tujuan "
 "masuk,Tujuan keluar"
@@ -2644,7 +2644,7 @@ msgstr "Suara"
 #: data/generators/count.xml:21
 #, kde-format
 msgid "Drop frame timecode"
-msgstr "Jatuhkan kode-waktu frame"
+msgstr "Turunkan kode-waktu frame"
 
 #: data/generators/frei0r_test_pat_b.xml:3
 #, kde-format
@@ -3049,7 +3049,7 @@ msgstr "Operasi Kanal Alfa"
 #: data/transitions/region.xml:39
 #, kde-format
 msgid "Force Deinterlace Overlay"
-msgstr "Paksa Overlay Deinterlace"
+msgstr "Paksa Hamparan Deinterlace"
 
 #: data/transitions/slide.xml:4
 #, kde-format
@@ -3371,7 +3371,7 @@ msgstr "Jungkitan tampilan keyframe dalam klip pada linimasa"
 msgid "%1 effects"
 msgstr "%1 efek"
 
-#: src/assets/assetpanel.cpp:243 src/jobs/customjobtask.cpp:69
+#: src/assets/assetpanel.cpp:243 src/jobs/customjobtask.cpp:71
 #, kde-format
 msgid "%1 parameters"
 msgstr "%1 parameter"
@@ -3913,7 +3913,7 @@ msgstr "Singkirkan semua Keyframe Setelah Kursor"
 #: src/assets/view/widgets/keyframewidget.cpp:165
 #, kde-format
 msgid "Default Keyframe Type"
-msgstr "Tipe Keyframe Default"
+msgstr "Tipe Keyframe Baku"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/assets/view/widgets/keyframewidget.cpp:205 src/bin/bin.cpp:1345
@@ -4148,8 +4148,8 @@ msgid ""
 "<b>Shift+seek</b> over thumbnail to set default thumbnail, <b>F2</b> to "
 "rename selected item"
 msgstr ""
-"<b>Shift+jangka</b> di atas thumbnail untuk mengetur thumbnail default, "
-"<b>F2</b> untuk mengubah nama item yang dipilih"
+"<b>Shift+jangka</b> di atas thumbnail untuk mengatur thumbnail baku, <b>F2</"
+"b> untuk mengubah nama item yang dipilih"
 
 #: src/bin/bin.cpp:808 src/bin/bin.cpp:917
 #, kde-format
@@ -4584,7 +4584,7 @@ msgstr "Senyapkan Video"
 #: src/bin/bin.cpp:2424 src/effects/effectlist/model/effecttreemodel.cpp:60
 #: src/layoutmanagement.cpp:36 src/lib/audio/audioStreamInfo.cpp:24
 #: src/monitor/recmanager.cpp:46 src/onlineresources/resourcewidget.cpp:594
-#: src/ui/clipjobmanager_ui.ui:318 src/ui/configcapture_ui.ui:525
+#: src/ui/clipjobmanager_ui.ui:381 src/ui/configcapture_ui.ui:525
 #: src/ui/cutjobdialog_ui.ui:61 src/ui/editrenderpreset_ui.ui:834
 #: src/ui/projectsettings_ui.ui:180 src/ui/renderwidget_ui.ui:598
 #, kde-format
@@ -4780,7 +4780,7 @@ msgstr "Buka di bin baru"
 #: src/bin/bin.cpp:3679
 #, kde-format
 msgid "Default Target Folder for Sequences"
-msgstr "Folder Target Default untuk Rentetan"
+msgstr "Baku Folder Target untuk Rentetan"
 
 #: src/bin/bin.cpp:3683
 #, kde-format
@@ -4873,7 +4873,7 @@ msgstr "Masukkan jalur ke aplikasi pengeditan gambar Anda"
 #: src/bin/bin.cpp:4516
 #, kde-format
 msgid "Please set a default application to open image files"
-msgstr "Silakan atur aplikasi default untuk membuka file citra"
+msgstr "Silakan atur aplikasi baku untuk membuka file citra"
 
 #: src/bin/bin.cpp:4521
 #, kde-format
@@ -4883,7 +4883,7 @@ msgstr "Masukkan jalur ke aplikasi pengeditan audio Anda"
 #: src/bin/bin.cpp:4533
 #, kde-format
 msgid "Please set a default application to open audio files"
-msgstr "Silakan atur aplikasi default untuk membuka file audio"
+msgstr "Silakan atur aplikasi baku untuk membuka file audio"
 
 #: src/bin/bin.cpp:4543 src/core.cpp:304 src/doc/kdenlivedoc.cpp:165
 #: src/jobs/cliploadtask.cpp:458 src/jobs/filtertask.cpp:93
@@ -5580,14 +5580,14 @@ msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
 "a correct value."
 msgstr ""
-"Profil Kdenlive default belum diatur atau tidak valid, tekan Oke untuk "
+"Profil Kdenlive baku belum diatur atau tidak valid, tekan Oke untuk "
 "mengaturnya ke nilai yang benar."
 
 #: src/core.cpp:209
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
-msgstr "Pilih Profil Default"
+msgstr "Pilih Profil Baku"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/core.cpp:209 src/ui/profiledialog_ui.ui:38
@@ -5991,37 +5991,48 @@ msgstr ""
 msgid "The second parameter that will be injected in the script arguments"
 msgstr ""
 
-#: src/dialogs/clipjobmanager.cpp:128 src/dialogs/clipjobmanager.cpp:256
+#: src/dialogs/clipjobmanager.cpp:131 src/dialogs/clipjobmanager.cpp:277
 #, kde-format
 msgid "Stabilize"
 msgstr "Stabilkan"
 
-#: src/dialogs/clipjobmanager.cpp:131 src/dialogs/clipjobmanager.cpp:260
+#: src/dialogs/clipjobmanager.cpp:134 src/dialogs/clipjobmanager.cpp:281
 #, kde-format
 msgid "Duplicate Clip with Speed Change…"
 msgstr "Diplikatkan Klip dengan Ubahan Kecepatan..."
 
-#: src/dialogs/clipjobmanager.cpp:258
+#: src/dialogs/clipjobmanager.cpp:249
+#, fuzzy, kde-format
+#| msgid "Effects enabled"
+msgid "Missing executable"
+msgstr "Efek yang difungsikan"
+
+#: src/dialogs/clipjobmanager.cpp:252
+#, kde-format
+msgid "Your script or application %1 is not executable, change permissions"
+msgstr ""
+
+#: src/dialogs/clipjobmanager.cpp:279
 #, kde-format
 msgid "Automatic Scene Split…"
 msgstr "Belah Adegan Otomatis..."
 
-#: src/dialogs/clipjobmanager.cpp:288
+#: src/dialogs/clipjobmanager.cpp:309
 #, kde-format
 msgid "Job description"
 msgstr "Deskripsi Tugas"
 
-#: src/dialogs/clipjobmanager.cpp:381
+#: src/dialogs/clipjobmanager.cpp:402
 #, kde-format
 msgid "My Clip Job"
 msgstr "Tugas Klipku"
 
-#: src/dialogs/clipjobmanager.cpp:389
+#: src/dialogs/clipjobmanager.cpp:410
 #, kde-format
 msgid "My Clip Job %1"
 msgstr "Tugas Klipku %1"
 
-#: src/dialogs/clipjobmanager.cpp:415
+#: src/dialogs/clipjobmanager.cpp:436
 #, kde-format
 msgid ""
 "Permanently delete this Clip Job:\n"
@@ -6292,12 +6303,12 @@ msgstr "otomatis"
 #: src/dialogs/kdenlivesettingsdialog.cpp:284
 #, kde-format
 msgid "Select the Default Profile (preset)"
-msgstr "Pilih Profil Default (preset)"
+msgstr "Pilih Profil Baku (preset)"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:305
 #, kde-format
 msgid "Project Defaults"
-msgstr "Proyek Default"
+msgstr "Baku Proyek"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:338
 #: src/dialogs/kdenlivesettingsdialog.cpp:362
@@ -6411,7 +6422,7 @@ msgstr "Daemon ARTS"
 #: src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
-msgstr "Default"
+msgstr "Baku"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:759
 #, kde-format
@@ -6568,7 +6579,7 @@ msgstr "Kustom profile telah dimodifikasi, apakah Anda ingin menyimpannya?"
 #: src/dialogs/profilesdialog.cpp:220
 #, kde-format
 msgid "Save your profile before setting it to default"
-msgstr "Simpan profil Anda sebelum menyetelnya ke default"
+msgstr "Simpan profil Anda sebelum menyetelnya ke baku"
 
 #: src/dialogs/profilesdialog.cpp:245
 #, kde-format
@@ -6576,7 +6587,7 @@ msgid ""
 "A profile with same name already exists in MLT's default profiles, please "
 "choose another description for your custom profile."
 msgstr ""
-"Sebuah profil dengan nama yang sama sudah ada di profil default MLT, silakan "
+"Sebuah profil dengan nama yang sama sudah ada di profil baku MLT, silakan "
 "pilih keterangan lain untuk profil kustom Anda."
 
 #: src/dialogs/profilesdialog.cpp:316
@@ -6729,7 +6740,7 @@ msgstr "Kode waktu"
 #: src/dialogs/renderwidget.cpp:216
 #, kde-format
 msgid "Timecode Non Drop Frame"
-msgstr "Kode-Waktu Frame Tidak Dijatuhkan"
+msgstr "Kode-Waktu Frame Tidak Diturunkan"
 
 #: src/dialogs/renderwidget.cpp:217
 #, kde-format
@@ -7948,7 +7959,7 @@ msgid ""
 msgstr ""
 "Direktori proyek %1, tidak dapat dibuat.\n"
 "Pastikan Anda memiliki perizinan yang diperlukan.\n"
-"Secara default ke folder sistem"
+"Secara baku ke folder sistem"
 
 #: src/doc/kdenlivedoc.cpp:290
 #, kde-format
@@ -8057,24 +8068,23 @@ msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
 "Do you want to change default profile for future projects?"
 msgstr ""
-"Profil proyek default Anda adalah %1, tetapi profil klip (%2) Anda adalah "
-"%3.\n"
-"Apakah Anda ingin mengubah profil default untuk proyek nantinya?"
+"Profil proyek baku Anda adalah %1, tetapi profil klip (%2) Anda adalah %3.\n"
+"Apakah Anda ingin mengubah profil baku untuk proyek nantinya?"
 
 #: src/doc/kdenlivedoc.cpp:1822
 #, kde-format
 msgid "Change default project profile"
-msgstr "Ubah profil proyek default"
+msgstr "Ubah profil proyek baku"
 
 #: src/doc/kdenlivedoc.cpp:1822
 #, kde-format
 msgid "Change default to %1"
-msgstr "Ubah default untuk %1"
+msgstr "Ubah baku untuk %1"
 
 #: src/doc/kdenlivedoc.cpp:1823
 #, kde-format
 msgid "Keep current default %1"
-msgstr "Jaga default %1 saat ini"
+msgstr "Jaga baku %1 saat ini"
 
 #: src/doc/kdenlivedoc.cpp:1823
 #, kde-format
@@ -8544,12 +8554,12 @@ msgstr "File <b>%1</b> bukanlah file yang dapat dijangka."
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "File <b>%1</b> memiliki laju frame yang dapat bervariasi"
 
-#: src/jobs/customjobtask.cpp:165
+#: src/jobs/customjobtask.cpp:167
 #, kde-format
 msgid "Application %1 not found, please update the job settings"
 msgstr ""
 
-#: src/jobs/customjobtask.cpp:264 src/jobs/customjobtask.cpp:274
+#: src/jobs/customjobtask.cpp:273 src/jobs/customjobtask.cpp:283
 #: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:234
 #: src/jobs/transcodetask.cpp:270
 #, kde-format
@@ -8906,7 +8916,7 @@ msgstr "Menjangka"
 #: src/kdenliveui.rc:240
 #, kde-format
 msgid "Current Monitor Overlay"
-msgstr "Monitor Overlay Saat Ini"
+msgstr "Hamparan Monitor Saat Ini"
 
 #. i18n: ectx: Menu (monitor_scaling)
 #: src/kdenliveui.rc:248 src/mainwindow.cpp:1542
@@ -9222,7 +9232,7 @@ msgstr "Galat membuat folder %1"
 #: src/library/librarywidget.cpp:504
 #, kde-format
 msgid "Library path set to default: %1"
-msgstr "Alur Pustaka diatur ke default: %1"
+msgstr "Alur Pustaka diatur ke baku: %1"
 
 #: src/library/librarywidget.cpp:510
 #, kde-format
@@ -9480,7 +9490,7 @@ msgstr "Gaya"
 #: src/mainwindow.cpp:231
 #, kde-format
 msgid "Cannot find your default profile, switching to ATSC 1080p 25"
-msgstr "Tidak bisa menemukan profil default Anda, mengalihkan ke ATSC 1080p 25"
+msgstr "Tidak bisa menemukan profil baku Anda, mengalihkan ke ATSC 1080p 25"
 
 #: src/mainwindow.cpp:284
 #, kde-format
@@ -10069,32 +10079,32 @@ msgstr "Bentangkan Klip"
 #: src/mainwindow.cpp:1503
 #, kde-format
 msgid "Monitor Info Overlay"
-msgstr "Info Monitor Overlay"
+msgstr "Hamparan Info Monitor"
 
 #: src/mainwindow.cpp:1508
 #, kde-format
 msgid "Monitor Overlay Timecode"
-msgstr "Monitor Hamparan Kode-Waktu"
+msgstr "Hamparan Kode-Waktu Monitor"
 
 #: src/mainwindow.cpp:1513
 #, kde-format
 msgid "Monitor Overlay Playback Fps"
-msgstr "Monitor Overlay Fps Pemutaran"
+msgstr "Hamparan Fps Pemutaran Monitor"
 
 #: src/mainwindow.cpp:1518
 #, kde-format
 msgid "Monitor Overlay Markers"
-msgstr "Monitor Overlay Penanda"
+msgstr "Hamparan Penanda Monitor"
 
 #: src/mainwindow.cpp:1523
 #, kde-format
 msgid "Monitor Overlay Audio Waveform"
-msgstr "Monitor Hamparan Bentuk Gelombang Audio"
+msgstr "Hamparan Bentuk Gelombang Audio Monitor"
 
 #: src/mainwindow.cpp:1528
 #, kde-format
 msgid "Monitor Overlay Clip Jobs"
-msgstr "Monitor HamparanTugas Klip"
+msgstr "Hamparan Tugas Klip Monitor"
 
 #: src/mainwindow.cpp:1546
 #, kde-format
@@ -10124,7 +10134,7 @@ msgstr "270p"
 #: src/mainwindow.cpp:1593
 #, kde-format
 msgid "Real Time (drop frames)"
-msgstr "Waktu Nyata (jatuhkan frame)"
+msgstr "Waktu Nyata (turunkan frame)"
 
 #: src/mainwindow.cpp:1599
 #, kde-format
@@ -11046,7 +11056,7 @@ msgstr "Ukuran Ikon"
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
-msgstr "Default"
+msgstr "Baku"
 
 #: src/mainwindow.cpp:4288 src/mainwindow.cpp:4316
 #, kde-format
@@ -11262,7 +11272,7 @@ msgstr "Pertama Atas"
 #: src/mltcontroller/clippropertiescontroller.cpp:600
 #, kde-format
 msgid "%1 (default)"
-msgstr "%1 (default)"
+msgstr "%1 (baku)"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:622
 #, kde-format
@@ -12002,7 +12012,7 @@ msgstr "Rekam"
 #. i18n: ectx: attribute (title), widget (QWidget, video_tab)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/monitor/recmanager.cpp:45 src/onlineresources/resourcewidget.cpp:596
-#: src/ui/clipjobmanager_ui.ui:311 src/ui/cutjobdialog_ui.ui:107
+#: src/ui/clipjobmanager_ui.ui:374 src/ui/cutjobdialog_ui.ui:107
 #: src/ui/editrenderpreset_ui.ui:122 src/ui/projectsettings_ui.ui:173
 #: src/ui/renderwidget_ui.ui:487
 #, kde-format
@@ -12056,7 +12066,7 @@ msgstr "Fungsikan Spektrum Audio"
 #: src/monitor/view/SceneToolBar.qml:56
 #, kde-format
 msgid "Switch Full Screen"
-msgstr "Ubah Layar Penuh"
+msgstr "Alihkan Layar Penuh"
 
 #: src/monitor/view/EffectToolBar.qml:64 src/monitor/view/SceneToolBar.qml:65
 #, kde-format
@@ -12484,7 +12494,7 @@ msgid "Please choose the version you want to download"
 msgstr "Silakan pilih versi yang Anda ingin unduh"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_image)
-#: src/onlineresources/resourcewidget.cpp:598 src/ui/clipjobmanager_ui.ui:325
+#: src/onlineresources/resourcewidget.cpp:598 src/ui/clipjobmanager_ui.ui:388
 #, kde-format
 msgid "Images"
 msgstr "Citra"
@@ -13036,7 +13046,7 @@ msgstr "Kategori pancangan bawaan."
 msgctxt "@info:whatsthis"
 msgid "Default guide category. The category used for newly created guides."
 msgstr ""
-"Kategori pancang default. Kategori digunakan untuk pancang-pancang yang baru "
+"Kategori pancang baku. Kategori digunakan untuk pancang-pancang yang baru "
 "dibuat."
 
 #: src/project/dialogs/guideslist.cpp:158
@@ -13202,7 +13212,7 @@ msgstr "Data Cache"
 #: src/project/dialogs/projectsettings.cpp:190
 #, kde-format
 msgid "Show default profile parameters"
-msgstr "Tampilkan parameter profil default"
+msgstr "Tampilkan parameter profil baku"
 
 #: src/project/dialogs/projectsettings.cpp:192
 #, kde-format
@@ -13217,7 +13227,7 @@ msgstr "Bandingkan secara efisien profil proxy"
 #: src/project/dialogs/projectsettings.cpp:197
 #, kde-format
 msgid "Select default proxy profile"
-msgstr "Pilih profil proxy default"
+msgstr "Pilih profil proxy baku"
 
 #: src/project/dialogs/projectsettings.cpp:204
 #, kde-format
@@ -16121,7 +16131,7 @@ msgstr "Lesap out: %1"
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Sèrèt</b> untuk menyetel lesap, <b>Klick</b> untuk menambahkan durasi "
-"lesap default"
+"lesap baku"
 
 #: src/timeline2/view/qml/Clip.qml:1396 src/timeline2/view/qml/Clip.qml:1403
 #, kde-format
@@ -17540,8 +17550,8 @@ msgstr "Hapus poin saat ini."
 #: src/ui/bezierspline_ui.ui:121 src/ui/bezierspline_ui.ui:137
 #: src/ui/bezierspline_ui.ui:156 src/ui/bezierspline_ui.ui:172
 #: src/ui/bezierspline_ui.ui:189 src/ui/bezierspline_ui.ui:206
-#: src/ui/clipjobmanager_ui.ui:150 src/ui/clipjobmanager_ui.ui:337
-#: src/ui/clipjobmanager_ui.ui:348 src/ui/clipstabilize_ui.ui:57
+#: src/ui/clipjobmanager_ui.ui:50 src/ui/clipjobmanager_ui.ui:238
+#: src/ui/clipjobmanager_ui.ui:249 src/ui/clipstabilize_ui.ui:57
 #: src/ui/clipstabilize_ui.ui:94 src/ui/collapsiblewidget_ui.ui:103
 #: src/ui/collapsiblewidget_ui.ui:129 src/ui/collapsiblewidget_ui.ui:139
 #: src/ui/collapsiblewidget_ui.ui:149 src/ui/collapsiblewidget_ui.ui:162
@@ -17669,93 +17679,28 @@ msgstr "Posisi:"
 msgid "Crop end:"
 msgstr "Pangkas akhir:"
 
-#. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/clipjobmanager_ui.ui:34
-#, fuzzy, kde-format
-#| msgid "Job description"
-msgid "Job Description"
-msgstr "Deskripsi Tugas"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/clipjobmanager_ui.ui:47
-#, fuzzy, kde-format
-#| msgid "Cut clip"
-msgid "Custom clip jobs"
-msgstr "Potong klip"
-
-#. i18n: ectx: property (title), widget (QGroupBox, folder_box)
-#: src/ui/clipjobmanager_ui.ui:54
-#, fuzzy, kde-format
-#| msgid "Project conversion complete"
-msgid "Project Bin behavior on completion"
-msgstr "Konversi proyek rampung"
-
-#. i18n: ectx: property (text), widget (QRadioButton, radio_replace)
-#: src/ui/clipjobmanager_ui.ui:60
-#, kde-format
-msgid "Replace original with result"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QCheckBox, bin_subfolder)
-#: src/ui/clipjobmanager_ui.ui:70
-#, fuzzy, kde-format
-#| msgid "Use default folder"
-msgid "Use a subfolder"
-msgstr "Gunakan folder default"
-
-#. i18n: ectx: property (text), widget (QRadioButton, radio_folder)
-#: src/ui/clipjobmanager_ui.ui:77
-#, fuzzy, kde-format
-#| msgid "Put clip in \"Stabilized\" folder"
-msgid "Put resulting clip in a folder"
-msgstr "Ambil klip di folder \"Stabilized\""
-
-#. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
-#: src/ui/clipjobmanager_ui.ui:88
-#, kde-format
-msgid "Placed at top level"
-msgstr ""
-
-#. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
-#: src/ui/clipjobmanager_ui.ui:93
-#, kde-format
-msgid "Placed in the original clip folder"
-msgstr ""
-
-#. i18n: ectx: property (placeholderText), widget (QLineEdit, folder_name)
-#: src/ui/clipjobmanager_ui.ui:104
-#, kde-format
-msgid "Folder name"
-msgstr "Nama folder"
-
-#. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, taskDescription)
-#: src/ui/clipjobmanager_ui.ui:114
-#, kde-format
-msgid "Optional description that will show up if a parameter is requested"
-msgstr ""
-
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
-#: src/ui/clipjobmanager_ui.ui:121
+#: src/ui/clipjobmanager_ui.ui:24
 #, fuzzy, kde-format
 #| msgid "%1 parameters"
 msgid "Job parameters"
 msgstr "%1 parameter"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/clipjobmanager_ui.ui:127
+#: src/ui/clipjobmanager_ui.ui:30
 #, fuzzy, kde-format
 #| msgid "Effects enabled"
 msgid "Executable"
 msgstr "Efek yang difungsikan"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/clipjobmanager_ui.ui:143
+#: src/ui/clipjobmanager_ui.ui:70
 #, kde-format
 msgid "Arguments"
 msgstr "Argumen"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, info_message)
-#: src/ui/clipjobmanager_ui.ui:167
+#: src/ui/clipjobmanager_ui.ui:80
 #, kde-format
 msgid ""
 "In the arguments, the following options are available: <ul><li><b>{source}</"
@@ -17766,7 +17711,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: src/ui/clipjobmanager_ui.ui:180
+#: src/ui/clipjobmanager_ui.ui:93
 #, fuzzy, kde-format
 #| msgid "Parameters"
 msgid "Parameter 1 {param1}"
@@ -17774,21 +17719,21 @@ msgstr "Parameter"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_isfile)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_isfile)
-#: src/ui/clipjobmanager_ui.ui:186 src/ui/clipjobmanager_ui.ui:279
+#: src/ui/clipjobmanager_ui.ui:99 src/ui/clipjobmanager_ui.ui:192
 #, kde-format
 msgid "Request file path"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_islist)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_islist)
-#: src/ui/clipjobmanager_ui.ui:196 src/ui/clipjobmanager_ui.ui:272
+#: src/ui/clipjobmanager_ui.ui:109 src/ui/clipjobmanager_ui.ui:185
 #, kde-format
 msgid "Request option from list"
 msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param1_list)
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param2_list)
-#: src/ui/clipjobmanager_ui.ui:206 src/ui/clipjobmanager_ui.ui:258
+#: src/ui/clipjobmanager_ui.ui:119 src/ui/clipjobmanager_ui.ui:171
 #, fuzzy, kde-format
 #| msgid "More options"
 msgid "List of options"
@@ -17796,28 +17741,93 @@ msgstr "Opsi selebihnya..."
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param1_name)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param2_name)
-#: src/ui/clipjobmanager_ui.ui:213 src/ui/clipjobmanager_ui.ui:265
+#: src/ui/clipjobmanager_ui.ui:126 src/ui/clipjobmanager_ui.ui:178
 #, fuzzy, kde-format
 #| msgid "Parameter description."
 msgid "Parameter description"
 msgstr "Deskripsi parameter."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
-#: src/ui/clipjobmanager_ui.ui:236
+#: src/ui/clipjobmanager_ui.ui:149
 #, fuzzy, kde-format
 #| msgid "Parameters"
 msgid "Parameter 2 {param2}"
 msgstr "Parameter"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/clipjobmanager_ui.ui:292
+#: src/ui/clipjobmanager_ui.ui:207
 #, fuzzy, kde-format
 #| msgid "File extension:"
 msgid "Output file extension"
 msgstr "Ekstensi File:"
 
+#. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, taskDescription)
+#: src/ui/clipjobmanager_ui.ui:222
+#, kde-format
+msgid "Optional description that will show up if a parameter is requested"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: src/ui/clipjobmanager_ui.ui:229
+#, fuzzy, kde-format
+#| msgid "Job description"
+msgid "Job Description"
+msgstr "Deskripsi Tugas"
+
+#. i18n: ectx: property (title), widget (QGroupBox, folder_box)
+#: src/ui/clipjobmanager_ui.ui:285
+#, fuzzy, kde-format
+#| msgid "Project conversion complete"
+msgid "Project Bin behavior on completion"
+msgstr "Konversi proyek rampung"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radio_replace)
+#: src/ui/clipjobmanager_ui.ui:291
+#, kde-format
+msgid "Replace original with result"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, bin_subfolder)
+#: src/ui/clipjobmanager_ui.ui:301
+#, fuzzy, kde-format
+#| msgid "Use default folder"
+msgid "Use a subfolder"
+msgstr "Gunakan folder default"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radio_folder)
+#: src/ui/clipjobmanager_ui.ui:308
+#, fuzzy, kde-format
+#| msgid "Put clip in \"Stabilized\" folder"
+msgid "Put resulting clip in a folder"
+msgstr "Ambil klip di folder \"Stabilized\""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
+#: src/ui/clipjobmanager_ui.ui:319
+#, kde-format
+msgid "Placed at top level"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
+#: src/ui/clipjobmanager_ui.ui:324
+#, kde-format
+msgid "Placed in the original clip folder"
+msgstr ""
+
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, folder_name)
+#: src/ui/clipjobmanager_ui.ui:335
+#, kde-format
+msgid "Folder name"
+msgstr "Nama folder"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/ui/clipjobmanager_ui.ui:361
+#, fuzzy, kde-format
+#| msgid "Cut clip"
+msgid "Custom clip jobs"
+msgstr "Potong klip"
+
 #. i18n: ectx: property (title), widget (QGroupBox, clip_types)
-#: src/ui/clipjobmanager_ui.ui:305
+#: src/ui/clipjobmanager_ui.ui:368
 #, kde-format
 msgid "Applies to"
 msgstr ""
@@ -17925,7 +17935,7 @@ msgstr "Nama File"
 #: src/ui/configcapture_ui.ui:16
 #, kde-format
 msgid "Default capture device"
-msgstr "Peranti tangkapan default"
+msgstr "Peranti tangkapan baku"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
 #: src/ui/configcapture_ui.ui:35
@@ -18035,10 +18045,9 @@ msgstr "Wilayah untuk tangkapan:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_grab_capture_type)
 #: src/ui/configcapture_ui.ui:269
-#, fuzzy, kde-format
-#| msgid "Switch Full Screen"
+#, kde-format
 msgid "Full Screen"
-msgstr "Ubah Layar Penuh"
+msgstr "Layar Penuh"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_grab_capture_type)
 #: src/ui/configcapture_ui.ui:274
@@ -18130,7 +18139,7 @@ msgstr "Warna thumbnail audio:"
 #: src/ui/configcolors_ui.ui:41
 #, kde-format
 msgid "Monitor overlay color:"
-msgstr "Warna overlay monitor:"
+msgstr "Warna hamparan monitor:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_monitor_bg)
 #: src/ui/configcolors_ui.ui:61
@@ -18230,7 +18239,7 @@ msgstr "Info Media:"
 #: src/ui/configenv_ui.ui:195
 #, kde-format
 msgid "Default Folders"
-msgstr "Folder Default"
+msgstr "Folder Baku"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configenv_ui.ui:201
@@ -18251,7 +18260,7 @@ msgstr "Folder tangkapan:"
 #: src/ui/configenv_ui.ui:271
 #, kde-format
 msgid "Use default folder"
-msgstr "Gunakan folder default"
+msgstr "Gunakan folder baku"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_videotodefaultfolder)
@@ -18283,7 +18292,7 @@ msgstr "Folder untuk perenderan, perjudulan, penyekripan:"
 #: src/ui/configenv_ui.ui:313
 #, kde-format
 msgid "Default Apps"
-msgstr "Apl Default"
+msgstr "Apl Baku"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configenv_ui.ui:319
@@ -18549,7 +18558,7 @@ msgstr "Komposisi pengomposisian trek yang disukai:"
 #: src/ui/configmisc_ui.ui:160
 #, kde-format
 msgid "Default Durations"
-msgstr "Durasi Default"
+msgstr "Durasi Baku"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configmisc_ui.ui:166
@@ -20001,7 +20010,7 @@ msgstr "S"
 #: src/ui/profiledialog_ui.ui:420
 #, kde-format
 msgid "Use as default"
-msgstr "Gunakan sebagai default"
+msgstr "Gunakan sebagai baku"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ProjectSettings_UI)
 #: src/ui/projectsettings_ui.ui:18
@@ -20383,7 +20392,7 @@ msgstr "Fungsikan"
 #: src/ui/renderwidget_ui.ui:581
 #, kde-format
 msgid "Overlay:"
-msgstr "Overlay:"
+msgstr "Hamparan:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, stemAudioExport)
 #: src/ui/renderwidget_ui.ui:607
