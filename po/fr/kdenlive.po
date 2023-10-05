@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-04 00:42+0000\n"
-"PO-Revision-Date: 2023-09-30 11:08+0200\n"
+"POT-Creation-Date: 2023-10-05 00:42+0000\n"
+"PO-Revision-Date: 2023-10-04 07:51+0200\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -25,10 +25,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
-"X-Text-Markup: kde4\n"
+"X-Environment: kde\n"
 "X-Generator: Lokalize 23.08.1\n"
+"X-Text-Markup: kde4\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4468,30 +4468,30 @@ msgid ""
 "You need to select 2 clips (the replacement clip and the original clip) for "
 "timeline replacement."
 msgstr ""
+"Vous devez sélectionner 2 vidéos  (La vidéo  de remplacement et la vidéo "
+"d'origine) pour le remplacement dans la frise chronologique."
 
 #: src/bin/bin.cpp:1944
-#, fuzzy, kde-format
-#| msgid ""
-#| "Delete clip <b>%2</b>?<br />This will also remove the clip in timeline"
-#| msgid_plural ""
-#| "Delete clip <b>%2</b>?<br />This will also remove its %1 clips in timeline"
+#, kde-format
 msgid "The current clip <b>%1</b> is not inserted in the active timeline."
 msgstr ""
-"Supprimer le clip <b>%2</b> ?<br/>Cela supprimera aussi le clip dans le "
-"montage"
+"La vidéo courante <b>%1</b> n'est pas insérée dans la frise chronologique "
+"active."
 
 #: src/bin/bin.cpp:1949
-#, fuzzy, kde-format
-#| msgid "You cannot insert a sequence containing itself"
+#, kde-format
 msgid "You cannot insert the sequence <b>%1</b> into itself."
 msgstr ""
-"Il vous est impossible d'insérer une séquence à l'intérieur d'elle-même."
+"Il vous est impossible d'insérer une séquence <b>%1</b> à l'intérieur d'elle-"
+"même."
 
 #: src/bin/bin.cpp:1968
 #, kde-format
 msgid ""
 "The selected clips %1 and %2 don't match, cannot replace audio nor video"
 msgstr ""
+"Les vidéos sélectionnées %1 et %2 ne correspondent pas. Il est impossible de "
+"remplacer ni l'audio ni la vidéo."
 
 #: src/bin/bin.cpp:1979
 #, kde-format
@@ -4499,6 +4499,9 @@ msgid ""
 "Replacing instances of clip <b>%1</b> (%2)<br/>in active timeline\n"
 "with clip <b>%3</b> (%4)"
 msgstr ""
+"Remplacement des instances de vidéos <b>%1</b> (%2) <br/> dans la frise "
+"chronologique active\n"
+"avec la vidéo <b>%3</b> (%4)"
 
 #: src/bin/bin.cpp:1984
 #, kde-format
@@ -4506,18 +4509,19 @@ msgid ""
 "Replacing instances of clip <b>%1</b><br/>in active timeline\n"
 "with clip <b>%2</b>"
 msgstr ""
+"Remplacement des instances de vidéo <b>%1</b><br/> dans la frise "
+"chronologique\n"
+"avec la vidéo <b>%2</b>"
 
 #: src/bin/bin.cpp:1986 src/timeline2/model/timelineitemmodel.cpp:909
-#, fuzzy, kde-format
-#| msgid "Record audio"
+#, kde-format
 msgid "Replace audio"
-msgstr "Enregistrer le son"
+msgstr "Remplacer l'audio"
 
 #: src/bin/bin.cpp:1989 src/timeline2/model/timelineitemmodel.cpp:909
-#, fuzzy, kde-format
-#| msgid "Restore video"
+#, kde-format
 msgid "Replace video"
-msgstr "Restaurer une vidéo"
+msgstr "Remplacer une vidéo"
 
 #: src/bin/bin.cpp:1999
 #, kde-format
@@ -4525,19 +4529,22 @@ msgid ""
 "Replacement clip is shorter than source clip.<br><b>Some clips in timeline "
 "might not be replaced</b>"
 msgstr ""
+"La vidéo de remplacement est plus courte que la vidéo source. "
+"<br><b>Certaines vidéos dans la frise chronologique pourraient ne pas être "
+"remplacées.</b>"
 
 #: src/bin/bin.cpp:2002
 #, kde-format
 msgid "Replacement clip duration is longer that your source clip"
 msgstr ""
+"La durée de la vidéo de remplacement est plus longue que celle de la vidéo "
+"source"
 
 #: src/bin/bin.cpp:2037
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Open Replacement File"
+#, kde-format
 msgctxt "@title:window"
 msgid "Open Replacement for %1"
-msgstr "Ouvrir un fichier de remplacement"
+msgstr "Ouvrir un fichier de remplacement pour %1"
 
 #: src/bin/bin.cpp:2071
 #, kde-format
@@ -4545,6 +4552,8 @@ msgid ""
 "Replacement clip does not contain a video stream. Do you want to replace "
 "only the audio component of this clip in the active timeline ?"
 msgstr ""
+"La vidéo de remplacement ne contient aucun flux vidéo. Voulez-vous remplacer "
+"uniquement la piste audio de cette vidéo dans la frise chronologique active ?"
 
 #: src/bin/bin.cpp:2076
 #, kde-format
@@ -4552,6 +4561,8 @@ msgid ""
 "Replacement clip does not contain an audio stream. Do you want to replace "
 "only the video component of this clip in the active timeline ?"
 msgstr ""
+"La vidéo de remplacement ne contient aucun flux audio. Voulez-vous remplacer "
+"uniquement la piste vidéo de cette vidéo dans la frise chronologique active ?"
 
 #: src/bin/bin.cpp:2080 src/bin/bin.cpp:2106
 #, kde-format
@@ -4559,12 +4570,13 @@ msgid ""
 "You cannot replace a clip with a different type of clip (audio/video not "
 "matching)."
 msgstr ""
+"Il est impossible de remplacer une vidéo avec un autre type de vidéo "
+"(L'audio et la vidéo ne correspondent pas)."
 
 #: src/bin/bin.cpp:2083
-#, fuzzy, kde-format
-#| msgid "Main timeline"
+#, kde-format
 msgid "Replace in timeline"
-msgstr "Montage principal"
+msgstr "Remplacer dans la frise chronologique"
 
 #: src/bin/bin.cpp:2104 src/bin/bin.cpp:5691 src/bin/clipcreator.cpp:326
 #, kde-format
@@ -4838,10 +4850,9 @@ msgid "Replace Clip…"
 msgstr "Remplacer une vidéo..."
 
 #: src/bin/bin.cpp:3628
-#, fuzzy, kde-format
-#| msgid "Replace Clip…"
+#, kde-format
 msgid "Replace Clip In Timeline…"
-msgstr "Remplacer une vidéo..."
+msgstr "Remplacer une vidéo dans la frise chronologique..."
 
 #: src/bin/bin.cpp:3633
 #, kde-format
@@ -6116,15 +6127,16 @@ msgid "Duplicate Clip with Speed Change…"
 msgstr "Dupliquer la vidéo avec une modification de vitesse"
 
 #: src/dialogs/clipjobmanager.cpp:249
-#, fuzzy, kde-format
-#| msgid "Missing clip"
+#, kde-format
 msgid "Missing executable"
-msgstr "Clip manquant"
+msgstr "Exécutable manquant"
 
 #: src/dialogs/clipjobmanager.cpp:252
 #, kde-format
 msgid "Your script or application %1 is not executable, change permissions"
 msgstr ""
+"Votre script ou application %1 n'est pas exécutable. Veuillez modifier les "
+"autorisations."
 
 #: src/dialogs/clipjobmanager.cpp:279
 #, kde-format
@@ -13950,17 +13962,14 @@ msgid "Cannot perform assign"
 msgstr "Impossible de réaliser une assignation"
 
 #: src/project/projectmanager.cpp:65
-#, fuzzy, kde-format
-#| msgid "Render Project"
+#, kde-format
 msgid "Kdenlive Project"
-msgstr "Rendu du projet"
+msgstr "Projet sous Kdenlive"
 
 #: src/project/projectmanager.cpp:67
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Archive Project"
+#, kde-format
 msgid "Archived Project"
-msgstr "Archiver un projet"
+msgstr "Projet archivé"
 
 #: src/project/projectmanager.cpp:140
 #, kde-format
@@ -15979,27 +15988,25 @@ msgstr ""
 #: src/timeline2/model/timelineitemmodel.cpp:879
 #, kde-format
 msgid "Clips replaced: %1. <b>Clips not replaced: %2</b>"
-msgstr ""
+msgstr "Vidéos remplacées :%1.<b> Vidéos non remplacées : %2 </b>"
 
 #: src/timeline2/model/timelineitemmodel.cpp:881
 #: src/timeline2/model/timelineitemmodel.cpp:905
-#, fuzzy, kde-format
-#| msgid "No clip selected"
+#, kde-format
 msgid "One clip replaced"
 msgid_plural "%1 clips replaced"
-msgstr[0] "Aucun clip sélectionné"
-msgstr[1] "Aucun clip sélectionné"
+msgstr[0] "Une vidéo remplacée"
+msgstr[1] "%1 vidéos remplacées"
 
 #: src/timeline2/model/timelineitemmodel.cpp:903
 #, kde-format
 msgid "Clips replaced: %1, Clips too long: %2"
-msgstr ""
+msgstr "Vidéos remplacées :%1, Vidéos trop longues : %2"
 
 #: src/timeline2/model/timelineitemmodel.cpp:909
-#, fuzzy, kde-format
-#| msgid "Replace Clip…"
+#, kde-format
 msgid "Replace clip"
-msgstr "Remplacer une vidéo..."
+msgstr "Remplacer une vidéo"
 
 # unreviewed-context
 #: src/timeline2/model/timelinemodel.cpp:944
@@ -16229,14 +16236,14 @@ msgstr "Changer la vitesse du clip"
 
 #: src/timeline2/model/timelinemodel.cpp:6291
 #: src/timeline2/view/qml/timeline.qml:1187
-#: src/timeline2/view/qml/TrackHead.qml:505
+#: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Lock track"
 msgstr "Piste verrouillée"
 
 #: src/timeline2/model/timelinemodel.cpp:6296
 #: src/timeline2/view/qml/timeline.qml:1187
-#: src/timeline2/view/qml/TrackHead.qml:505
+#: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Unlock track"
 msgstr "Déverrouiller la piste"
@@ -16528,14 +16535,14 @@ msgid "Speech recognition"
 msgstr "Reconnaissance vocale"
 
 #: src/timeline2/view/qml/timeline.qml:1163
-#: src/timeline2/view/qml/TrackHead.qml:471
+#: src/timeline2/view/qml/TrackHead.qml:470
 #, kde-format
 msgid "Show"
 msgstr "Afficher"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
 #: src/timeline2/view/qml/timeline.qml:1163
-#: src/timeline2/view/qml/TrackHead.qml:471 src/ui/configcapture_ui.ui:397
+#: src/timeline2/view/qml/TrackHead.qml:470 src/ui/configcapture_ui.ui:397
 #, kde-format
 msgid "Hide"
 msgstr "Masquer"
@@ -16571,7 +16578,7 @@ msgstr "%1%2, Durée = %3"
 msgid "Adjusting speed"
 msgstr "Ajustement de la vitesse"
 
-#: src/timeline2/view/qml/TrackHead.qml:189
+#: src/timeline2/view/qml/TrackHead.qml:188
 #, kde-format
 msgid ""
 "Click to toggle track as target. Target tracks will receive the inserted "
@@ -16580,23 +16587,23 @@ msgstr ""
 "Cliquer pour définir la piste comme cible ou non. Les pistes cibles "
 "recevront les clips insérés"
 
-#: src/timeline2/view/qml/TrackHead.qml:276
+#: src/timeline2/view/qml/TrackHead.qml:275
 #, kde-format
 msgid ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
 msgstr "<b>Maj</b> pour réduire / développer toutes les pistes (audio / video)"
 
-#: src/timeline2/view/qml/TrackHead.qml:296
+#: src/timeline2/view/qml/TrackHead.qml:295
 #, kde-format
 msgid "Minimize"
 msgstr "Réduire"
 
-#: src/timeline2/view/qml/TrackHead.qml:296
+#: src/timeline2/view/qml/TrackHead.qml:295
 #, kde-format
 msgid "Expand"
 msgstr "Développer"
 
-#: src/timeline2/view/qml/TrackHead.qml:335
+#: src/timeline2/view/qml/TrackHead.qml:334
 #, kde-format
 msgid ""
 "Click to make track active/inactive. Active tracks will react to editing "
@@ -16605,32 +16612,32 @@ msgstr ""
 "Cliquer pour rendre la piste active / inactive. Les pistes active réagiront "
 "aux opérations de montage"
 
-#: src/timeline2/view/qml/TrackHead.qml:441
+#: src/timeline2/view/qml/TrackHead.qml:440
 #, kde-format
 msgid "Disable track effects"
 msgstr "Désactiver les effets sur les pistes"
 
-#: src/timeline2/view/qml/TrackHead.qml:441
+#: src/timeline2/view/qml/TrackHead.qml:440
 #, kde-format
 msgid "Enable track effects"
 msgstr "Activer les effets sur les pistes"
 
-#: src/timeline2/view/qml/TrackHead.qml:441
+#: src/timeline2/view/qml/TrackHead.qml:440
 #, kde-format
 msgid "Toggle track effects"
 msgstr "Basculer les effets sur les pistes"
 
-#: src/timeline2/view/qml/TrackHead.qml:471
+#: src/timeline2/view/qml/TrackHead.qml:470
 #, kde-format
 msgid "Unmute"
 msgstr "Remettre le son"
 
-#: src/timeline2/view/qml/TrackHead.qml:471
+#: src/timeline2/view/qml/TrackHead.qml:470
 #, kde-format
 msgid "Mute"
 msgstr "Muet"
 
-#: src/timeline2/view/qml/TrackHead.qml:576
+#: src/timeline2/view/qml/TrackHead.qml:575
 #, kde-format
 msgid "Edit track name"
 msgstr "Modifier le nom de la piste"
@@ -17333,10 +17340,9 @@ msgid "Load Title"
 msgstr "Charger le titre"
 
 #: src/titler/titlewidget.cpp:2138
-#, fuzzy, kde-format
-#| msgid "Kdenlive"
+#, kde-format
 msgid "Kdenlive title"
-msgstr "Kdenlive"
+msgstr "Title sous Kdenlive"
 
 #: src/titler/titlewidget.cpp:2184
 #, kde-format
