@@ -10,9 +10,9 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-04 02:25+0000\n"
-"PO-Revision-Date: 2023-09-27 13:03+0200\n"
+"PO-Revision-Date: 2023-10-04 10:55+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
-"Language-Team: \n"
+"Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -13737,17 +13737,14 @@ msgid "Cannot perform assign"
 msgstr "Kan toekennen niet uitvoeren"
 
 #: src/project/projectmanager.cpp:65
-#, fuzzy, kde-format
-#| msgid "Render Project"
+#, kde-format
 msgid "Kdenlive Project"
-msgstr "Render project"
+msgstr "Kdenlive-project"
 
 #: src/project/projectmanager.cpp:67
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Archive Project"
+#, kde-format
 msgid "Archived Project"
-msgstr "Project archiveren"
+msgstr "Gearchiveerd project"
 
 #: src/project/projectmanager.cpp:140
 #, kde-format
@@ -17050,10 +17047,9 @@ msgid "Load Title"
 msgstr "Haal titel op"
 
 #: src/titler/titlewidget.cpp:2136
-#, fuzzy, kde-format
-#| msgid "Kdenlive"
+#, kde-format
 msgid "Kdenlive title"
-msgstr "Kdenlive"
+msgstr "Kdenlive-titel"
 
 #: src/titler/titlewidget.cpp:2182
 #, kde-format
