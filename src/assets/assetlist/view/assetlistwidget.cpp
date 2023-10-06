@@ -105,7 +105,6 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
     showInfo->setCheckable(true);
     showInfo->setIcon(QIcon::fromTheme(QStringLiteral("help-about")));
     showInfo->setToolTip(m_isEffect ? i18n("Show/hide description of the effects") : i18n("Show/hide description of the compositions"));
-    connect(showInfo, &QAction::triggered, this, [this, showInfo]() { m_textEdit->setVisible(showInfo->isChecked()); });
     m_toolbar->addAction(showInfo);
     m_lay->addWidget(m_toolbar);
 
@@ -121,10 +120,10 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
     connect(m_searchLine, &QLineEdit::textChanged, this, [this](const QString &str) { setFilterName(str); });
     m_lay->addWidget(m_searchLine);
 
-    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     setAcceptDrops(true);
     m_effectsTree = new QTreeView(this);
-    m_effectsTree->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
+    m_effectsTree->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     m_effectsTree->setHeaderHidden(true);
     m_effectsTree->setAlternatingRowColors(true);
     m_effectsTree->setRootIsDecorated(true);
@@ -142,7 +141,14 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
     m_lay->addWidget(viewSplitter);
     viewSplitter->setStretchFactor(0, 4);
     viewSplitter->setStretchFactor(1, 2);
-    m_textEdit->setVisible(false);
+    viewSplitter->setSizes({50, 0});
+    connect(showInfo, &QAction::triggered, this, [showInfo, viewSplitter]() {
+        if (showInfo->isChecked()) {
+            viewSplitter->setSizes({50, 20});
+        } else {
+            viewSplitter->setSizes({50, 0});
+        }
+    });
 }
 
 AssetListWidget::~AssetListWidget() {}
