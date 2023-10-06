@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-04 02:25+0000\n"
-"PO-Revision-Date: 2023-09-02 08:34+0200\n"
+"PO-Revision-Date: 2023-10-05 20:07+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -13672,17 +13672,14 @@ msgid "Cannot perform assign"
 msgstr "Kan inte utföra tilldelning"
 
 #: src/project/projectmanager.cpp:65
-#, fuzzy, kde-format
-#| msgid "Render Project"
+#, kde-format
 msgid "Kdenlive Project"
-msgstr "Återge projekt"
+msgstr "Kdenlive-projekt"
 
 #: src/project/projectmanager.cpp:67
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Archive Project"
+#, kde-format
 msgid "Archived Project"
-msgstr "Arkivera projekt"
+msgstr "Arkiverat projekt"
 
 #: src/project/projectmanager.cpp:140
 #, kde-format
@@ -16968,10 +16965,9 @@ msgid "Load Title"
 msgstr "Läs in titel"
 
 #: src/titler/titlewidget.cpp:2136
-#, fuzzy, kde-format
-#| msgid "Kdenlive"
+#, kde-format
 msgid "Kdenlive title"
-msgstr "Kdenlive"
+msgstr "Kdenlive-titel"
 
 #: src/titler/titlewidget.cpp:2182
 #, kde-format
