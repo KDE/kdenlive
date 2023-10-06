@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-05 00:42+0000\n"
-"PO-Revision-Date: 2023-10-01 15:04+0200\n"
+"PO-Revision-Date: 2023-10-05 20:09+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -6050,15 +6050,14 @@ msgid "Duplicate Clip with Speed Change…"
 msgstr "Duplicera klipp med hastighetsändring…"
 
 #: src/dialogs/clipjobmanager.cpp:249
-#, fuzzy, kde-format
-#| msgid "Missing clip"
+#, kde-format
 msgid "Missing executable"
-msgstr "Saknar klipp"
+msgstr "Saknar körbar fil"
 
 #: src/dialogs/clipjobmanager.cpp:252
 #, kde-format
 msgid "Your script or application %1 is not executable, change permissions"
-msgstr ""
+msgstr "Skriptet eller programmet %1 är inte körbart, ändra rättigheter"
 
 #: src/dialogs/clipjobmanager.cpp:279
 #, kde-format
