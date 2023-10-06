@@ -38,7 +38,8 @@
 #include <KSqueezedTextLabel>
 #include <QComboBox>
 
-CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemModel> &effectModel, QSize frameSize, const QImage &icon, QWidget *parent)
+CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const std::shared_ptr<EffectItemModel> &effectModel, QSize frameSize,
+                                             const QPixmap &icon, QWidget *parent)
     : AbstractCollapsibleWidget(parent)
     , m_view(nullptr)
     , m_model(effectModel)
@@ -46,7 +47,6 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     , m_dragging(false)
 {
     QString effectId = effectModel->getAssetId();
-    QString effectName = EffectsRepository::get()->getName(effectId);
     buttonUp->setIcon(QIcon::fromTheme(QStringLiteral("selection-raise")));
     buttonUp->setToolTip(i18n("Move effect up"));
     buttonUp->setWhatsThis(xi18nc(
@@ -191,7 +191,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
 
     // Color thumb
     m_colorIcon->setScaledContents(true);
-    m_colorIcon->setPixmap(QPixmap::fromImage(icon));
+    m_colorIcon->setPixmap(icon);
     title->setText(effectName);
     frame->setMinimumHeight(collapseButton->sizeHint().height());
 

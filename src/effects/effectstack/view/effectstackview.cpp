@@ -4,12 +4,13 @@
 */
 
 #include "effectstackview.hpp"
-#include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
+#include "assets/assetlist/view/asseticonprovider.hpp"
 #include "assets/assetpanel.hpp"
 #include "assets/view/assetparameterview.hpp"
 #include "builtstack.hpp"
 #include "collapsibleeffectview.hpp"
 #include "core.h"
+#include "effects/effectsrepository.hpp"
 #include "effects/effectstack/model/effectitemmodel.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "kdenlivesettings.h"
@@ -77,7 +78,7 @@ void WidgetDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option
 EffectStackView::EffectStackView(AssetPanel *parent)
     : QWidget(parent)
     , m_model(nullptr)
-    , m_thumbnailer(new AssetIconProvider(true))
+    , m_thumbnailer(new AssetIconProvider(true, this))
 {
     m_lay = new QVBoxLayout(this);
     m_lay->setContentsMargins(0, 0, 0, 0);
@@ -272,11 +273,8 @@ void EffectStackView::loadEffects()
     bool hasLift = false;
     QModelIndex activeIndex;
     connect(&m_timerHeight, &QTimer::timeout, this, &EffectStackView::updateTreeHeight, Qt::UniqueConnection);
-    int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
-    const QSize iconSize(size, size);
     for (int i = 0; i < max; i++) {
         std::shared_ptr<AbstractEffectItem> item = m_model->getEffectStackRow(i);
-        QSize size;
         if (item->childCount() > 0) {
             // group, create sub stack
             continue;
@@ -287,8 +285,11 @@ void EffectStackView::loadEffects()
         if (effectModel->getAssetId() == QLatin1String("lift_gamma_gain")) {
             hasLift = true;
         }
-        QImage effectIcon = m_thumbnailer->requestImage(effectModel->getAssetId(), &size, iconSize);
-        view = new CollapsibleEffectView(effectModel, m_sourceFrameSize, effectIcon, this);
+        const QString assetName = EffectsRepository::get()->getName(effectModel->getAssetId());
+        QPixmap effectIcon = m_thumbnailer->makePixmap(
+            assetName + QLatin1String("/") +
+            (effectModel->isAudio() ? QString::number(int(AssetListType::AssetType::Audio)) : QString::number(int(AssetListType::AssetType::Video))));
+        view = new CollapsibleEffectView(assetName, effectModel, m_sourceFrameSize, effectIcon, this);
         connect(view, &CollapsibleEffectView::deleteEffect, m_model.get(), &EffectStackModel::removeEffect);
         connect(view, &CollapsibleEffectView::moveEffect, m_model.get(), &EffectStackModel::moveEffect);
         connect(view, &CollapsibleEffectView::reloadEffect, this, &EffectStackView::reloadEffect);

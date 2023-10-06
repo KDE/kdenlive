@@ -14,15 +14,13 @@
     @brief \@todo Describe class AssetIconProvider
     @todo Describe class AssetIconProvider
  */
-class AssetIconProvider : public QQuickImageProvider
+class AssetIconProvider : public QObject
 {
 public:
-    explicit AssetIconProvider(bool effect);
-    QImage requestImage(const QString &name, QSize *size, const QSize &requestedSize) override;
+    explicit AssetIconProvider(bool effect, QObject *parent);
+    const QPixmap makePixmap(const QString &effectName);
 
 private:
-    QImage makeIcon(const QString &effectName, const QSize &size);
-    std::unique_ptr<KImageCache> m_cache;
-
+    QImage makeIcon(const QString &effectName);
     bool m_effect;
 };

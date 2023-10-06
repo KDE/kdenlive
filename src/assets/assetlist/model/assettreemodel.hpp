@@ -6,6 +6,7 @@
 #pragma once
 
 #include "abstractmodel/abstracttreemodel.hpp"
+#include "assets/assetlist/view/asseticonprovider.hpp"
 
 /** @brief This class represents an effect hierarchy to be displayed as a tree
  */
@@ -34,6 +35,8 @@ public:
     virtual void setFavorite(const QModelIndex &index, bool favorite, bool isEffect) = 0;
     virtual void deleteEffect(const QModelIndex &index) = 0;
     virtual void editCustomAsset(const QString &newName, const QString &newDescription, const QModelIndex &index) = 0;
+    Qt::ItemFlags flags(const QModelIndex &index) const override;
 
 protected:
+    AssetIconProvider *m_assetIconProvider;
 };

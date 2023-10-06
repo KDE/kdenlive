@@ -7,6 +7,7 @@
 #include "abstractmodel/treeitem.hpp"
 #include "effects/effectsrepository.hpp"
 #include "transitions/transitionsrepository.hpp"
+#include <QIcon>
 
 AssetTreeModel::AssetTreeModel(QObject *parent)
     : AbstractTreeModel(parent)
@@ -33,6 +34,16 @@ QString AssetTreeModel::getName(const QModelIndex &index) const
         return item->dataColumn(0).toString();
     }
     return item->dataColumn(AssetTreeModel::NameCol).toString();
+}
+
+Qt::ItemFlags AssetTreeModel::flags(const QModelIndex &index) const
+{
+    if (!index.isValid()) return Qt::ItemFlags();
+    std::shared_ptr<TreeItem> item = getItemById(int(index.internalId()));
+    if (item->dataColumn(AssetTreeModel::IdCol) == QStringLiteral("root")) {
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+    }
+    return Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
 
 bool AssetTreeModel::isFavorite(const QModelIndex &index) const
@@ -83,6 +94,13 @@ QVariant AssetTreeModel::data(const QModelIndex &index, int role) const
     case NameRole:
     case Qt::DisplayRole:
         return item->dataColumn(index.column());
+    case Qt::DecorationRole: {
+        if (item->dataColumn(AssetTreeModel::IdCol).toString() == QLatin1String("root")) {
+            return QIcon();
+        }
+        return QIcon(m_assetIconProvider->makePixmap(item->dataColumn(0).toString() + QLatin1String("/") +
+                                                     QString::number(item->dataColumn(AssetTreeModel::TypeCol).toInt())));
+    }
     default:
         return QVariant();
     }

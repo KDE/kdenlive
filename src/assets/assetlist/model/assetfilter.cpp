@@ -87,6 +87,9 @@ bool AssetFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParen
 bool AssetFilter::isVisible(const QModelIndex &sourceIndex)
 {
     auto parent = sourceModel()->parent(sourceIndex);
+    if (sourceIndex.row() < 0) {
+        return false;
+    }
     return filterAcceptsRow(sourceIndex.row(), parent);
 }
 

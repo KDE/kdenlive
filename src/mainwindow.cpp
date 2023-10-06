@@ -915,14 +915,6 @@ void MainWindow::slotThemeChanged(const QString &name)
     if (m_assetPanel) {
         m_assetPanel->updatePalette();
     }
-    if (m_effectList2) {
-        // Trigger a repaint to have icons adapted
-        m_effectList2->reset();
-    }
-    if (m_compositionList) {
-        // Trigger a repaint to have icons adapted
-        m_compositionList->reset();
-    }
     if (m_clipMonitor) {
         m_clipMonitor->setPalette(plt);
     }
