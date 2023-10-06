@@ -16,9 +16,30 @@
 #include <QMenu>
 #include <QSplitter>
 #include <QStandardPaths>
+#include <QStyledItemDelegate>
 #include <QTextEdit>
 #include <QToolBar>
 #include <QVBoxLayout>
+
+class AssetDelegate : public QStyledItemDelegate
+{
+public:
+    using QStyledItemDelegate::QStyledItemDelegate;
+
+protected:
+    void initStyleOption(QStyleOptionViewItem *option, const QModelIndex &index) const override
+    {
+        int favorite = index.data(AssetTreeModel::FavoriteRole).toInt();
+        QStyledItemDelegate::initStyleOption(option, index);
+        if (favorite > 0) {
+            QFont font(option->font);
+            /*modify fonts*/
+            font.setBold(true);
+            option->font = font;
+            option->fontMetrics = QFontMetrics(font);
+        }
+    }
+};
 
 AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
     : QWidget(parent)
@@ -129,6 +150,7 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
     m_effectsTree->setRootIsDecorated(true);
     m_effectsTree->setDragEnabled(true);
     m_effectsTree->setDragDropMode(QAbstractItemView::DragDrop);
+    m_effectsTree->setItemDelegate(new AssetDelegate);
     connect(m_effectsTree, &QTreeView::doubleClicked, this, &AssetListWidget::activate);
     m_effectsTree->installEventFilter(this);
     m_effectsTree->setContextMenuPolicy(Qt::CustomContextMenu);
