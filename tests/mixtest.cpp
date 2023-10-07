@@ -254,8 +254,8 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         // CID 3 length=20, pos=500, CID4 length=20, pos=520, CID5 length=20, pos=540
         // Default mix duration = 25 frames (12 before / 13 after)
 
+        REQUIRE(timeline->mixClip(cid3));
         REQUIRE(timeline->mixClip(cid4));
-        REQUIRE(timeline->mixClip(cid5));
         REQUIRE(timeline->getClipPosition(cid5) < 540);
         undoStack->undo();
         REQUIRE(timeline->getClipPosition(cid5) == 540);
@@ -326,10 +326,11 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
     SECTION("Create and delete mix on AV clips")
     {
         state0();
+        // Clips are cid1 at 100, cid2 at 110
         REQUIRE(timeline->requestItemResize(cid2, 30, true, true) == 30);
         REQUIRE(timeline->requestItemResize(cid2, 10, false, true) == 10);
         REQUIRE(timeline->requestClipMove(cid2, tid2, 110));
-        REQUIRE(timeline->mixClip(cid2));
+        REQUIRE(timeline->mixClip(cid1));
         state1();
         undoStack->undo();
         state0();
@@ -398,13 +399,13 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
 
         // Create mix between cid1 and cid2
         REQUIRE(timeline->m_allClips[cid2]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->mixClip(cid2));
+        REQUIRE(timeline->mixClip(cid1));
         state1b();
         REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid2) == false);
         REQUIRE(timeline->getTrackById_const(tid3)->mixIsReversed(audio2) == false);
 
         // Create mix between cid2 and cid5
-        REQUIRE(timeline->mixClip(cid5));
+        REQUIRE(timeline->mixClip(cid2));
         REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid2) == false);
         REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid5) == true);
         REQUIRE(timeline->getTrackById_const(tid3)->mixIsReversed(audio2) == false);
@@ -429,7 +430,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         state0();
         // CID 3 length=20, pos=500, CID4 length=20, pos=520
         // Default mix duration = 25 frames (12 before / 13 after)
-        REQUIRE(timeline->mixClip(cid4));
+        REQUIRE(timeline->mixClip(cid3));
         state2();
         // Resize left clip, should resize the mix
         REQUIRE(timeline->requestItemResize(cid3, 24, true, true) == 24);
@@ -519,7 +520,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->requestClipMove(cid2, tid2, 130));
         REQUIRE(timeline->requestItemResize(cid1, 30, true, true) == 30);
 
-        REQUIRE(timeline->mixClip(cid2));
+        REQUIRE(timeline->mixClip(cid1));
         state3();
         // CID 1 length=30, pos=100, CID2 length=30, pos=130
         // Default mix duration = 25 frames (12 before / 13 after)
@@ -601,7 +602,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         // Cid7 pos=600, duration=20
 
         // Mix 3 and 4
-        REQUIRE(timeline->mixClip(cid4));
+        REQUIRE(timeline->mixClip(cid3));
         REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
         REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
         REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
@@ -610,7 +611,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
 
         // Mix 6 and 7
-        REQUIRE(timeline->mixClip(cid7));
+        REQUIRE(timeline->mixClip(cid6));
         REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
         REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
         REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
@@ -619,7 +620,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 2);
 
         // Mix 5 and 6
-        REQUIRE(timeline->mixClip(cid6));
+        REQUIRE(timeline->mixClip(cid5));
         REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
         REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
         REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
@@ -727,19 +728,19 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         };
 
         // Mix 4 and 5
-        REQUIRE(timeline->mixClip(cid5));
+        REQUIRE(timeline->mixClip(cid4));
         mix0();
 
         // Mix 5 and 6
-        REQUIRE(timeline->mixClip(cid6));
+        REQUIRE(timeline->mixClip(cid5));
         mix1();
 
         // Mix 6 and 7
-        REQUIRE(timeline->mixClip(cid7));
+        REQUIRE(timeline->mixClip(cid6));
         mix2();
 
         // Mix 3 and 4, this will revert all subsequent mixes
-        REQUIRE(timeline->mixClip(cid4));
+        REQUIRE(timeline->mixClip(cid3));
         mix3();
 
         // Undo mix 3 and 4
@@ -753,7 +754,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         mix2();
 
         // Mix 3 and 4, this will revert all subsequent mixes
-        REQUIRE(timeline->mixClip(cid4));
+        REQUIRE(timeline->mixClip(cid3));
         mix3();
 
         // Undo mix 3 and 4
@@ -767,7 +768,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         mix2();
 
         // Mix 3 and 4, this will revert all subsequent mixes
-        REQUIRE(timeline->mixClip(cid4));
+        REQUIRE(timeline->mixClip(cid3));
         mix3();
 
         // Undo mix 3 and 4
@@ -893,19 +894,19 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         };
 
         // Mix 4 and 5
-        REQUIRE(timeline->mixClip(cid5));
+        REQUIRE(timeline->mixClip(cid4));
         mix0();
 
         // Mix 5 and 6
-        REQUIRE(timeline->mixClip(cid6));
+        REQUIRE(timeline->mixClip(cid5));
         mix1();
 
         // Mix 6 and 7
-        REQUIRE(timeline->mixClip(cid7));
+        REQUIRE(timeline->mixClip(cid6));
         mix2();
 
         // Mix 3 and 4, this will revert all subsequent mixes
-        REQUIRE(timeline->mixClip(cid4));
+        REQUIRE(timeline->mixClip(cid3));
         mix3();
 
         // Move everything to another track
