@@ -1281,7 +1281,7 @@ void KdenliveDoc::updateProjectFolderPlacesEntry()
 #if QT_VERSION_MAJOR < 6
     KBookmarkManager *bookmarkManager = KBookmarkManager::managerForExternalFile(file);
 #else
-    KBookmarkManager *bookmarkManager = KBookmarkManager::managerForFile(file);
+    std::unique_ptr<KBookmarkManager> bookmarkManager = std::make_unique<KBookmarkManager>(file);
 #endif
     if (!bookmarkManager) {
         return;
