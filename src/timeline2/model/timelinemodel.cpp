@@ -1444,6 +1444,11 @@ QVariantList TimelineModel::suggestClipMove(int clipId, int trackId, int positio
             position = snapped;
         }
     }
+    position = qMax(0, position);
+    if (currentPos == position && sourceTrackId == trackId) {
+        TRACE_RES(position);
+        return {position, trackId};
+    }
     bool isInGroup = m_groups->isInGroup(clipId);
     if (sourceTrackId == trackId) {
         // Same track move, check if there is a mix and limit move
@@ -1653,6 +1658,11 @@ QVariantList TimelineModel::suggestCompositionMove(int compoId, int trackId, int
         if (snapped >= 0) {
             position = snapped;
         }
+    }
+    position = qMax(0, position);
+    if (currentPos == position && currentTrack == trackId) {
+        TRACE_RES(position);
+        return {position, trackId};
     }
     // we check if move is possible
     bool possible = requestCompositionMove(compoId, trackId, position, true, false);
