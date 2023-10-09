@@ -95,11 +95,6 @@ Item {
         // Animate clip name
         clipNameLabel.opacity = 1
         showAnimate.restart()
-        // Reset zoom on clip change
-        root.zoomStart = 0
-        root.zoomFactor = 1
-        root.showZoomBar = false
-        root.zoomOffset = 0
 
         // adjust monitor image size if audio thumb is displayed
         if (audioThumb.stateVisible && root.permanentAudiothumb && audioThumb.visible) {

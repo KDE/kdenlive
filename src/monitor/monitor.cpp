@@ -1732,6 +1732,17 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
 {
     if (m_controller) {
         m_glMonitor->resetZoneMode();
+        // store last audiothumb zoom / position
+        double zoomFactor = m_glMonitor->rootObject()->property("zoomFactor").toDouble();
+        if (zoomFactor != 1.) {
+            double zoomStart = m_glMonitor->rootObject()->property("zoomStart").toDouble();
+            m_controller->setProducerProperty(QStringLiteral("kdenlive:thumbZoomFactor"), zoomFactor);
+            m_controller->setProducerProperty(QStringLiteral("kdenlive:thumbZoomStart"), zoomStart);
+        } else {
+            m_controller->resetProducerProperty(QStringLiteral("kdenlive:thumbZoomFactor"));
+            m_controller->resetProducerProperty(QStringLiteral("kdenlive:thumbZoomStart"));
+        }
+        m_controller->setProducerProperty(QStringLiteral("kdenlive:monitorPosition"), position());
         disconnect(m_controller.get(), &ProjectClip::audioThumbReady, this, &Monitor::prepareAudioThumb);
         disconnect(m_controller->getMarkerModel().get(), SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &)), this,
                    SLOT(checkOverlay()));
@@ -1820,6 +1831,28 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         if (m_controller->statusReady()) {
             m_timePos->setRange(0, int(m_controller->frameDuration() - 1));
             m_glMonitor->setRulerInfo(int(m_controller->frameDuration() - 1), controller->getFilteredMarkerModel());
+            double audioScale = m_controller->getProducerDoubleProperty(QStringLiteral("kdenlive:thumbZoomFactor"));
+            if (in == out == -1) {
+                // Only apply on bin clip, not sub clips
+                int lastPosition = m_controller->getProducerIntProperty(QStringLiteral("kdenlive:monitorPosition"));
+                if (lastPosition > 0 && lastPosition != m_controller->originalProducer()->position()) {
+                    m_controller->originalProducer()->seek(lastPosition);
+                }
+                if (audioScale > 0. && audioScale != 1.) {
+                    double audioStart = m_controller->getProducerDoubleProperty(QStringLiteral("kdenlive:thumbZoomStart"));
+                    m_glMonitor->rootObject()->setProperty("zoomFactor", audioScale);
+                    m_glMonitor->rootObject()->setProperty("zoomStart", audioStart);
+                    m_glMonitor->rootObject()->setProperty("showZoomBar", true);
+                } else {
+                    m_glMonitor->rootObject()->setProperty("zoomFactor", 1);
+                    m_glMonitor->rootObject()->setProperty("zoomStart", 0);
+                    m_glMonitor->rootObject()->setProperty("showZoomBar", false);
+                }
+            } else {
+                m_glMonitor->rootObject()->setProperty("zoomFactor", 1);
+                m_glMonitor->rootObject()->setProperty("zoomStart", 0);
+                m_glMonitor->rootObject()->setProperty("showZoomBar", false);
+            }
             pCore->guidesList()->setClipMarkerModel(m_controller);
             loadQmlScene(MonitorSceneDefault);
             updateMarkers();
@@ -1866,6 +1899,9 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         loadQmlScene(MonitorSceneDefault);
         m_glMonitor->setProducer(nullptr, isActive(), -1);
         m_glMonitor->getControllerProxy()->setAudioThumb();
+        m_glMonitor->rootObject()->setProperty("zoomFactor", 1);
+        m_glMonitor->rootObject()->setProperty("zoomStart", 0);
+        m_glMonitor->rootObject()->setProperty("showZoomBar", false);
         m_audioMeterWidget->audioChannels = 0;
         m_glMonitor->getControllerProxy()->setClipProperties(-1, ClipType::Unknown, false, QString());
         pCore->guidesList()->setClipMarkerModel(nullptr);
