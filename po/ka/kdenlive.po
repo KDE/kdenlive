@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-08 00:42+0000\n"
-"PO-Revision-Date: 2023-09-29 04:54+0200\n"
+"PO-Revision-Date: 2023-10-08 05:51+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.4\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3088,10 +3088,9 @@ msgid "Reload custom effect"
 msgstr ""
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:68
-#, fuzzy, kde-format
-#| msgid "Edit Info"
+#, kde-format
 msgid "Edit Info…"
-msgstr "ინფორმაციის ჩასწორება"
+msgstr "ინფორმაციის ჩასწორება…"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:73
 #, kde-format
@@ -4281,16 +4280,14 @@ msgid ""
 msgstr ""
 
 #: src/bin/bin.cpp:1986 src/timeline2/model/timelineitemmodel.cpp:909
-#, fuzzy, kde-format
-#| msgid "Record audio"
+#, kde-format
 msgid "Replace audio"
-msgstr "ხმის ჩაწერა"
+msgstr "ხმის ჩანაცვლება"
 
 #: src/bin/bin.cpp:1989 src/timeline2/model/timelineitemmodel.cpp:909
-#, fuzzy, kde-format
-#| msgid "Restore video"
+#, kde-format
 msgid "Replace video"
-msgstr "ვიდეოს აღდგენა"
+msgstr "ვიდეოს ჩანაცვლება"
 
 #: src/bin/bin.cpp:1999
 #, kde-format
@@ -4601,10 +4598,9 @@ msgid "Replace Clip…"
 msgstr "კლიპის ჩანაცვლება…"
 
 #: src/bin/bin.cpp:3628
-#, fuzzy, kde-format
-#| msgid "Replace Clip…"
+#, kde-format
 msgid "Replace Clip In Timeline…"
-msgstr "კლიპის ჩანაცვლება…"
+msgstr "კლიპის ჩანაცვლება დროის ხაზზე…"
 
 #: src/bin/bin.cpp:3633
 #, kde-format
@@ -5825,10 +5821,9 @@ msgid "Duplicate Clip with Speed Change…"
 msgstr ""
 
 #: src/dialogs/clipjobmanager.cpp:249
-#, fuzzy, kde-format
-#| msgid "Executable"
+#, kde-format
 msgid "Missing executable"
-msgstr "გამშვები"
+msgstr "გამშვები ფაილი ვერ ვიპოვე"
 
 #: src/dialogs/clipjobmanager.cpp:252
 #, kde-format
@@ -13179,18 +13174,14 @@ msgid "Cannot perform assign"
 msgstr ""
 
 #: src/project/projectmanager.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Open Archived Project"
+#, kde-format
 msgid "Kdenlive Project"
-msgstr "დაარქივებული პროექტის გახსნა"
+msgstr "Kdenlive-ის პროექტი"
 
 #: src/project/projectmanager.cpp:67
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Open Archived Project"
+#, kde-format
 msgid "Archived Project"
-msgstr "დაარქივებული პროექტის გახსნა"
+msgstr "დაარქივებული პროექტი"
 
 #: src/project/projectmanager.cpp:140
 #, kde-format
@@ -15119,10 +15110,9 @@ msgid "Clips replaced: %1, Clips too long: %2"
 msgstr ""
 
 #: src/timeline2/model/timelineitemmodel.cpp:909
-#, fuzzy, kde-format
-#| msgid "Replace Clip…"
+#, kde-format
 msgid "Replace clip"
-msgstr "კლიპის ჩანაცვლება…"
+msgstr "კლიპის ჩანაცვლება"
 
 #: src/timeline2/model/timelinemodel.cpp:942
 #: src/timeline2/model/timelinemodel.cpp:1147
@@ -16404,10 +16394,9 @@ msgid "Load Title"
 msgstr "სათაურის ჩატვირთვა"
 
 #: src/titler/titlewidget.cpp:2138
-#, fuzzy, kde-format
-#| msgid "Kdenlive"
+#, kde-format
 msgid "Kdenlive title"
-msgstr "Kdenlive"
+msgstr "Kdenlive-ის სათაური"
 
 #: src/titler/titlewidget.cpp:2184
 #, kde-format

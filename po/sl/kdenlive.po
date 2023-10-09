@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-08 00:42+0000\n"
-"PO-Revision-Date: 2023-10-04 15:16+0200\n"
+"PO-Revision-Date: 2023-10-08 16:32+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -3217,10 +3217,9 @@ msgid "Reload custom effect"
 msgstr "Ponovno naloži učinek po meri"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:68
-#, fuzzy, kde-format
-#| msgid "Edit Info"
+#, kde-format
 msgid "Edit Info…"
-msgstr "Uredi informacije"
+msgstr "Uredi informacije …"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:73
 #, kde-format

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-08 00:42+0000\n"
-"PO-Revision-Date: 2023-10-03 06:32+0100\n"
+"PO-Revision-Date: 2023-10-08 12:21+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -3202,10 +3202,9 @@ msgid "Reload custom effect"
 msgstr "Reŝargi propran efekton"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:68
-#, fuzzy, kde-format
-#| msgid "Edit Info"
+#, kde-format
 msgid "Edit Info…"
-msgstr "Redakti Informojn"
+msgstr "Redakti Informon…"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:73
 #, kde-format
