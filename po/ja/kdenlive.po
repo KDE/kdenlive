@@ -17334,10 +17334,9 @@ msgid ""
 msgstr ""
 
 #: src/timeline2/view/timelinetabs.cpp:214
-#, fuzzy, kde-format
-#| msgid "Close"
+#, kde-format
 msgid "Close %1"
-msgstr "閉じる"
+msgstr "%1 を閉じる"
 
 #: src/timeline2/view/timelinewidget.cpp:73
 #, kde-format
@@ -22329,25 +22328,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#, fuzzy
-#~| msgid "Kdenlive project (*.kdenlive)"
-#~ msgid "Kdenlive Project (*.kdenlive)"
-#~ msgstr "Kdenlive プロジェクト (*.kdenlive)"
-
-#, fuzzy
-#~| msgid "Archive Project"
-#~ msgid "Archived Project (*.tar.gz *.zip)"
-#~ msgstr "プロジェクトのアーカイブ(H)"
-
-#~ msgid "Kdenlive title (*.kdenlivetitle)"
-#~ msgstr "Kdenlive タイトル (*.kdenlivetitle)"
-
-#, fuzzy
-#~| msgid "Category %1"
-#~ msgid "Category %1:%2:%3"
-#~ msgstr "カテゴリ %1"
-
-#~ msgctxt "Initial for Master"
-#~ msgid "M"
-#~ msgstr "M"
