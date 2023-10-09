@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-04 02:25+0000\n"
+"POT-Creation-Date: 2023-10-08 02:23+0000\n"
 "PO-Revision-Date: 2017-05-16 07:02-0400\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -4547,7 +4547,7 @@ msgid "Create bin folder"
 msgstr "יצירת תיקייה"
 
 #: src/bin/bin.cpp:2520 src/bin/bin.cpp:2533 src/bin/bin.cpp:3493
-#: src/timeline2/model/timelinemodel.cpp:2049
+#: src/timeline2/model/timelinemodel.cpp:2058
 #, kde-format
 msgid "Delete Clip"
 msgstr "מחק סרטון"
@@ -5362,13 +5362,13 @@ msgid "Cut clip"
 msgstr "חתוך סרטון"
 
 #: src/bin/model/subtitlemodel.cpp:788 src/bin/model/subtitlemodel.cpp:1521
-#: src/timeline2/model/timelinemodel.cpp:3560
+#: src/timeline2/model/timelinemodel.cpp:3569
 #, fuzzy, kde-format
 msgid "Resize subtitle"
 msgstr "מחק סרטון"
 
 #: src/bin/model/subtitlemodel.cpp:984
-#: src/timeline2/model/timelinemodel.cpp:1275
+#: src/timeline2/model/timelinemodel.cpp:1284
 #, fuzzy, kde-format
 #| msgid "Move guide"
 msgid "Move subtitle"
@@ -10677,7 +10677,7 @@ msgstr "הוסף סמן"
 msgid "Export Subtitle File…"
 msgstr "הוסף מנחה"
 
-#: src/mainwindow.cpp:1927 src/timeline2/model/timelinemodel.cpp:2053
+#: src/mainwindow.cpp:1927 src/timeline2/model/timelinemodel.cpp:2062
 #, fuzzy, kde-format
 msgid "Delete Subtitle"
 msgstr "מחק סרטון"
@@ -15543,7 +15543,7 @@ msgid "Delete clips on track"
 msgstr "מחק רצועה"
 
 #: src/timeline2/model/timelineitemmodel.cpp:136
-#: src/timeline2/model/timelinemodel.cpp:4224
+#: src/timeline2/model/timelinemodel.cpp:4233
 #, fuzzy, kde-format
 #| msgid "Insert Track"
 msgctxt "@action"
@@ -15568,149 +15568,149 @@ msgstr "מחק סמן"
 msgid "Could not setup track compositing, check your install"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:938
-#: src/timeline2/model/timelinemodel.cpp:1065
+#: src/timeline2/model/timelinemodel.cpp:936
+#: src/timeline2/model/timelinemodel.cpp:1141
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select a clip to apply the mix"
 msgstr "כלי בחירה"
 
-#: src/timeline2/model/timelinemodel.cpp:1061
+#: src/timeline2/model/timelinemodel.cpp:1139
 #, fuzzy, kde-format
 #| msgid "Start"
 msgid "start"
 msgstr "התחלה"
 
-#: src/timeline2/model/timelinemodel.cpp:1061
+#: src/timeline2/model/timelinemodel.cpp:1139
 #, fuzzy, kde-format
 #| msgid "End"
 msgid "end"
 msgstr "סיום"
 
-#: src/timeline2/model/timelinemodel.cpp:1061
+#: src/timeline2/model/timelinemodel.cpp:1139
 #, kde-format
 msgid "Not enough frames at clip %1 to apply the mix"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1128
+#: src/timeline2/model/timelinemodel.cpp:1145
 #, fuzzy, kde-format
 msgid "Create mix"
 msgstr "חתוך קבוצה"
 
-#: src/timeline2/model/timelinemodel.cpp:1207
-#: src/timeline2/model/timelinemodel.cpp:1237
+#: src/timeline2/model/timelinemodel.cpp:1216
+#: src/timeline2/model/timelinemodel.cpp:1246
 #, kde-format
 msgid "Move clip"
 msgstr "העברת סרטון"
 
-#: src/timeline2/model/timelinemodel.cpp:1727
-#: src/timeline2/model/timelinemodel.cpp:1817
-#: src/timeline2/model/timelinemodel.cpp:1840
-#: src/timeline2/model/timelinemodel.cpp:1863
+#: src/timeline2/model/timelinemodel.cpp:1736
+#: src/timeline2/model/timelinemodel.cpp:1826
+#: src/timeline2/model/timelinemodel.cpp:1849
+#: src/timeline2/model/timelinemodel.cpp:1872
 #, kde-format
 msgid "No available track for insert operation"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1732
+#: src/timeline2/model/timelinemodel.cpp:1741
 #, fuzzy, kde-format
 #| msgid "Insert clip"
 msgid "Insert Clip"
 msgstr "הכנס סרטון"
 
-#: src/timeline2/model/timelinemodel.cpp:1785
+#: src/timeline2/model/timelinemodel.cpp:1794
 #, kde-format
 msgid "You cannot insert a sequence containing itself"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1833
-#: src/timeline2/model/timelinemodel.cpp:1855
+#: src/timeline2/model/timelinemodel.cpp:1842
+#: src/timeline2/model/timelinemodel.cpp:1864
 #, kde-format
 msgid "Not enough audio tracks for all streams (%1)"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1939
+#: src/timeline2/model/timelinemodel.cpp:1948
 #, kde-format
 msgid "No available track for split operation"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1976
+#: src/timeline2/model/timelinemodel.cpp:1985
 #, kde-format
 msgid "Audio split failed: no viable track"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1984
+#: src/timeline2/model/timelinemodel.cpp:1993
 #, kde-format
 msgid "Audio split failed: impossible to create audio clip"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:2046
+#: src/timeline2/model/timelinemodel.cpp:2055
 #, fuzzy, kde-format
 #| msgid "Move group"
 msgid "Remove group"
 msgstr "העבר קבוצה"
 
-#: src/timeline2/model/timelinemodel.cpp:2051
+#: src/timeline2/model/timelinemodel.cpp:2060
 #, fuzzy, kde-format
 msgid "Delete Composition"
 msgstr "מרכב"
 
-#: src/timeline2/model/timelinemodel.cpp:2203
-#: src/timeline2/model/timelinemodel.cpp:2365
+#: src/timeline2/model/timelinemodel.cpp:2212
+#: src/timeline2/model/timelinemodel.cpp:2374
 #: src/timeline2/view/timelinecontroller.cpp:4164
 #, kde-format
 msgid "Move group"
 msgstr "העבר קבוצה"
 
-#: src/timeline2/model/timelinemodel.cpp:3006
+#: src/timeline2/model/timelinemodel.cpp:3015
 #, kde-format
 msgid "Resize group"
 msgstr "שנה גודל קבוצה"
 
-#: src/timeline2/model/timelinemodel.cpp:3130
+#: src/timeline2/model/timelinemodel.cpp:3139
 #, fuzzy, kde-format
 #| msgid "Resize clip end"
 msgid "Resize clip speed"
 msgstr "שנה גודל סוף סרטון"
 
-#: src/timeline2/model/timelinemodel.cpp:3277
+#: src/timeline2/model/timelinemodel.cpp:3286
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Remove mix"
 msgstr "הסר קובץ"
 
-#: src/timeline2/model/timelinemodel.cpp:3279
+#: src/timeline2/model/timelinemodel.cpp:3288
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Removing mix failed"
 msgstr "הסר קובץ"
 
-#: src/timeline2/model/timelinemodel.cpp:3556
+#: src/timeline2/model/timelinemodel.cpp:3565
 #, kde-format
 msgid "Resize clip"
 msgstr "שנה גודל סרטון"
 
-#: src/timeline2/model/timelinemodel.cpp:3558
+#: src/timeline2/model/timelinemodel.cpp:3567
 #, fuzzy, kde-format
 msgid "Resize composition"
 msgstr "הפוך מעבר"
 
-#: src/timeline2/model/timelinemodel.cpp:3875
+#: src/timeline2/model/timelinemodel.cpp:3884
 #, fuzzy, kde-format
 #| msgid "Resize clip"
 msgid "Ripple resize clip"
 msgstr "שנה גודל סרטון"
 
-#: src/timeline2/model/timelinemodel.cpp:3877
+#: src/timeline2/model/timelinemodel.cpp:3886
 #, fuzzy, kde-format
 msgid "Ripple resize composition"
 msgstr "הפוך מעבר"
 
-#: src/timeline2/model/timelinemodel.cpp:3879
+#: src/timeline2/model/timelinemodel.cpp:3888
 #, fuzzy, kde-format
 msgid "Ripple resize subtitle"
 msgstr "מחק סרטון"
 
-#: src/timeline2/model/timelinemodel.cpp:4022
+#: src/timeline2/model/timelinemodel.cpp:4031
 #, fuzzy, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -15718,147 +15718,147 @@ msgid_plural "Slip clips"
 msgstr[0] "סרטון כותר"
 msgstr[1] "סרטון כותר"
 
-#: src/timeline2/model/timelinemodel.cpp:4057
+#: src/timeline2/model/timelinemodel.cpp:4066
 #, fuzzy, kde-format
 msgid "Slip clip"
 msgstr "סרטון כותר"
 
-#: src/timeline2/model/timelinemodel.cpp:4092
+#: src/timeline2/model/timelinemodel.cpp:4101
 #, kde-format
 msgid "Group clips"
 msgstr "קבץ סרטונים"
 
-#: src/timeline2/model/timelinemodel.cpp:4177
-#: src/timeline2/model/timelinemodel.cpp:4193
+#: src/timeline2/model/timelinemodel.cpp:4186
+#: src/timeline2/model/timelinemodel.cpp:4202
 #, kde-format
 msgid "Ungroup clips"
 msgstr "בטל קיבוץ סרטונים"
 
-#: src/timeline2/model/timelinemodel.cpp:4333
+#: src/timeline2/model/timelinemodel.cpp:4342
 #: src/timeline2/view/timelinecontroller.cpp:885
 #, kde-format
 msgid "Delete Track"
 msgstr "מחק ערוץ"
 
-#: src/timeline2/model/timelinemodel.cpp:4343
+#: src/timeline2/model/timelinemodel.cpp:4352
 #, fuzzy, kde-format
 #| msgid "Cannot insert clip in timeline"
 msgid "Cannot delete last track in timeline"
 msgstr "לא ניתן להוסיף סרטון ברצף הזמן"
 
-#: src/timeline2/model/timelinemodel.cpp:4594
+#: src/timeline2/model/timelinemodel.cpp:4603
 #, fuzzy, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "אי אפשר להוסיף אפקט לסרטון זה"
 
-#: src/timeline2/model/timelinemodel.cpp:4601
+#: src/timeline2/model/timelinemodel.cpp:4610
 #, fuzzy, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "אי אפשר להוסיף אפקט לסרטון זה"
 
-#: src/timeline2/model/timelinemodel.cpp:4622
+#: src/timeline2/model/timelinemodel.cpp:4631
 #, fuzzy, kde-format
 #| msgid "Cannot paste clip to selected place"
 msgid "Cannot paste effect to master track"
 msgstr "לא ניתן להדביק את הסרטון לנקודה הנבחרת"
 
-#: src/timeline2/model/timelinemodel.cpp:4628
+#: src/timeline2/model/timelinemodel.cpp:4637
 #, fuzzy, kde-format
 #| msgid "Cannot paste clip to selected place"
 msgid "Cannot paste effect to selected track"
 msgstr "לא ניתן להדביק את הסרטון לנקודה הנבחרת"
 
-#: src/timeline2/model/timelinemodel.cpp:4654
+#: src/timeline2/model/timelinemodel.cpp:4663
 #: src/timeline2/view/timelinecontroller.cpp:1478
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot add effect %1 to selected clip"
 msgstr "אי אפשר להוסיף אפקט לסרטון זה"
 
-#: src/timeline2/model/timelinemodel.cpp:4678
+#: src/timeline2/model/timelinemodel.cpp:4687
 #, fuzzy, kde-format
 #| msgid "Adjust levels"
 msgid "Adjust Fade"
 msgstr "כוון רמות"
 
-#: src/timeline2/model/timelinemodel.cpp:4979
+#: src/timeline2/model/timelinemodel.cpp:4988
 #, fuzzy, kde-format
 msgid "Insert Composition"
 msgstr "מרכב"
 
-#: src/timeline2/model/timelinemodel.cpp:5167
+#: src/timeline2/model/timelinemodel.cpp:5176
 #, fuzzy, kde-format
 msgid "Move composition"
 msgstr "הצג/הסתר אופציות"
 
-#: src/timeline2/model/timelinemodel.cpp:5823
+#: src/timeline2/model/timelinemodel.cpp:5832
 #, fuzzy, kde-format
 #| msgid "Enable Stretch"
 msgid "Enable time remap"
 msgstr "אפשר מתיחה"
 
-#: src/timeline2/model/timelinemodel.cpp:5896
+#: src/timeline2/model/timelinemodel.cpp:5905
 #, fuzzy, kde-format
 #| msgid "Captured files"
 msgid "Change speed failed"
 msgstr "קבצים שנלכדו"
 
-#: src/timeline2/model/timelinemodel.cpp:5906
+#: src/timeline2/model/timelinemodel.cpp:5915
 #, fuzzy, kde-format
 #| msgid "Change clip type"
 msgid "Change clip speed"
 msgstr "שנה סוג סרטון"
 
-#: src/timeline2/model/timelinemodel.cpp:6285
+#: src/timeline2/model/timelinemodel.cpp:6294
 #: src/timeline2/view/qml/timeline.qml:1187
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "נעל רצועה"
 
-#: src/timeline2/model/timelinemodel.cpp:6290
+#: src/timeline2/model/timelinemodel.cpp:6299
 #: src/timeline2/view/qml/timeline.qml:1187
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
 msgstr "בטל נעילת רצועה"
 
-#: src/timeline2/model/timelinemodel.cpp:6324
-#: src/timeline2/model/timelinemodel.cpp:6386
+#: src/timeline2/model/timelinemodel.cpp:6333
+#: src/timeline2/model/timelinemodel.cpp:6395
 #, fuzzy, kde-format
 msgid "Change composition"
 msgstr "תיקון מרכז"
 
-#: src/timeline2/model/timelinemodel.cpp:6338
+#: src/timeline2/model/timelinemodel.cpp:6347
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:6533
-#: src/timeline2/model/timelinemodel.cpp:6570
-#: src/timeline2/model/timelinemodel.cpp:6603
-#: src/timeline2/model/timelinemodel.cpp:6684
+#: src/timeline2/model/timelinemodel.cpp:6542
+#: src/timeline2/model/timelinemodel.cpp:6579
+#: src/timeline2/model/timelinemodel.cpp:6612
+#: src/timeline2/model/timelinemodel.cpp:6693
 #, fuzzy, kde-format
 #| msgid "Cannot move clip to position %1"
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "לא ניתן להעביר את הסרטון לנקודה %1"
 
-#: src/timeline2/model/timelinemodel.cpp:6544
-#: src/timeline2/model/timelinemodel.cpp:6578
-#: src/timeline2/model/timelinemodel.cpp:6622
-#: src/timeline2/model/timelinemodel.cpp:6708
+#: src/timeline2/model/timelinemodel.cpp:6553
+#: src/timeline2/model/timelinemodel.cpp:6587
+#: src/timeline2/model/timelinemodel.cpp:6631
+#: src/timeline2/model/timelinemodel.cpp:6717
 #, fuzzy, kde-format
 #| msgid "Cannot resize transition"
 msgid "Cannot resize mix"
 msgstr "לא ניתן לשנות את גודל המעבר"
 
-#: src/timeline2/model/timelinemodel.cpp:6722
+#: src/timeline2/model/timelinemodel.cpp:6731
 #, fuzzy, kde-format
 #| msgid "Resize clip"
 msgid "Resize mix"
 msgstr "שנה גודל סרטון"
 
-#: src/timeline2/model/timelinemodel.cpp:6859
+#: src/timeline2/model/timelinemodel.cpp:6868
 #, fuzzy, kde-format
 msgid "Error initializing timeline preview"
 msgstr "תצוגה מקדימה"
