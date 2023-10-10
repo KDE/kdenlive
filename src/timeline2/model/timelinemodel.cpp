@@ -3335,6 +3335,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     std::unordered_set<int> all_items;
     QList<int> tracksWithMixes;
     all_items.insert(itemId);
+    int resizedCount = 0;
     if (logUndo && isClip(itemId)) {
         if (tid > -1) {
             if (right) {
@@ -3350,6 +3351,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
                         bool res = removeMixWithUndo(mixData.second.secondClipId, undo, redo);
                         if (res) {
                             size = m_allClips[itemId]->getPlaytime();
+                            resizedCount++;
                         } else {
                             return -1;
                         }
@@ -3401,6 +3403,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
                         PUSH_LAMBDA(adjust_mix1, adjust_mix);
                         PUSH_LAMBDA(adjust_mix_undo, undo);
                         requestItemResize(mixData.first.firstClipId, updatedSize, true, logUndo, undo, redo);
+                        resizedCount++;
                     }
                 }
             } else {
@@ -3413,6 +3416,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
                         bool res = removeMixWithUndo(mixData.first.secondClipId, undo, redo);
                         if (res) {
                             size = m_allClips[itemId]->getPlaytime();
+                            resizedCount++;
                         } else {
                             return -1;
                         }
@@ -3464,6 +3468,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
                         PUSH_LAMBDA(adjust_mix1, adjust_mix);
                         PUSH_LAMBDA(adjust_mix_undo, undo);
                         requestItemResize(mixData.second.secondClipId, updatedClipSize, false, logUndo, undo, redo);
+                        resizedCount++;
                     }
                 }
             }
@@ -3505,6 +3510,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
                                                     m_allClips[mixData.second.secondClipId]->getMixCutPosition()) {
                                 // Resized outside mix
                                 removeMixWithUndo(mixData.second.secondClipId, undo, redo);
+                                resizedCount++;
                             } else {
                                 // Mix was resized, update cut position
                                 int currentMixDuration = m_allClips[mixData.second.secondClipId]->getMixDuration();
@@ -3537,6 +3543,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
                         if (start + offset >= mixData.first.firstClipInOut.second) {
                             // Moved outside mix, remove
                             removeMixWithUndo(mixData.first.secondClipId, undo, redo);
+                            resizedCount++;
                         }
                     }
                 }
@@ -3546,7 +3553,6 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     bool result = true;
     int finalPos = right ? in + size : out - size;
     int finalSize;
-    int resizedCount = 0;
     for (int id : all_items) {
         int trackId = getItemTrackId(id);
         if (trackId > -1 && getTrackById_const(trackId)->isLocked()) {
