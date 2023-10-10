@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-08 00:42+0000\n"
+"POT-Creation-Date: 2023-10-10 00:41+0000\n"
 "PO-Revision-Date: 2023-10-07 10:33+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -3340,8 +3340,8 @@ msgstr "Guarda la pila d'efectes…"
 msgctxt "@info:whatsthis"
 msgid "Saves the entire effect stack as an XML file for use in other projects."
 msgstr ""
-"Guarda tota la pila d'efectes com un fitxer XML per a utilitzar-la en altres "
-"projectes."
+"Guarda tota la pila d'efectes com un fitxer en XML per a utilitzar-la en "
+"altres projectes."
 
 #: src/assets/assetpanel.cpp:96
 #, kde-format
@@ -4194,7 +4194,7 @@ msgid ""
 "<b>Shift+seek</b> over thumbnail to set default thumbnail, <b>F2</b> to "
 "rename selected item"
 msgstr ""
-"<b>Maj + busca</b> miniatures per a establir la miniatura predeterminada, "
+"<b>Maj+busca</b> miniatures per a establir la miniatura predeterminada, "
 "<b>F2</b> per a canviar el nom de l'element seleccionat"
 
 #: src/bin/bin.cpp:808 src/bin/bin.cpp:917
@@ -4707,7 +4707,7 @@ msgid "Create bin folder"
 msgstr "Crea una carpeta de safata"
 
 #: src/bin/bin.cpp:2677 src/bin/bin.cpp:2690 src/bin/bin.cpp:3662
-#: src/timeline2/model/timelinemodel.cpp:2064
+#: src/timeline2/model/timelinemodel.cpp:2074
 #, kde-format
 msgid "Delete Clip"
 msgstr "Suprimix un clip"
@@ -4928,7 +4928,7 @@ msgstr "Seleccioneu un clip per a afegir-hi una etiqueta"
 #: src/bin/bin.cpp:4161
 #, kde-format
 msgid "Edit Tags"
-msgstr "Editeu les d'etiquetes"
+msgstr "Editeu les etiquetes"
 
 #: src/bin/bin.cpp:4450 src/bin/projectclip.cpp:198
 #: src/bin/projectclip.cpp:2001 src/onlineresources/resourcewidget.cpp:271
@@ -5427,7 +5427,7 @@ msgid "Cut clip"
 msgstr "Retalla el clip"
 
 #: src/bin/model/subtitlemodel.cpp:788 src/bin/model/subtitlemodel.cpp:1521
-#: src/timeline2/model/timelinemodel.cpp:3575
+#: src/timeline2/model/timelinemodel.cpp:3585
 #, kde-format
 msgid "Resize subtitle"
 msgstr "Redimensiona els subtítols"
@@ -10848,7 +10848,7 @@ msgstr "Importa un fitxer de subtítols…"
 msgid "Export Subtitle File…"
 msgstr "Exporta cap a un fitxer de subtítols…"
 
-#: src/mainwindow.cpp:1919 src/timeline2/model/timelinemodel.cpp:2068
+#: src/mainwindow.cpp:1919 src/timeline2/model/timelinemodel.cpp:2078
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "Suprimix els subtítols"
@@ -11095,10 +11095,10 @@ msgid ""
 "click</shortcut> for multiple selection, <shortcut>Meta drag</shortcut> to "
 "move a grouped clip to another track, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
-"<shortcut>Maj + arrossegar</shortcut> per a una selecció de banda elàstica, "
-"<shortcut>Maj + clic</shortcut> per a una selecció múltiple, <shortcut>Meta "
-"+ arrossegar</shortcut> per a moure un clip agrupat a una altra pista, "
-"<shortcut>Ctrl + arrossegar</shortcut> per a desplaçar"
+"<shortcut>Maj+arrossega</shortcut> per a una selecció de banda elàstica, "
+"<shortcut>Maj+fes clic</shortcut> per a una selecció múltiple, <shortcut>Meta"
+"+arrossega</shortcut> per a moure un clip agrupat a una altra pista, "
+"<shortcut>Ctrl+arrossega</shortcut> per a desplaçar"
 
 #: src/mainwindow.cpp:3373
 #, kde-kuit-format
@@ -11109,10 +11109,10 @@ msgid ""
 "shortcut> to move a grouped clip to another track, <shortcut>Ctrl drag</"
 "shortcut> to pan"
 msgstr ""
-"<shortcut>Maj + arrossegar</shortcut> per a una selecció de banda elàstica, "
-"<shortcut>Maj + clic</shortcut> per a una selecció múltiple, <shortcut>Meta "
-"+ Alt + arrossegar</shortcut> per a moure un clip agrupat a una altra pista, "
-"<shortcut>Ctrl + arrossegar</shortcut> per a desplaçar"
+"<shortcut>Maj+arrossega</shortcut> per a una selecció de banda elàstica, "
+"<shortcut>Maj+fes clic</shortcut> per a una selecció múltiple, <shortcut>Meta"
+"+Alt+arrossega</shortcut> per a moure un clip agrupat a una altra pista, "
+"<shortcut>Ctrl+arrossega</shortcut> per a desplaçar"
 
 #: src/mainwindow.cpp:3376
 #, kde-format
@@ -11154,8 +11154,8 @@ msgid ""
 "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift click</"
 "shortcut> for multiple selection"
 msgstr ""
-"Feu <shortcut>clic</shortcut> sobre un element per a lliscar, <shortcut>Maj "
-"+ clic</shortcut> per a una selecció múltiple"
+"Feu <shortcut>clic</shortcut> sobre un element per a lliscar, <shortcut>Maj"
+"+fes clic</shortcut> per a una selecció múltiple"
 
 #: src/mainwindow.cpp:3387
 #, kde-format
@@ -11171,9 +11171,9 @@ msgid ""
 "click</shortcut> for multiple selection, <shortcut>Ctrl drag</shortcut> to "
 "pan"
 msgstr ""
-"<shortcut>Maj + arrossegar</shortcut> per a una selecció de banda elàstica, "
-"<shortcut>Maj + clic</shortcut> per a una selecció múltiple, <shortcut>Ctrl "
-"+ arrossegar</shortcut> per a desplaçar"
+"<shortcut>Maj+arrossega</shortcut> per a una selecció de banda elàstica, "
+"<shortcut>Maj+fes clic</shortcut> per a una selecció múltiple, <shortcut>Ctrl"
+"+arrossega</shortcut> per a desplaçar"
 
 #: src/mainwindow.cpp:3394
 #, kde-format
@@ -11510,7 +11510,7 @@ msgid "Audio streams"
 msgstr "Fluxos d'àudio"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:710
-#: src/monitor/monitor.cpp:1790
+#: src/monitor/monitor.cpp:1801
 #, kde-format
 msgid "Merge all streams"
 msgstr "Fusiona tots els fluxos"
@@ -11995,21 +11995,21 @@ msgstr "Guarda la imatge"
 msgid "Export image using source resolution"
 msgstr "Exporta una imatge utilitzant la resolució de l'origen"
 
-#: src/monitor/monitor.cpp:1775 src/monitor/monitor.cpp:1898
+#: src/monitor/monitor.cpp:1786 src/monitor/monitor.cpp:1934
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 flux d'àudio"
 msgstr[1] "%1 fluxos d'àudio"
 
-#: src/monitor/monitor.cpp:2232
+#: src/monitor/monitor.cpp:2268
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 "No s'ha pogut restablir el gestor GLSL del Movit. Per favor, desactiveu el "
 "Movit"
 
-#: src/monitor/monitor.cpp:2274 src/monitor/monitor.cpp:2331
+#: src/monitor/monitor.cpp:2310 src/monitor/monitor.cpp:2367
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -12018,17 +12018,17 @@ msgstr ""
 "Es requerix el filtre «alphagrad» per a esta característica. Instal·leu "
 "«alphagrad» i reinicieu Kdenlive"
 
-#: src/monitor/monitor.cpp:2294
+#: src/monitor/monitor.cpp:2330
 #, kde-format
 msgid "Clip has no effects"
 msgstr "El clip no té cap efecte"
 
-#: src/monitor/monitor.cpp:2296
+#: src/monitor/monitor.cpp:2332
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Seleccioneu un clip en la safata del projecte per a comparar l'efecte"
 
-#: src/monitor/monitor.cpp:2338
+#: src/monitor/monitor.cpp:2374
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -12037,7 +12037,7 @@ msgstr ""
 "Es requerix la transició «cairoblend» per a esta característica. Instal·leu "
 "«frei0r» i reinicieu Kdenlive"
 
-#: src/monitor/monitor.cpp:2384
+#: src/monitor/monitor.cpp:2420
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Activa el mode d'edició al monitor per a editar un efecte"
@@ -12325,7 +12325,7 @@ msgstr "Reduïx"
 msgid "Move Toolbar"
 msgstr "Barra d'eines de moviments"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:160
+#: src/monitor/view/kdenliveclipmonitor.qml:155
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12340,30 +12340,30 @@ msgstr ""
 "<shortcut>fletxes del teclat</shortcut> per a buscar, utilitzeu la "
 "<shortcut>roda + Ctrl</shortcut> per a fer zoom"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:459
+#: src/monitor/view/kdenliveclipmonitor.qml:454
 #: src/monitor/view/kdenlivemonitor.qml:195
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:492
+#: src/monitor/view/kdenliveclipmonitor.qml:487
 #, kde-format
 msgid "In/Out Point"
 msgstr "Punt d'entrada/eixida"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:492
+#: src/monitor/view/kdenliveclipmonitor.qml:487
 #: src/monitor/view/kdenlivemonitor.qml:228
 #, kde-format
 msgid "In Point"
 msgstr "Punt d'entrada"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:514
+#: src/monitor/view/kdenliveclipmonitor.qml:509
 #: src/monitor/view/kdenlivemonitor.qml:245
 #, kde-format
 msgid "Out Point"
 msgstr "Punt d'eixida"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:674
+#: src/monitor/view/kdenliveclipmonitor.qml:669
 #, kde-format
 msgid "Terminate Job"
 msgstr "Finalitza el treball"
@@ -12389,8 +12389,8 @@ msgid ""
 "<shortcut>Click</shortcut> on a center to seek to its keyframe"
 msgstr ""
 "Feu <shortcut>doble clic</shortcut> per a afegir un fotograma clau, "
-"<shortcut>Maj + arrossegar</shortcut> per a convertir a una escala "
-"proporcional, <shortcut>Ctrl + arrossegar</shortcut> per a convertir a una "
+"<shortcut>Maj+arrossega</shortcut> per a convertir a una escala "
+"proporcional, <shortcut>Ctrl+arrossega</shortcut> per a convertir a una "
 "escala basada en el centre, <shortcut>aneu a la dreta</shortcut> per a la "
 "barra d'eines, feu <shortcut>clic</shortcut> sobre un centre per a buscar el "
 "seu fotograma clau"
@@ -12462,7 +12462,7 @@ msgid ""
 "shortcut> to seek while adjusting zone in"
 msgstr ""
 "<shortcut>Arrossegar</shortcut> per a establir el punt de la zona d'entrada, "
-"<shortcut>Maj + Arrossegar</shortcut> per a buscar mentre s'ajusta la zona "
+"<shortcut>Maj+arrossega</shortcut> per a buscar mentre s'ajusta la zona "
 "d'entrada"
 
 #: src/monitor/view/MonitorRuler.qml:379
@@ -12473,7 +12473,7 @@ msgid ""
 "shortcut> to seek while adjusting zone out"
 msgstr ""
 "<shortcut>Arrossegar</shortcut> per a establir el punt de la zona d'eixida, "
-"<shortcut>Maj + Arrossegar</shortcut> per a buscar mentre s'ajusta la zona "
+"<shortcut>Maj+arrossega</shortcut> per a buscar mentre s'ajusta la zona "
 "d'eixida"
 
 #: src/monitor/view/SceneToolBar.qml:94
@@ -15879,7 +15879,7 @@ msgid "Delete clips on track"
 msgstr "Suprimix els clips en la pista"
 
 #: src/timeline2/model/timelineitemmodel.cpp:135
-#: src/timeline2/model/timelinemodel.cpp:4239
+#: src/timeline2/model/timelinemodel.cpp:4249
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -15957,108 +15957,108 @@ msgstr "Crea una mescla"
 msgid "Move clip"
 msgstr "Mou el clip"
 
-#: src/timeline2/model/timelinemodel.cpp:1742
-#: src/timeline2/model/timelinemodel.cpp:1832
-#: src/timeline2/model/timelinemodel.cpp:1855
-#: src/timeline2/model/timelinemodel.cpp:1878
+#: src/timeline2/model/timelinemodel.cpp:1752
+#: src/timeline2/model/timelinemodel.cpp:1842
+#: src/timeline2/model/timelinemodel.cpp:1865
+#: src/timeline2/model/timelinemodel.cpp:1888
 #, kde-format
 msgid "No available track for insert operation"
 msgstr "No hi ha cap pista disponible per a l'operació d'inserció"
 
-#: src/timeline2/model/timelinemodel.cpp:1747
+#: src/timeline2/model/timelinemodel.cpp:1757
 #, kde-format
 msgid "Insert Clip"
 msgstr "Inserix un clip"
 
-#: src/timeline2/model/timelinemodel.cpp:1800
+#: src/timeline2/model/timelinemodel.cpp:1810
 #, kde-format
 msgid "You cannot insert a sequence containing itself"
 msgstr "No es pot afegir una seqüència que es continga a si mateixa"
 
-#: src/timeline2/model/timelinemodel.cpp:1848
-#: src/timeline2/model/timelinemodel.cpp:1870
+#: src/timeline2/model/timelinemodel.cpp:1858
+#: src/timeline2/model/timelinemodel.cpp:1880
 #, kde-format
 msgid "Not enough audio tracks for all streams (%1)"
 msgstr "No hi ha pistes d'àudio suficients per a tots els fluxos (%1)"
 
-#: src/timeline2/model/timelinemodel.cpp:1954
+#: src/timeline2/model/timelinemodel.cpp:1964
 #, kde-format
 msgid "No available track for split operation"
 msgstr "No hi ha cap pista disponible per a l'operació de divisió"
 
-#: src/timeline2/model/timelinemodel.cpp:1991
+#: src/timeline2/model/timelinemodel.cpp:2001
 #, kde-format
 msgid "Audio split failed: no viable track"
 msgstr "Ha fallat la divisió d'àudio: no hi ha cap pista viable"
 
-#: src/timeline2/model/timelinemodel.cpp:1999
+#: src/timeline2/model/timelinemodel.cpp:2009
 #, kde-format
 msgid "Audio split failed: impossible to create audio clip"
 msgstr "Ha fallat la divisió d'àudio: és impossible crear un clip d'àudio"
 
-#: src/timeline2/model/timelinemodel.cpp:2061
+#: src/timeline2/model/timelinemodel.cpp:2071
 #, kde-format
 msgid "Remove group"
 msgstr "Elimina un grup"
 
-#: src/timeline2/model/timelinemodel.cpp:2066
+#: src/timeline2/model/timelinemodel.cpp:2076
 #, kde-format
 msgid "Delete Composition"
 msgstr "Suprimix la composició"
 
-#: src/timeline2/model/timelinemodel.cpp:2218
-#: src/timeline2/model/timelinemodel.cpp:2380
+#: src/timeline2/model/timelinemodel.cpp:2228
+#: src/timeline2/model/timelinemodel.cpp:2390
 #: src/timeline2/view/timelinecontroller.cpp:4164
 #, kde-format
 msgid "Move group"
 msgstr "Mou el grup"
 
-#: src/timeline2/model/timelinemodel.cpp:3021
+#: src/timeline2/model/timelinemodel.cpp:3031
 #, kde-format
 msgid "Resize group"
 msgstr "Redimensiona el clip"
 
-#: src/timeline2/model/timelinemodel.cpp:3145
+#: src/timeline2/model/timelinemodel.cpp:3155
 #, kde-format
 msgid "Resize clip speed"
 msgstr "Redimensiona la velocitat del clip"
 
-#: src/timeline2/model/timelinemodel.cpp:3292
+#: src/timeline2/model/timelinemodel.cpp:3302
 #, kde-format
 msgid "Remove mix"
 msgstr "Elimina la mescla"
 
-#: src/timeline2/model/timelinemodel.cpp:3294
+#: src/timeline2/model/timelinemodel.cpp:3304
 #, kde-format
 msgid "Removing mix failed"
 msgstr "No s'ha pogut eliminar la mescla"
 
-#: src/timeline2/model/timelinemodel.cpp:3571
+#: src/timeline2/model/timelinemodel.cpp:3581
 #, kde-format
 msgid "Resize clip"
 msgstr "Redimensiona el clip"
 
-#: src/timeline2/model/timelinemodel.cpp:3573
+#: src/timeline2/model/timelinemodel.cpp:3583
 #, kde-format
 msgid "Resize composition"
 msgstr "Redimensiona la composició"
 
-#: src/timeline2/model/timelinemodel.cpp:3890
+#: src/timeline2/model/timelinemodel.cpp:3900
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "Redimensiona en onada el clip"
 
-#: src/timeline2/model/timelinemodel.cpp:3892
+#: src/timeline2/model/timelinemodel.cpp:3902
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "Redimensiona en onada la composició"
 
-#: src/timeline2/model/timelinemodel.cpp:3894
+#: src/timeline2/model/timelinemodel.cpp:3904
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "Redimensiona en onada els subtítols"
 
-#: src/timeline2/model/timelinemodel.cpp:4037
+#: src/timeline2/model/timelinemodel.cpp:4047
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -16066,136 +16066,136 @@ msgid_plural "Slip clips"
 msgstr[0] "Desplaça el clip"
 msgstr[1] "Desplaça els clips"
 
-#: src/timeline2/model/timelinemodel.cpp:4072
+#: src/timeline2/model/timelinemodel.cpp:4082
 #, kde-format
 msgid "Slip clip"
 msgstr "Desplaça el clip"
 
-#: src/timeline2/model/timelinemodel.cpp:4107
+#: src/timeline2/model/timelinemodel.cpp:4117
 #, kde-format
 msgid "Group clips"
 msgstr "Agrupa els clips"
 
-#: src/timeline2/model/timelinemodel.cpp:4192
-#: src/timeline2/model/timelinemodel.cpp:4208
+#: src/timeline2/model/timelinemodel.cpp:4202
+#: src/timeline2/model/timelinemodel.cpp:4218
 #, kde-format
 msgid "Ungroup clips"
 msgstr "Desagrupa els clips"
 
-#: src/timeline2/model/timelinemodel.cpp:4348
+#: src/timeline2/model/timelinemodel.cpp:4358
 #: src/timeline2/view/timelinecontroller.cpp:885
 #, kde-format
 msgid "Delete Track"
 msgstr "Suprimix la pista"
 
-#: src/timeline2/model/timelinemodel.cpp:4358
+#: src/timeline2/model/timelinemodel.cpp:4368
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "No es pot suprimir l'última pista en la línia de temps"
 
-#: src/timeline2/model/timelinemodel.cpp:4609
+#: src/timeline2/model/timelinemodel.cpp:4619
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "No s'ha pogut afegir l'efecte %1 a la pista mestre"
 
-#: src/timeline2/model/timelinemodel.cpp:4616
+#: src/timeline2/model/timelinemodel.cpp:4626
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "No s'ha pogut afegir l'efecte %1 a la pista seleccionada"
 
-#: src/timeline2/model/timelinemodel.cpp:4637
+#: src/timeline2/model/timelinemodel.cpp:4647
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "No s'ha pogut apegar l'efecte a la pista mestre"
 
-#: src/timeline2/model/timelinemodel.cpp:4643
+#: src/timeline2/model/timelinemodel.cpp:4653
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "No s'ha pogut apegar l'efecte a la pista seleccionada"
 
-#: src/timeline2/model/timelinemodel.cpp:4669
+#: src/timeline2/model/timelinemodel.cpp:4679
 #: src/timeline2/view/timelinecontroller.cpp:1478
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "No s'ha pogut afegir l'efecte %1 al clip seleccionat"
 
-#: src/timeline2/model/timelinemodel.cpp:4693
+#: src/timeline2/model/timelinemodel.cpp:4703
 #, kde-format
 msgid "Adjust Fade"
 msgstr "Ajusta l'esvaïment"
 
-#: src/timeline2/model/timelinemodel.cpp:4994
+#: src/timeline2/model/timelinemodel.cpp:5004
 #, kde-format
 msgid "Insert Composition"
 msgstr "Inserix una composició"
 
-#: src/timeline2/model/timelinemodel.cpp:5182
+#: src/timeline2/model/timelinemodel.cpp:5192
 #, kde-format
 msgid "Move composition"
 msgstr "Mou la composició"
 
-#: src/timeline2/model/timelinemodel.cpp:5838
+#: src/timeline2/model/timelinemodel.cpp:5848
 #, kde-format
 msgid "Enable time remap"
 msgstr "Activa la reassignació del temps"
 
-#: src/timeline2/model/timelinemodel.cpp:5911
+#: src/timeline2/model/timelinemodel.cpp:5921
 #, kde-format
 msgid "Change speed failed"
 msgstr "El canvi de velocitat ha fallat"
 
-#: src/timeline2/model/timelinemodel.cpp:5921
+#: src/timeline2/model/timelinemodel.cpp:5931
 #, kde-format
 msgid "Change clip speed"
 msgstr "Canvia la velocitat del clip"
 
-#: src/timeline2/model/timelinemodel.cpp:6300
+#: src/timeline2/model/timelinemodel.cpp:6310
 #: src/timeline2/view/qml/timeline.qml:1187
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Lock track"
 msgstr "Bloqueja la pista"
 
-#: src/timeline2/model/timelinemodel.cpp:6305
+#: src/timeline2/model/timelinemodel.cpp:6315
 #: src/timeline2/view/qml/timeline.qml:1187
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Unlock track"
 msgstr "Desbloqueja la pista"
 
-#: src/timeline2/model/timelinemodel.cpp:6339
-#: src/timeline2/model/timelinemodel.cpp:6401
+#: src/timeline2/model/timelinemodel.cpp:6349
+#: src/timeline2/model/timelinemodel.cpp:6411
 #, kde-format
 msgid "Change composition"
 msgstr "Canvia la composició"
 
-#: src/timeline2/model/timelinemodel.cpp:6353
+#: src/timeline2/model/timelinemodel.cpp:6363
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "No es pot operar amb una composició agrupada, desagrupeu-la"
 
-#: src/timeline2/model/timelinemodel.cpp:6548
-#: src/timeline2/model/timelinemodel.cpp:6585
-#: src/timeline2/model/timelinemodel.cpp:6618
-#: src/timeline2/model/timelinemodel.cpp:6699
+#: src/timeline2/model/timelinemodel.cpp:6558
+#: src/timeline2/model/timelinemodel.cpp:6595
+#: src/timeline2/model/timelinemodel.cpp:6628
+#: src/timeline2/model/timelinemodel.cpp:6709
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "No s'ha pogut redimensionar la mescla a menys d'1 fotograma"
 
-#: src/timeline2/model/timelinemodel.cpp:6559
-#: src/timeline2/model/timelinemodel.cpp:6593
-#: src/timeline2/model/timelinemodel.cpp:6637
-#: src/timeline2/model/timelinemodel.cpp:6723
+#: src/timeline2/model/timelinemodel.cpp:6569
+#: src/timeline2/model/timelinemodel.cpp:6603
+#: src/timeline2/model/timelinemodel.cpp:6647
+#: src/timeline2/model/timelinemodel.cpp:6733
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "No s'ha pogut redimensionar la mescla"
 
-#: src/timeline2/model/timelinemodel.cpp:6737
+#: src/timeline2/model/timelinemodel.cpp:6747
 #, kde-format
 msgid "Resize mix"
 msgstr "Redimensiona la mescla"
 
-#: src/timeline2/model/timelinemodel.cpp:6876
+#: src/timeline2/model/timelinemodel.cpp:6886
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr ""
@@ -16292,7 +16292,7 @@ msgid "Stop"
 msgstr "Para"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2081
+#: src/timeline2/view/qml/timeline.qml:2080
 #, kde-format
 msgid "Paused"
 msgstr "En pausa"
@@ -16345,8 +16345,8 @@ msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
 "clip"
 msgstr ""
-"<b>Ctrl + arrossega</b> per a canviar la velocitat, feu <b>doble clic</b> "
-"per a mesclar amb el clip adjacent"
+"<b>Ctrl+arrossega</b> per a canviar la velocitat, feu <b>doble clic</b> per "
+"a mesclar amb el clip adjacent"
 
 #: src/timeline2/view/qml/Clip.qml:708
 #, kde-format
@@ -16425,7 +16425,7 @@ msgid ""
 "for multiple keyframe selection."
 msgstr ""
 "<b>Desplaceu i arrossegueu</b> per a canviar el valor dels fotogrames clau "
-"seleccionats, <b>Ctrl + fer clic</b> per a fer una selecció múltiple."
+"seleccionats, <b>Ctrl+fes clic</b> per a fer una selecció múltiple."
 
 #: src/timeline2/view/qml/SubTitle.qml:89
 #, kde-format
@@ -16465,18 +16465,18 @@ msgstr "Oculta"
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Doble clic</b> per a afegir un subtítol"
 
-#: src/timeline2/view/qml/timeline.qml:1922
+#: src/timeline2/view/qml/timeline.qml:1921
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Desplaçament: %1, Posició: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2070
-#: src/timeline2/view/qml/timeline.qml:2079
+#: src/timeline2/view/qml/timeline.qml:2069
+#: src/timeline2/view/qml/timeline.qml:2078
 #, kde-format
 msgid "Recording"
 msgstr "Gravació"
 
-#: src/timeline2/view/qml/timeline.qml:2168
+#: src/timeline2/view/qml/timeline.qml:2167
 #, kde-format
 msgid "Multicam In"
 msgstr "Multicàmera a"
@@ -21566,7 +21566,7 @@ msgstr "Mostra %1 en la línia de temps"
 #: src/widgets/dragvalue.cpp:413
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
-msgstr "«Maj+arrossegar» per a ajustar el valor un a un."
+msgstr "«Maj+arrossega» per a ajustar el valor un a un."
 
 #: src/widgets/geometrywidget.cpp:40
 #, kde-format
