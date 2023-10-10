@@ -217,6 +217,9 @@ QImage ThumbnailCache::getThumbnail(const QString &binId, int pos, bool volatile
 
 void ThumbnailCache::storeThumbnail(const QString &binId, int pos, const QImage &img, bool persistent)
 {
+    if (pCore->projectItemModel()->closing) {
+        return;
+    }
     QMutexLocker locker(&m_mutex);
     bool ok = false;
     const QString key = getKey(binId, pos, &ok);

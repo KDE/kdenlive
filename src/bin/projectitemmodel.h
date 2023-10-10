@@ -51,6 +51,7 @@ public:
     ~ProjectItemModel() override;
 
     friend class ProjectClip;
+    friend class ThumbnailCache;
     /** @brief Timer checking if we have missing clips in the project */
     QTimer missingClipTimer;
 
