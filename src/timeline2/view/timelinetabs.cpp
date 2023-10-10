@@ -6,6 +6,7 @@
 #include "timelinetabs.hpp"
 #include "assets/model/assetparametermodel.hpp"
 #include "audiomixer/mixermanager.hpp"
+#include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "doc/docundostack.hpp"
@@ -19,6 +20,7 @@
 #include "timelinewidget.h"
 
 #include <KMessageBox>
+#include <QInputDialog>
 #include <QMenu>
 #include <QQmlContext>
 
@@ -50,6 +52,7 @@ TimelineTabs::TimelineTabs(QWidget *parent)
     setCornerWidget(pb);
     connect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
     connect(this, &TimelineTabs::tabCloseRequested, this, &TimelineTabs::closeTimelineByIndex);
+    connect(tabBar(), &QTabBar::tabBarDoubleClicked, this, &TimelineTabs::onTabBarDoubleClicked);
 }
 
 TimelineTabs::~TimelineTabs()
@@ -355,4 +358,21 @@ void TimelineTabs::slotPreviousSequence()
         focus = count() - 1;
     }
     setCurrentIndex(focus);
+}
+
+void TimelineTabs::onTabBarDoubleClicked(int index)
+{
+    const QString currentTabName = tabBar()->tabText(index);
+    bool ok = false;
+    const QString newName = QInputDialog::getText(this, i18n("Rename Sequence"), i18n("Rename Sequence"), QLineEdit::Normal, currentTabName, &ok);
+    if (ok && !newName.isEmpty()) {
+        TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(index));
+        if (timeline) {
+            const QString id = pCore->bin()->sequenceBinId(timeline->getUuid());
+            std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(id);
+            if (clip) {
+                clip->rename(newName, 0);
+            }
+        }
+    }
 }
