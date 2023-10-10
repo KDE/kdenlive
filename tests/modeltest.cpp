@@ -327,7 +327,8 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         state(l, pos);
 
         // too big
-        REQUIRE(timeline->requestItemResize(cid5, l + pos + 2, false) == -1);
+        REQUIRE(timeline->requestItemResize(cid5, l + pos + 2, false) == l + pos);
+        undoStack->undo();
 
         REQUIRE(timeline->requestItemResize(cid5, l + 2, false) == l + 2);
         state(l + 2, pos - 2);

@@ -3552,7 +3552,15 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
         if (right) {
             finalSize = finalPos - qMax(0, getItemPosition(id));
         } else {
-            finalSize = qMax(0, getItemPosition(id)) + getItemPlaytime(id) - finalPos;
+            int currentDuration = getItemPlaytime(id);
+            if (trackId == -1) {
+                finalSize = qMax(0, getItemPosition(id)) + currentDuration - finalPos;
+            } else {
+                finalSize = qMax(0, getItemPosition(id)) + currentDuration - qMax(0, finalPos);
+                if (finalSize == currentDuration) {
+                    continue;
+                }
+            }
         }
         result = result && requestItemResize(id, finalSize, right, logUndo, undo, redo);
         if (!result) {

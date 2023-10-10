@@ -170,8 +170,8 @@ void TaskManager::slotCancelJobs(bool leaveBlocked, const QVector<AbstractTask::
         // Already canceling
         return;
     }
-    m_blockUpdates = true;
     m_tasksListLock.lockForWrite();
+    m_blockUpdates = true;
     for (const auto &task : m_taskList) {
         for (AbstractTask *t : task.second) {
             if (m_taskList.find(task.first) != m_taskList.end()) {
@@ -185,7 +185,6 @@ void TaskManager::slotCancelJobs(bool leaveBlocked, const QVector<AbstractTask::
             }
         }
     }
-    m_tasksListLock.unlock();
     if (exceptions.isEmpty()) {
         m_taskPool.waitForDone();
         m_transcodePool.waitForDone();
@@ -195,6 +194,7 @@ void TaskManager::slotCancelJobs(bool leaveBlocked, const QVector<AbstractTask::
     if (!leaveBlocked) {
         m_blockUpdates = false;
     }
+    m_tasksListLock.unlock();
     updateJobCount();
 }
 

@@ -50,7 +50,8 @@ public:
     ~ProjectItemModel() override;
 
     friend class ProjectClip;
-    
+    friend class ThumbnailCache;
+
     /** @brief Builds the MLT playlist, can only be done after MLT is correctly initialized */
     void buildPlaylist(const QUuid uuid);
 
