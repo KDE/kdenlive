@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-10 00:41+0000\n"
-"PO-Revision-Date: 2023-09-16 10:08\n"
+"POT-Creation-Date: 2023-10-11 00:42+0000\n"
+"PO-Revision-Date: 2023-10-10 14:28\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -3158,10 +3158,9 @@ msgid "Reload custom effect"
 msgstr "重新加载自定义效果"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:68
-#, fuzzy, kde-format
-#| msgid "Edit Info"
+#, kde-format
 msgid "Edit Info…"
-msgstr "编辑信息"
+msgstr "编辑信息…"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:73
 #, kde-format
@@ -4330,24 +4329,23 @@ msgstr "找不到要被替换的原始剪辑"
 msgid ""
 "You need to select 2 clips (the replacement clip and the original clip) for "
 "timeline replacement."
-msgstr ""
+msgstr "您需要选择 2 条剪辑 (替换剪辑和原始剪辑) 才能进行时间轴替换。"
 
 #: src/bin/bin.cpp:1944
 #, kde-format
 msgid "The current clip <b>%1</b> is not inserted in the active timeline."
-msgstr ""
+msgstr "当前剪辑 <b>%1</b> 没有插入到活动时间轴。"
 
 #: src/bin/bin.cpp:1949
-#, fuzzy, kde-format
-#| msgid "You cannot insert a sequence containing itself"
+#, kde-format
 msgid "You cannot insert the sequence <b>%1</b> into itself."
-msgstr "您不能插入一个包含它自身的序列"
+msgstr "您不能将序列 <b>%1</b> 插入到自身之中。."
 
 #: src/bin/bin.cpp:1968
 #, kde-format
 msgid ""
 "The selected clips %1 and %2 don't match, cannot replace audio nor video"
-msgstr ""
+msgstr "所选剪辑 %1 和 %2 不匹配，无法替换音频或者视频"
 
 #: src/bin/bin.cpp:1979
 #, kde-format
@@ -4355,6 +4353,8 @@ msgid ""
 "Replacing instances of clip <b>%1</b> (%2)<br/>in active timeline\n"
 "with clip <b>%3</b> (%4)"
 msgstr ""
+"正在把剪辑 <b>%1</b> (%2)<br/> 位于活动时间轴中的实例\n"
+"替换为剪辑 <b>%3</b> (%4)"
 
 #: src/bin/bin.cpp:1984
 #, kde-format
@@ -4362,65 +4362,62 @@ msgid ""
 "Replacing instances of clip <b>%1</b><br/>in active timeline\n"
 "with clip <b>%2</b>"
 msgstr ""
+"正在把剪辑 <b>%1</b><br/> 位于活动时间轴中的实例\n"
+"替换为剪辑 <b>%2</b>"
 
 #: src/bin/bin.cpp:1986 src/timeline2/model/timelineitemmodel.cpp:909
-#, fuzzy, kde-format
-#| msgid "Record audio"
+#, kde-format
 msgid "Replace audio"
-msgstr "录制音频"
+msgstr "替换音频"
 
 #: src/bin/bin.cpp:1989 src/timeline2/model/timelineitemmodel.cpp:909
-#, fuzzy, kde-format
-#| msgid "Restore video"
+#, kde-format
 msgid "Replace video"
-msgstr "恢复视频"
+msgstr "替换视频"
 
 #: src/bin/bin.cpp:1999
 #, kde-format
 msgid ""
 "Replacement clip is shorter than source clip.<br><b>Some clips in timeline "
 "might not be replaced</b>"
-msgstr ""
+msgstr "替换剪辑短于原始剪辑。<br><b>部分剪辑可能不会被替换</b>"
 
 #: src/bin/bin.cpp:2002
 #, kde-format
 msgid "Replacement clip duration is longer that your source clip"
-msgstr ""
+msgstr "替换剪辑的时间长于原始剪辑"
 
 #: src/bin/bin.cpp:2037
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Open Replacement File"
+#, kde-format
 msgctxt "@title:window"
 msgid "Open Replacement for %1"
-msgstr "打开替换文件"
+msgstr "打开 %1 的替换剪辑"
 
 #: src/bin/bin.cpp:2071
 #, kde-format
 msgid ""
 "Replacement clip does not contain a video stream. Do you want to replace "
 "only the audio component of this clip in the active timeline ?"
-msgstr ""
+msgstr "替换剪辑不包含视频流。您想要仅替换此剪辑在活动时间轴中的音频部分吗？"
 
 #: src/bin/bin.cpp:2076
 #, kde-format
 msgid ""
 "Replacement clip does not contain an audio stream. Do you want to replace "
 "only the video component of this clip in the active timeline ?"
-msgstr ""
+msgstr "替换剪辑不包含音频流。您想要仅替换此剪辑在活动时间轴中的视频部分吗？"
 
 #: src/bin/bin.cpp:2080 src/bin/bin.cpp:2106
 #, kde-format
 msgid ""
 "You cannot replace a clip with a different type of clip (audio/video not "
 "matching)."
-msgstr ""
+msgstr "您无法将剪辑替换为不同类型的剪辑 (音频/视频不匹配)。"
 
 #: src/bin/bin.cpp:2083
-#, fuzzy, kde-format
-#| msgid "Clip in Timeline"
+#, kde-format
 msgid "Replace in timeline"
-msgstr "时间轴中的剪辑"
+msgstr "替换时间轴中的剪辑"
 
 #: src/bin/bin.cpp:2104 src/bin/bin.cpp:5691 src/bin/clipcreator.cpp:326
 #, kde-format
@@ -4689,10 +4686,9 @@ msgid "Replace Clip…"
 msgstr "替换剪辑…"
 
 #: src/bin/bin.cpp:3628
-#, fuzzy, kde-format
-#| msgid "Replace Clip…"
+#, kde-format
 msgid "Replace Clip In Timeline…"
-msgstr "替换剪辑…"
+msgstr "替换时间轴中的剪辑…"
 
 #: src/bin/bin.cpp:3633
 #, kde-format
@@ -5285,7 +5281,7 @@ msgid "Cut clip"
 msgstr "切割剪辑"
 
 #: src/bin/model/subtitlemodel.cpp:788 src/bin/model/subtitlemodel.cpp:1521
-#: src/timeline2/model/timelinemodel.cpp:3585
+#: src/timeline2/model/timelinemodel.cpp:3599
 #, kde-format
 msgid "Resize subtitle"
 msgstr "调整字幕大小"
@@ -5945,15 +5941,14 @@ msgid "Duplicate Clip with Speed Change…"
 msgstr "创建更改速度的剪辑副本…"
 
 #: src/dialogs/clipjobmanager.cpp:249
-#, fuzzy, kde-format
-#| msgid "Executable"
+#, kde-format
 msgid "Missing executable"
-msgstr "可执行程序"
+msgstr "缺少可执行程序"
 
 #: src/dialogs/clipjobmanager.cpp:252
 #, kde-format
 msgid "Your script or application %1 is not executable, change permissions"
-msgstr ""
+msgstr "您的脚本或者应用程序 %1 无法执行，请调整权限"
 
 #: src/dialogs/clipjobmanager.cpp:279
 #, kde-format
@@ -6921,14 +6916,12 @@ msgstr ""
 "%1"
 
 #: src/dialogs/renderwidget.cpp:1815
-#, fuzzy, kde-format
-#| msgid "Add to current project"
+#, kde-format
 msgid "Add to Current Project"
 msgstr "添加到当前项目"
 
 #: src/dialogs/renderwidget.cpp:1818 src/library/librarywidget.cpp:251
-#, fuzzy, kde-format
-#| msgid "Open containing folder"
+#, kde-format
 msgid "Open Containing Folder"
 msgstr "打开所在文件夹"
 
@@ -13497,15 +13490,12 @@ msgid "Cannot perform assign"
 msgstr "无法进行分配操作"
 
 #: src/project/projectmanager.cpp:65
-#, fuzzy, kde-format
-#| msgid "Render Project"
+#, kde-format
 msgid "Kdenlive Project"
-msgstr "导出项目"
+msgstr "Kdenlive 项目"
 
 #: src/project/projectmanager.cpp:67
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Archive Project"
+#, kde-format
 msgid "Archived Project"
 msgstr "归档项目"
 
@@ -15431,7 +15421,7 @@ msgid "Delete clips on track"
 msgstr "删除轨道中的剪辑"
 
 #: src/timeline2/model/timelineitemmodel.cpp:135
-#: src/timeline2/model/timelinemodel.cpp:4249
+#: src/timeline2/model/timelinemodel.cpp:4263
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -15456,26 +15446,24 @@ msgstr "无法设置轨道合成，请检查软件的安装情况"
 #: src/timeline2/model/timelineitemmodel.cpp:879
 #, kde-format
 msgid "Clips replaced: %1. <b>Clips not replaced: %2</b>"
-msgstr ""
+msgstr "已替换的剪辑：%1。<b>未替换的剪辑：%2</b>"
 
 #: src/timeline2/model/timelineitemmodel.cpp:881
 #: src/timeline2/model/timelineitemmodel.cpp:905
-#, fuzzy, kde-format
-#| msgid "No clip selected"
+#, kde-format
 msgid "One clip replaced"
 msgid_plural "%1 clips replaced"
-msgstr[0] "未选择剪辑"
+msgstr[0] "已替换 %1 条剪辑"
 
 #: src/timeline2/model/timelineitemmodel.cpp:903
 #, kde-format
 msgid "Clips replaced: %1, Clips too long: %2"
-msgstr ""
+msgstr "已替换的剪辑：%1，过长的剪辑：%2"
 
 #: src/timeline2/model/timelineitemmodel.cpp:909
-#, fuzzy, kde-format
-#| msgid "Replace Clip…"
+#, kde-format
 msgid "Replace clip"
-msgstr "替换剪辑…"
+msgstr "替换剪辑"
 
 #: src/timeline2/model/timelinemodel.cpp:942
 #: src/timeline2/model/timelinemodel.cpp:1147
@@ -15585,168 +15573,168 @@ msgstr "移除混合"
 msgid "Removing mix failed"
 msgstr "移除混合失败"
 
-#: src/timeline2/model/timelinemodel.cpp:3581
+#: src/timeline2/model/timelinemodel.cpp:3595
 #, kde-format
 msgid "Resize clip"
 msgstr "调整剪辑大小"
 
-#: src/timeline2/model/timelinemodel.cpp:3583
+#: src/timeline2/model/timelinemodel.cpp:3597
 #, kde-format
 msgid "Resize composition"
 msgstr "调整合成大小"
 
-#: src/timeline2/model/timelinemodel.cpp:3900
+#: src/timeline2/model/timelinemodel.cpp:3914
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "波纹调整剪辑大小"
 
-#: src/timeline2/model/timelinemodel.cpp:3902
+#: src/timeline2/model/timelinemodel.cpp:3916
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "波纹调整合成大小"
 
-#: src/timeline2/model/timelinemodel.cpp:3904
+#: src/timeline2/model/timelinemodel.cpp:3918
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "波纹调整字幕大小"
 
-#: src/timeline2/model/timelinemodel.cpp:4047
+#: src/timeline2/model/timelinemodel.cpp:4061
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
 msgid_plural "Slip clips"
 msgstr[0] "外滑剪辑"
 
-#: src/timeline2/model/timelinemodel.cpp:4082
+#: src/timeline2/model/timelinemodel.cpp:4096
 #, kde-format
 msgid "Slip clip"
 msgstr "外滑剪辑"
 
-#: src/timeline2/model/timelinemodel.cpp:4117
+#: src/timeline2/model/timelinemodel.cpp:4131
 #, kde-format
 msgid "Group clips"
 msgstr "组合剪辑"
 
-#: src/timeline2/model/timelinemodel.cpp:4202
-#: src/timeline2/model/timelinemodel.cpp:4218
+#: src/timeline2/model/timelinemodel.cpp:4216
+#: src/timeline2/model/timelinemodel.cpp:4232
 #, kde-format
 msgid "Ungroup clips"
 msgstr "取消组合剪辑"
 
-#: src/timeline2/model/timelinemodel.cpp:4358
+#: src/timeline2/model/timelinemodel.cpp:4372
 #: src/timeline2/view/timelinecontroller.cpp:885
 #, kde-format
 msgid "Delete Track"
 msgstr "删除轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:4368
+#: src/timeline2/model/timelinemodel.cpp:4382
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "无法删除时间轴中的最后一条轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:4619
+#: src/timeline2/model/timelinemodel.cpp:4633
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "无法添加效果 %1 到主轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:4626
+#: src/timeline2/model/timelinemodel.cpp:4640
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "无法添加效果 %1 到所选轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:4647
+#: src/timeline2/model/timelinemodel.cpp:4661
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "无法粘贴效果到主轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:4653
+#: src/timeline2/model/timelinemodel.cpp:4667
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "无法粘贴效果到所选轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:4679
+#: src/timeline2/model/timelinemodel.cpp:4693
 #: src/timeline2/view/timelinecontroller.cpp:1478
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "无法添加效果 %1 到所选剪辑"
 
-#: src/timeline2/model/timelinemodel.cpp:4703
+#: src/timeline2/model/timelinemodel.cpp:4717
 #, kde-format
 msgid "Adjust Fade"
 msgstr "调整渐隐渐显"
 
-#: src/timeline2/model/timelinemodel.cpp:5004
+#: src/timeline2/model/timelinemodel.cpp:5018
 #, kde-format
 msgid "Insert Composition"
 msgstr "插入合成"
 
-#: src/timeline2/model/timelinemodel.cpp:5192
+#: src/timeline2/model/timelinemodel.cpp:5206
 #, kde-format
 msgid "Move composition"
 msgstr "移动合成"
 
-#: src/timeline2/model/timelinemodel.cpp:5848
+#: src/timeline2/model/timelinemodel.cpp:5862
 #, kde-format
 msgid "Enable time remap"
 msgstr "启用时间重新映射"
 
-#: src/timeline2/model/timelinemodel.cpp:5921
+#: src/timeline2/model/timelinemodel.cpp:5935
 #, kde-format
 msgid "Change speed failed"
 msgstr "更改速度失败"
 
-#: src/timeline2/model/timelinemodel.cpp:5931
+#: src/timeline2/model/timelinemodel.cpp:5945
 #, kde-format
 msgid "Change clip speed"
 msgstr "更改剪辑速度"
 
-#: src/timeline2/model/timelinemodel.cpp:6310
+#: src/timeline2/model/timelinemodel.cpp:6324
 #: src/timeline2/view/qml/timeline.qml:1187
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Lock track"
 msgstr "锁定轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:6315
+#: src/timeline2/model/timelinemodel.cpp:6329
 #: src/timeline2/view/qml/timeline.qml:1187
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Unlock track"
 msgstr "解锁轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:6349
-#: src/timeline2/model/timelinemodel.cpp:6411
+#: src/timeline2/model/timelinemodel.cpp:6363
+#: src/timeline2/model/timelinemodel.cpp:6425
 #, kde-format
 msgid "Change composition"
 msgstr "更改合成"
 
-#: src/timeline2/model/timelinemodel.cpp:6363
+#: src/timeline2/model/timelinemodel.cpp:6377
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "无法对组合的合成进行操作，请先取消组合"
 
-#: src/timeline2/model/timelinemodel.cpp:6558
-#: src/timeline2/model/timelinemodel.cpp:6595
-#: src/timeline2/model/timelinemodel.cpp:6628
-#: src/timeline2/model/timelinemodel.cpp:6709
+#: src/timeline2/model/timelinemodel.cpp:6572
+#: src/timeline2/model/timelinemodel.cpp:6609
+#: src/timeline2/model/timelinemodel.cpp:6642
+#: src/timeline2/model/timelinemodel.cpp:6723
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "无法调整混合大小到小于 1 帧"
 
-#: src/timeline2/model/timelinemodel.cpp:6569
-#: src/timeline2/model/timelinemodel.cpp:6603
-#: src/timeline2/model/timelinemodel.cpp:6647
-#: src/timeline2/model/timelinemodel.cpp:6733
+#: src/timeline2/model/timelinemodel.cpp:6583
+#: src/timeline2/model/timelinemodel.cpp:6617
+#: src/timeline2/model/timelinemodel.cpp:6661
+#: src/timeline2/model/timelinemodel.cpp:6747
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "无法调整混合大小"
 
-#: src/timeline2/model/timelinemodel.cpp:6747
+#: src/timeline2/model/timelinemodel.cpp:6761
 #, kde-format
 msgid "Resize mix"
 msgstr "调整混合大小"
 
-#: src/timeline2/model/timelinemodel.cpp:6886
+#: src/timeline2/model/timelinemodel.cpp:6900
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "初始化时间轴预览出错"
@@ -16410,12 +16398,12 @@ msgstr "解除锁定字幕轨道"
 msgid "Lock subtitle track"
 msgstr "锁定字幕轨道"
 
-#: src/timeline2/view/timelinetabs.cpp:46
+#: src/timeline2/view/timelinetabs.cpp:48
 #, kde-format
 msgid "Add Timeline Sequence"
 msgstr "添加时间轴序列"
 
-#: src/timeline2/view/timelinetabs.cpp:48
+#: src/timeline2/view/timelinetabs.cpp:50
 #, kde-format
 msgid ""
 "Add Timeline Sequence. This will create a new timeline for editing. Each "
@@ -16424,10 +16412,16 @@ msgstr ""
 "添加时间轴序列。这将新建一条用于编辑的时间轴。每条时间轴对应项目素材箱中的一"
 "条序列剪辑"
 
-#: src/timeline2/view/timelinetabs.cpp:214
+#: src/timeline2/view/timelinetabs.cpp:217
 #, kde-format
 msgid "Close %1"
 msgstr "关闭 %1"
+
+#: src/timeline2/view/timelinetabs.cpp:367
+#, fuzzy, kde-format
+#| msgid "Image Sequence"
+msgid "Rename Sequence"
+msgstr "图像序列"
 
 #: src/timeline2/view/timelinewidget.cpp:73
 #, kde-format
@@ -16765,10 +16759,9 @@ msgid "Load Title"
 msgstr "加载字幕"
 
 #: src/titler/titlewidget.cpp:2138
-#, fuzzy, kde-format
-#| msgid "Kdenlive"
+#, kde-format
 msgid "Kdenlive title"
-msgstr "Kdenlive"
+msgstr "Kdenlive 字幕"
 
 #: src/titler/titlewidget.cpp:2184
 #, kde-format
@@ -21134,48 +21127,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgid "Kdenlive Project (*.kdenlive)"
-#~ msgstr "Kdenlive 项目 (*.kdenlive)"
-
-#~ msgid "Archived Project (*.tar.gz *.zip)"
-#~ msgstr "归档项目 (*.tar.gz *.zip)"
-
-#~ msgid "Kdenlive title (*.kdenlivetitle)"
-#~ msgstr "Kdenlive 字幕 (*.kdenlivettile)"
-
-#~ msgid "Rename guide"
-#~ msgstr "重命名辅助线"
-
-#~ msgid "Add guide"
-#~ msgstr "添加辅助线"
-
-#~ msgid "Delete guide"
-#~ msgstr "删除辅助线"
-
-#~ msgid "Edit guide"
-#~ msgstr "编辑辅助线"
-
-#~ msgid "Import guides"
-#~ msgstr "导入辅助线"
-
-#~ msgid "Delete all guides"
-#~ msgstr "删除所有辅助线"
-
-#~ msgid "Edit Guides Category"
-#~ msgstr "编辑辅助线类别"
-
-#~ msgid "Guides Category"
-#~ msgstr "辅助线类别"
-
-#~ msgid "Edit guides"
-#~ msgstr "编辑辅助线"
-
-#~ msgid "Edit Guide"
-#~ msgstr "编辑辅助线"
-
-#~ msgid "Add Guides"
-#~ msgstr "添加辅助线"
-
-#~ msgid "Add guides"
-#~ msgstr "添加辅助线"
