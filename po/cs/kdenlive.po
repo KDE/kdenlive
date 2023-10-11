@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-10 00:41+0000\n"
+"POT-Creation-Date: 2023-10-11 00:42+0000\n"
 "PO-Revision-Date: 2023-06-28 14:16+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -3104,10 +3104,9 @@ msgid "Reload custom effect"
 msgstr ""
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:68
-#, fuzzy, kde-format
-#| msgid "Edit Guide…"
+#, kde-format
 msgid "Edit Info…"
-msgstr "Upravit zarážku…"
+msgstr ""
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:73
 #, kde-format
@@ -4277,10 +4276,9 @@ msgid "The current clip <b>%1</b> is not inserted in the active timeline."
 msgstr ""
 
 #: src/bin/bin.cpp:1949
-#, fuzzy, kde-format
-#| msgid "You cannot insert a sequence containing itself"
+#, kde-format
 msgid "You cannot insert the sequence <b>%1</b> into itself."
-msgstr "Nelze vložit sekvenci obsahující sebe samu"
+msgstr ""
 
 #: src/bin/bin.cpp:1968
 #, kde-format
@@ -4303,16 +4301,14 @@ msgid ""
 msgstr ""
 
 #: src/bin/bin.cpp:1986 src/timeline2/model/timelineitemmodel.cpp:909
-#, fuzzy, kde-format
-#| msgid "Record audio"
+#, kde-format
 msgid "Replace audio"
-msgstr "Nahrávat zvuk"
+msgstr ""
 
 #: src/bin/bin.cpp:1989 src/timeline2/model/timelineitemmodel.cpp:909
-#, fuzzy, kde-format
-#| msgid "Replace Clip…"
+#, kde-format
 msgid "Replace video"
-msgstr "Nahradit klip..."
+msgstr ""
 
 #: src/bin/bin.cpp:1999
 #, kde-format
@@ -4354,10 +4350,9 @@ msgid ""
 msgstr ""
 
 #: src/bin/bin.cpp:2083
-#, fuzzy, kde-format
-#| msgid "Clip in Timeline"
+#, kde-format
 msgid "Replace in timeline"
-msgstr "Klip v časové ose"
+msgstr ""
 
 #: src/bin/bin.cpp:2104 src/bin/bin.cpp:5691 src/bin/clipcreator.cpp:326
 #, kde-format
@@ -4625,10 +4620,9 @@ msgid "Replace Clip…"
 msgstr "Nahradit klip..."
 
 #: src/bin/bin.cpp:3628
-#, fuzzy, kde-format
-#| msgid "Replace Clip…"
+#, kde-format
 msgid "Replace Clip In Timeline…"
-msgstr "Nahradit klip..."
+msgstr ""
 
 #: src/bin/bin.cpp:3633
 #, kde-format
@@ -5219,7 +5213,7 @@ msgid "Cut clip"
 msgstr "Rozdělit klip"
 
 #: src/bin/model/subtitlemodel.cpp:788 src/bin/model/subtitlemodel.cpp:1521
-#: src/timeline2/model/timelinemodel.cpp:3585
+#: src/timeline2/model/timelinemodel.cpp:3599
 #, kde-format
 msgid "Resize subtitle"
 msgstr ""
@@ -5864,10 +5858,9 @@ msgid "Duplicate Clip with Speed Change…"
 msgstr "Duplikovat klip se změnou rychlosti…"
 
 #: src/dialogs/clipjobmanager.cpp:249
-#, fuzzy, kde-format
-#| msgid "Executable"
+#, kde-format
 msgid "Missing executable"
-msgstr "Program"
+msgstr ""
 
 #: src/dialogs/clipjobmanager.cpp:252
 #, kde-format
@@ -6831,16 +6824,14 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/renderwidget.cpp:1815
-#, fuzzy, kde-format
-#| msgid "Current Project"
+#, kde-format
 msgid "Add to Current Project"
-msgstr "Současný projekt"
+msgstr ""
 
 #: src/dialogs/renderwidget.cpp:1818 src/library/librarywidget.cpp:251
-#, fuzzy, kde-format
-#| msgid "Destination Folder"
+#, kde-format
 msgid "Open Containing Folder"
-msgstr "Cílová složka"
+msgstr "Otevřít odpovídající složku"
 
 #: src/dialogs/speechdialog.cpp:42
 #, kde-format
@@ -13328,17 +13319,14 @@ msgid "Cannot perform assign"
 msgstr ""
 
 #: src/project/projectmanager.cpp:65
-#, fuzzy, kde-format
-#| msgid "Render Project"
+#, kde-format
 msgid "Kdenlive Project"
-msgstr "Renderovat projekt"
+msgstr ""
 
 #: src/project/projectmanager.cpp:67
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Archive Project"
+#, kde-format
 msgid "Archived Project"
-msgstr "Archivovat projekt"
+msgstr ""
 
 #: src/project/projectmanager.cpp:140
 #, kde-format
@@ -15246,7 +15234,7 @@ msgid "Delete clips on track"
 msgstr ""
 
 #: src/timeline2/model/timelineitemmodel.cpp:135
-#: src/timeline2/model/timelinemodel.cpp:4249
+#: src/timeline2/model/timelinemodel.cpp:4263
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -15288,10 +15276,9 @@ msgid "Clips replaced: %1, Clips too long: %2"
 msgstr ""
 
 #: src/timeline2/model/timelineitemmodel.cpp:909
-#, fuzzy, kde-format
-#| msgid "Replace Clip…"
+#, kde-format
 msgid "Replace clip"
-msgstr "Nahradit klip..."
+msgstr ""
 
 #: src/timeline2/model/timelinemodel.cpp:942
 #: src/timeline2/model/timelinemodel.cpp:1147
@@ -15401,32 +15388,32 @@ msgstr ""
 msgid "Removing mix failed"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:3581
+#: src/timeline2/model/timelinemodel.cpp:3595
 #, kde-format
 msgid "Resize clip"
 msgstr "Změnit délku klipu"
 
-#: src/timeline2/model/timelinemodel.cpp:3583
+#: src/timeline2/model/timelinemodel.cpp:3597
 #, kde-format
 msgid "Resize composition"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:3900
+#: src/timeline2/model/timelinemodel.cpp:3914
 #, kde-format
 msgid "Ripple resize clip"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:3902
+#: src/timeline2/model/timelinemodel.cpp:3916
 #, kde-format
 msgid "Ripple resize composition"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:3904
+#: src/timeline2/model/timelinemodel.cpp:3918
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4047
+#: src/timeline2/model/timelinemodel.cpp:4061
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -15435,136 +15422,136 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: src/timeline2/model/timelinemodel.cpp:4082
+#: src/timeline2/model/timelinemodel.cpp:4096
 #, kde-format
 msgid "Slip clip"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4117
+#: src/timeline2/model/timelinemodel.cpp:4131
 #, kde-format
 msgid "Group clips"
 msgstr "Seskupit klipy"
 
-#: src/timeline2/model/timelinemodel.cpp:4202
-#: src/timeline2/model/timelinemodel.cpp:4218
+#: src/timeline2/model/timelinemodel.cpp:4216
+#: src/timeline2/model/timelinemodel.cpp:4232
 #, kde-format
 msgid "Ungroup clips"
 msgstr "Zrušit seskupení klipů"
 
-#: src/timeline2/model/timelinemodel.cpp:4358
+#: src/timeline2/model/timelinemodel.cpp:4372
 #: src/timeline2/view/timelinecontroller.cpp:885
 #, kde-format
 msgid "Delete Track"
 msgstr "Smazat stopu"
 
-#: src/timeline2/model/timelinemodel.cpp:4368
+#: src/timeline2/model/timelinemodel.cpp:4382
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4619
+#: src/timeline2/model/timelinemodel.cpp:4633
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4626
+#: src/timeline2/model/timelinemodel.cpp:4640
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4647
+#: src/timeline2/model/timelinemodel.cpp:4661
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4653
+#: src/timeline2/model/timelinemodel.cpp:4667
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4679
+#: src/timeline2/model/timelinemodel.cpp:4693
 #: src/timeline2/view/timelinecontroller.cpp:1478
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4703
+#: src/timeline2/model/timelinemodel.cpp:4717
 #, kde-format
 msgid "Adjust Fade"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:5004
+#: src/timeline2/model/timelinemodel.cpp:5018
 #, kde-format
 msgid "Insert Composition"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:5192
+#: src/timeline2/model/timelinemodel.cpp:5206
 #, kde-format
 msgid "Move composition"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:5848
+#: src/timeline2/model/timelinemodel.cpp:5862
 #, kde-format
 msgid "Enable time remap"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:5921
+#: src/timeline2/model/timelinemodel.cpp:5935
 #, kde-format
 msgid "Change speed failed"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:5931
+#: src/timeline2/model/timelinemodel.cpp:5945
 #, kde-format
 msgid "Change clip speed"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:6310
+#: src/timeline2/model/timelinemodel.cpp:6324
 #: src/timeline2/view/qml/timeline.qml:1187
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Lock track"
 msgstr "Uzamknout stopu"
 
-#: src/timeline2/model/timelinemodel.cpp:6315
+#: src/timeline2/model/timelinemodel.cpp:6329
 #: src/timeline2/view/qml/timeline.qml:1187
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Unlock track"
 msgstr "Odemknout stopu"
 
-#: src/timeline2/model/timelinemodel.cpp:6349
-#: src/timeline2/model/timelinemodel.cpp:6411
+#: src/timeline2/model/timelinemodel.cpp:6363
+#: src/timeline2/model/timelinemodel.cpp:6425
 #, kde-format
 msgid "Change composition"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:6363
+#: src/timeline2/model/timelinemodel.cpp:6377
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:6558
-#: src/timeline2/model/timelinemodel.cpp:6595
-#: src/timeline2/model/timelinemodel.cpp:6628
-#: src/timeline2/model/timelinemodel.cpp:6709
+#: src/timeline2/model/timelinemodel.cpp:6572
+#: src/timeline2/model/timelinemodel.cpp:6609
+#: src/timeline2/model/timelinemodel.cpp:6642
+#: src/timeline2/model/timelinemodel.cpp:6723
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:6569
-#: src/timeline2/model/timelinemodel.cpp:6603
-#: src/timeline2/model/timelinemodel.cpp:6647
-#: src/timeline2/model/timelinemodel.cpp:6733
+#: src/timeline2/model/timelinemodel.cpp:6583
+#: src/timeline2/model/timelinemodel.cpp:6617
+#: src/timeline2/model/timelinemodel.cpp:6661
+#: src/timeline2/model/timelinemodel.cpp:6747
 #, kde-format
 msgid "Cannot resize mix"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:6747
+#: src/timeline2/model/timelinemodel.cpp:6761
 #, kde-format
 msgid "Resize mix"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:6886
+#: src/timeline2/model/timelinemodel.cpp:6900
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "Chyba během inicializace náhledu časové osy"
@@ -16228,22 +16215,28 @@ msgstr ""
 msgid "Lock subtitle track"
 msgstr ""
 
-#: src/timeline2/view/timelinetabs.cpp:46
+#: src/timeline2/view/timelinetabs.cpp:48
 #, kde-format
 msgid "Add Timeline Sequence"
 msgstr "Přidat sekvence časové osy"
 
-#: src/timeline2/view/timelinetabs.cpp:48
+#: src/timeline2/view/timelinetabs.cpp:50
 #, kde-format
 msgid ""
 "Add Timeline Sequence. This will create a new timeline for editing. Each "
 "timeline corresponds to a Sequence Clip in the Project Bin"
 msgstr ""
 
-#: src/timeline2/view/timelinetabs.cpp:214
+#: src/timeline2/view/timelinetabs.cpp:217
 #, kde-format
 msgid "Close %1"
 msgstr "Zavřít %1"
+
+#: src/timeline2/view/timelinetabs.cpp:367
+#, fuzzy, kde-format
+#| msgid "Image Sequence"
+msgid "Rename Sequence"
+msgstr "Obrázková sekvence"
 
 #: src/timeline2/view/timelinewidget.cpp:73
 #, kde-format
@@ -16581,10 +16574,9 @@ msgid "Load Title"
 msgstr "Načíst titulky"
 
 #: src/titler/titlewidget.cpp:2138
-#, fuzzy, kde-format
-#| msgid "Kdenlive"
+#, kde-format
 msgid "Kdenlive title"
-msgstr "Kdenlive"
+msgstr ""
 
 #: src/titler/titlewidget.cpp:2184
 #, kde-format
@@ -20940,12 +20932,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Kdenlive Project (*.kdenlive)"
-#~ msgstr "Projekt Kdenlive (*.kdenlive)"
-
-#~ msgid "Archived Project (*.tar.gz *.zip)"
-#~ msgstr "Archivovaný projekt (*.tar.gz *.zip)"
-
-#~ msgid "Kdenlive title (*.kdenlivetitle)"
-#~ msgstr "Titul Kdenlive (*.kdenlivetitle)"
