@@ -5628,6 +5628,14 @@ void Bin::requestTranscoding(const QString &url, const QString &id, int type, bo
     m_transcodingDialog->show();
 }
 
+void Bin::addFilterToClip(const QString &sourceClipId, const QString &filterId, stringMap params)
+{
+    std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(sourceClipId);
+    if (clip) {
+        clip->addEffect(filterId, params);
+    }
+}
+
 bool Bin::addProjectClipInFolder(const QString &path, const QString &sourceClipId, const QString &sourceFolder, const QString &jobId)
 {
     // Check if the clip is already inserted in the project, if yes exit

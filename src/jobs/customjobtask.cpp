@@ -273,11 +273,21 @@ void CustomJobTask::run()
             QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to create file.")),
                                       Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
         } else {
-            QMetaObject::invokeMethod(pCore->bin(), "addProjectClipInFolder", Qt::QueuedConnection, Q_ARG(QString, destPath),
-                                      Q_ARG(QString, QString::number(m_owner.itemId)), Q_ARG(QString, folderId), Q_ARG(QString, m_jobId));
+            QStringList lutExtentions = {QLatin1String("cube"), QLatin1String("3dl"), QLatin1String("dat"),
+                                         QLatin1String("m3d"),  QLatin1String("csp"), QLatin1String("interp")};
+            const QString ext = destPath.section(QLatin1Char('.'), -1);
+            if (lutExtentions.contains(ext)) {
+                QMap<QString, QString> params;
+                params.insert(QStringLiteral("av.file"), destPath);
+                QMetaObject::invokeMethod(pCore->bin(), "addFilterToClip", Qt::QueuedConnection, Q_ARG(QString, QString::number(m_owner.itemId)),
+                                          Q_ARG(QString, QStringLiteral("avfilter.lut3d")), Q_ARG(stringMap, params));
+            } else {
+                QMetaObject::invokeMethod(pCore->bin(), "addProjectClipInFolder", Qt::QueuedConnection, Q_ARG(QString, destPath),
+                                          Q_ARG(QString, QString::number(m_owner.itemId)), Q_ARG(QString, folderId), Q_ARG(QString, m_jobId));
+            }
         }
     } else {
-        // Proxy process crashed
+        // Process crashed
         QFile::remove(destPath);
         if (!m_isCanceled) {
             QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to create file.")),

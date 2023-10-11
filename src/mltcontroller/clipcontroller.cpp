@@ -1024,9 +1024,9 @@ std::shared_ptr<EffectStackModel> ClipController::getEffectStack() const
     return m_effectStack;
 }
 
-bool ClipController::addEffect(const QString &effectId)
+bool ClipController::addEffect(const QString &effectId, stringMap params)
 {
-    return m_effectStack->appendEffect(effectId, true);
+    return m_effectStack->appendEffect(effectId, true, params);
 }
 
 bool ClipController::copyEffect(const std::shared_ptr<EffectStackModel> &stackModel, int rowId)

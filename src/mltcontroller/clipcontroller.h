@@ -182,7 +182,7 @@ public:
     std::shared_ptr<EffectStackModel> getEffectStack() const;
 
     /** @brief Append an effect to this producer's effect list */
-    bool addEffect(const QString &effectId);
+    bool addEffect(const QString &effectId, stringMap params = {});
 
     /** @brief Returns the list of all audio streams indexes for this clip */
     QMap <int, QString> audioStreams() const;

@@ -480,7 +480,7 @@ bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sou
     return res;
 }
 
-bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
+bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent, stringMap params)
 {
     QWriteLocker locker(&m_lock);
     if (m_ownerId.type == ObjectType::TimelineClip && EffectsRepository::get()->isUnique(effectId) && hasEffect(effectId)) {
@@ -507,6 +507,11 @@ bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
             pCore->displayMessage(i18n("Cannot add effect to clip"), ErrorMessage);
             return false;
         }
+    }
+    QMapIterator<QString, QString> i(params);
+    while (i.hasNext()) {
+        i.next();
+        effect->filter().set(i.key().toUtf8().constData(), i.value().toUtf8().constData());
     }
     Fun undo = removeItem_lambda(effect->getId());
     // TODO the parent should probably not always be the root

@@ -43,7 +43,7 @@ protected:
 
 public:
     /** @brief Add an effect at the bottom of the stack */
-    bool appendEffect(const QString &effectId, bool makeCurrent = false);
+    bool appendEffect(const QString &effectId, bool makeCurrent = false, stringMap params = {});
     /** @brief Copy an existing effect and append it at the bottom of the stack
      */
     bool copyEffect(const std::shared_ptr<AbstractEffectItem> &sourceItem, PlaylistState::ClipState state, bool logUndo = true);
