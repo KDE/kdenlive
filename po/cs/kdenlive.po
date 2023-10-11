@@ -13256,17 +13256,14 @@ msgid "Cannot perform assign"
 msgstr ""
 
 #: src/project/projectmanager.cpp:65
-#, fuzzy, kde-format
-#| msgid "Render Project"
+#, kde-format
 msgid "Kdenlive Project"
-msgstr "Renderovat projekt"
+msgstr ""
 
 #: src/project/projectmanager.cpp:67
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Archive Project"
+#, kde-format
 msgid "Archived Project"
-msgstr "Archivovat projekt"
+msgstr ""
 
 #: src/project/projectmanager.cpp:140
 #, kde-format
@@ -16479,10 +16476,9 @@ msgid "Load Title"
 msgstr "Načíst titulky"
 
 #: src/titler/titlewidget.cpp:2136
-#, fuzzy, kde-format
-#| msgid "Kdenlive"
+#, kde-format
 msgid "Kdenlive title"
-msgstr "Kdenlive"
+msgstr ""
 
 #: src/titler/titlewidget.cpp:2182
 #, kde-format
@@ -20855,12 +20851,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Kdenlive Project (*.kdenlive)"
-#~ msgstr "Projekt Kdenlive (*.kdenlive)"
-
-#~ msgid "Archived Project (*.tar.gz *.zip)"
-#~ msgstr "Archivovaný projekt (*.tar.gz *.zip)"
-
-#~ msgid "Kdenlive title (*.kdenlivetitle)"
-#~ msgstr "Titul Kdenlive (*.kdenlivetitle)"

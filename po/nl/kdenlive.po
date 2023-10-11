@@ -10,9 +10,9 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-10 02:35+0000\n"
-"PO-Revision-Date: 2023-10-04 10:55+0200\n"
+"PO-Revision-Date: 2023-10-10 12:07+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
-"Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
+"Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5221,7 +5221,7 @@ msgstr "Hulplijn verwijderen"
 #: src/bin/model/markerlistmodel.cpp:318
 #, kde-format
 msgid "Delete marker"
-msgstr "Verwijder markering"
+msgstr "Markering verwijderen"
 
 #: src/bin/model/markerlistmodel.cpp:345
 #, kde-format
@@ -10432,7 +10432,7 @@ msgstr "Overgang toevoegen aan selectie"
 #: src/mainwindow.cpp:1686
 #, kde-format
 msgid "Delete All Markers"
-msgstr "Verwijder alle markeringen"
+msgstr "Alle markeringen verwijderen"
 
 #: src/mainwindow.cpp:1688
 #, kde-format
@@ -10452,7 +10452,7 @@ msgstr "Markering toevoegen"
 #: src/mainwindow.cpp:1698
 #, kde-format
 msgid "Delete Marker"
-msgstr "Verwijder markering"
+msgstr "Markering verwijderen"
 
 #: src/mainwindow.cpp:1702
 #, kde-format
