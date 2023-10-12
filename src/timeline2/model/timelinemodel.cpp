@@ -4761,10 +4761,8 @@ void TimelineModel::updateDuration()
     }
     int current = m_blackClip->get_playtime() - TimelineModel::seekDuration - 1;
     int duration = 0;
-    int ix = 0;
     for (const auto &tck : m_iteratorTable) {
         auto track = (*tck.second);
-        ix++;
         if (track->isAudioTrack()) {
             if (track->isMute()) {
                 continue;
