@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-10 02:35+0000\n"
-"PO-Revision-Date: 2023-10-10 12:07+0200\n"
+"PO-Revision-Date: 2023-10-11 13:57+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -8429,7 +8429,7 @@ msgstr "In:"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:140
 #, kde-format
 msgid "Set zone in"
-msgstr "Startzone instellen"
+msgstr "Zone-begin instellen"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:141
 #, kde-kuit-format
@@ -8446,7 +8446,7 @@ msgstr "Uit:"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:152
 #, kde-format
 msgid "Set zone out"
-msgstr "Eindzone instellen"
+msgstr "Zone-eind instellen"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:153
 #, kde-kuit-format
@@ -10303,7 +10303,7 @@ msgstr ""
 #: src/mainwindow.cpp:1646
 #, kde-format
 msgid "Extract Timeline Zone"
-msgstr "Extract tijdlijnzone"
+msgstr "Tijdlijnzone extraheren"
 
 #: src/mainwindow.cpp:1648
 #, kde-kuit-format
@@ -11708,12 +11708,12 @@ msgstr "1:1"
 #: src/monitor/monitor.cpp:315 src/monitor/monitormanager.cpp:630
 #, kde-format
 msgid "Set Zone In"
-msgstr "Startzone instellen"
+msgstr "Zone-begin instellen"
 
 #: src/monitor/monitor.cpp:316 src/monitor/monitormanager.cpp:634
 #, kde-format
 msgid "Set Zone Out"
-msgstr "Eindzone instellen"
+msgstr "Zone-eind instellen"
 
 #: src/monitor/monitor.cpp:328 src/monitor/monitormanager.cpp:514
 #, kde-format
