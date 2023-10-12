@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-11 00:42+0000\n"
-"PO-Revision-Date: 2023-10-10 12:07+0200\n"
+"POT-Creation-Date: 2023-10-12 00:41+0000\n"
+"PO-Revision-Date: 2023-10-11 13:57+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -4530,7 +4530,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "In tijdlijn vervangen"
 
-#: src/bin/bin.cpp:2104 src/bin/bin.cpp:5691 src/bin/clipcreator.cpp:326
+#: src/bin/bin.cpp:2104 src/bin/bin.cpp:5699 src/bin/clipcreator.cpp:326
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -5046,29 +5046,29 @@ msgstr "Kan clip, waaraan markering moet worden toegevoegd, niet vinden"
 msgid "Could not find master clip"
 msgstr "Kon hoofd-clip niet vinden"
 
-#: src/bin/bin.cpp:5713
+#: src/bin/bin.cpp:5721
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> clips | "
 
-#: src/bin/bin.cpp:5715
+#: src/bin/bin.cpp:5723
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> clips (%2 geselecteerd) | "
 
-#: src/bin/bin.cpp:5782 src/bin/bin.cpp:5859
+#: src/bin/bin.cpp:5790 src/bin/bin.cpp:5867
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "Extra streams voor clip toevoegen"
 msgstr[1] "Extra streams voor clip toevoegen"
 
-#: src/bin/bin.cpp:5803
+#: src/bin/bin.cpp:5811
 #, kde-format
 msgid "Import selected clips"
 msgstr "Geselecteerde clips importeren"
 
-#: src/bin/bin.cpp:5805
+#: src/bin/bin.cpp:5813
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -5077,17 +5077,17 @@ msgstr ""
 "Extra streams voor clip\n"
 " %1"
 
-#: src/bin/bin.cpp:5818 src/mltcontroller/clippropertiescontroller.cpp:634
+#: src/bin/bin.cpp:5826 src/mltcontroller/clippropertiescontroller.cpp:634
 #, kde-format
 msgid "Video stream %1"
 msgstr "Video-stream %1"
 
-#: src/bin/bin.cpp:5833
+#: src/bin/bin.cpp:5841
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Audiostream %1"
 
-#: src/bin/bin.cpp:5886
+#: src/bin/bin.cpp:5894
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Markeringen van clip verwijderen"
@@ -8368,7 +8368,7 @@ msgstr "Effect kopiëren"
 #: src/effects/effectstack/model/effectstackmodel.cpp:323
 #: src/effects/effectstack/model/effectstackmodel.cpp:433
 #: src/effects/effectstack/model/effectstackmodel.cpp:487
-#: src/effects/effectstack/model/effectstackmodel.cpp:1068
+#: src/effects/effectstack/model/effectstackmodel.cpp:1073
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "Effect %1 kan niet tweemaal worden toegevoegd."
@@ -8378,12 +8378,12 @@ msgstr "Effect %1 kan niet tweemaal worden toegevoegd."
 msgid "Paste effect"
 msgstr "Effect plakken"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:570
+#: src/effects/effectstack/model/effectstackmodel.cpp:575
 #, kde-format
 msgid "Add effect %1"
 msgstr "Voeg effect %1 toe"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:898
+#: src/effects/effectstack/model/effectstackmodel.cpp:903
 #, kde-format
 msgid "Move effect %1"
 msgstr "Effect %1 verplaatsen"
@@ -8496,7 +8496,7 @@ msgstr "In:"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:140
 #, kde-format
 msgid "Set zone in"
-msgstr "Startzone instellen"
+msgstr "Zone-begin instellen"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:141
 #, kde-kuit-format
@@ -8513,7 +8513,7 @@ msgstr "Uit:"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:152
 #, kde-format
 msgid "Set zone out"
-msgstr "Eindzone instellen"
+msgstr "Zone-eind instellen"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:153
 #, kde-kuit-format
@@ -8667,7 +8667,7 @@ msgstr "Bestand <b>%1</b> heeft een variabele framesnelheid."
 msgid "Application %1 not found, please update the job settings"
 msgstr "Toepassing %1 niet gevonden, werk de taakinstellingen bij"
 
-#: src/jobs/customjobtask.cpp:273 src/jobs/customjobtask.cpp:283
+#: src/jobs/customjobtask.cpp:273 src/jobs/customjobtask.cpp:293
 #: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:234
 #: src/jobs/transcodetask.cpp:270
 #, kde-format
@@ -10376,7 +10376,7 @@ msgstr ""
 #: src/mainwindow.cpp:1638
 #, kde-format
 msgid "Extract Timeline Zone"
-msgstr "Extract tijdlijnzone"
+msgstr "Tijdlijnzone extraheren"
 
 #: src/mainwindow.cpp:1640
 #, kde-kuit-format
@@ -11781,12 +11781,12 @@ msgstr "1:1"
 #: src/monitor/monitor.cpp:315 src/monitor/monitormanager.cpp:630
 #, kde-format
 msgid "Set Zone In"
-msgstr "Startzone instellen"
+msgstr "Zone-begin instellen"
 
 #: src/monitor/monitor.cpp:316 src/monitor/monitormanager.cpp:634
 #, kde-format
 msgid "Set Zone Out"
-msgstr "Eindzone instellen"
+msgstr "Zone-eind instellen"
 
 #: src/monitor/monitor.cpp:328 src/monitor/monitormanager.cpp:514
 #, kde-format
@@ -11893,7 +11893,7 @@ msgstr "+5"
 #: src/monitor/monitor.cpp:614
 #, kde-format
 msgid "Extract Zone"
-msgstr "Extract Zone"
+msgstr "Zone extraheren"
 
 #: src/monitor/monitor.cpp:627
 #, kde-format
@@ -16808,10 +16808,9 @@ msgid "Close %1"
 msgstr "%1 sluiten"
 
 #: src/timeline2/view/timelinetabs.cpp:367
-#, fuzzy, kde-format
-#| msgid "Image Sequence"
+#, kde-format
 msgid "Rename Sequence"
-msgstr "Afbeeldingsreeks"
+msgstr "Sequentie hernoemen"
 
 #: src/timeline2/view/timelinewidget.cpp:73
 #, kde-format
