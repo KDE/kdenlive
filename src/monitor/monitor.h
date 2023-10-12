@@ -158,6 +158,8 @@ public:
     void resetScene();
     /** @brief Set monitor zone **/
     void loadZone(int in, int out);
+    /** @brief Extract current frame to image file with path **/
+    void extractFrame(const QString &path);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;

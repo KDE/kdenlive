@@ -17,6 +17,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 #include "macros.hpp"
 #include "mainwindow.h"
+#include "monitor/monitor.h"
 #include "ui_customjobinterface_ui.h"
 
 #include <QProcess>
@@ -39,6 +40,7 @@ CustomJobTask::CustomJobTask(const ObjectId &owner, const QString &jobName, cons
     , m_jobProcess(nullptr)
 {
     m_description = jobName;
+    m_tmpFrameFile.setFileTemplate(QString("%1/kdenlive-frame-.XXXXXX.png").arg(QDir::tempPath()));
 }
 
 void CustomJobTask::start(QObject *object, const QString &jobId)
@@ -69,7 +71,7 @@ void CustomJobTask::start(QObject *object, const QString &jobId)
             dia_ui.taskDescription->setVisible(false);
         }
         dia->setWindowTitle(i18n("%1 parameters", jobName));
-        if (requestParam1) {
+        if (requestParam1 && param1 != QLatin1String("frame")) {
             dia_ui.param1Label->setText(jobData.value(QLatin1String("param1name")));
             if (param1 == QLatin1String("file")) {
                 dia_ui.param1List->setVisible(false);
@@ -106,6 +108,9 @@ void CustomJobTask::start(QObject *object, const QString &jobId)
         if (requestParam1) {
             if (param1 == QLatin1String("file")) {
                 param1Value = dia_ui.param1Url->url().toLocalFile();
+            }
+            if (param1 == QLatin1String("frame")) {
+                param1Value = QStringLiteral("%tmpfile");
             } else {
                 param1Value = dia_ui.param1List->currentText();
             }
@@ -215,6 +220,7 @@ void CustomJobTask::run()
             destPath = baseDir.absoluteFilePath(fixedName + extension);
         }
     }
+    // Extract frame is necessary
     requestedOutput << destPath;
     parameters << jobParameters.split(QLatin1Char(' '), Qt::SkipEmptyParts);
 
@@ -229,7 +235,17 @@ void CustomJobTask::run()
             p.replace(QStringLiteral("{source}"), source);
         }
         if (p.contains(QStringLiteral("{param1}"))) {
-            p.replace(QStringLiteral("{param1}"), m_parameters.value(QLatin1String("param1value")));
+            QString param1Value = m_parameters.value(QLatin1String("param1value"));
+            if (param1Value == QStringLiteral("%tmpfile")) {
+                if (m_tmpFrameFile.open()) {
+                    param1Value = m_tmpFrameFile.fileName();
+                    m_tmpFrameFile.close();
+                    // Extract frame to file
+                    qDebug() << "=====================\nEXTRACTING FRAME TO: " << param1Value << "\n\n==============================";
+                    pCore->getMonitor(Kdenlive::ClipMonitor)->extractFrame(param1Value);
+                }
+            }
+            p.replace(QStringLiteral("{param1}"), param1Value);
         }
         if (p.contains(QStringLiteral("{param2}"))) {
             p.replace(QStringLiteral("{param2}"), m_parameters.value(QLatin1String("param2value")));

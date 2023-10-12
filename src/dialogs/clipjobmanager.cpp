@@ -51,22 +51,17 @@ ClipJobManager::ClipJobManager(AbstractTask::JOBTYPE type, QWidget *parent)
                "The output file name will be the same as the source bin clip filename, with the modified extension. It will be appended at the end of the "
                "arguments or inserted in place of <b>{&#x25;3}</b> if found. If output filename already exists, a -0001 pattern will be appended."));
 
-    param1_isfile->setToolTip(i18n("The first parameter that will be injected in the script arguments"));
-    param1_isfile->setWhatsThis(xi18nc("@info:whatsthis",
-                                       "<b>Source Clip Path</b> will put the selected Bin Clip path<br/><b>Request File Path</b> will ask for a file path on "
-                                       "execution<br/><b>Request Option in List</b> will ask for a choice in the list below on execution."));
-
+    param1_isfile->setToolTip(i18n("If selected, a file path will be requested on execution"));
+    param1_islist->setToolTip(i18n("If selected, a dropdown list of values will be shown on execution"));
+    param1_isframe->setToolTip(
+        i18n("If selected, the selected clip's current frame will be extracted to a temporary file and the parameter value will be the image path"));
     param1_list->setToolTip(i18n("A newline separated list of possible values that will be offered on execution"));
     param1_list->setWhatsThis(
         xi18nc("@info:whatsthis",
                "When the parameter is set to <b>Request Option in List</b> the user will be asked to choose a value in this list when the job is started."));
 
-    param2_isfile->setToolTip(i18n("The second parameter that will be injected in the script arguments"));
-    param2_isfile->setWhatsThis(xi18nc("@info:whatsthis",
-                                       "<b>Source Clip Path</b> will put the selected Bin Clip path<br/><b>Request File Path</b> will ask for a file path on "
-                                       "execution<br/><b>Request Option in List</b> will ask for a choice in the list below on execution."));
-
-    param2_list->setToolTip(i18n("A newline separated list of possible values that will be offered on execution"));
+    param2_isfile->setToolTip(i18n("If selected, a file path will be requested on execution"));
+    param1_islist->setToolTip(i18n("If selected, a dropdown list of values will be shown on execution"));
     param2_list->setWhatsThis(
         xi18nc("@info:whatsthis",
                "When the parameter is set to <b>Request Option in List</b> the user will be asked to choose a value in this list when the job is started."));
@@ -78,6 +73,12 @@ ClipJobManager::ClipJobManager(AbstractTask::JOBTYPE type, QWidget *parent)
     bg->addButton(enable_video);
     bg->addButton(enable_audio);
     bg->addButton(enable_image);
+
+    QButtonGroup *param1Bg = new QButtonGroup(this);
+    param1Bg->setExclusive(true);
+    param1Bg->addButton(param1_isfile);
+    param1Bg->addButton(param1_islist);
+    param1Bg->addButton(param1_isframe);
 
     // Mark preset as dirty if anything changes
     connect(url_binary, &KUrlRequester::textChanged, this, [this]() {
@@ -92,7 +93,7 @@ ClipJobManager::ClipJobManager(AbstractTask::JOBTYPE type, QWidget *parent)
     connect(param1_list, &QPlainTextEdit::textChanged, this, &ClipJobManager::setDirty);
     connect(param2_list, &QPlainTextEdit::textChanged, this, &ClipJobManager::setDirty);
     connect(taskDescription, &QPlainTextEdit::textChanged, this, &ClipJobManager::setDirty);
-    connect(param1_islist, &QAbstractButton::toggled, this, &ClipJobManager::setDirty);
+    connect(param1Bg, &QButtonGroup::buttonClicked, this, &ClipJobManager::setDirty);
     connect(param2_islist, &QAbstractButton::toggled, this, &ClipJobManager::setDirty);
     connect(param1_name, &QLineEdit::textChanged, this, &ClipJobManager::setDirty);
     connect(param2_name, &QLineEdit::textChanged, this, &ClipJobManager::setDirty);
@@ -220,6 +221,8 @@ void ClipJobManager::displayJob(int row)
 
     if (m_param1Type.value(jobId) == QLatin1String("list")) {
         param1_islist->setChecked(true);
+    } else if (m_param1Type.value(jobId) == QLatin1String("frame")) {
+        param1_isframe->setChecked(true);
     } else {
         param1_isfile->setChecked(true);
     }
@@ -355,7 +358,8 @@ void ClipJobManager::saveCurrentPreset()
         enabledTypes.append(QLatin1String("i"));
     }
     m_enableType.insert(m_dirty, enabledTypes);
-    m_param1Type.insert(m_dirty, param1_islist->isChecked() ? QLatin1String("list") : QLatin1String("file"));
+    m_param1Type.insert(m_dirty,
+                        param1_islist->isChecked() ? QLatin1String("list") : (param1_isframe->isChecked() ? QLatin1String("frame") : QLatin1String("file")));
     m_param2Type.insert(m_dirty, param2_islist->isChecked() ? QLatin1String("list") : QLatin1String("file"));
     QStringList option1 = param1_list->toPlainText().split(QLatin1Char('\n'));
     m_param1List.insert(m_dirty, option1.join(QLatin1String("  ")));

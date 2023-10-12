@@ -7,6 +7,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #pragma once
 
 #include "abstracttask.h"
+#include <QTemporaryFile>
 
 class QProcess;
 
@@ -33,4 +34,5 @@ private:
     std::unique_ptr<QProcess> m_jobProcess;
     QString m_errorMessage;
     QString m_logDetails;
+    QTemporaryFile m_tmpFrameFile;
 };
