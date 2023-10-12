@@ -3611,7 +3611,12 @@ bool TimelineModel::requestItemResize(int itemId, int &size, bool right, bool lo
             std::pair<MixInfo, MixInfo> mixData = getTrackById_const(tid)->getMixInfo(itemId);
             if (right && mixData.second.firstClipId > -1) {
                 hasMix = true;
-                size = qMin(size, mixData.second.secondClipInOut.second - mixData.second.firstClipInOut.first);
+                if (mixData.second.firstClipInOut.first + size < mixData.second.secondClipInOut.first) {
+                    // Resize is outside mix zone, remove mix
+                    removeMixWithUndo(mixData.second.secondClipId, undo, redo);
+                } else {
+                    size = qMin(size, mixData.second.secondClipInOut.second - mixData.second.firstClipInOut.first);
+                }
             } else if (!right && mixData.first.firstClipId > -1) {
                 hasMix = true;
                 // We have a mix at clip start, limit size to previous clip start
@@ -5760,15 +5765,12 @@ void TimelineModel::adjustAssetRange(int clipId, int in, int out)
     // pCore->adjustAssetRange(clipId, in, out);
 }
 
-void TimelineModel::requestClipReload(int clipId, int forceDuration)
+bool TimelineModel::requestClipReload(int clipId, int forceDuration, Fun &local_undo, Fun &local_redo)
 {
     if (m_closing) {
-        return;
+        return false;
     }
-    std::function<bool(void)> local_undo = []() { return true; };
-    std::function<bool(void)> local_redo = []() { return true; };
-
-    // in order to make the producer change effective, we need to unplant / replant the clip in int track
+    // in order to make the producer change effective, we need to unplant / replant the clip in its track
     int old_trackId = getClipTrackId(clipId);
     int oldPos = getClipPosition(clipId);
     int oldOut = getClipIn(clipId) + getClipPlaytime(clipId);
@@ -5784,10 +5786,15 @@ void TimelineModel::requestClipReload(int clipId, int forceDuration)
     bool timeremap = m_allClips[clipId]->hasTimeRemap();
     // Check if clip out is longer than actual producer duration (if user forced duration)
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(getClipBinId(clipId));
-    bool refreshView = oldOut > int(binClip->frameDuration()) || forceDuration > -1;
+    bool clipIsShorter = oldOut > int(binClip->frameDuration());
+    bool refreshView = clipIsShorter || forceDuration > -1;
     if (old_trackId != -1) {
+        if (clipIsShorter && forceDuration == -1 && binClip->hasLimitedDuration()) {
+            // replacement clip is shorter, resize first
+            int resizeDuration = int(binClip->frameDuration());
+            requestItemResize(clipId, resizeDuration, true, true, local_undo, local_redo);
+        }
         getTrackById(old_trackId)->requestClipDeletion(clipId, refreshView, true, local_undo, local_redo, false, false);
-
         m_allClips[clipId]->refreshProducerFromBin(old_trackId, state, audioStream, 0, hasPitch, currentSubplaylist == 1, timeremap);
         if (forceDuration > -1) {
             m_allClips[clipId]->requestResize(forceDuration, true, local_undo, local_redo);
@@ -5798,6 +5805,7 @@ void TimelineModel::requestClipReload(int clipId, int forceDuration)
             Q_EMIT dataChanged(ix, ix, {TimelineModel::MaxDurationRole});
         }
     }
+    return clipIsShorter;
 }
 
 void TimelineModel::replugClip(int clipId)

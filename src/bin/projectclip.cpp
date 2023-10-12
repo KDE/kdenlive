@@ -2515,15 +2515,23 @@ bool ProjectClip::isIncludedInTimeline()
 void ProjectClip::replaceInTimeline()
 {
     int updatedDuration = m_resetTimelineOccurences ? getFramePlaytime() : -1;
-    m_resetTimelineOccurences = false;
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool pushUndo = false;
     for (const auto &clip : m_registeredClips) {
         if (auto timeline = clip.second.lock()) {
-            timeline->requestClipReload(clip.first, updatedDuration);
+            if (timeline->requestClipReload(clip.first, updatedDuration, undo, redo)) {
+                pushUndo = true;
+            }
         } else {
             qDebug() << "Error while reloading clip: timeline unavailable";
             Q_ASSERT(false);
         }
     }
+    if (pushUndo && !m_resetTimelineOccurences) {
+        pCore->pushUndo(undo, redo, i18n("Adjust timeline clips"));
+    }
+    m_resetTimelineOccurences = false;
 }
 
 void ProjectClip::updateTimelineClips(const QVector<int> &roles)
