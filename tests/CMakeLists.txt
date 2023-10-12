@@ -14,6 +14,7 @@ set(KdenliveTest_SOURCES
     effectstest.cpp
     filetest.cpp
     groupstest.cpp
+    hidetest.cpp
     keyframetest.cpp
     markertest.cpp
     mixtest.cpp

@@ -4767,15 +4767,23 @@ void TimelineModel::updateDuration()
     }
     int current = m_blackClip->get_playtime() - TimelineModel::seekDuration - 1;
     int duration = 0;
+    int ix = 0;
     for (const auto &tck : m_iteratorTable) {
         auto track = (*tck.second);
+        ix++;
+        if (track->isAudioTrack()) {
+            if (track->isMute()) {
+                continue;
+            }
+        } else if (track->isHidden()) {
+            continue;
+        }
         duration = qMax(duration, track->trackDuration());
     }
     if (m_subtitleModel) {
         duration = qMax(duration, m_subtitleModel->trackDuration());
     }
     if (duration != current) {
-        qDebug() << ":::: DURATION FOR TIMELINE MODE:" << duration << " = " << current;
         // update black track length
         std::unique_ptr<Mlt::Field> field(m_tractor->field());
         field->lock();

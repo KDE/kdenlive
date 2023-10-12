@@ -306,12 +306,12 @@ void TimelineController::hideTrack(int trackId, bool hide)
     QString previousState = m_model->getTrackProperty(trackId, QStringLiteral("hide")).toString();
     Fun undo_lambda = [this, trackId, previousState]() {
         m_model->setTrackProperty(trackId, QStringLiteral("hide"), previousState);
-        checkDuration();
+        m_model->updateDuration();
         return true;
     };
     Fun redo_lambda = [this, trackId, state]() {
         m_model->setTrackProperty(trackId, QStringLiteral("hide"), state);
-        checkDuration();
+        m_model->updateDuration();
         return true;
     };
     redo_lambda();

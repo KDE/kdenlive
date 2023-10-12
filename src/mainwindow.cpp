@@ -2433,7 +2433,6 @@ void MainWindow::connectDocument()
     bool compositing = project->getDocumentProperty(QStringLiteral("compositing"), QStringLiteral("1")).toInt() > 0;
     Q_EMIT project->updateCompositionMode(compositing);
     getCurrentTimeline()->controller()->switchCompositing(compositing);
-    connect(getCurrentTimeline()->controller(), &TimelineController::durationChanged, pCore->projectManager(), &ProjectManager::adjustProjectDuration);
     slotUpdateProjectDuration(getCurrentTimeline()->model()->duration() - 1);
     const QUuid uuid = getCurrentTimeline()->getUuid();
 
