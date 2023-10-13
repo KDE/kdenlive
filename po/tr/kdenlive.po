@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-12 00:41+0000\n"
+"POT-Creation-Date: 2023-10-13 00:42+0000\n"
 "PO-Revision-Date: 2023-10-11 13:45+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -3377,7 +3377,7 @@ msgstr ""
 msgid "%1 effects"
 msgstr "%1 efektleri"
 
-#: src/assets/assetpanel.cpp:243 src/jobs/customjobtask.cpp:71
+#: src/assets/assetpanel.cpp:243 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "%1 Parametreleri"
@@ -4610,7 +4610,7 @@ msgstr "Video Sesini Kapat"
 #: src/bin/bin.cpp:2424 src/effects/effectlist/model/effecttreemodel.cpp:62
 #: src/layoutmanagement.cpp:36 src/lib/audio/audioStreamInfo.cpp:24
 #: src/monitor/recmanager.cpp:46 src/onlineresources/resourcewidget.cpp:594
-#: src/ui/clipjobmanager_ui.ui:381 src/ui/configcapture_ui.ui:525
+#: src/ui/clipjobmanager_ui.ui:388 src/ui/configcapture_ui.ui:525
 #: src/ui/cutjobdialog_ui.ui:61 src/ui/editrenderpreset_ui.ui:834
 #: src/ui/projectsettings_ui.ui:180 src/ui/renderwidget_ui.ui:598
 #, kde-format
@@ -4875,7 +4875,7 @@ msgstr "Klasörlere efektler uygulanamaz"
 
 #: src/bin/bin.cpp:3969 src/effects/effectstack/model/effectstackmodel.cpp:501
 #: src/effects/effectstack/model/effectstackmodel.cpp:507
-#: src/mainwindow.cpp:3161
+#: src/mainwindow.cpp:3160
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Klibe efekt eklenemez"
@@ -5018,7 +5018,7 @@ msgstr ""
 "Projenizin tüm akışları işlemesi için daha fazla ses izine gereksinimi var. "
 "%1 ses izi eklensin mi?"
 
-#: src/bin/bin.cpp:5401 src/mainwindow.cpp:2723
+#: src/bin/bin.cpp:5401 src/mainwindow.cpp:2722
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "İmleyici eklenecek klip bulunamadı"
@@ -5215,7 +5215,7 @@ msgstr "Çift Tıklamada Dosya İçe Aktar"
 #: src/bin/mediabrowser.cpp:162 src/dialogs/clipcreationdialog.cpp:499
 #: src/effects/effectlist/view/effectlistwidget.cpp:128
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:300
-#: src/mainwindow.cpp:3943 src/onlineresources/resourcewidget.cpp:600
+#: src/mainwindow.cpp:3942 src/onlineresources/resourcewidget.cpp:600
 #, kde-format
 msgid "All Files"
 msgstr "Tüm Dosyalar"
@@ -5466,12 +5466,18 @@ msgstr "Geçersiz"
 msgid "File already exists"
 msgstr "Dosya halihazırda var"
 
-#: src/bin/projectclip.cpp:2764
+#: src/bin/projectclip.cpp:2547
+#, fuzzy, kde-format
+#| msgid "Paste timeline clips"
+msgid "Adjust timeline clips"
+msgstr "Zaman akışı kliplerini yapıştır"
+
+#: src/bin/projectclip.cpp:2772
 #, kde-format
 msgid "Add stream effect"
 msgstr "Akış efekti ekle"
 
-#: src/bin/projectclip.cpp:2789
+#: src/bin/projectclip.cpp:2797
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Akış efektini kaldır"
@@ -6000,31 +6006,39 @@ msgstr ""
 "<b>{&#x25;3}</b> yerine eklenir. Çıktı dosyası adı halihazırda varsa bir "
 "-0001 dizgisi iliştirilir."
 
-#: src/dialogs/clipjobmanager.cpp:54
-#, kde-format
-msgid "The first parameter that will be injected in the script arguments"
-msgstr "Betik argümanlarında iliştirilecek ilk parametre"
-
-#: src/dialogs/clipjobmanager.cpp:56 src/dialogs/clipjobmanager.cpp:66
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid ""
-"<b>Source Clip Path</b> will put the selected Bin Clip path<br/><b>Request "
-"File Path</b> will ask for a file path on execution<br/><b>Request Option in "
-"List</b> will ask for a choice in the list below on execution."
+#: src/dialogs/clipjobmanager.cpp:54 src/dialogs/clipjobmanager.cpp:63
+#, fuzzy, kde-format
+#| msgid ""
+#| "A newline separated list of possible values that will be offered on "
+#| "execution"
+msgid "If selected, a file path will be requested on execution"
 msgstr ""
-"<b>Kaynak Klibi Yolu</b>, seçili Kova Klibi yolunu koyar<br/><b>Dosya Yolunu "
-"İste</b>, yürütürken bir dosya yolu ister<br/><b>Listeden Seçenek İste</b>, "
-"aşağıdaki listede yürütme için bir seçim ister."
+"Yürütme sırasında sunulacak olası listelerin yenisatırla ayrılmış bir listesi"
 
-#: src/dialogs/clipjobmanager.cpp:59 src/dialogs/clipjobmanager.cpp:69
+#: src/dialogs/clipjobmanager.cpp:55 src/dialogs/clipjobmanager.cpp:64
+#, fuzzy, kde-format
+#| msgid ""
+#| "A newline separated list of possible values that will be offered on "
+#| "execution"
+msgid "If selected, a dropdown list of values will be shown on execution"
+msgstr ""
+"Yürütme sırasında sunulacak olası listelerin yenisatırla ayrılmış bir listesi"
+
+#: src/dialogs/clipjobmanager.cpp:57
+#, kde-format
+msgid ""
+"If selected, the selected clip's current frame will be extracted to a "
+"temporary file and the parameter value will be the image path"
+msgstr ""
+
+#: src/dialogs/clipjobmanager.cpp:58
 #, kde-format
 msgid ""
 "A newline separated list of possible values that will be offered on execution"
 msgstr ""
 "Yürütme sırasında sunulacak olası listelerin yenisatırla ayrılmış bir listesi"
 
-#: src/dialogs/clipjobmanager.cpp:62 src/dialogs/clipjobmanager.cpp:72
+#: src/dialogs/clipjobmanager.cpp:61 src/dialogs/clipjobmanager.cpp:67
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6034,52 +6048,47 @@ msgstr ""
 "Parametre <b>Listeden Seçenek İste</b> olarak ayarlandığında, iş "
 "başladığında kullanıcıdan bu listeden bir değeri seçmesi istenir."
 
-#: src/dialogs/clipjobmanager.cpp:64
-#, kde-format
-msgid "The second parameter that will be injected in the script arguments"
-msgstr "Betik argümanlarında iliştirilecek ikinci parametre"
-
-#: src/dialogs/clipjobmanager.cpp:131 src/dialogs/clipjobmanager.cpp:277
+#: src/dialogs/clipjobmanager.cpp:132 src/dialogs/clipjobmanager.cpp:280
 #, kde-format
 msgid "Stabilize"
 msgstr "Sabitleştirme"
 
-#: src/dialogs/clipjobmanager.cpp:134 src/dialogs/clipjobmanager.cpp:281
+#: src/dialogs/clipjobmanager.cpp:135 src/dialogs/clipjobmanager.cpp:284
 #, kde-format
 msgid "Duplicate Clip with Speed Change…"
 msgstr "Klibi Hız Değiştir ile Çoğalt…"
 
-#: src/dialogs/clipjobmanager.cpp:249
+#: src/dialogs/clipjobmanager.cpp:252
 #, kde-format
 msgid "Missing executable"
 msgstr "Eksik yürütülebilir"
 
-#: src/dialogs/clipjobmanager.cpp:252
+#: src/dialogs/clipjobmanager.cpp:255
 #, kde-format
 msgid "Your script or application %1 is not executable, change permissions"
 msgstr "Betiğiniz veya %1 uygulaması yürütülebilir değil, izinleri değiştirin"
 
-#: src/dialogs/clipjobmanager.cpp:279
+#: src/dialogs/clipjobmanager.cpp:282
 #, kde-format
 msgid "Automatic Scene Split…"
 msgstr "Otomatik Sahne Bölme…"
 
-#: src/dialogs/clipjobmanager.cpp:309
+#: src/dialogs/clipjobmanager.cpp:312
 #, kde-format
 msgid "Job description"
 msgstr "İş tanımı"
 
-#: src/dialogs/clipjobmanager.cpp:402
+#: src/dialogs/clipjobmanager.cpp:406
 #, kde-format
 msgid "My Clip Job"
 msgstr "Klip İşlerim"
 
-#: src/dialogs/clipjobmanager.cpp:410
+#: src/dialogs/clipjobmanager.cpp:414
 #, kde-format
 msgid "My Clip Job %1"
 msgstr "Klip İşim %1"
 
-#: src/dialogs/clipjobmanager.cpp:436
+#: src/dialogs/clipjobmanager.cpp:440
 #, kde-format
 msgid ""
 "Permanently delete this Clip Job:\n"
@@ -6316,7 +6325,7 @@ msgstr "Karelerdeki sonraki kılavuz konumu"
 msgid "Guide comment"
 msgstr "Kılavuz açıklaması"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:115 src/mainwindow.cpp:3864
+#: src/dialogs/kdenlivesettingsdialog.cpp:115 src/mainwindow.cpp:3863
 #, kde-format
 msgid "Timeline"
 msgstr "Zaman Akışı"
@@ -8618,12 +8627,12 @@ msgstr "<b>%1</b> dosyası içinde aranabilir değil."
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "<b>%1</b> dosyasının değişken bir çerçeve hızı var."
 
-#: src/jobs/customjobtask.cpp:167
+#: src/jobs/customjobtask.cpp:172
 #, kde-format
 msgid "Application %1 not found, please update the job settings"
 msgstr "%1 uygulaması bulunamadı, lütfen iş ayarlarını güncelleyin"
 
-#: src/jobs/customjobtask.cpp:273 src/jobs/customjobtask.cpp:293
+#: src/jobs/customjobtask.cpp:289 src/jobs/customjobtask.cpp:309
 #: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:234
 #: src/jobs/transcodetask.cpp:270
 #, kde-format
@@ -8877,13 +8886,13 @@ msgid "Markers"
 msgstr "İmleyiciler"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:80 src/mainwindow.cpp:3768
+#: src/kdenliveui.rc:80 src/mainwindow.cpp:3767
 #, kde-format
 msgid "Extract Audio"
 msgstr "Sesi Ayır"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:83 src/mainwindow.cpp:3731
+#: src/kdenliveui.rc:83 src/mainwindow.cpp:3730
 #, kde-format
 msgid "Clip Jobs"
 msgstr "Klip İşleri"
@@ -10060,7 +10069,7 @@ msgstr ""
 msgid "Experimental GPU processing enabled - not for production"
 msgstr "Deneysel GPU işleme etkinleştirildi - üretim için değil"
 
-#: src/mainwindow.cpp:1379 src/mainwindow.cpp:3401
+#: src/mainwindow.cpp:1379 src/mainwindow.cpp:3400
 #, kde-format
 msgid "Multicam"
 msgstr "Çoklu Kamera"
@@ -10918,28 +10927,28 @@ msgstr "Bu, kullanılmayan tüm klipleri projenizden kaldıracak."
 msgid "Clean up project"
 msgstr "Projeyi temizle"
 
-#: src/mainwindow.cpp:2503 src/mainwindow.cpp:2527
+#: src/mainwindow.cpp:2502 src/mainwindow.cpp:2526
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr "Yeni Klavye Şemaları İndir…"
 
-#: src/mainwindow.cpp:2514
+#: src/mainwindow.cpp:2513
 #, kde-format
 msgid "Current scheme:"
 msgstr "Geçerli şema:"
 
-#: src/mainwindow.cpp:2524
+#: src/mainwindow.cpp:2523
 #, kde-format
 msgid "More Actions"
 msgstr "Daha Fazla Eylem"
 
-#: src/mainwindow.cpp:2536
+#: src/mainwindow.cpp:2535
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "Genel"
 
-#: src/mainwindow.cpp:2608
+#: src/mainwindow.cpp:2607
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
@@ -10948,28 +10957,28 @@ msgstr ""
 "Bu, kdenlive'ın yapılandırma dosyasını silecek ve uygulamayı yeniden "
 "başlatacaktır. Sürdürmek istiyor musunuz?"
 
-#: src/mainwindow.cpp:2609
+#: src/mainwindow.cpp:2608
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "Yapılandırmayı Sıfırla"
 
-#: src/mainwindow.cpp:2741 src/mainwindow.cpp:2768
+#: src/mainwindow.cpp:2740 src/mainwindow.cpp:2767
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "İmleyicinin kaldırılacağı klip bulunamadı"
 
-#: src/mainwindow.cpp:2751 src/mainwindow.cpp:2797
+#: src/mainwindow.cpp:2750 src/mainwindow.cpp:2796
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "İmleç konumunda hiçbir imleyici bulunamadı"
 
-#: src/mainwindow.cpp:2773
+#: src/mainwindow.cpp:2772
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr "İmleyiciler silinirken bir hata oluştu"
 
-#: src/mainwindow.cpp:2790 src/timeline2/view/timelinecontroller.cpp:1252
+#: src/mainwindow.cpp:2789 src/timeline2/view/timelinecontroller.cpp:1252
 #: src/timeline2/view/timelinecontroller.cpp:1260
 #: src/timeline2/view/timelinecontroller.cpp:1281
 #: src/timeline2/view/timelinecontroller.cpp:1321
@@ -10978,22 +10987,22 @@ msgstr "İmleyiciler silinirken bir hata oluştu"
 msgid "Cannot find clip to edit marker"
 msgstr "İmleyici düzenlenecek klip bulunamadı"
 
-#: src/mainwindow.cpp:2993
+#: src/mainwindow.cpp:2992
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr "Proje kovasında seçili klip yok"
 
-#: src/mainwindow.cpp:3164
+#: src/mainwindow.cpp:3163
 #, kde-format
 msgid "Select an item to add effect"
 msgstr "Efekt eklenecek bir öge seçin"
 
-#: src/mainwindow.cpp:3220
+#: src/mainwindow.cpp:3219
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "Yakınlaştırma Düzeyi: %1/%2"
 
-#: src/mainwindow.cpp:3369
+#: src/mainwindow.cpp:3368
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11006,7 +11015,7 @@ msgstr ""
 "ize taşımak için <shortcut>Meta+sürükle</shortcut>, kaydırma için "
 "<shortcut>Kontrol+sürükle</shortcut>"
 
-#: src/mainwindow.cpp:3373
+#: src/mainwindow.cpp:3372
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11020,24 +11029,24 @@ msgstr ""
 "ize taşımak için <shortcut>Meta+Alt+sürükle</shortcut>, kaydırma için "
 "<shortcut>Kontrol+sürükle</shortcut>"
 
-#: src/mainwindow.cpp:3376
+#: src/mainwindow.cpp:3375
 #, kde-format
 msgid "Select"
 msgstr "Seç"
 
-#: src/mainwindow.cpp:3378
+#: src/mainwindow.cpp:3377
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr "Kesilen kareyi önizlemek için <b> Üst Karakter </b>'e basın"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3379 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3378 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr "Jilet"
 
-#: src/mainwindow.cpp:3383
+#: src/mainwindow.cpp:3382
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11048,12 +11057,12 @@ msgstr ""
 "Karakter</shortcut>, ayrıca kılavuzları da taşır. İki değiştiriciyi aynı "
 "anda kullanabilirsiniz."
 
-#: src/mainwindow.cpp:3384
+#: src/mainwindow.cpp:3383
 #, kde-format
 msgid "Spacer"
 msgstr "Boşluk"
 
-#: src/mainwindow.cpp:3386
+#: src/mainwindow.cpp:3385
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11063,13 +11072,13 @@ msgstr ""
 "Sürçmek için bir ögenin üzerine <shortcut>tıklayın</shortcut>, çoklu seçim "
 "için <shortcut>Üst Karakter+tıklayın</shortcut>"
 
-#: src/mainwindow.cpp:3387
+#: src/mainwindow.cpp:3386
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "Sürçme"
 
-#: src/mainwindow.cpp:3392
+#: src/mainwindow.cpp:3391
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11081,13 +11090,13 @@ msgstr ""
 "için<shortcut>Üst Karakter+tıkla</shortcut>, kaydırma için <shortcut>Kontrol"
 "+sürükle</shortcut>"
 
-#: src/mainwindow.cpp:3394
+#: src/mainwindow.cpp:3393
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "Dalgacık"
 
-#: src/mainwindow.cpp:3400
+#: src/mainwindow.cpp:3399
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11097,94 +11106,94 @@ msgstr ""
 "Etkin iz dışındaki tüm izleri yukarı kaldırmayı gerçekleştirmek için bir "
 "proje izleyicisinde bir iz görünümüne <shortcut>tıklayın</shortcut>"
 
-#: src/mainwindow.cpp:3412
+#: src/mainwindow.cpp:3411
 #, kde-format
 msgid "Insert"
 msgstr "Ekle"
 
-#: src/mainwindow.cpp:3415
+#: src/mainwindow.cpp:3414
 #, kde-format
 msgid "Overwrite"
 msgstr "Üzerine Yaz"
 
-#: src/mainwindow.cpp:3752
+#: src/mainwindow.cpp:3751
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "Klip İşlerini Yapılandır…"
 
-#: src/mainwindow.cpp:3767
+#: src/mainwindow.cpp:3766
 #, kde-format
 msgid "Transcoders"
 msgstr "Arakodlayıcılar"
 
-#: src/mainwindow.cpp:3827
+#: src/mainwindow.cpp:3826
 #, kde-format
 msgid "-merged"
 msgstr "-birleştirildi"
 
-#: src/mainwindow.cpp:3830
+#: src/mainwindow.cpp:3829
 #, kde-format
 msgid "-stream-%1"
 msgstr "-akış-%1"
 
-#: src/mainwindow.cpp:3863
+#: src/mainwindow.cpp:3862
 #, kde-format
 msgid "Interface"
 msgstr "Arayüz"
 
-#: src/mainwindow.cpp:3879
+#: src/mainwindow.cpp:3878
 #, kde-format
 msgid "Raise %1"
 msgstr "%1 Yükselt"
 
-#: src/mainwindow.cpp:3945
+#: src/mainwindow.cpp:3944
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Arakodlanacak Dosyalar"
 
-#: src/mainwindow.cpp:4093
+#: src/mainwindow.cpp:4092
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "Proje dosyası arşivleme için kaydedilemedi."
 
-#: src/mainwindow.cpp:4099
+#: src/mainwindow.cpp:4098
 #, kde-format
 msgid "Archiving project"
 msgstr "Proje arşivleniyor"
 
-#: src/mainwindow.cpp:4255
+#: src/mainwindow.cpp:4254
 #, kde-format
 msgid "Icon Size"
 msgstr "Simge Boyutu"
 
-#: src/mainwindow.cpp:4259
+#: src/mainwindow.cpp:4258
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Öntanımlı"
 
-#: src/mainwindow.cpp:4280 src/mainwindow.cpp:4308
+#: src/mainwindow.cpp:4279 src/mainwindow.cpp:4307
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Küçük (%1x%2)"
 
-#: src/mainwindow.cpp:4282 src/mainwindow.cpp:4310
+#: src/mainwindow.cpp:4281 src/mainwindow.cpp:4309
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Orta (%1x%2)"
 
-#: src/mainwindow.cpp:4284 src/mainwindow.cpp:4312
+#: src/mainwindow.cpp:4283 src/mainwindow.cpp:4311
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Büyük (%1x%2)"
 
-#: src/mainwindow.cpp:4286 src/mainwindow.cpp:4314
+#: src/mainwindow.cpp:4285 src/mainwindow.cpp:4313
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Çok Büyük (%1x%2)"
 
-#: src/mainwindow.cpp:4371
+#: src/mainwindow.cpp:4370
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -11193,12 +11202,12 @@ msgstr ""
 "Bu, menü çubuğunu tümüyle gizleyecektir. Kontrol+M ile yeniden "
 "gösterebilirsiniz."
 
-#: src/mainwindow.cpp:4371
+#: src/mainwindow.cpp:4370
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Menü çubuğunu gizle"
 
-#: src/mainwindow.cpp:4386
+#: src/mainwindow.cpp:4385
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
@@ -11206,17 +11215,17 @@ msgstr ""
 "Simge temasını değişikliğini uygulamak için Kdenlive yeniden "
 "başlatılmalıdır. Şimdi yeniden başlatılsın mı?"
 
-#: src/mainwindow.cpp:4616 src/timeline2/view/timelinecontroller.cpp:5028
+#: src/mainwindow.cpp:4615 src/timeline2/view/timelinecontroller.cpp:5028
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "Geçerli projede altyazı yok"
 
-#: src/mainwindow.cpp:4709
+#: src/mainwindow.cpp:4708
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Proje Kovası %1"
 
-#: src/mainwindow.cpp:4810
+#: src/mainwindow.cpp:4809
 #, kde-format
 msgid "Checking cached data size"
 msgstr "Önbelleklenmiş veri boyutu denetleniyor"
@@ -12125,7 +12134,7 @@ msgstr "Kayıt"
 #. i18n: ectx: attribute (title), widget (QWidget, video_tab)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/monitor/recmanager.cpp:45 src/onlineresources/resourcewidget.cpp:596
-#: src/ui/clipjobmanager_ui.ui:374 src/ui/cutjobdialog_ui.ui:107
+#: src/ui/clipjobmanager_ui.ui:381 src/ui/cutjobdialog_ui.ui:107
 #: src/ui/editrenderpreset_ui.ui:122 src/ui/projectsettings_ui.ui:173
 #: src/ui/renderwidget_ui.ui:487
 #, kde-format
@@ -12607,7 +12616,7 @@ msgid "Please choose the version you want to download"
 msgstr "Lütfen indirmek istediğiniz sürümü seçin"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_image)
-#: src/onlineresources/resourcewidget.cpp:598 src/ui/clipjobmanager_ui.ui:388
+#: src/onlineresources/resourcewidget.cpp:598 src/ui/clipjobmanager_ui.ui:395
 #, kde-format
 msgid "Images"
 msgstr "Görseller"
@@ -15722,7 +15731,7 @@ msgid "Delete clips on track"
 msgstr "İzdeki klipleri sil"
 
 #: src/timeline2/model/timelineitemmodel.cpp:135
-#: src/timeline2/model/timelinemodel.cpp:4263
+#: src/timeline2/model/timelinemodel.cpp:4268
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -15885,22 +15894,22 @@ msgstr "Klibi yeniden boyutlandır"
 msgid "Resize composition"
 msgstr "Bileşikleştirmeyi yeniden boyutlandır"
 
-#: src/timeline2/model/timelinemodel.cpp:3914
+#: src/timeline2/model/timelinemodel.cpp:3919
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "Klibi dalgacık ile yeniden boyutlandır"
 
-#: src/timeline2/model/timelinemodel.cpp:3916
+#: src/timeline2/model/timelinemodel.cpp:3921
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "Bileşikleştirmeyi dalgacıkla yeniden boyutlandır"
 
-#: src/timeline2/model/timelinemodel.cpp:3918
+#: src/timeline2/model/timelinemodel.cpp:3923
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "Altyazıyı dalgacıkla yeniden boyutlandır"
 
-#: src/timeline2/model/timelinemodel.cpp:4061
+#: src/timeline2/model/timelinemodel.cpp:4066
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -15908,137 +15917,137 @@ msgid_plural "Slip clips"
 msgstr[0] "Klibi sürç"
 msgstr[1] "Klipleri sürç"
 
-#: src/timeline2/model/timelinemodel.cpp:4096
+#: src/timeline2/model/timelinemodel.cpp:4101
 #, kde-format
 msgid "Slip clip"
 msgstr "Klibi sürç"
 
-#: src/timeline2/model/timelinemodel.cpp:4131
+#: src/timeline2/model/timelinemodel.cpp:4136
 #, kde-format
 msgid "Group clips"
 msgstr "Klipleri grupla"
 
-#: src/timeline2/model/timelinemodel.cpp:4216
-#: src/timeline2/model/timelinemodel.cpp:4232
+#: src/timeline2/model/timelinemodel.cpp:4221
+#: src/timeline2/model/timelinemodel.cpp:4237
 #, kde-format
 msgid "Ungroup clips"
 msgstr "Klipleri gruptan çıkar"
 
-#: src/timeline2/model/timelinemodel.cpp:4372
+#: src/timeline2/model/timelinemodel.cpp:4377
 #: src/timeline2/view/timelinecontroller.cpp:885
 #, kde-format
 msgid "Delete Track"
 msgstr "İzi Sil"
 
-#: src/timeline2/model/timelinemodel.cpp:4382
+#: src/timeline2/model/timelinemodel.cpp:4387
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "Zaman akışındaki son iz silinemiyor"
 
-#: src/timeline2/model/timelinemodel.cpp:4633
+#: src/timeline2/model/timelinemodel.cpp:4638
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "Ana ize %1 efekti eklenemiyor"
 
-#: src/timeline2/model/timelinemodel.cpp:4640
+#: src/timeline2/model/timelinemodel.cpp:4645
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "Seçili ize %1 efekti eklenemiyor"
 
-#: src/timeline2/model/timelinemodel.cpp:4661
+#: src/timeline2/model/timelinemodel.cpp:4666
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "Ana ize efekt yapıştırılamıyor"
 
-#: src/timeline2/model/timelinemodel.cpp:4667
+#: src/timeline2/model/timelinemodel.cpp:4672
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "Seçili ize efekt yapıştırılamıyor"
 
-#: src/timeline2/model/timelinemodel.cpp:4693
+#: src/timeline2/model/timelinemodel.cpp:4698
 #: src/timeline2/view/timelinecontroller.cpp:1478
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "Seçili klibe %1 efekti eklenemiyor"
 
-#: src/timeline2/model/timelinemodel.cpp:4717
+#: src/timeline2/model/timelinemodel.cpp:4722
 #, kde-format
 msgid "Adjust Fade"
 msgstr "Solmayı Ayarla"
 
-#: src/timeline2/model/timelinemodel.cpp:5018
+#: src/timeline2/model/timelinemodel.cpp:5029
 #, kde-format
 msgid "Insert Composition"
 msgstr "Bileşikleştirme Ekle"
 
-#: src/timeline2/model/timelinemodel.cpp:5206
+#: src/timeline2/model/timelinemodel.cpp:5217
 #, kde-format
 msgid "Move composition"
 msgstr "Bileşikleştirme Taşı"
 
-#: src/timeline2/model/timelinemodel.cpp:5862
+#: src/timeline2/model/timelinemodel.cpp:5876
 #, kde-format
 msgid "Enable time remap"
 msgstr "Zaman yeniden eşlemlemesini etkinleştir"
 
-#: src/timeline2/model/timelinemodel.cpp:5935
+#: src/timeline2/model/timelinemodel.cpp:5949
 #, kde-format
 msgid "Change speed failed"
 msgstr "Hız değiştirme başarısız"
 
-#: src/timeline2/model/timelinemodel.cpp:5945
+#: src/timeline2/model/timelinemodel.cpp:5959
 #, kde-format
 msgid "Change clip speed"
 msgstr "Klip hızını değiştir"
 
-#: src/timeline2/model/timelinemodel.cpp:6324
+#: src/timeline2/model/timelinemodel.cpp:6338
 #: src/timeline2/view/qml/timeline.qml:1187
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Lock track"
 msgstr "İzi kilitle"
 
-#: src/timeline2/model/timelinemodel.cpp:6329
+#: src/timeline2/model/timelinemodel.cpp:6343
 #: src/timeline2/view/qml/timeline.qml:1187
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Unlock track"
 msgstr "İzin kilidini aç"
 
-#: src/timeline2/model/timelinemodel.cpp:6363
-#: src/timeline2/model/timelinemodel.cpp:6425
+#: src/timeline2/model/timelinemodel.cpp:6377
+#: src/timeline2/model/timelinemodel.cpp:6439
 #, kde-format
 msgid "Change composition"
 msgstr "Bileşikleştirmeyi değiştir"
 
-#: src/timeline2/model/timelinemodel.cpp:6377
+#: src/timeline2/model/timelinemodel.cpp:6391
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 "Gruplandırılmış bileşikleştirme üzerinde çalışılamaz, lütfen grubu iptal edin"
 
-#: src/timeline2/model/timelinemodel.cpp:6572
-#: src/timeline2/model/timelinemodel.cpp:6609
-#: src/timeline2/model/timelinemodel.cpp:6642
-#: src/timeline2/model/timelinemodel.cpp:6723
+#: src/timeline2/model/timelinemodel.cpp:6586
+#: src/timeline2/model/timelinemodel.cpp:6623
+#: src/timeline2/model/timelinemodel.cpp:6656
+#: src/timeline2/model/timelinemodel.cpp:6737
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Karıştırma, bir kareden daha azına boyutlandırılamıyor"
 
-#: src/timeline2/model/timelinemodel.cpp:6583
-#: src/timeline2/model/timelinemodel.cpp:6617
-#: src/timeline2/model/timelinemodel.cpp:6661
-#: src/timeline2/model/timelinemodel.cpp:6747
+#: src/timeline2/model/timelinemodel.cpp:6597
+#: src/timeline2/model/timelinemodel.cpp:6631
+#: src/timeline2/model/timelinemodel.cpp:6675
+#: src/timeline2/model/timelinemodel.cpp:6761
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Karışım yeniden boyutlandırılamıyor"
 
-#: src/timeline2/model/timelinemodel.cpp:6761
+#: src/timeline2/model/timelinemodel.cpp:6775
 #, kde-format
 msgid "Resize mix"
 msgstr "Karışımı yeniden boyutlandır"
 
-#: src/timeline2/model/timelinemodel.cpp:6900
+#: src/timeline2/model/timelinemodel.cpp:6914
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "Zaman akışı önizlemesi ilklendirilirken hata"
@@ -16742,7 +16751,7 @@ msgstr ""
 msgid "Close %1"
 msgstr "Kapat: %1"
 
-#: src/timeline2/view/timelinetabs.cpp:367
+#: src/timeline2/view/timelinetabs.cpp:366
 #, kde-format
 msgid "Rename Sequence"
 msgstr "Sekansı Yeniden Adlandır"
@@ -17645,8 +17654,8 @@ msgstr "Geçerli noktayı silin."
 #: src/ui/bezierspline_ui.ui:121 src/ui/bezierspline_ui.ui:137
 #: src/ui/bezierspline_ui.ui:156 src/ui/bezierspline_ui.ui:172
 #: src/ui/bezierspline_ui.ui:189 src/ui/bezierspline_ui.ui:206
-#: src/ui/clipjobmanager_ui.ui:50 src/ui/clipjobmanager_ui.ui:238
-#: src/ui/clipjobmanager_ui.ui:249 src/ui/clipstabilize_ui.ui:57
+#: src/ui/clipjobmanager_ui.ui:50 src/ui/clipjobmanager_ui.ui:245
+#: src/ui/clipjobmanager_ui.ui:256 src/ui/clipstabilize_ui.ui:57
 #: src/ui/clipstabilize_ui.ui:94 src/ui/collapsiblewidget_ui.ui:103
 #: src/ui/collapsiblewidget_ui.ui:129 src/ui/collapsiblewidget_ui.ui:139
 #: src/ui/collapsiblewidget_ui.ui:149 src/ui/collapsiblewidget_ui.ui:162
@@ -17813,108 +17822,115 @@ msgstr ""
 msgid "Parameter 1 {param1}"
 msgstr "Parametre 1 {param1}"
 
-#. i18n: ectx: property (text), widget (QRadioButton, param1_isfile)
-#. i18n: ectx: property (text), widget (QRadioButton, param2_isfile)
-#: src/ui/clipjobmanager_ui.ui:99 src/ui/clipjobmanager_ui.ui:192
-#, kde-format
-msgid "Request file path"
-msgstr "Dosya yolunu iste"
-
-#. i18n: ectx: property (text), widget (QRadioButton, param1_islist)
-#. i18n: ectx: property (text), widget (QRadioButton, param2_islist)
-#: src/ui/clipjobmanager_ui.ui:109 src/ui/clipjobmanager_ui.ui:185
-#, kde-format
-msgid "Request option from list"
-msgstr "Listeden seçenek iste"
-
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param1_list)
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param2_list)
-#: src/ui/clipjobmanager_ui.ui:119 src/ui/clipjobmanager_ui.ui:171
+#: src/ui/clipjobmanager_ui.ui:102 src/ui/clipjobmanager_ui.ui:178
 #, kde-format
 msgid "List of options"
 msgstr "Seçenekler listesi"
 
+#. i18n: ectx: property (text), widget (QRadioButton, param1_islist)
+#. i18n: ectx: property (text), widget (QRadioButton, param2_islist)
+#: src/ui/clipjobmanager_ui.ui:109 src/ui/clipjobmanager_ui.ui:192
+#, kde-format
+msgid "Request option from list"
+msgstr "Listeden seçenek iste"
+
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param1_name)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param2_name)
-#: src/ui/clipjobmanager_ui.ui:126 src/ui/clipjobmanager_ui.ui:178
+#: src/ui/clipjobmanager_ui.ui:129 src/ui/clipjobmanager_ui.ui:185
 #, kde-format
 msgid "Parameter description"
 msgstr "Parametre açıklaması"
 
+#. i18n: ectx: property (text), widget (QRadioButton, param1_isfile)
+#. i18n: ectx: property (text), widget (QRadioButton, param2_isfile)
+#: src/ui/clipjobmanager_ui.ui:136 src/ui/clipjobmanager_ui.ui:199
+#, kde-format
+msgid "Request file path"
+msgstr "Dosya yolunu iste"
+
+#. i18n: ectx: property (text), widget (QRadioButton, param1_isframe)
+#: src/ui/clipjobmanager_ui.ui:146
+#, fuzzy, kde-format
+#| msgid "Current clip"
+msgid "Current clip frame"
+msgstr "Geçerli Klip"
+
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
-#: src/ui/clipjobmanager_ui.ui:149
+#: src/ui/clipjobmanager_ui.ui:156
 #, kde-format
 msgid "Parameter 2 {param2}"
 msgstr "Parametre 2 {param2}"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/clipjobmanager_ui.ui:207
+#: src/ui/clipjobmanager_ui.ui:214
 #, kde-format
 msgid "Output file extension"
 msgstr "Çıktı dosyası uzantısı"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, taskDescription)
-#: src/ui/clipjobmanager_ui.ui:222
+#: src/ui/clipjobmanager_ui.ui:229
 #, kde-format
 msgid "Optional description that will show up if a parameter is requested"
 msgstr "Bir parametre istenirse gösterilecek isteğe bağlı açıklama"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/clipjobmanager_ui.ui:229
+#: src/ui/clipjobmanager_ui.ui:236
 #, kde-format
 msgid "Job Description"
 msgstr "İş Tanımı"
 
 #. i18n: ectx: property (title), widget (QGroupBox, folder_box)
-#: src/ui/clipjobmanager_ui.ui:285
+#: src/ui/clipjobmanager_ui.ui:292
 #, kde-format
 msgid "Project Bin behavior on completion"
 msgstr "Tamamlandığında proje kovası davranışı"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radio_replace)
-#: src/ui/clipjobmanager_ui.ui:291
+#: src/ui/clipjobmanager_ui.ui:298
 #, kde-format
 msgid "Replace original with result"
 msgstr "Özgün ögeyi sonuçla değiştir"
 
 #. i18n: ectx: property (text), widget (QCheckBox, bin_subfolder)
-#: src/ui/clipjobmanager_ui.ui:301
+#: src/ui/clipjobmanager_ui.ui:308
 #, kde-format
 msgid "Use a subfolder"
 msgstr "Bir alt klasör kullan"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radio_folder)
-#: src/ui/clipjobmanager_ui.ui:308
+#: src/ui/clipjobmanager_ui.ui:315
 #, kde-format
 msgid "Put resulting clip in a folder"
 msgstr "Çıkan klibi bir klasöre koy"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
-#: src/ui/clipjobmanager_ui.ui:319
+#: src/ui/clipjobmanager_ui.ui:326
 #, kde-format
 msgid "Placed at top level"
 msgstr "En üst düzeye konulan"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
-#: src/ui/clipjobmanager_ui.ui:324
+#: src/ui/clipjobmanager_ui.ui:331
 #, kde-format
 msgid "Placed in the original clip folder"
 msgstr "Özgün klip klasörüne konulan"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, folder_name)
-#: src/ui/clipjobmanager_ui.ui:335
+#: src/ui/clipjobmanager_ui.ui:342
 #, kde-format
 msgid "Folder name"
 msgstr "Klasör adı"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/clipjobmanager_ui.ui:361
+#: src/ui/clipjobmanager_ui.ui:368
 #, kde-format
 msgid "Custom clip jobs"
 msgstr "Özel klip işleri"
 
 #. i18n: ectx: property (title), widget (QGroupBox, clip_types)
-#: src/ui/clipjobmanager_ui.ui:368
+#: src/ui/clipjobmanager_ui.ui:375
 #, kde-format
 msgid "Applies to"
 msgstr "Şunun için geçerlidir"
@@ -21501,6 +21517,23 @@ msgstr "%1 dk"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 sa"
+
+#~ msgid "The first parameter that will be injected in the script arguments"
+#~ msgstr "Betik argümanlarında iliştirilecek ilk parametre"
+
+#~ msgctxt "@info:whatsthis"
+#~ msgid ""
+#~ "<b>Source Clip Path</b> will put the selected Bin Clip path<br/"
+#~ "><b>Request File Path</b> will ask for a file path on execution<br/"
+#~ "><b>Request Option in List</b> will ask for a choice in the list below on "
+#~ "execution."
+#~ msgstr ""
+#~ "<b>Kaynak Klibi Yolu</b>, seçili Kova Klibi yolunu koyar<br/><b>Dosya "
+#~ "Yolunu İste</b>, yürütürken bir dosya yolu ister<br/><b>Listeden Seçenek "
+#~ "İste</b>, aşağıdaki listede yürütme için bir seçim ister."
+
+#~ msgid "The second parameter that will be injected in the script arguments"
+#~ msgstr "Betik argümanlarında iliştirilecek ikinci parametre"
 
 #~ msgid "Kdenlive Project (*.kdenlive)"
 #~ msgstr "Kdenlive Projesi (*.kdenlive)"
