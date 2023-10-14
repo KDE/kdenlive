@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-13 00:42+0000\n"
-"PO-Revision-Date: 2023-10-11 13:45+0300\n"
+"PO-Revision-Date: 2023-10-13 12:08+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -5467,10 +5467,9 @@ msgid "File already exists"
 msgstr "Dosya halihazırda var"
 
 #: src/bin/projectclip.cpp:2547
-#, fuzzy, kde-format
-#| msgid "Paste timeline clips"
+#, kde-format
 msgid "Adjust timeline clips"
-msgstr "Zaman akışı kliplerini yapıştır"
+msgstr "Zaman akışı kliplerini ayarla"
 
 #: src/bin/projectclip.cpp:2772
 #, kde-format
@@ -6007,22 +6006,14 @@ msgstr ""
 "-0001 dizgisi iliştirilir."
 
 #: src/dialogs/clipjobmanager.cpp:54 src/dialogs/clipjobmanager.cpp:63
-#, fuzzy, kde-format
-#| msgid ""
-#| "A newline separated list of possible values that will be offered on "
-#| "execution"
+#, kde-format
 msgid "If selected, a file path will be requested on execution"
-msgstr ""
-"Yürütme sırasında sunulacak olası listelerin yenisatırla ayrılmış bir listesi"
+msgstr "Seçilirse yürütme sırasında bir dosya yolu istenecektir"
 
 #: src/dialogs/clipjobmanager.cpp:55 src/dialogs/clipjobmanager.cpp:64
-#, fuzzy, kde-format
-#| msgid ""
-#| "A newline separated list of possible values that will be offered on "
-#| "execution"
+#, kde-format
 msgid "If selected, a dropdown list of values will be shown on execution"
-msgstr ""
-"Yürütme sırasında sunulacak olası listelerin yenisatırla ayrılmış bir listesi"
+msgstr "Seçilirse yürütme sırasında değerlerin açılır listesi gösterilecektir"
 
 #: src/dialogs/clipjobmanager.cpp:57
 #, kde-format
@@ -6030,6 +6021,8 @@ msgid ""
 "If selected, the selected clip's current frame will be extracted to a "
 "temporary file and the parameter value will be the image path"
 msgstr ""
+"Seçilirse seçili klibin geçerli karesi geçici bir dosyaya çıkarılacak ve "
+"parametre değeri görsel yolu olacaktır."
 
 #: src/dialogs/clipjobmanager.cpp:58
 #, kde-format
@@ -17852,10 +17845,9 @@ msgstr "Dosya yolunu iste"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_isframe)
 #: src/ui/clipjobmanager_ui.ui:146
-#, fuzzy, kde-format
-#| msgid "Current clip"
+#, kde-format
 msgid "Current clip frame"
-msgstr "Geçerli Klip"
+msgstr "Geçerli klip karesi"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: src/ui/clipjobmanager_ui.ui:156

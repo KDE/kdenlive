@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Orestes Mas <orestes@tsc.upc.edu>, 2009, 2011, 2012, 2015.
-# Josep M. Ferrer <txemaq@gmail.com>, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
+# SPDX-FileCopyrightText: 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023 Josep M. Ferrer <txemaq@gmail.com>
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2012, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-13 00:42+0000\n"
-"PO-Revision-Date: 2023-10-11 09:38+0200\n"
+"PO-Revision-Date: 2023-10-13 16:12+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.08.1\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -5508,10 +5508,9 @@ msgid "File already exists"
 msgstr "El fitxer ja existix"
 
 #: src/bin/projectclip.cpp:2547
-#, fuzzy, kde-format
-#| msgid "Paste timeline clips"
+#, kde-format
 msgid "Adjust timeline clips"
-msgstr "Apega clips en la línia de temps"
+msgstr "Ajusta els clips de la línia de temps"
 
 #: src/bin/projectclip.cpp:2772
 #, kde-format
@@ -6048,24 +6047,18 @@ msgstr ""
 "d'eixida ja existix, s'afegirà un patró -0001."
 
 #: src/dialogs/clipjobmanager.cpp:54 src/dialogs/clipjobmanager.cpp:63
-#, fuzzy, kde-format
-#| msgid ""
-#| "A newline separated list of possible values that will be offered on "
-#| "execution"
+#, kde-format
 msgid "If selected, a file path will be requested on execution"
 msgstr ""
-"Una llista separada per salts de línia de valors possibles que s'oferiran en "
-"l'execució"
+"Si se selecciona, apareixerà una llista separada per salts de línia de "
+"valors possibles que s'oferiran durant l'execució"
 
 #: src/dialogs/clipjobmanager.cpp:55 src/dialogs/clipjobmanager.cpp:64
-#, fuzzy, kde-format
-#| msgid ""
-#| "A newline separated list of possible values that will be offered on "
-#| "execution"
+#, kde-format
 msgid "If selected, a dropdown list of values will be shown on execution"
 msgstr ""
-"Una llista separada per salts de línia de valors possibles que s'oferiran en "
-"l'execució"
+"Si se selecciona, apareixerà una llista desplegable de valors possibles que "
+"s'oferiran durant l'execució"
 
 #: src/dialogs/clipjobmanager.cpp:57
 #, kde-format
@@ -6073,6 +6066,8 @@ msgid ""
 "If selected, the selected clip's current frame will be extracted to a "
 "temporary file and the parameter value will be the image path"
 msgstr ""
+"Si se selecciona, el fotograma actual del clip seleccionat s'extreurà a un "
+"fitxer temporal i el valor del paràmetre serà el camí de la imatge"
 
 #: src/dialogs/clipjobmanager.cpp:58
 #, kde-format
@@ -18016,10 +18011,9 @@ msgstr "Sol·licita el camí cap al fitxer"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_isframe)
 #: src/ui/clipjobmanager_ui.ui:146
-#, fuzzy, kde-format
-#| msgid "Current clip"
+#, kde-format
 msgid "Current clip frame"
-msgstr "Clip actual"
+msgstr "Marc actual del clip"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: src/ui/clipjobmanager_ui.ui:156
@@ -21688,21 +21682,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "The first parameter that will be injected in the script arguments"
-#~ msgstr "El primer paràmetre que s'injectarà en els arguments de l'script"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid ""
-#~ "<b>Source Clip Path</b> will put the selected Bin Clip path<br/"
-#~ "><b>Request File Path</b> will ask for a file path on execution<br/"
-#~ "><b>Request Option in List</b> will ask for a choice in the list below on "
-#~ "execution."
-#~ msgstr ""
-#~ "<b>Camí del clip original</b> posarà el camí del clip de la safata<br/> "
-#~ "<b>Sol·licita el camí del fitxer</b> demanarà un camí de fitxer en "
-#~ "l'execució<br/><b>Sol·licita una opció de la llista</b> demanarà que "
-#~ "trieu en la llista a continuació en l'execució."
-
-#~ msgid "The second parameter that will be injected in the script arguments"
-#~ msgstr "El segon paràmetre que s'injectarà en els arguments de l'script"

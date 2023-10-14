@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-13 00:42+0000\n"
-"PO-Revision-Date: 2023-10-12 11:20+0200\n"
+"PO-Revision-Date: 2023-10-13 09:00+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -5479,10 +5479,9 @@ msgid "File already exists"
 msgstr "Datoteka že obstaja"
 
 #: src/bin/projectclip.cpp:2547
-#, fuzzy, kde-format
-#| msgid "Paste timeline clips"
+#, kde-format
 msgid "Adjust timeline clips"
-msgstr "Prilepi časovni posnetek"
+msgstr "Prilagodi posnetke na časovnici"
 
 #: src/bin/projectclip.cpp:2772
 #, kde-format
@@ -6021,24 +6020,14 @@ msgstr ""
 "dodan vzorec -0001."
 
 #: src/dialogs/clipjobmanager.cpp:54 src/dialogs/clipjobmanager.cpp:63
-#, fuzzy, kde-format
-#| msgid ""
-#| "A newline separated list of possible values that will be offered on "
-#| "execution"
+#, kde-format
 msgid "If selected, a file path will be requested on execution"
-msgstr ""
-"Seznam možnih vrednosti, ponujenih ob izvajanju, ločenih z oznakami nove "
-"vrstice"
+msgstr "Če je izbrano, se pri izvajanju zahteva pot do datoteke"
 
 #: src/dialogs/clipjobmanager.cpp:55 src/dialogs/clipjobmanager.cpp:64
-#, fuzzy, kde-format
-#| msgid ""
-#| "A newline separated list of possible values that will be offered on "
-#| "execution"
+#, kde-format
 msgid "If selected, a dropdown list of values will be shown on execution"
-msgstr ""
-"Seznam možnih vrednosti, ponujenih ob izvajanju, ločenih z oznakami nove "
-"vrstice"
+msgstr "Če je izbrano, se ob izvedbi prikaže spustni seznam vrednosti"
 
 #: src/dialogs/clipjobmanager.cpp:57
 #, kde-format
@@ -6046,6 +6035,8 @@ msgid ""
 "If selected, the selected clip's current frame will be extracted to a "
 "temporary file and the parameter value will be the image path"
 msgstr ""
+"Če je izbrano, se trenutna sličica izbranega posnetka izvozi v začasno "
+"datoteko, vrednost parametra pa je pot do slike"
 
 #: src/dialogs/clipjobmanager.cpp:58
 #, kde-format
@@ -17921,10 +17912,9 @@ msgstr "Zahtevaj pot datoteke"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_isframe)
 #: src/ui/clipjobmanager_ui.ui:146
-#, fuzzy, kde-format
-#| msgid "Current clip"
+#, kde-format
 msgid "Current clip frame"
-msgstr "Trenutni posnetek"
+msgstr "Trenutna sličica posnetka"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: src/ui/clipjobmanager_ui.ui:156
@@ -21579,21 +21569,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "The first parameter that will be injected in the script arguments"
-#~ msgstr "Prvi parameter, ki bo vnesen v argumente skripta"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid ""
-#~ "<b>Source Clip Path</b> will put the selected Bin Clip path<br/"
-#~ "><b>Request File Path</b> will ask for a file path on execution<br/"
-#~ "><b>Request Option in List</b> will ask for a choice in the list below on "
-#~ "execution."
-#~ msgstr ""
-#~ "<b>Pot izvornega posnetka</b> bo postavila izbrano pot posnetka iz "
-#~ "koša<br/><b>Zahtevaj pot datoteke</b> bo ob izvajanju zahtevala pot do "
-#~ "datoteke<br/><b>Zahtevaj možnost s seznama</b> bo ob izvajanju zahtevala "
-#~ "izbiro s spodnjega seznama."
-
-#~ msgid "The second parameter that will be injected in the script arguments"
-#~ msgstr "Drugi parameter, ki bo vnesen v argumente skripta"

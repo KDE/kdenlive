@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-13 00:42+0000\n"
-"PO-Revision-Date: 2023-10-11 13:57+0200\n"
+"PO-Revision-Date: 2023-10-13 10:40+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -5486,10 +5486,9 @@ msgid "File already exists"
 msgstr "Bestand bestaat al"
 
 #: src/bin/projectclip.cpp:2547
-#, fuzzy, kde-format
-#| msgid "Paste timeline clips"
+#, kde-format
 msgid "Adjust timeline clips"
-msgstr "Tijdlijnclips plakken"
+msgstr "Tijdlijnclips aanpassen"
 
 #: src/bin/projectclip.cpp:2772
 #, kde-format
@@ -6027,24 +6026,16 @@ msgstr ""
 "achtergevoegd."
 
 #: src/dialogs/clipjobmanager.cpp:54 src/dialogs/clipjobmanager.cpp:63
-#, fuzzy, kde-format
-#| msgid ""
-#| "A newline separated list of possible values that will be offered on "
-#| "execution"
+#, kde-format
 msgid "If selected, a file path will be requested on execution"
-msgstr ""
-"Een met nieuwe-regel gescheiden lijst van mogelijke waarden die zal "
-"aangeboden worden bij uitvoeren"
+msgstr "Indien geselecteerd zal een bestandspad gevraagd worden bij uitvoeren"
 
 #: src/dialogs/clipjobmanager.cpp:55 src/dialogs/clipjobmanager.cpp:64
-#, fuzzy, kde-format
-#| msgid ""
-#| "A newline separated list of possible values that will be offered on "
-#| "execution"
+#, kde-format
 msgid "If selected, a dropdown list of values will be shown on execution"
 msgstr ""
-"Een met nieuwe-regel gescheiden lijst van mogelijke waarden die zal "
-"aangeboden worden bij uitvoeren"
+"Indien geselecteerd zal een afrollijst met waarden getoond worden bij "
+"uitvoeren"
 
 #: src/dialogs/clipjobmanager.cpp:57
 #, kde-format
@@ -6052,6 +6043,9 @@ msgid ""
 "If selected, the selected clip's current frame will be extracted to a "
 "temporary file and the parameter value will be the image path"
 msgstr ""
+"Indien geselecteerd zal het huidige frame van de geselecteerde clip "
+"geëxtraheerd worden naar een tijdelijk bestand en de parameterwaarde zal het "
+"pad van de afbeelding zijn"
 
 #: src/dialogs/clipjobmanager.cpp:58
 #, kde-format
@@ -17913,10 +17907,9 @@ msgstr "Bestandspad vragen"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_isframe)
 #: src/ui/clipjobmanager_ui.ui:146
-#, fuzzy, kde-format
-#| msgid "Current clip"
+#, kde-format
 msgid "Current clip frame"
-msgstr "Huidige clip"
+msgstr "Frame van huidige clip"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: src/ui/clipjobmanager_ui.ui:156

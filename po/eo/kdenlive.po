@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-13 00:42+0000\n"
-"PO-Revision-Date: 2023-10-11 20:21+0100\n"
+"PO-Revision-Date: 2023-10-13 22:03+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -5451,10 +5451,9 @@ msgid "File already exists"
 msgstr "Dosiero jam ekzistas"
 
 #: src/bin/projectclip.cpp:2547
-#, fuzzy, kde-format
-#| msgid "Paste timeline clips"
+#, kde-format
 msgid "Adjust timeline clips"
-msgstr "Alglui templiniajn tondaĵojn"
+msgstr "Alĝustigi templiniajn tondaĵojn"
 
 #: src/bin/projectclip.cpp:2772
 #, kde-format
@@ -5991,22 +5990,14 @@ msgstr ""
 "ekzistas, ŝablono -0001 estos almetita."
 
 #: src/dialogs/clipjobmanager.cpp:54 src/dialogs/clipjobmanager.cpp:63
-#, fuzzy, kde-format
-#| msgid ""
-#| "A newline separated list of possible values that will be offered on "
-#| "execution"
+#, kde-format
 msgid "If selected, a file path will be requested on execution"
-msgstr ""
-"Novlinie apartigita listo de eblaj valoroj kiuj estos ofertitaj dum rulado"
+msgstr "Se elektita, dosiervojo estos postulata dum rulado"
 
 #: src/dialogs/clipjobmanager.cpp:55 src/dialogs/clipjobmanager.cpp:64
-#, fuzzy, kde-format
-#| msgid ""
-#| "A newline separated list of possible values that will be offered on "
-#| "execution"
+#, kde-format
 msgid "If selected, a dropdown list of values will be shown on execution"
-msgstr ""
-"Novlinie apartigita listo de eblaj valoroj kiuj estos ofertitaj dum rulado"
+msgstr "Se elektita, falmenua listo de valoroj estos montrata dum rulado"
 
 #: src/dialogs/clipjobmanager.cpp:57
 #, kde-format
@@ -6014,6 +6005,8 @@ msgid ""
 "If selected, the selected clip's current frame will be extracted to a "
 "temporary file and the parameter value will be the image path"
 msgstr ""
+"Se elektita, la aktuala kadro de la elektita klipo estos ĉerpita al "
+"provizora dosiero kaj la parametrovaloro estos la bilda vojo"
 
 #: src/dialogs/clipjobmanager.cpp:58
 #, kde-format
@@ -17819,10 +17812,9 @@ msgstr "Peti dosiervojon"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_isframe)
 #: src/ui/clipjobmanager_ui.ui:146
-#, fuzzy, kde-format
-#| msgid "Current clip"
+#, kde-format
 msgid "Current clip frame"
-msgstr "Aktuala tondaĵo"
+msgstr "Aktuala tondaĵkadro"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: src/ui/clipjobmanager_ui.ui:156
@@ -21479,20 +21471,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "The first parameter that will be injected in the script arguments"
-#~ msgstr "La unua parametro kiu estos injektita an la skript-argumentoj"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid ""
-#~ "<b>Source Clip Path</b> will put the selected Bin Clip path<br/"
-#~ "><b>Request File Path</b> will ask for a file path on execution<br/"
-#~ "><b>Request Option in List</b> will ask for a choice in the list below on "
-#~ "execution."
-#~ msgstr ""
-#~ "<b>Fontvojo de Tondaĵo</b> metos la elektitan vojon de Bin-tondaĵo<br/"
-#~ "><b>Peti Dosiervojon</b> petos dosiervojon je rulado<br/><b>Peti Opcion "
-#~ "en Listo</b> petos elekton en la suba listo je rulado."
-
-#~ msgid "The second parameter that will be injected in the script arguments"
-#~ msgstr "La dua parametro kiu estos injektita an la skript-argumentoj"
