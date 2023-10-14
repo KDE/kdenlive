@@ -3841,13 +3841,13 @@ msgstr "Importa fotogrames clau des del porta-retalls"
 #: src/mainwindow.cpp:1826
 #, kde-format
 msgid "Go to previous keyframe"
-msgstr "Ves al fotograma clau anterior"
+msgstr "Ves fins al fotograma clau anterior"
 
 #: src/assets/view/widgets/keyframewidget.cpp:81 src/dialogs/timeremap.cpp:1693
 #: src/mainwindow.cpp:1824
 #, kde-format
 msgid "Go to next keyframe"
-msgstr "Ves al fotograma clau següent"
+msgstr "Ves fins al fotograma clau següent"
 
 #: src/assets/view/widgets/keyframewidget.cpp:86 src/dialogs/timeremap.cpp:1701
 #: src/dialogs/timeremap.cpp:1703
@@ -6204,7 +6204,7 @@ msgstr ""
 #: src/dialogs/exportguidesdialog.cpp:52
 #, kde-format
 msgid "Copy to Clipboard"
-msgstr "Copia al porta-retalls"
+msgstr "Copia a dins del porta-retalls"
 
 #: src/dialogs/exportguidesdialog.cpp:54
 #, kde-format
@@ -7077,7 +7077,7 @@ msgstr "Creat per la comunitat KDE"
 #: src/dialogs/subtitleedit.cpp:108
 #, kde-format
 msgid "Go to next subtitle"
-msgstr "Ves al subtítol següent"
+msgstr "Ves fins al subtítol següent"
 
 #: src/dialogs/subtitleedit.cpp:109
 #, kde-kuit-format
@@ -7092,7 +7092,7 @@ msgstr ""
 #: src/dialogs/subtitleedit.cpp:110
 #, kde-format
 msgid "Go to previous subtitle"
-msgstr "Ves al subtítol anterior"
+msgstr "Ves fins al subtítol anterior"
 
 #: src/dialogs/subtitleedit.cpp:111
 #, kde-kuit-format
@@ -8977,7 +8977,7 @@ msgstr "Monitor"
 #: src/kdenliveui.rc:210
 #, kde-format
 msgid "Go To"
-msgstr "Ves a"
+msgstr "Ves fins a"
 
 #. i18n: ectx: Menu (monitor_seek)
 #: src/kdenliveui.rc:222
@@ -9725,7 +9725,7 @@ msgstr "Renderitzant la vista prèvia"
 #: src/mainwindow.cpp:660 src/monitor/monitor.cpp:370
 #, kde-format
 msgid "Go to Guide…"
-msgstr "Ves a la guia…"
+msgstr "Ves fins a la guia…"
 
 #: src/mainwindow.cpp:688
 #, kde-format
@@ -10266,32 +10266,32 @@ msgstr ""
 #: src/mainwindow.cpp:1612
 #, kde-format
 msgid "Go to Previous Snap Point"
-msgstr "Ves al punt d'ajust anterior"
+msgstr "Ves fins al punt d'ajust anterior"
 
 #: src/mainwindow.cpp:1614
 #, kde-format
 msgid "Go to Next Snap Point"
-msgstr "Ves al punt d'ajust següent"
+msgstr "Ves fins al punt d'ajust següent"
 
 #: src/mainwindow.cpp:1617
 #, kde-format
 msgid "Go to Clip Start"
-msgstr "Ves a l'inici del clip"
+msgstr "Ves fins a l'inici del clip"
 
 #: src/mainwindow.cpp:1619
 #, kde-format
 msgid "Go to Clip End"
-msgstr "Ves al final del clip"
+msgstr "Ves fins al final del clip"
 
 #: src/mainwindow.cpp:1621
 #, kde-format
 msgid "Go to Previous Guide"
-msgstr "Ves a la guia anterior"
+msgstr "Ves fins a la guia anterior"
 
 #: src/mainwindow.cpp:1623
 #, kde-format
 msgid "Go to Next Guide"
-msgstr "Ves a la guia següent"
+msgstr "Ves fins a la guia següent"
 
 #: src/mainwindow.cpp:1625
 #, kde-format
@@ -11803,7 +11803,7 @@ msgstr ""
 #: src/monitor/monitor.cpp:370
 #, kde-format
 msgid "Go to Marker…"
-msgstr "Ves al marcador…"
+msgstr "Ves fins al marcador…"
 
 #: src/monitor/monitor.cpp:374
 #, kde-format
@@ -12011,12 +12011,12 @@ msgstr "Rebobina 1 segon"
 #: src/monitor/monitormanager.cpp:531
 #, kde-format
 msgid "Go to Project Start"
-msgstr "Ves a l'inici del projecte"
+msgstr "Ves fins a l'inici del projecte"
 
 #: src/monitor/monitormanager.cpp:535
 #, kde-format
 msgid "Go to Project End"
-msgstr "Ves al final del projecte"
+msgstr "Ves fins al final del projecte"
 
 #: src/monitor/monitormanager.cpp:539
 #, kde-format
@@ -12123,12 +12123,12 @@ msgstr "So al monitor"
 #: src/monitor/monitormanager.cpp:622
 #, kde-format
 msgid "Go to Zone Start"
-msgstr "Ves a l'inici de la zona"
+msgstr "Ves fins a l'inici de la zona"
 
 #: src/monitor/monitormanager.cpp:626
 #, kde-format
 msgid "Go to Zone End"
-msgstr "Ves al final de la zona"
+msgstr "Ves fins al final de la zona"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_preview)
 #: src/monitor/recmanager.cpp:35 src/ui/resourcewidget_ui.ui:251
@@ -12213,12 +12213,12 @@ msgstr "Canvia la superposició"
 #: src/monitor/view/EffectToolBar.qml:77
 #, kde-format
 msgid "Go to Next Keyframe"
-msgstr "Ves al fotograma clau següent"
+msgstr "Ves fins al fotograma clau següent"
 
 #: src/monitor/view/EffectToolBar.qml:83
 #, kde-format
 msgid "Go to Previous Keyframe"
-msgstr "Ves al fotograma clau anterior"
+msgstr "Ves fins al fotograma clau anterior"
 
 #: src/monitor/view/EffectToolBar.qml:94
 #, kde-format
@@ -18367,7 +18367,7 @@ msgstr "Carpeta de perfils de MLT:"
 #: src/ui/configenv_ui.ui:161
 #, kde-format
 msgid "Melt path:"
-msgstr "Camí al Melt:"
+msgstr "Camí cap a Melt:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/configenv_ui.ui:171
@@ -19056,8 +19056,8 @@ msgstr "En buscar fes una pausa en la reproducció"
 #, kde-format
 msgid "Jump to timeline start if playback is started on last frame in timeline"
 msgstr ""
-"Salta a l'inici de la línia de temps si la reproducció s'inicia en l'últim "
-"fotograma de la línia de temps"
+"Salta fins a l'inici de la línia de temps si la reproducció s'inicia en "
+"l'últim fotograma de la línia de temps"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_seekonaddeffect)
 #: src/ui/configtimeline_ui.ui:80

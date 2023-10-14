@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-10 02:35+0000\n"
-"PO-Revision-Date: 2023-10-11 13:57+0200\n"
+"PO-Revision-Date: 2023-10-13 11:39+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -9822,7 +9822,7 @@ msgstr ""
 #: src/mainwindow.cpp:1174
 #, kde-format
 msgid "Enable Track Compositing"
-msgstr "Compositing van track inschakelen"
+msgstr "Samenstellen van track inschakelen"
 
 #: src/mainwindow.cpp:1180
 #, kde-format
