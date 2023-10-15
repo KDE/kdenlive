@@ -252,9 +252,9 @@ DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, Q
 
     d.hasErrorInProject();
     if (pCore->window() == nullptr) {
-        qDebug() << "DocumentChecker found some problems in the project:";
+        qInfo() << "DocumentChecker found some problems in the project:";
         for (const auto &item : d.resourceItems()) {
-            qDebug() << &item;
+            qInfo() << item;
             if (item.status == DocumentChecker::MissingStatus::Missing) {
                 success = false;
             }
