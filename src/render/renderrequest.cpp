@@ -52,6 +52,7 @@ void RenderRequest::loadPresetParams(const QString &profileName)
 {
     std::unique_ptr<RenderPresetModel> &profile = RenderPresetRepository::get()->getPreset(profileName);
     m_presetParams = profile->params();
+    m_presetParams.refreshX265Params();
     m_presetDefaults = profile->defaultValues();
 }
 
