@@ -269,6 +269,8 @@ int main(int argc, char *argv[])
         std::vector<RenderRequest::RenderJob> renderjobs = renderrequest->process(url);
         app.processEvents();
 
+        int exitCode = EXIT_SUCCESS;
+
         for (const auto &job : renderjobs) {
             QStringList argsJob = {QStringLiteral("delivery"), KdenliveSettings::meltpath(), job.playlistPath, QStringLiteral("--pid"),
                                    QString::number(QCoreApplication::applicationPid())};
@@ -279,31 +281,29 @@ int main(int argc, char *argv[])
 
             qDebug() << "starting kdenlive_render process using: " << KdenliveSettings::kdenliverendererpath();
             if (parser.isSet(exitOption)) {
-                QProcess::execute(KdenliveSettings::kdenliverendererpath(), argsJob);
+                if (QProcess::execute(KdenliveSettings::kdenliverendererpath(), argsJob) != EXIT_SUCCESS) {
+                    exitCode = EXIT_FAILURE;
+                    break;
+                }
             } else {
                 if (!QProcess::startDetached(KdenliveSettings::kdenliverendererpath(), argsJob)) {
-                    qDebug() << "Error starting render job" << argsJob;
-                    // return false;
+                    qCritical() << "Error starting render job" << argsJob;
+                    exitCode = EXIT_FAILURE;
+                    break;
                 } else {
                     KNotification::event(QStringLiteral("RenderStarted"), i18n("Rendering <i>%1</i> started", job.outputPath), QPixmap());
                 }
             }
-            // return true;
         }
         /*QMapIterator<QString, QString> i(rendermanager->m_renderFiles);
         while (i.hasNext()) {
             i.next();
             // qDebug() << i.key() << i.value() << rendermanager->startRendering(i.key(), i.value(), {});
         }*/
-        qDebug() << "Test 1";
-        qDebug() << pCore->getTrackNames(false);
-        qDebug() << "Test 2";
         app.processEvents();
         Core::clean();
         app.processEvents();
-        // result = app.exec();
-        // return result;
-        return 0;
+        return exitCode;
     }
 
 #if defined(Q_OS_WIN)
