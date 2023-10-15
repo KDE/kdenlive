@@ -272,7 +272,7 @@ int main(int argc, char *argv[])
         for (const auto &job : renderjobs) {
             QStringList argsJob = {QStringLiteral("delivery"), KdenliveSettings::meltpath(), job.playlistPath, QStringLiteral("--pid"),
                                    QString::number(QCoreApplication::applicationPid())};
-            if (job.subtitlePath.isEmpty()) {
+            if (!job.subtitlePath.isEmpty()) {
                 argsJob << QStringLiteral("--subtitle") << job.subtitlePath;
             }
             qDebug() << "* CREATED JOB WITH ARGS: " << argsJob;
