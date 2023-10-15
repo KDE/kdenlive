@@ -269,6 +269,10 @@ int main(int argc, char *argv[])
         std::vector<RenderRequest::RenderJob> renderjobs = renderrequest->process(url);
         app.processEvents();
 
+        if (!renderrequest->errorMessages().isEmpty()) {
+            qInfo() << "The following errors occured while trying to render:\n" << renderrequest->errorMessages().join(QLatin1Char('\n'));
+        }
+
         int exitCode = EXIT_SUCCESS;
 
         for (const auto &job : renderjobs) {
