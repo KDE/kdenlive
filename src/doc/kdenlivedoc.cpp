@@ -250,17 +250,18 @@ DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, Q
 
     DocumentChecker d(url, domDoc);
 
-    d.hasErrorInProject();
-    if (pCore->window() == nullptr) {
-        qInfo() << "DocumentChecker found some problems in the project:";
-        for (const auto &item : d.resourceItems()) {
-            qInfo() << item;
-            if (item.status == DocumentChecker::MissingStatus::Missing) {
-                success = false;
+    if (d.hasErrorInProject()) {
+        if (pCore->window() == nullptr) {
+            qInfo() << "DocumentChecker found some problems in the project:";
+            for (const auto &item : d.resourceItems()) {
+                qInfo() << item;
+                if (item.status == DocumentChecker::MissingStatus::Missing) {
+                    success = false;
+                }
             }
+        } else {
+            success = d.resolveProblemsWithGUI();
         }
-    } else {
-        success = d.resolveProblemsWithGUI();
     }
 
     if (!success) {
