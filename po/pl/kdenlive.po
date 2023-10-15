@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-13 00:42+0000\n"
-"PO-Revision-Date: 2023-10-07 08:40+0200\n"
+"PO-Revision-Date: 2023-10-14 12:18+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -5474,10 +5474,9 @@ msgid "File already exists"
 msgstr "Plik już istnieje"
 
 #: src/bin/projectclip.cpp:2547
-#, fuzzy, kde-format
-#| msgid "Paste timeline clips"
+#, kde-format
 msgid "Adjust timeline clips"
-msgstr "Wklej wycinek z linii czasu"
+msgstr "Dostosuj wycinki na osi czasu"
 
 #: src/bin/projectclip.cpp:2772
 #, kde-format
@@ -6016,24 +6015,14 @@ msgstr ""
 "wyjściowy już istnieje, to zostanie dołączony przyrostek -0001."
 
 #: src/dialogs/clipjobmanager.cpp:54 src/dialogs/clipjobmanager.cpp:63
-#, fuzzy, kde-format
-#| msgid ""
-#| "A newline separated list of possible values that will be offered on "
-#| "execution"
+#, kde-format
 msgid "If selected, a file path will be requested on execution"
-msgstr ""
-"Lista oddzielona znakami nowego wiersza z możliwymi wartościami zostanie "
-"przedstawiona przy wykonywaniu"
+msgstr "Po zaznaczeniu, pojawi się żądanie o ścieżkę do pliku przed wykonaniem"
 
 #: src/dialogs/clipjobmanager.cpp:55 src/dialogs/clipjobmanager.cpp:64
-#, fuzzy, kde-format
-#| msgid ""
-#| "A newline separated list of possible values that will be offered on "
-#| "execution"
+#, kde-format
 msgid "If selected, a dropdown list of values will be shown on execution"
-msgstr ""
-"Lista oddzielona znakami nowego wiersza z możliwymi wartościami zostanie "
-"przedstawiona przy wykonywaniu"
+msgstr "Po zaznaczeniu, będzie pokazywany wykaz wartości przy wykonywaniu"
 
 #: src/dialogs/clipjobmanager.cpp:57
 #, kde-format
@@ -6041,6 +6030,8 @@ msgid ""
 "If selected, the selected clip's current frame will be extracted to a "
 "temporary file and the parameter value will be the image path"
 msgstr ""
+"Po zaznaczeniu, bieżąca klatka zaznaczonego wycinka zostanie wydobyta do "
+"pliku tymczasowego, a wartością parametru będzie ścieżka do obrazu"
 
 #: src/dialogs/clipjobmanager.cpp:58
 #, kde-format
@@ -16837,10 +16828,9 @@ msgid "Close %1"
 msgstr "Zamknij %1"
 
 #: src/timeline2/view/timelinetabs.cpp:366
-#, fuzzy, kde-format
-#| msgid "Image Sequence"
+#, kde-format
 msgid "Rename Sequence"
-msgstr "Szereg obrazów"
+msgstr "Przemianuj ciąg"
 
 #: src/timeline2/view/timelinewidget.cpp:73
 #, kde-format
@@ -17942,10 +17932,9 @@ msgstr "Zażądaj ścieżki do pliku"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_isframe)
 #: src/ui/clipjobmanager_ui.ui:146
-#, fuzzy, kde-format
-#| msgid "Current clip"
+#, kde-format
 msgid "Current clip frame"
-msgstr "Bieżący wycinek"
+msgstr "Klatka bieżącego wycinka"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: src/ui/clipjobmanager_ui.ui:156
