@@ -242,8 +242,8 @@ int main(int argc, char *argv[])
             return EXIT_FAILURE;
         }
         if (presetName.isEmpty()) {
-            qDebug() << "No render preset given, using default: MP4-H264/AAC";
             presetName = QStringLiteral("MP4-H264/AAC");
+            qDebug() << "No render preset given, using default:" << presetName;
         }
         if (!Core::build(packageType, true)) {
             return EXIT_FAILURE;
