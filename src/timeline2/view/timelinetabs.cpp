@@ -361,7 +361,7 @@ void TimelineTabs::slotPreviousSequence()
 
 void TimelineTabs::onTabBarDoubleClicked(int index)
 {
-    const QString currentTabName = tabBar()->tabText(index);
+    const QString currentTabName = KLocalizedString::removeAcceleratorMarker(tabBar()->tabText(index));
     bool ok = false;
     const QString newName = QInputDialog::getText(this, i18n("Rename Sequence"), i18n("Rename Sequence"), QLineEdit::Normal, currentTabName, &ok);
     if (ok && !newName.isEmpty()) {
