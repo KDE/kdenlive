@@ -20,7 +20,7 @@ Files: data/resourceproviders/*
 Copyright: 2021 Julius Künzel
 License: CC0-1.0
 
-Files: .flatpak-manifest.json packaging/flatpak/python-modules.json packaging/flatpak/org.kde.kdenlive-*.json
+Files: .flatpak-manifest.json packaging/flatpak/python-modules.json packaging/flatpak/org.kde.kdenlive-*.json snapcraft.yaml
 Copyright: none
 License: CC0-1.0
 
