@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-10 02:35+0000\n"
-"PO-Revision-Date: 2023-10-13 11:39+0200\n"
+"PO-Revision-Date: 2023-10-15 16:40+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 23.08.1\n"
+"X-Generator: Lokalize 23.08.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -11913,7 +11913,7 @@ msgstr ""
 #: src/monitor/monitor.cpp:2384
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
-msgstr "Modus Bewerken in monitor inschakelen om effect te bewerken"
+msgstr "Bewerkingsmodus in monitor inschakelen om effect te bewerken"
 
 #: src/monitor/monitormanager.cpp:200
 #, kde-format
