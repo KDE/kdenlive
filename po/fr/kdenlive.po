@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-13 00:42+0000\n"
-"PO-Revision-Date: 2023-10-08 17:45+0200\n"
+"PO-Revision-Date: 2023-10-14 18:24+0200\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -5529,10 +5529,9 @@ msgid "File already exists"
 msgstr "Le fichier existe déjà"
 
 #: src/bin/projectclip.cpp:2547
-#, fuzzy, kde-format
-#| msgid "Paste timeline clips"
+#, kde-format
 msgid "Adjust timeline clips"
-msgstr "Coller les clips du montage"
+msgstr "Ajuster les vidéo sur la frise chronologique"
 
 #: src/bin/projectclip.cpp:2772
 #, kde-format
@@ -6070,24 +6069,18 @@ msgstr ""
 "nom de fichier de sortie existe déjà, un motif « -0001 » sera ajouté."
 
 #: src/dialogs/clipjobmanager.cpp:54 src/dialogs/clipjobmanager.cpp:63
-#, fuzzy, kde-format
-#| msgid ""
-#| "A newline separated list of possible values that will be offered on "
-#| "execution"
+#, kde-format
 msgid "If selected, a file path will be requested on execution"
 msgstr ""
-"Une liste séparée par un retour à la ligne des valeurs possibles qui seront "
-"proposées lors de l’exécution"
+"Si cette option est sélectionnée, l'emplacement du fichier sera demandé à "
+"l'exécution."
 
 #: src/dialogs/clipjobmanager.cpp:55 src/dialogs/clipjobmanager.cpp:64
-#, fuzzy, kde-format
-#| msgid ""
-#| "A newline separated list of possible values that will be offered on "
-#| "execution"
+#, kde-format
 msgid "If selected, a dropdown list of values will be shown on execution"
 msgstr ""
-"Une liste séparée par un retour à la ligne des valeurs possibles qui seront "
-"proposées lors de l’exécution"
+"Si cette option est sélectionnée, une liste déroulante de valeurs sera "
+"affichée à l’exécution"
 
 #: src/dialogs/clipjobmanager.cpp:57
 #, kde-format
@@ -6095,6 +6088,9 @@ msgid ""
 "If selected, the selected clip's current frame will be extracted to a "
 "temporary file and the parameter value will be the image path"
 msgstr ""
+"Si cette option est sélectionnée, la trame courante actuelle de la vidéo "
+"sélectionnée sera extraite dans un fichier temporaire et la valeur du "
+"paramètre sera l'emplacement de l’image."
 
 #: src/dialogs/clipjobmanager.cpp:58
 #, kde-format
@@ -16998,10 +16994,9 @@ msgid "Close %1"
 msgstr "Fermer %1"
 
 #: src/timeline2/view/timelinetabs.cpp:366
-#, fuzzy, kde-format
-#| msgid "Image Sequence"
+#, kde-format
 msgid "Rename Sequence"
-msgstr "Séquence d'images"
+msgstr "Renommer la séquence"
 
 #: src/timeline2/view/timelinewidget.cpp:73
 #, kde-format
@@ -18110,10 +18105,9 @@ msgstr "Demander un emplacement de fichier"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_isframe)
 #: src/ui/clipjobmanager_ui.ui:146
-#, fuzzy, kde-format
-#| msgid "Current clip"
+#, kde-format
 msgid "Current clip frame"
-msgstr "Clip courant"
+msgstr "Trame de la vidéo courante"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: src/ui/clipjobmanager_ui.ui:156
