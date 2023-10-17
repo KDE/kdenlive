@@ -80,7 +80,7 @@ public:
      */
     static bool build(const QString &packageType, bool testMode = false);
 
-    void initHeadless(const QUrl &url);
+    void initHeadless(const QUrl &url = QUrl());
 
     /**
      * @brief Init the GUI part of the app and show the main window

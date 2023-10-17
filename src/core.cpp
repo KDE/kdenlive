@@ -132,11 +132,12 @@ bool Core::build(const QString &packageType, bool testMode)
 
 void Core::initHeadless(const QUrl &url)
 {
-    // m_mainWindow = new MainWindow();
     MltConnection::construct(QString());
     m_projectManager = new ProjectManager(this);
     // projectManager()->init(url, QString());
-    QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadHeadless", Qt::QueuedConnection, Q_ARG(QUrl, url));
+    if (!url.isEmpty()) {
+        QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadHeadless", Qt::QueuedConnection, Q_ARG(QUrl, url));
+    }
 }
 
 void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, const QString &clipsToLoad)

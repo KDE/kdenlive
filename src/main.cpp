@@ -195,12 +195,15 @@ int main(int argc, char *argv[])
     QCommandLineOption renderOption(QStringLiteral("render"), i18n("Directly render the project and exit."));
     parser.addOption(renderOption);
 
-    QCommandLineOption exitOption(QStringLiteral("synchronous"), i18n("Don't exit until render process is finished."));
+    QCommandLineOption presetOption(QStringLiteral("render-preset"), i18n("Kdenlive render preset name (MP4-H264/AAC will be used if none given)."),
+                                    QStringLiteral("renderPreset"), QString());
+    parser.addOption(presetOption);
+
+    QCommandLineOption exitOption(QStringLiteral("render-async"), i18n("Don't exit until render process is finished."));
     parser.addOption(exitOption);
 
     parser.addPositionalArgument(QStringLiteral("file"), i18n("Kdenlive document to open."));
     parser.addPositionalArgument(QStringLiteral("rendering"), i18n("Output file for rendered video."));
-    parser.addPositionalArgument(QStringLiteral("preset"), i18n("Kdenlive render preset name (MP4-H264/AAC will be used if none given)."));
 
     // Parse command line
     parser.process(app);
@@ -224,10 +227,6 @@ int main(int argc, char *argv[])
                 renderUrl = QUrl::fromLocalFile(outFileInfo.absoluteFilePath());
             }
         }
-        if (parser.positionalArguments().count() > 2) {
-            // Render preset
-            presetName = parser.positionalArguments().at(2);
-        }
     }
 
     qApp->processEvents(QEventLoop::AllEvents);
@@ -241,14 +240,16 @@ int main(int argc, char *argv[])
             qCritical() << "You need to give a non existing output file to render from the command line.";
             return EXIT_FAILURE;
         }
-        if (presetName.isEmpty()) {
+        if (parser.isSet(presetOption)) {
+            presetName = parser.value(presetOption);
+        } else {
             presetName = QStringLiteral("MP4-H264/AAC");
             qDebug() << "No render preset given, using default:" << presetName;
         }
         if (!Core::build(packageType, true)) {
             return EXIT_FAILURE;
         }
-        pCore->initHeadless(url);
+        pCore->initHeadless();
         app.processEvents();
 
         RenderRequest *renderrequest = new RenderRequest();
@@ -284,7 +285,7 @@ int main(int argc, char *argv[])
             qDebug() << "* CREATED JOB WITH ARGS: " << argsJob;
 
             qDebug() << "starting kdenlive_render process using: " << KdenliveSettings::kdenliverendererpath();
-            if (parser.isSet(exitOption)) {
+            if (!parser.isSet(exitOption)) {
                 if (QProcess::execute(KdenliveSettings::kdenliverendererpath(), argsJob) != EXIT_SUCCESS) {
                     exitCode = EXIT_FAILURE;
                     break;
