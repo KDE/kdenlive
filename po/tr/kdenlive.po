@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-13 00:42+0000\n"
+"POT-Creation-Date: 2023-10-17 00:42+0000\n"
 "PO-Revision-Date: 2023-10-13 12:08+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -4875,7 +4875,7 @@ msgstr "Klasörlere efektler uygulanamaz"
 
 #: src/bin/bin.cpp:3969 src/effects/effectstack/model/effectstackmodel.cpp:501
 #: src/effects/effectstack/model/effectstackmodel.cpp:507
-#: src/mainwindow.cpp:3160
+#: src/mainwindow.cpp:3158
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Klibe efekt eklenemez"
@@ -5018,7 +5018,7 @@ msgstr ""
 "Projenizin tüm akışları işlemesi için daha fazla ses izine gereksinimi var. "
 "%1 ses izi eklensin mi?"
 
-#: src/bin/bin.cpp:5401 src/mainwindow.cpp:2722
+#: src/bin/bin.cpp:5401 src/mainwindow.cpp:2720
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "İmleyici eklenecek klip bulunamadı"
@@ -5215,7 +5215,7 @@ msgstr "Çift Tıklamada Dosya İçe Aktar"
 #: src/bin/mediabrowser.cpp:162 src/dialogs/clipcreationdialog.cpp:499
 #: src/effects/effectlist/view/effectlistwidget.cpp:128
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:300
-#: src/mainwindow.cpp:3942 src/onlineresources/resourcewidget.cpp:600
+#: src/mainwindow.cpp:3940 src/onlineresources/resourcewidget.cpp:600
 #, kde-format
 msgid "All Files"
 msgstr "Tüm Dosyalar"
@@ -6318,7 +6318,7 @@ msgstr "Karelerdeki sonraki kılavuz konumu"
 msgid "Guide comment"
 msgstr "Kılavuz açıklaması"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:115 src/mainwindow.cpp:3863
+#: src/dialogs/kdenlivesettingsdialog.cpp:115 src/mainwindow.cpp:3861
 #, kde-format
 msgid "Timeline"
 msgstr "Zaman Akışı"
@@ -8879,13 +8879,13 @@ msgid "Markers"
 msgstr "İmleyiciler"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:80 src/mainwindow.cpp:3767
+#: src/kdenliveui.rc:80 src/mainwindow.cpp:3765
 #, kde-format
 msgid "Extract Audio"
 msgstr "Sesi Ayır"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:83 src/mainwindow.cpp:3730
+#: src/kdenliveui.rc:83 src/mainwindow.cpp:3728
 #, kde-format
 msgid "Clip Jobs"
 msgstr "Klip İşleri"
@@ -10062,7 +10062,7 @@ msgstr ""
 msgid "Experimental GPU processing enabled - not for production"
 msgstr "Deneysel GPU işleme etkinleştirildi - üretim için değil"
 
-#: src/mainwindow.cpp:1379 src/mainwindow.cpp:3400
+#: src/mainwindow.cpp:1379 src/mainwindow.cpp:3398
 #, kde-format
 msgid "Multicam"
 msgstr "Çoklu Kamera"
@@ -10941,7 +10941,7 @@ msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "Genel"
 
-#: src/mainwindow.cpp:2607
+#: src/mainwindow.cpp:2605
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
@@ -10950,28 +10950,28 @@ msgstr ""
 "Bu, kdenlive'ın yapılandırma dosyasını silecek ve uygulamayı yeniden "
 "başlatacaktır. Sürdürmek istiyor musunuz?"
 
-#: src/mainwindow.cpp:2608
+#: src/mainwindow.cpp:2606
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "Yapılandırmayı Sıfırla"
 
-#: src/mainwindow.cpp:2740 src/mainwindow.cpp:2767
+#: src/mainwindow.cpp:2738 src/mainwindow.cpp:2765
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "İmleyicinin kaldırılacağı klip bulunamadı"
 
-#: src/mainwindow.cpp:2750 src/mainwindow.cpp:2796
+#: src/mainwindow.cpp:2748 src/mainwindow.cpp:2794
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "İmleç konumunda hiçbir imleyici bulunamadı"
 
-#: src/mainwindow.cpp:2772
+#: src/mainwindow.cpp:2770
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr "İmleyiciler silinirken bir hata oluştu"
 
-#: src/mainwindow.cpp:2789 src/timeline2/view/timelinecontroller.cpp:1252
+#: src/mainwindow.cpp:2787 src/timeline2/view/timelinecontroller.cpp:1252
 #: src/timeline2/view/timelinecontroller.cpp:1260
 #: src/timeline2/view/timelinecontroller.cpp:1281
 #: src/timeline2/view/timelinecontroller.cpp:1321
@@ -10980,22 +10980,22 @@ msgstr "İmleyiciler silinirken bir hata oluştu"
 msgid "Cannot find clip to edit marker"
 msgstr "İmleyici düzenlenecek klip bulunamadı"
 
-#: src/mainwindow.cpp:2992
+#: src/mainwindow.cpp:2990
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr "Proje kovasında seçili klip yok"
 
-#: src/mainwindow.cpp:3163
+#: src/mainwindow.cpp:3161
 #, kde-format
 msgid "Select an item to add effect"
 msgstr "Efekt eklenecek bir öge seçin"
 
-#: src/mainwindow.cpp:3219
+#: src/mainwindow.cpp:3217
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "Yakınlaştırma Düzeyi: %1/%2"
 
-#: src/mainwindow.cpp:3368
+#: src/mainwindow.cpp:3366
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11008,7 +11008,7 @@ msgstr ""
 "ize taşımak için <shortcut>Meta+sürükle</shortcut>, kaydırma için "
 "<shortcut>Kontrol+sürükle</shortcut>"
 
-#: src/mainwindow.cpp:3372
+#: src/mainwindow.cpp:3370
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11022,24 +11022,24 @@ msgstr ""
 "ize taşımak için <shortcut>Meta+Alt+sürükle</shortcut>, kaydırma için "
 "<shortcut>Kontrol+sürükle</shortcut>"
 
-#: src/mainwindow.cpp:3375
+#: src/mainwindow.cpp:3373
 #, kde-format
 msgid "Select"
 msgstr "Seç"
 
-#: src/mainwindow.cpp:3377
+#: src/mainwindow.cpp:3375
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr "Kesilen kareyi önizlemek için <b> Üst Karakter </b>'e basın"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3378 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3376 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr "Jilet"
 
-#: src/mainwindow.cpp:3382
+#: src/mainwindow.cpp:3380
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11050,12 +11050,12 @@ msgstr ""
 "Karakter</shortcut>, ayrıca kılavuzları da taşır. İki değiştiriciyi aynı "
 "anda kullanabilirsiniz."
 
-#: src/mainwindow.cpp:3383
+#: src/mainwindow.cpp:3381
 #, kde-format
 msgid "Spacer"
 msgstr "Boşluk"
 
-#: src/mainwindow.cpp:3385
+#: src/mainwindow.cpp:3383
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11065,13 +11065,13 @@ msgstr ""
 "Sürçmek için bir ögenin üzerine <shortcut>tıklayın</shortcut>, çoklu seçim "
 "için <shortcut>Üst Karakter+tıklayın</shortcut>"
 
-#: src/mainwindow.cpp:3386
+#: src/mainwindow.cpp:3384
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "Sürçme"
 
-#: src/mainwindow.cpp:3391
+#: src/mainwindow.cpp:3389
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11083,13 +11083,13 @@ msgstr ""
 "için<shortcut>Üst Karakter+tıkla</shortcut>, kaydırma için <shortcut>Kontrol"
 "+sürükle</shortcut>"
 
-#: src/mainwindow.cpp:3393
+#: src/mainwindow.cpp:3391
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "Dalgacık"
 
-#: src/mainwindow.cpp:3399
+#: src/mainwindow.cpp:3397
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11099,94 +11099,94 @@ msgstr ""
 "Etkin iz dışındaki tüm izleri yukarı kaldırmayı gerçekleştirmek için bir "
 "proje izleyicisinde bir iz görünümüne <shortcut>tıklayın</shortcut>"
 
-#: src/mainwindow.cpp:3411
+#: src/mainwindow.cpp:3409
 #, kde-format
 msgid "Insert"
 msgstr "Ekle"
 
-#: src/mainwindow.cpp:3414
+#: src/mainwindow.cpp:3412
 #, kde-format
 msgid "Overwrite"
 msgstr "Üzerine Yaz"
 
-#: src/mainwindow.cpp:3751
+#: src/mainwindow.cpp:3749
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "Klip İşlerini Yapılandır…"
 
-#: src/mainwindow.cpp:3766
+#: src/mainwindow.cpp:3764
 #, kde-format
 msgid "Transcoders"
 msgstr "Arakodlayıcılar"
 
-#: src/mainwindow.cpp:3826
+#: src/mainwindow.cpp:3824
 #, kde-format
 msgid "-merged"
 msgstr "-birleştirildi"
 
-#: src/mainwindow.cpp:3829
+#: src/mainwindow.cpp:3827
 #, kde-format
 msgid "-stream-%1"
 msgstr "-akış-%1"
 
-#: src/mainwindow.cpp:3862
+#: src/mainwindow.cpp:3860
 #, kde-format
 msgid "Interface"
 msgstr "Arayüz"
 
-#: src/mainwindow.cpp:3878
+#: src/mainwindow.cpp:3876
 #, kde-format
 msgid "Raise %1"
 msgstr "%1 Yükselt"
 
-#: src/mainwindow.cpp:3944
+#: src/mainwindow.cpp:3942
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Arakodlanacak Dosyalar"
 
-#: src/mainwindow.cpp:4092
+#: src/mainwindow.cpp:4090
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "Proje dosyası arşivleme için kaydedilemedi."
 
-#: src/mainwindow.cpp:4098
+#: src/mainwindow.cpp:4096
 #, kde-format
 msgid "Archiving project"
 msgstr "Proje arşivleniyor"
 
-#: src/mainwindow.cpp:4254
+#: src/mainwindow.cpp:4252
 #, kde-format
 msgid "Icon Size"
 msgstr "Simge Boyutu"
 
-#: src/mainwindow.cpp:4258
+#: src/mainwindow.cpp:4256
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Öntanımlı"
 
-#: src/mainwindow.cpp:4279 src/mainwindow.cpp:4307
+#: src/mainwindow.cpp:4277 src/mainwindow.cpp:4305
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Küçük (%1x%2)"
 
-#: src/mainwindow.cpp:4281 src/mainwindow.cpp:4309
+#: src/mainwindow.cpp:4279 src/mainwindow.cpp:4307
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Orta (%1x%2)"
 
-#: src/mainwindow.cpp:4283 src/mainwindow.cpp:4311
+#: src/mainwindow.cpp:4281 src/mainwindow.cpp:4309
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Büyük (%1x%2)"
 
-#: src/mainwindow.cpp:4285 src/mainwindow.cpp:4313
+#: src/mainwindow.cpp:4283 src/mainwindow.cpp:4311
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Çok Büyük (%1x%2)"
 
-#: src/mainwindow.cpp:4370
+#: src/mainwindow.cpp:4368
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -11195,12 +11195,12 @@ msgstr ""
 "Bu, menü çubuğunu tümüyle gizleyecektir. Kontrol+M ile yeniden "
 "gösterebilirsiniz."
 
-#: src/mainwindow.cpp:4370
+#: src/mainwindow.cpp:4368
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Menü çubuğunu gizle"
 
-#: src/mainwindow.cpp:4385
+#: src/mainwindow.cpp:4383
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
@@ -11208,17 +11208,17 @@ msgstr ""
 "Simge temasını değişikliğini uygulamak için Kdenlive yeniden "
 "başlatılmalıdır. Şimdi yeniden başlatılsın mı?"
 
-#: src/mainwindow.cpp:4615 src/timeline2/view/timelinecontroller.cpp:5028
+#: src/mainwindow.cpp:4613 src/timeline2/view/timelinecontroller.cpp:5028
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "Geçerli projede altyazı yok"
 
-#: src/mainwindow.cpp:4708
+#: src/mainwindow.cpp:4706
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Proje Kovası %1"
 
-#: src/mainwindow.cpp:4809
+#: src/mainwindow.cpp:4807
 #, kde-format
 msgid "Checking cached data size"
 msgstr "Önbelleklenmiş veri boyutu denetleniyor"
