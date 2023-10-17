@@ -463,8 +463,12 @@ void DocumentChecker::removeProxy(const QDomNodeList &items, const QString &clip
 
         // Replace proxy url with real clip in MLT producers
         QString prefix;
-        QString originalService = Xml::getXmlProperty(e, QStringLiteral("kdenlive:original.mlt_service"));
-        QString originalPath = Xml::getXmlProperty(e, QStringLiteral("kdenlive:original.resource"));
+        const QString originalService = Xml::getXmlProperty(e, QStringLiteral("kdenlive:original.mlt_service"));
+        const QString originalPath = Xml::getXmlProperty(e, QStringLiteral("kdenlive:original.resource"));
+        if (originalPath.isEmpty()) {
+            // The clip proxy process was not completed, leave resource untouched
+            return;
+        }
         QString service = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
         if (service == QLatin1String("timewarp")) {
             prefix = Xml::getXmlProperty(e, QStringLiteral("warp_speed"));
