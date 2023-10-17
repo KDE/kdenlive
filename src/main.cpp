@@ -305,6 +305,7 @@ int main(int argc, char *argv[])
             i.next();
             // qDebug() << i.key() << i.value() << rendermanager->startRendering(i.key(), i.value(), {});
         }*/
+        pCore->projectManager()->closeCurrentDocument(false, false);
         app.processEvents();
         Core::clean();
         app.processEvents();
