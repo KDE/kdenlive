@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-10 02:35+0000\n"
-"PO-Revision-Date: 2023-10-15 16:40+0200\n"
+"PO-Revision-Date: 2023-10-16 10:45+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -8801,7 +8801,7 @@ msgstr "Percentage"
 #: src/ui/timeremap_ui.ui:345
 #, kde-format
 msgid "Pitch compensation"
-msgstr "Compensatie aan pitch"
+msgstr "Frequentiecompensatie"
 
 #: src/jobs/speedtask.cpp:244
 #, kde-format
