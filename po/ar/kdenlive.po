@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-17 00:42+0000\n"
+"POT-Creation-Date: 2023-10-18 00:42+0000\n"
 "PO-Revision-Date: 2023-08-19 22:23+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -5477,8 +5477,8 @@ msgstr "المعرّف"
 msgid "Usage"
 msgstr "الاستخدام"
 
-#: src/bin/projectitemmodel.cpp:336 src/doc/documentchecker.cpp:1486
-#: src/doc/documentchecker.cpp:1512 src/doc/documentchecker.cpp:1532
+#: src/bin/projectitemmodel.cpp:336 src/doc/documentchecker.cpp:1490
+#: src/doc/documentchecker.cpp:1516 src/doc/documentchecker.cpp:1536
 #: src/mltcontroller/clipcontroller.cpp:493 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -7754,107 +7754,107 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "معرف مستند مشروعك غير صالح، أنشئ واحد أخر."
 
-#: src/doc/documentchecker.cpp:1476
+#: src/doc/documentchecker.cpp:1480
 #, kde-format
 msgid "Video clip"
 msgstr "مقطع فيديو"
 
-#: src/doc/documentchecker.cpp:1478
+#: src/doc/documentchecker.cpp:1482
 #, kde-format
 msgid "Slideshow clip"
 msgstr "مقطع عرض شرائح"
 
-#: src/doc/documentchecker.cpp:1480
+#: src/doc/documentchecker.cpp:1484
 #, kde-format
 msgid "Image clip"
 msgstr "مقطع صورة"
 
-#: src/doc/documentchecker.cpp:1482
+#: src/doc/documentchecker.cpp:1486
 #, kde-format
 msgid "Playlist clip"
 msgstr "مقطع قائمة تشغيل"
 
-#: src/doc/documentchecker.cpp:1484 src/doc/documentchecker.cpp:1500
+#: src/doc/documentchecker.cpp:1488 src/doc/documentchecker.cpp:1504
 #, kde-format
 msgid "Title Image"
 msgstr "صورة عنوان"
 
-#: src/doc/documentchecker.cpp:1496
+#: src/doc/documentchecker.cpp:1500
 #, kde-format
 msgid "Clip"
 msgstr "المقطع"
 
-#: src/doc/documentchecker.cpp:1498
+#: src/doc/documentchecker.cpp:1502
 #, kde-format
 msgid "Title Font"
 msgstr "خطّ عنوان"
 
-#: src/doc/documentchecker.cpp:1502
+#: src/doc/documentchecker.cpp:1506
 #, kde-format
 msgid "Luma file"
 msgstr "ملفّ ”لوما“"
 
-#: src/doc/documentchecker.cpp:1504
+#: src/doc/documentchecker.cpp:1508
 #, kde-format
 msgid "Asset file"
 msgstr "ملف أصل"
 
-#: src/doc/documentchecker.cpp:1506
+#: src/doc/documentchecker.cpp:1510
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr "المقطع الوسيط"
 
-#: src/doc/documentchecker.cpp:1508
+#: src/doc/documentchecker.cpp:1512
 #: src/monitor/view/kdenlivemonitorsplit.qml:90
 #, kde-format
 msgid "Effect"
 msgstr "التّأثير"
 
-#: src/doc/documentchecker.cpp:1510
+#: src/doc/documentchecker.cpp:1514
 #, kde-format
 msgid "Transition"
 msgstr "الانتقال"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1520 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1524 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "ثابت"
 
-#: src/doc/documentchecker.cpp:1522
+#: src/doc/documentchecker.cpp:1526
 #, kde-format
 msgid "Reload"
 msgstr "أعد التحميل"
 
-#: src/doc/documentchecker.cpp:1524
+#: src/doc/documentchecker.cpp:1528
 #, kde-format
 msgid "Missing"
 msgstr "مفقود"
 
-#: src/doc/documentchecker.cpp:1526
+#: src/doc/documentchecker.cpp:1530
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr "مفقود ولكن يوجد وسيط"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1528 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1532 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "عنصر نائب"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1530 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1534 src/ui/missingclips_ui.ui:152
 #, kde-format
 msgid "Remove"
 msgstr "أزل"
 
-#: src/doc/documentchecker.cpp:1541
+#: src/doc/documentchecker.cpp:1545
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "يحوي ملفّ المشروع مقاطع أو ملفّات ناقصة."
 
-#: src/doc/documentchecker.cpp:1544
+#: src/doc/documentchecker.cpp:1548
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "الوسطاء ناقصون سيُعاد إنشاؤهم عند الفتح."

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-17 00:42+0000\n"
+"POT-Creation-Date: 2023-10-18 00:42+0000\n"
 "PO-Revision-Date: 2023-07-23 20:34+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -5510,8 +5510,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:336 src/doc/documentchecker.cpp:1486
-#: src/doc/documentchecker.cpp:1512 src/doc/documentchecker.cpp:1532
+#: src/bin/projectitemmodel.cpp:336 src/doc/documentchecker.cpp:1490
+#: src/doc/documentchecker.cpp:1516 src/doc/documentchecker.cpp:1536
 #: src/mltcontroller/clipcontroller.cpp:493 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -7827,114 +7827,114 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1476
+#: src/doc/documentchecker.cpp:1480
 #, kde-format
 msgid "Video clip"
 msgstr "동영상 클립"
 
-#: src/doc/documentchecker.cpp:1478
+#: src/doc/documentchecker.cpp:1482
 #, kde-format
 msgid "Slideshow clip"
 msgstr "슬라이드 쇼 클립"
 
-#: src/doc/documentchecker.cpp:1480
+#: src/doc/documentchecker.cpp:1484
 #, kde-format
 msgid "Image clip"
 msgstr "이미지 클립"
 
-#: src/doc/documentchecker.cpp:1482
+#: src/doc/documentchecker.cpp:1486
 #, kde-format
 msgid "Playlist clip"
 msgstr "재생 목록 클립"
 
-#: src/doc/documentchecker.cpp:1484 src/doc/documentchecker.cpp:1500
+#: src/doc/documentchecker.cpp:1488 src/doc/documentchecker.cpp:1504
 #, kde-format
 msgid "Title Image"
 msgstr "타이틀 이미지"
 
-#: src/doc/documentchecker.cpp:1496
+#: src/doc/documentchecker.cpp:1500
 #, fuzzy, kde-format
 #| msgid "&Clip"
 msgid "Clip"
 msgstr "클립(&C)"
 
-#: src/doc/documentchecker.cpp:1498
+#: src/doc/documentchecker.cpp:1502
 #, kde-format
 msgid "Title Font"
 msgstr "타이틀 글꼴"
 
-#: src/doc/documentchecker.cpp:1502
+#: src/doc/documentchecker.cpp:1506
 #, kde-format
 msgid "Luma file"
 msgstr "광도 파일"
 
-#: src/doc/documentchecker.cpp:1504
+#: src/doc/documentchecker.cpp:1508
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Asset file"
 msgstr "파일 삭제"
 
-#: src/doc/documentchecker.cpp:1506
+#: src/doc/documentchecker.cpp:1510
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr "프록시 클립"
 
-#: src/doc/documentchecker.cpp:1508
+#: src/doc/documentchecker.cpp:1512
 #: src/monitor/view/kdenlivemonitorsplit.qml:90
 #, kde-format
 msgid "Effect"
 msgstr "효과"
 
-#: src/doc/documentchecker.cpp:1510
+#: src/doc/documentchecker.cpp:1514
 #, fuzzy, kde-format
 #| msgid "Transitions"
 msgid "Transition"
 msgstr "전환"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1520 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1524 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1522
+#: src/doc/documentchecker.cpp:1526
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Reload"
 msgstr "클립 다시 불러오기"
 
-#: src/doc/documentchecker.cpp:1524
+#: src/doc/documentchecker.cpp:1528
 #, fuzzy, kde-format
 #| msgid "Missing item"
 msgid "Missing"
 msgstr "누락된 항목"
 
-#: src/doc/documentchecker.cpp:1526
+#: src/doc/documentchecker.cpp:1530
 #, fuzzy, kde-format
 #| msgid "Missing proxy"
 msgid "Missing, but proxy available"
 msgstr "프록시 누락됨"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1528 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1532 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1530 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1534 src/ui/missingclips_ui.ui:152
 #, fuzzy, kde-format
 #| msgid "Removal"
 msgid "Remove"
 msgstr "없애기"
 
-#: src/doc/documentchecker.cpp:1541
+#: src/doc/documentchecker.cpp:1545
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "프로젝트 파일에 누락된 클립 또는 파일이 있습니다."
 
-#: src/doc/documentchecker.cpp:1544
+#: src/doc/documentchecker.cpp:1548
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "누락된 프록시는 여는 동안 다시 생성할 수 있습니다."
