@@ -63,9 +63,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 static QString getProjectNameFilters(bool ark = true)
 {
-    auto filter = i18n("Kdenlive Project (*.kdenlive)");
+    QString filter = i18n("Kdenlive Project") + QStringLiteral(" (*.kdenlive)");
     if (ark) {
-        filter.append(";;" + i18n("Archived Project (*.tar.gz *.zip)"));
+        filter.append(";;" + i18n("Archived Project") + QStringLiteral(" (*.tar.gz *.zip)"));
     }
     return filter;
 }

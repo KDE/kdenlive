@@ -271,6 +271,16 @@
       <default>false</default>
     </entry>
 
+    <entry name="renderInterp" type="String">
+    <label>default interpolation for scaling operations.</label>
+      <default>bilinear</default>
+    </entry>
+
+    <entry name="renderDeinterlacer" type="String">
+    <label>default deinterlacer.</label>
+      <default>onefield</default>
+    </entry>
+
     <entry name="vaapiEnabled" type="Bool">
       <label>Enables vaapi hw accel in encoders.</label>
       <default>false</default>

@@ -11,38 +11,28 @@
 #include <QFont>
 #include <QPainter>
 
-AssetIconProvider::AssetIconProvider(bool effect)
-    : QQuickImageProvider(QQmlImageProviderBase::Image, QQmlImageProviderBase::ForceAsynchronousImageLoading)
+AssetIconProvider::AssetIconProvider(bool effect, QObject *parent)
+    : QObject(parent)
     , m_effect(effect)
 {
 }
 
-QImage AssetIconProvider::requestImage(const QString &name, QSize *size, const QSize &requestedSize)
+QImage AssetIconProvider::makeIcon(const QString &effectName)
 {
-    QImage result;
-
-    if (name.isEmpty()) {
-        QPixmap pix(30, 30);
-        return pix.toImage();
-    }
-
-    result = makeIcon(name, requestedSize);
-    if (size) {
-        *size = result.size();
-    }
-    return result;
+    QPixmap pix = makePixmap(effectName);
+    return pix.toImage();
 }
 
-QImage AssetIconProvider::makeIcon(const QString &effectName, const QSize &size)
+const QPixmap AssetIconProvider::makePixmap(const QString &effectName)
 {
-    Q_UNUSED(size);
     QPixmap pix(30, 30);
     if (effectName.isEmpty()) {
         pix.fill(Qt::red);
-        return pix.toImage();
+        return pix;
     }
     QFont ft = QFont();
-    ft.setBold(true);
+    // ft.setBold(true);
+    ft.setPixelSize(25);
     uint hex = qHash(effectName);
     QString t = QStringLiteral("#") + QString::number(hex, 16).toUpper().left(6);
     QColor col(t);
@@ -82,5 +72,5 @@ QImage AssetIconProvider::makeIcon(const QString &effectName, const QSize &size)
     p.setFont(ft);
     p.drawText(pix.rect(), Qt::AlignCenter, effectName.at(0));
     p.end();
-    return pix.toImage();
+    return pix;
 }

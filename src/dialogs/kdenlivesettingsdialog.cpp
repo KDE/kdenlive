@@ -1983,3 +1983,8 @@ void KdenliveSettingsDialog::slotParseVoskDictionaries()
         doShowSpeechMessage(i18n("Please add a speech model."), KMessageWidget::Information);
     }
 }
+
+void KdenliveSettingsDialog::showHelp()
+{
+    pCore->window()->appHelpActivated();
+}

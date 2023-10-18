@@ -5,7 +5,7 @@
 
 #include "transitionlistwidget.hpp"
 #include "../model/transitiontreemodel.hpp"
-#include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
+#include "assets/assetlist/view/asseticonprovider.hpp"
 #include "core.h"
 #include "dialogs/profilesdialog.h"
 #include "mainwindow.h"
@@ -13,25 +13,24 @@
 #include "transitions/transitionlist/model/transitionfilter.hpp"
 #include "transitions/transitionsrepository.hpp"
 
-#include <QQmlContext>
+#include <QHeaderView>
 #include <knewstuff_version.h>
 
 TransitionListWidget::TransitionListWidget(QWidget *parent)
-    : AssetListWidget(parent)
+    : AssetListWidget(false, parent)
 {
     m_model = TransitionTreeModel::construct(true, this);
-
     m_proxyModel = std::make_unique<TransitionFilter>(this);
     m_proxyModel->setSourceModel(m_model.get());
     m_proxyModel->setSortRole(AssetTreeModel::NameRole);
     m_proxyModel->sort(0, Qt::AscendingOrder);
-
-    rootContext()->setContextProperty("assetlist", this);
-    rootContext()->setContextProperty("assetListModel", m_proxyModel.get());
-    rootContext()->setContextProperty("isEffectList", false);
-    m_assetIconProvider = new AssetIconProvider(false);
-
-    setup();
+    m_effectsTree->setModel(m_proxyModel.get());
+    m_effectsTree->setColumnHidden(1, true);
+    m_effectsTree->setColumnHidden(2, true);
+    m_effectsTree->setColumnHidden(3, true);
+    m_effectsTree->header()->setStretchLastSection(true);
+    QItemSelectionModel *sel = m_effectsTree->selectionModel();
+    connect(sel, &QItemSelectionModel::currentChanged, this, &AssetListWidget::updateAssetInfo);
 }
 
 TransitionListWidget::~TransitionListWidget() {}
@@ -67,3 +66,5 @@ void TransitionListWidget::refreshLumas()
 void TransitionListWidget::reloadCustomEffectIx(const QModelIndex &) {}
 
 void TransitionListWidget::editCustomAsset(const QModelIndex &) {}
+
+void TransitionListWidget::exportCustomEffect(const QModelIndex &){};

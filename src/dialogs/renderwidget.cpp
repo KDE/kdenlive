@@ -211,6 +211,31 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     // === "More Options" widget ===
     setRescaleEnabled(false);
     m_view.error_box->setVisible(false);
+
+    // Interpolation
+    m_view.interp_type->addItem(i18n("Nearest (fast)"), QStringLiteral("nearest"));
+    m_view.interp_type->addItem(i18n("Bilinear (good)"), QStringLiteral("bilinear"));
+    m_view.interp_type->addItem(i18n("Bicubic (better)"), QStringLiteral("bicubic"));
+    m_view.interp_type->addItem(i18n("Lanczos (best)"), QStringLiteral("hyper"));
+    int ix = m_view.interp_type->findData(KdenliveSettings::renderInterp());
+    if (ix > -1) {
+        m_view.interp_type->setCurrentIndex(ix);
+    }
+    connect(m_view.interp_type, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+            [&]() { KdenliveSettings::setRenderInterp(m_view.interp_type->currentData().toString()); });
+    // Deinterlacer
+    m_view.deinterlacer_type->addItem(i18n("One Field (fast)"), QStringLiteral("onefield"));
+    m_view.deinterlacer_type->addItem(i18n("Linear Blend (fast)"), QStringLiteral("linearblend"));
+    m_view.deinterlacer_type->addItem(i18n("YADIF - temporal only (good)"), QStringLiteral("yadif-nospatial"));
+    m_view.deinterlacer_type->addItem(i18n("YADIF (better)"), QStringLiteral("yadif"));
+    m_view.deinterlacer_type->addItem(i18n("BWDIF (best)"), QStringLiteral("bwdif"));
+    ix = m_view.deinterlacer_type->findData(KdenliveSettings::renderDeinterlacer());
+    if (ix > -1) {
+        m_view.deinterlacer_type->setCurrentIndex(ix);
+    }
+    connect(m_view.deinterlacer_type, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+            [&]() { KdenliveSettings::setRenderDeinterlacer(m_view.deinterlacer_type->currentData().toString()); });
+
     m_view.tc_type->addItem(i18n("None"));
     m_view.tc_type->addItem(i18n("Timecode"), QStringLiteral("#timecode#"));
     m_view.tc_type->addItem(i18n("Timecode Non Drop Frame"), QStringLiteral("#smtpe_ndf#"));

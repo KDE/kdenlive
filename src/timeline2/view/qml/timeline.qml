@@ -1795,7 +1795,6 @@ Rectangle {
                                     drag.target: parent
                                     drag.axis: Drag.XAxis
                                     drag.smoothed: false
-                                    drag.minimumX: 0
                                     property int dragFrame
                                     property int snapping: root.snapping
                                     property bool moveMirrorTracks: true

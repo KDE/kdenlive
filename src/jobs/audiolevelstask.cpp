@@ -94,12 +94,14 @@ void AudioLevelsTask::run()
     QMap<int, int> audioChannels = binClip->audioInfo()->streamChannels();
     QMapIterator<int, QString> st(streams);
     bool audioCreated = false;
+    int streamIndex = -1;
     while (st.hasNext() && !m_isCanceled) {
         st.next();
         int stream = st.key();
         if (audioChannels.contains(stream)) {
             channels = audioChannels.value(stream);
         }
+        streamIndex++;
         // Generate one thumb per stream
         QString cachePath = binClip->getAudioThumbPath(stream);
         QVector<uint8_t> mltLevels;
@@ -140,8 +142,10 @@ void AudioLevelsTask::run()
             delete aProd;
             return;
         }
-        aProd->set("video_index", "-1");
+        aProd->set("video_index", -1);
         aProd->set("audio_index", stream);
+        aProd->set("vstream", -1);
+        aProd->set("astream", streamIndex);
         Mlt::Filter chans(producer->get_profile(), "audiochannels");
         Mlt::Filter converter(producer->get_profile(), "audioconvert");
         Mlt::Filter levels(producer->get_profile(), "audiolevel");

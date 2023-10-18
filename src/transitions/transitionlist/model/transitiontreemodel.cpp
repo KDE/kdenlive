@@ -12,11 +12,14 @@
 #include <KActionCategory>
 #include <QDebug>
 #include <QMenu>
+#include <QMimeData>
 
 TransitionTreeModel::TransitionTreeModel(QObject *parent)
     : AssetTreeModel(parent)
 {
+    m_assetIconProvider = new AssetIconProvider(false, this);
 }
+
 std::shared_ptr<TransitionTreeModel> TransitionTreeModel::construct(bool flat, QObject *parent)
 {
     std::shared_ptr<TransitionTreeModel> self(new TransitionTreeModel(parent));
@@ -93,3 +96,13 @@ void TransitionTreeModel::setFavorite(const QModelIndex &index, bool favorite, b
 void TransitionTreeModel::deleteEffect(const QModelIndex &) {}
 
 void TransitionTreeModel::editCustomAsset(const QString &, const QString &, const QModelIndex &) {}
+
+QMimeData *TransitionTreeModel::mimeData(const QModelIndexList &indexes) const
+{
+    QMimeData *mimeData = new QMimeData;
+    std::shared_ptr<TreeItem> item = getItemById(int(indexes.first().internalId()));
+    if (item) {
+        mimeData->setData(QStringLiteral("kdenlive/composition"), item->dataColumn(AssetTreeModel::IdCol).toString().toUtf8());
+    }
+    return mimeData;
+}

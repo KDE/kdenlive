@@ -6,7 +6,7 @@
 #include "effectlistwidget.hpp"
 #include "../model/effectfilter.hpp"
 #include "../model/effecttreemodel.hpp"
-#include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
+#include "assets/assetlist/view/asseticonprovider.hpp"
 
 #include <KActionCategory>
 #include <KIO/FileCopyJob>
@@ -16,9 +16,9 @@
 #include <QDialogButtonBox>
 #include <QFileDialog>
 #include <QFormLayout>
+#include <QHeaderView>
 #include <QLineEdit>
 #include <QMenu>
-#include <QQmlContext>
 #include <QStandardPaths>
 #include <QTextEdit>
 #include <knewstuff_version.h>
@@ -26,25 +26,23 @@
 #include <memory>
 
 EffectListWidget::EffectListWidget(QWidget *parent)
-    : AssetListWidget(parent)
+    : AssetListWidget(true, parent)
 {
 
     QString effectCategory = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("kdenliveeffectscategory.rc"));
     m_model = EffectTreeModel::construct(effectCategory, this);
-
     m_proxyModel = std::make_unique<EffectFilter>(this);
     m_proxyModel->setSourceModel(m_model.get());
     m_proxyModel->setSortRole(EffectTreeModel::NameRole);
     m_proxyModel->sort(0, Qt::AscendingOrder);
-
-    rootContext()->setContextProperty("assetlist", this);
-    rootContext()->setContextProperty("assetListModel", m_proxyModel.get());
-    rootContext()->setContextProperty("isEffectList", true);
-    m_assetIconProvider = new AssetIconProvider(true);
-
-    setup();
-    // Activate "Main effects" filter
+    m_effectsTree->setModel(m_proxyModel.get());
+    m_effectsTree->setColumnHidden(1, true);
+    m_effectsTree->setColumnHidden(2, true);
+    m_effectsTree->setColumnHidden(3, true);
+    m_effectsTree->header()->setStretchLastSection(true);
     setFilterType("");
+    QItemSelectionModel *sel = m_effectsTree->selectionModel();
+    connect(sel, &QItemSelectionModel::currentChanged, this, &AssetListWidget::updateAssetInfo);
 }
 
 EffectListWidget::~EffectListWidget() {}

@@ -865,6 +865,7 @@ std::unique_ptr<Mlt::Producer> ProjectClip::getThumbProducer()
         Mlt::Properties cloneProps(thumbProd->get_properties());
         cloneProps.pass_list(original, ClipController::getPassPropertiesList());
         thumbProd->set("audio_index", -1);
+        thumbProd->set("astream", -1);
         // Required to make get_playtime() return > 1
         thumbProd->set("out", thumbProd->get_length() - 1);
         Mlt::Filter scaler(pCore->thumbProfile(), "swscale");
@@ -1053,6 +1054,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
                 }
                 if (audioStream > -1) {
                     m_audioProducers[trackId]->set("audio_index", audioStream);
+                    m_audioProducers[trackId]->set("astream", audioStreamIndex(audioStream));
                 }
                 m_effectStack->addService(m_audioProducers[trackId]);
             }
@@ -1182,6 +1184,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
         Mlt::Properties cloneProps(warpProducer->get_properties());
         cloneProps.pass_list(original, ClipController::getPassPropertiesList(false));
         warpProducer->set("audio_index", audioStream);
+        warpProducer->set("astream", audioStreamIndex(audioStream));
     }
 
     // if the producer has a "time-to-live" (frame duration) we need to scale it according to the speed
@@ -1862,7 +1865,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
     if (!reload) {
         updateTimelineClips(refreshRoles);
     }
-    bool audioStreamChanged = properties.contains(QStringLiteral("audio_index"));
+    bool audioStreamChanged = properties.contains(QStringLiteral("audio_index")) || properties.contains(QStringLiteral("astream"));
     if (reload) {
         // producer has changed, refresh monitor and thumbnail
         if (hasProxy()) {
@@ -2527,15 +2530,23 @@ bool ProjectClip::isIncludedInTimeline()
 void ProjectClip::replaceInTimeline()
 {
     int updatedDuration = m_resetTimelineOccurences ? getFramePlaytime() : -1;
-    m_resetTimelineOccurences = false;
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool pushUndo = false;
     for (const auto &clip : m_registeredClips) {
         if (auto timeline = clip.second.lock()) {
-            timeline->requestClipReload(clip.first, updatedDuration);
+            if (timeline->requestClipReload(clip.first, updatedDuration, undo, redo)) {
+                pushUndo = true;
+            }
         } else {
             qDebug() << "Error while reloading clip: timeline unavailable";
             Q_ASSERT(false);
         }
     }
+    if (pushUndo && !m_resetTimelineOccurences) {
+        pCore->pushUndo(undo, redo, i18n("Adjust timeline clips"));
+    }
+    m_resetTimelineOccurences = false;
 }
 
 void ProjectClip::updateTimelineClips(const QVector<int> &roles)

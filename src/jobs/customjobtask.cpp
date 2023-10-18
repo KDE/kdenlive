@@ -17,6 +17,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 #include "macros.hpp"
 #include "mainwindow.h"
+#include "monitor/monitor.h"
 #include "ui_customjobinterface_ui.h"
 
 #include <QProcess>
@@ -24,6 +25,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QThread>
 
 #include <KLocalizedString>
+
+static QStringList requestedOutput;
 
 CustomJobTask::CustomJobTask(const ObjectId &owner, const QString &jobName, const QMap<QString, QString> &jobParams, int in, int out, const QString &jobId,
                              QObject *object)
@@ -37,6 +40,7 @@ CustomJobTask::CustomJobTask(const ObjectId &owner, const QString &jobName, cons
     , m_jobProcess(nullptr)
 {
     m_description = jobName;
+    m_tmpFrameFile.setFileTemplate(QString("%1/kdenlive-frame-.XXXXXX.png").arg(QDir::tempPath()));
 }
 
 void CustomJobTask::start(QObject *object, const QString &jobId)
@@ -67,7 +71,7 @@ void CustomJobTask::start(QObject *object, const QString &jobId)
             dia_ui.taskDescription->setVisible(false);
         }
         dia->setWindowTitle(i18n("%1 parameters", jobName));
-        if (requestParam1) {
+        if (requestParam1 && param1 != QLatin1String("frame")) {
             dia_ui.param1Label->setText(jobData.value(QLatin1String("param1name")));
             if (param1 == QLatin1String("file")) {
                 dia_ui.param1List->setVisible(false);
@@ -104,6 +108,9 @@ void CustomJobTask::start(QObject *object, const QString &jobId)
         if (requestParam1) {
             if (param1 == QLatin1String("file")) {
                 param1Value = dia_ui.param1Url->url().toLocalFile();
+            }
+            if (param1 == QLatin1String("frame")) {
+                param1Value = QStringLiteral("%tmpfile");
             } else {
                 param1Value = dia_ui.param1List->currentText();
             }
@@ -192,22 +199,29 @@ void CustomJobTask::run()
     const QString destName = sourceInfo.baseName();
     QDir baseDir = sourceInfo.absoluteDir();
     QString destPath = baseDir.absoluteFilePath(destName + extension);
-    if (QFileInfo::exists(destPath)) {
+    if (QFileInfo::exists(destPath) || requestedOutput.contains(destPath)) {
         QString fixedName = destName;
         static const QRegularExpression regex(QRegularExpression::anchoredPattern(QStringLiteral(R"(.*-(\d{4})$)")));
         QRegularExpressionMatch match = regex.match(fixedName);
-        if (match.hasMatch()) {
-            // if the file name has already an index suffix,
-            // increase the number
-            const int currentSuffix = match.captured(1).toInt();
-            fixedName.replace(match.capturedStart(1), match.capturedLength(1), QString::asprintf("-%04d", currentSuffix + 1));
-        } else {
+        if (!match.hasMatch()) {
             // if the file has no index suffix, append -0001
             fixedName.append(QString::asprintf("-%04d", 1));
+        } else {
+            const int currentSuffix = match.captured(1).toInt();
+            fixedName.replace(match.capturedStart(1), match.capturedLength(1), QString::asprintf("-%04d", currentSuffix + 1));
         }
         destPath = baseDir.absoluteFilePath(fixedName + extension);
+        while (QFileInfo::exists(destPath) || requestedOutput.contains(destPath)) {
+            // if the file name has already an index suffix,
+            // increase the number
+            match = regex.match(fixedName);
+            const int currentSuffix = match.captured(1).toInt();
+            fixedName.replace(match.capturedStart(1), match.capturedLength(1), QString::asprintf("-%04d", currentSuffix + 1));
+            destPath = baseDir.absoluteFilePath(fixedName + extension);
+        }
     }
-
+    // Extract frame is necessary
+    requestedOutput << destPath;
     parameters << jobParameters.split(QLatin1Char(' '), Qt::SkipEmptyParts);
 
     bool outputPlaced = false;
@@ -221,7 +235,17 @@ void CustomJobTask::run()
             p.replace(QStringLiteral("{source}"), source);
         }
         if (p.contains(QStringLiteral("{param1}"))) {
-            p.replace(QStringLiteral("{param1}"), m_parameters.value(QLatin1String("param1value")));
+            QString param1Value = m_parameters.value(QLatin1String("param1value"));
+            if (param1Value == QStringLiteral("%tmpfile")) {
+                if (m_tmpFrameFile.open()) {
+                    param1Value = m_tmpFrameFile.fileName();
+                    m_tmpFrameFile.close();
+                    // Extract frame to file
+                    qDebug() << "=====================\nEXTRACTING FRAME TO: " << param1Value << "\n\n==============================";
+                    pCore->getMonitor(Kdenlive::ClipMonitor)->extractFrame(param1Value);
+                }
+            }
+            p.replace(QStringLiteral("{param1}"), param1Value);
         }
         if (p.contains(QStringLiteral("{param2}"))) {
             p.replace(QStringLiteral("{param2}"), m_parameters.value(QLatin1String("param2value")));
@@ -254,6 +278,7 @@ void CustomJobTask::run()
     AbstractTask::setPreferredPriority(m_jobProcess->processId());
     m_jobProcess->waitForFinished(-1);
     bool result = m_jobProcess->exitStatus() == QProcess::NormalExit;
+    requestedOutput.removeAll(destPath);
     // remove temporary playlist if it exists
     m_progress = 100;
     QMetaObject::invokeMethod(m_object, "updateJobProgress");
@@ -264,11 +289,21 @@ void CustomJobTask::run()
             QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to create file.")),
                                       Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
         } else {
-            QMetaObject::invokeMethod(pCore->bin(), "addProjectClipInFolder", Qt::QueuedConnection, Q_ARG(QString, destPath),
-                                      Q_ARG(QString, QString::number(m_owner.itemId)), Q_ARG(QString, folderId), Q_ARG(QString, m_jobId));
+            QStringList lutExtentions = {QLatin1String("cube"), QLatin1String("3dl"), QLatin1String("dat"),
+                                         QLatin1String("m3d"),  QLatin1String("csp"), QLatin1String("interp")};
+            const QString ext = destPath.section(QLatin1Char('.'), -1);
+            if (lutExtentions.contains(ext)) {
+                QMap<QString, QString> params;
+                params.insert(QStringLiteral("av.file"), destPath);
+                QMetaObject::invokeMethod(pCore->bin(), "addFilterToClip", Qt::QueuedConnection, Q_ARG(QString, QString::number(m_owner.itemId)),
+                                          Q_ARG(QString, QStringLiteral("avfilter.lut3d")), Q_ARG(stringMap, params));
+            } else {
+                QMetaObject::invokeMethod(pCore->bin(), "addProjectClipInFolder", Qt::QueuedConnection, Q_ARG(QString, destPath),
+                                          Q_ARG(QString, QString::number(m_owner.itemId)), Q_ARG(QString, folderId), Q_ARG(QString, m_jobId));
+            }
         }
     } else {
-        // Proxy process crashed
+        // Process crashed
         QFile::remove(destPath);
         if (!m_isCanceled) {
             QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to create file.")),

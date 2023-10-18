@@ -778,8 +778,10 @@ public:
     /** @brief Inform asset view of duration change
      */
     virtual void adjustAssetRange(int clipId, int in, int out);
-
-    void requestClipReload(int clipId, int forceDuration = -1);
+    /** @brief Reload a timeline clip occurrence from its bin clip.
+     *  @returns true if the timeline clip was shortened by the reload operation
+     */
+    bool requestClipReload(int clipId, int forceDuration, Fun &local_undo, Fun &local_redo);
     void requestClipUpdate(int clipId, const QVector<int> &roles);
     /** @brief define current edit mode (normal, insert, overwrite */
     void setEditMode(TimelineMode::EditMode mode);

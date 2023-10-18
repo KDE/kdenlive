@@ -915,14 +915,6 @@ void MainWindow::slotThemeChanged(const QString &name)
     if (m_assetPanel) {
         m_assetPanel->updatePalette();
     }
-    if (m_effectList2) {
-        // Trigger a repaint to have icons adapted
-        m_effectList2->reset();
-    }
-    if (m_compositionList) {
-        // Trigger a repaint to have icons adapted
-        m_compositionList->reset();
-    }
     if (m_clipMonitor) {
         m_clipMonitor->setPalette(plt);
     }
@@ -2441,7 +2433,6 @@ void MainWindow::connectDocument()
     bool compositing = project->getDocumentProperty(QStringLiteral("compositing"), QStringLiteral("1")).toInt() > 0;
     Q_EMIT project->updateCompositionMode(compositing);
     getCurrentTimeline()->controller()->switchCompositing(compositing);
-    connect(getCurrentTimeline()->controller(), &TimelineController::durationChanged, pCore->projectManager(), &ProjectManager::adjustProjectDuration);
     slotUpdateProjectDuration(getCurrentTimeline()->model()->duration() - 1);
     const QUuid uuid = getCurrentTimeline()->getUuid();
 
@@ -2573,10 +2564,8 @@ void MainWindow::slotShowPreferencePage(Kdenlive::ConfigPage page, int option)
     // Get the mappable actions in localized form
     QMap<QString, QString> actions;
     KActionCollection *collection = actionCollection();
-    static const QRegularExpression ampEx("&{1,1}");
     for (const QString &action_name : qAsConst(m_actionNames)) {
-        QString action_text = collection->action(action_name)->text();
-        action_text.remove(ampEx);
+        const QString action_text = KLocalizedString::removeAcceleratorMarker(collection->action(action_name)->text());
         actions[action_text] = action_name;
     }
 

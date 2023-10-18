@@ -306,12 +306,12 @@ void TimelineController::hideTrack(int trackId, bool hide)
     QString previousState = m_model->getTrackProperty(trackId, QStringLiteral("hide")).toString();
     Fun undo_lambda = [this, trackId, previousState]() {
         m_model->setTrackProperty(trackId, QStringLiteral("hide"), previousState);
-        checkDuration();
+        m_model->updateDuration();
         return true;
     };
     Fun redo_lambda = [this, trackId, state]() {
         m_model->setTrackProperty(trackId, QStringLiteral("hide"), state);
-        checkDuration();
+        m_model->updateDuration();
         return true;
     };
     redo_lambda();
@@ -853,7 +853,7 @@ void TimelineController::beginAddTrack(int tid)
     if (tid == -1) {
         tid = m_activeTrack;
     }
-    QPointer<TrackDialog> d = new TrackDialog(m_model, tid, qApp->activeWindow());
+    QScopedPointer<TrackDialog> d(new TrackDialog(m_model, tid, qApp->activeWindow()));
     if (d->exec() == QDialog::Accepted) {
         auto trackName = d->trackName();
         bool result =
@@ -868,7 +868,7 @@ void TimelineController::deleteMultipleTracks(int tid)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    QPointer<TrackDialog> d = new TrackDialog(m_model, tid, qApp->activeWindow(), true, m_activeTrack);
+    QScopedPointer<TrackDialog> d(new TrackDialog(m_model, tid, qApp->activeWindow(), true, m_activeTrack));
     if (d->exec() == QDialog::Accepted) {
         bool result = true;
         QList<int> allIds = d->toDeleteTrackIds();
@@ -3719,7 +3719,7 @@ void TimelineController::editItemDuration(int id)
     int minFrame = qMax(0, in - (isComposition ? m_model->getTrackById(trackId)->getBlankSizeNearComposition(id, false)
                                                : m_model->getTrackById(trackId)->getBlankSizeNearClip(id, false)));
     int partner = isComposition ? -1 : m_model->getClipSplitPartner(id);
-    QPointer<ClipDurationDialog> dialog = new ClipDurationDialog(id, start, minFrame, in, in + duration, maxLength, maxFrame, qApp->activeWindow());
+    QScopedPointer<ClipDurationDialog> dialog(new ClipDurationDialog(id, start, minFrame, in, in + duration, maxLength, maxFrame, qApp->activeWindow()));
     if (dialog->exec() == QDialog::Accepted) {
         std::function<bool(void)> undo = []() { return true; };
         std::function<bool(void)> redo = []() { return true; };
@@ -4921,9 +4921,9 @@ void TimelineController::temporaryUnplug(const QList<int> &clipIds, bool hide)
 
 void TimelineController::importSubtitle(const QString &path)
 {
-    QPointer<QDialog> d = new QDialog;
+    QScopedPointer<QDialog> d(new QDialog(qApp->activeWindow()));
     Ui::ImportSub_UI view;
-    view.setupUi(d);
+    view.setupUi(d.data());
     QStringList listCodecs = KCharsets::charsets()->descriptiveEncodingNames();
     const QString filter = QStringLiteral("*.srt *.ass *.vtt *.sbv");
 #if KIO_VERSION >= QT_VERSION_CHECK(5, 108, 0)
@@ -4944,7 +4944,7 @@ void TimelineController::importSubtitle(const QString &path)
     view.caption_original_framerate->setValue(pCore->getCurrentFps());
     view.caption_target_framerate->setValue(pCore->getCurrentFps());
 
-    Fun updateSub = [d, view]() {
+    Fun updateSub = [view]() {
         QFile srtFile(view.subtitle_url->url().toLocalFile());
         if (!srtFile.exists() || !srtFile.open(QIODevice::ReadOnly)) {
             view.info_message->setMessageType(KMessageWidget::Warning);
@@ -4974,7 +4974,7 @@ void TimelineController::importSubtitle(const QString &path)
         return true;
     };
 
-    Fun checkEncoding = [d, view, updateSub]() {
+    Fun checkEncoding = [view, updateSub]() {
         bool ok;
         QByteArray guessedEncoding = SubtitleModel::guessFileEncoding(view.subtitle_url->url().toLocalFile(), &ok);
         qDebug() << "Guessed subtitle encoding is" << guessedEncoding;
@@ -4999,8 +4999,8 @@ void TimelineController::importSubtitle(const QString &path)
         view.subtitle_url->setText(path);
         checkEncoding();
     }
-    connect(view.codecs_list, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [d, updateSub]() { updateSub(); });
-    connect(view.subtitle_url, &KUrlRequester::urlSelected, [d, view, checkEncoding]() { checkEncoding(); });
+    connect(view.codecs_list, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [updateSub]() { updateSub(); });
+    connect(view.subtitle_url, &KUrlRequester::urlSelected, [checkEncoding]() { checkEncoding(); });
     d->setWindowTitle(i18n("Import Subtitle"));
     if (d->exec() == QDialog::Accepted && !view.subtitle_url->url().isEmpty()) {
         auto subtitleModel = m_model->getSubtitleModel();

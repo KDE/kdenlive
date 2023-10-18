@@ -6,6 +6,7 @@
 #include "renderrequest.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
+#include "kdenlivesettings.h"
 #include "project/projectmanager.h"
 #include "renderpresets/renderpresetrepository.hpp"
 #include "utils/qstringutils.h"
@@ -364,6 +365,8 @@ void RenderRequest::setDocGeneralParams(QDomDocument doc, int in, int out)
     consumer.setAttribute(QStringLiteral("in"), in);
     consumer.setAttribute(QStringLiteral("out"), out);
     consumer.setAttribute(QStringLiteral("mlt_service"), QStringLiteral("avformat"));
+    consumer.setAttribute(QStringLiteral("rescale"), KdenliveSettings::renderInterp().toUtf8().constData());
+    consumer.setAttribute(QStringLiteral("deinterlacer"), KdenliveSettings::renderDeinterlacer().toUtf8().constData());
 
     QMapIterator<QString, QString> it(m_presetParams);
 

@@ -6,6 +6,7 @@
 #include "timelinetabs.hpp"
 #include "assets/model/assetparametermodel.hpp"
 #include "audiomixer/mixermanager.hpp"
+#include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "doc/docundostack.hpp"
@@ -19,6 +20,7 @@
 #include "timelinewidget.h"
 
 #include <KMessageBox>
+#include <QInputDialog>
 #include <QMenu>
 #include <QQmlContext>
 
@@ -50,6 +52,7 @@ TimelineTabs::TimelineTabs(QWidget *parent)
     setCornerWidget(pb);
     connect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
     connect(this, &TimelineTabs::tabCloseRequested, this, &TimelineTabs::closeTimelineByIndex);
+    connect(tabBar(), &QTabBar::tabBarDoubleClicked, this, &TimelineTabs::onTabBarDoubleClicked);
 }
 
 TimelineTabs::~TimelineTabs()
@@ -285,11 +288,11 @@ void TimelineTabs::disconnectTimeline(TimelineWidget *timeline)
 {
     timeline->rootContext()->setContextProperty("proxy", nullptr);
     disconnect(timeline, &TimelineWidget::focusProjectMonitor, pCore->monitorManager(), &MonitorManager::focusProjectMonitor);
-    disconnect(timeline->controller(), &TimelineController::durationChanged, pCore->projectManager(), &ProjectManager::adjustProjectDuration);
     disconnect(this, &TimelineTabs::audioThumbFormatChanged, timeline->controller(), &TimelineController::audioThumbFormatChanged);
     disconnect(this, &TimelineTabs::showThumbnailsChanged, timeline->controller(), &TimelineController::showThumbnailsChanged);
     disconnect(this, &TimelineTabs::showAudioThumbnailsChanged, timeline->controller(), &TimelineController::showAudioThumbnailsChanged);
     disconnect(this, &TimelineTabs::changeZoom, timeline, &TimelineWidget::slotChangeZoom);
+    disconnect(this, &TimelineTabs::fitZoom, timeline, &TimelineWidget::slotFitZoom);
     disconnect(timeline->controller(), &TimelineController::showTransitionModel, this, &TimelineTabs::showTransitionModel);
     disconnect(timeline->controller(), &TimelineController::showMixModel, this, &TimelineTabs::showMixModel);
     disconnect(timeline->controller(), &TimelineController::showItemEffectStack, this, &TimelineTabs::showItemEffectStack);
@@ -354,4 +357,21 @@ void TimelineTabs::slotPreviousSequence()
         focus = count() - 1;
     }
     setCurrentIndex(focus);
+}
+
+void TimelineTabs::onTabBarDoubleClicked(int index)
+{
+    const QString currentTabName = KLocalizedString::removeAcceleratorMarker(tabBar()->tabText(index));
+    bool ok = false;
+    const QString newName = QInputDialog::getText(this, i18n("Rename Sequence"), i18n("Rename Sequence"), QLineEdit::Normal, currentTabName, &ok);
+    if (ok && !newName.isEmpty()) {
+        TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(index));
+        if (timeline) {
+            const QString id = pCore->bin()->sequenceBinId(timeline->getUuid());
+            std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(id);
+            if (clip) {
+                clip->rename(newName, 0);
+            }
+        }
+    }
 }

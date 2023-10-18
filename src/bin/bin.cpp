@@ -5628,6 +5628,14 @@ void Bin::requestTranscoding(const QString &url, const QString &id, int type, bo
     m_transcodingDialog->show();
 }
 
+void Bin::addFilterToClip(const QString &sourceClipId, const QString &filterId, stringMap params)
+{
+    std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(sourceClipId);
+    if (clip) {
+        clip->addEffect(filterId, params);
+    }
+}
+
 bool Bin::addProjectClipInFolder(const QString &path, const QString &sourceClipId, const QString &sourceFolder, const QString &jobId)
 {
     // Check if the clip is already inserted in the project, if yes exit
@@ -5758,10 +5766,12 @@ void Bin::processMultiStream(const QString &clipId, QList<int> videoStreams, QLi
     const QString parentId = baseFolder->clipId();
     std::shared_ptr<Mlt::Producer> producer = binClip->originalProducer();
     // This helper lambda request addition of a given stream
-    auto addStream = [this, parentId, producer](int vindex, int aindex, Fun &undo, Fun &redo) {
+    auto addStream = [this, parentId, producer](int vindex, int vstream, int aindex, int astream, Fun &undo, Fun &redo) {
         auto clone = ProjectClip::cloneProducer(producer);
         clone->set("video_index", vindex);
         clone->set("audio_index", aindex);
+        clone->set("vstream", vstream);
+        clone->set("astream", astream);
         QString id;
         m_itemModel->requestAddBinClip(id, clone, parentId, undo, redo);
     };
@@ -5775,7 +5785,7 @@ void Bin::processMultiStream(const QString &clipId, QList<int> videoStreams, QLi
             if (i <= audioStreams.count() - 1) {
                 aindex = audioStreams.at(i);
             }
-            addStream(vindex, aindex, undo, redo);
+            addStream(vindex, i - 1, aindex, qMin(i - 1, audioStreams.count() - 1), undo, redo);
         }
         pCore->pushUndo(undo, redo, i18np("Add additional stream for clip", "Add additional streams for clip", videoStreams.count() - 1));
         return;
@@ -5850,7 +5860,7 @@ void Bin::processMultiStream(const QString &clipId, QList<int> videoStreams, QLi
                     // only check audio index if we have several audio streams
                     aindex = comboList.at(ax)->itemData(comboList.at(ax)->currentIndex()).toInt();
                 }
-                addStream(vindex, aindex, undo, redo);
+                addStream(vindex, i, aindex, ax, undo, redo);
                 importedStreams++;
             }
         }

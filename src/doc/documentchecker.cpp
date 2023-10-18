@@ -181,12 +181,12 @@ bool DocumentChecker::hasErrorInProject()
     int max = documentProducers.count();
     for (int i = 0; i < max; ++i) {
         QDomElement e = documentProducers.item(i).toElement();
-        verifiedPaths << getMissingProducers(e, entries, verifiedPaths, /*m_missingPaths,*/ storageFolder);
+        verifiedPaths << getMissingProducers(e, entries, storageFolder);
     }
     max = documentChains.count();
     for (int i = 0; i < max; ++i) {
         QDomElement e = documentChains.item(i).toElement();
-        verifiedPaths << getMissingProducers(e, entries, verifiedPaths, /*m_missingPaths,*/ storageFolder);
+        verifiedPaths << getMissingProducers(e, entries, storageFolder);
     }
 
     // Check existence of luma files
@@ -463,8 +463,12 @@ void DocumentChecker::removeProxy(const QDomNodeList &items, const QString &clip
 
         // Replace proxy url with real clip in MLT producers
         QString prefix;
-        QString originalService = Xml::getXmlProperty(e, QStringLiteral("kdenlive:original.mlt_service"));
-        QString originalPath = Xml::getXmlProperty(e, QStringLiteral("kdenlive:original.resource"));
+        const QString originalService = Xml::getXmlProperty(e, QStringLiteral("kdenlive:original.mlt_service"));
+        const QString originalPath = Xml::getXmlProperty(e, QStringLiteral("kdenlive:original.resource"));
+        if (originalPath.isEmpty()) {
+            // The clip proxy process was not completed, leave resource untouched
+            return;
+        }
         QString service = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
         if (service == QLatin1String("timewarp")) {
             prefix = Xml::getXmlProperty(e, QStringLiteral("warp_speed"));
@@ -522,7 +526,7 @@ void DocumentChecker::checkMissingImagesAndFonts(const QStringList &images, cons
     }
 }
 
-QString DocumentChecker::getMissingProducers(QDomElement &e, const QDomNodeList &entries, const QStringList &verifiedPaths, const QString &storageFolder)
+QString DocumentChecker::getMissingProducers(QDomElement &e, const QDomNodeList &entries, const QString &storageFolder)
 {
     QString service = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
     QStringList serviceToCheck = {QStringLiteral("kdenlivetitle"), QStringLiteral("qimage"), QStringLiteral("pixbuf"), QStringLiteral("timewarp"),
