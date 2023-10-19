@@ -108,7 +108,8 @@ void KeyframeView::slotSetPosition(int pos, bool isInRange)
 
 void KeyframeView::initKeyframePos()
 {
-    Q_EMIT atKeyframe(m_model->hasKeyframe(m_position), m_model->singleKeyframe());
+    int offset = pCore->getItemIn(m_model->getOwnerId());
+    Q_EMIT atKeyframe(m_model->hasKeyframe(m_position + offset), m_model->singleKeyframe());
 }
 
 const QVector<int> KeyframeView::selectedKeyframesIndexes()
