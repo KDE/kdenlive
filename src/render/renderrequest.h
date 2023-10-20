@@ -38,7 +38,7 @@ public:
     void setGuideParams(std::weak_ptr<MarkerListModel> model, bool enableMultiExport, int filterCategory);
     void setOverlayData(const QString &data);
 
-    std::vector<RenderJob> process(const QUrl &openUrl = {});
+    std::vector<RenderJob> process();
 
     QStringList errorMessages();
 

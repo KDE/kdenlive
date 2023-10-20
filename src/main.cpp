@@ -250,7 +250,7 @@ int main(int argc, char *argv[])
         if (!Core::build(packageType, true)) {
             return EXIT_FAILURE;
         }
-        pCore->initHeadless();
+        pCore->initHeadless(url);
         app.processEvents();
 
         RenderRequest *renderrequest = new RenderRequest();
@@ -268,7 +268,7 @@ int main(int argc, char *argv[])
         renderrequest->setGuideParams(m_guidesModel, guideMultiExport, guideCategory);*/
 
         renderrequest->setOverlayData(QString());
-        std::vector<RenderRequest::RenderJob> renderjobs = renderrequest->process(url);
+        std::vector<RenderRequest::RenderJob> renderjobs = renderrequest->process();
         app.processEvents();
 
         if (!renderrequest->errorMessages().isEmpty()) {

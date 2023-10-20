@@ -95,7 +95,7 @@ void RenderRequest::setOverlayData(const QString &data)
     m_overlayData = data;
 }
 
-std::vector<RenderRequest::RenderJob> RenderRequest::process(const QUrl &openUrl)
+std::vector<RenderRequest::RenderJob> RenderRequest::process()
 {
     m_errors.clear();
 
@@ -104,26 +104,7 @@ std::vector<RenderRequest::RenderJob> RenderRequest::process(const QUrl &openUrl
         return {};
     }
 
-    bool fromUrl = !openUrl.isEmpty();
-    KdenliveDoc *project;
-
-    QDomDocument doc;
-    if (fromUrl) {
-        QUndoGroup *undoGroup = new QUndoGroup();
-        std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-        undoGroup->addStack(undoStack.get());
-        DocOpenResult openResults = KdenliveDoc::Open(openUrl, QDir::temp().path(), undoGroup, false, nullptr);
-        if (openResults.isAborted()) {
-            return {};
-        }
-        std::unique_ptr<KdenliveDoc> openedDoc = openResults.getDocument();
-
-        project = openedDoc.release();
-        pCore->projectManager()->m_project = project;
-        pCore->projectManager()->updateTimeline(false, QString(), QString(), QDateTime(), 0);
-    } else {
-        project = pCore->currentDoc();
-    }
+    KdenliveDoc *project = pCore->currentDoc();
 
     // On delayed rendering, make a copy of all assets
     if (m_delayedRendering) {
@@ -135,25 +116,11 @@ std::vector<RenderRequest::RenderJob> RenderRequest::process(const QUrl &openUrl
         dir.cd(QFileInfo(playlistPath).baseName());
         project->prepareRenderAssets(dir);
     }
-    if (fromUrl) {
-        QStringList openedTimelines = project->getDocumentProperty(QStringLiteral("opensequences")).split(QLatin1Char(';'), Qt::SkipEmptyParts);
-        for (auto &uid : openedTimelines) {
-            const QUuid uuid(uid);
-            const QString binId = pCore->projectItemModel()->getSequenceId(uuid);
-            if (!binId.isEmpty()) {
-                pCore->projectManager()->openTimeline(binId, uuid);
-            }
-        }
-        QUuid activeUuid(project->getDocumentProperty(QStringLiteral("activetimeline")));
-        if (activeUuid.isNull()) {
-            activeUuid = project->uuid();
-        }
-        auto timeline = project->getTimeline(activeUuid);
-        pCore->projectManager()->testSetActiveDocument(project, timeline);
-    }
+
     QString playlistContent =
         pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile(), m_overlayData);
 
+    QDomDocument doc;
     doc.setContent(playlistContent);
 
     if (m_delayedRendering) {

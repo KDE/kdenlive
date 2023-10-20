@@ -911,8 +911,11 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
 void ProjectManager::doOpenFileHeadless(const QUrl &url)
 {
     Q_ASSERT(m_project == nullptr);
-    QUndoGroup *commandStack = new QUndoGroup();
-    DocOpenResult openResult = KdenliveDoc::Open(url, QString(), commandStack, false, pCore->window());
+    QUndoGroup *undoGroup = new QUndoGroup();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    undoGroup->addStack(undoStack.get());
+
+    DocOpenResult openResult = KdenliveDoc::Open(url, QString() /*QDir::temp().path()*/, undoGroup, false, nullptr);
 
     KdenliveDoc *doc = nullptr;
     if (!openResult.isSuccessful() && !openResult.isAborted()) {
@@ -926,10 +929,6 @@ void ProjectManager::doOpenFileHeadless(const QUrl &url)
         return;
     }
 
-    // const QString projectId = QCryptographicHash::hash(url.fileName().toUtf8(), QCryptographicHash::Md5).toHex();
-    // QUrl autosaveUrl = QUrl::fromLocalFile(QFileInfo(url.path()).absoluteDir().absoluteFilePath(projectId + QStringLiteral(".kdenlive")));
-    // stale = new KAutoSaveFile(autosaveUrl, doc);
-    // doc->m_autosave = stale;
     // Q_EMIT pCore->loadingMessageUpdated(QString(), 0, doc->clipsCount());
 
     // pCore->bin()->setDocument(doc);
@@ -949,6 +948,9 @@ void ProjectManager::doOpenFileHeadless(const QUrl &url)
         // Open default blank document
         newFile(false);
         return;
+    }*/
+    if (!updateTimeline(false, QString(), QString(), QDateTime(), 0)) {
+        return;
     }
 
     // Re-open active timelines
@@ -965,14 +967,16 @@ void ProjectManager::doOpenFileHeadless(const QUrl &url)
     if (activeUuid.isNull()) {
         activeUuid = m_project->uuid();
     }
-    if (!activeUuid.isNull()) {
+
+    auto timeline = m_project->getTimeline(activeUuid);
+    testSetActiveDocument(m_project, timeline);
+
+    /*if (!activeUuid.isNull()) {
         const QString binId = pCore->projectItemModel()->getSequenceId(activeUuid);
         if (binId.isEmpty()) {
             if (pCore->projectItemModel()->sequenceCount() == 0) {
                 // Something is broken here, abort
                 KMessageBox::error(pCore->window(), i18n("Could not recover corrupted file."));
-                delete m_progressDialog;
-                m_progressDialog = nullptr;
                 // Don't propose to save broken document
                 m_project->setModified(false);
                 // Open default blank document
@@ -990,9 +994,7 @@ void ProjectManager::doOpenFileHeadless(const QUrl &url)
 
     Q_EMIT docOpened(m_project);
     pCore->displayMessage(QString(), OperationCompletedMessage, 100);
-    m_lastSave.start();
-    delete m_progressDialog;
-    m_progressDialog = nullptr;*/
+    */
 }
 
 void ProjectManager::slotRevert()

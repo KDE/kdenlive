@@ -134,10 +134,7 @@ void Core::initHeadless(const QUrl &url)
 {
     MltConnection::construct(QString());
     m_projectManager = new ProjectManager(this);
-    // projectManager()->init(url, QString());
-    if (!url.isEmpty()) {
-        QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadHeadless", Qt::QueuedConnection, Q_ARG(QUrl, url));
-    }
+    QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadHeadless", Qt::QueuedConnection, Q_ARG(QUrl, url));
 }
 
 void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, const QString &clipsToLoad)
