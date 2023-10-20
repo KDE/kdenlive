@@ -1092,9 +1092,9 @@ void ProjectManager::slotAutoSave()
 QString ProjectManager::projectSceneList(const QString &outputFolder, const QString &overlayData)
 {
     // Disable multitrack view and overlay
-    bool isMultiTrack = pCore->monitorManager()->isMultiTrack();
-    bool hasPreview = pCore->window()->getCurrentTimeline()->controller()->hasPreviewTrack();
-    bool isTrimming = pCore->monitorManager()->isTrimming();
+    bool isMultiTrack = pCore->monitorManager() && pCore->monitorManager()->isMultiTrack();
+    bool hasPreview = pCore->window() && pCore->window()->getCurrentTimeline()->controller()->hasPreviewTrack();
+    bool isTrimming = pCore->monitorManager() && pCore->monitorManager()->isTrimming();
     if (isMultiTrack) {
         pCore->window()->getCurrentTimeline()->controller()->slotMultitrackView(false, false);
     }
@@ -1104,11 +1104,16 @@ QString ProjectManager::projectSceneList(const QString &outputFolder, const QStr
     if (isTrimming) {
         pCore->window()->getCurrentTimeline()->controller()->requestEndTrimmingMode();
     }
-    pCore->mixer()->pauseMonitoring(true);
+    if (pCore->mixer()) {
+        pCore->mixer()->pauseMonitoring(true);
+    }
+
     // We must save from the primary timeline model
     int duration = pCore->window() ? pCore->window()->getCurrentTimeline()->controller()->duration() : m_activeTimelineModel->duration();
     QString scene = pCore->projectItemModel()->sceneList(outputFolder, QString(), overlayData, m_activeTimelineModel->tractor(), duration);
-    pCore->mixer()->pauseMonitoring(false);
+    if (pCore->mixer()) {
+        pCore->mixer()->pauseMonitoring(false);
+    }
     if (isMultiTrack) {
         pCore->window()->getCurrentTimeline()->controller()->slotMultitrackView(true, false);
     }

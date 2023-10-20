@@ -135,7 +135,6 @@ std::vector<RenderRequest::RenderJob> RenderRequest::process(const QUrl &openUrl
         dir.cd(QFileInfo(playlistPath).baseName());
         project->prepareRenderAssets(dir);
     }
-    QString playlistContent;
     if (fromUrl) {
         QStringList openedTimelines = project->getDocumentProperty(QStringLiteral("opensequences")).split(QLatin1Char(';'), Qt::SkipEmptyParts);
         for (auto &uid : openedTimelines) {
@@ -151,13 +150,10 @@ std::vector<RenderRequest::RenderJob> RenderRequest::process(const QUrl &openUrl
         }
         auto timeline = project->getTimeline(activeUuid);
         pCore->projectManager()->testSetActiveDocument(project, timeline);
-
-        playlistContent = pCore->projectItemModel()->sceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile(),
-                                                               QString(), m_overlayData, timeline->tractor(), timeline->duration());
-    } else {
-        playlistContent =
-            pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile(), m_overlayData);
     }
+    QString playlistContent =
+        pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile(), m_overlayData);
+
     doc.setContent(playlistContent);
 
     if (m_delayedRendering) {
