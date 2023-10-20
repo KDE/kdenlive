@@ -173,6 +173,10 @@ bool DocumentChecker::hasErrorInProject()
     QDomNodeList documentProducers = m_doc.elementsByTagName(QStringLiteral("producer"));
     QDomNodeList documentChains = m_doc.elementsByTagName(QStringLiteral("chain"));
     QDomNodeList entries = m_doc.elementsByTagName(QStringLiteral("entry"));
+    QMap<QString, QString> renamedEffects;
+    renamedEffects.insert(QStringLiteral("frei0r.alpha0ps"), QStringLiteral("frei0r.alpha0ps_alpha0ps"));
+    renamedEffects.insert(QStringLiteral("frei0r.alphaspot"), QStringLiteral("frei0r.alpha0ps_alphaspot"));
+    renamedEffects.insert(QStringLiteral("frei0r.alphagrad"), QStringLiteral("frei0r.alpha0ps_alpha0grad"));
 
     m_safeImages.clear();
     m_safeFonts.clear();
@@ -284,9 +288,20 @@ bool DocumentChecker::hasErrorInProject()
 
     // Check for missing effects (eg. not installed)
     QStringList filters = getAssetsServiceIds(m_doc, QStringLiteral("filter"));
+    QStringList renamedEffectNames = renamedEffects.keys();
     for (const QString &id : qAsConst(filters)) {
         if (!EffectsRepository::get()->exists(id) && !itemsContain(MissingType::Effect, id, MissingStatus::Remove)) {
             // m_missingFilters << id;
+            if (renamedEffectNames.contains(id) && EffectsRepository::get()->exists(renamedEffects.value(id))) {
+                // The effect was renamed
+                DocumentResource item;
+                item.type = MissingType::Effect;
+                item.status = MissingStatus::Fixed;
+                item.originalFilePath = id;
+                item.newFilePath = renamedEffects.value(id);
+                m_items.push_back(item);
+                continue;
+            }
             DocumentResource item;
             item.type = MissingType::Effect;
             item.status = MissingStatus::Remove;
@@ -1275,6 +1290,23 @@ void DocumentChecker::removeAssetsById(QDomDocument &doc, const QString &tagName
     }
 }
 
+void DocumentChecker::fixAssetsById(QDomDocument &doc, const QString &tagName, const QString &oldId, const QString &newId)
+{
+    QDomNodeList assets = doc.elementsByTagName(tagName);
+    for (int i = 0; i < assets.count(); ++i) {
+        QDomElement asset = assets.item(i).toElement();
+        QString service = Xml::getXmlProperty(asset, QStringLiteral("kdenlive_id"));
+        if (service.isEmpty()) {
+            service = Xml::getXmlProperty(asset, QStringLiteral("mlt_service"));
+        }
+        if (service == oldId) {
+            // Rename asset
+            Xml::setXmlProperty(asset, QStringLiteral("kdenlive_id"), newId);
+            Xml::setXmlProperty(asset, QStringLiteral("mlt_service"), newId);
+        }
+    }
+}
+
 void DocumentChecker::fixClip(const QDomNodeList &items, const QString &clipId, const QString &newPath)
 {
     QDomElement e;
@@ -1421,8 +1453,12 @@ void DocumentChecker::fixMissingItem(const DocumentChecker::DocumentResource &re
             newPath.clear();
         }
         fixAssetResource(filters, getAssetPairs(), resource.originalFilePath, newPath);
-    } else if (resource.type == MissingType::Effect && resource.status == MissingStatus::Remove) {
-        removeAssetsById(m_doc, QStringLiteral("filter"), {resource.originalFilePath});
+    } else if (resource.type == MissingType::Effect) {
+        if (resource.status == MissingStatus::Fixed) {
+            fixAssetsById(m_doc, QStringLiteral("filter"), resource.originalFilePath, resource.newFilePath);
+        } else if (resource.status == MissingStatus::Remove) {
+            removeAssetsById(m_doc, QStringLiteral("filter"), {resource.originalFilePath});
+        }
     } else if (resource.type == MissingType::Transition && resource.status == MissingStatus::Remove) {
         removeAssetsById(m_doc, QStringLiteral("transition"), {resource.originalFilePath});
     }
