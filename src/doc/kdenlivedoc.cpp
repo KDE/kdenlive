@@ -2317,7 +2317,7 @@ void KdenliveDoc::makeBackgroundTrackTransparent(QDomDocument &doc)
     for (int i = 0; i < prods.length(); ++i) {
         auto prod = prods.at(i).toElement();
         if (Xml::getXmlProperty(prod, QStringLiteral("kdenlive:playlistid")) == QStringLiteral("black_track")) {
-            Xml::setXmlProperty(prod, QStringLiteral("resource"), QStringLiteral("transparent"));
+            Xml::setXmlProperty(prod, QStringLiteral("resource"), QStringLiteral("0"));
             break;
         }
     }

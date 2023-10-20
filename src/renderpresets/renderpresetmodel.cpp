@@ -131,8 +131,14 @@ RenderPresetParams::RateControl RenderPresetParams::videoRateControl() const
 bool RenderPresetParams::hasAlpha()
 {
     QStringList alphaFormats = {QLatin1String("argb"), QLatin1String("abgr"), QLatin1String("bgra"), QLatin1String("rgba"),
-                                QLatin1String("gbra"), QLatin1String("yuva"), QLatin1String("ya"),   QLatin1String("ayuv")};
-    return alphaFormats.contains(value(QStringLiteral("pix_fmt")));
+                                QLatin1String("gbra"), QLatin1String("yuva"), QLatin1String("ya"),   QLatin1String("yuva")};
+    const QString selected = value(QStringLiteral("pix_fmt"));
+    for (auto &f : alphaFormats) {
+        if (selected.startsWith(f)) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool RenderPresetParams::isImageSequence()
