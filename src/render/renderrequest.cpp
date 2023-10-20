@@ -4,6 +4,7 @@
 */
 
 #include "renderrequest.h"
+#include "bin/projectitemmodel.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
@@ -117,8 +118,9 @@ std::vector<RenderRequest::RenderJob> RenderRequest::process(const QUrl &openUrl
         }
         std::unique_ptr<KdenliveDoc> openedDoc = openResults.getDocument();
 
-        doc.setContent(openedDoc.get()->getAndClearProjectXml());
         project = openedDoc.release();
+        pCore->projectManager()->m_project = project;
+        pCore->projectManager()->updateTimeline(false, QString(), QString(), QDateTime(), 0);
     } else {
         project = pCore->currentDoc();
     }
@@ -133,12 +135,31 @@ std::vector<RenderRequest::RenderJob> RenderRequest::process(const QUrl &openUrl
         dir.cd(QFileInfo(playlistPath).baseName());
         project->prepareRenderAssets(dir);
     }
-    if (!fromUrl) {
-        QString playlistContent =
-            pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile(), m_overlayData);
+    QString playlistContent;
+    if (fromUrl) {
+        QStringList openedTimelines = project->getDocumentProperty(QStringLiteral("opensequences")).split(QLatin1Char(';'), Qt::SkipEmptyParts);
+        for (auto &uid : openedTimelines) {
+            const QUuid uuid(uid);
+            const QString binId = pCore->projectItemModel()->getSequenceId(uuid);
+            if (!binId.isEmpty()) {
+                pCore->projectManager()->openTimeline(binId, uuid);
+            }
+        }
+        QUuid activeUuid(project->getDocumentProperty(QStringLiteral("activetimeline")));
+        if (activeUuid.isNull()) {
+            activeUuid = project->uuid();
+        }
+        auto timeline = project->getTimeline(project->uuid());
+        pCore->projectManager()->m_activeTimelineModel = timeline;
+        pCore->projectManager()->testSetActiveDocument(project, timeline);
 
-        doc.setContent(playlistContent);
+        playlistContent = pCore->projectItemModel()->sceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile(),
+                                                               QString(), m_overlayData, timeline->tractor(), timeline->duration());
+    } else {
+        playlistContent =
+            pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile(), m_overlayData);
     }
+    doc.setContent(playlistContent);
 
     if (m_delayedRendering) {
         project->restoreRenderAssets();
