@@ -15,6 +15,7 @@ class Menu;
 
 #include "bin/model/markerlistmodel.hpp"
 #include "definitions.h"
+#include "render/renderrequest.h"
 #include "renderpresets/renderpresetmodel.hpp"
 #include "renderpresets/tree/renderpresettreemodel.hpp"
 #include "ui_renderwidget_ui.h"
@@ -232,7 +233,7 @@ private:
     void startRendering(RenderJobItem *item);
     /** @brief Create a rendering profile from MLT preset. */
     QTreeWidgetItem *loadFromMltPreset(const QString &groupName, const QString &path, QString profileName, bool codecInName = false);
-    RenderJobItem *createRenderJob(const QString &playlist, const QString &outputFile, const QString &subtitleFile = QString());
+    RenderJobItem *createRenderJob(const RenderRequest::RenderJob &job);
     void updateRenderInfoMessage();
 
 Q_SIGNALS:

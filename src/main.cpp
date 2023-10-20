@@ -278,11 +278,7 @@ int main(int argc, char *argv[])
         int exitCode = EXIT_SUCCESS;
 
         for (const auto &job : renderjobs) {
-            QStringList argsJob = {QStringLiteral("delivery"), KdenliveSettings::meltpath(), job.playlistPath, QStringLiteral("--pid"),
-                                   QString::number(QCoreApplication::applicationPid())};
-            if (!job.subtitlePath.isEmpty()) {
-                argsJob << QStringLiteral("--subtitle") << job.subtitlePath;
-            }
+            const QStringList argsJob = RenderRequest::argsByJob(job);
             qDebug() << "* CREATED JOB WITH ARGS: " << argsJob;
 
             qDebug() << "starting kdenlive_render process using: " << KdenliveSettings::kdenliverendererpath();

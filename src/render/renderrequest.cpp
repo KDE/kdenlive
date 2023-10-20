@@ -25,6 +25,16 @@
 #include "doc/docundostack.hpp"
 #include <QUndoGroup>
 
+QStringList RenderRequest::argsByJob(const RenderJob &job)
+{
+    QStringList args = {QStringLiteral("delivery"), KdenliveSettings::meltpath(), job.playlistPath, QStringLiteral("--pid"),
+                        QString::number(QCoreApplication::applicationPid())};
+    if (!job.subtitlePath.isEmpty()) {
+        args << QStringLiteral("--subtitle") << job.subtitlePath;
+    }
+    return args;
+}
+
 RenderRequest::RenderRequest()
 {
     setBounds(-1, -1);

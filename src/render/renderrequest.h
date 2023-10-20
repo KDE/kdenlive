@@ -42,6 +42,8 @@ public:
 
     QStringList errorMessages();
 
+    static QStringList argsByJob(const RenderJob &job);
+
 private:
     struct RenderSection
     {
