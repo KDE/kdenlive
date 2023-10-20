@@ -711,15 +711,23 @@ void KeyframeWidget::slotUpdateKeyframesFromMonitor(const QPersistentModelIndex 
     if (m_keyframes->isEmpty()) {
         GenTime pos(pCore->getItemIn(m_model->getOwnerId()) + m_time->getValue(), pCore->getCurrentFps());
         if (m_time->getValue() > 0) {
+            // First add keyframe at start of the clip
             GenTime pos0(pCore->getItemIn(m_model->getOwnerId()), pCore->getCurrentFps());
             m_keyframes->addKeyframe(pos0, KeyframeType::Linear);
             m_keyframes->updateKeyframe(pos0, res, index);
+            // For rotoscoping, don't add a second keyframe at cursor pos
+            auto type = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
+            if (type == ParamType::Roto_spline) {
+                return;
+            }
         }
+        // Next add keyframe at playhead position
         m_keyframes->addKeyframe(pos, KeyframeType::Linear);
         m_keyframes->updateKeyframe(pos, res, index);
     } else if (m_keyframes->hasKeyframe(getPosition()) || m_keyframes->singleKeyframe()) {
         GenTime pos(getPosition(), pCore->getCurrentFps());
-        if (m_keyframes->singleKeyframe() && KdenliveSettings::autoKeyframe() && m_neededScene == MonitorSceneType::MonitorSceneRoto) {
+        // Auto add keyframe only if there already is more than 1 keyframe
+        if (!m_keyframes->singleKeyframe() && KdenliveSettings::autoKeyframe() && m_neededScene == MonitorSceneType::MonitorSceneRoto) {
             m_keyframes->addKeyframe(pos, KeyframeType::Linear);
         }
         m_keyframes->updateKeyframe(pos, res, index);
