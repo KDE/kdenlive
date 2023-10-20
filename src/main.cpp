@@ -199,7 +199,8 @@ int main(int argc, char *argv[])
                                     QStringLiteral("renderPreset"), QString());
     parser.addOption(presetOption);
 
-    QCommandLineOption exitOption(QStringLiteral("render-async"), i18n("Don't exit until render process is finished."));
+    QCommandLineOption exitOption(QStringLiteral("render-async"),
+                                  i18n("Exit after (detached) render process started, without this flag it exists only after it finished."));
     parser.addOption(exitOption);
 
     parser.addPositionalArgument(QStringLiteral("file"), i18n("Kdenlive document to open."));
