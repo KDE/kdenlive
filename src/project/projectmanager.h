@@ -39,7 +39,6 @@ class /*KDENLIVECORE_EXPORT*/ ProjectManager : public QObject
     Q_OBJECT
 
 public:
-    friend class RenderRequest;
     /** @brief Sets up actions to interact for project interaction (undo, redo, open, save, ...) and creates an empty project. */
     explicit ProjectManager(QObject *parent = nullptr);
     ~ProjectManager() override;
@@ -233,7 +232,6 @@ Q_SIGNALS:
 protected:
     /** @brief Update the timeline according to the MLT XML */
     bool updateTimeline(bool createNewTab, const QString &chunks, const QString &dirty, const QDateTime &documentDate, bool enablePreview);
-    KdenliveDoc *m_project{nullptr};
 
 private:
     /** @brief checks if autoback files exists, recovers from it if user says yes, returns true if files were recovered. */
@@ -241,6 +239,7 @@ private:
     /** @brief Update the sequence producer stored in the project model. */
     void updateSequenceProducer(const QUuid &uuid, std::shared_ptr<Mlt::Producer> prod);
 
+    KdenliveDoc *m_project{nullptr};
     std::shared_ptr<TimelineItemModel> m_activeTimelineModel;
     QElapsedTimer m_lastSave;
     QTimer m_autoSaveTimer;

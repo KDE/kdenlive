@@ -107,7 +107,7 @@ public:
     /** @brief True if we are currently closing the project. */
     bool closing{false};
     /** @brief Get current document's producer. */
-    const QByteArray getAndClearProjectXml(bool clear = true);
+    const QByteArray getAndClearProjectXml();
     double fps() const;
     int width() const;
     int height() const;

@@ -432,15 +432,13 @@ int KdenliveDoc::clipsCount() const
     return m_clipsCount;
 }
 
-const QByteArray KdenliveDoc::getAndClearProjectXml(bool clear)
+const QByteArray KdenliveDoc::getAndClearProjectXml()
 {
     // Profile has already been set, dont overwrite it
     m_document.documentElement().removeChild(m_document.documentElement().firstChildElement(QLatin1String("profile")));
     const QByteArray result = m_document.toString().toUtf8();
     // We don't need the xml data anymore, throw away
-    if (clear) {
-        m_document.clear();
-    }
+    m_document.clear();
     return result;
 }
 

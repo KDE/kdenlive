@@ -117,13 +117,8 @@ std::vector<RenderRequest::RenderJob> RenderRequest::process(const QUrl &openUrl
         }
         std::unique_ptr<KdenliveDoc> openedDoc = openResults.getDocument();
 
-        doc.setContent(openedDoc.get()->getAndClearProjectXml(false));
+        doc.setContent(openedDoc.get()->getAndClearProjectXml());
         project = openedDoc.release();
-        pCore->projectManager()->m_project = project;
-        pCore->projectManager()->updateTimeline(false, QString(), QString(), QDateTime(), 0);
-        auto timeline = project->getTimeline(project->uuid());
-        pCore->projectManager()->m_activeTimelineModel = timeline;
-        pCore->projectManager()->testSetActiveDocument(project, timeline);
     } else {
         project = pCore->currentDoc();
     }
