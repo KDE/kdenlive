@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-19 00:42+0000\n"
+"POT-Creation-Date: 2023-10-20 00:41+0000\n"
 "PO-Revision-Date: 2023-10-10 14:28\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -3361,7 +3361,7 @@ msgstr "移动关键帧"
 #: src/assets/keyframes/model/keyframemodel.cpp:417
 #: src/assets/keyframes/model/keyframemodellist.cpp:226
 #: src/assets/keyframes/model/keyframemodellist.cpp:270
-#: src/assets/keyframes/view/keyframeview.cpp:295
+#: src/assets/keyframes/view/keyframeview.cpp:296
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframe"
@@ -3410,60 +3410,60 @@ msgstr "更新效果"
 msgid "Missing keyframe detected at %1, automatically re-added"
 msgstr "在 %1 检测到缺失的关键帧，已自动重新添加"
 
-#: src/assets/keyframes/view/keyframeview.cpp:130
+#: src/assets/keyframes/view/keyframeview.cpp:131
 #, kde-format
 msgid "Duplicate keyframe"
 msgstr "创建关键帧副本"
 
-#: src/assets/keyframes/view/keyframeview.cpp:183
+#: src/assets/keyframes/view/keyframeview.cpp:184
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "无法移除最后一个关键帧"
 
-#: src/assets/keyframes/view/keyframeview.cpp:196
+#: src/assets/keyframes/view/keyframeview.cpp:197
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
 msgstr[0] "移除关键帧"
 
-#: src/assets/keyframes/view/keyframeview.cpp:644
+#: src/assets/keyframes/view/keyframeview.cpp:645
 #, kde-format
 msgid "Move keyframe"
 msgid_plural "Move keyframes"
 msgstr[0] "移动关键帧"
 
-#: src/assets/keyframes/view/keyframeview.cpp:900
+#: src/assets/keyframes/view/keyframeview.cpp:901
 #, kde-format
 msgid "Update keyframes X position"
 msgstr "更新关键帧 X 位置"
 
-#: src/assets/keyframes/view/keyframeview.cpp:908
+#: src/assets/keyframes/view/keyframeview.cpp:909
 #, kde-format
 msgid "Update keyframes Y position"
 msgstr "更新关键帧 Y 位置"
 
-#: src/assets/keyframes/view/keyframeview.cpp:916
+#: src/assets/keyframes/view/keyframeview.cpp:917
 #, kde-format
 msgid "Update keyframes width"
 msgstr "更新关键帧宽度"
 
-#: src/assets/keyframes/view/keyframeview.cpp:924
+#: src/assets/keyframes/view/keyframeview.cpp:925
 #, kde-format
 msgid "Update keyframes height"
 msgstr "更新关键帧高度"
 
-#: src/assets/keyframes/view/keyframeview.cpp:932
+#: src/assets/keyframes/view/keyframeview.cpp:933
 #, kde-format
 msgid "Update keyframes opacity"
 msgstr "更新关键帧透明度"
 
-#: src/assets/keyframes/view/keyframeview.cpp:937
-#: src/assets/keyframes/view/keyframeview.cpp:939
+#: src/assets/keyframes/view/keyframeview.cpp:938
+#: src/assets/keyframes/view/keyframeview.cpp:940
 #, kde-format
 msgid "Update keyframes value"
 msgstr "更新关键帧数值"
 
-#: src/assets/keyframes/view/keyframeview.cpp:943
+#: src/assets/keyframes/view/keyframeview.cpp:944
 #, kde-format
 msgid "Keyframe value copied"
 msgstr "关键帧数值已复制"
@@ -12071,7 +12071,7 @@ msgstr ""
 "<b>点击</b>播放，<b>双击</b>全屏，<b>右侧悬浮</b>显示工具栏，<b>鼠标滚轮</b>"
 "或<b>方向键</b>时移，<b>Ctrl+鼠标滚轮</b>缩放视图"
 
-#: src/monitor/view/kdenlivemonitoreffectscene.qml:253
+#: src/monitor/view/kdenlivemonitoreffectscene.qml:241
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""

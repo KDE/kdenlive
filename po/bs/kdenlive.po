@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-19 00:42+0000\n"
+"POT-Creation-Date: 2023-10-20 00:41+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -3420,7 +3420,7 @@ msgstr "Izbriši glavni okvir"
 #: src/assets/keyframes/model/keyframemodel.cpp:417
 #: src/assets/keyframes/model/keyframemodellist.cpp:226
 #: src/assets/keyframes/model/keyframemodellist.cpp:270
-#: src/assets/keyframes/view/keyframeview.cpp:295
+#: src/assets/keyframes/view/keyframeview.cpp:296
 #, fuzzy, kde-format
 #| msgid "Delete keyframe"
 msgctxt "@action"
@@ -3476,19 +3476,19 @@ msgstr "Zalijepi efekte"
 msgid "Missing keyframe detected at %1, automatically re-added"
 msgstr ""
 
-#: src/assets/keyframes/view/keyframeview.cpp:130
+#: src/assets/keyframes/view/keyframeview.cpp:131
 #, fuzzy, kde-format
 #| msgid "Edit keyframe"
 msgid "Duplicate keyframe"
 msgstr "Uredi glavni okvir"
 
-#: src/assets/keyframes/view/keyframeview.cpp:183
+#: src/assets/keyframes/view/keyframeview.cpp:184
 #, fuzzy, kde-format
 #| msgid "Cannot move clip to position %1"
 msgid "Cannot remove the last keyframe"
 msgstr "Ne mogu pomjeriti isječak u poziciju %1"
 
-#: src/assets/keyframes/view/keyframeview.cpp:196
+#: src/assets/keyframes/view/keyframeview.cpp:197
 #, fuzzy, kde-format
 #| msgid "Delete keyframe"
 msgid "Remove keyframe"
@@ -3497,7 +3497,7 @@ msgstr[0] "Izbriši glavni okvir"
 msgstr[1] "Izbriši glavni okvir"
 msgstr[2] "Izbriši glavni okvir"
 
-#: src/assets/keyframes/view/keyframeview.cpp:644
+#: src/assets/keyframes/view/keyframeview.cpp:645
 #, fuzzy, kde-format
 #| msgid "Delete keyframe"
 msgid "Move keyframe"
@@ -3506,44 +3506,44 @@ msgstr[0] "Izbriši glavni okvir"
 msgstr[1] "Izbriši glavni okvir"
 msgstr[2] "Izbriši glavni okvir"
 
-#: src/assets/keyframes/view/keyframeview.cpp:900
+#: src/assets/keyframes/view/keyframeview.cpp:901
 #, fuzzy, kde-format
 #| msgid "Edit keyframe"
 msgid "Update keyframes X position"
 msgstr "Uredi glavni okvir"
 
-#: src/assets/keyframes/view/keyframeview.cpp:908
+#: src/assets/keyframes/view/keyframeview.cpp:909
 #, fuzzy, kde-format
 #| msgid "Edit keyframe"
 msgid "Update keyframes Y position"
 msgstr "Uredi glavni okvir"
 
-#: src/assets/keyframes/view/keyframeview.cpp:916
+#: src/assets/keyframes/view/keyframeview.cpp:917
 #, fuzzy, kde-format
 #| msgid "Edit keyframe"
 msgid "Update keyframes width"
 msgstr "Uredi glavni okvir"
 
-#: src/assets/keyframes/view/keyframeview.cpp:924
+#: src/assets/keyframes/view/keyframeview.cpp:925
 #, fuzzy, kde-format
 #| msgid "Edit keyframe"
 msgid "Update keyframes height"
 msgstr "Uredi glavni okvir"
 
-#: src/assets/keyframes/view/keyframeview.cpp:932
+#: src/assets/keyframes/view/keyframeview.cpp:933
 #, fuzzy, kde-format
 #| msgid "Edit keyframe"
 msgid "Update keyframes opacity"
 msgstr "Uredi glavni okvir"
 
-#: src/assets/keyframes/view/keyframeview.cpp:937
-#: src/assets/keyframes/view/keyframeview.cpp:939
+#: src/assets/keyframes/view/keyframeview.cpp:938
+#: src/assets/keyframes/view/keyframeview.cpp:940
 #, fuzzy, kde-format
 #| msgid "Edit keyframe"
 msgid "Update keyframes value"
 msgstr "Uredi glavni okvir"
 
-#: src/assets/keyframes/view/keyframeview.cpp:943
+#: src/assets/keyframes/view/keyframeview.cpp:944
 #, fuzzy, kde-format
 #| msgid "Interpolation"
 msgid "Keyframe value copied"
@@ -12862,7 +12862,7 @@ msgid ""
 "for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> to zoom"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitoreffectscene.qml:253
+#: src/monitor/view/kdenlivemonitoreffectscene.qml:241
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""

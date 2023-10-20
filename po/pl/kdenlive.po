@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-19 00:42+0000\n"
+"POT-Creation-Date: 2023-10-20 00:41+0000\n"
 "PO-Revision-Date: 2023-10-14 12:18+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -3418,7 +3418,7 @@ msgstr "Przenieś klatki kluczowe"
 #: src/assets/keyframes/model/keyframemodel.cpp:417
 #: src/assets/keyframes/model/keyframemodellist.cpp:226
 #: src/assets/keyframes/model/keyframemodellist.cpp:270
-#: src/assets/keyframes/view/keyframeview.cpp:295
+#: src/assets/keyframes/view/keyframeview.cpp:296
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframe"
@@ -3467,17 +3467,17 @@ msgstr "Uaktualnij efekt"
 msgid "Missing keyframe detected at %1, automatically re-added"
 msgstr "Wykryto brakującą klatkę kluczową w %1, dodano ją"
 
-#: src/assets/keyframes/view/keyframeview.cpp:130
+#: src/assets/keyframes/view/keyframeview.cpp:131
 #, kde-format
 msgid "Duplicate keyframe"
 msgstr "Powiel klatkę kluczową"
 
-#: src/assets/keyframes/view/keyframeview.cpp:183
+#: src/assets/keyframes/view/keyframeview.cpp:184
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "Nie można usunąć ostatniej klatki kluczowej"
 
-#: src/assets/keyframes/view/keyframeview.cpp:196
+#: src/assets/keyframes/view/keyframeview.cpp:197
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
@@ -3485,7 +3485,7 @@ msgstr[0] "Usuń klatkę kluczową"
 msgstr[1] "Usuń klatki kluczowe"
 msgstr[2] "Usuń klatki kluczowe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:644
+#: src/assets/keyframes/view/keyframeview.cpp:645
 #, kde-format
 msgid "Move keyframe"
 msgid_plural "Move keyframes"
@@ -3493,38 +3493,38 @@ msgstr[0] "Przenieś klatkę kluczową"
 msgstr[1] "Przenieś klatki kluczowe"
 msgstr[2] "Przenieś klatki kluczowe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:900
+#: src/assets/keyframes/view/keyframeview.cpp:901
 #, kde-format
 msgid "Update keyframes X position"
 msgstr "Uaktualnij położenie X klatek kluczowych"
 
-#: src/assets/keyframes/view/keyframeview.cpp:908
+#: src/assets/keyframes/view/keyframeview.cpp:909
 #, kde-format
 msgid "Update keyframes Y position"
 msgstr "Uaktualnij położenie Y klatek kluczowych"
 
-#: src/assets/keyframes/view/keyframeview.cpp:916
+#: src/assets/keyframes/view/keyframeview.cpp:917
 #, kde-format
 msgid "Update keyframes width"
 msgstr "Uaktualnij szerokość klatek kluczowych"
 
-#: src/assets/keyframes/view/keyframeview.cpp:924
+#: src/assets/keyframes/view/keyframeview.cpp:925
 #, kde-format
 msgid "Update keyframes height"
 msgstr "Uaktualnij wysokość klatek kluczowych"
 
-#: src/assets/keyframes/view/keyframeview.cpp:932
+#: src/assets/keyframes/view/keyframeview.cpp:933
 #, kde-format
 msgid "Update keyframes opacity"
 msgstr "Uaktualnij nieprzezroczystość klatek kluczowych"
 
-#: src/assets/keyframes/view/keyframeview.cpp:937
-#: src/assets/keyframes/view/keyframeview.cpp:939
+#: src/assets/keyframes/view/keyframeview.cpp:938
+#: src/assets/keyframes/view/keyframeview.cpp:940
 #, kde-format
 msgid "Update keyframes value"
 msgstr "Uaktualnij wartość klatek kluczowych"
 
-#: src/assets/keyframes/view/keyframeview.cpp:943
+#: src/assets/keyframes/view/keyframeview.cpp:944
 #, kde-format
 msgid "Keyframe value copied"
 msgstr "Skopiowano wartość klatki kluczowej"
@@ -12343,7 +12343,7 @@ msgstr ""
 "narzędzi, <b>Kółko</b> lub <b>strzałki</b> przewijają, <b>Ctrl+kółko</b> "
 "powiększa"
 
-#: src/monitor/view/kdenlivemonitoreffectscene.qml:253
+#: src/monitor/view/kdenlivemonitoreffectscene.qml:241
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""

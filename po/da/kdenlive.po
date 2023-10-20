@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-19 00:42+0000\n"
+"POT-Creation-Date: 2023-10-20 00:41+0000\n"
 "PO-Revision-Date: 2020-10-31 22:29+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -3450,7 +3450,7 @@ msgstr "Flyt keyframes"
 #: src/assets/keyframes/model/keyframemodel.cpp:417
 #: src/assets/keyframes/model/keyframemodellist.cpp:226
 #: src/assets/keyframes/model/keyframemodellist.cpp:270
-#: src/assets/keyframes/view/keyframeview.cpp:295
+#: src/assets/keyframes/view/keyframeview.cpp:296
 #, fuzzy, kde-format
 #| msgid "Move keyframe"
 msgctxt "@action"
@@ -3501,18 +3501,18 @@ msgstr "Indsæt effekter"
 msgid "Missing keyframe detected at %1, automatically re-added"
 msgstr ""
 
-#: src/assets/keyframes/view/keyframeview.cpp:130
+#: src/assets/keyframes/view/keyframeview.cpp:131
 #, fuzzy, kde-format
 #| msgid "Update keyframe"
 msgid "Duplicate keyframe"
 msgstr "Opdatér keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:183
+#: src/assets/keyframes/view/keyframeview.cpp:184
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "Kan ikke fjern den sidste keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:196
+#: src/assets/keyframes/view/keyframeview.cpp:197
 #, fuzzy, kde-format
 #| msgid "Remove keyframe"
 msgid "Remove keyframe"
@@ -3520,7 +3520,7 @@ msgid_plural "Remove keyframes"
 msgstr[0] "Fjern keyframe"
 msgstr[1] "Fjern keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:644
+#: src/assets/keyframes/view/keyframeview.cpp:645
 #, fuzzy, kde-format
 #| msgid "Move keyframe"
 msgid "Move keyframe"
@@ -3528,44 +3528,44 @@ msgid_plural "Move keyframes"
 msgstr[0] "Flyt keyframe"
 msgstr[1] "Flyt keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:900
+#: src/assets/keyframes/view/keyframeview.cpp:901
 #, fuzzy, kde-format
 #| msgid "Update keyframe"
 msgid "Update keyframes X position"
 msgstr "Opdatér keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:908
+#: src/assets/keyframes/view/keyframeview.cpp:909
 #, fuzzy, kde-format
 #| msgid "Update keyframe"
 msgid "Update keyframes Y position"
 msgstr "Opdatér keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:916
+#: src/assets/keyframes/view/keyframeview.cpp:917
 #, fuzzy, kde-format
 #| msgid "Update keyframe"
 msgid "Update keyframes width"
 msgstr "Opdatér keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:924
+#: src/assets/keyframes/view/keyframeview.cpp:925
 #, fuzzy, kde-format
 #| msgid "Update keyframe"
 msgid "Update keyframes height"
 msgstr "Opdatér keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:932
+#: src/assets/keyframes/view/keyframeview.cpp:933
 #, fuzzy, kde-format
 #| msgid "Update keyframe"
 msgid "Update keyframes opacity"
 msgstr "Opdatér keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:937
-#: src/assets/keyframes/view/keyframeview.cpp:939
+#: src/assets/keyframes/view/keyframeview.cpp:938
+#: src/assets/keyframes/view/keyframeview.cpp:940
 #, fuzzy, kde-format
 #| msgid "Update keyframe"
 msgid "Update keyframes value"
 msgstr "Opdatér keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:943
+#: src/assets/keyframes/view/keyframeview.cpp:944
 #, fuzzy, kde-format
 #| msgid "Keyframes spacing"
 msgid "Keyframe value copied"
@@ -12716,7 +12716,7 @@ msgid ""
 "for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> to zoom"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitoreffectscene.qml:253
+#: src/monitor/view/kdenlivemonitoreffectscene.qml:241
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""

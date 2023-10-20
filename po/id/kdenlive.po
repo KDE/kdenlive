@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-19 00:42+0000\n"
+"POT-Creation-Date: 2023-10-20 00:41+0000\n"
 "PO-Revision-Date: 2023-10-02 19:42+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -3408,7 +3408,7 @@ msgstr "Pindah keyframes"
 #: src/assets/keyframes/model/keyframemodel.cpp:417
 #: src/assets/keyframes/model/keyframemodellist.cpp:226
 #: src/assets/keyframes/model/keyframemodellist.cpp:270
-#: src/assets/keyframes/view/keyframeview.cpp:295
+#: src/assets/keyframes/view/keyframeview.cpp:296
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframe"
@@ -3457,62 +3457,62 @@ msgstr "Perbarui efek"
 msgid "Missing keyframe detected at %1, automatically re-added"
 msgstr "Keyframe hilang terdeteksi di %1, secara otomatis ditambahkan ulang"
 
-#: src/assets/keyframes/view/keyframeview.cpp:130
+#: src/assets/keyframes/view/keyframeview.cpp:131
 #, kde-format
 msgid "Duplicate keyframe"
 msgstr "Duplikatkan keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:183
+#: src/assets/keyframes/view/keyframeview.cpp:184
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "Tidak bisa menghapus keyframe yang terakhir"
 
-#: src/assets/keyframes/view/keyframeview.cpp:196
+#: src/assets/keyframes/view/keyframeview.cpp:197
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
 msgstr[0] "Singkirkan keyframe"
 msgstr[1] "Singkirkan keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:644
+#: src/assets/keyframes/view/keyframeview.cpp:645
 #, kde-format
 msgid "Move keyframe"
 msgid_plural "Move keyframes"
 msgstr[0] "Pindahkan keyframe"
 msgstr[1] "Pindahkan keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:900
+#: src/assets/keyframes/view/keyframeview.cpp:901
 #, kde-format
 msgid "Update keyframes X position"
 msgstr "Perbarui posisi X keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:908
+#: src/assets/keyframes/view/keyframeview.cpp:909
 #, kde-format
 msgid "Update keyframes Y position"
 msgstr "Perbarui posisi Y keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:916
+#: src/assets/keyframes/view/keyframeview.cpp:917
 #, kde-format
 msgid "Update keyframes width"
 msgstr "Perbarui lebar keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:924
+#: src/assets/keyframes/view/keyframeview.cpp:925
 #, kde-format
 msgid "Update keyframes height"
 msgstr "Perbarui tinggi keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:932
+#: src/assets/keyframes/view/keyframeview.cpp:933
 #, kde-format
 msgid "Update keyframes opacity"
 msgstr "Perbarui opasitas keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:937
-#: src/assets/keyframes/view/keyframeview.cpp:939
+#: src/assets/keyframes/view/keyframeview.cpp:938
+#: src/assets/keyframes/view/keyframeview.cpp:940
 #, kde-format
 msgid "Update keyframes value"
 msgstr "Perbarui nilai keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:943
+#: src/assets/keyframes/view/keyframeview.cpp:944
 #, kde-format
 msgid "Keyframe value copied"
 msgstr "Nilai keyframe disalin"
@@ -12182,7 +12182,7 @@ msgstr ""
 "kanan</b> untuk bilah alat, <b>Roda gulir</b> atau <b>panah</b> untuk "
 "jangka, <b>Ctrl roda</b> untuk memperbesar atau memperkecil"
 
-#: src/monitor/view/kdenlivemonitoreffectscene.qml:253
+#: src/monitor/view/kdenlivemonitoreffectscene.qml:241
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""

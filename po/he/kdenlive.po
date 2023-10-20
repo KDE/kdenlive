@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-19 00:42+0000\n"
+"POT-Creation-Date: 2023-10-20 00:41+0000\n"
 "PO-Revision-Date: 2017-05-16 07:02-0400\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -3393,7 +3393,7 @@ msgstr "מחק מסגרת מפתח"
 #: src/assets/keyframes/model/keyframemodel.cpp:417
 #: src/assets/keyframes/model/keyframemodellist.cpp:226
 #: src/assets/keyframes/model/keyframemodellist.cpp:270
-#: src/assets/keyframes/view/keyframeview.cpp:295
+#: src/assets/keyframes/view/keyframeview.cpp:296
 #, fuzzy, kde-format
 msgctxt "@action"
 msgid "Move keyframe"
@@ -3446,70 +3446,70 @@ msgstr "הדבק אפקטים"
 msgid "Missing keyframe detected at %1, automatically re-added"
 msgstr ""
 
-#: src/assets/keyframes/view/keyframeview.cpp:130
+#: src/assets/keyframes/view/keyframeview.cpp:131
 #, fuzzy, kde-format
 #| msgid "Add keyframe"
 msgid "Duplicate keyframe"
 msgstr "הוסף מסגרת מפתח"
 
-#: src/assets/keyframes/view/keyframeview.cpp:183
+#: src/assets/keyframes/view/keyframeview.cpp:184
 #, fuzzy, kde-format
 #| msgid "Cannot move clip to position %1"
 msgid "Cannot remove the last keyframe"
 msgstr "לא ניתן להעביר את הסרטון לנקודה %1"
 
-#: src/assets/keyframes/view/keyframeview.cpp:196
+#: src/assets/keyframes/view/keyframeview.cpp:197
 #, fuzzy, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
 msgstr[0] "מחק מסגרת מפתח"
 msgstr[1] "מחק מסגרת מפתח"
 
-#: src/assets/keyframes/view/keyframeview.cpp:644
+#: src/assets/keyframes/view/keyframeview.cpp:645
 #, fuzzy, kde-format
 msgid "Move keyframe"
 msgid_plural "Move keyframes"
 msgstr[0] "מחק מסגרת מפתח"
 msgstr[1] "מחק מסגרת מפתח"
 
-#: src/assets/keyframes/view/keyframeview.cpp:900
+#: src/assets/keyframes/view/keyframeview.cpp:901
 #, fuzzy, kde-format
 #| msgid "Add keyframe"
 msgid "Update keyframes X position"
 msgstr "הוסף מסגרת מפתח"
 
-#: src/assets/keyframes/view/keyframeview.cpp:908
+#: src/assets/keyframes/view/keyframeview.cpp:909
 #, fuzzy, kde-format
 #| msgid "Add keyframe"
 msgid "Update keyframes Y position"
 msgstr "הוסף מסגרת מפתח"
 
-#: src/assets/keyframes/view/keyframeview.cpp:916
+#: src/assets/keyframes/view/keyframeview.cpp:917
 #, fuzzy, kde-format
 #| msgid "Add keyframe"
 msgid "Update keyframes width"
 msgstr "הוסף מסגרת מפתח"
 
-#: src/assets/keyframes/view/keyframeview.cpp:924
+#: src/assets/keyframes/view/keyframeview.cpp:925
 #, fuzzy, kde-format
 #| msgid "Add keyframe"
 msgid "Update keyframes height"
 msgstr "הוסף מסגרת מפתח"
 
-#: src/assets/keyframes/view/keyframeview.cpp:932
+#: src/assets/keyframes/view/keyframeview.cpp:933
 #, fuzzy, kde-format
 #| msgid "Add keyframe"
 msgid "Update keyframes opacity"
 msgstr "הוסף מסגרת מפתח"
 
-#: src/assets/keyframes/view/keyframeview.cpp:937
-#: src/assets/keyframes/view/keyframeview.cpp:939
+#: src/assets/keyframes/view/keyframeview.cpp:938
+#: src/assets/keyframes/view/keyframeview.cpp:940
 #, fuzzy, kde-format
 #| msgid "Add keyframe"
 msgid "Update keyframes value"
 msgstr "הוסף מסגרת מפתח"
 
-#: src/assets/keyframes/view/keyframeview.cpp:943
+#: src/assets/keyframes/view/keyframeview.cpp:944
 #, fuzzy, kde-format
 msgid "Keyframe value copied"
 msgstr "הכנסה"
@@ -12290,7 +12290,7 @@ msgid ""
 "for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> to zoom"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitoreffectscene.qml:253
+#: src/monitor/view/kdenlivemonitoreffectscene.qml:241
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""

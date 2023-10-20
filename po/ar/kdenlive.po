@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-19 00:42+0000\n"
+"POT-Creation-Date: 2023-10-20 00:41+0000\n"
 "PO-Revision-Date: 2023-08-19 22:23+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -3384,7 +3384,7 @@ msgstr "حرك الإطار الرئيس"
 #: src/assets/keyframes/model/keyframemodel.cpp:417
 #: src/assets/keyframes/model/keyframemodellist.cpp:226
 #: src/assets/keyframes/model/keyframemodellist.cpp:270
-#: src/assets/keyframes/view/keyframeview.cpp:295
+#: src/assets/keyframes/view/keyframeview.cpp:296
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframe"
@@ -3433,17 +3433,17 @@ msgstr "حدث التأثير"
 msgid "Missing keyframe detected at %1, automatically re-added"
 msgstr "عثر على إطار رئيس مفقود عند %1، وأضيف آلياً"
 
-#: src/assets/keyframes/view/keyframeview.cpp:130
+#: src/assets/keyframes/view/keyframeview.cpp:131
 #, kde-format
 msgid "Duplicate keyframe"
 msgstr "كرر الإطار الرئيس"
 
-#: src/assets/keyframes/view/keyframeview.cpp:183
+#: src/assets/keyframes/view/keyframeview.cpp:184
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "لا يمكن إزالة الإطار الرئيس الأخير"
 
-#: src/assets/keyframes/view/keyframeview.cpp:196
+#: src/assets/keyframes/view/keyframeview.cpp:197
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
@@ -3454,7 +3454,7 @@ msgstr[3] "إزالة الإطارات الرئيسة"
 msgstr[4] "إزالة الإطارات الرئيسة"
 msgstr[5] "إزالة الإطارات الرئيسة"
 
-#: src/assets/keyframes/view/keyframeview.cpp:644
+#: src/assets/keyframes/view/keyframeview.cpp:645
 #, kde-format
 msgid "Move keyframe"
 msgid_plural "Move keyframes"
@@ -3465,38 +3465,38 @@ msgstr[3] "حرك إطارات مفتاحيّة"
 msgstr[4] "حرك إطارات مفتاحيّة"
 msgstr[5] "حرك إطارات مفتاحيّة"
 
-#: src/assets/keyframes/view/keyframeview.cpp:900
+#: src/assets/keyframes/view/keyframeview.cpp:901
 #, kde-format
 msgid "Update keyframes X position"
 msgstr "حدّث موضع س للأطر الرئيسة"
 
-#: src/assets/keyframes/view/keyframeview.cpp:908
+#: src/assets/keyframes/view/keyframeview.cpp:909
 #, kde-format
 msgid "Update keyframes Y position"
 msgstr "حدّث موضع ص للأطر الرئيسة"
 
-#: src/assets/keyframes/view/keyframeview.cpp:916
+#: src/assets/keyframes/view/keyframeview.cpp:917
 #, kde-format
 msgid "Update keyframes width"
 msgstr "حدّث عرض للأطر الرئيسة"
 
-#: src/assets/keyframes/view/keyframeview.cpp:924
+#: src/assets/keyframes/view/keyframeview.cpp:925
 #, kde-format
 msgid "Update keyframes height"
 msgstr "حدّث ارتفاع للأطر الرئيسة"
 
-#: src/assets/keyframes/view/keyframeview.cpp:932
+#: src/assets/keyframes/view/keyframeview.cpp:933
 #, kde-format
 msgid "Update keyframes opacity"
 msgstr "حدّث عتمة الأطر الرئيسة"
 
-#: src/assets/keyframes/view/keyframeview.cpp:937
-#: src/assets/keyframes/view/keyframeview.cpp:939
+#: src/assets/keyframes/view/keyframeview.cpp:938
+#: src/assets/keyframes/view/keyframeview.cpp:940
 #, kde-format
 msgid "Update keyframes value"
 msgstr "حدّث قيمة الأطر الرئيسة"
 
-#: src/assets/keyframes/view/keyframeview.cpp:943
+#: src/assets/keyframes/view/keyframeview.cpp:944
 #, kde-format
 msgid "Keyframe value copied"
 msgstr "نسخت قيمة الإطار الرئيس"
@@ -12263,7 +12263,7 @@ msgstr ""
 "<b>الحوم  يميناً</b> لشريط الأدوات ، <b>تدوير العجلة</b> أو <b> الأسهم </b> "
 "للبحث ،<b> Ctrl مع العجلة </b> للتكبير"
 
-#: src/monitor/view/kdenlivemonitoreffectscene.qml:253
+#: src/monitor/view/kdenlivemonitoreffectscene.qml:241
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""

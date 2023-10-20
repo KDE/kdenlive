@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-19 00:42+0000\n"
-"PO-Revision-Date: 2023-10-16 10:45+0200\n"
+"POT-Creation-Date: 2023-10-20 00:41+0000\n"
+"PO-Revision-Date: 2023-10-19 10:50+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -3436,7 +3436,7 @@ msgstr "Keyframes verplaatsen"
 #: src/assets/keyframes/model/keyframemodel.cpp:417
 #: src/assets/keyframes/model/keyframemodellist.cpp:226
 #: src/assets/keyframes/model/keyframemodellist.cpp:270
-#: src/assets/keyframes/view/keyframeview.cpp:295
+#: src/assets/keyframes/view/keyframeview.cpp:296
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframe"
@@ -3485,62 +3485,62 @@ msgstr "Effect bijwerken"
 msgid "Missing keyframe detected at %1, automatically re-added"
 msgstr "Ontbrekend keyframe gedetecteerd op %1, automatisch opnieuw toegevoegd"
 
-#: src/assets/keyframes/view/keyframeview.cpp:130
+#: src/assets/keyframes/view/keyframeview.cpp:131
 #, kde-format
 msgid "Duplicate keyframe"
 msgstr "Keyframe dupliceren"
 
-#: src/assets/keyframes/view/keyframeview.cpp:183
+#: src/assets/keyframes/view/keyframeview.cpp:184
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "Kan laatste keyframe niet verwijderen"
 
-#: src/assets/keyframes/view/keyframeview.cpp:196
+#: src/assets/keyframes/view/keyframeview.cpp:197
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
 msgstr[0] "Keyframe verwijderen"
 msgstr[1] "Keyframe verwijderen"
 
-#: src/assets/keyframes/view/keyframeview.cpp:644
+#: src/assets/keyframes/view/keyframeview.cpp:645
 #, kde-format
 msgid "Move keyframe"
 msgid_plural "Move keyframes"
 msgstr[0] "Keyframe verplaatsen"
 msgstr[1] "Keyframes verplaatsen"
 
-#: src/assets/keyframes/view/keyframeview.cpp:900
+#: src/assets/keyframes/view/keyframeview.cpp:901
 #, kde-format
 msgid "Update keyframes X position"
 msgstr "Keyframes X-posities bijwerken"
 
-#: src/assets/keyframes/view/keyframeview.cpp:908
+#: src/assets/keyframes/view/keyframeview.cpp:909
 #, kde-format
 msgid "Update keyframes Y position"
 msgstr "Keyframes Y-posities bijwerken"
 
-#: src/assets/keyframes/view/keyframeview.cpp:916
+#: src/assets/keyframes/view/keyframeview.cpp:917
 #, kde-format
 msgid "Update keyframes width"
 msgstr "Keyframes-breedte bijwerken"
 
-#: src/assets/keyframes/view/keyframeview.cpp:924
+#: src/assets/keyframes/view/keyframeview.cpp:925
 #, kde-format
 msgid "Update keyframes height"
 msgstr "Keyframes-hoogte bijwerken"
 
-#: src/assets/keyframes/view/keyframeview.cpp:932
+#: src/assets/keyframes/view/keyframeview.cpp:933
 #, kde-format
 msgid "Update keyframes opacity"
 msgstr "Keyframes-dekking bijwerken"
 
-#: src/assets/keyframes/view/keyframeview.cpp:937
-#: src/assets/keyframes/view/keyframeview.cpp:939
+#: src/assets/keyframes/view/keyframeview.cpp:938
+#: src/assets/keyframes/view/keyframeview.cpp:940
 #, kde-format
 msgid "Update keyframes value"
 msgstr "Keyframes-waarde bijwerken"
 
-#: src/assets/keyframes/view/keyframeview.cpp:943
+#: src/assets/keyframes/view/keyframeview.cpp:944
 #, kde-format
 msgid "Keyframe value copied"
 msgstr "Waarde van keyframe gekopieerd"
@@ -6810,10 +6810,9 @@ msgid "Rendering aborted"
 msgstr "Renderen afgebroken"
 
 #: src/dialogs/renderwidget.cpp:216
-#, fuzzy, kde-format
-#| msgid "Nearest Neighbor (fast)"
+#, kde-format
 msgid "Nearest (fast)"
-msgstr "Dichtstbijzijnde buur (snel)"
+msgstr "Dichtstbijzijnde (snel)"
 
 #: src/dialogs/renderwidget.cpp:217 src/monitor/monitormanager.cpp:588
 #, kde-format
@@ -6826,10 +6825,9 @@ msgid "Bicubic (better)"
 msgstr "Bi-kubisch (beter)"
 
 #: src/dialogs/renderwidget.cpp:219
-#, fuzzy, kde-format
-#| msgid "Hyper/Lanczos (best)"
+#, kde-format
 msgid "Lanczos (best)"
-msgstr "Hyper/Lanczos (beste)"
+msgstr "Lanczos (beste)"
 
 #: src/dialogs/renderwidget.cpp:227 src/monitor/monitormanager.cpp:569
 #, kde-format
@@ -6847,15 +6845,14 @@ msgid "YADIF - temporal only (good)"
 msgstr "YADIF - alleen tijdelijk (goed)"
 
 #: src/dialogs/renderwidget.cpp:230
-#, fuzzy, kde-format
-#| msgid "Bicubic (better)"
+#, kde-format
 msgid "YADIF (better)"
-msgstr "Bi-kubisch (beter)"
+msgstr "YADIF (beter)"
 
 #: src/dialogs/renderwidget.cpp:231
 #, kde-format
 msgid "BWDIF (best)"
-msgstr ""
+msgstr "BWDIF (beste)"
 
 #: src/dialogs/renderwidget.cpp:239 src/project/dialogs/slideshowclip.cpp:60
 #: src/scopes/colorscopes/vectorscope.cpp:55
@@ -12348,7 +12345,7 @@ msgstr ""
 "<b>Rechts zweven</b> voor werkbalk, <b>Wiel</b> of <b>pijltjestoetsen</b> om "
 "te zoeken, <b>Ctrl wiel</b> om te zoomen"
 
-#: src/monitor/view/kdenlivemonitoreffectscene.qml:253
+#: src/monitor/view/kdenlivemonitoreffectscene.qml:241
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
