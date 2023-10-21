@@ -65,7 +65,19 @@ void RenderRequest::loadPresetParams(const QString &profileName)
     std::unique_ptr<RenderPresetModel> &profile = RenderPresetRepository::get()->getPreset(profileName);
     m_presetParams = profile->params();
     m_presetParams.refreshX265Params();
-    m_presetDefaults = profile->defaultValues();
+    QStringList presetDefaults = profile->defaultValues();
+
+    // Replace placeholders by default values
+    m_presetParams.replacePlaceholder(QLatin1String("%audioquality"), presetDefaults.at(2));
+    m_presetParams.replacePlaceholder(QLatin1String("%audiobitrate+'k'"), QStringLiteral("%1k").arg(presetDefaults.at(1)));
+    m_presetParams.replacePlaceholder(QLatin1String("%audiobitrate"), presetDefaults.at(1));
+    m_presetParams.replacePlaceholder(QLatin1String("%bitrate+'k'"), QStringLiteral("%1k").arg(presetDefaults.at(3)));
+    m_presetParams.replacePlaceholder(QLatin1String("%bitrate"), presetDefaults.at(3));
+
+    // Insert parameters of default speed
+    if (!presetDefaults.first().isEmpty() && presetDefaults.first().contains(QLatin1Char('='))) {
+        m_presetParams.insertFromString(presetDefaults.first(), false);
+    }
 }
 
 void RenderRequest::setDelayedRendering(bool enabled)
@@ -245,32 +257,6 @@ void RenderRequest::createRenderJobs(std::vector<RenderJob> &jobs, const QDomDoc
 
         // get the consumer element
         QDomNodeList consumers = final.elementsByTagName(QStringLiteral("consumer"));
-        if (consumers.count() == 0) {
-            // Headless rendering, we need to create the consumer tag
-            QDomElement cons = final.createElement(QLatin1String("consumer"));
-            cons.setAttribute(QLatin1String("mlt_service"), QStringLiteral("avformat"));
-            RenderPresetParams::const_iterator i = m_presetParams.constBegin();
-
-            m_presetParams.replacePlaceholder(QLatin1String("%audioquality"), m_presetDefaults.at(2));
-            m_presetParams.replacePlaceholder(QLatin1String("%audiobitrate+'k'"), QStringLiteral("%1k").arg(m_presetDefaults.at(1)));
-            m_presetParams.replacePlaceholder(QLatin1String("%audiobitrate"), m_presetDefaults.at(1));
-            m_presetParams.replacePlaceholder(QLatin1String("%bitrate+'k'"), QStringLiteral("%1k").arg(m_presetDefaults.at(3)));
-            m_presetParams.replacePlaceholder(QLatin1String("%bitrate"), m_presetDefaults.at(3));
-
-            if (!m_presetDefaults.first().isEmpty() && m_presetDefaults.first().contains(QLatin1Char('='))) {
-                // Append speed parameters
-                m_presetParams.insertFromString(m_presetDefaults.first(), false);
-            }
-
-            while (i != m_presetParams.constEnd()) {
-                cons.setAttribute(i.key(), i.value());
-                qDebug() << "SETTING RENDER PARAMS: " << i.key() << " = " << i.value();
-                ++i;
-            }
-
-            final.documentElement().appendChild(cons);
-        }
-        consumers = final.elementsByTagName(QStringLiteral("consumer"));
         QDomElement consumer = consumers.at(0).toElement();
 
         consumer.setAttribute(QStringLiteral("target"), job.outputPath);

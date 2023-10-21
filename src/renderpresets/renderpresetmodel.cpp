@@ -424,14 +424,12 @@ RenderPresetParams RenderPresetModel::params(QStringList removeParams) const
 
 QStringList RenderPresetModel::defaultValues() const
 {
-    QStringList result = {m_defaultABitrate, m_defaultAQuality, m_defaultVBitrate, m_defaultVQuality};
+    QString defaultSpeedParams;
     QStringList presetSpeeds = speeds();
     if (!presetSpeeds.isEmpty() && m_defaultSpeedIndex < presetSpeeds.count()) {
-        result.prepend(presetSpeeds.at(m_defaultSpeedIndex));
-    } else {
-        result.prepend(QString());
+        defaultSpeedParams = presetSpeeds.at(m_defaultSpeedIndex);
     }
-    return result;
+    return {defaultSpeedParams, m_defaultABitrate, m_defaultAQuality, m_defaultVBitrate, m_defaultVQuality};
 }
 
 QString RenderPresetModel::extension() const

@@ -55,7 +55,6 @@ private:
     QString m_overlayData;
     bool m_proxyRendering = false;
     RenderPresetParams m_presetParams;
-    QStringList m_presetDefaults;
     bool m_audioFilePerTrack = false;
     bool m_delayedRendering = false;
     QString m_outputFile;
