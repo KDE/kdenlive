@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-20 00:41+0000\n"
+"POT-Creation-Date: 2023-10-21 00:42+0000\n"
 "PO-Revision-Date: 2023-07-23 20:34+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -3812,7 +3812,7 @@ msgid ""
 msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:95
-#: src/assets/view/widgets/keyframewidget.cpp:855
+#: src/assets/view/widgets/keyframewidget.cpp:863
 #, fuzzy, kde-format
 #| msgid "Update keyframe"
 msgid "Paste keyframe"
@@ -3937,28 +3937,28 @@ msgstr "X 위치"
 msgid "Select parameters to copy"
 msgstr "복사할 인자 선택"
 
-#: src/assets/view/widgets/keyframewidget.cpp:760
+#: src/assets/view/widgets/keyframewidget.cpp:768
 #, fuzzy, kde-format
 #| msgid "Keyframe value copied"
 msgid "Keyframes copied"
 msgstr "키프레임 값 복사됨"
 
-#: src/assets/view/widgets/keyframewidget.cpp:771
-#: src/assets/view/widgets/keyframewidget.cpp:812
-#: src/assets/view/widgets/keyframewidget.cpp:819
+#: src/assets/view/widgets/keyframewidget.cpp:779
+#: src/assets/view/widgets/keyframewidget.cpp:820
+#: src/assets/view/widgets/keyframewidget.cpp:827
 #, fuzzy, kde-format
 #| msgid "No valid data in clipboard"
 msgid "No valid keyframe data in clipboard"
 msgstr "클립보드에 유효한 데이터가 없음"
 
-#: src/assets/view/widgets/keyframewidget.cpp:863
+#: src/assets/view/widgets/keyframewidget.cpp:871
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary files"
 msgid "Cannot copy current parameter values"
 msgstr "임시 파일을 만들 수 없음"
 
-#: src/assets/view/widgets/keyframewidget.cpp:868
-#: src/assets/view/widgets/keyframewidget.cpp:879
+#: src/assets/view/widgets/keyframewidget.cpp:876
+#: src/assets/view/widgets/keyframewidget.cpp:887
 #, fuzzy, kde-format
 #| msgid "Keyframe value copied"
 msgid "Current values copied"
@@ -5510,8 +5510,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:336 src/doc/documentchecker.cpp:1490
-#: src/doc/documentchecker.cpp:1516 src/doc/documentchecker.cpp:1536
+#: src/bin/projectitemmodel.cpp:336 src/doc/documentchecker.cpp:1526
+#: src/doc/documentchecker.cpp:1552 src/doc/documentchecker.cpp:1572
 #: src/mltcontroller/clipcontroller.cpp:493 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -7875,114 +7875,114 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1480
+#: src/doc/documentchecker.cpp:1516
 #, kde-format
 msgid "Video clip"
 msgstr "동영상 클립"
 
-#: src/doc/documentchecker.cpp:1482
+#: src/doc/documentchecker.cpp:1518
 #, kde-format
 msgid "Slideshow clip"
 msgstr "슬라이드 쇼 클립"
 
-#: src/doc/documentchecker.cpp:1484
+#: src/doc/documentchecker.cpp:1520
 #, kde-format
 msgid "Image clip"
 msgstr "이미지 클립"
 
-#: src/doc/documentchecker.cpp:1486
+#: src/doc/documentchecker.cpp:1522
 #, kde-format
 msgid "Playlist clip"
 msgstr "재생 목록 클립"
 
-#: src/doc/documentchecker.cpp:1488 src/doc/documentchecker.cpp:1504
+#: src/doc/documentchecker.cpp:1524 src/doc/documentchecker.cpp:1540
 #, kde-format
 msgid "Title Image"
 msgstr "타이틀 이미지"
 
-#: src/doc/documentchecker.cpp:1500
+#: src/doc/documentchecker.cpp:1536
 #, fuzzy, kde-format
 #| msgid "&Clip"
 msgid "Clip"
 msgstr "클립(&C)"
 
-#: src/doc/documentchecker.cpp:1502
+#: src/doc/documentchecker.cpp:1538
 #, kde-format
 msgid "Title Font"
 msgstr "타이틀 글꼴"
 
-#: src/doc/documentchecker.cpp:1506
+#: src/doc/documentchecker.cpp:1542
 #, kde-format
 msgid "Luma file"
 msgstr "광도 파일"
 
-#: src/doc/documentchecker.cpp:1508
+#: src/doc/documentchecker.cpp:1544
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Asset file"
 msgstr "파일 삭제"
 
-#: src/doc/documentchecker.cpp:1510
+#: src/doc/documentchecker.cpp:1546
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr "프록시 클립"
 
-#: src/doc/documentchecker.cpp:1512
+#: src/doc/documentchecker.cpp:1548
 #: src/monitor/view/kdenlivemonitorsplit.qml:90
 #, kde-format
 msgid "Effect"
 msgstr "효과"
 
-#: src/doc/documentchecker.cpp:1514
+#: src/doc/documentchecker.cpp:1550
 #, fuzzy, kde-format
 #| msgid "Transitions"
 msgid "Transition"
 msgstr "전환"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1524 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1560 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1526
+#: src/doc/documentchecker.cpp:1562
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Reload"
 msgstr "클립 다시 불러오기"
 
-#: src/doc/documentchecker.cpp:1528
+#: src/doc/documentchecker.cpp:1564
 #, fuzzy, kde-format
 #| msgid "Missing item"
 msgid "Missing"
 msgstr "누락된 항목"
 
-#: src/doc/documentchecker.cpp:1530
+#: src/doc/documentchecker.cpp:1566
 #, fuzzy, kde-format
 #| msgid "Missing proxy"
 msgid "Missing, but proxy available"
 msgstr "프록시 누락됨"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1532 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1568 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1534 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1570 src/ui/missingclips_ui.ui:152
 #, fuzzy, kde-format
 #| msgid "Removal"
 msgid "Remove"
 msgstr "없애기"
 
-#: src/doc/documentchecker.cpp:1545
+#: src/doc/documentchecker.cpp:1581
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "프로젝트 파일에 누락된 클립 또는 파일이 있습니다."
 
-#: src/doc/documentchecker.cpp:1548
+#: src/doc/documentchecker.cpp:1584
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "누락된 프록시는 여는 동안 다시 생성할 수 있습니다."
@@ -15153,40 +15153,40 @@ msgstr "렌더 작업 %1와(과) 통신할 수 없음"
 msgid "Communication error with render job"
 msgstr "렌더 작업과 통신 오류"
 
-#: src/renderpresets/renderpresetmodel.cpp:163
-#: src/renderpresets/renderpresetmodel.cpp:249
+#: src/renderpresets/renderpresetmodel.cpp:169
+#: src/renderpresets/renderpresetmodel.cpp:255
 #: src/renderpresets/renderpresetrepository.cpp:135
 #, kde-format
 msgctxt "Category Name"
 msgid "Custom"
 msgstr "사용자 정의"
 
-#: src/renderpresets/renderpresetmodel.cpp:285
+#: src/renderpresets/renderpresetmodel.cpp:291
 #, kde-format
 msgid "Standard (%1) not compatible with project profile (%2)"
 msgstr "표준(%1)이 프로젝트 프로필(%2)과 호환되지 않음"
 
-#: src/renderpresets/renderpresetmodel.cpp:295
+#: src/renderpresets/renderpresetmodel.cpp:301
 #, kde-format
 msgid "Frame rate (%1) not compatible with project profile (%2)"
 msgstr "프레임 레이트(%1)가 프로젝트 프로필(%2)과 호환되지 않음"
 
-#: src/renderpresets/renderpresetmodel.cpp:305
+#: src/renderpresets/renderpresetmodel.cpp:311
 #, kde-format
 msgid "Unsupported video format: %1"
 msgstr "지원되지 않는 동영상 형식: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:312
+#: src/renderpresets/renderpresetmodel.cpp:318
 #, kde-format
 msgid "Unsupported audio codec: %1"
 msgstr "지원되지 않는 오디오 코덱: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:318
+#: src/renderpresets/renderpresetmodel.cpp:324
 #, kde-format
 msgid "Unsupported video codec: %1"
 msgstr "지원되지 않는 동영상 코덱: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:323
+#: src/renderpresets/renderpresetmodel.cpp:329
 #, fuzzy, kde-format
 #| msgid ""
 #| "This render profile uses a 'profile' parameter.<br />Unless you know what "

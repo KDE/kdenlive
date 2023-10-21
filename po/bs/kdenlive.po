@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-20 00:41+0000\n"
+"POT-Creation-Date: 2023-10-21 00:42+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -3880,7 +3880,7 @@ msgid ""
 msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:95
-#: src/assets/view/widgets/keyframewidget.cpp:855
+#: src/assets/view/widgets/keyframewidget.cpp:863
 #, fuzzy, kde-format
 #| msgid "Edit keyframe"
 msgid "Paste keyframe"
@@ -4009,28 +4009,28 @@ msgstr " Pozicija:"
 msgid "Select parameters to copy"
 msgstr "Parametri"
 
-#: src/assets/view/widgets/keyframewidget.cpp:760
+#: src/assets/view/widgets/keyframewidget.cpp:768
 #, fuzzy, kde-format
 #| msgid "Interpolation"
 msgid "Keyframes copied"
 msgstr "Interpolacija"
 
-#: src/assets/view/widgets/keyframewidget.cpp:771
-#: src/assets/view/widgets/keyframewidget.cpp:812
-#: src/assets/view/widgets/keyframewidget.cpp:819
+#: src/assets/view/widgets/keyframewidget.cpp:779
+#: src/assets/view/widgets/keyframewidget.cpp:820
+#: src/assets/view/widgets/keyframewidget.cpp:827
 #, fuzzy, kde-format
 #| msgid "Import keyframes from clip"
 msgid "No valid keyframe data in clipboard"
 msgstr "Unesi glavne okvire iz isječka"
 
-#: src/assets/view/widgets/keyframewidget.cpp:863
+#: src/assets/view/widgets/keyframewidget.cpp:871
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Cannot copy current parameter values"
 msgstr "Ne mogu kreirati privremenu datoteku"
 
-#: src/assets/view/widgets/keyframewidget.cpp:868
-#: src/assets/view/widgets/keyframewidget.cpp:879
+#: src/assets/view/widgets/keyframewidget.cpp:876
+#: src/assets/view/widgets/keyframewidget.cpp:887
 #, fuzzy, kde-format
 #| msgid "Interpolation"
 msgid "Current values copied"
@@ -5676,8 +5676,8 @@ msgstr "I"
 msgid "Usage"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:336 src/doc/documentchecker.cpp:1490
-#: src/doc/documentchecker.cpp:1516 src/doc/documentchecker.cpp:1536
+#: src/bin/projectitemmodel.cpp:336 src/doc/documentchecker.cpp:1526
+#: src/doc/documentchecker.cpp:1552 src/doc/documentchecker.cpp:1572
 #: src/mltcontroller/clipcontroller.cpp:493 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -8073,114 +8073,114 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1480
+#: src/doc/documentchecker.cpp:1516
 #, kde-format
 msgid "Video clip"
 msgstr "Video isječak"
 
-#: src/doc/documentchecker.cpp:1482
+#: src/doc/documentchecker.cpp:1518
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Snimak pokretnih slika"
 
-#: src/doc/documentchecker.cpp:1484
+#: src/doc/documentchecker.cpp:1520
 #, kde-format
 msgid "Image clip"
 msgstr "Slika isječka"
 
-#: src/doc/documentchecker.cpp:1486
+#: src/doc/documentchecker.cpp:1522
 #, kde-format
 msgid "Playlist clip"
 msgstr "Snimak liste izvođenja"
 
-#: src/doc/documentchecker.cpp:1488 src/doc/documentchecker.cpp:1504
+#: src/doc/documentchecker.cpp:1524 src/doc/documentchecker.cpp:1540
 #, kde-format
 msgid "Title Image"
 msgstr "Naziv slike"
 
-#: src/doc/documentchecker.cpp:1500
+#: src/doc/documentchecker.cpp:1536
 #, fuzzy, kde-format
 #| msgid "Clip"
 msgid "Clip"
 msgstr "Snimak"
 
-#: src/doc/documentchecker.cpp:1502
+#: src/doc/documentchecker.cpp:1538
 #, kde-format
 msgid "Title Font"
 msgstr "Veličina naziva"
 
-#: src/doc/documentchecker.cpp:1506
+#: src/doc/documentchecker.cpp:1542
 #, kde-format
 msgid "Luma file"
 msgstr "Luma dokument"
 
-#: src/doc/documentchecker.cpp:1508
+#: src/doc/documentchecker.cpp:1544
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Asset file"
 msgstr "Brisanje datoteka"
 
-#: src/doc/documentchecker.cpp:1510
+#: src/doc/documentchecker.cpp:1546
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr "Proxy isječak"
 
-#: src/doc/documentchecker.cpp:1512
+#: src/doc/documentchecker.cpp:1548
 #: src/monitor/view/kdenlivemonitorsplit.qml:90
 #, kde-format
 msgid "Effect"
 msgstr "Efekat"
 
-#: src/doc/documentchecker.cpp:1514
+#: src/doc/documentchecker.cpp:1550
 #, kde-format
 msgid "Transition"
 msgstr "Prijelaz"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1524 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1560 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1526
+#: src/doc/documentchecker.cpp:1562
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Reload"
 msgstr "Ponovo učitaj Snimak"
 
-#: src/doc/documentchecker.cpp:1528
+#: src/doc/documentchecker.cpp:1564
 #, kde-format
 msgid "Missing"
 msgstr "Nedostaje"
 
-#: src/doc/documentchecker.cpp:1530
+#: src/doc/documentchecker.cpp:1566
 #, fuzzy, kde-format
 #| msgid "Missing proxy"
 msgid "Missing, but proxy available"
 msgstr "Nedostaje proxy"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1532 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1568 src/ui/editrenderpreset_ui.ui:525
 #, fuzzy, kde-format
 #| msgid "Keep as placeholder"
 msgid "Placeholder"
 msgstr "Zadrži ga kao držača mjesta"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1534 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1570 src/ui/missingclips_ui.ui:152
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Remove"
 msgstr "Ukloni datoteku"
 
-#: src/doc/documentchecker.cpp:1545
+#: src/doc/documentchecker.cpp:1581
 #, fuzzy, kde-format
 #| msgid "The project file contains missing clips or files"
 msgid "The project file contains missing clips or files."
 msgstr "Datoteci projekta nedostaju snimci ili fajlovi"
 
-#: src/doc/documentchecker.cpp:1548
+#: src/doc/documentchecker.cpp:1584
 #, fuzzy, kde-format
 #| msgid "Missing proxies will be recreated after opening."
 msgid "Missing proxies can be recreated on opening."
@@ -15506,41 +15506,41 @@ msgstr ""
 msgid "Communication error with render job"
 msgstr ""
 
-#: src/renderpresets/renderpresetmodel.cpp:163
-#: src/renderpresets/renderpresetmodel.cpp:249
+#: src/renderpresets/renderpresetmodel.cpp:169
+#: src/renderpresets/renderpresetmodel.cpp:255
 #: src/renderpresets/renderpresetrepository.cpp:135
 #, kde-format
 msgctxt "Category Name"
 msgid "Custom"
 msgstr "Podešeno"
 
-#: src/renderpresets/renderpresetmodel.cpp:285
+#: src/renderpresets/renderpresetmodel.cpp:291
 #, fuzzy, kde-format
 #| msgid "Frame rate (%1) not compatible with project profile (%2)"
 msgid "Standard (%1) not compatible with project profile (%2)"
 msgstr "Frekvencija okvira (%1) nije kompatibilna sa profilom projekta (%2)"
 
-#: src/renderpresets/renderpresetmodel.cpp:295
+#: src/renderpresets/renderpresetmodel.cpp:301
 #, kde-format
 msgid "Frame rate (%1) not compatible with project profile (%2)"
 msgstr "Frekvencija okvira (%1) nije kompatibilna sa profilom projekta (%2)"
 
-#: src/renderpresets/renderpresetmodel.cpp:305
+#: src/renderpresets/renderpresetmodel.cpp:311
 #, kde-format
 msgid "Unsupported video format: %1"
 msgstr "Nepodržan video format: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:312
+#: src/renderpresets/renderpresetmodel.cpp:318
 #, kde-format
 msgid "Unsupported audio codec: %1"
 msgstr "Zvučni kodek nije podržan: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:318
+#: src/renderpresets/renderpresetmodel.cpp:324
 #, kde-format
 msgid "Unsupported video codec: %1"
 msgstr "Video kodek nije podržan: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:323
+#: src/renderpresets/renderpresetmodel.cpp:329
 #, fuzzy, kde-format
 #| msgid ""
 #| "This render profile uses a 'profile' parameter.<br />Unless you know what "
