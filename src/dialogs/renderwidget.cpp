@@ -1062,9 +1062,7 @@ void RenderWidget::refreshParams()
         QStringList speeds = preset->speeds();
         if (m_view.speed->value() < speeds.count()) {
             const QString &speedValue = speeds.at(m_view.speed->value());
-            if (speedValue.contains(QLatin1Char('='))) {
-                m_params.insert(speedValue.section(QLatin1Char('='), 0, 0), speedValue.section(QLatin1Char('='), 1));
-            }
+            m_params.insertFromString(speedValue, false);
         }
     }
 

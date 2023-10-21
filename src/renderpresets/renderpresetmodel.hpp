@@ -20,6 +20,7 @@ public:
     enum RateControl { Unknown = 0, Average, Constant, Quality, Constrained };
 
     QString toString();
+    void insertFromString(const QString &params, bool overwrite);
     void replacePlaceholder(const QString &placeholder, const QString &newValue);
     void refreshX265Params();
     RateControl videoRateControl() const;

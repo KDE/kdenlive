@@ -250,27 +250,24 @@ void RenderRequest::createRenderJobs(std::vector<RenderJob> &jobs, const QDomDoc
             QDomElement cons = final.createElement(QLatin1String("consumer"));
             cons.setAttribute(QLatin1String("mlt_service"), QStringLiteral("avformat"));
             RenderPresetParams::const_iterator i = m_presetParams.constBegin();
-            while (i != m_presetParams.constEnd()) {
-                if (i.value().contains(QLatin1Char('%'))) {
-                    QString paramValue = i.value();
-                    paramValue.replace(QLatin1String("%audioquality"), m_presetDefaults.at(2));
-                    paramValue.replace(QLatin1String("%audiobitrate+'k'"), QStringLiteral("%1k").arg(m_presetDefaults.at(1)));
-                    paramValue.replace(QLatin1String("%audiobitrate"), m_presetDefaults.at(1));
-                    paramValue.replace(QLatin1String("%quality"), m_presetDefaults.at(4));
-                    paramValue.replace(QLatin1String("%bitrate+'k'"), QStringLiteral("%1k").arg(m_presetDefaults.at(3)));
-                    paramValue.replace(QLatin1String("%bitrate"), m_presetDefaults.at(3));
-                    cons.setAttribute(i.key(), paramValue);
-                    qDebug() << "SETTING RENDER PARAMS: " << i.key() << " = " << paramValue;
-                } else {
-                    cons.setAttribute(i.key(), i.value());
-                    qDebug() << "SETTING RENDER PARAMS: " << i.key() << " = " << i.value();
-                }
-                ++i;
-            }
+
+            m_presetParams.replacePlaceholder(QLatin1String("%audioquality"), m_presetDefaults.at(2));
+            m_presetParams.replacePlaceholder(QLatin1String("%audiobitrate+'k'"), QStringLiteral("%1k").arg(m_presetDefaults.at(1)));
+            m_presetParams.replacePlaceholder(QLatin1String("%audiobitrate"), m_presetDefaults.at(1));
+            m_presetParams.replacePlaceholder(QLatin1String("%bitrate+'k'"), QStringLiteral("%1k").arg(m_presetDefaults.at(3)));
+            m_presetParams.replacePlaceholder(QLatin1String("%bitrate"), m_presetDefaults.at(3));
+
             if (!m_presetDefaults.first().isEmpty() && m_presetDefaults.first().contains(QLatin1Char('='))) {
                 // Append speed parameters
-                cons.setAttribute(m_presetDefaults.first().section(QLatin1Char('='), 0, 0), m_presetDefaults.first().section(QLatin1Char('='), 1));
+                m_presetParams.insertFromString(m_presetDefaults.first(), false);
             }
+
+            while (i != m_presetParams.constEnd()) {
+                cons.setAttribute(i.key(), i.value());
+                qDebug() << "SETTING RENDER PARAMS: " << i.key() << " = " << i.value();
+                ++i;
+            }
+
             final.documentElement().appendChild(cons);
         }
         consumers = final.elementsByTagName(QStringLiteral("consumer"));
