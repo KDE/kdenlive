@@ -929,26 +929,9 @@ void ProjectManager::doOpenFileHeadless(const QUrl &url)
         return;
     }
 
-    // Q_EMIT pCore->loadingMessageUpdated(QString(), 0, doc->clipsCount());
-
-    // pCore->bin()->setDocument(doc);
-
     // Set default target tracks to upper audio / lower video tracks
     m_project = doc;
-    /*QDateTime documentDate = QFileInfo(m_project->url().toLocalFile()).lastModified();
 
-    if (!updateTimeline(m_project->getDocumentProperty(QStringLiteral("position")).toInt(), true,
-                        m_project->getDocumentProperty(QStringLiteral("previewchunks")), m_project->getDocumentProperty(QStringLiteral("dirtypreviewchunks")),
-                        documentDate, m_project->getDocumentProperty(QStringLiteral("disablepreview")).toInt())) {
-        KMessageBox::error(pCore->window(), i18n("Could not recover corrupted file."));
-        delete m_progressDialog;
-        m_progressDialog = nullptr;
-        // Don't propose to save corrupted doc
-        m_project->setModified(false);
-        // Open default blank document
-        newFile(false);
-        return;
-    }*/
     if (!updateTimeline(false, QString(), QString(), QDateTime(), 0)) {
         return;
     }
@@ -970,31 +953,6 @@ void ProjectManager::doOpenFileHeadless(const QUrl &url)
 
     auto timeline = m_project->getTimeline(activeUuid);
     testSetActiveDocument(m_project, timeline);
-
-    /*if (!activeUuid.isNull()) {
-        const QString binId = pCore->projectItemModel()->getSequenceId(activeUuid);
-        if (binId.isEmpty()) {
-            if (pCore->projectItemModel()->sequenceCount() == 0) {
-                // Something is broken here, abort
-                KMessageBox::error(pCore->window(), i18n("Could not recover corrupted file."));
-                // Don't propose to save broken document
-                m_project->setModified(false);
-                // Open default blank document
-                newFile(false);
-                return;
-            }
-        }
-        if (!binId.isEmpty()) {
-            openTimeline(binId, activeUuid);
-        } else {
-            qDebug() << ":::::::::\n\nNO BINID FOR TIMELINE: " << activeUuid << "\n\n:::::::::::::";
-        }
-    }
-    pCore->window()->connectDocument();
-
-    Q_EMIT docOpened(m_project);
-    pCore->displayMessage(QString(), OperationCompletedMessage, 100);
-    */
 }
 
 void ProjectManager::slotRevert()
