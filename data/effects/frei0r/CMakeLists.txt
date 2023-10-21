@@ -6,6 +6,9 @@ INSTALL (FILES
 frei0r_alpha0ps.xml
 frei0r_alphagrad.xml
 frei0r_alphaspot.xml
+frei0r_alpha0ps_alpha0ps.xml
+frei0r_alpha0ps_alphagrad.xml
+frei0r_alpha0ps_alphaspot.xml
 frei0r_B.xml
 frei0r_balanc0r.xml
 frei0r_baltan.xml

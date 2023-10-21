@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-18 00:42+0000\n"
+"POT-Creation-Date: 2023-10-21 00:42+0000\n"
 "PO-Revision-Date: 2023-10-14 12:18+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -3418,7 +3418,7 @@ msgstr "Przenieś klatki kluczowe"
 #: src/assets/keyframes/model/keyframemodel.cpp:417
 #: src/assets/keyframes/model/keyframemodellist.cpp:226
 #: src/assets/keyframes/model/keyframemodellist.cpp:270
-#: src/assets/keyframes/view/keyframeview.cpp:295
+#: src/assets/keyframes/view/keyframeview.cpp:296
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframe"
@@ -3467,17 +3467,17 @@ msgstr "Uaktualnij efekt"
 msgid "Missing keyframe detected at %1, automatically re-added"
 msgstr "Wykryto brakującą klatkę kluczową w %1, dodano ją"
 
-#: src/assets/keyframes/view/keyframeview.cpp:130
+#: src/assets/keyframes/view/keyframeview.cpp:131
 #, kde-format
 msgid "Duplicate keyframe"
 msgstr "Powiel klatkę kluczową"
 
-#: src/assets/keyframes/view/keyframeview.cpp:183
+#: src/assets/keyframes/view/keyframeview.cpp:184
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "Nie można usunąć ostatniej klatki kluczowej"
 
-#: src/assets/keyframes/view/keyframeview.cpp:196
+#: src/assets/keyframes/view/keyframeview.cpp:197
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
@@ -3485,7 +3485,7 @@ msgstr[0] "Usuń klatkę kluczową"
 msgstr[1] "Usuń klatki kluczowe"
 msgstr[2] "Usuń klatki kluczowe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:644
+#: src/assets/keyframes/view/keyframeview.cpp:645
 #, kde-format
 msgid "Move keyframe"
 msgid_plural "Move keyframes"
@@ -3493,38 +3493,38 @@ msgstr[0] "Przenieś klatkę kluczową"
 msgstr[1] "Przenieś klatki kluczowe"
 msgstr[2] "Przenieś klatki kluczowe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:900
+#: src/assets/keyframes/view/keyframeview.cpp:901
 #, kde-format
 msgid "Update keyframes X position"
 msgstr "Uaktualnij położenie X klatek kluczowych"
 
-#: src/assets/keyframes/view/keyframeview.cpp:908
+#: src/assets/keyframes/view/keyframeview.cpp:909
 #, kde-format
 msgid "Update keyframes Y position"
 msgstr "Uaktualnij położenie Y klatek kluczowych"
 
-#: src/assets/keyframes/view/keyframeview.cpp:916
+#: src/assets/keyframes/view/keyframeview.cpp:917
 #, kde-format
 msgid "Update keyframes width"
 msgstr "Uaktualnij szerokość klatek kluczowych"
 
-#: src/assets/keyframes/view/keyframeview.cpp:924
+#: src/assets/keyframes/view/keyframeview.cpp:925
 #, kde-format
 msgid "Update keyframes height"
 msgstr "Uaktualnij wysokość klatek kluczowych"
 
-#: src/assets/keyframes/view/keyframeview.cpp:932
+#: src/assets/keyframes/view/keyframeview.cpp:933
 #, kde-format
 msgid "Update keyframes opacity"
 msgstr "Uaktualnij nieprzezroczystość klatek kluczowych"
 
-#: src/assets/keyframes/view/keyframeview.cpp:937
-#: src/assets/keyframes/view/keyframeview.cpp:939
+#: src/assets/keyframes/view/keyframeview.cpp:938
+#: src/assets/keyframes/view/keyframeview.cpp:940
 #, kde-format
 msgid "Update keyframes value"
 msgstr "Uaktualnij wartość klatek kluczowych"
 
-#: src/assets/keyframes/view/keyframeview.cpp:943
+#: src/assets/keyframes/view/keyframeview.cpp:944
 #, kde-format
 msgid "Keyframe value copied"
 msgstr "Skopiowano wartość klatki kluczowej"
@@ -3834,7 +3834,7 @@ msgstr ""
 "bieżących parametrów, jeśli nie zostały zaznaczone żadne klatki kluczowe."
 
 #: src/assets/view/widgets/keyframewidget.cpp:95
-#: src/assets/view/widgets/keyframewidget.cpp:855
+#: src/assets/view/widgets/keyframewidget.cpp:863
 #, kde-format
 msgid "Paste keyframe"
 msgstr "Wklej klatkę kluczową"
@@ -3958,25 +3958,25 @@ msgstr "Położenie X"
 msgid "Select parameters to copy"
 msgstr "Wybierz parametry do skopiowania"
 
-#: src/assets/view/widgets/keyframewidget.cpp:760
+#: src/assets/view/widgets/keyframewidget.cpp:768
 #, kde-format
 msgid "Keyframes copied"
 msgstr "Skopiowano klatki kluczowe"
 
-#: src/assets/view/widgets/keyframewidget.cpp:771
-#: src/assets/view/widgets/keyframewidget.cpp:812
-#: src/assets/view/widgets/keyframewidget.cpp:819
+#: src/assets/view/widgets/keyframewidget.cpp:779
+#: src/assets/view/widgets/keyframewidget.cpp:820
+#: src/assets/view/widgets/keyframewidget.cpp:827
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "Nie ma żadnych prawidłowych danych klatki kluczowej w schowku"
 
-#: src/assets/view/widgets/keyframewidget.cpp:863
+#: src/assets/view/widgets/keyframewidget.cpp:871
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "Nie można skopiować wartości bieżącego parametru"
 
-#: src/assets/view/widgets/keyframewidget.cpp:868
-#: src/assets/view/widgets/keyframewidget.cpp:879
+#: src/assets/view/widgets/keyframewidget.cpp:876
+#: src/assets/view/widgets/keyframewidget.cpp:887
 #, kde-format
 msgid "Current values copied"
 msgstr "Skopiowano bieżące wartości"
@@ -4616,7 +4616,7 @@ msgstr "Wyciszenie obrazu"
 #: src/monitor/recmanager.cpp:46 src/onlineresources/resourcewidget.cpp:594
 #: src/ui/clipjobmanager_ui.ui:388 src/ui/configcapture_ui.ui:525
 #: src/ui/cutjobdialog_ui.ui:61 src/ui/editrenderpreset_ui.ui:834
-#: src/ui/projectsettings_ui.ui:180 src/ui/renderwidget_ui.ui:598
+#: src/ui/projectsettings_ui.ui:180 src/ui/renderwidget_ui.ui:618
 #, kde-format
 msgid "Audio"
 msgstr "Dźwięk"
@@ -5408,7 +5408,7 @@ msgstr "Przesuń napisy"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:515
 #: src/effects/effectstack/view/effectstackview.cpp:572
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:857
-#: src/project/dialogs/archivewidget.cpp:871 src/render/renderrequest.cpp:287
+#: src/project/dialogs/archivewidget.cpp:871 src/render/renderrequest.cpp:288
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -5511,8 +5511,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr "Wykorzystanie"
 
-#: src/bin/projectitemmodel.cpp:336 src/doc/documentchecker.cpp:1490
-#: src/doc/documentchecker.cpp:1516 src/doc/documentchecker.cpp:1536
+#: src/bin/projectitemmodel.cpp:336 src/doc/documentchecker.cpp:1526
+#: src/doc/documentchecker.cpp:1552 src/doc/documentchecker.cpp:1572
 #: src/mltcontroller/clipcontroller.cpp:493 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -6261,8 +6261,8 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "Wyeksportuj dane prowadnic"
 
-#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1611
-#: src/dialogs/renderwidget.cpp:1638 src/doc/kdenlivedoc.cpp:755
+#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1636
+#: src/dialogs/renderwidget.cpp:1663 src/doc/kdenlivedoc.cpp:755
 #: src/doc/kdenlivedoc.cpp:763 src/doc/kdenlivedoc.cpp:1259
 #: src/effects/effectlist/model/effecttreemodel.cpp:252
 #: src/effects/effectlist/model/effecttreemodel.cpp:268
@@ -6275,7 +6275,7 @@ msgstr "Wyeksportuj dane prowadnic"
 #: src/project/dialogs/archivewidget.cpp:879
 #: src/project/dialogs/archivewidget.cpp:891
 #: src/project/dialogs/archivewidget.cpp:897
-#: src/project/projectmanager.cpp:1595 src/render/renderrequest.cpp:230
+#: src/project/projectmanager.cpp:1595 src/render/renderrequest.cpp:231
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5045
@@ -6776,7 +6776,7 @@ msgstr ""
 "Następujące parametry nie będą miały żadnego wpływ, bo zostaną zastąpione "
 "odpowiadającymi ustawieniami z interfejsu użytkownika: <icode>%1</icode>"
 
-#: src/dialogs/renderwidget.cpp:116 src/dialogs/renderwidget.cpp:1441
+#: src/dialogs/renderwidget.cpp:116 src/dialogs/renderwidget.cpp:1466
 #, kde-format
 msgid "Waiting…"
 msgstr "Oczekiwanie…"
@@ -6796,43 +6796,91 @@ msgstr "Usterka składania filmu w całość"
 msgid "Rendering aborted"
 msgstr "Przerwano składanie filmu w całość"
 
-#: src/dialogs/renderwidget.cpp:214 src/project/dialogs/slideshowclip.cpp:60
+#: src/dialogs/renderwidget.cpp:216
+#, fuzzy, kde-format
+#| msgid "Nearest Neighbor (fast)"
+msgid "Nearest (fast)"
+msgstr "Najbliższy sąsiad (szybka)"
+
+#: src/dialogs/renderwidget.cpp:217 src/monitor/monitormanager.cpp:588
+#, kde-format
+msgid "Bilinear (good)"
+msgstr "Dwuliniowa (dobra)"
+
+#: src/dialogs/renderwidget.cpp:218 src/monitor/monitormanager.cpp:589
+#, kde-format
+msgid "Bicubic (better)"
+msgstr "Sześcienna (lepsza)"
+
+#: src/dialogs/renderwidget.cpp:219
+#, fuzzy, kde-format
+#| msgid "Hyper/Lanczos (best)"
+msgid "Lanczos (best)"
+msgstr "Hyper/Lanczos (najlepsza)"
+
+#: src/dialogs/renderwidget.cpp:227 src/monitor/monitormanager.cpp:569
+#, kde-format
+msgid "One Field (fast)"
+msgstr "Jedno pole (szybko)"
+
+#: src/dialogs/renderwidget.cpp:228 src/monitor/monitormanager.cpp:570
+#, kde-format
+msgid "Linear Blend (fast)"
+msgstr "Liniowe mieszanie (szybko)"
+
+#: src/dialogs/renderwidget.cpp:229 src/monitor/monitormanager.cpp:571
+#, kde-format
+msgid "YADIF - temporal only (good)"
+msgstr "YADIF - tylko tymczasowo (dobre)"
+
+#: src/dialogs/renderwidget.cpp:230
+#, fuzzy, kde-format
+#| msgid "Bicubic (better)"
+msgid "YADIF (better)"
+msgstr "Sześcienna (lepsza)"
+
+#: src/dialogs/renderwidget.cpp:231
+#, kde-format
+msgid "BWDIF (best)"
+msgstr ""
+
+#: src/dialogs/renderwidget.cpp:239 src/project/dialogs/slideshowclip.cpp:60
 #: src/scopes/colorscopes/vectorscope.cpp:55
 #, kde-format
 msgid "None"
 msgstr "Brak"
 
-#: src/dialogs/renderwidget.cpp:215
+#: src/dialogs/renderwidget.cpp:240
 #, kde-format
 msgid "Timecode"
 msgstr "Kod czasu"
 
-#: src/dialogs/renderwidget.cpp:216
+#: src/dialogs/renderwidget.cpp:241
 #, kde-format
 msgid "Timecode Non Drop Frame"
 msgstr "Zakoduj czas klatki nieupuszczonej"
 
-#: src/dialogs/renderwidget.cpp:217
+#: src/dialogs/renderwidget.cpp:242
 #, kde-format
 msgid "Frame Number"
 msgstr "Numer klatki"
 
-#: src/dialogs/renderwidget.cpp:221
+#: src/dialogs/renderwidget.cpp:246
 #, kde-format
 msgid "Rendering using low quality proxy"
 msgstr "Składanie filmu w całość przy użyciu niskiej jakości pośredników"
 
-#: src/dialogs/renderwidget.cpp:303
+#: src/dialogs/renderwidget.cpp:328
 #, kde-format
 msgid "File"
 msgstr "Plik"
 
-#: src/dialogs/renderwidget.cpp:312
+#: src/dialogs/renderwidget.cpp:337
 #, kde-format
 msgid "Stored Playlists"
 msgstr "Przechowane listy odtwarzania"
 
-#: src/dialogs/renderwidget.cpp:325 src/timeline2/view/previewmanager.cpp:49
+#: src/dialogs/renderwidget.cpp:350 src/timeline2/view/previewmanager.cpp:49
 #, kde-format
 msgid ""
 "Could not find the kdenlive_render application, something is wrong with your "
@@ -6841,63 +6889,63 @@ msgstr ""
 "Nie można znaleźć aplikacji kdenlive_render, więc coś jest nie tak z twoim "
 "programem. Nie będziesz mógł złożyć filmu w całość."
 
-#: src/dialogs/renderwidget.cpp:344
+#: src/dialogs/renderwidget.cpp:369
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
 msgstr "Działa tylko dla formatu matroska (mkv)"
 
-#: src/dialogs/renderwidget.cpp:351
+#: src/dialogs/renderwidget.cpp:376
 #, kde-format
 msgid "There was a problem sharing the document: %1"
 msgstr "Wystąpił błąd podczas udostępniania dokumentu: %1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
-#: src/dialogs/renderwidget.cpp:351 src/dialogs/renderwidget.cpp:359
-#: src/ui/renderwidget_ui.ui:881
+#: src/dialogs/renderwidget.cpp:376 src/dialogs/renderwidget.cpp:384
+#: src/ui/renderwidget_ui.ui:901
 #, kde-format
 msgid "Share"
 msgstr "Udostępnij"
 
-#: src/dialogs/renderwidget.cpp:356
+#: src/dialogs/renderwidget.cpp:381
 #, kde-format
 msgid "Document shared successfully"
 msgstr "Pomyślnie udostępniono dokument"
 
-#: src/dialogs/renderwidget.cpp:359
+#: src/dialogs/renderwidget.cpp:384
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
 msgstr "Udostępniony dokument można znaleźć na: <a href=\"%1\">%1</a>"
 
-#: src/dialogs/renderwidget.cpp:479
+#: src/dialogs/renderwidget.cpp:504
 #, kde-format
 msgid "Beginning"
 msgstr "Początek"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/dialogs/renderwidget.cpp:486 src/ui/wipeval_ui.ui:172
+#: src/dialogs/renderwidget.cpp:511 src/ui/wipeval_ui.ui:172
 #, kde-format
 msgid "End"
 msgstr "Koniec"
 
-#: src/dialogs/renderwidget.cpp:607
+#: src/dialogs/renderwidget.cpp:632
 #, kde-format
 msgid "Add a clip to timeline before rendering"
 msgstr "Dodaj wycinek na osi czasu przed wyświetleniem"
 
-#: src/dialogs/renderwidget.cpp:613
+#: src/dialogs/renderwidget.cpp:638
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr ""
 "Nie znaleziono programu melt wymaganego do składania filmów w całość (część "
 "Mlt)"
 
-#: src/dialogs/renderwidget.cpp:619 src/dialogs/renderwidget.cpp:1415
+#: src/dialogs/renderwidget.cpp:644 src/dialogs/renderwidget.cpp:1440
 #: src/project/dialogs/archivewidget.cpp:885
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Plik wynikowy już istnieje. Czy chcesz go zastąpić?"
 
-#: src/dialogs/renderwidget.cpp:627 src/monitor/recmanager.cpp:191
+#: src/dialogs/renderwidget.cpp:652 src/monitor/recmanager.cpp:191
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -6906,12 +6954,12 @@ msgstr ""
 "Nie udało się utworzyć katalogu %1.\n"
 "Upewnij się że masz konieczne uprawnienia."
 
-#: src/dialogs/renderwidget.cpp:668
+#: src/dialogs/renderwidget.cpp:693
 #, kde-format
 msgid "The following errors occured while trying to render"
 msgstr "Wystąpiły następujące błędy przy próbie wyświetlania"
 
-#: src/dialogs/renderwidget.cpp:701 src/dialogs/renderwidget.cpp:1428
+#: src/dialogs/renderwidget.cpp:726 src/dialogs/renderwidget.cpp:1453
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -6920,47 +6968,47 @@ msgstr ""
 "Istnieje już zadanie zapisujące plik:<br /><b>%1</b><br />Przerwij zadanie, "
 "jeśli chcesz go zastąpić…"
 
-#: src/dialogs/renderwidget.cpp:702 src/dialogs/renderwidget.cpp:1429
+#: src/dialogs/renderwidget.cpp:727 src/dialogs/renderwidget.cpp:1454
 #, kde-format
 msgid "Already running"
 msgstr "Już uruchomiono"
 
-#: src/dialogs/renderwidget.cpp:727
+#: src/dialogs/renderwidget.cpp:752
 #, kde-format
 msgid "Video without audio track"
 msgstr "Obraz bez ścieżki dźwiękowej"
 
-#: src/dialogs/renderwidget.cpp:729
+#: src/dialogs/renderwidget.cpp:754
 #, kde-format
 msgid "Audio without video track"
 msgstr "Dźwięk bez ścieżki obrazu"
 
-#: src/dialogs/renderwidget.cpp:793
+#: src/dialogs/renderwidget.cpp:818
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "Rozpoczęto składanie <i>%1</i> w całość"
 
-#: src/dialogs/renderwidget.cpp:855 src/monitor/monitor.cpp:1170
+#: src/dialogs/renderwidget.cpp:880 src/monitor/monitor.cpp:1170
 #, kde-format
 msgid "untitled"
 msgstr "bez tytułu"
 
-#: src/dialogs/renderwidget.cpp:893
+#: src/dialogs/renderwidget.cpp:918
 #, kde-format
 msgid "No preset selected"
 msgstr "Nie wybrano żadnej nastawy"
 
-#: src/dialogs/renderwidget.cpp:895
+#: src/dialogs/renderwidget.cpp:920
 #, kde-format
 msgid "No matching preset"
 msgstr "Brak odpowiedniej nastawy"
 
-#: src/dialogs/renderwidget.cpp:907
+#: src/dialogs/renderwidget.cpp:932
 #, kde-format
 msgid "Invalid preset"
 msgstr "Nieprawidłowa nastawa"
 
-#: src/dialogs/renderwidget.cpp:1024
+#: src/dialogs/renderwidget.cpp:1049
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
@@ -6969,12 +7017,12 @@ msgstr ""
 "Wyświetlanie bez dźwięku i obrazu nie zadziała. Włącz co najmniej jedno lub "
 "oba."
 
-#: src/dialogs/renderwidget.cpp:1183
+#: src/dialogs/renderwidget.cpp:1208
 #, kde-format
 msgid "Remaining time "
 msgstr "Pozostały czas "
 
-#: src/dialogs/renderwidget.cpp:1185 src/dialogs/renderwidget.cpp:1229
+#: src/dialogs/renderwidget.cpp:1210 src/dialogs/renderwidget.cpp:1254
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
@@ -6982,48 +7030,48 @@ msgstr[0] "%1 dzień "
 msgstr[1] "%1 dni "
 msgstr[2] "%1 dni "
 
-#: src/dialogs/renderwidget.cpp:1189
+#: src/dialogs/renderwidget.cpp:1214
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (klatka %1 @ %2 kl./s)"
 
-#: src/dialogs/renderwidget.cpp:1201
+#: src/dialogs/renderwidget.cpp:1226
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr "Pozostało mniej niż %1 MB dostępnej pamięci."
 
-#: src/dialogs/renderwidget.cpp:1231
+#: src/dialogs/renderwidget.cpp:1256
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Ukończono składanie filmu w całość w czasie %1"
 
-#: src/dialogs/renderwidget.cpp:1239
+#: src/dialogs/renderwidget.cpp:1264
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "Ukończono składanie %1 w całość w czasie %2"
 
-#: src/dialogs/renderwidget.cpp:1263
+#: src/dialogs/renderwidget.cpp:1288
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>Nie udało się złożyć %1 w całość</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1306 src/ui/renderwidget_ui.ui:874
+#: src/dialogs/renderwidget.cpp:1331 src/ui/renderwidget_ui.ui:894
 #, kde-format
 msgid "Abort Job"
 msgstr "Przerwij zadanie"
 
-#: src/dialogs/renderwidget.cpp:1309
+#: src/dialogs/renderwidget.cpp:1334
 #, kde-format
 msgid "Remove Job"
 msgstr "Usuń zadanie"
 
-#: src/dialogs/renderwidget.cpp:1709
+#: src/dialogs/renderwidget.cpp:1734
 #, kde-format
 msgid "Render Duration: %1. "
 msgstr "Czas montażu: %1. "
 
-#: src/dialogs/renderwidget.cpp:1711
+#: src/dialogs/renderwidget.cpp:1736
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
@@ -7031,7 +7079,7 @@ msgstr[0] "<b>W projekcie użyto jednego brakującego wycinka.</b>"
 msgstr[1] "<b>W projekcie użyto %1 brakujących wycinków.</b>"
 msgstr[2] "<b>W projekcie użyto %1 brakujących wycinków.</b>"
 
-#: src/dialogs/renderwidget.cpp:1713
+#: src/dialogs/renderwidget.cpp:1738
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
@@ -7039,17 +7087,17 @@ msgstr[0] "Jeden brakujący wycinek (nieużywany)."
 msgstr[1] "%1 brakujące wycinki (nieużywane)."
 msgstr[2] "%1 brakujących wycinków (nieużywanych)."
 
-#: src/dialogs/renderwidget.cpp:1715
+#: src/dialogs/renderwidget.cpp:1740
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "%1 brakujący wycinek (<b>%2 użyte w projekcie</b>)."
 
-#: src/dialogs/renderwidget.cpp:1719
+#: src/dialogs/renderwidget.cpp:1744
 #, kde-format
 msgid "Render Duration: %1"
 msgstr "Czas po montażu: %1"
 
-#: src/dialogs/renderwidget.cpp:1795
+#: src/dialogs/renderwidget.cpp:1820
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -7058,12 +7106,12 @@ msgstr ""
 "Parametry szybkości kodeka:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:1815
+#: src/dialogs/renderwidget.cpp:1840
 #, kde-format
 msgid "Add to Current Project"
 msgstr "Dodaj do bieżącego projektu"
 
-#: src/dialogs/renderwidget.cpp:1818 src/library/librarywidget.cpp:251
+#: src/dialogs/renderwidget.cpp:1843 src/library/librarywidget.cpp:251
 #, kde-format
 msgid "Open Containing Folder"
 msgstr "Otwórz jego katalog"
@@ -7543,7 +7591,7 @@ msgstr "Sprawdź przyspieszenie sprzętowe"
 #: src/dialogs/wizard.cpp:193 src/project/cliptranscode.cpp:270
 #: src/project/dialogs/archivewidget.cpp:800
 #: src/project/dialogs/archivewidget.cpp:1162 src/ui/renderwidget_ui.ui:363
-#: src/ui/renderwidget_ui.ui:917 src/ui/renderwidget_ui.ui:1075
+#: src/ui/renderwidget_ui.ui:937 src/ui/renderwidget_ui.ui:1095
 #, kde-format
 msgid "Close"
 msgstr "Zamknij"
@@ -7791,107 +7839,107 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "Id dokumentu twojego projektu było nieprawidłowe, więc utworzono nowe."
 
-#: src/doc/documentchecker.cpp:1480
+#: src/doc/documentchecker.cpp:1516
 #, kde-format
 msgid "Video clip"
 msgstr "Wycinek wideo"
 
-#: src/doc/documentchecker.cpp:1482
+#: src/doc/documentchecker.cpp:1518
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Wycinek pokazu obrazów"
 
-#: src/doc/documentchecker.cpp:1484
+#: src/doc/documentchecker.cpp:1520
 #, kde-format
 msgid "Image clip"
 msgstr "Wycinek obrazu"
 
-#: src/doc/documentchecker.cpp:1486
+#: src/doc/documentchecker.cpp:1522
 #, kde-format
 msgid "Playlist clip"
 msgstr "Wycinek listy odtwarzania"
 
-#: src/doc/documentchecker.cpp:1488 src/doc/documentchecker.cpp:1504
+#: src/doc/documentchecker.cpp:1524 src/doc/documentchecker.cpp:1540
 #, kde-format
 msgid "Title Image"
 msgstr "Obraz tytułowy"
 
-#: src/doc/documentchecker.cpp:1500
+#: src/doc/documentchecker.cpp:1536
 #, kde-format
 msgid "Clip"
 msgstr "Wycinek"
 
-#: src/doc/documentchecker.cpp:1502
+#: src/doc/documentchecker.cpp:1538
 #, kde-format
 msgid "Title Font"
 msgstr "Czcionka tytułowa"
 
-#: src/doc/documentchecker.cpp:1506
+#: src/doc/documentchecker.cpp:1542
 #, kde-format
 msgid "Luma file"
 msgstr "Plik luminacji"
 
-#: src/doc/documentchecker.cpp:1508
+#: src/doc/documentchecker.cpp:1544
 #, kde-format
 msgid "Asset file"
 msgstr "Plik zasobu"
 
-#: src/doc/documentchecker.cpp:1510
+#: src/doc/documentchecker.cpp:1546
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr "Pośredni wycinek"
 
-#: src/doc/documentchecker.cpp:1512
+#: src/doc/documentchecker.cpp:1548
 #: src/monitor/view/kdenlivemonitorsplit.qml:90
 #, kde-format
 msgid "Effect"
 msgstr "Efekt"
 
-#: src/doc/documentchecker.cpp:1514
+#: src/doc/documentchecker.cpp:1550
 #, kde-format
 msgid "Transition"
 msgstr "Przejście"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1524 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1560 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "Stałe"
 
-#: src/doc/documentchecker.cpp:1526
+#: src/doc/documentchecker.cpp:1562
 #, kde-format
 msgid "Reload"
 msgstr "Wczytaj ponownie"
 
-#: src/doc/documentchecker.cpp:1528
+#: src/doc/documentchecker.cpp:1564
 #, kde-format
 msgid "Missing"
 msgstr "Brakuje"
 
-#: src/doc/documentchecker.cpp:1530
+#: src/doc/documentchecker.cpp:1566
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr "Brakuje, lecz dostępny jest wycinek pośredni"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1532 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1568 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "Pole zastępcze"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1534 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1570 src/ui/missingclips_ui.ui:152
 #, kde-format
 msgid "Remove"
 msgstr "Usuń"
 
-#: src/doc/documentchecker.cpp:1545
+#: src/doc/documentchecker.cpp:1581
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Plik projektu zawiera brakujące wycinki lub pliki."
 
-#: src/doc/documentchecker.cpp:1548
+#: src/doc/documentchecker.cpp:1584
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Brakujące wycinki pośrednie można utworzyć ponownie po otwarciu."
@@ -10118,7 +10166,7 @@ msgstr "Bieżące tryb narzędzia i zmian"
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, bFramesSpinner)
 #: src/mainwindow.cpp:1432 src/ui/editrenderpreset_ui.ui:551
-#: src/ui/editrenderpreset_ui.ui:694 src/ui/renderwidget_ui.ui:739
+#: src/ui/editrenderpreset_ui.ui:694 src/ui/renderwidget_ui.ui:759
 #, kde-format
 msgid "Auto"
 msgstr "Auto"
@@ -12068,32 +12116,19 @@ msgctxt "@info:whatsthis"
 msgid "Toggles edit mode (and the display of the object handles)."
 msgstr "Przestawia tryb edytowania (i widoczność uchwytów obiektów)."
 
-#: src/monitor/monitormanager.cpp:568
+#. i18n: ectx: property (text), widget (QLabel, label_8)
+#: src/monitor/monitormanager.cpp:568 src/ui/renderwidget_ui.ui:608
 #, kde-format
 msgid "Deinterlacer"
 msgstr "Usuwanie przeplotu"
-
-#: src/monitor/monitormanager.cpp:569
-#, kde-format
-msgid "One Field (fast)"
-msgstr "Jedno pole (szybko)"
-
-#: src/monitor/monitormanager.cpp:570
-#, kde-format
-msgid "Linear Blend (fast)"
-msgstr "Liniowe mieszanie (szybko)"
-
-#: src/monitor/monitormanager.cpp:571
-#, kde-format
-msgid "YADIF - temporal only (good)"
-msgstr "YADIF - tylko tymczasowo (dobre)"
 
 #: src/monitor/monitormanager.cpp:572
 #, kde-format
 msgid "YADIF - temporal + spacial (best)"
 msgstr "YADIF - tymczasowo + przestrzennie (najlepsze)"
 
-#: src/monitor/monitormanager.cpp:586
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#: src/monitor/monitormanager.cpp:586 src/ui/renderwidget_ui.ui:598
 #, kde-format
 msgid "Interpolation"
 msgstr "Interpolacja"
@@ -12102,16 +12137,6 @@ msgstr "Interpolacja"
 #, kde-format
 msgid "Nearest Neighbor (fast)"
 msgstr "Najbliższy sąsiad (szybka)"
-
-#: src/monitor/monitormanager.cpp:588
-#, kde-format
-msgid "Bilinear (good)"
-msgstr "Dwuliniowa (dobra)"
-
-#: src/monitor/monitormanager.cpp:589
-#, kde-format
-msgid "Bicubic (better)"
-msgstr "Sześcienna (lepsza)"
 
 #: src/monitor/monitormanager.cpp:590
 #, kde-format
@@ -12318,7 +12343,7 @@ msgstr ""
 "narzędzi, <b>Kółko</b> lub <b>strzałki</b> przewijają, <b>Ctrl+kółko</b> "
 "powiększa"
 
-#: src/monitor/view/kdenlivemonitoreffectscene.qml:253
+#: src/monitor/view/kdenlivemonitoreffectscene.qml:241
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -14888,7 +14913,7 @@ msgstr "Jidysz"
 msgid "Yoruba"
 msgstr "Yoruba"
 
-#: src/render/renderrequest.cpp:98
+#: src/render/renderrequest.cpp:99
 #, kde-format
 msgid ""
 "Could not create assets folder:\n"
@@ -14897,12 +14922,12 @@ msgstr ""
 "Nie można utworzyć katalogu zasobów:\n"
 "%1"
 
-#: src/render/renderrequest.cpp:163
+#: src/render/renderrequest.cpp:164
 #, kde-format
 msgid "Could not create temporary subtitle file"
 msgstr "Nie można utworzyć pliku tymczasowego napisów"
 
-#: src/render/renderrequest.cpp:190
+#: src/render/renderrequest.cpp:191
 #, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together. "
@@ -14911,23 +14936,23 @@ msgstr ""
 "Nie można użyć jednocześnie wyświetlania ze skryptu i eksportowania dźwięku "
 "o wielu ścieżkach. Skrypt zostanie zapisany bez eksportowania wielu ścieżek."
 
-#: src/render/renderrequest.cpp:263
+#: src/render/renderrequest.cpp:264
 #, kde-format
 msgid "export"
 msgstr "eksportuj"
 
-#: src/render/renderrequest.cpp:278
+#: src/render/renderrequest.cpp:279
 #, kde-format
 msgctxt "@title:window"
 msgid "Delayed Rendering"
 msgstr "Opóźniono składanie filmu w całość"
 
-#: src/render/renderrequest.cpp:278
+#: src/render/renderrequest.cpp:279
 #, kde-format
 msgid "Select a name for this rendering."
 msgstr "Nadaj nazwę dla tego renderingu."
 
-#: src/render/renderrequest.cpp:374
+#: src/render/renderrequest.cpp:377
 #, kde-format
 msgid "begin"
 msgstr "początek"
@@ -14942,40 +14967,40 @@ msgstr "Nie można porozumieć się z zadaniem składania filmu %1"
 msgid "Communication error with render job"
 msgstr "Błąd porozumiewania się z zadaniem składania filmu"
 
-#: src/renderpresets/renderpresetmodel.cpp:163
-#: src/renderpresets/renderpresetmodel.cpp:249
+#: src/renderpresets/renderpresetmodel.cpp:169
+#: src/renderpresets/renderpresetmodel.cpp:255
 #: src/renderpresets/renderpresetrepository.cpp:135
 #, kde-format
 msgctxt "Category Name"
 msgid "Custom"
 msgstr "Własna"
 
-#: src/renderpresets/renderpresetmodel.cpp:285
+#: src/renderpresets/renderpresetmodel.cpp:291
 #, kde-format
 msgid "Standard (%1) not compatible with project profile (%2)"
 msgstr "Standardowa (%1) niezgodna z profilem projektu (%2)"
 
-#: src/renderpresets/renderpresetmodel.cpp:295
+#: src/renderpresets/renderpresetmodel.cpp:301
 #, kde-format
 msgid "Frame rate (%1) not compatible with project profile (%2)"
 msgstr "Ilość klatek (%1) niezgodna z profilem projektu (%2)"
 
-#: src/renderpresets/renderpresetmodel.cpp:305
+#: src/renderpresets/renderpresetmodel.cpp:311
 #, kde-format
 msgid "Unsupported video format: %1"
 msgstr "Nieobsługiwany format obrazu: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:312
+#: src/renderpresets/renderpresetmodel.cpp:318
 #, kde-format
 msgid "Unsupported audio codec: %1"
 msgstr "Nieobsługiwany kodek dźwięku: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:318
+#: src/renderpresets/renderpresetmodel.cpp:324
 #, kde-format
 msgid "Unsupported video codec: %1"
 msgstr "Nieobsługiwany kodek obrazu: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:323
+#: src/renderpresets/renderpresetmodel.cpp:329
 #, kde-format
 msgid ""
 "This render preset uses a 'profile' parameter.<br />Unless you know what you "
@@ -17763,7 +17788,7 @@ msgstr "Usuń bieżący punkt."
 #: src/ui/manageencodingprofile_ui.ui:84 src/ui/projectsettings_ui.ui:276
 #: src/ui/projectsettings_ui.ui:283 src/ui/projectsettings_ui.ui:293
 #: src/ui/projectsettings_ui.ui:571 src/ui/projectsettings_ui.ui:578
-#: src/ui/qtextclip_ui.ui:94 src/ui/renderwidget_ui.ui:977
+#: src/ui/qtextclip_ui.ui:94 src/ui/renderwidget_ui.ui:997
 #: src/ui/resourcewidget_ui.ui:214 src/ui/resourcewidget_ui.ui:281
 #: src/ui/speechdialog_ui.ui:75 src/ui/textbasededit_ui.ui:61
 #: src/ui/textbasededit_ui.ui:94 src/ui/textbasededit_ui.ui:115
@@ -20557,50 +20582,50 @@ msgid "Overlay:"
 msgstr "Nakładka:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, stemAudioExport)
-#: src/ui/renderwidget_ui.ui:607
+#: src/ui/renderwidget_ui.ui:627
 #, kde-format
 msgid "Separate file for each audio track"
 msgstr "Osobny plik dla każdej ścieżki dźwiękowej"
 
 #. i18n: ectx: property (title), widget (QGroupBox, qualityGroup)
-#: src/ui/renderwidget_ui.ui:617
+#: src/ui/renderwidget_ui.ui:637
 #, kde-format
 msgid "Custom Quality"
 msgstr "Własna jakość"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/renderwidget_ui.ui:631
+#: src/ui/renderwidget_ui.ui:651
 #, kde-format
 msgid "Low"
 msgstr "Niska"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, quality)
-#: src/ui/renderwidget_ui.ui:644
+#: src/ui/renderwidget_ui.ui:664
 #, kde-format
 msgid "Compromise file size versus quality."
 msgstr "Poświęć rozmiar pliku na rzecz jakości."
 
 #. i18n: ectx: property (text), widget (QLabel, qualityPercent)
-#: src/ui/renderwidget_ui.ui:663
+#: src/ui/renderwidget_ui.ui:683
 #, no-c-format, kde-format
 msgid "75%"
 msgstr "75%"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/ui/renderwidget_ui.ui:670
+#: src/ui/renderwidget_ui.ui:690
 #, kde-format
 msgid "High"
 msgstr "Wysoka"
 
 #. i18n: ectx: property (title), widget (QGroupBox, encoder_box)
-#: src/ui/renderwidget_ui.ui:682
+#: src/ui/renderwidget_ui.ui:702
 #, kde-format
 msgid "Encoder"
 msgstr "Enkoder"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, speedLabel)
 #. i18n: ectx: property (toolTip), widget (QSlider, speed)
-#: src/ui/renderwidget_ui.ui:688 src/ui/renderwidget_ui.ui:704
+#: src/ui/renderwidget_ui.ui:708 src/ui/renderwidget_ui.ui:724
 #, kde-format
 msgid ""
 "For a given quality, tune the compromise between encoding time and output "
@@ -20610,116 +20635,116 @@ msgstr ""
 "pliku (szybsze kodowanie kończy się większym plikiem)."
 
 #. i18n: ectx: property (text), widget (QLabel, speedLabel)
-#: src/ui/renderwidget_ui.ui:691
+#: src/ui/renderwidget_ui.ui:711
 #, kde-format
 msgid "Speed:"
 msgstr "Szybkość:"
 
 #. i18n: ectx: property (text), widget (QLabel, threadsLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/renderwidget_ui.ui:723 src/ui/renderwidget_ui.ui:758
+#: src/ui/renderwidget_ui.ui:743 src/ui/renderwidget_ui.ui:778
 #, kde-format
 msgid "Threads:"
 msgstr "Wątki:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, encoder_threads)
-#: src/ui/renderwidget_ui.ui:736
+#: src/ui/renderwidget_ui.ui:756
 #, kde-format
 msgid "Encoding threads"
 msgstr "Wątki kodowania"
 
 #. i18n: ectx: property (title), widget (QGroupBox, processing_box)
-#: src/ui/renderwidget_ui.ui:749
+#: src/ui/renderwidget_ui.ui:769
 #, kde-format
 msgid "Parallel Processing"
 msgstr "Przetwarzanie równoległe"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, processing_warning)
-#: src/ui/renderwidget_ui.ui:772
+#: src/ui/renderwidget_ui.ui:792
 #, kde-format
 msgid "Parallel processing may cause render artifacts"
 msgstr "Przetwarzanie równoległe może powodować artefakty"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkTwoPass)
-#: src/ui/renderwidget_ui.ui:788
+#: src/ui/renderwidget_ui.ui:808
 #, kde-format
 msgid "2 pass"
 msgstr "2 przejścia"
 
 #. i18n: ectx: property (text), widget (QCheckBox, export_meta)
-#: src/ui/renderwidget_ui.ui:797
+#: src/ui/renderwidget_ui.ui:817
 #, kde-format
 msgid "Export metadata"
 msgstr "Eksport metadanych"
 
 #. i18n: ectx: property (text), widget (QLabel, edit_metadata)
-#: src/ui/renderwidget_ui.ui:804
+#: src/ui/renderwidget_ui.ui:824
 #, kde-format
 msgid "<a href=\"#\">Edit metadata</a>"
 msgstr "<a href=\"#\">Edytuj meta-dane</a>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, embed_subtitles)
-#: src/ui/renderwidget_ui.ui:829
+#: src/ui/renderwidget_ui.ui:849
 #, kde-format
 msgid "Embed subtitles instead of burning them"
 msgstr "Osadź napisy zamiast je wypalać"
 
 #. i18n: ectx: property (text), widget (QCheckBox, open_browser)
-#: src/ui/renderwidget_ui.ui:836
+#: src/ui/renderwidget_ui.ui:856
 #, kde-format
 msgid "Open folder after export"
 msgstr "Otwórz katalog po wyeksportowaniu"
 
 #. i18n: ectx: property (text), widget (QCheckBox, play_after)
-#: src/ui/renderwidget_ui.ui:843
+#: src/ui/renderwidget_ui.ui:863
 #, kde-format
 msgid "Play after render"
 msgstr "Odtwórz po złożeniu filmu"
 
 #. i18n: ectx: attribute (title), widget (QWidget, jobTab)
-#: src/ui/renderwidget_ui.ui:865
+#: src/ui/renderwidget_ui.ui:885
 #, kde-format
 msgid "Job Queue"
 msgstr "Kolejka zadań"
 
 #. i18n: ectx: property (text), widget (QPushButton, start_job)
-#: src/ui/renderwidget_ui.ui:900
+#: src/ui/renderwidget_ui.ui:920
 #, kde-format
 msgid "Start Job"
 msgstr "Rozpocznij zadanie"
 
 #. i18n: ectx: property (text), widget (QPushButton, clean_up)
-#: src/ui/renderwidget_ui.ui:910
+#: src/ui/renderwidget_ui.ui:930
 #, kde-format
 msgid "Clean Up"
 msgstr "Uprzątnij"
 
 #. i18n: ectx: property (text), widget (QLabel, errorLabel_2)
-#: src/ui/renderwidget_ui.ui:970
+#: src/ui/renderwidget_ui.ui:990
 #, kde-format
 msgid "Error Log"
 msgstr "Dziennik błędów"
 
 #. i18n: ectx: property (text), widget (QCheckBox, shutdown)
-#: src/ui/renderwidget_ui.ui:1005
+#: src/ui/renderwidget_ui.ui:1025
 #, kde-format
 msgid "Shutdown computer after renderings"
 msgstr "Wyłącz komputer po złożeniu wszystkich filmów"
 
 #. i18n: ectx: attribute (title), widget (QWidget, scriptsTab)
-#: src/ui/renderwidget_ui.ui:1020
+#: src/ui/renderwidget_ui.ui:1040
 #, kde-format
 msgid "Scripts"
 msgstr "Skrypty"
 
 #. i18n: ectx: property (text), widget (QPushButton, start_script)
-#: src/ui/renderwidget_ui.ui:1048
+#: src/ui/renderwidget_ui.ui:1068
 #, kde-format
 msgid "Start Script"
 msgstr "Rozpocznij skrypt"
 
 #. i18n: ectx: property (text), widget (QPushButton, delete_script)
-#: src/ui/renderwidget_ui.ui:1055
+#: src/ui/renderwidget_ui.ui:1075
 #, kde-format
 msgid "Delete Script"
 msgstr "Usuń skrypt"

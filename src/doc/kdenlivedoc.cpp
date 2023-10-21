@@ -1284,7 +1284,7 @@ void KdenliveDoc::updateProjectFolderPlacesEntry()
 #if QT_VERSION_MAJOR < 6
     KBookmarkManager *bookmarkManager = KBookmarkManager::managerForExternalFile(file);
 #else
-    KBookmarkManager *bookmarkManager = KBookmarkManager::managerForFile(file);
+    std::unique_ptr<KBookmarkManager> bookmarkManager = std::make_unique<KBookmarkManager>(file);
 #endif
     if (!bookmarkManager) {
         return;
@@ -2336,7 +2336,7 @@ void KdenliveDoc::makeBackgroundTrackTransparent(QDomDocument &doc)
     for (int i = 0; i < prods.length(); ++i) {
         auto prod = prods.at(i).toElement();
         if (Xml::getXmlProperty(prod, QStringLiteral("kdenlive:playlistid")) == QStringLiteral("black_track")) {
-            Xml::setXmlProperty(prod, QStringLiteral("resource"), QStringLiteral("transparent"));
+            Xml::setXmlProperty(prod, QStringLiteral("resource"), QStringLiteral("0"));
             break;
         }
     }
