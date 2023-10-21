@@ -149,7 +149,7 @@ std::vector<RenderRequest::RenderJob> RenderRequest::process(const QUrl &openUrl
         if (activeUuid.isNull()) {
             activeUuid = project->uuid();
         }
-        auto timeline = project->getTimeline(project->uuid());
+        auto timeline = project->getTimeline(activeUuid);
         pCore->projectManager()->testSetActiveDocument(project, timeline);
 
         playlistContent = pCore->projectItemModel()->sceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile(),
