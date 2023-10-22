@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-21 00:42+0000\n"
-"PO-Revision-Date: 2023-10-14 18:24+0200\n"
+"PO-Revision-Date: 2023-10-20 12:35+0200\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -6862,10 +6862,9 @@ msgid "Rendering aborted"
 msgstr "Le rendu a été interrompu"
 
 #: src/dialogs/renderwidget.cpp:216
-#, fuzzy, kde-format
-#| msgid "Nearest Neighbor (fast)"
+#, kde-format
 msgid "Nearest (fast)"
-msgstr "Plus proche voisin (rapide)"
+msgstr "Le plus proche (Rapide)"
 
 #: src/dialogs/renderwidget.cpp:217 src/monitor/monitormanager.cpp:588
 #, kde-format
@@ -6878,10 +6877,9 @@ msgid "Bicubic (better)"
 msgstr "Bicubique (meilleur)"
 
 #: src/dialogs/renderwidget.cpp:219
-#, fuzzy, kde-format
-#| msgid "Hyper/Lanczos (best)"
+#, kde-format
 msgid "Lanczos (best)"
-msgstr "Hyper/Lanczos (meilleur)"
+msgstr "Lanczos (Le meilleur)"
 
 #: src/dialogs/renderwidget.cpp:227 src/monitor/monitormanager.cpp:569
 #, kde-format
@@ -6899,15 +6897,14 @@ msgid "YADIF - temporal only (good)"
 msgstr "YADIF - temporel seulement (bon)"
 
 #: src/dialogs/renderwidget.cpp:230
-#, fuzzy, kde-format
-#| msgid "Bicubic (better)"
+#, kde-format
 msgid "YADIF (better)"
-msgstr "Bicubique (meilleur)"
+msgstr "YADIF (Meilleur)"
 
 #: src/dialogs/renderwidget.cpp:231
 #, kde-format
 msgid "BWDIF (best)"
-msgstr ""
+msgstr "BWDIF (Le meilleur)"
 
 #: src/dialogs/renderwidget.cpp:239 src/project/dialogs/slideshowclip.cpp:60
 #: src/scopes/colorscopes/vectorscope.cpp:55

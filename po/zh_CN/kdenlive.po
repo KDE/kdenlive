@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-21 00:42+0000\n"
-"PO-Revision-Date: 2023-10-10 14:28\n"
+"PO-Revision-Date: 2023-10-21 13:54\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -5362,10 +5362,9 @@ msgid "File already exists"
 msgstr "文件已存在"
 
 #: src/bin/projectclip.cpp:2547
-#, fuzzy, kde-format
-#| msgid "Paste timeline clips"
+#, kde-format
 msgid "Adjust timeline clips"
-msgstr "粘贴时间轴剪辑"
+msgstr "调整时间轴剪辑"
 
 #: src/bin/projectclip.cpp:2772
 #, kde-format
@@ -5899,20 +5898,14 @@ msgstr ""
 "在，则对文件名附加 a -0001 模式的后缀。"
 
 #: src/dialogs/clipjobmanager.cpp:54 src/dialogs/clipjobmanager.cpp:63
-#, fuzzy, kde-format
-#| msgid ""
-#| "A newline separated list of possible values that will be offered on "
-#| "execution"
+#, kde-format
 msgid "If selected, a file path will be requested on execution"
-msgstr "以换行分隔的可能值列表，这些值将在执行时提供给程序"
+msgstr "如果选中，执行时将请求一个文件路径"
 
 #: src/dialogs/clipjobmanager.cpp:55 src/dialogs/clipjobmanager.cpp:64
-#, fuzzy, kde-format
-#| msgid ""
-#| "A newline separated list of possible values that will be offered on "
-#| "execution"
+#, kde-format
 msgid "If selected, a dropdown list of values will be shown on execution"
-msgstr "以换行分隔的可能值列表，这些值将在执行时提供给程序"
+msgstr "如果选中，执行时将显示一个列出了各种值的下拉列表"
 
 #: src/dialogs/clipjobmanager.cpp:57
 #, kde-format
@@ -5920,6 +5913,7 @@ msgid ""
 "If selected, the selected clip's current frame will be extracted to a "
 "temporary file and the parameter value will be the image path"
 msgstr ""
+"如果选中，所选剪辑的当前帧将被提取到一个临时文件，参数值则将被设为图像路径"
 
 #: src/dialogs/clipjobmanager.cpp:58
 #, kde-format
@@ -6671,10 +6665,9 @@ msgid "Rendering aborted"
 msgstr "导出已中止"
 
 #: src/dialogs/renderwidget.cpp:216
-#, fuzzy, kde-format
-#| msgid "Nearest Neighbor (fast)"
+#, kde-format
 msgid "Nearest (fast)"
-msgstr "最近邻 (快速)"
+msgstr "最近邻 (最快)"
 
 #: src/dialogs/renderwidget.cpp:217 src/monitor/monitormanager.cpp:588
 #, kde-format
@@ -6687,10 +6680,9 @@ msgid "Bicubic (better)"
 msgstr "双立方 (较好画质)"
 
 #: src/dialogs/renderwidget.cpp:219
-#, fuzzy, kde-format
-#| msgid "Hyper/Lanczos (best)"
+#, kde-format
 msgid "Lanczos (best)"
-msgstr "Hyper/Lanczos (最佳画质)"
+msgstr "Lanczos (最高画质)"
 
 #: src/dialogs/renderwidget.cpp:227 src/monitor/monitormanager.cpp:569
 #, kde-format
@@ -6708,15 +6700,14 @@ msgid "YADIF - temporal only (good)"
 msgstr "YADIF - 仅时域滤波 (较好画质)"
 
 #: src/dialogs/renderwidget.cpp:230
-#, fuzzy, kde-format
-#| msgid "Bicubic (better)"
+#, kde-format
 msgid "YADIF (better)"
-msgstr "双立方 (较好画质)"
+msgstr "YADIF (较高画质)"
 
 #: src/dialogs/renderwidget.cpp:231
 #, kde-format
 msgid "BWDIF (best)"
-msgstr ""
+msgstr "BWDIF (最高画质)"
 
 #: src/dialogs/renderwidget.cpp:239 src/project/dialogs/slideshowclip.cpp:60
 #: src/scopes/colorscopes/vectorscope.cpp:55
@@ -16450,10 +16441,9 @@ msgid "Close %1"
 msgstr "关闭 %1"
 
 #: src/timeline2/view/timelinetabs.cpp:366
-#, fuzzy, kde-format
-#| msgid "Image Sequence"
+#, kde-format
 msgid "Rename Sequence"
-msgstr "图像序列"
+msgstr "重命名序列"
 
 #: src/timeline2/view/timelinewidget.cpp:73
 #, kde-format
@@ -17527,10 +17517,9 @@ msgstr "询问文件路径"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_isframe)
 #: src/ui/clipjobmanager_ui.ui:146
-#, fuzzy, kde-format
-#| msgid "Current clip"
+#, kde-format
 msgid "Current clip frame"
-msgstr "当前剪辑"
+msgstr "当前剪辑帧"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: src/ui/clipjobmanager_ui.ui:156
@@ -21166,20 +21155,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgid "The first parameter that will be injected in the script arguments"
-#~ msgstr "要在脚本参数中注入的第 1 个参数"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid ""
-#~ "<b>Source Clip Path</b> will put the selected Bin Clip path<br/"
-#~ "><b>Request File Path</b> will ask for a file path on execution<br/"
-#~ "><b>Request Option in List</b> will ask for a choice in the list below on "
-#~ "execution."
-#~ msgstr ""
-#~ "<b>来源剪辑路径</b> 将使用选中的素材箱剪辑的路径<br/><b>询问文件路径</b> "
-#~ "将在执行时询问文件路径<br/><b>询问列表中的选项</b> 将在执行时询问要选择下"
-#~ "表中的哪些选项。"
-
-#~ msgid "The second parameter that will be injected in the script arguments"
-#~ msgstr "要在脚本参数中注入的第 2 个参数"

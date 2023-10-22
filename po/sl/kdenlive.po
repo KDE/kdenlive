@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-21 00:42+0000\n"
-"PO-Revision-Date: 2023-10-13 09:00+0200\n"
+"PO-Revision-Date: 2023-10-20 11:16+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -6797,8 +6797,7 @@ msgid "Rendering aborted"
 msgstr "Izrisovanje prekinjeno"
 
 #: src/dialogs/renderwidget.cpp:216
-#, fuzzy, kde-format
-#| msgid "Nearest Neighbor (fast)"
+#, kde-format
 msgid "Nearest (fast)"
 msgstr "Najbližji sosed (hitro)"
 
@@ -6813,10 +6812,9 @@ msgid "Bicubic (better)"
 msgstr "Bikubično (boljše)"
 
 #: src/dialogs/renderwidget.cpp:219
-#, fuzzy, kde-format
-#| msgid "Hyper/Lanczos (best)"
+#, kde-format
 msgid "Lanczos (best)"
-msgstr "Hiper/Lanczos (najboljše)"
+msgstr "Lanczos (najboljše)"
 
 #: src/dialogs/renderwidget.cpp:227 src/monitor/monitormanager.cpp:569
 #, kde-format
@@ -6834,15 +6832,14 @@ msgid "YADIF - temporal only (good)"
 msgstr "YADIF - le začasno (dobro)"
 
 #: src/dialogs/renderwidget.cpp:230
-#, fuzzy, kde-format
-#| msgid "Bicubic (better)"
+#, kde-format
 msgid "YADIF (better)"
-msgstr "Bikubično (boljše)"
+msgstr "YADIF (boljše)"
 
 #: src/dialogs/renderwidget.cpp:231
 #, kde-format
 msgid "BWDIF (best)"
-msgstr ""
+msgstr "BWDIF (najboljše)"
 
 #: src/dialogs/renderwidget.cpp:239 src/project/dialogs/slideshowclip.cpp:60
 #: src/scopes/colorscopes/vectorscope.cpp:55
