@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-21 00:42+0000\n"
-"PO-Revision-Date: 2023-10-16 06:08+0200\n"
+"PO-Revision-Date: 2023-10-23 05:55+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -6535,10 +6535,9 @@ msgid "Rendering aborted"
 msgstr "რენდერი შეწყდა"
 
 #: src/dialogs/renderwidget.cpp:216
-#, fuzzy, kde-format
-#| msgid "Nearest Neighbor (fast)"
+#, kde-format
 msgid "Nearest (fast)"
-msgstr "უახლოესი მეზობელი (სწრაფი)"
+msgstr "უახლოესი (სწრაფი)"
 
 #: src/dialogs/renderwidget.cpp:217 src/monitor/monitormanager.cpp:588
 #, kde-format
@@ -6571,10 +6570,9 @@ msgid "YADIF - temporal only (good)"
 msgstr ""
 
 #: src/dialogs/renderwidget.cpp:230
-#, fuzzy, kde-format
-#| msgid "Bicubic (better)"
+#, kde-format
 msgid "YADIF (better)"
-msgstr "ბიკუბური (უკეთესი)"
+msgstr "YADIF (უკეთესი)"
 
 #: src/dialogs/renderwidget.cpp:231
 #, kde-format

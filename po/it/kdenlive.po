@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-21 00:42+0000\n"
-"PO-Revision-Date: 2023-10-04 18:49+0200\n"
+"PO-Revision-Date: 2023-10-11 16:20+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -3244,10 +3244,9 @@ msgid "Reload custom effect"
 msgstr "Ricarica effetto personalizzato"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:68
-#, fuzzy, kde-format
-#| msgid "Edit Info"
+#, kde-format
 msgid "Edit Info…"
-msgstr "Modifica informazioni"
+msgstr "Modifica informazioni…"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:73
 #, kde-format
