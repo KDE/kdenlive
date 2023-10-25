@@ -395,10 +395,15 @@ void MainWindow::init(const QString &mltPath)
             [&](int cid, const QString &compositionId) { getCurrentTimeline()->model()->switchComposition(cid, compositionId); });
     connect(pCore->bin(), &Bin::updateTabName, m_timelineTabs, &TimelineTabs::renameTab);
     connect(m_timelineTabs, &TimelineTabs::showMixModel, m_assetPanel, &AssetPanel::showMix);
-    connect(m_timelineTabs, &TimelineTabs::showTransitionModel, m_assetPanel, &AssetPanel::showTransition);
-    connect(m_timelineTabs, &TimelineTabs::showTransitionModel, this, [&]() { m_effectStackDock->raise(); });
-    connect(m_timelineTabs, &TimelineTabs::showItemEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
-    connect(m_timelineTabs, &TimelineTabs::showItemEffectStack, this, [&]() { m_effectStackDock->raise(); });
+    connect(m_timelineTabs, &TimelineTabs::showTransitionModel, this, [&](int tid, std::shared_ptr<AssetParameterModel> model) {
+        m_assetPanel->showTransition(tid, model);
+        m_effectStackDock->raise();
+    });
+    connect(m_timelineTabs, &TimelineTabs::showItemEffectStack, this,
+            [&](const QString &clipName, std::shared_ptr<EffectStackModel> model, QSize size, bool showKeyframes) {
+                m_assetPanel->showEffectStack(clipName, model, size, showKeyframes);
+                m_effectStackDock->raise();
+            });
 
     connect(m_timelineTabs, &TimelineTabs::updateAssetPosition, m_assetPanel, &AssetPanel::updateAssetPosition);
 

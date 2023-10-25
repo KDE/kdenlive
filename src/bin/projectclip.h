@@ -79,6 +79,13 @@ public:
      */
     bool isReloading;
 
+    struct TimeWarpInfo
+    {
+        QString timeMapData;
+        int pitchShift;
+        QString imageMode;
+    };
+
 protected:
     ProjectClip(const QString &id, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model, std::shared_ptr<Mlt::Producer> &producer);
     ProjectClip(const QString &id, const QDomElement &description, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model);
@@ -203,7 +210,8 @@ public:
     /** @brief This function returns a cut to the master producer associated to the timeline clip with given ID.
         Each clip must have a different master producer (see comment of the class)
     */
-    std::shared_ptr<Mlt::Producer> getTimelineProducer(int trackId, int clipId, PlaylistState::ClipState st, int audioStream = -1, double speed = 1.0, bool secondPlaylist = false, bool timeremap = false);
+    std::shared_ptr<Mlt::Producer> getTimelineProducer(int trackId, int clipId, PlaylistState::ClipState st, int audioStream = -1, double speed = 1.0,
+                                                       bool secondPlaylist = false, const TimeWarpInfo timeremapInfo = {});
 
     /** @brief This function should only be used at loading. It takes a producer that was read from mlt, and checks whether the master producer is already in
        use. If yes, then we must create a new one, because of the mixing bug. In any case, we return a cut of the master that can be used in the timeline The

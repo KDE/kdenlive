@@ -7062,3 +7062,14 @@ void TimelineModel::loadPreview(const QString &chunks, const QString &dirty, boo
         previewManager()->loadChunks(renderedChunks, dirtyChunks, playlist);
     }
 }
+
+bool TimelineModel::clipIsAudio(int cid) const
+{
+    if (isClip(cid)) {
+        int tid = getClipTrackId(cid);
+        if (tid > -1) {
+            return getTrackById_const(tid)->isAudioTrack();
+        }
+    }
+    return false;
+}
