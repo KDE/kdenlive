@@ -1128,7 +1128,7 @@ msgstr "Contrast"
 #: data/effects/grain.xml:14
 #, kde-format
 msgid "Brightness"
-msgstr "Brillantor"
+msgstr "Lluminositat"
 
 #: data/effects/greyscale.xml:4
 #, kde-format
@@ -3343,7 +3343,7 @@ msgstr "Guarda la pila d'efectes…"
 msgctxt "@info:whatsthis"
 msgid "Saves the entire effect stack as an XML file for use in other projects."
 msgstr ""
-"Guarda tota la pila d'efectes com un fitxer en XML per a utilitzar-la en "
+"Guarda tota la pila d'efectes com un fitxer en XML per a utilitzar-lo en "
 "altres projectes."
 
 #: src/assets/assetpanel.cpp:96
@@ -12258,9 +12258,9 @@ msgid ""
 "shortcut> to zoom"
 msgstr ""
 "Feu <shortcut>clic</shortcut> per a reproduir, <shortcut>doble clic</"
-"shortcut> per a pantalla completa, <shortcut>aneu a la dreta</shortcut> per "
-"a la barra d'eines, utilitzeu la <shortcut>roda del ratolí</shortcut> o les "
-"<shortcut>fletxes del teclat</shortcut> per a buscar, utilitzeu la "
+"shortcut> per a pantalla completa, <shortcut>aneu cap a la dreta</shortcut> "
+"per a la barra d'eines, utilitzeu la <shortcut>roda del ratolí</shortcut> o "
+"les <shortcut>fletxes del teclat</shortcut> per a buscar, utilitzeu la "
 "<shortcut>roda + Ctrl</shortcut> per a fer zoom"
 
 #: src/monitor/view/kdenliveclipmonitor.qml:459
@@ -12298,7 +12298,7 @@ msgid ""
 "for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> to zoom"
 msgstr ""
 "Feu <b>clic</b> per a reproduir, <b>doble clic</b> per a pantalla completa, "
-"<b>aneu a la dreta</b> per a la barra d'eines, utilitzeu la <b>roda del "
+"<b>aneu cap a la dreta</b> per a la barra d'eines, utilitzeu la <b>roda del "
 "ratolí</b> o les <b>fletxes del teclat</b> per a buscar, utilitzeu la "
 "<b>roda + Ctrl</b> per a fer zoom"
 
@@ -12314,9 +12314,9 @@ msgstr ""
 "Feu <shortcut>doble clic</shortcut> per a afegir un fotograma clau, "
 "<shortcut>Maj+arrossega</shortcut> per a convertir a una escala "
 "proporcional, <shortcut>Ctrl+arrossega</shortcut> per a convertir a una "
-"escala basada en el centre, <shortcut>aneu a la dreta</shortcut> per a la "
-"barra d'eines, feu <shortcut>clic</shortcut> sobre un centre per a buscar el "
-"seu fotograma clau"
+"escala basada en el centre, <shortcut>aneu cap a la dreta</shortcut> per a "
+"la barra d'eines, feu <shortcut>clic</shortcut> sobre un centre per a buscar "
+"el seu fotograma clau"
 
 #: src/monitor/view/kdenlivemonitorrotoscene.qml:68
 #, kde-kuit-format
@@ -12341,8 +12341,8 @@ msgstr ""
 "feu <shortcut>doble clic</shortcut> sobre un segment de línia per a afegir "
 "un punt nou, feu <shortcut>doble clic</shortcut> sobre un punt per a "
 "suprimir-lo, feu <shortcut>doble clic</shortcut> sobre el fons per a crear "
-"un fotograma clau nou, <shortcut>aneu a la dreta</shortcut> per a la barra "
-"d'eines"
+"un fotograma clau nou, <shortcut>aneu cap a la dreta</shortcut> per a la "
+"barra d'eines"
 
 # skip-rule: k-Shift-1
 #: src/monitor/view/kdenlivemonitorrotoscene.qml:70
@@ -12379,8 +12379,8 @@ msgstr ""
 "Utilitzeu la <shortcut>roda del ratolí</shortcut> o les <shortcut>fletxes "
 "del teclat</shortcut> per a buscar 1 fotograma, <shortcut>Maj</shortcut> per "
 "a buscar 1 segon, <shortcut>Alt</shortcut> per a buscar el marcador, "
-"<shortcut>Inici</shortcut> / <shortcut>Fi</shortcut> per a anar al primer / "
-"últim fotograma"
+"<shortcut>Inici</shortcut> / <shortcut>Fi</shortcut> per a anar fins al "
+"primer / últim fotograma"
 
 #: src/monitor/view/MonitorRuler.qml:332
 #, kde-kuit-format
