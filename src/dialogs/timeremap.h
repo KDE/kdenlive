@@ -55,7 +55,7 @@ protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
     void wheelEvent(QWheelEvent *event) override;
-    std::shared_ptr<Mlt::Link> m_remapLink;
+    Mlt::Properties m_remapProps;
     /** @brief The position of the clip in timeline, used to seek to correct place */
     int m_startPos;
     /** @brief The in frame of the clip in timeline, used to correctly offset keyframes */
@@ -162,6 +162,7 @@ private Q_SLOTS:
     void switchRemapParam();
 
 private:
+    std::shared_ptr<Mlt::Link> m_remapLink;
     std::shared_ptr<Mlt::Link> m_splitRemap;
     RemapView *m_view;
     int m_lastLength;

@@ -197,7 +197,6 @@ void TimelineTabs::closeTimelineByIndex(int ix)
         TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(ix));
         timeline->blockSignals(true);
         timeline->setSource(QUrl());
-        pCore->projectManager()->closeTimeline(uuid, false, false);
         if (timeline == m_activeTimeline) {
             pCore->window()->disconnectTimeline(timeline);
             disconnectTimeline(timeline);
