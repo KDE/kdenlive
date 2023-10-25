@@ -602,15 +602,10 @@ void ClipLoadTask::run()
                 vindex = -1;
             }
         }
-        QSize frameSize = pCore->getCurrentFrameSize();
-        int w = frameSize.width();
-        int h = frameSize.height();
-        std::unique_ptr<Mlt::Frame> frame(producer->get_frame());
-        frame->get_image(format, w, h);
         // Check audio / video
-        hasAudio = frame->get_int("test_audio") == 0;
-        hasVideo = vindex > -1 && frame->get_int("test_image") == 0;
-        frame.reset();
+        producer->probe();
+        hasAudio = producer->get_int("video_index") > -1;
+        hasVideo = producer->get_int("audio_index") > -1;
         if (hasAudio) {
             if (hasVideo) {
                 producer->set("kdenlive:clip_type", 0);
