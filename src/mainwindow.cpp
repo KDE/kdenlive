@@ -883,7 +883,7 @@ void MainWindow::init(const QString &mltPath)
     connect(this, &MainWindow::removeBinDock, this, &MainWindow::slotRemoveBinDock);
     // m_messageLabel->setMessage(QStringLiteral("This is a beta version. Always backup your data"), MltError);
 
-    QAction *const showMenuBarAction = actionCollection()->action(QLatin1String(KStandardAction::name(KStandardAction::ShowMenubar)));
+    QAction *const showMenuBarAction = actionCollection()->action(KStandardAction::name(KStandardAction::ShowMenubar));
     // FIXME: workaround for BUG 171080
     showMenuBarAction->setChecked(!menuBar()->isHidden());
 

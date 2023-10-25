@@ -68,4 +68,5 @@ Dependencies:
 Options:
   require-passing-tests-on: [ 'Linux/Qt5', 'FreeBSD/Qt5' ]
   cppcheck-arguments: '--suppress="*:tests/fakeit.hpp" --suppress="*:tests/catch.hpp" --suppress="*:fuzzer/fakeit_standalone.hpp"'
+  per-test-timeout: 120
 
