@@ -75,6 +75,7 @@ protected:
 
 Q_SIGNALS:
     void setupError(const QString &message);
+    void setupWarning(const QString &message);
     void checkVersionsResult(const QStringList &versions);
     void dependenciesMissing(const QStringList &messages);
     void dependenciesAvailable();

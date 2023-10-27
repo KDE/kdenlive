@@ -31,6 +31,8 @@ PythonDependencyMessage::PythonDependencyMessage(QWidget *parent, AbstractPython
         doShowMessage(message, KMessageWidget::Warning);
     });
 
+    connect(m_interface, &AbstractPythonInterface::setupWarning, this, [&](const QString &message) { doShowMessage(message, KMessageWidget::Warning); });
+
     connect(m_interface, &AbstractPythonInterface::checkVersionsResult, this, [&](const QStringList &list) {
         if (list.isEmpty()) {
             if (m_interface->featureName().isEmpty()) {
@@ -350,6 +352,11 @@ QString AbstractPythonInterface::runScript(const QString &script, QStringList ar
 {
     QString scriptpath = m_scripts->value(script);
     if (m_pyExec.isEmpty() || scriptpath.isEmpty()) {
+        if (m_pyExec.isEmpty()) {
+            Q_EMIT setupError(i18n("Python exec not found"));
+        } else {
+            Q_EMIT setupError(i18n("Failed to find script file %1", script));
+        }
         return {};
     }
     if (concurrent && (firstarg == QLatin1String("--install") || firstarg == QLatin1String("--upgrade"))) {
