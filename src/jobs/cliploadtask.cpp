@@ -582,8 +582,7 @@ void ClipLoadTask::run()
             producer->set("out", fixedLength - 1);
         }
     } else if (mltService.startsWith(QLatin1String("avformat"))) {
-        // Get a frame to init properties
-        mlt_image_format format = mlt_image_none;
+        // Start probe to init properties
         int vindex = producer->get_int("video_index");
         bool hasAudio = false;
         bool hasVideo = false;

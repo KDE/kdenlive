@@ -3664,14 +3664,17 @@ void Bin::buildSequenceClip(int aTracks, int vTracks)
     }
 }
 
-const QString Bin::buildSequenceClipWithUndo(Fun &undo, Fun &redo, int aTracks, int vTracks)
+const QString Bin::buildSequenceClipWithUndo(Fun &undo, Fun &redo, int aTracks, int vTracks, QString suggestedName)
 {
     QScopedPointer<QDialog> dia(new QDialog(this));
     Ui::NewTimeline_UI dia_ui;
     dia_ui.setupUi(dia.data());
     dia->setWindowTitle(i18nc("@title:window", "Create New Sequence"));
-    int timelinesCount = pCore->projectManager()->getTimelinesCount() + 1;
-    dia_ui.sequence_name->setText(i18n("Sequence %1", timelinesCount));
+    if (suggestedName.isEmpty()) {
+        int timelinesCount = pCore->projectManager()->getTimelinesCount() + 1;
+        suggestedName = i18n("Sequence %1", timelinesCount);
+    }
+    dia_ui.sequence_name->setText(suggestedName);
     dia_ui.video_tracks->setValue(vTracks == -1 ? KdenliveSettings::videotracks() : vTracks);
     dia_ui.audio_tracks->setValue(aTracks == -1 ? KdenliveSettings::audiotracks() : aTracks);
     if (dia->exec() == QDialog::Accepted) {

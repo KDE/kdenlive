@@ -2993,7 +2993,15 @@ void MainWindow::slotInsertClipOverwrite()
         // No clip in monitor
         return;
     }
-    getCurrentTimeline()->controller()->insertZone(binId, m_clipMonitor->getZoneInfo(), true);
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    bool res = getCurrentTimeline()->controller()->insertZone(binId, m_clipMonitor->getZoneInfo(), true, undo, redo);
+    if (res) {
+        pCore->pushUndo(undo, redo, i18n("Overwrite zone"));
+    } else {
+        pCore->displayMessage(i18n("Could not insert zone"), ErrorMessage);
+        undo();
+    }
 }
 
 void MainWindow::slotInsertClipInsert()
@@ -3004,7 +3012,15 @@ void MainWindow::slotInsertClipInsert()
         pCore->displayMessage(i18n("No clip selected in project bin"), ErrorMessage);
         return;
     }
-    getCurrentTimeline()->controller()->insertZone(binId, m_clipMonitor->getZoneInfo(), false);
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    bool res = getCurrentTimeline()->controller()->insertZone(binId, m_clipMonitor->getZoneInfo(), false, undo, redo);
+    if (res) {
+        pCore->pushUndo(undo, redo, i18n("Insert zone"));
+    } else {
+        pCore->displayMessage(i18n("Could not insert zone"), ErrorMessage);
+        undo();
+    }
 }
 
 void MainWindow::slotExtractZone()

@@ -41,7 +41,7 @@ void FileWatcher::addFile(const QString &binId, const QString &url)
     std::unordered_map<QString, std::unordered_set<QString>>::const_iterator pos = m_occurences.find(url);
     if (pos != m_occurences.end()) {
         // Url already queued, only add ref to binId if necessary
-        if (pos->second.find(url) == pos->second.end()) {
+        if (pos->second.find(binId) == pos->second.end()) {
             m_occurences[url].insert(binId);
             m_binClipPaths[binId] = url;
         }
