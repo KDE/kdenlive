@@ -84,6 +84,7 @@ Q_SIGNALS:
     void scriptGpuCheckFinished();
     void scriptFinished();
     void scriptStarted();
+    void abortScript();
 };
 
 class PythonDependencyMessage : public KMessageWidget {
@@ -100,7 +101,8 @@ private Q_SLOTS:
 
 private:
     AbstractPythonInterface * m_interface;
-    QAction *m_installAction;
+    QAction *m_installAction{nullptr};
+    QAction *m_abortAction{nullptr};
     bool m_updated;
 
 };

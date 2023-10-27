@@ -49,6 +49,7 @@ public:
     void blockClicked(Qt::KeyboardModifiers modifiers, bool play = false);
     QVector<QPoint> processedZones(const QVector<QPoint> &sourceZones);
     QVector<QPoint> getInsertZones();
+    QVector<QPoint> fullExport();
     /** @brief Remove all text outside loadZones
      */
     void processCutZones(const QList <QPoint> &loadZones);
@@ -153,6 +154,8 @@ private Q_SLOTS:
     void insertToTimeline();
     /** @brief Preview current edited text in the clip monitor */
     void previewPlaylist(bool createNew = true);
+    /** @brief Create a timeline sequence with current edit */
+    void createSequence();
     /** @brief Display info message */
     void showMessage(const QString &text, KMessageWidget::MessageType type, QAction *action = nullptr);
     void addBookmark();

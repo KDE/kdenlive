@@ -22,8 +22,12 @@ PythonDependencyMessage::PythonDependencyMessage(QWidget *parent, AbstractPython
     , m_interface(interface)
 {
     setWordWrap(true);
+    m_installAction = new QAction(i18n("Install missing dependencies"), this);
+    m_abortAction = new QAction(i18n("Abort installation"), this);
+    connect(m_abortAction, &QAction::triggered, m_interface, &AbstractPythonInterface::abortScript);
     connect(m_interface, &AbstractPythonInterface::setupError, this, [&](const QString &message) {
         removeAction(m_installAction);
+        removeAction(m_abortAction);
         doShowMessage(message, KMessageWidget::Warning);
     });
 
@@ -46,6 +50,7 @@ PythonDependencyMessage::PythonDependencyMessage(QWidget *parent, AbstractPython
     connect(m_interface, &AbstractPythonInterface::dependenciesMissing, this, [&](const QStringList &messages) {
         if (!m_interface->installDisabled()) {
             m_installAction->setEnabled(true);
+            removeAction(m_abortAction);
             m_installAction->setText(i18n("Install missing dependencies"));
             addAction(m_installAction);
         }
@@ -58,6 +63,7 @@ PythonDependencyMessage::PythonDependencyMessage(QWidget *parent, AbstractPython
             // only allow upgrading python modules once
             m_installAction->setText(i18n("Check for update"));
             m_installAction->setEnabled(true);
+            removeAction(m_abortAction);
             addAction(m_installAction);
             doShowMessage(message, KMessageWidget::Warning);
         });
@@ -68,6 +74,7 @@ PythonDependencyMessage::PythonDependencyMessage(QWidget *parent, AbstractPython
             // only allow upgrading python modules once
             m_installAction->setText(i18n("Check for update"));
             m_installAction->setEnabled(true);
+            removeAction(m_abortAction);
             addAction(m_installAction);
         }
         if (text().isEmpty()) {
@@ -75,11 +82,11 @@ PythonDependencyMessage::PythonDependencyMessage(QWidget *parent, AbstractPython
         }
     });
 
-    m_installAction = new QAction(i18n("Install missing dependencies"), this);
     connect(m_installAction, &QAction::triggered, this, [&]() {
         if (!m_interface->missingDependencies().isEmpty()) {
             m_installAction->setEnabled(false);
-            doShowMessage(i18n("Installing modules…"), KMessageWidget::Information);
+            doShowMessage(i18n("Installing modules… this can take a while"), KMessageWidget::Information);
+            addAction(m_abortAction);
             qApp->processEvents();
             m_interface->installMissingDependencies();
             removeAction(m_installAction);
@@ -87,6 +94,7 @@ PythonDependencyMessage::PythonDependencyMessage(QWidget *parent, AbstractPython
             // upgrade
             m_updated = true;
             m_installAction->setEnabled(false);
+            addAction(m_abortAction);
             doShowMessage(i18n("Updating modules…"), KMessageWidget::Information);
             qApp->processEvents();
             m_interface->updateDependencies();
@@ -367,8 +375,10 @@ QString AbstractPythonInterface::runScript(const QString &script, QStringList ar
             });
         }
     }
+    connect(this, &AbstractPythonInterface::abortScript, &scriptJob, &QProcess::kill, Qt::DirectConnection);
     scriptJob.start(m_pyExec, args);
-    scriptJob.waitForFinished();
+    // Don't timeout
+    scriptJob.waitForFinished(-1);
     if (!concurrent && (scriptJob.exitStatus() != QProcess::NormalExit || scriptJob.exitCode() != 0)) {
         qDebug() << "::::: WARNING ERRROR EXIT STATUS: " << scriptJob.exitCode();
         KMessageBox::detailedError(pCore->window(), i18n("Error while running python3 script:\n %1", scriptpath), scriptJob.readAllStandardError());
