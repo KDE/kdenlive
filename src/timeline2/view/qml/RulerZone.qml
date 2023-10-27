@@ -180,7 +180,7 @@ Rectangle {
                     parent.anchors.left = rzone.left
                     updateZone(startZone, Qt.point(frameIn, frameOut), true)
                 }
-                onPositionChanged: {
+                onPositionChanged: mouse => {
                     if (mouse.buttons === Qt.LeftButton) {
                         resizeActive = true
                         var newPos = controller.suggestSnapPoint(frameIn + Math.round(trimIn.x / timeline.scaleFactor), mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping)
@@ -229,7 +229,7 @@ Rectangle {
                     parent.anchors.right = rzone.right
                     updateZone(startZone, Qt.point(frameIn, frameOut), true)
                 }
-                onPositionChanged: {
+                onPositionChanged: mouse => {
                     if (mouse.buttons === Qt.LeftButton) {
                         resizeActive = true
                         frameOut = Math.max(controller.suggestSnapPoint(frameIn + Math.round((trimOut.x + trimOut.width) / timeline.scaleFactor), mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping), frameIn + 1)

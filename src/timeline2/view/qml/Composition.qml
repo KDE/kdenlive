@@ -54,10 +54,6 @@ Item {
     y: trackOffset
     height: 5
 
-    signal moved(var clip)
-    signal dragged(var clip, var mouse)
-    signal dropped(var clip)
-    signal draggedToTrack(var clip, int pos, int xpos)
     signal trimmingIn(var clip, real newDuration)
     signal trimmedIn(var clip)
     signal trimmingOut(var clip, real newDuration)
@@ -195,12 +191,12 @@ Item {
             acceptedButtons: Qt.RightButton
             enabled: root.activeTool === 0
             hoverEnabled: root.activeTool === 0
-            Keys.onShortcutOverride: event.accepted = compositionRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)
-            Keys.onLeftPressed: {
+            Keys.onShortcutOverride: event => {event.accepted = compositionRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)}
+            Keys.onLeftPressed: event => {
                 var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
                 controller.requestCompositionMove(compositionRoot.clipId, compositionRoot.originalTrackId, compositionRoot.modelStart - offset, true, true)
             }
-            Keys.onRightPressed: {
+            Keys.onRightPressed: event => {
                 var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
                 controller.requestCompositionMove(compositionRoot.clipId, compositionRoot.originalTrackId, compositionRoot.modelStart + offset, true, true)
             }
@@ -215,7 +211,7 @@ Item {
             }
             cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor : dragProxyArea.cursorShape
 
-            onPressed: {
+            onPressed: mouse => {
                 root.autoScrolling = false
                 compositionRoot.forceActiveFocus();
                 root.mainItemId = compositionRoot.clipId
@@ -241,7 +237,7 @@ Item {
                     timeline.showToolTip()
                 }
             }
-            onDoubleClicked: {
+            onDoubleClicked: mouse => {
                 if (mouse.modifiers & Qt.ShiftModifier) {
                     if (keyframeModel && showKeyframes) {
                         // Add new keyframe
@@ -255,13 +251,13 @@ Item {
                     timeline.editItemDuration(clipId)
                 }
             }
-            onPositionChanged: {
+            onPositionChanged: mouse => {
                 if (parentTrack) {
                     var mapped = parentTrack.mapFromItem(compositionRoot, mouse.x, mouse.y).x
                     root.mousePosChanged(Math.round(mapped / timeline.scaleFactor))
                 }
             }
-            onWheel: zoomByWheel(wheel)
+            onWheel: wheel => zoomByWheel(wheel)
 
             MouseArea {
                 id: trimInMouseArea
@@ -291,7 +287,7 @@ Item {
                     updateDrag()
                     root.trimInProgress = false;
                 }
-                onPositionChanged: {
+                onPositionChanged: mouse => {
                     if (mouse.buttons === Qt.LeftButton) {
                         var delta = Math.round(x / timeScale)
                         if (delta < -modelStart) {
@@ -359,7 +355,7 @@ Item {
                     updateDrag()
                     root.trimInProgress = false;
                 }
-                onPositionChanged: {
+                onPositionChanged: mouse => {
                     if (mouse.buttons === Qt.LeftButton) {
                         var newDuration = Math.round((x + width) / timeScale)
                         compositionRoot.trimmingOut(compositionRoot, newDuration)

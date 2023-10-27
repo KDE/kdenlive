@@ -395,10 +395,15 @@ void MainWindow::init(const QString &mltPath)
             [&](int cid, const QString &compositionId) { getCurrentTimeline()->model()->switchComposition(cid, compositionId); });
     connect(pCore->bin(), &Bin::updateTabName, m_timelineTabs, &TimelineTabs::renameTab);
     connect(m_timelineTabs, &TimelineTabs::showMixModel, m_assetPanel, &AssetPanel::showMix);
-    connect(m_timelineTabs, &TimelineTabs::showTransitionModel, m_assetPanel, &AssetPanel::showTransition);
-    connect(m_timelineTabs, &TimelineTabs::showTransitionModel, this, [&]() { m_effectStackDock->raise(); });
-    connect(m_timelineTabs, &TimelineTabs::showItemEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
-    connect(m_timelineTabs, &TimelineTabs::showItemEffectStack, this, [&]() { m_effectStackDock->raise(); });
+    connect(m_timelineTabs, &TimelineTabs::showTransitionModel, this, [&](int tid, std::shared_ptr<AssetParameterModel> model) {
+        m_assetPanel->showTransition(tid, model);
+        m_effectStackDock->raise();
+    });
+    connect(m_timelineTabs, &TimelineTabs::showItemEffectStack, this,
+            [&](const QString &clipName, std::shared_ptr<EffectStackModel> model, QSize size, bool showKeyframes) {
+                m_assetPanel->showEffectStack(clipName, model, size, showKeyframes);
+                m_effectStackDock->raise();
+            });
 
     connect(m_timelineTabs, &TimelineTabs::updateAssetPosition, m_assetPanel, &AssetPanel::updateAssetPosition);
 
@@ -878,7 +883,7 @@ void MainWindow::init(const QString &mltPath)
     connect(this, &MainWindow::removeBinDock, this, &MainWindow::slotRemoveBinDock);
     // m_messageLabel->setMessage(QStringLiteral("This is a beta version. Always backup your data"), MltError);
 
-    QAction *const showMenuBarAction = actionCollection()->action(QLatin1String(KStandardAction::name(KStandardAction::ShowMenubar)));
+    QAction *const showMenuBarAction = actionCollection()->action(KStandardAction::name(KStandardAction::ShowMenubar));
     // FIXME: workaround for BUG 171080
     showMenuBarAction->setChecked(!menuBar()->isHidden());
 
@@ -2979,7 +2984,15 @@ void MainWindow::slotInsertClipOverwrite()
         // No clip in monitor
         return;
     }
-    getCurrentTimeline()->controller()->insertZone(binId, m_clipMonitor->getZoneInfo(), true);
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    bool res = getCurrentTimeline()->controller()->insertZone(binId, m_clipMonitor->getZoneInfo(), true, undo, redo);
+    if (res) {
+        pCore->pushUndo(undo, redo, i18n("Overwrite zone"));
+    } else {
+        pCore->displayMessage(i18n("Could not insert zone"), ErrorMessage);
+        undo();
+    }
 }
 
 void MainWindow::slotInsertClipInsert()
@@ -2990,7 +3003,15 @@ void MainWindow::slotInsertClipInsert()
         pCore->displayMessage(i18n("No clip selected in project bin"), ErrorMessage);
         return;
     }
-    getCurrentTimeline()->controller()->insertZone(binId, m_clipMonitor->getZoneInfo(), false);
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    bool res = getCurrentTimeline()->controller()->insertZone(binId, m_clipMonitor->getZoneInfo(), false, undo, redo);
+    if (res) {
+        pCore->pushUndo(undo, redo, i18n("Insert zone"));
+    } else {
+        pCore->displayMessage(i18n("Could not insert zone"), ErrorMessage);
+        undo();
+    }
 }
 
 void MainWindow::slotExtractZone()

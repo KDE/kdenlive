@@ -138,14 +138,14 @@ Item {
         hoverEnabled: true
         acceptedButtons: Qt.NoButton
         anchors.fill: parent
-        onPositionChanged: {
+        onPositionChanged: mouse => {
             if (mouse.modifiers & Qt.ShiftModifier) {
                 var pos = Math.max(mouseX, 0)
                 pos += width/root.zoomFactor * root.zoomStart
                 controller.setPosition(Math.min(pos / root.timeScale, root.duration));
             }
         }
-        onWheel: {
+        onWheel: wheel => {
             controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
         }
         onEntered: {
@@ -208,7 +208,7 @@ Item {
             keys: 'kdenlive/effect'
             property string droppedData
             property string droppedDataSource
-            onEntered: {
+            onEntered: drag => {
                 drag.acceptProposedAction()
                 droppedData = drag.getDataAsString('kdenlive/effect')
                 droppedDataSource = drag.getDataAsString('kdenlive/effectsource')
@@ -350,7 +350,7 @@ Item {
                             controller.setPosition(Math.min(pos / root.timeScale, root.duration));
                         }
                     }
-                    onWheel: {
+                    onWheel: wheel => {
                         if (wheel.modifiers & Qt.ControlModifier) {
                             if (wheel.angleDelta.y < 0) {
                                 // zoom out

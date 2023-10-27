@@ -2553,7 +2553,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             }
         }
     }
-    if (delta_track != 0) {
+    if (delta_track != 0 && !revertMove) {
         // Ensure destination tracks are empty
         for (const std::pair<int, int> &item : sorted_clips) {
             int currentTrack = getClipTrackId(item.first);
@@ -7061,4 +7061,15 @@ void TimelineModel::loadPreview(const QString &chunks, const QString &dirty, boo
         }
         previewManager()->loadChunks(renderedChunks, dirtyChunks, playlist);
     }
+}
+
+bool TimelineModel::clipIsAudio(int cid) const
+{
+    if (isClip(cid)) {
+        int tid = getClipTrackId(cid);
+        if (tid > -1) {
+            return getTrackById_const(tid)->isAudioTrack();
+        }
+    }
+    return false;
 }

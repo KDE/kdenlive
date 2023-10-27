@@ -3055,7 +3055,7 @@ bool TimelineController::insertClipZone(const QString &binId, int tid, int posit
     return res;
 }
 
-int TimelineController::insertZone(const QString &binId, QPoint zone, bool overwrite)
+int TimelineController::insertZone(const QString &binId, QPoint zone, bool overwrite, Fun &undo, Fun &redo)
 {
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(binId);
     int aTrack = -1;
@@ -3095,8 +3095,6 @@ int TimelineController::insertZone(const QString &binId, QPoint zone, bool overw
         pCore->displayMessage(i18n("Please select a target track by clicking on a track's target zone"), ErrorMessage);
         return -1;
     }
-    std::function<bool(void)> undo = []() { return true; };
-    std::function<bool(void)> redo = []() { return true; };
     bool res = TimelineFunctions::insertZone(m_model, target_tracks, binId, insertPoint, sourceZone, overwrite, true, undo, redo);
     if (res) {
         int newPos = insertPoint + (sourceZone.y() - sourceZone.x());
@@ -3113,10 +3111,6 @@ int TimelineController::insertZone(const QString &binId, QPoint zone, bool overw
         };
         redoPos();
         UPDATE_UNDO_REDO_NOLOCK(redoPos, undoPos, undo, redo);
-        pCore->pushUndo(undo, redo, overwrite ? i18n("Overwrite zone") : i18n("Insert zone"));
-    } else {
-        pCore->displayMessage(i18n("Could not insert zone"), ErrorMessage);
-        undo();
     }
     return res;
 }
@@ -3885,7 +3879,13 @@ void TimelineController::updateClipActions()
 {
     if (m_model->getCurrentSelection().empty()) {
         for (QAction *act : qAsConst(clipActions)) {
-            act->setEnabled(false);
+            const QChar actionData = act->data().toChar();
+            if (actionData == QLatin1Char('P')) {
+                // Position actions should stay enabled in clip monitor
+                act->setEnabled(true);
+            } else {
+                act->setEnabled(false);
+            }
         }
         Q_EMIT timelineClipSelected(false);
         // nothing selected

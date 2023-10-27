@@ -31,7 +31,7 @@ Rectangle {
         id: containerArea
         anchors.fill: parent
         hoverEnabled: true
-        onWheel: {
+        onWheel: wheel => {
             if (wheel.modifiers & Qt.ControlModifier) {
                 zoomByWheel(wheel)
             } else {
@@ -44,7 +44,7 @@ Rectangle {
                 proposeContentPos(newPos / zoomHandleContainer.width)
             }
         }
-        onPressed: {
+        onPressed: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
                 if (mouseX > zoomEnd.x + zoomEnd.width) {
                     proposeContentPos((zoomBar.x + zoomBar.width) / zoomHandleContainer.width)
@@ -78,7 +78,7 @@ Rectangle {
                     minimumX: 0
                     maximumX: zoomHandleContainer.width - zoomBar.width
                 }
-                onPositionChanged: {
+                onPositionChanged: mouse => {
                     if (mouse.buttons === Qt.LeftButton) {
                         proposeContentPos(zoomBar.x / zoomHandleContainer.width)
                     }
@@ -119,7 +119,7 @@ Rectangle {
             height: zoomBar.height
             hoverEnabled: true
             cursorShape: Qt.SizeHorCursor
-            onPositionChanged: {
+            onPositionChanged: mouse => {
                 if (mouse.buttons === Qt.LeftButton) {
                     var updatedPos = Math.max(0, x + mouseX)
                     updatedPos = Math.min(updatedPos, zoomEnd.x - width - 1)
@@ -153,7 +153,7 @@ Rectangle {
             height: zoomBar.height
             hoverEnabled: true
             cursorShape: Qt.SizeHorCursor
-            onPositionChanged: {
+            onPositionChanged: mouse => {
                 if (mouse.buttons === Qt.LeftButton) {
                     var updatedPos = Math.min(zoomHandleContainer.width, x + mouseX)
                     updatedPos = Math.max(updatedPos, zoomBar.x + width * 2 + 1)

@@ -2255,7 +2255,7 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
                     if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
                         if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
                             // Found a timeremap effect, read params
-                            fromLink->set("map", prod.attribute(QStringLiteral("timemap")).toUtf8().constData());
+                            fromLink->set("time_map", prod.attribute(QStringLiteral("timemap")).toUtf8().constData());
                             fromLink->set("pitch", prod.attribute(QStringLiteral("timepitch")).toInt());
                             fromLink->set("image_mode", prod.attribute(QStringLiteral("timeblend")).toUtf8().constData());
                             break;

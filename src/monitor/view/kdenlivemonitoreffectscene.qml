@@ -186,12 +186,12 @@ Item {
         anchors.centerIn: root
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton
-        cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
-        onWheel: {
+        cursorShape: handleContainsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
+        onWheel: wheel => {
             controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
         }
 
-        readonly property bool containsMouse: {
+        readonly property bool handleContainsMouse: {
               if (isMoving) {
                   return true;
               }
@@ -207,7 +207,7 @@ Item {
               return false
         }
 
-        onPositionChanged: {
+        onPositionChanged: mouse => {
             if (!pressed) {
                 mouse.accepted = false
                 return
@@ -221,7 +221,7 @@ Item {
             }
         }
 
-        onPressed: {
+        onPressed: mouse => {
             if (mouse.button & Qt.LeftButton) {
                 if (root.requestedKeyFrame >= 0 && !isMoving) {
                     controller.seekToKeyframe();

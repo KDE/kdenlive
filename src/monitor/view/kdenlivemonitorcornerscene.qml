@@ -191,7 +191,7 @@ Item {
         anchors.centerIn: root
         hoverEnabled: true
         cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
-        onWheel: {
+        onWheel: wheel => {
             controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
         }
         onDoubleClicked: {

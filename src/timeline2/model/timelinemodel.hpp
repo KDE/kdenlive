@@ -375,6 +375,8 @@ public:
     int getMirrorAudioTrackId(int trackId) const;
     int getMirrorVideoTrackId(int trackId) const;
     int getMirrorTrackId(int trackId) const;
+    /** @brief Returns true if a clip cid is on an audio track */
+    bool clipIsAudio(int cid) const;
 
     /** @brief Sets a track in a given lock state
        Locked tracks can't receive any operations (resize, move, insertion, deletion...)

@@ -116,10 +116,10 @@ Rectangle {
         height: root.baseUnit
         fitsZoom: root.zoomFactor === 1 && root.zoomStart === 0
         zoomFactor: root.zoomFactor
-        onProposeZoomFactor: root.zoomFactor = proposedValue
+        onProposeZoomFactor: (proposedValue) => {root.zoomFactor = proposedValue}
         contentPos: root.zoomStart
-        onProposeContentPos: root.zoomStart = proposedValue
-        onZoomByWheel: {
+        onProposeContentPos: (proposedValue) => {root.zoomStart = proposedValue}
+        onZoomByWheel: wheel => {
             if (wheel.angleDelta.y < 0) {
                 // zoom out
                 zoomOutRuler(wheel.x)
@@ -231,13 +231,13 @@ Rectangle {
         anchors.fill: parent
         propagateComposedEvents: true
         hoverEnabled: true
-        onPressed: {
+        onPressed: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
                 var pos = Math.max(mouseX, 0)
                 controller.position = Math.min((pos + ruler.rulerZoomOffset) / root.timeScale, root.duration);
             }
         }
-        onPositionChanged: {
+        onPositionChanged: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
                 var pos = Math.max(mouseX, 0)
                 root.mouseRulerPos = pos
@@ -246,7 +246,7 @@ Rectangle {
                 }
             }
         }
-        onWheel: {
+        onWheel: wheel => {
             if (wheel.modifiers & Qt.ControlModifier) {
                 if (wheel.angleDelta.y < 0) {
                     // zoom out
