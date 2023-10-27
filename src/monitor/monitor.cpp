@@ -12,7 +12,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "dialogs/profilesdialog.h"
 #include "doc/kdenlivedoc.h"
 #include "doc/kthumb.h"
-#include "glwidget.h"
 #include "jobs/cuttask.h"
 #include "kdenlivesettings.h"
 #include "lib/audio/audioStreamInfo.h"
@@ -20,6 +19,20 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "mainwindow.h"
 #include "mltcontroller/clipcontroller.h"
 #include "project/dialogs/guideslist.h"
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include "videowidget.h"
+#if defined(Q_OS_WIN)
+#include "d3dvideowidget.h"
+#include "openglvideowidget.h"
+#elif defined(Q_OS_MACOS)
+#include "metalvideowidget.h"
+#else
+// Linux
+#include "openglvideowidget.h"
+#endif
+#else // Qt6
+#include "glwidget.h"
+#endif
 
 #include "bin/model/markersortmodel.h"
 #include "monitormanager.h"
@@ -131,9 +144,25 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     glayout->setSpacing(0);
     glayout->setContentsMargins(0, 0, 0, 0);
     // Create QML OpenGL widget
-    m_glMonitor = new GLWidget(id, this);
-    connect(m_glMonitor, &GLWidget::passKeyEvent, this, &Monitor::doKeyPressEvent);
-    connect(m_glMonitor, &GLWidget::panView, this, &Monitor::panView);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#if defined(Q_OS_WIN)
+    if (QSGRendererInterface::Direct3D11 == QQuickWindow::graphicsApi())
+        m_glMonitor = new D3DVideoWidget(id, this);
+    else
+        m_glMonitor = new OpenGLVideoWidget(id, this);
+#elif defined(Q_OS_MACOS)
+    m_glMonitor = new MetalVideoWidget(id, this);
+#else
+    m_glMonitor = new OpenGLVideoWidget(id, this);
+    connect(m_glMonitor->quickWindow(), &QQuickWindow::sceneGraphInitialized, m_glMonitor, &VideoWidget::initialize, Qt::DirectConnection);
+    connect(m_glMonitor->quickWindow(), &QQuickWindow::beforeRendering, m_glMonitor, &VideoWidget::beforeRendering, Qt::DirectConnection);
+    connect(m_glMonitor->quickWindow(), &QQuickWindow::beforeRenderPassRecording, m_glMonitor, &VideoWidget::renderVideo, Qt::DirectConnection);
+#endif
+#else
+    m_glMonitor = new VideoWidget(id, this);
+#endif
+    connect(m_glMonitor, &VideoWidget::passKeyEvent, this, &Monitor::doKeyPressEvent);
+    connect(m_glMonitor, &VideoWidget::panView, this, &Monitor::panView);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::requestSeek, this, &Monitor::processSeek, Qt::DirectConnection);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::positionChanged, this, &Monitor::slotSeekPosition);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::addTimelineEffect, this, &Monitor::addTimelineEffect);
@@ -152,13 +181,13 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_horizontalScroll->hide();
     connect(m_horizontalScroll, &QAbstractSlider::valueChanged, this, &Monitor::setOffsetX);
     connect(m_verticalScroll, &QAbstractSlider::valueChanged, this, &Monitor::setOffsetY);
-    connect(m_glMonitor, &GLWidget::frameDisplayed, this, &Monitor::onFrameDisplayed, Qt::DirectConnection);
-    connect(m_glMonitor, &GLWidget::mouseSeek, this, &Monitor::slotMouseSeek);
-    connect(m_glMonitor, &GLWidget::switchFullScreen, this, &Monitor::slotSwitchFullScreen);
-    connect(m_glMonitor, &GLWidget::zoomChanged, this, &Monitor::setZoom);
+    connect(m_glMonitor, &VideoWidget::frameDisplayed, this, &Monitor::onFrameDisplayed, Qt::DirectConnection);
+    connect(m_glMonitor, &VideoWidget::mouseSeek, this, &Monitor::slotMouseSeek);
+    connect(m_glMonitor, &VideoWidget::switchFullScreen, this, &Monitor::slotSwitchFullScreen);
+    connect(m_glMonitor, &VideoWidget::zoomChanged, this, &Monitor::setZoom);
     connect(m_glMonitor, SIGNAL(lockMonitor(bool)), this, SLOT(slotLockMonitor(bool)), Qt::DirectConnection);
-    connect(m_glMonitor, &GLWidget::showContextMenu, this, &Monitor::slotShowMenu);
-    connect(m_glMonitor, &GLWidget::gpuNotSupported, this, &Monitor::gpuError);
+    connect(m_glMonitor, &VideoWidget::showContextMenu, this, &Monitor::slotShowMenu);
+    connect(m_glMonitor, &VideoWidget::gpuNotSupported, this, &Monitor::gpuError);
 
     m_glWidget->setMinimumSize(QSize(320, 180));
     layout->addWidget(m_glWidget, 10);
@@ -229,7 +258,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         m_recManager = new RecManager(this);
         connect(m_recManager, &RecManager::warningMessage, this, &Monitor::warningMessage);
         connect(m_recManager, &RecManager::addClipToProject, this, &Monitor::addClipToProject);
-        connect(m_glMonitor, &GLWidget::startDrag, this, &Monitor::slotStartDrag);
+        connect(m_glMonitor, &VideoWidget::startDrag, this, &Monitor::slotStartDrag);
         // Show timeline clip usage
         connect(pCore.get(), &Core::clipInstanceResized, this, [this](const QString &binId) {
             if (m_controller && activeClipId() == binId) {
@@ -309,7 +338,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         });
     } else if (id == Kdenlive::ProjectMonitor) {
         // JBM - This caused the track audio levels to go blank on pause, doesn't seem to have another use
-        // connect(m_glMonitor, &GLWidget::paused, m_monitorManager, &MonitorManager::cleanMixer);
+        // connect(m_glMonitor, &VideoWidget::paused, m_monitorManager, &MonitorManager::cleanMixer);
     }
 
     m_markIn = new QAction(QIcon::fromTheme(QStringLiteral("zone-in")), i18n("Set Zone In"), this);
@@ -336,7 +365,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_playAction = new KDualAction(i18n("Play"), i18n("Pause"), this);
     m_playAction->setInactiveIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
     m_playAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("media-playback-pause")));
-    connect(m_glMonitor, &GLWidget::monitorPlay, m_playAction, &QAction::trigger);
+    connect(m_glMonitor, &VideoWidget::monitorPlay, m_playAction, &QAction::trigger);
 
     QString strippedTooltip = m_playAction->toolTip().remove(QRegularExpression(QStringLiteral("\\s\\(.*\\)")));
     // append shortcut if it exists for action
@@ -416,8 +445,8 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     setLayout(layout);
     setMinimumHeight(200);
 
-    connect(this, &Monitor::scopesClear, m_glMonitor, &GLWidget::releaseAnalyse, Qt::DirectConnection);
-    connect(m_glMonitor, &GLWidget::analyseFrame, this, &Monitor::frameUpdated);
+    connect(this, &Monitor::scopesClear, m_glMonitor, &VideoWidget::releaseAnalyse, Qt::DirectConnection);
+    connect(m_glMonitor, &VideoWidget::analyseFrame, this, &Monitor::frameUpdated);
     m_timePos = new TimecodeDisplay(this);
 
     if (id == Kdenlive::ProjectMonitor) {
@@ -1257,14 +1286,14 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
                     if (!proxiedClips.isEmpty()) {
                         existingProxies = pCore->currentDoc()->proxyClipsById(proxiedClips, false);
                     }
-                    disconnect(m_glMonitor, &GLWidget::analyseFrame, this, &Monitor::frameUpdated);
+                    disconnect(m_glMonitor, &VideoWidget::analyseFrame, this, &Monitor::frameUpdated);
                     bool analysisStatus = m_glMonitor->sendFrameForAnalysis;
                     m_glMonitor->sendFrameForAnalysis = true;
                     if (m_captureConnection) {
                         QObject::disconnect(m_captureConnection);
                     }
                     m_captureConnection =
-                        connect(m_glMonitor, &GLWidget::analyseFrame, this,
+                        connect(m_glMonitor, &VideoWidget::analyseFrame, this,
                                 [this, proxiedClips, selectedFile, existingProxies, addToProject, analysisStatus, previewScale](const QImage &img) {
                                     m_glMonitor->sendFrameForAnalysis = analysisStatus;
                                     m_glMonitor->releaseAnalyse();
@@ -1283,7 +1312,7 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
                                         pCore->currentDoc()->proxyClipsById(proxiedClips, true, existingProxies);
                                     }
                                     QObject::disconnect(m_captureConnection);
-                                    connect(m_glMonitor, &GLWidget::analyseFrame, this, &Monitor::frameUpdated);
+                                    connect(m_glMonitor, &VideoWidget::analyseFrame, this, &Monitor::frameUpdated);
                                     KRecentDirs::add(QStringLiteral(":KdenliveFramesFolder"),
                                                      QUrl::fromLocalFile(selectedFile).adjusted(QUrl::RemoveFilename).toLocalFile());
                                     if (addToProject) {
@@ -1549,7 +1578,7 @@ void Monitor::refreshMonitor(bool directUpdate)
             m_glMonitor->refresh();
             // Monitor was not active, so we activate it, refresh and activate the other monitor once done
             QObject::disconnect(m_switchConnection);
-            m_switchConnection = connect(m_glMonitor, &GLWidget::frameDisplayed, this, [=]() {
+            m_switchConnection = connect(m_glMonitor, &VideoWidget::frameDisplayed, this, [=]() {
                 m_monitorManager->activateMonitor(m_id == Kdenlive::ClipMonitor ? Kdenlive::ProjectMonitor : Kdenlive::ClipMonitor, otherMonitorVisible);
                 QObject::disconnect(m_switchConnection);
             });
@@ -1832,7 +1861,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             m_timePos->setRange(0, int(m_controller->frameDuration() - 1));
             m_glMonitor->setRulerInfo(int(m_controller->frameDuration() - 1), controller->getFilteredMarkerModel());
             double audioScale = m_controller->getProducerDoubleProperty(QStringLiteral("kdenlive:thumbZoomFactor"));
-            if (in == out == -1) {
+            if (in == out && in == -1) {
                 // Only apply on bin clip, not sub clips
                 int lastPosition = m_controller->getProducerIntProperty(QStringLiteral("kdenlive:monitorPosition"));
                 if (lastPosition > 0 && lastPosition != m_controller->originalProducer()->position()) {

@@ -225,7 +225,7 @@ void ProjectSortProxyModel::onCurrentRowChanged(const QItemSelection &current, c
 
 void ProjectSortProxyModel::slotDataChanged(const QModelIndex &ix1, const QModelIndex &ix2, const QVector<int> &roles)
 {
-    Q_EMIT dataChanged(ix1, ix2, roles);
+    Q_EMIT dataChanged(mapFromSource(ix1), mapFromSource(ix2), roles);
 }
 
 void ProjectSortProxyModel::selectAll(const QModelIndex &rootIndex)

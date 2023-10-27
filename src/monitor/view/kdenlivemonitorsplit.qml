@@ -57,7 +57,7 @@ Item {
         hoverEnabled: true
         cursorShape: Qt.SizeHorCursor
         acceptedButtons: Qt.LeftButton
-        onWheel: {
+        onWheel: wheel => {
             controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
         }
         onPressed: {

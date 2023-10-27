@@ -9,7 +9,6 @@
 #include "bin/bin.h"
 #include "core.h"
 #include "doc/kthumb.h"
-#include "glwidget.h"
 #include "kdenlivesettings.h"
 #include "monitormanager.h"
 #include "profiles/profilemodel.hpp"
@@ -21,7 +20,7 @@
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltProfile.h>
 
-MonitorProxy::MonitorProxy(GLWidget *parent)
+MonitorProxy::MonitorProxy(VideoWidget *parent)
     : QObject(parent)
     , q(parent)
     , m_position(-1)

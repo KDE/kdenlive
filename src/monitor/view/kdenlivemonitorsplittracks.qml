@@ -61,7 +61,7 @@ Item {
         hoverEnabled: true
         acceptedButtons: Qt.NoButton
         anchors.fill: parent
-        onWheel: {
+        onWheel: wheel => {
             controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
         }
     }

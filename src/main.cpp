@@ -75,7 +75,14 @@ int main(int argc, char *argv[])
 #endif
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#if defined(Q_OS_WIN)
+    QQuickWindow::setGraphicsApi(QSGRendererInterface::Direct3D11);
+#elif defined(Q_OS_MACOS)
+    QQuickWindow::setGraphicsApi(QSGRendererInterface::Metal);
+#else
     QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
+    QCoreApplication::setAttribute(Qt::AA_UseDesktopOpenGL, true);
+#endif
 #endif
 
 #if defined(Q_OS_WIN)

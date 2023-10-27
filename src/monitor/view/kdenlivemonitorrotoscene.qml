@@ -397,7 +397,7 @@ Item {
         onExited: {
             controller.setWidgetKeyBinding()
         }
-        onWheel: {
+        onWheel: wheel => {
             controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
         }
         onDoubleClicked: {
@@ -454,7 +454,7 @@ Item {
             }
         }
 
-        onClicked: {
+        onClicked: mouse => {
             if (!root.isDefined) {
                 if (mouse.button == Qt.RightButton && root.centerPoints.length > 2) {
                     // close shape, define control points
@@ -487,7 +487,7 @@ Item {
             }
         }
 
-        onPositionChanged: {
+        onPositionChanged: mouse => {
             if (pressed && root.iskeyframe == false) {
                 if (controller.autoKeyframe) {
                     controller.addRemoveKeyframe();

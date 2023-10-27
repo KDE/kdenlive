@@ -273,12 +273,12 @@ Rectangle {
         property string dropData
         property string dropSource
         property int dropRow: -1
-        onEntered: {
+        onEntered: drag => {
             dropData = drag.getDataAsString('kdenlive/effect')
             dropSource = drag.getDataAsString('kdenlive/effectsource')
             updateDrag()
         }
-        onDropped: {
+        onDropped: drag => {
             console.log("Add effect: ", dropData)
             if (dropSource == '') {
                 // drop from effects list
@@ -309,7 +309,7 @@ Rectangle {
         cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor : dragProxyArea.cursorShape
         property bool shiftSlip: false
         property bool controlSlip: false
-        onPressed: {
+        onPressed: mouse => {
             root.autoScrolling = false
             root.mainItemId = clipRoot.clipId
             if (mouse.button == Qt.RightButton) {
@@ -324,15 +324,15 @@ Rectangle {
         onReleased: {
             root.autoScrolling = timeline.autoScroll
         }
-        Keys.onShortcutOverride: event.accepted = clipRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)
-        Keys.onLeftPressed: {
+        Keys.onShortcutOverride: event => {event.accepted = clipRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)}
+        Keys.onLeftPressed: event => {
             var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
             while((clipRoot.modelStart >= offset) && !controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart - offset, true, true, true)) {
                 offset++;
             }
             timeline.showToolTip(i18n("Position: %1", timeline.simplifiedTC(clipRoot.modelStart)));
         }
-        Keys.onRightPressed: {
+        Keys.onRightPressed: event => {
             var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
             while(!controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart + offset, true, true, true)) {
                 offset++;
@@ -355,7 +355,7 @@ Rectangle {
             timeline.grabCurrent()
             //focus = false
         }
-        onPositionChanged: {
+        onPositionChanged: mouse => {
             var mapped = parentTrack.mapFromItem(clipRoot, mouse.x, mouse.y).x
             root.mousePosChanged(Math.round(mapped / timeline.scaleFactor))
         }
@@ -366,12 +366,14 @@ Rectangle {
         }
 
         onExited: {
-            root.endDrag()
-            if (!trimInMouseArea.containsMouse && !trimOutMouseArea.containsMouse && !compInArea.containsMouse && !compOutArea.containsMouse) {
-                timeline.showToolTip()
+            if (pressed) {
+                root.endDrag()
+                if (!trimInMouseArea.containsMouse && !trimOutMouseArea.containsMouse && !compInArea.containsMouse && !compOutArea.containsMouse) {
+                    timeline.showToolTip()
+                }
             }
         }
-        onWheel: zoomByWheel(wheel)
+        onWheel: wheel => zoomByWheel(wheel)
 
         Loader {
             // Thumbs container
@@ -486,7 +488,7 @@ Rectangle {
                             parent.anchors.right = undefined
                             mixCutPos.anchors.right = undefined
                         }
-                        onReleased: {
+                        onReleased: mouse => {
                             root.autoScrolling = timeline.autoScroll
                             if (sizeChanged) {
                                 controller.resizeStartMix(clipRoot.clipId, Math.round(Math.max(0, x) / clipRoot.timeScale), mouse.modifiers & Qt.ShiftModifier)
@@ -499,7 +501,7 @@ Rectangle {
                             mixCutPos.anchors.right = mixCutPos.parent.right
                             root.trimInProgress = false;
                         }
-                        onPositionChanged: {
+                        onPositionChanged: mouse => {
                             if (mouse.buttons === Qt.LeftButton) {
                                 var currentFrame = Math.round(x / clipRoot.timeScale)
                                 if (currentFrame != previousMix) {
@@ -627,7 +629,7 @@ Rectangle {
                 property bool controlTrim: false
                 property bool sizeChanged: false
                 cursorShape: (enabled && (containsMouse || pressed) ? Qt.SizeHorCursor : Qt.OpenHandCursor)
-                onPressed: {
+                onPressed: mouse => {
                     root.autoScrolling = false
                     root.trimInProgress = true;
                     clipRoot.originalX = clipRoot.x
@@ -666,7 +668,7 @@ Rectangle {
                         timeline.mixClip(clipRoot.clipId, -1)
                     }
                 }
-                onPositionChanged: {
+                onPositionChanged: mouse => {
                     if (mouse.buttons === Qt.LeftButton) {
                         var currentFrame = Math.round((clipRoot.x + (x + itemBorder.border.width)) / clipRoot.timeScale)
                         var currentClipPos = clipRoot.modelStart
@@ -769,7 +771,7 @@ Rectangle {
                 drag.axis: Drag.XAxis
                 drag.smoothed: false
 
-                onPressed: {
+                onPressed: mouse => {
                     root.autoScrolling = false
                     root.trimInProgress = true;
                     clipRoot.originalDuration = clipDuration
@@ -807,7 +809,7 @@ Rectangle {
                 onDoubleClicked: {
                     timeline.mixClip(clipRoot.clipId, 1)
                 }
-                onPositionChanged: {
+                onPositionChanged: mouse => {
                     if (mouse.buttons === Qt.LeftButton) {
                         var newDuration = Math.round((x + width + itemBorder.border.width) / clipRoot.timeScale)
                         if (maxDuration > 0 && (newDuration > maxDuration - inPoint) && !(mouse.modifiers & Qt.ControlModifier)) {
@@ -1285,7 +1287,7 @@ Rectangle {
                 //bubbleHelp.hide()
                 timeline.showToolTip()
             }
-            onPositionChanged: {
+            onPositionChanged: mouse => {
                 if (mouse.buttons === Qt.LeftButton) {
                     var delta = clipRoot.clipDuration - Math.floor((x + width / 2 - itemBorder.border.width)/ clipRoot.timeScale)
                     var duration = Math.max(0, delta)
@@ -1385,7 +1387,7 @@ Rectangle {
                 timeline.showToolTip()
                 anchors.left = container.left
             }
-            onPositionChanged: {
+            onPositionChanged: mouse => {
                 if (mouse.buttons === Qt.LeftButton) {
                     var delta = Math.round((x + width / 2) / clipRoot.timeScale)
                     var duration = Math.max(0, delta)
