@@ -134,3 +134,5 @@ private:
 
     QStringList fixSequences(QDomElement &e, const QDomNodeList &producers, const QStringList &tractorIds);
 };
+
+QDebug operator<<(QDebug qd, const DocumentChecker::DocumentResource &item);

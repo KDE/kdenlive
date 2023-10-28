@@ -59,6 +59,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QProgressDialog>
 #include <QSaveFile>
 #include <QTimeZone>
+#include <QUndoGroup>
 
 static QString getProjectNameFilters(bool ark = true)
 {
@@ -119,6 +120,18 @@ void ProjectManager::slotLoadOnOpen()
         }
     });
     pCore->window()->checkMaxCacheSize();
+}
+
+void ProjectManager::slotLoadHeadless(const QUrl &projectUrl)
+{
+    m_loading = true;
+    if (projectUrl.isValid()) {
+        doOpenFileHeadless(projectUrl);
+    }
+    m_loading = false;
+    // Release startup crash lock file
+    QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
+    lockFile.remove();
 }
 
 void ProjectManager::init(const QUrl &projectUrl, const QString &clipList)
@@ -895,6 +908,53 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     m_progressDialog = nullptr;
 }
 
+void ProjectManager::doOpenFileHeadless(const QUrl &url)
+{
+    Q_ASSERT(m_project == nullptr);
+    QUndoGroup *undoGroup = new QUndoGroup();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    undoGroup->addStack(undoStack.get());
+
+    DocOpenResult openResult = KdenliveDoc::Open(url, QString() /*QDir::temp().path()*/, undoGroup, false, nullptr);
+
+    KdenliveDoc *doc = nullptr;
+    if (!openResult.isSuccessful() && !openResult.isAborted()) {
+        qCritical() << i18n("Cannot open the project file. Error:\n%1\n", openResult.getError());
+    } else {
+        doc = openResult.getDocument().release();
+    }
+
+    // if we could not open the file, and could not recover (or user declined), stop now
+    if (!openResult.isSuccessful() || !doc) {
+        return;
+    }
+
+    // Set default target tracks to upper audio / lower video tracks
+    m_project = doc;
+
+    if (!updateTimeline(false, QString(), QString(), QDateTime(), 0)) {
+        return;
+    }
+
+    // Re-open active timelines
+    QStringList openedTimelines = m_project->getDocumentProperty(QStringLiteral("opensequences")).split(QLatin1Char(';'), Qt::SkipEmptyParts);
+    for (auto &uid : openedTimelines) {
+        const QUuid uuid(uid);
+        const QString binId = pCore->projectItemModel()->getSequenceId(uuid);
+        if (!binId.isEmpty()) {
+            openTimeline(binId, uuid);
+        }
+    }
+    // Raise last active timeline
+    QUuid activeUuid(m_project->getDocumentProperty(QStringLiteral("activetimeline")));
+    if (activeUuid.isNull()) {
+        activeUuid = m_project->uuid();
+    }
+
+    auto timeline = m_project->getTimeline(activeUuid);
+    testSetActiveDocument(m_project, timeline);
+}
+
 void ProjectManager::slotRevert()
 {
     if (m_project->isModified() &&
@@ -992,9 +1052,9 @@ void ProjectManager::slotAutoSave()
 QString ProjectManager::projectSceneList(const QString &outputFolder, const QString &overlayData)
 {
     // Disable multitrack view and overlay
-    bool isMultiTrack = pCore->monitorManager()->isMultiTrack();
-    bool hasPreview = pCore->window()->getCurrentTimeline()->controller()->hasPreviewTrack();
-    bool isTrimming = pCore->monitorManager()->isTrimming();
+    bool isMultiTrack = pCore->monitorManager() && pCore->monitorManager()->isMultiTrack();
+    bool hasPreview = pCore->window() && pCore->window()->getCurrentTimeline()->controller()->hasPreviewTrack();
+    bool isTrimming = pCore->monitorManager() && pCore->monitorManager()->isTrimming();
     if (isMultiTrack) {
         pCore->window()->getCurrentTimeline()->controller()->slotMultitrackView(false, false);
     }
@@ -1004,11 +1064,16 @@ QString ProjectManager::projectSceneList(const QString &outputFolder, const QStr
     if (isTrimming) {
         pCore->window()->getCurrentTimeline()->controller()->requestEndTrimmingMode();
     }
-    pCore->mixer()->pauseMonitoring(true);
+    if (pCore->mixer()) {
+        pCore->mixer()->pauseMonitoring(true);
+    }
+
     // We must save from the primary timeline model
     int duration = pCore->window() ? pCore->window()->getCurrentTimeline()->controller()->duration() : m_activeTimelineModel->duration();
     QString scene = pCore->projectItemModel()->sceneList(outputFolder, QString(), overlayData, m_activeTimelineModel->tractor(), duration);
-    pCore->mixer()->pauseMonitoring(false);
+    if (pCore->mixer()) {
+        pCore->mixer()->pauseMonitoring(false);
+    }
     if (isMultiTrack) {
         pCore->window()->getCurrentTimeline()->controller()->slotMultitrackView(true, false);
     }

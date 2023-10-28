@@ -31,6 +31,28 @@ QString RenderPresetParams::toString()
     return string.simplified();
 }
 
+void RenderPresetParams::insertFromString(const QString &params, bool overwrite)
+{
+    // split only at white spaces followed by a new parameter
+    // to avoid spliting values that contain whitespaces
+    static const QRegularExpression regexp(R"(\s+(?=\S*=))");
+
+    QStringList paramList = params.split(regexp, Qt::SkipEmptyParts);
+    for (QString param : paramList) {
+        if (!param.contains(QLatin1Char('='))) {
+            // invalid param, skip
+            continue;
+        }
+        const QString key = param.section(QLatin1Char('='), 0, 0);
+        const QString value = param.section(QLatin1Char('='), 1);
+        if (contains(key) && !overwrite) {
+            // don't overwrite existing params
+            continue;
+        }
+        insert(key, value);
+    }
+}
+
 void RenderPresetParams::replacePlaceholder(const QString &placeholder, const QString &newValue)
 {
     RenderPresetParams newParams;
@@ -384,14 +406,8 @@ QDomElement RenderPresetModel::toXml()
 void RenderPresetModel::setParams(const QString &params)
 {
     m_params.clear();
-    // split only at white spaces followed by a new parameter
-    // to avoid spliting values that contain whitespaces
-    static const QRegularExpression regexp(R"(\s+(?=\S*=))");
+    m_params.insertFromString(params, true);
 
-    QStringList paramList = params.split(regexp, Qt::SkipEmptyParts);
-    for (QString param : paramList) {
-        m_params.insert(param.section(QLatin1Char('='), 0, 0), param.section(QLatin1Char('='), 1));
-    }
     if (!hasParam(QStringLiteral("f")) && !m_extension.isEmpty() && RenderPresetRepository::supportedFormats().contains(m_extension)) {
         m_params.insert(QStringLiteral("f"), m_extension);
     }
@@ -404,6 +420,16 @@ RenderPresetParams RenderPresetModel::params(QStringList removeParams) const
         newParams.remove(toRemove);
     }
     return newParams;
+}
+
+QStringList RenderPresetModel::defaultValues() const
+{
+    QString defaultSpeedParams;
+    QStringList presetSpeeds = speeds();
+    if (!presetSpeeds.isEmpty() && m_defaultSpeedIndex < presetSpeeds.count()) {
+        defaultSpeedParams = presetSpeeds.at(m_defaultSpeedIndex);
+    }
+    return {defaultSpeedParams, m_defaultABitrate, m_defaultAQuality, m_defaultVBitrate, m_defaultVQuality};
 }
 
 QString RenderPresetModel::extension() const

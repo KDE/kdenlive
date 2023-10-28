@@ -80,6 +80,8 @@ public:
      */
     static bool build(const QString &packageType, bool testMode = false);
 
+    void initHeadless(const QUrl &url);
+
     /**
      * @brief Init the GUI part of the app and show the main window
      * @param inSandbox does the app run in a sanbox? If yes, we use App path to deduce

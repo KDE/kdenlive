@@ -39,6 +39,7 @@ class /*KDENLIVECORE_EXPORT*/ ProjectManager : public QObject
     Q_OBJECT
 
 public:
+    friend class RenderRequest;
     /** @brief Sets up actions to interact for project interaction (undo, redo, open, save, ...) and creates an empty project. */
     explicit ProjectManager(QObject *parent = nullptr);
     ~ProjectManager() override;
@@ -52,6 +53,7 @@ public:
     void init(const QUrl &projectUrl, const QString &clipList);
 
     void doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBackup = false);
+    void doOpenFileHeadless(const QUrl &url);
     KRecentFilesAction *recentFilesAction();
     void prepareSave();
     /** @brief Disable all bin effects in current project
@@ -138,6 +140,8 @@ public Q_SLOTS:
     void openLastFile();
     /** @brief Load files / clips passed on the command line. */
     void slotLoadOnOpen();
+
+    void slotLoadHeadless(const QUrl &projectUrl);
 
     /** @brief Checks whether a URL is available to save to.
      * @return Whether the file was saved. */
@@ -229,6 +233,7 @@ Q_SIGNALS:
 protected:
     /** @brief Update the timeline according to the MLT XML */
     bool updateTimeline(bool createNewTab, const QString &chunks, const QString &dirty, const QDateTime &documentDate, bool enablePreview);
+    KdenliveDoc *m_project{nullptr};
 
 private:
     /** @brief checks if autoback files exists, recovers from it if user says yes, returns true if files were recovered. */
@@ -236,7 +241,6 @@ private:
     /** @brief Update the sequence producer stored in the project model. */
     void updateSequenceProducer(const QUuid &uuid, std::shared_ptr<Mlt::Producer> prod);
 
-    KdenliveDoc *m_project{nullptr};
     std::shared_ptr<TimelineItemModel> m_activeTimelineModel;
     QElapsedTimer m_lastSave;
     QTimer m_autoSaveTimer;

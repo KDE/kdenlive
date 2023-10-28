@@ -701,7 +701,7 @@ void RenderWidget::slotPrepareExport(bool delayedRendering)
 
     QList<RenderJobItem *> jobList;
     for (auto &job : jobs) {
-        RenderJobItem *renderItem = createRenderJob(job.playlistPath, job.outputPath, job.subtitlePath);
+        RenderJobItem *renderItem = createRenderJob(job);
         if (renderItem != nullptr) {
             jobList << renderItem;
         }
@@ -714,17 +714,17 @@ void RenderWidget::slotPrepareExport(bool delayedRendering)
     checkRenderStatus();
 }
 
-RenderJobItem *RenderWidget::createRenderJob(const QString &playlist, const QString &outputFile, const QString &subtitleFile)
+RenderJobItem *RenderWidget::createRenderJob(const RenderRequest::RenderJob &job)
 {
-    QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(outputFile, Qt::MatchExactly, 1);
+    QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(job.outputPath, Qt::MatchExactly, 1);
     RenderJobItem *renderItem = nullptr;
     if (!existing.isEmpty()) {
         renderItem = static_cast<RenderJobItem *>(existing.at(0));
         if (renderItem->status() == RUNNINGJOB || renderItem->status() == WAITINGJOB || renderItem->status() == STARTINGJOB) {
             // There is an existing job that is still pending
-            KMessageBox::information(this,
-                                     i18n("There is already a job writing file:<br /><b>%1</b><br />Abort the job if you want to overwrite it…", outputFile),
-                                     i18n("Already running"));
+            KMessageBox::information(
+                this, i18n("There is already a job writing file:<br /><b>%1</b><br />Abort the job if you want to overwrite it…", job.outputPath),
+                i18n("Already running"));
             // focus the running job
             m_view.running_jobs->setCurrentItem(renderItem);
             return nullptr;
@@ -733,17 +733,14 @@ RenderJobItem *RenderWidget::createRenderJob(const QString &playlist, const QStr
         delete renderItem;
         renderItem = nullptr;
     }
-    renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << outputFile);
+    renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << job.outputPath);
 
     QDateTime t = QDateTime::currentDateTime();
     renderItem->setData(1, StartTimeRole, t);
     renderItem->setData(1, LastTimeRole, t);
     renderItem->setData(1, LastFrameRole, 0);
-    QStringList argsJob = {QStringLiteral("delivery"), KdenliveSettings::meltpath(), playlist, QStringLiteral("--pid"),
-                           QString::number(QCoreApplication::applicationPid())};
-    if (!subtitleFile.isEmpty()) {
-        argsJob << QStringLiteral("--subtitle") << subtitleFile;
-    }
+    QStringList argsJob = RenderRequest::argsByJob(job);
+
     renderItem->setData(1, ParametersRole, argsJob);
     qDebug() << "* CREATED JOB WITH ARGS: " << argsJob;
     renderItem->setData(1, OpenBrowserRole, m_view.open_browser->isChecked());
@@ -1065,9 +1062,7 @@ void RenderWidget::refreshParams()
         QStringList speeds = preset->speeds();
         if (m_view.speed->value() < speeds.count()) {
             const QString &speedValue = speeds.at(m_view.speed->value());
-            if (speedValue.contains(QLatin1Char('='))) {
-                m_params.insert(speedValue.section(QLatin1Char('='), 0, 0), speedValue.section(QLatin1Char('='), 1));
-            }
+            m_params.insertFromString(speedValue, false);
         }
     }
 
