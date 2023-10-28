@@ -152,8 +152,16 @@ bool AbstractPythonInterface::checkSetup()
     m_pyExec = QStandardPaths::findExecutable(QStringLiteral("python"));
     m_pip3Exec = QStandardPaths::findExecutable(QStringLiteral("pip"));
 #else
-    m_pyExec = QStandardPaths::findExecutable(QStringLiteral("python3"));
-    m_pip3Exec = QStandardPaths::findExecutable(QStringLiteral("pip3"));
+    QDir home = QDir::home();
+    if (!home.exists(QStringLiteral(".config/kdenlive/venv/bin/"))) {
+        // Setup venv
+        if (!setupVenv()) {
+            return false;
+        }
+    }
+    const QStringList pythonPaths = {home.absoluteFilePath(QStringLiteral(".config/kdenlive/venv/bin/"))};
+    m_pyExec = QStandardPaths::findExecutable(QStringLiteral("python3"), pythonPaths);
+    m_pip3Exec = QStandardPaths::findExecutable(QStringLiteral("pip3"), pythonPaths);
 #endif
     if (m_pyExec.isEmpty()) {
         Q_EMIT setupError(i18n("Cannot find python3, please install it on your system.\n"
@@ -175,6 +183,34 @@ bool AbstractPythonInterface::checkSetup()
             return false;
         }
     }
+    return true;
+}
+
+bool AbstractPythonInterface::setupVenv()
+{
+    // First check if python and venv are available
+    m_pyExec = QStandardPaths::findExecutable(QStringLiteral("python3"));
+    // Check that the system python is found
+    if (m_pyExec.isEmpty()) {
+        Q_EMIT setupError(i18n("Cannot find python3, please install it on your system.\n"
+                               "If already installed, check it is installed in a directory "
+                               "listed in PATH environment variable"));
+        return false;
+    }
+    const QString missingDeps = runScript(QStringLiteral("checkpackages.py"), {"virtualenv"}, QStringLiteral("--check"), false);
+    if (!missingDeps.isEmpty()) {
+        Q_EMIT setupError(i18n("Cannot find python virtualenv, please install it on your system."));
+        return false;
+    }
+    QDir home = QDir::home();
+    home.mkpath(QStringLiteral(".config/kdenlive/"));
+
+    QProcess envProcess;
+    QStringList args = {QStringLiteral("-m"), QStringLiteral("venv"), home.absoluteFilePath(QStringLiteral(".config/kdenlive/venv"))};
+    qDebug() << "::: READY TO CREATE VENV: " << args;
+    envProcess.start(m_pyExec, args);
+    envProcess.waitForFinished(-1);
+    m_pyExec.clear();
     return true;
 }
 

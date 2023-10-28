@@ -66,6 +66,8 @@ private:
     QString locateScript(const QString &script);
     QString runPackageScript(const QString &mode, bool concurrent = false);
     int versionToInt(const QString &version);
+    /** @brief Create a python virtualenv */
+    bool setupVenv();
 
 protected:
     QMap<QString, QString> *m_scripts;
