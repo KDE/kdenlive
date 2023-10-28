@@ -2036,7 +2036,7 @@ const QDir KdenliveDoc::getCacheDir(CacheType type, bool *ok, const QUuid uuid) 
         break;
     case CachePreview:
         basePath.append(QStringLiteral("/preview"));
-        if (uuid != m_uuid) {
+        if (!uuid.isNull() && uuid != m_uuid) {
             basePath.append(QStringLiteral("/%1").arg(QString(QCryptographicHash::hash(uuid.toByteArray(), QCryptographicHash::Md5).toHex())));
         }
         break;
