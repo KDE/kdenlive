@@ -308,6 +308,22 @@ QVector<QPoint> VideoTextEdit::fullExport()
     return processedZones(zones);
 }
 
+void VideoTextEdit::slotRemoveSilence()
+{
+    for (int i = 0; i < document()->blockCount(); ++i) {
+        QTextBlock block = document()->findBlockByNumber(i);
+        if (block.text() == i18n("No speech")) {
+            QTextCursor curs(block);
+            curs.select(QTextCursor::BlockUnderCursor);
+            curs.removeSelectedText();
+            curs.deleteChar();
+            i--;
+            continue;
+        }
+    }
+    rebuildZones();
+}
+
 void VideoTextEdit::updateLineNumberArea(const QRect &rect, int dy)
 {
     if (dy)
@@ -586,6 +602,11 @@ void VideoTextEdit::mouseMoveEvent(QMouseEvent *e)
     }
 }
 
+void VideoTextEdit::wheelEvent(QWheelEvent *e)
+{
+    QTextEdit::wheelEvent(e);
+}
+
 TextBasedEdit::TextBasedEdit(QWidget *parent)
     : QWidget(parent)
     , m_stt(nullptr)
@@ -707,6 +728,21 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     button_bookmark->setToolTip(i18n("Add marker for current selection"));
     connect(m_visualEditor->bookmarkAction, &QAction::triggered, this, &TextBasedEdit::addBookmark);
 
+    // Zoom
+    QAction *zoomIn = new QAction(QIcon::fromTheme(QStringLiteral("zoom-in")), i18n("Zoom In"), this);
+    connect(zoomIn, &QAction::triggered, this, &TextBasedEdit::slotZoomIn);
+    QAction *zoomOut = new QAction(QIcon::fromTheme(QStringLiteral("zoom-out")), i18n("Zoom Out"), this);
+    connect(zoomOut, &QAction::triggered, this, &TextBasedEdit::slotZoomOut);
+    QAction *removeSilence = new QAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Remove non speech zones"), this);
+    connect(removeSilence, &QAction::triggered, m_visualEditor, &VideoTextEdit::slotRemoveSilence);
+    // Build menu
+    QMenu *extraMenu = new QMenu(this);
+    extraMenu->addAction(zoomIn);
+    extraMenu->addAction(zoomOut);
+    extraMenu->addSeparator();
+    extraMenu->addAction(removeSilence);
+    subMenu->setMenu(extraMenu);
+
     // Message Timer
     m_hideTimer.setSingleShot(true);
     m_hideTimer.setInterval(5000);
@@ -777,6 +813,37 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
         }
         search_line->setPalette(palette);
     });
+}
+
+void TextBasedEdit::slotZoomIn()
+{
+    QTextCursor cursor = m_visualEditor->textCursor();
+    m_visualEditor->selectAll();
+    qreal fontSize = QFontInfo(m_visualEditor->currentFont()).pointSizeF() * 1.2;
+    KdenliveSettings::setSubtitleEditFontSize(fontSize);
+    m_visualEditor->setFontPointSize(KdenliveSettings::subtitleEditFontSize());
+    m_visualEditor->setTextCursor(cursor);
+}
+
+void TextBasedEdit::slotZoomOut()
+{
+    QTextCursor cursor = m_visualEditor->textCursor();
+    m_visualEditor->selectAll();
+    qreal fontSize = QFontInfo(m_visualEditor->currentFont()).pointSizeF() / 1.2;
+    fontSize = qMax(fontSize, QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pointSizeF());
+    KdenliveSettings::setSubtitleEditFontSize(fontSize);
+    m_visualEditor->setFontPointSize(KdenliveSettings::subtitleEditFontSize());
+    m_visualEditor->setTextCursor(cursor);
+}
+
+void TextBasedEdit::applyFontSize()
+{
+    if (KdenliveSettings::subtitleEditFontSize() > 0) {
+        QTextCursor cursor = m_visualEditor->textCursor();
+        m_visualEditor->selectAll();
+        m_visualEditor->setFontPointSize(KdenliveSettings::subtitleEditFontSize());
+        m_visualEditor->setTextCursor(cursor);
+    }
 }
 
 void TextBasedEdit::updateEngine()
@@ -1102,6 +1169,7 @@ void TextBasedEdit::slotProcessSpeechStatus(int, QProcess::ExitStatus status)
     cur.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor);
     m_visualEditor->setTextCursor(cur);
     frame_progress->setVisible(false);
+    applyFontSize();
 }
 
 void TextBasedEdit::slotProcessSpeechError()
@@ -1473,6 +1541,7 @@ void TextBasedEdit::openClip(std::shared_ptr<ProjectClip> clip)
         clipNameLabel->clear();
         m_visualEditor->cleanup();
     }
+    applyFontSize();
 }
 
 void TextBasedEdit::addBookmark()
