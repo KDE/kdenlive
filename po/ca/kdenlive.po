@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-10 02:35+0000\n"
-"PO-Revision-Date: 2023-10-04 09:27+0200\n"
+"PO-Revision-Date: 2023-10-28 11:47+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -3040,7 +3040,7 @@ msgstr "Mesclador d'àudio"
 #: data/transitions/qtblend.xml:4
 #, kde-format
 msgid "Composite and transform"
-msgstr "Combina i transforma"
+msgstr "Compon i transforma"
 
 #: data/transitions/qtblend.xml:5
 #, kde-format
@@ -3048,7 +3048,7 @@ msgid ""
 "Composites second input on the first input with user-defined blend mode, "
 "opacity and scale."
 msgstr ""
-"Combina una segona entrada sobre la primera entrada amb un mode de barreja, "
+"Compon una segona entrada sobre la primera entrada amb un mode de barreja, "
 "una opacitat i una escala definida per l'usuari."
 
 #: data/transitions/region.xml:4
