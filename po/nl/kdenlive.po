@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-28 00:42+0000\n"
-"PO-Revision-Date: 2023-10-19 10:50+0200\n"
+"PO-Revision-Date: 2023-10-28 11:53+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -7360,24 +7360,19 @@ msgid "Configure Speech Recognition"
 msgstr "Spraakherkenning configureren"
 
 #: src/dialogs/textbasededit.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with edit"
-msgstr "Nieuwe sequentie maken"
+msgstr "Nieuwe sequentie aanmaken met bewerken"
 
 #: src/dialogs/textbasededit.cpp:635
-#, fuzzy, kde-format
-#| msgid "Insert selected blocks in timeline"
+#, kde-format
 msgid "Insert selection in timeline"
-msgstr "Geselecteerde blokken in de tijdlijn invoegen"
+msgstr "Selectie in de tijdlijn invoegen"
 
 #: src/dialogs/textbasededit.cpp:640
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with text edit "
-msgstr "Nieuwe sequentie maken"
+msgstr "Nieuwe sequentie aanmaken met tekst bewerken"
 
 #: src/dialogs/textbasededit.cpp:663
 #, kde-format
@@ -7395,10 +7390,9 @@ msgid "Delete selected text"
 msgstr "Geselecteerde tekst verwijderen"
 
 #: src/dialogs/textbasededit.cpp:707
-#, fuzzy, kde-format
-#| msgid "Add bookmark for current selection"
+#, kde-format
 msgid "Add marker for current selection"
-msgstr "Bladwijzer toevoegen voor de huidige selectie"
+msgstr "Markering toevoegen voor de huidige selectie"
 
 #: src/dialogs/textbasededit.cpp:848
 #, kde-format
@@ -7461,8 +7455,7 @@ msgid "Speech recognition finished."
 msgstr "Spraakherkenning beëindigd."
 
 #: src/dialogs/textbasededit.cpp:1280 src/dialogs/textbasededit.cpp:1342
-#, fuzzy, kde-format
-#| msgid "Create Sequence Clip"
+#, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Sequentie-clip aanmaken"
@@ -9643,15 +9636,16 @@ msgstr ""
 "Komma-gescheiden lijst van bestanden om als clips aan de bin toe te voegen."
 
 #: src/main.cpp:202
-#, fuzzy, kde-format
-#| msgid "Parent folder of the project file"
+#, kde-format
 msgid "Directly render the project and exit."
-msgstr "Hoofdmap van het projectbestand"
+msgstr "Het project direct renderen en eindigen."
 
 #: src/main.cpp:205
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr ""
+"naam van voorinstelling van renderen van Kdenlive (MP4-H264/AAC zal worden "
+"gebruikt als niets wordt gegeven)."
 
 #: src/main.cpp:210
 #, kde-format
@@ -9659,6 +9653,8 @@ msgid ""
 "Exit after (detached) render process started, without this flag it exists "
 "only after it finished."
 msgstr ""
+"Beëindigen nadat (losgemaakt) renderproces is gestart, zonder deze vlag "
+"bestaat het alleen nadat het is beëindigd."
 
 #: src/main.cpp:213
 #, kde-format
@@ -9666,10 +9662,9 @@ msgid "Kdenlive document to open."
 msgstr "Te openen Kdenlive-document"
 
 #: src/main.cpp:214
-#, fuzzy, kde-format
-#| msgid "Output file extension"
+#, kde-format
 msgid "Output file for rendered video."
-msgstr "Uitvoerbestandsextensie"
+msgstr "Uitvoerbestand voor gerenderde video."
 
 #: src/main.cpp:338
 #, kde-format
@@ -14030,12 +14025,13 @@ msgstr ""
 "volgende keer opslaan"
 
 #: src/project/projectmanager.cpp:922
-#, fuzzy, kde-format
-#| msgid "Cannot open project file %1"
+#, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
 "%1\n"
-msgstr "Kan het project-bestand %1 niet openen"
+msgstr ""
+"Kan het project-bestand niet openen. Fout:\n"
+"%1\n"
 
 #: src/project/projectmanager.cpp:962
 #, kde-format
@@ -14153,10 +14149,9 @@ msgid "Install missing dependencies"
 msgstr "Ontbrekende afhankelijkheden installeren"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:26
-#, fuzzy, kde-format
-#| msgid "Check VOSK installation"
+#, kde-format
 msgid "Abort installation"
-msgstr "Installatie van VOSK controleren"
+msgstr "Installatie afbreken"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:39
 #, kde-format
@@ -14185,10 +14180,9 @@ msgid "Check for update"
 msgstr "Op bijwerken controleren"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:90
-#, fuzzy, kde-format
-#| msgid "Installing modules…"
+#, kde-format
 msgid "Installing modules… this can take a while"
-msgstr "Modules worden geïnstalleerd…"
+msgstr "Modules worden geïnstalleerd… dit kan even duren"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:100
 #, kde-format
@@ -14261,16 +14255,14 @@ msgid "Please consider to update your setup."
 msgstr "Overweeg uw opzet bij te werken."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:356
-#, fuzzy, kde-format
-#| msgid "Sequence not found"
+#, kde-format
 msgid "Python exec not found"
-msgstr "Volgorde niet gevonden"
+msgstr "Python uitvoerbaar programma niet gevonden"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:358
-#, fuzzy, kde-format
-#| msgid "Failed to create file."
+#, kde-format
 msgid "Failed to find script file %1"
-msgstr "Bestand maken is mislukt."
+msgstr "Vinden van scriptbestand %1 is mislukt"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:391
 #, kde-format

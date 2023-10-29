@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-28 00:42+0000\n"
-"PO-Revision-Date: 2023-10-19 08:57+0300\n"
+"PO-Revision-Date: 2023-10-28 09:09+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -7393,24 +7393,19 @@ msgid "Configure Speech Recognition"
 msgstr "Налаштувати розпізнавання мовлення"
 
 #: src/dialogs/textbasededit.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with edit"
-msgstr "Створення послідовності"
+msgstr "Створити послідовність за допомогою редагуванням тексту"
 
 #: src/dialogs/textbasededit.cpp:635
-#, fuzzy, kde-format
-#| msgid "Insert selected blocks in timeline"
+#, kde-format
 msgid "Insert selection in timeline"
-msgstr "Вставити позначені блоки на монтажний стіл"
+msgstr "Вставити позначене на монтажний стіл"
 
 #: src/dialogs/textbasededit.cpp:640
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with text edit "
-msgstr "Створення послідовності"
+msgstr "Створити послідовність за допомогою редагуванням тексту"
 
 #: src/dialogs/textbasededit.cpp:663
 #, kde-format
@@ -7428,10 +7423,9 @@ msgid "Delete selected text"
 msgstr "Вилучити позначений текст"
 
 #: src/dialogs/textbasededit.cpp:707
-#, fuzzy, kde-format
-#| msgid "Add bookmark for current selection"
+#, kde-format
 msgid "Add marker for current selection"
-msgstr "Додати до закладку до поточного позначення"
+msgstr "Додати позначку до поточного позначення"
 
 #: src/dialogs/textbasededit.cpp:848
 #, kde-format
@@ -7494,8 +7488,7 @@ msgid "Speech recognition finished."
 msgstr "Розпізнавання мовлення завершено."
 
 #: src/dialogs/textbasededit.cpp:1280 src/dialogs/textbasededit.cpp:1342
-#, fuzzy, kde-format
-#| msgid "Create Sequence Clip"
+#, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Створити кліп послідовності"
@@ -9707,15 +9700,16 @@ msgstr ""
 "Список відокремлених комами файлів, які слід додати як кліпи до контейнера."
 
 #: src/main.cpp:202
-#, fuzzy, kde-format
-#| msgid "Parent folder of the project file"
+#, kde-format
 msgid "Directly render the project and exit."
-msgstr "Батьківська тека для файла проєкту"
+msgstr "Безпосередньо обробити проєкт і завершити роботу."
 
 #: src/main.cpp:205
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr ""
+"Назва шаблона обробки Kdenlive (буде використано MP4-H264/AAC, якщо не "
+"задано)."
 
 #: src/main.cpp:210
 #, kde-format
@@ -9723,6 +9717,8 @@ msgid ""
 "Exit after (detached) render process started, without this flag it exists "
 "only after it finished."
 msgstr ""
+"Вийти після запуску (від'єднаного) процесу обробки. Без цього прапорця вихід "
+"буде здійснено лише після завершення процесу."
 
 #: src/main.cpp:213
 #, kde-format
@@ -9730,10 +9726,9 @@ msgid "Kdenlive document to open."
 msgstr "Документ Kdenlive, який слід відкрити"
 
 #: src/main.cpp:214
-#, fuzzy, kde-format
-#| msgid "Output file extension"
+#, kde-format
 msgid "Output file for rendered video."
-msgstr "Суфікс назви файла-результату"
+msgstr "Файл результату для обробленого відео."
 
 #: src/main.cpp:338
 #, kde-format
@@ -14142,12 +14137,13 @@ msgstr ""
 "наступного збереження"
 
 #: src/project/projectmanager.cpp:922
-#, fuzzy, kde-format
-#| msgid "Cannot open project file %1"
+#, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
 "%1\n"
-msgstr "Не вдалося відкрити файл проєкту %1"
+msgstr ""
+"Не вдалося відкрити файл проєкту. Помилка:\n"
+"%1\n"
 
 #: src/project/projectmanager.cpp:962
 #, kde-format
@@ -14266,10 +14262,9 @@ msgid "Install missing dependencies"
 msgstr "Встановити потрібні залежності"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:26
-#, fuzzy, kde-format
-#| msgid "Check VOSK installation"
+#, kde-format
 msgid "Abort installation"
-msgstr "Перевірити встановлення VOSK"
+msgstr "Скасувати встановлення"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:39
 #, kde-format
@@ -14298,10 +14293,9 @@ msgid "Check for update"
 msgstr "Перевірити оновлення"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:90
-#, fuzzy, kde-format
-#| msgid "Installing modules…"
+#, kde-format
 msgid "Installing modules… this can take a while"
-msgstr "Встановлюємо модулі…"
+msgstr "Встановлюємо модулі… Потрібен певний час"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:100
 #, kde-format
@@ -14380,13 +14374,12 @@ msgstr "Вам варто оновити вашу конфігурацію па�
 #: src/pythoninterfaces/abstractpythoninterface.cpp:356
 #, kde-format
 msgid "Python exec not found"
-msgstr ""
+msgstr "Не знайдено виконуваного файла Python"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:358
-#, fuzzy, kde-format
-#| msgid "Failed to create file."
+#, kde-format
 msgid "Failed to find script file %1"
-msgstr "Не вдалося створити файл."
+msgstr "Не вдалося знайти файл скрипту %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:391
 #, kde-format

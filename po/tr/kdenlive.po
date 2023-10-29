@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-28 00:42+0000\n"
-"PO-Revision-Date: 2023-10-23 12:45+0300\n"
+"PO-Revision-Date: 2023-10-28 05:49+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.11.70\n"
+"X-Generator: Lokalize 23.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -7324,24 +7324,19 @@ msgid "Configure Speech Recognition"
 msgstr "Konuşma Tanımayı Yapılandır"
 
 #: src/dialogs/textbasededit.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with edit"
-msgstr "Yeni Sekans Oluştur"
+msgstr "Düzenlemeyle yeni sekans oluştur"
 
 #: src/dialogs/textbasededit.cpp:635
-#, fuzzy, kde-format
-#| msgid "Insert selected blocks in timeline"
+#, kde-format
 msgid "Insert selection in timeline"
-msgstr "Seçili blokları zaman akışına ekle"
+msgstr "Zaman akışında seçim ekle"
 
 #: src/dialogs/textbasededit.cpp:640
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with text edit "
-msgstr "Yeni Sekans Oluştur"
+msgstr "Metin düzenlemeyle yeni sekans oluştur"
 
 #: src/dialogs/textbasededit.cpp:663
 #, kde-format
@@ -7359,10 +7354,9 @@ msgid "Delete selected text"
 msgstr "Seçili metni sil"
 
 #: src/dialogs/textbasededit.cpp:707
-#, fuzzy, kde-format
-#| msgid "Add bookmark for current selection"
+#, kde-format
 msgid "Add marker for current selection"
-msgstr "Geçerli Seçimi Yer İmi Ekle"
+msgstr "Geçerli seçim için imleyici ekle"
 
 #: src/dialogs/textbasededit.cpp:848
 #, kde-format
@@ -7425,11 +7419,10 @@ msgid "Speech recognition finished."
 msgstr "Konuşma tanıma bitti."
 
 #: src/dialogs/textbasededit.cpp:1280 src/dialogs/textbasededit.cpp:1342
-#, fuzzy, kde-format
-#| msgid "Create Sequence Clip"
+#, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
-msgstr "Sekans Klibi Oluştur"
+msgstr "Sekans klibi oluştur"
 
 #: src/dialogs/textbasededit.cpp:1287 src/dialogs/textbasededit.cpp:1323
 #, kde-format
@@ -9596,15 +9589,15 @@ msgid "Comma separated list of files to add as clips to the bin."
 msgstr "Kovaya klipler olarak eklenecek dosyaların virgülle ayrılmış listesi."
 
 #: src/main.cpp:202
-#, fuzzy, kde-format
-#| msgid "Parent folder of the project file"
+#, kde-format
 msgid "Directly render the project and exit."
-msgstr "Proje dosyasının üst klasörü"
+msgstr "Projeyi doğrudan sunun ve çıkın."
 
 #: src/main.cpp:205
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr ""
+"Kdenlive sunum önayar adı (bir tane verilmezse MP4-H264/AAC kullanılır)."
 
 #: src/main.cpp:210
 #, kde-format
@@ -9612,6 +9605,8 @@ msgid ""
 "Exit after (detached) render process started, without this flag it exists "
 "only after it finished."
 msgstr ""
+"(Ayrık) sunum işlemi başladıktan sonra çık; bu bayrak olmadan yalnızca işi "
+"bittikten sonra çıkar."
 
 #: src/main.cpp:213
 #, kde-format
@@ -9619,10 +9614,9 @@ msgid "Kdenlive document to open."
 msgstr "Açılacak Kdenlive belgesi."
 
 #: src/main.cpp:214
-#, fuzzy, kde-format
-#| msgid "Output file extension"
+#, kde-format
 msgid "Output file for rendered video."
-msgstr "Çıktı dosyası uzantısı"
+msgstr "Sunulan videonun çıktı dosyası."
 
 #: src/main.cpp:338
 #, kde-format
@@ -13978,12 +13972,13 @@ msgstr ""
 "oluşturulacak"
 
 #: src/project/projectmanager.cpp:922
-#, fuzzy, kde-format
-#| msgid "Cannot open project file %1"
+#, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
 "%1\n"
-msgstr "%1 proje dosyası açılamadı"
+msgstr ""
+"Proje dosyası açılamıyor. Hata:\n"
+"%1\n"
 
 #: src/project/projectmanager.cpp:962
 #, kde-format
@@ -14099,10 +14094,9 @@ msgid "Install missing dependencies"
 msgstr "Eksik Bağımlılıkları Kur"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:26
-#, fuzzy, kde-format
-#| msgid "Check VOSK installation"
+#, kde-format
 msgid "Abort installation"
-msgstr "VOSK kurulumunu denetle"
+msgstr "Kurulumu iptal et"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:39
 #, kde-format
@@ -14131,10 +14125,9 @@ msgid "Check for update"
 msgstr "Güncelleme denetle"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:90
-#, fuzzy, kde-format
-#| msgid "Installing modules…"
+#, kde-format
 msgid "Installing modules… this can take a while"
-msgstr "Modüller kuruluyor…"
+msgstr "Modüller kuruluyor… Bu biraz vakit alabilir"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:100
 #, kde-format
@@ -14206,13 +14199,12 @@ msgstr "Kurulumunuzu güncellemeyi düşünün."
 #: src/pythoninterfaces/abstractpythoninterface.cpp:356
 #, kde-format
 msgid "Python exec not found"
-msgstr ""
+msgstr "Python yürütülebiliri bulunamadı"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:358
-#, fuzzy, kde-format
-#| msgid "Failed to create file."
+#, kde-format
 msgid "Failed to find script file %1"
-msgstr "Bir dosya oluşturulamadı."
+msgstr "%1 betik dosyası bulunamadı"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:391
 #, kde-format

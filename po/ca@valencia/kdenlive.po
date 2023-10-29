@@ -2,16 +2,15 @@
 # Copyright (C) 2009-2023 This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# SPDX-FileCopyrightText: 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023 Josep M. Ferrer <txemaq@gmail.com>
 # Orestes Mas <orestes@tsc.upc.edu>, 2009, 2011, 2012, 2015.
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2012, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
-# Josep M. Ferrer <txemaq@gmail.com>, 2023.
+# Josep M. Ferrer <txemaq@gmail.com>, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-28 00:42+0000\n"
-"PO-Revision-Date: 2023-10-19 11:42+0200\n"
+"PO-Revision-Date: 2023-10-28 11:47+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -3050,7 +3049,7 @@ msgstr "Mesclador d'àudio"
 #: data/transitions/qtblend.xml:4
 #, kde-format
 msgid "Composite and transform"
-msgstr "Combina i transforma"
+msgstr "Compon i transforma"
 
 #: data/transitions/qtblend.xml:5
 #, kde-format
@@ -3058,7 +3057,7 @@ msgid ""
 "Composites second input on the first input with user-defined blend mode, "
 "opacity and scale."
 msgstr ""
-"Combina una segona entrada sobre la primera entrada amb un mode de barreja, "
+"Compon una segona entrada sobre la primera entrada amb un mode de barreja, "
 "una opacitat i una escala definida per l'usuari."
 
 #: data/transitions/region.xml:4
@@ -7385,24 +7384,19 @@ msgid "Configure Speech Recognition"
 msgstr "Configura el reconeixement de veu"
 
 #: src/dialogs/textbasededit.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with edit"
-msgstr "Creació de seqüència nova"
+msgstr "Crea una seqüència nova amb edició"
 
 #: src/dialogs/textbasededit.cpp:635
-#, fuzzy, kde-format
-#| msgid "Insert selected blocks in timeline"
+#, kde-format
 msgid "Insert selection in timeline"
-msgstr "Inserix els blocs seleccionats en la línia de temps"
+msgstr "Inserix la selecció en la línia de temps"
 
 #: src/dialogs/textbasededit.cpp:640
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with text edit "
-msgstr "Creació de seqüència nova"
+msgstr "Crea una seqüència nova amb edició de text "
 
 #: src/dialogs/textbasededit.cpp:663
 #, kde-format
@@ -7420,8 +7414,7 @@ msgid "Delete selected text"
 msgstr "Suprimix el text seleccionat"
 
 #: src/dialogs/textbasededit.cpp:707
-#, fuzzy, kde-format
-#| msgid "Add bookmark for current selection"
+#, kde-format
 msgid "Add marker for current selection"
 msgstr "Afig un marcador en la selecció actual"
 
@@ -7486,8 +7479,7 @@ msgid "Speech recognition finished."
 msgstr "Ha finalitzat el reconeixement de la veu."
 
 #: src/dialogs/textbasededit.cpp:1280 src/dialogs/textbasededit.cpp:1342
-#, fuzzy, kde-format
-#| msgid "Create Sequence Clip"
+#, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Crea un clip de seqüència"
@@ -9689,15 +9681,16 @@ msgstr ""
 "Llista de fitxers separats per comes, per a afegir com a clips a la safata."
 
 #: src/main.cpp:202
-#, fuzzy, kde-format
-#| msgid "Parent folder of the project file"
+#, kde-format
 msgid "Directly render the project and exit."
-msgstr "Carpeta superior del fitxer de projecte"
+msgstr "Renderitza el projecte directament i ix."
 
 #: src/main.cpp:205
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr ""
+"Nom de valors predefinits de renderització de Kdenlive (s'utilitzarà MP4-"
+"H264/AAC si no se n'indica cap)."
 
 #: src/main.cpp:210
 #, kde-format
@@ -9705,6 +9698,8 @@ msgid ""
 "Exit after (detached) render process started, without this flag it exists "
 "only after it finished."
 msgstr ""
+"Ix després d'iniciar el procés de renderització (separat), sense este "
+"indicador només ix després d'acabar."
 
 #: src/main.cpp:213
 #, kde-format
@@ -9712,10 +9707,9 @@ msgid "Kdenlive document to open."
 msgstr "El document de Kdenlive que s'ha d'obrir."
 
 #: src/main.cpp:214
-#, fuzzy, kde-format
-#| msgid "Output file extension"
+#, kde-format
 msgid "Output file for rendered video."
-msgstr "Extensió del fitxer d'eixida"
+msgstr "Fitxer d'eixida del vídeo renderitzat."
 
 #: src/main.cpp:338
 #, kde-format
@@ -14105,12 +14099,13 @@ msgstr ""
 "el proper guardada"
 
 #: src/project/projectmanager.cpp:922
-#, fuzzy, kde-format
-#| msgid "Cannot open project file %1"
+#, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
 "%1\n"
-msgstr "No s'ha pogut obrir el fitxer de projecte %1"
+msgstr ""
+"No s'ha pogut obrir el fitxer de projecte. Error:\n"
+"%1\n"
 
 #: src/project/projectmanager.cpp:962
 #, kde-format
@@ -14231,10 +14226,9 @@ msgid "Install missing dependencies"
 msgstr "Instal·la les dependències que falten"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:26
-#, fuzzy, kde-format
-#| msgid "Check VOSK installation"
+#, kde-format
 msgid "Abort installation"
-msgstr "Comprova la instal·lació de VOSK"
+msgstr "Interromp la instal·lació"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:39
 #, kde-format
@@ -14263,10 +14257,9 @@ msgid "Check for update"
 msgstr "Comprova per a actualitzar"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:90
-#, fuzzy, kde-format
-#| msgid "Installing modules…"
+#, kde-format
 msgid "Installing modules… this can take a while"
-msgstr "S'estan instal·lant els mòduls…"
+msgstr "S'estan instal·lant els mòduls… açò pot tardar una estona"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:100
 #, kde-format
@@ -14343,13 +14336,12 @@ msgstr "Per favor, considereu actualitzar la vostra configuració."
 #: src/pythoninterfaces/abstractpythoninterface.cpp:356
 #, kde-format
 msgid "Python exec not found"
-msgstr ""
+msgstr "No s'ha trobat l'executable de Python"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:358
-#, fuzzy, kde-format
-#| msgid "Failed to create file."
+#, kde-format
 msgid "Failed to find script file %1"
-msgstr "No s'ha pogut crear el fitxer."
+msgstr "No s'ha pogut trobar el fitxer de script %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:391
 #, kde-format
@@ -21771,6 +21763,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Add bookmark"
-#~ msgstr "Afig un marcador"
