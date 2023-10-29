@@ -152,14 +152,14 @@ bool AbstractPythonInterface::checkSetup()
     m_pyExec = QStandardPaths::findExecutable(QStringLiteral("python"));
     m_pip3Exec = QStandardPaths::findExecutable(QStringLiteral("pip"));
 #else
-    QDir home = QDir::home();
-    if (!home.exists(QStringLiteral(".config/kdenlive/venv/bin/"))) {
+    QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
+    if (!pluginDir.exists(QStringLiteral("venv/bin/"))) {
         // Setup venv
         if (!setupVenv()) {
             return false;
         }
     }
-    const QStringList pythonPaths = {home.absoluteFilePath(QStringLiteral(".config/kdenlive/venv/bin/"))};
+    const QStringList pythonPaths = {pluginDir.absoluteFilePath(QStringLiteral("venv/bin/"))};
     m_pyExec = QStandardPaths::findExecutable(QStringLiteral("python3"), pythonPaths);
     m_pip3Exec = QStandardPaths::findExecutable(QStringLiteral("pip3"), pythonPaths);
 #endif
@@ -202,11 +202,11 @@ bool AbstractPythonInterface::setupVenv()
         Q_EMIT setupError(i18n("Cannot find python virtualenv, please install it on your system."));
         return false;
     }
-    QDir home = QDir::home();
-    home.mkpath(QStringLiteral(".config/kdenlive/"));
+    QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
+    pluginDir.mkpath(QStringLiteral("."));
 
     QProcess envProcess;
-    QStringList args = {QStringLiteral("-m"), QStringLiteral("venv"), home.absoluteFilePath(QStringLiteral(".config/kdenlive/venv"))};
+    QStringList args = {QStringLiteral("-m"), QStringLiteral("venv"), pluginDir.absoluteFilePath(QStringLiteral("venv"))};
     qDebug() << "::: READY TO CREATE VENV: " << args;
     envProcess.start(m_pyExec, args);
     envProcess.waitForFinished(-1);
