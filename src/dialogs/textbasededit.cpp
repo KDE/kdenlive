@@ -1120,20 +1120,72 @@ void TextBasedEdit::slotProcessWhisperSpeech()
 {
     const QString saveData = QString::fromUtf8(m_speechJob->readAllStandardOutput());
     QStringList sentences = saveData.split(QLatin1Char('\n'), Qt::SkipEmptyParts);
+    QString sentenceTimings = sentences.takeFirst();
+    if (!sentenceTimings.startsWith(QLatin1Char('['))) {
+        // This is not a timing output
+        if (sentenceTimings.startsWith(QStringLiteral("Detected "))) {
+            showMessage(sentenceTimings, KMessageWidget::Information);
+        }
+        return;
+    }
+    QPair<double, double> sentenceZone;
+    sentenceZone.first = sentenceTimings.section(QLatin1Char('['), 1).section(QLatin1Char('>'), 0, 0).toDouble() + m_clipOffset;
+    sentenceZone.second = sentenceTimings.section(QLatin1Char('>'), 1).section(QLatin1Char(']'), 0, 0).toDouble() + m_clipOffset;
     QTextCursor cursor = m_visualEditor->textCursor();
     QTextCharFormat fmt = cursor.charFormat();
-    QPair<double, double> sentenceZone;
-    for (auto &s : sentences) {
+    QPair<double, double> wordZone;
+    GenTime sentenceStart(sentenceZone.first);
+    if (sentenceStart.frames(pCore->getCurrentFps()) > m_lastPosition + 1) {
+        // Insert space
+        GenTime silenceStart(m_lastPosition, pCore->getCurrentFps());
+        m_visualEditor->moveCursor(QTextCursor::End);
+        fmt.setAnchorHref(QString("%1#%2:%3")
+                              .arg(m_binId)
+                              .arg(silenceStart.seconds())
+                              .arg(GenTime(sentenceStart.frames(pCore->getCurrentFps()) - 1, pCore->getCurrentFps()).seconds()));
         fmt.setAnchor(true);
-        sentenceZone.first = s.section(QLatin1Char('['), 1).section(QLatin1Char('>'), 0, 0).toDouble() + m_clipOffset;
-        sentenceZone.second = s.section(QLatin1Char('>'), 1).section(QLatin1Char(']'), 0, 0).toDouble() + m_clipOffset;
-        qDebug() << "=== GOT SENTENCE: " << sentenceZone;
-        fmt.setAnchorHref(QString("%1#%2:%3").arg(m_binId).arg(sentenceZone.first).arg(sentenceZone.second));
-        cursor.insertText(s.section(QLatin1Char(']'), 1), fmt);
+        cursor.insertText(i18n("No speech"), fmt);
+        fmt.setAnchor(false);
+        m_visualEditor->textCursor().insertBlock(cursor.blockFormat());
+        m_visualEditor->speechZones << QPair<double, double>(silenceStart.seconds(),
+                                                             GenTime(sentenceStart.frames(pCore->getCurrentFps()) - 1, pCore->getCurrentFps()).seconds());
+    }
+    for (auto &s : sentences) {
+        wordZone.first = s.section(QLatin1Char('['), 1).section(QLatin1Char('>'), 0, 0).toDouble() + m_clipOffset;
+        wordZone.second = s.section(QLatin1Char('>'), 1).section(QLatin1Char(']'), 0, 0).toDouble() + m_clipOffset;
+        const QString text = s.section(QLatin1Char(']'), 1);
+        if (text.isEmpty()) {
+            // new section, insert
+            m_visualEditor->textCursor().insertBlock(cursor.blockFormat());
+            m_visualEditor->speechZones << sentenceZone;
+            GenTime lastSentence(sentenceZone.second);
+            GenTime nextSentence(wordZone.first);
+            if (nextSentence.frames(pCore->getCurrentFps()) > lastSentence.frames(pCore->getCurrentFps()) + 1) {
+                // Insert space
+                m_visualEditor->moveCursor(QTextCursor::End);
+                fmt.setAnchorHref(QString("%1#%2:%3")
+                                      .arg(m_binId)
+                                      .arg(lastSentence.seconds())
+                                      .arg(GenTime(nextSentence.frames(pCore->getCurrentFps()) - 1, pCore->getCurrentFps()).seconds()));
+                fmt.setAnchor(true);
+                cursor.insertText(i18n("No speech"), fmt);
+                fmt.setAnchor(false);
+                m_visualEditor->textCursor().insertBlock(cursor.blockFormat());
+                m_visualEditor->speechZones << QPair<double, double>(
+                    lastSentence.seconds(), GenTime(nextSentence.frames(pCore->getCurrentFps()) - 1, pCore->getCurrentFps()).seconds());
+            }
+            sentenceZone = wordZone;
+            continue;
+        }
+        fmt.setAnchor(true);
+        fmt.setAnchorHref(QString("%1#%2:%3").arg(m_binId).arg(wordZone.first).arg(wordZone.second));
+        cursor.insertText(text, fmt);
         fmt.setAnchor(false);
         cursor.insertText(QStringLiteral(" "), fmt);
-        m_visualEditor->textCursor().insertBlock(cursor.blockFormat());
-        m_visualEditor->speechZones << sentenceZone;
+    }
+    m_visualEditor->textCursor().insertBlock(cursor.blockFormat());
+    m_visualEditor->speechZones << sentenceZone;
+    if (sentenceZone.second < m_clipOffset + m_clipDuration) {
     }
     m_visualEditor->repaintLines();
     qDebug() << ":::  " << saveData;

@@ -54,7 +54,12 @@ def run_whisper(source, model, device="cpu", task="transcribe", extraparams=""):
 
     transcribe_kwargs = {
         "task": task,
-        "verbose": False
+        "verbose": False,
+        'patience': None,
+        'length_penalty': None,
+        'suppress_tokens': '-1',
+        'condition_on_previous_text':True,
+        'word_timestamps':True
     }
 
     if len(extraparams) > 1:
@@ -83,15 +88,17 @@ def main():
     language = sys.argv[5]
     result = run_whisper(source, model, device, task, language)
 
-    for i in range(len(result["segments"])):
-        start_time = result["segments"][i]["start"]
-        end_time = result["segments"][i]["end"]
+    for i in result["segments"]:
+        start_time = i["start"]
+        end_time = i["end"]
         duration = end_time - start_time
         timestamp = f"{start_time:.3f} - {end_time:.3f}"
-        text = result["segments"][i]["text"]
-        res = '[' + str(start_time) + '>' + str(end_time) + ']' + text + '\n'
+        text = i["text"]
+        words = i["words"]
+        res = '[' + str(start_time) + '>' + str(end_time) + ']' + '\n'
+        for j in words:
+            res += '[' + str(j["start"]) + '>' + str(j["end"]) + ']' + j["word"] + '\n'
         sys.stdout.buffer.write(res.encode('utf-8'))
-
     sys.stdout.flush()
     return 0
 
