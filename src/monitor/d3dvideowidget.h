@@ -15,8 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef D3DVIDEOWIDGET_H
-#define D3DVIDEOWIDGET_H
+#pragma once
 
 #include "videowidget.h"
 
@@ -65,5 +64,3 @@ private:
 
     ConstantBuffer m_constants;
 };
-
-#endif // D3DVIDEOWIDGET_H

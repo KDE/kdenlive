@@ -15,8 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef OPENGLVIDEOWIDGET_H
-#define OPENGLVIDEOWIDGET_H
+#pragma once
 
 #include "videowidget.h"
 
@@ -56,5 +55,3 @@ private:
     GLuint m_displayTexture[3];
     bool m_isThreadedOpenGL;
 };
-
-#endif // OPENGLVIDEOWIDGET_H

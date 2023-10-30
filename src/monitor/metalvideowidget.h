@@ -15,8 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef METALVIDEOWIDGET_H
-#define METALVIDEOWIDGET_H
+#pragma once
 
 #include "videowidget.h"
 
@@ -36,5 +35,3 @@ public Q_SLOTS:
 private:
     std::unique_ptr<MetalVideoRenderer> m_renderer;
 };
-
-#endif // METALVIDEOWIDGET_H
