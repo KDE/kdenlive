@@ -29,7 +29,7 @@ public:
     explicit MetalVideoWidget(int id, QObject *parent);
     virtual ~MetalVideoWidget();
 
-public slots:
+public Q_SLOTS:
     virtual void initialize();
     virtual void renderVideo();
 

@@ -16,7 +16,8 @@
  */
 
 #include "d3dvideowidget.h"
-#include <Logger.h>
+#include "core.h"
+#include "profiles/profilemodel.hpp"
 
 #include <d3dcompiler.h>
 

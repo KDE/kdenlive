@@ -30,7 +30,7 @@ public:
     explicit D3DVideoWidget(int id, QObject *parent = nullptr);
     virtual ~D3DVideoWidget();
 
-public slots:
+public Q_SLOTS:
     virtual void initialize();
     virtual void beforeRendering();
     virtual void renderVideo();
