@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-28 00:42+0000\n"
-"PO-Revision-Date: 2023-10-20 11:16+0200\n"
+"PO-Revision-Date: 2023-10-29 08:36+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -7345,24 +7345,19 @@ msgid "Configure Speech Recognition"
 msgstr "Prilagodi razpoznavanje govora"
 
 #: src/dialogs/textbasededit.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with edit"
-msgstr "Ustvari novo zaporedje"
+msgstr "Ustvari novo zaporedje z montiranjem"
 
 #: src/dialogs/textbasededit.cpp:635
-#, fuzzy, kde-format
-#| msgid "Insert selected blocks in timeline"
+#, kde-format
 msgid "Insert selection in timeline"
-msgstr "Vstavi izbrane bloke v časovnico"
+msgstr "Vstavi izbor v časovnico"
 
 #: src/dialogs/textbasededit.cpp:640
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with text edit "
-msgstr "Ustvari novo zaporedje"
+msgstr "Ustvari novo zaporedje z urejanjem besedila"
 
 #: src/dialogs/textbasededit.cpp:663
 #, kde-format
@@ -7380,10 +7375,9 @@ msgid "Delete selected text"
 msgstr "Briši izbrano besedilo"
 
 #: src/dialogs/textbasededit.cpp:707
-#, fuzzy, kde-format
-#| msgid "Add bookmark for current selection"
+#, kde-format
 msgid "Add marker for current selection"
-msgstr "Dodaj označevalnik za trenutno izbiro"
+msgstr "Dodaj označevalnik za trenutni izbor"
 
 #: src/dialogs/textbasededit.cpp:848
 #, kde-format
@@ -7446,8 +7440,7 @@ msgid "Speech recognition finished."
 msgstr "Razpoznavanje govora končano."
 
 #: src/dialogs/textbasededit.cpp:1280 src/dialogs/textbasededit.cpp:1342
-#, fuzzy, kde-format
-#| msgid "Create Sequence Clip"
+#, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Ustvari posnetek zaporedja"
@@ -9632,15 +9625,16 @@ msgid "Comma separated list of files to add as clips to the bin."
 msgstr "Z vejico ločen seznam datotek, ki bodo dodane v posodo kot posnetki."
 
 #: src/main.cpp:202
-#, fuzzy, kde-format
-#| msgid "Parent folder of the project file"
+#, kde-format
 msgid "Directly render the project and exit."
-msgstr "Nadrejena mapa projektne datoteke"
+msgstr "Neposredno izrišite projekt in ga zapustite."
 
 #: src/main.cpp:205
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr ""
+"Ime prednastavitve za izrisovanje Kdenlive (če ni navedeno, se uporabi MP4-"
+"H264/AAC)."
 
 #: src/main.cpp:210
 #, kde-format
@@ -9648,6 +9642,8 @@ msgid ""
 "Exit after (detached) render process started, without this flag it exists "
 "only after it finished."
 msgstr ""
+"Izhod po (ločenem) začetku procesa izrisovanje, brez te zastavice obstaja le "
+"po njegovem zaključku."
 
 #: src/main.cpp:213
 #, kde-format
@@ -9655,10 +9651,9 @@ msgid "Kdenlive document to open."
 msgstr "Dokument Kdenlive, ki ga želite odpreti."
 
 #: src/main.cpp:214
-#, fuzzy, kde-format
-#| msgid "Output file extension"
+#, kde-format
 msgid "Output file for rendered video."
-msgstr "Pripona izhodne datoteke"
+msgstr "Izhodna datoteka za izrisani videoposnetek."
 
 #: src/main.cpp:338
 #, kde-format
@@ -14038,12 +14033,13 @@ msgstr ""
 "shranjevanju"
 
 #: src/project/projectmanager.cpp:922
-#, fuzzy, kde-format
-#| msgid "Cannot open project file %1"
+#, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
 "%1\n"
-msgstr "Projektne datoteke %1 ni možno odpreti"
+msgstr ""
+"Datoteke projekta ni možno odpreti. Napaka:\n"
+"%1\n"
 
 #: src/project/projectmanager.cpp:962
 #, kde-format
@@ -14162,10 +14158,9 @@ msgid "Install missing dependencies"
 msgstr "Namesti manjkajoče odvisne dele programja"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:26
-#, fuzzy, kde-format
-#| msgid "Check VOSK installation"
+#, kde-format
 msgid "Abort installation"
-msgstr "Preveri namestitev VOSK"
+msgstr "Prekini namestitev"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:39
 #, kde-format
@@ -14194,10 +14189,9 @@ msgid "Check for update"
 msgstr "Preverjanje za posodobitvami"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:90
-#, fuzzy, kde-format
-#| msgid "Installing modules…"
+#, kde-format
 msgid "Installing modules… this can take a while"
-msgstr "Nameščanje modulov …"
+msgstr "Nameščanje modulov … lahko traja"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:100
 #, kde-format
@@ -14272,13 +14266,12 @@ msgstr "Razmislite o posodobitvi svoje namestitve."
 #: src/pythoninterfaces/abstractpythoninterface.cpp:356
 #, kde-format
 msgid "Python exec not found"
-msgstr ""
+msgstr "Izvršilne datoteke Python ni mogoče najti"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:358
-#, fuzzy, kde-format
-#| msgid "Failed to create file."
+#, kde-format
 msgid "Failed to find script file %1"
-msgstr "Ni možno ustvariti datoteke."
+msgstr "Ni bilo mogoče najti skriptne datoteke %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:391
 #, kde-format
@@ -21657,6 +21650,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "Add bookmark"
-#~ msgstr "Dodaj označevalnik"
