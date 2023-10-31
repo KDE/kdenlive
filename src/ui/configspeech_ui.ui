@@ -10,12 +10,26 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>388</width>
-    <height>545</height>
+    <width>325</width>
+    <height>435</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
-   <item row="0" column="0" colspan="4">
+   <item row="3" column="2">
+    <widget class="QPushButton" name="check_config">
+     <property name="toolTip">
+      <string>Check speech engine installation</string>
+     </property>
+     <property name="text">
+      <string>Check configuration</string>
+     </property>
+     <property name="icon">
+      <iconset theme="view-refresh">
+       <normaloff>.</normaloff>.</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" colspan="3">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QLabel" name="label_2">
@@ -53,14 +67,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </item>
     </layout>
    </item>
-   <item row="1" column="0" colspan="4">
+   <item row="1" column="0" colspan="3">
     <widget class="QStackedWidget" name="speech_stack">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="page">
       <layout class="QGridLayout" name="gridLayout">
-       <item row="4" column="0" colspan="4">
+       <item row="4" column="0" rowspan="4" colspan="3">
         <widget class="QFrame" name="list_frame">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
@@ -76,8 +90,46 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
          </property>
         </widget>
        </item>
-       <item row="5" column="0" colspan="4">
-        <layout class="QVBoxLayout" name="message_layout"/>
+       <item row="2" column="0" colspan="3">
+        <widget class="QCheckBox" name="custom_vosk_folder">
+         <property name="text">
+          <string>Custom models folder</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="3">
+        <widget class="QPushButton" name="button_add">
+         <property name="text">
+          <string>Add Model</string>
+         </property>
+         <property name="icon">
+          <iconset theme="list-add">
+           <normaloff>.</normaloff>.</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0" colspan="4">
+        <widget class="KMessageWidget" name="speech_info"/>
+       </item>
+       <item row="7" column="3">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="0" colspan="4">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>VOSK Speech Models</string>
+         </property>
+        </widget>
        </item>
        <item row="3" column="0" colspan="4">
         <widget class="KUrlRequester" name="vosk_folder">
@@ -89,27 +141,27 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
          </property>
         </widget>
        </item>
-       <item row="2" column="0" colspan="3">
-        <widget class="QCheckBox" name="custom_vosk_folder">
+       <item row="8" column="0" colspan="4">
+        <layout class="QVBoxLayout" name="message_layout"/>
+       </item>
+       <item row="5" column="3">
+        <widget class="QPushButton" name="button_delete">
          <property name="text">
-          <string>Custom models folder</string>
+          <string>Remove Model</string>
+         </property>
+         <property name="icon">
+          <iconset theme="edit-delete">
+           <normaloff>.</normaloff>.</iconset>
          </property>
         </widget>
        </item>
-       <item row="1" column="0" colspan="4">
+       <item row="6" column="3">
         <widget class="QLabel" name="models_url">
          <property name="text">
           <string/>
          </property>
-        </widget>
-       </item>
-       <item row="6" column="0" colspan="4">
-        <widget class="KMessageWidget" name="speech_info"/>
-       </item>
-       <item row="0" column="0" colspan="4">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>VOSK Speech Models</string>
+         <property name="wordWrap">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -151,32 +203,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
          </property>
         </widget>
        </item>
-       <item row="6" column="0" colspan="2">
-        <widget class="KMessageWidget" name="kmessagewidget">
-         <property name="text">
-          <string>Whisper processing on cpu is very slow</string>
-         </property>
-         <property name="closeButtonVisible">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="0" colspan="2">
-        <layout class="QVBoxLayout" name="message_layout_wr"/>
-       </item>
-       <item row="9" column="1">
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
        <item row="4" column="1">
         <widget class="QCheckBox" name="kcfg_whisperDisableFP16">
          <property name="text">
@@ -191,18 +217,25 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
          </property>
         </widget>
        </item>
+       <item row="6" column="0" colspan="2">
+        <widget class="KMessageWidget" name="kmessagewidget">
+         <property name="text">
+          <string>Whisper processing on cpu is very slow</string>
+         </property>
+         <property name="closeButtonVisible">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0" colspan="2">
+        <layout class="QVBoxLayout" name="message_layout_wr"/>
+       </item>
       </layout>
      </widget>
     </widget>
    </item>
-   <item row="2" column="0" colspan="4">
+   <item row="2" column="0" colspan="3">
     <widget class="QPlainTextEdit" name="script_log">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
      </property>
@@ -211,35 +244,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </property>
     </widget>
    </item>
-   <item row="3" column="0">
-    <widget class="QToolButton" name="button_add">
-     <property name="toolTip">
-      <string>Add a new speech model from an archive file</string>
-     </property>
-     <property name="text">
-      <string>...</string>
-     </property>
-     <property name="icon">
-      <iconset theme="list-add">
-       <normaloff>.</normaloff>.</iconset>
-     </property>
-    </widget>
-   </item>
    <item row="3" column="1">
-    <widget class="QToolButton" name="button_delete">
-     <property name="toolTip">
-      <string>Delete the selected speech model</string>
-     </property>
-     <property name="text">
-      <string>...</string>
-     </property>
-     <property name="icon">
-      <iconset theme="edit-delete">
-       <normaloff>.</normaloff>.</iconset>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="2">
     <spacer name="horizontalSpacer">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -251,20 +256,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       </size>
      </property>
     </spacer>
-   </item>
-   <item row="3" column="3">
-    <widget class="QPushButton" name="check_config">
-     <property name="toolTip">
-      <string>Check VOSK installation</string>
-     </property>
-     <property name="text">
-      <string>Check configuration</string>
-     </property>
-     <property name="icon">
-      <iconset theme="view-refresh">
-       <normaloff>.</normaloff>.</iconset>
-     </property>
-    </widget>
    </item>
   </layout>
  </widget>
@@ -279,6 +270,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <class>KMessageWidget</class>
    <extends>QFrame</extends>
    <header>kmessagewidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <tabstops>

@@ -921,7 +921,7 @@ void TextBasedEdit::startRecognition()
     m_errorString.clear();
     m_visualEditor->cleanup();
     // m_visualEditor->insertHtml(QStringLiteral("<body>"));
-    m_stt->checkDependencies();
+    m_stt->checkDependencies(false);
     QString modelDirectory;
     QString language;
     QString modelName;
@@ -1443,7 +1443,27 @@ void TextBasedEdit::createSequence()
         showMessage(i18n("No text to export"), KMessageWidget::Information);
         return;
     }
-    qDebug() << ":::::READY TO EXPORT ZONES: " << zones << "\n\n_____________________";
+    QVector<QPoint> mergedZones;
+    int max = zones.count();
+    int current = 0;
+    int referenceStart = zones.at(current).x();
+    int currentEnd = zones.at(current).y();
+    int nextStart = 0;
+    current++;
+    while (current < max) {
+        nextStart = zones.at(current).x();
+        if (nextStart == currentEnd || nextStart == currentEnd + 1) {
+            // Contiguous zones
+            currentEnd = zones.at(current).y();
+            current++;
+            continue;
+        }
+        // Insert zone
+        mergedZones << QPoint(referenceStart, currentEnd);
+        referenceStart = zones.at(current).x();
+        currentEnd = zones.at(current).y();
+        current++;
+    }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     // Create new timeline sequence

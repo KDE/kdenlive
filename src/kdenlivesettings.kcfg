@@ -1343,6 +1343,18 @@
            <label>Selected model for speech recognition (whisper or vosk)</label>
            <default></default>
        </entry>
+       <entry name="usePythonVenv" type="Bool">
+           <label>Use a venv python</label>
+           <default>false</default>
+       </entry>
+       <entry name="pythonPath" type="String">
+           <label>python binary path</label>
+           <default></default>
+       </entry>
+       <entry name="pipPath" type="String">
+           <label>pip binary path</label>
+           <default></default>
+       </entry>
    </group>
     <group name="Media Browser">
     <entry name="mediaIconSize" type="Int">

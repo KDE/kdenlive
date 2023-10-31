@@ -102,6 +102,8 @@ private Q_SLOTS:
     void downloadModelFinished(KJob* job);
     void processArchive(const QString &path);
     void doShowSpeechMessage(const QString &message, int messageType);
+    /** @brief Check required python dependencies for speech engine */
+    void slotCheckSttConfig();
     /** @brief fill list of connected monitors */
     void fillMonitorData();
     
@@ -168,6 +170,8 @@ private:
     void initJogShuttlePage();
     void initSdlPage(bool gpuAllowed);
     void initTranscodePage();
+    /** @brief Launch pytonh scripts to check speech engine dependencies */
+    void checkSpeechDependencies();
 
 Q_SIGNALS:
     void customChanged();

@@ -49,6 +49,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KZip>
 
 #include <QAction>
+#include <QButtonGroup>
 #include <QDir>
 #include <QGuiApplication>
 #include <QInputDialog>
@@ -167,8 +168,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
     }
     resize(optimalSize);
     // Use timers so that the Settings window opens before starting the scripts
-    QTimer::singleShot(500, m_sttWhisper, &SpeechToText::checkDependencies);
-    QTimer::singleShot(700, m_stt, &SpeechToText::checkDependencies);
+    checkSpeechDependencies();
 }
 
 // static
@@ -866,9 +866,8 @@ void KdenliveSettingsDialog::showPage(Kdenlive::ConfigPage page, int option)
         setCurrentPage(m_pageColors);
         break;
     case Kdenlive::PageSpeech:
+        checkSpeechDependencies();
         setCurrentPage(m_pageSpeech);
-        m_stt->checkDependencies();
-        m_sttWhisper->checkDependencies();
         break;
     default:
         setCurrentPage(m_pageMisc);
@@ -1718,11 +1717,17 @@ void KdenliveSettingsDialog::initSpeechPage()
 {
     m_stt = new SpeechToText(SpeechToText::EngineType::EngineVosk, this);
     m_sttWhisper = new SpeechToText(SpeechToText::EngineType::EngineWhisper, this);
-    connect(m_configSpeech.engine_vosk, &QRadioButton::clicked, [&]() { m_configSpeech.speech_stack->setCurrentIndex(0); });
-    connect(m_configSpeech.engine_whisper, &QRadioButton::clicked, [&]() { m_configSpeech.speech_stack->setCurrentIndex(1); });
-    connect(m_configSpeech.speech_stack, &QStackedWidget::currentChanged, [&](int index) {
-        m_configSpeech.button_add->setVisible(index == 0);
-        m_configSpeech.button_delete->setVisible(index == 0);
+    QButtonGroup *speechEngineSelection = new QButtonGroup(this);
+    speechEngineSelection->addButton(m_configSpeech.engine_vosk);
+    speechEngineSelection->addButton(m_configSpeech.engine_whisper);
+    connect(speechEngineSelection, &QButtonGroup::buttonClicked, [this](QAbstractButton *button) {
+        if (button == m_configSpeech.engine_vosk) {
+            m_configSpeech.speech_stack->setCurrentIndex(0);
+            QTimer::singleShot(500, this, [&]() { m_stt->checkDependencies(false); });
+        } else if (button == m_configSpeech.engine_whisper) {
+            m_configSpeech.speech_stack->setCurrentIndex(1);
+            QTimer::singleShot(500, this, [&]() { m_sttWhisper->checkDependencies(false); });
+        }
     });
     if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
         m_configSpeech.engine_whisper->setChecked(true);
@@ -1731,6 +1736,28 @@ void KdenliveSettingsDialog::initSpeechPage()
         m_configSpeech.engine_vosk->setChecked(true);
         m_configSpeech.speech_stack->setCurrentIndex(0);
     }
+    // Python setup
+    m_configEnv.pythonSetupMessage->hide();
+    connect(m_sttWhisper, &SpeechToText::gotPythonPath, m_configEnv.label_python_path, &QLabel::setText);
+    connect(m_sttWhisper, &SpeechToText::gotPythonSize, m_configEnv.label_python_size, &QLabel::setText);
+    m_sttWhisper->checkPython(KdenliveSettings::usePythonVenv(), true);
+    connect(m_configEnv.kcfg_usePythonVenv, &QCheckBox::stateChanged, this, [this](int state) {
+        if (state == Qt::Checked) {
+            m_configEnv.pythonSetupMessage->setText(i18n("Setting up virtual environnement…"));
+        } else {
+            m_configEnv.pythonSetupMessage->setText(i18n("Disabling virtual environnement"));
+        }
+        m_configEnv.pythonSetupMessage->show();
+        qApp->processEvents();
+        m_sttWhisper->checkPython(state == Qt::Checked, true);
+        slotCheckSttConfig();
+        m_configEnv.pythonSetupMessage->hide();
+    });
+    connect(m_configEnv.button_python_delete, &QPushButton::clicked, this, [this]() {
+        if (m_sttWhisper->removePythonVenv()) {
+            m_configEnv.kcfg_usePythonVenv->setChecked(false);
+        }
+    });
 
     // Whisper
     m_configSpeech.combo_wr_device->addItem(i18n("Probing..."));
@@ -1805,20 +1832,7 @@ void KdenliveSettingsDialog::initSpeechPage()
     l->setContentsMargins(0, 0, 0, 0);
     l->addWidget(m_speechListWidget);
     m_configSpeech.speech_info->setWordWrap(true);
-    connect(m_configSpeech.check_config, &QPushButton::clicked, this, [this]() {
-        m_configSpeech.check_config->setEnabled(false);
-        if (m_configSpeech.speech_stack->currentIndex() == 0) {
-            // Vosk
-            m_stt->checkDependencies();
-            if (m_stt->missingDependencies().isEmpty()) {
-                m_stt->checkVersions();
-            }
-        } else {
-            // Whisper
-            m_sttWhisper->checkDependencies();
-        }
-        m_configSpeech.check_config->setEnabled(true);
-    });
+    connect(m_configSpeech.check_config, &QPushButton::clicked, this, &KdenliveSettingsDialog::slotCheckSttConfig);
 
     connect(m_configSpeech.custom_vosk_folder, &QCheckBox::stateChanged, this, [this](int state) {
         m_configSpeech.vosk_folder->setEnabled(state != Qt::Unchecked);
@@ -1851,6 +1865,15 @@ void KdenliveSettingsDialog::initSpeechPage()
     connect(m_configSpeech.button_delete, &QToolButton::clicked, this, &KdenliveSettingsDialog::removeDictionary);
     connect(this, &KdenliveSettingsDialog::parseDictionaries, this, &KdenliveSettingsDialog::slotParseVoskDictionaries);
     slotParseVoskDictionaries();
+}
+
+void KdenliveSettingsDialog::slotCheckSttConfig()
+{
+    m_configSpeech.check_config->setEnabled(false);
+    m_stt->checkDependencies(true);
+    m_sttWhisper->checkDependencies(true);
+
+    m_configSpeech.check_config->setEnabled(true);
 }
 
 void KdenliveSettingsDialog::doShowSpeechMessage(const QString &message, int messageType)
@@ -1987,4 +2010,10 @@ void KdenliveSettingsDialog::slotParseVoskDictionaries()
 void KdenliveSettingsDialog::showHelp()
 {
     pCore->window()->appHelpActivated();
+}
+
+void KdenliveSettingsDialog::checkSpeechDependencies()
+{
+    m_sttWhisper->checkDependenciesConcurrently();
+    m_stt->checkDependenciesConcurrently();
 }

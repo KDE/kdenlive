@@ -5,12 +5,15 @@
 */
 
 #pragma once
+#include "kdenlivesettings.h"
 
 #include <KMessageWidget>
 #include <QObject>
 #include <QString>
 #include <QMap>
 #include <QPair>
+
+class KJob;
 
 class AbstractPythonInterface : public QObject
 {
@@ -23,6 +26,8 @@ public:
         @returns wether all checks succeeded.
     */
     ~AbstractPythonInterface() override;
+    /** @brief Check if python is found and use venv if requested. */
+    bool checkPython(bool useVenv, bool calculateSize = false);
     bool checkSetup();
     /** @brief Check which versions of the dependencies are installed.
         @param Whether checkVersionsResult() will be emitted once the result is available.
@@ -36,10 +41,12 @@ public:
      */
     QStringList missingDependencies(const QStringList &filter = {});
     QString runScript(const QString &scriptpath, QStringList args = {}, const QString &firstarg = {}, bool concurrent = false, bool packageFeedback = false);
-    QString pythonExec() { return m_pyExec; };
+    QString pythonExec() { return KdenliveSettings::pythonPath(); };
     void proposeMaybeUpdate(const QString &dependency, const QString &minVersion);
     bool installDisabled() { return m_disableInstall; };
     void runConcurrentScript(const QString &script, QStringList args);
+    /** @brief Delete the python venv folder. */
+    bool removePythonVenv();
 
     friend class PythonDependencyMessage;
 
@@ -51,11 +58,10 @@ public Q_SLOTS:
         To get a list of all missing dependencies use missingDependencies
         @returns wether all checks succeeded.
     */
-    void checkDependencies();
+    void checkDependencies(bool force = false);
+    void checkDependenciesConcurrently();
 
 private:
-    QString m_pyExec;
-    QString m_pip3Exec;
     QMap<QString, QString> m_dependencies;
     QStringList m_missing;
     QMap<QString, QString> *m_versions;
@@ -68,6 +74,7 @@ private:
     int versionToInt(const QString &version);
     /** @brief Create a python virtualenv */
     bool setupVenv();
+    void gotFolderSize(KJob *job);
 
 protected:
     QMap<QString, QString> *m_scripts;
@@ -84,6 +91,8 @@ Q_SIGNALS:
     void proposeUpdate(const QString &message);
     void scriptFeedback(const QStringList message);
     void installFeedback(const QString &message);
+    void gotPythonPath(const QString &message);
+    void gotPythonSize(const QString &message);
     void scriptGpuCheckFinished();
     void scriptFinished();
     void scriptStarted();
