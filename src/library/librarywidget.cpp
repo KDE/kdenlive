@@ -116,7 +116,7 @@ void LibraryTree::dropEvent(QDropEvent *event)
 {
     QTreeWidget::dropEvent(event);
     const QMimeData *qMimeData = event->mimeData();
-    QTreeWidgetItem *dropped = this->itemAt(event->pos());
+    QTreeWidgetItem *dropped = this->itemAt(event->position().toPoint());
     QString dest;
     if (dropped) {
         dest = dropped->data(0, Qt::UserRole).toString();
