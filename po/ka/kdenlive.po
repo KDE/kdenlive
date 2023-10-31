@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-28 00:42+0000\n"
-"PO-Revision-Date: 2023-10-23 05:55+0200\n"
+"PO-Revision-Date: 2023-10-30 05:22+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4\n"
+"X-Generator: Poedit 3.4.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -7060,22 +7060,19 @@ msgid "Configure Speech Recognition"
 msgstr "საუბრის ამოცნობის მორგება"
 
 #: src/dialogs/textbasededit.cpp:634
-#, fuzzy, kde-format
-#| msgid "Create sequence"
+#, kde-format
 msgid "Create new sequence with edit"
-msgstr "მიმდევრობის შექმნა"
+msgstr "ახალი მიმდევრობის შექმნა ჩასწორებით"
 
 #: src/dialogs/textbasededit.cpp:635
-#, fuzzy, kde-format
-#| msgid "Invert selection"
+#, kde-format
 msgid "Insert selection in timeline"
-msgstr "მონიშვნის ინვერსია"
+msgstr "მონიშვნის ჩასმა დროის ხაზზე"
 
 #: src/dialogs/textbasededit.cpp:640
-#, fuzzy, kde-format
-#| msgid "Create sequence"
+#, kde-format
 msgid "Create new sequence with text edit "
-msgstr "მიმდევრობის შექმნა"
+msgstr "ახალი მიმდევრობის შექმნა ტექსტის ჩასწორებით "
 
 #: src/dialogs/textbasededit.cpp:663
 #, kde-format
@@ -7156,8 +7153,7 @@ msgid "Speech recognition finished."
 msgstr ""
 
 #: src/dialogs/textbasededit.cpp:1280 src/dialogs/textbasededit.cpp:1342
-#, fuzzy, kde-format
-#| msgid "Create Sequence Clip"
+#, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "მიმდევრობის კლიპის შექმნა"
@@ -9246,10 +9242,9 @@ msgid "Kdenlive document to open."
 msgstr "Kdenlive -ის გასახსნელი დოკუმენტი."
 
 #: src/main.cpp:214
-#, fuzzy, kde-format
-#| msgid "Output file extension"
+#, kde-format
 msgid "Output file for rendered video."
-msgstr "გამოტანის ფაილის გაფართოება"
+msgstr "გამოტანის ფაილი დარენდერებული ვიდეოსთვის."
 
 #: src/main.cpp:338
 #, kde-format
@@ -13378,12 +13373,13 @@ msgid ""
 msgstr ""
 
 #: src/project/projectmanager.cpp:922
-#, fuzzy, kde-format
-#| msgid "Cannot open project file %1"
+#, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
 "%1\n"
-msgstr "პროექტის ფაილის %1 გახსნა შეუძლებელია"
+msgstr ""
+"პროექტის ფაილის გახსნა შეუძლებელია. შეცდომა:\n"
+"%1\n"
 
 #: src/project/projectmanager.cpp:962
 #, kde-format
@@ -13519,10 +13515,9 @@ msgid "Check for update"
 msgstr "განახლების შემოწმება"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:90
-#, fuzzy, kde-format
-#| msgid "Installing modules…"
+#, kde-format
 msgid "Installing modules… this can take a while"
-msgstr "მოდულების დაყენება…"
+msgstr "მოდულების დაყენება… ამას კარგა ხანი შეიძლება, დასჭირდეს"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:100
 #, kde-format
@@ -13593,10 +13588,9 @@ msgid "Python exec not found"
 msgstr ""
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:358
-#, fuzzy, kde-format
-#| msgid "Unable to write to file %1"
+#, kde-format
 msgid "Failed to find script file %1"
-msgstr "%1 ფაილში ჩაწერის შეცდომა"
+msgstr "შეცდომა სკრიპტის ფაილის ('%1') აღმოჩენისას"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:391
 #, kde-format
@@ -14650,7 +14644,7 @@ msgstr "HSL მნიშვნელობა"
 #: src/scopes/colorscopes/histogram.cpp:24
 #, kde-format
 msgid "Unscaled"
-msgstr ""
+msgstr "გაუდიდებელი"
 
 #: src/scopes/colorscopes/histogram.cpp:27
 #: src/scopes/colorscopes/waveform.cpp:36
@@ -17130,7 +17124,7 @@ msgstr "გამშვები"
 #: src/ui/clipjobmanager_ui.ui:70
 #, kde-format
 msgid "Arguments"
-msgstr ""
+msgstr "არგუმენტები"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, info_message)
 #: src/ui/clipjobmanager_ui.ui:80
