@@ -439,8 +439,13 @@ bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sou
     if (!enabled) {
         effect->filter().set("disable", 1);
     }
-    effect->filter().set("in", sourceEffect->filter().get_int("in"));
-    effect->filter().set("out", sourceEffect->filter().get_int("out"));
+    if (m_ownerId.type == ObjectType::TimelineTrack || m_ownerId.type == ObjectType::Master) {
+        effect->filter().set("in", 0);
+        effect->filter().set("out", pCore->getItemDuration(m_ownerId) - 1);
+    } else {
+        effect->filter().set("in", sourceEffect->filter().get_int("in"));
+        effect->filter().set("out", sourceEffect->filter().get_int("out"));
+    }
     Fun local_undo = removeItem_lambda(effect->getId());
     // TODO the parent should probably not always be the root
     Fun local_redo = addItem_lambda(effect, rootItem->getId());
