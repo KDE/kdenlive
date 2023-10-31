@@ -449,7 +449,11 @@ void CustomLabel::mouseMoveEvent(QMouseEvent *e)
         }
         if (m_dragMode) {
             if (KdenliveSettings::dragvalue_mode() > 0 || !m_showSlider) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+                int diff = e->pos().x() - m_dragLastPosition.x();
+#else
                 int diff = e->position().x() - m_dragLastPosition.x();
+#endif
                 if (qApp->isRightToLeft()) {
                     diff = 0 - diff;
                 }
