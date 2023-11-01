@@ -3011,19 +3011,19 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
 
                 QStringList sInfo = i->shadowInfo();
                 if (sInfo.count() >= 5) {
+                    QSignalBlocker bk(shadowBox);
                     shadowBox->setChecked(static_cast<bool>(sInfo.at(0).toInt()));
                     shadowBox->blockSignals(true);
                     shadowColor->setColor(QColor(sInfo.at(1)));
                     blur_radius->setValue(sInfo.at(2).toInt());
                     shadowX->setValue(sInfo.at(3).toInt());
                     shadowY->setValue(sInfo.at(4).toInt());
-                    shadowBox->blockSignals(false);
                 }
 
                 sInfo = i->twInfo();
                 if (sInfo.count() >= 5) {
+                    QSignalBlocker bk(typewriterBox);
                     typewriterBox->setChecked(static_cast<bool>(sInfo.at(0).toInt()));
-                    typewriterBox->blockSignals(true);
                     tw_sb_step->setValue(sInfo.at(1).toInt());
                     switch (sInfo.at(2).toInt()) {
                     case 1:
@@ -3041,7 +3041,6 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                     }
                     tw_sb_sigma->setValue(sInfo.at(3).toInt());
                     tw_sb_seed->setValue(sInfo.at(4).toInt());
-                    typewriterBox->blockSignals(false);
                 }
 
                 letter_spacing->blockSignals(true);
