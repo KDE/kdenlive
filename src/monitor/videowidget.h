@@ -262,7 +262,7 @@ public:
     ~RenderThread();
 
 protected:
-    void run();
+    void run() override;
 
 private:
     thread_function_t m_function;

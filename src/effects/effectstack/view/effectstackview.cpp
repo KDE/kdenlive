@@ -149,7 +149,11 @@ void EffectStackView::dragMoveEvent(QDragMoveEvent *event)
         std::shared_ptr<EffectItemModel> eff = std::static_pointer_cast<EffectItemModel>(item);
         QModelIndex ix = m_model->getIndexFromItem(eff);
         QWidget *w = m_effectsTree->indexWidget(ix);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         if (w && w->geometry().contains(event->pos())) {
+#else
+        if (w && w->geometry().contains(event->position().toPoint())) {
+#endif
             dragRow = i;
             break;
         }

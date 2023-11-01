@@ -1494,7 +1494,7 @@ QString DocumentChecker::getProducerResource(const QDomElement &producer)
         resource = Xml::getXmlProperty(producer, QStringLiteral("warp_resource"));
     } else if (service == QLatin1String("framebuffer")) {
         // slowmotion clip, trim speed info
-        resource.section(QLatin1Char('?'), 0, 0);
+        resource = resource.section(QLatin1Char('?'), 0, 0);
     }
     return ensureAbsolutePath(resource);
 }

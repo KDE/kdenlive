@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-28 00:42+0000\n"
+"POT-Creation-Date: 2023-11-01 00:42+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -4980,8 +4980,8 @@ msgstr "Odabrati snimak ako želite primijeniti efekt"
 msgid "Cannot apply effects on folders"
 msgstr "Nije moguće dodavanje video efekta na snimak"
 
-#: src/bin/bin.cpp:3972 src/effects/effectstack/model/effectstackmodel.cpp:501
-#: src/effects/effectstack/model/effectstackmodel.cpp:507
+#: src/bin/bin.cpp:3972 src/effects/effectstack/model/effectstackmodel.cpp:506
+#: src/effects/effectstack/model/effectstackmodel.cpp:512
 #: src/mainwindow.cpp:3179
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
@@ -5565,7 +5565,7 @@ msgstr "Pomjeri vodič"
 
 #: src/bin/model/subtitlemodel.cpp:1140
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:515
-#: src/effects/effectstack/view/effectstackview.cpp:572
+#: src/effects/effectstack/view/effectstackview.cpp:576
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:857
 #: src/project/dialogs/archivewidget.cpp:871 src/render/renderrequest.cpp:325
 #, kde-format
@@ -6449,7 +6449,7 @@ msgstr "Učitaj markere"
 #: src/effects/effectlist/model/effecttreemodel.cpp:268
 #: src/effects/effectsrepository.cpp:390
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:593
-#: src/effects/effectstack/view/effectstackview.cpp:610
+#: src/effects/effectstack/view/effectstackview.cpp:614
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:690
 #: src/project/dialogs/archivewidget.cpp:694
@@ -7329,7 +7329,7 @@ msgstr "FFmpeg parametri"
 msgid "Add to Current Project"
 msgstr "Dodaj u projekat"
 
-#: src/dialogs/renderwidget.cpp:1838 src/library/librarywidget.cpp:251
+#: src/dialogs/renderwidget.cpp:1838 src/library/librarywidget.cpp:255
 #, fuzzy, kde-format
 #| msgid "Destination folder"
 msgid "Open Containing Folder"
@@ -8695,25 +8695,25 @@ msgstr "Uredi efekat %1"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:323
 #: src/effects/effectstack/model/effectstackmodel.cpp:433
-#: src/effects/effectstack/model/effectstackmodel.cpp:487
-#: src/effects/effectstack/model/effectstackmodel.cpp:1073
+#: src/effects/effectstack/model/effectstackmodel.cpp:492
+#: src/effects/effectstack/model/effectstackmodel.cpp:1078
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr ""
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:477
+#: src/effects/effectstack/model/effectstackmodel.cpp:482
 #, fuzzy, kde-format
 #| msgid "Paste Effects"
 msgid "Paste effect"
 msgstr "Zalijepi efekte"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:575
+#: src/effects/effectstack/model/effectstackmodel.cpp:580
 #, fuzzy, kde-format
 #| msgid "Edit effect %1"
 msgid "Add effect %1"
 msgstr "Uredi efekat %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:903
+#: src/effects/effectstack/model/effectstackmodel.cpp:908
 #, fuzzy, kde-format
 #| msgid "Move effect"
 msgid "Move effect %1"
@@ -8910,38 +8910,38 @@ msgstr "Komentar"
 msgid "No name provided, effect not saved."
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:528
+#: src/effects/effectstack/view/effectstackview.cpp:532
 #, fuzzy, kde-format
 #| msgid "No available clip selected"
 msgid "No effect selected."
 msgstr "Nema dostupnih  selektovanih isječaka"
 
-#: src/effects/effectstack/view/effectstackview.cpp:534
+#: src/effects/effectstack/view/effectstackview.cpp:538
 #, fuzzy, kde-format
 #| msgid "Effect Stack"
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Stek Efekata"
 
-#: src/effects/effectstack/view/effectstackview.cpp:539
+#: src/effects/effectstack/view/effectstackview.cpp:543
 #, fuzzy, kde-format
 #| msgid "Name for saved effect: "
 msgid "Name for saved stack:"
 msgstr "Ime za sačuvani efekat "
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:540
+#: src/effects/effectstack/view/effectstackview.cpp:544
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:214
 #, kde-format
 msgid "Description:"
 msgstr "Opis:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:553
+#: src/effects/effectstack/view/effectstackview.cpp:557
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:560
+#: src/effects/effectstack/view/effectstackview.cpp:564
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -9636,19 +9636,19 @@ msgstr "Hz"
 msgid "Merged streams"
 msgstr "Zvučni slijed %1"
 
-#: src/library/librarywidget.cpp:198 src/library/librarywidget.cpp:526
+#: src/library/librarywidget.cpp:202 src/library/librarywidget.cpp:530
 #, kde-format
 msgid "Check your settings, Library path is invalid: %1"
 msgstr ""
 
-#: src/library/librarywidget.cpp:223
+#: src/library/librarywidget.cpp:227
 #, fuzzy, kde-format
 #| msgid "Add clip to project"
 #| msgid_plural "Add clips to project"
 msgid "Add Clip to Project"
 msgstr "Dodaj snimak u projekat"
 
-#: src/library/librarywidget.cpp:224
+#: src/library/librarywidget.cpp:228
 #, fuzzy, kde-kuit-format
 #| msgid "This will remove the selected clip from this project"
 #| msgid_plural "This will remove the selected clips from this project"
@@ -9656,43 +9656,43 @@ msgctxt "@info:whatsthis"
 msgid "Adds the selected library clip to the project bin."
 msgstr "Ovo će skloniti odabrani snimak sa ovog projekta"
 
-#: src/library/librarywidget.cpp:227
+#: src/library/librarywidget.cpp:231
 #, fuzzy, kde-format
 #| msgid "Add clip to project"
 #| msgid_plural "Add clips to project"
 msgid "Delete Clip from Library"
 msgstr "Dodaj snimak u projekat"
 
-#: src/library/librarywidget.cpp:228
+#: src/library/librarywidget.cpp:232
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected library clip from the library."
 msgstr ""
 
-#: src/library/librarywidget.cpp:231
+#: src/library/librarywidget.cpp:235
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Create Library Folder"
 msgstr "Napravi direktorij"
 
-#: src/library/librarywidget.cpp:232
+#: src/library/librarywidget.cpp:236
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Creates a new folder in the library."
 msgstr ""
 
-#: src/library/librarywidget.cpp:234
+#: src/library/librarywidget.cpp:238
 #, kde-format
 msgid "Rename Library Clip"
 msgstr ""
 
-#: src/library/librarywidget.cpp:241
+#: src/library/librarywidget.cpp:245
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Add Timeline Selection to Library"
 msgstr "Alat za biranje"
 
-#: src/library/librarywidget.cpp:242
+#: src/library/librarywidget.cpp:246
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -9700,26 +9700,26 @@ msgid ""
 "that the paths to images, video and audio files are saved as absolute paths."
 msgstr ""
 
-#: src/library/librarywidget.cpp:338
+#: src/library/librarywidget.cpp:342
 #, kde-format
 msgid "You are trying to remove an invalid folder: %1"
 msgstr ""
 
-#: src/library/librarywidget.cpp:343
+#: src/library/librarywidget.cpp:347
 #, kde-format
 msgid ""
 "This will delete the folder %1, including all playlists in it.\n"
 "This cannot be undone"
 msgstr ""
 
-#: src/library/librarywidget.cpp:352
+#: src/library/librarywidget.cpp:356
 #, kde-format
 msgid ""
 "This will delete the MLT playlist:\n"
 "%1"
 msgstr ""
 
-#: src/library/librarywidget.cpp:354
+#: src/library/librarywidget.cpp:358
 #, fuzzy, kde-format
 #| msgid "This will remove the selected clip from this project"
 #| msgid_plural "This will remove the selected clips from this project"
@@ -9728,13 +9728,13 @@ msgid ""
 "%1"
 msgstr "Ovo će skloniti odabrani snimak sa ovog projekta"
 
-#: src/library/librarywidget.cpp:361
+#: src/library/librarywidget.cpp:365
 #, fuzzy, kde-format
 #| msgid "Error removing clip at %1 on track %2"
 msgid "Error removing %1"
 msgstr "Greška prilikom brisnja snimka na %1 na zapisu %2"
 
-#: src/library/librarywidget.cpp:378
+#: src/library/librarywidget.cpp:382
 #, fuzzy, kde-format
 #| msgid "Add clip to project"
 #| msgid_plural "Add clips to project"
@@ -9742,35 +9742,35 @@ msgctxt "@title:window"
 msgid "Add Folder to Library"
 msgstr "Dodaj snimak u projekat"
 
-#: src/library/librarywidget.cpp:378
+#: src/library/librarywidget.cpp:382
 #, fuzzy, kde-format
 #| msgid "Enter sequence name"
 msgid "Enter a folder name"
 msgstr "Unesi ime sekvence"
 
-#: src/library/librarywidget.cpp:400
+#: src/library/librarywidget.cpp:404
 #, fuzzy, kde-format
 #| msgid "Profile already exists"
 msgid "Folder %1 already exists"
 msgstr "Profil već postoji"
 
-#: src/library/librarywidget.cpp:404
+#: src/library/librarywidget.cpp:408
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error creating folder %1"
 msgstr "Greška pri otvaranju datoteke"
 
-#: src/library/librarywidget.cpp:504
+#: src/library/librarywidget.cpp:508
 #, kde-format
 msgid "Library path set to default: %1"
 msgstr ""
 
-#: src/library/librarywidget.cpp:510
+#: src/library/librarywidget.cpp:514
 #, kde-format
 msgid "Library path set to custom: %1"
 msgstr ""
 
-#: src/library/librarywidget.cpp:516
+#: src/library/librarywidget.cpp:520
 #, fuzzy, kde-format
 #| msgid "Cannot write to path: %1"
 msgid "Cannot write to Library path: %1, using default"

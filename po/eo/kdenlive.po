@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-28 00:42+0000\n"
-"PO-Revision-Date: 2023-10-20 07:06+0100\n"
+"POT-Creation-Date: 2023-11-01 00:42+0000\n"
+"PO-Revision-Date: 2023-10-31 22:31+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -4856,8 +4856,8 @@ msgstr "Elektu aŭdvidaĵon por apliki efekton"
 msgid "Cannot apply effects on folders"
 msgstr "Ne povas apliki efikojn al dosierujoj"
 
-#: src/bin/bin.cpp:3972 src/effects/effectstack/model/effectstackmodel.cpp:501
-#: src/effects/effectstack/model/effectstackmodel.cpp:507
+#: src/bin/bin.cpp:3972 src/effects/effectstack/model/effectstackmodel.cpp:506
+#: src/effects/effectstack/model/effectstackmodel.cpp:512
 #: src/mainwindow.cpp:3179
 #, kde-format
 msgid "Cannot add effect to clip"
@@ -5384,7 +5384,7 @@ msgstr "Movi subtitolon"
 
 #: src/bin/model/subtitlemodel.cpp:1140
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:515
-#: src/effects/effectstack/view/effectstackview.cpp:572
+#: src/effects/effectstack/view/effectstackview.cpp:576
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:857
 #: src/project/dialogs/archivewidget.cpp:871 src/render/renderrequest.cpp:325
 #, kde-format
@@ -6241,7 +6241,7 @@ msgstr "Eksporti Gvidilojn Datumojn"
 #: src/effects/effectlist/model/effecttreemodel.cpp:268
 #: src/effects/effectsrepository.cpp:390
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:593
-#: src/effects/effectstack/view/effectstackview.cpp:610
+#: src/effects/effectstack/view/effectstackview.cpp:614
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:690
 #: src/project/dialogs/archivewidget.cpp:694
@@ -7071,7 +7071,7 @@ msgstr ""
 msgid "Add to Current Project"
 msgstr "Aldoni al Aktuala Projekto"
 
-#: src/dialogs/renderwidget.cpp:1838 src/library/librarywidget.cpp:251
+#: src/dialogs/renderwidget.cpp:1838 src/library/librarywidget.cpp:255
 #, kde-format
 msgid "Open Containing Folder"
 msgstr "Malfermi Enhavantan Dosierujon"
@@ -7308,29 +7308,24 @@ msgid "Configure Speech Recognition"
 msgstr "Agordi Parolan Rekonon"
 
 #: src/dialogs/textbasededit.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with edit"
-msgstr "Krei Novan Sekvencon"
+msgstr "Krei novan sekvencon kun redakto"
 
 #: src/dialogs/textbasededit.cpp:635
-#, fuzzy, kde-format
-#| msgid "Insert selected blocks in timeline"
+#, kde-format
 msgid "Insert selection in timeline"
-msgstr "Enmeti elektitajn blokojn en templinion"
+msgstr "Enmeti elektaĵon en templinio"
 
 #: src/dialogs/textbasededit.cpp:640
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with text edit "
-msgstr "Krei Novan Sekvencon"
+msgstr "Krei novan sekvencon kun tekstredakto"
 
 #: src/dialogs/textbasededit.cpp:663
 #, kde-format
 msgid "Speech model"
-msgstr "Parolado modelo"
+msgstr "Parolada modelo"
 
 #: src/dialogs/textbasededit.cpp:664
 #, kde-format
@@ -7343,10 +7338,9 @@ msgid "Delete selected text"
 msgstr "Forigi elektitan tekston"
 
 #: src/dialogs/textbasededit.cpp:707
-#, fuzzy, kde-format
-#| msgid "Add bookmark for current selection"
+#, kde-format
 msgid "Add marker for current selection"
-msgstr "Aldoni legosignon por nuna elekto"
+msgstr "Aldoni markilon por nuna elekto"
 
 #: src/dialogs/textbasededit.cpp:848
 #, kde-format
@@ -7409,8 +7403,7 @@ msgid "Speech recognition finished."
 msgstr "Parola rekono finiĝis."
 
 #: src/dialogs/textbasededit.cpp:1280 src/dialogs/textbasededit.cpp:1342
-#, fuzzy, kde-format
-#| msgid "Create Sequence Clip"
+#, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Krei sekvencan aŭdvidaĵon"
@@ -8379,23 +8372,23 @@ msgstr "Kopii efiko"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:323
 #: src/effects/effectstack/model/effectstackmodel.cpp:433
-#: src/effects/effectstack/model/effectstackmodel.cpp:487
-#: src/effects/effectstack/model/effectstackmodel.cpp:1073
+#: src/effects/effectstack/model/effectstackmodel.cpp:492
+#: src/effects/effectstack/model/effectstackmodel.cpp:1078
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "Efiko %1 ne povas esti aldonita dufoje."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:477
+#: src/effects/effectstack/model/effectstackmodel.cpp:482
 #, kde-format
 msgid "Paste effect"
 msgstr "Alglui efekton"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:575
+#: src/effects/effectstack/model/effectstackmodel.cpp:580
 #, kde-format
 msgid "Add effect %1"
 msgstr "Aldoni efekton %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:903
+#: src/effects/effectstack/model/effectstackmodel.cpp:908
 #, kde-format
 msgid "Move effect %1"
 msgstr "Movi efekton %1"
@@ -8579,35 +8572,35 @@ msgstr "Komentoj:"
 msgid "No name provided, effect not saved."
 msgstr "Neniu nomo provizita, efiko ne konservita."
 
-#: src/effects/effectstack/view/effectstackview.cpp:528
+#: src/effects/effectstack/view/effectstackview.cpp:532
 #, kde-format
 msgid "No effect selected."
 msgstr "Neniu efiko elektita."
 
-#: src/effects/effectstack/view/effectstackview.cpp:534
+#: src/effects/effectstack/view/effectstackview.cpp:538
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Konservi aktualan Efektan Stakon"
 
-#: src/effects/effectstack/view/effectstackview.cpp:539
+#: src/effects/effectstack/view/effectstackview.cpp:543
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Nomo por konservita stako:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:540
+#: src/effects/effectstack/view/effectstackview.cpp:544
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:214
 #, kde-format
 msgid "Description:"
 msgstr "Priskribo:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:553
+#: src/effects/effectstack/view/effectstackview.cpp:557
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "Neniu nomo provizita, efekta stako ne konservita."
 
-#: src/effects/effectstack/view/effectstackview.cpp:560
+#: src/effects/effectstack/view/effectstackview.cpp:564
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -9230,55 +9223,55 @@ msgstr "Hz"
 msgid "Merged streams"
 msgstr "Kunfanditaj riveretoj"
 
-#: src/library/librarywidget.cpp:198 src/library/librarywidget.cpp:526
+#: src/library/librarywidget.cpp:202 src/library/librarywidget.cpp:530
 #, kde-format
 msgid "Check your settings, Library path is invalid: %1"
 msgstr "Kontrolu viajn agordojn, Biblioteka vojo estas nevalida: %1"
 
-#: src/library/librarywidget.cpp:223
+#: src/library/librarywidget.cpp:227
 #, kde-format
 msgid "Add Clip to Project"
 msgstr "Aldoni aŭdvidaĵon al projekto"
 
-#: src/library/librarywidget.cpp:224
+#: src/library/librarywidget.cpp:228
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Adds the selected library clip to the project bin."
 msgstr "Aldonas la elektitan bibliotekon al la projektujo."
 
-#: src/library/librarywidget.cpp:227
+#: src/library/librarywidget.cpp:231
 #, kde-format
 msgid "Delete Clip from Library"
 msgstr "Forigi aŭdvidaĵon el Biblioteko"
 
-#: src/library/librarywidget.cpp:228
+#: src/library/librarywidget.cpp:232
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected library clip from the library."
 msgstr "Forigas la nuntempe elektitan bibliotekan tondaĵon el la biblioteko."
 
-#: src/library/librarywidget.cpp:231
+#: src/library/librarywidget.cpp:235
 #, kde-format
 msgid "Create Library Folder"
 msgstr "Krei Bibliotekan Dosierujon"
 
-#: src/library/librarywidget.cpp:232
+#: src/library/librarywidget.cpp:236
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Creates a new folder in the library."
 msgstr "Kreas novan dosierujon en la biblioteko."
 
-#: src/library/librarywidget.cpp:234
+#: src/library/librarywidget.cpp:238
 #, kde-format
 msgid "Rename Library Clip"
 msgstr "Alinomi bibliotekan aŭdvidaĵon"
 
-#: src/library/librarywidget.cpp:241
+#: src/library/librarywidget.cpp:245
 #, kde-format
 msgid "Add Timeline Selection to Library"
 msgstr "Aldoni Templinian Elekton al Biblioteko"
 
-#: src/library/librarywidget.cpp:242
+#: src/library/librarywidget.cpp:246
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -9289,12 +9282,12 @@ msgstr ""
 "biblioteko. Notu, ke la vojoj al bildoj, video kaj sondosieroj estas "
 "konservitaj kiel absolutaj vojoj."
 
-#: src/library/librarywidget.cpp:338
+#: src/library/librarywidget.cpp:342
 #, kde-format
 msgid "You are trying to remove an invalid folder: %1"
 msgstr "Vi provas forigi nevalidan dosierujon: %1"
 
-#: src/library/librarywidget.cpp:343
+#: src/library/librarywidget.cpp:347
 #, kde-format
 msgid ""
 "This will delete the folder %1, including all playlists in it.\n"
@@ -9303,7 +9296,7 @@ msgstr ""
 "Ĉi tio forigos la dosierujon %1, inkluzive de ĉiuj ludlistoj en ĝi.\n"
 "Ĉi tio ne povas esti malfarita"
 
-#: src/library/librarywidget.cpp:352
+#: src/library/librarywidget.cpp:356
 #, kde-format
 msgid ""
 "This will delete the MLT playlist:\n"
@@ -9312,7 +9305,7 @@ msgstr ""
 "Ĉi tio forigos la MLT-ludliston:\n"
 "%1"
 
-#: src/library/librarywidget.cpp:354
+#: src/library/librarywidget.cpp:358
 #, kde-format
 msgid ""
 "This will delete the file:\n"
@@ -9321,43 +9314,43 @@ msgstr ""
 "Ĉi tio forigos la dosieron:\n"
 "%1"
 
-#: src/library/librarywidget.cpp:361
+#: src/library/librarywidget.cpp:365
 #, kde-format
 msgid "Error removing %1"
 msgstr "Eraro dum forigo de %1"
 
-#: src/library/librarywidget.cpp:378
+#: src/library/librarywidget.cpp:382
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Folder to Library"
 msgstr "Aldoni Dosierujon al Biblioteko"
 
-#: src/library/librarywidget.cpp:378
+#: src/library/librarywidget.cpp:382
 #, kde-format
 msgid "Enter a folder name"
 msgstr "Enigu dosierujon"
 
-#: src/library/librarywidget.cpp:400
+#: src/library/librarywidget.cpp:404
 #, kde-format
 msgid "Folder %1 already exists"
 msgstr "Dosierujo %1 jam ekzistas"
 
-#: src/library/librarywidget.cpp:404
+#: src/library/librarywidget.cpp:408
 #, kde-format
 msgid "Error creating folder %1"
 msgstr "Eraro dum kreado de dosierujo %1"
 
-#: src/library/librarywidget.cpp:504
+#: src/library/librarywidget.cpp:508
 #, kde-format
 msgid "Library path set to default: %1"
 msgstr "Biblioteka vojo agordita al defaŭlta: %1"
 
-#: src/library/librarywidget.cpp:510
+#: src/library/librarywidget.cpp:514
 #, kde-format
 msgid "Library path set to custom: %1"
 msgstr "Biblioteka vojo agordita al propra: %1"
 
-#: src/library/librarywidget.cpp:516
+#: src/library/librarywidget.cpp:520
 #, kde-format
 msgid "Cannot write to Library path: %1, using default"
 msgstr "Ne povas skribi al Biblioteka vojo: %1, uzante defaŭltan"
@@ -9577,15 +9570,16 @@ msgstr ""
 "Komo apartigita listo de dosieroj por aldoni kiel tondaĵoj al la rubujo."
 
 #: src/main.cpp:202
-#, fuzzy, kde-format
-#| msgid "Parent folder of the project file"
+#, kde-format
 msgid "Directly render the project and exit."
-msgstr "Gepatra dosierujo de la projektdosiero"
+msgstr "Rekte bildigi la projekton kaj eliri."
 
 #: src/main.cpp:205
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr ""
+"Kdenlive-bildiga antaŭfiksita nomo (MP4-H264/AAC estos uzata se neniu "
+"doniĝis)."
 
 #: src/main.cpp:210
 #, kde-format
@@ -9593,6 +9587,8 @@ msgid ""
 "Exit after (detached) render process started, without this flag it exists "
 "only after it finished."
 msgstr ""
+"Eliri post kiam (malkroĉita) bildiga procezo startis, sen tiu flago ĝi "
+"ekzistas nur post kiam ĝi finiĝis."
 
 #: src/main.cpp:213
 #, kde-format
@@ -9600,10 +9596,9 @@ msgid "Kdenlive document to open."
 msgstr "Kdenlive-dokumento por malfermi."
 
 #: src/main.cpp:214
-#, fuzzy, kde-format
-#| msgid "Output file extension"
+#, kde-format
 msgid "Output file for rendered video."
-msgstr "Eligo-dosiera etendo"
+msgstr "Eligo-dosiero for bildigita filmeto."
 
 #: src/main.cpp:338
 #, kde-format
@@ -13955,12 +13950,13 @@ msgstr ""
 "venonta konservado"
 
 #: src/project/projectmanager.cpp:922
-#, fuzzy, kde-format
-#| msgid "Cannot open project file %1"
+#, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
 "%1\n"
-msgstr "Ne povas malfermi projektdosieron %1"
+msgstr ""
+"Ne povas malfermi projektdosieron. Eraro:\n"
+"%1\n"
 
 #: src/project/projectmanager.cpp:962
 #, kde-format
@@ -14078,10 +14074,9 @@ msgid "Install missing dependencies"
 msgstr "Instali mankantajn dependecojn"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:26
-#, fuzzy, kde-format
-#| msgid "Check VOSK installation"
+#, kde-format
 msgid "Abort installation"
-msgstr "Kontroli la instaladon de VOSK"
+msgstr "Ĉesigi instaladon"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:39
 #, kde-format
@@ -14110,10 +14105,9 @@ msgid "Check for update"
 msgstr "Kontroli por ĝisdatigo"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:90
-#, fuzzy, kde-format
-#| msgid "Installing modules…"
+#, kde-format
 msgid "Installing modules… this can take a while"
-msgstr "Instalante modulojn…"
+msgstr "Instalante modulojn… tio povas iom daŭri"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:100
 #, kde-format
@@ -14189,13 +14183,12 @@ msgstr "Bonvolu konsideri ĝisdatigi vian aranĝon."
 #: src/pythoninterfaces/abstractpythoninterface.cpp:356
 #, kde-format
 msgid "Python exec not found"
-msgstr ""
+msgstr "Python-binarprogramo ne troviĝis"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:358
-#, fuzzy, kde-format
-#| msgid "Failed to create file."
+#, kde-format
 msgid "Failed to find script file %1"
-msgstr "Malsukcesis krei dosieron."
+msgstr "Malsukcesis trovi skriptdosieron %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:391
 #, kde-format
@@ -15222,12 +15215,12 @@ msgstr "%1 px"
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
 #, kde-format
 msgid "File has no valid extension. Add extension (%1)?"
-msgstr "Dosiero ne havas validan etendon. Ĉu aldoni etendon (%1)?"
+msgstr "Dosiero ne havas validan finaĵon. Ĉu aldoni finaĵon (%1)?"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
 #, kde-format
 msgid "File Extension"
-msgstr "Dosiera Etendo"
+msgstr "Dosiera Finaĵo"
 
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
 #: src/scopes/colorscopes/colorplaneexport.cpp:199
@@ -17920,7 +17913,7 @@ msgstr "Parametro 2 {param2}"
 #: src/ui/clipjobmanager_ui.ui:214
 #, kde-format
 msgid "Output file extension"
-msgstr "Eligo-dosiera etendo"
+msgstr "Eligo-dosiera finaĵo"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, taskDescription)
 #: src/ui/clipjobmanager_ui.ui:229
@@ -19182,7 +19175,7 @@ msgstr "Divido post unua linio"
 #: src/ui/configtranscode_ui.ui:69 src/ui/editrenderpreset_ui.ui:79
 #, kde-format
 msgid "Extension:"
-msgstr "Etendo:"
+msgstr "Finaĵo:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, profile_audioonly)
 #: src/ui/configtranscode_ui.ui:76
@@ -21559,6 +21552,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Add bookmark"
-#~ msgstr "Aldoni legosignon"
