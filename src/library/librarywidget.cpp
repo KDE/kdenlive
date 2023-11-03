@@ -113,7 +113,6 @@ void LibraryTree::mousePressEvent(QMouseEvent *event)
 
 void LibraryTree::dropEvent(QDropEvent *event)
 {
-    QTreeWidget::dropEvent(event);
     const QMimeData *qMimeData = event->mimeData();
     QTreeWidgetItem *dropped = this->itemAt(event->pos());
     QString dest;
@@ -145,6 +144,7 @@ void LibraryTree::dropEvent(QDropEvent *event)
         }
     }
     event->accept();
+    QTreeWidget::dropEvent(event);
 }
 
 LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent)
