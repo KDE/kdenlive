@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-02 00:42+0000\n"
-"PO-Revision-Date: 2023-10-30 15:32+0100\n"
+"PO-Revision-Date: 2023-11-01 15:40+0100\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -2222,7 +2222,7 @@ msgstr "Incruster un chronomètre dans la vidéo."
 #: data/effects/timer.xml:14
 #, kde-format
 msgid "Font Style"
-msgstr "Style de fonte"
+msgstr "Style de police"
 
 #: data/effects/timer.xml:46
 #, kde-format
@@ -2262,7 +2262,7 @@ msgid ""
 msgstr ""
 "<![CDATA[La durée maximale du chronomètre après l'heure de début a été "
 "atteinte.\n"
-"Le texte sera figé  à à l'heure correspondant à la durée depuis l'écoulement "
+"Le texte sera figé à à l'heure correspondant à la durée depuis l'écoulement "
 "de la durée.]]> "
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
@@ -4457,7 +4457,7 @@ msgid ""
 "You need to select 2 clips (the replacement clip and the original clip) for "
 "timeline replacement."
 msgstr ""
-"Vous devez sélectionner 2 vidéos  (La vidéo  de remplacement et la vidéo "
+"Vous devez sélectionner 2 vidéos (La vidéo de remplacement et la vidéo "
 "d'origine) pour le remplacement dans la frise chronologique."
 
 #: src/bin/bin.cpp:1950
@@ -6065,8 +6065,8 @@ msgid ""
 "exists, a -0001 pattern will be appended."
 msgstr ""
 "Le nom du fichier de sortie sera le même que le nom de fichier de la vidéo "
-"du projet source, avec l’extension modifiée. Il sera ajouté à la fin des "
-"arguments ou inséré à la place de <b>{&#x25;3}</b> s’il est trouvé. Si le "
+"du projet source, avec l'extension modifiée. Il sera ajouté à la fin des "
+"arguments ou inséré à la place de <b>{&#x25;3}</b> s'il est trouvé. Si le "
 "nom de fichier de sortie existe déjà, un motif « -0001 » sera ajouté."
 
 #: src/dialogs/clipjobmanager.cpp:54 src/dialogs/clipjobmanager.cpp:63
@@ -6081,7 +6081,7 @@ msgstr ""
 msgid "If selected, a dropdown list of values will be shown on execution"
 msgstr ""
 "Si cette option est sélectionnée, une liste déroulante de valeurs sera "
-"affichée à l’exécution"
+"affichée à l'exécution"
 
 #: src/dialogs/clipjobmanager.cpp:57
 #, kde-format
@@ -6091,7 +6091,7 @@ msgid ""
 msgstr ""
 "Si cette option est sélectionnée, la trame courante actuelle de la vidéo "
 "sélectionnée sera extraite dans un fichier temporaire et la valeur du "
-"paramètre sera l'emplacement de l’image."
+"paramètre sera l'emplacement de l'image."
 
 #: src/dialogs/clipjobmanager.cpp:58
 #, kde-format
@@ -6099,7 +6099,7 @@ msgid ""
 "A newline separated list of possible values that will be offered on execution"
 msgstr ""
 "Une liste séparée par un retour à la ligne des valeurs possibles qui seront "
-"proposées lors de l’exécution"
+"proposées lors de l'exécution"
 
 #: src/dialogs/clipjobmanager.cpp:61 src/dialogs/clipjobmanager.cpp:67
 #, kde-kuit-format
@@ -6109,7 +6109,7 @@ msgid ""
 "asked to choose a value in this list when the job is started."
 msgstr ""
 "Lorsque le paramètre est défini sur <b>Demander une option dans la liste</"
-"b>, l’utilisateur est invité à choisir une valeur dans cette liste au "
+"b>, l'utilisateur est invité à choisir une valeur dans cette liste au "
 "démarrage de la tâche."
 
 #: src/dialogs/clipjobmanager.cpp:132 src/dialogs/clipjobmanager.cpp:280
@@ -7929,7 +7929,7 @@ msgstr "Dossier des vidéos"
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr ""
-"L'identifiant de document de votre projet était invalide. Un nouvel "
+"L'identifiant de document de votre projet était non valable. Un nouvel "
 "identifiant a été créé."
 
 #: src/doc/documentchecker.cpp:1516
@@ -8690,7 +8690,7 @@ msgstr "Préréglages"
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
 msgstr ""
-"Ouvre une liste d'options avancées pour gérer les pré-réglages pour l'effet."
+"Ouvre une liste d'options avancées pour gérer les préréglages pour l'effet."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:242
 #, kde-format
@@ -9563,7 +9563,8 @@ msgstr "seexpr_scripts"
 #: src/main.cpp:148
 #, kde-format
 msgid "Feature development, packaging, bug fixing"
-msgstr "Développement de fonctionnalités, empaquetage, correction de bogues"
+msgstr ""
+"Développement de fonctionnalités, mise en paquets, correction de bogues"
 
 #: src/main.cpp:149
 #, kde-format
@@ -9741,7 +9742,7 @@ msgstr "Effectuer directement un rendu du projet et fermer."
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr ""
-"Nom des pré-réglages de rendu pour Kdenlive (Le codec « MP4-H264 / AAC » "
+"Nom des pré réglages de rendu pour Kdenlive (Le codec « MP4-H264 / AAC » "
 "sera utilisé si aucun autre n'est défini)."
 
 #: src/main.cpp:210
@@ -9751,7 +9752,7 @@ msgid ""
 "only after it finished."
 msgstr ""
 "Quitter après que le processus de rendu (détaché) ait commencé, sans ce "
-"drapeau, il n’existe qu’après avoir terminé le rendu."
+"drapeau, il n'existe qu'après avoir terminé le rendu."
 
 #: src/main.cpp:213
 #, kde-format
@@ -10059,7 +10060,7 @@ msgid ""
 "Switches between Normal, Overwrite and Insert Mode. Determines the default "
 "action when handling clips in the timeline."
 msgstr ""
-"Bascule entre les modes « Normal », « Écrasement » et« Insertion ». "
+"Bascule entre les modes « Normal », « Écrasement » et « Insertion ». "
 "Détermine l'action par défaut lors de la manipulation des vidéos dans la "
 "frise chronologique de montage."
 
@@ -13504,8 +13505,8 @@ msgid ""
 "Note: The profile used in the open project cannot be changed."
 msgstr ""
 "Ouvre la boîte de dialogue de profil dans laquelle vous pouvez modifier les "
-"profils de projet. Remarque : le profil utilisé dans le projet ouvert ne "
-"peut pas être modifié."
+"profils de projet. Remarque : il est impossible de modifier le profil "
+"utilisé dans le projet ouvert."
 
 #: src/project/dialogs/profilewidget.cpp:109
 #: src/project/dialogs/profilewidget.cpp:140
@@ -15978,7 +15979,7 @@ msgstr "Nombre de pistes insuffisant pour coller le presse-papiers"
 msgid ""
 "Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)"
 msgstr ""
-"Nombre de pistes insuffisant pour coller le presse-papier  (nécessite %1 "
+"Nombre de pistes insuffisant pour coller le presse-papier (Nécessite %1 "
 "pistes audio, %2 pistes vidéo)"
 
 #: src/timeline2/model/timelinefunctions.cpp:1951
@@ -17624,7 +17625,7 @@ msgid ""
 "Thin space, in HTML also &amp;thinsp;. See U+202f and <a href=\"https://en."
 "wikipedia.org/wiki/Space_(punctuation)\">Wikipedia:Space_(punctuation)</a>"
 msgstr ""
-"Espace fine, noté également &amp;thinsp; en « HTML ». Veuillez consulter les "
+"Espace fin, noté également &amp; thinsp; en « HTML ». Veuillez consulter les "
 "pages « U+202f » et <a href=\"https://fr.wikipedia.org/wiki/"
 "Espace_typographique\">Wikipedia : espace typographique</a>."
 
@@ -18149,11 +18150,11 @@ msgid ""
 "replaced by the second parameter value</li></ul>"
 msgstr ""
 "Dans les arguments, les options suivantes sont disponibles : "
-"<ul><li><b>{source}</b> sera remplacé par le chemin du fichier source de la "
-"vidéo du projet</li><li><b>{output}</b> sera remplacé par le nom du fichier "
-"de sortie</li><li><b>{param1}</b> sera remplacé par la première valeur du "
-"paramètre</li><li><b>{param2}</b> sera remplacé par la deuxième valeur du "
-"paramètre</li></ul>"
+"<ul><li><b>{source}</b> sera remplacé par l'emplacement du fichier source de "
+"la vidéo du projet</li><li><b>{output}</b> sera remplacé par le nom du "
+"fichier de sortie</li><li><b>{param1}</b> sera remplacé par la première "
+"valeur du paramètre</li><li><b>{param2}</b> sera remplacé par la deuxième "
+"valeur du paramètre</li></ul>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/clipjobmanager_ui.ui:93
@@ -21765,7 +21766,7 @@ msgstr "Afficher %1 dans le montage"
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr ""
-"Effectuer un glisser avec la touche « MAJ » enfoncée pour ajuster la valeur "
+"Effectuer un glisser avec la touche « Maj » enfoncée pour ajuster la valeur "
 "pas à pas"
 
 #: src/widgets/geometrywidget.cpp:40
