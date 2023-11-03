@@ -114,7 +114,6 @@ void LibraryTree::mousePressEvent(QMouseEvent *event)
 
 void LibraryTree::dropEvent(QDropEvent *event)
 {
-    QTreeWidget::dropEvent(event);
     const QMimeData *qMimeData = event->mimeData();
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QTreeWidgetItem *dropped = this->itemAt(event->pos());
@@ -150,6 +149,7 @@ void LibraryTree::dropEvent(QDropEvent *event)
         }
     }
     event->accept();
+    QTreeWidget::dropEvent(event);
 }
 
 LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent)
