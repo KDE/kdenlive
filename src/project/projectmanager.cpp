@@ -407,6 +407,10 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             break;
         }
     }
+
+    // Abort clip loading if any
+    Q_EMIT pCore->stopProgressTask();
+    qApp->processEvents();
     bool guiConstructed = pCore->window() != nullptr;
     if (guiConstructed) {
         pCore->window()->disableMulticam();
@@ -416,11 +420,11 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         pCore->monitorManager()->projectMonitor()->setProducer(nullptr);
     }
     if (m_project) {
+        pCore->taskManager.slotCancelJobs(true);
         m_project->closing = true;
         if (guiConstructed && !quit && !qApp->isSavingSession()) {
             pCore->bin()->abortOperations();
         }
-        pCore->taskManager.slotCancelJobs(true);
         m_project->commandStack()->clear();
         pCore->cleanup();
         if (guiConstructed) {

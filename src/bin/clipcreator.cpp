@@ -405,9 +405,17 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
     QList<QDir> checkedDirectories;
     bool removableProject = checkRemovable ? isOnRemovableDevice(pCore->currentDoc()->projectDataFolder()) : false;
     int urlsCount = cleanList.count();
+    bool stopProcess = false;
+    QObject progressOwner;
+    QMetaObject::Connection stopConnect = QObject::connect(pCore.get(), &Core::stopProgressTask, &progressOwner, [&stopProcess]() { stopProcess = true; });
     int current = 0;
+    int lastCount = -1;
     for (const QUrl &file : qAsConst(cleanList)) {
         current++;
+        if (stopProcess) {
+            pCore->displayMessage(QString(), OperationCompletedMessage, 100);
+            break;
+        }
         if (model->uuid() != uuid) {
             // Project was closed, abort
             qDebug() << "/// PROJECT UUID MISMATCH; ABORTING";
@@ -419,8 +427,13 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
             qDebug() << "/// File does not exist: " << info.absoluteFilePath();
             continue;
         }
-        if (urlsCount > 3) {
-            pCore->displayMessage(i18n("Loading clips"), ProcessingJobMessage, int(100 * current / urlsCount));
+        if (urlsCount > 3 && !stopProcess) {
+            int count = int(100 * current / urlsCount);
+            if (count != lastCount) {
+                lastCount = count;
+                pCore->loadingClips(lastCount, true);
+            }
+            qApp->processEvents();
         }
         if (info.isDir()) {
             // user dropped a folder, import its files
@@ -554,8 +567,11 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
                 createdItem = clipId;
             }
         }
-        qApp->processEvents();
+        if (!stopProcess) {
+            qApp->processEvents();
+        }
     }
+    QObject::disconnect(stopConnect);
     pCore->displayMessage(i18n("Loading done"), OperationCompletedMessage, 100);
     return createdItem == QLatin1String("-1") ? QString() : createdItem;
 }

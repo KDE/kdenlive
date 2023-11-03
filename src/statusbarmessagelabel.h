@@ -86,7 +86,7 @@ protected:
     void resizeEvent(QResizeEvent *event) override;
 
 public Q_SLOTS:
-    void setProgressMessage(const QString &text, MessageType type = ProcessingJobMessage, int progress = 100);
+    void setProgressMessage(const QString &text, MessageType type = ProcessingJobMessage, int progress = 100, bool allowInterrupt = false);
     void setMessage(const QString &text, MessageType type = DefaultMessage, int timeoutMS = 0);
     void setSelectionMessage(const QString &text);
     /** @brief Display a key binding info in status bar */
@@ -126,4 +126,5 @@ private:
     QSemaphore m_queueSemaphore;
     QList<StatusBarMessageItem> m_messageQueue;
     StatusBarMessageItem m_currentMessage;
+    bool m_progressCanBeAborted{false};
 };
