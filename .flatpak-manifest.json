@@ -1,5 +1,5 @@
 {
-  "app-id": "org.kde.kdenlive",
+  "id": "org.kde.kdenlive",
   "default-branch": "master",
   "runtime": "org.kde.Platform",
   "runtime-version": "5.15-22.08",
