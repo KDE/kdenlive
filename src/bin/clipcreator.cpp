@@ -402,6 +402,7 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
 
     qDebug() << "/////////// creatclipsfromlist" << cleanList << checkRemovable << parentFolder;
     QMimeDatabase db;
+    QList<QDir> checkedDirectories;
     bool removableProject = checkRemovable ? isOnRemovableDevice(pCore->currentDoc()->projectDataFolder()) : false;
     int urlsCount = cleanList.count();
     int current = 0;
@@ -517,16 +518,25 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
             }
         } else {
             // file is not a directory
-            if (checkRemovable && isOnRemovableDevice(file) && !removableProject) {
-                int answer = KMessageBox::warningContinueCancel(QApplication::activeWindow(),
-                                                                i18n("Clip <b>%1</b><br /> is on a removable device, will not be available when device is "
-                                                                     "unplugged or mounted at a different position.\nYou "
-                                                                     "may want to copy it first to your hard-drive. Would you like to add it anyways?",
-                                                                     file.path()),
-                                                                i18n("Removable device"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-                                                                QStringLiteral("confirm_removable_device"));
+            if (checkRemovable && !removableProject) {
+                // Check if the directory was already checked
+                QDir fileDir = QFileInfo(file.toLocalFile()).absoluteDir();
+                if (checkedDirectories.contains(fileDir)) {
+                    // Folder already checked, continue
+                } else if (isOnRemovableDevice(file)) {
+                    int answer = KMessageBox::warningContinueCancel(QApplication::activeWindow(),
+                                                                    i18n("Clip <b>%1</b><br /> is on a removable device, will not be available when device is "
+                                                                         "unplugged or mounted at a different position.\nYou "
+                                                                         "may want to copy it first to your hard-drive. Would you like to add it anyways?",
+                                                                         file.path()),
+                                                                    i18n("Removable device"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+                                                                    QStringLiteral("confirm_removable_device"));
 
-                if (answer == KMessageBox::Cancel) continue;
+                    if (answer == KMessageBox::Cancel) {
+                        break;
+                    }
+                }
+                checkedDirectories << fileDir;
             }
             std::function<void(const QString &)> callBack = [](const QString &) {};
             if (firstClip) {
