@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-02 02:27+0000\n"
-"PO-Revision-Date: 2023-10-28 11:47+0200\n"
+"PO-Revision-Date: 2023-11-02 09:24+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -5461,10 +5461,9 @@ msgid "File already exists"
 msgstr "El fitxer ja existeix"
 
 #: src/bin/projectclip.cpp:2539
-#, fuzzy, kde-format
-#| msgid "Paste timeline clips"
+#, kde-format
 msgid "Adjust timeline clips"
-msgstr "Enganxa clips a la línia de temps"
+msgstr "Ajusta els clips de la línia de temps"
 
 #: src/bin/projectclip.cpp:2760
 #, kde-format
@@ -7239,24 +7238,19 @@ msgid "Configure Speech Recognition"
 msgstr "Configura el reconeixement de veu"
 
 #: src/dialogs/textbasededit.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with edit"
-msgstr "Creació de seqüència nova"
+msgstr "Crea una seqüència nova amb edició"
 
 #: src/dialogs/textbasededit.cpp:635
-#, fuzzy, kde-format
-#| msgid "Insert selected blocks in timeline"
+#, kde-format
 msgid "Insert selection in timeline"
-msgstr "Insereix els blocs seleccionats a la línia de temps"
+msgstr "Insereix la selecció en la línia de temps"
 
 #: src/dialogs/textbasededit.cpp:640
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with text edit "
-msgstr "Creació de seqüència nova"
+msgstr "Crea una seqüència nova amb edició de text "
 
 #: src/dialogs/textbasededit.cpp:663
 #, kde-format
@@ -7274,8 +7268,7 @@ msgid "Delete selected text"
 msgstr "Suprimeix el text seleccionat"
 
 #: src/dialogs/textbasededit.cpp:707
-#, fuzzy, kde-format
-#| msgid "Add bookmark for current selection"
+#, kde-format
 msgid "Add marker for current selection"
 msgstr "Afegeix un marcador a la selecció actual"
 
@@ -7340,8 +7333,7 @@ msgid "Speech recognition finished."
 msgstr "Ha finalitzat el reconeixement de la veu."
 
 #: src/dialogs/textbasededit.cpp:1280 src/dialogs/textbasededit.cpp:1342
-#, fuzzy, kde-format
-#| msgid "Create Sequence Clip"
+#, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Crea un clip de seqüència"
@@ -14099,10 +14091,9 @@ msgid "Install missing dependencies"
 msgstr "Instal·la les dependències que manquen"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:26
-#, fuzzy, kde-format
-#| msgid "Check VOSK installation"
+#, kde-format
 msgid "Abort installation"
-msgstr "Comprova la instal·lació de VOSK"
+msgstr "Interromp la instal·lació"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:37
 #, kde-format
@@ -14131,10 +14122,9 @@ msgid "Check for update"
 msgstr "Comprova per a actualitzar"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:88
-#, fuzzy, kde-format
-#| msgid "Installing modules…"
+#, kde-format
 msgid "Installing modules… this can take a while"
-msgstr "S'estan instal·lant els mòduls…"
+msgstr "S'estan instal·lant els mòduls… això pot trigar una estona"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:98
 #, kde-format
@@ -21603,18 +21593,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Add bookmark"
-#~ msgstr "Afegeix un marcador"
-
-#~ msgid "Kdenlive Project (*.kdenlive)"
-#~ msgstr "Projecte del Kdenlive (*.kdenlive)"
-
-#~ msgid "Archived Project (*.tar.gz *.zip)"
-#~ msgstr "Projecte arxivat (*.tar.gz *.zip)"
-
-#~ msgid "Kdenlive title (*.kdenlivetitle)"
-#~ msgstr "Títol del Kdenlive (*.kdenlivetitle)"
-
-#~ msgid "Category %1:%2:%3"
-#~ msgstr "Categoria %1:%2:%3"

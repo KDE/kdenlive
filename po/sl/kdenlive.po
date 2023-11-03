@@ -5,23 +5,23 @@
 #
 # Andrej Mernik <andrejm@ubuntu.si>, 2015, 2016, 2017, 2018, 2019, 2020.
 # Martin Srebotnjak <miles@filmsi.net>, 2015, 2019, 2020, 2021, 2022, 2023.
-# Matjaž Jeran <matjaz.jeran@amis.net>, 2020, 2021, 2022, 2023.
+# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023 Matjaž Jeran <matjaz.jeran@amis.net>
 msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-02 02:27+0000\n"
-"PO-Revision-Date: 2023-10-04 21:50+0200\n"
+"PO-Revision-Date: 2023-11-02 10:33+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
-"%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100>=3 && n"
+"%100<=4 ? 2 : 3);\n"
 "Translator: Martin Srebotnjak <miles@filmsi.net>\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.4\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
 
 #, kde-format
@@ -5433,10 +5433,9 @@ msgid "File already exists"
 msgstr "Datoteka že obstaja"
 
 #: src/bin/projectclip.cpp:2539
-#, fuzzy, kde-format
-#| msgid "Paste timeline clips"
+#, kde-format
 msgid "Adjust timeline clips"
-msgstr "Prilepi časovni posnetek"
+msgstr "Prilagodi posnetke na časovnici"
 
 #: src/bin/projectclip.cpp:2760
 #, kde-format
@@ -7202,24 +7201,19 @@ msgid "Configure Speech Recognition"
 msgstr "Prilagodi razpoznavanje govora"
 
 #: src/dialogs/textbasededit.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with edit"
-msgstr "Ustvari novo zaporedje"
+msgstr "Ustvari novo zaporedje z montiranjem"
 
 #: src/dialogs/textbasededit.cpp:635
-#, fuzzy, kde-format
-#| msgid "Insert selected blocks in timeline"
+#, kde-format
 msgid "Insert selection in timeline"
-msgstr "Vstavi izbrane bloke v časovnico"
+msgstr "Vstavi izbor v časovnico"
 
 #: src/dialogs/textbasededit.cpp:640
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with text edit "
-msgstr "Ustvari novo zaporedje"
+msgstr "Ustvari novo zaporedje z urejanjem besedila"
 
 #: src/dialogs/textbasededit.cpp:663
 #, kde-format
@@ -7237,10 +7231,9 @@ msgid "Delete selected text"
 msgstr "Briši izbrano besedilo"
 
 #: src/dialogs/textbasededit.cpp:707
-#, fuzzy, kde-format
-#| msgid "Add bookmark for current selection"
+#, kde-format
 msgid "Add marker for current selection"
-msgstr "Dodaj označevalnik za trenutno izbiro"
+msgstr "Dodaj označevalnik za trenutni izbor"
 
 #: src/dialogs/textbasededit.cpp:848
 #, kde-format
@@ -7303,8 +7296,7 @@ msgid "Speech recognition finished."
 msgstr "Razpoznavanje govora končano."
 
 #: src/dialogs/textbasededit.cpp:1280 src/dialogs/textbasededit.cpp:1342
-#, fuzzy, kde-format
-#| msgid "Create Sequence Clip"
+#, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Ustvari posnetek zaporedja"
@@ -14040,10 +14032,9 @@ msgid "Install missing dependencies"
 msgstr "Namesti manjkajoče odvisne dele programja"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:26
-#, fuzzy, kde-format
-#| msgid "Check VOSK installation"
+#, kde-format
 msgid "Abort installation"
-msgstr "Preveri namestitev VOSK"
+msgstr "Prekini namestitev"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:37
 #, kde-format
@@ -14072,10 +14063,9 @@ msgid "Check for update"
 msgstr "Preverjanje za posodobitvami"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:88
-#, fuzzy, kde-format
-#| msgid "Installing modules…"
+#, kde-format
 msgid "Installing modules… this can take a while"
-msgstr "Nameščanje modulov …"
+msgstr "Nameščanje modulov … lahko traja"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:98
 #, kde-format

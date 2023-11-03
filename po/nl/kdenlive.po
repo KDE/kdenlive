@@ -10,9 +10,9 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-02 02:27+0000\n"
-"PO-Revision-Date: 2023-10-16 10:45+0200\n"
+"PO-Revision-Date: 2023-11-02 10:43+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
-"Language-Team: \n"
+"Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5441,10 +5441,9 @@ msgid "File already exists"
 msgstr "Bestand bestaat al"
 
 #: src/bin/projectclip.cpp:2539
-#, fuzzy, kde-format
-#| msgid "Paste timeline clips"
+#, kde-format
 msgid "Adjust timeline clips"
-msgstr "Tijdlijnclips plakken"
+msgstr "Tijdlijnclips aanpassen"
 
 #: src/bin/projectclip.cpp:2760
 #, kde-format
@@ -7221,24 +7220,19 @@ msgid "Configure Speech Recognition"
 msgstr "Spraakherkenning configureren"
 
 #: src/dialogs/textbasededit.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with edit"
-msgstr "Nieuwe sequentie maken"
+msgstr "Nieuwe sequentie aanmaken met bewerken"
 
 #: src/dialogs/textbasededit.cpp:635
-#, fuzzy, kde-format
-#| msgid "Insert selected blocks in timeline"
+#, kde-format
 msgid "Insert selection in timeline"
-msgstr "Geselecteerde blokken in de tijdlijn invoegen"
+msgstr "Selectie in de tijdlijn invoegen"
 
 #: src/dialogs/textbasededit.cpp:640
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with text edit "
-msgstr "Nieuwe sequentie maken"
+msgstr "Nieuwe sequentie aanmaken met tekst bewerken"
 
 #: src/dialogs/textbasededit.cpp:663
 #, kde-format
@@ -7256,10 +7250,9 @@ msgid "Delete selected text"
 msgstr "Geselecteerde tekst verwijderen"
 
 #: src/dialogs/textbasededit.cpp:707
-#, fuzzy, kde-format
-#| msgid "Add bookmark for current selection"
+#, kde-format
 msgid "Add marker for current selection"
-msgstr "Bladwijzer toevoegen voor de huidige selectie"
+msgstr "Markering toevoegen voor de huidige selectie"
 
 #: src/dialogs/textbasededit.cpp:848
 #, kde-format
@@ -7322,8 +7315,7 @@ msgid "Speech recognition finished."
 msgstr "Spraakherkenning beëindigd."
 
 #: src/dialogs/textbasededit.cpp:1280 src/dialogs/textbasededit.cpp:1342
-#, fuzzy, kde-format
-#| msgid "Create Sequence Clip"
+#, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Sequentie-clip aanmaken"
@@ -14030,10 +14022,9 @@ msgid "Install missing dependencies"
 msgstr "Ontbrekende afhankelijkheden installeren"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:26
-#, fuzzy, kde-format
-#| msgid "Check VOSK installation"
+#, kde-format
 msgid "Abort installation"
-msgstr "Installatie van VOSK controleren"
+msgstr "Installatie afbreken"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:37
 #, kde-format
@@ -14062,10 +14053,9 @@ msgid "Check for update"
 msgstr "Op bijwerken controleren"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:88
-#, fuzzy, kde-format
-#| msgid "Installing modules…"
+#, kde-format
 msgid "Installing modules… this can take a while"
-msgstr "Modules worden geïnstalleerd…"
+msgstr "Modules worden geïnstalleerd… dit kan even duren"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:98
 #, kde-format

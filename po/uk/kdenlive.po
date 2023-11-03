@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-02 02:27+0000\n"
-"PO-Revision-Date: 2023-10-31 21:03+0200\n"
+"PO-Revision-Date: 2023-11-02 17:10+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -5466,10 +5466,9 @@ msgid "File already exists"
 msgstr "Файл з такою назвою вже існує"
 
 #: src/bin/projectclip.cpp:2539
-#, fuzzy, kde-format
-#| msgid "Paste timeline clips"
+#, kde-format
 msgid "Adjust timeline clips"
-msgstr "Вставити кліпи монтажного стола"
+msgstr "Скоригувати кліпи монтажного стола"
 
 #: src/bin/projectclip.cpp:2760
 #, kde-format
@@ -7253,24 +7252,19 @@ msgid "Configure Speech Recognition"
 msgstr "Налаштувати розпізнавання мовлення"
 
 #: src/dialogs/textbasededit.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with edit"
-msgstr "Створення послідовності"
+msgstr "Створити послідовність за допомогою редагуванням тексту"
 
 #: src/dialogs/textbasededit.cpp:635
-#, fuzzy, kde-format
-#| msgid "Insert selected blocks in timeline"
+#, kde-format
 msgid "Insert selection in timeline"
-msgstr "Вставити позначені блоки на монтажний стіл"
+msgstr "Вставити позначене на монтажний стіл"
 
 #: src/dialogs/textbasededit.cpp:640
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with text edit "
-msgstr "Створення послідовності"
+msgstr "Створити послідовність за допомогою редагуванням тексту"
 
 #: src/dialogs/textbasededit.cpp:663
 #, kde-format
@@ -7288,10 +7282,9 @@ msgid "Delete selected text"
 msgstr "Вилучити позначений текст"
 
 #: src/dialogs/textbasededit.cpp:707
-#, fuzzy, kde-format
-#| msgid "Add bookmark for current selection"
+#, kde-format
 msgid "Add marker for current selection"
-msgstr "Додати до закладку до поточного позначення"
+msgstr "Додати позначку до поточного позначення"
 
 #: src/dialogs/textbasededit.cpp:848
 #, kde-format
@@ -7354,8 +7347,7 @@ msgid "Speech recognition finished."
 msgstr "Розпізнавання мовлення завершено."
 
 #: src/dialogs/textbasededit.cpp:1280 src/dialogs/textbasededit.cpp:1342
-#, fuzzy, kde-format
-#| msgid "Create Sequence Clip"
+#, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Створити кліп послідовності"
@@ -14155,10 +14147,9 @@ msgid "Install missing dependencies"
 msgstr "Встановити потрібні залежності"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:26
-#, fuzzy, kde-format
-#| msgid "Check VOSK installation"
+#, kde-format
 msgid "Abort installation"
-msgstr "Перевірити встановлення VOSK"
+msgstr "Скасувати встановлення"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:37
 #, kde-format
@@ -14187,10 +14178,9 @@ msgid "Check for update"
 msgstr "Перевірити оновлення"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:88
-#, fuzzy, kde-format
-#| msgid "Installing modules…"
+#, kde-format
 msgid "Installing modules… this can take a while"
-msgstr "Встановлюємо модулі…"
+msgstr "Встановлюємо модулі… Потрібен певний час"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:98
 #, kde-format
