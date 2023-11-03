@@ -495,9 +495,20 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &par
     QObject::connect(fileWidget.data(), &KFileWidget::accepted, dlg.data(), &QDialog::accept);
     QObject::connect(fileWidget->cancelButton(), &QPushButton::clicked, dlg.data(), &QDialog::reject);
     dlg->setLayout(layout);
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QString allExtensions = getExtensions().join(QLatin1Char(' '));
     QString dialogFilter = allExtensions + QLatin1Char('|') + i18n("All Supported Files") + QStringLiteral("\n*|") + i18n("All Files");
     fileWidget->setFilter(dialogFilter);
+#else
+    const QStringList allExtensions = getExtensions();
+    const QList<KFileFilter> filters{
+        KFileFilter(i18n("All Supported Files"), allExtensions, {}),
+        KFileFilter(i18n("All Files"), {QStringLiteral("*")}, {}),
+    };
+    fileWidget->setFilters(filters);
+#endif
+
     fileWidget->setMode(KFile::Files | KFile::ExistingOnly | KFile::LocalOnly | KFile::Directory);
     KSharedConfig::Ptr conf = KSharedConfig::openConfig();
     QWindow *handle = dlg->windowHandle();

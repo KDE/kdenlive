@@ -1228,7 +1228,11 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
     QObject::connect(fileWidget.data(), &KFileWidget::accepted, dlg.data(), &QDialog::accept);
     QObject::connect(fileWidget->cancelButton(), &QPushButton::clicked, dlg.data(), &QDialog::reject);
     dlg->setLayout(layout);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     fileWidget->setMimeFilter(QStringList() << QStringLiteral("image/png"));
+#else
+    fileWidget->setFilters({KFileFilter::fromMimeType(QStringLiteral("image/png"))});
+#endif
     fileWidget->setMode(KFile::File | KFile::LocalOnly);
     fileWidget->setOperationMode(KFileWidget::Saving);
     QUrl relativeUrl;
