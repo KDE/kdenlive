@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-04 02:24+0000\n"
-"PO-Revision-Date: 2023-10-05 05:19+0200\n"
+"PO-Revision-Date: 2023-11-04 06:19+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -6936,22 +6936,19 @@ msgid "Configure Speech Recognition"
 msgstr "საუბრის ამოცნობის მორგება"
 
 #: src/dialogs/textbasededit.cpp:634
-#, fuzzy, kde-format
-#| msgid "Create sequence"
+#, kde-format
 msgid "Create new sequence with edit"
-msgstr "მიმდევრობის შექმნა"
+msgstr "ახალი მიმდევრობის შექმნა ჩასწორებით"
 
 #: src/dialogs/textbasededit.cpp:635
-#, fuzzy, kde-format
-#| msgid "Invert selection"
+#, kde-format
 msgid "Insert selection in timeline"
-msgstr "მონიშვნის ინვერსია"
+msgstr "მონიშვნის ჩასმა დროის ხაზზე"
 
 #: src/dialogs/textbasededit.cpp:640
-#, fuzzy, kde-format
-#| msgid "Create sequence"
+#, kde-format
 msgid "Create new sequence with text edit "
-msgstr "მიმდევრობის შექმნა"
+msgstr "ახალი მიმდევრობის შექმნა ტექსტის ჩასწორებით "
 
 #: src/dialogs/textbasededit.cpp:663
 #, kde-format
@@ -6969,10 +6966,9 @@ msgid "Delete selected text"
 msgstr "მონიშნული ტექსტის წაშლა"
 
 #: src/dialogs/textbasededit.cpp:707
-#, fuzzy, kde-format
-#| msgid "Add to current project"
+#, kde-format
 msgid "Add marker for current selection"
-msgstr "მიმდინარე პროექტში დამატება"
+msgstr "სანიშნის დამატება მიმდინარე მონიშნულისთვის"
 
 #: src/dialogs/textbasededit.cpp:848
 #, kde-format
@@ -7033,8 +7029,7 @@ msgid "Speech recognition finished."
 msgstr ""
 
 #: src/dialogs/textbasededit.cpp:1280 src/dialogs/textbasededit.cpp:1342
-#, fuzzy, kde-format
-#| msgid "Create Sequence Clip"
+#, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "მიმდევრობის კლიპის შექმნა"
@@ -13402,10 +13397,9 @@ msgid "Check for update"
 msgstr "განახლების შემოწმება"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:88
-#, fuzzy, kde-format
-#| msgid "Installing modules…"
+#, kde-format
 msgid "Installing modules… this can take a while"
-msgstr "მოდულების დაყენება…"
+msgstr "მოდულების დაყენება… ამას კარგა ხანი შეიძლება, დასჭირდეს"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:98
 #, kde-format
@@ -14522,7 +14516,7 @@ msgstr "HSL მნიშვნელობა"
 #: src/scopes/colorscopes/histogram.cpp:24
 #, kde-format
 msgid "Unscaled"
-msgstr ""
+msgstr "გაუდიდებელი"
 
 #: src/scopes/colorscopes/histogram.cpp:27
 #: src/scopes/colorscopes/waveform.cpp:36

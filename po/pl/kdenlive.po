@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-04 02:24+0000\n"
-"PO-Revision-Date: 2023-10-07 07:31+0200\n"
+"PO-Revision-Date: 2023-11-04 12:12+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -5430,10 +5430,9 @@ msgid "File already exists"
 msgstr "Plik już istnieje"
 
 #: src/bin/projectclip.cpp:2539
-#, fuzzy, kde-format
-#| msgid "Paste timeline clips"
+#, kde-format
 msgid "Adjust timeline clips"
-msgstr "Wklej wycinek z linii czasu"
+msgstr "Dostosuj wycinki na osi czasu"
 
 #: src/bin/projectclip.cpp:2760
 #, kde-format
@@ -7209,24 +7208,19 @@ msgid "Configure Speech Recognition"
 msgstr "Ustawienia rozpoznawania mowy"
 
 #: src/dialogs/textbasededit.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with edit"
-msgstr "Utwórz nowy szereg"
+msgstr "Utwórz nowy ciąg z edycją"
 
 #: src/dialogs/textbasededit.cpp:635
-#, fuzzy, kde-format
-#| msgid "Insert selected blocks in timeline"
+#, kde-format
 msgid "Insert selection in timeline"
-msgstr "Wstaw zaznaczone bloki na osi czasu"
+msgstr "Wstaw zaznaczenie na osi czasu"
 
 #: src/dialogs/textbasededit.cpp:640
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with text edit "
-msgstr "Utwórz nowy szereg"
+msgstr "Utwórz nowy ciąg z edycją tekstu"
 
 #: src/dialogs/textbasededit.cpp:663
 #, kde-format
@@ -7244,10 +7238,9 @@ msgid "Delete selected text"
 msgstr "Usuń zaznaczony tekst"
 
 #: src/dialogs/textbasededit.cpp:707
-#, fuzzy, kde-format
-#| msgid "Add bookmark for current selection"
+#, kde-format
 msgid "Add marker for current selection"
-msgstr "Dodaj zakładkę do bieżącego zaznaczenia"
+msgstr "Dodaj oznaczenie do bieżącego zaznaczenia"
 
 #: src/dialogs/textbasededit.cpp:848
 #, kde-format
@@ -7310,11 +7303,10 @@ msgid "Speech recognition finished."
 msgstr "Ukończono rozpoznawanie mowy."
 
 #: src/dialogs/textbasededit.cpp:1280 src/dialogs/textbasededit.cpp:1342
-#, fuzzy, kde-format
-#| msgid "Create Sequence Clip"
+#, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
-msgstr "Utwórz wycinek szeregu"
+msgstr "Utwórz wycinek ciągu"
 
 #: src/dialogs/textbasededit.cpp:1287 src/dialogs/textbasededit.cpp:1323
 #, kde-format
@@ -14037,10 +14029,9 @@ msgid "Install missing dependencies"
 msgstr "Wgraj brakujące zależności"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:26
-#, fuzzy, kde-format
-#| msgid "Check VOSK installation"
+#, kde-format
 msgid "Abort installation"
-msgstr "Sprawdź czy masz wgrane VOSK"
+msgstr "Przerwij wgrywanie"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:37
 #, kde-format
@@ -14069,10 +14060,9 @@ msgid "Check for update"
 msgstr "Poszukaj uaktualnień"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:88
-#, fuzzy, kde-format
-#| msgid "Installing modules…"
+#, kde-format
 msgid "Installing modules… this can take a while"
-msgstr "Wgrywanie modułów…"
+msgstr "Wgrywanie modułów… może to trochę zająć"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:98
 #, kde-format
