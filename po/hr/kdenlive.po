@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-02 02:27+0000\n"
+"POT-Creation-Date: 2023-11-04 02:24+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -5151,13 +5151,13 @@ msgstr ""
 msgid "Duplicate"
 msgstr "Obriši isječak"
 
-#: src/bin/clipcreator.cpp:416 src/core.cpp:963
+#: src/bin/clipcreator.cpp:417 src/core.cpp:963
 #: src/project/projectmanager.cpp:801
 #, fuzzy, kde-format
 msgid "Loading clips"
 msgstr "Učitaj projektne isječke"
 
-#: src/bin/clipcreator.cpp:516
+#: src/bin/clipcreator.cpp:522
 #, kde-format
 msgid ""
 "Clip <b>%1</b><br /> is on a removable device, will not be available when "
@@ -5166,18 +5166,18 @@ msgid ""
 "anyways?"
 msgstr ""
 
-#: src/bin/clipcreator.cpp:520
+#: src/bin/clipcreator.cpp:526
 #, fuzzy, kde-format
 #| msgid "Mobile devices"
 msgid "Removable device"
 msgstr "Mobilni uređaji"
 
-#: src/bin/clipcreator.cpp:543
+#: src/bin/clipcreator.cpp:553
 #, fuzzy, kde-format
 msgid "Loading done"
 msgstr "Cijeli projekt"
 
-#: src/bin/clipcreator.cpp:554 src/dialogs/clipcreationdialog.cpp:559
+#: src/bin/clipcreator.cpp:564 src/dialogs/clipcreationdialog.cpp:559
 #, fuzzy, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"

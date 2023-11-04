@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-02 02:27+0000\n"
+"POT-Creation-Date: 2023-11-04 02:24+0000\n"
 "PO-Revision-Date: 2023-10-07 07:31+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -5032,13 +5032,13 @@ msgstr ""
 msgid "Duplicate"
 msgstr "Powiel"
 
-#: src/bin/clipcreator.cpp:416 src/core.cpp:963
+#: src/bin/clipcreator.cpp:417 src/core.cpp:963
 #: src/project/projectmanager.cpp:801
 #, kde-format
 msgid "Loading clips"
 msgstr "Wczytywanie wycinków"
 
-#: src/bin/clipcreator.cpp:516
+#: src/bin/clipcreator.cpp:522
 #, kde-format
 msgid ""
 "Clip <b>%1</b><br /> is on a removable device, will not be available when "
@@ -5051,17 +5051,17 @@ msgstr ""
 "Zaleca się skopiowanie go najpierw na dysk twardy. Czy mimo to chcesz go "
 "dodać?"
 
-#: src/bin/clipcreator.cpp:520
+#: src/bin/clipcreator.cpp:526
 #, kde-format
 msgid "Removable device"
 msgstr "Urządzenie wymienne"
 
-#: src/bin/clipcreator.cpp:543
+#: src/bin/clipcreator.cpp:553
 #, kde-format
 msgid "Loading done"
 msgstr "Ukończono wczytywanie"
 
-#: src/bin/clipcreator.cpp:554 src/dialogs/clipcreationdialog.cpp:559
+#: src/bin/clipcreator.cpp:564 src/dialogs/clipcreationdialog.cpp:559
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"

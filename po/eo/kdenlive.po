@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-02 02:27+0000\n"
+"POT-Creation-Date: 2023-11-04 02:24+0000\n"
 "PO-Revision-Date: 2023-07-14 09:26+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
@@ -5011,13 +5011,13 @@ msgstr ""
 msgid "Duplicate"
 msgstr "Duobligi"
 
-#: src/bin/clipcreator.cpp:416 src/core.cpp:963
+#: src/bin/clipcreator.cpp:417 src/core.cpp:963
 #: src/project/projectmanager.cpp:801
 #, kde-format
 msgid "Loading clips"
 msgstr "Ŝargante aŭdvidaĵoj"
 
-#: src/bin/clipcreator.cpp:516
+#: src/bin/clipcreator.cpp:522
 #, kde-format
 msgid ""
 "Clip <b>%1</b><br /> is on a removable device, will not be available when "
@@ -5030,17 +5030,17 @@ msgstr ""
 "Vi eble volas kopii ĝin unue al via malmola disko. Ĉu vi ŝatus aldoni ĝin "
 "ĉiuokaze?"
 
-#: src/bin/clipcreator.cpp:520
+#: src/bin/clipcreator.cpp:526
 #, kde-format
 msgid "Removable device"
 msgstr "Forprenebla aparato"
 
-#: src/bin/clipcreator.cpp:543
+#: src/bin/clipcreator.cpp:553
 #, kde-format
 msgid "Loading done"
 msgstr "Ŝargo farita"
 
-#: src/bin/clipcreator.cpp:554 src/dialogs/clipcreationdialog.cpp:559
+#: src/bin/clipcreator.cpp:564 src/dialogs/clipcreationdialog.cpp:559
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
