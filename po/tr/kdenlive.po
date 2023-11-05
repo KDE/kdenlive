@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-04 02:24+0000\n"
+"POT-Creation-Date: 2023-11-05 11:27+0000\n"
 "PO-Revision-Date: 2023-10-23 12:45+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -5331,18 +5331,18 @@ msgid "Edit subtitle style"
 msgstr "Altyazı biçemini düzenle"
 
 #: src/bin/model/subtitlemodel.cpp:380 src/bin/model/subtitlemodel.cpp:598
-#: src/bin/model/subtitlemodel.cpp:1502
+#: src/bin/model/subtitlemodel.cpp:1511
 #, kde-format
 msgid "Edit subtitle"
 msgstr "Altyazıyı düzenle"
 
-#: src/bin/model/subtitlemodel.cpp:632 src/bin/model/subtitlemodel.cpp:1589
+#: src/bin/model/subtitlemodel.cpp:632 src/bin/model/subtitlemodel.cpp:1598
 #: src/timeline2/model/timelinefunctions.cpp:189
 #, kde-format
 msgid "Cut clip"
 msgstr "Klibi kes"
 
-#: src/bin/model/subtitlemodel.cpp:788 src/bin/model/subtitlemodel.cpp:1521
+#: src/bin/model/subtitlemodel.cpp:788 src/bin/model/subtitlemodel.cpp:1530
 #: src/timeline2/model/timelinemodel.cpp:3593
 #, kde-format
 msgid "Resize subtitle"
@@ -5367,17 +5367,17 @@ msgstr ""
 "%1 dosyası halihazırda var.\n"
 "Üzerine yazmak istiyor musunuz?"
 
-#: src/bin/model/subtitlemodel.cpp:1533
+#: src/bin/model/subtitlemodel.cpp:1542
 #, kde-format
 msgid "Add text"
 msgstr "Metin ekle"
 
-#: src/bin/model/subtitlemodel.cpp:1553 src/dialogs/subtitleedit.cpp:112
+#: src/bin/model/subtitlemodel.cpp:1562 src/dialogs/subtitleedit.cpp:112
 #, kde-format
 msgid "Add subtitle"
 msgstr "Altyazı ekle"
 
-#: src/bin/model/subtitlemodel.cpp:1608 src/dialogs/subtitleedit.cpp:122
+#: src/bin/model/subtitlemodel.cpp:1617 src/dialogs/subtitleedit.cpp:122
 #, kde-format
 msgid "Delete subtitle"
 msgstr "Altyazı sil"

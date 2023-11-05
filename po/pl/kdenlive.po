@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-04 02:24+0000\n"
+"POT-Creation-Date: 2023-11-05 11:27+0000\n"
 "PO-Revision-Date: 2023-11-04 12:12+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -5337,18 +5337,18 @@ msgid "Edit subtitle style"
 msgstr "Zmień wygląd napisów"
 
 #: src/bin/model/subtitlemodel.cpp:380 src/bin/model/subtitlemodel.cpp:598
-#: src/bin/model/subtitlemodel.cpp:1502
+#: src/bin/model/subtitlemodel.cpp:1511
 #, kde-format
 msgid "Edit subtitle"
 msgstr "Edytuj napisy"
 
-#: src/bin/model/subtitlemodel.cpp:632 src/bin/model/subtitlemodel.cpp:1589
+#: src/bin/model/subtitlemodel.cpp:632 src/bin/model/subtitlemodel.cpp:1598
 #: src/timeline2/model/timelinefunctions.cpp:189
 #, kde-format
 msgid "Cut clip"
 msgstr "Wytnij wycinek"
 
-#: src/bin/model/subtitlemodel.cpp:788 src/bin/model/subtitlemodel.cpp:1521
+#: src/bin/model/subtitlemodel.cpp:788 src/bin/model/subtitlemodel.cpp:1530
 #: src/timeline2/model/timelinemodel.cpp:3593
 #, kde-format
 msgid "Resize subtitle"
@@ -5373,17 +5373,17 @@ msgstr ""
 "Plik %1 już istnieje.\n"
 "Czy chcesz go zastąpić?"
 
-#: src/bin/model/subtitlemodel.cpp:1533
+#: src/bin/model/subtitlemodel.cpp:1542
 #, kde-format
 msgid "Add text"
 msgstr "Dodaj tekst"
 
-#: src/bin/model/subtitlemodel.cpp:1553 src/dialogs/subtitleedit.cpp:112
+#: src/bin/model/subtitlemodel.cpp:1562 src/dialogs/subtitleedit.cpp:112
 #, kde-format
 msgid "Add subtitle"
 msgstr "Dodaj napisy"
 
-#: src/bin/model/subtitlemodel.cpp:1608 src/dialogs/subtitleedit.cpp:122
+#: src/bin/model/subtitlemodel.cpp:1617 src/dialogs/subtitleedit.cpp:122
 #, kde-format
 msgid "Delete subtitle"
 msgstr "Usuń napis"

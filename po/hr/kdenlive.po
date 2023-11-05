@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-04 02:24+0000\n"
+"POT-Creation-Date: 2023-11-05 11:27+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -5471,20 +5471,20 @@ msgid "Edit subtitle style"
 msgstr "Dodaj vodić"
 
 #: src/bin/model/subtitlemodel.cpp:380 src/bin/model/subtitlemodel.cpp:598
-#: src/bin/model/subtitlemodel.cpp:1502
+#: src/bin/model/subtitlemodel.cpp:1511
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Edit subtitle"
 msgstr "Dodaj vodić"
 
-#: src/bin/model/subtitlemodel.cpp:632 src/bin/model/subtitlemodel.cpp:1589
+#: src/bin/model/subtitlemodel.cpp:632 src/bin/model/subtitlemodel.cpp:1598
 #: src/timeline2/model/timelinefunctions.cpp:189
 #, fuzzy, kde-format
 #| msgid "Cut Clip"
 msgid "Cut clip"
 msgstr "Izreži isječak"
 
-#: src/bin/model/subtitlemodel.cpp:788 src/bin/model/subtitlemodel.cpp:1521
+#: src/bin/model/subtitlemodel.cpp:788 src/bin/model/subtitlemodel.cpp:1530
 #: src/timeline2/model/timelinemodel.cpp:3593
 #, fuzzy, kde-format
 msgid "Resize subtitle"
@@ -5510,19 +5510,19 @@ msgstr ""
 "Datoteka %1 već postoji.\n"
 "Želite li je prepisati?"
 
-#: src/bin/model/subtitlemodel.cpp:1533
+#: src/bin/model/subtitlemodel.cpp:1542
 #, fuzzy, kde-format
 #| msgid "Add Text"
 msgid "Add text"
 msgstr "Dodaj tekst"
 
-#: src/bin/model/subtitlemodel.cpp:1553 src/dialogs/subtitleedit.cpp:112
+#: src/bin/model/subtitlemodel.cpp:1562 src/dialogs/subtitleedit.cpp:112
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Add subtitle"
 msgstr "Dodaj vodić"
 
-#: src/bin/model/subtitlemodel.cpp:1608 src/dialogs/subtitleedit.cpp:122
+#: src/bin/model/subtitlemodel.cpp:1617 src/dialogs/subtitleedit.cpp:122
 #, fuzzy, kde-format
 msgid "Delete subtitle"
 msgstr "Obriši isječak"

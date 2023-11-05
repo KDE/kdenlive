@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l 10n\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-04 02:24+0000\n"
+"POT-Creation-Date: 2023-11-05 11:27+0000\n"
 "PO-Revision-Date: 2019-07-12 21:09+0300\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -5547,19 +5547,19 @@ msgid "Edit subtitle style"
 msgstr "Pridėti gairę"
 
 #: src/bin/model/subtitlemodel.cpp:380 src/bin/model/subtitlemodel.cpp:598
-#: src/bin/model/subtitlemodel.cpp:1502
+#: src/bin/model/subtitlemodel.cpp:1511
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Edit subtitle"
 msgstr "Pridėti gairę"
 
-#: src/bin/model/subtitlemodel.cpp:632 src/bin/model/subtitlemodel.cpp:1589
+#: src/bin/model/subtitlemodel.cpp:632 src/bin/model/subtitlemodel.cpp:1598
 #: src/timeline2/model/timelinefunctions.cpp:189
 #, kde-format
 msgid "Cut clip"
 msgstr ""
 
-#: src/bin/model/subtitlemodel.cpp:788 src/bin/model/subtitlemodel.cpp:1521
+#: src/bin/model/subtitlemodel.cpp:788 src/bin/model/subtitlemodel.cpp:1530
 #: src/timeline2/model/timelinemodel.cpp:3593
 #, fuzzy, kde-format
 #| msgid "Delete guide"
@@ -5584,19 +5584,19 @@ msgid ""
 "Do you want to overwrite it?"
 msgstr ""
 
-#: src/bin/model/subtitlemodel.cpp:1533
+#: src/bin/model/subtitlemodel.cpp:1542
 #, fuzzy, kde-format
 #| msgid "Add chapter"
 msgid "Add text"
 msgstr "Pridėti skyrių"
 
-#: src/bin/model/subtitlemodel.cpp:1553 src/dialogs/subtitleedit.cpp:112
+#: src/bin/model/subtitlemodel.cpp:1562 src/dialogs/subtitleedit.cpp:112
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Add subtitle"
 msgstr "Pridėti gairę"
 
-#: src/bin/model/subtitlemodel.cpp:1608 src/dialogs/subtitleedit.cpp:122
+#: src/bin/model/subtitlemodel.cpp:1617 src/dialogs/subtitleedit.cpp:122
 #, fuzzy, kde-format
 #| msgid "Delete guide"
 msgid "Delete subtitle"
