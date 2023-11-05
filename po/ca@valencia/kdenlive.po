@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-04 02:24+0000\n"
-"PO-Revision-Date: 2023-10-28 11:47+0200\n"
+"PO-Revision-Date: 2023-11-02 09:24+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -5185,7 +5185,7 @@ msgid ""
 "When enabled, Kdenlive will import all clips contained in the folder and its "
 "subfolders without creating the subfolders in Project Bin."
 msgstr ""
-"Quan està activada, Kdenlive importarà tots els clips continguts en la "
+"Quan se selecciona, Kdenlive importarà tots els clips continguts en la "
 "carpeta i les seues subcarpetes sense crear subcarpetes a la safata del "
 "projecte."
 
@@ -5206,7 +5206,7 @@ msgid ""
 "When enabled, Kdenlive will look for other images with the same name pattern "
 "and import them as an image sequence."
 msgstr ""
-"Quan està activada, Kdenlive buscarà imatges amb el mateix patró de nom i "
+"Quan se selecciona, Kdenlive buscarà imatges amb el mateix patró de nom i "
 "les importarà com una seqüència d'imatges."
 
 #: src/bin/model/markerlistmodel.cpp:87
@@ -5462,10 +5462,9 @@ msgid "File already exists"
 msgstr "El fitxer ja existix"
 
 #: src/bin/projectclip.cpp:2539
-#, fuzzy, kde-format
-#| msgid "Paste timeline clips"
+#, kde-format
 msgid "Adjust timeline clips"
-msgstr "Apega clips en la línia de temps"
+msgstr "Ajusta els clips de la línia de temps"
 
 #: src/bin/projectclip.cpp:2760
 #, kde-format
@@ -7241,24 +7240,19 @@ msgid "Configure Speech Recognition"
 msgstr "Configura el reconeixement de veu"
 
 #: src/dialogs/textbasededit.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with edit"
-msgstr "Creació de seqüència nova"
+msgstr "Crea una seqüència nova amb edició"
 
 #: src/dialogs/textbasededit.cpp:635
-#, fuzzy, kde-format
-#| msgid "Insert selected blocks in timeline"
+#, kde-format
 msgid "Insert selection in timeline"
-msgstr "Inserix els blocs seleccionats en la línia de temps"
+msgstr "Inserix la selecció en la línia de temps"
 
 #: src/dialogs/textbasededit.cpp:640
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with text edit "
-msgstr "Creació de seqüència nova"
+msgstr "Crea una seqüència nova amb edició de text "
 
 #: src/dialogs/textbasededit.cpp:663
 #, kde-format
@@ -7276,8 +7270,7 @@ msgid "Delete selected text"
 msgstr "Suprimix el text seleccionat"
 
 #: src/dialogs/textbasededit.cpp:707
-#, fuzzy, kde-format
-#| msgid "Add bookmark for current selection"
+#, kde-format
 msgid "Add marker for current selection"
 msgstr "Afig un marcador en la selecció actual"
 
@@ -7342,8 +7335,7 @@ msgid "Speech recognition finished."
 msgstr "Ha finalitzat el reconeixement de la veu."
 
 #: src/dialogs/textbasededit.cpp:1280 src/dialogs/textbasededit.cpp:1342
-#, fuzzy, kde-format
-#| msgid "Create Sequence Clip"
+#, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Crea un clip de seqüència"
@@ -14100,10 +14092,9 @@ msgid "Install missing dependencies"
 msgstr "Instal·la les dependències que falten"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:26
-#, fuzzy, kde-format
-#| msgid "Check VOSK installation"
+#, kde-format
 msgid "Abort installation"
-msgstr "Comprova la instal·lació de VOSK"
+msgstr "Interromp la instal·lació"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:37
 #, kde-format
@@ -14132,10 +14123,9 @@ msgid "Check for update"
 msgstr "Comprova per a actualitzar"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:88
-#, fuzzy, kde-format
-#| msgid "Installing modules…"
+#, kde-format
 msgid "Installing modules… this can take a while"
-msgstr "S'estan instal·lant els mòduls…"
+msgstr "S'estan instal·lant els mòduls… açò pot tardar una estona"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:98
 #, kde-format
@@ -17086,8 +17076,8 @@ msgid ""
 "When selected, a click on an asset in the timeline selects the asset (e.g. "
 "clip, composition)."
 msgstr ""
-"Quan està seleccionada, un clic en un recurs de la línia de temps selecciona "
-"el recurs (p. ex., clip, composició)."
+"Quan se selecciona, un clic damunt d'un recurs de la línia de temps el "
+"seleccionarà (p. ex., clip, composició)."
 
 #: src/titler/titlewidget.cpp:387 src/titler/titlewidget.cpp:390
 #, kde-format
@@ -21607,6 +21597,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Add bookmark"
-#~ msgstr "Afig un marcador"
