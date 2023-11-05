@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-02 00:42+0000\n"
+"POT-Creation-Date: 2023-11-04 00:41+0000\n"
 "PO-Revision-Date: 2020-01-16 14:40+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -4693,8 +4693,8 @@ msgstr "素材播放清單"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2446 src/bin/clipcreator.cpp:240 src/bin/clipcreator.cpp:242
-#: src/kdenliveui.rc:41 src/project/projectmanager.cpp:1376
-#: src/project/projectmanager.cpp:1378 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:41 src/project/projectmanager.cpp:1380
+#: src/project/projectmanager.cpp:1382 src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Sequences"
@@ -4997,7 +4997,7 @@ msgid "Please set a default application to open audio files"
 msgstr "請在 Kdenlive 配置視窗中指定用於開啟聲訊的程式"
 
 #: src/bin/bin.cpp:4552 src/core.cpp:311 src/doc/kdenlivedoc.cpp:165
-#: src/jobs/cliploadtask.cpp:459 src/jobs/filtertask.cpp:93
+#: src/jobs/cliploadtask.cpp:458 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:471
 #: src/layoutmanagement.cpp:532 src/profiles/profilerepository.cpp:173
 #: src/renderpresets/renderpresetrepository.cpp:374
@@ -5226,13 +5226,7 @@ msgstr ""
 msgid "Duplicate"
 msgstr "複製素材"
 
-#: src/bin/clipcreator.cpp:422 src/core.cpp:970
-#: src/project/projectmanager.cpp:832
-#, kde-format
-msgid "Loading clips"
-msgstr "正在載入素材"
-
-#: src/bin/clipcreator.cpp:522
+#: src/bin/clipcreator.cpp:541
 #, kde-format
 msgid ""
 "Clip <b>%1</b><br /> is on a removable device, will not be available when "
@@ -5241,18 +5235,18 @@ msgid ""
 "anyways?"
 msgstr ""
 
-#: src/bin/clipcreator.cpp:526
+#: src/bin/clipcreator.cpp:545
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Removable device"
 msgstr "移除檔案"
 
-#: src/bin/clipcreator.cpp:549
+#: src/bin/clipcreator.cpp:575
 #, fuzzy, kde-format
 msgid "Loading done"
 msgstr "清理本項目"
 
-#: src/bin/clipcreator.cpp:560 src/dialogs/clipcreationdialog.cpp:562
+#: src/bin/clipcreator.cpp:586 src/dialogs/clipcreationdialog.cpp:562
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -6022,6 +6016,11 @@ msgstr "項目檔案夾無效，將其設定為預設檔案夾：%1"
 msgid "Subtitles"
 msgstr "無字幕 / 標題"
 
+#: src/core.cpp:970 src/project/projectmanager.cpp:836
+#, kde-format
+msgid "Loading clips"
+msgstr "正在載入素材"
+
 #: src/dialogs/clipcreationdialog.cpp:142
 #, fuzzy, kde-format
 #| msgid "Color Clip"
@@ -6380,7 +6379,7 @@ msgstr "匯入標記"
 #: src/project/dialogs/archivewidget.cpp:879
 #: src/project/dialogs/archivewidget.cpp:891
 #: src/project/dialogs/archivewidget.cpp:897
-#: src/project/projectmanager.cpp:1660 src/render/renderrequest.cpp:268
+#: src/project/projectmanager.cpp:1664 src/render/renderrequest.cpp:268
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5045
@@ -8170,8 +8169,8 @@ msgstr ""
 msgid "Invalid file path"
 msgstr "編輯編碼方案"
 
-#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:733
-#: src/project/projectmanager.cpp:783 src/project/projectmanager.cpp:847
+#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:737
+#: src/project/projectmanager.cpp:787 src/project/projectmanager.cpp:851
 #, fuzzy, kde-format
 msgid "Could not recover corrupted file."
 msgstr "項目檔案的預設檔案夾"
@@ -8252,15 +8251,15 @@ msgid ""
 "it was not possible to create the backup copy %1."
 msgstr "您的項目檔案已升級到最新的 Kdenlive 檔案版本，無法建立一份復本。"
 
-#: src/doc/kdenlivedoc.cpp:882 src/project/projectmanager.cpp:1257
-#: src/project/projectmanager.cpp:1293
+#: src/doc/kdenlivedoc.cpp:882 src/project/projectmanager.cpp:1261
+#: src/project/projectmanager.cpp:1297
 #, fuzzy, kde-format
 msgid "Error moving project folder: %1"
 msgstr "項目檔案夾"
 
 #: src/doc/kdenlivedoc.cpp:1051 src/doc/kdenlivedoc.cpp:2214
 #: src/project/dialogs/archivewidget.cpp:238
-#: src/project/projectmanager.cpp:1494
+#: src/project/projectmanager.cpp:1498
 #, kde-format
 msgid "Untitled"
 msgstr "無標題"
@@ -8814,17 +8813,17 @@ msgstr "視訊縮略圖"
 msgid "Loading clip"
 msgstr "正在載入素材"
 
-#: src/jobs/cliploadtask.cpp:487
+#: src/jobs/cliploadtask.cpp:486
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr ""
 
-#: src/jobs/cliploadtask.cpp:639
+#: src/jobs/cliploadtask.cpp:638
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr ""
 
-#: src/jobs/cliploadtask.cpp:667
+#: src/jobs/cliploadtask.cpp:666
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr ""
@@ -11176,12 +11175,12 @@ msgid ""
 "project file will then be reloaded"
 msgstr ""
 
-#: src/mainwindow.cpp:2227 src/project/projectmanager.cpp:540
+#: src/mainwindow.cpp:2227 src/project/projectmanager.cpp:544
 #, fuzzy, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "無法在已鎖定的軌道中使用調整工具"
 
-#: src/mainwindow.cpp:2232 src/project/projectmanager.cpp:546
+#: src/mainwindow.cpp:2232 src/project/projectmanager.cpp:550
 #, fuzzy, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "無法在已鎖定的軌道中使用調整工具"
@@ -13448,7 +13447,7 @@ msgstr "開啟素材標記"
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1553
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1557
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:4951
 #, fuzzy, kde-format
@@ -14037,7 +14036,7 @@ msgstr "開啟備份檔"
 msgid "Save changes to document?"
 msgstr "是否儲存對檔案的修改?"
 
-#: src/project/projectmanager.cpp:393 src/project/projectmanager.cpp:1493
+#: src/project/projectmanager.cpp:393 src/project/projectmanager.cpp:1497
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -14046,7 +14045,7 @@ msgstr ""
 "此項目 <b>\"%1\"</b> 已經修改。\n"
 "您要保修這些修改嗎？"
 
-#: src/project/projectmanager.cpp:528
+#: src/project/projectmanager.cpp:532
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -14054,52 +14053,52 @@ msgid ""
 "files from <b>%1</b> to <b>%2</b>, the project file will then be reloaded"
 msgstr ""
 
-#: src/project/projectmanager.cpp:569
+#: src/project/projectmanager.cpp:573
 #, fuzzy, kde-format
 #| msgid "Save to"
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "儲存為"
 
-#: src/project/projectmanager.cpp:674
+#: src/project/projectmanager.cpp:678
 #, fuzzy, kde-format
 #| msgid "Auto-saved files exist. Do you want to recover them now?"
 msgid "Auto-saved file exist. Do you want to recover now?"
 msgstr "自動儲存的檔案已經存在，您是否要回復它?"
 
-#: src/project/projectmanager.cpp:674
+#: src/project/projectmanager.cpp:678
 #, kde-format
 msgid "File Recovery"
 msgstr "檔案回復"
 
-#: src/project/projectmanager.cpp:675 src/project/projectmanager.cpp:771
+#: src/project/projectmanager.cpp:679 src/project/projectmanager.cpp:775
 #, kde-format
 msgid "Recover"
 msgstr "回復"
 
-#: src/project/projectmanager.cpp:675
+#: src/project/projectmanager.cpp:679
 #, fuzzy, kde-format
 #| msgid "Don't recover"
 msgid "Do not recover"
 msgstr "不進行回復"
 
-#: src/project/projectmanager.cpp:727
+#: src/project/projectmanager.cpp:731
 #, kde-format
 msgid "Opening file %1"
 msgstr "正在開啟檔案 %1"
 
-#: src/project/projectmanager.cpp:754
+#: src/project/projectmanager.cpp:758
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "清理本項目"
 
-#: src/project/projectmanager.cpp:756
+#: src/project/projectmanager.cpp:760
 #, fuzzy, kde-format
 msgid "Loading project"
 msgstr "清理本項目"
 
-#: src/project/projectmanager.cpp:770
+#: src/project/projectmanager.cpp:774
 #, fuzzy, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -14107,93 +14106,93 @@ msgid ""
 "Do you want to open a backup file?"
 msgstr "檔案 %1 不是 Kdenlive 項目檔案。"
 
-#: src/project/projectmanager.cpp:771
+#: src/project/projectmanager.cpp:775
 #, fuzzy, kde-format
 msgid "Error opening file"
 msgstr "正在開啟檔案 %1"
 
-#: src/project/projectmanager.cpp:771
+#: src/project/projectmanager.cpp:775
 #, fuzzy, kde-format
 msgid "Open Backup"
 msgstr "開啟備份檔"
 
-#: src/project/projectmanager.cpp:787
+#: src/project/projectmanager.cpp:791
 #, fuzzy, kde-format
 msgid "Could not open the backup project file."
 msgstr "無法寫入檔案 %1"
 
-#: src/project/projectmanager.cpp:803
+#: src/project/projectmanager.cpp:807
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:806
+#: src/project/projectmanager.cpp:810
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:922
+#: src/project/projectmanager.cpp:926
 #, fuzzy, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
 "%1\n"
 msgstr "無法寫入檔案 %1"
 
-#: src/project/projectmanager.cpp:962
+#: src/project/projectmanager.cpp:966
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
 "sure you want to continue?"
 msgstr "這會移除從您最後一次儲存項目以來的所有修改，您確定要繼續嗎？"
 
-#: src/project/projectmanager.cpp:963
+#: src/project/projectmanager.cpp:967
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "回復到最後儲存的版本"
 
-#: src/project/projectmanager.cpp:1045
+#: src/project/projectmanager.cpp:1049
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
 "file to recover last backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1235
+#: src/project/projectmanager.cpp:1239
 #, fuzzy, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "項目檔案夾"
 
-#: src/project/projectmanager.cpp:1271
+#: src/project/projectmanager.cpp:1275
 #, fuzzy, kde-format
 msgid "Moving project folder"
 msgstr "項目檔案夾"
 
-#: src/project/projectmanager.cpp:1329
+#: src/project/projectmanager.cpp:1333
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1354 src/project/projectmanager.cpp:1385
-#: src/project/projectmanager.cpp:1389
+#: src/project/projectmanager.cpp:1358 src/project/projectmanager.cpp:1389
+#: src/project/projectmanager.cpp:1393
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Sequence 1"
 msgstr "圖片串列"
 
-#: src/project/projectmanager.cpp:1366
+#: src/project/projectmanager.cpp:1370
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1499 src/project/projectmanager.cpp:1504
-#: src/project/projectmanager.cpp:1514 src/project/projectmanager.cpp:1528
+#: src/project/projectmanager.cpp:1503 src/project/projectmanager.cpp:1508
+#: src/project/projectmanager.cpp:1518 src/project/projectmanager.cpp:1532
 #, fuzzy, kde-format
 msgid "Project profile change aborted"
 msgstr "項目檔案"
 
-#: src/project/projectmanager.cpp:1645
+#: src/project/projectmanager.cpp:1649
 #, fuzzy, kde-format
 #| msgid "Output file already exists. Do you want to overwrite it?"
 msgid ""
@@ -14201,30 +14200,30 @@ msgid ""
 "Do you want to overwrite it?"
 msgstr "匯出檔案已經存在。您是否要覆寫它?"
 
-#: src/project/projectmanager.cpp:1670
+#: src/project/projectmanager.cpp:1674
 #, fuzzy, kde-format
 msgid "Project profile changed"
 msgstr "項目檔案"
 
-#: src/project/projectmanager.cpp:1723
+#: src/project/projectmanager.cpp:1727
 #, fuzzy, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
 "%1"
 msgstr "無法寫入檔案 %1"
 
-#: src/project/projectmanager.cpp:1805
+#: src/project/projectmanager.cpp:1809
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1981
+#: src/project/projectmanager.cpp:1985
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip to create sequence"
 msgstr "如果您想使用特效請選取一個素材"
 
-#: src/project/projectmanager.cpp:2018
+#: src/project/projectmanager.cpp:2022
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Create Sequence Clip"
