@@ -4936,6 +4936,8 @@ void MainWindow::connectTimeline()
     getCurrentTimeline()->connectSubtitleModel(hasSubtitleModel);
     m_buttonSubtitleEditTool->setChecked(showSubs && hasSubtitleModel);
     if (hasSubtitleModel) {
+        // Restore style
+        getCurrentTimeline()->model()->getSubtitleModel()->loadProperties({});
         slotShowSubtitles(showSubs);
     }
     // Display timeline guides in the guides list
