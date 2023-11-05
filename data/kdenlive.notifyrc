@@ -313,7 +313,7 @@ Comment[tr]=Bir kare diske yakalandı
 Comment[uk]=Було захоплено кадр, програма зберегла його на диску
 Comment[zh_CN]=一帧图像已被捕获到存储设备
 Comment[zh_TW]=已擷取一個影格到磁碟中
-Sound=Oxygen-Sys-App-Message.ogg
+Sound=camera-shutter
 Action=Sound
 
 [Event/ReadyToCapture]
@@ -360,7 +360,7 @@ Name[tr]=Yakalamak için hazır
 Name[uk]=Приготовано до захоплення
 Name[zh_CN]=准备捕获
 Name[zh_TW]=準備擷取
-Sound=Oxygen-Sys-App-Positive.ogg
+Sound=dialog-information
 Action=Sound
 
 [Event/ErrorMessage]
@@ -454,5 +454,5 @@ Comment[tr]=Kdenlive içinde bir hata oluştu
 Comment[uk]=У коді Kdenlive сталася помилка
 Comment[zh_CN]=Kdenlive 发生错误
 Comment[zh_TW]=Kdenlive 中發生錯誤
-Sound=Oxygen-Sys-Warning.ogg
+Sound=dialog-error
 Action=Sound
