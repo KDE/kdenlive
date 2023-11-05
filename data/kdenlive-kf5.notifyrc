@@ -456,3 +456,8 @@ Comment[zh_CN]=Kdenlive 发生错误
 Comment[zh_TW]=Kdenlive 中發生錯誤
 Sound=Oxygen-Sys-Warning.ogg
 Action=Sound
+
+[Event/SaveSuccess]
+Name=Saving successful
+Sound=Oxygen-Sys-App-Positive.ogg
+Action=None
