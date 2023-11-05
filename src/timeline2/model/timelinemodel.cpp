@@ -895,7 +895,6 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         }
     } else {
     }
-
     if (old_trackId != -1) {
         if (notifyViewOnly) {
             PUSH_LAMBDA(update_model, local_undo);
