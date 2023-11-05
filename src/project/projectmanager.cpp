@@ -2022,6 +2022,7 @@ void ProjectManager::slotCreateSequenceFromSelection()
         undo();
         return;
     }
+    m_activeTimelineModel->updateDuration();
     pCore->pushUndo(undo, redo, i18n("Create Sequence Clip"));
 }
 
