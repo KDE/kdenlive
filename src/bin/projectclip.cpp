@@ -985,7 +985,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
     if (!m_masterProducer) {
         return nullptr;
     }
-    if (qFuzzyCompare(speed, 1.0) && timeremapInfo.timeMapData.isEmpty()) {
+    if (qFuzzyCompare(speed, 1.0) && !timeremapInfo.enableRemap) {
         // we are requesting a normal speed producer
         bool byPassTrackProducer = false;
         if (trackId == -1 && (state != PlaylistState::AudioOnly || audioStream == m_masterProducer->get_int("audio_index"))) {
@@ -1144,10 +1144,12 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
                 cloneProducerToFile(resource);
             }
         }
-        if (!timeremapInfo.timeMapData.isEmpty()) {
+        if (timeremapInfo.enableRemap) {
             Mlt::Chain *chain = new Mlt::Chain(pCore->getProjectProfile(), resource.toUtf8().constData());
             Mlt::Link link("timeremap");
-            link.set("time_map", timeremapInfo.timeMapData.toUtf8().constData());
+            if (!timeremapInfo.timeMapData.isEmpty()) {
+                link.set("time_map", timeremapInfo.timeMapData.toUtf8().constData());
+            }
             link.set("pitch", timeremapInfo.pitchShift);
             link.set("image_mode", timeremapInfo.imageMode.toUtf8().constData());
             chain->attach(link);
@@ -1220,6 +1222,7 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
         double speed = 1.0;
         bool timeWarp = false;
         ProjectClip::TimeWarpInfo remapInfo;
+        remapInfo.enableRemap = false;
         if (master->parent().property_exists("warp_speed")) {
             speed = master->parent().get_double("warp_speed");
             timeWarp = true;
@@ -1233,6 +1236,7 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
                         if (!link->property_exists("time_map")) {
                             link->set("time_map", link->get("map"));
                         }
+                        remapInfo.enableRemap = true;
                         remapInfo.timeMapData = link->get("time_map");
                         remapInfo.pitchShift = link->get_int("pitch");
                         remapInfo.imageMode = link->get("image_mode");
