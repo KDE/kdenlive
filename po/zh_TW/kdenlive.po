@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 14:49+0000\n"
+"POT-Creation-Date: 2023-11-06 02:31+0000\n"
 "PO-Revision-Date: 2020-01-16 14:40+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -14095,7 +14095,7 @@ msgstr ""
 msgid "Select a clip to create sequence"
 msgstr "如果您想使用特效請選取一個素材"
 
-#: src/project/projectmanager.cpp:1938
+#: src/project/projectmanager.cpp:1939
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Create Sequence Clip"

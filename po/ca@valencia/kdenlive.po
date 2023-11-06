@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 14:49+0000\n"
+"POT-Creation-Date: 2023-11-06 02:31+0000\n"
 "PO-Revision-Date: 2023-11-02 09:24+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -14070,7 +14070,7 @@ msgstr ""
 msgid "Select a clip to create sequence"
 msgstr "Seleccioneu un clip per a crear una seqüència"
 
-#: src/project/projectmanager.cpp:1938
+#: src/project/projectmanager.cpp:1939
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Crea un clip de seqüència"

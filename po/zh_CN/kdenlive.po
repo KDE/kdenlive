@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 14:49+0000\n"
+"POT-Creation-Date: 2023-11-06 02:31+0000\n"
 "PO-Revision-Date: 2023-10-21 13:57\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -13680,7 +13680,7 @@ msgstr "导入一个序列剪辑，此功能目前仍在实验阶段。"
 msgid "Select a clip to create sequence"
 msgstr "选择一个剪辑以创建序列"
 
-#: src/project/projectmanager.cpp:1938
+#: src/project/projectmanager.cpp:1939
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "创建序列剪辑"
