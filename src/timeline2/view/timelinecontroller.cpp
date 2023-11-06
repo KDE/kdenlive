@@ -705,6 +705,7 @@ std::pair<int, int> TimelineController::selectionPosition(int *aTracks, int *vTr
     int targetTrackId = -1;
     std::pair<int, int> audioTracks = {-1, -1};
     std::pair<int, int> videoTracks = {-1, -1};
+    int topVideoWithSplit = -1;
     for (auto &id : selectedIds) {
         int tid = m_model->getItemTrackId(id);
         if (m_model->isSubtitleTrack(tid)) {
@@ -724,7 +725,11 @@ std::pair<int, int> TimelineController::selectionPosition(int *aTracks, int *vTr
                 audioTracks.second = trackPos;
             }
         } else {
-            // Find audio track range
+            // Find video track range
+            int splitId = m_model->m_groups->getSplitPartner(id);
+            if (splitId > -1 && (topVideoWithSplit == -1 || trackPos > topVideoWithSplit)) {
+                topVideoWithSplit = trackPos;
+            }
             if (videoTracks.first < 0 || trackPos < videoTracks.first) {
                 videoTracks.first = trackPos;
             }
@@ -732,6 +737,11 @@ std::pair<int, int> TimelineController::selectionPosition(int *aTracks, int *vTr
                 videoTracks.second = trackPos;
             }
         }
+    }
+    int minimumMirrorTracks = 0;
+    if (topVideoWithSplit > -1) {
+        // Ensure we have enough audio tracks for audio partners
+        minimumMirrorTracks = topVideoWithSplit - videoTracks.first + 1;
     }
 
     if (videoTracks.first > -1) {
@@ -741,12 +751,12 @@ std::pair<int, int> TimelineController::selectionPosition(int *aTracks, int *vTr
         *vTracks = 0;
     }
     if (audioTracks.first > -1) {
-        *aTracks = audioTracks.second - audioTracks.first + 1;
+        *aTracks = qMax(audioTracks.second - audioTracks.first + 1, minimumMirrorTracks);
         if (targetTrackId == -1) {
             targetTrackId = m_model->getTrackIndexFromPosition(audioTracks.second);
         }
     } else {
-        *aTracks = 0;
+        *aTracks = qMax(0, minimumMirrorTracks);
     }
     return {position, targetTrackId};
 }
