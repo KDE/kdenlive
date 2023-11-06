@@ -1040,8 +1040,18 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
                     }
                 }
                 if (audioStream > -1) {
-                    m_audioProducers[trackId]->set("audio_index", audioStream);
-                    m_audioProducers[trackId]->set("astream", audioStreamIndex(audioStream));
+                    int newAudioStreamIndex = audioStreamIndex(audioStream);
+                    if (newAudioStreamIndex > -1) {
+                        /** If the audioStreamIndex is not found, for example when replacing a clip with another one using different indexes,
+                        default to first audio stream */
+                        m_audioProducers[trackId]->set("audio_index", audioStream);
+                    } else {
+                        newAudioStreamIndex = 0;
+                    }
+                    if (newAudioStreamIndex > audioStreamsCount() - 1) {
+                        newAudioStreamIndex = 0;
+                    }
+                    m_audioProducers[trackId]->set("astream", newAudioStreamIndex);
                 }
                 m_effectStack->addService(m_audioProducers[trackId]);
             }
