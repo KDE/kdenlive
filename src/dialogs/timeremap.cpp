@@ -1830,15 +1830,13 @@ void TimeRemap::selectedClip(int cid, const QUuid uuid)
             fromLink.reset(fromChain.link(i));
             if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
                 if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
-                    // Found a timeremap effect, read params$
-                    qDebug() << ":::: FOUND CLIP " << cid << " WITH TIMEREMAP: " << fromLink->get("time_map") << " = " << fromLink->get("map");
+                    // Found a timeremap effect, read params
                     if (!fromLink->property_exists("time_map")) {
                         fromLink->set("time_map", fromLink->get("map"));
                     }
                     QString mapData(fromLink->get("time_map"));
                     m_remapLink.reset(fromChain.link(i));
                     m_view->m_remapProps.inherit(*m_remapLink.get());
-                    qDebug() << "::: LOADING REMAPS DATA: " << mapData << " = " << m_view->m_remapProps.get("time_map");
                     // This is a fake query to force the animation to be parsed
                     (void)m_view->m_remapProps.anim_get_double("time_map", 0, m_lastLength + prod->get_in());
                     m_view->loadKeyframes(mapData);
@@ -1873,8 +1871,8 @@ void TimeRemap::selectedClip(int cid, const QUuid uuid)
         if (remapFound) {
             QSignalBlocker bk(pitch_compensate);
             QSignalBlocker bk2(frame_blending);
-            pitch_compensate->setChecked(fromLink->get_int("pitch") == 1 || (m_splitRemap && m_splitRemap->get_int("pitch")));
-            frame_blending->setChecked(fromLink->get("image_mode") != QLatin1String("nearest"));
+            pitch_compensate->setChecked(m_remapLink->get_int("pitch") == 1 || (m_splitRemap && m_splitRemap->get_int("pitch")));
+            frame_blending->setChecked(m_remapLink->get("image_mode") != QLatin1String("nearest"));
             remap_box->setEnabled(true);
         }
     } else {

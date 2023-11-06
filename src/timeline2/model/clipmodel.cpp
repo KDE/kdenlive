@@ -852,6 +852,7 @@ void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState sta
         }
     }
     ProjectClip::TimeWarpInfo remapInfo;
+    remapInfo.enableRemap = timeremap;
     if (timeremap) {
         remapInfo.timeMapData = remapMap;
         remapInfo.pitchShift = remapPitch;
