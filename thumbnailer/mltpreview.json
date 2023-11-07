@@ -34,6 +34,7 @@
         "Name[sv]": "MLT-spellista",
         "Name[tr]": "MLT Oynatma Listesi",
         "Name[uk]": "Список відтворення MLT",
+        "Name[x-test]": "xxMLT Playlistxx",
         "Name[zh_CN]": "MLT 播放列表"
     },
     "MimeType": "video/mlt-playlist;application/x-kdenlive;application/x-kdenlivetitle;application/vnd.mlt+xml;"
