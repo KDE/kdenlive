@@ -79,6 +79,7 @@ bool RemapView::isInRange() const
 void RemapView::updateInPos(int pos)
 {
     if (m_currentKeyframe.second > -1) {
+        m_keyframesOrigin = m_keyframes;
         if (m_moveNext) {
             int offset = pos - m_currentKeyframe.second;
             QMap<int, int>::iterator it = m_keyframes.find(m_currentKeyframe.first);
@@ -94,7 +95,7 @@ void RemapView::updateInPos(int pos)
         slotSetPosition(pos);
         std::pair<double, double> speeds = getSpeed(m_currentKeyframe);
         Q_EMIT updateSpeeds(speeds);
-        Q_EMIT updateKeyframes(true);
+        Q_EMIT updateKeyframesWithUndo(m_keyframes, m_keyframesOrigin);
         update();
     }
 }
@@ -107,6 +108,7 @@ void RemapView::updateOutPos(int pos)
             qDebug() << "==== KEYFRAME ALREADY EXISTS AT: " << pos;
             return;
         }
+        m_keyframesOrigin = m_keyframes;
         QMap<int, int> updated;
         int offset = pos - m_currentKeyframe.first;
         if (m_moveNext) {
@@ -135,7 +137,7 @@ void RemapView::updateOutPos(int pos)
         m_bottomPosition = pos - m_inFrame;
         std::pair<double, double> speeds = getSpeed(m_currentKeyframe);
         Q_EMIT updateSpeeds(speeds);
-        Q_EMIT updateKeyframes(true);
+        Q_EMIT updateKeyframesWithUndo(m_keyframes, m_keyframesOrigin);
         update();
     }
 }
@@ -213,7 +215,7 @@ void RemapView::setDuration(std::shared_ptr<Mlt::Producer> service, int duration
         m_keyframesOrigin = m_keyframes;
         if (duration > m_duration) {
             // The clip was resized, ensure we have a keyframe at the end of the clip will freeze at last keyframe
-            QMap<int, int>::const_iterator it = m_keyframes.constEnd();
+            QMap<int, int>::iterator it = m_keyframes.end();
             it--;
             int lastKeyframePos = it.key();
             int lastKeyframeValue = it.value();
@@ -1171,12 +1173,12 @@ void RemapView::goPrev()
 {
     // insert keyframe at interpolated position
     bool previousFound = false;
-    QMap<int, int>::const_iterator it = m_keyframes.constBegin();
-    while (it.key() < m_bottomPosition + m_inFrame && it != m_keyframes.constEnd()) {
+    QMap<int, int>::iterator it = m_keyframes.begin();
+    while (it.key() < m_bottomPosition + m_inFrame && it != m_keyframes.end()) {
         it++;
     }
-    if (it != m_keyframes.constEnd()) {
-        if (it != m_keyframes.constBegin()) {
+    if (it != m_keyframes.end()) {
+        if (it != m_keyframes.begin()) {
             it--;
         }
         m_currentKeyframe = {it.key(), it.value()};
@@ -1208,27 +1210,37 @@ void RemapView::goPrev()
 void RemapView::updateBeforeSpeed(double speed)
 {
     QMutexLocker lock(&m_kfrMutex);
-    QMap<int, int>::const_iterator it = m_keyframes.constFind(m_currentKeyframe.first);
+    QMap<int, int>::iterator it = m_keyframes.find(m_currentKeyframe.first);
     QMap<int, int> updatedKfrs;
     QList<int> toDelete;
-    if (*it != m_keyframes.first() && it != m_keyframes.constEnd()) {
+    if (*it != m_keyframes.first() && it != m_keyframes.end()) {
         m_keyframesOrigin = m_keyframes;
         it--;
-        int updatedLength = qFuzzyIsNull(speed) ? 0 : (m_currentKeyframe.second - it.value()) * 100. / speed;
-        int offset = it.key() + updatedLength - m_currentKeyframe.first;
+        double updatedLength = qFuzzyIsNull(speed) ? 0 : (m_currentKeyframe.second - it.value()) * 100. / speed;
+        double offset = it.key() + updatedLength - m_currentKeyframe.first;
+        int offsetInt = int(offset);
+        int lengthInt = int(updatedLength);
+        if (offsetInt == 0) {
+            if (offset < 0) {
+                offsetInt = -1;
+            } else {
+                offsetInt = 1;
+            }
+            lengthInt += offsetInt;
+        }
         m_keyframes.remove(m_currentKeyframe.first);
-        m_currentKeyframe.first = it.key() + updatedLength;
+        m_currentKeyframe.first = it.key() + lengthInt;
         m_keyframes.insert(m_currentKeyframe.first, m_currentKeyframe.second);
         m_bottomPosition = m_currentKeyframe.first;
         m_selectedKeyframes.clear();
         m_selectedKeyframes.insert(m_currentKeyframe.first, m_currentKeyframe.second);
-        it = m_keyframes.constFind(m_currentKeyframe.first);
+        it = m_keyframes.find(m_currentKeyframe.first);
         if (*it != m_keyframes.last()) {
             it++;
             // Update all keyframes after that so that we don't alter the speeds
-            while (m_moveNext && it != m_keyframes.constEnd()) {
+            while (m_moveNext && it != m_keyframes.end()) {
                 toDelete << it.key();
-                updatedKfrs.insert(it.key() + offset, it.value());
+                updatedKfrs.insert(it.key() + offsetInt, it.value());
                 it++;
             }
         }
@@ -1252,22 +1264,32 @@ void RemapView::updateBeforeSpeed(double speed)
 void RemapView::updateAfterSpeed(double speed)
 {
     QMutexLocker lock(&m_kfrMutex);
-    QMap<int, int>::const_iterator it = m_keyframes.constFind(m_currentKeyframe.first);
+    m_keyframesOrigin = m_keyframes;
+    QMap<int, int>::iterator it = m_keyframes.find(m_currentKeyframe.first);
     if (*it != m_keyframes.last()) {
-        m_keyframesOrigin = m_keyframes;
         it++;
         QMap<int, int> updatedKfrs;
         QList<int> toDelete;
-        int updatedLength = qFuzzyIsNull(speed) ? 0 : (it.value() - m_currentKeyframe.second) * 100. / speed;
-        int offset = m_currentKeyframe.first + updatedLength - it.key();
+        double updatedLength = (it.value() - m_currentKeyframe.second) * 100. / speed;
+        double offset = m_currentKeyframe.first + updatedLength - it.key();
+        int offsetInt = int(offset);
+        int lengthInt = int(updatedLength);
+        if (offsetInt == 0) {
+            if (offset < 0) {
+                offsetInt = -1;
+            } else {
+                offsetInt = 1;
+            }
+            lengthInt += offsetInt;
+        }
         if (m_moveNext) {
-            while (it != m_keyframes.constEnd()) {
+            while (it != m_keyframes.end()) {
                 toDelete << it.key();
-                updatedKfrs.insert(it.key() + offset, it.value());
+                updatedKfrs.insert(it.key() + offsetInt, it.value());
                 it++;
             }
         } else {
-            m_keyframes.insert(m_currentKeyframe.first + updatedLength, it.value());
+            m_keyframes.insert(m_currentKeyframe.first + lengthInt, it.value());
             m_keyframes.remove(it.key());
         }
         // Update all keyframes after that so that we don't alter the speeds
@@ -1346,8 +1368,8 @@ void RemapView::reloadProducer()
 std::pair<double, double> RemapView::getSpeed(std::pair<int, int> kf)
 {
     std::pair<double, double> speeds = {-1, -1};
-    QMap<int, int>::const_iterator it = m_keyframes.constFind(kf.first);
-    if (it == m_keyframes.constEnd()) {
+    QMap<int, int>::iterator it = m_keyframes.find(kf.first);
+    if (it == m_keyframes.end()) {
         // Not a keyframe
         return speeds;
     }
