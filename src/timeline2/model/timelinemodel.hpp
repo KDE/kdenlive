@@ -999,6 +999,8 @@ Q_SIGNALS:
     void visibleSequenceNameChanged();
     /** @brief Connect the preview manager with timelinecontroller */
     void connectPreviewManager();
+    /** @brief An editable clip action changed, refresh menus */
+    void refreshClipActions();
 
 protected:
     QUuid m_uuid;

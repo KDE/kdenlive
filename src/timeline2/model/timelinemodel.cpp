@@ -5867,12 +5867,13 @@ bool TimelineModel::requestClipTimeRemap(int clipId, bool enable)
         result = result && requestClipTimeRemap(clipId, enable, undo, redo);
         if (result) {
             PUSH_UNDO(undo, redo, i18n("Enable time remap"));
+            Q_EMIT refreshClipActions();
             return true;
         } else {
             return false;
         }
-    } else
-        return true;
+    }
+    return true;
 }
 
 std::shared_ptr<Mlt::Producer> TimelineModel::getClipProducer(int clipId)

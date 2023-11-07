@@ -682,6 +682,7 @@ public:
     void saveSequenceProperties();
 
 public Q_SLOTS:
+    void updateClipActions();
     void resetView();
     void setAudioTarget(const QMap<int, int> &tracks);
     Q_INVOKABLE void switchAudioTarget(int trackId);
@@ -713,7 +714,6 @@ public Q_SLOTS:
     Q_INVOKABLE void autofitTrackHeight(int timelineHeight, int collapsedHeight);
 
 private Q_SLOTS:
-    void updateClipActions();
     void updateVideoTarget();
     void updateAudioTarget();
     /** @brief Dis / enable multi track view. */

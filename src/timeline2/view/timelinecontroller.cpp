@@ -143,6 +143,7 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
     connect(m_model.get(), &TimelineModel::dataChanged, this, &TimelineController::checkClipPosition);
     connect(m_model.get(), &TimelineModel::checkTrackDeletion, this, &TimelineController::checkTrackDeletion, Qt::DirectConnection);
     connect(m_model.get(), &TimelineModel::flashLock, this, &TimelineController::slotFlashLock);
+    connect(m_model.get(), &TimelineModel::refreshClipActions, this, &TimelineController::updateClipActions);
     connect(m_model.get(), &TimelineModel::highlightSub, this,
             [this](int index) { QMetaObject::invokeMethod(m_root, "highlightSub", Qt::QueuedConnection, Q_ARG(QVariant, index)); });
 }
@@ -2766,7 +2767,6 @@ void TimelineController::remapItemTime(int clipId)
         // Add remap effect
         Q_EMIT pCore->remapClip(clipId);
     }
-    updateClipActions();
 }
 
 void TimelineController::changeItemSpeed(int clipId, double speed)
