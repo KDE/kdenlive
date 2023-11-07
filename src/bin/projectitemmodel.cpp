@@ -1645,4 +1645,5 @@ void ProjectItemModel::setSequencesFolder(int id)
 {
     m_sequenceFolderId = id;
     saveProperty(QStringLiteral("kdenlive:sequenceFolder"), QString::number(id));
+    onItemUpdated(QString::number(id), Qt::DecorationRole);
 }

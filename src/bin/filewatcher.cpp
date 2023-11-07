@@ -124,10 +124,12 @@ void FileWatcher::slotProcessModifiedUrls()
 
 void FileWatcher::clear()
 {
+    m_queueTimer.stop();
     m_fileWatcher->stopScan();
     for (const auto &f : m_occurences) {
         m_fileWatcher->removeFile(f.first);
     }
+    m_pendingUrls.clear();
     m_occurences.clear();
     m_modifiedUrls.clear();
     m_binClipPaths.clear();

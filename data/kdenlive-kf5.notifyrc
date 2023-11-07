@@ -320,7 +320,7 @@ Comment[uk]=Було захоплено кадр, програма зберег�
 Comment[x-test]=xxA frame was captured to diskxx
 Comment[zh_CN]=一帧图像已被捕获到存储设备
 Comment[zh_TW]=已擷取一個影格到磁碟中
-Sound=camera-shutter
+Sound=Oxygen-Sys-App-Message.ogg
 Action=Sound
 
 [Event/ReadyToCapture]
@@ -368,7 +368,7 @@ Name[uk]=Приготовано до захоплення
 Name[x-test]=xxReady to capturexx
 Name[zh_CN]=准备捕获
 Name[zh_TW]=準備擷取
-Sound=dialog-information
+Sound=Oxygen-Sys-App-Positive.ogg
 Action=Sound
 
 [Event/ErrorMessage]
@@ -464,7 +464,7 @@ Comment[uk]=У коді Kdenlive сталася помилка
 Comment[x-test]=xxAn error occurred in Kdenlivexx
 Comment[zh_CN]=Kdenlive 发生错误
 Comment[zh_TW]=Kdenlive 中發生錯誤
-Sound=dialog-error
+Sound=Oxygen-Sys-Warning.ogg
 Action=Sound
 
 [Event/SaveSuccess]
@@ -474,5 +474,5 @@ Name[nl]=Opslaan is gelukt
 Name[sv]=Spara lyckades
 Name[uk]=Успішно збережено
 Name[x-test]=xxSaving successfulxx
-Sound=outcome-success
+Sound=Oxygen-Sys-App-Positive.ogg
 Action=None

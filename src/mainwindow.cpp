@@ -4006,9 +4006,10 @@ void MainWindow::slotShutdown()
     // Call shutdown
 #ifndef NODBUS
     QDBusConnectionInterface *interface = QDBusConnection::sessionBus().interface();
-    if ((interface != nullptr) && interface->isServiceRegistered(QStringLiteral("org.kde.ksmserver"))) {
-        QDBusInterface smserver(QStringLiteral("org.kde.ksmserver"), QStringLiteral("/KSMServer"), QStringLiteral("org.kde.KSMServerInterface"));
-        smserver.call(QStringLiteral("logout"), 1, 2, 2);
+    // org.kde.Shutdown is DBus activatable, so we can't query for it running
+    if (qgetenv("XDG_CURRENT_DESKTOP") == QLatin1String("KDE")) {
+        QDBusInterface kdeShutdown(QStringLiteral("org.kde.Shutdown"), QStringLiteral("/Shutdown"), QStringLiteral("org.kde.Shutdown"));
+        kdeShutdown.call(QStringLiteral("logoutAndShutdown"));
     } else if ((interface != nullptr) && interface->isServiceRegistered(QStringLiteral("org.gnome.SessionManager"))) {
         QDBusInterface smserver(QStringLiteral("org.gnome.SessionManager"), QStringLiteral("/org/gnome/SessionManager"),
                                 QStringLiteral("org.gnome.SessionManager"));
@@ -4936,6 +4937,8 @@ void MainWindow::connectTimeline()
     getCurrentTimeline()->connectSubtitleModel(hasSubtitleModel);
     m_buttonSubtitleEditTool->setChecked(showSubs && hasSubtitleModel);
     if (hasSubtitleModel) {
+        // Restore style
+        getCurrentTimeline()->model()->getSubtitleModel()->loadProperties({});
         slotShowSubtitles(showSubs);
     }
     // Display timeline guides in the guides list

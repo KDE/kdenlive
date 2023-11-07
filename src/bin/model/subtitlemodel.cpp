@@ -1374,6 +1374,15 @@ bool SubtitleModel::isLocked() const
 
 void SubtitleModel::loadProperties(const QMap<QString, QString> &subProperties)
 {
+    if (subProperties.isEmpty()) {
+        if (m_subtitleFilter->property_exists("av.force_style")) {
+            const QString style = m_subtitleFilter->get("av.force_style");
+            Q_EMIT updateSubtitleStyle(style);
+        } else {
+            Q_EMIT updateSubtitleStyle(QString());
+        }
+        return;
+    }
     QMap<QString, QString>::const_iterator i = subProperties.constBegin();
     while (i != subProperties.constEnd()) {
         if (!i.value().isEmpty()) {

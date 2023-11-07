@@ -43,6 +43,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KJobWidgets>
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <KNotification>
 #include <KRecentDirs>
 #include <kcoreaddons_version.h>
 
@@ -407,6 +408,10 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             break;
         }
     }
+
+    // Abort clip loading if any
+    Q_EMIT pCore->stopProgressTask();
+    qApp->processEvents();
     bool guiConstructed = pCore->window() != nullptr;
     if (guiConstructed) {
         pCore->window()->disableMulticam();
@@ -416,11 +421,11 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         pCore->monitorManager()->projectMonitor()->setProducer(nullptr);
     }
     if (m_project) {
+        pCore->taskManager.slotCancelJobs(true);
         m_project->closing = true;
         if (guiConstructed && !quit && !qApp->isSavingSession()) {
             pCore->bin()->abortOperations();
         }
-        pCore->taskManager.slotCancelJobs(true);
         m_project->commandStack()->clear();
         pCore->cleanup();
         if (guiConstructed) {
@@ -481,6 +486,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveOverExis
     }
     m_project->updateWorkFilesAfterSave();
     if (!m_project->saveSceneList(outputFileName, scene, saveOverExistingFile)) {
+        KNotification::event(QStringLiteral("ErrorMessage"), i18n("Saving project file <br><b>%1</B> failed", outputFileName), QPixmap());
         return false;
     }
     QUrl url = QUrl::fromLocalFile(outputFileName);
@@ -513,6 +519,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveOverExis
         pCore->window()->setWindowTitle(m_project->description());
         m_project->setModified(false);
     }
+    KNotification::event(QStringLiteral("SaveSuccess"), i18n("Saving successful"), QPixmap());
 
     m_recentFilesAction->addUrl(url);
     // remember folder for next project opening
@@ -2015,6 +2022,7 @@ void ProjectManager::slotCreateSequenceFromSelection()
         undo();
         return;
     }
+    m_activeTimelineModel->updateDuration();
     pCore->pushUndo(undo, redo, i18n("Create Sequence Clip"));
 }
 

@@ -126,7 +126,9 @@ public:
         // Item status (ready or not, missing, waiting, ...)
         ClipStatus,
         ClipType,
-        ClipHasAudioAndVideo
+        ClipHasAudioAndVideo,
+        // Item is the folder containing sequences
+        SequenceFolder
     };
 
     virtual void setClipStatus(FileStatus::ClipStatus status);

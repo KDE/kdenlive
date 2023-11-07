@@ -219,6 +219,10 @@ if (QT_MAJOR_VERSION STREQUAL "6")
     target_link_libraries(kdenliveLib Qt${QT_MAJOR_VERSION}::SvgWidgets)
 endif()
 
+if(WIN32 AND QT_MAJOR_VERSION STREQUAL "6")
+    target_link_libraries(kdenliveLib d3d11 d3dcompiler)
+endif()
+
 if(NOT NODBUS)
   target_link_libraries(kdenliveLib KF${KF_MAJOR}::DBusAddons)
 endif()

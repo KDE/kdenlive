@@ -39,6 +39,7 @@ FlashLabel::FlashLabel(QWidget *parent)
     : QWidget(parent)
 {
     setAutoFillBackground(true);
+    setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
 }
 
 FlashLabel::~FlashLabel() = default;
@@ -104,7 +105,11 @@ void StatusBarMessageLabel::mousePressEvent(QMouseEvent *event)
     QWidget::mousePressEvent(event);
     QRect iconRect = m_pixmap->rect();
     iconRect.translate(m_pixmap->mapTo(this, QPoint(0, 0)));
-    if (iconRect.contains(event->localPos().toPoint()) && m_currentMessage.type == MltError) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    if (iconRect.contains(event->pos()) && (m_currentMessage.type == MltError || m_progressCanBeAborted)) {
+#else
+    if (iconRect.contains(event->position().toPoint()) && (m_currentMessage.type == MltError || m_progressCanBeAborted)) {
+#endif
         confirmErrorMessage();
     }
 }
@@ -124,9 +129,10 @@ void StatusBarMessageLabel::setTmpKeyMap(const QString &text)
     }
 }
 
-void StatusBarMessageLabel::setProgressMessage(const QString &text, MessageType type, int progress)
+void StatusBarMessageLabel::setProgressMessage(const QString &text, MessageType type, int progress, bool allowInterrupt)
 {
     if (type == ProcessingJobMessage) {
+        m_progressCanBeAborted = allowInterrupt && progress < 100;
         m_progress->setValue(progress);
         m_progress->setVisible(progress < 100);
     } else if (m_currentMessage.type != ProcessingJobMessage || type == OperationCompletedMessage) {
@@ -249,8 +255,13 @@ bool StatusBarMessageLabel::slotMessageTimeout()
     m_container->setColor(m_container->palette().window().color());
     switch (m_currentMessage.type) {
     case ProcessingJobMessage:
-        iconName = "chronometer";
-        m_pixmap->setCursor(Qt::ArrowCursor);
+        if (m_progressCanBeAborted) {
+            iconName = "dialog-close";
+            m_pixmap->setCursor(Qt::PointingHandCursor);
+        } else {
+            iconName = "chronometer";
+            m_pixmap->setCursor(Qt::ArrowCursor);
+        }
         break;
     case OperationCompletedMessage:
         iconName = "dialog-ok";
@@ -312,6 +323,11 @@ bool StatusBarMessageLabel::slotMessageTimeout()
 
 void StatusBarMessageLabel::confirmErrorMessage()
 {
+    if (m_progressCanBeAborted) {
+        Q_EMIT pCore->stopProgressTask();
+        m_progressCanBeAborted = false;
+        return;
+    }
     m_currentMessage.confirmed = true;
     m_queueTimer.start(0);
 }

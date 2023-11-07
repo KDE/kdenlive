@@ -111,8 +111,8 @@ private:
     /** @brief Mouse is over the zoom bar */
     bool m_hoverZoom;
     int m_bottomView;
-    std::pair<int, int> m_currentKeyframe;
-    std::pair<int,int> m_currentKeyframeOriginal;
+    std::pair<int, int> m_currentKeyframe{-1, -1};
+    std::pair<int, int> m_currentKeyframeOriginal{-1, -1};
     MOVEMODE m_moveKeyframeMode;
     double m_clickOffset;
     int m_clickPoint;
@@ -160,6 +160,7 @@ private Q_SLOTS:
     void updateKeyframesWithUndo(const QMap<int,int>&updatedKeyframes, const QMap<int,int>&previousKeyframes);
     void checkClipUpdate(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int>& roles);
     void switchRemapParam();
+    void monitorSeek(int pos);
 
 private:
     std::shared_ptr<Mlt::Link> m_remapLink;

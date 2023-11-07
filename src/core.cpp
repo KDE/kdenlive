@@ -965,9 +965,9 @@ void Core::displayMessage(const QString &message, MessageType type, int timeout)
     }
 }
 
-void Core::loadingClips(int count)
+void Core::loadingClips(int count, bool allowInterrupt)
 {
-    Q_EMIT m_mainWindow->displayProgressMessage(i18n("Loading clips"), MessageType::ProcessingJobMessage, count);
+    Q_EMIT m_mainWindow->displayProgressMessage(i18n("Loading clips"), MessageType::ProcessingJobMessage, count, allowInterrupt);
 }
 
 void Core::displayBinMessage(const QString &text, int type, const QList<QAction *> &actions, bool showClose, BinMessage::BinCategory messageCategory)
