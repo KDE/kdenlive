@@ -149,14 +149,19 @@ bool AbstractPythonInterface::checkPython(bool useVenv, bool calculateSize)
 {
     QStringList pythonPaths;
     if (useVenv) {
+#ifdef Q_OS_WIN
+        const QString pythonPath = QStringLiteral("venv/Scripts/");
+#else
+        const QString pythonPath = QStringLiteral("venv/bin/");
+#endif
         QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
-        if (!pluginDir.exists(QStringLiteral("venv/bin/"))) {
+        if (!pluginDir.exists(pythonPath)) {
             // Setup venv
             if (!setupVenv()) {
                 return false;
             }
         }
-        pythonPaths << pluginDir.absoluteFilePath(QStringLiteral("venv/bin/"));
+        pythonPaths << pluginDir.absoluteFilePath(pythonPath);
     }
 #ifdef Q_OS_WIN
     KdenliveSettings::setPythonPath(QStandardPaths::findExecutable(QStringLiteral("python"), pythonPaths));
@@ -343,6 +348,7 @@ void AbstractPythonInterface::installMissingDependencies()
                 i18n("Python environement"), KGuiItem(i18n("Use system install")),
                 KGuiItem(i18n("Use virtual environement (recommended)"))) == KMessageBox::SecondaryAction) {
             KdenliveSettings::setUsePythonVenv(true);
+            checkPython(true, true);
         }
     }
     runPackageScript(QStringLiteral("--install"), true);
@@ -489,7 +495,9 @@ QString AbstractPythonInterface::runScript(const QString &script, QStringList ar
     scriptJob.waitForFinished(-1);
     if (!concurrent && (scriptJob.exitStatus() != QProcess::NormalExit || scriptJob.exitCode() != 0)) {
         qDebug() << "::::: WARNING ERRROR EXIT STATUS: " << scriptJob.exitCode();
-        KMessageBox::detailedError(pCore->window(), i18n("Error while running python3 script:\n %1", scriptpath), scriptJob.readAllStandardError());
+        const QString errorMessage = scriptJob.readAllStandardError();
+        Q_EMIT setupError(i18n("Error while running python3 script:\n %1\n%2", scriptpath, errorMessage));
+        qWarning() << " SCRIPT ERROR: " << errorMessage;
         return {};
     }
     if (script == QLatin1String("checkgpu.py")) {

@@ -10,7 +10,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>403</width>
+    <width>397</width>
     <height>264</height>
    </rect>
   </property>
@@ -131,22 +131,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       <property name="bottomMargin">
        <number>0</number>
       </property>
-      <item row="0" column="1">
-       <widget class="QToolButton" name="button_insert">
-        <property name="text">
-         <string>...</string>
-        </property>
-        <property name="popupMode">
-         <enum>QToolButton::MenuButtonPopup</enum>
-        </property>
-        <property name="autoRaise">
-         <bool>true</bool>
-        </property>
-        <property name="arrowType">
-         <enum>Qt::NoArrow</enum>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="5">
        <widget class="QToolButton" name="button_search">
         <property name="text">
@@ -164,36 +148,50 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
         </property>
        </widget>
       </item>
-      <item row="0" column="10">
-       <spacer name="horizontalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+      <item row="0" column="3">
+       <widget class="QToolButton" name="button_bookmark">
+        <property name="text">
+         <string>...</string>
         </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>0</width>
-          <height>0</height>
-         </size>
+        <property name="autoRaise">
+         <bool>true</bool>
         </property>
-       </spacer>
-      </item>
-      <item row="0" column="7">
-       <spacer name="horizontalSpacer_3">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
+       </widget>
       </item>
       <item row="0" column="6">
        <widget class="QCheckBox" name="speech_zone">
         <property name="text">
          <string>Selected zone only</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="8">
+       <widget class="QToolButton" name="subMenu">
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="icon">
+         <iconset theme="application-menu">
+          <normaloff>.</normaloff>.</iconset>
+        </property>
+        <property name="popupMode">
+         <enum>QToolButton::InstantPopup</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QToolButton" name="button_insert">
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="popupMode">
+         <enum>QToolButton::MenuButtonPopup</enum>
+        </property>
+        <property name="autoRaise">
+         <bool>true</bool>
+        </property>
+        <property name="arrowType">
+         <enum>Qt::NoArrow</enum>
         </property>
        </widget>
       </item>
@@ -227,29 +225,18 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
         </property>
        </widget>
       </item>
-      <item row="0" column="3">
-       <widget class="QToolButton" name="button_bookmark">
-        <property name="text">
-         <string>...</string>
+      <item row="0" column="7">
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
         </property>
-        <property name="autoRaise">
-         <bool>true</bool>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
         </property>
-       </widget>
-      </item>
-      <item row="0" column="8">
-       <widget class="QToolButton" name="subMenu">
-        <property name="text">
-         <string>...</string>
-        </property>
-        <property name="icon">
-         <iconset theme="application-menu">
-          <normaloff>.</normaloff>.</iconset>
-        </property>
-        <property name="popupMode">
-         <enum>QToolButton::InstantPopup</enum>
-        </property>
-       </widget>
+       </spacer>
       </item>
      </layout>
     </widget>
