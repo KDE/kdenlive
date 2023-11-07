@@ -697,7 +697,7 @@ QMap<QString, QString> ClipModel::getRemapValues() const
                 if (!link->property_exists("time_map")) {
                     link->set("time_map", link->get("map"));
                 }
-                (void)link->anim_get_rect("time_map", 0);
+                (void)link->anim_get_double("time_map", 0);
                 Mlt::Animation anim = link->get_animation("time_map");
                 result.insert(QStringLiteral("time_map"), anim.serialize_cut(mlt_time_clock, 0, m_producer->get_length()));
                 result.insert(QStringLiteral("pitch"), link->get("pitch"));
