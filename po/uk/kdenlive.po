@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-06 00:41+0000\n"
-"PO-Revision-Date: 2023-10-31 21:03+0200\n"
+"POT-Creation-Date: 2023-11-07 01:16+0000\n"
+"PO-Revision-Date: 2023-11-06 08:58+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -4132,7 +4132,7 @@ msgid "When selected mutes all other audio tracks."
 msgstr "Якщо позначено, вимикає звук на усіх інших звукових доріжках."
 
 #: src/audiomixer/mixerwidget.cpp:270
-#: src/timeline2/view/timelinecontroller.cpp:4713
+#: src/timeline2/view/timelinecontroller.cpp:4723
 #, kde-format
 msgid "Record audio"
 msgstr "Записати звук"
@@ -4898,8 +4898,8 @@ msgstr[3] "Пересунути кліп"
 msgid "No valid clip to insert"
 msgstr "Немає коректних кліпів для вставлення"
 
-#: src/bin/bin.cpp:3943 src/timeline2/view/timelinecontroller.cpp:1489
-#: src/timeline2/view/timelinecontroller.cpp:3320
+#: src/bin/bin.cpp:3943 src/timeline2/view/timelinecontroller.cpp:1499
+#: src/timeline2/view/timelinecontroller.cpp:3330
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "Позначте кліп для застосування ефекту"
@@ -4927,7 +4927,7 @@ msgid "Edit Tags"
 msgstr "Змінити мітки"
 
 #: src/bin/bin.cpp:4459 src/bin/projectclip.cpp:198
-#: src/bin/projectclip.cpp:2008 src/onlineresources/resourcewidget.cpp:271
+#: src/bin/projectclip.cpp:2022 src/onlineresources/resourcewidget.cpp:271
 #: src/onlineresources/resourcewidget.cpp:604
 #: src/onlineresources/resourcewidget.cpp:619
 #, kde-format
@@ -5368,7 +5368,7 @@ msgstr "Вилучити всі позначки"
 
 #: src/bin/model/markerlistmodel.cpp:868 src/bin/model/markerlistmodel.cpp:906
 #: src/bin/model/markerlistmodel.cpp:931
-#: src/timeline2/view/timelinecontroller.cpp:1440
+#: src/timeline2/view/timelinecontroller.cpp:1450
 #, kde-format
 msgid "No guide found at current position"
 msgstr "У поточній позиції не виявлено напрямних"
@@ -5490,29 +5490,29 @@ msgstr ""
 "Не вдалося видобути метадані з %1\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1182 src/jobs/cliploadtask.cpp:255
+#: src/bin/projectclip.cpp:1194 src/jobs/cliploadtask.cpp:255
 #, kde-format
 msgid "Invalid"
 msgstr "Некоректний"
 
-#: src/bin/projectclip.cpp:1391 src/dialogs/clipcreationdialog.cpp:207
+#: src/bin/projectclip.cpp:1405 src/dialogs/clipcreationdialog.cpp:207
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1358
 #, kde-format
 msgid "File already exists"
 msgstr "Файл з такою назвою вже існує"
 
-#: src/bin/projectclip.cpp:2554
+#: src/bin/projectclip.cpp:2568
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "Скоригувати кліпи монтажного стола"
 
-#: src/bin/projectclip.cpp:2779
+#: src/bin/projectclip.cpp:2793
 #, kde-format
 msgid "Add stream effect"
 msgstr "Додати ефект потоку"
 
-#: src/bin/projectclip.cpp:2804
+#: src/bin/projectclip.cpp:2818
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Вилучити ефект потоку"
@@ -6318,7 +6318,7 @@ msgstr "Експортування даних напрямних"
 #: src/project/projectmanager.cpp:1667 src/render/renderrequest.cpp:268
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
-#: src/timeline2/view/timelinecontroller.cpp:5045
+#: src/timeline2/view/timelinecontroller.cpp:5055
 #: src/titler/titlewidget.cpp:2203
 #, kde-format
 msgid "Cannot write to file %1"
@@ -7557,7 +7557,7 @@ msgstr "Вилучає ключовий кадр у позиції відтво�
 msgid "Time remap does not work on clip with B frames."
 msgstr "Переприв'язка часу не працює з кліпами з B-кадрами."
 
-#: src/dialogs/timeremap.cpp:2141
+#: src/dialogs/timeremap.cpp:2139
 #, kde-format
 msgid "Edit Timeremap keyframes"
 msgstr "Змінити ключові кадри переприв'язки за часом"
@@ -9998,7 +9998,7 @@ msgstr "Розпочати зараз"
 msgid "Delete them"
 msgstr "Вилучити їх"
 
-#: src/mainwindow.cpp:1089 src/timeline2/view/timelinecontroller.cpp:2094
+#: src/mainwindow.cpp:1089 src/timeline2/view/timelinecontroller.cpp:2104
 #, kde-format
 msgid "Select a clip to compare effect"
 msgstr "Позначте кліп для порівняння ефектів"
@@ -10852,7 +10852,7 @@ msgstr "Вставити доріжку…"
 msgid "Fit all Tracks in View"
 msgstr "Підібрати розміри для усіх доріжок перегляду"
 
-#: src/mainwindow.cpp:1852 src/timeline2/view/timelinecontroller.cpp:4754
+#: src/mainwindow.cpp:1852 src/timeline2/view/timelinecontroller.cpp:4764
 #, kde-format
 msgid "Master effects"
 msgstr "Основні ефекти"
@@ -11178,24 +11178,24 @@ msgstr "Позначки у часовій позиції курсора не з
 msgid "An error occurred while deleting markers"
 msgstr "Під час вилучення позначок сталася помилка"
 
-#: src/mainwindow.cpp:2792 src/timeline2/view/timelinecontroller.cpp:1252
-#: src/timeline2/view/timelinecontroller.cpp:1260
-#: src/timeline2/view/timelinecontroller.cpp:1281
-#: src/timeline2/view/timelinecontroller.cpp:1321
-#: src/timeline2/view/timelinecontroller.cpp:1347
+#: src/mainwindow.cpp:2792 src/timeline2/view/timelinecontroller.cpp:1262
+#: src/timeline2/view/timelinecontroller.cpp:1270
+#: src/timeline2/view/timelinecontroller.cpp:1291
+#: src/timeline2/view/timelinecontroller.cpp:1331
+#: src/timeline2/view/timelinecontroller.cpp:1357
 #, kde-format
 msgid "Cannot find clip to edit marker"
 msgstr "Не вдалося знайти кліп для зміни позначки"
 
 #: src/mainwindow.cpp:2991 src/timeline2/model/timelinefunctions.cpp:654
-#: src/timeline2/view/timelinecontroller.cpp:3050
+#: src/timeline2/view/timelinecontroller.cpp:3060
 #, kde-format
 msgid "Overwrite zone"
 msgstr "Перезаписати ділянку"
 
 #: src/mainwindow.cpp:2993 src/mainwindow.cpp:3012
 #: src/timeline2/model/timelinefunctions.cpp:656
-#: src/timeline2/view/timelinecontroller.cpp:3052
+#: src/timeline2/view/timelinecontroller.cpp:3062
 #, kde-format
 msgid "Could not insert zone"
 msgstr "Не вдалося вставити ділянку"
@@ -11206,7 +11206,7 @@ msgid "No clip selected in project bin"
 msgstr "У ієрархії проєкту не вибрано жодного кліпу"
 
 #: src/mainwindow.cpp:3010 src/timeline2/model/timelinefunctions.cpp:654
-#: src/timeline2/view/timelinecontroller.cpp:3050
+#: src/timeline2/view/timelinecontroller.cpp:3060
 #, kde-format
 msgid "Insert zone"
 msgstr "Вставити ділянку"
@@ -11435,7 +11435,7 @@ msgstr ""
 "Для застосування нової теми піктограм Kdenlive слід перезапустити. Зробити "
 "це зараз?"
 
-#: src/mainwindow.cpp:4635 src/timeline2/view/timelinecontroller.cpp:5028
+#: src/mainwindow.cpp:4635 src/timeline2/view/timelinecontroller.cpp:5038
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "У поточному проєкті немає субтитрів"
@@ -12108,7 +12108,7 @@ msgid "Your screen resolution is not sufficient for this action"
 msgstr "Роздільна здатність екрана є недостатньою для виконання цієї дії"
 
 #: src/monitor/monitor.cpp:865 src/monitor/monitor.cpp:898
-#: src/timeline2/view/timelinecontroller.cpp:1752
+#: src/timeline2/view/timelinecontroller.cpp:1762
 #, kde-format
 msgid "Set Zone"
 msgstr "Встановити ділянку"
@@ -13401,7 +13401,7 @@ msgstr ""
 
 #: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1560
 #: src/renderpresets/renderpresetrepository.cpp:313
-#: src/timeline2/view/timelinecontroller.cpp:4951
+#: src/timeline2/view/timelinecontroller.cpp:4961
 #, kde-format
 msgid "Cannot read file %1"
 msgstr "Не вдалося прочитати файл %1"
@@ -14042,13 +14042,12 @@ msgstr ""
 #: src/project/projectmanager.cpp:489
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
-msgstr ""
+msgstr "Не вдалося зберегти файл проєкту <br><b>%1</B>"
 
 #: src/project/projectmanager.cpp:522
-#, fuzzy, kde-format
-#| msgid "Starting process"
+#, kde-format
 msgid "Saving successful"
-msgstr "Запускаємо процес"
+msgstr "Успішно збережено"
 
 #: src/project/projectmanager.cpp:535
 #, kde-format
@@ -15814,13 +15813,13 @@ msgid "Cut all clips"
 msgstr "Розрізати усі кліпи"
 
 #: src/timeline2/model/timelinefunctions.cpp:561
-#: src/timeline2/view/timelinecontroller.cpp:1411
+#: src/timeline2/view/timelinecontroller.cpp:1421
 #, kde-format
 msgid "Insert space"
 msgstr "Вставити розпірку"
 
 #: src/timeline2/model/timelinefunctions.cpp:563
-#: src/timeline2/view/timelinecontroller.cpp:1413
+#: src/timeline2/view/timelinecontroller.cpp:1423
 #, kde-format
 msgid "Remove space"
 msgstr "Вилучити розпірку"
@@ -15848,7 +15847,7 @@ msgstr "Не вдалося пересунути позначену групу"
 #: src/timeline2/model/timelinefunctions.cpp:977
 #: src/timeline2/model/timelinefunctions.cpp:981
 #: src/timeline2/model/timelinefunctions.cpp:988
-#: src/timeline2/view/timelinecontroller.cpp:3982
+#: src/timeline2/view/timelinecontroller.cpp:3992
 #, kde-format
 msgid "Enable clip"
 msgstr "Увімкнути кліп"
@@ -15856,7 +15855,7 @@ msgstr "Увімкнути кліп"
 #: src/timeline2/model/timelinefunctions.cpp:977
 #: src/timeline2/model/timelinefunctions.cpp:981
 #: src/timeline2/model/timelinefunctions.cpp:988
-#: src/timeline2/view/timelinecontroller.cpp:3982
+#: src/timeline2/view/timelinecontroller.cpp:3992
 #, kde-format
 msgid "Disable clip"
 msgstr "Вимкнути кліп"
@@ -16139,7 +16138,7 @@ msgstr "Вилучити композицію"
 
 #: src/timeline2/model/timelinemodel.cpp:2227
 #: src/timeline2/model/timelinemodel.cpp:2389
-#: src/timeline2/view/timelinecontroller.cpp:4164
+#: src/timeline2/view/timelinecontroller.cpp:4174
 #, kde-format
 msgid "Move group"
 msgstr "Пересунути групу"
@@ -16216,7 +16215,7 @@ msgid "Ungroup clips"
 msgstr "Розгрупувати кліпи"
 
 #: src/timeline2/model/timelinemodel.cpp:4376
-#: src/timeline2/view/timelinecontroller.cpp:885
+#: src/timeline2/view/timelinecontroller.cpp:895
 #, kde-format
 msgid "Delete Track"
 msgstr "Вилучити доріжку"
@@ -16247,7 +16246,7 @@ msgid "Cannot paste effect to selected track"
 msgstr "Не вдалося вставити ефект до позначеної доріжки"
 
 #: src/timeline2/model/timelinemodel.cpp:4697
-#: src/timeline2/view/timelinecontroller.cpp:1478
+#: src/timeline2/view/timelinecontroller.cpp:1488
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "Не вдалося додати ефект %1 до позначеного кліпу"
@@ -16718,219 +16717,219 @@ msgid "Could not add composition at selected position"
 msgstr "Не вдалося додати композицію у вказаній позиції"
 
 #: src/timeline2/view/timelinecontroller.cpp:634
-#: src/timeline2/view/timelinecontroller.cpp:1031
-#: src/timeline2/view/timelinecontroller.cpp:1048
-#: src/timeline2/view/timelinecontroller.cpp:1079
-#: src/timeline2/view/timelinecontroller.cpp:1159
+#: src/timeline2/view/timelinecontroller.cpp:1041
+#: src/timeline2/view/timelinecontroller.cpp:1058
+#: src/timeline2/view/timelinecontroller.cpp:1089
+#: src/timeline2/view/timelinecontroller.cpp:1169
 #, kde-format
 msgid "Cannot perform operation while dragging in timeline"
 msgstr "Неможливо виконати дію під час перетягування на монтажному столі"
 
-#: src/timeline2/view/timelinecontroller.cpp:862
-#: src/timeline2/view/timelinecontroller.cpp:4897
+#: src/timeline2/view/timelinecontroller.cpp:872
+#: src/timeline2/view/timelinecontroller.cpp:4907
 #, kde-format
 msgid "Could not insert track"
 msgstr "Не вдалося вставити доріжку"
 
-#: src/timeline2/view/timelinecontroller.cpp:885
+#: src/timeline2/view/timelinecontroller.cpp:895
 #, kde-format
 msgid "Delete Tracks"
 msgstr "Вилучити доріжки"
 
-#: src/timeline2/view/timelinecontroller.cpp:898
+#: src/timeline2/view/timelinecontroller.cpp:908
 #, kde-format
 msgid "Select an audio track to display record controls"
 msgstr "Виберіть звукову доріжку для показу засобів керування записом"
 
-#: src/timeline2/view/timelinecontroller.cpp:1036
+#: src/timeline2/view/timelinecontroller.cpp:1046
 #, kde-format
 msgid "Select at least 2 items to group"
 msgstr "Позначте принаймні 2 записи для групування"
 
-#: src/timeline2/view/timelinecontroller.cpp:1150
-#: src/timeline2/view/timelinecontroller.cpp:1230
+#: src/timeline2/view/timelinecontroller.cpp:1160
 #: src/timeline2/view/timelinecontroller.cpp:1240
-#: src/timeline2/view/timelinecontroller.cpp:1269
-#: src/timeline2/view/timelinecontroller.cpp:1309
-#: src/timeline2/view/timelinecontroller.cpp:1335
-#: src/timeline2/view/timelinecontroller.cpp:1360
-#: src/timeline2/view/timelinecontroller.cpp:2258
-#: src/timeline2/view/timelinecontroller.cpp:2884
-#: src/timeline2/view/timelinecontroller.cpp:2939
-#: src/timeline2/view/timelinecontroller.cpp:3153
-#: src/timeline2/view/timelinecontroller.cpp:3182
-#: src/timeline2/view/timelinecontroller.cpp:3231
-#: src/timeline2/view/timelinecontroller.cpp:3260
-#: src/timeline2/view/timelinecontroller.cpp:3565
-#: src/timeline2/view/timelinecontroller.cpp:3580
-#: src/timeline2/view/timelinecontroller.cpp:3605
-#: src/timeline2/view/timelinecontroller.cpp:3620
-#: src/timeline2/view/timelinecontroller.cpp:3682
-#: src/timeline2/view/timelinecontroller.cpp:3817
-#: src/timeline2/view/timelinecontroller.cpp:3841
+#: src/timeline2/view/timelinecontroller.cpp:1250
+#: src/timeline2/view/timelinecontroller.cpp:1279
+#: src/timeline2/view/timelinecontroller.cpp:1319
+#: src/timeline2/view/timelinecontroller.cpp:1345
+#: src/timeline2/view/timelinecontroller.cpp:1370
+#: src/timeline2/view/timelinecontroller.cpp:2268
+#: src/timeline2/view/timelinecontroller.cpp:2894
+#: src/timeline2/view/timelinecontroller.cpp:2949
+#: src/timeline2/view/timelinecontroller.cpp:3163
+#: src/timeline2/view/timelinecontroller.cpp:3192
+#: src/timeline2/view/timelinecontroller.cpp:3241
+#: src/timeline2/view/timelinecontroller.cpp:3270
+#: src/timeline2/view/timelinecontroller.cpp:3575
+#: src/timeline2/view/timelinecontroller.cpp:3590
+#: src/timeline2/view/timelinecontroller.cpp:3615
+#: src/timeline2/view/timelinecontroller.cpp:3630
+#: src/timeline2/view/timelinecontroller.cpp:3692
+#: src/timeline2/view/timelinecontroller.cpp:3827
+#: src/timeline2/view/timelinecontroller.cpp:3851
 #, kde-format
 msgid "No clip selected"
 msgstr "Не вибрано жодного кліпу"
 
-#: src/timeline2/view/timelinecontroller.cpp:1448
+#: src/timeline2/view/timelinecontroller.cpp:1458
 #, kde-format
 msgid "guide"
 msgstr "напрямна"
 
-#: src/timeline2/view/timelinecontroller.cpp:1629
+#: src/timeline2/view/timelinecontroller.cpp:1639
 #, kde-format
 msgid "No active track"
 msgstr "Немає активної доріжки"
 
-#: src/timeline2/view/timelinecontroller.cpp:1713
+#: src/timeline2/view/timelinecontroller.cpp:1723
 #, kde-format
 msgid "No item selected in timeline"
 msgstr "На монтажному столі нічого не позначено"
 
-#: src/timeline2/view/timelinecontroller.cpp:1856
+#: src/timeline2/view/timelinecontroller.cpp:1866
 #, kde-format
 msgid "No clip to cut"
 msgstr "Немає кліпу для вирізання"
 
-#: src/timeline2/view/timelinecontroller.cpp:2176
+#: src/timeline2/view/timelinecontroller.cpp:2186
 #, kde-format
 msgid "In:%1, Out:%2 (%3%4)"
 msgstr "Вхід:%1, Вихід:%2 (%3%4)"
 
-#: src/timeline2/view/timelinecontroller.cpp:2663
+#: src/timeline2/view/timelinecontroller.cpp:2673
 #, kde-format
 msgid "No clips found to insert space"
 msgstr "Не знайдено кліпу для вставлення розпірки"
 
-#: src/timeline2/view/timelinecontroller.cpp:2680
+#: src/timeline2/view/timelinecontroller.cpp:2690
 #, kde-format
 msgid "Cannot remove space at given position"
 msgstr "Не вдалося вилучити розпірку у вказаній позиції"
 
-#: src/timeline2/view/timelinecontroller.cpp:2694
+#: src/timeline2/view/timelinecontroller.cpp:2704
 #, kde-format
 msgid "Cannot remove all spaces"
 msgstr "Не вдалося вилучити усі розпірки"
 
-#: src/timeline2/view/timelinecontroller.cpp:2708
+#: src/timeline2/view/timelinecontroller.cpp:2718
 #, kde-format
 msgid "Cannot remove all clips"
 msgstr "Не вдалося вилучити усі кліпи"
 
-#: src/timeline2/view/timelinecontroller.cpp:2743
-#: src/timeline2/view/timelinecontroller.cpp:2748
-#: src/timeline2/view/timelinecontroller.cpp:2771
-#: src/timeline2/view/timelinecontroller.cpp:3688
-#: src/timeline2/view/timelinecontroller.cpp:3706
+#: src/timeline2/view/timelinecontroller.cpp:2753
+#: src/timeline2/view/timelinecontroller.cpp:2758
+#: src/timeline2/view/timelinecontroller.cpp:2781
+#: src/timeline2/view/timelinecontroller.cpp:3698
+#: src/timeline2/view/timelinecontroller.cpp:3716
 #, kde-format
 msgid "No item to edit"
 msgstr "Немає записів для редагування"
 
-#: src/timeline2/view/timelinecontroller.cpp:2860
-#: src/timeline2/view/timelinecontroller.cpp:5192
+#: src/timeline2/view/timelinecontroller.cpp:2870
+#: src/timeline2/view/timelinecontroller.cpp:5202
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr ""
 "Будь ласка, активуйте доріжку для цієї дії клацанням на мітці цієї доріжки"
 
-#: src/timeline2/view/timelinecontroller.cpp:3095
+#: src/timeline2/view/timelinecontroller.cpp:3105
 #, kde-format
 msgid "Please select a target track by clicking on a track's target zone"
 msgstr ""
 "Будь ласка, виберіть доріжку призначення клацанням на зоні призначення "
 "доріжки"
 
-#: src/timeline2/view/timelinecontroller.cpp:3165
+#: src/timeline2/view/timelinecontroller.cpp:3175
 #, kde-format
 msgid "Select a favorite composition"
 msgstr "Виберіть улюблену композицію"
 
-#: src/timeline2/view/timelinecontroller.cpp:3210
+#: src/timeline2/view/timelinecontroller.cpp:3220
 #, kde-format
 msgid "No clip found to perform AV split operation"
 msgstr "Не знайдено кліпу для виконання дії із розділення відео і звуку"
 
-#: src/timeline2/view/timelinecontroller.cpp:3244
-#: src/timeline2/view/timelinecontroller.cpp:3307
+#: src/timeline2/view/timelinecontroller.cpp:3254
+#: src/timeline2/view/timelinecontroller.cpp:3317
 #, kde-format
 msgid "Cannot move clip to frame %1."
 msgstr "Не вдалося пересунути кліп до кадру %1."
 
-#: src/timeline2/view/timelinecontroller.cpp:3265
+#: src/timeline2/view/timelinecontroller.cpp:3275
 #, kde-format
 msgid "Set audio reference before attempting to align"
 msgstr "Встановіть звукове посилання до спроби вирівнювання"
 
-#: src/timeline2/view/timelinecontroller.cpp:3429
+#: src/timeline2/view/timelinecontroller.cpp:3439
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
 msgstr ""
 "Усі потоки вже пов'язано. Спочатку зніміть позначку з якогось іншого "
 "призначення звукових даних"
 
-#: src/timeline2/view/timelinecontroller.cpp:3588
+#: src/timeline2/view/timelinecontroller.cpp:3598
 #, kde-format
 msgid "Delete effects"
 msgstr "Вилучити ефекти"
 
-#: src/timeline2/view/timelinecontroller.cpp:3626
-#: src/timeline2/view/timelinecontroller.cpp:3632
-#: src/timeline2/view/timelinecontroller.cpp:3637
+#: src/timeline2/view/timelinecontroller.cpp:3636
+#: src/timeline2/view/timelinecontroller.cpp:3642
+#: src/timeline2/view/timelinecontroller.cpp:3647
 #, kde-format
 msgid "No information in clipboard"
 msgstr "У буфері обміну даними немає придатних даних"
 
-#: src/timeline2/view/timelinecontroller.cpp:3660
+#: src/timeline2/view/timelinecontroller.cpp:3670
 #, kde-format
 msgid "Paste effects"
 msgstr "Вставити ефекти"
 
-#: src/timeline2/view/timelinecontroller.cpp:3662
+#: src/timeline2/view/timelinecontroller.cpp:3672
 #, kde-format
 msgid "Cannot paste effect on selected clip"
 msgstr "Не вдалося вставити ефект до позначеного кліпу"
 
-#: src/timeline2/view/timelinecontroller.cpp:3774
+#: src/timeline2/view/timelinecontroller.cpp:3784
 #, kde-format
 msgid "Edit item"
 msgstr "Змінити запис"
 
-#: src/timeline2/view/timelinecontroller.cpp:3802
+#: src/timeline2/view/timelinecontroller.cpp:3812
 #, kde-format
 msgid "Open sequence"
 msgstr "Відкрити послідовність"
 
-#: src/timeline2/view/timelinecontroller.cpp:3824
+#: src/timeline2/view/timelinecontroller.cpp:3834
 #, kde-format
 msgid "Item is not a title clip"
 msgstr "Запис не є кліпом із титрами"
 
-#: src/timeline2/view/timelinecontroller.cpp:3923
+#: src/timeline2/view/timelinecontroller.cpp:3933
 #, kde-format
 msgid "%1 items selected (%2) |"
 msgstr "Позначено %1 записів (%2) |"
 
-#: src/timeline2/view/timelinecontroller.cpp:3977
+#: src/timeline2/view/timelinecontroller.cpp:3987
 #, kde-format
 msgid "Restore video"
 msgstr "Відновити відео"
 
-#: src/timeline2/view/timelinecontroller.cpp:3977
+#: src/timeline2/view/timelinecontroller.cpp:3987
 #, kde-format
 msgid "Restore audio"
 msgstr "Відновити звук"
 
-#: src/timeline2/view/timelinecontroller.cpp:4145
+#: src/timeline2/view/timelinecontroller.cpp:4155
 #, kde-format
 msgid "Move item"
 msgstr "Переміщення елемента"
 
-#: src/timeline2/view/timelinecontroller.cpp:4627
+#: src/timeline2/view/timelinecontroller.cpp:4637
 #, kde-format
 msgid "Impossible to capture on a locked track"
 msgstr "Не можна виконувати захоплення до заблокованої доріжки"
 
-#: src/timeline2/view/timelinecontroller.cpp:4638
+#: src/timeline2/view/timelinecontroller.cpp:4648
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
@@ -16940,17 +16939,17 @@ msgstr ""
 "кліпи. Будь ласка, вилучіть кліпи після поточної позиції або виберіть іншу "
 "доріжку."
 
-#: src/timeline2/view/timelinecontroller.cpp:4851
+#: src/timeline2/view/timelinecontroller.cpp:4861
 #, kde-format
 msgid "Expand clip"
 msgstr "Розгорнути кліп"
 
-#: src/timeline2/view/timelinecontroller.cpp:4854
+#: src/timeline2/view/timelinecontroller.cpp:4864
 #, kde-format
 msgid "Could not expand clip"
 msgstr "Не вдалося розширити кліп"
 
-#: src/timeline2/view/timelinecontroller.cpp:4895
+#: src/timeline2/view/timelinecontroller.cpp:4905
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
@@ -16959,43 +16958,43 @@ msgstr[1] "Вставити доріжки"
 msgstr[2] "Вставити доріжки"
 msgstr[3] "Вставити доріжку"
 
-#: src/timeline2/view/timelinecontroller.cpp:4942
+#: src/timeline2/view/timelinecontroller.cpp:4952
 #, kde-format
 msgid "Character encoding used to save the subtitle file."
 msgstr "Кодування символів, яке буде використано для збереження файла."
 
-#: src/timeline2/view/timelinecontroller.cpp:4943
+#: src/timeline2/view/timelinecontroller.cpp:4953
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "якщо не певні, скористайтеся таким:<br/><b>Unicode (UTF-8)</b>."
 
-#: src/timeline2/view/timelinecontroller.cpp:4983
+#: src/timeline2/view/timelinecontroller.cpp:4993
 #, kde-format
 msgid "Encoding could not be guessed, using UTF-8"
 msgstr "Не вдалося визначити кодування, використовуємо UTF-8"
 
-#: src/timeline2/view/timelinecontroller.cpp:4987
+#: src/timeline2/view/timelinecontroller.cpp:4997
 #, kde-format
 msgid "Encoding detected as %1"
 msgstr "Виявлено кодування %1"
 
-#: src/timeline2/view/timelinecontroller.cpp:5004
+#: src/timeline2/view/timelinecontroller.cpp:5014
 #, kde-format
 msgid "Import Subtitle"
 msgstr "Імпортувати з файла субтитрів"
 
-#: src/timeline2/view/timelinecontroller.cpp:5031
+#: src/timeline2/view/timelinecontroller.cpp:5041
 #, kde-format
 msgid "Export subtitle file"
 msgstr "Експортувати до файла субтитрів"
 
-#: src/timeline2/view/timelinecontroller.cpp:5032
+#: src/timeline2/view/timelinecontroller.cpp:5042
 #, kde-format
 msgid "Subtitle File (*.srt)"
 msgstr "файл субтитрів (*.srt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5062
+#: src/timeline2/view/timelinecontroller.cpp:5072
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
@@ -17004,22 +17003,22 @@ msgstr ""
 "Потрібен фільтр avfilter.subtitles, якого не виявлено. Ймовірно, можливість "
 "роботи із субтитрами не працюватиме належним чином."
 
-#: src/timeline2/view/timelinecontroller.cpp:5079
+#: src/timeline2/view/timelinecontroller.cpp:5089
 #, kde-format
 msgid "Show subtitle track"
 msgstr "Показати доріжку субтитрів"
 
-#: src/timeline2/view/timelinecontroller.cpp:5079
+#: src/timeline2/view/timelinecontroller.cpp:5089
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "Приховати доріжку субтитрів"
 
-#: src/timeline2/view/timelinecontroller.cpp:5102
+#: src/timeline2/view/timelinecontroller.cpp:5112
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "Розблокувати доріжку субтитрів"
 
-#: src/timeline2/view/timelinecontroller.cpp:5102
+#: src/timeline2/view/timelinecontroller.cpp:5112
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "Заблокувати доріжку субтитрів"
