@@ -254,10 +254,6 @@ void RemapView::setDuration(std::shared_ptr<Mlt::Producer> service, int duration
                     int updatedVal = m_keyframes.value(m_keyframes.lastKey()) + ((lastPos - m_keyframes.lastKey()) / speeds.first);
                     m_keyframes.insert(lastPos, updatedVal);
                 }
-            } else {
-                while (!toDelete.isEmpty()) {
-                    m_keyframes.remove(toDelete.takeFirst());
-                }
             }
         }
         if (m_keyframes != m_keyframesOrigin) {
@@ -1799,9 +1795,9 @@ void TimeRemap::selectedClip(int cid, const QUuid uuid)
         return;
     }
     QObject::disconnect(m_seekConnection1);
-    QObject::disconnect(m_seekConnection2);
     QObject::disconnect(m_seekConnection3);
     disconnect(pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekRemap, m_view, &RemapView::slotSetPosition);
+    disconnect(pCore->getMonitor(Kdenlive::ProjectMonitor), &Monitor::seekPosition, this, &TimeRemap::monitorSeek);
     if (!m_uuid.isNull()) {
         std::shared_ptr<TimelineItemModel> previousModel = pCore->currentDoc()->getTimeline(m_uuid);
         disconnect(previousModel.get(), &TimelineItemModel::dataChanged, this, &TimeRemap::checkClipUpdate);
@@ -1918,8 +1914,12 @@ void TimeRemap::selectedClip(int cid, const QUuid uuid)
             pCore->getMonitor(Kdenlive::ProjectMonitor)->requestSeek(bottomPos + m_view->m_startPos);
         }
     });
-    m_seekConnection2 = connect(pCore->getMonitor(Kdenlive::ProjectMonitor), &Monitor::seekPosition, this,
-                                [this](int pos) { m_view->slotSetBottomPosition(pos - m_view->m_startPos); });
+    connect(pCore->getMonitor(Kdenlive::ProjectMonitor), &Monitor::seekPosition, this, &TimeRemap::monitorSeek, Qt::UniqueConnection);
+}
+
+void TimeRemap::monitorSeek(int pos)
+{
+    m_view->slotSetBottomPosition(pos - m_view->m_startPos);
 }
 
 void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
@@ -2065,6 +2065,15 @@ void TimeRemap::updateKeyframesWithUndo(const QMap<int, int> &updatedKeyframes, 
     int lastFrame = pCore->getItemDuration(oid) + pCore->getItemIn(oid);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
+    if (durationChanged) {
+        // Resize first so that serialization doesn't cut keyframes
+        int length = updatedKeyframes.lastKey() - m_view->m_inFrame + 1;
+        std::shared_ptr<TimelineItemModel> model = pCore->currentDoc()->getTimeline(m_uuid);
+        model->requestItemResize(m_cid, length, true, true, undo, redo);
+        if (m_splitId > 0) {
+            model->requestItemResize(m_splitId, length, true, true, undo, redo);
+        }
+    }
     Fun local_undo = [this, link = m_remapLink, splitLink = m_splitRemap, previousKeyframes, cid = m_cid, oldIn = m_view->m_oldInFrame, hadPitch, splitHadPitch,
                       masterIsAudio, splitIsAudio, lastFrame, hadBlend]() {
         QString oldKfData;
@@ -2100,6 +2109,7 @@ void TimeRemap::updateKeyframesWithUndo(const QMap<int, int> &updatedKeyframes, 
                 link->set("time_map", oldKfData.toUtf8().constData());
                 m_view->m_remapProps.inherit(*link.get());
                 (void)m_view->m_remapProps.anim_get_double("time_map", 0);
+                qDebug() << "::: LOADING VALUES D: " << oldKfData;
                 m_view->loadKeyframes(oldKfData);
                 update();
             }
@@ -2149,14 +2159,6 @@ void TimeRemap::updateKeyframesWithUndo(const QMap<int, int> &updatedKeyframes, 
         return true;
     };
     local_redo();
-    if (durationChanged) {
-        int length = updatedKeyframes.lastKey() - m_view->m_inFrame + 1;
-        std::shared_ptr<TimelineItemModel> model = pCore->currentDoc()->getTimeline(m_uuid);
-        model->requestItemResize(m_cid, length, true, true, undo, redo);
-        if (m_splitId > 0) {
-            model->requestItemResize(m_splitId, length, true, true, undo, redo);
-        }
-    }
     UPDATE_UNDO_REDO_NOLOCK(redo, undo, local_undo, local_redo);
     pCore->pushUndo(local_undo, local_redo, i18n("Edit Timeremap keyframes"));
 }

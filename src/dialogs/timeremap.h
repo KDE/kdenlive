@@ -160,6 +160,7 @@ private Q_SLOTS:
     void updateKeyframesWithUndo(const QMap<int,int>&updatedKeyframes, const QMap<int,int>&previousKeyframes);
     void checkClipUpdate(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int>& roles);
     void switchRemapParam();
+    void monitorSeek(int pos);
 
 private:
     std::shared_ptr<Mlt::Link> m_remapLink;
