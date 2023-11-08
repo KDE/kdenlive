@@ -279,7 +279,7 @@ int main(int argc, char *argv[])
         app.processEvents();
 
         if (!renderrequest->errorMessages().isEmpty()) {
-            qInfo() << "The following errors occured while trying to render:\n" << renderrequest->errorMessages().join(QLatin1Char('\n'));
+            qInfo() << "The following errors occurred while trying to render:\n" << renderrequest->errorMessages().join(QLatin1Char('\n'));
         }
 
         int exitCode = EXIT_SUCCESS;

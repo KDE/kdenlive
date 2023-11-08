@@ -112,7 +112,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData,
     QStringList otherUrls;
     Qt::CaseSensitivity sensitivity = Qt::CaseSensitive;
 #ifdef Q_OS_WIN
-    // File names in Windows are not case sensitive. So "C:\my_file.mp4" and "c:\my_file.mp4" point to the same file, ensure we hanlde this
+    // File names in Windows are not case sensitive. So "C:\my_file.mp4" and "c:\my_file.mp4" point to the same file, ensure we handle this
     sensitivity = Qt::CaseInsensitive;
     for (auto &u : other_list) {
         if (!otherUrls.contains(u, sensitivity)) {

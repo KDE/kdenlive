@@ -30,7 +30,7 @@ public:
      */
     explicit ChooseColorWidget(QWidget *parent = nullptr, const QColor &color = QColor(), bool alphaEnabled = false);
 
-    /** @brief Gets the choosen color. */
+    /** @brief Gets the chosen color. */
     QColor color() const;
     /** @brief Returns true if the user is allowed to change the alpha component. */
     bool isAlphaChannelEnabled() const;

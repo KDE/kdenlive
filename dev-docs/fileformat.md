@@ -64,7 +64,7 @@ some minor updates were done to support new features, like:
 
 *Used in Kdenlive versions from 23.04.0, Kdenlive document version: 1.1*
 
-An important change was introduced with Kdenlive 23.04.0: multiple sequences. Each timeline sequence clip is embeded in an MLT *tractor*.
+An important change was introduced with Kdenlive 23.04.0: multiple sequences. Each timeline sequence clip is embedded in an MLT *tractor*.
 The "main_bin" playlist lists all clips and timeline sequences used in the project as *entries*.
 
 The very last *tractor* in the project file is just a wrapper for the last opened timeline sequence, so that when playing the project file through the *melt* command line, it will play the last active sequence clip.
@@ -96,7 +96,7 @@ The overall structure of the XML data inside Kdenlive project files is roughly a
     ...
   <playlist id="playlist1"/>
 
-  <!-- After that we have the tracks embeded in a tractor. Each Kdenlive timeline track is made of 2 *tracks* to allow mixes-->
+  <!-- After that we have the tracks embedded in a tractor. Each Kdenlive timeline track is made of 2 *tracks* to allow mixes-->
   <tractor id="tractor0" in="00:00:00.000" out="00:02:20.840">
     <property name="kdenlive:..">...</property>
     ...
@@ -189,7 +189,7 @@ Properties applied to the Bin Playlist (MLT Playlist object "main_bin"):
 
 The setup of the timeline tracks is represented by an MLT `<tractor>` element, this “maintractor“ can be identified by being the last `<tractor>` in the file. The elements inside are the individual timeline tracks: these are referenced, with the actual tracks then being MLT producers.
 
-The indivdual Kdenlive timeline tracks can be found in form of MLT `<tractor>` elements holding `<playlist>` elements. They can also easily be identfied according to their “tractor#”/“playlist#” id naming scheme; here, “#” is a number internally maintained by Kdenlive. The tracks feature additional properties that describe their title, locking state, and some more. The reason for the extra level with `<playlist>` elements are mixes (see below).
+The individual Kdenlive timeline tracks can be found in form of MLT `<tractor>` elements holding `<playlist>` elements. They can also easily be identified according to their “tractor#”/“playlist#” id naming scheme; here, “#” is a number internally maintained by Kdenlive. The tracks feature additional properties that describe their title, locking state, and some more. The reason for the extra level with `<playlist>` elements are mixes (see below).
 
 There is one semi-internal track here, the built-in “black_track”. As you can see here, while it is built into Kdenlive, it isn’t so into MLT. Instead, to MLT this is just another track that happen to be created by Kdenlive. Kdenlive never shows this background track in the timeline as an individual track. But you can reference it from transitions (the composite ones, that is).
 
@@ -197,7 +197,7 @@ There is one semi-internal track here, the built-in “black_track”. As you ca
 
 While for the user it feels like this subtitle track is a track like an audio or video track, in fact it is not. It is a "fake" track and internally a filter, the [`avfilter.subtitles`][subtitle-mlt-doc] filter to be more precise (see also [this ffmpeg doc][subtile-ffmpeg-doc]). If an internal `avfilter.subtitles` is detected, the subtitle track gets enabled.
 
-The subtitles are stored in a `*.srt` file next to the project. If your project is named `mymovie.kdenlive`, the subtitle file will be `mymovie.kdenlive.srt`. This file will only be update if you save your project, but the internal subtitle model is not sufficient during work since `avfilter.subtitles` needs a `*.srt` file to always show the up-to-date state of work in the monitor. Therefor there is another `*.srt` file in the temp directory (`/tmp` on Linux).
+The subtitles are stored in a `*.srt` file next to the project. If your project is named `mymovie.kdenlive`, the subtitle file will be `mymovie.kdenlive.srt`. This file will only be update if you save your project, but the internal subtitle model is not sufficient during work since `avfilter.subtitles` needs a `*.srt` file to always show the up-to-date state of work in the monitor. Therefore there is another `*.srt` file in the temp directory (`/tmp` on Linux).
 
 This is how the subtitle trakc is represented in the kdenlive xml:
 

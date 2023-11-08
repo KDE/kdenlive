@@ -1807,7 +1807,7 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
 
         const QUuid sourceDocUuid(m_project->getSequenceProperty(uuid, QStringLiteral("documentuuid")));
         if (sourceDocUuid == m_project->uuid()) {
-            qDebug() << "WWWWWWWWWWWWWWWWW\n\n\nIMPORTING FRMO SAME PROJECT\n\nWWWWWWWWWWWWWWW";
+            qDebug() << "WWWWWWWWWWWWWWWWW\n\n\nIMPORTING FROM SAME PROJECT\n\nWWWWWWWWWWWWWWW";
         } else {
             qDebug() << "WWWWWWWWWWWWWWWWW\n\nImporting a sequence from another project: " << sourceDocUuid << " = " << m_project->uuid()
                      << "\n\nWWWWWWWWWWWWWWW";

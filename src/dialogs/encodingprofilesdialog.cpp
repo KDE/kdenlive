@@ -359,7 +359,7 @@ void EncodingTimelinePreviewProfilesChooser::loadEncodingProfiles()
     while (i.hasNext()) {
         i.next();
         if (!i.key().isEmpty()) {
-            // We filter out incompatible profiles, find out vcodec if mentionned
+            // We filter out incompatible profiles, find out vcodec if mentioned
             QString itemCodec;
             QStringList values = i.value().split(QLatin1Char(' '));
             for (auto &v : values) {
@@ -370,7 +370,7 @@ void EncodingTimelinePreviewProfilesChooser::loadEncodingProfiles()
             }
             if (!itemCodec.isEmpty()) {
                 if (allHWCodecs.contains(itemCodec)) {
-                    // This is an HW codec, chech if supported
+                    // This is an HW codec, check if supported
                     if (KdenliveSettings::supportedHWCodecs().contains(itemCodec)) {
                         m_profilesCombo->addItem(QIcon::fromTheme(QStringLiteral("speedometer")), i.key(), i.value());
                     }
@@ -402,7 +402,7 @@ void EncodingTimelinePreviewProfilesChooser::filterPreviewProfiles(const QString
             fps = fpsString.toDouble();
         } else if (itemData.contains(QStringLiteral(" r="))) {
             QString fpsString = itemData.section(QLatin1String(" r="), 1).section(QLatin1Char(' '), 0, 0);
-            // This profile has a hardcoded framerate, chack if same as project
+            // This profile has a hardcoded framerate, check if same as project
             fps = fpsString.toDouble();
         }
         QStandardItem *item = model->item(i);

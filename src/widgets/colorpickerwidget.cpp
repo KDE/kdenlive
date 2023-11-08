@@ -81,9 +81,9 @@ ColorPickerWidget::ColorPickerWidget(QWidget *parent)
     auto *layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
 
-    // Check wether grabWindow() works. On some systems like with Wayland it does.
+    // Check whether grabWindow() works. On some systems like with Wayland it does.
     // We fallback to the Freedesktop portal with DBus which has less features than
-    // our custom implementation (eg. preview and avarage color are missing)
+    // our custom implementation (eg. preview and average color are missing)
     if (pCore) {
         QPoint p(pCore->window()->geometry().center());
         for (QScreen *screen : QGuiApplication::screens()) {

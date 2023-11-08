@@ -352,7 +352,7 @@ public Q_SLOTS:
     void slotSwitchTimelineZone(bool toggled);
     /** @brief Open the online services search dialog. */
     void slotDownloadResources();
-    /** @brief Initialze the subtitle model on project load. */
+    /** @brief Initialize the subtitle model on project load. */
     void slotInitSubtitle(const QMap<QString, QString> &subProperties, const QUuid &uuid);
     /** @brief Display the subtitle track and initialize subtitleModel if necessary. */
     void slotEditSubtitle(const QMap<QString, QString> &subProperties = {});
@@ -369,7 +369,7 @@ public Q_SLOTS:
     void updateProjectPath(const QString &path);
     /** @brief Update compositing action to display current project setting. */
     void slotUpdateCompositeAction(bool enable);
-    /** @brief Update duration of projet in timeline toolbar. */
+    /** @brief Update duration of project in timeline toolbar. */
     void slotUpdateProjectDuration(int pos);
     /** @brief The current timeline selection zone changed... */
     void slotUpdateZoneDuration(int duration);

@@ -218,7 +218,7 @@ QDomDocument TitleDocument::xml(const QList<QGraphicsItem *> &items, int width, 
             cur.select(QTextCursor::Document);
             format = cur.blockFormat();
             if (t->toPlainText() == QLatin1String("%s")) {
-                // template text box, adjust size for later remplacement text
+                // template text box, adjust size for later replacement text
                 if (t->alignment() == Qt::AlignHCenter) {
                     // grow dimensions on both sides
                     double xcenter = item->pos().x() + (t->baseBoundingRect().width()) / 2;
@@ -521,7 +521,7 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QList<QGraphicsItem *> &
                         txt->loadTW(info.split(QLatin1Char(';')));
                     }
                     if (txt->toPlainText() == QLatin1String("%s")) {
-                        // template text box, adjust size for later remplacement text
+                        // template text box, adjust size for later replacement text
                         if (txt->alignment() == Qt::AlignHCenter) {
                             // grow dimensions on both sides
                             double boxWidth = txtProperties.namedItem(QStringLiteral("box-width")).nodeValue().toDouble();

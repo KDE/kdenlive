@@ -154,7 +154,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
                                                               "positive values to the right. Affects all audio clips equally."));
     }
 
-    // Check if we already have build-in filters for this tractor
+    // Check if we already have built-in filters for this tractor
     int max = service->filter_count();
     for (int i = 0; i < max; i++) {
         std::shared_ptr<Mlt::Filter> fl(service->filter(i));

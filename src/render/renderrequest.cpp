@@ -158,7 +158,7 @@ std::vector<RenderRequest::RenderJob> RenderRequest::process()
     }
 
     if (m_embedSubtitles && project->hasSubtitles()) {
-        // disable subtitle filter(s) as they will be embeded in a second step of rendering
+        // disable subtitle filter(s) as they will be embedded in a second step of rendering
         KdenliveDoc::disableSubtitles(doc);
     }
 
@@ -308,7 +308,7 @@ QString RenderRequest::generatePlaylistFile()
     projectFolder.cd(QStringLiteral("kdenlive-renderqueue"));
     int ix = 1;
     QString newFilename = filename;
-    // if name alrady exist, add a suffix
+    // if name already exist, add a suffix
     while (projectFolder.exists(newFilename + fileExtension)) {
         newFilename = QStringLiteral("%1-%2").arg(filename).arg(ix);
         ix++;
