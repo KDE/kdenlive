@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-08 00:42+0000\n"
+"POT-Creation-Date: 2023-11-08 07:55+0000\n"
 "PO-Revision-Date: 2023-11-07 09:01+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -6568,13 +6568,14 @@ msgid "Progressive"
 msgstr "Napredovano"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1746
-#, kde-format
-msgid "Setting up virtual environnement…"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Set the path for MLT environment."
+msgid "Setting up virtual environment…"
+msgstr "Nastavite pot za okolje MLT."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1748
 #, kde-format
-msgid "Disabling virtual environnement"
+msgid "Disabling virtual environment"
 msgstr ""
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1763
@@ -14297,7 +14298,7 @@ msgstr "Modul python <application>%1</application> je potreben za %2."
 #: src/pythoninterfaces/abstractpythoninterface.cpp:346
 #, kde-format
 msgid ""
-"Kdenlive can install the missing python modules in a virtual environement "
+"Kdenlive can install the missing python modules in a virtual environment "
 "under %1.\n"
 "This way, it won't touch your system libraries."
 msgstr ""
@@ -14305,7 +14306,7 @@ msgstr ""
 #: src/pythoninterfaces/abstractpythoninterface.cpp:348
 #, fuzzy, kde-format
 #| msgid "Environment"
-msgid "Python environement"
+msgid "Python environment"
 msgstr "Okolje"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:348
@@ -14315,7 +14316,7 @@ msgstr ""
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:349
 #, kde-format
-msgid "Use virtual environement (recommended)"
+msgid "Use virtual environment (recommended)"
 msgstr ""
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:366
@@ -14367,9 +14368,9 @@ msgstr ""
 #: src/pythoninterfaces/abstractpythoninterface.cpp:518
 #, kde-format
 msgid ""
-"This will delete the python virtual environnment from:<br/><b>%1</b><br/>The "
+"This will delete the python virtual environment from:<br/><b>%1</b><br/>The "
 "environment will be recreated and modules downloaded whenever you reenable "
-"the python virtual environnment."
+"the python virtual environment."
 msgstr ""
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
@@ -18635,7 +18636,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_usePythonVenv)
 #: src/ui/configenv_ui.ui:319
 #, kde-format
-msgid "Use python virtual environnment (recommended)"
+msgid "Use python virtual environment (recommended)"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, button_python_delete)
