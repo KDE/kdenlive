@@ -410,6 +410,7 @@ Rectangle {
             anchors.margins: itemBorder.border.width
             //clip: true
             property bool showDetails: (!clipRoot.selected || !effectRow.visible) && container.height > 2.2 * labelRect.height
+            property bool handleVisible: clipRoot.width - width > 3 * root.baseUnit / 2 || width > 3 * root.baseUnit / 2
             
             Item {
                 // Mix indicator
@@ -443,6 +444,7 @@ Rectangle {
                         anchors.fill: parent
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
+                        enabled: container.handleVisible && width > root.baseUnit * 0.8
                         onPressed: {
                             controller.requestMixSelection(clipRoot.clipId);
                         }
@@ -470,7 +472,7 @@ Rectangle {
                         width: root.baseUnit / 2
                         visible: root.activeTool === ProjectTool.SelectTool
                         property int previousMix
-                        enabled: !isLocked && (pressed || clipRoot.width > 3 * width)
+                        enabled: !isLocked && mixArea.enabled && (pressed || container.handleVisible)
                         hoverEnabled: true
                         drag.target: trimInMixArea
                         drag.axis: Drag.XAxis
@@ -620,7 +622,7 @@ Rectangle {
                 height: parent.height
                 width: root.baseUnit / 2
                 visible: enabled && (root.activeTool === ProjectTool.SelectTool || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0 && !controller.hasClipEndMix(clipRoot.clipId)))
-                enabled: !isLocked && (pressed || clipRoot.width > 3 * width) && clipRoot.clipId == dragProxy.draggedItem
+                enabled: !isLocked && (pressed || (container.handleVisible && (mixArea.enabled || clipRoot.mixDuration == 0))) && clipRoot.clipId == dragProxy.draggedItem
                 hoverEnabled: true
                 drag.target: trimInMouseArea
                 drag.axis: Drag.XAxis
@@ -762,7 +764,7 @@ Rectangle {
                 width: root.baseUnit / 2
                 hoverEnabled: true
                 visible: enabled && (root.activeTool === ProjectTool.SelectTool || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0))
-                enabled: !isLocked && (pressed || clipRoot.width > 3 * width) && clipRoot.clipId == dragProxy.draggedItem
+                enabled: !isLocked && (pressed || container.handleVisible) && clipRoot.clipId == dragProxy.draggedItem
                 property bool shiftTrim: false
                 property bool controlTrim: false
                 property bool sizeChanged: false
@@ -1262,7 +1264,7 @@ Rectangle {
             drag.axis: Drag.XAxis
             drag.minimumX: - Math.ceil(width / 2)
             drag.maximumX: container.width + Math.ceil(width / 4)
-            visible: clipRoot.width > 3 * width && mouseArea.containsMouse && !dragProxyArea.pressed
+            visible: container.handleVisible && mouseArea.containsMouse && !dragProxyArea.pressed
             property int startFadeOut
             property int lastDuration: -1
             property string fadeString: timeline.simplifiedTC(clipRoot.fadeOut)
@@ -1366,7 +1368,7 @@ Rectangle {
             drag.smoothed: false
             property int startFadeIn
             property string fadeString: timeline.simplifiedTC(clipRoot.fadeIn)
-            visible: clipRoot.width > 3 * width && mouseArea.containsMouse && !dragProxyArea.pressed
+            visible: container.handleVisible && mouseArea.containsMouse && !dragProxyArea.pressed
             onClicked: {
                 if (clipRoot.fadeIn == 0) {
                     timeline.adjustFade(clipRoot.clipId, 'fadein', 0, -2)
