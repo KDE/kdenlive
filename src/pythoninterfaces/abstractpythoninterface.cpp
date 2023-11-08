@@ -343,10 +343,10 @@ void AbstractPythonInterface::installMissingDependencies()
         QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
         if (KMessageBox::questionTwoActions(
                 pCore->window(),
-                i18n("Kdenlive can install the missing python modules in a virtual environement under %1.\nThis way, it won't touch your system libraries.",
+                i18n("Kdenlive can install the missing python modules in a virtual environment under %1.\nThis way, it won't touch your system libraries.",
                      pluginDir.absoluteFilePath(QStringLiteral("venv"))),
-                i18n("Python environement"), KGuiItem(i18n("Use system install")),
-                KGuiItem(i18n("Use virtual environement (recommended)"))) == KMessageBox::SecondaryAction) {
+                i18n("Python environment"), KGuiItem(i18n("Use system install")),
+                KGuiItem(i18n("Use virtual environment (recommended)"))) == KMessageBox::SecondaryAction) {
             KdenliveSettings::setUsePythonVenv(true);
             checkPython(true, true);
         }
@@ -515,8 +515,8 @@ bool AbstractPythonInterface::removePythonVenv()
         return false;
     }
     if (KMessageBox::warningContinueCancel(pCore->window(),
-                                           i18n("This will delete the python virtual environnment from:<br/><b>%1</b><br/>The environment will be recreated "
-                                                "and modules downloaded whenever you reenable the python virtual environnment.",
+                                           i18n("This will delete the python virtual environment from:<br/><b>%1</b><br/>The environment will be recreated "
+                                                "and modules downloaded whenever you reenable the python virtual environment.",
                                                 pluginDir.absoluteFilePath(QStringLiteral("venv")))) != KMessageBox::Continue) {
         return false;
     }

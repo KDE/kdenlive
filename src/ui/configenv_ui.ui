@@ -316,7 +316,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
        <item row="0" column="0">
         <widget class="QCheckBox" name="kcfg_usePythonVenv">
          <property name="text">
-          <string>Use python virtual environnment (recommended)</string>
+          <string>Use python virtual environment (recommended)</string>
          </property>
         </widget>
        </item>
