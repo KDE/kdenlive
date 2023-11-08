@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-07 03:40+0000\n"
+"POT-Creation-Date: 2023-11-08 02:07+0000\n"
 "PO-Revision-Date: 2023-07-23 20:34+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -3362,8 +3362,8 @@ msgstr "보관함 %1 효과"
 #: src/assets/keyframes/model/keyframemodel.cpp:112
 #: src/assets/keyframes/model/keyframemodellist.cpp:136
 #: src/assets/keyframes/model/keyframemodellist.cpp:174
-#: src/assets/view/widgets/keyframewidget.cpp:70 src/dialogs/timeremap.cpp:1683
-#: src/dialogs/timeremap.cpp:1708
+#: src/assets/view/widgets/keyframewidget.cpp:70 src/dialogs/timeremap.cpp:1701
+#: src/dialogs/timeremap.cpp:1726
 #, kde-format
 msgid "Add keyframe"
 msgstr "키프레임 추가"
@@ -3377,7 +3377,7 @@ msgstr "키프레임 형식 변경"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:201
 #: src/assets/keyframes/model/keyframemodellist.cpp:182
-#: src/assets/view/widgets/keyframewidget.cpp:72 src/dialogs/timeremap.cpp:1704
+#: src/assets/view/widgets/keyframewidget.cpp:72 src/dialogs/timeremap.cpp:1722
 #, kde-format
 msgid "Delete keyframe"
 msgstr "키프레임 삭제"
@@ -3776,20 +3776,20 @@ msgstr "Y"
 msgid "Import keyframes from clipboard"
 msgstr "클립보드에서 키프레임 가져오기"
 
-#: src/assets/view/widgets/keyframewidget.cpp:77 src/dialogs/timeremap.cpp:1689
+#: src/assets/view/widgets/keyframewidget.cpp:77 src/dialogs/timeremap.cpp:1707
 #: src/mainwindow.cpp:1831
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "이전 키프레임으로 이동"
 
-#: src/assets/view/widgets/keyframewidget.cpp:81 src/dialogs/timeremap.cpp:1686
+#: src/assets/view/widgets/keyframewidget.cpp:81 src/dialogs/timeremap.cpp:1704
 #: src/mainwindow.cpp:1829
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "다음 키프레임으로 이동"
 
-#: src/assets/view/widgets/keyframewidget.cpp:86 src/dialogs/timeremap.cpp:1694
-#: src/dialogs/timeremap.cpp:1696
+#: src/assets/view/widgets/keyframewidget.cpp:86 src/dialogs/timeremap.cpp:1712
+#: src/dialogs/timeremap.cpp:1714
 #, kde-format
 msgid "Move selected keyframe to cursor"
 msgstr "선택한 키프레임을 커서로 이동"
@@ -4739,7 +4739,7 @@ msgstr[0] "클립 이동"
 msgid "No valid clip to insert"
 msgstr "삽입할 유효한 클립이 없음"
 
-#: src/bin/bin.cpp:3768 src/timeline2/view/timelinecontroller.cpp:1499
+#: src/bin/bin.cpp:3768 src/timeline2/view/timelinecontroller.cpp:1500
 #: src/timeline2/view/timelinecontroller.cpp:3330
 #, kde-format
 msgid "Select a clip to apply an effect"
@@ -5259,7 +5259,7 @@ msgstr "모든 마커 삭제"
 
 #: src/bin/model/markerlistmodel.cpp:882 src/bin/model/markerlistmodel.cpp:920
 #: src/bin/model/markerlistmodel.cpp:945
-#: src/timeline2/view/timelinecontroller.cpp:1450
+#: src/timeline2/view/timelinecontroller.cpp:1451
 #, kde-format
 msgid "No guide found at current position"
 msgstr "현재 위치에 안내선이 없음"
@@ -5301,7 +5301,7 @@ msgid "Edit markers"
 msgstr "마커 편집"
 
 #: src/bin/model/markerlistmodel.cpp:924 src/bin/model/markerlistmodel.cpp:949
-#: src/timeline2/view/timelinecontroller.cpp:1458
+#: src/timeline2/view/timelinecontroller.cpp:1459
 #, kde-format
 msgid "guide"
 msgstr "안내선"
@@ -6394,7 +6394,7 @@ msgid "JogShuttle"
 msgstr "조그셔틀"
 
 #. i18n: ectx: Menu (transcoders)
-#: src/dialogs/kdenlivesettingsdialog.cpp:490 src/dialogs/timeremap.cpp:1651
+#: src/dialogs/kdenlivesettingsdialog.cpp:490 src/dialogs/timeremap.cpp:1669
 #: src/kdenliveui.rc:87 src/mltcontroller/clippropertiescontroller.cpp:993
 #: src/project/transcodeseek.cpp:40 src/project/transcodeseek.cpp:53
 #, kde-format
@@ -7357,55 +7357,55 @@ msgstr "새 재생 목록 경로 입력"
 msgid "No timecode found in selection"
 msgstr "선택 항목에 시간코드 없음"
 
-#: src/dialogs/timeremap.cpp:548 src/dialogs/timeremap.cpp:763
+#: src/dialogs/timeremap.cpp:546 src/dialogs/timeremap.cpp:761
 #, fuzzy, kde-format
 #| msgid "Cannot remove the last keyframe"
 msgid "Cannot move last source keyframe past clip end"
 msgstr "마지막 키프레임을 삭제할 수 없음"
 
-#: src/dialogs/timeremap.cpp:557 src/dialogs/timeremap.cpp:767
+#: src/dialogs/timeremap.cpp:555 src/dialogs/timeremap.cpp:765
 #, kde-format
 msgid "Cannot move first source keyframe before clip start"
 msgstr ""
 
-#: src/dialogs/timeremap.cpp:1684 src/dialogs/timeremap.cpp:1709
+#: src/dialogs/timeremap.cpp:1702 src/dialogs/timeremap.cpp:1727
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Inserts a keyframe at the current playhead position/frame."
 msgstr ""
 
-#: src/dialogs/timeremap.cpp:1687
+#: src/dialogs/timeremap.cpp:1705
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the right."
 msgstr ""
 
-#: src/dialogs/timeremap.cpp:1690
+#: src/dialogs/timeremap.cpp:1708
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the left."
 msgstr ""
 
-#: src/dialogs/timeremap.cpp:1695 src/dialogs/timeremap.cpp:1697
+#: src/dialogs/timeremap.cpp:1713 src/dialogs/timeremap.cpp:1715
 #, fuzzy, kde-kuit-format
 #| msgid "Move selected keyframe to cursor"
 msgctxt "@info:whatsthis"
 msgid "Moves the selected keyframes to the current playhead position/frame."
 msgstr "선택한 키프레임을 커서로 이동"
 
-#: src/dialogs/timeremap.cpp:1705
+#: src/dialogs/timeremap.cpp:1723
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the keyframe at the current position of the playhead."
 msgstr ""
 
-#: src/dialogs/timeremap.cpp:1806
+#: src/dialogs/timeremap.cpp:1824
 #, fuzzy, kde-format
 #| msgid "Make waves on your clip with keyframes"
 msgid "Time remap does not work on clip with B frames."
 msgstr "키프레임을 사용하여 클립에 파도 만들기"
 
-#: src/dialogs/timeremap.cpp:2139
+#: src/dialogs/timeremap.cpp:2163
 #, kde-format
 msgid "Edit Timeremap keyframes"
 msgstr "타임 리매핑 키프레임 편집"
@@ -9832,7 +9832,7 @@ msgstr "지금 시작"
 msgid "Delete them"
 msgstr "삭제"
 
-#: src/mainwindow.cpp:1097 src/timeline2/view/timelinecontroller.cpp:2104
+#: src/mainwindow.cpp:1097 src/timeline2/view/timelinecontroller.cpp:2105
 #, kde-format
 msgid "Select a clip to compare effect"
 msgstr "효과를 비교할 클립을 선택하십시오"
@@ -11012,11 +11012,11 @@ msgstr "커서 시간에 마커 없음"
 msgid "An error occurred while deleting markers"
 msgstr "마커 삭제 중 오류"
 
-#: src/mainwindow.cpp:2801 src/timeline2/view/timelinecontroller.cpp:1262
-#: src/timeline2/view/timelinecontroller.cpp:1270
-#: src/timeline2/view/timelinecontroller.cpp:1291
-#: src/timeline2/view/timelinecontroller.cpp:1331
-#: src/timeline2/view/timelinecontroller.cpp:1357
+#: src/mainwindow.cpp:2801 src/timeline2/view/timelinecontroller.cpp:1263
+#: src/timeline2/view/timelinecontroller.cpp:1271
+#: src/timeline2/view/timelinecontroller.cpp:1292
+#: src/timeline2/view/timelinecontroller.cpp:1332
+#: src/timeline2/view/timelinecontroller.cpp:1358
 #, kde-format
 msgid "Cannot find clip to edit marker"
 msgstr "마커를 편집할 클립을 찾을 수 없음"
@@ -11906,7 +11906,7 @@ msgstr "자유 크기 조정"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
 #: src/monitor/monitor.cpp:391 src/scopes/colorscopes/vectorscope.cpp:50
-#: src/timeline2/view/timelinecontroller.cpp:239 src/ui/titlewidget_ui.ui:125
+#: src/timeline2/view/timelinecontroller.cpp:240 src/ui/titlewidget_ui.ui:125
 #, kde-format
 msgid "Black"
 msgstr "검은색"
@@ -11975,7 +11975,7 @@ msgid "Your screen resolution is not sufficient for this action"
 msgstr "현재 화면 해상도가 이 작업에 충분하지 않음"
 
 #: src/monitor/monitor.cpp:836 src/monitor/monitor.cpp:869
-#: src/timeline2/view/timelinecontroller.cpp:1762
+#: src/timeline2/view/timelinecontroller.cpp:1763
 #, kde-format
 msgid "Set Zone"
 msgstr "영역 설정"
@@ -15726,13 +15726,13 @@ msgid "Cut all clips"
 msgstr "모든 클립 잘라내기"
 
 #: src/timeline2/model/timelinefunctions.cpp:561
-#: src/timeline2/view/timelinecontroller.cpp:1421
+#: src/timeline2/view/timelinecontroller.cpp:1422
 #, kde-format
 msgid "Insert space"
 msgstr "공백 삽입"
 
 #: src/timeline2/model/timelinefunctions.cpp:563
-#: src/timeline2/view/timelinecontroller.cpp:1423
+#: src/timeline2/view/timelinecontroller.cpp:1424
 #, kde-format
 msgid "Remove space"
 msgstr "공백 삭제"
@@ -16099,7 +16099,7 @@ msgid "Ungroup clips"
 msgstr "클립 그룹 해제"
 
 #: src/timeline2/model/timelinemodel.cpp:4370
-#: src/timeline2/view/timelinecontroller.cpp:895
+#: src/timeline2/view/timelinecontroller.cpp:896
 #, kde-format
 msgid "Delete Track"
 msgstr "트랙 삭제"
@@ -16130,7 +16130,7 @@ msgid "Cannot paste effect to selected track"
 msgstr "선택한 트랙에 효과를 붙여넣을 수 없음"
 
 #: src/timeline2/model/timelinemodel.cpp:4691
-#: src/timeline2/view/timelinecontroller.cpp:1488
+#: src/timeline2/view/timelinecontroller.cpp:1489
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "선택한 클립에 %1 효과를 추가할 수 없음"
@@ -16155,63 +16155,63 @@ msgstr "합성 이동"
 msgid "Enable time remap"
 msgstr "시간 리매핑 사용"
 
-#: src/timeline2/model/timelinemodel.cpp:5942
+#: src/timeline2/model/timelinemodel.cpp:5943
 #, kde-format
 msgid "Change speed failed"
 msgstr "클립 속도 변경 실패"
 
-#: src/timeline2/model/timelinemodel.cpp:5952
+#: src/timeline2/model/timelinemodel.cpp:5953
 #, kde-format
 msgid "Change clip speed"
 msgstr "클립 속도 변경"
 
-#: src/timeline2/model/timelinemodel.cpp:6331
+#: src/timeline2/model/timelinemodel.cpp:6332
 #: src/timeline2/view/qml/timeline.qml:1187
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "트랙 잠금"
 
-#: src/timeline2/model/timelinemodel.cpp:6336
+#: src/timeline2/model/timelinemodel.cpp:6337
 #: src/timeline2/view/qml/timeline.qml:1187
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
 msgstr "트랙 잠금 해제"
 
-#: src/timeline2/model/timelinemodel.cpp:6370
-#: src/timeline2/model/timelinemodel.cpp:6432
+#: src/timeline2/model/timelinemodel.cpp:6371
+#: src/timeline2/model/timelinemodel.cpp:6433
 #, kde-format
 msgid "Change composition"
 msgstr "합성 변경"
 
-#: src/timeline2/model/timelinemodel.cpp:6384
+#: src/timeline2/model/timelinemodel.cpp:6385
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "그룹화된 합성에서 작업할 수 없습니다. 그룹을 해제하십시오"
 
-#: src/timeline2/model/timelinemodel.cpp:6579
-#: src/timeline2/model/timelinemodel.cpp:6616
-#: src/timeline2/model/timelinemodel.cpp:6649
-#: src/timeline2/model/timelinemodel.cpp:6730
+#: src/timeline2/model/timelinemodel.cpp:6580
+#: src/timeline2/model/timelinemodel.cpp:6617
+#: src/timeline2/model/timelinemodel.cpp:6650
+#: src/timeline2/model/timelinemodel.cpp:6731
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "믹스 크기를 1프레임 미만으로 조정할 수 없음"
 
-#: src/timeline2/model/timelinemodel.cpp:6590
-#: src/timeline2/model/timelinemodel.cpp:6624
-#: src/timeline2/model/timelinemodel.cpp:6668
-#: src/timeline2/model/timelinemodel.cpp:6754
+#: src/timeline2/model/timelinemodel.cpp:6591
+#: src/timeline2/model/timelinemodel.cpp:6625
+#: src/timeline2/model/timelinemodel.cpp:6669
+#: src/timeline2/model/timelinemodel.cpp:6755
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "믹스의 크기를 조정할 수 없음"
 
-#: src/timeline2/model/timelinemodel.cpp:6768
+#: src/timeline2/model/timelinemodel.cpp:6769
 #, kde-format
 msgid "Resize mix"
 msgstr "믹스 크기 조정"
 
-#: src/timeline2/model/timelinemodel.cpp:6905
+#: src/timeline2/model/timelinemodel.cpp:6906
 #, fuzzy, kde-format
 #| msgid "Disable Timeline Preview"
 msgid "Error initializing timeline preview"
@@ -16575,69 +16575,69 @@ msgstr "음소거"
 msgid "Edit track name"
 msgstr "트랙 이름 편집"
 
-#: src/timeline2/view/timelinecontroller.cpp:236
+#: src/timeline2/view/timelinecontroller.cpp:237
 #, kde-format
 msgid "unknown"
 msgstr "알 수 없음"
 
-#: src/timeline2/view/timelinecontroller.cpp:318
+#: src/timeline2/view/timelinecontroller.cpp:319
 #, kde-format
 msgid "Hide Track"
 msgstr "트랙 숨기기"
 
-#: src/timeline2/view/timelinecontroller.cpp:318
+#: src/timeline2/view/timelinecontroller.cpp:319
 #, kde-format
 msgid "Enable Track"
 msgstr "트랙 활성화"
 
-#: src/timeline2/view/timelinecontroller.cpp:382
+#: src/timeline2/view/timelinecontroller.cpp:383
 #, kde-format
 msgid "No item under timeline cursor in active track"
 msgstr "활성 트랙의 타임라인 커서 아래에 항목 없음"
 
-#: src/timeline2/view/timelinecontroller.cpp:572
+#: src/timeline2/view/timelinecontroller.cpp:573
 #, kde-format
 msgid "Could not add composition at selected position"
 msgstr "선택한 위치에 합성을 추가할 수 없음"
 
-#: src/timeline2/view/timelinecontroller.cpp:634
-#: src/timeline2/view/timelinecontroller.cpp:1041
-#: src/timeline2/view/timelinecontroller.cpp:1058
-#: src/timeline2/view/timelinecontroller.cpp:1089
-#: src/timeline2/view/timelinecontroller.cpp:1169
+#: src/timeline2/view/timelinecontroller.cpp:635
+#: src/timeline2/view/timelinecontroller.cpp:1042
+#: src/timeline2/view/timelinecontroller.cpp:1059
+#: src/timeline2/view/timelinecontroller.cpp:1090
+#: src/timeline2/view/timelinecontroller.cpp:1170
 #, kde-format
 msgid "Cannot perform operation while dragging in timeline"
 msgstr "타임라인에서 드래그하는 동안에는 작업을 수행할 수 없음"
 
-#: src/timeline2/view/timelinecontroller.cpp:872
+#: src/timeline2/view/timelinecontroller.cpp:873
 #: src/timeline2/view/timelinecontroller.cpp:4907
 #, kde-format
 msgid "Could not insert track"
 msgstr "트랙을 삽입할 수 없음"
 
-#: src/timeline2/view/timelinecontroller.cpp:895
+#: src/timeline2/view/timelinecontroller.cpp:896
 #, kde-format
 msgid "Delete Tracks"
 msgstr "트랙 삭제"
 
-#: src/timeline2/view/timelinecontroller.cpp:908
+#: src/timeline2/view/timelinecontroller.cpp:909
 #, kde-format
 msgid "Select an audio track to display record controls"
 msgstr "녹음 제어를 표시하려면 오디오 트랙을 선택하십시오"
 
-#: src/timeline2/view/timelinecontroller.cpp:1046
+#: src/timeline2/view/timelinecontroller.cpp:1047
 #, kde-format
 msgid "Select at least 2 items to group"
 msgstr "그룹으로 묶을 항목을 2개 이상 선택하십시오"
 
-#: src/timeline2/view/timelinecontroller.cpp:1160
-#: src/timeline2/view/timelinecontroller.cpp:1240
-#: src/timeline2/view/timelinecontroller.cpp:1250
-#: src/timeline2/view/timelinecontroller.cpp:1279
-#: src/timeline2/view/timelinecontroller.cpp:1319
-#: src/timeline2/view/timelinecontroller.cpp:1345
-#: src/timeline2/view/timelinecontroller.cpp:1370
-#: src/timeline2/view/timelinecontroller.cpp:2268
+#: src/timeline2/view/timelinecontroller.cpp:1161
+#: src/timeline2/view/timelinecontroller.cpp:1241
+#: src/timeline2/view/timelinecontroller.cpp:1251
+#: src/timeline2/view/timelinecontroller.cpp:1280
+#: src/timeline2/view/timelinecontroller.cpp:1320
+#: src/timeline2/view/timelinecontroller.cpp:1346
+#: src/timeline2/view/timelinecontroller.cpp:1371
+#: src/timeline2/view/timelinecontroller.cpp:2269
 #: src/timeline2/view/timelinecontroller.cpp:2894
 #: src/timeline2/view/timelinecontroller.cpp:2949
 #: src/timeline2/view/timelinecontroller.cpp:3163
@@ -16655,51 +16655,51 @@ msgstr "그룹으로 묶을 항목을 2개 이상 선택하십시오"
 msgid "No clip selected"
 msgstr "선택한 클립 없음"
 
-#: src/timeline2/view/timelinecontroller.cpp:1639
+#: src/timeline2/view/timelinecontroller.cpp:1640
 #, kde-format
 msgid "No active track"
 msgstr "활성 트랙 없음"
 
-#: src/timeline2/view/timelinecontroller.cpp:1723
+#: src/timeline2/view/timelinecontroller.cpp:1724
 #, fuzzy, kde-format
 #| msgid "Insert selected blocks in timeline"
 msgid "No item selected in timeline"
 msgstr "선택한 블록을 타임라인에 삽입"
 
-#: src/timeline2/view/timelinecontroller.cpp:1866
+#: src/timeline2/view/timelinecontroller.cpp:1867
 #, kde-format
 msgid "No clip to cut"
 msgstr "잘라낼 클립 없음"
 
-#: src/timeline2/view/timelinecontroller.cpp:2186
+#: src/timeline2/view/timelinecontroller.cpp:2187
 #, kde-format
 msgid "In:%1, Out:%2 (%3%4)"
 msgstr "시작:%1, 종료:%2 (%3%4)"
 
-#: src/timeline2/view/timelinecontroller.cpp:2673
+#: src/timeline2/view/timelinecontroller.cpp:2674
 #, kde-format
 msgid "No clips found to insert space"
 msgstr "공백을 삽입할 클립을 찾을 수 없음"
 
-#: src/timeline2/view/timelinecontroller.cpp:2690
+#: src/timeline2/view/timelinecontroller.cpp:2691
 #, kde-format
 msgid "Cannot remove space at given position"
 msgstr "주어진 위치의 공백을 삭제할 수 없음"
 
-#: src/timeline2/view/timelinecontroller.cpp:2704
+#: src/timeline2/view/timelinecontroller.cpp:2705
 #, fuzzy, kde-format
 #| msgid "Cannot remove space at given position"
 msgid "Cannot remove all spaces"
 msgstr "주어진 위치의 공백을 삭제할 수 없음"
 
-#: src/timeline2/view/timelinecontroller.cpp:2718
+#: src/timeline2/view/timelinecontroller.cpp:2719
 #, fuzzy, kde-format
 #| msgid "Cannot create clip"
 msgid "Cannot remove all clips"
 msgstr "클립을 만들 수 없음"
 
-#: src/timeline2/view/timelinecontroller.cpp:2753
-#: src/timeline2/view/timelinecontroller.cpp:2758
+#: src/timeline2/view/timelinecontroller.cpp:2754
+#: src/timeline2/view/timelinecontroller.cpp:2759
 #: src/timeline2/view/timelinecontroller.cpp:2781
 #: src/timeline2/view/timelinecontroller.cpp:3698
 #: src/timeline2/view/timelinecontroller.cpp:3716
