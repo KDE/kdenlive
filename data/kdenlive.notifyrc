@@ -470,8 +470,11 @@ Action=Sound
 [Event/SaveSuccess]
 Name=Saving successful
 Name[ca]=S'ha desat correctament
+Name[eo]=Konservado sukcesa
 Name[nl]=Opslaan is gelukt
+Name[sl]=Shranjevanje je uspelo
 Name[sv]=Spara lyckades
+Name[tr]=Kaydetme başarılı
 Name[uk]=Успішно збережено
 Name[x-test]=xxSaving successfulxx
 Sound=outcome-success
