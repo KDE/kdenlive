@@ -1743,9 +1743,9 @@ void KdenliveSettingsDialog::initSpeechPage()
     m_sttWhisper->checkPython(KdenliveSettings::usePythonVenv(), true);
     connect(m_configEnv.kcfg_usePythonVenv, &QCheckBox::stateChanged, this, [this](int state) {
         if (state == Qt::Checked) {
-            m_configEnv.pythonSetupMessage->setText(i18n("Setting up virtual environnement…"));
+            m_configEnv.pythonSetupMessage->setText(i18n("Setting up virtual environment…"));
         } else {
-            m_configEnv.pythonSetupMessage->setText(i18n("Disabling virtual environnement"));
+            m_configEnv.pythonSetupMessage->setText(i18n("Disabling virtual environment"));
         }
         m_configEnv.pythonSetupMessage->show();
         qApp->processEvents();
