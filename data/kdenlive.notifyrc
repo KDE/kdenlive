@@ -471,6 +471,7 @@ Action=Sound
 Name=Saving successful
 Name[ca]=S'ha desat correctament
 Name[eo]=Konservado sukcesa
+Name[fr]=Enregistrement effectué avec succès
 Name[nl]=Opslaan is gelukt
 Name[sl]=Shranjevanje je uspelo
 Name[sv]=Spara lyckades
