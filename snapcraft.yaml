@@ -1,4 +1,7 @@
-# Trigger rebuild 2
+
+# SPDX-FileCopyrightText: 2023 Scarlett Moore <sgmoore@kde.org>
+#
+# SPDX-License-Identifier: CC0-1.0
 ---
 name: kdenlive
 confinement: strict
@@ -46,10 +49,10 @@ plugs:
         interface: content
         target: $SNAP/data-dir/sounds
         default-provider: gtk-common-themes
-    kf5-5-110-qt-5-15-11-core22:
-        content: kf5-5-110-qt-5-15-11-core22-all
+    kf5-5-111-qt-5-15-11-core22:
+        content: kf5-5-111-qt-5-15-11-core22-all
         interface: content
-        default-provider: kf5-5-110-qt-5-15-11-core22
+        default-provider: kf5-5-111-qt-5-15-11-core22
         target: $SNAP/kf5
 hooks:
     configure:
@@ -94,18 +97,18 @@ parts:
         source-type: local
         plugin: make
         make-parameters:
-        - PLATFORM_PLUG=kf5-5-110-qt-5-15-11-core22
+        - PLATFORM_PLUG=kf5-5-111-qt-5-15-11-core22
         build-snaps:
-        - kf5-5-110-qt-5-15-11-core22-sdk
+        - kf5-5-111-qt-5-15-11-core22-sdk
         build-environment:
         - &id001
-            PATH: /snap/kf5-5-110-qt-5-15-11-core22-sdk/current/usr/bin${PATH:+:$PATH}
+            PATH: /snap/kf5-5-111-qt-5-15-11-core22-sdk/current/usr/bin${PATH:+:$PATH}
         - &id002
-            XDG_DATA_DIRS: $CRAFT_STAGE/usr/share:/snap/kf5-5-110-qt-5-15-11-core22-sdk/current/usr/share:/usr/share${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}
+            XDG_DATA_DIRS: $CRAFT_STAGE/usr/share:/snap/kf5-5-111-qt-5-15-11-core22-sdk/current/usr/share:/usr/share${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}
         - &id003
-            XDG_CONFIG_HOME: $CRAFT_STAGE/etc/xdg:/snap/kf5-5-110-qt-5-15-11-core22-sdk/current/etc/xdg:/etc/xdg${XDG_CONFIG_HOME:+:$XDG_CONFIG_HOME}
+            XDG_CONFIG_HOME: $CRAFT_STAGE/etc/xdg:/snap/kf5-5-111-qt-5-15-11-core22-sdk/current/etc/xdg:/etc/xdg${XDG_CONFIG_HOME:+:$XDG_CONFIG_HOME}
         - &id004
-            CRAFT_CMAKE_ARGS: -DCMAKE_FIND_ROOT_PATH=/snap/kf5-5-110-qt-5-15-11-core22-sdk/current${CRAFT_CMAKE_ARGS:+:$CRAFT_CMAKE_ARGS}
+            CRAFT_CMAKE_ARGS: -DCMAKE_FIND_ROOT_PATH=/snap/kf5-5-111-qt-5-15-11-core22-sdk/current${CRAFT_CMAKE_ARGS:+:$CRAFT_CMAKE_ARGS}
     python-deps:
         after:
         - kde-neon
@@ -135,7 +138,7 @@ parts:
         - libmlt++-dev
         - libmlt-dev
         build-snaps:
-        - ffmpeg-2204
+        - ffmpeg-2204-sdk
         stage-packages:
         - on amd64:
             - libpsm-infinipath1
@@ -160,6 +163,7 @@ parts:
         - libcudart11.0
         stage-snaps:
         - ffmpeg-2204
+        - khelpcenter
         source: .
         source-type: local
         cmake-parameters:
@@ -167,7 +171,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DMOD_GLAXNIMATE=ON"
         - "-DBUILD_TESTING=OFF"
-        - "-DCMAKE_FIND_ROOT_PATH=/usr\\;$CRAFT_STAGE\\;/snap/kf5-5-110-qt-5-15-11-core22-sdk/current"
+        - "-DCMAKE_FIND_ROOT_PATH=/usr\\;$CRAFT_STAGE\\;/snap/kf5-5-111-qt-5-15-11-core22-sdk/current"
         - "-DKDE_INSTALL_PLUGINDIR=/usr/lib/$CRAFT_ARCH_TRIPLET/qt5/plugins/"
         build-environment: &id005
         - *id001
@@ -186,7 +190,6 @@ parts:
         - -usr/lib/*/cmake/*
         - -usr/include/*
         - -usr/share/ECM/*
-        - -usr/share/doc/*
         - -usr/share/man/*
         - -usr/share/icons/breeze-dark*
         - -usr/bin/X11
