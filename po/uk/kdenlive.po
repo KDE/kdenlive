@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-08 00:42+0000\n"
-"PO-Revision-Date: 2023-11-06 08:58+0200\n"
+"POT-Creation-Date: 2023-11-09 00:41+0000\n"
+"PO-Revision-Date: 2023-11-08 23:24+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -6605,13 +6605,13 @@ msgstr "Прогресивне"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1746
 #, kde-format
-msgid "Setting up virtual environnement…"
-msgstr ""
+msgid "Setting up virtual environment…"
+msgstr "Налаштовуємо віртуальне середовище…"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1748
 #, kde-format
-msgid "Disabling virtual environnement"
-msgstr ""
+msgid "Disabling virtual environment"
+msgstr "Вимикаємо віртуальне середовище"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1763
 #, kde-format
@@ -7444,10 +7444,9 @@ msgid "Add marker for current selection"
 msgstr "Додати позначку до поточного позначення"
 
 #: src/dialogs/textbasededit.cpp:736
-#, fuzzy, kde-format
-#| msgid "Remove All Preview Zones"
+#, kde-format
 msgid "Remove non speech zones"
-msgstr "Вилучити усі зони перегляду"
+msgstr "Вилучити усі зони без голосових даних"
 
 #: src/dialogs/textbasededit.cpp:915
 #, kde-format
@@ -14367,25 +14366,24 @@ msgstr ""
 #: src/pythoninterfaces/abstractpythoninterface.cpp:185
 #, kde-format
 msgid "Using python from %1"
-msgstr ""
+msgstr "Використовуємо python з %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:193
-#, fuzzy, kde-format
-#| msgid "Python exec not found"
+#, kde-format
 msgid "No python venv found"
-msgstr "Не знайдено виконуваного файла Python"
+msgstr "Не знайдено віртуального середовища python"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:207
 #, kde-format
 msgid "Python venv size: %1"
-msgstr ""
+msgstr "Розмір вірт. сер. Python: %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:247
-#, fuzzy, kde-format
-#| msgid "Cannot find python3, please install it on your system."
+#, kde-format
 msgid "Cannot find python virtualenv, please install it on your system."
 msgstr ""
-"Не вдалося знайти python3. Будь ласка, встановіть його у вашій системі."
+"Не вдалося знайти віртуальне середовище python. Будь ласка, встановіть його "
+"у вашій системі."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:265
 #, kde-format
@@ -14406,26 +14404,29 @@ msgstr "Потрібен модуль Python <application>%1</application> дл�
 #: src/pythoninterfaces/abstractpythoninterface.cpp:346
 #, kde-format
 msgid ""
-"Kdenlive can install the missing python modules in a virtual environement "
+"Kdenlive can install the missing python modules in a virtual environment "
 "under %1.\n"
 "This way, it won't touch your system libraries."
 msgstr ""
+"Kdenlive може встановлювати модулі python, яких не вистачатиме, до "
+"віртуального середовища %1.\n"
+"У такий спосіб до ваших загальносистемних бібліотек не буде внесено ніяких "
+"змін."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:348
-#, fuzzy, kde-format
-#| msgid "Environment"
-msgid "Python environement"
-msgstr "Середовище"
+#, kde-format
+msgid "Python environment"
+msgstr "Середовище Python"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:348
 #, kde-format
 msgid "Use system install"
-msgstr ""
+msgstr "Скористатися встановленим у системі"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:349
 #, kde-format
-msgid "Use virtual environement (recommended)"
-msgstr ""
+msgid "Use virtual environment (recommended)"
+msgstr "Скористатися віртуальним середовищем (рекомендовано)"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:366
 #: src/pythoninterfaces/abstractpythoninterface.cpp:440
@@ -14462,25 +14463,26 @@ msgid "Failed to find script file %1"
 msgstr "Не вдалося знайти файл скрипту %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:499
-#, fuzzy, kde-format
-#| msgid ""
-#| "Error while running python3 script:\n"
-#| " %1"
+#, kde-format
 msgid ""
 "Error while running python3 script:\n"
 " %1\n"
 "%2"
 msgstr ""
 "Помилка під час спроби запуску скрипту python3:\n"
-" %1"
+" %1\n"
+"%2"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:518
 #, kde-format
 msgid ""
-"This will delete the python virtual environnment from:<br/><b>%1</b><br/>The "
+"This will delete the python virtual environment from:<br/><b>%1</b><br/>The "
 "environment will be recreated and modules downloaded whenever you reenable "
-"the python virtual environnment."
+"the python virtual environment."
 msgstr ""
+"У результаті буде вилучено віртуальне середовище python звідси:<br/><b>%1</"
+"b><br/>Середовище буде повторно створено, а модулі повторно отримано кожного "
+"разу, коли ви повторно вмикатимете віртуальне середовище python."
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
 #, kde-format
@@ -16520,7 +16522,7 @@ msgstr "Призупинено"
 msgid "Mic level"
 msgstr "Рівень мікрофона"
 
-#: src/timeline2/view/qml/Clip.qml:223 src/timeline2/view/qml/Clip.qml:842
+#: src/timeline2/view/qml/Clip.qml:223 src/timeline2/view/qml/Clip.qml:844
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2–%3), позиція: %4, тривалість: %5"
@@ -16532,32 +16534,32 @@ msgstr "%1 (%2–%3), позиція: %4, тривалість: %5"
 msgid "Position: %1"
 msgstr "Позиція: %1"
 
-#: src/timeline2/view/qml/Clip.qml:450
+#: src/timeline2/view/qml/Clip.qml:452
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "Тривалість мікшування: %1, обрізано на: %2"
 
-#: src/timeline2/view/qml/Clip.qml:511
+#: src/timeline2/view/qml/Clip.qml:513
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, тривалість мікшування: %2"
 
-#: src/timeline2/view/qml/Clip.qml:513
+#: src/timeline2/view/qml/Clip.qml:515
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, тривалість мікшування: %2"
 
-#: src/timeline2/view/qml/Clip.qml:516 src/timeline2/view/qml/Clip.qml:529
+#: src/timeline2/view/qml/Clip.qml:518 src/timeline2/view/qml/Clip.qml:531
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "Тривалість мікшування: %1"
 
-#: src/timeline2/view/qml/Clip.qml:705
+#: src/timeline2/view/qml/Clip.qml:707
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "Вхід: %1, позиція: %2"
 
-#: src/timeline2/view/qml/Clip.qml:708 src/timeline2/view/qml/Clip.qml:832
+#: src/timeline2/view/qml/Clip.qml:710 src/timeline2/view/qml/Clip.qml:834
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -16566,49 +16568,49 @@ msgstr ""
 "<b>Ctrl + перетягування</b> — змінити швидкість, <b>подвійне клацання</b> — "
 "мікшувати із сусіднім кліпом"
 
-#: src/timeline2/view/qml/Clip.qml:710
+#: src/timeline2/view/qml/Clip.qml:712
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Перетягніть</b>, щоб змінити тривалість мікшування"
 
-#: src/timeline2/view/qml/Clip.qml:829
+#: src/timeline2/view/qml/Clip.qml:831
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Вихід: %1, позиція: %2"
 
-#: src/timeline2/view/qml/Clip.qml:975
+#: src/timeline2/view/qml/Clip.qml:977
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Зміщення: –%1"
 
-#: src/timeline2/view/qml/Clip.qml:975
+#: src/timeline2/view/qml/Clip.qml:977
 #, kde-format
 msgid "Offset: %1"
 msgstr "Зміщення: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1193 src/timeline2/view/qml/Clip.qml:1230
+#: src/timeline2/view/qml/Clip.qml:1195 src/timeline2/view/qml/Clip.qml:1232
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>Click</b>, щоб додати композицію"
 
-#: src/timeline2/view/qml/Clip.qml:1299 src/timeline2/view/qml/Clip.qml:1306
+#: src/timeline2/view/qml/Clip.qml:1301 src/timeline2/view/qml/Clip.qml:1308
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Зменшення гучності: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1310 src/timeline2/view/qml/Clip.qml:1409
+#: src/timeline2/view/qml/Clip.qml:1312 src/timeline2/view/qml/Clip.qml:1411
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Перетягування</b> — коригування згасання, <b>клацання</b> — додавання "
 "згасання із типовою тривалістю"
 
-#: src/timeline2/view/qml/Clip.qml:1398 src/timeline2/view/qml/Clip.qml:1405
+#: src/timeline2/view/qml/Clip.qml:1400 src/timeline2/view/qml/Clip.qml:1407
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Збільшення гучності: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1492
+#: src/timeline2/view/qml/Clip.qml:1494
 #, kde-format
 msgid "Slip Clip"
 msgstr "Зсунути кліп"
@@ -18778,20 +18780,19 @@ msgstr "Тека для обробки, титрів і написів:"
 #: src/ui/configenv_ui.ui:313
 #, kde-format
 msgid "Python"
-msgstr ""
+msgstr "Python"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_usePythonVenv)
 #: src/ui/configenv_ui.ui:319
 #, kde-format
-msgid "Use python virtual environnment (recommended)"
-msgstr ""
+msgid "Use python virtual environment (recommended)"
+msgstr "Скористатися віртуальним середовищем python (рекомендовано)"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_python_delete)
 #: src/ui/configenv_ui.ui:357
-#, fuzzy, kde-format
-#| msgid "&Delete"
+#, kde-format
 msgid "Delete "
-msgstr "Ви&лучити"
+msgstr "Вилучити"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/ui/configenv_ui.ui:387
@@ -19298,10 +19299,9 @@ msgstr "Пристрій виводу:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:21
-#, fuzzy, kde-format
-#| msgid "Check VOSK installation"
+#, kde-format
 msgid "Check speech engine installation"
-msgstr "Перевірити встановлення VOSK"
+msgstr "Перевірити встановлення голосового рушія"
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:24
@@ -19335,10 +19335,9 @@ msgstr "Тека нетипових моделей"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_add)
 #: src/ui/configspeech_ui.ui:103
-#, fuzzy, kde-format
-#| msgid "Add folder"
+#, kde-format
 msgid "Add Model"
-msgstr "Додати теку"
+msgstr "Додати модель"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configspeech_ui.ui:130
@@ -19348,10 +19347,9 @@ msgstr "Моделі мовлення VOSK"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
 #: src/ui/configspeech_ui.ui:150
-#, fuzzy, kde-format
-#| msgid "Remove Guide"
+#, kde-format
 msgid "Remove Model"
-msgstr "Вилучити напрямну"
+msgstr "Вилучити модель"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configspeech_ui.ui:175

@@ -4,14 +4,14 @@
 #
 # Gabriel Gazzán <gabcorreo@gmail.com>, %Y.
 # Automatically generated, 2015.
-# Eloy Cuadra <ecuadra@eloihr.net>, 2015, 2016, 2017, 2019, 2020, 2021, 2022, 2023, %Y.
+# SPDX-FileCopyrightText: 2015, 2016, 2017, 2019, 2020, 2021, 2022, 2023 Eloy Cuadra <ecuadra@eloihr.net>
 # Gabriel Gazzan <gabcorreo@gmail.com>, 2015, 2016, 2017, 2018, 2019, 2020, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-08 00:42+0000\n"
-"PO-Revision-Date: 2023-10-31 02:42-0300\n"
+"POT-Creation-Date: 2023-11-09 00:41+0000\n"
+"PO-Revision-Date: 2023-11-08 17:12+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 3.4.1\n"
+"X-Generator: Lokalize 23.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -6608,13 +6608,14 @@ msgid "Progressive"
 msgstr "Progresivo"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1746
-#, kde-format
-msgid "Setting up virtual environnement…"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Set the path for MLT environment."
+msgid "Setting up virtual environment…"
+msgstr "Definir la ruta del entorno MLT."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1748
 #, kde-format
-msgid "Disabling virtual environnement"
+msgid "Disabling virtual environment"
 msgstr ""
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1763
@@ -14006,13 +14007,12 @@ msgstr ""
 #: src/project/projectmanager.cpp:489
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
-msgstr ""
+msgstr "Falló el guardado del archivo de proyecto <br><b>%1</B>"
 
 #: src/project/projectmanager.cpp:522
-#, fuzzy, kde-format
-#| msgid "Starting process"
+#, kde-format
 msgid "Saving successful"
-msgstr "Iniciando procesamiento"
+msgstr "Guardado exitoso"
 
 #: src/project/projectmanager.cpp:535
 #, kde-format
@@ -14346,7 +14346,7 @@ msgstr "Se necesita el módulo de python <application>%1</application> para %2."
 #: src/pythoninterfaces/abstractpythoninterface.cpp:346
 #, kde-format
 msgid ""
-"Kdenlive can install the missing python modules in a virtual environement "
+"Kdenlive can install the missing python modules in a virtual environment "
 "under %1.\n"
 "This way, it won't touch your system libraries."
 msgstr ""
@@ -14354,7 +14354,7 @@ msgstr ""
 #: src/pythoninterfaces/abstractpythoninterface.cpp:348
 #, fuzzy, kde-format
 #| msgid "Environment"
-msgid "Python environement"
+msgid "Python environment"
 msgstr "Entorno"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:348
@@ -14364,7 +14364,7 @@ msgstr ""
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:349
 #, kde-format
-msgid "Use virtual environement (recommended)"
+msgid "Use virtual environment (recommended)"
 msgstr ""
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:366
@@ -14417,9 +14417,9 @@ msgstr ""
 #: src/pythoninterfaces/abstractpythoninterface.cpp:518
 #, kde-format
 msgid ""
-"This will delete the python virtual environnment from:<br/><b>%1</b><br/>The "
+"This will delete the python virtual environment from:<br/><b>%1</b><br/>The "
 "environment will be recreated and modules downloaded whenever you reenable "
-"the python virtual environnment."
+"the python virtual environment."
 msgstr ""
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
@@ -16463,7 +16463,7 @@ msgstr "Pausado"
 msgid "Mic level"
 msgstr "Nivel del micrófono"
 
-#: src/timeline2/view/qml/Clip.qml:223 src/timeline2/view/qml/Clip.qml:842
+#: src/timeline2/view/qml/Clip.qml:223 src/timeline2/view/qml/Clip.qml:844
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), Posición: %4, Duración: %5"
@@ -16475,32 +16475,32 @@ msgstr "%1 (%2-%3), Posición: %4, Duración: %5"
 msgid "Position: %1"
 msgstr "Posición: %1"
 
-#: src/timeline2/view/qml/Clip.qml:450
+#: src/timeline2/view/qml/Clip.qml:452
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "Duración de mezcla: %1, Corte en: %2"
 
-#: src/timeline2/view/qml/Clip.qml:511
+#: src/timeline2/view/qml/Clip.qml:513
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, Duración de mezcla: %2"
 
-#: src/timeline2/view/qml/Clip.qml:513
+#: src/timeline2/view/qml/Clip.qml:515
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, Duración de mezcla: %2"
 
-#: src/timeline2/view/qml/Clip.qml:516 src/timeline2/view/qml/Clip.qml:529
+#: src/timeline2/view/qml/Clip.qml:518 src/timeline2/view/qml/Clip.qml:531
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "Duración de mezcla: %1"
 
-#: src/timeline2/view/qml/Clip.qml:705
+#: src/timeline2/view/qml/Clip.qml:707
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "Entrada:%1, Posición:%2"
 
-#: src/timeline2/view/qml/Clip.qml:708 src/timeline2/view/qml/Clip.qml:832
+#: src/timeline2/view/qml/Clip.qml:710 src/timeline2/view/qml/Clip.qml:834
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -16509,49 +16509,49 @@ msgstr ""
 "<b>Ctrl arrastrar</b> para cambiar la velocidad, <b>Doble clic</b> para "
 "mezclar con clip adyacente"
 
-#: src/timeline2/view/qml/Clip.qml:710
+#: src/timeline2/view/qml/Clip.qml:712
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Arrastrar</b> para cambiar la duración de la mezcla"
 
-#: src/timeline2/view/qml/Clip.qml:829
+#: src/timeline2/view/qml/Clip.qml:831
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Salida:%1, Posición:%2"
 
-#: src/timeline2/view/qml/Clip.qml:975
+#: src/timeline2/view/qml/Clip.qml:977
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Desplazamiento: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:975
+#: src/timeline2/view/qml/Clip.qml:977
 #, kde-format
 msgid "Offset: %1"
 msgstr "Desplazamiento: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1193 src/timeline2/view/qml/Clip.qml:1230
+#: src/timeline2/view/qml/Clip.qml:1195 src/timeline2/view/qml/Clip.qml:1232
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>Clic</b> para agregar un método de composición"
 
-#: src/timeline2/view/qml/Clip.qml:1299 src/timeline2/view/qml/Clip.qml:1306
+#: src/timeline2/view/qml/Clip.qml:1301 src/timeline2/view/qml/Clip.qml:1308
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Fundido saliente: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1310 src/timeline2/view/qml/Clip.qml:1409
+#: src/timeline2/view/qml/Clip.qml:1312 src/timeline2/view/qml/Clip.qml:1411
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Arrastrar</b> para ajustar fundido, <b>Clic</b> para agregar un fundido "
 "de duración predeterminada"
 
-#: src/timeline2/view/qml/Clip.qml:1398 src/timeline2/view/qml/Clip.qml:1405
+#: src/timeline2/view/qml/Clip.qml:1400 src/timeline2/view/qml/Clip.qml:1407
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Fundido entrante: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1492
+#: src/timeline2/view/qml/Clip.qml:1494
 #, kde-format
 msgid "Slip Clip"
 msgstr "Desplazar clip"
@@ -18712,20 +18712,19 @@ msgstr "Procesamiento, títulos, scripts:"
 #: src/ui/configenv_ui.ui:313
 #, kde-format
 msgid "Python"
-msgstr ""
+msgstr "Python"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_usePythonVenv)
 #: src/ui/configenv_ui.ui:319
 #, kde-format
-msgid "Use python virtual environnment (recommended)"
+msgid "Use python virtual environment (recommended)"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, button_python_delete)
 #: src/ui/configenv_ui.ui:357
-#, fuzzy, kde-format
-#| msgid "Delete %1"
+#, kde-format
 msgid "Delete "
-msgstr "Borrar %1"
+msgstr "Borrar "
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/ui/configenv_ui.ui:387

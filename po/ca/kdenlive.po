@@ -3,22 +3,22 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Orestes Mas <orestes@tsc.upc.edu>, 2009, 2011, 2012, 2015.
-# Antoni Bella Pérez <antonibella5@yahoo.com>, 2012, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
+# SPDX-FileCopyrightText: 2012, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023 Antoni Bella Pérez <antonibella5@yahoo.com>
 # Josep M. Ferrer <txemaq@gmail.com>, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-08 00:42+0000\n"
-"PO-Revision-Date: 2023-11-06 09:06+0100\n"
-"Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
+"POT-Creation-Date: 2023-11-09 00:41+0000\n"
+"PO-Revision-Date: 2023-11-08 11:24+0100\n"
+"Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.08.2\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -6601,13 +6601,13 @@ msgstr "Progressiu"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1746
 #, kde-format
-msgid "Setting up virtual environnement…"
-msgstr ""
+msgid "Setting up virtual environment…"
+msgstr "Estableix un entorn virtual…"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1748
 #, kde-format
-msgid "Disabling virtual environnement"
-msgstr ""
+msgid "Disabling virtual environment"
+msgstr "Deshabilita l'entorn virtual"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1763
 #, kde-format
@@ -7433,10 +7433,9 @@ msgid "Add marker for current selection"
 msgstr "Afegeix un marcador a la selecció actual"
 
 #: src/dialogs/textbasededit.cpp:736
-#, fuzzy, kde-format
-#| msgid "Remove All Preview Zones"
+#, kde-format
 msgid "Remove non speech zones"
-msgstr "Elimina totes les zones de la vista prèvia"
+msgstr "Elimina les zones sense veu"
 
 #: src/dialogs/textbasededit.cpp:915
 #, kde-format
@@ -14327,23 +14326,23 @@ msgstr ""
 #: src/pythoninterfaces/abstractpythoninterface.cpp:185
 #, kde-format
 msgid "Using python from %1"
-msgstr ""
+msgstr "S'utilitza el Python de %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:193
-#, fuzzy, kde-format
-#| msgid "Python exec not found"
+#, kde-format
 msgid "No python venv found"
-msgstr "No s'ha trobat l'executable del Python"
+msgstr "No s'ha trobat el «venv» del Python"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:207
 #, kde-format
 msgid "Python venv size: %1"
-msgstr ""
+msgstr "Mida del «venv» del Python: %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:247
 #, kde-format
 msgid "Cannot find python virtualenv, please install it on your system."
 msgstr ""
+"No s'ha pogut trobar el «virtualenv» del Python, instal·leu-lo en el sistema."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:265
 #, kde-format
@@ -14363,26 +14362,28 @@ msgstr "%2 requereix el mòdul de Python <application>%1</application>."
 #: src/pythoninterfaces/abstractpythoninterface.cpp:346
 #, kde-format
 msgid ""
-"Kdenlive can install the missing python modules in a virtual environement "
+"Kdenlive can install the missing python modules in a virtual environment "
 "under %1.\n"
 "This way, it won't touch your system libraries."
 msgstr ""
+"El Kdenlive pot instal·lar els mòduls de Python que manquen en un entorn "
+"virtual en %1.\n"
+"D'aquesta manera, no modificarà les biblioteques del sistema."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:348
-#, fuzzy, kde-format
-#| msgid "Environment"
-msgid "Python environement"
-msgstr "Entorn"
+#, kde-format
+msgid "Python environment"
+msgstr "Entorn del Python"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:348
 #, kde-format
 msgid "Use system install"
-msgstr ""
+msgstr "Usa la instal·lació del sistema"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:349
 #, kde-format
-msgid "Use virtual environement (recommended)"
-msgstr ""
+msgid "Use virtual environment (recommended)"
+msgstr "Usa l'entorn virtual (recomanat)"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:366
 #: src/pythoninterfaces/abstractpythoninterface.cpp:440
@@ -14419,25 +14420,26 @@ msgid "Failed to find script file %1"
 msgstr "Ha fallat en trobar el fitxer de script %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:499
-#, fuzzy, kde-format
-#| msgid ""
-#| "Error while running python3 script:\n"
-#| " %1"
+#, kde-format
 msgid ""
 "Error while running python3 script:\n"
 " %1\n"
 "%2"
 msgstr ""
 "Error en executar l'script de «python3»:\n"
-" %1"
+" %1\n"
+"%2"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:518
 #, kde-format
 msgid ""
-"This will delete the python virtual environnment from:<br/><b>%1</b><br/>The "
+"This will delete the python virtual environment from:<br/><b>%1</b><br/>The "
 "environment will be recreated and modules downloaded whenever you reenable "
-"the python virtual environnment."
+"the python virtual environment."
 msgstr ""
+"Això suprimirà l'entorn virtual del Python de:<br/><b>%1</b><br/>L'entorn es "
+"tornarà a crear i es descarregaran els mòduls cada vegada que torneu a "
+"activar l'entorn virtual del Python."
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
 #, kde-format
@@ -16478,7 +16480,7 @@ msgstr "En pausa"
 msgid "Mic level"
 msgstr "Nivell del micròfon"
 
-#: src/timeline2/view/qml/Clip.qml:223 src/timeline2/view/qml/Clip.qml:842
+#: src/timeline2/view/qml/Clip.qml:223 src/timeline2/view/qml/Clip.qml:844
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), Posició: %4, Durada: %5"
@@ -16490,32 +16492,32 @@ msgstr "%1 (%2-%3), Posició: %4, Durada: %5"
 msgid "Position: %1"
 msgstr "Posició: %1"
 
-#: src/timeline2/view/qml/Clip.qml:450
+#: src/timeline2/view/qml/Clip.qml:452
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "Durada de la mescla: %1, retallat a: %2"
 
-#: src/timeline2/view/qml/Clip.qml:511
+#: src/timeline2/view/qml/Clip.qml:513
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, durada de la mescla: %2"
 
-#: src/timeline2/view/qml/Clip.qml:513
+#: src/timeline2/view/qml/Clip.qml:515
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, durada de la mescla: %2"
 
-#: src/timeline2/view/qml/Clip.qml:516 src/timeline2/view/qml/Clip.qml:529
+#: src/timeline2/view/qml/Clip.qml:518 src/timeline2/view/qml/Clip.qml:531
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "Durada de la mescla: %1"
 
-#: src/timeline2/view/qml/Clip.qml:705
+#: src/timeline2/view/qml/Clip.qml:707
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "A:%1, Posició:%2"
 
-#: src/timeline2/view/qml/Clip.qml:708 src/timeline2/view/qml/Clip.qml:832
+#: src/timeline2/view/qml/Clip.qml:710 src/timeline2/view/qml/Clip.qml:834
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -16524,49 +16526,49 @@ msgstr ""
 "<b>Ctrl + arrossega</b> per a canviar la velocitat, feu <b>doble clic</b> "
 "per a mesclar amb el clip adjacent"
 
-#: src/timeline2/view/qml/Clip.qml:710
+#: src/timeline2/view/qml/Clip.qml:712
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Arrossegueu</b> per a canviar la durada de la mescla"
 
-#: src/timeline2/view/qml/Clip.qml:829
+#: src/timeline2/view/qml/Clip.qml:831
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Sortida:%1, Posició:%2"
 
-#: src/timeline2/view/qml/Clip.qml:975
+#: src/timeline2/view/qml/Clip.qml:977
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Desplaçament: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:975
+#: src/timeline2/view/qml/Clip.qml:977
 #, kde-format
 msgid "Offset: %1"
 msgstr "Desplaçament: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1193 src/timeline2/view/qml/Clip.qml:1230
+#: src/timeline2/view/qml/Clip.qml:1195 src/timeline2/view/qml/Clip.qml:1232
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "Feu <b>clic</b> per a afegir una composició"
 
-#: src/timeline2/view/qml/Clip.qml:1299 src/timeline2/view/qml/Clip.qml:1306
+#: src/timeline2/view/qml/Clip.qml:1301 src/timeline2/view/qml/Clip.qml:1308
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Fosa de sortida: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1310 src/timeline2/view/qml/Clip.qml:1409
+#: src/timeline2/view/qml/Clip.qml:1312 src/timeline2/view/qml/Clip.qml:1411
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Arrossega</b> per a ajustar l'esvaniment, feu <b>clic</b> per a afegir la "
 "durada predeterminada de l'esvaniment"
 
-#: src/timeline2/view/qml/Clip.qml:1398 src/timeline2/view/qml/Clip.qml:1405
+#: src/timeline2/view/qml/Clip.qml:1400 src/timeline2/view/qml/Clip.qml:1407
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Fosa d'entrada: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1492
+#: src/timeline2/view/qml/Clip.qml:1494
 #, kde-format
 msgid "Slip Clip"
 msgstr "Desplaça el clip"
@@ -18727,20 +18729,19 @@ msgstr "Carpeta per a renderitzar, títols, scripts:"
 #: src/ui/configenv_ui.ui:313
 #, kde-format
 msgid "Python"
-msgstr ""
+msgstr "Python"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_usePythonVenv)
 #: src/ui/configenv_ui.ui:319
 #, kde-format
-msgid "Use python virtual environnment (recommended)"
-msgstr ""
+msgid "Use python virtual environment (recommended)"
+msgstr "Usa l'entorn virtual del Python (recomanat)"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_python_delete)
 #: src/ui/configenv_ui.ui:357
-#, fuzzy, kde-format
-#| msgid "&Delete"
+#, kde-format
 msgid "Delete "
-msgstr "Su&primeix"
+msgstr "Suprimeix "
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/ui/configenv_ui.ui:387
@@ -19246,10 +19247,9 @@ msgstr "Dispositiu de sortida:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:21
-#, fuzzy, kde-format
-#| msgid "Check VOSK installation"
+#, kde-format
 msgid "Check speech engine installation"
-msgstr "Comprova la instal·lació de VOSK"
+msgstr "Comprova la instal·lació del motor de veu"
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:24
@@ -19283,10 +19283,9 @@ msgstr "Carpeta de models personalitzats"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_add)
 #: src/ui/configspeech_ui.ui:103
-#, fuzzy, kde-format
-#| msgid "Model"
+#, kde-format
 msgid "Add Model"
-msgstr "Model"
+msgstr "Afegeix un model"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configspeech_ui.ui:130
@@ -19296,10 +19295,9 @@ msgstr "Models de veu VOSK"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
 #: src/ui/configspeech_ui.ui:150
-#, fuzzy, kde-format
-#| msgid "Remove Guide"
+#, kde-format
 msgid "Remove Model"
-msgstr "Elimina la guia"
+msgstr "Elimina el model"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configspeech_ui.ui:175
@@ -21869,9 +21867,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Add a new speech model from an archive file"
-#~ msgstr "Afegeix un model de veu nou des d'un fitxer d'arxiu"
-
-#~ msgid "Delete the selected speech model"
-#~ msgstr "Suprimeix el model de veu seleccionat"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-08 00:42+0000\n"
+"POT-Creation-Date: 2023-11-09 00:41+0000\n"
 "PO-Revision-Date: 2023-10-11 17:09+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -6572,13 +6572,14 @@ msgid "Progressive"
 msgstr "Proqressiv"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1746
-#, kde-format
-msgid "Setting up virtual environnement…"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Set the path for MLT environment."
+msgid "Setting up virtual environment…"
+msgstr "MLT mühiti üçün yolu göstər."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1748
 #, kde-format
-msgid "Disabling virtual environnement"
+msgid "Disabling virtual environment"
 msgstr ""
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1763
@@ -14277,7 +14278,7 @@ msgstr "%2 üçün <application>%1</application> python modulu tələb olunur."
 #: src/pythoninterfaces/abstractpythoninterface.cpp:346
 #, kde-format
 msgid ""
-"Kdenlive can install the missing python modules in a virtual environement "
+"Kdenlive can install the missing python modules in a virtual environment "
 "under %1.\n"
 "This way, it won't touch your system libraries."
 msgstr ""
@@ -14285,7 +14286,7 @@ msgstr ""
 #: src/pythoninterfaces/abstractpythoninterface.cpp:348
 #, fuzzy, kde-format
 #| msgid "Environment"
-msgid "Python environement"
+msgid "Python environment"
 msgstr "Mühit"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:348
@@ -14295,7 +14296,7 @@ msgstr ""
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:349
 #, kde-format
-msgid "Use virtual environement (recommended)"
+msgid "Use virtual environment (recommended)"
 msgstr ""
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:366
@@ -14348,9 +14349,9 @@ msgstr ""
 #: src/pythoninterfaces/abstractpythoninterface.cpp:518
 #, kde-format
 msgid ""
-"This will delete the python virtual environnment from:<br/><b>%1</b><br/>The "
+"This will delete the python virtual environment from:<br/><b>%1</b><br/>The "
 "environment will be recreated and modules downloaded whenever you reenable "
-"the python virtual environnment."
+"the python virtual environment."
 msgstr ""
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
@@ -16371,7 +16372,7 @@ msgstr "Fasilədə"
 msgid "Mic level"
 msgstr "Mikrofonun səs səviyyəsi"
 
-#: src/timeline2/view/qml/Clip.qml:223 src/timeline2/view/qml/Clip.qml:842
+#: src/timeline2/view/qml/Clip.qml:223 src/timeline2/view/qml/Clip.qml:844
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), Mövqe: %4, Müddət: %5"
@@ -16383,32 +16384,32 @@ msgstr "%1 (%2-%3), Mövqe: %4, Müddət: %5"
 msgid "Position: %1"
 msgstr "Mövqe: %1"
 
-#: src/timeline2/view/qml/Clip.qml:450
+#: src/timeline2/view/qml/Clip.qml:452
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "Qarışdırma müddəti: %1, Kəsmə: %2"
 
-#: src/timeline2/view/qml/Clip.qml:511
+#: src/timeline2/view/qml/Clip.qml:513
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, Qarışdırma müddəti: %2"
 
-#: src/timeline2/view/qml/Clip.qml:513
+#: src/timeline2/view/qml/Clip.qml:515
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, Qarışdırma müddəti: %2"
 
-#: src/timeline2/view/qml/Clip.qml:516 src/timeline2/view/qml/Clip.qml:529
+#: src/timeline2/view/qml/Clip.qml:518 src/timeline2/view/qml/Clip.qml:531
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "Qarışdırma müddəti: %1"
 
-#: src/timeline2/view/qml/Clip.qml:705
+#: src/timeline2/view/qml/Clip.qml:707
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "Daxilində: %1, Mövqe: %2"
 
-#: src/timeline2/view/qml/Clip.qml:708 src/timeline2/view/qml/Clip.qml:832
+#: src/timeline2/view/qml/Clip.qml:710 src/timeline2/view/qml/Clip.qml:834
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -16417,49 +16418,49 @@ msgstr ""
 "Sürəti dəyişmək üçün <b>CTRL+sürüşdürmək</b>, qonşu klipləqarışdırmaq üçün "
 "<b>Cüt klik</b>"
 
-#: src/timeline2/view/qml/Clip.qml:710
+#: src/timeline2/view/qml/Clip.qml:712
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Sürükləmık</b> qarışdırma müddətini dəyişdirir"
 
-#: src/timeline2/view/qml/Clip.qml:829
+#: src/timeline2/view/qml/Clip.qml:831
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Çıxış: %1, Mövqe: %2"
 
-#: src/timeline2/view/qml/Clip.qml:975
+#: src/timeline2/view/qml/Clip.qml:977
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Sürüşmə: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:975
+#: src/timeline2/view/qml/Clip.qml:977
 #, kde-format
 msgid "Offset: %1"
 msgstr "Sürüşmə: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1193 src/timeline2/view/qml/Clip.qml:1230
+#: src/timeline2/view/qml/Clip.qml:1195 src/timeline2/view/qml/Clip.qml:1232
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "Kompozisiya əlavə etmək üçün - <b>Klik</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1299 src/timeline2/view/qml/Clip.qml:1306
+#: src/timeline2/view/qml/Clip.qml:1301 src/timeline2/view/qml/Clip.qml:1308
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Solma: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1310 src/timeline2/view/qml/Clip.qml:1409
+#: src/timeline2/view/qml/Clip.qml:1312 src/timeline2/view/qml/Clip.qml:1411
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "Solmanı tənzimləmək üçün - <b>Sürüşdürmək</b>, Standart solma müddəti əlavə "
 "etmək üçün <b>Klik</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1398 src/timeline2/view/qml/Clip.qml:1405
+#: src/timeline2/view/qml/Clip.qml:1400 src/timeline2/view/qml/Clip.qml:1407
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Tədricən artma: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1492
+#: src/timeline2/view/qml/Clip.qml:1494
 #, kde-format
 msgid "Slip Clip"
 msgstr "Klipi sürüşdürün"
@@ -18620,7 +18621,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_usePythonVenv)
 #: src/ui/configenv_ui.ui:319
 #, kde-format
-msgid "Use python virtual environnment (recommended)"
+msgid "Use python virtual environment (recommended)"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, button_python_delete)

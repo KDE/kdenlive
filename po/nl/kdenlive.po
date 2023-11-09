@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-08 00:42+0000\n"
-"PO-Revision-Date: 2023-11-06 10:41+0100\n"
+"POT-Creation-Date: 2023-11-09 00:41+0000\n"
+"PO-Revision-Date: 2023-11-08 10:00+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -6577,15 +6577,14 @@ msgid "Progressive"
 msgstr "Progressief"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1746
-#, fuzzy, kde-format
-#| msgid "Set the path for MLT environnement"
-msgid "Setting up virtual environnement…"
-msgstr "Stel pad naar MLT omgeving in"
+#, kde-format
+msgid "Setting up virtual environment…"
+msgstr "Virtuele omgeving opzetten…"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1748
 #, kde-format
-msgid "Disabling virtual environnement"
-msgstr ""
+msgid "Disabling virtual environment"
+msgstr "Virtuele omgeving uitschakelen"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1763
 #, kde-format
@@ -7412,10 +7411,9 @@ msgid "Add marker for current selection"
 msgstr "Markering toevoegen voor de huidige selectie"
 
 #: src/dialogs/textbasededit.cpp:736
-#, fuzzy, kde-format
-#| msgid "Remove All Preview Zones"
+#, kde-format
 msgid "Remove non speech zones"
-msgstr "Alle voorbeeldzones verwijderen"
+msgstr "Niet-spraakzones verwijderen"
 
 #: src/dialogs/textbasededit.cpp:915
 #, kde-format
@@ -14251,27 +14249,24 @@ msgstr ""
 "in de lijst in de omgevingsvariabele PATH"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:185
-#, fuzzy, kde-format
-#| msgid "Using MLT version %1"
+#, kde-format
 msgid "Using python from %1"
-msgstr "MLT versie %1 wordt gebruikt"
+msgstr "Python uit %1 wordt gebruikt"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:193
-#, fuzzy, kde-format
-#| msgid "Python exec not found"
+#, kde-format
 msgid "No python venv found"
-msgstr "Python uitvoerbaar programma niet gevonden"
+msgstr "Geen python venv gevonden"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:207
 #, kde-format
 msgid "Python venv size: %1"
-msgstr ""
+msgstr "Python venv grootte: %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:247
-#, fuzzy, kde-format
-#| msgid "Cannot find python3, please install it on your system."
+#, kde-format
 msgid "Cannot find python virtualenv, please install it on your system."
-msgstr "Kan python3 niet vinden, installeer het op uw systeem."
+msgstr "Kan python virtualenv niet vinden, installeer het op uw systeem."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:265
 #, kde-format
@@ -14291,26 +14286,28 @@ msgstr "De python-module <application>%1</application> is vereist voor %2."
 #: src/pythoninterfaces/abstractpythoninterface.cpp:346
 #, kde-format
 msgid ""
-"Kdenlive can install the missing python modules in a virtual environement "
+"Kdenlive can install the missing python modules in a virtual environment "
 "under %1.\n"
 "This way, it won't touch your system libraries."
 msgstr ""
+"Kdenlive kan de ontbrekende python modules in een virtuele omgeving onder %1 "
+"installeren.\n"
+"Op deze manier zal het uw systeembibliotheken niet verstoren."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:348
-#, fuzzy, kde-format
-#| msgid "Environment"
-msgid "Python environement"
-msgstr "Omgeving"
+#, kde-format
+msgid "Python environment"
+msgstr "Python omgeving"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:348
 #, kde-format
 msgid "Use system install"
-msgstr ""
+msgstr "Systeeminstallatie gebruiken"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:349
 #, kde-format
-msgid "Use virtual environement (recommended)"
-msgstr ""
+msgid "Use virtual environment (recommended)"
+msgstr "Virtuele omgeving gebruiken (aanbevolen)"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:366
 #: src/pythoninterfaces/abstractpythoninterface.cpp:440
@@ -14346,25 +14343,26 @@ msgid "Failed to find script file %1"
 msgstr "Vinden van scriptbestand %1 is mislukt"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:499
-#, fuzzy, kde-format
-#| msgid ""
-#| "Error while running python3 script:\n"
-#| " %1"
+#, kde-format
 msgid ""
 "Error while running python3 script:\n"
 " %1\n"
 "%2"
 msgstr ""
 "Fout bij het uitvoeren van python3-script:\n"
-" %1"
+" %1\n"
+"%2"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:518
 #, kde-format
 msgid ""
-"This will delete the python virtual environnment from:<br/><b>%1</b><br/>The "
+"This will delete the python virtual environment from:<br/><b>%1</b><br/>The "
 "environment will be recreated and modules downloaded whenever you reenable "
-"the python virtual environnment."
+"the python virtual environment."
 msgstr ""
+"Dit zal de python virtuele omgeving verwijderen uit:<br/><b>%1</b><br/>De "
+"omgeving zal opnieuw gemaakt worden en modulen gedownload wanneer u de "
+"python virtuele omgeving weer inschakelt."
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
 #, kde-format
@@ -16389,7 +16387,7 @@ msgstr "Gepauzeerd"
 msgid "Mic level"
 msgstr "Microfoonniveau"
 
-#: src/timeline2/view/qml/Clip.qml:223 src/timeline2/view/qml/Clip.qml:842
+#: src/timeline2/view/qml/Clip.qml:223 src/timeline2/view/qml/Clip.qml:844
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), positie: %4, duur: %5"
@@ -16401,32 +16399,32 @@ msgstr "%1 (%2-%3), positie: %4, duur: %5"
 msgid "Position: %1"
 msgstr "Positie: %1"
 
-#: src/timeline2/view/qml/Clip.qml:450
+#: src/timeline2/view/qml/Clip.qml:452
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "Mixduur: %1, knip bij: %2"
 
-#: src/timeline2/view/qml/Clip.qml:511
+#: src/timeline2/view/qml/Clip.qml:513
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, Mixduur: %2"
 
-#: src/timeline2/view/qml/Clip.qml:513
+#: src/timeline2/view/qml/Clip.qml:515
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, Mixduur: %2"
 
-#: src/timeline2/view/qml/Clip.qml:516 src/timeline2/view/qml/Clip.qml:529
+#: src/timeline2/view/qml/Clip.qml:518 src/timeline2/view/qml/Clip.qml:531
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "Mixduur: %1"
 
-#: src/timeline2/view/qml/Clip.qml:705
+#: src/timeline2/view/qml/Clip.qml:707
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "In:%1, positie:%2"
 
-#: src/timeline2/view/qml/Clip.qml:708 src/timeline2/view/qml/Clip.qml:832
+#: src/timeline2/view/qml/Clip.qml:710 src/timeline2/view/qml/Clip.qml:834
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -16435,49 +16433,49 @@ msgstr ""
 "<b>Ctrl slepen</b> om snelheid te wijzigen, <b>Dubbelklik</b> om met "
 "naastgelegen clip te mengen"
 
-#: src/timeline2/view/qml/Clip.qml:710
+#: src/timeline2/view/qml/Clip.qml:712
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Slepen</b> om duur van mengen te wijzigen"
 
-#: src/timeline2/view/qml/Clip.qml:829
+#: src/timeline2/view/qml/Clip.qml:831
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Uit:%1, positie:%2"
 
-#: src/timeline2/view/qml/Clip.qml:975
+#: src/timeline2/view/qml/Clip.qml:977
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Offset: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:975
+#: src/timeline2/view/qml/Clip.qml:977
 #, kde-format
 msgid "Offset: %1"
 msgstr "Offset: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1193 src/timeline2/view/qml/Clip.qml:1230
+#: src/timeline2/view/qml/Clip.qml:1195 src/timeline2/view/qml/Clip.qml:1232
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>Klik</b> om een compositie toe te voegen"
 
-#: src/timeline2/view/qml/Clip.qml:1299 src/timeline2/view/qml/Clip.qml:1306
+#: src/timeline2/view/qml/Clip.qml:1301 src/timeline2/view/qml/Clip.qml:1308
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Vervagen: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1310 src/timeline2/view/qml/Clip.qml:1409
+#: src/timeline2/view/qml/Clip.qml:1312 src/timeline2/view/qml/Clip.qml:1411
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Slepen</b> om vervagen aan te passen, <b>Klik</b> om standaard duur van "
 "vervagen toe te voegen"
 
-#: src/timeline2/view/qml/Clip.qml:1398 src/timeline2/view/qml/Clip.qml:1405
+#: src/timeline2/view/qml/Clip.qml:1400 src/timeline2/view/qml/Clip.qml:1407
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Opkomen: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1492
+#: src/timeline2/view/qml/Clip.qml:1494
 #, kde-format
 msgid "Slip Clip"
 msgstr "Clip slippen"
@@ -18628,20 +18626,19 @@ msgstr "Map voor renderen, titels, scripts:"
 #: src/ui/configenv_ui.ui:313
 #, kde-format
 msgid "Python"
-msgstr ""
+msgstr "Python"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_usePythonVenv)
 #: src/ui/configenv_ui.ui:319
 #, kde-format
-msgid "Use python virtual environnment (recommended)"
-msgstr ""
+msgid "Use python virtual environment (recommended)"
+msgstr "Python virtuele omgeving gebruiken (aanbevolen)"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_python_delete)
 #: src/ui/configenv_ui.ui:357
-#, fuzzy, kde-format
-#| msgid "Delete %1"
+#, kde-format
 msgid "Delete "
-msgstr "Verwijder %1"
+msgstr "Verwijderen "
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/ui/configenv_ui.ui:387
@@ -19146,10 +19143,9 @@ msgstr "Uitvoerapparaat:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:21
-#, fuzzy, kde-format
-#| msgid "Check VOSK installation"
+#, kde-format
 msgid "Check speech engine installation"
-msgstr "Installatie van VOSK controleren"
+msgstr "Installatie controleren van spraak-engine"
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:24
@@ -19183,10 +19179,9 @@ msgstr "Map voor aangepaste modellen"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_add)
 #: src/ui/configspeech_ui.ui:103
-#, fuzzy, kde-format
-#| msgid "Add folder"
+#, kde-format
 msgid "Add Model"
-msgstr "Map toevoegen"
+msgstr "Model toevoegen"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configspeech_ui.ui:130
@@ -19196,10 +19191,9 @@ msgstr "VOSK spraakmodellen"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
 #: src/ui/configspeech_ui.ui:150
-#, fuzzy, kde-format
-#| msgid "Remove Folder"
+#, kde-format
 msgid "Remove Model"
-msgstr "Map verwijderen"
+msgstr "Model verwijderen"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configspeech_ui.ui:175
