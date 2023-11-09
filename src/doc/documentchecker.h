@@ -19,7 +19,7 @@ class DocumentChecker : public QObject
 
 public:
     enum MissingStatus { Fixed, Reload, Missing, MissingButProxy, Placeholder, Remove };
-    enum MissingType { Clip, Proxy, Luma, AssetFile, TitleImage, TitleFont, Effect, Transition };
+    enum MissingType { Clip, Proxy, Luma, AssetFile, TitleImage, TitleFont, Effect, Transition, CircularRef };
     struct DocumentResource
     {
         MissingStatus status = MissingStatus::Missing;

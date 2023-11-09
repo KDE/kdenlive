@@ -170,6 +170,7 @@ bool DocumentChecker::hasErrorInProject()
         }
     }
 
+    QDomNodeList documentTractors = m_doc.elementsByTagName(QStringLiteral("tractor"));
     QDomNodeList documentProducers = m_doc.elementsByTagName(QStringLiteral("producer"));
     QDomNodeList documentChains = m_doc.elementsByTagName(QStringLiteral("chain"));
     QDomNodeList entries = m_doc.elementsByTagName(QStringLiteral("entry"));
@@ -191,6 +192,39 @@ bool DocumentChecker::hasErrorInProject()
     for (int i = 0; i < max; ++i) {
         QDomElement e = documentChains.item(i).toElement();
         verifiedPaths << getMissingProducers(e, entries, storageFolder);
+    }
+    // Check that we don't have circular dependencies (a sequence embedding itself as a track / ptoducer
+    max = documentTractors.count();
+    QStringList circularRefs;
+    for (int i = 0; i < max; ++i) {
+        QDomElement e = documentTractors.item(i).toElement();
+        const QString tractorName = e.attribute(QStringLiteral("id"));
+        QDomNodeList tracks = e.elementsByTagName(QStringLiteral("track"));
+        int maxTracks = tracks.count();
+        QList<int> tracksToRemove;
+        for (int j = 0; j < maxTracks; ++j) {
+            QDomElement tr = tracks.item(j).toElement();
+            if (tr.attribute(QStringLiteral("producer")) == tractorName) {
+                // Malformed track, should be removed from project
+                tracksToRemove << j;
+                continue;
+            }
+        }
+        while (!tracksToRemove.isEmpty()) {
+            // Process removal from end
+            int x = tracksToRemove.takeLast();
+            QDomNode nodeToRemove = tracks.item(x);
+            e.removeChild(nodeToRemove);
+            circularRefs << tractorName;
+        }
+    }
+    if (!circularRefs.isEmpty()) {
+        circularRefs.removeDuplicates();
+        DocumentResource item;
+        item.type = MissingType::CircularRef;
+        item.status = MissingStatus::Remove;
+        item.originalFilePath = circularRefs.join(QLatin1Char(','));
+        m_items.push_back(item);
     }
 
     // Check existence of luma files
@@ -1548,6 +1582,8 @@ QString DocumentChecker::readableNameForMissingType(MissingType type)
         return i18n("Effect");
     case MissingType::Transition:
         return i18n("Transition");
+    case MissingType::CircularRef:
+        return i18n("Corrupted sequence");
     default:
         return i18n("Unknown");
     }
