@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-09 00:41+0000\n"
+"POT-Creation-Date: 2023-11-10 00:41+0000\n"
 "PO-Revision-Date: 2023-06-07 21:36+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -5481,8 +5481,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr "Käyttö"
 
-#: src/bin/projectitemmodel.cpp:336 src/doc/documentchecker.cpp:1526
-#: src/doc/documentchecker.cpp:1552 src/doc/documentchecker.cpp:1572
+#: src/bin/projectitemmodel.cpp:336 src/doc/documentchecker.cpp:1560
+#: src/doc/documentchecker.cpp:1588 src/doc/documentchecker.cpp:1608
 #: src/mltcontroller/clipcontroller.cpp:493 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -7833,114 +7833,120 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1516
+#: src/doc/documentchecker.cpp:1550
 #, kde-format
 msgid "Video clip"
 msgstr "Videoleike"
 
-#: src/doc/documentchecker.cpp:1518
+#: src/doc/documentchecker.cpp:1552
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Diaesitysleike"
 
-#: src/doc/documentchecker.cpp:1520
+#: src/doc/documentchecker.cpp:1554
 #, kde-format
 msgid "Image clip"
 msgstr "Kuvaleike"
 
-#: src/doc/documentchecker.cpp:1522
+#: src/doc/documentchecker.cpp:1556
 #, kde-format
 msgid "Playlist clip"
 msgstr "Soittolistaleike"
 
-#: src/doc/documentchecker.cpp:1524 src/doc/documentchecker.cpp:1540
+#: src/doc/documentchecker.cpp:1558 src/doc/documentchecker.cpp:1574
 #, kde-format
 msgid "Title Image"
 msgstr "Tekstiruudun kuva"
 
-#: src/doc/documentchecker.cpp:1536
+#: src/doc/documentchecker.cpp:1570
 #, fuzzy, kde-format
 #| msgid "&Clip"
 msgid "Clip"
 msgstr "&Leike"
 
-#: src/doc/documentchecker.cpp:1538
+#: src/doc/documentchecker.cpp:1572
 #, kde-format
 msgid "Title Font"
 msgstr "Tekstileikkeen fontti"
 
-#: src/doc/documentchecker.cpp:1542
+#: src/doc/documentchecker.cpp:1576
 #, kde-format
 msgid "Luma file"
 msgstr "Luma-tiedosto"
 
-#: src/doc/documentchecker.cpp:1544
+#: src/doc/documentchecker.cpp:1578
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Asset file"
 msgstr "Poista tiedostot"
 
-#: src/doc/documentchecker.cpp:1546
+#: src/doc/documentchecker.cpp:1580
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr "Puskuroi leike"
 
-#: src/doc/documentchecker.cpp:1548
+#: src/doc/documentchecker.cpp:1582
 #: src/monitor/view/kdenlivemonitorsplit.qml:90
 #, kde-format
 msgid "Effect"
 msgstr "Tehoste"
 
-#: src/doc/documentchecker.cpp:1550
+#: src/doc/documentchecker.cpp:1584
 #, fuzzy, kde-format
 #| msgid "Transition"
 msgid "Transition"
 msgstr "Siirtymä"
 
+#: src/doc/documentchecker.cpp:1586
+#, fuzzy, kde-format
+#| msgid "Create sequence"
+msgid "Corrupted sequence"
+msgstr "Luo sekvenssi"
+
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1560 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1596 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1562
+#: src/doc/documentchecker.cpp:1598
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Reload"
 msgstr "Lataa leike uudelleen"
 
-#: src/doc/documentchecker.cpp:1564
+#: src/doc/documentchecker.cpp:1600
 #, fuzzy, kde-format
 #| msgid "Missing"
 msgid "Missing"
 msgstr "Puuttuvat"
 
-#: src/doc/documentchecker.cpp:1566
+#: src/doc/documentchecker.cpp:1602
 #, fuzzy, kde-format
 #| msgid "Missing proxy"
 msgid "Missing, but proxy available"
 msgstr "Puskuri puuttuu"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1568 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1604 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "Paikkamerkki"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1570 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1606 src/ui/missingclips_ui.ui:152
 #, fuzzy, kde-format
 #| msgid "Removal"
 msgid "Remove"
 msgstr "Poisto"
 
-#: src/doc/documentchecker.cpp:1581
+#: src/doc/documentchecker.cpp:1617
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Projektitiedostosta puuttuu leikkeitä tai tiedostoja"
 
-#: src/doc/documentchecker.cpp:1584
+#: src/doc/documentchecker.cpp:1620
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Puuttuvat puskurit voidaan luoda uudelleen avaamisen yhteydessä."

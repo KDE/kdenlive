@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-09 00:41+0000\n"
-"PO-Revision-Date: 2023-11-07 09:01+0100\n"
+"POT-Creation-Date: 2023-11-10 00:41+0000\n"
+"PO-Revision-Date: 2023-11-09 08:48+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -5518,8 +5518,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr "Uporaba"
 
-#: src/bin/projectitemmodel.cpp:336 src/doc/documentchecker.cpp:1526
-#: src/doc/documentchecker.cpp:1552 src/doc/documentchecker.cpp:1572
+#: src/bin/projectitemmodel.cpp:336 src/doc/documentchecker.cpp:1560
+#: src/doc/documentchecker.cpp:1588 src/doc/documentchecker.cpp:1608
 #: src/mltcontroller/clipcontroller.cpp:493 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -6568,15 +6568,14 @@ msgid "Progressive"
 msgstr "Napredovano"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1746
-#, fuzzy, kde-format
-#| msgid "Set the path for MLT environment."
+#, kde-format
 msgid "Setting up virtual environment…"
-msgstr "Nastavite pot za okolje MLT."
+msgstr "Nastavitev virtualnega okolja …"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1748
 #, kde-format
 msgid "Disabling virtual environment"
-msgstr ""
+msgstr "Onemogočanje virtualnega okolja"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1763
 #, kde-format
@@ -7397,10 +7396,9 @@ msgid "Add marker for current selection"
 msgstr "Dodaj označevalnik za trenutni izbor"
 
 #: src/dialogs/textbasededit.cpp:736
-#, fuzzy, kde-format
-#| msgid "Remove All Preview Zones"
+#, kde-format
 msgid "Remove non speech zones"
-msgstr "Odstrani vsa območja predogleda"
+msgstr "Odstrani območja brez govora"
 
 #: src/dialogs/textbasededit.cpp:915
 #, kde-format
@@ -7879,107 +7877,113 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "ID dokumenta vašega projekta je bil neveljaven, ustvarjen je bil nov."
 
-#: src/doc/documentchecker.cpp:1516
+#: src/doc/documentchecker.cpp:1550
 #, kde-format
 msgid "Video clip"
 msgstr "Video posnetek"
 
-#: src/doc/documentchecker.cpp:1518
+#: src/doc/documentchecker.cpp:1552
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Predstavitveni posnetek"
 
-#: src/doc/documentchecker.cpp:1520
+#: src/doc/documentchecker.cpp:1554
 #, kde-format
 msgid "Image clip"
 msgstr "Posnetek iz slike"
 
-#: src/doc/documentchecker.cpp:1522
+#: src/doc/documentchecker.cpp:1556
 #, kde-format
 msgid "Playlist clip"
 msgstr "Posnetek seznama predvajanja"
 
-#: src/doc/documentchecker.cpp:1524 src/doc/documentchecker.cpp:1540
+#: src/doc/documentchecker.cpp:1558 src/doc/documentchecker.cpp:1574
 #, kde-format
 msgid "Title Image"
 msgstr "Slika napisa"
 
-#: src/doc/documentchecker.cpp:1536
+#: src/doc/documentchecker.cpp:1570
 #, kde-format
 msgid "Clip"
 msgstr "Posnetek"
 
-#: src/doc/documentchecker.cpp:1538
+#: src/doc/documentchecker.cpp:1572
 #, kde-format
 msgid "Title Font"
 msgstr "Pisava napisa"
 
-#: src/doc/documentchecker.cpp:1542
+#: src/doc/documentchecker.cpp:1576
 #, kde-format
 msgid "Luma file"
 msgstr "Datoteka svetilnosti"
 
-#: src/doc/documentchecker.cpp:1544
+#: src/doc/documentchecker.cpp:1578
 #, kde-format
 msgid "Asset file"
 msgstr "Datoteka sredstev"
 
-#: src/doc/documentchecker.cpp:1546
+#: src/doc/documentchecker.cpp:1580
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr "Posredni posnetek"
 
-#: src/doc/documentchecker.cpp:1548
+#: src/doc/documentchecker.cpp:1582
 #: src/monitor/view/kdenlivemonitorsplit.qml:90
 #, kde-format
 msgid "Effect"
 msgstr "Učinek"
 
-#: src/doc/documentchecker.cpp:1550
+#: src/doc/documentchecker.cpp:1584
 #, kde-format
 msgid "Transition"
 msgstr "Prehod"
 
+#: src/doc/documentchecker.cpp:1586
+#, fuzzy, kde-format
+#| msgid "Create sequence"
+msgid "Corrupted sequence"
+msgstr "Ustvari zaporedje"
+
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1560 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1596 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "Nespremenljivo"
 
-#: src/doc/documentchecker.cpp:1562
+#: src/doc/documentchecker.cpp:1598
 #, kde-format
 msgid "Reload"
 msgstr "Znova naloži"
 
-#: src/doc/documentchecker.cpp:1564
+#: src/doc/documentchecker.cpp:1600
 #, kde-format
 msgid "Missing"
 msgstr "Manjkajoči"
 
-#: src/doc/documentchecker.cpp:1566
+#: src/doc/documentchecker.cpp:1602
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr "Manjkajoči, vendar je na voljo posredni posnetek"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1568 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1604 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "Ograda"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1570 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1606 src/ui/missingclips_ui.ui:152
 #, kde-format
 msgid "Remove"
 msgstr "Odstrani"
 
-#: src/doc/documentchecker.cpp:1581
+#: src/doc/documentchecker.cpp:1617
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Datoteka projekta vsebuje manjkajoče posnetke ali datoteke."
 
-#: src/doc/documentchecker.cpp:1584
+#: src/doc/documentchecker.cpp:1620
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Manjkajoče posredne posnetke lahko obnovite ob odpiranju."
@@ -14262,23 +14266,23 @@ msgstr ""
 #: src/pythoninterfaces/abstractpythoninterface.cpp:185
 #, kde-format
 msgid "Using python from %1"
-msgstr ""
+msgstr "Uporablja se python iz %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:193
-#, fuzzy, kde-format
-#| msgid "Python exec not found"
+#, kde-format
 msgid "No python venv found"
-msgstr "Izvršilne datoteke Python ni mogoče najti"
+msgstr "Venv python ni mogoče najti"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:207
 #, kde-format
 msgid "Python venv size: %1"
-msgstr ""
+msgstr "Velikost venv python: %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:247
 #, kde-format
 msgid "Cannot find python virtualenv, please install it on your system."
 msgstr ""
+"Ni mogoče najti python virtualenv, prosimo, namestite ga na svoj sistem."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:265
 #, kde-format
@@ -14302,22 +14306,23 @@ msgid ""
 "under %1.\n"
 "This way, it won't touch your system libraries."
 msgstr ""
+"Kdenlive lahko manjkajoče module pythona namesti v virtualno okolje pod %1.\n"
+"Tako se ne bo dotaknil vaših sistemskih knjižnic."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:348
-#, fuzzy, kde-format
-#| msgid "Environment"
+#, kde-format
 msgid "Python environment"
-msgstr "Okolje"
+msgstr "Okolje python"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:348
 #, kde-format
 msgid "Use system install"
-msgstr ""
+msgstr "Uporabi sistemsko namestitev"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:349
 #, kde-format
 msgid "Use virtual environment (recommended)"
-msgstr ""
+msgstr "Uporabi virtualno okolje (priporočljivo)"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:366
 #: src/pythoninterfaces/abstractpythoninterface.cpp:440
@@ -14353,17 +14358,15 @@ msgid "Failed to find script file %1"
 msgstr "Ni bilo mogoče najti skriptne datoteke %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:499
-#, fuzzy, kde-format
-#| msgid ""
-#| "Error while running python3 script:\n"
-#| " %1"
+#, kde-format
 msgid ""
 "Error while running python3 script:\n"
 " %1\n"
 "%2"
 msgstr ""
-"Napaka pri zagonu python3 skripta:\n"
-" %1"
+"Napaka pri izvajanju skripta python3:\n"
+" %1\n"
+"%2"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:518
 #, kde-format
@@ -14372,6 +14375,9 @@ msgid ""
 "environment will be recreated and modules downloaded whenever you reenable "
 "the python virtual environment."
 msgstr ""
+"To bo izbrisalo virtualno okolje python iz:<br/> %1<br/>Okolje se bo ponovno "
+"ustvarilo in moduli bodo preneseni, kadar koli boste ponovno omogočili "
+"virtualno okolje python."
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
 #, kde-format
@@ -18631,20 +18637,19 @@ msgstr "Mapa za upodabljanje, napise, skripte:"
 #: src/ui/configenv_ui.ui:313
 #, kde-format
 msgid "Python"
-msgstr ""
+msgstr "Python"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_usePythonVenv)
 #: src/ui/configenv_ui.ui:319
 #, kde-format
 msgid "Use python virtual environment (recommended)"
-msgstr ""
+msgstr "Uporabi virtualno okolje python (priporočljivo)"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_python_delete)
 #: src/ui/configenv_ui.ui:357
-#, fuzzy, kde-format
-#| msgid "&Delete"
+#, kde-format
 msgid "Delete "
-msgstr "I&zbriši"
+msgstr "Izbriši"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/ui/configenv_ui.ui:387
@@ -19148,10 +19153,9 @@ msgstr "Izhodna naprava:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:21
-#, fuzzy, kde-format
-#| msgid "Check VOSK installation"
+#, kde-format
 msgid "Check speech engine installation"
-msgstr "Preveri namestitev VOSK"
+msgstr "Preveri namestitev govornega pogona"
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:24
@@ -19185,10 +19189,9 @@ msgstr "Mapa modelov po meri"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_add)
 #: src/ui/configspeech_ui.ui:103
-#, fuzzy, kde-format
-#| msgid "Model"
+#, kde-format
 msgid "Add Model"
-msgstr "Model"
+msgstr "Dodaj model"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configspeech_ui.ui:130
@@ -19198,10 +19201,9 @@ msgstr "Modeli govora VOSK"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
 #: src/ui/configspeech_ui.ui:150
-#, fuzzy, kde-format
-#| msgid "Remove Guide"
+#, kde-format
 msgid "Remove Model"
-msgstr "Odstrani vodilo"
+msgstr "Odstrani model"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configspeech_ui.ui:175
@@ -21762,9 +21764,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "Add a new speech model from an archive file"
-#~ msgstr "Dodaj nov model govora iz arhivske datoteke"
-
-#~ msgid "Delete the selected speech model"
-#~ msgstr "Izbriši izbran model govora"

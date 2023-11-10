@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-09 00:41+0000\n"
+"POT-Creation-Date: 2023-11-10 00:41+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -5670,8 +5670,8 @@ msgstr "I"
 msgid "Usage"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:336 src/doc/documentchecker.cpp:1526
-#: src/doc/documentchecker.cpp:1552 src/doc/documentchecker.cpp:1572
+#: src/bin/projectitemmodel.cpp:336 src/doc/documentchecker.cpp:1560
+#: src/doc/documentchecker.cpp:1588 src/doc/documentchecker.cpp:1608
 #: src/mltcontroller/clipcontroller.cpp:493 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -8051,115 +8051,121 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1516
+#: src/doc/documentchecker.cpp:1550
 #, kde-format
 msgid "Video clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1518
+#: src/doc/documentchecker.cpp:1552
 #, fuzzy, kde-format
 #| msgid "Slideshow"
 msgid "Slideshow clip"
 msgstr "تام تەسۋىرى"
 
-#: src/doc/documentchecker.cpp:1520
+#: src/doc/documentchecker.cpp:1554
 #, kde-format
 msgid "Image clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1522
+#: src/doc/documentchecker.cpp:1556
 #, kde-format
 msgid "Playlist clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1524 src/doc/documentchecker.cpp:1540
+#: src/doc/documentchecker.cpp:1558 src/doc/documentchecker.cpp:1574
 #, fuzzy, kde-format
 #| msgid "Image"
 msgid "Title Image"
 msgstr "سۈرەت"
 
-#: src/doc/documentchecker.cpp:1536
+#: src/doc/documentchecker.cpp:1570
 #, fuzzy, kde-format
 #| msgid "Clip"
 msgid "Clip"
 msgstr "ئىلغۇچ"
 
-#: src/doc/documentchecker.cpp:1538
+#: src/doc/documentchecker.cpp:1572
 #, fuzzy, kde-format
 #| msgid "Title"
 msgid "Title Font"
 msgstr "ماۋزۇ"
 
-#: src/doc/documentchecker.cpp:1542
+#: src/doc/documentchecker.cpp:1576
 #, kde-format
 msgid "Luma file"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1544
+#: src/doc/documentchecker.cpp:1578
 #, fuzzy, kde-format
 #| msgid "Profiles"
 msgid "Asset file"
 msgstr "Profiles"
 
-#: src/doc/documentchecker.cpp:1546
+#: src/doc/documentchecker.cpp:1580
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1548
+#: src/doc/documentchecker.cpp:1582
 #: src/monitor/view/kdenlivemonitorsplit.qml:90
 #, kde-format
 msgid "Effect"
 msgstr "ئۈنۈم"
 
-#: src/doc/documentchecker.cpp:1550
+#: src/doc/documentchecker.cpp:1584
 #, fuzzy, kde-format
 #| msgid "Transitions"
 msgid "Transition"
 msgstr "ئالماشتۇر"
 
+#: src/doc/documentchecker.cpp:1586
+#, fuzzy, kde-format
+#| msgid "Image size"
+msgid "Corrupted sequence"
+msgstr "سۈرەت چوڭلۇقى"
+
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1560 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1596 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1562
+#: src/doc/documentchecker.cpp:1598
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "Reload"
 msgstr "تاللانغان تۈرلەرنى ئۆچۈر"
 
-#: src/doc/documentchecker.cpp:1564
+#: src/doc/documentchecker.cpp:1600
 #, kde-format
 msgid "Missing"
 msgstr "يوقالغان"
 
-#: src/doc/documentchecker.cpp:1566
+#: src/doc/documentchecker.cpp:1602
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1568 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1604 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1570 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1606 src/ui/missingclips_ui.ui:152
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Remove"
 msgstr "قىسقۇچ قۇر"
 
-#: src/doc/documentchecker.cpp:1581
+#: src/doc/documentchecker.cpp:1617
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1584
+#: src/doc/documentchecker.cpp:1620
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr ""

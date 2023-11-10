@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-09 00:41+0000\n"
-"PO-Revision-Date: 2023-11-08 17:12+0100\n"
+"POT-Creation-Date: 2023-11-10 00:41+0000\n"
+"PO-Revision-Date: 2023-11-08 14:34-0300\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.08.2\n"
+"X-Generator: Poedit 3.4.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -5549,8 +5549,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr "Uso"
 
-#: src/bin/projectitemmodel.cpp:336 src/doc/documentchecker.cpp:1526
-#: src/doc/documentchecker.cpp:1552 src/doc/documentchecker.cpp:1572
+#: src/bin/projectitemmodel.cpp:336 src/doc/documentchecker.cpp:1560
+#: src/doc/documentchecker.cpp:1588 src/doc/documentchecker.cpp:1608
 #: src/mltcontroller/clipcontroller.cpp:493 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -6608,15 +6608,14 @@ msgid "Progressive"
 msgstr "Progresivo"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1746
-#, fuzzy, kde-format
-#| msgid "Set the path for MLT environment."
+#, kde-format
 msgid "Setting up virtual environment…"
-msgstr "Definir la ruta del entorno MLT."
+msgstr "Configurando el entorno virtual..."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1748
 #, kde-format
 msgid "Disabling virtual environment"
-msgstr ""
+msgstr "Desactivando el entorno virtual"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1763
 #, kde-format
@@ -7444,10 +7443,9 @@ msgid "Add marker for current selection"
 msgstr "Agregar marcador para la selección actual"
 
 #: src/dialogs/textbasededit.cpp:736
-#, fuzzy, kde-format
-#| msgid "Remove All Preview Zones"
+#, kde-format
 msgid "Remove non speech zones"
-msgstr "Eliminar todas las zonas de previsualización"
+msgstr "Eliminar zonas sin voz"
 
 #: src/dialogs/textbasededit.cpp:915
 #, kde-format
@@ -7917,107 +7915,113 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "El id de documento del proyecto era inválido, se ha creado uno nuevo."
 
-#: src/doc/documentchecker.cpp:1516
+#: src/doc/documentchecker.cpp:1550
 #, kde-format
 msgid "Video clip"
 msgstr "Clip de video"
 
-#: src/doc/documentchecker.cpp:1518
+#: src/doc/documentchecker.cpp:1552
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Clip de presentación"
 
-#: src/doc/documentchecker.cpp:1520
+#: src/doc/documentchecker.cpp:1554
 #, kde-format
 msgid "Image clip"
 msgstr "Clip de imagen"
 
-#: src/doc/documentchecker.cpp:1522
+#: src/doc/documentchecker.cpp:1556
 #, kde-format
 msgid "Playlist clip"
 msgstr "Clip de lista de reproducción"
 
-#: src/doc/documentchecker.cpp:1524 src/doc/documentchecker.cpp:1540
+#: src/doc/documentchecker.cpp:1558 src/doc/documentchecker.cpp:1574
 #, kde-format
 msgid "Title Image"
 msgstr "Imagen de título"
 
-#: src/doc/documentchecker.cpp:1536
+#: src/doc/documentchecker.cpp:1570
 #, kde-format
 msgid "Clip"
 msgstr "Clip"
 
-#: src/doc/documentchecker.cpp:1538
+#: src/doc/documentchecker.cpp:1572
 #, kde-format
 msgid "Title Font"
 msgstr "Tipografía del título"
 
-#: src/doc/documentchecker.cpp:1542
+#: src/doc/documentchecker.cpp:1576
 #, kde-format
 msgid "Luma file"
 msgstr "Archivo de luma"
 
-#: src/doc/documentchecker.cpp:1544
+#: src/doc/documentchecker.cpp:1578
 #, kde-format
 msgid "Asset file"
 msgstr "Archivo de recurso"
 
-#: src/doc/documentchecker.cpp:1546
+#: src/doc/documentchecker.cpp:1580
 #: src/mltcontroller/clippropertiescontroller.cpp:419
 #, kde-format
 msgid "Proxy clip"
 msgstr "Clip de reemplazo"
 
-#: src/doc/documentchecker.cpp:1548
+#: src/doc/documentchecker.cpp:1582
 #: src/monitor/view/kdenlivemonitorsplit.qml:90
 #, kde-format
 msgid "Effect"
 msgstr "Efecto"
 
-#: src/doc/documentchecker.cpp:1550
+#: src/doc/documentchecker.cpp:1584
 #, kde-format
 msgid "Transition"
 msgstr "Transición"
 
+#: src/doc/documentchecker.cpp:1586
+#, fuzzy, kde-format
+#| msgid "Create sequence"
+msgid "Corrupted sequence"
+msgstr "Crear secuencia"
+
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1560 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1596 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "Fijo"
 
-#: src/doc/documentchecker.cpp:1562
+#: src/doc/documentchecker.cpp:1598
 #, kde-format
 msgid "Reload"
 msgstr "Recargar"
 
-#: src/doc/documentchecker.cpp:1564
+#: src/doc/documentchecker.cpp:1600
 #, kde-format
 msgid "Missing"
 msgstr "Faltante"
 
-#: src/doc/documentchecker.cpp:1566
+#: src/doc/documentchecker.cpp:1602
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr "Faltante, pero existe un reemplazo disponible"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1568 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1604 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "Marcador de posición"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1570 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1606 src/ui/missingclips_ui.ui:152
 #, kde-format
 msgid "Remove"
 msgstr "Eliminar"
 
-#: src/doc/documentchecker.cpp:1581
+#: src/doc/documentchecker.cpp:1617
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "El archivo del proyecto contiene clips o archivos faltantes."
 
-#: src/doc/documentchecker.cpp:1584
+#: src/doc/documentchecker.cpp:1620
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Los reemplazos faltantes pueden ser creados nuevamente en la apertura."
@@ -14306,27 +14310,26 @@ msgstr ""
 "listado en la variable de entorno PATH"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:185
-#, fuzzy, kde-format
-#| msgid "Using MLT version %1"
+#, kde-format
 msgid "Using python from %1"
-msgstr "Usando la versión %1 de MLT"
+msgstr "Usando Python desde %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:193
-#, fuzzy, kde-format
-#| msgid "Python exec not found"
+#, kde-format
 msgid "No python venv found"
-msgstr "Ejecutable de Python no encontrado"
+msgstr "No se encontró venv de Python"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:207
 #, kde-format
 msgid "Python venv size: %1"
-msgstr ""
+msgstr "Tamaño de venv de Python: %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:247
-#, fuzzy, kde-format
-#| msgid "Cannot find python3, please install it on your system."
+#, kde-format
 msgid "Cannot find python virtualenv, please install it on your system."
-msgstr "No es posible encontrar Python 3, por favor instalarlo en el equipo."
+msgstr ""
+"No es posible encontrar entorno virtual de Python, por favor instalarlo en "
+"el sistema."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:265
 #, kde-format
@@ -14350,22 +14353,24 @@ msgid ""
 "under %1.\n"
 "This way, it won't touch your system libraries."
 msgstr ""
+"Kdenlive puede instalar los módulos faltantes de Python en un entorno "
+"virtual bajo %1.\n"
+"De esta manera no alterarán las bibliotecas del sistema."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:348
-#, fuzzy, kde-format
-#| msgid "Environment"
+#, kde-format
 msgid "Python environment"
-msgstr "Entorno"
+msgstr "Entorno de Python"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:348
 #, kde-format
 msgid "Use system install"
-msgstr ""
+msgstr "Usar instalación del sistema"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:349
 #, kde-format
 msgid "Use virtual environment (recommended)"
-msgstr ""
+msgstr "Usar entorno virtual (recomendado)"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:366
 #: src/pythoninterfaces/abstractpythoninterface.cpp:440
@@ -14402,17 +14407,15 @@ msgid "Failed to find script file %1"
 msgstr "No fue posible encontrar el archivo de script %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:499
-#, fuzzy, kde-format
-#| msgid ""
-#| "Error while running python3 script:\n"
-#| " %1"
+#, kde-format
 msgid ""
 "Error while running python3 script:\n"
 " %1\n"
 "%2"
 msgstr ""
-"Error al ejecutar script de python3:\n"
-" %1"
+"Error al ejecutar script de Python3:\n"
+" %1\n"
+"%2"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:518
 #, kde-format
@@ -14421,6 +14424,9 @@ msgid ""
 "environment will be recreated and modules downloaded whenever you reenable "
 "the python virtual environment."
 msgstr ""
+"Esto borrará el entorno virtual de Python de:<br/><b>%1</b><br/> El entorno "
+"será recreado y los módulos descargados cuando se vuelva a activar el "
+"entorno virtual de Python."
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
 #, kde-format
@@ -18718,7 +18724,7 @@ msgstr "Python"
 #: src/ui/configenv_ui.ui:319
 #, kde-format
 msgid "Use python virtual environment (recommended)"
-msgstr ""
+msgstr "Usar entorno virtual de Python (recomendado)"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_python_delete)
 #: src/ui/configenv_ui.ui:357
@@ -19232,10 +19238,9 @@ msgstr "Dispositivo de salida:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:21
-#, fuzzy, kde-format
-#| msgid "Check VOSK installation"
+#, kde-format
 msgid "Check speech engine installation"
-msgstr "Comprobar la instalación de VOSK"
+msgstr "Comprobar la instalación del motor de reconocimiento de voz"
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:24
@@ -19269,10 +19274,9 @@ msgstr "Carpeta personalizada de modelos"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_add)
 #: src/ui/configspeech_ui.ui:103
-#, fuzzy, kde-format
-#| msgid "Add folder"
+#, kde-format
 msgid "Add Model"
-msgstr "Agregar carpeta"
+msgstr "Agregar modelo"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configspeech_ui.ui:130
@@ -19282,10 +19286,9 @@ msgstr "Modelos de voz de VOSK"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
 #: src/ui/configspeech_ui.ui:150
-#, fuzzy, kde-format
-#| msgid "Remove Folder"
+#, kde-format
 msgid "Remove Model"
-msgstr "Eliminar carpeta"
+msgstr "Eliminar modelo"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configspeech_ui.ui:175
