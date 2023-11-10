@@ -32,6 +32,7 @@
 #include <QPainter>
 #include <QScrollBar>
 #include <QTextBlock>
+#include <QTextDocumentFragment>
 #include <QToolButton>
 
 #include <memory>
@@ -654,14 +655,18 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     QMenu *insertMenu = new QMenu(this);
     QAction *createSequence = new QAction(QIcon::fromTheme(QStringLiteral("list-add")), i18n("Create new sequence with edit"), this);
     QAction *insertSelection = new QAction(QIcon::fromTheme(QStringLiteral("timeline-insert")), i18n("Insert selection in timeline"), this);
+    QAction *saveAsPlaylist = new QAction(QIcon::fromTheme(QStringLiteral("document-save-as")), i18n("Save edited text in a playlist file"), this);
     insertMenu->addAction(createSequence);
     insertMenu->addAction(insertSelection);
+    insertMenu->addSeparator();
+    insertMenu->addAction(saveAsPlaylist);
     button_insert->setMenu(insertMenu);
     button_insert->setDefaultAction(createSequence);
     button_insert->setToolTip(i18n("Create new sequence with text edit "));
 
     connect(createSequence, &QAction::triggered, this, &TextBasedEdit::createSequence);
     connect(insertSelection, &QAction::triggered, this, &TextBasedEdit::insertToTimeline);
+    connect(saveAsPlaylist, &QAction::triggered, this, [&]() { previewPlaylist(true); });
     insertSelection->setEnabled(false);
 
     connect(m_visualEditor, &VideoTextEdit::selectionChanged, this, [this, insertSelection]() {
@@ -721,8 +726,6 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     button_delete->setDefaultAction(m_visualEditor->deleteAction);
     button_delete->setToolTip(i18n("Delete selected text"));
     connect(m_visualEditor->deleteAction, &QAction::triggered, this, &TextBasedEdit::deleteItem);
-
-    connect(button_add, &QToolButton::clicked, this, [&]() { previewPlaylist(true); });
 
     button_bookmark->setDefaultAction(m_visualEditor->bookmarkAction);
     button_bookmark->setToolTip(i18n("Add marker for current selection"));
@@ -1083,7 +1086,7 @@ void TextBasedEdit::startRecognition()
         connect(m_speechJob.get(), &QProcess::readyReadStandardError, this, &TextBasedEdit::slotProcessSpeechError);
         connect(m_speechJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this,
                 &TextBasedEdit::slotProcessSpeechStatus);
-        button_add->setEnabled(false);
+        button_insert->setEnabled(false);
         if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
             // Whisper
             qDebug() << "=== STARTING Whisper reco: " << m_stt->speechScript() << " / " << language_box->currentData() << " / "
@@ -1148,7 +1151,7 @@ void TextBasedEdit::slotProcessSpeechStatus(int, QProcess::ExitStatus status)
             }
         }
 
-        button_add->setEnabled(true);
+        button_insert->setEnabled(true);
         showMessage(i18n("Speech recognition finished."), KMessageWidget::Positive);
         // Store speech analysis in clip properties
         std::shared_ptr<AbstractProjectItem> clip = pCore->projectItemModel()->getItemByBinId(m_binId);
@@ -1343,8 +1346,8 @@ void TextBasedEdit::deleteItem()
     QTextCursor cursor = m_visualEditor->textCursor();
     int start = cursor.selectionStart();
     int end = cursor.selectionEnd();
-    qDebug() << "=== CUTTONG: " << start << " - " << end;
     if (end > start) {
+        QTextDocumentFragment fragment = cursor.selection();
         QString anchorStart = m_visualEditor->selectionStartAnchor(cursor, start, end);
         cursor.setPosition(end);
         bool blockEnd = cursor.atBlockEnd();
@@ -1356,13 +1359,37 @@ void TextBasedEdit::deleteItem()
             double startMs = anchorStart.section(QLatin1Char('#'), 1).section(QLatin1Char(':'), 0, 0).toDouble();
             double endMs = anchorEnd.section(QLatin1Char('#'), 1).section(QLatin1Char(':'), 1, 1).toDouble();
             if (startMs < endMs) {
-                qDebug() << "=== GOT CUT ZONE: " << GenTime(startMs).frames(pCore->getCurrentFps()) << " - " << GenTime(endMs).frames(pCore->getCurrentFps());
-                m_visualEditor->cutZones << QPoint(GenTime(startMs).frames(pCore->getCurrentFps()), GenTime(endMs).frames(pCore->getCurrentFps()));
-                cursor = m_visualEditor->textCursor();
-                cursor.removeSelectedText();
-                if (blockEnd) {
-                    cursor.deleteChar();
-                }
+                Fun redo = [this, start, end, startMs, endMs, blockEnd]() {
+                    QTextCursor tCursor = m_visualEditor->textCursor();
+                    tCursor.setPosition(start);
+                    tCursor.setPosition(end, QTextCursor::KeepAnchor);
+                    m_visualEditor->cutZones << QPoint(GenTime(startMs).frames(pCore->getCurrentFps()), GenTime(endMs).frames(pCore->getCurrentFps()));
+                    tCursor.removeSelectedText();
+                    if (blockEnd) {
+                        tCursor.deleteChar();
+                    }
+                    // Reset selection and rebuild line numbers
+                    m_visualEditor->rebuildZones();
+                    previewPlaylist(false);
+                    return true;
+                };
+                Fun undo = [this, start, fr = fragment, startMs, endMs]() {
+                    qDebug() << "::: PASTING FRAGMENT: " << fr.toPlainText();
+                    QTextCursor tCursor = m_visualEditor->textCursor();
+                    QPoint p(GenTime(startMs).frames(pCore->getCurrentFps()), GenTime(endMs).frames(pCore->getCurrentFps()));
+                    int ix = m_visualEditor->cutZones.indexOf(p);
+                    if (ix > -1) {
+                        m_visualEditor->cutZones.remove(ix);
+                    }
+                    tCursor.setPosition(start);
+                    tCursor.insertFragment(fr);
+                    // Reset selection and rebuild line numbers
+                    m_visualEditor->rebuildZones();
+                    previewPlaylist(false);
+                    return true;
+                };
+                redo();
+                pCore->pushUndo(undo, redo, i18nc("@action", "Edit clip text"));
             }
         }
     } else {
@@ -1381,9 +1408,6 @@ void TextBasedEdit::deleteItem()
             curs.movePosition(QTextCursor::NextBlock, QTextCursor::MoveAnchor);
         }
     }
-    // Reset selection and rebuild line numbers
-    m_visualEditor->rebuildZones();
-    previewPlaylist(false);
 }
 
 void TextBasedEdit::insertToTimeline()
@@ -1545,7 +1569,7 @@ void TextBasedEdit::openClip(std::shared_ptr<ProjectClip> clip)
         }
         if (speech.isEmpty()) {
             // Nothing else to do
-            button_add->setEnabled(false);
+            button_insert->setEnabled(false);
             button_start->setEnabled(true);
             return;
         }
@@ -1554,7 +1578,7 @@ void TextBasedEdit::openClip(std::shared_ptr<ProjectClip> clip)
             m_visualEditor->processCutZones(cutZones);
         }
         m_visualEditor->rebuildZones();
-        button_add->setEnabled(true);
+        button_insert->setEnabled(true);
         button_start->setEnabled(true);
     } else {
         button_start->setEnabled(false);

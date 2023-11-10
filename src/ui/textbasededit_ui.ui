@@ -131,7 +131,48 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       <property name="bottomMargin">
        <number>0</number>
       </property>
+      <item row="0" column="7">
+       <widget class="QToolButton" name="subMenu">
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="icon">
+         <iconset theme="application-menu">
+          <normaloff>.</normaloff>.</iconset>
+        </property>
+        <property name="popupMode">
+         <enum>QToolButton::InstantPopup</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QToolButton" name="button_bookmark">
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="autoRaise">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="5">
+       <widget class="QCheckBox" name="speech_zone">
+        <property name="text">
+         <string>Selected zone only</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QToolButton" name="button_delete">
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="autoRaise">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4">
        <widget class="QToolButton" name="button_search">
         <property name="text">
          <string>...</string>
@@ -145,37 +186,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
         </property>
         <property name="autoRaise">
          <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3">
-       <widget class="QToolButton" name="button_bookmark">
-        <property name="text">
-         <string>...</string>
-        </property>
-        <property name="autoRaise">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="6">
-       <widget class="QCheckBox" name="speech_zone">
-        <property name="text">
-         <string>Selected zone only</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="8">
-       <widget class="QToolButton" name="subMenu">
-        <property name="text">
-         <string>...</string>
-        </property>
-        <property name="icon">
-         <iconset theme="application-menu">
-          <normaloff>.</normaloff>.</iconset>
-        </property>
-        <property name="popupMode">
-         <enum>QToolButton::InstantPopup</enum>
         </property>
        </widget>
       </item>
@@ -195,37 +205,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
         </property>
        </widget>
       </item>
-      <item row="0" column="4">
-       <widget class="QToolButton" name="button_delete">
-        <property name="text">
-         <string>...</string>
-        </property>
-        <property name="autoRaise">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="QToolButton" name="button_add">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="toolTip">
-         <string>Save edited text in a new playlist</string>
-        </property>
-        <property name="text">
-         <string>...</string>
-        </property>
-        <property name="icon">
-         <iconset theme="document-save-as">
-          <normaloff>.</normaloff>.</iconset>
-        </property>
-        <property name="autoRaise">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="7">
+      <item row="0" column="6">
        <spacer name="horizontalSpacer_3">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
