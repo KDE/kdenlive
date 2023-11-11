@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-10 00:41+0000\n"
-"PO-Revision-Date: 2023-10-26 18:02+0200\n"
+"POT-Creation-Date: 2023-11-11 00:42+0000\n"
+"PO-Revision-Date: 2023-11-09 19:59+0100\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -4867,12 +4867,12 @@ msgstr ""
 "essere annidate."
 
 #: src/bin/bin.cpp:3757 src/dialogs/speechdialog.cpp:48
-#: src/dialogs/textbasededit.cpp:716 src/monitor/recmanager.cpp:42
+#: src/dialogs/textbasededit.cpp:721 src/monitor/recmanager.cpp:42
 #, kde-format
 msgid "Show log"
 msgstr "Mostra il registro"
 
-#: src/bin/bin.cpp:3760 src/dialogs/textbasededit.cpp:717
+#: src/bin/bin.cpp:3760 src/dialogs/textbasededit.cpp:722
 #, kde-format
 msgid "Detailed log"
 msgstr "Registro dettagliato"
@@ -5226,13 +5226,13 @@ msgid "MLT Playlist (*.mlt)"
 msgstr "Lista di riproduzione MLT (*.mlt)"
 
 #: src/bin/mediabrowser.cpp:53 src/dialogs/subtitleedit.cpp:150
-#: src/dialogs/textbasededit.cpp:732
+#: src/dialogs/textbasededit.cpp:735
 #, kde-format
 msgid "Zoom In"
 msgstr "Ingrandisci"
 
 #: src/bin/mediabrowser.cpp:54 src/dialogs/subtitleedit.cpp:152
-#: src/dialogs/textbasededit.cpp:734
+#: src/dialogs/textbasededit.cpp:737
 #, kde-format
 msgid "Zoom Out"
 msgstr "Rimpicciolisci"
@@ -5332,7 +5332,7 @@ msgid "Rename marker"
 msgstr "Rinomina marcatore"
 
 #: src/bin/model/markerlistmodel.cpp:260 src/bin/model/markerlistmodel.cpp:278
-#: src/dialogs/textbasededit.cpp:52
+#: src/dialogs/textbasededit.cpp:53
 #, kde-format
 msgid "Add marker"
 msgstr "Aggiungi marcatore"
@@ -5598,7 +5598,7 @@ msgid "Tag %1"
 msgstr "Etichetta %1"
 
 #: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:43
-#: src/dialogs/textbasededit.cpp:635
+#: src/dialogs/textbasededit.cpp:636
 #, kde-format
 msgid "Configure"
 msgstr "Configura"
@@ -6600,15 +6600,14 @@ msgid "Progressive"
 msgstr "Progressivo"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1746
-#, fuzzy, kde-format
-#| msgid "Set the path for MLT environment."
+#, kde-format
 msgid "Setting up virtual environment…"
-msgstr "Imposta il percorso dell'ambiente MLT."
+msgstr "Configurazione dell'ambiente virtuale..."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1748
 #, kde-format
 msgid "Disabling virtual environment"
-msgstr ""
+msgstr "Disabilitazione ambiente virtuale"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1763
 #, kde-format
@@ -7198,13 +7197,13 @@ msgstr "Seleziona clip nella linea temporale per eseguire l'analisi"
 msgid "No audio track found"
 msgstr "Non è stata trovata nessuna traccia audio"
 
-#: src/dialogs/speechdialog.cpp:175 src/dialogs/textbasededit.cpp:694
+#: src/dialogs/speechdialog.cpp:175 src/dialogs/textbasededit.cpp:699
 #, kde-format
 msgid "Please install speech recognition models"
 msgstr "Installa i modelli per il riconoscimento vocale"
 
-#: src/dialogs/speechdialog.cpp:194 src/dialogs/textbasededit.cpp:931
-#: src/dialogs/textbasededit.cpp:944
+#: src/dialogs/speechdialog.cpp:194 src/dialogs/textbasededit.cpp:934
+#: src/dialogs/textbasededit.cpp:947
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "Configura il riconoscimento vocale."
@@ -7219,12 +7218,12 @@ msgstr "Avvio dell'esportazione audio"
 msgid "Audio export failed"
 msgstr "Esportazione dell'audio non riuscita"
 
-#: src/dialogs/speechdialog.cpp:295 src/dialogs/textbasededit.cpp:963
+#: src/dialogs/speechdialog.cpp:295 src/dialogs/textbasededit.cpp:966
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "Avvio del riconoscimento vocale"
 
-#: src/dialogs/speechdialog.cpp:332 src/dialogs/textbasededit.cpp:1126
+#: src/dialogs/speechdialog.cpp:332 src/dialogs/textbasededit.cpp:1129
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "Riconoscimento vocale interrotto"
@@ -7381,77 +7380,81 @@ msgstr "In alto a destra"
 msgid "Character: %1, total: <b>%2</b>"
 msgstr "Carattere: %1, totale: <b>%2</b>"
 
-#: src/dialogs/textbasededit.cpp:54
+#: src/dialogs/textbasededit.cpp:55
 #, kde-format
 msgid "Delete selection"
 msgstr "Elimina colonne"
 
-#: src/dialogs/textbasededit.cpp:315 src/dialogs/textbasededit.cpp:571
-#: src/dialogs/textbasededit.cpp:1144 src/dialogs/textbasededit.cpp:1215
-#: src/dialogs/textbasededit.cpp:1239 src/dialogs/textbasededit.cpp:1296
+#: src/dialogs/textbasededit.cpp:316 src/dialogs/textbasededit.cpp:572
+#: src/dialogs/textbasededit.cpp:1147 src/dialogs/textbasededit.cpp:1218
+#: src/dialogs/textbasededit.cpp:1242 src/dialogs/textbasededit.cpp:1299
 #, kde-format
 msgid "No speech"
 msgstr "Nessuna voce"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
-#: src/dialogs/textbasededit.cpp:621 src/ui/speechdialog_ui.ui:144
+#: src/dialogs/textbasededit.cpp:622 src/ui/speechdialog_ui.ui:144
 #, kde-format
 msgid "Translate to English"
 msgstr "Traduci in inglese"
 
-#: src/dialogs/textbasededit.cpp:624
+#: src/dialogs/textbasededit.cpp:625
 #, kde-format
 msgid "Configure Speech Recognition"
 msgstr "Configura il riconoscimento vocale"
 
-#: src/dialogs/textbasededit.cpp:655
+#: src/dialogs/textbasededit.cpp:656
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Create New Sequence"
 msgid "Create new sequence with edit"
 msgstr "Crea una nuova sequenza"
 
-#: src/dialogs/textbasededit.cpp:656
-#, fuzzy, kde-format
-#| msgid "Insert selected blocks in timeline"
+#: src/dialogs/textbasededit.cpp:657
+#, kde-format
 msgid "Insert selection in timeline"
-msgstr "Inserisci i blocchi selezionati nella linea temporale"
+msgstr "Inserisci la selezione nella linea temporale"
 
-#: src/dialogs/textbasededit.cpp:661
+#: src/dialogs/textbasededit.cpp:658
+#, fuzzy, kde-format
+#| msgid "Save edited text in a new playlist"
+msgid "Save edited text in a playlist file"
+msgstr "Salva il testo modificato in una nuova scaletta"
+
+#: src/dialogs/textbasededit.cpp:665
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Create New Sequence"
 msgid "Create new sequence with text edit "
 msgstr "Crea una nuova sequenza"
 
-#: src/dialogs/textbasededit.cpp:684
+#: src/dialogs/textbasededit.cpp:689
 #, kde-format
 msgid "Speech model"
 msgstr "Modelli vocali"
 
-#: src/dialogs/textbasededit.cpp:685
+#: src/dialogs/textbasededit.cpp:690
 #, kde-format
 msgid "Speech language"
 msgstr "Lingua parlata"
 
-#: src/dialogs/textbasededit.cpp:722
+#: src/dialogs/textbasededit.cpp:727
 #, kde-format
 msgid "Delete selected text"
 msgstr "Elimina il testo selezionato"
 
-#: src/dialogs/textbasededit.cpp:728
-#, fuzzy, kde-format
-#| msgid "Add bookmark for current selection"
+#: src/dialogs/textbasededit.cpp:731
+#, kde-format
 msgid "Add marker for current selection"
-msgstr "Aggiungi un segnalibro alla selezione corrente"
+msgstr "Aggiungi un marcatore alla selezione corrente"
 
-#: src/dialogs/textbasededit.cpp:736
+#: src/dialogs/textbasededit.cpp:739
 #, fuzzy, kde-format
 #| msgid "Remove All Preview Zones"
 msgid "Remove non speech zones"
 msgstr "Rimuovi tutte le zone di anteprima"
 
-#: src/dialogs/textbasededit.cpp:915
+#: src/dialogs/textbasededit.cpp:918
 #, kde-format
 msgid ""
 "Another recognition job is already running. It will be aborted in favor of "
@@ -7460,75 +7463,81 @@ msgstr ""
 "È in corso un altro processo di riconoscimento, che verrà interrotto in "
 "favore del nuovo. Vuoi procedere?"
 
-#: src/dialogs/textbasededit.cpp:950
+#: src/dialogs/textbasededit.cpp:953
 #, kde-format
 msgid "Please install a language model."
 msgstr "Installa un modello di lingua."
 
-#: src/dialogs/textbasededit.cpp:958
+#: src/dialogs/textbasededit.cpp:961
 #, kde-format
 msgid "Select a clip with audio in Project Bin."
 msgstr "Seleziona una clip con audio nel contenitore del progetto."
 
-#: src/dialogs/textbasededit.cpp:1004
+#: src/dialogs/textbasededit.cpp:1007
 #, kde-format
 msgid "Select a clip with audio for speech recognition."
 msgstr "Seleziona una clip con audio per il riconoscimento vocale"
 
-#: src/dialogs/textbasededit.cpp:1013 src/dialogs/textbasededit.cpp:1048
-#: src/dialogs/textbasededit.cpp:1097
+#: src/dialogs/textbasededit.cpp:1016 src/dialogs/textbasededit.cpp:1051
+#: src/dialogs/textbasededit.cpp:1100
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "Impossibile creare il file temporaneo."
 
-#: src/dialogs/textbasededit.cpp:1018
+#: src/dialogs/textbasededit.cpp:1021
 #, kde-format
 msgid "Extracting audio for %1."
 msgstr "Estrazione dell'audio dalla clip %1."
 
-#: src/dialogs/textbasededit.cpp:1026
+#: src/dialogs/textbasededit.cpp:1029
 #, kde-format
 msgid "Audio extract failed."
 msgstr "Estrazione dell'audio non riuscita."
 
-#: src/dialogs/textbasededit.cpp:1032 src/dialogs/textbasededit.cpp:1081
+#: src/dialogs/textbasededit.cpp:1035 src/dialogs/textbasededit.cpp:1084
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "Avvio del riconoscimento vocale su %1."
 
-#: src/dialogs/textbasededit.cpp:1129
+#: src/dialogs/textbasededit.cpp:1132
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "Errore, controlla la configurazione del riconoscimento vocale."
 
-#: src/dialogs/textbasededit.cpp:1131
+#: src/dialogs/textbasededit.cpp:1134
 #, kde-format
 msgid "No speech detected."
 msgstr "Nessuna voce rilevata."
 
-#: src/dialogs/textbasededit.cpp:1152
+#: src/dialogs/textbasededit.cpp:1155
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "Riconoscimento vocale completato."
 
-#: src/dialogs/textbasededit.cpp:1400 src/dialogs/textbasededit.cpp:1482
+#: src/dialogs/textbasededit.cpp:1392
 #, fuzzy, kde-format
-#| msgid "Create Sequence Clip"
+#| msgid "Edit clip cut"
+msgctxt "@action"
+msgid "Edit clip text"
+msgstr "Modifica taglio clip"
+
+#: src/dialogs/textbasededit.cpp:1424 src/dialogs/textbasededit.cpp:1506
+#, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Crea una clip di sequenze"
 
-#: src/dialogs/textbasededit.cpp:1407 src/dialogs/textbasededit.cpp:1443
+#: src/dialogs/textbasededit.cpp:1431 src/dialogs/textbasededit.cpp:1467
 #, kde-format
 msgid "No text to export"
 msgstr "Nessun testo da esportare"
 
-#: src/dialogs/textbasededit.cpp:1427
+#: src/dialogs/textbasededit.cpp:1451
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "Inserisci il percorso della nuova scaletta"
 
-#: src/dialogs/textbasededit.cpp:1577
+#: src/dialogs/textbasededit.cpp:1601
 #, kde-format
 msgid "No timecode found in selection"
 msgstr "Nessun codice temporale nella selezione attuale"
@@ -9730,10 +9739,9 @@ msgstr ""
 "Lista separata da virgola di file da aggiungere come clip nel contenitore."
 
 #: src/main.cpp:202
-#, fuzzy, kde-format
-#| msgid "Parent folder of the project file"
+#, kde-format
 msgid "Directly render the project and exit."
-msgstr "Cartella genitore del file del progetto"
+msgstr "Esporta direttamente il progetto ed esci."
 
 #: src/main.cpp:205
 #, kde-format
@@ -9753,10 +9761,9 @@ msgid "Kdenlive document to open."
 msgstr "Documento di Kdenlive da aprire."
 
 #: src/main.cpp:214
-#, fuzzy, kde-format
-#| msgid "Output file extension"
+#, kde-format
 msgid "Output file for rendered video."
-msgstr "Estensione del file di uscita"
+msgstr "File di uscita per il video esportato."
 
 #: src/main.cpp:338
 #, kde-format
@@ -12331,7 +12338,7 @@ msgstr "Riproduzione progressiva"
 #: src/monitor/monitormanager.cpp:610
 #, kde-format
 msgid "Audio Scrubbing"
-msgstr "Pulizia dell'audio"
+msgstr "Scrubbing audio"
 
 #: src/monitor/monitormanager.cpp:616
 #, kde-format
@@ -14068,13 +14075,12 @@ msgstr ""
 #: src/project/projectmanager.cpp:489
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
-msgstr ""
+msgstr "Salvataggio del file di progetto <br><b>%1</B> non riuscito"
 
 #: src/project/projectmanager.cpp:522
-#, fuzzy, kde-format
-#| msgid "Starting process"
+#, kde-format
 msgid "Saving successful"
-msgstr "Avvio del processo"
+msgstr "Salvataggio riuscito"
 
 #: src/project/projectmanager.cpp:535
 #, kde-format
@@ -14175,12 +14181,13 @@ msgstr ""
 "creata al prossimo salvataggio"
 
 #: src/project/projectmanager.cpp:929
-#, fuzzy, kde-format
-#| msgid "Cannot open project file %1"
+#, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
 "%1\n"
-msgstr "Impossibile aprire il file di progetto %1"
+msgstr ""
+"Impossibile aprire il file di progetto. Errore:\n"
+"%1\n"
 
 #: src/project/projectmanager.cpp:969
 #, kde-format
@@ -14294,62 +14301,60 @@ msgstr "Transcodifica audio"
 msgid "Video transcode"
 msgstr "Transcodifica video"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:27
-#: src/pythoninterfaces/abstractpythoninterface.cpp:58
+#: src/pythoninterfaces/abstractpythoninterface.cpp:28
+#: src/pythoninterfaces/abstractpythoninterface.cpp:59
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "Installa le dipendenze mancanti"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:28
-#, fuzzy, kde-format
-#| msgid "Check VOSK installation"
+#: src/pythoninterfaces/abstractpythoninterface.cpp:29
+#, kde-format
 msgid "Abort installation"
-msgstr "Controlla l'installazione di VOSK"
+msgstr "Interrompi l'installazione"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:41
+#: src/pythoninterfaces/abstractpythoninterface.cpp:42
 #, kde-format
 msgid "Everything is properly configured."
 msgstr "Tutto è configurato correttamente."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:43
+#: src/pythoninterfaces/abstractpythoninterface.cpp:44
 #, kde-format
 msgid "%1 is properly configured."
 msgstr "%1 è configurato correttamente."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:47
+#: src/pythoninterfaces/abstractpythoninterface.cpp:48
 #, kde-format
 msgid "Everything is configured: %1"
 msgstr "Tutto è configurato: %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:49
+#: src/pythoninterfaces/abstractpythoninterface.cpp:50
 #, kde-format
 msgid "%1 is configured: %2"
 msgstr "%1 è configurato: %2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:68
-#: src/pythoninterfaces/abstractpythoninterface.cpp:79
+#: src/pythoninterfaces/abstractpythoninterface.cpp:69
+#: src/pythoninterfaces/abstractpythoninterface.cpp:80
 #, kde-format
 msgid "Check for update"
 msgstr "Controllo degli aggiornamenti"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:92
-#, fuzzy, kde-format
-#| msgid "Installing modules…"
+#: src/pythoninterfaces/abstractpythoninterface.cpp:93
+#, kde-format
 msgid "Installing modules… this can take a while"
-msgstr "Installazione dei moduli…"
+msgstr "Installazione dei moduli… potrebbe volerci del tempo"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:102
+#: src/pythoninterfaces/abstractpythoninterface.cpp:103
 #, kde-format
 msgid "Updating modules…"
 msgstr "Aggiornamento dei moduli…"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:123
+#: src/pythoninterfaces/abstractpythoninterface.cpp:124
 #, kde-format
 msgid "Checking configuration…"
 msgstr "Controllo della configurazione…"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:174
-#: src/pythoninterfaces/abstractpythoninterface.cpp:240
+#: src/pythoninterfaces/abstractpythoninterface.cpp:175
+#: src/pythoninterfaces/abstractpythoninterface.cpp:241
 #, kde-format
 msgid ""
 "Cannot find python3, please install it on your system.\n"
@@ -14360,7 +14365,7 @@ msgstr ""
 "Se fosse già installato, controlla che lo sia in una cartella elencata nella "
 "variabile di ambiente PATH"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:180
+#: src/pythoninterfaces/abstractpythoninterface.cpp:181
 #, kde-format
 msgid ""
 "Cannot find pip3, please install it on your system.\n"
@@ -14371,107 +14376,106 @@ msgstr ""
 "Se fosse già installato, controlla che lo sia in una cartella elencata nella "
 "variabile di ambiente PATH"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:185
-#, fuzzy, kde-format
-#| msgid "MLT version: %1"
+#: src/pythoninterfaces/abstractpythoninterface.cpp:186
+#, kde-format
 msgid "Using python from %1"
-msgstr "Versione di MLT: %1"
+msgstr "Uso di python da %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:193
+#: src/pythoninterfaces/abstractpythoninterface.cpp:194
 #, fuzzy, kde-format
 #| msgid "Sequence not found"
 msgid "No python venv found"
 msgstr "Sequenza non trovata"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:207
+#: src/pythoninterfaces/abstractpythoninterface.cpp:208
 #, kde-format
 msgid "Python venv size: %1"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:247
+#: src/pythoninterfaces/abstractpythoninterface.cpp:248
 #, fuzzy, kde-format
 #| msgid "Cannot find python3, please install it on your system."
 msgid "Cannot find python virtualenv, please install it on your system."
 msgstr "Impossibile trovare python3, installalo nel sistema."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:265
+#: src/pythoninterfaces/abstractpythoninterface.cpp:266
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr "Lo script %1 non è stato trovato, controlla l'installazione."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:311
+#: src/pythoninterfaces/abstractpythoninterface.cpp:312
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr ""
 "Il modulo python dell'applicazione <application>%1</application> è richiesto."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:313
+#: src/pythoninterfaces/abstractpythoninterface.cpp:314
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required for %2."
 msgstr ""
 "Il modulo python dell'applicazione <application>%1</application> è richiesto "
 "per %2."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:346
+#: src/pythoninterfaces/abstractpythoninterface.cpp:347
 #, kde-format
 msgid ""
 "Kdenlive can install the missing python modules in a virtual environment "
 "under %1.\n"
 "This way, it won't touch your system libraries."
 msgstr ""
-
-#: src/pythoninterfaces/abstractpythoninterface.cpp:348
-#, fuzzy, kde-format
-#| msgid "Environment"
-msgid "Python environment"
-msgstr "Ambiente"
-
-#: src/pythoninterfaces/abstractpythoninterface.cpp:348
-#, kde-format
-msgid "Use system install"
-msgstr ""
+"Kdenlive può installare i moduli python mancanti in un ambiente virtuale in "
+"%1.\n"
+"In questo modo le librerie di sistema non verranno toccate."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:349
 #, kde-format
-msgid "Use virtual environment (recommended)"
-msgstr ""
+msgid "Python environment"
+msgstr "Ambiente Python"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:366
-#: src/pythoninterfaces/abstractpythoninterface.cpp:440
+#: src/pythoninterfaces/abstractpythoninterface.cpp:349
+#, kde-format
+msgid "Use system install"
+msgstr "Usa installazione di sistema"
+
+#: src/pythoninterfaces/abstractpythoninterface.cpp:350
+#, kde-format
+msgid "Use virtual environment (recommended)"
+msgstr "Usa ambiente virtuale (raccomandato)"
+
+#: src/pythoninterfaces/abstractpythoninterface.cpp:367
+#: src/pythoninterfaces/abstractpythoninterface.cpp:441
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr "Errore interno: impossibile trovare l'elenco delle dipendenze"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:384
+#: src/pythoninterfaces/abstractpythoninterface.cpp:385
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "Errore nel controllo della versione del modulo %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:388
+#: src/pythoninterfaces/abstractpythoninterface.cpp:389
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
 msgstr ""
 "È richiesta almeno la versione %1 del modulo %2, ma quella corrente è %3"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:392
+#: src/pythoninterfaces/abstractpythoninterface.cpp:393
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "Considera di aggiornare l'installazione."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:463
-#, fuzzy, kde-format
-#| msgid "Sequence not found"
+#: src/pythoninterfaces/abstractpythoninterface.cpp:464
+#, kde-format
 msgid "Python exec not found"
-msgstr "Sequenza non trovata"
+msgstr "Eseguibile di Python non trovato"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:465
-#, fuzzy, kde-format
-#| msgid "Failed to create file."
+#: src/pythoninterfaces/abstractpythoninterface.cpp:466
+#, kde-format
 msgid "Failed to find script file %1"
-msgstr "Impossibile creare il file."
+msgstr "Impossibile trovare il file di script %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:499
+#: src/pythoninterfaces/abstractpythoninterface.cpp:500
 #, fuzzy, kde-format
 #| msgid ""
 #| "Error while running python3 script:\n"
@@ -14484,13 +14488,16 @@ msgstr ""
 "Errore nell'esecuzione dello script python3:\n"
 " %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:518
+#: src/pythoninterfaces/abstractpythoninterface.cpp:519
 #, kde-format
 msgid ""
 "This will delete the python virtual environment from:<br/><b>%1</b><br/>The "
 "environment will be recreated and modules downloaded whenever you reenable "
 "the python virtual environment."
 msgstr ""
+"Questo eliminerà l'ambiente virtuale python in:<br/><b>%1</b><br/>L'ambiente "
+"verrà ricreato e i moduli saranno scaricati di nuovo se l'ambiente virtuale "
+"verrà abilitato di nuovo."
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
 #, kde-format
@@ -17957,12 +17964,11 @@ msgstr "Elimina il punto corrente."
 
 #. i18n: ectx: property (text), widget (QToolButton, button_abort)
 #. i18n: ectx: property (text), widget (QToolButton, button_config)
-#. i18n: ectx: property (text), widget (QToolButton, button_search)
-#. i18n: ectx: property (text), widget (QToolButton, button_bookmark)
 #. i18n: ectx: property (text), widget (QToolButton, subMenu)
-#. i18n: ectx: property (text), widget (QToolButton, button_insert)
+#. i18n: ectx: property (text), widget (QToolButton, button_bookmark)
 #. i18n: ectx: property (text), widget (QToolButton, button_delete)
-#. i18n: ectx: property (text), widget (QToolButton, button_add)
+#. i18n: ectx: property (text), widget (QToolButton, button_search)
+#. i18n: ectx: property (text), widget (QToolButton, button_insert)
 #. i18n: ectx: property (text), widget (QToolButton, search_prev)
 #. i18n: ectx: property (text), widget (QToolButton, search_next)
 #. i18n: ectx: property (text), widget (QToolButton, italic)
@@ -17971,6 +17977,7 @@ msgstr "Elimina il punto corrente."
 #. i18n: ectx: property (text), widget (QToolButton, toolBtnReload)
 #. i18n: ectx: property (text), widget (QToolButton, hide_log)
 #. i18n: ectx: property (text), widget (QToolButton, reload_blackmagic)
+#. i18n: ectx: property (text), widget (QToolButton, button_add)
 #. i18n: ectx: property (text), widget (QToolButton, button_edit)
 #. i18n: ectx: property (text), widget (QToolButton, button_download)
 #. i18n: ectx: property (text), widget (QToolButton, guide_add)
@@ -18085,22 +18092,22 @@ msgstr "Elimina il punto corrente."
 #: src/ui/resourcewidget_ui.ui:214 src/ui/resourcewidget_ui.ui:281
 #: src/ui/speechdialog_ui.ui:75 src/ui/textbasededit_ui.ui:42
 #: src/ui/textbasededit_ui.ui:68 src/ui/textbasededit_ui.ui:137
-#: src/ui/textbasededit_ui.ui:154 src/ui/textbasededit_ui.ui:171
-#: src/ui/textbasededit_ui.ui:185 src/ui/textbasededit_ui.ui:201
-#: src/ui/textbasededit_ui.ui:217 src/ui/textbasededit_ui.ui:256
-#: src/ui/textbasededit_ui.ui:277 src/ui/timeremap_ui.ui:97
-#: src/ui/timeremap_ui.ui:151 src/ui/timeremap_ui.ui:182
-#: src/ui/timeremap_ui.ui:192 src/ui/timeremap_ui.ui:202
-#: src/ui/timeremap_ui.ui:379 src/ui/titlewidget_ui.ui:830
-#: src/ui/titlewidget_ui.ui:840 src/ui/titlewidget_ui.ui:1045
-#: src/ui/titlewidget_ui.ui:1100 src/ui/titlewidget_ui.ui:1150
-#: src/ui/titlewidget_ui.ui:1173 src/ui/titlewidget_ui.ui:1206
-#: src/ui/titlewidget_ui.ui:1296 src/ui/titlewidget_ui.ui:1594
-#: src/ui/titlewidget_ui.ui:1611 src/ui/titlewidget_ui.ui:1625
-#: src/ui/titlewidget_ui.ui:1692 src/ui/titlewidget_ui.ui:1706
-#: src/ui/titlewidget_ui.ui:1720 src/ui/titlewidget_ui.ui:1734
-#: src/ui/titlewidget_ui.ui:1748 src/ui/titlewidget_ui.ui:1762
-#: src/ui/unicodewidget_ui.ui:201 src/ui/unicodewidget_ui.ui:226
+#: src/ui/textbasededit_ui.ui:151 src/ui/textbasededit_ui.ui:168
+#: src/ui/textbasededit_ui.ui:178 src/ui/textbasededit_ui.ui:195
+#: src/ui/textbasededit_ui.ui:236 src/ui/textbasededit_ui.ui:257
+#: src/ui/timeremap_ui.ui:97 src/ui/timeremap_ui.ui:151
+#: src/ui/timeremap_ui.ui:182 src/ui/timeremap_ui.ui:192
+#: src/ui/timeremap_ui.ui:202 src/ui/timeremap_ui.ui:379
+#: src/ui/titlewidget_ui.ui:830 src/ui/titlewidget_ui.ui:840
+#: src/ui/titlewidget_ui.ui:1045 src/ui/titlewidget_ui.ui:1100
+#: src/ui/titlewidget_ui.ui:1150 src/ui/titlewidget_ui.ui:1173
+#: src/ui/titlewidget_ui.ui:1206 src/ui/titlewidget_ui.ui:1296
+#: src/ui/titlewidget_ui.ui:1594 src/ui/titlewidget_ui.ui:1611
+#: src/ui/titlewidget_ui.ui:1625 src/ui/titlewidget_ui.ui:1692
+#: src/ui/titlewidget_ui.ui:1706 src/ui/titlewidget_ui.ui:1720
+#: src/ui/titlewidget_ui.ui:1734 src/ui/titlewidget_ui.ui:1748
+#: src/ui/titlewidget_ui.ui:1762 src/ui/unicodewidget_ui.ui:201
+#: src/ui/unicodewidget_ui.ui:226
 #, kde-format
 msgid "..."
 msgstr "..."
@@ -18794,20 +18801,19 @@ msgstr "Cartella per esportazioni, titoli e script:"
 #: src/ui/configenv_ui.ui:313
 #, kde-format
 msgid "Python"
-msgstr ""
+msgstr "Python"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_usePythonVenv)
 #: src/ui/configenv_ui.ui:319
 #, kde-format
 msgid "Use python virtual environment (recommended)"
-msgstr ""
+msgstr "Usa l'ambiente virtuale di python (raccomandato)"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_python_delete)
 #: src/ui/configenv_ui.ui:357
-#, fuzzy, kde-format
-#| msgid "Delete %1"
+#, kde-format
 msgid "Delete "
-msgstr "Elimina %1"
+msgstr "Elimina "
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/ui/configenv_ui.ui:387
@@ -19350,10 +19356,9 @@ msgstr "Cartella dei modelli personalizzati"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_add)
 #: src/ui/configspeech_ui.ui:103
-#, fuzzy, kde-format
-#| msgid "Add folder"
+#, kde-format
 msgid "Add Model"
-msgstr "Aggiungi cartella"
+msgstr "Aggiungi modello"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configspeech_ui.ui:130
@@ -19363,10 +19368,9 @@ msgstr "Modelli vocali VOSK"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
 #: src/ui/configspeech_ui.ui:150
-#, fuzzy, kde-format
-#| msgid "Remove Folder"
+#, kde-format
 msgid "Remove Model"
-msgstr "Rimuovi cartella"
+msgstr "Rimuovi modello"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configspeech_ui.ui:175
@@ -19542,7 +19546,7 @@ msgstr "Al taglio dei sottotitoli:"
 #: src/ui/configtools_ui.ui:41
 #, kde-format
 msgid "Duplicate text"
-msgstr "Duplica testo"
+msgstr "Duplica il testo"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_subtitle_razor_mode)
 #: src/ui/configtools_ui.ui:46
@@ -20048,7 +20052,7 @@ msgstr "KSqueezedTextLabel"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, search_line)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter_line)
-#: src/ui/guideslist_ui.ui:157 src/ui/textbasededit_ui.ui:267
+#: src/ui/guideslist_ui.ui:157 src/ui/textbasededit_ui.ui:247
 #, kde-format
 msgid "Search"
 msgstr "Cerca"
@@ -20316,7 +20320,7 @@ msgstr "Elimina tutti i dati nella copia di sicurezza."
 #: src/ui/managecache_ui.ui:582
 #, kde-format
 msgid "Proxy clip data"
-msgstr "Dati clip rappresentativa"
+msgstr "Dati delle clip rappresentative"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, gProxyPath)
 #: src/ui/managecache_ui.ui:620
@@ -21314,16 +21318,10 @@ msgid "Start recognition"
 msgstr "Inizia il riconoscimento"
 
 #. i18n: ectx: property (text), widget (QCheckBox, speech_zone)
-#: src/ui/textbasededit_ui.ui:164
+#: src/ui/textbasededit_ui.ui:161
 #, kde-format
 msgid "Selected zone only"
 msgstr "Seleziona solo la zona"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, button_add)
-#: src/ui/textbasededit_ui.ui:214
-#, kde-format
-msgid "Save edited text in a new playlist"
-msgstr "Salva il testo modificato in una nuova scaletta"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/timeremap_ui.ui:90
@@ -22310,9 +22308,6 @@ msgstr "%1o"
 
 #~ msgid "Delete folder"
 #~ msgstr "Elimina cartella"
-
-#~ msgid "Edit clip cut"
-#~ msgstr "Modifica taglio clip"
 
 #~ msgid "Rename folder"
 #~ msgstr "Rinomina cartella"

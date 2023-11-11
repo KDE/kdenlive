@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-10 00:41+0000\n"
+"POT-Creation-Date: 2023-11-11 00:42+0000\n"
 "PO-Revision-Date: 2020-04-15 11:41+0300\n"
 "Last-Translator: Petros Vidalis <pvidalis@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -4982,12 +4982,12 @@ msgid ""
 msgstr ""
 
 #: src/bin/bin.cpp:3757 src/dialogs/speechdialog.cpp:48
-#: src/dialogs/textbasededit.cpp:716 src/monitor/recmanager.cpp:42
+#: src/dialogs/textbasededit.cpp:721 src/monitor/recmanager.cpp:42
 #, kde-format
 msgid "Show log"
 msgstr "Προβολή καταγραφής"
 
-#: src/bin/bin.cpp:3760 src/dialogs/textbasededit.cpp:717
+#: src/bin/bin.cpp:3760 src/dialogs/textbasededit.cpp:722
 #, fuzzy, kde-format
 #| msgid "Details"
 msgid "Detailed log"
@@ -5369,13 +5369,13 @@ msgid "MLT Playlist (*.mlt)"
 msgstr "Κλιπ λίστας αναπαραγωγής"
 
 #: src/bin/mediabrowser.cpp:53 src/dialogs/subtitleedit.cpp:150
-#: src/dialogs/textbasededit.cpp:732
+#: src/dialogs/textbasededit.cpp:735
 #, kde-format
 msgid "Zoom In"
 msgstr "Μεγέθυνση"
 
 #: src/bin/mediabrowser.cpp:54 src/dialogs/subtitleedit.cpp:152
-#: src/dialogs/textbasededit.cpp:734
+#: src/dialogs/textbasededit.cpp:737
 #, kde-format
 msgid "Zoom Out"
 msgstr "Σμίκρυνση"
@@ -5476,7 +5476,7 @@ msgid "Rename marker"
 msgstr "Διαγραφή δείκτη"
 
 #: src/bin/model/markerlistmodel.cpp:260 src/bin/model/markerlistmodel.cpp:278
-#: src/dialogs/textbasededit.cpp:52
+#: src/dialogs/textbasededit.cpp:53
 #, fuzzy, kde-format
 #| msgid "Add marker"
 msgid "Add marker"
@@ -5764,7 +5764,7 @@ msgid "Tag %1"
 msgstr ""
 
 #: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:43
-#: src/dialogs/textbasededit.cpp:635
+#: src/dialogs/textbasededit.cpp:636
 #, kde-format
 msgid "Configure"
 msgstr "Διαμόρφωση"
@@ -7420,14 +7420,14 @@ msgstr "Επιλέξτε ένα κλιπ πριν την αντιγραφή"
 msgid "No audio track found"
 msgstr "Δε βρέθηκε προηγούμενο καρέ"
 
-#: src/dialogs/speechdialog.cpp:175 src/dialogs/textbasededit.cpp:694
+#: src/dialogs/speechdialog.cpp:175 src/dialogs/textbasededit.cpp:699
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please install speech recognition models"
 msgstr "Επιλογή μετάβασης"
 
-#: src/dialogs/speechdialog.cpp:194 src/dialogs/textbasededit.cpp:931
-#: src/dialogs/textbasededit.cpp:944
+#: src/dialogs/speechdialog.cpp:194 src/dialogs/textbasededit.cpp:934
+#: src/dialogs/textbasededit.cpp:947
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please configure speech to text."
@@ -7444,12 +7444,12 @@ msgstr "Sox ηχητικό εφέ κέρδος"
 msgid "Audio export failed"
 msgstr "Ηχητικό κομμάτι"
 
-#: src/dialogs/speechdialog.cpp:295 src/dialogs/textbasededit.cpp:963
+#: src/dialogs/speechdialog.cpp:295 src/dialogs/textbasededit.cpp:966
 #, kde-format
 msgid "Starting speech recognition"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:332 src/dialogs/textbasededit.cpp:1126
+#: src/dialogs/speechdialog.cpp:332 src/dialogs/textbasededit.cpp:1129
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Speech recognition aborted."
@@ -7608,167 +7608,179 @@ msgstr "Πνευματικά δικαιώματα"
 msgid "Character: %1, total: <b>%2</b>"
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:54
+#: src/dialogs/textbasededit.cpp:55
 #, fuzzy, kde-format
 #| msgid "Delete selected clip"
 #| msgid_plural "Delete selected clips"
 msgid "Delete selection"
 msgstr "Διαγραφή του επιλεγμένου κλιπ"
 
-#: src/dialogs/textbasededit.cpp:315 src/dialogs/textbasededit.cpp:571
-#: src/dialogs/textbasededit.cpp:1144 src/dialogs/textbasededit.cpp:1215
-#: src/dialogs/textbasededit.cpp:1239 src/dialogs/textbasededit.cpp:1296
+#: src/dialogs/textbasededit.cpp:316 src/dialogs/textbasededit.cpp:572
+#: src/dialogs/textbasededit.cpp:1147 src/dialogs/textbasededit.cpp:1218
+#: src/dialogs/textbasededit.cpp:1242 src/dialogs/textbasededit.cpp:1299
 #, fuzzy, kde-format
 #| msgid "No clip copied"
 msgid "No speech"
 msgstr "Καμία αντιγραφή κλιπ"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
-#: src/dialogs/textbasededit.cpp:621 src/ui/speechdialog_ui.ui:144
+#: src/dialogs/textbasededit.cpp:622 src/ui/speechdialog_ui.ui:144
 #, fuzzy, kde-format
 #| msgid "Template text clip"
 msgid "Translate to English"
 msgstr "Πρότυπο κλιπ κειμένου"
 
-#: src/dialogs/textbasededit.cpp:624
+#: src/dialogs/textbasededit.cpp:625
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Configure Speech Recognition"
 msgstr "Επιλογή μετάβασης"
 
-#: src/dialogs/textbasededit.cpp:655
+#: src/dialogs/textbasededit.cpp:656
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Create new sequence with edit"
 msgstr "Δημιουργία νέας ακολουθίας"
 
-#: src/dialogs/textbasededit.cpp:656
+#: src/dialogs/textbasededit.cpp:657
 #, fuzzy, kde-format
 #| msgid "Cannot insert clip in timeline"
 msgid "Insert selection in timeline"
 msgstr "Αδυναμία εισαγωγής του κλιπ στο χρονοδιάγραμμα"
 
-#: src/dialogs/textbasededit.cpp:661
+#: src/dialogs/textbasededit.cpp:658
+#, kde-format
+msgid "Save edited text in a playlist file"
+msgstr ""
+
+#: src/dialogs/textbasededit.cpp:665
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Create new sequence with text edit "
 msgstr "Δημιουργία νέας ακολουθίας"
 
-#: src/dialogs/textbasededit.cpp:684
+#: src/dialogs/textbasededit.cpp:689
 #, fuzzy, kde-format
 #| msgid "Show/Hide options"
 msgid "Speech model"
 msgstr "Εμφάνιση/απόκρυψη επιλογών"
 
-#: src/dialogs/textbasededit.cpp:685
+#: src/dialogs/textbasededit.cpp:690
 #, fuzzy, kde-format
 #| msgid "Change"
 msgid "Speech language"
 msgstr "Τροποποίηση"
 
-#: src/dialogs/textbasededit.cpp:722
+#: src/dialogs/textbasededit.cpp:727
 #, fuzzy, kde-format
 #| msgid "Delete Selected Item"
 msgid "Delete selected text"
 msgstr "Διαγραφή του επιλεγμένου αντικειμένου"
 
-#: src/dialogs/textbasededit.cpp:728
+#: src/dialogs/textbasededit.cpp:731
 #, fuzzy, kde-format
 #| msgid "Add to project"
 msgid "Add marker for current selection"
 msgstr "Προσθήκη στο έργο"
 
-#: src/dialogs/textbasededit.cpp:736
+#: src/dialogs/textbasededit.cpp:739
 #, fuzzy, kde-format
 #| msgid "Preview volume:"
 msgid "Remove non speech zones"
 msgstr "Προεπισκόπηση έντασης:"
 
-#: src/dialogs/textbasededit.cpp:915
+#: src/dialogs/textbasededit.cpp:918
 #, kde-format
 msgid ""
 "Another recognition job is already running. It will be aborted in favor of "
 "the new job. Do you want to proceed?"
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:950
+#: src/dialogs/textbasededit.cpp:953
 #, kde-format
 msgid "Please install a language model."
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:958
+#: src/dialogs/textbasededit.cpp:961
 #, fuzzy, kde-format
 #| msgid "Clip in Project Tree"
 msgid "Select a clip with audio in Project Bin."
 msgstr "Κλιπ στο δέντρο έργου"
 
-#: src/dialogs/textbasededit.cpp:1004
+#: src/dialogs/textbasededit.cpp:1007
 #, fuzzy, kde-format
 #| msgid "Select a clip before copying"
 msgid "Select a clip with audio for speech recognition."
 msgstr "Επιλέξτε ένα κλιπ πριν την αντιγραφή"
 
-#: src/dialogs/textbasededit.cpp:1013 src/dialogs/textbasededit.cpp:1048
-#: src/dialogs/textbasededit.cpp:1097
+#: src/dialogs/textbasededit.cpp:1016 src/dialogs/textbasededit.cpp:1051
+#: src/dialogs/textbasededit.cpp:1100
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Cannot create temporary file."
 msgstr "Αδυναμία δημιουργίας προσωρινού αρχείου"
 
-#: src/dialogs/textbasededit.cpp:1018
+#: src/dialogs/textbasededit.cpp:1021
 #, fuzzy, kde-format
 #| msgid "Normalise audio for thumbnails"
 msgid "Extracting audio for %1."
 msgstr "Κανονικοποίηση ήχου για τις μικρογραφίες"
 
-#: src/dialogs/textbasededit.cpp:1026
+#: src/dialogs/textbasededit.cpp:1029
 #, fuzzy, kde-format
 msgid "Audio extract failed."
 msgstr "Ηχητικό κομμάτι"
 
-#: src/dialogs/textbasededit.cpp:1032 src/dialogs/textbasededit.cpp:1081
+#: src/dialogs/textbasededit.cpp:1035 src/dialogs/textbasededit.cpp:1084
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Starting speech recognition on %1."
 msgstr "Επιλογή μετάβασης"
 
-#: src/dialogs/textbasededit.cpp:1129
+#: src/dialogs/textbasededit.cpp:1132
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:1131
+#: src/dialogs/textbasededit.cpp:1134
 #, fuzzy, kde-format
 #| msgid "No clip copied"
 msgid "No speech detected."
 msgstr "Καμία αντιγραφή κλιπ"
 
-#: src/dialogs/textbasededit.cpp:1152
+#: src/dialogs/textbasededit.cpp:1155
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Speech recognition finished."
 msgstr "Επιλογή μετάβασης"
 
-#: src/dialogs/textbasededit.cpp:1400 src/dialogs/textbasededit.cpp:1482
+#: src/dialogs/textbasededit.cpp:1392
+#, fuzzy, kde-format
+#| msgid "Edit clip cut"
+msgctxt "@action"
+msgid "Edit clip text"
+msgstr "Επεξεργασία διαίρεσης κλιπ"
+
+#: src/dialogs/textbasededit.cpp:1424 src/dialogs/textbasededit.cpp:1506
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Δημιουργία νέας ακολουθίας"
 
-#: src/dialogs/textbasededit.cpp:1407 src/dialogs/textbasededit.cpp:1443
+#: src/dialogs/textbasededit.cpp:1431 src/dialogs/textbasededit.cpp:1467
 #, fuzzy, kde-format
 #| msgid "Plain text export"
 msgid "No text to export"
 msgstr "Εξαγωγή απλού κειμένου"
 
-#: src/dialogs/textbasededit.cpp:1427
+#: src/dialogs/textbasededit.cpp:1451
 #, fuzzy, kde-format
 #| msgid "Enter Template Path"
 msgid "Enter new playlist path"
 msgstr "Εισάγετε τη διαδρομή του προτύπου"
 
-#: src/dialogs/textbasededit.cpp:1577
+#: src/dialogs/textbasededit.cpp:1601
 #, fuzzy, kde-format
 #| msgid "No guide at cursor time"
 msgid "No timecode found in selection"
@@ -14715,64 +14727,64 @@ msgstr "Ηχητικά κομμάτια"
 msgid "Video transcode"
 msgstr "Κομμάτια βίντεο"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:27
-#: src/pythoninterfaces/abstractpythoninterface.cpp:58
+#: src/pythoninterfaces/abstractpythoninterface.cpp:28
+#: src/pythoninterfaces/abstractpythoninterface.cpp:59
 #, kde-format
 msgid "Install missing dependencies"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:28
+#: src/pythoninterfaces/abstractpythoninterface.cpp:29
 #, kde-format
 msgid "Abort installation"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:41
+#: src/pythoninterfaces/abstractpythoninterface.cpp:42
 #, kde-format
 msgid "Everything is properly configured."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:43
+#: src/pythoninterfaces/abstractpythoninterface.cpp:44
 #, kde-format
 msgid "%1 is properly configured."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:47
+#: src/pythoninterfaces/abstractpythoninterface.cpp:48
 #, kde-format
 msgid "Everything is configured: %1"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:49
+#: src/pythoninterfaces/abstractpythoninterface.cpp:50
 #, kde-format
 msgid "%1 is configured: %2"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:68
-#: src/pythoninterfaces/abstractpythoninterface.cpp:79
+#: src/pythoninterfaces/abstractpythoninterface.cpp:69
+#: src/pythoninterfaces/abstractpythoninterface.cpp:80
 #, fuzzy, kde-format
 #| msgid "Direct update"
 msgid "Check for update"
 msgstr "Άμεση ανανέωση"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:92
+#: src/pythoninterfaces/abstractpythoninterface.cpp:93
 #, fuzzy, kde-format
 #| msgid "Installed modules"
 msgid "Installing modules… this can take a while"
 msgstr "Εγκατεστημένα αρθρώματα"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:102
+#: src/pythoninterfaces/abstractpythoninterface.cpp:103
 #, fuzzy, kde-format
 #| msgid "Installed modules"
 msgid "Updating modules…"
 msgstr "Εγκατεστημένα αρθρώματα"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:123
+#: src/pythoninterfaces/abstractpythoninterface.cpp:124
 #, fuzzy, kde-format
 #| msgid "Device configuration"
 msgid "Checking configuration…"
 msgstr "Διαμόρφωση συσκευών"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:174
-#: src/pythoninterfaces/abstractpythoninterface.cpp:240
+#: src/pythoninterfaces/abstractpythoninterface.cpp:175
+#: src/pythoninterfaces/abstractpythoninterface.cpp:241
 #, kde-format
 msgid ""
 "Cannot find python3, please install it on your system.\n"
@@ -14780,7 +14792,7 @@ msgid ""
 "environment variable"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:180
+#: src/pythoninterfaces/abstractpythoninterface.cpp:181
 #, kde-format
 msgid ""
 "Cannot find pip3, please install it on your system.\n"
@@ -14788,44 +14800,44 @@ msgid ""
 "environment variable"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:185
+#: src/pythoninterfaces/abstractpythoninterface.cpp:186
 #, fuzzy, kde-format
 #| msgid "MLT version: %1"
 msgid "Using python from %1"
 msgstr "Έκδοση MLT: %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:193
+#: src/pythoninterfaces/abstractpythoninterface.cpp:194
 #, fuzzy, kde-format
 #| msgid "Sequence not found"
 msgid "No python venv found"
 msgstr "Η ακολουθία δε βρέθηκε"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:207
+#: src/pythoninterfaces/abstractpythoninterface.cpp:208
 #, kde-format
 msgid "Python venv size: %1"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:247
+#: src/pythoninterfaces/abstractpythoninterface.cpp:248
 #, kde-format
 msgid "Cannot find python virtualenv, please install it on your system."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:265
+#: src/pythoninterfaces/abstractpythoninterface.cpp:266
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:311
+#: src/pythoninterfaces/abstractpythoninterface.cpp:312
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:313
+#: src/pythoninterfaces/abstractpythoninterface.cpp:314
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required for %2."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:346
+#: src/pythoninterfaces/abstractpythoninterface.cpp:347
 #, kde-format
 msgid ""
 "Kdenlive can install the missing python modules in a virtual environment "
@@ -14833,58 +14845,58 @@ msgid ""
 "This way, it won't touch your system libraries."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:348
+#: src/pythoninterfaces/abstractpythoninterface.cpp:349
 #, fuzzy, kde-format
 #| msgid "Environment"
 msgid "Python environment"
 msgstr "Περιβάλλον"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:348
+#: src/pythoninterfaces/abstractpythoninterface.cpp:349
 #, kde-format
 msgid "Use system install"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:349
+#: src/pythoninterfaces/abstractpythoninterface.cpp:350
 #, kde-format
 msgid "Use virtual environment (recommended)"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:366
-#: src/pythoninterfaces/abstractpythoninterface.cpp:440
+#: src/pythoninterfaces/abstractpythoninterface.cpp:367
+#: src/pythoninterfaces/abstractpythoninterface.cpp:441
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:384
+#: src/pythoninterfaces/abstractpythoninterface.cpp:385
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:388
+#: src/pythoninterfaces/abstractpythoninterface.cpp:389
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:392
+#: src/pythoninterfaces/abstractpythoninterface.cpp:393
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please consider to update your setup."
 msgstr "Επιλογή μετάβασης"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:463
+#: src/pythoninterfaces/abstractpythoninterface.cpp:464
 #, fuzzy, kde-format
 #| msgid "Sequence not found"
 msgid "Python exec not found"
 msgstr "Η ακολουθία δε βρέθηκε"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:465
+#: src/pythoninterfaces/abstractpythoninterface.cpp:466
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
 msgid "Failed to find script file %1"
 msgstr "Αποτυχία δημιουργίας αρχείου."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:499
+#: src/pythoninterfaces/abstractpythoninterface.cpp:500
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -14892,7 +14904,7 @@ msgid ""
 "%2"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:518
+#: src/pythoninterfaces/abstractpythoninterface.cpp:519
 #, kde-format
 msgid ""
 "This will delete the python virtual environment from:<br/><b>%1</b><br/>The "
@@ -18553,12 +18565,11 @@ msgstr "Διαγραφή τρέχοντος κουμπιού"
 
 #. i18n: ectx: property (text), widget (QToolButton, button_abort)
 #. i18n: ectx: property (text), widget (QToolButton, button_config)
-#. i18n: ectx: property (text), widget (QToolButton, button_search)
-#. i18n: ectx: property (text), widget (QToolButton, button_bookmark)
 #. i18n: ectx: property (text), widget (QToolButton, subMenu)
-#. i18n: ectx: property (text), widget (QToolButton, button_insert)
+#. i18n: ectx: property (text), widget (QToolButton, button_bookmark)
 #. i18n: ectx: property (text), widget (QToolButton, button_delete)
-#. i18n: ectx: property (text), widget (QToolButton, button_add)
+#. i18n: ectx: property (text), widget (QToolButton, button_search)
+#. i18n: ectx: property (text), widget (QToolButton, button_insert)
 #. i18n: ectx: property (text), widget (QToolButton, search_prev)
 #. i18n: ectx: property (text), widget (QToolButton, search_next)
 #. i18n: ectx: property (text), widget (QToolButton, italic)
@@ -18567,6 +18578,7 @@ msgstr "Διαγραφή τρέχοντος κουμπιού"
 #. i18n: ectx: property (text), widget (QToolButton, toolBtnReload)
 #. i18n: ectx: property (text), widget (QToolButton, hide_log)
 #. i18n: ectx: property (text), widget (QToolButton, reload_blackmagic)
+#. i18n: ectx: property (text), widget (QToolButton, button_add)
 #. i18n: ectx: property (text), widget (QToolButton, button_edit)
 #. i18n: ectx: property (text), widget (QToolButton, button_download)
 #. i18n: ectx: property (text), widget (QToolButton, guide_add)
@@ -18681,22 +18693,22 @@ msgstr "Διαγραφή τρέχοντος κουμπιού"
 #: src/ui/resourcewidget_ui.ui:214 src/ui/resourcewidget_ui.ui:281
 #: src/ui/speechdialog_ui.ui:75 src/ui/textbasededit_ui.ui:42
 #: src/ui/textbasededit_ui.ui:68 src/ui/textbasededit_ui.ui:137
-#: src/ui/textbasededit_ui.ui:154 src/ui/textbasededit_ui.ui:171
-#: src/ui/textbasededit_ui.ui:185 src/ui/textbasededit_ui.ui:201
-#: src/ui/textbasededit_ui.ui:217 src/ui/textbasededit_ui.ui:256
-#: src/ui/textbasededit_ui.ui:277 src/ui/timeremap_ui.ui:97
-#: src/ui/timeremap_ui.ui:151 src/ui/timeremap_ui.ui:182
-#: src/ui/timeremap_ui.ui:192 src/ui/timeremap_ui.ui:202
-#: src/ui/timeremap_ui.ui:379 src/ui/titlewidget_ui.ui:830
-#: src/ui/titlewidget_ui.ui:840 src/ui/titlewidget_ui.ui:1045
-#: src/ui/titlewidget_ui.ui:1100 src/ui/titlewidget_ui.ui:1150
-#: src/ui/titlewidget_ui.ui:1173 src/ui/titlewidget_ui.ui:1206
-#: src/ui/titlewidget_ui.ui:1296 src/ui/titlewidget_ui.ui:1594
-#: src/ui/titlewidget_ui.ui:1611 src/ui/titlewidget_ui.ui:1625
-#: src/ui/titlewidget_ui.ui:1692 src/ui/titlewidget_ui.ui:1706
-#: src/ui/titlewidget_ui.ui:1720 src/ui/titlewidget_ui.ui:1734
-#: src/ui/titlewidget_ui.ui:1748 src/ui/titlewidget_ui.ui:1762
-#: src/ui/unicodewidget_ui.ui:201 src/ui/unicodewidget_ui.ui:226
+#: src/ui/textbasededit_ui.ui:151 src/ui/textbasededit_ui.ui:168
+#: src/ui/textbasededit_ui.ui:178 src/ui/textbasededit_ui.ui:195
+#: src/ui/textbasededit_ui.ui:236 src/ui/textbasededit_ui.ui:257
+#: src/ui/timeremap_ui.ui:97 src/ui/timeremap_ui.ui:151
+#: src/ui/timeremap_ui.ui:182 src/ui/timeremap_ui.ui:192
+#: src/ui/timeremap_ui.ui:202 src/ui/timeremap_ui.ui:379
+#: src/ui/titlewidget_ui.ui:830 src/ui/titlewidget_ui.ui:840
+#: src/ui/titlewidget_ui.ui:1045 src/ui/titlewidget_ui.ui:1100
+#: src/ui/titlewidget_ui.ui:1150 src/ui/titlewidget_ui.ui:1173
+#: src/ui/titlewidget_ui.ui:1206 src/ui/titlewidget_ui.ui:1296
+#: src/ui/titlewidget_ui.ui:1594 src/ui/titlewidget_ui.ui:1611
+#: src/ui/titlewidget_ui.ui:1625 src/ui/titlewidget_ui.ui:1692
+#: src/ui/titlewidget_ui.ui:1706 src/ui/titlewidget_ui.ui:1720
+#: src/ui/titlewidget_ui.ui:1734 src/ui/titlewidget_ui.ui:1748
+#: src/ui/titlewidget_ui.ui:1762 src/ui/unicodewidget_ui.ui:201
+#: src/ui/unicodewidget_ui.ui:226
 #, kde-format
 msgid "..."
 msgstr "..."
@@ -20771,7 +20783,7 @@ msgstr "ΕτικέταΚειμένου"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, search_line)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter_line)
-#: src/ui/guideslist_ui.ui:157 src/ui/textbasededit_ui.ui:267
+#: src/ui/guideslist_ui.ui:157 src/ui/textbasededit_ui.ui:247
 #, kde-format
 msgid "Search"
 msgstr "Αναζήτηση"
@@ -22135,17 +22147,11 @@ msgid "Start recognition"
 msgstr "Επιλογή μετάβασης"
 
 #. i18n: ectx: property (text), widget (QCheckBox, speech_zone)
-#: src/ui/textbasededit_ui.ui:164
+#: src/ui/textbasededit_ui.ui:161
 #, fuzzy, kde-format
 #| msgid "Selected &zone"
 msgid "Selected zone only"
 msgstr "&Επιλεγμένη ζώνη"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, button_add)
-#: src/ui/textbasededit_ui.ui:214
-#, kde-format
-msgid "Save edited text in a new playlist"
-msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/timeremap_ui.ui:90
@@ -23157,9 +23163,6 @@ msgstr ""
 #~| msgid "Delete folder"
 #~ msgid "Delete folder"
 #~ msgstr "Διαγραφή φακέλου"
-
-#~ msgid "Edit clip cut"
-#~ msgstr "Επεξεργασία διαίρεσης κλιπ"
 
 #~ msgid "Rename folder"
 #~ msgstr "Μετονομασία φακέλου"
