@@ -5262,10 +5262,9 @@ msgid "File already exists"
 msgstr "Soubor již existuje"
 
 #: src/bin/projectclip.cpp:2553
-#, fuzzy, kde-format
-#| msgid "Adjust size and position of clip"
+#, kde-format
 msgid "Adjust timeline clips"
-msgstr "Změna velikosti a přiblížení klipu"
+msgstr ""
 
 #: src/bin/projectclip.cpp:2774
 #, kde-format
@@ -6980,24 +6979,19 @@ msgid "Configure Speech Recognition"
 msgstr "Nastavit rozpoznávání řeči"
 
 #: src/dialogs/textbasededit.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with edit"
-msgstr "Vytvořit novou sekvenci"
+msgstr ""
 
 #: src/dialogs/textbasededit.cpp:635
-#, fuzzy, kde-format
-#| msgid "Insert Clip Zone in Timeline"
+#, kde-format
 msgid "Insert selection in timeline"
-msgstr "Vložit zónu klipu do časové osy"
+msgstr ""
 
 #: src/dialogs/textbasededit.cpp:640
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with text edit "
-msgstr "Vytvořit novou sekvenci"
+msgstr ""
 
 #: src/dialogs/textbasededit.cpp:663
 #, kde-format
@@ -7015,10 +7009,9 @@ msgid "Delete selected text"
 msgstr "Smazat vybraný text"
 
 #: src/dialogs/textbasededit.cpp:707
-#, fuzzy, kde-format
-#| msgid "Select image items in current selection"
+#, kde-format
 msgid "Add marker for current selection"
-msgstr "Vybrat obrázky v současném výběru"
+msgstr ""
 
 #: src/dialogs/textbasededit.cpp:848
 #, kde-format
@@ -7079,11 +7072,10 @@ msgid "Speech recognition finished."
 msgstr ""
 
 #: src/dialogs/textbasededit.cpp:1280 src/dialogs/textbasededit.cpp:1342
-#, fuzzy, kde-format
-#| msgid "Create sequence"
+#, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
-msgstr "Vytvářejte sekvence"
+msgstr ""
 
 #: src/dialogs/textbasededit.cpp:1287 src/dialogs/textbasededit.cpp:1323
 #, kde-format
@@ -13534,10 +13526,9 @@ msgid "Install missing dependencies"
 msgstr "Nainstalujte chybějící závislosti"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:26
-#, fuzzy, kde-format
-#| msgid "Check VOSK installation"
+#, kde-format
 msgid "Abort installation"
-msgstr "Zkontrolujte instalaci VOSK"
+msgstr ""
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:37
 #, kde-format
@@ -13566,10 +13557,9 @@ msgid "Check for update"
 msgstr ""
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:88
-#, fuzzy, kde-format
-#| msgid "Installing modules…"
+#, kde-format
 msgid "Installing modules… this can take a while"
-msgstr "Instaluji moduly..."
+msgstr ""
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:98
 #, kde-format
@@ -20880,6 +20870,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Add bookmark"
-#~ msgstr "Přidat záložku"

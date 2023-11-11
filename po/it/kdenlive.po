@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-08 02:07+0000\n"
-"PO-Revision-Date: 2023-10-04 18:49+0200\n"
+"PO-Revision-Date: 2023-11-09 19:59+0100\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -5462,10 +5462,9 @@ msgid "File already exists"
 msgstr "Il file esiste già"
 
 #: src/bin/projectclip.cpp:2553
-#, fuzzy, kde-format
-#| msgid "Paste timeline clips"
+#, kde-format
 msgid "Adjust timeline clips"
-msgstr "Incolla clip della linea temporale"
+msgstr "Regola le clip nella linea temporale"
 
 #: src/bin/projectclip.cpp:2774
 #, kde-format
@@ -7255,10 +7254,9 @@ msgid "Create new sequence with edit"
 msgstr "Crea una nuova sequenza"
 
 #: src/dialogs/textbasededit.cpp:635
-#, fuzzy, kde-format
-#| msgid "Insert selected blocks in timeline"
+#, kde-format
 msgid "Insert selection in timeline"
-msgstr "Inserisci i blocchi selezionati nella linea temporale"
+msgstr "Inserisci la selezione nella linea temporale"
 
 #: src/dialogs/textbasededit.cpp:640
 #, fuzzy, kde-format
@@ -7283,10 +7281,9 @@ msgid "Delete selected text"
 msgstr "Elimina il testo selezionato"
 
 #: src/dialogs/textbasededit.cpp:707
-#, fuzzy, kde-format
-#| msgid "Add bookmark for current selection"
+#, kde-format
 msgid "Add marker for current selection"
-msgstr "Aggiungi un segnalibro alla selezione corrente"
+msgstr "Aggiungi un marcatore alla selezione corrente"
 
 #: src/dialogs/textbasededit.cpp:848
 #, kde-format
@@ -7349,8 +7346,7 @@ msgid "Speech recognition finished."
 msgstr "Riconoscimento vocale completato."
 
 #: src/dialogs/textbasededit.cpp:1280 src/dialogs/textbasededit.cpp:1342
-#, fuzzy, kde-format
-#| msgid "Create Sequence Clip"
+#, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Crea una clip di sequenze"
@@ -12184,7 +12180,7 @@ msgstr "Riproduzione progressiva"
 #: src/monitor/monitormanager.cpp:610
 #, kde-format
 msgid "Audio Scrubbing"
-msgstr "Pulizia dell'audio"
+msgstr "Scrubbing audio"
 
 #: src/monitor/monitormanager.cpp:616
 #, kde-format
@@ -14135,10 +14131,9 @@ msgid "Install missing dependencies"
 msgstr "Installa le dipendenze mancanti"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:26
-#, fuzzy, kde-format
-#| msgid "Check VOSK installation"
+#, kde-format
 msgid "Abort installation"
-msgstr "Controlla l'installazione di VOSK"
+msgstr "Interrompi l'installazione"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:37
 #, kde-format
@@ -14167,10 +14162,9 @@ msgid "Check for update"
 msgstr "Controllo degli aggiornamenti"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:88
-#, fuzzy, kde-format
-#| msgid "Installing modules…"
+#, kde-format
 msgid "Installing modules… this can take a while"
-msgstr "Installazione dei moduli…"
+msgstr "Installazione dei moduli… potrebbe volerci del tempo"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:98
 #, kde-format
@@ -19242,7 +19236,7 @@ msgstr "Al taglio dei sottotitoli:"
 #: src/ui/configtools_ui.ui:41
 #, kde-format
 msgid "Duplicate text"
-msgstr "Duplica testo"
+msgstr "Duplica il testo"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_subtitle_razor_mode)
 #: src/ui/configtools_ui.ui:46
@@ -20022,7 +20016,7 @@ msgstr "Elimina tutti i dati nella copia di sicurezza."
 #: src/ui/managecache_ui.ui:582
 #, kde-format
 msgid "Proxy clip data"
-msgstr "Dati clip rappresentativa"
+msgstr "Dati delle clip rappresentative"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, gProxyPath)
 #: src/ui/managecache_ui.ui:620
