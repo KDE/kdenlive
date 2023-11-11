@@ -919,10 +919,11 @@ void Core::setDocumentModified()
 
 int Core::projectDuration() const
 {
-    if (!m_guiConstructed || !m_mainWindow->getCurrentTimeline() || !m_mainWindow->getCurrentTimeline()->controller()) {
-        return 0;
+    std::shared_ptr<TimelineItemModel> activeModel = m_projectManager->getTimeline();
+    if (activeModel) {
+        return activeModel->duration();
     }
-    return m_mainWindow->getCurrentTimeline()->controller()->duration();
+    return 0;
 }
 
 void Core::profileChanged()
