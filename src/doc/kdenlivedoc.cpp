@@ -249,18 +249,21 @@ DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, Q
     }
 
     DocumentChecker d(url, domDoc);
-    d.hasErrorInProject();
-    if (pCore->window() == nullptr) {
-        qDebug() << "DocumentChecker found some problems in the project:";
-        for (const auto &item : d.resourceItems()) {
-            qDebug() << &item;
-            if (item.status == DocumentChecker::MissingStatus::Missing) {
-                success = false;
+
+    if (d.hasErrorInProject()) {
+        if (pCore->window() == nullptr) {
+            qInfo() << "DocumentChecker found some problems in the project:";
+            for (const auto &item : d.resourceItems()) {
+                qInfo() << item;
+                if (item.status == DocumentChecker::MissingStatus::Missing) {
+                    success = false;
+                }
             }
+        } else {
+            success = d.resolveProblemsWithGUI();
         }
-    } else {
-        success = d.resolveProblemsWithGUI();
     }
+
     if (!success) {
         // Loading aborted
         result.setAborted();
@@ -1281,7 +1284,7 @@ void KdenliveDoc::updateProjectFolderPlacesEntry()
 #if QT_VERSION_MAJOR < 6
     KBookmarkManager *bookmarkManager = KBookmarkManager::managerForExternalFile(file);
 #else
-    KBookmarkManager *bookmarkManager = KBookmarkManager::managerForFile(file);
+    std::unique_ptr<KBookmarkManager> bookmarkManager = std::make_unique<KBookmarkManager>(file);
 #endif
     if (!bookmarkManager) {
         return;
@@ -1781,24 +1784,31 @@ void KdenliveDoc::switchProfile(ProfileParam *pf, const QString &clipName)
         profile->m_frame_rate_den = 1;
     } else {
         // Check for 23.98, 29.97, 59.94
+        bool fpsFixed = false;
         if (qFuzzyCompare(fps_int, 23.0)) {
             if (qFuzzyCompare(fps, 23.98) || fps_frac > 0.94) {
                 profile->m_frame_rate_num = 24000;
                 profile->m_frame_rate_den = 1001;
+                fpsFixed = true;
             }
         } else if (qFuzzyCompare(fps_int, 29.0)) {
             if (qFuzzyCompare(fps, 29.97) || fps_frac > 0.94) {
                 profile->m_frame_rate_num = 30000;
                 profile->m_frame_rate_den = 1001;
+                fpsFixed = true;
             }
         } else if (qFuzzyCompare(fps_int, 59.0)) {
             if (qFuzzyCompare(fps, 59.94) || fps_frac > 0.9) {
                 profile->m_frame_rate_num = 60000;
                 profile->m_frame_rate_den = 1001;
+                fpsFixed = true;
             }
-        } else {
+        }
+        if (!fpsFixed) {
             // Unknown profile fps, warn user
-            adjustMessage = i18n("\nWarning: unknown non integer fps, might cause incorrect duration display.");
+            profile->m_frame_rate_num = qRound(fps);
+            profile->m_frame_rate_den = 1;
+            adjustMessage = i18n("Warning: non standard fps, adjusting to closest integer. ");
         }
     }
     QString matchingProfile = ProfileRepository::get()->findMatchingProfile(profile.get());
@@ -1844,12 +1854,12 @@ void KdenliveDoc::switchProfile(ProfileParam *pf, const QString &clipName)
         connect(ac, &QAction::triggered, this, [this, profilePath]() { this->slotSwitchProfile(profilePath, true); });
         QAction *ac2 = new QAction(QIcon::fromTheme(QStringLiteral("dialog-cancel")), i18n("Cancel"), this);
         QList<QAction *> list = {ac, ac2};
-        pCore->displayBinMessage(i18n("Switch to clip (%1) profile %2?", clipName, profile->descriptiveString()), KMessageWidget::Information, list, false,
-                                 BinMessage::BinCategory::ProfileMessage);
+        adjustMessage.append(i18n("Switch to clip (%1) profile %2?", clipName, profile->descriptiveString()));
+        pCore->displayBinMessage(adjustMessage, KMessageWidget::Information, list, false, BinMessage::BinCategory::ProfileMessage);
     } else {
         // No known profile, ask user if he wants to use clip profile anyway
         if (qFuzzyCompare(double(profile->m_frame_rate_num) / profile->m_frame_rate_den, fps)) {
-            adjustMessage = i18n("\nProfile fps adjusted from original %1", QString::number(fps, 'f', 4));
+            adjustMessage.append(i18n("\nProfile fps adjusted from original %1", QString::number(fps, 'f', 4)));
         }
         if (KMessageBox::warningContinueCancel(pCore->window(), i18n("No profile found for your clip %1.\nCreate and switch to new profile (%2x%3, %4fps)?%5",
                                                                      clipName, profile->m_width, profile->m_height,
@@ -2050,7 +2060,7 @@ const QDir KdenliveDoc::getCacheDir(CacheType type, bool *ok, const QUuid uuid) 
         break;
     case CachePreview:
         basePath.append(QStringLiteral("/preview"));
-        if (uuid != m_uuid) {
+        if (!uuid.isNull() && uuid != m_uuid) {
             basePath.append(QStringLiteral("/%1").arg(QString(QCryptographicHash::hash(uuid.toByteArray(), QCryptographicHash::Md5).toHex())));
         }
         break;
@@ -2299,6 +2309,7 @@ void KdenliveDoc::generateRenderSubtitleFile(const QUuid &uuid, int in, int out,
     }
 }
 
+// static
 void KdenliveDoc::useOriginals(QDomDocument &doc)
 {
     QString root = doc.documentElement().attribute(QStringLiteral("root"));
@@ -2314,6 +2325,7 @@ void KdenliveDoc::useOriginals(QDomDocument &doc)
     processProxyNodes(chains, root, proxies);
 }
 
+// static
 void KdenliveDoc::disableSubtitles(QDomDocument &doc)
 {
     QDomNodeList filters = doc.elementsByTagName(QStringLiteral("filter"));
@@ -2331,7 +2343,7 @@ void KdenliveDoc::makeBackgroundTrackTransparent(QDomDocument &doc)
     for (int i = 0; i < prods.length(); ++i) {
         auto prod = prods.at(i).toElement();
         if (Xml::getXmlProperty(prod, QStringLiteral("kdenlive:playlistid")) == QStringLiteral("black_track")) {
-            Xml::setXmlProperty(prod, QStringLiteral("resource"), QStringLiteral("transparent"));
+            Xml::setXmlProperty(prod, QStringLiteral("resource"), QStringLiteral("0"));
             break;
         }
     }

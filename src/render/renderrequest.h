@@ -6,6 +6,7 @@
 #pragma once
 
 #include "bin/model/markerlistmodel.hpp"
+#include "doc/kdenlivedoc.h"
 #include "renderpresets/renderpresetmodel.hpp"
 
 class RenderRequest
@@ -27,6 +28,8 @@ public:
     void setBounds(int in, int out);
     void setOutputFile(const QString &filename);
     void setPresetParams(const RenderPresetParams &params);
+    /** @brief Load render params from a profile name */
+    void loadPresetParams(const QString &profileName);
     void setDelayedRendering(bool enabled);
     void setProxyRendering(bool enabled);
     void setEmbedSubtitles(bool enabled);
@@ -38,6 +41,8 @@ public:
     std::vector<RenderJob> process();
 
     QStringList errorMessages();
+
+    static QStringList argsByJob(const RenderJob &job);
 
 private:
     struct RenderSection

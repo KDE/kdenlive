@@ -158,10 +158,23 @@ MediaBrowser::MediaBrowser(QWidget *parent)
             menu->insertAction(act.first(), importAction);
         }
     });
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QString allExtensions = ClipCreationDialog::getExtensions().join(QLatin1Char(' '));
     QString dialogFilter = allExtensions + QLatin1Char('|') + i18n("All Supported Files") + QStringLiteral("\n*|") + i18n("All Files");
     m_filterCombo->setFilter(dialogFilter);
     m_op->setNameFilter(m_filterCombo->currentFilter());
+#else
+    QStringList allExtensions = ClipCreationDialog::getExtensions();
+
+    const QList<KFileFilter> filters{
+        KFileFilter(i18n("All Supported Files"), allExtensions, {}),
+        KFileFilter(i18n("All Files"), {QStringLiteral("*")}, {}),
+    };
+
+    m_filterCombo->setFilters(filters, filters.first());
+    m_op->setNameFilter(filters.first().toFilterString());
+#endif
 
     // Setup mime filter combo
     m_filterCombo->setEditable(true);
@@ -419,6 +432,7 @@ void MediaBrowser::setUrl(const QUrl url)
 void MediaBrowser::slotFilterChanged()
 {
     m_filterDelayTimer.stop();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QString filter = m_filterCombo->currentFilter();
     m_op->clearFilter();
     if (filter.contains(QLatin1Char('/'))) {
@@ -430,6 +444,17 @@ void MediaBrowser::slotFilterChanged()
     } else {
         m_op->setNameFilter(QLatin1Char('*') + filter.replace(QLatin1Char(' '), QLatin1Char('*')) + QLatin1Char('*'));
     }
+#else
+    KFileFilter filter = m_filterCombo->currentFilter();
+    m_op->clearFilter();
+    if (!filter.mimePatterns().isEmpty()) {
+        QStringList types = filter.mimePatterns();
+        types.prepend(QStringLiteral("inode/directory"));
+        m_op->setMimeFilter(types);
+    } else {
+        m_op->setNameFilter(filter.toFilterString());
+    }
+#endif
     m_op->updateDir();
 }
 

@@ -72,7 +72,7 @@
 
 using namespace Mlt;
 
-GLWidget::GLWidget(int id, QWidget *parent)
+VideoWidget::VideoWidget(int id, QWidget *parent)
     : QQuickWidget(parent)
     , sendFrameForAnalysis(false)
     , m_glslManager(nullptr)
@@ -155,17 +155,17 @@ GLWidget::GLWidget(int id, QWidget *parent)
     m_blackClip->set("mlt_image_format", "rgba");
     m_blackClip->set("kdenlive:id", "black");
     m_blackClip->set("out", 3);
-    connect(&m_refreshTimer, &QTimer::timeout, this, &GLWidget::refresh);
+    connect(&m_refreshTimer, &QTimer::timeout, this, &VideoWidget::refresh);
     m_producer = m_blackClip;
     rootContext()->setContextProperty("markersModel", nullptr);
     if (!initGPUAccel()) {
         disableGPUAccel();
     }
 
-    connect(quickWindow(), &QQuickWindow::sceneGraphInitialized, this, &GLWidget::initializeGL, Qt::DirectConnection);
-    connect(quickWindow(), &QQuickWindow::beforeRendering, this, &GLWidget::paintGL, Qt::DirectConnection);
-    // connect(pCore.get(), &Core::updateMonitorProfile, this, &GLWidget::reloadProfile);
-    connect(pCore.get(), &Core::switchTimelineRecord, this, &GLWidget::switchRecordState);
+    connect(quickWindow(), &QQuickWindow::sceneGraphInitialized, this, &VideoWidget::initializeGL, Qt::DirectConnection);
+    connect(quickWindow(), &QQuickWindow::beforeRendering, this, &VideoWidget::paintGL, Qt::DirectConnection);
+    // connect(pCore.get(), &Core::updateMonitorProfile, this, &VideoWidget::reloadProfile);
+    connect(pCore.get(), &Core::switchTimelineRecord, this, &VideoWidget::switchRecordState);
 
     registerTimelineItems();
     m_proxy = new MonitorProxy(this);
@@ -173,7 +173,7 @@ GLWidget::GLWidget(int id, QWidget *parent)
     engine()->addImageProvider(QStringLiteral("thumbnail"), new ThumbnailProvider);
 }
 
-GLWidget::~GLWidget()
+VideoWidget::~VideoWidget()
 {
     // C & D
     delete m_glslManager;
@@ -198,14 +198,14 @@ GLWidget::~GLWidget()
     // delete pCore->getCurrentProfile();
 }
 
-void GLWidget::updateAudioForAnalysis()
+void VideoWidget::updateAudioForAnalysis()
 {
     if (m_frameRenderer) {
         m_frameRenderer->sendAudioForAnalysis = KdenliveSettings::monitor_audio();
     }
 }
 
-void GLWidget::initializeGL()
+void VideoWidget::initializeGL()
 {
     if (m_isInitialized) return;
 
@@ -262,15 +262,15 @@ void GLWidget::initializeGL()
 #else
     context.makeCurrent(quickWindow());
 #endif
-    connect(m_frameRenderer, &FrameRenderer::frameDisplayed, this, &GLWidget::onFrameDisplayed, Qt::QueuedConnection);
-    connect(m_frameRenderer, &FrameRenderer::frameDisplayed, this, &GLWidget::frameDisplayed, Qt::QueuedConnection);
-    connect(m_frameRenderer, &FrameRenderer::textureReady, this, &GLWidget::updateTexture, Qt::DirectConnection);
+    connect(m_frameRenderer, &FrameRenderer::frameDisplayed, this, &VideoWidget::onFrameDisplayed, Qt::QueuedConnection);
+    connect(m_frameRenderer, &FrameRenderer::frameDisplayed, this, &VideoWidget::frameDisplayed, Qt::QueuedConnection);
+    connect(m_frameRenderer, &FrameRenderer::textureReady, this, &VideoWidget::updateTexture, Qt::DirectConnection);
     m_initSem.release();
     m_isInitialized = true;
     QMetaObject::invokeMethod(this, "reconfigure", Qt::QueuedConnection);
 }
 
-void GLWidget::resizeGL(int width, int height)
+void VideoWidget::resizeGL(int width, int height)
 {
     int x, y, w, h;
     height -= m_displayRulerHeight;
@@ -309,13 +309,13 @@ void GLWidget::resizeGL(int width, int height)
     Q_EMIT rectChanged();
 }
 
-void GLWidget::resizeEvent(QResizeEvent *event)
+void VideoWidget::resizeEvent(QResizeEvent *event)
 {
     QQuickWidget::resizeEvent(event);
     resizeGL(event->size().width(), event->size().height());
 }
 
-void GLWidget::createGPUAccelFragmentProg()
+void VideoWidget::createGPUAccelFragmentProg()
 {
     m_shader->addShaderFromSourceCode(QOpenGLShader::Fragment, "uniform sampler2D tex;"
                                                                "varying highp vec2 coordinates;"
@@ -326,7 +326,7 @@ void GLWidget::createGPUAccelFragmentProg()
     m_textureLocation[0] = m_shader->uniformLocation("tex");
 }
 
-void GLWidget::createShader()
+void VideoWidget::createShader()
 {
     m_shader = new QOpenGLShaderProgram;
     m_shader->addShaderFromSourceCode(QOpenGLShader::Vertex, "uniform highp mat4 projection;"
@@ -352,7 +352,7 @@ void GLWidget::createShader()
     m_texCoordLocation = m_shader->attributeLocation("texCoord");
 }
 
-void GLWidget::createYUVTextureProjectFragmentProg()
+void VideoWidget::createYUVTextureProjectFragmentProg()
 {
     m_shader->addShaderFromSourceCode(QOpenGLShader::Fragment,
                                       "uniform sampler2D Ytex, Utex, Vtex;"
@@ -442,18 +442,18 @@ static void uploadTextures(QOpenGLContext *context, const SharedFrame &frame, GL
     check_error(f);
 }
 
-void GLWidget::clear()
+void VideoWidget::clear()
 {
     stopGlsl();
     quickWindow()->update();
 }
 
-void GLWidget::releaseAnalyse()
+void VideoWidget::releaseAnalyse()
 {
     m_analyseSem.release();
 }
 
-bool GLWidget::acquireSharedFrameTextures()
+bool VideoWidget::acquireSharedFrameTextures()
 {
     // A
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -491,7 +491,7 @@ bool GLWidget::acquireSharedFrameTextures()
     return true;
 }
 
-void GLWidget::bindShaderProgram()
+void VideoWidget::bindShaderProgram()
 {
     m_shader->bind();
 
@@ -507,7 +507,7 @@ void GLWidget::bindShaderProgram()
     }
 }
 
-void GLWidget::releaseSharedFrameTextures()
+void VideoWidget::releaseSharedFrameTextures()
 {
     // C & D
     if (m_glslManager) {
@@ -516,7 +516,7 @@ void GLWidget::releaseSharedFrameTextures()
     }
 }
 
-bool GLWidget::initGPUAccel()
+bool VideoWidget::initGPUAccel()
 {
     if (!KdenliveSettings::gpu_accel()) return false;
 
@@ -526,7 +526,7 @@ bool GLWidget::initGPUAccel()
 
 // C & D
 // TODO: insure safe, idempotent on all pipelines.
-void GLWidget::disableGPUAccel()
+void VideoWidget::disableGPUAccel()
 {
     delete m_glslManager;
     m_glslManager = nullptr;
@@ -536,7 +536,7 @@ void GLWidget::disableGPUAccel()
     Q_EMIT gpuNotSupported();
 }
 
-bool GLWidget::onlyGLESGPUAccel() const
+bool VideoWidget::onlyGLESGPUAccel() const
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     return (m_glslManager != nullptr) && quickWindow()->openglContext()->isOpenGLES();
@@ -547,14 +547,14 @@ bool GLWidget::onlyGLESGPUAccel() const
 }
 
 #if defined(Q_OS_WIN)
-bool GLWidget::initGPUAccelSync()
+bool VideoWidget::initGPUAccelSync()
 {
     // no-op
     // TODO: getProcAddress is not working on Windows?
     return false;
 }
 #else
-bool GLWidget::initGPUAccelSync()
+bool VideoWidget::initGPUAccelSync()
 {
     if (!KdenliveSettings::gpu_accel()) return false;
     if (m_glslManager == nullptr) return false;
@@ -580,7 +580,7 @@ bool GLWidget::initGPUAccelSync()
 }
 #endif
 
-void GLWidget::paintGL()
+void VideoWidget::paintGL()
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QOpenGLFunctions *f = quickWindow()->openglContext()->functions();
@@ -700,7 +700,7 @@ void GLWidget::paintGL()
     check_error(f);
 }
 
-void GLWidget::slotZoom(bool zoomIn)
+void VideoWidget::slotZoom(bool zoomIn)
 {
     if (zoomIn) {
         if (m_zoom < 12.0f) {
@@ -711,19 +711,19 @@ void GLWidget::slotZoom(bool zoomIn)
     }
 }
 
-void GLWidget::updateRulerHeight(int addedHeight)
+void VideoWidget::updateRulerHeight(int addedHeight)
 {
     m_displayRulerHeight =
         m_rulerHeight > 0 ? int(QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize() * 1.5) + addedHeight : 0;
     resizeGL(width(), height());
 }
 
-bool GLWidget::isReady() const
+bool VideoWidget::isReady() const
 {
     return m_consumer != nullptr;
 }
 
-void GLWidget::requestSeek(int position, bool noAudioScrub)
+void VideoWidget::requestSeek(int position, bool noAudioScrub)
 {
     m_producer->seek(position);
     if (!qFuzzyIsNull(m_producer->get_speed())) {
@@ -738,7 +738,7 @@ void GLWidget::requestSeek(int position, bool noAudioScrub)
     }
 }
 
-void GLWidget::requestRefresh()
+void VideoWidget::requestRefresh()
 {
     if (m_producer && qFuzzyIsNull(m_producer->get_speed())) {
         m_consumer->set("scrub_audio", 0);
@@ -746,12 +746,12 @@ void GLWidget::requestRefresh()
     }
 }
 
-QString GLWidget::frameToTime(int frames) const
+QString VideoWidget::frameToTime(int frames) const
 {
     return m_consumer ? m_consumer->frames_to_time(frames, mlt_time_smpte_df) : QStringLiteral("-");
 }
 
-void GLWidget::refresh()
+void VideoWidget::refresh()
 {
     m_refreshTimer.stop();
     QMutexLocker locker(&m_mltMutex);
@@ -761,7 +761,7 @@ void GLWidget::refresh()
     }
 }
 
-bool GLWidget::checkFrameNumber(int pos, bool isPlaying)
+bool VideoWidget::checkFrameNumber(int pos, bool isPlaying)
 {
     const double speed = m_producer->get_speed();
     m_proxy->positionFromConsumer(pos, isPlaying);
@@ -812,7 +812,7 @@ bool GLWidget::checkFrameNumber(int pos, bool isPlaying)
     return isPlaying;
 }
 
-void GLWidget::mousePressEvent(QMouseEvent *event)
+void VideoWidget::mousePressEvent(QMouseEvent *event)
 {
     if ((rootObject() != nullptr) && rootObject()->property("captureRightClick").toBool() && !(event->modifiers() & Qt::ControlModifier) &&
         !(event->buttons() & Qt::MiddleButton)) {
@@ -842,7 +842,7 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
     }
 }
 
-void GLWidget::mouseMoveEvent(QMouseEvent *event)
+void VideoWidget::mouseMoveEvent(QMouseEvent *event)
 {
     if ((rootObject() != nullptr) && rootObject()->objectName() != QLatin1String("root") && !(event->modifiers() & Qt::ControlModifier) &&
         !(event->buttons() & Qt::MiddleButton)) {
@@ -869,7 +869,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
     event->accept();
 }
 
-void GLWidget::keyPressEvent(QKeyEvent *event)
+void VideoWidget::keyPressEvent(QKeyEvent *event)
 {
     QQuickWidget::keyPressEvent(event);
     if (!event->isAccepted()) {
@@ -877,7 +877,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
     }
 }
 
-void GLWidget::createThread(RenderThread **thread, thread_function_t function, void *data)
+void VideoWidget::createThread(RenderThread **thread, thread_function_t function, void *data)
 {
 #ifdef Q_OS_WIN
     // On Windows, MLT event consumer-thread-create is fired from the Qt main thread.
@@ -893,7 +893,7 @@ void GLWidget::createThread(RenderThread **thread, thread_function_t function, v
     (*thread)->start();
 }
 
-static void onThreadCreate(mlt_properties owner, GLWidget *self, mlt_event_data data)
+static void onThreadCreate(mlt_properties owner, VideoWidget *self, mlt_event_data data)
 {
     Q_UNUSED(owner)
     auto threadData = (mlt_event_data_thread *)Mlt::EventData(data).to_object();
@@ -905,7 +905,7 @@ static void onThreadCreate(mlt_properties owner, GLWidget *self, mlt_event_data 
     }
 }
 
-static void onThreadJoin(mlt_properties owner, GLWidget *self, mlt_event_data data)
+static void onThreadJoin(mlt_properties owner, VideoWidget *self, mlt_event_data data)
 {
     Q_UNUSED(owner)
     Q_UNUSED(self)
@@ -922,7 +922,7 @@ static void onThreadJoin(mlt_properties owner, GLWidget *self, mlt_event_data da
     }
 }
 
-void GLWidget::startGlsl()
+void VideoWidget::startGlsl()
 {
     // C & D
     if (m_glslManager) {
@@ -936,23 +936,23 @@ void GLWidget::startGlsl()
     }
 }
 
-static void onThreadStarted(mlt_properties owner, GLWidget *self, mlt_event_data)
+static void onThreadStarted(mlt_properties owner, VideoWidget *self, mlt_event_data)
 {
     Q_UNUSED(owner)
     self->startGlsl();
 }
 
-void GLWidget::releaseMonitor()
+void VideoWidget::releaseMonitor()
 {
     Q_EMIT lockMonitor(false);
 }
 
-void GLWidget::lockMonitor()
+void VideoWidget::lockMonitor()
 {
     Q_EMIT lockMonitor(true);
 }
 
-void GLWidget::stopGlsl()
+void VideoWidget::stopGlsl()
 {
     if (m_consumer) {
         m_consumer->purge();
@@ -967,13 +967,13 @@ void GLWidget::stopGlsl()
     m_texture[0] = 0;
 }
 
-static void onThreadStopped(mlt_properties owner, GLWidget *self, mlt_event_data)
+static void onThreadStopped(mlt_properties owner, VideoWidget *self, mlt_event_data)
 {
     Q_UNUSED(owner)
     self->stopGlsl();
 }
 
-int GLWidget::setProducer(const QString &file)
+int VideoWidget::setProducer(const QString &file)
 {
     if (m_producer) {
         m_producer.reset();
@@ -998,7 +998,7 @@ int GLWidget::setProducer(const QString &file)
     return error;
 }
 
-int GLWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool isActive, int position)
+int VideoWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool isActive, int position)
 {
     int error = 0;
     QString currentId;
@@ -1048,19 +1048,19 @@ int GLWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool i
     return error;
 }
 
-int GLWidget::droppedFrames() const
+int VideoWidget::droppedFrames() const
 {
     return (m_consumer ? m_consumer->get_int("drop_count") : 0);
 }
 
-void GLWidget::resetDrops()
+void VideoWidget::resetDrops()
 {
     if (m_consumer) {
         m_consumer->set("drop_count", 0);
     }
 }
 
-void GLWidget::stopCapture()
+void VideoWidget::stopCapture()
 {
     if (strcmp(m_consumer->get("mlt_service"), "multi") == 0) {
         m_consumer->set("refresh", 0);
@@ -1069,7 +1069,7 @@ void GLWidget::stopCapture()
     }
 }
 
-int GLWidget::reconfigure()
+int VideoWidget::reconfigure()
 {
     int error = 0;
     // use SDL for audio, OpenGL for video
@@ -1222,12 +1222,12 @@ int GLWidget::reconfigure()
     return error;
 }
 
-float GLWidget::zoom() const
+float VideoWidget::zoom() const
 {
     return m_zoom;
 }
 
-void GLWidget::reloadProfile()
+void VideoWidget::reloadProfile()
 {
     // The profile display aspect ratio may have changed.
     bool existingConsumer = false;
@@ -1248,22 +1248,22 @@ void GLWidget::reloadProfile()
     refreshSceneLayout();
 }
 
-QSize GLWidget::profileSize() const
+QSize VideoWidget::profileSize() const
 {
     return m_profileSize;
 }
 
-QRect GLWidget::displayRect() const
+QRect VideoWidget::displayRect() const
 {
     return m_rect;
 }
 
-QPoint GLWidget::offset() const
+QPoint VideoWidget::offset() const
 {
     return {m_offset.x() - static_cast<int>(width() * m_zoom / 2), m_offset.y() - static_cast<int>(height() * m_zoom / 2)};
 }
 
-void GLWidget::setZoom(float zoom, bool force)
+void VideoWidget::setZoom(float zoom, bool force)
 {
     if (!force && m_zoom == zoom) {
         return;
@@ -1281,7 +1281,7 @@ void GLWidget::setZoom(float zoom, bool force)
     resizeGL(width(), height());
 }
 
-void GLWidget::onFrameDisplayed(const SharedFrame &frame)
+void VideoWidget::onFrameDisplayed(const SharedFrame &frame)
 {
     m_contextSharedAccess.lock();
     m_sharedFrame = frame;
@@ -1290,7 +1290,7 @@ void GLWidget::onFrameDisplayed(const SharedFrame &frame)
     quickWindow()->update();
 }
 
-void GLWidget::mouseReleaseEvent(QMouseEvent *event)
+void VideoWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     QQuickWidget::mouseReleaseEvent(event);
     /*if (m_dragStart.isNull() && m_panStart.isNull() && (rootObject() != nullptr) && rootObject()->objectName() != QLatin1String("root") &&
@@ -1312,7 +1312,7 @@ void GLWidget::mouseReleaseEvent(QMouseEvent *event)
     setCursor(Qt::ArrowCursor);
 }
 
-void GLWidget::purgeCache()
+void VideoWidget::purgeCache()
 {
     if (m_consumer) {
         // m_consumer->set("buffer", 1);
@@ -1321,7 +1321,7 @@ void GLWidget::purgeCache()
     }
 }
 
-void GLWidget::mouseDoubleClickEvent(QMouseEvent *event)
+void VideoWidget::mouseDoubleClickEvent(QMouseEvent *event)
 {
     QQuickWidget::mouseDoubleClickEvent(event);
     if (event->isAccepted()) {
@@ -1333,7 +1333,7 @@ void GLWidget::mouseDoubleClickEvent(QMouseEvent *event)
     event->accept();
 }
 
-void GLWidget::setOffsetX(int x, int max)
+void VideoWidget::setOffsetX(int x, int max)
 {
     m_offset.setX(x);
     if (rootObject()) {
@@ -1342,7 +1342,7 @@ void GLWidget::setOffsetX(int x, int max)
     quickWindow()->update();
 }
 
-void GLWidget::setOffsetY(int y, int max)
+void VideoWidget::setOffsetY(int y, int max)
 {
     m_offset.setY(y);
     if (rootObject()) {
@@ -1351,17 +1351,17 @@ void GLWidget::setOffsetY(int y, int max)
     quickWindow()->update();
 }
 
-std::shared_ptr<Mlt::Consumer> GLWidget::consumer()
+std::shared_ptr<Mlt::Consumer> VideoWidget::consumer()
 {
     return m_consumer;
 }
 
-Mlt::Producer *GLWidget::producer()
+Mlt::Producer *VideoWidget::producer()
 {
     return m_producer.get();
 }
 
-void GLWidget::resetConsumer(bool fullReset)
+void VideoWidget::resetConsumer(bool fullReset)
 {
     if (fullReset && m_consumer) {
         m_consumer->purge();
@@ -1371,14 +1371,14 @@ void GLWidget::resetConsumer(bool fullReset)
     reconfigure();
 }
 
-void GLWidget::updateTexture(GLuint yName, GLuint uName, GLuint vName)
+void VideoWidget::updateTexture(GLuint yName, GLuint uName, GLuint vName)
 {
     m_texture[0] = yName;
     m_texture[1] = uName;
     m_texture[2] = vName;
 }
 
-void GLWidget::on_frame_show(mlt_consumer, GLWidget *widget, mlt_event_data data)
+void VideoWidget::on_frame_show(mlt_consumer, VideoWidget *widget, mlt_event_data data)
 {
     auto frame = Mlt::EventData(data).to_frame();
     if (frame.is_valid() && frame.get_int("rendered")) {
@@ -1389,7 +1389,7 @@ void GLWidget::on_frame_show(mlt_consumer, GLWidget *widget, mlt_event_data data
     }
 }
 
-void GLWidget::on_gl_nosync_frame_show(mlt_consumer, GLWidget *widget, mlt_event_data data)
+void VideoWidget::on_gl_nosync_frame_show(mlt_consumer, VideoWidget *widget, mlt_event_data data)
 {
     auto frame = Mlt::EventData(data).to_frame();
     if (frame.get_int("rendered") != 0) {
@@ -1400,7 +1400,7 @@ void GLWidget::on_gl_nosync_frame_show(mlt_consumer, GLWidget *widget, mlt_event
     }
 }
 
-void GLWidget::on_gl_frame_show(mlt_consumer, GLWidget *widget, mlt_event_data data)
+void VideoWidget::on_gl_frame_show(mlt_consumer, VideoWidget *widget, mlt_event_data data)
 {
     auto frame = Mlt::EventData(data).to_frame();
     if (frame.get_int("rendered") != 0) {
@@ -1448,7 +1448,7 @@ void RenderThread::run()
     }
 }
 
-FrameRenderer::FrameRenderer(QOpenGLContext *shareContext, QSurface *surface, GLWidget::ClientWaitSync_fp clientWaitSync)
+FrameRenderer::FrameRenderer(QOpenGLContext *shareContext, QSurface *surface, VideoWidget::ClientWaitSync_fp clientWaitSync)
     : QThread(nullptr)
     , m_semaphore(3)
     , m_context(nullptr)
@@ -1586,7 +1586,7 @@ void FrameRenderer::pipelineSyncToFrame(Mlt::Frame &frame)
 #endif // Q_OS_WIN
 }
 
-void GLWidget::refreshSceneLayout()
+void VideoWidget::refreshSceneLayout()
 {
     if (!rootObject()) {
         return;
@@ -1597,7 +1597,7 @@ void GLWidget::refreshSceneLayout()
     rootObject()->setProperty("scaley", double(m_rect.height() * m_zoom) / s.height());
 }
 
-bool GLWidget::switchPlay(bool play, double speed)
+bool VideoWidget::switchPlay(bool play, double speed)
 {
     if (!m_producer || !m_consumer) {
         return false;
@@ -1645,7 +1645,7 @@ bool GLWidget::switchPlay(bool play, double speed)
     return true;
 }
 
-bool GLWidget::playZone(bool loop)
+bool VideoWidget::playZone(bool loop)
 {
     if (!m_producer || m_proxy->zoneOut() <= m_proxy->zoneIn()) {
         pCore->displayMessage(i18n("Select a zone to play"), ErrorMessage, 500);
@@ -1676,7 +1676,7 @@ bool GLWidget::playZone(bool loop)
     return true;
 }
 
-bool GLWidget::restartConsumer()
+bool VideoWidget::restartConsumer()
 {
     int result = 0;
     if (m_consumer->is_stopped()) {
@@ -1692,7 +1692,7 @@ bool GLWidget::restartConsumer()
     return result != -1;
 }
 
-bool GLWidget::loopClip(QPoint inOut)
+bool VideoWidget::loopClip(QPoint inOut)
 {
     if (!m_producer || inOut.y() <= inOut.x()) {
         pCore->displayMessage(i18n("Select a clip to play"), ErrorMessage, 500);
@@ -1722,7 +1722,7 @@ bool GLWidget::loopClip(QPoint inOut)
     return true;
 }
 
-void GLWidget::resetZoneMode()
+void VideoWidget::resetZoneMode()
 {
     if (!m_isZoneMode && !m_isLoopMode) {
         return;
@@ -1733,17 +1733,17 @@ void GLWidget::resetZoneMode()
     m_isLoopMode = false;
 }
 
-MonitorProxy *GLWidget::getControllerProxy()
+MonitorProxy *VideoWidget::getControllerProxy()
 {
     return m_proxy;
 }
 
-int GLWidget::getCurrentPos() const
+int VideoWidget::getCurrentPos() const
 {
     return m_proxy->getPosition();
 }
 
-void GLWidget::setRulerInfo(int duration, const std::shared_ptr<MarkerSortModel> &model)
+void VideoWidget::setRulerInfo(int duration, const std::shared_ptr<MarkerSortModel> &model)
 {
     m_maxProducerPosition = duration;
     rootObject()->setProperty("duration", duration);
@@ -1753,7 +1753,7 @@ void GLWidget::setRulerInfo(int duration, const std::shared_ptr<MarkerSortModel>
     }
 }
 
-void GLWidget::switchRecordState(bool on)
+void VideoWidget::switchRecordState(bool on)
 {
     if (on) {
         if (m_maxProducerPosition == 0x7fffffff) {
@@ -1767,7 +1767,7 @@ void GLWidget::switchRecordState(bool on)
     }
 }
 
-void GLWidget::startConsumer()
+void VideoWidget::startConsumer()
 {
     if (m_consumer == nullptr) {
         return;
@@ -1787,7 +1787,7 @@ void GLWidget::startConsumer()
     m_consumer->set("refresh", 1);
 }
 
-void GLWidget::stop()
+void VideoWidget::stop()
 {
     m_refreshTimer.stop();
     // why this lock?
@@ -1807,7 +1807,7 @@ void GLWidget::stop()
     }
 }
 
-double GLWidget::playSpeed() const
+double VideoWidget::playSpeed() const
 {
     if (m_producer) {
         return m_producer->get_speed();
@@ -1815,7 +1815,7 @@ double GLWidget::playSpeed() const
     return 0.0;
 }
 
-void GLWidget::restart()
+void VideoWidget::restart()
 {
     // why this lock?
     if (m_consumer) {
@@ -1826,7 +1826,7 @@ void GLWidget::restart()
     }
 }
 
-int GLWidget::volume() const
+int VideoWidget::volume() const
 {
     if ((!m_consumer) || (!m_producer)) {
         return -1;
@@ -1837,7 +1837,7 @@ int GLWidget::volume() const
     return (int(100 * m_consumer->get_double("volume")));
 }
 
-void GLWidget::setVolume(double volume)
+void VideoWidget::setVolume(double volume)
 {
     if (m_consumer) {
         if (m_consumer->get("mlt_service") == QStringLiteral("multi")) {
@@ -1848,7 +1848,7 @@ void GLWidget::setVolume(double volume)
     }
 }
 
-int GLWidget::duration() const
+int VideoWidget::duration() const
 {
     if (!m_producer) {
         return 0;
@@ -1856,7 +1856,7 @@ int GLWidget::duration() const
     return m_producer->get_playtime();
 }
 
-void GLWidget::setConsumerProperty(const QString &name, const QString &value)
+void VideoWidget::setConsumerProperty(const QString &name, const QString &value)
 {
     QMutexLocker locker(&m_mltMutex);
     if (m_consumer) {
@@ -1867,7 +1867,7 @@ void GLWidget::setConsumerProperty(const QString &name, const QString &value)
     }
 }
 
-bool GLWidget::updateScaling()
+bool VideoWidget::updateScaling()
 {
     int previewHeight = pCore->getCurrentFrameSize().height();
     switch (KdenliveSettings::previewScaling()) {
@@ -1905,7 +1905,7 @@ bool GLWidget::updateScaling()
     return true;
 }
 
-void GLWidget::switchRuler(bool show)
+void VideoWidget::switchRuler(bool show)
 {
     m_rulerHeight = show ? int(QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize() * 1.5) : 0;
     m_displayRulerHeight = m_rulerHeight;

@@ -103,7 +103,7 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
                 result.id = QFileInfo(file_name).baseName();
             }
             if (!result.id.isEmpty()) {
-                result.name = result.id;
+                result.name = result.description;
                 customAssets[result.id] = result;
             }
             return;

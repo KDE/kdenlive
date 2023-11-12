@@ -166,7 +166,7 @@
       <li xml:lang="et">Hõlpsasti mõistetav mitme paneeliga liides</li>
       <li xml:lang="eu">Aztarna-anitzeko interfazea intuitiboa.</li>
       <li xml:lang="fi">Selkeä moniraitainen käyttöliittymä</li>
-      <li xml:lang="fr">Interface multipiste intuitive.</li>
+      <li xml:lang="fr">Interface multi-piste intuitive.</li>
       <li xml:lang="gl">Interface intuitiva con varias pistas.</li>
       <li xml:lang="id">Antarmuka multitrek yang intuitif.</li>
       <li xml:lang="it">Interfaccia multitraccia intuitiva.</li>
@@ -262,10 +262,10 @@
     </ul>
   </description>
   <releases>
+    <release version="23.08.3" date="2023-11-09"/>
+    <release version="23.08.2" date="2023-10-12"/>
     <release version="23.08.1" date="2023-09-14"/>
     <release version="23.08.0" date="2023-08-24"/>
-    <release version="23.04.3" date="2023-07-06"/>
-    <release version="23.04.2" date="2023-06-08"/>
   </releases>
   <url type="homepage">https://kdenlive.org/</url>
   <url type="bugtracker">https://bugs.kde.org</url>

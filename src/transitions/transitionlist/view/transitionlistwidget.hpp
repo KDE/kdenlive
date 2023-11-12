@@ -30,4 +30,5 @@ public:
     void refreshLumas();
     void reloadCustomEffectIx(const QModelIndex &path) override;
     void editCustomAsset(const QModelIndex &index) override;
+    void exportCustomEffect(const QModelIndex &index) override;
 };

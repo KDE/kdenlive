@@ -198,6 +198,17 @@ QVariant AbstractProjectItem::getData(DataType type) const
         }*/
         data = QVariant(true);
         break;
+    case SequenceFolder:
+        if (itemType() == FolderItem) {
+            if (auto ptr = m_model.lock()) {
+                if (m_binId.toInt() == std::static_pointer_cast<ProjectItemModel>(ptr)->defaultSequencesFolder()) {
+                    data = QVariant(true);
+                    break;
+                }
+            }
+        }
+        data = QVariant(false);
+        break;
     case ClipStatus:
         data = QVariant(m_clipStatus);
         break;

@@ -130,6 +130,13 @@ bool Core::build(const QString &packageType, bool testMode)
     return true;
 }
 
+void Core::initHeadless(const QUrl &url)
+{
+    MltConnection::construct(QString());
+    m_projectManager = new ProjectManager(this);
+    QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadHeadless", Qt::QueuedConnection, Q_ARG(QUrl, url));
+}
+
 void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, const QString &clipsToLoad)
 {
     m_mainWindow = new MainWindow();
@@ -912,10 +919,11 @@ void Core::setDocumentModified()
 
 int Core::projectDuration() const
 {
-    if (!m_guiConstructed || !m_mainWindow->getCurrentTimeline() || !m_mainWindow->getCurrentTimeline()->controller()) {
-        return 0;
+    std::shared_ptr<TimelineItemModel> activeModel = m_projectManager->getTimeline();
+    if (activeModel) {
+        return activeModel->duration();
     }
-    return m_mainWindow->getCurrentTimeline()->controller()->duration();
+    return 0;
 }
 
 void Core::profileChanged()
@@ -958,9 +966,9 @@ void Core::displayMessage(const QString &message, MessageType type, int timeout)
     }
 }
 
-void Core::loadingClips(int count)
+void Core::loadingClips(int count, bool allowInterrupt)
 {
-    Q_EMIT m_mainWindow->displayProgressMessage(i18n("Loading clips"), MessageType::ProcessingJobMessage, count);
+    Q_EMIT m_mainWindow->displayProgressMessage(i18n("Loading clips"), MessageType::ProcessingJobMessage, count, allowInterrupt);
 }
 
 void Core::displayBinMessage(const QString &text, int type, const QList<QAction *> &actions, bool showClose, BinMessage::BinCategory messageCategory)

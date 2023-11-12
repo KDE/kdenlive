@@ -294,7 +294,7 @@ void ClipLoadTask::run()
     m_running = true;
     Q_EMIT pCore->projectItemModel()->resetPlayOrLoopZone(QString::number(m_owner.itemId));
     QString resource = Xml::getXmlProperty(m_xml, QStringLiteral("resource"));
-    qDebug() << "============STARTING LOAD TASK FOR: " << resource << "\n\n:::::::::::::::::::";
+    qDebug() << "============STARTING LOAD TASK FOR: " << m_owner.itemId << " = " << resource << "\n\n:::::::::::::::::::";
     int duration = 0;
     ClipType::ProducerType type = static_cast<ClipType::ProducerType>(m_xml.attribute(QStringLiteral("type")).toInt());
     QString service = Xml::getXmlProperty(m_xml, QStringLiteral("mlt_service"));
@@ -442,8 +442,7 @@ void ClipLoadTask::run()
         }
         break;
     }
-
-    if (m_isCanceled.loadAcquire()) {
+    if (m_isCanceled.loadAcquire() == 1 || pCore->taskManager.isBlocked()) {
         abort();
         return;
     }
@@ -582,8 +581,7 @@ void ClipLoadTask::run()
             producer->set("out", fixedLength - 1);
         }
     } else if (mltService.startsWith(QLatin1String("avformat"))) {
-        // Get a frame to init properties
-        mlt_image_format format = mlt_image_none;
+        // Start probe to init properties
         int vindex = producer->get_int("video_index");
         bool hasAudio = false;
         bool hasVideo = false;
@@ -602,15 +600,10 @@ void ClipLoadTask::run()
                 vindex = -1;
             }
         }
-        QSize frameSize = pCore->getCurrentFrameSize();
-        int w = frameSize.width();
-        int h = frameSize.height();
-        std::unique_ptr<Mlt::Frame> frame(producer->get_frame());
-        frame->get_image(format, w, h);
         // Check audio / video
-        hasAudio = frame->get_int("test_audio") == 0;
-        hasVideo = vindex > -1 && frame->get_int("test_image") == 0;
-        frame.reset();
+        producer->probe();
+        hasAudio = producer->get_int("video_index") > -1;
+        hasVideo = producer->get_int("audio_index") > -1;
         if (hasAudio) {
             if (hasVideo) {
                 producer->set("kdenlive:clip_type", 0);

@@ -92,6 +92,7 @@ static QImage m_audioUsedIcon;
 static QImage m_videoUsedIcon;
 static QSize m_iconSize;
 static QIcon m_folderIcon;
+static QIcon m_sequenceFolderIcon;
 
 /**
  * @class BinItemDelegate
@@ -380,8 +381,9 @@ public:
                 // Folder
                 int decoWidth = 0;
                 if (opt.decorationSize.height() > 0) {
+                    QIcon icon = index.data(AbstractProjectItem::SequenceFolder).toBool() ? m_sequenceFolderIcon : m_folderIcon;
                     r.setWidth(int(r.height() * pCore->getCurrentDar()));
-                    QPixmap pix = m_folderIcon.pixmap(m_folderIcon.actualSize(r.size()));
+                    QPixmap pix = icon.pixmap(icon.actualSize(r.size()));
                     // Draw icon
                     decoWidth += r.width() + textMargin;
                     r.setWidth(r.height() * pix.width() / pix.height());
@@ -479,7 +481,10 @@ public:
             r.setHeight(r.width() / pCore->getCurrentDar());
             int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
             bool isFolder = type == AbstractProjectItem::FolderItem;
-            QPixmap pix = isFolder ? m_folderIcon.pixmap(m_folderIcon.actualSize(r.size())) : opt.icon.pixmap(opt.icon.actualSize(r.size()));
+            bool isSequenceFolder = index.data(AbstractProjectItem::SequenceFolder).toBool();
+            QPixmap pix = isFolder ? (isSequenceFolder ? m_sequenceFolderIcon.pixmap(m_sequenceFolderIcon.actualSize(r.size()))
+                                                       : m_folderIcon.pixmap(m_folderIcon.actualSize(r.size())))
+                                   : opt.icon.pixmap(opt.icon.actualSize(r.size()));
             if (!pix.isNull()) {
                 // Draw icon
                 painter->drawPixmap(r, pix, QRect(0, 0, pix.width(), pix.height()));
@@ -1171,6 +1176,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
         m_audioIcon = QImage(iconSize, iconSize, QImage::Format_ARGB32_Premultiplied);
         m_videoIcon = QImage(iconSize, iconSize, QImage::Format_ARGB32_Premultiplied);
         m_folderIcon = QIcon::fromTheme(QStringLiteral("folder"));
+        m_sequenceFolderIcon = QIcon::fromTheme(QStringLiteral("folder-yellow"));
     }
 
     // Tags panel
@@ -3833,14 +3839,17 @@ void Bin::buildSequenceClip(int aTracks, int vTracks)
     }
 }
 
-const QString Bin::buildSequenceClipWithUndo(Fun &undo, Fun &redo, int aTracks, int vTracks)
+const QString Bin::buildSequenceClipWithUndo(Fun &undo, Fun &redo, int aTracks, int vTracks, QString suggestedName)
 {
     QScopedPointer<QDialog> dia(new QDialog(this));
     Ui::NewTimeline_UI dia_ui;
     dia_ui.setupUi(dia.data());
     dia->setWindowTitle(i18nc("@title:window", "Create New Sequence"));
-    int timelinesCount = pCore->projectManager()->getTimelinesCount() + 1;
-    dia_ui.sequence_name->setText(i18n("Sequence %1", timelinesCount));
+    if (suggestedName.isEmpty()) {
+        int timelinesCount = pCore->projectManager()->getTimelinesCount() + 1;
+        suggestedName = i18n("Sequence %1", timelinesCount);
+    }
+    dia_ui.sequence_name->setText(suggestedName);
     dia_ui.video_tracks->setValue(vTracks == -1 ? KdenliveSettings::videotracks() : vTracks);
     dia_ui.audio_tracks->setValue(aTracks == -1 ? KdenliveSettings::audiotracks() : aTracks);
     if (dia->exec() == QDialog::Accepted) {
@@ -5626,6 +5635,14 @@ void Bin::requestTranscoding(const QString &url, const QString &id, int type, bo
         }
     }
     m_transcodingDialog->show();
+}
+
+void Bin::addFilterToClip(const QString &sourceClipId, const QString &filterId, stringMap params)
+{
+    std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(sourceClipId);
+    if (clip) {
+        clip->addEffect(filterId, params);
+    }
 }
 
 bool Bin::addProjectClipInFolder(const QString &path, const QString &sourceClipId, const QString &sourceFolder, const QString &jobId)

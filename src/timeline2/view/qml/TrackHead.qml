@@ -267,7 +267,7 @@ Rectangle {
                 anchors.fill: parent
                 acceptedButtons: Qt.LeftButton
                 hoverEnabled: true
-                onPressed: {
+                onPressed: mouse => {
                     expandButton.modifier = mouse.modifiers
                     mouse.accepted = false
                 }
@@ -648,7 +648,7 @@ Rectangle {
                 }
                 onEntered: parent.opacity = 0.3
                 onExited: parent.opacity = 0
-                onDoubleClicked: {
+                onDoubleClicked: mouse => {
                     timeline.defaultTrackHeight(mouse.modifiers & Qt.ShiftModifier ? -1 : trackHeadRoot.trackId)
                 }
                 onPositionChanged: {
@@ -675,11 +675,11 @@ Rectangle {
         property string dropData
         property string dropSource
         property int dropRow: -1
-        onEntered: {
+        onEntered: drag => {
             dropData = drag.getDataAsString('kdenlive/effect')
             dropSource = drag.getDataAsString('kdenlive/effectsource')
         }
-        onDropped: {
+        onDropped: drag => {
             console.log("Add effect: ", dropData)
             if (dropSource == '') {
                 // drop from effects list

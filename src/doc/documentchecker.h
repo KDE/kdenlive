@@ -19,7 +19,7 @@ class DocumentChecker : public QObject
 
 public:
     enum MissingStatus { Fixed, Reload, Missing, MissingButProxy, Placeholder, Remove };
-    enum MissingType { Clip, Proxy, Luma, AssetFile, TitleImage, TitleFont, Effect, Transition };
+    enum MissingType { Clip, Proxy, Luma, AssetFile, TitleImage, TitleFont, Effect, Transition, CircularRef };
     struct DocumentResource
     {
         MissingStatus status = MissingStatus::Missing;
@@ -121,6 +121,8 @@ private:
     void fixTitleFont(const QDomNodeList &producers, const QString &oldFont, const QString &newFont);
     void fixAssetResource(const QDomNodeList &assets, const QMap<QString, QString> &searchPairs, const QString &oldPath, const QString &newPath);
     static void removeAssetsById(QDomDocument &doc, const QString &tagName, const QStringList &idsToDelete);
+    /** @brief Update a filter's tag and id with a new name */
+    static void fixAssetsById(QDomDocument &doc, const QString &tagName, const QString &oldId, const QString &newId);
     void usePlaceholderForClip(const QDomNodeList &items, const QString &clipId);
     void removeClip(const QDomNodeList &producers, const QDomNodeList &chains, const QDomNodeList &playlists, const QString &clipId);
     void fixClip(const QDomNodeList &items, const QString &clipId, const QString &newPath);
@@ -132,3 +134,5 @@ private:
 
     QStringList fixSequences(QDomElement &e, const QDomNodeList &producers, const QStringList &tractorIds);
 };
+
+QDebug operator<<(QDebug qd, const DocumentChecker::DocumentResource &item);

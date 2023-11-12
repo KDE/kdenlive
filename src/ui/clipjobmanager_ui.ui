@@ -93,13 +93,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
          <string>Parameter 1 {param1}</string>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">
-         <item row="1" column="0">
-          <widget class="QRadioButton" name="param1_isfile">
-           <property name="text">
-            <string>Request file path</string>
+         <item row="0" column="1" rowspan="5">
+          <widget class="QPlainTextEdit" name="param1_list">
+           <property name="enabled">
+            <bool>false</bool>
            </property>
-           <property name="checked">
-            <bool>true</bool>
+           <property name="placeholderText">
+            <string>List of options</string>
            </property>
           </widget>
          </item>
@@ -110,24 +110,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
            </property>
           </widget>
          </item>
-         <item row="0" column="1" rowspan="4">
-          <widget class="QPlainTextEdit" name="param1_list">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="placeholderText">
-            <string>List of options</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QLineEdit" name="param1_name">
-           <property name="placeholderText">
-            <string>Parameter description</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0">
+         <item row="4" column="0">
           <spacer name="verticalSpacer">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -139,6 +122,30 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
             </size>
            </property>
           </spacer>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLineEdit" name="param1_name">
+           <property name="placeholderText">
+            <string>Parameter description</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QRadioButton" name="param1_isfile">
+           <property name="text">
+            <string>Request file path</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QRadioButton" name="param1_isframe">
+           <property name="text">
+            <string>Current clip frame</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>

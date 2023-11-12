@@ -453,7 +453,7 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
                     if (!audioOnly && !isAudioTrack()) {
                         Q_EMIT ptr->invalidateZone(old_in, old_out);
                     }
-                    if (finalDeletion && !groupMove && target_clip >= m_playlists[target_track].count()) {
+                    if (!groupMove && target_clip >= m_playlists[target_track].count()) {
                         // deleted last clip in playlist
                         ptr->updateDuration();
                     }

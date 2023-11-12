@@ -41,7 +41,7 @@ void FileWatcher::addFile(const QString &binId, const QString &url)
     std::unordered_map<QString, std::unordered_set<QString>>::const_iterator pos = m_occurences.find(url);
     if (pos != m_occurences.end()) {
         // Url already queued, only add ref to binId if necessary
-        if (pos->second.find(url) == pos->second.end()) {
+        if (pos->second.find(binId) == pos->second.end()) {
             m_occurences[url].insert(binId);
             m_binClipPaths[binId] = url;
         }
@@ -124,10 +124,12 @@ void FileWatcher::slotProcessModifiedUrls()
 
 void FileWatcher::clear()
 {
+    m_queueTimer.stop();
     m_fileWatcher->stopScan();
     for (const auto &f : m_occurences) {
         m_fileWatcher->removeFile(f.first);
     }
+    m_pendingUrls.clear();
     m_occurences.clear();
     m_modifiedUrls.clear();
     m_binClipPaths.clear();

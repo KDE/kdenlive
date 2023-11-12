@@ -42,7 +42,7 @@ class MarkerSortModel;
 
 using thread_function_t = void *(*)(void *);
 
-/** @class GLWidget
+/** @class VideoWidget
  *  @brief QQuickView that renders an .
  *
  * Creates an MLT consumer and renders a GL view from the consumer. This pipeline is one of:
@@ -52,7 +52,7 @@ using thread_function_t = void *(*)(void *);
  *    C. RGB gl texture multithreaded w/ GPU filter acceleration and no sync
  *    D. RGB gl texture multithreaded w/ GPU filter acceleration and sync
  */
-class GLWidget : public QQuickWidget, protected QOpenGLFunctions
+class VideoWidget : public QQuickWidget, protected QOpenGLFunctions
 {
     Q_OBJECT
     Q_PROPERTY(QRect rect READ rect NOTIFY rectChanged)
@@ -64,8 +64,8 @@ public:
     friend class MonitorProxy;
     using ClientWaitSync_fp = GLenum (*)(GLsync, GLbitfield, GLuint64);
 
-    GLWidget(int id, QWidget *parent = nullptr);
-    ~GLWidget() override;
+    VideoWidget(int id, QWidget *parent = nullptr);
+    ~VideoWidget() override;
 
     int requestedSeekPosition;
     void createThread(RenderThread **thread, thread_function_t function, void *data);
@@ -229,10 +229,10 @@ private:
     QPoint m_offset;
     MonitorProxy *m_proxy;
     std::shared_ptr<Mlt::Producer> m_blackClip;
-    static void on_frame_show(mlt_consumer, GLWidget* widget, mlt_event_data);
-    static void on_frame_render(mlt_consumer, GLWidget *widget, mlt_frame frame);
-    static void on_gl_frame_show(mlt_consumer, GLWidget *widget, mlt_event_data data);
-    static void on_gl_nosync_frame_show(mlt_consumer, GLWidget *widget, mlt_event_data data);
+    static void on_frame_show(mlt_consumer, VideoWidget *widget, mlt_event_data);
+    static void on_frame_render(mlt_consumer, VideoWidget *widget, mlt_frame frame);
+    static void on_gl_frame_show(mlt_consumer, VideoWidget *widget, mlt_event_data data);
+    static void on_gl_nosync_frame_show(mlt_consumer, VideoWidget *widget, mlt_event_data data);
     QOpenGLFramebufferObject *m_fbo;
     void refreshSceneLayout();
     void resetZoneMode();
@@ -309,7 +309,7 @@ class FrameRenderer : public QThread
 {
     Q_OBJECT
 public:
-    explicit FrameRenderer(QOpenGLContext *shareContext, QSurface *surface, GLWidget::ClientWaitSync_fp clientWaitSync);
+    explicit FrameRenderer(QOpenGLContext *shareContext, QSurface *surface, VideoWidget::ClientWaitSync_fp clientWaitSync);
     ~FrameRenderer() override;
     QSemaphore *semaphore() { return &m_semaphore; }
     QOpenGLContext *context() const { return m_context; }
@@ -329,7 +329,7 @@ private:
     SharedFrame m_displayFrame;
     QOpenGLContext *m_context;
     QSurface *m_surface;
-    GLWidget::ClientWaitSync_fp m_ClientWaitSync;
+    VideoWidget::ClientWaitSync_fp m_ClientWaitSync;
 
     void pipelineSyncToFrame(Mlt::Frame &);
 

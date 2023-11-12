@@ -86,7 +86,7 @@ Item {
         hoverEnabled: true
         acceptedButtons: Qt.NoButton
         anchors.fill: parent
-        onWheel: {
+        onWheel: wheel => {
             controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
         }
         onEntered: {
@@ -102,7 +102,7 @@ Item {
         keys: 'kdenlive/effect'
         property string droppedData
         property string droppedDataSource
-        onEntered: {
+        onEntered: drag => {
             drag.acceptProposedAction()
             droppedData = drag.getDataAsString('kdenlive/effect')
             droppedDataSource = drag.getDataAsString('kdenlive/effectsource')

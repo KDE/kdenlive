@@ -4,9 +4,12 @@
 */
 
 #include "renderrequest.h"
+#include "bin/projectitemmodel.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
+#include "kdenlivesettings.h"
 #include "project/projectmanager.h"
+#include "renderpresets/renderpresetrepository.hpp"
 #include "utils/qstringutils.h"
 #include "xml/xml.hpp"
 
@@ -17,6 +20,20 @@
 // TODO: remove, see generatePlaylistFile()
 #include <KMessageBox>
 #include <QInputDialog>
+
+// TODO:
+#include "doc/docundostack.hpp"
+#include <QUndoGroup>
+
+QStringList RenderRequest::argsByJob(const RenderJob &job)
+{
+    QStringList args = {QStringLiteral("delivery"), KdenliveSettings::meltpath(), job.playlistPath, QStringLiteral("--pid"),
+                        QString::number(QCoreApplication::applicationPid())};
+    if (!job.subtitlePath.isEmpty()) {
+        args << QStringLiteral("--subtitle") << job.subtitlePath;
+    }
+    return args;
+}
 
 RenderRequest::RenderRequest()
 {
@@ -41,6 +58,26 @@ void RenderRequest::setOutputFile(const QString &filename)
 void RenderRequest::setPresetParams(const RenderPresetParams &params)
 {
     m_presetParams = params;
+}
+
+void RenderRequest::loadPresetParams(const QString &profileName)
+{
+    std::unique_ptr<RenderPresetModel> &profile = RenderPresetRepository::get()->getPreset(profileName);
+    m_presetParams = profile->params();
+    m_presetParams.refreshX265Params();
+    QStringList presetDefaults = profile->defaultValues();
+
+    // Replace placeholders by default values
+    m_presetParams.replacePlaceholder(QLatin1String("%audioquality"), presetDefaults.at(2));
+    m_presetParams.replacePlaceholder(QLatin1String("%audiobitrate+'k'"), QStringLiteral("%1k").arg(presetDefaults.at(1)));
+    m_presetParams.replacePlaceholder(QLatin1String("%audiobitrate"), presetDefaults.at(1));
+    m_presetParams.replacePlaceholder(QLatin1String("%bitrate+'k'"), QStringLiteral("%1k").arg(presetDefaults.at(3)));
+    m_presetParams.replacePlaceholder(QLatin1String("%bitrate"), presetDefaults.at(3));
+
+    // Insert parameters of default speed
+    if (!presetDefaults.first().isEmpty() && presetDefaults.first().contains(QLatin1Char('='))) {
+        m_presetParams.insertFromString(presetDefaults.first(), false);
+    }
 }
 
 void RenderRequest::setDelayedRendering(bool enabled)
@@ -101,15 +138,16 @@ std::vector<RenderRequest::RenderJob> RenderRequest::process()
         dir.cd(QFileInfo(playlistPath).baseName());
         project->prepareRenderAssets(dir);
     }
+
     QString playlistContent =
         pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile(), m_overlayData);
+
+    QDomDocument doc;
+    doc.setContent(playlistContent);
 
     if (m_delayedRendering) {
         project->restoreRenderAssets();
     }
-
-    QDomDocument doc;
-    doc.setContent(playlistContent);
 
     // Add autoclose to playlists
     KdenliveDoc::setAutoclosePlaylists(doc, pCore->currentTimelineId().toString());
@@ -298,6 +336,8 @@ void RenderRequest::setDocGeneralParams(QDomDocument doc, int in, int out)
     consumer.setAttribute(QStringLiteral("in"), in);
     consumer.setAttribute(QStringLiteral("out"), out);
     consumer.setAttribute(QStringLiteral("mlt_service"), QStringLiteral("avformat"));
+    consumer.setAttribute(QStringLiteral("rescale"), KdenliveSettings::renderInterp().toUtf8().constData());
+    consumer.setAttribute(QStringLiteral("deinterlacer"), KdenliveSettings::renderDeinterlacer().toUtf8().constData());
 
     QMapIterator<QString, QString> it(m_presetParams);
 

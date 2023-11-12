@@ -130,6 +130,15 @@ bool ProjectSortProxyModel::lessThan(const QModelIndex &left, const QModelIndex 
     int leftType = sourceModel()->data(left, AbstractProjectItem::ItemTypeRole).toInt();
     int rightType = sourceModel()->data(right, AbstractProjectItem::ItemTypeRole).toInt();
     if (leftType == rightType) {
+        // Special case, sequences folder always at top
+        if (leftType == AbstractProjectItem::FolderItem) {
+            if (sourceModel()->data(left, AbstractProjectItem::SequenceFolder).toBool()) {
+                return true;
+            }
+            if (sourceModel()->data(right, AbstractProjectItem::SequenceFolder).toBool()) {
+                return false;
+            }
+        }
         // Let the normal alphabetical sort happen
         const QVariant leftData = sourceModel()->data(left, Qt::DisplayRole);
         const QVariant rightData = sourceModel()->data(right, Qt::DisplayRole);
@@ -225,7 +234,7 @@ void ProjectSortProxyModel::onCurrentRowChanged(const QItemSelection &current, c
 
 void ProjectSortProxyModel::slotDataChanged(const QModelIndex &ix1, const QModelIndex &ix2, const QVector<int> &roles)
 {
-    Q_EMIT dataChanged(ix1, ix2, roles);
+    Q_EMIT dataChanged(mapFromSource(ix1), mapFromSource(ix2), roles);
 }
 
 void ProjectSortProxyModel::selectAll(const QModelIndex &rootIndex)

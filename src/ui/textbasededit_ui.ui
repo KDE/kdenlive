@@ -10,30 +10,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>360</width>
-    <height>329</height>
+    <width>397</width>
+    <height>264</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
-   <item row="0" column="0">
-    <widget class="KSqueezedTextLabel" name="clipNameLabel"/>
-   </item>
-   <item row="1" column="0">
-    <widget class="QFrame" name="text_frame">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::NoFrame</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-    </widget>
-   </item>
    <item row="3" column="0">
     <widget class="QFrame" name="frame_progress">
      <property name="frameShape">
@@ -73,50 +54,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
        <widget class="QProgressBar" name="speech_progress">
         <property name="value">
          <number>24</number>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="5" column="0">
-    <widget class="QFrame" name="search_frame">
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_3">
-      <item row="0" column="1">
-       <widget class="QToolButton" name="search_prev">
-        <property name="text">
-         <string>...</string>
-        </property>
-        <property name="icon">
-         <iconset theme="go-up">
-          <normaloff>.</normaloff>.</iconset>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLineEdit" name="search_line">
-        <property name="placeholderText">
-         <string>Search</string>
-        </property>
-        <property name="clearButtonEnabled">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="QToolButton" name="search_next">
-        <property name="text">
-         <string>...</string>
-        </property>
-        <property name="icon">
-         <iconset theme="go-down">
-          <normaloff>.</normaloff>.</iconset>
         </property>
        </widget>
       </item>
@@ -170,6 +107,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </item>
     </layout>
    </item>
+   <item row="0" column="0">
+    <widget class="KSqueezedTextLabel" name="clipNameLabel"/>
+   </item>
    <item row="4" column="0">
     <widget class="QFrame" name="edit_frame">
      <property name="frameShape">
@@ -191,20 +131,48 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       <property name="bottomMargin">
        <number>0</number>
       </property>
-      <item row="0" column="9">
-       <spacer name="horizontalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+      <item row="0" column="7">
+       <widget class="QToolButton" name="subMenu">
+        <property name="text">
+         <string>...</string>
         </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>0</width>
-          <height>0</height>
-         </size>
+        <property name="icon">
+         <iconset theme="application-menu">
+          <normaloff>.</normaloff>.</iconset>
         </property>
-       </spacer>
+        <property name="popupMode">
+         <enum>QToolButton::InstantPopup</enum>
+        </property>
+       </widget>
       </item>
-      <item row="0" column="6">
+      <item row="0" column="2">
+       <widget class="QToolButton" name="button_bookmark">
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="autoRaise">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="5">
+       <widget class="QCheckBox" name="speech_zone">
+        <property name="text">
+         <string>Selected zone only</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QToolButton" name="button_delete">
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="autoRaise">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4">
        <widget class="QToolButton" name="button_search">
         <property name="text">
          <string>...</string>
@@ -221,67 +189,76 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
         </property>
        </widget>
       </item>
-      <item row="0" column="8">
-       <widget class="QCheckBox" name="speech_zone">
-        <property name="text">
-         <string>Selected zone only</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="5">
-       <widget class="QToolButton" name="button_delete">
-        <property name="text">
-         <string>...</string>
-        </property>
-        <property name="autoRaise">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="1">
        <widget class="QToolButton" name="button_insert">
-        <property name="toolTip">
-         <string>Insert selected blocks in timeline</string>
+        <property name="text">
+         <string>...</string>
         </property>
+        <property name="popupMode">
+         <enum>QToolButton::MenuButtonPopup</enum>
+        </property>
+        <property name="autoRaise">
+         <bool>true</bool>
+        </property>
+        <property name="arrowType">
+         <enum>Qt::NoArrow</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="6">
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QFrame" name="search_frame">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="1">
+       <widget class="QToolButton" name="search_prev">
         <property name="text">
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset theme="timeline-insert">
+         <iconset theme="go-up">
           <normaloff>.</normaloff>.</iconset>
         </property>
-        <property name="autoRaise">
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLineEdit" name="search_line">
+        <property name="placeholderText">
+         <string>Search</string>
+        </property>
+        <property name="clearButtonEnabled">
          <bool>true</bool>
         </property>
        </widget>
       </item>
-      <item row="0" column="4">
-       <widget class="QToolButton" name="button_bookmark">
-        <property name="text">
-         <string>...</string>
-        </property>
-        <property name="autoRaise">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3">
-       <widget class="QToolButton" name="button_add">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="toolTip">
-         <string>Save edited text in a new playlist</string>
-        </property>
+      <item row="0" column="2">
+       <widget class="QToolButton" name="search_next">
         <property name="text">
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset theme="document-save-as">
+         <iconset theme="go-down">
           <normaloff>.</normaloff>.</iconset>
-        </property>
-        <property name="autoRaise">
-         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -290,6 +267,22 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    </item>
    <item row="2" column="0">
     <widget class="KMessageWidget" name="info_message"/>
+   </item>
+   <item row="1" column="0" colspan="2">
+    <widget class="QFrame" name="text_frame">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

@@ -7,9 +7,9 @@ cmake_minimum_required(VERSION 3.16)
 # stable release. An additional number can be used for bugfix-only releases.
 
 # KDE Application Version, managed by release script
-set (RELEASE_SERVICE_VERSION_MAJOR "23")
-set (RELEASE_SERVICE_VERSION_MINOR "11")
-set (RELEASE_SERVICE_VERSION_MICRO "70")
+set (RELEASE_SERVICE_VERSION_MAJOR "24")
+set (RELEASE_SERVICE_VERSION_MINOR "01")
+set (RELEASE_SERVICE_VERSION_MICRO "75")
 
 set(KDENLIVE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_VERSION_MINOR}.${RELEASE_SERVICE_VERSION_MICRO}")
 

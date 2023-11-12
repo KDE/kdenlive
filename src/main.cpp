@@ -17,6 +17,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kcoreaddons_version.h"
 #include "kxmlgui_version.h"
 #include "mainwindow.h"
+#include <project/projectmanager.h>
 
 #include <KAboutData>
 #include <KConfigGroup>
@@ -49,6 +50,16 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QUrl> //new
 #include <kiconthemes_version.h>
 
+#include "render/renderrequest.h"
+
+// TODO: remove
+#include "doc/docundostack.hpp"
+#include "doc/kdenlivedoc.h"
+#include <QUndoGroup>
+
+#include "kdenlivesettings.h"
+#include <KNotification>
+
 #ifdef Q_OS_WIN
 extern "C" {
 // Inform the driver we could make use of the discrete gpu
@@ -59,6 +70,7 @@ extern "C" {
 
 int main(int argc, char *argv[])
 {
+    int result = EXIT_SUCCESS;
 #ifdef USE_DRMINGW
     ExcHndlInit();
 #endif
@@ -75,7 +87,14 @@ int main(int argc, char *argv[])
 #endif
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#if defined(Q_OS_WIN)
+    QQuickWindow::setGraphicsApi(QSGRendererInterface::Direct3D11);
+#elif defined(Q_OS_MACOS)
+    QQuickWindow::setGraphicsApi(QSGRendererInterface::Metal);
+#else
     QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
+    QCoreApplication::setAttribute(Qt::AA_UseDesktopOpenGL, true);
+#endif
 #endif
 
 #if defined(Q_OS_WIN)
@@ -178,13 +197,124 @@ int main(int argc, char *argv[])
     parser.addOption(mltLogLevelOption);
     QCommandLineOption clipsOption(QStringLiteral("i"), i18n("Comma separated list of files to add as clips to the bin."), QStringLiteral("clips"));
     parser.addOption(clipsOption);
+
+    // render options
+    QCommandLineOption renderOption(QStringLiteral("render"), i18n("Directly render the project and exit."));
+    parser.addOption(renderOption);
+
+    QCommandLineOption presetOption(QStringLiteral("render-preset"), i18n("Kdenlive render preset name (MP4-H264/AAC will be used if none given)."),
+                                    QStringLiteral("renderPreset"), QString());
+    parser.addOption(presetOption);
+
+    QCommandLineOption exitOption(QStringLiteral("render-async"),
+                                  i18n("Exit after (detached) render process started, without this flag it exists only after it finished."));
+    parser.addOption(exitOption);
+
     parser.addPositionalArgument(QStringLiteral("file"), i18n("Kdenlive document to open."));
+    parser.addPositionalArgument(QStringLiteral("rendering"), i18n("Output file for rendered video."));
 
     // Parse command line
     parser.process(app);
     aboutData.processCommandLine(&parser);
 
+    QUrl url;
+    QUrl renderUrl;
+    QString presetName;
+    if (parser.positionalArguments().count() != 0) {
+        const QString inputFilename = parser.positionalArguments().at(0);
+        const QFileInfo fileInfo(inputFilename);
+        url = QUrl(inputFilename);
+        if (fileInfo.exists() || url.scheme().isEmpty()) { // easiest way to detect "invalid"/unintended URLs is no scheme
+            url = QUrl::fromLocalFile(fileInfo.absoluteFilePath());
+        }
+        if (parser.positionalArguments().count() > 1) {
+            // Output render
+            const QString outputFilename = parser.positionalArguments().at(1);
+            const QFileInfo outFileInfo(outputFilename);
+            if (!outFileInfo.exists()) { // easiest way to detect "invalid"/unintended URLs is no scheme
+                renderUrl = QUrl::fromLocalFile(outFileInfo.absoluteFilePath());
+            }
+        }
+    }
+
     qApp->processEvents(QEventLoop::AllEvents);
+
+    if (parser.isSet(renderOption)) {
+        if (url.isEmpty()) {
+            qCritical() << "You need to give a valid file if you want to render from the command line.";
+            return EXIT_FAILURE;
+        }
+        if (renderUrl.isEmpty()) {
+            qCritical() << "You need to give a non existing output file to render from the command line.";
+            return EXIT_FAILURE;
+        }
+        if (parser.isSet(presetOption)) {
+            presetName = parser.value(presetOption);
+        } else {
+            presetName = QStringLiteral("MP4-H264/AAC");
+            qDebug() << "No render preset given, using default:" << presetName;
+        }
+        if (!Core::build(packageType, true)) {
+            return EXIT_FAILURE;
+        }
+        pCore->initHeadless(url);
+        app.processEvents();
+
+        RenderRequest *renderrequest = new RenderRequest();
+        renderrequest->setOutputFile(renderUrl.toLocalFile());
+        renderrequest->loadPresetParams(presetName);
+        // request->setPresetParams(m_params);
+        renderrequest->setDelayedRendering(false);
+        renderrequest->setProxyRendering(false);
+        renderrequest->setEmbedSubtitles(false);
+        renderrequest->setTwoPass(false);
+        renderrequest->setAudioFilePerTrack(false);
+
+        /*bool guideMultiExport = false;
+        int guideCategory = m_view.guideCategoryChooser->currentCategory();
+        renderrequest->setGuideParams(m_guidesModel, guideMultiExport, guideCategory);*/
+
+        renderrequest->setOverlayData(QString());
+        std::vector<RenderRequest::RenderJob> renderjobs = renderrequest->process();
+        app.processEvents();
+
+        if (!renderrequest->errorMessages().isEmpty()) {
+            qInfo() << "The following errors occured while trying to render:\n" << renderrequest->errorMessages().join(QLatin1Char('\n'));
+        }
+
+        int exitCode = EXIT_SUCCESS;
+
+        for (const auto &job : renderjobs) {
+            const QStringList argsJob = RenderRequest::argsByJob(job);
+            qDebug() << "* CREATED JOB WITH ARGS: " << argsJob;
+
+            qDebug() << "starting kdenlive_render process using: " << KdenliveSettings::kdenliverendererpath();
+            if (!parser.isSet(exitOption)) {
+                if (QProcess::execute(KdenliveSettings::kdenliverendererpath(), argsJob) != EXIT_SUCCESS) {
+                    exitCode = EXIT_FAILURE;
+                    break;
+                }
+            } else {
+                if (!QProcess::startDetached(KdenliveSettings::kdenliverendererpath(), argsJob)) {
+                    qCritical() << "Error starting render job" << argsJob;
+                    exitCode = EXIT_FAILURE;
+                    break;
+                } else {
+                    KNotification::event(QStringLiteral("RenderStarted"), i18n("Rendering <i>%1</i> started", job.outputPath), QPixmap());
+                }
+            }
+        }
+        /*QMapIterator<QString, QString> i(rendermanager->m_renderFiles);
+        while (i.hasNext()) {
+            i.next();
+            // qDebug() << i.key() << i.value() << rendermanager->startRendering(i.key(), i.value(), {});
+        }*/
+        pCore->projectManager()->closeCurrentDocument(false, false);
+        app.processEvents();
+        Core::clean();
+        app.processEvents();
+        return exitCode;
+    }
 
 #if defined(Q_OS_WIN)
     KSharedConfigPtr configWin = KSharedConfig::openConfig("kdenliverc");
@@ -331,17 +461,7 @@ int main(int argc, char *argv[])
         mlt_log_set_level(MLT_LOG_DEBUG);
     }
     const QString clipsToLoad = parser.value(clipsOption);
-    QUrl url;
-    if (parser.positionalArguments().count() != 0) {
-        const QString inputFilename = parser.positionalArguments().at(0);
-        const QFileInfo fileInfo(inputFilename);
-        url = QUrl(inputFilename);
-        if (fileInfo.exists() || url.scheme().isEmpty()) { // easiest way to detect "invalid"/unintended URLs is no scheme
-            url = QUrl::fromLocalFile(fileInfo.absoluteFilePath());
-        }
-    }
     qApp->processEvents(QEventLoop::AllEvents);
-    int result = 0;
     if (!Core::build(packageType)) {
         // App is crashing, delete config files and restart
         result = EXIT_CLEAN_RESTART;

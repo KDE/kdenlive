@@ -196,7 +196,7 @@ enum MonitorSceneType {
 enum MessageType { DefaultMessage, ProcessingJobMessage, OperationCompletedMessage, InformationMessage, ErrorMessage, MltError, TooltipMessage };
 
 namespace BinMessage {
-    enum BinCategory { NoMessage = 0, ProfileMessage, StreamsMessage, InformationMessage };
+enum BinCategory { NoMessage = 0, ProfileMessage, StreamsMessage, InformationMessage, UpdateMessage };
 }
 
 enum TrackType { AudioTrack = 0, VideoTrack = 1, AnyTrack = 2, SubtitleTrack = 3 };

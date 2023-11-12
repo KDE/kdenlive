@@ -104,6 +104,9 @@ public Q_SLOTS:
     void slotNextSequence();
     void slotPreviousSequence();
 
+private Q_SLOTS:
+    void onTabBarDoubleClicked(int index);
+
 private:
     TimelineWidget *m_activeTimeline;
     QMenu *m_timelineClipMenu;

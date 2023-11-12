@@ -8,6 +8,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "bin/projectclip.h"
 #include "core.h"
+#include "doc/kdenlivedoc.h"
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
@@ -78,6 +79,7 @@ bool RemapView::isInRange() const
 void RemapView::updateInPos(int pos)
 {
     if (m_currentKeyframe.second > -1) {
+        m_keyframesOrigin = m_keyframes;
         if (m_moveNext) {
             int offset = pos - m_currentKeyframe.second;
             QMap<int, int>::iterator it = m_keyframes.find(m_currentKeyframe.first);
@@ -93,7 +95,7 @@ void RemapView::updateInPos(int pos)
         slotSetPosition(pos);
         std::pair<double, double> speeds = getSpeed(m_currentKeyframe);
         Q_EMIT updateSpeeds(speeds);
-        Q_EMIT updateKeyframes(true);
+        Q_EMIT updateKeyframesWithUndo(m_keyframes, m_keyframesOrigin);
         update();
     }
 }
@@ -106,6 +108,7 @@ void RemapView::updateOutPos(int pos)
             qDebug() << "==== KEYFRAME ALREADY EXISTS AT: " << pos;
             return;
         }
+        m_keyframesOrigin = m_keyframes;
         QMap<int, int> updated;
         int offset = pos - m_currentKeyframe.first;
         if (m_moveNext) {
@@ -134,7 +137,7 @@ void RemapView::updateOutPos(int pos)
         m_bottomPosition = pos - m_inFrame;
         std::pair<double, double> speeds = getSpeed(m_currentKeyframe);
         Q_EMIT updateSpeeds(speeds);
-        Q_EMIT updateKeyframes(true);
+        Q_EMIT updateKeyframesWithUndo(m_keyframes, m_keyframesOrigin);
         update();
     }
 }
@@ -191,11 +194,11 @@ void RemapView::setBinClipDuration(std::shared_ptr<ProjectClip> clip, int durati
 
 void RemapView::setDuration(std::shared_ptr<Mlt::Producer> service, int duration, int sourceDuration)
 {
-    m_clip = nullptr;
+    m_clip.reset();
     m_sourceDuration = sourceDuration;
     if (duration < 0) {
         // reset
-        m_service = nullptr;
+        m_service.reset();
         m_inFrame = 0;
         m_duration = -1;
         m_selectedKeyframes.clear();
@@ -212,7 +215,7 @@ void RemapView::setDuration(std::shared_ptr<Mlt::Producer> service, int duration
         m_keyframesOrigin = m_keyframes;
         if (duration > m_duration) {
             // The clip was resized, ensure we have a keyframe at the end of the clip will freeze at last keyframe
-            QMap<int, int>::const_iterator it = m_keyframes.constEnd();
+            QMap<int, int>::iterator it = m_keyframes.end();
             it--;
             int lastKeyframePos = it.key();
             int lastKeyframeValue = it.value();
@@ -250,10 +253,6 @@ void RemapView::setDuration(std::shared_ptr<Mlt::Producer> service, int duration
                     }
                     int updatedVal = m_keyframes.value(m_keyframes.lastKey()) + ((lastPos - m_keyframes.lastKey()) / speeds.first);
                     m_keyframes.insert(lastPos, updatedVal);
-                }
-            } else {
-                while (!toDelete.isEmpty()) {
-                    m_keyframes.remove(toDelete.takeFirst());
                 }
             }
         }
@@ -534,7 +533,6 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
             } else if (m_moveKeyframeMode == TopMove) {
                 // Moving top keyframe
                 int realPos = qMax(m_inFrame, pos + m_inFrame);
-                // pos = GenTime(m_remapLink->anim_get_double("map", pos)).frames(pCore->getCurrentFps());
                 int delta = realPos - m_currentKeyframe.second;
                 // Check that the move is possible
                 QMapIterator<int, int> i(m_selectedKeyframes);
@@ -634,7 +632,7 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
                 } else {
                     Q_EMIT atKeyframe(false, false);
                 }
-                pos = GenTime(m_remapLink->anim_get_double("map", pos + m_inFrame)).frames(pCore->getCurrentFps());
+                pos = GenTime(m_remapProps.anim_get_double("time_map", pos + m_inFrame)).frames(pCore->getCurrentFps());
                 slotSetPosition(pos);
                 Q_EMIT seekToPos(-1, m_bottomPosition);
             }
@@ -972,7 +970,7 @@ void RemapView::mousePressEvent(QMouseEvent *event)
                         }
                         if (KdenliveSettings::keyframeseek()) {
                             m_bottomPosition = m_currentKeyframeOriginal.first - m_inFrame;
-                            int topPos = GenTime(m_remapLink->anim_get_double("map", m_currentKeyframeOriginal.first)).frames(pCore->getCurrentFps());
+                            int topPos = GenTime(m_remapProps.anim_get_double("time_map", m_currentKeyframeOriginal.first)).frames(pCore->getCurrentFps());
                             m_position = topPos - m_inFrame;
                             bool isLast = m_currentKeyframe.first == m_keyframes.firstKey() || m_currentKeyframe.first == m_keyframes.lastKey();
                             Q_EMIT atKeyframe(true, isLast);
@@ -1003,13 +1001,6 @@ void RemapView::mousePressEvent(QMouseEvent *event)
                 Q_EMIT seekToPos(-1, pos);
                 update();
             }
-            /*int topPos = GenTime(m_remapLink->anim_get_double("map", pos + m_inFrame)).frames(pCore->getCurrentFps());
-            if (topPos != m_position + m_inFrame) {
-
-                slotSetPosition(topPos);
-                Q_EMIT seekToPos(-1, pos);
-                update();
-            }*/
             return;
         }
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -1178,12 +1169,12 @@ void RemapView::goPrev()
 {
     // insert keyframe at interpolated position
     bool previousFound = false;
-    QMap<int, int>::const_iterator it = m_keyframes.constBegin();
-    while (it.key() < m_bottomPosition + m_inFrame && it != m_keyframes.constEnd()) {
+    QMap<int, int>::iterator it = m_keyframes.begin();
+    while (it.key() < m_bottomPosition + m_inFrame && it != m_keyframes.end()) {
         it++;
     }
-    if (it != m_keyframes.constEnd()) {
-        if (it != m_keyframes.constBegin()) {
+    if (it != m_keyframes.end()) {
+        if (it != m_keyframes.begin()) {
             it--;
         }
         m_currentKeyframe = {it.key(), it.value()};
@@ -1215,27 +1206,37 @@ void RemapView::goPrev()
 void RemapView::updateBeforeSpeed(double speed)
 {
     QMutexLocker lock(&m_kfrMutex);
-    QMap<int, int>::const_iterator it = m_keyframes.constFind(m_currentKeyframe.first);
+    QMap<int, int>::iterator it = m_keyframes.find(m_currentKeyframe.first);
     QMap<int, int> updatedKfrs;
     QList<int> toDelete;
-    if (*it != m_keyframes.first() && it != m_keyframes.constEnd()) {
+    if (*it != m_keyframes.first() && it != m_keyframes.end()) {
         m_keyframesOrigin = m_keyframes;
         it--;
-        int updatedLength = qFuzzyIsNull(speed) ? 0 : (m_currentKeyframe.second - it.value()) * 100. / speed;
-        int offset = it.key() + updatedLength - m_currentKeyframe.first;
+        double updatedLength = qFuzzyIsNull(speed) ? 0 : (m_currentKeyframe.second - it.value()) * 100. / speed;
+        double offset = it.key() + updatedLength - m_currentKeyframe.first;
+        int offsetInt = int(offset);
+        int lengthInt = int(updatedLength);
+        if (offsetInt == 0) {
+            if (offset < 0) {
+                offsetInt = -1;
+            } else {
+                offsetInt = 1;
+            }
+            lengthInt += offsetInt;
+        }
         m_keyframes.remove(m_currentKeyframe.first);
-        m_currentKeyframe.first = it.key() + updatedLength;
+        m_currentKeyframe.first = it.key() + lengthInt;
         m_keyframes.insert(m_currentKeyframe.first, m_currentKeyframe.second);
         m_bottomPosition = m_currentKeyframe.first;
         m_selectedKeyframes.clear();
         m_selectedKeyframes.insert(m_currentKeyframe.first, m_currentKeyframe.second);
-        it = m_keyframes.constFind(m_currentKeyframe.first);
+        it = m_keyframes.find(m_currentKeyframe.first);
         if (*it != m_keyframes.last()) {
             it++;
             // Update all keyframes after that so that we don't alter the speeds
-            while (m_moveNext && it != m_keyframes.constEnd()) {
+            while (m_moveNext && it != m_keyframes.end()) {
                 toDelete << it.key();
-                updatedKfrs.insert(it.key() + offset, it.value());
+                updatedKfrs.insert(it.key() + offsetInt, it.value());
                 it++;
             }
         }
@@ -1259,22 +1260,32 @@ void RemapView::updateBeforeSpeed(double speed)
 void RemapView::updateAfterSpeed(double speed)
 {
     QMutexLocker lock(&m_kfrMutex);
-    QMap<int, int>::const_iterator it = m_keyframes.constFind(m_currentKeyframe.first);
+    m_keyframesOrigin = m_keyframes;
+    QMap<int, int>::iterator it = m_keyframes.find(m_currentKeyframe.first);
     if (*it != m_keyframes.last()) {
-        m_keyframesOrigin = m_keyframes;
         it++;
         QMap<int, int> updatedKfrs;
         QList<int> toDelete;
-        int updatedLength = qFuzzyIsNull(speed) ? 0 : (it.value() - m_currentKeyframe.second) * 100. / speed;
-        int offset = m_currentKeyframe.first + updatedLength - it.key();
+        double updatedLength = (it.value() - m_currentKeyframe.second) * 100. / speed;
+        double offset = m_currentKeyframe.first + updatedLength - it.key();
+        int offsetInt = int(offset);
+        int lengthInt = int(updatedLength);
+        if (offsetInt == 0) {
+            if (offset < 0) {
+                offsetInt = -1;
+            } else {
+                offsetInt = 1;
+            }
+            lengthInt += offsetInt;
+        }
         if (m_moveNext) {
-            while (it != m_keyframes.constEnd()) {
+            while (it != m_keyframes.end()) {
                 toDelete << it.key();
-                updatedKfrs.insert(it.key() + offset, it.value());
+                updatedKfrs.insert(it.key() + offsetInt, it.value());
                 it++;
             }
         } else {
-            m_keyframes.insert(m_currentKeyframe.first + updatedLength, it.value());
+            m_keyframes.insert(m_currentKeyframe.first + lengthInt, it.value());
             m_keyframes.remove(it.key());
         }
         // Update all keyframes after that so that we don't alter the speeds
@@ -1303,14 +1314,14 @@ const QString RemapView::getKeyframesData(QMap<int, int> keyframes) const
     }
     QMapIterator<int, int> i(keyframes);
     int offset = 0;
+    Mlt::Properties props;
+    props.set("_profile", pCore->getProjectProfile().get_profile(), 0);
     while (i.hasNext()) {
         i.next();
         if (i.key() == keyframes.lastKey()) {
             // HACK: we always set last keyframe 1 frame after in MLT to ensure we have a correct last frame
             offset = 1;
         }
-        Mlt::Properties props;
-        props.set("_profile", pCore->getProjectProfile().get_profile(), 0);
         result << QString("%1=%2").arg(props.frames_to_time(i.key() + offset, mlt_time_clock)).arg(GenTime(i.value(), pCore->getCurrentFps()).seconds());
     }
     return result.join(QLatin1Char(';'));
@@ -1353,8 +1364,8 @@ void RemapView::reloadProducer()
 std::pair<double, double> RemapView::getSpeed(std::pair<int, int> kf)
 {
     std::pair<double, double> speeds = {-1, -1};
-    QMap<int, int>::const_iterator it = m_keyframes.constFind(kf.first);
-    if (it == m_keyframes.constEnd()) {
+    QMap<int, int>::iterator it = m_keyframes.find(kf.first);
+    if (it == m_keyframes.end()) {
         // Not a keyframe
         return speeds;
     }
@@ -1614,8 +1625,8 @@ void RemapView::paintEvent(QPaintEvent *event)
     if (m_bottomPosition >= 0 && m_bottomPosition < m_duration) {
         p.setBrush(m_colSelected);
         double scaledPos = -1;
-        if (m_remapLink && !m_keyframes.isEmpty()) {
-            int topPos = GenTime(m_remapLink->anim_get_double("map", m_bottomPosition + m_inFrame)).frames(pCore->getCurrentFps()) - m_inFrame;
+        if (!m_keyframes.isEmpty()) {
+            int topPos = GenTime(m_remapProps.anim_get_double("time_map", m_bottomPosition + m_inFrame)).frames(pCore->getCurrentFps()) - m_inFrame;
             scaledPos = topPos * m_scale;
             scaledPos -= m_zoomStart;
             scaledPos *= m_zoomFactor;
@@ -1721,7 +1732,7 @@ TimeRemap::TimeRemap(QWidget *parent)
     connect(speedAfter, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [&](double speed) { m_view->updateAfterSpeed(speed); });
     connect(button_del, &QToolButton::clicked, this, [this]() {
         if (m_cid > -1) {
-            std::shared_ptr<TimelineItemModel> model = pCore->window()->getCurrentTimeline()->model();
+            std::shared_ptr<TimelineItemModel> model = pCore->currentDoc()->getTimeline(m_uuid);
             model->requestClipTimeRemap(m_cid, false);
             selectedClip(-1, QUuid());
         }
@@ -1755,21 +1766,24 @@ void TimeRemap::checkClipUpdate(const QModelIndex &topLeft, const QModelIndex &,
         ObjectId oid(ObjectType::TimelineClip, m_cid, m_uuid);
         int newDuration = pCore->getItemDuration(oid);
         // Check if the keyframes were modified by an external resize operation
-        std::shared_ptr<TimelineItemModel> model = pCore->window()->getCurrentTimeline()->model();
+        std::shared_ptr<TimelineItemModel> model = pCore->currentDoc()->getTimeline(m_uuid);
         std::shared_ptr<ClipModel> clip = model->getClipPtr(m_cid);
         QMap<QString, QString> values = clip->getRemapValues();
-        if (values.value(QLatin1String("map")) == m_view->getKeyframesData()) {
+        if (values.value(QLatin1String("time_map")) == m_view->getKeyframesData()) {
             // Resize was triggered by our keyframe move, nothing to do
             return;
         }
         // Reload keyframes
         m_lastLength = newDuration;
-        m_view->m_remapLink->set("map", values.value(QLatin1String("map")).toUtf8().constData());
         int min = pCore->getItemIn(oid);
+        m_remapLink->set("time_map", values.value(QLatin1String("time_map")).toUtf8().constData());
+        m_view->m_remapProps.inherit(*m_remapLink.get());
+        // This is a fake query to force the animation to be parsed
+        (void)m_view->m_remapProps.anim_get_double("time_map", 0);
         m_view->m_startPos = pCore->getItemPosition(oid);
         m_in->setRange(0, m_view->m_maxLength - min);
         m_out->setRange(0, INT_MAX);
-        m_view->loadKeyframes(values.value(QLatin1String("map")));
+        m_view->loadKeyframes(values.value(QLatin1String("time_map")));
         m_view->update();
     }
 }
@@ -1781,19 +1795,26 @@ void TimeRemap::selectedClip(int cid, const QUuid uuid)
         return;
     }
     QObject::disconnect(m_seekConnection1);
-    QObject::disconnect(m_seekConnection2);
     QObject::disconnect(m_seekConnection3);
-    connect(pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekRemap, m_view, &RemapView::slotSetPosition, Qt::UniqueConnection);
-    std::shared_ptr<TimelineItemModel> model = pCore->window()->getCurrentTimeline()->model();
-    disconnect(model.get(), &TimelineItemModel::dataChanged, this, &TimeRemap::checkClipUpdate);
+    disconnect(pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekRemap, m_view, &RemapView::slotSetPosition);
+    disconnect(pCore->getMonitor(Kdenlive::ProjectMonitor), &Monitor::seekPosition, this, &TimeRemap::monitorSeek);
+    if (!m_uuid.isNull()) {
+        std::shared_ptr<TimelineItemModel> previousModel = pCore->currentDoc()->getTimeline(m_uuid);
+        disconnect(previousModel.get(), &TimelineItemModel::dataChanged, this, &TimeRemap::checkClipUpdate);
+    }
     m_cid = cid;
     m_uuid = uuid;
-    if (cid == -1) {
+    m_remapLink.reset();
+    m_splitRemap.reset();
+    if (cid == -1 || uuid.isNull()) {
         m_binId.clear();
         m_view->setDuration(nullptr, -1);
         remap_box->setEnabled(false);
         return;
     }
+    m_view->m_remapProps.set("_profile", pCore->getProjectProfile().get_profile(), 0);
+    connect(pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekRemap, m_view, &RemapView::slotSetPosition, Qt::UniqueConnection);
+    std::shared_ptr<TimelineItemModel> model = pCore->currentDoc()->getTimeline(uuid);
     m_binId = model->getClipBinId(cid);
     std::shared_ptr<Mlt::Producer> prod = model->getClipProducer(cid);
     // Check for B Frames and warn
@@ -1807,7 +1828,6 @@ void TimeRemap::selectedClip(int cid, const QUuid uuid)
         warningMessage->hide();
         remap_box->setEnabled(true);
     }
-    m_view->m_remapLink.reset();
     m_splitId = model->m_groups->getSplitPartner(cid);
     ObjectId oid(ObjectType::TimelineClip, cid, m_uuid);
     m_lastLength = pCore->getItemDuration(oid);
@@ -1819,46 +1839,59 @@ void TimeRemap::selectedClip(int cid, const QUuid uuid)
     // m_in->setRange(0, m_lastLength - 1);
     m_out->setRange(0, INT_MAX);
     m_view->setDuration(prod, m_lastLength, prod->parent().get_length());
-    qDebug() << "===== GOT PRODUCER TYPE: " << prod->parent().type();
+    bool remapFound = false;
     if (prod->parent().type() == mlt_service_chain_type) {
         Mlt::Chain fromChain(prod->parent());
         int count = fromChain.link_count();
+        QScopedPointer<Mlt::Link> fromLink;
         for (int i = 0; i < count; i++) {
-            QScopedPointer<Mlt::Link> fromLink(fromChain.link(i));
+            fromLink.reset(fromChain.link(i));
             if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
                 if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
                     // Found a timeremap effect, read params
-                    m_view->m_remapLink = std::make_shared<Mlt::Link>(fromChain.link(i)->get_link());
-                    if (m_splitId > -1) {
-                        std::shared_ptr<Mlt::Producer> prod2 = model->getClipProducer(m_splitId);
-                        if (prod2->parent().type() == mlt_service_chain_type) {
-                            Mlt::Chain fromChain2(prod2->parent());
-                            count = fromChain2.link_count();
-                            for (int j = 0; j < count; j++) {
-                                QScopedPointer<Mlt::Link> fromLink2(fromChain2.link(j));
-                                if (fromLink2 && fromLink2->is_valid() && fromLink2->get("mlt_service")) {
-                                    if (fromLink2->get("mlt_service") == QLatin1String("timeremap")) {
-                                        m_splitRemap = std::make_shared<Mlt::Link>(fromChain2.link(j)->get_link());
-                                    }
-                                }
-                            }
-                        }
+                    if (!fromLink->property_exists("time_map")) {
+                        fromLink->set("time_map", fromLink->get("map"));
                     }
-                    QString mapData(fromLink->get("map"));
+                    QString mapData(fromLink->get("time_map"));
+                    m_remapLink.reset(fromChain.link(i));
+                    m_view->m_remapProps.inherit(*m_remapLink.get());
+                    // This is a fake query to force the animation to be parsed
+                    (void)m_view->m_remapProps.anim_get_double("time_map", 0, m_lastLength + prod->get_in());
                     m_view->loadKeyframes(mapData);
                     if (mapData.isEmpty()) {
                         // We are just adding the remap effect, set default params
-                        fromLink->set("pitch", 1);
+                        if (model->clipIsAudio(cid)) {
+                            fromLink->set("pitch", 1);
+                        }
                         fromLink->set("image_mode", "nearest");
                     }
-                    QSignalBlocker bk(pitch_compensate);
-                    QSignalBlocker bk2(frame_blending);
-                    pitch_compensate->setChecked(fromLink->get_int("pitch") == 1);
-                    frame_blending->setChecked(fromLink->get("image_mode") != QLatin1String("nearest"));
-                    remap_box->setEnabled(true);
+                    remapFound = true;
                     break;
                 }
             }
+        }
+        if (remapFound && m_splitId > -1) {
+            std::shared_ptr<Mlt::Producer> prod2 = model->getClipProducer(m_splitId);
+            if (prod2->parent().type() == mlt_service_chain_type) {
+                Mlt::Chain fromChain2(prod2->parent());
+                count = fromChain2.link_count();
+                for (int j = 0; j < count; j++) {
+                    QScopedPointer<Mlt::Link> fromLink2(fromChain2.link(j));
+                    if (fromLink2 && fromLink2->is_valid() && fromLink2->get("mlt_service")) {
+                        if (fromLink2->get("mlt_service") == QLatin1String("timeremap")) {
+                            m_splitRemap.reset(fromChain2.link(j));
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        if (remapFound) {
+            QSignalBlocker bk(pitch_compensate);
+            QSignalBlocker bk2(frame_blending);
+            pitch_compensate->setChecked(m_remapLink->get_int("pitch") == 1 || (m_splitRemap && m_splitRemap->get_int("pitch")));
+            frame_blending->setChecked(m_remapLink->get("image_mode") != QLatin1String("nearest"));
+            remap_box->setEnabled(true);
         }
     } else {
         qDebug() << "/// PRODUCER IS NOT A CHAIN!!!!";
@@ -1881,8 +1914,12 @@ void TimeRemap::selectedClip(int cid, const QUuid uuid)
             pCore->getMonitor(Kdenlive::ProjectMonitor)->requestSeek(bottomPos + m_view->m_startPos);
         }
     });
-    m_seekConnection2 = connect(pCore->getMonitor(Kdenlive::ProjectMonitor), &Monitor::seekPosition, this,
-                                [this](int pos) { m_view->slotSetBottomPosition(pos - m_view->m_startPos); });
+    connect(pCore->getMonitor(Kdenlive::ProjectMonitor), &Monitor::seekPosition, this, &TimeRemap::monitorSeek, Qt::UniqueConnection);
+}
+
+void TimeRemap::monitorSeek(int pos)
+{
+    m_view->slotSetBottomPosition(pos - m_view->m_startPos);
 }
 
 void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
@@ -1894,15 +1931,16 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
     QObject::disconnect(m_seekConnection2);
     QObject::disconnect(m_seekConnection3);
     m_cid = -1;
+    m_splitId = -1;
     m_uuid = QUuid();
     m_binId.clear();
+    m_remapLink.reset();
+    m_splitRemap.reset();
     if (clip == nullptr || !clip->statusReady() || clip->clipType() != ClipType::Playlist) {
         m_view->setDuration(nullptr, -1);
         remap_box->setEnabled(false);
         return;
     }
-    m_view->m_remapLink.reset();
-
     bool keyframesLoaded = false;
     int min = in == -1 ? 0 : in;
     int max = out == -1 ? clip->getFramePlaytime() : out;
@@ -1927,8 +1965,14 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
                         if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
                             if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
                                 // Found a timeremap effect, read params
-                                m_view->m_remapLink = std::make_shared<Mlt::Link>(fromChain.link(j)->get_link());
-                                QString mapData(fromLink->get("map"));
+                                if (!fromLink->property_exists("time_map")) {
+                                    fromLink->set("time_map", fromLink->get("map"));
+                                }
+                                m_remapLink.reset(fromChain.link(j));
+                                m_view->m_remapProps.inherit(*m_remapLink.get());
+                                // This is a fake query to force the animation to be parsed
+                                (void)m_view->m_remapProps.anim_get_double("time_map", 0);
+                                QString mapData(fromLink->get("time_map"));
                                 m_view->loadKeyframes(mapData);
                                 keyframesLoaded = true;
                                 break;
@@ -1943,7 +1987,8 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
                     int count = local_playlist.count();
                     qDebug() << "==== PLAYLIST COUNT: " << count;
                     if (count == 1) {
-                        Mlt::Producer prod = local_playlist.get_clip(0)->parent();
+                        std::unique_ptr<Mlt::Producer> playlistEntry(local_playlist.get_clip(0));
+                        Mlt::Producer prod = playlistEntry->parent();
                         qDebug() << "==== GOT PROD TYPE: " << prod.type() << " = " << prod.get("mlt_service") << " = " << prod.get("resource");
                         if (prod.type() == mlt_service_chain_type) {
                             Mlt::Chain fromChain(prod);
@@ -1953,8 +1998,13 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
                                 if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
                                     if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
                                         // Found a timeremap effect, read params
-                                        m_view->m_remapLink = std::make_shared<Mlt::Link>(fromChain.link(j)->get_link());
-                                        QString mapData(fromLink->get("map"));
+                                        if (!fromLink->property_exists("time_map")) {
+                                            fromLink->set("time_map", fromLink->get("map"));
+                                        }
+                                        m_remapLink.reset(fromChain.link(j));
+                                        m_view->m_remapProps.inherit(*m_remapLink.get());
+                                        (void)m_view->m_remapProps.anim_get_double("time_map", 0);
+                                        QString mapData(fromLink->get("time_map"));
                                         m_view->loadKeyframes(mapData);
                                         keyframesLoaded = true;
                                         break;
@@ -1977,16 +2027,18 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
     }
     m_seekConnection1 = connect(m_view, &RemapView::seekToPos, pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::requestSeek, Qt::UniqueConnection);
     m_seekConnection2 = connect(pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekPosition, this, [&](int pos) { m_view->slotSetPosition(pos); });
-    remap_box->setEnabled(m_view->m_remapLink != nullptr);
+    remap_box->setEnabled(m_remapLink != nullptr);
 }
 
 void TimeRemap::updateKeyframes()
 {
     QString kfData = m_view->getKeyframesData();
-    if (m_view->m_remapLink) {
-        m_view->m_remapLink->set("map", kfData.toUtf8().constData());
+    if (m_remapLink) {
+        m_remapLink->set("time_map", kfData.toUtf8().constData());
+        m_view->m_remapProps.inherit(*m_remapLink.get());
+        (void)m_view->m_remapProps.anim_get_double("time_map", 0);
         if (m_splitRemap) {
-            m_splitRemap->set("map", kfData.toUtf8().constData());
+            m_splitRemap->set("time_map", kfData.toUtf8().constData());
         }
         if (m_cid == -1) {
             // This is a playlist clip
@@ -1997,19 +2049,34 @@ void TimeRemap::updateKeyframes()
 
 void TimeRemap::updateKeyframesWithUndo(const QMap<int, int> &updatedKeyframes, const QMap<int, int> &previousKeyframes)
 {
-    if (m_view->m_remapLink == nullptr) {
+    if (m_remapLink == nullptr) {
         return;
     }
     bool usePitch = pitch_compensate->isChecked();
     bool useBlend = frame_blending->isChecked();
-    bool hadPitch = m_view->m_remapLink->get_int("pitch") == 1;
-    bool hadBlend = m_view->m_remapLink->get("image_mode") != QLatin1String("nearest");
+    bool hadPitch = m_remapLink->get_int("pitch") == 1;
+    bool splitHadPitch = m_splitRemap && m_splitRemap->get_int("pitch") == 1;
+    bool hadBlend = m_remapLink->get("image_mode") != QLatin1String("nearest");
+    std::shared_ptr<TimelineItemModel> model = pCore->currentDoc()->getTimeline(m_uuid);
+    bool masterIsAudio = model->clipIsAudio(m_cid);
+    bool splitIsAudio = model->clipIsAudio(m_splitId);
     ObjectId oid(ObjectType::TimelineClip, m_cid, m_uuid);
     bool durationChanged = updatedKeyframes.isEmpty() ? false : updatedKeyframes.lastKey() - pCore->getItemIn(oid) + 1 != pCore->getItemDuration(oid);
+    int lastFrame = pCore->getItemDuration(oid) + pCore->getItemIn(oid);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    Fun local_undo = [this, link = m_view->m_remapLink, splitLink = m_splitRemap, previousKeyframes, cid = m_cid, oldIn = m_view->m_oldInFrame, hadPitch,
-                      hadBlend]() {
+    if (durationChanged) {
+        // Resize first so that serialization doesn't cut keyframes
+        int length = updatedKeyframes.lastKey() - m_view->m_inFrame + 1;
+        std::shared_ptr<TimelineItemModel> model = pCore->currentDoc()->getTimeline(m_uuid);
+        model->requestItemResize(m_cid, length, true, true, undo, redo);
+        if (m_splitId > 0) {
+            model->requestItemResize(m_splitId, length, true, true, undo, redo);
+        }
+    }
+
+    Fun local_undo = [this, link = m_remapLink, splitLink = m_splitRemap, previousKeyframes, cid = m_cid, oldIn = m_view->m_oldInFrame, hadPitch, splitHadPitch,
+                      masterIsAudio, splitIsAudio, lastFrame, hadBlend]() {
         QString oldKfData;
         bool keyframesChanged = false;
         if (!previousKeyframes.isEmpty()) {
@@ -2017,15 +2084,19 @@ void TimeRemap::updateKeyframesWithUndo(const QMap<int, int> &updatedKeyframes, 
             keyframesChanged = true;
         }
         if (keyframesChanged) {
-            link->set("map", oldKfData.toUtf8().constData());
+            link->set("time_map", oldKfData.toUtf8().constData());
         }
-        link->set("pitch", hadPitch ? 1 : 0);
+        if (masterIsAudio) {
+            link->set("pitch", hadPitch ? 1 : 0);
+        }
         link->set("image_mode", hadBlend ? "blend" : "nearest");
         if (splitLink) {
             if (keyframesChanged) {
-                splitLink->set("map", oldKfData.toUtf8().constData());
+                splitLink->set("time_map", oldKfData.toUtf8().constData());
             }
-            splitLink->set("pitch", hadPitch ? 1 : 0);
+            if (splitIsAudio) {
+                splitLink->set("pitch", splitHadPitch ? 1 : 0);
+            }
             splitLink->set("image_mode", hadBlend ? "blend" : "nearest");
         }
         if (cid == m_cid) {
@@ -2036,7 +2107,9 @@ void TimeRemap::updateKeyframesWithUndo(const QMap<int, int> &updatedKeyframes, 
             if (keyframesChanged) {
                 m_lastLength = previousKeyframes.lastKey() - oldIn;
                 // This clip is currently displayed in remap view
-                m_view->m_remapLink->set("map", oldKfData.toUtf8().constData());
+                link->set("time_map", oldKfData.toUtf8().constData());
+                m_view->m_remapProps.inherit(*link.get());
+                (void)m_view->m_remapProps.anim_get_double("time_map", 0);
                 m_view->loadKeyframes(oldKfData);
                 update();
             }
@@ -2044,7 +2117,8 @@ void TimeRemap::updateKeyframesWithUndo(const QMap<int, int> &updatedKeyframes, 
         return true;
     };
 
-    Fun local_redo = [this, link = m_view->m_remapLink, splitLink = m_splitRemap, updatedKeyframes, cid = m_cid, usePitch, in = m_view->m_inFrame, useBlend]() {
+    Fun local_redo = [this, link = m_remapLink, splitLink = m_splitRemap, updatedKeyframes, cid = m_cid, usePitch, masterIsAudio, splitIsAudio,
+                      in = m_view->m_inFrame, lastFrame, useBlend]() {
         QString newKfData;
         bool keyframesChanged = false;
         if (!updatedKeyframes.isEmpty()) {
@@ -2052,15 +2126,19 @@ void TimeRemap::updateKeyframesWithUndo(const QMap<int, int> &updatedKeyframes, 
             keyframesChanged = true;
         }
         if (keyframesChanged) {
-            link->set("map", newKfData.toUtf8().constData());
+            link->set("time_map", newKfData.toUtf8().constData());
         }
-        link->set("pitch", usePitch ? 1 : 0);
+        if (masterIsAudio) {
+            link->set("pitch", usePitch ? 1 : 0);
+        }
         link->set("image_mode", useBlend ? "blend" : "nearest");
         if (splitLink) {
             if (keyframesChanged) {
-                splitLink->set("map", newKfData.toUtf8().constData());
+                splitLink->set("time_map", newKfData.toUtf8().constData());
             }
-            splitLink->set("pitch", usePitch ? 1 : 0);
+            if (splitIsAudio) {
+                splitLink->set("pitch", usePitch ? 1 : 0);
+            }
             splitLink->set("image_mode", useBlend ? "blend" : "nearest");
         }
         if (cid == m_cid) {
@@ -2071,7 +2149,9 @@ void TimeRemap::updateKeyframesWithUndo(const QMap<int, int> &updatedKeyframes, 
             if (keyframesChanged) {
                 // This clip is currently displayed in remap view
                 m_lastLength = updatedKeyframes.lastKey() - in;
-                m_view->m_remapLink->set("map", newKfData.toUtf8().constData());
+                link->set("time_map", newKfData.toUtf8().constData());
+                m_view->m_remapProps.inherit(*link.get());
+                (void)m_view->m_remapProps.anim_get_double("time_map", 0);
                 m_view->loadKeyframes(newKfData);
                 update();
             }
@@ -2079,14 +2159,6 @@ void TimeRemap::updateKeyframesWithUndo(const QMap<int, int> &updatedKeyframes, 
         return true;
     };
     local_redo();
-    if (durationChanged) {
-        int length = updatedKeyframes.lastKey() - m_view->m_inFrame + 1;
-        std::shared_ptr<TimelineItemModel> model = pCore->window()->getCurrentTimeline()->model();
-        model->requestItemResize(m_cid, length, true, true, undo, redo);
-        if (m_splitId > 0) {
-            model->requestItemResize(m_splitId, length, true, true, undo, redo);
-        }
-    }
     UPDATE_UNDO_REDO_NOLOCK(redo, undo, local_undo, local_redo);
     pCore->pushUndo(local_undo, local_redo, i18n("Edit Timeremap keyframes"));
 }

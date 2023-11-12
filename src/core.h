@@ -80,6 +80,8 @@ public:
      */
     static bool build(const QString &packageType, bool testMode = false);
 
+    void initHeadless(const QUrl &url);
+
     /**
      * @brief Init the GUI part of the app and show the main window
      * @param inSandbox does the app run in a sanbox? If yes, we use App path to deduce
@@ -276,7 +278,7 @@ public:
     /* @brief The thread job pool for clip jobs, allowing to set a max number of concurrent jobs */
     TaskManager taskManager;
     /** @brief The number of clip load jobs changed */
-    void loadingClips(int);
+    void loadingClips(int, bool allowInterrupt = false);
     /** @brief Resize current mix item */
     void resizeMix(int cid, int duration, MixAlignment align, int leftFrames = -1);
     /** @brief Get Mix cut pos (the duration of the mix on the right clip) */
@@ -436,4 +438,6 @@ Q_SIGNALS:
     void autoTrackHeight(bool);
     /** @brief The number of missing clips in the project changed, inform user when rendering */
     void gotMissingClipsCount(int total, int used);
+    /** @brief Tell the current progress task to stop */
+    void stopProgressTask();
 };

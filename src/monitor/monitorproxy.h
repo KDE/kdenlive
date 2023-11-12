@@ -8,11 +8,15 @@
 #pragma once
 
 #include "definitions.h"
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include "videowidget.h"
+#else // Qt6
+#include "glwidget.h"
+#endif
 #include <QImage>
-#include <QUrl>
 #include <QObject>
+#include <QUrl>
 
-class GLWidget;
 class TimecodeDisplay;
 
 /** @class MonitorProxy
@@ -61,7 +65,7 @@ class MonitorProxy : public QObject
     Q_PROPERTY(QStringList jobsUuids MEMBER m_jobsUuids NOTIFY jobsProgressChanged)
 
 public:
-    MonitorProxy(GLWidget *parent);
+    MonitorProxy(VideoWidget *parent);
     /** brief: Returns true if we are still in a seek operation
      * */
     int rulerHeight() const;
@@ -168,7 +172,7 @@ Q_SIGNALS:
     void addTimelineEffect(const QStringList &);
 
 private:
-    GLWidget *q;
+    VideoWidget *q;
     int m_position;
     int m_zoneIn;
     int m_zoneOut;

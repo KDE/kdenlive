@@ -37,8 +37,6 @@
         <file alias="PulsingAnimation.qml">timeline2/view/qml/PulsingAnimation.qml</file>
         <file alias="CornerSelectionShadow.qml">timeline2/view/qml/CornerSelectionShadow.qml</file>
         <file alias="Timeline.js">timeline2/view/qml/Timeline.js</file>
-        <file alias="assetList.qml">assets/assetlist/view/qml/assetList.qml</file>
-        <file alias="assetList-qt6.qml">assets/assetlist/view/qml/assetList-qt6.qml</file>
         <file alias="AssetView.qml">assets/view/qml/AssetView.qml</file>
         <file alias="AssetMenu.qml">timeline2/view/qml/AssetMenu.qml</file>
         <file alias="GuidesMenu.qml">timeline2/view/qml/GuidesMenu.qml</file>

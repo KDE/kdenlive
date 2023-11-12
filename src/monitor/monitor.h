@@ -33,7 +33,7 @@ class QScrollBar;
 class RecManager;
 class QmlManager;
 class QLabel;
-class GLWidget;
+class VideoWidget;
 class MonitorAudioLevel;
 class MonitorProxy;
 class MarkerSortModel;
@@ -158,6 +158,8 @@ public:
     void resetScene();
     /** @brief Set monitor zone **/
     void loadZone(int in, int out);
+    /** @brief Extract current frame to image file with path **/
+    void extractFrame(const QString &path);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -177,7 +179,7 @@ protected:
 private:
     std::shared_ptr<ProjectClip> m_controller;
     /** @brief The QQuickView that handles our monitor display (video and qml overlay) **/
-    GLWidget *m_glMonitor;
+    VideoWidget *m_glMonitor;
     /** @brief Container for our QQuickView monitor display (QQuickView needs to be embedded) **/
     QWidget *m_glWidget;
     /** @brief Scrollbar for our monitor view, used when zooming the monitor **/

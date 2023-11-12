@@ -308,11 +308,11 @@ Item{
         id: clipDelegate
         Clip {
             height: trackRoot.height
-            onInitGroupTrim: {
+            onInitGroupTrim: clip => {
                 // We are resizing a group, remember coordinates of all elements
                 root.groupTrimData = controller.getGroupData(clip.clipId)
             }
-            onTrimmingIn: {
+            onTrimmingIn: (clip, newDuration, shiftTrim, controlTrim) => {
                 if (root.activeTool === ProjectTool.SelectTool && controlTrim) {
                     newDuration = controller.requestItemSpeedChange(clip.clipId, newDuration, false, root.snapping)
                     if (!speedController.visible) {
@@ -326,6 +326,7 @@ Item{
                     speedController.lastValidDuration = newDuration
                     clip.speed = clip.originalDuration * speedController.originalSpeed / newDuration
                     speedController.visible = true
+                    var delta = newDuration - clip.originalDuration
                     var s = timeline.simplifiedTC(Math.abs(delta))
                     s = '%1:%2, %3:%4'.arg(i18n("Speed"))
                         .arg(clip.speed)
@@ -358,7 +359,7 @@ Item{
                     //bubbleHelp.show(clip.x - 20, trackRoot.y + trackRoot.height, s)
                 }
             }
-            onTrimmedIn: {
+            onTrimmedIn: (clip, shiftTrim, controlTrim) => {
                 //bubbleHelp.hide()
                 timeline.showToolTip();
                 if (shiftTrim || (root.groupTrimData == undefined/*TODO > */ || root.activeTool === ProjectTool.RippleTool /* < TODO*/) || controlTrim) {
@@ -388,7 +389,7 @@ Item{
                 }
                 root.groupTrimData = undefined
             }
-            onTrimmingOut: {
+            onTrimmingOut: (clip, newDuration, shiftTrim, controlTrim) => {
                 if (root.activeTool === ProjectTool.SelectTool && controlTrim) {
                     if (!speedController.visible) {
                         // Store original speed
@@ -430,7 +431,7 @@ Item{
                     //bubbleHelp.show(clip.x + clip.width - 20, trackRoot.y + trackRoot.height, s)
                 }
             }
-            onTrimmedOut: {
+            onTrimmedOut: (clip, shiftTrim, controlTrim) => {
                 timeline.showToolTip();
                 //bubbleHelp.hide()
                 if (shiftTrim || (root.groupTrimData == undefined/*TODO > */ || root.activeTool === ProjectTool.RippleTool /* < TODO*/) || controlTrim) {
@@ -467,7 +468,7 @@ Item{
             displayHeight: Math.max(trackRoot.height / 2, trackRoot.height - (root.baseUnit * 2))
             opacity: 0.8
             selected: root.timelineSelection.indexOf(clipId) != -1
-            onTrimmingIn: {
+            onTrimmingIn: (clip, newDuration) => {
                 var new_duration = controller.requestItemResize(clip.clipId, newDuration, false, false, root.snapping)
                 if (new_duration > 0) {
                     clip.lastValidDuration = newDuration
@@ -480,13 +481,13 @@ Item{
                     timeline.showToolTip(s)
                 }
             }
-            onTrimmedIn: {
+            onTrimmedIn: clip => {
                 timeline.showToolTip()
                 //bubbleHelp.hide()
                 controller.requestItemResize(clip.clipId, clip.originalDuration, false, false, root.snapping)
                 controller.requestItemResize(clip.clipId, clip.lastValidDuration, false, true, root.snapping)
             }
-            onTrimmingOut: {
+            onTrimmingOut: (clip, newDuration) => {
                 var new_duration = controller.requestItemResize(clip.clipId, newDuration, true, false, root.snapping)
                 if (new_duration > 0) {
                     clip.lastValidDuration = newDuration
@@ -498,7 +499,7 @@ Item{
                     timeline.showToolTip(s)
                 }
             }
-            onTrimmedOut: {
+            onTrimmedOut: clip => {
                 timeline.showToolTip()
                 //bubbleHelp.hide()
                 controller.requestItemResize(clip.clipId, clip.originalDuration, true, false, root.snapping)

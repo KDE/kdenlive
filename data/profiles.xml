@@ -96,4 +96,7 @@
   <profile name="OGG" extension="ogg" audioqualities="3,7" defaultaudioquality="4" args="aq=%audioquality vn=1"/>
   <profile name="WAV" extension="wav" args="properties=WAV"/>
  </group>
+ <group name="Images sequence" renderer="avformat" type="video">
+  <profile name="PNG with alpha" extension="png" args="progressive=1 f=image2 vcodec=png an=1 audio_off=1 g=1 bg=0 pix_fmt=rgba"/>
+ </group>
 </profiles>

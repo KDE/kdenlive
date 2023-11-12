@@ -85,6 +85,7 @@ private:
 class KdenliveDoc : public QObject
 {
     Q_OBJECT
+
 public:
     friend class LoadJob;
     friend class TimelineModel;
@@ -266,6 +267,7 @@ public:
     QDomDocument createEmptyDocument(int videotracks, int audiotracks, bool disableProfile = true);
     /** @brief Return the document version. */
     double getDocumentVersion() const;
+
     /** @brief Returns true if this project has subtitles. */
     bool hasSubtitles() const;
     /** @brief Generate a temporary subtitle file for a zone. */

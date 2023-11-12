@@ -110,21 +110,9 @@ Item {
                     var post = convertPoint(root.centerPoints[j])
                     var c1 = substractPoints(end, pre, 6.0)
                     var c2 = substractPoints(p1, post, 6.0)
-                    var mid = distance(end, p1) / 2
-                    var c1Dist = Math.sqrt(Math.pow(c1.x, 2) + Math.pow(c1.y, 2))
-                    if (c1Dist > mid) {
-                        c1.x = c1.x * mid / c1Dist
-                        c1.y = c1.y * mid / c1Dist
-                    }
-                    var c2Dist = Math.sqrt(Math.pow(c2.x, 2) + Math.pow(c2.y, 2))
-                    if (c2Dist > mid) {
-                        c2.x = c2.x * -mid / c2Dist
-                        c2.y = c2.y * -mid / c2Dist
-                    }
                     c1 = addPoints(c1, p1)
                     c2 = addPoints(c2, end)
                     context.bezierCurveTo(c1.x, c1.y, c2.x, c2.y, end.x, end.y);
-                    //context.lineTo(end.x, end.y);
                 } else {
                     context.lineTo(p1.x, p1.y)
                 }
@@ -198,12 +186,12 @@ Item {
         anchors.centerIn: root
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton
-        cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
-        onWheel: {
+        cursorShape: handleContainsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
+        onWheel: wheel => {
             controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
         }
 
-        readonly property bool containsMouse: {
+        readonly property bool handleContainsMouse: {
               if (isMoving) {
                   return true;
               }
@@ -219,7 +207,7 @@ Item {
               return false
         }
 
-        onPositionChanged: {
+        onPositionChanged: mouse => {
             if (!pressed) {
                 mouse.accepted = false
                 return
@@ -233,7 +221,7 @@ Item {
             }
         }
 
-        onPressed: {
+        onPressed: mouse => {
             if (mouse.button & Qt.LeftButton) {
                 if (root.requestedKeyFrame >= 0 && !isMoving) {
                     controller.seekToKeyframe();

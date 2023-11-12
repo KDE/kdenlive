@@ -375,6 +375,8 @@ public:
     int getMirrorAudioTrackId(int trackId) const;
     int getMirrorVideoTrackId(int trackId) const;
     int getMirrorTrackId(int trackId) const;
+    /** @brief Returns true if a clip cid is on an audio track */
+    bool clipIsAudio(int cid) const;
 
     /** @brief Sets a track in a given lock state
        Locked tracks can't receive any operations (resize, move, insertion, deletion...)
@@ -778,8 +780,10 @@ public:
     /** @brief Inform asset view of duration change
      */
     virtual void adjustAssetRange(int clipId, int in, int out);
-
-    void requestClipReload(int clipId, int forceDuration = -1);
+    /** @brief Reload a timeline clip occurrence from its bin clip.
+     *  @returns true if the timeline clip was shortened by the reload operation
+     */
+    bool requestClipReload(int clipId, int forceDuration, Fun &local_undo, Fun &local_redo);
     void requestClipUpdate(int clipId, const QVector<int> &roles);
     /** @brief define current edit mode (normal, insert, overwrite */
     void setEditMode(TimelineMode::EditMode mode);
@@ -999,6 +1003,8 @@ Q_SIGNALS:
     void visibleSequenceNameChanged();
     /** @brief Connect the preview manager with timelinecontroller */
     void connectPreviewManager();
+    /** @brief An editable clip action changed, refresh menus */
+    void refreshClipActions();
 
 protected:
     QUuid m_uuid;

@@ -155,12 +155,7 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     menu->addAction(zoomIn);
     menu->addAction(zoomOut);
     subMenu->setMenu(menu);
-    if (KdenliveSettings::subtitleEditFontSize() > 0) {
-        QTextCursor cursor = subText->textCursor();
-        subText->selectAll();
-        subText->setFontPointSize(KdenliveSettings::subtitleEditFontSize());
-        subText->setTextCursor(cursor);
-    }
+    applyFontSize();
 }
 
 void SubtitleEdit::slotZoomIn()

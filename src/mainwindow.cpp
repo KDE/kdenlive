@@ -395,10 +395,15 @@ void MainWindow::init(const QString &mltPath)
             [&](int cid, const QString &compositionId) { getCurrentTimeline()->model()->switchComposition(cid, compositionId); });
     connect(pCore->bin(), &Bin::updateTabName, m_timelineTabs, &TimelineTabs::renameTab);
     connect(m_timelineTabs, &TimelineTabs::showMixModel, m_assetPanel, &AssetPanel::showMix);
-    connect(m_timelineTabs, &TimelineTabs::showTransitionModel, m_assetPanel, &AssetPanel::showTransition);
-    connect(m_timelineTabs, &TimelineTabs::showTransitionModel, this, [&]() { m_effectStackDock->raise(); });
-    connect(m_timelineTabs, &TimelineTabs::showItemEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
-    connect(m_timelineTabs, &TimelineTabs::showItemEffectStack, this, [&]() { m_effectStackDock->raise(); });
+    connect(m_timelineTabs, &TimelineTabs::showTransitionModel, this, [&](int tid, std::shared_ptr<AssetParameterModel> model) {
+        m_assetPanel->showTransition(tid, model);
+        m_effectStackDock->raise();
+    });
+    connect(m_timelineTabs, &TimelineTabs::showItemEffectStack, this,
+            [&](const QString &clipName, std::shared_ptr<EffectStackModel> model, QSize size, bool showKeyframes) {
+                m_assetPanel->showEffectStack(clipName, model, size, showKeyframes);
+                m_effectStackDock->raise();
+            });
 
     connect(m_timelineTabs, &TimelineTabs::updateAssetPosition, m_assetPanel, &AssetPanel::updateAssetPosition);
 
@@ -878,7 +883,7 @@ void MainWindow::init(const QString &mltPath)
     connect(this, &MainWindow::removeBinDock, this, &MainWindow::slotRemoveBinDock);
     // m_messageLabel->setMessage(QStringLiteral("This is a beta version. Always backup your data"), MltError);
 
-    QAction *const showMenuBarAction = actionCollection()->action(QLatin1String(KStandardAction::name(KStandardAction::ShowMenubar)));
+    QAction *const showMenuBarAction = actionCollection()->action(KStandardAction::name(KStandardAction::ShowMenubar));
     // FIXME: workaround for BUG 171080
     showMenuBarAction->setChecked(!menuBar()->isHidden());
 
@@ -914,14 +919,6 @@ void MainWindow::slotThemeChanged(const QString &name)
 
     if (m_assetPanel) {
         m_assetPanel->updatePalette();
-    }
-    if (m_effectList2) {
-        // Trigger a repaint to have icons adapted
-        m_effectList2->reset();
-    }
-    if (m_compositionList) {
-        // Trigger a repaint to have icons adapted
-        m_compositionList->reset();
     }
     if (m_clipMonitor) {
         m_clipMonitor->setPalette(plt);
@@ -2441,7 +2438,6 @@ void MainWindow::connectDocument()
     bool compositing = project->getDocumentProperty(QStringLiteral("compositing"), QStringLiteral("1")).toInt() > 0;
     Q_EMIT project->updateCompositionMode(compositing);
     getCurrentTimeline()->controller()->switchCompositing(compositing);
-    connect(getCurrentTimeline()->controller(), &TimelineController::durationChanged, pCore->projectManager(), &ProjectManager::adjustProjectDuration);
     slotUpdateProjectDuration(getCurrentTimeline()->model()->duration() - 1);
     const QUuid uuid = getCurrentTimeline()->getUuid();
 
@@ -2573,10 +2569,8 @@ void MainWindow::slotShowPreferencePage(Kdenlive::ConfigPage page, int option)
     // Get the mappable actions in localized form
     QMap<QString, QString> actions;
     KActionCollection *collection = actionCollection();
-    static const QRegularExpression ampEx("&{1,1}");
     for (const QString &action_name : qAsConst(m_actionNames)) {
-        QString action_text = collection->action(action_name)->text();
-        action_text.remove(ampEx);
+        const QString action_text = KLocalizedString::removeAcceleratorMarker(collection->action(action_name)->text());
         actions[action_text] = action_name;
     }
 
@@ -2990,7 +2984,15 @@ void MainWindow::slotInsertClipOverwrite()
         // No clip in monitor
         return;
     }
-    getCurrentTimeline()->controller()->insertZone(binId, m_clipMonitor->getZoneInfo(), true);
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    bool res = getCurrentTimeline()->controller()->insertZone(binId, m_clipMonitor->getZoneInfo(), true, undo, redo);
+    if (res) {
+        pCore->pushUndo(undo, redo, i18n("Overwrite zone"));
+    } else {
+        pCore->displayMessage(i18n("Could not insert zone"), ErrorMessage);
+        undo();
+    }
 }
 
 void MainWindow::slotInsertClipInsert()
@@ -3001,7 +3003,15 @@ void MainWindow::slotInsertClipInsert()
         pCore->displayMessage(i18n("No clip selected in project bin"), ErrorMessage);
         return;
     }
-    getCurrentTimeline()->controller()->insertZone(binId, m_clipMonitor->getZoneInfo(), false);
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    bool res = getCurrentTimeline()->controller()->insertZone(binId, m_clipMonitor->getZoneInfo(), false, undo, redo);
+    if (res) {
+        pCore->pushUndo(undo, redo, i18n("Insert zone"));
+    } else {
+        pCore->displayMessage(i18n("Could not insert zone"), ErrorMessage);
+        undo();
+    }
 }
 
 void MainWindow::slotExtractZone()
@@ -3996,9 +4006,10 @@ void MainWindow::slotShutdown()
     // Call shutdown
 #ifndef NODBUS
     QDBusConnectionInterface *interface = QDBusConnection::sessionBus().interface();
-    if ((interface != nullptr) && interface->isServiceRegistered(QStringLiteral("org.kde.ksmserver"))) {
-        QDBusInterface smserver(QStringLiteral("org.kde.ksmserver"), QStringLiteral("/KSMServer"), QStringLiteral("org.kde.KSMServerInterface"));
-        smserver.call(QStringLiteral("logout"), 1, 2, 2);
+    // org.kde.Shutdown is DBus activatable, so we can't query for it running
+    if (qgetenv("XDG_CURRENT_DESKTOP") == QLatin1String("KDE")) {
+        QDBusInterface kdeShutdown(QStringLiteral("org.kde.Shutdown"), QStringLiteral("/Shutdown"), QStringLiteral("org.kde.Shutdown"));
+        kdeShutdown.call(QStringLiteral("logoutAndShutdown"));
     } else if ((interface != nullptr) && interface->isServiceRegistered(QStringLiteral("org.gnome.SessionManager"))) {
         QDBusInterface smserver(QStringLiteral("org.gnome.SessionManager"), QStringLiteral("/org/gnome/SessionManager"),
                                 QStringLiteral("org.gnome.SessionManager"));
@@ -4780,14 +4791,51 @@ void MainWindow::processRestoreState(const QByteArray &state)
 
 void MainWindow::checkMaxCacheSize()
 {
+    if (KdenliveSettings::lastCacheCheck().daysTo(QDateTime::currentDateTime()) < 14) {
+        return;
+    }
+    if (KdenliveSettings::checkForUpdate()) {
+        // Check if the Kdenlive version is very old
+        const QStringList kdenliveVersion = KAboutData::applicationData().version().split(QLatin1Char('.'));
+        if (kdenliveVersion.size() > 2) {
+            bool ok;
+            int kdenliveYear = kdenliveVersion.at(0).toInt(&ok);
+            if (ok) {
+                int kdenliveMonth = kdenliveVersion.at(1).toInt(&ok);
+                if (ok) {
+                    if (kdenliveYear < 100) {
+                        kdenliveYear += 2000;
+                    }
+                    QDate releaseDate = QDate(kdenliveYear, kdenliveMonth, 1);
+                    if (releaseDate.isValid()) {
+                        int days = releaseDate.daysTo(QDate::currentDate());
+                        if (days > 180) {
+                            // Propose update
+                            QAction *updateAction = new QAction(i18n("Go to download page"), this);
+                            connect(updateAction, &QAction::triggered, this,
+                                    [this]() { QDesktopServices::openUrl(QUrl(QStringLiteral("https://kdenlive.org/download"))); });
+                            QAction *abortAction = new QAction(i18n("Never check again"), this);
+                            connect(abortAction, &QAction::triggered, this, [this]() { KdenliveSettings::setCheckForUpdate(false); });
+                            if (days > 360) {
+                                pCore->displayBinMessage(i18n("Your Kdenlive version is older than 1 year, we strongly encourage you to upgrade"),
+                                                         KMessageWidget::Warning, {updateAction, abortAction}, true, BinMessage::BinCategory::UpdateMessage);
+                            } else {
+                                pCore->displayBinMessage(i18n("Your Kdenlive version is older than 6 months, we encourage you to upgrade"),
+                                                         KMessageWidget::Information, {updateAction, abortAction}, true,
+                                                         BinMessage::BinCategory::UpdateMessage);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    KdenliveSettings::setLastCacheCheck(QDateTime::currentDateTime());
     // Check cached data size
     if (KdenliveSettings::maxcachesize() <= 0) {
         return;
     }
-    if (KdenliveSettings::lastCacheCheck().daysTo(QDateTime::currentDateTime()) < 14) {
-        return;
-    }
-    KdenliveSettings::setLastCacheCheck(QDateTime::currentDateTime());
     bool ok;
     KIO::filesize_t total = 0;
     QDir cacheDir = pCore->currentDoc()->getCacheDir(SystemCacheRoot, &ok);
@@ -4926,6 +4974,8 @@ void MainWindow::connectTimeline()
     getCurrentTimeline()->connectSubtitleModel(hasSubtitleModel);
     m_buttonSubtitleEditTool->setChecked(showSubs && hasSubtitleModel);
     if (hasSubtitleModel) {
+        // Restore style
+        getCurrentTimeline()->model()->getSubtitleModel()->loadProperties({});
         slotShowSubtitles(showSubs);
     }
     // Display timeline guides in the guides list

@@ -143,6 +143,7 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
     connect(m_model.get(), &TimelineModel::dataChanged, this, &TimelineController::checkClipPosition);
     connect(m_model.get(), &TimelineModel::checkTrackDeletion, this, &TimelineController::checkTrackDeletion, Qt::DirectConnection);
     connect(m_model.get(), &TimelineModel::flashLock, this, &TimelineController::slotFlashLock);
+    connect(m_model.get(), &TimelineModel::refreshClipActions, this, &TimelineController::updateClipActions);
     connect(m_model.get(), &TimelineModel::highlightSub, this,
             [this](int index) { QMetaObject::invokeMethod(m_root, "highlightSub", Qt::QueuedConnection, Q_ARG(QVariant, index)); });
 }
@@ -306,12 +307,12 @@ void TimelineController::hideTrack(int trackId, bool hide)
     QString previousState = m_model->getTrackProperty(trackId, QStringLiteral("hide")).toString();
     Fun undo_lambda = [this, trackId, previousState]() {
         m_model->setTrackProperty(trackId, QStringLiteral("hide"), previousState);
-        checkDuration();
+        m_model->updateDuration();
         return true;
     };
     Fun redo_lambda = [this, trackId, state]() {
         m_model->setTrackProperty(trackId, QStringLiteral("hide"), state);
-        checkDuration();
+        m_model->updateDuration();
         return true;
     };
     redo_lambda();
@@ -705,6 +706,7 @@ std::pair<int, int> TimelineController::selectionPosition(int *aTracks, int *vTr
     int targetTrackId = -1;
     std::pair<int, int> audioTracks = {-1, -1};
     std::pair<int, int> videoTracks = {-1, -1};
+    int topVideoWithSplit = -1;
     for (auto &id : selectedIds) {
         int tid = m_model->getItemTrackId(id);
         if (m_model->isSubtitleTrack(tid)) {
@@ -724,7 +726,11 @@ std::pair<int, int> TimelineController::selectionPosition(int *aTracks, int *vTr
                 audioTracks.second = trackPos;
             }
         } else {
-            // Find audio track range
+            // Find video track range
+            int splitId = m_model->m_groups->getSplitPartner(id);
+            if (splitId > -1 && (topVideoWithSplit == -1 || trackPos > topVideoWithSplit)) {
+                topVideoWithSplit = trackPos;
+            }
             if (videoTracks.first < 0 || trackPos < videoTracks.first) {
                 videoTracks.first = trackPos;
             }
@@ -732,6 +738,11 @@ std::pair<int, int> TimelineController::selectionPosition(int *aTracks, int *vTr
                 videoTracks.second = trackPos;
             }
         }
+    }
+    int minimumMirrorTracks = 0;
+    if (topVideoWithSplit > -1) {
+        // Ensure we have enough audio tracks for audio partners
+        minimumMirrorTracks = topVideoWithSplit - videoTracks.first + 1;
     }
 
     if (videoTracks.first > -1) {
@@ -741,12 +752,12 @@ std::pair<int, int> TimelineController::selectionPosition(int *aTracks, int *vTr
         *vTracks = 0;
     }
     if (audioTracks.first > -1) {
-        *aTracks = audioTracks.second - audioTracks.first + 1;
+        *aTracks = qMax(audioTracks.second - audioTracks.first + 1, minimumMirrorTracks);
         if (targetTrackId == -1) {
             targetTrackId = m_model->getTrackIndexFromPosition(audioTracks.second);
         }
     } else {
-        *aTracks = 0;
+        *aTracks = qMax(0, minimumMirrorTracks);
     }
     return {position, targetTrackId};
 }
@@ -2756,7 +2767,6 @@ void TimelineController::remapItemTime(int clipId)
         // Add remap effect
         Q_EMIT pCore->remapClip(clipId);
     }
-    updateClipActions();
 }
 
 void TimelineController::changeItemSpeed(int clipId, double speed)
@@ -3055,7 +3065,7 @@ bool TimelineController::insertClipZone(const QString &binId, int tid, int posit
     return res;
 }
 
-int TimelineController::insertZone(const QString &binId, QPoint zone, bool overwrite)
+int TimelineController::insertZone(const QString &binId, QPoint zone, bool overwrite, Fun &undo, Fun &redo)
 {
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(binId);
     int aTrack = -1;
@@ -3095,8 +3105,6 @@ int TimelineController::insertZone(const QString &binId, QPoint zone, bool overw
         pCore->displayMessage(i18n("Please select a target track by clicking on a track's target zone"), ErrorMessage);
         return -1;
     }
-    std::function<bool(void)> undo = []() { return true; };
-    std::function<bool(void)> redo = []() { return true; };
     bool res = TimelineFunctions::insertZone(m_model, target_tracks, binId, insertPoint, sourceZone, overwrite, true, undo, redo);
     if (res) {
         int newPos = insertPoint + (sourceZone.y() - sourceZone.x());
@@ -3113,10 +3121,6 @@ int TimelineController::insertZone(const QString &binId, QPoint zone, bool overw
         };
         redoPos();
         UPDATE_UNDO_REDO_NOLOCK(redoPos, undoPos, undo, redo);
-        pCore->pushUndo(undo, redo, overwrite ? i18n("Overwrite zone") : i18n("Insert zone"));
-    } else {
-        pCore->displayMessage(i18n("Could not insert zone"), ErrorMessage);
-        undo();
     }
     return res;
 }
@@ -3885,7 +3889,13 @@ void TimelineController::updateClipActions()
 {
     if (m_model->getCurrentSelection().empty()) {
         for (QAction *act : qAsConst(clipActions)) {
-            act->setEnabled(false);
+            const QChar actionData = act->data().toChar();
+            if (actionData == QLatin1Char('P')) {
+                // Position actions should stay enabled in clip monitor
+                act->setEnabled(true);
+            } else {
+                act->setEnabled(false);
+            }
         }
         Q_EMIT timelineClipSelected(false);
         // nothing selected

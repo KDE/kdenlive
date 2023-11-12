@@ -32,7 +32,7 @@ public:
     void reloadEffectMenu(QMenu *effectsMenu, KActionCategory *effectActions);
     void reloadCustomEffectIx(const QModelIndex &index) override;
     void editCustomAsset(const QModelIndex &index) override;
-    Q_INVOKABLE void exportCustomEffect(const QModelIndex &index);
+    void exportCustomEffect(const QModelIndex &index) override;
 
 public Q_SLOTS:
     void reloadCustomEffect(const QString &path);

@@ -211,6 +211,31 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     // === "More Options" widget ===
     setRescaleEnabled(false);
     m_view.error_box->setVisible(false);
+
+    // Interpolation
+    m_view.interp_type->addItem(i18n("Nearest (fast)"), QStringLiteral("nearest"));
+    m_view.interp_type->addItem(i18n("Bilinear (good)"), QStringLiteral("bilinear"));
+    m_view.interp_type->addItem(i18n("Bicubic (better)"), QStringLiteral("bicubic"));
+    m_view.interp_type->addItem(i18n("Lanczos (best)"), QStringLiteral("hyper"));
+    int ix = m_view.interp_type->findData(KdenliveSettings::renderInterp());
+    if (ix > -1) {
+        m_view.interp_type->setCurrentIndex(ix);
+    }
+    connect(m_view.interp_type, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+            [&]() { KdenliveSettings::setRenderInterp(m_view.interp_type->currentData().toString()); });
+    // Deinterlacer
+    m_view.deinterlacer_type->addItem(i18n("One Field (fast)"), QStringLiteral("onefield"));
+    m_view.deinterlacer_type->addItem(i18n("Linear Blend (fast)"), QStringLiteral("linearblend"));
+    m_view.deinterlacer_type->addItem(i18n("YADIF - temporal only (good)"), QStringLiteral("yadif-nospatial"));
+    m_view.deinterlacer_type->addItem(i18n("YADIF (better)"), QStringLiteral("yadif"));
+    m_view.deinterlacer_type->addItem(i18n("BWDIF (best)"), QStringLiteral("bwdif"));
+    ix = m_view.deinterlacer_type->findData(KdenliveSettings::renderDeinterlacer());
+    if (ix > -1) {
+        m_view.deinterlacer_type->setCurrentIndex(ix);
+    }
+    connect(m_view.deinterlacer_type, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+            [&]() { KdenliveSettings::setRenderDeinterlacer(m_view.deinterlacer_type->currentData().toString()); });
+
     m_view.tc_type->addItem(i18n("None"));
     m_view.tc_type->addItem(i18n("Timecode"), QStringLiteral("#timecode#"));
     m_view.tc_type->addItem(i18n("Timecode Non Drop Frame"), QStringLiteral("#smtpe_ndf#"));
@@ -676,7 +701,7 @@ void RenderWidget::slotPrepareExport(bool delayedRendering)
 
     QList<RenderJobItem *> jobList;
     for (auto &job : jobs) {
-        RenderJobItem *renderItem = createRenderJob(job.playlistPath, job.outputPath, job.subtitlePath);
+        RenderJobItem *renderItem = createRenderJob(job);
         if (renderItem != nullptr) {
             jobList << renderItem;
         }
@@ -689,17 +714,17 @@ void RenderWidget::slotPrepareExport(bool delayedRendering)
     checkRenderStatus();
 }
 
-RenderJobItem *RenderWidget::createRenderJob(const QString &playlist, const QString &outputFile, const QString &subtitleFile)
+RenderJobItem *RenderWidget::createRenderJob(const RenderRequest::RenderJob &job)
 {
-    QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(outputFile, Qt::MatchExactly, 1);
+    QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(job.outputPath, Qt::MatchExactly, 1);
     RenderJobItem *renderItem = nullptr;
     if (!existing.isEmpty()) {
         renderItem = static_cast<RenderJobItem *>(existing.at(0));
         if (renderItem->status() == RUNNINGJOB || renderItem->status() == WAITINGJOB || renderItem->status() == STARTINGJOB) {
             // There is an existing job that is still pending
-            KMessageBox::information(this,
-                                     i18n("There is already a job writing file:<br /><b>%1</b><br />Abort the job if you want to overwrite it…", outputFile),
-                                     i18n("Already running"));
+            KMessageBox::information(
+                this, i18n("There is already a job writing file:<br /><b>%1</b><br />Abort the job if you want to overwrite it…", job.outputPath),
+                i18n("Already running"));
             // focus the running job
             m_view.running_jobs->setCurrentItem(renderItem);
             return nullptr;
@@ -708,17 +733,14 @@ RenderJobItem *RenderWidget::createRenderJob(const QString &playlist, const QStr
         delete renderItem;
         renderItem = nullptr;
     }
-    renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << outputFile);
+    renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << job.outputPath);
 
     QDateTime t = QDateTime::currentDateTime();
     renderItem->setData(1, StartTimeRole, t);
     renderItem->setData(1, LastTimeRole, t);
     renderItem->setData(1, LastFrameRole, 0);
-    QStringList argsJob = {QStringLiteral("delivery"), KdenliveSettings::meltpath(), playlist, QStringLiteral("--pid"),
-                           QString::number(QCoreApplication::applicationPid())};
-    if (!subtitleFile.isEmpty()) {
-        argsJob << QStringLiteral("--subtitle") << subtitleFile;
-    }
+    QStringList argsJob = RenderRequest::argsByJob(job);
+
     renderItem->setData(1, ParametersRole, argsJob);
     qDebug() << "* CREATED JOB WITH ARGS: " << argsJob;
     renderItem->setData(1, OpenBrowserRole, m_view.open_browser->isChecked());
@@ -1040,9 +1062,7 @@ void RenderWidget::refreshParams()
         QStringList speeds = preset->speeds();
         if (m_view.speed->value() < speeds.count()) {
             const QString &speedValue = speeds.at(m_view.speed->value());
-            if (speedValue.contains(QLatin1Char('='))) {
-                m_params.insert(speedValue.section(QLatin1Char('='), 0, 0), speedValue.section(QLatin1Char('='), 1));
-            }
+            m_params.insertFromString(speedValue, false);
         }
     }
 

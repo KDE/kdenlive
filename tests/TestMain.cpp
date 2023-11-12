@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     app.setApplicationName(QStringLiteral("kdenlive"));
     std::unique_ptr<Mlt::Repository> repo(Mlt::Factory::init(nullptr));
     qputenv("MLT_TESTS", QByteArray("1"));
-    qSetMessagePattern(QStringLiteral("%{file}:%{line} – %{message}"));
+    qSetMessagePattern(QStringLiteral("%{time hh:mm:ss.zzz } %{file}:%{line} -- %{message}"));
     Core::build(QString(), true);
     MltConnection::construct(QString());
     pCore->projectItemModel()->buildPlaylist(QUuid());

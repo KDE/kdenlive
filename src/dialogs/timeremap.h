@@ -55,7 +55,7 @@ protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
     void wheelEvent(QWheelEvent *event) override;
-    std::shared_ptr<Mlt::Link> m_remapLink;
+    Mlt::Properties m_remapProps;
     /** @brief The position of the clip in timeline, used to seek to correct place */
     int m_startPos;
     /** @brief The in frame of the clip in timeline, used to correctly offset keyframes */
@@ -111,8 +111,8 @@ private:
     /** @brief Mouse is over the zoom bar */
     bool m_hoverZoom;
     int m_bottomView;
-    std::pair<int, int> m_currentKeyframe;
-    std::pair<int,int> m_currentKeyframeOriginal;
+    std::pair<int, int> m_currentKeyframe{-1, -1};
+    std::pair<int, int> m_currentKeyframeOriginal{-1, -1};
     MOVEMODE m_moveKeyframeMode;
     double m_clickOffset;
     int m_clickPoint;
@@ -160,8 +160,10 @@ private Q_SLOTS:
     void updateKeyframesWithUndo(const QMap<int,int>&updatedKeyframes, const QMap<int,int>&previousKeyframes);
     void checkClipUpdate(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int>& roles);
     void switchRemapParam();
+    void monitorSeek(int pos);
 
 private:
+    std::shared_ptr<Mlt::Link> m_remapLink;
     std::shared_ptr<Mlt::Link> m_splitRemap;
     RemapView *m_view;
     int m_lastLength;

@@ -20,12 +20,14 @@
 #include <QDebug>
 #include <QMenu>
 #include <QMessageBox>
+#include <QMimeData>
 
 EffectTreeModel::EffectTreeModel(QObject *parent)
     : AssetTreeModel(parent)
     , m_customCategory(nullptr)
     , m_templateCategory(nullptr)
 {
+    m_assetIconProvider = new AssetIconProvider(true, this);
 }
 
 std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categoryFile, QObject *parent)
@@ -268,4 +270,19 @@ void EffectTreeModel::editCustomAsset(const QString &newName, const QString &new
         file.close();
         reloadEffect(oldpath);
     }
+}
+
+QMimeData *EffectTreeModel::mimeData(const QModelIndexList &indexes) const
+{
+    QMimeData *mimeData = new QMimeData;
+    std::shared_ptr<TreeItem> item = getItemById(int(indexes.first().internalId()));
+    if (item) {
+        const QString assetId = item->dataColumn(AssetTreeModel::IdCol).toString();
+        mimeData->setData(QStringLiteral("kdenlive/effect"), assetId.toUtf8());
+        if (EffectsRepository::get()->isAudioEffect(assetId)) {
+            qDebug() << "::::: ASSET IS AUDIO!!!";
+            mimeData->setData(QStringLiteral("type"), QByteArray("audio"));
+        }
+    }
+    return mimeData;
 }

@@ -607,7 +607,7 @@ public:
      *  @returns the zone end position or -1 on fail
      */
     Q_INVOKABLE bool insertClipZone(const QString &binId, int tid, int pos);
-    int insertZone(const QString &binId, QPoint zone, bool overwrite);
+    int insertZone(const QString &binId, QPoint zone, bool overwrite, Fun &undo, Fun &redo);
     void updateClip(int clipId, const QVector<int> &roles);
     void showClipKeyframes(int clipId, bool value);
     void showCompositionKeyframes(int clipId, bool value);
@@ -682,6 +682,7 @@ public:
     void saveSequenceProperties();
 
 public Q_SLOTS:
+    void updateClipActions();
     void resetView();
     void setAudioTarget(const QMap<int, int> &tracks);
     Q_INVOKABLE void switchAudioTarget(int trackId);
@@ -713,7 +714,6 @@ public Q_SLOTS:
     Q_INVOKABLE void autofitTrackHeight(int timelineHeight, int collapsedHeight);
 
 private Q_SLOTS:
-    void updateClipActions();
     void updateVideoTarget();
     void updateAudioTarget();
     /** @brief Dis / enable multi track view. */

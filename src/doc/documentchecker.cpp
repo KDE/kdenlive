@@ -170,9 +170,14 @@ bool DocumentChecker::hasErrorInProject()
         }
     }
 
+    QDomNodeList documentTractors = m_doc.elementsByTagName(QStringLiteral("tractor"));
     QDomNodeList documentProducers = m_doc.elementsByTagName(QStringLiteral("producer"));
     QDomNodeList documentChains = m_doc.elementsByTagName(QStringLiteral("chain"));
     QDomNodeList entries = m_doc.elementsByTagName(QStringLiteral("entry"));
+    QMap<QString, QString> renamedEffects;
+    renamedEffects.insert(QStringLiteral("frei0r.alpha0ps"), QStringLiteral("frei0r.alpha0ps_alpha0ps"));
+    renamedEffects.insert(QStringLiteral("frei0r.alphaspot"), QStringLiteral("frei0r.alpha0ps_alphaspot"));
+    renamedEffects.insert(QStringLiteral("frei0r.alphagrad"), QStringLiteral("frei0r.alpha0ps_alpha0grad"));
 
     m_safeImages.clear();
     m_safeFonts.clear();
@@ -187,6 +192,39 @@ bool DocumentChecker::hasErrorInProject()
     for (int i = 0; i < max; ++i) {
         QDomElement e = documentChains.item(i).toElement();
         verifiedPaths << getMissingProducers(e, entries, storageFolder);
+    }
+    // Check that we don't have circular dependencies (a sequence embedding itself as a track / ptoducer
+    max = documentTractors.count();
+    QStringList circularRefs;
+    for (int i = 0; i < max; ++i) {
+        QDomElement e = documentTractors.item(i).toElement();
+        const QString tractorName = e.attribute(QStringLiteral("id"));
+        QDomNodeList tracks = e.elementsByTagName(QStringLiteral("track"));
+        int maxTracks = tracks.count();
+        QList<int> tracksToRemove;
+        for (int j = 0; j < maxTracks; ++j) {
+            QDomElement tr = tracks.item(j).toElement();
+            if (tr.attribute(QStringLiteral("producer")) == tractorName) {
+                // Malformed track, should be removed from project
+                tracksToRemove << j;
+                continue;
+            }
+        }
+        while (!tracksToRemove.isEmpty()) {
+            // Process removal from end
+            int x = tracksToRemove.takeLast();
+            QDomNode nodeToRemove = tracks.item(x);
+            e.removeChild(nodeToRemove);
+            circularRefs << tractorName;
+        }
+    }
+    if (!circularRefs.isEmpty()) {
+        circularRefs.removeDuplicates();
+        DocumentResource item;
+        item.type = MissingType::CircularRef;
+        item.status = MissingStatus::Remove;
+        item.originalFilePath = circularRefs.join(QLatin1Char(','));
+        m_items.push_back(item);
     }
 
     // Check existence of luma files
@@ -284,9 +322,20 @@ bool DocumentChecker::hasErrorInProject()
 
     // Check for missing effects (eg. not installed)
     QStringList filters = getAssetsServiceIds(m_doc, QStringLiteral("filter"));
+    QStringList renamedEffectNames = renamedEffects.keys();
     for (const QString &id : qAsConst(filters)) {
         if (!EffectsRepository::get()->exists(id) && !itemsContain(MissingType::Effect, id, MissingStatus::Remove)) {
             // m_missingFilters << id;
+            if (renamedEffectNames.contains(id) && EffectsRepository::get()->exists(renamedEffects.value(id))) {
+                // The effect was renamed
+                DocumentResource item;
+                item.type = MissingType::Effect;
+                item.status = MissingStatus::Fixed;
+                item.originalFilePath = id;
+                item.newFilePath = renamedEffects.value(id);
+                m_items.push_back(item);
+                continue;
+            }
             DocumentResource item;
             item.type = MissingType::Effect;
             item.status = MissingStatus::Remove;
@@ -463,8 +512,12 @@ void DocumentChecker::removeProxy(const QDomNodeList &items, const QString &clip
 
         // Replace proxy url with real clip in MLT producers
         QString prefix;
-        QString originalService = Xml::getXmlProperty(e, QStringLiteral("kdenlive:original.mlt_service"));
-        QString originalPath = Xml::getXmlProperty(e, QStringLiteral("kdenlive:original.resource"));
+        const QString originalService = Xml::getXmlProperty(e, QStringLiteral("kdenlive:original.mlt_service"));
+        const QString originalPath = Xml::getXmlProperty(e, QStringLiteral("kdenlive:originalurl"));
+        if (originalPath.isEmpty()) {
+            // The clip proxy process was not completed, leave resource untouched
+            return;
+        }
         QString service = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
         if (service == QLatin1String("timewarp")) {
             prefix = Xml::getXmlProperty(e, QStringLiteral("warp_speed"));
@@ -1271,6 +1324,23 @@ void DocumentChecker::removeAssetsById(QDomDocument &doc, const QString &tagName
     }
 }
 
+void DocumentChecker::fixAssetsById(QDomDocument &doc, const QString &tagName, const QString &oldId, const QString &newId)
+{
+    QDomNodeList assets = doc.elementsByTagName(tagName);
+    for (int i = 0; i < assets.count(); ++i) {
+        QDomElement asset = assets.item(i).toElement();
+        QString service = Xml::getXmlProperty(asset, QStringLiteral("kdenlive_id"));
+        if (service.isEmpty()) {
+            service = Xml::getXmlProperty(asset, QStringLiteral("mlt_service"));
+        }
+        if (service == oldId) {
+            // Rename asset
+            Xml::setXmlProperty(asset, QStringLiteral("kdenlive_id"), newId);
+            Xml::setXmlProperty(asset, QStringLiteral("mlt_service"), newId);
+        }
+    }
+}
+
 void DocumentChecker::fixClip(const QDomNodeList &items, const QString &clipId, const QString &newPath)
 {
     QDomElement e;
@@ -1417,8 +1487,12 @@ void DocumentChecker::fixMissingItem(const DocumentChecker::DocumentResource &re
             newPath.clear();
         }
         fixAssetResource(filters, getAssetPairs(), resource.originalFilePath, newPath);
-    } else if (resource.type == MissingType::Effect && resource.status == MissingStatus::Remove) {
-        removeAssetsById(m_doc, QStringLiteral("filter"), {resource.originalFilePath});
+    } else if (resource.type == MissingType::Effect) {
+        if (resource.status == MissingStatus::Fixed) {
+            fixAssetsById(m_doc, QStringLiteral("filter"), resource.originalFilePath, resource.newFilePath);
+        } else if (resource.status == MissingStatus::Remove) {
+            removeAssetsById(m_doc, QStringLiteral("filter"), {resource.originalFilePath});
+        }
     } else if (resource.type == MissingType::Transition && resource.status == MissingStatus::Remove) {
         removeAssetsById(m_doc, QStringLiteral("transition"), {resource.originalFilePath});
     }
@@ -1454,7 +1528,7 @@ QString DocumentChecker::getProducerResource(const QDomElement &producer)
         resource = Xml::getXmlProperty(producer, QStringLiteral("warp_resource"));
     } else if (service == QLatin1String("framebuffer")) {
         // slowmotion clip, trim speed info
-        resource.section(QLatin1Char('?'), 0, 0);
+        resource = resource.section(QLatin1Char('?'), 0, 0);
     }
     return ensureAbsolutePath(resource);
 }
@@ -1508,6 +1582,8 @@ QString DocumentChecker::readableNameForMissingType(MissingType type)
         return i18n("Effect");
     case MissingType::Transition:
         return i18n("Transition");
+    case MissingType::CircularRef:
+        return i18n("Corrupted sequence");
     default:
         return i18n("Unknown");
     }

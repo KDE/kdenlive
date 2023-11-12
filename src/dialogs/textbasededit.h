@@ -49,6 +49,7 @@ public:
     void blockClicked(Qt::KeyboardModifiers modifiers, bool play = false);
     QVector<QPoint> processedZones(const QVector<QPoint> &sourceZones);
     QVector<QPoint> getInsertZones();
+    QVector<QPoint> fullExport();
     /** @brief Remove all text outside loadZones
      */
     void processCutZones(const QList <QPoint> &loadZones);
@@ -63,8 +64,12 @@ protected:
     void mousePressEvent(QMouseEvent *e) override;
     void mouseReleaseEvent(QMouseEvent *e) override;
     void keyPressEvent(QKeyEvent *e) override;
+    void wheelEvent(QWheelEvent *e) override;
     void resizeEvent(QResizeEvent *e) override;
     void contextMenuEvent(QContextMenuEvent *event) override;
+
+public Q_SLOTS:
+    void slotRemoveSilence();
 
 private Q_SLOTS:
     void updateLineNumberArea(const QRect &rect, int dy);
@@ -153,10 +158,14 @@ private Q_SLOTS:
     void insertToTimeline();
     /** @brief Preview current edited text in the clip monitor */
     void previewPlaylist(bool createNew = true);
+    /** @brief Create a timeline sequence with current edit */
+    void createSequence();
     /** @brief Display info message */
     void showMessage(const QString &text, KMessageWidget::MessageType type, QAction *action = nullptr);
     void addBookmark();
     void updateEngine();
+    void slotZoomIn();
+    void slotZoomOut();
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
@@ -184,4 +193,5 @@ private:
     QTemporaryFile m_tmpCutWav;
     QAction *m_translateAction;
     SpeechToText *m_stt;
+    void applyFontSize();
 };

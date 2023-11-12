@@ -371,7 +371,7 @@ public:
      * @param aTracks the audio tracks count, use default if -1
      * @param vTracks the video tracks count, use default if -1 */
     void buildSequenceClip(int aTracks = -1, int vTracks = -1);
-    const QString buildSequenceClipWithUndo(Fun &undo, Fun &redo, int aTracks = -1, int vTracks = -1);
+    const QString buildSequenceClipWithUndo(Fun &undo, Fun &redo, int aTracks = -1, int vTracks = -1, QString suggestedName = QString());
 
 private Q_SLOTS:
     void slotAddClip();
@@ -492,6 +492,8 @@ public Q_SLOTS:
     void showTitleWidget(const std::shared_ptr<ProjectClip> &clip);
     /** @brief Add a clip in a specially named folder */
     bool addProjectClipInFolder(const QString &path, const QString &sourceClipId, const QString &sourceFolder, const QString &jobId);
+    /** @brief Add a filter with some presets to a clip */
+    void addFilterToClip(const QString &sourceClipId, const QString &filterId, stringMap params);
     /** @brief Check if a clip profile matches project, propose switch otherwise */
     void slotCheckProfile(const QString &binId);
     /** @brief A non seekable clip was added to project, propose transcoding */
