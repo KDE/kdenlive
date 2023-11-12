@@ -119,8 +119,8 @@ void ProjectManager::slotLoadOnOpen()
                 tab->setTabToolTip(i, tab->tabText(i).replace('&', ""));
             }
         }
+        pCore->window()->checkMaxCacheSize();
     });
-    pCore->window()->checkMaxCacheSize();
 }
 
 void ProjectManager::slotLoadHeadless(const QUrl &projectUrl)

@@ -106,6 +106,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="kcfg_checkForUpdate">
+     <property name="text">
+      <string>Check for updates</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
       <number>0</number>

@@ -4791,14 +4791,51 @@ void MainWindow::processRestoreState(const QByteArray &state)
 
 void MainWindow::checkMaxCacheSize()
 {
+    if (KdenliveSettings::lastCacheCheck().daysTo(QDateTime::currentDateTime()) < 14) {
+        // return;
+    }
+    if (KdenliveSettings::checkForUpdate()) {
+        // Check if the Kdenlive version is very old
+        const QStringList kdenliveVersion = KAboutData::applicationData().version().split(QLatin1Char('.'));
+        if (kdenliveVersion.size() > 2) {
+            bool ok;
+            int kdenliveYear = kdenliveVersion.at(0).toInt(&ok);
+            if (ok) {
+                int kdenliveMonth = kdenliveVersion.at(1).toInt(&ok);
+                if (ok) {
+                    if (kdenliveYear < 100) {
+                        kdenliveYear += 2000;
+                    }
+                    QDate releaseDate = QDate(kdenliveYear, kdenliveMonth, 1);
+                    if (releaseDate.isValid()) {
+                        int days = releaseDate.daysTo(QDate::currentDate());
+                        if (days > 180) {
+                            // Propose update
+                            QAction *updateAction = new QAction(i18n("Go to download page"), this);
+                            connect(updateAction, &QAction::triggered, this,
+                                    [this]() { QDesktopServices::openUrl(QUrl(QStringLiteral("https://kdenlive.org/download"))); });
+                            QAction *abortAction = new QAction(i18n("Never check again"), this);
+                            connect(abortAction, &QAction::triggered, this, [this]() { KdenliveSettings::setCheckForUpdate(false); });
+                            if (days > 360) {
+                                pCore->displayBinMessage(i18n("Your Kdenlive version is older than 1 year, we strongly encourage you to upgrade"),
+                                                         KMessageWidget::Warning, {updateAction, abortAction}, true, BinMessage::BinCategory::UpdateMessage);
+                            } else {
+                                pCore->displayBinMessage(i18n("Your Kdenlive version is older than 6 months, we encourage you to upgrade"),
+                                                         KMessageWidget::Information, {updateAction, abortAction}, true,
+                                                         BinMessage::BinCategory::UpdateMessage);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    KdenliveSettings::setLastCacheCheck(QDateTime::currentDateTime());
     // Check cached data size
     if (KdenliveSettings::maxcachesize() <= 0) {
         return;
     }
-    if (KdenliveSettings::lastCacheCheck().daysTo(QDateTime::currentDateTime()) < 14) {
-        return;
-    }
-    KdenliveSettings::setLastCacheCheck(QDateTime::currentDateTime());
     bool ok;
     KIO::filesize_t total = 0;
     QDir cacheDir = pCore->currentDoc()->getCacheDir(SystemCacheRoot, &ok);

@@ -590,6 +590,11 @@
       <default>1024</default>
     </entry>
 
+    <entry name="checkForUpdate" type="Bool">
+      <label>Automatically check for updates</label>
+      <default>true</default>
+    </entry>
+
     <entry name="lastCacheCheck" type="DateTime">
       <label>Kdenlive will check every 2 weeks on startup if the cached data exceeds the defined maxcachesize. This is the last checked date</label>
       <default></default>
