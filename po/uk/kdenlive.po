@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-11 00:42+0000\n"
-"PO-Revision-Date: 2023-11-10 08:48+0200\n"
+"POT-Creation-Date: 2023-11-12 00:41+0000\n"
+"PO-Revision-Date: 2023-11-11 08:45+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -5946,7 +5946,7 @@ msgstr ""
 msgid "Subtitles"
 msgstr "Субтитри"
 
-#: src/core.cpp:970 src/project/projectmanager.cpp:839
+#: src/core.cpp:971 src/project/projectmanager.cpp:839
 #, kde-format
 msgid "Loading clips"
 msgstr "Завантаження кліпів"
@@ -7419,10 +7419,9 @@ msgid "Insert selection in timeline"
 msgstr "Вставити позначене на монтажний стіл"
 
 #: src/dialogs/textbasededit.cpp:658
-#, fuzzy, kde-format
-#| msgid "Save edited text in a new playlist"
+#, kde-format
 msgid "Save edited text in a playlist file"
-msgstr "Зберегти редагований текст у новому списку відтворення"
+msgstr "Зберегти редагований текст у файлі списку відтворення"
 
 #: src/dialogs/textbasededit.cpp:665
 #, kde-format
@@ -7515,11 +7514,10 @@ msgid "Speech recognition finished."
 msgstr "Розпізнавання мовлення завершено."
 
 #: src/dialogs/textbasededit.cpp:1392
-#, fuzzy, kde-format
-#| msgid "Edit clip cut"
+#, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
-msgstr "Зміна обрізання кліпу"
+msgstr "Редагувати текст кліпу"
 
 #: src/dialogs/textbasededit.cpp:1424 src/dialogs/textbasededit.cpp:1506
 #, kde-format

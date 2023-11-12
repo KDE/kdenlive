@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-11 00:42+0000\n"
+"POT-Creation-Date: 2023-11-12 00:41+0000\n"
 "PO-Revision-Date: 2020-01-11 11:21+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
@@ -6121,7 +6121,7 @@ msgstr "O perfil de proxecto é incorrecto, a renderización podería fallar."
 msgid "Subtitles"
 msgstr "sen título"
 
-#: src/core.cpp:970 src/project/projectmanager.cpp:839
+#: src/core.cpp:971 src/project/projectmanager.cpp:839
 #, kde-format
 msgid "Loading clips"
 msgstr "Cargando os fragmentos"

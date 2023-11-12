@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-11 00:42+0000\n"
+"POT-Creation-Date: 2023-11-12 00:41+0000\n"
 "PO-Revision-Date: 2023-07-23 20:34+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -5916,7 +5916,7 @@ msgstr "프로젝트 프로필이 유효하지 않습니다. 렌더링이 실패
 msgid "Subtitles"
 msgstr "자막"
 
-#: src/core.cpp:970 src/project/projectmanager.cpp:839
+#: src/core.cpp:971 src/project/projectmanager.cpp:839
 #, kde-format
 msgid "Loading clips"
 msgstr "클립 불러오는 중"

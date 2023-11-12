@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-11 00:42+0000\n"
-"PO-Revision-Date: 2023-11-10 11:31+0100\n"
+"POT-Creation-Date: 2023-11-12 00:41+0000\n"
+"PO-Revision-Date: 2023-11-11 10:38+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -5919,7 +5919,7 @@ msgstr "Uw projectprofiel is ongeldig, renderen kan mislukken."
 msgid "Subtitles"
 msgstr "Ondertiteling"
 
-#: src/core.cpp:970 src/project/projectmanager.cpp:839
+#: src/core.cpp:971 src/project/projectmanager.cpp:839
 #, kde-format
 msgid "Loading clips"
 msgstr "Bezig met laden van clips"
@@ -7386,10 +7386,9 @@ msgid "Insert selection in timeline"
 msgstr "Selectie in de tijdlijn invoegen"
 
 #: src/dialogs/textbasededit.cpp:658
-#, fuzzy, kde-format
-#| msgid "Save edited text in a new playlist"
+#, kde-format
 msgid "Save edited text in a playlist file"
-msgstr "Bewerkte tekst in een nieuwe afspeellijst opslaan"
+msgstr "Bewerkte tekst in een afspeellijstbestand opslaan"
 
 #: src/dialogs/textbasededit.cpp:665
 #, kde-format
@@ -7482,11 +7481,10 @@ msgid "Speech recognition finished."
 msgstr "Spraakherkenning beëindigd."
 
 #: src/dialogs/textbasededit.cpp:1392
-#, fuzzy, kde-format
-#| msgid "Edit clip cut"
+#, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
-msgstr "Bewerk clip knippen"
+msgstr "Cliptekst bewerken"
 
 #: src/dialogs/textbasededit.cpp:1424 src/dialogs/textbasededit.cpp:1506
 #, kde-format

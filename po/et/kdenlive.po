@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-11 00:42+0000\n"
+"POT-Creation-Date: 2023-11-12 00:41+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -6053,7 +6053,7 @@ msgstr "Projekti profiil on vigane, renderdamine võib nurjuda."
 msgid "Subtitles"
 msgstr "nimetu"
 
-#: src/core.cpp:970 src/project/projectmanager.cpp:839
+#: src/core.cpp:971 src/project/projectmanager.cpp:839
 #, kde-format
 msgid "Loading clips"
 msgstr "Klippide laadimine"
