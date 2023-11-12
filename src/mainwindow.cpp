@@ -4792,7 +4792,7 @@ void MainWindow::processRestoreState(const QByteArray &state)
 void MainWindow::checkMaxCacheSize()
 {
     if (KdenliveSettings::lastCacheCheck().daysTo(QDateTime::currentDateTime()) < 14) {
-        // return;
+        return;
     }
     if (KdenliveSettings::checkForUpdate()) {
         // Check if the Kdenlive version is very old
