@@ -1784,24 +1784,31 @@ void KdenliveDoc::switchProfile(ProfileParam *pf, const QString &clipName)
         profile->m_frame_rate_den = 1;
     } else {
         // Check for 23.98, 29.97, 59.94
+        bool fpsFixed = false;
         if (qFuzzyCompare(fps_int, 23.0)) {
             if (qFuzzyCompare(fps, 23.98) || fps_frac > 0.94) {
                 profile->m_frame_rate_num = 24000;
                 profile->m_frame_rate_den = 1001;
+                fpsFixed = true;
             }
         } else if (qFuzzyCompare(fps_int, 29.0)) {
             if (qFuzzyCompare(fps, 29.97) || fps_frac > 0.94) {
                 profile->m_frame_rate_num = 30000;
                 profile->m_frame_rate_den = 1001;
+                fpsFixed = true;
             }
         } else if (qFuzzyCompare(fps_int, 59.0)) {
             if (qFuzzyCompare(fps, 59.94) || fps_frac > 0.9) {
                 profile->m_frame_rate_num = 60000;
                 profile->m_frame_rate_den = 1001;
+                fpsFixed = true;
             }
-        } else {
+        }
+        if (!fpsFixed) {
             // Unknown profile fps, warn user
-            adjustMessage = i18n("\nWarning: unknown non integer fps, might cause incorrect duration display.");
+            profile->m_frame_rate_num = qRound(fps);
+            profile->m_frame_rate_den = 1;
+            adjustMessage = i18n("Warning: non standard fps, adjusting to closest integer. ");
         }
     }
     QString matchingProfile = ProfileRepository::get()->findMatchingProfile(profile.get());
@@ -1847,12 +1854,12 @@ void KdenliveDoc::switchProfile(ProfileParam *pf, const QString &clipName)
         connect(ac, &QAction::triggered, this, [this, profilePath]() { this->slotSwitchProfile(profilePath, true); });
         QAction *ac2 = new QAction(QIcon::fromTheme(QStringLiteral("dialog-cancel")), i18n("Cancel"), this);
         QList<QAction *> list = {ac, ac2};
-        pCore->displayBinMessage(i18n("Switch to clip (%1) profile %2?", clipName, profile->descriptiveString()), KMessageWidget::Information, list, false,
-                                 BinMessage::BinCategory::ProfileMessage);
+        adjustMessage.append(i18n("Switch to clip (%1) profile %2?", clipName, profile->descriptiveString()));
+        pCore->displayBinMessage(adjustMessage, KMessageWidget::Information, list, false, BinMessage::BinCategory::ProfileMessage);
     } else {
         // No known profile, ask user if he wants to use clip profile anyway
         if (qFuzzyCompare(double(profile->m_frame_rate_num) / profile->m_frame_rate_den, fps)) {
-            adjustMessage = i18n("\nProfile fps adjusted from original %1", QString::number(fps, 'f', 4));
+            adjustMessage.append(i18n("\nProfile fps adjusted from original %1", QString::number(fps, 'f', 4)));
         }
         if (KMessageBox::warningContinueCancel(pCore->window(), i18n("No profile found for your clip %1.\nCreate and switch to new profile (%2x%3, %4fps)?%5",
                                                                      clipName, profile->m_width, profile->m_height,
