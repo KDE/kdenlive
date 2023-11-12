@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-11 00:42+0000\n"
-"PO-Revision-Date: 2023-11-07 09:39+0100\n"
+"POT-Creation-Date: 2023-11-12 00:41+0000\n"
+"PO-Revision-Date: 2023-11-10 12:28+0100\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Accelerator-Marker: &\n"
 "X-Environment: kde\n"
-"X-Generator: Lokalize 23.08.2\n"
+"X-Generator: Lokalize 23.08.3\n"
 "X-Text-Markup: kde4\n"
 
 #, kde-format
@@ -5963,7 +5963,7 @@ msgstr "Votre profil de projet n'est pas valable, le rendu risque d'échouer."
 msgid "Subtitles"
 msgstr "Sous-titres"
 
-#: src/core.cpp:970 src/project/projectmanager.cpp:839
+#: src/core.cpp:971 src/project/projectmanager.cpp:839
 #, kde-format
 msgid "Loading clips"
 msgstr "Chargement des clips"
@@ -6627,15 +6627,14 @@ msgid "Progressive"
 msgstr "Progressif"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1746
-#, fuzzy, kde-format
-#| msgid "Set the path for MLT environment."
+#, kde-format
 msgid "Setting up virtual environment…"
-msgstr "Définir l'emplacement vers l'environnement de MLT."
+msgstr "Configuration de l'environnement virtuel..."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1748
 #, kde-format
 msgid "Disabling virtual environment"
-msgstr ""
+msgstr "Désactivation de l'environnement virtuel"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1763
 #, kde-format
@@ -7473,10 +7472,9 @@ msgid "Add marker for current selection"
 msgstr "Ajouter un marqueur pour la sélection courante"
 
 #: src/dialogs/textbasededit.cpp:739
-#, fuzzy, kde-format
-#| msgid "Remove All Preview Zones"
+#, kde-format
 msgid "Remove non speech zones"
-msgstr "Supprimer toutes les zones d'aperçu"
+msgstr "Supprimer les zones non énonçables vocalement"
 
 #: src/dialogs/textbasededit.cpp:918
 #, kde-format
@@ -14419,27 +14417,26 @@ msgstr ""
 "la liste des dossiers de la variable d'environnement « PATH »."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:186
-#, fuzzy, kde-format
-#| msgid "Using MLT version %1"
+#, kde-format
 msgid "Using python from %1"
-msgstr "Utilise MLT version %1"
+msgstr "Utilisation de Python à partir de %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:194
-#, fuzzy, kde-format
-#| msgid "Python exec not found"
+#, kde-format
 msgid "No python venv found"
-msgstr "Impossible de trouver l'exécutable pour Python"
+msgstr "Impossible de trouver le logiciel « venv » pour Python"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:208
 #, kde-format
 msgid "Python venv size: %1"
-msgstr ""
+msgstr "Taille de « venv » de Python : %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:248
-#, fuzzy, kde-format
-#| msgid "Cannot find python3, please install it on your system."
+#, kde-format
 msgid "Cannot find python virtualenv, please install it on your system."
-msgstr "Impossible de trouver python3, veuillez l'installer sur votre système."
+msgstr ""
+"Impossible de trouver le paquet d'environnement virtuel Python "
+"« virtualenv », veuillez l'installer sur votre système."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:266
 #, kde-format
@@ -14465,22 +14462,24 @@ msgid ""
 "under %1.\n"
 "This way, it won't touch your system libraries."
 msgstr ""
+"Kdenlive peut installer les modules Python manquants dans un environnement "
+"virtuel sous %1. \n"
+"De cette façon, il ne modifiera pas vos bibliothèques système."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:349
-#, fuzzy, kde-format
-#| msgid "Environment"
+#, kde-format
 msgid "Python environment"
-msgstr "Environnement"
+msgstr "Environnement pour Python"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:349
 #, kde-format
 msgid "Use system install"
-msgstr ""
+msgstr "Utiliser l'installation du système"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:350
 #, kde-format
 msgid "Use virtual environment (recommended)"
-msgstr ""
+msgstr "Utiliser l'environnement virtuel (Recommandé)"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:367
 #: src/pythoninterfaces/abstractpythoninterface.cpp:441
@@ -14517,17 +14516,15 @@ msgid "Failed to find script file %1"
 msgstr "Impossible de trouver le fichier de script %1."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:500
-#, fuzzy, kde-format
-#| msgid ""
-#| "Error while running python3 script:\n"
-#| " %1"
+#, kde-format
 msgid ""
 "Error while running python3 script:\n"
 " %1\n"
 "%2"
 msgstr ""
 "Erreur durant l'exécution du script python : \n"
-"%1"
+"%1\n"
+"%2"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:519
 #, kde-format
@@ -14536,6 +14533,9 @@ msgid ""
 "environment will be recreated and modules downloaded whenever you reenable "
 "the python virtual environment."
 msgstr ""
+"Ceci supprimera l’environnement virtuel de Python de :<br/><b>%1</b><br/"
+">L’environnement sera recréé et les modules téléchargés à chaque fois que "
+"vous réactiverez l’environnement virtuel Python."
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
 #, kde-format
@@ -18848,20 +18848,19 @@ msgstr "Dossier pour le rendu, les titres et les scripts :"
 #: src/ui/configenv_ui.ui:313
 #, kde-format
 msgid "Python"
-msgstr ""
+msgstr "Python"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_usePythonVenv)
 #: src/ui/configenv_ui.ui:319
 #, kde-format
 msgid "Use python virtual environment (recommended)"
-msgstr ""
+msgstr "Utiliser l'environnement virtuel Python (Recommandé)"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_python_delete)
 #: src/ui/configenv_ui.ui:357
-#, fuzzy, kde-format
-#| msgid "Delete %1"
+#, kde-format
 msgid "Delete "
-msgstr "Supprimer %1"
+msgstr "Supprimer "
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/ui/configenv_ui.ui:387
@@ -19371,10 +19370,9 @@ msgstr "Périphérique de sortie :"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:21
-#, fuzzy, kde-format
-#| msgid "Check VOSK installation"
+#, kde-format
 msgid "Check speech engine installation"
-msgstr "Vérifier l'installation de VOSK"
+msgstr "Vérifier l'installation du moteur de synthèse vocale"
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:24
@@ -19408,10 +19406,9 @@ msgstr "Dossier de modèles personnalisés"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_add)
 #: src/ui/configspeech_ui.ui:103
-#, fuzzy, kde-format
-#| msgid "Add folder"
+#, kde-format
 msgid "Add Model"
-msgstr "Ajouter un dossier"
+msgstr "Ajouter un modèle"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configspeech_ui.ui:130
@@ -19421,10 +19418,9 @@ msgstr "Modèles de reconnaissance vocale VOSK"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
 #: src/ui/configspeech_ui.ui:150
-#, fuzzy, kde-format
-#| msgid "Remove Folder"
+#, kde-format
 msgid "Remove Model"
-msgstr "Supprimer le dossier"
+msgstr "Supprimer un modèle"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configspeech_ui.ui:175

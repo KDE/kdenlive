@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-11 00:42+0000\n"
-"PO-Revision-Date: 2023-11-10 11:03+0100\n"
+"POT-Creation-Date: 2023-11-12 00:41+0000\n"
+"PO-Revision-Date: 2023-11-11 11:06+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -5940,7 +5940,7 @@ msgstr "El perfil del projecte no és vàlid, la renderització podria fallar."
 msgid "Subtitles"
 msgstr "Subtítols"
 
-#: src/core.cpp:970 src/project/projectmanager.cpp:839
+#: src/core.cpp:971 src/project/projectmanager.cpp:839
 #, kde-format
 msgid "Loading clips"
 msgstr "S'estan carregant els clips"
@@ -7408,10 +7408,9 @@ msgid "Insert selection in timeline"
 msgstr "Insereix la selecció en la línia de temps"
 
 #: src/dialogs/textbasededit.cpp:658
-#, fuzzy, kde-format
-#| msgid "Save edited text in a new playlist"
+#, kde-format
 msgid "Save edited text in a playlist file"
-msgstr "Desa el text editat en una llista de reproducció nova"
+msgstr "Desa el text editat en un fitxer de llista de reproducció"
 
 #: src/dialogs/textbasededit.cpp:665
 #, kde-format
@@ -7504,11 +7503,10 @@ msgid "Speech recognition finished."
 msgstr "Ha finalitzat el reconeixement de la veu."
 
 #: src/dialogs/textbasededit.cpp:1392
-#, fuzzy, kde-format
-#| msgid "Edit clip"
+#, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
-msgstr "Edita el clip"
+msgstr "Edita el text del clip"
 
 #: src/dialogs/textbasededit.cpp:1424 src/dialogs/textbasededit.cpp:1506
 #, kde-format

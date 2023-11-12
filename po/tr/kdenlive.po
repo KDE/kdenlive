@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-11 00:42+0000\n"
-"PO-Revision-Date: 2023-11-10 13:17+0300\n"
+"POT-Creation-Date: 2023-11-12 00:41+0000\n"
+"PO-Revision-Date: 2023-11-11 23:06+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -3419,7 +3419,7 @@ msgstr "Anahtar kare sil"
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframes"
-msgstr "Anahtar kareleri taşı"
+msgstr "Anahtar Kareleri Taşı"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:417
 #: src/assets/keyframes/model/keyframemodellist.cpp:226
@@ -3428,7 +3428,7 @@ msgstr "Anahtar kareleri taşı"
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframe"
-msgstr "Anahtar kareyi taşı"
+msgstr "Anahtar Kareyi Taşı"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:488
 #: src/assets/keyframes/model/keyframemodellist.cpp:323
@@ -4517,7 +4517,7 @@ msgstr "Zaman akışında değiştir"
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
-msgstr "Klip ekle"
+msgstr "Klip Ekle"
 
 #: src/bin/bin.cpp:2158
 #, kde-format
@@ -5078,7 +5078,7 @@ msgstr "Klip imleyicilerini kaldır"
 #, kde-format
 msgctxt "@action"
 msgid "Move Clip"
-msgstr "Klip Taşı"
+msgstr "Klibi Taşı"
 
 #: src/bin/bincommands.cpp:62
 #, kde-format
@@ -5900,7 +5900,7 @@ msgstr "Proje profiliniz geçersiz, sunum başarısız olabilir."
 msgid "Subtitles"
 msgstr "Altyazılar"
 
-#: src/core.cpp:970 src/project/projectmanager.cpp:839
+#: src/core.cpp:971 src/project/projectmanager.cpp:839
 #, kde-format
 msgid "Loading clips"
 msgstr "Klipler yükleniyor"
@@ -7350,10 +7350,9 @@ msgid "Insert selection in timeline"
 msgstr "Zaman akışında seçim ekle"
 
 #: src/dialogs/textbasededit.cpp:658
-#, fuzzy, kde-format
-#| msgid "Save edited text in a new playlist"
+#, kde-format
 msgid "Save edited text in a playlist file"
-msgstr "Düzenlenen metni yeni bir oynatma listesinde kaydedin"
+msgstr "Düzenlenen metni bir oynatma listesine kaydet"
 
 #: src/dialogs/textbasededit.cpp:665
 #, kde-format
@@ -7446,17 +7445,16 @@ msgid "Speech recognition finished."
 msgstr "Konuşma tanıma bitti."
 
 #: src/dialogs/textbasededit.cpp:1392
-#, fuzzy, kde-format
-#| msgid "Edit clip"
+#, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
-msgstr "Klibi düzenle"
+msgstr "Klip Metnini Düzenle"
 
 #: src/dialogs/textbasededit.cpp:1424 src/dialogs/textbasededit.cpp:1506
 #, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
-msgstr "Sekans klibi oluştur"
+msgstr "Sekans Klibi Oluştur"
 
 #: src/dialogs/textbasededit.cpp:1431 src/dialogs/textbasededit.cpp:1467
 #, kde-format
@@ -12877,8 +12875,8 @@ msgstr "Klibi Arakodla"
 msgctxt "@action"
 msgid "Add clip to project"
 msgid_plural "Add clips to project"
-msgstr[0] "Projeye klip ekle"
-msgstr[1] "Projeye klipler ekle"
+msgstr[0] "Projeye Klip Ekle"
+msgstr[1] "Projeye Klipler Ekle"
 
 #: src/project/cliptranscode.cpp:59
 #, kde-format
