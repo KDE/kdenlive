@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-12 00:41+0000\n"
+"POT-Creation-Date: 2023-11-13 00:42+0000\n"
 "PO-Revision-Date: 2023-07-23 20:34+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -8247,7 +8247,7 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "프로젝트 폴더 이동 중 오류: %1"
 
-#: src/doc/kdenlivedoc.cpp:1051 src/doc/kdenlivedoc.cpp:2214
+#: src/doc/kdenlivedoc.cpp:1051 src/doc/kdenlivedoc.cpp:2221
 #: src/project/dialogs/archivewidget.cpp:238
 #: src/project/projectmanager.cpp:1501
 #, kde-format
@@ -8296,16 +8296,12 @@ msgstr[0] "프록시 클립 삭제"
 msgid "Clip type does not support proxies"
 msgstr "클립 종류는 프록시를 지원하지 않습니다"
 
-#: src/doc/kdenlivedoc.cpp:1804
+#: src/doc/kdenlivedoc.cpp:1811
 #, kde-format
-msgid ""
-"\n"
-"Warning: unknown non integer fps, might cause incorrect duration display."
+msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
-"\n"
-"경고: 알 수 없는 정수가 아닌 fps, 시간 표시가 잘못될 수도 있습니다."
 
-#: src/doc/kdenlivedoc.cpp:1823
+#: src/doc/kdenlivedoc.cpp:1830
 #, fuzzy, kde-format
 #| msgid ""
 #| "Your default project profile is %1, but your clip's profile is %2.\n"
@@ -8317,44 +8313,44 @@ msgstr ""
 "기본 프로젝트 프로필은 %1(이)지만 클립 프로필은 %2입니다.\n"
 "차후에 사용할 프로젝트의 기본 프로필을 변경하시겠습니까?"
 
-#: src/doc/kdenlivedoc.cpp:1825
+#: src/doc/kdenlivedoc.cpp:1832
 #, kde-format
 msgid "Change default project profile"
 msgstr "기본 프로젝트 프로필 변경"
 
-#: src/doc/kdenlivedoc.cpp:1825
+#: src/doc/kdenlivedoc.cpp:1832
 #, kde-format
 msgid "Change default to %1"
 msgstr "기본값을 %1(으)로 변경"
 
-#: src/doc/kdenlivedoc.cpp:1826
+#: src/doc/kdenlivedoc.cpp:1833
 #, kde-format
 msgid "Keep current default %1"
 msgstr "현재 기본값 %1 유지"
 
-#: src/doc/kdenlivedoc.cpp:1826
+#: src/doc/kdenlivedoc.cpp:1833
 #, kde-format
 msgid "Ask me later"
 msgstr "나중에 묻기"
 
-#: src/doc/kdenlivedoc.cpp:1846
+#: src/doc/kdenlivedoc.cpp:1853
 #, kde-format
 msgid "Switch"
 msgstr "전환"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1848 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1855 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "취소"
 
-#: src/doc/kdenlivedoc.cpp:1850
+#: src/doc/kdenlivedoc.cpp:1857
 #, fuzzy, kde-format
 #| msgid "Switch to clip profile %1?"
 msgid "Switch to clip (%1) profile %2?"
 msgstr "클립 프로필을 %1(으)로 전환하시겠습니까?"
 
-#: src/doc/kdenlivedoc.cpp:1855
+#: src/doc/kdenlivedoc.cpp:1862
 #, kde-format
 msgid ""
 "\n"
@@ -8363,7 +8359,7 @@ msgstr ""
 "\n"
 "프로필 fps가 원본 %1에서 조정됨"
 
-#: src/doc/kdenlivedoc.cpp:1857
+#: src/doc/kdenlivedoc.cpp:1864
 #, fuzzy, kde-format
 #| msgid ""
 #| "No profile found for your clip.\n"
@@ -8375,13 +8371,13 @@ msgstr ""
 "클립에 대한 프로필이 없습니다.\n"
 "새 프로필(%1x %2, %3fps)을 만들고 전환하시겠습니까?%4"
 
-#: src/doc/kdenlivedoc.cpp:2253 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2260 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "빨간색"
 
-#: src/doc/kdenlivedoc.cpp:2254 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2261 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -8389,24 +8385,24 @@ msgstr "빨간색"
 msgid "Green"
 msgstr "녹색"
 
-#: src/doc/kdenlivedoc.cpp:2255 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2262 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "파란색"
 
-#: src/doc/kdenlivedoc.cpp:2256 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2263 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "노란색"
 
-#: src/doc/kdenlivedoc.cpp:2257
+#: src/doc/kdenlivedoc.cpp:2264
 #, kde-format
 msgid "Cyan"
 msgstr "청록색"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2487 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2494 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -11497,7 +11493,31 @@ msgstr "현재 프로젝트에 자막 없음"
 msgid "Project Bin %1"
 msgstr "프로젝트 보관함 %1"
 
-#: src/mainwindow.cpp:4829
+#: src/mainwindow.cpp:4814
+#, kde-format
+msgid "Go to download page"
+msgstr ""
+
+#: src/mainwindow.cpp:4817
+#, fuzzy, kde-format
+#| msgid "Check again"
+msgid "Never check again"
+msgstr "다시 확인"
+
+#: src/mainwindow.cpp:4820
+#, kde-format
+msgid ""
+"Your Kdenlive version is older than 1 year, we strongly encourage you to "
+"upgrade"
+msgstr ""
+
+#: src/mainwindow.cpp:4823
+#, kde-format
+msgid ""
+"Your Kdenlive version is older than 6 months, we encourage you to upgrade"
+msgstr ""
+
+#: src/mainwindow.cpp:4866
 #, fuzzy, kde-format
 #| msgid "Selected Cached Data"
 msgid "Checking cached data size"
@@ -18771,71 +18791,78 @@ msgstr ""
 msgid "Warn if cached data exceeds:"
 msgstr "총 캐시된 데이터"
 
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkForUpdate)
+#: src/ui/configenv_ui.ui:111
+#, fuzzy, kde-format
+#| msgid "Check for update"
+msgid "Check for updates"
+msgstr "업데이트 확인"
+
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
-#: src/ui/configenv_ui.ui:115
+#: src/ui/configenv_ui.ui:122
 #, fuzzy, kde-format
 #| msgid "MLT environment"
 msgid "MLT Environment"
 msgstr "MLT 환경"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: src/ui/configenv_ui.ui:121
+#: src/ui/configenv_ui.ui:128
 #, fuzzy, kde-format
 #| msgid "FFmpeg"
 msgid "FFmpeg:"
 msgstr "FFmpeg"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
-#: src/ui/configenv_ui.ui:131
+#: src/ui/configenv_ui.ui:138
 #, fuzzy, kde-format
 #| msgid "FFplay"
 msgid "FFplay:"
 msgstr "FFplay"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
-#: src/ui/configenv_ui.ui:141
+#: src/ui/configenv_ui.ui:148
 #, fuzzy, kde-format
 #| msgid "FFprobe"
 msgid "FFprobe:"
 msgstr "FFprobe"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configenv_ui.ui:151
+#: src/ui/configenv_ui.ui:158
 #, fuzzy, kde-format
 #| msgid "MLT profiles folder"
 msgid "MLT profiles folder:"
 msgstr "MLT 프로필 폴더"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/configenv_ui.ui:161
+#: src/ui/configenv_ui.ui:168
 #, fuzzy, kde-format
 #| msgid "Melt path"
 msgid "Melt path:"
 msgstr "Melt 경로"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/ui/configenv_ui.ui:171
+#: src/ui/configenv_ui.ui:178
 #, fuzzy, kde-format
 #| msgid "MediaInfo"
 msgid "MediaInfo:"
 msgstr "MediaInfo"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: src/ui/configenv_ui.ui:195
+#: src/ui/configenv_ui.ui:202
 #, fuzzy, kde-format
 #| msgid "Default folders"
 msgid "Default Folders"
 msgstr "기본 폴더"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configenv_ui.ui:201
+#: src/ui/configenv_ui.ui:208
 #, fuzzy, kde-format
 #| msgid "Temporary files"
 msgid "Temporary files:"
 msgstr "임시 파일"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: src/ui/configenv_ui.ui:211
+#: src/ui/configenv_ui.ui:218
 #, fuzzy, kde-format
 #| msgid "Capture folder"
 msgid "Capture folder:"
@@ -18844,15 +18871,15 @@ msgstr "캡처 폴더"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_librarytodefaultfolder)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_videotodefaultfolder)
-#: src/ui/configenv_ui.ui:219 src/ui/configenv_ui.ui:247
-#: src/ui/configenv_ui.ui:271
+#: src/ui/configenv_ui.ui:226 src/ui/configenv_ui.ui:254
+#: src/ui/configenv_ui.ui:278
 #, kde-format
 msgid "Use default folder"
 msgstr "기본 폴더 사용"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_videotodefaultfolder)
-#: src/ui/configenv_ui.ui:224 src/ui/configenv_ui.ui:276
+#: src/ui/configenv_ui.ui:231 src/ui/configenv_ui.ui:283
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Always use project folder"
@@ -18860,60 +18887,60 @@ msgstr "프로젝트 폴더 사용"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_videotodefaultfolder)
-#: src/ui/configenv_ui.ui:229 src/ui/configenv_ui.ui:281
+#: src/ui/configenv_ui.ui:236 src/ui/configenv_ui.ui:288
 #, kde-format
 msgid "Always use custom folder"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
-#: src/ui/configenv_ui.ui:240
+#: src/ui/configenv_ui.ui:247
 #, fuzzy, kde-format
 #| msgid "Library folder"
 msgid "Library folder:"
 msgstr "라이브러리 폴더"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
-#: src/ui/configenv_ui.ui:257
+#: src/ui/configenv_ui.ui:264
 #, fuzzy, kde-format
 #| msgid "Folder for titles, scripts"
 msgid "Folder for rendering, titles, scripts:"
 msgstr "타이틀, 스크립트용 폴더"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
-#: src/ui/configenv_ui.ui:313
+#: src/ui/configenv_ui.ui:320
 #, kde-format
 msgid "Python"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_usePythonVenv)
-#: src/ui/configenv_ui.ui:319
+#: src/ui/configenv_ui.ui:326
 #, kde-format
 msgid "Use python virtual environment (recommended)"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, button_python_delete)
-#: src/ui/configenv_ui.ui:357
+#: src/ui/configenv_ui.ui:364
 #, fuzzy, kde-format
 #| msgid "&Delete"
 msgid "Delete "
 msgstr "삭제(&D)"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: src/ui/configenv_ui.ui:387
+#: src/ui/configenv_ui.ui:394
 #, fuzzy, kde-format
 #| msgid "Default apps"
 msgid "Default Apps"
 msgstr "기본 앱"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/configenv_ui.ui:393
+#: src/ui/configenv_ui.ui:400
 #, fuzzy, kde-format
 #| msgid "Image editing"
 msgid "Image editing:"
 msgstr "이미지 편집"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultimageapp)
-#: src/ui/configenv_ui.ui:402
+#: src/ui/configenv_ui.ui:409
 #, kde-format
 msgid "Path to image editing application"
 msgstr ""
@@ -18921,53 +18948,53 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, kp_image)
 #. i18n: ectx: property (text), widget (QPushButton, kp_audio)
 #. i18n: ectx: property (text), widget (QPushButton, kp_anim)
-#: src/ui/configenv_ui.ui:412 src/ui/configenv_ui.ui:433
-#: src/ui/configenv_ui.ui:458
+#: src/ui/configenv_ui.ui:419 src/ui/configenv_ui.ui:440
+#: src/ui/configenv_ui.ui:465
 #, fuzzy, kde-format
 #| msgid "Change"
 msgid "Change…"
 msgstr "변경"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultaudioapp)
-#: src/ui/configenv_ui.ui:423
+#: src/ui/configenv_ui.ui:430
 #, kde-format
 msgid "Path to audio editing application"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
-#: src/ui/configenv_ui.ui:442
+#: src/ui/configenv_ui.ui:449
 #, fuzzy, kde-format
 #| msgid "Audio editing"
 msgid "Audio editing:"
 msgstr "오디오 편집"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_glaxnimatePath)
-#: src/ui/configenv_ui.ui:451
+#: src/ui/configenv_ui.ui:458
 #, kde-format
 msgid "Path to Glaxnimate executable"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: src/ui/configenv_ui.ui:467
+#: src/ui/configenv_ui.ui:474
 #, fuzzy, kde-format
 #| msgid "Frame duration"
 msgid "Animation editing:"
 msgstr "프레임 지속 시간"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
-#: src/ui/configenv_ui.ui:488
+#: src/ui/configenv_ui.ui:495
 #, kde-format
 msgid "Mime types"
 msgstr "MIME 형식"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/configenv_ui.ui:494
+#: src/ui/configenv_ui.ui:501
 #, kde-format
 msgid "Additional clip MIME types"
 msgstr "추가 클립 MIME 형식"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
-#: src/ui/configenv_ui.ui:508
+#: src/ui/configenv_ui.ui:515
 #, kde-format
 msgid "Supported clip MIME types"
 msgstr "지원하는 클립 MIME 형식"
@@ -22234,6 +22261,13 @@ msgstr "%1분"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1시간"
+
+#~ msgid ""
+#~ "\n"
+#~ "Warning: unknown non integer fps, might cause incorrect duration display."
+#~ msgstr ""
+#~ "\n"
+#~ "경고: 알 수 없는 정수가 아닌 fps, 시간 표시가 잘못될 수도 있습니다."
 
 #~ msgid "Add a new speech model from an archive file"
 #~ msgstr "압축 파일에서 새 음성 모델 추가"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-12 00:41+0000\n"
+"POT-Creation-Date: 2023-11-13 00:42+0000\n"
 "PO-Revision-Date: 2011-12-28 12:28-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -8482,7 +8482,7 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "Earráid agus comhad á oscailt"
 
-#: src/doc/kdenlivedoc.cpp:1051 src/doc/kdenlivedoc.cpp:2214
+#: src/doc/kdenlivedoc.cpp:1051 src/doc/kdenlivedoc.cpp:2221
 #: src/project/dialogs/archivewidget.cpp:238
 #: src/project/projectmanager.cpp:1501
 #, kde-format
@@ -8532,82 +8532,80 @@ msgstr[1] ""
 msgid "Clip type does not support proxies"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1804
+#: src/doc/kdenlivedoc.cpp:1811
 #, kde-format
-msgid ""
-"\n"
-"Warning: unknown non integer fps, might cause incorrect duration display."
+msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1823
+#: src/doc/kdenlivedoc.cpp:1830
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
 "Do you want to change default profile for future projects?"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1825
+#: src/doc/kdenlivedoc.cpp:1832
 #, fuzzy, kde-format
 #| msgid "Project Files"
 msgid "Change default project profile"
 msgstr "Comhaid an Tionscadail"
 
-#: src/doc/kdenlivedoc.cpp:1825
+#: src/doc/kdenlivedoc.cpp:1832
 #, kde-format
 msgid "Change default to %1"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1826
+#: src/doc/kdenlivedoc.cpp:1833
 #, fuzzy, kde-format
 #| msgid "Delete Profile"
 msgid "Keep current default %1"
 msgstr "Scrios an Phróifíl"
 
-#: src/doc/kdenlivedoc.cpp:1826
+#: src/doc/kdenlivedoc.cpp:1833
 #, kde-format
 msgid "Ask me later"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1846
+#: src/doc/kdenlivedoc.cpp:1853
 #, kde-format
 msgid "Switch"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1848 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1855 src/ui/titlewidget_ui.ui:191
 #, fuzzy, kde-format
 #| msgid "Cancel job"
 #| msgid_plural "Cancel jobs"
 msgid "Cancel"
 msgstr "Cealaigh an jab"
 
-#: src/doc/kdenlivedoc.cpp:1850
+#: src/doc/kdenlivedoc.cpp:1857
 #, fuzzy, kde-format
 #| msgid "Add track"
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Cuir rian leis"
 
-#: src/doc/kdenlivedoc.cpp:1855
+#: src/doc/kdenlivedoc.cpp:1862
 #, kde-format
 msgid ""
 "\n"
 "Profile fps adjusted from original %1"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1857
+#: src/doc/kdenlivedoc.cpp:1864
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
 "Create and switch to new profile (%2x%3, %4fps)?%5"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2253 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2260 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "Dearg"
 
-#: src/doc/kdenlivedoc.cpp:2254 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2261 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -8615,24 +8613,24 @@ msgstr "Dearg"
 msgid "Green"
 msgstr "Uaine"
 
-#: src/doc/kdenlivedoc.cpp:2255 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2262 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "Gorm"
 
-#: src/doc/kdenlivedoc.cpp:2256 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2263 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Buí"
 
-#: src/doc/kdenlivedoc.cpp:2257
+#: src/doc/kdenlivedoc.cpp:2264
 #, kde-format
 msgid "Cyan"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2487 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2494 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -11826,7 +11824,31 @@ msgstr "Tionscadal"
 msgid "Project Bin %1"
 msgstr "Tionscadal"
 
-#: src/mainwindow.cpp:4829
+#: src/mainwindow.cpp:4814
+#, kde-format
+msgid "Go to download page"
+msgstr ""
+
+#: src/mainwindow.cpp:4817
+#, fuzzy, kde-format
+#| msgid "Configure"
+msgid "Never check again"
+msgstr "Cumraigh"
+
+#: src/mainwindow.cpp:4820
+#, kde-format
+msgid ""
+"Your Kdenlive version is older than 1 year, we strongly encourage you to "
+"upgrade"
+msgstr ""
+
+#: src/mainwindow.cpp:4823
+#, kde-format
+msgid ""
+"Your Kdenlive version is older than 6 months, we encourage you to upgrade"
+msgstr ""
+
+#: src/mainwindow.cpp:4866
 #, fuzzy, kde-format
 #| msgid "Delete Selected Item"
 msgid "Checking cached data size"
@@ -19075,68 +19097,74 @@ msgstr ""
 msgid "Warn if cached data exceeds:"
 msgstr ""
 
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkForUpdate)
+#: src/ui/configenv_ui.ui:111
+#, kde-format
+msgid "Check for updates"
+msgstr ""
+
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
-#: src/ui/configenv_ui.ui:115
+#: src/ui/configenv_ui.ui:122
 #, fuzzy, kde-format
 #| msgid "Environment"
 msgid "MLT Environment"
 msgstr "Timpeallacht"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: src/ui/configenv_ui.ui:121
+#: src/ui/configenv_ui.ui:128
 #, kde-format
 msgid "FFmpeg:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
-#: src/ui/configenv_ui.ui:131
+#: src/ui/configenv_ui.ui:138
 #, fuzzy, kde-format
 #| msgid "Display"
 msgid "FFplay:"
 msgstr "Taispeáin"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
-#: src/ui/configenv_ui.ui:141
+#: src/ui/configenv_ui.ui:148
 #, kde-format
 msgid "FFprobe:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configenv_ui.ui:151
+#: src/ui/configenv_ui.ui:158
 #, fuzzy, kde-format
 #| msgid "Edit profile"
 msgid "MLT profiles folder:"
 msgstr "Cuir eagar ar phróifíl"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/configenv_ui.ui:161
+#: src/ui/configenv_ui.ui:168
 #, kde-format
 msgid "Melt path:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/ui/configenv_ui.ui:171
+#: src/ui/configenv_ui.ui:178
 #, fuzzy, kde-format
 #| msgid "Edit"
 msgid "MediaInfo:"
 msgstr "Eagar"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: src/ui/configenv_ui.ui:195
+#: src/ui/configenv_ui.ui:202
 #, fuzzy, kde-format
 #| msgid "Delete Folder"
 msgid "Default Folders"
 msgstr "Scrios Fillteán"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configenv_ui.ui:201
+#: src/ui/configenv_ui.ui:208
 #, fuzzy, kde-format
 #| msgid "Temporary files"
 msgid "Temporary files:"
 msgstr "Comhaid Shealadacha"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: src/ui/configenv_ui.ui:211
+#: src/ui/configenv_ui.ui:218
 #, fuzzy, kde-format
 #| msgid "Capture format:"
 msgid "Capture folder:"
@@ -19145,8 +19173,8 @@ msgstr "Formáid ghabhála:"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_librarytodefaultfolder)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_videotodefaultfolder)
-#: src/ui/configenv_ui.ui:219 src/ui/configenv_ui.ui:247
-#: src/ui/configenv_ui.ui:271
+#: src/ui/configenv_ui.ui:226 src/ui/configenv_ui.ui:254
+#: src/ui/configenv_ui.ui:278
 #, fuzzy, kde-format
 #| msgid "Delete Folder"
 msgid "Use default folder"
@@ -19154,7 +19182,7 @@ msgstr "Scrios Fillteán"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_videotodefaultfolder)
-#: src/ui/configenv_ui.ui:224 src/ui/configenv_ui.ui:276
+#: src/ui/configenv_ui.ui:231 src/ui/configenv_ui.ui:283
 #, fuzzy, kde-format
 #| msgid "Project Files"
 msgid "Always use project folder"
@@ -19162,59 +19190,59 @@ msgstr "Comhaid an Tionscadail"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_videotodefaultfolder)
-#: src/ui/configenv_ui.ui:229 src/ui/configenv_ui.ui:281
+#: src/ui/configenv_ui.ui:236 src/ui/configenv_ui.ui:288
 #, kde-format
 msgid "Always use custom folder"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
-#: src/ui/configenv_ui.ui:240
+#: src/ui/configenv_ui.ui:247
 #, fuzzy, kde-format
 #| msgid "Capture format:"
 msgid "Library folder:"
 msgstr "Formáid ghabhála:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
-#: src/ui/configenv_ui.ui:257
+#: src/ui/configenv_ui.ui:264
 #, kde-format
 msgid "Folder for rendering, titles, scripts:"
 msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
-#: src/ui/configenv_ui.ui:313
+#: src/ui/configenv_ui.ui:320
 #, kde-format
 msgid "Python"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_usePythonVenv)
-#: src/ui/configenv_ui.ui:319
+#: src/ui/configenv_ui.ui:326
 #, kde-format
 msgid "Use python virtual environment (recommended)"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, button_python_delete)
-#: src/ui/configenv_ui.ui:357
+#: src/ui/configenv_ui.ui:364
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "Delete "
 msgstr "Scrios %1"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: src/ui/configenv_ui.ui:387
+#: src/ui/configenv_ui.ui:394
 #, fuzzy, kde-format
 #| msgid "Default"
 msgid "Default Apps"
 msgstr "Réamhshocrú"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/configenv_ui.ui:393
+#: src/ui/configenv_ui.ui:400
 #, fuzzy, kde-format
 #| msgid "Image File"
 msgid "Image editing:"
 msgstr "Comhad Íomhá"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultimageapp)
-#: src/ui/configenv_ui.ui:402
+#: src/ui/configenv_ui.ui:409
 #, kde-format
 msgid "Path to image editing application"
 msgstr ""
@@ -19222,55 +19250,55 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, kp_image)
 #. i18n: ectx: property (text), widget (QPushButton, kp_audio)
 #. i18n: ectx: property (text), widget (QPushButton, kp_anim)
-#: src/ui/configenv_ui.ui:412 src/ui/configenv_ui.ui:433
-#: src/ui/configenv_ui.ui:458
+#: src/ui/configenv_ui.ui:419 src/ui/configenv_ui.ui:440
+#: src/ui/configenv_ui.ui:465
 #, fuzzy, kde-format
 #| msgid "Change"
 msgid "Change…"
 msgstr "Athraigh"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultaudioapp)
-#: src/ui/configenv_ui.ui:423
+#: src/ui/configenv_ui.ui:430
 #, kde-format
 msgid "Path to audio editing application"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
-#: src/ui/configenv_ui.ui:442
+#: src/ui/configenv_ui.ui:449
 #, fuzzy, kde-format
 #| msgid "Additional Settings"
 msgid "Audio editing:"
 msgstr "Socruithe Breise"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_glaxnimatePath)
-#: src/ui/configenv_ui.ui:451
+#: src/ui/configenv_ui.ui:458
 #, kde-format
 msgid "Path to Glaxnimate executable"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: src/ui/configenv_ui.ui:467
+#: src/ui/configenv_ui.ui:474
 #, fuzzy, kde-format
 #| msgid "Frame rate"
 msgid "Animation editing:"
 msgstr "Ráta fráma"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
-#: src/ui/configenv_ui.ui:488
+#: src/ui/configenv_ui.ui:495
 #, fuzzy, kde-format
 #| msgid "Mimetype"
 msgid "Mime types"
 msgstr "Cineál MIME"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/configenv_ui.ui:494
+#: src/ui/configenv_ui.ui:501
 #, fuzzy, kde-format
 #| msgid "Additional Settings"
 msgid "Additional clip MIME types"
 msgstr "Socruithe Breise"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
-#: src/ui/configenv_ui.ui:508
+#: src/ui/configenv_ui.ui:515
 #, kde-format
 msgid "Supported clip MIME types"
 msgstr ""
