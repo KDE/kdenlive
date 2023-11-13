@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-12 00:41+0000\n"
+"POT-Creation-Date: 2023-11-13 00:42+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -8515,7 +8515,7 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "Chyba presunu priečinka projektu: %1"
 
-#: src/doc/kdenlivedoc.cpp:1051 src/doc/kdenlivedoc.cpp:2214
+#: src/doc/kdenlivedoc.cpp:1051 src/doc/kdenlivedoc.cpp:2221
 #: src/project/dialogs/archivewidget.cpp:238
 #: src/project/projectmanager.cpp:1501
 #, kde-format
@@ -8569,17 +8569,12 @@ msgstr[2] "Odstrániť zástupných klipov"
 msgid "Clip type does not support proxies"
 msgstr "Typ klipu nepodporuje zastupovanie"
 
-#: src/doc/kdenlivedoc.cpp:1804
+#: src/doc/kdenlivedoc.cpp:1811
 #, kde-format
-msgid ""
-"\n"
-"Warning: unknown non integer fps, might cause incorrect duration display."
+msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
-"\n"
-"Upozornenie: neznáme neceločíselné fps, môže spôsobiť nesprávne zobrazenie "
-"trvania."
 
-#: src/doc/kdenlivedoc.cpp:1823
+#: src/doc/kdenlivedoc.cpp:1830
 #, fuzzy, kde-format
 #| msgid ""
 #| "Your default project profile is %1, but your clip's profile is %2.\n"
@@ -8591,44 +8586,44 @@ msgstr ""
 "Váš predvolený profil projektu je %1, ale profil vášho klipu je %2.\n"
 "Chcete zmeniť predvolený profil pre budúce projekty?"
 
-#: src/doc/kdenlivedoc.cpp:1825
+#: src/doc/kdenlivedoc.cpp:1832
 #, kde-format
 msgid "Change default project profile"
 msgstr "Zmeniť predvolený profil projektu"
 
-#: src/doc/kdenlivedoc.cpp:1825
+#: src/doc/kdenlivedoc.cpp:1832
 #, kde-format
 msgid "Change default to %1"
 msgstr "Zmeniť predvolené na %1"
 
-#: src/doc/kdenlivedoc.cpp:1826
+#: src/doc/kdenlivedoc.cpp:1833
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Ponechať aktuálny predvolený %1"
 
-#: src/doc/kdenlivedoc.cpp:1826
+#: src/doc/kdenlivedoc.cpp:1833
 #, kde-format
 msgid "Ask me later"
 msgstr "Opýtať sa neskôr"
 
-#: src/doc/kdenlivedoc.cpp:1846
+#: src/doc/kdenlivedoc.cpp:1853
 #, kde-format
 msgid "Switch"
 msgstr "Prepnúť"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1848 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1855 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "Zrušiť"
 
-#: src/doc/kdenlivedoc.cpp:1850
+#: src/doc/kdenlivedoc.cpp:1857
 #, fuzzy, kde-format
 #| msgid "Switch to clip profile %1?"
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Prepnúť na profil klipu %1?"
 
-#: src/doc/kdenlivedoc.cpp:1855
+#: src/doc/kdenlivedoc.cpp:1862
 #, kde-format
 msgid ""
 "\n"
@@ -8637,7 +8632,7 @@ msgstr ""
 "\n"
 "Fps profilu upravené z pôvodného %1"
 
-#: src/doc/kdenlivedoc.cpp:1857
+#: src/doc/kdenlivedoc.cpp:1864
 #, fuzzy, kde-format
 #| msgid ""
 #| "No profile found for your clip.\n"
@@ -8649,13 +8644,13 @@ msgstr ""
 "Vo vašom klipe sa nenašiel profil.\n"
 "Vytvoriť a prepnúť na nový profil (%1x%2, %3fps)%4?"
 
-#: src/doc/kdenlivedoc.cpp:2253 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2260 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "Červená"
 
-#: src/doc/kdenlivedoc.cpp:2254 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2261 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -8663,24 +8658,24 @@ msgstr "Červená"
 msgid "Green"
 msgstr "Zelená"
 
-#: src/doc/kdenlivedoc.cpp:2255 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2262 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "Modrá"
 
-#: src/doc/kdenlivedoc.cpp:2256 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2263 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Žltá"
 
-#: src/doc/kdenlivedoc.cpp:2257
+#: src/doc/kdenlivedoc.cpp:2264
 #, kde-format
 msgid "Cyan"
 msgstr "Azúrová"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2487 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2494 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -11839,7 +11834,31 @@ msgstr "Nebolo žiadne vodidlo na čase kurzora"
 msgid "Project Bin %1"
 msgstr "Kôš projektu"
 
-#: src/mainwindow.cpp:4829
+#: src/mainwindow.cpp:4814
+#, kde-format
+msgid "Go to download page"
+msgstr ""
+
+#: src/mainwindow.cpp:4817
+#, fuzzy, kde-format
+#| msgid "Device configuration"
+msgid "Never check again"
+msgstr "Nastavenie zariadenia"
+
+#: src/mainwindow.cpp:4820
+#, kde-format
+msgid ""
+"Your Kdenlive version is older than 1 year, we strongly encourage you to "
+"upgrade"
+msgstr ""
+
+#: src/mainwindow.cpp:4823
+#, kde-format
+msgid ""
+"Your Kdenlive version is older than 6 months, we encourage you to upgrade"
+msgstr ""
+
+#: src/mainwindow.cpp:4866
 #, fuzzy, kde-format
 #| msgid "Selected Cached Data"
 msgid "Checking cached data size"
@@ -19241,71 +19260,78 @@ msgstr ""
 msgid "Warn if cached data exceeds:"
 msgstr "Celkové údaje vyrovnávacej pamäte"
 
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkForUpdate)
+#: src/ui/configenv_ui.ui:111
+#, fuzzy, kde-format
+#| msgid "Direct update"
+msgid "Check for updates"
+msgstr "Priama aktualizácia"
+
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
-#: src/ui/configenv_ui.ui:115
+#: src/ui/configenv_ui.ui:122
 #, fuzzy, kde-format
 #| msgid "MLT environment"
 msgid "MLT Environment"
 msgstr "Prostredie MLT"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: src/ui/configenv_ui.ui:121
+#: src/ui/configenv_ui.ui:128
 #, fuzzy, kde-format
 #| msgid "FFmpeg"
 msgid "FFmpeg:"
 msgstr "FFmpeg"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
-#: src/ui/configenv_ui.ui:131
+#: src/ui/configenv_ui.ui:138
 #, fuzzy, kde-format
 #| msgid "FFplay"
 msgid "FFplay:"
 msgstr "FFplay"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
-#: src/ui/configenv_ui.ui:141
+#: src/ui/configenv_ui.ui:148
 #, fuzzy, kde-format
 #| msgid "FFprobe"
 msgid "FFprobe:"
 msgstr "FFprobe"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configenv_ui.ui:151
+#: src/ui/configenv_ui.ui:158
 #, fuzzy, kde-format
 #| msgid "MLT profiles folder"
 msgid "MLT profiles folder:"
 msgstr "Priečinok MLT profilov"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/configenv_ui.ui:161
+#: src/ui/configenv_ui.ui:168
 #, fuzzy, kde-format
 #| msgid "Melt path"
 msgid "Melt path:"
 msgstr "Cesta pre melt"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/ui/configenv_ui.ui:171
+#: src/ui/configenv_ui.ui:178
 #, fuzzy, kde-format
 #| msgid "Medians"
 msgid "MediaInfo:"
 msgstr "Mediány"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: src/ui/configenv_ui.ui:195
+#: src/ui/configenv_ui.ui:202
 #, fuzzy, kde-format
 #| msgid "Default folders"
 msgid "Default Folders"
 msgstr "Predvolené priečinky"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configenv_ui.ui:201
+#: src/ui/configenv_ui.ui:208
 #, fuzzy, kde-format
 #| msgid "Temporary files"
 msgid "Temporary files:"
 msgstr "Dočasné súbory"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: src/ui/configenv_ui.ui:211
+#: src/ui/configenv_ui.ui:218
 #, fuzzy, kde-format
 #| msgid "Capture folder"
 msgid "Capture folder:"
@@ -19314,15 +19340,15 @@ msgstr "Priečinok zachytenia"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_librarytodefaultfolder)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_videotodefaultfolder)
-#: src/ui/configenv_ui.ui:219 src/ui/configenv_ui.ui:247
-#: src/ui/configenv_ui.ui:271
+#: src/ui/configenv_ui.ui:226 src/ui/configenv_ui.ui:254
+#: src/ui/configenv_ui.ui:278
 #, kde-format
 msgid "Use default folder"
 msgstr "Použiť predvolený priečinok"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_videotodefaultfolder)
-#: src/ui/configenv_ui.ui:224 src/ui/configenv_ui.ui:276
+#: src/ui/configenv_ui.ui:231 src/ui/configenv_ui.ui:283
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Always use project folder"
@@ -19330,60 +19356,60 @@ msgstr "Použiť priečinok projektu"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_videotodefaultfolder)
-#: src/ui/configenv_ui.ui:229 src/ui/configenv_ui.ui:281
+#: src/ui/configenv_ui.ui:236 src/ui/configenv_ui.ui:288
 #, kde-format
 msgid "Always use custom folder"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
-#: src/ui/configenv_ui.ui:240
+#: src/ui/configenv_ui.ui:247
 #, fuzzy, kde-format
 #| msgid "Library folder"
 msgid "Library folder:"
 msgstr "Priečinok knižnice"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
-#: src/ui/configenv_ui.ui:257
+#: src/ui/configenv_ui.ui:264
 #, fuzzy, kde-format
 #| msgid "No producer for this clip."
 msgid "Folder for rendering, titles, scripts:"
 msgstr "Nie je žiadny producent pre tento klip."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
-#: src/ui/configenv_ui.ui:313
+#: src/ui/configenv_ui.ui:320
 #, kde-format
 msgid "Python"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_usePythonVenv)
-#: src/ui/configenv_ui.ui:319
+#: src/ui/configenv_ui.ui:326
 #, kde-format
 msgid "Use python virtual environment (recommended)"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, button_python_delete)
-#: src/ui/configenv_ui.ui:357
+#: src/ui/configenv_ui.ui:364
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "Delete "
 msgstr "Vymazať %1"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: src/ui/configenv_ui.ui:387
+#: src/ui/configenv_ui.ui:394
 #, fuzzy, kde-format
 #| msgid "Default apps"
 msgid "Default Apps"
 msgstr "Predvolené aplikácie"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/configenv_ui.ui:393
+#: src/ui/configenv_ui.ui:400
 #, fuzzy, kde-format
 #| msgid "Image editing"
 msgid "Image editing:"
 msgstr "Upravovanie obrázka"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultimageapp)
-#: src/ui/configenv_ui.ui:402
+#: src/ui/configenv_ui.ui:409
 #, kde-format
 msgid "Path to image editing application"
 msgstr ""
@@ -19391,53 +19417,53 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, kp_image)
 #. i18n: ectx: property (text), widget (QPushButton, kp_audio)
 #. i18n: ectx: property (text), widget (QPushButton, kp_anim)
-#: src/ui/configenv_ui.ui:412 src/ui/configenv_ui.ui:433
-#: src/ui/configenv_ui.ui:458
+#: src/ui/configenv_ui.ui:419 src/ui/configenv_ui.ui:440
+#: src/ui/configenv_ui.ui:465
 #, fuzzy, kde-format
 #| msgid "Change"
 msgid "Change…"
 msgstr "Zmeniť"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultaudioapp)
-#: src/ui/configenv_ui.ui:423
+#: src/ui/configenv_ui.ui:430
 #, kde-format
 msgid "Path to audio editing application"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
-#: src/ui/configenv_ui.ui:442
+#: src/ui/configenv_ui.ui:449
 #, fuzzy, kde-format
 #| msgid "Audio editing"
 msgid "Audio editing:"
 msgstr "Upravovanie zvuku"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_glaxnimatePath)
-#: src/ui/configenv_ui.ui:451
+#: src/ui/configenv_ui.ui:458
 #, kde-format
 msgid "Path to Glaxnimate executable"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: src/ui/configenv_ui.ui:467
+#: src/ui/configenv_ui.ui:474
 #, fuzzy, kde-format
 #| msgid " Selection duration:"
 msgid "Animation editing:"
 msgstr " Trvanie výberu:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
-#: src/ui/configenv_ui.ui:488
+#: src/ui/configenv_ui.ui:495
 #, kde-format
 msgid "Mime types"
 msgstr "Typy MIME"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/configenv_ui.ui:494
+#: src/ui/configenv_ui.ui:501
 #, kde-format
 msgid "Additional clip MIME types"
 msgstr "Ďalšie mime typy klipov"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
-#: src/ui/configenv_ui.ui:508
+#: src/ui/configenv_ui.ui:515
 #, kde-format
 msgid "Supported clip MIME types"
 msgstr "Podporované mime typy klipov"
@@ -22726,6 +22752,14 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid ""
+#~ "\n"
+#~ "Warning: unknown non integer fps, might cause incorrect duration display."
+#~ msgstr ""
+#~ "\n"
+#~ "Upozornenie: neznáme neceločíselné fps, môže spôsobiť nesprávne "
+#~ "zobrazenie trvania."
 
 #, fuzzy
 #~| msgid "Delete selected cache"
