@@ -8,21 +8,21 @@
 # Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2011, 2012, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 # Barbara <barbaratostes@gmail.com>, 2020.
 # Jorge Santiago <jsantiago12tone@gmail.com>, 2021.
-# Geraldo Simiao <geraldosimiao@fedoraproject.org>, 2023.
+# SPDX-FileCopyrightText: 2023 Geraldo Simiao <geraldosimiao@fedoraproject.org>
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-08 02:07+0000\n"
-"PO-Revision-Date: 2023-10-05 18:24-0300\n"
-"Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
+"PO-Revision-Date: 2023-11-12 00:00-0300\n"
+"Last-Translator: Geraldo Simiao <geraldosimiao@fedoraproject.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -11674,10 +11674,9 @@ msgid "Image count:"
 msgstr "Imagem de fundo"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1349
-#, fuzzy, kde-format
-#| msgid "Video codec"
+#, kde-format
 msgid "Video codec:"
-msgstr "Codec de vídeo"
+msgstr "Codec de vídeo:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1353
 #, kde-format
@@ -13246,16 +13245,14 @@ msgid "Reassign the markers to :"
 msgstr "Reatribuir os marcadores para:"
 
 #: src/project/dialogs/guideslist.cpp:85
-#, fuzzy, kde-format
-#| msgid "Import"
+#, kde-format
 msgid "Import..."
-msgstr "Importar"
+msgstr "Importar..."
 
 #: src/project/dialogs/guideslist.cpp:88
-#, fuzzy, kde-format
-#| msgid "Export selected"
+#, kde-format
 msgid "Export..."
-msgstr "Exportar selecionado"
+msgstr "Exportar..."
 
 #: src/project/dialogs/guideslist.cpp:91
 #, fuzzy, kde-format
@@ -13371,10 +13368,9 @@ msgid "Cannot read file %1"
 msgstr "Não foi possível criar o filtro %1"
 
 #: src/project/dialogs/guideslist.cpp:247
-#, fuzzy, kde-format
-#| msgid "Remove Guide"
+#, kde-format
 msgid "Remove guides"
-msgstr "Remover guia"
+msgstr "Remover guias"
 
 #: src/project/dialogs/guideslist.cpp:295
 #, fuzzy, kde-format
@@ -13516,10 +13512,9 @@ msgid "Select the profile (preset) of the project"
 msgstr "Selecione o perfil (predefinição) do projeto"
 
 #: src/project/dialogs/projectsettings.cpp:74
-#, fuzzy, kde-format
-#| msgid "Default"
+#, kde-format
 msgid "Default: %1"
-msgstr "Padrão"
+msgstr "Padrão: %1"
 
 #: src/project/dialogs/projectsettings.cpp:141
 #, kde-format
@@ -14521,22 +14516,19 @@ msgid "Base"
 msgstr ""
 
 #: src/pythoninterfaces/speechtotext.cpp:54
-#, fuzzy, kde-format
-#| msgid "Smallest"
+#, kde-format
 msgid "Small"
-msgstr "Menor"
+msgstr "Pequena"
 
 #: src/pythoninterfaces/speechtotext.cpp:55
-#, fuzzy, kde-format
-#| msgid "Medians"
+#, kde-format
 msgid "Medium"
-msgstr "Medianas"
+msgstr "Médio"
 
 #: src/pythoninterfaces/speechtotext.cpp:56
-#, fuzzy, kde-format
-#| msgid "Largest"
+#, kde-format
 msgid "Large"
-msgstr "Maior"
+msgstr "Grande"
 
 #: src/pythoninterfaces/speechtotext.cpp:57
 #, kde-format
@@ -17394,10 +17386,9 @@ msgid "Load Title"
 msgstr "Carregar Título"
 
 #: src/titler/titlewidget.cpp:2136
-#, fuzzy, kde-format
-#| msgid "Kdenlive"
+#, kde-format
 msgid "Kdenlive title"
-msgstr "Kdenlive"
+msgstr "Título do Kdenlive"
 
 #: src/titler/titlewidget.cpp:2182
 #, kde-format
@@ -18103,10 +18094,9 @@ msgstr "Substitua o clipe original pelo clipe estabilizado"
 
 #. i18n: ectx: property (text), widget (QCheckBox, bin_subfolder)
 #: src/ui/clipjobmanager_ui.ui:66
-#, fuzzy, kde-format
-#| msgid "Use default folder"
+#, kde-format
 msgid "Use a subfolder"
-msgstr "Usar a pasta padrão"
+msgstr "Use uma subpasta"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radio_folder)
 #: src/ui/clipjobmanager_ui.ui:73
@@ -18128,10 +18118,9 @@ msgstr "Colocado na pasta original do clipe"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, folder_name)
 #: src/ui/clipjobmanager_ui.ui:100
-#, fuzzy, kde-format
-#| msgid "File name"
+#, kde-format
 msgid "Folder name"
-msgstr "Nome do arquivo"
+msgstr "Nome da pasta"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, taskDescription)
 #: src/ui/clipjobmanager_ui.ui:110
@@ -18141,10 +18130,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:117
-#, fuzzy, kde-format
-#| msgid "%1 parameters"
+#, kde-format
 msgid "Job parameters"
-msgstr "Parâmetros de %1"
+msgstr "Parâmetros do trabalho"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/clipjobmanager_ui.ui:123
@@ -18874,10 +18862,9 @@ msgstr "Botão 12"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: src/ui/configmisc_ui.ui:21
-#, fuzzy, kde-format
-#| msgid "Project files"
+#, kde-format
 msgid "Project file:"
-msgstr "Arquivos do projeto"
+msgstr "Arquivo do projeto:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_openlastproject)
 #: src/ui/configmisc_ui.ui:28
