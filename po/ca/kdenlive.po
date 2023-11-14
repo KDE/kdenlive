@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-13 00:42+0000\n"
-"PO-Revision-Date: 2023-11-11 11:06+0100\n"
+"PO-Revision-Date: 2023-11-13 13:19+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -8288,7 +8288,7 @@ msgstr "El tipus del clip no admet intermediaris"
 #: src/doc/kdenlivedoc.cpp:1811
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
-msgstr ""
+msgstr "Avís: fps no estàndard, s'ajusta a l'enter més proper. "
 
 #: src/doc/kdenlivedoc.cpp:1830
 #, kde-format
@@ -11455,13 +11455,12 @@ msgstr "Safata del projecte %1"
 #: src/mainwindow.cpp:4814
 #, kde-format
 msgid "Go to download page"
-msgstr ""
+msgstr "Ves a la pàgina de baixades"
 
 #: src/mainwindow.cpp:4817
-#, fuzzy, kde-format
-#| msgid "Check again"
+#, kde-format
 msgid "Never check again"
-msgstr "Comprova un altre cop"
+msgstr "No ho tornis a comprovar mai més"
 
 #: src/mainwindow.cpp:4820
 #, kde-format
@@ -11469,12 +11468,16 @@ msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
+"Aquesta versió del Kdenlive té més d'un any d'antiguitat, us animem "
+"completament que l'actualitzeu"
 
 #: src/mainwindow.cpp:4823
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
+"Aquesta versió del Kdenlive té més de 6 mesos d'antiguitat, us animem que "
+"l'actualitzeu"
 
 #: src/mainwindow.cpp:4866
 #, kde-format
@@ -18667,10 +18670,9 @@ msgstr "Avisa si les dades en la memòria cau excedeixen:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkForUpdate)
 #: src/ui/configenv_ui.ui:111
-#, fuzzy, kde-format
-#| msgid "Check for update"
+#, kde-format
 msgid "Check for updates"
-msgstr "Comprova per a actualitzar"
+msgstr "Comprova si hi ha actualitzacions"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: src/ui/configenv_ui.ui:122

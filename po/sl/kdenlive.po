@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-13 00:42+0000\n"
-"PO-Revision-Date: 2023-11-11 08:53+0100\n"
+"PO-Revision-Date: 2023-11-13 21:32+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -8257,6 +8257,8 @@ msgstr "Vrsta posnetka ne podpira posrednih posnetkov"
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
+"Opozorilo: nestandardna hitrost (sl/s), prilagoditev na najbližje celo "
+"število. "
 
 #: src/doc/kdenlivedoc.cpp:1830
 #, kde-format
@@ -11397,13 +11399,12 @@ msgstr "Projektna posoda %1"
 #: src/mainwindow.cpp:4814
 #, kde-format
 msgid "Go to download page"
-msgstr ""
+msgstr "Pojdi na stran prenosov"
 
 #: src/mainwindow.cpp:4817
-#, fuzzy, kde-format
-#| msgid "Check again"
+#, kde-format
 msgid "Never check again"
-msgstr "Preveri znova"
+msgstr "Ne preveri nikoli več"
 
 #: src/mainwindow.cpp:4820
 #, kde-format
@@ -11411,12 +11412,16 @@ msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
+"Vaša različica Kdenlive je starejša od 1 leta, zato vam priporočamo, da jo "
+"nadgradite"
 
 #: src/mainwindow.cpp:4823
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
+"Vaša različica Kdenlive je starejša od 6 mesecev, zato vam priporočamo, da "
+"jo nadgradite"
 
 #: src/mainwindow.cpp:4866
 #, kde-format
@@ -18569,10 +18574,9 @@ msgstr "Opozori, če predpomnjeni podatki presegajo:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkForUpdate)
 #: src/ui/configenv_ui.ui:111
-#, fuzzy, kde-format
-#| msgid "Check for update"
+#, kde-format
 msgid "Check for updates"
-msgstr "Preverjanje za posodobitvami"
+msgstr "Preveri obstoj posodobitev"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: src/ui/configenv_ui.ui:122
@@ -21794,11 +21798,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid ""
-#~ "\n"
-#~ "Warning: unknown non integer fps, might cause incorrect duration display."
-#~ msgstr ""
-#~ "\n"
-#~ "Opozorilo: število sličic na sekundo, ki ni celoštevilčno. Morda bo "
-#~ "prišlo do napačnega prikaza trajanja."

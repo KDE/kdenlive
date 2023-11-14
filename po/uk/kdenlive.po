@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-13 00:42+0000\n"
-"PO-Revision-Date: 2023-11-11 08:45+0200\n"
+"PO-Revision-Date: 2023-11-13 17:53+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -8316,6 +8316,8 @@ msgstr "Для кліпів цього типу не передбачено пр
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
+"Попередження: нестандартна частота кадрів, коригуємо до найближчого цілого "
+"числа."
 
 #: src/doc/kdenlivedoc.cpp:1830
 #, kde-format
@@ -11481,13 +11483,12 @@ msgstr "Контейнер проєкту %1"
 #: src/mainwindow.cpp:4814
 #, kde-format
 msgid "Go to download page"
-msgstr ""
+msgstr "Перейти до сторінки отримання"
 
 #: src/mainwindow.cpp:4817
-#, fuzzy, kde-format
-#| msgid "Check again"
+#, kde-format
 msgid "Never check again"
-msgstr "Перевірити знову"
+msgstr "Більше не перевіряти"
 
 #: src/mainwindow.cpp:4820
 #, kde-format
@@ -11495,12 +11496,16 @@ msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
+"Ваша версія Kdenlive застаріла на понад 1 рік. Ми наполегливо рекомендуємо "
+"її оновити."
 
 #: src/mainwindow.cpp:4823
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
+"Ваша версія Kdenlive застаріла на понад 6 місяців. Ми рекомендуємо її "
+"оновити."
 
 #: src/mainwindow.cpp:4866
 #, kde-format
@@ -18718,10 +18723,9 @@ msgstr "Попереджати, якщо об'єм кешованих даних
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkForUpdate)
 #: src/ui/configenv_ui.ui:111
-#, fuzzy, kde-format
-#| msgid "Check for update"
+#, kde-format
 msgid "Check for updates"
-msgstr "Перевірити оновлення"
+msgstr "Шукати оновлення"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: src/ui/configenv_ui.ui:122

@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-13 00:42+0000\n"
-"PO-Revision-Date: 2023-11-11 10:38+0100\n"
+"PO-Revision-Date: 2023-11-13 11:44+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -8259,6 +8259,8 @@ msgstr "Clip-type ondersteunt geen proxies"
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
+"Waarschuwing: niet standaard fps, wordt aangepast naar dichts bij zijnd "
+"geheel getal. "
 
 #: src/doc/kdenlivedoc.cpp:1830
 #, kde-format
@@ -11405,13 +11407,12 @@ msgstr "Project-bin %1"
 #: src/mainwindow.cpp:4814
 #, kde-format
 msgid "Go to download page"
-msgstr ""
+msgstr "Ga naar downloadpagina"
 
 #: src/mainwindow.cpp:4817
-#, fuzzy, kde-format
-#| msgid "Check again"
+#, kde-format
 msgid "Never check again"
-msgstr "Opnieuw controleren"
+msgstr "Nooit opnieuw controleren"
 
 #: src/mainwindow.cpp:4820
 #, kde-format
@@ -11419,12 +11420,16 @@ msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
+"Uw versie van Kdenlive is ouder dan 1 jaar, we moedigen u sterk aan om op te "
+"waarderen"
 
 #: src/mainwindow.cpp:4823
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
+"Uw versie van Kdenlive is ouder dan 6 maanden, we moedigen u aan om op te "
+"waarderen"
 
 #: src/mainwindow.cpp:4866
 #, kde-format
@@ -18564,8 +18569,7 @@ msgstr "Waarschuwen als gegevens in de cache meer is dan:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkForUpdate)
 #: src/ui/configenv_ui.ui:111
-#, fuzzy, kde-format
-#| msgid "Check for update"
+#, kde-format
 msgid "Check for updates"
 msgstr "Op bijwerken controleren"
 

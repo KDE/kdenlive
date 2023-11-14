@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-13 00:42+0000\n"
-"PO-Revision-Date: 2023-11-11 10:59+0100\n"
+"PO-Revision-Date: 2023-11-12 13:37+0100\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -7441,10 +7441,9 @@ msgid "Insert selection in timeline"
 msgstr "Insérer la sélection dans la frise chronologique"
 
 #: src/dialogs/textbasededit.cpp:658
-#, fuzzy, kde-format
-#| msgid "Save edited text in a new playlist"
+#, kde-format
 msgid "Save edited text in a playlist file"
-msgstr "Enregistrer le texte modifié dans une nouvelle liste de lecture"
+msgstr "Enregistrer le texte modifié dans un fichier de liste de lecture"
 
 #: src/dialogs/textbasededit.cpp:665
 #, kde-format
@@ -7538,11 +7537,10 @@ msgid "Speech recognition finished."
 msgstr "Reconnaissance vocale terminée."
 
 #: src/dialogs/textbasededit.cpp:1392
-#, fuzzy, kde-format
-#| msgid "Edit clip cut"
+#, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
-msgstr "Modifier la coupure du clip"
+msgstr "Modifier le texte de la vidéo"
 
 #: src/dialogs/textbasededit.cpp:1424 src/dialogs/textbasededit.cpp:1506
 #, kde-format
