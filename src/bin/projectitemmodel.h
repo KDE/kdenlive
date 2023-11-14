@@ -298,6 +298,8 @@ private:
     QUuid m_uuid;
     /** @brief The id of the folder where new sequences will be created, -1 if none */
     int m_sequenceFolderId;
+    /** @brief Remove an item from the project */
+    Fun removeProjectItem_lambda(int binId, int id);
 
 Q_SIGNALS:
     /** @brief thumbs of the given clip were modified, request update of the monitor if need be */

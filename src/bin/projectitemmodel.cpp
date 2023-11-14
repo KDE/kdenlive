@@ -700,23 +700,24 @@ bool ProjectItemModel::requestBinClipDeletion(const std::shared_ptr<AbstractProj
     Q_ASSERT(clip);
     if (!clip) return false;
     int parentId = -1;
-    QString binId;
+    QString parentBinId;
+    int binId = clip->clipId().toInt();
     if (auto ptr = clip->parent()) {
         parentId = ptr->getId();
-        binId = ptr->clipId();
+        parentBinId = ptr->clipId();
     }
     bool isSubClip = clip->itemType() == AbstractProjectItem::SubClipItem;
     if (!clip->selfSoftDelete(undo, redo)) {
         return false;
     }
     int id = clip->getId();
-    Fun operation = removeItem_lambda(id);
+    Fun operation = removeProjectItem_lambda(binId, id);
     Fun reverse = addItem_lambda(clip, parentId);
     bool res = operation();
     if (res) {
         if (isSubClip) {
-            Fun update_doc = [this, binId]() {
-                std::shared_ptr<AbstractProjectItem> parentItem = getItemByBinId(binId);
+            Fun update_doc = [this, parentBinId]() {
+                std::shared_ptr<AbstractProjectItem> parentItem = getItemByBinId(parentBinId);
                 if (parentItem && parentItem->itemType() == AbstractProjectItem::ClipItem) {
                     auto clipItem = std::static_pointer_cast<ProjectClip>(parentItem);
                     clipItem->updateZones();
@@ -819,7 +820,8 @@ bool ProjectItemModel::addItem(const std::shared_ptr<AbstractProjectItem> &item,
     Fun operation = addItem_lambda(item, parentItem->getId());
 
     int itemId = item->getId();
-    Fun reverse = removeItem_lambda(itemId);
+    int binId = item->clipId().toInt();
+    Fun reverse = removeProjectItem_lambda(binId, itemId);
     bool res = operation();
     Q_ASSERT(item->isInModel());
     if (res) {
@@ -1646,4 +1648,16 @@ void ProjectItemModel::setSequencesFolder(int id)
     m_sequenceFolderId = id;
     saveProperty(QStringLiteral("kdenlive:sequenceFolder"), QString::number(id));
     onItemUpdated(QString::number(id), Qt::DecorationRole);
+}
+
+Fun ProjectItemModel::removeProjectItem_lambda(int binId, int id)
+{
+    return [this, binId, id]() {
+        if (binId > -1) {
+            Q_EMIT pCore->binClipDeleted(binId);
+        }
+        Fun operation = removeItem_lambda(id);
+        bool result = operation();
+        return result;
+    };
 }

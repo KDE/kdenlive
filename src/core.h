@@ -440,4 +440,6 @@ Q_SIGNALS:
     void gotMissingClipsCount(int total, int used);
     /** @brief Tell the current progress task to stop */
     void stopProgressTask();
+    /** @brief A project clip was deleted */
+    void binClipDeleted(int cid);
 };

@@ -93,8 +93,10 @@ Item {
     }
     onClipNameChanged: {
         // Animate clip name
-        clipNameLabel.opacity = 1
-        showAnimate.restart()
+        labelContainer.opacity = 1
+        if (!clipNameLabel.hovered) {
+            showAnimate.restart()
+        }
 
         // adjust monitor image size if audio thumb is displayed
         if (audioThumb.stateVisible && root.permanentAudiothumb && audioThumb.visible) {
@@ -136,7 +138,8 @@ Item {
     MouseArea {
         id: barOverArea
         hoverEnabled: true
-        acceptedButtons: Qt.NoButton
+        // Enable to block hide menu event
+        acceptedButtons: contextMenu.visible ? Qt.LeftButton : Qt.NoButton
         anchors.fill: parent
         onPositionChanged: mouse => {
             if (mouse.modifiers & Qt.ShiftModifier) {
@@ -150,8 +153,10 @@ Item {
         }
         onEntered: {
             // Show clip name
-            clipNameLabel.opacity = 1
-            showAnimate.restart()
+            labelContainer.opacity = 1
+            if (!clipNameLabel.hovered) {
+                showAnimate.restart()
+            }
             controller.setWidgetKeyBinding(xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for fullscreen, <shortcut>Hover right</shortcut> for toolbar, <shortcut>Wheel</shortcut> or <shortcut>arrows</shortcut> to seek, <shortcut>Ctrl wheel</shortcut> to zoom"));
         }
         onExited: {
@@ -395,31 +400,77 @@ Item {
                     }
                 }
             }
-            Label {
-                id: clipNameLabel
-                font: fixedFont
+            Menu {
+                id: contextMenu
+                Instantiator {
+                    model: Object.values(controller.lastClips)
+                    MenuItem {
+                        text: modelData
+                        onTriggered: {
+                            controller.selectClip(index)
+                            showAnimate.restart()
+                        }
+                    }
+                    // Update model when needed
+                    onObjectAdded: contextMenu.insertItem(index, object)
+                    onObjectRemoved: contextMenu.removeItem(object)
+                }
+            }
+            Rectangle {
+                id: labelContainer
+                width: childrenRect.width
+                height: childrenRect.height
                 anchors {
                     top: parent.top
                     horizontalCenter: parent.horizontalCenter
                 }
-                color: "white"
-                text: clipName
-                onTextChanged: {
-                    if (thumbTimer.running) {
-                        thumbTimer.stop()
-                    }
-                    thumbTimer.start()
-                }
-                background: Rectangle {
-                    color: "#222277"
-                }
+                color: clipNameLabel.hovered || contextMenu.visible ? "#CC222277" : "#88222277"
+                border.color: clipNameLabel.hovered ? "#000000" : "transparent"
+                border.width: 1
+                radius: 2
                 visible: clipName != ""
-                padding :4
-                SequentialAnimation {
-                    id: showAnimate
-                    running: false
-                    NumberAnimation { target: clipNameLabel; duration: 3000 }
-                    NumberAnimation { target: clipNameLabel; property: "opacity"; to: 0; duration: 1000 }
+                ToolButton {
+                    id: clipNameLabel
+                    hoverEnabled: true
+                    icon.name: contextMenu.count > 2 ? "arrow-down" : ""
+                    text: clipName
+                    enabled: labelContainer.opacity > 0.5
+                    onTextChanged: {
+                        if (thumbTimer.running) {
+                            thumbTimer.stop()
+                        }
+                        thumbTimer.start()
+                    }
+                    bottomPadding: 0
+                    topPadding: 0
+                    topInset: 0
+                    bottomInset: 0
+                    SequentialAnimation {
+                        id: showAnimate
+                        running: false
+                        NumberAnimation { target: labelContainer; duration: 3000 }
+                        NumberAnimation { target: labelContainer; property: "opacity"; to: 0; duration: 1000 }
+                    }
+                    onClicked: {
+                        console.log("CONTEXTX MENU SIZE: ", contextMenu.count)
+                        if (contextMenu.count > 2) {
+                            if (contextMenu.visible) {
+                                contextMenu.close()
+                            } else {
+                                contextMenu.popup()
+                            }
+                        }
+                    }
+                    onHoveredChanged: {
+                        if (hovered) {
+                            showAnimate.stop()
+                            opacity = 1
+                        } else {
+                            if (!contextMenu.visible) {
+                                showAnimate.restart()
+                            }
+                        }
+                    }
                 }
             }
 

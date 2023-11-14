@@ -142,6 +142,7 @@ void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QString &parent
     dia->setAccessibleName(i18n("Color Clip Dialog"));
     dia->setWindowTitle(i18nc("@title:window", "Color Clip"));
     dia_ui.clip_name->setText(i18n("Color Clip"));
+    dia_ui.clip_name->selectAll();
     dia_ui.clip_name->setAccessibleName(i18n("Clip Name"));
 
     dia_ui.clip_duration->setValue(KdenliveSettings::color_duration());

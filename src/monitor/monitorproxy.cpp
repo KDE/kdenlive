@@ -350,6 +350,14 @@ QString MonitorProxy::toTimecode(int frames) const
     return KdenliveSettings::frametimecode() ? QString::number(frames) : q->frameToTime(frames);
 }
 
+void MonitorProxy::selectClip(int ix)
+{
+    if (ix < m_lastClipsIds.size()) {
+        int cid = m_lastClipsIds.at(ix).first;
+        pCore->bin()->selectClipById(QString::number(cid));
+    }
+}
+
 void MonitorProxy::setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString &clipName)
 {
     if (clipId != m_clipId) {
@@ -364,11 +372,53 @@ void MonitorProxy::setClipProperties(int clipId, ClipType::ProducerType type, bo
         m_clipType = type;
         Q_EMIT clipTypeChanged();
     }
+    if (!clipName.isEmpty()) {
+        std::pair<int, QString> id = {clipId, clipName};
+        for (int i = 0; i < m_lastClipsIds.size(); i++) {
+            if (m_lastClipsIds.at(i).first == clipId) {
+                m_lastClipsIds.remove(i);
+                break;
+            }
+        }
+        m_lastClipsIds.prepend(id);
+        while (m_lastClipsIds.size() > 4) {
+            m_lastClipsIds.removeLast();
+        }
+        m_lastClips.clear();
+        for (int i = 0; i < 4 && i < m_lastClipsIds.size(); i++) {
+            m_lastClips << m_lastClipsIds.at(i).second;
+        }
+        Q_EMIT lastClipsChanged();
+    }
     if (clipName == m_clipName) {
         m_clipName.clear();
         Q_EMIT clipNameChanged();
     }
     m_clipName = clipName;
+    Q_EMIT clipNameChanged();
+}
+
+void MonitorProxy::clipDeleted(int cid)
+{
+    for (int i = 0; i < m_lastClipsIds.size(); i++) {
+        if (m_lastClipsIds.at(i).first == cid) {
+            m_lastClipsIds.remove(i);
+            m_lastClips.clear();
+            for (int j = 0; j < 4 && j < m_lastClipsIds.size(); j++) {
+                m_lastClips << m_lastClipsIds.at(j).second;
+            }
+            Q_EMIT lastClipsChanged();
+            break;
+        }
+    }
+}
+
+void MonitorProxy::documentClosed()
+{
+    m_lastClipsIds.clear();
+    m_lastClips.clear();
+    m_clipName.clear();
+    Q_EMIT lastClipsChanged();
     Q_EMIT clipNameChanged();
 }
 

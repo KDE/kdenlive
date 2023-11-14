@@ -14,6 +14,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "monitor/monitormanager.h"
+#include "monitor/monitorproxy.h"
 #include "profiles/profilemodel.hpp"
 #include "project/dialogs/archivewidget.h"
 #include "project/dialogs/backupwidget.h"
@@ -427,6 +428,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             pCore->bin()->abortOperations();
         }
         m_project->commandStack()->clear();
+        pCore->monitorManager()->clipMonitor()->getControllerProxy()->documentClosed();
         pCore->cleanup();
         if (guiConstructed) {
             const QList<QUuid> uuids = m_project->getTimelinesUuids();

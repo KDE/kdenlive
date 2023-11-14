@@ -49,6 +49,7 @@ class MonitorProxy : public QObject
     Q_PROPERTY(bool autoKeyframe READ autoKeyframe NOTIFY autoKeyframeChanged)
     Q_PROPERTY(bool audioThumbFormat READ audioThumbFormat NOTIFY audioThumbFormatChanged)
     Q_PROPERTY(bool audioThumbNormalize READ audioThumbNormalize NOTIFY audioThumbNormalizeChanged)
+    Q_PROPERTY(QStringList lastClips MEMBER m_lastClips NOTIFY lastClipsChanged)
     /** @brief Returns true if current clip in monitor has Audio and Video
      * */
     Q_PROPERTY(bool clipHasAV MEMBER m_hasAV NOTIFY clipHasAVChanged)
@@ -85,6 +86,7 @@ public:
     Q_INVOKABLE QColor thumbColor2() const;
     Q_INVOKABLE QColor overlayColor() const;
     Q_INVOKABLE QByteArray getUuid() const;
+    Q_INVOKABLE void selectClip(int ix);
     Q_INVOKABLE const QPoint clipBoundary(int ix);
     bool audioThumbFormat() const;
     bool audioThumbNormalize() const;
@@ -170,6 +172,7 @@ Q_SIGNALS:
     void runningJobsChanged();
     void jobsProgressChanged();
     void addTimelineEffect(const QStringList &);
+    void lastClipsChanged();
 
 private:
     VideoWidget *q;
@@ -196,8 +199,12 @@ private:
     QStringList m_runningJobs;
     QList<int> m_jobsProgress;
     QStringList m_jobsUuids;
+    QVector<std::pair<int, QString>> m_lastClipsIds;
+    QStringList m_lastClips;
 
 public Q_SLOTS:
     void updateClipBounds(const QVector <QPoint>&bounds);
+    void clipDeleted(int cid);
+    void documentClosed();
     void extractFrameToFile(int frame_position, const QStringList &pathInfo, bool addToProject = false, bool useSourceProfile = false);
 };

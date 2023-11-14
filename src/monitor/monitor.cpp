@@ -259,6 +259,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         connect(m_recManager, &RecManager::warningMessage, this, &Monitor::warningMessage);
         connect(m_recManager, &RecManager::addClipToProject, this, &Monitor::addClipToProject);
         connect(m_glMonitor, &VideoWidget::startDrag, this, &Monitor::slotStartDrag);
+        connect(pCore.get(), &Core::binClipDeleted, m_glMonitor->getControllerProxy(), &MonitorProxy::clipDeleted);
         // Show timeline clip usage
         connect(pCore.get(), &Core::clipInstanceResized, this, [this](const QString &binId) {
             if (m_controller && activeClipId() == binId) {
