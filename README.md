@@ -2,8 +2,6 @@
 
 | Jenkins CI Name | Master / Nightly | Stable |
 | --------------- | ---------------- | ------ |
-| Flatpak | [![Build Status](https://binary-factory.kde.org/job/Kdenlive_x86_64_flatpak/badge/icon)](https://binary-factory.kde.org/job/Kdenlive_x86_64_flatpak/) | See [here](https://flathub.org/builds/#/apps/org.kde.kdenlive)|
-| Craft Appimage | [![Build Status](https://binary-factory.kde.org/job/Kdenlive_Nightly_appimage-centos7/badge/icon)](https://binary-factory.kde.org/job/Kdenlive_Nightly_appimage-centos7/) | [![Build Status](https://binary-factory.kde.org/job/Kdenlive_Stable_appimage-centos7/badge/icon)](https://binary-factory.kde.org/job/Kdenlive_Stable_appimage-centos7/) |
 | MinGW64 | [![Build Status](https://binary-factory.kde.org/job/Kdenlive_Nightly_mingw64/badge/icon)](https://binary-factory.kde.org/job/Kdenlive_Nightly_mingw64/) | [![Build Status](https://binary-factory.kde.org/job/Kdenlive_Stable_mingw64/badge/icon)](https://binary-factory.kde.org/job/Kdenlive_Stable_mingw64/) |
 | macOS | [![Build Status](https://binary-factory.kde.org/job/Kdenlive_Nightly_macos/badge/icon)](https://binary-factory.kde.org/job/Kdenlive_Nightly_macos/) | [![Build Status](https://binary-factory.kde.org/job/Kdenlive_Stable_macos/badge/icon)](https://binary-factory.kde.org/job/Kdenlive_Stable_macos/) |
 

@@ -4,13 +4,11 @@
 The manifest for the stable Kdenlive version on Flathub is hosted on https://github.com/flathub/org.kde.kdenlive
 
 ## Nightly Version
-The nightly flatpak is on the kde flatpak repository (`kdeapps`). The build scripts for this repository are living at https://invent.kde.org/packaging/flatpak-kde-applications but in Kdenlives case it is just a link to the `org.kde.kdenlive-nightly.json` file in this folder. It is build and published each day by the [KDE Binary Factory](https://binary-factory.kde.org/job/Kdenlive_x86_64_flatpak/)
-
-Additionally there is `.flatpak-manifest.json` in the root of the Kdenlive repository. It is used by the new GitLab Flatpak CI. Since we are in a transition phase between Jenkins and GitLab at the moment, we have both manifests around. However if you build things locally, you should prefere `.flatpak-manifest.json` as it uses the local repository instead of always cloning the master branch of Kdenlive from the offical repositry.
+The nightly flatpak is on the kde flatpak repository (`kdeapps`). The build scripts for this repository are living at https://invent.kde.org/packaging/flatpak-kde-applications but in Kdenlives case it is just a link to the `.flatpak-manifest.json` file in the root of the Kdenlive repository. It is used by the new GitLab Flatpak CI. 
 
 ## How to build
 
-First you need to setup `flatpak` and [`flatpak-builder`](https://docs.flatpak.org/en/latest/flatpak-builder.html). On ubuntu you do it by running
+First you need to setup `flatpak` and [`flatpak-builder`](https://docs.flatpak.org/en/latest/flatpak-builder.html). On Ubuntu you do it by running
 ```
 sudo apt install flatpak flatpak-builder
 ```
