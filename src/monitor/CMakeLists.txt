@@ -9,7 +9,7 @@ if (APPLE)
   set(kdenlive_SRCS
     ${kdenlive_SRCS}
     monitor/videowidget.cpp
-    monitor/metalvideowidget.cpp
+    monitor/metalvideowidget.mm
     monitor/abstractmonitor.cpp
     monitor/monitor.cpp
     monitor/monitormanager.cpp
