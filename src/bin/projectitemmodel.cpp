@@ -858,7 +858,7 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
         ProjectClip::construct(id, description, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()));
     bool res = addItem(new_clip, parentId, undo, redo);
     if (res) {
-        ClipLoadTask::start(ObjectId(ObjectType::BinClip, id.toInt(), QUuid()), description, false, -1, -1, this, false, std::bind(readyCallBack, id));
+        ClipLoadTask::start(ObjectId(KdenliveObjectType::BinClip, id.toInt(), QUuid()), description, false, -1, -1, this, false, std::bind(readyCallBack, id));
     }
     return res;
 }

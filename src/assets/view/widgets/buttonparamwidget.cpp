@@ -24,7 +24,7 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
     // QString name = m_model->data(m_index, AssetParameterModel::NameRole).toString();
     QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
     setToolTip(comment);
-    // setEnabled(m_model->getOwnerId().first != ObjectType::TimelineTrack);
+    // setEnabled(m_model->getOwnerId().first != KdenliveObjectType::TimelineTrack);
     auto *layout = new QVBoxLayout(this);
     QVariantList filterData = m_model->data(m_index, AssetParameterModel::FilterJobParamsRole).toList();
     QStringList filterAddedParams = m_model->data(m_index, AssetParameterModel::FilterParamsRole).toString().split(QLatin1Char(' '), Qt::SkipEmptyParts);
@@ -117,14 +117,14 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
         int cid = -1;
         int in = -1;
         int out = -1;
-        if (owner.type == ObjectType::BinClip) {
+        if (owner.type == KdenliveObjectType::BinClip) {
             binId = QString::number(owner.itemId);
-        } else if (owner.type == ObjectType::TimelineClip) {
+        } else if (owner.type == KdenliveObjectType::TimelineClip) {
             cid = owner.itemId;
             binId = pCore->getTimelineClipBinId(cid);
             in = pCore->getItemIn(owner);
             out = in + pCore->getItemDuration(owner);
-        } else if (owner.type == ObjectType::TimelineTrack || owner.type == ObjectType::Master) {
+        } else if (owner.type == KdenliveObjectType::TimelineTrack || owner.type == KdenliveObjectType::Master) {
             in = 0;
             out = pCore->getItemDuration(owner);
             binId = QStringLiteral("-1");

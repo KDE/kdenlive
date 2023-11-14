@@ -25,7 +25,7 @@ ClipModel::ClipModel(const std::shared_ptr<TimelineModel> &parent, std::shared_p
                      PlaylistState::ClipState state, double speed)
     : MoveableItem<Mlt::Producer>(parent, id)
     , m_producer(std::move(prod))
-    , m_effectStack(EffectStackModel::construct(m_producer, ObjectId(ObjectType::TimelineClip, m_id, parent->uuid()), parent->m_undoStack))
+    , m_effectStack(EffectStackModel::construct(m_producer, ObjectId(KdenliveObjectType::TimelineClip, m_id, parent->uuid()), parent->m_undoStack))
     , m_clipMarkerModel(new ClipSnapModel())
     , m_binClipId(binClipId)
     , forceThumbReload(false)

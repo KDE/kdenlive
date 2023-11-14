@@ -141,14 +141,14 @@ void SpeedTask::start(QObject *object, bool force)
                 qDebug() << "=== INVALID SUBCLIP DATA: " << id;
                 continue;
             }
-            owner = ObjectId(ObjectType::BinClip, binData.first().toInt(), QUuid());
+            owner = ObjectId(KdenliveObjectType::BinClip, binData.first().toInt(), QUuid());
             binClip = pCore->projectItemModel()->getClipByBinID(binData.first());
             if (binClip) {
                 task = new SpeedTask(owner, destinations.at(id), binData.at(1).toInt(), binData.at(2).toInt(), filterParams, binClip.get());
             }
         } else {
             // Process full clip
-            owner = ObjectId(ObjectType::BinClip, id.toInt(), QUuid());
+            owner = ObjectId(KdenliveObjectType::BinClip, id.toInt(), QUuid());
             binClip = pCore->projectItemModel()->getClipByBinID(id);
             if (binClip) {
                 task = new SpeedTask(owner, destinations.at(id), -1, -1, filterParams, binClip.get());
@@ -199,9 +199,9 @@ void SpeedTask::run()
         // Filter applied on a track of master producer, leave config to source job
         // We are on master or track, configure producer accordingly
         // TODO
-        /*if (m_owner.type == ObjectType::Master) {
+        /*if (m_owner.type == KdenliveObjectType::Master) {
             producer = pCore->getMasterProducerInstance();
-        } else if (m_owner.type == ObjectType::TimelineTrack) {
+        } else if (m_owner.type == KdenliveObjectType::TimelineTrack) {
             producer = pCore->getTrackProducerInstance(m_owner.second);
         }
         if ((producer == nullptr) || !producer->is_valid()) {

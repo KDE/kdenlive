@@ -691,26 +691,26 @@ QPair<int, QString> Core::currentTrackInfo() const
 int Core::getItemPosition(const ObjectId &id)
 {
     switch (id.type) {
-    case ObjectType::TimelineClip:
+    case KdenliveObjectType::TimelineClip:
         if (currentDoc()->getTimeline(id.uuid)->isClip(id.itemId)) {
             return currentDoc()->getTimeline(id.uuid)->getClipPosition(id.itemId);
         }
         break;
-    case ObjectType::TimelineComposition:
+    case KdenliveObjectType::TimelineComposition:
         if (currentDoc()->getTimeline(id.uuid)->isComposition(id.itemId)) {
             return currentDoc()->getTimeline(id.uuid)->getCompositionPosition(id.itemId);
         }
         break;
-    case ObjectType::TimelineMix:
+    case KdenliveObjectType::TimelineMix:
         if (currentDoc()->getTimeline(id.uuid)->isClip(id.itemId)) {
             return currentDoc()->getTimeline(id.uuid)->getMixInOut(id.itemId).first;
         } else {
             qWarning() << "querying non clip properties";
         }
         break;
-    case ObjectType::BinClip:
-    case ObjectType::TimelineTrack:
-    case ObjectType::Master:
+    case KdenliveObjectType::BinClip:
+    case KdenliveObjectType::TimelineTrack:
+    case KdenliveObjectType::Master:
         return 0;
     default:
         qWarning() << "unhandled object type";
@@ -721,18 +721,18 @@ int Core::getItemPosition(const ObjectId &id)
 int Core::getItemIn(const ObjectId &id)
 {
     switch (id.type) {
-    case ObjectType::TimelineClip:
+    case KdenliveObjectType::TimelineClip:
         if (currentDoc()->getTimeline(id.uuid)->isClip(id.itemId)) {
             return currentDoc()->getTimeline(id.uuid)->getClipIn(id.itemId);
         } else {
             qWarning() << "querying non clip properties";
         }
         break;
-    case ObjectType::TimelineMix:
-    case ObjectType::TimelineComposition:
-    case ObjectType::BinClip:
-    case ObjectType::TimelineTrack:
-    case ObjectType::Master:
+    case KdenliveObjectType::TimelineMix:
+    case KdenliveObjectType::TimelineComposition:
+    case KdenliveObjectType::BinClip:
+    case KdenliveObjectType::TimelineTrack:
+    case KdenliveObjectType::Master:
         return 0;
     default:
         qWarning() << "unhandled object type";
@@ -747,18 +747,18 @@ int Core::getItemIn(const QUuid &uuid, const ObjectId &id)
         return 0;
     }
     switch (id.type) {
-    case ObjectType::TimelineClip:
+    case KdenliveObjectType::TimelineClip:
         if (currentDoc()->getTimeline(uuid)->isClip(id.itemId)) {
             return currentDoc()->getTimeline(uuid)->getClipIn(id.itemId);
         } else {
             qWarning() << "querying non clip properties";
         }
         break;
-    case ObjectType::TimelineMix:
-    case ObjectType::TimelineComposition:
-    case ObjectType::BinClip:
-    case ObjectType::TimelineTrack:
-    case ObjectType::Master:
+    case KdenliveObjectType::TimelineMix:
+    case KdenliveObjectType::TimelineComposition:
+    case KdenliveObjectType::BinClip:
+    case KdenliveObjectType::TimelineTrack:
+    case KdenliveObjectType::Master:
         return 0;
     default:
         qWarning() << "unhandled object type";
@@ -769,19 +769,19 @@ int Core::getItemIn(const QUuid &uuid, const ObjectId &id)
 PlaylistState::ClipState Core::getItemState(const ObjectId &id)
 {
     switch (id.type) {
-    case ObjectType::TimelineClip:
+    case KdenliveObjectType::TimelineClip:
         if (currentDoc()->getTimeline(id.uuid)->isClip(id.itemId)) {
             return currentDoc()->getTimeline(id.uuid)->getClipState(id.itemId);
         }
         break;
-    case ObjectType::TimelineComposition:
+    case KdenliveObjectType::TimelineComposition:
         return PlaylistState::VideoOnly;
-    case ObjectType::BinClip:
+    case KdenliveObjectType::BinClip:
         if (!m_guiConstructed) return PlaylistState::Disabled;
         return m_mainWindow->getBin()->getClipState(id.itemId);
-    case ObjectType::TimelineTrack:
+    case KdenliveObjectType::TimelineTrack:
         return currentDoc()->getTimeline(id.uuid)->isAudioTrack(id.itemId) ? PlaylistState::AudioOnly : PlaylistState::VideoOnly;
-    case ObjectType::Master:
+    case KdenliveObjectType::Master:
         return PlaylistState::Disabled;
     default:
         qWarning() << "unhandled object type";
@@ -793,23 +793,23 @@ PlaylistState::ClipState Core::getItemState(const ObjectId &id)
 int Core::getItemDuration(const ObjectId &id)
 {
     switch (id.type) {
-    case ObjectType::TimelineClip:
+    case KdenliveObjectType::TimelineClip:
         if (currentDoc()->getTimeline(id.uuid)->isClip(id.itemId)) {
             return currentDoc()->getTimeline(id.uuid)->getClipPlaytime(id.itemId);
         }
         break;
-    case ObjectType::TimelineComposition:
+    case KdenliveObjectType::TimelineComposition:
         if (currentDoc()->getTimeline(id.uuid)->isComposition(id.itemId)) {
             return currentDoc()->getTimeline(id.uuid)->getCompositionPlaytime(id.itemId);
         }
         break;
-    case ObjectType::BinClip:
+    case KdenliveObjectType::BinClip:
         if (!m_guiConstructed) return 0;
         return int(m_mainWindow->getBin()->getClipDuration(id.itemId));
-    case ObjectType::TimelineTrack:
-    case ObjectType::Master:
+    case KdenliveObjectType::TimelineTrack:
+    case KdenliveObjectType::Master:
         return currentDoc()->getTimeline(id.uuid)->duration();
-    case ObjectType::TimelineMix:
+    case KdenliveObjectType::TimelineMix:
         if (currentDoc()->getTimeline(id.uuid)->isClip(id.itemId)) {
             return currentDoc()->getTimeline(id.uuid)->getMixDuration(id.itemId);
         } else {
@@ -825,18 +825,18 @@ int Core::getItemDuration(const ObjectId &id)
 QSize Core::getItemFrameSize(const ObjectId &id)
 {
     switch (id.type) {
-    case ObjectType::TimelineClip:
+    case KdenliveObjectType::TimelineClip:
         if (currentDoc()->getTimeline(id.uuid)->isClip(id.itemId)) {
             return currentDoc()->getTimeline(id.uuid)->getClipFrameSize(id.itemId);
         }
         break;
-    case ObjectType::BinClip:
+    case KdenliveObjectType::BinClip:
         if (!m_guiConstructed) return QSize();
         return m_mainWindow->getBin()->getFrameSize(id.itemId);
-    case ObjectType::TimelineTrack:
-    case ObjectType::Master:
-    case ObjectType::TimelineComposition:
-    case ObjectType::TimelineMix:
+    case KdenliveObjectType::TimelineTrack:
+    case KdenliveObjectType::Master:
+    case KdenliveObjectType::TimelineComposition:
+    case KdenliveObjectType::TimelineMix:
         return pCore->getCurrentFrameSize();
     default:
         qWarning() << "unhandled object type frame size";
@@ -847,9 +847,9 @@ QSize Core::getItemFrameSize(const ObjectId &id)
 int Core::getItemTrack(const ObjectId &id)
 {
     switch (id.type) {
-    case ObjectType::TimelineClip:
-    case ObjectType::TimelineComposition:
-    case ObjectType::TimelineMix:
+    case KdenliveObjectType::TimelineClip:
+    case KdenliveObjectType::TimelineComposition:
+    case KdenliveObjectType::TimelineMix:
         return currentDoc()->getTimeline(id.uuid)->getItemTrackId(id.itemId);
     default:
         qWarning() << "unhandled object type";
@@ -861,23 +861,23 @@ void Core::refreshProjectItem(const ObjectId &id)
 {
     if (!m_guiConstructed || (!id.uuid.isNull() && !m_mainWindow->getTimeline(id.uuid))) return;
     switch (id.type) {
-    case ObjectType::TimelineClip:
-    case ObjectType::TimelineMix:
+    case KdenliveObjectType::TimelineClip:
+    case KdenliveObjectType::TimelineMix:
         if (currentDoc()->getTimeline(id.uuid)->isClip(id.itemId)) {
             m_mainWindow->getTimeline(id.uuid)->controller()->refreshItem(id.itemId);
         }
         break;
-    case ObjectType::TimelineComposition:
+    case KdenliveObjectType::TimelineComposition:
         if (currentDoc()->getTimeline(id.uuid)->isComposition(id.itemId)) {
             m_mainWindow->getTimeline(id.uuid)->controller()->refreshItem(id.itemId);
         }
         break;
-    case ObjectType::TimelineTrack:
+    case KdenliveObjectType::TimelineTrack:
         if (m_mainWindow->getTimeline(id.uuid)->model()->isTrack(id.itemId)) {
             refreshProjectMonitorOnce();
         }
         break;
-    case ObjectType::BinClip:
+    case KdenliveObjectType::BinClip:
         if (m_monitorManager->clipMonitorVisible()) {
             m_monitorManager->activateMonitor(Kdenlive::ClipMonitor);
             m_monitorManager->refreshClipMonitor(true);
@@ -886,7 +886,7 @@ void Core::refreshProjectItem(const ObjectId &id)
             m_monitorManager->refreshTimer.start();
         }
         break;
-    case ObjectType::Master:
+    case KdenliveObjectType::Master:
         refreshProjectMonitorOnce();
         break;
     default:
@@ -990,13 +990,13 @@ std::shared_ptr<EffectStackModel> Core::getItemEffectStack(const QUuid &uuid, in
 {
     if (!m_guiConstructed) return nullptr;
     switch (itemType) {
-    case int(ObjectType::TimelineClip):
+    case int(KdenliveObjectType::TimelineClip):
         return currentDoc()->getTimeline(uuid)->getClipEffectStack(itemId);
-    case int(ObjectType::TimelineTrack):
+    case int(KdenliveObjectType::TimelineTrack):
         return currentDoc()->getTimeline(uuid)->getTrackEffectStackModel(itemId);
-    case int(ObjectType::BinClip):
+    case int(KdenliveObjectType::BinClip):
         return m_mainWindow->getBin()->getClipEffectStack(itemId);
-    case int(ObjectType::Master):
+    case int(KdenliveObjectType::Master):
         return currentDoc()->getTimeline(uuid)->getMasterEffectStackModel();
     default:
         return nullptr;
@@ -1046,17 +1046,17 @@ void Core::invalidateItem(ObjectId itemId)
 {
     if (!m_guiConstructed || !m_mainWindow->getCurrentTimeline() || m_mainWindow->getCurrentTimeline()->loading) return;
     switch (itemId.type) {
-    case ObjectType::TimelineClip:
-    case ObjectType::TimelineComposition:
+    case KdenliveObjectType::TimelineClip:
+    case KdenliveObjectType::TimelineComposition:
         m_mainWindow->getCurrentTimeline()->controller()->invalidateItem(itemId.itemId);
         break;
-    case ObjectType::TimelineTrack:
+    case KdenliveObjectType::TimelineTrack:
         m_mainWindow->getCurrentTimeline()->controller()->invalidateTrack(itemId.itemId);
         break;
-    case ObjectType::BinClip:
+    case KdenliveObjectType::BinClip:
         m_mainWindow->getBin()->invalidateClip(QString::number(itemId.itemId));
         break;
-    case ObjectType::Master:
+    case KdenliveObjectType::Master:
         m_mainWindow->getCurrentTimeline()->model()->invalidateZone(0, -1);
         break;
     default:
@@ -1072,14 +1072,15 @@ double Core::getClipSpeed(int id) const
 
 void Core::updateItemKeyframes(ObjectId id)
 {
-    if (id.type == ObjectType::TimelineClip && m_guiConstructed) {
+    if (id.type == KdenliveObjectType::TimelineClip && m_guiConstructed) {
         m_mainWindow->getCurrentTimeline()->controller()->updateClip(id.itemId, {TimelineModel::KeyframesRole});
     }
 }
 
 void Core::updateItemModel(ObjectId id, const QString &service)
 {
-    if (m_guiConstructed && id.type == ObjectType::TimelineClip && !m_mainWindow->getCurrentTimeline()->loading && service.startsWith(QLatin1String("fade"))) {
+    if (m_guiConstructed && id.type == KdenliveObjectType::TimelineClip && !m_mainWindow->getCurrentTimeline()->loading &&
+        service.startsWith(QLatin1String("fade"))) {
         bool startFade = service.startsWith(QLatin1String("fadein")) || service.startsWith(QLatin1String("fade_from_"));
         m_mainWindow->getCurrentTimeline()->controller()->updateClip(id.itemId, {startFade ? TimelineModel::FadeInRole : TimelineModel::FadeOutRole});
     }
@@ -1087,9 +1088,9 @@ void Core::updateItemModel(ObjectId id, const QString &service)
 
 void Core::showClipKeyframes(ObjectId id, bool enable)
 {
-    if (id.type == ObjectType::TimelineClip) {
+    if (id.type == KdenliveObjectType::TimelineClip) {
         m_mainWindow->getCurrentTimeline()->controller()->showClipKeyframes(id.itemId, enable);
-    } else if (id.type == ObjectType::TimelineComposition) {
+    } else if (id.type == KdenliveObjectType::TimelineComposition) {
         m_mainWindow->getCurrentTimeline()->controller()->showCompositionKeyframes(id.itemId, enable);
     }
 }
@@ -1366,7 +1367,7 @@ void Core::setWidgetKeyBinding(const QString &mess)
 
 void Core::showEffectZone(ObjectId id, QPair<int, int> inOut, bool checked)
 {
-    if (m_guiConstructed && m_mainWindow->getCurrentTimeline() && m_mainWindow->getCurrentTimeline()->controller() && id.type != ObjectType::BinClip) {
+    if (m_guiConstructed && m_mainWindow->getCurrentTimeline() && m_mainWindow->getCurrentTimeline()->controller() && id.type != KdenliveObjectType::BinClip) {
         m_mainWindow->getCurrentTimeline()->controller()->showRulerEffectZone(inOut, checked);
     }
 }

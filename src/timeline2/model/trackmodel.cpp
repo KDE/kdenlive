@@ -51,7 +51,7 @@ TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id, const
         // For now we never use the second playlist, only planned for same track transitions
         m_track->set("kdenlive:trackheight", KdenliveSettings::trackheight());
         m_track->set("kdenlive:timeline_active", 1);
-        m_effectStack = EffectStackModel::construct(m_track, ObjectId(ObjectType::TimelineTrack, m_id, ptr->uuid()), ptr->m_undoStack);
+        m_effectStack = EffectStackModel::construct(m_track, ObjectId(KdenliveObjectType::TimelineTrack, m_id, ptr->uuid()), ptr->m_undoStack);
         // TODO
         // When we use the second playlist, register it's stask as child of main playlist effectstack
         // m_subPlaylist = std::make_shared<Mlt::Producer>(&m_playlists[1]);
@@ -78,7 +78,7 @@ TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, Mlt::Tractor 
         m_track = std::make_shared<Mlt::Tractor>(mltTrack);
         m_playlists[0] = *m_track->track(0);
         m_playlists[1] = *m_track->track(1);
-        m_effectStack = EffectStackModel::construct(m_track, ObjectId(ObjectType::TimelineTrack, m_id, ptr->uuid()), ptr->m_undoStack);
+        m_effectStack = EffectStackModel::construct(m_track, ObjectId(KdenliveObjectType::TimelineTrack, m_id, ptr->uuid()), ptr->m_undoStack);
     } else {
         qDebug() << "Error : construction of track failed because parent timeline is not available anymore";
         Q_ASSERT(false);
@@ -490,7 +490,7 @@ bool TrackModel::requestClipDeletion(int clipId, bool updateView, bool finalMove
     // qDebug() << "/// REQUESTOING CLIP DELETION_: " << updateView;
     int duration = trackDuration();
     if (finalDeletion) {
-        pCore->taskManager.discardJobs(ObjectId(ObjectType::TimelineClip, clipId, timelineUuid));
+        pCore->taskManager.discardJobs(ObjectId(KdenliveObjectType::TimelineClip, clipId, timelineUuid));
     }
     auto operation = requestClipDeletion_lambda(clipId, updateView, finalMove, groupMove, finalDeletion);
     if (operation()) {
@@ -1810,7 +1810,7 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
                     }
                 }
                 std::shared_ptr<AssetParameterModel> asset(
-                    new AssetParameterModel(std::move(t), xml, assetId, ObjectId(ObjectType::TimelineMix, clipIds.second, ptr->uuid()), QString()));
+                    new AssetParameterModel(std::move(t), xml, assetId, ObjectId(KdenliveObjectType::TimelineMix, clipIds.second, ptr->uuid()), QString()));
                 m_sameCompositions[clipIds.second] = asset;
                 m_mixList.insert(clipIds.first, clipIds.second);
                 QModelIndex ix2 = ptr->makeClipIndexFromID(clipIds.second);
@@ -2093,7 +2093,7 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
                 }
             }
             std::shared_ptr<AssetParameterModel> asset(
-                new AssetParameterModel(std::move(t), xml, assetName, ObjectId(ObjectType::TimelineMix, clipIds.second, ptr->uuid()), QString()));
+                new AssetParameterModel(std::move(t), xml, assetName, ObjectId(KdenliveObjectType::TimelineMix, clipIds.second, ptr->uuid()), QString()));
             m_sameCompositions[clipIds.second] = asset;
             m_mixList.insert(clipIds.first, clipIds.second);
         }
@@ -2304,7 +2304,7 @@ bool TrackModel::createMix(MixInfo info, std::pair<QString, QVector<QPair<QStrin
             }
         }
         std::shared_ptr<AssetParameterModel> asset(
-            new AssetParameterModel(std::move(t), xml, assetId, ObjectId(ObjectType::TimelineMix, info.secondClipId, ptr->uuid()), QString()));
+            new AssetParameterModel(std::move(t), xml, assetId, ObjectId(KdenliveObjectType::TimelineMix, info.secondClipId, ptr->uuid()), QString()));
         m_sameCompositions[info.secondClipId] = asset;
         m_mixList.insert(info.firstClipId, info.secondClipId);
         if (finalMove) {
@@ -2361,7 +2361,7 @@ bool TrackModel::createMix(MixInfo info, bool isAudio)
         }
         QDomElement xml = TransitionsRepository::get()->getXml(assetName);
         std::shared_ptr<AssetParameterModel> asset(
-            new AssetParameterModel(std::move(t), xml, assetName, ObjectId(ObjectType::TimelineMix, info.secondClipId, ptr->uuid()), QString()));
+            new AssetParameterModel(std::move(t), xml, assetName, ObjectId(KdenliveObjectType::TimelineMix, info.secondClipId, ptr->uuid()), QString()));
         m_sameCompositions[info.secondClipId] = asset;
         m_mixList.insert(info.firstClipId, info.secondClipId);
         return true;
@@ -2412,7 +2412,7 @@ bool TrackModel::createMix(std::pair<int, int> clipIds, std::pair<int, int> mixD
         }
         QDomElement xml = TransitionsRepository::get()->getXml(assetName);
         std::shared_ptr<AssetParameterModel> asset(
-            new AssetParameterModel(std::move(t), xml, assetName, ObjectId(ObjectType::TimelineMix, clipIds.second, ptr->uuid()), QString()));
+            new AssetParameterModel(std::move(t), xml, assetName, ObjectId(KdenliveObjectType::TimelineMix, clipIds.second, ptr->uuid()), QString()));
         m_sameCompositions[clipIds.second] = asset;
         m_mixList.insert(clipIds.first, clipIds.second);
         return true;
@@ -2664,7 +2664,7 @@ bool TrackModel::loadMix(Mlt::Transition *t)
         timelineUuid = ptr->uuid();
     }
     std::shared_ptr<AssetParameterModel> asset(
-        new AssetParameterModel(std::move(tr), xml, assetId, ObjectId(ObjectType::TimelineMix, cid2, timelineUuid), QString()));
+        new AssetParameterModel(std::move(tr), xml, assetId, ObjectId(KdenliveObjectType::TimelineMix, cid2, timelineUuid), QString()));
     m_sameCompositions[cid2] = asset;
     m_mixList.insert(cid1, cid2);
     int mixDuration = t->get_length() - 1;
@@ -2740,7 +2740,7 @@ void TrackModel::switchMix(int cid, const QString &composition, Fun &undo, Fun &
             t->set("kdenlive:mixcut", mixCutPos);
             QDomElement xml = TransitionsRepository::get()->getXml(composition);
             std::shared_ptr<AssetParameterModel> asset(
-                new AssetParameterModel(std::move(t), xml, composition, ObjectId(ObjectType::TimelineMix, cid, ptr->uuid()), QString()));
+                new AssetParameterModel(std::move(t), xml, composition, ObjectId(KdenliveObjectType::TimelineMix, cid, ptr->uuid()), QString()));
             m_sameCompositions[cid] = asset;
         }
         m_playlists[0].unlock();
@@ -2776,7 +2776,7 @@ void TrackModel::switchMix(int cid, const QString &composition, Fun &undo, Fun &
                 }
             }
             std::shared_ptr<AssetParameterModel> asset(
-                new AssetParameterModel(std::move(t), xml, currentAsset, ObjectId(ObjectType::TimelineMix, cid, ptr->uuid()), QString()));
+                new AssetParameterModel(std::move(t), xml, currentAsset, ObjectId(KdenliveObjectType::TimelineMix, cid, ptr->uuid()), QString()));
             m_sameCompositions[cid] = asset;
         }
         m_playlists[0].unlock();

@@ -542,5 +542,5 @@ void MonitorProxy::setJobsProgress(const ObjectId &owner, const QStringList &job
 
 void MonitorProxy::terminateJob(const QString &uuid)
 {
-    pCore->taskManager.discardJob(ObjectId(ObjectType::BinClip, m_clipId, QUuid()), QUuid(uuid));
+    pCore->taskManager.discardJob(ObjectId(KdenliveObjectType::BinClip, m_clipId, QUuid()), QUuid(uuid));
 }

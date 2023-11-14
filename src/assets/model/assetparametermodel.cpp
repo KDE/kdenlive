@@ -22,7 +22,7 @@
 AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId,
                                          const QString &originalDecimalPoint, QObject *parent)
     : QAbstractListModel(parent)
-    , monitorId(ownerId.type == ObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor)
+    , monitorId(ownerId.type == KdenliveObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor)
     , m_assetId(assetId)
     , m_ownerId(ownerId)
     , m_active(false)
@@ -419,7 +419,7 @@ void AssetParameterModel::setParameter(const QString &name, const QString &param
         Q_EMIT updateChildren({name});
     }
     // Update timeline view if necessary
-    if (m_ownerId.type == ObjectType::NoItem) {
+    if (m_ownerId.type == KdenliveObjectType::NoItem) {
         // Used for generator clips
         if (!update) Q_EMIT modelChanged();
     } else {
@@ -790,13 +790,13 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
     } else if (content.contains(QLatin1Char('%'))) {
         int in = pCore->getItemIn(owner);
         int out = in + pCore->getItemDuration(owner) - 1;
-        if (m_ownerId.type == ObjectType::TimelineComposition && out == -1) {
+        if (m_ownerId.type == KdenliveObjectType::TimelineComposition && out == -1) {
             out = m_asset->get_int("out");
         }
         int currentPos = 0;
         if (content.contains(QLatin1String("%position"))) {
             // Calculate playhead position relative to clip
-            int playhead = pCore->getMonitorPosition(m_ownerId.type == ObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor);
+            int playhead = pCore->getMonitorPosition(m_ownerId.type == KdenliveObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor);
             int itemPosition = pCore->getItemPosition(m_ownerId);
             int itemIn = pCore->getItemIn(m_ownerId);
             currentPos = playhead - itemPosition + itemIn;
@@ -1413,11 +1413,11 @@ void AssetParameterModel::setParametersFromTask(const paramVector &params)
 
 void AssetParameterModel::setParameters(const paramVector &params, bool update)
 {
-    ObjectType itemType;
+    KdenliveObjectType itemType;
     if (!update) {
         // Change itemId to NoItem to ensure we don't send any update like refreshProjectItem that would trigger monitor refreshes.
         itemType = m_ownerId.type;
-        m_ownerId.type = ObjectType::NoItem;
+        m_ownerId.type = KdenliveObjectType::NoItem;
     }
     for (const auto &param : params) {
         QModelIndex ix = index(m_rows.indexOf(param.first), 0);

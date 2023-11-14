@@ -14,7 +14,8 @@
 CompositionModel::CompositionModel(std::weak_ptr<TimelineModel> parent, std::unique_ptr<Mlt::Transition> transition, int id, const QDomElement &transitionXml,
                                    const QString &transitionId, const QString &originalDecimalPoint, const QUuid uuid)
     : MoveableItem<Mlt::Transition>(std::move(parent), id)
-    , AssetParameterModel(std::move(transition), transitionXml, transitionId, ObjectId(ObjectType::TimelineComposition, m_id, uuid), originalDecimalPoint)
+    , AssetParameterModel(std::move(transition), transitionXml, transitionId, ObjectId(KdenliveObjectType::TimelineComposition, m_id, uuid),
+                          originalDecimalPoint)
     , m_a_track(-1)
     , m_duration(0)
 {
