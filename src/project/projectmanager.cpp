@@ -428,9 +428,9 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             pCore->bin()->abortOperations();
         }
         m_project->commandStack()->clear();
-        pCore->monitorManager()->clipMonitor()->getControllerProxy()->documentClosed();
         pCore->cleanup();
         if (guiConstructed) {
+            pCore->monitorManager()->clipMonitor()->getControllerProxy()->documentClosed();
             const QList<QUuid> uuids = m_project->getTimelinesUuids();
             for (auto &uid : uuids) {
                 pCore->window()->closeTimelineTab(uid);
