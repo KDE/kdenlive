@@ -225,7 +225,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     connect(m_time, &TimecodeDisplay::timeCodeEditingFinished, this, [&]() { slotSetPosition(-1, true); });
     connect(m_keyframeview, &KeyframeView::seekToPos, this, [&](int pos) {
         int in = m_model->data(m_index, AssetParameterModel::InRole).toInt();
-        bool canHaveZone = m_model->getOwnerId().type == ObjectType::Master || m_model->getOwnerId().type == ObjectType::TimelineTrack;
+        bool canHaveZone = m_model->getOwnerId().type == KdenliveObjectType::Master || m_model->getOwnerId().type == KdenliveObjectType::TimelineTrack;
         if (pos < 0) {
             m_time->setValue(0);
             m_keyframeview->slotSetPosition(0, true);
@@ -372,7 +372,7 @@ void KeyframeWidget::monitorSeek(int pos)
 {
     int in = 0;
     int out = 0;
-    bool canHaveZone = m_model->getOwnerId().type == ObjectType::Master || m_model->getOwnerId().type == ObjectType::TimelineTrack;
+    bool canHaveZone = m_model->getOwnerId().type == KdenliveObjectType::Master || m_model->getOwnerId().type == KdenliveObjectType::TimelineTrack;
     if (canHaveZone) {
         bool ok = false;
         in = m_model->data(m_index, AssetParameterModel::InRole).toInt(&ok);
@@ -443,7 +443,7 @@ void KeyframeWidget::slotRefreshParams()
 }
 void KeyframeWidget::slotSetPosition(int pos, bool update)
 {
-    bool canHaveZone = m_model->getOwnerId().type == ObjectType::Master || m_model->getOwnerId().type == ObjectType::TimelineTrack;
+    bool canHaveZone = m_model->getOwnerId().type == KdenliveObjectType::Master || m_model->getOwnerId().type == KdenliveObjectType::TimelineTrack;
     int offset = 0;
     if (pos < 0) {
         if (canHaveZone) {

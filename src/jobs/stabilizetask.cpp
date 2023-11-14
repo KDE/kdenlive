@@ -61,7 +61,7 @@ void StabilizeTask::start(QObject *, bool force)
                     qDebug() << "=== INVALID SUBCLIP DATA: " << id;
                     continue;
                 }
-                owner = ObjectId(ObjectType::BinClip, binData.first().toInt(), QUuid());
+                owner = ObjectId(KdenliveObjectType::BinClip, binData.first().toInt(), QUuid());
                 auto binClip = pCore->projectItemModel()->getClipByBinID(binData.first());
                 if (binClip) {
                     task = new StabilizeTask(owner, binData.first(), destinations.at(id), binData.at(1).toInt(), binData.at(2).toInt(), filterParams,
@@ -69,7 +69,7 @@ void StabilizeTask::start(QObject *, bool force)
                 }
             } else {
                 // Process full clip
-                owner = ObjectId(ObjectType::BinClip, id.toInt(), QUuid());
+                owner = ObjectId(KdenliveObjectType::BinClip, id.toInt(), QUuid());
                 auto binClip = pCore->projectItemModel()->getClipByBinID(id);
                 if (binClip) {
                     task = new StabilizeTask(owner, id, destinations.at(id), -1, -1, filterParams, binClip.get());
@@ -123,9 +123,9 @@ void StabilizeTask::run()
         QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("No producer for this clip.")),
                                   Q_ARG(int, int(KMessageWidget::Warning)));
         return;
-        /*if (m_owner.type == ObjectType::Master) {
+        /*if (m_owner.type == KdenliveObjectType::Master) {
             producer = pCore->getMasterProducerInstance();
-        } else if (m_owner.type == ObjectType::TimelineTrack) {
+        } else if (m_owner.type == KdenliveObjectType::TimelineTrack) {
             producer = pCore->getTrackProducerInstance(m_owner.second);
         }
         if ((producer == nullptr) || !producer->is_valid()) {

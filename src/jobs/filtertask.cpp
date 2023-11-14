@@ -118,7 +118,7 @@ void FilterTask::run()
                     producer->attach(*filter);
                 }
             }
-            if (m_owner.type == ObjectType::TimelineClip) {
+            if (m_owner.type == KdenliveObjectType::TimelineClip) {
                 // Add the timeline clip effects
                 std::shared_ptr<EffectStackModel> stack = pCore->getItemEffectStack(pCore->currentTimelineId(), int(m_owner.type), m_owner.itemId);
                 stack->passEffects(producer.get(), m_filterName);
@@ -138,9 +138,9 @@ void FilterTask::run()
     } else {
         // Filter applied on a track of master producer, leave config to source job
         // We are on master or track, configure producer accordingly
-        if (m_owner.type == ObjectType::Master) {
+        if (m_owner.type == KdenliveObjectType::Master) {
             producer = pCore->getMasterProducerInstance();
-        } else if (m_owner.type == ObjectType::TimelineTrack) {
+        } else if (m_owner.type == KdenliveObjectType::TimelineTrack) {
             producer = pCore->getTrackProducerInstance(m_owner.itemId);
         }
     }

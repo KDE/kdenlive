@@ -269,7 +269,8 @@ void EffectStackView::loadEffects()
     if (max == 0) {
         // blank stack
         ObjectId item = m_model->getOwnerId();
-        pCore->getMonitor(item.type == ObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor)->slotShowEffectScene(MonitorSceneDefault);
+        pCore->getMonitor(item.type == KdenliveObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor)
+            ->slotShowEffectScene(MonitorSceneDefault);
         updateTreeHeight();
         return;
     }
@@ -387,7 +388,7 @@ void EffectStackView::slotStartDrag(const QPixmap pix, const QString assetId, Ob
     effectSource += ',';
     effectSource += QString::number(row).toUtf8();
     effectSource += ',';
-    if (sourceObject.type == ObjectType::BinClip) {
+    if (sourceObject.type == KdenliveObjectType::BinClip) {
         effectSource += QByteArray();
     } else {
         // Keep a reference to the timeline model
@@ -450,7 +451,7 @@ void EffectStackView::unsetModel(bool reset)
     if (m_model) {
         ObjectId item = m_model->getOwnerId();
         pCore->showEffectZone(item, {0, 0}, false);
-        id = item.type == ObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor;
+        id = item.type == KdenliveObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor;
         disconnect(m_model.get(), &EffectStackModel::dataChanged, this, &EffectStackView::refresh);
         disconnect(m_model.get(), &EffectStackModel::enabledStateChanged, this, &EffectStackView::changeEnabledState);
         disconnect(this, &EffectStackView::removeCurrentEffect, m_model.get(), &EffectStackModel::removeCurrentEffect);

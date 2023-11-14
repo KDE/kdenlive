@@ -333,17 +333,17 @@ int TimelineController::selectedTrack() const
     return selected_tracks.front().second;
 }
 
-bool TimelineController::selectCurrentItem(ObjectType type, bool select, bool addToCurrent, bool showErrorMsg)
+bool TimelineController::selectCurrentItem(KdenliveObjectType type, bool select, bool addToCurrent, bool showErrorMsg)
 {
     int currentClip = -1;
-    if (m_activeTrack == -1 || (m_model->isSubtitleTrack(m_activeTrack) && type != ObjectType::TimelineClip)) {
+    if (m_activeTrack == -1 || (m_model->isSubtitleTrack(m_activeTrack) && type != KdenliveObjectType::TimelineClip)) {
         // Cannot select item
-    } else if (type == ObjectType::TimelineClip) {
+    } else if (type == KdenliveObjectType::TimelineClip) {
         currentClip = m_model->isSubtitleTrack(m_activeTrack) ? m_model->getSubtitleByPosition(pCore->getMonitorPosition())
                                                               : m_model->getClipByPosition(m_activeTrack, pCore->getMonitorPosition());
-    } else if (type == ObjectType::TimelineComposition) {
+    } else if (type == KdenliveObjectType::TimelineComposition) {
         currentClip = m_model->getCompositionByPosition(m_activeTrack, pCore->getMonitorPosition());
-    } else if (type == ObjectType::TimelineMix) {
+    } else if (type == KdenliveObjectType::TimelineMix) {
         if (m_activeTrack >= 0) {
             currentClip = m_model->getClipByPosition(m_activeTrack, pCore->getMonitorPosition());
         }
@@ -4459,7 +4459,7 @@ void TimelineController::activateTrackAndSelect(int trackPosition, bool notesMod
         m_activeTrack = tid;
         Q_EMIT activeTrackChanged();
         if (!notesMode && pCore->window()->getCurrentTimeline()->activeTool() != ToolType::MulticamTool) {
-            selectCurrentItem(ObjectType::TimelineClip, true);
+            selectCurrentItem(KdenliveObjectType::TimelineClip, true);
         }
     }
 }

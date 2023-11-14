@@ -4387,7 +4387,7 @@ bool TimelineModel::requestTrackDeletion(int trackId, Fun &undo, Fun &redo)
         return false;
     }
     // Discard running jobs
-    pCore->taskManager.discardJobs(ObjectId(ObjectType::TimelineTrack, trackId, m_uuid));
+    pCore->taskManager.discardJobs(ObjectId(KdenliveObjectType::TimelineTrack, trackId, m_uuid));
 
     std::vector<int> clips_to_delete;
     for (const auto &it : getTrackById(trackId)->m_allClips) {
@@ -5722,7 +5722,7 @@ std::shared_ptr<EffectStackModel> TimelineModel::getMasterEffectStackModel()
     READ_LOCK();
     if (m_masterStack == nullptr) {
         m_masterService.reset(new Mlt::Service(*m_tractor.get()));
-        m_masterStack = EffectStackModel::construct(m_masterService, ObjectId(ObjectType::Master, 0, m_uuid), m_undoStack);
+        m_masterStack = EffectStackModel::construct(m_masterService, ObjectId(KdenliveObjectType::Master, 0, m_uuid), m_undoStack);
         connect(m_masterStack.get(), &EffectStackModel::updateMasterZones, pCore.get(), &Core::updateMasterZones);
     }
     return m_masterStack;

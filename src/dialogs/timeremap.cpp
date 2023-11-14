@@ -1763,7 +1763,7 @@ void TimeRemap::checkClipUpdate(const QModelIndex &topLeft, const QModelIndex &,
     }
     // Don't resize view if we are moving a keyframe
     if (!m_view->movingKeyframe()) {
-        ObjectId oid(ObjectType::TimelineClip, m_cid, m_uuid);
+        ObjectId oid(KdenliveObjectType::TimelineClip, m_cid, m_uuid);
         int newDuration = pCore->getItemDuration(oid);
         // Check if the keyframes were modified by an external resize operation
         std::shared_ptr<TimelineItemModel> model = pCore->currentDoc()->getTimeline(m_uuid);
@@ -1829,7 +1829,7 @@ void TimeRemap::selectedClip(int cid, const QUuid uuid)
         remap_box->setEnabled(true);
     }
     m_splitId = model->m_groups->getSplitPartner(cid);
-    ObjectId oid(ObjectType::TimelineClip, cid, m_uuid);
+    ObjectId oid(KdenliveObjectType::TimelineClip, cid, m_uuid);
     m_lastLength = pCore->getItemDuration(oid);
     m_view->m_startPos = pCore->getItemPosition(oid);
     model->requestClipTimeRemap(cid);
@@ -1903,8 +1903,8 @@ void TimeRemap::selectedClip(int cid, const QUuid uuid)
     m_seekConnection1 = connect(m_view, &RemapView::seekToPos, this, [this](int topPos, int bottomPos) {
         if (topPos > -1) {
             if (pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId() != m_binId) {
-                int min = pCore->getItemIn(ObjectId(ObjectType::TimelineClip, m_cid, m_uuid));
-                int lastLength = pCore->getItemDuration(ObjectId(ObjectType::TimelineClip, m_cid, m_uuid));
+                int min = pCore->getItemIn(ObjectId(KdenliveObjectType::TimelineClip, m_cid, m_uuid));
+                int lastLength = pCore->getItemDuration(ObjectId(KdenliveObjectType::TimelineClip, m_cid, m_uuid));
                 int max = min + lastLength;
                 pCore->selectBinClip(m_binId, true, min, {min, max});
             }
@@ -2060,7 +2060,7 @@ void TimeRemap::updateKeyframesWithUndo(const QMap<int, int> &updatedKeyframes, 
     std::shared_ptr<TimelineItemModel> model = pCore->currentDoc()->getTimeline(m_uuid);
     bool masterIsAudio = model->clipIsAudio(m_cid);
     bool splitIsAudio = model->clipIsAudio(m_splitId);
-    ObjectId oid(ObjectType::TimelineClip, m_cid, m_uuid);
+    ObjectId oid(KdenliveObjectType::TimelineClip, m_cid, m_uuid);
     bool durationChanged = updatedKeyframes.isEmpty() ? false : updatedKeyframes.lastKey() - pCore->getItemIn(oid) + 1 != pCore->getItemDuration(oid);
     int lastFrame = pCore->getItemDuration(oid) + pCore->getItemIn(oid);
     Fun undo = []() { return true; };

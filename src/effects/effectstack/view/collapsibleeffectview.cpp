@@ -156,7 +156,7 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     layZone->addWidget(m_outPos);
 
     connect(setIn, &QToolButton::clicked, this, [=]() {
-        if (m_model->getOwnerId().type == ObjectType::BinClip) {
+        if (m_model->getOwnerId().type == KdenliveObjectType::BinClip) {
             m_outPos->setValue(pCore->getMonitor(Kdenlive::ClipMonitor)->position());
         } else {
             m_inPos->setValue(pCore->getMonitorPosition());
@@ -164,7 +164,7 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
         updateEffectZone();
     });
     connect(setOut, &QToolButton::clicked, this, [=]() {
-        if (m_model->getOwnerId().type == ObjectType::BinClip) {
+        if (m_model->getOwnerId().type == KdenliveObjectType::BinClip) {
             m_outPos->setValue(pCore->getMonitor(Kdenlive::ClipMonitor)->position());
         } else {
             m_outPos->setValue(pCore->getMonitorPosition());
@@ -184,7 +184,7 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     } else {
         zoneFrame->setFixedHeight(0);
     }
-    inOutButton->setVisible(m_model->getOwnerId().type != ObjectType::TimelineClip);
+    inOutButton->setVisible(m_model->getOwnerId().type != KdenliveObjectType::TimelineClip);
     connect(m_inPos, &TimecodeDisplay::timeCodeEditingFinished, this, &CollapsibleEffectView::updateEffectZone);
     connect(m_outPos, &TimecodeDisplay::timeCodeEditingFinished, this, &CollapsibleEffectView::updateEffectZone);
     connect(m_inOutButton, &QAction::triggered, this, &CollapsibleEffectView::switchInOut);
@@ -938,13 +938,13 @@ void CollapsibleEffectView::switchInOut(bool checked)
     if (inOut.first == inOut.second || !checked) {
         ObjectId owner = m_model->getOwnerId();
         switch (owner.type) {
-        case ObjectType::TimelineClip: {
+        case KdenliveObjectType::TimelineClip: {
             int in = pCore->getItemIn(owner);
             inOut = {in, in + pCore->getItemDuration(owner)};
             break;
         }
-        case ObjectType::TimelineTrack:
-        case ObjectType::Master: {
+        case KdenliveObjectType::TimelineTrack:
+        case KdenliveObjectType::Master: {
             if (!checked) {
                 inOut = {0, 0};
             } else {

@@ -51,14 +51,15 @@ enum class GroupType {
 const QString groupTypeToStr(GroupType t);
 GroupType groupTypeFromStr(const QString &s);
 
-enum class ObjectType { TimelineClip, TimelineComposition, TimelineTrack, TimelineMix, TimelineSubtitle, BinClip, Master, NoItem };
+// We can not use just ObjectType as name because that causes conflicts with Xcode on macOS
+enum class KdenliveObjectType { TimelineClip, TimelineComposition, TimelineTrack, TimelineMix, TimelineSubtitle, BinClip, Master, NoItem };
 // using ObjectId = std::pair<ObjectType, std::pair<int, QUuid>>;
 struct ObjectId
 {
-    ObjectType type;
+    KdenliveObjectType type;
     int itemId;
     QUuid uuid;
-    explicit constexpr ObjectId(const ObjectType tp = ObjectType::NoItem, int id = -1, const QUuid uid = QUuid())
+    explicit constexpr ObjectId(const KdenliveObjectType tp = KdenliveObjectType::NoItem, int id = -1, const QUuid uid = QUuid())
         : type(tp)
         , itemId(id)
         , uuid(uid)

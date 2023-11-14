@@ -425,14 +425,14 @@ void MainWindow::init(const QString &mltPath)
     connect(m_assetPanel, &AssetPanel::seekToPos, this, [this](int pos) {
         ObjectId oId = m_assetPanel->effectStackOwner();
         switch (oId.type) {
-        case ObjectType::TimelineTrack:
-        case ObjectType::TimelineClip:
-        case ObjectType::TimelineComposition:
-        case ObjectType::Master:
-        case ObjectType::TimelineMix:
+        case KdenliveObjectType::TimelineTrack:
+        case KdenliveObjectType::TimelineClip:
+        case KdenliveObjectType::TimelineComposition:
+        case KdenliveObjectType::Master:
+        case KdenliveObjectType::TimelineMix:
             m_projectMonitor->requestSeek(pos);
             break;
-        case ObjectType::BinClip:
+        case KdenliveObjectType::BinClip:
             m_clipMonitor->requestSeek(pos);
             break;
         default:
@@ -1082,7 +1082,7 @@ void MainWindow::slotConnectMonitors()
 
 void MainWindow::createSplitOverlay(std::shared_ptr<Mlt::Filter> filter)
 {
-    if (m_assetPanel->effectStackOwner().type == ObjectType::TimelineClip) {
+    if (m_assetPanel->effectStackOwner().type == KdenliveObjectType::TimelineClip) {
         getCurrentTimeline()->controller()->createSplitOverlay(m_assetPanel->effectStackOwner().itemId, filter);
         m_projectMonitor->activateSplit();
     } else {
@@ -3071,7 +3071,7 @@ void MainWindow::slotClearPreviewRender(bool resetZones)
 
 void MainWindow::slotSelectTimelineClip()
 {
-    getCurrentTimeline()->controller()->selectCurrentItem(ObjectType::TimelineClip, true);
+    getCurrentTimeline()->controller()->selectCurrentItem(KdenliveObjectType::TimelineClip, true);
 }
 
 void MainWindow::slotSelectTimelineZone()
@@ -3080,33 +3080,33 @@ void MainWindow::slotSelectTimelineZone()
 }
 void MainWindow::slotSelectTimelineTransition()
 {
-    bool res = getCurrentTimeline()->controller()->selectCurrentItem(ObjectType::TimelineComposition, true, false, false);
+    bool res = getCurrentTimeline()->controller()->selectCurrentItem(KdenliveObjectType::TimelineComposition, true, false, false);
     if (!res) {
-        getCurrentTimeline()->controller()->selectCurrentItem(ObjectType::TimelineMix, true);
+        getCurrentTimeline()->controller()->selectCurrentItem(KdenliveObjectType::TimelineMix, true);
     }
 }
 
 void MainWindow::slotDeselectTimelineClip()
 {
-    getCurrentTimeline()->controller()->selectCurrentItem(ObjectType::TimelineClip, false);
+    getCurrentTimeline()->controller()->selectCurrentItem(KdenliveObjectType::TimelineClip, false);
 }
 
 void MainWindow::slotDeselectTimelineTransition()
 {
-    bool res = getCurrentTimeline()->controller()->selectCurrentItem(ObjectType::TimelineComposition, false, false, false);
+    bool res = getCurrentTimeline()->controller()->selectCurrentItem(KdenliveObjectType::TimelineComposition, false, false, false);
     if (!res) {
-        getCurrentTimeline()->controller()->selectCurrentItem(ObjectType::TimelineMix, false);
+        getCurrentTimeline()->controller()->selectCurrentItem(KdenliveObjectType::TimelineMix, false);
     }
 }
 
 void MainWindow::slotSelectAddTimelineClip()
 {
-    getCurrentTimeline()->controller()->selectCurrentItem(ObjectType::TimelineClip, true, true);
+    getCurrentTimeline()->controller()->selectCurrentItem(KdenliveObjectType::TimelineClip, true, true);
 }
 
 void MainWindow::slotSelectAddTimelineTransition()
 {
-    getCurrentTimeline()->controller()->selectCurrentItem(ObjectType::TimelineComposition, true, true);
+    getCurrentTimeline()->controller()->selectCurrentItem(KdenliveObjectType::TimelineComposition, true, true);
 }
 
 void MainWindow::slotGroupClips()
@@ -3168,13 +3168,13 @@ void MainWindow::slotAddEffect(QAction *result)
 
 void MainWindow::addEffect(const QString &effectId)
 {
-    if (m_assetPanel->effectStackOwner().type == ObjectType::TimelineClip) {
+    if (m_assetPanel->effectStackOwner().type == KdenliveObjectType::TimelineClip) {
         // Add effect to the current timeline selection
         QVariantMap effectData;
         effectData.insert(QStringLiteral("kdenlive/effect"), effectId);
         getCurrentTimeline()->controller()->addAsset(effectData);
-    } else if (m_assetPanel->effectStackOwner().type == ObjectType::TimelineTrack || m_assetPanel->effectStackOwner().type == ObjectType::BinClip ||
-               m_assetPanel->effectStackOwner().type == ObjectType::Master) {
+    } else if (m_assetPanel->effectStackOwner().type == KdenliveObjectType::TimelineTrack ||
+               m_assetPanel->effectStackOwner().type == KdenliveObjectType::BinClip || m_assetPanel->effectStackOwner().type == KdenliveObjectType::Master) {
         if (!m_assetPanel->addEffect(effectId)) {
             pCore->displayMessage(i18n("Cannot add effect to clip"), ErrorMessage);
         }
@@ -3488,7 +3488,7 @@ void MainWindow::slotClipInTimeline(const QString &clipId, const QList<int> &ids
     QMenu *inTimelineMenu = static_cast<QMenu *>(factory()->container(QStringLiteral("clip_in_timeline"), this));
     QList<QAction *> actionList;
     for (int i = 0; i < ids.count(); ++i) {
-        ObjectId oid(ObjectType::TimelineClip, ids.at(i), pCore->currentTimelineId());
+        ObjectId oid(KdenliveObjectType::TimelineClip, ids.at(i), pCore->currentTimelineId());
         QString track = getCurrentTimeline()->controller()->getTrackNameFromIndex(pCore->getItemTrack(oid));
         QString start = pCore->currentDoc()->timecode().getTimecodeFromFrames(pCore->getItemPosition(oid));
         int j = 0;
@@ -3546,7 +3546,7 @@ void MainWindow::slotClipInProjectTree()
         if (!binFound) {
             raiseBin();
         }
-        ObjectId id(ObjectType::TimelineClip, ids.constFirst(), pCore->currentTimelineId());
+        ObjectId id(KdenliveObjectType::TimelineClip, ids.constFirst(), pCore->currentTimelineId());
         int start = pCore->getItemIn(id);
         int duration = pCore->getItemDuration(id);
         int pos = m_projectMonitor->position();
@@ -3848,11 +3848,11 @@ void MainWindow::buildDynamicActions()
                             suffix = i18n("-stream-%1", ix);
                         }
                         args.append(tData);
-                        TranscodeTask::start(ObjectId(ObjectType::BinClip, clipId.toInt(), QUuid()), suffix, QString(), args, clipIn, clipOut, false,
+                        TranscodeTask::start(ObjectId(KdenliveObjectType::BinClip, clipId.toInt(), QUuid()), suffix, QString(), args, clipIn, clipOut, false,
                                              clip.get());
                     }
                 } else {
-                    TranscodeTask::start(ObjectId(ObjectType::BinClip, clipId.toInt(), QUuid()), QString(), QString(), tData, clipIn, clipOut, false,
+                    TranscodeTask::start(ObjectId(KdenliveObjectType::BinClip, clipId.toInt(), QUuid()), QString(), QString(), tData, clipIn, clipOut, false,
                                          clip.get());
                 }
             }

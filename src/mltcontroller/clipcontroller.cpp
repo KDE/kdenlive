@@ -39,8 +39,9 @@ ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt:
     , m_clipType(ClipType::Unknown)
     , m_forceLimitedDuration(false)
     , m_hasMultipleVideoStreams(false)
-    , m_effectStack(m_masterProducer ? EffectStackModel::construct(m_masterProducer, ObjectId(ObjectType::BinClip, clipId.toInt(), QUuid()), pCore->undoStack())
-                                     : nullptr)
+    , m_effectStack(m_masterProducer
+                        ? EffectStackModel::construct(m_masterProducer, ObjectId(KdenliveObjectType::BinClip, clipId.toInt(), QUuid()), pCore->undoStack())
+                        : nullptr)
     , m_hasAudio(false)
     , m_hasVideo(false)
     , m_controllerBinId(clipId)
@@ -110,7 +111,7 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
     }
     m_tempProps.clear();
     int id = m_controllerBinId.toInt();
-    m_effectStack = EffectStackModel::construct(m_masterProducer, ObjectId(ObjectType::BinClip, id, QUuid()), pCore->undoStack());
+    m_effectStack = EffectStackModel::construct(m_masterProducer, ObjectId(KdenliveObjectType::BinClip, id, QUuid()), pCore->undoStack());
     if (!m_masterProducer->is_valid()) {
         m_masterProducer = ClipController::mediaUnavailable;
         qCDebug(KDENLIVE_LOG) << "// WARNING, USING INVALID PRODUCER";

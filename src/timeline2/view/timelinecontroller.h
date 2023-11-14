@@ -109,7 +109,7 @@ public:
         @param showErrorMsg inform the user that no item was selected
         @return false if no item was found under timeline cursor in active track
     */
-    bool selectCurrentItem(ObjectType type, bool select, bool addToCurrent = false, bool showErrorMsg = true);
+    bool selectCurrentItem(KdenliveObjectType type, bool select, bool addToCurrent = false, bool showErrorMsg = true);
 
     /** @brief Select all timeline items
      */
