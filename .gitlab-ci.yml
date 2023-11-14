@@ -5,14 +5,42 @@ flatpak:
   timeout: 1h 30m
 
 include:
-  - https://invent.kde.org/sysadmin/ci-utilities/raw/master/gitlab-templates/linux.yml
-  - https://invent.kde.org/sysadmin/ci-utilities/raw/master/gitlab-templates/freebsd.yml
-  - https://invent.kde.org/sysadmin/ci-utilities/raw/master/gitlab-templates/linux-qt6.yml
-  - https://invent.kde.org/sysadmin/ci-utilities/raw/master/gitlab-templates/flatpak.yml
-  - https://invent.kde.org/sysadmin/ci-utilities/raw/master/gitlab-templates/craft-appimage.yml
-  - https://invent.kde.org/sysadmin/ci-utilities/raw/master/gitlab-templates/craft-windows-mingw64.yml
-  - https://invent.kde.org/sysadmin/ci-utilities/raw/master/gitlab-templates/craft-macos-x86-64.yml
-  - https://invent.kde.org/sysadmin/ci-utilities/raw/master/gitlab-templates/craft-macos-arm64.yml
+  - project: sysadmin/ci-utilities
+    file:
+      - /gitlab-templates/reuse-lint.yml
+      - /gitlab-templates/linux.yml
+      - /gitlab-templates/freebsd.yml
+      - /gitlab-templates/linux-qt6.yml
+      - /gitlab-templates/flatpak.yml
+      - /gitlab-templates/craft-appimage.yml
+      - /gitlab-templates/craft-windows-mingw64.yml
+      - /gitlab-templates/craft-macos-x86-64.yml
+      - /gitlab-templates/craft-macos-arm64.yml
+
+.craft-qt6:
+  variables:
+    KDECI_CRAFT_CONFIG: ci-utilities/craft/qt6/CraftConfig.ini
+    KDECI_CRAFT_PROJECT_CONFIG: $CI_PROJECT_DIR/src/.craft-qt6.ini
+
+craft_appimage_x86_64-qt6:
+  extends:
+    - craft_appimage_x86_64
+    - .craft-qt6
+
+craft_windows_mingw64-qt6:
+  extends:
+    - craft_windows_mingw64
+    - .craft-qt6
+
+craft_macos_arm64-qt6:
+  extends:
+    - craft_macos_arm64
+    - .craft-qt6
+
+craft_macos_x86_64-qt6:
+  extends:
+    - craft_macos_x86_64
+    - .craft-qt6
 
 xml_lint:
   stage: build

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-12 00:41+0000\n"
+"POT-Creation-Date: 2023-11-13 00:42+0000\n"
 "PO-Revision-Date: 2023-10-21 13:54\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -8013,7 +8013,7 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "移动项目文件夹时出错：%1"
 
-#: src/doc/kdenlivedoc.cpp:1051 src/doc/kdenlivedoc.cpp:2214
+#: src/doc/kdenlivedoc.cpp:1051 src/doc/kdenlivedoc.cpp:2221
 #: src/project/dialogs/archivewidget.cpp:238
 #: src/project/projectmanager.cpp:1501
 #, kde-format
@@ -8062,16 +8062,12 @@ msgstr[0] "移除代理剪辑"
 msgid "Clip type does not support proxies"
 msgstr "剪辑类型不支持代理剪辑"
 
-#: src/doc/kdenlivedoc.cpp:1804
+#: src/doc/kdenlivedoc.cpp:1811
 #, kde-format
-msgid ""
-"\n"
-"Warning: unknown non integer fps, might cause incorrect duration display."
+msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
-"\n"
-"注意：未知的非整数 fps，可能会导致持续时间无法正确显示。"
 
-#: src/doc/kdenlivedoc.cpp:1823
+#: src/doc/kdenlivedoc.cpp:1830
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -8080,43 +8076,43 @@ msgstr ""
 "您的默认项目编码方案为 %1，但剪辑的编码方案 (%2) 为 %3。\n"
 "您想要为将来的项目更改默认编码方案吗？"
 
-#: src/doc/kdenlivedoc.cpp:1825
+#: src/doc/kdenlivedoc.cpp:1832
 #, kde-format
 msgid "Change default project profile"
 msgstr "更改默认编码方案"
 
-#: src/doc/kdenlivedoc.cpp:1825
+#: src/doc/kdenlivedoc.cpp:1832
 #, kde-format
 msgid "Change default to %1"
 msgstr "更改默认方案为 %1"
 
-#: src/doc/kdenlivedoc.cpp:1826
+#: src/doc/kdenlivedoc.cpp:1833
 #, kde-format
 msgid "Keep current default %1"
 msgstr "保持当前默认方案 %1"
 
-#: src/doc/kdenlivedoc.cpp:1826
+#: src/doc/kdenlivedoc.cpp:1833
 #, kde-format
 msgid "Ask me later"
 msgstr "稍后询问"
 
-#: src/doc/kdenlivedoc.cpp:1846
+#: src/doc/kdenlivedoc.cpp:1853
 #, kde-format
 msgid "Switch"
 msgstr "切换"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1848 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1855 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "取消"
 
-#: src/doc/kdenlivedoc.cpp:1850
+#: src/doc/kdenlivedoc.cpp:1857
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "切换到剪辑 (%1) 编码方案 %2？"
 
-#: src/doc/kdenlivedoc.cpp:1855
+#: src/doc/kdenlivedoc.cpp:1862
 #, kde-format
 msgid ""
 "\n"
@@ -8125,7 +8121,7 @@ msgstr ""
 "\n"
 "编码方案 fps 调整自原始文件 %1"
 
-#: src/doc/kdenlivedoc.cpp:1857
+#: src/doc/kdenlivedoc.cpp:1864
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -8134,13 +8130,13 @@ msgstr ""
 "找不到剪辑 %1 的编码方案。\n"
 "创建并切换到新编码方案 (%2x%3, %4fps) 吗？%5"
 
-#: src/doc/kdenlivedoc.cpp:2253 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2260 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "红"
 
-#: src/doc/kdenlivedoc.cpp:2254 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2261 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -8148,24 +8144,24 @@ msgstr "红"
 msgid "Green"
 msgstr "绿"
 
-#: src/doc/kdenlivedoc.cpp:2255 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2262 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "蓝"
 
-#: src/doc/kdenlivedoc.cpp:2256 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2263 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "黄"
 
-#: src/doc/kdenlivedoc.cpp:2257
+#: src/doc/kdenlivedoc.cpp:2264
 #, kde-format
 msgid "Cyan"
 msgstr "青"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2487 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2494 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -11154,7 +11150,31 @@ msgstr "当前项目不含字幕"
 msgid "Project Bin %1"
 msgstr "项目素材箱 %1"
 
-#: src/mainwindow.cpp:4829
+#: src/mainwindow.cpp:4814
+#, kde-format
+msgid "Go to download page"
+msgstr ""
+
+#: src/mainwindow.cpp:4817
+#, fuzzy, kde-format
+#| msgid "Check again"
+msgid "Never check again"
+msgstr "重新检查"
+
+#: src/mainwindow.cpp:4820
+#, kde-format
+msgid ""
+"Your Kdenlive version is older than 1 year, we strongly encourage you to "
+"upgrade"
+msgstr ""
+
+#: src/mainwindow.cpp:4823
+#, kde-format
+msgid ""
+"Your Kdenlive version is older than 6 months, we encourage you to upgrade"
+msgstr ""
+
+#: src/mainwindow.cpp:4866
 #, kde-format
 msgid "Checking cached data size"
 msgstr "检查缓存的数据大小"
@@ -18140,62 +18160,69 @@ msgstr "MiB"
 msgid "Warn if cached data exceeds:"
 msgstr "缓存数据超出此值时报警："
 
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkForUpdate)
+#: src/ui/configenv_ui.ui:111
+#, fuzzy, kde-format
+#| msgid "Check for update"
+msgid "Check for updates"
+msgstr "检查更新"
+
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
-#: src/ui/configenv_ui.ui:115
+#: src/ui/configenv_ui.ui:122
 #, kde-format
 msgid "MLT Environment"
 msgstr "MLT 环境"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: src/ui/configenv_ui.ui:121
+#: src/ui/configenv_ui.ui:128
 #, kde-format
 msgid "FFmpeg:"
 msgstr "FFmpeg："
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
-#: src/ui/configenv_ui.ui:131
+#: src/ui/configenv_ui.ui:138
 #, kde-format
 msgid "FFplay:"
 msgstr "FFplay："
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
-#: src/ui/configenv_ui.ui:141
+#: src/ui/configenv_ui.ui:148
 #, kde-format
 msgid "FFprobe:"
 msgstr "FFprobe："
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configenv_ui.ui:151
+#: src/ui/configenv_ui.ui:158
 #, kde-format
 msgid "MLT profiles folder:"
 msgstr "MLT 编码方案文件夹："
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/configenv_ui.ui:161
+#: src/ui/configenv_ui.ui:168
 #, kde-format
 msgid "Melt path:"
 msgstr "Melt 路径："
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/ui/configenv_ui.ui:171
+#: src/ui/configenv_ui.ui:178
 #, kde-format
 msgid "MediaInfo:"
 msgstr "MediaInfo："
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: src/ui/configenv_ui.ui:195
+#: src/ui/configenv_ui.ui:202
 #, kde-format
 msgid "Default Folders"
 msgstr "默认文件夹"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configenv_ui.ui:201
+#: src/ui/configenv_ui.ui:208
 #, kde-format
 msgid "Temporary files:"
 msgstr "临时文件："
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: src/ui/configenv_ui.ui:211
+#: src/ui/configenv_ui.ui:218
 #, kde-format
 msgid "Capture folder:"
 msgstr "捕获文件夹："
@@ -18203,71 +18230,71 @@ msgstr "捕获文件夹："
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_librarytodefaultfolder)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_videotodefaultfolder)
-#: src/ui/configenv_ui.ui:219 src/ui/configenv_ui.ui:247
-#: src/ui/configenv_ui.ui:271
+#: src/ui/configenv_ui.ui:226 src/ui/configenv_ui.ui:254
+#: src/ui/configenv_ui.ui:278
 #, kde-format
 msgid "Use default folder"
 msgstr "使用默认文件夹"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_videotodefaultfolder)
-#: src/ui/configenv_ui.ui:224 src/ui/configenv_ui.ui:276
+#: src/ui/configenv_ui.ui:231 src/ui/configenv_ui.ui:283
 #, kde-format
 msgid "Always use project folder"
 msgstr "总是使用项目文件夹"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_videotodefaultfolder)
-#: src/ui/configenv_ui.ui:229 src/ui/configenv_ui.ui:281
+#: src/ui/configenv_ui.ui:236 src/ui/configenv_ui.ui:288
 #, kde-format
 msgid "Always use custom folder"
 msgstr "总是使用自定义文件夹"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
-#: src/ui/configenv_ui.ui:240
+#: src/ui/configenv_ui.ui:247
 #, kde-format
 msgid "Library folder:"
 msgstr "素材库文件夹："
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
-#: src/ui/configenv_ui.ui:257
+#: src/ui/configenv_ui.ui:264
 #, kde-format
 msgid "Folder for rendering, titles, scripts:"
 msgstr "用于导出、字幕、脚本的文件夹："
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
-#: src/ui/configenv_ui.ui:313
+#: src/ui/configenv_ui.ui:320
 #, kde-format
 msgid "Python"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_usePythonVenv)
-#: src/ui/configenv_ui.ui:319
+#: src/ui/configenv_ui.ui:326
 #, kde-format
 msgid "Use python virtual environment (recommended)"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, button_python_delete)
-#: src/ui/configenv_ui.ui:357
+#: src/ui/configenv_ui.ui:364
 #, fuzzy, kde-format
 #| msgid "&Delete"
 msgid "Delete "
 msgstr "删除(&D)"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: src/ui/configenv_ui.ui:387
+#: src/ui/configenv_ui.ui:394
 #, kde-format
 msgid "Default Apps"
 msgstr "默认应用程序"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/configenv_ui.ui:393
+#: src/ui/configenv_ui.ui:400
 #, kde-format
 msgid "Image editing:"
 msgstr "图像编辑器："
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultimageapp)
-#: src/ui/configenv_ui.ui:402
+#: src/ui/configenv_ui.ui:409
 #, kde-format
 msgid "Path to image editing application"
 msgstr "图像编辑应用程序路径"
@@ -18275,50 +18302,50 @@ msgstr "图像编辑应用程序路径"
 #. i18n: ectx: property (text), widget (QPushButton, kp_image)
 #. i18n: ectx: property (text), widget (QPushButton, kp_audio)
 #. i18n: ectx: property (text), widget (QPushButton, kp_anim)
-#: src/ui/configenv_ui.ui:412 src/ui/configenv_ui.ui:433
-#: src/ui/configenv_ui.ui:458
+#: src/ui/configenv_ui.ui:419 src/ui/configenv_ui.ui:440
+#: src/ui/configenv_ui.ui:465
 #, kde-format
 msgid "Change…"
 msgstr "更改…"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultaudioapp)
-#: src/ui/configenv_ui.ui:423
+#: src/ui/configenv_ui.ui:430
 #, kde-format
 msgid "Path to audio editing application"
 msgstr "音频编辑应用程序路径"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
-#: src/ui/configenv_ui.ui:442
+#: src/ui/configenv_ui.ui:449
 #, kde-format
 msgid "Audio editing:"
 msgstr "音频编辑器："
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_glaxnimatePath)
-#: src/ui/configenv_ui.ui:451
+#: src/ui/configenv_ui.ui:458
 #, kde-format
 msgid "Path to Glaxnimate executable"
 msgstr "Glaxnimate 可执行程序路径"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: src/ui/configenv_ui.ui:467
+#: src/ui/configenv_ui.ui:474
 #, kde-format
 msgid "Animation editing:"
 msgstr "动画编辑："
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
-#: src/ui/configenv_ui.ui:488
+#: src/ui/configenv_ui.ui:495
 #, kde-format
 msgid "Mime types"
 msgstr "MIME 类型"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/configenv_ui.ui:494
+#: src/ui/configenv_ui.ui:501
 #, kde-format
 msgid "Additional clip MIME types"
 msgstr "额外的剪辑 MIME 类型"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
-#: src/ui/configenv_ui.ui:508
+#: src/ui/configenv_ui.ui:515
 #, kde-format
 msgid "Supported clip MIME types"
 msgstr "支持的剪辑 MIME 类型"
@@ -21348,6 +21375,13 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
+
+#~ msgid ""
+#~ "\n"
+#~ "Warning: unknown non integer fps, might cause incorrect duration display."
+#~ msgstr ""
+#~ "\n"
+#~ "注意：未知的非整数 fps，可能会导致持续时间无法正确显示。"
 
 #~ msgid "Add a new speech model from an archive file"
 #~ msgstr "从压缩文件添加语音模型"

@@ -12,6 +12,10 @@ Files: data/effects/**/CMakeLists.txt data/effects/CMakeLists.txt
 Copyright: none
 License: CC0-1.0
 
+Files: data/effects/README.md
+Copyright: Julius Künzel
+License: CC0-1.0
+
 Files: data/lumas/PAL/* data/lumas/HD/*
 Copyright: Massimo Stella
 License: CC0-1.0
@@ -28,19 +32,31 @@ Files: data/icons/breeze/*
 Copyright: 2014 Uri Herrera <uri_herrera@nitrux.in> and others
 License: LGPL-3.0-or-later
 
-Files: data/icons/*.png
+Files: data/icons/*.png data/icons/kdenlive.ico data/icons/sc-apps-kdenlive.svgz data/icons/sc-mimetypes-application-x-kdenlivetitle.svgz
 Copyright: Nara Oliveira and Farid Abdelnour
+License: LGPL-3.0-or-later
+
+Files: data/icons/sc-mimetypes-application-x-kdenlive.svgz
+Copyright: Vincent Pinon
 License: LGPL-3.0-or-later
 
 Files: data/icons/*.svg
 Copyright: Julius Künzel
 License: LGPL-3.0-or-later
 
+Files: data/icons/sc-mimetypes-video-mlt-playlist.svgz
+Copyright: The Oxygen Icon Theme
+License: LGPL-3.0-or-later
+
 Files: data/resourceproviders/*
 Copyright: 2021 Julius Künzel
 License: CC0-1.0
 
-Files: data/Info.plist
+Files: data/titles/*
+Copyright: Marco Gittler
+License: CC0-1.0
+
+Files: data/Info.plist data/camcorderfilters.rc data/clipjobsettings.rc data/encodingprofiles.rc data/externalproxies.rc data/westley.xml
 Copyright: Jean-Baptiste Mardelle
 License: CC0-1.0
 
@@ -48,7 +64,7 @@ Files: data/pics/breeze-light/*
 Copyright: Jean-Baptiste Mardelle
 License: LGPL-3.0-or-later
 
-Files: data/pics/kdenlive-logo.png data/icons/kdenlive.ico
+Files: data/pics/kdenlive-logo.png
 Copyright: Nara Oliveira and Farid Abdelnour
 License: LGPL-3.0-or-later
 
@@ -56,6 +72,13 @@ Files: data/pics/splash-background.png
 Copyright: Farid Abdelnour
 License: LGPL-3.0-or-later
 
+Files: data/pics/kde-logo.png
+Copyright: KDE project
+License: LGPL-3.0-or-later
+
+Files: data/profiles.xml
+Copyright: Vincent Pinon, Farid Abdelnour, Jean-Baptiste Mardelle
+License: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 Files: data/profiles/*
 Copyright: Jean-Baptiste Mardelle
@@ -65,13 +88,38 @@ Files: data/blacklisted_effects.txt data/blacklisted_transitions.txt
 Copyright: Jean-Baptiste Mardelle, Massimo Stella
 License: CC0-1.0
 
+
+Files: data/man/kdenlive*
+Copyright: Mads Bondo Dydensborg
+License: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+
+
 Files: data/preferred_effects.txt
 Copyright: Jean-Baptiste Mardelle, Juku Trump
 License: CC0-1.0
 
-
 Files: data/org.kde.kdenlive.*
 Copyright: Kdenlive translators
+License: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+
+Files: data/meta_magiclantern.png
+Copyright: Magic Lantern Project
+License: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+
+Files: data/kdenlive*.notifyrc
+Copyright: Jean-Baptiste Mardelle, Kdenlive translators
+License: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+
+Files: data/slideanimations.rc data/kdenlivedefaultlayouts.rc data/kdenlivetranscodingrc
+Copyright: Jean-Baptiste Mardelle
+License: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+
+Files: data/kdenliveeffectscategory.rc
+Copyright: Massimo Stella
+License: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+
+Files: data/shortcuts/Premiere
+Copyright: Bruno Santos
 License: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 
@@ -124,5 +172,12 @@ Files: suppressions.txt .mailmap
 Copyright: None
 License: CC0-1.0
 
+Files: config-kdenlive.h.cmake
+Copyright: Jean-Baptiste Mardelle, Alberto Villa
+License: BSD-2-Clause
+
+Files: snapcraft.yaml
+Copyright: Scarlett Moore
+License: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 
