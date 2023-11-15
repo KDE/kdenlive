@@ -154,10 +154,10 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_glMonitor = new MetalVideoWidget(id, this);
 #else
     m_glMonitor = new OpenGLVideoWidget(id, this);
+#endif
     connect(m_glMonitor->quickWindow(), &QQuickWindow::sceneGraphInitialized, m_glMonitor, &VideoWidget::initialize, Qt::DirectConnection);
     connect(m_glMonitor->quickWindow(), &QQuickWindow::beforeRendering, m_glMonitor, &VideoWidget::beforeRendering, Qt::DirectConnection);
     connect(m_glMonitor->quickWindow(), &QQuickWindow::beforeRenderPassRecording, m_glMonitor, &VideoWidget::renderVideo, Qt::DirectConnection);
-#endif
 #else
     m_glMonitor = new VideoWidget(id, this);
 #endif

@@ -317,6 +317,7 @@ int main(int argc, char *argv[])
     }
 
 #if defined(Q_OS_WIN)
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     KSharedConfigPtr configWin = KSharedConfig::openConfig("kdenliverc");
     KConfigGroup grp1(configWin, "misc");
     if (grp1.exists()) {
@@ -330,6 +331,7 @@ int main(int argc, char *argv[])
         grp1.writeEntry("opengl_backend", int(Qt::AA_UseOpenGLES));
     }
     configWin->sync();
+#endif
 #endif
 
     qApp->processEvents(QEventLoop::AllEvents);
