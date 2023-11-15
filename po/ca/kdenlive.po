@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-13 00:42+0000\n"
+"POT-Creation-Date: 2023-11-15 00:42+0000\n"
 "PO-Revision-Date: 2023-11-13 13:19+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -88,7 +88,7 @@ msgstr "El tipus de gràfic per a visualitzar els nivells."
 #: data/effects/audiowaveform.xml:7 data/effects/dynamictext.xml:23
 #: data/effects/pan_zoom.xml:17 data/effects/rotation.xml:41
 #: data/effects/rotation_keyframable.xml:23 data/effects/timer.xml:26
-#: src/monitor/monitor.cpp:419
+#: src/monitor/monitor.cpp:420
 #, kde-format
 msgid "Background Color"
 msgstr "Color de fons"
@@ -4672,8 +4672,8 @@ msgstr "Llista de reproducció"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2446 src/bin/clipcreator.cpp:240 src/bin/clipcreator.cpp:242
-#: src/kdenliveui.rc:41 src/project/projectmanager.cpp:1383
-#: src/project/projectmanager.cpp:1385 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:41 src/project/projectmanager.cpp:1385
+#: src/project/projectmanager.cpp:1387 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "Seqüències"
@@ -4995,7 +4995,7 @@ msgstr "Desa al fitxer de títol"
 msgid "Save in project only"
 msgstr "Desa només en el projecte"
 
-#: src/bin/bin.cpp:4764 src/dialogs/clipcreationdialog.cpp:382
+#: src/bin/bin.cpp:4764 src/dialogs/clipcreationdialog.cpp:383
 #, kde-format
 msgid "Title clip"
 msgstr "Clip de títol"
@@ -5200,7 +5200,7 @@ msgstr "Dispositiu extraïble"
 msgid "Loading done"
 msgstr "S'ha fet la càrrega"
 
-#: src/bin/clipcreator.cpp:586 src/dialogs/clipcreationdialog.cpp:573
+#: src/bin/clipcreator.cpp:586 src/dialogs/clipcreationdialog.cpp:574
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -5248,8 +5248,8 @@ msgid "Import File on Double Click"
 msgstr "Importa el fitxer en fer doble clic"
 
 #: src/bin/mediabrowser.cpp:164 src/bin/mediabrowser.cpp:172
-#: src/dialogs/clipcreationdialog.cpp:501
-#: src/dialogs/clipcreationdialog.cpp:507
+#: src/dialogs/clipcreationdialog.cpp:502
+#: src/dialogs/clipcreationdialog.cpp:508
 #: src/effects/effectlist/view/effectlistwidget.cpp:128
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:300
 #: src/mainwindow.cpp:3961 src/onlineresources/resourcewidget.cpp:600
@@ -5259,8 +5259,8 @@ msgstr "Tots els fitxers"
 
 #: src/bin/mediabrowser.cpp:164 src/bin/mediabrowser.cpp:171
 #: src/dialogs/clipcreationdialog.cpp:128
-#: src/dialogs/clipcreationdialog.cpp:501
-#: src/dialogs/clipcreationdialog.cpp:506
+#: src/dialogs/clipcreationdialog.cpp:502
+#: src/dialogs/clipcreationdialog.cpp:507
 #, kde-format
 msgid "All Supported Files"
 msgstr "Tots els fitxers admesos"
@@ -5280,17 +5280,17 @@ msgstr "Nom:"
 msgid "Filter:"
 msgstr "Filtre:"
 
-#: src/bin/mediabrowser.cpp:218 src/dialogs/clipcreationdialog.cpp:472
+#: src/bin/mediabrowser.cpp:218 src/dialogs/clipcreationdialog.cpp:473
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr "Ignora l'estructura de subcarpetes"
 
-#: src/bin/mediabrowser.cpp:220 src/dialogs/clipcreationdialog.cpp:474
+#: src/bin/mediabrowser.cpp:220 src/dialogs/clipcreationdialog.cpp:475
 #, kde-format
 msgid "Do not create subfolders in Project Bin"
 msgstr "No creïs subcarpetes a la safata del projecte"
 
-#: src/bin/mediabrowser.cpp:223 src/dialogs/clipcreationdialog.cpp:477
+#: src/bin/mediabrowser.cpp:223 src/dialogs/clipcreationdialog.cpp:478
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5301,17 +5301,17 @@ msgstr ""
 "carpeta i les seves subcarpetes sense crear subcarpetes a la safata del "
 "projecte."
 
-#: src/bin/mediabrowser.cpp:226 src/dialogs/clipcreationdialog.cpp:467
+#: src/bin/mediabrowser.cpp:226 src/dialogs/clipcreationdialog.cpp:468
 #, kde-format
 msgid "Import image sequence"
 msgstr "Importa una seqüència d'imatges"
 
-#: src/bin/mediabrowser.cpp:229 src/dialogs/clipcreationdialog.cpp:468
+#: src/bin/mediabrowser.cpp:229 src/dialogs/clipcreationdialog.cpp:469
 #, kde-format
 msgid "Try to import an image sequence"
 msgstr "Intenta importar una seqüència d'imatges"
 
-#: src/bin/mediabrowser.cpp:231 src/dialogs/clipcreationdialog.cpp:470
+#: src/bin/mediabrowser.cpp:231 src/dialogs/clipcreationdialog.cpp:471
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5500,7 +5500,7 @@ msgstr ""
 msgid "Invalid"
 msgstr "No vàlida"
 
-#: src/bin/projectclip.cpp:1405 src/dialogs/clipcreationdialog.cpp:207
+#: src/bin/projectclip.cpp:1405 src/dialogs/clipcreationdialog.cpp:208
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1358
 #, kde-format
@@ -5562,27 +5562,27 @@ msgstr "Afegeix subclips"
 msgid "Zone"
 msgstr "Zona"
 
-#: src/bin/projectitemmodel.cpp:874
+#: src/bin/projectitemmodel.cpp:876
 #, kde-format
 msgid "Add bin clip"
 msgstr "Afegeix un clip a la safata"
 
-#: src/bin/projectitemmodel.cpp:940
+#: src/bin/projectitemmodel.cpp:942
 #, kde-format
 msgid "Add a sub clip"
 msgstr "Afegeix un subclip"
 
-#: src/bin/projectitemmodel.cpp:981
+#: src/bin/projectitemmodel.cpp:983
 #, kde-format
 msgid "Rename Folder"
 msgstr "Reanomena la carpeta"
 
-#: src/bin/projectitemmodel.cpp:1009 src/mainwindow.cpp:1472
+#: src/bin/projectitemmodel.cpp:1011 src/mainwindow.cpp:1472
 #, kde-format
 msgid "Clean Project"
 msgstr "Neteja el projecte"
 
-#: src/bin/projectitemmodel.cpp:1184
+#: src/bin/projectitemmodel.cpp:1186
 #, kde-format
 msgid "Loading project clips…"
 msgstr "S'estan carregant els clips del projecte…"
@@ -5940,7 +5940,7 @@ msgstr "El perfil del projecte no és vàlid, la renderització podria fallar."
 msgid "Subtitles"
 msgstr "Subtítols"
 
-#: src/core.cpp:971 src/project/projectmanager.cpp:839
+#: src/core.cpp:971 src/project/projectmanager.cpp:841
 #, kde-format
 msgid "Loading clips"
 msgstr "S'estan carregant els clips"
@@ -5961,53 +5961,53 @@ msgstr "Clip de color"
 msgid "Color Clip"
 msgstr "Clip de color"
 
-#: src/dialogs/clipcreationdialog.cpp:145
+#: src/dialogs/clipcreationdialog.cpp:146
 #, kde-format
 msgid "Clip Name"
 msgstr "Nom del clip"
 
-#: src/dialogs/clipcreationdialog.cpp:149
+#: src/dialogs/clipcreationdialog.cpp:150
 #, kde-format
 msgid "Create Color Clip"
 msgstr "Crea un clip de color"
 
-#: src/dialogs/clipcreationdialog.cpp:183
+#: src/dialogs/clipcreationdialog.cpp:184
 #, kde-format
 msgid "Create animation"
 msgstr "Crea una animació"
 
-#: src/dialogs/clipcreationdialog.cpp:191
+#: src/dialogs/clipcreationdialog.cpp:192
 #, kde-format
 msgid "Save animation as"
 msgstr "Desa l'animació com a"
 
-#: src/dialogs/clipcreationdialog.cpp:194
+#: src/dialogs/clipcreationdialog.cpp:195
 #, kde-format
 msgid "Animation duration"
 msgstr "Durada de l'animació"
 
-#: src/dialogs/clipcreationdialog.cpp:250
+#: src/dialogs/clipcreationdialog.cpp:251
 #, kde-format
 msgid "Create Animation clip"
 msgstr "Crea un clip d'animació"
 
-#: src/dialogs/clipcreationdialog.cpp:266
+#: src/dialogs/clipcreationdialog.cpp:267
 #, kde-format
 msgctxt "@title:window"
 msgid "Text Clip"
 msgstr "Clip de text"
 
-#: src/dialogs/clipcreationdialog.cpp:284
+#: src/dialogs/clipcreationdialog.cpp:285
 #, kde-format
 msgid "Text Clip"
 msgstr "Clip de text"
 
-#: src/dialogs/clipcreationdialog.cpp:339
+#: src/dialogs/clipcreationdialog.cpp:340
 #, kde-format
 msgid "Create Text clip"
 msgstr "Crea un clip de text"
 
-#: src/dialogs/clipcreationdialog.cpp:394 src/doc/kdenlivedoc.cpp:1126
+#: src/dialogs/clipcreationdialog.cpp:395 src/doc/kdenlivedoc.cpp:1126
 #, kde-format
 msgid "Template title clip"
 msgstr "Plantilla de clip de títol"
@@ -6317,7 +6317,7 @@ msgstr "Exportació de les dades de guies"
 #: src/project/dialogs/archivewidget.cpp:879
 #: src/project/dialogs/archivewidget.cpp:891
 #: src/project/dialogs/archivewidget.cpp:897
-#: src/project/projectmanager.cpp:1667 src/render/renderrequest.cpp:268
+#: src/project/projectmanager.cpp:1669 src/render/renderrequest.cpp:268
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5055
@@ -7037,7 +7037,7 @@ msgstr "Àudio sense pista de vídeo"
 msgid "Rendering <i>%1</i> started"
 msgstr "Ha començat la renderització de <i>%1</i>"
 
-#: src/dialogs/renderwidget.cpp:877 src/monitor/monitor.cpp:1199
+#: src/dialogs/renderwidget.cpp:877 src/monitor/monitor.cpp:1200
 #, kde-format
 msgid "untitled"
 msgstr "sense títol"
@@ -8146,8 +8146,8 @@ msgstr "Els filtres/transicions següents s'han suprimit del projecte:"
 msgid "Invalid file path"
 msgstr "Camí de fitxer no vàlid"
 
-#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:740
-#: src/project/projectmanager.cpp:790 src/project/projectmanager.cpp:854
+#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:742
+#: src/project/projectmanager.cpp:792 src/project/projectmanager.cpp:856
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "No s'ha pogut recuperar un fitxer corrupte."
@@ -8228,15 +8228,15 @@ msgstr ""
 "El fitxer del projecte s'ha actualitzat a la darrera versió de document del "
 "Kdenlive, però no ha estat possible crear la còpia de seguretat %1."
 
-#: src/doc/kdenlivedoc.cpp:882 src/project/projectmanager.cpp:1264
-#: src/project/projectmanager.cpp:1300
+#: src/doc/kdenlivedoc.cpp:882 src/project/projectmanager.cpp:1266
+#: src/project/projectmanager.cpp:1302
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Error en moure la carpeta del projecte: %1"
 
 #: src/doc/kdenlivedoc.cpp:1051 src/doc/kdenlivedoc.cpp:2221
 #: src/project/dialogs/archivewidget.cpp:238
-#: src/project/projectmanager.cpp:1501
+#: src/project/projectmanager.cpp:1503
 #, kde-format
 msgid "Untitled"
 msgstr "Sense títol"
@@ -9351,7 +9351,7 @@ msgstr "kHz "
 msgid "Hz "
 msgstr "Hz "
 
-#: src/lib/audio/audioStreamInfo.cpp:153 src/monitor/monitor.cpp:291
+#: src/lib/audio/audioStreamInfo.cpp:153 src/monitor/monitor.cpp:292
 #, kde-format
 msgid "Merged streams"
 msgstr "Fluxos fusionats"
@@ -9921,7 +9921,7 @@ msgstr "Botó de renderització"
 msgid "Rendering preview"
 msgstr "Renderitzant la vista prèvia"
 
-#: src/mainwindow.cpp:665 src/monitor/monitor.cpp:399
+#: src/mainwindow.cpp:665 src/monitor/monitor.cpp:400
 #, kde-format
 msgid "Go to Guide…"
 msgstr "Ves a la guia…"
@@ -11113,12 +11113,12 @@ msgstr ""
 "Això mourà tots els fitxers temporals des de<br/><b>%1</b> a <b>%2</b>,<br/> "
 "i es tornarà a carregar el fitxer del projecte"
 
-#: src/mainwindow.cpp:2227 src/project/projectmanager.cpp:547
+#: src/mainwindow.cpp:2227 src/project/projectmanager.cpp:549
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "No s'ha pogut realitzar l'operació, ID del document no vàlid: %1"
 
-#: src/mainwindow.cpp:2232 src/project/projectmanager.cpp:553
+#: src/mainwindow.cpp:2232 src/project/projectmanager.cpp:555
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr ""
@@ -11673,13 +11673,13 @@ msgid "Enable audio"
 msgstr "Activa l'àudio"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:688
-#: src/monitor/monitor.cpp:274
+#: src/monitor/monitor.cpp:275
 #, kde-format
 msgid "Audio streams"
 msgstr "Fluxos d'àudio"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:710
-#: src/monitor/monitor.cpp:1834
+#: src/monitor/monitor.cpp:1835
 #, kde-format
 msgid "Merge all streams"
 msgstr "Fusiona tots els fluxos"
@@ -11998,44 +11998,44 @@ msgstr ""
 msgid "1:1"
 msgstr "1:1"
 
-#: src/monitor/monitor.cpp:344 src/monitor/monitormanager.cpp:630
+#: src/monitor/monitor.cpp:345 src/monitor/monitormanager.cpp:630
 #, kde-format
 msgid "Set Zone In"
 msgstr "Estableix l'entrada de zona"
 
-#: src/monitor/monitor.cpp:345 src/monitor/monitormanager.cpp:634
+#: src/monitor/monitor.cpp:346 src/monitor/monitormanager.cpp:634
 #, kde-format
 msgid "Set Zone Out"
 msgstr "Estableix la sortida de zona"
 
-#: src/monitor/monitor.cpp:357 src/monitor/monitormanager.cpp:514
+#: src/monitor/monitor.cpp:358 src/monitor/monitormanager.cpp:514
 #, kde-format
 msgid "Rewind"
 msgstr "Rebobina"
 
-#: src/monitor/monitor.cpp:362 src/monitor/monitor.cpp:365
+#: src/monitor/monitor.cpp:363 src/monitor/monitor.cpp:366
 #: src/monitor/monitormanager.cpp:489
 #, kde-format
 msgid "Play"
 msgstr "Reprodueix"
 
-#: src/monitor/monitor.cpp:365 src/monitor/monitormanager.cpp:489
+#: src/monitor/monitor.cpp:366 src/monitor/monitormanager.cpp:489
 #: src/monitor/monitormanager.cpp:495
 #, kde-format
 msgid "Pause"
 msgstr "Pausa"
 
-#: src/monitor/monitor.cpp:385 src/monitor/monitormanager.cpp:527
+#: src/monitor/monitor.cpp:386 src/monitor/monitormanager.cpp:527
 #, kde-format
 msgid "Forward"
 msgstr "Avança"
 
-#: src/monitor/monitor.cpp:389
+#: src/monitor/monitor.cpp:390
 #, kde-format
 msgid "More Options…"
 msgstr "Més opcions…"
 
-#: src/monitor/monitor.cpp:390
+#: src/monitor/monitor.cpp:391
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12045,139 +12045,139 @@ msgstr ""
 "Obre la llista d'opcions del monitor de projecte/clips (p. ex. volum "
 "d'àudio, mida del monitor)."
 
-#: src/monitor/monitor.cpp:399
+#: src/monitor/monitor.cpp:400
 #, kde-format
 msgid "Go to Marker…"
 msgstr "Ves al marcador…"
 
-#: src/monitor/monitor.cpp:403
+#: src/monitor/monitor.cpp:404
 #, kde-format
 msgid "Force Monitor Size"
 msgstr "Força la mida del monitor"
 
-#: src/monitor/monitor.cpp:404
+#: src/monitor/monitor.cpp:405
 #, kde-format
 msgid "Force 100%"
 msgstr "Força 100%"
 
-#: src/monitor/monitor.cpp:406
+#: src/monitor/monitor.cpp:407
 #, kde-format
 msgid "Force 50%"
 msgstr "Força 50%"
 
-#: src/monitor/monitor.cpp:408
+#: src/monitor/monitor.cpp:409
 #, kde-format
 msgid "Free Resize"
 msgstr "Redimensió lliure"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:420 src/scopes/colorscopes/vectorscope.cpp:50
+#: src/monitor/monitor.cpp:421 src/scopes/colorscopes/vectorscope.cpp:50
 #: src/timeline2/view/timelinecontroller.cpp:240 src/ui/titlewidget_ui.ui:125
 #, kde-format
 msgid "Black"
 msgstr "Negre"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:422 src/scopes/colorscopes/rgbparade.cpp:26
+#: src/monitor/monitor.cpp:423 src/scopes/colorscopes/rgbparade.cpp:26
 #: src/scopes/colorscopes/waveform.cpp:33 src/ui/titlewidget_ui.ui:130
 #, kde-format
 msgid "White"
 msgstr "Blanc"
 
-#: src/monitor/monitor.cpp:424
+#: src/monitor/monitor.cpp:425
 #, kde-format
 msgid "Pink"
 msgstr "Rosa"
 
-#: src/monitor/monitor.cpp:491
+#: src/monitor/monitor.cpp:492
 #, kde-format
 msgid "-5"
 msgstr "-5"
 
-#: src/monitor/monitor.cpp:497
+#: src/monitor/monitor.cpp:498
 #, kde-format
 msgid "-1"
 msgstr "-1"
 
-#: src/monitor/monitor.cpp:503
+#: src/monitor/monitor.cpp:504
 #, kde-format
 msgid "+1"
 msgstr "+1"
 
-#: src/monitor/monitor.cpp:509
+#: src/monitor/monitor.cpp:510
 #, kde-format
 msgid "+5"
 msgstr "+5"
 
 #. i18n("Save zone"), this, SLOT(slotSaveZone()));
-#: src/monitor/monitor.cpp:643
+#: src/monitor/monitor.cpp:644
 #, kde-format
 msgid "Extract Zone"
 msgstr "Extreu una zona"
 
-#: src/monitor/monitor.cpp:656
+#: src/monitor/monitor.cpp:657
 #, kde-format
 msgid "Set current image as thumbnail"
 msgstr "Estableix la imatge actual com a miniatura"
 
-#: src/monitor/monitor.cpp:661
+#: src/monitor/monitor.cpp:662
 #, kde-format
 msgid "Always show audio thumbnails"
 msgstr "Mostra sempre les miniatures d'àudio"
 
-#: src/monitor/monitor.cpp:678
+#: src/monitor/monitor.cpp:679
 #, kde-format
 msgid "Show Audio Levels"
 msgstr "Mostra els nivells d'àudio"
 
-#: src/monitor/monitor.cpp:685
+#: src/monitor/monitor.cpp:686
 #, kde-format
 msgid "Show Source Timecode"
 msgstr "Mostra el codi de temps de l'original"
 
-#: src/monitor/monitor.cpp:722
+#: src/monitor/monitor.cpp:723
 #, kde-format
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "La resolució de la pantalla no és suficient per a aquesta acció"
 
-#: src/monitor/monitor.cpp:865 src/monitor/monitor.cpp:898
+#: src/monitor/monitor.cpp:866 src/monitor/monitor.cpp:899
 #: src/timeline2/view/timelinecontroller.cpp:1763
 #, kde-format
 msgid "Set Zone"
 msgstr "Estableix una zona"
 
-#: src/monitor/monitor.cpp:1211
+#: src/monitor/monitor.cpp:1212
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "Desa la imatge al projecte"
 
-#: src/monitor/monitor.cpp:1211
+#: src/monitor/monitor.cpp:1212
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Desa la imatge"
 
-#: src/monitor/monitor.cpp:1218
+#: src/monitor/monitor.cpp:1219
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "Exporta una imatge usant la resolució de l'origen"
 
-#: src/monitor/monitor.cpp:1819 src/monitor/monitor.cpp:1967
+#: src/monitor/monitor.cpp:1820 src/monitor/monitor.cpp:1968
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 flux d'àudio"
 msgstr[1] "%1 fluxos d'àudio"
 
-#: src/monitor/monitor.cpp:2301
+#: src/monitor/monitor.cpp:2302
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 "No s'ha pogut inicialitzar el gestor GLSL del Movit. Si us plau, desactiveu "
 "el Movit"
 
-#: src/monitor/monitor.cpp:2343 src/monitor/monitor.cpp:2400
+#: src/monitor/monitor.cpp:2344 src/monitor/monitor.cpp:2401
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -12186,17 +12186,17 @@ msgstr ""
 "Es requereix el filtre «alphagrad» per a aquesta característica. Si us plau, "
 "instal·leu l'«alphagrad» i reinicieu el Kdenlive"
 
-#: src/monitor/monitor.cpp:2363
+#: src/monitor/monitor.cpp:2364
 #, kde-format
 msgid "Clip has no effects"
 msgstr "El clip no té cap efecte"
 
-#: src/monitor/monitor.cpp:2365
+#: src/monitor/monitor.cpp:2366
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Seleccioneu un clip a la safata del projecte per a comparar l'efecte"
 
-#: src/monitor/monitor.cpp:2407
+#: src/monitor/monitor.cpp:2408
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -12205,7 +12205,7 @@ msgstr ""
 "Es requereix la transició «cairoblend» per a aquesta característica. Si us "
 "plau, instal·leu el «frei0r» i reinicieu el Kdenlive"
 
-#: src/monitor/monitor.cpp:2453
+#: src/monitor/monitor.cpp:2454
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Activa el mode d'edició al monitor per a editar un efecte"
@@ -12470,7 +12470,7 @@ msgstr "Redueix"
 msgid "Move Toolbar"
 msgstr "Barra d'eines de moviments"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:155
+#: src/monitor/view/kdenliveclipmonitor.qml:160
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12485,30 +12485,30 @@ msgstr ""
 "<shortcut>fletxes del teclat</shortcut> per a cercar, empreu la "
 "<shortcut>roda + Ctrl</shortcut> per a fer zoom"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:454
+#: src/monitor/view/kdenliveclipmonitor.qml:505
 #: src/monitor/view/kdenlivemonitor.qml:195
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:487
+#: src/monitor/view/kdenliveclipmonitor.qml:538
 #, kde-format
 msgid "In/Out Point"
 msgstr "Punt d'entrada/sortida"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:487
+#: src/monitor/view/kdenliveclipmonitor.qml:538
 #: src/monitor/view/kdenlivemonitor.qml:228
 #, kde-format
 msgid "In Point"
 msgstr "Punt d'entrada"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:509
+#: src/monitor/view/kdenliveclipmonitor.qml:560
 #: src/monitor/view/kdenlivemonitor.qml:245
 #, kde-format
 msgid "Out Point"
 msgstr "Punt de sortida"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:669
+#: src/monitor/view/kdenliveclipmonitor.qml:720
 #, kde-format
 msgid "Terminate Job"
 msgstr "Finalitza el treball"
@@ -13428,7 +13428,7 @@ msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 "El fitxer de marcadors és superior a 1 MB. Segur que el voleu importar?"
 
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1560
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1562
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:4961
 #, kde-format
@@ -14026,32 +14026,32 @@ msgstr ""
 msgid "Cannot perform assign"
 msgstr "No s'ha pogut portar a terme l'assignació"
 
-#: src/project/projectmanager.cpp:67
+#: src/project/projectmanager.cpp:68
 #, kde-format
 msgid "Kdenlive Project"
 msgstr "Projecte del Kdenlive"
 
-#: src/project/projectmanager.cpp:69
+#: src/project/projectmanager.cpp:70
 #, kde-format
 msgid "Archived Project"
 msgstr "Projecte arxivat"
 
-#: src/project/projectmanager.cpp:154
+#: src/project/projectmanager.cpp:155
 #, kde-format
 msgid "Save Copy…"
 msgstr "Desa una còpia…"
 
-#: src/project/projectmanager.cpp:158
+#: src/project/projectmanager.cpp:159
 #, kde-format
 msgid "Open Backup File…"
 msgstr "Obre un fitxer de còpia de seguretat…"
 
-#: src/project/projectmanager.cpp:392
+#: src/project/projectmanager.cpp:393
 #, kde-format
 msgid "Save changes to document?"
 msgstr "Voleu desar els canvis al document?"
 
-#: src/project/projectmanager.cpp:394 src/project/projectmanager.cpp:1500
+#: src/project/projectmanager.cpp:395 src/project/projectmanager.cpp:1502
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -14060,17 +14060,17 @@ msgstr ""
 "El projecte <b>«%1»</b> ha canviat.\n"
 "Voleu desar els canvis?"
 
-#: src/project/projectmanager.cpp:489
+#: src/project/projectmanager.cpp:491
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr "Ha fallat en desar el fitxer <br><b>%1</b>"
 
-#: src/project/projectmanager.cpp:522
+#: src/project/projectmanager.cpp:524
 #, kde-format
 msgid "Saving successful"
 msgstr "S'ha desat correctament"
 
-#: src/project/projectmanager.cpp:535
+#: src/project/projectmanager.cpp:537
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -14082,49 +14082,49 @@ msgstr ""
 "els fitxers temporals des de <b>%1</b> a <b>%2</b>, i es tornarà a carregar "
 "el fitxer del projecte"
 
-#: src/project/projectmanager.cpp:576
+#: src/project/projectmanager.cpp:578
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Desa una còpia"
 
-#: src/project/projectmanager.cpp:681
+#: src/project/projectmanager.cpp:683
 #, kde-format
 msgid "Auto-saved file exist. Do you want to recover now?"
 msgstr "Existeix un fitxer desat automàticament. Voleu recuperar-lo ara?"
 
-#: src/project/projectmanager.cpp:681
+#: src/project/projectmanager.cpp:683
 #, kde-format
 msgid "File Recovery"
 msgstr "Recuperació de fitxer"
 
-#: src/project/projectmanager.cpp:682 src/project/projectmanager.cpp:778
+#: src/project/projectmanager.cpp:684 src/project/projectmanager.cpp:780
 #, kde-format
 msgid "Recover"
 msgstr "Recupera"
 
-#: src/project/projectmanager.cpp:682
+#: src/project/projectmanager.cpp:684
 #, kde-format
 msgid "Do not recover"
 msgstr "No recuperis"
 
-#: src/project/projectmanager.cpp:734
+#: src/project/projectmanager.cpp:736
 #, kde-format
 msgid "Opening file %1"
 msgstr "S'està obrint el fitxer %1"
 
-#: src/project/projectmanager.cpp:761
+#: src/project/projectmanager.cpp:763
 #, kde-format
 msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "S'està carregant el projecte"
 
-#: src/project/projectmanager.cpp:763
+#: src/project/projectmanager.cpp:765
 #, kde-format
 msgid "Loading project"
 msgstr "S'està carregant el projecte"
 
-#: src/project/projectmanager.cpp:777
+#: src/project/projectmanager.cpp:779
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -14135,29 +14135,29 @@ msgstr ""
 "%1\n"
 "Voleu obrir un fitxer de còpia de seguretat?"
 
-#: src/project/projectmanager.cpp:778
+#: src/project/projectmanager.cpp:780
 #, kde-format
 msgid "Error opening file"
 msgstr "Error en obrir el fitxer"
 
-#: src/project/projectmanager.cpp:778
+#: src/project/projectmanager.cpp:780
 #, kde-format
 msgid "Open Backup"
 msgstr "Obre una còpia de seguretat"
 
-#: src/project/projectmanager.cpp:794
+#: src/project/projectmanager.cpp:796
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "No s'ha pogut obrir el fitxer de còpia de seguretat del projecte."
 
-#: src/project/projectmanager.cpp:810
+#: src/project/projectmanager.cpp:812
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "El projecte s'ha actualitzat, es crearà una còpia de seguretat en el proper "
 "desament"
 
-#: src/project/projectmanager.cpp:813
+#: src/project/projectmanager.cpp:815
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -14165,7 +14165,7 @@ msgstr ""
 "El projecte s'ha modificat en obrir-lo, es crearà una còpia de seguretat en "
 "el proper desament"
 
-#: src/project/projectmanager.cpp:929
+#: src/project/projectmanager.cpp:931
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -14174,7 +14174,7 @@ msgstr ""
 "No s'ha pogut obrir el fitxer de projecte. Error:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:969
+#: src/project/projectmanager.cpp:971
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -14183,12 +14183,12 @@ msgstr ""
 "Això suprimirà tots els canvis efectuats des de la darrera vegada que es va "
 "desar el projecte. Esteu segur que voleu continuar?"
 
-#: src/project/projectmanager.cpp:970
+#: src/project/projectmanager.cpp:972
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Retorna a la darrera versió desada"
 
-#: src/project/projectmanager.cpp:1052
+#: src/project/projectmanager.cpp:1054
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -14198,32 +14198,32 @@ msgstr ""
 "torneu a obrir el fitxer de projecte per a recuperar la darrera còpia de "
 "seguretat"
 
-#: src/project/projectmanager.cpp:1242
+#: src/project/projectmanager.cpp:1244
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr ""
 "Error en moure la carpeta del projecte, no s'ha pogut accedir a la carpeta "
 "de memòria cau"
 
-#: src/project/projectmanager.cpp:1278
+#: src/project/projectmanager.cpp:1280
 #, kde-format
 msgid "Moving project folder"
 msgstr "Movent la carpeta del projecte"
 
-#: src/project/projectmanager.cpp:1336
+#: src/project/projectmanager.cpp:1338
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 "El fitxer del projecte està corromput (sense pistes). Intento cercar un "
 "fitxer de còpia de seguretat?"
 
-#: src/project/projectmanager.cpp:1361 src/project/projectmanager.cpp:1392
-#: src/project/projectmanager.cpp:1396
+#: src/project/projectmanager.cpp:1363 src/project/projectmanager.cpp:1394
+#: src/project/projectmanager.cpp:1398
 #, kde-format
 msgid "Sequence 1"
 msgstr "Seqüència 1"
 
-#: src/project/projectmanager.cpp:1373
+#: src/project/projectmanager.cpp:1375
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -14231,13 +14231,13 @@ msgstr ""
 "El fitxer del projecte està corromput: falla en carregar les pistes. Intento "
 "cercar un fitxer de còpia de seguretat?"
 
-#: src/project/projectmanager.cpp:1506 src/project/projectmanager.cpp:1511
-#: src/project/projectmanager.cpp:1521 src/project/projectmanager.cpp:1535
+#: src/project/projectmanager.cpp:1508 src/project/projectmanager.cpp:1513
+#: src/project/projectmanager.cpp:1523 src/project/projectmanager.cpp:1537
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "S'ha interromput el canvi del perfil del projecte"
 
-#: src/project/projectmanager.cpp:1652
+#: src/project/projectmanager.cpp:1654
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -14246,12 +14246,12 @@ msgstr ""
 "El fitxer de sortida %1 ja existeix.\n"
 "Voleu sobreescriure'l?"
 
-#: src/project/projectmanager.cpp:1677
+#: src/project/projectmanager.cpp:1679
 #, kde-format
 msgid "Project profile changed"
 msgstr "S'ha canviat el perfil del projecte"
 
-#: src/project/projectmanager.cpp:1730
+#: src/project/projectmanager.cpp:1732
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -14260,18 +14260,18 @@ msgstr ""
 "No s'ha pogut crear una línia de temps a partir d'aquest clip:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1812
+#: src/project/projectmanager.cpp:1814
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Actualment, la importació d'un clip de seqüència està en estat experimental"
 
-#: src/project/projectmanager.cpp:1988
+#: src/project/projectmanager.cpp:1990
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Seleccioneu un clip per a crear una seqüència"
 
-#: src/project/projectmanager.cpp:2026
+#: src/project/projectmanager.cpp:2028
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Crea un clip de seqüència"
