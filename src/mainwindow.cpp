@@ -4813,9 +4813,9 @@ void MainWindow::checkMaxCacheSize()
                             // Propose update
                             QAction *updateAction = new QAction(i18n("Go to download page"), this);
                             connect(updateAction, &QAction::triggered, this,
-                                    [this]() { QDesktopServices::openUrl(QUrl(QStringLiteral("https://kdenlive.org/download"))); });
+                                    []() { QDesktopServices::openUrl(QUrl(QStringLiteral("https://kdenlive.org/download"))); });
                             QAction *abortAction = new QAction(i18n("Never check again"), this);
-                            connect(abortAction, &QAction::triggered, this, [this]() { KdenliveSettings::setCheckForUpdate(false); });
+                            connect(abortAction, &QAction::triggered, this, []() { KdenliveSettings::setCheckForUpdate(false); });
                             if (days > 360) {
                                 pCore->displayBinMessage(i18n("Your Kdenlive version is older than 1 year, we strongly encourage you to upgrade"),
                                                          KMessageWidget::Warning, {updateAction, abortAction}, true, BinMessage::BinCategory::UpdateMessage);
