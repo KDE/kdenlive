@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-15 00:42+0000\n"
+"POT-Creation-Date: 2023-11-16 00:42+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -9894,7 +9894,7 @@ msgstr "Dokument za otvoriti"
 msgid "Output file for rendered video."
 msgstr "Proširenje"
 
-#: src/main.cpp:338
+#: src/main.cpp:340
 #, fuzzy, kde-format
 msgid "Version %1"
 msgstr "Osnovne operacije"

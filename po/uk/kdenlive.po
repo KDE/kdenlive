@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-15 00:42+0000\n"
-"PO-Revision-Date: 2023-11-13 17:53+0200\n"
+"POT-Creation-Date: 2023-11-16 00:42+0000\n"
+"PO-Revision-Date: 2023-11-15 20:12+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -2835,7 +2835,7 @@ msgstr "Стерео та стереофонічні образи"
 #: data/kdenliveeffectscategory.rc:94
 #, kde-format
 msgid "Pitch and Time"
-msgstr "Відтінок і час"
+msgstr "Тон і час"
 
 #: data/kdenliveeffectscategory.rc:98
 #, kde-format
@@ -9764,7 +9764,7 @@ msgstr "Документ Kdenlive, який слід відкрити"
 msgid "Output file for rendered video."
 msgstr "Файл результату для обробленого відео."
 
-#: src/main.cpp:338
+#: src/main.cpp:340
 #, kde-format
 msgid "Version %1"
 msgstr "Версія %1"

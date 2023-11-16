@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l 10n\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-15 00:42+0000\n"
+"POT-Creation-Date: 2023-11-16 00:42+0000\n"
 "PO-Revision-Date: 2019-07-12 21:09+0300\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -10007,7 +10007,7 @@ msgstr "Atvertinas dokumentas"
 msgid "Output file for rendered video."
 msgstr "Failo plėtinys:"
 
-#: src/main.cpp:338
+#: src/main.cpp:340
 #, fuzzy, kde-format
 #| msgid "Operation 1"
 msgid "Version %1"

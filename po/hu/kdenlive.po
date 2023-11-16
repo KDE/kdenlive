@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-15 00:42+0000\n"
+"POT-Creation-Date: 2023-11-16 00:42+0000\n"
 "PO-Revision-Date: 2014-12-09 21:11+0100\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -10179,7 +10179,7 @@ msgstr "Megnyitandó dokumentum"
 msgid "Output file for rendered video."
 msgstr "Adja meg a renderelt videó fájl nevét"
 
-#: src/main.cpp:338
+#: src/main.cpp:340
 #, fuzzy, kde-format
 #| msgid "Version 0.5svn"
 msgid "Version %1"
