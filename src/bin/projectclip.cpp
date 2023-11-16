@@ -182,7 +182,24 @@ ProjectClip::ProjectClip(const QString &id, const QDomElement &description, cons
             m_thumbnail = QIcon::fromTheme(QStringLiteral("audio-x-generic"));
         }
     }
-    m_temporaryUrl = getXmlProperty(description, QStringLiteral("resource"));
+
+    m_markerModel = std::make_shared<MarkerListModel>(m_binId, pCore->projectManager()->undoStack());
+    m_markerFilterModel.reset(new MarkerSortModel(this));
+    m_markerFilterModel->setSourceModel(m_markerModel.get());
+    m_markerFilterModel->setSortRole(MarkerListModel::PosRole);
+    m_markerFilterModel->sort(0, Qt::AscendingOrder);
+    if (m_clipType == ClipType::Timeline) {
+        m_sequenceUuid = QUuid(getXmlProperty(description, QStringLiteral("kdenlive:uuid")));
+    }
+
+    const QString proxy = getXmlProperty(description, QStringLiteral("kdenlive:proxy"));
+    if (proxy.length() > 3) {
+        m_temporaryUrl = getXmlProperty(description, QStringLiteral("kdenlive:originalurl"));
+    }
+    if (m_temporaryUrl.isEmpty()) {
+        m_temporaryUrl = getXmlProperty(description, QStringLiteral("resource"));
+    }
+
     if (m_name.isEmpty()) {
         QString clipName = getXmlProperty(description, QStringLiteral("kdenlive:clipname"));
         if (!clipName.isEmpty()) {
