@@ -2029,6 +2029,15 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
                 mappedIds.insert(clipId, updatedId);
                 clipId = updatedId;
             }
+            // Disable proxy if any when pasting to another document
+            const QString proxy = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:proxy"));
+            if (proxy.length() > 3) {
+                const QString resource = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:originalurl"));
+                if (!resource.isEmpty()) {
+                    Xml::setXmlProperty(currentProd, QStringLiteral("resource"), resource);
+                    Xml::setXmlProperty(currentProd, QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
+                }
+            }
             waitingBinIds << clipId;
             clipsImported = true;
             qDebug() << ":::::::\n\nZZZZZZZZZZZZZ\nIMPORTED CLIP: " << clipId << "\n\nHHHHHHHHHHHHHHHHHH";
@@ -2066,6 +2075,15 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
                 Xml::setXmlProperty(currentProd, QStringLiteral("kdenlive:id"), updatedId);
                 mappedIds.insert(clipId, updatedId);
                 clipId = updatedId;
+            }
+            // Disable proxy if any when pasting to another document
+            const QString proxy = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:proxy"));
+            if (proxy.length() > 3) {
+                const QString resource = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:originalurl"));
+                if (!resource.isEmpty()) {
+                    Xml::setXmlProperty(currentProd, QStringLiteral("resource"), resource);
+                    Xml::setXmlProperty(currentProd, QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
+                }
             }
             waitingBinIds << clipId;
             clipsImported = true;

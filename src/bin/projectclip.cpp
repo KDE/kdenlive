@@ -187,7 +187,13 @@ ProjectClip::ProjectClip(const QString &id, const QDomElement &description, cons
         m_sequenceUuid = QUuid(getXmlProperty(description, QStringLiteral("kdenlive:uuid")));
     }
 
-    m_temporaryUrl = getXmlProperty(description, QStringLiteral("resource"));
+    const QString proxy = getXmlProperty(description, QStringLiteral("kdenlive:proxy"));
+    if (proxy.length() > 3) {
+        m_temporaryUrl = getXmlProperty(description, QStringLiteral("kdenlive:originalurl"));
+    }
+    if (m_temporaryUrl.isEmpty()) {
+        m_temporaryUrl = getXmlProperty(description, QStringLiteral("resource"));
+    }
     if (m_name.isEmpty()) {
         QString clipName = getXmlProperty(description, QStringLiteral("kdenlive:clipname"));
         if (!clipName.isEmpty()) {
