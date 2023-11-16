@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-15 00:42+0000\n"
+"POT-Creation-Date: 2023-11-16 00:42+0000\n"
 "PO-Revision-Date: 2020-01-11 11:21+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
@@ -10108,7 +10108,7 @@ msgstr "Documento para abrir"
 msgid "Output file for rendered video."
 msgstr "Extensión do ficheiro:"
 
-#: src/main.cpp:338
+#: src/main.cpp:340
 #, fuzzy, kde-format
 #| msgid "Operation 1"
 msgid "Version %1"

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-15 00:42+0000\n"
+"POT-Creation-Date: 2023-11-16 00:42+0000\n"
 "PO-Revision-Date: 2023-05-19 18:02+0200\n"
 "Last-Translator: Jannick Alexander Kuhr <opensource@kuhr.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -9805,7 +9805,7 @@ msgstr "Zu öffnendes Kdenlive-Dokument."
 msgid "Output file for rendered video."
 msgstr "Dateierweiterung:"
 
-#: src/main.cpp:338
+#: src/main.cpp:340
 #, kde-format
 msgid "Version %1"
 msgstr "Version %1"

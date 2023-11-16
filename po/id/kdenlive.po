@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-15 00:42+0000\n"
+"POT-Creation-Date: 2023-11-16 00:42+0000\n"
 "PO-Revision-Date: 2023-10-02 19:42+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -9589,7 +9589,7 @@ msgstr "Dokumen Kdenlive untuk dibuka."
 msgid "Output file for rendered video."
 msgstr "Ekstensi File:"
 
-#: src/main.cpp:338
+#: src/main.cpp:340
 #, kde-format
 msgid "Version %1"
 msgstr "Versi %1"

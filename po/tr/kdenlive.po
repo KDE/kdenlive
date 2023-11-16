@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-15 00:42+0000\n"
+"POT-Creation-Date: 2023-11-16 00:42+0000\n"
 "PO-Revision-Date: 2023-11-13 05:18+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -9650,7 +9650,7 @@ msgstr "Açılacak Kdenlive belgesi."
 msgid "Output file for rendered video."
 msgstr "Sunulan videonun çıktı dosyası."
 
-#: src/main.cpp:338
+#: src/main.cpp:340
 #, kde-format
 msgid "Version %1"
 msgstr "Sürüm %1"

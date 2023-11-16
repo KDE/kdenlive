@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-15 00:42+0000\n"
+"POT-Creation-Date: 2023-11-16 00:42+0000\n"
 "PO-Revision-Date: 2023-07-08 21:38-0700\n"
 "Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -10022,7 +10022,7 @@ msgstr "開くドキュメント"
 msgid "Output file for rendered video."
 msgstr "ファイル拡張子:"
 
-#: src/main.cpp:338
+#: src/main.cpp:340
 #, kde-format
 msgid "Version %1"
 msgstr ""
