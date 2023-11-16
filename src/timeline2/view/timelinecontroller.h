@@ -451,6 +451,7 @@ public:
     Q_INVOKABLE void switchEnableState(std::unordered_set<int> selection = {});
     Q_INVOKABLE void addCompositionToClip(const QString &assetId, int clipId = -1, int offset = -1);
     Q_INVOKABLE void addEffectToClip(const QString &assetId, int clipId = -1);
+    Q_INVOKABLE void setEffectsEnabled(int clipId, bool enabled);
 
     Q_INVOKABLE void requestClipCut(int clipId, int position);
 

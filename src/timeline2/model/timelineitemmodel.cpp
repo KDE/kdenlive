@@ -368,6 +368,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return m_groups->isInGroup(id);
         case EffectNamesRole:
             return clip->effectNames();
+        case EffectsEnabledRole:
+            return clip->stackEnabled();
         case InPointRole:
             return clip->getIn();
         case OutPointRole:

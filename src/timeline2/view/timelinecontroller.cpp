@@ -3211,6 +3211,12 @@ void TimelineController::addCompositionToClip(const QString &assetId, int clipId
     }
 }
 
+void TimelineController::setEffectsEnabled(int clipId, bool enabled)
+{
+    std::shared_ptr<ClipModel> clip = m_model->getClipPtr(clipId);
+    clip->setTimelineEffectsEnabled(enabled);
+}
+
 void TimelineController::addEffectToClip(const QString &assetId, int clipId)
 {
     if (clipId == -1) {

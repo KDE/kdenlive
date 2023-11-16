@@ -146,6 +146,12 @@ Item{
                 }
                 Binding {
                     target: loader.item
+                    property: "isStackEnabled"
+                    value: model.isStackEnabled
+                    when: loader.status == Loader.Ready && clipItem
+                }
+                Binding {
+                    target: loader.item
                     property: "clipStatus"
                     value: model.clipStatus
                     when: loader.status == Loader.Ready && clipItem

@@ -1280,6 +1280,12 @@ const QString ClipModel::effectNames() const
     return m_effectStack->effectNames();
 }
 
+bool ClipModel::stackEnabled() const
+{
+    READ_LOCK();
+    return m_effectStack->isStackEnabled();
+}
+
 const QStringList ClipModel::externalFiles() const
 {
     READ_LOCK();

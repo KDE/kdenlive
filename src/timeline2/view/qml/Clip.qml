@@ -23,6 +23,7 @@ Rectangle {
     property string clipResource: ''
     property string mltService: ''
     property string effectNames
+    property bool isStackEnabled
     property int modelStart
     property int mixDuration: 0
     property int mixCut: 0
@@ -1001,21 +1002,55 @@ Rectangle {
                     // effect names background
                     id: effectsRect
                     color: '#555555'
-                    width: effectLabel.width + 2
+                    width: effectLabel.width + effectsToggle.width + 4
                     height: effectLabel.height
                     x: labelRect.x
                     anchors.top: labelRect.bottom
+                    anchors.left: labelRect.left
                     visible: labelRect.visible && clipRoot.effectNames != '' && container.showDetails
+                    Rectangle {
+                        // effects toggle button background
+                        id: effectsToggle
+                        color: clipRoot.isStackEnabled ? '#fdbc4b' : 'black'
+                        width: effectButton.width
+                        height: effectButton.height
+                        ToolButton {
+                            id: effectButton
+                            height: effectLabel.height
+                            width: effectLabel.height
+                            visible: effectsRect.visible
+                            onClicked: {
+                                timeline.setEffectsEnabled(clipRoot.clipId, !clipRoot.isStackEnabled)
+                            }
+
+                            icon {
+                                name: 'tools-wizard'
+                                color: clipRoot.isStackEnabled ? 'black' : 'white'
+                                height: effectLabel.height
+                                width: effectLabel.height
+                            }
+                            anchors {
+                                top: effectsRect.top
+                                left: effectsRect.left
+                                leftMargin: 1
+                            }
+                        }
+                    }
                     Text {
                         // Effect names text
                         id: effectLabel
                         text: clipRoot.effectNames
-                        font: miniFont
+                        font {
+                            family: miniFont.family
+                            pointSize: miniFont.pointSize
+                            strikeout: !clipRoot.isStackEnabled
+                        }
                         visible: effectsRect.visible
                         anchors {
-                            top: effectsRect.top
-                            left: effectsRect.left
-                            leftMargin: 1
+                            top: effectsToggle.top
+                            left: effectsToggle.right
+                            leftMargin: 2
+                            rightMargin: 2
                             // + ((isAudio || !settings.timelineShowThumbnails) ? 0 : inThumbnail.width) + 1
                         }
                         color: 'white'
@@ -1025,7 +1060,7 @@ Rectangle {
                }
                Rectangle{
                     //proxy 
-                    id:proxyRect
+                    id: proxyRect
                     color: '#fdbc4b'
                     width: labelRect.height
                     height: labelRect.height

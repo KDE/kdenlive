@@ -80,6 +80,9 @@ public:
     /** @brief Returns a comma separated list of effect names */
     const QString effectNames() const;
 
+    /** @brief Returns true if effect stack is enabled */
+    bool stackEnabled() const;
+
     /** @brief Returns a list of external files (e.g. LUTs) used by the effects of the clip */
     const QStringList externalFiles() const;
 
