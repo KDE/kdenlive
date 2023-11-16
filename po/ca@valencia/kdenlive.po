@@ -3279,13 +3279,13 @@ msgstr "Baixa efectes nous..."
 #: src/assets/assetlist/view/qml/assetList.qml:150
 #, kde-format
 msgid "Show/hide description of the effects"
-msgstr "Mostra/oculta la descripció dels efectes"
+msgstr "Mostra o oculta la descripció dels efectes"
 
 #: src/assets/assetlist/view/qml/assetList-qt6.qml:148
 #: src/assets/assetlist/view/qml/assetList.qml:150
 #, kde-format
 msgid "Show/hide description of the compositions"
-msgstr "Mostra/oculta la descripció de les composicions"
+msgstr "Mostra o oculta la descripció de les composicions"
 
 #: src/assets/assetlist/view/qml/assetList.qml:332
 #, kde-format
@@ -4130,7 +4130,7 @@ msgstr "Activa el so de la pista"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
-msgstr "Silencia/activa el so de la pista d'àudio."
+msgstr "Silencia o activa el so de la pista d'àudio."
 
 #: src/audiomixer/mixerwidget.cpp:260
 #, kde-format
@@ -10569,7 +10569,7 @@ msgstr "Canvia la velocitat"
 #: src/mainwindow.cpp:1756
 #, kde-format
 msgid "Time Remap"
-msgstr "Reassigna el temps"
+msgstr "Torna a assignar el temps"
 
 #: src/mainwindow.cpp:1763
 #, kde-format
@@ -12082,7 +12082,7 @@ msgstr "Realitza una operació multipista"
 #: src/monitor/monitormanager.cpp:561
 #, kde-format
 msgid "Show/Hide edit mode"
-msgstr "Mostra/oculta el mode d'edició"
+msgstr "Mostra o oculta el mode d'edició"
 
 #: src/monitor/monitormanager.cpp:562
 #, kde-kuit-format
@@ -13135,7 +13135,7 @@ msgstr "Suprimix els %1 marcadors que empren esta categoria"
 #: src/project/dialogs/guidecategories.cpp:158
 #, kde-format
 msgid "Reassign the markers to :"
-msgstr "Reassigna els marcadors a:"
+msgstr "Torna a assignar els marcadors a:"
 
 #: src/project/dialogs/guideslist.cpp:85
 #, kde-format
@@ -13287,7 +13287,7 @@ msgstr "Assigna marques horàries als clips de la safata actuals"
 #: src/project/dialogs/noteswidget.cpp:185
 #, kde-format
 msgid "Select some timecodes to reassign"
-msgstr "Selecciona diversos codis de temps que s'han de reassignar"
+msgstr "Selecciona diversos codis de temps que s'han de tornar a assignar"
 
 #: src/project/dialogs/noteswidget.cpp:196
 #, kde-format
@@ -13794,7 +13794,7 @@ msgstr ""
 #: src/project/effectsettings.cpp:61
 #, kde-format
 msgid "Enable/Disable all effects"
-msgstr "Activa/desactiva tots els efectes"
+msgstr "Activa o desactiva tots els efectes"
 
 #: src/project/effectsettings.cpp:66
 #, kde-format
@@ -13815,7 +13815,8 @@ msgstr "Notes del projecte"
 #, kde-format
 msgid "Reassign selected timecodes to current Bin clip"
 msgstr ""
-"Reassigna els codis de temps seleccionats als clips de la safata actuals"
+"Torna a assignar els codis de temps seleccionats als clips de la safata "
+"actuals"
 
 #: src/project/notesplugin.cpp:53
 #, kde-format
@@ -16449,8 +16450,8 @@ msgid ""
 "Click to make track active/inactive. Active tracks will react to editing "
 "operations"
 msgstr ""
-"Feu clic per a fer activa/inactiva la pista. Les pistes actives reaccionaran "
-"a les operacions d'edició"
+"Feu clic per a fer activa o inactiva la pista. Les pistes actives "
+"reaccionaran a les operacions d'edició"
 
 #: src/timeline2/view/qml/TrackHead.qml:441
 #, kde-format
@@ -19169,7 +19170,7 @@ msgstr "En importar, activa:"
 #: src/ui/configtimeline_ui.ui:230
 #, kde-format
 msgid "Check if project contains enough tracks"
-msgstr "Activeu-la si el projecte conté pistes suficients"
+msgstr "Seleccioneu-la si el projecte conté pistes suficients"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configtools_ui.ui:27
