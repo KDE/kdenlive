@@ -180,17 +180,12 @@ Item {
     }
     MouseArea {
         id: global
-        objectName: "global"
-        width: root.width; height: root.height
         property bool isMoving : false
-        anchors.centerIn: root
+        anchors.fill: parent
+        anchors.bottomMargin: clipMonitorRuler.height
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton
         cursorShape: handleContainsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
-        onWheel: wheel => {
-            controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
-        }
-
         readonly property bool handleContainsMouse: {
               if (isMoving) {
                   return true;
@@ -243,6 +238,9 @@ Item {
         onExited: {
             controller.setWidgetKeyBinding();
         }
+        onWheel: wheel => {
+            controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
+        }
     }
 
     Rectangle {
@@ -284,7 +282,7 @@ Item {
                   tlhandle.color = '#ff0000'
                 }
               }
-              onPressed: {
+              onPressed: mouse => {
                   if (root.iskeyframe == false && controller.autoKeyframe) {
                     console.log('ADDREMOVE THAND PRESSED')
                     controller.addRemoveKeyframe();
@@ -295,7 +293,7 @@ Item {
                   tlhandle.color = framerect.hoverColor
                   handleRatio = framesize.width / framesize.height
               }
-              onPositionChanged: {
+              onPositionChanged: mouse => {
                 if (pressed) {
                   adjustedFrame = framesize
                   if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
@@ -319,7 +317,7 @@ Item {
                   root.effectChanged()
                 }
               }
-              onReleased: {
+              onReleased: mouse => {
                   effectsize.visible = false
                   tlhandle.color = '#ff0000'
                   handleRatio = 1
@@ -366,7 +364,7 @@ Item {
                   trhandle.color = '#ff0000'
                 }
               }
-              onPressed: {
+              onPressed: mouse => {
                   if (root.iskeyframe == false && controller.autoKeyframe) {
                       console.log('ADDREMOVE TRAND PRESSED')
                     controller.addRemoveKeyframe();
@@ -377,7 +375,7 @@ Item {
                   trhandle.color = framerect.hoverColor
                   handleRatio = framesize.width / framesize.height
               }
-              onPositionChanged: {
+              onPositionChanged: mouse => {
                 if (pressed) {
                   adjustedFrame = framesize
                   if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
@@ -437,7 +435,7 @@ Item {
                   blhandle.color = '#ff0000'
                 }
               }
-              onPressed: {
+              onPressed: mouse => {
                   if (root.iskeyframe == false && controller.autoKeyframe) {
                       console.log('ADDREMOVE BLAND PRESSED')
                     controller.addRemoveKeyframe();
@@ -448,7 +446,7 @@ Item {
                   blhandle.color = framerect.hoverColor
                   handleRatio = framesize.width / framesize.height
               }
-              onPositionChanged: {
+              onPositionChanged: mouse => {
                 if (pressed) {
                   adjustedFrame = framesize
                   if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
@@ -508,7 +506,7 @@ Item {
                   brhandle.color = '#ff0000'
                 }
               }
-              onPressed: {
+              onPressed: mouse => {
                   if (root.iskeyframe == false && controller.autoKeyframe) {
                       console.log('ADDREMOVE BRHAND PRESSED')
                     controller.addRemoveKeyframe();
@@ -519,7 +517,7 @@ Item {
                   brhandle.color = framerect.hoverColor
                   handleRatio = framesize.width / framesize.height
               }
-              onPositionChanged: {
+              onPositionChanged: mouse => {
                 if (pressed) {
                    adjustedFrame = framesize
                    if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {

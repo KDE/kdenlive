@@ -229,12 +229,13 @@ Rectangle {
     MouseArea {
         id: rulerMouseArea
         anchors.fill: parent
-        propagateComposedEvents: true
+        //propagateComposedEvents: true
         hoverEnabled: true
         onPressed: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
                 var pos = Math.max(mouseX, 0)
                 controller.position = Math.min((pos + ruler.rulerZoomOffset) / root.timeScale, root.duration);
+                mouse.accepted = true
             }
         }
         onPositionChanged: mouse => {

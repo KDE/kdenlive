@@ -188,7 +188,6 @@ protected:
     int m_rulerHeight;
     /** @brief The height of the qml ruler and audio thumbs */
     int m_displayRulerHeight;
-    QColor m_bgColor;
     int m_maxTextureSize;
     SharedFrame m_sharedFrame;
     QMutex m_mutex;
@@ -204,6 +203,7 @@ private:
     QSemaphore m_initSem;
     QSemaphore m_analyseSem;
     bool m_isInitialized;
+    bool m_qmlEvent;
     int m_maxProducerPosition;
     int m_bckpMax;
     std::unique_ptr<Mlt::Filter> m_glslManager;

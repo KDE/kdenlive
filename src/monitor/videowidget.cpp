@@ -80,7 +80,6 @@ VideoWidget::VideoWidget(int id, QObject *parent)
     , m_producer(nullptr)
     , m_id(id)
     , m_rulerHeight(int(QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize() * 1.5))
-    , m_bgColor(KdenliveSettings::window_background())
     , m_initSem(0)
     , m_analyseSem(1)
     , m_isInitialized(false)
@@ -108,6 +107,7 @@ VideoWidget::VideoWidget(int id, QObject *parent)
     qRegisterMetaType<Mlt::Frame>("Mlt::Frame");
     qRegisterMetaType<SharedFrame>("SharedFrame");
     setAcceptDrops(true);
+    setClearColor(KdenliveSettings::window_background());
 
     if (m_id == Kdenlive::ClipMonitor && !(KdenliveSettings::displayClipMonitorInfo() & 0x01)) {
         m_rulerHeight = 0;
@@ -364,6 +364,8 @@ void VideoWidget::mousePressEvent(QMouseEvent *event)
         return;
     }
     QQuickWidget::mousePressEvent(event);
+    // For some reason, on Qt6 in mouseReleaseEvent, the event is always accepted, so use this m_qmlEvent bool to track if the event is accepted in qml
+    m_qmlEvent = event->isAccepted();
     event->accept();
     if ((event->button() & Qt::LeftButton) != 0u) {
         if ((event->modifiers() & Qt::ControlModifier) != 0u) {
@@ -383,6 +385,28 @@ void VideoWidget::mousePressEvent(QMouseEvent *event)
         m_panStart = event->pos();
         setCursor(Qt::ClosedHandCursor);
     }
+}
+
+void VideoWidget::mouseReleaseEvent(QMouseEvent *event)
+{
+    QQuickWidget::mouseReleaseEvent(event);
+    /*if (m_dragStart.isNull() && m_panStart.isNull() && (rootObject() != nullptr) && rootObject()->objectName() != QLatin1String("root") &&
+        !(event->modifiers() & Qt::ControlModifier)) {
+        event->accept();
+        qDebug()<<"::::::: MOUSE RELEASED B IGNORED";
+        return;
+    }*/
+    if ((event->modifiers() & Qt::ControlModifier)) {
+        event->accept();
+        return;
+    }
+    if (!m_dragStart.isNull() && m_panStart.isNull() && ((event->button() & Qt::LeftButton) != 0u) && !m_qmlEvent) {
+        event->accept();
+        Q_EMIT monitorPlay();
+    }
+    m_dragStart = QPoint();
+    m_panStart = QPoint();
+    setCursor(Qt::ArrowCursor);
 }
 
 void VideoWidget::mouseMoveEvent(QMouseEvent *event)
@@ -813,28 +837,6 @@ void VideoWidget::onFrameDisplayed(const SharedFrame &frame)
     // m_sendFrame = sendFrameForAnalysis;
     m_mutex.unlock();
     quickWindow()->update();
-}
-
-void VideoWidget::mouseReleaseEvent(QMouseEvent *event)
-{
-    QQuickWidget::mouseReleaseEvent(event);
-    /*if (m_dragStart.isNull() && m_panStart.isNull() && (rootObject() != nullptr) && rootObject()->objectName() != QLatin1String("root") &&
-        !(event->modifiers() & Qt::ControlModifier)) {
-        event->accept();
-        qDebug()<<"::::::: MOUSE RELEASED B IGNORED";
-        return;
-    }*/
-    if ((event->modifiers() & Qt::ControlModifier)) {
-        event->accept();
-        return;
-    }
-    if (!m_dragStart.isNull() && m_panStart.isNull() && ((event->button() & Qt::LeftButton) != 0u) && !event->isAccepted()) {
-        event->accept();
-        Q_EMIT monitorPlay();
-    }
-    m_dragStart = QPoint();
-    m_panStart = QPoint();
-    setCursor(Qt::ArrowCursor);
 }
 
 void VideoWidget::purgeCache()

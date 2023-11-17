@@ -2820,7 +2820,11 @@ void Monitor::purgeCache()
 
 void Monitor::updateBgColor()
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     m_glMonitor->m_bgColor = KdenliveSettings::window_background();
+#else
+    m_glMonitor->setClearColor(KdenliveSettings::window_background());
+#endif
 }
 
 MonitorProxy *Monitor::getControllerProxy()
