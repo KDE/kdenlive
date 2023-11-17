@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-08 02:07+0000\n"
-"PO-Revision-Date: 2023-11-02 09:24+0100\n"
+"PO-Revision-Date: 2023-11-16 15:14+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -1624,7 +1624,7 @@ msgstr "Direcció del reflex"
 #: data/effects/mono.xml:4
 #, kde-format
 msgid "Mixdown"
-msgstr "Mescla baix"
+msgstr "Concentració"
 
 #: data/effects/mono.xml:5
 #, kde-format
