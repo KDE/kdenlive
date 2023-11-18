@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-08 02:07+0000\n"
-"PO-Revision-Date: 2023-11-14 18:49+0100\n"
+"PO-Revision-Date: 2023-11-16 17:06+0100\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -9237,7 +9237,7 @@ msgstr "Aggiungi clip al progetto"
 msgctxt "@info:whatsthis"
 msgid "Adds the selected library clip to the project bin."
 msgstr ""
-"Aggiunge nel contenitore del progetto la clip della libreria attualmente "
+"Aggiunge nel contenitore del progetto la clip libreria attualmente "
 "selezionata."
 
 #: src/library/librarywidget.cpp:226
@@ -9249,7 +9249,7 @@ msgstr "Elimina clip dalla libreria"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected library clip from the library."
-msgstr "Elimina dalla libreria la clip della libreria attualmente selezionata."
+msgstr "Elimina dalla libreria la clip libreria attualmente selezionata."
 
 #: src/library/librarywidget.cpp:230
 #, kde-format
@@ -9265,7 +9265,7 @@ msgstr "Crea una nuova cartella nella libreria."
 #: src/library/librarywidget.cpp:233
 #, kde-format
 msgid "Rename Library Clip"
-msgstr "Rinomina clip della libreria"
+msgstr "Rinomina clip libreria"
 
 #: src/library/librarywidget.cpp:240
 #, kde-format
