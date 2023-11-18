@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-17 00:41+0000\n"
+"POT-Creation-Date: 2023-11-18 00:41+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -12281,18 +12281,18 @@ msgctxt "@title:window"
 msgid "Open Analysis Data"
 msgstr "Analüüsiandmete avamine"
 
-#: src/monitor/glwidget.cpp:1651 src/monitor/videowidget.cpp:1042
+#: src/monitor/glwidget.cpp:1651 src/monitor/videowidget.cpp:1044
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Vali esitatav tsoon"
 
-#: src/monitor/glwidget.cpp:1698 src/monitor/videowidget.cpp:1089
+#: src/monitor/glwidget.cpp:1698 src/monitor/videowidget.cpp:1091
 #, fuzzy, kde-format
 #| msgid "Select a zone to play"
 msgid "Select a clip to play"
 msgstr "Vali esitatav tsoon"
 
-#: src/monitor/glwidget.cpp:1779 src/monitor/videowidget.cpp:1170
+#: src/monitor/glwidget.cpp:1779 src/monitor/videowidget.cpp:1172
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -12860,7 +12860,7 @@ msgid ""
 "for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> to zoom"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitoreffectscene.qml:241
+#: src/monitor/view/kdenlivemonitoreffectscene.qml:236
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12901,7 +12901,7 @@ msgid ""
 "right click to close shape."
 msgstr ""
 
-#: src/monitor/view/MonitorRuler.qml:263
+#: src/monitor/view/MonitorRuler.qml:264
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12911,7 +12911,7 @@ msgid ""
 "to first / last frame"
 msgstr ""
 
-#: src/monitor/view/MonitorRuler.qml:332
+#: src/monitor/view/MonitorRuler.qml:333
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12919,7 +12919,7 @@ msgid ""
 "shortcut> to seek while adjusting zone in"
 msgstr ""
 
-#: src/monitor/view/MonitorRuler.qml:379
+#: src/monitor/view/MonitorRuler.qml:380
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""

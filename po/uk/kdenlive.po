@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-17 00:41+0000\n"
+"POT-Creation-Date: 2023-11-18 00:41+0000\n"
 "PO-Revision-Date: 2023-11-15 20:12+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -11972,17 +11972,17 @@ msgctxt "@title:window"
 msgid "Open Analysis Data"
 msgstr "Відкриття даних аналізу"
 
-#: src/monitor/glwidget.cpp:1651 src/monitor/videowidget.cpp:1042
+#: src/monitor/glwidget.cpp:1651 src/monitor/videowidget.cpp:1044
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Виберіть ділянку для відтворення"
 
-#: src/monitor/glwidget.cpp:1698 src/monitor/videowidget.cpp:1089
+#: src/monitor/glwidget.cpp:1698 src/monitor/videowidget.cpp:1091
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Виберіть кліп для відтворення"
 
-#: src/monitor/glwidget.cpp:1779 src/monitor/videowidget.cpp:1170
+#: src/monitor/glwidget.cpp:1779 src/monitor/videowidget.cpp:1172
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -12554,7 +12554,7 @@ msgstr ""
 "режим, <b>наведення праворуч</b> — панель інструментів, <b>коліщатко</b> або "
 "<b>стрілки</b> — позиціювання, <b>Ctrl + коліщатко</b> — масштабування"
 
-#: src/monitor/view/kdenlivemonitoreffectscene.qml:241
+#: src/monitor/view/kdenlivemonitoreffectscene.qml:236
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12611,7 +12611,7 @@ msgstr ""
 "Клацніть лівою, щоб додати точки,\n"
 "клацніть правою, щоб замкнути форму."
 
-#: src/monitor/view/MonitorRuler.qml:263
+#: src/monitor/view/MonitorRuler.qml:264
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12626,7 +12626,7 @@ msgstr ""
 "<shortcut>Home</shortcut> / <shortcut>End</shortcut> — перейти до першого "
 "або останнього кадру"
 
-#: src/monitor/view/MonitorRuler.qml:332
+#: src/monitor/view/MonitorRuler.qml:333
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12637,7 +12637,7 @@ msgstr ""
 "<shortcut>Shift+перетягніть</shortcut> для позиціювання разом із "
 "коригуванням входу до зони"
 
-#: src/monitor/view/MonitorRuler.qml:379
+#: src/monitor/view/MonitorRuler.qml:380
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
