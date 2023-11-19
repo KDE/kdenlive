@@ -214,20 +214,20 @@ std::vector<RenderRequest::RenderJob> RenderRequest::process()
         // set parameters
         setDocGeneralParams(sectionDoc, section.in, section.out);
 
-        createRenderJobs(jobs, sectionDoc, newPlaylistPath, outputPath, subtitleFile);
+        createRenderJobs(jobs, sectionDoc, newPlaylistPath, outputPath, subtitleFile, currentUuid);
     }
 
     return jobs;
 }
 
 void RenderRequest::createRenderJobs(std::vector<RenderJob> &jobs, const QDomDocument &doc, const QString &playlistPath, QString outputPath,
-                                     const QString &subtitlePath)
+                                     const QString &subtitlePath, const QUuid &uuid)
 {
     if (m_audioFilePerTrack) {
         if (m_delayedRendering) {
             addErrorMessage(i18n("Script rendering and multi track audio export can not be used together. Script will be saved without multi track export."));
         } else {
-            prepareMultiAudioFiles(jobs, doc, playlistPath, outputPath);
+            prepareMultiAudioFiles(jobs, doc, playlistPath, outputPath, uuid);
         }
     }
 
@@ -436,20 +436,38 @@ std::vector<RenderRequest::RenderSection> RenderRequest::getGuideSections()
     return sections;
 }
 
-void RenderRequest::prepareMultiAudioFiles(std::vector<RenderJob> &jobs, const QDomDocument &doc, const QString &playlistFile, const QString &targetFile)
+void RenderRequest::prepareMultiAudioFiles(std::vector<RenderJob> &jobs, const QDomDocument &doc, const QString &playlistFile, const QString &targetFile,
+                                           const QUuid &uuid)
 {
     int audioCount = 0;
     QDomNodeList orginalTractors = doc.elementsByTagName(QStringLiteral("tractor"));
     // process in reversed order to make file naming fit to UI
+    QStringList trackIds;
     for (int i = orginalTractors.size(); i >= 0; i--) {
         auto originalTracktor = orginalTractors.at(i).toElement();
-        QString trackName = Xml::getXmlProperty(originalTracktor, QStringLiteral("kdenlive:track_name"));
-
-        {
-            bool originalIsAudio = Xml::getXmlProperty(originalTracktor, QStringLiteral("kdenlive:audio_track")).toInt() == 1;
-            if (!originalIsAudio) {
-                continue;
+        const QUuid tractorUuid(Xml::getXmlProperty(originalTracktor, QStringLiteral("kdenlive:uuid")));
+        if (tractorUuid == uuid) {
+            // We found the current timeline tractor, list its tracks
+            QDomNodeList childTracks = originalTracktor.elementsByTagName(QStringLiteral("track"));
+            for (int j = childTracks.size(); j >= 0; j--) {
+                trackIds << childTracks.at(j).toElement().attribute(QStringLiteral("producer"));
             }
+            break;
+        }
+    }
+
+    for (int i = orginalTractors.size(); i >= 0; i--) {
+        // Create a render job for each track, muting others
+        auto originalTracktor = orginalTractors.at(i).toElement();
+        const QString processedTrackId = originalTracktor.attribute(QStringLiteral("id"));
+        if (!trackIds.contains(processedTrackId)) {
+            continue;
+        }
+        QString trackName = Xml::getXmlProperty(originalTracktor, QStringLiteral("kdenlive:track_name"));
+        bool originalIsAudio = Xml::getXmlProperty(originalTracktor, QStringLiteral("kdenlive:audio_track")).toInt() == 1;
+        if (!originalIsAudio) {
+            // Not an audio track, nothing to do
+            continue;
         }
 
         // setup filenames
@@ -469,11 +487,21 @@ void RenderRequest::prepareMultiAudioFiles(std::vector<RenderJob> &jobs, const Q
 
         QDomNodeList tracktors = docCopy.elementsByTagName(QStringLiteral("tractor"));
         Q_ASSERT(tracktors.size() == orginalTractors.size());
-
+        QDomNodeList mainTracks = docCopy.elementsByTagName(QStringLiteral("tractor"));
         for (int j = 0; j < tracktors.size(); j++) {
             auto tractor = tracktors.at(j).toElement();
+            const QString currentId = tractor.attribute(QStringLiteral("id"));
+            if (!trackIds.contains(currentId)) {
+                // Not a track in current timeline
+                continue;
+            }
+            if (processedTrackId == currentId) {
+                // This is the track we want
+                continue;
+            }
             bool copyIsAudio = Xml::getXmlProperty(tractor, QStringLiteral("kdenlive:audio_track")).toInt() == 1;
             if (!copyIsAudio) {
+                // Not an audio track, leave as is
                 continue;
             }
             QDomNodeList tracks = tractor.elementsByTagName(QStringLiteral("track"));
