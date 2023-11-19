@@ -1,13 +1,13 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Stefan Asserhall <stefan.asserhall@bredband.net>, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
+# SPDX-FileCopyrightText: 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023 Stefan Asserhall <stefan.asserhall@bredband.net>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-18 00:41+0000\n"
-"PO-Revision-Date: 2023-11-11 09:58+0100\n"
+"PO-Revision-Date: 2023-11-18 22:37+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.04.3\n"
+"X-Generator: Lokalize 23.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -8214,7 +8214,7 @@ msgstr "Klipptypen stöder inte ersättning"
 #: src/doc/kdenlivedoc.cpp:1811
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
-msgstr ""
+msgstr "Varning: bilder/s ej standardiserat, justerar till närmaste heltal. "
 
 #: src/doc/kdenlivedoc.cpp:1830
 #, kde-format
@@ -11353,13 +11353,12 @@ msgstr "Projektkorg %1"
 #: src/mainwindow.cpp:4814
 #, kde-format
 msgid "Go to download page"
-msgstr ""
+msgstr "Gå till nerladdningssida"
 
 #: src/mainwindow.cpp:4817
-#, fuzzy, kde-format
-#| msgid "Check again"
+#, kde-format
 msgid "Never check again"
-msgstr "Kontrollera igen"
+msgstr "Kontrollera aldrig igen"
 
 #: src/mainwindow.cpp:4820
 #, kde-format
@@ -11367,12 +11366,16 @@ msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
+"Versionen av Kdenlive är äldre än ett år. Vi rekommenderar dig starkt att "
+"uppgradera."
 
 #: src/mainwindow.cpp:4823
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
+"Versionen av Kdenlive är äldre än sex månader. Vi uppmuntrar dig att "
+"uppgradera."
 
 #: src/mainwindow.cpp:4866
 #, kde-format
@@ -18481,10 +18484,9 @@ msgstr "Varna om cachedata överskrider:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkForUpdate)
 #: src/ui/configenv_ui.ui:111
-#, fuzzy, kde-format
-#| msgid "Check for update"
+#, kde-format
 msgid "Check for updates"
-msgstr "Kontrollera uppdatering"
+msgstr "Kontrollera uppdateringar"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: src/ui/configenv_ui.ui:122
