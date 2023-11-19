@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-08 02:07+0000\n"
-"PO-Revision-Date: 2023-11-17 11:19+0100\n"
+"PO-Revision-Date: 2023-11-18 14:02+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -794,17 +794,17 @@ msgstr "Metingenvenster"
 #: data/effects/dynamic_loudness.xml:14
 #, kde-format
 msgid "Maximum Gain Increase"
-msgstr "Maximum verhoging van versterking"
+msgstr "Maximale verhoging van versterking"
 
 #: data/effects/dynamic_loudness.xml:17
 #, kde-format
 msgid "Maximum Gain Decrease"
-msgstr "Maximum verlaging van versterking"
+msgstr "Maximale verlaging van versterking"
 
 #: data/effects/dynamic_loudness.xml:20
 #, kde-format
 msgid "Maximum Rate Change"
-msgstr "Maximum snelheidswijziging"
+msgstr "Maximale snelheidswijziging"
 
 #: data/effects/dynamictext.xml:4
 #, kde-format
@@ -1660,7 +1660,7 @@ msgstr "Normaliseer dynamisch geluidsvolume"
 #: data/effects/normalise.xml:11
 #, kde-format
 msgid "Maximum gain"
-msgstr "Maximum versterking"
+msgstr "Maximale versterking"
 
 #: data/effects/normalise.xml:14
 #, kde-format
