@@ -17,7 +17,8 @@
 #include <QSplitter>
 #include <QStandardPaths>
 #include <QStyledItemDelegate>
-#include <QTextEdit>
+#include <QTextBrowser>
+#include <QTextDocument>
 #include <QToolBar>
 #include <QVBoxLayout>
 
@@ -157,9 +158,13 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
     connect(m_effectsTree, &QTreeView::customContextMenuRequested, this, &AssetListWidget::onCustomContextMenu);
     auto *viewSplitter = new QSplitter(Qt::Vertical, this);
     viewSplitter->addWidget(m_effectsTree);
-    m_textEdit = new QTextEdit(this);
-    m_textEdit->setReadOnly(true);
-    viewSplitter->addWidget(m_textEdit);
+    QTextBrowser *textEdit = new QTextBrowser(this);
+    textEdit->setReadOnly(true);
+    textEdit->setAcceptRichText(true);
+    textEdit->setOpenExternalLinks(true);
+    m_infoDocument = new QTextDocument(this);
+    textEdit->setDocument(m_infoDocument);
+    viewSplitter->addWidget(textEdit);
     m_lay->addWidget(viewSplitter);
     viewSplitter->setStretchFactor(0, 4);
     viewSplitter->setStretchFactor(1, 2);
@@ -338,8 +343,8 @@ void AssetListWidget::updateAssetInfo(const QModelIndex &current, const QModelIn
 {
     if (current.isValid()) {
         const QString description = getDescription(current);
-        m_textEdit->setPlainText(description);
+        m_infoDocument->setHtml(description);
     } else {
-        m_textEdit->clear();
+        m_infoDocument->clear();
     }
 }

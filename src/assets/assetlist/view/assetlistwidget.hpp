@@ -16,7 +16,7 @@ class AssetTreeModel;
 class QToolBar;
 class QVBoxLayout;
 class QMenu;
-class QTextEdit;
+class QTextDocument;
 class QLineEdit;
 
 /** @class AssetListWidget
@@ -75,7 +75,7 @@ public:
 private:
     QToolBar *m_toolbar;
     QVBoxLayout *m_lay;
-    QTextEdit *m_textEdit;
+    QTextDocument *m_infoDocument;
 
 protected:
     bool m_isEffect;

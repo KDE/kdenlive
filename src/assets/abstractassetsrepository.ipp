@@ -146,16 +146,20 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
 {
     std::unique_ptr<Mlt::Properties> metadata(getMetadata(assetId));
     if (metadata && metadata->is_valid()) {
-        if (metadata->get("title") && metadata->get("identifier") && strlen(metadata->get("title")) > 0) {
+        if (metadata->property_exists("title") && metadata->property_exists("identifier") && strlen(metadata->get("title")) > 0) {
             QString id = metadata->get("identifier");
-            res.name = i18n(metadata->get("title"));
+            res.name = i18nc("@item:inlistbox effect name", metadata->get("title"));
             res.name[0] = res.name[0].toUpper();
-            res.description = metadata->get("description") ? i18n(metadata->get("description")) + QString(" (%1)").arg(id) : id;
             res.author = metadata->get("creator");
             res.version_str = metadata->get("version");
             res.version = int(ceil(100 * metadata->get_double("version")));
             res.id = res.mltId = assetId;
             parseType(metadata.get(), res);
+            if (metadata->property_exists("description")) {
+                res.description = i18n(metadata->get("description")) + QString(" (<a href=\"%1\">%2</a>)").arg(buildLink(res), id);
+            } else {
+                res.description = QString("<a href=\"%1\">%2</a>").arg(buildLink(res), id);
+            }
             // Create params
             QDomDocument doc;
             QDomElement eff = doc.createElement(QStringLiteral("effect"));
@@ -280,6 +284,26 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
     return false;
 }
 
+template <typename AssetType> const QString AbstractAssetsRepository<AssetType>::buildLink(Info res) const
+{
+    // TODO: have a map of effect ids (like avfilter.dblur to documentation link
+    QString prefix;
+    if (res.type == AssetListType::AssetType::Audio) {
+        prefix = QStringLiteral("effect_link");
+    } else if (res.type == AssetListType::AssetType::Video) {
+        prefix = QStringLiteral("effect_link");
+    } else if (res.type == AssetListType::AssetType::AudioComposition || res.type ==  AssetListType::AssetType::AudioTransition) {
+        prefix = QStringLiteral("transition_link");
+    } else if (res.type == AssetListType::AssetType::VideoShortComposition || res.type ==  AssetListType::AssetType::VideoComposition || res.type ==  AssetListType::AssetType::VideoTransition) {
+        prefix = QStringLiteral("transition_link");
+    } else {
+        prefix = QStringLiteral("other");
+    }
+    return QStringLiteral("https://docs.kdenlive.org/%1/%2").arg(prefix).arg(res.id);
+    //return QStringLiteral("https://docs.kdenlive.org/en/search.html?q=%1&check_keywords=yes&area=default").arg(res.name);
+}
+
+
 template <typename AssetType> bool AbstractAssetsRepository<AssetType>::exists(const QString &assetId) const
 {
     return m_assets.count(assetId) > 0;
@@ -358,16 +382,19 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
     res.id = id;
     res.mltId = tag;
 
-    // Update description if the xml provide one
-    QString description = Xml::getSubTagContent(currentAsset, QStringLiteral("description"));
-    if (!description.isEmpty()) {
-        res.description = i18n(description.toUtf8().constData()) + QString(" (%1)").arg(res.mltId);
-    }
-
     // Update name if the xml provide one
     QString name = Xml::getSubTagContent(currentAsset, QStringLiteral("name"));
     if (!name.isEmpty()) {
-        res.name = i18n(name.toUtf8().constData());
+        res.name = i18nc("@item:inlistbox effect name", name.toUtf8().constData());
+    }
+    // Update description if the xml provide one
+    QString description = Xml::getSubTagContent(currentAsset, QStringLiteral("description"));
+    // Add link to our documentation
+    const QString link = buildLink(res);
+    if (!description.isEmpty()) {
+        res.description = i18n(description.toUtf8().constData()) + QString(" (<a href=\"%1\">%2</a>)").arg(link, res.id);
+    } else {
+        res.description = QString("<a href=\"%1\">%2</a>").arg(link, res.id);
     }
     return true;
 }
