@@ -66,7 +66,8 @@ private:
     void setDocGeneralParams(QDomDocument doc, int in, int out);
     void setDocTwoPassParams(int pass, QDomDocument &doc, const QString &outputFile);
     std::vector<RenderSection> getGuideSections();
-    static void prepareMultiAudioFiles(std::vector<RenderJob> &jobs, const QDomDocument &doc, const QString &playlistFile, const QString &targetFile);
+    static void prepareMultiAudioFiles(std::vector<RenderJob> &jobs, const QDomDocument &doc, const QString &playlistFile, const QString &targetFile,
+                                       const QUuid &uuid);
 
     static QString createEmptyTempFile(const QString &extension);
 
@@ -80,7 +81,8 @@ private:
      *  There might be multiple jobs for one section for each pass in case of 2pass or each audio track in case of multi audio track export
      * @param jobs the vector to which the jobs will be added
      */
-    void createRenderJobs(std::vector<RenderJob> &jobs, const QDomDocument &doc, const QString &playlistPath, QString outputPath, const QString &subtitlePath);
+    void createRenderJobs(std::vector<RenderJob> &jobs, const QDomDocument &doc, const QString &playlistPath, QString outputPath, const QString &subtitlePath,
+                          const QUuid &uuid);
 
     void addErrorMessage(const QString &error);
 };
