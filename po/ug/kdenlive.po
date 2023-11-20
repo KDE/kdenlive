@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-18 00:41+0000\n"
+"POT-Creation-Date: 2023-11-20 00:42+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -3254,108 +3254,108 @@ msgstr ""
 msgid "Generator Failed"
 msgstr ""
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:52
-#: src/assets/assetlist/view/assetlistwidget.cpp:329
+#: src/assets/assetlist/view/assetlistwidget.cpp:53
+#: src/assets/assetlist/view/assetlistwidget.cpp:334
 #, fuzzy, kde-format
 #| msgid "Favorites"
 msgid "Add to favorites"
 msgstr "يىغقۇچ"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:58
+#: src/assets/assetlist/view/assetlistwidget.cpp:59
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "Delete custom effect"
 msgstr "%1 ئۆچۈر"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:63
+#: src/assets/assetlist/view/assetlistwidget.cpp:64
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "Reload custom effect"
 msgstr "%1 ئۆچۈر"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:68
+#: src/assets/assetlist/view/assetlistwidget.cpp:69
 #, fuzzy, kde-format
 #| msgid "Edit"
 msgid "Edit Info…"
 msgstr "تەھرىرلەش"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:73
+#: src/assets/assetlist/view/assetlistwidget.cpp:74
 #, fuzzy, kde-format
 #| msgid "Mute"
 msgid "Export XML…"
 msgstr "ئۈنسىز"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:85
+#: src/assets/assetlist/view/assetlistwidget.cpp:86
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Main effects"
 msgstr "ئۈنۈم يوق"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:85
+#: src/assets/assetlist/view/assetlistwidget.cpp:86
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Main compositions"
 msgstr "Composite"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:91
+#: src/assets/assetlist/view/assetlistwidget.cpp:92
 #, fuzzy, kde-format
 #| msgid "Description"
 msgid "Show all video effects"
 msgstr "چۈشەندۈرۈش"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:96
+#: src/assets/assetlist/view/assetlistwidget.cpp:97
 #, fuzzy, kde-format
 #| msgid "Audio device:"
 msgid "Show all audio effects"
 msgstr "ئۈن ئۈسكۈنە:"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:101
+#: src/assets/assetlist/view/assetlistwidget.cpp:102
 #, fuzzy, kde-format
 #| msgid "effect"
 msgid "Show all custom effects"
 msgstr "ئۈنۈم"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:107
+#: src/assets/assetlist/view/assetlistwidget.cpp:108
 #, fuzzy, kde-format
 #| msgid "Transitions"
 msgid "Show transitions only"
 msgstr "ئالماشتۇر"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:113
+#: src/assets/assetlist/view/assetlistwidget.cpp:114
 #, kde-format
 msgid "Show favorite items"
 msgstr ""
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:118
+#: src/assets/assetlist/view/assetlistwidget.cpp:119
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Download New Effects..."
 msgstr "سەپلىمە ھۆججەتنى ساقلايدۇ"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:120
+#: src/assets/assetlist/view/assetlistwidget.cpp:121
 #, kde-format
 msgid "Download New Wipes..."
 msgstr ""
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:128
+#: src/assets/assetlist/view/assetlistwidget.cpp:129
 #, fuzzy, kde-format
 #| msgid "Description"
 msgid "Show/hide description of the effects"
 msgstr "چۈشەندۈرۈش"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:128
+#: src/assets/assetlist/view/assetlistwidget.cpp:129
 #, fuzzy, kde-format
 #| msgid "Description"
 msgid "Show/hide description of the compositions"
 msgstr "چۈشەندۈرۈش"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:138 src/bin/bin.cpp:1197
+#: src/assets/assetlist/view/assetlistwidget.cpp:139 src/bin/bin.cpp:1197
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Search…"
 msgstr "ئىزدە"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:329
+#: src/assets/assetlist/view/assetlistwidget.cpp:334
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Remove from favorites"

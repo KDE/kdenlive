@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-18 00:41+0000\n"
-"PO-Revision-Date: 2023-10-21 13:54\n"
+"POT-Creation-Date: 2023-11-20 00:42+0000\n"
+"PO-Revision-Date: 2023-11-19 03:40\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -173,7 +173,7 @@ msgstr "镜像"
 #: data/effects/audiolevelgraph.xml:42 data/effects/audiospectrum.xml:39
 #, kde-format
 msgid "Mirror the spectrum about the center of the rectangle."
-msgstr "以矩形区域的中心为轴镜像频谱图。"
+msgstr "以矩形区域的中心为对称轴镜像绘制频谱图。"
 
 #: data/effects/audiolevelgraph.xml:45 data/effects/audiospectrum.xml:42
 #: data/transitions/dissolve.xml:13 data/transitions/luma.xml:23
@@ -1572,7 +1572,7 @@ msgstr "Mirror - 镜像"
 #: data/effects/mirror.xml:5
 #, kde-format
 msgid "Flip your image in any direction"
-msgstr "向任意方向翻转图像"
+msgstr "翻转图像 (向任意方向)"
 
 #: data/effects/mirror.xml:8
 #, kde-format
@@ -1797,7 +1797,7 @@ msgstr "Transform - 变形"
 #: data/effects/qtblend.xml:40 data/transitions/qtblend.xml:21
 #, kde-format
 msgid "Rotate from center"
-msgstr "从中心旋转"
+msgstr "旋转 (从中心)"
 
 #: data/effects/qtcrop.xml:4
 #, kde-format
@@ -1913,40 +1913,40 @@ msgstr "Rotate and Shear - 旋转和斜切"
 #: data/effects/rotation.xml:5 data/effects/rotation_keyframable.xml:5
 #, kde-format
 msgid "Rotate clip in any 3 directions"
-msgstr "在任意 3 个方向上旋转剪辑"
+msgstr "旋转剪辑 (在任意 3 个方向上)"
 
 #: data/effects/rotation.xml:8 data/effects/rotation_keyframable.xml:8
 #: data/transitions/affine.xml:11
 #, kde-format
 msgid "Rotate X"
-msgstr "沿 X 轴旋转"
+msgstr "旋转 (沿 X 轴)"
 
 #: data/effects/rotation.xml:11 data/effects/rotation_keyframable.xml:11
 #: data/transitions/affine.xml:14
 #, kde-format
 msgid "Rotate Y"
-msgstr "沿 Y 轴旋转"
+msgstr "旋转 (沿 Y 轴)"
 
 #: data/effects/rotation.xml:14 data/effects/rotation_keyframable.xml:14
 #: data/transitions/affine.xml:17
 #, kde-format
 msgid "Rotate Z"
-msgstr "沿 Z 轴旋转"
+msgstr "旋转 (沿 Z 轴)"
 
 #: data/effects/rotation.xml:17
 #, kde-format
 msgid "Animate Rotate X"
-msgstr "沿 X 轴动画旋转"
+msgstr "动画旋转 (沿 X 轴)"
 
 #: data/effects/rotation.xml:20
 #, kde-format
 msgid "Animate Rotate Y"
-msgstr "沿 Y 轴动画旋转"
+msgstr "动画旋转 (沿 Y 轴)"
 
 #: data/effects/rotation.xml:23
 #, kde-format
 msgid "Animate Rotate Z"
-msgstr "沿 Z 轴动画旋转"
+msgstr "动画旋转 (沿 Z 轴)"
 
 #: data/effects/rotation.xml:26
 #, kde-format
@@ -3141,93 +3141,93 @@ msgstr "无法生成剪辑：%1"
 msgid "Generator Failed"
 msgstr "生成器失败"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:52
-#: src/assets/assetlist/view/assetlistwidget.cpp:329
+#: src/assets/assetlist/view/assetlistwidget.cpp:53
+#: src/assets/assetlist/view/assetlistwidget.cpp:334
 #, kde-format
 msgid "Add to favorites"
 msgstr "添加到常用项"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:58
+#: src/assets/assetlist/view/assetlistwidget.cpp:59
 #, kde-format
 msgid "Delete custom effect"
 msgstr "删除自定义效果"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:63
+#: src/assets/assetlist/view/assetlistwidget.cpp:64
 #, kde-format
 msgid "Reload custom effect"
 msgstr "重新加载自定义效果"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:68
+#: src/assets/assetlist/view/assetlistwidget.cpp:69
 #, kde-format
 msgid "Edit Info…"
 msgstr "编辑信息…"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:73
+#: src/assets/assetlist/view/assetlistwidget.cpp:74
 #, kde-format
 msgid "Export XML…"
 msgstr "导出 XML..."
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:85
+#: src/assets/assetlist/view/assetlistwidget.cpp:86
 #, kde-format
 msgid "Main effects"
 msgstr "主要效果"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:85
+#: src/assets/assetlist/view/assetlistwidget.cpp:86
 #, kde-format
 msgid "Main compositions"
 msgstr "主要合成"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:91
+#: src/assets/assetlist/view/assetlistwidget.cpp:92
 #, kde-format
 msgid "Show all video effects"
 msgstr "显示所有视频效果"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:96
+#: src/assets/assetlist/view/assetlistwidget.cpp:97
 #, kde-format
 msgid "Show all audio effects"
 msgstr "显示所有音频效果"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:101
+#: src/assets/assetlist/view/assetlistwidget.cpp:102
 #, kde-format
 msgid "Show all custom effects"
 msgstr "显示所有自定义效果"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:107
+#: src/assets/assetlist/view/assetlistwidget.cpp:108
 #, kde-format
 msgid "Show transitions only"
 msgstr "仅显示转场"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:113
+#: src/assets/assetlist/view/assetlistwidget.cpp:114
 #, kde-format
 msgid "Show favorite items"
 msgstr "显示常用项"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:118
+#: src/assets/assetlist/view/assetlistwidget.cpp:119
 #, kde-format
 msgid "Download New Effects..."
 msgstr "下载新效果..."
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:120
+#: src/assets/assetlist/view/assetlistwidget.cpp:121
 #, kde-format
 msgid "Download New Wipes..."
 msgstr "下载新擦除方式..."
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:128
+#: src/assets/assetlist/view/assetlistwidget.cpp:129
 #, kde-format
 msgid "Show/hide description of the effects"
 msgstr "显示/隐藏效果描述"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:128
+#: src/assets/assetlist/view/assetlistwidget.cpp:129
 #, kde-format
 msgid "Show/hide description of the compositions"
 msgstr "显示/隐藏合成描述"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:138 src/bin/bin.cpp:1197
+#: src/assets/assetlist/view/assetlistwidget.cpp:139 src/bin/bin.cpp:1197
 #, kde-format
 msgid "Search…"
 msgstr "搜索…"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:329
+#: src/assets/assetlist/view/assetlistwidget.cpp:334
 #, kde-format
 msgid "Remove from favorites"
 msgstr "从常用项中移除"
@@ -6438,15 +6438,14 @@ msgid "Progressive"
 msgstr "逐行扫描"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1746
-#, fuzzy, kde-format
-#| msgid "Set the path for MLT environment."
+#, kde-format
 msgid "Setting up virtual environment…"
-msgstr "设置 MLT 环境的路径。"
+msgstr "正在设置虚拟环境…"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1748
 #, kde-format
 msgid "Disabling virtual environment"
-msgstr ""
+msgstr "正在禁用虚拟环境"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1763
 #, kde-format
@@ -7217,30 +7216,24 @@ msgid "Configure Speech Recognition"
 msgstr "配置语音识别"
 
 #: src/dialogs/textbasededit.cpp:656
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with edit"
-msgstr "创建新序列"
+msgstr "通过编辑创建新序列"
 
 #: src/dialogs/textbasededit.cpp:657
-#, fuzzy, kde-format
-#| msgid "Insert selected blocks in timeline"
+#, kde-format
 msgid "Insert selection in timeline"
-msgstr "插入所选块到时间轴"
+msgstr "插入所选内容到时间轴"
 
 #: src/dialogs/textbasededit.cpp:658
-#, fuzzy, kde-format
-#| msgid "Save edited text in a new playlist"
+#, kde-format
 msgid "Save edited text in a playlist file"
-msgstr "保存已编辑文字到新播放列表"
+msgstr "保存播放列表中的已编辑文字"
 
 #: src/dialogs/textbasededit.cpp:665
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with text edit "
-msgstr "创建新序列"
+msgstr "通过文字编辑创建新序列 "
 
 #: src/dialogs/textbasededit.cpp:689
 #, kde-format
@@ -7258,16 +7251,14 @@ msgid "Delete selected text"
 msgstr "删除所选文字"
 
 #: src/dialogs/textbasededit.cpp:731
-#, fuzzy, kde-format
-#| msgid "Add bookmark for current selection"
+#, kde-format
 msgid "Add marker for current selection"
-msgstr "添加书签到当前选择内容位置"
+msgstr "添加标记到当前选择内容位置"
 
 #: src/dialogs/textbasededit.cpp:739
-#, fuzzy, kde-format
-#| msgid "Remove All Preview Zones"
+#, kde-format
 msgid "Remove non speech zones"
-msgstr "移除所有预览区段"
+msgstr "移除非语音区段"
 
 #: src/dialogs/textbasededit.cpp:918
 #, kde-format
@@ -7328,15 +7319,13 @@ msgid "Speech recognition finished."
 msgstr "语音识别已完成。"
 
 #: src/dialogs/textbasededit.cpp:1392
-#, fuzzy, kde-format
-#| msgid "Edit clip"
+#, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
-msgstr "编辑剪辑"
+msgstr "编辑剪辑文字"
 
 #: src/dialogs/textbasededit.cpp:1424 src/dialogs/textbasededit.cpp:1506
-#, fuzzy, kde-format
-#| msgid "Create Sequence Clip"
+#, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "创建序列剪辑"
@@ -7775,10 +7764,9 @@ msgid "Transition"
 msgstr "转场"
 
 #: src/doc/documentchecker.cpp:1586
-#, fuzzy, kde-format
-#| msgid "Create sequence"
+#, kde-format
 msgid "Corrupted sequence"
-msgstr "创建序列"
+msgstr "损坏的序列"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
 #: src/doc/documentchecker.cpp:1596 src/ui/editrenderpreset_ui.ui:538
@@ -8065,7 +8053,7 @@ msgstr "剪辑类型不支持代理剪辑"
 #: src/doc/kdenlivedoc.cpp:1811
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
-msgstr ""
+msgstr "警告：非标准 FPS，将调整为最接近的整数值。 "
 
 #: src/doc/kdenlivedoc.cpp:1830
 #, kde-format
@@ -9464,22 +9452,21 @@ msgid "Comma separated list of files to add as clips to the bin."
 msgstr "要添加到素材箱的剪辑文件列表，以半角逗号区隔。"
 
 #: src/main.cpp:202
-#, fuzzy, kde-format
-#| msgid "Parent folder of the project file"
+#, kde-format
 msgid "Directly render the project and exit."
-msgstr "项目文件的父文件夹"
+msgstr "直接导出项目并退出。"
 
 #: src/main.cpp:205
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
-msgstr ""
+msgstr "Kdenlive 导出预设名称 (如果不给定，则使用 MP4-H264/AAC)。"
 
 #: src/main.cpp:210
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
 "only after it finished."
-msgstr ""
+msgstr "在分离的导出进程开始后退出。如果不带此标记则只在导出完成后才退出。"
 
 #: src/main.cpp:213
 #, kde-format
@@ -9487,10 +9474,9 @@ msgid "Kdenlive document to open."
 msgstr "要打开的 Kdenlive 文档。"
 
 #: src/main.cpp:214
-#, fuzzy, kde-format
-#| msgid "Output file extension"
+#, kde-format
 msgid "Output file for rendered video."
-msgstr "输出文件扩展名"
+msgstr "导出视频的输出文件。"
 
 #: src/main.cpp:340
 #, kde-format
@@ -9515,7 +9501,7 @@ msgstr "素材箱标签"
 #: src/mainwindow.cpp:173
 #, kde-format
 msgid "Style"
-msgstr "风格"
+msgstr "界面风格"
 
 #: src/mainwindow.cpp:231
 #, kde-format
@@ -11153,26 +11139,25 @@ msgstr "项目素材箱 %1"
 #: src/mainwindow.cpp:4814
 #, kde-format
 msgid "Go to download page"
-msgstr ""
+msgstr "访问下载页面"
 
 #: src/mainwindow.cpp:4817
-#, fuzzy, kde-format
-#| msgid "Check again"
+#, kde-format
 msgid "Never check again"
-msgstr "重新检查"
+msgstr "不再检查"
 
 #: src/mainwindow.cpp:4820
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
-msgstr ""
+msgstr "此 Kdenlive 已经是 1 年前的版本了，我们强烈建议您升级为最新版本。"
 
 #: src/mainwindow.cpp:4823
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
-msgstr ""
+msgstr "此 Kdenlive 已经是 6 个月前的版本了，我们建议您升级为最新版本。"
 
 #: src/mainwindow.cpp:4866
 #, kde-format
@@ -13678,13 +13663,12 @@ msgstr ""
 #: src/project/projectmanager.cpp:491
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
-msgstr ""
+msgstr "保存项目文件 <br><b>%1</B> 失败"
 
 #: src/project/projectmanager.cpp:524
-#, fuzzy, kde-format
-#| msgid "Starting process"
+#, kde-format
 msgid "Saving successful"
-msgstr "开始处理"
+msgstr "保存成功"
 
 #: src/project/projectmanager.cpp:537
 #, kde-format
@@ -13776,12 +13760,13 @@ msgid ""
 msgstr "您的项目在打开时已被修改，下次保存时将创建备份"
 
 #: src/project/projectmanager.cpp:931
-#, fuzzy, kde-format
-#| msgid "Cannot open project file %1"
+#, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
 "%1\n"
-msgstr "无法打开项目文件 %1"
+msgstr ""
+"无法打开项目文件。错误：\n"
+"%1\n"
 
 #: src/project/projectmanager.cpp:971
 #, kde-format
@@ -13892,10 +13877,9 @@ msgid "Install missing dependencies"
 msgstr "安装缺失依赖程序"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:29
-#, fuzzy, kde-format
-#| msgid "Check VOSK installation"
+#, kde-format
 msgid "Abort installation"
-msgstr "检查 VOSK 安装情况"
+msgstr "中止安装"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:42
 #, kde-format
@@ -13924,10 +13908,9 @@ msgid "Check for update"
 msgstr "检查更新"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:93
-#, fuzzy, kde-format
-#| msgid "Installing modules…"
+#, kde-format
 msgid "Installing modules… this can take a while"
-msgstr "正在安装模块…"
+msgstr "正在安装模块… 这可能需要一些时间"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:103
 #, kde-format
@@ -13963,24 +13946,22 @@ msgstr ""
 #: src/pythoninterfaces/abstractpythoninterface.cpp:186
 #, kde-format
 msgid "Using python from %1"
-msgstr ""
+msgstr "正在使用来自 %1 的 Python"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:194
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "No items found."
+#, kde-format
 msgid "No python venv found"
-msgstr "未找到项目。"
+msgstr "找不到 python venv"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:208
 #, kde-format
 msgid "Python venv size: %1"
-msgstr ""
+msgstr "Python venv 大小：%1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:248
 #, kde-format
 msgid "Cannot find python virtualenv, please install it on your system."
-msgstr ""
+msgstr "无法找到 python virtualenv，请将它安装到本机系统。"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:266
 #, kde-format
@@ -14004,22 +13985,23 @@ msgid ""
 "under %1.\n"
 "This way, it won't touch your system libraries."
 msgstr ""
+"Kdenlive 可以在 %1 下的虚拟环境中安装缺失的 python 模块。\n"
+"此方式将确保您的系统程序库不受影响。"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:349
-#, fuzzy, kde-format
-#| msgid "Environment"
+#, kde-format
 msgid "Python environment"
-msgstr "系统环境"
+msgstr "Python 环境"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:349
 #, kde-format
 msgid "Use system install"
-msgstr ""
+msgstr "使用系统安装"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:350
 #, kde-format
 msgid "Use virtual environment (recommended)"
-msgstr ""
+msgstr "使用虚拟环境 (推荐)"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:367
 #: src/pythoninterfaces/abstractpythoninterface.cpp:441
@@ -14046,26 +14028,23 @@ msgstr "请考虑升级本机系统的相关软件。"
 #: src/pythoninterfaces/abstractpythoninterface.cpp:464
 #, kde-format
 msgid "Python exec not found"
-msgstr ""
+msgstr "无法找到 Python exec"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:466
-#, fuzzy, kde-format
-#| msgid "Failed to create file."
+#, kde-format
 msgid "Failed to find script file %1"
-msgstr "无法创建文件。"
+msgstr "无法找到脚本文件 %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:500
-#, fuzzy, kde-format
-#| msgid ""
-#| "Error while running python3 script:\n"
-#| " %1"
+#, kde-format
 msgid ""
 "Error while running python3 script:\n"
 " %1\n"
 "%2"
 msgstr ""
 "运行 python3 脚本时出错：\n"
-" %1"
+" %1\n"
+"%2"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:519
 #, kde-format
@@ -14074,6 +14053,8 @@ msgid ""
 "environment will be recreated and modules downloaded whenever you reenable "
 "the python virtual environment."
 msgstr ""
+"这将从以下位置删除 Python 虚拟环境：<br/><b>%1</b><br/>该虚拟环境将在您重新启"
+"用 Python 虚拟环境时重新创建，并下载所需的模块。"
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
 #, kde-format
@@ -16709,17 +16690,17 @@ msgstr "背景颜色不透明度"
 #: src/titler/titlewidget.cpp:151
 #, kde-format
 msgid "Rotation around the X axis"
-msgstr "绕 X 轴旋转"
+msgstr "旋转 (绕 X 轴)"
 
 #: src/titler/titlewidget.cpp:157
 #, kde-format
 msgid "Rotation around the Y axis"
-msgstr "绕 Y 轴旋转"
+msgstr "旋转 (绕 Y 轴)"
 
 #: src/titler/titlewidget.cpp:163
 #, kde-format
 msgid "Rotation around the Z axis"
-msgstr "绕 Z 轴旋转"
+msgstr "旋转 (绕 Z 轴)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_borderWidth)
 #: src/titler/titlewidget.cpp:169 src/ui/titlewidget_ui.ui:1351
@@ -18162,8 +18143,7 @@ msgstr "缓存数据超出此值时报警："
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkForUpdate)
 #: src/ui/configenv_ui.ui:111
-#, fuzzy, kde-format
-#| msgid "Check for update"
+#, kde-format
 msgid "Check for updates"
 msgstr "检查更新"
 
@@ -18266,20 +18246,19 @@ msgstr "用于导出、字幕、脚本的文件夹："
 #: src/ui/configenv_ui.ui:320
 #, kde-format
 msgid "Python"
-msgstr ""
+msgstr "Python"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_usePythonVenv)
 #: src/ui/configenv_ui.ui:326
 #, kde-format
 msgid "Use python virtual environment (recommended)"
-msgstr ""
+msgstr "使用 Python 虚拟环境 (推荐)"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_python_delete)
 #: src/ui/configenv_ui.ui:364
-#, fuzzy, kde-format
-#| msgid "&Delete"
+#, kde-format
 msgid "Delete "
-msgstr "删除(&D)"
+msgstr "删除 "
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/ui/configenv_ui.ui:394
@@ -18780,10 +18759,9 @@ msgstr "输出设备："
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:21
-#, fuzzy, kde-format
-#| msgid "Check VOSK installation"
+#, kde-format
 msgid "Check speech engine installation"
-msgstr "检查 VOSK 安装情况"
+msgstr "检查语音引擎安装状态"
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:24
@@ -18817,10 +18795,9 @@ msgstr "自定义模型文件夹"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_add)
 #: src/ui/configspeech_ui.ui:103
-#, fuzzy, kde-format
-#| msgid "Model"
+#, kde-format
 msgid "Add Model"
-msgstr "模型"
+msgstr "添加模型"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configspeech_ui.ui:130
@@ -18830,10 +18807,9 @@ msgstr "VOSK 语音模型"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
 #: src/ui/configspeech_ui.ui:150
-#, fuzzy, kde-format
-#| msgid "Remove Guide"
+#, kde-format
 msgid "Remove Model"
-msgstr "移除辅助线"
+msgstr "移除模型"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configspeech_ui.ui:175
@@ -21240,7 +21216,7 @@ msgstr "拾取屏幕上的颜色。点击并拖动可以拾取一个区域中的
 #: src/widgets/doublewidget.cpp:27
 #, kde-format
 msgid "Rotate by 90 ° steps"
-msgstr "旋转 (以 90° 为一级)"
+msgstr "旋转 (每步 90°)"
 
 #: src/widgets/dragvalue.cpp:115
 #, kde-format
@@ -21375,19 +21351,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgid ""
-#~ "\n"
-#~ "Warning: unknown non integer fps, might cause incorrect duration display."
-#~ msgstr ""
-#~ "\n"
-#~ "注意：未知的非整数 fps，可能会导致持续时间无法正确显示。"
-
-#~ msgid "Add a new speech model from an archive file"
-#~ msgstr "从压缩文件添加语音模型"
-
-#~ msgid "Delete the selected speech model"
-#~ msgstr "删除选中的语音模型"
-
-#~ msgid "Add bookmark"
-#~ msgstr "添加书签"

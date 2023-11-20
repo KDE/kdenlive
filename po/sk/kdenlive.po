@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-18 00:41+0000\n"
+"POT-Creation-Date: 2023-11-20 00:42+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -3237,104 +3237,104 @@ msgstr ""
 msgid "Generator Failed"
 msgstr "Generátor zlyhal"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:52
-#: src/assets/assetlist/view/assetlistwidget.cpp:329
+#: src/assets/assetlist/view/assetlistwidget.cpp:53
+#: src/assets/assetlist/view/assetlistwidget.cpp:334
 #, kde-format
 msgid "Add to favorites"
 msgstr "Pridať do obľúbených"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:58
+#: src/assets/assetlist/view/assetlistwidget.cpp:59
 #, fuzzy, kde-format
 #| msgid "Delete effect"
 msgid "Delete custom effect"
 msgstr "Vymazať efekt"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:63
+#: src/assets/assetlist/view/assetlistwidget.cpp:64
 #, fuzzy, kde-format
 #| msgid "Delete effect"
 msgid "Reload custom effect"
 msgstr "Vymazať efekt"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:68
+#: src/assets/assetlist/view/assetlistwidget.cpp:69
 #, fuzzy, kde-format
 #| msgid "Edit end"
 msgid "Edit Info…"
 msgstr "Upraviť koniec"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:73
+#: src/assets/assetlist/view/assetlistwidget.cpp:74
 #, fuzzy, kde-format
 #| msgid "Export audio"
 msgid "Export XML…"
 msgstr "Exportovať zvuk"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:85
+#: src/assets/assetlist/view/assetlistwidget.cpp:86
 #, kde-format
 msgid "Main effects"
 msgstr "Hlavné efekty"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:85
+#: src/assets/assetlist/view/assetlistwidget.cpp:86
 #, fuzzy, kde-format
 #| msgid "Resize transition end"
 msgid "Main compositions"
 msgstr "Zmeniť veľkosť konca prechodu"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:91
+#: src/assets/assetlist/view/assetlistwidget.cpp:92
 #, kde-format
 msgid "Show all video effects"
 msgstr "Zobraziť všetky video efekty"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:96
+#: src/assets/assetlist/view/assetlistwidget.cpp:97
 #, fuzzy, kde-format
 #| msgid "Show audio effects"
 msgid "Show all audio effects"
 msgstr "Zobraziť všetky audio efekty"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:101
+#: src/assets/assetlist/view/assetlistwidget.cpp:102
 #, fuzzy, kde-format
 #| msgid "Show custom effects"
 msgid "Show all custom effects"
 msgstr "Zobraziť všetky vlastné efekty"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:107
+#: src/assets/assetlist/view/assetlistwidget.cpp:108
 #, fuzzy, kde-format
 #| msgid "Show all transitions"
 msgid "Show transitions only"
 msgstr "Zobraziť všetky prechody"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:113
+#: src/assets/assetlist/view/assetlistwidget.cpp:114
 #, kde-format
 msgid "Show favorite items"
 msgstr "Zobraziť obľúbené položky"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:118
+#: src/assets/assetlist/view/assetlistwidget.cpp:119
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Download New Effects..."
 msgstr "Stiahnuť nové Wipe..."
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:120
+#: src/assets/assetlist/view/assetlistwidget.cpp:121
 #, kde-format
 msgid "Download New Wipes..."
 msgstr "Stiahnuť nové Wipe..."
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:128
+#: src/assets/assetlist/view/assetlistwidget.cpp:129
 #, kde-format
 msgid "Show/hide description of the effects"
 msgstr "Zobraziť/skryť popis efektov"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:128
+#: src/assets/assetlist/view/assetlistwidget.cpp:129
 #, fuzzy, kde-format
 #| msgid "Show description"
 msgid "Show/hide description of the compositions"
 msgstr "Zobraziť popis"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:138 src/bin/bin.cpp:1197
+#: src/assets/assetlist/view/assetlistwidget.cpp:139 src/bin/bin.cpp:1197
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Search…"
 msgstr "Hľadať"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:329
+#: src/assets/assetlist/view/assetlistwidget.cpp:334
 #, kde-format
 msgid "Remove from favorites"
 msgstr "Odstrániť z obľúbených"

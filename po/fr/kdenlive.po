@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-18 00:41+0000\n"
+"POT-Creation-Date: 2023-11-20 00:42+0000\n"
 "PO-Revision-Date: 2023-11-14 18:13+0100\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: fr\n"
@@ -3237,93 +3237,93 @@ msgstr "Échec à la génération du clip : %1"
 msgid "Generator Failed"
 msgstr "Échec du générateur"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:52
-#: src/assets/assetlist/view/assetlistwidget.cpp:329
+#: src/assets/assetlist/view/assetlistwidget.cpp:53
+#: src/assets/assetlist/view/assetlistwidget.cpp:334
 #, kde-format
 msgid "Add to favorites"
 msgstr "Ajouter aux favoris"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:58
+#: src/assets/assetlist/view/assetlistwidget.cpp:59
 #, kde-format
 msgid "Delete custom effect"
 msgstr "Supprimer l'effet personnalisé"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:63
+#: src/assets/assetlist/view/assetlistwidget.cpp:64
 #, kde-format
 msgid "Reload custom effect"
 msgstr "Recharger l'effet personnalisé"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:68
+#: src/assets/assetlist/view/assetlistwidget.cpp:69
 #, kde-format
 msgid "Edit Info…"
 msgstr "Modifier les informations..."
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:73
+#: src/assets/assetlist/view/assetlistwidget.cpp:74
 #, kde-format
 msgid "Export XML…"
 msgstr "Exporter au format « XML »..."
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:85
+#: src/assets/assetlist/view/assetlistwidget.cpp:86
 #, kde-format
 msgid "Main effects"
 msgstr "Effets principaux"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:85
+#: src/assets/assetlist/view/assetlistwidget.cpp:86
 #, kde-format
 msgid "Main compositions"
 msgstr "Compositions principales"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:91
+#: src/assets/assetlist/view/assetlistwidget.cpp:92
 #, kde-format
 msgid "Show all video effects"
 msgstr "Afficher tous les effets vidéo"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:96
+#: src/assets/assetlist/view/assetlistwidget.cpp:97
 #, kde-format
 msgid "Show all audio effects"
 msgstr "Afficher tous les effets audio"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:101
+#: src/assets/assetlist/view/assetlistwidget.cpp:102
 #, kde-format
 msgid "Show all custom effects"
 msgstr "Afficher tous les effets personnalisés"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:107
+#: src/assets/assetlist/view/assetlistwidget.cpp:108
 #, kde-format
 msgid "Show transitions only"
 msgstr "Afficher uniquement les transitions"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:113
+#: src/assets/assetlist/view/assetlistwidget.cpp:114
 #, kde-format
 msgid "Show favorite items"
 msgstr "Afficher les éléments favoris"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:118
+#: src/assets/assetlist/view/assetlistwidget.cpp:119
 #, kde-format
 msgid "Download New Effects..."
 msgstr "Télécharger de nouveaux effets..."
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:120
+#: src/assets/assetlist/view/assetlistwidget.cpp:121
 #, kde-format
 msgid "Download New Wipes..."
 msgstr "Télécharger des transitions par balayage"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:128
+#: src/assets/assetlist/view/assetlistwidget.cpp:129
 #, kde-format
 msgid "Show/hide description of the effects"
 msgstr "Afficher/cacher la description des effets"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:128
+#: src/assets/assetlist/view/assetlistwidget.cpp:129
 #, kde-format
 msgid "Show/hide description of the compositions"
 msgstr "Afficher/cacher la description des compositions"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:138 src/bin/bin.cpp:1197
+#: src/assets/assetlist/view/assetlistwidget.cpp:139 src/bin/bin.cpp:1197
 #, kde-format
 msgid "Search…"
 msgstr "Rechercher..."
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:329
+#: src/assets/assetlist/view/assetlistwidget.cpp:334
 #, kde-format
 msgid "Remove from favorites"
 msgstr "Enlever des favoris"
