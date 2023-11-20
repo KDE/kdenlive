@@ -481,5 +481,6 @@ Name[sv]=Spara lyckades
 Name[tr]=Kaydetme başarılı
 Name[uk]=Успішно збережено
 Name[x-test]=xxSaving successfulxx
+Name[zh_CN]=保存成功
 Sound=Oxygen-Sys-App-Positive.ogg
 Action=None
