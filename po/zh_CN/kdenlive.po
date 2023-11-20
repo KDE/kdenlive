@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-08 02:07+0000\n"
-"PO-Revision-Date: 2023-11-11 07:24\n"
+"PO-Revision-Date: 2023-11-19 03:44\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -173,7 +173,7 @@ msgstr "镜像"
 #: data/effects/audiolevelgraph.xml:42 data/effects/audiospectrum.xml:39
 #, kde-format
 msgid "Mirror the spectrum about the center of the rectangle."
-msgstr "以矩形区域的中心为轴镜像频谱图。"
+msgstr "以矩形区域的中心为对称轴镜像绘制频谱图。"
 
 #: data/effects/audiolevelgraph.xml:45 data/effects/audiospectrum.xml:42
 #: data/transitions/dissolve.xml:13 data/transitions/luma.xml:23
@@ -1564,7 +1564,7 @@ msgstr "Mirror - 镜像"
 #: data/effects/mirror.xml:5
 #, kde-format
 msgid "Flip your image in any direction"
-msgstr "向任意方向翻转图像"
+msgstr "翻转图像 (向任意方向)"
 
 #: data/effects/mirror.xml:8
 #, kde-format
@@ -1789,7 +1789,7 @@ msgstr "Transform - 变形"
 #: data/effects/qtblend.xml:40 data/transitions/qtblend.xml:21
 #, kde-format
 msgid "Rotate from center"
-msgstr "从中心旋转"
+msgstr "旋转 (从中心)"
 
 #: data/effects/qtcrop.xml:4
 #, kde-format
@@ -1905,40 +1905,40 @@ msgstr "Rotate and Shear - 旋转和斜切"
 #: data/effects/rotation.xml:5 data/effects/rotation_keyframable.xml:5
 #, kde-format
 msgid "Rotate clip in any 3 directions"
-msgstr "在任意 3 个方向上旋转剪辑"
+msgstr "旋转剪辑 (在任意 3 个方向上)"
 
 #: data/effects/rotation.xml:8 data/effects/rotation_keyframable.xml:8
 #: data/transitions/affine.xml:11
 #, kde-format
 msgid "Rotate X"
-msgstr "沿 X 轴旋转"
+msgstr "旋转 (沿 X 轴)"
 
 #: data/effects/rotation.xml:11 data/effects/rotation_keyframable.xml:11
 #: data/transitions/affine.xml:14
 #, kde-format
 msgid "Rotate Y"
-msgstr "沿 Y 轴旋转"
+msgstr "旋转 (沿 Y 轴)"
 
 #: data/effects/rotation.xml:14 data/effects/rotation_keyframable.xml:14
 #: data/transitions/affine.xml:17
 #, kde-format
 msgid "Rotate Z"
-msgstr "沿 Z 轴旋转"
+msgstr "旋转 (沿 Z 轴)"
 
 #: data/effects/rotation.xml:17
 #, kde-format
 msgid "Animate Rotate X"
-msgstr "沿 X 轴动画旋转"
+msgstr "动画旋转 (沿 X 轴)"
 
 #: data/effects/rotation.xml:20
 #, kde-format
 msgid "Animate Rotate Y"
-msgstr "沿 Y 轴动画旋转"
+msgstr "动画旋转 (沿 Y 轴)"
 
 #: data/effects/rotation.xml:23
 #, kde-format
 msgid "Animate Rotate Z"
-msgstr "沿 Z 轴动画旋转"
+msgstr "动画旋转 (沿 Z 轴)"
 
 #: data/effects/rotation.xml:26
 #, kde-format
@@ -16407,17 +16407,17 @@ msgstr "背景颜色不透明度"
 #: src/titler/titlewidget.cpp:151
 #, kde-format
 msgid "Rotation around the X axis"
-msgstr "绕 X 轴旋转"
+msgstr "旋转 (绕 X 轴)"
 
 #: src/titler/titlewidget.cpp:157
 #, kde-format
 msgid "Rotation around the Y axis"
-msgstr "绕 Y 轴旋转"
+msgstr "旋转 (绕 Y 轴)"
 
 #: src/titler/titlewidget.cpp:163
 #, kde-format
 msgid "Rotation around the Z axis"
-msgstr "绕 Z 轴旋转"
+msgstr "旋转 (绕 Z 轴)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_borderWidth)
 #: src/titler/titlewidget.cpp:169 src/ui/titlewidget_ui.ui:1351
@@ -20927,7 +20927,7 @@ msgstr "拾取屏幕上的颜色。点击并拖动可以拾取一个区域中的
 #: src/widgets/doublewidget.cpp:27
 #, kde-format
 msgid "Rotate by 90 ° steps"
-msgstr "旋转 (以 90° 为一级)"
+msgstr "旋转 (每步 90°)"
 
 #: src/widgets/dragvalue.cpp:115
 #, kde-format
