@@ -746,6 +746,7 @@ Rectangle {
         y: ruler.height
         x: headerWidth
         keys: 'kdenlive/producerslist'
+        enabled: !compoArea.containsDrag
         function moveDrop(offset, voffset)
         {
             if (clipBeingDroppedId > -1) {
@@ -905,6 +906,7 @@ Rectangle {
         property int fakeFrame: -1
         property int fakeTrack: -1
         property var droppedUrls: []
+        enabled: !clipDropArea.containsDrag && !compoArea.containsDrag
         width: root.width - headerWidth
         height: root.height - ruler.height
         y: ruler.height
