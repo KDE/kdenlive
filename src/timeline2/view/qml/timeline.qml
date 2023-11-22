@@ -1933,8 +1933,8 @@ Rectangle {
                                         if (dragProxy.draggedItem > -1 && dragFrame > -1 && (controller.isClip(dragProxy.draggedItem) || controller.isComposition(dragProxy.draggedItem))) {
                                             var tId = controller.getItemTrackId(dragProxy.draggedItem)
                                             if (dragProxy.isComposition) {
-                                                controller.requestCompositionMove(dragProxy.draggedItem, dragProxy.sourceTrack, dragProxy.sourceFrame, true, false, false)
-                                                controller.requestCompositionMove(dragProxy.draggedItem, tId, dragFrame , true, true, true)
+                                                controller.requestCompositionMove(dragProxy.draggedItem, dragProxy.sourceTrack, dragProxy.sourceFrame, true, false)
+                                                controller.requestCompositionMove(dragProxy.draggedItem, tId, dragFrame , true, true)
                                             } else {
                                                 if (controller.normalEdit()) {
                                                     // Move clip back to original position
