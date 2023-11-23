@@ -2086,6 +2086,14 @@ QVariant ProjectClip::getData(DataType type) const
     }
 }
 
+bool ProjectClip::hasVariableFps()
+{
+    if (m_properties && m_properties->get_int("meta.media.variable_frame_rate")) {
+        return true;
+    }
+    return false;
+}
+
 int ProjectClip::audioChannels() const
 {
     if (!audioInfo()) {

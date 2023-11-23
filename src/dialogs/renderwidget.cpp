@@ -639,7 +639,37 @@ void RenderWidget::slotPrepareExport(bool delayedRendering)
         m_view.infoMessage->animatedShow();
         return;
     }
-    m_view.infoMessage->hide();
+    if (pCore->bin()->usesVariableFpsClip()) {
+        // Empty project, don't attempt to render
+        m_view.infoMessage->setMessageType(KMessageWidget::Warning);
+        m_view.infoMessage->setText(
+            i18n("Rendering a project with variable framerate clips can lead to audio/video desync.\nWe recommand to transcode to an edit friendly format"));
+        if (m_view.infoMessage->actions().isEmpty()) {
+            QAction *b = new QAction(i18n("Render Anyway"), this);
+            connect(b, &QAction::triggered, this, [this, delayedRendering]() { slotPrepareExport2(delayedRendering); });
+            m_view.infoMessage->addAction(b);
+            QAction *a = new QAction(i18n("Transcode"), this);
+            connect(a, &QAction::triggered, this, [this]() {
+                QList<QAction *> acts = m_view.infoMessage->actions();
+                while (!acts.isEmpty()) {
+                    QAction *a = acts.takeFirst();
+                    m_view.infoMessage->removeAction(a);
+                    delete a;
+                }
+                m_view.infoMessage->hide();
+                updateRenderInfoMessage();
+                pCore->bin()->transcodeUsedClips();
+            });
+            m_view.infoMessage->addAction(a);
+        }
+        m_view.infoMessage->animatedShow();
+        return;
+    }
+    slotPrepareExport2(delayedRendering);
+}
+
+void RenderWidget::slotPrepareExport2(bool delayedRendering)
+{
     if (QFile::exists(m_view.out_file->url().toLocalFile())) {
         if (KMessageBox::warningTwoActions(this, i18n("Output file already exists. Do you want to overwrite it?"), {}, KStandardGuiItem::overwrite(),
                                            KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
@@ -653,7 +683,7 @@ void RenderWidget::slotPrepareExport(bool delayedRendering)
                                       m_view.out_file->url().adjusted(QUrl::RemoveFilename).toLocalFile()));
         return;
     }
-
+    m_view.infoMessage->hide();
     saveRenderProfile();
 
     RenderRequest *request = new RenderRequest();

@@ -5538,13 +5538,15 @@ void Bin::savePlaylist(const QString &binId, const QString &savePath, const QVec
     }
 }
 
-void Bin::requestSelectionTranscoding()
+void Bin::requestSelectionTranscoding(bool forceReplace)
 {
     if (m_transcodingDialog == nullptr) {
         m_transcodingDialog = new TranscodeSeek(true, this);
         connect(m_transcodingDialog, &QDialog::accepted, this, [&]() {
             bool replace = m_transcodingDialog->replace_original->isChecked();
-            KdenliveSettings::setTranscodingReplace(replace);
+            if (!forceReplace) {
+                KdenliveSettings::setTranscodingReplace(replace);
+            }
             QMap<QString, QStringList> ids = m_transcodingDialog->ids();
             QMapIterator<QString, QStringList> i(ids);
             while (i.hasNext()) {
@@ -6033,4 +6035,46 @@ void Bin::sequenceActivated()
     for (auto &c : allClips) {
         c->refreshBounds();
     }
+}
+
+bool Bin::usesVariableFpsClip()
+{
+    QList<std::shared_ptr<ProjectClip>> allClips = m_itemModel->getRootFolder()->childClips();
+    for (auto &c : allClips) {
+        ClipType::ProducerType type = c->clipType();
+        if ((type == ClipType::AV || type == ClipType::Video || type == ClipType::Audio) && c->hasVariableFps()) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void Bin::transcodeUsedClips()
+{
+    if (m_doc->isModified()) {
+        // Recommend saving before the transcode operation
+        if (KMessageBox::questionTwoActions(QApplication::activeWindow(),
+                                            i18nc("@label:textbox", "We recommend that you save the project before the transcode operation"), {},
+                                            KGuiItem(i18nc("@action:button", "Save Project")),
+                                            KGuiItem(i18nc("@action:button", "Transcode Without Saving"))) == KMessageBox::PrimaryAction) {
+            if (!pCore->projectManager()->saveFile()) {
+                return;
+            }
+        }
+    }
+    QList<std::shared_ptr<ProjectClip>> allClips = m_itemModel->getRootFolder()->childClips();
+    m_proxyModel->selectionModel()->clearSelection();
+    // Select all variable fps clips
+    for (auto &c : allClips) {
+        ClipType::ProducerType type = c->clipType();
+        if ((type == ClipType::AV || type == ClipType::Video || type == ClipType::Audio) && c->hasVariableFps()) {
+            QModelIndex ix = m_itemModel->getIndexFromItem(c);
+            int row = ix.row();
+            const QModelIndex id = m_itemModel->index(row, 0, ix.parent());
+            const QModelIndex id2 = m_itemModel->index(row, m_itemModel->columnCount() - 1, ix.parent());
+            m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)),
+                                                   QItemSelectionModel::Select);
+        }
+    }
+    requestSelectionTranscoding(true);
 }

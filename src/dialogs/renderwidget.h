@@ -203,6 +203,8 @@ private Q_SLOTS:
     void slotShareActionFinished(const QJsonObject &output, int error, const QString &message);
     /** @brief running jobs menu. */
     void prepareJobContextMenu(const QPoint &pos);
+    /** @brief Prepare the render request. */
+    void slotPrepareExport2(bool scriptExport = false);
 
 private:
     enum Tabs {

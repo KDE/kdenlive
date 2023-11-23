@@ -1860,6 +1860,8 @@ void KdenliveDoc::switchProfile(ProfileParam *pf, const QString &clipName)
         // No known profile, ask user if he wants to use clip profile anyway
         if (qFuzzyCompare(double(profile->m_frame_rate_num) / profile->m_frame_rate_den, fps)) {
             adjustMessage.append(i18n("\nProfile fps adjusted from original %1", QString::number(fps, 'f', 4)));
+        } else if (!adjustMessage.isEmpty()) {
+            adjustMessage.prepend(QLatin1Char('\n'));
         }
         if (KMessageBox::warningContinueCancel(pCore->window(), i18n("No profile found for your clip %1.\nCreate and switch to new profile (%2x%3, %4fps)?%5",
                                                                      clipName, profile->m_width, profile->m_height,

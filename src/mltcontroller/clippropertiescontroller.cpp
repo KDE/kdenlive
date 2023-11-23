@@ -225,6 +225,7 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
     setLayout(lay);
     m_tabWidget->setDocumentMode(true);
     m_tabWidget->setTabPosition(QTabWidget::East);
+    m_tabWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
     auto *forcePage = new QScrollArea(this);
     auto *forceAudioPage = new QScrollArea(this);
     m_propertiesPage = new QWidget(this);

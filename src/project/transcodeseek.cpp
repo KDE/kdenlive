@@ -16,7 +16,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QStandardPaths>
 #include <kxmlgui_version.h>
 
-TranscodeSeek::TranscodeSeek(bool onUserRequest, QWidget *parent)
+TranscodeSeek::TranscodeSeek(bool onUserRequest, bool forceReplace, QWidget *parent)
     : QDialog(parent)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
@@ -28,7 +28,7 @@ TranscodeSeek::TranscodeSeek(bool onUserRequest, QWidget *parent)
     setWindowTitle(i18nc("@title:window", "Transcode Clip"));
     KConfig conf(QStringLiteral("kdenlivetranscodingrc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
     KConfigGroup group(&conf, "intermediate");
-    replace_original->setChecked(KdenliveSettings::transcodingReplace());
+    replace_original->setChecked(forceReplace || KdenliveSettings::transcodingReplace());
     m_encodeParams = group.entryMap();
     encodingprofiles->addItems(group.keyList());
     connect(encodingprofiles, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [&](int ix) {

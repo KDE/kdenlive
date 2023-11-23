@@ -298,6 +298,8 @@ public:
      * @param height height of the pixmap (only a guidance)
      */
     QPixmap pixmap(int position = 0, int width = 0, int height = 0);
+    /** @brief Returns true if this clip has a variable framerate */
+    bool hasVariableFps();
 
 protected:
     friend class ClipModel;

@@ -372,6 +372,8 @@ public:
      * @param vTracks the video tracks count, use default if -1 */
     void buildSequenceClip(int aTracks = -1, int vTracks = -1);
     const QString buildSequenceClipWithUndo(Fun &undo, Fun &redo, int aTracks = -1, int vTracks = -1, QString suggestedName = QString());
+    /** @brief Returns true if the project uses a clip with variable framerate. */
+    bool usesVariableFpsClip();
 
 private Q_SLOTS:
     void slotAddClip();
@@ -499,11 +501,13 @@ public Q_SLOTS:
     /** @brief A non seekable clip was added to project, propose transcoding */
     void requestTranscoding(const QString &url, const QString &id, int type, bool checkProfile, const QString &suffix = QString(), const QString &message = QString());
     /** @brief Display the transcode to edit friendly format for currenly selected bin clips */
-    void requestSelectionTranscoding();
+    void requestSelectionTranscoding(bool forceReplace = false);
     /** @brief Build the project bin audio/video icons according to color theme */
     void slotUpdatePalette();
     /** @brief Import multiple video streams in a clip */
     void processMultiStream(const QString &clipId, QList<int> videoStreams, QList<int> audioStreams);
+    /** @brief Transcode all used clips with variable framerate to edit friendly format. */
+    void transcodeUsedClips();
 
 protected:
     /* This function is called whenever an item is selected to propagate signals
