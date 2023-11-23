@@ -5080,7 +5080,7 @@ msgid ""
 "anyways?"
 msgstr ""
 "El clip <b>%1</b><br /> està en un dispositiu extraïble. No estarà "
-"disponible quan el dispositiu es desconnecti o es munte en una posició "
+"disponible quan el dispositiu es desconnecte o es munte en una posició "
 "diferent.\n"
 "Potser el voldreu copiar abans al disc dur. El voleu afegir igualment?"
 
