@@ -643,12 +643,13 @@ void RenderWidget::slotPrepareExport(bool delayedRendering)
         // Empty project, don't attempt to render
         m_view.infoMessage->setMessageType(KMessageWidget::Warning);
         m_view.infoMessage->setText(
-            i18n("Rendering a project with variable framerate clips can lead to audio/video desync.\nWe recommand to transcode to an edit friendly format"));
+            i18nc("@label:textbox",
+                  "Rendering a project with variable framerate clips can lead to audio/video desync.\nWe recommend to transcode to an edit friendly format."));
         if (m_view.infoMessage->actions().isEmpty()) {
-            QAction *b = new QAction(i18n("Render Anyway"), this);
+            QAction *b = new QAction(i18nc("@action:button", "Render Anyway"), this);
             connect(b, &QAction::triggered, this, [this, delayedRendering]() { slotPrepareExport2(delayedRendering); });
             m_view.infoMessage->addAction(b);
-            QAction *a = new QAction(i18n("Transcode"), this);
+            QAction *a = new QAction(i18nc("@action:button", "Transcode"), this);
             connect(a, &QAction::triggered, this, [this]() {
                 QList<QAction *> acts = m_view.infoMessage->actions();
                 while (!acts.isEmpty()) {
