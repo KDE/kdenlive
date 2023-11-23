@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-20 00:42+0000\n"
+"POT-Creation-Date: 2023-11-23 00:41+0000\n"
 "PO-Revision-Date: 2023-10-02 19:42+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -4014,7 +4014,7 @@ msgstr ""
 "Memantau audio. Tekan <b>Space</b> untuk memulai/menjeda perekaman, <b>Esc</"
 "b> untuk membatalkan."
 
-#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:996
+#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:998
 #, kde-format
 msgid "Master"
 msgstr "Master"
@@ -5850,7 +5850,7 @@ msgstr "Profil proyek Anda tidak valid, rendering mungkin gagal."
 #: src/core.cpp:685 src/kdenliveui.rc:30 src/mainwindow.cpp:285
 #: src/project/dialogs/archivewidget.cpp:97
 #: src/project/dialogs/projectsettings.cpp:423
-#: src/timeline2/view/qml/timeline.qml:1088
+#: src/timeline2/view/qml/timeline.qml:1090
 #, kde-format
 msgid "Subtitles"
 msgstr "Subtitel"
@@ -16121,14 +16121,14 @@ msgid "Change clip speed"
 msgstr "Ubah kecepatan klip"
 
 #: src/timeline2/model/timelinemodel.cpp:6338
-#: src/timeline2/view/qml/timeline.qml:1190
+#: src/timeline2/view/qml/timeline.qml:1192
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Lock track"
 msgstr "Gembok trek"
 
 #: src/timeline2/model/timelinemodel.cpp:6343
-#: src/timeline2/view/qml/timeline.qml:1190
+#: src/timeline2/view/qml/timeline.qml:1192
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Unlock track"
@@ -16262,7 +16262,7 @@ msgid "Stop"
 msgstr "Hentikan"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2082
+#: src/timeline2/view/qml/timeline.qml:2084
 #, kde-format
 msgid "Paused"
 msgstr "Jeda"
@@ -16272,44 +16272,44 @@ msgstr "Jeda"
 msgid "Mic level"
 msgstr "Level mic"
 
-#: src/timeline2/view/qml/Clip.qml:223 src/timeline2/view/qml/Clip.qml:844
+#: src/timeline2/view/qml/Clip.qml:224 src/timeline2/view/qml/Clip.qml:845
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), Posisi: %4, Durasi: %5"
 
-#: src/timeline2/view/qml/Clip.qml:333 src/timeline2/view/qml/Clip.qml:340
+#: src/timeline2/view/qml/Clip.qml:334 src/timeline2/view/qml/Clip.qml:341
 #: src/timeline2/view/qml/SubTitle.qml:164
 #: src/timeline2/view/qml/SubTitle.qml:170
 #, kde-format
 msgid "Position: %1"
 msgstr "Posisi: %1"
 
-#: src/timeline2/view/qml/Clip.qml:452
+#: src/timeline2/view/qml/Clip.qml:453
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "Durasi campur: %1, Potong di: %2"
 
-#: src/timeline2/view/qml/Clip.qml:513
+#: src/timeline2/view/qml/Clip.qml:514
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, Durasi campur: %2"
 
-#: src/timeline2/view/qml/Clip.qml:515
+#: src/timeline2/view/qml/Clip.qml:516
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, Durasi campur: %2"
 
-#: src/timeline2/view/qml/Clip.qml:518 src/timeline2/view/qml/Clip.qml:531
+#: src/timeline2/view/qml/Clip.qml:519 src/timeline2/view/qml/Clip.qml:532
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "Durasi campur: %1"
 
-#: src/timeline2/view/qml/Clip.qml:707
+#: src/timeline2/view/qml/Clip.qml:708
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "Dalam:%1, Posisi:%2"
 
-#: src/timeline2/view/qml/Clip.qml:710 src/timeline2/view/qml/Clip.qml:834
+#: src/timeline2/view/qml/Clip.qml:711 src/timeline2/view/qml/Clip.qml:835
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -16318,60 +16318,60 @@ msgstr ""
 "<b>Ctrl sèrèt</b> untuk mengubah kecepatan, <b>Klik dua kali</b> untuk "
 "mencampur dengan klip sebelahnya"
 
-#: src/timeline2/view/qml/Clip.qml:712
+#: src/timeline2/view/qml/Clip.qml:713
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Sèrèt</b> untuk mengubah durasi mix"
 
-#: src/timeline2/view/qml/Clip.qml:831
+#: src/timeline2/view/qml/Clip.qml:832
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Luar:%1, Posisi:%2"
 
-#: src/timeline2/view/qml/Clip.qml:977
+#: src/timeline2/view/qml/Clip.qml:978
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Offset: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:977
+#: src/timeline2/view/qml/Clip.qml:978
 #, kde-format
 msgid "Offset: %1"
 msgstr "Ofset: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1195 src/timeline2/view/qml/Clip.qml:1232
+#: src/timeline2/view/qml/Clip.qml:1196 src/timeline2/view/qml/Clip.qml:1233
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>Klik</b> untuk menambahkan komposisi"
 
-#: src/timeline2/view/qml/Clip.qml:1301 src/timeline2/view/qml/Clip.qml:1308
+#: src/timeline2/view/qml/Clip.qml:1302 src/timeline2/view/qml/Clip.qml:1309
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Lesap out: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1312 src/timeline2/view/qml/Clip.qml:1411
+#: src/timeline2/view/qml/Clip.qml:1313 src/timeline2/view/qml/Clip.qml:1412
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Sèrèt</b> untuk menyetel lesap, <b>Klick</b> untuk menambahkan durasi "
 "lesap baku"
 
-#: src/timeline2/view/qml/Clip.qml:1400 src/timeline2/view/qml/Clip.qml:1407
+#: src/timeline2/view/qml/Clip.qml:1401 src/timeline2/view/qml/Clip.qml:1408
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Lesap in: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1494
+#: src/timeline2/view/qml/Clip.qml:1495
 #, kde-format
 msgid "Slip Clip"
 msgstr "Klip Selip"
 
-#: src/timeline2/view/qml/Composition.qml:231
+#: src/timeline2/view/qml/Composition.qml:233
 #, kde-format
 msgid "%1, Position: %2, Duration: %3"
 msgstr "%1, Posisi: %2, Durasi: %3"
 
-#: src/timeline2/view/qml/Composition.qml:305
-#: src/timeline2/view/qml/Composition.qml:367
+#: src/timeline2/view/qml/Composition.qml:307
+#: src/timeline2/view/qml/Composition.qml:369
 #: src/timeline2/view/qml/SubTitle.qml:287
 #: src/timeline2/view/qml/SubTitle.qml:376
 #, kde-format
@@ -16401,51 +16401,51 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>Klik dua kali</b> untuk mengedit teks"
 
-#: src/timeline2/view/qml/timeline.qml:990
+#: src/timeline2/view/qml/timeline.qml:992
 #, kde-format
 msgid "Show master effects"
 msgstr "Tampilkan efek master"
 
-#: src/timeline2/view/qml/timeline.qml:1124
+#: src/timeline2/view/qml/timeline.qml:1126
 #, kde-format
 msgid "Click to see details"
 msgstr "Klik untuk melihat detailnya"
 
-#: src/timeline2/view/qml/timeline.qml:1146
+#: src/timeline2/view/qml/timeline.qml:1148
 #, kde-format
 msgid "Speech recognition"
 msgstr "Pengenalan lisan"
 
-#: src/timeline2/view/qml/timeline.qml:1166
+#: src/timeline2/view/qml/timeline.qml:1168
 #: src/timeline2/view/qml/TrackHead.qml:470
 #, kde-format
 msgid "Show"
 msgstr "Tampilkan"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1166
+#: src/timeline2/view/qml/timeline.qml:1168
 #: src/timeline2/view/qml/TrackHead.qml:470 src/ui/configcapture_ui.ui:397
 #, kde-format
 msgid "Hide"
 msgstr "Sembunyikan"
 
-#: src/timeline2/view/qml/timeline.qml:1761
+#: src/timeline2/view/qml/timeline.qml:1763
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Klik ganda</b> untuk menambahkan subtitel"
 
-#: src/timeline2/view/qml/timeline.qml:1924
+#: src/timeline2/view/qml/timeline.qml:1926
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Ofset: %1, Posisi: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2071
-#: src/timeline2/view/qml/timeline.qml:2080
+#: src/timeline2/view/qml/timeline.qml:2073
+#: src/timeline2/view/qml/timeline.qml:2082
 #, kde-format
 msgid "Recording"
 msgstr "Merekam"
 
-#: src/timeline2/view/qml/timeline.qml:2169
+#: src/timeline2/view/qml/timeline.qml:2171
 #, kde-format
 msgid "Multicam In"
 msgstr "Multicam Masuk"

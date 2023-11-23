@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-20 00:42+0000\n"
+"POT-Creation-Date: 2023-11-23 00:41+0000\n"
 "PO-Revision-Date: 2023-11-13 21:32+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -4034,7 +4034,7 @@ msgstr ""
 "Nadzor zvoka. Pritisnite <b>preslednico</b> za začetek/premor snemanja, "
 "<b>ubežnico</b> za zaključek."
 
-#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:996
+#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:998
 #, kde-format
 msgid "Master"
 msgstr "Glavni"
@@ -5909,7 +5909,7 @@ msgstr "Vaš profil projekta ni veljaven, izrisovanje morda ne bo uspelo."
 #: src/core.cpp:685 src/kdenliveui.rc:30 src/mainwindow.cpp:285
 #: src/project/dialogs/archivewidget.cpp:97
 #: src/project/dialogs/projectsettings.cpp:423
-#: src/timeline2/view/qml/timeline.qml:1088
+#: src/timeline2/view/qml/timeline.qml:1090
 #, kde-format
 msgid "Subtitles"
 msgstr "Podnaslavljanje"
@@ -16282,14 +16282,14 @@ msgid "Change clip speed"
 msgstr "Spremeni hitrost posnetka"
 
 #: src/timeline2/model/timelinemodel.cpp:6338
-#: src/timeline2/view/qml/timeline.qml:1190
+#: src/timeline2/view/qml/timeline.qml:1192
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Lock track"
 msgstr "Zakleni stezo"
 
 #: src/timeline2/model/timelinemodel.cpp:6343
-#: src/timeline2/view/qml/timeline.qml:1190
+#: src/timeline2/view/qml/timeline.qml:1192
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Unlock track"
@@ -16425,7 +16425,7 @@ msgid "Stop"
 msgstr "Ustavi"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2082
+#: src/timeline2/view/qml/timeline.qml:2084
 #, kde-format
 msgid "Paused"
 msgstr "Prekinjeno"
@@ -16435,44 +16435,44 @@ msgstr "Prekinjeno"
 msgid "Mic level"
 msgstr "Raven mikrofona"
 
-#: src/timeline2/view/qml/Clip.qml:223 src/timeline2/view/qml/Clip.qml:844
+#: src/timeline2/view/qml/Clip.qml:224 src/timeline2/view/qml/Clip.qml:845
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), Pozicija: %4, Trajanje: %5"
 
-#: src/timeline2/view/qml/Clip.qml:333 src/timeline2/view/qml/Clip.qml:340
+#: src/timeline2/view/qml/Clip.qml:334 src/timeline2/view/qml/Clip.qml:341
 #: src/timeline2/view/qml/SubTitle.qml:164
 #: src/timeline2/view/qml/SubTitle.qml:170
 #, kde-format
 msgid "Position: %1"
 msgstr "Položaj:%1"
 
-#: src/timeline2/view/qml/Clip.qml:452
+#: src/timeline2/view/qml/Clip.qml:453
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "Trajanje mešanja: %1, Izreži na: %2"
 
-#: src/timeline2/view/qml/Clip.qml:513
+#: src/timeline2/view/qml/Clip.qml:514
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, Trajanje mešanja: %2"
 
-#: src/timeline2/view/qml/Clip.qml:515
+#: src/timeline2/view/qml/Clip.qml:516
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, Trajanje mešanja: %2"
 
-#: src/timeline2/view/qml/Clip.qml:518 src/timeline2/view/qml/Clip.qml:531
+#: src/timeline2/view/qml/Clip.qml:519 src/timeline2/view/qml/Clip.qml:532
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "Trajanje mešanja: %1"
 
-#: src/timeline2/view/qml/Clip.qml:707
+#: src/timeline2/view/qml/Clip.qml:708
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "V:%1, Položaj: %2"
 
-#: src/timeline2/view/qml/Clip.qml:710 src/timeline2/view/qml/Clip.qml:834
+#: src/timeline2/view/qml/Clip.qml:711 src/timeline2/view/qml/Clip.qml:835
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -16481,60 +16481,60 @@ msgstr ""
 "<b>Krmilka in povlek</b> za spremembo hitrosti, <b>dvojni klik</b> za "
 "mešanje s sosednjim posnetkom"
 
-#: src/timeline2/view/qml/Clip.qml:712
+#: src/timeline2/view/qml/Clip.qml:713
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Povlecite</b> za spremembo trajanja zmešanega zvoka"
 
-#: src/timeline2/view/qml/Clip.qml:831
+#: src/timeline2/view/qml/Clip.qml:832
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "V:%1, Položaj: %2"
 
-#: src/timeline2/view/qml/Clip.qml:977
+#: src/timeline2/view/qml/Clip.qml:978
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Zamik: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:977
+#: src/timeline2/view/qml/Clip.qml:978
 #, kde-format
 msgid "Offset: %1"
 msgstr "Zamik: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1195 src/timeline2/view/qml/Clip.qml:1232
+#: src/timeline2/view/qml/Clip.qml:1196 src/timeline2/view/qml/Clip.qml:1233
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>Kliknite</b> za dodajanje sestave"
 
-#: src/timeline2/view/qml/Clip.qml:1301 src/timeline2/view/qml/Clip.qml:1308
+#: src/timeline2/view/qml/Clip.qml:1302 src/timeline2/view/qml/Clip.qml:1309
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Utišanje: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1312 src/timeline2/view/qml/Clip.qml:1411
+#: src/timeline2/view/qml/Clip.qml:1313 src/timeline2/view/qml/Clip.qml:1412
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Povlecite</b>, da prilagodite bledenje, <b>kliknite</b>, da dodate "
 "privzeto trajanje bledenja"
 
-#: src/timeline2/view/qml/Clip.qml:1400 src/timeline2/view/qml/Clip.qml:1407
+#: src/timeline2/view/qml/Clip.qml:1401 src/timeline2/view/qml/Clip.qml:1408
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Dvig jakosti: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1494
+#: src/timeline2/view/qml/Clip.qml:1495
 #, kde-format
 msgid "Slip Clip"
 msgstr "Podrsaj posnetek"
 
-#: src/timeline2/view/qml/Composition.qml:231
+#: src/timeline2/view/qml/Composition.qml:233
 #, kde-format
 msgid "%1, Position: %2, Duration: %3"
 msgstr "%1, Pozicija: %2, Trajanje: %3"
 
-#: src/timeline2/view/qml/Composition.qml:305
-#: src/timeline2/view/qml/Composition.qml:367
+#: src/timeline2/view/qml/Composition.qml:307
+#: src/timeline2/view/qml/Composition.qml:369
 #: src/timeline2/view/qml/SubTitle.qml:287
 #: src/timeline2/view/qml/SubTitle.qml:376
 #, kde-format
@@ -16564,51 +16564,51 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>Dvoklik</b> za urejanje besedila"
 
-#: src/timeline2/view/qml/timeline.qml:990
+#: src/timeline2/view/qml/timeline.qml:992
 #, kde-format
 msgid "Show master effects"
 msgstr "Pokaži glavne učinke"
 
-#: src/timeline2/view/qml/timeline.qml:1124
+#: src/timeline2/view/qml/timeline.qml:1126
 #, kde-format
 msgid "Click to see details"
 msgstr "Kliknite za ogled podrobnosti"
 
-#: src/timeline2/view/qml/timeline.qml:1146
+#: src/timeline2/view/qml/timeline.qml:1148
 #, kde-format
 msgid "Speech recognition"
 msgstr "Razpoznavanje govora"
 
-#: src/timeline2/view/qml/timeline.qml:1166
+#: src/timeline2/view/qml/timeline.qml:1168
 #: src/timeline2/view/qml/TrackHead.qml:470
 #, kde-format
 msgid "Show"
 msgstr "Pokaži"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1166
+#: src/timeline2/view/qml/timeline.qml:1168
 #: src/timeline2/view/qml/TrackHead.qml:470 src/ui/configcapture_ui.ui:397
 #, kde-format
 msgid "Hide"
 msgstr "Skrij"
 
-#: src/timeline2/view/qml/timeline.qml:1761
+#: src/timeline2/view/qml/timeline.qml:1763
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Dvokliknite</b> za dodajanje podnaslova"
 
-#: src/timeline2/view/qml/timeline.qml:1924
+#: src/timeline2/view/qml/timeline.qml:1926
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Odmik:%1, Položaj: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2071
-#: src/timeline2/view/qml/timeline.qml:2080
+#: src/timeline2/view/qml/timeline.qml:2073
+#: src/timeline2/view/qml/timeline.qml:2082
 #, kde-format
 msgid "Recording"
 msgstr "Snemanje"
 
-#: src/timeline2/view/qml/timeline.qml:2169
+#: src/timeline2/view/qml/timeline.qml:2171
 #, kde-format
 msgid "Multicam In"
 msgstr "Vstopna/sinhrona točka posnetkov več kamer"

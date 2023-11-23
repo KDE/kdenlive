@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-20 00:42+0000\n"
+"POT-Creation-Date: 2023-11-23 00:41+0000\n"
 "PO-Revision-Date: 2023-08-19 22:23+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -3997,7 +3997,7 @@ msgid ""
 msgstr ""
 "مراقبة الصوت. اضغط <b>مسافة</b> لتبدأ أو تلبث التسجيل، <b>هروب</b> للإنهاء."
 
-#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:996
+#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:998
 #, kde-format
 msgid "Master"
 msgstr "الرئيس"
@@ -5869,7 +5869,7 @@ msgstr "ملف تعريف مشروعك غير صالح، قد يفشل التص�
 #: src/core.cpp:685 src/kdenliveui.rc:30 src/mainwindow.cpp:285
 #: src/project/dialogs/archivewidget.cpp:97
 #: src/project/dialogs/projectsettings.cpp:423
-#: src/timeline2/view/qml/timeline.qml:1088
+#: src/timeline2/view/qml/timeline.qml:1090
 #, kde-format
 msgid "Subtitles"
 msgstr "الترجمة"
@@ -16189,14 +16189,14 @@ msgid "Change clip speed"
 msgstr "غيّر سرعة مقطع"
 
 #: src/timeline2/model/timelinemodel.cpp:6338
-#: src/timeline2/view/qml/timeline.qml:1190
+#: src/timeline2/view/qml/timeline.qml:1192
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Lock track"
 msgstr "اقفل المسار"
 
 #: src/timeline2/model/timelinemodel.cpp:6343
-#: src/timeline2/view/qml/timeline.qml:1190
+#: src/timeline2/view/qml/timeline.qml:1192
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Unlock track"
@@ -16330,7 +16330,7 @@ msgid "Stop"
 msgstr "أوقف"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2082
+#: src/timeline2/view/qml/timeline.qml:2084
 #, kde-format
 msgid "Paused"
 msgstr "مُلبثة"
@@ -16340,44 +16340,44 @@ msgstr "مُلبثة"
 msgid "Mic level"
 msgstr "مستوى اللاقط"
 
-#: src/timeline2/view/qml/Clip.qml:223 src/timeline2/view/qml/Clip.qml:844
+#: src/timeline2/view/qml/Clip.qml:224 src/timeline2/view/qml/Clip.qml:845
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3)، الموضع: %4، المدة: %5"
 
-#: src/timeline2/view/qml/Clip.qml:333 src/timeline2/view/qml/Clip.qml:340
+#: src/timeline2/view/qml/Clip.qml:334 src/timeline2/view/qml/Clip.qml:341
 #: src/timeline2/view/qml/SubTitle.qml:164
 #: src/timeline2/view/qml/SubTitle.qml:170
 #, kde-format
 msgid "Position: %1"
 msgstr "الموضع: %1"
 
-#: src/timeline2/view/qml/Clip.qml:452
+#: src/timeline2/view/qml/Clip.qml:453
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "مدة المزج: %1، قص عند: %2"
 
-#: src/timeline2/view/qml/Clip.qml:513
+#: src/timeline2/view/qml/Clip.qml:514
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1، مدة المزج: %2"
 
-#: src/timeline2/view/qml/Clip.qml:515
+#: src/timeline2/view/qml/Clip.qml:516
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1، مدة المزج: %2"
 
-#: src/timeline2/view/qml/Clip.qml:518 src/timeline2/view/qml/Clip.qml:531
+#: src/timeline2/view/qml/Clip.qml:519 src/timeline2/view/qml/Clip.qml:532
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "مدة المزج: %1"
 
-#: src/timeline2/view/qml/Clip.qml:707
+#: src/timeline2/view/qml/Clip.qml:708
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "الدخول:%1، الموضع:%2"
 
-#: src/timeline2/view/qml/Clip.qml:710 src/timeline2/view/qml/Clip.qml:834
+#: src/timeline2/view/qml/Clip.qml:711 src/timeline2/view/qml/Clip.qml:835
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -16386,59 +16386,59 @@ msgstr ""
 "<b>السحب مع Ctrl </b> لتغير السرعة، <b>النقر المزدوج</b> للمزج مع المقطع "
 "المجاورة"
 
-#: src/timeline2/view/qml/Clip.qml:712
+#: src/timeline2/view/qml/Clip.qml:713
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>اسحب</b> لتغيير مدة المزج"
 
-#: src/timeline2/view/qml/Clip.qml:831
+#: src/timeline2/view/qml/Clip.qml:832
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "الخروج:%1، الموضع:%2"
 
-#: src/timeline2/view/qml/Clip.qml:977
+#: src/timeline2/view/qml/Clip.qml:978
 #, kde-format
 msgid "Offset: -%1"
 msgstr "الإزاحة: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:977
+#: src/timeline2/view/qml/Clip.qml:978
 #, kde-format
 msgid "Offset: %1"
 msgstr "الإزاحة: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1195 src/timeline2/view/qml/Clip.qml:1232
+#: src/timeline2/view/qml/Clip.qml:1196 src/timeline2/view/qml/Clip.qml:1233
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>انقر</b> لتضيف تركيباً"
 
-#: src/timeline2/view/qml/Clip.qml:1301 src/timeline2/view/qml/Clip.qml:1308
+#: src/timeline2/view/qml/Clip.qml:1302 src/timeline2/view/qml/Clip.qml:1309
 #, kde-format
 msgid "Fade out: %1"
 msgstr "تلاشٍ للخارج: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1312 src/timeline2/view/qml/Clip.qml:1411
+#: src/timeline2/view/qml/Clip.qml:1313 src/timeline2/view/qml/Clip.qml:1412
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b> السحب </b> لضبط التلاشي ، <b>النقر</b> لإضافة تتلاشى المدة الافتراضية"
 
-#: src/timeline2/view/qml/Clip.qml:1400 src/timeline2/view/qml/Clip.qml:1407
+#: src/timeline2/view/qml/Clip.qml:1401 src/timeline2/view/qml/Clip.qml:1408
 #, kde-format
 msgid "Fade in: %1"
 msgstr "تلاشٍ للداخل: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1494
+#: src/timeline2/view/qml/Clip.qml:1495
 #, kde-format
 msgid "Slip Clip"
 msgstr "أزلق مقطع"
 
-#: src/timeline2/view/qml/Composition.qml:231
+#: src/timeline2/view/qml/Composition.qml:233
 #, kde-format
 msgid "%1, Position: %2, Duration: %3"
 msgstr "%1، الموضع: %2, المدة: %3"
 
-#: src/timeline2/view/qml/Composition.qml:305
-#: src/timeline2/view/qml/Composition.qml:367
+#: src/timeline2/view/qml/Composition.qml:307
+#: src/timeline2/view/qml/Composition.qml:369
 #: src/timeline2/view/qml/SubTitle.qml:287
 #: src/timeline2/view/qml/SubTitle.qml:376
 #, kde-format
@@ -16468,51 +16468,51 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "انقر <b>نقرًا مزدوجًا</b> لتحرير النص"
 
-#: src/timeline2/view/qml/timeline.qml:990
+#: src/timeline2/view/qml/timeline.qml:992
 #, kde-format
 msgid "Show master effects"
 msgstr "أظهر التّأثيرات الرئيسة"
 
-#: src/timeline2/view/qml/timeline.qml:1124
+#: src/timeline2/view/qml/timeline.qml:1126
 #, kde-format
 msgid "Click to see details"
 msgstr "انقر لرؤية التفاصيل"
 
-#: src/timeline2/view/qml/timeline.qml:1146
+#: src/timeline2/view/qml/timeline.qml:1148
 #, kde-format
 msgid "Speech recognition"
 msgstr "تعرف على الكلام"
 
-#: src/timeline2/view/qml/timeline.qml:1166
+#: src/timeline2/view/qml/timeline.qml:1168
 #: src/timeline2/view/qml/TrackHead.qml:470
 #, kde-format
 msgid "Show"
 msgstr "أظهر"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1166
+#: src/timeline2/view/qml/timeline.qml:1168
 #: src/timeline2/view/qml/TrackHead.qml:470 src/ui/configcapture_ui.ui:397
 #, kde-format
 msgid "Hide"
 msgstr "أخفِ"
 
-#: src/timeline2/view/qml/timeline.qml:1761
+#: src/timeline2/view/qml/timeline.qml:1763
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>انقر مزدوجًا</b> لإضافة ترجمة"
 
-#: src/timeline2/view/qml/timeline.qml:1924
+#: src/timeline2/view/qml/timeline.qml:1926
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "الإزاحة: %1, الموضع: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2071
-#: src/timeline2/view/qml/timeline.qml:2080
+#: src/timeline2/view/qml/timeline.qml:2073
+#: src/timeline2/view/qml/timeline.qml:2082
 #, kde-format
 msgid "Recording"
 msgstr "يسجّل"
 
-#: src/timeline2/view/qml/timeline.qml:2169
+#: src/timeline2/view/qml/timeline.qml:2171
 #, kde-format
 msgid "Multicam In"
 msgstr "عدة كاميرات في"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-20 00:42+0000\n"
+"POT-Creation-Date: 2023-11-23 00:41+0000\n"
 "PO-Revision-Date: 2020-10-31 22:29+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -4100,7 +4100,7 @@ msgid ""
 "end."
 msgstr ""
 
-#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:996
+#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:998
 #, kde-format
 msgid "Master"
 msgstr "Master"
@@ -6044,7 +6044,7 @@ msgstr ""
 #: src/core.cpp:685 src/kdenliveui.rc:30 src/mainwindow.cpp:285
 #: src/project/dialogs/archivewidget.cpp:97
 #: src/project/dialogs/projectsettings.cpp:423
-#: src/timeline2/view/qml/timeline.qml:1088
+#: src/timeline2/view/qml/timeline.qml:1090
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Subtitles"
@@ -16680,14 +16680,14 @@ msgid "Change clip speed"
 msgstr "Ændr kliphastighed"
 
 #: src/timeline2/model/timelinemodel.cpp:6338
-#: src/timeline2/view/qml/timeline.qml:1190
+#: src/timeline2/view/qml/timeline.qml:1192
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Lock track"
 msgstr "Lås spor"
 
 #: src/timeline2/model/timelinemodel.cpp:6343
-#: src/timeline2/view/qml/timeline.qml:1190
+#: src/timeline2/view/qml/timeline.qml:1192
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Unlock track"
@@ -16826,7 +16826,7 @@ msgid "Stop"
 msgstr "Stop"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2082
+#: src/timeline2/view/qml/timeline.qml:2084
 #, fuzzy, kde-format
 #| msgid "Pause"
 msgid "Paused"
@@ -16838,12 +16838,12 @@ msgstr "Pause"
 msgid "Mic level"
 msgstr "Vis lydniveauer"
 
-#: src/timeline2/view/qml/Clip.qml:223 src/timeline2/view/qml/Clip.qml:844
+#: src/timeline2/view/qml/Clip.qml:224 src/timeline2/view/qml/Clip.qml:845
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:333 src/timeline2/view/qml/Clip.qml:340
+#: src/timeline2/view/qml/Clip.qml:334 src/timeline2/view/qml/Clip.qml:341
 #: src/timeline2/view/qml/SubTitle.qml:164
 #: src/timeline2/view/qml/SubTitle.qml:170
 #, fuzzy, kde-format
@@ -16855,12 +16855,12 @@ msgstr ""
 "\n"
 "Position:%1"
 
-#: src/timeline2/view/qml/Clip.qml:452
+#: src/timeline2/view/qml/Clip.qml:453
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:513
+#: src/timeline2/view/qml/Clip.qml:514
 #, fuzzy, kde-format
 #| msgid ""
 #| "In:%1\n"
@@ -16870,7 +16870,7 @@ msgstr ""
 "I:%1\n"
 "Position:%2"
 
-#: src/timeline2/view/qml/Clip.qml:515
+#: src/timeline2/view/qml/Clip.qml:516
 #, fuzzy, kde-format
 #| msgid ""
 #| "In:%1\n"
@@ -16880,13 +16880,13 @@ msgstr ""
 "I:%1\n"
 "Position:%2"
 
-#: src/timeline2/view/qml/Clip.qml:518 src/timeline2/view/qml/Clip.qml:531
+#: src/timeline2/view/qml/Clip.qml:519 src/timeline2/view/qml/Clip.qml:532
 #, fuzzy, kde-format
 #| msgid "Duration:"
 msgid "Mix duration: %1"
 msgstr "Varighed:"
 
-#: src/timeline2/view/qml/Clip.qml:707
+#: src/timeline2/view/qml/Clip.qml:708
 #, fuzzy, kde-format
 #| msgid ""
 #| "In:%1\n"
@@ -16896,19 +16896,19 @@ msgstr ""
 "I:%1\n"
 "Position:%2"
 
-#: src/timeline2/view/qml/Clip.qml:710 src/timeline2/view/qml/Clip.qml:834
+#: src/timeline2/view/qml/Clip.qml:711 src/timeline2/view/qml/Clip.qml:835
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
 "clip"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:712
+#: src/timeline2/view/qml/Clip.qml:713
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:831
+#: src/timeline2/view/qml/Clip.qml:832
 #, fuzzy, kde-format
 #| msgid ""
 #| "In:%1\n"
@@ -16918,46 +16918,46 @@ msgstr ""
 "I:%1\n"
 "Position:%2"
 
-#: src/timeline2/view/qml/Clip.qml:977
+#: src/timeline2/view/qml/Clip.qml:978
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Forskydning: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:977
+#: src/timeline2/view/qml/Clip.qml:978
 #, kde-format
 msgid "Offset: %1"
 msgstr "Forskydning: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1195 src/timeline2/view/qml/Clip.qml:1232
+#: src/timeline2/view/qml/Clip.qml:1196 src/timeline2/view/qml/Clip.qml:1233
 #, fuzzy, kde-format
 #| msgid "Click to add composition"
 msgid "<b>Click</b> to add composition"
 msgstr "Klik for at tilføje komposition"
 
-#: src/timeline2/view/qml/Clip.qml:1301 src/timeline2/view/qml/Clip.qml:1308
+#: src/timeline2/view/qml/Clip.qml:1302 src/timeline2/view/qml/Clip.qml:1309
 #, fuzzy, kde-format
 #| msgid "Fade out"
 msgid "Fade out: %1"
 msgstr "Udtoning"
 
-#: src/timeline2/view/qml/Clip.qml:1312 src/timeline2/view/qml/Clip.qml:1411
+#: src/timeline2/view/qml/Clip.qml:1313 src/timeline2/view/qml/Clip.qml:1412
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1400 src/timeline2/view/qml/Clip.qml:1407
+#: src/timeline2/view/qml/Clip.qml:1401 src/timeline2/view/qml/Clip.qml:1408
 #, fuzzy, kde-format
 #| msgid "Fade in"
 msgid "Fade in: %1"
 msgstr "Indtoning"
 
-#: src/timeline2/view/qml/Clip.qml:1494
+#: src/timeline2/view/qml/Clip.qml:1495
 #, fuzzy, kde-format
 #| msgid "Select Clip"
 msgid "Slip Clip"
 msgstr "Markér klip"
 
-#: src/timeline2/view/qml/Composition.qml:231
+#: src/timeline2/view/qml/Composition.qml:233
 #, fuzzy, kde-format
 #| msgid ""
 #| "In:%1\n"
@@ -16967,8 +16967,8 @@ msgstr ""
 "I:%1\n"
 "Position:%2"
 
-#: src/timeline2/view/qml/Composition.qml:305
-#: src/timeline2/view/qml/Composition.qml:367
+#: src/timeline2/view/qml/Composition.qml:307
+#: src/timeline2/view/qml/Composition.qml:369
 #: src/timeline2/view/qml/SubTitle.qml:287
 #: src/timeline2/view/qml/SubTitle.qml:376
 #, kde-format
@@ -16994,43 +16994,43 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:990
+#: src/timeline2/view/qml/timeline.qml:992
 #, kde-format
 msgid "Show master effects"
 msgstr "Vis mastereffekter"
 
-#: src/timeline2/view/qml/timeline.qml:1124
+#: src/timeline2/view/qml/timeline.qml:1126
 #, fuzzy, kde-format
 #| msgid "Click to open cache folder"
 msgid "Click to see details"
 msgstr "Klik for at åbne cache-mappe"
 
-#: src/timeline2/view/qml/timeline.qml:1146
+#: src/timeline2/view/qml/timeline.qml:1148
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Speech recognition"
 msgstr "Markér overgang"
 
-#: src/timeline2/view/qml/timeline.qml:1166
+#: src/timeline2/view/qml/timeline.qml:1168
 #: src/timeline2/view/qml/TrackHead.qml:470
 #, kde-format
 msgid "Show"
 msgstr "Vis"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1166
+#: src/timeline2/view/qml/timeline.qml:1168
 #: src/timeline2/view/qml/TrackHead.qml:470 src/ui/configcapture_ui.ui:397
 #, kde-format
 msgid "Hide"
 msgstr "Skjul"
 
-#: src/timeline2/view/qml/timeline.qml:1761
+#: src/timeline2/view/qml/timeline.qml:1763
 #, fuzzy, kde-format
 #| msgid "Click to add composition"
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Klik for at tilføje komposition"
 
-#: src/timeline2/view/qml/timeline.qml:1924
+#: src/timeline2/view/qml/timeline.qml:1926
 #, fuzzy, kde-format
 #| msgid ""
 #| "In:%1\n"
@@ -17040,14 +17040,14 @@ msgstr ""
 "I:%1\n"
 "Position:%2"
 
-#: src/timeline2/view/qml/timeline.qml:2071
-#: src/timeline2/view/qml/timeline.qml:2080
+#: src/timeline2/view/qml/timeline.qml:2073
+#: src/timeline2/view/qml/timeline.qml:2082
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "Optag"
 
-#: src/timeline2/view/qml/timeline.qml:2169
+#: src/timeline2/view/qml/timeline.qml:2171
 #, kde-format
 msgid "Multicam In"
 msgstr ""

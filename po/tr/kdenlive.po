@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-20 00:42+0000\n"
+"POT-Creation-Date: 2023-11-23 00:41+0000\n"
 "PO-Revision-Date: 2023-11-13 05:18+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -4033,7 +4033,7 @@ msgstr ""
 "Ses izleniyor. Kaydı başlatmak/duraklatmak için <b>Boşluk</b>'a, "
 "sonlandırmak için <b>Esc</b>'ye basın."
 
-#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:996
+#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:998
 #, kde-format
 msgid "Master"
 msgstr "Ana"
@@ -5895,7 +5895,7 @@ msgstr "Proje profiliniz geçersiz, sunum başarısız olabilir."
 #: src/core.cpp:685 src/kdenliveui.rc:30 src/mainwindow.cpp:285
 #: src/project/dialogs/archivewidget.cpp:97
 #: src/project/dialogs/projectsettings.cpp:423
-#: src/timeline2/view/qml/timeline.qml:1088
+#: src/timeline2/view/qml/timeline.qml:1090
 #, kde-format
 msgid "Subtitles"
 msgstr "Altyazılar"
@@ -16206,14 +16206,14 @@ msgid "Change clip speed"
 msgstr "Klip hızını değiştir"
 
 #: src/timeline2/model/timelinemodel.cpp:6338
-#: src/timeline2/view/qml/timeline.qml:1190
+#: src/timeline2/view/qml/timeline.qml:1192
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Lock track"
 msgstr "İzi kilitle"
 
 #: src/timeline2/model/timelinemodel.cpp:6343
-#: src/timeline2/view/qml/timeline.qml:1190
+#: src/timeline2/view/qml/timeline.qml:1192
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Unlock track"
@@ -16348,7 +16348,7 @@ msgid "Stop"
 msgstr "Durdur"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2082
+#: src/timeline2/view/qml/timeline.qml:2084
 #, kde-format
 msgid "Paused"
 msgstr "Duraklatıldı"
@@ -16358,44 +16358,44 @@ msgstr "Duraklatıldı"
 msgid "Mic level"
 msgstr "Mikrofon düzeyi"
 
-#: src/timeline2/view/qml/Clip.qml:223 src/timeline2/view/qml/Clip.qml:844
+#: src/timeline2/view/qml/Clip.qml:224 src/timeline2/view/qml/Clip.qml:845
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), Konum: %4, Süre: %5"
 
-#: src/timeline2/view/qml/Clip.qml:333 src/timeline2/view/qml/Clip.qml:340
+#: src/timeline2/view/qml/Clip.qml:334 src/timeline2/view/qml/Clip.qml:341
 #: src/timeline2/view/qml/SubTitle.qml:164
 #: src/timeline2/view/qml/SubTitle.qml:170
 #, kde-format
 msgid "Position: %1"
 msgstr "Konum: %1"
 
-#: src/timeline2/view/qml/Clip.qml:452
+#: src/timeline2/view/qml/Clip.qml:453
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "Karışım süresi: %1, Kesme konumu: %2"
 
-#: src/timeline2/view/qml/Clip.qml:513
+#: src/timeline2/view/qml/Clip.qml:514
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, Karışım süresi: %2"
 
-#: src/timeline2/view/qml/Clip.qml:515
+#: src/timeline2/view/qml/Clip.qml:516
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, Karışım süresi: %2"
 
-#: src/timeline2/view/qml/Clip.qml:518 src/timeline2/view/qml/Clip.qml:531
+#: src/timeline2/view/qml/Clip.qml:519 src/timeline2/view/qml/Clip.qml:532
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "Karışım süresi: %1"
 
-#: src/timeline2/view/qml/Clip.qml:707
+#: src/timeline2/view/qml/Clip.qml:708
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "Giriş: %1, Konum: %2"
 
-#: src/timeline2/view/qml/Clip.qml:710 src/timeline2/view/qml/Clip.qml:834
+#: src/timeline2/view/qml/Clip.qml:711 src/timeline2/view/qml/Clip.qml:835
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -16404,60 +16404,60 @@ msgstr ""
 "Hızı değiştirmek için <b> Kontrol ile sürükleyin </b>, bitişik kliple "
 "karıştırmak için <b> çift tıklayın </b>"
 
-#: src/timeline2/view/qml/Clip.qml:712
+#: src/timeline2/view/qml/Clip.qml:713
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "Karışım süresini değiştirmek için <b>sürükle</b>"
 
-#: src/timeline2/view/qml/Clip.qml:831
+#: src/timeline2/view/qml/Clip.qml:832
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Çıkış: %1, Konum: %2"
 
-#: src/timeline2/view/qml/Clip.qml:977
+#: src/timeline2/view/qml/Clip.qml:978
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Ofset: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:977
+#: src/timeline2/view/qml/Clip.qml:978
 #, kde-format
 msgid "Offset: %1"
 msgstr "Ofset: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1195 src/timeline2/view/qml/Clip.qml:1232
+#: src/timeline2/view/qml/Clip.qml:1196 src/timeline2/view/qml/Clip.qml:1233
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "Bileşikleştirme eklemek için <b>tıklayın</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1301 src/timeline2/view/qml/Clip.qml:1308
+#: src/timeline2/view/qml/Clip.qml:1302 src/timeline2/view/qml/Clip.qml:1309
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Solarak çık: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1312 src/timeline2/view/qml/Clip.qml:1411
+#: src/timeline2/view/qml/Clip.qml:1313 src/timeline2/view/qml/Clip.qml:1412
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "Solmayı ayarlamak için <b>sürükleyin</b>, varsayılan süre soldurmayı eklemek "
 "için <b>tıklayın</b>"
 
-#: src/timeline2/view/qml/Clip.qml:1400 src/timeline2/view/qml/Clip.qml:1407
+#: src/timeline2/view/qml/Clip.qml:1401 src/timeline2/view/qml/Clip.qml:1408
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Solarak gir: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1494
+#: src/timeline2/view/qml/Clip.qml:1495
 #, kde-format
 msgid "Slip Clip"
 msgstr "Klibi Sürç"
 
-#: src/timeline2/view/qml/Composition.qml:231
+#: src/timeline2/view/qml/Composition.qml:233
 #, kde-format
 msgid "%1, Position: %2, Duration: %3"
 msgstr "%1, Konum: %2, Süre: %3"
 
-#: src/timeline2/view/qml/Composition.qml:305
-#: src/timeline2/view/qml/Composition.qml:367
+#: src/timeline2/view/qml/Composition.qml:307
+#: src/timeline2/view/qml/Composition.qml:369
 #: src/timeline2/view/qml/SubTitle.qml:287
 #: src/timeline2/view/qml/SubTitle.qml:376
 #, kde-format
@@ -16487,51 +16487,51 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "Metni düzenlemek için <b>çift tıklayın</b>"
 
-#: src/timeline2/view/qml/timeline.qml:990
+#: src/timeline2/view/qml/timeline.qml:992
 #, kde-format
 msgid "Show master effects"
 msgstr "Ana efektleri göster"
 
-#: src/timeline2/view/qml/timeline.qml:1124
+#: src/timeline2/view/qml/timeline.qml:1126
 #, kde-format
 msgid "Click to see details"
 msgstr "Ayrıntıları görmek için tıklayın"
 
-#: src/timeline2/view/qml/timeline.qml:1146
+#: src/timeline2/view/qml/timeline.qml:1148
 #, kde-format
 msgid "Speech recognition"
 msgstr "Konuşma tanıma"
 
-#: src/timeline2/view/qml/timeline.qml:1166
+#: src/timeline2/view/qml/timeline.qml:1168
 #: src/timeline2/view/qml/TrackHead.qml:470
 #, kde-format
 msgid "Show"
 msgstr "Göster"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1166
+#: src/timeline2/view/qml/timeline.qml:1168
 #: src/timeline2/view/qml/TrackHead.qml:470 src/ui/configcapture_ui.ui:397
 #, kde-format
 msgid "Hide"
 msgstr "Gizle"
 
-#: src/timeline2/view/qml/timeline.qml:1761
+#: src/timeline2/view/qml/timeline.qml:1763
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Altyazı eklemek için <b>çift tıklayın</b>"
 
-#: src/timeline2/view/qml/timeline.qml:1924
+#: src/timeline2/view/qml/timeline.qml:1926
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Ofset: %1, Konum: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2071
-#: src/timeline2/view/qml/timeline.qml:2080
+#: src/timeline2/view/qml/timeline.qml:2073
+#: src/timeline2/view/qml/timeline.qml:2082
 #, kde-format
 msgid "Recording"
 msgstr "Kaydediliyor"
 
-#: src/timeline2/view/qml/timeline.qml:2169
+#: src/timeline2/view/qml/timeline.qml:2171
 #, kde-format
 msgid "Multicam In"
 msgstr "Çoklu Kamera Girişi"
