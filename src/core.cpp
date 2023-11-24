@@ -175,7 +175,7 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
 
     // The MLT Factory will be initiated there, all MLT classes will be usable only after this
     if (inSandbox) {
-        // In a sandbox enviroment we need to search some paths recursively
+        // In a sandbox environment we need to search some paths recursively
         QString appPath = qApp->applicationDirPath();
         KdenliveSettings::setFfmpegpath(QDir::cleanPath(appPath + QStringLiteral("/ffmpeg")));
         KdenliveSettings::setFfplaypath(QDir::cleanPath(appPath + QStringLiteral("/ffplay")));

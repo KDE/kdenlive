@@ -12,7 +12,7 @@ class QStringUtils
 {
 public:
     /** @returns a name based on @param name that is unique in @param names.
-     *  This is achived by adding a number as suffix to the @param name in case name
+     *  This is achieved by adding a number as suffix to the @param name in case name
      *  does already exist in @param names.
      */
     static QString getUniqueName(const QStringList &names, const QString &name);

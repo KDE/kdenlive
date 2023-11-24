@@ -410,7 +410,7 @@ void RenderJob::slotCheckSubtitleProcess(int exitCode, QProcess::ExitStatus exit
 {
     if (exitStatus == QProcess::CrashExit || !QFile::exists(m_temporaryRenderFile)) {
         // rendering crashed
-        qDebug() << ":::: FOUND ERROR IN SUBS: " << exitStatus << " / " << exitCode << ", FILE ESISTS: " << QFile::exists(m_temporaryRenderFile);
+        qDebug() << ":::: FOUND ERROR IN SUBS: " << exitStatus << " / " << exitCode << ", FILE EXISTS: " << QFile::exists(m_temporaryRenderFile);
         QString error = tr("Rendering of %1 aborted when adding subtitles.").arg(m_dest);
         m_errorMessage.append(error);
         sendFinish(-2, m_errorMessage);

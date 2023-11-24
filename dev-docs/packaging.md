@@ -37,7 +37,7 @@ For translations and packaging data there are `*-packaging` repositories:
 | MLT      | `git clone git+ssh://$USER@git.launchpad.net/~kdenlive/+git/mlt-packaging`      |
 | Kdenlive | `git clone git+ssh://$USER@git.launchpad.net/~kdenlive/+git/kdenlive-packaging` |
 
-Replcace `$USER` by your Launchpad username.
+Replace `$USER` by your Launchpad username.
 
 #### Translations
 

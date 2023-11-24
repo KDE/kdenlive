@@ -149,7 +149,7 @@ kdenlive
 2. Start building kdenlive. You can simply run `craft --target=master kdenlive`
 3. Within the the craft environment you can running Kdenlive is as simple as `kdenlive`
 
-_Notes for Craft on macOS with arm M1 chip_: currently (april 2022), Craft doesn't support arm toolchain to compile. Therfore, you must compile in x84_64 mode. To do this, before launching craft using the ```craftenv.sh``` script, you must enter the following command:
+_Notes for Craft on macOS with arm M1 chip_: currently (april 2022), Craft doesn't support arm toolchain to compile. Therefore, you must compile in x84_64 mode. To do this, before launching craft using the ```craftenv.sh``` script, you must enter the following command:
 ```
 arch -arch x86_64 zsh -li
 ```

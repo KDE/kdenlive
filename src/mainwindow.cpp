@@ -144,7 +144,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_effectBasket(nullptr)
 {
     // Init all action categories that are used by other parts of the software
-    // before we call MainWindow::init and therefore can't be initilized there
+    // before we call MainWindow::init and therefore can't be initialized there
     KActionCategory *category = new KActionCategory(i18n("Monitor"), actionCollection());
     kdenliveCategoryMap.insert(QStringLiteral("monitor"), category);
     category = new KActionCategory(i18n("Add Clip"), actionCollection());
@@ -4997,7 +4997,7 @@ void MainWindow::disconnectTimeline(TimelineWidget *timeline)
         //  disconnect(pCore->currentDoc(), &KdenliveDoc::docModified, this, &MainWindow::slotUpdateDocumentState);
         // qDebug()<<"=== SETTING POSITION  FOR DOC: "<<pCore->currentDoc()->position<<" / "<<pCore->currentDoc()->uuid;
     }
-    // Ensure the active timeline has an transparent black background for embeded compositing
+    // Ensure the active timeline has an transparent black background for embedded compositing
     timeline->model()->makeTransparentBg(true);
     disconnect(timeline->controller(), &TimelineController::durationChanged, pCore->projectManager(), &ProjectManager::adjustProjectDuration);
     disconnect(m_projectMonitor, &Monitor::multitrackView, timeline->controller(), &TimelineController::slotMultitrackView);

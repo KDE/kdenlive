@@ -91,7 +91,7 @@ void RenderPresetRepository::refresh(bool fullRefresh)
     QDir directory(exportFolder);
     QStringList fileList = directory.entryList({QStringLiteral("*.xml")}, QDir::Files);
 
-    // Parse customprofiles.xml always first so custom profiles allways overide
+    // Parse customprofiles.xml always first so custom profiles always override
     // profiles downloaded with KNewStuff
     if (directory.exists(QStringLiteral("customprofiles.xml"))) {
         parseFile(directory.absoluteFilePath(QStringLiteral("customprofiles.xml")), true);

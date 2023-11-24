@@ -34,7 +34,7 @@ QString RenderPresetParams::toString()
 void RenderPresetParams::insertFromString(const QString &params, bool overwrite)
 {
     // split only at white spaces followed by a new parameter
-    // to avoid spliting values that contain whitespaces
+    // to avoid splitting values that contain whitespaces
     static const QRegularExpression regexp(R"(\s+(?=\S*=))");
 
     QStringList paramList = params.split(regexp, Qt::SkipEmptyParts);

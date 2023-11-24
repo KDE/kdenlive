@@ -721,7 +721,7 @@ void RenderWidget::slotPrepareExport2(bool delayedRendering)
     std::vector<RenderRequest::RenderJob> jobs = request->process();
 
     if (!request->errorMessages().isEmpty()) {
-        KMessageBox::errorList(this, i18n("The following errors occured while trying to render"), request->errorMessages());
+        KMessageBox::errorList(this, i18n("The following errors occurred while trying to render"), request->errorMessages());
     }
 
     // Create jobs

@@ -1805,7 +1805,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             if (Xml::getXmlProperty(t, QStringLiteral("mlt_service")) == QLatin1String("affine") && kdenliveId != QLatin1String("pan_zoom")) {
                 QDomElement effect = EffectsRepository::get()->getXml(kdenliveId);
 
-                // check wether the effect already uses mlt rect
+                // check whether the effect already uses mlt rect
                 if (!Xml::hasXmlProperty(t, QStringLiteral("transition.rect"))) {
                     QString newId = kdenliveId.append(" mlt7");
 

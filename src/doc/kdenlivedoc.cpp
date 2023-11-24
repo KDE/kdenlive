@@ -2353,7 +2353,7 @@ void KdenliveDoc::makeBackgroundTrackTransparent(QDomDocument &doc)
 
 void KdenliveDoc::setAutoclosePlaylists(QDomDocument &doc, const QString &mainSequenceUuid)
 {
-    // We should only set the autoclose atribute on the main sequence playlists.
+    // We should only set the autoclose attribute on the main sequence playlists.
     // Otherwise if a sequence is reused several times, its playback will be broken
     QDomNodeList playlists = doc.elementsByTagName(QStringLiteral("playlist"));
     QDomNodeList tractors = doc.elementsByTagName(QStringLiteral("tractor"));

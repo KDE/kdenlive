@@ -694,7 +694,7 @@ bool Wizard::checkHwEncoder(const QString &name, const QStringList &args, const 
         } else {
             if (file.exists() && file.size() > 0) {
                 qDebug() << "->" << name << "SUPPORTED";
-                // sucess
+                // success
                 return true;
             } else {
                 qDebug() << "->" << name << "FAILED";

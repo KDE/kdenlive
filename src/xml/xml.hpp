@@ -25,7 +25,7 @@ namespace Xml {
  * sets the prefix name, local name and namespace URI to appropriate values. If namespaceProcessing is false, the parser does no namespace processing when it
  * reads the XML file.
  *
- *  @returns false if an error occured while reading or parsing the file to the document
+ *  @returns false if an error occurred while reading or parsing the file to the document
  */
 bool docContentFromFile(QDomDocument &doc, const QString &fileName, bool namespaceProcessing);
 
@@ -36,7 +36,7 @@ bool docContentFromFile(QDomDocument &doc, const QString &fileName, bool namespa
  *  @param doc
  *  @param fileName
  *
- *  @returns false if an error occured while writing the document to the file
+ *  @returns false if an error occurred while writing the document to the file
  */
 bool docContentToFile(const QDomDocument &doc, const QString &fileName);
 

@@ -154,7 +154,7 @@ int main(int argc, char **argv)
         parser.addPositionalArgument("source", "Source file (usually MLT XML).");
 
         QCommandLineOption outputOption({"o", "output"},
-                                        "The destionation file, optional. If no set the destination will be retrieved from the \"target\" property of the "
+                                        "The destination file, optional. If no set the destination will be retrieved from the \"target\" property of the "
                                         "consumer in the source file. If set it overrides the consumers \"taget\" property.",
                                         "file");
         parser.addOption(outputOption);

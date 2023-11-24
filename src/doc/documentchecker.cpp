@@ -1074,7 +1074,7 @@ QStringList DocumentChecker::getAssetsServiceIds(const QDomDocument &doc, const 
 
 bool DocumentChecker::isMltBuildInLuma(const QString &lumaName)
 {
-    // Since version 7 MLT contains build-in lumas named luma01.pgm to luma22.pgm
+    // Since version 7 MLT contains built-in lumas named luma01.pgm to luma22.pgm
     static const QRegularExpression regex(QRegularExpression::anchoredPattern(R"(luma([0-9]{2})\.pgm)"));
     QRegularExpressionMatch match = regex.match(lumaName);
     if (match.hasMatch() && match.captured(1).toInt() > 0 && match.captured(1).toInt() < 23) {
@@ -1439,7 +1439,7 @@ void DocumentChecker::fixMissingItem(const DocumentChecker::DocumentResource &re
 
     QDomElement e;
     if (resource.type == MissingType::TitleImage) {
-        // Title clips are not embeded in chains
+        // Title clips are not embedded in chains
         // edit images embedded in titles
         for (int i = 0; i < producers.count(); ++i) {
             e = producers.item(i).toElement();

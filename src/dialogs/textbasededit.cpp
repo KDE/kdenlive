@@ -1533,7 +1533,7 @@ void TextBasedEdit::showMessage(const QString &text, KMessageWidget::MessageType
 void TextBasedEdit::openClip(std::shared_ptr<ProjectClip> clip)
 {
     if (m_speechJob && m_speechJob->state() == QProcess::Running) {
-        // TODO: ask for job cancelation
+        // TODO: ask for job cancellation
         return;
     }
     if (clip && clip->isValid() && clip->hasAudio()) {
