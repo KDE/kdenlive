@@ -64,6 +64,19 @@ SubtitleModel::SubtitleModel(std::shared_ptr<TimelineItemModel> timeline, QObjec
     eventSection = QStringLiteral("[Events]\n");
     styleName = QStringLiteral("Default");
     connect(this, &SubtitleModel::modelChanged, [this]() { jsontoSubtitle(toJson()); });
+    int id = pCore->currentDoc()->getSequenceProperty(timeline->uuid(), QStringLiteral("kdenlive:activeSubtitleIndex"), QStringLiteral("0")).toInt();
+    const QString subPath = pCore->currentDoc()->subTitlePath(timeline->uuid(), id, true);
+    const QString workPath = pCore->currentDoc()->subTitlePath(timeline->uuid(), id, false);
+    QFile subFile(subPath);
+    if (subFile.exists()) {
+        subFile.copy(workPath);
+        parseSubtitle(workPath);
+    }
+    QMap<std::pair<int, QString>, QString> multiSubs = pCore->currentDoc()->multiSubtitlePath(timeline->uuid());
+    m_subtitlesList = multiSubs;
+    if (m_subtitlesList.isEmpty()) {
+        m_subtitlesList.insert({0, i18n("Subtitles")}, subPath);
+    }
 }
 
 void SubtitleModel::setStyle(const QString &style)
@@ -381,14 +394,13 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
     }
 }
 
-void SubtitleModel::parseSubtitle(const QString &subPath)
+void SubtitleModel::parseSubtitle(const QString &workPath)
 {
     qDebug() << "Parsing started";
-    if (!subPath.isEmpty()) {
-        m_subtitleFilter->set("av.filename", subPath.toUtf8().constData());
+    if (!workPath.isEmpty()) {
+        m_subtitleFilter->set("av.filename", workPath.toUtf8().constData());
     }
     QString filePath = m_subtitleFilter->get("av.filename");
-    m_subFilePath = filePath;
     importSubtitle(filePath, 0, false);
     // jsontoSubtitle(toJson());
 }
@@ -1130,9 +1142,9 @@ QString SubtitleModel::toJson()
     return QString(jsonDoc.toJson());
 }
 
-void SubtitleModel::copySubtitle(const QString &path, bool checkOverwrite, bool updateFilter)
+void SubtitleModel::copySubtitle(const QString &path, int ix, bool checkOverwrite, bool updateFilter)
 {
-    QFile srcFile(pCore->currentDoc()->subTitlePath(m_timeline->uuid(), false));
+    QFile srcFile(pCore->currentDoc()->subTitlePath(m_timeline->uuid(), ix, false));
     if (srcFile.exists()) {
         QFile prev(path);
         if (prev.exists()) {
@@ -1151,15 +1163,17 @@ void SubtitleModel::copySubtitle(const QString &path, bool checkOverwrite, bool 
     }
 }
 
-void SubtitleModel::restoreTmpFile()
+void SubtitleModel::restoreTmpFile(int ix)
 {
-    QString outFile = pCore->currentDoc()->subTitlePath(m_timeline->uuid(), false);
+
+    QString outFile = pCore->currentDoc()->subTitlePath(m_timeline->uuid(), ix, false);
     m_subtitleFilter->set("av.filename", outFile.toUtf8().constData());
 }
 
 void SubtitleModel::jsontoSubtitle(const QString &data)
 {
-    QString outFile = pCore->currentDoc()->subTitlePath(m_timeline->uuid(), false);
+    int ix = pCore->currentDoc()->getSequenceProperty(m_timeline->uuid(), QStringLiteral("kdenlive:activeSubtitleIndex"), QStringLiteral("0")).toInt();
+    QString outFile = pCore->currentDoc()->subTitlePath(m_timeline->uuid(), ix, false);
     QString masterFile = m_subtitleFilter->get("av.filename");
     if (masterFile.isEmpty()) {
         m_subtitleFilter->set("av.filename", outFile.toUtf8().constData());
@@ -1615,4 +1629,137 @@ void SubtitleModel::deleteSubtitle(int startframe, int endframe, const QString &
     };
     local_redo();
     pCore->pushUndo(local_undo, local_redo, i18n("Delete subtitle"));
+}
+
+QMap<std::pair<int, QString>, QString> SubtitleModel::getSubtitlesList() const
+{
+    return m_subtitlesList;
+}
+
+void SubtitleModel::setSubtitlesList(QMap<std::pair<int, QString>, QString> list)
+{
+    m_subtitlesList = list;
+}
+
+void SubtitleModel::updateModelName(int ix, const QString &name)
+{
+    QMapIterator<std::pair<int, QString>, QString> i(m_subtitlesList);
+    std::pair<int, QString> oldSub = {-1, QStringLiteral()};
+    QString path;
+    while (i.hasNext()) {
+        i.next();
+        if (i.key().first == ix) {
+            // match
+            oldSub = i.key();
+            path = i.value();
+            break;
+        }
+    }
+    if (oldSub.first > -1) {
+        int ix = oldSub.first;
+        m_subtitlesList.remove(oldSub);
+        m_subtitlesList.insert({ix, name}, path);
+    } else {
+        qDebug() << "COULD NOT FIND SUBTITLE TO EDIT, CNT:" << m_subtitlesList.size();
+    }
+}
+
+void SubtitleModel::createNewSubtitle(int id)
+{
+    // Create new subtitle file
+    QList<std::pair<int, QString>> keys = m_subtitlesList.keys();
+    QStringList existingNames;
+    int maxIx = 0;
+    for (auto &l : keys) {
+        existingNames << l.second;
+        if (l.first > maxIx) {
+            maxIx = l.first;
+        }
+    }
+    maxIx++;
+    int ix = m_subtitlesList.size() + 1;
+    QString newName = i18nc("@item:inlistbox subtitle track name", "Subtitle %1", ix);
+    while (existingNames.contains(newName)) {
+        ix++;
+        newName = i18nc("@item:inlistbox subtitle track name", "Subtitle %1", ix);
+    }
+    const QString newPath = pCore->currentDoc()->subTitlePath(m_timeline->uuid(), maxIx, true);
+    m_subtitlesList.insert({maxIx, newName}, newPath);
+    if (id >= 0) {
+        // Duplicate existing subtitle
+        QString source = pCore->currentDoc()->subTitlePath(m_timeline->uuid(), id, false);
+        if (!QFile::exists(source)) {
+            source = pCore->currentDoc()->subTitlePath(m_timeline->uuid(), id, true);
+        }
+        QFile::copy(source, newPath);
+    }
+}
+
+bool SubtitleModel::deleteSubtitle(int ix)
+{
+    QMapIterator<std::pair<int, QString>, QString> i(m_subtitlesList);
+    bool success = false;
+    std::pair<int, QString> matchingItem = {-1, QString()};
+    while (i.hasNext()) {
+        i.next();
+        if (i.key().first == ix) {
+            // Found a match
+            matchingItem = i.key();
+            success = true;
+            break;
+        }
+    }
+    if (success && matchingItem.first > -1) {
+        // Delete subtitle files
+        const QString workPath = pCore->currentDoc()->subTitlePath(m_timeline->uuid(), matchingItem.first, false);
+        const QString finalPath = pCore->currentDoc()->subTitlePath(m_timeline->uuid(), matchingItem.first, true);
+        QFile::remove(workPath);
+        QFile::remove(finalPath);
+        // Remove entry from our subtitles list
+        m_subtitlesList.remove(matchingItem);
+    }
+    return success;
+}
+
+const QString SubtitleModel::subtitlesFilesToJson()
+{
+    QJsonArray list;
+    QMapIterator<std::pair<int, QString>, QString> i(m_subtitlesList);
+    std::pair<int, QString> oldSub = {-1, QStringLiteral()};
+    QString path;
+    while (i.hasNext()) {
+        i.next();
+        QJsonObject currentSubtitle;
+        currentSubtitle.insert(QLatin1String("name"), QJsonValue(i.key().second));
+        currentSubtitle.insert(QLatin1String("id"), QJsonValue(i.key().first));
+        currentSubtitle.insert(QLatin1String("file"), QJsonValue(i.value()));
+        list.push_back(currentSubtitle);
+    }
+    QJsonDocument json(list);
+    return QString::fromUtf8(json.toJson());
+}
+
+void SubtitleModel::activateSubtitle(int ix)
+{
+    int currentIx = pCore->currentDoc()->getSequenceProperty(m_timeline->uuid(), QStringLiteral("kdenlive:activeSubtitleIndex"), QStringLiteral("0")).toInt();
+    if (currentIx == ix) {
+        return;
+    }
+    const QString workPath = pCore->currentDoc()->subTitlePath(m_timeline->uuid(), ix, false);
+    const QString finalPath = pCore->currentDoc()->subTitlePath(m_timeline->uuid(), ix, true);
+    if (!QFile::exists(workPath) && QFile::exists(finalPath)) {
+        QFile::copy(finalPath, workPath);
+    }
+    QFile file(workPath);
+    if (!file.exists()) {
+        // Create work file
+        file.open(QIODevice::WriteOnly);
+        file.close();
+    }
+    beginRemoveRows(QModelIndex(), 0, m_timeline->m_allSubtitles.size());
+    m_timeline->m_allSubtitles.clear();
+    m_subtitleList.clear();
+    endRemoveRows();
+    pCore->currentDoc()->setSequenceProperty(m_timeline->uuid(), QStringLiteral("kdenlive:activeSubtitleIndex"), ix);
+    parseSubtitle(workPath);
 }

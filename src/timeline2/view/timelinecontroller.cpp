@@ -16,6 +16,7 @@
 #include "bin/projectfolder.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
+#include "dialogs/managesubtitles.h"
 #include "dialogs/spacerdialog.h"
 #include "dialogs/speechdialog.h"
 #include "dialogs/speeddialog.h"
@@ -146,6 +147,28 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
     connect(m_model.get(), &TimelineModel::refreshClipActions, this, &TimelineController::updateClipActions);
     connect(m_model.get(), &TimelineModel::highlightSub, this,
             [this](int index) { QMetaObject::invokeMethod(m_root, "highlightSub", Qt::QueuedConnection, Q_ARG(QVariant, index)); });
+    if (m_model->hasSubtitleModel()) {
+        loadSubtitleIndex();
+    }
+    connect(m_model.get(), &TimelineItemModel::subtitleModelInitialized, this, &TimelineController::loadSubtitleIndex);
+}
+
+void TimelineController::loadSubtitleIndex()
+{
+    int currentIx = pCore->currentDoc()->getSequenceProperty(m_model->uuid(), QStringLiteral("kdenlive:activeSubtitleIndex"), QStringLiteral("0")).toInt();
+    auto subtitleModel = m_model->getSubtitleModel();
+    QMap<std::pair<int, QString>, QString> currentSubs = subtitleModel->getSubtitlesList();
+    QMapIterator<std::pair<int, QString>, QString> i(currentSubs);
+    int counter = 0;
+    while (i.hasNext()) {
+        i.next();
+        if (i.key().first == currentIx) {
+            m_activeSubPosition = counter;
+            break;
+        }
+        counter++;
+    }
+    Q_EMIT activeSubtitlePositionChanged();
 }
 
 void TimelineController::restoreTargetTracks()
@@ -2634,6 +2657,10 @@ void TimelineController::saveSequenceProperties()
     m_model->tractor()->set("kdenlive:sequenceproperties.zonein", m_zone.x());
     m_model->tractor()->set("kdenlive:sequenceproperties.zoneout", m_zone.y());
     tractor()->set("kdenlive:sequenceproperties.disablepreview", m_disablePreview->isChecked());
+    if (m_model->hasSubtitleModel()) {
+        const QString subtitlesData = m_model->getSubtitleModel()->subtitlesFilesToJson();
+        m_model->tractor()->set("kdenlive:sequenceproperties.subtitlesList", subtitlesData.toUtf8().constData());
+    }
 }
 
 QMap<QString, QString> TimelineController::documentProperties()
@@ -5264,4 +5291,96 @@ void TimelineController::autofitTrackHeight(int timelineHeight, int collapsedHei
     QModelIndex modelStart = m_model->makeTrackIndexFromID(m_model->getTrackIndexFromPosition(0));
     QModelIndex modelEnd = m_model->makeTrackIndexFromID(m_model->getTrackIndexFromPosition(tracksCount - 1));
     Q_EMIT m_model->dataChanged(modelStart, modelEnd, {TimelineModel::HeightRole});
+}
+
+QVariantList TimelineController::subtitlesList() const
+{
+    QVariantList result;
+    auto subtitleModel = m_model->getSubtitleModel();
+    if (subtitleModel) {
+        QMap<std::pair<int, QString>, QString> currentSubs = subtitleModel->getSubtitlesList();
+        if (currentSubs.isEmpty()) {
+            result << i18nc("@item:inlistbox name for subtitle track", "Subtitles");
+        } else {
+            QMapIterator<std::pair<int, QString>, QString> i(currentSubs);
+            while (i.hasNext()) {
+                i.next();
+                result << i.key().second;
+            }
+        }
+    } else {
+        result << i18nc("@item:inlistbox name for subtitle track", "Subtitles");
+    }
+    result << i18nc("@item:inlistbox", "Manage Subtitles");
+    return result;
+}
+
+void TimelineController::subtitlesMenuActivatedAsync(int ix)
+{
+    // This method needs a timer otherwise the qml combobox crashes because we try to chenge its index while it is processing an activated event
+    QTimer::singleShot(100, this, [&, ix]() { subtitlesMenuActivated(ix); });
+}
+
+void TimelineController::refreshSubtitlesComboIndex()
+{
+    int ix = m_activeSubPosition;
+    m_activeSubPosition = 0;
+    Q_EMIT activeSubtitlePositionChanged();
+    m_activeSubPosition = ix;
+    Q_EMIT activeSubtitlePositionChanged();
+}
+
+void TimelineController::subtitlesMenuActivated(int ix)
+{
+    auto subtitleModel = m_model->getSubtitleModel();
+    QMap<std::pair<int, QString>, QString> currentSubs = subtitleModel->getSubtitlesList();
+    if (subtitleModel) {
+        if (ix < currentSubs.size()) {
+            // Clear selection if a subtitle item is selected
+            std::unordered_set<int> selectedIds = m_model->getCurrentSelection();
+            for (auto &id : selectedIds) {
+                int tid = m_model->getItemTrackId(id);
+                if (m_model->isSubtitleTrack(tid)) {
+                    m_model->requestClearSelection();
+                    break;
+                }
+            }
+            QMapIterator<std::pair<int, QString>, QString> i(currentSubs);
+            m_activeSubPosition = 0;
+            int counter = 0;
+            while (i.hasNext()) {
+                i.next();
+                ix--;
+                if (ix < 0) {
+                    // Match, switch to another subtitle
+                    int index = i.key().first;
+                    m_activeSubPosition = counter;
+                    subtitleModel->activateSubtitle(index);
+                    break;
+                }
+                counter++;
+            }
+            Q_EMIT activeSubtitlePositionChanged();
+            return;
+        }
+    }
+    m_activeSubPosition = currentSubs.size();
+    Q_EMIT activeSubtitlePositionChanged();
+    // Reselect last active subtitle in combobox
+    int currentIx = pCore->currentDoc()->getSequenceProperty(m_model->uuid(), QStringLiteral("kdenlive:activeSubtitleIndex"), QStringLiteral("0")).toInt();
+    QMapIterator<std::pair<int, QString>, QString> i(currentSubs);
+    int counter = 0;
+    while (i.hasNext()) {
+        i.next();
+        if (i.key().first == currentIx) {
+            m_activeSubPosition = counter;
+            break;
+        }
+        counter++;
+    }
+    Q_EMIT activeSubtitlePositionChanged();
+
+    // Show manage dialog
+    ManageSubtitles *d = new ManageSubtitles(subtitleModel, this, currentIx, qApp->activeWindow());
+    d->exec();
 }

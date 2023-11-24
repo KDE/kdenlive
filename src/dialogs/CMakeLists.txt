@@ -8,6 +8,7 @@ set(kdenlive_SRCS
   dialogs/encodingprofilesdialog.cpp
   dialogs/kdenlivesettingsdialog.cpp
   dialogs/markerdialog.cpp
+  dialogs/managesubtitles.cpp
   dialogs/exportguidesdialog.cpp
   dialogs/profilesdialog.cpp
   dialogs/proxytest.cpp

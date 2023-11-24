@@ -4541,10 +4541,19 @@ void MainWindow::resetSubtitles(const QUuid &uuid)
     KdenliveSettings::setShowSubtitles(false);
     pCore->subtitleWidget()->setModel(nullptr);
     if (pCore->currentDoc()) {
-        const QString workPath = pCore->currentDoc()->subTitlePath(uuid, false);
-        QFile workFile(workPath);
-        if (workFile.exists()) {
-            workFile.remove();
+        std::shared_ptr<TimelineItemModel> timeline = pCore->currentDoc()->getTimeline(uuid);
+        if (timeline && timeline->hasSubtitleModel()) {
+            auto subModel = timeline->getSubtitleModel();
+            QMap<std::pair<int, QString>, QString> currentSubs = subModel->getSubtitlesList();
+            QMapIterator<std::pair<int, QString>, QString> i(currentSubs);
+            while (i.hasNext()) {
+                i.next();
+                const QString workPath = pCore->currentDoc()->subTitlePath(uuid, i.key().first, false);
+                QFile workFile(workPath);
+                if (workFile.exists()) {
+                    workFile.remove();
+                }
+            }
         }
     }
 }

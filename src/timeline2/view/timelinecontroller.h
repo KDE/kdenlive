@@ -48,6 +48,7 @@ class TimelineController : public QObject
     Q_PROPERTY(bool useRuler READ useRuler NOTIFY useRulerChanged)
     Q_PROPERTY(bool scrollVertically READ scrollVertically NOTIFY scrollVerticallyChanged)
     Q_PROPERTY(int activeTrack READ activeTrack WRITE setActiveTrack NOTIFY activeTrackChanged)
+    Q_PROPERTY(QVariantList subtitlesList READ subtitlesList NOTIFY subtitlesListChanged)
     Q_PROPERTY(QVariantList audioTarget READ audioTarget NOTIFY audioTargetChanged)
     Q_PROPERTY(int videoTarget READ videoTarget WRITE setVideoTarget NOTIFY videoTargetChanged)
 
@@ -73,6 +74,7 @@ class TimelineController : public QObject
     Q_PROPERTY(bool subtitlesWarning READ subtitlesWarning NOTIFY subtitlesWarningChanged)
     Q_PROPERTY(bool subtitlesDisabled READ subtitlesDisabled NOTIFY subtitlesDisabledChanged)
     Q_PROPERTY(bool subtitlesLocked READ subtitlesLocked NOTIFY subtitlesLockedChanged)
+    Q_PROPERTY(int activeSubPosition MEMBER m_activeSubPosition NOTIFY activeSubtitlePositionChanged)
     Q_PROPERTY(bool guidesLocked READ guidesLocked NOTIFY guidesLockedChanged)
     Q_PROPERTY(bool autotrackHeight MEMBER m_autotrackHeight NOTIFY autotrackHeightChanged)
     Q_PROPERTY(QPoint effectZone MEMBER m_effectZone NOTIFY effectZoneChanged)
@@ -185,6 +187,8 @@ public:
     Q_INVOKABLE void showToolTip(const QString &info = QString()) const;
     Q_INVOKABLE void showKeyBinding(const QString &info = QString()) const;
     Q_INVOKABLE void showTimelineToolInfo(bool show) const;
+    /** @brief The model list for this timeline's subtitles */
+    Q_INVOKABLE QVariantList subtitlesList() const;
     /** @brief Returns true if the avfilter.subtiles filter is not found */
     bool subtitlesWarning() const;
     Q_INVOKABLE void subtitlesWarningDetails();
@@ -680,6 +684,8 @@ public:
     void processMultitrackOperation(int tid, int in);
     /** @brief Save all sequence properties (timeline position, guides, groups, ..) to the timeline tractor. */
     void saveSequenceProperties();
+    /** @brief Trigger refresh of subtitles combo menu. */
+    void refreshSubtitlesComboIndex();
 
 public Q_SLOTS:
     void updateClipActions();
@@ -712,6 +718,8 @@ public Q_SLOTS:
     void checkClipPosition(const QModelIndex &topLeft, const QModelIndex &, const QVector<int> &roles);
     /** @brief Adjust all tracks height to fit in view. */
     Q_INVOKABLE void autofitTrackHeight(int timelineHeight, int collapsedHeight);
+    Q_INVOKABLE void subtitlesMenuActivatedAsync(int ix);
+    void subtitlesMenuActivated(int ix);
 
 private Q_SLOTS:
     void updateVideoTarget();
@@ -721,6 +729,8 @@ private Q_SLOTS:
     /** @brief An operation was attempted on a locked track, animate lock icon to make user aware */
     void slotFlashLock(int trackId);
     void initializePreview();
+    /** @brief Display the active subtitle mode in subtitle track combobox. */
+    void loadSubtitleIndex();
 
 public:
     /** @brief a list of actions that have to be enabled/disabled depending on the timeline selection */
@@ -764,6 +774,8 @@ private:
     QVariantList m_masterEffectZones;
     /** @brief The clip that is displayed in the preview monitor during a trimming operation*/
     int m_trimmingMainClip;
+    /** @brief The position of the active subtitle in the menu list*/
+    int m_activeSubPosition{-1};
 
     int getMenuOrTimelinePos() const;
     /** @brief Prepare the preview manager */
@@ -799,6 +811,7 @@ Q_SIGNALS:
     void autotrackHeightChanged();
     void seeked(int position);
     void zoneChanged();
+    void subtitlesListChanged();
     void zoneMoved(const QPoint &zone);
     /** @brief Requests that a given parameter model is displayed in the asset panel */
     void showTransitionModel(int tid, std::shared_ptr<AssetParameterModel>);
@@ -832,4 +845,5 @@ Q_SIGNALS:
     void regainFocus();
     void updateAssetPosition(int itemId, const QUuid uuid);
     void stopAudioRecord();
+    void activeSubtitlePositionChanged();
 };

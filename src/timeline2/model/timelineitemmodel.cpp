@@ -621,13 +621,7 @@ std::shared_ptr<SubtitleModel> TimelineItemModel::createSubtitleModel()
         // Initialize the subtitle model and load file if any
         m_subtitleModel.reset(new SubtitleModel(std::static_pointer_cast<TimelineItemModel>(shared_from_this()), this));
         m_subtitleModel->registerSnap(std::static_pointer_cast<SnapInterface>(m_snaps));
-        const QString subPath = pCore->currentDoc()->subTitlePath(m_uuid, true);
-        const QString workPath = pCore->currentDoc()->subTitlePath(m_uuid, false);
-        QFile subFile(subPath);
-        if (subFile.exists()) {
-            subFile.copy(workPath);
-            m_subtitleModel->parseSubtitle(workPath);
-        }
+        Q_EMIT subtitleModelInitialized();
     }
     return m_subtitleModel;
 }

@@ -126,9 +126,9 @@ public:
      * @param path the new subtitle path
      * @param checkOverwrite if true, warn before overwriting an existing subtitle file
      * @param updateFilter if true, the subtitle filter will be updated to us the new name, useful when saving the project file */
-    void copySubtitle(const QString &path, bool checkOverwrite, bool updateFilter = false);
+    void copySubtitle(const QString &path, int ix, bool checkOverwrite, bool updateFilter = false);
     /** @brief Use the tmp work file for the subtitle filter after saving the project */
-    void restoreTmpFile();
+    void restoreTmpFile(int ix);
     int trackDuration() const;
     void switchDisabled();
     bool isDisabled() const;
@@ -172,10 +172,21 @@ public:
     Q_INVOKABLE void deleteSubtitle(int frameframe, int endframe, const QString &text);
     /** @brief Cut a subtitle and split the text at \@param pos */
     void doCutSubtitle(int id, int cursorPos);
+    /** @brief Return a list of the existing subtitles in this model */
+    QMap<std::pair<int, QString>, QString> getSubtitlesList() const;
+    /** @brief Load the current subtitles list in this model */
+    void setSubtitlesList(QMap<std::pair<int, QString>, QString> list);
+    /** @brief Update a subtitle name */
+    void updateModelName(int ix, const QString &name);
+    void createNewSubtitle(int id = -1);
+    bool deleteSubtitle(int ix);
+    void activateSubtitle(int ix);
+    /** @brief Get JSON data for all subtitles in this model */
+    const QString subtitlesFilesToJson();
 
 public Q_SLOTS:
     /** @brief Function that parses through a subtitle file */
-    void parseSubtitle(const QString &subPath = QString());
+    void parseSubtitle(const QString &workPath);
 
     /** @brief Import model to a temporary subtitle file to which the Subtitle effect is applied*/
     void jsontoSubtitle(const QString &data);
@@ -187,10 +198,12 @@ private:
     std::weak_ptr<DocUndoStack> m_undoStack;
     /** @brief A list of subtitles as: start time, text, end time */
     std::map<GenTime, std::pair<QString, GenTime>> m_subtitleList;
-
+    /** @brief A list of all available subtitle files for this timeline
+     *  in the form: ({id, name}, path) where id for a subtitle never changes
+     */
+    QMap<std::pair<int, QString>, QString> m_subtitlesList;
     QString scriptInfoSection, styleSection, eventSection;
     QString styleName;
-    QString m_subFilePath;
 
     // To get subtitle file from effects parameter:
     // std::unique_ptr<Mlt::Properties> m_asset;

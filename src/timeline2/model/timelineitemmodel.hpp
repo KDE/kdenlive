@@ -114,4 +114,5 @@ Q_SIGNALS:
     /** @brief Triggered when a video track visibility changed */
     void trackVisibilityChanged();
     void showTrackEffectStack(int tid);
+    void subtitleModelInitialized();
 };

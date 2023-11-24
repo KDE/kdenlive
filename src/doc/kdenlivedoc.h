@@ -174,8 +174,10 @@ public:
     /** @brief Delete the sequence property after it has been used. */
     void clearSequenceProperty(const QUuid &uuid, const QString &name);
     const QMap<QString, QString> getSequenceProperties(const QUuid &uuid) const;
-    /** @brief Move document properties into sequence properties (mostly useful to convert older KdenliveDoc formats . */
+    /** @brief Move document properties into sequence properties (mostly useful to convert older KdenliveDoc formats.*/
     void importSequenceProperties(const QUuid uuid, const QStringList properties);
+    /** @brief Get the list of subtitles in a timeline. */
+    QMap<std::pair<int, QString>, QString> multiSubtitlePath(const QUuid &uuid);
 
     /** @brief Gets the list of renderer properties saved into the document. */
     QMap<QString, QString> getRenderProperties() const;
@@ -259,8 +261,9 @@ public:
 
     /** @brief Returns a path for current document's subtitle file.
      *  uuid is appended to the path if this is not the primary timeline
+     *  ix is the index of the subtitle, appended to the path if > 0
      *  If final is true, this will be the project filename with ".srt" appended. Otherwise a file in /tmp */
-    const QString subTitlePath(const QUuid &uuid, bool final);
+    const QString subTitlePath(const QUuid &uuid, int ix, bool final);
     /** @brief Returns the list of all used subtitles paths. */
     QStringList getAllSubtitlesPath(bool final);
     /** @brief Creates a new project. */

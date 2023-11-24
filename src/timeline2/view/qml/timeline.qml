@@ -1082,13 +1082,19 @@ Rectangle {
                             }
                         }
                     }
-                    Label {
+                    ComboBox {
                         id: subLabel
-                        anchors.left: expandSubButton.left
+                        model: timeline.subtitlesList
+                        property int subIndex: timeline.activeSubPosition
+                        onSubIndexChanged: {
+                            subLabel.currentIndex = subIndex
+                        }
+                        anchors.right: parent.right
                         anchors.top: expandSubButton.bottom
-                        font: miniFont
-                        text: i18n("Subtitles")
-                        visible: (subtitleTrackHeader.height > root.collapsedHeight + subLabel.height)
+                        flat: true
+                        onActivated: index => {
+                            timeline.subtitlesMenuActivatedAsync(index)
+                        }
                     }
 
                     Row {

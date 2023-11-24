@@ -45,6 +45,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QDomImplementation>
 #include <QFile>
 #include <QFileDialog>
+#include <QJsonArray>
+#include <QJsonObject>
 #include <QSaveFile>
 #include <QStandardPaths>
 #include <QUndoGroup>
@@ -935,7 +937,12 @@ QStringList KdenliveDoc::getAllSubtitlesPath(bool final)
     while (j.hasNext()) {
         j.next();
         if (j.value()->hasSubtitleModel()) {
-            result << subTitlePath(j.value()->uuid(), final);
+            QMap<std::pair<int, QString>, QString> allSubFiles = j.value()->getSubtitleModel()->getSubtitlesList();
+            QMapIterator<std::pair<int, QString>, QString> k(allSubFiles);
+            while (k.hasNext()) {
+                k.next();
+                result << subTitlePath(j.value()->uuid(), k.key().first, final);
+            }
         }
     }
     return result;
@@ -956,17 +963,27 @@ void KdenliveDoc::restoreRenderAssets()
 void KdenliveDoc::updateWorkFilesBeforeSave(const QString &newUrl, bool onRender)
 {
     QMapIterator<QUuid, std::shared_ptr<TimelineItemModel>> j(m_timelines);
+    bool checkOverwrite = QUrl::fromLocalFile(newUrl) != m_url;
     while (j.hasNext()) {
         j.next();
         if (j.value()->hasSubtitleModel()) {
-            bool checkOverwrite = QUrl::fromLocalFile(newUrl) != m_url;
-            QString path = newUrl;
+            // Calculate the new path for each subtitle in this timeline
+            QString basePath = newUrl;
             if (j.value()->uuid() != m_uuid) {
-                path.append(j.value()->uuid().toString());
+                basePath.append(j.value()->uuid().toString());
             }
-            QFileInfo info(path);
-            QString subPath = info.dir().absoluteFilePath(QString("%1.srt").arg(info.fileName()));
-            j.value()->getSubtitleModel()->copySubtitle(subPath, checkOverwrite, true);
+            QMap<std::pair<int, QString>, QString> allSubs = j.value()->getSubtitleModel()->getSubtitlesList();
+            QMapIterator<std::pair<int, QString>, QString> i(allSubs);
+            while (i.hasNext()) {
+                i.next();
+                QString finalName = basePath;
+                if (i.key().first > 0) {
+                    basePath.append(QStringLiteral("-%1").arg(i.key().first));
+                }
+                QFileInfo info(basePath);
+                QString subPath = info.dir().absoluteFilePath(QString("%1.srt").arg(info.fileName()));
+                j.value()->getSubtitleModel()->copySubtitle(subPath, i.key().first, checkOverwrite, true);
+            }
         }
     }
     QDir sequenceFolder;
@@ -991,7 +1008,8 @@ void KdenliveDoc::updateWorkFilesAfterSave()
     while (j.hasNext()) {
         j.next();
         if (j.value()->hasSubtitleModel()) {
-            j.value()->getSubtitleModel()->restoreTmpFile();
+            int ix = getSequenceProperty(j.value()->uuid(), QStringLiteral("kdenlive:activeSubtitleIndex"), QStringLiteral("0")).toInt();
+            j.value()->getSubtitleModel()->restoreTmpFile(ix);
         }
     }
 
@@ -2278,18 +2296,52 @@ QString &KdenliveDoc::modifiedDecimalPoint()
     return m_modifiedDecimalPoint;
 }
 
-const QString KdenliveDoc::subTitlePath(const QUuid &uuid, bool final)
+const QString KdenliveDoc::subTitlePath(const QUuid &uuid, int ix, bool final)
 {
     QString documentId = QDir::cleanPath(m_documentProperties.value(QStringLiteral("documentid")));
     QString path = (m_url.isValid() && final) ? m_url.fileName() : documentId;
     if (uuid != m_uuid) {
         path.append(uuid.toString());
     }
+    if (ix > 0) {
+        path.append(QStringLiteral("-%1").arg(ix));
+    }
     if (m_url.isValid() && final) {
         return QFileInfo(m_url.toLocalFile()).dir().absoluteFilePath(QString("%1.srt").arg(path));
     } else {
         return QDir::temp().absoluteFilePath(QString("%1.srt").arg(path));
     }
+}
+
+QMap<std::pair<int, QString>, QString> KdenliveDoc::multiSubtitlePath(const QUuid &uuid)
+{
+    QMap<std::pair<int, QString>, QString> results;
+    const QString data = getSequenceProperty(uuid, QStringLiteral("subtitlesList"));
+    auto json = QJsonDocument::fromJson(data.toUtf8());
+    if (!json.isArray()) {
+        qDebug() << "Error : Json file should be an array";
+        return results;
+    }
+    auto list = json.array();
+    for (const auto &entry : qAsConst(list)) {
+        if (!entry.isObject()) {
+            qDebug() << "Warning : Skipping invalid subtitle data";
+            continue;
+        }
+        auto entryObj = entry.toObject();
+        if (!entryObj.contains(QLatin1String("name")) || !entryObj.contains(QLatin1String("file"))) {
+            qDebug() << "Warning : Skipping invalid subtitle data (does not have a name or file)";
+            continue;
+        }
+        const QString subName = entryObj[QLatin1String("name")].toString();
+        int subId = entryObj[QLatin1String("id")].toInt();
+        QString subUrl = entryObj[QLatin1String("file")].toString();
+        if (QFileInfo(subUrl).isRelative()) {
+            subUrl.prepend(m_documentRoot);
+        }
+        results.insert({subId, subName}, subUrl);
+    }
+    return results;
 }
 
 bool KdenliveDoc::hasSubtitles() const
