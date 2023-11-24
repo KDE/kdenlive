@@ -1824,8 +1824,8 @@ void KdenliveSettingsDialog::initSpeechPage()
     // VOSK
     m_configSpeech.vosk_folder->setPlaceholderText(
         QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("speechmodels"), QStandardPaths::LocateDirectory));
-    PythonDependencyMessage *msg2 = new PythonDependencyMessage(this, m_stt);
-    m_configSpeech.message_layout->addWidget(msg2);
+    PythonDependencyMessage *msgVosk = new PythonDependencyMessage(this, m_stt);
+    m_configSpeech.message_layout->addWidget(msgVosk);
 
     connect(m_stt, &SpeechToText::dependenciesAvailable, this, [&]() {
         if (m_speechListWidget->count() == 0) {
@@ -1838,7 +1838,7 @@ void KdenliveSettingsDialog::initSpeechPage()
         QMetaObject::invokeMethod(m_configSpeech.script_log, "show", Qt::QueuedConnection);
         QMetaObject::invokeMethod(m_configSpeech.script_log, "appendPlainText", Q_ARG(QString, jobData));
     });
-    connect(m_stt, &SpeechToText::scriptFinished, [msg]() { QMetaObject::invokeMethod(msg, "checkAfterInstall", Qt::QueuedConnection); });
+    connect(m_stt, &SpeechToText::scriptFinished, [msgVosk]() { QMetaObject::invokeMethod(msgVosk, "checkAfterInstall", Qt::QueuedConnection); });
 
     m_speechListWidget = new SpeechList(this);
     connect(m_speechListWidget, &SpeechList::getDictionary, this, &KdenliveSettingsDialog::getDictionary);

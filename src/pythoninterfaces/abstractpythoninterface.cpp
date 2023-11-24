@@ -127,7 +127,7 @@ void PythonDependencyMessage::doShowMessage(const QString &message, KMessageWidg
 void PythonDependencyMessage::checkAfterInstall()
 {
     doShowMessage(i18n("Checking configuration…"), KMessageWidget::Information);
-    m_interface->checkDependencies(false, false);
+    m_interface->checkDependencies(true, false);
     if (m_interface->missingDependencies().isEmpty()) {
         m_interface->checkVersions();
     }
