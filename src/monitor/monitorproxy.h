@@ -207,4 +207,7 @@ public Q_SLOTS:
     void clipDeleted(int cid);
     void documentClosed();
     void extractFrameToFile(int frame_position, const QStringList &pathInfo, bool addToProject = false, bool useSourceProfile = false);
+
+private Q_SLOTS:
+    void updateClipName(int id, const QString newName);
 };

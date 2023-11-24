@@ -637,7 +637,7 @@ Q_SIGNALS:
     void openClip(std::shared_ptr<ProjectClip> c, int in = -1, int out = -1);
     /** @brief Fill context menu with occurrences of this clip in timeline. */
     void findInTimeline(const QString &, QList<int> ids = QList<int>());
-    void clipNameChanged(const QString &);
+    void clipNameChanged(int, const QString);
     /** @brief A clip was updated, request panel update. */
     void refreshPanel(const QString &id);
     /** @brief Upon selection, activate timeline target tracks. */

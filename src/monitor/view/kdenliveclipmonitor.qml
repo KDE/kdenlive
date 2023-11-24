@@ -94,6 +94,7 @@ Item {
     onClipNameChanged: {
         // Animate clip name
         labelContainer.opacity = 1
+        contextMenu.opacity = 1
         if (!clipNameLabel.hovered) {
             showAnimate.restart()
         }
@@ -154,6 +155,7 @@ Item {
         onEntered: {
             // Show clip name
             labelContainer.opacity = 1
+            contextMenu.opacity = 1
             if (!clipNameLabel.hovered) {
                 showAnimate.restart()
             }
@@ -344,7 +346,7 @@ Item {
                         pos += audioThumb.width/root.zoomFactor * root.zoomStart
                         controller.setPosition(Math.min(pos / root.timeScale, root.duration));
                     }
-                    onPositionChanged: {
+                    onPositionChanged: mouse => {
                         if (!(mouse.modifiers & Qt.ShiftModifier) && audioThumb.isAudioClip && mouseY < audioSeekZone.y) {
                             mouse.accepted = false
                             return
@@ -403,17 +405,18 @@ Item {
             Menu {
                 id: contextMenu
                 Instantiator {
-                    model: Object.values(controller.lastClips)
+                    model: controller.lastClips
                     MenuItem {
                         text: modelData
+                        font: fixedFont
                         onTriggered: {
                             controller.selectClip(index)
-                            showAnimate.restart()
+                            //showAnimate.restart()
                         }
                     }
                     // Update model when needed
-                    onObjectAdded: contextMenu.insertItem(index, object)
-                    onObjectRemoved: contextMenu.removeItem(object)
+                    onObjectAdded: (index, object) => contextMenu.insertItem(index, object)
+                    onObjectRemoved: (index, object) => contextMenu.removeItem(object)
                 }
             }
             Rectangle {
@@ -432,7 +435,7 @@ Item {
                 ToolButton {
                     id: clipNameLabel
                     hoverEnabled: true
-                    icon.name: contextMenu.count > 2 ? "arrow-down" : ""
+                    icon.name: controller.lastClips.length > 1 ? "arrow-down" : ""
                     text: clipName
                     enabled: labelContainer.opacity > 0.5
                     onTextChanged: {
@@ -449,11 +452,23 @@ Item {
                         id: showAnimate
                         running: false
                         NumberAnimation { target: labelContainer; duration: 3000 }
+                        onStarted: {
+                            contextMenu.opacity = 1
+                        }
+                        onFinished: {
+                            if (contextMenu.visible) {
+                                contextMenu.close()
+                            }
+                            fadeAnimate.start()
+                        }
+                    }
+                    ParallelAnimation {
+                        id: fadeAnimate
+                        running: false
                         NumberAnimation { target: labelContainer; property: "opacity"; to: 0; duration: 1000 }
                     }
                     onClicked: {
-                        console.log("CONTEXTX MENU SIZE: ", contextMenu.count)
-                        if (contextMenu.count > 2) {
+                        if (controller.lastClips.length > 1) {
                             if (contextMenu.visible) {
                                 contextMenu.close()
                             } else {

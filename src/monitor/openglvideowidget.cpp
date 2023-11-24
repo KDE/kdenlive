@@ -188,7 +188,6 @@ void OpenGLVideoWidget::renderVideo()
         qDebug() << "No QSGRendererInterface::OpenGLContextResource";
         return;
     }
-
 #ifndef QT_NO_DEBUG
     QOpenGLFunctions *f = context->functions();
 #endif
@@ -199,8 +198,6 @@ void OpenGLVideoWidget::renderVideo()
     glDisable(GL_DEPTH_TEST);
     glDepthMask(GL_FALSE);
     glViewport(0, 0, width, height);
-    glClearColor(0, 0, 0, 1);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     check_error(f);
 
     if (!m_isThreadedOpenGL) {
@@ -216,9 +213,7 @@ void OpenGLVideoWidget::renderVideo()
     if (!m_displayTexture[0]) {
         return;
     }
-
     quickWindow()->beginExternalCommands();
-
     // Bind textures.
     for (int i = 0; i < 3; ++i) {
         if (m_displayTexture[i]) {

@@ -36,11 +36,32 @@ MonitorProxy::MonitorProxy(VideoWidget *parent)
     , m_trimmingFrames2(0)
     , m_boundsCount(0)
 {
+    if (q->m_id == int(Kdenlive::ClipMonitor)) {
+        connect(pCore->bin(), &Bin::clipNameChanged, this, &MonitorProxy::updateClipName);
+    }
 }
 
 int MonitorProxy::getPosition() const
 {
     return m_position;
+}
+
+void MonitorProxy::updateClipName(int id, const QString newName)
+{
+    for (int i = 0; i < m_lastClipsIds.size(); i++) {
+        if (m_lastClipsIds.at(i).first == id) {
+            m_lastClipsIds.remove(i);
+            m_lastClipsIds.insert(i, {id, newName});
+            m_lastClips.clear();
+            for (int j = 0; j < 4 && j < m_lastClipsIds.size(); j++) {
+                m_lastClips << m_lastClipsIds.at(j).second;
+            }
+            m_clipName = newName;
+            Q_EMIT clipNameChanged();
+            Q_EMIT lastClipsChanged();
+            break;
+        }
+    }
 }
 
 void MonitorProxy::resetPosition()

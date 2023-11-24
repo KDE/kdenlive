@@ -75,7 +75,6 @@ using namespace Mlt;
 VideoWidget::VideoWidget(int id, QObject *parent)
     : QQuickWidget((QWidget *)parent)
     , sendFrameForAnalysis(false)
-    , m_glslManager(nullptr)
     , m_consumer(nullptr)
     , m_producer(nullptr)
     , m_id(id)
@@ -84,6 +83,7 @@ VideoWidget::VideoWidget(int id, QObject *parent)
     , m_analyseSem(1)
     , m_isInitialized(false)
     , m_maxProducerPosition(0)
+    , m_glslManager(nullptr)
     , m_frameRenderer(nullptr)
     , m_zoom(1.0f)
     , m_profileSize(1920, 1080)
@@ -103,7 +103,6 @@ VideoWidget::VideoWidget(int id, QObject *parent)
     kdeclarative.setupEngine(engine());
 #endif
     engine()->rootContext()->setContextObject(new KLocalizedContext(this));
-
     qRegisterMetaType<Mlt::Frame>("Mlt::Frame");
     qRegisterMetaType<SharedFrame>("SharedFrame");
     setAcceptDrops(true);
@@ -120,7 +119,6 @@ VideoWidget::VideoWidget(int id, QObject *parent)
     }
     quickWindow()->setPersistentGraphics(true);
     quickWindow()->setPersistentSceneGraph(true);
-    // quickWindow()->setClearBeforeRendering(false);
     setResizeMode(QQuickWidget::SizeRootObjectToView);
 
     m_refreshTimer.setSingleShot(true);
@@ -456,8 +454,13 @@ void VideoWidget::createThread(RenderThread **thread, thread_function_t function
         m_initSem.acquire();
     }
 #endif
-    (*thread) = new RenderThread(function, data);
-    (*thread)->start();
+    if (!m_renderThread) {
+        m_renderThread.reset(new RenderThread(function, data));
+        (*thread) = m_renderThread.get();
+        (*thread)->start();
+    } else {
+        m_renderThread->start();
+    }
 }
 
 static void onThreadCreate(mlt_properties owner, VideoWidget *self, mlt_event_data data)
@@ -965,7 +968,6 @@ void FrameRenderer::showFrame(Mlt::Frame frame)
     // Save this frame for future use and to keep a reference to the GL Texture.
     m_displayFrame = SharedFrame(frame);
     Q_EMIT frameDisplayed(m_displayFrame);
-
     if (m_imageRequested) {
         m_imageRequested = false;
         Q_EMIT imageReady();

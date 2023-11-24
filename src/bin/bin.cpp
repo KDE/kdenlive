@@ -4435,7 +4435,7 @@ void Bin::slotItemEdited(const QModelIndex &ix, const QModelIndex &, const QVect
         std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(ix);
         auto clip = std::static_pointer_cast<ProjectClip>(item);
         if (clip) {
-            Q_EMIT clipNameChanged(clip->AbstractProjectItem::clipId());
+            Q_EMIT clipNameChanged(clip->AbstractProjectItem::clipId().toInt(), clip->clipName());
         }
     }
 }
