@@ -134,7 +134,9 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
         } else {
             if (button == timeline_track) {
                 m_tid = selectedTrack;
-                if (!timeline->isAudioTrack(m_tid)) {
+                if (timeline->isSubtitleTrack(m_tid)) {
+                    m_tid = -1;
+                } else if (!timeline->isAudioTrack(m_tid)) {
                     m_tid = timeline->getMirrorAudioTrackId(m_tid);
                 }
                 if (m_tid == -1) {
