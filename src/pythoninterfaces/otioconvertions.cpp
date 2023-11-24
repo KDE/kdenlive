@@ -52,7 +52,7 @@ OtioConvertions::OtioConvertions()
 
 bool OtioConvertions::wellConfigured()
 {
-    checkDependencies();
+    checkDependencies(false, false);
     return checkSetup() && missingDependencies().isEmpty() && !m_importAdapters.isEmpty() && m_importAdapters.contains("kdenlive") &&
            !m_exportAdapters.isEmpty() && m_exportAdapters.contains("kdenlive");
 }

@@ -85,13 +85,17 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Process"));
 
     QButtonGroup *buttonGroup = new QButtonGroup(this);
+    buttonGroup->addButton(timeline_full);
     buttonGroup->addButton(timeline_zone);
     buttonGroup->addButton(timeline_track);
     buttonGroup->addButton(timeline_clips);
     connect(buttonGroup, QOverload<QAbstractButton *>::of(&QButtonGroup::buttonClicked), [=, selectedTrack = tid, sourceZone = zone](QAbstractButton *button) {
         speech_info->animatedHide();
         buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
-        if (button == timeline_clips) {
+        if (button == timeline_full) {
+            m_tid = -1;
+            m_zone = QPoint(0, pCore->projectDuration() - 1);
+        } else if (button == timeline_clips) {
             std::unordered_set<int> selection = timeline->getCurrentSelection();
             int cid = -1;
             m_tid = -1;
@@ -161,6 +165,7 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
             m_speechJob->kill();
         }
     });
+    m_stt->checkDependencies();
 }
 
 SpeechDialog::~SpeechDialog() {}
@@ -188,7 +193,10 @@ void SpeechDialog::updateVoskModels(const QStringList models)
 
 void SpeechDialog::slotProcessSpeech()
 {
-    m_stt->checkDependencies();
+    speech_info->setMessageType(KMessageWidget::Information);
+    speech_info->setText(i18nc("@label:textbox", "Checking setup…"));
+    speech_info->show();
+    buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
     if (!m_stt->checkSetup() || !m_stt->missingDependencies().isEmpty()) {
         speech_info->setMessageType(KMessageWidget::Warning);
         speech_info->setText(i18n("Please configure speech to text."));

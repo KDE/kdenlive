@@ -58,8 +58,9 @@ public Q_SLOTS:
         To get a list of all missing dependencies use missingDependencies
         @returns wether all checks succeeded.
     */
-    void checkDependencies(bool force = false);
+    void checkDependencies(bool force = false, bool async = true);
     void checkDependenciesConcurrently();
+    void checkVersionsConcurrently();
 
 private:
     QMap<QString, QString> m_dependencies;
@@ -84,7 +85,7 @@ protected:
 
 Q_SIGNALS:
     void setupError(const QString &message);
-    void setupWarning(const QString &message);
+    void setupMessage(const QString &message, KMessageWidget::MessageType messageType);
     void checkVersionsResult(const QStringList &versions);
     void dependenciesMissing(const QStringList &messages);
     void dependenciesAvailable();
@@ -103,7 +104,7 @@ class PythonDependencyMessage : public KMessageWidget {
     Q_OBJECT
 
 public:
-    PythonDependencyMessage(QWidget *parent, AbstractPythonInterface *interface);
+    PythonDependencyMessage(QWidget *parent, AbstractPythonInterface *interface, bool setupErrorOnly = false);
 
 public Q_SLOTS:
     void checkAfterInstall();

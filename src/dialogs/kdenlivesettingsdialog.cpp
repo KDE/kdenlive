@@ -1723,10 +1723,10 @@ void KdenliveSettingsDialog::initSpeechPage()
     connect(speechEngineSelection, &QButtonGroup::buttonClicked, [this](QAbstractButton *button) {
         if (button == m_configSpeech.engine_vosk) {
             m_configSpeech.speech_stack->setCurrentIndex(0);
-            QTimer::singleShot(500, this, [&]() { m_stt->checkDependencies(false); });
+            m_stt->checkDependencies(false);
         } else if (button == m_configSpeech.engine_whisper) {
             m_configSpeech.speech_stack->setCurrentIndex(1);
-            QTimer::singleShot(500, this, [&]() { m_sttWhisper->checkDependencies(false); });
+            m_sttWhisper->checkDependencies(false);
         }
     });
     if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
@@ -1737,11 +1737,14 @@ void KdenliveSettingsDialog::initSpeechPage()
         m_configSpeech.speech_stack->setCurrentIndex(0);
     }
     // Python setup
+    PythonDependencyMessage *msg = new PythonDependencyMessage(this, m_sttWhisper, true);
+    m_configEnv.message_layout_2->addWidget(msg);
     m_configEnv.pythonSetupMessage->hide();
     connect(m_sttWhisper, &SpeechToText::gotPythonPath, m_configEnv.label_python_path, &QLabel::setText);
     connect(m_sttWhisper, &SpeechToText::gotPythonSize, m_configEnv.label_python_size, &QLabel::setText);
     m_sttWhisper->checkPython(KdenliveSettings::usePythonVenv(), true);
     connect(m_configEnv.kcfg_usePythonVenv, &QCheckBox::stateChanged, this, [this](int state) {
+        m_configEnv.pythonSetupMessage->setMessageType(KMessageWidget::Information);
         if (state == Qt::Checked) {
             m_configEnv.pythonSetupMessage->setText(i18n("Setting up virtual environment…"));
         } else {
@@ -1749,13 +1752,24 @@ void KdenliveSettingsDialog::initSpeechPage()
         }
         m_configEnv.pythonSetupMessage->show();
         qApp->processEvents();
-        m_sttWhisper->checkPython(state == Qt::Checked, true);
-        slotCheckSttConfig();
+        if (!m_sttWhisper->checkPython(state == Qt::Checked, true)) {
+            m_configEnv.kcfg_usePythonVenv->setChecked(false);
+        } else {
+            slotCheckSttConfig();
+        }
         m_configEnv.pythonSetupMessage->hide();
     });
     connect(m_configEnv.button_python_delete, &QPushButton::clicked, this, [this]() {
+        m_configEnv.pythonSetupMessage->setMessageType(KMessageWidget::Information);
+        m_configEnv.pythonSetupMessage->setText(i18nc("@label:textbox", "Removing the virtual environment folder."));
+        m_configEnv.pythonSetupMessage->show();
         if (m_sttWhisper->removePythonVenv()) {
             m_configEnv.kcfg_usePythonVenv->setChecked(false);
+            m_configEnv.pythonSetupMessage->hide();
+            m_configEnv.label_python_size->setText(i18nc("@label:textbox", "No python venv found"));
+        } else {
+            m_configEnv.pythonSetupMessage->setMessageType(KMessageWidget::Warning);
+            m_configEnv.pythonSetupMessage->setText(i18nc("@label:textbox", "Failed to remove the virtual environment folder."));
         }
     });
 
@@ -1810,8 +1824,8 @@ void KdenliveSettingsDialog::initSpeechPage()
     // VOSK
     m_configSpeech.vosk_folder->setPlaceholderText(
         QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("speechmodels"), QStandardPaths::LocateDirectory));
-    PythonDependencyMessage *msg = new PythonDependencyMessage(this, m_stt);
-    m_configSpeech.message_layout->addWidget(msg);
+    PythonDependencyMessage *msg2 = new PythonDependencyMessage(this, m_stt);
+    m_configSpeech.message_layout->addWidget(msg2);
 
     connect(m_stt, &SpeechToText::dependenciesAvailable, this, [&]() {
         if (m_speechListWidget->count() == 0) {
@@ -1870,10 +1884,11 @@ void KdenliveSettingsDialog::initSpeechPage()
 void KdenliveSettingsDialog::slotCheckSttConfig()
 {
     m_configSpeech.check_config->setEnabled(false);
-    m_stt->checkDependencies(true);
+    qApp->processEvents();
     m_sttWhisper->checkDependencies(true);
-
-    m_configSpeech.check_config->setEnabled(true);
+    m_stt->checkDependencies(true);
+    // Leave button disabled for 3 seconds so that the user doesn't trigger it again while it is processing
+    QTimer::singleShot(3000, this, [&]() { m_configSpeech.check_config->setEnabled(true); });
 }
 
 void KdenliveSettingsDialog::doShowSpeechMessage(const QString &message, int messageType)

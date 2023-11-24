@@ -18,7 +18,34 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="6" column="0">
+   <item row="8" column="0" colspan="2">
+    <widget class="KMessageWidget" name="speech_info"/>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Model</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0" colspan="2">
+    <widget class="QRadioButton" name="timeline_track">
+     <property name="text">
+      <string>Timeline zone (selected track)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QComboBox" name="speech_model">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -31,7 +58,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </property>
     </spacer>
    </item>
-   <item row="9" column="1">
+   <item row="10" column="1">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -41,14 +68,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </property>
     </widget>
    </item>
-   <item row="4" column="0" colspan="2">
-    <widget class="QRadioButton" name="timeline_track">
-     <property name="text">
-      <string>Timeline zone (selected track)</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="0" colspan="2">
+   <item row="9" column="0" colspan="2">
     <widget class="QFrame" name="frame_progress">
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
@@ -91,23 +111,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
        </widget>
       </item>
      </layout>
-    </widget>
-   </item>
-   <item row="5" column="0" colspan="2">
-    <widget class="QRadioButton" name="timeline_clips">
-     <property name="text">
-      <string>Selected clip</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0" colspan="2">
-    <widget class="QRadioButton" name="timeline_zone">
-     <property name="text">
-      <string>Timeline zone (all tracks)</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
     </widget>
    </item>
    <item row="2" column="0" colspan="2">
@@ -155,23 +158,27 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </layout>
     </widget>
    </item>
-   <item row="7" column="0" colspan="2">
-    <widget class="KMessageWidget" name="speech_info"/>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label">
+   <item row="6" column="0" colspan="2">
+    <widget class="QRadioButton" name="timeline_clips">
      <property name="text">
-      <string>Model</string>
+      <string>Selected clip</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="1">
-    <widget class="QComboBox" name="speech_model">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
+   <item row="4" column="0" colspan="2">
+    <widget class="QRadioButton" name="timeline_zone">
+     <property name="text">
+      <string>Timeline zone (all tracks)</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="2">
+    <widget class="QRadioButton" name="timeline_full">
+     <property name="text">
+      <string>Full project</string>
      </property>
     </widget>
    </item>
@@ -185,6 +192,16 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>speech_model</tabstop>
+  <tabstop>speech_language</tabstop>
+  <tabstop>translate_box</tabstop>
+  <tabstop>timeline_full</tabstop>
+  <tabstop>timeline_zone</tabstop>
+  <tabstop>timeline_track</tabstop>
+  <tabstop>timeline_clips</tabstop>
+  <tabstop>button_abort</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

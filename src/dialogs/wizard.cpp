@@ -687,7 +687,7 @@ bool Wizard::checkHwEncoder(const QString &name, const QStringList &args, const 
     QProcess hwEncoders;
     qDebug() << "Checking" << name << "with FFmpeg args: " << args;
     hwEncoders.start(KdenliveSettings::ffmpegpath(), args);
-    if (hwEncoders.waitForFinished()) {
+    if (hwEncoders.waitForFinished(5000)) {
         if (hwEncoders.exitStatus() == QProcess::CrashExit) {
             qDebug() << "->" << name << "NOT supported";
             qDebug() << hwEncoders.readAll();
@@ -772,7 +772,7 @@ void Wizard::testHwEncoders()
         bool finished = false;
         QCoreApplication::processEvents();
         if (started) {
-            finished = proc.waitForFinished(4000);
+            finished = proc.waitForFinished(5000);
             QCoreApplication::processEvents();
         }
         if (started && finished && proc.exitStatus() == QProcess::NormalExit && !proc.exitCode()) {
@@ -787,7 +787,7 @@ void Wizard::testHwEncoders()
     qDebug() << "// FFMPEG ARGS: " << args3;
     hwEncoders.start(KdenliveSettings::ffmpegpath(), args3);
     bool nvScalingSupported = false;
-    if (hwEncoders.waitForFinished()) {
+    if (hwEncoders.waitForFinished(5000)) {
         QByteArray output = hwEncoders.readAll();
         hwEncoders.close();
         if (output.contains(QByteArray("scale_npp"))) {
