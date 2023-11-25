@@ -5541,7 +5541,7 @@ void Bin::savePlaylist(const QString &binId, const QString &savePath, const QVec
 void Bin::requestSelectionTranscoding(bool forceReplace)
 {
     if (m_transcodingDialog == nullptr) {
-        m_transcodingDialog = new TranscodeSeek(true, this);
+        m_transcodingDialog = new TranscodeSeek(false, true, this);
         connect(m_transcodingDialog, &QDialog::accepted, this, [&]() {
             bool replace = m_transcodingDialog->replace_original->isChecked();
             if (!forceReplace) {
@@ -5592,7 +5592,7 @@ void Bin::requestSelectionTranscoding(bool forceReplace)
 void Bin::requestTranscoding(const QString &url, const QString &id, int type, bool checkProfile, const QString &suffix, const QString &message)
 {
     if (m_transcodingDialog == nullptr) {
-        m_transcodingDialog = new TranscodeSeek(false, this);
+        m_transcodingDialog = new TranscodeSeek(false, false, this);
         m_transcodingDialog->replace_original->setVisible(false);
         connect(m_transcodingDialog, &QDialog::accepted, this, [&, checkProfile]() {
             QMap<QString, QStringList> ids = m_transcodingDialog->ids();
