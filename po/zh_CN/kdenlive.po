@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-08 02:07+0000\n"
-"PO-Revision-Date: 2023-11-19 03:44\n"
+"PO-Revision-Date: 2023-11-25 02:33\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -30,8 +30,8 @@ msgid "Your emails"
 msgstr ""
 "angelsherry@kde.org, ducksoft@kde.org, fangzheng@kde.org, i@guoyunhe.me, "
 "ikochina@kde.org, magsom@kde.org, mywang@kde.org, ovo-Tim@kde.org, phone-"
-"burner@kde.org, phoxtail@kde.org, tysontan@tysontan.com, loaden@kde.org, "
-"linux.dabao@gmail.com, panxiaoyu6@kde.org, leonardyan@kde.org"
+"burner@kde.org, phoxtail@kde.org, tds00@qq.com, loaden@kde.org, linux."
+"dabao@gmail.com, panxiaoyu6@kde.org, leonardyan@kde.org"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
 #: src/audiomixer/mixerwidget.cpp:139 src/audiomixer/mixerwidget.cpp:152
@@ -1368,7 +1368,7 @@ msgstr ""
 #: src/bin/bin.cpp:1399 src/bin/bin.cpp:2160
 #, kde-format
 msgid "Filter"
-msgstr "筛选"
+msgstr "过滤"
 
 #: data/effects/mask_start_frei0r_select0r.xml:11
 #, kde-format
@@ -4218,8 +4218,8 @@ msgid ""
 "filter display. Click on the arrow icon to open a list of possible filter "
 "settings."
 msgstr ""
-"筛选项目素材箱的内容。点击筛选按钮显示/隐藏筛选选项。点击箭头按钮打开可用的筛"
-"选设置列表。"
+"过滤项目素材箱的内容。点击过滤按钮显示/隐藏过滤选项。点击箭头按钮打开可用的过"
+"滤设置列表。"
 
 #: src/bin/bin.cpp:1441
 #, kde-format
@@ -4359,7 +4359,7 @@ msgstr "创建剪辑副本"
 #: src/bin/bin.cpp:2205
 #, kde-format
 msgid "Clear Filters"
-msgstr "清除筛选条件"
+msgstr "清除过滤条件"
 
 #: src/bin/bin.cpp:2211
 #, kde-format
@@ -4375,7 +4375,7 @@ msgstr[0] "%1 星"
 #: src/bin/bin.cpp:2237
 #, kde-format
 msgid "Filter by Usage"
-msgstr "按使用情况筛选"
+msgstr "按使用情况过滤"
 
 #: src/bin/bin.cpp:2240
 #, kde-format
@@ -4395,7 +4395,7 @@ msgstr "已使用剪辑"
 #: src/bin/bin.cpp:2256
 #, kde-format
 msgid "Filter by Type"
-msgstr "按类型筛选"
+msgstr "按类型过滤"
 
 #: src/bin/bin.cpp:2259
 #, kde-format
@@ -5035,7 +5035,7 @@ msgstr "名称："
 #: src/bin/mediabrowser.cpp:200
 #, kde-format
 msgid "Filter:"
-msgstr "筛选："
+msgstr "过滤："
 
 #: src/bin/mediabrowser.cpp:204 src/dialogs/clipcreationdialog.cpp:469
 #, kde-format
@@ -9262,8 +9262,8 @@ msgid "EMAIL OF TRANSLATORS"
 msgstr ""
 "angelsherry@kde.org, ducksoft@kde.org, fangzheng@kde.org, i@guoyunhe.me, "
 "ikochina@kde.org, loaden@kde.org, magsom@kde.org, mywang@kde.org, ovo-"
-"Tim@kde.org, phone-burner@kde.org, phoxtail@kde.org, tysontan@tysontan.com, "
-"linux.dabao@gmail.com, panxiaoyu6@kde.org, leonardyan@kde.org"
+"Tim@kde.org, phone-burner@kde.org, phoxtail@kde.org, tds00@qq.com, linux."
+"dabao@gmail.com, panxiaoyu6@kde.org, leonardyan@kde.org"
 
 #: src/main.cpp:147
 #, kde-format
@@ -12856,7 +12856,7 @@ msgstr "编辑选定的辅助线。选择多条辅助线后可以更改它们的
 #: src/project/dialogs/guideslist.cpp:142
 #, kde-format
 msgid "Filter guide categories."
-msgstr "筛选辅助线类别。"
+msgstr "过滤辅助线类别。"
 
 #: src/project/dialogs/guideslist.cpp:144
 #, kde-kuit-format
@@ -12865,7 +12865,7 @@ msgid ""
 "Filter guide categories. This allows you to show or hide selected guide "
 "categories in this dialog and in the timeline."
 msgstr ""
-"筛选辅助线类别。此功能用于在此对话框和时间轴中显示或隐藏所选辅助线类别。"
+"过滤辅助线类别。此功能用于在此对话框和时间轴中显示或隐藏所选辅助线类别。"
 
 #: src/project/dialogs/guideslist.cpp:145
 #, kde-format

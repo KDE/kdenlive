@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-08 02:07+0000\n"
-"PO-Revision-Date: 2023-11-11 23:06+0300\n"
+"PO-Revision-Date: 2023-11-26 01:24+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -8134,7 +8134,7 @@ msgid ""
 "Create and switch to new profile (%2x%3, %4fps)?%5"
 msgstr ""
 "%1 klibiniz için profil bulunamadı.\n"
-"Yeni bir profil oluşturup ona geçin (%2x%3, %4fps)?%5"
+"Yeni bir profil oluşturup ona geçin (%2 x %3, %4 fps)?%5"
 
 #: src/doc/kdenlivedoc.cpp:2236 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
@@ -17990,7 +17990,7 @@ msgstr "Boyut:"
 #: src/ui/configcapture_ui.ui:107
 #, kde-format
 msgid "720x576"
-msgstr "720x576"
+msgstr "720 x 576"
 
 #. i18n: ectx: property (text), widget (QLabel, p_fps)
 #: src/ui/configcapture_ui.ui:121
