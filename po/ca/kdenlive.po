@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-25 00:41+0000\n"
-"PO-Revision-Date: 2023-11-24 10:27+0100\n"
+"PO-Revision-Date: 2023-11-25 10:54+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -5498,11 +5498,10 @@ msgid "Delete subtitle"
 msgstr "Suprimeix els subtítols"
 
 #: src/bin/model/subtitlemodel.cpp:1681 src/bin/model/subtitlemodel.cpp:1684
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox subtitle track name"
 msgid "Subtitle %1"
-msgstr "Subtítols"
+msgstr "Subtítol %1"
 
 #: src/bin/projectclip.cpp:262
 #, kde-format
@@ -6639,25 +6638,22 @@ msgid "Disabling virtual environment"
 msgstr "Deshabilita l'entorn virtual"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1764
-#, fuzzy, kde-format
-#| msgid "Setting up virtual environment…"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Removing the virtual environment folder."
-msgstr "Estableix un entorn virtual…"
+msgstr "S'elimina la carpeta de l'entorn virtual."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1769
-#, fuzzy, kde-format
-#| msgid "No python venv found"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "No python venv found"
 msgstr "No s'ha trobat el «venv» del Python"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1772
-#, fuzzy, kde-format
-#| msgid "Use python virtual environment (recommended)"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Failed to remove the virtual environment folder."
-msgstr "Usa l'entorn virtual del Python (recomanat)"
+msgstr "Ha fallat en eliminar la carpeta de l'entorn virtual."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1777
 #, kde-format
@@ -6732,11 +6728,10 @@ msgid "New dictionary installed."
 msgstr "S'ha instal·lat un diccionari nou."
 
 #: src/dialogs/managesubtitles.cpp:25
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@title:window"
 msgid "Manage Subtitles"
-msgstr "Subtítols"
+msgstr "Gestiona els subtítols"
 
 #: src/dialogs/managesubtitles.cpp:100
 #, kde-format
@@ -6744,6 +6739,8 @@ msgid ""
 "This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
 "subtitle file: %2 "
 msgstr ""
+"Això suprimirà totes les entrades de subtítols a <b>%1</b>,<br/>així com el "
+"fitxer de subtítols: %2 "
 
 #: src/dialogs/profilesdialog.cpp:111
 #, kde-format
@@ -7092,8 +7089,7 @@ msgstr ""
 "Assegureu-vos que teniu els permisos requerits."
 
 #: src/dialogs/renderwidget.cpp:724
-#, fuzzy, kde-format
-#| msgid "The following errors occured while trying to render"
+#, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr "S'han detectat els següents errors en intentar la renderització"
 
@@ -7287,8 +7283,7 @@ msgstr "Instal·leu els models de reconeixement de la veu"
 
 #: src/dialogs/speechdialog.cpp:199
 #: src/pythoninterfaces/abstractpythoninterface.cpp:395
-#, fuzzy, kde-format
-#| msgid "Checking configuration…"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Checking setup…"
 msgstr "S'està comprovant la configuració…"
@@ -14474,13 +14469,13 @@ msgid "Python venv size: %1"
 msgstr "Mida del «venv» del Python: %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:254
-#, fuzzy, kde-format
-#| msgid "Cannot find python virtualenv, please install it on your system."
+#, kde-format
 msgid ""
 "Cannot find python virtualenv, please install it on your system. Defaulting "
 "to system python."
 msgstr ""
-"No s'ha pogut trobar el «virtualenv» del Python, instal·leu-lo en el sistema."
+"No s'ha pogut trobar el «virtualenv» del Python, instal·leu-lo en el "
+"sistema. Es canvia al sistema Python predeterminat."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:272
 #, kde-format
@@ -14489,11 +14484,10 @@ msgstr "No s'ha trobat l'script %1, comproveu la vostra instal·lació."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:310
 #: src/pythoninterfaces/abstractpythoninterface.cpp:339
-#, fuzzy, kde-format
-#| msgid "Checking configuration…"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Checking modules version…"
-msgstr "S'està comprovant la configuració…"
+msgstr "S'estan comprovant les versions dels mòduls…"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:330
 #, kde-kuit-format
@@ -14556,11 +14550,10 @@ msgid "Please consider to update your setup."
 msgstr "Si us plau, considereu actualitzar la vostra configuració."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:437
-#, fuzzy, kde-format
-#| msgid "No information in clipboard"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
-msgstr "No hi ha informació al porta-retalls"
+msgstr "No hi ha disponible la informació de la versió."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:494
 #, kde-format
@@ -17224,18 +17217,16 @@ msgstr "Bloca la pista de subtítols"
 
 #: src/timeline2/view/timelinecontroller.cpp:5309
 #: src/timeline2/view/timelinecontroller.cpp:5318
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "Subtítols"
 
 #: src/timeline2/view/timelinecontroller.cpp:5320
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
-msgstr "Subtítols"
+msgstr "Gestiona els subtítols"
 
 #: src/timeline2/view/timelinetabs.cpp:48
 #, kde-format
@@ -20464,21 +20455,19 @@ msgstr "S'estan editant els perfils de:"
 #: src/ui/managesubtitles_ui.ui:42
 #, kde-format
 msgid "Path"
-msgstr ""
+msgstr "Camí"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_new)
 #: src/ui/managesubtitles_ui.ui:50
-#, fuzzy, kde-format
-#| msgid "Create"
+#, kde-format
 msgid "Creat New"
-msgstr "Crea"
+msgstr "Crea nou"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
 #: src/ui/managesubtitles_ui.ui:61
-#, fuzzy, kde-format
-#| msgid "Delete "
+#, kde-format
 msgid "Delete"
-msgstr "Suprimeix "
+msgstr "Suprimeix"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
 #: src/ui/markerdialog_ui.ui:66 src/ui/multiplemarkerdialog_ui.ui:34
@@ -21413,10 +21402,9 @@ msgstr "Zona de la línia de temps (totes les pistes)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_full)
 #: src/ui/speechdialog_ui.ui:181
-#, fuzzy, kde-format
-#| msgid "Fu&ll project"
+#, kde-format
 msgid "Full project"
-msgstr "Tot el pro&jecte"
+msgstr "Tot el projecte"
 
 #. i18n: ectx: property (text), widget (QLabel, label_template)
 #. i18n: ectx: property (text), widget (QLabel, label)

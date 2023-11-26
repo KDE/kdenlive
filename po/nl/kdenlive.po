@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-25 00:41+0000\n"
-"PO-Revision-Date: 2023-11-24 22:52+0100\n"
+"PO-Revision-Date: 2023-11-25 14:31+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -757,7 +757,7 @@ msgstr "Rechtsom"
 #: data/effects/dance.xml:41
 #, kde-format
 msgid "Counter Clockwise"
-msgstr "Tegen de klok in"
+msgstr "Linksom"
 
 #: data/effects/dust.xml:4
 #, kde-format
@@ -5478,11 +5478,10 @@ msgid "Delete subtitle"
 msgstr "Ondertitel verwijderen"
 
 #: src/bin/model/subtitlemodel.cpp:1681 src/bin/model/subtitlemodel.cpp:1684
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox subtitle track name"
 msgid "Subtitle %1"
-msgstr "Ondertiteling"
+msgstr "Ondertitel %1"
 
 #: src/bin/projectclip.cpp:262
 #, kde-format
@@ -6617,25 +6616,22 @@ msgid "Disabling virtual environment"
 msgstr "Virtuele omgeving uitschakelen"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1764
-#, fuzzy, kde-format
-#| msgid "Setting up virtual environment…"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Removing the virtual environment folder."
-msgstr "Virtuele omgeving opzetten…"
+msgstr "De map met de virtuele omgeving verwijderen."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1769
-#, fuzzy, kde-format
-#| msgid "No python venv found"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "No python venv found"
 msgstr "Geen python venv gevonden"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1772
-#, fuzzy, kde-format
-#| msgid "Use python virtual environment (recommended)"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Failed to remove the virtual environment folder."
-msgstr "Python virtuele omgeving gebruiken (aanbevolen)"
+msgstr "Verwijderen van de virtuele omgevingsmap is mislukt."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1777
 #, kde-format
@@ -6710,11 +6706,10 @@ msgid "New dictionary installed."
 msgstr "Nieuw woordenboek geïnstalleerd."
 
 #: src/dialogs/managesubtitles.cpp:25
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@title:window"
 msgid "Manage Subtitles"
-msgstr "Ondertiteling"
+msgstr "Ondertiteling beheren"
 
 #: src/dialogs/managesubtitles.cpp:100
 #, kde-format
@@ -6722,6 +6717,8 @@ msgid ""
 "This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
 "subtitle file: %2 "
 msgstr ""
+"Dit zal alle ondertitelingsitems in <b>%1</b> verwijderen,<br/>evenals het "
+"ondertitelbestand: %2 "
 
 #: src/dialogs/profilesdialog.cpp:111
 #, kde-format
@@ -7070,8 +7067,7 @@ msgstr ""
 "Zorg ervoor dat U de nodige rechten heeft."
 
 #: src/dialogs/renderwidget.cpp:724
-#, fuzzy, kde-format
-#| msgid "The following errors occured while trying to render"
+#, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr "De volgende fouten deden zich voor tijdens de poging te renderen"
 
@@ -7266,11 +7262,10 @@ msgstr "Graag spraakherkenningsmodellen installeren"
 
 #: src/dialogs/speechdialog.cpp:199
 #: src/pythoninterfaces/abstractpythoninterface.cpp:395
-#, fuzzy, kde-format
-#| msgid "Checking system"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Checking setup…"
-msgstr "Systeem controle"
+msgstr "Opzet controleren…"
 
 #: src/dialogs/speechdialog.cpp:204 src/dialogs/textbasededit.cpp:934
 #: src/dialogs/textbasededit.cpp:947
@@ -14402,12 +14397,13 @@ msgid "Python venv size: %1"
 msgstr "Python venv grootte: %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:254
-#, fuzzy, kde-format
-#| msgid "Cannot find python virtualenv, please install it on your system."
+#, kde-format
 msgid ""
 "Cannot find python virtualenv, please install it on your system. Defaulting "
 "to system python."
-msgstr "Kan python virtualenv niet vinden, installeer het op uw systeem."
+msgstr ""
+"Kan python virtualenv niet vinden, installeer het op uw systeem. Standaard "
+"is de python van het systeem."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:272
 #, kde-format
@@ -14416,11 +14412,10 @@ msgstr "Het %1-script is niet gevonden, controleer uw installatie."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:310
 #: src/pythoninterfaces/abstractpythoninterface.cpp:339
-#, fuzzy, kde-format
-#| msgid "Checking configuration…"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Checking modules version…"
-msgstr "Configuratie wordt gecontroleerd…"
+msgstr "Versie van modules wordt gecontroleerd…"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:330
 #, kde-kuit-format
@@ -14482,11 +14477,10 @@ msgid "Please consider to update your setup."
 msgstr "Overweeg uw opzet bij te werken."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:437
-#, fuzzy, kde-format
-#| msgid "No information in clipboard"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
-msgstr "Geen informatie in klembord"
+msgstr "Geen versie-informatie beschikbaar."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:494
 #, kde-format
@@ -17126,18 +17120,16 @@ msgstr "Ondertiteltrack vergrendelen"
 
 #: src/timeline2/view/timelinecontroller.cpp:5309
 #: src/timeline2/view/timelinecontroller.cpp:5318
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
-msgstr "Ondertiteling"
+msgstr "Ondertitels"
 
 #: src/timeline2/view/timelinecontroller.cpp:5320
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
-msgstr "Ondertiteling"
+msgstr "Ondertiteling beheren"
 
 #: src/timeline2/view/timelinetabs.cpp:48
 #, kde-format
@@ -20365,15 +20357,13 @@ msgstr "Pad"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_new)
 #: src/ui/managesubtitles_ui.ui:50
-#, fuzzy, kde-format
-#| msgid "Create"
+#, kde-format
 msgid "Creat New"
-msgstr "Aanmaken"
+msgstr "Nieuw aanmaken"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
 #: src/ui/managesubtitles_ui.ui:61
-#, fuzzy, kde-format
-#| msgid "Delete "
+#, kde-format
 msgid "Delete"
 msgstr "Verwijderen "
 
@@ -21307,10 +21297,9 @@ msgstr "Tijdlijnzone (alle tracks)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_full)
 #: src/ui/speechdialog_ui.ui:181
-#, fuzzy, kde-format
-#| msgid "Fu&ll project"
+#, kde-format
 msgid "Full project"
-msgstr "Vo&lledig project"
+msgstr "Volledig project"
 
 #. i18n: ectx: property (text), widget (QLabel, label_template)
 #. i18n: ectx: property (text), widget (QLabel, label)

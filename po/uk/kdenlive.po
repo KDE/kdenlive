@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-25 00:41+0000\n"
-"PO-Revision-Date: 2023-11-24 08:43+0200\n"
+"PO-Revision-Date: 2023-11-25 12:31+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -5498,11 +5498,10 @@ msgid "Delete subtitle"
 msgstr "Вилучити субтитри"
 
 #: src/bin/model/subtitlemodel.cpp:1681 src/bin/model/subtitlemodel.cpp:1684
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox subtitle track name"
 msgid "Subtitle %1"
-msgstr "Субтитри"
+msgstr "Субтитри %1"
 
 #: src/bin/projectclip.cpp:262
 #, kde-format
@@ -6643,25 +6642,22 @@ msgid "Disabling virtual environment"
 msgstr "Вимикаємо віртуальне середовище"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1764
-#, fuzzy, kde-format
-#| msgid "Setting up virtual environment…"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Removing the virtual environment folder."
-msgstr "Налаштовуємо віртуальне середовище…"
+msgstr "Вилучаємо теку віртуального середовища."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1769
-#, fuzzy, kde-format
-#| msgid "No python venv found"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "No python venv found"
 msgstr "Не знайдено віртуального середовища python"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1772
-#, fuzzy, kde-format
-#| msgid "Use python virtual environment (recommended)"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Failed to remove the virtual environment folder."
-msgstr "Скористатися віртуальним середовищем python (рекомендовано)"
+msgstr "Не вдалося вилучити теку віртуального середовища."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1777
 #, kde-format
@@ -6736,11 +6732,10 @@ msgid "New dictionary installed."
 msgstr "Встановлено новий словник."
 
 #: src/dialogs/managesubtitles.cpp:25
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@title:window"
 msgid "Manage Subtitles"
-msgstr "Субтитри"
+msgstr "Керування субтитрами"
 
 #: src/dialogs/managesubtitles.cpp:100
 #, kde-format
@@ -6748,6 +6743,8 @@ msgid ""
 "This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
 "subtitle file: %2 "
 msgstr ""
+"У результати буде вилучено усі записи субтитрів у <b>%1</b>,<br/>а також "
+"файл субтитрів: %2 "
 
 #: src/dialogs/profilesdialog.cpp:111
 #, kde-format
@@ -7097,8 +7094,7 @@ msgstr ""
 "Переконайтеся, що маєте потрібні права доступу."
 
 #: src/dialogs/renderwidget.cpp:724
-#, fuzzy, kde-format
-#| msgid "The following errors occured while trying to render"
+#, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr "Під час спроби обробки сталися вказані нижче помилки"
 
@@ -7299,8 +7295,7 @@ msgstr "Будь ласка, встановіть моделі розпізна�
 
 #: src/dialogs/speechdialog.cpp:199
 #: src/pythoninterfaces/abstractpythoninterface.cpp:395
-#, fuzzy, kde-format
-#| msgid "Checking configuration…"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Checking setup…"
 msgstr "Перевіряємо налаштування…"
@@ -14517,14 +14512,14 @@ msgid "Python venv size: %1"
 msgstr "Розмір вірт. сер. Python: %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:254
-#, fuzzy, kde-format
-#| msgid "Cannot find python virtualenv, please install it on your system."
+#, kde-format
 msgid ""
 "Cannot find python virtualenv, please install it on your system. Defaulting "
 "to system python."
 msgstr ""
 "Не вдалося знайти віртуальне середовище python. Будь ласка, встановіть його "
-"у вашій системі."
+"у вашій системі. Використовуємо резервний загальносистемний компілятор "
+"python."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:272
 #, kde-format
@@ -14534,11 +14529,10 @@ msgstr ""
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:310
 #: src/pythoninterfaces/abstractpythoninterface.cpp:339
-#, fuzzy, kde-format
-#| msgid "Checking configuration…"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Checking modules version…"
-msgstr "Перевіряємо налаштування…"
+msgstr "Перевіряємо версію модулів…"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:330
 #, kde-kuit-format
@@ -14602,11 +14596,10 @@ msgid "Please consider to update your setup."
 msgstr "Вам варто оновити вашу конфігурацію пакунків."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:437
-#, fuzzy, kde-format
-#| msgid "No information in clipboard"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
-msgstr "У буфері обміну даними немає придатних даних"
+msgstr "Немає даних щодо версії."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:494
 #, kde-format
@@ -17266,18 +17259,16 @@ msgstr "Заблокувати доріжку субтитрів"
 
 #: src/timeline2/view/timelinecontroller.cpp:5309
 #: src/timeline2/view/timelinecontroller.cpp:5318
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "Субтитри"
 
 #: src/timeline2/view/timelinecontroller.cpp:5320
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
-msgstr "Субтитри"
+msgstr "Керування субтитрами"
 
 #: src/timeline2/view/timelinetabs.cpp:48
 #, kde-format
@@ -20523,15 +20514,13 @@ msgstr "Шлях"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_new)
 #: src/ui/managesubtitles_ui.ui:50
-#, fuzzy, kde-format
-#| msgid "Create"
+#, kde-format
 msgid "Creat New"
 msgstr "Створити"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
 #: src/ui/managesubtitles_ui.ui:61
-#, fuzzy, kde-format
-#| msgid "Delete "
+#, kde-format
 msgid "Delete"
 msgstr "Вилучити"
 
@@ -21465,10 +21454,9 @@ msgstr "Часовий пояс (усі доріжки)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_full)
 #: src/ui/speechdialog_ui.ui:181
-#, fuzzy, kde-format
-#| msgid "Fu&ll project"
+#, kde-format
 msgid "Full project"
-msgstr "&Цілий проєкт"
+msgstr "Цілий проєкт"
 
 #. i18n: ectx: property (text), widget (QLabel, label_template)
 #. i18n: ectx: property (text), widget (QLabel, label)

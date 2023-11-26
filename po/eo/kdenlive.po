@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-25 00:41+0000\n"
-"PO-Revision-Date: 2023-11-13 18:53+0100\n"
+"PO-Revision-Date: 2023-11-25 09:47+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -5064,22 +5064,19 @@ msgstr "Forigi aŭdvidaĵajn markilojn"
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
-msgstr ""
+msgstr "Ni rekomendas ke vi konservu la projekton antaŭ la transkoda operacio"
 
 #: src/bin/bin.cpp:6058
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Archive Project"
+#, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
-msgstr "Arkiva Projekto"
+msgstr "Konservi Projekton"
 
 #: src/bin/bin.cpp:6059
-#, fuzzy, kde-format
-#| msgid "Transcoding"
+#, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
-msgstr "Transkodigo"
+msgstr "Transkodigi Sen Konservi"
 
 #: src/bin/bincommands.cpp:20 src/bin/bincommands.cpp:40
 #, kde-format
@@ -5444,11 +5441,10 @@ msgid "Delete subtitle"
 msgstr "Forigi subtitolon"
 
 #: src/bin/model/subtitlemodel.cpp:1681 src/bin/model/subtitlemodel.cpp:1684
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox subtitle track name"
 msgid "Subtitle %1"
-msgstr "Subtekstoj"
+msgstr "Subtitolo %1"
 
 #: src/bin/projectclip.cpp:262
 #, kde-format
@@ -6575,25 +6571,22 @@ msgid "Disabling virtual environment"
 msgstr "Malebligante virtualan medion"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1764
-#, fuzzy, kde-format
-#| msgid "Setting up virtual environment…"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Removing the virtual environment folder."
-msgstr "Agordante virtualan medion…"
+msgstr "Forigante la virtualmedian dosierujon."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1769
-#, fuzzy, kde-format
-#| msgid "No python venv found"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "No python venv found"
-msgstr "Ne trovis iun python-venv"
+msgstr "Ne trovis python-venv"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1772
-#, fuzzy, kde-format
-#| msgid "Use python virtual environment (recommended)"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Failed to remove the virtual environment folder."
-msgstr "Uzi python-virtualmedion (rekomendita)"
+msgstr "Malsukcesis forigi la virtualmedian dosierujon."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1777
 #, kde-format
@@ -6666,11 +6659,10 @@ msgid "New dictionary installed."
 msgstr "Nova vortaro instalita."
 
 #: src/dialogs/managesubtitles.cpp:25
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@title:window"
 msgid "Manage Subtitles"
-msgstr "Subtekstoj"
+msgstr "Mastrumi Subtekstojn"
 
 #: src/dialogs/managesubtitles.cpp:100
 #, kde-format
@@ -6678,6 +6670,8 @@ msgid ""
 "This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
 "subtitle file: %2 "
 msgstr ""
+"Ĉi tiu forigos ĉiujn subtekstajn enirojn en <b>%1</b>,<br/>samkiel la "
+"subtitoldosieron: %2 "
 
 #: src/dialogs/profilesdialog.cpp:111
 #, kde-format
@@ -6992,20 +6986,21 @@ msgid ""
 "desync.\n"
 "We recommend to transcode to an edit friendly format."
 msgstr ""
+"Bildigado de projekto kun aŭdvidaĵoj de varia kadrofrekvenco povas konduki "
+"al aŭd/vidbenda malsinkrono.\n"
+"Ni rekomendas transkodi al redaktamika formato."
 
 #: src/dialogs/renderwidget.cpp:649
-#, fuzzy, kde-format
-#| msgid "Render line"
+#, kde-format
 msgctxt "@action:button"
 msgid "Render Anyway"
-msgstr "Bildigi linion"
+msgstr "Bildigi Ĉiukaze"
 
 #: src/dialogs/renderwidget.cpp:652
-#, fuzzy, kde-format
-#| msgid "Transcode"
+#, kde-format
 msgctxt "@action:button"
 msgid "Transcode"
-msgstr "Transkodigo"
+msgstr "Transkodi"
 
 #: src/dialogs/renderwidget.cpp:675 src/dialogs/renderwidget.cpp:1466
 #: src/project/dialogs/archivewidget.cpp:885
@@ -7023,8 +7018,7 @@ msgstr ""
 "Bonvolu certigi ke vi havas la bezonatajn permesojn."
 
 #: src/dialogs/renderwidget.cpp:724
-#, fuzzy, kde-format
-#| msgid "The following errors occured while trying to render"
+#, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr "La sekvontaj eraroj okazis dum klopodo bildigi"
 
@@ -7083,7 +7077,7 @@ msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
 msgstr ""
-"Bildado sen audio kaj video ne funkcias. Bonvolu ebligi almenaŭ unu el ambaŭ."
+"Bildado sen aŭdio kaj video ne funkcias. Bonvolu ebligi almenaŭ unu el ambaŭ."
 
 #: src/dialogs/renderwidget.cpp:1234
 #, kde-format
@@ -7218,8 +7212,7 @@ msgstr "Bonvolu instali modelojn pri parolrekono"
 
 #: src/dialogs/speechdialog.cpp:199
 #: src/pythoninterfaces/abstractpythoninterface.cpp:395
-#, fuzzy, kde-format
-#| msgid "Checking configuration…"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Checking setup…"
 msgstr "Kontrolante agordon…"
@@ -14326,12 +14319,13 @@ msgid "Python venv size: %1"
 msgstr "Python-venv grandeco: %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:254
-#, fuzzy, kde-format
-#| msgid "Cannot find python virtualenv, please install it on your system."
+#, kde-format
 msgid ""
 "Cannot find python virtualenv, please install it on your system. Defaulting "
 "to system python."
-msgstr "Ne eblas trovi python-virtualenv, bonvolu instali ĝin en via sistemo."
+msgstr ""
+"Ne eblas trovi python-virtualenv, bonvolu instali ĝin en via sistemo. "
+"Retropaŝante al sistema python."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:272
 #, kde-format
@@ -14340,11 +14334,10 @@ msgstr "La %1 skripto ne estis trovita, kontrolu vian instalon."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:310
 #: src/pythoninterfaces/abstractpythoninterface.cpp:339
-#, fuzzy, kde-format
-#| msgid "Checking configuration…"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Checking modules version…"
-msgstr "Kontrolante agordon…"
+msgstr "Kontrolante modulajn versiojn…"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:330
 #, kde-kuit-format
@@ -14407,11 +14400,10 @@ msgid "Please consider to update your setup."
 msgstr "Bonvolu konsideri ĝisdatigi vian aranĝon."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:437
-#, fuzzy, kde-format
-#| msgid "No information in clipboard"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
-msgstr "Neniu informo en tondujo"
+msgstr "Neniu versio-informo disponebla."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:494
 #, kde-format
@@ -17034,18 +17026,16 @@ msgstr "Ŝlosi subtitolan trakon"
 
 #: src/timeline2/view/timelinecontroller.cpp:5309
 #: src/timeline2/view/timelinecontroller.cpp:5318
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "Subtekstoj"
 
 #: src/timeline2/view/timelinecontroller.cpp:5320
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
-msgstr "Subtekstoj"
+msgstr "Mastrumi Subtekstojn"
 
 #: src/timeline2/view/timelinetabs.cpp:48
 #, kde-format
@@ -20265,19 +20255,17 @@ msgstr "Redaktado de profiloj por:"
 #: src/ui/managesubtitles_ui.ui:42
 #, kde-format
 msgid "Path"
-msgstr ""
+msgstr "Vojo"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_new)
 #: src/ui/managesubtitles_ui.ui:50
-#, fuzzy, kde-format
-#| msgid "Create"
+#, kde-format
 msgid "Creat New"
-msgstr "Krei"
+msgstr "Krei Novan"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
 #: src/ui/managesubtitles_ui.ui:61
-#, fuzzy, kde-format
-#| msgid "Delete "
+#, kde-format
 msgid "Delete"
 msgstr "Forigi"
 
@@ -21209,8 +21197,7 @@ msgstr "Templiniozono (ĉiuj trakoj)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_full)
 #: src/ui/speechdialog_ui.ui:181
-#, fuzzy, kde-format
-#| msgid "Fu&ll project"
+#, kde-format
 msgid "Full project"
 msgstr "Plena projekto"
 
