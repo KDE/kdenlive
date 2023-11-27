@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-25 00:41+0000\n"
-"PO-Revision-Date: 2023-11-24 13:14+0300\n"
+"PO-Revision-Date: 2023-11-26 01:30+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -5457,11 +5457,10 @@ msgid "Delete subtitle"
 msgstr "Altyazı sil"
 
 #: src/bin/model/subtitlemodel.cpp:1681 src/bin/model/subtitlemodel.cpp:1684
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox subtitle track name"
 msgid "Subtitle %1"
-msgstr "Altyazılar"
+msgstr "Altyazı %1"
 
 #: src/bin/projectclip.cpp:262
 #, kde-format
@@ -6590,25 +6589,22 @@ msgid "Disabling virtual environment"
 msgstr "Sanal ortam devre dışı bırakılıyor"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1764
-#, fuzzy, kde-format
-#| msgid "Setting up virtual environment…"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Removing the virtual environment folder."
-msgstr "Sanal ortam ayarlanıyor…"
+msgstr "Sanal ortam klasörü kaldırılıyor."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1769
-#, fuzzy, kde-format
-#| msgid "No python venv found"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "No python venv found"
 msgstr "Hiçbir Python sanal ortamı bulunamadı"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1772
-#, fuzzy, kde-format
-#| msgid "Use python virtual environment (recommended)"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Failed to remove the virtual environment folder."
-msgstr "Python sanal ortamını kullan (önerilir)"
+msgstr "Sanal ortam klasörü kaldırılamadı."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1777
 #, kde-format
@@ -6681,11 +6677,10 @@ msgid "New dictionary installed."
 msgstr "Yeni sözlük kuruldu."
 
 #: src/dialogs/managesubtitles.cpp:25
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@title:window"
 msgid "Manage Subtitles"
-msgstr "Altyazılar"
+msgstr "Altyazıları Yönet"
 
 #: src/dialogs/managesubtitles.cpp:100
 #, kde-format
@@ -6693,6 +6688,8 @@ msgid ""
 "This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
 "subtitle file: %2 "
 msgstr ""
+"Bu, <b>%1</b> içindeki tüm altyazı girdilerini<br/> ve altyazı dosyasını "
+"silecektir: %2"
 
 #: src/dialogs/profilesdialog.cpp:111
 #, kde-format
@@ -7037,8 +7034,7 @@ msgstr ""
 "Yeterli izne sahip olduğunuzdan emin olun."
 
 #: src/dialogs/renderwidget.cpp:724
-#, fuzzy, kde-format
-#| msgid "The following errors occured while trying to render"
+#, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr "Sunmaya çalışırken aşağıdaki hatalar oluştu"
 
@@ -7232,11 +7228,10 @@ msgstr "Lütfen konuşma tanıma modelleri kurun"
 
 #: src/dialogs/speechdialog.cpp:199
 #: src/pythoninterfaces/abstractpythoninterface.cpp:395
-#, fuzzy, kde-format
-#| msgid "Checking configuration…"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Checking setup…"
-msgstr "Yapılandırma denetleniyor…"
+msgstr "Ayarlar denetleniyor…"
 
 #: src/dialogs/speechdialog.cpp:204 src/dialogs/textbasededit.cpp:934
 #: src/dialogs/textbasededit.cpp:947
@@ -8370,7 +8365,7 @@ msgid ""
 "Create and switch to new profile (%2x%3, %4fps)?%5"
 msgstr ""
 "%1 klibiniz için profil bulunamadı.\n"
-"Yeni bir profil oluşturup ona geçin (%2x%3, %4fps)?%5"
+"Yeni bir profil oluşturup ona geçin (%2 × %3, %4 fps)?%5"
 
 #: src/doc/kdenlivedoc.cpp:2280 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
@@ -11403,22 +11398,22 @@ msgstr "Öntanımlı"
 #: src/mainwindow.cpp:4299 src/mainwindow.cpp:4327
 #, kde-format
 msgid "Small (%1x%2)"
-msgstr "Küçük (%1x%2)"
+msgstr "Küçük (%1 × %2)"
 
 #: src/mainwindow.cpp:4301 src/mainwindow.cpp:4329
 #, kde-format
 msgid "Medium (%1x%2)"
-msgstr "Orta (%1x%2)"
+msgstr "Orta (%1 × %2)"
 
 #: src/mainwindow.cpp:4303 src/mainwindow.cpp:4331
 #, kde-format
 msgid "Large (%1x%2)"
-msgstr "Büyük (%1x%2)"
+msgstr "Büyük (%1 × %2)"
 
 #: src/mainwindow.cpp:4305 src/mainwindow.cpp:4333
 #, kde-format
 msgid "Huge (%1x%2)"
-msgstr "Çok Büyük (%1x%2)"
+msgstr "Çok Büyük (%1 × %2)"
 
 #: src/mainwindow.cpp:4390
 #, kde-format
@@ -12694,7 +12689,7 @@ msgstr "%1 tarafından oluşturuldu"
 #: src/onlineresources/resourcewidget.cpp:402
 #, kde-format
 msgid "Size: %1 x %2"
-msgstr "Boyut: %1 x %2"
+msgstr "Boyut: %1 × %2"
 
 #: src/onlineresources/resourcewidget.cpp:405
 #, kde-format
@@ -13497,7 +13492,7 @@ msgstr "Video Ayarları"
 #: src/project/dialogs/profilewidget.cpp:197
 #, kde-format
 msgid "Frame size: %1 x %2 (%3:%4)"
-msgstr "Kare boyutu: %1 x %2 (%3:%4)"
+msgstr "Kare boyutu: %1 × %2 (%3:%4)"
 
 #: src/project/dialogs/profilewidget.cpp:198
 #, kde-format
@@ -14339,12 +14334,13 @@ msgid "Python venv size: %1"
 msgstr "Python sanal ortam boyutu: %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:254
-#, fuzzy, kde-format
-#| msgid "Cannot find python virtualenv, please install it on your system."
+#, kde-format
 msgid ""
 "Cannot find python virtualenv, please install it on your system. Defaulting "
 "to system python."
-msgstr "Python virtualenv bulunamıyor, lütfen onu sisteminize kurun."
+msgstr ""
+"Python virtualenv bulunamıyor, lütfen onu sisteminize kurun. Öntanımlı "
+"olarak sistem Python'u kullanılıyor."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:272
 #, kde-format
@@ -14353,11 +14349,10 @@ msgstr "%1 betiği bulunamadı, kurulumunuzu denetleyin."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:310
 #: src/pythoninterfaces/abstractpythoninterface.cpp:339
-#, fuzzy, kde-format
-#| msgid "Checking configuration…"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Checking modules version…"
-msgstr "Yapılandırma denetleniyor…"
+msgstr "Modül sürümleri denetleniyor…"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:330
 #, kde-kuit-format
@@ -14417,11 +14412,10 @@ msgid "Please consider to update your setup."
 msgstr "Kurulumunuzu güncellemeyi düşünün."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:437
-#, fuzzy, kde-format
-#| msgid "No information in clipboard"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
-msgstr "Panoda bilgi yok"
+msgstr "Kullanılabilir sürüm bilgisi yok."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:494
 #, kde-format
@@ -17052,18 +17046,16 @@ msgstr "Altyazı izini kilitle"
 
 #: src/timeline2/view/timelinecontroller.cpp:5309
 #: src/timeline2/view/timelinecontroller.cpp:5318
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "Altyazılar"
 
 #: src/timeline2/view/timelinecontroller.cpp:5320
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
-msgstr "Altyazılar"
+msgstr "Altyazıları Yönet"
 
 #: src/timeline2/view/timelinetabs.cpp:48
 #, kde-format
@@ -18414,7 +18406,7 @@ msgstr "Boyut:"
 #: src/ui/configcapture_ui.ui:107
 #, kde-format
 msgid "720x576"
-msgstr "720x576"
+msgstr "720 × 576"
 
 #. i18n: ectx: property (text), widget (QLabel, p_fps)
 #: src/ui/configcapture_ui.ui:121
@@ -20291,19 +20283,17 @@ msgstr "Düzenlenen profiller:"
 #: src/ui/managesubtitles_ui.ui:42
 #, kde-format
 msgid "Path"
-msgstr ""
+msgstr "Yol"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_new)
 #: src/ui/managesubtitles_ui.ui:50
-#, fuzzy, kde-format
-#| msgid "Create"
+#, kde-format
 msgid "Creat New"
-msgstr "Oluştur"
+msgstr "Yeni Oluştur"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
 #: src/ui/managesubtitles_ui.ui:61
-#, fuzzy, kde-format
-#| msgid "Delete "
+#, kde-format
 msgid "Delete"
 msgstr "Sil"
 
@@ -21237,10 +21227,9 @@ msgstr "Zaman akışı bölgesi (tüm izler)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_full)
 #: src/ui/speechdialog_ui.ui:181
-#, fuzzy, kde-format
-#| msgid "Fu&ll project"
+#, kde-format
 msgid "Full project"
-msgstr "Tü&m proje"
+msgstr "Tüm proje"
 
 #. i18n: ectx: property (text), widget (QLabel, label_template)
 #. i18n: ectx: property (text), widget (QLabel, label)

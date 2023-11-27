@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-25 00:41+0000\n"
-"PO-Revision-Date: 2023-11-14 05:17+0100\n"
+"PO-Revision-Date: 2023-11-25 05:56+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -4890,18 +4890,16 @@ msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 
 #: src/bin/bin.cpp:6058
-#, fuzzy, kde-format
-#| msgid "Kdenlive Project"
+#, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
-msgstr "Kdenlive-ის პროექტი"
+msgstr "პროექტის შენახვა"
 
 #: src/bin/bin.cpp:6059
-#, fuzzy, kde-format
-#| msgid "Transcoding"
+#, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
-msgstr "გადაყვანა"
+msgstr "გადაყვანა შენახვის გარეშე"
 
 #: src/bin/bincommands.cpp:20 src/bin/bincommands.cpp:40
 #, kde-format
@@ -5254,11 +5252,10 @@ msgid "Delete subtitle"
 msgstr "სუბტიტრების წაშლა"
 
 #: src/bin/model/subtitlemodel.cpp:1681 src/bin/model/subtitlemodel.cpp:1684
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox subtitle track name"
 msgid "Subtitle %1"
-msgstr "სუბტიტრები"
+msgstr "სუბტიტრი %1"
 
 #: src/bin/projectclip.cpp:262
 #, kde-format
@@ -6356,11 +6353,10 @@ msgid "Removing the virtual environment folder."
 msgstr ""
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1769
-#, fuzzy, kde-format
-#| msgid "No python venv found"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "No python venv found"
-msgstr "Python-ის გარემო აღმოჩენილი არაა"
+msgstr "Python-ის ვირტუალური გარემო აღმოჩენილი არაა"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1772
 #, kde-format
@@ -6439,11 +6435,10 @@ msgid "New dictionary installed."
 msgstr "ახალი ლექსიკონი დაყენებულია."
 
 #: src/dialogs/managesubtitles.cpp:25
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@title:window"
 msgid "Manage Subtitles"
-msgstr "სუბტიტრები"
+msgstr "სუბტიტრების მართვა"
 
 #: src/dialogs/managesubtitles.cpp:100
 #, kde-format
@@ -6759,15 +6754,13 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/renderwidget.cpp:649
-#, fuzzy, kde-format
-#| msgid "Render line"
+#, kde-format
 msgctxt "@action:button"
 msgid "Render Anyway"
-msgstr "რენდერის ხაზი"
+msgstr "მაინც რენდერი"
 
 #: src/dialogs/renderwidget.cpp:652
-#, fuzzy, kde-format
-#| msgid "Transcode"
+#, kde-format
 msgctxt "@action:button"
 msgid "Transcode"
 msgstr "გადაყვანა"
@@ -13736,11 +13729,10 @@ msgstr ""
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:310
 #: src/pythoninterfaces/abstractpythoninterface.cpp:339
-#, fuzzy, kde-format
-#| msgid "Updating modules…"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Checking modules version…"
-msgstr "მოდულების განახლება…"
+msgstr "მოდულების ვერსიის შემოწმება…"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:330
 #, kde-kuit-format
@@ -14518,7 +14510,7 @@ msgstr "უზბეკური"
 #: src/pythoninterfaces/speechtotext.cpp:173
 #, kde-format
 msgid "Valencian"
-msgstr ""
+msgstr "ვალენსიური"
 
 #: src/pythoninterfaces/speechtotext.cpp:174
 #, kde-format
@@ -16362,18 +16354,16 @@ msgstr ""
 
 #: src/timeline2/view/timelinecontroller.cpp:5309
 #: src/timeline2/view/timelinecontroller.cpp:5318
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "სუბტიტრები"
 
 #: src/timeline2/view/timelinecontroller.cpp:5320
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
-msgstr "სუბტიტრები"
+msgstr "სუბტიტრების მართვა"
 
 #: src/timeline2/view/timelinetabs.cpp:48
 #, kde-format
@@ -19504,17 +19494,15 @@ msgstr "ბილიკი"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_new)
 #: src/ui/managesubtitles_ui.ui:50
-#, fuzzy, kde-format
-#| msgid "Create"
+#, kde-format
 msgid "Creat New"
-msgstr "შექმნა"
+msgstr "ახლის შექმნა"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
 #: src/ui/managesubtitles_ui.ui:61
-#, fuzzy, kde-format
-#| msgid "Delete "
+#, kde-format
 msgid "Delete"
-msgstr "წაშალე "
+msgstr "წაშლა"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
 #: src/ui/markerdialog_ui.ui:66 src/ui/multiplemarkerdialog_ui.ui:34
@@ -20437,10 +20425,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_full)
 #: src/ui/speechdialog_ui.ui:181
-#, fuzzy, kde-format
-#| msgid "All Projects"
+#, kde-format
 msgid "Full project"
-msgstr "ყველა პროექტები"
+msgstr "მთლიანი პროექტი"
 
 #. i18n: ectx: property (text), widget (QLabel, label_template)
 #. i18n: ectx: property (text), widget (QLabel, label)
