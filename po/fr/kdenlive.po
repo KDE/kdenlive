@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-25 00:41+0000\n"
-"PO-Revision-Date: 2023-11-25 16:55+0100\n"
+"PO-Revision-Date: 2023-11-26 18:23+0100\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -5521,11 +5521,10 @@ msgid "Delete subtitle"
 msgstr "Supprimer un sous-titre"
 
 #: src/bin/model/subtitlemodel.cpp:1681 src/bin/model/subtitlemodel.cpp:1684
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox subtitle track name"
 msgid "Subtitle %1"
-msgstr "Sous-titres"
+msgstr "Sous-titre %1"
 
 #: src/bin/projectclip.cpp:262
 #, kde-format
@@ -6667,25 +6666,22 @@ msgid "Disabling virtual environment"
 msgstr "Désactivation de l'environnement virtuel"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1764
-#, fuzzy, kde-format
-#| msgid "Setting up virtual environment…"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Removing the virtual environment folder."
-msgstr "Configuration de l'environnement virtuel..."
+msgstr "Suppression du dossier pour l'environnement virtuel."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1769
-#, fuzzy, kde-format
-#| msgid "No python venv found"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "No python venv found"
 msgstr "Impossible de trouver le logiciel « venv » pour Python"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1772
-#, fuzzy, kde-format
-#| msgid "Use python virtual environment (recommended)"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Failed to remove the virtual environment folder."
-msgstr "Utiliser l'environnement virtuel Python (Recommandé)"
+msgstr "Impossible de supprimer le dossier pour l'environnement virtuel."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1777
 #, kde-format
@@ -6760,11 +6756,10 @@ msgid "New dictionary installed."
 msgstr "Nouveau dictionnaire installé."
 
 #: src/dialogs/managesubtitles.cpp:25
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@title:window"
 msgid "Manage Subtitles"
-msgstr "Sous-titres"
+msgstr "Gérer les sous-titres"
 
 #: src/dialogs/managesubtitles.cpp:100
 #, kde-format
@@ -6772,6 +6767,8 @@ msgid ""
 "This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
 "subtitle file: %2 "
 msgstr ""
+"Ceci supprimera tous les entrées de sous-titres dans <b>%1</b>,<br/> ainsi "
+"que le fichier de sous-titres : %2"
 
 #: src/dialogs/profilesdialog.cpp:111
 #, kde-format
@@ -7122,8 +7119,7 @@ msgstr ""
 "Veuillez vérifier que vous avez les droits nécessaires."
 
 #: src/dialogs/renderwidget.cpp:724
-#, fuzzy, kde-format
-#| msgid "The following errors occured while trying to render"
+#, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr ""
 "Les erreurs suivantes ont été rencontrées lors de la tentative de rendu."
@@ -7322,11 +7318,10 @@ msgstr "Veuillez installer des modèles de reconnaissance vocale"
 
 #: src/dialogs/speechdialog.cpp:199
 #: src/pythoninterfaces/abstractpythoninterface.cpp:395
-#, fuzzy, kde-format
-#| msgid "Checking system"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Checking setup…"
-msgstr "Vérification du système"
+msgstr "Vérification du paramétrage..."
 
 #: src/dialogs/speechdialog.cpp:204 src/dialogs/textbasededit.cpp:934
 #: src/dialogs/textbasededit.cpp:947
@@ -14552,14 +14547,14 @@ msgid "Python venv size: %1"
 msgstr "Taille de « venv » de Python : %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:254
-#, fuzzy, kde-format
-#| msgid "Cannot find python virtualenv, please install it on your system."
+#, kde-format
 msgid ""
 "Cannot find python virtualenv, please install it on your system. Defaulting "
 "to system python."
 msgstr ""
-"Impossible de trouver le paquet d'environnement virtuel Python "
-"« virtualenv », veuillez l'installer sur votre système."
+"Impossible de trouver le paquet de Python « virtualenv ». Veuillez "
+"l'installer sur votre système. Par défaut, utilisation de l'environnement "
+"système pour Python."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:272
 #, kde-format
@@ -14570,11 +14565,10 @@ msgstr ""
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:310
 #: src/pythoninterfaces/abstractpythoninterface.cpp:339
-#, fuzzy, kde-format
-#| msgid "Checking configuration…"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Checking modules version…"
-msgstr "Vérification de configuration…"
+msgstr "Vérification des versions des modules..."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:330
 #, kde-kuit-format
@@ -14637,11 +14631,10 @@ msgid "Please consider to update your setup."
 msgstr "Veuillez envisager de mettre à jour votre installation."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:437
-#, fuzzy, kde-format
-#| msgid "No information in clipboard"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
-msgstr "Aucune information dans le presse-papier"
+msgstr "Aucune information de version disponible."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:494
 #, kde-format
@@ -17312,18 +17305,16 @@ msgstr "Verrouiller une piste de sous-titres"
 
 #: src/timeline2/view/timelinecontroller.cpp:5309
 #: src/timeline2/view/timelinecontroller.cpp:5318
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "Sous-titres"
 
 #: src/timeline2/view/timelinecontroller.cpp:5320
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
-msgstr "Sous-titres"
+msgstr "Gérer les sous-titres"
 
 #: src/timeline2/view/timelinetabs.cpp:48
 #, kde-format
@@ -20578,17 +20569,15 @@ msgstr "Emplacement"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_new)
 #: src/ui/managesubtitles_ui.ui:50
-#, fuzzy, kde-format
-#| msgid "Create"
+#, kde-format
 msgid "Creat New"
-msgstr "Créer"
+msgstr "Créer un nouveau"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
 #: src/ui/managesubtitles_ui.ui:61
-#, fuzzy, kde-format
-#| msgid "Delete "
+#, kde-format
 msgid "Delete"
-msgstr "Supprimer "
+msgstr "Supprimer"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
 #: src/ui/markerdialog_ui.ui:66 src/ui/multiplemarkerdialog_ui.ui:34
@@ -21522,10 +21511,9 @@ msgstr "Zone du montage (toutes les pistes)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_full)
 #: src/ui/speechdialog_ui.ui:181
-#, fuzzy, kde-format
-#| msgid "Fu&ll project"
+#, kde-format
 msgid "Full project"
-msgstr "Projet comp&let"
+msgstr "Projet complet"
 
 #. i18n: ectx: property (text), widget (QLabel, label_template)
 #. i18n: ectx: property (text), widget (QLabel, label)
