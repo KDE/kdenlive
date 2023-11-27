@@ -21,12 +21,14 @@
 #include <QtConcurrent>
 
 static QMutex mutex;
+static bool installInProgress;
 
 PythonDependencyMessage::PythonDependencyMessage(QWidget *parent, AbstractPythonInterface *interface, bool setupErrorOnly)
     : KMessageWidget(parent)
     , m_interface(interface)
 {
     setWordWrap(true);
+    setCloseButtonVisible(false);
     hide();
     m_installAction = new QAction(i18n("Install missing dependencies"), this);
     m_abortAction = new QAction(i18n("Abort installation"), this);
@@ -37,10 +39,11 @@ PythonDependencyMessage::PythonDependencyMessage(QWidget *parent, AbstractPython
         doShowMessage(message, KMessageWidget::Warning);
     });
     connect(m_interface, &AbstractPythonInterface::setupMessage, this,
-            [&](const QString &message, KMessageWidget::MessageType messageType) { doShowMessage(message, messageType); });
+            [&](const QString &message, int messageType) { doShowMessage(message, KMessageWidget::MessageType(messageType)); });
 
     if (!setupErrorOnly) {
         connect(m_interface, &AbstractPythonInterface::checkVersionsResult, this, [&](const QStringList &list) {
+            removeAction(m_abortAction);
             if (list.isEmpty()) {
                 if (m_interface->featureName().isEmpty()) {
                     doShowMessage(i18n("Everything is properly configured."), KMessageWidget::Positive);
@@ -116,7 +119,7 @@ PythonDependencyMessage::PythonDependencyMessage(QWidget *parent, AbstractPython
 void PythonDependencyMessage::doShowMessage(const QString &message, KMessageWidget::MessageType messageType)
 {
     if (message.isEmpty()) {
-        animatedHide();
+        hide();
     } else {
         setMessageType(messageType);
         setText(message);
@@ -154,6 +157,9 @@ AbstractPythonInterface::~AbstractPythonInterface()
 bool AbstractPythonInterface::checkPython(bool useVenv, bool calculateSize)
 {
     QMutexLocker bk(&mutex);
+    if (installInProgress) {
+        return false;
+    }
     QStringList pythonPaths;
     if (useVenv) {
 #ifdef Q_OS_WIN
@@ -189,7 +195,9 @@ bool AbstractPythonInterface::checkPython(bool useVenv, bool calculateSize)
                                "listed in PATH environment variable"));
         return false;
     }
-    Q_EMIT gotPythonPath(i18n("Using python from %1", QFileInfo(KdenliveSettings::pythonPath()).absolutePath()));
+    KdenliveSettings::setUsePythonVenv(useVenv);
+    Q_EMIT venvSetupChanged();
+    Q_EMIT setupMessage(i18n("Using python from %1", QFileInfo(KdenliveSettings::pythonPath()).absolutePath()), int(KMessageWidget::Information));
     if (calculateSize) {
         // Calculate venv size
         QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
@@ -200,7 +208,6 @@ bool AbstractPythonInterface::checkPython(bool useVenv, bool calculateSize)
             Q_EMIT gotPythonSize(i18n("No python venv found"));
         }
     }
-    qDebug() << "::: SETTING PYTHON PATH: " << KdenliveSettings::pythonPath();
     return true;
 }
 
@@ -219,6 +226,7 @@ bool AbstractPythonInterface::checkSetup()
     if (!(KdenliveSettings::pythonPath().isEmpty() || KdenliveSettings::pipPath().isEmpty() || m_scripts->values().contains(QStringLiteral("")))) {
         return true;
     }
+    Q_EMIT setupMessage(i18nc("@label:textbox", "Checking setup…"), int(KMessageWidget::Information));
     if (!checkPython(KdenliveSettings::usePythonVenv())) {
         return false;
     }
@@ -249,9 +257,13 @@ bool AbstractPythonInterface::setupVenv()
                                "listed in PATH environment variable"));
         return false;
     }
+    // Use system python to check for venv
+    installInProgress = true;
+    KdenliveSettings::setPythonPath(pyExec);
     const QString missingDeps = runScript(QStringLiteral("checkpackages.py"), {"virtualenv"}, QStringLiteral("--check"), false);
     if (!missingDeps.isEmpty()) {
         Q_EMIT setupError(i18n("Cannot find python virtualenv, please install it on your system. Defaulting to system python."));
+        installInProgress = false;
         return false;
     }
     QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
@@ -262,6 +274,7 @@ bool AbstractPythonInterface::setupVenv()
     qDebug() << "::: READY TO CREATE VENV: " << args;
     envProcess.start(pyExec, args);
     envProcess.waitForFinished(-1);
+    installInProgress = false;
     return true;
 }
 
@@ -307,7 +320,7 @@ void AbstractPythonInterface::checkDependencies(bool force, bool async)
     if (!force && m_dependenciesChecked) {
         // Don't check twice if dependecies are satisfied
         if (m_missing.isEmpty()) {
-            Q_EMIT setupMessage(i18nc("@label:textbox", "Checking modules version…"), KMessageWidget::Information);
+            Q_EMIT setupMessage(i18nc("@label:textbox", "Checking modules version…"), int(KMessageWidget::Information));
             if (async) {
                 checkVersionsConcurrently();
             } else {
@@ -336,7 +349,7 @@ void AbstractPythonInterface::checkDependencies(bool force, bool async)
     m_dependenciesChecked = true;
     if (messages.isEmpty()) {
         Q_EMIT dependenciesAvailable();
-        Q_EMIT setupMessage(i18nc("@label:textbox", "Checking modules version…"), KMessageWidget::Information);
+        Q_EMIT setupMessage(i18nc("@label:textbox", "Checking modules version…"), int(KMessageWidget::Information));
         if (async) {
             checkVersionsConcurrently();
         } else {
@@ -371,7 +384,6 @@ void AbstractPythonInterface::installMissingDependencies()
                      pluginDir.absoluteFilePath(QStringLiteral("venv"))),
                 i18n("Python environment"), KGuiItem(i18n("Use virtual environment (recommended)")),
                 KGuiItem(i18n("Use system install"))) == KMessageBox::PrimaryAction) {
-            KdenliveSettings::setUsePythonVenv(true);
             if (!checkPython(true, true)) {
                 return;
             }
@@ -392,8 +404,6 @@ void AbstractPythonInterface::runConcurrentScript(const QString &script, QString
         Q_EMIT setupError(i18n("Internal Error: Cannot find dependency list"));
         return;
     }
-    Q_EMIT setupMessage(i18nc("@label:textbox", "Checking setup…"), KMessageWidget::Information);
-    qApp->processEvents();
     if (!checkSetup()) {
         return;
     }
@@ -434,7 +444,7 @@ void AbstractPythonInterface::checkVersions(bool signalOnResult)
     }
     QString output = runPackageScript(QStringLiteral("--details"));
     if (output.isEmpty() || !output.contains(QStringLiteral("Version: "))) {
-        Q_EMIT setupMessage(i18nc("@label:textbox", "No version information available."), KMessageWidget::Warning);
+        Q_EMIT setupMessage(i18nc("@label:textbox", "No version information available."), int(KMessageWidget::Warning));
         qDebug() << "::: CHECKING DEPENDENCIES... NO VERSION INFO AVAILABLE";
         return;
     }
@@ -556,4 +566,9 @@ bool AbstractPythonInterface::removePythonVenv()
         return false;
     }
     return pluginDir.removeRecursively();
+}
+
+bool AbstractPythonInterface::installInProcess() const
+{
+    return installInProgress;
 }

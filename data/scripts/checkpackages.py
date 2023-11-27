@@ -43,12 +43,14 @@ if len(required) == 0:
 installed = {pkg.key for pkg in pkg_resources.working_set}
 missing = required - installed
 if '--check' in sys.argv:
-    print("Missing pachages: ", missing)
-elif '--install' in sys.argv and missing and len(sys.argv) > 1:
+    if len(missing) > 0:
+        print("Missing pachages: ", missing)
+elif '--install' in sys.argv and len(sys.argv) > 1:
     # install missing modules
-    print("Installing missing packages: ", missing)
-    python = sys.executable
-    subprocess.check_call([python, '-m', 'pip', 'install', *missing])
+    if len(missing) > 0:
+        print("Installing missing packages: ", missing)
+        python = sys.executable
+        subprocess.check_call([python, '-m', 'pip', 'install', *missing])
 elif '--upgrade' in sys.argv:
     # update modules
     print("Updating packages: ", required)

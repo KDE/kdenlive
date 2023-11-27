@@ -1717,6 +1717,21 @@ void KdenliveSettingsDialog::initSpeechPage()
 {
     m_stt = new SpeechToText(SpeechToText::EngineType::EngineVosk, this);
     m_sttWhisper = new SpeechToText(SpeechToText::EngineType::EngineWhisper, this);
+    // Python env info label
+    PythonDependencyMessage *pythonEnvLabel = new PythonDependencyMessage(this, m_sttWhisper, true);
+    m_configEnv.message_layout_2->addWidget(pythonEnvLabel);
+    // Also show VOSK setup messages in the python env page
+    connect(m_stt, &AbstractPythonInterface::setupMessage,
+            [pythonEnvLabel](const QString message, int type) { pythonEnvLabel->doShowMessage(message, KMessageWidget::MessageType(type)); });
+    connect(m_stt, &AbstractPythonInterface::venvSetupChanged, this, [this]() {
+        QSignalBlocker bk(m_configEnv.kcfg_usePythonVenv);
+        m_configEnv.kcfg_usePythonVenv->setChecked(KdenliveSettings::usePythonVenv());
+    });
+    connect(m_sttWhisper, &AbstractPythonInterface::venvSetupChanged, this, [this]() {
+        QSignalBlocker bk(m_configEnv.kcfg_usePythonVenv);
+        m_configEnv.kcfg_usePythonVenv->setChecked(KdenliveSettings::usePythonVenv());
+    });
+    m_sttWhisper->checkPython(KdenliveSettings::usePythonVenv(), true);
     QButtonGroup *speechEngineSelection = new QButtonGroup(this);
     speechEngineSelection->addButton(m_configSpeech.engine_vosk);
     speechEngineSelection->addButton(m_configSpeech.engine_whisper);
@@ -1737,13 +1752,12 @@ void KdenliveSettingsDialog::initSpeechPage()
         m_configSpeech.speech_stack->setCurrentIndex(0);
     }
     // Python setup
-    PythonDependencyMessage *msg = new PythonDependencyMessage(this, m_sttWhisper, true);
-    m_configEnv.message_layout_2->addWidget(msg);
     m_configEnv.pythonSetupMessage->hide();
-    connect(m_sttWhisper, &SpeechToText::gotPythonPath, m_configEnv.label_python_path, &QLabel::setText);
     connect(m_sttWhisper, &SpeechToText::gotPythonSize, m_configEnv.label_python_size, &QLabel::setText);
-    m_sttWhisper->checkPython(KdenliveSettings::usePythonVenv(), true);
     connect(m_configEnv.kcfg_usePythonVenv, &QCheckBox::stateChanged, this, [this](int state) {
+        if (m_sttWhisper->installInProcess()) {
+            return;
+        }
         m_configEnv.pythonSetupMessage->setMessageType(KMessageWidget::Information);
         if (state == Qt::Checked) {
             m_configEnv.pythonSetupMessage->setText(i18n("Setting up virtual environment…"));
@@ -1775,8 +1789,8 @@ void KdenliveSettingsDialog::initSpeechPage()
 
     // Whisper
     m_configSpeech.combo_wr_device->addItem(i18n("Probing..."));
-    PythonDependencyMessage *msgWr = new PythonDependencyMessage(this, m_sttWhisper);
-    m_configSpeech.message_layout_wr->addWidget(msgWr);
+    PythonDependencyMessage *msgWhisper = new PythonDependencyMessage(this, m_sttWhisper);
+    m_configSpeech.message_layout_wr->addWidget(msgWhisper);
     QList<std::pair<QString, QString>> whisperModels = m_sttWhisper->whisperModels();
     for (auto &w : whisperModels) {
         m_configSpeech.combo_wr_model->addItem(w.first, w.second);
@@ -1801,7 +1815,7 @@ void KdenliveSettingsDialog::initSpeechPage()
         QMetaObject::invokeMethod(m_configSpeech.script_log, "show", Qt::QueuedConnection);
         QMetaObject::invokeMethod(m_configSpeech.script_log, "appendPlainText", Q_ARG(QString, jobData));
     });
-    connect(m_sttWhisper, &SpeechToText::scriptFinished, [msgWr]() { QMetaObject::invokeMethod(msgWr, "checkAfterInstall", Qt::QueuedConnection); });
+    connect(m_sttWhisper, &SpeechToText::scriptFinished, [msgWhisper]() { QMetaObject::invokeMethod(msgWhisper, "checkAfterInstall", Qt::QueuedConnection); });
 
     connect(m_sttWhisper, &SpeechToText::scriptFeedback, [this](const QStringList jobData) {
         m_configSpeech.combo_wr_device->clear();

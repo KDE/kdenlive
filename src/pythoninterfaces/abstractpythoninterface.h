@@ -47,6 +47,8 @@ public:
     void runConcurrentScript(const QString &script, QStringList args);
     /** @brief Delete the python venv folder. */
     bool removePythonVenv();
+    /** @brief Python venv setup in progress. */
+    bool installInProcess() const;
 
     friend class PythonDependencyMessage;
 
@@ -82,22 +84,23 @@ protected:
     void addDependency(const QString &pipname, const QString &purpose);
     void addScript(const QString &script);
     virtual QString featureName() { return {}; };
+    bool m_installInProgress{false};
 
 Q_SIGNALS:
     void setupError(const QString &message);
-    void setupMessage(const QString &message, KMessageWidget::MessageType messageType);
+    void setupMessage(const QString &message, int messageType);
     void checkVersionsResult(const QStringList &versions);
     void dependenciesMissing(const QStringList &messages);
     void dependenciesAvailable();
     void proposeUpdate(const QString &message);
     void scriptFeedback(const QStringList message);
     void installFeedback(const QString &message);
-    void gotPythonPath(const QString &message);
     void gotPythonSize(const QString &message);
     void scriptGpuCheckFinished();
     void scriptFinished();
     void scriptStarted();
     void abortScript();
+    void venvSetupChanged();
 };
 
 class PythonDependencyMessage : public KMessageWidget {
@@ -108,8 +111,6 @@ public:
 
 public Q_SLOTS:
     void checkAfterInstall();
-
-private Q_SLOTS:
     void doShowMessage(const QString &message, KMessageWidget::MessageType messageType = KMessageWidget::Information);
 
 private:
