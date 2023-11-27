@@ -334,17 +334,21 @@ Rectangle
                 }
                 xpos = keyframes.itemAt(i).tmpPos - offset
                 var type = i > 0 ? keyframes.itemAt(i-1).frameType : keyframes.itemAt(i).frameType
-                if (type === 0) {
-                    // discrete
-                    paths.push(compline.createObject(keyframecanvas, {"x": xpos, "y": ypos} ))
-                }
-                ypos = keyframes.itemAt(i).tmpVal
-                if (type < 2) {
-                    // linear
-                    paths.push(compline.createObject(keyframecanvas, {"x": xpos, "y": ypos} ))
-                } else if (type === 2) {
-                    // curve
-                    paths.push(comp.createObject(keyframecanvas, {"x": xpos, "y": ypos} ))
+                switch (type) {
+                    case 0:
+                        // discrete
+                        paths.push(compline.createObject(keyframecanvas, {"x": xpos, "y": ypos} ))
+                        break;
+                    case 2:
+                        // curve
+                        ypos = keyframes.itemAt(i).tmpVal
+                        paths.push(comp.createObject(keyframecanvas, {"x": xpos, "y": ypos} ))
+                        break;
+                    default:
+                        // linear of others
+                        ypos = keyframes.itemAt(i).tmpVal
+                        paths.push(compline.createObject(keyframecanvas, {"x": xpos, "y": ypos} ))
+                        break;
                 }
                 if (xpos > scrollView.width) {
                     break;

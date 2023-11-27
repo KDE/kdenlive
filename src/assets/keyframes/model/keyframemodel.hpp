@@ -12,6 +12,9 @@
 
 #include <QAbstractListModel>
 #include <QReadWriteLock>
+#include <QtGlobal>
+
+#include <framework/mlt_version.h>
 
 #include <map>
 #include <memory>
@@ -20,7 +23,30 @@ class AssetParameterModel;
 class DocUndoStack;
 class EffectItemModel;
 
+#define mltMinVersion QT_VERSION_CHECK(7, 20, 0)
+#define currentVersion QT_VERSION_CHECK(LIBMLT_VERSION_MAJOR, LIBMLT_VERSION_MINOR, 0)
+
+#if currentVersion > mltMinVersion
+#define USE_MLT_NEW_KEYFRAMES
+enum class KeyframeType {
+    Linear = mlt_keyframe_linear,
+    Discrete = mlt_keyframe_discrete,
+    Curve = mlt_keyframe_smooth,
+    CurveSmooth = mlt_keyframe_smooth_natural,
+    BounceIn = mlt_keyframe_bounce_in,
+    BounceOut = mlt_keyframe_bounce_out,
+    CubicIn = mlt_keyframe_cubic_in,
+    CubicOut = mlt_keyframe_cubic_out,
+    ExponentialIn = mlt_keyframe_exponential_in,
+    ExponentialOut = mlt_keyframe_exponential_out,
+    CircularIn = mlt_keyframe_circular_in,
+    CircularOut = mlt_keyframe_circular_out,
+    ElasticIn = mlt_keyframe_elastic_in,
+    ElasticOut = mlt_keyframe_elastic_out
+};
+#else
 enum class KeyframeType { Linear = mlt_keyframe_linear, Discrete = mlt_keyframe_discrete, Curve = mlt_keyframe_smooth };
+#endif
 Q_DECLARE_METATYPE(KeyframeType)
 using Keyframe = std::pair<GenTime, KeyframeType>;
 

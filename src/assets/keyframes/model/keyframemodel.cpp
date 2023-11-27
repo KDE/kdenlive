@@ -497,10 +497,35 @@ KeyframeType convertFromMltType(mlt_keyframe_type type)
         return KeyframeType::Linear;
     case mlt_keyframe_discrete:
         return KeyframeType::Discrete;
+    case mlt_keyframe_smooth_natural:
+#ifdef USE_MLT_NEW_KEYFRAMES
+        return KeyframeType::CurveSmooth;
+    case mlt_keyframe_bounce_in:
+        return KeyframeType::BounceIn;
+    case mlt_keyframe_bounce_out:
+        return KeyframeType::BounceOut;
+    case mlt_keyframe_cubic_in:
+        return KeyframeType::CubicIn;
+    case mlt_keyframe_cubic_out:
+        return KeyframeType::CubicOut;
+    case mlt_keyframe_exponential_in:
+        return KeyframeType::ExponentialIn;
+    case mlt_keyframe_exponential_out:
+        return KeyframeType::ExponentialOut;
+    case mlt_keyframe_circular_in:
+        return KeyframeType::CircularIn;
+    case mlt_keyframe_circular_out:
+        return KeyframeType::CircularOut;
+    case mlt_keyframe_elastic_in:
+        return KeyframeType::ElasticIn;
+    case mlt_keyframe_elastic_out:
+        return KeyframeType::ElasticOut;
+#endif
     case mlt_keyframe_smooth:
         return KeyframeType::Curve;
+    default:
+        return KeyframeType::Linear;
     }
-    return KeyframeType::Linear;
 }
 
 bool KeyframeModel::updateKeyframeType(GenTime pos, int type, Fun &undo, Fun &redo)
@@ -834,10 +859,36 @@ mlt_keyframe_type convertToMltType(KeyframeType type)
         return mlt_keyframe_linear;
     case KeyframeType::Discrete:
         return mlt_keyframe_discrete;
+#ifdef USE_MLT_NEW_KEYFRAMES
+    case KeyframeType::CurveSmooth:
+        return mlt_keyframe_smooth_natural;
+    case KeyframeType::BounceIn:
+        return mlt_keyframe_bounce_in;
+    case KeyframeType::BounceOut:
+        return mlt_keyframe_bounce_out;
+    case KeyframeType::CubicIn:
+        return mlt_keyframe_cubic_in;
+    case KeyframeType::CubicOut:
+        return mlt_keyframe_cubic_out;
+    case KeyframeType::ExponentialIn:
+        return mlt_keyframe_exponential_in;
+    case KeyframeType::ExponentialOut:
+        return mlt_keyframe_exponential_out;
+    case KeyframeType::CircularIn:
+        return mlt_keyframe_circular_in;
+    case KeyframeType::CircularOut:
+        return mlt_keyframe_circular_out;
+    case KeyframeType::ElasticIn:
+        return mlt_keyframe_elastic_in;
+    case KeyframeType::ElasticOut:
+        return mlt_keyframe_elastic_out;
+#endif
+    // Deprecated
     case KeyframeType::Curve:
         return mlt_keyframe_smooth;
+    default:
+        return mlt_keyframe_linear;
     }
-    return mlt_keyframe_linear;
 }
 
 QString KeyframeModel::getAnimProperty() const

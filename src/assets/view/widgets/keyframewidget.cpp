@@ -109,10 +109,62 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     discrete->setData(int(mlt_keyframe_discrete));
     discrete->setCheckable(true);
     m_selectType->addAction(discrete);
+#ifdef USE_MLT_NEW_KEYFRAMES
+    QAction *curve = new QAction(QIcon::fromTheme(QStringLiteral("smooth")), i18n("Smooth"), this);
+    curve->setData(int(mlt_keyframe_smooth_natural));
+    curve->setCheckable(true);
+    m_selectType->addAction(curve);
+    QAction *bounceIn = new QAction(QIcon::fromTheme(QStringLiteral("smooth")), i18n("Bounce In"), this);
+    bounceIn->setData(int(mlt_keyframe_bounce_in));
+    bounceIn->setCheckable(true);
+    m_selectType->addAction(bounceIn);
+    QAction *bounceOut = new QAction(QIcon::fromTheme(QStringLiteral("smooth")), i18n("Bounce Out"), this);
+    bounceOut->setData(int(mlt_keyframe_bounce_out));
+    bounceOut->setCheckable(true);
+    m_selectType->addAction(bounceOut);
+
+    QAction *cubicIn = new QAction(QIcon::fromTheme(QStringLiteral("smooth")), i18n("Cubic In"), this);
+    cubicIn->setData(int(mlt_keyframe_cubic_in));
+    cubicIn->setCheckable(true);
+    m_selectType->addAction(cubicIn);
+    QAction *cubicOut = new QAction(QIcon::fromTheme(QStringLiteral("smooth")), i18n("Cubic Out"), this);
+    cubicOut->setData(int(mlt_keyframe_cubic_out));
+    cubicOut->setCheckable(true);
+    m_selectType->addAction(cubicOut);
+    QAction *exponentialIn = new QAction(QIcon::fromTheme(QStringLiteral("smooth")), i18n("Exponential In"), this);
+    exponentialIn->setData(int(mlt_keyframe_exponential_in));
+    exponentialIn->setCheckable(true);
+    m_selectType->addAction(exponentialIn);
+    QAction *exponentialOut = new QAction(QIcon::fromTheme(QStringLiteral("smooth")), i18n("Exponential Out"), this);
+    exponentialOut->setData(int(mlt_keyframe_exponential_out));
+    exponentialOut->setCheckable(true);
+    m_selectType->addAction(exponentialOut);
+    QAction *circularIn = new QAction(QIcon::fromTheme(QStringLiteral("smooth")), i18n("Circular In"), this);
+    circularIn->setData(int(mlt_keyframe_circular_in));
+    circularIn->setCheckable(true);
+    m_selectType->addAction(circularIn);
+    QAction *circularOut = new QAction(QIcon::fromTheme(QStringLiteral("smooth")), i18n("Circular Out"), this);
+    circularOut->setData(int(mlt_keyframe_circular_out));
+    circularOut->setCheckable(true);
+    m_selectType->addAction(circularOut);
+    QAction *elasticIn = new QAction(QIcon::fromTheme(QStringLiteral("smooth")), i18n("Elastic In"), this);
+    elasticIn->setData(int(mlt_keyframe_elastic_in));
+    elasticIn->setCheckable(true);
+    m_selectType->addAction(elasticIn);
+    QAction *elasticOut = new QAction(QIcon::fromTheme(QStringLiteral("smooth")), i18n("Elastic Out"), this);
+    elasticOut->setData(int(mlt_keyframe_elastic_out));
+    elasticOut->setCheckable(true);
+    m_selectType->addAction(elasticOut);
+    QAction *curveDeprecated = new QAction(QIcon::fromTheme(QStringLiteral("smooth")), i18n("Smooth (deprecated)"), this);
+    curveDeprecated->setData(int(mlt_keyframe_smooth));
+    curveDeprecated->setCheckable(true);
+    m_selectType->addAction(curveDeprecated);
+#else
     QAction *curve = new QAction(QIcon::fromTheme(QStringLiteral("smooth")), i18n("Smooth"), this);
     curve->setData(int(mlt_keyframe_smooth));
     curve->setCheckable(true);
     m_selectType->addAction(curve);
+#endif
     m_selectType->setCurrentAction(linear);
 #if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 240, 0)
     connect(m_selectType, &KSelectAction::actionTriggered, this, &KeyframeWidget::slotEditKeyframeType);
