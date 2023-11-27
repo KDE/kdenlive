@@ -497,8 +497,8 @@ KeyframeType convertFromMltType(mlt_keyframe_type type)
         return KeyframeType::Linear;
     case mlt_keyframe_discrete:
         return KeyframeType::Discrete;
-    case mlt_keyframe_smooth_natural:
 #ifdef USE_MLT_NEW_KEYFRAMES
+    case mlt_keyframe_smooth_natural:
         return KeyframeType::CurveSmooth;
     case mlt_keyframe_bounce_in:
         return KeyframeType::BounceIn;
