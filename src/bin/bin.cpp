@@ -3921,12 +3921,16 @@ void Bin::slotItemDropped(const QStringList &ids, const QModelIndex &parent)
     }
 }
 
-void Bin::slotAddEffect(QString id, const QStringList &effectData)
+void Bin::slotAddEffect(std::vector<QString> ids, const QStringList &effectData)
 {
-    if (id.isEmpty()) {
-        id = m_monitor->activeClipId();
+    if (ids.size() == 0) {
+        // Apply effect to all selected clips
+        ids = selectedClipsIds();
     }
-    if (!id.isEmpty()) {
+    if (ids.size() == 0) {
+        pCore->displayMessage(i18n("Select a clip to apply an effect"), MessageType::ErrorMessage, 500);
+    }
+    for (auto &id : ids) {
         std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
         if (clip) {
             if (effectData.count() == 5) {
@@ -3937,10 +3941,8 @@ void Bin::slotAddEffect(QString id, const QStringList &effectData)
             } else {
                 clip->addEffect(effectData.constFirst());
             }
-            return;
         }
     }
-    pCore->displayMessage(i18n("Select a clip to apply an effect"), MessageType::ErrorMessage, 500);
 }
 
 void Bin::slotEffectDropped(const QStringList &effectData, const QModelIndex &parent)

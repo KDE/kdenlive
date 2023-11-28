@@ -470,7 +470,7 @@ public Q_SLOTS:
     void slotAddClipExtraData(const QString &id, const QString &key, const QString &data = QString());
     void slotUpdateClipProperties(const QString &id, const QMap<QString, QString> &properties, bool refreshPropertiesPanel);
     /** @brief Add effect to active Bin clip (used when double clicking an effect in list). */
-    void slotAddEffect(QString id, const QStringList &effectData);
+    void slotAddEffect(std::vector<QString> ids, const QStringList &effectData);
     void slotExpandUrl(const ItemInfo &info, const QString &url, QUndoCommand *command);
     /** @brief Abort all ongoing operations to prepare close. */
     void abortOperations();

@@ -3168,18 +3168,19 @@ void MainWindow::slotAddEffect(QAction *result)
 
 void MainWindow::addEffect(const QString &effectId)
 {
-    if (m_assetPanel->effectStackOwner().type == KdenliveObjectType::TimelineClip) {
+    if (m_assetPanel->effectStackOwner().type == KdenliveObjectType::BinClip) {
+        // Pass the command to bin
+        pCore->bin()->slotAddEffect({}, {effectId});
+    } else if (m_assetPanel->effectStackOwner().type == KdenliveObjectType::TimelineTrack ||
+               m_assetPanel->effectStackOwner().type == KdenliveObjectType::Master) {
+        if (!m_assetPanel->addEffect(effectId)) {
+            pCore->displayMessage(i18n("Cannot add effect to active item"), ErrorMessage);
+        }
+    } else {
         // Add effect to the current timeline selection
         QVariantMap effectData;
         effectData.insert(QStringLiteral("kdenlive/effect"), effectId);
         getCurrentTimeline()->controller()->addAsset(effectData);
-    } else if (m_assetPanel->effectStackOwner().type == KdenliveObjectType::TimelineTrack ||
-               m_assetPanel->effectStackOwner().type == KdenliveObjectType::BinClip || m_assetPanel->effectStackOwner().type == KdenliveObjectType::Master) {
-        if (!m_assetPanel->addEffect(effectId)) {
-            pCore->displayMessage(i18n("Cannot add effect to clip"), ErrorMessage);
-        }
-    } else {
-        pCore->displayMessage(i18n("Select an item to add effect"), ErrorMessage);
     }
 }
 
