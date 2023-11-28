@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-25 00:41+0000\n"
-"PO-Revision-Date: 2023-11-13 21:32+0100\n"
+"POT-Creation-Date: 2023-11-28 00:40+0000\n"
+"PO-Revision-Date: 2023-11-25 11:42+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -3435,23 +3435,23 @@ msgstr "Prenesi ključno sličico"
 msgid "Update keyframe"
 msgstr "Posodobi ključno sličico"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:825
+#: src/assets/keyframes/model/keyframemodel.cpp:850
 #: src/assets/keyframes/model/keyframemodellist.cpp:208
 #, kde-format
 msgid "Delete all keyframes"
 msgstr "Izbriši vse ključne sličice"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1028
+#: src/assets/keyframes/model/keyframemodel.cpp:1079
 #, kde-format
 msgid "effect"
 msgstr "učinek"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1037
+#: src/assets/keyframes/model/keyframemodel.cpp:1088
 #, kde-format
 msgid "Reset %1"
 msgstr "Ponastavi %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1296
+#: src/assets/keyframes/model/keyframemodel.cpp:1347
 #, kde-format
 msgid "Reset effect"
 msgstr "Ponastavi učinek"
@@ -3769,16 +3769,16 @@ msgstr "Y"
 
 #: src/assets/view/widgets/keyframeimport.cpp:393
 #: src/assets/view/widgets/keyframeimport.cpp:780
-#: src/assets/view/widgets/keyframewidget.cpp:256
-#: src/assets/view/widgets/keyframewidget.cpp:317
+#: src/assets/view/widgets/keyframewidget.cpp:308
+#: src/assets/view/widgets/keyframewidget.cpp:369
 #, kde-format
 msgid "Width"
 msgstr "Širina"
 
 #: src/assets/view/widgets/keyframeimport.cpp:396
 #: src/assets/view/widgets/keyframeimport.cpp:788
-#: src/assets/view/widgets/keyframewidget.cpp:255
-#: src/assets/view/widgets/keyframewidget.cpp:311
+#: src/assets/view/widgets/keyframewidget.cpp:307
+#: src/assets/view/widgets/keyframewidget.cpp:363
 #, kde-format
 msgid "Height"
 msgstr "Višina"
@@ -3841,7 +3841,7 @@ msgstr ""
 "vrednosti parametrov, če ni izbrana nobena ključna sličica."
 
 #: src/assets/view/widgets/keyframewidget.cpp:95
-#: src/assets/view/widgets/keyframewidget.cpp:863
+#: src/assets/view/widgets/keyframewidget.cpp:915
 #, kde-format
 msgid "Paste keyframe"
 msgstr "Prilepi ključno sličico"
@@ -3865,31 +3865,90 @@ msgid "Apply current position value to selected keyframes"
 msgstr "Uporabi trenutno vrednost položaja za izbrane ključne sličice"
 
 #: src/assets/view/widgets/keyframewidget.cpp:103
-#: src/assets/view/widgets/keyframewidget.cpp:123
+#: src/assets/view/widgets/keyframewidget.cpp:175
 #, kde-format
 msgid "Keyframe interpolation"
 msgstr "Interpolacija ključnih sličic"
 
 #. i18n: ectx: property (text), widget (QRadioButton, rbLinear)
 #: src/assets/view/widgets/keyframewidget.cpp:104
-#: src/assets/view/widgets/keyframewidget.cpp:170 src/ui/histogram_ui.ui:112
+#: src/assets/view/widgets/keyframewidget.cpp:222 src/ui/histogram_ui.ui:112
 #, kde-format
 msgid "Linear"
 msgstr "Linearno"
 
 #: src/assets/view/widgets/keyframewidget.cpp:108
-#: src/assets/view/widgets/keyframewidget.cpp:166
+#: src/assets/view/widgets/keyframewidget.cpp:218
 #, kde-format
 msgid "Discrete"
 msgstr "Diskretno"
 
-#: src/assets/view/widgets/keyframewidget.cpp:112
-#: src/assets/view/widgets/keyframewidget.cpp:174
+#: src/assets/view/widgets/keyframewidget.cpp:113
+#: src/assets/view/widgets/keyframewidget.cpp:163
+#: src/assets/view/widgets/keyframewidget.cpp:226
 #, kde-format
 msgid "Smooth"
 msgstr "Gladko"
 
-#: src/assets/view/widgets/keyframewidget.cpp:124
+#: src/assets/view/widgets/keyframewidget.cpp:117
+#, fuzzy, kde-format
+#| msgid "Set Zone In"
+msgid "Bounce In"
+msgstr "Nastavi začetek območja"
+
+#: src/assets/view/widgets/keyframewidget.cpp:121
+#, fuzzy, kde-format
+#| msgid "Set Zone Out"
+msgid "Bounce Out"
+msgstr "Nastavi konec območja"
+
+#: src/assets/view/widgets/keyframewidget.cpp:126
+#, kde-format
+msgid "Cubic In"
+msgstr ""
+
+#: src/assets/view/widgets/keyframewidget.cpp:130
+#, kde-format
+msgid "Cubic Out"
+msgstr ""
+
+#: src/assets/view/widgets/keyframewidget.cpp:134
+#, kde-format
+msgid "Exponential In"
+msgstr ""
+
+#: src/assets/view/widgets/keyframewidget.cpp:138
+#, kde-format
+msgid "Exponential Out"
+msgstr ""
+
+#: src/assets/view/widgets/keyframewidget.cpp:142
+#, kde-format
+msgid "Circular In"
+msgstr ""
+
+#: src/assets/view/widgets/keyframewidget.cpp:146
+#, kde-format
+msgid "Circular Out"
+msgstr ""
+
+#: src/assets/view/widgets/keyframewidget.cpp:150
+#, kde-format
+msgid "Elastic In"
+msgstr ""
+
+#: src/assets/view/widgets/keyframewidget.cpp:154
+#, kde-format
+msgid "Elastic Out"
+msgstr ""
+
+#: src/assets/view/widgets/keyframewidget.cpp:158
+#, fuzzy, kde-format
+#| msgid " - deprecated"
+msgid "Smooth (deprecated)"
+msgstr " - zastarelo"
+
+#: src/assets/view/widgets/keyframewidget.cpp:176
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3899,39 +3958,39 @@ msgstr ""
 "Interpolacija ključnih sličic. To določa, katera interpolacija bo "
 "uporabljena za trenutno ključno sličico."
 
-#: src/assets/view/widgets/keyframewidget.cpp:146
+#: src/assets/view/widgets/keyframewidget.cpp:198
 #, kde-format
 msgid "Seek to Keyframe on Select"
 msgstr "Preišči do izbrane ključne sličice"
 
-#: src/assets/view/widgets/keyframewidget.cpp:151
+#: src/assets/view/widgets/keyframewidget.cpp:203
 #, kde-format
 msgid "Copy All Keyframes to Clipboard"
 msgstr "Kopiraj vse ključne sličice na odložišče"
 
-#: src/assets/view/widgets/keyframewidget.cpp:153
+#: src/assets/view/widgets/keyframewidget.cpp:205
 #, kde-format
 msgid "Import Keyframes from Clipboard…"
 msgstr "Uvozi ključne sličice iz odložišča …"
 
-#: src/assets/view/widgets/keyframewidget.cpp:161
+#: src/assets/view/widgets/keyframewidget.cpp:213
 #, kde-format
 msgid "Remove all Keyframes After Cursor"
 msgstr "Odstrani vse ključne sličice za kazalcem"
 
-#: src/assets/view/widgets/keyframewidget.cpp:165
+#: src/assets/view/widgets/keyframewidget.cpp:217
 #, kde-format
 msgid "Default Keyframe Type"
 msgstr "Privzeta zvrst ključne sličice"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/assets/view/widgets/keyframewidget.cpp:205 src/bin/bin.cpp:1351
+#: src/assets/view/widgets/keyframewidget.cpp:257 src/bin/bin.cpp:1351
 #: src/ui/clipstabilize_ui.ui:37
 #, kde-format
 msgid "Options"
 msgstr "Možnosti"
 
-#: src/assets/view/widgets/keyframewidget.cpp:207
+#: src/assets/view/widgets/keyframewidget.cpp:259
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3941,49 +4000,49 @@ msgstr ""
 "Odpre seznam nadaljnjih dejanj za upravljanje ključnih sličic (npr. "
 "kopiranje in lepljenje ključnih sličic iz odložišča)."
 
-#: src/assets/view/widgets/keyframewidget.cpp:253
 #: src/assets/view/widgets/keyframewidget.cpp:305
+#: src/assets/view/widgets/keyframewidget.cpp:357
 #: src/widgets/geometrywidget.cpp:78
 #, kde-format
 msgid "Opacity"
 msgstr "Motnost"
 
-#: src/assets/view/widgets/keyframewidget.cpp:257
-#: src/assets/view/widgets/keyframewidget.cpp:329
+#: src/assets/view/widgets/keyframewidget.cpp:309
+#: src/assets/view/widgets/keyframewidget.cpp:381
 #, kde-format
 msgid "Y position"
 msgstr "Pozicija Y"
 
-#: src/assets/view/widgets/keyframewidget.cpp:258
-#: src/assets/view/widgets/keyframewidget.cpp:323
+#: src/assets/view/widgets/keyframewidget.cpp:310
+#: src/assets/view/widgets/keyframewidget.cpp:375
 #, kde-format
 msgid "X position"
 msgstr "Pozicija X"
 
-#: src/assets/view/widgets/keyframewidget.cpp:277
+#: src/assets/view/widgets/keyframewidget.cpp:329
 #, kde-format
 msgid "Select parameters to copy"
 msgstr "Izberite parametre za kopiranje"
 
-#: src/assets/view/widgets/keyframewidget.cpp:768
+#: src/assets/view/widgets/keyframewidget.cpp:820
 #, kde-format
 msgid "Keyframes copied"
 msgstr "Ključne sličice kopirane"
 
-#: src/assets/view/widgets/keyframewidget.cpp:779
-#: src/assets/view/widgets/keyframewidget.cpp:820
-#: src/assets/view/widgets/keyframewidget.cpp:827
+#: src/assets/view/widgets/keyframewidget.cpp:831
+#: src/assets/view/widgets/keyframewidget.cpp:872
+#: src/assets/view/widgets/keyframewidget.cpp:879
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "Ni veljavnih podatkov ključnih sličic na odložišču"
 
-#: src/assets/view/widgets/keyframewidget.cpp:871
+#: src/assets/view/widgets/keyframewidget.cpp:923
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "Ni možno kopirati trenutnih vrednosti parametrov"
 
-#: src/assets/view/widgets/keyframewidget.cpp:876
-#: src/assets/view/widgets/keyframewidget.cpp:887
+#: src/assets/view/widgets/keyframewidget.cpp:928
+#: src/assets/view/widgets/keyframewidget.cpp:939
 #, kde-format
 msgid "Current values copied"
 msgstr "Trenutne vrednosti kopirane"
@@ -5093,22 +5152,19 @@ msgstr "Odstrani označevalnike posnetka"
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
-msgstr ""
+msgstr "Priporočamo, da pred operacijo prekodiranja projekt shranite."
 
 #: src/bin/bin.cpp:6058
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Archive Project"
+#, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
-msgstr "Arhiviraj projekt"
+msgstr "Shrani projekt"
 
 #: src/bin/bin.cpp:6059
-#, fuzzy, kde-format
-#| msgid "Transcoding"
+#, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
-msgstr "Prekodiranje"
+msgstr "Prekodiraj brez shranjevanja"
 
 #: src/bin/bincommands.cpp:20 src/bin/bincommands.cpp:40
 #, kde-format
@@ -5472,11 +5528,10 @@ msgid "Delete subtitle"
 msgstr "Izbriši podnaslov"
 
 #: src/bin/model/subtitlemodel.cpp:1681 src/bin/model/subtitlemodel.cpp:1684
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox subtitle track name"
 msgid "Subtitle %1"
-msgstr "Podnaslavljanje"
+msgstr "Podnaslov %1"
 
 #: src/bin/projectclip.cpp:262
 #, kde-format
@@ -6598,49 +6653,46 @@ msgstr "Trenutne nastavitve"
 msgid "Progressive"
 msgstr "Napredovano"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1749
+#: src/dialogs/kdenlivesettingsdialog.cpp:1763
 #, kde-format
 msgid "Setting up virtual environment…"
 msgstr "Nastavitev virtualnega okolja …"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1751
+#: src/dialogs/kdenlivesettingsdialog.cpp:1765
 #, kde-format
 msgid "Disabling virtual environment"
 msgstr "Onemogočanje virtualnega okolja"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1764
-#, fuzzy, kde-format
-#| msgid "Setting up virtual environment…"
+#: src/dialogs/kdenlivesettingsdialog.cpp:1778
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Removing the virtual environment folder."
-msgstr "Nastavitev virtualnega okolja …"
+msgstr "Odstranjevanje mape virtualnega okolja."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1769
-#, fuzzy, kde-format
-#| msgid "No python venv found"
+#: src/dialogs/kdenlivesettingsdialog.cpp:1783
+#, kde-format
 msgctxt "@label:textbox"
 msgid "No python venv found"
 msgstr "Venv python ni mogoče najti"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1772
-#, fuzzy, kde-format
-#| msgid "Use python virtual environment (recommended)"
+#: src/dialogs/kdenlivesettingsdialog.cpp:1786
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Failed to remove the virtual environment folder."
-msgstr "Uporabi virtualno okolje python (priporočljivo)"
+msgstr "Odstranitev mape virtualnega okolja je spodletela."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1777
+#: src/dialogs/kdenlivesettingsdialog.cpp:1791
 #, kde-format
 msgid "Probing..."
 msgstr "Sondiranje ..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1832
-#: src/dialogs/kdenlivesettingsdialog.cpp:2021
+#: src/dialogs/kdenlivesettingsdialog.cpp:1846
+#: src/dialogs/kdenlivesettingsdialog.cpp:2035
 #, kde-format
 msgid "Please add a speech model."
 msgstr "Prosimo, dodajte model govora."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1865
+#: src/dialogs/kdenlivesettingsdialog.cpp:1879
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
@@ -6649,28 +6701,28 @@ msgstr ""
 "Prenos modelov govora iz: <a href=\"https://alphacephei.com/vosk/models"
 "\">https://alphacephei.com/vosk/models</a>"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1903
+#: src/dialogs/kdenlivesettingsdialog.cpp:1917
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "Vnesite spletni naslov novega slovarja"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1909
+#: src/dialogs/kdenlivesettingsdialog.cpp:1923
 #, kde-format
 msgid "Downloading model…"
 msgstr "Prenašanje modela …"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1919
+#: src/dialogs/kdenlivesettingsdialog.cpp:1933
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr "Ne dovoljujemo brisanja map modelov po meri, izvedite to ročno."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1925
-#: src/dialogs/kdenlivesettingsdialog.cpp:1984
+#: src/dialogs/kdenlivesettingsdialog.cpp:1939
+#: src/dialogs/kdenlivesettingsdialog.cpp:1998
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "Ni možno dostopati do mape slovarja."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1934
+#: src/dialogs/kdenlivesettingsdialog.cpp:1948
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -6679,32 +6731,31 @@ msgstr ""
 "Izbriši mapo:\n"
 "%1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1958
+#: src/dialogs/kdenlivesettingsdialog.cpp:1972
 #, kde-format
 msgid "Download error"
 msgstr "Napaka pri prenosu"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1963
+#: src/dialogs/kdenlivesettingsdialog.cpp:1977
 #, kde-format
 msgid "Download error %1"
 msgstr "Napaka pri prenosu %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1991
+#: src/dialogs/kdenlivesettingsdialog.cpp:2005
 #, kde-format
 msgid "Extracting archive…"
 msgstr "Razširjanje arhiva …"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1998
+#: src/dialogs/kdenlivesettingsdialog.cpp:2012
 #, kde-format
 msgid "New dictionary installed."
 msgstr "Nov slovar nameščen."
 
 #: src/dialogs/managesubtitles.cpp:25
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@title:window"
 msgid "Manage Subtitles"
-msgstr "Podnaslavljanje"
+msgstr "Upravljaj podnaslove"
 
 #: src/dialogs/managesubtitles.cpp:100
 #, kde-format
@@ -6712,6 +6763,8 @@ msgid ""
 "This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
 "subtitle file: %2 "
 msgstr ""
+"To bo izbrisalo vse vnose podnaslovov v <b>%1</b>,<br/>in tudi datoteko s "
+"podnaslovi: %2 "
 
 #: src/dialogs/profilesdialog.cpp:111
 #, kde-format
@@ -7025,17 +7078,18 @@ msgid ""
 "desync.\n"
 "We recommend to transcode to an edit friendly format."
 msgstr ""
+"Pri izrisu projekta s posnetki s spremenljivo hitrostjo lahko pride do "
+"nesinhronosti zvoka in slike.\n"
+"Priporočamo, da jih prekodirate v montaži prijazen zapis."
 
 #: src/dialogs/renderwidget.cpp:649
-#, fuzzy, kde-format
-#| msgid "Render line"
+#, kde-format
 msgctxt "@action:button"
 msgid "Render Anyway"
-msgstr "Izriši črto"
+msgstr "Izriši vseeno"
 
 #: src/dialogs/renderwidget.cpp:652
-#, fuzzy, kde-format
-#| msgid "Transcode"
+#, kde-format
 msgctxt "@action:button"
 msgid "Transcode"
 msgstr "Prekodiraj"
@@ -7056,8 +7110,7 @@ msgstr ""
 "Prepričajte se, da imate zahtevana dovoljenja."
 
 #: src/dialogs/renderwidget.cpp:724
-#, fuzzy, kde-format
-#| msgid "The following errors occured while trying to render"
+#, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr "Pri poskusu izrisa je prišlo do naslednjih napak"
 
@@ -7256,12 +7309,11 @@ msgid "Please install speech recognition models"
 msgstr "Namestite modele razpoznavanja govora"
 
 #: src/dialogs/speechdialog.cpp:199
-#: src/pythoninterfaces/abstractpythoninterface.cpp:395
-#, fuzzy, kde-format
-#| msgid "Checking configuration…"
+#: src/pythoninterfaces/abstractpythoninterface.cpp:229
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Checking setup…"
-msgstr "Preverjanje nastavitve …"
+msgstr "Preverjanje namestitve …"
 
 #: src/dialogs/speechdialog.cpp:204 src/dialogs/textbasededit.cpp:934
 #: src/dialogs/textbasededit.cpp:947
@@ -14320,60 +14372,60 @@ msgstr "Zvokovno prekodiranje"
 msgid "Video transcode"
 msgstr "Slikovno prekodiranje"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:31
-#: src/pythoninterfaces/abstractpythoninterface.cpp:63
+#: src/pythoninterfaces/abstractpythoninterface.cpp:33
+#: src/pythoninterfaces/abstractpythoninterface.cpp:66
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "Namesti manjkajoče odvisne dele programja"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:32
+#: src/pythoninterfaces/abstractpythoninterface.cpp:34
 #, kde-format
 msgid "Abort installation"
 msgstr "Prekini namestitev"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:46
+#: src/pythoninterfaces/abstractpythoninterface.cpp:49
 #, kde-format
 msgid "Everything is properly configured."
 msgstr "Vse je pravilno nastavljeno."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:48
+#: src/pythoninterfaces/abstractpythoninterface.cpp:51
 #, kde-format
 msgid "%1 is properly configured."
 msgstr "%1 je pravilno nastavljen."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:52
+#: src/pythoninterfaces/abstractpythoninterface.cpp:55
 #, kde-format
 msgid "Everything is configured: %1"
 msgstr "Vse je nastavljeno: %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:54
+#: src/pythoninterfaces/abstractpythoninterface.cpp:57
 #, kde-format
 msgid "%1 is configured: %2"
 msgstr "%1 je nastavljen: %2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:73
-#: src/pythoninterfaces/abstractpythoninterface.cpp:84
+#: src/pythoninterfaces/abstractpythoninterface.cpp:76
+#: src/pythoninterfaces/abstractpythoninterface.cpp:87
 #, kde-format
 msgid "Check for update"
 msgstr "Preverjanje za posodobitvami"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:97
+#: src/pythoninterfaces/abstractpythoninterface.cpp:100
 #, kde-format
 msgid "Installing modules… this can take a while"
 msgstr "Nameščanje modulov … lahko traja"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:107
+#: src/pythoninterfaces/abstractpythoninterface.cpp:110
 #, kde-format
 msgid "Updating modules…"
 msgstr "Posodabljanje modulov …"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:129
+#: src/pythoninterfaces/abstractpythoninterface.cpp:132
 #, kde-format
 msgid "Checking configuration…"
 msgstr "Preverjanje nastavitve …"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:181
-#: src/pythoninterfaces/abstractpythoninterface.cpp:247
+#: src/pythoninterfaces/abstractpythoninterface.cpp:187
+#: src/pythoninterfaces/abstractpythoninterface.cpp:255
 #, kde-format
 msgid ""
 "Cannot find python3, please install it on your system.\n"
@@ -14384,7 +14436,7 @@ msgstr ""
 "Če je že nameščen, preverite, ali je nameščen v mapi, ki se nahaja na "
 "seznamu spremenljivke okolja PATH"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:187
+#: src/pythoninterfaces/abstractpythoninterface.cpp:193
 #, kde-format
 msgid ""
 "Cannot find pip3, please install it on your system.\n"
@@ -14395,54 +14447,53 @@ msgstr ""
 "Če je že nameščen, preverite, ali je nameščen v mapi, ki se nahaja na "
 "seznamu okoljske spremenljivke PATH"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:192
+#: src/pythoninterfaces/abstractpythoninterface.cpp:200
 #, kde-format
 msgid "Using python from %1"
 msgstr "Uporablja se python iz %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:200
+#: src/pythoninterfaces/abstractpythoninterface.cpp:208
 #, kde-format
 msgid "No python venv found"
 msgstr "Venv python ni mogoče najti"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:214
+#: src/pythoninterfaces/abstractpythoninterface.cpp:221
 #, kde-format
 msgid "Python venv size: %1"
 msgstr "Velikost venv python: %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:254
-#, fuzzy, kde-format
-#| msgid "Cannot find python virtualenv, please install it on your system."
+#: src/pythoninterfaces/abstractpythoninterface.cpp:265
+#, kde-format
 msgid ""
 "Cannot find python virtualenv, please install it on your system. Defaulting "
 "to system python."
 msgstr ""
-"Ni mogoče najti python virtualenv, prosimo, namestite ga na svoj sistem."
+"Virtualnega okolja python virtualenv ni mogoče najti, prosimo, namestite ga "
+"v sistem. Uporabljena bo privzeta sistemska nastavitev python."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:272
+#: src/pythoninterfaces/abstractpythoninterface.cpp:285
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr "Skripta %1 ni možno najti, preverite svojo namestitev."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:310
-#: src/pythoninterfaces/abstractpythoninterface.cpp:339
-#, fuzzy, kde-format
-#| msgid "Checking configuration…"
+#: src/pythoninterfaces/abstractpythoninterface.cpp:323
+#: src/pythoninterfaces/abstractpythoninterface.cpp:352
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Checking modules version…"
-msgstr "Preverjanje nastavitve …"
+msgstr "Preverjanje različic modulov …"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:330
+#: src/pythoninterfaces/abstractpythoninterface.cpp:343
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr "Potreben je modul python <application>%1</application>."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:332
+#: src/pythoninterfaces/abstractpythoninterface.cpp:345
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required for %2."
 msgstr "Modul python <application>%1</application> je potreben za %2."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:370
+#: src/pythoninterfaces/abstractpythoninterface.cpp:383
 #, kde-format
 msgid ""
 "Kdenlive can install the missing python modules in a virtual environment "
@@ -14452,62 +14503,61 @@ msgstr ""
 "Kdenlive lahko manjkajoče module pythona namesti v virtualno okolje pod %1.\n"
 "Tako se ne bo dotaknil vaših sistemskih knjižnic."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:372
+#: src/pythoninterfaces/abstractpythoninterface.cpp:385
 #, kde-format
 msgid "Python environment"
 msgstr "Okolje python"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:372
+#: src/pythoninterfaces/abstractpythoninterface.cpp:385
 #, kde-format
 msgid "Use virtual environment (recommended)"
 msgstr "Uporabi virtualno okolje (priporočljivo)"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:373
+#: src/pythoninterfaces/abstractpythoninterface.cpp:386
 #, kde-format
 msgid "Use system install"
 msgstr "Uporabi sistemsko namestitev"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:392
-#: src/pythoninterfaces/abstractpythoninterface.cpp:471
+#: src/pythoninterfaces/abstractpythoninterface.cpp:404
+#: src/pythoninterfaces/abstractpythoninterface.cpp:481
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr "Notranja napaka: seznama odvisnosti ni možno najti"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:412
+#: src/pythoninterfaces/abstractpythoninterface.cpp:422
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "Napaka pri preverjanju različice modula %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:416
+#: src/pythoninterfaces/abstractpythoninterface.cpp:426
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
 msgstr ""
 "Potrebna je vsaj različica %1 modula %2, vendar je trenutna različica %3"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:420
+#: src/pythoninterfaces/abstractpythoninterface.cpp:430
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "Razmislite o posodobitvi svoje namestitve."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:437
-#, fuzzy, kde-format
-#| msgid "No information in clipboard"
+#: src/pythoninterfaces/abstractpythoninterface.cpp:447
+#, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
-msgstr "Ni informacij na odlagališču"
+msgstr "Ni informacij na različici."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:494
+#: src/pythoninterfaces/abstractpythoninterface.cpp:504
 #, kde-format
 msgid "Python exec not found"
 msgstr "Izvršilne datoteke Python ni mogoče najti"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:496
+#: src/pythoninterfaces/abstractpythoninterface.cpp:506
 #, kde-format
 msgid "Failed to find script file %1"
 msgstr "Ni bilo mogoče najti skriptne datoteke %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:531
+#: src/pythoninterfaces/abstractpythoninterface.cpp:541
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -14518,7 +14568,7 @@ msgstr ""
 " %1\n"
 "%2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:553
+#: src/pythoninterfaces/abstractpythoninterface.cpp:563
 #, kde-format
 msgid ""
 "This will delete the python virtual environment from:<br/><b>%1</b><br/>The "
@@ -17133,18 +17183,16 @@ msgstr "Zakleni stezo za podnaslavljanje"
 
 #: src/timeline2/view/timelinecontroller.cpp:5309
 #: src/timeline2/view/timelinecontroller.cpp:5318
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
-msgstr "Podnaslavljanje"
+msgstr "Podnaslovi"
 
 #: src/timeline2/view/timelinecontroller.cpp:5320
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
-msgstr "Podnaslavljanje"
+msgstr "Upravljaj podnaslove"
 
 #: src/timeline2/view/timelinetabs.cpp:48
 #, kde-format
@@ -18609,7 +18657,7 @@ msgstr "Ime zajete datoteke:"
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #: src/ui/configcapture_ui.ui:531 src/ui/configjogshuttle_ui.ui:106
-#: src/ui/configspeech_ui.ui:195
+#: src/ui/configspeech_ui.ui:159
 #, kde-format
 msgid "Device:"
 msgstr "Naprava:"
@@ -18810,32 +18858,32 @@ msgstr "Mapa za upodabljanje, napise, skripte:"
 msgid "Python"
 msgstr "Python"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_usePythonVenv)
-#: src/ui/configenv_ui.ui:346
-#, kde-format
-msgid "Use python virtual environment (recommended)"
-msgstr "Uporabi virtualno okolje python (priporočljivo)"
-
 #. i18n: ectx: property (text), widget (QPushButton, button_python_delete)
-#: src/ui/configenv_ui.ui:384
+#: src/ui/configenv_ui.ui:347
 #, kde-format
 msgid "Delete "
 msgstr "Izbriši"
 
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_usePythonVenv)
+#: src/ui/configenv_ui.ui:356
+#, kde-format
+msgid "Use python virtual environment (recommended)"
+msgstr "Uporabi virtualno okolje python (priporočljivo)"
+
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: src/ui/configenv_ui.ui:397
+#: src/ui/configenv_ui.ui:384
 #, kde-format
 msgid "Default Apps"
 msgstr "Privzeti programi"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/configenv_ui.ui:403
+#: src/ui/configenv_ui.ui:390
 #, kde-format
 msgid "Image editing:"
 msgstr "Urejanje slike:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultimageapp)
-#: src/ui/configenv_ui.ui:412
+#: src/ui/configenv_ui.ui:399
 #, kde-format
 msgid "Path to image editing application"
 msgstr "Pot do programa za urejanje slik"
@@ -18843,50 +18891,50 @@ msgstr "Pot do programa za urejanje slik"
 #. i18n: ectx: property (text), widget (QPushButton, kp_image)
 #. i18n: ectx: property (text), widget (QPushButton, kp_audio)
 #. i18n: ectx: property (text), widget (QPushButton, kp_anim)
-#: src/ui/configenv_ui.ui:422 src/ui/configenv_ui.ui:443
-#: src/ui/configenv_ui.ui:468
+#: src/ui/configenv_ui.ui:409 src/ui/configenv_ui.ui:430
+#: src/ui/configenv_ui.ui:455
 #, kde-format
 msgid "Change…"
 msgstr "Spremeni …"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultaudioapp)
-#: src/ui/configenv_ui.ui:433
+#: src/ui/configenv_ui.ui:420
 #, kde-format
 msgid "Path to audio editing application"
 msgstr "Pot do aplikacije za montažo in urejanje zvoka"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
-#: src/ui/configenv_ui.ui:452
+#: src/ui/configenv_ui.ui:439
 #, kde-format
 msgid "Audio editing:"
 msgstr "Urejanje zvoka:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_glaxnimatePath)
-#: src/ui/configenv_ui.ui:461
+#: src/ui/configenv_ui.ui:448
 #, kde-format
 msgid "Path to Glaxnimate executable"
 msgstr "Pot do izvršljive datoteke Glaxnimate"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: src/ui/configenv_ui.ui:477
+#: src/ui/configenv_ui.ui:464
 #, kde-format
 msgid "Animation editing:"
 msgstr "Urejanje in montaža animacije:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
-#: src/ui/configenv_ui.ui:498
+#: src/ui/configenv_ui.ui:485
 #, kde-format
 msgid "Mime types"
 msgstr "Vrste MIME"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/configenv_ui.ui:504
+#: src/ui/configenv_ui.ui:491
 #, kde-format
 msgid "Additional clip MIME types"
 msgstr "Dodatne vrste MIME za posnetke"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
-#: src/ui/configenv_ui.ui:518
+#: src/ui/configenv_ui.ui:505
 #, kde-format
 msgid "Supported clip MIME types"
 msgstr "Podprte vrste MIME za posnetke"
@@ -19322,89 +19370,89 @@ msgstr "Zunanji zaslon (kartica Blackmagic):"
 msgid "Output device:"
 msgstr "Izhodna naprava:"
 
-#. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
-#: src/ui/configspeech_ui.ui:21
-#, kde-format
-msgid "Check speech engine installation"
-msgstr "Preveri namestitev govornega pogona"
-
-#. i18n: ectx: property (text), widget (QPushButton, check_config)
-#: src/ui/configspeech_ui.ui:24
-#, kde-format
-msgid "Check configuration"
-msgstr "Preveri nastavitev"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/configspeech_ui.ui:37
-#, kde-format
-msgid "Speech engine"
-msgstr "Pogon za govor"
-
-#. i18n: ectx: property (text), widget (QRadioButton, engine_vosk)
-#: src/ui/configspeech_ui.ui:44
-#, kde-format
-msgid "VOSK"
-msgstr "VOSK"
-
-#. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
-#: src/ui/configspeech_ui.ui:51
-#, kde-format
-msgid "Whisper"
-msgstr "Šepet"
-
 #. i18n: ectx: property (text), widget (QCheckBox, custom_vosk_folder)
-#: src/ui/configspeech_ui.ui:96
+#: src/ui/configspeech_ui.ui:60
 #, kde-format
 msgid "Custom models folder"
 msgstr "Mapa modelov po meri"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_add)
-#: src/ui/configspeech_ui.ui:103
+#: src/ui/configspeech_ui.ui:67
 #, kde-format
 msgid "Add Model"
 msgstr "Dodaj model"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configspeech_ui.ui:130
+#: src/ui/configspeech_ui.ui:94
 #, kde-format
 msgid "VOSK Speech Models"
 msgstr "Modeli govora VOSK"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
-#: src/ui/configspeech_ui.ui:150
+#: src/ui/configspeech_ui.ui:114
 #, kde-format
 msgid "Remove Model"
 msgstr "Odstrani model"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configspeech_ui.ui:175
+#: src/ui/configspeech_ui.ui:139
 #, kde-format
 msgid "Model:"
 msgstr "Model:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/configspeech_ui.ui:185
+#: src/ui/configspeech_ui.ui:149
 #, kde-format
 msgid "Language:"
 msgstr "Jezik:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperDisableFP16)
-#: src/ui/configspeech_ui.ui:209
+#: src/ui/configspeech_ui.ui:173
 #, kde-format
 msgid "Disable half precision (FP16 )"
 msgstr "Onemogoči polovično natančnost (FP16)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperTranslate)
-#: src/ui/configspeech_ui.ui:216
+#: src/ui/configspeech_ui.ui:180
 #, kde-format
 msgid "Translate text to English"
 msgstr "Prevedi besedilo v angleški jezik"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
-#: src/ui/configspeech_ui.ui:223
+#: src/ui/configspeech_ui.ui:187
 #, kde-format
 msgid "Whisper processing on cpu is very slow"
 msgstr "Obdelava šepeta je na CPE zelo počasna"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
+#: src/ui/configspeech_ui.ui:217
+#, kde-format
+msgid "Check speech engine installation"
+msgstr "Preveri namestitev govornega pogona"
+
+#. i18n: ectx: property (text), widget (QPushButton, check_config)
+#: src/ui/configspeech_ui.ui:220
+#, kde-format
+msgid "Check configuration"
+msgstr "Preveri nastavitev"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: src/ui/configspeech_ui.ui:233
+#, kde-format
+msgid "Speech engine"
+msgstr "Pogon za govor"
+
+#. i18n: ectx: property (text), widget (QRadioButton, engine_vosk)
+#: src/ui/configspeech_ui.ui:240
+#, kde-format
+msgid "VOSK"
+msgstr "VOSK"
+
+#. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
+#: src/ui/configspeech_ui.ui:247
+#, kde-format
+msgid "Whisper"
+msgstr "Šepet"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)
@@ -20364,19 +20412,17 @@ msgstr "Urejanje profilov za:"
 #: src/ui/managesubtitles_ui.ui:42
 #, kde-format
 msgid "Path"
-msgstr ""
+msgstr "Pot"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_new)
 #: src/ui/managesubtitles_ui.ui:50
-#, fuzzy, kde-format
-#| msgid "Create"
+#, kde-format
 msgid "Creat New"
-msgstr "Ustvari"
+msgstr "Ustvari novo"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
 #: src/ui/managesubtitles_ui.ui:61
-#, fuzzy, kde-format
-#| msgid "Delete "
+#, kde-format
 msgid "Delete"
 msgstr "Izbriši"
 
@@ -21308,10 +21354,9 @@ msgstr "Območje časovnice (vse steze)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_full)
 #: src/ui/speechdialog_ui.ui:181
-#, fuzzy, kde-format
-#| msgid "Fu&ll project"
+#, kde-format
 msgid "Full project"
-msgstr "Ce&l projekt"
+msgstr "Cel projekt"
 
 #. i18n: ectx: property (text), widget (QLabel, label_template)
 #. i18n: ectx: property (text), widget (QLabel, label)
