@@ -4714,22 +4714,47 @@ std::shared_ptr<ClipModel> TimelineModel::getClipPtr(int clipId) const
     return m_allClips.at(clipId);
 }
 
-bool TimelineModel::addClipEffect(int clipId, const QString &effectId, bool notify)
+QVariantList TimelineModel::addClipEffect(int clipId, const QString &effectId, bool notify)
 {
     Q_ASSERT(m_allClips.count(clipId) > 0);
-    // Check if we are applying an audio effect on an audio clip
-    bool isAudio = EffectsRepository::get()->isAudioEffect(effectId);
-    bool audioClip = m_allClips.at(clipId)->isAudioOnly();
-    if (isAudio != audioClip) {
-        // Check if we have a split partner
-        clipId = getClipSplitPartner(clipId);
+    bool result = false;
+    QVariantList affectedClips;
+    if (m_singleSelectionMode && m_currentSelection == clipId) {
+        // only operate on the selected item
+        result = clipId > -1 && m_allClips.at(clipId)->addEffect(effectId);
+        if (result) {
+            affectedClips << clipId;
+        }
+    } else if (m_groups->isInGroup(clipId)) {
+        int parentGroup = m_groups->getRootId(clipId);
+        if (parentGroup > -1) {
+            Fun undo = []() { return true; };
+            Fun redo = []() { return true; };
+            std::unordered_set<int> sub = m_groups->getLeaves(parentGroup);
+            for (auto &s : sub) {
+                if (isClip(s)) {
+                    if (m_allClips.at(s)->addEffectWithUndo(effectId, undo, redo)) {
+                        result = true;
+                        affectedClips << s;
+                    }
+                }
+            }
+            if (result) {
+                pCore->pushUndo(undo, redo, i18n("Add effect %1", EffectsRepository::get()->getName(effectId)));
+            }
+            return affectedClips;
+        }
+    } else {
+        result = clipId > -1 && m_allClips.at(clipId)->addEffect(effectId);
+        if (result) {
+            affectedClips << clipId;
+        }
     }
-    bool result = clipId > -1 && m_allClips.at(clipId)->addEffect(effectId);
     if (!result && notify) {
         QString effectName = EffectsRepository::get()->getName(effectId);
         pCore->displayMessage(i18n("Cannot add effect %1 to selected clip", effectName), ErrorMessage, 500);
     }
-    return result;
+    return affectedClips;
 }
 
 bool TimelineModel::removeFade(int clipId, bool fromStart)

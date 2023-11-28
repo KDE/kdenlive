@@ -235,6 +235,12 @@ bool EffectStackModel::copyXmlEffect(const QDomElement &effect)
     return result;
 }
 
+bool EffectStackModel::copyXmlEffectWithUndo(const QDomElement &effect, Fun &undo, Fun &redo)
+{
+    bool result = fromXml(effect, undo, redo);
+    return result;
+}
+
 QDomElement EffectStackModel::toXml(QDomDocument &document)
 {
     QDomElement container = document.createElement(QStringLiteral("effects"));
@@ -485,7 +491,23 @@ bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sou
     return res;
 }
 
+bool EffectStackModel::appendEffectWithUndo(const QString &effectId, Fun &undo, Fun &redo)
+{
+    return doAppendEffect(effectId, false, {}, undo, redo);
+}
+
 bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent, stringMap params)
+{
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool result = doAppendEffect(effectId, makeCurrent, params, undo, redo);
+    if (result) {
+        PUSH_UNDO(undo, redo, i18n("Add effect %1", EffectsRepository::get()->getName(effectId)));
+    }
+    return result;
+}
+
+bool EffectStackModel::doAppendEffect(const QString &effectId, bool makeCurrent, stringMap params, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     if (m_ownerId.type == KdenliveObjectType::TimelineClip && EffectsRepository::get()->isUnique(effectId) && hasEffect(effectId)) {
@@ -518,9 +540,9 @@ bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent, s
         i.next();
         effect->filter().set(i.key().toUtf8().constData(), i.value().toUtf8().constData());
     }
-    Fun undo = removeItem_lambda(effect->getId());
+    Fun local_undo = removeItem_lambda(effect->getId());
     // TODO the parent should probably not always be the root
-    Fun redo = addItem_lambda(effect, rootItem->getId());
+    Fun local_redo = addItem_lambda(effect, rootItem->getId());
     effect->prepareKeyframes();
     connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
     connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);
@@ -529,7 +551,7 @@ bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent, s
     if (makeCurrent) {
         setActiveEffect(rowCount());
     }
-    bool res = redo();
+    bool res = local_redo();
     if (res) {
         int inFades = 0;
         int outFades = 0;
@@ -575,9 +597,10 @@ bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent, s
             return true;
         };
         update();
-        PUSH_LAMBDA(update, redo);
-        PUSH_LAMBDA(update_undo, undo);
-        PUSH_UNDO(undo, redo, i18n("Add effect %1", EffectsRepository::get()->getName(effectId)));
+        PUSH_LAMBDA(update, local_redo);
+        PUSH_LAMBDA(update_undo, local_undo);
+        PUSH_LAMBDA(local_redo, redo);
+        PUSH_LAMBDA(local_undo, undo);
     } else if (makeCurrent) {
         setActiveEffect(currentActive);
     }

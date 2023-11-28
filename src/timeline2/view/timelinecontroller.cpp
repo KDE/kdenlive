@@ -1491,28 +1491,14 @@ void TimelineController::addAsset(const QVariantMap &data)
 {
     const auto selection = m_model->getCurrentSelection();
     if (!selection.empty()) {
-        QList<int> effectSelection;
-        int affectedClips = 0;
-        int cid = -1;
         QString effect = data.value(QStringLiteral("kdenlive/effect")).toString();
-        bool audioEffect = EffectsRepository::get()->isAudioEffect(effect);
-
-        for (int id : selection) {
-            if (m_model->isClip(id) && audioEffect == m_model->m_allClips.at(id)->isAudioOnly()) {
-                effectSelection << id;
-            }
-        }
-        for (int id : qAsConst(effectSelection)) {
-            if (m_model->addClipEffect(id, effect, false)) {
-                cid = id;
-                affectedClips++;
-            }
-        }
-        if (affectedClips == 0) {
+        QVariantList effectSelection = m_model->addClipEffect(*selection.begin(), effect, false);
+        if (effectSelection.isEmpty()) {
             QString effectName = EffectsRepository::get()->getName(effect);
             pCore->displayMessage(i18n("Cannot add effect %1 to selected clip", effectName), ErrorMessage, 500);
         } else if (KdenliveSettings::seekonaddeffect() && effectSelection.count() == 1) {
             // Move timeline cursor inside clip if it is not
+            int cid = effectSelection.first().toInt();
             int in = m_model->getClipPosition(cid);
             int out = in + m_model->getClipPlaytime(cid);
             int position = pCore->getMonitorPosition();
@@ -3237,7 +3223,7 @@ void TimelineController::addEffectToClip(const QString &assetId, int clipId)
             return;
         }
     }
-    if (m_model->addClipEffect(clipId, assetId) && KdenliveSettings::seekonaddeffect()) {
+    if (m_model->addClipEffect(clipId, assetId).size() > 0 && KdenliveSettings::seekonaddeffect()) {
         // Move timeline cursor inside clip if it is not
         int in = m_model->getClipPosition(clipId);
         int out = in + m_model->getClipPlaytime(clipId);

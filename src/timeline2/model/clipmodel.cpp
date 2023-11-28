@@ -744,11 +744,35 @@ bool ClipModel::addEffect(const QString &effectId)
     return true;
 }
 
+bool ClipModel::addEffectWithUndo(const QString &effectId, Fun &undo, Fun &redo)
+{
+    QWriteLocker locker(&m_lock);
+    if (EffectsRepository::get()->isAudioEffect(effectId)) {
+        if (m_currentState == PlaylistState::VideoOnly) {
+            return false;
+        }
+    } else if (m_currentState == PlaylistState::AudioOnly) {
+        return false;
+    }
+    if (EffectsRepository::get()->isTextEffect(effectId) && m_clipType != ClipType::Text) {
+        return false;
+    }
+    return m_effectStack->appendEffectWithUndo(effectId, undo, redo);
+}
+
 bool ClipModel::copyEffect(const QUuid &uuid, const std::shared_ptr<EffectStackModel> &stackModel, int rowId)
 {
     QWriteLocker locker(&m_lock);
     QDomDocument doc;
     m_effectStack->copyXmlEffect(stackModel->rowToXml(uuid, rowId, doc));
+    return true;
+}
+
+bool ClipModel::copyEffectWithUndo(const QUuid &uuid, const std::shared_ptr<EffectStackModel> &stackModel, int rowId, Fun &undo, Fun &redo)
+{
+    QWriteLocker locker(&m_lock);
+    QDomDocument doc;
+    m_effectStack->copyXmlEffectWithUndo(stackModel->rowToXml(uuid, rowId, doc), undo, redo);
     return true;
 }
 
