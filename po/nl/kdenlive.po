@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-25 00:41+0000\n"
-"PO-Revision-Date: 2023-11-25 14:31+0100\n"
+"POT-Creation-Date: 2023-11-28 00:40+0000\n"
+"PO-Revision-Date: 2023-11-27 10:26+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -3449,23 +3449,23 @@ msgstr "Keyframe verplaatsen"
 msgid "Update keyframe"
 msgstr "Keyframe bijwerken"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:825
+#: src/assets/keyframes/model/keyframemodel.cpp:850
 #: src/assets/keyframes/model/keyframemodellist.cpp:208
 #, kde-format
 msgid "Delete all keyframes"
 msgstr "Alle keyframes verwijderen"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1028
+#: src/assets/keyframes/model/keyframemodel.cpp:1079
 #, kde-format
 msgid "effect"
 msgstr "effect"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1037
+#: src/assets/keyframes/model/keyframemodel.cpp:1088
 #, kde-format
 msgid "Reset %1"
 msgstr "%1 resetten"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1296
+#: src/assets/keyframes/model/keyframemodel.cpp:1347
 #, kde-format
 msgid "Reset effect"
 msgstr "Effect resetten"
@@ -3779,16 +3779,16 @@ msgstr "Y"
 
 #: src/assets/view/widgets/keyframeimport.cpp:393
 #: src/assets/view/widgets/keyframeimport.cpp:780
-#: src/assets/view/widgets/keyframewidget.cpp:256
-#: src/assets/view/widgets/keyframewidget.cpp:317
+#: src/assets/view/widgets/keyframewidget.cpp:308
+#: src/assets/view/widgets/keyframewidget.cpp:369
 #, kde-format
 msgid "Width"
 msgstr "Breedte"
 
 #: src/assets/view/widgets/keyframeimport.cpp:396
 #: src/assets/view/widgets/keyframeimport.cpp:788
-#: src/assets/view/widgets/keyframewidget.cpp:255
-#: src/assets/view/widgets/keyframewidget.cpp:311
+#: src/assets/view/widgets/keyframewidget.cpp:307
+#: src/assets/view/widgets/keyframewidget.cpp:363
 #, kde-format
 msgid "Height"
 msgstr "Hoogte"
@@ -3851,7 +3851,7 @@ msgstr ""
 "parameterwaarden als geen keyframe is geselecteerd."
 
 #: src/assets/view/widgets/keyframewidget.cpp:95
-#: src/assets/view/widgets/keyframewidget.cpp:863
+#: src/assets/view/widgets/keyframewidget.cpp:915
 #, kde-format
 msgid "Paste keyframe"
 msgstr "Keyframe plakken"
@@ -3875,31 +3875,92 @@ msgid "Apply current position value to selected keyframes"
 msgstr "Huidige waarde van positie op geselecteerde keyframes toepassen"
 
 #: src/assets/view/widgets/keyframewidget.cpp:103
-#: src/assets/view/widgets/keyframewidget.cpp:123
+#: src/assets/view/widgets/keyframewidget.cpp:175
 #, kde-format
 msgid "Keyframe interpolation"
 msgstr "Keyframe-interpolatie"
 
 #. i18n: ectx: property (text), widget (QRadioButton, rbLinear)
 #: src/assets/view/widgets/keyframewidget.cpp:104
-#: src/assets/view/widgets/keyframewidget.cpp:170 src/ui/histogram_ui.ui:112
+#: src/assets/view/widgets/keyframewidget.cpp:222 src/ui/histogram_ui.ui:112
 #, kde-format
 msgid "Linear"
 msgstr "Lineair"
 
 #: src/assets/view/widgets/keyframewidget.cpp:108
-#: src/assets/view/widgets/keyframewidget.cpp:166
+#: src/assets/view/widgets/keyframewidget.cpp:218
 #, kde-format
 msgid "Discrete"
 msgstr "In stapjes"
 
-#: src/assets/view/widgets/keyframewidget.cpp:112
-#: src/assets/view/widgets/keyframewidget.cpp:174
+#: src/assets/view/widgets/keyframewidget.cpp:113
+#: src/assets/view/widgets/keyframewidget.cpp:163
+#: src/assets/view/widgets/keyframewidget.cpp:226
 #, kde-format
 msgid "Smooth"
 msgstr "Vloeiend"
 
-#: src/assets/view/widgets/keyframewidget.cpp:124
+#: src/assets/view/widgets/keyframewidget.cpp:117
+#, fuzzy, kde-format
+#| msgid "Zone In"
+msgid "Bounce In"
+msgstr "Zone-begin"
+
+#: src/assets/view/widgets/keyframewidget.cpp:121
+#, fuzzy, kde-format
+#| msgid "Zone Out"
+msgid "Bounce Out"
+msgstr "Zone-eind"
+
+#: src/assets/view/widgets/keyframewidget.cpp:126
+#, kde-format
+msgid "Cubic In"
+msgstr ""
+
+#: src/assets/view/widgets/keyframewidget.cpp:130
+#, kde-format
+msgid "Cubic Out"
+msgstr ""
+
+#: src/assets/view/widgets/keyframewidget.cpp:134
+#, kde-format
+msgid "Exponential In"
+msgstr ""
+
+#: src/assets/view/widgets/keyframewidget.cpp:138
+#, fuzzy, kde-format
+#| msgid "Zone Out"
+msgid "Exponential Out"
+msgstr "Zone-eind"
+
+#: src/assets/view/widgets/keyframewidget.cpp:142
+#, kde-format
+msgid "Circular In"
+msgstr ""
+
+#: src/assets/view/widgets/keyframewidget.cpp:146
+#, kde-format
+msgid "Circular Out"
+msgstr ""
+
+#: src/assets/view/widgets/keyframewidget.cpp:150
+#, kde-format
+msgid "Elastic In"
+msgstr ""
+
+#: src/assets/view/widgets/keyframewidget.cpp:154
+#, fuzzy, kde-format
+#| msgid "Gain Out"
+msgid "Elastic Out"
+msgstr "Uitgang volume"
+
+#: src/assets/view/widgets/keyframewidget.cpp:158
+#, fuzzy, kde-format
+#| msgid " - deprecated"
+msgid "Smooth (deprecated)"
+msgstr "- verouderd"
+
+#: src/assets/view/widgets/keyframewidget.cpp:176
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3909,39 +3970,39 @@ msgstr ""
 "Keyframe-interpolatie. Dit definieert welke interpolatie gebruikt zal worden "
 "voor het huidige keyframe."
 
-#: src/assets/view/widgets/keyframewidget.cpp:146
+#: src/assets/view/widgets/keyframewidget.cpp:198
 #, kde-format
 msgid "Seek to Keyframe on Select"
 msgstr "Naar keyframe gaan bij selectie"
 
-#: src/assets/view/widgets/keyframewidget.cpp:151
+#: src/assets/view/widgets/keyframewidget.cpp:203
 #, kde-format
 msgid "Copy All Keyframes to Clipboard"
 msgstr "Alle keyframes kopiëren naar klembord"
 
-#: src/assets/view/widgets/keyframewidget.cpp:153
+#: src/assets/view/widgets/keyframewidget.cpp:205
 #, kde-format
 msgid "Import Keyframes from Clipboard…"
 msgstr "Keyframes importeren uit klembord…"
 
-#: src/assets/view/widgets/keyframewidget.cpp:161
+#: src/assets/view/widgets/keyframewidget.cpp:213
 #, kde-format
 msgid "Remove all Keyframes After Cursor"
 msgstr "Alle keyframes na de cursor verwijderen"
 
-#: src/assets/view/widgets/keyframewidget.cpp:165
+#: src/assets/view/widgets/keyframewidget.cpp:217
 #, kde-format
 msgid "Default Keyframe Type"
 msgstr "Standaard keyframetype"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/assets/view/widgets/keyframewidget.cpp:205 src/bin/bin.cpp:1351
+#: src/assets/view/widgets/keyframewidget.cpp:257 src/bin/bin.cpp:1351
 #: src/ui/clipstabilize_ui.ui:37
 #, kde-format
 msgid "Options"
 msgstr "Opties"
 
-#: src/assets/view/widgets/keyframewidget.cpp:207
+#: src/assets/view/widgets/keyframewidget.cpp:259
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3951,49 +4012,49 @@ msgstr ""
 "Opent een lijst met verdere acties voor beheren van keyframes (bijvoorbeeld: "
 "kopiëren naar en plakken van keyframes uit klembord)."
 
-#: src/assets/view/widgets/keyframewidget.cpp:253
 #: src/assets/view/widgets/keyframewidget.cpp:305
+#: src/assets/view/widgets/keyframewidget.cpp:357
 #: src/widgets/geometrywidget.cpp:78
 #, kde-format
 msgid "Opacity"
 msgstr "Dekking"
 
-#: src/assets/view/widgets/keyframewidget.cpp:257
-#: src/assets/view/widgets/keyframewidget.cpp:329
+#: src/assets/view/widgets/keyframewidget.cpp:309
+#: src/assets/view/widgets/keyframewidget.cpp:381
 #, kde-format
 msgid "Y position"
 msgstr "Y-positie"
 
-#: src/assets/view/widgets/keyframewidget.cpp:258
-#: src/assets/view/widgets/keyframewidget.cpp:323
+#: src/assets/view/widgets/keyframewidget.cpp:310
+#: src/assets/view/widgets/keyframewidget.cpp:375
 #, kde-format
 msgid "X position"
 msgstr "X-positie"
 
-#: src/assets/view/widgets/keyframewidget.cpp:277
+#: src/assets/view/widgets/keyframewidget.cpp:329
 #, kde-format
 msgid "Select parameters to copy"
 msgstr "Te kopiëren parameters selecteren"
 
-#: src/assets/view/widgets/keyframewidget.cpp:768
+#: src/assets/view/widgets/keyframewidget.cpp:820
 #, kde-format
 msgid "Keyframes copied"
 msgstr "Keyframes gekopieerd"
 
-#: src/assets/view/widgets/keyframewidget.cpp:779
-#: src/assets/view/widgets/keyframewidget.cpp:820
-#: src/assets/view/widgets/keyframewidget.cpp:827
+#: src/assets/view/widgets/keyframewidget.cpp:831
+#: src/assets/view/widgets/keyframewidget.cpp:872
+#: src/assets/view/widgets/keyframewidget.cpp:879
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "Geen geldige keyframegegevens in klembord"
 
-#: src/assets/view/widgets/keyframewidget.cpp:871
+#: src/assets/view/widgets/keyframewidget.cpp:923
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "Kan huidige parameterwaarden niet kopiëren"
 
-#: src/assets/view/widgets/keyframewidget.cpp:876
-#: src/assets/view/widgets/keyframewidget.cpp:887
+#: src/assets/view/widgets/keyframewidget.cpp:928
+#: src/assets/view/widgets/keyframewidget.cpp:939
 #, kde-format
 msgid "Current values copied"
 msgstr "Huidige waarden gekopieerd"
@@ -5962,12 +6023,12 @@ msgstr "Kleurclipdialoog"
 #, kde-format
 msgctxt "@title:window"
 msgid "Color Clip"
-msgstr "Kleur clip"
+msgstr "Kleurclip"
 
 #: src/dialogs/clipcreationdialog.cpp:144
 #, kde-format
 msgid "Color Clip"
-msgstr "Kleur clip"
+msgstr "Kleurclip"
 
 #: src/dialogs/clipcreationdialog.cpp:146
 #, kde-format
@@ -6605,46 +6666,46 @@ msgstr "Huidige instellingen"
 msgid "Progressive"
 msgstr "Progressief"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1749
+#: src/dialogs/kdenlivesettingsdialog.cpp:1763
 #, kde-format
 msgid "Setting up virtual environment…"
 msgstr "Virtuele omgeving opzetten…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1751
+#: src/dialogs/kdenlivesettingsdialog.cpp:1765
 #, kde-format
 msgid "Disabling virtual environment"
 msgstr "Virtuele omgeving uitschakelen"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1764
+#: src/dialogs/kdenlivesettingsdialog.cpp:1778
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Removing the virtual environment folder."
 msgstr "De map met de virtuele omgeving verwijderen."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1769
+#: src/dialogs/kdenlivesettingsdialog.cpp:1783
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No python venv found"
 msgstr "Geen python venv gevonden"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1772
+#: src/dialogs/kdenlivesettingsdialog.cpp:1786
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Failed to remove the virtual environment folder."
 msgstr "Verwijderen van de virtuele omgevingsmap is mislukt."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1777
+#: src/dialogs/kdenlivesettingsdialog.cpp:1791
 #, kde-format
 msgid "Probing..."
 msgstr "Aftasten..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1832
-#: src/dialogs/kdenlivesettingsdialog.cpp:2021
+#: src/dialogs/kdenlivesettingsdialog.cpp:1846
+#: src/dialogs/kdenlivesettingsdialog.cpp:2035
 #, kde-format
 msgid "Please add a speech model."
 msgstr "Een spraakmodel toevoegen."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1865
+#: src/dialogs/kdenlivesettingsdialog.cpp:1879
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
@@ -6653,30 +6714,30 @@ msgstr ""
 "Spraakmodellen downloaden van: <a href=\"https://alphacephei.com/vosk/models"
 "\">https://alphacephei.com/vosk/models</a>"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1903
+#: src/dialogs/kdenlivesettingsdialog.cpp:1917
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "Url voor het nieuwe woordenboek invoeren"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1909
+#: src/dialogs/kdenlivesettingsdialog.cpp:1923
 #, kde-format
 msgid "Downloading model…"
 msgstr "Model wordt gedownload…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1919
+#: src/dialogs/kdenlivesettingsdialog.cpp:1933
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 "Verwijderen van aangepaste mapmodellen zijn niet toegestaan, doe dat "
 "handmatig."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1925
-#: src/dialogs/kdenlivesettingsdialog.cpp:1984
+#: src/dialogs/kdenlivesettingsdialog.cpp:1939
+#: src/dialogs/kdenlivesettingsdialog.cpp:1998
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "Geen toegang tot woordenboekmap."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1934
+#: src/dialogs/kdenlivesettingsdialog.cpp:1948
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -6685,22 +6746,22 @@ msgstr ""
 "Map verwijderen:\n"
 "%1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1958
+#: src/dialogs/kdenlivesettingsdialog.cpp:1972
 #, kde-format
 msgid "Download error"
 msgstr "Fout bij downloaden"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1963
+#: src/dialogs/kdenlivesettingsdialog.cpp:1977
 #, kde-format
 msgid "Download error %1"
 msgstr "Fout bij downloaden %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1991
+#: src/dialogs/kdenlivesettingsdialog.cpp:2005
 #, kde-format
 msgid "Extracting archive…"
 msgstr "Archief wordt uitgepakt…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1998
+#: src/dialogs/kdenlivesettingsdialog.cpp:2012
 #, kde-format
 msgid "New dictionary installed."
 msgstr "Nieuw woordenboek geïnstalleerd."
@@ -7261,7 +7322,7 @@ msgid "Please install speech recognition models"
 msgstr "Graag spraakherkenningsmodellen installeren"
 
 #: src/dialogs/speechdialog.cpp:199
-#: src/pythoninterfaces/abstractpythoninterface.cpp:395
+#: src/pythoninterfaces/abstractpythoninterface.cpp:229
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Checking setup…"
@@ -14306,60 +14367,60 @@ msgstr "Codering overzetten van audio"
 msgid "Video transcode"
 msgstr "Codering overzetten van video"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:31
-#: src/pythoninterfaces/abstractpythoninterface.cpp:63
+#: src/pythoninterfaces/abstractpythoninterface.cpp:33
+#: src/pythoninterfaces/abstractpythoninterface.cpp:66
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "Ontbrekende afhankelijkheden installeren"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:32
+#: src/pythoninterfaces/abstractpythoninterface.cpp:34
 #, kde-format
 msgid "Abort installation"
 msgstr "Installatie afbreken"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:46
+#: src/pythoninterfaces/abstractpythoninterface.cpp:49
 #, kde-format
 msgid "Everything is properly configured."
 msgstr "Alles is juist geconfigureerd."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:48
+#: src/pythoninterfaces/abstractpythoninterface.cpp:51
 #, kde-format
 msgid "%1 is properly configured."
 msgstr "%1 is juist geconfigureerd."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:52
+#: src/pythoninterfaces/abstractpythoninterface.cpp:55
 #, kde-format
 msgid "Everything is configured: %1"
 msgstr "Alles is geconfigureerd: %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:54
+#: src/pythoninterfaces/abstractpythoninterface.cpp:57
 #, kde-format
 msgid "%1 is configured: %2"
 msgstr "%1 is geconfigureerd: %2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:73
-#: src/pythoninterfaces/abstractpythoninterface.cpp:84
+#: src/pythoninterfaces/abstractpythoninterface.cpp:76
+#: src/pythoninterfaces/abstractpythoninterface.cpp:87
 #, kde-format
 msgid "Check for update"
 msgstr "Op bijwerken controleren"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:97
+#: src/pythoninterfaces/abstractpythoninterface.cpp:100
 #, kde-format
 msgid "Installing modules… this can take a while"
 msgstr "Modules worden geïnstalleerd… dit kan even duren"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:107
+#: src/pythoninterfaces/abstractpythoninterface.cpp:110
 #, kde-format
 msgid "Updating modules…"
 msgstr "Modules worden bijgewerkt…"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:129
+#: src/pythoninterfaces/abstractpythoninterface.cpp:132
 #, kde-format
 msgid "Checking configuration…"
 msgstr "Configuratie wordt gecontroleerd…"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:181
-#: src/pythoninterfaces/abstractpythoninterface.cpp:247
+#: src/pythoninterfaces/abstractpythoninterface.cpp:187
+#: src/pythoninterfaces/abstractpythoninterface.cpp:255
 #, kde-format
 msgid ""
 "Cannot find python3, please install it on your system.\n"
@@ -14370,7 +14431,7 @@ msgstr ""
 "Als het al is geïnstalleerd, controleer of het is geïnstalleerd in een map "
 "in de lijst in de omgevingsvariabele PATH"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:187
+#: src/pythoninterfaces/abstractpythoninterface.cpp:193
 #, kde-format
 msgid ""
 "Cannot find pip3, please install it on your system.\n"
@@ -14381,22 +14442,22 @@ msgstr ""
 "Als het al is geïnstalleerd, controleer of het is geïnstalleerd in een map "
 "in de lijst in de omgevingsvariabele PATH"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:192
+#: src/pythoninterfaces/abstractpythoninterface.cpp:200
 #, kde-format
 msgid "Using python from %1"
 msgstr "Python uit %1 wordt gebruikt"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:200
+#: src/pythoninterfaces/abstractpythoninterface.cpp:208
 #, kde-format
 msgid "No python venv found"
 msgstr "Geen python venv gevonden"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:214
+#: src/pythoninterfaces/abstractpythoninterface.cpp:221
 #, kde-format
 msgid "Python venv size: %1"
 msgstr "Python venv grootte: %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:254
+#: src/pythoninterfaces/abstractpythoninterface.cpp:265
 #, kde-format
 msgid ""
 "Cannot find python virtualenv, please install it on your system. Defaulting "
@@ -14405,29 +14466,29 @@ msgstr ""
 "Kan python virtualenv niet vinden, installeer het op uw systeem. Standaard "
 "is de python van het systeem."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:272
+#: src/pythoninterfaces/abstractpythoninterface.cpp:285
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr "Het %1-script is niet gevonden, controleer uw installatie."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:310
-#: src/pythoninterfaces/abstractpythoninterface.cpp:339
+#: src/pythoninterfaces/abstractpythoninterface.cpp:323
+#: src/pythoninterfaces/abstractpythoninterface.cpp:352
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Checking modules version…"
 msgstr "Versie van modules wordt gecontroleerd…"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:330
+#: src/pythoninterfaces/abstractpythoninterface.cpp:343
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr "De python-module <application>%1</application> is vereist."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:332
+#: src/pythoninterfaces/abstractpythoninterface.cpp:345
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required for %2."
 msgstr "De python-module <application>%1</application> is vereist voor %2."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:370
+#: src/pythoninterfaces/abstractpythoninterface.cpp:383
 #, kde-format
 msgid ""
 "Kdenlive can install the missing python modules in a virtual environment "
@@ -14438,61 +14499,61 @@ msgstr ""
 "installeren.\n"
 "Op deze manier zal het uw systeembibliotheken niet verstoren."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:372
+#: src/pythoninterfaces/abstractpythoninterface.cpp:385
 #, kde-format
 msgid "Python environment"
 msgstr "Python omgeving"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:372
+#: src/pythoninterfaces/abstractpythoninterface.cpp:385
 #, kde-format
 msgid "Use virtual environment (recommended)"
 msgstr "Virtuele omgeving gebruiken (aanbevolen)"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:373
+#: src/pythoninterfaces/abstractpythoninterface.cpp:386
 #, kde-format
 msgid "Use system install"
 msgstr "Systeeminstallatie gebruiken"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:392
-#: src/pythoninterfaces/abstractpythoninterface.cpp:471
+#: src/pythoninterfaces/abstractpythoninterface.cpp:404
+#: src/pythoninterfaces/abstractpythoninterface.cpp:481
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr "Interne fout: lijst met afhankelijkheden is niet te vinden"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:412
+#: src/pythoninterfaces/abstractpythoninterface.cpp:422
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "Fout bij controle op versie van module %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:416
+#: src/pythoninterfaces/abstractpythoninterface.cpp:426
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
 msgstr ""
 "Minstens versie %1 van module %2 is vereist, maar uw huidige versie is %3"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:420
+#: src/pythoninterfaces/abstractpythoninterface.cpp:430
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "Overweeg uw opzet bij te werken."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:437
+#: src/pythoninterfaces/abstractpythoninterface.cpp:447
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "Geen versie-informatie beschikbaar."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:494
+#: src/pythoninterfaces/abstractpythoninterface.cpp:504
 #, kde-format
 msgid "Python exec not found"
 msgstr "Python uitvoerbaar programma niet gevonden"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:496
+#: src/pythoninterfaces/abstractpythoninterface.cpp:506
 #, kde-format
 msgid "Failed to find script file %1"
 msgstr "Vinden van scriptbestand %1 is mislukt"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:531
+#: src/pythoninterfaces/abstractpythoninterface.cpp:541
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -14503,7 +14564,7 @@ msgstr ""
 " %1\n"
 "%2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:553
+#: src/pythoninterfaces/abstractpythoninterface.cpp:563
 #, kde-format
 msgid ""
 "This will delete the python virtual environment from:<br/><b>%1</b><br/>The "
@@ -18597,7 +18658,7 @@ msgstr "Bestandsnaam van opname:"
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #: src/ui/configcapture_ui.ui:531 src/ui/configjogshuttle_ui.ui:106
-#: src/ui/configspeech_ui.ui:195
+#: src/ui/configspeech_ui.ui:159
 #, kde-format
 msgid "Device:"
 msgstr "Apparaat:"
@@ -18798,32 +18859,32 @@ msgstr "Map voor renderen, titels, scripts:"
 msgid "Python"
 msgstr "Python"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_usePythonVenv)
-#: src/ui/configenv_ui.ui:346
-#, kde-format
-msgid "Use python virtual environment (recommended)"
-msgstr "Python virtuele omgeving gebruiken (aanbevolen)"
-
 #. i18n: ectx: property (text), widget (QPushButton, button_python_delete)
-#: src/ui/configenv_ui.ui:384
+#: src/ui/configenv_ui.ui:347
 #, kde-format
 msgid "Delete "
 msgstr "Verwijderen "
 
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_usePythonVenv)
+#: src/ui/configenv_ui.ui:356
+#, kde-format
+msgid "Use python virtual environment (recommended)"
+msgstr "Python virtuele omgeving gebruiken (aanbevolen)"
+
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: src/ui/configenv_ui.ui:397
+#: src/ui/configenv_ui.ui:384
 #, kde-format
 msgid "Default Apps"
 msgstr "Standaard toepassingen"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/configenv_ui.ui:403
+#: src/ui/configenv_ui.ui:390
 #, kde-format
 msgid "Image editing:"
 msgstr "Afbeelding bewerken:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultimageapp)
-#: src/ui/configenv_ui.ui:412
+#: src/ui/configenv_ui.ui:399
 #, kde-format
 msgid "Path to image editing application"
 msgstr "Pad naar toepassing voor afbeeldingen bewerken"
@@ -18831,50 +18892,50 @@ msgstr "Pad naar toepassing voor afbeeldingen bewerken"
 #. i18n: ectx: property (text), widget (QPushButton, kp_image)
 #. i18n: ectx: property (text), widget (QPushButton, kp_audio)
 #. i18n: ectx: property (text), widget (QPushButton, kp_anim)
-#: src/ui/configenv_ui.ui:422 src/ui/configenv_ui.ui:443
-#: src/ui/configenv_ui.ui:468
+#: src/ui/configenv_ui.ui:409 src/ui/configenv_ui.ui:430
+#: src/ui/configenv_ui.ui:455
 #, kde-format
 msgid "Change…"
 msgstr "Wijzig…"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultaudioapp)
-#: src/ui/configenv_ui.ui:433
+#: src/ui/configenv_ui.ui:420
 #, kde-format
 msgid "Path to audio editing application"
 msgstr "Pad naar toepassing voor audio bewerken"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
-#: src/ui/configenv_ui.ui:452
+#: src/ui/configenv_ui.ui:439
 #, kde-format
 msgid "Audio editing:"
 msgstr "Audio bewerken:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_glaxnimatePath)
-#: src/ui/configenv_ui.ui:461
+#: src/ui/configenv_ui.ui:448
 #, kde-format
 msgid "Path to Glaxnimate executable"
 msgstr "Path naar het uitvoerbaar bestand voor Glaxnimate"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: src/ui/configenv_ui.ui:477
+#: src/ui/configenv_ui.ui:464
 #, kde-format
 msgid "Animation editing:"
 msgstr "Bewerken van animatie:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
-#: src/ui/configenv_ui.ui:498
+#: src/ui/configenv_ui.ui:485
 #, kde-format
 msgid "Mime types"
 msgstr "Mime-typen"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/configenv_ui.ui:504
+#: src/ui/configenv_ui.ui:491
 #, kde-format
 msgid "Additional clip MIME types"
 msgstr "Extra MIME-typen van clip"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
-#: src/ui/configenv_ui.ui:518
+#: src/ui/configenv_ui.ui:505
 #, kde-format
 msgid "Supported clip MIME types"
 msgstr "Ondersteunde MIME-typen van clip"
@@ -19311,89 +19372,89 @@ msgstr "Extern beeldscherm (Blackmagic card):"
 msgid "Output device:"
 msgstr "Uitvoerapparaat:"
 
-#. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
-#: src/ui/configspeech_ui.ui:21
-#, kde-format
-msgid "Check speech engine installation"
-msgstr "Installatie controleren van spraak-engine"
-
-#. i18n: ectx: property (text), widget (QPushButton, check_config)
-#: src/ui/configspeech_ui.ui:24
-#, kde-format
-msgid "Check configuration"
-msgstr "Controleer configuratie"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/configspeech_ui.ui:37
-#, kde-format
-msgid "Speech engine"
-msgstr "Spraak-engine"
-
-#. i18n: ectx: property (text), widget (QRadioButton, engine_vosk)
-#: src/ui/configspeech_ui.ui:44
-#, kde-format
-msgid "VOSK"
-msgstr "VOSK"
-
-#. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
-#: src/ui/configspeech_ui.ui:51
-#, kde-format
-msgid "Whisper"
-msgstr "Fluisteren"
-
 #. i18n: ectx: property (text), widget (QCheckBox, custom_vosk_folder)
-#: src/ui/configspeech_ui.ui:96
+#: src/ui/configspeech_ui.ui:60
 #, kde-format
 msgid "Custom models folder"
 msgstr "Map voor aangepaste modellen"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_add)
-#: src/ui/configspeech_ui.ui:103
+#: src/ui/configspeech_ui.ui:67
 #, kde-format
 msgid "Add Model"
 msgstr "Model toevoegen"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configspeech_ui.ui:130
+#: src/ui/configspeech_ui.ui:94
 #, kde-format
 msgid "VOSK Speech Models"
 msgstr "VOSK spraakmodellen"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
-#: src/ui/configspeech_ui.ui:150
+#: src/ui/configspeech_ui.ui:114
 #, kde-format
 msgid "Remove Model"
 msgstr "Model verwijderen"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configspeech_ui.ui:175
+#: src/ui/configspeech_ui.ui:139
 #, kde-format
 msgid "Model:"
 msgstr "Model:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/configspeech_ui.ui:185
+#: src/ui/configspeech_ui.ui:149
 #, kde-format
 msgid "Language:"
 msgstr "Taal:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperDisableFP16)
-#: src/ui/configspeech_ui.ui:209
+#: src/ui/configspeech_ui.ui:173
 #, kde-format
 msgid "Disable half precision (FP16 )"
 msgstr "Halve precisie (FP16) uitschakelen"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperTranslate)
-#: src/ui/configspeech_ui.ui:216
+#: src/ui/configspeech_ui.ui:180
 #, kde-format
 msgid "Translate text to English"
 msgstr "Tekst vertalen naar Engels"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
-#: src/ui/configspeech_ui.ui:223
+#: src/ui/configspeech_ui.ui:187
 #, kde-format
 msgid "Whisper processing on cpu is very slow"
 msgstr "Verwerken van fluisteren met de cpu is erg langzaam"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
+#: src/ui/configspeech_ui.ui:217
+#, kde-format
+msgid "Check speech engine installation"
+msgstr "Installatie controleren van spraak-engine"
+
+#. i18n: ectx: property (text), widget (QPushButton, check_config)
+#: src/ui/configspeech_ui.ui:220
+#, kde-format
+msgid "Check configuration"
+msgstr "Controleer configuratie"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: src/ui/configspeech_ui.ui:233
+#, kde-format
+msgid "Speech engine"
+msgstr "Spraak-engine"
+
+#. i18n: ectx: property (text), widget (QRadioButton, engine_vosk)
+#: src/ui/configspeech_ui.ui:240
+#, kde-format
+msgid "VOSK"
+msgstr "VOSK"
+
+#. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
+#: src/ui/configspeech_ui.ui:247
+#, kde-format
+msgid "Whisper"
+msgstr "Fluisteren"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)
@@ -23248,9 +23309,6 @@ msgstr "%1u"
 
 #~ msgid "Gain In"
 #~ msgstr "Ingang volume"
-
-#~ msgid "Gain Out"
-#~ msgstr "Uitgang volume"
 
 #~ msgid "Delay"
 #~ msgstr "Vertraging"
@@ -27766,12 +27824,6 @@ msgstr "%1u"
 
 #~ msgid "Only one <b>%1</b> monitor can be used"
 #~ msgstr "Slechts één <b>%1</b> monitor kan gebruikt worden"
-
-#~ msgid "Zone In"
-#~ msgstr "Zone-begin"
-
-#~ msgid "Zone Out"
-#~ msgstr "Zone-eind"
 
 #~ msgid "Editing clip: %1"
 #~ msgstr "Clip bewerken: %1"
