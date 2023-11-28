@@ -85,6 +85,7 @@ protected:
     QLineEdit *m_searchLine;
     QTreeView *m_effectsTree;
     bool eventFilter(QObject *obj, QEvent *event) override;
+    const QString buildLink(const QString id, AssetListType::AssetType type) const;
 
 private Q_SLOTS:
     void onCustomContextMenu(const QPoint &pos);

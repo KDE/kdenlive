@@ -70,9 +70,6 @@ protected:
     */
     bool parseInfoFromMlt(const QString &assetId, Info &res);
 
-    /** @brief Get documentation link for an asset */
-    const QString buildLink(Info res) const;
-
     /** @brief Returns the metadata associated with the given asset*/
     virtual Mlt::Properties *getMetadata(const QString &assetId) const = 0;
 

@@ -342,9 +342,36 @@ void AssetListWidget::onCustomContextMenu(const QPoint &pos)
 void AssetListWidget::updateAssetInfo(const QModelIndex &current, const QModelIndex &)
 {
     if (current.isValid()) {
-        const QString description = getDescription(current);
+        QString description = getDescription(current);
+        const QString id = m_model->data(m_proxyModel->mapToSource(current), AssetTreeModel::IdRole).toString();
+        auto type = m_model->data(m_proxyModel->mapToSource(current), AssetTreeModel::TypeRole).value<AssetListType::AssetType>();
+        // Add link to our documentation
+        const QString link = buildLink(id, type);
+        if (!description.isEmpty()) {
+            description.append(QString("<br/><a title=\"%1\" href=\"%2\">&#128279; %3</a>").arg(i18nc("@info:tooltip", "Online documentation"), link, id));
+        } else {
+            description = QString("<a title=\"%1\" href=\"%2\">&#128279; %2</a>").arg(i18nc("@info:tooltip", "Online documentation"), link, id);
+        }
         m_infoDocument->setHtml(description);
     } else {
         m_infoDocument->clear();
     }
+}
+
+const QString AssetListWidget::buildLink(const QString id, AssetListType::AssetType type) const
+{
+    QString prefix;
+    if (type == AssetListType::AssetType::Audio) {
+        prefix = QStringLiteral("effect_link");
+    } else if (type == AssetListType::AssetType::Video) {
+        prefix = QStringLiteral("effect_link");
+    } else if (type == AssetListType::AssetType::AudioComposition || type == AssetListType::AssetType::AudioTransition) {
+        prefix = QStringLiteral("transition_link");
+    } else if (type == AssetListType::AssetType::VideoShortComposition || type == AssetListType::AssetType::VideoComposition ||
+               type == AssetListType::AssetType::VideoTransition) {
+        prefix = QStringLiteral("transition_link");
+    } else {
+        prefix = QStringLiteral("other");
+    }
+    return QStringLiteral("https://docs.kdenlive.org/%1/%2").arg(prefix).arg(id);
 }
