@@ -503,6 +503,9 @@ public:
     /**  @brief We want to delete the timelineModel without removing clips from tractor
      */
     void prepareShutDown();
+    /**  @brief True if we are selecting a single item in a group
+     */
+    bool singleSelectionMode() const;
 
 protected:
     /** @brief Creates a new clip instance without inserting it.
@@ -625,6 +628,8 @@ public:
     bool requestClipUngroup(int itemId, bool logUndo = true);
     /** Same function, but accumulates undo and redo @see requestClipUngroup*/
     bool requestClipUngroup(int itemId, Fun &undo, Fun &redo);
+    /** Remove an item from a group*/
+    bool requestRemoveFromGroup(int itemId, Fun &undo, Fun &redo);
     /** @brief convenience functions for several ids at the same time */
     bool requestClipsUngroup(const std::unordered_set<int> &itemIds, bool logUndo = true);
 
@@ -837,7 +842,7 @@ public:
     /** @brief Add the given item to the selection
         If @param clear is true, the selection is first cleared
      */
-    Q_INVOKABLE void requestAddToSelection(int itemId, bool clear = false);
+    Q_INVOKABLE void requestAddToSelection(int itemId, bool clear = false, bool singleSelect = false);
 
     /** @brief Remove the given item from the selection */
     Q_INVOKABLE void requestRemoveFromSelection(int itemId);
@@ -1005,6 +1010,8 @@ Q_SIGNALS:
     void connectPreviewManager();
     /** @brief An editable clip action changed, refresh menus */
     void refreshClipActions();
+    /** @brief We switched from single to normal selection mode */
+    void selectionModeChanged();
 
 protected:
     QUuid m_uuid;
@@ -1064,6 +1071,8 @@ protected:
     std::shared_ptr<MarkerSortModel> m_guidesFilterModel;
     std::shared_ptr<MarkerListModel> m_guidesModel;
     QString m_visibleSequenceName;
+    /** @brief True if we are selecting a single item in a group */
+    bool m_singleSelectionMode{false};
 
     // what follows are some virtual function that corresponds to the QML. They are implemented in TimelineItemModel
 protected:

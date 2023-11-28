@@ -623,14 +623,17 @@ bool TimelineFunctions::breakAffectedGroups(const std::shared_ptr<TimelineItemMo
     return result;
 }
 
-bool TimelineFunctions::extractZone(const std::shared_ptr<TimelineItemModel> &timeline, const QVector<int> &tracks, QPoint zone, bool liftOnly)
+bool TimelineFunctions::extractZone(const std::shared_ptr<TimelineItemModel> &timeline, const QVector<int> &tracks, QPoint zone, bool liftOnly,
+                                    int clipToUnGroup, std::unordered_set<int> clipsToRegroup)
 {
     // Start undoable command
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
     bool result = true;
+    if (clipToUnGroup > -1) {
+        result = timeline->requestClipUngroup(clipToUnGroup, undo, redo);
+    }
     result = breakAffectedGroups(timeline, tracks, zone, undo, redo);
-
     for (auto trackId : tracks) {
         if (timeline->getTrackById_const(trackId)->isLocked()) {
             continue;
@@ -639,6 +642,9 @@ bool TimelineFunctions::extractZone(const std::shared_ptr<TimelineItemModel> &ti
     }
     if (result && !liftOnly) {
         result = TimelineFunctions::removeSpace(timeline, zone, undo, redo, tracks);
+    }
+    if (clipsToRegroup.size() > 1) {
+        result = timeline->requestClipsGroup(clipsToRegroup, undo, redo);
     }
     pCore->pushUndo(undo, redo, liftOnly ? i18n("Lift zone") : i18n("Extract zone"));
     return result;
@@ -809,6 +815,7 @@ bool TimelineFunctions::removeSpace(const std::shared_ptr<TimelineItemModel> &ti
     }
     if (clips.size() == 0) {
         // TODO: inform user no change will be performed
+        pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
         return true;
     }
     bool result = false;

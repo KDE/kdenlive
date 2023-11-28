@@ -77,7 +77,7 @@ RTTR_REGISTRATION
             parameter_names("pos", "id", "trackName", "audioTrack"))
         .method("requestTrackDeletion", select_overload<bool(int)>(&TimelineModel::requestTrackDeletion))(parameter_names("trackId"))
         .method("requestClearSelection", select_overload<bool(bool)>(&TimelineModel::requestClearSelection))(parameter_names("onDeletion"))
-        .method("requestAddToSelection", &TimelineModel::requestAddToSelection)(parameter_names("itemId", "clear"))
+        .method("requestAddToSelection", &TimelineModel::requestAddToSelection)(parameter_names("itemId", "clear", "singleSelect"))
         .method("requestRemoveFromSelection", &TimelineModel::requestRemoveFromSelection)(parameter_names("itemId"))
         .method("requestSetSelection", select_overload<bool(const std::unordered_set<int> &)>(&TimelineModel::requestSetSelection))(parameter_names("itemIds"))
         .method("requestFakeClipMove", select_overload<bool(int, int, int, bool, bool, bool)>(&TimelineModel::requestFakeClipMove))(
@@ -1234,7 +1234,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         TRACE_RES(true);
         return true;
     }
-    if (m_groups->isInGroup(clipId)) {
+    if (m_groups->isInGroup(clipId) && moveMirrorTracks) {
         // element is in a group.
         int groupId = m_groups->getRootId(clipId);
         int current_trackId = getClipTrackId(clipId);
@@ -1491,6 +1491,10 @@ QVariantList TimelineModel::suggestClipMove(int clipId, int trackId, int positio
                 return {currentPos, sourceTrackId};
             }
         }
+    }
+    if (moveMirrorTracks && m_singleSelectionMode) {
+        // If we are in single selection mode, only move active clip
+        moveMirrorTracks = false;
     }
     // we check if move is possible
     bool possible = (m_editMode == TimelineMode::NormalEdit) ? requestClipMove(clipId, trackId, position, moveMirrorTracks, true, false, false)
@@ -2045,7 +2049,12 @@ bool TimelineModel::requestItemDeletion(int itemId, Fun &undo, Fun &redo, bool l
 {
     QWriteLocker locker(&m_lock);
     if (m_groups->isInGroup(itemId)) {
-        return requestGroupDeletion(itemId, undo, redo);
+        if (!m_singleSelectionMode) {
+            return requestGroupDeletion(itemId, undo, redo);
+        } else {
+            // Ungroup item before deletion
+            requestRemoveFromGroup(itemId, undo, redo);
+        }
     }
     if (isClip(itemId)) {
         return requestClipDeletion(itemId, undo, redo, logUndo);
@@ -2066,7 +2075,7 @@ bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
     TRACE(itemId, logUndo);
     Q_ASSERT(isItem(itemId));
     QString actionLabel;
-    if (m_groups->isInGroup(itemId)) {
+    if (m_groups->isInGroup(itemId) && !m_singleSelectionMode) {
         actionLabel = i18n("Remove group");
     } else {
         if (isClip(itemId)) {
@@ -4256,6 +4265,30 @@ bool TimelineModel::requestClipUngroup(int itemId, Fun &undo, Fun &redo)
     return res;
 }
 
+bool TimelineModel::requestRemoveFromGroup(int itemId, Fun &undo, Fun &redo)
+{
+    QWriteLocker locker(&m_lock);
+    GroupType type = m_groups->getType(m_groups->getRootId(itemId));
+    bool isSelection = type == GroupType::Selection;
+    if (!isSelection) {
+        requestClearSelection();
+    }
+    std::unordered_set<int> items = getGroupElements(itemId);
+    bool res = m_groups->ungroupItem(itemId, undo, redo);
+    if (res && items.size() > 1) {
+        items.erase(itemId);
+        res = m_groups->groupItems(items, undo, redo, type);
+    }
+
+    if (res && !isSelection) {
+        // we make sure that the undo and the redo are going to unselect before doing anything else
+        Fun unselect = [this]() { return requestClearSelection(); };
+        PUSH_FRONT_LAMBDA(unselect, undo);
+        PUSH_FRONT_LAMBDA(unselect, redo);
+    }
+    return res;
+}
+
 bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &trackName, bool audioTrack)
 {
     QWriteLocker locker(&m_lock);
@@ -6093,6 +6126,10 @@ bool TimelineModel::requestClearSelection(bool onDeletion)
 {
     QWriteLocker locker(&m_lock);
     TRACE();
+    if (m_singleSelectionMode) {
+        m_singleSelectionMode = false;
+        Q_EMIT selectionModeChanged();
+    }
     if (m_selectedMix > -1) {
         m_selectedMix = -1;
         Q_EMIT selectedMixChanged(-1, nullptr);
@@ -6187,14 +6224,31 @@ std::unordered_set<int> TimelineModel::getCurrentSelection() const
     }
 }
 
-void TimelineModel::requestAddToSelection(int itemId, bool clear)
+void TimelineModel::requestAddToSelection(int itemId, bool clear, bool singleSelect)
 {
     QWriteLocker locker(&m_lock);
     TRACE(itemId, clear);
+    std::unordered_set<int> selection;
     if (clear) {
         requestClearSelection();
+    } else {
+        selection = getCurrentSelection();
     }
-    std::unordered_set<int> selection = getCurrentSelection();
+    if (singleSelect) {
+        QWriteLocker locker(&m_lock);
+        m_currentSelection = itemId;
+        setSelected(m_currentSelection, true);
+        Q_EMIT selectionChanged();
+        if (!m_singleSelectionMode) {
+            m_singleSelectionMode = true;
+            Q_EMIT selectionModeChanged();
+        }
+        return;
+    }
+    if (m_singleSelectionMode) {
+        m_singleSelectionMode = false;
+        Q_EMIT selectionModeChanged();
+    }
     if (selection.insert(itemId).second) {
         requestSetSelection(selection);
     }
@@ -7072,4 +7126,9 @@ bool TimelineModel::clipIsAudio(int cid) const
         }
     }
     return false;
+}
+
+bool TimelineModel::singleSelectionMode() const
+{
+    return m_singleSelectionMode;
 }

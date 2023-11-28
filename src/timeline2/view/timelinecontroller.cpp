@@ -132,6 +132,7 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
         connectPreviewManager();
     }
     connect(m_model.get(), &TimelineModel::connectPreviewManager, this, &TimelineController::connectPreviewManager);
+    connect(m_model.get(), &TimelineModel::selectionModeChanged, this, &TimelineController::colorsChanged);
     connect(this, &TimelineController::selectionChanged, this, &TimelineController::updateClipActions);
     connect(this, &TimelineController::selectionChanged, this, &TimelineController::updateTrimmingMode);
     connect(this, &TimelineController::videoTargetChanged, this, &TimelineController::updateVideoTarget);
@@ -2935,37 +2936,47 @@ void TimelineController::extract(int clipId)
         out -= mixData.second.mixOffset;
     }
     QVector<int> tracks = {tid};
+    int clipToUngroup = -1;
+    std::unordered_set<int> clipsToRegroup;
     if (m_model->m_groups->isInGroup(clipId)) {
-        int targetRoot = m_model->m_groups->getRootId(clipId);
-        if (m_model->isGroup(targetRoot)) {
-            std::unordered_set<int> sub = m_model->m_groups->getLeaves(targetRoot);
-            for (int current_id : sub) {
-                if (current_id == clipId) {
-                    continue;
-                }
-                if (m_model->isClip(current_id)) {
-                    int newIn = m_model->getClipPosition(current_id);
-                    int newOut = newIn + m_model->getClipPlaytime(current_id);
-                    int tk = m_model->getClipTrackId(current_id);
-                    std::pair<MixInfo, MixInfo> cMixData = m_model->getTrackById_const(tk)->getMixInfo(current_id);
-                    if (cMixData.first.firstClipId > -1) {
-                        // Clip has a start mix, adjust in point
-                        newIn += (cMixData.first.firstClipInOut.second - cMixData.first.secondClipInOut.first - cMixData.first.mixOffset);
+        if (m_model->singleSelectionMode()) {
+            // Remove item from group
+            clipsToRegroup = m_model->m_groups->getLeaves(m_model->m_groups->getRootId(clipId));
+            clipToUngroup = clipId;
+            clipsToRegroup.erase(clipToUngroup);
+            m_model->requestClearSelection();
+        } else {
+            int targetRoot = m_model->m_groups->getRootId(clipId);
+            if (m_model->isGroup(targetRoot)) {
+                std::unordered_set<int> sub = m_model->m_groups->getLeaves(targetRoot);
+                for (int current_id : sub) {
+                    if (current_id == clipId) {
+                        continue;
                     }
-                    if (cMixData.second.firstClipId > -1) {
-                        // Clip has end mix, adjust out point
-                        newOut -= cMixData.second.mixOffset;
-                    }
-                    in = qMin(in, newIn);
-                    out = qMax(out, newOut);
-                    if (!tracks.contains(tk)) {
-                        tracks << tk;
+                    if (m_model->isClip(current_id)) {
+                        int newIn = m_model->getClipPosition(current_id);
+                        int newOut = newIn + m_model->getClipPlaytime(current_id);
+                        int tk = m_model->getClipTrackId(current_id);
+                        std::pair<MixInfo, MixInfo> cMixData = m_model->getTrackById_const(tk)->getMixInfo(current_id);
+                        if (cMixData.first.firstClipId > -1) {
+                            // Clip has a start mix, adjust in point
+                            newIn += (cMixData.first.firstClipInOut.second - cMixData.first.secondClipInOut.first - cMixData.first.mixOffset);
+                        }
+                        if (cMixData.second.firstClipId > -1) {
+                            // Clip has end mix, adjust out point
+                            newOut -= cMixData.second.mixOffset;
+                        }
+                        in = qMin(in, newIn);
+                        out = qMax(out, newOut);
+                        if (!tracks.contains(tk)) {
+                            tracks << tk;
+                        }
                     }
                 }
             }
         }
     }
-    TimelineFunctions::extractZone(m_model, tracks, QPoint(in, out), false);
+    TimelineFunctions::extractZone(m_model, tracks, QPoint(in, out), false, clipToUngroup, clipsToRegroup);
 }
 
 void TimelineController::saveZone(int clipId)
@@ -4649,6 +4660,9 @@ QColor TimelineController::groupColor() const
 QColor TimelineController::selectionColor() const
 {
     KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::Complementary);
+    if (m_model && m_model->singleSelectionMode()) {
+        return Qt::red;
+    }
     return scheme.foreground(KColorScheme::NeutralText).color();
 }
 

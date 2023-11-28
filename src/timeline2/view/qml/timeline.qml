@@ -1824,9 +1824,10 @@ Rectangle {
                                         dragFrame = -1
                                         moveMirrorTracks = !(mouse.modifiers & Qt.MetaModifier) && (Qt.platform.os != "windows" || !(mouse.modifiers & Qt.AltModifier))
                                         timeline.activeTrack = dragProxy.sourceTrack
-                                        if (timeline.selection.indexOf(dragProxy.draggedItem) === -1) {
+                                        var singleSelection = mouse.modifiers == Qt.AltModifier
+                                        if (singleSelection || timeline.selection.indexOf(dragProxy.draggedItem) === -1) {
                                             doubleClickTimer.start()
-                                            controller.requestAddToSelection(dragProxy.draggedItem, /*clear=*/ true)
+                                            controller.requestAddToSelection(dragProxy.draggedItem, /*clear=*/ true, /*single item selection */ singleSelection)
                                         }
                                         timeline.showAsset(dragProxy.draggedItem)
                                         root.blockAutoScroll = true

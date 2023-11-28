@@ -3409,7 +3409,7 @@ void MainWindow::showToolMessage()
     }*/
     else if (m_buttonRippleTool->isChecked()) {
         message = xi18nc("@info:whatsthis", "<shortcut>Shift drag</shortcut> for rubber-band selection, <shortcut>Shift click</shortcut> for multiple "
-                                            "selection, <shortcut>Ctrl drag</shortcut> to pan");
+                                            "selection, <shortcut>Alt click</shortcut> to select an item in a group, <shortcut>Ctrl drag</shortcut> to pan");
         toolLabel = i18nc("Timeline Tool", "Ripple");
     } /*else if (m_buttonRollTool->isChecked()) { // TODO implement Slide
         toolLabel = i18nc("Timeline Tool", "Roll");
