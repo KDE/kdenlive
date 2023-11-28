@@ -13,6 +13,8 @@
 #include "profiles/profilerepository.hpp"
 #include "renderpresetrepository.hpp"
 
+#include <mlt++/MltRepository.h>
+
 #include <KLocalizedString>
 #include <KMessageWidget>
 #include <QDir>
@@ -301,6 +303,29 @@ void RenderPresetModel::checkPreset()
                 m_errors = i18n("Frame rate (%1) not compatible with project profile (%2)", profile_rate, project_framerate);
                 return;
             }
+        }
+    }
+
+    if (hasParam(QStringLiteral("properties"))) {
+        // This is a native MLT render profile, check the file for codec
+        QString presetName = getParam(QStringLiteral("properties"));
+        presetName.prepend(QStringLiteral("consumer/avformat/"));
+        std::unique_ptr<Mlt::Properties> presets(pCore->getMltRepository()->presets());
+        std::unique_ptr<Mlt::Properties> preset(new Mlt::Properties(mlt_properties(presets->get_data(presetName.toUtf8().constData()))));
+        const QString format = QString(preset->get("f")).toLower();
+        if (!format.isEmpty() && !supportedFormats.contains(format)) {
+            m_errors = i18n("Unsupported video format: %1", format);
+            return;
+        }
+        const QString vcodec = QString(preset->get("vcodec")).toLower();
+        if (!vcodec.isEmpty() && !vcodecs.contains(vcodec)) {
+            m_errors = i18n("Unsupported video codec: %1", vcodec);
+            return;
+        }
+        const QString acodec = QString(preset->get("acodec")).toLower();
+        if (!acodec.isEmpty() && !acodecs.contains(acodec)) {
+            m_errors = i18n("Unsupported audio codec: %1", acodec);
+            return;
         }
     }
 
