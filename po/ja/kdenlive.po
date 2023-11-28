@@ -22350,8 +22350,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#, fuzzy
-#~| msgid "Add marker"
-#~ msgid "Add bookmark"
-#~ msgstr "マーカーの追加(A)"
