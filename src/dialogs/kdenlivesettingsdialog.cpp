@@ -1766,10 +1766,14 @@ void KdenliveSettingsDialog::initSpeechPage()
         }
         m_configEnv.pythonSetupMessage->show();
         qApp->processEvents();
-        if (!m_sttWhisper->checkPython(state == Qt::Checked, true)) {
+        bool updatePython = m_sttWhisper->checkPython(state == Qt::Checked, true);
+        if (!updatePython) {
+            // Setting up venv failed
             m_configEnv.kcfg_usePythonVenv->setChecked(false);
         } else {
-            slotCheckSttConfig();
+            // Venv setting changed, refresh all speech interfaces
+            m_stt->checkDependencies(true);
+            m_sttWhisper->checkDependencies(true);
         }
         m_configEnv.pythonSetupMessage->hide();
     });
@@ -1899,8 +1903,11 @@ void KdenliveSettingsDialog::slotCheckSttConfig()
 {
     m_configSpeech.check_config->setEnabled(false);
     qApp->processEvents();
-    m_sttWhisper->checkDependencies(true);
-    m_stt->checkDependencies(true);
+    if (m_configSpeech.engine_vosk->isChecked()) {
+        m_stt->checkDependencies(true);
+    } else {
+        m_sttWhisper->checkDependencies(true);
+    }
     // Leave button disabled for 3 seconds so that the user doesn't trigger it again while it is processing
     QTimer::singleShot(3000, this, [&]() { m_configSpeech.check_config->setEnabled(true); });
 }

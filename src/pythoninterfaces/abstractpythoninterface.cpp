@@ -131,9 +131,6 @@ void PythonDependencyMessage::checkAfterInstall()
 {
     doShowMessage(i18n("Checking configuration…"), KMessageWidget::Information);
     m_interface->checkDependencies(true, false);
-    if (m_interface->missingDependencies().isEmpty()) {
-        m_interface->checkVersions();
-    }
 }
 
 AbstractPythonInterface::AbstractPythonInterface(QObject *parent)
@@ -156,10 +153,16 @@ AbstractPythonInterface::~AbstractPythonInterface()
 
 bool AbstractPythonInterface::checkPython(bool useVenv, bool calculateSize)
 {
-    QMutexLocker bk(&mutex);
     if (installInProgress) {
         return false;
     }
+    if (!calculateSize && useVenv == KdenliveSettings::usePythonVenv() && !KdenliveSettings::pythonPath().isEmpty() && !KdenliveSettings::pipPath().isEmpty() &&
+        QFile::exists(KdenliveSettings::pythonPath())) {
+        // Already setup
+        return true;
+    }
+    Q_EMIT setupMessage(i18nc("@label:textbox", "Checking setup…"), int(KMessageWidget::Information));
+    QMutexLocker bk(&mutex);
     QStringList pythonPaths;
     if (useVenv) {
 #ifdef Q_OS_WIN
@@ -195,8 +198,10 @@ bool AbstractPythonInterface::checkPython(bool useVenv, bool calculateSize)
                                "listed in PATH environment variable"));
         return false;
     }
-    KdenliveSettings::setUsePythonVenv(useVenv);
-    Q_EMIT venvSetupChanged();
+    if (useVenv != KdenliveSettings::usePythonVenv()) {
+        KdenliveSettings::setUsePythonVenv(useVenv);
+        Q_EMIT venvSetupChanged();
+    }
     Q_EMIT setupMessage(i18n("Using python from %1", QFileInfo(KdenliveSettings::pythonPath()).absolutePath()), int(KMessageWidget::Information));
     if (calculateSize) {
         // Calculate venv size
@@ -226,7 +231,6 @@ bool AbstractPythonInterface::checkSetup()
     if (!(KdenliveSettings::pythonPath().isEmpty() || KdenliveSettings::pipPath().isEmpty() || m_scripts->values().contains(QStringLiteral("")))) {
         return true;
     }
-    Q_EMIT setupMessage(i18nc("@label:textbox", "Checking setup…"), int(KMessageWidget::Information));
     if (!checkPython(KdenliveSettings::usePythonVenv())) {
         return false;
     }
@@ -271,7 +275,6 @@ bool AbstractPythonInterface::setupVenv()
 
     QProcess envProcess;
     QStringList args = {QStringLiteral("-m"), QStringLiteral("venv"), pluginDir.absoluteFilePath(QStringLiteral("venv"))};
-    qDebug() << "::: READY TO CREATE VENV: " << args;
     envProcess.start(pyExec, args);
     envProcess.waitForFinished(-1);
     installInProgress = false;
@@ -319,37 +322,28 @@ void AbstractPythonInterface::checkDependencies(bool force, bool async)
 {
     if (!force && m_dependenciesChecked) {
         // Don't check twice if dependecies are satisfied
-        if (m_missing.isEmpty()) {
-            Q_EMIT setupMessage(i18nc("@label:textbox", "Checking modules version…"), int(KMessageWidget::Information));
-            if (async) {
-                checkVersionsConcurrently();
-            } else {
-                checkVersions(true);
-            }
-        }
         return;
     }
     // Force check, reset flag
     m_missing.clear();
     const QString output = runPackageScript(QStringLiteral("--check"));
-    if (output.isEmpty()) {
-        return;
-    }
     QStringList messages;
-    for (auto i : m_dependencies.keys()) {
-        if (output.contains(i)) {
-            m_missing.append(i);
-            if (m_dependencies.value(i).isEmpty()) {
-                messages.append(xi18n("The <application>%1</application> python module is required.", i));
-            } else {
-                messages.append(xi18n("The <application>%1</application> python module is required for %2.", i, m_dependencies.value(i)));
+    if (!output.isEmpty()) {
+        // We have missing dependencies
+        for (auto i : m_dependencies.keys()) {
+            if (output.contains(i)) {
+                m_missing.append(i);
+                if (m_dependencies.value(i).isEmpty()) {
+                    messages.append(xi18n("The <application>%1</application> python module is required.", i));
+                } else {
+                    messages.append(xi18n("The <application>%1</application> python module is required for %2.", i, m_dependencies.value(i)));
+                }
             }
         }
     }
     m_dependenciesChecked = true;
     if (messages.isEmpty()) {
         Q_EMIT dependenciesAvailable();
-        Q_EMIT setupMessage(i18nc("@label:textbox", "Checking modules version…"), int(KMessageWidget::Information));
         if (async) {
             checkVersionsConcurrently();
         } else {
