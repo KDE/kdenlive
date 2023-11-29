@@ -32,7 +32,8 @@ private:
 
 private Q_SLOTS:
     void updateSubtitle(QTreeWidgetItem *item, int column);
-    void addSubtitle();
+    void addSubtitle(const QString name = QString());
     void duplicateSubtitle();
     void deleteSubtitle();
+    void importSubtitle();
 };

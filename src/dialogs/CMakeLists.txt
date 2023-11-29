@@ -6,6 +6,7 @@ set(kdenlive_SRCS
   dialogs/clipcreationdialog.cpp
   dialogs/clipjobmanager.cpp
   dialogs/encodingprofilesdialog.cpp
+  dialogs/importsubtitle.cpp
   dialogs/kdenlivesettingsdialog.cpp
   dialogs/markerdialog.cpp
   dialogs/managesubtitles.cpp

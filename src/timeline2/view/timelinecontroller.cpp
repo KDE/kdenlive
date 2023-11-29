@@ -16,6 +16,7 @@
 #include "bin/projectfolder.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
+#include "dialogs/importsubtitle.h"
 #include "dialogs/managesubtitles.h"
 #include "dialogs/spacerdialog.h"
 #include "dialogs/speechdialog.h"
@@ -40,9 +41,7 @@
 #include "timeline2/view/dialogs/trackdialog.h"
 #include "timeline2/view/timelinewidget.h"
 #include "transitions/transitionsrepository.hpp"
-#include "ui_import_subtitle_ui.h"
 
-#include <KCharsets>
 #include <KColorScheme>
 #include <KMessageBox>
 #include <KRecentDirs>
@@ -52,9 +51,6 @@
 #include <QQuickItem>
 #include <kio_version.h>
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-#include <QTextCodec>
-#endif
 #include <QtMath>
 
 #include <memory>
@@ -4964,99 +4960,26 @@ void TimelineController::temporaryUnplug(const QList<int> &clipIds, bool hide)
 
 void TimelineController::importSubtitle(const QString &path)
 {
-    QScopedPointer<QDialog> d(new QDialog(qApp->activeWindow()));
-    Ui::ImportSub_UI view;
-    view.setupUi(d.data());
-    QStringList listCodecs = KCharsets::charsets()->descriptiveEncodingNames();
-    const QString filter = QStringLiteral("*.srt *.ass *.vtt *.sbv");
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 108, 0)
-    view.subtitle_url->setNameFilter(filter);
-#else
-    view.subtitle_url->setFilter(filter);
-#endif
-    view.codecs_list->addItems(listCodecs);
-    view.info_message->setVisible(false);
-    // Set UTF-8 as default codec
-    QString utf8Desc = KCharsets::charsets()->descriptionForEncoding(QStringLiteral("UTF-8"));
-    int matchIndex = view.codecs_list->findText(utf8Desc);
-    if (matchIndex > -1) {
-        view.codecs_list->setCurrentIndex(matchIndex);
-    }
-    view.codecs_list->setToolTip(i18n("Character encoding used to save the subtitle file."));
-    view.codecs_list->setWhatsThis(xi18nc("@info:whatsthis", "If unsure,try :<br/><b>Unicode (UTF-8)</b>."));
-    view.caption_original_framerate->setValue(pCore->getCurrentFps());
-    view.caption_target_framerate->setValue(pCore->getCurrentFps());
-
-    Fun updateSub = [view]() {
-        QFile srtFile(view.subtitle_url->url().toLocalFile());
-        if (!srtFile.exists() || !srtFile.open(QIODevice::ReadOnly)) {
-            view.info_message->setMessageType(KMessageWidget::Warning);
-            view.info_message->setText(i18n("Cannot read file %1", srtFile.fileName()));
-            view.info_message->animatedShow();
-            return true;
-        }
-        QByteArray codec = KCharsets::charsets()->encodingForName(view.codecs_list->currentText()).toUtf8();
-        QTextStream stream(&srtFile);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        QTextCodec *inputEncoding = QTextCodec::codecForName(codec);
-        if (inputEncoding) {
-            stream.setCodec(inputEncoding);
-        } else {
-            qWarning() << "No QTextCodec named" << codec;
-            stream.setCodec("UTF-8");
-        }
-#else
-        std::optional<QStringConverter::Encoding> inputEncoding = QStringConverter::encodingForName(codec.data());
-        if (inputEncoding) {
-            stream.setEncoding(inputEncoding.value());
-        }
-        // else: UTF8 is the default
-#endif
-        view.text_preview->clear();
-        view.text_preview->setPlainText(stream.readAll());
-        return true;
-    };
-
-    Fun checkEncoding = [view, updateSub]() {
-        bool ok;
-        QString guessedEncoding(SubtitleModel::guessFileEncoding(view.subtitle_url->url().toLocalFile(), &ok));
-        qDebug() << "Guessed subtitle encoding is" << guessedEncoding;
-        if (ok == false) {
-            view.info_message->setMessageType(KMessageWidget::Warning);
-            view.info_message->setText(i18n("Encoding could not be guessed, using UTF-8"));
-            guessedEncoding = QStringLiteral("UTF-8");
-        } else {
-            view.info_message->setMessageType(KMessageWidget::Information);
-            view.info_message->setText(i18n("Encoding detected as %1", guessedEncoding));
-        }
-        view.info_message->animatedShow();
-        int matchIndex = view.codecs_list->findText(KCharsets::charsets()->descriptionForEncoding(guessedEncoding));
-        if (matchIndex > -1) {
-            view.codecs_list->setCurrentIndex(matchIndex);
-            updateSub();
-        }
-        return true;
-    };
-
-    if (!path.isEmpty()) {
-        view.subtitle_url->setText(path);
-        checkEncoding();
-    }
-    connect(view.codecs_list, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [updateSub]() { updateSub(); });
-    connect(view.subtitle_url, &KUrlRequester::urlSelected, [checkEncoding]() { checkEncoding(); });
-    d->setWindowTitle(i18n("Import Subtitle"));
-    if (d->exec() == QDialog::Accepted && !view.subtitle_url->url().isEmpty()) {
+    QScopedPointer<ImportSubtitle> d(new ImportSubtitle(path, pCore->window()));
+    if (d->exec() == QDialog::Accepted && !d->subtitle_url->url().isEmpty()) {
         auto subtitleModel = m_model->getSubtitleModel();
+        if (d->create_track->isChecked()) {
+            // Create a new subtitle entry
+            int ix = subtitleModel->createNewSubtitle(d->track_name->text());
+            subtitlesListChanged();
+            // Activate the newly created subtitle track
+            subtitlesMenuActivated(ix - 1);
+        }
         int offset = 0, startFramerate = 30.00, targetFramerate = 30.00;
-        if (view.cursor_pos->isChecked()) {
+        if (d->cursor_pos->isChecked()) {
             offset = pCore->getMonitorPosition();
         }
-        if (view.transform_framerate_check_box->isChecked()) {
-            startFramerate = view.caption_original_framerate->value();
-            targetFramerate = view.caption_target_framerate->value();
+        if (d->transform_framerate_check_box->isChecked()) {
+            startFramerate = d->caption_original_framerate->value();
+            targetFramerate = d->caption_target_framerate->value();
         }
-        subtitleModel->importSubtitle(view.subtitle_url->url().toLocalFile(), offset, true, startFramerate, targetFramerate,
-                                      view.codecs_list->currentText().toUtf8());
+        subtitleModel->importSubtitle(d->subtitle_url->url().toLocalFile(), offset, true, startFramerate, targetFramerate,
+                                      d->codecs_list->currentText().toUtf8());
     }
     Q_EMIT regainFocus();
 }

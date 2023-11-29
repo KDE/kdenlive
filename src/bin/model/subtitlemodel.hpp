@@ -178,7 +178,8 @@ public:
     void setSubtitlesList(QMap<std::pair<int, QString>, QString> list);
     /** @brief Update a subtitle name */
     void updateModelName(int ix, const QString &name);
-    void createNewSubtitle(int id = -1);
+    /** @brief Create a new subtitle track and return its subtitle index */
+    int createNewSubtitle(const QString subtitleName = QString(), int id = -1);
     bool deleteSubtitle(int ix);
     void activateSubtitle(int ix);
     /** @brief Get JSON data for all subtitles in this model */

@@ -7,12 +7,15 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "managesubtitles.h"
 #include "bin/model/subtitlemodel.hpp"
 #include "core.h"
+#include "dialogs/importsubtitle.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlive_debug.h"
 #include "klocalizedstring.h"
+#include "mainwindow.h"
 #include "timeline2/view/timelinecontroller.h"
 #include <KMessageBox>
 #include <QFontDatabase>
+#include <QMenu>
 
 ManageSubtitles::ManageSubtitles(std::shared_ptr<SubtitleModel> model, TimelineController *controller, int currentIx, QWidget *parent)
     : QDialog(parent)
@@ -33,9 +36,18 @@ ManageSubtitles::ManageSubtitles(std::shared_ptr<SubtitleModel> model, TimelineC
             m_controller->subtitlesMenuActivated(ix);
         }
     });
-    connect(button_new, &QPushButton::clicked, this, &ManageSubtitles::addSubtitle);
+    connect(button_new, &QPushButton::clicked, this, [this]() { addSubtitle(); });
     connect(button_duplicate, &QPushButton::clicked, this, &ManageSubtitles::duplicateSubtitle);
     connect(button_delete, &QPushButton::clicked, this, &ManageSubtitles::deleteSubtitle);
+    // Import/Export menu
+    QMenu *menu = new QMenu(this);
+    QAction *importSub = new QAction(QIcon::fromTheme(QStringLiteral("document-import")), i18nc("@action:inmenu", "Import Subtitle"), this);
+    QAction *exportSub = new QAction(QIcon::fromTheme(QStringLiteral("document-export")), i18nc("@action:inmenu", "Export Subtitle"), this);
+    menu->addAction(importSub);
+    menu->addAction(exportSub);
+    connect(importSub, &QAction::triggered, this, &ManageSubtitles::importSubtitle);
+    connect(exportSub, &QAction::triggered, pCore->window(), &MainWindow::slotExportSubtitle);
+    button_menu->setMenu(menu);
 }
 
 ManageSubtitles::~ManageSubtitles()
@@ -74,9 +86,9 @@ void ManageSubtitles::updateSubtitle(QTreeWidgetItem *item, int column)
     }
 }
 
-void ManageSubtitles::addSubtitle()
+void ManageSubtitles::addSubtitle(const QString name)
 {
-    m_model->createNewSubtitle();
+    m_model->createNewSubtitle(name);
     m_controller->subtitlesListChanged();
     parseList();
     // Makes last item active
@@ -85,7 +97,7 @@ void ManageSubtitles::addSubtitle()
 
 void ManageSubtitles::duplicateSubtitle()
 {
-    m_model->createNewSubtitle(subtitlesList->currentItem()->data(0, Qt::UserRole).toInt());
+    m_model->createNewSubtitle(QString(), subtitlesList->currentItem()->data(0, Qt::UserRole).toInt());
     m_controller->subtitlesListChanged();
     parseList();
     // Makes last item active
@@ -113,7 +125,32 @@ void ManageSubtitles::deleteSubtitle()
     if (m_model->deleteSubtitle(id)) {
         m_controller->subtitlesListChanged();
         parseList(nextId);
+        int ix = subtitlesList->indexOfTopLevelItem(subtitlesList->currentItem());
+        if (ix > -1) {
+            m_controller->subtitlesMenuActivated(ix);
+        }
     } else {
         subtitlesList->setCurrentItem(subtitlesList->topLevelItem(qMax(0, ix)));
+    }
+}
+
+void ManageSubtitles::importSubtitle()
+{
+    QScopedPointer<ImportSubtitle> d(new ImportSubtitle(QString(), this));
+    d->create_track->setChecked(true);
+    if (d->exec() == QDialog::Accepted && !d->subtitle_url->url().isEmpty()) {
+        if (d->create_track->isChecked()) {
+            // Create a new subtitle entry
+            addSubtitle(d->track_name->text());
+        }
+        int offset = 0, startFramerate = 30.00, targetFramerate = 30.00;
+        if (d->cursor_pos->isChecked()) {
+            offset = pCore->getMonitorPosition();
+        }
+        if (d->transform_framerate_check_box->isChecked()) {
+            startFramerate = d->caption_original_framerate->value();
+            targetFramerate = d->caption_target_framerate->value();
+        }
+        m_model->importSubtitle(d->subtitle_url->url().toLocalFile(), offset, true, startFramerate, targetFramerate, d->codecs_list->currentText().toUtf8());
     }
 }

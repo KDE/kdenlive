@@ -387,6 +387,8 @@ public Q_SLOTS:
     void manageClipJobs(AbstractTask::JOBTYPE type = AbstractTask::NOJOBTYPE, QWidget *parentWidget = nullptr);
     /** @brief Deletes item in timeline, project tree or effect stack depending on focus. */
     void slotDeleteItem();
+    /** @brief Export a subtitle file */
+    void slotExportSubtitle();
 
 private Q_SLOTS:
     /** @brief Shows the shortcut dialog. */
@@ -596,8 +598,6 @@ private Q_SLOTS:
     void slotLockSubtitle();
     /** @brief Import a subtitle file */
     void slotImportSubtitle();
-    /** @brief Export a subtitle file */
-    void slotExportSubtitle();
     /** @brief Start a speech recognition on timeline zone */
     void slotSpeechRecognition();
     /** @brief Copy debug information like lib versions, gpu mode state,... to clipboard */

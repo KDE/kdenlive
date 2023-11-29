@@ -1664,7 +1664,7 @@ void SubtitleModel::updateModelName(int ix, const QString &name)
     }
 }
 
-void SubtitleModel::createNewSubtitle(int id)
+int SubtitleModel::createNewSubtitle(const QString subtitleName, int id)
 {
     // Create new subtitle file
     QList<std::pair<int, QString>> keys = m_subtitlesList.keys();
@@ -1678,10 +1678,13 @@ void SubtitleModel::createNewSubtitle(int id)
     }
     maxIx++;
     int ix = m_subtitlesList.size() + 1;
-    QString newName = i18nc("@item:inlistbox subtitle track name", "Subtitle %1", ix);
-    while (existingNames.contains(newName)) {
-        ix++;
+    QString newName = subtitleName;
+    if (newName.isEmpty()) {
         newName = i18nc("@item:inlistbox subtitle track name", "Subtitle %1", ix);
+        while (existingNames.contains(newName)) {
+            ix++;
+            newName = i18nc("@item:inlistbox subtitle track name", "Subtitle %1", ix);
+        }
     }
     const QString newPath = pCore->currentDoc()->subTitlePath(m_timeline->uuid(), maxIx, true);
     m_subtitlesList.insert({maxIx, newName}, newPath);
@@ -1693,6 +1696,7 @@ void SubtitleModel::createNewSubtitle(int id)
         }
         QFile::copy(source, newPath);
     }
+    return m_subtitlesList.size();
 }
 
 bool SubtitleModel::deleteSubtitle(int ix)
