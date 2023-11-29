@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-08 02:07+0000\n"
-"PO-Revision-Date: 2023-07-14 09:26+0100\n"
+"PO-Revision-Date: 2023-11-28 19:41+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -4652,17 +4652,17 @@ msgstr "Transkodi al Redakti Amika Formato…"
 #: src/bin/bin.cpp:3459
 #, kde-format
 msgid "Replace Clip…"
-msgstr "Anstataŭigi aŭdvidaĵon…"
+msgstr "Anstataŭigi Aŭdvidaĵon…"
 
 #: src/bin/bin.cpp:3464
 #, kde-format
 msgid "Duplicate Clip"
-msgstr "Duobligi aŭdvidaĵon"
+msgstr "Duobligi Aŭdvidaĵon"
 
 #: src/bin/bin.cpp:3476 src/bin/bin.cpp:3537
 #, kde-format
 msgid "Clip Properties"
-msgstr "Proprecoj de aŭdvidaĵo"
+msgstr "Proprecoj de Aŭdvidaĵo"
 
 #: src/bin/bin.cpp:3481 src/mltcontroller/clippropertiescontroller.cpp:283
 #, kde-format
@@ -5407,10 +5407,9 @@ msgid "File already exists"
 msgstr "Dosiero jam ekzistas"
 
 #: src/bin/projectclip.cpp:2553
-#, fuzzy, kde-format
-#| msgid "Paste timeline clips"
+#, kde-format
 msgid "Adjust timeline clips"
-msgstr "Alglui templiniajn tondaĵojn"
+msgstr "Alĝustigi templiniajn tondaĵojn"
 
 #: src/bin/projectclip.cpp:2774
 #, kde-format
@@ -5915,6 +5914,8 @@ msgid ""
 "<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</b> "
 "by the second, , <b>{&#x25;3}</b> by the output file path."
 msgstr ""
+"<b>{&#x25;1}</b> estos anstataŭigita per la unua parametro, <b>{&#x25;2}</b> "
+"per la dua, , <b>{&#x25;3}</b> per la eligdosiera vojo."
 
 #: src/dialogs/clipjobmanager.cpp:48
 #, kde-format
@@ -5930,6 +5931,10 @@ msgid ""
 "inserted in place of <b>{&#x25;3}</b> if found. If output filename already "
 "exists, a -0001 pattern will be appended."
 msgstr ""
+"La eligodosiernomo estos la sama kiel la fonta dosiernomo de la bin-tondaĵo, "
+"kun la modifita finaĵo. Ĝi estos almetita ĉe la fino de la argumentoj aŭ "
+"enmetita anstataŭ <b>{&#x25;3}</b> se trovita. Se eliga dosiernomo jam "
+"ekzistas, ŝablono -0001 estos almetita."
 
 #: src/dialogs/clipjobmanager.cpp:54
 #, kde-format
@@ -5950,6 +5955,7 @@ msgstr ""
 msgid ""
 "A newline separated list of possible values that will be offered on execution"
 msgstr ""
+"Novlinie apartigita listo de eblaj valoroj kiuj estos ofertitaj dum rulado"
 
 #: src/dialogs/clipjobmanager.cpp:62 src/dialogs/clipjobmanager.cpp:72
 #, kde-kuit-format
@@ -5958,6 +5964,8 @@ msgid ""
 "When the parameter is set to <b>Request Option in List</b> the user will be "
 "asked to choose a value in this list when the job is started."
 msgstr ""
+"Kiam la parametro estas metita al <b>Peti Opcion en Listo</b> la uzanto "
+"estos petita elekti valoron en ĉi tiu listo kiam la laboro estas komencita."
 
 #: src/dialogs/clipjobmanager.cpp:64
 #, kde-format
@@ -6856,7 +6864,7 @@ msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
 msgstr ""
-"Bildado sen audio kaj video ne funkcias. Bonvolu ebligi almenaŭ unu el ambaŭ."
+"Bildado sen aŭdio kaj video ne funkcias. Bonvolu ebligi almenaŭ unu el ambaŭ."
 
 #: src/dialogs/renderwidget.cpp:1183
 #, kde-format
@@ -7158,29 +7166,24 @@ msgid "Configure Speech Recognition"
 msgstr "Agordi Parolan Rekonon"
 
 #: src/dialogs/textbasededit.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with edit"
-msgstr "Krei Novan Sekvencon"
+msgstr "Krei novan sekvencon kun redakto"
 
 #: src/dialogs/textbasededit.cpp:635
-#, fuzzy, kde-format
-#| msgid "Insert selected blocks in timeline"
+#, kde-format
 msgid "Insert selection in timeline"
-msgstr "Enmeti elektitajn blokojn en templinion"
+msgstr "Enmeti elektaĵon en templinio"
 
 #: src/dialogs/textbasededit.cpp:640
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with text edit "
-msgstr "Krei Novan Sekvencon"
+msgstr "Krei novan sekvencon kun tekstredakto"
 
 #: src/dialogs/textbasededit.cpp:663
 #, kde-format
 msgid "Speech model"
-msgstr "Parolado modelo"
+msgstr "Parolada modelo"
 
 #: src/dialogs/textbasededit.cpp:664
 #, kde-format
@@ -7193,10 +7196,9 @@ msgid "Delete selected text"
 msgstr "Forigi elektitan tekston"
 
 #: src/dialogs/textbasededit.cpp:707
-#, fuzzy, kde-format
-#| msgid "Add bookmark for current selection"
+#, kde-format
 msgid "Add marker for current selection"
-msgstr "Aldoni legosignon por nuna elekto"
+msgstr "Aldoni markilon por nuna elekto"
 
 #: src/dialogs/textbasededit.cpp:848
 #, kde-format
@@ -7259,8 +7261,7 @@ msgid "Speech recognition finished."
 msgstr "Parola rekono finiĝis."
 
 #: src/dialogs/textbasededit.cpp:1280 src/dialogs/textbasededit.cpp:1342
-#, fuzzy, kde-format
-#| msgid "Create Sequence Clip"
+#, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Krei sekvencan aŭdvidaĵon"
@@ -8737,7 +8738,7 @@ msgstr "Rapida Ŝanĝo"
 #: src/jobs/speedtask.cpp:59
 #, kde-format
 msgid "Destination Folder"
-msgstr "Destina Dosierujo"
+msgstr "Cela Dosierujo"
 
 #: src/jobs/speedtask.cpp:63
 #, kde-format
@@ -9517,16 +9518,14 @@ msgid "Screen Grab"
 msgstr "Ekrankapto"
 
 #: src/mainwindow.cpp:349
-#, fuzzy, kde-format
-#| msgid "Select a clip to create sequence"
+#, kde-format
 msgid "Switch to next Sequence"
-msgstr "Elekti tondaĵon por krei sekvencon"
+msgstr "Ŝalti al sekva sekvenco"
 
 #: src/mainwindow.cpp:353
-#, fuzzy, kde-format
-#| msgid "Go to previous keyframe"
+#, kde-format
 msgid "Switch to previous Sequence"
-msgstr "Iri al antaŭa ŝlosilkadro"
+msgstr "Ŝalti al antaŭa sekvenco"
 
 #: src/mainwindow.cpp:359
 #, kde-format
@@ -10579,10 +10578,9 @@ msgid "Switch Track Target Audio Stream"
 msgstr "Ŝanĝi trakan cel-aŭdfluon"
 
 #: src/mainwindow.cpp:1872
-#, fuzzy, kde-format
-#| msgid "Delete Track"
+#, kde-format
 msgid "Delete Track…"
-msgstr "Forigi Trakon"
+msgstr "Forigi Trakon…"
 
 #: src/mainwindow.cpp:1877
 #, kde-format
@@ -11061,13 +11059,12 @@ msgstr "Transkodiloj"
 #: src/mainwindow.cpp:3854
 #, kde-format
 msgid "-merged"
-msgstr ""
+msgstr "-kunfandita"
 
 #: src/mainwindow.cpp:3857
-#, fuzzy, kde-format
-#| msgid "Video stream %1"
+#, kde-format
 msgid "-stream-%1"
-msgstr "Videofluo %1"
+msgstr "-fluo-%1"
 
 #: src/mainwindow.cpp:3890
 #, kde-format
@@ -12702,7 +12699,7 @@ msgstr[1] "Aldoni tondaĵojn al projekto"
 #: src/project/cliptranscode.cpp:59
 #, kde-format
 msgid "Destination folder"
-msgstr "Destina dosierujo"
+msgstr "Cela dosierujo"
 
 #: src/project/cliptranscode.cpp:151
 #, kde-format
@@ -13702,22 +13699,19 @@ msgid "Cannot perform assign"
 msgstr "Ne povas plenumi asignon"
 
 #: src/project/projectmanager.cpp:65
-#, fuzzy, kde-format
-#| msgid "Render Project"
+#, kde-format
 msgid "Kdenlive Project"
-msgstr "Redoni Projekton"
+msgstr "Kdenlive-Projekto"
 
 #: src/project/projectmanager.cpp:67
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Archive Project"
+#, kde-format
 msgid "Archived Project"
-msgstr "Arkiva Projekto"
+msgstr "Arkivita Projekton"
 
 #: src/project/projectmanager.cpp:140
 #, kde-format
 msgid "Save Copy…"
-msgstr "Konservi kopion…"
+msgstr "Konservi Kopion…"
 
 #: src/project/projectmanager.cpp:144
 #, kde-format
@@ -13948,10 +13942,9 @@ msgid "Install missing dependencies"
 msgstr "Instali mankantajn dependecojn"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:26
-#, fuzzy, kde-format
-#| msgid "Check VOSK installation"
+#, kde-format
 msgid "Abort installation"
-msgstr "Kontroli la instaladon de VOSK"
+msgstr "Ĉesigi instaladon"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:37
 #, kde-format
@@ -13980,10 +13973,9 @@ msgid "Check for update"
 msgstr "Kontroli por ĝisdatigo"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:88
-#, fuzzy, kde-format
-#| msgid "Installing modules…"
+#, kde-format
 msgid "Installing modules… this can take a while"
-msgstr "Instalante modulojn…"
+msgstr "Instalante modulojn… tio povas iom daŭri"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:98
 #, kde-format
@@ -15081,12 +15073,12 @@ msgstr "%1 px"
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
 #, kde-format
 msgid "File has no valid extension. Add extension (%1)?"
-msgstr "Dosiero ne havas validan etendon. Ĉu aldoni etendon (%1)?"
+msgstr "Dosiero ne havas validan finaĵon. Ĉu aldoni finaĵon (%1)?"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
 #, kde-format
 msgid "File Extension"
-msgstr "Dosiera Etendo"
+msgstr "Dosiera Finaĵo"
 
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
 #: src/scopes/colorscopes/colorplaneexport.cpp:199
@@ -16298,7 +16290,7 @@ msgstr "Malŝalti"
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, kde-format
 msgid "Mute"
-msgstr "Mute"
+msgstr "Silentigo"
 
 #: src/timeline2/view/qml/TrackHead.qml:576
 #, kde-format
@@ -16469,7 +16461,7 @@ msgstr "Agordu sonreferencon antaŭ provi vicigi"
 #: src/timeline2/view/timelinecontroller.cpp:3439
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
-msgstr ""
+msgstr "Ĉiuj fluoj jam asignitaj, unue malelektu alian soncelon"
 
 #: src/timeline2/view/timelinecontroller.cpp:3598
 #, kde-format
@@ -16639,10 +16631,9 @@ msgstr ""
 "Ĉiu templinio respondas al Sekvenctondaĵo en la Projektujo"
 
 #: src/timeline2/view/timelinetabs.cpp:213
-#, fuzzy, kde-format
-#| msgid "Close"
+#, kde-format
 msgid "Close %1"
-msgstr "Fermi"
+msgstr "Fermi %1"
 
 #: src/timeline2/view/timelinewidget.cpp:73
 #, kde-format
@@ -16985,10 +16976,9 @@ msgid "Load Title"
 msgstr "Ŝargi titolon"
 
 #: src/titler/titlewidget.cpp:2136
-#, fuzzy, kde-format
-#| msgid "Kdenlive"
+#, kde-format
 msgid "Kdenlive title"
-msgstr "Kdenlive"
+msgstr "Kdenlive-titolo"
 
 #: src/titler/titlewidget.cpp:2182
 #, kde-format
@@ -17664,8 +17654,7 @@ msgstr "Tonda fino:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/clipjobmanager_ui.ui:30
-#, fuzzy, kde-format
-#| msgid "Job description"
+#, kde-format
 msgid "Job Description"
 msgstr "Laborpriskribo"
 
@@ -17721,7 +17710,7 @@ msgstr "Nomo de dosierujo"
 #: src/ui/clipjobmanager_ui.ui:110
 #, kde-format
 msgid "Optional description that will show up if a parameter is requested"
-msgstr ""
+msgstr "Laŭvola priskribo, kiu aperos se parametro estas petita"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:117
@@ -17751,62 +17740,63 @@ msgid ""
 "replaced by the first parameter value</li><li><b>{param2}</b> will be "
 "replaced by the second parameter value</li></ul>"
 msgstr ""
+"En la argumentoj disponeblas la jenaj opcioj: <ul><li><b>{source}</b> estos "
+"anstataŭigita per la fontdosiervojo de la Bin-tondaĵo</li><li><b>{output}</"
+"b> estos anstataŭigita per la eligodosiernomo</li><li><b>{param1}</b> estos "
+"anstataŭigita per la unua parametrovaloro</li><li><b>{param2}</b> estos "
+"anstataŭigita per la dua parametrovaloro</li></ul>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/clipjobmanager_ui.ui:176
-#, fuzzy, kde-format
-#| msgid "Parameters"
+#, kde-format
 msgid "Parameter 1 {param1}"
-msgstr "Parametroj"
+msgstr "Parametro 1 {param1}"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_isfile)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_isfile)
 #: src/ui/clipjobmanager_ui.ui:182 src/ui/clipjobmanager_ui.ui:275
 #, kde-format
 msgid "Request file path"
-msgstr ""
+msgstr "Peti dosiervojon"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_islist)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_islist)
 #: src/ui/clipjobmanager_ui.ui:192 src/ui/clipjobmanager_ui.ui:268
 #, kde-format
 msgid "Request option from list"
-msgstr ""
+msgstr "Peti opcion el listo"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param1_list)
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param2_list)
 #: src/ui/clipjobmanager_ui.ui:202 src/ui/clipjobmanager_ui.ui:254
-#, fuzzy, kde-format
-#| msgid "More options"
+#, kde-format
 msgid "List of options"
-msgstr "Pli da ebloj"
+msgstr "Listo de opcioj"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param1_name)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param2_name)
 #: src/ui/clipjobmanager_ui.ui:209 src/ui/clipjobmanager_ui.ui:261
-#, fuzzy, kde-format
-#| msgid "Job description"
+#, kde-format
 msgid "Parameter description"
-msgstr "Laborpriskribo"
+msgstr "Priskribo de parametro"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: src/ui/clipjobmanager_ui.ui:232
-#, fuzzy, kde-format
-#| msgid "Parameters"
+#, kde-format
 msgid "Parameter 2 {param2}"
-msgstr "Parametroj"
+msgstr "Parametro 2 {param2}"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/clipjobmanager_ui.ui:288
 #, kde-format
 msgid "Output file extension"
-msgstr "Eligo-dosiera etendo"
+msgstr "Eligo-dosiera finaĵo"
 
 #. i18n: ectx: property (title), widget (QGroupBox, clip_types)
 #: src/ui/clipjobmanager_ui.ui:301
 #, kde-format
 msgid "Applies to"
-msgstr ""
+msgstr "Aplikiĝas al"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox)
 #: src/ui/clipspeed_ui.ui:103
@@ -19002,7 +18992,7 @@ msgstr "Divido post unua linio"
 #: src/ui/configtranscode_ui.ui:69 src/ui/editrenderpreset_ui.ui:79
 #, kde-format
 msgid "Extension:"
-msgstr "Etendo:"
+msgstr "Finaĵo:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, profile_audioonly)
 #: src/ui/configtranscode_ui.ui:76
@@ -19303,8 +19293,8 @@ msgid ""
 "\">MLT documentation</span></a> for reference.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Vidu <a href=\"https://www.mltframework.org/plugins/"
-"ConsumerAvformat/\"><span style=\" teksto-ornamado: substreko; koloro :"
-"#2980b9;\">MLT-dokumentado</span></a> por referenco.</p></body></html>"
+"ConsumerAvformat/\"><span style=\" text-decoration: underline; color:#2980b9;"
+"\">MLT-dokumentado</span></a> por referenco.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
 #: src/ui/editrenderpreset_ui.ui:1072
@@ -21398,37 +21388,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Add bookmark"
-#~ msgstr "Aldoni legosignon"
-
-#~ msgid "Kdenlive Project (*.kdenlive)"
-#~ msgstr "Kdenlive Projekto (*.kdenlive)"
-
-#~ msgid "Archived Project (*.tar.gz *.zip)"
-#~ msgstr "Arkivita Projekto (*.tar.gz *.zip)"
-
-#~ msgid "Kdenlive title (*.kdenlivetitle)"
-#~ msgstr "Kdenlive titolo (*.kdenlivetitle)"
-
-#~ msgid "Category %1:%2:%3"
-#~ msgstr "Kategorio %1:%2:%3"
-
-#~ msgctxt "Initial for Master"
-#~ msgid "M"
-#~ msgstr "M"
-
-#~ msgid "Closing a sequence will clear the undo history"
-#~ msgstr "Fermo de sekvenco nuligos la malfar-historion."
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid "<b>&#x25;1</b> will be replaced by the path of the source clip."
-#~ msgstr "<b>&#x25;</b> estos anstataŭigita per la vojo de la fonta tondaĵo."
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid ""
-#~ "File extension for the output file. Empty will keep the same extension as "
-#~ "source file."
-#~ msgstr ""
-#~ "Dosiera etendo por la eligodosiero. Malplena konservos la saman etendon "
-#~ "kiel fontdosiero."
