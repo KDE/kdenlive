@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-29 12:47+0000\n"
-"PO-Revision-Date: 2023-11-28 20:29+0300\n"
+"PO-Revision-Date: 2023-11-29 16:59+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -3294,11 +3294,10 @@ msgstr "Sık Kullanılanlardan Kaldır"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:351
 #: src/assets/assetlist/view/assetlistwidget.cpp:353
-#, fuzzy, kde-format
-#| msgid "Kdenlive document to open."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Online documentation"
-msgstr "Açılacak Kdenlive belgesi."
+msgstr "Çevrimiçi belgelendirme"
 
 #: src/assets/assetpanel.cpp:67
 #, kde-format
@@ -6779,18 +6778,16 @@ msgid "Manage Subtitles"
 msgstr "Altyazıları Yönet"
 
 #: src/dialogs/managesubtitles.cpp:44
-#, fuzzy, kde-format
-#| msgid "Import Subtitle"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Import Subtitle"
 msgstr "Altyazı İçe Aktar"
 
 #: src/dialogs/managesubtitles.cpp:45
-#, fuzzy, kde-format
-#| msgid "Import Subtitle"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Export Subtitle"
-msgstr "Altyazı İçe Aktar"
+msgstr "Altyazıyı Dışa Aktar"
 
 #: src/dialogs/managesubtitles.cpp:112
 #, kde-format
@@ -11327,10 +11324,9 @@ msgid "Insert zone"
 msgstr "Ekleme bölgesi"
 
 #: src/mainwindow.cpp:3177
-#, fuzzy, kde-format
-#| msgid "Cannot add effect to clip"
+#, kde-format
 msgid "Cannot add effect to active item"
-msgstr "Klibe efekt eklenemez"
+msgstr "Etkin ögeye efekt eklenemiyor"
 
 #: src/mainwindow.cpp:3239
 #, kde-format
@@ -11414,23 +11410,17 @@ msgid "Slip"
 msgstr "Sürçme"
 
 #: src/mainwindow.cpp:3411
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<shortcut>Shift drag</shortcut> for rubber-band selection, "
-#| "<shortcut>Shift click</shortcut> for multiple selection, <shortcut>Meta "
-#| "drag</shortcut> to move a grouped clip to another track, <shortcut>Ctrl "
-#| "drag</shortcut> to pan"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Shift drag</shortcut> for rubber-band selection, <shortcut>Shift "
 "click</shortcut> for multiple selection, <shortcut>Alt click</shortcut> to "
 "select an item in a group, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
-"Lastik seçimi için <shortcut>Üst Karakter+sürükle</shortcut>, çoklu seçim "
-"için<shortcut>Üst Karakter+tıkla</shortcut>, gruplanmış bir klibi başka bir "
-"ize taşımak için <shortcut>Meta+sürükle</shortcut>, kaydırma için "
-"<shortcut>Kontrol+sürükle</shortcut>"
+"Lastik seçimi için <shortcut>Üst Karakter+Sürükle</shortcut>, çoklu seçim "
+"için<shortcut>Üst Karakter+Tıkla</shortcut>, bir gruptaki bir ögeyi seçmek "
+"için <shortcut>Seçenek+Tıkla</shortcut>, kaydırma için <shortcut>Kontrol"
+"+Sürükle</shortcut>"
 
 #: src/mainwindow.cpp:3413
 #, kde-format
@@ -20146,18 +20136,15 @@ msgstr "Altyazı Önizleme"
 
 #. i18n: ectx: property (text), widget (QCheckBox, create_track)
 #: src/ui/import_subtitle_ui.ui:274
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create New Subtitle Track"
-msgstr "Yeni Sekans Oluştur"
+msgstr "Yeni Altyazı İzi Oluştur"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, track_name)
 #: src/ui/import_subtitle_ui.ui:284
-#, fuzzy, kde-format
-#| msgid "Show subtitle track"
+#, kde-format
 msgid "Subtitle Track Name"
-msgstr "Altyazı izini göster"
+msgstr "Altyazı İzi Adı"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/keywordval_ui.ui:42
@@ -20381,8 +20368,7 @@ msgstr "Düzenlenen profiller:"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_new)
 #: src/ui/managesubtitles_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Creat New"
+#, kde-format
 msgid "Create New"
 msgstr "Yeni Oluştur"
 

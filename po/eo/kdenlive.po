@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-29 12:47+0000\n"
-"PO-Revision-Date: 2023-11-28 19:41+0100\n"
+"PO-Revision-Date: 2023-11-29 22:32+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -3279,11 +3279,10 @@ msgstr "Forigi el plej ŝatataj"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:351
 #: src/assets/assetlist/view/assetlistwidget.cpp:353
-#, fuzzy, kde-format
-#| msgid "Kdenlive document to open."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Online documentation"
-msgstr "Kdenlive-dokumento por malfermi."
+msgstr "Enreta dokumentaro"
 
 #: src/assets/assetpanel.cpp:67
 #, kde-format
@@ -6761,18 +6760,16 @@ msgid "Manage Subtitles"
 msgstr "Mastrumi Subtekstojn"
 
 #: src/dialogs/managesubtitles.cpp:44
-#, fuzzy, kde-format
-#| msgid "Import Subtitle"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Import Subtitle"
 msgstr "Importi Subtitolon"
 
 #: src/dialogs/managesubtitles.cpp:45
-#, fuzzy, kde-format
-#| msgid "Import Subtitle"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Export Subtitle"
-msgstr "Importi Subtitolon"
+msgstr "Eksporti Subtitolon"
 
 #: src/dialogs/managesubtitles.cpp:112
 #, kde-format
@@ -11307,10 +11304,9 @@ msgid "Insert zone"
 msgstr "Enmeti zonon"
 
 #: src/mainwindow.cpp:3177
-#, fuzzy, kde-format
-#| msgid "Cannot add effect to clip"
+#, kde-format
 msgid "Cannot add effect to active item"
-msgstr "Ne povas aldoni efekton al aŭdvidaĵo"
+msgstr "Ne povas aldoni efekton al aktiva ero"
 
 #: src/mainwindow.cpp:3239
 #, kde-format
@@ -11393,13 +11389,7 @@ msgid "Slip"
 msgstr "Gliti"
 
 #: src/mainwindow.cpp:3411
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<shortcut>Shift drag</shortcut> for rubber-band selection, "
-#| "<shortcut>Shift click</shortcut> for multiple selection, <shortcut>Meta "
-#| "drag</shortcut> to move a grouped clip to another track, <shortcut>Ctrl "
-#| "drag</shortcut> to pan"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Shift drag</shortcut> for rubber-band selection, <shortcut>Shift "
@@ -11407,9 +11397,8 @@ msgid ""
 "select an item in a group, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
 "<shortcut>Shift-treni</shortcut> por kaŭĉuka elekto, <shortcut>Shift-klako</"
-"shortcut> por multobla elekto, <shortcut>Meta trenado</shortcut> por movi "
-"grupigitan tranĉeton al alia trako, <shortcut>Ctrl treni</shortcut> al "
-"panoramo"
+"shortcut> por multobla elekto, <shortcut>Alt-klako</shortcut> por elekti "
+"eron en grupo, <shortcut>Ctrl treni</shortcut> por ŝovumi"
 
 #: src/mainwindow.cpp:3413
 #, kde-format
@@ -20119,18 +20108,15 @@ msgstr "Antaŭrigardo de subtitoloj"
 
 #. i18n: ectx: property (text), widget (QCheckBox, create_track)
 #: src/ui/import_subtitle_ui.ui:274
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create New Subtitle Track"
-msgstr "Krei Novan Sekvencon"
+msgstr "Krei Novan Subteksttrakon"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, track_name)
 #: src/ui/import_subtitle_ui.ui:284
-#, fuzzy, kde-format
-#| msgid "Show subtitle track"
+#, kde-format
 msgid "Subtitle Track Name"
-msgstr "Montri subtitolon"
+msgstr "Subteksta Traknomo"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/keywordval_ui.ui:42
@@ -20354,8 +20340,7 @@ msgstr "Redaktado de profiloj por:"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_new)
 #: src/ui/managesubtitles_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Creat New"
+#, kde-format
 msgid "Create New"
 msgstr "Krei Novan"
 
@@ -21946,20 +21931,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Select an item to add effect"
-#~ msgstr "Elekti objekton por aldoni efekton"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid ""
-#~ "<shortcut>Shift drag</shortcut> for rubber-band selection, "
-#~ "<shortcut>Shift click</shortcut> for multiple selection, <shortcut>Ctrl "
-#~ "drag</shortcut> to pan"
-#~ msgstr ""
-#~ "<shortcut>Shift treni</shortcut> por kaŭĉuka elekto, <shortcut>Shift "
-#~ "klako</shortcut> por multobla elekto, <shortcut>Ktrl-tiri</shortcut> al "
-#~ "panoramo"
-
-#~ msgctxt "@label:textbox"
-#~ msgid "Checking modules version…"
-#~ msgstr "Kontrolante modulajn versiojn…"

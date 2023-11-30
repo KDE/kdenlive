@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-29 12:47+0000\n"
-"PO-Revision-Date: 2023-11-28 13:01+0100\n"
+"PO-Revision-Date: 2023-11-29 15:54+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -3322,11 +3322,10 @@ msgstr "Elimina dels preferits"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:351
 #: src/assets/assetlist/view/assetlistwidget.cpp:353
-#, fuzzy, kde-format
-#| msgid "Kdenlive document to open."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Online documentation"
-msgstr "El document del Kdenlive a obrir."
+msgstr "Documentació en línia"
 
 #: src/assets/assetpanel.cpp:67
 #, kde-format
@@ -6830,21 +6829,17 @@ msgctxt "@title:window"
 msgid "Manage Subtitles"
 msgstr "Gestiona els subtítols"
 
-# skip-rule: barb-uns
 #: src/dialogs/managesubtitles.cpp:44
-#, fuzzy, kde-format
-#| msgid "Import Subtitle"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Import Subtitle"
 msgstr "Importa subtítols"
 
-# skip-rule: barb-uns
 #: src/dialogs/managesubtitles.cpp:45
-#, fuzzy, kde-format
-#| msgid "Import Subtitle"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Export Subtitle"
-msgstr "Importa subtítols"
+msgstr "Exporta subtítols"
 
 #: src/dialogs/managesubtitles.cpp:112
 #, kde-format
@@ -11427,10 +11422,9 @@ msgid "Insert zone"
 msgstr "Insereix una zona"
 
 #: src/mainwindow.cpp:3177
-#, fuzzy, kde-format
-#| msgid "Cannot add effect to clip"
+#, kde-format
 msgid "Cannot add effect to active item"
-msgstr "No s'ha pogut afegir un efecte al clip"
+msgstr "No s'ha pogut afegir un efecte per a activar l'element"
 
 #: src/mainwindow.cpp:3239
 #, kde-format
@@ -11514,13 +11508,7 @@ msgid "Slip"
 msgstr "Lliscament"
 
 #: src/mainwindow.cpp:3411
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<shortcut>Shift drag</shortcut> for rubber-band selection, "
-#| "<shortcut>Shift click</shortcut> for multiple selection, <shortcut>Meta "
-#| "drag</shortcut> to move a grouped clip to another track, <shortcut>Ctrl "
-#| "drag</shortcut> to pan"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Shift drag</shortcut> for rubber-band selection, <shortcut>Shift "
@@ -11528,9 +11516,9 @@ msgid ""
 "select an item in a group, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
 "<shortcut>Maj + arrossegar</shortcut> per a una selecció de banda elàstica, "
-"<shortcut>Maj + clic</shortcut> per a una selecció múltiple, <shortcut>Meta "
-"+ arrossegar</shortcut> per a moure un clip agrupat a una altra pista, "
-"<shortcut>Ctrl + arrossegar</shortcut> per a desplaçar"
+"<shortcut>Maj + clic</shortcut> per a una selecció múltiple, <shortcut>Alt + "
+"clic</shortcut> per a seleccionar un element en un grup, <shortcut>Ctrl + "
+"arrossegar</shortcut> per a desplaçar"
 
 #: src/mainwindow.cpp:3413
 #, kde-format
@@ -20320,18 +20308,15 @@ msgstr "Vista prèvia dels subtítols"
 
 #. i18n: ectx: property (text), widget (QCheckBox, create_track)
 #: src/ui/import_subtitle_ui.ui:274
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create New Subtitle Track"
-msgstr "Creació de seqüència nova"
+msgstr "Creació d'una pista nova de subtítols"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, track_name)
 #: src/ui/import_subtitle_ui.ui:284
-#, fuzzy, kde-format
-#| msgid "Show subtitle track"
+#, kde-format
 msgid "Subtitle Track Name"
-msgstr "Mostra la pista de subtítols"
+msgstr "Nom de la pista de subtítols"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/keywordval_ui.ui:42
@@ -20555,10 +20540,9 @@ msgstr "S'estan editant els perfils de:"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_new)
 #: src/ui/managesubtitles_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Creat New"
+#, kde-format
 msgid "Create New"
-msgstr "Crea nou"
+msgstr "Crea nova"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
 #: src/ui/managesubtitles_ui.ui:46
@@ -22153,20 +22137,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Select an item to add effect"
-#~ msgstr "Selecciona un element per a afegir un efecte"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid ""
-#~ "<shortcut>Shift drag</shortcut> for rubber-band selection, "
-#~ "<shortcut>Shift click</shortcut> for multiple selection, <shortcut>Ctrl "
-#~ "drag</shortcut> to pan"
-#~ msgstr ""
-#~ "<shortcut>Maj + arrossegar</shortcut> per a una selecció de banda "
-#~ "elàstica, <shortcut>Maj + clic</shortcut> per a una selecció múltiple, "
-#~ "<shortcut>Ctrl + arrossegar</shortcut> per a desplaçar"
-
-#~ msgctxt "@label:textbox"
-#~ msgid "Checking modules version…"
-#~ msgstr "S'estan comprovant les versions dels mòduls…"

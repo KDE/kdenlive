@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-29 12:47+0000\n"
-"PO-Revision-Date: 2023-11-28 15:19+0100\n"
+"PO-Revision-Date: 2023-11-29 21:42+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -3308,11 +3308,10 @@ msgstr "Uit favorieten verwijderen"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:351
 #: src/assets/assetlist/view/assetlistwidget.cpp:353
-#, fuzzy, kde-format
-#| msgid "Kdenlive document to open."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Online documentation"
-msgstr "Te openen Kdenlive-document"
+msgstr "Online documentatie"
 
 #: src/assets/assetpanel.cpp:67
 #, kde-format
@@ -6808,18 +6807,16 @@ msgid "Manage Subtitles"
 msgstr "Ondertiteling beheren"
 
 #: src/dialogs/managesubtitles.cpp:44
-#, fuzzy, kde-format
-#| msgid "Import Subtitle"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Import Subtitle"
 msgstr "Ondertitel importeren"
 
 #: src/dialogs/managesubtitles.cpp:45
-#, fuzzy, kde-format
-#| msgid "Import Subtitle"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Export Subtitle"
-msgstr "Ondertitel importeren"
+msgstr "Ondertitel exporteren"
 
 #: src/dialogs/managesubtitles.cpp:112
 #, kde-format
@@ -11377,10 +11374,9 @@ msgid "Insert zone"
 msgstr "Zone invoegen"
 
 #: src/mainwindow.cpp:3177
-#, fuzzy, kde-format
-#| msgid "Cannot add effect to clip"
+#, kde-format
 msgid "Cannot add effect to active item"
-msgstr "Kan effect niet toevoegen aan clip"
+msgstr "Kan effect niet toevoegen aan actieve item"
 
 #: src/mainwindow.cpp:3239
 #, kde-format
@@ -11464,13 +11460,7 @@ msgid "Slip"
 msgstr "Slippen"
 
 #: src/mainwindow.cpp:3411
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<shortcut>Shift drag</shortcut> for rubber-band selection, "
-#| "<shortcut>Shift click</shortcut> for multiple selection, <shortcut>Meta "
-#| "drag</shortcut> to move a grouped clip to another track, <shortcut>Ctrl "
-#| "drag</shortcut> to pan"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Shift drag</shortcut> for rubber-band selection, <shortcut>Shift "
@@ -11478,9 +11468,9 @@ msgid ""
 "select an item in a group, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
 "<shortcut>Shift slepen</shortcut> voor rubberband selectie, <shortcut>Shift "
-"klik</shortcut> voor meervoudige selectie, <shortcut>Meta slepen</shortcut> "
-"om een gegroepeerde clip naar een andere track te verplaatsen, "
-"<shortcut>Ctrl slepen</shortcut> om heen en weer te bewegen (pan)"
+"klik</shortcut> voor meervoudige selectie, <shortcut>Alt klik</shortcut> "
+"naar een item selecteren in een groep, <shortcut>Ctrl slepen</shortcut> om "
+"heen en weer te bewegen (pan)"
 
 #: src/mainwindow.cpp:3413
 #, kde-format
@@ -20216,17 +20206,15 @@ msgstr "Ondertitelvoorbeeld"
 
 #. i18n: ectx: property (text), widget (QCheckBox, create_track)
 #: src/ui/import_subtitle_ui.ui:274
-#, fuzzy, kde-format
-#| msgid "Show Subtitle Track"
+#, kde-format
 msgid "Create New Subtitle Track"
-msgstr "Ondertiteltrack tonen"
+msgstr "Nieuw ondertiteltrack aanmaken"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, track_name)
 #: src/ui/import_subtitle_ui.ui:284
-#, fuzzy, kde-format
-#| msgid "Show Subtitle Track"
+#, kde-format
 msgid "Subtitle Track Name"
-msgstr "Ondertiteltrack tonen"
+msgstr "Naam van ondertiteltrack"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/keywordval_ui.ui:42
@@ -20450,8 +20438,7 @@ msgstr "Profielen bewerken voor:"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_new)
 #: src/ui/managesubtitles_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Creat New"
+#, kde-format
 msgid "Create New"
 msgstr "Nieuw aanmaken"
 
