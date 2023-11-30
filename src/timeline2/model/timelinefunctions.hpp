@@ -108,6 +108,8 @@ struct TimelineFunctions
                                           int moveGuidesPosition, Fun &undo, Fun &redo, bool pushUndo = true);
     static bool extractZone(const std::shared_ptr<TimelineItemModel> &timeline, const QVector<int> &tracks, QPoint zone, bool liftOnly, int clipToUnGroup = -1,
                             std::unordered_set<int> clipsToRegroup = {});
+    static bool extractZoneWithUndo(const std::shared_ptr<TimelineItemModel> &timeline, const QVector<int> &tracks, QPoint zone, bool liftOnly,
+                                    int clipToUnGroup, std::unordered_set<int> clipsToRegroup, Fun &undo, Fun &redo);
     static bool liftZone(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, QPoint zone, Fun &undo, Fun &redo);
     static bool removeSpace(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, Fun &undo, Fun &redo,
                             const QVector<int> &allowedTracks = QVector<int>(), bool useTargets = true);

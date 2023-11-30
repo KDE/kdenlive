@@ -457,7 +457,7 @@ public:
 
     /** @brief Extract (delete + remove space) current clip
      */
-    void extract(int clipId = -1);
+    void extract(int clipId = -1, bool singleSelectionMode = false);
     /** @brief Save current clip cut as bin subclip
      */
     void saveZone(int clipId = -1);

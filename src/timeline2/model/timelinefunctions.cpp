@@ -626,9 +626,17 @@ bool TimelineFunctions::breakAffectedGroups(const std::shared_ptr<TimelineItemMo
 bool TimelineFunctions::extractZone(const std::shared_ptr<TimelineItemModel> &timeline, const QVector<int> &tracks, QPoint zone, bool liftOnly,
                                     int clipToUnGroup, std::unordered_set<int> clipsToRegroup)
 {
-    // Start undoable command
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
+    bool res = extractZoneWithUndo(timeline, tracks, zone, liftOnly, clipToUnGroup, clipsToRegroup, undo, redo);
+    pCore->pushUndo(undo, redo, liftOnly ? i18n("Lift zone") : i18n("Extract zone"));
+    return res;
+}
+
+bool TimelineFunctions::extractZoneWithUndo(const std::shared_ptr<TimelineItemModel> &timeline, const QVector<int> &tracks, QPoint zone, bool liftOnly,
+                                            int clipToUnGroup, std::unordered_set<int> clipsToRegroup, Fun &undo, Fun &redo)
+{
+    // Start undoable command
     bool result = true;
     if (clipToUnGroup > -1) {
         result = timeline->requestClipUngroup(clipToUnGroup, undo, redo);
@@ -646,7 +654,6 @@ bool TimelineFunctions::extractZone(const std::shared_ptr<TimelineItemModel> &ti
     if (clipsToRegroup.size() > 1) {
         result = timeline->requestClipsGroup(clipsToRegroup, undo, redo);
     }
-    pCore->pushUndo(undo, redo, liftOnly ? i18n("Lift zone") : i18n("Extract zone"));
     return result;
 }
 
@@ -1595,9 +1602,13 @@ QString TimelineFunctions::copyClips(const std::shared_ptr<TimelineItemModel> &t
     int mainId = *(itemIds.begin());
     // We need to retrieve ALL the involved clips, ie those who are also grouped with the given clips
     std::unordered_set<int> allIds;
-    for (const auto &itemId : itemIds) {
-        std::unordered_set<int> siblings = timeline->getGroupElements(itemId);
-        allIds.insert(siblings.begin(), siblings.end());
+    if (timeline->singleSelectionMode()) {
+        allIds = itemIds;
+    } else {
+        for (const auto &itemId : itemIds) {
+            std::unordered_set<int> siblings = timeline->getGroupElements(itemId);
+            allIds.insert(siblings.begin(), siblings.end());
+        }
     }
     // Avoid using a subtitle item as reference since it doesn't work with track offset
     if (timeline->isSubTitle(mainId)) {
@@ -2453,9 +2464,9 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
     }
     // Ensure to clear selection in undo/redo too.
     Fun unselect = [timeline]() {
-        qDebug() << "starting undo or redo. Selection " << timeline->m_currentSelection;
+        qDebug() << "starting undo or redo. Selection " << timeline->m_currentSelection.size();
         timeline->requestClearSelection();
-        qDebug() << "after Selection " << timeline->m_currentSelection;
+        qDebug() << "after Selection " << timeline->m_currentSelection.size();
         return true;
     };
     PUSH_FRONT_LAMBDA(unselect, timeline_undo);

@@ -2049,12 +2049,7 @@ bool TimelineModel::requestItemDeletion(int itemId, Fun &undo, Fun &redo, bool l
 {
     QWriteLocker locker(&m_lock);
     if (m_groups->isInGroup(itemId)) {
-        if (!m_singleSelectionMode) {
-            return requestGroupDeletion(itemId, undo, redo);
-        } else {
-            // Ungroup item before deletion
-            requestRemoveFromGroup(itemId, undo, redo);
-        }
+        return requestGroupDeletion(itemId, undo, redo);
     }
     if (isClip(itemId)) {
         return requestClipDeletion(itemId, undo, redo, logUndo);
@@ -2088,7 +2083,23 @@ bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
     }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool res = requestItemDeletion(itemId, undo, redo, logUndo);
+
+    bool res = true;
+    if (m_singleSelectionMode) {
+        auto selection = getCurrentSelection();
+        // Ungroup all items first
+        for (int id : selection) {
+            // Ungroup item before deletion
+            requestRemoveFromGroup(id, undo, redo);
+        }
+        // loop deletion
+        for (int id : selection) {
+            res = res && requestItemDeletion(id, undo, redo, logUndo);
+            ;
+        }
+    } else {
+        res = requestItemDeletion(itemId, undo, redo, logUndo);
+    }
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, actionLabel);
     }
@@ -2869,7 +2880,7 @@ bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo)
     std::set<int> all_subtitles;
     while (!group_queue.empty()) {
         int current_group = group_queue.front();
-        bool isSelection = m_currentSelection == current_group;
+        bool isSelection = m_currentSelection.count(current_group);
 
         group_queue.pop();
         Q_ASSERT(isGroup(current_group));
@@ -4719,38 +4730,31 @@ QVariantList TimelineModel::addClipEffect(int clipId, const QString &effectId, b
     Q_ASSERT(m_allClips.count(clipId) > 0);
     bool result = false;
     QVariantList affectedClips;
-    if (m_singleSelectionMode && m_currentSelection == clipId) {
-        // only operate on the selected item
-        result = clipId > -1 && m_allClips.at(clipId)->addEffect(effectId);
-        if (result) {
-            affectedClips << clipId;
-        }
+    std::unordered_set<int> items;
+    if (m_singleSelectionMode && m_currentSelection.count(clipId)) {
+        // only operate on the selected item(s)
+        items = m_currentSelection;
     } else if (m_groups->isInGroup(clipId)) {
         int parentGroup = m_groups->getRootId(clipId);
         if (parentGroup > -1) {
-            Fun undo = []() { return true; };
-            Fun redo = []() { return true; };
-            std::unordered_set<int> sub = m_groups->getLeaves(parentGroup);
-            for (auto &s : sub) {
-                if (isClip(s)) {
-                    if (m_allClips.at(s)->addEffectWithUndo(effectId, undo, redo)) {
-                        result = true;
-                        affectedClips << s;
-                    }
-                }
-            }
-            if (result) {
-                pCore->pushUndo(undo, redo, i18n("Add effect %1", EffectsRepository::get()->getName(effectId)));
-            }
-            return affectedClips;
+            items = m_groups->getLeaves(parentGroup);
         }
     } else {
-        result = clipId > -1 && m_allClips.at(clipId)->addEffect(effectId);
-        if (result) {
-            affectedClips << clipId;
+        items = {clipId};
+    }
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    for (auto &s : items) {
+        if (isClip(s)) {
+            if (m_allClips.at(s)->addEffectWithUndo(effectId, undo, redo)) {
+                result = true;
+                affectedClips << s;
+            }
         }
     }
-    if (!result && notify) {
+    if (result) {
+        pCore->pushUndo(undo, redo, i18n("Add effect %1", EffectsRepository::get()->getName(effectId)));
+    } else if (notify) {
         QString effectName = EffectsRepository::get()->getName(effectId);
         pCore->displayMessage(i18n("Cannot add effect %1 to selected clip", effectName), ErrorMessage, 500);
     }
@@ -5679,8 +5683,8 @@ bool TimelineModel::checkConsistency(const std::vector<int> &guideSnaps)
     }
 
     // Check that the selection is in a valid state:
-    if (m_currentSelection != -1 && !isClip(m_currentSelection) && !isComposition(m_currentSelection) && !isSubTitle(m_currentSelection) &&
-        !isGroup(m_currentSelection)) {
+    if (m_currentSelection.size() == 1 && !isClip(*m_currentSelection.begin()) && !isComposition(*m_currentSelection.begin()) &&
+        !isSubTitle(*m_currentSelection.begin()) && !isGroup(*m_currentSelection.begin())) {
         qWarning() << "Selection is in inconsistent state";
         return false;
     }
@@ -6150,6 +6154,7 @@ int TimelineModel::getNextTrackId(int trackId)
 bool TimelineModel::requestClearSelection(bool onDeletion)
 {
     QWriteLocker locker(&m_lock);
+    qDebug() << "::: REQUESTING SELECTION CLEAR!!!!!!";
     TRACE();
     if (m_singleSelectionMode) {
         m_singleSelectionMode = false;
@@ -6159,13 +6164,13 @@ bool TimelineModel::requestClearSelection(bool onDeletion)
         m_selectedMix = -1;
         Q_EMIT selectedMixChanged(-1, nullptr);
     }
-    if (m_currentSelection == -1) {
+    if (m_currentSelection.size() == 0) {
         TRACE_RES(true);
         return true;
     }
-    if (isGroup(m_currentSelection)) {
+    if (isGroup(*m_currentSelection.begin())) {
         // Reset offset display on clips
-        std::unordered_set<int> items = m_groups->getLeaves(m_currentSelection);
+        std::unordered_set<int> items = m_groups->getLeaves(*m_currentSelection.begin());
         for (auto &id : items) {
             if (isGroup(id)) {
                 std::unordered_set<int> children = m_groups->getLeaves(id);
@@ -6180,23 +6185,25 @@ bool TimelineModel::requestClearSelection(bool onDeletion)
             } else if (isSubTitle(id)) {
                 m_subtitleModel->setSelected(id, false);
             }
-            if (m_groups->getType(m_currentSelection) == GroupType::Selection) {
-                m_groups->destructGroupItem(m_currentSelection);
+            if (m_groups->getType(*m_currentSelection.begin()) == GroupType::Selection) {
+                m_groups->destructGroupItem(*m_currentSelection.begin());
             }
         }
     } else {
-        if (isClip(m_currentSelection)) {
-            m_allClips[m_currentSelection]->setGrab(false);
-            m_allClips[m_currentSelection]->setSelected(false);
-        } else if (isComposition(m_currentSelection)) {
-            m_allCompositions[m_currentSelection]->setGrab(false);
-            m_allCompositions[m_currentSelection]->setSelected(false);
-        } else if (isSubTitle(m_currentSelection)) {
-            m_subtitleModel->setSelected(m_currentSelection, false);
+        for (auto s : m_currentSelection) {
+            if (isClip(s)) {
+                m_allClips[s]->setGrab(false);
+                m_allClips[s]->setSelected(false);
+            } else if (isComposition(s)) {
+                m_allCompositions[s]->setGrab(false);
+                m_allCompositions[s]->setSelected(false);
+            } else if (isSubTitle(s)) {
+                m_subtitleModel->setSelected(s, false);
+            }
+            Q_ASSERT(onDeletion || isClip(s) || isComposition(s) || isSubTitle(s));
         }
-        Q_ASSERT(onDeletion || isClip(m_currentSelection) || isComposition(m_currentSelection) || isSubTitle(m_currentSelection));
     }
-    m_currentSelection = -1;
+    m_currentSelection.clear();
     if (m_subtitleModel) {
         m_subtitleModel->clearGrab();
     }
@@ -6230,7 +6237,7 @@ void TimelineModel::requestClearSelection(bool onDeletion, Fun &undo, Fun &redo)
 void TimelineModel::clearGroupSelectionOnDelete(std::vector<int> groups)
 {
     READ_LOCK();
-    if (std::find(groups.begin(), groups.end(), m_currentSelection) != groups.end()) {
+    if (std::find(groups.begin(), groups.end(), *m_currentSelection.begin()) != groups.end()) {
         requestClearSelection(true);
     }
 }
@@ -6238,14 +6245,16 @@ void TimelineModel::clearGroupSelectionOnDelete(std::vector<int> groups)
 std::unordered_set<int> TimelineModel::getCurrentSelection() const
 {
     READ_LOCK();
-    if (m_currentSelection == -1) {
+    if (m_currentSelection.size() == 0) {
         return {};
     }
-    if (isGroup(m_currentSelection)) {
-        return m_groups->getLeaves(m_currentSelection);
+    if (isGroup(*m_currentSelection.begin())) {
+        return m_groups->getLeaves(*m_currentSelection.begin());
     } else {
-        Q_ASSERT(isClip(m_currentSelection) || isComposition(m_currentSelection) || isSubTitle(m_currentSelection));
-        return {m_currentSelection};
+        for (auto &s : m_currentSelection) {
+            Q_ASSERT(isClip(s) || isComposition(s) || isSubTitle(s));
+        }
+        return m_currentSelection;
     }
 }
 
@@ -6261,8 +6270,9 @@ void TimelineModel::requestAddToSelection(int itemId, bool clear, bool singleSel
     }
     if (singleSelect) {
         QWriteLocker locker(&m_lock);
-        m_currentSelection = itemId;
-        setSelected(m_currentSelection, true);
+        selection.insert(itemId);
+        m_currentSelection = selection;
+        setSelected(itemId, true);
         Q_EMIT selectionChanged();
         if (!m_singleSelectionMode) {
             m_singleSelectionMode = true;
@@ -6308,10 +6318,10 @@ bool TimelineModel::requestSetSelection(const std::unordered_set<int> &ids)
 
     bool result = true;
     if (roots.size() == 0) {
-        m_currentSelection = -1;
+        m_currentSelection.clear();
     } else if (roots.size() == 1) {
-        m_currentSelection = *(roots.begin());
-        setSelected(m_currentSelection, true);
+        m_currentSelection = {*(roots.begin())};
+        setSelected(*m_currentSelection.begin(), true);
     } else {
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
@@ -6346,8 +6356,14 @@ bool TimelineModel::requestSetSelection(const std::unordered_set<int> &ids)
                 }
             }
         }
-        result = (m_currentSelection = m_groups->groupItems(ids, undo, redo, GroupType::Selection)) >= 0;
-        Q_ASSERT(m_currentSelection >= 0);
+        int groupId = m_groups->groupItems(ids, undo, redo, GroupType::Selection);
+        if (groupId > -1) {
+            m_currentSelection = {groupId};
+            result = true;
+        } else {
+            result = false;
+        }
+        Q_ASSERT(m_currentSelection.size() > 0);
     }
     if (m_subtitleModel) {
         m_subtitleModel->clearGrab();

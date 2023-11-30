@@ -695,9 +695,17 @@ bool TimelineItemModel::copyClipEffect(int clipId, const QString sourceId)
     int itemRow = source.at(2).toInt();
     const QUuid uuid(source.at(3));
     std::shared_ptr<EffectStackModel> effectStack = pCore->getItemEffectStack(uuid, itemType, itemId);
-    if (m_singleSelectionMode && m_currentSelection == clipId) {
+    if (m_singleSelectionMode && m_currentSelection.count(clipId)) {
         // only operate on the selected item
-        return m_allClips.at(clipId)->copyEffect(uuid, effectStack, itemRow);
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        for (auto &s : m_currentSelection) {
+            if (isClip(s)) {
+                m_allClips.at(s)->copyEffectWithUndo(uuid, effectStack, itemRow, undo, redo);
+            }
+        }
+        pCore->pushUndo(undo, redo, i18n("Copy effect"));
+        return true;
     } else if (m_groups->isInGroup(clipId)) {
         int parentGroup = m_groups->getRootId(clipId);
         if (parentGroup > -1) {

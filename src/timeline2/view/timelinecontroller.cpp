@@ -681,7 +681,35 @@ void TimelineController::deleteSelectedClips()
     // only need to delete the first item, the others will be deleted in cascade
     if (m_model->m_editMode == TimelineMode::InsertEdit) {
         // In insert mode, perform an extract operation (don't leave gaps)
-        extract(*sel.begin());
+        if (m_model->singleSelectionMode()) {
+            // TODO only create 1 undo operation
+            m_model->requestClearSelection();
+            std::function<bool(void)> undo = []() { return true; };
+            std::function<bool(void)> redo = []() { return true; };
+            for (auto &s : sel) {
+                // Remove item from group
+                int clipToUngroup = s;
+                std::unordered_set<int> clipsToRegroup = m_model->m_groups->getLeaves(m_model->m_groups->getRootId(s));
+                clipsToRegroup.erase(clipToUngroup);
+                int in = m_model->getClipPosition(s);
+                int out = in + m_model->getClipPlaytime(s);
+                int tid = m_model->getClipTrackId(s);
+                std::pair<MixInfo, MixInfo> mixData = m_model->getTrackById_const(tid)->getMixInfo(s);
+                if (mixData.first.firstClipId > -1) {
+                    // Clip has a start mix, adjust in point
+                    in += (mixData.first.firstClipInOut.second - mixData.first.secondClipInOut.first - mixData.first.mixOffset);
+                }
+                if (mixData.second.firstClipId > -1) {
+                    // Clip has end mix, adjust out point
+                    out -= mixData.second.mixOffset;
+                }
+                QVector<int> tracks = {tid};
+                TimelineFunctions::extractZoneWithUndo(m_model, tracks, QPoint(in, out), false, clipToUngroup, clipsToRegroup, undo, redo);
+            }
+            pCore->pushUndo(undo, redo, i18n("Extract zone"));
+        } else {
+            extract(*sel.begin());
+        }
     } else {
         m_model->requestItemDeletion(*sel.begin());
     }
@@ -2890,7 +2918,7 @@ void TimelineController::extractZone(QPoint zone, bool liftOnly)
     }
 }
 
-void TimelineController::extract(int clipId)
+void TimelineController::extract(int clipId, bool singleSelectionMode)
 {
     if (clipId == -1) {
         std::unordered_set<int> sel = m_model->getCurrentSelection();
@@ -2921,7 +2949,7 @@ void TimelineController::extract(int clipId)
     int clipToUngroup = -1;
     std::unordered_set<int> clipsToRegroup;
     if (m_model->m_groups->isInGroup(clipId)) {
-        if (m_model->singleSelectionMode()) {
+        if (singleSelectionMode) {
             // Remove item from group
             clipsToRegroup = m_model->m_groups->getLeaves(m_model->m_groups->getRootId(clipId));
             clipToUngroup = clipId;

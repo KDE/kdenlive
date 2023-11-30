@@ -1052,7 +1052,7 @@ protected:
     /** @brief id of the selection. If -1, there is no selection, if positive, then it might either be the id of the selection group, or the id of an individual
      *  item, or, finally, the id of a group which is not of type selection. The last case happens when the selection exactly matches an existing group
      *  (in that case we cannot further group it because the selection would have only one child, which is prohibited by design) */
-    int m_currentSelection = -1;
+    std::unordered_set<int> m_currentSelection;
     int m_selectedMix = -1;
 
     /// The index of the temporary overlay track in tractor, or -1 if not connected
