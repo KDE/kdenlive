@@ -2392,11 +2392,11 @@ void KdenliveDoc::disableSubtitles(QDomDocument &doc)
 void KdenliveDoc::makeBackgroundTrackTransparent(QDomDocument &doc)
 {
     QDomNodeList prods = doc.elementsByTagName(QStringLiteral("producer"));
+    // Switch all black track producers to transparent
     for (int i = 0; i < prods.length(); ++i) {
         auto prod = prods.at(i).toElement();
         if (Xml::getXmlProperty(prod, QStringLiteral("kdenlive:playlistid")) == QStringLiteral("black_track")) {
             Xml::setXmlProperty(prod, QStringLiteral("resource"), QStringLiteral("0"));
-            break;
         }
     }
 }
