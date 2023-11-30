@@ -361,10 +361,8 @@ void KdenliveDoc::initializeProperties(bool newDocument, std::pair<int, int> tra
         sequenceProperties[QStringLiteral("activeTrack")] = QString::number(activeTrack);
         sequenceProperties[QStringLiteral("documentuuid")] = m_uuid.toString();
         m_sequenceProperties.insert(m_uuid, sequenceProperties);
-        if (m_timelines.contains(m_uuid)) {
-            // For existing documents, don't define guidesCategories, so that we can use the getDefaultGuideCategories() for backwards compatibility
-            m_documentProperties[QStringLiteral("guidesCategories")] = getGuideModel(m_uuid)->categoriesListToJSon(KdenliveSettings::guidesCategories());
-        }
+        // For existing documents, don't define guidesCategories, so that we can use the getDefaultGuideCategories() for backwards compatibility
+        m_documentProperties[QStringLiteral("guidesCategories")] = MarkerListModel::categoriesListToJSon(KdenliveSettings::guidesCategories());
     }
 }
 
@@ -373,7 +371,7 @@ const QStringList KdenliveDoc::guidesCategories()
     QStringList categories = getGuideModel(activeUuid)->guideCategoriesToStringList(m_documentProperties.value(QStringLiteral("guidesCategories")));
     if (categories.isEmpty()) {
         const QStringList defaultCategories = getDefaultGuideCategories();
-        m_documentProperties[QStringLiteral("guidesCategories")] = getGuideModel(activeUuid)->categoriesListToJSon(defaultCategories);
+        m_documentProperties[QStringLiteral("guidesCategories")] = MarkerListModel::categoriesListToJSon(defaultCategories);
         return defaultCategories;
     }
     return categories;

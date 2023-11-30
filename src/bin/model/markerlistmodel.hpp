@@ -162,7 +162,7 @@ public:
     /** @brief Returns the marker categories in the form of a stringList for saving */
     const QStringList categoriesToStringList() const;
     const QString categoriesToJSon() const;
-    const QString categoriesListToJSon(const QStringList categories) const;
+    static const QString categoriesListToJSon(const QStringList categories);
 
     // Mandatory overloads
     QVariant data(const QModelIndex &index, int role) const override;
