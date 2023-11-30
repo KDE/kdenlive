@@ -142,7 +142,7 @@ QStringList MarkerListModel::guideCategoriesToStringList(const QString &categori
     return categories;
 }
 
-const QString MarkerListModel::categoriesListToJSon(const QStringList categories) const
+const QString MarkerListModel::categoriesListToJSon(const QStringList categories)
 {
     QJsonArray list;
     for (auto &cat : categories) {
