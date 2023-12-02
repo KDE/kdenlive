@@ -33,6 +33,7 @@
           <Action name="disable_subtitle" />
           <Action name="lock_subtitle" />
           <Separator />
+          <Action name="manage_subtitle" />
           <Action name="import_subtitle" />
           <Action name="export_subtitle" />
           <Separator />

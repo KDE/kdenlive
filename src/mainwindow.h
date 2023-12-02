@@ -598,6 +598,8 @@ private Q_SLOTS:
     void slotLockSubtitle();
     /** @brief Import a subtitle file */
     void slotImportSubtitle();
+    /** @brief Display the subtitle manager widget */
+    void slotManageSubtitle();
     /** @brief Start a speech recognition on timeline zone */
     void slotSpeechRecognition();
     /** @brief Copy debug information like lib versions, gpu mode state,... to clipboard */

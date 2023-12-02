@@ -1917,6 +1917,8 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("disable_subtitle"), i18n("Disable Subtitle"), this, SLOT(slotDisableSubtitle()), QIcon::fromTheme(QStringLiteral("view-hidden")));
     addAction(QStringLiteral("lock_subtitle"), i18n("Lock Subtitle"), this, SLOT(slotLockSubtitle()), QIcon::fromTheme(QStringLiteral("lock")));
 
+    addAction(QStringLiteral("manage_subtitle"), i18n("Manage Subtitles"), this, SLOT(slotManageSubtitle()),
+              QIcon::fromTheme(QStringLiteral("settings-configure")));
     addAction(QStringLiteral("import_subtitle"), i18n("Import Subtitle File…"), this, SLOT(slotImportSubtitle()),
               QIcon::fromTheme(QStringLiteral("document-import")));
     addAction(QStringLiteral("export_subtitle"), i18n("Export Subtitle File…"), this, SLOT(slotExportSubtitle()),
@@ -4637,6 +4639,12 @@ void MainWindow::slotImportSubtitle()
 {
     showSubtitleTrack();
     getCurrentTimeline()->controller()->importSubtitle();
+}
+
+void MainWindow::slotManageSubtitle()
+{
+    showSubtitleTrack();
+    getCurrentTimeline()->controller()->subtitlesMenuActivated(-1);
 }
 
 void MainWindow::slotExportSubtitle()

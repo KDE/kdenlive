@@ -5292,7 +5292,7 @@ void TimelineController::subtitlesMenuActivated(int ix)
     auto subtitleModel = m_model->getSubtitleModel();
     QMap<std::pair<int, QString>, QString> currentSubs = subtitleModel->getSubtitlesList();
     if (subtitleModel) {
-        if (ix < currentSubs.size()) {
+        if (ix != -1 && ix < currentSubs.size()) {
             // Clear selection if a subtitle item is selected
             std::unordered_set<int> selectedIds = m_model->getCurrentSelection();
             for (auto &id : selectedIds) {
@@ -5321,21 +5321,23 @@ void TimelineController::subtitlesMenuActivated(int ix)
             return;
         }
     }
-    m_activeSubPosition = currentSubs.size();
-    Q_EMIT activeSubtitlePositionChanged();
-    // Reselect last active subtitle in combobox
     int currentIx = pCore->currentDoc()->getSequenceProperty(m_model->uuid(), QStringLiteral("kdenlive:activeSubtitleIndex"), QStringLiteral("0")).toInt();
-    QMapIterator<std::pair<int, QString>, QString> i(currentSubs);
-    int counter = 0;
-    while (i.hasNext()) {
-        i.next();
-        if (i.key().first == currentIx) {
-            m_activeSubPosition = counter;
-            break;
+    if (ix > .1) {
+        m_activeSubPosition = currentSubs.size();
+        Q_EMIT activeSubtitlePositionChanged();
+        // Reselect last active subtitle in combobox
+        QMapIterator<std::pair<int, QString>, QString> i(currentSubs);
+        int counter = 0;
+        while (i.hasNext()) {
+            i.next();
+            if (i.key().first == currentIx) {
+                m_activeSubPosition = counter;
+                break;
+            }
+            counter++;
         }
-        counter++;
+        Q_EMIT activeSubtitlePositionChanged();
     }
-    Q_EMIT activeSubtitlePositionChanged();
 
     // Show manage dialog
     ManageSubtitles *d = new ManageSubtitles(subtitleModel, this, currentIx, qApp->activeWindow());
