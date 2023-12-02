@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-01 00:41+0000\n"
-"PO-Revision-Date: 2023-11-26 18:23+0100\n"
+"PO-Revision-Date: 2023-11-30 18:57+0100\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -3331,11 +3331,10 @@ msgstr "Enlever des favoris"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:351
 #: src/assets/assetlist/view/assetlistwidget.cpp:353
-#, fuzzy, kde-format
-#| msgid "Kdenlive document to open."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Online documentation"
-msgstr "Document de Kdenlive à ouvrir."
+msgstr "Document en ligne"
 
 #: src/assets/assetpanel.cpp:67
 #, kde-format
@@ -3935,63 +3934,59 @@ msgid "Smooth"
 msgstr "Courbe"
 
 #: src/assets/view/widgets/keyframewidget.cpp:117
-#, fuzzy, kde-format
-#| msgid "Set Zone In"
+#, kde-format
 msgid "Bounce In"
-msgstr "Définir le début de la zone"
+msgstr "Entrée avec rebond"
 
 #: src/assets/view/widgets/keyframewidget.cpp:121
-#, fuzzy, kde-format
-#| msgid "Set Zone Out"
+#, kde-format
 msgid "Bounce Out"
-msgstr "Définir la fin de la zone"
+msgstr "Sortie avec rebond"
 
 #: src/assets/view/widgets/keyframewidget.cpp:126
 #, kde-format
 msgid "Cubic In"
-msgstr ""
+msgstr "Entrée cubique"
 
 #: src/assets/view/widgets/keyframewidget.cpp:130
 #, kde-format
 msgid "Cubic Out"
-msgstr ""
+msgstr "Sortie cubique"
 
 #: src/assets/view/widgets/keyframewidget.cpp:134
 #, kde-format
 msgid "Exponential In"
-msgstr ""
+msgstr "Entrée exponentielle"
 
 #: src/assets/view/widgets/keyframewidget.cpp:138
 #, kde-format
 msgid "Exponential Out"
-msgstr ""
+msgstr "Sortie exponentielle"
 
 #: src/assets/view/widgets/keyframewidget.cpp:142
 #, kde-format
 msgid "Circular In"
-msgstr ""
+msgstr "Entrée circulaire"
 
 #: src/assets/view/widgets/keyframewidget.cpp:146
 #, kde-format
 msgid "Circular Out"
-msgstr ""
+msgstr "Sortie circulaire"
 
 #: src/assets/view/widgets/keyframewidget.cpp:150
 #, kde-format
 msgid "Elastic In"
-msgstr ""
+msgstr "Entrée élastique"
 
 #: src/assets/view/widgets/keyframewidget.cpp:154
-#, fuzzy, kde-format
-#| msgid "Gain Out"
+#, kde-format
 msgid "Elastic Out"
-msgstr "Amplification à la sortie"
+msgstr "Sortie élastique"
 
 #: src/assets/view/widgets/keyframewidget.cpp:158
-#, fuzzy, kde-format
-#| msgid " - deprecated"
+#, kde-format
 msgid "Smooth (deprecated)"
-msgstr "- Déconseillé"
+msgstr "Doux (Déconseillé)"
 
 #: src/assets/view/widgets/keyframewidget.cpp:176
 #, kde-kuit-format
@@ -11499,10 +11494,9 @@ msgid "Insert zone"
 msgstr "Insérer la zone"
 
 #: src/mainwindow.cpp:3177
-#, fuzzy, kde-format
-#| msgid "Cannot add effect to clip"
+#, kde-format
 msgid "Cannot add effect to active item"
-msgstr "Impossible d'ajouter l'effet au clip"
+msgstr "Impossible d'ajouter un effet pour activer l'élément"
 
 #: src/mainwindow.cpp:3239
 #, kde-format
@@ -11587,24 +11581,18 @@ msgid "Slip"
 msgstr "Glisser"
 
 #: src/mainwindow.cpp:3411
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<shortcut>Shift drag</shortcut> for rubber-band selection, "
-#| "<shortcut>Shift click</shortcut> for multiple selection, <shortcut>Meta "
-#| "drag</shortcut> to move a grouped clip to another track, <shortcut>Ctrl "
-#| "drag</shortcut> to pan"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Shift drag</shortcut> for rubber-band selection, <shortcut>Shift "
 "click</shortcut> for multiple selection, <shortcut>Alt click</shortcut> to "
 "select an item in a group, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
-"<shortcut>Faites un « Maj » + glisser</shortcut> pour la sélection avec la "
+"<shortcut>Faites un « Maj » + glisser</shortcut> pour la sélection de la "
 "gomme, un <shortcut> « Maj » + clic</shortcut> pour une sélection multiple, "
-"un <shortcut> « Windows » + glisser</shortcut> pour déplacer une vidéo "
-"regroupée vers une autre piste et un <shortcut> « CTRL » + glisser</"
-"shortcut> pour faire un panoramique."
+"un <shortcut> « ALT » + clic</shortcut> pour sélectionner un élément dans un "
+"groupe et un <shortcut> « CTRL » + glisser</shortcut> pour faire un "
+"panoramique."
 
 #: src/mainwindow.cpp:3413
 #, kde-format

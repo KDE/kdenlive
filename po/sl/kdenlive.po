@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-01 00:41+0000\n"
-"PO-Revision-Date: 2023-11-25 11:42+0100\n"
+"PO-Revision-Date: 2023-11-30 22:05+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -3294,11 +3294,10 @@ msgstr "Odstrani iz priljubljenih"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:351
 #: src/assets/assetlist/view/assetlistwidget.cpp:353
-#, fuzzy, kde-format
-#| msgid "Kdenlive document to open."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Online documentation"
-msgstr "Dokument Kdenlive, ki ga želite odpreti."
+msgstr "Spletna dokumentacija"
 
 #: src/assets/assetpanel.cpp:67
 #, kde-format
@@ -3899,62 +3898,59 @@ msgid "Smooth"
 msgstr "Gladko"
 
 #: src/assets/view/widgets/keyframewidget.cpp:117
-#, fuzzy, kde-format
-#| msgid "Set Zone In"
+#, kde-format
 msgid "Bounce In"
-msgstr "Nastavi začetek območja"
+msgstr "Odbojni vhod"
 
 #: src/assets/view/widgets/keyframewidget.cpp:121
-#, fuzzy, kde-format
-#| msgid "Set Zone Out"
+#, kde-format
 msgid "Bounce Out"
-msgstr "Nastavi konec območja"
+msgstr "Odbojni izhod"
 
 #: src/assets/view/widgets/keyframewidget.cpp:126
 #, kde-format
 msgid "Cubic In"
-msgstr ""
+msgstr "Kubični vhod"
 
 #: src/assets/view/widgets/keyframewidget.cpp:130
 #, kde-format
 msgid "Cubic Out"
-msgstr ""
+msgstr "Kubični izhod"
 
 #: src/assets/view/widgets/keyframewidget.cpp:134
 #, kde-format
 msgid "Exponential In"
-msgstr ""
+msgstr "Eksponentni vhod"
 
 #: src/assets/view/widgets/keyframewidget.cpp:138
 #, kde-format
 msgid "Exponential Out"
-msgstr ""
+msgstr "Eksponentni izhod"
 
 #: src/assets/view/widgets/keyframewidget.cpp:142
 #, kde-format
 msgid "Circular In"
-msgstr ""
+msgstr "Krožni vhod"
 
 #: src/assets/view/widgets/keyframewidget.cpp:146
 #, kde-format
 msgid "Circular Out"
-msgstr ""
+msgstr "Krožni izhod"
 
 #: src/assets/view/widgets/keyframewidget.cpp:150
 #, kde-format
 msgid "Elastic In"
-msgstr ""
+msgstr "Elastični vhod"
 
 #: src/assets/view/widgets/keyframewidget.cpp:154
 #, kde-format
 msgid "Elastic Out"
-msgstr ""
+msgstr "Elastični izhod"
 
 #: src/assets/view/widgets/keyframewidget.cpp:158
-#, fuzzy, kde-format
-#| msgid " - deprecated"
+#, kde-format
 msgid "Smooth (deprecated)"
-msgstr " - zastarelo"
+msgstr "Gladko (opuščeno)"
 
 #: src/assets/view/widgets/keyframewidget.cpp:176
 #, kde-kuit-format
@@ -6798,18 +6794,16 @@ msgid "Manage Subtitles"
 msgstr "Upravljaj podnaslove"
 
 #: src/dialogs/managesubtitles.cpp:44
-#, fuzzy, kde-format
-#| msgid "Import Subtitle"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Import Subtitle"
 msgstr "Uvozi podnaslov"
 
 #: src/dialogs/managesubtitles.cpp:45
-#, fuzzy, kde-format
-#| msgid "Import Subtitle"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Export Subtitle"
-msgstr "Uvozi podnaslov"
+msgstr "Izvozi podnaslov"
 
 #: src/dialogs/managesubtitles.cpp:112
 #, kde-format
@@ -11371,10 +11365,9 @@ msgid "Insert zone"
 msgstr "Vstavi območje"
 
 #: src/mainwindow.cpp:3177
-#, fuzzy, kde-format
-#| msgid "Cannot add effect to clip"
+#, kde-format
 msgid "Cannot add effect to active item"
-msgstr "Posnetku ni možno dodati slikovnega učinka"
+msgstr "Dejavnemu elementu ni možno dodati učinka"
 
 #: src/mainwindow.cpp:3239
 #, kde-format
@@ -11458,13 +11451,7 @@ msgid "Slip"
 msgstr "Drsenje"
 
 #: src/mainwindow.cpp:3411
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<shortcut>Shift drag</shortcut> for rubber-band selection, "
-#| "<shortcut>Shift click</shortcut> for multiple selection, <shortcut>Meta "
-#| "drag</shortcut> to move a grouped clip to another track, <shortcut>Ctrl "
-#| "drag</shortcut> to pan"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Shift drag</shortcut> for rubber-band selection, <shortcut>Shift "
@@ -11472,9 +11459,8 @@ msgid ""
 "select an item in a group, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
 "<shortcut>Dvigalka+povlek</shortcut> za elastičen izbor, <shortcut>dvigalka"
-"+klik</shortcut> za večkraten izbor, <shortcut>meta tipka+povlek</shortcut> "
-"za premik skupine posnetkov na drugo stezo, <shortcut>krmilka+povlek</"
-"shortcut> za zasuk"
+"+klik</shortcut> za večkraten izbor, <shortcut>izmenjalka+klik</shortcut> za "
+"izbor elementa v skupini, <shortcut>krmilka+povlek</shortcut> za zasuk"
 
 #: src/mainwindow.cpp:3413
 #, kde-format
@@ -20221,18 +20207,15 @@ msgstr "Predogled podnaslovov"
 
 #. i18n: ectx: property (text), widget (QCheckBox, create_track)
 #: src/ui/import_subtitle_ui.ui:274
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create New Subtitle Track"
-msgstr "Ustvari novo zaporedje"
+msgstr "Ustvari novo stezo za podnaslove"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, track_name)
 #: src/ui/import_subtitle_ui.ui:284
-#, fuzzy, kde-format
-#| msgid "Show subtitle track"
+#, kde-format
 msgid "Subtitle Track Name"
-msgstr "Pokaži stezo za podnaslavljanje"
+msgstr "Ime steze za podnaslove"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/keywordval_ui.ui:42
@@ -20456,8 +20439,7 @@ msgstr "Urejanje profilov za:"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_new)
 #: src/ui/managesubtitles_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Creat New"
+#, kde-format
 msgid "Create New"
 msgstr "Ustvari novo"
 
@@ -22048,20 +22030,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "Select an item to add effect"
-#~ msgstr "Izberite predmet za dodajanje učinka"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid ""
-#~ "<shortcut>Shift drag</shortcut> for rubber-band selection, "
-#~ "<shortcut>Shift click</shortcut> for multiple selection, <shortcut>Ctrl "
-#~ "drag</shortcut> to pan"
-#~ msgstr ""
-#~ "<shortcut>Dvigalka+povlek</shortcut> za elastičen izbor, "
-#~ "<shortcut>dvigalka+klik</shortcut> za večkraten izbor, <shortcut>krmilka"
-#~ "+povlek</shortcut> za zasuk"
-
-#~ msgctxt "@label:textbox"
-#~ msgid "Checking modules version…"
-#~ msgstr "Preverjanje različic modulov …"

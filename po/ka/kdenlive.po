@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-01 00:41+0000\n"
-"PO-Revision-Date: 2023-11-25 05:56+0100\n"
+"PO-Revision-Date: 2023-12-01 07:03+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -3165,11 +3165,10 @@ msgstr "რჩეულებიდან წაშლა"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:351
 #: src/assets/assetlist/view/assetlistwidget.cpp:353
-#, fuzzy, kde-format
-#| msgid "Kdenlive document to open."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Online documentation"
-msgstr "Kdenlive -ის გასახსნელი დოკუმენტი."
+msgstr "ონლაინ-დოკუმენტაცია"
 
 #: src/assets/assetpanel.cpp:67
 #, kde-format
@@ -3778,12 +3777,12 @@ msgstr ""
 #: src/assets/view/widgets/keyframewidget.cpp:134
 #, kde-format
 msgid "Exponential In"
-msgstr ""
+msgstr "ექსპონენციალური დასაწყისი"
 
 #: src/assets/view/widgets/keyframewidget.cpp:138
 #, kde-format
 msgid "Exponential Out"
-msgstr ""
+msgstr "ექსპონენციალური დასასრული"
 
 #: src/assets/view/widgets/keyframewidget.cpp:142
 #, kde-format
@@ -3806,10 +3805,9 @@ msgid "Elastic Out"
 msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:158
-#, fuzzy, kde-format
-#| msgid "Normalise (deprecated)"
+#, kde-format
 msgid "Smooth (deprecated)"
-msgstr "ნორმალიზაცია (მოძველებული)"
+msgstr "გლუვი (მოძველებული)"
 
 #: src/assets/view/widgets/keyframewidget.cpp:176
 #, kde-kuit-format
@@ -6538,18 +6536,16 @@ msgid "Manage Subtitles"
 msgstr "სუბტიტრების მართვა"
 
 #: src/dialogs/managesubtitles.cpp:44
-#, fuzzy, kde-format
-#| msgid "Import Subtitle"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Import Subtitle"
-msgstr "სუბტიტრების შემოტანა"
+msgstr "სუბტიტრის შემოტანა"
 
 #: src/dialogs/managesubtitles.cpp:45
-#, fuzzy, kde-format
-#| msgid "Import Subtitle"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Export Subtitle"
-msgstr "სუბტიტრების შემოტანა"
+msgstr "სუბტიტრის გატანა"
 
 #: src/dialogs/managesubtitles.cpp:112
 #, kde-format
@@ -19351,17 +19347,15 @@ msgstr "სუბტიტრის მინიატურა"
 
 #. i18n: ectx: property (text), widget (QCheckBox, create_track)
 #: src/ui/import_subtitle_ui.ui:274
-#, fuzzy, kde-format
-#| msgid "Delete Subtitle"
+#, kde-format
 msgid "Create New Subtitle Track"
-msgstr "სუბტიტრების წაშლა"
+msgstr "ახალი სუბტიტრის ტრეკის შექმნა"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, track_name)
 #: src/ui/import_subtitle_ui.ui:284
-#, fuzzy, kde-format
-#| msgid "Subtitle Preview"
+#, kde-format
 msgid "Subtitle Track Name"
-msgstr "სუბტიტრის მინიატურა"
+msgstr "სუბტიტრის ტრეკის სახელი"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/keywordval_ui.ui:42
@@ -19582,8 +19576,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, button_new)
 #: src/ui/managesubtitles_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Creat New"
+#, kde-format
 msgid "Create New"
 msgstr "ახლის შექმნა"
 
