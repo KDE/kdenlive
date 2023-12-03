@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-08 02:07+0000\n"
+"POT-Creation-Date: 2023-12-03 02:25+0000\n"
 "PO-Revision-Date: 2023-11-27 10:26+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -4377,7 +4377,7 @@ msgstr "Ontbrekende oorspronkelijke clip"
 msgid "Unable to write to file %1"
 msgstr "Kan niet wegschrijven naar bestand %1"
 
-#: src/bin/bin.cpp:1856 src/bin/bin.cpp:2366 src/doc/kdenlivedoc.cpp:728
+#: src/bin/bin.cpp:1856 src/bin/bin.cpp:2366 src/doc/kdenlivedoc.cpp:726
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -4790,8 +4790,8 @@ msgstr "Een clip selecteren om een tag aan toe te voegen"
 msgid "Edit Tags"
 msgstr "Tags bewerken"
 
-#: src/bin/bin.cpp:4284 src/bin/projectclip.cpp:193
-#: src/bin/projectclip.cpp:2007 src/onlineresources/resourcewidget.cpp:271
+#: src/bin/bin.cpp:4284 src/bin/projectclip.cpp:210
+#: src/bin/projectclip.cpp:2024 src/onlineresources/resourcewidget.cpp:271
 #: src/onlineresources/resourcewidget.cpp:604
 #: src/onlineresources/resourcewidget.cpp:619
 #, kde-format
@@ -5399,18 +5399,18 @@ msgstr "Ondertitel toevoegen"
 msgid "Delete subtitle"
 msgstr "Ondertitel verwijderen"
 
-#: src/bin/projectclip.cpp:246
+#: src/bin/projectclip.cpp:263
 #, kde-format
 msgid "Timeline sequence"
 msgstr "Volgorde (sequentie) in tijdlijn"
 
-#: src/bin/projectclip.cpp:553
+#: src/bin/projectclip.cpp:570
 #, kde-format
 msgctxt "The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "P"
 
-#: src/bin/projectclip.cpp:646
+#: src/bin/projectclip.cpp:663
 #, kde-format
 msgid ""
 "Image dimension smaller than 8 pixels.\n"
@@ -5419,7 +5419,7 @@ msgstr ""
 "Afmeting afbeelding kleiner dan 8 pixels.\n"
 "Dit wordt niet juist ondersteund door ons videoframework."
 
-#: src/bin/projectclip.cpp:929
+#: src/bin/projectclip.cpp:946
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -5428,29 +5428,29 @@ msgstr ""
 "Kan metagegevens niet uit %1 extraheren\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1181 src/jobs/cliploadtask.cpp:255
+#: src/bin/projectclip.cpp:1198 src/jobs/cliploadtask.cpp:255
 #, kde-format
 msgid "Invalid"
 msgstr "Ongeldig"
 
-#: src/bin/projectclip.cpp:1392 src/dialogs/clipcreationdialog.cpp:204
+#: src/bin/projectclip.cpp:1409 src/dialogs/clipcreationdialog.cpp:204
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1358
 #, kde-format
 msgid "File already exists"
 msgstr "Bestand bestaat al"
 
-#: src/bin/projectclip.cpp:2553
+#: src/bin/projectclip.cpp:2570
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "Tijdlijnclips aanpassen"
 
-#: src/bin/projectclip.cpp:2774
+#: src/bin/projectclip.cpp:2791
 #, kde-format
 msgid "Add stream effect"
 msgstr "Streameffect toevoegen"
 
-#: src/bin/projectclip.cpp:2799
+#: src/bin/projectclip.cpp:2816
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Streameffect verwijderen"
@@ -5926,7 +5926,7 @@ msgstr "Tekstclip"
 msgid "Create Text clip"
 msgstr "Tekstclip aanmaken"
 
-#: src/dialogs/clipcreationdialog.cpp:391 src/doc/kdenlivedoc.cpp:1113
+#: src/dialogs/clipcreationdialog.cpp:391 src/doc/kdenlivedoc.cpp:1111
 #, kde-format
 msgid "Template title clip"
 msgstr "Voorbeeld titel clip"
@@ -6215,8 +6215,8 @@ msgid "Export Guides Data"
 msgstr "Hulplijngegevens exporteren"
 
 #: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:1611
-#: src/dialogs/renderwidget.cpp:1638 src/doc/kdenlivedoc.cpp:745
-#: src/doc/kdenlivedoc.cpp:753 src/doc/kdenlivedoc.cpp:1249
+#: src/dialogs/renderwidget.cpp:1638 src/doc/kdenlivedoc.cpp:743
+#: src/doc/kdenlivedoc.cpp:751 src/doc/kdenlivedoc.cpp:1247
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
 #: src/effects/effectsrepository.cpp:390
@@ -7009,48 +7009,48 @@ msgstr "Geen audiotrack beschikbaar voor geselecteerde clip"
 msgid "Select a clip in timeline to perform analysis"
 msgstr "Een clips in de tijdbalk selecteren om te analyseren"
 
-#: src/dialogs/speechdialog.cpp:138
+#: src/dialogs/speechdialog.cpp:140
 #, kde-format
 msgid "No audio track found"
 msgstr "Geen audiotrack gevonden"
 
-#: src/dialogs/speechdialog.cpp:175 src/dialogs/textbasededit.cpp:673
+#: src/dialogs/speechdialog.cpp:177 src/dialogs/textbasededit.cpp:673
 #, kde-format
 msgid "Please install speech recognition models"
 msgstr "Graag spraakherkenningsmodellen installeren"
 
-#: src/dialogs/speechdialog.cpp:194 src/dialogs/textbasededit.cpp:864
+#: src/dialogs/speechdialog.cpp:196 src/dialogs/textbasededit.cpp:864
 #: src/dialogs/textbasededit.cpp:877
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "Spraak naar tekst configureren."
 
-#: src/dialogs/speechdialog.cpp:201
+#: src/dialogs/speechdialog.cpp:203
 #, kde-format
 msgid "Starting audio export"
 msgstr "Exporteren van audio wordt gestart"
 
-#: src/dialogs/speechdialog.cpp:269
+#: src/dialogs/speechdialog.cpp:271
 #, kde-format
 msgid "Audio export failed"
 msgstr "Audio exporteren is mislukt"
 
-#: src/dialogs/speechdialog.cpp:295 src/dialogs/textbasededit.cpp:896
+#: src/dialogs/speechdialog.cpp:297 src/dialogs/textbasededit.cpp:896
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "Spraakherkenning wordt gestart"
 
-#: src/dialogs/speechdialog.cpp:332 src/dialogs/textbasededit.cpp:1059
+#: src/dialogs/speechdialog.cpp:334 src/dialogs/textbasededit.cpp:1059
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "Spraakherkenning afgebroken."
 
-#: src/dialogs/speechdialog.cpp:338
+#: src/dialogs/speechdialog.cpp:340
 #, kde-format
 msgid "Subtitles imported"
 msgstr "Geïmporteerde ondertitels"
 
-#: src/dialogs/speechdialog.cpp:341
+#: src/dialogs/speechdialog.cpp:343
 #, kde-format
 msgid "Speech recognition failed"
 msgstr "Spraakherkenning is mislukt"
@@ -8024,17 +8024,17 @@ msgid "Document project folder is invalid, using system default folders"
 msgstr ""
 "Documentprojectmap is ongeldig, standaard van systeemmap wordt gebruikt"
 
-#: src/doc/kdenlivedoc.cpp:563 src/doc/kdenlivedoc.cpp:573
+#: src/doc/kdenlivedoc.cpp:561 src/doc/kdenlivedoc.cpp:571
 #, kde-format
 msgid "Cannot create autosave file %1"
 msgstr "Kan bestand %1 voor automatisch opslaan niet aanmaken"
 
-#: src/doc/kdenlivedoc.cpp:568 src/doc/kdenlivedoc.cpp:706
+#: src/doc/kdenlivedoc.cpp:566 src/doc/kdenlivedoc.cpp:704
 #, kde-format
 msgid "Cannot write to file %1, scene list is corrupted."
 msgstr "Onmogelijk te schrijven naar bestand %1, de scenelijst is beschadigd."
 
-#: src/doc/kdenlivedoc.cpp:724
+#: src/doc/kdenlivedoc.cpp:722
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
@@ -8043,7 +8043,7 @@ msgstr ""
 "Het project bestand is bijgewerkt naar de laatst bekende Kdenlive versie, \n"
 "Veiligheidshalve is er een backup met de naam %1 gemaakt."
 
-#: src/doc/kdenlivedoc.cpp:738
+#: src/doc/kdenlivedoc.cpp:736
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version, but "
@@ -8052,36 +8052,36 @@ msgstr ""
 "Het projectbestand is bijgewerkt naar de laatst bekende Kdenlive "
 "documentversie, maar helaas kon er geen backup %1 gemaakt worden."
 
-#: src/doc/kdenlivedoc.cpp:869 src/project/projectmanager.cpp:1183
+#: src/doc/kdenlivedoc.cpp:867 src/project/projectmanager.cpp:1183
 #: src/project/projectmanager.cpp:1219
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Fout bij projectmap verplaatsen: %1"
 
-#: src/doc/kdenlivedoc.cpp:1038 src/doc/kdenlivedoc.cpp:2197
+#: src/doc/kdenlivedoc.cpp:1036 src/doc/kdenlivedoc.cpp:2202
 #: src/project/dialogs/archivewidget.cpp:238
 #: src/project/projectmanager.cpp:1416
 #, kde-format
 msgid "Untitled"
 msgstr "Zonder titel"
 
-#: src/doc/kdenlivedoc.cpp:1099
+#: src/doc/kdenlivedoc.cpp:1097
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Voer sjabloon pad in"
 
-#: src/doc/kdenlivedoc.cpp:1256
+#: src/doc/kdenlivedoc.cpp:1254
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "De volgende effecten zijn uit het project geïmporteerd"
 
-#: src/doc/kdenlivedoc.cpp:1289 src/doc/kdenlivedoc.cpp:1303
+#: src/doc/kdenlivedoc.cpp:1287 src/doc/kdenlivedoc.cpp:1301
 #, kde-format
 msgid "Project Folder"
 msgstr "Projectmap"
 
-#: src/doc/kdenlivedoc.cpp:1347 src/doc/kdenlivedoc.cpp:1355
+#: src/doc/kdenlivedoc.cpp:1345 src/doc/kdenlivedoc.cpp:1353
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -8090,36 +8090,31 @@ msgstr ""
 "Kan geen backup-bestand maken.\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1500
+#: src/doc/kdenlivedoc.cpp:1498
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "Proxy clip toevoegen"
 msgstr[1] "Proxy clips toevoegen"
 
-#: src/doc/kdenlivedoc.cpp:1502
+#: src/doc/kdenlivedoc.cpp:1500
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "Verwijder proxy clip"
 msgstr[1] "Verwijder proxy clips"
 
-#: src/doc/kdenlivedoc.cpp:1546 src/doc/kdenlivedoc.cpp:1581
+#: src/doc/kdenlivedoc.cpp:1544 src/doc/kdenlivedoc.cpp:1579
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "Clip-type ondersteunt geen proxies"
 
-#: src/doc/kdenlivedoc.cpp:1787
+#: src/doc/kdenlivedoc.cpp:1792
 #, kde-format
-msgid ""
-"\n"
-"Warning: unknown non integer fps, might cause incorrect duration display."
+msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
-"\n"
-"Waarschuwing: onbekende fps met gebroken getal, kan onjuiste weergave van "
-"duur veroorzaken"
 
-#: src/doc/kdenlivedoc.cpp:1806
+#: src/doc/kdenlivedoc.cpp:1811
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -8128,43 +8123,43 @@ msgstr ""
 "Uw standaard projectprofiel is %1, maar het profiel (%2) van uw clip is %3.\n"
 "Wilt u het standaard profiel voor komende projecten wijzigingen?"
 
-#: src/doc/kdenlivedoc.cpp:1808
+#: src/doc/kdenlivedoc.cpp:1813
 #, kde-format
 msgid "Change default project profile"
 msgstr "Standaard projectprofiel wijzigen"
 
-#: src/doc/kdenlivedoc.cpp:1808
+#: src/doc/kdenlivedoc.cpp:1813
 #, kde-format
 msgid "Change default to %1"
 msgstr "Standaard wijzigen naar %1"
 
-#: src/doc/kdenlivedoc.cpp:1809
+#: src/doc/kdenlivedoc.cpp:1814
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Huidige standaard %1 behouden"
 
-#: src/doc/kdenlivedoc.cpp:1809
+#: src/doc/kdenlivedoc.cpp:1814
 #, kde-format
 msgid "Ask me later"
 msgstr "Later opnieuw vragen"
 
-#: src/doc/kdenlivedoc.cpp:1829
+#: src/doc/kdenlivedoc.cpp:1834
 #, kde-format
 msgid "Switch"
 msgstr "Omschakelen"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1831 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1836 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "Annuleren"
 
-#: src/doc/kdenlivedoc.cpp:1833
+#: src/doc/kdenlivedoc.cpp:1838
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Omschakelen naar clip (%1) profiel %2?"
 
-#: src/doc/kdenlivedoc.cpp:1838
+#: src/doc/kdenlivedoc.cpp:1843
 #, kde-format
 msgid ""
 "\n"
@@ -8173,7 +8168,7 @@ msgstr ""
 "\n"
 "Profiel fps aangepast van originele %1"
 
-#: src/doc/kdenlivedoc.cpp:1840
+#: src/doc/kdenlivedoc.cpp:1845
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -8182,13 +8177,13 @@ msgstr ""
 "Geen profiel gevonden voor uw clip %1.\n"
 "Maak en schakel om naar nieuw profiel (%2x%3, %4fps)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2236 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2241 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "Rood"
 
-#: src/doc/kdenlivedoc.cpp:2237 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2242 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -8196,24 +8191,24 @@ msgstr "Rood"
 msgid "Green"
 msgstr "Groen"
 
-#: src/doc/kdenlivedoc.cpp:2238 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2243 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "Blauw"
 
-#: src/doc/kdenlivedoc.cpp:2239 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2244 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Geel"
 
-#: src/doc/kdenlivedoc.cpp:2240
+#: src/doc/kdenlivedoc.cpp:2245
 #, kde-format
 msgid "Cyan"
 msgstr "Cyaan"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2468 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2473 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -14911,40 +14906,43 @@ msgstr "Kan communicatie met renderjob %1 niet openen"
 msgid "Communication error with render job"
 msgstr "Communicatiefout met renderjob"
 
-#: src/renderpresets/renderpresetmodel.cpp:169
-#: src/renderpresets/renderpresetmodel.cpp:255
+#: src/renderpresets/renderpresetmodel.cpp:171
+#: src/renderpresets/renderpresetmodel.cpp:257
 #: src/renderpresets/renderpresetrepository.cpp:135
 #, kde-format
 msgctxt "Category Name"
 msgid "Custom"
 msgstr "Aangepast"
 
-#: src/renderpresets/renderpresetmodel.cpp:291
+#: src/renderpresets/renderpresetmodel.cpp:293
 #, kde-format
 msgid "Standard (%1) not compatible with project profile (%2)"
 msgstr "Standaard (%1) komt niet overeen met het projectprofiel (%2)"
 
-#: src/renderpresets/renderpresetmodel.cpp:301
+#: src/renderpresets/renderpresetmodel.cpp:303
 #, kde-format
 msgid "Frame rate (%1) not compatible with project profile (%2)"
 msgstr "Frame rate (%1) komt niet overeen met de project profiel (%2)"
 
-#: src/renderpresets/renderpresetmodel.cpp:311
+#: src/renderpresets/renderpresetmodel.cpp:317
+#: src/renderpresets/renderpresetmodel.cpp:336
 #, kde-format
 msgid "Unsupported video format: %1"
 msgstr "Niet ondersteund video formaat: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:318
-#, kde-format
-msgid "Unsupported audio codec: %1"
-msgstr "Niet ondersteunde audio codec: %1"
-
-#: src/renderpresets/renderpresetmodel.cpp:324
+#: src/renderpresets/renderpresetmodel.cpp:322
+#: src/renderpresets/renderpresetmodel.cpp:349
 #, kde-format
 msgid "Unsupported video codec: %1"
 msgstr "Niet ondersteunde video codec: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:329
+#: src/renderpresets/renderpresetmodel.cpp:327
+#: src/renderpresets/renderpresetmodel.cpp:343
+#, kde-format
+msgid "Unsupported audio codec: %1"
+msgstr "Niet ondersteunde audio codec: %1"
+
+#: src/renderpresets/renderpresetmodel.cpp:354
 #, kde-format
 msgid ""
 "This render preset uses a 'profile' parameter.<br />Unless you know what you "
@@ -15663,7 +15661,7 @@ msgstr "Geen geldige gegevens in klembord"
 #: src/timeline2/model/timelinefunctions.cpp:1863
 #: src/timeline2/model/timelinefunctions.cpp:1894
 #: src/timeline2/model/timelinefunctions.cpp:1933
-#: src/timeline2/model/timelinefunctions.cpp:2200
+#: src/timeline2/model/timelinefunctions.cpp:2218
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "Niet genoeg tracks om klembord te plakken"
@@ -15702,35 +15700,35 @@ msgstr "Waarschuwing voor plakken"
 msgid "Paste"
 msgstr "Plakken"
 
-#: src/timeline2/model/timelinefunctions.cpp:2037
-#: src/timeline2/model/timelinefunctions.cpp:2074
-#: src/timeline2/model/timelinefunctions.cpp:2138
+#: src/timeline2/model/timelinefunctions.cpp:2046
+#: src/timeline2/model/timelinefunctions.cpp:2092
+#: src/timeline2/model/timelinefunctions.cpp:2156
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "Kon bin-clip niet toevoegen"
 
-#: src/timeline2/model/timelinefunctions.cpp:2192
+#: src/timeline2/model/timelinefunctions.cpp:2210
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr "Niet alle clips zijn met succes gekopieerd"
 
-#: src/timeline2/model/timelinefunctions.cpp:2242
-#: src/timeline2/model/timelinefunctions.cpp:2420
+#: src/timeline2/model/timelinefunctions.cpp:2260
+#: src/timeline2/model/timelinefunctions.cpp:2438
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Kon items niet in de tijdlijn plakken"
 
-#: src/timeline2/model/timelinefunctions.cpp:2440
+#: src/timeline2/model/timelinefunctions.cpp:2458
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Tijdlijnclips plakken"
 
-#: src/timeline2/model/timelinefunctions.cpp:2658
+#: src/timeline2/model/timelinefunctions.cpp:2676
 #, kde-format
 msgid "Remove space on track"
 msgstr "Ruimte op de track verwijderen"
 
-#: src/timeline2/model/timelinefunctions.cpp:2685
+#: src/timeline2/model/timelinefunctions.cpp:2703
 #, kde-format
 msgid "Delete clips on track"
 msgstr "Clips op de track verwijderen"
@@ -21491,6 +21489,14 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
+
+#~ msgid ""
+#~ "\n"
+#~ "Warning: unknown non integer fps, might cause incorrect duration display."
+#~ msgstr ""
+#~ "\n"
+#~ "Waarschuwing: onbekende fps met gebroken getal, kan onjuiste weergave van "
+#~ "duur veroorzaken"
 
 #~ msgid "Add bookmark"
 #~ msgstr "Bladwijzer toevoegen"
