@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-03 02:25+0000\n"
-"PO-Revision-Date: 2023-11-16 15:14+0100\n"
+"PO-Revision-Date: 2023-12-03 11:19+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -8135,7 +8135,7 @@ msgstr "El tipus del clip no admet intermediaris"
 #: src/doc/kdenlivedoc.cpp:1792
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
-msgstr ""
+msgstr "Avís: fps no estàndard, s'ajusta a l'enter més proper. "
 
 #: src/doc/kdenlivedoc.cpp:1811
 #, kde-format
@@ -21596,11 +21596,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid ""
-#~ "\n"
-#~ "Warning: unknown non integer fps, might cause incorrect duration display."
-#~ msgstr ""
-#~ "\n"
-#~ "Avís: FPS no enter desconegut, pot provocar una visualització incorrecta "
-#~ "de la duració."

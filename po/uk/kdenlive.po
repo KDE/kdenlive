@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-03 02:25+0000\n"
-"PO-Revision-Date: 2023-11-15 20:12+0200\n"
+"PO-Revision-Date: 2023-12-03 08:56+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -8182,6 +8182,8 @@ msgstr "Для кліпів цього типу не передбачено пр
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
+"Попередження: нестандартна частота кадрів, коригуємо до найближчого цілого "
+"числа."
 
 #: src/doc/kdenlivedoc.cpp:1811
 #, kde-format

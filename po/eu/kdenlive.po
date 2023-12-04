@@ -1,7 +1,7 @@
 # Translation for kdenlive.po to Euskara/Basque (eu).
 # Copyright (C) 2017-2023 This file is copyright:
 # This file is distributed under the same license as the kdenlive package.
-# KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>.
+# SPDX-FileCopyrightText: 2023 KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>
 #
 # Translators:
 # Iñigo Gebara <igebara@disroot.org>, 2017, 2018, 2020, 2021, 2022, 2023.
@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-03 02:25+0000\n"
-"PO-Revision-Date: 2023-07-14 20:50+0200\n"
+"PO-Revision-Date: 2023-12-03 20:14+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 23.04.3\n"
+"X-Generator: Lokalize 23.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -5435,10 +5435,9 @@ msgid "File already exists"
 msgstr "Fitxategia badago lehendik ere"
 
 #: src/bin/projectclip.cpp:2570
-#, fuzzy, kde-format
-#| msgid "Paste timeline clips"
+#, kde-format
 msgid "Adjust timeline clips"
-msgstr "Itsatsi denbora-lerroko klipak"
+msgstr "Doitu denbora-lerroko klipak"
 
 #: src/bin/projectclip.cpp:2791
 #, kde-format
@@ -5943,6 +5942,8 @@ msgid ""
 "<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</b> "
 "by the second, , <b>{&#x25;3}</b> by the output file path."
 msgstr ""
+"<b>{&#x25;1}</b> aurreneko parametroarekin ordeztuko da, <b>{&#x25;2}</b> "
+"bigarrenarekin, , <b>{&#x25;3}</b> irteerako bide-izenarekin."
 
 #: src/dialogs/clipjobmanager.cpp:48
 #, kde-format
@@ -5958,11 +5959,15 @@ msgid ""
 "inserted in place of <b>{&#x25;3}</b> if found. If output filename already "
 "exists, a -0001 pattern will be appended."
 msgstr ""
+"Irteerako fitxategi-izena, sorburuko ontziko kliparen fitxategi-izenaren "
+"berdina izango da, luzapena aldatuta. Argumentuen amaieran erantsiko da, edo "
+"<b>{&#x25;3}</b> aurkituz gero, haren ordez kokatuko da. Irteerako "
+"fitxategiaren izena lehendik badago, -0001 eredu bat erantsiko zaio."
 
 #: src/dialogs/clipjobmanager.cpp:54
 #, kde-format
 msgid "The first parameter that will be injected in the script arguments"
-msgstr ""
+msgstr "«script»aren argumentuetan txertatuko den aurreneko parametroa"
 
 #: src/dialogs/clipjobmanager.cpp:56 src/dialogs/clipjobmanager.cpp:66
 #, kde-kuit-format
@@ -5972,12 +5977,18 @@ msgid ""
 "File Path</b> will ask for a file path on execution<br/><b>Request Option in "
 "List</b> will ask for a choice in the list below on execution."
 msgstr ""
+"<b>Sorburu kliparen bide-izena</b> hautatutako ontziko kliparen bide-izena "
+"ipiniko du<br/><b>Eskatu fitxategiaren bide-izena</b> exekuzioan fitxategi "
+"bide-izen bat eskatuko du<br/><b>Eskatu zerrendako aukera</b> exekuzioan "
+"beheko zerrendako aukera bat eskatuko du."
 
 #: src/dialogs/clipjobmanager.cpp:59 src/dialogs/clipjobmanager.cpp:69
 #, kde-format
 msgid ""
 "A newline separated list of possible values that will be offered on execution"
 msgstr ""
+"Exekuzioan eskainiko den, lerro berri bidez banaturiko balizko balioen "
+"zerrenda bat"
 
 #: src/dialogs/clipjobmanager.cpp:62 src/dialogs/clipjobmanager.cpp:72
 #, kde-kuit-format
@@ -5986,11 +5997,14 @@ msgid ""
 "When the parameter is set to <b>Request Option in List</b> the user will be "
 "asked to choose a value in this list when the job is started."
 msgstr ""
+"Parametroa <b>Eskatu zerrendako aukera</b> gisa ezarrita dagoenean, lana "
+"hasten denean, erabiltzaileari, zerrenda horretako balio bat hautatzea "
+"eskatuko zaio."
 
 #: src/dialogs/clipjobmanager.cpp:64
 #, kde-format
 msgid "The second parameter that will be injected in the script arguments"
-msgstr ""
+msgstr "«script»aren argumentuetan txertatuko den bigarren parametroa"
 
 #: src/dialogs/clipjobmanager.cpp:128 src/dialogs/clipjobmanager.cpp:256
 #, kde-format
@@ -7196,24 +7210,19 @@ msgid "Configure Speech Recognition"
 msgstr "Konfiguratu hizketaren ezagutza"
 
 #: src/dialogs/textbasededit.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with edit"
-msgstr "Sortu sekuentzia berria"
+msgstr "Sortu sekuentzia berria edizioarekin"
 
 #: src/dialogs/textbasededit.cpp:635
-#, fuzzy, kde-format
-#| msgid "Insert selected blocks in timeline"
+#, kde-format
 msgid "Insert selection in timeline"
-msgstr "Txertatu hautatutako blokeak denbora-lerroan"
+msgstr "Txertatu hautapena denbora-lerroan"
 
 #: src/dialogs/textbasededit.cpp:640
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with text edit "
-msgstr "Sortu sekuentzia berria"
+msgstr "Sortu sekuentzia berria testu edizioarekin"
 
 #: src/dialogs/textbasededit.cpp:663
 #, kde-format
@@ -7231,10 +7240,9 @@ msgid "Delete selected text"
 msgstr "Ezabatu hautatutako testua"
 
 #: src/dialogs/textbasededit.cpp:707
-#, fuzzy, kde-format
-#| msgid "Add bookmark for current selection"
+#, kde-format
 msgid "Add marker for current selection"
-msgstr "Gehitu laster-marka uneko hautapenerako"
+msgstr "Gehitu markatzailea uneko hautapenerako"
 
 #: src/dialogs/textbasededit.cpp:848
 #, kde-format
@@ -7297,8 +7305,7 @@ msgid "Speech recognition finished."
 msgstr "Hizketaren ezagutza burutu da."
 
 #: src/dialogs/textbasededit.cpp:1280 src/dialogs/textbasededit.cpp:1342
-#, fuzzy, kde-format
-#| msgid "Create Sequence Clip"
+#, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Sortu sekuentzia-klipa"
@@ -8097,7 +8104,7 @@ msgstr "Klip motak ez ditu bitartekaririk onartzen"
 #: src/doc/kdenlivedoc.cpp:1792
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
-msgstr ""
+msgstr "Abisua: FPS ez estandarra, zenbaki oso hurbilenera doituko da."
 
 #: src/doc/kdenlivedoc.cpp:1811
 #, kde-format
@@ -9446,12 +9453,12 @@ msgstr "Adituen aholkua, azterketa"
 #: src/main.cpp:144
 #, kde-format
 msgid "NAME OF TRANSLATORS"
-msgstr "ITZULTZAILEEN IZENAK"
+msgstr "Iñigo Gebara,Iñigo Salvador Azurmendi,Imanol Manterola Agirrezabalaga"
 
 #: src/main.cpp:144
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
-msgstr "ITZULTZAILEEN E-POSTAK"
+msgstr "igebara@disroot.org,ixalba@ni.eus,imanolmiru@gmail.com"
 
 #: src/main.cpp:147
 #, kde-format
@@ -9569,16 +9576,14 @@ msgid "Screen Grab"
 msgstr "Pantaila-grabatzea"
 
 #: src/mainwindow.cpp:349
-#, fuzzy, kde-format
-#| msgid "Select a clip to create sequence"
+#, kde-format
 msgid "Switch to next Sequence"
-msgstr "Hautatu klip bat sortzeko sekuentzia"
+msgstr "Aldatu hurrengo sekuentzira"
 
 #: src/mainwindow.cpp:353
-#, fuzzy, kde-format
-#| msgid "Go to previous keyframe"
+#, kde-format
 msgid "Switch to previous Sequence"
-msgstr "Joan aurreko fotogramara"
+msgstr "Aldatu aurreko sekuentziara"
 
 #: src/mainwindow.cpp:359
 #, kde-format
@@ -9777,17 +9782,17 @@ msgstr "Hautatu klipa efektua alderatzeko"
 #: src/mainwindow.cpp:1144
 #, kde-format
 msgid "Normal Mode"
-msgstr "Modu Normala"
+msgstr "Modu arrunta"
 
 #: src/mainwindow.cpp:1148
 #, kde-format
 msgid "Overwrite Mode"
-msgstr "Gainidazte Modua"
+msgstr "Gainidazteko modua"
 
 #: src/mainwindow.cpp:1152
 #, kde-format
 msgid "Insert Mode"
-msgstr "Txertatze Modua"
+msgstr "Txertatzeko modua"
 
 #: src/mainwindow.cpp:1156
 #, kde-format
@@ -9801,8 +9806,8 @@ msgid ""
 "Switches between Normal, Overwrite and Insert Mode. Determines the default "
 "action when handling clips in the timeline."
 msgstr ""
-"Modu Arrunta, Gainidazte eta Txertatze moduen artean aldatzen du. Denbora-"
-"lerroan klipak maneiatzean ekintza lehenetsia zehazten du."
+"Modu arrunta, gainidaztekoa eta txertatzekoaren artean aldatzen du. Denbora-"
+"lerroan klipak maneiatzean ekintza lehenetsia erabakitzen du."
 
 #: src/mainwindow.cpp:1171
 #, kde-format
@@ -10285,7 +10290,7 @@ msgid ""
 "inserted at the playhead position in the active timeline. Clips at the "
 "insert position are cut and overwritten."
 msgstr ""
-"Klik egitean, proiektu-ontzian hautatuta dagoen eremua, aktibo dagoen "
+"Klik egitean, proiektu-ontzian hautatuta dagoen eskualdea, aktibo dagoen "
 "denbora-lerroko erreprodukzioa-kurtsorearen kokapenean txertatzen du. "
 "Txertatze kokapenean dauden klipak ebaki eta gainidazten ditu."
 
@@ -10633,10 +10638,9 @@ msgid "Switch Track Target Audio Stream"
 msgstr "Aldatu helburu pistaren audio korrontea"
 
 #: src/mainwindow.cpp:1872
-#, fuzzy, kde-format
-#| msgid "Delete Track"
+#, kde-format
 msgid "Delete Track…"
-msgstr "Ezabatu pista"
+msgstr "Ezabatu pista..."
 
 #: src/mainwindow.cpp:1877
 #, kde-format
@@ -10960,7 +10964,7 @@ msgstr "Ezin izan da klipa aurkitu markatzailea editatzeko"
 #: src/timeline2/view/timelinecontroller.cpp:3060
 #, kde-format
 msgid "Overwrite zone"
-msgstr "Gainidazte eskualdea"
+msgstr "Gainidatzi eskualdea"
 
 #: src/mainwindow.cpp:3002 src/mainwindow.cpp:3021
 #: src/timeline2/model/timelinefunctions.cpp:656
@@ -11115,16 +11119,14 @@ msgid "Transcoders"
 msgstr "Transkodetzaileak"
 
 #: src/mainwindow.cpp:3854
-#, fuzzy, kde-format
-#| msgid "Merge"
+#, kde-format
 msgid "-merged"
-msgstr "Nahastu"
+msgstr "-bateratuta"
 
 #: src/mainwindow.cpp:3857
-#, fuzzy, kde-format
-#| msgid "Video stream %1"
+#, kde-format
 msgid "-stream-%1"
-msgstr "%1 bideo-korrontea"
+msgstr "-korrontea-%1"
 
 #: src/mainwindow.cpp:3890
 #, kde-format
@@ -13767,17 +13769,14 @@ msgid "Cannot perform assign"
 msgstr "Ezin da gauzatu egokitzea"
 
 #: src/project/projectmanager.cpp:65
-#, fuzzy, kde-format
-#| msgid "Render Project"
+#, kde-format
 msgid "Kdenlive Project"
-msgstr "Errendatu proiektua"
+msgstr "Kdenlive proiektua"
 
 #: src/project/projectmanager.cpp:67
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Archive Project"
+#, kde-format
 msgid "Archived Project"
-msgstr "Artxibatu proiektua"
+msgstr "Artxibatutako proiektua"
 
 #: src/project/projectmanager.cpp:140
 #, kde-format
@@ -14012,10 +14011,9 @@ msgid "Install missing dependencies"
 msgstr "Instalatu falta diren mendekotasunak"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:26
-#, fuzzy, kde-format
-#| msgid "Check VOSK installation"
+#, kde-format
 msgid "Abort installation"
-msgstr "Egiaztatu VOSK instalazioa"
+msgstr "Instalazioa bertan behera utzi"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:37
 #, kde-format
@@ -14044,10 +14042,9 @@ msgid "Check for update"
 msgstr "Egiaztatu eguneraketarik dagoen"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:88
-#, fuzzy, kde-format
-#| msgid "Installing modules…"
+#, kde-format
 msgid "Installing modules… this can take a while"
-msgstr "Moduluak instalatzen…"
+msgstr "Moduluak instalatzen… denboratxo bat beharko du"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:98
 #, kde-format
@@ -15703,7 +15700,7 @@ msgstr "Itsatsi"
 #: src/timeline2/model/timelinefunctions.cpp:2156
 #, kde-format
 msgid "Could not add bin clip"
-msgstr "Ezin izan da ontziko klipa gehitu"
+msgstr "Ezin izan du ontziko klipa gehitu"
 
 #: src/timeline2/model/timelinefunctions.cpp:2210
 #, kde-format
@@ -16552,6 +16549,8 @@ msgstr "Ezarri audio erreferentzia lerrokatzen saiatu aurretik"
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
 msgstr ""
+"Korronte guztiak dagoeneko esleitu dira, aurrena desautatu beste audio "
+"helburu bat"
 
 #: src/timeline2/view/timelinecontroller.cpp:3598
 #, kde-format
@@ -17067,10 +17066,9 @@ msgid "Load Title"
 msgstr "Kargatu izenburua"
 
 #: src/titler/titlewidget.cpp:2136
-#, fuzzy, kde-format
-#| msgid "Kdenlive"
+#, kde-format
 msgid "Kdenlive title"
-msgstr "Kdenlive"
+msgstr "Kdenlive izenburua"
 
 #: src/titler/titlewidget.cpp:2182
 #, kde-format
@@ -17753,8 +17751,7 @@ msgstr "Bukaera moztu:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/clipjobmanager_ui.ui:30
-#, fuzzy, kde-format
-#| msgid "Job description"
+#, kde-format
 msgid "Job Description"
 msgstr "Lanaren deskribapena"
 
@@ -17810,7 +17807,7 @@ msgstr "Karpetaren izena"
 #: src/ui/clipjobmanager_ui.ui:110
 #, kde-format
 msgid "Optional description that will show up if a parameter is requested"
-msgstr ""
+msgstr "Hautazko deskribapena, parametro bat eskatuz gero erakutsiko dena"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:117
@@ -17840,50 +17837,52 @@ msgid ""
 "replaced by the first parameter value</li><li><b>{param2}</b> will be "
 "replaced by the second parameter value</li></ul>"
 msgstr ""
+"Argumentuetan, ondoko aukerak erabilgarri daude: <ul><li><b>{sorburua}</b> "
+"Ontziko kliparen sorburu fitxategiaren bide-izenarekin ordeztuko da</"
+"li><li><b>{irteera}</b>irteerako fitxategi-izenarekin ordeztuko da</"
+"li><li><b>{param1}</b> aurreneko parametroaren balioarekin ordeztuko da</"
+"li><li><b> {param2}</b> bigarren parametroaren balioarekin ordeztuko da</"
+"li></ul>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/clipjobmanager_ui.ui:176
-#, fuzzy, kde-format
-#| msgid "Parameters"
+#, kde-format
 msgid "Parameter 1 {param1}"
-msgstr "Parametroak"
+msgstr "1. parametroa {param1}"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_isfile)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_isfile)
 #: src/ui/clipjobmanager_ui.ui:182 src/ui/clipjobmanager_ui.ui:275
 #, kde-format
 msgid "Request file path"
-msgstr ""
+msgstr "Eskatu fitxategiaren bide-izena"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_islist)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_islist)
 #: src/ui/clipjobmanager_ui.ui:192 src/ui/clipjobmanager_ui.ui:268
 #, kde-format
 msgid "Request option from list"
-msgstr ""
+msgstr "Eskatu zerrendako aukera"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param1_list)
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param2_list)
 #: src/ui/clipjobmanager_ui.ui:202 src/ui/clipjobmanager_ui.ui:254
-#, fuzzy, kde-format
-#| msgid "More options"
+#, kde-format
 msgid "List of options"
-msgstr "Aukera gehiago"
+msgstr "Aukeren zerrenda"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param1_name)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param2_name)
 #: src/ui/clipjobmanager_ui.ui:209 src/ui/clipjobmanager_ui.ui:261
-#, fuzzy, kde-format
-#| msgid "parameter description"
+#, kde-format
 msgid "Parameter description"
-msgstr "parametroaren azalpena"
+msgstr "Parametroaren deskribapena"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: src/ui/clipjobmanager_ui.ui:232
-#, fuzzy, kde-format
-#| msgid "Parameters"
+#, kde-format
 msgid "Parameter 2 {param2}"
-msgstr "Parametroak"
+msgstr "2. parametroa {param2}"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/clipjobmanager_ui.ui:288
@@ -17895,7 +17894,7 @@ msgstr "Irteerako fitxategiaren luzapena"
 #: src/ui/clipjobmanager_ui.ui:301
 #, kde-format
 msgid "Applies to"
-msgstr ""
+msgstr "Honi aplikatzen zaio"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox)
 #: src/ui/clipspeed_ui.ui:103
