@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-03 00:41+0000\n"
-"PO-Revision-Date: 2023-11-29 16:59+0300\n"
+"PO-Revision-Date: 2023-12-03 13:14+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -11068,9 +11068,7 @@ msgid "Lock Subtitle"
 msgstr "Altyazıyı Kilitle"
 
 #: src/mainwindow.cpp:1920
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Manage Subtitles"
+#, kde-format
 msgid "Manage Subtitles"
 msgstr "Altyazıları Yönet"
 
@@ -12908,7 +12906,7 @@ msgstr "CC 0"
 #, kde-format
 msgctxt "License"
 msgid "Public Domain"
-msgstr "Kamuya Ait"
+msgstr "Kamuya Açık"
 
 #: src/onlineresources/resourcewidget.cpp:458
 #, kde-format
