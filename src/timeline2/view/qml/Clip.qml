@@ -1030,8 +1030,8 @@ Rectangle {
                                 width: effectLabel.height
                             }
                             anchors {
-                                top: effectsRect.top
-                                left: effectsRect.left
+                                top: parent.top
+                                left: parent.left
                                 leftMargin: 1
                             }
                         }

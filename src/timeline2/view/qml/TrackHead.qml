@@ -80,13 +80,13 @@ Rectangle {
         anchors.fill: parent
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton | Qt.RightButton
-        onPressed: {
+        onPressed: mouse => {
             timeline.activeTrack = trackId
             if (mouse.button == Qt.RightButton) {
                 root.showHeaderMenu()
             }
         }
-        onClicked: {
+        onClicked: mouse => {
             console.log('TRACK ID: ', trackId)
             parent.forceActiveFocus()
             nameEdit.visible = false
@@ -118,7 +118,7 @@ Rectangle {
             hoverEnabled: true
             acceptedButtons: Qt.LeftButton | Qt.RightButton
             cursorShape: Qt.PointingHandCursor
-            onClicked: {
+            onClicked: mouse => {
                 if (mouse.button == Qt.RightButton) {
                     if (trackHeadRoot.isAudio) {
                         root.showTargetMenu(trackId)
@@ -637,7 +637,7 @@ Rectangle {
                     startY = mapToItem(null, x, y).y
                     originalY = trackHeadRoot.height // reusing originalX to accumulate delta for bubble help
                 }
-                onReleased: {
+                onReleased: mouse => {
                     root.autoScrolling = timeline.autoScroll
                     if (!trimInMouseArea.containsMouse) {
                         parent.opacity = 0
@@ -651,7 +651,7 @@ Rectangle {
                 onDoubleClicked: mouse => {
                     timeline.defaultTrackHeight(mouse.modifiers & Qt.ShiftModifier ? -1 : trackHeadRoot.trackId)
                 }
-                onPositionChanged: {
+                onPositionChanged: mouse=> {
                     if (mouse.buttons === Qt.LeftButton) {
                         parent.opacity = 0.5
                         if (!dragStarted && Math.abs(mapToItem(null, x, y).y - startY) > 2) {
