@@ -22,22 +22,22 @@ include:
     KDECI_CRAFT_CONFIG: ci-utilities/craft/qt6/CraftConfig.ini
     KDECI_CRAFT_PROJECT_CONFIG: $CI_PROJECT_DIR/src/.craft-qt6.ini
 
-craft_appimage_x86_64-qt6:
+craft_appimage_qt6_x86_64:
   extends:
     - craft_appimage_x86_64
     - .craft-qt6
 
-craft_windows_mingw64-qt6:
+craft_windows_qt6_mingw64:
   extends:
-    - craft_windows_mingw64
+    - craft_windows_qt515_mingw64
     - .craft-qt6
 
-craft_macos_arm64-qt6:
+craft_macos_qt6_arm64:
   extends:
     - craft_macos_arm64
     - .craft-qt6
 
-craft_macos_x86_64-qt6:
+craft_macos_qt6_x86_64:
   extends:
     - craft_macos_x86_64
     - .craft-qt6
