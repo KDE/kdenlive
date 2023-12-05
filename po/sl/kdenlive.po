@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-03 00:41+0000\n"
-"PO-Revision-Date: 2023-11-30 22:05+0100\n"
+"PO-Revision-Date: 2023-12-04 10:21+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -11108,9 +11108,7 @@ msgid "Lock Subtitle"
 msgstr "Zakleni podnaslov"
 
 #: src/mainwindow.cpp:1920
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Manage Subtitles"
+#, kde-format
 msgid "Manage Subtitles"
 msgstr "Upravljaj podnaslove"
 

@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-03 00:41+0000\n"
-"PO-Revision-Date: 2023-11-29 21:42+0100\n"
+"PO-Revision-Date: 2023-12-04 11:52+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -11118,9 +11118,7 @@ msgid "Lock Subtitle"
 msgstr "Ondertitel vergrendelen"
 
 #: src/mainwindow.cpp:1920
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Manage Subtitles"
+#, kde-format
 msgid "Manage Subtitles"
 msgstr "Ondertiteling beheren"
 
