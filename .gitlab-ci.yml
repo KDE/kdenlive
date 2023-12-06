@@ -1,9 +1,6 @@
 # SPDX-FileCopyrightText: none
 # SPDX-License-Identifier: CC0-1.0
 
-#flatpak:
-#  timeout: 1h 30m
-
 include:
   - project: sysadmin/ci-utilities
     file:
@@ -11,7 +8,7 @@ include:
       - /gitlab-templates/linux.yml
       - /gitlab-templates/freebsd.yml
       - /gitlab-templates/linux-qt6.yml
-      #- /gitlab-templates/flatpak.yml
+      - /gitlab-templates/flatpak.yml
       - /gitlab-templates/craft-appimage.yml
       - /gitlab-templates/craft-windows-mingw64.yml
       - /gitlab-templates/craft-macos-x86-64.yml
