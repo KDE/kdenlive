@@ -55,8 +55,8 @@ craft_macos_arm64_signing_test:
     - craftmaster -c --no-cache --options $CI_PROJECT_NAME.srcDir=$CI_PROJECT_DIR/src/ $CI_PROJECT_NAME
     # Sign the app, later we need to sign the final dmg too
     - imageDir=$(craftmaster -c -q --get "imageDir()" $CI_PROJECT_NAME)
-    - ls $imageDir
-    - python3 ci-notary-service/signmacapp.py -v --config $KDECI_SIGNMACAPP_CONFIG $imageDir/*.app
+    - ls $imageDir/bin
+    - python3 ci-notary-service/signmacapp.py -v --config $KDECI_SIGNMACAPP_CONFIG $imageDir/bin/*.app
     # Package it up!
     - craftmaster -c --package --options $CI_PROJECT_NAME.srcDir=$CI_PROJECT_DIR/src/ $CI_PROJECT_NAME
     # Save our package
@@ -74,7 +74,9 @@ craft_macos_arm64_signing_test:
     expose_as: "macOS ARM Signed"
     paths:
      - ".kde-ci-packages/"
-     - "$KDECI_CRAFT_PLATFORM/logs/"
+     - "macos-clang-arm64/logs/"
+     - task-debug.log
+     - task.log
 
 
 
