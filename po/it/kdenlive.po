@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-03 00:41+0000\n"
-"PO-Revision-Date: 2023-11-16 17:06+0100\n"
+"PO-Revision-Date: 2023-12-03 18:21+0100\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -3321,11 +3321,10 @@ msgstr "Rimuovi dai preferiti"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:351
 #: src/assets/assetlist/view/assetlistwidget.cpp:353
-#, fuzzy, kde-format
-#| msgid "Kdenlive document to open."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Online documentation"
-msgstr "Documento di Kdenlive da aprire."
+msgstr "Documentazione in linea"
 
 #: src/assets/assetpanel.cpp:67
 #, kde-format
@@ -5188,20 +5187,20 @@ msgstr "Rimuovi i marcatori della clip"
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
+"Ti raccomandiamo di salvare il progetto prima dell'operazione di "
+"transcodifica"
 
 #: src/bin/bin.cpp:6060
-#, fuzzy, kde-format
-#| msgid "Save DVD Project"
+#, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
-msgstr "Salva il progetto DVD"
+msgstr "Salva il progetto"
 
 #: src/bin/bin.cpp:6061
-#, fuzzy, kde-format
-#| msgid "Transcoding"
+#, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
-msgstr "Transcodifica"
+msgstr "Transcodifica senza salvare"
 
 #: src/bin/bincommands.cpp:20 src/bin/bincommands.cpp:40
 #, kde-format
@@ -5566,11 +5565,10 @@ msgid "Delete subtitle"
 msgstr "Elimina sottotitolo"
 
 #: src/bin/model/subtitlemodel.cpp:1683 src/bin/model/subtitlemodel.cpp:1686
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox subtitle track name"
 msgid "Subtitle %1"
-msgstr "Sottotitoli"
+msgstr "Sottotitolo %1"
 
 #: src/bin/projectclip.cpp:262
 #, kde-format
@@ -6740,25 +6738,22 @@ msgid "Disabling virtual environment"
 msgstr "Disabilitazione ambiente virtuale"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1782
-#, fuzzy, kde-format
-#| msgid "Setting up virtual environment…"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Removing the virtual environment folder."
-msgstr "Configurazione dell'ambiente virtuale..."
+msgstr "Rimozione della cartella dell'ambiente virtuale."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1787
-#, fuzzy, kde-format
-#| msgid "No python venv found"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "No python venv found"
 msgstr "Nessun python venv trovato"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1790
-#, fuzzy, kde-format
-#| msgid "Use python virtual environment (recommended)"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Failed to remove the virtual environment folder."
-msgstr "Usa l'ambiente virtuale di python (raccomandato)"
+msgstr "Impossibile rimuovere la cartella dell'ambiente virtuale."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1795
 #, kde-format
@@ -6833,25 +6828,22 @@ msgid "New dictionary installed."
 msgstr "Nuovo dizionario installato."
 
 #: src/dialogs/managesubtitles.cpp:28
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@title:window"
 msgid "Manage Subtitles"
-msgstr "Sottotitoli"
+msgstr "Gestisci sottotitoli"
 
 #: src/dialogs/managesubtitles.cpp:44
-#, fuzzy, kde-format
-#| msgid "Import Subtitle"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Import Subtitle"
 msgstr "Importa sottotitoli"
 
 #: src/dialogs/managesubtitles.cpp:45
-#, fuzzy, kde-format
-#| msgid "Import Subtitle"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Export Subtitle"
-msgstr "Importa sottotitoli"
+msgstr "Esporta sottotitoli"
 
 #: src/dialogs/managesubtitles.cpp:112
 #, kde-format
@@ -6859,6 +6851,8 @@ msgid ""
 "This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
 "subtitle file: %2 "
 msgstr ""
+"Questo eliminerà tutte le voci dei sottotitoli <b>%1</b>,<br/>così come nel "
+"file dei sottotitoli: %2 "
 
 #: src/dialogs/profilesdialog.cpp:111
 #, kde-format
@@ -7178,17 +7172,19 @@ msgid ""
 "desync.\n"
 "We recommend to transcode to an edit friendly format."
 msgstr ""
+"Esportare un progetto con una frequenza di fotogrammi variabili può portare "
+"alla perdita di sincronizzazione audio/video.\n"
+"Ti raccomandiamo di transcodificare, così da modificare in un formato adatto "
+"al montaggio."
 
 #: src/dialogs/renderwidget.cpp:649
-#, fuzzy, kde-format
-#| msgid "Render line"
+#, kde-format
 msgctxt "@action:button"
 msgid "Render Anyway"
-msgstr "Esporta linea"
+msgstr "Esporta comunque"
 
 #: src/dialogs/renderwidget.cpp:652
-#, fuzzy, kde-format
-#| msgid "Transcode"
+#, kde-format
 msgctxt "@action:button"
 msgid "Transcode"
 msgstr "Transcodifica"
@@ -7209,8 +7205,7 @@ msgstr ""
 "Accertati di avere i permessi necessari per compiere l'operazione."
 
 #: src/dialogs/renderwidget.cpp:724
-#, fuzzy, kde-format
-#| msgid "The following errors occured while trying to render"
+#, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr "Nel tentativo di esportazione si sono verificati i seguenti errori"
 
@@ -7407,11 +7402,10 @@ msgstr "Installa i modelli per il riconoscimento vocale"
 
 #: src/dialogs/speechdialog.cpp:199
 #: src/pythoninterfaces/abstractpythoninterface.cpp:164
-#, fuzzy, kde-format
-#| msgid "Checking system"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Checking setup…"
-msgstr "Verifica del sistema"
+msgstr "Verifica installazione..."
 
 #: src/dialogs/speechdialog.cpp:204 src/dialogs/textbasededit.cpp:934
 #: src/dialogs/textbasededit.cpp:947
@@ -11197,10 +11191,9 @@ msgid "Lock Subtitle"
 msgstr "Blocca sottotitoli"
 
 #: src/mainwindow.cpp:1920
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgid "Manage Subtitles"
-msgstr "Sottotitoli"
+msgstr "Gestisci sottotitoli"
 
 #: src/mainwindow.cpp:1922
 #, kde-format
@@ -11463,10 +11456,9 @@ msgid "Insert zone"
 msgstr "Inserisci zona"
 
 #: src/mainwindow.cpp:3179
-#, fuzzy, kde-format
-#| msgid "Cannot add effect to clip"
+#, kde-format
 msgid "Cannot add effect to active item"
-msgstr "Impossibile aggiungere l'effetto video alla clip"
+msgstr "Impossibile aggiungere effetto all'elemento attivo"
 
 #: src/mainwindow.cpp:3241
 #, kde-format
@@ -11552,13 +11544,7 @@ msgid "Slip"
 msgstr "Scivolamento"
 
 #: src/mainwindow.cpp:3413
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<shortcut>Shift drag</shortcut> for rubber-band selection, "
-#| "<shortcut>Shift click</shortcut> for multiple selection, <shortcut>Meta "
-#| "drag</shortcut> to move a grouped clip to another track, <shortcut>Ctrl "
-#| "drag</shortcut> to pan"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Shift drag</shortcut> for rubber-band selection, <shortcut>Shift "
@@ -11566,9 +11552,9 @@ msgid ""
 "select an item in a group, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
 "<shortcut>Maiusc trascina</shortcut> per il rettangolo di selezione, "
-"<shortcut>Maiusc clic</shortcut> per la selezione multipla, <shortcut>Meta "
-"trascina</shortcut> per spostare delle clip raggruppate in un'altra traccia, "
-"<shortcut>Ctrl trascina</shortcut> per traslare"
+"<shortcut>Maiusc clic</shortcut> per la selezione multipla, <shortcut>Alt "
+"clic</shortcut> per selezionare un elemento in un gruppo, <shortcut>Ctrl "
+"trascina</shortcut> per traslare"
 
 #: src/mainwindow.cpp:3415
 #, kde-format
@@ -14706,11 +14692,10 @@ msgid "Please consider to update your setup."
 msgstr "Considera di aggiornare l'installazione."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:441
-#, fuzzy, kde-format
-#| msgid "No information in clipboard"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
-msgstr "Nessuna informazione negli appunti"
+msgstr "Nessuna informazione sulla versione disponibile."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:498
 #, kde-format
@@ -17362,18 +17347,16 @@ msgstr "Blocca traccia sottotitoli"
 
 #: src/timeline2/view/timelinecontroller.cpp:5260
 #: src/timeline2/view/timelinecontroller.cpp:5269
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "Sottotitoli"
 
 #: src/timeline2/view/timelinecontroller.cpp:5271
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
-msgstr "Sottotitoli"
+msgstr "Gestisci sottotitoli"
 
 #: src/timeline2/view/timelinetabs.cpp:48
 #, kde-format
@@ -20389,17 +20372,15 @@ msgstr "Anteprima dei sottotitoli"
 
 #. i18n: ectx: property (text), widget (QCheckBox, create_track)
 #: src/ui/import_subtitle_ui.ui:274
-#, fuzzy, kde-format
-#| msgid "Show Subtitle Track"
+#, kde-format
 msgid "Create New Subtitle Track"
-msgstr "Mostra traccia sottotitoli"
+msgstr "Crea nuova traccia dei sottotitoli"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, track_name)
 #: src/ui/import_subtitle_ui.ui:284
-#, fuzzy, kde-format
-#| msgid "Show Subtitle Track"
+#, kde-format
 msgid "Subtitle Track Name"
-msgstr "Mostra traccia sottotitoli"
+msgstr "Nome della traccia dei sottotitoli"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/keywordval_ui.ui:42
@@ -20625,17 +20606,15 @@ msgstr "Modifica i profili per:"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_new)
 #: src/ui/managesubtitles_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Create"
+#, kde-format
 msgid "Create New"
-msgstr "Crea"
+msgstr "Crea nuovo"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
 #: src/ui/managesubtitles_ui.ui:46
-#, fuzzy, kde-format
-#| msgid "Delete "
+#, kde-format
 msgid "Delete"
-msgstr "Elimina "
+msgstr "Elimina"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, subtitlesList)
 #: src/ui/managesubtitles_ui.ui:108
@@ -21573,10 +21552,9 @@ msgstr "Zona dalla linea temporale (tutte le tracce)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_full)
 #: src/ui/speechdialog_ui.ui:181
-#, fuzzy, kde-format
-#| msgid "Fu&ll project"
+#, kde-format
 msgid "Full project"
-msgstr "Progetto &intero"
+msgstr "Progetto intero"
 
 #. i18n: ectx: property (text), widget (QLabel, label_template)
 #. i18n: ectx: property (text), widget (QLabel, label)

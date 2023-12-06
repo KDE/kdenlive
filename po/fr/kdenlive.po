@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-03 00:41+0000\n"
-"PO-Revision-Date: 2023-12-01 09:52+0100\n"
+"PO-Revision-Date: 2023-12-04 09:11+0100\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -11233,9 +11233,7 @@ msgid "Lock Subtitle"
 msgstr "Verrouiller le sous-titre"
 
 #: src/mainwindow.cpp:1920
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Manage Subtitles"
+#, kde-format
 msgid "Manage Subtitles"
 msgstr "Gérer les sous-titres"
 
