@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-03 02:25+0000\n"
-"PO-Revision-Date: 2023-11-16 17:06+0100\n"
+"PO-Revision-Date: 2023-12-03 18:21+0100\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -8153,7 +8153,7 @@ msgstr "Il tipo della clip non supporta le clip rappresentative"
 #: src/doc/kdenlivedoc.cpp:1792
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
-msgstr ""
+msgstr "Attenzione: fps non standard, regolazione all'intero più vicino. "
 
 #: src/doc/kdenlivedoc.cpp:1811
 #, kde-format
