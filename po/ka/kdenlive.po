@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-03 00:41+0000\n"
-"PO-Revision-Date: 2023-12-01 07:03+0100\n"
+"PO-Revision-Date: 2023-12-06 06:12+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -10640,9 +10640,7 @@ msgid "Lock Subtitle"
 msgstr "სუბტიტრის ჩაკეტვა"
 
 #: src/mainwindow.cpp:1920
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Manage Subtitles"
+#, kde-format
 msgid "Manage Subtitles"
 msgstr "სუბტიტრების მართვა"
 
