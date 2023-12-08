@@ -1,9 +1,6 @@
 # SPDX-FileCopyrightText: none
 # SPDX-License-Identifier: CC0-1.0
 
-flatpak:
-  timeout: 1h 30m
-
 include:
   - project: sysadmin/ci-utilities
     file:
@@ -17,27 +14,90 @@ include:
       - /gitlab-templates/craft-macos-x86-64.yml
       - /gitlab-templates/craft-macos-arm64.yml
 
+
+craft_macos_arm64_signing_test:
+  stage: build
+  when: manual
+  tags:
+    - macOS
+  variables:
+    GIT_STRATEGY: none
+    # KDECI_CRAFT_PLATFORM is specified in the derived jobs
+    KDECI_CRAFT_PLATFORM: macos-arm-clang
+    KDECI_CRAFT_CACHE: /mnt/craft-cache/$KDECI_CRAFT_PLATFORM/
+    KDECI_CRAFT_CONFIG: ci-utilities/craft/qt5/CraftConfig.ini
+    KDECI_CRAFT_PROJECT_CONFIG: $CI_PROJECT_DIR/src/.craft.ini
+    KDECI_SIGNMACAPP_CONFIG: $CI_PROJECT_DIR/ci-utilities/signing/signmacapp.ini
+  interruptible: true
+  before_script:
+    # ensure we start with an empty folder
+    - rm -rf .kde-ci-packages *
+    - export LANG=en_US.UTF-8
+    - git clone https://invent.kde.org/packaging/craftmaster.git --branch=master
+    - git clone https://invent.kde.org/sysadmin/ci-utilities.git --depth=1
+    - git clone https://invent.kde.org/sysadmin/ci-notary-service.git --depth=1
+    - python3 -u ci-utilities/gitlab-ci-clone.py src/
+    # Create empty .craft.ini if none exists
+    - touch $KDECI_CRAFT_PROJECT_CONFIG
+    # Define a short cut for the lengthy CraftMaster command line
+    - function craftmaster { python3 craftmaster/CraftMaster.py --config $KDECI_CRAFT_CONFIG --config-override $KDECI_CRAFT_PROJECT_CONFIG --target $KDECI_CRAFT_PLATFORM $@; }
+  script:
+    # Set up craft settings and blueprint settings
+    - craftmaster --setup
+    # Get Craft itself ready
+    - craftmaster -c -i --options virtual.ignored=True --update craft
+    # Install all of our dependencies
+    - craftmaster -c --install-deps $CI_PROJECT_NAME
+    # Build the actual application
+    - craftmaster -c --no-cache --options $CI_PROJECT_NAME.srcDir=$CI_PROJECT_DIR/src/ $CI_PROJECT_NAME
+    # Sign the app, later we need to sign the final dmg too
+    - imageDir=$(craftmaster -c -q --get "imageDir()" $CI_PROJECT_NAME)
+    - ls $imageDir/bin
+    - python3 ci-notary-service/signmacapp.py -v --config $KDECI_SIGNMACAPP_CONFIG $imageDir/bin/*.app
+    # Package it up!
+    - craftmaster -c --package --options $CI_PROJECT_NAME.srcDir=$CI_PROJECT_DIR/src/ $CI_PROJECT_NAME
+    # Save our package
+    - packageDir=$(craftmaster -c -q --get "packageDestinationDir()" virtual/base)
+    - mkdir $CI_PROJECT_DIR/.kde-ci-packages/
+    - cp -vf $packageDir/*.dmg $CI_PROJECT_DIR/.kde-ci-packages/
+    # Finally sign the dmg
+    - python3 ci-notary-service/signmacapp.py -v --config $KDECI_SIGNMACAPP_CONFIG $CI_PROJECT_DIR/.kde-ci-packages/*.dmg
+  after_script:
+    # cleanup, we can't just delete everything since that would also delete the artifacts which are gathered after
+    - rm -rf src craftmaster ci-utilities blueprints downloads craft-clone $KDECI_CRAFT_PLATFORM
+  artifacts:
+    expire_in: 3 days
+    when: always
+    expose_as: "macOS ARM Signed"
+    paths:
+     - ".kde-ci-packages/"
+     - "macos-clang-arm64/logs/"
+     - task-debug.log
+     - task.log
+
+
+
 .craft-qt6:
   variables:
     KDECI_CRAFT_CONFIG: ci-utilities/craft/qt6/CraftConfig.ini
     KDECI_CRAFT_PROJECT_CONFIG: $CI_PROJECT_DIR/src/.craft-qt6.ini
 
-craft_appimage_x86_64-qt6:
+craft_appimage_qt6_x86_64:
   extends:
     - craft_appimage_x86_64
     - .craft-qt6
 
-craft_windows_mingw64-qt6:
+craft_windows_qt6_mingw64:
   extends:
-    - craft_windows_mingw64
+    - craft_windows_qt515_mingw64
     - .craft-qt6
 
-craft_macos_arm64-qt6:
+craft_macos_qt6_arm64:
   extends:
     - craft_macos_arm64
     - .craft-qt6
 
-craft_macos_x86_64-qt6:
+craft_macos_qt6_x86_64:
   extends:
     - craft_macos_x86_64
     - .craft-qt6
