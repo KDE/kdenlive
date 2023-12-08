@@ -4,27 +4,27 @@
 # Xosé <xosecalvo@gmail.com>, 2012.
 # Marce Villarino <mvillarino@kde-espana.es>, 2012, 2013.
 # Adrian Chaves Fernandez <adriyetichaves@gmail.com>, 2012, 2015, 2016, 2017.
-# Adrián Chaves (Gallaecio) <adrian@chaves.io>, 2017, 2018, 2019, 2020.
+# SPDX-FileCopyrightText: 2023 Adrián Chaves (Gallaecio)
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-03 02:25+0000\n"
-"PO-Revision-Date: 2020-01-11 11:21+0100\n"
+"PO-Revision-Date: 2023-12-07 09:19+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
-"Language-Team: Galician <proxecto@trasno.gal>\n"
+"Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 19.08.3\n"
+"X-Generator: Lokalize 23.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Xosé Calvo, Adrián Chaves Fernández"
+msgstr "Xosé Calvo, Adrian Chaves (Gallaecio)"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -43,40 +43,37 @@ msgid "Adjust the left/right balance"
 msgstr "Axustar o balance esquerda/dereita"
 
 #: data/effects/audiolevel.xml:4
-#, fuzzy, kde-format
-#| msgid "Show Audio Levels"
+#, kde-format
 msgid "Audio levels"
-msgstr "Mostrar os niveis de son"
+msgstr "Niveis de son"
 
 #: data/effects/audiolevel.xml:5
 #, kde-format
 msgid "Compute the audio amplitude."
-msgstr ""
+msgstr "Computar a amplitude do son."
 
 #: data/effects/audiolevel.xml:8
 #, kde-format
 msgid "Use IEC 60268-18 Scale "
-msgstr ""
+msgstr "Usar a escala IEC 60268-18 "
 
 #: data/effects/audiolevelgraph.xml:4
-#, fuzzy, kde-format
-#| msgid "Audio Waveform Filter"
+#, kde-format
 msgid "Audio Level Visualization Filter"
-msgstr "Filtro de onda sonora"
+msgstr "Filtro de visualización de niveis de son"
 
 #: data/effects/audiolevelgraph.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "An audio visualization filter that draws an audio spectrum on the image."
+#, kde-format
 msgid ""
 "An audio visualization filter that draws an audio level meter on the image."
 msgstr ""
-"Un filtro de visualización de son que debuxa un espectro de son na imaxe."
+"Un filtro de visualización de son que debuxa un medidor dos niveis de son na "
+"imaxe."
 
 #: data/effects/audiolevelgraph.xml:8
 #, kde-format
 msgid "Segment,Bar"
-msgstr ""
+msgstr "Segmento,Barra"
 
 #: data/effects/audiolevelgraph.xml:9 data/effects/audiospectrum.xml:10
 #, kde-format
@@ -84,10 +81,9 @@ msgid "Graph type"
 msgstr "Tipo de gráfico"
 
 #: data/effects/audiolevelgraph.xml:10
-#, fuzzy, kde-format
-#| msgid "The type of graph to display the spectrum."
+#, kde-format
 msgid "The type of graph to display the levels."
-msgstr "O tipo de gráfico para mostrar o espectro."
+msgstr "O tipo de gráfico para amosar os niveis."
 
 #: data/effects/audiolevelgraph.xml:13 data/effects/audiospectrum.xml:14
 #: data/effects/audiowaveform.xml:7 data/effects/dynamictext.xml:23
@@ -99,39 +95,30 @@ msgid "Background Color"
 msgstr "Cor do fondo"
 
 #: data/effects/audiolevelgraph.xml:14
-#, fuzzy, kde-format
-#| msgid ""
-#| "The background color to be applied to the entire frame. The default color "
-#| "is transparent."
+#, kde-format
 msgid "The background color to be applied to the entire frame."
-msgstr ""
-"A cor de fondo para aplicar ao fotograma completo. A cor predeterminada é "
-"transparente."
+msgstr "A cor de fondo para aplicar ao fotograma completo."
 
 #: data/effects/audiolevelgraph.xml:17
-#, fuzzy, kde-format
-#| msgid "Gradient %1"
+#, kde-format
 msgid "Gradient Color 1"
-msgstr "Gradación %1"
+msgstr "Cor de gradación 1"
 
 #: data/effects/audiolevelgraph.xml:18 data/effects/audiolevelgraph.xml:22
 #: data/effects/audiolevelgraph.xml:26
-#, fuzzy, kde-format
-#| msgid "The color of the waveform."
+#, kde-format
 msgid "The color of the waveform gradient."
-msgstr "A cor da forma de onda."
+msgstr "A cor da gradación da forma de onda."
 
 #: data/effects/audiolevelgraph.xml:21
-#, fuzzy, kde-format
-#| msgid "Padding"
+#, kde-format
 msgid "Gradient Color 2"
-msgstr "Recheo"
+msgstr "Cor de gradación 2"
 
 #: data/effects/audiolevelgraph.xml:25
-#, fuzzy, kde-format
-#| msgid "Padding"
+#, kde-format
 msgid "Gradient Color 3"
-msgstr "Recheo"
+msgstr "Cor de gradación 3"
 
 #: data/effects/audiolevelgraph.xml:29 data/effects/audiospectrum.xml:22
 #: data/effects/audiowaveform.xml:13
@@ -142,7 +129,7 @@ msgstr "Anchura da liña"
 #: data/effects/audiolevelgraph.xml:30
 #, kde-format
 msgid "The thickness of the bar or segments."
-msgstr ""
+msgstr "O grosor da barra ou dos segmentos."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: data/effects/audiolevelgraph.xml:33 data/effects/audiospectrum.xml:26
@@ -196,28 +183,24 @@ msgid "Reverse"
 msgstr "Inverter"
 
 #: data/effects/audiolevelgraph.xml:46
-#, fuzzy, kde-format
-#| msgid "Draw the points starting with the highest frequency first."
+#, kde-format
 msgid "Draw the points starting with the right channel first."
-msgstr "Debuxar os puntos comezando pola frecuencia máis alta."
+msgstr "Debuxar os puntos comezando pola canle dereita."
 
 #: data/effects/audiolevelgraph.xml:49
-#, fuzzy, kde-format
-#| msgid "Horizontal"
+#, kde-format
 msgid "Vertical,Horizontal"
-msgstr "Horizontal"
+msgstr "Vertical,Horizontal"
 
 #: data/effects/audiolevelgraph.xml:50
-#, fuzzy, kde-format
-#| msgid "Gradient reference line"
+#, kde-format
 msgid "Gradient Orientation"
-msgstr "Liña de referencia da gradación"
+msgstr "Orientación da gradación"
 
 #: data/effects/audiolevelgraph.xml:51
-#, fuzzy, kde-format
-#| msgid "Do simple color grading"
+#, kde-format
 msgid "Direction of the color gradient."
-msgstr "Gradiente de cor sinxelo"
+msgstr "Dirección da gradación de cor."
 
 #: data/effects/audiolevelgraph.xml:54 data/kdenliveeffectscategory.rc:85
 #, kde-format
@@ -225,26 +208,24 @@ msgid "Channels"
 msgstr "Canles"
 
 #: data/effects/audiolevelgraph.xml:55
-#, fuzzy, kde-format
-#| msgid "Number of values per channel."
+#, kde-format
 msgid "The number of channels to show."
-msgstr "Número de valores por canle."
+msgstr "Número de canles para amosar."
 
 #: data/effects/audiolevelgraph.xml:58
 #, kde-format
 msgid "Segment Gap"
-msgstr ""
+msgstr "Oco entre segmentos"
 
 #: data/effects/audiolevelgraph.xml:59
 #, kde-format
 msgid "The space in pixels between the segments."
-msgstr ""
+msgstr "O espazo en píxeles entre segmentos."
 
 #: data/effects/audiomap.xml:4 data/effects/audiomap.xml:5
-#, fuzzy, kde-format
-#| msgid "Audio"
+#, kde-format
 msgid "audiomap"
-msgstr "Son"
+msgstr "mapa de son"
 
 #: data/effects/audiomap.xml:8 data/effects/audiomap.xml:12
 #: data/effects/audiomap.xml:16 data/effects/audiomap.xml:20
@@ -254,49 +235,44 @@ msgid ""
 "CH1,CH2,CH3,CH4,CH5,CH6,CH7,CH8,CH9,CH10,CH11,CH12,CH13,CH14,CH15,CH16,CH17,"
 "CH18,CH19,CH20,CH21,CH22,CH23,CH24,CH25,CH26,CH27,CH28,CH29,CH30,CH31,CH32"
 msgstr ""
+"C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,C14,C15,C16,C17,C18,C19,C20,C21,"
+"C22,C23,C24,C25,C26,C27,C28,C29,C30,C31,C32"
 
 #: data/effects/audiomap.xml:9
-#, fuzzy, kde-format
-#| msgid "Source"
+#, kde-format
 msgid "CH1 source"
-msgstr "Fonte"
+msgstr "Fonte de C1"
 
 #: data/effects/audiomap.xml:13
-#, fuzzy, kde-format
-#| msgid "Source"
+#, kde-format
 msgid "CH2 source"
-msgstr "Fonte"
+msgstr "Fonte de C2"
 
 #: data/effects/audiomap.xml:17
-#, fuzzy, kde-format
-#| msgid "Source"
+#, kde-format
 msgid "CH3 source"
-msgstr "Fonte"
+msgstr "Fonte de C3"
 
 #: data/effects/audiomap.xml:21
-#, fuzzy, kde-format
-#| msgid "Source"
+#, kde-format
 msgid "CH4 source"
-msgstr "Fonte"
+msgstr "Fonte de C4"
 
 #: data/effects/audiomap.xml:25
-#, fuzzy, kde-format
-#| msgid "Source"
+#, kde-format
 msgid "CH5 source"
-msgstr "Fonte"
+msgstr "Fonte de C5"
 
 #: data/effects/audiomap.xml:29
-#, fuzzy, kde-format
-#| msgid "Source"
+#, kde-format
 msgid "CH6 source"
-msgstr "Fonte"
+msgstr "Fonte de C6"
 
 #: data/effects/audiopan.xml:4
-#, fuzzy, kde-format
-#| msgid "Pan"
+#, kde-format
 msgctxt "Pan Effect Name"
 msgid "Pan"
-msgstr "Panorámica"
+msgstr "Posicionar"
 
 #: data/effects/audiopan.xml:5
 #, kde-format
@@ -315,11 +291,10 @@ msgid "Channel"
 msgstr "Canle"
 
 #: data/effects/audiopan.xml:12
-#, fuzzy, kde-format
-#| msgid "Pan"
+#, kde-format
 msgctxt "Audio Pan"
 msgid "Pan"
-msgstr "Panorámica"
+msgstr "Posicionar"
 
 #: data/effects/audiospectrum.xml:5
 #, kde-format
@@ -501,19 +476,17 @@ msgstr "Cor da letra"
 #: data/effects/audiowaveform.xml:26
 #, kde-format
 msgid "Merge,All,1,2,3,4,5,6,7,8,9,10"
-msgstr ""
+msgstr "Mesturar,Todo,1,2,3,4,5,6,7,8,9,10"
 
 #: data/effects/audiowaveform.xml:27
-#, fuzzy, kde-format
-#| msgid "Channel"
+#, kde-format
 msgid "Channel to draw"
-msgstr "Canle"
+msgstr "Canle para debuxar"
 
 #: data/effects/box_blur.xml:4
-#, fuzzy, kde-format
-#| msgid "Box Blur"
+#, kde-format
 msgid "BoxBlur"
-msgstr "Desenfoque de caixa"
+msgstr "Desenfoque bidireccional"
 
 #: data/effects/box_blur.xml:5 data/effects/boxblur.xml:5
 #, kde-format
@@ -556,10 +529,9 @@ msgid "Intensity"
 msgstr "Intensidade"
 
 #: data/effects/channelcopy.xml:4
-#, fuzzy, kde-format
-#| msgid "Stereo "
+#, kde-format
 msgid "Stereo to mono"
-msgstr "Estéreo "
+msgstr "De estéreo a mono"
 
 #: data/effects/channelcopy.xml:5
 #, kde-format
@@ -646,10 +618,9 @@ msgid "Variance"
 msgstr "Varianza"
 
 #: data/effects/chroma_hold.xml:4
-#, fuzzy, kde-format
-#| msgid "Chroma-Key"
+#, kde-format
 msgid "Chroma Keep"
-msgstr "Composición de croma"
+msgstr "Manter a croma"
 
 #: data/effects/chroma_hold.xml:5
 #, kde-format
@@ -657,33 +628,30 @@ msgid "Make image greyscale except for chosen color"
 msgstr "Converter a imaxe a escala de grises a excepción da cor escollida"
 
 #: data/effects/copychannelstostereo.xml:4
-#, fuzzy, kde-format
-#| msgid "Copy one channel to another"
+#, kde-format
 msgid "Copy Channels to Stereo"
-msgstr "Copiar unha canle a outra"
+msgstr "Copiar as canles a estéreo"
 
 #: data/effects/copychannelstostereo.xml:5
-#, fuzzy, kde-format
-#| msgid "Copy one channel to another"
+#, kde-format
 msgid "Copy one audio channel to another."
-msgstr "Copiar unha canle a outra"
+msgstr "Copiar unha canle de son a outra."
 
 #: data/effects/copychannelstostereo.xml:8
 #: data/effects/copychannelstostereo.xml:12
 #, kde-format
 msgid "1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16"
-msgstr ""
+msgstr "1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16"
 
 #: data/effects/copychannelstostereo.xml:9
 #, kde-format
 msgid "FROM"
-msgstr ""
+msgstr "DE"
 
 #: data/effects/copychannelstostereo.xml:13
-#, fuzzy, kde-format
-#| msgid "T"
+#, kde-format
 msgid "TO"
-msgstr "T"
+msgstr "A"
 
 #: data/effects/crop.xml:4
 #, kde-format
@@ -737,32 +705,28 @@ msgid "Use project resolution"
 msgstr "Usar a resolución do proxecto"
 
 #: data/effects/dance.xml:4
-#, fuzzy, kde-format
-#| msgid "Cancel"
+#, kde-format
 msgid "Dance"
-msgstr "Cancelar"
+msgstr "Baile"
 
 #: data/effects/dance.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "An audio visualization filter that draws an audio spectrum on the image."
+#, kde-format
 msgid ""
 "An audio visualization filter that moves the image around proportional to "
 "the magnitude of the audio spectrum."
 msgstr ""
-"Un filtro de visualización de son que debuxa un espectro de son na imaxe."
+"Un filtro de visualización de son que move a imaxe arredor en proporción á "
+"magnitude do espectro de son."
 
 #: data/effects/dance.xml:17 data/effects/lightshow.xml:17
-#, fuzzy, kde-format
-#| msgid "Destination"
+#, kde-format
 msgid "Oscillation"
-msgstr "Destino"
+msgstr "Oscilación"
 
 #: data/effects/dance.xml:20
-#, fuzzy, kde-format
-#| msgid "Optimal Zoom"
+#, kde-format
 msgid "Initial Zoom"
-msgstr "Zoom óptimo"
+msgstr "Ampliación inicial"
 
 #: data/effects/dance.xml:23 data/effects/vidstab.xml:40
 #: src/project/dialogs/slideshowclip.cpp:67 src/titler/titlewidget.cpp:356
@@ -771,21 +735,19 @@ msgid "Zoom"
 msgstr "Ampliación"
 
 #: data/effects/dance.xml:32
-#, fuzzy, kde-format
-#| msgid "Up"
+#, kde-format
 msgid "Up"
 msgstr "Subir"
 
 #: data/effects/dance.xml:38
 #, kde-format
 msgid "Clockwise"
-msgstr ""
+msgstr "Horario"
 
 #: data/effects/dance.xml:41
-#, fuzzy, kde-format
-#| msgid "Counter Style"
+#, kde-format
 msgid "Counter Clockwise"
-msgstr "Estilo do contador"
+msgstr "Antihorario"
 
 #: data/effects/dust.xml:4
 #, kde-format
@@ -808,8 +770,7 @@ msgid "Maximal number of dust"
 msgstr "Número máximo de argueiros"
 
 #: data/effects/dynamic_loudness.xml:4
-#, fuzzy, kde-format
-#| msgid "Normalize"
+#, kde-format
 msgctxt "Normalize Effect Name"
 msgid "Normalize"
 msgstr "Normalizar"
@@ -932,11 +893,10 @@ msgstr ""
 "altura de orixe,comentario de orixe"
 
 #: data/effects/fade_from_black.xml:4
-#, fuzzy, kde-format
-#| msgid "Fade in"
+#, kde-format
 msgctxt "Image Fade In Effect Name"
 msgid "Fade in"
-msgstr "Introducir con fundido"
+msgstr "Aparecer"
 
 #: data/effects/fade_from_black.xml:5
 #, kde-format
@@ -969,11 +929,10 @@ msgid "Fade from Black"
 msgstr "Fundido desde negro"
 
 #: data/effects/fade_to_black.xml:4
-#, fuzzy, kde-format
-#| msgid "Fade out"
+#, kde-format
 msgctxt "Image Fade Out Effect Name"
 msgid "Fade out"
-msgstr "Retirar con fundido"
+msgstr "Esvaer"
 
 #: data/effects/fade_to_black.xml:5
 #, kde-format
@@ -992,11 +951,10 @@ msgid "Fade to Black"
 msgstr "Fundido a negro"
 
 #: data/effects/fadein.xml:4
-#, fuzzy, kde-format
-#| msgid "Fade in"
+#, kde-format
 msgctxt "Audio Fade In Effect Name"
 msgid "Fade in"
-msgstr "Introducir con fundido"
+msgstr "Aparecer"
 
 #: data/effects/fadein.xml:5
 #, kde-format
@@ -1014,11 +972,10 @@ msgid "End Gain"
 msgstr "Ganancia no final"
 
 #: data/effects/fadeout.xml:4
-#, fuzzy, kde-format
-#| msgid "Fade out"
+#, kde-format
 msgctxt "Audio Fade Out Effect Name"
 msgid "Fade out"
-msgstr "Retirar con fundido"
+msgstr "Esvaer"
 
 #: data/effects/fadeout.xml:5
 #, kde-format
@@ -1026,8 +983,7 @@ msgid "Fade out audio track"
 msgstr "Retirar a pista de son con fundido"
 
 #: data/effects/freeze.xml:4
-#, fuzzy, kde-format
-#| msgid "Freeze"
+#, kde-format
 msgctxt "Freeze Effect Name"
 msgid "Freeze"
 msgstr "Conxelar"
@@ -1053,8 +1009,7 @@ msgid "Freeze After"
 msgstr "Conxelar despois"
 
 #: data/effects/gain.xml:4
-#, fuzzy, kde-format
-#| msgid "Gain"
+#, kde-format
 msgctxt "Gain Effect Name"
 msgid "Gain"
 msgstr "Ganancia"
@@ -1073,11 +1028,10 @@ msgid "Gain"
 msgstr "Ganancia"
 
 #: data/effects/gamma.xml:4
-#, fuzzy, kde-format
-#| msgid "Rotate (keyframable)"
+#, kde-format
 msgctxt "Gamma Effect Name"
 msgid "Gamma (keyframable)"
-msgstr "Rotar (apto para fotogramas clave)"
+msgstr "Gama (permite fotogramas clave)"
 
 #: data/effects/gamma.xml:5
 #, kde-format
@@ -1092,15 +1046,14 @@ msgid "Gamma"
 msgstr "Gamma"
 
 #: data/effects/gpstext.xml:4
-#, fuzzy, kde-format
-#| msgid "Text"
+#, kde-format
 msgid "GPS Text"
-msgstr "Texto"
+msgstr "Texto de GPS"
 
 #: data/effects/gpstext.xml:5
 #, kde-format
 msgid "Overlay GPS-related text onto the video."
-msgstr ""
+msgstr "Sobrepoñer texto relacionado con GPS no vídeo."
 
 #: data/effects/gpstext.xml:9
 #, kde-format
@@ -1111,39 +1064,40 @@ msgid ""
 "altitude loss so far,distance travelled uphill so far,distance travelled "
 "downhill so far,distance travelled on flat area so far"
 msgstr ""
+"latitude GPS,lonxitude GPS,altitude GPS,velocidade GPS,distancia ata agora,"
+"data e hora do punto GPS actual,data e hora do fotograma actual do ficheiro "
+"de vídeo,frecuencia cardíaca,orientación GPS actual,dirección GPS actual,"
+"ganancia de altitude GPS ata agora,perda de altitude GPS ata agora,distancia "
+"de subida ata agora,distancia de baixada ata agora,distancia percorrida en "
+"plano ata agora"
 
 #: data/effects/gpstext.xml:12
-#, fuzzy, kde-format
-#| msgid "MPEG Files"
+#, kde-format
 msgid "GPS File"
-msgstr "Ficheiros MPEG"
+msgstr "Ficheiro GPS"
 
 #: data/effects/gpstext.xml:15
 #, kde-format
 msgid "Time offset in seconds"
-msgstr ""
+msgstr "Desprazamento de tempo en segundos"
 
 #: data/effects/gpstext.xml:18
-#, fuzzy, kde-format
-#| msgid "Smoothing"
+#, kde-format
 msgid "Smoothing level"
-msgstr "Suavizado"
+msgstr "Nivel de suavizado"
 
 #: data/effects/gpstext.xml:21
-#, fuzzy, kde-format
-#| msgid "Processing threads"
+#, kde-format
 msgid "GPS processing start time"
-msgstr "Procesando os fíos"
+msgstr "Hora inicial de procesamento do GPS"
 
 #: data/effects/gpstext.xml:24
-#, fuzzy, kde-format
-#| msgid "Fields per second"
+#, kde-format
 msgid "Updates per second"
-msgstr "Campos por segundo"
+msgstr "Actualizacións por segundo"
 
 #: data/effects/grain.xml:4
-#, fuzzy, kde-format
-#| msgid "Grain"
+#, kde-format
 msgctxt "Grain Effect Name"
 msgid "Grain"
 msgstr "Gran"
@@ -1172,8 +1126,7 @@ msgid "Brightness"
 msgstr "Brillo"
 
 #: data/effects/greyscale.xml:4
-#, fuzzy, kde-format
-#| msgid "Greyscale"
+#, kde-format
 msgctxt "Greyscale Effect Name"
 msgid "Greyscale"
 msgstr "Escala de grises"
@@ -1184,8 +1137,7 @@ msgid "Discard color information"
 msgstr "Descartar a información sobre a cor"
 
 #: data/effects/invert.xml:4
-#, fuzzy, kde-format
-#| msgid "Invert"
+#, kde-format
 msgctxt "Invert Effect Name"
 msgid "Invert"
 msgstr "Inverter"
@@ -1246,31 +1198,26 @@ msgid "Gain: Blue"
 msgstr "Ganancia: Azul"
 
 #: data/effects/lightshow.xml:4
-#, fuzzy, kde-format
-#| msgctxt "Font style"
-#| msgid "Light"
+#, kde-format
 msgid "Light Show"
-msgstr "Luz"
+msgstr "Xogo de luces"
 
 #: data/effects/lightshow.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "An audio visualization filter that draws an audio spectrum on the image."
+#, kde-format
 msgid ""
 "An audio visualization filter that colors the image proportional to the "
 "magnitude of the audio spectrum."
 msgstr ""
-"Un filtro de visualización de son que debuxa un espectro de son na imaxe."
+"Un filtro de visualización de son que colora a imaxe en proporción á "
+"magnitude do espectro de son."
 
 #: data/effects/lightshow.xml:8
-#, fuzzy, kde-format
-#| msgid "Low Frequency"
+#, kde-format
 msgid "Low frequency"
 msgstr "Frecuencia baixa"
 
 #: data/effects/lightshow.xml:11
-#, fuzzy, kde-format
-#| msgid "High Frequency"
+#, kde-format
 msgid "High frequency"
 msgstr "Frecuencia alta"
 
@@ -1281,16 +1228,14 @@ msgid "Threshold"
 msgstr "Limiar"
 
 #: data/effects/lightshow.xml:20
-#, fuzzy, kde-format
-#| msgid "Color"
+#, kde-format
 msgid "1st Color"
-msgstr "Cor"
+msgstr "Cor 1"
 
 #: data/effects/lightshow.xml:23
-#, fuzzy, kde-format
-#| msgid "Color"
+#, kde-format
 msgid "2nd Color"
-msgstr "Cor"
+msgstr "Cor 2"
 
 #: data/effects/loudness.xml:4
 #, kde-format
@@ -1305,15 +1250,14 @@ msgstr ""
 "EBU."
 
 #: data/effects/loudness.xml:13 data/effects/tracker.xml:42
-#, fuzzy, kde-format
-#| msgid "Enable Effect"
+#, kde-format
 msgid "Analyse to Apply Effect"
-msgstr "Activar o efecto"
+msgstr "Analizar para aplicar o efecto"
 
 #: data/effects/lumaliftgaingamma.xml:4
 #, kde-format
 msgid "LumaLiftGainGamma"
-msgstr ""
+msgstr "GammaDeGananciaDeElevaciónDeLuminancia"
 
 #: data/effects/lumaliftgaingamma.xml:5
 #, kde-format
@@ -1321,6 +1265,8 @@ msgid ""
 "Filter can be used to apply lift, gain and gamma correction to luma values "
 "of image."
 msgstr ""
+"O filtro pode usarse para aplicar unha corrección de elevación, de ganancia "
+"ou de gama a valores de luminancia da imaxe."
 
 #: data/effects/lumaliftgaingamma.xml:8
 #: src/assets/view/widgets/lumaliftgainparam.cpp:26
@@ -1330,22 +1276,22 @@ msgid "Lift"
 msgstr "Desprazamento"
 
 #: data/effects/mask_apply.xml:4
-#, fuzzy, kde-format
-#| msgid "Apply"
+#, kde-format
 msgctxt "Mask Apply Effect Name"
 msgid "Mask Apply"
-msgstr "Aplicar"
+msgstr "Aplicación de máscara"
 
 #: data/effects/mask_apply.xml:5
 #, kde-format
 msgid "Apply the previous effects in the zone defined by a Mask Start effect."
 msgstr ""
+"Aplicar os efectos anteriores na zona definida por un efecto de inicio de "
+"máscara."
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha shapes"
+#, kde-format
 msgid "Alpha shapes (Mask)"
-msgstr "Formas alfa"
+msgstr "Formas alfa (máscara)"
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:5
 #, kde-format
@@ -1356,6 +1302,11 @@ msgid ""
 "typical use case is to add effects in the following sequence: this effect, "
 "zero or more effects, mask_apply."
 msgstr ""
+"Este filtro fai unha captura do fotograma antes de debuxar formas sinxelas "
+"na canle alfa. Úsao xunto co efecto mask_apply (aplicación de máscara), que "
+"usa unha transición para colocar a imaxe do fotograma actual sobre a "
+"captura. O caso de uso típico é engadir os efectos na seguinte secuencia: "
+"este efecto, cero ou máis efectos, mask_apply."
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:8
 #, kde-format
@@ -1423,7 +1374,7 @@ msgstr "Operación"
 #: data/effects/mask_start_frei0r_select0r.xml:4
 #, kde-format
 msgid "Secondary Color Correction Area Selection (Mask)"
-msgstr ""
+msgstr "Selección de zona de corrección de cor secundaria (máscara)"
 
 #: data/effects/mask_start_frei0r_select0r.xml:5
 #, kde-format
@@ -1435,15 +1386,20 @@ msgid ""
 "case is to add effects in the following sequence: this effect, zero or more "
 "effects, mask_apply."
 msgstr ""
+"Este filtro fai unha captura do fotograma antes de aplicar unha selección de "
+"chave de croma que permite fotogramas clave con opcións máis avanzadas (p. "
+"ex. distintos modelos de cor). Úsao xunto co efecto mask_apply (aplicación "
+"de máscara), que usa unha transición para colocar a imaxe do fotograma "
+"actual sobre a captura. O caso de uso típico é engadir os efectos na "
+"seguinte secuencia: este efecto, cero ou máis efectos, mask_apply."
 
 #: data/effects/mask_start_frei0r_select0r.xml:8
 #: data/effects/mask_start_rotoscoping.xml:8
 #: data/effects/mask_start_shape.xml:8 src/bin/bin.cpp:1394
 #: src/bin/bin.cpp:1399 src/bin/bin.cpp:2160
-#, fuzzy, kde-format
-#| msgid "Filter %1"
+#, kde-format
 msgid "Filter"
-msgstr "Filtro %1"
+msgstr "Filtro"
 
 #: data/effects/mask_start_frei0r_select0r.xml:11
 #, kde-format
@@ -1501,10 +1457,9 @@ msgid "Soften"
 msgstr "Suavizar"
 
 #: data/effects/mask_start_rotoscoping.xml:4
-#, fuzzy, kde-format
-#| msgid "Rotoscoping"
+#, kde-format
 msgid "Rotoscoping (Mask)"
-msgstr "Rotoscopia"
+msgstr "Rotoscopia (máscara)"
 
 #: data/effects/mask_start_rotoscoping.xml:5
 #, kde-format
@@ -1515,6 +1470,11 @@ msgid ""
 "The typical use case is to add effects in the following sequence: this "
 "effect, zero or more effects, mask_apply."
 msgstr ""
+"Este filtro fai unha captura do fotograma antes de aplicar unha rotoscopia "
+"baseada en vectores que permite fotogramas clave. Úsao xunto co efecto "
+"mask_apply (aplicación de máscara), que usa unha transición para colocar a "
+"imaxe do fotograma actual sobre a captura. O caso de uso típico é engadir os "
+"efectos na seguinte secuencia: este efecto, cero ou máis efectos, mask_apply."
 
 #: data/effects/mask_start_rotoscoping.xml:12 data/effects/rotoscoping.xml:9
 #, kde-format
@@ -1552,10 +1512,9 @@ msgid "Feathering passes"
 msgstr "Pases da pluma"
 
 #: data/effects/mask_start_shape.xml:4
-#, fuzzy, kde-format
-#| msgid "Shape Alpha"
+#, kde-format
 msgid "Shape Alpha (Mask)"
-msgstr "Formar unha alfa"
+msgstr "Formar unha alfa (máscara)"
 
 #: data/effects/mask_start_shape.xml:5
 #, kde-format
@@ -1566,6 +1525,11 @@ msgid ""
 "frame's image over the snapshot. The typical use case is to add effects in "
 "the following sequence: this effect, zero or more effects, mask_apply."
 msgstr ""
+"Este filtro fai unha captura do fotograma antes de crear unha canle alfa "
+"(transparencia) baseada noutro recurso. Úsao xunto co efecto mask_apply "
+"(aplicación de máscara), que usa unha transición para colocar a imaxe do "
+"fotograma actual sobre a captura. O caso de uso típico é engadir os efectos "
+"na seguinte secuencia: este efecto, cero ou máis efectos, mask_apply."
 
 #: data/effects/mask_start_shape.xml:11 data/effects/shape.xml:8
 #, kde-format
@@ -1602,25 +1566,22 @@ msgstr ""
 #: data/effects/mask_start_shape.xml:23 data/effects/shape.xml:20
 #, kde-format
 msgid "Use the inverse of the alpha or luma value."
-msgstr ""
+msgstr "Usar o inverso do valor de alfa ou luminancia."
 
 #: data/effects/mask_start_shape.xml:26 data/effects/shape.xml:23
-#, fuzzy, kde-format
-#| msgid "Luma"
+#, kde-format
 msgid "Use Luma"
-msgstr "Luminancia"
+msgstr "Usar a luminancia"
 
 #: data/effects/mask_start_shape.xml:27 data/effects/shape.xml:24
-#, fuzzy, kde-format
-#| msgid "Draws simple shapes into the alpha channel"
+#, kde-format
 msgid "Use the image luma instead of the alpha channel."
-msgstr "Debuxa formas simples na canle alfa"
+msgstr "Usar a luminancia da imaxe en vez da canle alfa."
 
 #: data/effects/mask_start_shape.xml:30 data/effects/shape.xml:27
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "Use Threshold"
-msgstr "Limiar"
+msgstr "Usar o limiar"
 
 #: data/effects/mask_start_shape.xml:31 data/effects/shape.xml:28
 #, kde-format
@@ -1628,13 +1589,14 @@ msgid ""
 "Whether to apply a threshold filter to the luma or alpha or not. If not, "
 "luma or alpha value of the resource (File) is copied to the alpha channel."
 msgstr ""
+"Se aplicar ou non un limitar para filtrar a luminancia ou a alfa. Se non, o "
+"valor de luminancia ou alfa do recurso (ficheiro) cópiase na canle alfa."
 
 #: data/effects/mirror.xml:4
-#, fuzzy, kde-format
-#| msgid "Mirror"
+#, kde-format
 msgctxt "Mirror Effect Name"
 msgid "Mirror"
-msgstr "Espello"
+msgstr "Reflectir"
 
 #: data/effects/mirror.xml:5
 #, kde-format
@@ -1654,29 +1616,26 @@ msgstr "Dirección de reflexo"
 #: data/effects/mono.xml:4
 #, kde-format
 msgid "Mixdown"
-msgstr ""
+msgstr "Reducir"
 
 #: data/effects/mono.xml:5
 #, kde-format
 msgid ""
 "Mix all channels of audio into a mono signal and output it as N channels"
-msgstr ""
+msgstr "Mesturar todas as canles de son nun sinal mono que saia como N canles"
 
 #: data/effects/mono.xml:8
-#, fuzzy, kde-format
-#| msgid "Stereo (2 channels)"
+#, kde-format
 msgid "Mono,Stereo,2.1,4 channels,5.1,7.1"
-msgstr "Estéreo (2 canles)"
+msgstr "Mono,Estéreo,2.1,4 canles,5.1,7.1"
 
 #: data/effects/mono.xml:9
-#, fuzzy, kde-format
-#| msgid "Number of values per channel."
+#, kde-format
 msgid "number of output channels"
-msgstr "Número de valores por canle."
+msgstr "número de canles de saída"
 
 #: data/effects/mute.xml:4
-#, fuzzy, kde-format
-#| msgid "Mute"
+#, kde-format
 msgctxt "Mute Effect Name"
 msgid "Mute"
 msgstr "Silenciar"
@@ -1707,8 +1666,7 @@ msgid "Window"
 msgstr "Xanela"
 
 #: data/effects/obscure.xml:4
-#, fuzzy, kde-format
-#| msgid "Obscure"
+#, kde-format
 msgctxt "Obscure Effect Name"
 msgid "Obscure"
 msgstr "Escurecer"
@@ -1798,28 +1756,25 @@ msgstr "Normalizar"
 
 #: data/effects/pan_zoom.xml:20 data/effects/rotation.xml:44
 #: data/effects/rotation_keyframable.xml:27 data/transitions/affine.xml:24
-#, fuzzy, kde-format
-#| msgid "Disable effect"
-#| msgid_plural "Disable effects"
+#, kde-format
 msgid "Disable repeat"
-msgstr "Desactivar o efecto"
+msgstr "Desactivar a repetición"
 
 #: data/effects/pan_zoom.xml:23 data/effects/rotation.xml:47
 #: data/effects/rotation_keyframable.xml:30 data/transitions/affine.xml:27
-#, fuzzy, kde-format
-#| msgid "Disable video"
+#, kde-format
 msgid "Disable mirror"
-msgstr "Desactivar o vídeo"
+msgstr "Desactivar a reflexión"
 
 #: data/effects/pillar_echo.xml:4
 #, kde-format
 msgid "Pillar Echo"
-msgstr ""
+msgstr "Eco de columna"
 
 #: data/effects/pillar_echo.xml:5
 #, kde-format
 msgid "Create an echo effect (blur) outside of an area of interest."
-msgstr ""
+msgstr "Crear un efecto de eco (desenfocar) fóra dunha zona de interese."
 
 #: data/effects/pillar_echo.xml:11 data/effects/tracker.xml:31
 #, kde-format
@@ -1827,8 +1782,7 @@ msgid "Blur"
 msgstr "Desenfoque"
 
 #: data/effects/qtblend.xml:5
-#, fuzzy, kde-format
-#| msgid "Transform"
+#, kde-format
 msgctxt "Qtblend Transform Effect Name"
 msgid "Transform"
 msgstr "Transformar"
@@ -1878,7 +1832,7 @@ msgstr "Rotar desde o centro"
 #: data/effects/qtcrop.xml:4
 #, kde-format
 msgid "Crop by padding"
-msgstr ""
+msgstr "Recortar con recheo"
 
 #: data/effects/qtcrop.xml:5
 #, kde-format
@@ -1886,6 +1840,8 @@ msgid ""
 "This filter crops the image to a rounded rectangle or circle by padding it "
 "with a color."
 msgstr ""
+"Este filtro recorta a imaxe a un rectángulo arredondado ou círculo engadindo "
+"recheo dunha cor."
 
 #: data/effects/qtcrop.xml:11
 #, kde-format
@@ -1893,32 +1849,29 @@ msgid "Radius"
 msgstr "Raio"
 
 #: data/effects/qtcrop.xml:14
-#, fuzzy, kde-format
-#| msgid "Circle radius"
+#, kde-format
 msgid "Circle"
-msgstr "Raio do círculo"
+msgstr "Círculo"
 
 #: data/effects/qtcrop.xml:17
-#, fuzzy, kde-format
-#| msgid "Padding"
+#, kde-format
 msgid "Padding Color"
-msgstr "Recheo"
+msgstr "Cor de recheo"
 
 #: data/effects/rboctaveshift.xml:4
 #, kde-format
 msgid "Rubberband Octave Shift"
-msgstr ""
+msgstr "Cambio de oitava de Rubberband"
 
 #: data/effects/rboctaveshift.xml:5 data/effects/rbpitchscale.xml:5
 #, kde-format
 msgid "Adjust the audio pitch using the Rubberband library."
-msgstr ""
+msgstr "Axustar o ton do son coa biblioteca Rubberband."
 
 #: data/effects/rboctaveshift.xml:8
-#, fuzzy, kde-format
-#| msgid "Pitch Shift"
+#, kde-format
 msgid "Octave Shift"
-msgstr "Cambio de ton"
+msgstr "Cambio de oitava"
 
 #: data/effects/rboctaveshift.xml:9
 #, kde-format
@@ -1930,12 +1883,17 @@ msgid ""
 "less than one for downwards) is: o = log(f) / log(2). Ignored if pitchscale "
 "is set."
 msgstr ""
+"O cambio de oitava. Este é o cambio de oitava da frecuencia orixinal. Por "
+"exemplo, un cambio de +1 duplicaría a frecuencia; -1 reduciría a frecuencia "
+"á metade, e 0 non tocaría o ton. Para poñelo en termos de frecuencia, un "
+"cambio de frecuencia f (onde f é maior que 1 para cambios cara arriba e "
+"menos que 1 para cambios cara abaixo) é: o = log(f) / log(2). Ignórase se a "
+"escala de tons está definida."
 
 #: data/effects/rboctaveshift.xml:12 data/effects/rbpitchscale.xml:12
-#, fuzzy, kde-format
-#| msgid "Stretch X"
+#, kde-format
 msgid "Stretch"
-msgstr "Estiramento X"
+msgstr "Estiramento"
 
 #: data/effects/rboctaveshift.xml:13 data/effects/rbpitchscale.xml:13
 #, kde-format
@@ -1943,28 +1901,28 @@ msgid ""
 "Stretch the audio to fill the requested samples. This option will have no "
 "effect if the requested sample size is the same as the received sample size."
 msgstr ""
+"Estirar o son para encher as mostras solicitadas. Esta opción non terá "
+"efecto se o tamaño da mostra solicitada é idéntico ao da mostra recibida."
 
 #: data/effects/rboctaveshift.xml:16 data/effects/rbpitchscale.xml:16
 #, kde-format
 msgid "Latency"
-msgstr ""
+msgstr "Latencia"
 
 #: data/effects/rboctaveshift.xml:17 data/effects/rbpitchscale.xml:17
 #, kde-format
 msgid "The amount of delay for each sample from the input to the output."
-msgstr ""
+msgstr "A cantidade de atraso de cada mostra desde a entrada á saída."
 
 #: data/effects/rbpitchscale.xml:4
-#, fuzzy, kde-format
-#| msgid "Pitch Scaler"
+#, kde-format
 msgid "Rubberband Pitch Scale"
-msgstr "Cambiador de escala de ton"
+msgstr "Escala de ton de Rubberband"
 
 #: data/effects/rbpitchscale.xml:8
-#, fuzzy, kde-format
-#| msgid "Pitch Scaler"
+#, kde-format
 msgid "Pitch Scale"
-msgstr "Cambiador de escala de ton"
+msgstr "Escala de ton"
 
 #: data/effects/rbpitchscale.xml:9
 #, kde-format
