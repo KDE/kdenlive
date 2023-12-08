@@ -2150,7 +2150,7 @@ void MainWindow::slotEditProjectSettings(int ix)
             proxiesChanged = true;
             project->setDocumentProperty(QStringLiteral("externalproxyparams"), w->externalProxyParams());
         }
-        if (proxiesChanged && pCore->projectItemModel()->clipsCount() > 0 &&
+        if (proxiesChanged && pCore->projectItemModel()->hasProxies() &&
             KMessageBox::questionTwoActions(this, i18n("You have changed the proxy parameters. Do you want to recreate all proxy clips for this project?"), {},
                                             KGuiItem(i18nc("@action:button", "Recreate")),
                                             KGuiItem(i18nc("@action:button", "Continue without"))) == KMessageBox::PrimaryAction) {

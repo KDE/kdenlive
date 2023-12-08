@@ -2592,7 +2592,6 @@ void Monitor::prepareAudioThumb()
                 // Display all streams
                 streamIndexes = m_controller->audioStreams().keys();
             }
-            qDebug() << "=======\n\nSETTING AUDIO DATA IN MONITOR NOT EMPTY 2!!!";
             m_glMonitor->getControllerProxy()->setAudioThumb(streamIndexes, m_controller->activeStreamChannels());
         }
     }

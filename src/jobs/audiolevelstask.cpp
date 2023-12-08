@@ -84,6 +84,14 @@ void AudioLevelsTask::run()
                                   Q_ARG(int, int(KMessageWidget::Warning)));
         return;
     }
+    QString service = producer->get("mlt_service");
+    if (service == QLatin1String("avformat-novalidate")) {
+        service = QStringLiteral("avformat");
+    } else if (service.startsWith(QLatin1String("xml"))) {
+        service = QStringLiteral("xml-nogl");
+    }
+    const QString res = qstrdup(producer->get("resource"));
+    producer.reset();
     int frequency = binClip->audioInfo()->samplingRate();
     frequency = frequency <= 0 ? 48000 : frequency;
 
@@ -120,22 +128,18 @@ void AudioLevelsTask::run()
                 }
                 if (mltLevels.size() > 0) {
                     QVector<uint8_t> *levelsCopy = new QVector<uint8_t>(mltLevels);
+                    producer = binClip->originalProducer();
                     producer->lock();
                     QString key = QString("_kdenlive:audio%1").arg(stream);
                     producer->set(key.toUtf8().constData(), levelsCopy, 0, (mlt_destructor)deleteQVariantList);
                     producer->unlock();
+                    producer.reset();
                     continue;
                 }
             }
         }
-        QString service = producer->get("mlt_service");
-        if (service == QLatin1String("avformat-novalidate")) {
-            service = QStringLiteral("avformat");
-        } else if (service.startsWith(QLatin1String("xml"))) {
-            service = QStringLiteral("xml-nogl");
-        }
-        const QString res = qstrdup(producer->get("resource"));
-        Mlt::Producer *aProd = new Mlt::Producer(producer->get_profile(), service.toUtf8().constData(), res.toUtf8().constData());
+
+        Mlt::Producer *aProd = new Mlt::Producer(pCore->getProjectProfile(), service.toUtf8().constData(), res.toUtf8().constData());
         if (!aProd->is_valid()) {
             QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Audio thumbs: cannot open file %1", res)),
                                       Q_ARG(int, int(KMessageWidget::Warning)));
@@ -146,9 +150,9 @@ void AudioLevelsTask::run()
         aProd->set("audio_index", stream);
         aProd->set("vstream", -1);
         aProd->set("astream", streamIndex);
-        Mlt::Filter chans(producer->get_profile(), "audiochannels");
-        Mlt::Filter converter(producer->get_profile(), "audioconvert");
-        Mlt::Filter levels(producer->get_profile(), "audiolevel");
+        Mlt::Filter chans(pCore->getProjectProfile(), "audiochannels");
+        Mlt::Filter converter(pCore->getProjectProfile(), "audioconvert");
+        Mlt::Filter levels(pCore->getProjectProfile(), "audiolevel");
         aProd->attach(chans);
         aProd->attach(converter);
         aProd->attach(levels);
@@ -191,10 +195,12 @@ void AudioLevelsTask::run()
             if (updateTime.elapsed() > 3000 && !m_isCanceled) {
                 updateTime.restart();
                 QVector<uint8_t> *levelsCopy = new QVector<uint8_t>(mltLevels);
+                producer = binClip->originalProducer();
                 producer->lock();
                 QString key = QString("_kdenlive:audio%1").arg(stream);
                 producer->set(key.toUtf8().constData(), levelsCopy, 0, (mlt_destructor)deleteQVariantList);
                 producer->unlock();
+                producer.reset();
                 QMetaObject::invokeMethod(m_object, "updateAudioThumbnail", Q_ARG(bool, false));
             }
         }
@@ -210,12 +216,14 @@ void AudioLevelsTask::run()
         }
         if (mltLevels.size() > 0) {
             QVector<uint8_t> *levelsCopy = new QVector<uint8_t>(mltLevels);
+            producer = binClip->originalProducer();
             producer->lock();
             QString key = QString("_kdenlive:audio%1").arg(stream);
             QString key2 = QString("kdenlive:audio_max%1").arg(stream);
             producer->set(key2.toUtf8().constData(), int(maxLevel));
             producer->set(key.toUtf8().constData(), levelsCopy, 0, (mlt_destructor)deleteQVariantList);
             producer->unlock();
+            producer.reset();
             // qDebug()<<"=== FINISHED PRODUCING AUDIO FOR: "<<key<<", SIZE: "<<levelsCopy->size();
             m_progress = 100;
             QMetaObject::invokeMethod(m_object, "updateJobProgress");

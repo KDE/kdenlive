@@ -559,7 +559,7 @@ QString ClipController::getProducerProperty(const QString &name) const
 {
     QReadLocker lock(&m_producerLock);
     if (m_properties == nullptr) {
-        return QString();
+        return m_tempProps.value(name).toString();
     }
     if (m_usesProxy && name.startsWith(QLatin1String("meta."))) {
         QString correctedName = QStringLiteral("kdenlive:") + name;

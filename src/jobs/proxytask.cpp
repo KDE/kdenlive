@@ -258,88 +258,98 @@ void ProxyTask::run()
             QMetaObject::invokeMethod(m_object, "updateJobProgress");
             return;
         }
-        m_jobDuration = int(binClip->duration().seconds());
-        QString proxyParams = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyparams")).simplified();
-        if (proxyParams.isEmpty()) {
-            // Automatic setting, decide based on hw support
-            proxyParams = pCore->currentDoc()->getAutoProxyProfile();
-        }
-        int proxyResize = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyresize")).toInt();
         // Only output error data, make sure we don't block when proxy file already exists
         QStringList parameters = {QStringLiteral("-hide_banner"), QStringLiteral("-y"), QStringLiteral("-stats"), QStringLiteral("-v"),
                                   QStringLiteral("error")};
-        if (!proxyParams.contains(QLatin1String("mjpeg")) && !proxyParams.contains(QLatin1String("mpeg2video"))) {
-            parameters << QStringLiteral("-noautorotate");
-        }
-        bool nvenc = proxyParams.contains(QStringLiteral("%nvcodec"));
-        if (nvenc) {
-            QString pix_fmt = binClip->videoCodecProperty(QStringLiteral("pix_fmt"));
-            QString codec = binClip->videoCodecProperty(QStringLiteral("name"));
-            QStringList supportedCodecs{QStringLiteral("hevc"),  QStringLiteral("h264"),  QStringLiteral("mjpeg"),
-                                        QStringLiteral("mpeg1"), QStringLiteral("mpeg2"), QStringLiteral("mpeg4"),
-                                        QStringLiteral("vc1"),   QStringLiteral("vp8"),   QStringLiteral("vp9")};
-            QStringList supportedPixFmts{QStringLiteral("yuv420p"), QStringLiteral("yuyv422"), QStringLiteral("rgb24"),
-                                         QStringLiteral("bgr24"),   QStringLiteral("yuv422p"), QStringLiteral("yuv444p"),
-                                         QStringLiteral("rgb32"),   QStringLiteral("yuv410p"), QStringLiteral("yuv411p")};
-
-            // Check if the transcoded file uses a cuda supported codec (we don't check for specific cards so not 100% exact)
-            bool supported = supportedCodecs.contains(codec) && supportedPixFmts.contains(pix_fmt);
-            if (proxyParams.contains(QStringLiteral("scale_npp")) && !KdenliveSettings::nvScalingEnabled()) {
-                supported = false;
-            }
-            if (proxyParams.contains(QStringLiteral("%frameSize"))) {
-                int w = proxyResize;
-                int h = 0;
-                int oW = binClip->getProducerProperty(QStringLiteral("meta.media.width")).toInt();
-                int oH = binClip->getProducerProperty(QStringLiteral("meta.media.height")).toInt();
-                if (oH > 0) {
-                    h = w * oH / oW;
-                } else {
-                    h = int(w / pCore->getCurrentDar());
-                }
-                h += h % 2;
-                proxyParams.replace(QStringLiteral("%frameSize"), QString("%1x%2").arg(w).arg(h));
-            }
-            if (supported) {
-                // Full hardware decoding supported
-                codec.append(QStringLiteral("_cuvid"));
-                proxyParams.replace(QStringLiteral("%nvcodec"), codec);
-            } else {
-                proxyParams = proxyParams.section(QStringLiteral("-i"), 1);
-                if (!supportedPixFmts.contains(pix_fmt)) {
-                    proxyParams.prepend(QStringLiteral("-pix_fmt yuv420p "));
-                }
-                proxyParams.replace(QStringLiteral("scale_cuda"), QStringLiteral("scale"));
-                proxyParams.replace(QStringLiteral("scale_npp"), QStringLiteral("scale"));
-            }
-        }
-        proxyParams.replace(QStringLiteral("%width"), QString::number(proxyResize));
-        bool disableAutorotate = binClip->getProducerProperty(QStringLiteral("autorotate")) == QLatin1String("0");
-        if (disableAutorotate || proxyParams.contains(QStringLiteral("-noautorotate"))) {
-            // The noautorotate flag must be passed before input source
-            parameters << QStringLiteral("-noautorotate");
-            proxyParams.replace(QStringLiteral("-noautorotate"), QString());
-        }
-        if (proxyParams.contains(QLatin1String("-i "))) {
-            // we have some pre-filename parameters, filename will be inserted later
+        m_jobDuration = int(binClip->duration().seconds());
+        if (binClip->hasProducerProperty(QStringLiteral("kdenlive:camcorderproxy"))) {
+            // ffmpeg -an -i proxy.mp4 -vn -i original.MXF -map 0:v -map 1:a -c:v copy out.MP4
+            // Create a new proxy file with video from camcorder proxy and audio from source clip
+            const QString proxyPath = binClip->getProducerProperty(QStringLiteral("kdenlive:camcorderproxy"));
+            parameters << QStringLiteral("-an") << QStringLiteral("-i") << proxyPath;
+            parameters << QStringLiteral("-vn") << QStringLiteral("-i") << source;
+            parameters << QStringLiteral("-map") << QStringLiteral("0:v") << QStringLiteral("-map") << QStringLiteral("1:a");
+            parameters << QStringLiteral("-c:v") << QStringLiteral("copy") << dest;
         } else {
-            parameters << QStringLiteral("-i") << source;
-        }
-        QString params = proxyParams;
-        for (const QString &s : params.split(QLatin1Char(' '), Qt::SkipEmptyParts)) {
-            QString t = s.simplified();
-            parameters << t;
-            if (t == QLatin1String("-i")) {
-                parameters << source;
+            QString proxyParams = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyparams")).simplified();
+            if (proxyParams.isEmpty()) {
+                // Automatic setting, decide based on hw support
+                proxyParams = pCore->currentDoc()->getAutoProxyProfile();
             }
-        }
+            int proxyResize = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyresize")).toInt();
+            if (!proxyParams.contains(QLatin1String("mjpeg")) && !proxyParams.contains(QLatin1String("mpeg2video"))) {
+                parameters << QStringLiteral("-noautorotate");
+            }
+            bool nvenc = proxyParams.contains(QStringLiteral("%nvcodec"));
+            if (nvenc) {
+                QString pix_fmt = binClip->videoCodecProperty(QStringLiteral("pix_fmt"));
+                QString codec = binClip->videoCodecProperty(QStringLiteral("name"));
+                QStringList supportedCodecs{QStringLiteral("hevc"),  QStringLiteral("h264"),  QStringLiteral("mjpeg"),
+                                            QStringLiteral("mpeg1"), QStringLiteral("mpeg2"), QStringLiteral("mpeg4"),
+                                            QStringLiteral("vc1"),   QStringLiteral("vp8"),   QStringLiteral("vp9")};
+                QStringList supportedPixFmts{QStringLiteral("yuv420p"), QStringLiteral("yuyv422"), QStringLiteral("rgb24"),
+                                             QStringLiteral("bgr24"),   QStringLiteral("yuv422p"), QStringLiteral("yuv444p"),
+                                             QStringLiteral("rgb32"),   QStringLiteral("yuv410p"), QStringLiteral("yuv411p")};
 
-        // Make sure we keep the stream order
-        parameters << QStringLiteral("-sn") << QStringLiteral("-dn") << QStringLiteral("-map") << QStringLiteral("0");
-        // Drop unknown streams instead of aborting
-        parameters << QStringLiteral("-ignore_unknown");
-        parameters << dest;
-        qDebug() << "/// FULL PROXY PARAMS:\n" << parameters << "\n------";
+                // Check if the transcoded file uses a cuda supported codec (we don't check for specific cards so not 100% exact)
+                bool supported = supportedCodecs.contains(codec) && supportedPixFmts.contains(pix_fmt);
+                if (proxyParams.contains(QStringLiteral("scale_npp")) && !KdenliveSettings::nvScalingEnabled()) {
+                    supported = false;
+                }
+                if (proxyParams.contains(QStringLiteral("%frameSize"))) {
+                    int w = proxyResize;
+                    int h = 0;
+                    int oW = binClip->getProducerProperty(QStringLiteral("meta.media.width")).toInt();
+                    int oH = binClip->getProducerProperty(QStringLiteral("meta.media.height")).toInt();
+                    if (oH > 0) {
+                        h = w * oH / oW;
+                    } else {
+                        h = int(w / pCore->getCurrentDar());
+                    }
+                    h += h % 2;
+                    proxyParams.replace(QStringLiteral("%frameSize"), QString("%1x%2").arg(w).arg(h));
+                }
+                if (supported) {
+                    // Full hardware decoding supported
+                    codec.append(QStringLiteral("_cuvid"));
+                    proxyParams.replace(QStringLiteral("%nvcodec"), codec);
+                } else {
+                    proxyParams = proxyParams.section(QStringLiteral("-i"), 1);
+                    if (!supportedPixFmts.contains(pix_fmt)) {
+                        proxyParams.prepend(QStringLiteral("-pix_fmt yuv420p "));
+                    }
+                    proxyParams.replace(QStringLiteral("scale_cuda"), QStringLiteral("scale"));
+                    proxyParams.replace(QStringLiteral("scale_npp"), QStringLiteral("scale"));
+                }
+            }
+            proxyParams.replace(QStringLiteral("%width"), QString::number(proxyResize));
+            bool disableAutorotate = binClip->getProducerProperty(QStringLiteral("autorotate")) == QLatin1String("0");
+            if (disableAutorotate || proxyParams.contains(QStringLiteral("-noautorotate"))) {
+                // The noautorotate flag must be passed before input source
+                parameters << QStringLiteral("-noautorotate");
+                proxyParams.replace(QStringLiteral("-noautorotate"), QString());
+            }
+            if (proxyParams.contains(QLatin1String("-i "))) {
+                // we have some pre-filename parameters, filename will be inserted later
+            } else {
+                parameters << QStringLiteral("-i") << source;
+            }
+            QString params = proxyParams;
+            for (const QString &s : params.split(QLatin1Char(' '), Qt::SkipEmptyParts)) {
+                QString t = s.simplified();
+                parameters << t;
+                if (t == QLatin1String("-i")) {
+                    parameters << source;
+                }
+            }
+
+            // Make sure we keep the stream order
+            parameters << QStringLiteral("-sn") << QStringLiteral("-dn") << QStringLiteral("-map") << QStringLiteral("0");
+            // Drop unknown streams instead of aborting
+            parameters << QStringLiteral("-ignore_unknown");
+            parameters << dest;
+            qDebug() << "/// FULL PROXY PARAMS:\n" << parameters << "\n------";
+        }
         m_jobProcess.reset(new QProcess);
         // m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
         QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &ProxyTask::processLogInfo);

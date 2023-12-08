@@ -54,6 +54,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <memory>
 #include <mlt++/Mlt.h>
 
+#include <audio/audioInfo.h>
 #include <locale>
 #ifdef Q_OS_MAC
 #include <xlocale.h>
@@ -1589,7 +1590,30 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<Proje
                 newProps.clear();
                 QString path;
                 if (useExternalProxy() && item->hasLimitedDuration()) {
-                    path = item->getProxyFromOriginal(item->url());
+                    if (item->hasProducerProperty(QStringLiteral("kdenlive:camcorderproxy"))) {
+                        const QString camProxy = item->getProducerProperty(QStringLiteral("kdenlive:camcorderproxy"));
+                        extension = QFileInfo(camProxy).suffix();
+                        extension.prepend(QLatin1Char('.'));
+                    } else {
+                        path = item->getProxyFromOriginal(item->url());
+                        if (!path.isEmpty()) {
+                            // Check if source and proxy have the same audio streams count
+                            int sourceAudioStreams = item->audioStreamsCount();
+                            std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(pCore->getProjectProfile(), "avformat", path.toUtf8().constData()));
+                            prod->set("video_index", -1);
+                            prod->probe();
+                            auto info = std::make_unique<AudioInfo>(prod);
+                            int proxyAudioStreams = info->size();
+                            prod.reset();
+                            if (proxyAudioStreams != sourceAudioStreams) {
+                                // Build a proxy with correct audio streams
+                                newProps.insert(QStringLiteral("kdenlive:camcorderproxy"), path);
+                                extension = QFileInfo(path).suffix();
+                                extension.prepend(QLatin1Char('.'));
+                                path.clear();
+                            }
+                        }
+                    }
                 }
                 if (path.isEmpty()) {
                     path = dir.absoluteFilePath(item->hash() + (t == ClipType::Image ? QStringLiteral(".png") : extension));

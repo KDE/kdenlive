@@ -218,6 +218,8 @@ public:
 
     /** @brief Number of clips in the bin playlist */
     int clipsCount() const;
+    /** @brief Returns true if we have proxied clips in the project */
+    bool hasProxies() const;
     /** @brief Get a secondary timeline tractor by its uuid */
     std::shared_ptr<Mlt::Tractor> getExtraTimeline(const QString &uuid);
     void setExtraTimelineSaved(const QString &uuid);

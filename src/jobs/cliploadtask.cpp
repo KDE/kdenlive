@@ -30,6 +30,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QTime>
 #include <QUuid>
 #include <QVariantList>
+#include <audio/audioInfo.h>
 #include <monitor/monitor.h>
 #include <profiles/profilemodel.hpp>
 
@@ -491,12 +492,52 @@ void ClipLoadTask::run()
         abort();
         return;
     }
+    // Check external proxies
+    if (pCore->currentDoc()->useExternalProxy() && !producer->property_exists("kdenlive:proxy")) {
+        // We have a camcorder profile, check if we have opened a proxy clip
+        QString path = producer->get("resource");
+        if (QFileInfo(path).isRelative() && path != QLatin1String("<tractor>")) {
+            path.prepend(pCore->currentDoc()->documentRoot());
+            producer->set("resource", path.toUtf8().constData());
+        }
+        QString original = ProjectClip::getOriginalFromProxy(path);
+        if (!original.isEmpty()) {
+            // Check that original and proxy have the same count of audio streams (for example Sony's FX6 proxy have only 1 audio stream)
+            auto info = std::make_unique<AudioInfo>(producer);
+            int proxyAudioStreams = info->size();
+            std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(pCore->getProjectProfile(), "avformat", original.toUtf8().constData()));
+            // prod->set("video_index", -1);
+            prod->probe();
+            auto info2 = std::make_unique<AudioInfo>(prod);
+            int sourceStreams = info2->size();
+            if (proxyAudioStreams != sourceStreams) {
+                // Rebuild a proxy with correct audio streams
+                // Use source clip
+                producer = std::move(prod);
+                producer->set("kdenlive:originalurl", original.toUtf8().constData());
+                producer->set("kdenlive:camcorderproxy", path.toUtf8().constData());
+                const QString clipName = QFileInfo(original).fileName();
+                producer->set("kdenlive:clipname", clipName.toUtf8().constData());
+                // Trigger proxy rebuild
+                producer->set("_replaceproxy", 1);
+                producer->set("_reloadName", 1);
+            } else {
+                // Match, we opened a proxy clip
+                producer->set("kdenlive:proxy", path.toUtf8().constData());
+                producer->set("kdenlive:originalurl", original.toUtf8().constData());
+                const QString clipName = QFileInfo(original).fileName();
+                producer->set("kdenlive:clipname", clipName.toUtf8().constData());
+            }
+        }
+    }
     processProducerProperties(producer, m_xml);
     QString clipName = Xml::getXmlProperty(m_xml, QStringLiteral("kdenlive:clipname"));
     if (clipName.isEmpty()) {
         clipName = QFileInfo(Xml::getXmlProperty(m_xml, QStringLiteral("kdenlive:originalurl"))).fileName();
     }
-    producer->set("kdenlive:clipname", clipName.toUtf8().constData());
+    if (!clipName.isEmpty()) {
+        producer->set("kdenlive:clipname", clipName.toUtf8().constData());
+    }
     QString groupId = Xml::getXmlProperty(m_xml, QStringLiteral("kdenlive:folderid"));
     if (!groupId.isEmpty()) {
         producer->set("kdenlive:folderid", groupId.toUtf8().constData());
@@ -684,8 +725,22 @@ void ClipLoadTask::run()
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.itemId));
         if (binClip) {
             const QString xmlData = ClipController::producerXml(*producer.get(), true, false);
+            bool replaceProxy = false;
+            bool replaceName = false;
+            if (producer->property_exists("_replaceproxy")) {
+                replaceProxy = true;
+            }
+            if (producer->property_exists("_reloadName")) {
+                replaceName = true;
+            }
             // Reset produccer to get rid of cached frame
             producer.reset(new Mlt::Producer(pCore->getProjectProfile(), "xml-string", xmlData.toUtf8().constData()));
+            if (replaceProxy) {
+                producer->set("_replaceproxy", 1);
+            }
+            if (replaceName) {
+                producer->set("_reloadName", 1);
+            }
             QMetaObject::invokeMethod(binClip.get(), "setProducer", Qt::QueuedConnection, Q_ARG(std::shared_ptr<Mlt::Producer>, std::move(producer)),
                                       Q_ARG(bool, true));
             if (checkProfile && !isVariableFrameRate && seekable) {

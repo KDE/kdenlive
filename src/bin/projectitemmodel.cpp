@@ -1587,6 +1587,20 @@ int ProjectItemModel::clipsCount() const
     return m_binPlaylist->count();
 }
 
+bool ProjectItemModel::hasProxies() const
+{
+    READ_LOCK();
+    for (const auto &clip : m_allItems) {
+        auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
+        if (c->itemType() == AbstractProjectItem::ClipItem) {
+            if (std::static_pointer_cast<ProjectClip>(c)->hasProxy()) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 bool ProjectItemModel::validateClip(const QString &binId, const QString &clipHash)
 {
     QWriteLocker locker(&m_lock);

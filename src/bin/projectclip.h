@@ -64,11 +64,11 @@ public:
     /**
      * @brief Retreive original clip from proxy path when using external proxies
      */
-    const QString getOriginalFromProxy(QString proxyPath) const;
+    static const QString getOriginalFromProxy(QString proxyPath);
     /**
      * @brief Retreive original clip from proxy path when using external proxies
      */
-    const QString getProxyFromOriginal(QString originalPath) const;
+    static const QString getProxyFromOriginal(QString originalPath);
     /**
      * @brief Retreive the list of external files used for sequence clip timewarp
      */

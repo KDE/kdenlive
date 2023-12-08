@@ -7,6 +7,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "projectclip.h"
+#include "audio/audioInfo.h"
 #include "bin.h"
 #include "clipcreator.hpp"
 #include "core.h"
@@ -607,28 +608,10 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     // Discard running tasks for this producer
     QMutexLocker locker(&m_producerMutex);
     FileStatus::ClipStatus currentStatus = m_clipStatus;
-    bool skipProducer = false;
-    if (pCore->currentDoc()->useExternalProxy() && producer->get("kdenlive:proxy") != QLatin1String("-")) {
-        // We have a camcorder profile, check if we have opened a proxy clip
-        QString path = producer->get("resource");
-        if (QFileInfo(path).isRelative() && path != QLatin1String("<tractor>")) {
-            path.prepend(pCore->currentDoc()->documentRoot());
-            producer->set("resource", path.toUtf8().constData());
-        }
-        QString original = getOriginalFromProxy(path);
-        if (!original.isEmpty()) {
-            // Match, we opened a proxy clip
-            setProducerProperty(QStringLiteral("kdenlive:proxy"), path);
-            m_path = original;
-            setProducerProperty(QStringLiteral("kdenlive:originalurl"), m_path);
-            // Use original clip name
-            if (m_clipType != ClipType::Timeline && m_name == QFileInfo(path).fileName()) {
-                m_name = QFileInfo(m_path).fileName();
-            }
-            getFileHash();
-            skipProducer = true;
-        }
+    if (producer->property_exists("_reloadName")) {
+        m_name.clear();
     }
+    bool buildProxy = producer->property_exists("_replaceproxy") && !pCore->currentDoc()->loading;
     updateProducer(producer);
     producer.reset();
     pCore->taskManager.discardJobs(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()), AbstractTask::LOADJOB);
@@ -731,24 +714,25 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     replaceInTimeline();
     updateTimelineClips({TimelineModel::IsProxyRole});
     bool generateProxy = false;
-    QList<std::shared_ptr<ProjectClip>> clipList;
-    if (!m_usesProxy && pCore->currentDoc()->useProxy() && pCore->currentDoc()->getDocumentProperty(QStringLiteral("generateproxy")).toInt() == 1) {
+    std::shared_ptr<ProjectClip> clipToProxy = nullptr;
+    if (buildProxy ||
+        (!m_usesProxy && pCore->currentDoc()->useProxy() && pCore->currentDoc()->getDocumentProperty(QStringLiteral("generateproxy")).toInt() == 1)) {
         // automatic proxy generation enabled
         if (m_clipType == ClipType::Image && pCore->currentDoc()->getDocumentProperty(QStringLiteral("generateimageproxy")).toInt() == 1) {
             if (getProducerIntProperty(QStringLiteral("meta.media.width")) >= KdenliveSettings::proxyimageminsize() &&
                 getProducerProperty(QStringLiteral("kdenlive:proxy")) == QLatin1String()) {
-                clipList << std::static_pointer_cast<ProjectClip>(shared_from_this());
+                clipToProxy = std::static_pointer_cast<ProjectClip>(shared_from_this());
             }
-        } else if (pCore->currentDoc()->getDocumentProperty(QStringLiteral("generateproxy")).toInt() == 1 &&
+        } else if ((buildProxy || pCore->currentDoc()->getDocumentProperty(QStringLiteral("generateproxy")).toInt() == 1) &&
                    (m_clipType == ClipType::AV || m_clipType == ClipType::Video) && getProducerProperty(QStringLiteral("kdenlive:proxy")) == QLatin1String()) {
-            if (!skipProducer && m_hasVideo && getProducerIntProperty(QStringLiteral("meta.media.width")) >= KdenliveSettings::proxyminsize()) {
-                clipList << std::static_pointer_cast<ProjectClip>(shared_from_this());
+            if (m_hasVideo && (buildProxy || getProducerIntProperty(QStringLiteral("meta.media.width")) >= KdenliveSettings::proxyminsize())) {
+                clipToProxy = std::static_pointer_cast<ProjectClip>(shared_from_this());
             }
         } else if (m_clipType == ClipType::Playlist && pCore->getCurrentFrameDisplaySize().width() >= KdenliveSettings::proxyminsize() &&
                    getProducerProperty(QStringLiteral("kdenlive:proxy")) == QLatin1String()) {
-            clipList << std::static_pointer_cast<ProjectClip>(shared_from_this());
+            clipToProxy = std::static_pointer_cast<ProjectClip>(shared_from_this());
         }
-        if (!clipList.isEmpty()) {
+        if (clipToProxy != nullptr) {
             generateProxy = true;
         }
     }
@@ -757,13 +741,14 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
         QTimer::singleShot(1000, this, [this]() { CacheTask::start(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()), 30, 0, 0, this); });
     }
     if (generateProxy) {
-        QMetaObject::invokeMethod(pCore->currentDoc(), "slotProxyCurrentItem", Q_ARG(bool, true), Q_ARG(QList<std::shared_ptr<ProjectClip>>, clipList),
+        QMetaObject::invokeMethod(pCore->currentDoc(), "slotProxyCurrentItem", Q_ARG(bool, true), Q_ARG(QList<std::shared_ptr<ProjectClip>>, {clipToProxy}),
                                   Q_ARG(bool, false));
     }
     return true;
 }
 
-const QString ProjectClip::getOriginalFromProxy(QString proxyPath) const
+// static
+const QString ProjectClip::getOriginalFromProxy(QString proxyPath)
 {
     QStringList externalParams = pCore->currentDoc()->getDocumentProperty(QStringLiteral("externalproxyparams")).split(QLatin1Char(';'));
     if (externalParams.count() >= 6) {
@@ -798,7 +783,8 @@ const QString ProjectClip::getOriginalFromProxy(QString proxyPath) const
     return QString();
 }
 
-const QString ProjectClip::getProxyFromOriginal(QString originalPath) const
+// static
+const QString ProjectClip::getProxyFromOriginal(QString originalPath)
 {
     QStringList externalParams = pCore->currentDoc()->getDocumentProperty(QStringLiteral("externalproxyparams")).split(QLatin1Char(';'));
     if (externalParams.count() >= 6) {
@@ -1636,6 +1622,7 @@ const QString ProjectClip::getFileHash()
 {
     QByteArray fileData;
     QByteArray fileHash;
+
     switch (m_clipType) {
     case ClipType::SlideShow:
         fileHash = getFolderHash(QFileInfo(clipUrl()).absoluteDir(), QFileInfo(clipUrl()).fileName());
