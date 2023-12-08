@@ -720,6 +720,7 @@ public Q_SLOTS:
     /** @brief Adjust all tracks height to fit in view. */
     Q_INVOKABLE void autofitTrackHeight(int timelineHeight, int collapsedHeight);
     Q_INVOKABLE void subtitlesMenuActivatedAsync(int ix);
+    /** @brief Switch the active subtitle in the list. */
     void subtitlesMenuActivated(int ix);
 
 private Q_SLOTS:

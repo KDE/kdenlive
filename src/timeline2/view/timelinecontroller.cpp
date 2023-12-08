@@ -5322,7 +5322,7 @@ void TimelineController::subtitlesMenuActivated(int ix)
         }
     }
     int currentIx = pCore->currentDoc()->getSequenceProperty(m_model->uuid(), QStringLiteral("kdenlive:activeSubtitleIndex"), QStringLiteral("0")).toInt();
-    if (ix > .1) {
+    if (ix > -1) {
         m_activeSubPosition = currentSubs.size();
         Q_EMIT activeSubtitlePositionChanged();
         // Reselect last active subtitle in combobox
