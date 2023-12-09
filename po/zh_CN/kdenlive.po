@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-03 00:41+0000\n"
+"POT-Creation-Date: 2023-12-09 00:41+0000\n"
 "PO-Revision-Date: 2023-11-25 02:29\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -4355,7 +4355,7 @@ msgstr "缺少来源素材"
 msgid "Unable to write to file %1"
 msgstr "无法写入到文件 %1"
 
-#: src/bin/bin.cpp:1864 src/bin/bin.cpp:2529 src/doc/kdenlivedoc.cpp:741
+#: src/bin/bin.cpp:1864 src/bin/bin.cpp:2529 src/doc/kdenlivedoc.cpp:742
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -4860,8 +4860,8 @@ msgstr "选择要添加标签的剪辑"
 msgid "Edit Tags"
 msgstr "编辑标签"
 
-#: src/bin/bin.cpp:4461 src/bin/projectclip.cpp:204
-#: src/bin/projectclip.cpp:2028 src/onlineresources/resourcewidget.cpp:271
+#: src/bin/bin.cpp:4461 src/bin/projectclip.cpp:205
+#: src/bin/projectclip.cpp:2015 src/onlineresources/resourcewidget.cpp:271
 #: src/onlineresources/resourcewidget.cpp:604
 #: src/onlineresources/resourcewidget.cpp:619
 #, kde-format
@@ -4888,8 +4888,8 @@ msgstr "输入音频编辑应用程序的路径"
 msgid "Please set a default application to open audio files"
 msgstr "请设置用于打开音频文件的默认程序"
 
-#: src/bin/bin.cpp:4554 src/core.cpp:311 src/doc/kdenlivedoc.cpp:167
-#: src/jobs/cliploadtask.cpp:458 src/jobs/filtertask.cpp:93
+#: src/bin/bin.cpp:4554 src/core.cpp:311 src/doc/kdenlivedoc.cpp:168
+#: src/jobs/cliploadtask.cpp:459 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:471
 #: src/layoutmanagement.cpp:532 src/profiles/profilerepository.cpp:173
 #: src/renderpresets/renderpresetrepository.cpp:374
@@ -5424,18 +5424,18 @@ msgctxt "@item:inlistbox subtitle track name"
 msgid "Subtitle %1"
 msgstr "字幕"
 
-#: src/bin/projectclip.cpp:262
+#: src/bin/projectclip.cpp:263
 #, kde-format
 msgid "Timeline sequence"
 msgstr "时间轴序列"
 
-#: src/bin/projectclip.cpp:569
+#: src/bin/projectclip.cpp:570
 #, kde-format
 msgctxt "The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "P"
 
-#: src/bin/projectclip.cpp:662
+#: src/bin/projectclip.cpp:645
 #, kde-format
 msgid ""
 "Image dimension smaller than 8 pixels.\n"
@@ -5444,7 +5444,7 @@ msgstr ""
 "图像尺寸小于 8 像素。\n"
 "视频程序框架尚不能正确支持此类图像。"
 
-#: src/bin/projectclip.cpp:948
+#: src/bin/projectclip.cpp:934
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -5453,29 +5453,29 @@ msgstr ""
 "无法从 %1 提取元数据\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1200 src/jobs/cliploadtask.cpp:255
+#: src/bin/projectclip.cpp:1186 src/jobs/cliploadtask.cpp:256
 #, kde-format
 msgid "Invalid"
 msgstr "无效"
 
-#: src/bin/projectclip.cpp:1411 src/dialogs/clipcreationdialog.cpp:208
+#: src/bin/projectclip.cpp:1397 src/dialogs/clipcreationdialog.cpp:208
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1372
 #, kde-format
 msgid "File already exists"
 msgstr "文件已存在"
 
-#: src/bin/projectclip.cpp:2582
+#: src/bin/projectclip.cpp:2569
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "调整时间轴剪辑"
 
-#: src/bin/projectclip.cpp:2807
+#: src/bin/projectclip.cpp:2794
 #, kde-format
 msgid "Add stream effect"
 msgstr "添加流效果"
 
-#: src/bin/projectclip.cpp:2832
+#: src/bin/projectclip.cpp:2819
 #, kde-format
 msgid "Remove stream effect"
 msgstr "移除流效果"
@@ -5954,7 +5954,7 @@ msgstr "文字剪辑"
 msgid "Create Text clip"
 msgstr "创建文字剪辑"
 
-#: src/dialogs/clipcreationdialog.cpp:395 src/doc/kdenlivedoc.cpp:1142
+#: src/dialogs/clipcreationdialog.cpp:395 src/doc/kdenlivedoc.cpp:1143
 #, kde-format
 msgid "Template title clip"
 msgstr "模板字幕剪辑"
@@ -6238,8 +6238,8 @@ msgid "Export Guides Data"
 msgstr "导出辅助线数据…"
 
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1662
-#: src/dialogs/renderwidget.cpp:1689 src/doc/kdenlivedoc.cpp:758
-#: src/doc/kdenlivedoc.cpp:766 src/doc/kdenlivedoc.cpp:1278
+#: src/dialogs/renderwidget.cpp:1689 src/doc/kdenlivedoc.cpp:759
+#: src/doc/kdenlivedoc.cpp:767 src/doc/kdenlivedoc.cpp:1279
 #: src/effects/effectlist/model/effecttreemodel.cpp:252
 #: src/effects/effectlist/model/effecttreemodel.cpp:268
 #: src/effects/effectsrepository.cpp:390
@@ -8122,18 +8122,18 @@ msgstr "下列滤镜/转场已被转换为非 GPU 版本："
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "下列滤镜/转场已被从项目中删除："
 
-#: src/doc/kdenlivedoc.cpp:159
+#: src/doc/kdenlivedoc.cpp:160
 #, kde-format
 msgid "Invalid file path"
 msgstr "无效文件路径 "
 
-#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:742
+#: src/doc/kdenlivedoc.cpp:210 src/project/projectmanager.cpp:742
 #: src/project/projectmanager.cpp:792 src/project/projectmanager.cpp:856
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "无法恢复损坏的文件。"
 
-#: src/doc/kdenlivedoc.cpp:216
+#: src/doc/kdenlivedoc.cpp:217
 #, kde-format
 msgid ""
 "Cannot open file %1:\n"
@@ -8142,17 +8142,17 @@ msgstr ""
 "无法打开文件 %1：\n"
 "%2 (第 %3 行，第 %4 列)"
 
-#: src/doc/kdenlivedoc.cpp:229
+#: src/doc/kdenlivedoc.cpp:230
 #, kde-format
 msgid "File %1 is not a Kdenlive project file"
 msgstr "文件 %1 不是 Kdenlive 项目文件"
 
-#: src/doc/kdenlivedoc.cpp:236
+#: src/doc/kdenlivedoc.cpp:237
 #, kde-format
 msgid "File %1 is not a valid Kdenlive project file."
 msgstr "文件 %1 不是有效的 Kdenlive 项目文件。"
 
-#: src/doc/kdenlivedoc.cpp:249
+#: src/doc/kdenlivedoc.cpp:250
 #, kde-format
 msgid ""
 "GPU acceleration is turned off in Kdenlive settings, but is required for "
@@ -8160,7 +8160,7 @@ msgid ""
 msgstr ""
 "GPU 加速在 Kdenlive 设置中被关闭，但此项目的 Movit 滤镜需要使用 GPU 加速。"
 
-#: src/doc/kdenlivedoc.cpp:292
+#: src/doc/kdenlivedoc.cpp:293
 #, kde-format
 msgid ""
 "The project directory %1, could not be created.\n"
@@ -8171,22 +8171,22 @@ msgstr ""
 "请确保您具备所需的权限。\n"
 "当前默认为使用系统文件夹。"
 
-#: src/doc/kdenlivedoc.cpp:295
+#: src/doc/kdenlivedoc.cpp:296
 #, kde-format
 msgid "Document project folder is invalid, using system default folders"
 msgstr "文档项目文件夹无效，使用系统默认文件夹"
 
-#: src/doc/kdenlivedoc.cpp:576 src/doc/kdenlivedoc.cpp:586
+#: src/doc/kdenlivedoc.cpp:577 src/doc/kdenlivedoc.cpp:587
 #, kde-format
 msgid "Cannot create autosave file %1"
 msgstr "无法创建自动保存文件 %1"
 
-#: src/doc/kdenlivedoc.cpp:581 src/doc/kdenlivedoc.cpp:719
+#: src/doc/kdenlivedoc.cpp:582 src/doc/kdenlivedoc.cpp:720
 #, kde-format
 msgid "Cannot write to file %1, scene list is corrupted."
 msgstr "无法写入文件 %1，场景列表已损坏。"
 
-#: src/doc/kdenlivedoc.cpp:737
+#: src/doc/kdenlivedoc.cpp:738
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
@@ -8195,7 +8195,7 @@ msgstr ""
 "您的项目文件已升级到最新的 Kdenlive 文件版本。\n"
 "为了确保不发生数据丢失，已创建了一份名为 %1 的备份。"
 
-#: src/doc/kdenlivedoc.cpp:751
+#: src/doc/kdenlivedoc.cpp:752
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version, but "
@@ -8203,36 +8203,36 @@ msgid ""
 msgstr ""
 "您的项目文件已被升级到最新的 Kdenlive 项目文件版本，但是无法创建备份副本 %1。"
 
-#: src/doc/kdenlivedoc.cpp:882 src/project/projectmanager.cpp:1266
+#: src/doc/kdenlivedoc.cpp:883 src/project/projectmanager.cpp:1266
 #: src/project/projectmanager.cpp:1302
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "移动项目文件夹时出错：%1"
 
-#: src/doc/kdenlivedoc.cpp:1067 src/doc/kdenlivedoc.cpp:2239
+#: src/doc/kdenlivedoc.cpp:1068 src/doc/kdenlivedoc.cpp:2263
 #: src/project/dialogs/archivewidget.cpp:238
 #: src/project/projectmanager.cpp:1503
 #, kde-format
 msgid "Untitled"
 msgstr "未命名"
 
-#: src/doc/kdenlivedoc.cpp:1128
+#: src/doc/kdenlivedoc.cpp:1129
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "输入模板路径"
 
-#: src/doc/kdenlivedoc.cpp:1285
+#: src/doc/kdenlivedoc.cpp:1286
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "以下效果已从项目导入："
 
-#: src/doc/kdenlivedoc.cpp:1322 src/doc/kdenlivedoc.cpp:1336
+#: src/doc/kdenlivedoc.cpp:1323 src/doc/kdenlivedoc.cpp:1337
 #, kde-format
 msgid "Project Folder"
 msgstr "项目文件夹"
 
-#: src/doc/kdenlivedoc.cpp:1380 src/doc/kdenlivedoc.cpp:1388
+#: src/doc/kdenlivedoc.cpp:1381 src/doc/kdenlivedoc.cpp:1389
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -8241,29 +8241,29 @@ msgstr ""
 "无法创建备份副本：\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1533
+#: src/doc/kdenlivedoc.cpp:1534
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "添加代理剪辑"
 
-#: src/doc/kdenlivedoc.cpp:1535
+#: src/doc/kdenlivedoc.cpp:1536
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "移除代理剪辑"
 
-#: src/doc/kdenlivedoc.cpp:1579 src/doc/kdenlivedoc.cpp:1614
+#: src/doc/kdenlivedoc.cpp:1580 src/doc/kdenlivedoc.cpp:1638
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "剪辑类型不支持代理剪辑"
 
-#: src/doc/kdenlivedoc.cpp:1827
+#: src/doc/kdenlivedoc.cpp:1851
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr "警告：非标准 FPS，将调整为最接近的整数值。 "
 
-#: src/doc/kdenlivedoc.cpp:1846
+#: src/doc/kdenlivedoc.cpp:1870
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -8272,43 +8272,43 @@ msgstr ""
 "您的默认项目编码方案为 %1，但剪辑的编码方案 (%2) 为 %3。\n"
 "您想要为将来的项目更改默认编码方案吗？"
 
-#: src/doc/kdenlivedoc.cpp:1848
+#: src/doc/kdenlivedoc.cpp:1872
 #, kde-format
 msgid "Change default project profile"
 msgstr "更改默认编码方案"
 
-#: src/doc/kdenlivedoc.cpp:1848
+#: src/doc/kdenlivedoc.cpp:1872
 #, kde-format
 msgid "Change default to %1"
 msgstr "更改默认方案为 %1"
 
-#: src/doc/kdenlivedoc.cpp:1849
+#: src/doc/kdenlivedoc.cpp:1873
 #, kde-format
 msgid "Keep current default %1"
 msgstr "保持当前默认方案 %1"
 
-#: src/doc/kdenlivedoc.cpp:1849
+#: src/doc/kdenlivedoc.cpp:1873
 #, kde-format
 msgid "Ask me later"
 msgstr "稍后询问"
 
-#: src/doc/kdenlivedoc.cpp:1869
+#: src/doc/kdenlivedoc.cpp:1893
 #, kde-format
 msgid "Switch"
 msgstr "切换"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1871 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1895 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "取消"
 
-#: src/doc/kdenlivedoc.cpp:1873
+#: src/doc/kdenlivedoc.cpp:1897
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "切换到剪辑 (%1) 编码方案 %2？"
 
-#: src/doc/kdenlivedoc.cpp:1878
+#: src/doc/kdenlivedoc.cpp:1902
 #, kde-format
 msgid ""
 "\n"
@@ -8317,7 +8317,7 @@ msgstr ""
 "\n"
 "编码方案 fps 调整自原始文件 %1"
 
-#: src/doc/kdenlivedoc.cpp:1882
+#: src/doc/kdenlivedoc.cpp:1906
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -8326,13 +8326,13 @@ msgstr ""
 "找不到剪辑 %1 的编码方案。\n"
 "创建并切换到新编码方案 (%2x%3, %4fps) 吗？%5"
 
-#: src/doc/kdenlivedoc.cpp:2278 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2302 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "红"
 
-#: src/doc/kdenlivedoc.cpp:2279 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2303 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -8340,24 +8340,24 @@ msgstr "红"
 msgid "Green"
 msgstr "绿"
 
-#: src/doc/kdenlivedoc.cpp:2280 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2304 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "蓝"
 
-#: src/doc/kdenlivedoc.cpp:2281 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2305 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "黄"
 
-#: src/doc/kdenlivedoc.cpp:2282
+#: src/doc/kdenlivedoc.cpp:2306
 #, kde-format
 msgid "Cyan"
 msgstr "青"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2546 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2570 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -8724,7 +8724,7 @@ msgstr "此项目不是动画剪辑"
 msgid "Audio thumbs"
 msgstr "音频缩略图"
 
-#: src/jobs/audiolevelstask.cpp:75 src/jobs/audiolevelstask.cpp:140
+#: src/jobs/audiolevelstask.cpp:75 src/jobs/audiolevelstask.cpp:144
 #, kde-format
 msgid "Audio thumbs: cannot open file %1"
 msgstr "音频缩略图：无法打开文件 %1"
@@ -8734,27 +8734,27 @@ msgstr "音频缩略图：无法打开文件 %1"
 msgid "Audio thumbs: unknown file length for %1"
 msgstr "音频缩略图：%1 的文件长度未知"
 
-#: src/jobs/cachetask.cpp:31 src/jobs/cliploadtask.cpp:43
+#: src/jobs/cachetask.cpp:31 src/jobs/cliploadtask.cpp:44
 #, kde-format
 msgid "Video thumbs"
 msgstr "视频缩略图"
 
-#: src/jobs/cliploadtask.cpp:43
+#: src/jobs/cliploadtask.cpp:44
 #, kde-format
 msgid "Loading clip"
 msgstr "正在加载剪辑"
 
-#: src/jobs/cliploadtask.cpp:486
+#: src/jobs/cliploadtask.cpp:487
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "无法确定文件 <b>%1</b> 的持续时间。"
 
-#: src/jobs/cliploadtask.cpp:638
+#: src/jobs/cliploadtask.cpp:679
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "文件 <b>%1</b> 不支持时移。"
 
-#: src/jobs/cliploadtask.cpp:666
+#: src/jobs/cliploadtask.cpp:707
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "文件 <b>%1</b> 具有可变帧速率。"
@@ -8889,7 +8889,7 @@ msgstr "图片太小，无法代理。"
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr "找不到 FFmpeg，请在配置 Kdenlive 对话框的系统环境页面设置其路径。"
 
-#: src/jobs/proxytask.cpp:359 src/jobs/proxytask.cpp:372
+#: src/jobs/proxytask.cpp:369 src/jobs/proxytask.cpp:382
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "无法创建代理剪辑。"
