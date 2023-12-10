@@ -50,7 +50,10 @@ craft_macos_arm64_signing_test:
     - packageDir=$(craftmaster -c -q --get "packageDestinationDir()" virtual/base)
     - mkdir $CI_PROJECT_DIR/.kde-ci-packages/
     - cp -vf $packageDir/*.dmg $CI_PROJECT_DIR/.kde-ci-packages/
+    - mkdir $CI_PROJECT_DIR/.logs/
     - cp -vf $KDECI_CRAFT_PLATFORM/logs/ $CI_PROJECT_DIR/.logs/
+    - cp -vf task.log $CI_PROJECT_DIR/.logs/
+    - cp -vf task-debug.log $CI_PROJECT_DIR/.logs/
   after_script:
     # cleanup, we can't just delete everything since that would also delete the artifacts which are gathered after
     - rm -rf src craftmaster ci-utilities blueprints downloads craft-clone $KDECI_CRAFT_PLATFORM
@@ -61,5 +64,3 @@ craft_macos_arm64_signing_test:
     paths:
      - ".kde-ci-packages/"
      - ".logs/"
-     - task-debug.log
-     - task.log
