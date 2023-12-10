@@ -40,6 +40,7 @@ craft_macos_arm64_signing_test:
     # Create empty .craft.ini if none exists
     - touch $KDECI_CRAFT_PROJECT_CONFIG
     # Define a short cut for the lengthy CraftMaster command line
+    - function signmacapp { python3 ci-notary-service/signmacapp.py -v --config $KDECI_SIGNMACAPP_CONFIG $@; }
     - function craftmaster { python3 craftmaster/CraftMaster.py --config $KDECI_CRAFT_CONFIG --config-override $KDECI_CRAFT_PROJECT_CONFIG --target $KDECI_CRAFT_PLATFORM $@; }
   script:
     # Set up craft settings and blueprint settings
@@ -51,7 +52,7 @@ craft_macos_arm64_signing_test:
     # Build the actual application
     - craftmaster -c --no-cache --options $CI_PROJECT_NAME.srcDir=$CI_PROJECT_DIR/src/ $CI_PROJECT_NAME
     # Package it up!
-    - craftmaster --variables [CodeSigning]Enabled=True [CodeSigning]MacCustomSignCommand="python3 ci-notary-service/signmacapp.py -v --config $KDECI_SIGNMACAPP_CONFIG" -c --package --options $CI_PROJECT_NAME.srcDir=$CI_PROJECT_DIR/src/ $CI_PROJECT_NAME
+    - craftmaster --variables [CodeSigning]Enabled=True [CodeSigning]MacCustomSignCommand=signmacapp -c --package --options $CI_PROJECT_NAME.srcDir=$CI_PROJECT_DIR/src/ $CI_PROJECT_NAME
     # Save our package
     - packageDir=$(craftmaster -c -q --get "packageDestinationDir()" virtual/base)
     - mkdir $CI_PROJECT_DIR/.kde-ci-packages/
