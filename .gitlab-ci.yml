@@ -51,7 +51,7 @@ craft_macos_arm64_signing_test:
     - mkdir $CI_PROJECT_DIR/.kde-ci-packages/
     - cp -vf $packageDir/*.dmg $CI_PROJECT_DIR/.kde-ci-packages/
     - mkdir $CI_PROJECT_DIR/.logs/
-    - cp -vf $KDECI_CRAFT_PLATFORM/logs/ $CI_PROJECT_DIR/.logs/
+    - cp -vf -R $KDECI_CRAFT_PLATFORM/logs/. $CI_PROJECT_DIR/.logs/
     - cp -vf task.log $CI_PROJECT_DIR/.logs/
     - cp -vf task-debug.log $CI_PROJECT_DIR/.logs/
   after_script:
