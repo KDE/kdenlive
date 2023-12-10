@@ -24,7 +24,7 @@ craft_macos_arm64_signing_test:
   interruptible: true
   before_script:
     # ensure we start with an empty folder
-    - rm -rf .kde-ci-packages *
+    - rm -rf .kde-ci-packages .logs *
     - export LANG=en_US.UTF-8
     - git clone https://invent.kde.org/packaging/craftmaster.git --branch=master
     - git clone https://invent.kde.org/sysadmin/ci-utilities.git --depth=1
@@ -50,6 +50,7 @@ craft_macos_arm64_signing_test:
     - packageDir=$(craftmaster -c -q --get "packageDestinationDir()" virtual/base)
     - mkdir $CI_PROJECT_DIR/.kde-ci-packages/
     - cp -vf $packageDir/*.dmg $CI_PROJECT_DIR/.kde-ci-packages/
+    - cp -vf $KDECI_CRAFT_PLATFORM/logs/ $CI_PROJECT_DIR/.logs/
   after_script:
     # cleanup, we can't just delete everything since that would also delete the artifacts which are gathered after
     - rm -rf src craftmaster ci-utilities blueprints downloads craft-clone $KDECI_CRAFT_PLATFORM
@@ -59,7 +60,6 @@ craft_macos_arm64_signing_test:
     expose_as: "macOS ARM Signed"
     paths:
      - ".kde-ci-packages/"
-     - "macos-clang-arm64/logs/"
-     - "$KDECI_CRAFT_PLATFORM/logs/"
+     - ".logs/"
      - task-debug.log
      - task.log
