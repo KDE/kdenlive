@@ -52,18 +52,12 @@ craft_macos_arm64_signing_test:
     - craftmaster -c --install-deps $CI_PROJECT_NAME
     # Build the actual application
     - craftmaster -c --no-cache --options $CI_PROJECT_NAME.srcDir=$CI_PROJECT_DIR/src/ $CI_PROJECT_NAME
-    # Sign the app, later we need to sign the final dmg too
-    - imageDir=$(craftmaster -c -q --get "imageDir()" $CI_PROJECT_NAME)
-    - ls $imageDir/bin
-    - python3 ci-notary-service/signmacapp.py -v --config $KDECI_SIGNMACAPP_CONFIG $imageDir/bin/*.app
     # Package it up!
-    - craftmaster -c --package --options $CI_PROJECT_NAME.srcDir=$CI_PROJECT_DIR/src/ $CI_PROJECT_NAME
+    - craftmaster --variables [CodeSigning]Enabled=True [CodeSigning]MacCustomSignCommand="python3 ci-notary-service/signmacapp.py -v --config $KDECI_SIGNMACAPP_CONFIG" -c --package --options $CI_PROJECT_NAME.srcDir=$CI_PROJECT_DIR/src/ $CI_PROJECT_NAME
     # Save our package
     - packageDir=$(craftmaster -c -q --get "packageDestinationDir()" virtual/base)
     - mkdir $CI_PROJECT_DIR/.kde-ci-packages/
     - cp -vf $packageDir/*.dmg $CI_PROJECT_DIR/.kde-ci-packages/
-    # Finally sign the dmg
-    - python3 ci-notary-service/signmacapp.py -v --config $KDECI_SIGNMACAPP_CONFIG $CI_PROJECT_DIR/.kde-ci-packages/*.dmg
   after_script:
     # cleanup, we can't just delete everything since that would also delete the artifacts which are gathered after
     - rm -rf src craftmaster ci-utilities blueprints downloads craft-clone $KDECI_CRAFT_PLATFORM
