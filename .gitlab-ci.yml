@@ -4,13 +4,6 @@
 include:
   - project: sysadmin/ci-utilities
     file:
-      - /gitlab-templates/reuse-lint.yml
-      - /gitlab-templates/linux.yml
-      - /gitlab-templates/freebsd.yml
-      - /gitlab-templates/linux-qt6.yml
-      - /gitlab-templates/flatpak.yml
-      - /gitlab-templates/craft-appimage.yml
-      - /gitlab-templates/craft-windows-mingw64.yml
       - /gitlab-templates/craft-macos-x86-64.yml
       - /gitlab-templates/craft-macos-arm64.yml
 
@@ -67,47 +60,6 @@ craft_macos_arm64_signing_test:
     paths:
      - ".kde-ci-packages/"
      - "macos-clang-arm64/logs/"
+     - "$KDECI_CRAFT_PLATFORM/logs/"
      - task-debug.log
      - task.log
-
-
-
-.craft-qt6:
-  variables:
-    KDECI_CRAFT_CONFIG: ci-utilities/craft/qt6/CraftConfig.ini
-    KDECI_CRAFT_PROJECT_CONFIG: $CI_PROJECT_DIR/src/.craft-qt6.ini
-
-craft_appimage_qt6_x86_64:
-  extends:
-    - craft_appimage_x86_64
-    - .craft-qt6
-
-craft_windows_qt6_mingw64:
-  extends:
-    - craft_windows_qt515_mingw64
-    - .craft-qt6
-
-craft_macos_qt6_arm64:
-  extends:
-    - craft_macos_arm64
-    - .craft-qt6
-
-craft_macos_qt6_x86_64:
-  extends:
-    - craft_macos_x86_64
-    - .craft-qt6
-
-xml_lint:
-  stage: build
-  image: invent-registry.kde.org/sysadmin/ci-images/suse-qt515:latest
-  tags:
-    - Linux
-  script:
-    # enable globstar to be able to use ** as recursive wildcard
-    - shopt -s globstar
-    # exit shell on non-zero exit code
-    - set -e 
-    # execute xmllint for all xml files
-    - for x in **/*.xml; do echo "Processing $x"; xmllint -noout "$x"; done
-  rules:
-    - changes: [ "**/*.xml" ]
