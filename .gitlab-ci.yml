@@ -27,11 +27,10 @@ craft_macos_arm64_signing_test:
     KDECI_CRAFT_CACHE: /mnt/craft-cache/$KDECI_CRAFT_PLATFORM/
     KDECI_CRAFT_CONFIG: ci-utilities/craft/qt5/CraftConfig.ini
     KDECI_CRAFT_PROJECT_CONFIG: $CI_PROJECT_DIR/src/.craft.ini
-    KDECI_SIGNMACAPP_CONFIG: $CI_PROJECT_DIR/ci-utilities/signing/signmacapp.ini
   interruptible: true
   before_script:
     # ensure we start with an empty folder
-    - rm -rf .kde-ci-packages *
+    - rm -rf .kde-ci-packages .logs *
     - export LANG=en_US.UTF-8
     - git clone https://invent.kde.org/packaging/craftmaster.git --branch=master
     - git clone https://invent.kde.org/sysadmin/ci-utilities.git --depth=1
@@ -40,7 +39,6 @@ craft_macos_arm64_signing_test:
     # Create empty .craft.ini if none exists
     - touch $KDECI_CRAFT_PROJECT_CONFIG
     # Define a short cut for the lengthy CraftMaster command line
-    - function signmacapp { python3 ci-notary-service/signmacapp.py -v --config $KDECI_SIGNMACAPP_CONFIG $@; }
     - function craftmaster { python3 craftmaster/CraftMaster.py --config $KDECI_CRAFT_CONFIG --config-override $KDECI_CRAFT_PROJECT_CONFIG --target $KDECI_CRAFT_PLATFORM $@; }
   script:
     # Set up craft settings and blueprint settings
@@ -52,12 +50,17 @@ craft_macos_arm64_signing_test:
     # Build the actual application
     - craftmaster -c --no-cache --options $CI_PROJECT_NAME.srcDir=$CI_PROJECT_DIR/src/ $CI_PROJECT_NAME
     # Package it up!
-    - craftmaster --variables [CodeSigning]Enabled=True [CodeSigning]MacCustomSignCommand=signmacapp -c --package --options $CI_PROJECT_NAME.srcDir=$CI_PROJECT_DIR/src/ $CI_PROJECT_NAME
+    - craftmaster -c --package --options $CI_PROJECT_NAME.srcDir=$CI_PROJECT_DIR/src/ --options [CodeSigning]Enabled=True $CI_PROJECT_NAME
     # Save our package
     - packageDir=$(craftmaster -c -q --get "packageDestinationDir()" virtual/base)
     - mkdir $CI_PROJECT_DIR/.kde-ci-packages/
     - cp -vf $packageDir/*.dmg $CI_PROJECT_DIR/.kde-ci-packages/
   after_script:
+    # Move logs to .logs dir to protect them against cleanup deletion
+    - mkdir $CI_PROJECT_DIR/.logs/
+    - cp -vf -R $KDECI_CRAFT_PLATFORM/logs/. $CI_PROJECT_DIR/.logs/
+    - cp -vf task.log $CI_PROJECT_DIR/.logs/
+    - cp -vf task-debug.log $CI_PROJECT_DIR/.logs/
     # cleanup, we can't just delete everything since that would also delete the artifacts which are gathered after
     - rm -rf src craftmaster ci-utilities blueprints downloads craft-clone $KDECI_CRAFT_PLATFORM
   artifacts:
@@ -66,10 +69,7 @@ craft_macos_arm64_signing_test:
     expose_as: "macOS ARM Signed"
     paths:
      - ".kde-ci-packages/"
-     - "macos-clang-arm64/logs/"
-     - task-debug.log
-     - task.log
-
+     - ".logs/"
 
 
 .craft-qt6:
