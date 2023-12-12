@@ -17,15 +17,9 @@ include:
 .craft-mac-notarize:
   variables:
     KDECI_NOTARIZEMACAPP_CONFIG: $CI_PROJECT_DIR/ci-utilities/signing/notarizemacapp.ini
-  after_script:
+  script:
+    - !reference [.craft_macos_base, script]
     - python3 ci-notary-service/notarizemacapp.py -v --config $KDECI_NOTARIZEMACAPP_CONFIG $CI_PROJECT_DIR/.kde-ci-packages/*.dmg
-    # Move logs to .logs dir to protect them against cleanup deletion
-    - mkdir $CI_PROJECT_DIR/.logs/
-    - ls
-    - cp -vf task-debug.log $CI_PROJECT_DIR/.logs/
-    - cp -vf task.log $CI_PROJECT_DIR/.logs/
-    # cleanup, we can't just delete everything since that would also delete the artifacts which are gathered after
-    - rm -rf src craftmaster ci-utilities blueprints downloads craft-clone $KDECI_CRAFT_PLATFORM
 
 craft_macos_arm64_notarize_test:
   extends:
