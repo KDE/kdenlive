@@ -18,7 +18,7 @@ include:
   variables:
     KDECI_NOTARIZEMACAPP_CONFIG: $CI_PROJECT_DIR/ci-utilities/signing/notarizemacapp.ini
   after_script:
-    - python3 ci-notary-service/macappnotarizer.py -v --config $KDECI_NOTARIZEMACAPP_CONFIG $CI_PROJECT_DIR/.kde-ci-packages/*.dmg
+    - python3 ci-notary-service/notarizemacapp.py -v --config $KDECI_NOTARIZEMACAPP_CONFIG $CI_PROJECT_DIR/.kde-ci-packages/*.dmg
     # Move logs to .logs dir to protect them against cleanup deletion
     - mkdir $CI_PROJECT_DIR/.logs/
     - ls
