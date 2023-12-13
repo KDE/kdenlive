@@ -4911,6 +4911,18 @@ void TimelineController::addTracks(int videoTracks, int audioTracks)
 
 void TimelineController::mixClip(int cid, int delta)
 {
+    if (cid == -1) {
+        std::unordered_set<int> selectedIds = m_model->getCurrentSelection();
+        if (selectedIds.empty() && m_model->isTrack(m_activeTrack)) {
+            // Check if timeline playhead is on a cut
+            int timelinePos = pCore->getMonitorPosition();
+            int nextClip = m_model->getTrackById_const(m_activeTrack)->getClipByPosition(timelinePos);
+            int prevClip = m_model->getTrackById_const(m_activeTrack)->getClipByPosition(timelinePos - 1);
+            if (m_model->isClip(prevClip) && m_model->isClip(nextClip) && prevClip != nextClip) {
+                cid = nextClip;
+            }
+        }
+    }
     m_model->mixClip(cid, QStringLiteral("luma"), delta);
 }
 
