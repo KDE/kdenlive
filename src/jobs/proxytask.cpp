@@ -94,6 +94,7 @@ void ProxyTask::run()
                 playlist->close();
             }
         }
+        mltParameters << QStringLiteral("-profile") << pCore->getCurrentProfilePath();
         mltParameters << source;
         // set destination
         mltParameters << QStringLiteral("-consumer") << QStringLiteral("avformat:%1").arg(dest) << QStringLiteral("out=%1").arg(binClip->frameDuration());
@@ -111,6 +112,10 @@ void ProxyTask::run()
         }
         int proxyResize = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyresize")).toInt();
         parameter.replace(QStringLiteral("%width"), QString::number(proxyResize));
+        if (parameter.contains(QLatin1String("-i "))) {
+            // Remove the source input if any
+            parameter.remove(QLatin1String("-i "));
+        }
 
         QStringList params = parameter.split(QLatin1Char('-'), Qt::SkipEmptyParts);
         double display_ratio;
@@ -280,6 +285,23 @@ void ProxyTask::run()
             if (!proxyParams.contains(QLatin1String("mjpeg")) && !proxyParams.contains(QLatin1String("mpeg2video"))) {
                 parameters << QStringLiteral("-noautorotate");
             }
+            // Check if source is interlaced
+            bool interlacedSource = false;
+            // TODO: should proxy clips keep interlacing ?
+            /*if (binClip->getProducerIntProperty(QStringLiteral("meta.media.progressive")) == 0) {
+                // Interlaced
+                interlacedSource = true;
+                qDebug() << "::: Interlaced content disabling nvidia codecs";
+            } else {
+                qDebug() << "::: Found progressive content";
+            }*/
+            bool vaapi = proxyParams.contains(QStringLiteral("vaapi"));
+            if (vaapi && interlacedSource) {
+                // Disable vaapi if source is interlaced
+                proxyParams = proxyParams.section(QStringLiteral("-i "), 1);
+                proxyParams.replace(QStringLiteral(",format=nv12,hwupload"), QString());
+                proxyParams.replace(QStringLiteral("h264_vaapi"), QStringLiteral("libx264"));
+            }
             bool nvenc = proxyParams.contains(QStringLiteral("%nvcodec"));
             if (nvenc) {
                 QString pix_fmt = binClip->videoCodecProperty(QStringLiteral("pix_fmt"));
@@ -292,11 +314,11 @@ void ProxyTask::run()
                                              QStringLiteral("rgb32"),   QStringLiteral("yuv410p"), QStringLiteral("yuv411p")};
 
                 // Check if the transcoded file uses a cuda supported codec (we don't check for specific cards so not 100% exact)
-                bool supported = supportedCodecs.contains(codec) && supportedPixFmts.contains(pix_fmt);
-                if (proxyParams.contains(QStringLiteral("scale_npp")) && !KdenliveSettings::nvScalingEnabled()) {
+                bool supported = !interlacedSource && supportedCodecs.contains(codec) && supportedPixFmts.contains(pix_fmt);
+                if (supported && proxyParams.contains(QStringLiteral("scale_npp")) && !KdenliveSettings::nvScalingEnabled()) {
                     supported = false;
                 }
-                if (proxyParams.contains(QStringLiteral("%frameSize"))) {
+                if (supported && proxyParams.contains(QStringLiteral("%frameSize"))) {
                     int w = proxyResize;
                     int h = 0;
                     int oW = binClip->getProducerProperty(QStringLiteral("meta.media.width")).toInt();
@@ -314,12 +336,16 @@ void ProxyTask::run()
                     codec.append(QStringLiteral("_cuvid"));
                     proxyParams.replace(QStringLiteral("%nvcodec"), codec);
                 } else {
-                    proxyParams = proxyParams.section(QStringLiteral("-i"), 1);
+                    proxyParams = proxyParams.section(QStringLiteral("-i "), 1);
                     if (!supportedPixFmts.contains(pix_fmt)) {
                         proxyParams.prepend(QStringLiteral("-pix_fmt yuv420p "));
                     }
                     proxyParams.replace(QStringLiteral("scale_cuda"), QStringLiteral("scale"));
                     proxyParams.replace(QStringLiteral("scale_npp"), QStringLiteral("scale"));
+                    if (interlacedSource) {
+                        // nVidia does not support interlaced encoding
+                        proxyParams.replace(QStringLiteral("h264_nvenc"), QStringLiteral("libx264"));
+                    }
                 }
             }
             proxyParams.replace(QStringLiteral("%width"), QString::number(proxyResize));
@@ -341,6 +367,10 @@ void ProxyTask::run()
                 if (t == QLatin1String("-i")) {
                     parameters << source;
                 }
+            }
+            if (interlacedSource) {
+                // Keep interlacing
+                parameters << QStringLiteral("-flags") << QStringLiteral("+ildct+ilme") << QStringLiteral("-top") << QStringLiteral("-1");
             }
 
             // Make sure we keep the stream order
