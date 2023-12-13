@@ -1016,7 +1016,7 @@ bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
         mixInfo.durations = {0, 0};
         mixInfo.mixPosition = 0;
         mixInfo.selectedTrack = getClipTrackId(s);
-        if (mixInfo.selectedTrack == -1 || !isTrack(mixInfo.selectedTrack)) {
+        if (mixInfo.selectedTrack == -1 || !isTrack(mixInfo.selectedTrack) || !getTrackById_const(mixInfo.selectedTrack)->shouldReceiveTimelineOp()) {
             continue;
         }
         mixInfo.mixPosition = getItemPosition(s);
