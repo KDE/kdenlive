@@ -127,6 +127,10 @@ void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QM
     for (auto &a : cActions) {
         m_timelineCompositionMenu->addAction(a);
     }
+    m_timelineMixMenu = new QMenu(this);
+    QAction *deleteAction = pCore->window()->actionCollection()->action(QLatin1String("delete_timeline_clip"));
+    m_timelineMixMenu->addAction(deleteAction);
+
     m_timelineMenu = new QMenu(this);
     cActions = timelineMenu->actions();
     for (auto &a : cActions) {
@@ -211,6 +215,7 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     connect(m_proxy, &TimelineController::seeked, proxy, &MonitorProxy::setPosition);
     rootObject()->setProperty("dar", pCore->getCurrentDar());
     connect(rootObject(), SIGNAL(showClipMenu(int)), this, SLOT(showClipMenu(int)));
+    connect(rootObject(), SIGNAL(showMixMenu(int)), this, SLOT(showMixMenu(int)));
     connect(rootObject(), SIGNAL(showCompositionMenu()), this, SLOT(showCompositionMenu()));
     connect(rootObject(), SIGNAL(showTimelineMenu()), this, SLOT(showTimelineMenu()));
     connect(rootObject(), SIGNAL(showRulerMenu()), this, SLOT(showRulerMenu()));
@@ -253,6 +258,12 @@ void TimelineWidget::showClipMenu(int cid)
         }
     }
     m_timelineClipMenu->popup(m_clickPos);
+}
+
+void TimelineWidget::showMixMenu(int cid)
+{
+    // Show mix menu
+    m_timelineMixMenu->popup(m_clickPos);
 }
 
 void TimelineWidget::showCompositionMenu()

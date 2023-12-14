@@ -39,6 +39,7 @@ Rectangle {
     signal clipClicked()
     signal mousePosChanged(int position)
     signal showClipMenu(int cid)
+    signal showMixMenu(int cid)
     signal showCompositionMenu()
     signal showTimelineMenu()
     signal showRulerMenu()

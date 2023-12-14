@@ -75,6 +75,7 @@ private Q_SLOTS:
     void slotUngrabHack();
     void slotResetContextPos(QAction *);
     void showClipMenu(int cid);
+    void showMixMenu(int cid);
     void showCompositionMenu();
     void showTimelineMenu();
     void showRulerMenu();
@@ -84,6 +85,7 @@ private Q_SLOTS:
 private:
     TimelineController *m_proxy;
     QMenu *m_timelineClipMenu;
+    QMenu *m_timelineMixMenu;
     QMenu *m_timelineCompositionMenu;
     QMenu *m_timelineMenu;
     QMenu *m_timelineRulerMenu;
