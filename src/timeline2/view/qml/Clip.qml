@@ -425,20 +425,21 @@ Rectangle {
                 Rectangle {
                     id: mixBackground
                     property double mixPos: mixBackground.width - clipRoot.mixCut * clipRoot.timeScale
+                    property bool mixSelected: root.selectedMix == clipRoot.clipId
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
                     anchors.left: parent.left
                     anchors.right: parent.right
                     visible: clipRoot.mixDuration > 0
-                    color: "mediumpurple"
+                    color: mixSelected ? root.selectionColor : "mediumpurple"
                     Loader {
                         id: shapeLoader
                         source: clipRoot.mixDuration > 0 ? "MixShape.qml" : ""
                         property bool valid: item !== null
                     }
 
-                    opacity: mixArea.containsMouse || trimInMixArea.pressed || trimInMixArea.containsMouse || root.selectedMix == clipRoot.clipId ? 1 : 0.7
-                    border.color: root.selectedMix == clipRoot.clipId ? root.selectionColor : "transparent"
+                    opacity: mixArea.containsMouse || trimInMixArea.pressed || trimInMixArea.containsMouse || mixSelected ? 1 : 0.7
+                    border.color: mixSelected ? root.selectionColor : "transparent"
                     border.width: 2
                     MouseArea {
                         // Mix click mouse area
@@ -446,9 +447,16 @@ Rectangle {
                         anchors.fill: parent
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
+                        acceptedButtons: Qt.RightButton | Qt.LeftButton
                         enabled: container.handleVisible && width > root.baseUnit * 0.8
-                        onPressed: {
+                        onPressed: mouse => {
                             controller.requestMixSelection(clipRoot.clipId);
+                            root.autoScrolling = false
+                            if (mouse.button == Qt.RightButton) {
+                                root.clickFrame = Math.round(mouse.x / timeline.scaleFactor)
+                                root.showMixMenu(clipRoot.clipId)
+                                root.autoScrolling = timeline.autoScroll
+                            }
                         }
                         onEntered: {
                             var text = i18n("Mix duration: %1, Cut at: %2".arg(timeline.simplifiedTC(clipRoot.mixDuration))
@@ -908,7 +916,7 @@ Rectangle {
             Item {
                 // Clipping container for clip names
                 anchors.fill: parent
-                anchors.leftMargin: mixContainer.width
+                anchors.leftMargin: mixContainer.width > 0 ? mixContainer.width + mixBackground.border.width : 0
                 id: nameContainer
                 clip: true
                 Rectangle {
