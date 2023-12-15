@@ -237,7 +237,7 @@ bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action
     }
 
     if (data->hasUrls()) {
-        Q_EMIT itemDropped(data->urls(), parent);
+        Q_EMIT urlsDropped(data->urls(), parent);
         return true;
     }
 
@@ -464,14 +464,9 @@ void ProjectItemModel::onItemUpdated(const QString &binId, int role)
 std::shared_ptr<ProjectClip> ProjectItemModel::getClipByBinID(const QString &binId)
 {
     READ_LOCK();
-    if (binId.contains(QLatin1Char('_'))) {
-        return getClipByBinID(binId.section(QLatin1Char('_'), 0, 0));
-    }
-    for (const auto &clip : m_allItems) {
-        auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
-        if (c->itemType() == AbstractProjectItem::ClipItem && c->clipId() == binId) {
-            return std::static_pointer_cast<ProjectClip>(c);
-        }
+    auto search = m_allClipItems.find(binId.toInt());
+    if (search != m_allClipItems.end()) {
+        return search->second;
     }
     return nullptr;
 }
@@ -479,11 +474,9 @@ std::shared_ptr<ProjectClip> ProjectItemModel::getClipByBinID(const QString &bin
 const QVector<uint8_t> ProjectItemModel::getAudioLevelsByBinID(const QString &binId, int stream)
 {
     READ_LOCK();
-    for (const auto &clip : m_allItems) {
-        auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
-        if (c->itemType() == AbstractProjectItem::ClipItem && c->clipId() == binId) {
-            return std::static_pointer_cast<ProjectClip>(c)->audioFrameCache(stream);
-        }
+    auto search = m_allClipItems.find(binId.toInt());
+    if (search != m_allClipItems.end()) {
+        return search->second->audioFrameCache(stream);
     }
     return QVector<uint8_t>();
 }
@@ -491,14 +484,9 @@ const QVector<uint8_t> ProjectItemModel::getAudioLevelsByBinID(const QString &bi
 double ProjectItemModel::getAudioMaxLevel(const QString &binId, int stream)
 {
     READ_LOCK();
-    for (const auto &item : m_allItems) {
-        auto i = std::static_pointer_cast<AbstractProjectItem>(item.second.lock());
-        if (i->itemType() == AbstractProjectItem::ClipItem && i->clipId() == binId) {
-            auto clip = std::static_pointer_cast<ProjectClip>(i);
-            if (clip) {
-                return clip->getAudioMax(stream);
-            }
-        }
+    auto search = m_allClipItems.find(binId.toInt());
+    if (search != m_allClipItems.end()) {
+        return search->second->getAudioMax(stream);
     }
     return 0;
 }
@@ -736,8 +724,10 @@ void ProjectItemModel::registerItem(const std::shared_ptr<TreeItem> &item)
     auto clip = std::static_pointer_cast<AbstractProjectItem>(item);
     m_binPlaylist->manageBinItemInsertion(clip);
     AbstractTreeModel::registerItem(item);
+    m_allIds.append(clip->clipId().toInt());
     if (clip->itemType() == AbstractProjectItem::ClipItem) {
         auto clipItem = std::static_pointer_cast<ProjectClip>(clip);
+        m_allClipItems[clip->clipId().toInt()] = clipItem;
         updateWatcher(clipItem);
         if (clipItem->clipType() == ClipType::Timeline && clipItem->statusReady()) {
             const QString uuid = clipItem->getSequenceUuid().toString();
@@ -751,6 +741,8 @@ void ProjectItemModel::deregisterItem(int id, TreeItem *item)
 {
     QWriteLocker locker(&m_lock);
     auto clip = static_cast<AbstractProjectItem *>(item);
+    m_allIds.removeAll(clip->clipId().toInt());
+    m_allClipItems.erase(clip->clipId().toInt());
     m_binPlaylist->manageBinItemDeletion(clip);
     // TODO : here, we should suspend jobs belonging to the item we delete. They can be restarted if the item is reinserted by undo
     AbstractTreeModel::deregisterItem(id, item);
@@ -841,7 +833,6 @@ bool ProjectItemModel::requestAddFolder(QString &id, const QString &name, const 
 bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, Fun &undo, Fun &redo,
                                          const std::function<void(const QString &)> &readyCallBack)
 {
-    QWriteLocker locker(&m_lock);
     if (id.isEmpty()) {
         id = Xml::getXmlProperty(description, QStringLiteral("kdenlive:id"), QStringLiteral("-1"));
         if (id == QStringLiteral("-1") || !isIdFree(id)) {
@@ -849,8 +840,10 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
         }
     }
     Q_ASSERT(isIdFree(id));
+    QWriteLocker locker(&m_lock);
     std::shared_ptr<ProjectClip> new_clip =
         ProjectClip::construct(id, description, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()));
+    locker.unlock();
     bool res = addItem(new_clip, parentId, undo, redo);
     if (res) {
         ClipLoadTask::start(ObjectId(ObjectType::BinClip, id.toInt(), QUuid()), description, false, -1, -1, this, false, std::bind(readyCallBack, id));
@@ -1155,13 +1148,7 @@ bool ProjectItemModel::isIdFree(const QString &id) const
     if (id.isEmpty()) {
         return false;
     }
-    for (const auto &clip : m_allItems) {
-        auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
-        if (c->clipId() == id) {
-            return false;
-        }
-    }
-    return true;
+    return !m_allIds.contains(id.toInt());
 }
 
 QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders,

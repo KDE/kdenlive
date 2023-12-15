@@ -3690,7 +3690,7 @@ const QString Bin::buildSequenceClipWithUndo(Fun &undo, Fun &redo, int aTracks, 
     return QString();
 }
 
-void Bin::slotItemDropped(const QStringList &ids, const QModelIndex &parent)
+void Bin::slotItemDropped(const QStringList ids, const QModelIndex parent)
 {
     std::shared_ptr<AbstractProjectItem> parentItem;
     if (parent.isValid()) {
@@ -4092,7 +4092,7 @@ void Bin::droppedUrls(const QList<QUrl> &urls, const QString &folderInfo)
         }
         current = m_itemModel->getIndexFromItem(folder);
     }
-    slotItemDropped(urls, current);
+    slotUrlsDropped(urls, current);
 }
 
 const QString Bin::slotAddClipToProject(const QUrl &url)
@@ -4100,10 +4100,10 @@ const QString Bin::slotAddClipToProject(const QUrl &url)
     QList<QUrl> urls;
     urls << url;
     QModelIndex current = m_proxyModel->mapToSource(m_proxyModel->selectionModel()->currentIndex());
-    return slotItemDropped(urls, current);
+    return slotUrlsDropped(urls, current);
 }
 
-const QString Bin::slotItemDropped(const QList<QUrl> &urls, const QModelIndex &parent)
+const QString Bin::slotUrlsDropped(const QList<QUrl> urls, const QModelIndex parent)
 {
     QString parentFolder = m_itemModel->getRootFolder()->clipId();
     if (parent.isValid()) {

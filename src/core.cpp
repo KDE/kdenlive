@@ -152,10 +152,9 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
     connect(bin, &Bin::requestShowClipProperties, bin, &Bin::showClipProperties);
     connect(m_projectItemModel.get(), &ProjectItemModel::refreshPanel, m_mainWindow->activeBin(), &Bin::refreshPanel);
     connect(m_projectItemModel.get(), &ProjectItemModel::refreshClip, m_mainWindow->activeBin(), &Bin::refreshClip);
-    connect(m_projectItemModel.get(), static_cast<void (ProjectItemModel::*)(const QStringList &, const QModelIndex &)>(&ProjectItemModel::itemDropped),
-            m_mainWindow->activeBin(), static_cast<void (Bin::*)(const QStringList &, const QModelIndex &)>(&Bin::slotItemDropped));
-    connect(m_projectItemModel.get(), static_cast<void (ProjectItemModel::*)(const QList<QUrl> &, const QModelIndex &)>(&ProjectItemModel::itemDropped),
-            m_mainWindow->activeBin(), static_cast<const QString (Bin::*)(const QList<QUrl> &, const QModelIndex &)>(&Bin::slotItemDropped));
+    connect(m_projectItemModel.get(), &ProjectItemModel::itemDropped, m_mainWindow->activeBin(), &Bin::slotItemDropped, Qt::QueuedConnection);
+    connect(m_projectItemModel.get(), &ProjectItemModel::urlsDropped, m_mainWindow->activeBin(), &Bin::slotUrlsDropped, Qt::QueuedConnection);
+
     connect(m_projectItemModel.get(), &ProjectItemModel::effectDropped, m_mainWindow->activeBin(), &Bin::slotEffectDropped);
     connect(m_projectItemModel.get(), &ProjectItemModel::addTag, m_mainWindow->activeBin(), &Bin::slotTagDropped);
     connect(m_projectItemModel.get(), &QAbstractItemModel::dataChanged, m_mainWindow->activeBin(), &Bin::slotItemEdited);

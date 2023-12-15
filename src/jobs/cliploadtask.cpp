@@ -693,13 +693,13 @@ void ClipLoadTask::run()
                 pCore->bin()->shouldCheckProfile = false;
                 QMetaObject::invokeMethod(pCore->bin(), "slotCheckProfile", Qt::QueuedConnection, Q_ARG(QString, QString::number(m_owner.itemId)));
             }
+            Q_EMIT taskDone();
+            return;
         }
-        Q_EMIT taskDone();
-    } else {
-        // Might be aborted by profile switch
-        abort();
-        return;
     }
+    // Might be aborted by profile switch
+    abort();
+    return;
 }
 
 void ClipLoadTask::abort()
