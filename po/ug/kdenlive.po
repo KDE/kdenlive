@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-14 00:41+0000\n"
+"POT-Creation-Date: 2023-12-15 00:41+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -4221,7 +4221,7 @@ msgid ""
 "end."
 msgstr ""
 
-#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:998
+#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:999
 #, kde-format
 msgid "Master"
 msgstr ""
@@ -16795,7 +16795,7 @@ msgid "Change clip speed"
 msgstr "نىشان"
 
 #: src/timeline2/model/timelinemodel.cpp:6436
-#: src/timeline2/view/qml/timeline.qml:1198
+#: src/timeline2/view/qml/timeline.qml:1199
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, fuzzy, kde-format
 #| msgid "Locked"
@@ -16803,7 +16803,7 @@ msgid "Lock track"
 msgstr "قۇلۇپلانغان"
 
 #: src/timeline2/model/timelinemodel.cpp:6441
-#: src/timeline2/view/qml/timeline.qml:1198
+#: src/timeline2/view/qml/timeline.qml:1199
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, fuzzy, kde-format
 #| msgid "Locked"
@@ -16941,7 +16941,7 @@ msgid "Stop"
 msgstr "توختا"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2091
+#: src/timeline2/view/qml/timeline.qml:2092
 #, fuzzy, kde-format
 #| msgid "Pause"
 msgid "Paused"
@@ -16953,7 +16953,7 @@ msgstr "ۋاقىتلىق توختا"
 msgid "Mic level"
 msgstr "ئۈن ئۈسكۈنە:"
 
-#: src/timeline2/view/qml/Clip.qml:225 src/timeline2/view/qml/Clip.qml:846
+#: src/timeline2/view/qml/Clip.qml:225 src/timeline2/view/qml/Clip.qml:854
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr ""
@@ -16966,89 +16966,89 @@ msgstr ""
 msgid "Position: %1"
 msgstr " ئورنى:"
 
-#: src/timeline2/view/qml/Clip.qml:454
+#: src/timeline2/view/qml/Clip.qml:462
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:515
+#: src/timeline2/view/qml/Clip.qml:523
 #, fuzzy, kde-format
 #| msgid " Duration:"
 msgid "+%1, Mix duration: %2"
 msgstr " ۋاقتى:"
 
-#: src/timeline2/view/qml/Clip.qml:517
+#: src/timeline2/view/qml/Clip.qml:525
 #, fuzzy, kde-format
 #| msgid " Duration:"
 msgid "-%1, Mix duration: %2"
 msgstr " ۋاقتى:"
 
-#: src/timeline2/view/qml/Clip.qml:520 src/timeline2/view/qml/Clip.qml:533
+#: src/timeline2/view/qml/Clip.qml:528 src/timeline2/view/qml/Clip.qml:541
 #, fuzzy, kde-format
 #| msgid "Duration: "
 msgid "Mix duration: %1"
 msgstr "ۋاقتى: "
 
-#: src/timeline2/view/qml/Clip.qml:709
+#: src/timeline2/view/qml/Clip.qml:717
 #, fuzzy, kde-format
 #| msgid " Position:"
 msgid "In:%1, Position:%2"
 msgstr " ئورنى:"
 
-#: src/timeline2/view/qml/Clip.qml:712 src/timeline2/view/qml/Clip.qml:836
+#: src/timeline2/view/qml/Clip.qml:720 src/timeline2/view/qml/Clip.qml:844
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
 "clip"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:714
+#: src/timeline2/view/qml/Clip.qml:722
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:833
+#: src/timeline2/view/qml/Clip.qml:841
 #, fuzzy, kde-format
 #| msgid " Position:"
 msgid "Out:%1, Position:%2"
 msgstr " ئورنى:"
 
-#: src/timeline2/view/qml/Clip.qml:979
+#: src/timeline2/view/qml/Clip.qml:987
 #, fuzzy, kde-format
 #| msgid "Offset:"
 msgid "Offset: -%1"
 msgstr "ئېغىش:"
 
-#: src/timeline2/view/qml/Clip.qml:979
+#: src/timeline2/view/qml/Clip.qml:987
 #, fuzzy, kde-format
 #| msgid "Offset:"
 msgid "Offset: %1"
 msgstr "ئېغىش:"
 
-#: src/timeline2/view/qml/Clip.qml:1231 src/timeline2/view/qml/Clip.qml:1268
+#: src/timeline2/view/qml/Clip.qml:1239 src/timeline2/view/qml/Clip.qml:1276
 #, fuzzy, kde-format
 #| msgid "Options"
 msgid "<b>Click</b> to add composition"
 msgstr "تاللانما"
 
-#: src/timeline2/view/qml/Clip.qml:1337 src/timeline2/view/qml/Clip.qml:1344
+#: src/timeline2/view/qml/Clip.qml:1345 src/timeline2/view/qml/Clip.qml:1352
 #, fuzzy, kde-format
 #| msgid "Fade"
 msgid "Fade out: %1"
 msgstr "سۇسلاشتۇر"
 
-#: src/timeline2/view/qml/Clip.qml:1348 src/timeline2/view/qml/Clip.qml:1447
+#: src/timeline2/view/qml/Clip.qml:1356 src/timeline2/view/qml/Clip.qml:1455
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1436 src/timeline2/view/qml/Clip.qml:1443
+#: src/timeline2/view/qml/Clip.qml:1444 src/timeline2/view/qml/Clip.qml:1451
 #, fuzzy, kde-format
 #| msgid "Fade"
 msgid "Fade in: %1"
 msgstr "سۇسلاشتۇر"
 
-#: src/timeline2/view/qml/Clip.qml:1530
+#: src/timeline2/view/qml/Clip.qml:1538
 #, fuzzy, kde-format
 #| msgid "Clip"
 msgid "Slip Clip"
@@ -17087,24 +17087,24 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:992
+#: src/timeline2/view/qml/timeline.qml:993
 #, fuzzy, kde-format
 #| msgid "effect"
 msgid "Show master effects"
 msgstr "ئۈنۈم"
 
-#: src/timeline2/view/qml/timeline.qml:1132
+#: src/timeline2/view/qml/timeline.qml:1133
 #, kde-format
 msgid "Click to see details"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:1154
+#: src/timeline2/view/qml/timeline.qml:1155
 #, fuzzy, kde-format
 #| msgid "Color Selection"
 msgid "Speech recognition"
 msgstr "رەڭ تاللاش"
 
-#: src/timeline2/view/qml/timeline.qml:1174
+#: src/timeline2/view/qml/timeline.qml:1175
 #: src/timeline2/view/qml/TrackHead.qml:470
 #, fuzzy, kde-format
 #| msgid "Show All"
@@ -17112,32 +17112,32 @@ msgid "Show"
 msgstr "ھەممىنى كۆرسەت"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1174
+#: src/timeline2/view/qml/timeline.qml:1175
 #: src/timeline2/view/qml/TrackHead.qml:470 src/ui/configcapture_ui.ui:397
 #, kde-format
 msgid "Hide"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:1769
+#: src/timeline2/view/qml/timeline.qml:1770
 #, fuzzy, kde-format
 #| msgid "Options"
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "تاللانما"
 
-#: src/timeline2/view/qml/timeline.qml:1933
+#: src/timeline2/view/qml/timeline.qml:1934
 #, fuzzy, kde-format
 #| msgid " Position:"
 msgid "Offset: %1, Position: %2"
 msgstr " ئورنى:"
 
-#: src/timeline2/view/qml/timeline.qml:2080
-#: src/timeline2/view/qml/timeline.qml:2089
+#: src/timeline2/view/qml/timeline.qml:2081
+#: src/timeline2/view/qml/timeline.qml:2090
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "خاتىرە"
 
-#: src/timeline2/view/qml/timeline.qml:2178
+#: src/timeline2/view/qml/timeline.qml:2179
 #, kde-format
 msgid "Multicam In"
 msgstr ""
@@ -17568,7 +17568,7 @@ msgstr "ئۈنۈم"
 msgid "Insert a composition..."
 msgstr "Composite"
 
-#: src/timeline2/view/timelinewidget.cpp:318
+#: src/timeline2/view/timelinewidget.cpp:329
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "No available stream"

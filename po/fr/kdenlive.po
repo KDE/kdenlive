@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-14 00:41+0000\n"
+"POT-Creation-Date: 2023-12-15 00:41+0000\n"
 "PO-Revision-Date: 2023-12-04 09:11+0100\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: \n"
@@ -4135,7 +4135,7 @@ msgstr ""
 "Surveillance de l'audio. Appuyez sur <b>Espace</b> pour démarrer / arrêter "
 "l'enregistrement, <b>Échap</b> pour arrêter."
 
-#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:998
+#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:999
 #, kde-format
 msgid "Master"
 msgstr "Maître"
@@ -16695,14 +16695,14 @@ msgid "Change clip speed"
 msgstr "Changer la vitesse du clip"
 
 #: src/timeline2/model/timelinemodel.cpp:6436
-#: src/timeline2/view/qml/timeline.qml:1198
+#: src/timeline2/view/qml/timeline.qml:1199
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Lock track"
 msgstr "Piste verrouillée"
 
 #: src/timeline2/model/timelinemodel.cpp:6441
-#: src/timeline2/view/qml/timeline.qml:1198
+#: src/timeline2/view/qml/timeline.qml:1199
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Unlock track"
@@ -16839,7 +16839,7 @@ msgid "Stop"
 msgstr "Arrêt"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2091
+#: src/timeline2/view/qml/timeline.qml:2092
 #, kde-format
 msgid "Paused"
 msgstr "En pause"
@@ -16849,7 +16849,7 @@ msgstr "En pause"
 msgid "Mic level"
 msgstr "Niveau du micro"
 
-#: src/timeline2/view/qml/Clip.qml:225 src/timeline2/view/qml/Clip.qml:846
+#: src/timeline2/view/qml/Clip.qml:225 src/timeline2/view/qml/Clip.qml:854
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2 - %3), Position : %4, Durée : %5"
@@ -16861,32 +16861,32 @@ msgstr "%1 (%2 - %3), Position : %4, Durée : %5"
 msgid "Position: %1"
 msgstr "Position : %1"
 
-#: src/timeline2/view/qml/Clip.qml:454
+#: src/timeline2/view/qml/Clip.qml:462
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "Durée de mixage : %1, Coupure à : %2"
 
-#: src/timeline2/view/qml/Clip.qml:515
+#: src/timeline2/view/qml/Clip.qml:523
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+ %1, durée de mixage : %2"
 
-#: src/timeline2/view/qml/Clip.qml:517
+#: src/timeline2/view/qml/Clip.qml:525
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "- %1, durée de mixage : %2"
 
-#: src/timeline2/view/qml/Clip.qml:520 src/timeline2/view/qml/Clip.qml:533
+#: src/timeline2/view/qml/Clip.qml:528 src/timeline2/view/qml/Clip.qml:541
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "Durée du mélange : %1"
 
-#: src/timeline2/view/qml/Clip.qml:709
+#: src/timeline2/view/qml/Clip.qml:717
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "Entrée : %1, Position : %2"
 
-#: src/timeline2/view/qml/Clip.qml:712 src/timeline2/view/qml/Clip.qml:836
+#: src/timeline2/view/qml/Clip.qml:720 src/timeline2/view/qml/Clip.qml:844
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -16895,49 +16895,49 @@ msgstr ""
 "<b>CTRL + Glisser</b> pour modifier la vitesse, <b>Double clic</b> pour "
 "faire un mélange avec la séquence adjacente."
 
-#: src/timeline2/view/qml/Clip.qml:714
+#: src/timeline2/view/qml/Clip.qml:722
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Glisser</b> pour modifier la durée de mélange"
 
-#: src/timeline2/view/qml/Clip.qml:833
+#: src/timeline2/view/qml/Clip.qml:841
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Sortie : %1, Position : %2"
 
-#: src/timeline2/view/qml/Clip.qml:979
+#: src/timeline2/view/qml/Clip.qml:987
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Décalage : -%1"
 
-#: src/timeline2/view/qml/Clip.qml:979
+#: src/timeline2/view/qml/Clip.qml:987
 #, kde-format
 msgid "Offset: %1"
 msgstr "Décalage : %1"
 
-#: src/timeline2/view/qml/Clip.qml:1231 src/timeline2/view/qml/Clip.qml:1268
+#: src/timeline2/view/qml/Clip.qml:1239 src/timeline2/view/qml/Clip.qml:1276
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>Cliquez </b>pour ajouter une composition"
 
-#: src/timeline2/view/qml/Clip.qml:1337 src/timeline2/view/qml/Clip.qml:1344
+#: src/timeline2/view/qml/Clip.qml:1345 src/timeline2/view/qml/Clip.qml:1352
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Fondu : %1"
 
-#: src/timeline2/view/qml/Clip.qml:1348 src/timeline2/view/qml/Clip.qml:1447
+#: src/timeline2/view/qml/Clip.qml:1356 src/timeline2/view/qml/Clip.qml:1455
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Glisser</b> pour ajuster le fondu, <b>Clic</b> pour ajouter une durée par "
 "défaut de fondu."
 
-#: src/timeline2/view/qml/Clip.qml:1436 src/timeline2/view/qml/Clip.qml:1443
+#: src/timeline2/view/qml/Clip.qml:1444 src/timeline2/view/qml/Clip.qml:1451
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Fondu : %1"
 
-#: src/timeline2/view/qml/Clip.qml:1530
+#: src/timeline2/view/qml/Clip.qml:1538
 #, kde-format
 msgid "Slip Clip"
 msgstr "Faire glisser la vidéo"
@@ -16979,51 +16979,51 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>Double clic</b> pour modifier le texte"
 
-#: src/timeline2/view/qml/timeline.qml:992
+#: src/timeline2/view/qml/timeline.qml:993
 #, kde-format
 msgid "Show master effects"
 msgstr "Afficher les effets globaux"
 
-#: src/timeline2/view/qml/timeline.qml:1132
+#: src/timeline2/view/qml/timeline.qml:1133
 #, kde-format
 msgid "Click to see details"
 msgstr "Cliquez pour voir les détails"
 
-#: src/timeline2/view/qml/timeline.qml:1154
+#: src/timeline2/view/qml/timeline.qml:1155
 #, kde-format
 msgid "Speech recognition"
 msgstr "Reconnaissance vocale"
 
-#: src/timeline2/view/qml/timeline.qml:1174
+#: src/timeline2/view/qml/timeline.qml:1175
 #: src/timeline2/view/qml/TrackHead.qml:470
 #, kde-format
 msgid "Show"
 msgstr "Afficher"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1174
+#: src/timeline2/view/qml/timeline.qml:1175
 #: src/timeline2/view/qml/TrackHead.qml:470 src/ui/configcapture_ui.ui:397
 #, kde-format
 msgid "Hide"
 msgstr "Masquer"
 
-#: src/timeline2/view/qml/timeline.qml:1769
+#: src/timeline2/view/qml/timeline.qml:1770
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Faire un double clic</b>pour ajouter un sous-titre"
 
-#: src/timeline2/view/qml/timeline.qml:1933
+#: src/timeline2/view/qml/timeline.qml:1934
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Décalage : %1, Position : %2"
 
-#: src/timeline2/view/qml/timeline.qml:2080
-#: src/timeline2/view/qml/timeline.qml:2089
+#: src/timeline2/view/qml/timeline.qml:2081
+#: src/timeline2/view/qml/timeline.qml:2090
 #, kde-format
 msgid "Recording"
 msgstr "Enregistrement"
 
-#: src/timeline2/view/qml/timeline.qml:2178
+#: src/timeline2/view/qml/timeline.qml:2179
 #, kde-format
 msgid "Multicam In"
 msgstr "Entrée Multicam"
@@ -17433,7 +17433,7 @@ msgstr "Insérer un effet…"
 msgid "Insert a composition..."
 msgstr "Insérer une composition…"
 
-#: src/timeline2/view/timelinewidget.cpp:318
+#: src/timeline2/view/timelinewidget.cpp:329
 #, kde-format
 msgid "No available stream"
 msgstr "Aucun flux disponible"
