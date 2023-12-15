@@ -68,7 +68,7 @@
 
 #include "purpose_version.h"
 #include <Purpose/AlternativesModel>
-#if PURPOSE_VERSION >= QT_VERSION_CHECK(5, 140, 0)
+#if PURPOSE_VERSION >= QT_VERSION_CHECK(5, 104, 0)
 #include <Purpose/Menu>
 #else
 #include <PurposeWidgets/Menu>
