@@ -456,8 +456,8 @@ public Q_SLOTS:
     /** @brief Start a filter job requested by a filter applied in timeline */
     void slotStartFilterJob(const ItemInfo &info, const QString &id, QMap<QString, QString> &filterParams, QMap<QString, QString> &consumerParams,
                             QMap<QString, QString> &extraParams);
-    void slotItemDropped(const QStringList &ids, const QModelIndex &parent);
-    const QString slotItemDropped(const QList<QUrl> &urls, const QModelIndex &parent);
+    void slotItemDropped(const QStringList ids, const QModelIndex parent);
+    const QString slotUrlsDropped(const QList<QUrl> urls, const QModelIndex parent);
     void slotEffectDropped(const QStringList &effectData, const QModelIndex &parent);
     void slotTagDropped(const QString &tag, const QModelIndex &parent);
     void slotItemEdited(const QModelIndex &, const QModelIndex &, const QVector<int> &);

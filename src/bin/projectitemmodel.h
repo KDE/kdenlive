@@ -293,6 +293,8 @@ private:
     std::unique_ptr<FileWatcher> m_fileWatcher;
     std::unordered_map<QString, std::shared_ptr<Mlt::Tractor>> m_extraPlaylists;
     std::shared_ptr<Mlt::Tractor> m_projectTractor;
+    std::map<int, std::shared_ptr<ProjectClip>> m_allClipItems;
+    QList<int> m_allIds;
 
     int m_nextId;
     QIcon m_blankThumb;
@@ -312,8 +314,8 @@ Q_SIGNALS:
     void requestAudioThumbs(const QString &id, long duration);
     // TODO
     void markersNeedUpdate(const QString &id, const QList<int> &);
-    void itemDropped(const QStringList &, const QModelIndex &);
-    void itemDropped(const QList<QUrl> &, const QModelIndex &);
+    void itemDropped(const QStringList, const QModelIndex);
+    void urlsDropped(const QList<QUrl>, const QModelIndex);
     void effectDropped(const QStringList &, const QModelIndex &);
     void addTag(const QString &, const QModelIndex &);
     void addClipCut(const QString &, int, int);
