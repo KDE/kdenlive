@@ -4,15 +4,23 @@
 include:
   - project: sysadmin/ci-utilities
     file:
+      # CI
       - /gitlab-templates/reuse-lint.yml
       - /gitlab-templates/linux.yml
       - /gitlab-templates/freebsd.yml
       - /gitlab-templates/linux-qt6.yml
+      # CD Qt5
       - /gitlab-templates/flatpak.yml
       - /gitlab-templates/craft-appimage.yml
       - /gitlab-templates/craft-windows-mingw64.yml
       - /gitlab-templates/craft-macos-x86-64.yml
       - /gitlab-templates/craft-macos-arm64.yml
+      # CD Qt6
+      - /gitlab-templates/craft-appimage-qt6.yml
+      - /gitlab-templates/craft-windows-mingw64-qt6.yml
+      - /gitlab-templates/craft-macos-x86-64-qt6.yml
+      - /gitlab-templates/craft-macos-arm64-qt6.yml
+
 
 .craft-mac-notarize:
   variables:
@@ -33,32 +41,6 @@ craft_macos_arm64_notarize_test:
      - ".kde-ci-packages/"
      - ".logs/"
 
-
-.craft-qt6:
-  variables:
-    KDECI_CRAFT_CONFIG: ci-utilities/craft/qt6/CraftConfig.ini
-
-craft_appimage_qt6_x86_64:
-  extends:
-    - craft_appimage_x86_64
-    - .craft-qt6
-
-craft_windows_qt6_mingw64:
-  extends:
-    - craft_windows_qt515_mingw64
-    - .craft-qt6
-
-craft_macos_qt6_arm64:
-  extends:
-    - craft_macos_arm64
-    - .craft-qt6
-    - .craft-mac-notarize
-
-craft_macos_qt6_x86_64:
-  extends:
-    - craft_macos_x86_64
-    - .craft-qt6
-    - .craft-mac-notarize
 
 xml_lint:
   stage: build
