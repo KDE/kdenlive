@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-03 02:25+0000\n"
-"PO-Revision-Date: 2023-11-28 19:41+0100\n"
+"PO-Revision-Date: 2023-12-03 13:09+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -1625,7 +1625,7 @@ msgstr "nombro da eligkanaloj"
 #, kde-format
 msgctxt "Mute Effect Name"
 msgid "Mute"
-msgstr "Silentigo"
+msgstr "Mute"
 
 #: data/effects/mute.xml:5
 #, kde-format
@@ -6347,7 +6347,7 @@ msgstr "JogShuttle"
 #: src/project/transcodeseek.cpp:40 src/project/transcodeseek.cpp:53
 #, kde-format
 msgid "Transcode"
-msgstr "Transkodigo"
+msgstr "Transkodi"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:520
 #, kde-format
@@ -6384,7 +6384,7 @@ msgstr "Esound Daemon"
 #: src/dialogs/kdenlivesettingsdialog.cpp:695
 #, kde-format
 msgid "ARTS Daemon"
-msgstr "ARTO Demono"
+msgstr "ARTS-Demono"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/dialogs/kdenlivesettingsdialog.cpp:707
@@ -8047,7 +8047,7 @@ msgstr "Tondtipo ne subtenas prokurilojn"
 #: src/doc/kdenlivedoc.cpp:1792
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
-msgstr ""
+msgstr "Averto: nenormaj fps, alĝustigante al plej proksima entjero."
 
 #: src/doc/kdenlivedoc.cpp:1811
 #, kde-format
@@ -16289,7 +16289,7 @@ msgstr "Malŝalti"
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, kde-format
 msgid "Mute"
-msgstr "Silentigo"
+msgstr "Mute"
 
 #: src/timeline2/view/qml/TrackHead.qml:576
 #, kde-format
@@ -18179,7 +18179,7 @@ msgstr "FFplay:"
 #: src/ui/configenv_ui.ui:141
 #, kde-format
 msgid "FFprobe:"
-msgstr "FF-sondo:"
+msgstr "FFprobe:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configenv_ui.ui:151
@@ -21387,10 +21387,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid ""
-#~ "\n"
-#~ "Warning: unknown non integer fps, might cause incorrect duration display."
-#~ msgstr ""
-#~ "\n"
-#~ "Averto: nekonataj ne entjeraj fps, povus kaŭzi malĝustan daŭromontradon."
