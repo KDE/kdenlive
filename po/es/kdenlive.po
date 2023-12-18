@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-03 02:25+0000\n"
-"PO-Revision-Date: 2023-11-02 17:08+0100\n"
+"PO-Revision-Date: 2023-12-17 11:20+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.08.2\n"
+"X-Generator: Lokalize 23.08.4\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -8136,6 +8136,7 @@ msgstr "Este tipo de clip no soporta reemplazos"
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
+"Advertencia: valor de fps no estándar, se redondeará al entero más próximo. "
 
 #: src/doc/kdenlivedoc.cpp:1811
 #, kde-format
