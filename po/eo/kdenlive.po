@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-16 00:41+0000\n"
-"PO-Revision-Date: 2023-12-03 13:09+0100\n"
+"PO-Revision-Date: 2023-12-17 20:35+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -16820,12 +16820,12 @@ msgstr "Ŝalti trakajn efikojn"
 #: src/timeline2/view/qml/TrackHead.qml:470
 #, kde-format
 msgid "Unmute"
-msgstr "Malŝalti"
+msgstr "Malsilentigi"
 
 #: src/timeline2/view/qml/TrackHead.qml:470
 #, kde-format
 msgid "Mute"
-msgstr "Mute"
+msgstr "Silentigi"
 
 #: src/timeline2/view/qml/TrackHead.qml:575
 #, kde-format
