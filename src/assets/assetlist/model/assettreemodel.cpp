@@ -95,7 +95,7 @@ QVariant AssetTreeModel::data(const QModelIndex &index, int role) const
     case Qt::DisplayRole:
         return item->dataColumn(index.column());
     case Qt::DecorationRole: {
-        if (item->dataColumn(AssetTreeModel::IdCol).toString() == QLatin1String("root")) {
+        if (item->dataColumn(AssetTreeModel::IdCol).toString() == QLatin1String("root") || item->dataColumn(0).toString().isEmpty()) {
             return QIcon();
         }
         if (auto pt = item->parentItem().lock()) {
