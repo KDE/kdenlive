@@ -56,7 +56,6 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
     }
 
     // We now parse custom effect xml
-
     // Set the directories to look into for effects.
     QStringList asset_dirs = assetDirs();
 

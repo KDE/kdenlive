@@ -87,6 +87,12 @@ void EffectListWidget::reloadCustomEffect(const QString &path)
     m_proxyModel->sort(0, Qt::AscendingOrder);
 }
 
+void EffectListWidget::reloadTemplates()
+{
+    static_cast<EffectTreeModel *>(m_model.get())->reloadTemplates();
+    m_proxyModel->sort(0, Qt::AscendingOrder);
+}
+
 void EffectListWidget::reloadEffectMenu(QMenu *effectsMenu, KActionCategory *effectActions)
 {
     m_model->reloadAssetMenu(effectsMenu, effectActions);

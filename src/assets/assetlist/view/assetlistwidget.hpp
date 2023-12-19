@@ -39,9 +39,10 @@ public:
     Q_INVOKABLE void setFavorite(const QModelIndex &index, bool favorite = true);
 
     /** @brief Delete a custom effect */
-    Q_INVOKABLE void deleteCustomEffect(const QModelIndex &index);
-    Q_INVOKABLE virtual void reloadCustomEffectIx(const QModelIndex &index) = 0;
-    Q_INVOKABLE virtual void editCustomAsset(const QModelIndex &index) = 0;
+    void deleteCustomEffect(const QModelIndex &index);
+    virtual void reloadCustomEffectIx(const QModelIndex &index) = 0;
+    virtual void reloadTemplates() = 0;
+    virtual void editCustomAsset(const QModelIndex &index) = 0;
     /** @brief Returns the description of the asset given its model index */
     Q_INVOKABLE QString getDescription(const QModelIndex &index) const;
 
@@ -74,6 +75,9 @@ protected:
     std::unique_ptr<AssetFilter> m_proxyModel;
     // the QmlEngine takes ownership of the image provider
     AssetIconProvider *m_assetIconProvider{nullptr};
+
+public Q_SLOTS:
+    virtual void reloadCustomEffect(const QString &path) = 0;
 
 Q_SIGNALS:
     void activateAsset(const QVariantMap data);

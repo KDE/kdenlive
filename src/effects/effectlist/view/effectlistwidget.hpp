@@ -31,11 +31,12 @@ public:
     QString getMimeType(const QString &assetId) const override;
     void reloadEffectMenu(QMenu *effectsMenu, KActionCategory *effectActions);
     void reloadCustomEffectIx(const QModelIndex &index) override;
+    void reloadTemplates() override;
     void editCustomAsset(const QModelIndex &index) override;
     Q_INVOKABLE void exportCustomEffect(const QModelIndex &index);
 
 public Q_SLOTS:
-    void reloadCustomEffect(const QString &path);
+    void reloadCustomEffect(const QString &path) override;
 
 Q_SIGNALS:
     void reloadFavorites();
