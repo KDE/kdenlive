@@ -269,7 +269,7 @@
     <release version="23.08.3" date="2023-11-09"/>
   </releases>
   <url type="homepage">https://kdenlive.org/</url>
-  <url type="bugtracker">https://bugs.kde.org</url>
+  <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?product=kdenlive</url>
   <url type="help">https://docs.kdenlive.org</url>
   <url type="donation">https://www.kde.org/community/donations/?app=kdenlive&amp;source=appdata</url>
   <screenshots>
