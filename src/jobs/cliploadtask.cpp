@@ -492,6 +492,7 @@ void ClipLoadTask::run()
         abort();
         return;
     }
+
     processProducerProperties(producer, m_xml);
     QString clipName = Xml::getXmlProperty(m_xml, QStringLiteral("kdenlive:clipname"));
     if (clipName.isEmpty()) {
