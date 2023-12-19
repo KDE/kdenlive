@@ -19,8 +19,11 @@ bool isOnRemovableDevice(const QUrl &file)
 
 bool isOnRemovableDevice(const QString &path)
 {
-    QString mountPath = QStorageInfo(path).rootPath();
-
+#ifdef Q_OS_MAC
+    // Parsing Solid devices seems to crash on Mac
+    return false;
+#endif
+    const QString mountPath = QStorageInfo(path).rootPath();
     // We list volumes to find the one with matching mount path
 
     for (const auto &d : Solid::Device::allDevices()) {
