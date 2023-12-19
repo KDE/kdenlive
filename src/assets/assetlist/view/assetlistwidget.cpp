@@ -9,6 +9,7 @@
 #include "assets/assetlist/view/asseticonprovider.hpp"
 #include "mltconnection.h"
 
+#include <KNS3/Entry>
 #include <KNSWidgets/Action>
 #include <QAction>
 #include <QFontDatabase>
