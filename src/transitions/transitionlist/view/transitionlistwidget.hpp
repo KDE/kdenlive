@@ -29,6 +29,10 @@ public:
     QString getMimeType(const QString &assetId) const override;
     void refreshLumas();
     void reloadCustomEffectIx(const QModelIndex &path) override;
+    void reloadTemplates() override;
     void editCustomAsset(const QModelIndex &index) override;
     void exportCustomEffect(const QModelIndex &index) override;
+
+public Q_SLOTS:
+    void reloadCustomEffect(const QString &path) override;
 };

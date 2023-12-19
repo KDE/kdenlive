@@ -21,6 +21,7 @@ protected:
 public:
     static std::shared_ptr<EffectTreeModel> construct(const QString &categoryFile, QObject *parent);
     void reloadEffect(const QString &path);
+    void reloadTemplates();
     void reloadEffectFromIndex(const QModelIndex &index);
     void reloadAssetMenu(QMenu *effectsMenu, KActionCategory *effectActions) override;
     void setFavorite(const QModelIndex &index, bool favorite, bool isEffect) override;

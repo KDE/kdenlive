@@ -7,6 +7,7 @@
 #include "assets/assetlist/model/assetfilter.hpp"
 #include "assets/assetlist/model/assettreemodel.hpp"
 #include "assets/assetlist/view/asseticonprovider.hpp"
+#include "mltconnection.h"
 
 #include <KNSWidgets/Action>
 #include <QAction>
@@ -116,9 +117,33 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
     m_toolbar->addAction(favEffects);
     m_lay->addWidget(m_toolbar);
     if (m_isEffect) {
-        m_toolbar->addAction(new KNSWidgets::Action(i18n("Download New Effects..."), QStringLiteral(":data/kdenlive_effects.knsrc"), this));
+        KNSWidgets::Action *downloadAction = new KNSWidgets::Action(i18n("Download New Effects..."), QStringLiteral(":data/kdenlive_effects.knsrc"), this);
+        m_toolbar->addAction(downloadAction);
+        connect(downloadAction, &KNSWidgets::Action::dialogFinished, this, [&](const QList<KNSCore::Entry> &changedEntries) {
+            if (changedEntries.count() > 0) {
+                for (auto &ent : changedEntries) {
+                    if (ent.status() == KNS3::Entry::Status::Deleted) {
+                        reloadTemplates();
+                    } else {
+                        QStringList files = ent.installedFiles();
+                        for (auto &f : files) {
+                            reloadCustomEffect(f);
+                        }
+                    }
+                }
+                if (!m_searchLine->text().isEmpty()) {
+                    setFilterName(m_searchLine->text());
+                }
+            }
+        });
     } else {
-        m_toolbar->addAction(new KNSWidgets::Action(i18n("Download New Wipes..."), QStringLiteral(":data/kdenlive_wipes.knsrc"), this));
+        KNSWidgets::Action *downloadAction = new KNSWidgets::Action(i18n("Download New Wipes..."), QStringLiteral(":data/kdenlive_wipes.knsrc"), this);
+        m_toolbar->addAction(downloadAction);
+        connect(downloadAction, &KNSWidgets::Action::dialogFinished, this, [&](const QList<KNSCore::Entry> &changedEntries) {
+            if (changedEntries.count() > 0) {
+                MltConnection::refreshLumas();
+            }
+        });
     }
     QWidget *empty = new QWidget(this);
     empty->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);

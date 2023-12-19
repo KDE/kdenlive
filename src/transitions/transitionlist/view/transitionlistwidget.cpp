@@ -65,6 +65,10 @@ void TransitionListWidget::refreshLumas()
 
 void TransitionListWidget::reloadCustomEffectIx(const QModelIndex &) {}
 
+void TransitionListWidget::reloadCustomEffect(const QString &) {}
+
+void TransitionListWidget::reloadTemplates() {}
+
 void TransitionListWidget::editCustomAsset(const QModelIndex &) {}
 
 void TransitionListWidget::exportCustomEffect(const QModelIndex &){};

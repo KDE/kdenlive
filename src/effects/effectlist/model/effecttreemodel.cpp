@@ -84,8 +84,7 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
 
         if (type == AssetListType::AssetType::Custom || type == AssetListType::AssetType::CustomAudio) {
             targetCategory = self->m_customCategory;
-        }
-        if (type == AssetListType::AssetType::Template || type == AssetListType::AssetType::TemplateAudio) {
+        } else if (type == AssetListType::AssetType::Template || type == AssetListType::AssetType::TemplateAudio) {
             targetCategory = self->m_templateCategory;
         }
 
@@ -121,21 +120,28 @@ void EffectTreeModel::reloadEffectFromIndex(const QModelIndex &index)
 void EffectTreeModel::reloadEffect(const QString &path)
 {
     QPair<QString, QString> asset = EffectsRepository::get()->reloadCustom(path);
-    if (asset.first.isEmpty() || m_customCategory == nullptr) {
+    AssetListType::AssetType type = EffectsRepository::get()->getType(asset.first);
+    std::shared_ptr<TreeItem> targetCategory = nullptr;
+    if (type == AssetListType::AssetType::Custom || type == AssetListType::AssetType::CustomAudio) {
+        targetCategory = m_customCategory;
+    } else if (type == AssetListType::AssetType::Template || type == AssetListType::AssetType::TemplateAudio) {
+        targetCategory = m_templateCategory;
+    }
+    if (asset.first.isEmpty() || targetCategory == nullptr) {
         return;
     }
     // Check if item already existed, and remove
-    for (int i = 0; i < m_customCategory->childCount(); i++) {
-        std::shared_ptr<TreeItem> item = m_customCategory->child(i);
+    for (int i = 0; i < targetCategory->childCount(); i++) {
+        std::shared_ptr<TreeItem> item = targetCategory->child(i);
         if (item->dataColumn(IdCol).toString() == asset.first) {
-            m_customCategory->removeChild(item);
+            targetCategory->removeChild(item);
             break;
         }
     }
     bool isFav = KdenliveSettings::favorite_effects().contains(asset.first);
     QString effectName = EffectsRepository::get()->getName(asset.first);
-    QList<QVariant> data{effectName, asset.first, QVariant::fromValue(AssetListType::AssetType::Custom), isFav};
-    m_customCategory->appendChild(data);
+    QList<QVariant> data{effectName, asset.first, QVariant::fromValue(type), isFav};
+    targetCategory->appendChild(data);
 }
 
 void EffectTreeModel::deleteEffect(const QModelIndex &index)
@@ -147,6 +153,31 @@ void EffectTreeModel::deleteEffect(const QModelIndex &index)
     const QString id = item->dataColumn(IdCol).toString();
     m_customCategory->removeChild(item);
     EffectsRepository::get()->deleteEffect(id);
+}
+
+void EffectTreeModel::reloadTemplates()
+{
+    // First remove all templates effects
+    if (!m_templateCategory) {
+        return;
+    }
+    // Check if item already existed, and remove
+    while (m_templateCategory->childCount() > 0) {
+        std::shared_ptr<TreeItem> item = m_templateCategory->child(0);
+        m_templateCategory->removeChild(item);
+    }
+    QStringList asset_dirs = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("effect-templates"), QStandardPaths::LocateDirectory);
+    QListIterator<QString> dirs_it(asset_dirs);
+    for (dirs_it.toBack(); dirs_it.hasPrevious();) {
+        auto dir = dirs_it.previous();
+        QDir current_dir(dir);
+        QStringList filter{QStringLiteral("*.xml")};
+        QStringList fileList = current_dir.entryList(filter, QDir::Files);
+        for (const auto &file : qAsConst(fileList)) {
+            QString path = current_dir.absoluteFilePath(file);
+            reloadEffect(path);
+        }
+    }
 }
 
 void EffectTreeModel::reloadAssetMenu(QMenu *effectsMenu, KActionCategory *effectActions)

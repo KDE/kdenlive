@@ -47,6 +47,7 @@ public:
     /** @brief Delete a custom effect */
     void deleteCustomEffect(const QModelIndex &index);
     virtual void reloadCustomEffectIx(const QModelIndex &index) = 0;
+    virtual void reloadTemplates() = 0;
     virtual void editCustomAsset(const QModelIndex &index) = 0;
     /** @brief Returns the description of the asset given its model index */
     QString getDescription(const QModelIndex &index) const;
@@ -92,6 +93,7 @@ private Q_SLOTS:
 
 public Q_SLOTS:
     void updateAssetInfo(const QModelIndex &current, const QModelIndex &);
+    virtual void reloadCustomEffect(const QString &path) = 0;
 
 Q_SIGNALS:
     void activateAsset(const QVariantMap data);
