@@ -403,8 +403,22 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
             duration += (std::static_pointer_cast<ProjectClip>(item))->frameDuration();
         } else if (type == AbstractProjectItem::SubClipItem) {
             QPoint p = item->zone();
-            list << std::static_pointer_cast<ProjectSubClip>(item)->getMasterClip()->clipId() + QLatin1Char('/') + QString::number(p.x()) + QLatin1Char('/') +
-                        QString::number(p.y());
+            std::shared_ptr<ProjectClip> master = std::static_pointer_cast<ProjectSubClip>(item)->getMasterClip();
+            QString dragId = master->clipId();
+            ClipType::ProducerType cType = master->clipType();
+            if ((cType == ClipType::AV || cType == ClipType::Playlist || cType == ClipType::Timeline)) {
+                switch (m_dragType) {
+                case PlaylistState::AudioOnly:
+                    dragId.prepend(QLatin1Char('A'));
+                    break;
+                case PlaylistState::VideoOnly:
+                    dragId.prepend(QLatin1Char('V'));
+                    break;
+                default:
+                    break;
+                }
+            }
+            list << dragId + QLatin1Char('/') + QString::number(p.x()) + QLatin1Char('/') + QString::number(p.y());
         } else if (type == AbstractProjectItem::FolderItem) {
             list << "#" + item->clipId();
         }
