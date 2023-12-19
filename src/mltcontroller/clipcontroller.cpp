@@ -1108,7 +1108,7 @@ const QString ClipController::getOriginalUrl()
     if (path.isEmpty()) {
         path = m_path;
     }
-    if (QFileInfo(path).isRelative()) {
+    if (!path.isEmpty() && QFileInfo(path).isRelative()) {
         path.prepend(pCore->currentDoc()->documentRoot());
     }
     return path;

@@ -493,10 +493,10 @@ void ClipLoadTask::run()
         return;
     }
     // Check external proxies
-    if (pCore->currentDoc()->useExternalProxy() && !producer->property_exists("kdenlive:proxy")) {
+    if (pCore->currentDoc()->useExternalProxy() && mltService.contains(QLatin1String("avformat")) && !producer->property_exists("kdenlive:proxy")) {
         // We have a camcorder profile, check if we have opened a proxy clip
         QString path = producer->get("resource");
-        if (QFileInfo(path).isRelative() && path != QLatin1String("<tractor>")) {
+        if (!path.isEmpty() && QFileInfo(path).isRelative() && path != QLatin1String("<tractor>")) {
             path.prepend(pCore->currentDoc()->documentRoot());
             producer->set("resource", path.toUtf8().constData());
         }

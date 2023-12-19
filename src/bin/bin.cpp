@@ -4734,10 +4734,10 @@ void Bin::showTitleWidget(const std::shared_ptr<ProjectClip> &clip)
         if (clip->clipName().contains(i18n("(copy)"))) {
             // We edited a duplicated title clip, update name from new content text
             newprops.insert(QStringLiteral("kdenlive:clipname"), dia_ui.titleSuggest());
-            newprops.insert(QStringLiteral("resource"), QString());
+            if (!path.isEmpty()) {
+                newprops.insert(QStringLiteral("resource"), QString());
+            }
         }
-        // trigger producer reload
-        newprops.insert(QStringLiteral("force_reload"), QStringLiteral("2"));
         if (!path.isEmpty()) {
             // we are editing an external file, asked if we want to detach from that file or save the result to that title file.
             if (KMessageBox::questionTwoActions(pCore->window(),
@@ -4753,6 +4753,8 @@ void Bin::showTitleWidget(const std::shared_ptr<ProjectClip> &clip)
                 newprops.insert(QStringLiteral("resource"), QString());
             }
         }
+        // trigger producer reload
+        newprops.insert(QStringLiteral("force_reload"), QStringLiteral("1"));
         slotEditClipCommand(clip->AbstractProjectItem::clipId(), clip->currentProperties(newprops), newprops);
         // when edit is triggered from the timeline, project monitor refresh is necessary after an edit is made
         pCore->refreshProjectMonitorOnce();
