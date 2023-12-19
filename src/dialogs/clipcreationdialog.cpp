@@ -166,13 +166,13 @@ void ClipCreationDialog::createAnimationClip(KdenliveDoc *doc, const QString &pa
         return;
     }
     QDir dir(doc->projectDataFolder());
-    QString fileName("animation-0001.json");
+    QString fileName("animation-0001.rawr");
     if (dir.cd("animations")) {
         int ix = 2;
         while (dir.exists(fileName) && ix < 9999) {
             QString number = QString::number(ix).rightJustified(4, '0');
             number.prepend(QStringLiteral("animation-"));
-            number.append(QStringLiteral(".json"));
+            number.append(QStringLiteral(".rawr"));
             fileName = number;
             ix++;
         }
@@ -218,7 +218,29 @@ void ClipCreationDialog::createAnimationClip(KdenliveDoc *doc, const QString &pa
     }
     int frameLength = tCode.getValue() - 1;
     // Params: duration, framerate, width, height
-    const QString templateJson =
+    const QString templateRawr =
+        QString(
+            "{ \"animation\": { \"__type__\": \"MainComposition\", \"animation\": { \"__type__\": \"AnimationContainer\", \"first_frame\": 0, \"last_frame\": "
+            "%1 }, \"fps\": %2, \"group_color\": \"#00000000\", \"height\": %4, \"locked\": false, \"name\": \"Animation\", \"shapes\": [ { \"__type__\": "
+            "\"Layer\", \"animation\": { \"__type__\": \"AnimationContainer\", \"first_frame\": 0, \"last_frame\": %1 }, \"group_color\": \"#00000000\", "
+            "\"locked\": false, \"mask\": { \"__type__\": \"MaskSettings\", \"inverted\": false, \"mask\": \"NoMask\" }, \"name\": \"Layer\", \"opacity\": { "
+            "\"value\": 1 }, \"parent\": null, \"render\": true, \"shapes\": [ ], \"transform\": { \"__type__\": \"Transform\", \"anchor_point\": { \"value\": "
+            "{ \"x\": 160, \"y\": 160 } }, \"position\": { \"value\": { \"x\": 160, \"y\": 160 } }, \"rotation\": { \"value\": 0 }, \"scale\": { \"value\": { "
+            "\"x\": 1, \"y\": 1 } } }, \"uuid\": \"39cd3d4c-2a87-4af9-b52c-704f2c320aa3\", \"visible\": true } ], \"uuid\": "
+            "\"b85ac6be-7935-45b9-9a62-7347d1cdf972\", \"visible\": true, \"width\": %3 }, \"assets\": { \"__type__\": \"Assets\", \"colors\": { \"__type__\": "
+            "\"NamedColorList\", \"name\": \"\", \"uuid\": \"af0a82b1-daff-404d-9c91-aecdf1a7b1ba\", \"values\": [ ] }, \"fonts\": { \"__type__\": "
+            "\"FontList\", \"name\": \"\", \"uuid\": \"af90956d-af34-4a81-9ab5-fa6d0520f96c\", \"values\": [ ] }, \"gradient_colors\": { \"__type__\": "
+            "\"GradientColorsList\", \"name\": \"\", \"uuid\": \"eb84adf9-92de-44c5-a7c6-52e9390473c1\", \"values\": [ ] }, \"gradients\": { \"__type__\": "
+            "\"GradientList\", \"name\": \"\", \"uuid\": \"096ffcf6-60a0-46e5-964e-752cb64a7607\", \"values\": [ ] }, \"images\": { \"__type__\": "
+            "\"BitmapList\", \"name\": \"\", \"uuid\": \"333b9e0c-4825-4108-9de4-2a64f2dbb523\", \"values\": [ ] }, \"name\": \"\", \"precompositions\": { "
+            "\"__type__\": \"PrecompositionList\", \"name\": \"\", \"uuid\": \"cca2c63d-5295-4ab2-ae32-72e58af6f3e0\", \"values\": [ ] }, \"uuid\": "
+            "\"d7ac670a-6dc6-4ad9-8e3a-26348903a7e1\" }, \"format\": { \"format_version\": 7, \"generator\": \"Glaxnimate\", \"generator_version\": "
+            "\"0.5.3-51-g110a1d77\" }, \"info\": { \"author\": \"\", \"description\": \"\", \"keywords\": [ ] }, \"metadata\": { } }")
+            .arg(frameLength)
+            .arg(QString::number(doc->timecode().fps()))
+            .arg(pCore->getCurrentFrameSize().width())
+            .arg(pCore->getCurrentFrameSize().height());
+    /*const QString templateJson =
         QString("{\"v\":\"5.7.1\",\"ip\":0,\"op\":%1,\"nm\":\"Animation\",\"mn\":\"{c9eac49f-b1f0-482f-a8d8-302293bd1e46}\",\"fr\":%2,\"w\":%3,\"h\":%4,"
                 "\"assets\":[],\"layers\":[{\"ddd\":0,\"ty\":3,\"ind\":0,\"st\":0,\"ip\":0,\"op\":90,\"nm\":\"Layer\",\"mn\":\"{4d7c9721-b5ef-4075-a89c-"
                 "c4c5629423db}\",\"ks\":{\"a\":{\"a\":0,\"k\":[960,540]},\"p\":{\"a\":0,\"k\":[960,540]},\"s\":{\"a\":0,\"k\":[100,100]},\"r\":{\"a\":0,\"k\":"
@@ -226,11 +248,11 @@ void ClipCreationDialog::createAnimationClip(KdenliveDoc *doc, const QString &pa
             .arg(frameLength)
             .arg(QString::number(doc->timecode().fps()))
             .arg(pCore->getCurrentFrameSize().width())
-            .arg(pCore->getCurrentFrameSize().height());
+            .arg(pCore->getCurrentFrameSize().height());*/
     QFile file(fileName);
     file.open(QIODevice::WriteOnly | QIODevice::Text);
     QTextStream out(&file);
-    out << templateJson;
+    out << templateRawr;
     file.close();
     GlaxnimateLauncher::instance().openFile(fileName);
     // Add clip to project
