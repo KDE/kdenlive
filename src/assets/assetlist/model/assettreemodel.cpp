@@ -98,8 +98,12 @@ QVariant AssetTreeModel::data(const QModelIndex &index, int role) const
         if (item->dataColumn(AssetTreeModel::IdCol).toString() == QLatin1String("root")) {
             return QIcon();
         }
-        return QIcon(m_assetIconProvider->makePixmap(item->dataColumn(0).toString() + QLatin1String("/") +
-                                                     QString::number(item->dataColumn(AssetTreeModel::TypeCol).toInt())));
+        if (auto pt = item->parentItem().lock()) {
+            return QIcon(m_assetIconProvider->makePixmap(pt->dataColumn(0).toString() + QLatin1String("/") +
+                                                         QString::number(item->dataColumn(AssetTreeModel::TypeCol).toInt()) + QLatin1String("/") +
+                                                         item->dataColumn(0).toString().at(0).toUpper()));
+        }
+        return QIcon();
     }
     default:
         return QVariant();

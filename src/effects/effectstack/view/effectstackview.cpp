@@ -291,10 +291,7 @@ void EffectStackView::loadEffects()
             hasLift = true;
         }
         const QString assetName = EffectsRepository::get()->getName(effectModel->getAssetId());
-        QPixmap effectIcon = m_thumbnailer->makePixmap(
-            assetName + QLatin1String("/") +
-            (effectModel->isAudio() ? QString::number(int(AssetListType::AssetType::Audio)) : QString::number(int(AssetListType::AssetType::Video))));
-        view = new CollapsibleEffectView(assetName, effectModel, m_sourceFrameSize, effectIcon, this);
+        view = new CollapsibleEffectView(assetName, effectModel, m_sourceFrameSize, this);
         connect(view, &CollapsibleEffectView::deleteEffect, m_model.get(), &EffectStackModel::removeEffect);
         connect(view, &CollapsibleEffectView::moveEffect, m_model.get(), &EffectStackModel::moveEffect);
         connect(view, &CollapsibleEffectView::reloadEffect, this, &EffectStackView::reloadEffect);

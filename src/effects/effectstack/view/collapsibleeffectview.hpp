@@ -29,8 +29,7 @@ class CollapsibleEffectView : public AbstractCollapsibleWidget
     Q_OBJECT
 
 public:
-    explicit CollapsibleEffectView(const QString &effectName, const std::shared_ptr<EffectItemModel> &effectModel, QSize frameSize, const QPixmap &icon,
-                                   QWidget *parent = nullptr);
+    explicit CollapsibleEffectView(const QString &effectName, const std::shared_ptr<EffectItemModel> &effectModel, QSize frameSize, QWidget *parent = nullptr);
     ~CollapsibleEffectView() override;
     KSqueezedTextLabel *title;
 
@@ -138,6 +137,7 @@ protected:
     void mouseDoubleClickEvent(QMouseEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *e) override;
+    void wheelEvent(QWheelEvent *e) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *event) override;

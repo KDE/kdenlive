@@ -4,8 +4,10 @@
 */
 
 #include "collapsibleeffectview.hpp"
+#include "assets/keyframes/view/keyframeview.hpp"
 #include "assets/view/assetparameterview.hpp"
 #include "assets/view/widgets/colorwheel.h"
+#include "assets/view/widgets/keyframewidget.hpp"
 #include "core.h"
 #include "dialogs/clipcreationdialog.h"
 #include "effects/effectsrepository.hpp"
@@ -38,8 +40,7 @@
 #include <KSqueezedTextLabel>
 #include <QComboBox>
 
-CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const std::shared_ptr<EffectItemModel> &effectModel, QSize frameSize,
-                                             const QPixmap &icon, QWidget *parent)
+CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const std::shared_ptr<EffectItemModel> &effectModel, QSize frameSize, QWidget *parent)
     : AbstractCollapsibleWidget(parent)
     , m_view(nullptr)
     , m_model(effectModel)
@@ -85,12 +86,10 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     }
 
     auto *l = static_cast<QHBoxLayout *>(frame->layout());
-    m_colorIcon = new QLabel(this);
-    l->insertWidget(0, m_colorIcon);
-    m_colorIcon->setFixedSize(collapseButton->sizeHint());
-    m_colorIcon->setToolTip(effectName);
     title = new KSqueezedTextLabel(this);
-    l->insertWidget(2, title);
+    title->setToolTip(effectName);
+    title->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
+    l->insertWidget(1, title);
 
     keyframesButton->setIcon(QIcon::fromTheme(QStringLiteral("keyframe")));
     keyframesButton->setCheckable(true);
@@ -189,9 +188,6 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     connect(m_outPos, &TimecodeDisplay::timeCodeEditingFinished, this, &CollapsibleEffectView::updateEffectZone);
     connect(m_inOutButton, &QAction::triggered, this, &CollapsibleEffectView::switchInOut);
 
-    // Color thumb
-    m_colorIcon->setScaledContents(true);
-    m_colorIcon->setPixmap(icon);
     title->setText(effectName);
     frame->setMinimumHeight(collapseButton->sizeHint().height());
 
@@ -243,7 +239,6 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
 
     if (!effectModel->isEnabled()) {
         title->setEnabled(false);
-        m_colorIcon->setEnabled(false);
         if (KdenliveSettings::disable_effect_parameters()) {
             widgetFrame->setEnabled(false);
         }
@@ -352,6 +347,12 @@ bool CollapsibleEffectView::eventFilter(QObject *o, QEvent *e)
             }
             return false;
         }
+        if (qobject_cast<KeyframeView *>(o)) {
+            if (!qobject_cast<KeyframeView *>(o)->hasFocus()) {
+                return true;
+            }
+            return false;
+        }
     }
     return QWidget::eventFilter(o, e);
 }
@@ -386,8 +387,6 @@ bool CollapsibleEffectView::isEnabled() const
 
 void CollapsibleEffectView::slotActivateEffect(bool active)
 {
-    // m_colorIcon->setEnabled(active);
-    // bool active = ix.row() == m_model->row();
     decoframe->setProperty("active", active);
     decoframe->setStyleSheet(decoframe->styleSheet());
     if (active) {
@@ -414,6 +413,15 @@ void CollapsibleEffectView::mousePressEvent(QMouseEvent *e)
         Q_EMIT activateEffect(m_model->row());
     }
     QWidget::mousePressEvent(e);
+}
+
+void CollapsibleEffectView::wheelEvent(QWheelEvent *e)
+{
+    if (m_blockWheel) {
+        // initiating a wheel event in an empty space will clear focus
+        setFocus();
+    }
+    QWidget::wheelEvent(e);
 }
 
 void CollapsibleEffectView::mouseMoveEvent(QMouseEvent *e)
@@ -886,7 +894,6 @@ void CollapsibleEffectView::enableView(bool enabled)
 {
     m_enabledButton->setActive(enabled);
     title->setEnabled(!enabled);
-    m_colorIcon->setEnabled(!enabled);
     if (enabled) {
         if (KdenliveSettings::disable_effect_parameters()) {
             widgetFrame->setEnabled(false);
@@ -925,6 +932,12 @@ void CollapsibleEffectView::blockWheelEvent(bool block)
     for (QDoubleSpinBox *cb : findChildren<QDoubleSpinBox *>()) {
         cb->installEventFilter(this);
         cb->setFocusPolicy(policy);
+    }
+    for (KeyframeWidget *cb : findChildren<KeyframeWidget *>()) {
+        for (KeyframeView *cb2 : cb->findChildren<KeyframeView *>()) {
+            cb2->installEventFilter(this);
+            cb2->setFocusPolicy(policy);
+        }
     }
 }
 

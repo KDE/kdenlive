@@ -33,13 +33,13 @@ const QPixmap AssetIconProvider::makePixmap(const QString &effectName)
     QFont ft = QFont();
     // ft.setBold(true);
     ft.setPixelSize(25);
-    uint hex = qHash(effectName);
+    uint hex = qHash(effectName.section(QLatin1Char('/'), 0, -2));
     QString t = QStringLiteral("#") + QString::number(hex, 16).toUpper().left(6);
     QColor col(t);
     bool isAudio = false;
     bool isCustom = false;
     bool isGroup = false;
-    AssetListType::AssetType type = AssetListType::AssetType(effectName.section(QLatin1Char('/'), -1).toInt());
+    AssetListType::AssetType type = AssetListType::AssetType(effectName.section(QLatin1Char('/'), -2, -2).toInt());
     if (m_effect) {
         isAudio = type == AssetListType::AssetType::Audio || type == AssetListType::AssetType::CustomAudio || type == AssetListType::AssetType::TemplateAudio;
         isCustom = type == AssetListType::AssetType::CustomAudio || type == AssetListType::AssetType::Custom || type == AssetListType::AssetType::Template ||
@@ -70,7 +70,7 @@ const QPixmap AssetIconProvider::makePixmap(const QString &effectName)
         p.begin(&pix);
     }
     p.setFont(ft);
-    p.drawText(pix.rect(), Qt::AlignCenter, effectName.at(0));
+    p.drawText(pix.rect(), Qt::AlignCenter, effectName.at(effectName.length() - 1));
     p.end();
     return pix;
 }

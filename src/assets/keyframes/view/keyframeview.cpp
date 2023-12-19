@@ -696,6 +696,7 @@ void KeyframeView::wheelEvent(QWheelEvent *event)
         } else {
             slotGoToNext();
         }
+        event->setAccepted(true);
         return;
     }
     if (event->modifiers() & Qt::ControlModifier) {
@@ -721,11 +722,13 @@ void KeyframeView::wheelEvent(QWheelEvent *event)
             m_zoomHandle.setY(qMin(1.0, (scaledPos + zoomRange / 2) / maxWidth));
         }
         update();
+        event->setAccepted(true);
         return;
     }
     int change = event->angleDelta().y() > 0 ? -1 : 1;
     int pos = qBound(0, m_position + change, m_duration - 1);
     Q_EMIT seekToPos(pos);
+    event->setAccepted(true);
 }
 
 void KeyframeView::paintEvent(QPaintEvent *event)
