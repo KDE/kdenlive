@@ -165,20 +165,25 @@ void ClipCreationDialog::createAnimationClip(KdenliveDoc *doc, const QString &pa
     if (!GlaxnimateLauncher::instance().checkInstalled()) {
         return;
     }
-    QDir dir(doc->projectDataFolder());
-    QString fileName("animation-0001.rawr");
-    if (dir.cd("animations")) {
-        int ix = 2;
-        while (dir.exists(fileName) && ix < 9999) {
-            QString number = QString::number(ix).rightJustified(4, '0');
-            number.prepend(QStringLiteral("animation-"));
-            number.append(QStringLiteral(".rawr"));
-            fileName = number;
-            ix++;
+    QDir dir;
+    QString path = KRecentDirs::dir(QStringLiteral(":KdenliveAnimationFolder"));
+    if (path.isEmpty()) {
+        dir = QDir(doc->projectDataFolder());
+        if (!dir.cd("animations")) {
+            dir.mkpath("animations");
+            dir.cd("animations");
         }
     } else {
-        dir.mkpath("animations");
-        dir.cd("animations");
+        dir = QDir(path);
+    }
+    QString fileName("animation-0001.rawr");
+    int ix = 2;
+    while (dir.exists(fileName) && ix < 9999) {
+        QString number = QString::number(ix).rightJustified(4, '0');
+        number.prepend(QStringLiteral("animation-"));
+        number.append(QStringLiteral(".rawr"));
+        fileName = number;
+        ix++;
     }
     QDialog d(QApplication::activeWindow());
     d.setWindowTitle(i18n("Create animation"));
@@ -186,7 +191,7 @@ void ClipCreationDialog::createAnimationClip(KdenliveDoc *doc, const QString &pa
     auto *l = new QVBoxLayout;
     d.setLayout(l);
     KUrlRequester fileUrl(&d);
-    ;
+    fileUrl.setAcceptMode(QFileDialog::AcceptSave);
     fileUrl.setMode(KFile::File);
     fileUrl.setUrl(QUrl::fromLocalFile(dir.absoluteFilePath(fileName)));
     l->addWidget(new QLabel(i18n("Save animation as"), &d));
@@ -216,6 +221,7 @@ void ClipCreationDialog::createAnimationClip(KdenliveDoc *doc, const QString &pa
             return;
         }
     }
+    KRecentDirs::add(QStringLiteral(":KdenliveAnimationFolder"), QFileInfo(fileName).absolutePath());
     int frameLength = tCode.getValue() - 1;
     // Params: duration, framerate, width, height
     const QString templateRawr =
