@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-16 00:41+0000\n"
+"POT-Creation-Date: 2023-12-20 00:41+0000\n"
 "PO-Revision-Date: 2023-07-08 21:38-0700\n"
 "Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -2844,7 +2844,7 @@ msgid "Calf  Plugins"
 msgstr ""
 
 #: data/kdenliveeffectscategory.rc:138
-#: src/effects/effectlist/model/effecttreemodel.cpp:96
+#: src/effects/effectlist/model/effecttreemodel.cpp:95
 #, kde-format
 msgid "Deprecated"
 msgstr "非推奨"
@@ -3183,114 +3183,114 @@ msgstr ""
 msgid "Generator Failed"
 msgstr ""
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:53
-#: src/assets/assetlist/view/assetlistwidget.cpp:334
+#: src/assets/assetlist/view/assetlistwidget.cpp:60
+#: src/assets/assetlist/view/assetlistwidget.cpp:369
 #, fuzzy, kde-format
 #| msgid "Favorites"
 msgid "Add to favorites"
 msgstr "お気に入り"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:59
+#: src/assets/assetlist/view/assetlistwidget.cpp:66
 #, fuzzy, kde-format
 #| msgid "Delete effect"
 msgid "Delete custom effect"
 msgstr "効果の削除"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:64
+#: src/assets/assetlist/view/assetlistwidget.cpp:71
 #, fuzzy, kde-format
 #| msgid "Delete effect"
 msgid "Reload custom effect"
 msgstr "効果の削除"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:69
+#: src/assets/assetlist/view/assetlistwidget.cpp:76
 #, fuzzy, kde-format
 #| msgid "Edit Info"
 msgid "Edit Info…"
 msgstr "情報を編集"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:74
+#: src/assets/assetlist/view/assetlistwidget.cpp:81
 #, fuzzy, kde-format
 #| msgid "Export Layout"
 msgid "Export XML…"
 msgstr "レイアウトを出力"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:86
+#: src/assets/assetlist/view/assetlistwidget.cpp:93
 #, kde-format
 msgid "Main effects"
 msgstr "メインエフェクト"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:86
+#: src/assets/assetlist/view/assetlistwidget.cpp:93
 #, fuzzy, kde-format
 #| msgid "Resize transition end"
 msgid "Main compositions"
 msgstr "遷移終了点のサイズ変更"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:92
+#: src/assets/assetlist/view/assetlistwidget.cpp:99
 #, fuzzy, kde-format
 #| msgid "Sox band audio effect"
 msgid "Show all video effects"
 msgstr "Sox Band オーディオ効果"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:97
+#: src/assets/assetlist/view/assetlistwidget.cpp:104
 #, fuzzy, kde-format
 #| msgid "Sox band audio effect"
 msgid "Show all audio effects"
 msgstr "Sox Band オーディオ効果"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:102
+#: src/assets/assetlist/view/assetlistwidget.cpp:109
 #, fuzzy, kde-format
 #| msgid "Sox band audio effect"
 msgid "Show all custom effects"
 msgstr "Sox Band オーディオ効果"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:108
+#: src/assets/assetlist/view/assetlistwidget.cpp:115
 #, fuzzy, kde-format
 #| msgid "Transitions"
 msgid "Show transitions only"
 msgstr "遷移効果"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:114
+#: src/assets/assetlist/view/assetlistwidget.cpp:121
 #, fuzzy, kde-format
 #| msgid "Show video thumbnails"
 msgid "Show favorite items"
 msgstr "ビデオのサムネイルを表示する(V)"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:119
+#: src/assets/assetlist/view/assetlistwidget.cpp:126
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Download New Effects..."
 msgstr "新しいワイプのダウンロード(D)..."
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:121
+#: src/assets/assetlist/view/assetlistwidget.cpp:150
 #, kde-format
 msgid "Download New Wipes..."
 msgstr "新しいワイプのダウンロード(D)..."
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:129
+#: src/assets/assetlist/view/assetlistwidget.cpp:164
 #, fuzzy, kde-format
 #| msgid "Description"
 msgid "Show/hide description of the effects"
 msgstr "説明"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:129
+#: src/assets/assetlist/view/assetlistwidget.cpp:164
 #, fuzzy, kde-format
 #| msgid "Description"
 msgid "Show/hide description of the compositions"
 msgstr "説明"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:139 src/bin/bin.cpp:1197
+#: src/assets/assetlist/view/assetlistwidget.cpp:174 src/bin/bin.cpp:1197
 #, kde-format
 msgid "Search…"
 msgstr "検索…"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:334
+#: src/assets/assetlist/view/assetlistwidget.cpp:369
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Remove from favorites"
 msgstr "ファイルの削除"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:351
-#: src/assets/assetlist/view/assetlistwidget.cpp:353
+#: src/assets/assetlist/view/assetlistwidget.cpp:386
+#: src/assets/assetlist/view/assetlistwidget.cpp:388
 #, fuzzy, kde-format
 #| msgid "Document to open"
 msgctxt "@info:tooltip"
@@ -3512,44 +3512,44 @@ msgid "Move keyframe"
 msgid_plural "Move keyframes"
 msgstr[0] "キーフレームの削除"
 
-#: src/assets/keyframes/view/keyframeview.cpp:901
+#: src/assets/keyframes/view/keyframeview.cpp:904
 #, fuzzy, kde-format
 #| msgid "Add keyframe"
 msgid "Update keyframes X position"
 msgstr "キーフレームの追加"
 
-#: src/assets/keyframes/view/keyframeview.cpp:909
+#: src/assets/keyframes/view/keyframeview.cpp:912
 #, fuzzy, kde-format
 #| msgid "Add keyframe"
 msgid "Update keyframes Y position"
 msgstr "キーフレームの追加"
 
-#: src/assets/keyframes/view/keyframeview.cpp:917
+#: src/assets/keyframes/view/keyframeview.cpp:920
 #, fuzzy, kde-format
 #| msgid "Add keyframe"
 msgid "Update keyframes width"
 msgstr "キーフレームの追加"
 
-#: src/assets/keyframes/view/keyframeview.cpp:925
+#: src/assets/keyframes/view/keyframeview.cpp:928
 #, fuzzy, kde-format
 #| msgid "Add keyframe"
 msgid "Update keyframes height"
 msgstr "キーフレームの追加"
 
-#: src/assets/keyframes/view/keyframeview.cpp:933
+#: src/assets/keyframes/view/keyframeview.cpp:936
 #, fuzzy, kde-format
 #| msgid "Add keyframe"
 msgid "Update keyframes opacity"
 msgstr "キーフレームの追加"
 
-#: src/assets/keyframes/view/keyframeview.cpp:938
-#: src/assets/keyframes/view/keyframeview.cpp:940
+#: src/assets/keyframes/view/keyframeview.cpp:941
+#: src/assets/keyframes/view/keyframeview.cpp:943
 #, fuzzy, kde-format
 #| msgid "Add keyframe"
 msgid "Update keyframes value"
 msgstr "キーフレームの追加"
 
-#: src/assets/keyframes/view/keyframeview.cpp:944
+#: src/assets/keyframes/view/keyframeview.cpp:947
 #, fuzzy, kde-format
 #| msgid "Interpolation"
 msgid "Keyframe value copied"
@@ -4479,7 +4479,7 @@ msgid "Missing source clip"
 msgstr "存在しないソースクリップ"
 
 #: src/bin/bin.cpp:1854 src/bin/bin.cpp:2520
-#: src/effects/effectlist/view/effectlistwidget.cpp:140
+#: src/effects/effectlist/view/effectlistwidget.cpp:146
 #: src/renderpresets/renderpresetrepository.cpp:156
 #: src/renderpresets/renderpresetrepository.cpp:433
 #, kde-format
@@ -4629,7 +4629,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "タイムライン内のクリップ(I)"
 
-#: src/bin/bin.cpp:2110 src/bin/bin.cpp:5712 src/bin/clipcreator.cpp:326
+#: src/bin/bin.cpp:2110 src/bin/bin.cpp:5714 src/bin/clipcreator.cpp:326
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -5103,58 +5103,58 @@ msgstr "タイトルファイルへの保存"
 msgid "Save in project only"
 msgstr "プロジェクト内にのみ保存"
 
-#: src/bin/bin.cpp:4766 src/dialogs/clipcreationdialog.cpp:383
+#: src/bin/bin.cpp:4768 src/dialogs/clipcreationdialog.cpp:405
 #, kde-format
 msgid "Title clip"
 msgstr "タイトル・クリップ"
 
-#: src/bin/bin.cpp:4816
+#: src/bin/bin.cpp:4818
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr ""
 
-#: src/bin/bin.cpp:4820
+#: src/bin/bin.cpp:4822
 #, kde-format
 msgid "Invalid clip"
 msgstr "正しくないクリップ"
 
-#: src/bin/bin.cpp:4943
+#: src/bin/bin.cpp:4945
 #, fuzzy, kde-format
 #| msgid "Delete proxies"
 msgid "Enable proxies"
 msgstr "代用情報の削除"
 
-#: src/bin/bin.cpp:4943
+#: src/bin/bin.cpp:4945
 #, fuzzy, kde-format
 #| msgid "Delete proxies"
 msgid "Disable proxies"
 msgstr "代用情報の削除"
 
-#: src/bin/bin.cpp:5125
+#: src/bin/bin.cpp:5127
 #, fuzzy, kde-format
 #| msgid "Rebuild Group"
 msgid "Rebuild proxies"
 msgstr "グループの再構築"
 
-#: src/bin/bin.cpp:5363
+#: src/bin/bin.cpp:5365
 #, fuzzy, kde-format
 #| msgid "Project Bin"
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "プロジェクトファイル"
 
-#: src/bin/bin.cpp:5379
+#: src/bin/bin.cpp:5381
 #, kde-format
 msgid "Add Tracks"
 msgstr "トラックの追加"
 
-#: src/bin/bin.cpp:5381
+#: src/bin/bin.cpp:5383
 #, fuzzy, kde-format
 #| msgid "Edit Guide"
 msgid "Edit Streams"
 msgstr "ガイドの編集"
 
-#: src/bin/bin.cpp:5396
+#: src/bin/bin.cpp:5398
 #, fuzzy, kde-format
 #| msgid "Don't blank mask"
 msgid "Don't ask again"
@@ -5162,85 +5162,85 @@ msgstr "マスクを不可視化しない"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5400
+#: src/bin/bin.cpp:5402
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
 "tracks ?"
 msgstr ""
 
-#: src/bin/bin.cpp:5412 src/mainwindow.cpp:2727
+#: src/bin/bin.cpp:5414 src/mainwindow.cpp:2727
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "マーカーを追加すべきクリップが見つかりません"
 
-#: src/bin/bin.cpp:5504
+#: src/bin/bin.cpp:5506
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
 msgid "Could not find master clip"
 msgstr "クリップの追加"
 
-#: src/bin/bin.cpp:5734
+#: src/bin/bin.cpp:5736
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr ""
 
-#: src/bin/bin.cpp:5736
+#: src/bin/bin.cpp:5738
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr ""
 
-#: src/bin/bin.cpp:5803 src/bin/bin.cpp:5880
+#: src/bin/bin.cpp:5805 src/bin/bin.cpp:5882
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] ""
 
-#: src/bin/bin.cpp:5824
+#: src/bin/bin.cpp:5826
 #, fuzzy, kde-format
 #| msgid "Remove selected clips"
 msgid "Import selected clips"
 msgstr "選択したクリップを削除"
 
-#: src/bin/bin.cpp:5826
+#: src/bin/bin.cpp:5828
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
 " %1"
 msgstr ""
 
-#: src/bin/bin.cpp:5839 src/mltcontroller/clippropertiescontroller.cpp:635
+#: src/bin/bin.cpp:5841 src/mltcontroller/clippropertiescontroller.cpp:635
 #, kde-format
 msgid "Video stream %1"
 msgstr "ビデオストリーム %1"
 
-#: src/bin/bin.cpp:5854
+#: src/bin/bin.cpp:5856
 #, fuzzy, kde-format
 #| msgid "Audio tracks"
 msgid "Audio stream %1"
 msgstr "オーディオトラック"
 
-#: src/bin/bin.cpp:5907
+#: src/bin/bin.cpp:5909
 #, fuzzy, kde-format
 #| msgid "Remove clips"
 msgid "Remove clip markers"
 msgstr "クリップの削除"
 
-#: src/bin/bin.cpp:6059
+#: src/bin/bin.cpp:6061
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 
-#: src/bin/bin.cpp:6060
+#: src/bin/bin.cpp:6062
 #, fuzzy, kde-format
 #| msgid "Archive Project"
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "プロジェクトのアーカイブ(H)"
 
-#: src/bin/bin.cpp:6061
+#: src/bin/bin.cpp:6063
 #, fuzzy, kde-format
 #| msgid "Transcoding"
 msgctxt "@action:button"
@@ -5343,7 +5343,7 @@ msgstr "ファイルの削除"
 msgid "Loading done"
 msgstr "プロジェクトを読み込んでいます"
 
-#: src/bin/clipcreator.cpp:586 src/dialogs/clipcreationdialog.cpp:574
+#: src/bin/clipcreator.cpp:586 src/dialogs/clipcreationdialog.cpp:596
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -5392,10 +5392,10 @@ msgid "Import File on Double Click"
 msgstr ""
 
 #: src/bin/mediabrowser.cpp:164 src/bin/mediabrowser.cpp:172
-#: src/dialogs/clipcreationdialog.cpp:502
-#: src/dialogs/clipcreationdialog.cpp:508
-#: src/effects/effectlist/view/effectlistwidget.cpp:128
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:300
+#: src/dialogs/clipcreationdialog.cpp:524
+#: src/dialogs/clipcreationdialog.cpp:530
+#: src/effects/effectlist/view/effectlistwidget.cpp:134
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:295
 #: src/mainwindow.cpp:3964 src/onlineresources/resourcewidget.cpp:600
 #, kde-format
 msgid "All Files"
@@ -5403,8 +5403,8 @@ msgstr "すべてのファイル"
 
 #: src/bin/mediabrowser.cpp:164 src/bin/mediabrowser.cpp:171
 #: src/dialogs/clipcreationdialog.cpp:128
-#: src/dialogs/clipcreationdialog.cpp:502
-#: src/dialogs/clipcreationdialog.cpp:507
+#: src/dialogs/clipcreationdialog.cpp:524
+#: src/dialogs/clipcreationdialog.cpp:529
 #, kde-format
 msgid "All Supported Files"
 msgstr "対応するすべてのファイル"
@@ -5412,7 +5412,7 @@ msgstr "対応するすべてのファイル"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:210
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:493
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:501
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -5425,18 +5425,18 @@ msgstr "名前:"
 msgid "Filter:"
 msgstr "フィルタ"
 
-#: src/bin/mediabrowser.cpp:218 src/dialogs/clipcreationdialog.cpp:473
+#: src/bin/mediabrowser.cpp:218 src/dialogs/clipcreationdialog.cpp:495
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr ""
 
-#: src/bin/mediabrowser.cpp:220 src/dialogs/clipcreationdialog.cpp:475
+#: src/bin/mediabrowser.cpp:220 src/dialogs/clipcreationdialog.cpp:497
 #, fuzzy, kde-format
 #| msgid "Insert zone in project tree"
 msgid "Do not create subfolders in Project Bin"
 msgstr "プロジェクトツリーにゾーンを挿入(I)"
 
-#: src/bin/mediabrowser.cpp:223 src/dialogs/clipcreationdialog.cpp:478
+#: src/bin/mediabrowser.cpp:223 src/dialogs/clipcreationdialog.cpp:500
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5444,18 +5444,18 @@ msgid ""
 "subfolders without creating the subfolders in Project Bin."
 msgstr ""
 
-#: src/bin/mediabrowser.cpp:226 src/dialogs/clipcreationdialog.cpp:468
+#: src/bin/mediabrowser.cpp:226 src/dialogs/clipcreationdialog.cpp:490
 #, kde-format
 msgid "Import image sequence"
 msgstr "イメージシーケンスのインポート"
 
-#: src/bin/mediabrowser.cpp:229 src/dialogs/clipcreationdialog.cpp:469
+#: src/bin/mediabrowser.cpp:229 src/dialogs/clipcreationdialog.cpp:491
 #, fuzzy, kde-format
 #| msgid "Import image sequence"
 msgid "Try to import an image sequence"
 msgstr "イメージシーケンスのインポート"
 
-#: src/bin/mediabrowser.cpp:231 src/dialogs/clipcreationdialog.cpp:471
+#: src/bin/mediabrowser.cpp:231 src/dialogs/clipcreationdialog.cpp:493
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5601,8 +5601,8 @@ msgid "Move subtitle"
 msgstr "サブタイトルの移動"
 
 #: src/bin/model/subtitlemodel.cpp:1152
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:515
-#: src/effects/effectstack/view/effectstackview.cpp:577
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:523
+#: src/effects/effectstack/view/effectstackview.cpp:574
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:857
 #: src/project/dialogs/archivewidget.cpp:871 src/render/renderrequest.cpp:325
 #, kde-format
@@ -5728,42 +5728,42 @@ msgstr ""
 msgid "Unknown"
 msgstr "不明"
 
-#: src/bin/projectitemmodel.cpp:629
+#: src/bin/projectitemmodel.cpp:643
 #, fuzzy, kde-format
 #| msgid "Add Clip"
 msgid "Add sub clips"
 msgstr "クリップの追加(A)"
 
-#: src/bin/projectitemmodel.cpp:664
+#: src/bin/projectitemmodel.cpp:678
 #, kde-format
 msgid "Zone"
 msgstr "ゾーン"
 
-#: src/bin/projectitemmodel.cpp:869
+#: src/bin/projectitemmodel.cpp:883
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
 msgid "Add bin clip"
 msgstr "クリップの追加"
 
-#: src/bin/projectitemmodel.cpp:935
+#: src/bin/projectitemmodel.cpp:949
 #, fuzzy, kde-format
 #| msgid "Add Clip"
 msgid "Add a sub clip"
 msgstr "クリップの追加(A)"
 
-#: src/bin/projectitemmodel.cpp:976
+#: src/bin/projectitemmodel.cpp:990
 #, fuzzy, kde-format
 #| msgid "Rename folder"
 msgid "Rename Folder"
 msgstr "フォルダの名前変更"
 
-#: src/bin/projectitemmodel.cpp:1004 src/mainwindow.cpp:1472
+#: src/bin/projectitemmodel.cpp:1018 src/mainwindow.cpp:1472
 #, kde-format
 msgid "Clean Project"
 msgstr "プロジェクトのクリーン"
 
-#: src/bin/projectitemmodel.cpp:1173
+#: src/bin/projectitemmodel.cpp:1187
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Loading project clips…"
@@ -6193,32 +6193,32 @@ msgstr "アニメーション"
 msgid "Animation duration"
 msgstr "フレームの長さ"
 
-#: src/dialogs/clipcreationdialog.cpp:251
+#: src/dialogs/clipcreationdialog.cpp:273
 #, fuzzy, kde-format
 #| msgid "Template title clip"
 msgid "Create Animation clip"
 msgstr "テンプレート・タイトル・クリップ"
 
-#: src/dialogs/clipcreationdialog.cpp:267
+#: src/dialogs/clipcreationdialog.cpp:289
 #, fuzzy, kde-format
 #| msgid "Text clip"
 msgctxt "@title:window"
 msgid "Text Clip"
 msgstr "テキスト・クリップ"
 
-#: src/dialogs/clipcreationdialog.cpp:285
+#: src/dialogs/clipcreationdialog.cpp:307
 #, fuzzy, kde-format
 #| msgid "Text clip"
 msgid "Text Clip"
 msgstr "テキスト・クリップ"
 
-#: src/dialogs/clipcreationdialog.cpp:340
+#: src/dialogs/clipcreationdialog.cpp:362
 #, fuzzy, kde-format
 #| msgid "Template title clip"
 msgid "Create Text clip"
 msgstr "テンプレート・タイトル・クリップ"
 
-#: src/dialogs/clipcreationdialog.cpp:395 src/doc/kdenlivedoc.cpp:1143
+#: src/dialogs/clipcreationdialog.cpp:417 src/doc/kdenlivedoc.cpp:1143
 #, kde-format
 msgid "Template title clip"
 msgstr "テンプレート・タイトル・クリップ"
@@ -6509,11 +6509,11 @@ msgstr "マーカーの編集(E)"
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1662
 #: src/dialogs/renderwidget.cpp:1689 src/doc/kdenlivedoc.cpp:759
 #: src/doc/kdenlivedoc.cpp:767 src/doc/kdenlivedoc.cpp:1279
-#: src/effects/effectlist/model/effecttreemodel.cpp:252
-#: src/effects/effectlist/model/effecttreemodel.cpp:268
+#: src/effects/effectlist/model/effecttreemodel.cpp:283
+#: src/effects/effectlist/model/effecttreemodel.cpp:299
 #: src/effects/effectsrepository.cpp:390
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:593
-#: src/effects/effectstack/view/effectstackview.cpp:615
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:601
+#: src/effects/effectstack/view/effectstackview.cpp:612
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:690
 #: src/project/dialogs/archivewidget.cpp:694
@@ -8839,17 +8839,17 @@ msgstr "カスタム"
 msgid "Templates"
 msgstr "テンプレート"
 
-#: src/effects/effectlist/model/effecttreemodel.cpp:97
+#: src/effects/effectlist/model/effecttreemodel.cpp:96
 #, kde-format
 msgid " - deprecated"
 msgstr " - 非推奨"
 
-#: src/effects/effectlist/model/effecttreemodel.cpp:229
+#: src/effects/effectlist/model/effecttreemodel.cpp:260
 #, kde-format
 msgid "Error"
 msgstr "エラー"
 
-#: src/effects/effectlist/model/effecttreemodel.cpp:229
+#: src/effects/effectlist/model/effecttreemodel.cpp:260
 #, fuzzy, kde-format
 #| msgid ""
 #| "File %1 already exists.\n"
@@ -8861,23 +8861,23 @@ msgstr ""
 "ファイル %1 は既に存在しています。\n"
 "上書きしてよろしいですか？"
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:105
+#: src/effects/effectlist/view/effectlistwidget.cpp:111
 #, kde-format
 msgid "Name : "
 msgstr "名前 : "
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:106
+#: src/effects/effectlist/view/effectlistwidget.cpp:112
 #, kde-format
 msgid "Comments : "
 msgstr "コメント : "
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:128
+#: src/effects/effectlist/view/effectlistwidget.cpp:134
 #, fuzzy, kde-format
 #| msgid "Kdenlive project (*.kdenlive)"
 msgid "Kdenlive Effect definitions"
 msgstr "Kdenlive プロジェクト (*.kdenlive)"
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:133
+#: src/effects/effectlist/view/effectlistwidget.cpp:139
 #, fuzzy, kde-format
 #| msgid "Delete effect"
 msgctxt "@title:window"
@@ -8953,12 +8953,12 @@ msgstr "効果 %1 の追加"
 msgid "Move effect %1"
 msgstr "効果 %1の移動"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:51
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:52
 #, kde-format
 msgid "Move effect up"
 msgstr "効果を上へ"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:53
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:54
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8966,12 +8966,12 @@ msgid ""
 "sequentially from top to bottom so sequence is important."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:55
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:56
 #, kde-format
 msgid "Move effect down"
 msgstr "効果を下へ"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:57
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:58
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8979,123 +8979,123 @@ msgid ""
 "sequentially from top to bottom so sequence is important."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:59
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:60
 #, kde-format
 msgid "Delete effect"
 msgstr "効果の削除"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:60
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:61
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:73
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:74
 #, fuzzy, kde-format
 #| msgid "Paste Effects"
 msgid "Collapse Effect"
 msgstr "効果の貼り付け(E)"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:73
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:74
 #, fuzzy, kde-format
 #| msgid "Add Effect"
 msgid "Expand Effect"
 msgstr "効果の追加(A)"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:97
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:96
 #, fuzzy, kde-format
 #| msgid "Add keyframes"
 msgid "Enable Keyframes"
 msgstr "キーフレームの追加"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:99
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:98
 #, fuzzy, kde-format
 #| msgid "Hide frame"
 msgid "Hide Keyframes"
 msgstr "フレームの隠蔽"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:99
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:98
 #, fuzzy, kde-format
 #| msgid "Delete keyframe"
 msgid "Show Keyframes"
 msgstr "キーフレームの削除"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:100
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:99
 #, fuzzy, kde-kuit-format
 #| msgid "update values in timeline"
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
 msgstr "タイムライン内で値を更新する"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:108
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:107
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgid "Disable Effect"
 msgstr "効果の保存"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:108
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:107
 #, kde-format
 msgid "Enable Effect"
 msgstr "効果の有効化"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:109
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:108
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Disables the effect. Useful to compare before and after settings."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:109
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:127
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:126
 #, kde-format
 msgid "Create Group"
 msgstr "グループを作成"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:134
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:133
 #, kde-format
 msgid "In:"
 msgstr "イン:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:140
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:139
 #, fuzzy, kde-format
 #| msgid "Set Zone In"
 msgid "Set zone in"
 msgstr "ゾーン・インの設定(S)"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:141
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:140
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:146
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:145
 #, kde-format
 msgid "Out:"
 msgstr "アウト:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:152
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:151
 #, fuzzy, kde-format
 #| msgid "Set Zone Out"
 msgid "Set zone out"
 msgstr "ゾーン・アウトの設定(Z)"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:153
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:152
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:175
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:174
 #, fuzzy, kde-format
 #| msgid "Move effect down"
 msgid "Use effect zone"
 msgstr "効果を下へ"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:176
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:175
 #, fuzzy, kde-kuit-format
 #| msgid "update values in timeline"
 msgctxt "@info:whatsthis"
@@ -9104,73 +9104,73 @@ msgstr "タイムライン内で値を更新する"
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:237
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:233
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "プリセット"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:238
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:234
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:242
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:238
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgid "Save effect"
 msgstr "効果の保存"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:489
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:497
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "効果の保存"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:494
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:502
 #, kde-format
 msgid "Comments:"
 msgstr "コメント: "
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:506
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:514
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "名前がありません、効果は保存されませんでした。"
 
-#: src/effects/effectstack/view/effectstackview.cpp:533
+#: src/effects/effectstack/view/effectstackview.cpp:530
 #, fuzzy, kde-format
 #| msgid "No available clip selected"
 msgid "No effect selected."
 msgstr "利用可能なクリップが選択されていません"
 
-#: src/effects/effectstack/view/effectstackview.cpp:539
+#: src/effects/effectstack/view/effectstackview.cpp:536
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "効果の保存"
 
-#: src/effects/effectstack/view/effectstackview.cpp:544
+#: src/effects/effectstack/view/effectstackview.cpp:541
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "保存したスタックの名前: "
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:545
+#: src/effects/effectstack/view/effectstackview.cpp:542
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:214
 #, fuzzy, kde-format
 #| msgid "Description"
 msgid "Description:"
 msgstr "説明"
 
-#: src/effects/effectstack/view/effectstackview.cpp:558
+#: src/effects/effectstack/view/effectstackview.cpp:555
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "名前がありません、効果は保存されませんでした。"
 
-#: src/effects/effectstack/view/effectstackview.cpp:565
+#: src/effects/effectstack/view/effectstackview.cpp:562
 #, kde-format
 msgid ""
 "No description provided. \n"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-16 00:41+0000\n"
+"POT-Creation-Date: 2023-12-20 00:41+0000\n"
 "PO-Revision-Date: 2023-07-14 22:01+0100\n"
 "Last-Translator: Jose Jorge <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
@@ -2979,7 +2979,7 @@ msgid "Calf  Plugins"
 msgstr "'Plugins' do Calf"
 
 #: data/kdenliveeffectscategory.rc:138
-#: src/effects/effectlist/model/effecttreemodel.cpp:96
+#: src/effects/effectlist/model/effecttreemodel.cpp:95
 #, kde-format
 msgid "Deprecated"
 msgstr "Obsoleto"
@@ -3312,100 +3312,100 @@ msgstr ""
 msgid "Generator Failed"
 msgstr "O Gerador Falhou"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:53
-#: src/assets/assetlist/view/assetlistwidget.cpp:334
+#: src/assets/assetlist/view/assetlistwidget.cpp:60
+#: src/assets/assetlist/view/assetlistwidget.cpp:369
 #, kde-format
 msgid "Add to favorites"
 msgstr "Adicionar aos favoritos"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:59
+#: src/assets/assetlist/view/assetlistwidget.cpp:66
 #, kde-format
 msgid "Delete custom effect"
 msgstr "Apagar o efeito personalizado"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:64
+#: src/assets/assetlist/view/assetlistwidget.cpp:71
 #, kde-format
 msgid "Reload custom effect"
 msgstr "Recarregar o efeito personalizado"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:69
+#: src/assets/assetlist/view/assetlistwidget.cpp:76
 #, fuzzy, kde-format
 #| msgid "Edit Info"
 msgid "Edit Info…"
 msgstr "Editar a Informação"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:74
+#: src/assets/assetlist/view/assetlistwidget.cpp:81
 #, kde-format
 msgid "Export XML…"
 msgstr "Exportar em XML…"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:86
+#: src/assets/assetlist/view/assetlistwidget.cpp:93
 #, kde-format
 msgid "Main effects"
 msgstr "Efeitos principais"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:86
+#: src/assets/assetlist/view/assetlistwidget.cpp:93
 #, kde-format
 msgid "Main compositions"
 msgstr "Composições principais"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:92
+#: src/assets/assetlist/view/assetlistwidget.cpp:99
 #, kde-format
 msgid "Show all video effects"
 msgstr "Mostrar todos os efeitos de vídeo"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:97
+#: src/assets/assetlist/view/assetlistwidget.cpp:104
 #, kde-format
 msgid "Show all audio effects"
 msgstr "Mostrar todos os efeitos de áudio"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:102
+#: src/assets/assetlist/view/assetlistwidget.cpp:109
 #, kde-format
 msgid "Show all custom effects"
 msgstr "Mostrar todos os efeitos personalizados"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:108
+#: src/assets/assetlist/view/assetlistwidget.cpp:115
 #, kde-format
 msgid "Show transitions only"
 msgstr "Mostrar apenas as transições"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:114
+#: src/assets/assetlist/view/assetlistwidget.cpp:121
 #, kde-format
 msgid "Show favorite items"
 msgstr "Mostrar os itens favoritos"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:119
+#: src/assets/assetlist/view/assetlistwidget.cpp:126
 #, kde-format
 msgid "Download New Effects..."
 msgstr "Obter Novos Efeitos..."
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:121
+#: src/assets/assetlist/view/assetlistwidget.cpp:150
 #, kde-format
 msgid "Download New Wipes..."
 msgstr "Obter Novas Limpezas..."
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:129
+#: src/assets/assetlist/view/assetlistwidget.cpp:164
 #, kde-format
 msgid "Show/hide description of the effects"
 msgstr "Mostrar/esconder a descrição dos efeitos"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:129
+#: src/assets/assetlist/view/assetlistwidget.cpp:164
 #, kde-format
 msgid "Show/hide description of the compositions"
 msgstr "Mostrar/esconder a descrição das composições"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:139 src/bin/bin.cpp:1197
+#: src/assets/assetlist/view/assetlistwidget.cpp:174 src/bin/bin.cpp:1197
 #, kde-format
 msgid "Search…"
 msgstr "Procurar…"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:334
+#: src/assets/assetlist/view/assetlistwidget.cpp:369
 #, kde-format
 msgid "Remove from favorites"
 msgstr "Remover dos favoritos"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:351
-#: src/assets/assetlist/view/assetlistwidget.cpp:353
+#: src/assets/assetlist/view/assetlistwidget.cpp:386
+#: src/assets/assetlist/view/assetlistwidget.cpp:388
 #, fuzzy, kde-format
 #| msgid "Kdenlive document to open."
 msgctxt "@info:tooltip"
@@ -3620,38 +3620,38 @@ msgid_plural "Move keyframes"
 msgstr[0] "Mover a imagem-chave"
 msgstr[1] "Mover as imagens-chave"
 
-#: src/assets/keyframes/view/keyframeview.cpp:901
+#: src/assets/keyframes/view/keyframeview.cpp:904
 #, kde-format
 msgid "Update keyframes X position"
 msgstr "Actualizar a posição X das imagens-chave"
 
-#: src/assets/keyframes/view/keyframeview.cpp:909
+#: src/assets/keyframes/view/keyframeview.cpp:912
 #, kde-format
 msgid "Update keyframes Y position"
 msgstr "Actualizar a posição Y das imagens-chave"
 
-#: src/assets/keyframes/view/keyframeview.cpp:917
+#: src/assets/keyframes/view/keyframeview.cpp:920
 #, kde-format
 msgid "Update keyframes width"
 msgstr "Actualizar a largura das imagens-chave"
 
-#: src/assets/keyframes/view/keyframeview.cpp:925
+#: src/assets/keyframes/view/keyframeview.cpp:928
 #, kde-format
 msgid "Update keyframes height"
 msgstr "Actualizar a altura das imagens-chave"
 
-#: src/assets/keyframes/view/keyframeview.cpp:933
+#: src/assets/keyframes/view/keyframeview.cpp:936
 #, kde-format
 msgid "Update keyframes opacity"
 msgstr "Actualizar a opacidade das imagens-chave"
 
-#: src/assets/keyframes/view/keyframeview.cpp:938
-#: src/assets/keyframes/view/keyframeview.cpp:940
+#: src/assets/keyframes/view/keyframeview.cpp:941
+#: src/assets/keyframes/view/keyframeview.cpp:943
 #, kde-format
 msgid "Update keyframes value"
 msgstr "Actualizar o valor das imagens-chave"
 
-#: src/assets/keyframes/view/keyframeview.cpp:944
+#: src/assets/keyframes/view/keyframeview.cpp:947
 #, kde-format
 msgid "Keyframe value copied"
 msgstr "O valor da imagem-chave foi copiado"
@@ -4550,7 +4550,7 @@ msgid "Missing source clip"
 msgstr "Falta o 'clip' original"
 
 #: src/bin/bin.cpp:1854 src/bin/bin.cpp:2520
-#: src/effects/effectlist/view/effectlistwidget.cpp:140
+#: src/effects/effectlist/view/effectlistwidget.cpp:146
 #: src/renderpresets/renderpresetrepository.cpp:156
 #: src/renderpresets/renderpresetrepository.cpp:433
 #, kde-format
@@ -4695,7 +4695,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "'Clip' na Linha Temporal"
 
-#: src/bin/bin.cpp:2110 src/bin/bin.cpp:5712 src/bin/clipcreator.cpp:326
+#: src/bin/bin.cpp:2110 src/bin/bin.cpp:5714 src/bin/clipcreator.cpp:326
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -5143,60 +5143,60 @@ msgstr "Gravar no ficheiro do título"
 msgid "Save in project only"
 msgstr "Gravar apenas no projecto"
 
-#: src/bin/bin.cpp:4766 src/dialogs/clipcreationdialog.cpp:383
+#: src/bin/bin.cpp:4768 src/dialogs/clipcreationdialog.cpp:405
 #, kde-format
 msgid "Title clip"
 msgstr "'Clip' do título"
 
-#: src/bin/bin.cpp:4816
+#: src/bin/bin.cpp:4818
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "O 'clip' é inválido; será removido do projecto."
 
-#: src/bin/bin.cpp:4820
+#: src/bin/bin.cpp:4822
 #, kde-format
 msgid "Invalid clip"
 msgstr "'Clip' inválido"
 
-#: src/bin/bin.cpp:4943
+#: src/bin/bin.cpp:4945
 #, kde-format
 msgid "Enable proxies"
 msgstr "Activar os indirectos"
 
-#: src/bin/bin.cpp:4943
+#: src/bin/bin.cpp:4945
 #, kde-format
 msgid "Disable proxies"
 msgstr "Desactivar os indirectos"
 
-#: src/bin/bin.cpp:5125
+#: src/bin/bin.cpp:5127
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "Reconstruir os indirectos"
 
-#: src/bin/bin.cpp:5363
+#: src/bin/bin.cpp:5365
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Grupo do Projecto"
 
-#: src/bin/bin.cpp:5379
+#: src/bin/bin.cpp:5381
 #, kde-format
 msgid "Add Tracks"
 msgstr "Adicionar Faixas"
 
-#: src/bin/bin.cpp:5381
+#: src/bin/bin.cpp:5383
 #, kde-format
 msgid "Edit Streams"
 msgstr "Editar as Sequências"
 
-#: src/bin/bin.cpp:5396
+#: src/bin/bin.cpp:5398
 #, kde-format
 msgid "Don't ask again"
 msgstr "Não perguntar de novo"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5400
+#: src/bin/bin.cpp:5402
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -5205,39 +5205,39 @@ msgstr ""
 "O seu projecto precisa de mais faixas de áudio para tratar de todas as "
 "sequências de áudio. Deseja adicionar %1 faixas de áudio ?"
 
-#: src/bin/bin.cpp:5412 src/mainwindow.cpp:2727
+#: src/bin/bin.cpp:5414 src/mainwindow.cpp:2727
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Não é possível encontrar o 'clip' para adicionar o marcador"
 
-#: src/bin/bin.cpp:5504
+#: src/bin/bin.cpp:5506
 #, kde-format
 msgid "Could not find master clip"
 msgstr "Não foi possível encontrar o 'clip'-mestre"
 
-#: src/bin/bin.cpp:5734
+#: src/bin/bin.cpp:5736
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> 'clips' | "
 
-#: src/bin/bin.cpp:5736
+#: src/bin/bin.cpp:5738
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> 'clips' (%2 seleccionados) | "
 
-#: src/bin/bin.cpp:5803 src/bin/bin.cpp:5880
+#: src/bin/bin.cpp:5805 src/bin/bin.cpp:5882
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "Adicionar uma sequência extra ao 'clip'"
 msgstr[1] "Adicionar as sequências extra ao 'clip'"
 
-#: src/bin/bin.cpp:5824
+#: src/bin/bin.cpp:5826
 #, kde-format
 msgid "Import selected clips"
 msgstr "Importar os 'clips' seleccionados"
 
-#: src/bin/bin.cpp:5826
+#: src/bin/bin.cpp:5828
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -5246,28 +5246,28 @@ msgstr ""
 "Sequências extra para o 'clip'\n"
 " %1"
 
-#: src/bin/bin.cpp:5839 src/mltcontroller/clippropertiescontroller.cpp:635
+#: src/bin/bin.cpp:5841 src/mltcontroller/clippropertiescontroller.cpp:635
 #, kde-format
 msgid "Video stream %1"
 msgstr "Sequência de vídeo %1"
 
-#: src/bin/bin.cpp:5854
+#: src/bin/bin.cpp:5856
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Sequência de áudio %1"
 
-#: src/bin/bin.cpp:5907
+#: src/bin/bin.cpp:5909
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Remover os marcadores dos 'clips'"
 
-#: src/bin/bin.cpp:6059
+#: src/bin/bin.cpp:6061
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 
-#: src/bin/bin.cpp:6060
+#: src/bin/bin.cpp:6062
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Archive Project"
@@ -5275,7 +5275,7 @@ msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Arquivar o Projecto"
 
-#: src/bin/bin.cpp:6061
+#: src/bin/bin.cpp:6063
 #, fuzzy, kde-format
 #| msgid "Transcoding"
 msgctxt "@action:button"
@@ -5370,7 +5370,7 @@ msgstr "Dispositivo removível"
 msgid "Loading done"
 msgstr "Carregamento concluído"
 
-#: src/bin/clipcreator.cpp:586 src/dialogs/clipcreationdialog.cpp:574
+#: src/bin/clipcreator.cpp:586 src/dialogs/clipcreationdialog.cpp:596
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -5418,10 +5418,10 @@ msgid "Import File on Double Click"
 msgstr "Importar um Ficheiro com um Duplo-Click"
 
 #: src/bin/mediabrowser.cpp:164 src/bin/mediabrowser.cpp:172
-#: src/dialogs/clipcreationdialog.cpp:502
-#: src/dialogs/clipcreationdialog.cpp:508
-#: src/effects/effectlist/view/effectlistwidget.cpp:128
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:300
+#: src/dialogs/clipcreationdialog.cpp:524
+#: src/dialogs/clipcreationdialog.cpp:530
+#: src/effects/effectlist/view/effectlistwidget.cpp:134
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:295
 #: src/mainwindow.cpp:3964 src/onlineresources/resourcewidget.cpp:600
 #, kde-format
 msgid "All Files"
@@ -5429,8 +5429,8 @@ msgstr "Todos os Ficheiros"
 
 #: src/bin/mediabrowser.cpp:164 src/bin/mediabrowser.cpp:171
 #: src/dialogs/clipcreationdialog.cpp:128
-#: src/dialogs/clipcreationdialog.cpp:502
-#: src/dialogs/clipcreationdialog.cpp:507
+#: src/dialogs/clipcreationdialog.cpp:524
+#: src/dialogs/clipcreationdialog.cpp:529
 #, kde-format
 msgid "All Supported Files"
 msgstr "Todos os Ficheiros Suportados"
@@ -5438,7 +5438,7 @@ msgstr "Todos os Ficheiros Suportados"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:210
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:493
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:501
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -5450,17 +5450,17 @@ msgstr "Nome:"
 msgid "Filter:"
 msgstr "Filtro:"
 
-#: src/bin/mediabrowser.cpp:218 src/dialogs/clipcreationdialog.cpp:473
+#: src/bin/mediabrowser.cpp:218 src/dialogs/clipcreationdialog.cpp:495
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr "Ignorar a estrutura de sub-pastas"
 
-#: src/bin/mediabrowser.cpp:220 src/dialogs/clipcreationdialog.cpp:475
+#: src/bin/mediabrowser.cpp:220 src/dialogs/clipcreationdialog.cpp:497
 #, kde-format
 msgid "Do not create subfolders in Project Bin"
 msgstr "Não criar sub-pastas no Grupo do Projecto"
 
-#: src/bin/mediabrowser.cpp:223 src/dialogs/clipcreationdialog.cpp:478
+#: src/bin/mediabrowser.cpp:223 src/dialogs/clipcreationdialog.cpp:500
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5470,17 +5470,17 @@ msgstr ""
 "Quando estiver activo, o Kdenlive irá importar todos os 'clips' contidos na "
 "pasta e nas suas sub-pastas, sem criar as sub-pastas no Grupo do Projecto."
 
-#: src/bin/mediabrowser.cpp:226 src/dialogs/clipcreationdialog.cpp:468
+#: src/bin/mediabrowser.cpp:226 src/dialogs/clipcreationdialog.cpp:490
 #, kde-format
 msgid "Import image sequence"
 msgstr "Importar a sequência de imagens"
 
-#: src/bin/mediabrowser.cpp:229 src/dialogs/clipcreationdialog.cpp:469
+#: src/bin/mediabrowser.cpp:229 src/dialogs/clipcreationdialog.cpp:491
 #, kde-format
 msgid "Try to import an image sequence"
 msgstr "Tentar importar uma sequência de imagens"
 
-#: src/bin/mediabrowser.cpp:231 src/dialogs/clipcreationdialog.cpp:471
+#: src/bin/mediabrowser.cpp:231 src/dialogs/clipcreationdialog.cpp:493
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5616,8 +5616,8 @@ msgid "Move subtitle"
 msgstr "Mover a legenda"
 
 #: src/bin/model/subtitlemodel.cpp:1152
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:515
-#: src/effects/effectstack/view/effectstackview.cpp:577
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:523
+#: src/effects/effectstack/view/effectstackview.cpp:574
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:857
 #: src/project/dialogs/archivewidget.cpp:871 src/render/renderrequest.cpp:325
 #, kde-format
@@ -5737,37 +5737,37 @@ msgstr "Utilização"
 msgid "Unknown"
 msgstr "Desconhecido"
 
-#: src/bin/projectitemmodel.cpp:629
+#: src/bin/projectitemmodel.cpp:643
 #, kde-format
 msgid "Add sub clips"
 msgstr "Adicionar os 'sub-clips'"
 
-#: src/bin/projectitemmodel.cpp:664
+#: src/bin/projectitemmodel.cpp:678
 #, kde-format
 msgid "Zone"
 msgstr "Zona"
 
-#: src/bin/projectitemmodel.cpp:869
+#: src/bin/projectitemmodel.cpp:883
 #, kde-format
 msgid "Add bin clip"
 msgstr "Adicionar um 'clip' do grupo"
 
-#: src/bin/projectitemmodel.cpp:935
+#: src/bin/projectitemmodel.cpp:949
 #, kde-format
 msgid "Add a sub clip"
 msgstr "Adicionar um 'sub-clip'"
 
-#: src/bin/projectitemmodel.cpp:976
+#: src/bin/projectitemmodel.cpp:990
 #, kde-format
 msgid "Rename Folder"
 msgstr "Mudar o Nome da Pasta"
 
-#: src/bin/projectitemmodel.cpp:1004 src/mainwindow.cpp:1472
+#: src/bin/projectitemmodel.cpp:1018 src/mainwindow.cpp:1472
 #, kde-format
 msgid "Clean Project"
 msgstr "Limpar o Projecto"
 
-#: src/bin/projectitemmodel.cpp:1173
+#: src/bin/projectitemmodel.cpp:1187
 #, kde-format
 msgid "Loading project clips…"
 msgstr "A carregar os 'clips' do projecto…"
@@ -6166,28 +6166,28 @@ msgstr "Gravar a animação como"
 msgid "Animation duration"
 msgstr "Duração da animação"
 
-#: src/dialogs/clipcreationdialog.cpp:251
+#: src/dialogs/clipcreationdialog.cpp:273
 #, kde-format
 msgid "Create Animation clip"
 msgstr "Criar um 'Clip' de Animação"
 
-#: src/dialogs/clipcreationdialog.cpp:267
+#: src/dialogs/clipcreationdialog.cpp:289
 #, kde-format
 msgctxt "@title:window"
 msgid "Text Clip"
 msgstr "'Clip' de Texto"
 
-#: src/dialogs/clipcreationdialog.cpp:285
+#: src/dialogs/clipcreationdialog.cpp:307
 #, kde-format
 msgid "Text Clip"
 msgstr "'Clip' de Texto"
 
-#: src/dialogs/clipcreationdialog.cpp:340
+#: src/dialogs/clipcreationdialog.cpp:362
 #, kde-format
 msgid "Create Text clip"
 msgstr "Criar um 'clip' de texto"
 
-#: src/dialogs/clipcreationdialog.cpp:395 src/doc/kdenlivedoc.cpp:1143
+#: src/dialogs/clipcreationdialog.cpp:417 src/doc/kdenlivedoc.cpp:1143
 #, kde-format
 msgid "Template title clip"
 msgstr "Modelo do 'clip' do título"
@@ -6469,11 +6469,11 @@ msgstr "Exportar os Dados das Guias"
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1662
 #: src/dialogs/renderwidget.cpp:1689 src/doc/kdenlivedoc.cpp:759
 #: src/doc/kdenlivedoc.cpp:767 src/doc/kdenlivedoc.cpp:1279
-#: src/effects/effectlist/model/effecttreemodel.cpp:252
-#: src/effects/effectlist/model/effecttreemodel.cpp:268
+#: src/effects/effectlist/model/effecttreemodel.cpp:283
+#: src/effects/effectlist/model/effecttreemodel.cpp:299
 #: src/effects/effectsrepository.cpp:390
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:593
-#: src/effects/effectstack/view/effectstackview.cpp:615
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:601
+#: src/effects/effectstack/view/effectstackview.cpp:612
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:690
 #: src/project/dialogs/archivewidget.cpp:694
@@ -8727,17 +8727,17 @@ msgstr "Personalizado"
 msgid "Templates"
 msgstr "Modelos"
 
-#: src/effects/effectlist/model/effecttreemodel.cpp:97
+#: src/effects/effectlist/model/effecttreemodel.cpp:96
 #, kde-format
 msgid " - deprecated"
 msgstr " - obsoleto"
 
-#: src/effects/effectlist/model/effecttreemodel.cpp:229
+#: src/effects/effectlist/model/effecttreemodel.cpp:260
 #, kde-format
 msgid "Error"
 msgstr "Erro"
 
-#: src/effects/effectlist/model/effecttreemodel.cpp:229
+#: src/effects/effectlist/model/effecttreemodel.cpp:260
 #, kde-format
 msgid ""
 "Effect name %1 already exists.\n"
@@ -8746,22 +8746,22 @@ msgstr ""
 "O nome do efeito %1 já existe.\n"
 "Deseja tentar outro nome?"
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:105
+#: src/effects/effectlist/view/effectlistwidget.cpp:111
 #, kde-format
 msgid "Name : "
 msgstr "Nome : "
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:106
+#: src/effects/effectlist/view/effectlistwidget.cpp:112
 #, kde-format
 msgid "Comments : "
 msgstr "Comentários : "
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:128
+#: src/effects/effectlist/view/effectlistwidget.cpp:134
 #, kde-format
 msgid "Kdenlive Effect definitions"
 msgstr "Definições de Efeitos do Kdenlive"
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:133
+#: src/effects/effectlist/view/effectlistwidget.cpp:139
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Custom Effect"
@@ -8833,12 +8833,12 @@ msgstr "Adicionar um efeito %1"
 msgid "Move effect %1"
 msgstr "Mover o efeito %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:51
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:52
 #, kde-format
 msgid "Move effect up"
 msgstr "Subir o efeito"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:53
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:54
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8849,12 +8849,12 @@ msgstr ""
 "tratados de forma sequencial, de cima para baixo, pelo que a ordem é "
 "importante."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:55
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:56
 #, kde-format
 msgid "Move effect down"
 msgstr "Descer o efeito"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:57
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:58
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8865,113 +8865,113 @@ msgstr ""
 "tratados de forma sequencial, de cima para baixo, pelo que a ordem é "
 "importante."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:59
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:60
 #, kde-format
 msgid "Delete effect"
 msgstr "Apagar o efeito"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:60
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:61
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
 msgstr "Apaga o efeito da pilha de efeitos."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:73
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:74
 #, kde-format
 msgid "Collapse Effect"
 msgstr "Fechar o Efeito"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:73
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:74
 #, kde-format
 msgid "Expand Effect"
 msgstr "Expandir o Efeito"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:97
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:96
 #, kde-format
 msgid "Enable Keyframes"
 msgstr "Activar as Imagens-Chave"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:99
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:98
 #, kde-format
 msgid "Hide Keyframes"
 msgstr "Esconder as imagens-chave"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:99
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:98
 #, kde-format
 msgid "Show Keyframes"
 msgstr "Mostrar as imagens-chave"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:100
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:99
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
 msgstr "Activa a apresentação da régua de imagens-chave."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:108
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:107
 #, kde-format
 msgid "Disable Effect"
 msgstr "Desactivar o Efeito"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:108
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:107
 #, kde-format
 msgid "Enable Effect"
 msgstr "Activar o Efeito"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:109
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:108
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Disables the effect. Useful to compare before and after settings."
 msgstr "Desactiva o efeito. Útil para comparar antes e depois da configuração."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:109
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
 msgstr "Activa o efeito. Útil para comparar antes e depois da configuração."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:127
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:126
 #, kde-format
 msgid "Create Group"
 msgstr "Criar um Grupo"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:134
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:133
 #, kde-format
 msgid "In:"
 msgstr "Entrada:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:140
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:139
 #, kde-format
 msgid "Set zone in"
 msgstr "Definir a entrada da zona"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:141
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:140
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
 msgstr "Configura a posição/imagem de reprodução actual como o início da zona."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:146
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:145
 #, kde-format
 msgid "Out:"
 msgstr "Saída:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:152
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:151
 #, kde-format
 msgid "Set zone out"
 msgstr "Definir a saída da zona"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:153
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:152
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr "Configura a posição/imagem de reprodução actual como o fim da zona."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:175
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:174
 #, kde-format
 msgid "Use effect zone"
 msgstr "Usar a zona do efeito"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:176
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:175
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
@@ -8979,70 +8979,70 @@ msgstr "Activa/desactiva a apresentação da zona de efeitos."
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:237
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:233
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "Predefinições"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:238
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:234
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
 msgstr ""
 "Abre uma lista de opções avançadas para gerir as predefinições do efeito."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:242
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:238
 #, kde-format
 msgid "Save effect"
 msgstr "Gravar o efeito"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:489
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:497
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Gravar o Efeito"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:494
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:502
 #, kde-format
 msgid "Comments:"
 msgstr "Comentários:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:506
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:514
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "Não foi indicado nenhum nome, pelo que o efeito não foi gravado."
 
-#: src/effects/effectstack/view/effectstackview.cpp:533
+#: src/effects/effectstack/view/effectstackview.cpp:530
 #, kde-format
 msgid "No effect selected."
 msgstr "Nenhum efeito seleccionado."
 
-#: src/effects/effectstack/view/effectstackview.cpp:539
+#: src/effects/effectstack/view/effectstackview.cpp:536
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Gravar a pilha de efeitos actual"
 
-#: src/effects/effectstack/view/effectstackview.cpp:544
+#: src/effects/effectstack/view/effectstackview.cpp:541
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Nome da pilha gravada:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:545
+#: src/effects/effectstack/view/effectstackview.cpp:542
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:214
 #, kde-format
 msgid "Description:"
 msgstr "Descrição:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:558
+#: src/effects/effectstack/view/effectstackview.cpp:555
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr ""
 "Não foi indicado nenhum nome, pelo que a pilha de efeitos não foi gravada."
 
-#: src/effects/effectstack/view/effectstackview.cpp:565
+#: src/effects/effectstack/view/effectstackview.cpp:562
 #, kde-format
 msgid ""
 "No description provided. \n"
