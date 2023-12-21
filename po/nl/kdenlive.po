@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-03 02:25+0000\n"
-"PO-Revision-Date: 2023-12-12 13:24+0100\n"
+"PO-Revision-Date: 2023-12-20 14:01+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -1995,7 +1995,7 @@ msgstr "Z rotatie animeren"
 #: data/effects/rotation.xml:26
 #, kde-format
 msgid "Shear X"
-msgstr "X schuinrekken"
+msgstr "X scheeftrekken"
 
 #: data/effects/rotation.xml:29
 #, kde-format
@@ -2005,12 +2005,12 @@ msgstr "Y schuintrekken"
 #: data/effects/rotation.xml:32
 #, kde-format
 msgid "Animate Shear X"
-msgstr "X schuintrekken animeren"
+msgstr "X scheeftrekken animeren"
 
 #: data/effects/rotation.xml:35
 #, kde-format
 msgid "Animate Shear Y"
-msgstr "Y schuintrekken animeren"
+msgstr "Y scheeftrekken animeren"
 
 #: data/effects/rotation.xml:38
 #, kde-format
