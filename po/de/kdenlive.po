@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-20 00:41+0000\n"
+"POT-Creation-Date: 2023-12-21 00:41+0000\n"
 "PO-Revision-Date: 2023-05-19 18:02+0200\n"
 "Last-Translator: Jannick Alexander Kuhr <opensource@kuhr.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -5053,7 +5053,7 @@ msgstr "Als Titeldatei speichern"
 msgid "Save in project only"
 msgstr "Nur im Projekt speichern"
 
-#: src/bin/bin.cpp:4768 src/dialogs/clipcreationdialog.cpp:405
+#: src/bin/bin.cpp:4768 src/dialogs/clipcreationdialog.cpp:411
 #, kde-format
 msgid "Title clip"
 msgstr "Titel-Clip"
@@ -5280,7 +5280,7 @@ msgstr "Wechselmedien"
 msgid "Loading done"
 msgstr "Laden abgeschlossen"
 
-#: src/bin/clipcreator.cpp:586 src/dialogs/clipcreationdialog.cpp:596
+#: src/bin/clipcreator.cpp:586 src/dialogs/clipcreationdialog.cpp:602
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -5331,8 +5331,8 @@ msgid "Import File on Double Click"
 msgstr ""
 
 #: src/bin/mediabrowser.cpp:164 src/bin/mediabrowser.cpp:172
-#: src/dialogs/clipcreationdialog.cpp:524
 #: src/dialogs/clipcreationdialog.cpp:530
+#: src/dialogs/clipcreationdialog.cpp:536
 #: src/effects/effectlist/view/effectlistwidget.cpp:134
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:295
 #: src/mainwindow.cpp:3964 src/onlineresources/resourcewidget.cpp:600
@@ -5342,8 +5342,8 @@ msgstr "Alle Dateien"
 
 #: src/bin/mediabrowser.cpp:164 src/bin/mediabrowser.cpp:171
 #: src/dialogs/clipcreationdialog.cpp:128
-#: src/dialogs/clipcreationdialog.cpp:524
-#: src/dialogs/clipcreationdialog.cpp:529
+#: src/dialogs/clipcreationdialog.cpp:530
+#: src/dialogs/clipcreationdialog.cpp:535
 #, kde-format
 msgid "All Supported Files"
 msgstr "Alle unterstützten Dateien"
@@ -5364,18 +5364,18 @@ msgstr "Name:"
 msgid "Filter:"
 msgstr "Filter"
 
-#: src/bin/mediabrowser.cpp:218 src/dialogs/clipcreationdialog.cpp:495
+#: src/bin/mediabrowser.cpp:218 src/dialogs/clipcreationdialog.cpp:501
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr "Unterordnerstruktur ignorieren"
 
-#: src/bin/mediabrowser.cpp:220 src/dialogs/clipcreationdialog.cpp:497
+#: src/bin/mediabrowser.cpp:220 src/dialogs/clipcreationdialog.cpp:503
 #, fuzzy, kde-format
 #| msgid "Insert Zone in Project Bin"
 msgid "Do not create subfolders in Project Bin"
 msgstr "Bereich zum Projektinhalt hinzufügen"
 
-#: src/bin/mediabrowser.cpp:223 src/dialogs/clipcreationdialog.cpp:500
+#: src/bin/mediabrowser.cpp:223 src/dialogs/clipcreationdialog.cpp:506
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5383,18 +5383,18 @@ msgid ""
 "subfolders without creating the subfolders in Project Bin."
 msgstr ""
 
-#: src/bin/mediabrowser.cpp:226 src/dialogs/clipcreationdialog.cpp:490
+#: src/bin/mediabrowser.cpp:226 src/dialogs/clipcreationdialog.cpp:496
 #, kde-format
 msgid "Import image sequence"
 msgstr "Bildsequenz importieren"
 
-#: src/bin/mediabrowser.cpp:229 src/dialogs/clipcreationdialog.cpp:491
+#: src/bin/mediabrowser.cpp:229 src/dialogs/clipcreationdialog.cpp:497
 #, fuzzy, kde-format
 #| msgid "Import image sequence"
 msgid "Try to import an image sequence"
 msgstr "Bildsequenz importieren"
 
-#: src/bin/mediabrowser.cpp:231 src/dialogs/clipcreationdialog.cpp:493
+#: src/bin/mediabrowser.cpp:231 src/dialogs/clipcreationdialog.cpp:499
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5594,7 +5594,7 @@ msgstr ""
 msgid "Invalid"
 msgstr "Ungültig"
 
-#: src/bin/projectclip.cpp:1397 src/dialogs/clipcreationdialog.cpp:208
+#: src/bin/projectclip.cpp:1397 src/dialogs/clipcreationdialog.cpp:213
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1372
 #, kde-format
@@ -6077,43 +6077,43 @@ msgstr "Der Clip wurde ausgerichtet."
 msgid "Create Color Clip"
 msgstr "Farb-Clip erstellen"
 
-#: src/dialogs/clipcreationdialog.cpp:184
+#: src/dialogs/clipcreationdialog.cpp:189
 #, kde-format
 msgid "Create animation"
 msgstr "Animation erstellen"
 
-#: src/dialogs/clipcreationdialog.cpp:192
+#: src/dialogs/clipcreationdialog.cpp:197
 #, kde-format
 msgid "Save animation as"
 msgstr "Animation speichern unter"
 
-#: src/dialogs/clipcreationdialog.cpp:195
+#: src/dialogs/clipcreationdialog.cpp:200
 #, kde-format
 msgid "Animation duration"
 msgstr "Animationsdauer"
 
-#: src/dialogs/clipcreationdialog.cpp:273
+#: src/dialogs/clipcreationdialog.cpp:279
 #, kde-format
 msgid "Create Animation clip"
 msgstr "Animations-Clip erstellen"
 
-#: src/dialogs/clipcreationdialog.cpp:289
+#: src/dialogs/clipcreationdialog.cpp:295
 #, kde-format
 msgctxt "@title:window"
 msgid "Text Clip"
 msgstr "Text-Clip"
 
-#: src/dialogs/clipcreationdialog.cpp:307
+#: src/dialogs/clipcreationdialog.cpp:313
 #, kde-format
 msgid "Text Clip"
 msgstr "Text-Clip"
 
-#: src/dialogs/clipcreationdialog.cpp:362
+#: src/dialogs/clipcreationdialog.cpp:368
 #, kde-format
 msgid "Create Text clip"
 msgstr "Text-Clip erstellen"
 
-#: src/dialogs/clipcreationdialog.cpp:417 src/doc/kdenlivedoc.cpp:1143
+#: src/dialogs/clipcreationdialog.cpp:423 src/doc/kdenlivedoc.cpp:1143
 #, kde-format
 msgid "Template title clip"
 msgstr "Vorlage für Titel-Clip"
