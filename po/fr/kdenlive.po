@@ -1,6 +1,6 @@
 # translation of kdenlive.po to français
 # translation of fr.po to
-# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023 Xavier Besnard <xavier.besnard@neuf.fr>
+# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023 Xavier Besnard <xavier.besnard@kde.org>
 # Gilles CAULIER <caulier.gilles@free.fr>, 2003, 2004.
 # Jean-Michel Pouré <jmpoure@free.fr>, 2006.
 # Sébastien Heckmann <heckmann.svt@ifrance.com>, 2006.
@@ -11,14 +11,14 @@
 # Sebastien Renard <renard@kde.org>, 2013, 2014.
 # Simon Depiets <sdepiets@gmail.com>, 2018, 2019.
 # Johnny Jazeix <jazeix@gmail.com>, 2020.
-# Xavier BESNARD <xavier.besnard@neuf.fr>, 2023.
+# Xavier Besnard <xavier.besnard@kde.org>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-21 00:41+0000\n"
 "PO-Revision-Date: 2023-12-04 09:11+0100\n"
-"Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
+"Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -38,7 +38,7 @@ msgstr "Vincent Pinon, Simon Depiets, Xavier Besnard"
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "vpinon@kde.org, sdepiets@gmail.com, xavier.besnard@neuf.fr"
+msgstr "vpinon@kde.org, sdepiets@gmail.com, xavier.besnard@kde.org"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
 #: src/audiomixer/mixerwidget.cpp:139 src/audiomixer/mixerwidget.cpp:152
