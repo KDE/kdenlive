@@ -2290,10 +2290,11 @@ void ProjectClip::refreshBounds()
 {
     QVector<QPoint> boundaries;
     uint currentCount = 0;
-    if (m_registeredClipsByUuid.contains(pCore->currentTimelineId())) {
-        const QList<int> clips = m_registeredClipsByUuid.value(pCore->currentTimelineId());
+    const QUuid uuid = pCore->currentTimelineId();
+    if (m_registeredClipsByUuid.contains(uuid)) {
+        const QList<int> clips = m_registeredClipsByUuid.value(uuid);
         currentCount = clips.size();
-        auto timeline = pCore->projectManager()->getTimeline();
+        auto timeline = pCore->currentDoc()->getTimeline(uuid);
         for (auto &c : clips) {
             QPoint point = timeline->getClipInDuration(c);
             if (!boundaries.contains(point)) {
@@ -2616,10 +2617,11 @@ void ProjectClip::replaceInTimeline()
 
 void ProjectClip::updateTimelineClips(const QVector<int> &roles)
 {
-    if (m_registeredClipsByUuid.contains(pCore->currentTimelineId())) {
-        QList<int> instances = m_registeredClipsByUuid.value(pCore->currentTimelineId());
+    const QUuid uuid = pCore->currentTimelineId();
+    if (m_registeredClipsByUuid.contains(uuid)) {
+        QList<int> instances = m_registeredClipsByUuid.value(uuid);
         if (!instances.isEmpty()) {
-            auto timeline = pCore->projectManager()->getTimeline();
+            auto timeline = pCore->currentDoc()->getTimeline(uuid);
             if (!timeline) {
                 if (pCore->projectItemModel()->closing) {
                     return;
@@ -2987,10 +2989,11 @@ QStringList ProjectClip::getAudioStreamEffect(int streamIndex) const
 
 void ProjectClip::updateTimelineOnReload()
 {
-    if (m_registeredClipsByUuid.contains(pCore->currentTimelineId())) {
-        QList<int> instances = m_registeredClipsByUuid.value(pCore->currentTimelineId());
+    const QUuid uuid = pCore->currentTimelineId();
+    if (m_registeredClipsByUuid.contains(uuid)) {
+        QList<int> instances = m_registeredClipsByUuid.value(uuid);
         if (!instances.isEmpty() && instances.size() < 3) {
-            auto timeline = pCore->projectManager()->getTimeline();
+            auto timeline = pCore->currentDoc()->getTimeline(uuid);
             if (timeline) {
                 for (auto &cid : instances) {
                     if (timeline->getClipPlaytime(cid) > static_cast<int>(frameDuration())) {
