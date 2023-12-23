@@ -197,7 +197,7 @@ void OpenGLVideoWidget::renderVideo()
     glDisable(GL_BLEND);
     glDisable(GL_DEPTH_TEST);
     glDepthMask(GL_FALSE);
-    glViewport(0, 0, width, height);
+    glViewport(0, qRound(m_displayRulerHeight * devicePixelRatioF() * 0.5), int(width), int(height));
     check_error(f);
 
     if (!m_isThreadedOpenGL) {
