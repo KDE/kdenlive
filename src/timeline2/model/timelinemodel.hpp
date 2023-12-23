@@ -106,6 +106,7 @@ public:
     friend class TimeRemap;
     friend struct TimelineFunctions;
 
+    bool isClosed{true};
     Q_PROPERTY(QString visibleSequenceName MEMBER m_visibleSequenceName NOTIFY visibleSequenceNameChanged)
 
     /// Two level model: tracks and clips on track

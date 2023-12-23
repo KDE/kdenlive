@@ -1488,12 +1488,12 @@ void ProjectItemModel::setExtraTimelineSaved(const QString &uuid)
     }
 }
 
-void ProjectItemModel::removeReferencedClips(const QUuid &uuid)
+void ProjectItemModel::removeReferencedClips(const QUuid &uuid, bool onDeletion)
 {
     QList<std::shared_ptr<ProjectClip>> clipList = getRootFolder()->childClips();
     for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
         if (clip->refCount() > 0) {
-            clip->purgeReferences(uuid);
+            clip->purgeReferences(uuid, onDeletion);
         }
     }
 }

@@ -283,7 +283,7 @@ public:
     /** @brief Get a timeline by its uuid.*/
     std::shared_ptr<TimelineItemModel> getTimeline(const QUuid &uuid);
     /** @brief Before closing a timeline, store its groups and other properties.*/
-    void closeTimeline(const QUuid uuid);
+    void closeTimeline(const QUuid uuid, bool onDeletion = true);
     /** @brief store groups in our properties.*/
     void storeGroups(const QUuid &uuid);
     void checkUsage(const QUuid &uuid);
@@ -296,6 +296,7 @@ public:
     const QUuid uuid() const;
     /** @brief Returns true if a sequence thumbnail needs an update.*/
     bool sequenceThumbRequiresRefresh(const QUuid &uuid) const;
+    void setSequenceThumbRequiresUpdate(const QUuid &uuid);
     /** @brief Thumbnail for a sequence was updated, remove it from the update list.*/
     void sequenceThumbUpdated(const QUuid &uuid);
 

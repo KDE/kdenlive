@@ -891,7 +891,7 @@ void TimelineItemModel::processTimelineReplacement(QList<int> instances, const Q
             if ((replaceAudio && m_allClips.at(id)->isAudioOnly()) || (replaceVideo && m_allClips.at(id)->clipState() == PlaylistState::VideoOnly)) {
                 // Match, replace
                 std::shared_ptr<ClipModel> clip = m_allClips.at(id);
-                clip->switchBinReference(replacementId);
+                clip->switchBinReference(replacementId, m_uuid);
                 replaced++;
                 QModelIndex ix = makeClipIndexFromID(id);
                 Q_EMIT dataChanged(ix, ix, {NameRole});
@@ -915,7 +915,7 @@ void TimelineItemModel::processTimelineReplacement(QList<int> instances, const Q
                 if ((replaceAudio && m_allClips.at(id)->isAudioOnly()) || (replaceVideo && m_allClips.at(id)->clipState() == PlaylistState::VideoOnly)) {
                     // Match, replace
                     std::shared_ptr<ClipModel> clip = m_allClips.at(id);
-                    clip->switchBinReference(originalId);
+                    clip->switchBinReference(originalId, m_uuid);
                     replaced++;
                     QModelIndex ix = makeClipIndexFromID(id);
                     Q_EMIT dataChanged(ix, ix, {NameRole});

@@ -126,6 +126,7 @@ public:
     /** @brief Update a timeline sequence before saving or extracting xml
      */
     void syncTimeline(const QUuid &uuid, bool refresh = false);
+    void doSyncTimeline(std::shared_ptr<TimelineItemModel> model, bool refresh);
     void setActiveTimeline(const QUuid &uuid);
     /** @brief Replace all instance of a @param sourceId clip with another @param replacementId in the active timline sequence
      * @param replaceAudio if true, only the audio clips will be replaced. if false, only the video parts.

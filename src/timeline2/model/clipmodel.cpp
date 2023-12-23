@@ -145,10 +145,10 @@ void ClipModel::registerClipToBin(std::shared_ptr<Mlt::Producer> service, bool r
     binClip->registerService(m_parent, m_id, std::move(service), registerProducer);
 }
 
-void ClipModel::deregisterClipToBin()
+void ClipModel::deregisterClipToBin(const QUuid &uuid)
 {
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
-    binClip->deregisterTimelineClip(m_id, isAudioOnly());
+    binClip->deregisterTimelineClip(m_id, isAudioOnly(), uuid);
 }
 
 ClipModel::~ClipModel() = default;
@@ -1550,9 +1550,9 @@ const QString ClipModel::clipThumbPath()
     return QString();
 }
 
-void ClipModel::switchBinReference(const QString newId)
+void ClipModel::switchBinReference(const QString newId, const QUuid &uuid)
 {
-    deregisterClipToBin();
+    deregisterClipToBin(uuid);
     m_binClipId = newId;
     refreshProducerFromBin(-1);
     registerClipToBin(getProducer(), false);

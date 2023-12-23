@@ -324,21 +324,12 @@ public:
     void loadBinProperties(const QStringList &foldersToExpand, int zoomLevel = -1);
     /** @brief gets a QList of all clips used in timeline */
     QList<int> getUsedClipIds();
-    /** @brief Register a new timeline clip
-     * @param uuid the uuid of the new playlist (equals the uuid of the timelinemodel)
-     * @param id the bin id of the clip
-     */
-    void registerSequence(const QUuid uuid, const QString id);
     /** @brief Update a new timeline clip when it has been changed
      * @param uuid the uuid of the timeline clip that was changed
      * @param id the updated duration of the timeline clip
      * * @param current the uuid of the currently active timeline
      */
     void updateSequenceClip(const QUuid &uuid, int duration, int pos);
-    /** @brief Returns the bin id of the clip managing a timeline sequence changed
-     * @param uuid the uuid of the timeline clip
-     */
-    const QString sequenceBinId(const QUuid &uuid);
     /** @brief Update a sequence AV info (has audio/video) */
     void updateSequenceAVType(const QUuid &uuid, int tracksCount);
 
@@ -476,8 +467,6 @@ public Q_SLOTS:
     void abortOperations();
     void doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QList<QAction *> &actions = QList<QAction *>(), bool showCloseButton = false, BinMessage::BinCategory messageCategory = BinMessage::BinCategory::NoMessage);
     void doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QString logInfo);
-    /** @brief Reset all clip usage to 0 */
-    void resetUsageCount();
     /** @brief Select a clip in the Bin from its id. */
     void selectClipById(const QString &id, int frame = -1, const QPoint &zone = QPoint(), bool activateMonitor = true);
     const QString slotAddClipToProject(const QUrl &url);
@@ -526,7 +515,6 @@ private:
     BinItemDelegate *m_binTreeViewDelegate;
     BinListItemDelegate *m_binListViewDelegate;
     std::unique_ptr<ProjectSortProxyModel> m_proxyModel;
-    QMap<QUuid, QString> m_openedPlaylists;
     QToolBar *m_toolbar;
     KdenliveDoc *m_doc;
     QLineEdit *m_searchLine;

@@ -190,7 +190,7 @@ void TimelineTabs::closeTimelineByIndex(int ix)
     const QString seqName = tabText(ix);
     std::shared_ptr<TimelineItemModel> model = timeline->model();
     const QUuid uuid = timeline->getUuid();
-    const QString id = pCore->bin()->sequenceBinId(uuid);
+    const QString id = pCore->projectItemModel()->getSequenceId(uuid);
     Fun undo = [uuid, id, model]() {
         model->registerTimeline();
         return pCore->projectManager()->openTimeline(id, uuid, -1, false, model);
@@ -366,7 +366,7 @@ void TimelineTabs::onTabBarDoubleClicked(int index)
     if (ok && !newName.isEmpty()) {
         TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(index));
         if (timeline) {
-            const QString id = pCore->bin()->sequenceBinId(timeline->getUuid());
+            const QString id = pCore->projectItemModel()->getSequenceId(timeline->getUuid());
             std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(id);
             if (clip) {
                 clip->rename(newName, 0);

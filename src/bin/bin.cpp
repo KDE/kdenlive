@@ -295,9 +295,9 @@ public:
                     }
                     painter->setPen(subTextColor);
                     // Draw usage counter
-                    int usage = index.data(AbstractProjectItem::UsageCount).toInt();
-                    if (usage > 0) {
-                        subText.append(QString::asprintf(" [%d]", usage));
+                    const QString usage = index.data(AbstractProjectItem::UsageCount).toString();
+                    if (!usage.isEmpty()) {
+                        subText.append(QString(" [%1]").arg(usage));
                     }
                     painter->drawText(r2, Qt::AlignLeft | Qt::AlignTop, subText, &bounding);
                     // Add audio/video icons for selective drag
@@ -316,12 +316,11 @@ public:
                             painter->setPen(opt.palette.highlight().color());
                             painter->drawRect(m_audioDragRect);
                             painter->drawRect(m_videoDragRect);
-                        } else if (usage > 0) {
-                            int audioUsage = index.data(AbstractProjectItem::AudioUsageCount).toInt();
-                            if (audioUsage > 0) {
+                        } else if (!usage.isEmpty()) {
+                            if (index.data(AbstractProjectItem::AudioUsed).toBool()) {
                                 painter->drawImage(audioRect.topLeft(), selected ? m_audioIcon : m_audioUsedIcon);
                             }
-                            if (usage - audioUsage > 0) {
+                            if (index.data(AbstractProjectItem::VideoUsed).toBool()) {
                                 painter->drawImage(videoIconRect.topLeft(), selected ? m_videoIcon : m_videoUsedIcon);
                             }
                         }
@@ -496,14 +495,14 @@ public:
             QRectF bounding;
             QString itemText = index.data(AbstractProjectItem::DataName).toString();
             // Draw usage counter
-            int usage = isFolder ? 0 : index.data(AbstractProjectItem::UsageCount).toInt();
-            if (usage > 0) {
-                int usageWidth = option.fontMetrics.horizontalAdvance(QString::asprintf(" [%d]", usage));
+            const QString usage = isFolder ? QString() : index.data(AbstractProjectItem::UsageCount).toString();
+            if (!usage.isEmpty()) {
+                int usageWidth = option.fontMetrics.horizontalAdvance(QString(" [%1]").arg(usage));
                 int availableWidth = textRect.width() - usageWidth;
                 if (option.fontMetrics.horizontalAdvance(itemText) > availableWidth) {
                     itemText = option.fontMetrics.elidedText(itemText, Qt::ElideRight, availableWidth);
                 }
-                itemText.append(QString::asprintf(" [%d]", usage));
+                itemText.append(QString(" [%1]").arg(usage));
             } else {
                 if (option.fontMetrics.horizontalAdvance(itemText) > textRect.width()) {
                     itemText = option.fontMetrics.elidedText(itemText, Qt::ElideRight, textRect.width());
@@ -538,7 +537,7 @@ public:
                 m_thumbRect.height() > 2.5 * m_audioIcon.height()) {
                 QRect thumbRect = m_thumbRect;
                 thumbRect.setLeft(opt.rect.right() - m_audioIcon.width() - 6);
-                if (opt.state & QStyle::State_MouseOver || usage > 0) {
+                if (opt.state & QStyle::State_MouseOver || !usage.isEmpty()) {
                     QColor bgColor = option.palette.window().color();
                     bgColor.setAlphaF(.7);
                     painter->fillRect(thumbRect, bgColor);
@@ -552,12 +551,11 @@ public:
                     m_videoDragRect = videoThumbRect;
                     painter->drawImage(m_audioDragRect.topLeft(), m_audioIcon);
                     painter->drawImage(m_videoDragRect.topLeft(), m_videoIcon);
-                } else if (usage > 0) {
-                    int audioUsage = index.data(AbstractProjectItem::AudioUsageCount).toInt();
-                    if (audioUsage > 0) {
+                } else if (!usage.isEmpty()) {
+                    if (index.data(AbstractProjectItem::AudioUsed).toBool()) {
                         painter->drawImage(thumbRect.topLeft(), m_audioUsedIcon);
                     }
-                    if (usage - audioUsage > 0) {
+                    if (index.data(AbstractProjectItem::VideoUsed).toBool()) {
                         painter->drawImage(videoThumbRect.topLeft(), m_videoUsedIcon);
                     }
                 }
@@ -2296,7 +2294,6 @@ void Bin::cleanDocument()
         }
     }
     delete m_itemView;
-    m_openedPlaylists.clear();
     m_itemView = nullptr;
     isLoading = false;
     shouldCheckProfile = false;
@@ -5082,14 +5079,6 @@ void Bin::slotMessageActionTriggered()
     m_infoMessage->animatedHide();
 }
 
-void Bin::resetUsageCount()
-{
-    const QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
-    for (const std::shared_ptr<ProjectClip> &clip : clipList) {
-        clip->setRefCount(0, 0);
-    }
-}
-
 void Bin::getBinStats(uint *used, uint *unused, qint64 *usedSize, qint64 *unusedSize)
 {
     QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
@@ -5910,13 +5899,6 @@ void Bin::removeMarkerCategories(QList<int> toRemove, const QMap<int, int> remap
     }
 }
 
-void Bin::registerSequence(const QUuid uuid, const QString id)
-{
-    if (!m_openedPlaylists.contains(uuid)) {
-        m_openedPlaylists.insert(uuid, id);
-    }
-}
-
 QStringList Bin::sequenceReferencedClips(const QUuid &uuid) const
 {
     QStringList results;
@@ -5937,8 +5919,8 @@ void Bin::updateSequenceClip(const QUuid &uuid, int duration, int pos)
     if (pos > -1) {
         m_doc->setSequenceProperty(uuid, QStringLiteral("position"), pos);
     }
-    if (m_openedPlaylists.contains(uuid) && m_doc->isModified()) {
-        const QString binId = m_openedPlaylists.value(uuid);
+    const QString binId = m_itemModel->getSequenceId(uuid);
+    if (!binId.isEmpty() && m_doc->isModified()) {
         std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(binId);
         Q_ASSERT(clip != nullptr);
         if (m_doc->sequenceThumbRequiresRefresh(uuid)) {
@@ -5982,17 +5964,9 @@ void Bin::updateTimelineOccurrences()
     }
 }
 
-const QString Bin::sequenceBinId(const QUuid &uuid)
-{
-    if (m_openedPlaylists.contains(uuid)) {
-        return m_openedPlaylists.value(uuid);
-    }
-    return QString();
-}
-
 void Bin::setSequenceThumbnail(const QUuid &uuid, int frame)
 {
-    const QString bid = sequenceBinId(uuid);
+    const QString bid = m_itemModel->getSequenceId(uuid);
     if (!bid.isEmpty()) {
         std::shared_ptr<ProjectClip> sequenceClip = getBinClip(bid);
         if (sequenceClip) {
@@ -6004,7 +5978,7 @@ void Bin::setSequenceThumbnail(const QUuid &uuid, int frame)
 
 void Bin::updateSequenceAVType(const QUuid &uuid, int tracksCount)
 {
-    const QString bId = sequenceBinId(uuid);
+    const QString bId = m_itemModel->getSequenceId(uuid);
     if (!bId.isEmpty()) {
         std::shared_ptr<ProjectClip> sequenceClip = getBinClip(bId);
         if (sequenceClip) {

@@ -246,7 +246,7 @@ public:
     int defaultSequencesFolder() const;
     void setSequencesFolder(int id);
     /** @brief Remove clip references for a timeline. */
-    void removeReferencedClips(const QUuid &uuid);
+    void removeReferencedClips(const QUuid &uuid, bool onDeletion);
 
 protected:
     bool closing;

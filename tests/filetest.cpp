@@ -25,12 +25,10 @@ TEST_CASE("Save File", "[SF]")
     {
         // Create document
         KdenliveDoc document(undoStack);
-
         pCore->projectManager()->m_project = &document;
         QDateTime documentDate = QDateTime::currentDateTime();
         pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
         auto timeline = document.getTimeline(document.uuid());
-        pCore->projectManager()->m_activeTimelineModel = timeline;
         pCore->projectManager()->testSetActiveDocument(&document, timeline);
         KdenliveDoc::next_id = 0;
         QDir dir = QDir::temp();
@@ -89,19 +87,13 @@ TEST_CASE("Save File", "[SF]")
         REQUIRE(openResults.isSuccessful() == true);
 
         std::unique_ptr<KdenliveDoc> openedDoc = openResults.getDocument();
-
         pCore->projectManager()->m_project = openedDoc.get();
         const QUuid uuid = openedDoc->uuid();
         QDateTime documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
         pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
-        std::shared_ptr<Mlt::Tractor> tc = binModel->getExtraTimeline(uuid.toString());
-        std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(uuid, undoStack);
-        openedDoc->addTimeline(uuid, timeline);
-        constructTimelineFromTractor(timeline, nullptr, *tc.get(), nullptr, openedDoc->modifiedDecimalPoint(), QString(), QString());
-        pCore->projectManager()->testSetActiveDocument(openedDoc.get(), timeline);
-
+        pCore->projectManager()->testSetActiveDocument(openedDoc.get());
+        auto timeline = pCore->projectManager()->m_project->getTimeline(uuid);
         const QString hash = openedDoc->getSequenceProperty(uuid, QStringLiteral("timelineHash"));
-
         REQUIRE(timeline->getTracksCount() == 4);
         REQUIRE(timeline->checkConsistency());
         int tid1 = timeline->getTrackIndexFromPosition(2);
@@ -142,10 +134,7 @@ TEST_CASE("Save File", "[SF]")
         const QUuid uuid = openedDoc->uuid();
         QDateTime documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
         pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
-        std::shared_ptr<Mlt::Tractor> tc = binModel->getExtraTimeline(uuid.toString());
-        std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(uuid, undoStack);
-        openedDoc->addTimeline(uuid, timeline);
-        constructTimelineFromTractor(timeline, nullptr, *tc.get(), nullptr, openedDoc->modifiedDecimalPoint(), QString(), QString());
+        auto timeline = pCore->projectManager()->m_project->getTimeline(uuid);
         pCore->projectManager()->testSetActiveDocument(openedDoc.get(), timeline);
 
         REQUIRE(timeline->checkConsistency());
@@ -458,11 +447,8 @@ TEST_CASE("Opening File With Keyframes", "[OPENKFRS]")
         const QUuid uuid = openedDoc->uuid();
         QDateTime documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
         pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
-        std::shared_ptr<Mlt::Tractor> tc = binModel->getExtraTimeline(uuid.toString());
-        std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(uuid, undoStack);
-        openedDoc->addTimeline(uuid, timeline);
-        constructTimelineFromTractor(timeline, nullptr, *tc.get(), nullptr, openedDoc->modifiedDecimalPoint(), QString(), QString());
-        pCore->projectManager()->testSetActiveDocument(openedDoc.get(), timeline);
+        pCore->projectManager()->testSetActiveDocument(openedDoc.get());
+        auto timeline = pCore->projectManager()->m_project->getTimeline(uuid);
 
         REQUIRE(timeline->checkConsistency());
         int tid1 = timeline->getTrackIndexFromPosition(0);

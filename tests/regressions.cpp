@@ -1072,7 +1072,6 @@ TEST_CASE("FuzzBug6")
         TimelineItemModel::finishConstruct(timeline_0);
         pCore->m_projectManager->testSetActiveDocument(&mockedDoc, timeline_0);
 
-        mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
@@ -1231,8 +1230,8 @@ TEST_CASE("FuzzBug7")
         REQUIRE(timeline_0->checkConsistency());
         mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
-        undoStack->undo();
         mocked.m_activeTimelineModel = timeline_0;
+        undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
         mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
@@ -1242,76 +1241,76 @@ TEST_CASE("FuzzBug7")
         mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         {
+            mocked.m_activeTimelineModel = timeline_0;
             int dummy_3;
             bool res = timeline_0->requestClipInsertion("2", 1, 20, dummy_3, true, false, true);
             REQUIRE(res == true);
         }
-        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
         mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_0;
         undoStack->undo();
-        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
         mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
-        undoStack->redo();
         mocked.m_activeTimelineModel = timeline_0;
+        undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         {
+            mocked.m_activeTimelineModel = timeline_0;
             int dummy_3;
             bool res = timeline_0->requestClipInsertion("2", 1, 40, dummy_3, true, false, true);
             REQUIRE(res == true);
         }
-        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
         mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_0;
         undoStack->undo();
-        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
         mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
-        undoStack->redo();
         mocked.m_activeTimelineModel = timeline_0;
+        undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         {
+            mocked.m_activeTimelineModel = timeline_0;
             int res = timeline_0->requestClipsGroup({4, 3}, true, GroupType::Selection);
             REQUIRE(res == -1);
         }
-        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
         mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_0;
         undoStack->undo();
-        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
         mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
-        undoStack->redo();
         mocked.m_activeTimelineModel = timeline_0;
+        undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
         {
+            mocked.m_activeTimelineModel = timeline_0;
             int res = timeline_0->requestClipsGroup({5, 3}, true, GroupType::Normal);
             REQUIRE(res == 6);
         }
-        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
         mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
+        mocked.m_activeTimelineModel = timeline_0;
         undoStack->undo();
-        mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
         mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
-        undoStack->redo();
         mocked.m_activeTimelineModel = timeline_0;
+        undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
