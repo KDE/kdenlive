@@ -124,6 +124,7 @@ public:
     /** @brief Update a timeline sequence before saving or extracting xml
      */
     void syncTimeline(const QUuid &uuid, bool refresh = false);
+    void doSyncTimeline(std::shared_ptr<TimelineItemModel> model, bool refresh);
     void setActiveTimeline(const QUuid &uuid);
 
 public Q_SLOTS:

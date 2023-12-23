@@ -110,6 +110,9 @@ public:
     /** @brief Retrieve a list of all snaps for this clip */
     void allSnaps(std::vector<int> &snaps, int offset = 0) const;
 
+    /** @brief Replace the bin producer with another bin clip */
+    void switchBinReference(const QString newId, const QUuid &uuid);
+
 protected:
     /** @brief helper functions that creates the lambda */
     Fun setClipState_lambda(PlaylistState::ClipState state);
@@ -125,7 +128,7 @@ public:
     const QString &binId() const;
 
     void registerClipToBin(std::shared_ptr<Mlt::Producer> service, bool registerProducer);
-    void deregisterClipToBin();
+    void deregisterClipToBin(const QUuid &uuid);
 
     bool addEffect(const QString &effectId);
     bool copyEffect(const QUuid &uuid, const std::shared_ptr<EffectStackModel> &stackModel, int rowId);

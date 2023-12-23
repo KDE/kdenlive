@@ -272,7 +272,7 @@ public:
     /** @brief Retuns a list of important enforces parameters in MLT format, for example to disable autorotate. */
     const QStringList enforcedParams() const;
     /** @brief Remove clip references in a timeline. */
-    void purgeReferences(const QUuid &activeUuid);
+    void purgeReferences(const QUuid &activeUuid, bool deleteClip = true);
     /** @brief Check if clip is referenced in a timeline, and return the clip's bin id if it is */
     const QString isReferenced(const QUuid &activeUuid) const;
     const QString baseThumbPath();
@@ -311,7 +311,7 @@ protected:
     /** @brief This is a call-back called by a ClipModel when it is deleted
         @param clipId id of the deleted clip
     */
-    void deregisterTimelineClip(int clipId, bool audioClip);
+    void deregisterTimelineClip(int clipId, bool audioClip, const QUuid &uuid);
     void replaceInTimeline();
     void connectEffectStack() override;
 
@@ -367,9 +367,7 @@ private:
 
     /** @brief This is a helper function that creates the disabled producer. This is a clone of the original one, with audio and video disabled */
     void createDisabledMasterProducer();
-
-    std::map<int, std::weak_ptr<TimelineModel>> m_registeredClips;
-    uint m_audioCount;
+    QMap<QUuid, QList<int>> m_registeredClipsByUuid;
     QTimer m_boundaryTimer;
 
     /** @brief the following holds a producer for each audio clip in the timeline

@@ -187,7 +187,7 @@ void TimelineTabs::closeTimelineByIndex(int ix)
     const QString seqName = tabText(ix);
     std::shared_ptr<TimelineItemModel> model = timeline->model();
     const QUuid uuid = timeline->getUuid();
-    const QString id = pCore->bin()->sequenceBinId(uuid);
+    const QString id = pCore->projectItemModel()->getSequenceId(uuid);
     Fun undo = [uuid, id, model]() {
         model->registerTimeline();
         return pCore->projectManager()->openTimeline(id, uuid, -1, false, model);

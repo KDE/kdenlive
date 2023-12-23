@@ -145,10 +145,10 @@ void ClipModel::registerClipToBin(std::shared_ptr<Mlt::Producer> service, bool r
     binClip->registerService(m_parent, m_id, std::move(service), registerProducer);
 }
 
-void ClipModel::deregisterClipToBin()
+void ClipModel::deregisterClipToBin(const QUuid &uuid)
 {
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
-    binClip->deregisterTimelineClip(m_id, isAudioOnly());
+    binClip->deregisterTimelineClip(m_id, isAudioOnly(), uuid);
 }
 
 ClipModel::~ClipModel() = default;
@@ -1518,4 +1518,22 @@ const QString ClipModel::clipThumbPath()
         return binClip->baseThumbPath();
     }
     return QString();
+}
+
+void ClipModel::switchBinReference(const QString newId, const QUuid &uuid)
+{
+    deregisterClipToBin(uuid);
+    m_binClipId = newId;
+    refreshProducerFromBin(-1);
+    registerClipToBin(getProducer(), false);
+    if (auto ptr = m_parent.lock()) {
+        ptr->replugClip(m_id);
+        QVector<int> roles{TimelineModel::ClipThumbRole};
+        QModelIndex ix = ptr->makeClipIndexFromID(m_id);
+        ptr->notifyChange(ix, ix, roles);
+        // invalidate timeline preview
+        if (!ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {
+            Q_EMIT ptr->invalidateZone(m_position, m_position + getPlaytime());
+        }
+    }
 }

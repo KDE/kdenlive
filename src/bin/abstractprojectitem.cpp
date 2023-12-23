@@ -29,7 +29,8 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, QString id, const
     , m_outPoint()
     , m_date()
     , m_binId(std::move(id))
-    , m_usage(0)
+    , m_totalUsage(0)
+    , m_currentSequenceUsage(0)
     , m_AudioUsage(0)
     , m_rating(0)
     , m_clipStatus(FileStatus::StatusReady)
@@ -53,37 +54,44 @@ std::shared_ptr<AbstractProjectItem> AbstractProjectItem::parent() const
     return std::static_pointer_cast<AbstractProjectItem>(m_parentItem.lock());
 }
 
-void AbstractProjectItem::setRefCount(uint count, uint audioCount)
+void AbstractProjectItem::setRefCount(uint count, uint totalCount)
 {
-    m_usage = count;
-    m_AudioUsage = audioCount;
+    if (count == totalCount) {
+        if (count == 0) {
+            m_usageText.clear();
+        } else {
+            m_usageText = QString::number(count);
+        }
+    } else {
+        m_usageText = QString("%1|%2").arg(count).arg(totalCount);
+    }
+    m_currentSequenceUsage = count;
+    m_totalUsage = totalCount;
+    m_VideoUsage = count - m_AudioUsage;
     if (auto ptr = m_model.lock())
-        std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<AbstractProjectItem>(shared_from_this()),
-                                                                       {AbstractProjectItem::UsageCount});
+        std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(
+            std::static_pointer_cast<AbstractProjectItem>(shared_from_this()),
+            {AbstractProjectItem::UsageCount, AbstractProjectItem::VideoUsed, AbstractProjectItem::AudioUsed});
 }
 
 uint AbstractProjectItem::refCount() const
 {
-    return m_usage;
+    return m_totalUsage;
 }
 
-void AbstractProjectItem::addRef(bool isAudio)
+void AbstractProjectItem::addRef()
 {
-    m_usage++;
-    if (isAudio) {
-        m_AudioUsage++;
-    }
+    m_currentSequenceUsage++;
+    m_totalUsage++;
     if (auto ptr = m_model.lock())
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<AbstractProjectItem>(shared_from_this()),
                                                                        {AbstractProjectItem::UsageCount});
 }
 
-void AbstractProjectItem::removeRef(bool isAudio)
+void AbstractProjectItem::removeRef()
 {
-    m_usage--;
-    if (isAudio) {
-        m_AudioUsage--;
-    }
+    m_currentSequenceUsage--;
+    m_totalUsage--;
     if (auto ptr = m_model.lock())
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<AbstractProjectItem>(shared_from_this()),
                                                                        {AbstractProjectItem::UsageCount});
@@ -145,10 +153,13 @@ QVariant AbstractProjectItem::getData(DataType type) const
         data = QVariant(m_date);
         break;
     case UsageCount:
-        data = QVariant(m_usage);
+        data = QVariant(m_usageText);
         break;
-    case AudioUsageCount:
-        data = QVariant(m_AudioUsage);
+    case AudioUsed:
+        data = QVariant(m_AudioUsage > 0);
+        break;
+    case VideoUsed:
+        data = QVariant(m_VideoUsage > 0);
         break;
     case ItemTypeRole:
         data = QVariant(m_itemType);

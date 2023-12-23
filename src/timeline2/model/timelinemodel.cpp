@@ -202,7 +202,7 @@ TimelineModel::~TimelineModel()
         if (pCore->currentDoc() && !pCore->currentDoc()->closing) {
             // If we are not closing the project, unregister this timeline clips from bin
             for (const auto &clip : m_allClips) {
-                clip.second->deregisterClipToBin();
+                clip.second->deregisterClipToBin(m_uuid);
             }
         }
     }
@@ -4599,7 +4599,7 @@ Fun TimelineModel::deregisterClip_lambda(int clipId)
         Q_ASSERT(!m_groups->isInGroup(clipId)); // clip must be ungrouped at this point
         auto clip = m_allClips[clipId];
         m_allClips.erase(clipId);
-        clip->deregisterClipToBin();
+        clip->deregisterClipToBin(m_uuid);
         m_groups->destructGroupItem(clipId);
         return true;
     };
@@ -5427,7 +5427,6 @@ bool TimelineModel::checkConsistency(const std::vector<int> &guideSnaps)
 {
     // We store all in/outs of clips to check snap points
     std::map<int, int> snaps;
-
     for (const auto &tck : m_iteratorTable) {
         auto track = (*tck.second);
         // Check parent/children link for tracks
@@ -5446,7 +5445,6 @@ bool TimelineModel::checkConsistency(const std::vector<int> &guideSnaps)
             return false;
         }
     }
-
     // Check parent/children link for clips
     for (const auto &cp : m_allClips) {
         auto clip = (cp.second);
@@ -5489,7 +5487,6 @@ bool TimelineModel::checkConsistency(const std::vector<int> &guideSnaps)
             snaps[clip->getPosition() + clip->getPlaytime()] += 1;
         }
     }
-
     for (auto p : guideSnaps) {
         snaps[p] += 1;
     }
@@ -5512,16 +5509,14 @@ bool TimelineModel::checkConsistency(const std::vector<int> &guideSnaps)
     // First step: all clips referenced by the bin model exist and are inserted
     for (const auto &binClip : binClips) {
         auto projClip = pCore->projectItemModel()->getClipByBinID(binClip);
-        for (const auto &insertedClip : projClip->m_registeredClips) {
-            if (auto ptr = insertedClip.second.lock()) {
-                if (ptr.get() == this) { // check we are talking of this timeline
-                    if (!isClip(insertedClip.first)) {
-                        qWarning() << "Bin model registers a bad clip ID" << insertedClip.first;
-                        return false;
-                    }
+        QList<int> referenced = projClip->m_registeredClipsByUuid.value(uuid());
+        for (int cid : referenced) {
+            if (!isClip(cid)) {
+                qWarning() << "Bin model registers a bad clip ID" << cid;
+                qDebug() << ":::: GOT REF CLIPS FOR UUID: " << referenced;
+                for (const auto &clip : m_allClips) {
+                    qWarning() << "Existing cids:" << clip.first;
                 }
-            } else {
-                qWarning() << "Bin model registers a clip in a NULL timeline" << insertedClip.first;
                 return false;
             }
         }
@@ -5531,7 +5526,7 @@ bool TimelineModel::checkConsistency(const std::vector<int> &guideSnaps)
     for (const auto &clip : m_allClips) {
         auto binId = clip.second->m_binClipId;
         auto projClip = pCore->projectItemModel()->getClipByBinID(binId);
-        if (projClip->m_registeredClips.count(clip.first) == 0) {
+        if (!projClip->m_registeredClipsByUuid.contains(uuid()) || !projClip->m_registeredClipsByUuid.value(uuid()).contains(clip.first)) {
             qWarning() << "Clip " << clip.first << "not registered in bin";
             return false;
         }

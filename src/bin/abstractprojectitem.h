@@ -78,13 +78,13 @@ public:
 
     // TODO refac : these ref counting are probably deprecated by smart ptrs
     /** @brief Set current usage count. */
-    void setRefCount(uint count, uint audioCount);
+    void setRefCount(uint count, uint totalCount);
     /** @brief Returns clip's current usage count in timeline. */
     uint refCount() const;
     /** @brief Increase usage count. */
-    void addRef(bool isAudio);
+    void addRef();
     /** @brief Decrease usage count. */
-    void removeRef(bool isAudio);
+    void removeRef();
 
     enum DataType {
         // display name of item
@@ -101,7 +101,8 @@ public:
         DataDescription,
         // Number of occurrences used in timeline
         UsageCount,
-        AudioUsageCount,
+        AudioUsed,
+        VideoUsed,
         // Empty if clip has no effect, icon otherwise
         IconOverlay,
         // item type (clip, subclip, folder)
@@ -199,8 +200,11 @@ protected:
     int m_outPoint;
     QDateTime m_date;
     QString m_binId;
-    uint m_usage;
+    uint m_totalUsage;
+    uint m_currentSequenceUsage;
     uint m_AudioUsage;
+    uint m_VideoUsage;
+    QString m_usageText;
     uint m_rating;
     QString m_tags;
     FileStatus::ClipStatus m_clipStatus;

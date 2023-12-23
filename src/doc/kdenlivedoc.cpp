@@ -26,6 +26,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "mltcontroller/clipcontroller.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
+#include "timeline2/model/builders/meltBuilder.hpp"
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "titler/titlewidget.h"
 #include "transitions/transitionsrepository.hpp"
@@ -1011,6 +1012,11 @@ bool KdenliveDoc::sequenceThumbRequiresRefresh(const QUuid &uuid) const
     return m_sequenceThumbsNeedsRefresh.contains(uuid);
 }
 
+void KdenliveDoc::setSequenceThumbRequiresUpdate(const QUuid &uuid)
+{
+    m_sequenceThumbsNeedsRefresh.insert(uuid);
+}
+
 void KdenliveDoc::sequenceThumbUpdated(const QUuid &uuid)
 {
     m_sequenceThumbsNeedsRefresh.remove(uuid);
@@ -1613,6 +1619,9 @@ QMap<QString, QString> KdenliveDoc::documentProperties(bool saveHash)
     QMapIterator<QUuid, std::shared_ptr<TimelineItemModel>> j(m_timelines);
     while (j.hasNext()) {
         j.next();
+        if (j.value()->isClosed) {
+            continue;
+        }
         j.value()->passSequenceProperties(getSequenceProperties(j.key()));
         if (saveHash) {
             j.value()->tractor()->set("kdenlive:sequenceproperties.timelineHash", j.value()->timelineHash().toHex().constData());
@@ -2096,11 +2105,15 @@ QList<QUuid> KdenliveDoc::getTimelinesUuids() const
 void KdenliveDoc::addTimeline(const QUuid &uuid, std::shared_ptr<TimelineItemModel> model, bool force)
 {
     if (force && m_timelines.find(uuid) != m_timelines.end()) {
-        std::shared_ptr<TimelineItemModel> model = m_timelines.take(uuid);
-        model.reset();
+        std::shared_ptr<TimelineItemModel> previousModel = m_timelines.take(uuid);
+        previousModel.reset();
     }
     if (m_timelines.find(uuid) != m_timelines.end()) {
         qDebug() << "::::: TIMELINE " << uuid << " already inserted in project";
+        if (m_timelines.value(uuid) != model) {
+            qDebug() << "::::: TIMELINE INCONSISTENCY";
+            Q_ASSERT(false);
+        }
         return;
     }
     if (m_timelines.isEmpty()) {
@@ -2142,17 +2155,26 @@ void KdenliveDoc::loadSequenceGroupsAndGuides(const QUuid &uuid)
     connect(model.get(), &TimelineModel::saveGuideCategories, this, &KdenliveDoc::saveGuideCategories);
 }
 
-void KdenliveDoc::closeTimeline(const QUuid uuid)
+void KdenliveDoc::closeTimeline(const QUuid uuid, bool onDeletion)
 {
     Q_ASSERT(m_timelines.find(uuid) != m_timelines.end());
     // Sync all sequence properties
-    std::shared_ptr<TimelineItemModel> model = m_timelines.take(uuid);
+    std::shared_ptr<TimelineItemModel> model;
+    if (onDeletion) {
+        model = m_timelines.take(uuid);
+    } else {
+        model = m_timelines.value(uuid);
+    }
     if (!closing) {
         setSequenceProperty(uuid, QStringLiteral("groups"), model->groupsData());
         model->passSequenceProperties(getSequenceProperties(uuid));
     }
-    model->prepareClose(!closing);
-    model.reset();
+    if (onDeletion) {
+        model->prepareClose(!closing);
+        model.reset();
+    } else {
+        model->isClosed = true;
+    }
     // Clear all sequence properties
     m_sequenceProperties.remove(uuid);
 }

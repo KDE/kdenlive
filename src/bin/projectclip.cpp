@@ -76,7 +76,6 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
     , ClipController(id, producer)
     , isReloading(false)
     , m_resetTimelineOccurences(false)
-    , m_audioCount(0)
     , m_uuid(QUuid::createUuid())
 {
     m_markerModel = std::make_shared<MarkerListModel>(id, pCore->projectManager()->undoStack());
@@ -166,7 +165,6 @@ ProjectClip::ProjectClip(const QString &id, const QDomElement &description, cons
     , ClipController(id)
     , isReloading(false)
     , m_resetTimelineOccurences(false)
-    , m_audioCount(0)
     , m_uuid(QUuid::createUuid())
 {
     m_clipStatus = FileStatus::StatusWaiting;
@@ -2254,17 +2252,33 @@ void ProjectClip::registerService(std::weak_ptr<TimelineModel> timeline, int cli
 
 void ProjectClip::registerTimelineClip(std::weak_ptr<TimelineModel> timeline, int clipId)
 {
-    Q_ASSERT(m_registeredClips.count(clipId) == 0);
     Q_ASSERT(!timeline.expired());
-    if (m_hasAudio) {
-        if (auto ptr = timeline.lock()) {
+    uint currentCount = 0;
+    if (auto ptr = timeline.lock()) {
+        if (m_hasAudio) {
             if (ptr->getClipState(clipId) == PlaylistState::AudioOnly) {
-                m_audioCount++;
+                m_AudioUsage++;
             }
         }
+        const QUuid uuid = ptr->uuid();
+        if (m_registeredClipsByUuid.contains(uuid)) {
+            QList<int> values = m_registeredClipsByUuid.value(uuid);
+            Q_ASSERT(values.contains(clipId) == false);
+            values << clipId;
+            currentCount = values.size();
+            m_registeredClipsByUuid[uuid] = values;
+        } else {
+            m_registeredClipsByUuid.insert(uuid, {clipId});
+            currentCount = 1;
+        }
     }
-    m_registeredClips[clipId] = std::move(timeline);
-    setRefCount(uint(m_registeredClips.size()), m_audioCount);
+    uint totalCount = 0;
+    QMapIterator<QUuid, QList<int>> i(m_registeredClipsByUuid);
+    while (i.hasNext()) {
+        i.next();
+        totalCount += i.value().size();
+    }
+    setRefCount(currentCount, totalCount);
     Q_EMIT registeredClipChanged();
 }
 
@@ -2276,26 +2290,33 @@ void ProjectClip::checkClipBounds()
 void ProjectClip::refreshBounds()
 {
     QVector<QPoint> boundaries;
-    for (const auto &registeredClip : m_registeredClips) {
-        if (auto ptr = registeredClip.second.lock()) {
-            if (ptr->uuid() == pCore->currentTimelineId()) {
-                QPoint point = ptr->getClipInDuration(registeredClip.first);
-                if (!boundaries.contains(point)) {
-                    boundaries << point;
-                }
+    uint currentCount = 0;
+    if (m_registeredClipsByUuid.contains(pCore->currentTimelineId())) {
+        const QList<int> clips = m_registeredClipsByUuid.value(pCore->currentTimelineId());
+        currentCount = clips.size();
+        auto timeline = pCore->projectManager()->getTimeline();
+        for (auto &c : clips) {
+            QPoint point = timeline->getClipInDuration(c);
+            if (!boundaries.contains(point)) {
+                boundaries << point;
             }
         }
     }
+    uint totalCount = 0;
+    QMapIterator<QUuid, QList<int>> i(m_registeredClipsByUuid);
+    while (i.hasNext()) {
+        i.next();
+        totalCount += i.value().size();
+    }
+    setRefCount(currentCount, totalCount);
     Q_EMIT boundsChanged(boundaries);
 }
 
-void ProjectClip::deregisterTimelineClip(int clipId, bool audioClip)
+void ProjectClip::deregisterTimelineClip(int clipId, bool audioClip, const QUuid &uuid)
 {
-    Q_ASSERT(m_registeredClips.count(clipId) > 0);
     if (m_hasAudio && audioClip) {
-        m_audioCount--;
+        m_AudioUsage--;
     }
-    m_registeredClips.erase(clipId);
     if (m_videoProducers.count(clipId) > 0) {
         m_effectStack->removeService(m_videoProducers[clipId]);
         m_videoProducers.erase(clipId);
@@ -2304,41 +2325,45 @@ void ProjectClip::deregisterTimelineClip(int clipId, bool audioClip)
         m_effectStack->removeService(m_audioProducers[clipId]);
         m_audioProducers.erase(clipId);
     }
-    setRefCount(uint(m_registeredClips.size()), m_audioCount);
-    Q_EMIT registeredClipChanged();
+    // Clip might already have been deregistered
+    if (m_registeredClipsByUuid.contains(uuid)) {
+        QList<int> clips = m_registeredClipsByUuid.value(uuid);
+        Q_ASSERT(clips.contains(clipId));
+        clips.removeAll(clipId);
+        if (clips.isEmpty()) {
+            m_registeredClipsByUuid.remove(uuid);
+        } else {
+            m_registeredClipsByUuid[uuid] = clips;
+        }
+        uint currentCount = 0;
+        uint totalCount = 0;
+        QMapIterator<QUuid, QList<int>> i(m_registeredClipsByUuid);
+        while (i.hasNext()) {
+            i.next();
+            totalCount += i.value().size();
+            if (i.key() == pCore->currentTimelineId()) {
+                currentCount = uint(i.value().size());
+            }
+        }
+        setRefCount(currentCount, totalCount);
+        Q_EMIT registeredClipChanged();
+    }
 }
 
 QList<int> ProjectClip::timelineInstances(QUuid activeUuid) const
 {
-    QList<int> ids;
     if (activeUuid.isNull()) {
         activeUuid = pCore->currentTimelineId();
     }
-    for (const auto &registeredClip : m_registeredClips) {
-        if (auto ptr = registeredClip.second.lock()) {
-            if (ptr->uuid() != activeUuid) {
-                continue;
-            }
-        }
-        ids.push_back(registeredClip.first);
+    if (!m_registeredClipsByUuid.contains(activeUuid)) {
+        return {};
     }
-    return ids;
+    return m_registeredClipsByUuid.value(activeUuid);
 }
 
 QMap<QUuid, QList<int>> ProjectClip::getAllTimelineInstances() const
 {
-    QMap<QUuid, QList<int>> allIds;
-    for (const auto &registeredClip : m_registeredClips) {
-        if (auto ptr = registeredClip.second.lock()) {
-            QList<int> values;
-            if (allIds.contains(ptr->uuid())) {
-                values = allIds.value(ptr->uuid());
-            }
-            values.append(registeredClip.first);
-            allIds.insert(ptr->uuid(), values);
-        }
-    }
-    return allIds;
+    return m_registeredClipsByUuid;
 }
 
 QStringList ProjectClip::timelineSequenceExtraResources() const
@@ -2356,44 +2381,42 @@ QStringList ProjectClip::timelineSequenceExtraResources() const
 
 const QString ProjectClip::isReferenced(const QUuid &activeUuid) const
 {
-    for (const auto &registeredClip : m_registeredClips) {
-        if (auto ptr = registeredClip.second.lock()) {
-            if (ptr->uuid() == activeUuid) {
-                return m_binId;
-            }
-        }
+    if (m_registeredClipsByUuid.contains(activeUuid) && !m_registeredClipsByUuid.value(activeUuid).isEmpty()) {
+        return m_binId;
     }
     return QString();
 }
 
-void ProjectClip::purgeReferences(const QUuid &activeUuid)
+void ProjectClip::purgeReferences(const QUuid &activeUuid, bool deleteClip)
 {
-    QList<int> toDelete;
-    for (const auto &registeredClip : m_registeredClips) {
-        if (auto ptr = registeredClip.second.lock()) {
-            if (ptr->uuid() == activeUuid) {
-                toDelete.push_back(registeredClip.first);
-            }
-        }
+    if (!m_registeredClipsByUuid.contains(activeUuid)) {
+        return;
     }
-    if (!toDelete.isEmpty()) {
+    if (deleteClip) {
+        QList<int> toDelete = m_registeredClipsByUuid.value(activeUuid);
+        auto timeline = pCore->currentDoc()->getTimeline(activeUuid);
         while (!toDelete.isEmpty()) {
             int id = toDelete.takeFirst();
             if (m_hasAudio) {
-                auto search = m_registeredClips.find(id);
-                if (search != m_registeredClips.end()) {
-                    if (auto ptr = search->second.lock()) {
-                        if (ptr->getClipState(search->first) == PlaylistState::AudioOnly) {
-                            m_audioCount--;
-                        }
-                    }
+                if (timeline->getClipState(id) == PlaylistState::AudioOnly) {
+                    m_AudioUsage--;
                 }
             }
-            m_registeredClips.erase(id);
         }
-        setRefCount(uint(m_registeredClips.size()), m_audioCount);
-        Q_EMIT registeredClipChanged();
     }
+    m_registeredClipsByUuid.remove(activeUuid);
+    uint currentCount = 0;
+    uint totalCount = 0;
+    QMapIterator<QUuid, QList<int>> i(m_registeredClipsByUuid);
+    while (i.hasNext()) {
+        i.next();
+        totalCount += i.value().size();
+        if (i.key() == pCore->currentTimelineId()) {
+            currentCount = uint(i.value().size());
+        }
+    }
+    setRefCount(currentCount, totalCount);
+    Q_EMIT registeredClipChanged();
 }
 
 bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
@@ -2420,31 +2443,41 @@ bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
         return true;
     };
     operation();
-
-    auto toDelete = m_registeredClips; // we cannot use m_registeredClips directly, because it will be modified during loop
-    for (const auto &clip : toDelete) {
-        if (m_registeredClips.count(clip.first) == 0) {
-            // clip already deleted, was probably grouped with another one
-            continue;
-        }
-        if (auto timeline = clip.second.lock()) {
-            timeline->requestClipUngroup(clip.first, undo, redo);
-            if (!timeline->requestItemDeletion(clip.first, undo, redo, true)) {
+    QMapIterator<QUuid, QList<int>> i(m_registeredClipsByUuid);
+    while (i.hasNext()) {
+        i.next();
+        const QUuid uuid = i.key();
+        QList<int> instances = i.value();
+        if (!instances.isEmpty()) {
+            auto timeline = pCore->currentDoc()->getTimeline(uuid);
+            if (!timeline) {
+                if (pCore->projectItemModel()->closing) {
+                    break;
+                }
+                qDebug() << "Error while deleting clip: timeline unavailable";
+                Q_ASSERT(false);
                 return false;
             }
-        } else {
-            if (auto ptr = m_model.lock()) {
-                if (std::static_pointer_cast<ProjectItemModel>(ptr)->closing) {
+            for (int cid : instances) {
+                if (!timeline->isClip(cid)) {
+                    // clip already deleted, was probably grouped with another one
                     continue;
                 }
+                timeline->requestClipUngroup(cid, undo, redo);
+                if (!timeline->requestItemDeletion(cid, undo, redo, true)) {
+                    return false;
+                }
             }
-            qDebug() << "Error while deleting clip: timeline unavailable";
-            Q_ASSERT(false);
-            return false;
+            if (timeline->isClosed) {
+                // Refresh timeline occurences
+                pCore->currentDoc()->setModified(true);
+                pCore->currentDoc()->setSequenceThumbRequiresUpdate(uuid);
+                pCore->projectManager()->doSyncTimeline(timeline, false);
+            }
         }
     }
+    m_registeredClipsByUuid.clear();
     PUSH_LAMBDA(operation, redo);
-    qDebug() << "===== REMOVING MASTER PRODUCER; CURRENT COUNT: " << m_masterProducer.use_count() << "\n:::::::::::::::::::::::::::";
     return AbstractProjectItem::selfSoftDelete(undo, redo);
 }
 
@@ -2547,7 +2580,7 @@ Fun ProjectClip::getAudio_lambda()
 
 bool ProjectClip::isIncludedInTimeline()
 {
-    return m_registeredClips.size() > 0;
+    return !m_registeredClipsByUuid.isEmpty();
 }
 
 void ProjectClip::replaceInTimeline()
@@ -2556,14 +2589,24 @@ void ProjectClip::replaceInTimeline()
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool pushUndo = false;
-    for (const auto &clip : m_registeredClips) {
-        if (auto timeline = clip.second.lock()) {
-            if (timeline->requestClipReload(clip.first, updatedDuration, undo, redo)) {
-                pushUndo = true;
+    QMapIterator<QUuid, QList<int>> i(m_registeredClipsByUuid);
+    while (i.hasNext()) {
+        i.next();
+        QList<int> instances = i.value();
+        if (!instances.isEmpty()) {
+            auto timeline = pCore->currentDoc()->getTimeline(i.key());
+            if (!timeline) {
+                if (pCore->projectItemModel()->closing) {
+                    break;
+                }
+                qDebug() << "Error while reloading clip: timeline unavailable";
+                Q_ASSERT(false);
             }
-        } else {
-            qDebug() << "Error while reloading clip: timeline unavailable";
-            Q_ASSERT(false);
+            for (auto &cid : instances) {
+                if (timeline->requestClipReload(cid, updatedDuration, undo, redo)) {
+                    pushUndo = true;
+                }
+            }
         }
     }
     if (pushUndo && !m_resetTimelineOccurences) {
@@ -2574,15 +2617,20 @@ void ProjectClip::replaceInTimeline()
 
 void ProjectClip::updateTimelineClips(const QVector<int> &roles)
 {
-    for (const auto &clip : m_registeredClips) {
-        if (auto timeline = clip.second.lock()) {
-            if (timeline->uuid() == pCore->currentTimelineId()) {
-                timeline->requestClipUpdate(clip.first, roles);
+    if (m_registeredClipsByUuid.contains(pCore->currentTimelineId())) {
+        QList<int> instances = m_registeredClipsByUuid.value(pCore->currentTimelineId());
+        if (!instances.isEmpty()) {
+            auto timeline = pCore->projectManager()->getTimeline();
+            if (!timeline) {
+                if (pCore->projectItemModel()->closing) {
+                    return;
+                }
+                qDebug() << "Error while reloading clip: timeline unavailable";
+                Q_ASSERT(false);
             }
-        } else {
-            qDebug() << "Error while reloading clip thumb: timeline unavailable";
-            Q_ASSERT(false);
-            return;
+            for (auto &cid : instances) {
+                timeline->requestClipUpdate(cid, roles);
+            }
         }
     }
 }
@@ -2936,14 +2984,19 @@ QStringList ProjectClip::getAudioStreamEffect(int streamIndex) const
 
 void ProjectClip::updateTimelineOnReload()
 {
-    if (m_registeredClips.size() > 0 && m_registeredClips.size() < 3) {
-        for (const auto &clip : m_registeredClips) {
-            if (auto timeline = clip.second.lock()) {
-                if (timeline->getClipPlaytime(clip.first) < static_cast<int>(frameDuration())) {
-                    break; // don't reload producer
+    if (m_registeredClipsByUuid.contains(pCore->currentTimelineId())) {
+        QList<int> instances = m_registeredClipsByUuid.value(pCore->currentTimelineId());
+        if (!instances.isEmpty() && instances.size() < 3) {
+            auto timeline = pCore->projectManager()->getTimeline();
+            if (timeline) {
+                for (auto &cid : instances) {
+                    if (timeline->getClipPlaytime(cid) > static_cast<int>(frameDuration())) {
+                        // reload producer
+                        m_resetTimelineOccurences = true;
+                        break;
+                    }
                 }
             }
-            m_resetTimelineOccurences = true;
         }
     }
 }
@@ -3005,17 +3058,7 @@ bool ProjectClip::canBeDropped(const QUuid &uuid) const
 
 const QList<QUuid> ProjectClip::registeredUuids() const
 {
-    QList<QUuid> uuids;
-    for (const auto &registeredClip : m_registeredClips) {
-        if (auto ptr = registeredClip.second.lock()) {
-            if (!uuids.contains(ptr->uuid())) {
-                uuids << ptr->uuid();
-            }
-        } else {
-            qDebug() << "CANNOT LOCK REGISTERED TL";
-        }
-    }
-    return uuids;
+    return m_registeredClipsByUuid.keys();
 }
 
 const QUuid &ProjectClip::getSequenceUuid() const
