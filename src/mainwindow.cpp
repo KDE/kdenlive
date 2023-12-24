@@ -904,6 +904,33 @@ void MainWindow::init(const QString &mltPath)
             m_hamburgerMenu->hideActionsOf(toolBar());
         }
     });
+
+    m_loadingDialog = new QProgressDialog(this);
+    m_loadingDialog->setWindowFlags((m_loadingDialog->windowFlags() | Qt::CustomizeWindowHint) & ~Qt::WindowCloseButtonHint & ~Qt::WindowSystemMenuHint);
+    m_loadingDialog->setMinimumDuration(0);
+    m_loadingDialog->setMaximum(0);
+    m_loadingDialog->setWindowTitle(i18nc("@title:window", "Loading Project"));
+    m_loadingDialog->setCancelButton(nullptr);
+    m_loadingDialog->setAutoClose(false);
+    m_loadingDialog->setAutoReset(false);
+    m_loadingDialog->setModal(true);
+    m_loadingDialog->close();
+    connect(pCore.get(), &Core::loadingMessageNewStage, this, [&](const QString &message, int max = -1) {
+        if (max > -1) {
+            m_loadingDialog->reset();
+            m_loadingDialog->setMaximum(max);
+        }
+        if (!message.isEmpty()) {
+            m_loadingDialog->setLabelText(message);
+        }
+        m_loadingDialog->show();
+    });
+    connect(pCore.get(), &Core::loadingMessageIncrease, this, [&]() { m_loadingDialog->setValue(m_loadingDialog->value() + 1); });
+    connect(pCore.get(), &Core::loadingMessageHide, this, [&]() {
+        m_loadingDialog->reset();
+        m_loadingDialog->setMaximum(0);
+        m_loadingDialog->close();
+    });
 }
 
 void MainWindow::slotThemeChanged(const QString &name)
@@ -967,6 +994,7 @@ MainWindow::~MainWindow()
     delete m_shortcutRemoveFocus;
     delete m_effectList2;
     delete m_compositionList;
+    delete m_loadingDialog;
     pCore->finishShutdown();
     qDeleteAll(m_transitions);
     Mlt::Factory::close();

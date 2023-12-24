@@ -44,6 +44,7 @@ DocumentValidator::DocumentValidator(const QDomDocument &doc, QUrl documentUrl)
 
 QPair<bool, QString> DocumentValidator::validate(const double currentVersion)
 {
+    Q_EMIT pCore->loadingMessageNewStage(i18n("Validating project…"), 0);
     QDomElement mlt = m_doc.firstChildElement(QStringLiteral("mlt"));
     // At least the root element must be there
     if (mlt.isNull()) {
@@ -180,6 +181,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         return true;
     }
 
+    Q_EMIT pCore->loadingMessageNewStage(i18n("Upgrading project version…"), 0);
     // The document is too new
     if (version > currentVersion) {
         // qCDebug(KDENLIVE_LOG) << "Unable to open document with version " << version;

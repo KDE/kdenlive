@@ -400,8 +400,12 @@ Q_SIGNALS:
     void showConfigDialog(Kdenlive::ConfigPage, int);
     void finalizeRecording(const QString &captureFile);
     void autoScrollChanged();
-    /** @brief Send a message to splash screen if still displayed */
-    void loadingMessageUpdated(const QString &, int progress = 0, int max = -1);
+    /** @brief Update the message about the current loading progress */
+    void loadingMessageNewStage(const QString &message, int max = -1);
+    /** @brief Increase the progress of the loading message by 1 */
+    void loadingMessageIncrease();
+    /** @brief Hide the message about the loading progress */
+    void loadingMessageHide();
     /** @brief Opening finished, close splash screen */
     void closeSplash();
     /** @brief Trigger an update of the speech models list */

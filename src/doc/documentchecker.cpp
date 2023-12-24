@@ -3,7 +3,6 @@
 
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
-
 #include "documentchecker.h"
 #include "bin/binplaylist.hpp"
 #include "bin/projectclip.h"
@@ -100,28 +99,40 @@ bool DocumentChecker::resolveProblemsWithGUI()
     QDomNodeList trans = m_doc.elementsByTagName(QStringLiteral("transition"));
     QDomNodeList filters = m_doc.elementsByTagName(QStringLiteral("filter"));
 
+    QDomNodeList documentTractors = m_doc.elementsByTagName(QStringLiteral("tractor"));
+
+    const int taskCount = items.count() + documentTractors.count() + producers.count() + chains.count();
+
+    Q_EMIT pCore->loadingMessageNewStage(i18n("Applying fixes…"), taskCount);
+
     for (auto item : items) {
         fixMissingItem(item, producers, chains, trans, filters);
+        Q_EMIT pCore->loadingMessageIncrease();
         qApp->processEvents();
     }
 
     QStringList tractorIds;
-    QDomNodeList documentTractors = m_doc.elementsByTagName(QStringLiteral("tractor"));
     int max = documentTractors.count();
     for (int i = 0; i < max; ++i) {
         QDomElement tractor = documentTractors.item(i).toElement();
         tractorIds.append(tractor.attribute(QStringLiteral("id")));
+        Q_EMIT pCore->loadingMessageIncrease();
+        qApp->processEvents();
     }
 
     max = producers.count();
     for (int i = 0; i < max; ++i) {
         QDomElement e = producers.item(i).toElement();
         fixSequences(e, producers, tractorIds);
+        Q_EMIT pCore->loadingMessageIncrease();
+        qApp->processEvents();
     }
     max = chains.count();
     for (int i = 0; i < max; ++i) {
         QDomElement e = chains.item(i).toElement();
         fixSequences(e, producers, tractorIds);
+        Q_EMIT pCore->loadingMessageIncrease();
+        qApp->processEvents();
     }
 
     // original doc was modified
@@ -131,6 +142,7 @@ bool DocumentChecker::resolveProblemsWithGUI()
 
 bool DocumentChecker::hasErrorInProject()
 {
+    Q_EMIT pCore->loadingMessageNewStage(i18n("Checking for missing items…"), 0);
     m_items.clear();
 
     QString storageFolder;
@@ -182,21 +194,27 @@ bool DocumentChecker::hasErrorInProject()
     m_safeImages.clear();
     m_safeFonts.clear();
 
+    const int taskCount = documentProducers.count() + documentChains.count() + documentTractors.count();
+    Q_EMIT pCore->loadingMessageNewStage(i18n("Checking for missing items…"), taskCount);
+
     QStringList verifiedPaths;
     int max = documentProducers.count();
     for (int i = 0; i < max; ++i) {
         QDomElement e = documentProducers.item(i).toElement();
         verifiedPaths << getMissingProducers(e, entries, storageFolder);
+        Q_EMIT pCore->loadingMessageIncrease();
     }
     max = documentChains.count();
     for (int i = 0; i < max; ++i) {
         QDomElement e = documentChains.item(i).toElement();
         verifiedPaths << getMissingProducers(e, entries, storageFolder);
+        Q_EMIT pCore->loadingMessageIncrease();
     }
     // Check that we don't have circular dependencies (a sequence embedding itself as a track / ptoducer
     max = documentTractors.count();
     QStringList circularRefs;
     for (int i = 0; i < max; ++i) {
+        Q_EMIT pCore->loadingMessageIncrease();
         QDomElement e = documentTractors.item(i).toElement();
         const QString tractorName = e.attribute(QStringLiteral("id"));
         QDomNodeList tracks = e.elementsByTagName(QStringLiteral("track"));

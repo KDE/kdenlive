@@ -468,7 +468,9 @@ int main(int argc, char *argv[])
         // App is crashing, delete config files and restart
         result = EXIT_CLEAN_RESTART;
     } else {
-        QObject::connect(pCore.get(), &Core::loadingMessageUpdated, &splash, &Splash::showProgressMessage, Qt::DirectConnection);
+        QObject::connect(pCore.get(), &Core::loadingMessageNewStage, &splash, &Splash::showProgressMessage, Qt::DirectConnection);
+        QObject::connect(pCore.get(), &Core::loadingMessageIncrease, &splash, &Splash::increaseProgressMessage, Qt::DirectConnection);
+        QObject::connect(pCore.get(), &Core::loadingMessageHide, &splash, &Splash::clearMessage, Qt::DirectConnection);
         QObject::connect(pCore.get(), &Core::closeSplash, &splash, [&]() { splash.finish(pCore->window()); });
         pCore->initGUI(inSandbox, parser.value(mltPathOption), url, clipsToLoad);
         result = app.exec();

@@ -1173,7 +1173,7 @@ bool ProjectItemModel::isIdFree(const QString &id) const
 }
 
 QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders,
-                                               int &zoomLevel, QProgressDialog *progressDialog)
+                                               int &zoomLevel)
 {
     QWriteLocker locker(&m_lock);
     clean();
@@ -1182,10 +1182,6 @@ QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, st
     if (retainList.is_valid()) {
         Mlt::Playlist playlist(mlt_playlist(retainList.get_data(BinPlaylist::binPlaylistId.toUtf8().constData())));
         if (playlist.is_valid() && playlist.type() == mlt_service_playlist_type) {
-            if (progressDialog == nullptr && playlist.count() > 0) {
-                // Display message on splash screen
-                Q_EMIT pCore->loadingMessageUpdated(i18n("Loading project clips…"));
-            }
             // Load folders
             Mlt::Properties folderProperties;
             Mlt::Properties playlistProps(playlist.get_properties());
@@ -1215,16 +1211,13 @@ QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, st
             Fun undo = []() { return true; };
             Fun redo = []() { return true; };
             int max = playlist.count();
-            if (progressDialog) {
-                progressDialog->setMaximum(progressDialog->maximum() + max);
+            if (max > 0) {
+                Q_EMIT pCore->loadingMessageNewStage(i18n("Reading project clips…"), max);
             }
             QMap<int, std::shared_ptr<Mlt::Producer>> binProducers;
             for (int i = 0; i < max; i++) {
-                if (progressDialog) {
-                    progressDialog->setValue(i);
-                } else {
-                    Q_EMIT pCore->loadingMessageUpdated(QString(), 1);
-                }
+                Q_EMIT pCore->loadingMessageIncrease();
+                qApp->processEvents();
                 QScopedPointer<Mlt::Producer> prod(playlist.get_clip(i));
                 if (prod->is_blank() || !prod->is_valid() || prod->parent().property_exists("kdenlive:remove")) {
                     qDebug() << "==== IGNORING BIN PRODUCER: " << prod->parent().get("kdenlive:id");
@@ -1288,7 +1281,13 @@ QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, st
             // Do the real insertion
             QList<int> binIds = binProducers.keys();
 
+            if (binIds.length() > 0) {
+                Q_EMIT pCore->loadingMessageNewStage(i18n("Loading project clips…"), binIds.length());
+            }
+
             while (!binProducers.isEmpty()) {
+                Q_EMIT pCore->loadingMessageIncrease();
+                qApp->processEvents();
                 int bid = binIds.takeFirst();
                 std::shared_ptr<Mlt::Producer> prod = binProducers.take(bid);
                 QString newId = QString::number(getFreeClipId());

@@ -168,7 +168,7 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
 
     m_monitorManager = new MonitorManager(this);
     if (!Url.isEmpty()) {
-        Q_EMIT loadingMessageUpdated(i18n("Loading project…"));
+        Q_EMIT loadingMessageNewStage(i18n("Loading project…"));
     }
     projectManager()->init(Url, clipsToLoad);
 

@@ -24,7 +24,6 @@
 #include <QApplication>
 #include <QDomDocument>
 #include <QMimeDatabase>
-#include <QProgressDialog>
 #include <utility>
 
 namespace {

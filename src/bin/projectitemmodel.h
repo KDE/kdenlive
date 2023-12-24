@@ -110,7 +110,7 @@ public:
      *  @return A list of invalid sequence clips found in Project Bin (can be caused by 23.04.0 bug)
      */
     QList<QUuid> loadBinPlaylist(Mlt::Service *documentTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders,
-                                 int &zoomLevel, QProgressDialog *progressDialog = nullptr);
+                                 int &zoomLevel);
     void loadTractorPlaylist(Mlt::Tractor documentTractor, std::unordered_map<QString, QString> &binIdCorresp);
 
     /** @brief Save document properties in MLT's bin playlist */

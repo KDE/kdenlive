@@ -14,6 +14,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QEvent>
 #include <QImage>
 #include <QMap>
+#include <QProgressDialog>
 #include <QShortcut>
 #include <QString>
 #include <QUndoView>
@@ -322,6 +323,8 @@ private:
     EffectBasket *m_effectBasket;
     /** @brief Update widget style. */
     void doChangeStyle();
+
+    QProgressDialog *m_loadingDialog;
 
 public Q_SLOTS:
     void slotReloadEffects(const QStringList &paths);

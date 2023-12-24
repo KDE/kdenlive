@@ -87,7 +87,6 @@ ProjectManager::~ProjectManager() = default;
 
 void ProjectManager::slotLoadOnOpen()
 {
-    m_loading = true;
     if (m_startUrl.isValid()) {
         openFile();
     } else if (KdenliveSettings::openlastproject()) {
@@ -106,7 +105,6 @@ void ProjectManager::slotLoadOnOpen()
         pCore->bin()->droppedUrls(urls);
     }
     m_loadClipsOnOpen.clear();
-    m_loading = false;
     Q_EMIT pCore->closeSplash();
     // Release startup crash lock file
     QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
@@ -126,11 +124,9 @@ void ProjectManager::slotLoadOnOpen()
 
 void ProjectManager::slotLoadHeadless(const QUrl &projectUrl)
 {
-    m_loading = true;
     if (projectUrl.isValid()) {
         doOpenFileHeadless(projectUrl);
     }
-    m_loading = false;
     // Release startup crash lock file
     QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
     lockFile.remove();
@@ -337,7 +333,7 @@ void ProjectManager::testSetActiveDocument(KdenliveDoc *doc, std::shared_ptr<Tim
         const QUuid uuid = m_project->uuid();
         timeline = TimelineItemModel::construct(uuid, m_project->commandStack());
         std::shared_ptr<Mlt::Tractor> tc = pCore->projectItemModel()->getExtraTimeline(uuid.toString());
-        if (!constructTimelineFromTractor(timeline, nullptr, *tc.get(), m_progressDialog, m_project->modifiedDecimalPoint(), QString(), QString())) {
+        if (!constructTimelineFromTractor(timeline, nullptr, *tc.get(), m_project->modifiedDecimalPoint(), QString(), QString())) {
             qDebug() << "===== LOADING PROJECT INTERNAL ERROR";
         }
     }
@@ -365,7 +361,7 @@ void ProjectManager::testSetActiveDocument(KdenliveDoc *doc, std::shared_ptr<Tim
                 std::shared_ptr<TimelineItemModel> timelineModel = TimelineItemModel::construct(uid, m_project->commandStack());
                 const QString chunks = m_project->getSequenceProperty(uid, QStringLiteral("previewchunks"));
                 const QString dirty = m_project->getSequenceProperty(uid, QStringLiteral("dirtypreviewchunks"));
-                if (constructTimelineFromTractor(timelineModel, nullptr, *tc.get(), nullptr, m_project->modifiedDecimalPoint(), chunks, dirty)) {
+                if (constructTimelineFromTractor(timelineModel, nullptr, *tc.get(), m_project->modifiedDecimalPoint(), chunks, dirty)) {
                     m_project->addTimeline(uid, timelineModel, false);
                     pCore->projectItemModel()->setExtraTimelineSaved(uid.toString());
                     std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(timelineModel->tractor());
@@ -773,8 +769,7 @@ void ProjectManager::openFile(const QUrl &url)
 void ProjectManager::abortLoading()
 {
     KMessageBox::error(pCore->window(), i18n("Could not recover corrupted file."));
-    delete m_progressDialog;
-    m_progressDialog = nullptr;
+    Q_EMIT pCore->loadingMessageHide();
     // Don't propose to save corrupted doc
     m_project->setModified(false);
     // Open default blank document
@@ -786,20 +781,11 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     Q_ASSERT(m_project == nullptr);
     m_fileRevert->setEnabled(true);
 
-    delete m_progressDialog;
-    m_progressDialog = nullptr;
     ThumbnailCache::get()->clearCache();
     pCore->monitorManager()->resetDisplay();
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
-    if (!m_loading) {
-        m_progressDialog = new QProgressDialog(pCore->window());
-        m_progressDialog->setWindowTitle(i18nc("@title:window", "Loading Project"));
-        m_progressDialog->setCancelButton(nullptr);
-        m_progressDialog->setLabelText(i18n("Loading project"));
-        m_progressDialog->setMaximum(0);
-        m_progressDialog->show();
-        qApp->processEvents();
-    }
+    Q_EMIT pCore->loadingMessageNewStage(i18n("Loading project…"));
+    qApp->processEvents();
     m_notesPlugin->clear();
 
     DocOpenResult openResult = KdenliveDoc::Open(stale ? QUrl::fromLocalFile(stale->fileName()) : url,
@@ -834,8 +820,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
 
     // if we could not open the file, and could not recover (or user declined), stop now
     if (!openResult.isSuccessful() || !doc) {
-        delete m_progressDialog;
-        m_progressDialog = nullptr;
+        Q_EMIT pCore->loadingMessageHide();
         // Open default blank document
         newFile(false);
         return;
@@ -849,7 +834,6 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
             ErrorMessage);
     }
     pCore->displayMessage(QString(), OperationCompletedMessage);
-
 
     if (stale == nullptr) {
         const QString projectId = QCryptographicHash::hash(url.fileName().toUtf8(), QCryptographicHash::Md5).toHex();
@@ -870,25 +854,19 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
         doc->setModified(!loadingFailed);
         stale->setParent(doc);
     }
-    if (m_progressDialog) {
-        m_progressDialog->setLabelText(i18n("Loading clips"));
-        m_progressDialog->setMaximum(doc->clipsCount());
-    } else {
-        Q_EMIT pCore->loadingMessageUpdated(QString(), 0, doc->clipsCount());
-    }
-
     pCore->bin()->setDocument(doc);
 
     // Set default target tracks to upper audio / lower video tracks
     m_project = doc;
     pCore->monitorManager()->projectMonitor()->locked = true;
     QDateTime documentDate = QFileInfo(m_project->url().toLocalFile()).lastModified();
+    Q_EMIT pCore->loadingMessageNewStage(i18n("Loading timeline…"), 0);
+    qApp->processEvents();
     if (!updateTimeline(true, m_project->getDocumentProperty(QStringLiteral("previewchunks")),
                         m_project->getDocumentProperty(QStringLiteral("dirtypreviewchunks")), documentDate,
                         m_project->getDocumentProperty(QStringLiteral("disablepreview")).toInt())) {
         KMessageBox::error(pCore->window(), i18n("Could not recover corrupted file."));
-        delete m_progressDialog;
-        m_progressDialog = nullptr;
+        Q_EMIT pCore->loadingMessageHide();
         // Don't propose to save corrupted doc
         m_project->setModified(false);
         // Open default blank document
@@ -899,6 +877,11 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
 
     // Re-open active timelines
     QStringList openedTimelines = m_project->getDocumentProperty(QStringLiteral("opensequences")).split(QLatin1Char(';'), Qt::SkipEmptyParts);
+    auto sequences = pCore->projectItemModel()->getAllSequenceClips();
+    const int taskCount = openedTimelines.count() + sequences.count();
+    Q_EMIT pCore->loadingMessageNewStage(i18n("Building sequences…"), taskCount);
+    qApp->processEvents();
+
     QList<QUuid> openedUuids;
     for (auto &uid : openedTimelines) {
         const QUuid uuid(uid);
@@ -907,9 +890,11 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
         if (!binId.isEmpty()) {
             openTimeline(binId, uuid);
         }
+        Q_EMIT pCore->loadingMessageIncrease();
+        qApp->processEvents();
     }
+
     // Now that sequence clips are fully built, fetch thumbnails
-    auto sequences = pCore->projectItemModel()->getAllSequenceClips();
     QList<QUuid> uuids = sequences.keys();
     // Load all sequence models into memory
     for (auto &uid : uuids) {
@@ -920,7 +905,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
                 const QString chunks = m_project->getSequenceProperty(uid, QStringLiteral("previewchunks"));
                 const QString dirty = m_project->getSequenceProperty(uid, QStringLiteral("dirtypreviewchunks"));
                 const QString binId = pCore->projectItemModel()->getSequenceId(uid);
-                if (constructTimelineFromTractor(timelineModel, nullptr, *tc.get(), nullptr, m_project->modifiedDecimalPoint(), chunks, dirty)) {
+                if (constructTimelineFromTractor(timelineModel, nullptr, *tc.get(), m_project->modifiedDecimalPoint(), chunks, dirty)) {
                     m_project->addTimeline(uid, timelineModel, false);
                     pCore->projectItemModel()->setExtraTimelineSaved(uid.toString());
                     std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(timelineModel->tractor());
@@ -937,6 +922,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
                 }
             }
         }
+        Q_EMIT pCore->loadingMessageIncrease();
     }
     const QStringList sequenceIds = sequences.values();
     for (auto &id : sequenceIds) {
@@ -977,8 +963,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
         pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_activeTimelineModel->duration() - 1, m_project->getFilteredGuideModel(uuid));
     }
     pCore->projectItemModel()->missingClipTimer.start();
-    delete m_progressDialog;
-    m_progressDialog = nullptr;
+    Q_EMIT pCore->loadingMessageHide();
 }
 
 void ProjectManager::doOpenFileHeadless(const QUrl &url)
@@ -1395,7 +1380,7 @@ bool ProjectManager::updateTimeline(bool createNewTab, const QString &chunks, co
         m_project->cleanupTimelinePreview(documentDate);
         pCore->projectItemModel()->buildPlaylist(uuid);
         // Load bin playlist
-        return loadProjectBin(tractor, m_progressDialog);
+        return loadProjectBin(tractor);
     }
     if (tractor.count() == 0) {
         // Wow we have a project file with empty tractor, probably corrupted, propose to open a recovery file
@@ -1433,8 +1418,7 @@ bool ProjectManager::updateTimeline(bool createNewTab, const QString &chunks, co
         m_activeTimelineModel = timelineModel;
         m_project->activeUuid = timelineModel->uuid();
     }
-    if (!constructTimelineFromTractor(timelineModel, pCore->projectItemModel(), tractor, m_progressDialog, m_project->modifiedDecimalPoint(), chunks, dirty,
-                                      enablePreview)) {
+    if (!constructTimelineFromTractor(timelineModel, pCore->projectItemModel(), tractor, m_project->modifiedDecimalPoint(), chunks, dirty, enablePreview)) {
         // TODO: act on project load failure
         qDebug() << "// Project failed to load!!";
         requestBackup(i18n("Project file is corrupted - failed to load tracks. Try to find a backup file?"));
@@ -1819,8 +1803,7 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
         qDebug() << "============= LOADING INTERNAL PLAYLIST: " << uuid;
         const QString chunks = m_project->getSequenceProperty(uuid, QStringLiteral("previewchunks"));
         const QString dirty = m_project->getSequenceProperty(uuid, QStringLiteral("dirtypreviewchunks"));
-        if (existingModel == nullptr &&
-            !constructTimelineFromTractor(timelineModel, nullptr, *tc.get(), m_progressDialog, m_project->modifiedDecimalPoint(), chunks, dirty)) {
+        if (existingModel == nullptr && !constructTimelineFromTractor(timelineModel, nullptr, *tc.get(), m_project->modifiedDecimalPoint(), chunks, dirty)) {
             qDebug() << "===== LOADING PROJECT INTERNAL ERROR";
         }
         std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(timelineModel->tractor());
@@ -1885,7 +1868,7 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
         const QString chunks = m_project->getSequenceProperty(uuid, QStringLiteral("previewchunks"));
         const QString dirty = m_project->getSequenceProperty(uuid, QStringLiteral("dirtypreviewchunks"));
         if (!constructTimelineFromTractor(timelineModel, sourceDocUuid == m_project->uuid() ? nullptr : pCore->projectItemModel(), *tractor.get(),
-                                          m_progressDialog, m_project->modifiedDecimalPoint(), chunks, dirty)) {
+                                          m_project->modifiedDecimalPoint(), chunks, dirty)) {
             // if (!constructTimelineFromMelt(timelineModel, *tractor.get(), m_progressDialog, m_project->modifiedDecimalPoint(), chunks, dirty)) {
             //  TODO: act on project load failure
             qDebug() << "// Project failed to load!!";
