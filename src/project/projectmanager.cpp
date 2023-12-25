@@ -843,7 +843,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     QList<QUuid> uuids = sequences.keys();
     // Load all sequence models into memory
     for (auto &uid : uuids) {
-        if (!openedUuids.contains(uid)) {
+        if (pCore->currentDoc()->getTimeline(uid) == nullptr) {
             std::shared_ptr<Mlt::Tractor> tc = pCore->projectItemModel()->getExtraTimeline(uid.toString());
             if (tc) {
                 std::shared_ptr<TimelineItemModel> timelineModel = TimelineItemModel::construct(uid, m_project->commandStack());
