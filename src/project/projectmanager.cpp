@@ -1376,6 +1376,7 @@ bool ProjectManager::updateTimeline(bool createNewTab, const QString &chunks, co
         qDebug() << ":::: NOT FOUND DOCUMENT GUIDES !!!!!!!!!!!\n!!!!!!!!!!!!!!!!!!!!!";
     }
     m_project->addTimeline(uuid, timelineModel);
+    timelineModel->isClosed = false;
     TimelineWidget *documentTimeline = nullptr;
 
     m_project->cleanupTimelinePreview(documentDate);
@@ -1763,9 +1764,6 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
     }
 
     // Build timeline
-    if (existingModel) {
-        existingModel->m_closing = false;
-    }
     std::shared_ptr<TimelineItemModel> timelineModel = existingModel != nullptr ? existingModel : TimelineItemModel::construct(uuid, m_project->commandStack());
     m_project->addTimeline(uuid, timelineModel);
     timelineModel->isClosed = false;
