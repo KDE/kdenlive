@@ -376,7 +376,7 @@ Rectangle {
                 color: 'magenta'
             }
             anchors.leftMargin: 2
-            width: root.trackTagWidth
+            width: root.trackTagWidth * 2
             height: root.collapsedHeight - 2
             y: 1
             text: trackHeadRoot.trackId
