@@ -1583,18 +1583,17 @@ int TimelineFunctions::getOffsetTrackId(const std::shared_ptr<TimelineItemModel>
     return timeline->getTrackIndexFromPosition(masterTrackMltIndex - 1);
 }
 
-QPair<QList<int>, QList<int>> TimelineFunctions::getAVTracksIds(const std::shared_ptr<TimelineItemModel> &timeline)
+TimelineFunctions::TimelineTracksInfo TimelineFunctions::getAVTracksIds(const std::shared_ptr<TimelineItemModel> &timeline)
 {
-    QList<int> audioTracks;
-    QList<int> videoTracks;
+    TimelineTracksInfo tracks;
     for (const auto &track : timeline->m_allTracks) {
         if (track->isAudioTrack()) {
-            audioTracks << track->getId();
+            tracks.audioIds << track->getId();
         } else {
-            videoTracks << track->getId();
+            tracks.videoIds << track->getId();
         }
     }
-    return {audioTracks, videoTracks};
+    return tracks;
 }
 
 QString TimelineFunctions::copyClips(const std::shared_ptr<TimelineItemModel> &timeline, const std::unordered_set<int> &itemIds)
@@ -1676,9 +1675,9 @@ QString TimelineFunctions::copyClips(const std::shared_ptr<TimelineItemModel> &t
         container.setAttribute(QStringLiteral("masterAudioTrack"), masterTrack);
         int masterMirror = timeline->getMirrorVideoTrackId(masterTid);
         if (masterMirror == -1) {
-            QPair<QList<int>, QList<int>> projectTracks = TimelineFunctions::getAVTracksIds(timeline);
-            if (!projectTracks.second.isEmpty()) {
-                masterTrack = timeline->getTrackPosition(projectTracks.second.first());
+            TimelineTracksInfo timelineTracks = TimelineFunctions::getAVTracksIds(timeline);
+            if (!timelineTracks.videoIds.isEmpty()) {
+                masterTrack = timeline->getTrackPosition(timelineTracks.videoIds.first());
             }
         } else {
             masterTrack = timeline->getTrackPosition(masterMirror);
@@ -1734,6 +1733,65 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     return false;
 }
 
+bool TimelineFunctions::getUsedTracks(const QDomNodeList &clips, const QDomNodeList &compositions, int sourceMasterTrack, int &topAudioMirror, TimelineTracksInfo &allTracks, QList<int> &singleAudioTracks, std::unordered_map<int, int> &audioMirrors)
+{
+    // Tracks used by clips
+    int max = clips.count();
+    for (int i = 0; i < max; i++) {
+        QDomElement clipProducer = clips.at(i).toElement();
+        int trackPos = clipProducer.attribute(QStringLiteral("track")).toInt();
+        if (trackPos < 0) {
+            pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), ErrorMessage, 500);
+            semaphore.release(1);
+            return false;
+        }
+        bool audioTrack = clipProducer.hasAttribute(QStringLiteral("audioTrack"));
+        if (audioTrack) {
+            if (!allTracks.audioIds.contains(trackPos)) {
+                allTracks.audioIds << trackPos;
+            }
+            int videoMirror = clipProducer.attribute(QStringLiteral("mirrorTrack")).toInt();
+            if (videoMirror == -1 || sourceMasterTrack == -1) {
+                // The clip has no mirror track
+                if (!singleAudioTracks.contains(trackPos)) {
+                    singleAudioTracks << trackPos;
+                }
+                continue;
+            }
+            // The clip has mirror track
+            audioMirrors[trackPos] = videoMirror;
+            if (videoMirror > topAudioMirror) {
+                // We have to check how many video tracks with mirror are needed
+                topAudioMirror = videoMirror;
+            }
+            if (!allTracks.videoIds.contains(videoMirror)) {
+                allTracks.videoIds << videoMirror;
+            }
+        } else {
+            // Video clip
+            if (!allTracks.videoIds.contains(trackPos)) {
+                allTracks.videoIds << trackPos;
+            }
+        }
+    }
+
+    // Tracks used by compositions
+    max = compositions.count();
+    for (int i = 0; i < max; i++) {
+        QDomElement composition = compositions.at(i).toElement();
+        int trackPos = composition.attribute(QStringLiteral("track")).toInt();
+        if (!allTracks.videoIds.contains(trackPos)) {
+            allTracks.videoIds << trackPos;
+        }
+        int atrackPos = composition.attribute(QStringLiteral("a_track")).toInt();
+        if (atrackPos != 0 && !allTracks.videoIds.contains(atrackPos)) {
+            allTracks.videoIds << atrackPos;
+        }
+    }
+
+    return true;
+}
+
 bool TimelineFunctions::pasteClipsWithUndo(const std::shared_ptr<TimelineItemModel> &timeline, const QString &pasteString, int trackId, int position, Fun &undo,
                                            Fun &redo)
 {
@@ -1770,152 +1828,107 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     const QString docId = copiedItems.documentElement().attribute(QStringLiteral("documentid"));
     mappedIds.clear();
     // Check available tracks
-    QPair<QList<int>, QList<int>> projectTracks = TimelineFunctions::getAVTracksIds(timeline);
-    int masterSourceTrack = copiedItems.documentElement().attribute(QStringLiteral("masterTrack"), QStringLiteral("-1")).toInt();
+    TimelineTracksInfo timelineTracks = TimelineFunctions::getAVTracksIds(timeline);
+    int sourceMasterTrack = copiedItems.documentElement().attribute(QStringLiteral("masterTrack"), QStringLiteral("-1")).toInt();
     QDomNodeList clips = copiedItems.documentElement().elementsByTagName(QStringLiteral("clip"));
     QDomNodeList compositions = copiedItems.documentElement().elementsByTagName(QStringLiteral("composition"));
     QDomNodeList subtitles = copiedItems.documentElement().elementsByTagName(QStringLiteral("subtitle"));
     // find paste tracks
-    // List of all source audio tracks
-    QList<int> audioTracks;
-    // List of all source video tracks
-    QList<int> videoTracks;
+    // Info about all source tracks
+    TimelineTracksInfo sourceTracks;
     // List of all audio tracks with their corresponding video mirror
     std::unordered_map<int, int> audioMirrors;
     // List of all source audio tracks that don't have video mirror
     QList<int> singleAudioTracks;
     // Number of required video tracks with mirror
     int topAudioMirror = 0;
-    for (int i = 0; i < clips.count(); i++) {
-        QDomElement prod = clips.at(i).toElement();
-        int trackPos = prod.attribute(QStringLiteral("track")).toInt();
-        if (trackPos < 0) {
-            pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), ErrorMessage, 500);
-            semaphore.release(1);
-            return false;
-        }
-        bool audioTrack = prod.hasAttribute(QStringLiteral("audioTrack"));
-        if (audioTrack) {
-            if (!audioTracks.contains(trackPos)) {
-                audioTracks << trackPos;
-            }
-            int videoMirror = prod.attribute(QStringLiteral("mirrorTrack")).toInt();
-            if (videoMirror == -1 || masterSourceTrack == -1) {
-                if (singleAudioTracks.contains(trackPos)) {
-                    continue;
-                }
-                singleAudioTracks << trackPos;
-                continue;
-            }
-            audioMirrors[trackPos] = videoMirror;
-            if (videoMirror > topAudioMirror) {
-                // We have to check how many video tracks with mirror are needed
-                topAudioMirror = videoMirror;
-            }
-            if (videoTracks.contains(videoMirror)) {
-                continue;
-            }
-            videoTracks << videoMirror;
-        } else {
-            if (videoTracks.contains(trackPos)) {
-                continue;
-            }
-            videoTracks << trackPos;
-        }
+
+    if(!getUsedTracks(clips, compositions, sourceMasterTrack, topAudioMirror, sourceTracks, singleAudioTracks, audioMirrors)) {
+        return false;
     }
-    for (int i = 0; i < compositions.count(); i++) {
-        QDomElement prod = compositions.at(i).toElement();
-        int trackPos = prod.attribute(QStringLiteral("track")).toInt();
-        if (!videoTracks.contains(trackPos)) {
-            videoTracks << trackPos;
-        }
-        int atrackPos = prod.attribute(QStringLiteral("a_track")).toInt();
-        if (atrackPos == 0 || videoTracks.contains(atrackPos)) {
-            continue;
-        }
-        videoTracks << atrackPos;
-    }
-    if (audioTracks.isEmpty() && videoTracks.isEmpty() && subtitles.isEmpty()) {
+
+    if (sourceTracks.audioIds.isEmpty() && sourceTracks.videoIds.isEmpty() && subtitles.isEmpty()) {
         // playlist does not have any tracks, exit
         semaphore.release(1);
         return true;
     }
     // Now we have a list of all source tracks, check that we have enough target tracks
-    std::sort(videoTracks.begin(), videoTracks.end());
-    std::sort(audioTracks.begin(), audioTracks.end());
+    std::sort(sourceTracks.videoIds.begin(), sourceTracks.videoIds.end());
+    std::sort(sourceTracks.audioIds.begin(), sourceTracks.audioIds.end());
     std::sort(singleAudioTracks.begin(), singleAudioTracks.end());
+
     // qDebug()<<"== GOT WANTED TKS\n VIDEO: "<<videoTracks<<"\n AUDIO TKS: "<<audioTracks<<"\n SINGLE AUDIO: "<<singleAudioTracks;
-    int requestedVideoTracks = videoTracks.isEmpty() ? 0 : videoTracks.last() - videoTracks.first() + 1;
-    int requestedAudioTracks = audioTracks.isEmpty() ? 0 : audioTracks.last() - audioTracks.first() + 1;
-    if (requestedVideoTracks > projectTracks.second.size() || requestedAudioTracks > projectTracks.first.size()) {
+    int requestedVideoTracks = sourceTracks.videoIds.isEmpty() ? 0 : sourceTracks.videoIds.last() - sourceTracks.videoIds.first() + 1;
+    int requestedAudioTracks = sourceTracks.audioIds.isEmpty() ? 0 : sourceTracks.audioIds.last() - sourceTracks.audioIds.first() + 1;
+    if (requestedVideoTracks > timelineTracks.videoIds.size() || requestedAudioTracks > timelineTracks.audioIds.size()) {
         pCore->displayMessage(i18n("Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)", requestedAudioTracks, requestedVideoTracks),
                               ErrorMessage, 500);
         semaphore.release(1);
         return false;
     }
 
+    auto findPerfectTargetTrack = [](int masterTrackId, const QList<int> &sourceTracks, const QList<int> &targetTracks, int targetTrackId) {
+        const int neededTracksBelow = masterTrackId - sourceTracks.first();
+        const int neededTracksAbove = sourceTracks.last() - masterTrackId;
+
+        const int existingTracksBelow = targetTracks.indexOf(targetTrackId);
+        const int existingTracksAbove = targetTracks.size() - (targetTracks.indexOf(targetTrackId) + 1);
+
+        if (existingTracksBelow < neededTracksBelow) {
+            qDebug() << "// UPDATING BELOW TID IX TO:" << neededTracksBelow;
+            // not enough tracks below, try to paste on upper track
+            return targetTracks.at(neededTracksBelow);
+        }
+
+        if (existingTracksAbove < neededTracksAbove) {
+            // not enough tracks above, try to paste on lower track
+            qDebug() << "// UPDATING ABOVE TID IX TO:" << (targetTracks.size() - neededTracksAbove);
+            return targetTracks.at(targetTracks.size() - neededTracksAbove - 1);
+        }
+
+        // enough tracks above and below, keep the current
+        return targetTrackId;
+    };
+
     // Find destination master track
     // Check we have enough tracks above/below
     if (requestedVideoTracks > 0) {
-        qDebug() << "MASTERSTK: " << masterSourceTrack << ", VTKS: " << videoTracks;
-        int tracksBelow = masterSourceTrack - videoTracks.first();
-        int tracksAbove = videoTracks.last() - masterSourceTrack;
-        qDebug() << "// RQST TKS BELOW: " << tracksBelow << " / ABOVE: " << tracksAbove;
-        qDebug() << "// EXISTING TKS BELOW: " << projectTracks.second.indexOf(trackId) << ", IX: " << trackId;
-        qDebug() << "// EXISTING TKS ABOVE: " << projectTracks.second.size() << " - " << projectTracks.second.indexOf(trackId);
-        if (projectTracks.second.indexOf(trackId) < tracksBelow) {
-            qDebug() << "// UPDATING BELOW TID IX TO: " << tracksBelow;
-            // not enough tracks below, try to paste on upper track
-            trackId = projectTracks.second.at(tracksBelow);
-        } else if ((projectTracks.second.size() - (projectTracks.second.indexOf(trackId) + 1)) < tracksAbove) {
-            // not enough tracks above, try to paste on lower track
-            qDebug() << "// UPDATING ABOVE TID IX TO: " << (projectTracks.second.size() - tracksAbove);
-            trackId = projectTracks.second.at(projectTracks.second.size() - tracksAbove - 1);
-        }
+        trackId = findPerfectTargetTrack(sourceMasterTrack, sourceTracks.videoIds, timelineTracks.videoIds, trackId);
+
         // Find top-most video track that requires an audio mirror
-        int topAudioOffset = videoTracks.indexOf(topAudioMirror) - videoTracks.indexOf(masterSourceTrack);
+        int topAudioOffset = sourceTracks.videoIds.indexOf(topAudioMirror) - sourceTracks.videoIds.indexOf(sourceMasterTrack);
         // Check if we have enough video tracks with mirror at paste track position
-        if (requestedAudioTracks > 0 && projectTracks.first.size() <= (projectTracks.second.indexOf(trackId) + topAudioOffset)) {
-            int updatedPos = projectTracks.first.size() - topAudioOffset - 1;
-            if (updatedPos < 0 || updatedPos >= projectTracks.second.size()) {
+        if (requestedAudioTracks > 0 && timelineTracks.audioIds.size() <= (timelineTracks.videoIds.indexOf(trackId) + topAudioOffset)) {
+            int updatedPos = sourceTracks.audioIds.size() - topAudioOffset - 1;
+            if (updatedPos < 0 || updatedPos >= timelineTracks.videoIds.size()) {
                 pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), ErrorMessage, 500);
                 semaphore.release(1);
                 return false;
             }
-            trackId = projectTracks.second.at(updatedPos);
+            trackId = timelineTracks.videoIds.at(updatedPos);
         }
     } else if (requestedAudioTracks > 0) {
         // Audio only
-        masterSourceTrack = copiedItems.documentElement().attribute(QStringLiteral("masterAudioTrack")).toInt();
-        int tracksBelow = masterSourceTrack - audioTracks.first();
-        int tracksAbove = audioTracks.last() - masterSourceTrack;
-        if (projectTracks.first.indexOf(trackId) < tracksBelow) {
-            qDebug() << "// UPDATING BELOW TID IX TO: " << tracksBelow;
-            // not enough tracks below, try to paste on upper track
-            trackId = projectTracks.first.at(tracksBelow);
-        } else if ((projectTracks.first.size() - (projectTracks.first.indexOf(trackId) + 1)) < tracksAbove) {
-            // not enough tracks above, try to paste on lower track
-            qDebug() << "// UPDATING ABOVE TID IX TO: " << (projectTracks.first.size() - tracksAbove);
-            trackId = projectTracks.first.at(projectTracks.first.size() - tracksAbove - 1);
-        }
+        sourceMasterTrack = copiedItems.documentElement().attribute(QStringLiteral("masterAudioTrack")).toInt();
+        trackId = findPerfectTargetTrack(sourceMasterTrack, sourceTracks.audioIds, timelineTracks.audioIds, trackId);
     }
     tracksMap.clear();
     bool audioMaster = false;
-    int masterIx = projectTracks.second.indexOf(trackId);
+    int masterIx = timelineTracks.videoIds.indexOf(trackId);
     if (masterIx == -1) {
-        masterIx = projectTracks.first.indexOf(trackId);
+        masterIx = timelineTracks.audioIds.indexOf(trackId);
         audioMaster = true;
     }
-    for (int tk : qAsConst(videoTracks)) {
-        int newPos = masterIx + tk - masterSourceTrack;
-        if (newPos < 0 || newPos >= projectTracks.second.size()) {
+    for (int tk : qAsConst(sourceTracks.videoIds)) {
+        int newPos = masterIx + tk - sourceMasterTrack;
+        if (newPos < 0 || newPos >= timelineTracks.videoIds.size()) {
             pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), ErrorMessage, 500);
             semaphore.release(1);
             return false;
         }
-        tracksMap.insert(tk, projectTracks.second.at(newPos));
-        // qDebug() << "/// MAPPING SOURCE TRACK: "<<tk<<" TO PROJECT TK: "<<projectTracks.second.at(newPos)<<" =
-        // "<<timeline->getTrackMltIndex(projectTracks.second.at(newPos));
+        tracksMap.insert(tk, timelineTracks.videoIds.at(newPos));
+        // qDebug() << "/// MAPPING SOURCE TRACK: "<<tk<<" TO PROJECT TK: "<<timelineTracks.videoIds.at(newPos)<<" =
+        // "<<timeline->getTrackMltIndex(timelineTracks.videoIds.at(newPos));
     }
     bool audioOffsetCalculated = false;
     int audioOffset = 0;
@@ -1933,13 +1946,13 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         }
     }
     if (!audioOffsetCalculated && audioMaster) {
-        audioOffset = masterIx - masterSourceTrack;
+        audioOffset = masterIx - sourceMasterTrack;
         audioOffsetCalculated = true;
     } else if (audioMirrors.size() == 0) {
         // We are passing ungrouped audio clips, calculate offset
         int sourceAudioTracks = copiedItems.documentElement().attribute(QStringLiteral("audioTracks")).toInt();
         if (sourceAudioTracks > 0) {
-            audioOffset = projectTracks.first.count() - sourceAudioTracks;
+            audioOffset = timelineTracks.audioIds.count() - sourceAudioTracks;
         }
     }
     for (int oldPos : qAsConst(singleAudioTracks)) {
@@ -1947,12 +1960,12 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
             continue;
         }
         int offsetId = oldPos + audioOffset;
-        if (offsetId < 0 || offsetId >= projectTracks.first.size()) {
+        if (offsetId < 0 || offsetId >= timelineTracks.audioIds.size()) {
             pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), ErrorMessage, 500);
             semaphore.release(1);
             return false;
         }
-        tracksMap.insert(oldPos, projectTracks.first.at(offsetId));
+        tracksMap.insert(oldPos, timelineTracks.audioIds.at(offsetId));
     }
     std::function<void(const QString &)> callBack = [timeline, copiedItems, position, inPos, duration](const QString &binId) {
         waitingBinIds.removeAll(binId);
@@ -1996,6 +2009,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
 
     if (!docId.isEmpty() && docId != pCore->currentDoc()->getDocumentProperty(QStringLiteral("documentid"))) {
         // paste from another document, import bin clips
+
         // Check if the fps matches
         QString currentFps = QString::number(pCore->getCurrentFps());
         QString sourceFps = copiedItems.documentElement().attribute(QStringLiteral("fps"));
@@ -2012,6 +2026,8 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
             ratio = pCore->getCurrentFps() / sourceFps.toDouble();
             copiedItems.documentElement().setAttribute(QStringLiteral("fps-ratio"), ratio);
         }
+
+        // Folder in the project for the pasted clips
         QString folderId = pCore->projectItemModel()->getFolderIdByName(i18n("Pasted clips"));
         if (folderId.isEmpty()) {
             // Folder does not exist
@@ -2020,99 +2036,98 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
             pCore->projectItemModel()->requestAddFolder(folderId, i18n("Pasted clips"), rootId, undo, redo);
         }
         updatedPosition = position + (pasteDuration * ratio);
+
+        auto disableProxy = [](QDomElement &producer) {
+            const QString proxy = Xml::getXmlProperty(producer, QStringLiteral("kdenlive:proxy"));
+            if (proxy.length() < 4) {
+                return;
+            }
+            const QString resource = Xml::getXmlProperty(producer, QStringLiteral("kdenlive:originalurl"));
+            if (!resource.isEmpty()) {
+                Xml::setXmlProperty(producer, QStringLiteral("resource"), resource);
+                Xml::setXmlProperty(producer, QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
+            }
+        };
+
+        auto useFreeBinId = [](QDomElement &producer, const QString &clipId, QMap<QString, QString> &mappedIds) {
+            if (!pCore->projectItemModel()->isIdFree(clipId)) {
+                QString updatedId = QString::number(pCore->projectItemModel()->getFreeClipId());
+                Xml::setXmlProperty(producer, QStringLiteral("kdenlive:id"), updatedId);
+                mappedIds.insert(clipId, updatedId);
+                return updatedId;
+            }
+            return clipId;
+        };
+
+        auto pasteClip = [disableProxy, callBack, useFreeBinId](const QDomNodeList &clips, int ratio, const QString &folderId, bool &clipsImported, Fun &undo,
+                                                                Fun &redo){
+            for (int i = 0; i < clips.count(); ++i) {
+                QDomElement currentProd = clips.item(i).toElement();
+                QString clipId = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:id"));
+                if (clipId.isEmpty()) {
+                    // Not a bin clip
+                    continue;
+                }
+
+                // Adjust duration in case of different fps on source and target
+                if (ratio != 1.) {
+                    int out = currentProd.attribute(QStringLiteral("out")).toInt() * ratio;
+                    int length = Xml::getXmlProperty(currentProd, QStringLiteral("length")).toInt() * ratio;
+                    currentProd.setAttribute(QStringLiteral("out"), out);
+                    Xml::setXmlProperty(currentProd, QStringLiteral("length"), QString::number(length));
+                }
+
+                // Check if we already have a clip with same hash in pasted clips folder
+                QString clipHash = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:file_hash"));
+                QString existingId = pCore->projectItemModel()->validateClipInFolder(folderId, clipHash);
+                if (!existingId.isEmpty()) {
+                    mappedIds.insert(clipId, existingId);
+                    continue;
+                }
+
+                clipId = useFreeBinId(currentProd, clipId, mappedIds);
+
+                // Disable proxy if any when pasting to another document
+                disableProxy(currentProd);
+
+                waitingBinIds << clipId;
+                clipsImported = true;
+                qDebug() << "IMPORTED CLIP:" << clipId;
+                bool insert = pCore->projectItemModel()->requestAddBinClip(clipId, currentProd, folderId, undo, redo, callBack);
+                if (!insert) {
+                    return false;
+                }
+            }
+            return true;
+        };
+
         QDomNodeList binClips = copiedItems.documentElement().elementsByTagName(QStringLiteral("producer"));
-        for (int i = 0; i < binClips.count(); ++i) {
-            QDomElement currentProd = binClips.item(i).toElement();
-            QString clipId = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:id"));
-            if (clipId.isEmpty()) {
-                // Not a bin clip
-                continue;
-            }
-            if (ratio != 1.) {
-                int out = currentProd.attribute(QStringLiteral("out")).toInt() * ratio;
-                int length = Xml::getXmlProperty(currentProd, QStringLiteral("length")).toInt() * ratio;
-                currentProd.setAttribute(QStringLiteral("out"), out);
-                Xml::setXmlProperty(currentProd, QStringLiteral("length"), QString::number(length));
-            }
-            QString clipHash = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:file_hash"));
-            // Check if we already have a clip with same hash in pasted clips folder
-            QString existingId = pCore->projectItemModel()->validateClipInFolder(folderId, clipHash);
-            if (!existingId.isEmpty()) {
-                mappedIds.insert(clipId, existingId);
-                continue;
-            }
-            if (!pCore->projectItemModel()->isIdFree(clipId)) {
-                QString updatedId = QString::number(pCore->projectItemModel()->getFreeClipId());
-                Xml::setXmlProperty(currentProd, QStringLiteral("kdenlive:id"), updatedId);
-                mappedIds.insert(clipId, updatedId);
-                clipId = updatedId;
-            }
-            // Disable proxy if any when pasting to another document
-            const QString proxy = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:proxy"));
-            if (proxy.length() > 3) {
-                const QString resource = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:originalurl"));
-                if (!resource.isEmpty()) {
-                    Xml::setXmlProperty(currentProd, QStringLiteral("resource"), resource);
-                    Xml::setXmlProperty(currentProd, QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
-                }
-            }
-            waitingBinIds << clipId;
-            clipsImported = true;
-            qDebug() << ":::::::\n\nZZZZZZZZZZZZZ\nIMPORTED CLIP: " << clipId << "\n\nHHHHHHHHHHHHHHHHHH";
-            bool insert = pCore->projectItemModel()->requestAddBinClip(clipId, currentProd, folderId, undo, redo, callBack);
-            if (!insert) {
-                pCore->displayMessage(i18n("Could not add bin clip"), ErrorMessage, 500);
-                undo();
-                semaphore.release(1);
-                return false;
-            }
+        if (!pasteClip(binClips, ratio, folderId, clipsImported, undo, redo)) {
+            pCore->displayMessage(i18n("Could not add bin clip"), ErrorMessage, 500);
+            undo();
+            semaphore.release(1);
+            return false;
         }
+
         QDomNodeList chainClips = copiedItems.documentElement().elementsByTagName(QStringLiteral("chain"));
-        for (int i = 0; i < chainClips.count(); ++i) {
-            QDomElement currentProd = chainClips.item(i).toElement();
-            QString clipId = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:id"));
-            if (clipId.isEmpty()) {
-                // Not a bin clip
-                continue;
-            }
-            if (ratio != 1.) {
-                int out = currentProd.attribute(QStringLiteral("out")).toInt() * ratio;
-                int length = Xml::getXmlProperty(currentProd, QStringLiteral("length")).toInt() * ratio;
-                currentProd.setAttribute(QStringLiteral("out"), out);
-                Xml::setXmlProperty(currentProd, QStringLiteral("length"), QString::number(length));
-            }
-            QString clipHash = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:file_hash"));
-            // Check if we already have a clip with same hash in pasted clips folder
-            QString existingId = pCore->projectItemModel()->validateClipInFolder(folderId, clipHash);
-            if (!existingId.isEmpty()) {
-                mappedIds.insert(clipId, existingId);
-                continue;
-            }
-            if (!pCore->projectItemModel()->isIdFree(clipId)) {
-                QString updatedId = QString::number(pCore->projectItemModel()->getFreeClipId());
-                Xml::setXmlProperty(currentProd, QStringLiteral("kdenlive:id"), updatedId);
-                mappedIds.insert(clipId, updatedId);
-                clipId = updatedId;
-            }
-            // Disable proxy if any when pasting to another document
-            const QString proxy = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:proxy"));
-            if (proxy.length() > 3) {
-                const QString resource = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:originalurl"));
-                if (!resource.isEmpty()) {
-                    Xml::setXmlProperty(currentProd, QStringLiteral("resource"), resource);
-                    Xml::setXmlProperty(currentProd, QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
+        if (!pasteClip(chainClips, ratio, folderId, clipsImported, undo, redo)) {
+            pCore->displayMessage(i18n("Could not add bin clip"), ErrorMessage, 500);
+            undo();
+            semaphore.release(1);
+            return false;
+        }
+
+        auto remapClipIds = [](QDomNodeList &elements, const QMap<QString, QString> &map) {
+            int max = elements.count();
+            for (int i = 0; i < max; i++) {
+                QDomElement e = elements.item(i).toElement();
+                const QString currentId = Xml::getXmlProperty(e, QStringLiteral("kdenlive:id"));
+                if (map.contains(currentId)) {
+                    Xml::setXmlProperty(e, QStringLiteral("kdenlive:id"), map.value(currentId));
                 }
             }
-            waitingBinIds << clipId;
-            clipsImported = true;
-            bool insert = pCore->projectItemModel()->requestAddBinClip(clipId, currentProd, folderId, undo, redo, callBack);
-            if (!insert) {
-                pCore->displayMessage(i18n("Could not add bin clip"), ErrorMessage, 500);
-                undo();
-                semaphore.release(1);
-                return false;
-            }
-        }
+        };
+
         QDomNodeList sequenceClips = copiedItems.documentElement().elementsByTagName(QStringLiteral("mlt"));
         for (int i = 0; i < sequenceClips.count(); ++i) {
             QDomElement currentProd = sequenceClips.item(i).toElement();
@@ -2124,30 +2139,18 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
                 // Not a bin clip
                 continue;
             }
-            if (!pCore->projectItemModel()->isIdFree(clipId)) {
-                QString updatedId = QString::number(pCore->projectItemModel()->getFreeClipId());
-                mappedIds.insert(clipId, updatedId);
-                clipId = updatedId;
-            }
+
+            clipId = useFreeBinId(currentProd, clipId, mappedIds);
+
             QDomDocument doc;
             doc.appendChild(doc.importNode(currentProd, true));
+
             // update all bin ids
             QDomNodeList prods = doc.documentElement().elementsByTagName(QStringLiteral("producer"));
-            for (int i = 0; i < prods.count(); i++) {
-                QDomElement e = prods.item(i).toElement();
-                const QString currentId = Xml::getXmlProperty(e, QStringLiteral("kdenlive:id"));
-                if (mappedIds.contains(currentId)) {
-                    Xml::setXmlProperty(e, QStringLiteral("kdenlive:id"), mappedIds.value(currentId));
-                }
-            }
+            remapClipIds(prods, mappedIds);
             QDomNodeList entries = doc.documentElement().elementsByTagName(QStringLiteral("entry"));
-            for (int i = 0; i < entries.count(); i++) {
-                QDomElement e = entries.item(i).toElement();
-                const QString currentId = Xml::getXmlProperty(e, QStringLiteral("kdenlive:id"));
-                if (mappedIds.contains(currentId)) {
-                    Xml::setXmlProperty(e, QStringLiteral("kdenlive:id"), mappedIds.value(currentId));
-                }
-            }
+            remapClipIds(entries, mappedIds);
+
             waitingBinIds << clipId;
             clipsImported = true;
             std::shared_ptr<Mlt::Producer> xmlProd(new Mlt::Producer(pCore->getProjectProfile(), "xml-string", doc.toString().toUtf8().constData()));

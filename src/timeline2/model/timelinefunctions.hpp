@@ -12,6 +12,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "undohelper.hpp"
 #include <memory>
 #include <unordered_set>
+#include <unordered_map>
 
 #include <QDir>
 
@@ -30,6 +31,12 @@ struct TimelineFunctions
        @param clipId: Id of the clip to split
        @param position: position (in frames from the beginning of the timeline) where to cut
     */
+
+    struct TimelineTracksInfo {
+        QList<int> audioIds;
+        QList<int> videoIds;
+    };
+
     static bool requestClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position);
     /** @brief This is the same function, except that it accumulates undo/redo */
     static bool requestClipCut(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, int position, Fun &undo, Fun &redo);
@@ -44,6 +51,7 @@ struct TimelineFunctions
 
     /** @brief Creates a string representation of the given clips, that can then be pasted using pasteClips(). Return an empty string on failure */
     static QString copyClips(const std::shared_ptr<TimelineItemModel> &timeline, const std::unordered_set<int> &itemIds);
+
     /** @brief Paste the clips as described by the string. Returns true on success*/
     static bool pasteClips(const std::shared_ptr<TimelineItemModel> &timeline, const QString &pasteString, int trackId, int position);
     static bool pasteClips(const std::shared_ptr<TimelineItemModel> &timeline, const QString &pasteString, int trackId, int position, Fun &undo, Fun &redo,
@@ -153,7 +161,7 @@ struct TimelineFunctions
     static int getOffsetTrackId(const std::shared_ptr<TimelineItemModel> &timeline, int startTrack, int offset, bool audioOffset);
     /** @brief returns a list of ids for all audio tracks and all video tracks
      */
-    static QPair<QList<int>, QList<int>> getAVTracksIds(const std::shared_ptr<TimelineItemModel> &timeline);
+    static TimelineTracksInfo getAVTracksIds(const std::shared_ptr<TimelineItemModel> &timeline);
 
     /** @brief This function breaks group is an item in the zone is grouped with an item outside of selected tracks
      */
@@ -164,4 +172,7 @@ struct TimelineFunctions
     static QDomDocument extractClip(const std::shared_ptr<TimelineItemModel> &timeline, int cid, const QString &binId);
 
     static int spacerMinPos();
+
+private:
+    static bool getUsedTracks(const QDomNodeList &clips, const QDomNodeList &compositions, int masterSourceTrack, int &topAudioMirror, TimelineTracksInfo &allTracks, QList<int> &singleAudioTracks, std::unordered_map<int, int> &audioMirrors);
 };
