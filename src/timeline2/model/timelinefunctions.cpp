@@ -1867,40 +1867,45 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         return false;
     }
 
-    auto findPerfectTargetTrack = [](int &sourceTrackId, const QList<int> &sourceTracks, int targetTrackId, const QList<int> &targetTracks) {
+    auto findPerfectTracks = [](int &sourceTrackId, const QList<int> &sourceTracks, int &targetTrackId, const QList<int> &targetTracks) {
         const int neededTracksBelow = sourceTrackId - sourceTracks.first();
         const int neededTracksAbove = sourceTracks.last() - sourceTrackId;
 
         const int existingTracksBelow = targetTracks.indexOf(targetTrackId);
         const int existingTracksAbove = targetTracks.size() - (targetTracks.indexOf(targetTrackId) + 1);
 
-        if (sourceTracks.count() == 1 && targetTracks.count() == 1) {
-            // we only have one source track and one target track
-            // hence we have no choice and it is the one we want
-            sourceTrackId = sourceTracks.first();
-            return targetTracks.first();
+        int sourceOffset = 0;
+        if (neededTracksBelow < 0) {
+            sourceOffset = neededTracksBelow;
+        } else if (neededTracksAbove < 0) {
+            sourceOffset = neededTracksAbove;
         }
+
+        sourceTrackId += qMax(0, sourceTracks.count() - targetTracks.count() - sourceOffset);
 
         if (existingTracksBelow < neededTracksBelow) {
             qDebug() << "// UPDATING BELOW TID IX TO:" << neededTracksBelow;
             // not enough tracks below, try to paste on upper track
-            return targetTracks.at(neededTracksBelow);
+            targetTrackId = targetTracks.at(qMin(neededTracksBelow, targetTracks.length() - 1));
+            return;
         }
 
         if (existingTracksAbove < neededTracksAbove) {
             // not enough tracks above, try to paste on lower track
             qDebug() << "// UPDATING ABOVE TID IX TO:" << (targetTracks.size() - neededTracksAbove);
-            return targetTracks.at(targetTracks.size() - neededTracksAbove - 1);
+            targetTrackId = targetTracks.at(qMax(0, targetTracks.size() - neededTracksAbove - 1));
+            return;
         }
 
         // enough tracks above and below, keep the current
-        return targetTrackId;
+        // ensure it is one of the existing tracks
+        targetTrackId = qBound(targetTracks.first(), targetTrackId, targetTracks.last());
     };
 
     // Find destination master track
     // Check we have enough tracks above/below
     if (requestedVideoTracks > 0) {
-        trackId = findPerfectTargetTrack(sourceMasterTrack, sourceTracks.videoIds, trackId, timelineTracks.videoIds);
+        findPerfectTracks(sourceMasterTrack, sourceTracks.videoIds, trackId, timelineTracks.videoIds);
 
         // Find top-most video track that requires an audio mirror
         int topAudioOffset = sourceTracks.videoIds.indexOf(topAudioMirror) - sourceTracks.videoIds.indexOf(sourceMasterTrack);
@@ -1917,7 +1922,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     } else if (requestedAudioTracks > 0) {
         // Audio only
         sourceMasterTrack = copiedItems.documentElement().attribute(QStringLiteral("masterAudioTrack")).toInt();
-        trackId = findPerfectTargetTrack(sourceMasterTrack, sourceTracks.audioIds, trackId, timelineTracks.audioIds);
+        findPerfectTracks(sourceMasterTrack, sourceTracks.audioIds, trackId, timelineTracks.audioIds);
     }
     tracksMap.clear();
     bool audioMaster = false;
@@ -1928,7 +1933,6 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     }
 
     int masterOffset = targetMasterIx - sourceMasterTrack;
-
     for (int tk : qAsConst(sourceTracks.videoIds)) {
         int newPos = masterOffset + tk;
         if (newPos < 0 || newPos >= timelineTracks.videoIds.size()) {
