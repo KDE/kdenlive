@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-24 00:41+0000\n"
+"POT-Creation-Date: 2023-12-26 00:41+0000\n"
 "PO-Revision-Date: 2023-12-03 13:14+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -4701,8 +4701,8 @@ msgstr "Oynatma Listesi"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2443 src/bin/clipcreator.cpp:240 src/bin/clipcreator.cpp:242
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1410
-#: src/project/projectmanager.cpp:1412 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1411
+#: src/project/projectmanager.cpp:1413 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "Sekanslar"
@@ -6359,7 +6359,7 @@ msgstr "Kılavuzlar Verisini Dışa Aktar"
 #: src/project/dialogs/archivewidget.cpp:879
 #: src/project/dialogs/archivewidget.cpp:891
 #: src/project/dialogs/archivewidget.cpp:897
-#: src/project/projectmanager.cpp:1693 src/render/renderrequest.cpp:268
+#: src/project/projectmanager.cpp:1694 src/render/renderrequest.cpp:268
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5051
@@ -6425,7 +6425,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Emin değilseniz şunu deneyin: <br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:51 src/project/dialogs/guideslist.cpp:179
-#: src/project/projectmanager.cpp:1586
+#: src/project/projectmanager.cpp:1587
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, kde-format
 msgid "Cannot read file %1"
@@ -8357,7 +8357,7 @@ msgstr "Proje klasörü taşınırken hata: %1"
 
 #: src/doc/kdenlivedoc.cpp:1074 src/doc/kdenlivedoc.cpp:2285
 #: src/project/dialogs/archivewidget.cpp:238
-#: src/project/projectmanager.cpp:1527
+#: src/project/projectmanager.cpp:1528
 #, kde-format
 msgid "Untitled"
 msgstr "Başlıksız"
@@ -14124,7 +14124,7 @@ msgstr "Yedek Dosyası Aç…"
 msgid "Save changes to document?"
 msgstr "Değişiklikler belgeye kaydedilsin mi?"
 
-#: src/project/projectmanager.cpp:397 src/project/projectmanager.cpp:1526
+#: src/project/projectmanager.cpp:397 src/project/projectmanager.cpp:1527
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -14287,25 +14287,25 @@ msgstr ""
 "Proje dosyası bozuk (iz yok). Bir yedekleme dosyası mı bulmaya "
 "çalışıyorsunuz?"
 
-#: src/project/projectmanager.cpp:1388 src/project/projectmanager.cpp:1419
-#: src/project/projectmanager.cpp:1423
+#: src/project/projectmanager.cpp:1389 src/project/projectmanager.cpp:1420
+#: src/project/projectmanager.cpp:1424
 #, kde-format
 msgid "Sequence 1"
 msgstr "Sekans 1"
 
-#: src/project/projectmanager.cpp:1400
+#: src/project/projectmanager.cpp:1401
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "Proje dosyası bozuk - izler yüklenemedi. Bir yedek dosyası aransın mı?"
 
-#: src/project/projectmanager.cpp:1532 src/project/projectmanager.cpp:1537
-#: src/project/projectmanager.cpp:1547 src/project/projectmanager.cpp:1561
+#: src/project/projectmanager.cpp:1533 src/project/projectmanager.cpp:1538
+#: src/project/projectmanager.cpp:1548 src/project/projectmanager.cpp:1562
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Proje profil değişimi iptal edildi"
 
-#: src/project/projectmanager.cpp:1678
+#: src/project/projectmanager.cpp:1679
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -14314,12 +14314,12 @@ msgstr ""
 "Çıktı dosyası %1 halihazırda var.\n"
 "Üzerine yazmak istiyor musunuz?"
 
-#: src/project/projectmanager.cpp:1703
+#: src/project/projectmanager.cpp:1704
 #, kde-format
 msgid "Project profile changed"
 msgstr "Proje profili değiştirildi"
 
-#: src/project/projectmanager.cpp:1759
+#: src/project/projectmanager.cpp:1760
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -14328,18 +14328,18 @@ msgstr ""
 "Bu klipten bir zaman akışı oluşturulamıyor:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1839
+#: src/project/projectmanager.cpp:1837
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Bir sekans klibi içe aktarılıyor, bu özellik şu anda deneysel durumdadır"
 
-#: src/project/projectmanager.cpp:2020
+#: src/project/projectmanager.cpp:2018
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Sekans oluşturmak için bir klip seç"
 
-#: src/project/projectmanager.cpp:2058
+#: src/project/projectmanager.cpp:2056
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Sekans Klibi Oluştur"
@@ -16084,46 +16084,46 @@ msgstr "Klibi Kitaplığa Ekle"
 msgid "Enter a name for the clip in Library"
 msgstr "Kitaplıktaki klip için bir ad girin"
 
-#: src/timeline2/model/timelinefunctions.cpp:1731
+#: src/timeline2/model/timelinefunctions.cpp:1730
 #, kde-format
 msgid "Paste clips"
 msgstr "Klipleri yapıştır"
 
-#: src/timeline2/model/timelinefunctions.cpp:1755
-#, kde-format
-msgid "Another paste operation is in progress"
-msgstr "Başka bir yapıştırma işlemi sürüyor"
-
-#: src/timeline2/model/timelinefunctions.cpp:1767
-#, kde-format
-msgid "No valid data in clipboard"
-msgstr "Panoda geçerli veri yok"
-
-#: src/timeline2/model/timelinefunctions.cpp:1793
-#: src/timeline2/model/timelinefunctions.cpp:1881
-#: src/timeline2/model/timelinefunctions.cpp:1912
-#: src/timeline2/model/timelinefunctions.cpp:1951
-#: src/timeline2/model/timelinefunctions.cpp:2236
+#: src/timeline2/model/timelinefunctions.cpp:1744
+#: src/timeline2/model/timelinefunctions.cpp:1911
+#: src/timeline2/model/timelinefunctions.cpp:1935
+#: src/timeline2/model/timelinefunctions.cpp:1974
+#: src/timeline2/model/timelinefunctions.cpp:2249
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "Panoyu yapıştırmak için yeterli iz yok"
 
-#: src/timeline2/model/timelinefunctions.cpp:1851
+#: src/timeline2/model/timelinefunctions.cpp:1813
+#, kde-format
+msgid "Another paste operation is in progress"
+msgstr "Başka bir yapıştırma işlemi sürüyor"
+
+#: src/timeline2/model/timelinefunctions.cpp:1825
+#, kde-format
+msgid "No valid data in clipboard"
+msgstr "Panoda geçerli veri yok"
+
+#: src/timeline2/model/timelinefunctions.cpp:1864
 #, kde-format
 msgid ""
 "Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)"
 msgstr ""
 "Panoyu yapıştırmak için yeterli iz yok (%1 ses, %2 video izi gerektirir)"
 
-#: src/timeline2/model/timelinefunctions.cpp:1969
-#: src/timeline2/model/timelinefunctions.cpp:1987
-#: src/timeline2/model/timelinefunctions.cpp:2015
-#: src/timeline2/model/timelinefunctions.cpp:2020
+#: src/timeline2/model/timelinefunctions.cpp:1992
+#: src/timeline2/model/timelinefunctions.cpp:2010
+#: src/timeline2/model/timelinefunctions.cpp:2041
+#: src/timeline2/model/timelinefunctions.cpp:2046
 #, kde-format
 msgid "Pasted clips"
 msgstr "Yapıştırılan klipler"
 
-#: src/timeline2/model/timelinefunctions.cpp:2006
+#: src/timeline2/model/timelinefunctions.cpp:2030
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
@@ -16132,45 +16132,45 @@ msgstr ""
 "Kaynak projenin kare hızı (%1 fps), geçerli projenizin kare hızından ayrımlı."
 "<br/>Klipler veya anahtar kareler altüst olabilir."
 
-#: src/timeline2/model/timelinefunctions.cpp:2008
+#: src/timeline2/model/timelinefunctions.cpp:2032
 #, kde-format
 msgid "Pasting Warning"
 msgstr "Yapıştırma Uyarısı"
 
-#: src/timeline2/model/timelinefunctions.cpp:2008
+#: src/timeline2/model/timelinefunctions.cpp:2032
 #, kde-format
 msgid "Paste"
 msgstr "Yapıştır"
 
-#: src/timeline2/model/timelinefunctions.cpp:2064
-#: src/timeline2/model/timelinefunctions.cpp:2110
-#: src/timeline2/model/timelinefunctions.cpp:2174
+#: src/timeline2/model/timelinefunctions.cpp:2116
+#: src/timeline2/model/timelinefunctions.cpp:2124
+#: src/timeline2/model/timelinefunctions.cpp:2187
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "Kova klibi eklenemedi"
 
-#: src/timeline2/model/timelinefunctions.cpp:2228
+#: src/timeline2/model/timelinefunctions.cpp:2241
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr "Tüm klipler başarıyla kopyalandı"
 
-#: src/timeline2/model/timelinefunctions.cpp:2278
-#: src/timeline2/model/timelinefunctions.cpp:2456
+#: src/timeline2/model/timelinefunctions.cpp:2291
+#: src/timeline2/model/timelinefunctions.cpp:2469
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Ögeler, zaman akışına yapıştırılamadı"
 
-#: src/timeline2/model/timelinefunctions.cpp:2476
+#: src/timeline2/model/timelinefunctions.cpp:2489
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Zaman akışı kliplerini yapıştır"
 
-#: src/timeline2/model/timelinefunctions.cpp:2694
+#: src/timeline2/model/timelinefunctions.cpp:2707
 #, kde-format
 msgid "Remove space on track"
 msgstr "İzdeki boşluğu kaldır"
 
-#: src/timeline2/model/timelinefunctions.cpp:2721
+#: src/timeline2/model/timelinefunctions.cpp:2734
 #, kde-format
 msgid "Delete clips on track"
 msgstr "İzdeki klipleri sil"

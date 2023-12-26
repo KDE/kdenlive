@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-24 00:41+0000\n"
+"POT-Creation-Date: 2023-12-26 00:41+0000\n"
 "PO-Revision-Date: 2023-12-23 08:02\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -4606,8 +4606,8 @@ msgstr "播放列表"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2443 src/bin/clipcreator.cpp:240 src/bin/clipcreator.cpp:242
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1410
-#: src/project/projectmanager.cpp:1412 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1411
+#: src/project/projectmanager.cpp:1413 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "序列"
@@ -6246,7 +6246,7 @@ msgstr "导出辅助线数据…"
 #: src/project/dialogs/archivewidget.cpp:879
 #: src/project/dialogs/archivewidget.cpp:891
 #: src/project/dialogs/archivewidget.cpp:897
-#: src/project/projectmanager.cpp:1693 src/render/renderrequest.cpp:268
+#: src/project/projectmanager.cpp:1694 src/render/renderrequest.cpp:268
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5051
@@ -6312,7 +6312,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "如果不确定，请尝试：<br/><b>Unicode (UTF-8)</b>"
 
 #: src/dialogs/importsubtitle.cpp:51 src/project/dialogs/guideslist.cpp:179
-#: src/project/projectmanager.cpp:1586
+#: src/project/projectmanager.cpp:1587
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, kde-format
 msgid "Cannot read file %1"
@@ -8198,7 +8198,7 @@ msgstr "移动项目文件夹时出错：%1"
 
 #: src/doc/kdenlivedoc.cpp:1074 src/doc/kdenlivedoc.cpp:2285
 #: src/project/dialogs/archivewidget.cpp:238
-#: src/project/projectmanager.cpp:1527
+#: src/project/projectmanager.cpp:1528
 #, kde-format
 msgid "Untitled"
 msgstr "未命名"
@@ -13848,7 +13848,7 @@ msgstr "打开备份文件…"
 msgid "Save changes to document?"
 msgstr "保存更改到文件吗？"
 
-#: src/project/projectmanager.cpp:397 src/project/projectmanager.cpp:1526
+#: src/project/projectmanager.cpp:397 src/project/projectmanager.cpp:1527
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -14001,25 +14001,25 @@ msgstr "正在移动项目文件夹"
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr "项目文件已经损坏 (无轨道)。要尝试寻找它的备份文件吗？"
 
-#: src/project/projectmanager.cpp:1388 src/project/projectmanager.cpp:1419
-#: src/project/projectmanager.cpp:1423
+#: src/project/projectmanager.cpp:1389 src/project/projectmanager.cpp:1420
+#: src/project/projectmanager.cpp:1424
 #, kde-format
 msgid "Sequence 1"
 msgstr "序列 1"
 
-#: src/project/projectmanager.cpp:1400
+#: src/project/projectmanager.cpp:1401
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "项目文件已经损坏 - 无法加载轨道。您想要尝试查找它的备份文件吗？"
 
-#: src/project/projectmanager.cpp:1532 src/project/projectmanager.cpp:1537
-#: src/project/projectmanager.cpp:1547 src/project/projectmanager.cpp:1561
+#: src/project/projectmanager.cpp:1533 src/project/projectmanager.cpp:1538
+#: src/project/projectmanager.cpp:1548 src/project/projectmanager.cpp:1562
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "项目编码方案更改已中止"
 
-#: src/project/projectmanager.cpp:1678
+#: src/project/projectmanager.cpp:1679
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -14028,12 +14028,12 @@ msgstr ""
 "输出文件 %1 已经存在。\n"
 "您想要覆盖它吗？"
 
-#: src/project/projectmanager.cpp:1703
+#: src/project/projectmanager.cpp:1704
 #, kde-format
 msgid "Project profile changed"
 msgstr "项目编码方案已更改"
 
-#: src/project/projectmanager.cpp:1759
+#: src/project/projectmanager.cpp:1760
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -14042,17 +14042,17 @@ msgstr ""
 "无法从此剪辑创建时间轴：\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1839
+#: src/project/projectmanager.cpp:1837
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "导入一个序列剪辑，此功能目前仍在实验阶段。"
 
-#: src/project/projectmanager.cpp:2020
+#: src/project/projectmanager.cpp:2018
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "选择一个剪辑以创建序列"
 
-#: src/project/projectmanager.cpp:2058
+#: src/project/projectmanager.cpp:2056
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "创建序列剪辑"
@@ -15775,45 +15775,45 @@ msgstr "添加剪辑到素材库"
 msgid "Enter a name for the clip in Library"
 msgstr "输入该剪辑在素材库中的名称"
 
-#: src/timeline2/model/timelinefunctions.cpp:1731
+#: src/timeline2/model/timelinefunctions.cpp:1730
 #, kde-format
 msgid "Paste clips"
 msgstr "粘贴剪辑"
 
-#: src/timeline2/model/timelinefunctions.cpp:1755
-#, kde-format
-msgid "Another paste operation is in progress"
-msgstr "另一个粘贴操作正在进行中"
-
-#: src/timeline2/model/timelinefunctions.cpp:1767
-#, kde-format
-msgid "No valid data in clipboard"
-msgstr "剪贴板中不含有效数据"
-
-#: src/timeline2/model/timelinefunctions.cpp:1793
-#: src/timeline2/model/timelinefunctions.cpp:1881
-#: src/timeline2/model/timelinefunctions.cpp:1912
-#: src/timeline2/model/timelinefunctions.cpp:1951
-#: src/timeline2/model/timelinefunctions.cpp:2236
+#: src/timeline2/model/timelinefunctions.cpp:1744
+#: src/timeline2/model/timelinefunctions.cpp:1911
+#: src/timeline2/model/timelinefunctions.cpp:1935
+#: src/timeline2/model/timelinefunctions.cpp:1974
+#: src/timeline2/model/timelinefunctions.cpp:2249
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "没有足够的轨道来粘贴剪贴板内容"
 
-#: src/timeline2/model/timelinefunctions.cpp:1851
+#: src/timeline2/model/timelinefunctions.cpp:1813
+#, kde-format
+msgid "Another paste operation is in progress"
+msgstr "另一个粘贴操作正在进行中"
+
+#: src/timeline2/model/timelinefunctions.cpp:1825
+#, kde-format
+msgid "No valid data in clipboard"
+msgstr "剪贴板中不含有效数据"
+
+#: src/timeline2/model/timelinefunctions.cpp:1864
 #, kde-format
 msgid ""
 "Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)"
 msgstr "没有足够的轨道以粘贴剪贴板内容 (需要 %1 条音频轨道，%2 条视频轨道)"
 
-#: src/timeline2/model/timelinefunctions.cpp:1969
-#: src/timeline2/model/timelinefunctions.cpp:1987
-#: src/timeline2/model/timelinefunctions.cpp:2015
-#: src/timeline2/model/timelinefunctions.cpp:2020
+#: src/timeline2/model/timelinefunctions.cpp:1992
+#: src/timeline2/model/timelinefunctions.cpp:2010
+#: src/timeline2/model/timelinefunctions.cpp:2041
+#: src/timeline2/model/timelinefunctions.cpp:2046
 #, kde-format
 msgid "Pasted clips"
 msgstr "已粘贴剪辑"
 
-#: src/timeline2/model/timelinefunctions.cpp:2006
+#: src/timeline2/model/timelinefunctions.cpp:2030
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
@@ -15822,45 +15822,45 @@ msgstr ""
 "源项目帧率 (%1fps) 与您的当前项目不同。<br/>剪辑或者关键帧的位置可能会因此发"
 "生混乱。"
 
-#: src/timeline2/model/timelinefunctions.cpp:2008
+#: src/timeline2/model/timelinefunctions.cpp:2032
 #, kde-format
 msgid "Pasting Warning"
 msgstr "粘贴警告"
 
-#: src/timeline2/model/timelinefunctions.cpp:2008
+#: src/timeline2/model/timelinefunctions.cpp:2032
 #, kde-format
 msgid "Paste"
 msgstr "粘贴"
 
-#: src/timeline2/model/timelinefunctions.cpp:2064
-#: src/timeline2/model/timelinefunctions.cpp:2110
-#: src/timeline2/model/timelinefunctions.cpp:2174
+#: src/timeline2/model/timelinefunctions.cpp:2116
+#: src/timeline2/model/timelinefunctions.cpp:2124
+#: src/timeline2/model/timelinefunctions.cpp:2187
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "无法添加项目素材箱剪辑"
 
-#: src/timeline2/model/timelinefunctions.cpp:2228
+#: src/timeline2/model/timelinefunctions.cpp:2241
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr "未成功复制所有素材"
 
-#: src/timeline2/model/timelinefunctions.cpp:2278
-#: src/timeline2/model/timelinefunctions.cpp:2456
+#: src/timeline2/model/timelinefunctions.cpp:2291
+#: src/timeline2/model/timelinefunctions.cpp:2469
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "无法粘贴项目到时间轴"
 
-#: src/timeline2/model/timelinefunctions.cpp:2476
+#: src/timeline2/model/timelinefunctions.cpp:2489
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "粘贴时间轴剪辑"
 
-#: src/timeline2/model/timelinefunctions.cpp:2694
+#: src/timeline2/model/timelinefunctions.cpp:2707
 #, kde-format
 msgid "Remove space on track"
 msgstr "移除轨道中的空白"
 
-#: src/timeline2/model/timelinefunctions.cpp:2721
+#: src/timeline2/model/timelinefunctions.cpp:2734
 #, kde-format
 msgid "Delete clips on track"
 msgstr "删除轨道中的剪辑"
