@@ -187,13 +187,13 @@ TEST_CASE("Save File With 2 Sequences", "[SF2]")
 
         // Save and close
         pCore->projectManager()->testSaveFileAs(dir.absoluteFilePath(QStringLiteral("test-nest.kdenlive")));
+        Q_ASSERT(QFile::exists(dir.absoluteFilePath(QStringLiteral("test-nest.kdenlive"))));
         pCore->projectManager()->closeCurrentDocument(false, false);
     }
 
     SECTION("Open and check in/out points")
     {
-        // Create new document
-        // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
+        // Open document
         KdenliveDoc::next_id = 0;
         QString saveFile = QDir::temp().absoluteFilePath(QStringLiteral("test-nest.kdenlive"));
         QUrl openURL = QUrl::fromLocalFile(saveFile);
@@ -219,11 +219,6 @@ TEST_CASE("Save File With 2 Sequences", "[SF2]")
         // Now reopen all timeline sequences
         QList<QUuid> allUuids = allSequences.keys();
         allUuids.removeAll(uuid);
-        for (auto &u : allUuids) {
-            const QString id = allSequences.value(u);
-            pCore->projectManager()->openTimeline(id, u);
-        }
-
         pCore->projectManager()->testSetActiveDocument(openedDoc.get(), timeline);
 
         REQUIRE(timeline->getTracksCount() == 4);
@@ -296,6 +291,7 @@ TEST_CASE("Save File With 2 Sequences", "[SF2]")
         // Create new document
         // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
         KdenliveDoc::next_id = 0;
+        Q_ASSERT(QFile::exists(QDir::temp().absoluteFilePath(QStringLiteral("test-nest.kdenlive"))));
         QString saveFile = QDir::temp().absoluteFilePath(QStringLiteral("test-nest.kdenlive"));
         QUrl openURL = QUrl::fromLocalFile(saveFile);
 
@@ -320,10 +316,6 @@ TEST_CASE("Save File With 2 Sequences", "[SF2]")
         // Now reopen all timeline sequences
         QList<QUuid> allUuids = allSequences.keys();
         allUuids.removeAll(uuid);
-        for (auto &u : allUuids) {
-            const QString id = allSequences.value(u);
-            pCore->projectManager()->openTimeline(id, u);
-        }
         pCore->projectManager()->testSetActiveDocument(openedDoc.get(), timeline);
 
         REQUIRE(timeline->getTracksCount() == 4);
@@ -333,7 +325,7 @@ TEST_CASE("Save File With 2 Sequences", "[SF2]")
         int cid2 = timeline->getClipByStartPosition(tid1, 100);
         REQUIRE(cid1 > -1);
         REQUIRE(cid2 > -1);
-        // Check che clips are still grouped
+        // Check the clips are still grouped
         REQUIRE(timeline->m_groups->isInGroup(cid1));
         REQUIRE(timeline->m_groups->isInGroup(cid2));
 
@@ -371,6 +363,7 @@ TEST_CASE("Save File With 2 Sequences", "[SF2]")
         QFile::remove(dir.absoluteFilePath(QStringLiteral("test-nest.kdenlive")));
         // binModel->clean();
         // pCore->m_projectManager = nullptr;
+        timeline.reset();
         pCore->projectManager()->closeCurrentDocument(false, false);
     }
 }
@@ -378,13 +371,12 @@ TEST_CASE("Save File With 2 Sequences", "[SF2]")
 TEST_CASE("Save File, Reopen and check for corruption", "[SF3]")
 {
     auto binModel = pCore->projectItemModel();
-    Q_ASSERT(binModel->clipsCount() == 0);
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-
     SECTION("Open and simply save file")
     {
         QString path = sourcesPath + "/dataset/test-nesting-effects.kdenlive";
+        Q_ASSERT(QFile::exists(sourcesPath));
         QUrl openURL = QUrl::fromLocalFile(path);
 
         QUndoGroup *undoGroup = new QUndoGroup();
@@ -398,24 +390,16 @@ TEST_CASE("Save File, Reopen and check for corruption", "[SF3]")
         QDateTime documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
         pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
         QMap<QUuid, QString> allSequences = binModel->getAllSequenceClips();
-        const QString firstSeqId = allSequences.value(uuid);
+        const QString firstSeqId = allSequences.take(uuid);
         pCore->projectManager()->openTimeline(firstSeqId, uuid);
         std::shared_ptr<TimelineItemModel> timeline = openedDoc->getTimeline(uuid);
         pCore->projectManager()->testSetActiveDocument(openedDoc.get(), timeline);
         // Now reopen all timeline sequences
-        QList<QUuid> allUuids = allSequences.keys();
-        for (auto &u : allUuids) {
-            if (u == uuid) {
-                continue;
-            }
-            const QString id = allSequences.value(u);
-            pCore->projectManager()->openTimeline(id, u);
-        }
-
         REQUIRE(openedDoc->checkConsistency());
         // Save file
         QDir dir = QDir::temp();
         pCore->projectManager()->testSaveFileAs(dir.absoluteFilePath(QStringLiteral("test-nest.kdenlive")));
+        timeline.reset();
         pCore->projectManager()->closeCurrentDocument(false, false);
     }
     SECTION("Reopen and check in/out points")
@@ -441,27 +425,19 @@ TEST_CASE("Save File, Reopen and check for corruption", "[SF3]")
         pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
 
         QMap<QUuid, QString> allSequences = binModel->getAllSequenceClips();
-        const QString firstSeqId = allSequences.value(uuid);
+        const QString firstSeqId = allSequences.take(uuid);
         pCore->projectManager()->openTimeline(firstSeqId, uuid);
         std::shared_ptr<TimelineItemModel> timeline = openedDoc->getTimeline(uuid);
-        // Now reopen all timeline sequences
-        QList<QUuid> allUuids = allSequences.keys();
+        pCore->projectManager()->testSetActiveDocument(openedDoc.get(), timeline);
+        //  Now reopen all timeline sequences
+        QList<QUuid> allUuids = binModel->getAllSequenceClips().keys();
         // Collect saved hashes
         QMap<QUuid, QString> timelineHashes;
         for (auto &u : allUuids) {
             timelineHashes.insert(u, openedDoc->getSequenceProperty(u, QStringLiteral("timelineHash")));
-            qDebug() << ":::: READING TIMELINE HASH FOR: " << u << " = " << openedDoc->getSequenceProperty(u, QStringLiteral("timelineHash"));
         }
-        for (auto &u : allUuids) {
-            if (u == uuid) {
-                continue;
-            }
-            const QString id = allSequences.value(u);
-            pCore->projectManager()->openTimeline(id, u);
-        }
-        pCore->projectManager()->testSetActiveDocument(openedDoc.get(), timeline);
         REQUIRE(openedDoc->checkConsistency());
-
+        openedDoc->documentProperties(true);
         for (auto &u : allUuids) {
             QByteArray updatedHex = openedDoc->getTimeline(u)->timelineHash().toHex();
             REQUIRE(updatedHex == timelineHashes.value(u));
@@ -469,8 +445,8 @@ TEST_CASE("Save File, Reopen and check for corruption", "[SF3]")
 
         QDir dir = QDir::temp();
         QFile::remove(dir.absoluteFilePath(QStringLiteral("test-nest.kdenlive")));
-        // binModel->clean();
-        // pCore->m_projectManager = nullptr;
+        //  binModel->clean();
+        //  pCore->m_projectManager = nullptr;
         pCore->projectManager()->closeCurrentDocument(false, false);
     }
 }

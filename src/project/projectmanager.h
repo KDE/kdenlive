@@ -30,6 +30,7 @@ class QAction;
 class QProgressDialog;
 class QUrl;
 class DocUndoStack;
+class TimelineWidget;
 
 /** @class ProjectManager
     @brief Takes care of interaction with projects.
@@ -260,4 +261,7 @@ private:
     void abortLoading();
     /** @brief Project loading failed, ask user if he wants to open a backup */
     void requestBackup(const QString &errorMessage);
+    /** @brief WHen building a sequence producer, ensure we pass along all properties */
+    void passSequenceProperties(const QUuid &uuid, std::shared_ptr<Mlt::Producer> prod, Mlt::Tractor tractor, std::shared_ptr<TimelineItemModel> timelineModel,
+                                TimelineWidget *timelineWidget);
 };
