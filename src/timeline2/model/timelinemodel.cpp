@@ -199,7 +199,7 @@ TimelineModel::~TimelineModel()
         }
         field->unlock();
         m_allTracks.clear();
-        if (pCore->currentDoc() && !pCore->currentDoc()->closing) {
+        if (pCore && pCore->currentDoc() && !pCore->currentDoc()->closing) {
             // If we are not closing the project, unregister this timeline clips from bin
             for (const auto &clip : m_allClips) {
                 clip.second->deregisterClipToBin(m_uuid);

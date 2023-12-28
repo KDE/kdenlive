@@ -1619,9 +1619,6 @@ QMap<QString, QString> KdenliveDoc::documentProperties(bool saveHash)
     QMapIterator<QUuid, std::shared_ptr<TimelineItemModel>> j(m_timelines);
     while (j.hasNext()) {
         j.next();
-        if (j.value()->isClosed) {
-            continue;
-        }
         j.value()->passSequenceProperties(getSequenceProperties(j.key()));
         if (saveHash) {
             j.value()->tractor()->set("kdenlive:sequenceproperties.timelineHash", j.value()->timelineHash().toHex().constData());
@@ -2159,20 +2156,16 @@ void KdenliveDoc::closeTimeline(const QUuid uuid, bool onDeletion)
 {
     Q_ASSERT(m_timelines.find(uuid) != m_timelines.end());
     // Sync all sequence properties
-    std::shared_ptr<TimelineItemModel> model;
     if (onDeletion) {
-        model = m_timelines.take(uuid);
-    } else {
-        model = m_timelines.value(uuid);
-    }
-    if (!closing) {
-        setSequenceProperty(uuid, QStringLiteral("groups"), model->groupsData());
-        model->passSequenceProperties(getSequenceProperties(uuid));
-    }
-    if (onDeletion) {
+        auto model = m_timelines.take(uuid);
         model->prepareClose(!closing);
         model.reset();
     } else {
+        auto model = m_timelines.value(uuid);
+        if (!closing) {
+            setSequenceProperty(uuid, QStringLiteral("groups"), model->groupsData());
+            model->passSequenceProperties(getSequenceProperties(uuid));
+        }
         model->isClosed = true;
     }
     // Clear all sequence properties
