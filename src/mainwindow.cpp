@@ -401,7 +401,7 @@ void MainWindow::init(const QString &mltPath)
     });
     connect(m_timelineTabs, &TimelineTabs::showItemEffectStack, this,
             [&](const QString &clipName, std::shared_ptr<EffectStackModel> model, QSize size, bool showKeyframes) {
-                if (model == nullptr && m_assetPanel->effectStackOwner().type == KdenliveObjectType::BinClip) {
+                if (model == nullptr && m_assetPanel->effectStackOwner().type == ObjectType::BinClip) {
                     // Effect stask is currently displaying a bin clip, do nothing
                     return;
                 }
