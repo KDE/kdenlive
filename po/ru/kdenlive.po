@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-26 00:41+0000\n"
+"POT-Creation-Date: 2023-12-29 00:41+0000\n"
 "PO-Revision-Date: 2023-11-15 16:49+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -4752,8 +4752,8 @@ msgstr "Список воспроизведения"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2443 src/bin/clipcreator.cpp:240 src/bin/clipcreator.cpp:242
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1411
-#: src/project/projectmanager.cpp:1413 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1450
+#: src/project/projectmanager.cpp:1452 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "Последовательности"
@@ -6056,7 +6056,7 @@ msgstr "Часы"
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "Недопустимый профиль проекта, возможен сбой во время сборки."
 
-#: src/core.cpp:970 src/project/projectmanager.cpp:843
+#: src/core.cpp:970 src/project/projectmanager.cpp:874
 #, kde-format
 msgid "Loading clips"
 msgstr "Загрузка клипов"
@@ -6432,7 +6432,7 @@ msgstr "Экспортировать данные направляющих"
 #: src/project/dialogs/archivewidget.cpp:879
 #: src/project/dialogs/archivewidget.cpp:891
 #: src/project/dialogs/archivewidget.cpp:897
-#: src/project/projectmanager.cpp:1694 src/render/renderrequest.cpp:268
+#: src/project/projectmanager.cpp:1740 src/render/renderrequest.cpp:268
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5051
@@ -6500,7 +6500,7 @@ msgstr ""
 "(UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:51 src/project/dialogs/guideslist.cpp:179
-#: src/project/projectmanager.cpp:1587
+#: src/project/projectmanager.cpp:1633
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, kde-format
 msgid "Cannot read file %1"
@@ -8395,8 +8395,8 @@ msgstr "Следующие фильтры/переходы были удален
 msgid "Invalid file path"
 msgstr "Некорректный путь к файлу"
 
-#: src/doc/kdenlivedoc.cpp:211 src/project/projectmanager.cpp:744
-#: src/project/projectmanager.cpp:794 src/project/projectmanager.cpp:858
+#: src/doc/kdenlivedoc.cpp:211 src/project/projectmanager.cpp:775
+#: src/project/projectmanager.cpp:825 src/project/projectmanager.cpp:889
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Не удалось восстановить повреждённый файл."
@@ -8474,15 +8474,15 @@ msgstr ""
 "Файл проекта Kdenlive обновлён до самой последней версии, однако создать "
 "резервную копию %1 не удалось."
 
-#: src/doc/kdenlivedoc.cpp:884 src/project/projectmanager.cpp:1291
-#: src/project/projectmanager.cpp:1327
+#: src/doc/kdenlivedoc.cpp:884 src/project/projectmanager.cpp:1330
+#: src/project/projectmanager.cpp:1366
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Ошибка при перемещении папки проекта: %1"
 
-#: src/doc/kdenlivedoc.cpp:1074 src/doc/kdenlivedoc.cpp:2285
+#: src/doc/kdenlivedoc.cpp:1074 src/doc/kdenlivedoc.cpp:2278
 #: src/project/dialogs/archivewidget.cpp:238
-#: src/project/projectmanager.cpp:1528
+#: src/project/projectmanager.cpp:1574
 #, kde-format
 msgid "Untitled"
 msgstr "Безымянный"
@@ -8535,12 +8535,12 @@ msgstr[3] "Удалить прокси-клип"
 msgid "Clip type does not support proxies"
 msgstr "Клип данного типа не поддерживает прокси"
 
-#: src/doc/kdenlivedoc.cpp:1860
+#: src/doc/kdenlivedoc.cpp:1857
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1879
+#: src/doc/kdenlivedoc.cpp:1876
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -8550,43 +8550,43 @@ msgstr ""
 "%3.\n"
 "Изменить профиль по умолчанию для будущих проектов?"
 
-#: src/doc/kdenlivedoc.cpp:1881
+#: src/doc/kdenlivedoc.cpp:1878
 #, kde-format
 msgid "Change default project profile"
 msgstr "Изменить профиль проекта по умолчанию"
 
-#: src/doc/kdenlivedoc.cpp:1881
+#: src/doc/kdenlivedoc.cpp:1878
 #, kde-format
 msgid "Change default to %1"
 msgstr "Изменить профиль по умолчанию на %1"
 
-#: src/doc/kdenlivedoc.cpp:1882
+#: src/doc/kdenlivedoc.cpp:1879
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Оставить текущий профиль по умолчанию %1"
 
-#: src/doc/kdenlivedoc.cpp:1882
+#: src/doc/kdenlivedoc.cpp:1879
 #, kde-format
 msgid "Ask me later"
 msgstr "Напомнить позже"
 
-#: src/doc/kdenlivedoc.cpp:1902
+#: src/doc/kdenlivedoc.cpp:1899
 #, kde-format
 msgid "Switch"
 msgstr "Переключить"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1904 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1901 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "Отменить"
 
-#: src/doc/kdenlivedoc.cpp:1906
+#: src/doc/kdenlivedoc.cpp:1903
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Переключить на профиль %2 клипа (%1)?"
 
-#: src/doc/kdenlivedoc.cpp:1911
+#: src/doc/kdenlivedoc.cpp:1908
 #, kde-format
 msgid ""
 "\n"
@@ -8595,7 +8595,7 @@ msgstr ""
 "\n"
 "Для профиля используется кадровая частота оригинала %1"
 
-#: src/doc/kdenlivedoc.cpp:1915
+#: src/doc/kdenlivedoc.cpp:1912
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -8604,13 +8604,13 @@ msgstr ""
 "Профиль для клипа %1 не найден.\n"
 "Создать и использовать новый профиль (%2×%3, %4 кадров/с)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2324 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2317 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "Красный"
 
-#: src/doc/kdenlivedoc.cpp:2325 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2318 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -8618,24 +8618,24 @@ msgstr "Красный"
 msgid "Green"
 msgstr "Зелёный"
 
-#: src/doc/kdenlivedoc.cpp:2326 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2319 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "Синий"
 
-#: src/doc/kdenlivedoc.cpp:2327 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2320 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Жёлтый"
 
-#: src/doc/kdenlivedoc.cpp:2328
+#: src/doc/kdenlivedoc.cpp:2321
 #, kde-format
 msgid "Cyan"
 msgstr "Бирюзовый"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2592 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2585 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -11387,13 +11387,13 @@ msgstr ""
 "Все временные файлы будут перемещены из<br/><b>%1</b> в <b>%2</b>,<br/>а "
 "затем файл проекта будет перезагружен"
 
-#: src/mainwindow.cpp:2229 src/project/projectmanager.cpp:551
+#: src/mainwindow.cpp:2229 src/project/projectmanager.cpp:582
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr ""
 "Не удалось выполнить операцию, недопустимый идентификатор документа: %1"
 
-#: src/mainwindow.cpp:2234 src/project/projectmanager.cpp:557
+#: src/mainwindow.cpp:2234 src/project/projectmanager.cpp:588
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Не удалось выполнить операцию, целевая папка уже существует: %1"
@@ -14306,12 +14306,12 @@ msgstr "Сохранить копию…"
 msgid "Open Backup File…"
 msgstr "Открыть резервную копию…"
 
-#: src/project/projectmanager.cpp:395
+#: src/project/projectmanager.cpp:426
 #, kde-format
 msgid "Save changes to document?"
 msgstr "Сохранить изменения в документе?"
 
-#: src/project/projectmanager.cpp:397 src/project/projectmanager.cpp:1527
+#: src/project/projectmanager.cpp:428 src/project/projectmanager.cpp:1573
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -14320,17 +14320,17 @@ msgstr ""
 "Проект <b>%1</b> был изменён.\n"
 "Сохранить изменения?"
 
-#: src/project/projectmanager.cpp:493
+#: src/project/projectmanager.cpp:524
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr ""
 
-#: src/project/projectmanager.cpp:526
+#: src/project/projectmanager.cpp:557
 #, fuzzy, kde-format
 msgid "Saving successful"
 msgstr "Запуск процесса"
 
-#: src/project/projectmanager.cpp:539
+#: src/project/projectmanager.cpp:570
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -14341,49 +14341,49 @@ msgstr ""
 "файлов. Все временные файлы будут перенесены из <b>%1</b> в <b>%2</b>. Затем "
 "файл проекта будет перезагружен"
 
-#: src/project/projectmanager.cpp:580
+#: src/project/projectmanager.cpp:611
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Сохранение копии файла"
 
-#: src/project/projectmanager.cpp:685
+#: src/project/projectmanager.cpp:716
 #, kde-format
 msgid "Auto-saved file exist. Do you want to recover now?"
 msgstr "Найден файл автосохранения. Восстановить данные с этого файла?"
 
-#: src/project/projectmanager.cpp:685
+#: src/project/projectmanager.cpp:716
 #, kde-format
 msgid "File Recovery"
 msgstr "Восстановление файла"
 
-#: src/project/projectmanager.cpp:686 src/project/projectmanager.cpp:782
+#: src/project/projectmanager.cpp:717 src/project/projectmanager.cpp:813
 #, kde-format
 msgid "Recover"
 msgstr "Восстановить"
 
-#: src/project/projectmanager.cpp:686
+#: src/project/projectmanager.cpp:717
 #, kde-format
 msgid "Do not recover"
 msgstr "Не восстанавливать"
 
-#: src/project/projectmanager.cpp:738
+#: src/project/projectmanager.cpp:769
 #, kde-format
 msgid "Opening file %1"
 msgstr "Открытие файла %1"
 
-#: src/project/projectmanager.cpp:765
+#: src/project/projectmanager.cpp:796
 #, kde-format
 msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "Загрузка проекта"
 
-#: src/project/projectmanager.cpp:767
+#: src/project/projectmanager.cpp:798
 #, kde-format
 msgid "Loading project"
 msgstr "Загрузка проекта"
 
-#: src/project/projectmanager.cpp:781
+#: src/project/projectmanager.cpp:812
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -14394,28 +14394,28 @@ msgstr ""
 "%1\n"
 "Открыть резервную копию файла?"
 
-#: src/project/projectmanager.cpp:782
+#: src/project/projectmanager.cpp:813
 #, kde-format
 msgid "Error opening file"
 msgstr "Ошибка при открытии файла"
 
-#: src/project/projectmanager.cpp:782
+#: src/project/projectmanager.cpp:813
 #, kde-format
 msgid "Open Backup"
 msgstr "Открыть резервную копию"
 
-#: src/project/projectmanager.cpp:798
+#: src/project/projectmanager.cpp:829
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "Не удалось открыть резервную копию проекта."
 
-#: src/project/projectmanager.cpp:814
+#: src/project/projectmanager.cpp:845
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Проект был обновлён, резервная копия будет создана при следующем сохранении"
 
-#: src/project/projectmanager.cpp:817
+#: src/project/projectmanager.cpp:848
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -14423,14 +14423,14 @@ msgstr ""
 "Проект был изменён при открытии, резервная копия будет создана при следующем "
 "сохранении"
 
-#: src/project/projectmanager.cpp:956
+#: src/project/projectmanager.cpp:995
 #, fuzzy, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
 "%1\n"
 msgstr "Не удалось открыть файл проекта %1"
 
-#: src/project/projectmanager.cpp:996
+#: src/project/projectmanager.cpp:1035
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -14439,12 +14439,12 @@ msgstr ""
 "Все изменения, внесённые после последнего сохранения проекта, будут "
 "потеряны. Продолжить?"
 
-#: src/project/projectmanager.cpp:997
+#: src/project/projectmanager.cpp:1036
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Вернуться к последней сохранённой версии"
 
-#: src/project/projectmanager.cpp:1079
+#: src/project/projectmanager.cpp:1118
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -14453,28 +14453,28 @@ msgstr ""
 "Проект повреждён, резервное копирование невозможно. Закройте и снова "
 "откройте файл проекта, чтобы восстановить данные из последней резервной копии"
 
-#: src/project/projectmanager.cpp:1269
+#: src/project/projectmanager.cpp:1308
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Ошибка при перемещении папки проекта, нет доступа к папке кэша"
 
-#: src/project/projectmanager.cpp:1305
+#: src/project/projectmanager.cpp:1344
 #, kde-format
 msgid "Moving project folder"
 msgstr "Перемещение папки проекта"
 
-#: src/project/projectmanager.cpp:1363
+#: src/project/projectmanager.cpp:1402
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr "Файл проекта повреждён (без дорожек). Найти файл резервной копии?"
 
-#: src/project/projectmanager.cpp:1389 src/project/projectmanager.cpp:1420
-#: src/project/projectmanager.cpp:1424
+#: src/project/projectmanager.cpp:1428 src/project/projectmanager.cpp:1481
+#: src/project/projectmanager.cpp:1485
 #, kde-format
 msgid "Sequence 1"
 msgstr "Последовательность 1"
 
-#: src/project/projectmanager.cpp:1401
+#: src/project/projectmanager.cpp:1440
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -14482,13 +14482,13 @@ msgstr ""
 "Файл проекта повреждён — не удалось загрузить дорожки. Выполнить поиск файла "
 "резервной копии?"
 
-#: src/project/projectmanager.cpp:1533 src/project/projectmanager.cpp:1538
-#: src/project/projectmanager.cpp:1548 src/project/projectmanager.cpp:1562
+#: src/project/projectmanager.cpp:1579 src/project/projectmanager.cpp:1584
+#: src/project/projectmanager.cpp:1594 src/project/projectmanager.cpp:1608
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Изменение профиля проекта прервано"
 
-#: src/project/projectmanager.cpp:1679
+#: src/project/projectmanager.cpp:1725
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -14497,12 +14497,12 @@ msgstr ""
 "Выходной файл %1 уже существует.\n"
 "Перезаписать его?"
 
-#: src/project/projectmanager.cpp:1704
+#: src/project/projectmanager.cpp:1750
 #, kde-format
 msgid "Project profile changed"
 msgstr "Профиль проекта изменён"
 
-#: src/project/projectmanager.cpp:1760
+#: src/project/projectmanager.cpp:1806
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -14511,19 +14511,19 @@ msgstr ""
 "Не удалось создать монтажный стол из этого клипа:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1837
+#: src/project/projectmanager.cpp:1883
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Импорт клипа последовательности, в данный момент функция работает в "
 "экмпериментальном режиме"
 
-#: src/project/projectmanager.cpp:2018
+#: src/project/projectmanager.cpp:2066
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Выберите клип для создания последовательности"
 
-#: src/project/projectmanager.cpp:2056
+#: src/project/projectmanager.cpp:2104
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Создать клип последовательности"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-26 00:41+0000\n"
+"POT-Creation-Date: 2023-12-29 00:41+0000\n"
 "PO-Revision-Date: 2023-10-02 19:42+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -4669,8 +4669,8 @@ msgstr "Playlist"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2443 src/bin/clipcreator.cpp:240 src/bin/clipcreator.cpp:242
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1411
-#: src/project/projectmanager.cpp:1413 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1450
+#: src/project/projectmanager.cpp:1452 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "Rentetan"
@@ -5951,7 +5951,7 @@ msgstr "Jam Atas"
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "Profil proyek Anda tidak valid, rendering mungkin gagal."
 
-#: src/core.cpp:970 src/project/projectmanager.cpp:843
+#: src/core.cpp:970 src/project/projectmanager.cpp:874
 #, kde-format
 msgid "Loading clips"
 msgstr "Memuat klip"
@@ -6303,7 +6303,7 @@ msgstr "Ekspor Data Pancangan"
 #: src/project/dialogs/archivewidget.cpp:879
 #: src/project/dialogs/archivewidget.cpp:891
 #: src/project/dialogs/archivewidget.cpp:897
-#: src/project/projectmanager.cpp:1694 src/render/renderrequest.cpp:268
+#: src/project/projectmanager.cpp:1740 src/render/renderrequest.cpp:268
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5051
@@ -6369,7 +6369,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr ""
 
 #: src/dialogs/importsubtitle.cpp:51 src/project/dialogs/guideslist.cpp:179
-#: src/project/projectmanager.cpp:1587
+#: src/project/projectmanager.cpp:1633
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, kde-format
 msgid "Cannot read file %1"
@@ -8235,8 +8235,8 @@ msgstr "Filter/transisi berikut terdeteksi dari proyek:"
 msgid "Invalid file path"
 msgstr "Alur file tidak valid"
 
-#: src/doc/kdenlivedoc.cpp:211 src/project/projectmanager.cpp:744
-#: src/project/projectmanager.cpp:794 src/project/projectmanager.cpp:858
+#: src/doc/kdenlivedoc.cpp:211 src/project/projectmanager.cpp:775
+#: src/project/projectmanager.cpp:825 src/project/projectmanager.cpp:889
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Tidak bisa memulihkan file rusak."
@@ -8314,15 +8314,15 @@ msgstr ""
 "File proyek Anda telah ditingkatkan ke versi dokumen Kdenlive terkini, "
 "tetapi itu tidak mungkin untuk menciptakan salinan cadangan %1."
 
-#: src/doc/kdenlivedoc.cpp:884 src/project/projectmanager.cpp:1291
-#: src/project/projectmanager.cpp:1327
+#: src/doc/kdenlivedoc.cpp:884 src/project/projectmanager.cpp:1330
+#: src/project/projectmanager.cpp:1366
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Galat memindah folder proyek: %1"
 
-#: src/doc/kdenlivedoc.cpp:1074 src/doc/kdenlivedoc.cpp:2285
+#: src/doc/kdenlivedoc.cpp:1074 src/doc/kdenlivedoc.cpp:2278
 #: src/project/dialogs/archivewidget.cpp:238
-#: src/project/projectmanager.cpp:1528
+#: src/project/projectmanager.cpp:1574
 #, kde-format
 msgid "Untitled"
 msgstr "Belum diberi judul"
@@ -8371,12 +8371,12 @@ msgstr[1] "Singkirkan klip proxy"
 msgid "Clip type does not support proxies"
 msgstr "Tipe klip belum mendukung proxy"
 
-#: src/doc/kdenlivedoc.cpp:1860
+#: src/doc/kdenlivedoc.cpp:1857
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1879
+#: src/doc/kdenlivedoc.cpp:1876
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -8385,43 +8385,43 @@ msgstr ""
 "Profil proyek baku Anda adalah %1, tetapi profil klip (%2) Anda adalah %3.\n"
 "Apakah Anda ingin mengubah profil baku untuk proyek nantinya?"
 
-#: src/doc/kdenlivedoc.cpp:1881
+#: src/doc/kdenlivedoc.cpp:1878
 #, kde-format
 msgid "Change default project profile"
 msgstr "Ubah profil proyek baku"
 
-#: src/doc/kdenlivedoc.cpp:1881
+#: src/doc/kdenlivedoc.cpp:1878
 #, kde-format
 msgid "Change default to %1"
 msgstr "Ubah baku untuk %1"
 
-#: src/doc/kdenlivedoc.cpp:1882
+#: src/doc/kdenlivedoc.cpp:1879
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Jaga baku %1 saat ini"
 
-#: src/doc/kdenlivedoc.cpp:1882
+#: src/doc/kdenlivedoc.cpp:1879
 #, kde-format
 msgid "Ask me later"
 msgstr "Tanya saya nanti"
 
-#: src/doc/kdenlivedoc.cpp:1902
+#: src/doc/kdenlivedoc.cpp:1899
 #, kde-format
 msgid "Switch"
 msgstr "Alihkan"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1904 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1901 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "Batal"
 
-#: src/doc/kdenlivedoc.cpp:1906
+#: src/doc/kdenlivedoc.cpp:1903
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Beralih ke klip (%1) profil %2?"
 
-#: src/doc/kdenlivedoc.cpp:1911
+#: src/doc/kdenlivedoc.cpp:1908
 #, kde-format
 msgid ""
 "\n"
@@ -8430,7 +8430,7 @@ msgstr ""
 "\n"
 "Fps profil diatur dari %1 yang asli"
 
-#: src/doc/kdenlivedoc.cpp:1915
+#: src/doc/kdenlivedoc.cpp:1912
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -8439,13 +8439,13 @@ msgstr ""
 "Tidak ada profil yang ditemukan untuk klip %1 Anda.\n"
 "Buat dan alihkan ke profil baru (%2x%3, %4fps)?%5 "
 
-#: src/doc/kdenlivedoc.cpp:2324 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2317 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "Merah"
 
-#: src/doc/kdenlivedoc.cpp:2325 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2318 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -8453,24 +8453,24 @@ msgstr "Merah"
 msgid "Green"
 msgstr "Hijau"
 
-#: src/doc/kdenlivedoc.cpp:2326 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2319 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "Biru"
 
-#: src/doc/kdenlivedoc.cpp:2327 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2320 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Kuning"
 
-#: src/doc/kdenlivedoc.cpp:2328
+#: src/doc/kdenlivedoc.cpp:2321
 #, kde-format
 msgid "Cyan"
 msgstr "Sian"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2592 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2585 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -11136,12 +11136,12 @@ msgstr ""
 "Ini akan memindahkan semua berkas sementara dari<br/> <b>%1</b> ke <b>%2</b>,"
 "<br/> setelah itu berkas proyek akan dimuat ulang"
 
-#: src/mainwindow.cpp:2229 src/project/projectmanager.cpp:551
+#: src/mainwindow.cpp:2229 src/project/projectmanager.cpp:582
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Tidak bisa melakukan operasi, id dokumen tidak valid: %1"
 
-#: src/mainwindow.cpp:2234 src/project/projectmanager.cpp:557
+#: src/mainwindow.cpp:2234 src/project/projectmanager.cpp:588
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Tidak bisa melakukan operasi, direktori target sudah ada: %1"
@@ -14026,12 +14026,12 @@ msgstr "Simpan Salinan…"
 msgid "Open Backup File…"
 msgstr "Buka File Cadangan..."
 
-#: src/project/projectmanager.cpp:395
+#: src/project/projectmanager.cpp:426
 #, kde-format
 msgid "Save changes to document?"
 msgstr "Simpan perubahan ke dokumen?"
 
-#: src/project/projectmanager.cpp:397 src/project/projectmanager.cpp:1527
+#: src/project/projectmanager.cpp:428 src/project/projectmanager.cpp:1573
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -14040,18 +14040,18 @@ msgstr ""
 "Proyek <b>\"%1\"</b> sudah berubah.\n"
 "Apakah Anda ingin menyimpan perubahan Anda?"
 
-#: src/project/projectmanager.cpp:493
+#: src/project/projectmanager.cpp:524
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr ""
 
-#: src/project/projectmanager.cpp:526
+#: src/project/projectmanager.cpp:557
 #, fuzzy, kde-format
 #| msgid "Starting process"
 msgid "Saving successful"
 msgstr "Memulai proses"
 
-#: src/project/projectmanager.cpp:539
+#: src/project/projectmanager.cpp:570
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -14062,50 +14062,50 @@ msgstr ""
 "proyek untuk menyimpan file temporer. Ini akan memindahkan semua file "
 "temporer dari <b>%1</b> ke <b>%2</b>, file proyek kemudian akan dimuat ulang."
 
-#: src/project/projectmanager.cpp:580
+#: src/project/projectmanager.cpp:611
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Simpan Salinan"
 
-#: src/project/projectmanager.cpp:685
+#: src/project/projectmanager.cpp:716
 #, kde-format
 msgid "Auto-saved file exist. Do you want to recover now?"
 msgstr ""
 "Ada file yang tersimpan otomatis. Apakah Anda ingin memulihkannya sekarang?"
 
-#: src/project/projectmanager.cpp:685
+#: src/project/projectmanager.cpp:716
 #, kde-format
 msgid "File Recovery"
 msgstr "Pulihkan File"
 
-#: src/project/projectmanager.cpp:686 src/project/projectmanager.cpp:782
+#: src/project/projectmanager.cpp:717 src/project/projectmanager.cpp:813
 #, kde-format
 msgid "Recover"
 msgstr "Pulihkan"
 
-#: src/project/projectmanager.cpp:686
+#: src/project/projectmanager.cpp:717
 #, kde-format
 msgid "Do not recover"
 msgstr "Jangan pulihkan"
 
-#: src/project/projectmanager.cpp:738
+#: src/project/projectmanager.cpp:769
 #, kde-format
 msgid "Opening file %1"
 msgstr "Membuka file %1"
 
-#: src/project/projectmanager.cpp:765
+#: src/project/projectmanager.cpp:796
 #, kde-format
 msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "Memuat Proyek"
 
-#: src/project/projectmanager.cpp:767
+#: src/project/projectmanager.cpp:798
 #, kde-format
 msgid "Loading project"
 msgstr "Memuat proyek"
 
-#: src/project/projectmanager.cpp:781
+#: src/project/projectmanager.cpp:812
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -14116,29 +14116,29 @@ msgstr ""
 "%1\n"
 "Apakah kamu ingin membuka file cadangan?"
 
-#: src/project/projectmanager.cpp:782
+#: src/project/projectmanager.cpp:813
 #, kde-format
 msgid "Error opening file"
 msgstr "Galat pembukaan file"
 
-#: src/project/projectmanager.cpp:782
+#: src/project/projectmanager.cpp:813
 #, kde-format
 msgid "Open Backup"
 msgstr "Buka Cadangan"
 
-#: src/project/projectmanager.cpp:798
+#: src/project/projectmanager.cpp:829
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "Tidak bisa membuka file proyek cadangan."
 
-#: src/project/projectmanager.cpp:814
+#: src/project/projectmanager.cpp:845
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Proyek Anda telah ditingkatkan, sebuah cadangan akan dibuat pada penyimpanan "
 "berikutnya"
 
-#: src/project/projectmanager.cpp:817
+#: src/project/projectmanager.cpp:848
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -14146,7 +14146,7 @@ msgstr ""
 "Proyek Anda telah dimodifikasi saat membuka, sebuah cadangan akan dibuat "
 "pada penyimpanan berikutnya"
 
-#: src/project/projectmanager.cpp:956
+#: src/project/projectmanager.cpp:995
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid ""
@@ -14154,7 +14154,7 @@ msgid ""
 "%1\n"
 msgstr "Tidak bisa membuka file proyek %1"
 
-#: src/project/projectmanager.cpp:996
+#: src/project/projectmanager.cpp:1035
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -14163,12 +14163,12 @@ msgstr ""
 "Ini akan menghapus semua perubahan yang dibuat sejak terakhir kali Anda "
 "menyimpan proyek Anda. Apakah anda yakin ingin melanjutkan?"
 
-#: src/project/projectmanager.cpp:997
+#: src/project/projectmanager.cpp:1036
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Kembalikan ke versi tersimpan yang terakhir"
 
-#: src/project/projectmanager.cpp:1079
+#: src/project/projectmanager.cpp:1118
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -14177,41 +14177,41 @@ msgstr ""
 "Proyek telah rusak, tidak bisa mencadangkan. Silakan tutup dan buka ulang "
 "file proyek Anda untuk memulihkan cadangan yang terakhir"
 
-#: src/project/projectmanager.cpp:1269
+#: src/project/projectmanager.cpp:1308
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Galat memindah folder proyek, tidak bisa mengakses folder cache"
 
-#: src/project/projectmanager.cpp:1305
+#: src/project/projectmanager.cpp:1344
 #, kde-format
 msgid "Moving project folder"
 msgstr "Memindah folder proyek"
 
-#: src/project/projectmanager.cpp:1363
+#: src/project/projectmanager.cpp:1402
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr "File proyek telah rusak (tidak ada trek). Coba temukan file cadangan?"
 
-#: src/project/projectmanager.cpp:1389 src/project/projectmanager.cpp:1420
-#: src/project/projectmanager.cpp:1424
+#: src/project/projectmanager.cpp:1428 src/project/projectmanager.cpp:1481
+#: src/project/projectmanager.cpp:1485
 #, kde-format
 msgid "Sequence 1"
 msgstr "Rentetan 1"
 
-#: src/project/projectmanager.cpp:1401
+#: src/project/projectmanager.cpp:1440
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 "File proyek telah rusak - gagal memuat trek. Coba cari sebuah file cadangan?"
 
-#: src/project/projectmanager.cpp:1533 src/project/projectmanager.cpp:1538
-#: src/project/projectmanager.cpp:1548 src/project/projectmanager.cpp:1562
+#: src/project/projectmanager.cpp:1579 src/project/projectmanager.cpp:1584
+#: src/project/projectmanager.cpp:1594 src/project/projectmanager.cpp:1608
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Perubahan profil proyek digugurkan"
 
-#: src/project/projectmanager.cpp:1679
+#: src/project/projectmanager.cpp:1725
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -14220,12 +14220,12 @@ msgstr ""
 "File output %1 sudah ada.\n"
 "Apakah Anda ingin menimpanya?"
 
-#: src/project/projectmanager.cpp:1704
+#: src/project/projectmanager.cpp:1750
 #, kde-format
 msgid "Project profile changed"
 msgstr "Profil proyek diubah"
 
-#: src/project/projectmanager.cpp:1760
+#: src/project/projectmanager.cpp:1806
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -14234,18 +14234,18 @@ msgstr ""
 "Tidak bisa membuat sebuah linimasa dari klip ini:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1837
+#: src/project/projectmanager.cpp:1883
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:2018
+#: src/project/projectmanager.cpp:2066
 #, fuzzy, kde-format
 #| msgid "Select a clip to compare effect"
 msgid "Select a clip to create sequence"
 msgstr "Pilih klip untuk membandingkan efek"
 
-#: src/project/projectmanager.cpp:2056
+#: src/project/projectmanager.cpp:2104
 #, fuzzy, kde-format
 #| msgid "Image sequence:"
 msgid "Create Sequence Clip"
