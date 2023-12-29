@@ -122,13 +122,41 @@ Wizard::Wizard(bool autoClose, QWidget *parent)
         m_startLayout->addWidget(errorLabel);
         errorLabel->show();
     }
-    if (m_errors.isEmpty() && m_warnings.isEmpty()) {
-        // Everything is ok only some info message, show codec status
+    if (!m_errors.isEmpty()) {
+        auto *errorLabel = new KMessageWidget(this);
+        errorLabel->setText(QStringLiteral("<ul>") + m_errors + QStringLiteral("</ul>"));
+        errorLabel->setMessageType(KMessageWidget::Error);
+        errorLabel->setWordWrap(true);
+        errorLabel->setCloseButtonVisible(false);
+        m_startLayout->addWidget(errorLabel);
+        m_page->setComplete(false);
+        errorLabel->show();
+        if (!autoClose) {
+            setButtonText(QWizard::CancelButton, i18n("Close"));
+        }
+    } else {
         m_page->setComplete(true);
+        if (!autoClose) {
+            setOption(QWizard::NoCancelButton, true);
+        }
+    }
+    if (!m_warnings.isEmpty()) {
+        auto *errorLabel = new KMessageWidget(this);
+        errorLabel->setText(QStringLiteral("<ul>") + m_warnings + QStringLiteral("</ul>"));
+        errorLabel->setMessageType(KMessageWidget::Warning);
+        errorLabel->setWordWrap(true);
+        errorLabel->setCloseButtonVisible(false);
+        m_startLayout->addWidget(errorLabel);
+        errorLabel->show();
+    }
+    if (m_errors.isEmpty() && m_warnings.isEmpty()) {
         if (autoClose) {
             QTimer::singleShot(0, this, &QDialog::accept);
             return;
         }
+    }
+    if (m_errors.isEmpty()) {
+        // Everything is ok only some info message, show codec status
         auto *lab = new KMessageWidget(this);
         lab->setText(i18n("Codecs have been updated, everything seems fine."));
         lab->setMessageType(KMessageWidget::Positive);
@@ -180,34 +208,6 @@ Wizard::Wizard(bool autoClose, QWidget *parent)
         setOption(QWizard::NoCancelButton, true);
         return;
     }
-    if (!m_errors.isEmpty()) {
-        auto *errorLabel = new KMessageWidget(this);
-        errorLabel->setText(QStringLiteral("<ul>") + m_errors + QStringLiteral("</ul>"));
-        errorLabel->setMessageType(KMessageWidget::Error);
-        errorLabel->setWordWrap(true);
-        errorLabel->setCloseButtonVisible(false);
-        m_startLayout->addWidget(errorLabel);
-        m_page->setComplete(false);
-        errorLabel->show();
-        if (!autoClose) {
-            setButtonText(QWizard::CancelButton, i18n("Close"));
-        }
-    } else {
-        m_page->setComplete(true);
-        if (!autoClose) {
-            setOption(QWizard::NoCancelButton, true);
-        }
-    }
-    if (!m_warnings.isEmpty()) {
-        auto *errorLabel = new KMessageWidget(this);
-        errorLabel->setText(QStringLiteral("<ul>") + m_warnings + QStringLiteral("</ul>"));
-        errorLabel->setMessageType(KMessageWidget::Warning);
-        errorLabel->setWordWrap(true);
-        errorLabel->setCloseButtonVisible(false);
-        m_startLayout->addWidget(errorLabel);
-        errorLabel->show();
-    }
-
 }
 
 void Wizard::checkMltComponents()
