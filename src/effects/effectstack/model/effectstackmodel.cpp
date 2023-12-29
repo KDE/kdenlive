@@ -85,7 +85,7 @@ void EffectStackModel::removeService(const std::shared_ptr<Mlt::Service> &servic
 void EffectStackModel::removeCurrentEffect()
 {
     int ix = getActiveEffect();
-    if (ix < 0) {
+    if (ix < 0 || ix >= rootItem->childCount()) {
         return;
     }
     std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
