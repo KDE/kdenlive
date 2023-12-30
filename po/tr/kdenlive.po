@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-03 02:25+0000\n"
-"PO-Revision-Date: 2023-12-27 13:23+0300\n"
+"PO-Revision-Date: 2023-12-29 11:07+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -15080,7 +15080,7 @@ msgstr "%1°"
 #: src/scopes/colorscopes/colorplaneexport.cpp:116
 #, kde-format
 msgid "%1 px"
-msgstr "%1 px"
+msgstr "%1 pks"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
 #, kde-format
@@ -15245,7 +15245,7 @@ msgstr "Renk Aralığı"
 #: src/scopes/colorscopes/vectorscope.cpp:254
 #, kde-format
 msgid "%1 %%"
-msgstr "%1 %%"
+msgstr "%​%1"
 
 #: src/scopes/scopemanager.cpp:293
 #, kde-format
@@ -21150,19 +21150,19 @@ msgstr "Yeniden Boyutlandır"
 #: src/ui/titlewidget_ui.ui:1519
 #, no-c-format, kde-format
 msgid "50%"
-msgstr "% 50"
+msgstr "%​50"
 
 #. i18n: ectx: property (text), widget (QToolButton, resize100)
 #: src/ui/titlewidget_ui.ui:1526
 #, no-c-format, kde-format
 msgid "100%"
-msgstr "% 100"
+msgstr "%​100"
 
 #. i18n: ectx: property (text), widget (QToolButton, resize200)
 #: src/ui/titlewidget_ui.ui:1533
 #, no-c-format, kde-format
 msgid "200%"
-msgstr "% 200"
+msgstr "%​200"
 
 #. i18n: ectx: property (text), widget (QCheckBox, keep_aspect)
 #: src/ui/titlewidget_ui.ui:1540
