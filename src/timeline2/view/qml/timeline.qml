@@ -1900,7 +1900,7 @@ Rectangle {
                                     }
 
                                     function moveItem() {
-                                        if (dragProxy.draggedItem > -1) {
+                                        if (dragProxy.draggedItem > -1 && !rubberSelect.visible) {
                                             var mapped = Math.max(0, tracksContainerArea.mapFromItem(dragProxy, dragProxyArea.mouseX, 0).x)
                                             root.mousePosChanged(Math.floor(mapped / root.timeScale))
                                             var posx = Math.round((parent.x)/ root.timeScale)
