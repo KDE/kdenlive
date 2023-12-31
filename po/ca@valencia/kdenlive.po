@@ -12484,7 +12484,7 @@ msgstr "Busca pendent…"
 #: src/onlineresources/resourcewidget.cpp:237
 #, kde-format
 msgid "Search failed! %1"
-msgstr "Ha fallat la busca! %1"
+msgstr "No s'ha pogut fer la busca! %1"
 
 #: src/onlineresources/resourcewidget.cpp:257
 #, kde-format
