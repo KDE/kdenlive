@@ -204,6 +204,7 @@ private:
     QSemaphore m_analyseSem;
     bool m_isInitialized;
     bool m_qmlEvent;
+    bool m_swallowDrop{false};
     int m_maxProducerPosition;
     int m_bckpMax;
     std::unique_ptr<Mlt::Filter> m_glslManager;

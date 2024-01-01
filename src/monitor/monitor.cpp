@@ -1093,8 +1093,8 @@ void Monitor::slotStartDrag()
         list.append(QString::number(p.y() - 1));
         prodData.append(list.join(QLatin1Char('/')).toUtf8());
     }
-    mimeData->setData(QStringLiteral("kdenlive/producerslist"), prodData);
-    mimeData->setData(QStringLiteral("kdenlive/dragid"), QUuid::createUuid().toByteArray());
+    mimeData->setData(QStringLiteral("text/producerslist"), prodData);
+    mimeData->setData(QStringLiteral("text/dragid"), QUuid::createUuid().toByteArray());
     drag->setMimeData(mimeData);
     drag->exec(Qt::CopyAction);
     Q_EMIT pCore->bin()->processDragEnd();

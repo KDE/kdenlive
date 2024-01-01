@@ -746,7 +746,7 @@ Rectangle {
         height: root.height - ruler.height
         y: ruler.height
         x: headerWidth
-        keys: 'kdenlive/producerslist'
+        keys: 'text/producerslist'
         enabled: !compoArea.containsDrag
         function moveDrop(offset, voffset)
         {
@@ -811,7 +811,7 @@ Rectangle {
             }
         }
         onEntered: drag => {
-            if (clipBeingDroppedId > -1 && lastDragUuid != drag.getDataAsString('kdenlive/dragid') && timeline.exists(clipBeingDroppedId)) {
+            if (clipBeingDroppedId > -1 && lastDragUuid != drag.getDataAsString('text/dragid') && timeline.exists(clipBeingDroppedId)) {
                 // We are re-entering drop zone with another drag operation, ensure the previous drop operation is complete
                 processDrop()
             }
@@ -828,8 +828,8 @@ Rectangle {
                     droppedPosition = frame
                     timeline.activeTrack = tracksRepeater.itemAt(track).trackInternalId
                     //drag.acceptProposedAction()
-                    clipBeingDroppedData = drag.getDataAsString('kdenlive/producerslist')
-                    lastDragUuid = drag.getDataAsString('kdenlive/dragid')
+                    clipBeingDroppedData = drag.getDataAsString('text/producerslist')
+                    lastDragUuid = drag.getDataAsString('text/dragid')
                     if (controller.normalEdit()) {
                         clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, frame, clipBeingDroppedData)
                     } else {
@@ -843,7 +843,7 @@ Rectangle {
                         }
                     }
                     if (clipBeingDroppedId == -1) {
-                        drag.accepted = false
+                        drag.accepted = true
                     }
                     continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
                 } else {
@@ -881,7 +881,7 @@ Rectangle {
                         frame = controller.suggestSnapPoint(frame, root.snapping)
                         if (controller.normalEdit()) {
                             timeline.activeTrack = targetTrack
-                            clipBeingDroppedId = insertAndMaybeGroup(targetTrack, frame, drag.getDataAsString('kdenlive/producerslist'), false, true)
+                            clipBeingDroppedId = insertAndMaybeGroup(targetTrack, frame, drag.getDataAsString('text/producerslist'), false, true)
                         } else {
                             // we want insert/overwrite mode, make a fake insert at end of timeline, then move to position
                             clipBeingDroppedId = insertAndMaybeGroup(targetTrack, timeline.fullDuration, clipBeingDroppedData)

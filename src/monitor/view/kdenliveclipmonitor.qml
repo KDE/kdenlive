@@ -624,7 +624,7 @@ Item {
             height: childrenRect.height
             color: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.7)
             radius: 4
-            opacity: (dragAudioArea.containsMouse || dragVideoArea.containsMouse  || thumbMouseArea.containsMouse || marker.hovered || inPointArea.containsMouse || outPointArea.containsMouse
+            opacity: (dragAudioArea.containsMouse || dragVideoArea.containsMouse  || thumbMouseArea.containsMouse || marker.hovered || inPointArea.containsMouse || outPointArea.containsMouse || dragAudioArea.pressed || dragVideoArea.pressed
                       || (barOverArea.containsMouse && (barOverArea.mouseY >= (parent.height - inPoint.height - height - 2 - (audioThumb.height + root.zoomOffset) - root.baseUnit)))) ? 1 : 0
             visible: controller.clipHasAV
             onOpacityChanged: {
@@ -640,62 +640,68 @@ Item {
                 ToolButton {
                     id: videoDragButton
                     icon.name: "kdenlive-show-video"
+                    opacity: dragAudioArea.pressed ? 0 : 1
+                    focusPolicy: Qt.NoFocus
                     Drag.active: dragVideoArea.drag.active
                     Drag.dragType: Drag.Automatic
                     Drag.mimeData: {
-                        "kdenlive/producerslist" : "V" + controller.clipId + "/" + controller.zoneIn + "/" + (controller.zoneOut - 1),
-                        "kdenlive/dragid" : dragZone.uuid
+                        "text/producerslist" : "V" + controller.clipId + "/" + controller.zoneIn + "/" + (controller.zoneOut - 1),
+                        "text/dragid" : dragZone.uuid
+                    }
+                    Drag.onDragStarted: {
+                        dragZone.uuid = controller.getUuid()
+                    }
+                    Drag.onDragFinished: dropAction => {
+                        root.endDrag()
+                        root.captureRightClick = false
                     }
                     MouseArea {
                         id: dragVideoArea
                         hoverEnabled: true
-                        anchors.fill: parent
-                        propagateComposedEvents: true
+                        anchors.fill: videoDragButton
                         cursorShape: Qt.PointingHand
-                        drag.target: parent
-                        property bool dragActive: drag.active
-                        onDragActiveChanged: {
-                            if (!drag.active) {
-                                root.endDrag()
-                            }
+                        drag.target: videoDragButton
+                        onPressed: mouse => {
+                            root.captureRightClick = true
+                            mouse.accepted = true
                         }
-                        onPressed: {
-                            dragZone.uuid = controller.getUuid()
-                        }
-                        onExited: {
-                            parent.x = 0
-                            parent.y = 0
+                        onReleased: mouse => {
+                            mouse.accepted = true
+                            root.captureRightClick = false
                         }
                     }
                 }
                 ToolButton {
                     id: audioDragButton
+                    opacity: dragVideoArea.pressed ? 0 : 1
                     icon.name: "audio-volume-medium"
+                    focusPolicy: Qt.NoFocus
                     Drag.active: dragAudioArea.drag.active
                     Drag.dragType: Drag.Automatic
                     Drag.mimeData: {
-                        "kdenlive/producerslist" : "A" + controller.clipId + "/" + controller.zoneIn + "/" + (controller.zoneOut - 1),
-                        "kdenlive/dragid" : dragZone.uuid
+                        "text/producerslist" : "A" + controller.clipId + "/" + controller.zoneIn + "/" + (controller.zoneOut - 1),
+                        "text/dragid" : dragZone.uuid
+                    }
+                    Drag.onDragStarted: {
+                        dragZone.uuid = controller.getUuid()
+                    }
+                    Drag.onDragFinished: {
+                        root.endDrag()
+                        root.captureRightClick = false
                     }
                     MouseArea {
                         id: dragAudioArea
                         hoverEnabled: true
-                        anchors.fill: parent
-                        propagateComposedEvents: true
+                        anchors.fill: audioDragButton
                         cursorShape: Qt.PointingHand
-                        drag.target: parent
-                        property bool dragActive: drag.active
-                        onDragActiveChanged: {
-                            if (!drag.active) {
-                                root.endDrag()
-                            }
+                        drag.target: audioDragButton
+                        onPressed: mouse => {
+                            root.captureRightClick = true
+                            mouse.accepted = true
                         }
-                        onPressed: {
-                            dragZone.uuid = controller.getUuid()
-                        }
-                        onExited: {
-                            parent.x = videoDragButton.x + videoDragButton.width
-                            parent.y = 0
+                        onReleased: mouse => {
+                            mouse.accepted = true
+                            root.captureRightClick = false
                         }
                     }
                 }
