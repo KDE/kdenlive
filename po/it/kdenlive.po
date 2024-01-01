@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-31 00:41+0000\n"
-"PO-Revision-Date: 2023-12-03 18:21+0100\n"
+"PO-Revision-Date: 2023-12-25 17:35+0100\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 23.08.3\n"
+"X-Generator: Lokalize 23.08.4\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -616,7 +616,7 @@ msgstr "Inverti"
 #: data/effects/chroma.xml:4
 #, kde-format
 msgid "Chroma Key: Basic"
-msgstr "Chiave cromatica: di base"
+msgstr "Chroma Key: di base"
 
 #: data/effects/chroma.xml:5
 #, kde-format
@@ -636,7 +636,7 @@ msgstr "Varianza"
 #: data/effects/chroma_hold.xml:4
 #, kde-format
 msgid "Chroma Keep"
-msgstr "Chroma Keep"
+msgstr "Tieni crominanza"
 
 #: data/effects/chroma_hold.xml:5
 #, kde-format
@@ -1851,7 +1851,7 @@ msgstr "Ruota dal centro"
 #: data/effects/qtcrop.xml:4
 #, kde-format
 msgid "Crop by padding"
-msgstr "Ritaglia arrotondando"
+msgstr "Ritaglia riempendo"
 
 #: data/effects/qtcrop.xml:5
 #, kde-format

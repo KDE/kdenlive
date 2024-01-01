@@ -3999,7 +3999,7 @@ msgstr "Busca el fotograma clau en seleccionar"
 #: src/assets/view/widgets/keyframewidget.cpp:203
 #, kde-format
 msgid "Copy All Keyframes to Clipboard"
-msgstr "Copia tots els fotogrames clau al porta-retalls"
+msgstr "Copia tots els fotogrames clau a dins del porta-retalls"
 
 #: src/assets/view/widgets/keyframewidget.cpp:205
 #, kde-format
@@ -11802,7 +11802,7 @@ msgstr "Reproduïx el clip intermediari"
 #: src/mltcontroller/clippropertiescontroller.cpp:494
 #, kde-format
 msgid "Copy file location to clipboard"
-msgstr "Copia la ubicació del fitxer al porta-retalls"
+msgstr "Copia la ubicació del fitxer a dins del porta-retalls"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
