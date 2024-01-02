@@ -17,6 +17,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QtEndian>
 #include <utility>
 
+#include <QAudioDevice>
+#include <QMediaDevices>
+
 AudioDevInfo::AudioDevInfo(const QAudioFormat &format, QObject *parent)
     : QIODevice(parent)
     , m_format(format)
@@ -67,7 +70,22 @@ AudioDevInfo::AudioDevInfo(const QAudioFormat &format, QObject *parent)
         break;
     }
 #else
-    // TODO: qt6
+    switch (m_format.sampleFormat()) {
+    case QAudioFormat::UInt8:
+        maxAmplitude = 255;
+        break;
+    case QAudioFormat::Int16:
+        maxAmplitude = 32767;
+        break;
+    case QAudioFormat::Int32:
+        maxAmplitude = 0x7fffffff;
+        break;
+    case QAudioFormat::Float:
+        maxAmplitude = 0x7fffffff;
+        break;
+    default:
+        break;
+    }
 #endif
 }
 
@@ -139,7 +157,40 @@ qint64 AudioDevInfo::writeData(const char *data, qint64 len)
         Q_EMIT levelChanged(dbLevels);
     }
 #else
-    // TODO: qt6
+    // Qt6
+    const int channelBytes = m_format.bytesPerFrame();
+    const int sampleBytes = m_format.bytesPerSample();
+    Q_ASSERT(len % sampleBytes == 0);
+
+    QVector<qreal> levels;
+    for (int j = 0; j < m_format.channelCount(); ++j) {
+        levels << 0;
+    }
+    static const int resolution = 4;
+    static const int sampleCount = 2000; // int(len) / sampleBytes / resolution;
+    int start = 0;
+    const int availableSamples = int(len) / resolution;
+    if (availableSamples < sampleCount) {
+        start = sampleCount - availableSamples;
+    }
+    for (int s = start; s < sampleCount; ++s, data += resolution) {
+        for (int j = 0; j < m_format.channelCount(); j++) {
+            qreal value = qreal(uchar(*data));
+            levels[j] = qMax(value, levels.at(j));
+            data += channelBytes;
+        }
+    }
+    QVector<qreal> dbLevels;
+    QVector<qreal> recLevels;
+    for (int j = 0; j < m_format.channelCount(); ++j) {
+        qreal val = (levels.at(j) - 128) / 128;
+        val = 20. * log10(val);
+        recLevels << val;
+        dbLevels << IEC_ScaleMax(val, 0);
+    }
+    Q_EMIT levelRecChanged(recLevels);
+    Q_EMIT levelChanged(dbLevels);
+
 #endif
     return len;
 }
@@ -234,7 +285,48 @@ void MediaCapture::switchMonitorState(bool run)
         m_audioInput.reset();
     }
 #else
-    // TODO: qt6
+    // Qt6
+    qDebug() << ":::::::::::::::::::::::::\nTURNING AUDIO MONITOR ON!!!!!!!!!!!\n\n:::::::::::::::::";
+    QAudioDevice deviceInfo(QMediaDevices::defaultAudioInput());
+    m_audioInput.reset(new QAudioInput(deviceInfo, this));
+    QAudioFormat format;
+    format.setSampleRate(KdenliveSettings::audiocapturesamplerate());
+    format.setChannelCount(KdenliveSettings::audiocapturechannels());
+    format.setSampleFormat(QAudioFormat::UInt8);
+    m_audioInfo.reset(new AudioDevInfo(format));
+    QObject::connect(m_audioInfo.data(), &AudioDevInfo::levelChanged, m_audioInput.get(), [&](const QVector<qreal> &level) {
+        m_levels = level;
+        if (m_recordState == QMediaRecorder::RecordingState) {
+            // Get the frame number
+            int currentPos = qRound(m_recTimer.elapsed() / 1000. * pCore->getCurrentFps());
+            if (currentPos > m_lastPos) {
+                // Only store 1 value per frame
+                switch (level.count()) {
+                case 2:
+                    for (int i = 0; i < currentPos - m_lastPos; i++) {
+                        m_recLevels << qMax(level.first(), level.last());
+                    }
+                    break;
+                default:
+                    for (int i = 0; i < currentPos - m_lastPos; i++) {
+                        m_recLevels << level.first();
+                    }
+                    break;
+                }
+                m_lastPos = currentPos;
+                Q_EMIT recDurationChanged();
+            }
+        }
+        Q_EMIT levelsChanged();
+    });
+    m_audioSource.reset(new QAudioSource(deviceInfo, format));
+    m_audioSource->setBufferSize(200);
+    QObject::connect(m_audioInfo.data(), &AudioDevInfo::levelRecChanged, this, &MediaCapture::audioLevels);
+    qreal linearVolume = QAudio::convertVolume(KdenliveSettings::audiocapturevolume() / 100.0, QAudio::LogarithmicVolumeScale, QAudio::LinearVolumeScale);
+    m_audioSource->setVolume(linearVolume);
+    m_audioInfo->open(QIODevice::WriteOnly);
+    m_audioSource->start(m_audioInfo.get());
+
 #endif
 }
 
@@ -253,7 +345,16 @@ bool MediaCapture::isMonitoring() const
     return m_audioInput != nullptr && !isRecording();
 }
 
-MediaCapture::~MediaCapture() = default;
+MediaCapture::~MediaCapture()
+{
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    // Nothing to do
+#else
+    if (m_audioSource) {
+        m_audioSource->stop();
+    }
+#endif
+}
 
 void MediaCapture::displayErrorMessage()
 {
@@ -515,13 +616,10 @@ void MediaCapture::setAudioVolume()
         m_audioInput->setVolume(linearVolume);
     }
 #else
-    // TODO: Qt6
-    /*if (m_audioRecorder) {
-        m_audioRecorder->setVolume(linearVolume);
+    // Qt6
+    if (m_audioSource) {
+        m_audioSource->setVolume(linearVolume);
     }
-    if (m_audioInput) {
-        m_audioInput->setVolume(linearVolume);
-    }*/
 #endif
 }
 
