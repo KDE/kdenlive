@@ -1912,3 +1912,8 @@ void VideoWidget::switchRuler(bool show)
     resizeGL(width(), height());
     Q_EMIT m_proxy->rulerHeightChanged();
 }
+
+const QStringList VideoWidget::getGPUInfo()
+{
+    return {QString::fromUtf8((const char *)glGetString(GL_VENDOR)), QString::fromUtf8((const char *)glGetString(GL_RENDERER))};
+}

@@ -20,6 +20,7 @@ class OpenGLVideoWidget : public VideoWidget, protected QOpenGLFunctions
 public:
     explicit OpenGLVideoWidget(int id, QObject *parent = nullptr);
     virtual ~OpenGLVideoWidget();
+    const QStringList getGPUInfo() override;
 
 public Q_SLOTS:
     virtual void initialize() override;
