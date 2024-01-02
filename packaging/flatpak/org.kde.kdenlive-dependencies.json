@@ -129,54 +129,6 @@
       ]
     },
     {
-      "name": "jack2",
-      "buildsystem": "simple",
-      "build-commands": [
-        "./waf configure --prefix=/app --htmldir=/app/share/doc/jack/ --classic",
-        "./waf build -j $FLATPAK_BUILDER_N_JOBS",
-        "./waf install"
-      ],
-      "cleanup": [
-        "/bin",
-        "/share",
-        "/lib/jack",
-        "/lib/libjackserver.so*"
-      ],
-      "sources": [
-        {
-          "type": "archive",
-          "url": "https://github.com/jackaudio/jack2/archive/v1.9.22.tar.gz",
-          "sha256": "1e42b9fc4ad7db7befd414d45ab2f8a159c0b30fcd6eee452be662298766a849",
-          "x-checker-data": {
-              "type": "anitya",
-              "project-id": 21358,
-              "stable-only": true,
-              "url-template": "https://github.com/jackaudio/jack2/archive/v$version.tar.gz"
-          }
-        }
-      ]
-    },
-    {
-      "name": "rtaudio",
-      "config-opts": [
-        "--disable-static",
-        "--enable-shared"
-      ],
-      "sources": [
-        {
-          "type": "archive",
-          "url": "https://www.music.mcgill.ca/~gary/rtaudio/release/rtaudio-6.0.1.tar.gz",
-          "sha256": "42d29cc2b5fa378ba3a978faeb1885a0075acf0fecb5ee50f0d76f6c7d8ab28c",
-          "x-checker-data": {
-              "type": "anitya",
-              "project-id": 10227,
-              "stable-only": true,
-              "url-template": "https://www.music.mcgill.ca/~gary/rtaudio/release/rtaudio-$version.tar.gz"
-          }
-        }
-      ]
-    },
-    {
       "name": "gavl",
       "rm-configure": true,
       "config-opts": [
