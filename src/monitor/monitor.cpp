@@ -2880,3 +2880,8 @@ void Monitor::extractFrame(const QString &path)
     QStringList pathInfo = {QString(), path, QString()};
     m_glMonitor->getControllerProxy()->extractFrameToFile(m_glMonitor->getCurrentPos(), pathInfo, false, true);
 }
+
+const QStringList Monitor::getGPUInfo()
+{
+    return m_glMonitor->getGPUInfo();
+}

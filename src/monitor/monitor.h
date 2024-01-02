@@ -160,6 +160,8 @@ public:
     void loadZone(int in, int out);
     /** @brief Extract current frame to image file with path **/
     void extractFrame(const QString &path);
+    /** @brief Returns some infos about the GPU */
+    const QStringList getGPUInfo();
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;

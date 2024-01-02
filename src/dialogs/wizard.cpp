@@ -6,6 +6,8 @@
 #include "wizard.h"
 #include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
+#include "monitor/monitor.h"
+#include "monitor/videowidget.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "profilesdialog.h"
@@ -158,9 +160,20 @@ Wizard::Wizard(bool autoClose, QWidget *parent)
     if (m_errors.isEmpty()) {
         // Everything is ok only some info message, show codec status
         auto *lab = new KMessageWidget(this);
-        lab->setText(i18n("Codecs have been updated, everything seems fine."));
+        QString GPULabel = i18n("Codecs have been updated, everything seems fine.");
+        const QStringList gpu = pCore->getMonitor(Kdenlive::ClipMonitor)->getGPUInfo();
+        if (gpu.size() > 1 && !gpu.at(1).isEmpty()) {
+            GPULabel.append(QLatin1Char('\n'));
+            GPULabel.append(gpu.at(1));
+        }
+        lab->setText(GPULabel);
         lab->setMessageType(KMessageWidget::Positive);
         lab->setCloseButtonVisible(false);
+        QFrame *line = new QFrame(this);
+        line->setFrameShape(QFrame::HLine);
+        line->setFrameShadow(QFrame::Sunken);
+        line->setLineWidth(1);
+        m_startLayout->addWidget(line);
         m_startLayout->addWidget(lab);
         // HW accel
         const QString detectedCodecs = KdenliveSettings::supportedHWCodecs().join(QLatin1Char(' '));

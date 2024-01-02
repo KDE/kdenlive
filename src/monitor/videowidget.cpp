@@ -168,6 +168,11 @@ void VideoWidget::initialize()
 
 void VideoWidget::renderVideo() {}
 
+const QStringList VideoWidget::getGPUInfo()
+{
+    return {};
+}
+
 void VideoWidget::resizeVideo(int width, int height)
 {
     int x, y, w, h;
