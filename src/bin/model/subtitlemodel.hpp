@@ -37,7 +37,8 @@ public:
     static const int RAZOR_MODE_AFTER_FIRST_LINE = 1;
 
     /** @brief Construct a subtitle list bound to the timeline */
-    explicit SubtitleModel(std::shared_ptr<TimelineItemModel> timeline = nullptr, QObject *parent = nullptr);
+    explicit SubtitleModel(std::shared_ptr<TimelineItemModel> timeline = nullptr,
+                           const std::weak_ptr<SnapInterface> &snapModel = std::weak_ptr<SnapInterface>(), QObject *parent = nullptr);
 
     enum { SubtitleRole = Qt::UserRole + 1, StartPosRole, EndPosRole, StartFrameRole, EndFrameRole, IdRole, SelectedRole, GrabRole };
     /** @brief Function that parses through a subtitle file */
