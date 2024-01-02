@@ -315,6 +315,7 @@
         "--disable-qv4l2",
         "--with-udevdir=/app/lib/udev"
       ],
+      "no-autogen": true,
       "sources": [
         {
           "type": "archive",
