@@ -34,7 +34,7 @@
 #include <QTextCodec>
 #endif
 
-SubtitleModel::SubtitleModel(std::shared_ptr<TimelineItemModel> timeline, QObject *parent)
+SubtitleModel::SubtitleModel(std::shared_ptr<TimelineItemModel> timeline, const std::weak_ptr<SnapInterface> &snapModel, QObject *parent)
     : QAbstractListModel(parent)
     , m_timeline(timeline)
     , m_lock(QReadWriteLock::Recursive)
@@ -67,6 +67,7 @@ SubtitleModel::SubtitleModel(std::shared_ptr<TimelineItemModel> timeline, QObjec
     int id = pCore->currentDoc()->getSequenceProperty(timeline->uuid(), QStringLiteral("kdenlive:activeSubtitleIndex"), QStringLiteral("0")).toInt();
     const QString subPath = pCore->currentDoc()->subTitlePath(timeline->uuid(), id, true);
     const QString workPath = pCore->currentDoc()->subTitlePath(timeline->uuid(), id, false);
+    registerSnap(snapModel);
     QFile subFile(subPath);
     if (subFile.exists()) {
         subFile.copy(workPath);
@@ -729,6 +730,7 @@ void SubtitleModel::registerSnap(const std::weak_ptr<SnapInterface> &snapModel)
 void SubtitleModel::addSnapPoint(GenTime startpos)
 {
     std::vector<std::weak_ptr<SnapInterface>> validSnapModels;
+    Q_ASSERT(m_regSnaps.size() > 0);
     for (const auto &snapModel : m_regSnaps) {
         if (auto ptr = snapModel.lock()) {
             validSnapModels.push_back(snapModel);

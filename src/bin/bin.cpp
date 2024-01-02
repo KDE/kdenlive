@@ -671,11 +671,11 @@ void MyListView::focusInEvent(QFocusEvent *event)
 
 void MyListView::dropEvent(QDropEvent *event)
 {
-    if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/producerslist"))) {
+    if (event->mimeData()->hasFormat(QStringLiteral("text/producerslist"))) {
         // Internal drag/drop, ensure it is not a zone drop
-        if (!QString(event->mimeData()->data(QStringLiteral("kdenlive/producerslist"))).contains(QLatin1Char('/'))) {
+        if (!QString(event->mimeData()->data(QStringLiteral("text/producerslist"))).contains(QLatin1Char('/'))) {
             bool isSameRoot = false;
-            QString rootId = QString(event->mimeData()->data(QStringLiteral("kdenlive/rootId")));
+            QString rootId = QString(event->mimeData()->data(QStringLiteral("text/rootId")));
             if (rootIndex().data(AbstractProjectItem::DataId).toString() == rootId) {
                 isSameRoot = true;
             }

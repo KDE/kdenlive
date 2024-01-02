@@ -59,7 +59,7 @@ QMimeData *LibraryTree::mimeData(const QList<QTreeWidgetItem *> &list) const
 
 QStringList LibraryTree::mimeTypes() const
 {
-    return QStringList() << QStringLiteral("text/uri-list") << QStringLiteral("kdenlive/clip") << QStringLiteral("kdenlive/producerslist");
+    return QStringList() << QStringLiteral("text/uri-list") << QStringLiteral("kdenlive/clip") << QStringLiteral("text/producerslist");
 }
 
 void LibraryTree::slotUpdateThumb(const QString &path, const QString &iconPath)
@@ -132,8 +132,8 @@ void LibraryTree::dropEvent(QDropEvent *event)
         Q_EMIT moveData(urls, dest);
     } else if (qMimeData->hasFormat(QStringLiteral("kdenlive/clip"))) {
         Q_EMIT importSequence(QString(qMimeData->data(QStringLiteral("kdenlive/clip"))).split(QLatin1Char(';')), dest);
-    } else if (qMimeData->hasFormat(QStringLiteral("kdenlive/producerslist"))) {
-        QStringList list = QString(qMimeData->data(QStringLiteral("kdenlive/producerslist"))).split(QLatin1Char(';'));
+    } else if (qMimeData->hasFormat(QStringLiteral("text/producerslist"))) {
+        QStringList list = QString(qMimeData->data(QStringLiteral("text/producerslist"))).split(QLatin1Char(';'));
         for (const QString &prodslist : qAsConst(list)) {
             if (prodslist.startsWith(QLatin1Char('#'))) {
                 // Bin folder, not supported yet

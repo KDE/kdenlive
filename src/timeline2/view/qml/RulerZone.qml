@@ -69,7 +69,7 @@ Rectangle {
                 resizeActive = false
                 anchors.left= parent.left
             }
-            onPositionChanged: {
+            onPositionChanged: mouse => {
                 if (mouse.buttons === Qt.LeftButton) {
                     resizeActive = true
                     var offset = Math.round(mouseX/ timeline.scaleFactor)

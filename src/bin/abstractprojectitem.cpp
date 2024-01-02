@@ -121,7 +121,12 @@ AbstractProjectItem::PROJECTITEMTYPE AbstractProjectItem::itemType() const
     return m_itemType;
 }
 
-QVariant AbstractProjectItem::getData(DataType type) const
+const QIcon AbstractProjectItem::icon() const
+{
+    return m_thumbnail;
+}
+
+const QVariant AbstractProjectItem::getData(DataType type) const
 {
     QVariant data;
     switch (type) {

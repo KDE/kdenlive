@@ -141,7 +141,11 @@ public:
      *
      * This function is necessary for interaction with ProjectItemModel.
      */
-    virtual QVariant getData(DataType type) const;
+    virtual const QVariant getData(DataType type) const;
+    /**
+     * @brief Returns the item icon.
+     */
+    const QIcon icon() const;
 
     /**
      * @brief Returns the amount of different types of data this item supports.

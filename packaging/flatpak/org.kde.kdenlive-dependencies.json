@@ -117,8 +117,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/georgmartius/vid.stab/archive/v1.1.0.tar.gz",
-          "sha256": "14d2a053e56edad4f397be0cb3ef8eb1ec3150404ce99a426c4eb641861dc0bb",
+          "url": "https://github.com/georgmartius/vid.stab/archive/v1.1.1.tar.gz",
+          "sha256": "9001b6df73933555e56deac19a0f225aae152abbc0e97dc70034814a1943f3d4",
           "x-checker-data": {
               "type": "anitya",
               "project-id": 15959,
@@ -165,8 +165,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://www.music.mcgill.ca/~gary/rtaudio/release/rtaudio-5.2.0.tar.gz",
-          "sha256": "d6089c214e5dbff136ab21f3f5efc284e93475ebd198c54d4b9b6c44419ef4e6",
+          "url": "https://www.music.mcgill.ca/~gary/rtaudio/release/rtaudio-6.0.1.tar.gz",
+          "sha256": "42d29cc2b5fa378ba3a978faeb1885a0075acf0fecb5ee50f0d76f6c7d8ab28c",
           "x-checker-data": {
               "type": "anitya",
               "project-id": 10227,
@@ -247,8 +247,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/libass/libass/releases/download/0.17.0/libass-0.17.0.tar.xz",
-          "sha256": "971e2e1db59d440f88516dcd1187108419a370e64863f70687da599fdf66cc1a",
+          "url": "https://github.com/libass/libass/releases/download/0.17.1/libass-0.17.1.tar.xz",
+          "sha256": "f0da0bbfba476c16ae3e1cfd862256d30915911f7abaa1b16ce62ee653192784",
           "x-checker-data": {
               "type": "anitya",
               "project-id": 1560,
@@ -268,8 +268,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/dyne/frei0r/archive/v2.2.0.tar.gz",
-          "sha256": "51bbcbebb40be75c75dba7df211b0ef1bd0463b02b80b7d34e93efeaceb98d3b",
+          "url": "https://github.com/dyne/frei0r/archive/v2.3.2.tar.gz",
+          "sha256": "304291e0ecb456a8b054fe04e14adc50ace54d0223b7b29165ff5343e820ef9d",
           "x-checker-data": {
               "type": "anitya",
               "project-id": 10670,
@@ -294,8 +294,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://bitbucket.org/leo_sutic/bigsh0t/get/2.5.1.tar.bz2",
-          "sha256": "8c6ade9e1bca5d820948db443009da6bbec876cac8e0e2a0c5de269c577a5c32",
+          "url": "https://bitbucket.org/leo_sutic/bigsh0t/get/2.6.tar.bz2",
+          "sha256": "001ed35ef06013a5a83b80c808194f3c5c2339c1759b52dda5bee523ce1f5517",
           "x-checker-data": {
               "type": "anitya",
               "project-id": 288153,
@@ -366,13 +366,13 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://linuxtv.org/downloads/v4l-utils/v4l-utils-1.22.1.tar.bz2",
-          "sha256": "65c6fbe830a44ca105c443b027182c1b2c9053a91d1e72ad849dfab388b94e31",
+          "url": "https://linuxtv.org/downloads/v4l-utils/v4l-utils-1.26.1.tar.xz",
+          "sha256": "4a71608c0ef7df2931176989e6d32b445c0bdc1030a2376d929c8ca6e550ec4e",
           "x-checker-data": {
               "type": "anitya",
               "project-id": 9998,
               "stable-only": true,
-              "url-template": "https://linuxtv.org/downloads/v4l-utils/v4l-utils-$version.tar.bz2"
+              "url-template": "https://linuxtv.org/downloads/v4l-utils/v4l-utils-$version.tar.xz"
           }
         }
       ]
@@ -449,8 +449,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/KhronosGroup/OpenCL-Headers/archive/refs/tags/v2023.02.06.tar.gz",
-          "sha256": "464d1b04a5e185739065b2d86e4cebf02c154c416d63e6067a5060d7c053c79a",
+          "url": "https://github.com/KhronosGroup/OpenCL-Headers/archive/refs/tags/v2023.12.14.tar.gz",
+          "sha256": "407d5e109a70ec1b6cd3380ce357c21e3d3651a91caae6d0d8e1719c69a1791d",
           "x-checker-data": {
               "type": "anitya",
               "project-id": 223257,
@@ -492,8 +492,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/FFmpeg/nv-codec-headers/archive/refs/tags/n11.1.5.2.tar.gz",
-          "sha256": "576df78bad704e2854991100bea99e974759304ac1411c02707ebc95a425191b",
+          "url": "https://github.com/FFmpeg/nv-codec-headers/archive/refs/tags/n12.1.14.0.tar.gz",
+          "sha256": "2fefaa227d2a3b4170797796425a59d1dd2ed5fd231db9b4244468ba327acd0b",
           "x-checker-data": {
               "type": "anitya",
               "project-id": 223796,
@@ -521,7 +521,7 @@
         {
           "type": "git",
           "url": "https://aomedia.googlesource.com/aom.git",
-          "tag": "v3.6.0",
+          "tag": "v3.8.0",
           "x-checker-data": {
               "type": "git",
               "tag-pattern": "^v([\\d.]+)$"
@@ -538,8 +538,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/intel/libva/archive/refs/tags/2.17.0.tar.gz",
-          "sha256": "8940541980ef998a36cd8f6ad905e81838ea4ddf56dc479ed2bebd12711e6001",
+          "url": "https://github.com/intel/libva/archive/refs/tags/2.20.0.tar.gz",
+          "sha256": "117f8d658a5fc9ea406ca80a3eb4ae1d70b15a54807c9ed77199c812bed73b60",
           "x-checker-data": {
               "type": "anitya",
               "project-id": 1752,
@@ -558,8 +558,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/intel/libva-utils/archive/refs/tags/2.17.1.tar.gz",
-          "sha256": "6ea5993c3eba230a979fa9d35b4cad8df06d4474a773dc0918033bf50353f966",
+          "url": "https://github.com/intel/libva-utils/archive/refs/tags/2.20.1.tar.gz",
+          "sha256": "97413a7ec27ec479b97ffc7ab8acebe053615224a4b051602859cf9f88e4e889",
           "x-checker-data": {
               "type": "anitya",
               "project-id": 16334,
@@ -644,8 +644,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://www.ffmpeg.org/releases/ffmpeg-5.1.2.tar.xz",
-          "sha256": "619e706d662c8420859832ddc259cd4d4096a48a2ce1eefd052db9e440eef3dc",
+          "url": "https://www.ffmpeg.org/releases/ffmpeg-6.1.1.tar.xz",
+          "sha256": "8684f4b00f94b85461884c3719382f1261f0d9eb3d59640a1f4ac0873616f968",
           "x-checker-data": {
             "type": "anitya",
             "project-id": 5405,
@@ -663,8 +663,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://mediaarea.net/download/source/libzen/0.4.40/libzen_0.4.40.tar.xz",
-          "sha256": "0c2e1c7302b3ee260d34b52e4b16ab655bdf021db8c14653e418aced46eb24a7",
+          "url": "https://mediaarea.net/download/source/libzen/0.4.41/libzen_0.4.41.tar.xz",
+          "sha256": "933bad3b7ecd29dc6bdc88a83645c83dfd098c15b0b90d6177a37fa1536704e8",
           "x-checker-data": {
             "type": "anitya",
             "project-id": 1810,
@@ -682,8 +682,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://mediaarea.net/download/source/libmediainfo/22.12/libmediainfo_22.12.tar.xz",
-          "sha256": "0fc6d32f06d6ce5e144074d2e57e0db8dfa4e38e752d3123ada27ccaf89634bc",
+          "url": "https://mediaarea.net/download/source/libmediainfo/23.11/libmediainfo_23.11.tar.xz",
+          "sha256": "197e54fcc79e3c0d5df44a8f58dc4e018bc2f85d13fa3bed54af3dc56d5e853d",
           "x-checker-data": {
             "type": "anitya",
             "project-id": 16249,
@@ -700,8 +700,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://mediaarea.net/download/source/mediainfo/22.12/mediainfo_22.12.tar.xz",
-          "sha256": "932b82739f738e7db603cf5bb170720731a9e7c61d145c2a54aabb3cd0b753bc",
+          "url": "https://mediaarea.net/download/source/mediainfo/23.11/mediainfo_23.11.tar.xz",
+          "sha256": "801cb1b0d1bffcc1226deca6212a1ee35322e8bb12630a33bbb07a92a8a8c9c3",
           "x-checker-data": {
             "type": "anitya",
             "project-id": 8240,
@@ -754,8 +754,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://breakfastquay.com/files/releases/rubberband-3.1.2.tar.bz2",
-          "sha256": "dda7e257b14c59a1f59c5ccc4d6f19412039f77834275955aa0ff511779b98d2",
+          "url": "https://breakfastquay.com/files/releases/rubberband-3.3.0.tar.bz2",
+          "sha256": "d9ef89e2b8ef9f85b13ac3c2faec30e20acf2c9f3a9c8c45ce637f2bc95e576c",
           "x-checker-data": {
             "type": "anitya",
             "project-id": 4222,
@@ -792,25 +792,6 @@
         {
           "type": "git",
           "url": "https://github.com/mltframework/mlt.git",
-          "branch": "master"
-        }
-      ]
-    },
-    {
-      "name": "kdenlive",
-      "buildsystem": "cmake-ninja",
-      "builddir": true,
-      "config-opts": [
-        "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
-        "-DRELEASE_BUILD=OFF"
-      ],
-      "post-install": [
-        "install -d /app/extensions/Plugins"
-      ],
-      "sources": [
-        {
-          "type": "git",
-          "url": "https://invent.kde.org/multimedia/kdenlive.git",
           "branch": "master"
         }
       ]

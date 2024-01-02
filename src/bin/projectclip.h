@@ -154,7 +154,7 @@ public:
 
     QDomElement toXml(QDomDocument &document, bool includeMeta = false, bool includeProfile = true) override;
 
-    QVariant getData(DataType type) const override;
+    const QVariant getData(DataType type) const override;
 
     QPixmap thumbnail(int width, int height);
 
