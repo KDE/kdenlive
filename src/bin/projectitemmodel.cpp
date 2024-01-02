@@ -177,14 +177,7 @@ QVariant ProjectItemModel::data(const QModelIndex &index, int role) const
         }
         // Data has to be returned as icon to allow the view to scale it
         std::shared_ptr<AbstractProjectItem> item = getBinItemByIndex(index);
-        QVariant thumb = item->getData(AbstractProjectItem::DataThumbnail);
-        QIcon icon;
-        if (thumb.canConvert<QIcon>()) {
-            icon = thumb.value<QIcon>();
-        } else {
-            qWarning() << "invalid icon";
-        }
-        return icon;
+        return item->icon();
     }
     std::shared_ptr<AbstractProjectItem> item = getBinItemByIndex(index);
     return item->getData(static_cast<AbstractProjectItem::DataType>(role));
