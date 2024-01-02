@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-31 00:41+0000\n"
+"POT-Creation-Date: 2024-01-02 00:40+0000\n"
 "PO-Revision-Date: 2011-11-16 15:57+0100\n"
 "Last-Translator: Manfred Wiese <m.j.wiese@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -12466,19 +12466,19 @@ msgctxt "@title:window"
 msgid "Open Analysis Data"
 msgstr ""
 
-#: src/monitor/glwidget.cpp:1651 src/monitor/videowidget.cpp:1046
+#: src/monitor/glwidget.cpp:1651 src/monitor/videowidget.cpp:1051
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select a zone to play"
 msgstr "Utsöök-Warktüüch"
 
-#: src/monitor/glwidget.cpp:1698 src/monitor/videowidget.cpp:1093
+#: src/monitor/glwidget.cpp:1698 src/monitor/videowidget.cpp:1098
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select a clip to play"
 msgstr "Utsöök-Warktüüch"
 
-#: src/monitor/glwidget.cpp:1779 src/monitor/videowidget.cpp:1174
+#: src/monitor/glwidget.cpp:1779 src/monitor/videowidget.cpp:1179
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -13031,7 +13031,7 @@ msgstr ""
 msgid "Out Point"
 msgstr ""
 
-#: src/monitor/view/kdenliveclipmonitor.qml:735
+#: src/monitor/view/kdenliveclipmonitor.qml:741
 #, kde-format
 msgid "Terminate Job"
 msgstr ""

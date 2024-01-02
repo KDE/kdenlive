@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-31 00:41+0000\n"
+"POT-Creation-Date: 2024-01-02 00:40+0000\n"
 "PO-Revision-Date: 2023-12-20 14:00+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -12103,17 +12103,17 @@ msgctxt "@title:window"
 msgid "Open Analysis Data"
 msgstr "Analysegegevens openen"
 
-#: src/monitor/glwidget.cpp:1651 src/monitor/videowidget.cpp:1046
+#: src/monitor/glwidget.cpp:1651 src/monitor/videowidget.cpp:1051
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Een af te spelen zone selecteren"
 
-#: src/monitor/glwidget.cpp:1698 src/monitor/videowidget.cpp:1093
+#: src/monitor/glwidget.cpp:1698 src/monitor/videowidget.cpp:1098
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Een af te spelen clip selecteren"
 
-#: src/monitor/glwidget.cpp:1779 src/monitor/videowidget.cpp:1174
+#: src/monitor/glwidget.cpp:1779 src/monitor/videowidget.cpp:1179
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -12662,7 +12662,7 @@ msgstr "Beginpunt"
 msgid "Out Point"
 msgstr "Eindpunt"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:735
+#: src/monitor/view/kdenliveclipmonitor.qml:741
 #, kde-format
 msgid "Terminate Job"
 msgstr "Taak beëindigen"
