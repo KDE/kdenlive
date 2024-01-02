@@ -5,7 +5,6 @@
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import QtGraphicalEffects 1.0
 import QtQuick.Layouts 1.15
 
 Item {
@@ -64,8 +63,10 @@ Item {
         }
         Rectangle {
             id: levelsContainer
-            width: recContainer.width - recbutton.width - 6
-            height: recbutton.height
+            width: recContainer.width - recbutton.width - 8
+            height: recbutton.height - 1
+            x: 1
+            y: 1
             ToolTip.text: i18n("Mic level")
             ToolTip.visible: levelArea.containsMouse
             ToolTip.delay: 1000
@@ -75,25 +76,21 @@ Item {
                 model: audiorec.levels.length === 0 ? 2 : audiorec.levels.length
                 id: bgRepeater
                 Rectangle {
-                    color: 'transparent'
-                    LinearGradient {
-                        anchors.fill: parent
-                        anchors.margins: 0.5
-                        start: Qt.point(0,0)
-                        end: Qt.point(levelsContainer.width, 0)
-                        gradient: Gradient {
-                            GradientStop { position: 0.0; color: "darkgreen" }
-                            GradientStop { position: 0.69; color: "darkgreen" }
-                            GradientStop { position: 0.7; color: "green" }
-                            GradientStop { position: 0.84; color: "green" }
-                            GradientStop { position: 0.85; color: "yellow" }
-                            GradientStop { position: 0.99; color: "yellow" }
-                            GradientStop { position: 1.0; color: "red" }
-                        }
+                    required property int index
+                    width: levelsContainer.width - 2
+                    height: Math.max(1, levelsContainer.height / bgRepeater.count - 2)
+                    x: 1
+                    y: (height + 1) * index
+                    gradient: Gradient {
+                        orientation: Gradient.Horizontal
+                        GradientStop { position: 0.0; color: "darkgreen" }
+                        GradientStop { position: 0.69; color: "darkgreen" }
+                        GradientStop { position: 0.7; color: "green" }
+                        GradientStop { position: 0.84; color: "green" }
+                        GradientStop { position: 0.85; color: "yellow" }
+                        GradientStop { position: 0.99; color: "yellow" }
+                        GradientStop { position: 1.0; color: "red" }
                     }
-                    width: parent.width - 1
-                    height: parent.height / bgRepeater.count
-                    y: height * index
                 }
             }
             Repeater {
@@ -108,7 +105,7 @@ Item {
                     property double peak: 0
                     Rectangle {
                         color: activePalette.base
-                        opacity: 0.9
+                        opacity: 0.8
                         width: parent.width * (1.0 - currentLevel)
                         anchors.right: parent.right
                         height: parent.height / levelRepeater.count
