@@ -325,14 +325,12 @@ void ProjectManager::testSetActiveDocument(KdenliveDoc *doc, std::shared_ptr<Tim
             qDebug() << "===== LOADING PROJECT INTERNAL ERROR";
         }
     }
-    Q_ASSERT(doc->uuid() == timeline->uuid());
-    m_project->addTimeline(doc->uuid(), timeline);
+    const QUuid uuid = timeline->uuid();
+    m_project->addTimeline(uuid, timeline);
     timeline->isClosed = false;
     m_activeTimelineModel = timeline;
-    m_project->activeUuid = doc->uuid();
-    std::shared_ptr<ProjectClip> mainClip = pCore->projectItemModel()->getClipByBinID(pCore->projectItemModel()->getSequenceId(doc->uuid()));
-    m_project->loadSequenceGroupsAndGuides(doc->uuid());
-
+    m_project->activeUuid = uuid;
+    m_project->loadSequenceGroupsAndGuides(uuid);
     // Open all other timelines
     QMap<QUuid, QString> allSequences = pCore->projectItemModel()->getAllSequenceClips();
     QMapIterator<QUuid, QString> i(allSequences);
