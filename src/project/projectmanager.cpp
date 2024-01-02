@@ -920,8 +920,8 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
                 const QString chunks = m_project->getSequenceProperty(uid, QStringLiteral("previewchunks"));
                 const QString dirty = m_project->getSequenceProperty(uid, QStringLiteral("dirtypreviewchunks"));
                 const QString binId = pCore->projectItemModel()->getSequenceId(uid);
+                m_project->addTimeline(uid, timelineModel, false);
                 if (constructTimelineFromTractor(timelineModel, nullptr, *tc.get(), nullptr, m_project->modifiedDecimalPoint(), chunks, dirty)) {
-                    m_project->addTimeline(uid, timelineModel, false);
                     pCore->projectItemModel()->setExtraTimelineSaved(uid.toString());
                     std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(timelineModel->tractor());
                     passSequenceProperties(uid, prod, *tc.get(), timelineModel, nullptr);
@@ -936,6 +936,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
                     clip->reloadTimeline();
                 } else {
                     qWarning() << "XXXXXXXXX\nLOADING TIMELINE " << uid.toString() << " FAILED\n";
+                    m_project->closeTimeline(uid, true);
                 }
             }
         }
