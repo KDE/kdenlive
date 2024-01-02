@@ -260,7 +260,7 @@ void TimelineWidget::showClipMenu(int cid)
     m_timelineClipMenu->popup(m_clickPos);
 }
 
-void TimelineWidget::showMixMenu(int cid)
+void TimelineWidget::showMixMenu(int /*cid*/)
 {
     // Show mix menu
     m_timelineMixMenu->popup(m_clickPos);

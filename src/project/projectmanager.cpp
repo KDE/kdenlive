@@ -891,6 +891,8 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
                     m_project->loadSequenceGroupsAndGuides(uid);
                     clip->setProducer(prod, false, false);
                     clip->reloadTimeline();
+                } else {
+                    qWarning() << "XXXXXXXXX\nLOADING TIMELINE " << uid.toString() << " FAILED\n";
                 }
             }
         }
@@ -1021,6 +1023,10 @@ void ProjectManager::slotStartAutoSave()
 
 void ProjectManager::slotAutoSave()
 {
+    if (m_project->loading) {
+        // Dont start autosave if the project is still loading
+        return;
+    }
     prepareSave();
     QString saveFolder = m_project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile();
     QString scene = projectSceneList(saveFolder);
