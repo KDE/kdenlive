@@ -307,15 +307,14 @@
     },
     {
       "name": "v4l-utils",
+      "buildsystem": "meson",
       "config-opts": [
-        "--disable-static",
-        "--disable-doxygen-doc",
-        "--disable-libdvbv5",
-        "--disable-v4l-utils",
-        "--disable-qv4l2",
-        "--with-udevdir=/app/lib/udev"
+        "-Ddoxygen-doc=false",
+        "-Dlibdvbv5=false",
+        "-Dv4l-utils=false",
+        "-Dqv4l2=false",
+        "-Dudevdir=/app/lib/udev"
       ],
-      "no-autogen": true,
       "sources": [
         {
           "type": "archive",
