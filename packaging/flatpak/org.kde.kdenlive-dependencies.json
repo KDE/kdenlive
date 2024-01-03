@@ -309,10 +309,10 @@
       "name": "v4l-utils",
       "buildsystem": "meson",
       "config-opts": [
-        "-Ddoxygen-doc=false",
-        "-Dlibdvbv5=false",
+        "-Ddoxygen-doc=disabled",
+        "-Dlibdvbv5=disabled",
         "-Dv4l-utils=false",
-        "-Dqv4l2=false",
+        "-Dqv4l2=disabled",
         "-Dudevdir=/app/lib/udev"
       ],
       "sources": [
