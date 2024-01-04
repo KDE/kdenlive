@@ -326,6 +326,10 @@
               "stable-only": true,
               "url-template": "https://linuxtv.org/downloads/v4l-utils/v4l-utils-$version.tar.xz"
           }
+        },
+        {
+            "type": "patch",
+            "path": "v4l-utils-fix-configure.patch"
         }
       ]
     },
