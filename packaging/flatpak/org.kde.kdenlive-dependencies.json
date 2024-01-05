@@ -591,8 +591,8 @@
         "--enable-cuvid"
       ],
       "build-options": {
-        "append-path": "/usr/lib/sdk/llvm15/bin",
-        "prepend-ld-library-path": "/usr/lib/sdk/llvm15/lib"
+        "append-path": "/usr/lib/sdk/llvm17/bin",
+        "prepend-ld-library-path": "/usr/lib/sdk/llvm17/lib"
       },
       "cleanup": [
         "/share/ffmpeg/examples"
@@ -741,7 +741,10 @@
       "config-opts": [
         "-DMOD_OPENCV=ON",
         "-DMOD_MOVIT=ON",
-        "-DMOD_GLAXNIMATE=ON",
+        "-DMOD_GLAXNIMATE=OFF",
+        "-DMOD_QT=OFF",
+        "-DMOD_QT6=ON",
+        "-DMOD_GLAXNIMATE_QT6=ON",
         "-DCMAKE_BUILD_TYPE=RelWithDebInfo"
       ],
       "sources": [
