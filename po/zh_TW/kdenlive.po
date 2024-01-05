@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-03 00:41+0000\n"
+"POT-Creation-Date: 2024-01-05 00:40+0000\n"
 "PO-Revision-Date: 2024-01-03 06:04+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -9791,7 +9791,7 @@ msgstr "一款開放來源碼的視訊編輯軟體。"
 
 #: src/main.cpp:143
 #, fuzzy, kde-format
-msgid "Copyright © 2007–2023 Kdenlive authors"
+msgid "Copyright © 2007–2024 Kdenlive authors"
 msgstr "版權所有 © 2007–2010 Kdenlive 開發團隊"
 
 #: src/main.cpp:145

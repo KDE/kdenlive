@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-03 00:41+0000\n"
+"POT-Creation-Date: 2024-01-05 00:40+0000\n"
 "PO-Revision-Date: 2023-07-23 20:34+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -9753,7 +9753,7 @@ msgstr "오픈 소스 동영상 편집기."
 #: src/main.cpp:143
 #, fuzzy, kde-format
 #| msgid "Copyright © 2007–2021 Kdenlive authors"
-msgid "Copyright © 2007–2023 Kdenlive authors"
+msgid "Copyright © 2007–2024 Kdenlive authors"
 msgstr "Copyright © 2007–2021 Kdenlive authors"
 
 #: src/main.cpp:145

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-03 00:41+0000\n"
+"POT-Creation-Date: 2024-01-05 00:40+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -10011,7 +10011,7 @@ msgstr "Avatud lähtekoodiga videoredaktor"
 #: src/main.cpp:143
 #, fuzzy, kde-format
 #| msgid "Copyright © 2007–2020 Kdenlive authors"
-msgid "Copyright © 2007–2023 Kdenlive authors"
+msgid "Copyright © 2007–2024 Kdenlive authors"
 msgstr "Autoriõigus © 2007–2020: Kdenlive'i autorid"
 
 #: src/main.cpp:145
