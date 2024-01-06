@@ -1,16 +1,16 @@
 # Translation of kdenlive.po to Catalan
-# Copyright (C) 2009-2023 This_file_is_part_of_KDE
+# Copyright (C) 2009-2024 This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
 # SPDX-FileCopyrightText: 2012, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023 Antoni Bella Pérez <antonibella5@yahoo.com>
 # Orestes Mas <orestes@tsc.upc.edu>, 2009, 2011, 2012, 2015.
-# Josep M. Ferrer <txemaq@gmail.com>, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
+# Josep M. Ferrer <txemaq@gmail.com>, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-05 00:40+0000\n"
-"PO-Revision-Date: 2023-12-26 12:10+0100\n"
+"PO-Revision-Date: 2024-01-05 18:46+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -1091,7 +1091,7 @@ msgstr "Fitxer de GPS"
 #: data/effects/gpstext.xml:15
 #, kde-format
 msgid "Time offset in seconds"
-msgstr "Temps de desplaçament en segons"
+msgstr "Decalatge de temps en segons"
 
 #: data/effects/gpstext.xml:18
 #, kde-format
@@ -9715,10 +9715,9 @@ msgid "An open source video editor."
 msgstr "Un editor de vídeo de codi obert."
 
 #: src/main.cpp:143
-#, fuzzy, kde-format
-#| msgid "Copyright © 2007–2023 Kdenlive authors"
+#, kde-format
 msgid "Copyright © 2007–2024 Kdenlive authors"
-msgstr "Copyright © 2007–2023 Els autors del Kdenlive"
+msgstr "Copyright © 2007–2024 Els autors del Kdenlive"
 
 #: src/main.cpp:145
 #, kde-format
