@@ -1,0 +1,28 @@
+From 2a62aee50f1fb1a2f1d69f5efa4f7400bc12f4a2 Mon Sep 17 00:00:00 2001
+From: jlskuz <78424983+jlskuz@users.noreply.github.com>
+Date: Fri, 5 Jan 2024 00:29:25 +0100
+Subject: [PATCH] Fix build with -Dv4l-utils=true
+
+Ensure ir_bpf_enabled is always defined, because otherwise build with -Dv4l-utils=true fails with
+
+Configuring config.h using configuration
+Configuring v4l-utils.spec using configuration
+
+../meson.build:408:32: ERROR: Unknown variable "ir_bpf_enabled".
+---
+ meson.build | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meson.build b/meson.build
+index 3196d9a79..8f179f877 100644
+--- a/meson.build
++++ b/meson.build
+@@ -380,6 +380,8 @@ subdir('v4l-utils-po')
+ 
+ subdir('lib')
+ 
++ir_bpf_enabled = false
++
+ if get_option('v4l-utils')
+     subdir('utils')
+     subdir('contrib')

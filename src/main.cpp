@@ -140,7 +140,7 @@ int main(int argc, char *argv[])
         otherText.prepend(i18n("You are using the %1 package.<br>", packageType));
     }
     KAboutData aboutData(QByteArray("kdenlive"), i18n("Kdenlive"), KDENLIVE_VERSION, i18n("An open source video editor."), KAboutLicense::GPL_V3,
-                         i18n("Copyright © 2007–2023 Kdenlive authors"), otherText, QStringLiteral("https://kdenlive.org"));
+                         i18n("Copyright © 2007–2024 Kdenlive authors"), otherText, QStringLiteral("https://kdenlive.org"));
     // main developers (alphabetical)
     aboutData.addAuthor(i18n("Jean-Baptiste Mardelle"), i18n("MLT and KDE SC 4 / KF5 port, main developer and maintainer"), QStringLiteral("jb@kdenlive.org"));
     // active developers with major involvement
