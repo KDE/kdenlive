@@ -2449,7 +2449,7 @@ bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
         const QUuid uuid = i.key();
         QList<int> instances = i.value();
         if (!instances.isEmpty()) {
-            auto timeline = pCore->currentDoc()->getTimeline(uuid);
+            auto timeline = pCore->currentDoc()->getTimeline(uuid, pCore->projectItemModel()->closing);
             if (!timeline) {
                 if (pCore->projectItemModel()->closing) {
                     break;

@@ -281,13 +281,16 @@ public:
     /** @brief Load the guides into the model for a sequence.*/
     void loadSequenceGroupsAndGuides(const QUuid &uuid);
     /** @brief Get a timeline by its uuid.*/
-    std::shared_ptr<TimelineItemModel> getTimeline(const QUuid &uuid);
+    std::shared_ptr<TimelineItemModel> getTimeline(const QUuid &uuid, bool allowEmpty = false);
     /** @brief Before closing a timeline, store its groups and other properties.*/
     void closeTimeline(const QUuid uuid, bool onDeletion = true);
     /** @brief store groups in our properties.*/
     void storeGroups(const QUuid &uuid);
     void checkUsage(const QUuid &uuid);
+    /** @brief Return all timelines UUIDs.*/
     QList<QUuid> getTimelinesUuids() const;
+    /** @brief Return all timelines MLT ids.*/
+    QStringList getTimelinesIds();
     /** @brief Returns the number of timelines in this project.*/
     int openedTimelineCount() const;
     /** @brief Get the currently active project name.*/

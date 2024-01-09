@@ -264,4 +264,6 @@ private:
     /** @brief WHen building a sequence producer, ensure we pass along all properties */
     void passSequenceProperties(const QUuid &uuid, std::shared_ptr<Mlt::Producer> prod, Mlt::Tractor tractor, std::shared_ptr<TimelineItemModel> timelineModel,
                                 TimelineWidget *timelineWidget);
+    /** @brief Ensure sequences are correctly stored in our project model */
+    void checkProjectIntegrity();
 };
