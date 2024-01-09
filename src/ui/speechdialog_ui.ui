@@ -11,7 +11,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
     <x>0</x>
     <y>0</y>
     <width>332</width>
-    <height>355</height>
+    <height>362</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -107,6 +107,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
        <widget class="QProgressBar" name="speech_progress">
         <property name="value">
          <number>24</number>
+        </property>
+        <property name="format">
+         <string>%p%</string>
         </property>
        </widget>
       </item>

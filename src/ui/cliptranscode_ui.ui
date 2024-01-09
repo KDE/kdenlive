@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ClipTranscode_UI</class>
  <author>
 SPDX-FileCopyrightText: none
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
  </author>
+ <class>ClipTranscode_UI</class>
  <widget class="QDialog" name="ClipTranscode_UI">
   <property name="geometry">
    <rect>
@@ -35,6 +35,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
     <widget class="QProgressBar" name="job_progress">
      <property name="value">
       <number>0</number>
+     </property>
+     <property name="format">
+      <string>%p%</string>
      </property>
     </widget>
    </item>
@@ -79,7 +82,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
     </widget>
    </item>
    <item row="0" column="1" colspan="3">
-    <widget class="KUrlRequester" name="source_url"/>
+    <widget class="KUrlRequester" name="source_url" native="true"/>
    </item>
    <item row="1" column="0">
     <widget class="QLabel" name="label_dest">
@@ -163,7 +166,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
     </widget>
    </item>
    <item row="1" column="1" colspan="3">
-    <widget class="KUrlRequester" name="dest_url"/>
+    <widget class="KUrlRequester" name="dest_url" native="true"/>
    </item>
   </layout>
  </widget>
