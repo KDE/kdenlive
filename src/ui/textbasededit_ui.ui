@@ -55,6 +55,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
         <property name="value">
          <number>24</number>
         </property>
+        <property name="format">
+         <string>%p%</string>
+        </property>
        </widget>
       </item>
      </layout>

@@ -81,6 +81,7 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget *parent)
     m_keyMap->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     m_keyMap->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_progress = new QProgressBar(this);
+    m_progress->setFormat(i18nc("%p is the percent value, % is the percent sign", "%p%"));
     lay2->addWidget(m_selectionLabel);
     lay2->addWidget(m_pixmap);
     lay2->addWidget(m_label);

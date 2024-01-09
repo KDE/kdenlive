@@ -251,7 +251,7 @@ QImage Vectorscope::renderHUD(uint)
         }
         davinci.drawEllipse(m_centerPoint, int(r), int(r));
         davinci.setPen(penThin);
-        davinci.drawText(QPoint(m_scopeRect.width() - 40, m_scopeRect.height()), i18n("%1 %%", locale.toString(percent, 'f', 0)));
+        davinci.drawText(QPoint(m_scopeRect.width() - 40, m_scopeRect.height()), i18n("%1%", locale.toString(percent, 'f', 0)));
 
         float angle = float(copysignf(std::acos(dx / r) * 180.f / float(M_PI), dy));
         davinci.drawText(QPoint(10, m_scopeRect.height()), i18n("%1°", locale.toString(angle, 'f', 1)));

@@ -187,6 +187,7 @@ LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent)
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
     m_toolBar->setIconSize(QSize(size, size));
     m_progressBar->setRange(0, 100);
+    m_progressBar->setFormat(i18nc("%p is the percent value, % is the percent sign", "%p%"));
     m_progressBar->setOrientation(Qt::Horizontal);
     m_progressBar->setVisible(false);
     lay->addWidget(m_toolBar);

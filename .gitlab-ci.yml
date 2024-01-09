@@ -9,6 +9,7 @@ include:
       - /gitlab-templates/linux.yml
       - /gitlab-templates/freebsd.yml
       - /gitlab-templates/linux-qt6.yml
+      - /gitlab-templates/freebsd-qt6.yml
       # CD Qt5
       - /gitlab-templates/flatpak.yml
       - /gitlab-templates/craft-appimage.yml
