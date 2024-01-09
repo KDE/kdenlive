@@ -111,8 +111,9 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
 
     // Build volume widget
     m_volumeSlider = new QSlider(Qt::Vertical, this);
-    m_volumeSlider->setRange(0, 100);
-    m_volumeSlider->setValue(60);
+    m_volumeSlider->setRange(0, 10000);
+    m_volumeSlider->setValue(6000);
+    m_volumeSlider->setSingleStep(50);
     m_volumeSlider->setToolTip(i18n("Volume"));
     m_volumeSlider->setWhatsThis(xi18nc("@info:whatsthis", "Adjusts the output volume of the audio track (affects all audio clips equally)."));
     m_volumeSpin = new QDoubleSpinBox(this);
@@ -120,11 +121,12 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
     m_volumeSpin->setSuffix(i18n("dB"));
     m_volumeSpin->setFrame(false);
 
-    connect(m_volumeSpin, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, [&](double val) {
+    connect(m_volumeSpin, &QDoubleSpinBox::editingFinished, this, [&]() {
+        double val = m_volumeSpin->value();
         if (m_monitor && m_monitor->isChecked()) {
-            m_volumeSlider->setValue(val);
+            m_volumeSlider->setValue(val * 100.);
         } else {
-            m_volumeSlider->setValue(fromDB(val));
+            m_volumeSlider->setValue(fromDB(val) * 100.);
         }
     });
 
@@ -169,7 +171,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
             m_levelFilter = fl;
             double volume = m_levelFilter->get_double("level");
             m_volumeSpin->setValue(volume);
-            m_volumeSlider->setValue(fromDB(volume));
+            m_volumeSlider->setValue(fromDB(volume) * 100.);
         } else if (m_channels == 2 && filterService == QLatin1String("panner")) {
             m_balanceFilter = fl;
             int val = int(m_balanceFilter->get_double("start") * 100) - 50;
@@ -306,17 +308,17 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
     connect(m_volumeSlider, &QSlider::valueChanged, this, [&](int value) {
         QSignalBlocker bk(m_volumeSpin);
         if (m_recording || (m_monitor && m_monitor->isChecked())) {
-            m_volumeSpin->setValue(value);
-            KdenliveSettings::setAudiocapturevolume(value);
+            m_volumeSpin->setValue(value / 100);
+            KdenliveSettings::setAudiocapturevolume(value / 100);
             Q_EMIT m_manager->updateRecVolume();
             // TODO update capture volume
         } else if (m_levelFilter != nullptr) {
             double dbValue = 0;
-            if (value > 60) {
+            if (value > 6000) {
                 // increase volume
-                dbValue = 24 * (1 - log10((100 - value) * 0.225 + 1));
-            } else if (value < 60) {
-                dbValue = -50 * (1 - log10(10 - (value - 59) * (-0.11395)));
+                dbValue = 24 * (1 - log10((100 - value / 100.) * 0.225 + 1));
+            } else if (value < 6000) {
+                dbValue = -50 * (1 - log10(10 - (value / 100. - 59) * (-0.11395)));
             }
             m_volumeSpin->setValue(dbValue);
             m_levelFilter->set("level", dbValue);
@@ -389,7 +391,7 @@ void MixerWidget::mousePressEvent(QMouseEvent *event)
         if (child == m_balanceSlider) {
             m_balanceSpin->setValue(0);
         } else if (child == m_volumeSlider) {
-            m_volumeSlider->setValue(60);
+            m_volumeSlider->setValue(6000);
         }
     } else {
         QWidget::mousePressEvent(event);
@@ -508,7 +510,7 @@ void MixerWidget::updateMonitorState()
         m_volumeSpin->setRange(0, 100);
         m_volumeSpin->setSuffix(QStringLiteral("%"));
         m_volumeSpin->setValue(KdenliveSettings::audiocapturevolume());
-        m_volumeSlider->setValue(KdenliveSettings::audiocapturevolume());
+        m_volumeSlider->setValue(KdenliveSettings::audiocapturevolume() * 100);
     } else {
         disconnect(pCore->getAudioDevice(), &MediaCapture::audioLevels, this, &MixerWidget::gotRecLevels);
         if (m_balanceSlider) {
@@ -519,7 +521,7 @@ void MixerWidget::updateMonitorState()
         m_volumeSpin->setRange(-100, 60);
         m_volumeSpin->setSuffix(i18n("dB"));
         m_volumeSpin->setValue(level);
-        m_volumeSlider->setValue(fromDB(level));
+        m_volumeSlider->setValue(fromDB(level) * 100.);
     }
     updateLabel();
 }
