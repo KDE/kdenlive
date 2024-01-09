@@ -210,3 +210,14 @@ void BinPlaylist::manageBinFolderRename(const std::shared_ptr<AbstractProjectIte
         m_binPlaylist->set(propertyName.toUtf8().constData(), binElem->name().toUtf8().constData());
     }
 }
+
+const QStringList BinPlaylist::getAllMltIds()
+{
+    QStringList allIds;
+    int size = m_binPlaylist->count();
+    for (int i = 0; i < size; i++) {
+        QScopedPointer<Mlt::Producer> prod(m_binPlaylist->get_clip(i));
+        allIds << QString(prod->parent().get("id"));
+    }
+    return allIds;
+}

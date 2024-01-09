@@ -2085,18 +2085,32 @@ QStringList KdenliveDoc::getProxyHashList()
     return pCore->bin()->getProxyHashList();
 }
 
-std::shared_ptr<TimelineItemModel> KdenliveDoc::getTimeline(const QUuid &uuid)
+std::shared_ptr<TimelineItemModel> KdenliveDoc::getTimeline(const QUuid &uuid, bool allowEmpty)
 {
     if (m_timelines.contains(uuid)) {
         return m_timelines.value(uuid);
     }
-    qDebug() << "REQUESTING UNKNOWN TIMELINE: " << uuid;
+    if (!allowEmpty) {
+        qDebug() << "REQUESTING UNKNOWN TIMELINE: " << uuid;
+        Q_ASSERT(false);
+    }
     return nullptr;
 }
 
 QList<QUuid> KdenliveDoc::getTimelinesUuids() const
 {
     return m_timelines.keys();
+}
+
+QStringList KdenliveDoc::getTimelinesIds()
+{
+    QStringList ids;
+    QMapIterator<QUuid, std::shared_ptr<TimelineItemModel>> j(m_timelines);
+    while (j.hasNext()) {
+        j.next();
+        ids << QString(j.value()->tractor()->get("id"));
+    }
+    return ids;
 }
 
 void KdenliveDoc::addTimeline(const QUuid &uuid, std::shared_ptr<TimelineItemModel> model, bool force)

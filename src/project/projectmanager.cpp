@@ -336,7 +336,7 @@ void ProjectManager::testSetActiveDocument(KdenliveDoc *doc, std::shared_ptr<Tim
     QMapIterator<QUuid, QString> i(allSequences);
     while (i.hasNext()) {
         i.next();
-        if (m_project->getTimeline(i.key()) == nullptr) {
+        if (m_project->getTimeline(i.key(), true) == nullptr) {
             const QUuid uid = i.key();
             std::shared_ptr<Mlt::Tractor> tc = pCore->projectItemModel()->getExtraTimeline(uid.toString());
             if (tc) {
@@ -481,6 +481,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveOverExis
     prepareSave();
     QString saveFolder = QFileInfo(outputFileName).absolutePath();
     m_project->updateWorkFilesBeforeSave(outputFileName);
+    checkProjectIntegrity();
     QString scene = projectSceneList(saveFolder);
     if (!m_replacementPattern.isEmpty()) {
         QMapIterator<QString, QString> i(m_replacementPattern);
@@ -871,7 +872,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     QList<QUuid> uuids = sequences.keys();
     // Load all sequence models into memory
     for (auto &uid : uuids) {
-        if (pCore->currentDoc()->getTimeline(uid) == nullptr) {
+        if (pCore->currentDoc()->getTimeline(uid, true) == nullptr) {
             std::shared_ptr<Mlt::Tractor> tc = pCore->projectItemModel()->getExtraTimeline(uid.toString());
             if (tc) {
                 std::shared_ptr<TimelineItemModel> timelineModel = TimelineItemModel::construct(uid, m_project->commandStack());
@@ -943,6 +944,8 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
         const QUuid uuid = m_project->activeUuid;
         pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_activeTimelineModel->duration() - 1, m_project->getFilteredGuideModel(uuid));
     }
+
+    checkProjectWarnings();
     delete m_progressDialog;
     m_progressDialog = nullptr;
 }
@@ -1310,10 +1313,14 @@ bool ProjectManager::updateTimeline(bool createNewTab, const QString &chunks, co
     Mlt::Tractor tractor(s);
     if (xmlProd->property_exists("kdenlive:projectTractor")) {
         // This is the new multi-timeline document format
+        // Get active sequence uuid
+        std::shared_ptr<Mlt::Producer> tk(tractor.track(0));
+        const QUuid activeUuid(tk->parent().get("kdenlive:uuid"));
+        Q_ASSERT(!activeUuid.isNull());
         m_project->cleanupTimelinePreview(documentDate);
         pCore->projectItemModel()->buildPlaylist(uuid);
         // Load bin playlist
-        return loadProjectBin(tractor, m_progressDialog);
+        return loadProjectBin(tractor, activeUuid, m_progressDialog);
     }
     if (tractor.count() == 0) {
         // Wow we have a project file with empty tractor, probably corrupted, propose to open a recovery file
@@ -1698,7 +1705,7 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
         return false;
     }
     if (!duplicate && existingModel == nullptr) {
-        existingModel = m_project->getTimeline(uuid);
+        existingModel = m_project->getTimeline(uuid, true);
     }
 
     // Disable autosave while creating timelines
@@ -2022,4 +2029,11 @@ void ProjectManager::updateSequenceProducer(const QUuid &uuid, std::shared_ptr<M
     std::shared_ptr<Mlt::Tractor> trac(new Mlt::Tractor(prod->parent()));
     qDebug() << "====== STORING SEQUENCE " << uuid << " WITH TKS: " << trac->count();
     pCore->projectItemModel()->storeSequence(uuid.toString(), trac);
+}
+
+void ProjectManager::checkProjectIntegrity()
+{
+    // Ensure the active timeline sequence is correctly inserted in the main_bin playlist
+    const QString activeSequenceId(m_activeTimelineModel->tractor()->get("id"));
+    pCore->projectItemModel()->checkSequenceIntegrity(activeSequenceId);
 }

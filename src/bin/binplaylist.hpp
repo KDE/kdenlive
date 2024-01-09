@@ -75,6 +75,9 @@ public:
     /** @brief Returns uuid / bin id of all sequence clips in the project */
     QMap<QUuid, QString> getAllSequenceClips() const;
 
+    /** @brief Get MLT ids of all producers in main bin */
+    const QStringList getAllMltIds();
+
 protected:
     /** @brief This is an helper function that removes a clip from the playlist given its id
      */

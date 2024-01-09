@@ -27,6 +27,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "xml/xml.hpp"
 
 #include <KLocalizedString>
+
 #include <QIcon>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -1166,11 +1167,13 @@ bool ProjectItemModel::isIdFree(const QString &id) const
 }
 
 QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders,
-                                               int &zoomLevel, QProgressDialog *progressDialog)
+                                               const QUuid &activeUuid, int &zoomLevel, QProgressDialog *progressDialog)
 {
     QWriteLocker locker(&m_lock);
     clean();
     QList<QUuid> brokenSequences;
+    QList<QUuid> foundSequences;
+    QList<int> foundIds;
     Mlt::Properties retainList(mlt_properties(documentTractor->get_data("xml_retain")));
     if (retainList.is_valid()) {
         Mlt::Playlist playlist(mlt_playlist(retainList.get_data(BinPlaylist::binPlaylistId.toUtf8().constData())));
@@ -1226,8 +1229,13 @@ QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, st
                 std::shared_ptr<Mlt::Producer> producer;
                 if (prod->parent().property_exists("kdenlive:uuid")) {
                     const QUuid uuid(prod->parent().get("kdenlive:uuid"));
+                    if (foundSequences.contains(uuid)) {
+                        qDebug() << "FOUND DUPLICATED SEQUENCE: " << uuid.toString();
+                        Q_ASSERT(false);
+                    }
                     if (prod->parent().type() == mlt_service_tractor_type) {
                         // Load sequence properties
+                        foundSequences << uuid;
                         Mlt::Properties sequenceProps;
                         sequenceProps.pass_values(prod->parent(), "kdenlive:sequenceproperties.");
                         pCore->currentDoc()->loadSequenceProperties(uuid, sequenceProps);
@@ -1256,6 +1264,12 @@ QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, st
                         prod2->set("kdenlive:duration", prod->parent().get("kdenlive:duration"));
                         prod2->set("kdenlive:producer_type", ClipType::Timeline);
                         prod2->set("kdenlive:maxduration", prod->parent().get_int("kdenlive:maxduration"));
+                        if (foundIds.contains(id)) {
+                            qWarning() << "ERROR, several Sequence Clips using the same id: " << id << ", UUID: " << uuid.toString()
+                                       << "\n____________________";
+                            brokenSequences << uuid;
+                        }
+                        foundIds << id;
                         binProducers.insert(id, prod2);
                         continue;
                     } else {
@@ -1264,20 +1278,42 @@ QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, st
                             // Buggy internal xml producer, drop
                             qDebug() << "/// AARGH INCORRECT SEQUENCE CLIP IN PROJECT BIN... TRY TO RECOVER";
                             brokenSequences.append(QUuid(uuid));
-                            continue;
                         }
                     }
-                } else {
-                    producer.reset(new Mlt::Producer(prod->parent()));
+                    continue;
                 }
-                int id = producer->parent().get_int("kdenlive:id");
+                producer.reset(new Mlt::Producer(prod->parent()));
+                int id = producer->get_int("kdenlive:id");
                 if (!id) {
                     qDebug() << "WARNING THIS SHOULD NOT HAPPEN, BIN CLIP WITHOUT ID: " << producer->parent().get("resource")
                              << ", ID: " << producer->parent().get("id") << "\n\nFZFZFZFZFZFZFZFZFZFZFZFZFZ";
                     // Using a temporary negative reference so we don't mess with yet unloaded clips
                     id = -getFreeClipId();
+                } else {
+                    if (foundIds.contains(id)) {
+                        qWarning() << "ERROR, several Bin Clips using the same id: " << id << "\n____________________";
+                        Q_ASSERT(false);
+                    }
+                    foundIds << id;
                 }
                 binProducers.insert(id, producer);
+            }
+            // Ensure active playlist is in the project bin
+            if (!foundSequences.contains(activeUuid)) {
+                // Project corruption, try to restore sequence from the ProjectTractor
+                Mlt::Tractor tractor(*documentTractor);
+                std::shared_ptr<Mlt::Producer> tk(tractor.track(0));
+                std::shared_ptr<Mlt::Producer> producer(new Mlt::Producer(tk->parent()));
+                const QUuid uuid(producer->get("kdenlive:uuid"));
+                if (!uuid.isNull() && uuid == activeUuid) {
+                    // TODO: Show user info about the recovered corruption
+                    qWarning() << "Recovering corrupted sequence: " << uuid.toString();
+                    int id = producer->get_int("kdenlive:id");
+                    binProducers.insert(id, std::move(producer));
+                    foundSequences << activeUuid;
+                } else {
+                    brokenSequences << activeUuid;
+                }
             }
             // Do the real insertion
             QList<int> binIds = binProducers.keys();
@@ -1624,4 +1660,14 @@ void ProjectItemModel::setSequencesFolder(int id)
 {
     m_sequenceFolderId = id;
     saveProperty(QStringLiteral("kdenlive:sequenceFolder"), QString::number(id));
+}
+
+void ProjectItemModel::checkSequenceIntegrity(const QString activeSequenceId)
+{
+    QStringList sequencesIds = pCore->currentDoc()->getTimelinesIds();
+    Q_ASSERT(sequencesIds.contains(activeSequenceId));
+    QStringList allMltIds = m_binPlaylist->getAllMltIds();
+    for (auto &i : sequencesIds) {
+        Q_ASSERT(allMltIds.contains(i));
+    }
 }

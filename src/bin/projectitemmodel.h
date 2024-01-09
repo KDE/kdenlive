@@ -107,7 +107,7 @@ public:
      *  @return A list of invalid sequence clips found in Project Bin (can be caused by 23.04.0 bug)
      */
     QList<QUuid> loadBinPlaylist(Mlt::Service *documentTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders,
-                                 int &zoomLevel, QProgressDialog *progressDialog = nullptr);
+                                 const QUuid &activeUuid, int &zoomLevel, QProgressDialog *progressDialog = nullptr);
     void loadTractorPlaylist(Mlt::Tractor documentTractor, std::unordered_map<QString, QString> &binIdCorresp);
 
     /** @brief Save document properties in MLT's bin playlist */
@@ -242,6 +242,8 @@ public:
     void setSequencesFolder(int id);
     /** @brief Remove clip references for a timeline. */
     void removeReferencedClips(const QUuid &uuid, bool onDeletion);
+    /** @brief Check that all sequences are correctly stored in the model */
+    void checkSequenceIntegrity(const QString activeSequenceId);
 
 protected:
     bool closing;

@@ -6,6 +6,7 @@
 #pragma once
 
 #include <QDateTime>
+#include <QUuid>
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <memory>
@@ -18,7 +19,8 @@ class QProgressDialog;
 /** @brief This function can be used to construct a TimelineModel object from a Mlt object hierarchy
  */
 
-bool loadProjectBin(Mlt::Tractor tractor, QProgressDialog *progressDialog = nullptr);
+bool loadProjectBin(Mlt::Tractor tractor, const QUuid &activeUuid, QProgressDialog *progressDialog = nullptr);
+void checkProjectWarnings();
 
 bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, Mlt::Tractor mlt_timeline, QProgressDialog *progressDialog = nullptr,
                                const QString &originalDecimalPoint = QString(), const QString &chunks = QString(), bool enablePreview = false,
