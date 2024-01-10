@@ -7,7 +7,9 @@ include:
       # CI
       - /gitlab-templates/reuse-lint.yml
       - /gitlab-templates/linux.yml
-      - /gitlab-templates/freebsd.yml
+      # The FreeBSD is not containerized and hence has Qt5 and Qt6 around
+      # Kdenlive preferes Qt6 and there is no way to tell the CI to use Qt5 in this case
+      #- /gitlab-templates/freebsd.yml
       - /gitlab-templates/linux-qt6.yml
       - /gitlab-templates/freebsd-qt6.yml
       # CD Qt5
