@@ -354,8 +354,8 @@ void TrackModel::temporaryUnplugClip(int clipId)
 {
     QWriteLocker locker(&m_lock);
     int clip_position = m_allClips[clipId]->getPosition();
-    auto clip_loc = getClipIndexAt(clip_position);
-    int target_track = clip_loc.first;
+    int target_track = m_allClips[clipId]->getSubPlaylistIndex();
+    auto clip_loc = getClipIndexAt(clip_position, target_track);
     int target_clip = clip_loc.second;
     // lock MLT playlist so that we don't end up with invalid frames in monitor
     m_playlists[target_track].lock();
