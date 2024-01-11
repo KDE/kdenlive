@@ -8,6 +8,7 @@
 #include "logger.hpp"
 #endif
 #include <QDebug>
+#include <QTime>
 #include <utility>
 FunctionalUndoCommand::FunctionalUndoCommand(Fun undo, Fun redo, const QString &text, QUndoCommand *parent)
     : QUndoCommand(parent)
@@ -15,7 +16,7 @@ FunctionalUndoCommand::FunctionalUndoCommand(Fun undo, Fun redo, const QString &
     , m_redo(std::move(redo))
     , m_undone(false)
 {
-    setText(text);
+    setText(QString("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(text));
 }
 
 void FunctionalUndoCommand::undo()
