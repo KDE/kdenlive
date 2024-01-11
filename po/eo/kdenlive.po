@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-10 01:34+0000\n"
-"PO-Revision-Date: 2024-01-05 21:07+0100\n"
+"PO-Revision-Date: 2024-01-10 22:59+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -9458,11 +9458,10 @@ msgid "Merged streams"
 msgstr "Kunfanditaj riveretoj"
 
 #: src/library/librarywidget.cpp:190 src/statusbarmessagelabel.cpp:84
-#, fuzzy, kde-format
-#| msgid "%1%"
+#, kde-format
 msgctxt "%p is the percent value, % is the percent sign"
 msgid "%p%"
-msgstr "%1%"
+msgstr "%p%"
 
 #: src/library/librarywidget.cpp:203 src/library/librarywidget.cpp:531
 #, kde-format
@@ -17934,10 +17933,9 @@ msgstr "Arkivigi nur timeline-tondaĵojn"
 #. i18n: ectx: property (format), widget (QProgressBar, progressBar)
 #: src/ui/archivewidget_ui.ui:139 src/ui/cliptranscode_ui.ui:40
 #: src/ui/speechdialog_ui.ui:112 src/ui/textbasededit_ui.ui:59
-#, fuzzy, no-c-format, kde-format
-#| msgid "%1%"
+#, no-c-format, kde-format
 msgid "%p%"
-msgstr "%1%"
+msgstr "%p%"
 
 #. i18n: ectx: property (text), widget (QLabel, labelFFTSize)
 #: src/ui/audiospectrum_ui.ui:56
@@ -21954,6 +21952,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "%1 %%"
-#~ msgstr "%1 %%"

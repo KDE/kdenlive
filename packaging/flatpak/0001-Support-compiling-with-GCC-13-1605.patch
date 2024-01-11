@@ -1,0 +1,26 @@
+From a0e9ddb8a51ef2778697e7b549713a2172a1a1a3 Mon Sep 17 00:00:00 2001
+From: Jean-Christophe Morin
+ <38703886+JeanChristopheMorinPerso@users.noreply.github.com>
+Date: Sat, 20 May 2023 14:52:46 -0400
+Subject: [PATCH] Support compiling with GCC 13 (#1605)
+
+Signed-off-by: Jean-Christophe Morin <jean_christophe_morin@hotmail.com>
+---
+ src/opentime/rationalTime.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/opentime/rationalTime.h b/src/opentime/rationalTime.h
+index ec791bc..fbdd02d 100644
+--- a/src/opentime/rationalTime.h
++++ b/src/opentime/rationalTime.h
+@@ -7,6 +7,7 @@
+ #include "opentime/version.h"
+ #include <cmath>
+ #include <limits>
++#include <cstdint>
+ #include <string>
+ 
+ namespace opentime { namespace OPENTIME_VERSION {
+-- 
+2.43.0
+

@@ -54,8 +54,15 @@ xml_lint:
     # enable globstar to be able to use ** as recursive wildcard
     - shopt -s globstar
     # exit shell on non-zero exit code
-    - set -e 
+    - set -e
     # execute xmllint for all xml files
     - for x in **/*.xml; do echo "Processing $x"; xmllint -noout "$x"; done
   rules:
     - changes: [ "**/*.xml" ]
+
+
+flatpak:
+  before_script:
+    - git clone https://invent.kde.org/sysadmin/ci-utilities.git --depth=1
+    - git clone https://invent.kde.org/sysadmin/ci-notary-service.git --depth=1
+    - flatpak --user install -y flathub org.freedesktop.Sdk.Extension.llvm17

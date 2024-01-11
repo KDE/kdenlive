@@ -19,7 +19,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Zanata 3.9.6\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
+"n % 10 == 0) ? 2 : 3));\n"
 
 #, fuzzy, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3473,6 +3474,8 @@ msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
 msgstr[0] "מחק מסגרת מפתח"
 msgstr[1] "מחק מסגרת מפתח"
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/assets/keyframes/view/keyframeview.cpp:645
 #, fuzzy, kde-format
@@ -3480,6 +3483,8 @@ msgid "Move keyframe"
 msgid_plural "Move keyframes"
 msgstr[0] "מחק מסגרת מפתח"
 msgstr[1] "מחק מסגרת מפתח"
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/assets/keyframes/view/keyframeview.cpp:904
 #, fuzzy, kde-format
@@ -4226,6 +4231,8 @@ msgid "%1 job"
 msgid_plural "%1 jobs"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/bin/bin.cpp:1075
 #, kde-format
@@ -4233,6 +4240,8 @@ msgid "%1 pending job"
 msgid_plural "%1 pending jobs"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/bin/bin.cpp:1198
 #, fuzzy, kde-format
@@ -4608,6 +4617,8 @@ msgid "%1 Star"
 msgid_plural "%1 Stars"
 msgstr[0] "התחלה"
 msgstr[1] "התחלה"
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/bin/bin.cpp:2398
 #, fuzzy, kde-format
@@ -4909,6 +4920,8 @@ msgid "Move Clip"
 msgid_plural "Move Clips"
 msgstr[0] "העברת סרטון"
 msgstr[1] "העברת סרטון"
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/bin/bin.cpp:3916
 #, fuzzy, kde-format
@@ -5106,6 +5119,8 @@ msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "הוסף מעבר לסרטון"
 msgstr[1] "הוסף מעבר לסרטון"
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/bin/bin.cpp:5816
 #, fuzzy, kde-format
@@ -5247,11 +5262,13 @@ msgid "Loading done"
 msgstr "טוען סרטוני פרוייקט"
 
 #: src/bin/clipcreator.cpp:586 src/dialogs/clipcreationdialog.cpp:602
-#, kde-format
+#, fuzzy, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
 msgstr[0] "הוסף סרטון"
 msgstr[1] "הוסף סרטון"
+msgstr[2] ""
+msgstr[3] ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_duration)
 #. i18n: ectx: property (text), widget (QLabel, duration_label)
@@ -5599,6 +5616,8 @@ msgid "%1 clip"
 msgid_plural "%1 clips"
 msgstr[0] "הוסף סרטון"
 msgstr[1] "הוסף סרטון"
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/bin/projectitemmodel.cpp:315
 #, fuzzy, kde-format
@@ -7221,6 +7240,8 @@ msgid "%1 day "
 msgid_plural "%1 days "
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/dialogs/renderwidget.cpp:1240
 #, kde-format
@@ -7270,6 +7291,8 @@ msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/dialogs/renderwidget.cpp:1764
 #, fuzzy, kde-format
@@ -7278,6 +7301,8 @@ msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
 msgstr[0] "בדוק סרטונים חסרים"
 msgstr[1] "בדוק סרטונים חסרים"
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/dialogs/renderwidget.cpp:1766
 #, kde-format
@@ -7999,6 +8024,8 @@ msgid "One missing clip"
 msgid_plural "%1 missing clips"
 msgstr[0] "בדוק סרטונים חסרים"
 msgstr[1] "בדוק סרטונים חסרים"
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/doc/dcresolvedialog.cpp:203
 #, fuzzy, kde-format
@@ -8007,6 +8034,8 @@ msgid "One missing source with available proxy"
 msgid_plural "%1 missing sources with available proxy"
 msgstr[0] "מחק פריטים נבחרים"
 msgstr[1] "מחק פריטים נבחרים"
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/doc/dcresolvedialog.cpp:206
 #, fuzzy, kde-format
@@ -8015,6 +8044,8 @@ msgid "One placeholder clip"
 msgid_plural "%1 placeholder clips"
 msgstr[0] "שמירת מקום עבור סרטונים חסרים"
 msgstr[1] "שמירת מקום עבור סרטונים חסרים"
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/doc/dcresolvedialog.cpp:209
 #, fuzzy, kde-format
@@ -8023,6 +8054,8 @@ msgid "One removed clip"
 msgid_plural "%1 removed clips"
 msgstr[0] "הסר סרטונים"
 msgstr[1] "הסר סרטונים"
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/doc/dcresolvedialog.cpp:218
 #, fuzzy, kde-format
@@ -8031,6 +8064,8 @@ msgid "One missing proxy"
 msgid_plural "%1 missing proxies"
 msgstr[0] "מחק פריטים נבחרים"
 msgstr[1] "מחק פריטים נבחרים"
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/doc/dcresolvedialog.cpp:221
 #, kde-format
@@ -8038,6 +8073,8 @@ msgid "One proxy can be recovered"
 msgid_plural "%1 proxies can be recovered"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/doc/dcresolvedialog.cpp:238
 #, fuzzy, kde-format
@@ -8380,6 +8417,8 @@ msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "הוסף סרטון"
 msgstr[1] "הוסף סרטון"
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/doc/kdenlivedoc.cpp:1542
 #, fuzzy, kde-format
@@ -8387,6 +8426,8 @@ msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "הסר סרטונים"
 msgstr[1] "הסר סרטונים"
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/doc/kdenlivedoc.cpp:1586 src/doc/kdenlivedoc.cpp:1644
 #, kde-format
@@ -10118,6 +10159,8 @@ msgstr[0] ""
 "יש פעולת צלימה 1 בתור.\n"
 "מה ברצונך לעשות עם פעולה זו?"
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/mainwindow.cpp:989
 #, kde-format
@@ -12295,6 +12338,8 @@ msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "רצועת שמע"
 msgstr[1] "רצועת שמע"
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/monitor/monitor.cpp:2302
 #, kde-format
@@ -13091,6 +13136,8 @@ msgid "Add clip to project"
 msgid_plural "Add clips to project"
 msgstr[0] "הוסף סרטון לפרוייקט"
 msgstr[1] "הוסף סרטון לפרוייקט"
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/project/cliptranscode.cpp:59
 #, kde-format
@@ -13166,6 +13213,8 @@ msgid "You have %1 missing clip in your project."
 msgid_plural "You have %1 missing clips in your project."
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/project/dialogs/archivewidget.cpp:234
 #: src/project/dialogs/archivewidget.cpp:1330
@@ -13175,6 +13224,8 @@ msgid "(%1 item)"
 msgid_plural "(%1 items)"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/project/dialogs/archivewidget.cpp:240
 #: src/project/dialogs/archivewidget.cpp:1332
@@ -13184,6 +13235,8 @@ msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/project/dialogs/archivewidget.cpp:241
 #: src/project/dialogs/archivewidget.cpp:332
@@ -13531,6 +13584,8 @@ msgid "Create marker"
 msgid_plural "create markers"
 msgstr[0] "מחק סמן"
 msgstr[1] "מחק סמן"
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/project/dialogs/noteswidget.cpp:50
 #, kde-format
@@ -13770,11 +13825,13 @@ msgstr ""
 #: src/project/dialogs/projectsettings.cpp:766
 #: src/project/dialogs/projectsettings.cpp:781
 #: src/project/dialogs/slideshowclip.cpp:330
-#, kde-format
+#, fuzzy, kde-format
 msgid "1 image found"
 msgid_plural "%1 images found"
 msgstr[0] "נמצאה תמונה 1"
 msgstr[1] "%1 תמונות נמצאו"
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/project/dialogs/projectsettings.cpp:797
 #, fuzzy, kde-format
@@ -13846,6 +13903,8 @@ msgid " month"
 msgid_plural " months"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/project/dialogs/temporarydata.cpp:177
 #, kde-format
@@ -16120,6 +16179,8 @@ msgid "One clip replaced"
 msgid_plural "%1 clips replaced"
 msgstr[0] "שום סרטון לא הועתק"
 msgstr[1] "שום סרטון לא הועתק"
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/timeline2/model/timelineitemmodel.cpp:925
 #, kde-format
@@ -16281,6 +16342,8 @@ msgid "Slip clip"
 msgid_plural "Slip clips"
 msgstr[0] "סרטון כותר"
 msgstr[1] "סרטון כותר"
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/timeline2/model/timelinemodel.cpp:4120
 #, fuzzy, kde-format
@@ -16477,6 +16540,8 @@ msgid " track"
 msgid_plural " tracks"
 msgstr[0] "ערוץ"
 msgstr[1] "ערוץ"
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/timeline2/view/previewmanager.cpp:84
 #, fuzzy, kde-format
@@ -17030,6 +17095,8 @@ msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "הכנס ערוץ"
 msgstr[1] "הכנס ערוץ"
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/timeline2/view/timelinecontroller.cpp:5037
 #, fuzzy, kde-format
@@ -17477,6 +17544,8 @@ msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "מחק פריטים נבחרים"
 msgstr[1] "מחק פריטים נבחרים"
+msgstr[2] ""
+msgstr[3] ""
 
 #: src/titler/titlewidget.cpp:2241 src/titler/unicodedialog.cpp:28
 #, kde-format

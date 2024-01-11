@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-10 01:34+0000\n"
-"PO-Revision-Date: 2024-01-05 18:46+0200\n"
+"PO-Revision-Date: 2024-01-10 12:20+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -839,17 +839,17 @@ msgstr "Geometria"
 #: data/effects/dynamictext.xml:11 data/effects/timer.xml:11
 #, kde-format
 msgid "Font Family"
-msgstr "Família del tipus de lletra"
+msgstr "Família de la lletra"
 
 #: data/effects/dynamictext.xml:14 data/effects/timer.xml:17
 #, kde-format
 msgid "Font Size"
-msgstr "Mida del tipus de lletra"
+msgstr "Mida de la lletra"
 
 #: data/effects/dynamictext.xml:17 data/effects/timer.xml:20
 #, kde-format
 msgid "Font Weight"
-msgstr "Estil del tipus de lletra"
+msgstr "Estil de la lletra"
 
 #: data/effects/dynamictext.xml:26 data/effects/timer.xml:29
 #, kde-format
@@ -2210,7 +2210,7 @@ msgstr "Superposa un temporitzador en el vídeo"
 #: data/effects/timer.xml:14
 #, kde-format
 msgid "Font Style"
-msgstr "Estil del tipus de lletra"
+msgstr "Estil de la lletra"
 
 #: data/effects/timer.xml:46
 #, kde-format
@@ -3193,7 +3193,7 @@ msgstr "Duració (segons)"
 #: plugins/sampleplugin/countdown_ui.ui:50
 #, kde-format
 msgid "Font"
-msgstr "Tipus de lletra"
+msgstr "Lletra"
 
 #: plugins/sampleplugin/sampleplugin.cpp:20
 #, kde-format
@@ -6145,9 +6145,7 @@ msgstr ""
 #: src/dialogs/clipjobmanager.cpp:54 src/dialogs/clipjobmanager.cpp:63
 #, kde-format
 msgid "If selected, a file path will be requested on execution"
-msgstr ""
-"Si se selecciona, apareixerà una llista separada per salts de línia de "
-"valors possibles que s'oferiran durant l'execució"
+msgstr "Si se selecciona, se sol·licitarà un camí de fitxer en l'execució"
 
 #: src/dialogs/clipjobmanager.cpp:55 src/dialogs/clipjobmanager.cpp:64
 #, kde-format
@@ -6180,7 +6178,7 @@ msgid ""
 "When the parameter is set to <b>Request Option in List</b> the user will be "
 "asked to choose a value in this list when the job is started."
 msgstr ""
-"Quan el paràmetre s'establix a <b>Sol·licita un opció de la llista</b> "
+"Quan el paràmetre s'establix a <b>Sol·licita una opció de la llista</b> "
 "l'usuari se li preguntarà que trie un valor d'esta llista quan s'inicie el "
 "treball."
 
@@ -7520,8 +7518,8 @@ msgid ""
 "Toggles a list to adjust font, size, color, outline style, shadow, position "
 "and background."
 msgstr ""
-"Canvia una llista per a ajustar el tipus de lletra, la mida, el color, "
-"l'estil del contorn, l'ombra, la posició i el fons."
+"Canvia una llista per a ajustar la lletra, la mida, el color, l'estil del "
+"contorn, l'ombra, la posició i el fons."
 
 #: src/dialogs/subtitleedit.cpp:123
 #, kde-kuit-format
@@ -8158,7 +8156,7 @@ msgstr "Clip"
 #: src/doc/documentchecker.cpp:1572
 #, kde-format
 msgid "Title Font"
-msgstr "Tipus de lletra del títol"
+msgstr "Lletra del títol"
 
 #: src/doc/documentchecker.cpp:1576
 #, kde-format
@@ -8731,7 +8729,7 @@ msgid ""
 "Moves the effect above the one right above it. Effects are handled "
 "sequentially from top to bottom so sequence is important."
 msgstr ""
-"Mou l'efecte damunt del que es troba just per damunt seu. Els efectes es "
+"Mou l'efecte damunt del qual es troba just per damunt seu. Els efectes es "
 "gestionen seqüencialment de dalt a baix, de manera que la seqüència és "
 "important."
 
@@ -8747,7 +8745,7 @@ msgid ""
 "Moves the effect below the one right below it. Effects are handled "
 "sequentially from top to bottom so sequence is important."
 msgstr ""
-"Mou l'efecte davall del que es troba just per davall seu. Els efectes es "
+"Mou l'efecte davall del qual es troba just per davall seu. Els efectes es "
 "gestionen seqüencialment de dalt a baix, de manera que la seqüència és "
 "important."
 
@@ -9123,7 +9121,7 @@ msgstr "No s'ha pogut carregar la imatge %1."
 #: src/jobs/proxytask.cpp:251
 #, kde-format
 msgid "Image too small to be proxied."
-msgstr "La imatge es massa xicoteta perquè siga intermediària."
+msgstr "La imatge és massa xicoteta perquè siga intermediària."
 
 #: src/jobs/proxytask.cpp:259 src/jobs/transcodetask.cpp:183
 #: src/project/cliptranscode.cpp:123
@@ -9563,11 +9561,10 @@ msgid "Merged streams"
 msgstr "Fluxos fusionats"
 
 #: src/library/librarywidget.cpp:190 src/statusbarmessagelabel.cpp:84
-#, fuzzy, kde-format
-#| msgid "%1%"
+#, kde-format
 msgctxt "%p is the percent value, % is the percent sign"
 msgid "%p%"
-msgstr "%1%"
+msgstr "%p%"
 
 #: src/library/librarywidget.cpp:203 src/library/librarywidget.cpp:531
 #, kde-format
@@ -11457,7 +11454,7 @@ msgid ""
 msgstr ""
 "<shortcut>Maj+arrossega</shortcut> per a una selecció de banda elàstica, "
 "<shortcut>Maj+fes clic</shortcut> per a una selecció múltiple, <shortcut>Meta"
-"+arrossega</shortcut> per a moure un clip agrupat a una altra pista, "
+"+arrossega</shortcut> per a moure un clip agrupat cap a una altra pista, "
 "<shortcut>Ctrl+arrossega</shortcut> per a desplaçar"
 
 #: src/mainwindow.cpp:3398
@@ -11471,7 +11468,7 @@ msgid ""
 msgstr ""
 "<shortcut>Maj+arrossega</shortcut> per a una selecció de banda elàstica, "
 "<shortcut>Maj+fes clic</shortcut> per a una selecció múltiple, <shortcut>Meta"
-"+Alt+arrossega</shortcut> per a moure un clip agrupat a una altra pista, "
+"+Alt+arrossega</shortcut> per a moure un clip agrupat cap a una altra pista, "
 "<shortcut>Ctrl+arrossega</shortcut> per a desplaçar"
 
 #: src/mainwindow.cpp:3401
@@ -12935,7 +12932,7 @@ msgstr "Mida: %1 x %2"
 #: src/onlineresources/resourcewidget.cpp:407
 #, kde-format
 msgid "Duration: %1 sec"
-msgstr "Duració: %1 seg"
+msgstr "Duració: %1 s"
 
 #: src/onlineresources/resourcewidget.cpp:435
 #, kde-format
@@ -16383,8 +16380,8 @@ msgstr "Clips substituïts: %1. <b>Clips no substituïts: %2</b>"
 #, kde-format
 msgid "One clip replaced"
 msgid_plural "%1 clips replaced"
-msgstr[0] "S'ha substitut un clip"
-msgstr[1] "S'han substitut %1 clips"
+msgstr[0] "S'ha substituït un clip"
+msgstr[1] "S'han substituït %1 clips"
 
 #: src/timeline2/model/timelineitemmodel.cpp:925
 #, kde-format
@@ -16400,7 +16397,7 @@ msgstr "Substituïx el clip"
 #: src/timeline2/model/timelinemodel.cpp:1146
 #, kde-format
 msgid "Select a clip to apply the mix"
-msgstr "Seleccioneu un clip per a aplicar a la mescla"
+msgstr "Seleccioneu un clip per a aplicar la mescla"
 
 #: src/timeline2/model/timelinemodel.cpp:1144
 #, kde-format
@@ -17468,7 +17465,7 @@ msgstr "Gruixut"
 #: src/titler/titlewidget.cpp:273
 #, kde-format
 msgid "Font weight"
-msgstr "Estil del tipus de lletra"
+msgstr "Estil de la lletra"
 
 #: src/titler/titlewidget.cpp:287
 #, kde-format
@@ -17866,7 +17863,7 @@ msgid ""
 "this font."
 msgstr ""
 "Espai de figura (irrompible). És l'amplària d'un dígit si estos tenen "
-"amplària fixa en este tipus de lletra."
+"amplària fixa en esta lletra."
 
 #: src/titler/unicodedialog.cpp:171
 #, kde-format
@@ -18134,10 +18131,9 @@ msgstr "Arxiva només els clips de la línia de temps"
 #. i18n: ectx: property (format), widget (QProgressBar, progressBar)
 #: src/ui/archivewidget_ui.ui:139 src/ui/cliptranscode_ui.ui:40
 #: src/ui/speechdialog_ui.ui:112 src/ui/textbasededit_ui.ui:59
-#, fuzzy, no-c-format, kde-format
-#| msgid "%1%"
+#, no-c-format, kde-format
 msgid "%p%"
-msgstr "%1%"
+msgstr "%p%"
 
 #. i18n: ectx: property (text), widget (QLabel, labelFFTSize)
 #: src/ui/audiospectrum_ui.ui:56
@@ -20083,13 +20079,13 @@ msgstr "px"
 #: src/ui/editsub_ui.ui:308
 #, kde-format
 msgid "Custom Font Color"
-msgstr "Color del tipus de lletra personalitzat"
+msgstr "Color personalitzat de la lletra"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOutlineSize)
 #: src/ui/editsub_ui.ui:315
 #, kde-format
 msgid "Custom Outline Size"
-msgstr "Mida del contorn personalitzat"
+msgstr "Mida personalitzada del contorn"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkShadowSize)
 #: src/ui/editsub_ui.ui:322
@@ -20119,19 +20115,19 @@ msgstr "Color del contorn personalitzat"
 #: src/ui/editsub_ui.ui:427
 #, kde-format
 msgid "Custom Font Size"
-msgstr "Mida del tipus de lletra personalitzat"
+msgstr "Mida personalitzada de la lletra"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFont)
 #: src/ui/editsub_ui.ui:447
 #, kde-format
 msgid "Custom Font"
-msgstr "Tipus de lletra personalitzat"
+msgstr "Lletra personalitzada"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
 #: src/ui/exportguidesdialog_ui.ui:27
 #, kde-format
 msgid "Formatted chapter marker text will be generated here."
-msgstr "Ací es generarà el text amb format dels marcadors de capítol."
+msgstr "Ací es generarà el text amb format del marcador de capítols."
 
 #. i18n: ectx: property (title), widget (QGroupBox, textOptions)
 #: src/ui/exportguidesdialog_ui.ui:44
@@ -20895,7 +20891,7 @@ msgstr "Fitxers del projecte"
 #: src/ui/projectsettings_ui.ui:607
 #, kde-format
 msgid "Fonts"
-msgstr "Tipus de lletra"
+msgstr "Lletres"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: src/ui/projectsettings_ui.ui:662
@@ -20937,7 +20933,7 @@ msgstr "Text:"
 #: src/ui/qtextclip_ui.ui:49
 #, kde-format
 msgid "Font:"
-msgstr "Tipus de lletra:"
+msgstr "Lletra:"
 
 #. i18n: ectx: property (text), widget (QLabel, weightLabel)
 #: src/ui/qtextclip_ui.ui:74
@@ -22166,6 +22162,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "%1 %%"
-#~ msgstr "%1 %%"
