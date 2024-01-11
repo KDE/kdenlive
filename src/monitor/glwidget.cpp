@@ -1915,5 +1915,8 @@ void VideoWidget::switchRuler(bool show)
 
 const QStringList VideoWidget::getGPUInfo()
 {
+    if (!m_isInitialized) {
+        return {};
+    }
     return {QString::fromUtf8((const char *)glGetString(GL_VENDOR)), QString::fromUtf8((const char *)glGetString(GL_RENDERER))};
 }
