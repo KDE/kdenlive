@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-03 02:25+0000\n"
-"PO-Revision-Date: 2024-01-05 18:46+0200\n"
+"PO-Revision-Date: 2024-01-10 12:20+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -6024,7 +6024,7 @@ msgid ""
 "When the parameter is set to <b>Request Option in List</b> the user will be "
 "asked to choose a value in this list when the job is started."
 msgstr ""
-"Quan el paràmetre s'establix a <b>Sol·licita un opció de la llista</b> "
+"Quan el paràmetre s'establix a <b>Sol·licita una opció de la llista</b> "
 "l'usuari se li preguntarà que trie un valor d'esta llista quan s'inicie el "
 "treball."
 
@@ -8766,7 +8766,7 @@ msgstr "No s'ha pogut carregar la imatge %1."
 #: src/jobs/proxytask.cpp:246
 #, kde-format
 msgid "Image too small to be proxied."
-msgstr "La imatge es massa xicoteta perquè siga intermediària."
+msgstr "La imatge és massa xicoteta perquè siga intermediària."
 
 #: src/jobs/proxytask.cpp:254 src/jobs/transcodetask.cpp:183
 #: src/project/cliptranscode.cpp:123
@@ -11056,7 +11056,7 @@ msgid ""
 msgstr ""
 "<shortcut>Maj+arrossega</shortcut> per a una selecció de banda elàstica, "
 "<shortcut>Maj+fes clic</shortcut> per a una selecció múltiple, <shortcut>Meta"
-"+arrossega</shortcut> per a moure un clip agrupat a una altra pista, "
+"+arrossega</shortcut> per a moure un clip agrupat cap a una altra pista, "
 "<shortcut>Ctrl+arrossega</shortcut> per a desplaçar"
 
 #: src/mainwindow.cpp:3400
@@ -11070,7 +11070,7 @@ msgid ""
 msgstr ""
 "<shortcut>Maj+arrossega</shortcut> per a una selecció de banda elàstica, "
 "<shortcut>Maj+fes clic</shortcut> per a una selecció múltiple, <shortcut>Meta"
-"+Alt+arrossega</shortcut> per a moure un clip agrupat a una altra pista, "
+"+Alt+arrossega</shortcut> per a moure un clip agrupat cap a una altra pista, "
 "<shortcut>Ctrl+arrossega</shortcut> per a desplaçar"
 
 #: src/mainwindow.cpp:3403
@@ -12534,7 +12534,7 @@ msgstr "Mida: %1 x %2"
 #: src/onlineresources/resourcewidget.cpp:405
 #, kde-format
 msgid "Duration: %1 sec"
-msgstr "Duració: %1 seg"
+msgstr "Duració: %1 s"
 
 #: src/onlineresources/resourcewidget.cpp:433
 #, kde-format
@@ -19645,7 +19645,7 @@ msgstr "Exportat:"
 #: src/ui/exportguidesdialog_ui.ui:186
 #, kde-format
 msgid "Formatted chapter marker text will be generated here."
-msgstr "Ací es generarà el text amb format dels marcadors de capítol."
+msgstr "Ací es generarà el text amb format del marcador de capítols."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/gradientedit_ui.ui:24
