@@ -232,11 +232,15 @@ Rectangle {
         //propagateComposedEvents: true
         hoverEnabled: true
         onPressed: mouse => {
+            root.captureRightClick = true
             if (mouse.buttons === Qt.LeftButton) {
                 var pos = Math.max(mouseX, 0)
                 controller.position = Math.min((pos + ruler.rulerZoomOffset) / root.timeScale, root.duration);
                 mouse.accepted = true
             }
+        }
+        onReleased: mouse => {
+            root.updateClickCapture()
         }
         onPositionChanged: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
@@ -314,10 +318,12 @@ Rectangle {
         }
         onPressed: {
             // break binding
+            root.captureRightClick = true
             x = x
             controller.startZoneMove()
         }
         onReleased: {
+            root.updateClickCapture()
             x = Qt.binding(function() { return zone.x - root.baseUnit * .4 })
             controller.endZoneMove()
         }
@@ -361,10 +367,12 @@ Rectangle {
         }
         onPressed: {
             // Break binding
+            root.captureRightClick = true
             x = x
             controller.startZoneMove()
         }
         onReleased: {
+            root.updateClickCapture()
             x = Qt.binding(function() { return zone.x + zone.width - (root.baseUnit * .4) })
             controller.endZoneMove()
         }

@@ -43,6 +43,10 @@ Item {
     property color overlayColor: controller.overlayColor
     property bool isClipMonitor: false
 
+    function updateClickCapture() {
+        root.captureRightClick = false
+    }
+
     FontMetrics {
         id: fontMetrics
         font: fixedFont

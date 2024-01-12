@@ -373,7 +373,7 @@ void VideoWidget::mousePressEvent(QMouseEvent *event)
         // The event has been handled in qml
         m_swallowDrop = true;
     }
-    event->accept();
+    // event->accept();
     if ((event->button() & Qt::LeftButton) != 0u) {
         if ((event->modifiers() & Qt::ControlModifier) != 0u) {
             // Pan view
@@ -403,7 +403,7 @@ void VideoWidget::mouseReleaseEvent(QMouseEvent *event)
         qDebug()<<"::::::: MOUSE RELEASED B IGNORED";
         return;
     }*/
-    if ((event->modifiers() & Qt::ControlModifier)) {
+    if (event->modifiers() & Qt::ControlModifier || m_qmlEvent) {
         event->accept();
         return;
     }
