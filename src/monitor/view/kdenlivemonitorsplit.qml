@@ -36,6 +36,10 @@ Item {
 
     signal qmlMoveSplit()
 
+    function updateClickCapture() {
+        root.captureRightClick = false
+    }
+
     FontMetrics {
         id: fontMetrics
         font.family: "Arial"
@@ -61,6 +65,7 @@ Item {
             controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
         }
         onPressed: {
+            root.captureRightClick = true
             root.percentage = (mouseX - (root.width - (root.profile.x * root.scalex)) / 2) / (root.profile.x * root.scalex)
             root.splitterPos = mouseX
             root.qmlMoveSplit()
@@ -73,6 +78,9 @@ Item {
             }
             timer.restart()
             splitter.visible = true
+        }
+        onReleased: {
+            root.captureRightClick = false
         }
         //onEntered: { splitter.visible = true }
         onExited: { splitter.visible = false }

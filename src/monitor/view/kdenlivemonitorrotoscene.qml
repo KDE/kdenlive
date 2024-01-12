@@ -72,6 +72,14 @@ Item {
     signal effectPolygonChanged(var points, var centers)
     signal seekToKeyframe()
 
+    function updateClickCapture() {
+        if (root.isDefined) {
+            root.captureRightClick = false
+        } else {
+            root.captureRightClick = true
+        }
+    }
+
     onDurationChanged: {
         clipMonitorRuler.updateRuler()
     }
@@ -92,6 +100,7 @@ Item {
 
     onIsDefinedChanged: {
         controller.setWidgetKeyBinding(root.isDefined ? defaultKeyBindInfo : emptyCanvasKeyBindInfo);
+        root.captureRightClick = false
     }
 
     onAutoKeyframeChanged: {
@@ -381,6 +390,7 @@ Item {
         objectName: "global"
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         anchors.fill: parent
+        anchors.bottomMargin: clipMonitorRuler.height
         property bool pointContainsMouse
         property bool centerContainsMouse
         hoverEnabled: true

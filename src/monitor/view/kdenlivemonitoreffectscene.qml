@@ -48,6 +48,10 @@ Item {
     signal effectChanged()
     signal centersChanged()
 
+    function updateClickCapture() {
+        root.captureRightClick = false
+    }
+
     onDurationChanged: {
         clipMonitorRuler.updateRuler()
     }
@@ -217,18 +221,19 @@ Item {
         }
 
         onPressed: mouse => {
+            root.captureRightClick = true
             if (mouse.button & Qt.LeftButton) {
                 if (root.requestedKeyFrame >= 0 && !isMoving) {
                     controller.seekToKeyframe();
                 }
             }
             isMoving = false
-
         }
         onDoubleClicked: {
             controller.addRemoveKeyframe()
         }
         onReleased: {
+            root.captureRightClick = false
             root.requestedKeyFrame = -1
             isMoving = false;
         }
@@ -283,6 +288,7 @@ Item {
                 }
               }
               onPressed: mouse => {
+                  root.captureRightClick = true
                   if (root.iskeyframe == false && controller.autoKeyframe) {
                     console.log('ADDREMOVE THAND PRESSED')
                     controller.addRemoveKeyframe();
@@ -317,7 +323,8 @@ Item {
                   root.effectChanged()
                 }
               }
-              onReleased: mouse => {
+              onReleased: {
+                  root.captureRightClick = false
                   effectsize.visible = false
                   tlhandle.color = '#ff0000'
                   handleRatio = 1
@@ -365,6 +372,7 @@ Item {
                 }
               }
               onPressed: mouse => {
+                  root.captureRightClick = true
                   if (root.iskeyframe == false && controller.autoKeyframe) {
                       console.log('ADDREMOVE TRAND PRESSED')
                     controller.addRemoveKeyframe();
@@ -400,6 +408,7 @@ Item {
                 }
               }
               onReleased: {
+                  root.captureRightClick = false
                   effectsize.visible = false
                   trhandle.color = '#ff0000'
                   handleRatio = 1
@@ -436,6 +445,7 @@ Item {
                 }
               }
               onPressed: mouse => {
+                  root.captureRightClick = true
                   if (root.iskeyframe == false && controller.autoKeyframe) {
                       console.log('ADDREMOVE BLAND PRESSED')
                     controller.addRemoveKeyframe();
@@ -471,6 +481,7 @@ Item {
                 }
               }
               onReleased: {
+                  root.captureRightClick = false
                   effectsize.visible = false
                   blhandle.color = '#ff0000'
                   handleRatio = 1
@@ -507,6 +518,7 @@ Item {
                 }
               }
               onPressed: mouse => {
+                  root.captureRightClick = true
                   if (root.iskeyframe == false && controller.autoKeyframe) {
                       console.log('ADDREMOVE BRHAND PRESSED')
                     controller.addRemoveKeyframe();
@@ -542,6 +554,7 @@ Item {
                 }
               }
               onReleased: {
+                  root.captureRightClick = false
                   effectsize.visible = false
                   brhandle.color = '#ff0000'
                   handleRatio = 1
@@ -578,6 +591,7 @@ Item {
               enabled: root.iskeyframe || controller.autoKeyframe
               cursorShape: enabled ? Qt.SizeAllCursor : Qt.ArrowCursor
               onPressed: {
+                  root.captureRightClick = true
                   if (root.iskeyframe == false && controller.autoKeyframe) {
                       console.log('ADDREMOVE CENTER PRESSED')
                     controller.addRemoveKeyframe();
@@ -594,11 +608,13 @@ Item {
                   }
               }
               onReleased: {
+                  root.captureRightClick = false
                   effectpos.visible = false
               }
             }
         }
     }
+
     EffectToolBar {
         id: effectToolBar
         anchors {
