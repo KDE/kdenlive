@@ -1391,7 +1391,6 @@ void MainWindow::setupActions()
     m_trimLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_trimLabel->setAlignment(Qt::AlignHCenter);
     m_trimLabel->setMinimumWidth(m_trimLabel->fontMetrics().boundingRect(i18n("Multicam")).width() + 8);
-    m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :%1; }").arg(palette().window().color().name()));
     m_trimLabel->setToolTip(i18n("Active tool and editing mode"));
 
     toolbar->addWidget(m_trimLabel);
