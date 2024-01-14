@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-13 00:37+0000\n"
-"PO-Revision-Date: 2024-01-06 03:34\n"
+"PO-Revision-Date: 2024-01-13 06:00\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -14,8 +14,8 @@ msgstr ""
 "X-Crowdin-Project: kdeorg\n"
 "X-Crowdin-Project-ID: 269464\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /kf5-trunk/messages/kdenlive/kdenlive.pot\n"
-"X-Crowdin-File-ID: 5910\n"
+"X-Crowdin-File: /kf6-trunk/messages/kdenlive/kdenlive.pot\n"
+"X-Crowdin-File-ID: 49324\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -9304,11 +9304,10 @@ msgid "Merged streams"
 msgstr "已合并流"
 
 #: src/library/librarywidget.cpp:190 src/statusbarmessagelabel.cpp:84
-#, fuzzy, kde-format
-#| msgid "%1%"
+#, kde-format
 msgctxt "%p is the percent value, % is the percent sign"
 msgid "%p%"
-msgstr "%1%"
+msgstr "%p%"
 
 #: src/library/librarywidget.cpp:203 src/library/librarywidget.cpp:531
 #, kde-format
@@ -17611,10 +17610,9 @@ msgstr "仅归档时间轴剪辑"
 #. i18n: ectx: property (format), widget (QProgressBar, progressBar)
 #: src/ui/archivewidget_ui.ui:139 src/ui/cliptranscode_ui.ui:40
 #: src/ui/speechdialog_ui.ui:112 src/ui/textbasededit_ui.ui:59
-#, fuzzy, no-c-format, kde-format
-#| msgid "%1%"
+#, no-c-format, kde-format
 msgid "%p%"
-msgstr "%1%"
+msgstr "%p%"
 
 #. i18n: ectx: property (text), widget (QLabel, labelFFTSize)
 #: src/ui/audiospectrum_ui.ui:56
@@ -21605,6 +21603,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgid "%1 %%"
-#~ msgstr "%1 %%"

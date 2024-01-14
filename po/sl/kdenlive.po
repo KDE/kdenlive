@@ -11,17 +11,17 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-13 00:37+0000\n"
-"PO-Revision-Date: 2024-01-06 20:27+0100\n"
-"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
+"PO-Revision-Date: 2024-01-13 07:16+0100\n"
+"Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
-"%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100>=3 && n"
+"%100<=4 ? 2 : 3);\n"
 "Translator: Martin Srebotnjak <miles@filmsi.net>\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 3.4.2\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
 
 #, kde-format
@@ -4400,7 +4400,7 @@ msgstr "Vseh zaporedij projekta ni možno izbrisati"
 #: src/bin/bin.cpp:1783
 #, kde-format
 msgid "Deleting sequences cannot be undone"
-msgstr "Brisanja zaporedij ni možno razveljaviti."
+msgstr "Brisanja zaporedij ni možno razveljaviti"
 
 #: src/bin/bin.cpp:1790
 #, kde-format
@@ -5155,7 +5155,7 @@ msgstr "Odstrani označevalnike posnetka"
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
-msgstr "Priporočamo, da pred operacijo prekodiranja projekt shranite."
+msgstr "Priporočamo, da pred operacijo prekodiranja projekt shranite"
 
 #: src/bin/bin.cpp:6037
 #, kde-format
@@ -7576,7 +7576,7 @@ msgstr "Shranjeno urejeno besedilo v seznam predvajanj"
 #: src/dialogs/textbasededit.cpp:665
 #, kde-format
 msgid "Create new sequence with text edit "
-msgstr "Ustvari novo zaporedje z urejanjem besedila"
+msgstr "Ustvari novo zaporedje z urejanjem besedila "
 
 #: src/dialogs/textbasededit.cpp:689
 #, kde-format
@@ -7724,7 +7724,7 @@ msgctxt "@info:whatsthis"
 msgid "Moves the selected keyframes to the current playhead position/frame."
 msgstr ""
 "Premakne izbrane ključne sličice na trenutni položaj/sličico predvajalne "
-"glave"
+"glave."
 
 #: src/dialogs/timeremap.cpp:1723
 #, kde-kuit-format
@@ -9516,11 +9516,10 @@ msgid "Merged streams"
 msgstr "Zliti tokovi"
 
 #: src/library/librarywidget.cpp:190 src/statusbarmessagelabel.cpp:84
-#, fuzzy, kde-format
-#| msgid "%1%"
+#, kde-format
 msgctxt "%p is the percent value, % is the percent sign"
 msgid "%p%"
-msgstr "%1%"
+msgstr "%p%"
 
 #: src/library/librarywidget.cpp:203 src/library/librarywidget.cpp:531
 #, kde-format
@@ -10740,7 +10739,7 @@ msgid ""
 "Add the currently defined timeline/selection zone as a preview render zone"
 msgstr ""
 "Dodajte trenutno določeno časovnico/območja izbora kot območje izrisa "
-"predogleda."
+"predogleda"
 
 #: src/mainwindow.cpp:1656
 #, kde-format
@@ -11261,7 +11260,7 @@ msgid ""
 msgstr ""
 "Trenutni projekt še ni bil shranjen.<br/>To bo najprej shranilo projekt, vse "
 "začasne datoteke premaknilo iz <br/><b>%1</b> v <b>%2</b>,<br/>nato pa bo "
-"projektna datoteka znova naložena."
+"projektna datoteka znova naložena"
 
 #: src/mainwindow.cpp:2224
 #, kde-format
@@ -11270,7 +11269,7 @@ msgid ""
 "project file will then be reloaded"
 msgstr ""
 "To bo premaknilo vse začasne datoteke iz<br/><b>%1</b> v <b>%2</b>,<br/>nato "
-"pa bo projektna datoteka znova naložena."
+"pa bo projektna datoteka znova naložena"
 
 #: src/mainwindow.cpp:2233 src/project/projectmanager.cpp:583
 #, kde-format
@@ -14746,7 +14745,7 @@ msgstr "samodejno podnaslavljanje"
 #: src/pythoninterfaces/speechtotext.cpp:29
 #, kde-format
 msgid "machine learning framework"
-msgstr "Ogrodje za strojno učenje"
+msgstr "ogrodje za strojno učenje"
 
 #: src/pythoninterfaces/speechtotext.cpp:37
 #, kde-format
@@ -16354,7 +16353,7 @@ msgstr "Vstavi posnetek"
 #: src/timeline2/model/timelinemodel.cpp:1813
 #, kde-format
 msgid "You cannot insert a sequence containing itself"
-msgstr "Ni možno vstaviti zaporedja, ki vsebuje samega sebe."
+msgstr "Ni možno vstaviti zaporedja, ki vsebuje samega sebe"
 
 #: src/timeline2/model/timelinemodel.cpp:1861
 #: src/timeline2/model/timelinemodel.cpp:1883
@@ -17240,7 +17239,7 @@ msgid ""
 "timeline corresponds to a Sequence Clip in the Project Bin"
 msgstr ""
 "Dodajte zaporedje časovnice. Tako boste ustvarili novo časovnico za "
-"urejanje. Vsaka časovnica ustreza posnetku zaporedja v projektni posodi."
+"urejanje. Vsaka časovnica ustreza posnetku zaporedja v projektni posodi"
 
 #: src/timeline2/view/timelinetabs.cpp:216
 #, kde-format
@@ -18037,10 +18036,9 @@ msgstr "Arhiviraj samo posnetke v časovnici"
 #. i18n: ectx: property (format), widget (QProgressBar, progressBar)
 #: src/ui/archivewidget_ui.ui:139 src/ui/cliptranscode_ui.ui:40
 #: src/ui/speechdialog_ui.ui:112 src/ui/textbasededit_ui.ui:59
-#, fuzzy, no-c-format, kde-format
-#| msgid "%1%"
+#, no-c-format, kde-format
 msgid "%p%"
-msgstr "%1%"
+msgstr "%p%"
 
 #. i18n: ectx: property (text), widget (QLabel, labelFFTSize)
 #: src/ui/audiospectrum_ui.ui:56

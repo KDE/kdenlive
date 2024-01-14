@@ -22927,6 +22927,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "%1 %%"
-#~ msgstr "%1 %%"
