@@ -970,10 +970,7 @@ void Monitor::adjustScrollBars(float horizontal, float vertical)
 void Monitor::setZoom(float zoomRatio)
 {
     if (qFuzzyCompare(m_glMonitor->zoom(), 1.0f)) {
-        m_horizontalScroll->hide();
-        m_verticalScroll->hide();
-        m_glMonitor->setOffsetX(m_horizontalScroll->value(), m_horizontalScroll->maximum());
-        m_glMonitor->setOffsetY(m_verticalScroll->value(), m_verticalScroll->maximum());
+        adjustScrollBars(1., 1.);
     } else if (qFuzzyCompare(m_glMonitor->zoom() / zoomRatio, 1.0f)) {
         adjustScrollBars(0.5f, 0.5f);
     } else {
