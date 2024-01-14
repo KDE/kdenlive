@@ -263,6 +263,10 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
         }
     }
     activateDocument(m_project->activeUuid);
+    std::shared_ptr<ProjectClip> mainClip = pCore->projectItemModel()->getSequenceClip(m_project->uuid());
+    if (mainClip) {
+        mainClip->reloadTimeline(m_activeTimelineModel->getMasterEffectStackModel());
+    }
     Q_EMIT docOpened(m_project);
     m_project->loading = false;
     m_lastSave.start();
@@ -354,7 +358,7 @@ void ProjectManager::testSetActiveDocument(KdenliveDoc *doc, std::shared_ptr<Tim
                     // Store sequence properties for later re-use
                     m_project->loadSequenceGroupsAndGuides(uid);
                     clip->setProducer(prod, false, false);
-                    clip->reloadTimeline();
+                    clip->reloadTimeline(timelineModel->getMasterEffectStackModel());
                 }
             }
         }
@@ -889,7 +893,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
                     prod->set("kdenlive:description", clip->description().toUtf8().constData());
                     m_project->loadSequenceGroupsAndGuides(uid);
                     clip->setProducer(prod, false, false);
-                    clip->reloadTimeline();
+                    clip->reloadTimeline(timelineModel->getMasterEffectStackModel());
                 } else {
                     qWarning() << "XXXXXXXXX\nLOADING TIMELINE " << uid.toString() << " FAILED\n";
                     m_project->closeTimeline(uid, true);
@@ -1774,7 +1778,7 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
         m_project->loadSequenceGroupsAndGuides(uuid);
         clip->setProducer(prod, false, false);
         if (!duplicate) {
-            clip->reloadTimeline();
+            clip->reloadTimeline(timelineModel->getMasterEffectStackModel());
         }
     } else {
         qDebug() << "GOT XML SERV: " << xmlProd->type() << " = " << xmlProd->parent().type();

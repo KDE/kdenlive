@@ -2534,7 +2534,7 @@ void ProjectClip::copyTimeWarpProducers(const QDir sequenceFolder, bool copy)
     }
 }
 
-void ProjectClip::reloadTimeline()
+void ProjectClip::reloadTimeline(std::shared_ptr<EffectStackModel> stack)
 {
     if (pCore->bin()) {
         pCore->bin()->reloadMonitorIfActive(m_binId);
@@ -2565,6 +2565,9 @@ void ProjectClip::reloadTimeline()
     Q_EMIT refreshPropertiesPanel();
     replaceInTimeline();
     updateTimelineClips({TimelineModel::IsProxyRole});
+    if (stack) {
+        m_effectStack = stack;
+    }
 }
 
 Fun ProjectClip::getAudio_lambda()

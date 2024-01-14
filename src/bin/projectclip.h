@@ -264,7 +264,7 @@ public:
     /** @brief Return maximum audio level for a stream. */
     int getAudioMax(int stream);
     /** @brief A timeline clip was modified, reload its other timeline instances. */
-    void reloadTimeline();
+    void reloadTimeline(std::shared_ptr<EffectStackModel> stack = nullptr);
     /** @brief Copy sequence clip timewarp producers to a new location (when saving / rendering). */
     void copyTimeWarpProducers(const QDir sequenceFolder, bool copy);
     /** @brief Refresh zones of insertion in timeline. */

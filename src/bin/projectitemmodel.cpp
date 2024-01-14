@@ -778,6 +778,12 @@ bool ProjectItemModel::hasSequenceId(const QUuid &uuid) const
     return m_binPlaylist->hasSequenceId(uuid);
 }
 
+std::shared_ptr<ProjectClip> ProjectItemModel::getSequenceClip(const QUuid &uuid)
+{
+    const QString binId = getSequenceId(uuid);
+    return getClipByBinID(binId);
+}
+
 QMap<QUuid, QString> ProjectItemModel::getAllSequenceClips() const
 {
     return m_binPlaylist->getAllSequenceClips();
