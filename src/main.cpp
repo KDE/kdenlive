@@ -97,6 +97,11 @@ int main(int argc, char *argv[])
 #endif
 #endif
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    // blacklist MLT Qt5 module to prevent crashes
+    qputenv("MLT_REPOSITORY_DENY", "libmltqt:libmltglaxnimate");
+#endif
+
 #if defined(Q_OS_WIN)
     QGuiApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::RoundPreferFloor);
 #endif
