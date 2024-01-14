@@ -327,7 +327,7 @@ Rectangle {
             x = Qt.binding(function() { return zone.x - root.baseUnit * .4 })
             controller.endZoneMove()
         }
-        onPositionChanged: {
+        onPositionChanged: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
                 controller.zoneIn = Math.max(0, Math.round((x + (root.baseUnit * .4) + ruler.rulerZoomOffset) / root.timeScale))
                 if (mouse.modifiers & Qt.ShiftModifier) {
@@ -376,7 +376,7 @@ Rectangle {
             x = Qt.binding(function() { return zone.x + zone.width - (root.baseUnit * .4) })
             controller.endZoneMove()
         }
-        onPositionChanged: {
+        onPositionChanged: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
                 controller.zoneOut = Math.round((x + (root.baseUnit * .4) + ruler.rulerZoomOffset) / root.timeScale)
                 if (mouse.modifiers & Qt.ShiftModifier) {

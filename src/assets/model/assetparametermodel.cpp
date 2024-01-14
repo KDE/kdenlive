@@ -841,6 +841,11 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
             }
         } else if (type == ParamType::Double || type == ParamType::Hidden) {
             // Use a Mlt::Properties to parse mathematical operators
+            bool ok;
+            double result = content.toDouble(&ok);
+            if (ok) {
+                return result;
+            }
             Mlt::Properties p;
             p.set("eval", content.prepend(QLatin1Char('@')).toLatin1().constData());
             return p.get_double("eval");

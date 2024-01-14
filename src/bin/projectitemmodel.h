@@ -231,6 +231,8 @@ public:
     const QString getSequenceId(const QUuid &uuid);
     /** @brief Check if we already have a sequence with this uuid */
     bool hasSequenceId(const QUuid &uuid) const;
+    /** @brief Return a project sequence clip from its uuid */
+    std::shared_ptr<ProjectClip> getSequenceClip(const QUuid &uuid);
     /** @brief Returns uuid / bin id of all sequence clips in the project */
     QMap<QUuid, QString> getAllSequenceClips() const;
     /** @brief Return the main project tractor (container of all playlists) */
