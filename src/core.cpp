@@ -1002,7 +1002,7 @@ std::shared_ptr<EffectStackModel> Core::getItemEffectStack(const QUuid &uuid, in
     case int(KdenliveObjectType::TimelineTrack):
         return currentDoc()->getTimeline(uuid)->getTrackEffectStackModel(itemId);
     case int(KdenliveObjectType::BinClip):
-        return m_mainWindow->getBin()->getClipEffectStack(itemId);
+        return m_projectItemModel->getClipEffectStack(itemId);
     case int(KdenliveObjectType::Master):
         return currentDoc()->getTimeline(uuid)->getMasterEffectStackModel();
     default:
