@@ -3927,7 +3927,7 @@ QPoint TimelineController::selectionInOut() const
     for (int id : items_list) {
         if (m_model->isClip(id) || m_model->isComposition(id)) {
             int itemIn = m_model->getItemPosition(id);
-            int itemOut = itemIn + m_model->getItemPlaytime(id);
+            int itemOut = itemIn + m_model->getItemPlaytime(id) - 1;
             if (in < 0 || itemIn < in) {
                 in = itemIn;
             }
