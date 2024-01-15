@@ -1660,10 +1660,10 @@ bool GLWidget::playZone(bool loop)
     if (qFuzzyIsNull(current_speed)) {
         m_producer->seek(m_proxy->zoneIn());
         m_consumer->start();
-        m_producer->set_speed(1.0);
         m_consumer->set("scrub_audio", 0);
         m_consumer->set("refresh", 1);
         m_consumer->set("volume", KdenliveSettings::volume() / 100.);
+        m_producer->set_speed(1.0);
     } else {
         // Speed change, purge to reduce latency
         m_consumer->set("refresh", 0);
@@ -1710,6 +1710,7 @@ bool GLWidget::loopClip(QPoint inOut)
         m_consumer->set("scrub_audio", 0);
         m_consumer->set("refresh", 1);
         m_consumer->set("volume", KdenliveSettings::volume() / 100.);
+        m_producer->set_speed(1.0);
     } else {
         // Speed change, purge to reduce latency
         m_consumer->set("refresh", 0);
