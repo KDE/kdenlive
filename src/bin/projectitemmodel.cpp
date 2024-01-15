@@ -1722,3 +1722,10 @@ void ProjectItemModel::checkSequenceIntegrity(const QString activeSequenceId)
         Q_ASSERT(allMltIds.contains(i));
     }
 }
+
+std::shared_ptr<EffectStackModel> ProjectItemModel::getClipEffectStack(int itemId)
+{
+    std::shared_ptr<ProjectClip> clip = getClipByBinID(QString::number(itemId));
+    Q_ASSERT(clip != nullptr);
+    return clip->getEffectStack();
+}

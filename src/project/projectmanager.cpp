@@ -406,6 +406,10 @@ bool ProjectManager::testSaveFileAs(const QString &outputFileName)
     // QString scene = m_activeTimelineModel->sceneList(saveFolder);
     int duration = m_activeTimelineModel->duration();
     QString scene = pCore->projectItemModel()->sceneList(saveFolder, QString(), QString(), m_activeTimelineModel->tractor(), duration);
+    if (scene.isEmpty()) {
+        qDebug() << "//////  ERROR writing EMPTY scene list to file: " << outputFileName;
+        return false;
+    }
     QSaveFile file(outputFileName);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         qDebug() << "//////  ERROR writing to file: " << outputFileName;
@@ -417,6 +421,7 @@ bool ProjectManager::testSaveFileAs(const QString &outputFileName)
         qDebug() << "Cannot write to file %1";
         return false;
     }
+    qDebug() << "------------\nSAVED FILE AS: " << outputFileName << "\n==============";
     return true;
 }
 
