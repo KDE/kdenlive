@@ -83,10 +83,21 @@ git clone https://invent.kde.org/multimedia/kdenlive.git
 And if you want to build MLT manually:
 
 ```bash
-git clone https://github.com/mltframework/mlt.git
-
 # Install MLT dependencies
 sudo apt install libxml++2.6-dev libavformat-dev libswscale-dev libavfilter-dev libavutil-dev libavdevice-dev libsdl1.2-dev librtaudio-dev libsox-dev libsamplerate0-dev librubberband-dev libebur128-dev
+
+# Get MLT's source code
+git clone https://github.com/mltframework/mlt.git
+cd mlt
+mkdir build
+cd build
+# To build with Qt5, you may also enable other optional modules in this command (-GNinja is optional, to build with the faster Ninja command)
+cmake .. -GNinja -DMOD_QT=ON
+# To build with Qt6:
+cmake .. -GNinja -DMOD_QT=OFF -DMOD_QT6=ON
+#install (use make instead of ninja if ninja is not used)
+sudo ninja install
+
 ```
 
 #### Build and install the projects
