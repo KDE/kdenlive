@@ -76,7 +76,6 @@ TEST_CASE("Regression")
     mocked.closeTimeline(timeline->uuid());
     timeline.reset();
     binModel->clean();
-    pCore->m_projectManager = nullptr;
 }
 
 TEST_CASE("Regression2")
@@ -235,7 +234,6 @@ TEST_CASE("Regression2")
     mocked.closeTimeline(timeline->uuid());
     timeline.reset();
     binModel->clean();
-    pCore->m_projectManager = nullptr;
 }
 
 /*
@@ -583,7 +581,6 @@ TEST_CASE("FuzzBug1")
         mocked.closeTimeline(timeline_0->uuid());
         timeline_0.reset();
         binModel->clean();
-        pCore->m_projectManager = nullptr;
     }
 }
 
@@ -679,7 +676,6 @@ TEST_CASE("FuzzBug2")
         mocked.closeTimeline(timeline_0->uuid());
         timeline_0.reset();
         binModel->clean();
-        pCore->m_projectManager = nullptr;
     }
 }
 
@@ -741,7 +737,6 @@ TEST_CASE("FuzzBug3")
         mocked.closeTimeline(timeline_0->uuid());
         timeline_0.reset();
         binModel->clean();
-        pCore->m_projectManager = nullptr;
     }
 }
 
@@ -829,7 +824,6 @@ TEST_CASE("FuzzBug4")
         mocked.closeTimeline(timeline_0->uuid());
         timeline_0.reset();
         binModel->clean();
-        pCore->m_projectManager = nullptr;
     }
 }
 
@@ -1039,6 +1033,7 @@ TEST_CASE("FuzzBug5")
         pCore->taskManager.slotCancelJobs();
         mocked.m_activeTimelineModel.reset();
         undoStack->clear();
+        mockedDoc.closing = true;
         mocked.closeTimeline(timeline_0->uuid());
         binModel->clean();
         timeline_0.reset();
