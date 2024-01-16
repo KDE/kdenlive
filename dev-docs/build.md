@@ -80,7 +80,9 @@ In your development directory, run:
 git clone https://invent.kde.org/multimedia/kdenlive.git
 ```
 
-And if you want to build MLT manually:
+#### Building MLT (not usually necessary)
+It is recommended to use your distro packages unless you have a reason to use MLT's git.
+To build manually:
 
 ```bash
 # Install MLT dependencies
