@@ -5724,7 +5724,6 @@ QStringList Bin::sequenceReferencedClips(const QUuid &uuid) const
 
 void Bin::updateSequenceClip(const QUuid &uuid, int duration, int pos)
 {
-    Q_ASSERT(m_openedPlaylists.contains(uuid));
     if (pos > -1) {
         m_doc->setSequenceProperty(uuid, QStringLiteral("position"), pos);
     }
