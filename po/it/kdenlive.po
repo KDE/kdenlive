@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-16 02:26+0000\n"
-"PO-Revision-Date: 2024-01-06 22:47+0100\n"
+"PO-Revision-Date: 2024-01-13 07:50+0100\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -2557,7 +2557,7 @@ msgstr "Vignetta regolabile"
 #: data/effects/vignette.xml:8
 #, kde-format
 msgid "smooth"
-msgstr "smussatura"
+msgstr "smussa"
 
 #: data/effects/vignette.xml:11
 #, kde-format
@@ -3921,7 +3921,7 @@ msgstr "Discreto"
 #: src/assets/view/widgets/keyframewidget.cpp:226
 #, kde-format
 msgid "Smooth"
-msgstr "Liscio"
+msgstr "Smussa"
 
 #: src/assets/view/widgets/keyframewidget.cpp:117
 #, fuzzy, kde-format
@@ -3977,10 +3977,9 @@ msgid "Elastic Out"
 msgstr "Guadagno in uscita"
 
 #: src/assets/view/widgets/keyframewidget.cpp:158
-#, fuzzy, kde-format
-#| msgid " - deprecated"
+#, kde-format
 msgid "Smooth (deprecated)"
-msgstr " - obsoleto"
+msgstr "Smussa (obsoleto)"
 
 #: src/assets/view/widgets/keyframewidget.cpp:176
 #, kde-kuit-format
@@ -9581,11 +9580,10 @@ msgid "Merged streams"
 msgstr "Flussi uniti"
 
 #: src/library/librarywidget.cpp:190 src/statusbarmessagelabel.cpp:84
-#, fuzzy, kde-format
-#| msgid "%1%"
+#, kde-format
 msgctxt "%p is the percent value, % is the percent sign"
 msgid "%p%"
-msgstr "%1%"
+msgstr "%p%"
 
 #: src/library/librarywidget.cpp:203 src/library/librarywidget.cpp:531
 #, kde-format
@@ -14631,12 +14629,13 @@ msgid "Python venv size: %1"
 msgstr "Dimensione di Python venv: %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:269
-#, fuzzy, kde-format
-#| msgid "Cannot find python virtualenv, please install it on your system."
+#, kde-format
 msgid ""
 "Cannot find python virtualenv, please install it on your system. Defaulting "
 "to system python."
-msgstr "Impossibile trovare python virtualenv, installalo nel sistema."
+msgstr ""
+"Impossibile trovare l'ambiente virtuale python, installalo nel sistema. "
+"Passaggio al sistema python."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:288
 #, kde-format
@@ -18185,10 +18184,9 @@ msgstr "Archivia solo le clip della linea temporale"
 #. i18n: ectx: property (format), widget (QProgressBar, progressBar)
 #: src/ui/archivewidget_ui.ui:139 src/ui/cliptranscode_ui.ui:40
 #: src/ui/speechdialog_ui.ui:112 src/ui/textbasededit_ui.ui:59
-#, fuzzy, no-c-format, kde-format
-#| msgid "%1%"
+#, no-c-format, kde-format
 msgid "%p%"
-msgstr "%1%"
+msgstr "%p%"
 
 #. i18n: ectx: property (text), widget (QLabel, labelFFTSize)
 #: src/ui/audiospectrum_ui.ui:56
