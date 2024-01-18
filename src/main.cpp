@@ -292,7 +292,6 @@ int main(int argc, char *argv[])
         for (const auto &job : renderjobs) {
             const QStringList argsJob = RenderRequest::argsByJob(job);
             qDebug() << "* CREATED JOB WITH ARGS: " << argsJob;
-
             qDebug() << "starting kdenlive_render process using: " << KdenliveSettings::kdenliverendererpath();
             if (!parser.isSet(exitOption)) {
                 if (QProcess::execute(KdenliveSettings::kdenliverendererpath(), argsJob) != EXIT_SUCCESS) {
