@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-16 00:37+0000\n"
+"POT-Creation-Date: 2024-01-19 00:37+0000\n"
 "PO-Revision-Date: 2017-05-16 07:02-0400\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -5522,7 +5522,7 @@ msgstr "העברת מנחה"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:523
 #: src/effects/effectstack/view/effectstackview.cpp:574
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:858
-#: src/project/dialogs/archivewidget.cpp:872 src/render/renderrequest.cpp:325
+#: src/project/dialogs/archivewidget.cpp:872 src/render/renderrequest.cpp:326
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -6379,7 +6379,7 @@ msgstr "הוסף סמן"
 #: src/project/dialogs/archivewidget.cpp:880
 #: src/project/dialogs/archivewidget.cpp:892
 #: src/project/dialogs/archivewidget.cpp:898
-#: src/project/projectmanager.cpp:1762 src/render/renderrequest.cpp:268
+#: src/project/projectmanager.cpp:1762 src/render/renderrequest.cpp:269
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5051
@@ -6501,7 +6501,7 @@ msgstr "שונות"
 #: src/dialogs/kdenlivesettingsdialog.cpp:251
 #: src/dialogs/kdenlivesettingsdialog.cpp:792
 #: src/doc/documentvalidator.cpp:2248
-#: src/transitions/transitionsrepository.cpp:178
+#: src/transitions/transitionsrepository.cpp:174
 #, kde-format
 msgid "auto"
 msgstr ""
@@ -7196,7 +7196,7 @@ msgstr "וידאו ללא רצועת שמע"
 msgid "Audio without video track"
 msgstr "וידאו ללא רצועת שמע"
 
-#: src/dialogs/renderwidget.cpp:846 src/main.cpp:308
+#: src/dialogs/renderwidget.cpp:846 src/main.cpp:307
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "‫צלימה <i>%1</i> הסתיימה"
@@ -9903,7 +9903,7 @@ msgstr "מסמך לפתוח"
 msgid "Output file for rendered video."
 msgstr "הרחבה"
 
-#: src/main.cpp:345
+#: src/main.cpp:344
 #, fuzzy, kde-format
 msgid "Version %1"
 msgstr "פעולות"
@@ -15251,44 +15251,44 @@ msgstr ""
 msgid "Yoruba"
 msgstr ""
 
-#: src/render/renderrequest.cpp:135
+#: src/render/renderrequest.cpp:136
 #, fuzzy, kde-format
 msgid ""
 "Could not create assets folder:\n"
 " %1"
 msgstr "לא ניתן לכתוב לקובץ %1"
 
-#: src/render/renderrequest.cpp:201
+#: src/render/renderrequest.cpp:202
 #, fuzzy, kde-format
 msgid "Could not create temporary subtitle file"
 msgstr "לא ניתן לכתוב לקובץ %1"
 
-#: src/render/renderrequest.cpp:228
+#: src/render/renderrequest.cpp:229
 #, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together. "
 "Script will be saved without multi track export."
 msgstr ""
 
-#: src/render/renderrequest.cpp:301
+#: src/render/renderrequest.cpp:302
 #, fuzzy, kde-format
 #| msgid "import"
 msgid "export"
 msgstr "ייבוא"
 
-#: src/render/renderrequest.cpp:316
+#: src/render/renderrequest.cpp:317
 #, fuzzy, kde-format
 #| msgid "Play after render"
 msgctxt "@title:window"
 msgid "Delayed Rendering"
 msgstr "נגן אחרי סיום הצלימה"
 
-#: src/render/renderrequest.cpp:316
+#: src/render/renderrequest.cpp:317
 #, fuzzy, kde-format
 msgid "Select a name for this rendering."
 msgstr "הסתר קטע נבחר ועקוב אחר תנועתו"
 
-#: src/render/renderrequest.cpp:414
+#: src/render/renderrequest.cpp:415
 #, kde-format
 msgid "begin"
 msgstr ""
