@@ -134,37 +134,62 @@ bool TimelineFunctions::processClipCut(const std::shared_ptr<TimelineItemModel> 
         newId = timeline->cutSubtitle(position, undo, redo);
         return newId > -1;
     }
+    bool hasEndMix = timeline->getTrackById_const(trackId)->hasEndMix(clipId);
+    bool hasStartMix = timeline->getTrackById_const(trackId)->hasStartMix(clipId);
+    int subplaylist = timeline->m_allClips[clipId]->getSubPlaylistIndex();
     PlaylistState::ClipState state = timeline->m_allClips[clipId]->clipState();
     // Check if clip has an end Mix
     bool res = cloneClip(timeline, clipId, newId, state, undo, redo);
     timeline->m_blockRefresh = true;
-    int updatedDuration = position - start;
-    res = res && timeline->requestItemResize(clipId, updatedDuration, true, true, undo, redo);
-    int newDuration = timeline->getClipPlaytime(clipId);
-    // parse effects
-    std::shared_ptr<EffectStackModel> sourceStack = timeline->getClipEffectStackModel(clipId);
-    sourceStack->cleanFadeEffects(true, undo, redo);
-    std::shared_ptr<EffectStackModel> destStack = timeline->getClipEffectStackModel(newId);
-    destStack->cleanFadeEffects(false, undo, redo);
-    updatedDuration = duration - newDuration;
-    res = res && timeline->requestItemResize(newId, updatedDuration, false, true, undo, redo);
-    // The next requestclipmove does not check for duration change since we don't invalidate timeline, so check duration change now
-    bool durationChanged = trackDuration != timeline->getTrackById_const(trackId)->trackDuration();
-    timeline->m_allClips[newId]->setSubPlaylistIndex(timeline->m_allClips[clipId]->getSubPlaylistIndex(), trackId);
-    res = res && timeline->requestClipMove(newId, trackId, position, true, true, false, true, undo, redo);
 
-    if (timeline->getTrackById_const(trackId)->hasEndMix(clipId)) {
+    int updatedDuration = position - start;
+    // Resize original clip
+    res = timeline->m_allClips[clipId]->requestResize(updatedDuration, true, undo, redo, true, hasEndMix || hasStartMix);
+
+    if (hasEndMix) {
+        // Assing end mix to new clone clip
+        Fun local_redo = [timeline, trackId, clipId, newId]() { return timeline->getTrackById_const(trackId)->reAssignEndMix(clipId, newId); };
+        local_redo();
+        PUSH_LAMBDA(local_redo, redo);
+        // Reassing end mix to original clip on undo
         Fun local_undo = [timeline, trackId, clipId, newId]() {
             timeline->getTrackById_const(trackId)->reAssignEndMix(newId, clipId);
             return true;
         };
-        Fun local_redo = [timeline, trackId, clipId, newId]() {
-            timeline->getTrackById_const(trackId)->reAssignEndMix(clipId, newId);
-            return true;
-        };
-        local_redo();
-        UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
+        PUSH_LAMBDA(local_undo, undo);
+        // Assing end mix to new clone clip
+        if (!hasStartMix && subplaylist != 1) {
+            Fun local_redo2 = [timeline, trackId, clipId, start]() {
+                // If the clip has no start mix, move to playlist 1
+                return timeline->getTrackById_const(trackId)->switchPlaylist(clipId, start, 0, 1);
+            };
+            // Restore initial subplaylist on undo
+            Fun local_undo2 = [timeline, trackId, clipId, start]() {
+                // If the clip has no start mix, move back to playlist 0
+                return timeline->getTrackById_const(trackId)->switchPlaylist(clipId, start, 1, 0);
+            };
+            res = res && local_redo2();
+            if (res) {
+                UPDATE_UNDO_REDO_NOLOCK(local_redo2, local_undo2, undo, redo);
+            }
+        }
     }
+    int newDuration = timeline->getClipPlaytime(clipId);
+    // parse effects
+    if (res) {
+        std::shared_ptr<EffectStackModel> sourceStack = timeline->getClipEffectStackModel(clipId);
+        sourceStack->cleanFadeEffects(true, undo, redo);
+        std::shared_ptr<EffectStackModel> destStack = timeline->getClipEffectStackModel(newId);
+        destStack->cleanFadeEffects(false, undo, redo);
+    }
+    updatedDuration = duration - newDuration;
+    res = res && timeline->requestItemResize(newId, updatedDuration, false, true, undo, redo);
+    // The next requestclipmove does not check for duration change since we don't invalidate timeline, so check duration change now
+    bool durationChanged = trackDuration != timeline->getTrackById_const(trackId)->trackDuration();
+    if (hasEndMix) {
+        timeline->m_allClips[newId]->setSubPlaylistIndex(subplaylist, trackId);
+    }
+    res = res && timeline->requestClipMove(newId, trackId, position, true, true, false, true, undo, redo);
 
     if (durationChanged) {
         // Track length changed, check project duration
