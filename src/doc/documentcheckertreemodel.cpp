@@ -67,7 +67,7 @@ void DocumentCheckerTreeModel::removeItem(const QModelIndex &ix)
 void DocumentCheckerTreeModel::slotSearchRecursively(const QString &newpath)
 {
     QDir searchDir(newpath);
-
+    QMap<QModelIndex, QString> fixedMap;
     QMapIterator<int, DocumentChecker::DocumentResource> i(m_resourceItems);
     int counter = 1;
     while (i.hasNext()) {
@@ -99,9 +99,15 @@ void DocumentCheckerTreeModel::slotSearchRecursively(const QString &newpath)
             newPath = DocumentChecker::searchPathRecursively(searchDir, QFileInfo(i.value().originalFilePath).fileName());
         }
         if (!newPath.isEmpty()) {
-            setItemsNewFilePath(getIndexFromId(i.key()), newPath, DocumentChecker::MissingStatus::Fixed);
+            fixedMap.insert(getIndexFromId(i.key()), newPath);
         }
     }
+    QMapIterator<QModelIndex, QString> j(fixedMap);
+    while (j.hasNext()) {
+        j.next();
+        setItemsNewFilePath(j.key(), j.value(), DocumentChecker::MissingStatus::Fixed, false);
+    }
+    Q_EMIT dataChanged(QModelIndex(), QModelIndex());
     Q_EMIT searchDone();
 }
 
@@ -123,14 +129,16 @@ void DocumentCheckerTreeModel::usePlaceholdersForMissing()
     Q_EMIT dataChanged(QModelIndex(), QModelIndex());
 }
 
-void DocumentCheckerTreeModel::setItemsNewFilePath(const QModelIndex &ix, const QString &url, DocumentChecker::MissingStatus status)
+void DocumentCheckerTreeModel::setItemsNewFilePath(const QModelIndex &ix, const QString &url, DocumentChecker::MissingStatus status, bool refresh)
 {
     auto item = getItemByIndex(ix);
     m_resourceItems[item->getId()].status = status;
     m_resourceItems[item->getId()].newFilePath = url;
     item->setData(1, DocumentChecker::readableNameForMissingStatus(m_resourceItems.value(item->getId()).status));
     item->setData(3, m_resourceItems.value(item->getId()).newFilePath);
-    Q_EMIT dataChanged(index(ix.row(), 0), index(ix.row(), columnCount()));
+    if (refresh) {
+        Q_EMIT dataChanged(index(ix.row(), 0), index(ix.row(), columnCount()));
+    }
 }
 
 void DocumentCheckerTreeModel::setItemsFileHash(const QModelIndex &index, const QString &hash)
