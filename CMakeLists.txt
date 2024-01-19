@@ -66,6 +66,10 @@ if (NOT DEFINED QT_MAJOR_VERSION)
     endif()
 endif()
 
+# We don't use this feature and it breakes the DATADIR on Windows.
+# While this is a bug in ECM and should be fixed there, we can use is as a quick (workaround) fix
+set(KDE_INSTALL_DIRS_NO_CMAKE_VARIABLES TRUE)
+
 ## include ECM Modules
 include(KDECompilerSettings NO_POLICY_SCOPE)
 include(ECMInstallIcons)
