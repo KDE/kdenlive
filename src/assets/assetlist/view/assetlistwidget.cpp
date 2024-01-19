@@ -379,13 +379,17 @@ void AssetListWidget::updateAssetInfo(const QModelIndex &current, const QModelIn
     if (current.isValid()) {
         QString description = getDescription(current);
         const QString id = m_model->data(m_proxyModel->mapToSource(current), AssetTreeModel::IdRole).toString();
+        if (id.isEmpty() || id == QStringLiteral("root")) {
+            m_infoDocument->clear();
+            return;
+        }
         auto type = m_model->data(m_proxyModel->mapToSource(current), AssetTreeModel::TypeRole).value<AssetListType::AssetType>();
         // Add link to our documentation
         const QString link = buildLink(id, type);
         if (!description.isEmpty()) {
             description.append(QString("<br/><a title=\"%1\" href=\"%2\">&#128279; %3</a>").arg(i18nc("@info:tooltip", "Online documentation"), link, id));
         } else {
-            description = QString("<a title=\"%1\" href=\"%2\">&#128279; %2</a>").arg(i18nc("@info:tooltip", "Online documentation"), link, id);
+            description = QString("<a title=\"%1\" href=\"%2\">&#128279; %3</a>").arg(i18nc("@info:tooltip", "Online documentation"), link, id);
         }
         m_infoDocument->setHtml(description);
     } else {
