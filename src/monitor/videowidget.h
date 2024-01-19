@@ -195,7 +195,7 @@ protected:
     bool m_isInitialized;
 
     /** @brief adjust monitor ruler size (for example if we want to display audio thumbs permanently) */
-    void updateRulerHeight(int addedHeight);
+    virtual void updateRulerHeight(int addedHeight);
 
 private:
     QRect m_rect;
