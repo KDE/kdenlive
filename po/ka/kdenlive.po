@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-16 02:26+0000\n"
+"POT-Creation-Date: 2024-01-19 02:27+0000\n"
 "PO-Revision-Date: 2024-01-12 04:54+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -5300,7 +5300,7 @@ msgstr "სუბტიტრის გადატანა"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:523
 #: src/effects/effectstack/view/effectstackview.cpp:574
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:858
-#: src/project/dialogs/archivewidget.cpp:872 src/render/renderrequest.cpp:325
+#: src/project/dialogs/archivewidget.cpp:872 src/render/renderrequest.cpp:326
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -6129,7 +6129,7 @@ msgstr ""
 #: src/project/dialogs/archivewidget.cpp:880
 #: src/project/dialogs/archivewidget.cpp:892
 #: src/project/dialogs/archivewidget.cpp:898
-#: src/project/projectmanager.cpp:1762 src/render/renderrequest.cpp:268
+#: src/project/projectmanager.cpp:1762 src/render/renderrequest.cpp:269
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5051
@@ -6250,7 +6250,7 @@ msgstr "სხვანი"
 #: src/dialogs/kdenlivesettingsdialog.cpp:251
 #: src/dialogs/kdenlivesettingsdialog.cpp:792
 #: src/doc/documentvalidator.cpp:2248
-#: src/transitions/transitionsrepository.cpp:178
+#: src/transitions/transitionsrepository.cpp:174
 #, kde-format
 msgid "auto"
 msgstr "ავტომატური"
@@ -6924,7 +6924,7 @@ msgstr "ვიდეო აუდიოს გარეშე"
 msgid "Audio without video track"
 msgstr "აუდიო ვიდეოს გარეშე"
 
-#: src/dialogs/renderwidget.cpp:846 src/main.cpp:308
+#: src/dialogs/renderwidget.cpp:846 src/main.cpp:307
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr ""
@@ -9497,7 +9497,7 @@ msgstr "Kdenlive -ის გასახსნელი დოკუმენტ
 msgid "Output file for rendered video."
 msgstr "გამოტანის ფაილი დარენდერებული ვიდეოსთვის."
 
-#: src/main.cpp:345
+#: src/main.cpp:344
 #, kde-format
 msgid "Version %1"
 msgstr "ვერსია %1"
@@ -14660,7 +14660,7 @@ msgstr "იდიში"
 msgid "Yoruba"
 msgstr "იორუბა"
 
-#: src/render/renderrequest.cpp:135
+#: src/render/renderrequest.cpp:136
 #, kde-format
 msgid ""
 "Could not create assets folder:\n"
@@ -14669,35 +14669,35 @@ msgstr ""
 "ფაილებს საქაღალდის შექმნის შეცდომა:\n"
 "%1"
 
-#: src/render/renderrequest.cpp:201
+#: src/render/renderrequest.cpp:202
 #, kde-format
 msgid "Could not create temporary subtitle file"
 msgstr ""
 
-#: src/render/renderrequest.cpp:228
+#: src/render/renderrequest.cpp:229
 #, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together. "
 "Script will be saved without multi track export."
 msgstr ""
 
-#: src/render/renderrequest.cpp:301
+#: src/render/renderrequest.cpp:302
 #, kde-format
 msgid "export"
 msgstr "გატანა"
 
-#: src/render/renderrequest.cpp:316
+#: src/render/renderrequest.cpp:317
 #, kde-format
 msgctxt "@title:window"
 msgid "Delayed Rendering"
 msgstr ""
 
-#: src/render/renderrequest.cpp:316
+#: src/render/renderrequest.cpp:317
 #, kde-format
 msgid "Select a name for this rendering."
 msgstr ""
 
-#: src/render/renderrequest.cpp:414
+#: src/render/renderrequest.cpp:415
 #, kde-format
 msgid "begin"
 msgstr "begin"
