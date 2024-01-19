@@ -1607,7 +1607,7 @@ bool GLWidget::switchPlay(bool play, double speed)
         resetZoneMode();
     }
     if (play) {
-        if (m_consumer->position() == m_producer->get_playtime() - 1 && speed > 0) {
+        if (m_consumer->position() >= m_maxProducerPosition && speed > 0) {
             // We are at the end of the clip / timeline
             if (m_id == Kdenlive::ClipMonitor || (m_id == Kdenlive::ProjectMonitor && KdenliveSettings::jumptostart())) {
                 m_producer->seek(0);
