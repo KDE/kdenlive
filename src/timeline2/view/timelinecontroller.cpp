@@ -2999,7 +2999,7 @@ void TimelineController::saveZone(int clipId)
         }
     }
     int in = m_model->getClipIn(clipId);
-    int out = in + m_model->getClipPlaytime(clipId);
+    int out = in + m_model->getClipPlaytime(clipId) - 1;
     QString id;
     pCore->projectItemModel()->requestAddBinSubClip(id, in, out, {}, m_model->m_allClips[clipId]->binId());
 }
