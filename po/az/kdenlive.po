@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-16 02:26+0000\n"
+"POT-Creation-Date: 2024-01-19 02:27+0000\n"
 "PO-Revision-Date: 2023-10-11 17:09+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -5511,7 +5511,7 @@ msgstr "Altyazını köçürün"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:523
 #: src/effects/effectstack/view/effectstackview.cpp:574
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:858
-#: src/project/dialogs/archivewidget.cpp:872 src/render/renderrequest.cpp:325
+#: src/project/dialogs/archivewidget.cpp:872 src/render/renderrequest.cpp:326
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -6386,7 +6386,7 @@ msgstr "Bələdçilər verilənlərini ixrac edin"
 #: src/project/dialogs/archivewidget.cpp:880
 #: src/project/dialogs/archivewidget.cpp:892
 #: src/project/dialogs/archivewidget.cpp:898
-#: src/project/projectmanager.cpp:1762 src/render/renderrequest.cpp:268
+#: src/project/projectmanager.cpp:1762 src/render/renderrequest.cpp:269
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5051
@@ -6507,7 +6507,7 @@ msgstr "Müxtəlif"
 #: src/dialogs/kdenlivesettingsdialog.cpp:251
 #: src/dialogs/kdenlivesettingsdialog.cpp:792
 #: src/doc/documentvalidator.cpp:2248
-#: src/transitions/transitionsrepository.cpp:178
+#: src/transitions/transitionsrepository.cpp:174
 #, kde-format
 msgid "auto"
 msgstr "avtomatik"
@@ -7209,7 +7209,7 @@ msgstr "Səs cığırı olmayan video"
 msgid "Audio without video track"
 msgstr "Video cığırı olmayan audio"
 
-#: src/dialogs/renderwidget.cpp:846 src/main.cpp:308
+#: src/dialogs/renderwidget.cpp:846 src/main.cpp:307
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "<i>%1</i> görüntü işlənməsi başladıldı"
@@ -9909,7 +9909,7 @@ msgstr "Açılacaq Kdenlive sənədi."
 msgid "Output file for rendered video."
 msgstr "Fayl uzantısının sonluğu"
 
-#: src/main.cpp:345
+#: src/main.cpp:344
 #, kde-format
 msgid "Version %1"
 msgstr "Versiya %1"
@@ -15356,7 +15356,7 @@ msgstr "İdişcə"
 msgid "Yoruba"
 msgstr "Yoruba dilində"
 
-#: src/render/renderrequest.cpp:135
+#: src/render/renderrequest.cpp:136
 #, kde-format
 msgid ""
 "Could not create assets folder:\n"
@@ -15365,12 +15365,12 @@ msgstr ""
 "Resurslar qovluğu yaratmaq mümkün olmadı:\n"
 " %1"
 
-#: src/render/renderrequest.cpp:201
+#: src/render/renderrequest.cpp:202
 #, kde-format
 msgid "Could not create temporary subtitle file"
 msgstr "Müvəqqəti alt yazı faylı yaratmaq mümkün olmadı"
 
-#: src/render/renderrequest.cpp:228
+#: src/render/renderrequest.cpp:229
 #, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together. "
@@ -15379,23 +15379,23 @@ msgstr ""
 "Görüntünün işlənməsi skripti və çoxcığırlı audionun ixracı birlikdə istifadə "
 "oluna bilməz. Skript çoxcığırlı audio ixracı olmadan saxlanılacaq."
 
-#: src/render/renderrequest.cpp:301
+#: src/render/renderrequest.cpp:302
 #, kde-format
 msgid "export"
 msgstr "ixrac edin"
 
-#: src/render/renderrequest.cpp:316
+#: src/render/renderrequest.cpp:317
 #, kde-format
 msgctxt "@title:window"
 msgid "Delayed Rendering"
 msgstr "Gecikdirilmiş render"
 
-#: src/render/renderrequest.cpp:316
+#: src/render/renderrequest.cpp:317
 #, kde-format
 msgid "Select a name for this rendering."
 msgstr "Bu görüntü işlənməsi üçün ad seçin."
 
-#: src/render/renderrequest.cpp:414
+#: src/render/renderrequest.cpp:415
 #, kde-format
 msgid "begin"
 msgstr "başladın"
