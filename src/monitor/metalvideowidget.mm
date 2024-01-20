@@ -148,7 +148,7 @@ public:
 
         MTLViewport vp;
         vp.originX = 0;
-        vp.originY = qRound(displayRulerHeight * devicePixelRatioF() * 0.5);
+        vp.originY = displayRulerHeight;
         vp.width = width;
         vp.height = height;
         vp.znear = 0;
@@ -324,7 +324,7 @@ MetalVideoWidget::~MetalVideoWidget() {}
 
 void MetalVideoWidget::initialize()
 {
-    m_renderer->displayRulerHeight = m_displayRulerHeight;
+    m_renderer->displayRulerHeight = qRound(m_displayRulerHeight * devicePixelRatioF() * 0.5);
     m_renderer->initialize(quickWindow());
     VideoWidget::initialize();
 }
@@ -342,7 +342,7 @@ void MetalVideoWidget::renderVideo()
 void MetalVideoWidget::updateRulerHeight(int addedHeight)
 {
     VideoWidget::updateRulerHeight(addedHeight);
-    m_renderer->displayRulerHeight = m_displayRulerHeight;
+    m_renderer->displayRulerHeight = qRound(m_displayRulerHeight * devicePixelRatioF() * 0.5);
 }
 
 #include "metalvideowidget.moc"
