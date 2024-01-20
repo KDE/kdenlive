@@ -290,6 +290,9 @@ void Core::buildDocks()
 
 void Core::buildLumaThumbs(const QStringList &values)
 {
+    if (!m_mainWindow) {
+        return;
+    }
     for (auto &entry : values) {
         if (MainWindow::m_lumacache.contains(entry)) {
             continue;
