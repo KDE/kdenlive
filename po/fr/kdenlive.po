@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-17 03:11+0000\n"
+"POT-Creation-Date: 2024-01-20 03:06+0000\n"
 "PO-Revision-Date: 2023-12-04 09:11+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: \n"
@@ -5389,7 +5389,7 @@ msgid "Edit subtitle"
 msgstr "Modifier un sous-titre"
 
 #: src/bin/model/subtitlemodel.cpp:632 src/bin/model/subtitlemodel.cpp:1598
-#: src/timeline2/model/timelinefunctions.cpp:189
+#: src/timeline2/model/timelinefunctions.cpp:214
 #, kde-format
 msgid "Cut clip"
 msgstr "Couper le clip"
@@ -5470,7 +5470,7 @@ msgstr "Non valable"
 
 #: src/bin/projectclip.cpp:1407 src/dialogs/clipcreationdialog.cpp:209
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
-#: src/timeline2/model/timelinefunctions.cpp:1358
+#: src/timeline2/model/timelinefunctions.cpp:1383
 #, kde-format
 msgid "File already exists"
 msgstr "Le fichier existe déjà"
@@ -10571,7 +10571,7 @@ msgstr "Supprimer le repère"
 msgid "Edit Marker…"
 msgstr "Modifier un marqueur..."
 
-#: src/mainwindow.cpp:1721 src/timeline2/model/timelinefunctions.cpp:1075
+#: src/mainwindow.cpp:1721 src/timeline2/model/timelinefunctions.cpp:1100
 #, kde-format
 msgid "Restore Audio"
 msgstr "Rétablir le son"
@@ -11065,14 +11065,14 @@ msgstr "Une erreur est survenue lors de la suppression des repères"
 msgid "Cannot find clip to edit marker"
 msgstr "Impossible de trouver le clip pour modifier le repère"
 
-#: src/mainwindow.cpp:3009 src/timeline2/model/timelinefunctions.cpp:654
+#: src/mainwindow.cpp:3009 src/timeline2/model/timelinefunctions.cpp:679
 #: src/timeline2/view/timelinecontroller.cpp:3060
 #, kde-format
 msgid "Overwrite zone"
 msgstr "Écraser la zone"
 
 #: src/mainwindow.cpp:3011 src/mainwindow.cpp:3030
-#: src/timeline2/model/timelinefunctions.cpp:656
+#: src/timeline2/model/timelinefunctions.cpp:681
 #: src/timeline2/view/timelinecontroller.cpp:3062
 #, kde-format
 msgid "Could not insert zone"
@@ -11083,7 +11083,7 @@ msgstr "Impossible d'insérer la zone"
 msgid "No clip selected in project bin"
 msgstr "Aucun clip sélectionné dans les sources du projet"
 
-#: src/mainwindow.cpp:3028 src/timeline2/model/timelinefunctions.cpp:654
+#: src/mainwindow.cpp:3028 src/timeline2/model/timelinefunctions.cpp:679
 #: src/timeline2/view/timelinecontroller.cpp:3060
 #, kde-format
 msgid "Insert zone"
@@ -15686,151 +15686,151 @@ msgstr "%1 Un clip (%2) a été trouvé avec une mauvaise sous-liste."
 msgid "Insert Clips"
 msgstr "Insérer des clips"
 
-#: src/timeline2/model/timelinefunctions.cpp:295
+#: src/timeline2/model/timelinefunctions.cpp:320
 #, kde-format
 msgid "All tracks are locked"
 msgstr "Toutes les pistes sont verrouillées"
 
-#: src/timeline2/model/timelinefunctions.cpp:306
+#: src/timeline2/model/timelinefunctions.cpp:331
 #, kde-format
 msgid "Failed to cut clip"
 msgstr "Impossible de couper le clip"
 
-#: src/timeline2/model/timelinefunctions.cpp:317
+#: src/timeline2/model/timelinefunctions.cpp:342
 #, kde-format
 msgid "No clips to cut"
 msgstr "Aucun clip à couper"
 
-#: src/timeline2/model/timelinefunctions.cpp:319
+#: src/timeline2/model/timelinefunctions.cpp:344
 #, kde-format
 msgid "Cut all clips"
 msgstr "Couper tous les clips"
 
-#: src/timeline2/model/timelinefunctions.cpp:561
+#: src/timeline2/model/timelinefunctions.cpp:586
 #: src/timeline2/view/timelinecontroller.cpp:1422
 #, kde-format
 msgid "Insert space"
 msgstr "Insérer un espace"
 
-#: src/timeline2/model/timelinefunctions.cpp:563
+#: src/timeline2/model/timelinefunctions.cpp:588
 #: src/timeline2/view/timelinecontroller.cpp:1424
 #, kde-format
 msgid "Remove space"
 msgstr "Supprimer l'espace"
 
-#: src/timeline2/model/timelinefunctions.cpp:643
+#: src/timeline2/model/timelinefunctions.cpp:668
 #, kde-format
 msgid "Lift zone"
 msgstr "Vider la zone"
 
-#: src/timeline2/model/timelinefunctions.cpp:643
+#: src/timeline2/model/timelinefunctions.cpp:668
 #, kde-format
 msgid "Extract zone"
 msgstr "Supprimer et réduire la zone"
 
-#: src/timeline2/model/timelinefunctions.cpp:689
+#: src/timeline2/model/timelinefunctions.cpp:714
 #, kde-format
 msgid "Please activate a track by clicking on a track's label"
 msgstr "Veuillez activer une piste en cliquant sur l'étiquette de la piste"
 
-#: src/timeline2/model/timelinefunctions.cpp:876
+#: src/timeline2/model/timelinefunctions.cpp:901
 #, kde-format
 msgid "Cannot move selected group"
 msgstr "Impossible de déplacer le groupe sélectionné"
 
-#: src/timeline2/model/timelinefunctions.cpp:977
-#: src/timeline2/model/timelinefunctions.cpp:981
-#: src/timeline2/model/timelinefunctions.cpp:988
+#: src/timeline2/model/timelinefunctions.cpp:1002
+#: src/timeline2/model/timelinefunctions.cpp:1006
+#: src/timeline2/model/timelinefunctions.cpp:1013
 #: src/timeline2/view/timelinecontroller.cpp:3992
 #, kde-format
 msgid "Enable clip"
 msgstr "Activer le clip"
 
-#: src/timeline2/model/timelinefunctions.cpp:977
-#: src/timeline2/model/timelinefunctions.cpp:981
-#: src/timeline2/model/timelinefunctions.cpp:988
+#: src/timeline2/model/timelinefunctions.cpp:1002
+#: src/timeline2/model/timelinefunctions.cpp:1006
+#: src/timeline2/model/timelinefunctions.cpp:1013
 #: src/timeline2/view/timelinecontroller.cpp:3992
 #, kde-format
 msgid "Disable clip"
 msgstr "Désactiver le clip"
 
-#: src/timeline2/model/timelinefunctions.cpp:1030
+#: src/timeline2/model/timelinefunctions.cpp:1055
 #, kde-format
 msgid "One or more clips do not have audio, or are already audio"
 msgstr "Un ou plusieurs clips n'ont pas d'audio, ou sont déjà audio"
 
-#: src/timeline2/model/timelinefunctions.cpp:1047
+#: src/timeline2/model/timelinefunctions.cpp:1072
 #, kde-format
 msgid "No available audio track for restore operation"
 msgstr "Aucune piste audio disponible pour l'opération de restauration"
 
-#: src/timeline2/model/timelinefunctions.cpp:1055
-#: src/timeline2/model/timelinefunctions.cpp:1068
+#: src/timeline2/model/timelinefunctions.cpp:1080
+#: src/timeline2/model/timelinefunctions.cpp:1093
 #, kde-format
 msgid "Audio restore failed"
 msgstr "La restauration de l'audio a échoué"
 
-#: src/timeline2/model/timelinefunctions.cpp:1107
+#: src/timeline2/model/timelinefunctions.cpp:1132
 #, kde-format
 msgid "No available video track for restore operation"
 msgstr "Aucune piste vidéo disponible pour l'opération de restauration"
 
-#: src/timeline2/model/timelinefunctions.cpp:1115
-#: src/timeline2/model/timelinefunctions.cpp:1128
+#: src/timeline2/model/timelinefunctions.cpp:1140
+#: src/timeline2/model/timelinefunctions.cpp:1153
 #, kde-format
 msgid "Video restore failed"
 msgstr "La restauration de la vidéo a échoué"
 
-#: src/timeline2/model/timelinefunctions.cpp:1134
+#: src/timeline2/model/timelinefunctions.cpp:1159
 #, kde-format
 msgid "Restore Video"
 msgstr "Restaurer la vidéo"
 
-#: src/timeline2/model/timelinefunctions.cpp:1181
+#: src/timeline2/model/timelinefunctions.cpp:1206
 #, kde-format
 msgid "Change Composition Track"
 msgstr "Changer la piste de composition"
 
-#: src/timeline2/model/timelinefunctions.cpp:1196
+#: src/timeline2/model/timelinefunctions.cpp:1221
 #, kde-format
 msgid "Cannot enable multitrack view on a single track"
 msgstr "Impossible d'activer la vue multi-piste sur une piste seule"
 
-#: src/timeline2/model/timelinefunctions.cpp:1350
+#: src/timeline2/model/timelinefunctions.cpp:1375
 #, kde-format
 msgid "Add Clip to Library"
 msgstr "Ajouter le clip à la bibliothèque"
 
-#: src/timeline2/model/timelinefunctions.cpp:1350
+#: src/timeline2/model/timelinefunctions.cpp:1375
 #, kde-format
 msgid "Enter a name for the clip in Library"
 msgstr "Saisissez un nom pour le clip dans la bibliothèque"
 
-#: src/timeline2/model/timelinefunctions.cpp:1713
+#: src/timeline2/model/timelinefunctions.cpp:1738
 #, kde-format
 msgid "Paste clips"
 msgstr "Coller les clips"
 
-#: src/timeline2/model/timelinefunctions.cpp:1737
+#: src/timeline2/model/timelinefunctions.cpp:1762
 #, kde-format
 msgid "Another paste operation is in progress"
 msgstr "Une autre opération de collage est en cours."
 
-#: src/timeline2/model/timelinefunctions.cpp:1749
+#: src/timeline2/model/timelinefunctions.cpp:1774
 #, kde-format
 msgid "No valid data in clipboard"
 msgstr "Aucune information valable dans le presse-papier"
 
-#: src/timeline2/model/timelinefunctions.cpp:1775
-#: src/timeline2/model/timelinefunctions.cpp:1863
-#: src/timeline2/model/timelinefunctions.cpp:1894
-#: src/timeline2/model/timelinefunctions.cpp:1933
-#: src/timeline2/model/timelinefunctions.cpp:2218
+#: src/timeline2/model/timelinefunctions.cpp:1800
+#: src/timeline2/model/timelinefunctions.cpp:1888
+#: src/timeline2/model/timelinefunctions.cpp:1919
+#: src/timeline2/model/timelinefunctions.cpp:1958
+#: src/timeline2/model/timelinefunctions.cpp:2243
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "Nombre de pistes insuffisant pour coller le presse-papiers"
 
-#: src/timeline2/model/timelinefunctions.cpp:1833
+#: src/timeline2/model/timelinefunctions.cpp:1858
 #, kde-format
 msgid ""
 "Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)"
@@ -15838,15 +15838,15 @@ msgstr ""
 "Nombre de pistes insuffisant pour coller le presse-papier (Nécessite %1 "
 "pistes audio, %2 pistes vidéo)"
 
-#: src/timeline2/model/timelinefunctions.cpp:1951
-#: src/timeline2/model/timelinefunctions.cpp:1969
-#: src/timeline2/model/timelinefunctions.cpp:1997
-#: src/timeline2/model/timelinefunctions.cpp:2002
+#: src/timeline2/model/timelinefunctions.cpp:1976
+#: src/timeline2/model/timelinefunctions.cpp:1994
+#: src/timeline2/model/timelinefunctions.cpp:2022
+#: src/timeline2/model/timelinefunctions.cpp:2027
 #, kde-format
 msgid "Pasted clips"
 msgstr "Clips collés"
 
-#: src/timeline2/model/timelinefunctions.cpp:1988
+#: src/timeline2/model/timelinefunctions.cpp:2013
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
@@ -15855,45 +15855,45 @@ msgstr ""
 "Le projet source a un fréquence différente de trames (%1fps) de votre projet "
 "actuel. <br/>Les vidéos ou les trames clé peuvent être perdues."
 
-#: src/timeline2/model/timelinefunctions.cpp:1990
+#: src/timeline2/model/timelinefunctions.cpp:2015
 #, kde-format
 msgid "Pasting Warning"
 msgstr "Collage de l'alarme"
 
-#: src/timeline2/model/timelinefunctions.cpp:1990
+#: src/timeline2/model/timelinefunctions.cpp:2015
 #, kde-format
 msgid "Paste"
 msgstr "Coller"
 
-#: src/timeline2/model/timelinefunctions.cpp:2046
-#: src/timeline2/model/timelinefunctions.cpp:2092
-#: src/timeline2/model/timelinefunctions.cpp:2156
+#: src/timeline2/model/timelinefunctions.cpp:2071
+#: src/timeline2/model/timelinefunctions.cpp:2117
+#: src/timeline2/model/timelinefunctions.cpp:2181
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "Impossible d'ajouter les clips sources"
 
-#: src/timeline2/model/timelinefunctions.cpp:2210
+#: src/timeline2/model/timelinefunctions.cpp:2235
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr "Certaines vidéos n'ont pas été copiées avec succès."
 
-#: src/timeline2/model/timelinefunctions.cpp:2260
-#: src/timeline2/model/timelinefunctions.cpp:2438
+#: src/timeline2/model/timelinefunctions.cpp:2285
+#: src/timeline2/model/timelinefunctions.cpp:2463
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Impossible de coller les éléments dans le montage"
 
-#: src/timeline2/model/timelinefunctions.cpp:2458
+#: src/timeline2/model/timelinefunctions.cpp:2483
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Coller les clips du montage"
 
-#: src/timeline2/model/timelinefunctions.cpp:2676
+#: src/timeline2/model/timelinefunctions.cpp:2701
 #, kde-format
 msgid "Remove space on track"
 msgstr "Supprimer l'espace vide d'une piste"
 
-#: src/timeline2/model/timelinefunctions.cpp:2703
+#: src/timeline2/model/timelinefunctions.cpp:2728
 #, kde-format
 msgid "Delete clips on track"
 msgstr "Supprimer des vidéos d'une piste"

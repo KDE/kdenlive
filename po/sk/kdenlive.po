@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-17 03:11+0000\n"
+"POT-Creation-Date: 2024-01-20 03:06+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -5521,7 +5521,7 @@ msgid "Edit subtitle"
 msgstr "Pridať titulky"
 
 #: src/bin/model/subtitlemodel.cpp:632 src/bin/model/subtitlemodel.cpp:1598
-#: src/timeline2/model/timelinefunctions.cpp:189
+#: src/timeline2/model/timelinefunctions.cpp:214
 #, kde-format
 msgid "Cut clip"
 msgstr "Vystrihnúť klip"
@@ -5600,7 +5600,7 @@ msgstr "Neplatné"
 
 #: src/bin/projectclip.cpp:1407 src/dialogs/clipcreationdialog.cpp:209
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
-#: src/timeline2/model/timelinefunctions.cpp:1358
+#: src/timeline2/model/timelinefunctions.cpp:1383
 #, kde-format
 msgid "File already exists"
 msgstr "Súbor už existuje"
@@ -10866,7 +10866,7 @@ msgstr "Vymazať značku"
 msgid "Edit Marker…"
 msgstr "Upraviť značku"
 
-#: src/mainwindow.cpp:1721 src/timeline2/model/timelinefunctions.cpp:1075
+#: src/mainwindow.cpp:1721 src/timeline2/model/timelinefunctions.cpp:1100
 #, kde-format
 msgid "Restore Audio"
 msgstr "Obnoviť zvuk"
@@ -11392,14 +11392,14 @@ msgstr ""
 msgid "Cannot find clip to edit marker"
 msgstr "Nie je možné nájsť klip pre pridanie značky"
 
-#: src/mainwindow.cpp:3009 src/timeline2/model/timelinefunctions.cpp:654
+#: src/mainwindow.cpp:3009 src/timeline2/model/timelinefunctions.cpp:679
 #: src/timeline2/view/timelinecontroller.cpp:3060
 #, kde-format
 msgid "Overwrite zone"
 msgstr "Prepísať zónu"
 
 #: src/mainwindow.cpp:3011 src/mainwindow.cpp:3030
-#: src/timeline2/model/timelinefunctions.cpp:656
+#: src/timeline2/model/timelinefunctions.cpp:681
 #: src/timeline2/view/timelinecontroller.cpp:3062
 #, fuzzy, kde-format
 #| msgid "Insert zone"
@@ -11412,7 +11412,7 @@ msgstr "Vložiť zónu"
 msgid "No clip selected in project bin"
 msgstr "Nie je vybraný klip"
 
-#: src/mainwindow.cpp:3028 src/timeline2/model/timelinefunctions.cpp:654
+#: src/mainwindow.cpp:3028 src/timeline2/model/timelinefunctions.cpp:679
 #: src/timeline2/view/timelinecontroller.cpp:3060
 #, kde-format
 msgid "Insert zone"
@@ -16021,224 +16021,224 @@ msgstr ""
 msgid "Insert Clips"
 msgstr "Vložiť klipy"
 
-#: src/timeline2/model/timelinefunctions.cpp:295
+#: src/timeline2/model/timelinefunctions.cpp:320
 #, fuzzy, kde-format
 #| msgid "All tracks"
 msgid "All tracks are locked"
 msgstr "Všetky stopy"
 
-#: src/timeline2/model/timelinefunctions.cpp:306
+#: src/timeline2/model/timelinefunctions.cpp:331
 #, fuzzy, kde-format
 #| msgid "Failed to create proxy clip."
 msgid "Failed to cut clip"
 msgstr "Zlyhalo vytvorenie klipu zástupcu."
 
-#: src/timeline2/model/timelinefunctions.cpp:317
+#: src/timeline2/model/timelinefunctions.cpp:342
 #, fuzzy, kde-format
 #| msgid "No clip to cut"
 msgid "No clips to cut"
 msgstr "Žiadny klip na rozdelenie"
 
-#: src/timeline2/model/timelinefunctions.cpp:319
+#: src/timeline2/model/timelinefunctions.cpp:344
 #, fuzzy, kde-format
 #| msgid "Cut clip"
 msgid "Cut all clips"
 msgstr "Vystrihnúť klip"
 
-#: src/timeline2/model/timelinefunctions.cpp:561
+#: src/timeline2/model/timelinefunctions.cpp:586
 #: src/timeline2/view/timelinecontroller.cpp:1422
 #, kde-format
 msgid "Insert space"
 msgstr "Vložiť medzeru"
 
-#: src/timeline2/model/timelinefunctions.cpp:563
+#: src/timeline2/model/timelinefunctions.cpp:588
 #: src/timeline2/view/timelinecontroller.cpp:1424
 #, kde-format
 msgid "Remove space"
 msgstr "Odstrániť medzeru"
 
-#: src/timeline2/model/timelinefunctions.cpp:643
+#: src/timeline2/model/timelinefunctions.cpp:668
 #, fuzzy, kde-format
 #| msgid "Lift: Red"
 msgid "Lift zone"
 msgstr "Lift: červená"
 
-#: src/timeline2/model/timelinefunctions.cpp:643
+#: src/timeline2/model/timelinefunctions.cpp:668
 #, kde-format
 msgid "Extract zone"
 msgstr "Extrahovať zónu"
 
-#: src/timeline2/model/timelinefunctions.cpp:689
+#: src/timeline2/model/timelinefunctions.cpp:714
 #, kde-format
 msgid "Please activate a track by clicking on a track's label"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:876
+#: src/timeline2/model/timelinefunctions.cpp:901
 #, kde-format
 msgid "Cannot move selected group"
 msgstr "Nie je možné presunúť vybratú skupinu"
 
-#: src/timeline2/model/timelinefunctions.cpp:977
-#: src/timeline2/model/timelinefunctions.cpp:981
-#: src/timeline2/model/timelinefunctions.cpp:988
+#: src/timeline2/model/timelinefunctions.cpp:1002
+#: src/timeline2/model/timelinefunctions.cpp:1006
+#: src/timeline2/model/timelinefunctions.cpp:1013
 #: src/timeline2/view/timelinecontroller.cpp:3992
 #, kde-format
 msgid "Enable clip"
 msgstr "Povoliť klip"
 
-#: src/timeline2/model/timelinefunctions.cpp:977
-#: src/timeline2/model/timelinefunctions.cpp:981
-#: src/timeline2/model/timelinefunctions.cpp:988
+#: src/timeline2/model/timelinefunctions.cpp:1002
+#: src/timeline2/model/timelinefunctions.cpp:1006
+#: src/timeline2/model/timelinefunctions.cpp:1013
 #: src/timeline2/view/timelinecontroller.cpp:3992
 #, kde-format
 msgid "Disable clip"
 msgstr "Zakázať klip"
 
-#: src/timeline2/model/timelinefunctions.cpp:1030
+#: src/timeline2/model/timelinefunctions.cpp:1055
 #, kde-format
 msgid "One or more clips do not have audio, or are already audio"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1047
+#: src/timeline2/model/timelinefunctions.cpp:1072
 #, kde-format
 msgid "No available audio track for restore operation"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1055
-#: src/timeline2/model/timelinefunctions.cpp:1068
+#: src/timeline2/model/timelinefunctions.cpp:1080
+#: src/timeline2/model/timelinefunctions.cpp:1093
 #, kde-format
 msgid "Audio restore failed"
 msgstr "Obnovenie zvuku zlyhalo"
 
-#: src/timeline2/model/timelinefunctions.cpp:1107
+#: src/timeline2/model/timelinefunctions.cpp:1132
 #, kde-format
 msgid "No available video track for restore operation"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1115
-#: src/timeline2/model/timelinefunctions.cpp:1128
+#: src/timeline2/model/timelinefunctions.cpp:1140
+#: src/timeline2/model/timelinefunctions.cpp:1153
 #, kde-format
 msgid "Video restore failed"
 msgstr "Obnovenie videa zlyhalo"
 
-#: src/timeline2/model/timelinefunctions.cpp:1134
+#: src/timeline2/model/timelinefunctions.cpp:1159
 #, kde-format
 msgid "Restore Video"
 msgstr "Obnoviť video"
 
-#: src/timeline2/model/timelinefunctions.cpp:1181
+#: src/timeline2/model/timelinefunctions.cpp:1206
 #, fuzzy, kde-format
 #| msgid "Center position (X)"
 msgid "Change Composition Track"
 msgstr "Vycentrovať pozíciu (X)"
 
-#: src/timeline2/model/timelinefunctions.cpp:1196
+#: src/timeline2/model/timelinefunctions.cpp:1221
 #, fuzzy, kde-format
 #| msgid "Cannot remove space in a locked track"
 msgid "Cannot enable multitrack view on a single track"
 msgstr "Nie je možné odstrániť medzeru v zamknutej stope"
 
-#: src/timeline2/model/timelinefunctions.cpp:1350
+#: src/timeline2/model/timelinefunctions.cpp:1375
 #, kde-format
 msgid "Add Clip to Library"
 msgstr "Pridať klip do knižnice"
 
-#: src/timeline2/model/timelinefunctions.cpp:1350
+#: src/timeline2/model/timelinefunctions.cpp:1375
 #, kde-format
 msgid "Enter a name for the clip in Library"
 msgstr "Zadajte názov pre klip v knižnici"
 
-#: src/timeline2/model/timelinefunctions.cpp:1713
+#: src/timeline2/model/timelinefunctions.cpp:1738
 #, kde-format
 msgid "Paste clips"
 msgstr "Vložiť klipy"
 
-#: src/timeline2/model/timelinefunctions.cpp:1737
+#: src/timeline2/model/timelinefunctions.cpp:1762
 #, kde-format
 msgid "Another paste operation is in progress"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1749
+#: src/timeline2/model/timelinefunctions.cpp:1774
 #, fuzzy, kde-format
 #| msgid "No information in clipboard"
 msgid "No valid data in clipboard"
 msgstr "Žiadne informácie v schránke"
 
-#: src/timeline2/model/timelinefunctions.cpp:1775
-#: src/timeline2/model/timelinefunctions.cpp:1863
-#: src/timeline2/model/timelinefunctions.cpp:1894
-#: src/timeline2/model/timelinefunctions.cpp:1933
-#: src/timeline2/model/timelinefunctions.cpp:2218
+#: src/timeline2/model/timelinefunctions.cpp:1800
+#: src/timeline2/model/timelinefunctions.cpp:1888
+#: src/timeline2/model/timelinefunctions.cpp:1919
+#: src/timeline2/model/timelinefunctions.cpp:1958
+#: src/timeline2/model/timelinefunctions.cpp:2243
 #, fuzzy, kde-format
 #| msgid "Copy keyframes to clipboard"
 msgid "Not enough tracks to paste clipboard"
 msgstr "Kopírovať kľúčové snímky do schránky"
 
-#: src/timeline2/model/timelinefunctions.cpp:1833
+#: src/timeline2/model/timelinefunctions.cpp:1858
 #, fuzzy, kde-format
 #| msgid "Copy keyframes to clipboard"
 msgid ""
 "Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)"
 msgstr "Kopírovať kľúčové snímky do schránky"
 
-#: src/timeline2/model/timelinefunctions.cpp:1951
-#: src/timeline2/model/timelinefunctions.cpp:1969
-#: src/timeline2/model/timelinefunctions.cpp:1997
-#: src/timeline2/model/timelinefunctions.cpp:2002
+#: src/timeline2/model/timelinefunctions.cpp:1976
+#: src/timeline2/model/timelinefunctions.cpp:1994
+#: src/timeline2/model/timelinefunctions.cpp:2022
+#: src/timeline2/model/timelinefunctions.cpp:2027
 #, kde-format
 msgid "Pasted clips"
 msgstr "Vložené klipy"
 
-#: src/timeline2/model/timelinefunctions.cpp:1988
+#: src/timeline2/model/timelinefunctions.cpp:2013
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
 "project.<br/>Clips or keyframes might be messed up."
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1990
+#: src/timeline2/model/timelinefunctions.cpp:2015
 #, kde-format
 msgid "Pasting Warning"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1990
+#: src/timeline2/model/timelinefunctions.cpp:2015
 #, kde-format
 msgid "Paste"
 msgstr "Vložiť"
 
-#: src/timeline2/model/timelinefunctions.cpp:2046
-#: src/timeline2/model/timelinefunctions.cpp:2092
-#: src/timeline2/model/timelinefunctions.cpp:2156
+#: src/timeline2/model/timelinefunctions.cpp:2071
+#: src/timeline2/model/timelinefunctions.cpp:2117
+#: src/timeline2/model/timelinefunctions.cpp:2181
 #, fuzzy, kde-format
 #| msgid "Adding clips"
 msgid "Could not add bin clip"
 msgstr "Pridanie klipov"
 
-#: src/timeline2/model/timelinefunctions.cpp:2210
+#: src/timeline2/model/timelinefunctions.cpp:2235
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2260
-#: src/timeline2/model/timelinefunctions.cpp:2438
+#: src/timeline2/model/timelinefunctions.cpp:2285
+#: src/timeline2/model/timelinefunctions.cpp:2463
 #, fuzzy, kde-format
 #| msgid "update values in timeline"
 msgid "Could not paste items in timeline"
 msgstr "aktualizovať hodnoty v časovej osi"
 
-#: src/timeline2/model/timelinefunctions.cpp:2458
+#: src/timeline2/model/timelinefunctions.cpp:2483
 #, fuzzy, kde-format
 #| msgid "Delete timeline clip"
 msgid "Paste timeline clips"
 msgstr "Vymazať klip časovej osi"
 
-#: src/timeline2/model/timelinefunctions.cpp:2676
+#: src/timeline2/model/timelinefunctions.cpp:2701
 #, fuzzy, kde-format
 #| msgid "Remove Space In All Tracks"
 msgid "Remove space on track"
 msgstr "Odstrániť medzeru vo všetkých stopách"
 
-#: src/timeline2/model/timelinefunctions.cpp:2703
+#: src/timeline2/model/timelinefunctions.cpp:2728
 #, fuzzy, kde-format
 #| msgid "Delete track"
 msgid "Delete clips on track"
