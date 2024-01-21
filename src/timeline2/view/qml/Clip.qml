@@ -916,7 +916,7 @@ Rectangle {
             Item {
                 // Clipping container for clip names
                 anchors.fill: parent
-                anchors.leftMargin: mixContainer.width > 0 ? mixContainer.width + mixBackground.border.width : 0
+                anchors.leftMargin: mixContainer.width > 0 ? (scrollStart > 0 ? Math.max(0, mixContainer.width + mixBackground.border.width - scrollStart) : mixContainer.width + mixBackground.border.width) : 0
                 id: nameContainer
                 clip: true
                 Rectangle {
@@ -1158,13 +1158,6 @@ Rectangle {
                     target: effectRow.item
                     property: "modelStart"
                     value: clipRoot.modelStart
-                    when: effectRow.status == Loader.Ready && effectRow.item
-                    restoreMode: Binding.RestoreBindingOrValue
-                }
-                Binding {
-                    target: effectRow.item
-                    property: "scrollStart"
-                    value: clipRoot.scrollStart
                     when: effectRow.status == Loader.Ready && effectRow.item
                     restoreMode: Binding.RestoreBindingOrValue
                 }
