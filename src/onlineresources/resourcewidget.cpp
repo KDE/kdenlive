@@ -10,6 +10,8 @@
 
 #include "utils/KMessageBox_KdenliveCompat.h"
 #include <KFileItem>
+#include <KIO/FileCopyJob>
+#include <KIO/Global>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KRecentDirs>

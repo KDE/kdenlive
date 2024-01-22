@@ -621,8 +621,8 @@ std::shared_ptr<SubtitleModel> TimelineItemModel::createSubtitleModel()
 {
     if (m_subtitleModel == nullptr) {
         // Initialize the subtitle model and load file if any
-        m_subtitleModel.reset(new SubtitleModel(std::static_pointer_cast<TimelineItemModel>(shared_from_this()), this));
-        m_subtitleModel->registerSnap(std::static_pointer_cast<SnapInterface>(m_snaps));
+        m_subtitleModel.reset(
+            new SubtitleModel(std::static_pointer_cast<TimelineItemModel>(shared_from_this()), std::static_pointer_cast<SnapInterface>(m_snaps), this));
         Q_EMIT subtitleModelInitialized();
     }
     return m_subtitleModel;

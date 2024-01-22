@@ -319,3 +319,11 @@ void OpenGLVideoWidget::onFrameDisplayed(const SharedFrame &frame)
     }
     VideoWidget::onFrameDisplayed(frame);
 }
+
+const QStringList OpenGLVideoWidget::getGPUInfo()
+{
+    if (!m_isInitialized) {
+        return {};
+    }
+    return {QString::fromUtf8((const char *)glGetString(GL_VENDOR)), QString::fromUtf8((const char *)glGetString(GL_RENDERER))};
+}

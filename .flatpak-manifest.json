@@ -17,6 +17,7 @@
     "--socket=pulseaudio",
     "--share=network",
     "--filesystem=host",
+    "--filesystem=xdg-run/pipewire-0",
     "--filesystem=xdg-config/kdeglobals:ro",
     "--env=TMPDIR=/var/tmp",
     "--env=QT_ENABLE_HIGHDPI_SCALING=1",

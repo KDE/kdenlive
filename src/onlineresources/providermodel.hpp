@@ -13,7 +13,6 @@
 #include <QPixmap>
 #include <QTemporaryFile>
 #include <QtNetworkAuth>
-#include <kio/jobclasses.h>
 
 struct ResourceItemInfo
 {

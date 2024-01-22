@@ -6,6 +6,8 @@
 #include "wizard.h"
 #include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
+#include "monitor/monitor.h"
+#include "monitor/videowidget.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "profilesdialog.h"
@@ -122,17 +124,56 @@ Wizard::Wizard(bool autoClose, QWidget *parent)
         m_startLayout->addWidget(errorLabel);
         errorLabel->show();
     }
-    if (m_errors.isEmpty() && m_warnings.isEmpty()) {
-        // Everything is ok only some info message, show codec status
+    if (!m_errors.isEmpty()) {
+        auto *errorLabel = new KMessageWidget(this);
+        errorLabel->setText(QStringLiteral("<ul>") + m_errors + QStringLiteral("</ul>"));
+        errorLabel->setMessageType(KMessageWidget::Error);
+        errorLabel->setWordWrap(true);
+        errorLabel->setCloseButtonVisible(false);
+        m_startLayout->addWidget(errorLabel);
+        m_page->setComplete(false);
+        errorLabel->show();
+        if (!autoClose) {
+            setButtonText(QWizard::CancelButton, i18n("Close"));
+        }
+    } else {
         m_page->setComplete(true);
+        if (!autoClose) {
+            setOption(QWizard::NoCancelButton, true);
+        }
+    }
+    if (!m_warnings.isEmpty()) {
+        auto *errorLabel = new KMessageWidget(this);
+        errorLabel->setText(QStringLiteral("<ul>") + m_warnings + QStringLiteral("</ul>"));
+        errorLabel->setMessageType(KMessageWidget::Warning);
+        errorLabel->setWordWrap(true);
+        errorLabel->setCloseButtonVisible(false);
+        m_startLayout->addWidget(errorLabel);
+        errorLabel->show();
+    }
+    if (m_errors.isEmpty() && m_warnings.isEmpty()) {
         if (autoClose) {
             QTimer::singleShot(0, this, &QDialog::accept);
             return;
         }
+    }
+    if (m_errors.isEmpty()) {
+        // Everything is ok only some info message, show codec status
         auto *lab = new KMessageWidget(this);
-        lab->setText(i18n("Codecs have been updated, everything seems fine."));
+        QString GPULabel = i18n("Codecs have been updated, everything seems fine.");
+        const QStringList gpu = pCore->getMonitor(Kdenlive::ClipMonitor)->getGPUInfo();
+        if (gpu.size() > 1 && !gpu.at(1).isEmpty()) {
+            GPULabel.append(QLatin1Char('\n'));
+            GPULabel.append(gpu.at(1));
+        }
+        lab->setText(GPULabel);
         lab->setMessageType(KMessageWidget::Positive);
         lab->setCloseButtonVisible(false);
+        QFrame *line = new QFrame(this);
+        line->setFrameShape(QFrame::HLine);
+        line->setFrameShadow(QFrame::Sunken);
+        line->setLineWidth(1);
+        m_startLayout->addWidget(line);
         m_startLayout->addWidget(lab);
         // HW accel
         const QString detectedCodecs = KdenliveSettings::supportedHWCodecs().join(QLatin1Char(' '));
@@ -180,34 +221,6 @@ Wizard::Wizard(bool autoClose, QWidget *parent)
         setOption(QWizard::NoCancelButton, true);
         return;
     }
-    if (!m_errors.isEmpty()) {
-        auto *errorLabel = new KMessageWidget(this);
-        errorLabel->setText(QStringLiteral("<ul>") + m_errors + QStringLiteral("</ul>"));
-        errorLabel->setMessageType(KMessageWidget::Error);
-        errorLabel->setWordWrap(true);
-        errorLabel->setCloseButtonVisible(false);
-        m_startLayout->addWidget(errorLabel);
-        m_page->setComplete(false);
-        errorLabel->show();
-        if (!autoClose) {
-            setButtonText(QWizard::CancelButton, i18n("Close"));
-        }
-    } else {
-        m_page->setComplete(true);
-        if (!autoClose) {
-            setOption(QWizard::NoCancelButton, true);
-        }
-    }
-    if (!m_warnings.isEmpty()) {
-        auto *errorLabel = new KMessageWidget(this);
-        errorLabel->setText(QStringLiteral("<ul>") + m_warnings + QStringLiteral("</ul>"));
-        errorLabel->setMessageType(KMessageWidget::Warning);
-        errorLabel->setWordWrap(true);
-        errorLabel->setCloseButtonVisible(false);
-        m_startLayout->addWidget(errorLabel);
-        errorLabel->show();
-    }
-
 }
 
 void Wizard::checkMltComponents()

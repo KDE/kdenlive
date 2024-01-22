@@ -168,6 +168,11 @@ void VideoWidget::initialize()
 
 void VideoWidget::renderVideo() {}
 
+const QStringList VideoWidget::getGPUInfo()
+{
+    return {};
+}
+
 void VideoWidget::resizeVideo(int width, int height)
 {
     int x, y, w, h;
@@ -364,6 +369,10 @@ void VideoWidget::mousePressEvent(QMouseEvent *event)
     QQuickWidget::mousePressEvent(event);
     // For some reason, on Qt6 in mouseReleaseEvent, the event is always accepted, so use this m_qmlEvent bool to track if the event is accepted in qml
     m_qmlEvent = event->isAccepted();
+    if (rootObject() != nullptr && rootObject()->property("captureRightClick").toBool()) {
+        // The event has been handled in qml
+        m_swallowDrop = true;
+    }
     event->accept();
     if ((event->button() & Qt::LeftButton) != 0u) {
         if ((event->modifiers() & Qt::ControlModifier) != 0u) {
@@ -398,10 +407,11 @@ void VideoWidget::mouseReleaseEvent(QMouseEvent *event)
         event->accept();
         return;
     }
-    if (!m_dragStart.isNull() && m_panStart.isNull() && ((event->button() & Qt::LeftButton) != 0u) && !m_qmlEvent) {
+    if (!m_dragStart.isNull() && m_panStart.isNull() && ((event->button() & Qt::LeftButton) != 0u) && !m_swallowDrop) {
         event->accept();
         Q_EMIT monitorPlay();
     }
+    m_swallowDrop = false;
     m_dragStart = QPoint();
     m_panStart = QPoint();
     setCursor(Qt::ArrowCursor);

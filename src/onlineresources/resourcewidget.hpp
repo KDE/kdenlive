@@ -9,6 +9,7 @@
 #include "providersrepository.hpp"
 #include "ui_resourcewidget_ui.h"
 
+#include <KJob>
 #include <QListWidgetItem>
 #include <QNetworkReply>
 #include <QProcess>

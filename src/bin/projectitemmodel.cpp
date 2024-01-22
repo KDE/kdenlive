@@ -177,14 +177,7 @@ QVariant ProjectItemModel::data(const QModelIndex &index, int role) const
         }
         // Data has to be returned as icon to allow the view to scale it
         std::shared_ptr<AbstractProjectItem> item = getBinItemByIndex(index);
-        QVariant thumb = item->getData(AbstractProjectItem::DataThumbnail);
-        QIcon icon;
-        if (thumb.canConvert<QIcon>()) {
-            icon = thumb.value<QIcon>();
-        } else {
-            qWarning() << "invalid icon";
-        }
-        return icon;
+        return item->icon();
     }
     std::shared_ptr<AbstractProjectItem> item = getBinItemByIndex(index);
     return item->getData(static_cast<AbstractProjectItem::DataType>(role));
@@ -244,9 +237,9 @@ bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action
         return true;
     }
 
-    if (data->hasFormat(QStringLiteral("kdenlive/producerslist"))) {
+    if (data->hasFormat(QStringLiteral("text/producerslist"))) {
         // Dropping an Bin item
-        const QStringList ids = QString(data->data(QStringLiteral("kdenlive/producerslist"))).split(QLatin1Char(';'));
+        const QStringList ids = QString(data->data(QStringLiteral("text/producerslist"))).split(QLatin1Char(';'));
         if (ids.constFirst().contains(QLatin1Char('/'))) {
             // subclip zone
             QStringList clipData = ids.constFirst().split(QLatin1Char('/'));
@@ -358,8 +351,8 @@ Qt::DropActions ProjectItemModel::supportedDropActions() const
 
 QStringList ProjectItemModel::mimeTypes() const
 {
-    QStringList types{QStringLiteral("kdenlive/producerslist"), QStringLiteral("text/uri-list"), QStringLiteral("kdenlive/clip"),
-                      QStringLiteral("kdenlive/effect"), QStringLiteral("kdenlive/tag")};
+    QStringList types{QStringLiteral("text/producerslist"), QStringLiteral("text/uri-list"), QStringLiteral("kdenlive/clip"), QStringLiteral("kdenlive/effect"),
+                      QStringLiteral("kdenlive/tag")};
     return types;
 }
 
@@ -429,9 +422,9 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
     if (!list.isEmpty()) {
         QByteArray data;
         data.append(list.join(QLatin1Char(';')).toUtf8());
-        mimeData->setData(QStringLiteral("kdenlive/producerslist"), data);
-        mimeData->setData(QStringLiteral("kdenlive/rootId"), parentId.toLatin1());
-        mimeData->setData(QStringLiteral("kdenlive/dragid"), QUuid::createUuid().toByteArray());
+        mimeData->setData(QStringLiteral("text/producerslist"), data);
+        mimeData->setData(QStringLiteral("text/rootId"), parentId.toLatin1());
+        mimeData->setData(QStringLiteral("text/dragid"), QUuid::createUuid().toByteArray());
         mimeData->setText(QString::number(duration));
     }
     return mimeData;

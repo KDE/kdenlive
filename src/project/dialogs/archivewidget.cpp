@@ -553,7 +553,8 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
             }
         } else if (filesList.contains(fileName) && !filesPath.contains(file)) {
             // we have 2 different files with same name
-            QString fileName = QStringUtils::getUniqueName(filesList, fileName);
+            const QString previousName = fileName;
+            fileName = QStringUtils::getUniqueName(filesList, previousName);
             item->setData(0, Qt::UserRole, fileName);
         }
         if (!isSlideshow) {

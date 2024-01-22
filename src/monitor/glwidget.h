@@ -126,6 +126,8 @@ public:
     void switchRuler(bool show);
     /** @brief Returns true if consumer is initialized */
     bool isReady() const;
+    /** @brief Returns some infos about the GPU */
+    virtual const QStringList getGPUInfo();
 
 protected:
     void mouseReleaseEvent(QMouseEvent *event) override;

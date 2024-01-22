@@ -122,6 +122,7 @@ public:
     void switchRuler(bool show);
     /** @brief Returns true if consumer is initialized */
     bool isReady() const;
+    virtual const QStringList getGPUInfo();
 
 protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
@@ -191,6 +192,7 @@ protected:
     int m_maxTextureSize;
     SharedFrame m_sharedFrame;
     QMutex m_mutex;
+    bool m_isInitialized;
 
     /** @brief adjust monitor ruler size (for example if we want to display audio thumbs permanently) */
     void updateRulerHeight(int addedHeight);
@@ -202,8 +204,8 @@ private:
     QPoint m_dragStart;
     QSemaphore m_initSem;
     QSemaphore m_analyseSem;
-    bool m_isInitialized;
     bool m_qmlEvent;
+    bool m_swallowDrop{false};
     int m_maxProducerPosition;
     int m_bckpMax;
     std::unique_ptr<Mlt::Filter> m_glslManager;

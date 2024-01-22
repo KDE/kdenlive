@@ -2052,7 +2052,7 @@ bool ProjectClip::rename(const QString &name, int column)
     return edited;
 }
 
-QVariant ProjectClip::getData(DataType type) const
+const QVariant ProjectClip::getData(DataType type) const
 {
     switch (type) {
     case AbstractProjectItem::IconOverlay:

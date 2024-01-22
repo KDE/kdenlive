@@ -337,17 +337,17 @@ void ProjectManager::testSetActiveDocument(KdenliveDoc *doc, std::shared_ptr<Tim
             qDebug() << "===== LOADING PROJECT INTERNAL ERROR";
         }
     }
-    Q_ASSERT(doc->uuid() == timeline->uuid());
-    m_project->addTimeline(doc->uuid(), timeline);
+    const QUuid uuid = timeline->uuid();
+    m_project->addTimeline(uuid, timeline);
     timeline->isClosed = false;
     m_activeTimelineModel = timeline;
-    m_project->activeUuid = doc->uuid();
-    std::shared_ptr<ProjectClip> mainClip = pCore->projectItemModel()->getClipByBinID(pCore->projectItemModel()->getSequenceId(doc->uuid()));
+    m_project->activeUuid = uuid;
+    std::shared_ptr<ProjectClip> mainClip = pCore->projectItemModel()->getClipByBinID(pCore->projectItemModel()->getSequenceId(uuid));
     if (mainClip) {
         if (timeline->getGuideModel() == nullptr) {
             timeline->setMarkerModel(mainClip->markerModel());
         }
-        m_project->loadSequenceGroupsAndGuides(doc->uuid());
+        m_project->loadSequenceGroupsAndGuides(uuid);
     }
     // Open all other timelines
     QMap<QUuid, QString> allSequences = pCore->projectItemModel()->getAllSequenceClips();
@@ -905,8 +905,8 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
                 const QString chunks = m_project->getSequenceProperty(uid, QStringLiteral("previewchunks"));
                 const QString dirty = m_project->getSequenceProperty(uid, QStringLiteral("dirtypreviewchunks"));
                 const QString binId = pCore->projectItemModel()->getSequenceId(uid);
+                m_project->addTimeline(uid, timelineModel, false);
                 if (constructTimelineFromTractor(timelineModel, nullptr, *tc.get(), m_project->modifiedDecimalPoint(), chunks, dirty)) {
-                    m_project->addTimeline(uid, timelineModel, false);
                     pCore->projectItemModel()->setExtraTimelineSaved(uid.toString());
                     std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(timelineModel->tractor());
                     passSequenceProperties(uid, prod, *tc.get(), timelineModel, nullptr);
@@ -919,6 +919,9 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
                     m_project->loadSequenceGroupsAndGuides(uid);
                     clip->setProducer(prod, false, false);
                     clip->reloadTimeline();
+                } else {
+                    qWarning() << "XXXXXXXXX\nLOADING TIMELINE " << uid.toString() << " FAILED\n";
+                    m_project->closeTimeline(uid, true);
                 }
             }
         }
@@ -1088,6 +1091,10 @@ void ProjectManager::slotStartAutoSave()
 
 void ProjectManager::slotAutoSave()
 {
+    if (m_project->loading) {
+        // Dont start autosave if the project is still loading
+        return;
+    }
     prepareSave();
     QString saveFolder = m_project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile();
     QString scene = projectSceneList(saveFolder);

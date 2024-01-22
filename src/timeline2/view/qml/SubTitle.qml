@@ -91,7 +91,7 @@ Item {
             onExited: {
                 timeline.showKeyBinding()
             }
-            onPressed: {
+            onPressed: mouse => {
                 console.log('ENTERED ITEM CLCKD:', subtitleRoot.subtitle, ' ID: ', subtitleRoot.subId, 'START FRM: ', subtitleRoot.startFrame)
                 root.autoScrolling = false
                 oldStartX = scrollView.contentX + mapToItem(scrollView, mouseX, 0).x
@@ -127,7 +127,7 @@ Item {
                 incrementalOffset = 0
                 checkOffset(0)
             }
-            onReleased: {
+            onReleased: mouse => {
                 root.autoScrolling = timeline.autoScroll
                 root.subtitleMoving = false
                 root.subtitleItem = undefined
@@ -148,7 +148,7 @@ Item {
                 }
                 console.log('RELEASED DONE\n\n_______________')
             }
-            onClicked: {
+            onClicked: mouse => {
                 if (mouse.button == Qt.RightButton) {
                     //console.log('RIGHT BUTTON CLICKED')
                     root.showSubtitleClipMenu()
@@ -157,14 +157,16 @@ Item {
             onDoubleClicked: {
                 subtitleBase.textEditBegin = true
             }
-            Keys.onShortcutOverride: event.accepted = subtitleRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)
-            Keys.onLeftPressed: {
+            Keys.onShortcutOverride: event => {
+                event.accepted = subtitleRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)
+            }
+            Keys.onLeftPressed: event => {
                 var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
                 if (controller.requestSubtitleMove(subtitleRoot.subId, subtitleRoot.startFrame - offset, true, true)) {
                     timeline.showToolTip(i18n("Position: %1", timeline.simplifiedTC(subtitleRoot.startFrame)));
                 }
             }
-            Keys.onRightPressed: {
+            Keys.onRightPressed: event => {
                 var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
                 if (controller.requestSubtitleMove(subtitleRoot.subId, subtitleRoot.startFrame + offset, true, true)) {
                     timeline.showToolTip(i18n("Position: %1", timeline.simplifiedTC(subtitleRoot.startFrame)));

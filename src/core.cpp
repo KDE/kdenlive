@@ -693,6 +693,8 @@ int Core::getItemPosition(const ObjectId &id)
     case KdenliveObjectType::TimelineClip:
         if (currentDoc()->getTimeline(id.uuid)->isClip(id.itemId)) {
             return currentDoc()->getTimeline(id.uuid)->getClipPosition(id.itemId);
+        } else {
+            qWarning() << "querying non clip properties";
         }
         break;
     case KdenliveObjectType::TimelineComposition:
@@ -771,6 +773,8 @@ PlaylistState::ClipState Core::getItemState(const ObjectId &id)
     case KdenliveObjectType::TimelineClip:
         if (currentDoc()->getTimeline(id.uuid)->isClip(id.itemId)) {
             return currentDoc()->getTimeline(id.uuid)->getClipState(id.itemId);
+        } else {
+            qWarning() << "querying non clip properties";
         }
         break;
     case KdenliveObjectType::TimelineComposition:
@@ -795,6 +799,8 @@ int Core::getItemDuration(const ObjectId &id)
     case KdenliveObjectType::TimelineClip:
         if (currentDoc()->getTimeline(id.uuid)->isClip(id.itemId)) {
             return currentDoc()->getTimeline(id.uuid)->getClipPlaytime(id.itemId);
+        } else {
+            qWarning() << "querying non clip properties";
         }
         break;
     case KdenliveObjectType::TimelineComposition:
@@ -827,6 +833,8 @@ QSize Core::getItemFrameSize(const ObjectId &id)
     case KdenliveObjectType::TimelineClip:
         if (currentDoc()->getTimeline(id.uuid)->isClip(id.itemId)) {
             return currentDoc()->getTimeline(id.uuid)->getClipFrameSize(id.itemId);
+        } else {
+            qWarning() << "querying non clip properties";
         }
         break;
     case KdenliveObjectType::BinClip:

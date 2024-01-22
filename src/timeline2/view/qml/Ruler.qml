@@ -188,7 +188,7 @@ Item {
                             movingMarkerId = -1
                             anchors.left = parent.left
                         }
-                        onPositionChanged: {
+                        onPositionChanged: mouse => {
                             if (pressed) {
                                 var newFrame = Math.max(0, Math.round(model.frame + (mouseX - xOffset) / timeline.scaleFactor))
                                 newFrame = controller.suggestSnapPoint(newFrame, mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping)
@@ -202,7 +202,7 @@ Item {
                         }
                         drag.smoothed: false
                         onDoubleClicked: timeline.editGuide(model.frame)
-                        onClicked: {
+                        onClicked: mouse => {
                             if (root.activeTool !== ProjectTool.SlipTool) {
                                 proxy.position = model.frame
                             }
