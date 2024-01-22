@@ -67,6 +67,11 @@ AbstractTask::AbstractTask(const ObjectId &owner, JOBTYPE type, QObject *object)
     }
 }
 
+bool AbstractTask::isCanceled() const
+{
+    return m_isCanceled;
+}
+
 void AbstractTask::cancelJob(bool softDelete)
 {
     if (m_isCanceled.testAndSetAcquire(0, 1)) {

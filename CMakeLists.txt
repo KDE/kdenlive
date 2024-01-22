@@ -8,8 +8,8 @@ cmake_minimum_required(VERSION 3.16)
 
 # KDE Application Version, managed by release script
 set (RELEASE_SERVICE_VERSION_MAJOR "24")
-set (RELEASE_SERVICE_VERSION_MINOR "01")
-set (RELEASE_SERVICE_VERSION_MICRO "85")
+set (RELEASE_SERVICE_VERSION_MINOR "04")
+set (RELEASE_SERVICE_VERSION_MICRO "70")
 
 set(KDENLIVE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_VERSION_MINOR}.${RELEASE_SERVICE_VERSION_MICRO}")
 
@@ -43,6 +43,33 @@ set(KF_DEP_VERSION "5.92.0")
 find_package(ECM ${KF_DEP_VERSION} REQUIRED CONFIG)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
 
+# Select the Qt version we want to use
+# Qt6 is the prefered one, Qt5 the fallback
+find_package(Qt6 COMPONENTS Core QUIET)
+
+if (NOT DEFINED QT_MAJOR_VERSION)
+    if (TARGET Qt6::Core)
+        set(QT_MAJOR_VERSION 6)
+    else()
+        find_package(Qt5 COMPONENTS Core QUIET)
+        if (TARGET Qt5::Core)
+          set(QT_MAJOR_VERSION 5)
+        endif()
+    endif()
+    if(NOT QT_MAJOR_VERSION)
+        option(BUILD_WITH_QT6 "Build against Qt 6" ON)
+        if (BUILD_WITH_QT6)
+            set(QT_MAJOR_VERSION 6)
+        else()
+            set(QT_MAJOR_VERSION 5)
+        endif()
+    endif()
+endif()
+
+# We don't use this feature and it breakes the DATADIR on Windows.
+# While this is a bug in ECM and should be fixed there, we can use is as a quick (workaround) fix
+set(KDE_INSTALL_DIRS_NO_CMAKE_VARIABLES TRUE)
+
 ## include ECM Modules
 include(KDECompilerSettings NO_POLICY_SCOPE)
 include(ECMInstallIcons)
@@ -54,13 +81,8 @@ include(ECMAddAppIcon)
 include(ECMQtDeclareLoggingCategory)
 include(ECMEnableSanitizers)
 include(ECMAddQch)
-include(QtVersionOption)
 include(ECMDeprecationSettings)
 remove_definitions(-DQT_NO_CAST_FROM_ASCII) # Defined in KDECompilerSettings, but we don't want that yet
-
-if (NOT DEFINED QT_MAJOR_VERSION)
-    set(QT_MAJOR_VERSION 5)
-endif()
 
 if (QT_MAJOR_VERSION STREQUAL "6")
     set(USE_VERSIONLESS_TARGETS ON)

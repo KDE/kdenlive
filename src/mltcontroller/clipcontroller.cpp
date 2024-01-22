@@ -466,7 +466,10 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
         // Pass properties from previous producer
         m_properties->pass_list(passProperties, passList);
         setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
-        m_effectStack->resetService(m_masterProducer);
+        if (m_clipType != ClipType::Timeline) {
+            // Timeline clips effect stack point to the tractor and are handled in ProjectClip::reloadTimeline
+            m_effectStack->resetService(m_masterProducer);
+        }
         if (m_clipType == ClipType::Unknown) {
             getInfoForProducer();
         }

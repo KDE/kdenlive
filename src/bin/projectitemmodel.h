@@ -26,6 +26,7 @@ class FileWatcher;
 class MarkerListModel;
 class ProjectClip;
 class ProjectFolder;
+class EffectStackModel;
 class QProgressDialog;
 
 namespace Mlt {
@@ -110,7 +111,7 @@ public:
      *  @return A list of invalid sequence clips found in Project Bin (can be caused by 23.04.0 bug)
      */
     QList<QUuid> loadBinPlaylist(Mlt::Service *documentTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders,
-                                 int &zoomLevel);
+                                 const QUuid &activeUuid, int &zoomLevel);
     void loadTractorPlaylist(Mlt::Tractor documentTractor, std::unordered_map<QString, QString> &binIdCorresp);
 
     /** @brief Save document properties in MLT's bin playlist */
@@ -231,6 +232,8 @@ public:
     const QString getSequenceId(const QUuid &uuid);
     /** @brief Check if we already have a sequence with this uuid */
     bool hasSequenceId(const QUuid &uuid) const;
+    /** @brief Return a project sequence clip from its uuid */
+    std::shared_ptr<ProjectClip> getSequenceClip(const QUuid &uuid);
     /** @brief Returns uuid / bin id of all sequence clips in the project */
     QMap<QUuid, QString> getAllSequenceClips() const;
     /** @brief Return the main project tractor (container of all playlists) */
@@ -247,6 +250,9 @@ public:
     void setSequencesFolder(int id);
     /** @brief Remove clip references for a timeline. */
     void removeReferencedClips(const QUuid &uuid, bool onDeletion);
+    /** @brief Check that all sequences are correctly stored in the model */
+    void checkSequenceIntegrity(const QString activeSequenceId);
+    std::shared_ptr<EffectStackModel> getClipEffectStack(int itemId);
 
 protected:
     bool closing;

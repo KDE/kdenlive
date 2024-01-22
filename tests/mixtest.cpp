@@ -939,6 +939,120 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
 
         state0();
     }
+    SECTION("Test chained mixes and cuts")
+    {
+        // Add 2 more color clips
+        cid5 = -1;
+        int cid6;
+        state0();
+        REQUIRE(timeline->requestItemResize(cid4, 80, true, true));
+        REQUIRE(timeline->requestClipInsertion(binId2, tid2, 600, cid5));
+        REQUIRE(timeline->requestItemResize(cid5, 80, true, true));
+        REQUIRE(timeline->requestClipInsertion(binId2, tid2, 680, cid6));
+        REQUIRE(timeline->requestItemResize(cid6, 80, true, true));
+        audio5 = timeline->getClipSplitPartner(cid5);
+
+        // Cid3 pos=500, duration=20
+        // Cid4 pos=520, duration=80
+        // Cid5 pos=600, duration=80
+        // Cid6 pos=680, duration=80
+
+        // Mix 3 and 4
+        REQUIRE(timeline->mixClip(cid3));
+        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+        REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+
+        // Mix 4 and 5
+        REQUIRE(timeline->mixClip(cid4));
+        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+        REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 2);
+
+        // Mix 5 and 6
+        REQUIRE(timeline->mixClip(cid5));
+        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+        REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 1);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 3);
+
+        // Now try to cut mixes and check they are in the correct subplaylist
+
+        // Cut a clip with mix start only
+        REQUIRE(TimelineFunctions::requestClipCut(timeline, cid3, 505));
+        // Get newly created cut clip
+        int clone = timeline->getClipByPosition(tid2, 506, 0);
+        // Ensure each clip is on the correct playlist
+        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 1);
+        REQUIRE(timeline->m_allClips[clone]->getSubPlaylistIndex() == 0);
+        // Undo cid3 cut
+        undoStack->undo();
+        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
+        undoStack->redo();
+        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 1);
+        undoStack->undo();
+
+        // Cut a clip with mix at start and end
+        REQUIRE(TimelineFunctions::requestClipCut(timeline, cid4, 540));
+        // Get newly created cut clip
+        clone = timeline->getClipByPosition(tid2, 540, 1);
+        // Ensure each clip is on the correct playlist
+        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+        REQUIRE(timeline->m_allClips[clone]->getSubPlaylistIndex() == 1);
+        // Undo cid3 cut
+        undoStack->undo();
+        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+        undoStack->redo();
+        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+        REQUIRE(timeline->m_allClips[clone]->getSubPlaylistIndex() == 1);
+        undoStack->undo();
+
+        // Cut a clip with mix at end
+        REQUIRE(TimelineFunctions::requestClipCut(timeline, cid6, 710));
+        // Get newly created cut clip
+        clone = timeline->getClipByPosition(tid2, 710, 0);
+        // Ensure each clip is on the correct playlist
+        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+        REQUIRE(timeline->m_allClips[clone]->getSubPlaylistIndex() == 0);
+        undoStack->undo();
+        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+        undoStack->redo();
+        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+        REQUIRE(timeline->m_allClips[clone]->getSubPlaylistIndex() == 0);
+        undoStack->undo();
+
+        // Undo mix 5 and 6
+        undoStack->undo();
+        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+        REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 2);
+
+        // Undo mix 4 and 5
+        undoStack->undo();
+        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+        REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+
+        // Undo mix 3 and 4
+        undoStack->undo();
+
+        // Undo insert/resize ops
+        undoStack->undo();
+        undoStack->undo();
+        undoStack->undo();
+        undoStack->undo();
+        undoStack->undo();
+        state0();
+    }
     timeline.reset();
     pCore->projectManager()->closeCurrentDocument(false, false);
 }

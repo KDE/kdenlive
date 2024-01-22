@@ -2999,7 +2999,7 @@ void TimelineController::saveZone(int clipId)
         }
     }
     int in = m_model->getClipIn(clipId);
-    int out = in + m_model->getClipPlaytime(clipId);
+    int out = in + m_model->getClipPlaytime(clipId) - 1;
     QString id;
     pCore->projectItemModel()->requestAddBinSubClip(id, in, out, {}, m_model->m_allClips[clipId]->binId());
 }
@@ -3927,7 +3927,7 @@ QPoint TimelineController::selectionInOut() const
     for (int id : items_list) {
         if (m_model->isClip(id) || m_model->isComposition(id)) {
             int itemIn = m_model->getItemPosition(id);
-            int itemOut = itemIn + m_model->getItemPlaytime(id);
+            int itemOut = itemIn + m_model->getItemPlaytime(id) - 1;
             if (in < 0 || itemIn < in) {
                 in = itemIn;
             }

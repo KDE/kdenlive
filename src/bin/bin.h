@@ -471,8 +471,6 @@ public Q_SLOTS:
     void selectClipById(const QString &id, int frame = -1, const QPoint &zone = QPoint(), bool activateMonitor = true);
     const QString slotAddClipToProject(const QUrl &url);
     void droppedUrls(const QList<QUrl> &urls, const QString &folderInfo = QString());
-    /** @brief Returns the effectstack of a given clip. */
-    std::shared_ptr<EffectStackModel> getClipEffectStack(int itemId);
     /** @brief Adjust project profile to current clip. */
     void adjustProjectProfileToItem();
     /** @brief Check and propose auto adding audio tracks.

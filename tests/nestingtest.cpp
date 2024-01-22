@@ -450,3 +450,121 @@ TEST_CASE("Save File, Reopen and check for corruption", "[SF3]")
         pCore->projectManager()->closeCurrentDocument(false, false);
     }
 }
+
+TEST_CASE("Save File And Check Sequence Effects", "[SF2]")
+{
+    auto binModel = pCore->projectItemModel();
+    Q_ASSERT(binModel->clipsCount() == 0);
+    binModel->clean();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+
+    SECTION("Simple insert, add master effect and save")
+    {
+        // Create document
+        KdenliveDoc document(undoStack);
+        Mock<KdenliveDoc> docMock(document);
+        KdenliveDoc &mockedDoc = docMock.get();
+
+        pCore->projectManager()->m_project = &mockedDoc;
+        QDateTime documentDate = QDateTime::currentDateTime();
+        pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+        auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
+        pCore->projectManager()->m_activeTimelineModel = timeline;
+
+        pCore->projectManager()->testSetActiveDocument(&mockedDoc, timeline);
+        KdenliveDoc::next_id = 0;
+        QDir dir = QDir::temp();
+        REQUIRE(timeline->checkConsistency(timeline->getGuideModel()->getSnapPoints()));
+
+        // Add another sequence clip
+        std::pair<int, int> tracks = {1, 2};
+        const QString seqId = ClipCreator::createPlaylistClip(QStringLiteral("Seq 2"), tracks, QStringLiteral("-1"), binModel);
+        REQUIRE(seqId != QLatin1String("-1"));
+
+        QUuid uuid;
+        QMap<QUuid, QString> allSequences = binModel->getAllSequenceClips();
+        QString firstSeqId = allSequences.value(mockedDoc.uuid());
+        QMapIterator<QUuid, QString> i(allSequences);
+        while (i.hasNext()) {
+            // Find clips with the tag
+            i.next();
+            if (i.value() == seqId) {
+                uuid = i.key();
+            }
+        }
+        REQUIRE(!uuid.isNull());
+        // Make last sequence active
+        timeline.reset();
+        timeline = mockedDoc.getTimeline(uuid);
+        // Add an effect to Bin sequence clip
+        std::shared_ptr<EffectStackModel> binStack = binModel->getClipEffectStack(seqId.toInt());
+        REQUIRE(binStack->appendEffect(QStringLiteral("sepia")));
+        REQUIRE(binStack->checkConsistency());
+
+        // Add an effect to master
+        std::shared_ptr<EffectStackModel> masterStack = timeline->getMasterEffectStackModel();
+        REQUIRE(masterStack->rowCount() == 1);
+        REQUIRE(masterStack->appendEffect(QStringLiteral("sepia")));
+        REQUIRE(masterStack->checkConsistency());
+        REQUIRE(masterStack->rowCount() == 2);
+
+        // Save and close
+        REQUIRE(pCore->projectManager()->testSaveFileAs(dir.absoluteFilePath(QStringLiteral("test-nest2.kdenlive"))));
+        pCore->projectManager()->closeCurrentDocument(false, false);
+    }
+
+    SECTION("Open and check that effects are restored")
+    {
+        // Create new document
+        // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
+        KdenliveDoc::next_id = 0;
+        QString saveFile = QDir::temp().absoluteFilePath(QStringLiteral("test-nest2.kdenlive"));
+        QUrl openURL = QUrl::fromLocalFile(saveFile);
+
+        Mock<ProjectManager> pmMock;
+        When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+        When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+        QUndoGroup *undoGroup = new QUndoGroup();
+        undoGroup->addStack(undoStack.get());
+        DocOpenResult openResults = KdenliveDoc::Open(openURL, QDir::temp().path(), undoGroup, false, nullptr);
+        REQUIRE(openResults.isSuccessful() == true);
+        std::unique_ptr<KdenliveDoc> openedDoc = openResults.getDocument();
+
+        pCore->projectManager()->m_project = openedDoc.get();
+        const QUuid uuid = openedDoc->uuid();
+        QDateTime documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
+        pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+
+        QMap<QUuid, QString> allSequences = binModel->getAllSequenceClips();
+        const QString firstSeqId = allSequences.value(uuid);
+        pCore->projectManager()->openTimeline(firstSeqId, uuid);
+        std::shared_ptr<TimelineItemModel> timeline = openedDoc->getTimeline(uuid);
+        // Now reopen all timeline sequences
+        QList<QUuid> allUuids = allSequences.keys();
+        allUuids.removeAll(uuid);
+        QString secondaryId;
+        for (auto &u : allUuids) {
+            secondaryId = allSequences.value(u);
+            pCore->projectManager()->openTimeline(secondaryId, u);
+        }
+
+        pCore->projectManager()->testSetActiveDocument(openedDoc.get(), timeline);
+
+        REQUIRE(timeline->getTracksCount() == 4);
+        REQUIRE(timeline->checkConsistency(timeline->getGuideModel()->getSnapPoints()));
+
+        const QUuid secondSequence = allUuids.first();
+        timeline = openedDoc->getTimeline(secondSequence);
+        pCore->projectManager()->setActiveTimeline(secondSequence);
+        REQUIRE(timeline->getTracksCount() == 3);
+        std::shared_ptr<EffectStackModel> stack = timeline->getMasterEffectStackModel();
+        REQUIRE(stack->checkConsistency());
+        REQUIRE(stack->rowCount() == 2);
+        std::shared_ptr<EffectStackModel> binStack = binModel->getClipEffectStack(secondaryId.toInt());
+        REQUIRE(binStack->checkConsistency());
+        REQUIRE(binStack->rowCount() == 2);
+
+        pCore->projectManager()->closeCurrentDocument(false, false);
+        QFile::remove(QDir::temp().absoluteFilePath(QStringLiteral("test-nest2.kdenlive")));
+    }
+}

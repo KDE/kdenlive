@@ -24,6 +24,7 @@
         "Name[id]": "Playlist MLT",
         "Name[it]": "Lista di riproduzione MLT",
         "Name[ja]": "MLT プレイリスト",
+        "Name[ka]": "MLT დასაკრავი სია",
         "Name[ko]": "MLT 재생 목록",
         "Name[nl]": "MLT-afspeellijst",
         "Name[pl]": "Lista odtwarzania MLT",
@@ -36,7 +37,8 @@
         "Name[tr]": "MLT Oynatma Listesi",
         "Name[uk]": "Список відтворення MLT",
         "Name[x-test]": "xxMLT Playlistxx",
-        "Name[zh_CN]": "MLT 播放列表"
+        "Name[zh_CN]": "MLT 播放列表",
+        "Name[zh_TW]": "MLT 播放清單"
     },
     "MimeType": "video/mlt-playlist;application/x-kdenlive;application/x-kdenlivetitle;application/vnd.mlt+xml;"
 }

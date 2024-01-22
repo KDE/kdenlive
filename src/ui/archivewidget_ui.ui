@@ -35,11 +35,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
        </widget>
       </item>
       <item>
-       <widget class="KUrlRequester" name="archive_url">
-        <property name="mode">
-         <set>KFile::Directory</set>
-        </property>
-       </widget>
+       <widget class="KUrlRequester" name="archive_url" native="true"/>
       </item>
      </layout>
     </widget>
@@ -138,6 +134,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       <widget class="QProgressBar" name="progressBar">
        <property name="value">
         <number>0</number>
+       </property>
+       <property name="format">
+        <string>%p%</string>
        </property>
       </widget>
      </item>

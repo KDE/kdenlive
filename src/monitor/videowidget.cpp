@@ -373,7 +373,7 @@ void VideoWidget::mousePressEvent(QMouseEvent *event)
         // The event has been handled in qml
         m_swallowDrop = true;
     }
-    event->accept();
+    // event->accept();
     if ((event->button() & Qt::LeftButton) != 0u) {
         if ((event->modifiers() & Qt::ControlModifier) != 0u) {
             // Pan view
@@ -403,7 +403,7 @@ void VideoWidget::mouseReleaseEvent(QMouseEvent *event)
         qDebug()<<"::::::: MOUSE RELEASED B IGNORED";
         return;
     }*/
-    if ((event->modifiers() & Qt::ControlModifier)) {
+    if (event->modifiers() & Qt::ControlModifier || m_qmlEvent) {
         event->accept();
         return;
     }
@@ -1011,7 +1011,7 @@ bool VideoWidget::switchPlay(bool play, double speed)
         resetZoneMode();
     }
     if (play) {
-        if (m_consumer->position() == m_producer->get_playtime() - 1 && speed > 0) {
+        if (m_consumer->position() >= m_maxProducerPosition && speed > 0) {
             // We are at the end of the clip / timeline
             if (m_id == Kdenlive::ClipMonitor || (m_id == Kdenlive::ProjectMonitor && KdenliveSettings::jumptostart())) {
                 m_producer->seek(0);

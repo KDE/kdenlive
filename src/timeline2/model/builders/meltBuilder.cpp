@@ -10,6 +10,7 @@
 #include "../trackmodel.hpp"
 #include "../undohelper.hpp"
 #include "bin/bin.h"
+#include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "kdenlivesettings.h"
@@ -38,7 +39,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                             Fun &undo, Fun &redo, bool audioTrack, const QString &originalDecimalPoint, int playlist,
                             const QList<Mlt::Transition *> &compositions);
 
-bool loadProjectBin(Mlt::Tractor tractor)
+bool loadProjectBin(Mlt::Tractor tractor, const QUuid &activeUuid)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
@@ -46,7 +47,8 @@ bool loadProjectBin(Mlt::Tractor tractor)
     QStringList expandedFolders;
     int zoomLevel = -1;
     binIdCorresp.clear();
-    QList<QUuid> brokenSequences = pCore->projectItemModel()->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, zoomLevel);
+    m_notesLog.clear();
+    QList<QUuid> brokenSequences = pCore->projectItemModel()->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, activeUuid, zoomLevel);
     if (!brokenSequences.isEmpty()) {
         KMessageBox::error(qApp->activeWindow(), i18n("Found an invalid sequence clip in Bin"));
         return false;
@@ -73,7 +75,6 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
     // First, we destruct the previous tracks
     timeline->requestReset(undo, redo);
     m_errorMessage.clear();
-    m_notesLog.clear();
     bool useMappedIds = true;
 
     QStringList expandedFolders;
@@ -82,7 +83,7 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
         int zoomLevel = -1;
         if (timeline->uuid() == pCore->currentTimelineId()) {
             binIdCorresp.clear();
-            projectModel->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, zoomLevel);
+            projectModel->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, timeline->uuid(), zoomLevel);
         } else {
             projectModel->loadTractorPlaylist(tractor, binIdCorresp);
         }
@@ -329,11 +330,10 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
     // First, we destruct the previous tracks
     timeline->requestReset(undo, redo);
     m_errorMessage.clear();
-    m_notesLog.clear();
     QStringList expandedFolders;
     int zoomLevel = -1;
     if (timeline->uuid() == pCore->currentTimelineId()) {
-        pCore->projectItemModel()->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, zoomLevel);
+        pCore->projectItemModel()->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, timeline->uuid(), zoomLevel);
     }
     QStringList foldersToExpand;
     // Find updated ids for expanded folders
@@ -500,7 +500,8 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
         int compoId;
         int aTrack = t->get_a_track();
         if (!timeline->isTrack(timeline->getTrackIndexFromPosition(t->get_b_track() - 1))) {
-            QString tcInfo = QString("<a href=\"%1\">%2</a>").arg(QString::number(t->get_in()), pCore->timecode().getTimecodeFromFrames(t->get_in()));
+            QString tcInfo = QString("<a href=\"%1!%2\">%3</a>")
+                                 .arg(timeline->uuid().toString(), QString::number(t->get_in()), pCore->timecode().getTimecodeFromFrames(t->get_in()));
             m_notesLog << i18n("%1 Composition (%2) with invalid track reference found and removed.", tcInfo, t->get("id"));
             m_errorMessage << i18n("Invalid composition %1 found on track %2 at %3, compositing with track %4.", t->get("id"), t->get_b_track(),
                                    pCore->timecode().getTimecodeFromFrames(t->get_in()), t->get_a_track());
@@ -508,9 +509,9 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
         }
         if (aTrack > tractor.count()) {
             int tid = timeline->getTrackIndexFromPosition(t->get_b_track() - 1);
-            QString tcInfo = QString("<a href=\"%1?%2\">%3 %4</a>")
-                                 .arg(QString::number(t->get_in()), QString::number(timeline->getTrackPosition(tid) + 1), timeline->getTrackTagById(tid),
-                                      pCore->timecode().getTimecodeFromFrames(t->get_in()));
+            const QString tcInfo = QString("<a href=\"%1!%2?%3\">%4 %5</a>")
+                                       .arg(timeline->uuid().toString(), QString::number(t->get_in()), QString::number(timeline->getTrackPosition(tid) + 1),
+                                            timeline->getTrackTagById(tid), pCore->timecode().getTimecodeFromFrames(t->get_in()));
             m_notesLog << i18n("%1 Composition (%2) with invalid track reference found and removed.", tcInfo, t->get("id"));
             m_errorMessage << i18n("Invalid composition %1 found on track %2 at %3, compositing with track %4.", t->get("id"), t->get_b_track(),
                                    pCore->timecode().getTimecodeFromFrames(t->get_in()), t->get_a_track());
@@ -522,9 +523,9 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             if (pos > 0 && videoTracksIndexes.at(pos - 1) != aTrack) {
                 t->set("force_track", 1);
                 int tid = timeline->getTrackIndexFromPosition(t->get_b_track() - 1);
-                QString tcInfo = QString("<a href=\"%1?%2\">%3 %4</a>")
-                                     .arg(QString::number(t->get_in()), QString::number(timeline->getTrackPosition(tid) + 1), timeline->getTrackTagById(tid),
-                                          pCore->timecode().getTimecodeFromFrames(t->get_in()));
+                const QString tcInfo = QString("<a href=\"%1!%2?%3\">%4 %5</a>")
+                                           .arg(timeline->uuid().toString(), QString::number(t->get_in()), QString::number(timeline->getTrackPosition(tid) + 1),
+                                                timeline->getTrackTagById(tid), pCore->timecode().getTimecodeFromFrames(t->get_in()));
                 m_notesLog << i18n("%1 Composition was not applied on expected track, manually enforce the track.", tcInfo);
                 m_errorMessage << i18n("Incorrect composition %1 found on track %2 at %3, compositing with track %4 was set to forced track.", t->get("id"),
                                        t->get_b_track(), pCore->timecode().getTimecodeFromFrames(t->get_in()), t->get_a_track());
@@ -536,9 +537,9 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
         if (!compositionOk) {
             // timeline->requestItemDeletion(compoId, false);
             int tid = timeline->getTrackIndexFromPosition(t->get_b_track() - 1);
-            QString tcInfo = QString("<a href=\"%1?%2\">%3 %4</a>")
-                                 .arg(QString::number(t->get_in()), QString::number(timeline->getTrackPosition(tid) + 1), timeline->getTrackTagById(tid),
-                                      pCore->timecode().getTimecodeFromFrames(t->get_in()));
+            const QString tcInfo = QString("<a href=\"%1!%2?%3\">%4 %5</a>")
+                                       .arg(timeline->uuid().toString(), QString::number(t->get_in()), QString::number(timeline->getTrackPosition(tid) + 1),
+                                            timeline->getTrackTagById(tid), pCore->timecode().getTimecodeFromFrames(t->get_in()));
             m_notesLog << i18n("%1 Invalid composition found and removed.", tcInfo);
             m_errorMessage << i18n("Invalid composition %1 found on track %2 at %3.", t->get("id"), t->get_b_track(),
                                    pCore->timecode().getTimecodeFromFrames(t->get_in()));
@@ -562,11 +563,21 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
     }
     if (!qEnvironmentVariableIsSet("MLT_TESTS")) {
         if (!m_notesLog.isEmpty()) {
-            m_notesLog.prepend(i18n("Errors found when opening project file (%1)", QDateTime::currentDateTime().toString()));
-            pCore->projectManager()->slotAddTextNote(m_notesLog.join("<br/>"));
             if (projectErrors) {
                 *projectErrors = true;
             }
+        }
+    }
+    timeline->isLoading = false;
+    return true;
+}
+
+void checkProjectWarnings()
+{
+    if (!qEnvironmentVariableIsSet("MLT_TESTS")) {
+        if (!m_notesLog.isEmpty()) {
+            m_notesLog.prepend(i18n("Errors found when opening project file (%1)", QDateTime::currentDateTime().toString()));
+            pCore->projectManager()->slotAddTextNote(m_notesLog.join("<br/>"));
             KMessageBox::detailedError(
                 qApp->activeWindow(),
                 i18n("Some errors were detected in the project file.\nThe project was modified to fix the conflicts. Changes made to the "
@@ -576,8 +587,6 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             KMessageBox::error(qApp->activeWindow(), m_errorMessage.join("\n"), i18n("Problems found in your project file"));
         }
     }
-    timeline->isLoading = false;
-    return true;
 }
 
 bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, bool useMappedIds, const QString trackTag, Mlt::Tractor &track,
@@ -646,9 +655,9 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
             if (cid1 > 0 && cid2 > 0) {
                 if (timeline->getClipSubPlaylistIndex(cid1) == 1) {
                     // Delete clip
-                    QString tcInfo = QString("<a href=\"%1?%2\">%3 %4</a>")
-                                         .arg(QString::number(in), QString::number(timeline->getTrackPosition(tid) + 1), timeline->getTrackTagById(tid),
-                                              pCore->timecode().getTimecodeFromFrames(timeline->getClipPosition(cid1)));
+                    const QString tcInfo = QString("<a href=\"%1!%2?%3\">%4 %5</a>")
+                                               .arg(timeline->uuid().toString(), QString::number(in), QString::number(timeline->getTrackPosition(tid) + 1),
+                                                    timeline->getTrackTagById(tid), pCore->timecode().getTimecodeFromFrames(timeline->getClipPosition(cid1)));
                     m_notesLog << i18n("Incorrect Mix, clip %1 was removed at %2.", timeline->getClipName(cid1), tcInfo);
                     m_errorMessage << i18n("Incorrect mix found on track %1 at %2, clip %3 removed.", timeline->getTrackTagById(tid),
                                            pCore->timecode().getTimecodeFromFrames(timeline->getClipPosition(cid1)), timeline->getClipName(cid1));
@@ -656,9 +665,9 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
 
                 } else if (timeline->getClipSubPlaylistIndex(cid2) == 1) {
                     // Delete clip
-                    QString tcInfo = QString("<a href=\"%1?%2\">%3 %4</a>")
-                                         .arg(QString::number(in), QString::number(timeline->getTrackPosition(tid) + 1), timeline->getTrackTagById(tid),
-                                              pCore->timecode().getTimecodeFromFrames(timeline->getClipPosition(cid2)));
+                    const QString tcInfo = QString("<a href=\"%1!%2?%3\">%4 %5</a>")
+                                               .arg(timeline->uuid().toString(), QString::number(in), QString::number(timeline->getTrackPosition(tid) + 1),
+                                                    timeline->getTrackTagById(tid), pCore->timecode().getTimecodeFromFrames(timeline->getClipPosition(cid2)));
                     m_notesLog << i18n("Incorrect Mix, clip %1 was removed at %2.", timeline->getClipName(cid2), tcInfo);
                     m_errorMessage << i18n("Incorrect mix found at track %1 at %2, clip %3 removed.", timeline->getTrackTagById(tid),
                                            pCore->timecode().getTimecodeFromFrames(timeline->getClipPosition(cid2)), timeline->getClipName(cid2));
@@ -708,6 +717,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                             const QList<Mlt::Transition *> &compositions)
 {
     int max = track.count();
+    const QString sequenceBinId = pCore->projectItemModel()->getSequenceId(timeline->uuid());
     for (int i = 0; i < max; i++) {
         if (track.is_blank(i)) {
             continue;
@@ -736,6 +746,29 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                 if (!useMappedIds || binIdCorresp.size() == 0 || (clip->parent().get_int("kdenlive:producer_type") == ClipType::Timeline)) {
                     // Currently "sequence" clips inserted in timeline are cuts of the bin clip, so it's kdenlive id is changed in loadBinPlaylist
                     binId = clipId;
+                    // Ensure we don't try to embed a sequence into itself
+                    if (binId == sequenceBinId) {
+                        // Trying to embed a sequence into itself, drop
+                        const QString tcInfo =
+                            QString("<a href=\"%1!%2?%3\">%4 %5</a>")
+                                .arg(timeline->uuid().toString(), QString::number(position), QString::number(timeline->getTrackPosition(tid) + 1), trackTag,
+                                     pCore->timecode().getTimecodeFromFrames(position));
+                        m_notesLog << i18n("%1 Timeline clip (%2) without bin reference found and removed.", tcInfo, clip->parent().get("id"));
+                        m_errorMessage << i18n("Project corrupted. Clip %1 (%2) not found in project bin.", clip->parent().get("id"), clipId);
+                        continue;
+                    }
+                    // Check that the sequence clip exists
+                    auto binClip = pCore->projectItemModel()->getClipByBinID(binId);
+                    if (binClip == nullptr || binClip->getProducerIntProperty("kdenlive:producer_type") != clip->parent().get_int("kdenlive:producer_type")) {
+                        // Trying to embed a sequence into itself, drop
+                        const QString tcInfo =
+                            QString("<a href=\"%1!%2?%3\">%4 %5</a>")
+                                .arg(timeline->uuid().toString(), QString::number(position), QString::number(timeline->getTrackPosition(tid) + 1), trackTag,
+                                     pCore->timecode().getTimecodeFromFrames(position));
+                        m_notesLog << i18n("%1 Timeline clip (%2) without bin reference found and removed.", tcInfo, clip->parent().get("id"));
+                        m_errorMessage << i18n("Project corrupted. Clip %1 (%2) not found in project bin.", clip->parent().get("id"), clipId);
+                        continue;
+                    }
                 } else if (binIdCorresp.count(clipId) == 0) {
                     if (clip->property_exists("kdenlive:remove")) {
                         // Clip was marked for deletion
@@ -744,9 +777,10 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                     // Project was somehow corrupted
                     qWarning() << "can't find clip with id: " << clipId << "in bin playlist";
                     QStringList fixedId = pCore->projectItemModel()->getClipByUrl(QFileInfo(resource));
-                    QString tcInfo = QString("<a href=\"%1?%2\">%3 %4</a>")
-                                         .arg(QString::number(position), QString::number(timeline->getTrackPosition(tid) + 1), trackTag,
-                                              pCore->timecode().getTimecodeFromFrames(position));
+                    const QString tcInfo =
+                        QString("<a href=\"%1!%2?%3\">%4 %5</a>")
+                            .arg(timeline->uuid().toString(), QString::number(position), QString::number(timeline->getTrackPosition(tid) + 1), trackTag,
+                                 pCore->timecode().getTimecodeFromFrames(position));
                     if (!fixedId.isEmpty()) {
                         binId = fixedId.first();
                         m_notesLog << i18n("%1 Timeline clip (%2) with incorrect bin reference found and recovered.", tcInfo, clip->parent().get("id"));
@@ -804,9 +838,10 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                         }
                         if (startMixToFind || endMixToFind) {
                             // A mix for this clip is missing
-                            QString tcInfo = QString("<a href=\"%1?%2\">%3 %4</a>")
-                                                 .arg(QString::number(position), QString::number(timeline->getTrackPosition(tid) + 1), trackTag,
-                                                      pCore->timecode().getTimecodeFromFrames(position));
+                            const QString tcInfo =
+                                QString("<a href=\"%1!%2?%3\">%4 %5</a>")
+                                    .arg(timeline->uuid().toString(), QString::number(position), QString::number(timeline->getTrackPosition(tid) + 1), trackTag,
+                                         pCore->timecode().getTimecodeFromFrames(position));
                             // Try to resize clip and put it on playlist 0
                             if (hasEndMix && endMixToFind) {
                                 // Find last empty frame on playlist 0
@@ -866,20 +901,18 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                     } else {
                         // Check if playlist 0 is available
                         enforceTopPlaylist = timeline->trackIsAvailable(tid, position, duration, 0);
+                        const QString tcInfo =
+                            QString("<a href=\"%1!%2?%3\">%4 %5</a>")
+                                .arg(timeline->uuid().toString(), QString::number(position), QString::number(timeline->getTrackPosition(tid) + 1), trackTag,
+                                     pCore->timecode().getTimecodeFromFrames(position));
                         if (enforceTopPlaylist) {
                             m_errorMessage << i18n("Clip %1 on incorrect subtrack found and fixed on track %2 at %3.", clip->parent().get("id"), trackTag,
                                                    pCore->timecode().getTimecodeFromFrames(position));
-                            QString tcInfo = QString("<a href=\"%1?%2\">%3 %4</a>")
-                                                 .arg(QString::number(position), QString::number(timeline->getTrackPosition(tid) + 1), trackTag,
-                                                      pCore->timecode().getTimecodeFromFrames(position));
                             m_notesLog << i18n("%1 Clip (%2) on incorrect subtrack found and fixed / %3", tcInfo, clip->parent().get("id"),
                                                QString::number(tid));
                         } else {
                             m_errorMessage << i18n("Clip %1 on incorrect subtrack found on track %2 at %3.", clip->parent().get("id"), trackTag,
                                                    pCore->timecode().getTimecodeFromFrames(position));
-                            QString tcInfo = QString("<a href=\"%1?%2\">%3 %4</a>")
-                                                 .arg(QString::number(position), QString::number(timeline->getTrackPosition(tid) + 1), trackTag,
-                                                      pCore->timecode().getTimecodeFromFrames(position));
                             m_notesLog << i18n("%1 Clip (%2) with incorrect subplaylist found", tcInfo, clip->parent().get("id"));
                         }
                     }
@@ -893,9 +926,9 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                 timeline->requestItemDeletion(cid, false);
                 m_errorMessage << i18n("Invalid clip %1 found on track %2 at %3.", clip->parent().get("id"), track.get("id"),
                                        pCore->timecode().getTimecodeFromFrames(position));
-                QString tcInfo = QString("<a href=\"%1?%2\">%3 %4</a>")
-                                     .arg(QString::number(position), QString::number(timeline->getTrackPosition(tid) + 1), trackTag,
-                                          pCore->timecode().getTimecodeFromFrames(position));
+                const QString tcInfo = QString("<a href=\"%1!%2?%3\">%4 %5</a>")
+                                           .arg(timeline->uuid().toString(), QString::number(position), QString::number(timeline->getTrackPosition(tid) + 1),
+                                                trackTag, pCore->timecode().getTimecodeFromFrames(position));
                 m_notesLog << i18n("%1 Invalid clip (%2) found and removed", tcInfo, clip->parent().get("id"));
                 continue;
             }
@@ -904,6 +937,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
         case mlt_service_tractor_type: {
             // TODO This is a nested timeline
             qWarning() << "nested timelines not yet implemented";
+            Q_ASSERT(false);
             break;
         }
         default:

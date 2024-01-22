@@ -5170,14 +5170,6 @@ void Bin::cleanupUnused()
     m_itemModel->requestCleanupUnused();
 }
 
-std::shared_ptr<EffectStackModel> Bin::getClipEffectStack(int itemId)
-{
-    std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(QString::number(itemId));
-    Q_ASSERT(clip != nullptr);
-    std::shared_ptr<EffectStackModel> effectStack = std::static_pointer_cast<ClipController>(clip)->m_effectStack;
-    return effectStack;
-}
-
 size_t Bin::getClipDuration(int itemId) const
 {
     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(QString::number(itemId));

@@ -232,7 +232,12 @@ void MainWindow::init(const QString &mltPath)
         pCore->setCurrentProfile(QStringLiteral("atsc_1080p_25"));
         KdenliveSettings::setDefault_profile(QStringLiteral("atsc_1080p_25"));
     }
-    m_gpuAllowed = EffectsRepository::get()->hasInternalEffect(QStringLiteral("glsl.manager"));
+
+    // Disable movit until it's stable
+    m_gpuAllowed = false;
+    KdenliveSettings::setGpu_accel(false);
+
+    // m_gpuAllowed = EffectsRepository::get()->hasInternalEffect(QStringLiteral("glsl.manager"));
 
     m_shortcutRemoveFocus = new QShortcut(QKeySequence(QStringLiteral("Esc")), this);
     connect(m_shortcutRemoveFocus, &QShortcut::activated, this, &MainWindow::slotRemoveFocus);
@@ -1414,7 +1419,6 @@ void MainWindow::setupActions()
     m_trimLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_trimLabel->setAlignment(Qt::AlignHCenter);
     m_trimLabel->setMinimumWidth(m_trimLabel->fontMetrics().boundingRect(i18n("Multicam")).width() + 8);
-    m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :%1; }").arg(palette().window().color().name()));
     m_trimLabel->setToolTip(i18n("Active tool and editing mode"));
 
     toolbar->addWidget(m_trimLabel);
@@ -4708,6 +4712,9 @@ void MainWindow::slotCopyDebugInfo()
     debuginfo.append(QStringLiteral("Kernel: %1 %2\n").arg(QSysInfo::kernelType(), QSysInfo::kernelVersion()));
     debuginfo.append(QStringLiteral("CPU: %1\n").arg(QSysInfo::currentCpuArchitecture()));
     debuginfo.append(QStringLiteral("Windowing System: %1\n").arg(QGuiApplication::platformName()));
+    if (m_clipMonitor) {
+        debuginfo.append(QStringLiteral("GPU: %1\n").arg(m_clipMonitor->getGPUInfo().join(QLatin1Char('/'))));
+    }
     debuginfo.append(QStringLiteral("Movit (GPU): %1\n").arg(KdenliveSettings::gpu_accel() ? QStringLiteral("enabled") : QStringLiteral("disabled")));
     debuginfo.append(QStringLiteral("Track Compositing: %1\n").arg(TransitionsRepository::get()->getCompositingTransition()));
     QClipboard *clipboard = QApplication::clipboard();

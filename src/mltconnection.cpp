@@ -260,6 +260,10 @@ std::unique_ptr<Mlt::Repository> &MltConnection::getMltRepository()
 void MltConnection::refreshLumas()
 {
     // Check for Kdenlive installed luma files, add empty string at start for no luma
+    if (qEnvironmentVariableIsSet("MLT_TESTS")) {
+        // No need for luma list / thumbs in tests
+        return;
+    }
     QStringList fileFilters;
     MainWindow::m_lumaFiles.clear();
     fileFilters << QStringLiteral("*.png") << QStringLiteral("*.pgm");

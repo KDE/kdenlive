@@ -154,8 +154,23 @@ void EffectStackView::dragMoveEvent(QDragMoveEvent *event)
 #else
         if (w && w->geometry().contains(event->position().toPoint())) {
 #endif
+            if (event->source() == this) {
+                QString sourceData = event->mimeData()->data(QStringLiteral("kdenlive/effectsource"));
+                int oldRow = sourceData.section(QLatin1Char(','), 2, 2).toInt();
+                if (i == oldRow + 1) {
+                    dragRow = -1;
+                    break;
+                }
+            }
             dragRow = i;
             break;
+        }
+    }
+    if (dragRow == m_model->rowCount() && event->source() == this) {
+        QString sourceData = event->mimeData()->data(QStringLiteral("kdenlive/effectsource"));
+        int oldRow = sourceData.section(QLatin1Char(','), 2, 2).toInt();
+        if (dragRow == oldRow + 1) {
+            dragRow = -1;
         }
     }
     repaint();
@@ -175,7 +190,7 @@ void EffectStackView::dropEvent(QDropEvent *event)
         if (dragRow == oldRow || (dragRow == m_model->rowCount() && oldRow == dragRow - 1)) {
             return;
         }
-        m_model->moveEffect(dragRow, m_model->getEffectStackRow(oldRow));
+        QMetaObject::invokeMethod(m_model.get(), "moveEffectByRow", Qt::QueuedConnection, Q_ARG(int, dragRow), Q_ARG(int, oldRow));
     } else {
         bool added = false;
         if (dragRow < m_model->rowCount()) {

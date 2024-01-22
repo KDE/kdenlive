@@ -274,6 +274,10 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
         }
     }
     activateDocument(m_project->activeUuid);
+    std::shared_ptr<ProjectClip> mainClip = pCore->projectItemModel()->getSequenceClip(m_project->uuid());
+    if (mainClip) {
+        mainClip->reloadTimeline(m_activeTimelineModel->getMasterEffectStackModel());
+    }
     Q_EMIT docOpened(m_project);
     Q_EMIT pCore->gotMissingClipsCount(0, 0);
     m_project->loading = false;
@@ -354,7 +358,7 @@ void ProjectManager::testSetActiveDocument(KdenliveDoc *doc, std::shared_ptr<Tim
     QMapIterator<QUuid, QString> i(allSequences);
     while (i.hasNext()) {
         i.next();
-        if (m_project->getTimeline(i.key()) == nullptr) {
+        if (m_project->getTimeline(i.key(), true) == nullptr) {
             const QUuid uid = i.key();
             std::shared_ptr<Mlt::Tractor> tc = pCore->projectItemModel()->getExtraTimeline(uid.toString());
             if (tc) {
@@ -375,7 +379,7 @@ void ProjectManager::testSetActiveDocument(KdenliveDoc *doc, std::shared_ptr<Tim
                     }
                     m_project->loadSequenceGroupsAndGuides(uid);
                     clip->setProducer(prod, false, false);
-                    clip->reloadTimeline();
+                    clip->reloadTimeline(timelineModel->getMasterEffectStackModel());
                 }
             }
         }
@@ -398,6 +402,10 @@ bool ProjectManager::testSaveFileAs(const QString &outputFileName)
     // QString scene = m_activeTimelineModel->sceneList(saveFolder);
     int duration = m_activeTimelineModel->duration();
     QString scene = pCore->projectItemModel()->sceneList(saveFolder, QString(), QString(), m_activeTimelineModel->tractor(), duration);
+    if (scene.isEmpty()) {
+        qDebug() << "//////  ERROR writing EMPTY scene list to file: " << outputFileName;
+        return false;
+    }
     QSaveFile file(outputFileName);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         qDebug() << "//////  ERROR writing to file: " << outputFileName;
@@ -409,6 +417,7 @@ bool ProjectManager::testSaveFileAs(const QString &outputFileName)
         qDebug() << "Cannot write to file %1";
         return false;
     }
+    qDebug() << "------------\nSAVED FILE AS: " << outputFileName << "\n==============";
     return true;
 }
 
@@ -507,6 +516,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveOverExis
     prepareSave();
     QString saveFolder = QFileInfo(outputFileName).absolutePath();
     m_project->updateWorkFilesBeforeSave(outputFileName);
+    checkProjectIntegrity();
     QString scene = projectSceneList(saveFolder);
     if (!m_replacementPattern.isEmpty()) {
         QMapIterator<QString, QString> i(m_replacementPattern);
@@ -898,7 +908,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     QList<QUuid> uuids = sequences.keys();
     // Load all sequence models into memory
     for (auto &uid : uuids) {
-        if (pCore->currentDoc()->getTimeline(uid) == nullptr) {
+        if (pCore->currentDoc()->getTimeline(uid, true) == nullptr) {
             std::shared_ptr<Mlt::Tractor> tc = pCore->projectItemModel()->getExtraTimeline(uid.toString());
             if (tc) {
                 std::shared_ptr<TimelineItemModel> timelineModel = TimelineItemModel::construct(uid, m_project->commandStack());
@@ -918,7 +928,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
                     }
                     m_project->loadSequenceGroupsAndGuides(uid);
                     clip->setProducer(prod, false, false);
-                    clip->reloadTimeline();
+                    clip->reloadTimeline(timelineModel->getMasterEffectStackModel());
                 } else {
                     qWarning() << "XXXXXXXXX\nLOADING TIMELINE " << uid.toString() << " FAILED\n";
                     m_project->closeTimeline(uid, true);
@@ -965,6 +975,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
         const QUuid uuid = m_project->activeUuid;
         pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_activeTimelineModel->duration() - 1, m_project->getFilteredGuideModel(uuid));
     }
+    checkProjectWarnings();
     pCore->projectItemModel()->missingClipTimer.start();
     Q_EMIT pCore->loadingMessageHide();
 }
@@ -1384,10 +1395,14 @@ bool ProjectManager::updateTimeline(bool createNewTab, const QString &chunks, co
     Mlt::Tractor tractor(s);
     if (xmlProd->property_exists("kdenlive:projectTractor")) {
         // This is the new multi-timeline document format
+        // Get active sequence uuid
+        std::shared_ptr<Mlt::Producer> tk(tractor.track(0));
+        const QUuid activeUuid(tk->parent().get("kdenlive:uuid"));
+        Q_ASSERT(!activeUuid.isNull());
         m_project->cleanupTimelinePreview(documentDate);
         pCore->projectItemModel()->buildPlaylist(uuid);
         // Load bin playlist
-        return loadProjectBin(tractor);
+        return loadProjectBin(tractor, activeUuid);
     }
     if (tractor.count() == 0) {
         // Wow we have a project file with empty tractor, probably corrupted, propose to open a recovery file
@@ -1775,7 +1790,7 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
         return false;
     }
     if (!duplicate && existingModel == nullptr) {
-        existingModel = m_project->getTimeline(uuid);
+        existingModel = m_project->getTimeline(uuid, true);
     }
 
     // Disable autosave while creating timelines
@@ -1844,7 +1859,7 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
         m_project->loadSequenceGroupsAndGuides(uuid);
         clip->setProducer(prod, false, false);
         if (!duplicate) {
-            clip->reloadTimeline();
+            clip->reloadTimeline(timelineModel->getMasterEffectStackModel());
         }
     } else {
         qDebug() << "GOT XML SERV: " << xmlProd->type() << " = " << xmlProd->parent().type();
@@ -2113,4 +2128,11 @@ void ProjectManager::replaceTimelineInstances(const QString &sourceId, const QSt
     int maxDuration = replacementItem->frameDuration();
     QList<int> instances = currentItem->timelineInstances();
     m_activeTimelineModel->processTimelineReplacement(instances, sourceId, replacementId, maxDuration, replaceAudio, replaceVideo);
+}
+
+void ProjectManager::checkProjectIntegrity()
+{
+    // Ensure the active timeline sequence is correctly inserted in the main_bin playlist
+    const QString activeSequenceId(m_activeTimelineModel->tractor()->get("id"));
+    pCore->projectItemModel()->checkSequenceIntegrity(activeSequenceId);
 }

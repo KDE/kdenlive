@@ -916,7 +916,7 @@ Rectangle {
             Item {
                 // Clipping container for clip names
                 anchors.fill: parent
-                anchors.leftMargin: mixContainer.width > 0 ? mixContainer.width + mixBackground.border.width : 0
+                anchors.leftMargin: mixContainer.width > 0 ? (scrollStart > 0 ? Math.max(0, mixContainer.width + mixBackground.border.width - scrollStart) : mixContainer.width + mixBackground.border.width) : 0
                 id: nameContainer
                 clip: true
                 Rectangle {
@@ -1170,13 +1170,6 @@ Rectangle {
                 }
                 Binding {
                     target: effectRow.item
-                    property: "scrollStart"
-                    value: clipRoot.scrollStart
-                    when: effectRow.status == Loader.Ready && effectRow.item
-                    restoreMode: Binding.RestoreBindingOrValue
-                }
-                Binding {
-                    target: effectRow.item
                     property: "clipId"
                     value: clipRoot.clipId
                     when: effectRow.status == Loader.Ready && effectRow.item
@@ -1311,6 +1304,8 @@ Rectangle {
             visible: container.handleVisible && mouseArea.containsMouse && !dragProxyArea.pressed
             property int startFadeOut
             property int lastDuration: -1
+            property int startMousePos
+            property bool dragStarted: false
             property string fadeString: timeline.simplifiedTC(clipRoot.fadeOut)
             drag.smoothed: false
             onClicked: {
@@ -1321,6 +1316,8 @@ Rectangle {
             onPressed: {
                 root.autoScrolling = false
                 startFadeOut = clipRoot.fadeOut
+                dragStarted = startFadeOut > 0
+                startMousePos = mouse.x
                 anchors.right = undefined
                 fadeOutCanvas.opacity = 0.6
             }
@@ -1335,6 +1332,10 @@ Rectangle {
             }
             onPositionChanged: mouse => {
                 if (mouse.buttons === Qt.LeftButton) {
+                    if (!dragStarted && startMousePos - mouse.x < 3) {
+                        return
+                    }
+                    dragStarted = true
                     var delta = clipRoot.clipDuration - Math.floor((x + width / 2 - itemBorder.border.width)/ clipRoot.timeScale)
                     var duration = Math.max(0, delta)
                     duration = Math.min(duration, clipRoot.clipDuration)
@@ -1411,6 +1412,8 @@ Rectangle {
             drag.axis: Drag.XAxis
             drag.smoothed: false
             property int startFadeIn
+            property int startMousePos
+            property bool dragStarted: false
             property string fadeString: timeline.simplifiedTC(clipRoot.fadeIn)
             visible: container.handleVisible && mouseArea.containsMouse && !dragProxyArea.pressed
             onClicked: {
@@ -1418,9 +1421,11 @@ Rectangle {
                     timeline.adjustFade(clipRoot.clipId, 'fadein', 0, -2)
                 }
             }
-            onPressed: {
+            onPressed: mouse => {
                 root.autoScrolling = false
                 startFadeIn = clipRoot.fadeIn
+                dragStarted = startFadeIn > 0
+                startMousePos = mouse.x
                 anchors.left = undefined
                 fadeInTriangle.opacity = 0.6
                 // parentTrack.clipSelected(clipRoot, parentTrack) TODO
@@ -1435,6 +1440,10 @@ Rectangle {
             }
             onPositionChanged: mouse => {
                 if (mouse.buttons === Qt.LeftButton) {
+                    if (!dragStarted && mouse.x - startMousePos < 3) {
+                        return
+                    }
+                    dragStarted = true
                     var delta = Math.round((x + width / 2) / clipRoot.timeScale)
                     var duration = Math.max(0, delta)
                     duration = Math.min(duration, clipRoot.clipDuration - 1)

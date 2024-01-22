@@ -97,6 +97,11 @@ int main(int argc, char *argv[])
 #endif
 #endif
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    // blacklist MLT Qt5 module to prevent crashes
+    qputenv("MLT_REPOSITORY_DENY", "libmltqt:libmltglaxnimate");
+#endif
+
 #if defined(Q_OS_WIN)
     QGuiApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::RoundPreferFloor);
 #endif
@@ -287,7 +292,6 @@ int main(int argc, char *argv[])
         for (const auto &job : renderjobs) {
             const QStringList argsJob = RenderRequest::argsByJob(job);
             qDebug() << "* CREATED JOB WITH ARGS: " << argsJob;
-
             qDebug() << "starting kdenlive_render process using: " << KdenliveSettings::kdenliverendererpath();
             if (!parser.isSet(exitOption)) {
                 if (QProcess::execute(KdenliveSettings::kdenliverendererpath(), argsJob) != EXIT_SUCCESS) {

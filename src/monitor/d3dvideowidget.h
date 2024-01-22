@@ -18,9 +18,9 @@ public:
     virtual ~D3DVideoWidget();
 
 public Q_SLOTS:
-    virtual void initialize();
-    virtual void beforeRendering();
-    virtual void renderVideo();
+    virtual void initialize() override;
+    virtual void beforeRendering() override;
+    virtual void renderVideo() override;
 
 private:
     enum Stage { VertexStage, FragmentStage };

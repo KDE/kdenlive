@@ -2449,7 +2449,7 @@ bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
         const QUuid uuid = i.key();
         QList<int> instances = i.value();
         if (!instances.isEmpty()) {
-            auto timeline = pCore->currentDoc()->getTimeline(uuid);
+            auto timeline = pCore->currentDoc()->getTimeline(uuid, pCore->projectItemModel()->closing);
             if (!timeline) {
                 if (pCore->projectItemModel()->closing) {
                     break;
@@ -2533,7 +2533,7 @@ void ProjectClip::copyTimeWarpProducers(const QDir sequenceFolder, bool copy)
     }
 }
 
-void ProjectClip::reloadTimeline()
+void ProjectClip::reloadTimeline(std::shared_ptr<EffectStackModel> stack)
 {
     if (pCore->bin()) {
         pCore->bin()->reloadMonitorIfActive(m_binId);
@@ -2564,6 +2564,9 @@ void ProjectClip::reloadTimeline()
     Q_EMIT refreshPropertiesPanel();
     replaceInTimeline();
     updateTimelineClips({TimelineModel::IsProxyRole});
+    if (stack) {
+        m_effectStack = stack;
+    }
 }
 
 Fun ProjectClip::getAudio_lambda()

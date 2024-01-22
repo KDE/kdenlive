@@ -785,13 +785,10 @@ QStringList ProjectSettings::extractSlideshowUrls(const QString &url)
 
 void ProjectSettings::slotExportToText()
 {
-    QFileDialog fd(this);
-    fd.setMimeTypeFilters(QStringList() << "text/plain");
-    if (fd.exec() != QDialog::Accepted) {
+    const QString savePath = QFileDialog::getSaveFileName(this, i18n("Save As"), QString(), i18n("Text File (*.txt)"));
+    if (savePath.isEmpty()) {
         return;
     }
-
-    const QString savePath = fd.selectedFiles().constFirst();
 
     QString text;
     text.append(i18n("Project folder: %1", project_folder->url().toLocalFile()) + '\n');

@@ -43,6 +43,10 @@ Item {
     property double timeScale: 1
     property var tracks: []
 
+    function updateClickCapture() {
+        root.captureRightClick = false
+    }
+
     signal activateTrack(int position)
 
     onDurationChanged: {

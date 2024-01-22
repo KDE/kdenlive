@@ -237,7 +237,7 @@
 >podem</emphasis
 > reproduir utilitzant <varname
 >melt projecte.kdenlive</varname
->, però aquesta no és la manera en la qual voldreu presentar el vostre últim vídeo, ja que (probablement) sigui massa lent. Més a més, això només funciona si «melt» està instal·lat.</para
+>, però aquesta no és la manera en la qual voldreu presentar el vostre últim vídeo, ja que (probablement) sigui massa lent. A més, això només funciona si el «melt» està instal·lat.</para
 ></footnote
 > El procés de crear el vídeo final s'anomena <emphasis
 >Renderitzat</emphasis
@@ -298,7 +298,7 @@
 </screenshot>
 </para>
 <para
->El resultat ja es pot pre-visualitzar prement <keycap
+>El resultat ja es pot previsualitzar prement <keycap
 >Espai</keycap
 > (o el botó <guilabel
 >Reprodueix</guilabel
@@ -331,11 +331,11 @@
 <para
 >Ja que després de dinar es pot jugar, hi ha un clip de Billiards. Afegiu-lo també a la línia de temps. Els primers 1,5 segons no succeeix res al clip, de manera que potser s'haurà de <guilabel
 >retallar</guilabel
-> per evitar que es converteixi en un vídeo avorrit. Una manera fàcil<footnote
+> per a evitar que es converteixi en un vídeo avorrit. Una manera fàcil<footnote
 ><para
 >Escriure-ho d'aquesta manera suggereix que hi ha diverses formes de retallar un clip. Això és de fet veritat.</para
 ></footnote
-> per fer-ho moveu el cursor de la línia de temps a la posició desitjada (&ead;, la posició on voleu retallar el vídeo), a continuació, arrossegueu la vora esquerra del clip fins que aparegui el marcador de canvi de mida. El cursor de la línia de temps serà atret quan esteu prou a prop. </para>
+> per a fer-ho moveu el cursor de la línia de temps a la posició desitjada (&ead;, la posició on voleu retallar el vídeo), a continuació, arrossegueu la vora esquerra del clip fins que aparegui el marcador de canvi de mida. El cursor de la línia de temps serà atret quan esteu prou a prop. </para>
 <para>
 <screenshot>
 <screeninfo
@@ -356,9 +356,9 @@
 </screenshot>
 </para>
 <para
->Per afegir una <emphasis
+>Per a afegir una <emphasis
 >transició</emphasis
-> entre el menjar (la cullera) i el joc de billar («billiards»), els dos clips han de superposar-se. Per ser més precisos: el segon clip ha d'estar per sobre o per sota del primer i al final algunes imatges després de començar la segona part. Aquí pot ser convenient apropar fins que apareguin les marques per als marcs individuals. Fer-ho també simplifica tenir sempre la durada de la transició, cinc imatges en aquest cas. </para>
+> entre el menjar (la cullera) i el joc de billar («billiards»), els dos clips han de superposar-se. Per a ser més precisos: el segon clip ha d'estar per sobre o per sota del primer i al final algunes imatges després de començar la segona part. Aquí pot ser convenient apropar fins que apareguin les marques per als marcs individuals. Fer-ho també simplifica tenir sempre la durada de la transició, cinc imatges en aquest cas. </para>
 <para
 >Podeu apropar, ja sigui utilitzant el <guilabel
 >control lliscant de zoom</guilabel
@@ -389,9 +389,7 @@
 <para
 >Ara que s'ha realitzat la superposició dels clips, es pot afegir la transició. Això es fa fent clic dret sobre el clip superior i escollint <guilabel
 >Afegeix una transició</guilabel
-> o, més fàcil, fent clic al passant el ratolí per sobre de la cantonada inferior dreta del clip Spoon fins que aparegui el dit del punter i aparegui el missatge <quote
->Feu clic per afegir una transició</quote
->. La segona, per omissió, afegeix una transició de dissolució, la qual en aquest cas seria la millor idea, ja que la cullera no és necessària per a la reproducció. </para>
+> o, més fàcil, fent clic al passant el ratolí per sobre de la cantonada inferior dreta del clip Spoon fins que aparegui el dit del punter i aparegui el missatge «Feu clic per a afegir una transició». La segona, per omissió, afegeix una transició de dissolució, la qual en aquest cas seria la millor idea, ja que la cullera no és necessària per a la reproducció. </para>
 <para
 >Les transicions dissolen el primer clip a dins del segon. Vegeu també la secció <ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Transitions"
 >Transició</ulink
@@ -412,7 +410,7 @@
 </screenshot>
 </para>
 <para
->Ara afegirem l'últim clip, el «Piano», i una altra vegada apliqueu una transició de dissolució. Quan s'afegeix a la primera pista de la línia de temps, heu de fer clic a la zona inferior esquerra del nou clip per afegir la transició al clip anterior. </para>
+>Ara afegirem l'últim clip, el «Piano», i una altra vegada apliqueu una transició de dissolució. Quan s'afegeix a la primera pista de la línia de temps, heu de fer clic a la zona inferior esquerra del nou clip per a afegir la transició al clip anterior. </para>
 <sect2 id="effects"
 ><title
 >Efectes</title
@@ -489,7 +487,7 @@
 </screenshot>
 </para>
 <para
->Per aconseguir un ambient càlid amb to groc-taronja a la imatge, adequat per a una nit còmoda, el blau necessita ser reduït, mentre que el vermell i el verd s'han d'enfortir. </para>
+>Per a aconseguir un ambient càlid amb to groc-taronja a la imatge, adequat per a una nit còmoda, el blau necessita ser reduït, mentre que el vermell i el verd s'han d'enfortir. </para>
 <para
 >Els valors al giny Propietats es poden canviar mitjançant el control lliscant (el &BMR; restableix al valor per omissió), o introduint un valor directament fent doble clic al número a la dreta de la barra lliscant. </para>
 <para
@@ -520,7 +518,7 @@
 >fotograma clau</guilabel
 > (la icona del cronòmetre emmarcat a la imatge anterior), el giny Propietats es tornarà a organitzar. Per omissió, hi haurà dos fotogrames clau, un al començament del clip i un altre al final a la línia de temps. Desplaceu el cursor de la línia de temps cap al final del clip, de manera que el monitor del projecte en realitat mostrarà els nous colors en canviar els paràmetres del fotograma clau al final. </para>
 <para
->Assegureu-vos que l'últim fotograma clau se selecciona en la llista Propietats. Llavors estareu llest per inundar el piano amb un blau profund. </para>
+>Assegureu-vos que l'últim fotograma clau se selecciona en la llista Propietats. Llavors estareu llest per a inundar el piano amb un blau profund. </para>
 <para
 >En moure el cursor de la línia de temps al començament del projecte i reproduir-lo (amb la tecla <keycap
 >Espai</keycap
@@ -530,7 +528,7 @@
 >Monitor del projecte</guilabel
 >), el piano haurà de canviar cap al color que desitjat. </para>
 <para
->Els fotogrames clau són la part més difícil d'aquesta guia d'aprenentatge. Si els gestioneu per fer-ho, dominareu el &kdenlive; amb facilitat! </para>
+>Els fotogrames clau són la part més difícil d'aquesta guia d'aprenentatge. Si els gestioneu per a fer-ho, dominareu el &kdenlive; amb facilitat! </para>
 <para
 >Vegeu també la <ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Effects"
 >secció Efectes</ulink
@@ -564,9 +562,9 @@
 >Jamendo</ulink
 >. Quan afegiu un clip d'àudio al projecte, s'arrossegarà una pista d'àudio en la línia de temps. </para>
 <para
->El clip d'àudio es pot canviar de mida a la línia de temps de la mateixa manera que els clips de vídeo. El cursor s'ajusta al final del projecte de forma automàtica. Per afegir un efecte d'esvaïment al final del clip d'àudio (excepte si trobeu un fitxer amb exactament la longitud correcta) podeu anar a la vora superior dreta (o esquerra) del clip a la línia de temps i arrossegueu el triangle amb ombra vermella a la posició on ha de començar l'esvaïment.<footnote
+>El clip d'àudio es pot canviar de mida a la línia de temps de la mateixa manera que els clips de vídeo. El cursor s'ajusta al final del projecte de forma automàtica. Per a afegir un efecte d'esvaïment al final del clip d'àudio (excepte si trobeu un fitxer amb exactament la longitud correcta) podeu anar a la vora superior dreta (o esquerra) del clip a la línia de temps i arrossegueu el triangle amb ombra vermella a la posició on ha de començar l'esvaïment.<footnote
 ><para
->Aquest triangle amb ombra és una forma ràpida per afegir un efecte <menuchoice
+>Aquest triangle amb ombra és una forma ràpida per a afegir un efecte <menuchoice
 ><guimenu
 >Esvaeix</guimenu
 ><guimenuitem
@@ -609,7 +607,7 @@
 ></menuchoice
 >, o premeu <keycombo
 >&Ctrl;&Intro;</keycombo
->) per obtenir el diàleg que es mostra a l'esquerra. Seleccioneu el fitxer de sortida desitjat per al nostre nou vídeo amb tots els efectes i transicions, escolliu MP4 (funciona gairebé arreu), seleccioneu la ubicació del fitxer de sortida i premeu el botó <guilabel
+>) per a obtenir el diàleg que es mostra a l'esquerra. Seleccioneu el fitxer de sortida desitjat per al nostre nou vídeo amb tots els efectes i transicions, escolliu MP4 (funciona gairebé arreu), seleccioneu la ubicació del fitxer de sortida i premeu el botó <guilabel
 >Renderitza a un fitxer</guilabel
 >. </para>
 <para>

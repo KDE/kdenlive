@@ -232,11 +232,15 @@ Rectangle {
         //propagateComposedEvents: true
         hoverEnabled: true
         onPressed: mouse => {
+            root.captureRightClick = true
             if (mouse.buttons === Qt.LeftButton) {
                 var pos = Math.max(mouseX, 0)
                 controller.position = Math.min((pos + ruler.rulerZoomOffset) / root.timeScale, root.duration);
                 mouse.accepted = true
             }
+        }
+        onReleased: mouse => {
+            root.updateClickCapture()
         }
         onPositionChanged: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
@@ -314,14 +318,16 @@ Rectangle {
         }
         onPressed: {
             // break binding
+            root.captureRightClick = true
             x = x
             controller.startZoneMove()
         }
         onReleased: {
+            root.updateClickCapture()
             x = Qt.binding(function() { return zone.x - root.baseUnit * .4 })
             controller.endZoneMove()
         }
-        onPositionChanged: {
+        onPositionChanged: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
                 controller.zoneIn = Math.max(0, Math.round((x + (root.baseUnit * .4) + ruler.rulerZoomOffset) / root.timeScale))
                 if (mouse.modifiers & Qt.ShiftModifier) {
@@ -361,14 +367,16 @@ Rectangle {
         }
         onPressed: {
             // Break binding
+            root.captureRightClick = true
             x = x
             controller.startZoneMove()
         }
         onReleased: {
+            root.updateClickCapture()
             x = Qt.binding(function() { return zone.x + zone.width - (root.baseUnit * .4) })
             controller.endZoneMove()
         }
-        onPositionChanged: {
+        onPositionChanged: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
                 controller.zoneOut = Math.round((x + (root.baseUnit * .4) + ruler.rulerZoomOffset) / root.timeScale)
                 if (mouse.modifiers & Qt.ShiftModifier) {

@@ -371,32 +371,6 @@
       ]
     },
     {
-      "name": "mfx-dispatch",
-      "skip-arches": [
-        "aarch64"
-      ],
-      "buildsystem": "simple",
-      "build-commands": [
-        "autoreconf -fiv",
-        "./configure --prefix=/app",
-        "make",
-        "make install"
-      ],
-      "sources": [
-        {
-          "type": "archive",
-          "url": "https://github.com/lu-zero/mfx_dispatch/archive/refs/tags/1.35.1.tar.gz",
-          "sha256": "673636da98a4fd5c3e3dc5267da5429e986f53089ed6c33cdca5751f56d9416b",
-          "x-checker-data": {
-              "type": "anitya",
-              "project-id": 11573,
-              "stable-only": true,
-              "url-template": "https://github.com/lu-zero/mfx_dispatch/archive/refs/tags/$version.tar.gz"
-          }
-        }
-      ]
-    },
-    {
       "name": "opencl-headers",
       "buildsystem": "simple",
       "build-commands": [
@@ -526,7 +500,7 @@
       ] 
     },
     {
-      "name": "mediasdk",
+      "name": "intel-onevpl-runtime",
       "buildsystem": "cmake-ninja",
       "builddir": true,
       "config-opts": [
@@ -540,16 +514,37 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/Intel-Media-SDK/MediaSDK/archive/intel-mediasdk-23.1.1.tar.gz",
-          "sha256": "481dd08e16ea072be9611b8eb2994921e7fd285fd99219a7f0c93b56a9e5f2eb",
+          "url": "https://github.com/oneapi-src/oneVPL-intel-gpu/archive/intel-onevpl-23.3.4.tar.gz",
+          "sha256": "9de6bfd17259b7434f2bb4fb6d2874decf9b1d4587ec9b90d91188049921e32f",
           "x-checker-data": {
             "type": "anitya",
-            "project-id": 21814,
+            "project-id": 368736,
             "stable-only": true,
-            "url-template": "https://github.com/Intel-Media-SDK/MediaSDK/archive/intel-mediasdk-$version.tar.gz"
+            "url-template": "https://github.com/oneapi-src/oneVPL-intel-gpu/archive/intel-onevpl-$version.tar.gz"
           }
         }
       ]
+    },
+    {
+        "name": "oneapi-libvpl",
+        "skip-arches": [
+            "aarch64"
+        ],
+        "buildsystem": "cmake-ninja",
+        "builddir": true,
+        "config-opts": [
+            "-DCMAKE_BUILD_TYPE=Release",
+            "-DBUILD_SAMPLES=OFF",
+            "-DBUILD_TESTS=OFF",
+            "-DBUILD_TOOLS=OFF"
+        ],
+        "sources": [
+            {
+                "type": "archive",
+                "url": "https://github.com/oneapi-src/oneVPL/archive/refs/tags/v2023.3.1.zip",
+                "sha256": "43a6dbb62542d5f993b1ba6d7ceaef77932246b758aa19bfe152f6883b94c2e8"
+            }
+        ]
     },
     {
       "name": "ffmpeg",
@@ -575,7 +570,7 @@
         "--enable-libmp3lame",
         "--enable-libzimg",
         "--enable-vaapi",
-        "--enable-libmfx",
+        "--enable-libvpl",
         "--enable-amf",
         "--enable-opencl",
         "--enable-libass",
@@ -591,8 +586,8 @@
         "--enable-cuvid"
       ],
       "build-options": {
-        "append-path": "/usr/lib/sdk/llvm15/bin",
-        "prepend-ld-library-path": "/usr/lib/sdk/llvm15/lib"
+        "append-path": "/usr/lib/sdk/llvm17/bin",
+        "prepend-ld-library-path": "/usr/lib/sdk/llvm17/lib"
       },
       "cleanup": [
         "/share/ffmpeg/examples"
@@ -741,7 +736,10 @@
       "config-opts": [
         "-DMOD_OPENCV=ON",
         "-DMOD_MOVIT=ON",
-        "-DMOD_GLAXNIMATE=ON",
+        "-DMOD_GLAXNIMATE=OFF",
+        "-DMOD_QT=OFF",
+        "-DMOD_QT6=ON",
+        "-DMOD_GLAXNIMATE_QT6=ON",
         "-DCMAKE_BUILD_TYPE=RelWithDebInfo"
       ],
       "sources": [

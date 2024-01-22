@@ -24,7 +24,7 @@ public:
     void removeItem(const QModelIndex &ix);
     void slotSearchRecursively(const QString &newpath);
     void usePlaceholdersForMissing();
-    void setItemsNewFilePath(const QModelIndex &ix, const QString &url, DocumentChecker::MissingStatus status);
+    void setItemsNewFilePath(const QModelIndex &ix, const QString &url, DocumentChecker::MissingStatus status, bool refresh = true);
     void setItemsFileHash(const QModelIndex &index, const QString &hash);
 
     QVariant data(const QModelIndex &index, int role) const override;
