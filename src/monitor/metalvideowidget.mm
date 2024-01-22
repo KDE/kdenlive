@@ -148,7 +148,7 @@ public:
 
         MTLViewport vp;
         vp.originX = 0;
-        vp.originY = displayRulerHeight;
+        vp.originY = -displayRulerHeight;
         vp.width = width;
         vp.height = height;
         vp.znear = 0;
