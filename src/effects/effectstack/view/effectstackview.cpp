@@ -175,7 +175,7 @@ void EffectStackView::dropEvent(QDropEvent *event)
         if (dragRow == oldRow || (dragRow == m_model->rowCount() && oldRow == dragRow - 1)) {
             return;
         }
-        m_model->moveEffect(dragRow, m_model->getEffectStackRow(oldRow));
+        QMetaObject::invokeMethod(m_model.get(), "moveEffectByRow", Qt::QueuedConnection, Q_ARG(int, dragRow), Q_ARG(int, oldRow));
     } else {
         bool added = false;
         if (dragRow < m_model->rowCount()) {
