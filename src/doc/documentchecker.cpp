@@ -578,9 +578,9 @@ void DocumentChecker::checkMissingImagesAndFonts(const QStringList &images, cons
 QString DocumentChecker::getMissingProducers(QDomElement &e, const QDomNodeList &entries, const QString &storageFolder)
 {
     QString service = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
-    QStringList serviceToCheck = {QStringLiteral("kdenlivetitle"), QStringLiteral("qimage"),      QStringLiteral("pixbuf"),
-                                  QStringLiteral("timewarp"),      QStringLiteral("framebuffer"), QStringLiteral("xml"),
-                                  QStringLiteral("qtext"),         QStringLiteral("tractor"),     QStringLiteral("glaxnimate")};
+    QStringList serviceToCheck = {QStringLiteral("kdenlivetitle"), QStringLiteral("qimage"),  QStringLiteral("pixbuf"), QStringLiteral("timewarp"),
+                                  QStringLiteral("framebuffer"),   QStringLiteral("xml"),     QStringLiteral("qtext"),  QStringLiteral("tractor"),
+                                  QStringLiteral("glaxnimate"),    QStringLiteral("consumer")};
     if (!service.startsWith(QLatin1String("avformat")) && !serviceToCheck.contains(service)) {
         return QString();
     }
