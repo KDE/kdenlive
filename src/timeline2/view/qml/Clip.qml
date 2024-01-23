@@ -27,7 +27,6 @@ Rectangle {
     property int modelStart
     property int mixDuration: 0
     property int mixCut: 0
-    property real scrollX: 0
     property int inPoint: 0
     property int outPoint: 0
     property int clipDuration: 0
@@ -72,9 +71,10 @@ Rectangle {
     property string clipThumbId
     property bool forceReloadAudioThumb
     property bool isComposition: false
-    property bool hideClipViews: scrollStart > (clipDuration * timeline.scaleFactor) || scrollStart + scrollView.width < 0 || clipRoot.width < root.minClipWidthForViews
     property int slipOffset: boundValue(outPoint - maxDuration + 1, trimmingOffset, inPoint)
-    property int scrollStart: scrollView.contentX - (clipRoot.modelStart * timeline.scaleFactor)
+    property int scrollStart: scrollView.contentX - (clipRoot.modelStart * root.timeScale)
+    visible: scrollView.width + clipRoot.scrollStart >= 0 && clipRoot.scrollStart < clipRoot.width
+    property bool hideClipViews: !visible || clipRoot.width < root.minClipWidthForViews
     property int mouseXPos: mouseArea.mouseX
     width : Math.round(clipDuration * timeScale)
     opacity: dragProxyArea.drag.active && dragProxy.draggedItem == clipId ? 0.8 : 1.0
@@ -86,7 +86,20 @@ Rectangle {
     signal trimmingOut(var clip, real newDuration, bool shiftTrim, bool controlTrim)
     signal trimmedOut(var clip, bool shiftTrim, bool controlTrim)
 
+    onVisibleChanged: {
+        if (clipRoot.visible) {
+            updateLabelOffset()
+        }
+    }
+
     onScrollStartChanged: {
+        if (!clipRoot.visible) {
+            return
+        }
+        updateLabelOffset()
+        if (isAudio && thumbsLoader.item) {
+            thumbsLoader.item.reload(1)
+        }
         if (!clipRoot.hideClipViews && clipRoot.width > scrollView.width) {
             if (effectRow.item && effectRow.item.kfrCanvas) {
                 effectRow.item.kfrCanvas.requestPaint()
@@ -139,12 +152,6 @@ Rectangle {
         }
     }
 
-    /*onKeyframeModelChanged: {
-        if (effectRow.item && effectRow.item.kfrCanvas) {
-            effectRow.item.kfrCanvas.requestPaint()
-        }
-    }*/
-
     onClipDurationChanged: {
         width = clipDuration * timeScale
         if (parentTrack && parentTrack.isAudio && thumbsLoader.item) {
@@ -194,23 +201,18 @@ Rectangle {
         x = modelStart * clipRoot.timeScale;
         xIntegerOffset = Math.ceil(x) - x
         width = clipDuration * clipRoot.timeScale;
-        updateLabelOffset()
-        if (!clipRoot.hideClipViews) {
-            if (effectRow.item && effectRow.item.kfrCanvas) {
-                effectRow.item.kfrCanvas.requestPaint()
+        if (clipRoot.visible) {
+            if (!clipRoot.hideClipViews) {
+                if (effectRow.item && effectRow.item.kfrCanvas) {
+                    effectRow.item.kfrCanvas.requestPaint()
+                }
             }
-        }
-    }
-    onScrollXChanged: {
-        updateLabelOffset()
-        if (isAudio && thumbsLoader.item) {
-            thumbsLoader.item.reload(1)
         }
     }
     
     function updateLabelOffset()
     {
-        labelRect.anchors.leftMargin = scrollX > modelStart * clipRoot.timeScale ? scrollX - modelStart * clipRoot.timeScale + (clipRoot.timeremap ? labelRect.height : 0) : clipRoot.timeremap ? labelRect.height : 0
+        nameContainer.anchors.leftMargin = clipRoot.scrollStart > 0 ? (mixContainer.width + labelRect.width > clipRoot.width ? mixContainer.width : Math.max(clipRoot.scrollStart, mixContainer.width + mixBackground.border.width)) : mixContainer.width + mixBackground.border.width
     }
 
     /*border.color: (clipStatus === ClipStatus.StatusMissing || ClipStatus === ClipStatus.StatusWaiting || clipStatus === ClipStatus.StatusDeleting) ? "#ff0000" : selected ? root.selectionColor : grouped ? root.groupColor : borderColor
@@ -420,7 +422,12 @@ Rectangle {
                 anchors.left: parent.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                width: clipRoot.mixDuration * clipRoot.timeScale
+                width: clipRoot.mixDuration * root.timeScale
+                onWidthChanged: {
+                    if (clipRoot.visible) {
+                        updateLabelOffset()
+                    }
+                }
                 
                 Rectangle {
                     id: mixBackground
@@ -915,9 +922,9 @@ Rectangle {
 
             Item {
                 // Clipping container for clip names
-                anchors.fill: parent
-                anchors.leftMargin: mixContainer.width > 0 ? (scrollStart > 0 ? Math.max(0, mixContainer.width + mixBackground.border.width - scrollStart) : mixContainer.width + mixBackground.border.width) : 0
                 id: nameContainer
+                anchors.fill: parent
+                anchors.leftMargin: clipRoot.scrollStart > 0 ? (mixContainer.width + labelRect.width > clipRoot.width ? mixContainer.width : Math.max(clipRoot.scrollStart, mixContainer.width + mixBackground.border.width)) : mixContainer.width + mixBackground.border.width
                 clip: true
                 Rectangle {
                     // Debug: Clip Id background
@@ -1012,7 +1019,6 @@ Rectangle {
                     color: '#555555'
                     width: effectLabel.width + effectsToggle.width + 4
                     height: effectLabel.height
-                    x: labelRect.x
                     anchors.top: labelRect.bottom
                     anchors.left: labelRect.left
                     visible: labelRect.visible && clipRoot.effectNames != '' && container.showDetails
