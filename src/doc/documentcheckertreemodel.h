@@ -37,8 +37,6 @@ public:
     bool isEmpty() { return m_resourceItems.isEmpty(); }
 
 private:
-    std::shared_ptr<TreeItem> getItemByIndex(const QModelIndex &index);
-
     QMap<int, DocumentChecker::DocumentResource> m_resourceItems;
 
 Q_SIGNALS:

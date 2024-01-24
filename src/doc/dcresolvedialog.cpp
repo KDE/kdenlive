@@ -41,7 +41,7 @@ DCResolveDialog::DCResolveDialog(std::vector<DocumentChecker::DocumentResource> 
         }
         checkStatus();
     });
-    connect(manualSearch, &QPushButton::clicked, this, [&]() { slotEditCurrentItem(); });
+    connect(manualSearch, &QPushButton::clicked, this, &DCResolveDialog::slotEditCurrentItem);
     connect(usePlaceholders, &QPushButton::clicked, this, [&]() {
         m_model->usePlaceholdersForMissing();
         checkStatus();

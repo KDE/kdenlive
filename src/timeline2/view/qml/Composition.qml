@@ -30,7 +30,6 @@ Item {
     property var keyframeModel
     property bool grouped: false
     property int binId: 0
-    property int scrollX: 0
     property int trackHeight
     property int trackIndex //Index in track repeater
     property int trackId: -42    //Id in the model
@@ -46,8 +45,10 @@ Item {
     property double speed: 1.0
     property color color: displayRect.color
     property color borderColor: 'black'
-    property bool hideCompoViews: scrollStart > (clipDuration * timeline.scaleFactor) || scrollStart + scrollView.width < 0 || width < root.minClipWidthForViews
-    property int scrollStart: scrollView.contentX - modelStart * timeline.scaleFactor
+    property bool hideCompoViews: !visible || width < root.minClipWidthForViews
+    property int scrollStart: scrollView.contentX - (compositionRoot.modelStart * root.timeScale)
+    visible: scrollView.width + compositionRoot.scrollStart >= 0 && compositionRoot.scrollStart < compositionRoot.width
+
     property int mouseXPos: mouseArea.mouseX
     // We set coordinates to ensure the item can be found using childAt in timeline.qml getItemAtPosq
     property int trackOffset: 5
@@ -62,6 +63,10 @@ Item {
     signal trimmedOut(var clip)
 
     onScrollStartChanged: {
+        if (!compositionRoot.visible) {
+            return
+        }
+        updateLabelOffset()
         if (!compositionRoot.hideClipViews && compositionRoot.width > scrollView.width) {
             if (effectRow.item && effectRow.item.kfrCanvas) {
                 effectRow.item.kfrCanvas.requestPaint()
@@ -114,16 +119,21 @@ Item {
     onTimeScaleChanged: {
         x = modelStart * timeScale;
         width = clipDuration * timeScale;
-        labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : 0
-        if (!compositionRoot.hideClipViews) {
-            if (effectRow.item && effectRow.item.kfrCanvas) {
-                effectRow.item.kfrCanvas.requestPaint()
+        if (compositionRoot.visible) {
+            updateLabelOffset()
+            if (!compositionRoot.hideClipViews) {
+                if (effectRow.item && effectRow.item.kfrCanvas) {
+                    effectRow.item.kfrCanvas.requestPaint()
+                }
             }
         }
     }
-    onScrollXChanged: {
-        labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : 0
+
+    function updateLabelOffset()
+    {
+        labelRect.anchors.leftMargin = compositionRoot.scrollStart > 0 ? (labelRect.width > compositionRoot.width ? 0 : compositionRoot.scrollStart) : 0
     }
+
 /*    function reparent(track) {
         parent = track
         isAudio = track.isAudio
@@ -421,6 +431,9 @@ Item {
             Rectangle {
                 // text background
                 id: labelRect
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.leftMargin: compositionRoot.scrollStart > 0 ? (labelRect.width > compositionRoot.width ? 0 : compositionRoot.scrollStart) : 0
                 color: compositionRoot.aTrack > -1 ? 'yellow' : 'lightgray'
                 visible: compositionRoot.width > root.baseUnit
                 width: label.width + 2

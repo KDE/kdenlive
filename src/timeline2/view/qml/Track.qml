@@ -122,12 +122,6 @@ Item{
                 }
                 Binding {
                     target: loader.item
-                    property: "scrollX"
-                    value: scrollView.contentX
-                    when: loader.status == Loader.Ready && loader.item
-                }
-                Binding {
-                    target: loader.item
                     property: "fadeIn"
                     value: model.fadeIn
                     when: loader.status == Loader.Ready && clipItem
