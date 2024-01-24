@@ -178,10 +178,10 @@ void EffectStackView::dragMoveEvent(QDragMoveEvent *event)
 
 void EffectStackView::dropEvent(QDropEvent *event)
 {
+    qDebug() << ":::: DROP BEGIN EVENT....";
     if (dragRow < 0) {
         return;
     }
-    event->accept();
     QString effectId = event->mimeData()->data(QStringLiteral("kdenlive/effect"));
     if (event->source() == this) {
         QString sourceData = event->mimeData()->data(QStringLiteral("kdenlive/effectsource"));
@@ -209,6 +209,8 @@ void EffectStackView::dropEvent(QDropEvent *event)
         }
     }
     dragRow = -1;
+    event->acceptProposedAction();
+    qDebug() << ":::: DROP END EVENT....";
 }
 
 void EffectStackView::paintEvent(QPaintEvent *event)
