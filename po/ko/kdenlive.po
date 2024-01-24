@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-23 00:37+0000\n"
+"POT-Creation-Date: 2024-01-24 00:37+0000\n"
 "PO-Revision-Date: 2023-07-23 20:34+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -921,8 +921,8 @@ msgstr "검은색에서 동영상 페이드"
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:170
 #: src/bin/bin.cpp:1297 src/bin/projectitemmodel.cpp:318
 #: src/timeline2/view/dialogs/speeddialog.cpp:55
-#: src/timeline2/view/qml/Track.qml:339 src/timeline2/view/qml/Track.qml:413
-#: src/timeline2/view/qml/Track.qml:434 src/ui/clipdurationdialog_ui.ui:18
+#: src/timeline2/view/qml/Track.qml:333 src/timeline2/view/qml/Track.qml:407
+#: src/timeline2/view/qml/Track.qml:428 src/ui/clipdurationdialog_ui.ui:18
 #, kde-format
 msgid "Duration"
 msgstr "지속 시간"
@@ -930,7 +930,7 @@ msgstr "지속 시간"
 #: data/effects/fade_from_black.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:167
 #: src/monitor/view/kdenlivemonitortrimming.qml:109
-#: src/timeline2/view/qml/Track.qml:362
+#: src/timeline2/view/qml/Track.qml:356
 #, kde-format
 msgid "In"
 msgstr "시점"
@@ -2089,7 +2089,7 @@ msgstr "다른 리소스를 기반으로 알파 채널(투명도) 만들기"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: data/effects/speed.xml:4 data/effects/speed.xml:8 data/effects/wave.xml:17
 #: src/effects/effectstack/view/qml/BuiltStack.qml:34
-#: src/timeline2/view/qml/Track.qml:337 src/timeline2/view/qml/Track.qml:411
+#: src/timeline2/view/qml/Track.qml:331 src/timeline2/view/qml/Track.qml:405
 #: src/ui/clipspeed_ui.ui:36
 #, kde-format
 msgid "Speed"
@@ -16934,47 +16934,47 @@ msgstr "일시 정지"
 msgid "Mic level"
 msgstr "오디오 레벨"
 
-#: src/timeline2/view/qml/Clip.qml:225 src/timeline2/view/qml/Clip.qml:854
+#: src/timeline2/view/qml/Clip.qml:227 src/timeline2/view/qml/Clip.qml:861
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1(%2-%3), 위치: %4, 재생 시간: %5"
 
-#: src/timeline2/view/qml/Clip.qml:335 src/timeline2/view/qml/Clip.qml:342
+#: src/timeline2/view/qml/Clip.qml:337 src/timeline2/view/qml/Clip.qml:344
 #: src/timeline2/view/qml/SubTitle.qml:166
 #: src/timeline2/view/qml/SubTitle.qml:172
 #, kde-format
 msgid "Position: %1"
 msgstr "위치: %1"
 
-#: src/timeline2/view/qml/Clip.qml:462
+#: src/timeline2/view/qml/Clip.qml:469
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:523
+#: src/timeline2/view/qml/Clip.qml:530
 #, fuzzy, kde-format
 #| msgid "%1%2, Duration = %3"
 msgid "+%1, Mix duration: %2"
 msgstr "%1%2, 재생 시간 = %3"
 
-#: src/timeline2/view/qml/Clip.qml:525
+#: src/timeline2/view/qml/Clip.qml:532
 #, fuzzy, kde-format
 #| msgid "%1%2, Duration = %3"
 msgid "-%1, Mix duration: %2"
 msgstr "%1%2, 재생 시간 = %3"
 
-#: src/timeline2/view/qml/Clip.qml:528 src/timeline2/view/qml/Clip.qml:541
+#: src/timeline2/view/qml/Clip.qml:535 src/timeline2/view/qml/Clip.qml:548
 #, fuzzy, kde-format
 #| msgid "Duration: %1 sec"
 msgid "Mix duration: %1"
 msgstr "재생 시간: %1초"
 
-#: src/timeline2/view/qml/Clip.qml:717
+#: src/timeline2/view/qml/Clip.qml:724
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "시작점: %1, 위치: %2"
 
-#: src/timeline2/view/qml/Clip.qml:720 src/timeline2/view/qml/Clip.qml:844
+#: src/timeline2/view/qml/Clip.qml:727 src/timeline2/view/qml/Clip.qml:851
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -16983,60 +16983,60 @@ msgstr ""
 "<b>Ctrl 키를 누르면서 드래그</b>하여 속도 변경, <b>두 번 클릭</b>으로 인접한 "
 "클립과 혼합"
 
-#: src/timeline2/view/qml/Clip.qml:722
+#: src/timeline2/view/qml/Clip.qml:729
 #, fuzzy, kde-format
 #| msgid "<b>Drag</b> to resize"
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>드래그</b>하여 크기 조정"
 
-#: src/timeline2/view/qml/Clip.qml:841
+#: src/timeline2/view/qml/Clip.qml:848
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "끝점: %1, 위치: %2"
 
-#: src/timeline2/view/qml/Clip.qml:987
+#: src/timeline2/view/qml/Clip.qml:994
 #, kde-format
 msgid "Offset: -%1"
 msgstr "오프셋: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:987
+#: src/timeline2/view/qml/Clip.qml:994
 #, kde-format
 msgid "Offset: %1"
 msgstr "오프셋: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1232 src/timeline2/view/qml/Clip.qml:1269
+#: src/timeline2/view/qml/Clip.qml:1238 src/timeline2/view/qml/Clip.qml:1275
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "합성을 추가하려면 <b>클릭</b>하십시오"
 
-#: src/timeline2/view/qml/Clip.qml:1346 src/timeline2/view/qml/Clip.qml:1353
+#: src/timeline2/view/qml/Clip.qml:1352 src/timeline2/view/qml/Clip.qml:1359
 #, kde-format
 msgid "Fade out: %1"
 msgstr "페이드 아웃: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1357 src/timeline2/view/qml/Clip.qml:1464
+#: src/timeline2/view/qml/Clip.qml:1363 src/timeline2/view/qml/Clip.qml:1470
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr "<b>드래그</b>하여 페이드 조정, <b>클릭</b>하여 기본 시간 페이드 추가"
 
-#: src/timeline2/view/qml/Clip.qml:1453 src/timeline2/view/qml/Clip.qml:1460
+#: src/timeline2/view/qml/Clip.qml:1459 src/timeline2/view/qml/Clip.qml:1466
 #, kde-format
 msgid "Fade in: %1"
 msgstr "페이드 인: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1547
+#: src/timeline2/view/qml/Clip.qml:1553
 #, fuzzy, kde-format
 #| msgid "Select Clip"
 msgid "Slip Clip"
 msgstr "클립 선택"
 
-#: src/timeline2/view/qml/Composition.qml:233
+#: src/timeline2/view/qml/Composition.qml:243
 #, kde-format
 msgid "%1, Position: %2, Duration: %3"
 msgstr "%1, 위치: %2, 재생 시간: %3"
 
-#: src/timeline2/view/qml/Composition.qml:307
-#: src/timeline2/view/qml/Composition.qml:369
+#: src/timeline2/view/qml/Composition.qml:317
+#: src/timeline2/view/qml/Composition.qml:379
 #: src/timeline2/view/qml/SubTitle.qml:289
 #: src/timeline2/view/qml/SubTitle.qml:378
 #, kde-format
@@ -17117,12 +17117,12 @@ msgstr "녹화"
 msgid "Multicam In"
 msgstr "멀티캠 시작점"
 
-#: src/timeline2/view/qml/Track.qml:485 src/timeline2/view/qml/Track.qml:503
+#: src/timeline2/view/qml/Track.qml:479 src/timeline2/view/qml/Track.qml:497
 #, kde-format
 msgid "%1%2, Duration = %3"
 msgstr "%1%2, 재생 시간 = %3"
 
-#: src/timeline2/view/qml/Track.qml:527
+#: src/timeline2/view/qml/Track.qml:521
 #, kde-format
 msgid "Adjusting speed"
 msgstr "속도 조정 중"

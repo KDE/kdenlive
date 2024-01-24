@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-23 00:37+0000\n"
-"PO-Revision-Date: 2024-01-22 09:44+0100\n"
+"POT-Creation-Date: 2024-01-24 00:37+0000\n"
+"PO-Revision-Date: 2024-01-23 05:42+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -913,8 +913,8 @@ msgstr "ვიდეოს გამოჩენა სიშავიდან"
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:170
 #: src/bin/bin.cpp:1297 src/bin/projectitemmodel.cpp:318
 #: src/timeline2/view/dialogs/speeddialog.cpp:55
-#: src/timeline2/view/qml/Track.qml:339 src/timeline2/view/qml/Track.qml:413
-#: src/timeline2/view/qml/Track.qml:434 src/ui/clipdurationdialog_ui.ui:18
+#: src/timeline2/view/qml/Track.qml:333 src/timeline2/view/qml/Track.qml:407
+#: src/timeline2/view/qml/Track.qml:428 src/ui/clipdurationdialog_ui.ui:18
 #, kde-format
 msgid "Duration"
 msgstr "ხანგრძლოვობა"
@@ -922,7 +922,7 @@ msgstr "ხანგრძლოვობა"
 #: data/effects/fade_from_black.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:167
 #: src/monitor/view/kdenlivemonitortrimming.qml:109
-#: src/timeline2/view/qml/Track.qml:362
+#: src/timeline2/view/qml/Track.qml:356
 #, kde-format
 msgid "In"
 msgstr "შეყვანა"
@@ -2063,7 +2063,7 @@ msgstr "ალფა არხის (გამჭვირვალობის
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: data/effects/speed.xml:4 data/effects/speed.xml:8 data/effects/wave.xml:17
 #: src/effects/effectstack/view/qml/BuiltStack.qml:34
-#: src/timeline2/view/qml/Track.qml:337 src/timeline2/view/qml/Track.qml:411
+#: src/timeline2/view/qml/Track.qml:331 src/timeline2/view/qml/Track.qml:405
 #: src/ui/clipspeed_ui.ui:36
 #, kde-format
 msgid "Speed"
@@ -5563,10 +5563,9 @@ msgid "Clean Project"
 msgstr "პროექტის გაწმენდა"
 
 #: src/bin/projectitemmodel.cpp:1217
-#, fuzzy, kde-format
-#| msgid "Loading project clips…"
+#, kde-format
 msgid "Reading project clips…"
-msgstr "პროექტის კლიპების ჩატვირთვა…"
+msgstr "პროექტის კლიპების კითხვა…"
 
 #: src/bin/projectitemmodel.cpp:1321
 #, kde-format
@@ -7967,14 +7966,12 @@ msgstr "კლიპების საქაღლდე"
 #: src/doc/documentchecker.cpp:106
 #, kde-format
 msgid "Applying fixes…"
-msgstr ""
+msgstr "ჩასწორებების გადატარება…"
 
 #: src/doc/documentchecker.cpp:145 src/doc/documentchecker.cpp:198
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Checking setup…"
+#, kde-format
 msgid "Checking for missing items…"
-msgstr "მორგების შემოწმება…"
+msgstr "შემოწმება ნაკლულ ელემენტებზე…"
 
 #: src/doc/documentchecker.cpp:162
 #, kde-format
@@ -8093,10 +8090,9 @@ msgid "Missing proxies can be recreated on opening."
 msgstr "ნაკლული პროქსიები, შეიძლება, გახსნისას თავიდან შეიქმნას."
 
 #: src/doc/documentvalidator.cpp:47
-#, fuzzy, kde-format
-#| msgid "Loading project…"
+#, kde-format
 msgid "Validating project…"
-msgstr "პროექტის ჩატვირთვა…"
+msgstr "პროექტის დადასტურება…"
 
 #: src/doc/documentvalidator.cpp:89
 #, kde-format
@@ -8123,10 +8119,9 @@ msgid "Incorrect project file"
 msgstr "არასწორი პროექტის ფაილი"
 
 #: src/doc/documentvalidator.cpp:184
-#, fuzzy, kde-format
-#| msgid "Loading project…"
+#, kde-format
 msgid "Upgrading project version…"
-msgstr "პროექტის ჩატვირთვა…"
+msgstr "პროექტის ვერსიის აწევა…"
 
 #: src/doc/documentvalidator.cpp:190
 #, kde-format
@@ -8351,6 +8346,8 @@ msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
 "Do you want to change default profile for future projects?"
 msgstr ""
+"თქვენი ნაგულისხმევი პროექტის პროფილია %1, თქვენი კლიპის პროფილი (%2) კი %3.\n"
+"გნებავთ შეცვალოთ ნაგულისხმევი პროფილი მომავალი პროექტებისთვის?"
 
 #: src/doc/kdenlivedoc.cpp:1878
 #, kde-format
@@ -8403,6 +8400,8 @@ msgid ""
 "No profile found for your clip %1.\n"
 "Create and switch to new profile (%2x%3, %4fps)?%5"
 msgstr ""
+"თქვენი კლიპისთვის %1 პროფილი ვერ ვიპოვე.\n"
+"შევქმნა და გადავერთო ახალ პროფილზე (%2x%3,%4კადრი/წმ)?%5"
 
 #: src/doc/kdenlivedoc.cpp:2331 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
@@ -14079,16 +14078,14 @@ msgstr ""
 "თქვენი პროექტი შეიცვალა გახსნისას. მარქაფი შემდეგი შენახვისას შეიქმნება"
 
 #: src/project/projectmanager.cpp:873
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Loading timeline…"
-msgstr "მოდელის გადმოწერა…"
+msgstr "დროის ხაზის ჩატვირთვა…"
 
 #: src/project/projectmanager.cpp:892
-#, fuzzy, kde-format
-#| msgid "Timeline sequence"
+#, kde-format
 msgid "Building sequences…"
-msgstr "დროის ხაზის მიმდევრობა"
+msgstr "მიმდევრობების აგება…"
 
 #: src/project/projectmanager.cpp:994
 #, kde-format
@@ -16455,44 +16452,44 @@ msgstr "შეჩერებულია"
 msgid "Mic level"
 msgstr "მიკროფონის დონე"
 
-#: src/timeline2/view/qml/Clip.qml:225 src/timeline2/view/qml/Clip.qml:854
+#: src/timeline2/view/qml/Clip.qml:227 src/timeline2/view/qml/Clip.qml:861
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), მდებარეობა: %4, ხანგრძლივობა: %5"
 
-#: src/timeline2/view/qml/Clip.qml:335 src/timeline2/view/qml/Clip.qml:342
+#: src/timeline2/view/qml/Clip.qml:337 src/timeline2/view/qml/Clip.qml:344
 #: src/timeline2/view/qml/SubTitle.qml:166
 #: src/timeline2/view/qml/SubTitle.qml:172
 #, kde-format
 msgid "Position: %1"
 msgstr "მდებარეობა: %1"
 
-#: src/timeline2/view/qml/Clip.qml:462
+#: src/timeline2/view/qml/Clip.qml:469
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "შერევის ხანგრძლივობა: %1. ამოჭრის დრო: %2"
 
-#: src/timeline2/view/qml/Clip.qml:523
+#: src/timeline2/view/qml/Clip.qml:530
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, შერევის ხანგრძლივობა: %2"
 
-#: src/timeline2/view/qml/Clip.qml:525
+#: src/timeline2/view/qml/Clip.qml:532
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, შერევის ხანგრძლივობა: %2"
 
-#: src/timeline2/view/qml/Clip.qml:528 src/timeline2/view/qml/Clip.qml:541
+#: src/timeline2/view/qml/Clip.qml:535 src/timeline2/view/qml/Clip.qml:548
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "შერევის ხანგრძლივობა: %1"
 
-#: src/timeline2/view/qml/Clip.qml:717
+#: src/timeline2/view/qml/Clip.qml:724
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "შეყვანა:%1, მდებარეობა:%2"
 
-#: src/timeline2/view/qml/Clip.qml:720 src/timeline2/view/qml/Clip.qml:844
+#: src/timeline2/view/qml/Clip.qml:727 src/timeline2/view/qml/Clip.qml:851
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -16501,58 +16498,58 @@ msgstr ""
 "<b>Ctrl გადათრევა</b> სიჩქარის შესაცვლელად, <b>ორმაგი წკაპი</b> ახლომდებარე "
 "კლიპთან შესაერთებლად"
 
-#: src/timeline2/view/qml/Clip.qml:722
+#: src/timeline2/view/qml/Clip.qml:729
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>გადაათრიეთ</b> შერევის ხანგრძლივობის შესაცვლელად"
 
-#: src/timeline2/view/qml/Clip.qml:841
+#: src/timeline2/view/qml/Clip.qml:848
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "გამოყვანა:%1, მდებარეობა:%2"
 
-#: src/timeline2/view/qml/Clip.qml:987
+#: src/timeline2/view/qml/Clip.qml:994
 #, kde-format
 msgid "Offset: -%1"
 msgstr "წანაცვლება: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:987
+#: src/timeline2/view/qml/Clip.qml:994
 #, kde-format
 msgid "Offset: %1"
 msgstr "წანაცვლება: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1232 src/timeline2/view/qml/Clip.qml:1269
+#: src/timeline2/view/qml/Clip.qml:1238 src/timeline2/view/qml/Clip.qml:1275
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>დააწკაპუნეთ</b> კომპოზიციის დასამატებლად"
 
-#: src/timeline2/view/qml/Clip.qml:1346 src/timeline2/view/qml/Clip.qml:1353
+#: src/timeline2/view/qml/Clip.qml:1352 src/timeline2/view/qml/Clip.qml:1359
 #, kde-format
 msgid "Fade out: %1"
 msgstr "მინავლება: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1357 src/timeline2/view/qml/Clip.qml:1464
+#: src/timeline2/view/qml/Clip.qml:1363 src/timeline2/view/qml/Clip.qml:1470
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1453 src/timeline2/view/qml/Clip.qml:1460
+#: src/timeline2/view/qml/Clip.qml:1459 src/timeline2/view/qml/Clip.qml:1466
 #, kde-format
 msgid "Fade in: %1"
 msgstr "გამოჩენა: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1547
+#: src/timeline2/view/qml/Clip.qml:1553
 #, kde-format
 msgid "Slip Clip"
 msgstr "კლიპის გადახვევა"
 
-#: src/timeline2/view/qml/Composition.qml:233
+#: src/timeline2/view/qml/Composition.qml:243
 #, kde-format
 msgid "%1, Position: %2, Duration: %3"
 msgstr "%1, მდებარეობა: %2, ხანგრძლივობა: %3"
 
-#: src/timeline2/view/qml/Composition.qml:307
-#: src/timeline2/view/qml/Composition.qml:369
+#: src/timeline2/view/qml/Composition.qml:317
+#: src/timeline2/view/qml/Composition.qml:379
 #: src/timeline2/view/qml/SubTitle.qml:289
 #: src/timeline2/view/qml/SubTitle.qml:378
 #, kde-format
@@ -16627,12 +16624,12 @@ msgstr "ჩაწერა"
 msgid "Multicam In"
 msgstr "მრავალკამერიანი შეყვანა"
 
-#: src/timeline2/view/qml/Track.qml:485 src/timeline2/view/qml/Track.qml:503
+#: src/timeline2/view/qml/Track.qml:479 src/timeline2/view/qml/Track.qml:497
 #, kde-format
 msgid "%1%2, Duration = %3"
 msgstr "%1%2, ხანგრძლივობა = %3"
 
-#: src/timeline2/view/qml/Track.qml:527
+#: src/timeline2/view/qml/Track.qml:521
 #, kde-format
 msgid "Adjusting speed"
 msgstr "სიჩქარის გასწორება"

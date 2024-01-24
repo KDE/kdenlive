@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-23 00:37+0000\n"
+"POT-Creation-Date: 2024-01-24 00:37+0000\n"
 "PO-Revision-Date: 2024-01-10 22:59+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
@@ -908,8 +908,8 @@ msgstr "Paligi videon el nigra"
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:170
 #: src/bin/bin.cpp:1297 src/bin/projectitemmodel.cpp:318
 #: src/timeline2/view/dialogs/speeddialog.cpp:55
-#: src/timeline2/view/qml/Track.qml:339 src/timeline2/view/qml/Track.qml:413
-#: src/timeline2/view/qml/Track.qml:434 src/ui/clipdurationdialog_ui.ui:18
+#: src/timeline2/view/qml/Track.qml:333 src/timeline2/view/qml/Track.qml:407
+#: src/timeline2/view/qml/Track.qml:428 src/ui/clipdurationdialog_ui.ui:18
 #, kde-format
 msgid "Duration"
 msgstr "Daŭro"
@@ -917,7 +917,7 @@ msgstr "Daŭro"
 #: data/effects/fade_from_black.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:167
 #: src/monitor/view/kdenlivemonitortrimming.qml:109
-#: src/timeline2/view/qml/Track.qml:362
+#: src/timeline2/view/qml/Track.qml:356
 #, kde-format
 msgid "In"
 msgstr "En"
@@ -2093,7 +2093,7 @@ msgstr "Krei alfa-kanalon (travideblecon) bazitan sur alia rimedo"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: data/effects/speed.xml:4 data/effects/speed.xml:8 data/effects/wave.xml:17
 #: src/effects/effectstack/view/qml/BuiltStack.qml:34
-#: src/timeline2/view/qml/Track.qml:337 src/timeline2/view/qml/Track.qml:411
+#: src/timeline2/view/qml/Track.qml:331 src/timeline2/view/qml/Track.qml:405
 #: src/ui/clipspeed_ui.ui:36
 #, kde-format
 msgid "Speed"
@@ -16628,44 +16628,44 @@ msgstr "Paŭzita"
 msgid "Mic level"
 msgstr "Mikrofono-nivelo"
 
-#: src/timeline2/view/qml/Clip.qml:225 src/timeline2/view/qml/Clip.qml:854
+#: src/timeline2/view/qml/Clip.qml:227 src/timeline2/view/qml/Clip.qml:861
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), Pozicio: %4, Daŭro: %5"
 
-#: src/timeline2/view/qml/Clip.qml:335 src/timeline2/view/qml/Clip.qml:342
+#: src/timeline2/view/qml/Clip.qml:337 src/timeline2/view/qml/Clip.qml:344
 #: src/timeline2/view/qml/SubTitle.qml:166
 #: src/timeline2/view/qml/SubTitle.qml:172
 #, kde-format
 msgid "Position: %1"
 msgstr "Pozicio: %1"
 
-#: src/timeline2/view/qml/Clip.qml:462
+#: src/timeline2/view/qml/Clip.qml:469
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "Daŭro de miksaĵo: %1, Tranĉu ĉe: %2"
 
-#: src/timeline2/view/qml/Clip.qml:523
+#: src/timeline2/view/qml/Clip.qml:530
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, Daŭro de miksaĵo: %2"
 
-#: src/timeline2/view/qml/Clip.qml:525
+#: src/timeline2/view/qml/Clip.qml:532
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, Daŭro de miksaĵo: %2"
 
-#: src/timeline2/view/qml/Clip.qml:528 src/timeline2/view/qml/Clip.qml:541
+#: src/timeline2/view/qml/Clip.qml:535 src/timeline2/view/qml/Clip.qml:548
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "Daŭro de miksaĵo: %1"
 
-#: src/timeline2/view/qml/Clip.qml:717
+#: src/timeline2/view/qml/Clip.qml:724
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "En:%1, Pozicio:%2"
 
-#: src/timeline2/view/qml/Clip.qml:720 src/timeline2/view/qml/Clip.qml:844
+#: src/timeline2/view/qml/Clip.qml:727 src/timeline2/view/qml/Clip.qml:851
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -16674,59 +16674,59 @@ msgstr ""
 "<b>Ktrl trenu</b> por ŝanĝi rapidecon, <b>duoble alklaku</b> por miksi kun "
 "apuda tondaĵo"
 
-#: src/timeline2/view/qml/Clip.qml:722
+#: src/timeline2/view/qml/Clip.qml:729
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Trenu</b> por ŝanĝi daŭron de miksaĵo"
 
-#: src/timeline2/view/qml/Clip.qml:841
+#: src/timeline2/view/qml/Clip.qml:848
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "El:%1, Pozicio:%2"
 
-#: src/timeline2/view/qml/Clip.qml:987
+#: src/timeline2/view/qml/Clip.qml:994
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Deŝovo: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:987
+#: src/timeline2/view/qml/Clip.qml:994
 #, kde-format
 msgid "Offset: %1"
 msgstr "Deŝovo: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1232 src/timeline2/view/qml/Clip.qml:1269
+#: src/timeline2/view/qml/Clip.qml:1238 src/timeline2/view/qml/Clip.qml:1275
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>Alklaku</b> por aldoni komponadon"
 
-#: src/timeline2/view/qml/Clip.qml:1346 src/timeline2/view/qml/Clip.qml:1353
+#: src/timeline2/view/qml/Clip.qml:1352 src/timeline2/view/qml/Clip.qml:1359
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Forfluo: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1357 src/timeline2/view/qml/Clip.qml:1464
+#: src/timeline2/view/qml/Clip.qml:1363 src/timeline2/view/qml/Clip.qml:1470
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Trenu</b> por ĝustigi fadon, <b>Alklaku</b> por aldoni defaŭltan daŭron"
 
-#: src/timeline2/view/qml/Clip.qml:1453 src/timeline2/view/qml/Clip.qml:1460
+#: src/timeline2/view/qml/Clip.qml:1459 src/timeline2/view/qml/Clip.qml:1466
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Enfluo: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1547
+#: src/timeline2/view/qml/Clip.qml:1553
 #, kde-format
 msgid "Slip Clip"
 msgstr "Slip-aŭdvidaĵo"
 
-#: src/timeline2/view/qml/Composition.qml:233
+#: src/timeline2/view/qml/Composition.qml:243
 #, kde-format
 msgid "%1, Position: %2, Duration: %3"
 msgstr "%1, Pozicio: %2, Daŭro: %3"
 
-#: src/timeline2/view/qml/Composition.qml:307
-#: src/timeline2/view/qml/Composition.qml:369
+#: src/timeline2/view/qml/Composition.qml:317
+#: src/timeline2/view/qml/Composition.qml:379
 #: src/timeline2/view/qml/SubTitle.qml:289
 #: src/timeline2/view/qml/SubTitle.qml:378
 #, kde-format
@@ -16805,12 +16805,12 @@ msgstr "Registrado"
 msgid "Multicam In"
 msgstr "Multikamera En"
 
-#: src/timeline2/view/qml/Track.qml:485 src/timeline2/view/qml/Track.qml:503
+#: src/timeline2/view/qml/Track.qml:479 src/timeline2/view/qml/Track.qml:497
 #, kde-format
 msgid "%1%2, Duration = %3"
 msgstr "%1%2, Daŭro = %3"
 
-#: src/timeline2/view/qml/Track.qml:527
+#: src/timeline2/view/qml/Track.qml:521
 #, kde-format
 msgid "Adjusting speed"
 msgstr "Ĝustigante rapidecon"
