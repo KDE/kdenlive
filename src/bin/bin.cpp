@@ -2663,7 +2663,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
         // return;
     }
     if (id.isValid()) {
-        if (id.column() != 0) {
+        if (id.column() != 0 && m_monitor->activeClipId() == QString::number(int(id.internalId()))) {
             return;
         }
         QString clipService;
