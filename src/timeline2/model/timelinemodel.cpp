@@ -125,6 +125,8 @@ TimelineModel::TimelineModel(const QUuid &uuid, std::weak_ptr<DocUndoStack> undo
     , m_closing(false)
     , m_softDelete(false)
 {
+    // Initialize default seek duration to 5 minutes
+    TimelineModel::seekDuration = GenTime(300).frames(pCore->getCurrentFps());
     // Create black background track
     m_blackClip->set("kdenlive:playlistid", "black_track");
     m_blackClip->set("mlt_type", "producer");
