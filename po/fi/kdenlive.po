@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-24 00:37+0000\n"
+"POT-Creation-Date: 2024-01-25 00:36+0000\n"
 "PO-Revision-Date: 2023-06-07 21:36+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -5290,7 +5290,7 @@ msgstr "Kaikki tuetut tiedostot"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:210
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:501
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:504
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -5474,8 +5474,8 @@ msgid "Move subtitle"
 msgstr "Siirrä tekstitys"
 
 #: src/bin/model/subtitlemodel.cpp:1154
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:523
-#: src/effects/effectstack/view/effectstackview.cpp:589
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:526
+#: src/effects/effectstack/view/effectstackview.cpp:591
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:858
 #: src/project/dialogs/archivewidget.cpp:872 src/render/renderrequest.cpp:326
 #, kde-format
@@ -6324,8 +6324,8 @@ msgstr "Tuo opasteet"
 #: src/effects/effectlist/model/effecttreemodel.cpp:283
 #: src/effects/effectlist/model/effecttreemodel.cpp:299
 #: src/effects/effectsrepository.cpp:390
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:601
-#: src/effects/effectstack/view/effectstackview.cpp:627
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:604
+#: src/effects/effectstack/view/effectstackview.cpp:629
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:691
 #: src/project/dialogs/archivewidget.cpp:695
@@ -8842,28 +8842,28 @@ msgstr "Avaa lisäasetusten luettelon tehosteen esiasetusten hallinnoimiseksi."
 msgid "Save effect"
 msgstr "Tallenna tehoste"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:497
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:500
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Tallenna tehoste"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:502
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:505
 #, kde-format
 msgid "Comments:"
 msgstr "Huomautukset:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:514
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:517
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "Nimeä ei ole annettu, tehostetta ei tallennettu."
 
-#: src/effects/effectstack/view/effectstackview.cpp:545
+#: src/effects/effectstack/view/effectstackview.cpp:547
 #, kde-format
 msgid "No effect selected."
 msgstr "Tehostetta ei ole valittu."
 
-#: src/effects/effectstack/view/effectstackview.cpp:551
+#: src/effects/effectstack/view/effectstackview.cpp:553
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Save Effect Stack"
@@ -8871,25 +8871,25 @@ msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Tallenna tehostepino"
 
-#: src/effects/effectstack/view/effectstackview.cpp:556
+#: src/effects/effectstack/view/effectstackview.cpp:558
 #, fuzzy, kde-format
 #| msgid "Name for saved stack: "
 msgid "Name for saved stack:"
 msgstr "Pinon nimi: "
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:557
+#: src/effects/effectstack/view/effectstackview.cpp:559
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:214
 #, kde-format
 msgid "Description:"
 msgstr "Kuvaus:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:570
+#: src/effects/effectstack/view/effectstackview.cpp:572
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "Nimeä ei annettu, tehostepinoa ei tallennettu."
 
-#: src/effects/effectstack/view/effectstackview.cpp:577
+#: src/effects/effectstack/view/effectstackview.cpp:579
 #, kde-format
 msgid ""
 "No description provided. \n"

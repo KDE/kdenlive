@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-24 00:37+0000\n"
+"POT-Creation-Date: 2024-01-25 00:36+0000\n"
 "PO-Revision-Date: 2024-01-21 14:12\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -5208,7 +5208,7 @@ msgstr "所有支持的文件"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:210
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:501
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:504
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -5386,8 +5386,8 @@ msgid "Move subtitle"
 msgstr "移动字幕"
 
 #: src/bin/model/subtitlemodel.cpp:1154
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:523
-#: src/effects/effectstack/view/effectstackview.cpp:589
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:526
+#: src/effects/effectstack/view/effectstackview.cpp:591
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:858
 #: src/project/dialogs/archivewidget.cpp:872 src/render/renderrequest.cpp:326
 #, kde-format
@@ -6244,8 +6244,8 @@ msgstr "导出辅助线数据…"
 #: src/effects/effectlist/model/effecttreemodel.cpp:283
 #: src/effects/effectlist/model/effecttreemodel.cpp:299
 #: src/effects/effectsrepository.cpp:390
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:601
-#: src/effects/effectstack/view/effectstackview.cpp:627
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:604
+#: src/effects/effectstack/view/effectstackview.cpp:629
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:691
 #: src/project/dialogs/archivewidget.cpp:695
@@ -8668,51 +8668,51 @@ msgstr "打开一个高级选项列表以管理该效果的预设。"
 msgid "Save effect"
 msgstr "保存效果"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:497
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:500
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "保存效果"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:502
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:505
 #, kde-format
 msgid "Comments:"
 msgstr "备注："
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:514
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:517
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "未提供名称，效果未保存。"
 
-#: src/effects/effectstack/view/effectstackview.cpp:545
+#: src/effects/effectstack/view/effectstackview.cpp:547
 #, kde-format
 msgid "No effect selected."
 msgstr "未选择效果。"
 
-#: src/effects/effectstack/view/effectstackview.cpp:551
+#: src/effects/effectstack/view/effectstackview.cpp:553
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "保存当前效果堆栈"
 
-#: src/effects/effectstack/view/effectstackview.cpp:556
+#: src/effects/effectstack/view/effectstackview.cpp:558
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "保存效果堆栈名称："
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:557
+#: src/effects/effectstack/view/effectstackview.cpp:559
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:214
 #, kde-format
 msgid "Description:"
 msgstr "描述："
 
-#: src/effects/effectstack/view/effectstackview.cpp:570
+#: src/effects/effectstack/view/effectstackview.cpp:572
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "未提供名称，效果堆栈未保存。"
 
-#: src/effects/effectstack/view/effectstackview.cpp:577
+#: src/effects/effectstack/view/effectstackview.cpp:579
 #, kde-format
 msgid ""
 "No description provided. \n"
