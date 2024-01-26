@@ -12,6 +12,7 @@
 
 #include <QDirIterator>
 #include <QFileDialog>
+#include <QtConcurrent>
 
 UrlListParamWidget::UrlListParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
@@ -59,6 +60,14 @@ UrlListParamWidget::UrlListParamWidget(std::shared_ptr<AssetParameterModel> mode
             Q_EMIT valueChanged(m_index, m_list->currentData().toString(), true);
         }
     });
+}
+
+UrlListParamWidget::~UrlListParamWidget()
+{
+    if (m_watcher.isRunning()) {
+        m_abortJobs = true;
+        m_watcher.waitForFinished();
+    }
 }
 
 void UrlListParamWidget::setCurrentIndex(int index)
@@ -184,6 +193,7 @@ void UrlListParamWidget::slotRefresh()
         ix++;
     }
     QMapIterator<QString, QString> i(entryMap);
+    QStringList thumbnailsToBuild;
     while (i.hasNext()) {
         i.next();
         const QString &entry = i.value();
@@ -194,11 +204,8 @@ void UrlListParamWidget::slotRefresh()
             if (MainWindow::m_lumacache.contains(entry)) {
                 m_list->setItemIcon(ix, QPixmap::fromImage(MainWindow::m_lumacache.value(entry)));
             } else {
-                QImage pix(entry);
-                if (!pix.isNull()) {
-                    MainWindow::m_lumacache.insert(entry, pix.scaled(50, 30, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-                    m_list->setItemIcon(ix, QPixmap::fromImage(MainWindow::m_lumacache.value(entry)));
-                }
+                // render thumbnails in another thread
+                thumbnailsToBuild << entry;
             }
         }
     }
@@ -210,7 +217,50 @@ void UrlListParamWidget::slotRefresh()
         if (ix > -1) {
             m_list->setCurrentIndex(ix);
             m_currentIndex = ix;
+        } else {
+            // If the project file references a luma file in the Appimage, but the widget lists system installed luma files, try harder to find a match
+            if (currentValue.startsWith(QStringLiteral("/tmp/.mount_"))) {
+                const QString endPath = currentValue.section(QLatin1Char('/'), -2);
+                // Parse all entries to see if we have a matching filename
+                for (int j = 0; j < m_list->count(); j++) {
+                    if (m_list->itemData(j, Qt::UserRole).toString().endsWith(endPath)) {
+                        m_list->setCurrentIndex(j);
+                        m_currentIndex = j;
+                        break;
+                    }
+                }
+            }
         }
+    }
+    if (!thumbnailsToBuild.isEmpty() && !m_watcher.isRunning()) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        m_thumbJob = QtConcurrent::run(this, &UrlListParamWidget::buildThumbnails, thumbnailsToBuild);
+#else
+        m_thumbJob = QtConcurrent::run(&UrlListParamWidget::buildThumbnails, this, thumbnailsToBuild);
+#endif
+        m_watcher.setFuture(m_thumbJob);
+    }
+}
+
+void UrlListParamWidget::buildThumbnails(const QStringList files)
+{
+    for (auto &f : files) {
+        QImage pix(f);
+        if (m_abortJobs) {
+            break;
+        }
+        if (!pix.isNull()) {
+            MainWindow::m_lumacache.insert(f, pix.scaled(50, 30, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+            QMetaObject::invokeMethod(this, "updateItemThumb", Q_ARG(QString, f));
+        }
+    }
+}
+
+void UrlListParamWidget::updateItemThumb(const QString &path)
+{
+    int ix = m_list->findData(path);
+    if (ix > -1) {
+        m_list->setItemIcon(ix, QPixmap::fromImage(MainWindow::m_lumacache.value(path)));
     }
 }
 

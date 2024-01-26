@@ -186,6 +186,7 @@ bool DocumentChecker::hasErrorInProject()
     QDomNodeList documentProducers = m_doc.elementsByTagName(QStringLiteral("producer"));
     QDomNodeList documentChains = m_doc.elementsByTagName(QStringLiteral("chain"));
     QDomNodeList entries = m_doc.elementsByTagName(QStringLiteral("entry"));
+    QDomNodeList transitions = m_doc.elementsByTagName(QStringLiteral("transition"));
     QMap<QString, QString> renamedEffects;
     renamedEffects.insert(QStringLiteral("frei0r.alpha0ps"), QStringLiteral("frei0r.alpha0ps_alpha0ps"));
     renamedEffects.insert(QStringLiteral("frei0r.alphaspot"), QStringLiteral("frei0r.alpha0ps_alphaspot"));
@@ -286,6 +287,11 @@ bool DocumentChecker::hasErrorInProject()
         item.originalFilePath = filePath;
 
         if (QFile::exists(fixedLuma)) {
+            if (filePath.startsWith(QStringLiteral("/tmp/.mount_"))) {
+                // This is a luma in the Appimage, fix silently
+                fixAssetResource(transitions, getLumaPairs(), filePath, fixedLuma);
+                continue;
+            }
             item.newFilePath = fixedLuma;
             item.status = MissingStatus::Fixed;
         } else {
