@@ -447,7 +447,7 @@ Rectangle {
 
                     opacity: mixArea.containsMouse || trimInMixArea.pressed || trimInMixArea.containsMouse || mixSelected ? 1 : 0.7
                     border.color: mixSelected ? root.selectionColor : "transparent"
-                    border.width: 2
+                    border.width: clipRoot.mixDuration > 0 ? 2 : 0
                     MouseArea {
                         // Mix click mouse area
                         id: mixArea
@@ -1026,13 +1026,13 @@ Rectangle {
                         // effects toggle button background
                         id: effectsToggle
                         color: clipRoot.isStackEnabled ? '#fdbc4b' : 'black'
-                        width: effectButton.width
-                        height: effectButton.height
+                        visible: clipRoot.width > 2.5 * effectLabel.height
+                        width: visible ? effectsRect.height : 0
+                        height: effectsRect.height
                         ToolButton {
                             id: effectButton
-                            height: effectLabel.height
-                            width: effectLabel.height
-                            visible: effectsRect.visible
+                            height: effectsRect.height
+                            width: effectsRect.height
                             onClicked: {
                                 timeline.setEffectsEnabled(clipRoot.clipId, !clipRoot.isStackEnabled)
                             }
