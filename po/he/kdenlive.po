@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-25 00:36+0000\n"
+"POT-Creation-Date: 2024-01-26 00:37+0000\n"
 "PO-Revision-Date: 2024-01-23 08:32+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -89,7 +89,7 @@ msgstr "סוג התרשים להצגת הרמות."
 #: data/effects/audiowaveform.xml:7 data/effects/dynamictext.xml:23
 #: data/effects/pan_zoom.xml:17 data/effects/rotation.xml:41
 #: data/effects/rotation_keyframable.xml:23 data/effects/timer.xml:26
-#: src/monitor/monitor.cpp:420
+#: src/monitor/monitor.cpp:419
 #, kde-format
 msgid "Background Color"
 msgstr "צבע רקע"
@@ -4670,7 +4670,7 @@ msgid "Create bin folder"
 msgstr "יצירת תיקייה"
 
 #: src/bin/bin.cpp:2681 src/bin/bin.cpp:2694 src/bin/bin.cpp:3666
-#: src/timeline2/model/timelinemodel.cpp:2077
+#: src/timeline2/model/timelinemodel.cpp:2079
 #, kde-format
 msgid "Delete Clip"
 msgstr "מחיקת סרטון"
@@ -5399,13 +5399,13 @@ msgid "Cut clip"
 msgstr "גזירת סרטון"
 
 #: src/bin/model/subtitlemodel.cpp:802 src/bin/model/subtitlemodel.cpp:1546
-#: src/timeline2/model/timelinemodel.cpp:3618
+#: src/timeline2/model/timelinemodel.cpp:3620
 #, kde-format
 msgid "Resize subtitle"
 msgstr "שינוי גודל כתובית"
 
 #: src/bin/model/subtitlemodel.cpp:998
-#: src/timeline2/model/timelinemodel.cpp:1289
+#: src/timeline2/model/timelinemodel.cpp:1291
 #, kde-format
 msgid "Move subtitle"
 msgstr "העברת כתובית"
@@ -7073,7 +7073,7 @@ msgstr "וידאו ללא רצועת שמע"
 msgid "Rendering <i>%1</i> started"
 msgstr "‫צלימה של <i>%1</i> התחילה"
 
-#: src/dialogs/renderwidget.cpp:908 src/monitor/monitor.cpp:1197
+#: src/dialogs/renderwidget.cpp:908 src/monitor/monitor.cpp:1196
 #, kde-format
 msgid "untitled"
 msgstr "ללא כותרת"
@@ -8537,7 +8537,7 @@ msgid "Paste effect"
 msgstr "הדבקת אפקט"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:505
-#: src/timeline2/model/timelinemodel.cpp:4756
+#: src/timeline2/model/timelinemodel.cpp:4758
 #, kde-format
 msgid "Add effect %1"
 msgstr "הוספת אפקט %1"
@@ -9385,7 +9385,7 @@ msgstr ""
 msgid "Hz "
 msgstr "H"
 
-#: src/lib/audio/audioStreamInfo.cpp:153 src/monitor/monitor.cpp:292
+#: src/lib/audio/audioStreamInfo.cpp:153 src/monitor/monitor.cpp:291
 #, fuzzy, kde-format
 msgid "Merged streams"
 msgstr "רצועת שמע"
@@ -9947,7 +9947,7 @@ msgstr "‫צלימה לקובץ"
 msgid "Rendering preview"
 msgstr "ערוך פרופיל"
 
-#: src/mainwindow.cpp:674 src/monitor/monitor.cpp:400
+#: src/mainwindow.cpp:674 src/monitor/monitor.cpp:399
 #, fuzzy, kde-format
 msgid "Go to Guide…"
 msgstr "עבור לסמן..."
@@ -10448,22 +10448,22 @@ msgstr "משימות סרטוני שכבת על צג"
 msgid "Full Resolution (1:1)"
 msgstr "רזולוציה מלאה (1:1)"
 
-#: src/mainwindow.cpp:1583 src/monitor/monitor.cpp:207
+#: src/mainwindow.cpp:1583 src/monitor/monitor.cpp:206
 #, kde-format
 msgid "720p"
 msgstr ""
 
-#: src/mainwindow.cpp:1587 src/monitor/monitor.cpp:207
+#: src/mainwindow.cpp:1587 src/monitor/monitor.cpp:206
 #, kde-format
 msgid "540p"
 msgstr ""
 
-#: src/mainwindow.cpp:1591 src/monitor/monitor.cpp:208
+#: src/mainwindow.cpp:1591 src/monitor/monitor.cpp:207
 #, kde-format
 msgid "360p"
 msgstr ""
 
-#: src/mainwindow.cpp:1595 src/monitor/monitor.cpp:208
+#: src/mainwindow.cpp:1595 src/monitor/monitor.cpp:207
 #, kde-format
 msgid "270p"
 msgstr ""
@@ -11007,7 +11007,7 @@ msgstr "הוסף סמן"
 msgid "Export Subtitle File…"
 msgstr "הוסף מנחה"
 
-#: src/mainwindow.cpp:1962 src/timeline2/model/timelinemodel.cpp:2081
+#: src/mainwindow.cpp:1962 src/timeline2/model/timelinemodel.cpp:2083
 #, fuzzy, kde-format
 msgid "Delete Subtitle"
 msgstr "מחק סרטון"
@@ -11692,13 +11692,13 @@ msgid "Enable audio"
 msgstr "לכידת שמע"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:689
-#: src/monitor/monitor.cpp:275
+#: src/monitor/monitor.cpp:274
 #, fuzzy, kde-format
 msgid "Audio streams"
 msgstr "רצועת שמע"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:711
-#: src/monitor/monitor.cpp:1832
+#: src/monitor/monitor.cpp:1831
 #, kde-format
 msgid "Merge all streams"
 msgstr "מיזוג כל התזרימים"
@@ -12010,12 +12010,12 @@ msgstr "שמע בלבד"
 msgid "%1%"
 msgstr "%1%"
 
-#: src/monitor/monitor.cpp:203
+#: src/monitor/monitor.cpp:202
 #, kde-format
 msgid "Preview resolution - lower resolution means faster preview"
 msgstr ""
 
-#: src/monitor/monitor.cpp:204
+#: src/monitor/monitor.cpp:203
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12024,49 +12024,49 @@ msgid ""
 "preview)."
 msgstr ""
 
-#: src/monitor/monitor.cpp:207
+#: src/monitor/monitor.cpp:206
 #, kde-format
 msgid "1:1"
 msgstr "1:1"
 
-#: src/monitor/monitor.cpp:345 src/monitor/monitormanager.cpp:630
+#: src/monitor/monitor.cpp:344 src/monitor/monitormanager.cpp:630
 #, kde-format
 msgid "Set Zone In"
 msgstr "הגדרת תחילת קטע"
 
-#: src/monitor/monitor.cpp:346 src/monitor/monitormanager.cpp:634
+#: src/monitor/monitor.cpp:345 src/monitor/monitormanager.cpp:634
 #, kde-format
 msgid "Set Zone Out"
 msgstr "הגדרת סוף קטע"
 
-#: src/monitor/monitor.cpp:358 src/monitor/monitormanager.cpp:514
+#: src/monitor/monitor.cpp:357 src/monitor/monitormanager.cpp:514
 #, kde-format
 msgid "Rewind"
 msgstr "חזרה"
 
-#: src/monitor/monitor.cpp:363 src/monitor/monitor.cpp:366
+#: src/monitor/monitor.cpp:362 src/monitor/monitor.cpp:365
 #: src/monitor/monitormanager.cpp:489
 #, kde-format
 msgid "Play"
 msgstr "נגינה"
 
-#: src/monitor/monitor.cpp:366 src/monitor/monitormanager.cpp:489
+#: src/monitor/monitor.cpp:365 src/monitor/monitormanager.cpp:489
 #: src/monitor/monitormanager.cpp:495
 #, kde-format
 msgid "Pause"
 msgstr "השהיה"
 
-#: src/monitor/monitor.cpp:386 src/monitor/monitormanager.cpp:527
+#: src/monitor/monitor.cpp:385 src/monitor/monitormanager.cpp:527
 #, kde-format
 msgid "Forward"
 msgstr "קדימה"
 
-#: src/monitor/monitor.cpp:390
+#: src/monitor/monitor.cpp:389
 #, fuzzy, kde-format
 msgid "More Options…"
 msgstr "הצג/הסתר אופציות"
 
-#: src/monitor/monitor.cpp:391
+#: src/monitor/monitor.cpp:390
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12074,130 +12074,130 @@ msgid ""
 "size)."
 msgstr ""
 
-#: src/monitor/monitor.cpp:400
+#: src/monitor/monitor.cpp:399
 #, fuzzy, kde-format
 #| msgid "Go to marker..."
 msgid "Go to Marker…"
 msgstr "עבור לסמן..."
 
-#: src/monitor/monitor.cpp:404
+#: src/monitor/monitor.cpp:403
 #, fuzzy, kde-format
 msgid "Force Monitor Size"
 msgstr "גודל"
 
-#: src/monitor/monitor.cpp:405
+#: src/monitor/monitor.cpp:404
 #, kde-format
 msgid "Force 100%"
 msgstr "אילוץ 100%"
 
-#: src/monitor/monitor.cpp:407
+#: src/monitor/monitor.cpp:406
 #, kde-format
 msgid "Force 50%"
 msgstr "אילוץ 50%"
 
-#: src/monitor/monitor.cpp:409
+#: src/monitor/monitor.cpp:408
 #, fuzzy, kde-format
 msgid "Free Resize"
 msgstr "גודל מסגרת"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:421 src/scopes/colorscopes/vectorscope.cpp:50
+#: src/monitor/monitor.cpp:420 src/scopes/colorscopes/vectorscope.cpp:50
 #: src/timeline2/view/timelinecontroller.cpp:260 src/ui/titlewidget_ui.ui:125
 #, kde-format
 msgid "Black"
 msgstr "שחור"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:423 src/scopes/colorscopes/rgbparade.cpp:26
+#: src/monitor/monitor.cpp:422 src/scopes/colorscopes/rgbparade.cpp:26
 #: src/scopes/colorscopes/waveform.cpp:33 src/ui/titlewidget_ui.ui:130
 #, kde-format
 msgid "White"
 msgstr "לבן"
 
-#: src/monitor/monitor.cpp:425
+#: src/monitor/monitor.cpp:424
 #, kde-format
 msgid "Pink"
 msgstr "ורוד"
 
-#: src/monitor/monitor.cpp:492
+#: src/monitor/monitor.cpp:491
 #, kde-format
 msgid "-5"
 msgstr "-5"
 
-#: src/monitor/monitor.cpp:498
+#: src/monitor/monitor.cpp:497
 #, fuzzy, kde-format
 #| msgid "1"
 msgid "-1"
 msgstr "1"
 
-#: src/monitor/monitor.cpp:504
+#: src/monitor/monitor.cpp:503
 #, fuzzy, kde-format
 #| msgid "1"
 msgid "+1"
 msgstr "1"
 
-#: src/monitor/monitor.cpp:510
+#: src/monitor/monitor.cpp:509
 #, kde-format
 msgid "+5"
 msgstr "+5"
 
 #. i18n("Save zone"), this, SLOT(slotSaveZone()));
-#: src/monitor/monitor.cpp:644
+#: src/monitor/monitor.cpp:643
 #, fuzzy, kde-format
 msgid "Extract Zone"
 msgstr "שלוף מסגרת"
 
-#: src/monitor/monitor.cpp:657
+#: src/monitor/monitor.cpp:656
 #, kde-format
 msgid "Set current image as thumbnail"
 msgstr "הגדרת התמונה הנוכחית כייצוגית"
 
-#: src/monitor/monitor.cpp:662
+#: src/monitor/monitor.cpp:661
 #, fuzzy, kde-format
 #| msgid "Show audio thumbnails"
 msgid "Always show audio thumbnails"
 msgstr "הראה צלמיות שמע"
 
-#: src/monitor/monitor.cpp:679
+#: src/monitor/monitor.cpp:678
 #, fuzzy, kde-format
 msgid "Show Audio Levels"
 msgstr "אפקט שמע - הד"
 
-#: src/monitor/monitor.cpp:686
+#: src/monitor/monitor.cpp:685
 #, fuzzy, kde-format
 msgid "Show Source Timecode"
 msgstr "צג הקלטה"
 
-#: src/monitor/monitor.cpp:723
+#: src/monitor/monitor.cpp:722
 #, kde-format
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "רזולוציית המסך שלך לא מספיקה לפעולה הזאת"
 
-#: src/monitor/monitor.cpp:866 src/monitor/monitor.cpp:899
+#: src/monitor/monitor.cpp:865 src/monitor/monitor.cpp:898
 #: src/timeline2/view/timelinecontroller.cpp:1797
 #, fuzzy, kde-format
 #| msgid "Set Zone In"
 msgid "Set Zone"
 msgstr "קבע תחילת קטע"
 
-#: src/monitor/monitor.cpp:1209
+#: src/monitor/monitor.cpp:1208
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "שמור פרוייקט DVD"
 
-#: src/monitor/monitor.cpp:1209
+#: src/monitor/monitor.cpp:1208
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "מחק סמן"
 
-#: src/monitor/monitor.cpp:1216
+#: src/monitor/monitor.cpp:1215
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "ייצוא תמונה באמצעות רזולוציית המקור"
 
-#: src/monitor/monitor.cpp:1817 src/monitor/monitor.cpp:1965
+#: src/monitor/monitor.cpp:1816 src/monitor/monitor.cpp:1964
 #, fuzzy, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
@@ -12206,38 +12206,38 @@ msgstr[1] "רצועת שמע"
 msgstr[2] ""
 msgstr[3] ""
 
-#: src/monitor/monitor.cpp:2299
+#: src/monitor/monitor.cpp:2298
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2341 src/monitor/monitor.cpp:2398
+#: src/monitor/monitor.cpp:2340 src/monitor/monitor.cpp:2397
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
 "restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2361
+#: src/monitor/monitor.cpp:2360
 #, fuzzy, kde-format
 #| msgid "Clip has no markers"
 msgid "Clip has no effects"
 msgstr "הסרטון אינו מכיל סמנים"
 
-#: src/monitor/monitor.cpp:2363
+#: src/monitor/monitor.cpp:2362
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip in project bin to compare effect"
 msgstr "בחר סרטון, על מנת להוסיף אפקט"
 
-#: src/monitor/monitor.cpp:2405
+#: src/monitor/monitor.cpp:2404
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
 "frei0r and restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2451
+#: src/monitor/monitor.cpp:2450
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""
@@ -16020,7 +16020,7 @@ msgid "Delete clips on track"
 msgstr "מחק רצועה"
 
 #: src/timeline2/model/timelineitemmodel.cpp:135
-#: src/timeline2/model/timelinemodel.cpp:4311
+#: src/timeline2/model/timelinemodel.cpp:4313
 #, fuzzy, kde-format
 #| msgid "Insert Track"
 msgctxt "@action"
@@ -16071,149 +16071,149 @@ msgstr ""
 msgid "Replace clip"
 msgstr "טען מחדש סרטון"
 
-#: src/timeline2/model/timelinemodel.cpp:941
-#: src/timeline2/model/timelinemodel.cpp:1146
+#: src/timeline2/model/timelinemodel.cpp:943
+#: src/timeline2/model/timelinemodel.cpp:1148
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select a clip to apply the mix"
 msgstr "כלי בחירה"
 
-#: src/timeline2/model/timelinemodel.cpp:1144
+#: src/timeline2/model/timelinemodel.cpp:1146
 #, fuzzy, kde-format
 #| msgid "Start"
 msgid "start"
 msgstr "התחלה"
 
-#: src/timeline2/model/timelinemodel.cpp:1144
+#: src/timeline2/model/timelinemodel.cpp:1146
 #, fuzzy, kde-format
 #| msgid "End"
 msgid "end"
 msgstr "סיום"
 
-#: src/timeline2/model/timelinemodel.cpp:1144
+#: src/timeline2/model/timelinemodel.cpp:1146
 #, kde-format
 msgid "Not enough frames at clip %1 to apply the mix"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1150
+#: src/timeline2/model/timelinemodel.cpp:1152
 #, fuzzy, kde-format
 msgid "Create mix"
 msgstr "חתוך קבוצה"
 
-#: src/timeline2/model/timelinemodel.cpp:1221
-#: src/timeline2/model/timelinemodel.cpp:1251
+#: src/timeline2/model/timelinemodel.cpp:1223
+#: src/timeline2/model/timelinemodel.cpp:1253
 #, kde-format
 msgid "Move clip"
 msgstr "העברת סרטון"
 
-#: src/timeline2/model/timelinemodel.cpp:1755
-#: src/timeline2/model/timelinemodel.cpp:1845
-#: src/timeline2/model/timelinemodel.cpp:1868
-#: src/timeline2/model/timelinemodel.cpp:1891
+#: src/timeline2/model/timelinemodel.cpp:1757
+#: src/timeline2/model/timelinemodel.cpp:1847
+#: src/timeline2/model/timelinemodel.cpp:1870
+#: src/timeline2/model/timelinemodel.cpp:1893
 #, kde-format
 msgid "No available track for insert operation"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1760
+#: src/timeline2/model/timelinemodel.cpp:1762
 #, fuzzy, kde-format
 #| msgid "Insert clip"
 msgid "Insert Clip"
 msgstr "הכנס סרטון"
 
-#: src/timeline2/model/timelinemodel.cpp:1813
+#: src/timeline2/model/timelinemodel.cpp:1815
 #, kde-format
 msgid "You cannot insert a sequence containing itself"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1861
-#: src/timeline2/model/timelinemodel.cpp:1883
+#: src/timeline2/model/timelinemodel.cpp:1863
+#: src/timeline2/model/timelinemodel.cpp:1885
 #, kde-format
 msgid "Not enough audio tracks for all streams (%1)"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1967
+#: src/timeline2/model/timelinemodel.cpp:1969
 #, kde-format
 msgid "No available track for split operation"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:2004
+#: src/timeline2/model/timelinemodel.cpp:2006
 #, kde-format
 msgid "Audio split failed: no viable track"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:2012
+#: src/timeline2/model/timelinemodel.cpp:2014
 #, kde-format
 msgid "Audio split failed: impossible to create audio clip"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:2074
+#: src/timeline2/model/timelinemodel.cpp:2076
 #, fuzzy, kde-format
 #| msgid "Move group"
 msgid "Remove group"
 msgstr "העבר קבוצה"
 
-#: src/timeline2/model/timelinemodel.cpp:2079
+#: src/timeline2/model/timelinemodel.cpp:2081
 #, kde-format
 msgid "Delete Composition"
 msgstr "מחיקת הרכבה"
 
-#: src/timeline2/model/timelinemodel.cpp:2247
-#: src/timeline2/model/timelinemodel.cpp:2409
+#: src/timeline2/model/timelinemodel.cpp:2249
+#: src/timeline2/model/timelinemodel.cpp:2411
 #: src/timeline2/view/timelinecontroller.cpp:4228
 #, kde-format
 msgid "Move group"
 msgstr "העברת קבוצה"
 
-#: src/timeline2/model/timelinemodel.cpp:3050
+#: src/timeline2/model/timelinemodel.cpp:3052
 #, kde-format
 msgid "Resize group"
 msgstr "שינוי גודל קבוצה"
 
-#: src/timeline2/model/timelinemodel.cpp:3174
+#: src/timeline2/model/timelinemodel.cpp:3176
 #, fuzzy, kde-format
 #| msgid "Resize clip end"
 msgid "Resize clip speed"
 msgstr "שנה גודל סוף סרטון"
 
-#: src/timeline2/model/timelinemodel.cpp:3321
+#: src/timeline2/model/timelinemodel.cpp:3323
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Remove mix"
 msgstr "הסר קובץ"
 
-#: src/timeline2/model/timelinemodel.cpp:3323
+#: src/timeline2/model/timelinemodel.cpp:3325
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Removing mix failed"
 msgstr "הסר קובץ"
 
-#: src/timeline2/model/timelinemodel.cpp:3614
+#: src/timeline2/model/timelinemodel.cpp:3616
 #, kde-format
 msgid "Resize clip"
 msgstr "שינוי גודל סרטון"
 
-#: src/timeline2/model/timelinemodel.cpp:3616
+#: src/timeline2/model/timelinemodel.cpp:3618
 #, kde-format
 msgid "Resize composition"
 msgstr "שינוי גודל הרכבה"
 
-#: src/timeline2/model/timelinemodel.cpp:3938
+#: src/timeline2/model/timelinemodel.cpp:3940
 #, fuzzy, kde-format
 #| msgid "Resize clip"
 msgid "Ripple resize clip"
 msgstr "שנה גודל סרטון"
 
-#: src/timeline2/model/timelinemodel.cpp:3940
+#: src/timeline2/model/timelinemodel.cpp:3942
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "שינוי גודל הרכבה כאדוות"
 
-#: src/timeline2/model/timelinemodel.cpp:3942
+#: src/timeline2/model/timelinemodel.cpp:3944
 #, fuzzy, kde-format
 msgid "Ripple resize subtitle"
 msgstr "מחק סרטון"
 
-#: src/timeline2/model/timelinemodel.cpp:4085
+#: src/timeline2/model/timelinemodel.cpp:4087
 #, fuzzy, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -16223,147 +16223,147 @@ msgstr[1] "סרטון כותר"
 msgstr[2] ""
 msgstr[3] ""
 
-#: src/timeline2/model/timelinemodel.cpp:4120
+#: src/timeline2/model/timelinemodel.cpp:4122
 #, fuzzy, kde-format
 msgid "Slip clip"
 msgstr "סרטון כותר"
 
-#: src/timeline2/model/timelinemodel.cpp:4155
+#: src/timeline2/model/timelinemodel.cpp:4157
 #, kde-format
 msgid "Group clips"
 msgstr "קיבוץ סרטונים"
 
-#: src/timeline2/model/timelinemodel.cpp:4240
-#: src/timeline2/model/timelinemodel.cpp:4256
+#: src/timeline2/model/timelinemodel.cpp:4242
+#: src/timeline2/model/timelinemodel.cpp:4258
 #, kde-format
 msgid "Ungroup clips"
 msgstr "פירוק קיבוץ סרטונים"
 
-#: src/timeline2/model/timelinemodel.cpp:4420
+#: src/timeline2/model/timelinemodel.cpp:4422
 #: src/timeline2/view/timelinecontroller.cpp:944
 #, kde-format
 msgid "Delete Track"
 msgstr "מחיקת רצועה"
 
-#: src/timeline2/model/timelinemodel.cpp:4430
+#: src/timeline2/model/timelinemodel.cpp:4432
 #, fuzzy, kde-format
 #| msgid "Cannot insert clip in timeline"
 msgid "Cannot delete last track in timeline"
 msgstr "לא ניתן להוסיף סרטון ברצף הזמן"
 
-#: src/timeline2/model/timelinemodel.cpp:4681
+#: src/timeline2/model/timelinemodel.cpp:4683
 #, fuzzy, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "אי אפשר להוסיף אפקט לסרטון זה"
 
-#: src/timeline2/model/timelinemodel.cpp:4688
+#: src/timeline2/model/timelinemodel.cpp:4690
 #, fuzzy, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "אי אפשר להוסיף אפקט לסרטון זה"
 
-#: src/timeline2/model/timelinemodel.cpp:4709
+#: src/timeline2/model/timelinemodel.cpp:4711
 #, fuzzy, kde-format
 #| msgid "Cannot paste clip to selected place"
 msgid "Cannot paste effect to master track"
 msgstr "לא ניתן להדביק את הסרטון לנקודה הנבחרת"
 
-#: src/timeline2/model/timelinemodel.cpp:4715
+#: src/timeline2/model/timelinemodel.cpp:4717
 #, fuzzy, kde-format
 #| msgid "Cannot paste clip to selected place"
 msgid "Cannot paste effect to selected track"
 msgstr "לא ניתן להדביק את הסרטון לנקודה הנבחרת"
 
-#: src/timeline2/model/timelinemodel.cpp:4759
+#: src/timeline2/model/timelinemodel.cpp:4761
 #: src/timeline2/view/timelinecontroller.cpp:1522
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot add effect %1 to selected clip"
 msgstr "אי אפשר להוסיף אפקט לסרטון זה"
 
-#: src/timeline2/model/timelinemodel.cpp:4783
+#: src/timeline2/model/timelinemodel.cpp:4785
 #, fuzzy, kde-format
 #| msgid "Adjust levels"
 msgid "Adjust Fade"
 msgstr "כוון רמות"
 
-#: src/timeline2/model/timelinemodel.cpp:5090
+#: src/timeline2/model/timelinemodel.cpp:5092
 #, kde-format
 msgid "Insert Composition"
 msgstr "הוספת הרכבה"
 
-#: src/timeline2/model/timelinemodel.cpp:5278
+#: src/timeline2/model/timelinemodel.cpp:5280
 #, kde-format
 msgid "Move composition"
 msgstr "העברת הרכבה"
 
-#: src/timeline2/model/timelinemodel.cpp:5932
+#: src/timeline2/model/timelinemodel.cpp:5934
 #, fuzzy, kde-format
 #| msgid "Enable Stretch"
 msgid "Enable time remap"
 msgstr "אפשר מתיחה"
 
-#: src/timeline2/model/timelinemodel.cpp:6006
+#: src/timeline2/model/timelinemodel.cpp:6008
 #, fuzzy, kde-format
 #| msgid "Captured files"
 msgid "Change speed failed"
 msgstr "קבצים שנלכדו"
 
-#: src/timeline2/model/timelinemodel.cpp:6016
+#: src/timeline2/model/timelinemodel.cpp:6018
 #, fuzzy, kde-format
 #| msgid "Change clip type"
 msgid "Change clip speed"
 msgstr "שנה סוג סרטון"
 
-#: src/timeline2/model/timelinemodel.cpp:6431
+#: src/timeline2/model/timelinemodel.cpp:6433
 #: src/timeline2/view/qml/timeline.qml:1199
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Lock track"
 msgstr "נעילת רצועה"
 
-#: src/timeline2/model/timelinemodel.cpp:6436
+#: src/timeline2/model/timelinemodel.cpp:6438
 #: src/timeline2/view/qml/timeline.qml:1199
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Unlock track"
 msgstr "ביטול נעילת רצועה"
 
-#: src/timeline2/model/timelinemodel.cpp:6470
-#: src/timeline2/model/timelinemodel.cpp:6532
+#: src/timeline2/model/timelinemodel.cpp:6472
+#: src/timeline2/model/timelinemodel.cpp:6534
 #, kde-format
 msgid "Change composition"
 msgstr "שינוי הרכבה"
 
-#: src/timeline2/model/timelinemodel.cpp:6484
+#: src/timeline2/model/timelinemodel.cpp:6486
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "לא ניתן לתפעל הרכבה מקובצת, נא לפרק"
 
-#: src/timeline2/model/timelinemodel.cpp:6679
-#: src/timeline2/model/timelinemodel.cpp:6716
-#: src/timeline2/model/timelinemodel.cpp:6749
-#: src/timeline2/model/timelinemodel.cpp:6830
+#: src/timeline2/model/timelinemodel.cpp:6681
+#: src/timeline2/model/timelinemodel.cpp:6718
+#: src/timeline2/model/timelinemodel.cpp:6751
+#: src/timeline2/model/timelinemodel.cpp:6832
 #, fuzzy, kde-format
 #| msgid "Cannot move clip to position %1"
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "לא ניתן להעביר את הסרטון לנקודה %1"
 
-#: src/timeline2/model/timelinemodel.cpp:6690
-#: src/timeline2/model/timelinemodel.cpp:6724
-#: src/timeline2/model/timelinemodel.cpp:6768
-#: src/timeline2/model/timelinemodel.cpp:6854
+#: src/timeline2/model/timelinemodel.cpp:6692
+#: src/timeline2/model/timelinemodel.cpp:6726
+#: src/timeline2/model/timelinemodel.cpp:6770
+#: src/timeline2/model/timelinemodel.cpp:6856
 #, fuzzy, kde-format
 #| msgid "Cannot resize transition"
 msgid "Cannot resize mix"
 msgstr "לא ניתן לשנות את גודל המעבר"
 
-#: src/timeline2/model/timelinemodel.cpp:6868
+#: src/timeline2/model/timelinemodel.cpp:6870
 #, fuzzy, kde-format
 #| msgid "Resize clip"
 msgid "Resize mix"
 msgstr "שנה גודל סרטון"
 
-#: src/timeline2/model/timelinemodel.cpp:7007
+#: src/timeline2/model/timelinemodel.cpp:7009
 #, fuzzy, kde-format
 msgid "Error initializing timeline preview"
 msgstr "תצוגה מקדימה"
