@@ -132,37 +132,39 @@ void AudioLevelWidget::drawBackground(int channels)
 
     int prevY = -1;
     int y = 0;
-    for (int i = 0; i < dbLabelCount; i++) {
-        int value = dbscale.at(i);
-        QString label = QString::asprintf("%d", value);
-        y = newSize.height() - 2 - qRound(IEC_ScaleMax(value, m_maxDb) * ((double)newSize.height() - 4));
-        p.setOpacity(0.6);
-        p.setPen(palette().window().color().rgb());
-        p.drawLine(m_offset + 1, y, m_offset + newWidth - 4, y);
-        y -= qRound(labelHeight / 2.0);
-        if (y < 0) {
-            y = 0;
+    if (newSize.height() > 2 * labelHeight) {
+        for (int i = 0; i < dbLabelCount; i++) {
+            int value = dbscale.at(i);
+            y = newSize.height() - 2 - qRound(IEC_ScaleMax(value, m_maxDb) * ((double)newSize.height() - 4));
+            p.setOpacity(0.6);
+            p.setPen(palette().window().color().rgb());
+            p.drawLine(m_offset + 1, y, m_offset + newWidth - 4, y);
+            y -= qRound(labelHeight / 2.0);
+            if (y < 0) {
+                y = 0;
+            }
+            if (prevY < 0 || y - prevY > 2) {
+                const QString label = QString::asprintf("%d", value);
+                p.setOpacity(0.8);
+                p.setPen(palette().text().color().rgb());
+                p.drawText(QRectF(0, y, m_offset - 5, labelHeight), label, QTextOption(Qt::AlignRight));
+                prevY = y + labelHeight;
+            }
         }
-        if (prevY < 0 || y - prevY > 2) {
-            p.setOpacity(0.8);
-            p.setPen(palette().text().color().rgb());
-            p.drawText(QRectF(0, y, m_offset - 5, labelHeight), label, QTextOption(Qt::AlignRight));
-            prevY = y + labelHeight;
-        }
-    }
-    prevY = -1;
-    const QVector<int> gains = {-24, -10, -4, 0, 4, 10, 24};
-    p.setOpacity(0.8);
-    p.setPen(palette().text().color().rgb());
-    int sliderHeight = newSize.height() - m_sliderHandle;
-    for (int i = 0; i < gains.count(); i++) {
-        y = newSize.height() - m_sliderHandle / 2 - (fromDB(gains.at(i)) * sliderHeight / 100.);
-        y -= qRound(labelHeight / 2.0);
-        y = qBound(0, y, newSize.height() - labelHeight);
-        if (prevY < 0 || prevY - y > 2) {
-            QString label = QString::asprintf("%d", gains.at(i));
-            p.drawText(QRectF(m_offset + newWidth, y, m_pixmap.width() - (m_offset + newWidth) - 2, labelHeight), label, QTextOption(Qt::AlignRight));
-            prevY = y + labelHeight;
+        prevY = -1;
+        const QVector<int> gains = {-24, -10, -4, 0, 4, 10, 24};
+        p.setOpacity(0.8);
+        p.setPen(palette().text().color().rgb());
+        int sliderHeight = newSize.height() - m_sliderHandle;
+        for (int i = 0; i < gains.count(); i++) {
+            y = newSize.height() - m_sliderHandle / 2 - (fromDB(gains.at(i)) * sliderHeight / 100.);
+            y -= qRound(labelHeight / 2.0);
+            y = qBound(0, y, newSize.height() - labelHeight);
+            if (prevY < 0 || prevY - y > 2) {
+                const QString label = QString::asprintf("%d", gains.at(i));
+                p.drawText(QRectF(m_offset + newWidth, y, m_pixmap.width() - (m_offset + newWidth) - 2, labelHeight), label, QTextOption(Qt::AlignRight));
+                prevY = qMax(0, y - labelHeight);
+            }
         }
     }
 
