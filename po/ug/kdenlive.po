@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-24 02:23+0000\n"
+"POT-Creation-Date: 2024-01-26 02:27+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -86,7 +86,7 @@ msgstr ""
 #: data/effects/audiowaveform.xml:7 data/effects/dynamictext.xml:23
 #: data/effects/pan_zoom.xml:17 data/effects/rotation.xml:41
 #: data/effects/rotation_keyframable.xml:23 data/effects/timer.xml:26
-#: src/monitor/monitor.cpp:420
+#: src/monitor/monitor.cpp:419
 #, kde-format
 msgid "Background Color"
 msgstr "تەگلىك رەڭگى"
@@ -7388,7 +7388,7 @@ msgstr "بايت نىسبىتى"
 msgid "Rendering <i>%1</i> started"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:908 src/monitor/monitor.cpp:1197
+#: src/dialogs/renderwidget.cpp:908 src/monitor/monitor.cpp:1196
 #, kde-format
 msgid "untitled"
 msgstr "ماۋزۇسىز"
@@ -9742,7 +9742,7 @@ msgstr ""
 msgid "Hz "
 msgstr "Hz"
 
-#: src/lib/audio/audioStreamInfo.cpp:153 src/monitor/monitor.cpp:292
+#: src/lib/audio/audioStreamInfo.cpp:153 src/monitor/monitor.cpp:291
 #, fuzzy, kde-format
 #| msgid "Bitrate"
 msgid "Merged streams"
@@ -10320,7 +10320,7 @@ msgstr "سىزىۋاتىدۇ"
 msgid "Rendering preview"
 msgstr "سىزىۋاتىدۇ"
 
-#: src/mainwindow.cpp:674 src/monitor/monitor.cpp:400
+#: src/mainwindow.cpp:674 src/monitor/monitor.cpp:399
 #, kde-format
 msgid "Go to Guide…"
 msgstr ""
@@ -10824,22 +10824,22 @@ msgstr "Laurent Montel"
 msgid "Full Resolution (1:1)"
 msgstr "ئېنىقلىق"
 
-#: src/mainwindow.cpp:1555 src/monitor/monitor.cpp:207
+#: src/mainwindow.cpp:1555 src/monitor/monitor.cpp:206
 #, kde-format
 msgid "720p"
 msgstr ""
 
-#: src/mainwindow.cpp:1559 src/monitor/monitor.cpp:207
+#: src/mainwindow.cpp:1559 src/monitor/monitor.cpp:206
 #, kde-format
 msgid "540p"
 msgstr ""
 
-#: src/mainwindow.cpp:1563 src/monitor/monitor.cpp:208
+#: src/mainwindow.cpp:1563 src/monitor/monitor.cpp:207
 #, kde-format
 msgid "360p"
 msgstr ""
 
-#: src/mainwindow.cpp:1567 src/monitor/monitor.cpp:208
+#: src/mainwindow.cpp:1567 src/monitor/monitor.cpp:207
 #, kde-format
 msgid "270p"
 msgstr ""
@@ -12116,14 +12116,14 @@ msgid "Enable audio"
 msgstr ""
 
 #: src/mltcontroller/clippropertiescontroller.cpp:689
-#: src/monitor/monitor.cpp:275
+#: src/monitor/monitor.cpp:274
 #, fuzzy, kde-format
 #| msgid "Bitrate"
 msgid "Audio streams"
 msgstr "بايت نىسبىتى"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:711
-#: src/monitor/monitor.cpp:1832
+#: src/monitor/monitor.cpp:1831
 #, kde-format
 msgid "Merge all streams"
 msgstr ""
@@ -12444,12 +12444,12 @@ msgstr "ئۈن ئاۋاز مىقدارى"
 msgid "%1%"
 msgstr ""
 
-#: src/monitor/monitor.cpp:203
+#: src/monitor/monitor.cpp:202
 #, kde-format
 msgid "Preview resolution - lower resolution means faster preview"
 msgstr ""
 
-#: src/monitor/monitor.cpp:204
+#: src/monitor/monitor.cpp:203
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12458,50 +12458,50 @@ msgid ""
 "preview)."
 msgstr ""
 
-#: src/monitor/monitor.cpp:207
+#: src/monitor/monitor.cpp:206
 #, kde-format
 msgid "1:1"
 msgstr ""
 
-#: src/monitor/monitor.cpp:345 src/monitor/monitormanager.cpp:630
+#: src/monitor/monitor.cpp:344 src/monitor/monitormanager.cpp:630
 #, kde-format
 msgid "Set Zone In"
 msgstr ""
 
-#: src/monitor/monitor.cpp:346 src/monitor/monitormanager.cpp:634
+#: src/monitor/monitor.cpp:345 src/monitor/monitormanager.cpp:634
 #, kde-format
 msgid "Set Zone Out"
 msgstr ""
 
-#: src/monitor/monitor.cpp:358 src/monitor/monitormanager.cpp:514
+#: src/monitor/monitor.cpp:357 src/monitor/monitormanager.cpp:514
 #, kde-format
 msgid "Rewind"
 msgstr "كەينىگە"
 
-#: src/monitor/monitor.cpp:363 src/monitor/monitor.cpp:366
+#: src/monitor/monitor.cpp:362 src/monitor/monitor.cpp:365
 #: src/monitor/monitormanager.cpp:489
 #, kde-format
 msgid "Play"
 msgstr "قوي"
 
-#: src/monitor/monitor.cpp:366 src/monitor/monitormanager.cpp:489
+#: src/monitor/monitor.cpp:365 src/monitor/monitormanager.cpp:489
 #: src/monitor/monitormanager.cpp:495
 #, kde-format
 msgid "Pause"
 msgstr "ۋاقىتلىق توختا"
 
-#: src/monitor/monitor.cpp:386 src/monitor/monitormanager.cpp:527
+#: src/monitor/monitor.cpp:385 src/monitor/monitormanager.cpp:527
 #, kde-format
 msgid "Forward"
 msgstr "ئالدى"
 
-#: src/monitor/monitor.cpp:390
+#: src/monitor/monitor.cpp:389
 #, fuzzy, kde-format
 #| msgid "Options"
 msgid "More Options…"
 msgstr "تاللانما"
 
-#: src/monitor/monitor.cpp:391
+#: src/monitor/monitor.cpp:390
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12509,172 +12509,172 @@ msgid ""
 "size)."
 msgstr ""
 
-#: src/monitor/monitor.cpp:400
+#: src/monitor/monitor.cpp:399
 #, kde-format
 msgid "Go to Marker…"
 msgstr ""
 
-#: src/monitor/monitor.cpp:404
+#: src/monitor/monitor.cpp:403
 #, fuzzy, kde-format
 #| msgid "Font Size"
 msgid "Force Monitor Size"
 msgstr "خەت چوڭلۇقى"
 
-#: src/monitor/monitor.cpp:405
+#: src/monitor/monitor.cpp:404
 #, kde-format
 msgid "Force 100%"
 msgstr ""
 
-#: src/monitor/monitor.cpp:407
+#: src/monitor/monitor.cpp:406
 #, kde-format
 msgid "Force 50%"
 msgstr ""
 
-#: src/monitor/monitor.cpp:409
+#: src/monitor/monitor.cpp:408
 #, fuzzy, kde-format
 #| msgid "Frame size"
 msgid "Free Resize"
 msgstr "كاندۇك چوڭلۇقى"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:421 src/scopes/colorscopes/vectorscope.cpp:50
+#: src/monitor/monitor.cpp:420 src/scopes/colorscopes/vectorscope.cpp:50
 #: src/timeline2/view/timelinecontroller.cpp:260 src/ui/titlewidget_ui.ui:125
 #, kde-format
 msgid "Black"
 msgstr "قارا"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:423 src/scopes/colorscopes/rgbparade.cpp:26
+#: src/monitor/monitor.cpp:422 src/scopes/colorscopes/rgbparade.cpp:26
 #: src/scopes/colorscopes/waveform.cpp:33 src/ui/titlewidget_ui.ui:130
 #, kde-format
 msgid "White"
 msgstr "ئاق"
 
-#: src/monitor/monitor.cpp:425
+#: src/monitor/monitor.cpp:424
 #, kde-format
 msgid "Pink"
 msgstr ""
 
-#: src/monitor/monitor.cpp:492
+#: src/monitor/monitor.cpp:491
 #, kde-format
 msgid "-5"
 msgstr ""
 
-#: src/monitor/monitor.cpp:498
+#: src/monitor/monitor.cpp:497
 #, fuzzy, kde-format
 #| msgid "1"
 msgid "-1"
 msgstr "1"
 
-#: src/monitor/monitor.cpp:504
+#: src/monitor/monitor.cpp:503
 #, fuzzy, kde-format
 #| msgid "1"
 msgid "+1"
 msgstr "1"
 
-#: src/monitor/monitor.cpp:510
+#: src/monitor/monitor.cpp:509
 #, kde-format
 msgid "+5"
 msgstr ""
 
 #. i18n("Save zone"), this, SLOT(slotSaveZone()));
-#: src/monitor/monitor.cpp:644
+#: src/monitor/monitor.cpp:643
 #, kde-format
 msgid "Extract Zone"
 msgstr ""
 
-#: src/monitor/monitor.cpp:657
+#: src/monitor/monitor.cpp:656
 #, kde-format
 msgid "Set current image as thumbnail"
 msgstr ""
 
-#: src/monitor/monitor.cpp:662
+#: src/monitor/monitor.cpp:661
 #, fuzzy, kde-format
 #| msgid "Show thumbnails"
 msgid "Always show audio thumbnails"
 msgstr "thumbnails نى كۆرسەتسۇن"
 
-#: src/monitor/monitor.cpp:679
+#: src/monitor/monitor.cpp:678
 #, fuzzy, kde-format
 #| msgid "Audio device:"
 msgid "Show Audio Levels"
 msgstr "ئۈن ئۈسكۈنە:"
 
-#: src/monitor/monitor.cpp:686
+#: src/monitor/monitor.cpp:685
 #, fuzzy, kde-format
 #| msgid "Record Monitor"
 msgid "Show Source Timecode"
 msgstr "ئۈنئالغۇ كۆزەتكۈچ"
 
-#: src/monitor/monitor.cpp:723
+#: src/monitor/monitor.cpp:722
 #, kde-format
 msgid "Your screen resolution is not sufficient for this action"
 msgstr ""
 
-#: src/monitor/monitor.cpp:866 src/monitor/monitor.cpp:899
+#: src/monitor/monitor.cpp:865 src/monitor/monitor.cpp:898
 #: src/timeline2/view/timelinecontroller.cpp:1797
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Set Zone"
 msgstr "سەپلىمە ھۆججەتنى ساقلايدۇ"
 
-#: src/monitor/monitor.cpp:1209
+#: src/monitor/monitor.cpp:1208
 #, fuzzy, kde-format
 #| msgid "Image"
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "سۈرەت"
 
-#: src/monitor/monitor.cpp:1209
+#: src/monitor/monitor.cpp:1208
 #, fuzzy, kde-format
 #| msgid "Image"
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "سۈرەت"
 
-#: src/monitor/monitor.cpp:1216
+#: src/monitor/monitor.cpp:1215
 #, kde-format
 msgid "Export image using source resolution"
 msgstr ""
 
-#: src/monitor/monitor.cpp:1817 src/monitor/monitor.cpp:1965
+#: src/monitor/monitor.cpp:1816 src/monitor/monitor.cpp:1964
 #, fuzzy, kde-format
 #| msgid "Bitrate"
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "بايت نىسبىتى"
 
-#: src/monitor/monitor.cpp:2299
+#: src/monitor/monitor.cpp:2298
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2341 src/monitor/monitor.cpp:2398
+#: src/monitor/monitor.cpp:2340 src/monitor/monitor.cpp:2397
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
 "restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2361
+#: src/monitor/monitor.cpp:2360
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Clip has no effects"
 msgstr "ئۈنۈم يوق"
 
-#: src/monitor/monitor.cpp:2363
+#: src/monitor/monitor.cpp:2362
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2405
+#: src/monitor/monitor.cpp:2404
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
 "frei0r and restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2451
+#: src/monitor/monitor.cpp:2450
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""
