@@ -263,7 +263,7 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
             if (timeline->isSubTitle(cid)) {
                 if (subtitleItemSelected) {
                     // We cannot cut 2 overlapping subtitles at the same position
-                    pCore->displayMessage(i18n("Failed to cut clip"), ErrorMessage, 500);
+                    pCore->displayMessage(i18nc("@info:status", "Cannot cut overlapping subtitles"), ErrorMessage, 500);
                     bool undone = undo();
                     Q_ASSERT(undone);
                     return false;
