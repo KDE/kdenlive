@@ -3595,6 +3595,10 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
                 }
             }
         }
+        if (finalSize < 1) {
+            // Abort resize
+            result = false;
+        }
         result = result && requestItemResize(id, finalSize, right, logUndo, undo, redo);
         if (!result) {
             break;
