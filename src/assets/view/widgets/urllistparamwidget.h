@@ -7,10 +7,11 @@
 
 #include "assets/view/widgets/abstractparamwidget.hpp"
 #include "ui_urllistparamwidget_ui.h"
+#include <KNSWidgets/Button>
+#include <QFutureWatcher>
 #include <QVariant>
 #include <QWidget>
 #include <knewstuff_version.h>
-#include <KNSWidgets/Button>
 
 class AssetParameterModel;
 
@@ -27,6 +28,7 @@ public:
         @param parent Parent widget
     */
     UrlListParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent);
+    ~UrlListParamWidget() override;
 
     /** @brief Set the index of the current displayed element
         @param index Integer holding the index of the target element (0-indexed)
@@ -64,10 +66,16 @@ private:
     int m_currentIndex;
     bool m_isLutList;
     bool m_isLumaList;
+    QFutureWatcher<void> m_watcher;
+    QFuture<void> m_thumbJob;
+    bool m_abortJobs{false};
 
     /** @brief Reads the first 30 lines of a .cube LUT file and check for validity
      */
     bool isValidCubeFile(const QString &path);
+    /** @brief Build a list of thumbnails for extra lumas
+     */
+    void buildThumbnails(const QStringList files);
 
 public Q_SLOTS:
     /** @brief Toggle the comments on or off
@@ -81,4 +89,7 @@ public Q_SLOTS:
     /** @brief Open fileopen dialog
      */
     void openFile();
+    /** @brief A thumb was created, update list
+     */
+    void updateItemThumb(const QString &path);
 };
