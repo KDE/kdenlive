@@ -245,15 +245,13 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
         }
     }
 
-    // We need to call clearSelection before attempting the split or the group split will be corrupted by the selection group (no undo support)
-    timeline->requestClearSelection();
-
     std::unordered_set<int> topElements;
     std::transform(clips.begin(), clips.end(), std::inserter(topElements, topElements.begin()), [&](int id) { return timeline->m_groups->getRootId(id); });
 
     int count = 0;
     QList<int> newIds;
     QList<int> clipsToCut;
+    bool subtitleItemSelected = false;
     for (int cid : clips) {
         if (!timeline->isClip(cid) && !timeline->isSubTitle(cid)) {
             continue;
@@ -262,11 +260,25 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
         int duration = timeline->getItemPlaytime(cid);
         if (start < position && (start + duration) > position) {
             clipsToCut << cid;
+            if (timeline->isSubTitle(cid)) {
+                if (subtitleItemSelected) {
+                    // We cannot cut 2 overlapping subtitles at the same position
+                    pCore->displayMessage(i18n("Failed to cut clip"), ErrorMessage, 500);
+                    bool undone = undo();
+                    Q_ASSERT(undone);
+                    return false;
+                }
+                subtitleItemSelected = true;
+            }
         }
     }
     if (clipsToCut.isEmpty()) {
         return true;
     }
+
+    // We need to call clearSelection before attempting the split or the group split will be corrupted by the selection group (no undo support)
+    timeline->requestClearSelection();
+
     for (int cid : qAsConst(clipsToCut)) {
         count++;
         int newId = -1;
@@ -311,17 +323,32 @@ bool TimelineFunctions::requestClipCutAll(std::shared_ptr<TimelineItemModel> tim
     std::function<bool(void)> redo = []() { return true; };
 
     for (const auto &track : timeline->m_allTracks) {
-        if (!track->isLocked()) {
+        if (track->shouldReceiveTimelineOp()) {
             affectedTracks << track;
         }
     }
 
-    if (affectedTracks.isEmpty()) {
+    unsigned count = 0;
+    auto subModel = timeline->getSubtitleModel();
+    if (subModel && !subModel->isLocked()) {
+        int clipId = timeline->getClipByPosition(-2, position);
+        if (clipId > -1) {
+            // Found subtitle clip at position in track, cut it. Update undo/redo as we go.
+            if (!TimelineFunctions::requestClipCut(timeline, clipId, position, undo, redo)) {
+                qWarning() << "Failed to cut clip " << clipId << " at " << position;
+                pCore->displayMessage(i18n("Failed to cut clip"), ErrorMessage, 500);
+                // Undo all cuts made, assert successful undo.
+                bool undone = undo();
+                Q_ASSERT(undone);
+                return false;
+            }
+            count++;
+        }
+    }
+    if (affectedTracks.isEmpty() && count == 0) {
         pCore->displayMessage(i18n("All tracks are locked"), ErrorMessage, 500);
         return false;
     }
-
-    unsigned count = 0;
     for (auto track : qAsConst(affectedTracks)) {
         int clipId = track->getClipByPosition(position);
         if (clipId > -1) {
