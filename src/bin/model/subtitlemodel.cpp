@@ -41,7 +41,8 @@ SubtitleModel::SubtitleModel(std::shared_ptr<TimelineItemModel> timeline, QObjec
     , m_subtitleFilter(new Mlt::Filter(pCore->getProjectProfile(), "avfilter.subtitles"))
 {
     qDebug() << "subtitle constructor";
-    qDebug() << "Filter!";
+    // Ensure the subtitle also covers transparent zones (useful for timeline sequences)
+    m_subtitleFilter->set("av.alpha", 1);
     if (m_timeline->tractor() != nullptr) {
         qDebug() << "Tractor!";
         m_subtitleFilter->set("internal_added", 237);
