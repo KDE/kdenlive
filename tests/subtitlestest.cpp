@@ -201,6 +201,21 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
         REQUIRE(subtitleModel->rowCount() == 0);
     }
 
+    SECTION("Ensure we cannot cut overlapping subtitles (it would create 2 subtitles at same frame position")
+    {
+        // In our current implementation, having 2 subtitles at same start time is not allowed
+        int subId = TimelineModel::getNextId();
+        int subId2 = TimelineModel::getNextId();
+        double fps = pCore->getCurrentFps();
+        REQUIRE(subtitleModel->addSubtitle(subId, GenTime(50, fps), GenTime(70, fps), QStringLiteral("Hello"), false, false));
+        REQUIRE(subtitleModel->addSubtitle(subId2, GenTime(60, fps), GenTime(90, fps), QStringLiteral("Hello2"), false, false));
+        REQUIRE(subtitleModel->rowCount() == 2);
+        REQUIRE(timeline->requestClipsGroup({subId, subId2}));
+        REQUIRE_FALSE(TimelineFunctions::requestClipCut(timeline, subId, 65));
+        subtitleModel->removeAllSubtitles();
+        REQUIRE(subtitleModel->rowCount() == 0);
+    }
+
     binModel->clean();
     pCore->m_projectManager = nullptr;
 }
