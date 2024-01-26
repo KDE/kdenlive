@@ -1833,19 +1833,14 @@ void TimelineController::cutClipUnderCursor(int position, int track)
     QMutexLocker lk(&m_metaMutex);
     bool foundClip = false;
     const auto selection = m_model->getCurrentSelection();
-    if (m_model->isSubtitleTrack(track)) {
-        // Subtitle cut
-        m_model->getSubtitleModel()->cutSubtitle(position);
-        return;
-    }
     if (track == -1) {
         for (int cid : selection) {
             if ((m_model->isClip(cid) || m_model->isSubTitle(cid)) && positionIsInItem(cid)) {
                 if (TimelineFunctions::requestClipCut(m_model, cid, position)) {
                     foundClip = true;
                     // Cutting clips in the selection group is handled in TimelineFunctions
-                    break;
                 }
+                break;
             }
         }
     }
@@ -1853,14 +1848,11 @@ void TimelineController::cutClipUnderCursor(int position, int track)
         if (track == -1) {
             track = m_activeTrack;
         }
-        if (track >= 0) {
+        if (track != -1) {
             int cid = m_model->getClipByPosition(track, position);
             if (cid >= 0 && TimelineFunctions::requestClipCut(m_model, cid, position)) {
                 foundClip = true;
             }
-        } else if (m_model->isSubtitleTrack(track)) {
-            // Subtitle cut
-            foundClip = m_model->getSubtitleModel()->cutSubtitle(position);
         }
     }
     if (!foundClip) {
