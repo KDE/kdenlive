@@ -29,6 +29,7 @@ Name[tr]=Renk Seçim Tablosu (LUT)
 Name[uk]=Таблиця пошуку кольорів (LUT)
 Name[x-test]=xxColor Lookup Table (LUT)xx
 Name[zh_CN]=颜色查找表 (LUT)
+Name[zh_TW]=顏色查詢表 (LUT)
 ProvidersUrl=https://autoconfig.kde.org/ocs/providers.xml
 Categories=Kdenlive Color Look-Up Tables
 TargetDir=kdenlive/luts

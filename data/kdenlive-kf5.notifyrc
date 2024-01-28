@@ -485,5 +485,6 @@ Name[tr]=Kaydetme başarılı
 Name[uk]=Успішно збережено
 Name[x-test]=xxSaving successfulxx
 Name[zh_CN]=保存成功
+Name[zh_TW]=成功儲存
 Sound=Oxygen-Sys-App-Positive.ogg
 Action=None
