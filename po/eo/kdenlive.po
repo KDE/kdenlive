@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-27 00:37+0000\n"
-"PO-Revision-Date: 2024-01-10 22:59+0100\n"
+"PO-Revision-Date: 2024-01-28 11:08+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -5625,10 +5625,9 @@ msgid "Clean Project"
 msgstr "Pura Projekto"
 
 #: src/bin/projectitemmodel.cpp:1217
-#, fuzzy, kde-format
-#| msgid "Loading project clips…"
+#, kde-format
 msgid "Reading project clips…"
-msgstr "Ŝargante projektajn tondaĵojn…"
+msgstr "Legante projektajn tondaĵojn…"
 
 #: src/bin/projectitemmodel.cpp:1321
 #, kde-format
@@ -8035,14 +8034,12 @@ msgstr "Dosierujo de aŭdvidaĵoj"
 #: src/doc/documentchecker.cpp:106
 #, kde-format
 msgid "Applying fixes…"
-msgstr ""
+msgstr "Aplikante riparojn…"
 
 #: src/doc/documentchecker.cpp:145 src/doc/documentchecker.cpp:199
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Checking setup…"
+#, kde-format
 msgid "Checking for missing items…"
-msgstr "Kontrolante agordon…"
+msgstr "Kontrolante pri mankantaj eroj…"
 
 #: src/doc/documentchecker.cpp:162
 #, kde-format
@@ -8162,10 +8159,9 @@ msgid "Missing proxies can be recreated on opening."
 msgstr "Mankantaj prokuriloj povas esti rekreitaj dum malfermo."
 
 #: src/doc/documentvalidator.cpp:47
-#, fuzzy, kde-format
-#| msgid "Loading project…"
+#, kde-format
 msgid "Validating project…"
-msgstr "Ŝargante projekton…"
+msgstr "Konfirmante projekton…"
 
 #: src/doc/documentvalidator.cpp:89
 #, kde-format
@@ -8193,10 +8189,9 @@ msgid "Incorrect project file"
 msgstr "Malĝusta projektdosiero"
 
 #: src/doc/documentvalidator.cpp:184
-#, fuzzy, kde-format
-#| msgid "Loading project…"
+#, kde-format
 msgid "Upgrading project version…"
-msgstr "Ŝargante projekton…"
+msgstr "Eldonpromociante projektversion…"
 
 #: src/doc/documentvalidator.cpp:190
 #, kde-format
@@ -8205,7 +8200,7 @@ msgid ""
 "Please consider upgrading your Kdenlive version."
 msgstr ""
 "Ĉi tiu tipo de projekto estas nesubtenata (versio %1) kaj ne estas ŝargita.\n"
-"Bonvolu konsideri ĝisdatigi vian version de Kdenlive."
+"Bonvolu konsideri eldonĝisdatigi vian version de Kdenlive."
 
 #: src/doc/documentvalidator.cpp:191 src/doc/documentvalidator.cpp:200
 #, kde-format
@@ -14258,16 +14253,14 @@ msgstr ""
 "venonta konservado"
 
 #: src/project/projectmanager.cpp:873
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Loading timeline…"
-msgstr "Elŝutante modelon…"
+msgstr "Ŝargante templinion…"
 
 #: src/project/projectmanager.cpp:892
-#, fuzzy, kde-format
-#| msgid "Timeline sequence"
+#, kde-format
 msgid "Building sequences…"
-msgstr "Templinia sekvenco"
+msgstr "Konstruante sekvencojn…"
 
 #: src/project/projectmanager.cpp:994
 #, kde-format
@@ -15958,12 +15951,12 @@ msgstr "Tondaĵo %1 (%2) sur malĝusta subtrako trovita kaj fiksita / %3"
 #: src/timeline2/model/builders/meltBuilder.cpp:914
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found on track %2 at %3."
-msgstr "Tondaĵo %1 sur malĝusta subtrako trovita en trako %2 ĉe %3."
+msgstr "Trovis tondaĵon %1 sur malĝusta subtrako en trako %2 ĉe %3."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:916
 #, kde-format
 msgid "%1 Clip (%2) with incorrect subplaylist found"
-msgstr "Tondaĵo %1 (%2) kun malĝusta subludlisto trovita"
+msgstr "Trovis tondaĵon %1 (%2) kun malĝusta subludlisto"
 
 #: src/timeline2/model/timelinefunctions.cpp:117
 #, kde-format
@@ -15971,11 +15964,10 @@ msgid "Insert Clips"
 msgstr "Enmeti Tondaĵojn"
 
 #: src/timeline2/model/timelinefunctions.cpp:266
-#, fuzzy, kde-format
-#| msgid "When cutting subtitles:"
+#, kde-format
 msgctxt "@info:status"
 msgid "Cannot cut overlapping subtitles"
-msgstr "Dum tranĉado de subtekstoj:"
+msgstr "Ne eblas tranĉi superkovrajn subtekstojn"
 
 #: src/timeline2/model/timelinefunctions.cpp:339
 #: src/timeline2/model/timelinefunctions.cpp:358
@@ -21999,6 +21991,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Loading project"
-#~ msgstr "Ŝargante projekton"

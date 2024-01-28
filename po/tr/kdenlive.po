@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-27 00:37+0000\n"
-"PO-Revision-Date: 2024-01-23 18:46+0300\n"
+"PO-Revision-Date: 2024-01-27 16:20+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -15980,11 +15980,10 @@ msgid "Insert Clips"
 msgstr "Klipler Ekle"
 
 #: src/timeline2/model/timelinefunctions.cpp:266
-#, fuzzy, kde-format
-#| msgid "When cutting subtitles:"
+#, kde-format
 msgctxt "@info:status"
 msgid "Cannot cut overlapping subtitles"
-msgstr "Altyazıları keserken:"
+msgstr "Üst üste binen altyazılar kesilemiyor"
 
 #: src/timeline2/model/timelinefunctions.cpp:339
 #: src/timeline2/model/timelinefunctions.cpp:358

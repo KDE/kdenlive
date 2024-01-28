@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-27 00:37+0000\n"
-"PO-Revision-Date: 2024-01-23 08:39+0100\n"
+"PO-Revision-Date: 2024-01-27 10:34+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -16085,11 +16085,10 @@ msgid "Insert Clips"
 msgstr "Inserir fragmentos"
 
 #: src/timeline2/model/timelinefunctions.cpp:266
-#, fuzzy, kde-format
-#| msgid "When cutting subtitles:"
+#, kde-format
 msgctxt "@info:status"
 msgid "Cannot cut overlapping subtitles"
-msgstr "Ao cortar os subtítulos:"
+msgstr "Non é posíbel cortar subtítulos entrelazados."
 
 #: src/timeline2/model/timelinefunctions.cpp:339
 #: src/timeline2/model/timelinefunctions.cpp:358

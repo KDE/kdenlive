@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-27 00:37+0000\n"
-"PO-Revision-Date: 2024-01-23 11:04+0100\n"
+"PO-Revision-Date: 2024-01-27 11:21+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -16050,11 +16050,10 @@ msgid "Insert Clips"
 msgstr "Clips invoegen"
 
 #: src/timeline2/model/timelinefunctions.cpp:266
-#, fuzzy, kde-format
-#| msgid "When cutting subtitles:"
+#, kde-format
 msgctxt "@info:status"
 msgid "Cannot cut overlapping subtitles"
-msgstr "Bij knippen van ondertitels:"
+msgstr "Kan overlappende ondertitels niet knippen"
 
 #: src/timeline2/model/timelinefunctions.cpp:339
 #: src/timeline2/model/timelinefunctions.cpp:358

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-27 00:37+0000\n"
-"PO-Revision-Date: 2024-01-25 05:58+0100\n"
+"PO-Revision-Date: 2024-01-27 05:01+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -15794,11 +15794,10 @@ msgid "Insert Clips"
 msgstr "კლიპების ჩასმა"
 
 #: src/timeline2/model/timelinefunctions.cpp:266
-#, fuzzy, kde-format
-#| msgid "When cutting subtitles:"
+#, kde-format
 msgctxt "@info:status"
 msgid "Cannot cut overlapping subtitles"
-msgstr "სუბტიტრების მოჭრისას:"
+msgstr "გადაფარვადი სუბტიტრების ამოჭრა შეუძლებელია"
 
 #: src/timeline2/model/timelinefunctions.cpp:339
 #: src/timeline2/model/timelinefunctions.cpp:358

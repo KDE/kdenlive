@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-27 00:37+0000\n"
-"PO-Revision-Date: 2024-01-26 21:37+0200\n"
+"PO-Revision-Date: 2024-01-27 21:44+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -17517,13 +17517,13 @@ msgstr "ארכיון דחוס:"
 #: src/ui/archivewidget_ui.ui:56
 #, kde-format
 msgid "tar.gz"
-msgstr ""
+msgstr "tar.gz"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, compression_type)
 #: src/ui/archivewidget_ui.ui:61
 #, kde-format
 msgid "zip"
-msgstr ""
+msgstr "zip"
 
 #. i18n: ectx: property (text), widget (QCheckBox, proxy_only)
 #: src/ui/archivewidget_ui.ui:71

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-27 00:37+0000\n"
-"PO-Revision-Date: 2024-01-20 12:15+0100\n"
+"PO-Revision-Date: 2024-01-27 10:47+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -5649,10 +5649,9 @@ msgid "Clean Project"
 msgstr "Wyczyść projekt"
 
 #: src/bin/projectitemmodel.cpp:1217
-#, fuzzy, kde-format
-#| msgid "Loading project clips…"
+#, kde-format
 msgid "Reading project clips…"
-msgstr "Wczytywanie wycinków projektu…"
+msgstr "Czytanie wycinków projektu…"
 
 #: src/bin/projectitemmodel.cpp:1321
 #, kde-format
@@ -8085,14 +8084,12 @@ msgstr "Katalog wycinków"
 #: src/doc/documentchecker.cpp:106
 #, kde-format
 msgid "Applying fixes…"
-msgstr ""
+msgstr "Stosowanie poprawek…"
 
 #: src/doc/documentchecker.cpp:145 src/doc/documentchecker.cpp:199
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Checking setup…"
+#, kde-format
 msgid "Checking for missing items…"
-msgstr "Sprawdzanie systemu…"
+msgstr "Poszukiwanie brakujących rzeczy…"
 
 #: src/doc/documentchecker.cpp:162
 #, kde-format
@@ -8211,10 +8208,9 @@ msgid "Missing proxies can be recreated on opening."
 msgstr "Brakujące wycinki pośrednie można utworzyć ponownie po otwarciu."
 
 #: src/doc/documentvalidator.cpp:47
-#, fuzzy, kde-format
-#| msgid "Loading project…"
+#, kde-format
 msgid "Validating project…"
-msgstr "Wczytywanie projektu…"
+msgstr "Sprawdzanie projektu…"
 
 #: src/doc/documentvalidator.cpp:89
 #, kde-format
@@ -8242,10 +8238,9 @@ msgid "Incorrect project file"
 msgstr "Niepoprawny pliku projektu"
 
 #: src/doc/documentvalidator.cpp:184
-#, fuzzy, kde-format
-#| msgid "Loading project…"
+#, kde-format
 msgid "Upgrading project version…"
-msgstr "Wczytywanie projektu…"
+msgstr "Uaktualnianie wersji projektu…"
 
 #: src/doc/documentvalidator.cpp:190
 #, kde-format
@@ -14334,16 +14329,14 @@ msgstr ""
 "kopia zapasowa przy następnym zapisie"
 
 #: src/project/projectmanager.cpp:873
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Loading timeline…"
-msgstr "Pobieranie modelu…"
+msgstr "Wczytywanie osi czasu…"
 
 #: src/project/projectmanager.cpp:892
-#, fuzzy, kde-format
-#| msgid "Timeline sequence"
+#, kde-format
 msgid "Building sequences…"
-msgstr "Szereg osi czasu"
+msgstr "Tworzenie szeregów…"
 
 #: src/project/projectmanager.cpp:994
 #, kde-format
@@ -16065,11 +16058,10 @@ msgid "Insert Clips"
 msgstr "Wstaw wycinki"
 
 #: src/timeline2/model/timelinefunctions.cpp:266
-#, fuzzy, kde-format
-#| msgid "When cutting subtitles:"
+#, kde-format
 msgctxt "@info:status"
 msgid "Cannot cut overlapping subtitles"
-msgstr "Przy cięciu napisów:"
+msgstr "Nie można wyciąć nachodzących napisów"
 
 #: src/timeline2/model/timelinefunctions.cpp:339
 #: src/timeline2/model/timelinefunctions.cpp:358
