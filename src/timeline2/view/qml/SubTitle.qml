@@ -6,6 +6,7 @@
 */
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import com.enums 1.0
 
 Item {
     id: subtitleRoot
@@ -249,12 +250,13 @@ Item {
             property int originalDuration: subtitleRoot.duration
             property int oldMouseX
             property int oldStartFrame: 0
+            property bool shiftTrim: false
             acceptedButtons: Qt.LeftButton
             drag.axis: Drag.XAxis
             drag.smoothed: false
             cursorShape: containsMouse || pressed ? Qt.SizeHorCursor : Qt.ClosedHandCursor;
             drag.target: leftstart
-            onPressed: {
+            onPressed: mouse => {
                 root.autoScrolling = false
                 oldMouseX = mouseX
                 leftstart.anchors.left = undefined
@@ -262,12 +264,16 @@ Item {
                 originalDuration = subtitleRoot.duration
                 newDuration = subtitleRoot.duration
                 trimIn.opacity = 0
+                shiftTrim = mouse.modifiers & Qt.ShiftModifier
+                if (!shiftTrim && (subtitleRoot.grouped || controller.hasMultipleSelection())) {
+                    root.groupTrimData = controller.getGroupData(subtitleRoot.subId)
+                }
             }
             onPositionChanged: {
                 if (pressed) {
                     newDuration = subtitleRoot.endFrame - Math.round(leftstart.x / root.timeScale)
                     if (newDuration != originalDuration && subtitleBase.x >= 0) {
-                        var frame = controller.requestItemResize(subtitleRoot.subId, newDuration , false, false, root.snapping);
+                        var frame = controller.requestItemResize(subtitleRoot.subId, newDuration , false, false, root.snapping, shiftTrim);
                         if (frame > 0) {
                             newStart = subtitleRoot.endFrame - frame
                         }
@@ -279,9 +285,15 @@ Item {
                 root.autoScrolling = timeline.autoScroll
                 leftstart.anchors.left = subtitleBase.left
                 if (oldStartFrame != newStart) {
-                    controller.requestItemResize(subtitleRoot.subId, subtitleRoot.endFrame - oldStartFrame, false, false);
-                    controller.requestItemResize(subtitleRoot.subId, subtitleRoot.endFrame - newStart, false, true);
+                    if (shiftTrim || (root.groupTrimData == undefined || root.activeTool === ProjectTool.RippleTool)) {
+                        controller.requestItemResize(subtitleRoot.subId, subtitleRoot.endFrame - oldStartFrame, false, false);
+                        controller.requestItemResize(subtitleRoot.subId, subtitleRoot.endFrame - newStart, false, true);
+                    } else {
+                        var updatedGroupData = controller.getGroupData(subtitleRoot.subId)
+                        controller.processGroupResize(root.groupTrimData, updatedGroupData, false)
+                    }
                 }
+                root.groupTrimData = undefined
             }
             onEntered: {
                 if (!pressed) {
@@ -332,18 +344,23 @@ Item {
             acceptedButtons: Qt.LeftButton
             property int newDuration: subtitleRoot.duration
             property int originalDuration
+            property bool shiftTrim: false
             cursorShape: containsMouse || pressed ? Qt.SizeHorCursor : Qt.ClosedHandCursor;
             drag.target: rightend
             drag.axis: Drag.XAxis
             drag.smoothed: false
 
-            onPressed: {
+            onPressed: mouse => {
                 root.autoScrolling = false
                 newDuration = subtitleRoot.duration
                 originalDuration = subtitleRoot.duration
                 //rightend.anchors.right = undefined
                 oldMouseX = mouseX
                 trimOut.opacity = 0
+                shiftTrim = mouse.modifiers & Qt.ShiftModifier
+                if (!shiftTrim && (subtitleRoot.grouped || controller.hasMultipleSelection())) {
+                    root.groupTrimData = controller.getGroupData(subtitleRoot.subId)
+                }
             }
             onPositionChanged: {
                 if (pressed) {
@@ -352,7 +369,7 @@ Item {
                         //duration = subtitleBase.width + (mouseX - oldMouseX)/ timeline.scaleFactor
                         newDuration = Math.round((subtitleBase.width + mouseX - oldMouseX)/timeScale)
                         // Perform resize without changing model
-                        var frame = controller.requestItemResize(subtitleRoot.subId, newDuration , true, false, root.snapping);
+                        var frame = controller.requestItemResize(subtitleRoot.subId, newDuration , true, false, root.snapping, shiftTrim);
                         if (frame > 0) {
                             newDuration = frame
                         }
@@ -364,12 +381,18 @@ Item {
                 rightend.anchors.right = subtitleBase.right
                 console.log(' GOT RESIZE: ', newDuration, ' > ', originalDuration)
                 if (mouseX != oldMouseX || sizeChanged) {
-                    // Restore original size
-                    controller.requestItemResize(subtitleRoot.subId, originalDuration , true, false);
-                    // Perform real resize
-                    controller.requestItemResize(subtitleRoot.subId, newDuration , true, true)
+                    if (shiftTrim || (root.groupTrimData == undefined || root.activeTool === ProjectTool.RippleTool)) {
+                        // Restore original size
+                        controller.requestItemResize(subtitleRoot.subId, originalDuration , true, false);
+                        // Perform real resize
+                        controller.requestItemResize(subtitleRoot.subId, newDuration , true, true)
+                    } else {
+                        var updatedGroupData = controller.getGroupData(subtitleRoot.subId)
+                        controller.processGroupResize(root.groupTrimData, updatedGroupData, true)
+                    }
                     sizeChanged = false
                 }
+                root.groupTrimData = undefined
             }
             onEntered: {
                 console.log('ENTER MOUSE END AREA')
