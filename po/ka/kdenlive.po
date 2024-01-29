@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-27 00:37+0000\n"
-"PO-Revision-Date: 2024-01-27 05:01+0100\n"
+"PO-Revision-Date: 2024-01-28 05:08+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -19246,6 +19246,7 @@ msgstr "დაკვრის შეჩერება გადახვევ�
 #, kde-format
 msgid "Jump to timeline start if playback is started on last frame in timeline"
 msgstr ""
+"დროის ხაზის დასაწყისზე გადასვლა, თუ დაკვრა დროის ხაზის ბოლო კადრზე დაიწყო"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_seekonaddeffect)
 #: src/ui/configtimeline_ui.ui:80
