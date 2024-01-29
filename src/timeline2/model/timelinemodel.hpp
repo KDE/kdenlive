@@ -602,6 +602,9 @@ public:
      * @see requestClipSlip
      */
     Q_INVOKABLE int requestSlipSelection(int offset, bool logUndo);
+    /** @brief Return true if multiple items are selected in timeline
+     */
+    Q_INVOKABLE bool hasMultipleSelection() const;
 
     /** @brief Returns a proposed size for clip resize, checking for collisions */
     Q_INVOKABLE int requestItemSpeedChange(int itemId, int size, bool right, int snapDistance);

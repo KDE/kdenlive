@@ -6213,6 +6213,20 @@ bool TimelineModel::requestClearSelection(bool onDeletion)
     return true;
 }
 
+bool TimelineModel::hasMultipleSelection() const
+{
+    READ_LOCK();
+    if (m_currentSelection.size() == 0) {
+        return false;
+    }
+    if (isGroup(*m_currentSelection.begin())) {
+        // Reset offset display on clips
+        std::unordered_set<int> items = m_groups->getLeaves(*m_currentSelection.begin());
+        return items.size() > 1;
+    }
+    return m_currentSelection.size() > 1;
+}
+
 void TimelineModel::requestMixSelection(int cid)
 {
     requestClearSelection();

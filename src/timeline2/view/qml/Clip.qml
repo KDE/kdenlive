@@ -82,7 +82,7 @@ Rectangle {
 
     signal trimmingIn(var clip, real newDuration, bool shiftTrim, bool controlTrim)
     signal trimmedIn(var clip, bool shiftTrim, bool controlTrim)
-    signal initGroupTrim(var clip)
+    signal initGroupTrim(int clipId)
     signal trimmingOut(var clip, real newDuration, bool shiftTrim, bool controlTrim)
     signal trimmedOut(var clip, bool shiftTrim, bool controlTrim)
 
@@ -655,8 +655,8 @@ Rectangle {
                     clipRoot.originalDuration = clipDuration
                     shiftTrim = mouse.modifiers & Qt.ShiftModifier
                     controlTrim = mouse.modifiers & Qt.ControlModifier && itemType != ProducerType.Color && itemType != ProducerType.Timeline && itemType != ProducerType.Playlist && itemType != ProducerType.Image
-                    if (!shiftTrim && clipRoot.grouped) {
-                        clipRoot.initGroupTrim(clipRoot)
+                    if (!shiftTrim && (clipRoot.grouped || controller.hasMultipleSelection())) {
+                        clipRoot.initGroupTrim(clipRoot.clipId)
                     }
                     if (root.activeTool === ProjectTool.RippleTool) {
                         timeline.requestStartTrimmingMode(clipRoot.clipId, false, false);
@@ -797,8 +797,8 @@ Rectangle {
                     anchors.right = undefined
                     shiftTrim = mouse.modifiers & Qt.ShiftModifier
                     controlTrim = mouse.modifiers & Qt.ControlModifier && itemType != ProducerType.Color && itemType != ProducerType.Timeline && itemType != ProducerType.Playlist && itemType != ProducerType.Image
-                    if (!shiftTrim && clipRoot.grouped) {
-                        clipRoot.initGroupTrim(clipRoot)
+                    if (!shiftTrim && (clipRoot.grouped || controller.hasMultipleSelection())) {
+                        clipRoot.initGroupTrim(clipRoot.clipId)
                     }
                     if (root.activeTool === ProjectTool.RippleTool) {
                         timeline.requestStartTrimmingMode(clipRoot.clipId, false, true);

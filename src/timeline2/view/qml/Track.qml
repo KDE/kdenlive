@@ -308,9 +308,9 @@ Item{
         id: clipDelegate
         Clip {
             height: trackRoot.height
-            onInitGroupTrim: clip => {
+            onInitGroupTrim: clipId => {
                 // We are resizing a group, remember coordinates of all elements
-                root.groupTrimData = controller.getGroupData(clip.clipId)
+                root.groupTrimData = controller.getGroupData(clipId)
             }
             onTrimmingIn: (clip, newDuration, shiftTrim, controlTrim) => {
                 if (root.activeTool === ProjectTool.SelectTool && controlTrim) {
