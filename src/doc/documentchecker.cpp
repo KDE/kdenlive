@@ -247,7 +247,7 @@ bool DocumentChecker::hasErrorInProject()
     }
 
     // Check existence of luma files
-    QStringList filesToCheck = getAssetsFiles(m_doc, QStringLiteral("transition"), getLumaPairs());
+    QStringList filesToCheck = getAssetsFilesByMltTag(m_doc, QStringLiteral("transition"), getLumaPairs());
     for (const QString &lumafile : qAsConst(filesToCheck)) {
         QString filePath = ensureAbsolutePath(lumafile);
 
@@ -317,7 +317,7 @@ bool DocumentChecker::hasErrorInProject()
     }
 
     // Check for missing filter assets
-    QStringList assetsToCheck = getAssetsFiles(m_doc, QStringLiteral("filter"), getAssetPairs());
+    QStringList assetsToCheck = getAssetsFilesByMltTag(m_doc, QStringLiteral("filter"), getAssetPairs());
     for (const QString &filterfile : qAsConst(assetsToCheck)) {
         QString filePath = ensureAbsolutePath(filterfile);
 
@@ -1057,7 +1057,7 @@ QString DocumentChecker::ensureAbsolutePath(QString filepath)
     return filepath;
 }
 
-QStringList DocumentChecker::getAssetsFiles(const QDomDocument &doc, const QString &tagName, const QMap<QString, QString> &searchPairs)
+QStringList DocumentChecker::getAssetsFilesByMltTag(const QDomDocument &doc, const QString &tagName, const QMap<QString, QString> &searchPairs)
 {
     QStringList files;
 
@@ -1065,10 +1065,7 @@ QStringList DocumentChecker::getAssetsFiles(const QDomDocument &doc, const QStri
     int max = assets.count();
     for (int i = 0; i < max; ++i) {
         QDomElement asset = assets.at(i).toElement();
-        QString service = Xml::getXmlProperty(asset, QStringLiteral("kdenlive_id"));
-        if (service.isEmpty()) {
-            service = Xml::getXmlProperty(asset, QStringLiteral("mlt_service"));
-        }
+        const QString service = Xml::getXmlProperty(asset, QStringLiteral("mlt_service"));
         if (searchPairs.contains(service)) {
             const QString filepath = Xml::getXmlProperty(asset, searchPairs.value(service));
             if (!filepath.isEmpty()) {

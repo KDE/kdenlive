@@ -24,6 +24,13 @@ include:
       - /gitlab-templates/craft-macos-x86-64-qt6.yml
       - /gitlab-templates/craft-macos-arm64-qt6.yml
 
+craft_macos_arm64:
+  rules:
+  - when: manual
+
+craft_macos_x86_64:
+  rules:
+  - when: manual
 
 .craft-mac-notarize:
   variables:
