@@ -2224,6 +2224,7 @@ void Bin::slotDuplicateClip()
                     xmlProd->set("kdenlive:clipname", i18n("%1 (copy)", currentItem->clipName()).toUtf8().constData());
                     xmlProd->set("kdenlive:sequenceproperties.documentuuid", m_doc->uuid().toString().toUtf8().constData());
                     m_itemModel->requestAddBinClip(id, xmlProd, item->parent()->clipId(), undo, redo, callBack);
+                    pCore->pushUndo(undo, redo, i18n("Duplicate clip"));
                 } else {
                     QDomDocument doc;
                     QDomElement xml = currentItem->toXml(doc);
