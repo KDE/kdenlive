@@ -147,12 +147,16 @@ void UrlListParamWidget::slotRefresh()
     if (!currentValue.isEmpty()) {
         QString path = QUrl(currentValue).adjusted(QUrl::RemoveFilename).toString();
         QDir dir(path);
-        QStringList entrys = dir.entryList(m_fileExt, QDir::Files);
-        for (const auto &filename : qAsConst(entrys)) {
-            values.append(dir.filePath(filename));
+        if (dir.exists()) {
+            QStringList entrys = dir.entryList(m_fileExt, QDir::Files);
+            for (const auto &filename : qAsConst(entrys)) {
+                values.append(dir.filePath(filename));
+            }
+            // make sure the current value is added. If it is a duplicate we remove it later
+            if (QFileInfo::exists(currentValue)) {
+                values << currentValue;
+            }
         }
-        // make sure the current value is added. If it is a duplicate we remove it later
-        values << currentValue;
     }
 
     values.removeDuplicates();

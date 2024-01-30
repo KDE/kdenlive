@@ -1110,17 +1110,19 @@ QString DocumentChecker::fixLuma(const QString &file)
         return result.filePath();
     }
     // Try in Kdenlive's standard KDE path
-    QString res = QStandardPaths::locate(QStandardPaths::AppDataLocation, "lumas", QStandardPaths::LocateDirectory);
-    if (!res.isEmpty()) {
-        searchPath.setPath(res);
-        if (file.contains(QStringLiteral("/PAL"))) {
-            searchPath.cd(QStringLiteral("PAL"));
-        } else {
-            searchPath.cd(QStringLiteral("HD"));
-        }
-        result.setFile(searchPath, fname);
-        if (result.exists()) {
-            return result.filePath();
+    QStringList resList = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, "lumas", QStandardPaths::LocateDirectory);
+    for (auto res : resList) {
+        if (!res.isEmpty()) {
+            searchPath.setPath(res);
+            if (file.contains(QStringLiteral("/PAL"))) {
+                searchPath.cd(QStringLiteral("PAL"));
+            } else {
+                searchPath.cd(QStringLiteral("HD"));
+            }
+            result.setFile(searchPath, fname);
+            if (result.exists()) {
+                return result.filePath();
+            }
         }
     }
     return QString();
@@ -1310,10 +1312,7 @@ QStringList DocumentChecker::getAssetsFiles(const QDomNodeList &elements, const 
     int max = elements.count();
     for (int i = 0; i < max; ++i) {
         QDomElement asset = elements.at(i).toElement();
-        QString service = Xml::getXmlProperty(asset, QStringLiteral("kdenlive_id"));
-        if (service.isEmpty()) {
-            service = Xml::getXmlProperty(asset, QStringLiteral("mlt_service"));
-        }
+        const QString service = Xml::getXmlProperty(asset, QStringLiteral("mlt_service"));
         if (searchPairs.contains(service)) {
             const QString filepath = Xml::getXmlProperty(asset, searchPairs.value(service));
             if (!filepath.isEmpty()) {
