@@ -154,14 +154,18 @@ void UrlListParamWidget::slotRefresh()
     }
     // add all matching files in the location of the current item too
     if (!currentValue.isEmpty()) {
-        QString path = QUrl(currentValue).adjusted(QUrl::RemoveFilename).toString();
+        const QString path = QUrl(currentValue).adjusted(QUrl::RemoveFilename).toString();
         QDir dir(path);
-        QStringList entrys = dir.entryList(m_fileExt, QDir::Files);
-        for (const auto &filename : qAsConst(entrys)) {
-            values.append(dir.filePath(filename));
+        if (dir.exists()) {
+            QStringList entrys = dir.entryList(m_fileExt, QDir::Files);
+            for (const auto &filename : qAsConst(entrys)) {
+                values.append(dir.filePath(filename));
+            }
+            // make sure the current value is added. If it is a duplicate we remove it later
+            if (QFileInfo::exists(currentValue)) {
+                values << currentValue;
+            }
         }
-        // make sure the current value is added. If it is a duplicate we remove it later
-        values << currentValue;
     }
 
     values.removeDuplicates();
@@ -186,7 +190,18 @@ void UrlListParamWidget::slotRefresh()
                 entryMap.insert(QFileInfo(value).baseName(), value);
             }
         } else if (m_isLumaList) {
-            entryMap.insert(pCore->nameForLumaFile(QFileInfo(value).fileName()), value);
+            QString lumaName = pCore->nameForLumaFile(QFileInfo(value).fileName());
+            if (entryMap.contains(lumaName)) {
+                // Duplicate name, add a suffix
+                const QString baseName = lumaName;
+                int i = 2;
+                lumaName = baseName + QString(" / %1").arg(i);
+                while (entryMap.contains(lumaName)) {
+                    i++;
+                    lumaName = baseName + QString(" / %1").arg(i);
+                }
+            }
+            entryMap.insert(lumaName, value);
         } else if (ix < names.count()) {
             entryMap.insert(names.at(ix), value);
         }
