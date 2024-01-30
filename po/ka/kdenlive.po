@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-27 00:37+0000\n"
-"PO-Revision-Date: 2024-01-28 05:08+0100\n"
+"POT-Creation-Date: 2024-01-30 00:37+0000\n"
+"PO-Revision-Date: 2024-01-29 07:10+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16309,54 +16309,54 @@ msgstr "სიჩქარის შეცვლა ჩავარდა"
 msgid "Change clip speed"
 msgstr "კლიპის სიჩქარის შეცვლა"
 
-#: src/timeline2/model/timelinemodel.cpp:6437
+#: src/timeline2/model/timelinemodel.cpp:6451
 #: src/timeline2/view/qml/timeline.qml:1199
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Lock track"
 msgstr "ბილიკის ჩაკეტვა"
 
-#: src/timeline2/model/timelinemodel.cpp:6442
+#: src/timeline2/model/timelinemodel.cpp:6456
 #: src/timeline2/view/qml/timeline.qml:1199
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Unlock track"
 msgstr "ბილიკის გახსნა"
 
-#: src/timeline2/model/timelinemodel.cpp:6476
-#: src/timeline2/model/timelinemodel.cpp:6538
+#: src/timeline2/model/timelinemodel.cpp:6490
+#: src/timeline2/model/timelinemodel.cpp:6552
 #, kde-format
 msgid "Change composition"
 msgstr "კომპოზიციის შეცვლა"
 
-#: src/timeline2/model/timelinemodel.cpp:6490
+#: src/timeline2/model/timelinemodel.cpp:6504
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 "ოპერაციის გადატარება დაჯგუფებულ კომპოზიციაზე შეუძლებელია. ჯერ განაჯგუფეთ"
 
-#: src/timeline2/model/timelinemodel.cpp:6685
-#: src/timeline2/model/timelinemodel.cpp:6722
-#: src/timeline2/model/timelinemodel.cpp:6755
-#: src/timeline2/model/timelinemodel.cpp:6836
+#: src/timeline2/model/timelinemodel.cpp:6699
+#: src/timeline2/model/timelinemodel.cpp:6736
+#: src/timeline2/model/timelinemodel.cpp:6769
+#: src/timeline2/model/timelinemodel.cpp:6850
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "შერევის ზომის შეცვლა 1 კადრზე ნაკლებისთვის შეუძლებელია"
 
-#: src/timeline2/model/timelinemodel.cpp:6696
-#: src/timeline2/model/timelinemodel.cpp:6730
-#: src/timeline2/model/timelinemodel.cpp:6774
-#: src/timeline2/model/timelinemodel.cpp:6860
+#: src/timeline2/model/timelinemodel.cpp:6710
+#: src/timeline2/model/timelinemodel.cpp:6744
+#: src/timeline2/model/timelinemodel.cpp:6788
+#: src/timeline2/model/timelinemodel.cpp:6874
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "შერევის ზომის შეცვლა შეუძლებელია"
 
-#: src/timeline2/model/timelinemodel.cpp:6874
+#: src/timeline2/model/timelinemodel.cpp:6888
 #, kde-format
 msgid "Resize mix"
 msgstr "შერევის ზომის შეცვლა"
 
-#: src/timeline2/model/timelinemodel.cpp:7013
+#: src/timeline2/model/timelinemodel.cpp:7027
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "დროის ხაზის მინიატურის ინიციალიზაციის შეცდომა"
@@ -16468,8 +16468,8 @@ msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), მდებარეობა: %4, ხანგრძლივობა: %5"
 
 #: src/timeline2/view/qml/Clip.qml:337 src/timeline2/view/qml/Clip.qml:344
-#: src/timeline2/view/qml/SubTitle.qml:166
-#: src/timeline2/view/qml/SubTitle.qml:172
+#: src/timeline2/view/qml/SubTitle.qml:167
+#: src/timeline2/view/qml/SubTitle.qml:173
 #, kde-format
 msgid "Position: %1"
 msgstr "მდებარეობა: %1"
@@ -16562,8 +16562,8 @@ msgstr "%1, მდებარეობა: %2, ხანგრძლივო�
 
 #: src/timeline2/view/qml/Composition.qml:317
 #: src/timeline2/view/qml/Composition.qml:379
-#: src/timeline2/view/qml/SubTitle.qml:289
-#: src/timeline2/view/qml/SubTitle.qml:378
+#: src/timeline2/view/qml/SubTitle.qml:301
+#: src/timeline2/view/qml/SubTitle.qml:401
 #, kde-format
 msgid "<b>Drag</b> to resize"
 msgstr "<b>გადაათრიეთ</b> ზომის შესაცვლელად"
@@ -16582,7 +16582,7 @@ msgid ""
 "for multiple keyframe selection."
 msgstr ""
 
-#: src/timeline2/view/qml/SubTitle.qml:89
+#: src/timeline2/view/qml/SubTitle.qml:90
 #, kde-format
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>ორმაგი წკაპი</b> ტექსტის ჩასასწორებლად"
@@ -16675,6 +16675,8 @@ msgid ""
 "Click to make track active/inactive. Active tracks will react to editing "
 "operations"
 msgstr ""
+"დააწკაპუნეთ ტრეკის გააქტიურებისთვის/გააქტიურების გაუქმებისთვის. აქტიური "
+"ტრეკები ჩასწორების ოპერაციებს ხელს უშლის"
 
 #: src/timeline2/view/qml/TrackHead.qml:440
 #, kde-format

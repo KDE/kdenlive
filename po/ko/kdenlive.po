@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-27 00:37+0000\n"
+"POT-Creation-Date: 2024-01-30 00:37+0000\n"
 "PO-Revision-Date: 2023-07-23 20:34+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -16790,53 +16790,53 @@ msgstr "클립 속도 변경 실패"
 msgid "Change clip speed"
 msgstr "클립 속도 변경"
 
-#: src/timeline2/model/timelinemodel.cpp:6437
+#: src/timeline2/model/timelinemodel.cpp:6451
 #: src/timeline2/view/qml/timeline.qml:1199
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Lock track"
 msgstr "트랙 잠금"
 
-#: src/timeline2/model/timelinemodel.cpp:6442
+#: src/timeline2/model/timelinemodel.cpp:6456
 #: src/timeline2/view/qml/timeline.qml:1199
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Unlock track"
 msgstr "트랙 잠금 해제"
 
-#: src/timeline2/model/timelinemodel.cpp:6476
-#: src/timeline2/model/timelinemodel.cpp:6538
+#: src/timeline2/model/timelinemodel.cpp:6490
+#: src/timeline2/model/timelinemodel.cpp:6552
 #, kde-format
 msgid "Change composition"
 msgstr "합성 변경"
 
-#: src/timeline2/model/timelinemodel.cpp:6490
+#: src/timeline2/model/timelinemodel.cpp:6504
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "그룹화된 합성에서 작업할 수 없습니다. 그룹을 해제하십시오"
 
-#: src/timeline2/model/timelinemodel.cpp:6685
-#: src/timeline2/model/timelinemodel.cpp:6722
-#: src/timeline2/model/timelinemodel.cpp:6755
-#: src/timeline2/model/timelinemodel.cpp:6836
+#: src/timeline2/model/timelinemodel.cpp:6699
+#: src/timeline2/model/timelinemodel.cpp:6736
+#: src/timeline2/model/timelinemodel.cpp:6769
+#: src/timeline2/model/timelinemodel.cpp:6850
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "믹스 크기를 1프레임 미만으로 조정할 수 없음"
 
-#: src/timeline2/model/timelinemodel.cpp:6696
-#: src/timeline2/model/timelinemodel.cpp:6730
-#: src/timeline2/model/timelinemodel.cpp:6774
-#: src/timeline2/model/timelinemodel.cpp:6860
+#: src/timeline2/model/timelinemodel.cpp:6710
+#: src/timeline2/model/timelinemodel.cpp:6744
+#: src/timeline2/model/timelinemodel.cpp:6788
+#: src/timeline2/model/timelinemodel.cpp:6874
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "믹스의 크기를 조정할 수 없음"
 
-#: src/timeline2/model/timelinemodel.cpp:6874
+#: src/timeline2/model/timelinemodel.cpp:6888
 #, kde-format
 msgid "Resize mix"
 msgstr "믹스 크기 조정"
 
-#: src/timeline2/model/timelinemodel.cpp:7013
+#: src/timeline2/model/timelinemodel.cpp:7027
 #, fuzzy, kde-format
 #| msgid "Disable Timeline Preview"
 msgid "Error initializing timeline preview"
@@ -16948,8 +16948,8 @@ msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1(%2-%3), 위치: %4, 재생 시간: %5"
 
 #: src/timeline2/view/qml/Clip.qml:337 src/timeline2/view/qml/Clip.qml:344
-#: src/timeline2/view/qml/SubTitle.qml:166
-#: src/timeline2/view/qml/SubTitle.qml:172
+#: src/timeline2/view/qml/SubTitle.qml:167
+#: src/timeline2/view/qml/SubTitle.qml:173
 #, kde-format
 msgid "Position: %1"
 msgstr "위치: %1"
@@ -17045,8 +17045,8 @@ msgstr "%1, 위치: %2, 재생 시간: %3"
 
 #: src/timeline2/view/qml/Composition.qml:317
 #: src/timeline2/view/qml/Composition.qml:379
-#: src/timeline2/view/qml/SubTitle.qml:289
-#: src/timeline2/view/qml/SubTitle.qml:378
+#: src/timeline2/view/qml/SubTitle.qml:301
+#: src/timeline2/view/qml/SubTitle.qml:401
 #, kde-format
 msgid "<b>Drag</b> to resize"
 msgstr "<b>드래그</b>하여 크기 조정"
@@ -17069,7 +17069,7 @@ msgstr ""
 "선택한 키프레임의 값을 변경하려면 <b>Shift 키를 누르면서 드래그</b>하고, 여"
 "러 키프레임을 선택하려면 <b>Ctrl 키를 누르면서 클릭</b>하십시오"
 
-#: src/timeline2/view/qml/SubTitle.qml:89
+#: src/timeline2/view/qml/SubTitle.qml:90
 #, kde-format
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>두 번 클릭</b>하여 텍스트 편집"

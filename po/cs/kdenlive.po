@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-27 00:37+0000\n"
+"POT-Creation-Date: 2024-01-30 00:37+0000\n"
 "PO-Revision-Date: 2023-06-28 14:16+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -15997,53 +15997,53 @@ msgstr ""
 msgid "Change clip speed"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:6437
+#: src/timeline2/model/timelinemodel.cpp:6451
 #: src/timeline2/view/qml/timeline.qml:1199
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Lock track"
 msgstr "Uzamknout stopu"
 
-#: src/timeline2/model/timelinemodel.cpp:6442
+#: src/timeline2/model/timelinemodel.cpp:6456
 #: src/timeline2/view/qml/timeline.qml:1199
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Unlock track"
 msgstr "Odemknout stopu"
 
-#: src/timeline2/model/timelinemodel.cpp:6476
-#: src/timeline2/model/timelinemodel.cpp:6538
+#: src/timeline2/model/timelinemodel.cpp:6490
+#: src/timeline2/model/timelinemodel.cpp:6552
 #, kde-format
 msgid "Change composition"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:6490
+#: src/timeline2/model/timelinemodel.cpp:6504
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:6685
-#: src/timeline2/model/timelinemodel.cpp:6722
-#: src/timeline2/model/timelinemodel.cpp:6755
-#: src/timeline2/model/timelinemodel.cpp:6836
+#: src/timeline2/model/timelinemodel.cpp:6699
+#: src/timeline2/model/timelinemodel.cpp:6736
+#: src/timeline2/model/timelinemodel.cpp:6769
+#: src/timeline2/model/timelinemodel.cpp:6850
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:6696
-#: src/timeline2/model/timelinemodel.cpp:6730
-#: src/timeline2/model/timelinemodel.cpp:6774
-#: src/timeline2/model/timelinemodel.cpp:6860
+#: src/timeline2/model/timelinemodel.cpp:6710
+#: src/timeline2/model/timelinemodel.cpp:6744
+#: src/timeline2/model/timelinemodel.cpp:6788
+#: src/timeline2/model/timelinemodel.cpp:6874
 #, kde-format
 msgid "Cannot resize mix"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:6874
+#: src/timeline2/model/timelinemodel.cpp:6888
 #, kde-format
 msgid "Resize mix"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:7013
+#: src/timeline2/model/timelinemodel.cpp:7027
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "Chyba během inicializace náhledu časové osy"
@@ -16152,8 +16152,8 @@ msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr ""
 
 #: src/timeline2/view/qml/Clip.qml:337 src/timeline2/view/qml/Clip.qml:344
-#: src/timeline2/view/qml/SubTitle.qml:166
-#: src/timeline2/view/qml/SubTitle.qml:172
+#: src/timeline2/view/qml/SubTitle.qml:167
+#: src/timeline2/view/qml/SubTitle.qml:173
 #, kde-format
 msgid "Position: %1"
 msgstr "Poloha: %1"
@@ -16242,8 +16242,8 @@ msgstr ""
 
 #: src/timeline2/view/qml/Composition.qml:317
 #: src/timeline2/view/qml/Composition.qml:379
-#: src/timeline2/view/qml/SubTitle.qml:289
-#: src/timeline2/view/qml/SubTitle.qml:378
+#: src/timeline2/view/qml/SubTitle.qml:301
+#: src/timeline2/view/qml/SubTitle.qml:401
 #, kde-format
 msgid "<b>Drag</b> to resize"
 msgstr ""
@@ -16262,7 +16262,7 @@ msgid ""
 "for multiple keyframe selection."
 msgstr ""
 
-#: src/timeline2/view/qml/SubTitle.qml:89
+#: src/timeline2/view/qml/SubTitle.qml:90
 #, kde-format
 msgid "<b>Double click</b> to edit text"
 msgstr ""

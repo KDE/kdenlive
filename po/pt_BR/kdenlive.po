@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-27 00:37+0000\n"
+"POT-Creation-Date: 2024-01-30 00:37+0000\n"
 "PO-Revision-Date: 2023-08-11 23:48-0300\n"
 "Last-Translator: Geraldo Simiao <geraldosimiao@fedoraproject.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -16915,55 +16915,55 @@ msgstr "Falha na mudança de velocidade"
 msgid "Change clip speed"
 msgstr "Mudar a velocidade do clipe"
 
-#: src/timeline2/model/timelinemodel.cpp:6437
+#: src/timeline2/model/timelinemodel.cpp:6451
 #: src/timeline2/view/qml/timeline.qml:1199
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Lock track"
 msgstr "Travar trilha"
 
-#: src/timeline2/model/timelinemodel.cpp:6442
+#: src/timeline2/model/timelinemodel.cpp:6456
 #: src/timeline2/view/qml/timeline.qml:1199
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Unlock track"
 msgstr "Destravar trilhas"
 
-#: src/timeline2/model/timelinemodel.cpp:6476
-#: src/timeline2/model/timelinemodel.cpp:6538
+#: src/timeline2/model/timelinemodel.cpp:6490
+#: src/timeline2/model/timelinemodel.cpp:6552
 #, kde-format
 msgid "Change composition"
 msgstr "Alterar composição"
 
-#: src/timeline2/model/timelinemodel.cpp:6490
+#: src/timeline2/model/timelinemodel.cpp:6504
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "Não há como operar em composição agrupada, por favor desagrupe"
 
-#: src/timeline2/model/timelinemodel.cpp:6685
-#: src/timeline2/model/timelinemodel.cpp:6722
-#: src/timeline2/model/timelinemodel.cpp:6755
-#: src/timeline2/model/timelinemodel.cpp:6836
+#: src/timeline2/model/timelinemodel.cpp:6699
+#: src/timeline2/model/timelinemodel.cpp:6736
+#: src/timeline2/model/timelinemodel.cpp:6769
+#: src/timeline2/model/timelinemodel.cpp:6850
 #, fuzzy, kde-format
 #| msgid "Cannot remove the last keyframe"
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Não é possível remover o último quadro-chave"
 
-#: src/timeline2/model/timelinemodel.cpp:6696
-#: src/timeline2/model/timelinemodel.cpp:6730
-#: src/timeline2/model/timelinemodel.cpp:6774
-#: src/timeline2/model/timelinemodel.cpp:6860
+#: src/timeline2/model/timelinemodel.cpp:6710
+#: src/timeline2/model/timelinemodel.cpp:6744
+#: src/timeline2/model/timelinemodel.cpp:6788
+#: src/timeline2/model/timelinemodel.cpp:6874
 #, fuzzy, kde-format
 #| msgid "Cannot resize transition"
 msgid "Cannot resize mix"
 msgstr "Não foi possível redimensionar a transição"
 
-#: src/timeline2/model/timelinemodel.cpp:6874
+#: src/timeline2/model/timelinemodel.cpp:6888
 #, kde-format
 msgid "Resize mix"
 msgstr "Redimensionar mistura"
 
-#: src/timeline2/model/timelinemodel.cpp:7013
+#: src/timeline2/model/timelinemodel.cpp:7027
 #, fuzzy, kde-format
 #| msgid "Disable Timeline Preview"
 msgid "Error initializing timeline preview"
@@ -17077,8 +17077,8 @@ msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), posição: %4, duração: %5"
 
 #: src/timeline2/view/qml/Clip.qml:337 src/timeline2/view/qml/Clip.qml:344
-#: src/timeline2/view/qml/SubTitle.qml:166
-#: src/timeline2/view/qml/SubTitle.qml:172
+#: src/timeline2/view/qml/SubTitle.qml:167
+#: src/timeline2/view/qml/SubTitle.qml:173
 #, kde-format
 msgid "Position: %1"
 msgstr "Posição: %1"
@@ -17176,8 +17176,8 @@ msgstr "%1, Posição: %2, Duração: %3"
 
 #: src/timeline2/view/qml/Composition.qml:317
 #: src/timeline2/view/qml/Composition.qml:379
-#: src/timeline2/view/qml/SubTitle.qml:289
-#: src/timeline2/view/qml/SubTitle.qml:378
+#: src/timeline2/view/qml/SubTitle.qml:301
+#: src/timeline2/view/qml/SubTitle.qml:401
 #, kde-format
 msgid "<b>Drag</b> to resize"
 msgstr "<b>Arraste</b> para redimensionar"
@@ -17200,7 +17200,7 @@ msgstr ""
 "<b>Shift e arraste</b> para alterar o valor dos quadros-chave selecionados, "
 "<b>Ctrl-clique</b> para seleção de vários quadros-chave."
 
-#: src/timeline2/view/qml/SubTitle.qml:89
+#: src/timeline2/view/qml/SubTitle.qml:90
 #, kde-format
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>Clique duplo</b> para editar texto"
