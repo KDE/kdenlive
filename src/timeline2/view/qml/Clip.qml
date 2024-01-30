@@ -51,7 +51,7 @@ Rectangle {
     property int positionOffset: 0
     property var parentTrack
     property int trackIndex //Index in track repeater
-    property int clipId     //Id of the clip in the model
+    property int clipId: -1     //Id of the clip in the model
     property int trackId: -1 // Id of the parent track in the model
     property int fakeTid: -1
     property int fakePosition: 0
@@ -364,8 +364,10 @@ Rectangle {
             root.mousePosChanged(Math.round(mapped / timeline.scaleFactor))
         }
         onEntered: {
-            var itemPos = mapToItem(tracksContainerArea, 0, 0, width, height)
-            initDrag(clipRoot, itemPos, clipRoot.clipId, clipRoot.modelStart, clipRoot.trackId, false)
+            if (clipRoot.clipId > -1) {
+                var itemPos = mapToItem(tracksContainerArea, 0, 0, width, height)
+                initDrag(clipRoot, itemPos, clipRoot.clipId, clipRoot.modelStart, clipRoot.trackId, false)
+            }
             showClipInfo()
         }
 
