@@ -699,6 +699,9 @@ bool ProjectItemModel::requestBinClipDeletion(const std::shared_ptr<AbstractProj
     if (!clip) return false;
     int parentId = -1;
     QString binId;
+    if (clip->clipId().toInt() == m_sequenceFolderId) {
+        setSequencesFolder(-1);
+    }
     if (auto ptr = clip->parent()) {
         parentId = ptr->getId();
         binId = ptr->clipId();
@@ -1193,17 +1196,14 @@ QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, st
             Mlt::Properties playlistProps(playlist.get_properties());
             expandedFolders = QString(playlistProps.get("kdenlive:expandedFolders")).split(QLatin1Char(';'));
             folderProperties.pass_values(playlistProps, "kdenlive:folder.");
+            loadFolders(folderProperties, binIdCorresp);
+            m_sequenceFolderId = -1;
             if (playlistProps.property_exists("kdenlive:sequenceFolder")) {
                 int sequenceFolder = playlistProps.get_int("kdenlive:sequenceFolder");
-                if (binIdCorresp.count(QString::number(sequenceFolder)) > 0) {
-                    m_sequenceFolderId = binIdCorresp.at(QString::number(sequenceFolder)).toInt();
-                } else {
-                    m_sequenceFolderId = sequenceFolder;
+                if (sequenceFolder > -1 && binIdCorresp.count(QString::number(sequenceFolder)) > 0) {
+                    setSequencesFolder(binIdCorresp.at(QString::number(sequenceFolder)).toInt());
                 }
-            } else {
-                m_sequenceFolderId = -1;
             }
-            loadFolders(folderProperties, binIdCorresp);
 
             // Load Zoom level
             if (playlistProps.property_exists("kdenlive:binZoom")) {
