@@ -1699,6 +1699,7 @@ void ProjectItemModel::setSequencesFolder(int id)
     m_sequenceFolderId = id;
     saveProperty(QStringLiteral("kdenlive:sequenceFolder"), QString::number(id));
     if (id > -1) {
+        Q_ASSERT(getFolderByBinId(QString::number(id)) != nullptr);
         onItemUpdated(QString::number(id), Qt::DecorationRole);
     }
 }
