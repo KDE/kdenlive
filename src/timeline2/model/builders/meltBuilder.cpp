@@ -1,6 +1,6 @@
 /*
-    SPDX-FileCopyrightText: 2017 Nicolas Carion
-    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+   SPDX-FileCopyrightText: 2017 Nicolas Carion
+   SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "meltBuilder.hpp"
@@ -742,10 +742,14 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                 }
                 const QString service = clip->parent().get("mlt_service");
                 QString resource = service == QLatin1String("timewarp") ? clip->parent().get("warp_resource") : clip->parent().get("resource");
-
                 if (!useMappedIds || binIdCorresp.size() == 0 || (clip->parent().get_int("kdenlive:producer_type") == ClipType::Timeline)) {
                     // Currently "sequence" clips inserted in timeline are cuts of the bin clip, so it's kdenlive id is changed in loadBinPlaylist
-                    binId = clipId;
+                    if (clip->parent().get_int("kdenlive:producer_type") == ClipType::Timeline && binIdCorresp.count(clipId) > 0 &&
+                        !clip->parent().property_exists("_kdenlive_processed")) {
+                        binId = binIdCorresp.at(clipId);
+                    } else {
+                        binId = clipId;
+                    }
                     // Ensure we don't try to embed a sequence into itself
                     if (binId == sequenceBinId) {
                         // Trying to embed a sequence into itself, drop
@@ -760,7 +764,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                     // Check that the sequence clip exists
                     auto binClip = pCore->projectItemModel()->getClipByBinID(binId);
                     if (binClip == nullptr || binClip->getProducerIntProperty("kdenlive:producer_type") != clip->parent().get_int("kdenlive:producer_type")) {
-                        // Trying to embed a sequence into itself, drop
+                        // Sequence clip not found, error out
                         const QString tcInfo =
                             QString("<a href=\"%1!%2?%3\">%4 %5</a>")
                                 .arg(timeline->uuid().toString(), QString::number(position), QString::number(timeline->getTrackPosition(tid) + 1), trackTag,
