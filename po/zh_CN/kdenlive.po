@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-27 03:09+0000\n"
+"POT-Creation-Date: 2024-01-31 03:27+0000\n"
 "PO-Revision-Date: 2024-01-21 14:17\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -3929,12 +3929,12 @@ msgstr "<选择一个关键词>"
 msgid "None (Dissolve)"
 msgstr "无 (溶解)"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:205
+#: src/assets/view/widgets/urllistparamwidget.cpp:209
 #, kde-format
 msgid "Custom…"
 msgstr "自定义…"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:254
+#: src/assets/view/widgets/urllistparamwidget.cpp:258
 #, kde-format
 msgid "Invalid LUT file %1"
 msgstr "无效的 LUT 文件 %1"
@@ -7519,7 +7519,7 @@ msgid "Missing item"
 msgstr "缺失项目"
 
 #: src/doc/documentchecker.cpp:389 src/doc/documentchecker.cpp:414
-#: src/doc/documentchecker.cpp:1446
+#: src/doc/documentchecker.cpp:1445
 #, kde-format
 msgid "Relocated item"
 msgstr "已移位项目"
@@ -7645,28 +7645,28 @@ msgstr "搜索已中止"
 msgid "Search done"
 msgstr "搜索已完成"
 
-#: src/doc/documentchecker.cpp:1217
+#: src/doc/documentchecker.cpp:1219
 #, kde-format
 msgid "Scanning %1"
 msgstr "正在扫描 %1"
 
-#: src/doc/documentchecker.cpp:1408
+#: src/doc/documentchecker.cpp:1407
 #, kde-format
 msgid "Enter new location for folder"
 msgstr "输入文件夹的新位置"
 
-#: src/doc/documentchecker.cpp:1434
+#: src/doc/documentchecker.cpp:1433
 #, kde-format
 msgid "Enter new location for file"
 msgstr "输入文件的新位置"
 
-#: src/doc/documentchecker.cpp:1909
+#: src/doc/documentchecker.cpp:1908
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
 msgstr[0] "此操作将从项目中移除所选剪辑"
 
-#: src/doc/documentchecker.cpp:1911
+#: src/doc/documentchecker.cpp:1910
 #, kde-format
 msgid "Remove clips"
 msgstr "移除剪辑"

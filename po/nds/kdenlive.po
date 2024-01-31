@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-27 03:09+0000\n"
+"POT-Creation-Date: 2024-01-31 03:27+0000\n"
 "PO-Revision-Date: 2011-11-16 15:57+0100\n"
 "Last-Translator: Manfred Wiese <m.j.wiese@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -4145,14 +4145,14 @@ msgstr ""
 msgid "None (Dissolve)"
 msgstr ""
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:205
+#: src/assets/view/widgets/urllistparamwidget.cpp:209
 #, fuzzy, kde-format
 #| msgctxt "Group Name"
 #| msgid "Custom"
 msgid "Custom…"
 msgstr "Topasst"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:254
+#: src/assets/view/widgets/urllistparamwidget.cpp:258
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Invalid LUT file %1"
@@ -7922,7 +7922,7 @@ msgid "Missing item"
 msgstr ""
 
 #: src/doc/documentchecker.cpp:389 src/doc/documentchecker.cpp:414
-#: src/doc/documentchecker.cpp:1446
+#: src/doc/documentchecker.cpp:1445
 #, kde-format
 msgid "Relocated item"
 msgstr ""
@@ -8060,29 +8060,29 @@ msgstr "Automaatsch söken"
 msgid "Search done"
 msgstr "Automaatsch söken"
 
-#: src/doc/documentchecker.cpp:1217
+#: src/doc/documentchecker.cpp:1219
 #, kde-format
 msgid "Scanning %1"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1408
+#: src/doc/documentchecker.cpp:1407
 #, kde-format
 msgid "Enter new location for folder"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1434
+#: src/doc/documentchecker.cpp:1433
 #, kde-format
 msgid "Enter new location for file"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1909
+#: src/doc/documentchecker.cpp:1908
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/doc/documentchecker.cpp:1911
+#: src/doc/documentchecker.cpp:1910
 #, kde-format
 msgid "Remove clips"
 msgstr ""

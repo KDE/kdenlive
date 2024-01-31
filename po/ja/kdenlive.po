@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-27 03:09+0000\n"
+"POT-Creation-Date: 2024-01-31 03:27+0000\n"
 "PO-Revision-Date: 2023-07-08 21:38-0700\n"
 "Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -4042,13 +4042,13 @@ msgstr "<キーワードを選択>"
 msgid "None (Dissolve)"
 msgstr "溶解"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:205
+#: src/assets/view/widgets/urllistparamwidget.cpp:209
 #, fuzzy, kde-format
 #| msgid "Custom"
 msgid "Custom…"
 msgstr "カスタム"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:254
+#: src/assets/view/widgets/urllistparamwidget.cpp:258
 #, fuzzy, kde-format
 #| msgid "Invalid profile"
 msgid "Invalid LUT file %1"
@@ -7905,7 +7905,7 @@ msgid "Missing item"
 msgstr "存在しない項目"
 
 #: src/doc/documentchecker.cpp:389 src/doc/documentchecker.cpp:414
-#: src/doc/documentchecker.cpp:1446
+#: src/doc/documentchecker.cpp:1445
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Relocated item"
@@ -8056,30 +8056,30 @@ msgstr "検索中止"
 msgid "Search done"
 msgstr "検索終了"
 
-#: src/doc/documentchecker.cpp:1217
+#: src/doc/documentchecker.cpp:1219
 #, fuzzy, kde-format
 #| msgid "Scanning"
 msgid "Scanning %1"
 msgstr "スキャン"
 
-#: src/doc/documentchecker.cpp:1408
+#: src/doc/documentchecker.cpp:1407
 #, fuzzy, kde-format
 #| msgid "Enter new location for file"
 msgid "Enter new location for folder"
 msgstr "ファイルに対する新しい場所を入力してください"
 
-#: src/doc/documentchecker.cpp:1434
+#: src/doc/documentchecker.cpp:1433
 #, kde-format
 msgid "Enter new location for file"
 msgstr "ファイルに対する新しい場所を入力してください"
 
-#: src/doc/documentchecker.cpp:1909
+#: src/doc/documentchecker.cpp:1908
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
 msgstr[0] "これを実行すると、このプロジェクトから選択したクリップを削除します"
 
-#: src/doc/documentchecker.cpp:1911
+#: src/doc/documentchecker.cpp:1910
 #, kde-format
 msgid "Remove clips"
 msgstr "クリップの削除"

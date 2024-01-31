@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-27 03:09+0000\n"
+"POT-Creation-Date: 2024-01-31 03:27+0000\n"
 "PO-Revision-Date: 2023-11-15 16:49+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -4052,12 +4052,12 @@ msgstr "<выберите ключевое слово>"
 msgid "None (Dissolve)"
 msgstr "Нет (Наплыв)"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:205
+#: src/assets/view/widgets/urllistparamwidget.cpp:209
 #, kde-format
 msgid "Custom…"
 msgstr "Пользовательский…"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:254
+#: src/assets/view/widgets/urllistparamwidget.cpp:258
 #, kde-format
 msgid "Invalid LUT file %1"
 msgstr "Недопустимый файл LUT %1"
@@ -7753,7 +7753,7 @@ msgid "Missing item"
 msgstr "Элемент отсутствует"
 
 #: src/doc/documentchecker.cpp:389 src/doc/documentchecker.cpp:414
-#: src/doc/documentchecker.cpp:1446
+#: src/doc/documentchecker.cpp:1445
 #, kde-format
 msgid "Relocated item"
 msgstr "Элемент перемещён"
@@ -7903,22 +7903,22 @@ msgstr "Поиск прерван"
 msgid "Search done"
 msgstr "Поиск завершён"
 
-#: src/doc/documentchecker.cpp:1217
+#: src/doc/documentchecker.cpp:1219
 #, kde-format
 msgid "Scanning %1"
 msgstr "Сканирование %1"
 
-#: src/doc/documentchecker.cpp:1408
+#: src/doc/documentchecker.cpp:1407
 #, kde-format
 msgid "Enter new location for folder"
 msgstr "Укажите новый адрес папки"
 
-#: src/doc/documentchecker.cpp:1434
+#: src/doc/documentchecker.cpp:1433
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Укажите новое расположение файла"
 
-#: src/doc/documentchecker.cpp:1909
+#: src/doc/documentchecker.cpp:1908
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
@@ -7927,7 +7927,7 @@ msgstr[1] "Выбранные клипы будут удалены из прое
 msgstr[2] "Выбранные клипы будут удалены из проекта"
 msgstr[3] "Выбранный клип будет удалён из проекта"
 
-#: src/doc/documentchecker.cpp:1911
+#: src/doc/documentchecker.cpp:1910
 #, kde-format
 msgid "Remove clips"
 msgstr "Удалить клипы"

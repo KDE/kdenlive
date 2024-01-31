@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-27 03:09+0000\n"
+"POT-Creation-Date: 2024-01-31 03:27+0000\n"
 "PO-Revision-Date: 2023-07-14 22:01+0100\n"
 "Last-Translator: Jose Jorge <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
@@ -4111,12 +4111,12 @@ msgstr "<Seleccione uma Palavra-Chave>"
 msgid "None (Dissolve)"
 msgstr "Nada (Dissolver)"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:205
+#: src/assets/view/widgets/urllistparamwidget.cpp:209
 #, kde-format
 msgid "Custom…"
 msgstr "Personalizado…"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:254
+#: src/assets/view/widgets/urllistparamwidget.cpp:258
 #, kde-format
 msgid "Invalid LUT file %1"
 msgstr "Ficheiro de LUT inválido %1"
@@ -7790,7 +7790,7 @@ msgid "Missing item"
 msgstr "Falta o item"
 
 #: src/doc/documentchecker.cpp:389 src/doc/documentchecker.cpp:414
-#: src/doc/documentchecker.cpp:1446
+#: src/doc/documentchecker.cpp:1445
 #, kde-format
 msgid "Relocated item"
 msgstr "Item mudado de posição"
@@ -7931,29 +7931,29 @@ msgstr "A procura foi interrompida"
 msgid "Search done"
 msgstr "A procura terminou"
 
-#: src/doc/documentchecker.cpp:1217
+#: src/doc/documentchecker.cpp:1219
 #, kde-format
 msgid "Scanning %1"
 msgstr "A sondar o %1"
 
-#: src/doc/documentchecker.cpp:1408
+#: src/doc/documentchecker.cpp:1407
 #, kde-format
 msgid "Enter new location for folder"
 msgstr "Indique a nova localização da pasta"
 
-#: src/doc/documentchecker.cpp:1434
+#: src/doc/documentchecker.cpp:1433
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Indique a nova localização do ficheiro"
 
-#: src/doc/documentchecker.cpp:1909
+#: src/doc/documentchecker.cpp:1908
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
 msgstr[0] "Isto irá remover o 'clip' seleccionado deste projecto"
 msgstr[1] "Isto irá remover os 'clips' seleccionado deste projecto"
 
-#: src/doc/documentchecker.cpp:1911
+#: src/doc/documentchecker.cpp:1910
 #, kde-format
 msgid "Remove clips"
 msgstr "Remover os 'clips'"

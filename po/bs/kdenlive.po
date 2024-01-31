@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-27 03:09+0000\n"
+"POT-Creation-Date: 2024-01-31 03:27+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -4051,13 +4051,13 @@ msgstr "<izaberi ključnu riječ>"
 msgid "None (Dissolve)"
 msgstr "Rastopi"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:205
+#: src/assets/view/widgets/urllistparamwidget.cpp:209
 #, fuzzy, kde-format
 #| msgid "Custom"
 msgid "Custom…"
 msgstr "Podešen"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:254
+#: src/assets/view/widgets/urllistparamwidget.cpp:258
 #, fuzzy, kde-format
 #| msgid "Invalid clip"
 msgid "Invalid LUT file %1"
@@ -7902,7 +7902,7 @@ msgid "Missing item"
 msgstr "Nedostaje predmet"
 
 #: src/doc/documentchecker.cpp:389 src/doc/documentchecker.cpp:414
-#: src/doc/documentchecker.cpp:1446
+#: src/doc/documentchecker.cpp:1445
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Relocated item"
@@ -8069,24 +8069,24 @@ msgstr "Pretraži rucno"
 msgid "Search done"
 msgstr "Pretraživanje"
 
-#: src/doc/documentchecker.cpp:1217
+#: src/doc/documentchecker.cpp:1219
 #, fuzzy, kde-format
 #| msgid "Scanning"
 msgid "Scanning %1"
 msgstr "Skeniranje"
 
-#: src/doc/documentchecker.cpp:1408
+#: src/doc/documentchecker.cpp:1407
 #, fuzzy, kde-format
 #| msgid "Enter new location for file"
 msgid "Enter new location for folder"
 msgstr "Dodaj novu lokaciju za datoteku"
 
-#: src/doc/documentchecker.cpp:1434
+#: src/doc/documentchecker.cpp:1433
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Dodaj novu lokaciju za datoteku"
 
-#: src/doc/documentchecker.cpp:1909
+#: src/doc/documentchecker.cpp:1908
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
@@ -8094,7 +8094,7 @@ msgstr[0] "Ovo će skloniti odabrani snimak sa ovog projekta"
 msgstr[1] "Ovo će skloniti odabrane snimke sa ovog projekta"
 msgstr[2] "Ovo će skloniti odabrane snimke sa ovog projekta"
 
-#: src/doc/documentchecker.cpp:1911
+#: src/doc/documentchecker.cpp:1910
 #, kde-format
 msgid "Remove clips"
 msgstr "Izbaci isječke"
