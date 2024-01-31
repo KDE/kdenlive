@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-30 00:37+0000\n"
-"PO-Revision-Date: 2024-01-22 02:23+0100\n"
+"POT-Creation-Date: 2024-01-31 00:37+0000\n"
+"PO-Revision-Date: 2024-01-26 02:29-0300\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.08.4\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4095,12 +4095,12 @@ msgstr "<Seleccionar una palabra clave>"
 msgid "None (Dissolve)"
 msgstr "Fundido"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:212
+#: src/assets/view/widgets/urllistparamwidget.cpp:227
 #, kde-format
 msgid "Custom…"
 msgstr "Personalizado…"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:304
+#: src/assets/view/widgets/urllistparamwidget.cpp:319
 #, kde-format
 msgid "Invalid LUT file %1"
 msgstr "Archivo LUT inválido %1"
@@ -5649,8 +5649,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr "Uso"
 
-#: src/bin/projectitemmodel.cpp:330 src/doc/documentchecker.cpp:1585
-#: src/doc/documentchecker.cpp:1613 src/doc/documentchecker.cpp:1633
+#: src/bin/projectitemmodel.cpp:330 src/doc/documentchecker.cpp:1582
+#: src/doc/documentchecker.cpp:1610 src/doc/documentchecker.cpp:1630
 #: src/mltcontroller/clipcontroller.cpp:497 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -5688,10 +5688,9 @@ msgid "Clean Project"
 msgstr "Limpiar proyecto"
 
 #: src/bin/projectitemmodel.cpp:1217
-#, fuzzy, kde-format
-#| msgid "Loading project clips…"
+#, kde-format
 msgid "Reading project clips…"
-msgstr "Cargando clips del proyecto…"
+msgstr "Leyendo clips del proyecto…"
 
 #: src/bin/projectitemmodel.cpp:1321
 #, kde-format
@@ -8130,14 +8129,12 @@ msgstr "Carpeta de clips"
 #: src/doc/documentchecker.cpp:106
 #, kde-format
 msgid "Applying fixes…"
-msgstr ""
+msgstr "Aplicando cambios…"
 
 #: src/doc/documentchecker.cpp:145 src/doc/documentchecker.cpp:199
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Checking setup…"
+#, kde-format
 msgid "Checking for missing items…"
-msgstr "Comprobando la configuración…"
+msgstr "Comprobando elementos faltantes…"
 
 #: src/doc/documentchecker.cpp:162
 #, kde-format
@@ -8145,121 +8142,120 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "El id de documento del proyecto era inválido, se ha creado uno nuevo."
 
-#: src/doc/documentchecker.cpp:1575
+#: src/doc/documentchecker.cpp:1572
 #, kde-format
 msgid "Video clip"
 msgstr "Clip de video"
 
-#: src/doc/documentchecker.cpp:1577
+#: src/doc/documentchecker.cpp:1574
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Clip de presentación"
 
-#: src/doc/documentchecker.cpp:1579
+#: src/doc/documentchecker.cpp:1576
 #, kde-format
 msgid "Image clip"
 msgstr "Clip de imagen"
 
-#: src/doc/documentchecker.cpp:1581
+#: src/doc/documentchecker.cpp:1578
 #, kde-format
 msgid "Playlist clip"
 msgstr "Clip de lista de reproducción"
 
-#: src/doc/documentchecker.cpp:1583 src/doc/documentchecker.cpp:1599
+#: src/doc/documentchecker.cpp:1580 src/doc/documentchecker.cpp:1596
 #, kde-format
 msgid "Title Image"
 msgstr "Imagen de título"
 
-#: src/doc/documentchecker.cpp:1595
+#: src/doc/documentchecker.cpp:1592
 #, kde-format
 msgid "Clip"
 msgstr "Clip"
 
-#: src/doc/documentchecker.cpp:1597
+#: src/doc/documentchecker.cpp:1594
 #, kde-format
 msgid "Title Font"
 msgstr "Tipografía del título"
 
-#: src/doc/documentchecker.cpp:1601
+#: src/doc/documentchecker.cpp:1598
 #, kde-format
 msgid "Luma file"
 msgstr "Archivo de luma"
 
-#: src/doc/documentchecker.cpp:1603
+#: src/doc/documentchecker.cpp:1600
 #, kde-format
 msgid "Asset file"
 msgstr "Archivo de recurso"
 
-#: src/doc/documentchecker.cpp:1605
+#: src/doc/documentchecker.cpp:1602
 #: src/mltcontroller/clippropertiescontroller.cpp:420
 #, kde-format
 msgid "Proxy clip"
 msgstr "Clip de reemplazo"
 
-#: src/doc/documentchecker.cpp:1607
+#: src/doc/documentchecker.cpp:1604
 #: src/monitor/view/kdenlivemonitorsplit.qml:98
 #, kde-format
 msgid "Effect"
 msgstr "Efecto"
 
-#: src/doc/documentchecker.cpp:1609
+#: src/doc/documentchecker.cpp:1606
 #, kde-format
 msgid "Transition"
 msgstr "Transición"
 
-#: src/doc/documentchecker.cpp:1611
+#: src/doc/documentchecker.cpp:1608
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "Secuencia corrupta"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1621 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1618 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "Fijo"
 
-#: src/doc/documentchecker.cpp:1623
+#: src/doc/documentchecker.cpp:1620
 #, kde-format
 msgid "Reload"
 msgstr "Recargar"
 
-#: src/doc/documentchecker.cpp:1625
+#: src/doc/documentchecker.cpp:1622
 #, kde-format
 msgid "Missing"
 msgstr "Faltante"
 
-#: src/doc/documentchecker.cpp:1627
+#: src/doc/documentchecker.cpp:1624
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr "Faltante, pero existe un reemplazo disponible"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1629 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1626 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "Marcador de posición"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1631 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1628 src/ui/missingclips_ui.ui:152
 #, kde-format
 msgid "Remove"
 msgstr "Eliminar"
 
-#: src/doc/documentchecker.cpp:1642
+#: src/doc/documentchecker.cpp:1639
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "El archivo del proyecto contiene clips o archivos faltantes."
 
-#: src/doc/documentchecker.cpp:1645
+#: src/doc/documentchecker.cpp:1642
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Los reemplazos faltantes pueden ser creados nuevamente en la apertura."
 
 #: src/doc/documentvalidator.cpp:47
-#, fuzzy, kde-format
-#| msgid "Loading project…"
+#, kde-format
 msgid "Validating project…"
-msgstr "Cargando proyecto…"
+msgstr "Validando proyecto…"
 
 #: src/doc/documentvalidator.cpp:89
 #, kde-format
@@ -8287,10 +8283,9 @@ msgid "Incorrect project file"
 msgstr "Archivo de proyecto incorrecto"
 
 #: src/doc/documentvalidator.cpp:184
-#, fuzzy, kde-format
-#| msgid "Loading project…"
+#, kde-format
 msgid "Upgrading project version…"
-msgstr "Cargando proyecto…"
+msgstr "Actualizando versión del proyecto…"
 
 #: src/doc/documentvalidator.cpp:190
 #, kde-format
@@ -14388,16 +14383,14 @@ msgstr ""
 "que sea guardado"
 
 #: src/project/projectmanager.cpp:873
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Loading timeline…"
-msgstr "Descargando modelo…"
+msgstr "Cargando línea de tiempo…"
 
 #: src/project/projectmanager.cpp:892
-#, fuzzy, kde-format
-#| msgid "Timeline sequence"
+#, kde-format
 msgid "Building sequences…"
-msgstr "Secuencia"
+msgstr "Construyendo secuencias…"
 
 #: src/project/projectmanager.cpp:994
 #, kde-format

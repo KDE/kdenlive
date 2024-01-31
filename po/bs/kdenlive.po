@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-30 00:37+0000\n"
+"POT-Creation-Date: 2024-01-31 00:37+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -4117,13 +4117,13 @@ msgstr "<izaberi ključnu riječ>"
 msgid "None (Dissolve)"
 msgstr "Rastopi"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:212
+#: src/assets/view/widgets/urllistparamwidget.cpp:227
 #, fuzzy, kde-format
 #| msgid "Custom"
 msgid "Custom…"
 msgstr "Podešen"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:304
+#: src/assets/view/widgets/urllistparamwidget.cpp:319
 #, fuzzy, kde-format
 #| msgid "Invalid clip"
 msgid "Invalid LUT file %1"
@@ -5782,8 +5782,8 @@ msgstr "I"
 msgid "Usage"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:330 src/doc/documentchecker.cpp:1585
-#: src/doc/documentchecker.cpp:1613 src/doc/documentchecker.cpp:1633
+#: src/bin/projectitemmodel.cpp:330 src/doc/documentchecker.cpp:1582
+#: src/doc/documentchecker.cpp:1610 src/doc/documentchecker.cpp:1630
 #: src/mltcontroller/clipcontroller.cpp:497 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -8354,120 +8354,120 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1575
+#: src/doc/documentchecker.cpp:1572
 #, kde-format
 msgid "Video clip"
 msgstr "Video isječak"
 
-#: src/doc/documentchecker.cpp:1577
+#: src/doc/documentchecker.cpp:1574
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Snimak pokretnih slika"
 
-#: src/doc/documentchecker.cpp:1579
+#: src/doc/documentchecker.cpp:1576
 #, kde-format
 msgid "Image clip"
 msgstr "Slika isječka"
 
-#: src/doc/documentchecker.cpp:1581
+#: src/doc/documentchecker.cpp:1578
 #, kde-format
 msgid "Playlist clip"
 msgstr "Snimak liste izvođenja"
 
-#: src/doc/documentchecker.cpp:1583 src/doc/documentchecker.cpp:1599
+#: src/doc/documentchecker.cpp:1580 src/doc/documentchecker.cpp:1596
 #, kde-format
 msgid "Title Image"
 msgstr "Naziv slike"
 
-#: src/doc/documentchecker.cpp:1595
+#: src/doc/documentchecker.cpp:1592
 #, fuzzy, kde-format
 #| msgid "Clip"
 msgid "Clip"
 msgstr "Snimak"
 
-#: src/doc/documentchecker.cpp:1597
+#: src/doc/documentchecker.cpp:1594
 #, kde-format
 msgid "Title Font"
 msgstr "Veličina naziva"
 
-#: src/doc/documentchecker.cpp:1601
+#: src/doc/documentchecker.cpp:1598
 #, kde-format
 msgid "Luma file"
 msgstr "Luma dokument"
 
-#: src/doc/documentchecker.cpp:1603
+#: src/doc/documentchecker.cpp:1600
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Asset file"
 msgstr "Brisanje datoteka"
 
-#: src/doc/documentchecker.cpp:1605
+#: src/doc/documentchecker.cpp:1602
 #: src/mltcontroller/clippropertiescontroller.cpp:420
 #, kde-format
 msgid "Proxy clip"
 msgstr "Proxy isječak"
 
-#: src/doc/documentchecker.cpp:1607
+#: src/doc/documentchecker.cpp:1604
 #: src/monitor/view/kdenlivemonitorsplit.qml:98
 #, kde-format
 msgid "Effect"
 msgstr "Efekat"
 
-#: src/doc/documentchecker.cpp:1609
+#: src/doc/documentchecker.cpp:1606
 #, kde-format
 msgid "Transition"
 msgstr "Prijelaz"
 
-#: src/doc/documentchecker.cpp:1611
+#: src/doc/documentchecker.cpp:1608
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Corrupted sequence"
 msgstr "Napravi novu sekvencu"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1621 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1618 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1623
+#: src/doc/documentchecker.cpp:1620
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Reload"
 msgstr "Ponovo učitaj Snimak"
 
-#: src/doc/documentchecker.cpp:1625
+#: src/doc/documentchecker.cpp:1622
 #, kde-format
 msgid "Missing"
 msgstr "Nedostaje"
 
-#: src/doc/documentchecker.cpp:1627
+#: src/doc/documentchecker.cpp:1624
 #, fuzzy, kde-format
 #| msgid "Missing proxy"
 msgid "Missing, but proxy available"
 msgstr "Nedostaje proxy"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1629 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1626 src/ui/editrenderpreset_ui.ui:525
 #, fuzzy, kde-format
 #| msgid "Keep as placeholder"
 msgid "Placeholder"
 msgstr "Zadrži ga kao držača mjesta"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1631 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1628 src/ui/missingclips_ui.ui:152
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Remove"
 msgstr "Ukloni datoteku"
 
-#: src/doc/documentchecker.cpp:1642
+#: src/doc/documentchecker.cpp:1639
 #, fuzzy, kde-format
 #| msgid "The project file contains missing clips or files"
 msgid "The project file contains missing clips or files."
 msgstr "Datoteci projekta nedostaju snimci ili fajlovi"
 
-#: src/doc/documentchecker.cpp:1645
+#: src/doc/documentchecker.cpp:1642
 #, fuzzy, kde-format
 #| msgid "Missing proxies will be recreated after opening."
 msgid "Missing proxies can be recreated on opening."
