@@ -5,6 +5,7 @@
 
 #include "qstringutils.h"
 
+#include <QFileInfo>
 #include <QString>
 #include <QStringList>
 
@@ -16,6 +17,19 @@ QString QStringUtils::getUniqueName(const QStringList &names, const QString &nam
         // name is not unique, add a suffix
         newName = name + QString("-%1").arg(i);
         i++;
+    }
+    return newName;
+}
+
+QString QStringUtils::getUniqueFileName(const QStringList &names, const QString &name)
+{
+    int i = 0;
+    const QString baseName = QFileInfo(name).completeBaseName();
+    const QString extension = QFileInfo(name).suffix();
+    QString newName = name;
+    while (names.contains(newName)) {
+        // name is not unique, add a suffix
+        newName = baseName + QString::asprintf("-%04d.", ++i) + extension;
     }
     return newName;
 }
