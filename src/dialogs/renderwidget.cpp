@@ -684,7 +684,6 @@ void RenderWidget::slotPrepareExport2(bool delayedRendering)
                                       m_view.out_file->url().adjusted(QUrl::RemoveFilename).toLocalFile()));
         return;
     }
-    m_view.infoMessage->hide();
     saveRenderProfile();
 
     RenderRequest *request = new RenderRequest();
