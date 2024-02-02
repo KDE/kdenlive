@@ -215,6 +215,10 @@ void VideoWidget::resizeVideo(int width, int height)
 void VideoWidget::resizeEvent(QResizeEvent *event)
 {
     QQuickWidget::resizeEvent(event);
+    if (refreshZoom) {
+        setZoom(m_zoom, true);
+        refreshZoom = false;
+    }
     resizeVideo(event->size().width(), event->size().height());
 }
 
