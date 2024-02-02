@@ -149,7 +149,8 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData,
         } else if (t == ClipType::QText) {
             allFonts << clip->getProducerProperty(QStringLiteral("family"));
         } else if (t == ClipType::Text) {
-            QStringList imagefiles = TitleWidget::extractImageList(clip->getProducerProperty(QStringLiteral("xmldata")));
+            QString titleData = clip->getProducerProperty(QStringLiteral("xmldata"));
+            QStringList imagefiles = TitleWidget::extractImageList(titleData, pCore->currentDoc()->documentRoot());
             QStringList fonts = TitleWidget::extractFontList(clip->getProducerProperty(QStringLiteral("xmldata")));
             extraImageUrls << imagefiles;
             allFonts << fonts;
@@ -468,7 +469,8 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
             }
         } else if (filesList.contains(fileName) && !filesPath.contains(file)) {
             // we have 2 different files with same name
-            QString fileName = QStringUtils::getUniqueFileName(filesList, fileName);
+            const QString previousName = fileName;
+            fileName = QStringUtils::getUniqueFileName(filesList, previousName);
             item->setData(0, Qt::UserRole, fileName);
         }
         if (!isSlideshow) {
@@ -618,6 +620,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
         m_replacementList.clear();
         m_foldersList.clear();
         m_filesList.clear();
+        m_processedFiles.clear();
         slotDisplayMessage(QStringLiteral("system-run"), i18n("Archiving…"));
         repaint();
     }
@@ -666,6 +669,11 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
             if (item->isDisabled() || item->isHidden()) {
                 continue;
             }
+            if (m_processedFiles.contains(item->text(0))) {
+                // File was already processed, rename
+                continue;
+            }
+            m_processedFiles << item->text(0);
             items++;
             if (parentItem->data(0, Qt::UserRole).toString() == QLatin1String("playlist")) {
                 // Special case: playlists (mlt files) may contain urls that need to be replaced too
@@ -760,7 +768,9 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
     if (isArchive) {
         m_foldersList.append(destPath);
         for (int i = 0; i < files.count(); ++i) {
-            m_filesList.insert(files.at(i).toLocalFile(), destPath + files.at(i).fileName());
+            if (!m_filesList.contains(files.at(i).toLocalFile())) {
+                m_filesList.insert(files.at(i).toLocalFile(), destPath + files.at(i).fileName());
+            }
         }
         slotArchivingFinished();
     } else if (files.isEmpty()) {
