@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-01 00:37+0000\n"
+"POT-Creation-Date: 2024-02-02 00:37+0000\n"
 "PO-Revision-Date: 2024-01-27 21:43+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -5505,8 +5505,8 @@ msgstr "Premakni podnaslov"
 #: src/bin/model/subtitlemodel.cpp:1155
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:526
 #: src/effects/effectstack/view/effectstackview.cpp:591
-#: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:858
-#: src/project/dialogs/archivewidget.cpp:872 src/render/renderrequest.cpp:326
+#: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:856
+#: src/project/dialogs/archivewidget.cpp:870 src/render/renderrequest.cpp:326
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -6365,8 +6365,8 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "Izvozi podatke vodil"
 
-#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1662
-#: src/dialogs/renderwidget.cpp:1689 src/doc/kdenlivedoc.cpp:760
+#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1661
+#: src/dialogs/renderwidget.cpp:1688 src/doc/kdenlivedoc.cpp:760
 #: src/doc/kdenlivedoc.cpp:768 src/doc/kdenlivedoc.cpp:1285
 #: src/effects/effectlist/model/effecttreemodel.cpp:283
 #: src/effects/effectlist/model/effecttreemodel.cpp:299
@@ -6374,11 +6374,11 @@ msgstr "Izvozi podatke vodil"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:604
 #: src/effects/effectstack/view/effectstackview.cpp:629
 #: src/profiles/profilerepository.cpp:190
-#: src/project/dialogs/archivewidget.cpp:691
-#: src/project/dialogs/archivewidget.cpp:695
-#: src/project/dialogs/archivewidget.cpp:880
-#: src/project/dialogs/archivewidget.cpp:892
-#: src/project/dialogs/archivewidget.cpp:898
+#: src/project/dialogs/archivewidget.cpp:690
+#: src/project/dialogs/archivewidget.cpp:694
+#: src/project/dialogs/archivewidget.cpp:878
+#: src/project/dialogs/archivewidget.cpp:890
+#: src/project/dialogs/archivewidget.cpp:896
 #: src/project/projectmanager.cpp:1746 src/render/renderrequest.cpp:269
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
@@ -6964,7 +6964,7 @@ msgstr ""
 "Naslednji parametri ne bodo imeli učinka, ker jih bodo prepisale enakovredne "
 "možnosti uporabniškega vmesnika: <icode>%1</icode>"
 
-#: src/dialogs/renderwidget.cpp:116 src/dialogs/renderwidget.cpp:1492
+#: src/dialogs/renderwidget.cpp:116 src/dialogs/renderwidget.cpp:1491
 #, kde-format
 msgid "Waiting…"
 msgstr "Čakanje …"
@@ -7147,8 +7147,8 @@ msgctxt "@action:button"
 msgid "Transcode"
 msgstr "Prekodiraj"
 
-#: src/dialogs/renderwidget.cpp:675 src/dialogs/renderwidget.cpp:1466
-#: src/project/dialogs/archivewidget.cpp:886
+#: src/dialogs/renderwidget.cpp:675 src/dialogs/renderwidget.cpp:1465
+#: src/project/dialogs/archivewidget.cpp:884
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Izhodna datoteka že obstaja. Ali jo želite prepisati?"
@@ -7162,12 +7162,12 @@ msgstr ""
 "Mape %1 ni možon ustvariti.\n"
 "Prepričajte se, da imate zahtevana dovoljenja."
 
-#: src/dialogs/renderwidget.cpp:724
+#: src/dialogs/renderwidget.cpp:723
 #, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr "Pri poskusu izrisa je prišlo do naslednjih napak"
 
-#: src/dialogs/renderwidget.cpp:757 src/dialogs/renderwidget.cpp:1479
+#: src/dialogs/renderwidget.cpp:756 src/dialogs/renderwidget.cpp:1478
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -7176,47 +7176,47 @@ msgstr ""
 "Posel pisanja v datoteko že obstaja:<br /><b>%1</b><br />Prekinite ta posel, "
 "če jo želite prepisati …"
 
-#: src/dialogs/renderwidget.cpp:758 src/dialogs/renderwidget.cpp:1480
+#: src/dialogs/renderwidget.cpp:757 src/dialogs/renderwidget.cpp:1479
 #, kde-format
 msgid "Already running"
 msgstr "Že teče"
 
-#: src/dialogs/renderwidget.cpp:780
+#: src/dialogs/renderwidget.cpp:779
 #, kde-format
 msgid "Video without audio track"
 msgstr "Video brez zvočne steze"
 
-#: src/dialogs/renderwidget.cpp:782
+#: src/dialogs/renderwidget.cpp:781
 #, kde-format
 msgid "Audio without video track"
 msgstr "Zvok brez video steze"
 
-#: src/dialogs/renderwidget.cpp:846 src/main.cpp:307
+#: src/dialogs/renderwidget.cpp:845 src/main.cpp:307
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "Izrisovanje <i>%1</i> se je pričelo"
 
-#: src/dialogs/renderwidget.cpp:908 src/monitor/monitor.cpp:1196
+#: src/dialogs/renderwidget.cpp:907 src/monitor/monitor.cpp:1196
 #, kde-format
 msgid "untitled"
 msgstr "neimenovano"
 
-#: src/dialogs/renderwidget.cpp:946
+#: src/dialogs/renderwidget.cpp:945
 #, kde-format
 msgid "No preset selected"
 msgstr "Izbrana ni nobena prednastavitev"
 
-#: src/dialogs/renderwidget.cpp:948
+#: src/dialogs/renderwidget.cpp:947
 #, kde-format
 msgid "No matching preset"
 msgstr "Brez ujemajoče prednastavitve"
 
-#: src/dialogs/renderwidget.cpp:960
+#: src/dialogs/renderwidget.cpp:959
 #, kde-format
 msgid "Invalid preset"
 msgstr "Neveljavna prednastavitev"
 
-#: src/dialogs/renderwidget.cpp:1077
+#: src/dialogs/renderwidget.cpp:1076
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
@@ -7224,12 +7224,12 @@ msgid ""
 msgstr ""
 "Izrisovanja brez zvoka in videa ne deluje. Omogočite vsaj enega od obeh."
 
-#: src/dialogs/renderwidget.cpp:1234
+#: src/dialogs/renderwidget.cpp:1233
 #, kde-format
 msgid "Remaining time "
 msgstr "Preostali čas "
 
-#: src/dialogs/renderwidget.cpp:1236 src/dialogs/renderwidget.cpp:1280
+#: src/dialogs/renderwidget.cpp:1235 src/dialogs/renderwidget.cpp:1279
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
@@ -7238,48 +7238,48 @@ msgstr[1] "%1 dneva "
 msgstr[2] "%1 dni "
 msgstr[3] "%1 dni "
 
-#: src/dialogs/renderwidget.cpp:1240
+#: src/dialogs/renderwidget.cpp:1239
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (sličica %1 @ %2 sl/s)"
 
-#: src/dialogs/renderwidget.cpp:1252
+#: src/dialogs/renderwidget.cpp:1251
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr "Na voljo ostaja manj kot %1 MB pomnilnika."
 
-#: src/dialogs/renderwidget.cpp:1282
+#: src/dialogs/renderwidget.cpp:1281
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Izrisovanje končano v %1"
 
-#: src/dialogs/renderwidget.cpp:1290
+#: src/dialogs/renderwidget.cpp:1289
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "Izrisovanje %1 končano v %2"
 
-#: src/dialogs/renderwidget.cpp:1314
+#: src/dialogs/renderwidget.cpp:1313
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>Izrisovanje %1 se je sesulo</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1357 src/ui/renderwidget_ui.ui:894
+#: src/dialogs/renderwidget.cpp:1356 src/ui/renderwidget_ui.ui:894
 #, kde-format
 msgid "Abort Job"
 msgstr "Prekini posel"
 
-#: src/dialogs/renderwidget.cpp:1360
+#: src/dialogs/renderwidget.cpp:1359
 #, kde-format
 msgid "Remove Job"
 msgstr "Odstrani posel"
 
-#: src/dialogs/renderwidget.cpp:1760
+#: src/dialogs/renderwidget.cpp:1759
 #, kde-format
 msgid "Render Duration: %1. "
 msgstr "Trajanje izrisa: %1. "
 
-#: src/dialogs/renderwidget.cpp:1762
+#: src/dialogs/renderwidget.cpp:1761
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
@@ -7288,7 +7288,7 @@ msgstr[1] "<b>Manjka %1 v projektu uporabljen posnetek.</b>"
 msgstr[2] "<b>Manjkata %1 v projektu uporabljena posnetka.</b>"
 msgstr[3] "<b>Manjkajo %1 v projektu uporabljeni posnetki.</b>"
 
-#: src/dialogs/renderwidget.cpp:1764
+#: src/dialogs/renderwidget.cpp:1763
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
@@ -7297,17 +7297,17 @@ msgstr[1] "%1 manjkajoč posnetek (neuporabljen)."
 msgstr[2] "%1 manjkajoča posnetka (neuporabljena)."
 msgstr[3] "%1 manjkajoči posnetki (neuporabljeni)."
 
-#: src/dialogs/renderwidget.cpp:1766
+#: src/dialogs/renderwidget.cpp:1765
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "%1 manjkajočih posnetkov (<b>v projektu jih je uporabljenih %2</b>)."
 
-#: src/dialogs/renderwidget.cpp:1770
+#: src/dialogs/renderwidget.cpp:1769
 #, kde-format
 msgid "Render Duration: %1"
 msgstr "Trajanje izrisa: %1"
 
-#: src/dialogs/renderwidget.cpp:1846
+#: src/dialogs/renderwidget.cpp:1845
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -7316,12 +7316,12 @@ msgstr ""
 "Parametri hitrosti kodeka:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:1866
+#: src/dialogs/renderwidget.cpp:1865
 #, kde-format
 msgid "Add to Current Project"
 msgstr "Dodaj trenutnemu projektu"
 
-#: src/dialogs/renderwidget.cpp:1869 src/library/librarywidget.cpp:256
+#: src/dialogs/renderwidget.cpp:1868 src/library/librarywidget.cpp:256
 #, kde-format
 msgid "Open Containing Folder"
 msgstr "Odpri vsebujočo mapo"
@@ -7765,8 +7765,8 @@ msgstr "Uporablja se MLT %1"
 
 #: src/dialogs/wizard.cpp:87 src/project/cliptranscode.cpp:194
 #: src/project/cliptranscode.cpp:226 src/project/dialogs/archivewidget.cpp:609
-#: src/project/dialogs/archivewidget.cpp:780
-#: src/project/dialogs/archivewidget.cpp:1184
+#: src/project/dialogs/archivewidget.cpp:778
+#: src/project/dialogs/archivewidget.cpp:1182
 #, kde-format
 msgid "Abort"
 msgstr "Prekini"
@@ -7797,8 +7797,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose2)
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose3)
 #: src/dialogs/wizard.cpp:137 src/project/cliptranscode.cpp:270
-#: src/project/dialogs/archivewidget.cpp:801
-#: src/project/dialogs/archivewidget.cpp:1163 src/ui/renderwidget_ui.ui:363
+#: src/project/dialogs/archivewidget.cpp:799
+#: src/project/dialogs/archivewidget.cpp:1161 src/ui/renderwidget_ui.ui:363
 #: src/ui/renderwidget_ui.ui:937 src/ui/renderwidget_ui.ui:1095
 #, kde-format
 msgid "Close"
@@ -13262,8 +13262,8 @@ msgstr[2] "V vašem projektu manjkajo %1 posnetki."
 msgstr[3] "V vašem projektu manjka %1 posnetkov."
 
 #: src/project/dialogs/archivewidget.cpp:234
-#: src/project/dialogs/archivewidget.cpp:1330
-#: src/project/dialogs/archivewidget.cpp:1372
+#: src/project/dialogs/archivewidget.cpp:1328
+#: src/project/dialogs/archivewidget.cpp:1370
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
@@ -13273,8 +13273,8 @@ msgstr[2] "(%1 predmeti)"
 msgstr[3] "(%1 predmetov)"
 
 #: src/project/dialogs/archivewidget.cpp:240
-#: src/project/dialogs/archivewidget.cpp:1332
-#: src/project/dialogs/archivewidget.cpp:1374
+#: src/project/dialogs/archivewidget.cpp:1330
+#: src/project/dialogs/archivewidget.cpp:1372
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
@@ -13290,7 +13290,7 @@ msgid "Archive"
 msgstr "Arhiviraj"
 
 #: src/project/dialogs/archivewidget.cpp:252
-#: src/project/dialogs/archivewidget.cpp:799
+#: src/project/dialogs/archivewidget.cpp:797
 #, kde-format
 msgid "There was an error processing project file"
 msgstr "Med obdelovanjem projektne datoteke je prišlo do napake"
@@ -13376,51 +13376,51 @@ msgid "Archiving…"
 msgstr "Arhiviranje …"
 
 #: src/project/dialogs/archivewidget.cpp:652
-#: src/project/dialogs/archivewidget.cpp:686
-#: src/project/dialogs/archivewidget.cpp:772
-#: src/project/dialogs/archivewidget.cpp:1181
+#: src/project/dialogs/archivewidget.cpp:685
+#: src/project/dialogs/archivewidget.cpp:770
+#: src/project/dialogs/archivewidget.cpp:1179
 #, kde-format
 msgid "Cannot create directory %1"
 msgstr "Ni možno ustvariti mape %1"
 
 #: src/project/dialogs/archivewidget.cpp:673
-#: src/project/dialogs/archivewidget.cpp:753
+#: src/project/dialogs/archivewidget.cpp:752
 #, kde-format
 msgid "Copying %1"
 msgstr "Kopiranje %1"
 
 #: src/project/dialogs/archivewidget.cpp:678
-#: src/project/dialogs/archivewidget.cpp:847
+#: src/project/dialogs/archivewidget.cpp:845
 #, kde-format
 msgid "Cannot create temporary file"
 msgstr "Ni možno ustvariti začasne datoteke"
 
-#: src/project/dialogs/archivewidget.cpp:797
+#: src/project/dialogs/archivewidget.cpp:795
 #, kde-format
 msgid "Project was successfully archived."
 msgstr "Projekt je bil uspešno arhiviran."
 
-#: src/project/dialogs/archivewidget.cpp:807
+#: src/project/dialogs/archivewidget.cpp:805
 #, kde-format
 msgid "There was an error while copying the files: %1"
 msgstr "Med kopiranjem datotek je prišlo do napake: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1098
+#: src/project/dialogs/archivewidget.cpp:1096
 #, kde-format
 msgid "Cannot open archive file %1"
 msgstr "Ni možno odpreti datoteke arhiva %1"
 
-#: src/project/dialogs/archivewidget.cpp:1115
+#: src/project/dialogs/archivewidget.cpp:1113
 #, kde-format
 msgid "Archiving %1"
 msgstr "Arhiviranje %1"
 
-#: src/project/dialogs/archivewidget.cpp:1121
+#: src/project/dialogs/archivewidget.cpp:1119
 #, kde-format
 msgid "Cannot copy file %1 to %2."
 msgstr "Datoteke %1 ni možno kopirati v %2."
 
-#: src/project/dialogs/archivewidget.cpp:1151
+#: src/project/dialogs/archivewidget.cpp:1149
 #, kde-format
 msgid ""
 "Project was successfully archived.\n"
@@ -13429,27 +13429,27 @@ msgstr ""
 "Projekt je bil uspešno arhiviran.\n"
 "%1"
 
-#: src/project/dialogs/archivewidget.cpp:1154
+#: src/project/dialogs/archivewidget.cpp:1152
 #, kde-format
 msgid "Unknown Error"
 msgstr "Neznana napaka"
 
-#: src/project/dialogs/archivewidget.cpp:1154
+#: src/project/dialogs/archivewidget.cpp:1152
 #, kde-format
 msgid "There was an error while archiving the project: %1"
 msgstr "Pri arhiviranju projekta je prišlo do napake: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1183
+#: src/project/dialogs/archivewidget.cpp:1181
 #, kde-format
 msgid "Extracting…"
 msgstr "Razširjanje…"
 
-#: src/project/dialogs/archivewidget.cpp:1249
+#: src/project/dialogs/archivewidget.cpp:1247
 #, kde-format
 msgid "Cannot open project file %1"
 msgstr "Projektne datoteke %1 ni možno odpreti"
 
-#: src/project/dialogs/archivewidget.cpp:1249
+#: src/project/dialogs/archivewidget.cpp:1247
 #, kde-format
 msgid "Cannot open file"
 msgstr "Datoteke ni možno odpreti"
@@ -18039,31 +18039,31 @@ msgid "Archive folder:"
 msgstr "Mapa arhiva:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, compressed_archive)
-#: src/ui/archivewidget_ui.ui:48
+#: src/ui/archivewidget_ui.ui:52
 #, kde-format
 msgid "Compressed archive:"
 msgstr "Stisnjen arhiv:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, compression_type)
-#: src/ui/archivewidget_ui.ui:56
+#: src/ui/archivewidget_ui.ui:60
 #, kde-format
 msgid "tar.gz"
 msgstr "tar.gz"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, compression_type)
-#: src/ui/archivewidget_ui.ui:61
+#: src/ui/archivewidget_ui.ui:65
 #, kde-format
 msgid "zip"
 msgstr "zip"
 
 #. i18n: ectx: property (text), widget (QCheckBox, proxy_only)
-#: src/ui/archivewidget_ui.ui:71
+#: src/ui/archivewidget_ui.ui:75
 #, kde-format
 msgid "Archive only proxy clips when available"
 msgstr "Arhiviraj le posredne posnetke, če so na voljo"
 
 #. i18n: ectx: property (text), widget (QCheckBox, timeline_archive)
-#: src/ui/archivewidget_ui.ui:78
+#: src/ui/archivewidget_ui.ui:82
 #, kde-format
 msgid "Archive only timeline clips"
 msgstr "Arhiviraj samo posnetke v časovnici"
@@ -18071,7 +18071,7 @@ msgstr "Arhiviraj samo posnetke v časovnici"
 #. i18n: ectx: property (format), widget (QProgressBar, speech_progress)
 #. i18n: ectx: property (format), widget (QProgressBar, job_progress)
 #. i18n: ectx: property (format), widget (QProgressBar, progressBar)
-#: src/ui/archivewidget_ui.ui:139 src/ui/cliptranscode_ui.ui:40
+#: src/ui/archivewidget_ui.ui:143 src/ui/cliptranscode_ui.ui:40
 #: src/ui/speechdialog_ui.ui:112 src/ui/textbasededit_ui.ui:59
 #, no-c-format, kde-format
 msgid "%p%"
