@@ -138,7 +138,11 @@ Rectangle {
             if (offset <0) {
                 newTrack = -2
             } else {
-                newTrack = max
+                if (showSubtitles) {
+                    newTrack = 0
+                } else {
+                    newTrack = max
+                }
             }
         } else {
             var cTrack = Logic.getTrackIndexFromId(timeline.activeTrack)
