@@ -1188,8 +1188,24 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
         Mlt::Properties original(m_masterProducer->get_properties());
         Mlt::Properties cloneProps(warpProducer->get_properties());
         cloneProps.pass_list(original, ClipController::getPassPropertiesList(false));
-        warpProducer->set("audio_index", audioStream);
-        warpProducer->set("astream", audioStreamIndex(audioStream));
+
+        if (audioStream > -1) {
+            int newAudioStreamIndex = audioStreamIndex(audioStream);
+            if (newAudioStreamIndex > -1) {
+                /** If the audioStreamIndex is not found, for example when replacing a clip with another one using different indexes,
+                default to first audio stream */
+                warpProducer->set("audio_index", audioStream);
+            } else {
+                newAudioStreamIndex = 0;
+            }
+            if (newAudioStreamIndex > audioStreamsCount() - 1) {
+                newAudioStreamIndex = 0;
+            }
+            warpProducer->set("astream", newAudioStreamIndex);
+        } else {
+            warpProducer->set("audio_index", audioStream);
+            warpProducer->set("astream", audioStreamIndex(audioStream));
+        }
     }
 
     // if the producer has a "time-to-live" (frame duration) we need to scale it according to the speed
