@@ -941,6 +941,8 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
                     if (timelineModel->getGuideModel() == nullptr) {
                         timelineModel->setMarkerModel(clip->markerModel());
                     }
+                    // This sequence is not active, ensure it has a transparent background
+                    timelineModel->makeTransparentBg(true);
                     m_project->loadSequenceGroupsAndGuides(uid);
                     clip->setProducer(prod, false, false);
                     clip->reloadTimeline(timelineModel->getMasterEffectStackModel());
