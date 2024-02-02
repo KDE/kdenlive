@@ -446,7 +446,8 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
         }
         case ClipType::Text: {
             new QTreeWidgetItem(texts, QStringList() << clip->clipUrl());
-            const QStringList imagefiles = TitleWidget::extractImageList(clip->getProducerProperty(QStringLiteral("xmldata")));
+            QString titleData = clip->getProducerProperty(QStringLiteral("xmldata"));
+            const QStringList imagefiles = TitleWidget::extractImageList(titleData, pCore->currentDoc()->documentRoot());
             const QStringList fonts = TitleWidget::extractFontList(clip->getProducerProperty(QStringLiteral("xmldata")));
             for (const QString &file : imagefiles) {
                 new QTreeWidgetItem(images, QStringList() << file);

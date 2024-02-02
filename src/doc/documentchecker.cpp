@@ -622,10 +622,8 @@ QString DocumentChecker::getMissingProducers(QDomElement &e, const QDomNodeList 
         return QString();
     } else if (service == QLatin1String("kdenlivetitle")) {
         // TODO: Check if clip template is missing (xmltemplate) or hash changed
-        QString xml = Xml::getXmlProperty(e, QStringLiteral("xmldata"));
-        QStringList images = TitleWidget::extractImageList(xml);
-        QStringList fonts = TitleWidget::extractFontList(xml);
-        checkMissingImagesAndFonts(images, fonts, Xml::getXmlProperty(e, QStringLiteral("kdenlive:id")));
+        QPair<QStringList, QStringList> titlesList = TitleWidget::extractAndFixImageList(e, m_root);
+        checkMissingImagesAndFonts(titlesList.first, titlesList.second, Xml::getXmlProperty(e, QStringLiteral("kdenlive:id")));
         return QString();
     }
 

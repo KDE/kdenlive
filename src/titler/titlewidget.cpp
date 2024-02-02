@@ -622,7 +622,7 @@ TitleWidget::~TitleWidget()
 }
 
 // static
-QStringList TitleWidget::extractImageList(const QString &xml)
+QStringList TitleWidget::extractImageList(QString &xml, const QString &root)
 {
     QStringList result;
     if (xml.isEmpty()) {
@@ -634,10 +634,47 @@ QStringList TitleWidget::extractImageList(const QString &xml)
     for (int i = 0; i < images.count(); ++i) {
         QDomElement image = images.at(i).toElement();
         if (image.hasAttribute(QStringLiteral("url"))) {
-            result.append(image.attribute(QStringLiteral("url")));
+            QString filePath = image.attribute(QStringLiteral("url"));
+            if (!QFileInfo(filePath).isAbsolute()) {
+                // Ensure we return absolute paths
+                filePath.prepend(root);
+            }
+            result.append(filePath);
         }
     }
     return result;
+}
+
+// static
+QPair<QStringList, QStringList> TitleWidget::extractAndFixImageList(QDomElement &e, const QString &root)
+{
+    QString xml = Xml::getXmlProperty(e, QStringLiteral("xmldata"));
+    if (xml.isEmpty()) {
+        return {};
+    }
+    QStringList fontsList = extractFontList(xml);
+    QStringList imageList;
+    QDomDocument doc;
+    doc.setContent(xml);
+    bool updated = false;
+    QDomNodeList images = doc.elementsByTagName(QStringLiteral("content"));
+    for (int i = 0; i < images.count(); ++i) {
+        QDomElement image = images.at(i).toElement();
+        if (image.hasAttribute(QStringLiteral("url"))) {
+            QString filePath = image.attribute(QStringLiteral("url"));
+            if (!QFileInfo(filePath).isAbsolute()) {
+                // Ensure Title images have absolute paths, since it does not handle relative paths internally
+                filePath.prepend(root);
+                image.setAttribute(QStringLiteral("url"), filePath);
+                updated = true;
+            }
+            imageList.append(filePath);
+        }
+    }
+    if (updated) {
+        Xml::setXmlProperty(e, QStringLiteral("xmldata"), doc.toString());
+    }
+    return {imageList, fontsList};
 }
 
 // static
