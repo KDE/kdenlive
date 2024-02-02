@@ -1328,7 +1328,7 @@ void ProjectManager::moveProjectData(const QString &src, const QString &dest)
         if (proxyDir.mkpath(QStringLiteral("."))) {
             KIO::CopyJob *job = KIO::move(proxyUrls, QUrl::fromLocalFile(proxyDir.absolutePath()));
             connect(job, &KJob::percentChanged, this, &ProjectManager::slotMoveProgress);
-            connect(job, &KJob::result, this, [this, copyTmp](KJob *job) {
+            connect(job, &KJob::result, this, [copyTmp](KJob *job) {
                 if (job->error() == 0) {
                     copyTmp();
                 } else {
@@ -2084,7 +2084,7 @@ void ProjectManager::slotCreateSequenceFromSelection()
     }
     const QUuid destSequence = pCore->window()->getCurrentTimeline()->getUuid();
     int trackId = pCore->window()->getCurrentTimeline()->controller()->activeTrack();
-    Fun local_redo1 = [this, destSequence, copiedData, trackId]() {
+    Fun local_redo1 = [destSequence, copiedData]() {
         pCore->window()->raiseTimeline(destSequence);
         return true;
     };
@@ -2095,7 +2095,7 @@ void ProjectManager::slotCreateSequenceFromSelection()
         return;
     }
     PUSH_LAMBDA(local_redo1, redo);
-    Fun local_redo = [this, sourceSequence]() {
+    Fun local_redo = [sourceSequence]() {
         pCore->window()->raiseTimeline(sourceSequence);
         return true;
     };

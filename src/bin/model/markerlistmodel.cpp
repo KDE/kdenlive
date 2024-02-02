@@ -96,7 +96,7 @@ QList<int> MarkerListModel::loadCategories(const QStringList &categories, bool n
     Q_EMIT categoriesChanged();
     // Trigger a refresh of all markers
     if (notify) {
-        Q_EMIT dataChanged(index(0), index(m_markerList.size() - 1), {{ColorRole}});
+        Q_EMIT dataChanged(index(0), index(m_markerList.size() - 1), {ColorRole});
     }
     return previousCategories;
 }

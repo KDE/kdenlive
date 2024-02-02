@@ -200,7 +200,6 @@ QVector<QPoint> VideoTextEdit::processedZones(const QVector<QPoint> &sourceZones
     }
     QVector<QPoint> resultZones;
     QVector<QPoint> processingZones = sourceZones;
-    int ix = 0;
     for (auto &cut : cutZones) {
         for (auto &zone : processingZones) {
             if (cut.x() > zone.y() || cut.y() < zone.x()) {
@@ -219,7 +218,6 @@ QVector<QPoint> VideoTextEdit::processedZones(const QVector<QPoint> &sourceZones
             }
         }
         processingZones = resultZones;
-        ix++;
         resultZones.clear();
     }
     return processingZones;
@@ -626,8 +624,8 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     menu->addAction(configAction);
     button_config->setMenu(menu);
     button_config->setIcon(QIcon::fromTheme(QStringLiteral("application-menu")));
-    connect(m_translateAction, &QAction::triggered, [this](bool enabled) { KdenliveSettings::setWhisperTranslate(enabled); });
-    connect(configAction, &QAction::triggered, [this]() { pCore->window()->slotShowPreferencePage(Kdenlive::PageSpeech); });
+    connect(m_translateAction, &QAction::triggered, [](bool enabled) { KdenliveSettings::setWhisperTranslate(enabled); });
+    connect(configAction, &QAction::triggered, []() { pCore->window()->slotShowPreferencePage(Kdenlive::PageSpeech); });
     connect(menu, &QMenu::aboutToShow, [this]() {
         m_translateAction->setChecked(KdenliveSettings::whisperTranslate());
         m_translateAction->setEnabled(KdenliveSettings::speechEngine() == QLatin1String("whisper"));

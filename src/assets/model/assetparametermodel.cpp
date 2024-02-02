@@ -244,7 +244,6 @@ QMap<QString, std::pair<ParamType, bool>> AssetParameterModel::getKeyframablePar
 {
     // QMap<QString, std::pair<ParamType, bool>> paramNames;
     QMap<QString, std::pair<ParamType, bool>> paramNames;
-    int ix = 0;
     for (const auto &name : m_rows) {
         ParamType type = m_params.at(name).type;
         if (isAnimated(type) && type != ParamType::Roto_spline) {
@@ -253,7 +252,6 @@ QMap<QString, std::pair<ParamType, bool>> AssetParameterModel::getKeyframablePar
             paramNames.insert(name, {type, useOpacity});
             // paramNames << name;
         }
-        ix++;
     }
     return paramNames;
 }

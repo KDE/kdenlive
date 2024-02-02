@@ -4937,7 +4937,7 @@ void TimelineController::addTracks(int videoTracks, int audioTracks)
     int total = videoTracks + audioTracks;
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    for (int ix = 0; videoTracks + audioTracks > 0; ++ix) {
+    while (videoTracks + audioTracks > 0) {
         int newTid;
         if (audioTracks > 0) {
             result = m_model->requestTrackInsertion(0, newTid, QString(), true, undo, redo);

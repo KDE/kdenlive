@@ -328,7 +328,7 @@ void TagWidget::showTagsConfig()
             existingTagColors << cb.color();
         }
     });
-    d.connect(tb, &QToolButton::clicked, &d, [&d, &list]() {
+    d.connect(tb, &QToolButton::clicked, &d, [&list]() {
         // Delete selected tag
         auto *item = list.currentItem();
         if (item) {

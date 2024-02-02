@@ -1884,7 +1884,6 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
         // A list of clip ids x playlists
         QMap<int, int> rearrangedPlaylists;
         QMap<int, QVector<QPair<QString, QVariant>>> mixParameters;
-        int ix = 0;
         int moveId = m_mixList.value(clipIds.second, -1);
         while (moveId > -1) {
             int current = m_allClips[moveId]->getSubPlaylistIndex();
@@ -1896,7 +1895,6 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
             } else {
                 break;
             }
-            ix++;
         }
         rearrange_playlists = [this, map = rearrangedPlaylists]() {
             // First, remove all clips on playlist 0

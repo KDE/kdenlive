@@ -25,8 +25,6 @@
 #include <QStyleOptionSlider>
 #include <QTimer>
 
-const double log_factor = 1.0 / log10(1.0 / 127);
-
 MySlider::MySlider(QWidget *parent)
     : QSlider(parent)
 {
