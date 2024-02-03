@@ -1251,6 +1251,7 @@ QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, st
                         trac->set("kdenlive:duration", prod->parent().get("kdenlive:duration"));
                         trac->set("kdenlive:producer_type", ClipType::Timeline);
                         trac->set("kdenlive:maxduration", prod->parent().get_int("kdenlive:maxduration"));
+                        trac->set("_kdenlive_processed", 1);
                         std::shared_ptr<Mlt::Producer> prod2(trac->cut());
 
                         prod2->set("kdenlive:id", id);
@@ -1263,6 +1264,7 @@ QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, st
                         prod2->set("kdenlive:duration", prod->parent().get("kdenlive:duration"));
                         prod2->set("kdenlive:producer_type", ClipType::Timeline);
                         prod2->set("kdenlive:maxduration", prod->parent().get_int("kdenlive:maxduration"));
+                        prod2->set("_kdenlive_processed", 1);
                         if (foundIds.contains(id)) {
                             qWarning() << "ERROR, several Sequence Clips using the same id: " << id << ", UUID: " << uuid.toString()
                                        << "\n____________________";
