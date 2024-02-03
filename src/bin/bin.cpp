@@ -1686,10 +1686,18 @@ void Bin::slotSaveHeaders()
 
 void Bin::updateSortingAction(int ix)
 {
+    if (ix == KdenliveSettings::binSorting()) {
+        return;
+    }
+    int index = ix % 100;
     for (QAction *ac : m_sortGroup->actions()) {
-        if (ac->data().toInt() == ix) {
+        if (ac->data().toInt() == index) {
             ac->setChecked(true);
+            ac->trigger();
         }
+    }
+    if ((ix > 99) != m_sortDescend->isChecked()) {
+        m_sortDescend->trigger();
     }
 }
 
@@ -2328,6 +2336,11 @@ const QString Bin::setDocument(KdenliveDoc *project, const QString &id)
     bool binEffectsDisabled = getDocumentProperty(QStringLiteral("disablebineffects")).toInt() == 1;
     // Set media browser url
     QString url = getDocumentProperty(QStringLiteral("browserurl"));
+    const QString sorting = getDocumentProperty(QStringLiteral("binsort"));
+    if (!sorting.isEmpty()) {
+        int binSorting = sorting.toInt();
+        updateSortingAction(binSorting);
+    }
     if (!url.isEmpty()) {
         if (QFileInfo(url).isRelative()) {
             url.prepend(m_doc->documentRoot());
@@ -3007,6 +3020,7 @@ void Bin::slotInitView(QAction *action)
                     break;
                 }
             }
+            KdenliveSettings::setBinSorting(ix + (order == Qt::DescendingOrder ? 100 : 0));
         });
         connect(view, &MyTreeView::focusView, this, &Bin::slotGotFocus);
     } else if (m_listType == BinIconView) {

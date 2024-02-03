@@ -1675,6 +1675,7 @@ QMap<QString, QString> KdenliveDoc::documentProperties(bool saveHash)
     if (pCore->mediaBrowser()) {
         m_documentProperties.insert(QStringLiteral("browserurl"), pCore->mediaBrowser()->url().toLocalFile());
     }
+    m_documentProperties.insert(QStringLiteral("binsort"), QString::number(KdenliveSettings::binSorting()));
     QMapIterator<QUuid, std::shared_ptr<TimelineItemModel>> j(m_timelines);
     while (j.hasNext()) {
         j.next();
