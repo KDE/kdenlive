@@ -292,7 +292,7 @@ public:
                     QColor subTextColor = painter->pen().color();
                     bool selected = opt.state & QStyle::State_Selected;
                     if (!selected) {
-                        subTextColor.setAlphaF(.5);
+                        subTextColor.setAlphaF(.7);
                     }
                     painter->setPen(subTextColor);
                     // Draw usage counter
@@ -305,10 +305,11 @@ public:
                     bool hasAudioAndVideo = index.data(AbstractProjectItem::ClipHasAudioAndVideo).toBool();
                     if (hasAudioAndVideo && (cType == ClipType::AV || cType == ClipType::Playlist || cType == ClipType::Timeline)) {
                         QRect audioRect(0, 0, m_audioIcon.width(), m_audioIcon.height());
-                        audioRect.moveLeft(bounding.right() + (2 * textMargin) + 1);
                         audioRect.moveTop(bounding.top() + 1);
                         QRect videoIconRect = audioRect;
-                        videoIconRect.moveLeft(audioRect.right() + (2 * textMargin));
+                        videoIconRect.moveRight(
+                            qMax(int(bounding.right() + (2 * textMargin) + 2 * (1 + m_audioIcon.width())), option.rect.right() - (2 * textMargin)));
+                        audioRect.moveRight(videoIconRect.left() - (2 * textMargin) - 1);
                         if (opt.state & QStyle::State_MouseOver) {
                             m_audioDragRect = audioRect.adjusted(-1, -1, 1, 1);
                             m_videoDragRect = videoIconRect.adjusted(-1, -1, 1, 1);
@@ -325,20 +326,17 @@ public:
                                 painter->drawImage(videoIconRect.topLeft(), selected ? m_videoIcon : m_videoUsedIcon);
                             }
                         }
-                    } /*else if (usage > 0) {
-                        QRect audioRect(0, 0, m_audioIcon.width(), m_audioIcon.height());
-                        audioRect.moveLeft(bounding.right() + (2 * textMargin) + 1);
-                        audioRect.moveTop(bounding.top() + 1);
-                        QRect videoIconRect = audioRect;
-                        videoIconRect.moveLeft(audioRect.right() + (2 * textMargin));
-                        int audioUsage = index.data(AbstractProjectItem::AudioUsageCount).toInt();
-                        if (audioUsage > 0) {
-                            painter->drawImage(audioRect.topLeft(), selected ? m_audioIcon : m_audioUsedIcon);
+                    } else if (!usage.isEmpty()) {
+                        QRect iconRect(0, 0, m_audioIcon.width(), m_audioIcon.height());
+                        iconRect.moveTop(bounding.top() + 1);
+                        int minPos = bounding.right() + (2 * textMargin) + m_audioIcon.width();
+                        iconRect.moveRight(qMax(minPos, option.rect.right() - (2 * textMargin)));
+                        if (index.data(AbstractProjectItem::AudioUsed).toBool()) {
+                            painter->drawImage(iconRect.topLeft(), selected ? m_audioIcon : m_audioUsedIcon);
+                        } else {
+                            painter->drawImage(iconRect.topLeft(), selected ? m_videoIcon : m_videoUsedIcon);
                         }
-                        if (usage - audioUsage > 0) {
-                            painter->drawImage(videoIconRect.topLeft(), selected ? m_videoIcon : m_videoUsedIcon);
-                        }
-                    }*/
+                    }
                 }
                 if (type == AbstractProjectItem::ClipItem) {
                     // Overlay icon if necessary
