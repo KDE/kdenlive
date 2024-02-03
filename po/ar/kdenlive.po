@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-02 00:37+0000\n"
+"POT-Creation-Date: 2024-02-03 00:37+0000\n"
 "PO-Revision-Date: 2023-08-19 22:23+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -3432,7 +3432,7 @@ msgid "Delete keyframes"
 msgstr "احذف الأطر الرئيسة"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:463
-#: src/assets/model/assetparametermodel.cpp:1415
+#: src/assets/model/assetparametermodel.cpp:1413
 #, kde-format
 msgid "Update effect"
 msgstr "حدث التأثير"
@@ -3527,8 +3527,8 @@ msgstr "حرّر الإطار الرئيس %1"
 msgid "Update %1"
 msgstr "حدّث %1"
 
-#: src/assets/model/assetparametermodel.cpp:1267
-#: src/assets/model/assetparametermodel.cpp:1314
+#: src/assets/model/assetparametermodel.cpp:1265
+#: src/assets/model/assetparametermodel.cpp:1312
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "تعذّر فتح ملفّ المعد مسبقا %1"
@@ -3574,7 +3574,7 @@ msgid "Enter the name of this preset:"
 msgstr "أدخِل اسم الملف المعد مسبقا هذا:"
 
 #: src/assets/view/widgets/buttonparamwidget.cpp:190
-#: src/project/dialogs/archivewidget.cpp:399
+#: src/project/dialogs/archivewidget.cpp:400
 #, kde-format
 msgid "Abort processing"
 msgstr "أجهض المعالجة"
@@ -4057,7 +4057,7 @@ msgstr ""
 "\n"
 "يمين:"
 
-#: src/audiomixer/mixermanager.cpp:106
+#: src/audiomixer/mixermanager.cpp:104
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -4065,7 +4065,7 @@ msgid ""
 msgstr ""
 "مراقبة الصوت. اضغط <b>مسافة</b> لتبدأ أو تلبث التسجيل، <b>هروب</b> للإنهاء."
 
-#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:999
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1003
 #, kde-format
 msgid "Master"
 msgstr "الرئيس"
@@ -4666,8 +4666,8 @@ msgstr "قائمة التشغيل"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2445 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1456
-#: src/project/projectmanager.cpp:1458 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1458
+#: src/project/projectmanager.cpp:1460 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "السلاسل"
@@ -4858,12 +4858,12 @@ msgstr ""
 "المجلدات يمكن أن تكون متداخلة."
 
 #: src/bin/bin.cpp:3756 src/dialogs/speechdialog.cpp:48
-#: src/dialogs/textbasededit.cpp:721 src/monitor/recmanager.cpp:42
+#: src/dialogs/textbasededit.cpp:719 src/monitor/recmanager.cpp:42
 #, kde-format
 msgid "Show log"
 msgstr "أظهر السّجلّ"
 
-#: src/bin/bin.cpp:3759 src/dialogs/textbasededit.cpp:722
+#: src/bin/bin.cpp:3759 src/dialogs/textbasededit.cpp:720
 #, kde-format
 msgid "Detailed log"
 msgstr "سجل مفصل"
@@ -4923,7 +4923,7 @@ msgid "Edit Tags"
 msgstr "حرر الأوسمة"
 
 #: src/bin/bin.cpp:4460 src/bin/projectclip.cpp:203
-#: src/bin/projectclip.cpp:2013 src/onlineresources/resourcewidget.cpp:272
+#: src/bin/projectclip.cpp:2029 src/onlineresources/resourcewidget.cpp:272
 #: src/onlineresources/resourcewidget.cpp:605
 #: src/onlineresources/resourcewidget.cpp:620
 #, kde-format
@@ -4973,7 +4973,7 @@ msgstr ""
 "أنت تحرّر مقطع عنوان خارجيّة (%1). أتريد حفظ تغييراتك إلى ملفّ العنوان أو حفظها "
 "لهذا المشروع فقط؟"
 
-#: src/bin/bin.cpp:4746 src/titler/titlewidget.cpp:2190
+#: src/bin/bin.cpp:4746 src/titler/titlewidget.cpp:2227
 #, kde-format
 msgid "Save Title"
 msgstr "احفظ العنوان"
@@ -5246,13 +5246,13 @@ msgid "MLT Playlist (*.mlt)"
 msgstr "قائمة تشغيل ام ال تي (*.mlt)"
 
 #: src/bin/mediabrowser.cpp:53 src/dialogs/subtitleedit.cpp:150
-#: src/dialogs/textbasededit.cpp:735
+#: src/dialogs/textbasededit.cpp:733
 #, kde-format
 msgid "Zoom In"
 msgstr "قرّب"
 
 #: src/bin/mediabrowser.cpp:54 src/dialogs/subtitleedit.cpp:152
-#: src/dialogs/textbasededit.cpp:737
+#: src/dialogs/textbasededit.cpp:735
 #, kde-format
 msgid "Zoom Out"
 msgstr "بعّد"
@@ -5468,8 +5468,8 @@ msgstr "حرك الترجمة"
 #: src/bin/model/subtitlemodel.cpp:1155
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:526
 #: src/effects/effectstack/view/effectstackview.cpp:591
-#: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:856
-#: src/project/dialogs/archivewidget.cpp:870 src/render/renderrequest.cpp:326
+#: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:866
+#: src/project/dialogs/archivewidget.cpp:880 src/render/renderrequest.cpp:326
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -5534,25 +5534,25 @@ msgstr ""
 msgid "Invalid"
 msgstr "غير صالح"
 
-#: src/bin/projectclip.cpp:1395 src/dialogs/clipcreationdialog.cpp:213
+#: src/bin/projectclip.cpp:1411 src/dialogs/clipcreationdialog.cpp:213
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1424
 #, kde-format
 msgid "File already exists"
 msgstr "الملفّ موجود بالفعل"
 
-#: src/bin/projectclip.cpp:2616
+#: src/bin/projectclip.cpp:2632
 #, fuzzy, kde-format
 #| msgid "Paste timeline clips"
 msgid "Adjust timeline clips"
 msgstr "ألصق مقاطع الخط الزمني"
 
-#: src/bin/projectclip.cpp:2847
+#: src/bin/projectclip.cpp:2863
 #, kde-format
 msgid "Add stream effect"
 msgstr "أضف تّأثير دفق"
 
-#: src/bin/projectclip.cpp:2872
+#: src/bin/projectclip.cpp:2888
 #, kde-format
 msgid "Remove stream effect"
 msgstr "أزل  تّأثير دفق"
@@ -5583,8 +5583,8 @@ msgstr "المعرّف"
 msgid "Usage"
 msgstr "الاستخدام"
 
-#: src/bin/projectitemmodel.cpp:330 src/doc/documentchecker.cpp:1582
-#: src/doc/documentchecker.cpp:1610 src/doc/documentchecker.cpp:1630
+#: src/bin/projectitemmodel.cpp:330 src/doc/documentchecker.cpp:1580
+#: src/doc/documentchecker.cpp:1608 src/doc/documentchecker.cpp:1628
 #: src/mltcontroller/clipcontroller.cpp:497 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -5643,7 +5643,7 @@ msgid "Tag %1"
 msgstr "الوسم %1"
 
 #: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:43
-#: src/dialogs/textbasededit.cpp:636
+#: src/dialogs/textbasededit.cpp:634
 #, kde-format
 msgid "Configure"
 msgstr "اضبط"
@@ -6244,7 +6244,7 @@ msgstr ""
 
 #: src/dialogs/encodingprofilesdialog.cpp:259
 #: src/dialogs/encodingprofilesdialog.cpp:348
-#: src/project/dialogs/projectsettings.cpp:884
+#: src/project/dialogs/projectsettings.cpp:885
 #, kde-format
 msgid "Automatic (%1)"
 msgstr "آليّ (%1)"
@@ -6252,15 +6252,15 @@ msgstr "آليّ (%1)"
 #: src/dialogs/encodingprofilesdialog.cpp:261
 #: src/dialogs/encodingprofilesdialog.cpp:350
 #: src/dialogs/kdenlivesettingsdialog.cpp:682
-#: src/project/dialogs/projectsettings.cpp:886
+#: src/project/dialogs/projectsettings.cpp:887
 #: src/transitions/view/transitionstackview.cpp:37
 #, kde-format
 msgid "Automatic"
 msgstr "آليّ"
 
 #: src/dialogs/encodingprofilesdialog.cpp:329
-#: src/project/dialogs/projectsettings.cpp:921
-#: src/project/dialogs/projectsettings.cpp:952
+#: src/project/dialogs/projectsettings.cpp:922
+#: src/project/dialogs/projectsettings.cpp:953
 #, kde-format
 msgid "Current Settings"
 msgstr "الإعدادات الحاليّة"
@@ -6329,16 +6329,16 @@ msgstr "صدر بيانات الأدلة"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:604
 #: src/effects/effectstack/view/effectstackview.cpp:629
 #: src/profiles/profilerepository.cpp:190
-#: src/project/dialogs/archivewidget.cpp:690
-#: src/project/dialogs/archivewidget.cpp:694
-#: src/project/dialogs/archivewidget.cpp:878
-#: src/project/dialogs/archivewidget.cpp:890
-#: src/project/dialogs/archivewidget.cpp:896
-#: src/project/projectmanager.cpp:1746 src/render/renderrequest.cpp:269
+#: src/project/dialogs/archivewidget.cpp:698
+#: src/project/dialogs/archivewidget.cpp:702
+#: src/project/dialogs/archivewidget.cpp:888
+#: src/project/dialogs/archivewidget.cpp:900
+#: src/project/dialogs/archivewidget.cpp:906
+#: src/project/projectmanager.cpp:1748 src/render/renderrequest.cpp:269
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5043
-#: src/titler/titlewidget.cpp:2203
+#: src/titler/titlewidget.cpp:2240
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "تعذرت الكتابة إلى الملف %1"
@@ -6401,7 +6401,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "إذا لم تكن متأكد استخدم :<br/><b>شفرة موحدة (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:51 src/project/dialogs/guideslist.cpp:179
-#: src/project/projectmanager.cpp:1639
+#: src/project/projectmanager.cpp:1641
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, kde-format
 msgid "Cannot read file %1"
@@ -6617,7 +6617,7 @@ msgstr "أدخل مسار تطبيق Glaxnimate"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:978
 #: src/dialogs/kdenlivesettingsdialog.cpp:996
-#: src/project/dialogs/projectsettings.cpp:518
+#: src/project/dialogs/projectsettings.cpp:519
 #, kde-format
 msgid "Please select a video profile"
 msgstr "رجاء اضبط تشكيلة الفيديو الافتراضيّة"
@@ -7110,7 +7110,7 @@ msgid "Transcode"
 msgstr "تبديل الترميز"
 
 #: src/dialogs/renderwidget.cpp:675 src/dialogs/renderwidget.cpp:1465
-#: src/project/dialogs/archivewidget.cpp:884
+#: src/project/dialogs/archivewidget.cpp:894
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "الملفّ الخرج موجود بالفعل. أتريد الكتابة فوقه؟"
@@ -7159,7 +7159,7 @@ msgstr "صوت بلا مسار فيديو"
 msgid "Rendering <i>%1</i> started"
 msgstr "بدأ تصيير <i>%1</i>"
 
-#: src/dialogs/renderwidget.cpp:907 src/monitor/monitor.cpp:1196
+#: src/dialogs/renderwidget.cpp:907 src/monitor/monitor.cpp:1197
 #, kde-format
 msgid "untitled"
 msgstr "بلا عنوان"
@@ -7332,7 +7332,7 @@ msgstr "حدد مقطع في الخط الزمني ليحلله"
 msgid "No audio track found"
 msgstr "لم يُعثر على مسار صوت"
 
-#: src/dialogs/speechdialog.cpp:182 src/dialogs/textbasededit.cpp:699
+#: src/dialogs/speechdialog.cpp:182 src/dialogs/textbasededit.cpp:697
 #, kde-format
 msgid "Please install speech recognition models"
 msgstr "فضلا ثبت نماذج التعرف على الحديث"
@@ -7345,8 +7345,8 @@ msgctxt "@label:textbox"
 msgid "Checking setup…"
 msgstr "يفحص الضّبط..."
 
-#: src/dialogs/speechdialog.cpp:204 src/dialogs/textbasededit.cpp:934
-#: src/dialogs/textbasededit.cpp:947
+#: src/dialogs/speechdialog.cpp:204 src/dialogs/textbasededit.cpp:932
+#: src/dialogs/textbasededit.cpp:945
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "فضلاً اضبط تحويل الصوت إلى نص"
@@ -7361,12 +7361,12 @@ msgstr "يبدأ تصدير الصوت"
 msgid "Audio export failed"
 msgstr "فشل تصدير الصوت"
 
-#: src/dialogs/speechdialog.cpp:305 src/dialogs/textbasededit.cpp:966
+#: src/dialogs/speechdialog.cpp:305 src/dialogs/textbasededit.cpp:964
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "يبدأ التعرف على الكلام"
 
-#: src/dialogs/speechdialog.cpp:342 src/dialogs/textbasededit.cpp:1129
+#: src/dialogs/speechdialog.cpp:342 src/dialogs/textbasededit.cpp:1127
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "أحبط التعرف على الكلام."
@@ -7520,160 +7520,160 @@ msgstr ""
 msgid "Delete selection"
 msgstr "امح المحدد"
 
-#: src/dialogs/textbasededit.cpp:316 src/dialogs/textbasededit.cpp:572
-#: src/dialogs/textbasededit.cpp:1147 src/dialogs/textbasededit.cpp:1218
-#: src/dialogs/textbasededit.cpp:1242 src/dialogs/textbasededit.cpp:1299
+#: src/dialogs/textbasededit.cpp:314 src/dialogs/textbasededit.cpp:570
+#: src/dialogs/textbasededit.cpp:1145 src/dialogs/textbasededit.cpp:1216
+#: src/dialogs/textbasededit.cpp:1240 src/dialogs/textbasededit.cpp:1297
 #, kde-format
 msgid "No speech"
 msgstr "بدون كلام"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
-#: src/dialogs/textbasededit.cpp:622 src/ui/speechdialog_ui.ui:150
+#: src/dialogs/textbasededit.cpp:620 src/ui/speechdialog_ui.ui:150
 #, kde-format
 msgid "Translate to English"
 msgstr "ترجم إلى الإنجليزية"
 
-#: src/dialogs/textbasededit.cpp:625
+#: src/dialogs/textbasededit.cpp:623
 #, kde-format
 msgid "Configure Speech Recognition"
 msgstr "اضبط تعرف الكلام"
 
-#: src/dialogs/textbasededit.cpp:656
+#: src/dialogs/textbasededit.cpp:654
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Create New Sequence"
 msgid "Create new sequence with edit"
 msgstr "أنشئ تسلسلًا جديدًا"
 
-#: src/dialogs/textbasededit.cpp:657
+#: src/dialogs/textbasededit.cpp:655
 #, fuzzy, kde-format
 #| msgid "Insert selected blocks in timeline"
 msgid "Insert selection in timeline"
 msgstr "أدرج الكتل المحددة في الخط الزمني"
 
-#: src/dialogs/textbasededit.cpp:658
+#: src/dialogs/textbasededit.cpp:656
 #, fuzzy, kde-format
 #| msgid "Save edited text in a new playlist"
 msgid "Save edited text in a playlist file"
 msgstr "احفظ النص المحرر في قائمة تشغيل جديدة"
 
-#: src/dialogs/textbasededit.cpp:665
+#: src/dialogs/textbasededit.cpp:663
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Create New Sequence"
 msgid "Create new sequence with text edit "
 msgstr "أنشئ تسلسلًا جديدًا"
 
-#: src/dialogs/textbasededit.cpp:689
+#: src/dialogs/textbasededit.cpp:687
 #, kde-format
 msgid "Speech model"
 msgstr "نماذج الكلام"
 
-#: src/dialogs/textbasededit.cpp:690
+#: src/dialogs/textbasededit.cpp:688
 #, kde-format
 msgid "Speech language"
 msgstr "لغة الكلام"
 
-#: src/dialogs/textbasededit.cpp:727
+#: src/dialogs/textbasededit.cpp:725
 #, kde-format
 msgid "Delete selected text"
 msgstr "احذف النص المحدّد"
 
-#: src/dialogs/textbasededit.cpp:731
+#: src/dialogs/textbasededit.cpp:729
 #, fuzzy, kde-format
 #| msgid "Add bookmark for current selection"
 msgid "Add marker for current selection"
 msgstr "أضف علامة للتحديد الحالي"
 
-#: src/dialogs/textbasededit.cpp:739
+#: src/dialogs/textbasededit.cpp:737
 #, fuzzy, kde-format
 #| msgid "Remove All Preview Zones"
 msgid "Remove non speech zones"
 msgstr "أزل كل مناطق المعاينة"
 
-#: src/dialogs/textbasededit.cpp:918
+#: src/dialogs/textbasededit.cpp:916
 #, kde-format
 msgid ""
 "Another recognition job is already running. It will be aborted in favor of "
 "the new job. Do you want to proceed?"
 msgstr "هناك عملية تعرف كلام تعمل. هل تريد إحباطها لمصلحة العملية الجديدة؟"
 
-#: src/dialogs/textbasededit.cpp:953
+#: src/dialogs/textbasededit.cpp:951
 #, kde-format
 msgid "Please install a language model."
 msgstr "فضلا ثبت نموذج اللغة."
 
-#: src/dialogs/textbasededit.cpp:961
+#: src/dialogs/textbasededit.cpp:959
 #, kde-format
 msgid "Select a clip with audio in Project Bin."
 msgstr "اختر مقطع بصوت في سلة المشروع"
 
-#: src/dialogs/textbasededit.cpp:1007
+#: src/dialogs/textbasededit.cpp:1005
 #, kde-format
 msgid "Select a clip with audio for speech recognition."
 msgstr "حدد مقطع بصوت حتى يُعرّف على الكلام."
 
-#: src/dialogs/textbasededit.cpp:1016 src/dialogs/textbasededit.cpp:1051
-#: src/dialogs/textbasededit.cpp:1100
+#: src/dialogs/textbasededit.cpp:1014 src/dialogs/textbasededit.cpp:1049
+#: src/dialogs/textbasededit.cpp:1098
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "تعذّر إنشاء الملفّ المؤّقت."
 
-#: src/dialogs/textbasededit.cpp:1021
+#: src/dialogs/textbasededit.cpp:1019
 #, kde-format
 msgid "Extracting audio for %1."
 msgstr "يستخرج الصّوت لـ %1."
 
-#: src/dialogs/textbasededit.cpp:1029
+#: src/dialogs/textbasededit.cpp:1027
 #, kde-format
 msgid "Audio extract failed."
 msgstr "فشل استخراج الصوت."
 
-#: src/dialogs/textbasededit.cpp:1035 src/dialogs/textbasededit.cpp:1084
+#: src/dialogs/textbasededit.cpp:1033 src/dialogs/textbasededit.cpp:1082
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "يبدأ التعرف على الكلام في %1."
 
-#: src/dialogs/textbasededit.cpp:1132
+#: src/dialogs/textbasededit.cpp:1130
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "خطأ، فضلا تأكد أن التحويل من الكلام إلى النص مضبوط."
 
-#: src/dialogs/textbasededit.cpp:1134
+#: src/dialogs/textbasededit.cpp:1132
 #, kde-format
 msgid "No speech detected."
 msgstr "لم يكتشف أي حديث"
 
-#: src/dialogs/textbasededit.cpp:1155
+#: src/dialogs/textbasededit.cpp:1153
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "فشل التعرف على الحديث"
 
-#: src/dialogs/textbasededit.cpp:1392
+#: src/dialogs/textbasededit.cpp:1390
 #, fuzzy, kde-format
 #| msgid "Edit clip cut"
 msgctxt "@action"
 msgid "Edit clip text"
 msgstr "حرر قص المقطع"
 
-#: src/dialogs/textbasededit.cpp:1424 src/dialogs/textbasededit.cpp:1506
+#: src/dialogs/textbasededit.cpp:1422 src/dialogs/textbasededit.cpp:1504
 #, fuzzy, kde-format
 #| msgid "Create Sequence Clip"
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "أنشئ مقطع تسلسلي جديدًا"
 
-#: src/dialogs/textbasededit.cpp:1431 src/dialogs/textbasededit.cpp:1467
+#: src/dialogs/textbasededit.cpp:1429 src/dialogs/textbasededit.cpp:1465
 #, kde-format
 msgid "No text to export"
 msgstr "لا يوجد نص للتصدير"
 
-#: src/dialogs/textbasededit.cpp:1451
+#: src/dialogs/textbasededit.cpp:1449
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "أدخل مسارا جديدا لقائمة التشغيل"
 
-#: src/dialogs/textbasededit.cpp:1601
+#: src/dialogs/textbasededit.cpp:1599
 #, kde-format
 msgid "No timecode found in selection"
 msgstr "لم يُعثر على رمز وقت في التحديد"
@@ -7745,9 +7745,9 @@ msgid "Using MLT %1"
 msgstr "يستخدم ام ال تي %1"
 
 #: src/dialogs/wizard.cpp:87 src/project/cliptranscode.cpp:194
-#: src/project/cliptranscode.cpp:226 src/project/dialogs/archivewidget.cpp:609
-#: src/project/dialogs/archivewidget.cpp:778
-#: src/project/dialogs/archivewidget.cpp:1182
+#: src/project/cliptranscode.cpp:226 src/project/dialogs/archivewidget.cpp:611
+#: src/project/dialogs/archivewidget.cpp:788
+#: src/project/dialogs/archivewidget.cpp:1192
 #, kde-format
 msgid "Abort"
 msgstr "أجهض"
@@ -7777,8 +7777,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose2)
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose3)
 #: src/dialogs/wizard.cpp:137 src/project/cliptranscode.cpp:270
-#: src/project/dialogs/archivewidget.cpp:799
-#: src/project/dialogs/archivewidget.cpp:1161 src/ui/renderwidget_ui.ui:363
+#: src/project/dialogs/archivewidget.cpp:809
+#: src/project/dialogs/archivewidget.cpp:1171 src/ui/renderwidget_ui.ui:363
 #: src/ui/renderwidget_ui.ui:937 src/ui/renderwidget_ui.ui:1095
 #, kde-format
 msgid "Close"
@@ -8089,113 +8089,113 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "معرف مستند مشروعك غير صالح، أنشئ واحد أخر."
 
-#: src/doc/documentchecker.cpp:1572
+#: src/doc/documentchecker.cpp:1570
 #, kde-format
 msgid "Video clip"
 msgstr "مقطع فيديو"
 
-#: src/doc/documentchecker.cpp:1574
+#: src/doc/documentchecker.cpp:1572
 #, kde-format
 msgid "Slideshow clip"
 msgstr "مقطع عرض شرائح"
 
-#: src/doc/documentchecker.cpp:1576
+#: src/doc/documentchecker.cpp:1574
 #, kde-format
 msgid "Image clip"
 msgstr "مقطع صورة"
 
-#: src/doc/documentchecker.cpp:1578
+#: src/doc/documentchecker.cpp:1576
 #, kde-format
 msgid "Playlist clip"
 msgstr "مقطع قائمة تشغيل"
 
-#: src/doc/documentchecker.cpp:1580 src/doc/documentchecker.cpp:1596
+#: src/doc/documentchecker.cpp:1578 src/doc/documentchecker.cpp:1594
 #, kde-format
 msgid "Title Image"
 msgstr "صورة عنوان"
 
-#: src/doc/documentchecker.cpp:1592
+#: src/doc/documentchecker.cpp:1590
 #, kde-format
 msgid "Clip"
 msgstr "المقطع"
 
-#: src/doc/documentchecker.cpp:1594
+#: src/doc/documentchecker.cpp:1592
 #, kde-format
 msgid "Title Font"
 msgstr "خطّ عنوان"
 
-#: src/doc/documentchecker.cpp:1598
+#: src/doc/documentchecker.cpp:1596
 #, kde-format
 msgid "Luma file"
 msgstr "ملفّ ”لوما“"
 
-#: src/doc/documentchecker.cpp:1600
+#: src/doc/documentchecker.cpp:1598
 #, kde-format
 msgid "Asset file"
 msgstr "ملف أصل"
 
-#: src/doc/documentchecker.cpp:1602
+#: src/doc/documentchecker.cpp:1600
 #: src/mltcontroller/clippropertiescontroller.cpp:420
 #, kde-format
 msgid "Proxy clip"
 msgstr "المقطع الوسيط"
 
-#: src/doc/documentchecker.cpp:1604
+#: src/doc/documentchecker.cpp:1602
 #: src/monitor/view/kdenlivemonitorsplit.qml:98
 #, kde-format
 msgid "Effect"
 msgstr "التّأثير"
 
-#: src/doc/documentchecker.cpp:1606
+#: src/doc/documentchecker.cpp:1604
 #, kde-format
 msgid "Transition"
 msgstr "الانتقال"
 
-#: src/doc/documentchecker.cpp:1608
+#: src/doc/documentchecker.cpp:1606
 #, fuzzy, kde-format
 #| msgid "Create sequence"
 msgid "Corrupted sequence"
 msgstr "أنشئ تسلسلًا جديدًا"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1618 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1616 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "ثابت"
 
-#: src/doc/documentchecker.cpp:1620
+#: src/doc/documentchecker.cpp:1618
 #, kde-format
 msgid "Reload"
 msgstr "أعد التحميل"
 
-#: src/doc/documentchecker.cpp:1622
+#: src/doc/documentchecker.cpp:1620
 #, kde-format
 msgid "Missing"
 msgstr "مفقود"
 
-#: src/doc/documentchecker.cpp:1624
+#: src/doc/documentchecker.cpp:1622
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr "مفقود ولكن يوجد وسيط"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1626 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1624 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "عنصر نائب"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1628 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1626 src/ui/missingclips_ui.ui:152
 #, kde-format
 msgid "Remove"
 msgstr "أزل"
 
-#: src/doc/documentchecker.cpp:1639
+#: src/doc/documentchecker.cpp:1637
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "يحوي ملفّ المشروع مقاطع أو ملفّات ناقصة."
 
-#: src/doc/documentchecker.cpp:1642
+#: src/doc/documentchecker.cpp:1640
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "الوسطاء ناقصون سيُعاد إنشاؤهم عند الفتح."
@@ -8398,15 +8398,15 @@ msgstr ""
 "لقد رُقّي ملفّ المشروع إلى آخر إصدارة من مستندات «كِيدِينلايف»، ولكن لم يكن ممكنًا "
 "إنشاء النّسخة الاحتياطيّة %1."
 
-#: src/doc/kdenlivedoc.cpp:884 src/project/projectmanager.cpp:1333
-#: src/project/projectmanager.cpp:1369
+#: src/doc/kdenlivedoc.cpp:884 src/project/projectmanager.cpp:1335
+#: src/project/projectmanager.cpp:1371
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "خطأ في نقل مجلّد المشروع: %1"
 
 #: src/doc/kdenlivedoc.cpp:1074 src/doc/kdenlivedoc.cpp:2292
-#: src/project/dialogs/archivewidget.cpp:238
-#: src/project/projectmanager.cpp:1580
+#: src/project/dialogs/archivewidget.cpp:239
+#: src/project/projectmanager.cpp:1582
 #, kde-format
 msgid "Untitled"
 msgstr "غير معنون"
@@ -11245,7 +11245,7 @@ msgstr "أعد الإنشاء"
 
 #: src/mainwindow.cpp:2192 src/onlineresources/resourcewidget.cpp:616
 #: src/scopes/colorscopes/colorplaneexport.cpp:158
-#: src/titler/titlewidget.cpp:2186
+#: src/titler/titlewidget.cpp:2223
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -11828,7 +11828,7 @@ msgid "Audio streams"
 msgstr "التدفقات الصوتية"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:711
-#: src/monitor/monitor.cpp:1831
+#: src/monitor/monitor.cpp:1832
 #, kde-format
 msgid "Merge all streams"
 msgstr "ادمج كل التدفقات"
@@ -11935,7 +11935,7 @@ msgstr "يعرض معلومات تفصيلية عن دفق الصوت/بيانا
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/mltcontroller/clippropertiescontroller.cpp:1033
-#: src/project/dialogs/projectsettings.cpp:850 src/ui/projectsettings_ui.ui:534
+#: src/project/dialogs/projectsettings.cpp:851 src/ui/projectsettings_ui.ui:534
 #, kde-format
 msgid "Metadata"
 msgstr "البيانات الوصفيّة"
@@ -12082,7 +12082,7 @@ msgstr "احفظ بيانات التّحليل"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1603
 #: src/mltcontroller/clippropertiescontroller.cpp:1616
-#: src/project/dialogs/projectsettings.cpp:788
+#: src/project/dialogs/projectsettings.cpp:789
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "ملف نصي (‎*.txt)"
@@ -12093,17 +12093,17 @@ msgctxt "@title:window"
 msgid "Open Analysis Data"
 msgstr "افتح بيانات التّحليل"
 
-#: src/monitor/glwidget.cpp:1651 src/monitor/videowidget.cpp:1056
+#: src/monitor/glwidget.cpp:1651 src/monitor/videowidget.cpp:1060
 #, kde-format
 msgid "Select a zone to play"
 msgstr "حدد منطقة لتشغيلها"
 
-#: src/monitor/glwidget.cpp:1698 src/monitor/videowidget.cpp:1103
+#: src/monitor/glwidget.cpp:1698 src/monitor/videowidget.cpp:1107
 #, kde-format
 msgid "Select a clip to play"
 msgstr "حدد مقطع لتشغيله"
 
-#: src/monitor/glwidget.cpp:1780 src/monitor/videowidget.cpp:1184
+#: src/monitor/glwidget.cpp:1780 src/monitor/videowidget.cpp:1188
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -12291,24 +12291,24 @@ msgstr "ميز الشّاشة لديك ليس كافيًا لهذا الإجرا
 msgid "Set Zone"
 msgstr "عين المنطقة"
 
-#: src/monitor/monitor.cpp:1208
+#: src/monitor/monitor.cpp:1209
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "احفظ الصّورة في المشروع"
 
-#: src/monitor/monitor.cpp:1208
+#: src/monitor/monitor.cpp:1209
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "احفظ الصّورة"
 
-#: src/monitor/monitor.cpp:1215
+#: src/monitor/monitor.cpp:1216
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "صدر الصورة باستعمال دقة المصدر"
 
-#: src/monitor/monitor.cpp:1816 src/monitor/monitor.cpp:1964
+#: src/monitor/monitor.cpp:1817 src/monitor/monitor.cpp:1965
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
@@ -12319,12 +12319,12 @@ msgstr[3] "%1 دفق صوتية"
 msgstr[4] "%1 دفق صوتية"
 msgstr[5] "%1 دفق صوتية"
 
-#: src/monitor/monitor.cpp:2298
+#: src/monitor/monitor.cpp:2299
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "لا يمكن بدء مدير GLSL لـMovit ، الرجاء تعطيل Movit"
 
-#: src/monitor/monitor.cpp:2340 src/monitor/monitor.cpp:2397
+#: src/monitor/monitor.cpp:2341 src/monitor/monitor.cpp:2398
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -12332,17 +12332,17 @@ msgid ""
 msgstr ""
 "مطلوب مرشح alphagrad لتلك الميزة ، يرجى تثبيت frei0r وإعادة تشغيل كِيدِينلايف"
 
-#: src/monitor/monitor.cpp:2360
+#: src/monitor/monitor.cpp:2361
 #, kde-format
 msgid "Clip has no effects"
 msgstr "المقطع لا يحوي تأثيرات"
 
-#: src/monitor/monitor.cpp:2362
+#: src/monitor/monitor.cpp:2363
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "اختر مقطع في سلة المشروع لتقاران التأثير"
 
-#: src/monitor/monitor.cpp:2404
+#: src/monitor/monitor.cpp:2405
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -12350,7 +12350,7 @@ msgid ""
 msgstr ""
 "مطلوب مرشح cairoblend لتلك الميزة ، يرجى تثبيت frei0r وإعادة تشغيل كِيدِينلايف"
 
-#: src/monitor/monitor.cpp:2450
+#: src/monitor/monitor.cpp:2451
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "مكّن نمط التحرير في الشاشة لتحرر التأثير"
@@ -13208,7 +13208,7 @@ msgstr "مقاطع أخرى"
 msgid "Luma Files"
 msgstr "ملفّات ”لوما“"
 
-#: src/project/dialogs/archivewidget.cpp:210
+#: src/project/dialogs/archivewidget.cpp:211
 #, kde-format
 msgid "You have %1 missing clip in your project."
 msgid_plural "You have %1 missing clips in your project."
@@ -13219,9 +13219,9 @@ msgstr[3] "تفقد %1 مقاطع في هذا المشروع."
 msgstr[4] "تفقد %1 مقطعاً في هذا المشروع."
 msgstr[5] "تفقد %1 مقطع في هذا المشروع."
 
-#: src/project/dialogs/archivewidget.cpp:234
-#: src/project/dialogs/archivewidget.cpp:1328
-#: src/project/dialogs/archivewidget.cpp:1370
+#: src/project/dialogs/archivewidget.cpp:235
+#: src/project/dialogs/archivewidget.cpp:1338
+#: src/project/dialogs/archivewidget.cpp:1380
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
@@ -13232,9 +13232,9 @@ msgstr[3] "(%1 عناصر)"
 msgstr[4] "(%1 عنصرًا)"
 msgstr[5] "(%1 عنصر)"
 
-#: src/project/dialogs/archivewidget.cpp:240
-#: src/project/dialogs/archivewidget.cpp:1330
-#: src/project/dialogs/archivewidget.cpp:1372
+#: src/project/dialogs/archivewidget.cpp:241
+#: src/project/dialogs/archivewidget.cpp:1340
+#: src/project/dialogs/archivewidget.cpp:1382
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
@@ -13245,45 +13245,45 @@ msgstr[3] "%1 ملفّات لأرشفتها، المطلوب %2"
 msgstr[4] "%1 ملفًّا لأرشفتها، المطلوب %2"
 msgstr[5] "%1 ملفّ لأرشفتها، المطلوب %2"
 
-#: src/project/dialogs/archivewidget.cpp:241
-#: src/project/dialogs/archivewidget.cpp:332
+#: src/project/dialogs/archivewidget.cpp:242
+#: src/project/dialogs/archivewidget.cpp:333
 #, kde-format
 msgid "Archive"
 msgstr "أرشف"
 
-#: src/project/dialogs/archivewidget.cpp:252
-#: src/project/dialogs/archivewidget.cpp:797
+#: src/project/dialogs/archivewidget.cpp:253
+#: src/project/dialogs/archivewidget.cpp:807
 #, kde-format
 msgid "There was an error processing project file"
 msgstr "حدث خطأ في تحليل ملفّ المشروع"
 
-#: src/project/dialogs/archivewidget.cpp:259
+#: src/project/dialogs/archivewidget.cpp:260
 #, kde-format
 msgid "Please save your project before archiving"
 msgstr "رجاء احفظ المشروع قبل أرشفته"
 
-#: src/project/dialogs/archivewidget.cpp:295
+#: src/project/dialogs/archivewidget.cpp:296
 #, kde-format
 msgid "Extract to"
 msgstr "استخرج إلى"
 
-#: src/project/dialogs/archivewidget.cpp:296
+#: src/project/dialogs/archivewidget.cpp:297
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Archived Project"
 msgstr "افتح المشروع المؤرشف"
 
-#: src/project/dialogs/archivewidget.cpp:298
+#: src/project/dialogs/archivewidget.cpp:299
 #, kde-format
 msgid "Extract"
 msgstr "استخرج"
 
-#: src/project/dialogs/archivewidget.cpp:337
+#: src/project/dialogs/archivewidget.cpp:338
 #, kde-format
 msgid "Opening archive…"
 msgstr "يفتح الأرشيف…"
 
-#: src/project/dialogs/archivewidget.cpp:347
+#: src/project/dialogs/archivewidget.cpp:348
 #, kde-format
 msgid ""
 "Cannot open archive file:\n"
@@ -13292,7 +13292,7 @@ msgstr ""
 "تعذّر فتح ملفّ الأرشيف:\n"
 " %1"
 
-#: src/project/dialogs/archivewidget.cpp:364
+#: src/project/dialogs/archivewidget.cpp:365
 #, kde-format
 msgid ""
 "File %1\n"
@@ -13301,89 +13301,89 @@ msgstr ""
 "الملفّ %1\n"
 " ليس مشروع كِيدِينلايف مؤرشف"
 
-#: src/project/dialogs/archivewidget.cpp:370
+#: src/project/dialogs/archivewidget.cpp:371
 #, kde-format
 msgid "Ready"
 msgstr "جاهز"
 
-#: src/project/dialogs/archivewidget.cpp:394
+#: src/project/dialogs/archivewidget.cpp:395
 #, kde-format
 msgid "Archiving in progress, do you want to stop it?"
 msgstr "الأرشفة تجري، أتريد إيقافها؟"
 
-#: src/project/dialogs/archivewidget.cpp:394
 #: src/project/dialogs/archivewidget.cpp:395
+#: src/project/dialogs/archivewidget.cpp:396
 #, kde-format
 msgid "Stop Archiving"
 msgstr "أوقف الأرشفة"
 
-#: src/project/dialogs/archivewidget.cpp:583
+#: src/project/dialogs/archivewidget.cpp:585
 #, kde-format
 msgid "Available space on drive: %1"
 msgstr "المساحة المتوفّرة في القرص: %1"
 
-#: src/project/dialogs/archivewidget.cpp:586
+#: src/project/dialogs/archivewidget.cpp:588
 #, kde-format
 msgid "Not enough space on drive, free space: %1"
 msgstr "لا مساحة متوفّرة في القرص، المساحة الحرّة: %1"
 
-#: src/project/dialogs/archivewidget.cpp:601
+#: src/project/dialogs/archivewidget.cpp:603
 #, kde-format
 msgid "Starting archive job"
 msgstr "يبدأ عملية أرشفة"
 
-#: src/project/dialogs/archivewidget.cpp:621
+#: src/project/dialogs/archivewidget.cpp:624
 #, kde-format
 msgid "Archiving…"
 msgstr "يؤرشف… "
 
-#: src/project/dialogs/archivewidget.cpp:652
-#: src/project/dialogs/archivewidget.cpp:685
-#: src/project/dialogs/archivewidget.cpp:770
-#: src/project/dialogs/archivewidget.cpp:1179
+#: src/project/dialogs/archivewidget.cpp:655
+#: src/project/dialogs/archivewidget.cpp:693
+#: src/project/dialogs/archivewidget.cpp:780
+#: src/project/dialogs/archivewidget.cpp:1189
 #, kde-format
 msgid "Cannot create directory %1"
 msgstr "تعذّر إنشاء الدّليل %1"
 
-#: src/project/dialogs/archivewidget.cpp:673
-#: src/project/dialogs/archivewidget.cpp:752
+#: src/project/dialogs/archivewidget.cpp:681
+#: src/project/dialogs/archivewidget.cpp:760
 #, kde-format
 msgid "Copying %1"
 msgstr "ينسخ %1"
 
-#: src/project/dialogs/archivewidget.cpp:678
-#: src/project/dialogs/archivewidget.cpp:845
+#: src/project/dialogs/archivewidget.cpp:686
+#: src/project/dialogs/archivewidget.cpp:855
 #, kde-format
 msgid "Cannot create temporary file"
 msgstr "تعذّر إنشاء الملفّ المؤّقت"
 
-#: src/project/dialogs/archivewidget.cpp:795
+#: src/project/dialogs/archivewidget.cpp:805
 #, kde-format
 msgid "Project was successfully archived."
 msgstr "أُرشف المشروع بنجاح."
 
-#: src/project/dialogs/archivewidget.cpp:805
+#: src/project/dialogs/archivewidget.cpp:815
 #, kde-format
 msgid "There was an error while copying the files: %1"
 msgstr "حدث خطأ أثناء نسخ الملفّات: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1096
+#: src/project/dialogs/archivewidget.cpp:1106
 #, kde-format
 msgid "Cannot open archive file %1"
 msgstr "تعذّر فتح ملفّ الأرشيف %1 "
 
-#: src/project/dialogs/archivewidget.cpp:1113
+#: src/project/dialogs/archivewidget.cpp:1123
 #, kde-format
 msgid "Archiving %1"
 msgstr "يؤرشف %1"
 
-#: src/project/dialogs/archivewidget.cpp:1119
+#: src/project/dialogs/archivewidget.cpp:1129
 #, fuzzy, kde-format
 #| msgid "Cannot open file %1"
 msgid "Cannot copy file %1 to %2."
 msgstr "تعذّر فتح الملفّ %1"
 
-#: src/project/dialogs/archivewidget.cpp:1149
+#: src/project/dialogs/archivewidget.cpp:1159
 #, kde-format
 msgid ""
 "Project was successfully archived.\n"
@@ -13392,27 +13392,27 @@ msgstr ""
 "أُرشف المشروع بنجاح.\n"
 "%1"
 
-#: src/project/dialogs/archivewidget.cpp:1152
+#: src/project/dialogs/archivewidget.cpp:1162
 #, kde-format
 msgid "Unknown Error"
 msgstr " خطأ مجهول"
 
-#: src/project/dialogs/archivewidget.cpp:1152
+#: src/project/dialogs/archivewidget.cpp:1162
 #, kde-format
 msgid "There was an error while archiving the project: %1"
 msgstr "حدث خطأ أثناء نسخ الملفّات: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1181
+#: src/project/dialogs/archivewidget.cpp:1191
 #, kde-format
 msgid "Extracting…"
 msgstr "يستخرج…"
 
-#: src/project/dialogs/archivewidget.cpp:1247
+#: src/project/dialogs/archivewidget.cpp:1257
 #, kde-format
 msgid "Cannot open project file %1"
 msgstr "تعذّر فتح ملفّ المشروع %1"
 
-#: src/project/dialogs/archivewidget.cpp:1247
+#: src/project/dialogs/archivewidget.cpp:1257
 #, kde-format
 msgid "Cannot open file"
 msgstr "تعذّر فتح الملفّ"
@@ -13808,7 +13808,7 @@ msgstr "مقاطع قوائم التّشغيل"
 msgid "Other clips"
 msgstr "مقاطع أخرى"
 
-#: src/project/dialogs/projectsettings.cpp:527
+#: src/project/dialogs/projectsettings.cpp:528
 #, kde-format
 msgid ""
 "You changed the timeline preview profile. This will remove all existing "
@@ -13819,13 +13819,13 @@ msgstr ""
 "المشروع.\n"
 " أمتأكّد من المتابعة؟"
 
-#: src/project/dialogs/projectsettings.cpp:529
-#: src/project/dialogs/projectsettings.cpp:539
+#: src/project/dialogs/projectsettings.cpp:530
+#: src/project/dialogs/projectsettings.cpp:540
 #, kde-format
 msgid "Confirm profile change"
 msgstr "أكّد تغيير التشكيلة"
 
-#: src/project/dialogs/projectsettings.cpp:537
+#: src/project/dialogs/projectsettings.cpp:538
 #, kde-format
 msgid ""
 "Changing the profile of your project cannot be undone.\n"
@@ -13837,8 +13837,8 @@ msgstr ""
 "من المستحسن حفظ المشروع قبل تنفيذ هذه العمليّة التي قد تفسد بعض الانتقالات.\n"
 "هل تريد المتابعة حقاً؟"
 
-#: src/project/dialogs/projectsettings.cpp:766
-#: src/project/dialogs/projectsettings.cpp:781
+#: src/project/dialogs/projectsettings.cpp:767
+#: src/project/dialogs/projectsettings.cpp:782
 #: src/project/dialogs/slideshowclip.cpp:330
 #, kde-format
 msgid "1 image found"
@@ -13850,28 +13850,28 @@ msgstr[3] "عُثر على %1 صور"
 msgstr[4] "عُثر على %1 صورة"
 msgstr[5] "عُثر على %1 صورة"
 
-#: src/project/dialogs/projectsettings.cpp:788 src/titler/titlewidget.cpp:419
+#: src/project/dialogs/projectsettings.cpp:789 src/titler/titlewidget.cpp:419
 #: src/titler/titlewidget.cpp:422
 #, kde-format
 msgid "Save As"
 msgstr "احفظ ك‍َ"
 
-#: src/project/dialogs/projectsettings.cpp:794
+#: src/project/dialogs/projectsettings.cpp:795
 #, kde-format
 msgid "Project folder: %1"
 msgstr "مجلّد المشروع: %1"
 
-#: src/project/dialogs/projectsettings.cpp:795
+#: src/project/dialogs/projectsettings.cpp:796
 #, kde-format
 msgid "Project profile: %1"
 msgstr "تشكيلة المشروع: %1"
 
-#: src/project/dialogs/projectsettings.cpp:796
+#: src/project/dialogs/projectsettings.cpp:797
 #, kde-format
 msgid "Total clips: %1 (%2 used in timeline)."
 msgstr "مجموع المقاطع: %1 (%2 مستخدمة في الخطّ الزّمنيّ)."
 
-#: src/project/dialogs/projectsettings.cpp:850
+#: src/project/dialogs/projectsettings.cpp:851
 #, kde-format
 msgctxt "@title:window"
 msgid "Metadata"
@@ -14186,7 +14186,7 @@ msgstr "افتح ملفّ نسخة احتياطيّة…"
 msgid "Save changes to document?"
 msgstr "أأحفظ التّغييرات على المستند؟"
 
-#: src/project/projectmanager.cpp:433 src/project/projectmanager.cpp:1579
+#: src/project/projectmanager.cpp:433 src/project/projectmanager.cpp:1581
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -14297,7 +14297,7 @@ msgstr "ينزل نموذجاً…"
 msgid "Building sequences…"
 msgstr "تسلسل خط زمني"
 
-#: src/project/projectmanager.cpp:994
+#: src/project/projectmanager.cpp:996
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid ""
@@ -14305,19 +14305,19 @@ msgid ""
 "%1\n"
 msgstr "تعذّر فتح ملفّ المشروع %1"
 
-#: src/project/projectmanager.cpp:1034
+#: src/project/projectmanager.cpp:1036
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
 "sure you want to continue?"
 msgstr "سيحذف هذا التّغييرات منذ آخر حفظ للمشروع. أمتأكّد من المتابعة؟"
 
-#: src/project/projectmanager.cpp:1035
+#: src/project/projectmanager.cpp:1037
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "استرجع إلى آخر نسخة محفوظة"
 
-#: src/project/projectmanager.cpp:1121
+#: src/project/projectmanager.cpp:1123
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -14326,29 +14326,29 @@ msgstr ""
 "المشروع معطوب، لا يمكن أخذ نسخة احتياطية عنه. يرجى إغلاق ملف المشروع وإعادة "
 "فتحه لاسترداد النسخ الاحتياطي الأخير"
 
-#: src/project/projectmanager.cpp:1311
+#: src/project/projectmanager.cpp:1313
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "خطأ في نقل مجلّد المشروع، لا يمكن الوصول إلى ملف الخبيئة"
 
-#: src/project/projectmanager.cpp:1347
+#: src/project/projectmanager.cpp:1349
 #, kde-format
 msgid "Moving project folder"
 msgstr "ينقل مجلد المشروع"
 
-#: src/project/projectmanager.cpp:1409
+#: src/project/projectmanager.cpp:1411
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 "ملف المشروع معطوب (بدون مسارات). محاولة العثور على ملف النسخة الاحتياطيّة؟"
 
-#: src/project/projectmanager.cpp:1435 src/project/projectmanager.cpp:1487
-#: src/project/projectmanager.cpp:1491
+#: src/project/projectmanager.cpp:1437 src/project/projectmanager.cpp:1489
+#: src/project/projectmanager.cpp:1493
 #, kde-format
 msgid "Sequence 1"
 msgstr "التسلسل 1"
 
-#: src/project/projectmanager.cpp:1446
+#: src/project/projectmanager.cpp:1448
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -14356,13 +14356,13 @@ msgstr ""
 "ملف المشروع معطوب - فشل في تحميل المسارات. محاولة العثور على ملف النسخة "
 "الاحتياطيّة؟"
 
-#: src/project/projectmanager.cpp:1585 src/project/projectmanager.cpp:1590
-#: src/project/projectmanager.cpp:1600 src/project/projectmanager.cpp:1614
+#: src/project/projectmanager.cpp:1587 src/project/projectmanager.cpp:1592
+#: src/project/projectmanager.cpp:1602 src/project/projectmanager.cpp:1616
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "احبط تغيير تشكيلة المشروع"
 
-#: src/project/projectmanager.cpp:1731
+#: src/project/projectmanager.cpp:1733
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -14371,12 +14371,12 @@ msgstr ""
 "الملفّ الخرج %1 موجود فعلاً.\n"
 " أتريد الكتابة فوقه؟"
 
-#: src/project/projectmanager.cpp:1756
+#: src/project/projectmanager.cpp:1758
 #, kde-format
 msgid "Project profile changed"
 msgstr "تغيرت تشكيلة المشروع"
 
-#: src/project/projectmanager.cpp:1812
+#: src/project/projectmanager.cpp:1814
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -14385,17 +14385,17 @@ msgstr ""
 "تعذّر إنشاء خط زمني لهذا المقطع:\n"
 " %1"
 
-#: src/project/projectmanager.cpp:1888
+#: src/project/projectmanager.cpp:1890
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "يستورد مقطع تسلسل، هذا الميزة تجريبية"
 
-#: src/project/projectmanager.cpp:2071
+#: src/project/projectmanager.cpp:2073
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "اختر مقطع لتنشئ تسلسل"
 
-#: src/project/projectmanager.cpp:2109
+#: src/project/projectmanager.cpp:2111
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "أنشئ مقطع تسلسلي جديدًا"
@@ -16505,14 +16505,14 @@ msgid "Change clip speed"
 msgstr "غيّر سرعة مقطع"
 
 #: src/timeline2/model/timelinemodel.cpp:6451
-#: src/timeline2/view/qml/timeline.qml:1199
+#: src/timeline2/view/qml/timeline.qml:1203
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Lock track"
 msgstr "اقفل المسار"
 
 #: src/timeline2/model/timelinemodel.cpp:6456
-#: src/timeline2/view/qml/timeline.qml:1199
+#: src/timeline2/view/qml/timeline.qml:1203
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Unlock track"
@@ -16646,7 +16646,7 @@ msgid "Stop"
 msgstr "أوقف"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2092
+#: src/timeline2/view/qml/timeline.qml:2096
 #, kde-format
 msgid "Paused"
 msgstr "مُلبثة"
@@ -16784,51 +16784,51 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "انقر <b>نقرًا مزدوجًا</b> لتحرير النص"
 
-#: src/timeline2/view/qml/timeline.qml:993
+#: src/timeline2/view/qml/timeline.qml:997
 #, kde-format
 msgid "Show master effects"
 msgstr "أظهر التّأثيرات الرئيسة"
 
-#: src/timeline2/view/qml/timeline.qml:1133
+#: src/timeline2/view/qml/timeline.qml:1137
 #, kde-format
 msgid "Click to see details"
 msgstr "انقر لرؤية التفاصيل"
 
-#: src/timeline2/view/qml/timeline.qml:1155
+#: src/timeline2/view/qml/timeline.qml:1159
 #, kde-format
 msgid "Speech recognition"
 msgstr "تعرف على الكلام"
 
-#: src/timeline2/view/qml/timeline.qml:1175
+#: src/timeline2/view/qml/timeline.qml:1179
 #: src/timeline2/view/qml/TrackHead.qml:470
 #, kde-format
 msgid "Show"
 msgstr "أظهر"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1175
+#: src/timeline2/view/qml/timeline.qml:1179
 #: src/timeline2/view/qml/TrackHead.qml:470 src/ui/configcapture_ui.ui:397
 #, kde-format
 msgid "Hide"
 msgstr "أخفِ"
 
-#: src/timeline2/view/qml/timeline.qml:1770
+#: src/timeline2/view/qml/timeline.qml:1774
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>انقر مزدوجًا</b> لإضافة ترجمة"
 
-#: src/timeline2/view/qml/timeline.qml:1934
+#: src/timeline2/view/qml/timeline.qml:1938
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "الإزاحة: %1, الموضع: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2081
-#: src/timeline2/view/qml/timeline.qml:2090
+#: src/timeline2/view/qml/timeline.qml:2085
+#: src/timeline2/view/qml/timeline.qml:2094
 #, kde-format
 msgid "Recording"
 msgstr "يسجّل"
 
-#: src/timeline2/view/qml/timeline.qml:2179
+#: src/timeline2/view/qml/timeline.qml:2183
 #, kde-format
 msgid "Multicam In"
 msgstr "عدة كاميرات في"
@@ -17237,7 +17237,7 @@ msgid "No available stream"
 msgstr "لا يوجد دفق"
 
 #: src/titler/gradientwidget.cpp:140 src/titler/gradientwidget.cpp:143
-#: src/titler/titlewidget.cpp:3239 src/titler/titlewidget.cpp:3242
+#: src/titler/titlewidget.cpp:3276 src/titler/titlewidget.cpp:3279
 #, kde-format
 msgid "Gradient %1"
 msgstr "التّدرّج %1"
@@ -17483,7 +17483,7 @@ msgid "Add Ellipse"
 msgstr "أضف شكل بيضاوي"
 
 #: src/titler/titlewidget.cpp:405 src/titler/titlewidget.cpp:408
-#: src/titler/titlewidget.cpp:820
+#: src/titler/titlewidget.cpp:857
 #, kde-format
 msgid "Add Image"
 msgstr "أضف صورةً"
@@ -17508,57 +17508,57 @@ msgstr "احفظ وأضف في المشروع"
 msgid "Create Title"
 msgstr "أنشئ عنواناً"
 
-#: src/titler/titlewidget.cpp:700
+#: src/titler/titlewidget.cpp:737
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
 "lost!"
 msgstr "أمتأكّد من تحميل قالب جديد؟ ستفقد التّغييرات على هذا العنوان!"
 
-#: src/titler/titlewidget.cpp:808
+#: src/titler/titlewidget.cpp:845
 #, kde-format
 msgid "All Images"
 msgstr "كلّ الصّور"
 
-#: src/titler/titlewidget.cpp:810
+#: src/titler/titlewidget.cpp:847
 #, kde-format
 msgid "%1 Image"
 msgstr "صورة %1"
 
-#: src/titler/titlewidget.cpp:1644
+#: src/titler/titlewidget.cpp:1681
 #, kde-format
 msgid "−X"
 msgstr "−س"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1646 src/ui/titlewidget_ui.ui:260
+#: src/titler/titlewidget.cpp:1683 src/ui/titlewidget_ui.ui:260
 #, kde-format
 msgid "+X"
 msgstr "+س"
 
-#: src/titler/titlewidget.cpp:1668
+#: src/titler/titlewidget.cpp:1705
 #, kde-format
 msgid "−Y"
 msgstr "−ص"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1670 src/ui/titlewidget_ui.ui:290
+#: src/titler/titlewidget.cpp:1707 src/ui/titlewidget_ui.ui:290
 #, kde-format
 msgid "+Y"
 msgstr "+ص"
 
-#: src/titler/titlewidget.cpp:2137
+#: src/titler/titlewidget.cpp:2174
 #, kde-format
 msgid "Load Title"
 msgstr "حمّل عنوانًا"
 
-#: src/titler/titlewidget.cpp:2138
+#: src/titler/titlewidget.cpp:2175
 #, fuzzy, kde-format
 #| msgid "Kdenlive"
 msgid "Kdenlive title"
 msgstr "كِيدِينلايف"
 
-#: src/titler/titlewidget.cpp:2184
+#: src/titler/titlewidget.cpp:2221
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -17567,13 +17567,13 @@ msgstr ""
 "أتريد تضمين الصّور إلى TitleDocument هذا؟\n"
 "هذا ضروريّ لمشاركة العناوين."
 
-#: src/titler/titlewidget.cpp:2185
+#: src/titler/titlewidget.cpp:2222
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "ضمّن الصور"
 
-#: src/titler/titlewidget.cpp:2240
+#: src/titler/titlewidget.cpp:2277
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
@@ -17584,44 +17584,44 @@ msgstr[3] "هذا العنوان يفتقد %1 عناصر"
 msgstr[4] "هذا العنوان يفتقد %1 عنصراً"
 msgstr[5] "هذا العنوان يفتقد %1 عنصر"
 
-#: src/titler/titlewidget.cpp:2241 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2278 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "التفاصيل"
 
-#: src/titler/titlewidget.cpp:2244
+#: src/titler/titlewidget.cpp:2281
 #, kde-format
 msgid "Delete missing elements"
 msgstr "حذف عناصر  الناقصة"
 
-#: src/titler/titlewidget.cpp:2304
+#: src/titler/titlewidget.cpp:2341
 #, kde-format
 msgid "Update Title"
 msgstr "حدّث العنوان"
 
-#: src/titler/titlewidget.cpp:2307
+#: src/titler/titlewidget.cpp:2344
 #, kde-format
 msgid "Add as new Title"
 msgstr "أضف كعنوان جديد"
 
-#: src/titler/titlewidget.cpp:2361
+#: src/titler/titlewidget.cpp:2398
 #, kde-format
 msgid "The following files are missing:"
 msgstr "الملفات التالية مفقودة:"
 
-#: src/titler/titlewidget.cpp:2555
+#: src/titler/titlewidget.cpp:2592
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "ابدأ العرض"
 
-#: src/titler/titlewidget.cpp:2556
+#: src/titler/titlewidget.cpp:2593
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "أنهِ العرض"
 
-#: src/titler/titlewidget.cpp:3272
+#: src/titler/titlewidget.cpp:3309
 #, kde-format
 msgid "Gradient"
 msgstr "التّدرّج"
