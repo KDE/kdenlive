@@ -568,3 +568,45 @@ TEST_CASE("Save File And Check Sequence Effects", "[SF2]")
         QFile::remove(QDir::temp().absoluteFilePath(QStringLiteral("test-nest2.kdenlive")));
     }
 }
+
+TEST_CASE("Check nested sequences on opening", "[NEST]")
+{
+    auto binModel = pCore->projectItemModel();
+    binModel->clean();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    SECTION("Open and simply save file")
+    {
+        QString path = sourcesPath + "/dataset/test-nesting.kdenlive";
+        Q_ASSERT(QFile::exists(sourcesPath));
+        QUrl openURL = QUrl::fromLocalFile(path);
+
+        QUndoGroup *undoGroup = new QUndoGroup();
+        undoGroup->addStack(undoStack.get());
+        DocOpenResult openResults = KdenliveDoc::Open(openURL, QDir::temp().path(), undoGroup, false, nullptr);
+        REQUIRE(openResults.isSuccessful() == true);
+        std::unique_ptr<KdenliveDoc> openedDoc = openResults.getDocument();
+
+        pCore->projectManager()->m_project = openedDoc.get();
+        const QUuid uuid = openedDoc->uuid();
+        QDateTime documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
+        pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+        QMap<QUuid, QString> allSequences = binModel->getAllSequenceClips();
+        const QString firstSeqId = allSequences.take(uuid);
+        pCore->projectManager()->openTimeline(firstSeqId, uuid);
+        std::shared_ptr<TimelineItemModel> timeline1 = openedDoc->getTimeline(uuid);
+        pCore->projectManager()->testSetActiveDocument(openedDoc.get(), timeline1);
+        REQUIRE(openedDoc->checkConsistency());
+        // Sequence 2 {9228b6f1-e900-4ae9-8591-3cd674dbae98}
+        std::shared_ptr<TimelineItemModel> timeline2 = openedDoc->getTimeline(QUuid(QStringLiteral("{9228b6f1-e900-4ae9-8591-3cd674dbae98}")));
+        // Sequence 3 {147c3db9-2050-4453-91bd-4e4ad0033fb5}
+        std::shared_ptr<TimelineItemModel> timeline3 = openedDoc->getTimeline(QUuid(QStringLiteral("{147c3db9-2050-4453-91bd-4e4ad0033fb5}")));
+        // Check that each timeline has the correct clipcount
+        REQUIRE(timeline1->getClipsCount() == 1);
+        REQUIRE(timeline2->getClipsCount() == 2);
+        REQUIRE(timeline3->getClipsCount() == 2);
+        timeline1.reset();
+        timeline2.reset();
+        timeline3.reset();
+        pCore->projectManager()->closeCurrentDocument(false, false);
+    }
+}
