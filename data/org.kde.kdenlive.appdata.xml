@@ -4,6 +4,16 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-only</project_license>
   <developer_name translate="no">KDE</developer_name>
+  <developer_name translate="no" xml:lang="ca">KDE</developer_name>
+  <developer_name translate="no" xml:lang="eo">KDE</developer_name>
+  <developer_name translate="no" xml:lang="es">KDE</developer_name>
+  <developer_name translate="no" xml:lang="eu">KDE</developer_name>
+  <developer_name translate="no" xml:lang="ka">KDE</developer_name>
+  <developer_name translate="no" xml:lang="nl">KDE</developer_name>
+  <developer_name translate="no" xml:lang="sl">KDE</developer_name>
+  <developer_name translate="no" xml:lang="tr">KDE</developer_name>
+  <developer_name translate="no" xml:lang="uk">KDE</developer_name>
+  <developer_name translate="no" xml:lang="x-test">xxKDExx</developer_name>
   <name>Kdenlive</name>
   <name xml:lang="ar">كِيدِينلايف</name>
   <name xml:lang="az">Kdenlive</name>
