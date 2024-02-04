@@ -1398,7 +1398,7 @@ int TimelineModel::suggestSubtitleMove(int subId, int position, int cursorPositi
     if (requestSubtitleMove(subId, newPos, true, false)) {
         return newPos;
     }
-    return position;
+    return currentPos;
 }
 
 QVariantList TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cursorPosition, int snapDistance, bool moveMirrorTracks)
