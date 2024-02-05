@@ -239,7 +239,7 @@ Item {
         anchors.left: subtitleBase.left
         visible: true
         MouseArea {
-            // Right resize handle to change end timing
+            // Left resize handle to change start timing
             id: startMouseArea
             anchors.fill: parent
             hoverEnabled: true
@@ -287,7 +287,7 @@ Item {
                 if (oldStartFrame != newStart) {
                     if (shiftTrim || (root.groupTrimData == undefined || root.activeTool === ProjectTool.RippleTool)) {
                         controller.requestItemResize(subtitleRoot.subId, subtitleRoot.endFrame - oldStartFrame, false, false);
-                        controller.requestItemResize(subtitleRoot.subId, subtitleRoot.endFrame - newStart, false, true);
+                        controller.requestItemResize(subtitleRoot.subId, subtitleRoot.endFrame - newStart, false, true, -1, shiftTrim);
                     } else {
                         var updatedGroupData = controller.getGroupData(subtitleRoot.subId)
                         controller.processGroupResize(root.groupTrimData, updatedGroupData, false)
@@ -334,6 +334,7 @@ Item {
         //Drag.proposedAction: Qt.MoveAction
         visible: true
         MouseArea {
+            // Right resize handle to change end timing
             id: endMouseArea
             anchors.fill: parent
             hoverEnabled: true
@@ -385,7 +386,7 @@ Item {
                         // Restore original size
                         controller.requestItemResize(subtitleRoot.subId, originalDuration , true, false);
                         // Perform real resize
-                        controller.requestItemResize(subtitleRoot.subId, newDuration , true, true)
+                        controller.requestItemResize(subtitleRoot.subId, newDuration , true, true, -1, shiftTrim)
                     } else {
                         var updatedGroupData = controller.getGroupData(subtitleRoot.subId)
                         controller.processGroupResize(root.groupTrimData, updatedGroupData, true)
