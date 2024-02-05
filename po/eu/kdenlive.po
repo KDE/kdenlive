@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-04 00:37+0000\n"
+"POT-Creation-Date: 2024-02-05 00:37+0000\n"
 "PO-Revision-Date: 2024-01-27 23:36+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -15857,8 +15857,8 @@ msgid "Found an invalid sequence clip in Bin"
 msgstr "Ontzian klip-sekuentzia baliogabe bat aurkitu da"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:271
-#: src/timeline2/model/builders/meltBuilder.cpp:506
-#: src/timeline2/model/builders/meltBuilder.cpp:516
+#: src/timeline2/model/builders/meltBuilder.cpp:510
+#: src/timeline2/model/builders/meltBuilder.cpp:520
 #, kde-format
 msgid ""
 "Invalid composition %1 found on track %2 at %3, compositing with track %4."
@@ -15866,7 +15866,7 @@ msgstr ""
 "%1 konposizio baliogabea %2 pistako %3n topatua, %4 pistarekin konposatu da."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:280
-#: src/timeline2/model/builders/meltBuilder.cpp:530
+#: src/timeline2/model/builders/meltBuilder.cpp:534
 #, kde-format
 msgid ""
 "Incorrect composition %1 found on track %2 at %3, compositing with track %4 "
@@ -15883,44 +15883,44 @@ msgstr ""
 "%1 konposizio ezezaguna aurkitu da %2 pistako %3n, %4 pistarekin konposatzen."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:295
-#: src/timeline2/model/builders/meltBuilder.cpp:544
+#: src/timeline2/model/builders/meltBuilder.cpp:548
 #, kde-format
 msgid "Invalid composition %1 found on track %2 at %3."
 msgstr "%1 konposizio baliogabea %2 pistako %3(e)(a)n topatua."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:316
-#: src/timeline2/model/builders/meltBuilder.cpp:585
-#: src/timeline2/model/builders/meltBuilder.cpp:587
+#: src/timeline2/model/builders/meltBuilder.cpp:317
+#: src/timeline2/model/builders/meltBuilder.cpp:589
+#: src/timeline2/model/builders/meltBuilder.cpp:591
 #, kde-format
 msgid "Problems found in your project file"
 msgstr "Arazoak aurkitu dira zure proiektu fitxategian"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:505
-#: src/timeline2/model/builders/meltBuilder.cpp:515
+#: src/timeline2/model/builders/meltBuilder.cpp:509
+#: src/timeline2/model/builders/meltBuilder.cpp:519
 #, kde-format
 msgid "%1 Composition (%2) with invalid track reference found and removed."
 msgstr ""
 "%1 Konposizioa (%2) pista erreferentzia baliogabearekin aurkitu eta ezabatu "
 "da."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:529
+#: src/timeline2/model/builders/meltBuilder.cpp:533
 #, kde-format
 msgid ""
 "%1 Composition was not applied on expected track, manually enforce the track."
 msgstr ""
 "%1 Konposizioa ez da aplikatu aurreikusitako pistan, eskuz betearazi pista."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:543
+#: src/timeline2/model/builders/meltBuilder.cpp:547
 #, kde-format
 msgid "%1 Invalid composition found and removed."
 msgstr "%1 konposizio baliogabea aurkitu eta ezabatu da."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:579
+#: src/timeline2/model/builders/meltBuilder.cpp:583
 #, kde-format
 msgid "Errors found when opening project file (%1)"
 msgstr "Errorea aurkitu da proiektuaren fitxategia irekitzerakoan (%1)"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:583
+#: src/timeline2/model/builders/meltBuilder.cpp:587
 #, kde-format
 msgid ""
 "Some errors were detected in the project file.\n"
@@ -15933,106 +15933,106 @@ msgstr ""
 "aldaketak Proiektuaren Oharrak fitxan zerrendatu dira,\n"
 "mesedez berrikusi itzazu proiektuaren integritatea ziurtatzeko."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:661
-#: src/timeline2/model/builders/meltBuilder.cpp:671
+#: src/timeline2/model/builders/meltBuilder.cpp:665
+#: src/timeline2/model/builders/meltBuilder.cpp:675
 #, kde-format
 msgid "Incorrect Mix, clip %1 was removed at %2."
 msgstr "Nahasketa okerra, %1 klipa ezabatu da %2n."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:662
+#: src/timeline2/model/builders/meltBuilder.cpp:666
 #, kde-format
 msgid "Incorrect mix found on track %1 at %2, clip %3 removed."
 msgstr "Nahasketa ez egokia aurkitu da %1 pistan %2n, %3 klipa ezabatu da."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:672
+#: src/timeline2/model/builders/meltBuilder.cpp:676
 #, kde-format
 msgid "Incorrect mix found at track %1 at %2, clip %3 removed."
 msgstr "Nahasketa okerra aurkitu da %1 pistan %2n, %3 klipa ezabatu da."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:760
-#: src/timeline2/model/builders/meltBuilder.cpp:772
-#: src/timeline2/model/builders/meltBuilder.cpp:793
+#: src/timeline2/model/builders/meltBuilder.cpp:764
+#: src/timeline2/model/builders/meltBuilder.cpp:776
+#: src/timeline2/model/builders/meltBuilder.cpp:797
 #, kde-format
 msgid "%1 Timeline clip (%2) without bin reference found and removed."
 msgstr ""
 "%1 Denbora-lerroko klipa (%2), ontziko erreferentziarik gabe, aurkitu eta "
 "ezabatu da."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:761
-#: src/timeline2/model/builders/meltBuilder.cpp:773
-#: src/timeline2/model/builders/meltBuilder.cpp:794
+#: src/timeline2/model/builders/meltBuilder.cpp:765
+#: src/timeline2/model/builders/meltBuilder.cpp:777
+#: src/timeline2/model/builders/meltBuilder.cpp:798
 #, kde-format
 msgid "Project corrupted. Clip %1 (%2) not found in project bin."
 msgstr "Proiektua hondatuta. %1 (%2) klipa ez da proiektu-ontzian aurkitu."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:790
+#: src/timeline2/model/builders/meltBuilder.cpp:794
 #, kde-format
 msgid "%1 Timeline clip (%2) with incorrect bin reference found and recovered."
 msgstr ""
 "%1 denbora-lerroko klipa (%2), ontziko erreferentzia akastuna, aurkitu eta "
 "berreskuratu da."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:791
+#: src/timeline2/model/builders/meltBuilder.cpp:795
 #, kde-format
 msgid "Invalid clip %1 (%2) not found in project bin, recovered."
 msgstr ""
 "%1 (%2) klip baliogabea ez da proiektuaren erretiluan topatu, berreskuratu "
 "da."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:863
-#: src/timeline2/model/builders/meltBuilder.cpp:896
+#: src/timeline2/model/builders/meltBuilder.cpp:867
+#: src/timeline2/model/builders/meltBuilder.cpp:900
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and resized"
 msgstr "%1 Klipa (%2) nahasketarik gabe aurkitu eta tamaina egokitu da"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:864
-#: src/timeline2/model/builders/meltBuilder.cpp:894
+#: src/timeline2/model/builders/meltBuilder.cpp:868
+#: src/timeline2/model/builders/meltBuilder.cpp:898
 #, kde-format
 msgid "Clip without mix %1 found and resized on track %2 at %3."
 msgstr ""
 "Klipa nahasketarik gabe %1 aurkitu eta tamaina egokitu da %2 pistan %3n."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:869
-#: src/timeline2/model/builders/meltBuilder.cpp:900
+#: src/timeline2/model/builders/meltBuilder.cpp:873
+#: src/timeline2/model/builders/meltBuilder.cpp:904
 #, kde-format
 msgid "Invalid clip without mix %1 found and removed on track %2 at %3."
 msgstr "Klipa nahasketarik gabe %1 aurkitu eta ezabatu da %2 pistan %3n."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:871
-#: src/timeline2/model/builders/meltBuilder.cpp:902
+#: src/timeline2/model/builders/meltBuilder.cpp:875
+#: src/timeline2/model/builders/meltBuilder.cpp:906
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and removed"
 msgstr "%1 Klipa (%2) nahasketarik gabe aurkitu eta ezabatu da"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:889
-#: src/timeline2/model/builders/meltBuilder.cpp:931
+#: src/timeline2/model/builders/meltBuilder.cpp:893
+#: src/timeline2/model/builders/meltBuilder.cpp:935
 #, kde-format
 msgid "Invalid clip %1 found on track %2 at %3."
 msgstr "%1 klip baliogabea %2 pistako %3n topatua."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:891
-#: src/timeline2/model/builders/meltBuilder.cpp:936
+#: src/timeline2/model/builders/meltBuilder.cpp:895
+#: src/timeline2/model/builders/meltBuilder.cpp:940
 #, kde-format
 msgid "%1 Invalid clip (%2) found and removed"
 msgstr "%1 klip baliogabea (%2) aurkitu eta ezabatu da"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:913
+#: src/timeline2/model/builders/meltBuilder.cpp:917
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found and fixed on track %2 at %3."
 msgstr ""
 "%1 klipa azpi-pista ez egokian aurkitu eta tamaina egokitu da %2 pistan %3n."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:915
+#: src/timeline2/model/builders/meltBuilder.cpp:919
 #, kde-format
 msgid "%1 Clip (%2) on incorrect subtrack found and fixed / %3"
 msgstr "%1 klipa (%2) azpi-pista ez egokian aurkitu eta egokitu da/ %3"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:918
+#: src/timeline2/model/builders/meltBuilder.cpp:922
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found on track %2 at %3."
 msgstr "%1 klipa azpi-pista ez egokian dago eta %2 pistan %3n aurkitu da."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:920
+#: src/timeline2/model/builders/meltBuilder.cpp:924
 #, kde-format
 msgid "%1 Clip (%2) with incorrect subplaylist found"
 msgstr "%1 klipa (%2) azpi-pista ez-egokiarekin aurkitu da"

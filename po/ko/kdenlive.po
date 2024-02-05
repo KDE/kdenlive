@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-04 00:37+0000\n"
+"POT-Creation-Date: 2024-02-05 00:37+0000\n"
 "PO-Revision-Date: 2023-07-23 20:34+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -16086,8 +16086,8 @@ msgid "Found an invalid sequence clip in Bin"
 msgstr "프로젝트 안에 자기 자신을 추가할 수 없습니다."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:271
-#: src/timeline2/model/builders/meltBuilder.cpp:506
-#: src/timeline2/model/builders/meltBuilder.cpp:516
+#: src/timeline2/model/builders/meltBuilder.cpp:510
+#: src/timeline2/model/builders/meltBuilder.cpp:520
 #, kde-format
 msgid ""
 "Invalid composition %1 found on track %2 at %3, compositing with track %4."
@@ -16095,7 +16095,7 @@ msgstr ""
 "잘못된 합성 %1이(가) 트랙 %2의 %3에서 발견되었으며 %4 트랙과 합성됩니다."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:280
-#: src/timeline2/model/builders/meltBuilder.cpp:530
+#: src/timeline2/model/builders/meltBuilder.cpp:534
 #, kde-format
 msgid ""
 "Incorrect composition %1 found on track %2 at %3, compositing with track %4 "
@@ -16114,41 +16114,41 @@ msgstr ""
 "잘못된 합성 %1이(가) 트랙 %2의 %3에서 발견되었으며 %4 트랙과 합성됩니다."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:295
-#: src/timeline2/model/builders/meltBuilder.cpp:544
+#: src/timeline2/model/builders/meltBuilder.cpp:548
 #, kde-format
 msgid "Invalid composition %1 found on track %2 at %3."
 msgstr "잘못된 %1 합성이 트랙 %2의 %3에서 발견되었습니다."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:316
-#: src/timeline2/model/builders/meltBuilder.cpp:585
-#: src/timeline2/model/builders/meltBuilder.cpp:587
+#: src/timeline2/model/builders/meltBuilder.cpp:317
+#: src/timeline2/model/builders/meltBuilder.cpp:589
+#: src/timeline2/model/builders/meltBuilder.cpp:591
 #, kde-format
 msgid "Problems found in your project file"
 msgstr "프로젝트 파일에서 발견된 문제점"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:505
-#: src/timeline2/model/builders/meltBuilder.cpp:515
+#: src/timeline2/model/builders/meltBuilder.cpp:509
+#: src/timeline2/model/builders/meltBuilder.cpp:519
 #, kde-format
 msgid "%1 Composition (%2) with invalid track reference found and removed."
 msgstr "잘못된 트랙 참조가 있는 %1 합성(%2)을 찾았고 삭제되었습니다."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:529
+#: src/timeline2/model/builders/meltBuilder.cpp:533
 #, kde-format
 msgid ""
 "%1 Composition was not applied on expected track, manually enforce the track."
 msgstr "%1 합성이 예상한 트랙에 적용되지 않았으며 트랙을 강제합니다."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:543
+#: src/timeline2/model/builders/meltBuilder.cpp:547
 #, kde-format
 msgid "%1 Invalid composition found and removed."
 msgstr "%1 잘못된 합성을 찾았고 삭제되었습니다."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:579
+#: src/timeline2/model/builders/meltBuilder.cpp:583
 #, kde-format
 msgid "Errors found when opening project file (%1)"
 msgstr "프로젝트 파일을 여는 중 오류 발생(%1)"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:583
+#: src/timeline2/model/builders/meltBuilder.cpp:587
 #, kde-format
 msgid ""
 "Some errors were detected in the project file.\n"
@@ -16161,107 +16161,107 @@ msgstr ""
 "의 변경 사항이 있으며,\n"
 "프로젝트가 올바른지 해당 변경 사항을 확인하십시오."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:661
-#: src/timeline2/model/builders/meltBuilder.cpp:671
+#: src/timeline2/model/builders/meltBuilder.cpp:665
+#: src/timeline2/model/builders/meltBuilder.cpp:675
 #, kde-format
 msgid "Incorrect Mix, clip %1 was removed at %2."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:662
+#: src/timeline2/model/builders/meltBuilder.cpp:666
 #, fuzzy, kde-format
 #| msgid "Clip %1 on incorrect subtrack found on track %2 at %3."
 msgid "Incorrect mix found on track %1 at %2, clip %3 removed."
 msgstr "잘못된 하위 트랙에 있는 클립 %1이(가) 트랙 %2의 %3에 있습니다."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:672
+#: src/timeline2/model/builders/meltBuilder.cpp:676
 #, kde-format
 msgid "Incorrect mix found at track %1 at %2, clip %3 removed."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:760
-#: src/timeline2/model/builders/meltBuilder.cpp:772
-#: src/timeline2/model/builders/meltBuilder.cpp:793
+#: src/timeline2/model/builders/meltBuilder.cpp:764
+#: src/timeline2/model/builders/meltBuilder.cpp:776
+#: src/timeline2/model/builders/meltBuilder.cpp:797
 #, kde-format
 msgid "%1 Timeline clip (%2) without bin reference found and removed."
 msgstr "보관함 참조가 없는 %1 타임라인 클립(%2)을 찾았고 삭제되었습니다."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:761
-#: src/timeline2/model/builders/meltBuilder.cpp:773
-#: src/timeline2/model/builders/meltBuilder.cpp:794
+#: src/timeline2/model/builders/meltBuilder.cpp:765
+#: src/timeline2/model/builders/meltBuilder.cpp:777
+#: src/timeline2/model/builders/meltBuilder.cpp:798
 #, kde-format
 msgid "Project corrupted. Clip %1 (%2) not found in project bin."
 msgstr ""
 "프로젝트가 손상되었습니다. 프로젝트 보관함에서 %1(%2) 클립을 찾을 수 없습니"
 "다."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:790
+#: src/timeline2/model/builders/meltBuilder.cpp:794
 #, kde-format
 msgid "%1 Timeline clip (%2) with incorrect bin reference found and recovered."
 msgstr "잘못된 보관함 참조가 있는 %1 보관함 클립(%2)을 찾았고 삭제되었습니다."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:791
+#: src/timeline2/model/builders/meltBuilder.cpp:795
 #, kde-format
 msgid "Invalid clip %1 (%2) not found in project bin, recovered."
 msgstr ""
 "프로젝트 보관함에서 잘못된 %1(%2) 클립을 찾을 수 없습니다. 복구했습니다."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:863
-#: src/timeline2/model/builders/meltBuilder.cpp:896
+#: src/timeline2/model/builders/meltBuilder.cpp:867
+#: src/timeline2/model/builders/meltBuilder.cpp:900
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and resized"
 msgstr "믹스가 없는 %1 클립(%2)을 찾았고 크기 조정됨"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:864
-#: src/timeline2/model/builders/meltBuilder.cpp:894
+#: src/timeline2/model/builders/meltBuilder.cpp:868
+#: src/timeline2/model/builders/meltBuilder.cpp:898
 #, kde-format
 msgid "Clip without mix %1 found and resized on track %2 at %3."
 msgstr ""
 "믹스가 없는 클립 %1을(를) 찾았고 트랙 %2의 %3(으)로 크기 조정되었습니다."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:869
-#: src/timeline2/model/builders/meltBuilder.cpp:900
+#: src/timeline2/model/builders/meltBuilder.cpp:873
+#: src/timeline2/model/builders/meltBuilder.cpp:904
 #, kde-format
 msgid "Invalid clip without mix %1 found and removed on track %2 at %3."
 msgstr ""
 "믹스가 없는 잘못된 클립 %1을(를) 찾았고 트랙 %2의 %3에서 삭제되었습니다."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:871
-#: src/timeline2/model/builders/meltBuilder.cpp:902
+#: src/timeline2/model/builders/meltBuilder.cpp:875
+#: src/timeline2/model/builders/meltBuilder.cpp:906
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and removed"
 msgstr "믹스가 없는 %1 클립(%2)을 찾았고 삭제됨"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:889
-#: src/timeline2/model/builders/meltBuilder.cpp:931
+#: src/timeline2/model/builders/meltBuilder.cpp:893
+#: src/timeline2/model/builders/meltBuilder.cpp:935
 #, kde-format
 msgid "Invalid clip %1 found on track %2 at %3."
 msgstr "잘못된 클립 %1이(가) 트랙 %2의 %3에 있습니다."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:891
-#: src/timeline2/model/builders/meltBuilder.cpp:936
+#: src/timeline2/model/builders/meltBuilder.cpp:895
+#: src/timeline2/model/builders/meltBuilder.cpp:940
 #, kde-format
 msgid "%1 Invalid clip (%2) found and removed"
 msgstr "%1 잘못된 클립(%2)을 찾았고 삭제됨"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:913
+#: src/timeline2/model/builders/meltBuilder.cpp:917
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found and fixed on track %2 at %3."
 msgstr ""
 "클립 %1이(가) 잘못된 하위 트랙에 있으며 트랙 %2의 %3에 재배치되었습니다."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:915
+#: src/timeline2/model/builders/meltBuilder.cpp:919
 #, fuzzy, kde-format
 #| msgid "Clip %1 on incorrect subtrack found and fixed on track %2 at %3."
 msgid "%1 Clip (%2) on incorrect subtrack found and fixed / %3"
 msgstr ""
 "클립 %1이(가) 잘못된 하위 트랙에 있으며 트랙 %2의 %3에 재배치되었습니다."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:918
+#: src/timeline2/model/builders/meltBuilder.cpp:922
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found on track %2 at %3."
 msgstr "잘못된 하위 트랙에 있는 클립 %1이(가) 트랙 %2의 %3에 있습니다."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:920
+#: src/timeline2/model/builders/meltBuilder.cpp:924
 #, kde-format
 msgid "%1 Clip (%2) with incorrect subplaylist found"
 msgstr "잘못된 하위 재생 목록이 있는 %1 클립(%2)이 발견됨"
