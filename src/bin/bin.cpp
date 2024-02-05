@@ -3115,11 +3115,13 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     if (isFolder) {
         m_menu->insertAction(m_deleteAction, m_createFolderAction);
         m_menu->insertAction(m_createFolderAction, m_sequencesFolderAction);
+        m_menu->insertAction(m_createFolderAction, m_audioCapturesFolderAction);
         m_menu->insertAction(m_sequencesFolderAction, m_openInBin);
     } else {
         m_menu->removeAction(m_createFolderAction);
         m_menu->removeAction(m_openInBin);
         m_menu->removeAction(m_sequencesFolderAction);
+        m_menu->removeAction(m_audioCapturesFolderAction);
     }
 
     // Show menu
@@ -3696,6 +3698,11 @@ void Bin::setupMenu()
         addAction(QStringLiteral("sequence_folder"), i18n("Default Target Folder for Sequences"), QIcon::fromTheme(QStringLiteral("favorite")));
     m_sequencesFolderAction->setCheckable(true);
     connect(m_sequencesFolderAction, &QAction::triggered, this, &Bin::setDefaultSequenceFolder);
+
+    m_audioCapturesFolderAction =
+        addAction(QStringLiteral("audioCapture_folder"), i18n("Default Target Folder for Audio Captures"), QIcon::fromTheme(QStringLiteral("favorite")));
+    m_audioCapturesFolderAction->setCheckable(true);
+    connect(m_audioCapturesFolderAction, &QAction::triggered, this, &Bin::setDefaultAudioCaptureFolder);
 
     m_createFolderAction = addAction(QStringLiteral("create_folder"), i18n("Create Folder"), QIcon::fromTheme(QStringLiteral("folder-new")));
     m_createFolderAction->setWhatsThis(
@@ -5962,6 +5969,7 @@ void Bin::updateTimelineOccurrences()
                 }
             } else if (currentItem->itemType() == AbstractProjectItem::FolderItem) {
                 m_sequencesFolderAction->setChecked(currentItem->clipId().toInt() == m_itemModel->defaultSequencesFolder());
+                m_audioCapturesFolderAction->setChecked(currentItem->clipId().toInt() == m_itemModel->defaultAudioCaptureFolder());
             }
         }
     }
@@ -6000,6 +6008,17 @@ void Bin::setDefaultSequenceFolder(bool enable)
         std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(currentSelection));
         if (currentItem) {
             m_itemModel->setSequencesFolder(enable ? currentItem->clipId().toInt() : -1);
+        }
+    }
+}
+
+void Bin::setDefaultAudioCaptureFolder(bool enable)
+{
+    QModelIndex currentSelection = m_proxyModel->selectionModel()->currentIndex();
+    if (currentSelection.isValid()) {
+        std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(currentSelection));
+        if (currentItem) {
+            m_itemModel->setAudioCaptureFolder(enable ? currentItem->clipId().toInt() : -1);
         }
     }
 }

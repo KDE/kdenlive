@@ -428,6 +428,8 @@ private Q_SLOTS:
     void updateTimelineOccurrences();
     /** @brief Set (or unset) the default folder for newly created sequence clips. */
     void setDefaultSequenceFolder(bool enable);
+    /** @brief Set (or unset) the default folder for newly created audio captures. */
+    void setDefaultAudioCaptureFolder(bool enable);
     /** @brief Fetch the filters from the UI and apply them to the proxy model */
     void slotApplyFilters();
 
@@ -549,6 +551,7 @@ private:
     QAction *m_deleteAction;
     QAction *m_openInBin;
     QAction *m_sequencesFolderAction;
+    QAction *m_audioCapturesFolderAction;
     QAction *m_addClip;
     QAction *m_createFolderAction;
     QAction *m_renameAction;

@@ -4765,8 +4765,18 @@ void TimelineController::finishRecording(const QString &recordedFile)
         }
         setPosition(m_recordStart.first + m_recordStart.second);
     };
+    std::shared_ptr<ProjectItemModel> itemModel = pCore->projectItemModel();
+    std::shared_ptr<ProjectFolder> targetFolder = itemModel->getRootFolder();
+    if (itemModel->defaultAudioCaptureFolder() > -1) {
+        const QString audioCaptureFolder = QString::number(itemModel->defaultAudioCaptureFolder());
+        std::shared_ptr<ProjectFolder> folderItem = itemModel->getFolderByBinId(audioCaptureFolder);
+        if (folderItem) {
+            targetFolder = folderItem;
+        }
+    }
+
     QString binId =
-        ClipCreator::createClipFromFile(recordedFile, pCore->projectItemModel()->getRootFolder()->clipId(), pCore->projectItemModel(), undo, redo, callBack);
+        ClipCreator::createClipFromFile(recordedFile, targetFolder->clipId(), pCore->projectItemModel(), undo, redo, callBack);
     pCore->window()->raiseBin();
     if (binId != QStringLiteral("-1")) {
         pCore->pushUndo(undo, redo, i18n("Record audio"));

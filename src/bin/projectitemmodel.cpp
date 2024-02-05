@@ -1201,6 +1201,14 @@ QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, st
                 }
             }
 
+            m_audioCaptureFolderId = -1;
+            if (playlistProps.property_exists("kdenlive:audioCaptureFolder")) {
+                int audioCaptureFolder = playlistProps.get_int("kdenlive:audioCaptureFolder");
+                if (audioCaptureFolder > -1 && binIdCorresp.count(QString::number(audioCaptureFolder)) > 0) {
+                    setAudioCaptureFolder(binIdCorresp.at(QString::number(audioCaptureFolder)).toInt());
+                }
+            }
+
             // Load Zoom level
             if (playlistProps.property_exists("kdenlive:binZoom")) {
                 zoomLevel = playlistProps.get_int("kdenlive:binZoom");
@@ -1703,6 +1711,17 @@ void ProjectItemModel::setSequencesFolder(int id)
         Q_ASSERT(getFolderByBinId(QString::number(id)) != nullptr);
         onItemUpdated(QString::number(id), Qt::DecorationRole);
     }
+}
+
+int ProjectItemModel::defaultAudioCaptureFolder() const
+{
+    return m_audioCaptureFolderId;
+}
+
+void ProjectItemModel::setAudioCaptureFolder(int id)
+{
+    m_audioCaptureFolderId = id;
+    saveProperty(QStringLiteral("kdenlive:audioCaptureFolder"), QString::number(id));
 }
 
 Fun ProjectItemModel::removeProjectItem_lambda(int binId, int id)
