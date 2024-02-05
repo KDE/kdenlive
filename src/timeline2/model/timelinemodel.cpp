@@ -4830,6 +4830,11 @@ bool TimelineModel::isGroup(int id) const
     return m_allGroups.count(id) > 0;
 }
 
+bool TimelineModel::isInGroup(int id) const
+{
+    return m_groups->isInGroup(id);
+}
+
 void TimelineModel::updateDuration()
 {
     if (m_closing) {

@@ -265,7 +265,7 @@ Item {
                 newDuration = subtitleRoot.duration
                 trimIn.opacity = 0
                 shiftTrim = mouse.modifiers & Qt.ShiftModifier
-                if (!shiftTrim && (subtitleRoot.grouped || controller.hasMultipleSelection())) {
+                if (!shiftTrim && (controller.isInGroup(subtitleRoot.subId) || controller.hasMultipleSelection())) {
                     root.groupTrimData = controller.getGroupData(subtitleRoot.subId)
                 }
             }
@@ -359,7 +359,7 @@ Item {
                 oldMouseX = mouseX
                 trimOut.opacity = 0
                 shiftTrim = mouse.modifiers & Qt.ShiftModifier
-                if (!shiftTrim && (subtitleRoot.grouped || controller.hasMultipleSelection())) {
+                if (!shiftTrim && (controller.isInGroup(subtitleRoot.subId) || controller.hasMultipleSelection())) {
                     root.groupTrimData = controller.getGroupData(subtitleRoot.subId)
                 }
             }
