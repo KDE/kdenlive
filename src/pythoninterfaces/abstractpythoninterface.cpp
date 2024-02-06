@@ -288,8 +288,9 @@ bool AbstractPythonInterface::setupVenv()
 #endif
         QStringList args2 = {QStringLiteral("-m"), QStringLiteral("ensurepip"), QStringLiteral("--upgrade")};
         QProcess envProcess2;
+        qDebug() << "::: STARTING PIP INSTALL: " << pyExec << ", " << args2;
+        envProcess2.start(pyExec, args2);
         envProcess2.waitForStarted();
-        envProcess2.start(pyExec, args);
         envProcess2.waitForFinished(-1);
     }
 
