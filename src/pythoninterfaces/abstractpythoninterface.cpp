@@ -273,8 +273,13 @@ bool AbstractPythonInterface::setupVenv()
     QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     pluginDir.mkpath(QStringLiteral("."));
 
+    QProcessEnvironment env = MainWindow::getCleanEnvironement();
     QProcess envProcess;
-    QStringList args = {QStringLiteral("-m"), QStringLiteral("venv"), pluginDir.absoluteFilePath(QStringLiteral("venv")), QStringLiteral("pip")};
+    if (pCore->packageType() == QStringLiteral("appimage")) {
+        envProcess.setProcessEnvironment(env);
+    }
+    QStringList args = {QStringLiteral("-m"), QStringLiteral("venv"), pluginDir.absoluteFilePath(QStringLiteral("venv"))};
+    qDebug() << "::: STARTING VENV INSTALL: " << pyExec << ", " << args;
     envProcess.start(pyExec, args);
     envProcess.waitForStarted();
     envProcess.waitForFinished(-1);
@@ -288,6 +293,9 @@ bool AbstractPythonInterface::setupVenv()
 #endif
         QStringList args2 = {QStringLiteral("-m"), QStringLiteral("ensurepip"), QStringLiteral("--upgrade")};
         QProcess envProcess2;
+        if (pCore->packageType() == QStringLiteral("appimage")) {
+            envProcess2.setProcessEnvironment(env);
+        }
         qDebug() << "::: STARTING PIP INSTALL: " << pyExec << ", " << args2;
         envProcess2.start(pyExec, args2);
         envProcess2.waitForStarted();

@@ -188,6 +188,7 @@ public:
     bool raiseTimeline(const QUuid &uuid);
     void connectTimeline();
     void disconnectTimeline(TimelineWidget *timeline);
+    static QProcessEnvironment getCleanEnvironement();
 
 protected:
     /** @brief Closes the window.
