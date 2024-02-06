@@ -274,7 +274,7 @@ bool AbstractPythonInterface::setupVenv()
     pluginDir.mkpath(QStringLiteral("."));
 
     QProcess envProcess;
-    QStringList args = {QStringLiteral("-m"), QStringLiteral("venv"), pluginDir.absoluteFilePath(QStringLiteral("venv"))};
+    QStringList args = {QStringLiteral("-m"), QStringLiteral("venv"), pluginDir.absoluteFilePath(QStringLiteral("venv")), QStringLiteral("pip")};
     envProcess.start(pyExec, args);
     envProcess.waitForFinished(-1);
     installInProgress = false;
