@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-05 00:37+0000\n"
-"PO-Revision-Date: 2024-01-21 14:12\n"
+"POT-Creation-Date: 2024-02-06 00:37+0000\n"
+"PO-Revision-Date: 2024-02-05 11:38\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -5535,10 +5535,9 @@ msgid "Clean Project"
 msgstr "清理项目"
 
 #: src/bin/projectitemmodel.cpp:1217
-#, fuzzy, kde-format
-#| msgid "Loading project clips…"
+#, kde-format
 msgid "Reading project clips…"
-msgstr "正在加载项目剪辑…"
+msgstr "正在读取项目剪辑…"
 
 #: src/bin/projectitemmodel.cpp:1323
 #, kde-format
@@ -7899,14 +7898,12 @@ msgstr "剪辑文件夹"
 #: src/doc/documentchecker.cpp:106
 #, kde-format
 msgid "Applying fixes…"
-msgstr ""
+msgstr "正在应用修复…"
 
 #: src/doc/documentchecker.cpp:145 src/doc/documentchecker.cpp:199
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Checking setup…"
+#, kde-format
 msgid "Checking for missing items…"
-msgstr "正在检查安装情况…"
+msgstr "正在检查缺失的项目…"
 
 #: src/doc/documentchecker.cpp:162
 #, kde-format
@@ -8025,10 +8022,9 @@ msgid "Missing proxies can be recreated on opening."
 msgstr "缺失的代理剪辑可在打开时重新创建。"
 
 #: src/doc/documentvalidator.cpp:47
-#, fuzzy, kde-format
-#| msgid "Loading project…"
+#, kde-format
 msgid "Validating project…"
-msgstr "正在加载项目…"
+msgstr "正在验证项目…"
 
 #: src/doc/documentvalidator.cpp:89
 #, kde-format
@@ -8055,10 +8051,9 @@ msgid "Incorrect project file"
 msgstr "项目文件不正确"
 
 #: src/doc/documentvalidator.cpp:184
-#, fuzzy, kde-format
-#| msgid "Loading project…"
+#, kde-format
 msgid "Upgrading project version…"
-msgstr "正在加载项目…"
+msgstr "正在升级项目版本…"
 
 #: src/doc/documentvalidator.cpp:190
 #, kde-format
@@ -13995,16 +13990,14 @@ msgid ""
 msgstr "您的项目在打开时已被修改，下次保存时将创建备份"
 
 #: src/project/projectmanager.cpp:873
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Loading timeline…"
-msgstr "正在下载模型…"
+msgstr "正在加载时间轴…"
 
 #: src/project/projectmanager.cpp:892
-#, fuzzy, kde-format
-#| msgid "Timeline sequence"
+#, kde-format
 msgid "Building sequences…"
-msgstr "时间轴序列"
+msgstr "正在构建序列…"
 
 #: src/project/projectmanager.cpp:996
 #, kde-format
@@ -15678,11 +15671,10 @@ msgid "Insert Clips"
 msgstr "插入剪辑"
 
 #: src/timeline2/model/timelinefunctions.cpp:266
-#, fuzzy, kde-format
-#| msgid "When cutting subtitles:"
+#, kde-format
 msgctxt "@info:status"
 msgid "Cannot cut overlapping subtitles"
-msgstr "剪切字幕时："
+msgstr "无法剪切重叠的字幕"
 
 #: src/timeline2/model/timelinefunctions.cpp:339
 #: src/timeline2/model/timelinefunctions.cpp:358
@@ -16165,78 +16157,78 @@ msgstr "无法添加效果 %1 到所选剪辑"
 msgid "Adjust Fade"
 msgstr "调整渐隐渐显"
 
-#: src/timeline2/model/timelinemodel.cpp:5096
+#: src/timeline2/model/timelinemodel.cpp:5101
 #, kde-format
 msgid "Insert Composition"
 msgstr "插入合成"
 
-#: src/timeline2/model/timelinemodel.cpp:5284
+#: src/timeline2/model/timelinemodel.cpp:5289
 #, kde-format
 msgid "Move composition"
 msgstr "移动合成"
 
-#: src/timeline2/model/timelinemodel.cpp:5938
+#: src/timeline2/model/timelinemodel.cpp:5943
 #, kde-format
 msgid "Enable time remap"
 msgstr "启用时间重新映射"
 
-#: src/timeline2/model/timelinemodel.cpp:6012
+#: src/timeline2/model/timelinemodel.cpp:6017
 #, kde-format
 msgid "Change speed failed"
 msgstr "更改速度失败"
 
-#: src/timeline2/model/timelinemodel.cpp:6022
+#: src/timeline2/model/timelinemodel.cpp:6027
 #, kde-format
 msgid "Change clip speed"
 msgstr "更改剪辑速度"
 
-#: src/timeline2/model/timelinemodel.cpp:6451
+#: src/timeline2/model/timelinemodel.cpp:6456
 #: src/timeline2/view/qml/timeline.qml:1203
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Lock track"
 msgstr "锁定轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:6456
+#: src/timeline2/model/timelinemodel.cpp:6461
 #: src/timeline2/view/qml/timeline.qml:1203
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Unlock track"
 msgstr "解锁轨道"
 
-#: src/timeline2/model/timelinemodel.cpp:6490
-#: src/timeline2/model/timelinemodel.cpp:6552
+#: src/timeline2/model/timelinemodel.cpp:6495
+#: src/timeline2/model/timelinemodel.cpp:6557
 #, kde-format
 msgid "Change composition"
 msgstr "更改合成"
 
-#: src/timeline2/model/timelinemodel.cpp:6504
+#: src/timeline2/model/timelinemodel.cpp:6509
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "无法对组合的合成进行操作，请先取消组合"
 
-#: src/timeline2/model/timelinemodel.cpp:6699
-#: src/timeline2/model/timelinemodel.cpp:6736
-#: src/timeline2/model/timelinemodel.cpp:6769
-#: src/timeline2/model/timelinemodel.cpp:6850
+#: src/timeline2/model/timelinemodel.cpp:6704
+#: src/timeline2/model/timelinemodel.cpp:6741
+#: src/timeline2/model/timelinemodel.cpp:6774
+#: src/timeline2/model/timelinemodel.cpp:6855
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "无法调整混合大小到小于 1 帧"
 
-#: src/timeline2/model/timelinemodel.cpp:6710
-#: src/timeline2/model/timelinemodel.cpp:6744
-#: src/timeline2/model/timelinemodel.cpp:6788
-#: src/timeline2/model/timelinemodel.cpp:6874
+#: src/timeline2/model/timelinemodel.cpp:6715
+#: src/timeline2/model/timelinemodel.cpp:6749
+#: src/timeline2/model/timelinemodel.cpp:6793
+#: src/timeline2/model/timelinemodel.cpp:6879
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "无法调整混合大小"
 
-#: src/timeline2/model/timelinemodel.cpp:6888
+#: src/timeline2/model/timelinemodel.cpp:6893
 #, kde-format
 msgid "Resize mix"
 msgstr "调整混合大小"
 
-#: src/timeline2/model/timelinemodel.cpp:7027
+#: src/timeline2/model/timelinemodel.cpp:7032
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "初始化时间轴预览出错"
@@ -16432,7 +16424,7 @@ msgstr "%1，位置：%2，持续时间：%3"
 #: src/timeline2/view/qml/Composition.qml:317
 #: src/timeline2/view/qml/Composition.qml:379
 #: src/timeline2/view/qml/SubTitle.qml:301
-#: src/timeline2/view/qml/SubTitle.qml:401
+#: src/timeline2/view/qml/SubTitle.qml:402
 #, kde-format
 msgid "<b>Drag</b> to resize"
 msgstr "<b>拖动</b>以调整大小"
@@ -21648,6 +21640,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgid "Loading project"
-#~ msgstr "正在加载项目"

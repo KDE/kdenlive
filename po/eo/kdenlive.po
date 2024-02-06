@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-05 00:37+0000\n"
-"PO-Revision-Date: 2024-01-28 11:08+0100\n"
+"POT-Creation-Date: 2024-02-06 00:37+0000\n"
+"PO-Revision-Date: 2024-02-05 22:05+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -704,7 +704,7 @@ msgstr "Centra ekvilibro"
 #: data/effects/crop.xml:26
 #, kde-format
 msgid "Use project resolution"
-msgstr "Uzi projektan rezolucion"
+msgstr "Uzi projektan distingivon"
 
 #: data/effects/dance.xml:4
 #, kde-format
@@ -9289,7 +9289,7 @@ msgstr "Nuna Monitoro Overlay"
 #: src/kdenliveui.rc:249 src/mainwindow.cpp:1575
 #, kde-format
 msgid "Preview Resolution"
-msgstr "Antaŭrigardo Rezolucio"
+msgstr "Antaŭrigarda Distingivo"
 
 #. i18n: ectx: Menu (monitor_config)
 #: src/kdenliveui.rc:256
@@ -10537,7 +10537,7 @@ msgstr "Monitori supermetitajn aŭdvidaĵ-prilaborojn"
 #: src/mainwindow.cpp:1579
 #, kde-format
 msgid "Full Resolution (1:1)"
-msgstr "Plena Rezolucio (1:1)"
+msgstr "Plena Distingivo (1:1)"
 
 #: src/mainwindow.cpp:1583 src/monitor/monitor.cpp:206
 #, kde-format
@@ -12101,7 +12101,7 @@ msgstr "%1%"
 #, kde-format
 msgid "Preview resolution - lower resolution means faster preview"
 msgstr ""
-"Antaŭrigarda rezolucio - pli malalta rezolucio signifas pli rapidan "
+"Antaŭrigarda distingivo - pli malalta distingivo signifas pli rapidan "
 "antaŭrigardon"
 
 #: src/monitor/monitor.cpp:203
@@ -12112,9 +12112,9 @@ msgid ""
 "between 1:1, 720p, 540p, 360p, 270p (the lower the resolution the faster the "
 "preview)."
 msgstr ""
-"Agordas la antaŭrigardan rezolucion de la projekta/tondaĵa monitoro. Oni "
-"povas elekti inter 1:1, 720p, 540p, 360p, 270p (ju pli malalta la rezolucio, "
-"des pli rapida la antaŭvido)."
+"Agordas la antaŭrigardan distingivon de la projekta/tondaĵa monitoro. Oni "
+"povas elekti inter 1:1, 720p, 540p, 360p, 270p (ju pli malalta la "
+"distingivo, des pli rapida la antaŭvido)."
 
 #: src/monitor/monitor.cpp:206
 #, kde-format
@@ -12261,7 +12261,7 @@ msgstr "Montri Fontan Tempokodon"
 #: src/monitor/monitor.cpp:722
 #, kde-format
 msgid "Your screen resolution is not sufficient for this action"
-msgstr "Via ekranrezolucio ne sufiĉas por ĉi tiu ago"
+msgstr "Via ekrandistingivo ne sufiĉas por ĉi tiu ago"
 
 #: src/monitor/monitor.cpp:865 src/monitor/monitor.cpp:898
 #: src/timeline2/view/timelinecontroller.cpp:1797
@@ -12284,7 +12284,7 @@ msgstr "Konservi Bildon"
 #: src/monitor/monitor.cpp:1216
 #, kde-format
 msgid "Export image using source resolution"
-msgstr "Eksporti bildon per fonta rezolucio"
+msgstr "Eksporti bildon uzante fontan distingivon"
 
 #: src/monitor/monitor.cpp:1817 src/monitor/monitor.cpp:1965
 #, kde-format
@@ -13902,7 +13902,7 @@ msgstr ""
 "esti rekreitaj dum projekto malfermo.<br/><b>Sekurkopioj</b> estas arkivo de "
 "antaŭaj versioj de viaj projektdosieroj. Utila se vi bezonas reakiri antaŭan "
 "version de projekto. Ĉi tiuj datumoj ne estas reakireblaj.<br/><b>Prokurilaj "
-"tondaĵoj</b> estas pli malalta rezoluciaj videodosieroj uzataj por pli "
+"tondaĵoj</b> estas pli malalt-distingivaj videodosieroj uzataj por pli "
 "rapida redaktado. Forigo estas sekura, prokurilaj tondaĵoj povas esti "
 "rekreitaj se vi havas la originajn font-tondaĵoj."
 
@@ -16453,78 +16453,78 @@ msgstr "Ne povas aldoni efekton %1 al elektita tondaĵo"
 msgid "Adjust Fade"
 msgstr "Alĝustigi Fade"
 
-#: src/timeline2/model/timelinemodel.cpp:5096
+#: src/timeline2/model/timelinemodel.cpp:5101
 #, kde-format
 msgid "Insert Composition"
 msgstr "Enmeti Komponaĵon"
 
-#: src/timeline2/model/timelinemodel.cpp:5284
+#: src/timeline2/model/timelinemodel.cpp:5289
 #, kde-format
 msgid "Move composition"
 msgstr "Movi komponadon"
 
-#: src/timeline2/model/timelinemodel.cpp:5938
+#: src/timeline2/model/timelinemodel.cpp:5943
 #, kde-format
 msgid "Enable time remap"
 msgstr "Ebligi temporemapon"
 
-#: src/timeline2/model/timelinemodel.cpp:6012
+#: src/timeline2/model/timelinemodel.cpp:6017
 #, kde-format
 msgid "Change speed failed"
 msgstr "Ŝanĝo de rapido malsukcesis"
 
-#: src/timeline2/model/timelinemodel.cpp:6022
+#: src/timeline2/model/timelinemodel.cpp:6027
 #, kde-format
 msgid "Change clip speed"
 msgstr "Ŝanĝi tondaĵan rapidecon"
 
-#: src/timeline2/model/timelinemodel.cpp:6451
+#: src/timeline2/model/timelinemodel.cpp:6456
 #: src/timeline2/view/qml/timeline.qml:1203
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Lock track"
 msgstr "Ŝlosi trakon"
 
-#: src/timeline2/model/timelinemodel.cpp:6456
+#: src/timeline2/model/timelinemodel.cpp:6461
 #: src/timeline2/view/qml/timeline.qml:1203
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Unlock track"
 msgstr "Malŝlosi trakon"
 
-#: src/timeline2/model/timelinemodel.cpp:6490
-#: src/timeline2/model/timelinemodel.cpp:6552
+#: src/timeline2/model/timelinemodel.cpp:6495
+#: src/timeline2/model/timelinemodel.cpp:6557
 #, kde-format
 msgid "Change composition"
 msgstr "Ŝanĝi komponadon"
 
-#: src/timeline2/model/timelinemodel.cpp:6504
+#: src/timeline2/model/timelinemodel.cpp:6509
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "Ne povas funkcii pri grupigita kunmetaĵo, bonvolu malgrupiĝi"
 
-#: src/timeline2/model/timelinemodel.cpp:6699
-#: src/timeline2/model/timelinemodel.cpp:6736
-#: src/timeline2/model/timelinemodel.cpp:6769
-#: src/timeline2/model/timelinemodel.cpp:6850
+#: src/timeline2/model/timelinemodel.cpp:6704
+#: src/timeline2/model/timelinemodel.cpp:6741
+#: src/timeline2/model/timelinemodel.cpp:6774
+#: src/timeline2/model/timelinemodel.cpp:6855
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Ne povas regrandigi miksaĵon al malpli ol 1 kadro"
 
-#: src/timeline2/model/timelinemodel.cpp:6710
-#: src/timeline2/model/timelinemodel.cpp:6744
-#: src/timeline2/model/timelinemodel.cpp:6788
-#: src/timeline2/model/timelinemodel.cpp:6874
+#: src/timeline2/model/timelinemodel.cpp:6715
+#: src/timeline2/model/timelinemodel.cpp:6749
+#: src/timeline2/model/timelinemodel.cpp:6793
+#: src/timeline2/model/timelinemodel.cpp:6879
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Ne povas regrandigi miksaĵon"
 
-#: src/timeline2/model/timelinemodel.cpp:6888
+#: src/timeline2/model/timelinemodel.cpp:6893
 #, kde-format
 msgid "Resize mix"
 msgstr "Regrandigi miksaĵon"
 
-#: src/timeline2/model/timelinemodel.cpp:7027
+#: src/timeline2/model/timelinemodel.cpp:7032
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "Eraro pravalorigante templinian antaŭrigardon"
@@ -16728,7 +16728,7 @@ msgstr "%1, Pozicio: %2, Daŭro: %3"
 #: src/timeline2/view/qml/Composition.qml:317
 #: src/timeline2/view/qml/Composition.qml:379
 #: src/timeline2/view/qml/SubTitle.qml:301
-#: src/timeline2/view/qml/SubTitle.qml:401
+#: src/timeline2/view/qml/SubTitle.qml:402
 #, kde-format
 msgid "<b>Drag</b> to resize"
 msgstr "<b>Trenu</b> por regrandigi"
@@ -18457,7 +18457,7 @@ msgstr "Kiom zomi."
 #: src/ui/colorplaneexport_ui.ui:105
 #, kde-format
 msgid "Resolution"
-msgstr "Rezolucio"
+msgstr "Distingivo"
 
 #. i18n: ectx: property (text), widget (QLabel, lblFilename)
 #: src/ui/colorplaneexport_ui.ui:148
@@ -19746,7 +19746,7 @@ msgstr "Kontrolo de imposto:"
 #: src/ui/editrenderpreset_ui.ui:746
 #, kde-format
 msgid "Resolution:"
-msgstr "Rezolucio:"
+msgstr "Distingivo:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_26)
 #: src/ui/editrenderpreset_ui.ui:753
@@ -20936,7 +20936,7 @@ msgstr "Bildigi plenan kolorgamon"
 #: src/ui/renderwidget_ui.ui:503
 #, kde-format
 msgid "Render at Preview Resolution"
-msgstr "Bildigi ĉe antaŭrigarda rezolucio"
+msgstr "Bildigi ĉe antaŭrigarda distingivo"
 
 #. i18n: ectx: property (text), widget (QCheckBox, proxy_render)
 #: src/ui/renderwidget_ui.ui:510
