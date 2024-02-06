@@ -5,9 +5,11 @@
   <project_license>GPL-3.0-only</project_license>
   <developer_name translate="no">KDE</developer_name>
   <developer_name translate="no" xml:lang="ca">KDE</developer_name>
+  <developer_name translate="no" xml:lang="ca-valencia">KDE</developer_name>
   <developer_name translate="no" xml:lang="eo">KDE</developer_name>
   <developer_name translate="no" xml:lang="es">KDE</developer_name>
   <developer_name translate="no" xml:lang="eu">KDE</developer_name>
+  <developer_name translate="no" xml:lang="fr">KDE</developer_name>
   <developer_name translate="no" xml:lang="ka">KDE</developer_name>
   <developer_name translate="no" xml:lang="nl">KDE</developer_name>
   <developer_name translate="no" xml:lang="pl">KDE</developer_name>
@@ -15,6 +17,8 @@
   <developer_name translate="no" xml:lang="tr">KDE</developer_name>
   <developer_name translate="no" xml:lang="uk">KDE</developer_name>
   <developer_name translate="no" xml:lang="x-test">xxKDExx</developer_name>
+  <developer_name translate="no" xml:lang="zh-CN">KDE</developer_name>
+  <developer_name translate="no" xml:lang="zh-TW">KDE</developer_name>
   <name>Kdenlive</name>
   <name xml:lang="ar">كِيدِينلايف</name>
   <name xml:lang="az">Kdenlive</name>
