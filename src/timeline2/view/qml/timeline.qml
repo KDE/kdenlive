@@ -660,7 +660,11 @@ Rectangle {
         }
         onEntered: drag => {
             if (clipBeingMovedId == -1 && clipBeingDroppedId == -1) {
-                var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY - subtitleTrack.height)
+                var yOffset = 0
+                if (root.showSubtitles) {
+                    yOffset = subtitleTrack.height
+                }
+                var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY - yOffset)
                 var frame = Math.round((drag.x + scrollView.contentX) / root.timeScale)
                 droppedPosition = frame
                 isAudioDrag = drag.getDataAsString('type') == "audio"
@@ -668,10 +672,8 @@ Rectangle {
                     clipBeingDroppedData = drag.getDataAsString('kdenlive/composition')
                     clipBeingDroppedId = timeline.insertComposition(track, frame, clipBeingDroppedData, false)
                     continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
-                    drag.acceptProposedAction()
-                } else {
-                    drag.accepted = false
                 }
+                drag.acceptProposedAction()
             }
         }
         onPositionChanged: drag => {
@@ -679,13 +681,19 @@ Rectangle {
                 if (clipBeingDroppedId >= 0) {
                     moveDrop(0, 0)
                 } else {
-                    var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY - subtitleTrack.height)
+                    var yOffset = 0
+                    if (root.showSubtitles) {
+                        yOffset = subtitleTrack.height
+                    }
+                    var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY - yOffset)
                     if (track !== -1 && controller.isAudioTrack(track) == isAudioDrag) {
                         var frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
                         frame = controller.suggestSnapPoint(frame, root.snapping)
                         clipBeingDroppedData = drag.getDataAsString('kdenlive/composition')
                         clipBeingDroppedId = timeline.insertComposition(track, frame, clipBeingDroppedData , false)
                         continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
+                    } else {
+                        drag.accepted = false
                     }
                 }
             }
@@ -821,7 +829,6 @@ Rectangle {
             }
             lastDragPos = Qt.point(drag.x, drag.y)
             if (clipBeingMovedId == -1 && clipBeingDroppedId == -1) {
-                //var track = Logic.getTrackIdFromPos(drag.y)
                 var yOffset = 0
                 if (root.showSubtitles) {
                     yOffset = subtitleTrack.height
@@ -831,7 +838,6 @@ Rectangle {
                     var frame = Math.round((drag.x + scrollView.contentX) / root.timeScale)
                     droppedPosition = frame
                     timeline.activeTrack = tracksRepeater.itemAt(track).trackInternalId
-                    //drag.acceptProposedAction()
                     clipBeingDroppedData = drag.getDataAsString('text/producerslist')
                     lastDragUuid = drag.getDataAsString('text/dragid')
                     if (controller.normalEdit()) {
@@ -846,13 +852,9 @@ Rectangle {
                             fakeTrack = moveData[1]
                         }
                     }
-                    if (clipBeingDroppedId == -1) {
-                        drag.accepted = true
-                    }
                     continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
-                } else {
-                    drag.accepted = false
                 }
+                drag.acceptProposedAction()
             }
         }
         onExited: {
@@ -897,6 +899,8 @@ Rectangle {
                             }
                         }
                         continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
+                    } else {
+                        drag.accepted = false
                     }
                 }
             }
