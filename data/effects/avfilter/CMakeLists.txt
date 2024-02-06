@@ -40,6 +40,7 @@ avfilter_compensationdelay.xml
 avfilter_crossfeed.xml
 avfilter_crystalizer.xml
 avfilter_datascope.xml
+avfilter_dblur.xml
 avfilter_dcshift.xml
 avfilter_dctdnoiz.xml
 avfilter_deband.xml
