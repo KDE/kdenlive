@@ -277,6 +277,18 @@ bool AbstractPythonInterface::setupVenv()
     QStringList args = {QStringLiteral("-m"), QStringLiteral("venv"), pluginDir.absoluteFilePath(QStringLiteral("venv")), QStringLiteral("pip")};
     envProcess.start(pyExec, args);
     envProcess.waitForFinished(-1);
+    if (pluginDir.cd(QStringLiteral("venv"))) {
+        pluginDir.cd(QStringLiteral("bin"));
+#ifdef Q_OS_WIN
+        pyExec = pluginDir.absoluteFilePath(QStringLiteral("python"));
+#else
+        pyExec = pluginDir.absoluteFilePath(QStringLiteral("python3"));
+#endif
+        args = QStringList{QStringLiteral("-m"), QStringLiteral("ensurepip"), QStringLiteral("upgrade")};
+        envProcess.start(pyExec, args);
+        envProcess.waitForFinished(-1);
+    }
+
     installInProgress = false;
     return true;
 }
