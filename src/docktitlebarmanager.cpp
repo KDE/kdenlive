@@ -92,7 +92,9 @@ void DockTitleBarManager::slotUpdateTitleBars(bool isTopLevel)
         };
 
         if (!KdenliveSettings::showtitlebars()) {
-            if (!dock->isFloating() && bar == nullptr) {
+            if (dock->isFloating()) {
+                handleRemoveBar();
+            } else if (bar == nullptr) {
                 dock->setTitleBarWidget(new QWidget());
             }
             continue;
