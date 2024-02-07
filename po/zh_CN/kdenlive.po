@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-06 03:07+0000\n"
+"POT-Creation-Date: 2024-02-07 02:22+0000\n"
 "PO-Revision-Date: 2024-01-06 03:34\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -4024,7 +4024,7 @@ msgid ""
 msgstr ""
 "正在监听音频。按<b>空格键</b>以开始/暂停录制，按 <b>Esc</b> 键结束监听。"
 
-#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:1003
+#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:1007
 #, kde-format
 msgid "Master"
 msgstr "主"
@@ -14178,22 +14178,22 @@ msgstr ""
 "找不到 python virtualenv，请在此系统中安装此组件。目前将转而使用系统实际安装"
 "的 python。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:288
+#: src/pythoninterfaces/abstractpythoninterface.cpp:306
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr "无法找到 %1 脚本，请检查软件的安装状态是否正常。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:337
+#: src/pythoninterfaces/abstractpythoninterface.cpp:355
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr "<application>%1</application> python 模块是必需的。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:339
+#: src/pythoninterfaces/abstractpythoninterface.cpp:357
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required for %2."
 msgstr "<application>%1</application> python 模块是 %2 必需的。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:377
+#: src/pythoninterfaces/abstractpythoninterface.cpp:395
 #, kde-format
 msgid ""
 "Kdenlive can install the missing python modules in a virtual environment "
@@ -14203,60 +14203,60 @@ msgstr ""
 "Kdenlive 可以在 %1 下的虚拟环境中安装缺失的 python 模块。\n"
 "此方式将确保您的系统程序库不受影响。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:379
+#: src/pythoninterfaces/abstractpythoninterface.cpp:397
 #, kde-format
 msgid "Python environment"
 msgstr "Python 环境"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:379
+#: src/pythoninterfaces/abstractpythoninterface.cpp:397
 #, kde-format
 msgid "Use virtual environment (recommended)"
 msgstr "使用虚拟环境 (推荐)"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:380
+#: src/pythoninterfaces/abstractpythoninterface.cpp:398
 #, kde-format
 msgid "Use system install"
 msgstr "使用系统安装"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:398
-#: src/pythoninterfaces/abstractpythoninterface.cpp:475
+#: src/pythoninterfaces/abstractpythoninterface.cpp:416
+#: src/pythoninterfaces/abstractpythoninterface.cpp:493
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr "内部错误：无法找到依赖关系列表"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:416
+#: src/pythoninterfaces/abstractpythoninterface.cpp:434
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "检查模块 %1 版本时出错"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:420
+#: src/pythoninterfaces/abstractpythoninterface.cpp:438
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
 msgstr "模块 %2 所需的最低版本为 %1，而本机安装的版本是 %3"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:424
+#: src/pythoninterfaces/abstractpythoninterface.cpp:442
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "请考虑升级本机系统的相关软件。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:441
+#: src/pythoninterfaces/abstractpythoninterface.cpp:459
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "没有可用的版本信息。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:498
+#: src/pythoninterfaces/abstractpythoninterface.cpp:516
 #, kde-format
 msgid "Python exec not found"
 msgstr "无法找到 Python exec"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:500
+#: src/pythoninterfaces/abstractpythoninterface.cpp:518
 #, kde-format
 msgid "Failed to find script file %1"
 msgstr "无法找到脚本文件 %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:535
+#: src/pythoninterfaces/abstractpythoninterface.cpp:553
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -14267,7 +14267,7 @@ msgstr ""
 " %1\n"
 "%2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:557
+#: src/pythoninterfaces/abstractpythoninterface.cpp:575
 #, kde-format
 msgid ""
 "This will delete the python virtual environment from:<br/><b>%1</b><br/>The "
@@ -16149,14 +16149,14 @@ msgid "Change clip speed"
 msgstr "更改剪辑速度"
 
 #: src/timeline2/model/timelinemodel.cpp:6454
-#: src/timeline2/view/qml/timeline.qml:1203
+#: src/timeline2/view/qml/timeline.qml:1207
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Lock track"
 msgstr "锁定轨道"
 
 #: src/timeline2/model/timelinemodel.cpp:6459
-#: src/timeline2/view/qml/timeline.qml:1203
+#: src/timeline2/view/qml/timeline.qml:1207
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Unlock track"
@@ -16283,7 +16283,7 @@ msgid "Stop"
 msgstr "停止"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2096
+#: src/timeline2/view/qml/timeline.qml:2100
 #, kde-format
 msgid "Paused"
 msgstr "已暂停"
@@ -16417,51 +16417,51 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>双击</b>以编辑文字"
 
-#: src/timeline2/view/qml/timeline.qml:997
+#: src/timeline2/view/qml/timeline.qml:1001
 #, kde-format
 msgid "Show master effects"
 msgstr "显示主效果"
 
-#: src/timeline2/view/qml/timeline.qml:1137
+#: src/timeline2/view/qml/timeline.qml:1141
 #, kde-format
 msgid "Click to see details"
 msgstr "点击查看详情"
 
-#: src/timeline2/view/qml/timeline.qml:1159
+#: src/timeline2/view/qml/timeline.qml:1163
 #, kde-format
 msgid "Speech recognition"
 msgstr "语音识别"
 
-#: src/timeline2/view/qml/timeline.qml:1179
+#: src/timeline2/view/qml/timeline.qml:1183
 #: src/timeline2/view/qml/TrackHead.qml:470
 #, kde-format
 msgid "Show"
 msgstr "显示"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1179
+#: src/timeline2/view/qml/timeline.qml:1183
 #: src/timeline2/view/qml/TrackHead.qml:470 src/ui/configcapture_ui.ui:397
 #, kde-format
 msgid "Hide"
 msgstr "隐藏"
 
-#: src/timeline2/view/qml/timeline.qml:1774
+#: src/timeline2/view/qml/timeline.qml:1778
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>双击</b> 以添加字幕"
 
-#: src/timeline2/view/qml/timeline.qml:1938
+#: src/timeline2/view/qml/timeline.qml:1942
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "偏移：%1，位置：%2"
 
-#: src/timeline2/view/qml/timeline.qml:2085
-#: src/timeline2/view/qml/timeline.qml:2094
+#: src/timeline2/view/qml/timeline.qml:2089
+#: src/timeline2/view/qml/timeline.qml:2098
 #, kde-format
 msgid "Recording"
 msgstr "正在录制"
 
-#: src/timeline2/view/qml/timeline.qml:2183
+#: src/timeline2/view/qml/timeline.qml:2187
 #, kde-format
 msgid "Multicam In"
 msgstr "多机位入点"

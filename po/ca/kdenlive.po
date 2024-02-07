@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-06 03:07+0000\n"
+"POT-Creation-Date: 2024-02-07 02:22+0000\n"
 "PO-Revision-Date: 2024-01-18 18:48+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -4126,7 +4126,7 @@ msgstr ""
 "Monitoratge de l'àudio. Premeu <b>Espai</b> per a iniciar/fer una pausa de "
 "l'enregistrament, <b>Esc</b> per a finalitzar."
 
-#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:1003
+#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:1007
 #, kde-format
 msgid "Master"
 msgstr "Mestre"
@@ -14599,22 +14599,22 @@ msgstr ""
 "No s'ha pogut trobar el «virtualenv» del Python, instal·leu-lo en el "
 "sistema. Es canvia al sistema Python predeterminat."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:288
+#: src/pythoninterfaces/abstractpythoninterface.cpp:306
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr "No s'ha trobat l'script %1, comproveu la vostra instal·lació."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:337
+#: src/pythoninterfaces/abstractpythoninterface.cpp:355
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr "Es requereix el mòdul de Python <application>%1</application>."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:339
+#: src/pythoninterfaces/abstractpythoninterface.cpp:357
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required for %2."
 msgstr "%2 requereix el mòdul de Python <application>%1</application>."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:377
+#: src/pythoninterfaces/abstractpythoninterface.cpp:395
 #, kde-format
 msgid ""
 "Kdenlive can install the missing python modules in a virtual environment "
@@ -14625,33 +14625,33 @@ msgstr ""
 "virtual en %1.\n"
 "D'aquesta manera, no modificarà les biblioteques del sistema."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:379
+#: src/pythoninterfaces/abstractpythoninterface.cpp:397
 #, kde-format
 msgid "Python environment"
 msgstr "Entorn del Python"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:379
+#: src/pythoninterfaces/abstractpythoninterface.cpp:397
 #, kde-format
 msgid "Use virtual environment (recommended)"
 msgstr "Usa l'entorn virtual (recomanat)"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:380
+#: src/pythoninterfaces/abstractpythoninterface.cpp:398
 #, kde-format
 msgid "Use system install"
 msgstr "Usa la instal·lació del sistema"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:398
-#: src/pythoninterfaces/abstractpythoninterface.cpp:475
+#: src/pythoninterfaces/abstractpythoninterface.cpp:416
+#: src/pythoninterfaces/abstractpythoninterface.cpp:493
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr "Error intern: no s'ha pogut trobar la llista de dependències"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:416
+#: src/pythoninterfaces/abstractpythoninterface.cpp:434
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "Error en comprovar la versió del mòdul %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:420
+#: src/pythoninterfaces/abstractpythoninterface.cpp:438
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
@@ -14659,28 +14659,28 @@ msgstr ""
 "Com a mínim es requereix la versió %1 del mòdul %2, però la versió actual és "
 "la %3"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:424
+#: src/pythoninterfaces/abstractpythoninterface.cpp:442
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "Si us plau, considereu actualitzar la vostra configuració."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:441
+#: src/pythoninterfaces/abstractpythoninterface.cpp:459
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "No hi ha disponible la informació de la versió."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:498
+#: src/pythoninterfaces/abstractpythoninterface.cpp:516
 #, kde-format
 msgid "Python exec not found"
 msgstr "No s'ha trobat l'executable del Python"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:500
+#: src/pythoninterfaces/abstractpythoninterface.cpp:518
 #, kde-format
 msgid "Failed to find script file %1"
 msgstr "Ha fallat en trobar el fitxer de script %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:535
+#: src/pythoninterfaces/abstractpythoninterface.cpp:553
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -14691,7 +14691,7 @@ msgstr ""
 " %1\n"
 "%2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:557
+#: src/pythoninterfaces/abstractpythoninterface.cpp:575
 #, kde-format
 msgid ""
 "This will delete the python virtual environment from:<br/><b>%1</b><br/>The "
@@ -16621,14 +16621,14 @@ msgid "Change clip speed"
 msgstr "Canvia la velocitat del clip"
 
 #: src/timeline2/model/timelinemodel.cpp:6454
-#: src/timeline2/view/qml/timeline.qml:1203
+#: src/timeline2/view/qml/timeline.qml:1207
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Lock track"
 msgstr "Bloqueja la pista"
 
 #: src/timeline2/model/timelinemodel.cpp:6459
-#: src/timeline2/view/qml/timeline.qml:1203
+#: src/timeline2/view/qml/timeline.qml:1207
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Unlock track"
@@ -16762,7 +16762,7 @@ msgid "Stop"
 msgstr "Atura"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2096
+#: src/timeline2/view/qml/timeline.qml:2100
 #, kde-format
 msgid "Paused"
 msgstr "En pausa"
@@ -16902,51 +16902,51 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>Doble clic</b> per a editar el text"
 
-#: src/timeline2/view/qml/timeline.qml:997
+#: src/timeline2/view/qml/timeline.qml:1001
 #, kde-format
 msgid "Show master effects"
 msgstr "Mostra els efectes mestres"
 
-#: src/timeline2/view/qml/timeline.qml:1137
+#: src/timeline2/view/qml/timeline.qml:1141
 #, kde-format
 msgid "Click to see details"
 msgstr "Cliqueu per a veure els detalls"
 
-#: src/timeline2/view/qml/timeline.qml:1159
+#: src/timeline2/view/qml/timeline.qml:1163
 #, kde-format
 msgid "Speech recognition"
 msgstr "Reconeixement de la veu"
 
-#: src/timeline2/view/qml/timeline.qml:1179
+#: src/timeline2/view/qml/timeline.qml:1183
 #: src/timeline2/view/qml/TrackHead.qml:470
 #, kde-format
 msgid "Show"
 msgstr "Mostra"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1179
+#: src/timeline2/view/qml/timeline.qml:1183
 #: src/timeline2/view/qml/TrackHead.qml:470 src/ui/configcapture_ui.ui:397
 #, kde-format
 msgid "Hide"
 msgstr "Oculta"
 
-#: src/timeline2/view/qml/timeline.qml:1774
+#: src/timeline2/view/qml/timeline.qml:1778
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Doble clic</b> per a afegir un subtítol"
 
-#: src/timeline2/view/qml/timeline.qml:1938
+#: src/timeline2/view/qml/timeline.qml:1942
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Desplaçament: %1, Posició: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2085
-#: src/timeline2/view/qml/timeline.qml:2094
+#: src/timeline2/view/qml/timeline.qml:2089
+#: src/timeline2/view/qml/timeline.qml:2098
 #, kde-format
 msgid "Recording"
 msgstr "Enregistrament"
 
-#: src/timeline2/view/qml/timeline.qml:2183
+#: src/timeline2/view/qml/timeline.qml:2187
 #, kde-format
 msgid "Multicam In"
 msgstr "Multicàmera a"

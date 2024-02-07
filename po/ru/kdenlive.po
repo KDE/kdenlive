@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-06 03:07+0000\n"
+"POT-Creation-Date: 2024-02-07 02:22+0000\n"
 "PO-Revision-Date: 2023-11-15 16:49+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -4153,7 +4153,7 @@ msgstr ""
 "Слежение за звуковым сигналом. Нажмите клавишу <b>пробел</b> для начала/"
 "приостановки записи, <b>Esc</b> для завершения."
 
-#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:1003
+#: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:1007
 #, kde-format
 msgid "Master"
 msgstr "Мастер"
@@ -14650,22 +14650,22 @@ msgid ""
 "to system python."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:288
+#: src/pythoninterfaces/abstractpythoninterface.cpp:306
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr "Не удалось найти сценарий %1, проверьте установку."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:337
+#: src/pythoninterfaces/abstractpythoninterface.cpp:355
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr "Необходимо наличие модуля python <application>%1</application>."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:339
+#: src/pythoninterfaces/abstractpythoninterface.cpp:357
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required for %2."
 msgstr "Необходимо наличие модуля python <application>%1</application> для %2."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:377
+#: src/pythoninterfaces/abstractpythoninterface.cpp:395
 #, kde-format
 msgid ""
 "Kdenlive can install the missing python modules in a virtual environment "
@@ -14673,62 +14673,62 @@ msgid ""
 "This way, it won't touch your system libraries."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:379
+#: src/pythoninterfaces/abstractpythoninterface.cpp:397
 #, fuzzy, kde-format
 msgid "Python environment"
 msgstr "Окружение"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:379
+#: src/pythoninterfaces/abstractpythoninterface.cpp:397
 #, kde-format
 msgid "Use virtual environment (recommended)"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:380
+#: src/pythoninterfaces/abstractpythoninterface.cpp:398
 #, kde-format
 msgid "Use system install"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:398
-#: src/pythoninterfaces/abstractpythoninterface.cpp:475
+#: src/pythoninterfaces/abstractpythoninterface.cpp:416
+#: src/pythoninterfaces/abstractpythoninterface.cpp:493
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr "Внутренняя ошибка: Не удалось найти список зависимостей"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:416
+#: src/pythoninterfaces/abstractpythoninterface.cpp:434
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "При проверке версии модуля %1 произошла ошибка"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:420
+#: src/pythoninterfaces/abstractpythoninterface.cpp:438
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
 msgstr ""
 "Версия не меньше %1 необходима для модуля %2, но ваша текущая версия — %3"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:424
+#: src/pythoninterfaces/abstractpythoninterface.cpp:442
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "Рекомендуется обновить настройку параметров."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:441
+#: src/pythoninterfaces/abstractpythoninterface.cpp:459
 #, fuzzy, kde-format
 #| msgid "No information in clipboard"
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "Нет информации в буфере обмена"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:498
+#: src/pythoninterfaces/abstractpythoninterface.cpp:516
 #, kde-format
 msgid "Python exec not found"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:500
+#: src/pythoninterfaces/abstractpythoninterface.cpp:518
 #, fuzzy, kde-format
 msgid "Failed to find script file %1"
 msgstr "Не удалось создать файл."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:535
+#: src/pythoninterfaces/abstractpythoninterface.cpp:553
 #, fuzzy, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -14738,7 +14738,7 @@ msgstr ""
 "Ошибка при запуске сценария python3:\n"
 " %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:557
+#: src/pythoninterfaces/abstractpythoninterface.cpp:575
 #, kde-format
 msgid ""
 "This will delete the python virtual environment from:<br/><b>%1</b><br/>The "
@@ -16660,14 +16660,14 @@ msgid "Change clip speed"
 msgstr "Изменить скорость клипа"
 
 #: src/timeline2/model/timelinemodel.cpp:6454
-#: src/timeline2/view/qml/timeline.qml:1203
+#: src/timeline2/view/qml/timeline.qml:1207
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Lock track"
 msgstr "Заблокировать дорожку"
 
 #: src/timeline2/model/timelinemodel.cpp:6459
-#: src/timeline2/view/qml/timeline.qml:1203
+#: src/timeline2/view/qml/timeline.qml:1207
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Unlock track"
@@ -16803,7 +16803,7 @@ msgid "Stop"
 msgstr "Остановить"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2096
+#: src/timeline2/view/qml/timeline.qml:2100
 #, kde-format
 msgid "Paused"
 msgstr "Приостановлено"
@@ -16942,51 +16942,51 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>Двойной щелчок</b>: редактирование текста"
 
-#: src/timeline2/view/qml/timeline.qml:997
+#: src/timeline2/view/qml/timeline.qml:1001
 #, kde-format
 msgid "Show master effects"
 msgstr "Показать мастер-эффекты"
 
-#: src/timeline2/view/qml/timeline.qml:1137
+#: src/timeline2/view/qml/timeline.qml:1141
 #, kde-format
 msgid "Click to see details"
 msgstr "Щёлкните для получения дополнительной информации"
 
-#: src/timeline2/view/qml/timeline.qml:1159
+#: src/timeline2/view/qml/timeline.qml:1163
 #, kde-format
 msgid "Speech recognition"
 msgstr "Распознать речь"
 
-#: src/timeline2/view/qml/timeline.qml:1179
+#: src/timeline2/view/qml/timeline.qml:1183
 #: src/timeline2/view/qml/TrackHead.qml:470
 #, kde-format
 msgid "Show"
 msgstr "Показать"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1179
+#: src/timeline2/view/qml/timeline.qml:1183
 #: src/timeline2/view/qml/TrackHead.qml:470 src/ui/configcapture_ui.ui:397
 #, kde-format
 msgid "Hide"
 msgstr "Скрыть"
 
-#: src/timeline2/view/qml/timeline.qml:1774
+#: src/timeline2/view/qml/timeline.qml:1778
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Двойной щелчок</b>: добавление субтитра"
 
-#: src/timeline2/view/qml/timeline.qml:1938
+#: src/timeline2/view/qml/timeline.qml:1942
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Смещение: %1, Позиция: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2085
-#: src/timeline2/view/qml/timeline.qml:2094
+#: src/timeline2/view/qml/timeline.qml:2089
+#: src/timeline2/view/qml/timeline.qml:2098
 #, kde-format
 msgid "Recording"
 msgstr "Запись"
 
-#: src/timeline2/view/qml/timeline.qml:2183
+#: src/timeline2/view/qml/timeline.qml:2187
 #, kde-format
 msgid "Multicam In"
 msgstr "Вход многокамерного монтажа"
