@@ -273,6 +273,11 @@ if(HAVE_LINUX_INPUT_H)
     target_link_libraries(kdenliveLib media_ctrl)
 endif()
 
+if(APPLE)
+    set_target_properties(kdenlive PROPERTIES MACOSX_BUNDLE ON)
+endif()
+
+
 if(NODBUS)
     target_compile_definitions(kdenliveLib PRIVATE -DNODBUS)
     target_compile_definitions(kdenlive PRIVATE -DNODBUS)
