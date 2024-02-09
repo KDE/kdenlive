@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-07 00:37+0000\n"
-"PO-Revision-Date: 2024-01-27 16:20+0300\n"
+"PO-Revision-Date: 2024-02-08 18:06+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -2329,7 +2329,8 @@ msgstr "Şekil rengi"
 #, kde-format
 msgid "Median Blur,Gaussian Blur,Pixelate,Opaque fill,None"
 msgstr ""
-"Orta Bulanıklaştırma,Gauss Bulanıklaştırması,Pikselleştir,Mat Dolgu,Hiçbiri"
+"Ortanca Bulanıklaştırma,Gauss Bulanıklaştırması,Pikselleştir,Mat Dolgu,"
+"Hiçbiri"
 
 #: data/effects/tracker.xml:35
 #, kde-format
@@ -2477,8 +2478,8 @@ msgstr "Optimal Yakınlaştırma"
 msgid ""
 "Automatically determine optimal zoom. 1 - static zoom, 2 - adaptive zoom"
 msgstr ""
-"Optimum yakınlaştırmayı otomatik olarak belirleyin. 1 - statik "
-"yakınlaştırma, 2 - uyarlamalı yakınlaştırma"
+"Optimum yakınlaştırmayı kendiliğinden belirleyin. 1 - Durağan yakınlaştırma, "
+"2 - Uyarlanır yakınlaştırma"
 
 #: data/effects/vidstab.xml:48
 #, kde-format
@@ -6976,12 +6977,12 @@ msgstr "En Yakın (hızlı)"
 #: src/dialogs/renderwidget.cpp:217 src/monitor/monitormanager.cpp:588
 #, kde-format
 msgid "Bilinear (good)"
-msgstr "İkili Doğrusal (iyi)"
+msgstr "İki Yönlü (iyi)"
 
 #: src/dialogs/renderwidget.cpp:218 src/monitor/monitormanager.cpp:589
 #, kde-format
 msgid "Bicubic (better)"
-msgstr "Çift Kübik (daha iyi)"
+msgstr "İki Küplü (daha iyi)"
 
 #: src/dialogs/renderwidget.cpp:219
 #, kde-format

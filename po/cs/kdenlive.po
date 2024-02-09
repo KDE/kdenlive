@@ -5465,10 +5465,9 @@ msgid "Clean Project"
 msgstr "Vyčistit projekt"
 
 #: src/bin/projectitemmodel.cpp:1217
-#, fuzzy, kde-format
-#| msgid "Loading project clips…"
+#, kde-format
 msgid "Reading project clips…"
-msgstr "Načítání klipů projektu..."
+msgstr ""
 
 #: src/bin/projectitemmodel.cpp:1323
 #, kde-format
@@ -7949,10 +7948,9 @@ msgid "Missing proxies can be recreated on opening."
 msgstr ""
 
 #: src/doc/documentvalidator.cpp:47
-#, fuzzy, kde-format
-#| msgid "Loading project…"
+#, kde-format
 msgid "Validating project…"
-msgstr "Načítání projektu…"
+msgstr ""
 
 #: src/doc/documentvalidator.cpp:89
 #, kde-format
@@ -7978,10 +7976,9 @@ msgid "Incorrect project file"
 msgstr ""
 
 #: src/doc/documentvalidator.cpp:184
-#, fuzzy, kde-format
-#| msgid "Loading project…"
+#, kde-format
 msgid "Upgrading project version…"
-msgstr "Načítání projektu…"
+msgstr ""
 
 #: src/doc/documentvalidator.cpp:190
 #, kde-format
@@ -9247,11 +9244,10 @@ msgid "Merged streams"
 msgstr ""
 
 #: src/library/librarywidget.cpp:190 src/statusbarmessagelabel.cpp:84
-#, fuzzy, kde-format
-#| msgid "%1%"
+#, kde-format
 msgctxt "%p is the percent value, % is the percent sign"
 msgid "%p%"
-msgstr "%1%"
+msgstr ""
 
 #: src/library/librarywidget.cpp:203 src/library/librarywidget.cpp:531
 #, kde-format
@@ -9401,10 +9397,9 @@ msgid "An open source video editor."
 msgstr "Open source editor videí"
 
 #: src/main.cpp:148
-#, fuzzy, kde-format
-#| msgid "Copyright © 2007–2023 Kdenlive authors"
+#, kde-format
 msgid "Copyright © 2007–2024 Kdenlive authors"
-msgstr "Autorská práva © 2007–2023 autoři Kdenlive"
+msgstr ""
 
 #: src/main.cpp:150
 #, kde-format
@@ -13821,16 +13816,14 @@ msgid ""
 msgstr ""
 
 #: src/project/projectmanager.cpp:873
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Loading timeline…"
-msgstr "Stahuji model…"
+msgstr ""
 
 #: src/project/projectmanager.cpp:892
-#, fuzzy, kde-format
-#| msgid "Timeline sequence"
+#, kde-format
 msgid "Building sequences…"
-msgstr "Sekvence časové osy"
+msgstr ""
 
 #: src/project/projectmanager.cpp:996
 #, kde-format
@@ -15483,11 +15476,10 @@ msgid "Insert Clips"
 msgstr ""
 
 #: src/timeline2/model/timelinefunctions.cpp:266
-#, fuzzy, kde-format
-#| msgid "When cutting subtitles:"
+#, kde-format
 msgctxt "@info:status"
 msgid "Cannot cut overlapping subtitles"
-msgstr "Při stříhání titulků:"
+msgstr ""
 
 #: src/timeline2/model/timelinefunctions.cpp:339
 #: src/timeline2/model/timelinefunctions.cpp:358
@@ -17452,10 +17444,9 @@ msgstr ""
 #. i18n: ectx: property (format), widget (QProgressBar, progressBar)
 #: src/ui/archivewidget_ui.ui:143 src/ui/cliptranscode_ui.ui:40
 #: src/ui/speechdialog_ui.ui:112 src/ui/textbasededit_ui.ui:59
-#, fuzzy, no-c-format, kde-format
-#| msgid "%1%"
+#, no-c-format, kde-format
 msgid "%p%"
-msgstr "%1%"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, labelFFTSize)
 #: src/ui/audiospectrum_ui.ui:56
@@ -21444,9 +21435,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Loading project"
-#~ msgstr "Načítání projektu"
-
-#~ msgid "%1 %%"
-#~ msgstr "%1 %%"
