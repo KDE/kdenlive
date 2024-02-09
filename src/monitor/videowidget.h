@@ -177,6 +177,7 @@ Q_SIGNALS:
     void lockMonitor(bool);
     void passKeyEvent(QKeyEvent *);
     void panView(const QPoint &diff);
+    void reconnectWindow();
 
 protected:
     // TODO: MTL has lock/unlock of individual nodes. Use those.
