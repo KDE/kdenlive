@@ -2146,7 +2146,6 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
                     mappedIds.insert(clipId, existingId);
                     continue;
                 }
-
                 clipId = useFreeBinId(currentProd, clipId, mappedIds);
 
                 // Disable proxy if any when pasting to another document
@@ -2154,7 +2153,6 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
 
                 waitingBinIds << clipId;
                 clipsImported = true;
-                qDebug() << "IMPORTED CLIP:" << clipId;
                 bool insert = pCore->projectItemModel()->requestAddBinClip(clipId, currentProd, folderId, undo, redo, callBack);
                 if (!insert) {
                     return false;
@@ -2202,14 +2200,15 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
                 continue;
             }
 
-            clipId = useFreeBinId(currentProd, clipId, mappedIds);
-
             QDomDocument doc;
             doc.appendChild(doc.importNode(currentProd, true));
+            clipId = useFreeBinId(currentProd, clipId, mappedIds);
 
             // update all bin ids
             QDomNodeList prods = doc.documentElement().elementsByTagName(QStringLiteral("producer"));
             remapClipIds(prods, mappedIds);
+            QDomNodeList chains = doc.documentElement().elementsByTagName(QStringLiteral("chain"));
+            remapClipIds(chains, mappedIds);
             QDomNodeList entries = doc.documentElement().elementsByTagName(QStringLiteral("entry"));
             remapClipIds(entries, mappedIds);
 
@@ -2225,6 +2224,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
             xmlProd->set("kdenlive:uuid", uuid.toUtf8().constData());
             xmlProd->set("kdenlive:duration", xmlProd->frames_to_time(duration));
             xmlProd->set("kdenlive:clipname", clipname.toUtf8().constData());
+            xmlProd->set("_kdenlive_processed", 1);
             Mlt::Service s(*xmlProd.get());
             Mlt::Tractor tractor(s);
             std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(tractor.cut()));
@@ -2234,6 +2234,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
             prod->set("kdenlive:uuid", uuid.toUtf8().constData());
             prod->set("kdenlive:duration", xmlProd->frames_to_time(duration));
             prod->set("kdenlive:clipname", clipname.toUtf8().constData());
+            prod->set("_kdenlive_processed", 1);
             bool insert = pCore->projectItemModel()->requestAddBinClip(clipId, prod, folderId, undo, redo, callBack);
             if (!insert) {
                 pCore->displayMessage(i18n("Could not add bin clip"), ErrorMessage, 500);
