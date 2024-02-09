@@ -348,7 +348,7 @@ void KdenliveSettingsDialog::initEnviromentPage()
     m_configEnv.tmppathurl->lineEdit()->setObjectName(QStringLiteral("kcfg_currenttmpfolder"));
     m_configEnv.capturefolderurl->setMode(KFile::Directory);
     m_configEnv.capturefolderurl->lineEdit()->setObjectName(QStringLiteral("kcfg_capturefolder"));
-    m_configEnv.capturefolderurl->setEnabled(KdenliveSettings::capturetoprojectfolder() == 2);
+    KdenliveSettingsDialog::slotRevealCaptureFolder(KdenliveSettings::capturetoprojectfolder());
     m_configEnv.kcfg_capturetoprojectfolder->setItemText(0, i18n("Use default folder: %1", QStandardPaths::writableLocation(QStandardPaths::MoviesLocation)));
     if (KdenliveSettings::customprojectfolder()) {
         m_configEnv.kcfg_capturetoprojectfolder->setItemText(1, i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
@@ -356,7 +356,7 @@ void KdenliveSettingsDialog::initEnviromentPage()
         m_configEnv.kcfg_capturetoprojectfolder->setItemText(1, i18n("Always use active project folder"));
     }
     connect(m_configEnv.kcfg_capturetoprojectfolder, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
-            &KdenliveSettingsDialog::slotEnableCaptureFolder);
+            &KdenliveSettingsDialog::slotRevealCaptureFolder);
 
     // Library folder
     m_configEnv.libraryfolderurl->setMode(KFile::Directory);
@@ -675,9 +675,10 @@ void KdenliveSettingsDialog::slotUpdateGrabRegionStatus()
     m_configCapture.region_group->setHidden(m_configCapture.kcfg_grab_capture_type->currentIndex() != 1);
 }
 
-void KdenliveSettingsDialog::slotEnableCaptureFolder(int ix)
+void KdenliveSettingsDialog::slotRevealCaptureFolder(int ix)
 {
-    m_configEnv.capturefolderurl->setEnabled(ix == 2);
+    m_configEnv.capturefolderurl->setVisible(ix == 2);
+    m_configEnv.kcfg_captureprojectsubfolder->setVisible(ix == 3);
 }
 
 void KdenliveSettingsDialog::slotEnableLibraryFolder()
@@ -1079,6 +1080,10 @@ void KdenliveSettingsDialog::updateSettings()
 
     if (m_configEnv.capturefolderurl->url().toLocalFile() != KdenliveSettings::capturefolder()) {
         KdenliveSettings::setCapturefolder(m_configEnv.capturefolderurl->url().toLocalFile());
+    }
+
+    if (m_configEnv.kcfg_captureprojectsubfolder->text() != KdenliveSettings::captureprojectsubfolder()) {
+        KdenliveSettings::setCaptureprojectsubfolder(m_configEnv.kcfg_captureprojectsubfolder->text());
     }
 
     // Library default folder

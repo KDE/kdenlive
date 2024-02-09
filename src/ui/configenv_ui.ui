@@ -236,10 +236,26 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
            <string>Always use custom folder</string>
           </property>
          </item>
+         <item>
+          <property name="text">
+           <string>Always use a custom subfolder of project folder</string>
+          </property>
+         </item>
         </widget>
        </item>
        <item row="4" column="1">
-        <widget class="KUrlRequester" name="capturefolderurl"/>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QLineEdit" name="kcfg_captureprojectsubfolder">
+           <property name="placeholderText">
+            <string>Subfolder of project folder</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="KUrlRequester" name="capturefolderurl"/>
+         </item>
+        </layout>
        </item>
        <item row="6" column="0">
         <widget class="QLabel" name="label_15">
@@ -546,6 +562,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
   <tabstop>mediainfourl</tabstop>
   <tabstop>tmppathurl</tabstop>
   <tabstop>kcfg_capturetoprojectfolder</tabstop>
+  <tabstop>kcfg_captureprojectsubfolder</tabstop>
   <tabstop>capturefolderurl</tabstop>
   <tabstop>kcfg_librarytodefaultfolder</tabstop>
   <tabstop>libraryfolderurl</tabstop>
