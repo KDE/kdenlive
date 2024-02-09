@@ -2,13 +2,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Volkan Gezer <volkangezer@gmail.com>, 2015, 2017, 2021.
-# SPDX-FileCopyrightText: 2022, 2023 Emir SARI <emir_sari@icloud.com>
+# SPDX-FileCopyrightText: 2022, 2023, 2024 Emir SARI <emir_sari@icloud.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-31 03:27+0000\n"
-"PO-Revision-Date: 2023-12-29 11:07+0300\n"
+"PO-Revision-Date: 2024-02-08 18:06+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.01.85\n"
+"X-Generator: Lokalize 24.01.95\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2320,7 +2320,8 @@ msgstr "Şekil rengi"
 #, kde-format
 msgid "Median Blur,Gaussian Blur,Pixelate,Opaque fill,None"
 msgstr ""
-"Orta Bulanıklaştırma,Gauss Bulanıklaştırması,Pikselleştir,Mat Dolgu,Hiçbiri"
+"Ortanca Bulanıklaştırma,Gauss Bulanıklaştırması,Pikselleştir,Mat Dolgu,"
+"Hiçbiri"
 
 #: data/effects/tracker.xml:35
 #, kde-format
@@ -2468,8 +2469,8 @@ msgstr "Optimal Yakınlaştırma"
 msgid ""
 "Automatically determine optimal zoom. 1 - static zoom, 2 - adaptive zoom"
 msgstr ""
-"Optimum yakınlaştırmayı otomatik olarak belirleyin. 1 - statik "
-"yakınlaştırma, 2 - uyarlamalı yakınlaştırma"
+"Optimum yakınlaştırmayı kendiliğinden belirleyin. 1 - Durağan yakınlaştırma, "
+"2 - Uyarlanır yakınlaştırma"
 
 #: data/effects/vidstab.xml:48
 #, kde-format
@@ -12022,12 +12023,12 @@ msgstr "En Yakın Komşu (hızlı)"
 #: src/monitor/monitormanager.cpp:588
 #, kde-format
 msgid "Bilinear (good)"
-msgstr "İkili Doğrusal (iyi)"
+msgstr "İki Yönlü (iyi)"
 
 #: src/monitor/monitormanager.cpp:589
 #, kde-format
 msgid "Bicubic (better)"
-msgstr "Çift Kübik (daha iyi)"
+msgstr "İki Küplü (daha iyi)"
 
 #: src/monitor/monitormanager.cpp:590
 #, kde-format
