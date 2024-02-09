@@ -47,6 +47,7 @@ enum class KeyframeType {
 #else
 enum class KeyframeType { Linear = mlt_keyframe_linear, Discrete = mlt_keyframe_discrete, Curve = mlt_keyframe_smooth };
 #endif
+extern const QMap<KeyframeType, QString> KeyframeTypeName;
 Q_DECLARE_METATYPE(KeyframeType)
 using Keyframe = std::pair<GenTime, KeyframeType>;
 
@@ -189,6 +190,8 @@ public:
     static std::shared_ptr<Mlt::Properties> getAnimation(std::shared_ptr<AssetParameterModel> model, const QString &animData, int duration = 0);
     static const QString getAnimationStringWithOffset(std::shared_ptr<AssetParameterModel> model, const QString &animData, int offset, int duration,
                                                       ParamType paramType, bool useOpacity = true);
+    static const QString getIconByKeyframeType(KeyframeType type);
+
 
 protected:
     /** @brief Helper function that generate a lambda to change type / value of given keyframe */

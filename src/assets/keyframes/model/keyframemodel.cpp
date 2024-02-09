@@ -19,6 +19,29 @@
 #include <mlt++/Mlt.h>
 #include <utility>
 
+// std::unordered_map and QHash could not be used here
+#ifdef USE_MLT_NEW_KEYFRAMES
+extern const QMap<KeyframeType, QString> KeyframeTypeName = {
+    {KeyframeType::Linear, i18n("Linear")},
+    {KeyframeType::Discrete, i18n("Discrete")},
+    {KeyframeType::CurveSmooth, i18n("Smooth")},
+    {KeyframeType::BounceIn, i18n("Bounce In")},
+    {KeyframeType::BounceOut, i18n("Bounce Out")},
+    {KeyframeType::CubicIn, i18n("Cubic In")},
+    {KeyframeType::CubicOut, i18n("Cubic Out")},
+    {KeyframeType::ExponentialIn, i18n("Exponential In")},
+    {KeyframeType::ExponentialOut, i18n("Exponential Out")},
+    {KeyframeType::CircularIn, i18n("Circular In")},
+    {KeyframeType::CircularOut, i18n("Circular Out")},
+    {KeyframeType::ElasticIn, i18n("Elastic In")},
+    {KeyframeType::ElasticOut, i18n("Elastic Out")},
+    {KeyframeType::Curve, i18n("Smooth (deprecated)")},
+};
+#else
+extern const QMap<KeyframeType, QString> KeyframeTypeName = {
+    {KeyframeType::Linear, i18n("Linear")}, {KeyframeType::Discrete, i18n("Discrete")}, {KeyframeType::Curve, i18n("Smooth")}};
+#endif
+
 KeyframeModel::KeyframeModel(std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack, int in, int out,
                              QObject *parent)
     : QAbstractListModel(parent)
@@ -854,41 +877,7 @@ bool KeyframeModel::removeAllKeyframes()
 
 mlt_keyframe_type convertToMltType(KeyframeType type)
 {
-    switch (type) {
-    case KeyframeType::Linear:
-        return mlt_keyframe_linear;
-    case KeyframeType::Discrete:
-        return mlt_keyframe_discrete;
-#ifdef USE_MLT_NEW_KEYFRAMES
-    case KeyframeType::CurveSmooth:
-        return mlt_keyframe_smooth_natural;
-    case KeyframeType::BounceIn:
-        return mlt_keyframe_bounce_in;
-    case KeyframeType::BounceOut:
-        return mlt_keyframe_bounce_out;
-    case KeyframeType::CubicIn:
-        return mlt_keyframe_cubic_in;
-    case KeyframeType::CubicOut:
-        return mlt_keyframe_cubic_out;
-    case KeyframeType::ExponentialIn:
-        return mlt_keyframe_exponential_in;
-    case KeyframeType::ExponentialOut:
-        return mlt_keyframe_exponential_out;
-    case KeyframeType::CircularIn:
-        return mlt_keyframe_circular_in;
-    case KeyframeType::CircularOut:
-        return mlt_keyframe_circular_out;
-    case KeyframeType::ElasticIn:
-        return mlt_keyframe_elastic_in;
-    case KeyframeType::ElasticOut:
-        return mlt_keyframe_elastic_out;
-#endif
-    // Deprecated
-    case KeyframeType::Curve:
-        return mlt_keyframe_smooth;
-    default:
-        return mlt_keyframe_linear;
-    }
+    return static_cast<mlt_keyframe_type>(static_cast<int>(type));
 }
 
 QString KeyframeModel::getAnimProperty() const
@@ -1463,6 +1452,22 @@ const QString KeyframeModel::getAnimationStringWithOffset(std::shared_ptr<AssetP
     return qstrdup(anim.serialize_cut(0, duration));
 }
 
+const QString KeyframeModel::getIconByKeyframeType(KeyframeType type){
+    switch (type) {
+    case KeyframeType::Linear:
+        return QStringLiteral("linear");
+    case KeyframeType::Discrete:
+        return QStringLiteral("discrete");
+    case KeyframeType::Curve:
+        return QStringLiteral("smooth");
+#ifdef USE_MLT_NEW_KEYFRAMES
+    case KeyframeType::CurveSmooth:
+        return QStringLiteral("smooth");
+#endif
+    default:
+        return QStringLiteral("favorite");
+    }
+}
 QList<GenTime> KeyframeModel::getKeyframePos() const
 {
     QList<GenTime> all_pos;

@@ -543,6 +543,7 @@ void KeyframeView::mouseMoveEvent(QMouseEvent *event)
                       QApplication::startDragDistance()) {
             m_hoverKeyframe = keyframe.first.frames(pCore->getCurrentFps()) - offset;
             setCursor(Qt::PointingHandCursor);
+            setToolTip(KeyframeTypeName.value(keyframe.second));
             m_hoverZoomIn = false;
             m_hoverZoomOut = false;
             m_hoverZoom = false;

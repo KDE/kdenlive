@@ -6,8 +6,8 @@
 
 #include "keyframewidget.hpp"
 #include "assets/keyframes/model/corners/cornershelper.hpp"
+#include "assets/keyframes/model/keyframemodel.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
-#include "assets/keyframes/model/keyframemonitorhelper.hpp"
 #include "assets/keyframes/model/rect/recthelper.hpp"
 #include "assets/keyframes/model/rotoscoping/rotohelper.hpp"
 #include "assets/keyframes/view/keyframeview.hpp"
@@ -101,71 +101,15 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
 
     // Keyframe type widget
     m_selectType = new KSelectAction(QIcon::fromTheme(QStringLiteral("linear")), i18n("Keyframe interpolation"), this);
-    QAction *linear = new QAction(QIcon::fromTheme(QStringLiteral("linear")), i18n("Linear"), this);
-    linear->setData(int(mlt_keyframe_linear));
-    linear->setCheckable(true);
-    m_selectType->addAction(linear);
-    QAction *discrete = new QAction(QIcon::fromTheme(QStringLiteral("discrete")), i18n("Discrete"), this);
-    discrete->setData(int(mlt_keyframe_discrete));
-    discrete->setCheckable(true);
-    m_selectType->addAction(discrete);
-#ifdef USE_MLT_NEW_KEYFRAMES
-    QAction *curve = new QAction(QIcon::fromTheme(QStringLiteral("smooth")), i18n("Smooth"), this);
-    curve->setData(int(mlt_keyframe_smooth_natural));
-    curve->setCheckable(true);
-    m_selectType->addAction(curve);
-    QAction *bounceIn = new QAction(QIcon::fromTheme(QStringLiteral("smooth")), i18n("Bounce In"), this);
-    bounceIn->setData(int(mlt_keyframe_bounce_in));
-    bounceIn->setCheckable(true);
-    m_selectType->addAction(bounceIn);
-    QAction *bounceOut = new QAction(QIcon::fromTheme(QStringLiteral("smooth")), i18n("Bounce Out"), this);
-    bounceOut->setData(int(mlt_keyframe_bounce_out));
-    bounceOut->setCheckable(true);
-    m_selectType->addAction(bounceOut);
-
-    QAction *cubicIn = new QAction(QIcon::fromTheme(QStringLiteral("smooth")), i18n("Cubic In"), this);
-    cubicIn->setData(int(mlt_keyframe_cubic_in));
-    cubicIn->setCheckable(true);
-    m_selectType->addAction(cubicIn);
-    QAction *cubicOut = new QAction(QIcon::fromTheme(QStringLiteral("smooth")), i18n("Cubic Out"), this);
-    cubicOut->setData(int(mlt_keyframe_cubic_out));
-    cubicOut->setCheckable(true);
-    m_selectType->addAction(cubicOut);
-    QAction *exponentialIn = new QAction(QIcon::fromTheme(QStringLiteral("smooth")), i18n("Exponential In"), this);
-    exponentialIn->setData(int(mlt_keyframe_exponential_in));
-    exponentialIn->setCheckable(true);
-    m_selectType->addAction(exponentialIn);
-    QAction *exponentialOut = new QAction(QIcon::fromTheme(QStringLiteral("smooth")), i18n("Exponential Out"), this);
-    exponentialOut->setData(int(mlt_keyframe_exponential_out));
-    exponentialOut->setCheckable(true);
-    m_selectType->addAction(exponentialOut);
-    QAction *circularIn = new QAction(QIcon::fromTheme(QStringLiteral("smooth")), i18n("Circular In"), this);
-    circularIn->setData(int(mlt_keyframe_circular_in));
-    circularIn->setCheckable(true);
-    m_selectType->addAction(circularIn);
-    QAction *circularOut = new QAction(QIcon::fromTheme(QStringLiteral("smooth")), i18n("Circular Out"), this);
-    circularOut->setData(int(mlt_keyframe_circular_out));
-    circularOut->setCheckable(true);
-    m_selectType->addAction(circularOut);
-    QAction *elasticIn = new QAction(QIcon::fromTheme(QStringLiteral("smooth")), i18n("Elastic In"), this);
-    elasticIn->setData(int(mlt_keyframe_elastic_in));
-    elasticIn->setCheckable(true);
-    m_selectType->addAction(elasticIn);
-    QAction *elasticOut = new QAction(QIcon::fromTheme(QStringLiteral("smooth")), i18n("Elastic Out"), this);
-    elasticOut->setData(int(mlt_keyframe_elastic_out));
-    elasticOut->setCheckable(true);
-    m_selectType->addAction(elasticOut);
-    QAction *curveDeprecated = new QAction(QIcon::fromTheme(QStringLiteral("smooth")), i18n("Smooth (deprecated)"), this);
-    curveDeprecated->setData(int(mlt_keyframe_smooth));
-    curveDeprecated->setCheckable(true);
-    m_selectType->addAction(curveDeprecated);
-#else
-    QAction *curve = new QAction(QIcon::fromTheme(QStringLiteral("smooth")), i18n("Smooth"), this);
-    curve->setData(int(mlt_keyframe_smooth));
-    curve->setCheckable(true);
-    m_selectType->addAction(curve);
-#endif
-    m_selectType->setCurrentAction(linear);
+    QMap<KeyframeType, QAction *> kfTypeHandles;
+    for (auto it = KeyframeTypeName.cbegin(); it != KeyframeTypeName.cend(); it++) { // Order is fixed due to the nature of <map>
+        QAction *tmp = new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(it.key())), it.value(), this);
+        tmp->setData(int(it.key()));
+        tmp->setCheckable(true);
+        kfTypeHandles.insert(it.key(), tmp);
+        m_selectType->addAction(kfTypeHandles[it.key()]);
+    }
+    m_selectType->setCurrentAction(kfTypeHandles[KeyframeType::Linear]);
 #if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 240, 0)
     connect(m_selectType, &KSelectAction::actionTriggered, this, &KeyframeWidget::slotEditKeyframeType);
 #else
@@ -215,23 +159,26 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
 
     // Default kf interpolation
     KSelectAction *kfType = new KSelectAction(i18n("Default Keyframe Type"), this);
-    QAction *discrete2 = new QAction(QIcon::fromTheme(QStringLiteral("discrete")), i18n("Discrete"), this);
-    discrete2->setData(int(mlt_keyframe_discrete));
+    QAction *discrete2 =
+        new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(KeyframeType::Discrete)), KeyframeTypeName.value(KeyframeType::Discrete), this);
+    discrete2->setData(int(KeyframeType::Discrete));
     discrete2->setCheckable(true);
     kfType->addAction(discrete2);
-    QAction *linear2 = new QAction(QIcon::fromTheme(QStringLiteral("linear")), i18n("Linear"), this);
-    linear2->setData(int(mlt_keyframe_linear));
+    QAction *linear2 =
+        new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(KeyframeType::Linear)), KeyframeTypeName.value(KeyframeType::Linear), this);
+    linear2->setData(int(KeyframeType::Linear));
     linear2->setCheckable(true);
     kfType->addAction(linear2);
-    QAction *curve2 = new QAction(QIcon::fromTheme(QStringLiteral("smooth")), i18n("Smooth"), this);
-    curve2->setData(int(mlt_keyframe_smooth));
+    QAction *curve2 =
+        new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(KeyframeType::Curve)), KeyframeTypeName.value(KeyframeType::Curve), this);
+    curve2->setData(int(KeyframeType::Curve));
     curve2->setCheckable(true);
     kfType->addAction(curve2);
     switch (KdenliveSettings::defaultkeyframeinterp()) {
-    case mlt_keyframe_discrete:
+    case int(KeyframeType::Discrete):
         kfType->setCurrentAction(discrete2);
         break;
-    case mlt_keyframe_smooth:
+    case int(KeyframeType::Curve):
         kfType->setCurrentAction(curve2);
         break;
     default:
@@ -248,7 +195,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     // rotoscoping only supports linear keyframes
     if (m_model->getAssetId() == QLatin1String("rotoscoping")) {
         m_selectType->setVisible(false);
-        m_selectType->setCurrentAction(linear);
+        m_selectType->setCurrentAction(kfTypeHandles[KeyframeType::Linear]);
         kfType->setVisible(false);
         kfType->setCurrentAction(linear2);
     }
