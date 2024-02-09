@@ -5,7 +5,7 @@
 
 import sys
 import subprocess
-import importlib.util
+import importlib.metadata
 
 def print_help():
     print("""
@@ -40,9 +40,8 @@ if len(required) == 0:
     print_help()
     sys.exit("Error: You need to provide at least one package name")
 
-for package_name in required:
-    if importlib.util.find_spec(package_name) is None:
-        missing.add(package_name)
+installed = {pkg.name for pkg in importlib.metadata.distributions()}
+missing = required - installed
 
 if '--check' in sys.argv:
     if len(missing) > 0:
