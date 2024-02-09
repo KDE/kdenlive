@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-06 00:37+0000\n"
-"PO-Revision-Date: 2024-01-27 16:20+0300\n"
+"POT-Creation-Date: 2024-02-07 00:37+0000\n"
+"PO-Revision-Date: 2024-02-08 18:06+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -2329,7 +2329,8 @@ msgstr "Şekil rengi"
 #, kde-format
 msgid "Median Blur,Gaussian Blur,Pixelate,Opaque fill,None"
 msgstr ""
-"Orta Bulanıklaştırma,Gauss Bulanıklaştırması,Pikselleştir,Mat Dolgu,Hiçbiri"
+"Ortanca Bulanıklaştırma,Gauss Bulanıklaştırması,Pikselleştir,Mat Dolgu,"
+"Hiçbiri"
 
 #: data/effects/tracker.xml:35
 #, kde-format
@@ -2477,8 +2478,8 @@ msgstr "Optimal Yakınlaştırma"
 msgid ""
 "Automatically determine optimal zoom. 1 - static zoom, 2 - adaptive zoom"
 msgstr ""
-"Optimum yakınlaştırmayı otomatik olarak belirleyin. 1 - statik "
-"yakınlaştırma, 2 - uyarlamalı yakınlaştırma"
+"Optimum yakınlaştırmayı kendiliğinden belirleyin. 1 - Durağan yakınlaştırma, "
+"2 - Uyarlanır yakınlaştırma"
 
 #: data/effects/vidstab.xml:48
 #, kde-format
@@ -4097,7 +4098,7 @@ msgstr ""
 "Ses izleniyor. Kaydı başlatmak/duraklatmak için <b>Boşluk</b>'a, "
 "sonlandırmak için <b>Esc</b>'ye basın."
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1003
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1007
 #, kde-format
 msgid "Master"
 msgstr "Ana"
@@ -6976,12 +6977,12 @@ msgstr "En Yakın (hızlı)"
 #: src/dialogs/renderwidget.cpp:217 src/monitor/monitormanager.cpp:588
 #, kde-format
 msgid "Bilinear (good)"
-msgstr "İkili Doğrusal (iyi)"
+msgstr "İki Yönlü (iyi)"
 
 #: src/dialogs/renderwidget.cpp:218 src/monitor/monitormanager.cpp:589
 #, kde-format
 msgid "Bicubic (better)"
-msgstr "Çift Kübik (daha iyi)"
+msgstr "İki Küplü (daha iyi)"
 
 #: src/dialogs/renderwidget.cpp:219
 #, kde-format
@@ -14494,22 +14495,22 @@ msgstr ""
 "Python virtualenv bulunamıyor, lütfen onu sisteminize kurun. Öntanımlı "
 "olarak sistem Python'u kullanılıyor."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:288
+#: src/pythoninterfaces/abstractpythoninterface.cpp:313
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr "%1 betiği bulunamadı, kurulumunuzu denetleyin."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:337
+#: src/pythoninterfaces/abstractpythoninterface.cpp:362
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr "<application>%1</application> Python modülü gerekiyor."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:339
+#: src/pythoninterfaces/abstractpythoninterface.cpp:364
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required for %2."
 msgstr "%2 için <application>%1</application> Python modülü gerekiyor."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:377
+#: src/pythoninterfaces/abstractpythoninterface.cpp:402
 #, kde-format
 msgid ""
 "Kdenlive can install the missing python modules in a virtual environment "
@@ -14519,60 +14520,60 @@ msgstr ""
 "Kdenlive eksik Python modüllerini %1 altındaki bir sanal ortama kurabilir.\n"
 "Böylece sistem kitaplıklarınıza dokunmazlar."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:379
+#: src/pythoninterfaces/abstractpythoninterface.cpp:404
 #, kde-format
 msgid "Python environment"
 msgstr "Python ortamı"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:379
+#: src/pythoninterfaces/abstractpythoninterface.cpp:404
 #, kde-format
 msgid "Use virtual environment (recommended)"
 msgstr "Sanal ortamı kullan (önerilir)"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:380
+#: src/pythoninterfaces/abstractpythoninterface.cpp:405
 #, kde-format
 msgid "Use system install"
 msgstr "Sistem kurulumunu kullan"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:398
-#: src/pythoninterfaces/abstractpythoninterface.cpp:475
+#: src/pythoninterfaces/abstractpythoninterface.cpp:423
+#: src/pythoninterfaces/abstractpythoninterface.cpp:500
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr "İç hata: Bağımlılık listesi bulunamıyor"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:416
+#: src/pythoninterfaces/abstractpythoninterface.cpp:441
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "%1 modülünün sürümü denetlenirken hata"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:420
+#: src/pythoninterfaces/abstractpythoninterface.cpp:445
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
 msgstr "%2 modülünün en az %1 sürümü gerekiyor; ancak sizin sürümünüz %3"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:424
+#: src/pythoninterfaces/abstractpythoninterface.cpp:449
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "Kurulumunuzu güncellemeyi düşünün."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:441
+#: src/pythoninterfaces/abstractpythoninterface.cpp:466
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "Kullanılabilir sürüm bilgisi yok."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:498
+#: src/pythoninterfaces/abstractpythoninterface.cpp:523
 #, kde-format
 msgid "Python exec not found"
 msgstr "Python yürütülebiliri bulunamadı"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:500
+#: src/pythoninterfaces/abstractpythoninterface.cpp:525
 #, kde-format
 msgid "Failed to find script file %1"
 msgstr "%1 betik dosyası bulunamadı"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:535
+#: src/pythoninterfaces/abstractpythoninterface.cpp:560
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -14583,7 +14584,7 @@ msgstr ""
 "%1\n"
 "%2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:557
+#: src/pythoninterfaces/abstractpythoninterface.cpp:582
 #, kde-format
 msgid ""
 "This will delete the python virtual environment from:<br/><b>%1</b><br/>The "
@@ -16495,14 +16496,14 @@ msgid "Change clip speed"
 msgstr "Klip hızını değiştir"
 
 #: src/timeline2/model/timelinemodel.cpp:6456
-#: src/timeline2/view/qml/timeline.qml:1203
+#: src/timeline2/view/qml/timeline.qml:1207
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Lock track"
 msgstr "İzi kilitle"
 
 #: src/timeline2/model/timelinemodel.cpp:6461
-#: src/timeline2/view/qml/timeline.qml:1203
+#: src/timeline2/view/qml/timeline.qml:1207
 #: src/timeline2/view/qml/TrackHead.qml:504
 #, kde-format
 msgid "Unlock track"
@@ -16637,7 +16638,7 @@ msgid "Stop"
 msgstr "Durdur"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2096
+#: src/timeline2/view/qml/timeline.qml:2100
 #, kde-format
 msgid "Paused"
 msgstr "Duraklatıldı"
@@ -16776,51 +16777,51 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "Metni düzenlemek için <b>çift tıklayın</b>"
 
-#: src/timeline2/view/qml/timeline.qml:997
+#: src/timeline2/view/qml/timeline.qml:1001
 #, kde-format
 msgid "Show master effects"
 msgstr "Ana efektleri göster"
 
-#: src/timeline2/view/qml/timeline.qml:1137
+#: src/timeline2/view/qml/timeline.qml:1141
 #, kde-format
 msgid "Click to see details"
 msgstr "Ayrıntıları görmek için tıklayın"
 
-#: src/timeline2/view/qml/timeline.qml:1159
+#: src/timeline2/view/qml/timeline.qml:1163
 #, kde-format
 msgid "Speech recognition"
 msgstr "Konuşma tanıma"
 
-#: src/timeline2/view/qml/timeline.qml:1179
+#: src/timeline2/view/qml/timeline.qml:1183
 #: src/timeline2/view/qml/TrackHead.qml:470
 #, kde-format
 msgid "Show"
 msgstr "Göster"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1179
+#: src/timeline2/view/qml/timeline.qml:1183
 #: src/timeline2/view/qml/TrackHead.qml:470 src/ui/configcapture_ui.ui:397
 #, kde-format
 msgid "Hide"
 msgstr "Gizle"
 
-#: src/timeline2/view/qml/timeline.qml:1774
+#: src/timeline2/view/qml/timeline.qml:1778
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Altyazı eklemek için <b>çift tıklayın</b>"
 
-#: src/timeline2/view/qml/timeline.qml:1938
+#: src/timeline2/view/qml/timeline.qml:1942
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Ofset: %1, Konum: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2085
-#: src/timeline2/view/qml/timeline.qml:2094
+#: src/timeline2/view/qml/timeline.qml:2089
+#: src/timeline2/view/qml/timeline.qml:2098
 #, kde-format
 msgid "Recording"
 msgstr "Kaydediliyor"
 
-#: src/timeline2/view/qml/timeline.qml:2183
+#: src/timeline2/view/qml/timeline.qml:2187
 #, kde-format
 msgid "Multicam In"
 msgstr "Çoklu Kamera Girişi"
