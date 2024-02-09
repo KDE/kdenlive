@@ -190,7 +190,7 @@ void ClipController::getProducerXML(QDomDocument &document, bool includeMeta, bo
 {
     // TODO refac this is a probable duplicate with Clip::xml
     if (m_masterProducer) {
-        QString xml = producerXml(*m_masterProducer.get(), includeMeta, includeProfile);
+        QString xml = producerXml(m_masterProducer->parent(), includeMeta, includeProfile);
         document.setContent(xml);
     } else {
         if (!m_temporaryUrl.isEmpty()) {
