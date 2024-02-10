@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-07 00:37+0000\n"
+"POT-Creation-Date: 2024-02-10 00:38+0000\n"
 "PO-Revision-Date: 2020-10-31 22:29+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -98,7 +98,7 @@ msgstr "Typen af grafen som skal vise spektrummet."
 #: data/effects/audiowaveform.xml:7 data/effects/dynamictext.xml:23
 #: data/effects/pan_zoom.xml:17 data/effects/rotation.xml:41
 #: data/effects/rotation_keyframable.xml:23 data/effects/timer.xml:26
-#: src/monitor/monitor.cpp:419
+#: src/monitor/monitor.cpp:429
 #, kde-format
 msgid "Background Color"
 msgstr "Baggrundsfarve"
@@ -3426,7 +3426,85 @@ msgstr ""
 msgid "Bin %1 effects"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:112
+#. i18n: ectx: property (text), widget (QRadioButton, rbLinear)
+#: src/assets/keyframes/model/keyframemodel.cpp:25
+#: src/assets/keyframes/model/keyframemodel.cpp:42 src/ui/histogram_ui.ui:112
+#, kde-format
+msgid "Linear"
+msgstr "Lineær"
+
+#: src/assets/keyframes/model/keyframemodel.cpp:26
+#: src/assets/keyframes/model/keyframemodel.cpp:42
+#, kde-format
+msgid "Discrete"
+msgstr "Diskret"
+
+#: src/assets/keyframes/model/keyframemodel.cpp:27
+#: src/assets/keyframes/model/keyframemodel.cpp:42
+#, kde-format
+msgid "Smooth"
+msgstr "Glat"
+
+#: src/assets/keyframes/model/keyframemodel.cpp:28
+#, fuzzy, kde-format
+#| msgid "Set Zone In"
+msgid "Bounce In"
+msgstr "Sæt zone ind"
+
+#: src/assets/keyframes/model/keyframemodel.cpp:29
+#, fuzzy, kde-format
+#| msgid "Set Zone Out"
+msgid "Bounce Out"
+msgstr "Sæt zone ud"
+
+#: src/assets/keyframes/model/keyframemodel.cpp:30
+#, kde-format
+msgid "Cubic In"
+msgstr ""
+
+#: src/assets/keyframes/model/keyframemodel.cpp:31
+#, kde-format
+msgid "Cubic Out"
+msgstr ""
+
+#: src/assets/keyframes/model/keyframemodel.cpp:32
+#, kde-format
+msgid "Exponential In"
+msgstr ""
+
+#: src/assets/keyframes/model/keyframemodel.cpp:33
+#, kde-format
+msgid "Exponential Out"
+msgstr ""
+
+#: src/assets/keyframes/model/keyframemodel.cpp:34
+#, kde-format
+msgid "Circular In"
+msgstr ""
+
+#: src/assets/keyframes/model/keyframemodel.cpp:35
+#, kde-format
+msgid "Circular Out"
+msgstr ""
+
+#: src/assets/keyframes/model/keyframemodel.cpp:36
+#, kde-format
+msgid "Elastic In"
+msgstr ""
+
+#: src/assets/keyframes/model/keyframemodel.cpp:37
+#, fuzzy, kde-format
+#| msgid "Gain Out"
+msgid "Elastic Out"
+msgstr "Gain ud"
+
+#: src/assets/keyframes/model/keyframemodel.cpp:38
+#, fuzzy, kde-format
+#| msgid "Normalise (deprecated)"
+msgid "Smooth (deprecated)"
+msgstr "Normalisér (udgået)"
+
+#: src/assets/keyframes/model/keyframemodel.cpp:135
 #: src/assets/keyframes/model/keyframemodellist.cpp:136
 #: src/assets/keyframes/model/keyframemodellist.cpp:174
 #: src/assets/view/widgets/keyframewidget.cpp:70 src/dialogs/timeremap.cpp:1701
@@ -3435,28 +3513,28 @@ msgstr ""
 msgid "Add keyframe"
 msgstr "Tilføj keyframe"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:112
+#: src/assets/keyframes/model/keyframemodel.cpp:135
 #: src/assets/keyframes/model/keyframemodellist.cpp:136
 #: src/assets/keyframes/model/keyframemodellist.cpp:174
 #, kde-format
 msgid "Change keyframe type"
 msgstr "Ændr keyframetype"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:201
+#: src/assets/keyframes/model/keyframemodel.cpp:224
 #: src/assets/keyframes/model/keyframemodellist.cpp:182
 #: src/assets/view/widgets/keyframewidget.cpp:72 src/dialogs/timeremap.cpp:1722
 #, kde-format
 msgid "Delete keyframe"
 msgstr "Slet keyframe"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:396
+#: src/assets/keyframes/model/keyframemodel.cpp:419
 #, fuzzy, kde-format
 #| msgid "Move keyframes"
 msgctxt "@action"
 msgid "Move keyframes"
 msgstr "Flyt keyframes"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:417
+#: src/assets/keyframes/model/keyframemodel.cpp:440
 #: src/assets/keyframes/model/keyframemodellist.cpp:226
 #: src/assets/keyframes/model/keyframemodellist.cpp:270
 #: src/assets/keyframes/view/keyframeview.cpp:296
@@ -3466,29 +3544,29 @@ msgctxt "@action"
 msgid "Move keyframe"
 msgstr "Flyt keyframe"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:488
+#: src/assets/keyframes/model/keyframemodel.cpp:511
 #: src/assets/keyframes/model/keyframemodellist.cpp:323
 #, kde-format
 msgid "Update keyframe"
 msgstr "Opdatér keyframe"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:850
+#: src/assets/keyframes/model/keyframemodel.cpp:873
 #: src/assets/keyframes/model/keyframemodellist.cpp:208
 #, kde-format
 msgid "Delete all keyframes"
 msgstr "Slet alle keyframes"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1079
+#: src/assets/keyframes/model/keyframemodel.cpp:1068
 #, kde-format
 msgid "effect"
 msgstr "effekt"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1088
+#: src/assets/keyframes/model/keyframemodel.cpp:1077
 #, kde-format
 msgid "Reset %1"
 msgstr "Nulstil %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1347
+#: src/assets/keyframes/model/keyframemodel.cpp:1336
 #, kde-format
 msgid "Reset effect"
 msgstr "Nulstil effekt"
@@ -3529,7 +3607,7 @@ msgid_plural "Remove keyframes"
 msgstr[0] "Fjern keyframe"
 msgstr[1] "Fjern keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:645
+#: src/assets/keyframes/view/keyframeview.cpp:646
 #, fuzzy, kde-format
 #| msgid "Move keyframe"
 msgid "Move keyframe"
@@ -3537,44 +3615,44 @@ msgid_plural "Move keyframes"
 msgstr[0] "Flyt keyframe"
 msgstr[1] "Flyt keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:904
+#: src/assets/keyframes/view/keyframeview.cpp:905
 #, fuzzy, kde-format
 #| msgid "Update keyframe"
 msgid "Update keyframes X position"
 msgstr "Opdatér keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:912
+#: src/assets/keyframes/view/keyframeview.cpp:913
 #, fuzzy, kde-format
 #| msgid "Update keyframe"
 msgid "Update keyframes Y position"
 msgstr "Opdatér keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:920
+#: src/assets/keyframes/view/keyframeview.cpp:921
 #, fuzzy, kde-format
 #| msgid "Update keyframe"
 msgid "Update keyframes width"
 msgstr "Opdatér keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:928
+#: src/assets/keyframes/view/keyframeview.cpp:929
 #, fuzzy, kde-format
 #| msgid "Update keyframe"
 msgid "Update keyframes height"
 msgstr "Opdatér keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:936
+#: src/assets/keyframes/view/keyframeview.cpp:937
 #, fuzzy, kde-format
 #| msgid "Update keyframe"
 msgid "Update keyframes opacity"
 msgstr "Opdatér keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:941
-#: src/assets/keyframes/view/keyframeview.cpp:943
+#: src/assets/keyframes/view/keyframeview.cpp:942
+#: src/assets/keyframes/view/keyframeview.cpp:944
 #, fuzzy, kde-format
 #| msgid "Update keyframe"
 msgid "Update keyframes value"
 msgstr "Opdatér keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:947
+#: src/assets/keyframes/view/keyframeview.cpp:948
 #, fuzzy, kde-format
 #| msgid "Keyframes spacing"
 msgid "Keyframe value copied"
@@ -3835,16 +3913,16 @@ msgstr "Y"
 
 #: src/assets/view/widgets/keyframeimport.cpp:393
 #: src/assets/view/widgets/keyframeimport.cpp:780
-#: src/assets/view/widgets/keyframewidget.cpp:308
-#: src/assets/view/widgets/keyframewidget.cpp:369
+#: src/assets/view/widgets/keyframewidget.cpp:255
+#: src/assets/view/widgets/keyframewidget.cpp:316
 #, kde-format
 msgid "Width"
 msgstr "Bredde"
 
 #: src/assets/view/widgets/keyframeimport.cpp:396
 #: src/assets/view/widgets/keyframeimport.cpp:788
-#: src/assets/view/widgets/keyframewidget.cpp:307
-#: src/assets/view/widgets/keyframewidget.cpp:363
+#: src/assets/view/widgets/keyframewidget.cpp:254
+#: src/assets/view/widgets/keyframewidget.cpp:310
 #, kde-format
 msgid "Height"
 msgstr "Højde"
@@ -3907,7 +3985,7 @@ msgid ""
 msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:95
-#: src/assets/view/widgets/keyframewidget.cpp:915
+#: src/assets/view/widgets/keyframewidget.cpp:862
 #, fuzzy, kde-format
 #| msgid "Update keyframe"
 msgid "Paste keyframe"
@@ -3932,91 +4010,12 @@ msgid "Apply current position value to selected keyframes"
 msgstr "Slet keyframe"
 
 #: src/assets/view/widgets/keyframewidget.cpp:103
-#: src/assets/view/widgets/keyframewidget.cpp:175
+#: src/assets/view/widgets/keyframewidget.cpp:119
 #, kde-format
 msgid "Keyframe interpolation"
 msgstr "Keyframe-interpolation"
 
-#. i18n: ectx: property (text), widget (QRadioButton, rbLinear)
-#: src/assets/view/widgets/keyframewidget.cpp:104
-#: src/assets/view/widgets/keyframewidget.cpp:222 src/ui/histogram_ui.ui:112
-#, kde-format
-msgid "Linear"
-msgstr "Lineær"
-
-#: src/assets/view/widgets/keyframewidget.cpp:108
-#: src/assets/view/widgets/keyframewidget.cpp:218
-#, kde-format
-msgid "Discrete"
-msgstr "Diskret"
-
-#: src/assets/view/widgets/keyframewidget.cpp:113
-#: src/assets/view/widgets/keyframewidget.cpp:163
-#: src/assets/view/widgets/keyframewidget.cpp:226
-#, kde-format
-msgid "Smooth"
-msgstr "Glat"
-
-#: src/assets/view/widgets/keyframewidget.cpp:117
-#, fuzzy, kde-format
-#| msgid "Set Zone In"
-msgid "Bounce In"
-msgstr "Sæt zone ind"
-
-#: src/assets/view/widgets/keyframewidget.cpp:121
-#, fuzzy, kde-format
-#| msgid "Set Zone Out"
-msgid "Bounce Out"
-msgstr "Sæt zone ud"
-
-#: src/assets/view/widgets/keyframewidget.cpp:126
-#, kde-format
-msgid "Cubic In"
-msgstr ""
-
-#: src/assets/view/widgets/keyframewidget.cpp:130
-#, kde-format
-msgid "Cubic Out"
-msgstr ""
-
-#: src/assets/view/widgets/keyframewidget.cpp:134
-#, kde-format
-msgid "Exponential In"
-msgstr ""
-
-#: src/assets/view/widgets/keyframewidget.cpp:138
-#, kde-format
-msgid "Exponential Out"
-msgstr ""
-
-#: src/assets/view/widgets/keyframewidget.cpp:142
-#, kde-format
-msgid "Circular In"
-msgstr ""
-
-#: src/assets/view/widgets/keyframewidget.cpp:146
-#, kde-format
-msgid "Circular Out"
-msgstr ""
-
-#: src/assets/view/widgets/keyframewidget.cpp:150
-#, kde-format
-msgid "Elastic In"
-msgstr ""
-
-#: src/assets/view/widgets/keyframewidget.cpp:154
-#, fuzzy, kde-format
-#| msgid "Gain Out"
-msgid "Elastic Out"
-msgstr "Gain ud"
-
-#: src/assets/view/widgets/keyframewidget.cpp:158
-#, fuzzy, kde-format
-#| msgid "Normalise (deprecated)"
-msgid "Smooth (deprecated)"
-msgstr "Normalisér (udgået)"
-
-#: src/assets/view/widgets/keyframewidget.cpp:176
+#: src/assets/view/widgets/keyframewidget.cpp:120
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4024,44 +4023,44 @@ msgid ""
 "the current keyframe."
 msgstr ""
 
-#: src/assets/view/widgets/keyframewidget.cpp:198
+#: src/assets/view/widgets/keyframewidget.cpp:142
 #, fuzzy, kde-format
 #| msgid "Seek to active keyframe"
 msgid "Seek to Keyframe on Select"
 msgstr "Spol frem til den aktive keyframe"
 
-#: src/assets/view/widgets/keyframewidget.cpp:203
+#: src/assets/view/widgets/keyframewidget.cpp:147
 #, fuzzy, kde-format
 #| msgid "Copy keyframes to clipboard"
 msgid "Copy All Keyframes to Clipboard"
 msgstr "Kopiér keyframes til udklipsholder"
 
-#: src/assets/view/widgets/keyframewidget.cpp:205
+#: src/assets/view/widgets/keyframewidget.cpp:149
 #, fuzzy, kde-format
 #| msgid "Import keyframes from clipboard"
 msgid "Import Keyframes from Clipboard…"
 msgstr "Importér keyframes fra udklipsholder"
 
-#: src/assets/view/widgets/keyframewidget.cpp:213
+#: src/assets/view/widgets/keyframewidget.cpp:157
 #, fuzzy, kde-format
 #| msgid "Remove all keyframes after cursor"
 msgid "Remove all Keyframes After Cursor"
 msgstr "Fjern alle keyframes efter markør"
 
-#: src/assets/view/widgets/keyframewidget.cpp:217
+#: src/assets/view/widgets/keyframewidget.cpp:161
 #, fuzzy, kde-format
 #| msgid "Default keyframe type"
 msgid "Default Keyframe Type"
 msgstr "Standardkeyframetype"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/assets/view/widgets/keyframewidget.cpp:257 src/bin/bin.cpp:1348
+#: src/assets/view/widgets/keyframewidget.cpp:204 src/bin/bin.cpp:1348
 #: src/ui/clipstabilize_ui.ui:37
 #, kde-format
 msgid "Options"
 msgstr "Indstillinger"
 
-#: src/assets/view/widgets/keyframewidget.cpp:259
+#: src/assets/view/widgets/keyframewidget.cpp:206
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4069,53 +4068,53 @@ msgid ""
 "and pasting keyframes from clipboard)."
 msgstr ""
 
-#: src/assets/view/widgets/keyframewidget.cpp:305
-#: src/assets/view/widgets/keyframewidget.cpp:357
+#: src/assets/view/widgets/keyframewidget.cpp:252
+#: src/assets/view/widgets/keyframewidget.cpp:304
 #: src/widgets/geometrywidget.cpp:78
 #, kde-format
 msgid "Opacity"
 msgstr "Ugennemsigtighed"
 
-#: src/assets/view/widgets/keyframewidget.cpp:309
-#: src/assets/view/widgets/keyframewidget.cpp:381
+#: src/assets/view/widgets/keyframewidget.cpp:256
+#: src/assets/view/widgets/keyframewidget.cpp:328
 #, kde-format
 msgid "Y position"
 msgstr "Y-position"
 
-#: src/assets/view/widgets/keyframewidget.cpp:310
-#: src/assets/view/widgets/keyframewidget.cpp:375
+#: src/assets/view/widgets/keyframewidget.cpp:257
+#: src/assets/view/widgets/keyframewidget.cpp:322
 #, kde-format
 msgid "X position"
 msgstr "X-position"
 
-#: src/assets/view/widgets/keyframewidget.cpp:329
+#: src/assets/view/widgets/keyframewidget.cpp:276
 #, fuzzy, kde-format
 #| msgid "Select a zone to play"
 msgid "Select parameters to copy"
 msgstr "Vælg en zone som skal afspilles"
 
-#: src/assets/view/widgets/keyframewidget.cpp:820
+#: src/assets/view/widgets/keyframewidget.cpp:767
 #, fuzzy, kde-format
 #| msgid "Keyframes spacing"
 msgid "Keyframes copied"
 msgstr "Keyframesmellemrum"
 
-#: src/assets/view/widgets/keyframewidget.cpp:831
-#: src/assets/view/widgets/keyframewidget.cpp:872
-#: src/assets/view/widgets/keyframewidget.cpp:879
+#: src/assets/view/widgets/keyframewidget.cpp:778
+#: src/assets/view/widgets/keyframewidget.cpp:819
+#: src/assets/view/widgets/keyframewidget.cpp:826
 #, fuzzy, kde-format
 #| msgid "Copy keyframes to clipboard"
 msgid "No valid keyframe data in clipboard"
 msgstr "Kopiér keyframes til udklipsholder"
 
-#: src/assets/view/widgets/keyframewidget.cpp:923
+#: src/assets/view/widgets/keyframewidget.cpp:870
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Cannot copy current parameter values"
 msgstr "Kan ikke oprette midlertidig fil"
 
-#: src/assets/view/widgets/keyframewidget.cpp:928
-#: src/assets/view/widgets/keyframewidget.cpp:939
+#: src/assets/view/widgets/keyframewidget.cpp:875
+#: src/assets/view/widgets/keyframewidget.cpp:886
 #, fuzzy, kde-format
 #| msgid "Keyframes spacing"
 msgid "Current values copied"
@@ -4244,7 +4243,7 @@ msgid "When selected mutes all other audio tracks."
 msgstr ""
 
 #: src/audiomixer/mixerwidget.cpp:272
-#: src/timeline2/view/timelinecontroller.cpp:4772
+#: src/timeline2/view/timelinecontroller.cpp:4782
 #, kde-format
 msgid "Record audio"
 msgstr "Optag lyd"
@@ -4645,7 +4644,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Klip i tidslinje"
 
-#: src/bin/bin.cpp:2115 src/bin/bin.cpp:5709 src/bin/clipcreator.cpp:325
+#: src/bin/bin.cpp:2115 src/bin/bin.cpp:5716 src/bin/clipcreator.cpp:325
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
@@ -4815,7 +4814,7 @@ msgstr "Mappe"
 msgid "Create bin folder"
 msgstr "Opret papirkurv-mappe"
 
-#: src/bin/bin.cpp:2693 src/bin/bin.cpp:2706 src/bin/bin.cpp:3679
+#: src/bin/bin.cpp:2693 src/bin/bin.cpp:2706 src/bin/bin.cpp:3681
 #: src/timeline2/model/timelinemodel.cpp:2079
 #, kde-format
 msgid "Delete Clip"
@@ -4829,7 +4828,7 @@ msgid ""
 "timeline."
 msgstr ""
 
-#: src/bin/bin.cpp:2696 src/bin/bin.cpp:2709 src/bin/bin.cpp:3655
+#: src/bin/bin.cpp:2696 src/bin/bin.cpp:2709 src/bin/bin.cpp:3657
 #, kde-format
 msgid "Proxy Clip"
 msgstr "Proxyklip"
@@ -4854,13 +4853,13 @@ msgstr "Redigér vurdering"
 msgid "Cannot set rating on this item"
 msgstr ""
 
-#: src/bin/bin.cpp:3599
+#: src/bin/bin.cpp:3601
 #, fuzzy, kde-format
 #| msgid "Add Clip or Folder"
 msgid "Add Clip or Folder…"
 msgstr "Tilføj klip eller mappe"
 
-#: src/bin/bin.cpp:3600
+#: src/bin/bin.cpp:3602
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4870,108 +4869,114 @@ msgid ""
 "to select source files."
 msgstr ""
 
-#: src/bin/bin.cpp:3606
+#: src/bin/bin.cpp:3608
 #, fuzzy, kde-format
 #| msgid "Add Color Clip"
 msgid "Add Color Clip…"
 msgstr "Tilføj farveklip"
 
-#: src/bin/bin.cpp:3608
+#: src/bin/bin.cpp:3610
 #, fuzzy, kde-format
 #| msgid "Add Image Sequence"
 msgid "Add Image Sequence…"
 msgstr "Tilføj billedsekvens"
 
-#: src/bin/bin.cpp:3610
+#: src/bin/bin.cpp:3612
 #, fuzzy, kde-format
 #| msgid "Add Title Clip"
 msgid "Add Title Clip…"
 msgstr "Tilføj titelklip"
 
-#: src/bin/bin.cpp:3612
+#: src/bin/bin.cpp:3614
 #, fuzzy, kde-format
 #| msgid "Add Template Title"
 msgid "Add Template Title…"
 msgstr "Tilføj skabelontitel"
 
-#: src/bin/bin.cpp:3614
+#: src/bin/bin.cpp:3616
 #, fuzzy, kde-format
 #| msgid "Create"
 msgid "Create Animation…"
 msgstr "Opret"
 
-#: src/bin/bin.cpp:3616
+#: src/bin/bin.cpp:3618
 #, fuzzy, kde-format
 #| msgid "Add Image Sequence"
 msgid "Add Sequence…"
 msgstr "Tilføj billedsekvens"
 
-#: src/bin/bin.cpp:3619 src/mainwindow.cpp:375
+#: src/bin/bin.cpp:3621 src/mainwindow.cpp:375
 #, kde-format
 msgid "Online Resources"
 msgstr "Onlineressourcer"
 
-#: src/bin/bin.cpp:3623
+#: src/bin/bin.cpp:3625
 #, fuzzy, kde-format
 #| msgid "Locate Clip..."
 msgid "Locate Clip…"
 msgstr "Find klip..."
 
-#: src/bin/bin.cpp:3628
+#: src/bin/bin.cpp:3630
 #, kde-format
 msgid "Reload Clip"
 msgstr "Genindlæs klip"
 
-#: src/bin/bin.cpp:3634
+#: src/bin/bin.cpp:3636
 #, kde-format
 msgid "Transcode to Edit Friendly Format…"
 msgstr ""
 
-#: src/bin/bin.cpp:3639
+#: src/bin/bin.cpp:3641
 #, fuzzy, kde-format
 #| msgid "Replace Clip"
 msgid "Replace Clip…"
 msgstr "Erstat klip"
 
-#: src/bin/bin.cpp:3645
+#: src/bin/bin.cpp:3647
 #, fuzzy, kde-format
 #| msgid "Replace Clip"
 msgid "Replace Clip In Timeline…"
 msgstr "Erstat klip"
 
-#: src/bin/bin.cpp:3650
+#: src/bin/bin.cpp:3652
 #, kde-format
 msgid "Duplicate Clip"
 msgstr "Dupliker klip"
 
-#: src/bin/bin.cpp:3662 src/bin/bin.cpp:3723
+#: src/bin/bin.cpp:3664 src/bin/bin.cpp:3730
 #, kde-format
 msgid "Clip Properties"
 msgstr "Klipegenskaber"
 
-#: src/bin/bin.cpp:3667 src/mltcontroller/clippropertiescontroller.cpp:284
+#: src/bin/bin.cpp:3669 src/mltcontroller/clippropertiescontroller.cpp:284
 #, kde-format
 msgid "Edit Clip"
 msgstr "Redigér klip"
 
-#: src/bin/bin.cpp:3684
+#: src/bin/bin.cpp:3686
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgid "Open in new bin"
 msgstr "Åbner filen %1"
 
-#: src/bin/bin.cpp:3696
+#: src/bin/bin.cpp:3698
 #, fuzzy, kde-format
 #| msgid "Default folder for project files"
 msgid "Default Target Folder for Sequences"
 msgstr "Standard mappe til projektfiler"
 
-#: src/bin/bin.cpp:3700
+#: src/bin/bin.cpp:3703
+#, fuzzy, kde-format
+#| msgid "Default folder for project files"
+msgid "Default Target Folder for Audio Captures"
+msgstr "Standard mappe til projektfiler"
+
+#: src/bin/bin.cpp:3707
 #, kde-format
 msgid "Create Folder"
 msgstr "Opret mappe"
 
-#: src/bin/bin.cpp:3703
+#: src/bin/bin.cpp:3710
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4979,71 +4984,71 @@ msgid ""
 "better organization of source files. Folders can be nested."
 msgstr ""
 
-#: src/bin/bin.cpp:3768 src/dialogs/speechdialog.cpp:48
+#: src/bin/bin.cpp:3775 src/dialogs/speechdialog.cpp:48
 #: src/dialogs/textbasededit.cpp:719 src/monitor/recmanager.cpp:42
 #, kde-format
 msgid "Show log"
 msgstr "Vis log"
 
-#: src/bin/bin.cpp:3771 src/dialogs/textbasededit.cpp:720
+#: src/bin/bin.cpp:3778 src/dialogs/textbasededit.cpp:720
 #, kde-format
 msgid "Detailed log"
 msgstr "Detaljeret log"
 
-#: src/bin/bin.cpp:3831 src/bin/bin.cpp:3858
+#: src/bin/bin.cpp:3838 src/bin/bin.cpp:3865
 #, fuzzy, kde-format
 #| msgid "Image Sequence"
 msgctxt "@title:window"
 msgid "Create New Sequence"
 msgstr "Billedsekvens"
 
-#: src/bin/bin.cpp:3833 src/bin/bin.cpp:3861
+#: src/bin/bin.cpp:3840 src/bin/bin.cpp:3868
 #, fuzzy, kde-format
 #| msgid "Scene %1"
 msgid "Sequence %1"
 msgstr "Scene %1"
 
-#: src/bin/bin.cpp:3892
+#: src/bin/bin.cpp:3899
 #, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
 msgstr[0] "Flyt klip"
 msgstr[1] "Flyt klip"
 
-#: src/bin/bin.cpp:3929
+#: src/bin/bin.cpp:3936
 #, kde-format
 msgid "No valid clip to insert"
 msgstr "Intet gyldigt klip at indsætte"
 
-#: src/bin/bin.cpp:3942 src/timeline2/view/timelinecontroller.cpp:1534
+#: src/bin/bin.cpp:3949 src/timeline2/view/timelinecontroller.cpp:1534
 #: src/timeline2/view/timelinecontroller.cpp:3376
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "Vælg et klip der skal anvendes en effekt på"
 
-#: src/bin/bin.cpp:3965
+#: src/bin/bin.cpp:3972
 #, kde-format
 msgid "Cannot apply effects on folders"
 msgstr "Kan ikke anvender effekter på mapper"
 
-#: src/bin/bin.cpp:3991 src/effects/effectstack/model/effectstackmodel.cpp:528
+#: src/bin/bin.cpp:3998 src/effects/effectstack/model/effectstackmodel.cpp:528
 #: src/effects/effectstack/model/effectstackmodel.cpp:534
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Kan ikke tilføje en effekt til dette klip"
 
-#: src/bin/bin.cpp:4037 src/bin/bin.cpp:4044
+#: src/bin/bin.cpp:4044 src/bin/bin.cpp:4051
 #, kde-format
 msgid "Select a clip to add a tag"
 msgstr "Vælg et klip der skal tilføjes et mærke"
 
-#: src/bin/bin.cpp:4183
+#: src/bin/bin.cpp:4190
 #, fuzzy, kde-format
 #| msgid "Edit rating"
 msgid "Edit Tags"
 msgstr "Redigér vurdering"
 
-#: src/bin/bin.cpp:4472 src/bin/projectclip.cpp:203
+#: src/bin/bin.cpp:4479 src/bin/projectclip.cpp:203
 #: src/bin/projectclip.cpp:2029 src/onlineresources/resourcewidget.cpp:272
 #: src/onlineresources/resourcewidget.cpp:605
 #: src/onlineresources/resourcewidget.cpp:620
@@ -5051,12 +5056,12 @@ msgstr "Redigér vurdering"
 msgid "Unnamed"
 msgstr ""
 
-#: src/bin/bin.cpp:4526
+#: src/bin/bin.cpp:4533
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:4538
+#: src/bin/bin.cpp:4545
 #, fuzzy, kde-format
 #| msgid ""
 #| "Please set a default application to open images in the Settings dialog"
@@ -5065,12 +5070,12 @@ msgstr ""
 "Angiv venligst et standardprogram til åbning af billedfiler i "
 "indstillingsdialogen"
 
-#: src/bin/bin.cpp:4543
+#: src/bin/bin.cpp:4550
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:4555
+#: src/bin/bin.cpp:4562
 #, fuzzy, kde-format
 #| msgid ""
 #| "Please set a default application to open audio files in the Settings "
@@ -5080,7 +5085,7 @@ msgstr ""
 "Angiv venligst et standardprogram til åbning af lydfiler i "
 "indstillingsdialogen"
 
-#: src/bin/bin.cpp:4565 src/core.cpp:310 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:4572 src/core.cpp:310 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:459 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:471
 #: src/layoutmanagement.cpp:532 src/profiles/profilerepository.cpp:173
@@ -5089,14 +5094,14 @@ msgstr ""
 msgid "Cannot open file %1"
 msgstr "Kan ikke åbne filen %1"
 
-#: src/bin/bin.cpp:4745 src/dialogs/profilesdialog.cpp:213
+#: src/bin/bin.cpp:4752 src/dialogs/profilesdialog.cpp:213
 #, fuzzy, kde-format
 #| msgctxt "append to clip name to indicate a copied idem"
 #| msgid " (copy)"
 msgid "(copy)"
 msgstr " (kopiér)"
 
-#: src/bin/bin.cpp:4755
+#: src/bin/bin.cpp:4762
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -5105,105 +5110,105 @@ msgstr ""
 "Du er ved at redigere et eksternt titelklip (%1). Vil du gemme dine "
 "ændringer af titelfilen eller kun gemme ændringerne for dette projekt?"
 
-#: src/bin/bin.cpp:4758 src/titler/titlewidget.cpp:2227
+#: src/bin/bin.cpp:4765 src/titler/titlewidget.cpp:2227
 #, kde-format
 msgid "Save Title"
 msgstr "Gem titel"
 
-#: src/bin/bin.cpp:4758
+#: src/bin/bin.cpp:4765
 #, kde-format
 msgid "Save to title file"
 msgstr "Gem til titelfil"
 
-#: src/bin/bin.cpp:4759
+#: src/bin/bin.cpp:4766
 #, kde-format
 msgid "Save in project only"
 msgstr "Gem kun i projekt"
 
-#: src/bin/bin.cpp:4779 src/dialogs/clipcreationdialog.cpp:411
+#: src/bin/bin.cpp:4786 src/dialogs/clipcreationdialog.cpp:411
 #, kde-format
 msgid "Title clip"
 msgstr "Titelklip"
 
-#: src/bin/bin.cpp:4829
+#: src/bin/bin.cpp:4836
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "Klippet er ugyldigt, det vil blive fjernet fra projektet."
 
-#: src/bin/bin.cpp:4833
+#: src/bin/bin.cpp:4840
 #, kde-format
 msgid "Invalid clip"
 msgstr "Ugyldigt klip"
 
-#: src/bin/bin.cpp:4956
+#: src/bin/bin.cpp:4963
 #, kde-format
 msgid "Enable proxies"
 msgstr "Aktivér proxyer"
 
-#: src/bin/bin.cpp:4956
+#: src/bin/bin.cpp:4963
 #, kde-format
 msgid "Disable proxies"
 msgstr "Deaktivér proxyer"
 
-#: src/bin/bin.cpp:5130
+#: src/bin/bin.cpp:5137
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "Genopbyg proxier"
 
-#: src/bin/bin.cpp:5360
+#: src/bin/bin.cpp:5367
 #, fuzzy, kde-format
 #| msgid "Project Bin"
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Projektkurv"
 
-#: src/bin/bin.cpp:5376
+#: src/bin/bin.cpp:5383
 #, kde-format
 msgid "Add Tracks"
 msgstr "Tilføj spor"
 
-#: src/bin/bin.cpp:5378
+#: src/bin/bin.cpp:5385
 #, kde-format
 msgid "Edit Streams"
 msgstr "Redigér streams"
 
-#: src/bin/bin.cpp:5393
+#: src/bin/bin.cpp:5400
 #, kde-format
 msgid "Don't ask again"
 msgstr "Spørg ikke igen"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5397
+#: src/bin/bin.cpp:5404
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
 "tracks ?"
 msgstr ""
 
-#: src/bin/bin.cpp:5409 src/mainwindow.cpp:2763
+#: src/bin/bin.cpp:5416 src/mainwindow.cpp:2763
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Kan ikke finde klip for at tilføje markør"
 
-#: src/bin/bin.cpp:5501
+#: src/bin/bin.cpp:5508
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
 msgid "Could not find master clip"
 msgstr "Tilføj klip"
 
-#: src/bin/bin.cpp:5731
+#: src/bin/bin.cpp:5738
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr ""
 
-#: src/bin/bin.cpp:5733
+#: src/bin/bin.cpp:5740
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr ""
 
-#: src/bin/bin.cpp:5800 src/bin/bin.cpp:5877
+#: src/bin/bin.cpp:5807 src/bin/bin.cpp:5884
 #, fuzzy, kde-format
 #| msgid ""
 #| "Additional streams for clip\n"
@@ -5217,12 +5222,12 @@ msgstr[1] ""
 "Yderligere streams til klip\n"
 " %1"
 
-#: src/bin/bin.cpp:5821
+#: src/bin/bin.cpp:5828
 #, kde-format
 msgid "Import selected clips"
 msgstr "Importér markerede klip"
 
-#: src/bin/bin.cpp:5823
+#: src/bin/bin.cpp:5830
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -5231,36 +5236,36 @@ msgstr ""
 "Yderligere streams til klip\n"
 " %1"
 
-#: src/bin/bin.cpp:5836 src/mltcontroller/clippropertiescontroller.cpp:635
+#: src/bin/bin.cpp:5843 src/mltcontroller/clippropertiescontroller.cpp:635
 #, kde-format
 msgid "Video stream %1"
 msgstr "Videostream %1"
 
-#: src/bin/bin.cpp:5851
+#: src/bin/bin.cpp:5858
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Lydstream %1"
 
-#: src/bin/bin.cpp:5904
+#: src/bin/bin.cpp:5911
 #, fuzzy, kde-format
 #| msgid "Remove clips"
 msgid "Remove clip markers"
 msgstr "Fjern klip"
 
-#: src/bin/bin.cpp:6041
+#: src/bin/bin.cpp:6060
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 
-#: src/bin/bin.cpp:6042
+#: src/bin/bin.cpp:6061
 #, fuzzy, kde-format
 #| msgid "Save DVD Project"
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Gem dvd-projekt"
 
-#: src/bin/bin.cpp:6043
+#: src/bin/bin.cpp:6062
 #, fuzzy, kde-format
 #| msgid "Transcoding: %1"
 msgctxt "@action:button"
@@ -5776,13 +5781,13 @@ msgstr "Omdøb mappe"
 msgid "Clean Project"
 msgstr "Ryd op i projekt"
 
-#: src/bin/projectitemmodel.cpp:1217
+#: src/bin/projectitemmodel.cpp:1225
 #, fuzzy, kde-format
 #| msgid "Loading project clips..."
 msgid "Reading project clips…"
 msgstr "Indlæser projektklips ..."
 
-#: src/bin/projectitemmodel.cpp:1323
+#: src/bin/projectitemmodel.cpp:1331
 #, fuzzy, kde-format
 #| msgid "Loading project clips..."
 msgid "Loading project clips…"
@@ -6531,7 +6536,7 @@ msgstr "Importér hjælpelinjer"
 #: src/project/projectmanager.cpp:1748 src/render/renderrequest.cpp:269
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
-#: src/timeline2/view/timelinecontroller.cpp:5043
+#: src/timeline2/view/timelinecontroller.cpp:5053
 #: src/titler/titlewidget.cpp:2240
 #, kde-format
 msgid "Cannot write to file %1"
@@ -7382,7 +7387,7 @@ msgstr "Video uden lydspor"
 msgid "Rendering <i>%1</i> started"
 msgstr "Rendering af <i>%1</i> påbegyndt"
 
-#: src/dialogs/renderwidget.cpp:907 src/monitor/monitor.cpp:1197
+#: src/dialogs/renderwidget.cpp:907 src/monitor/monitor.cpp:1207
 #, kde-format
 msgid "untitled"
 msgstr "unavngivet"
@@ -7559,7 +7564,7 @@ msgid "Please install speech recognition models"
 msgstr "Markér overgang"
 
 #: src/dialogs/speechdialog.cpp:199
-#: src/pythoninterfaces/abstractpythoninterface.cpp:164
+#: src/pythoninterfaces/abstractpythoninterface.cpp:175
 #, fuzzy, kde-format
 #| msgid "Device configuration"
 msgctxt "@label:textbox"
@@ -9864,7 +9869,7 @@ msgstr "kHz "
 msgid "Hz "
 msgstr "Hz "
 
-#: src/lib/audio/audioStreamInfo.cpp:153 src/monitor/monitor.cpp:291
+#: src/lib/audio/audioStreamInfo.cpp:153 src/monitor/monitor.cpp:301
 #, kde-format
 msgid "Merged streams"
 msgstr "Flettede streams"
@@ -10441,7 +10446,7 @@ msgstr "Rendér-knap"
 msgid "Rendering preview"
 msgstr "Renderer forhåndsvisning"
 
-#: src/mainwindow.cpp:674 src/monitor/monitor.cpp:399
+#: src/mainwindow.cpp:674 src/monitor/monitor.cpp:409
 #, fuzzy, kde-format
 #| msgid "Go to Guide..."
 msgid "Go to Guide…"
@@ -10950,22 +10955,22 @@ msgstr "Tidskode for monitoroverlægning"
 msgid "Full Resolution (1:1)"
 msgstr "Fuld opløsning (1:1)"
 
-#: src/mainwindow.cpp:1583 src/monitor/monitor.cpp:206
+#: src/mainwindow.cpp:1583 src/monitor/monitor.cpp:216
 #, kde-format
 msgid "720p"
 msgstr "720p"
 
-#: src/mainwindow.cpp:1587 src/monitor/monitor.cpp:206
+#: src/mainwindow.cpp:1587 src/monitor/monitor.cpp:216
 #, kde-format
 msgid "540p"
 msgstr "540p"
 
-#: src/mainwindow.cpp:1591 src/monitor/monitor.cpp:207
+#: src/mainwindow.cpp:1591 src/monitor/monitor.cpp:217
 #, kde-format
 msgid "360p"
 msgstr "360p"
 
-#: src/mainwindow.cpp:1595 src/monitor/monitor.cpp:207
+#: src/mainwindow.cpp:1595 src/monitor/monitor.cpp:217
 #, kde-format
 msgid "270p"
 msgstr "270p"
@@ -11392,7 +11397,7 @@ msgstr "Indsæt spor"
 msgid "Fit all Tracks in View"
 msgstr "Gør alle spor aktive"
 
-#: src/mainwindow.cpp:1888 src/timeline2/view/timelinecontroller.cpp:4813
+#: src/mainwindow.cpp:1888 src/timeline2/view/timelinecontroller.cpp:4823
 #, kde-format
 msgid "Master effects"
 msgstr "Mastereffekter"
@@ -11992,7 +11997,7 @@ msgid ""
 msgstr ""
 "Kdenlive skal genstartes for at anvende ikontemaet. Vil du genstarte nu?"
 
-#: src/mainwindow.cpp:4689 src/timeline2/view/timelinecontroller.cpp:5026
+#: src/mainwindow.cpp:4689 src/timeline2/view/timelinecontroller.cpp:5036
 #, fuzzy, kde-format
 #| msgid "No guide at cursor time"
 msgid "No subtitles in current project"
@@ -12228,13 +12233,13 @@ msgid "Enable audio"
 msgstr "Aktivér lyd"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:689
-#: src/monitor/monitor.cpp:274
+#: src/monitor/monitor.cpp:284
 #, kde-format
 msgid "Audio streams"
 msgstr "Lydstreams"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:711
-#: src/monitor/monitor.cpp:1832
+#: src/monitor/monitor.cpp:1842
 #, kde-format
 msgid "Merge all streams"
 msgstr "Flet alle streams"
@@ -12558,12 +12563,12 @@ msgstr "Lydstyrke"
 msgid "%1%"
 msgstr "%1 %%"
 
-#: src/monitor/monitor.cpp:202
+#: src/monitor/monitor.cpp:212
 #, kde-format
 msgid "Preview resolution - lower resolution means faster preview"
 msgstr ""
 
-#: src/monitor/monitor.cpp:203
+#: src/monitor/monitor.cpp:213
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12572,50 +12577,50 @@ msgid ""
 "preview)."
 msgstr ""
 
-#: src/monitor/monitor.cpp:206
+#: src/monitor/monitor.cpp:216
 #, kde-format
 msgid "1:1"
 msgstr "1:1"
 
-#: src/monitor/monitor.cpp:344 src/monitor/monitormanager.cpp:630
+#: src/monitor/monitor.cpp:354 src/monitor/monitormanager.cpp:630
 #, kde-format
 msgid "Set Zone In"
 msgstr "Sæt zone ind"
 
-#: src/monitor/monitor.cpp:345 src/monitor/monitormanager.cpp:634
+#: src/monitor/monitor.cpp:355 src/monitor/monitormanager.cpp:634
 #, kde-format
 msgid "Set Zone Out"
 msgstr "Sæt zone ud"
 
-#: src/monitor/monitor.cpp:357 src/monitor/monitormanager.cpp:514
+#: src/monitor/monitor.cpp:367 src/monitor/monitormanager.cpp:514
 #, kde-format
 msgid "Rewind"
 msgstr "Tilbage"
 
-#: src/monitor/monitor.cpp:362 src/monitor/monitor.cpp:365
+#: src/monitor/monitor.cpp:372 src/monitor/monitor.cpp:375
 #: src/monitor/monitormanager.cpp:489
 #, kde-format
 msgid "Play"
 msgstr "Afspil"
 
-#: src/monitor/monitor.cpp:365 src/monitor/monitormanager.cpp:489
+#: src/monitor/monitor.cpp:375 src/monitor/monitormanager.cpp:489
 #: src/monitor/monitormanager.cpp:495
 #, kde-format
 msgid "Pause"
 msgstr "Pause"
 
-#: src/monitor/monitor.cpp:385 src/monitor/monitormanager.cpp:527
+#: src/monitor/monitor.cpp:395 src/monitor/monitormanager.cpp:527
 #, kde-format
 msgid "Forward"
 msgstr "Fremad"
 
-#: src/monitor/monitor.cpp:389
+#: src/monitor/monitor.cpp:399
 #, fuzzy, kde-format
 #| msgid "More options"
 msgid "More Options…"
 msgstr "Flere indstillinger"
 
-#: src/monitor/monitor.cpp:390
+#: src/monitor/monitor.cpp:400
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12623,143 +12628,143 @@ msgid ""
 "size)."
 msgstr ""
 
-#: src/monitor/monitor.cpp:399
+#: src/monitor/monitor.cpp:409
 #, fuzzy, kde-format
 #| msgid "Go to marker..."
 msgid "Go to Marker…"
 msgstr "Gå til markør..."
 
-#: src/monitor/monitor.cpp:403
+#: src/monitor/monitor.cpp:413
 #, kde-format
 msgid "Force Monitor Size"
 msgstr "Gennemtving monitorstørrelse"
 
-#: src/monitor/monitor.cpp:404
+#: src/monitor/monitor.cpp:414
 #, kde-format
 msgid "Force 100%"
 msgstr "Tving 100%"
 
-#: src/monitor/monitor.cpp:406
+#: src/monitor/monitor.cpp:416
 #, kde-format
 msgid "Force 50%"
 msgstr "Tving 50%"
 
-#: src/monitor/monitor.cpp:408
+#: src/monitor/monitor.cpp:418
 #, kde-format
 msgid "Free Resize"
 msgstr "Fri tilpasning af størrelse"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:420 src/scopes/colorscopes/vectorscope.cpp:50
+#: src/monitor/monitor.cpp:430 src/scopes/colorscopes/vectorscope.cpp:50
 #: src/timeline2/view/timelinecontroller.cpp:260 src/ui/titlewidget_ui.ui:125
 #, kde-format
 msgid "Black"
 msgstr "Sort"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:422 src/scopes/colorscopes/rgbparade.cpp:26
+#: src/monitor/monitor.cpp:432 src/scopes/colorscopes/rgbparade.cpp:26
 #: src/scopes/colorscopes/waveform.cpp:33 src/ui/titlewidget_ui.ui:130
 #, kde-format
 msgid "White"
 msgstr "Hvid"
 
-#: src/monitor/monitor.cpp:424
+#: src/monitor/monitor.cpp:434
 #, kde-format
 msgid "Pink"
 msgstr ""
 
-#: src/monitor/monitor.cpp:491
+#: src/monitor/monitor.cpp:501
 #, kde-format
 msgid "-5"
 msgstr ""
 
-#: src/monitor/monitor.cpp:497
+#: src/monitor/monitor.cpp:507
 #, fuzzy, kde-format
 #| msgid "1"
 msgid "-1"
 msgstr "1"
 
-#: src/monitor/monitor.cpp:503
+#: src/monitor/monitor.cpp:513
 #, fuzzy, kde-format
 #| msgid "1"
 msgid "+1"
 msgstr "1"
 
-#: src/monitor/monitor.cpp:509
+#: src/monitor/monitor.cpp:519
 #, kde-format
 msgid "+5"
 msgstr ""
 
 #. i18n("Save zone"), this, SLOT(slotSaveZone()));
-#: src/monitor/monitor.cpp:643
+#: src/monitor/monitor.cpp:653
 #, kde-format
 msgid "Extract Zone"
 msgstr "Udtræk zone"
 
-#: src/monitor/monitor.cpp:656
+#: src/monitor/monitor.cpp:666
 #, kde-format
 msgid "Set current image as thumbnail"
 msgstr "Sæt nuværende billede som miniature"
 
-#: src/monitor/monitor.cpp:661
+#: src/monitor/monitor.cpp:671
 #, kde-format
 msgid "Always show audio thumbnails"
 msgstr "Vis altid lydminiaturer"
 
-#: src/monitor/monitor.cpp:678
+#: src/monitor/monitor.cpp:688
 #, kde-format
 msgid "Show Audio Levels"
 msgstr "Vis lydniveauer"
 
-#: src/monitor/monitor.cpp:685
+#: src/monitor/monitor.cpp:695
 #, fuzzy, kde-format
 #| msgid "Show Record Control"
 msgid "Show Source Timecode"
 msgstr "Vis optagelsesstyring"
 
-#: src/monitor/monitor.cpp:722
+#: src/monitor/monitor.cpp:732
 #, kde-format
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "Din skærmopløsning er ikke tilstrækkelig til handlingen"
 
-#: src/monitor/monitor.cpp:865 src/monitor/monitor.cpp:898
+#: src/monitor/monitor.cpp:875 src/monitor/monitor.cpp:908
 #: src/timeline2/view/timelinecontroller.cpp:1797
 #, kde-format
 msgid "Set Zone"
 msgstr "Indsæt zone"
 
-#: src/monitor/monitor.cpp:1209
+#: src/monitor/monitor.cpp:1219
 #, fuzzy, kde-format
 #| msgid "Save Image to Project"
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "Gem billede til projekt"
 
-#: src/monitor/monitor.cpp:1209
+#: src/monitor/monitor.cpp:1219
 #, fuzzy, kde-format
 #| msgid "Save Image"
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Gem billede"
 
-#: src/monitor/monitor.cpp:1216
+#: src/monitor/monitor.cpp:1226
 #, kde-format
 msgid "Export image using source resolution"
 msgstr ""
 
-#: src/monitor/monitor.cpp:1817 src/monitor/monitor.cpp:1965
+#: src/monitor/monitor.cpp:1827 src/monitor/monitor.cpp:1975
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 lydstream"
 msgstr[1] "%1 lydstreams"
 
-#: src/monitor/monitor.cpp:2299
+#: src/monitor/monitor.cpp:2309
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Kan ikke initiere Movit's GLSL-håndtering, deaktivér venligst Movit"
 
-#: src/monitor/monitor.cpp:2341 src/monitor/monitor.cpp:2398
+#: src/monitor/monitor.cpp:2351 src/monitor/monitor.cpp:2408
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -12768,18 +12773,18 @@ msgstr ""
 "Alphagrad-filteret kræves af funktionaliteten, installér venligst frei0r og "
 "genstart Kdenlive"
 
-#: src/monitor/monitor.cpp:2361
+#: src/monitor/monitor.cpp:2371
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Klippet har ingen effekter"
 
-#: src/monitor/monitor.cpp:2363
+#: src/monitor/monitor.cpp:2373
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip in project bin to compare effect"
 msgstr "Vælg et klip hvis du vil anvende en effekt"
 
-#: src/monitor/monitor.cpp:2405
+#: src/monitor/monitor.cpp:2415
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -12788,7 +12793,7 @@ msgstr ""
 "Cairoblend-overgangen kræves af funktionaliteten, installér venligst frei0r "
 "og genstart Kdenlive"
 
-#: src/monitor/monitor.cpp:2451
+#: src/monitor/monitor.cpp:2461
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""
@@ -14897,8 +14902,8 @@ msgstr "Installerede moduler"
 msgid "Checking configuration…"
 msgstr "Enhedsindstilling"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:190
-#: src/pythoninterfaces/abstractpythoninterface.cpp:259
+#: src/pythoninterfaces/abstractpythoninterface.cpp:206
+#: src/pythoninterfaces/abstractpythoninterface.cpp:275
 #, kde-format
 msgid ""
 "Cannot find python3, please install it on your system.\n"
@@ -14906,7 +14911,7 @@ msgid ""
 "environment variable"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:196
+#: src/pythoninterfaces/abstractpythoninterface.cpp:212
 #, kde-format
 msgid ""
 "Cannot find pip3, please install it on your system.\n"
@@ -14914,45 +14919,45 @@ msgid ""
 "environment variable"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:205
+#: src/pythoninterfaces/abstractpythoninterface.cpp:221
 #, kde-format
 msgid "Using python from %1"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:213
+#: src/pythoninterfaces/abstractpythoninterface.cpp:229
 #, fuzzy, kde-format
 #| msgid "No image found"
 msgid "No python venv found"
 msgstr "Intet billede fundet"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:226
+#: src/pythoninterfaces/abstractpythoninterface.cpp:242
 #, kde-format
 msgid "Python venv size: %1"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:269
+#: src/pythoninterfaces/abstractpythoninterface.cpp:285
 #, kde-format
 msgid ""
 "Cannot find python virtualenv, please install it on your system. Defaulting "
 "to system python."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:313
+#: src/pythoninterfaces/abstractpythoninterface.cpp:325
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:362
+#: src/pythoninterfaces/abstractpythoninterface.cpp:374
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:364
+#: src/pythoninterfaces/abstractpythoninterface.cpp:376
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required for %2."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:402
+#: src/pythoninterfaces/abstractpythoninterface.cpp:414
 #, kde-format
 msgid ""
 "Kdenlive can install the missing python modules in a virtual environment "
@@ -14960,64 +14965,64 @@ msgid ""
 "This way, it won't touch your system libraries."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:404
+#: src/pythoninterfaces/abstractpythoninterface.cpp:416
 #, fuzzy, kde-format
 #| msgid "Environment"
 msgid "Python environment"
 msgstr "Miljø"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:404
+#: src/pythoninterfaces/abstractpythoninterface.cpp:416
 #, kde-format
 msgid "Use virtual environment (recommended)"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:405
+#: src/pythoninterfaces/abstractpythoninterface.cpp:417
 #, kde-format
 msgid "Use system install"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:423
-#: src/pythoninterfaces/abstractpythoninterface.cpp:500
+#: src/pythoninterfaces/abstractpythoninterface.cpp:435
+#: src/pythoninterfaces/abstractpythoninterface.cpp:512
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:441
+#: src/pythoninterfaces/abstractpythoninterface.cpp:453
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:445
+#: src/pythoninterfaces/abstractpythoninterface.cpp:457
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:449
+#: src/pythoninterfaces/abstractpythoninterface.cpp:461
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please consider to update your setup."
 msgstr "Markér overgang"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:466
+#: src/pythoninterfaces/abstractpythoninterface.cpp:478
 #, fuzzy, kde-format
 #| msgid "Copy keyframes to clipboard"
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "Kopiér keyframes til udklipsholder"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:523
+#: src/pythoninterfaces/abstractpythoninterface.cpp:543
 #, kde-format
 msgid "Python exec not found"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:525
+#: src/pythoninterfaces/abstractpythoninterface.cpp:545
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
 msgid "Failed to find script file %1"
 msgstr "Kunne ikke oprette filen."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:560
+#: src/pythoninterfaces/abstractpythoninterface.cpp:580
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -15025,7 +15030,7 @@ msgid ""
 "%2"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:582
+#: src/pythoninterfaces/abstractpythoninterface.cpp:602
 #, kde-format
 msgid ""
 "This will delete the python virtual environment from:<br/><b>%1</b><br/>The "
@@ -16604,7 +16609,7 @@ msgstr "Indsæt klip"
 #: src/timeline2/model/timelinefunctions.cpp:1968
 #: src/timeline2/model/timelinefunctions.cpp:1991
 #: src/timeline2/model/timelinefunctions.cpp:2030
-#: src/timeline2/model/timelinefunctions.cpp:2305
+#: src/timeline2/model/timelinefunctions.cpp:2306
 #, fuzzy, kde-format
 #| msgid "Copy keyframes to clipboard"
 msgid "Not enough tracks to paste clipboard"
@@ -16654,38 +16659,38 @@ msgstr ""
 msgid "Paste"
 msgstr "Master"
 
-#: src/timeline2/model/timelinefunctions.cpp:2172
-#: src/timeline2/model/timelinefunctions.cpp:2180
-#: src/timeline2/model/timelinefunctions.cpp:2243
+#: src/timeline2/model/timelinefunctions.cpp:2170
+#: src/timeline2/model/timelinefunctions.cpp:2178
+#: src/timeline2/model/timelinefunctions.cpp:2244
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
 msgid "Could not add bin clip"
 msgstr "Tilføj klip"
 
-#: src/timeline2/model/timelinefunctions.cpp:2297
+#: src/timeline2/model/timelinefunctions.cpp:2298
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2347
-#: src/timeline2/model/timelinefunctions.cpp:2525
+#: src/timeline2/model/timelinefunctions.cpp:2348
+#: src/timeline2/model/timelinefunctions.cpp:2526
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Kunne ikke indsætte elementer i tidslinje"
 
-#: src/timeline2/model/timelinefunctions.cpp:2545
+#: src/timeline2/model/timelinefunctions.cpp:2546
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Indsæt tidslinjeklip"
 
-#: src/timeline2/model/timelinefunctions.cpp:2763
+#: src/timeline2/model/timelinefunctions.cpp:2764
 #, fuzzy, kde-format
 #| msgid "Remove Space In All Tracks"
 msgid "Remove space on track"
 msgstr "Fjern tomrum i alle spor"
 
-#: src/timeline2/model/timelinefunctions.cpp:2790
+#: src/timeline2/model/timelinefunctions.cpp:2791
 #, fuzzy, kde-format
 #| msgid "Delete Track"
 msgid "Delete clips on track"
@@ -17470,7 +17475,7 @@ msgid "Cannot perform operation while dragging in timeline"
 msgstr "Kan ikke udføre handling, ugyldigt dokument-id: %1"
 
 #: src/timeline2/view/timelinecontroller.cpp:921
-#: src/timeline2/view/timelinecontroller.cpp:4956
+#: src/timeline2/view/timelinecontroller.cpp:4966
 #, fuzzy, kde-format
 #| msgid "Insert mode"
 msgid "Could not insert track"
@@ -17554,7 +17559,7 @@ msgid "No item to edit"
 msgstr "Venstrejustér element"
 
 #: src/timeline2/view/timelinecontroller.cpp:2900
-#: src/timeline2/view/timelinecontroller.cpp:5190
+#: src/timeline2/view/timelinecontroller.cpp:5200
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr ""
@@ -17669,77 +17674,77 @@ msgid ""
 "clips after the current position or choose a different track"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4910
+#: src/timeline2/view/timelinecontroller.cpp:4920
 #, kde-format
 msgid "Expand clip"
 msgstr "Fold klip ud"
 
-#: src/timeline2/view/timelinecontroller.cpp:4913
+#: src/timeline2/view/timelinecontroller.cpp:4923
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
 msgid "Could not expand clip"
 msgstr "Tilføj klip"
 
-#: src/timeline2/view/timelinecontroller.cpp:4954
+#: src/timeline2/view/timelinecontroller.cpp:4964
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "Indsæt spor"
 msgstr[1] "Indsæt spor"
 
-#: src/timeline2/view/timelinecontroller.cpp:5029
+#: src/timeline2/view/timelinecontroller.cpp:5039
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Export subtitle file"
 msgstr "Tilføj hjælpelinje"
 
-#: src/timeline2/view/timelinecontroller.cpp:5030
+#: src/timeline2/view/timelinecontroller.cpp:5040
 #, fuzzy, kde-format
 #| msgid "Text File (*.txt)"
 msgid "Subtitle File (*.srt)"
 msgstr "Tekstfil (*.txt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5060
+#: src/timeline2/view/timelinecontroller.cpp:5070
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
 "feature will probably not work as expected."
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5077
+#: src/timeline2/view/timelinecontroller.cpp:5087
 #, fuzzy, kde-format
 #| msgid "Show Title Bars"
 msgid "Show subtitle track"
 msgstr "Vis titellinjer"
 
-#: src/timeline2/view/timelinecontroller.cpp:5077
+#: src/timeline2/view/timelinecontroller.cpp:5087
 #, fuzzy, kde-format
 #| msgid "Delete guide"
 msgid "Hide subtitle track"
 msgstr "Slet hjælpelinje"
 
-#: src/timeline2/view/timelinecontroller.cpp:5100
+#: src/timeline2/view/timelinecontroller.cpp:5110
 #, fuzzy, kde-format
 #| msgid "Unlock track"
 msgid "Unlock subtitle track"
 msgstr "Lås spor op"
 
-#: src/timeline2/view/timelinecontroller.cpp:5100
+#: src/timeline2/view/timelinecontroller.cpp:5110
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Lock subtitle track"
 msgstr "unavngivet"
 
-#: src/timeline2/view/timelinecontroller.cpp:5264
-#: src/timeline2/view/timelinecontroller.cpp:5273
+#: src/timeline2/view/timelinecontroller.cpp:5274
+#: src/timeline2/view/timelinecontroller.cpp:5283
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "unavngivet"
 
-#: src/timeline2/view/timelinecontroller.cpp:5275
+#: src/timeline2/view/timelinecontroller.cpp:5285
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgctxt "@item:inlistbox"
