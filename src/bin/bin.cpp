@@ -3078,14 +3078,6 @@ void Bin::slotSetIconSize(int size)
     m_blankThumb.addPixmap(pix);
 }
 
-void Bin::rebuildMenu()
-{
-    m_extractAudioAction = static_cast<QMenu *>(pCore->window()->factory()->container(QStringLiteral("extract_audio"), pCore->window()));
-    m_clipsActionsMenu = static_cast<QMenu *>(pCore->window()->factory()->container(QStringLiteral("clip_actions"), pCore->window()));
-    m_menu->insertMenu(m_locateAction, m_extractAudioAction);
-    m_menu->insertMenu(m_locateAction, m_clipsActionsMenu);
-}
-
 void Bin::contextMenuEvent(QContextMenuEvent *event)
 {
     bool enableClipActions = false;

@@ -20,6 +20,7 @@
 #include "timelinewidget.h"
 
 #include <KMessageBox>
+#include <KXMLGUIFactory>
 #include <QInputDialog>
 #include <QMenu>
 #include <QQmlContext>
@@ -304,10 +305,40 @@ void TimelineTabs::disconnectTimeline(TimelineWidget *timeline)
     disconnect(pCore->monitorManager()->projectMonitor(), &Monitor::addTimelineEffect, timeline->controller(), &TimelineController::addEffectToCurrentClip);
 }
 
-void TimelineTabs::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *guideMenu, QMenu *timelineRulerMenu,
-                                   QAction *editGuideAction, QMenu *headerMenu, QMenu *thumbsMenu, QMenu *subtitleClipMenu)
+void TimelineTabs::buildClipMenu()
 {
-    m_timelineClipMenu = clipMenu;
+    // Timeline clip menu
+    delete m_timelineClipMenu;
+    m_timelineClipMenu = new QMenu(this);
+    KActionCollection *coll = pCore->window()->actionCollection();
+    m_timelineClipMenu->addAction(coll->action(QStringLiteral("edit_copy")));
+    m_timelineClipMenu->addAction(coll->action(QStringLiteral("paste_effects")));
+    m_timelineClipMenu->addAction(coll->action(QStringLiteral("delete_effects")));
+    m_timelineClipMenu->addAction(coll->action(QStringLiteral("group_clip")));
+    m_timelineClipMenu->addAction(coll->action(QStringLiteral("ungroup_clip")));
+    m_timelineClipMenu->addAction(coll->action(QStringLiteral("edit_item_duration")));
+    m_timelineClipMenu->addAction(coll->action(QStringLiteral("clip_split")));
+    m_timelineClipMenu->addAction(coll->action(QStringLiteral("clip_switch")));
+    m_timelineClipMenu->addAction(coll->action(QStringLiteral("delete_timeline_clip")));
+    m_timelineClipMenu->addAction(coll->action(QStringLiteral("extract_clip")));
+    m_timelineClipMenu->addAction(coll->action(QStringLiteral("save_to_bin")));
+    m_timelineClipMenu->addAction(coll->action(QStringLiteral("send_sequence")));
+
+    QMenu *markerMenu = static_cast<QMenu *>(pCore->window()->factory()->container(QStringLiteral("marker_menu"), pCore->window()));
+    m_timelineClipMenu->addMenu(markerMenu);
+
+    m_timelineClipMenu->addAction(coll->action(QStringLiteral("set_audio_align_ref")));
+    m_timelineClipMenu->addAction(coll->action(QStringLiteral("align_audio")));
+    m_timelineClipMenu->addAction(coll->action(QStringLiteral("edit_item_speed")));
+    m_timelineClipMenu->addAction(coll->action(QStringLiteral("edit_item_remap")));
+    m_timelineClipMenu->addAction(coll->action(QStringLiteral("clip_in_project_tree")));
+    m_timelineClipMenu->addAction(coll->action(QStringLiteral("cut_timeline_clip")));
+}
+
+void TimelineTabs::setTimelineMenu(QMenu *compositionMenu, QMenu *timelineMenu, QMenu *guideMenu, QMenu *timelineRulerMenu, QAction *editGuideAction,
+                                   QMenu *headerMenu, QMenu *thumbsMenu, QMenu *subtitleClipMenu)
+{
+    buildClipMenu();
     m_timelineCompositionMenu = compositionMenu;
     m_timelineMenu = timelineMenu;
     m_timelineRulerMenu = timelineRulerMenu;

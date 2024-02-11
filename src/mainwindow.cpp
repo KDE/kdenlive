@@ -585,20 +585,6 @@ void MainWindow::init(const QString &mltPath)
     addAction(QStringLiteral("timeline_preview_button"), previewButtonAction);
     setupGUI(KXmlGuiWindow::ToolBar | KXmlGuiWindow::StatusBar | KXmlGuiWindow::Save | KXmlGuiWindow::Create);
 
-    // Redirect help entry to our own function
-    // First delete the default help action
-    QAction *officialHelp = actionCollection()->action(KStandardAction::name(KStandardAction::HelpContents));
-    actionCollection()->removeAction(officialHelp);
-    // Now recreate our own
-    KStandardAction::helpContents(this, &MainWindow::appHelpActivated, actionCollection());
-    officialHelp = actionCollection()->action(KStandardAction::name(KStandardAction::HelpContents));
-    // Replug it in the Help menu
-    QMenu *helpMenu = static_cast<QMenu *>(factory()->container(QStringLiteral("help"), this));
-    if (helpMenu) {
-        QAction *whatsThis = actionCollection()->action(KStandardAction::name(KStandardAction::WhatsThis));
-        helpMenu->insertAction(whatsThis, officialHelp);
-    }
-
     LocaleHandling::resetLocale();
     if (firstRun) {
         if (QScreen *current = QApplication::primaryScreen()) {
@@ -622,40 +608,9 @@ void MainWindow::init(const QString &mltPath)
     /*ScriptingPart* sp = new ScriptingPart(this, QStringList());
     guiFactory()->addClient(sp);*/
 
-    loadGenerators();
     loadDockActions();
     loadClipActions();
-
-    // Ensure the "Monitor Config" menu doesn't replace the settings dialog on Mac because of text heuristics
-    auto *monitorConfig = qobject_cast<QMenu *>(factory()->container(QStringLiteral("monitor_config"), this));
-    if (monitorConfig) {
-        monitorConfig->menuAction()->setMenuRole(QAction::NoRole);
-    }
-
-    // Timeline clip menu
-    auto *timelineClipMenu = new QMenu(this);
-    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("edit_copy")));
-    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("paste_effects")));
-    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("delete_effects")));
-    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("group_clip")));
-    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("ungroup_clip")));
-    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("edit_item_duration")));
-    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("clip_split")));
-    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("clip_switch")));
-    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("delete_timeline_clip")));
-    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("extract_clip")));
-    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("save_to_bin")));
-    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("send_sequence")));
-
-    QMenu *markerMenu = static_cast<QMenu *>(factory()->container(QStringLiteral("marker_menu"), this));
-    timelineClipMenu->addMenu(markerMenu);
-
-    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("set_audio_align_ref")));
-    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("align_audio")));
-    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("edit_item_speed")));
-    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("edit_item_remap")));
-    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("clip_in_project_tree")));
-    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("cut_timeline_clip")));
+    loadContainerActions();
 
     // Timeline composition menu
     auto *compositionMenu = new QMenu(this);
@@ -731,41 +686,11 @@ void MainWindow::init(const QString &mltPath)
     noFrame->setData(QStringLiteral("3"));
     noFrame->setCheckable(true);
     thumbsMenu->addAction(noFrame);
-
-    QMenu *openGLMenu = static_cast<QMenu *>(factory()->container(QStringLiteral("qt_opengl"), this));
-#if defined(Q_OS_WIN)
-    connect(openGLMenu, &QMenu::triggered, [&](QAction *ac) {
-        KdenliveSettings::setOpengl_backend(ac->data().toInt());
-        if (KMessageBox::questionTwoActions(this, i18n("Kdenlive needs to be restarted to change this setting. Do you want to proceed?"), {},
-                                            KStandardGuiItem::cont(), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
-            return;
-        }
-        slotRestart(false);
-    });
-#else
-    if (openGLMenu) {
-        openGLMenu->menuAction()->setVisible(false);
-        ;
-    }
-#endif
-    // Connect monitor overlay info menu.
-    QMenu *monitorOverlay = static_cast<QMenu *>(factory()->container(QStringLiteral("monitor_config_overlay"), this));
-    connect(monitorOverlay, &QMenu::triggered, this, &MainWindow::slotSwitchMonitorOverlay);
-
-    m_projectMonitor->setupMenu(static_cast<QMenu *>(factory()->container(QStringLiteral("monitor_go"), this)), monitorOverlay, m_playZone, m_loopZone, nullptr,
-                                m_loopClip);
-    m_clipMonitor->setupMenu(static_cast<QMenu *>(factory()->container(QStringLiteral("monitor_go"), this)), monitorOverlay, m_playZone, m_loopZone,
-                             static_cast<QMenu *>(factory()->container(QStringLiteral("marker_menu"), this)), nullptr);
-
-    QMenu *clipInTimeline = static_cast<QMenu *>(factory()->container(QStringLiteral("clip_in_timeline"), this));
-    clipInTimeline->setIcon(QIcon::fromTheme(QStringLiteral("go-jump")));
     pCore->bin()->setupGeneratorMenu();
 
     connect(pCore->monitorManager(), &MonitorManager::updateOverlayInfos, this, &MainWindow::slotUpdateMonitorOverlays);
 
     // Setup and fill effects and transitions menus.
-    QMenu *m = static_cast<QMenu *>(factory()->container(QStringLiteral("video_effects_menu"), this));
-    connect(m, &QMenu::triggered, this, &MainWindow::slotAddEffect);
     connect(m_effectsMenu, &QMenu::triggered, this, &MainWindow::slotAddEffect);
     connect(m_transitionsMenu, &QMenu::triggered, this, &MainWindow::slotAddTransition);
 
@@ -775,14 +700,6 @@ void MainWindow::init(const QString &mltPath)
     m_timelineContextMenu->addAction(actionCollection()->action(QStringLiteral("delete_space")));
     m_timelineContextMenu->addAction(actionCollection()->action(QStringLiteral("delete_space_all_tracks")));
     m_timelineContextMenu->addAction(actionCollection()->action(KStandardAction::name(KStandardAction::Paste)));
-
-    // QMenu *markersMenu = static_cast<QMenu *>(factory()->container(QStringLiteral("marker_menu"), this));
-
-    /*m_timelineClipActions->addMenu(markersMenu);
-    m_timelineClipActions->addSeparator();
-    m_timelineClipActions->addMenu(m_transitionsMenu);
-    m_timelineClipActions->addMenu(m_effectsMenu);*/
-
     slotConnectMonitors();
 
     m_timelineToolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
@@ -881,8 +798,8 @@ void MainWindow::init(const QString &mltPath)
 #ifdef USE_JOGSHUTTLE
     new JogManager(this);
 #endif
-    m_timelineTabs->setTimelineMenu(timelineClipMenu, compositionMenu, timelineMenu, guideMenu, timelineRulerMenu,
-                                    actionCollection()->action(QStringLiteral("edit_guide")), timelineHeadersMenu, thumbsMenu, timelineSubtitleMenu);
+    m_timelineTabs->setTimelineMenu(compositionMenu, timelineMenu, guideMenu, timelineRulerMenu, actionCollection()->action(QStringLiteral("edit_guide")),
+                                    timelineHeadersMenu, thumbsMenu, timelineSubtitleMenu);
     scmanager->slotCheckActiveScopes();
     connect(qApp, &QGuiApplication::applicationStateChanged, this, [&](Qt::ApplicationState state) {
         if (state == Qt::ApplicationActive && getCurrentTimeline()) {
@@ -913,6 +830,56 @@ void MainWindow::init(const QString &mltPath)
             m_hamburgerMenu->hideActionsOf(toolBar());
         }
     });
+}
+
+void MainWindow::loadContainerActions()
+{
+    // Build all actions using the static_cast<QMenu *>(factory()->container method
+    // That need to be rebuild when updating the ui.rc file
+
+    // Redirect help entry to our own function
+    // First delete the default help action
+    QAction *officialHelp = actionCollection()->action(KStandardAction::name(KStandardAction::HelpContents));
+    actionCollection()->removeAction(officialHelp);
+    // Now recreate our own
+    KStandardAction::helpContents(this, &MainWindow::appHelpActivated, actionCollection());
+    officialHelp = actionCollection()->action(KStandardAction::name(KStandardAction::HelpContents));
+    // Replug it in the Help menu
+    QMenu *helpMenu = static_cast<QMenu *>(factory()->container(QStringLiteral("help"), this));
+    if (helpMenu) {
+        QAction *whatsThis = actionCollection()->action(KStandardAction::name(KStandardAction::WhatsThis));
+        helpMenu->insertAction(whatsThis, officialHelp);
+    }
+
+    // rebuild timeline clip menu
+    m_timelineTabs->buildClipMenu();
+
+    // Ensure the "Monitor Config" menu doesn't replace the settings dialog on Mac because of text heuristics
+    auto *monitorConfig = qobject_cast<QMenu *>(factory()->container(QStringLiteral("monitor_config"), this));
+    if (monitorConfig) {
+        monitorConfig->menuAction()->setMenuRole(QAction::NoRole);
+    }
+
+    // Connect monitor overlay info menu.
+    QMenu *monitorOverlay = static_cast<QMenu *>(factory()->container(QStringLiteral("monitor_config_overlay"), this));
+    if (monitorOverlay) {
+        connect(monitorOverlay, &QMenu::triggered, this, &MainWindow::slotSwitchMonitorOverlay);
+
+        m_projectMonitor->setupMenu(static_cast<QMenu *>(factory()->container(QStringLiteral("monitor_go"), this)), monitorOverlay, m_playZone, m_loopZone,
+                                    nullptr, m_loopClip);
+        m_clipMonitor->setupMenu(static_cast<QMenu *>(factory()->container(QStringLiteral("monitor_go"), this)), monitorOverlay, m_playZone, m_loopZone,
+                                 static_cast<QMenu *>(factory()->container(QStringLiteral("marker_menu"), this)), nullptr);
+    }
+
+    QMenu *clipInTimeline = static_cast<QMenu *>(factory()->container(QStringLiteral("clip_in_timeline"), this));
+    clipInTimeline->setIcon(QIcon::fromTheme(QStringLiteral("go-jump")));
+
+    QMenu *m = static_cast<QMenu *>(factory()->container(QStringLiteral("video_effects_menu"), this));
+    connect(m, &QMenu::triggered, this, &MainWindow::slotAddEffect);
+
+    QMenu *addMenu = static_cast<QMenu *>(factory()->container(QStringLiteral("generators"), this));
+    Generators::getGenerators(KdenliveSettings::producerslist(), addMenu);
+    connect(addMenu, &QMenu::triggered, this, &MainWindow::buildGenerator);
 }
 
 void MainWindow::slotThemeChanged(const QString &name)
@@ -1012,13 +979,6 @@ bool MainWindow::queryClose()
     return pCore->projectManager()->closeCurrentDocument(true, true);
 }
 
-void MainWindow::loadGenerators()
-{
-    QMenu *addMenu = static_cast<QMenu *>(factory()->container(QStringLiteral("generators"), this));
-    Generators::getGenerators(KdenliveSettings::producerslist(), addMenu);
-    connect(addMenu, &QMenu::triggered, this, &MainWindow::buildGenerator);
-}
-
 void MainWindow::buildGenerator(QAction *action)
 {
     Generators gen(action->data().toString(), this);
@@ -1046,14 +1006,11 @@ void MainWindow::saveNewToolbarConfig()
     // So we currently re-add them manually....
     loadDockActions();
     loadClipActions();
-    pCore->bin()->rebuildMenu();
-    QMenu *monitorOverlay = static_cast<QMenu *>(factory()->container(QStringLiteral("monitor_config_overlay"), this));
-    if (monitorOverlay) {
-        m_projectMonitor->setupMenu(static_cast<QMenu *>(factory()->container(QStringLiteral("monitor_go"), this)), monitorOverlay, m_playZone, m_loopZone,
-                                    nullptr, m_loopClip);
-        m_clipMonitor->setupMenu(static_cast<QMenu *>(factory()->container(QStringLiteral("monitor_go"), this)), monitorOverlay, m_playZone, m_loopZone,
-                                 static_cast<QMenu *>(factory()->container(QStringLiteral("marker_menu"), this)), nullptr);
+    loadContainerActions();
+    for (auto &bin : m_binWidgets) {
+        bin->setupGeneratorMenu();
     }
+
     // hack to be able to insert the hamburger menu at the first position
     QAction *const firstChild = toolBar()->actionAt(toolBar()->height() / 2, toolBar()->height() / 2);
     QAction *const seperator = toolBar()->insertSeparator(firstChild);
@@ -2079,7 +2036,7 @@ bool MainWindow::readOptions()
         delete w;
     }
     if (firstRun) {
-        if (TransitionsRepository::get()->getVersion(QStringLiteral("qtblend")) > 200) {
+        if (TransitionsRepository::get()->exists(QStringLiteral("qtblend")) && TransitionsRepository::get()->getVersion(QStringLiteral("qtblend")) > 200) {
             KdenliveSettings::setPreferredcomposite(QStringLiteral("qtblend"));
         }
     }

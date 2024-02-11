@@ -309,11 +309,11 @@ private:
     bool readOptions();
     void saveOptions();
 
-    void loadGenerators();
     QStringList m_pluginFileNames;
     QByteArray m_timelineState;
     void buildDynamicActions();
     void loadClipActions();
+    void loadContainerActions();
 
     QTime m_timer;
     KXMLGUIClient *m_extraFactory;
