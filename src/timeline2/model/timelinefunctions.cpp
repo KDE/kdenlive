@@ -2475,16 +2475,17 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
                 continue;
             }
             int curTrackId = tracksMap.value(prod.attribute(QStringLiteral("track")).toInt());
-            int aTrackId = prod.attribute(QStringLiteral("a_track")).toInt();
-            qDebug() << "+++++++\nPLANTING COMPOSITION ON: " << curTrackId << " = " << timeline->getTrackPosition(curTrackId) << "\nATRACK: " << aTrackId;
-            if (aTrackId >= 0 && tracksMap.contains(aTrackId)) {
-                // We need to add 1 here to account for black background track
-                qDebug() << "::: TRACKMAP CONTAINED ATRACKID!!!";
-                aTrackId = timeline->getTrackPosition(tracksMap.value(aTrackId)) + 1;
+            int trackOffset = Xml::getXmlProperty(prod, QStringLiteral("b_track")).toInt() - Xml::getXmlProperty(prod, QStringLiteral("a_track")).toInt();
+            // Add 1 to account for the black track
+            int aTrackPos = timeline->getTrackPosition(curTrackId) - trackOffset + 1;
+            int atrackId = -1;
+            if (aTrackPos > 0 && aTrackPos < timeline->getTracksCount()) {
+                atrackId = timeline->getTrackIndexFromPosition(aTrackPos - 1);
+            }
+            if (atrackId > -1 && !timeline->isAudioTrack(atrackId)) {
+                // Ok, track found
             } else {
-                qDebug() << "::: ATRACKID NOT FOUND !!!\n" << aTrackId << "\n" << tracksMap << "\nKKKKKKKKKKKKKK";
-                ;
-                aTrackId = 0;
+                aTrackPos = 0;
             }
 
             int newId;
@@ -2502,7 +2503,7 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
             if (compoDuration != compoDuration2) {
                 timeline->requestItemResize(newId, compoDuration2, true, true, timeline_undo, timeline_redo, false);
             }
-            res = res && timeline->requestCompositionMove(newId, curTrackId, aTrackId, position + newPos, true, true, timeline_undo, timeline_redo);
+            res = res && timeline->requestCompositionMove(newId, curTrackId, aTrackPos, position + newPos, true, true, timeline_undo, timeline_redo);
         }
     }
     if (res && !subtitles.isEmpty()) {
