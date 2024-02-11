@@ -358,6 +358,7 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
     res = m_assets.at(tag);
     res.id = id;
     res.mltId = tag;
+    res.version = int(100 * currentAsset.attribute(QStringLiteral("version")).toDouble());
 
     // Update name if the xml provide one
     const QString name = Xml::getSubTagContent(currentAsset, QStringLiteral("name"));
