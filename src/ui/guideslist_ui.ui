@@ -123,7 +123,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <item row="0" column="0" colspan="3">
     <widget class="KSqueezedTextLabel" name="guideslist_label">
      <property name="text">
-      <string>KSqueezedTextLabel</string>
+      <string>Guides</string>
      </property>
     </widget>
    </item>
