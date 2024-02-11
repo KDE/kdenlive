@@ -494,15 +494,47 @@ int main(int argc, char *argv[])
                 }
             }
             // Delete xml ui rc file
-            QDir dir(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("kxmlgui5"), QStandardPaths::LocateDirectory));
-            if (dir.exists()) {
-                dir.cd(QStringLiteral("kdenlive"));
-            }
-            if (dir.exists()) {
-                QFile f(dir.absoluteFilePath(QStringLiteral("kdenliveui.rc")));
-                if (f.exists()) {
-                    qDebug() << " = = = =\nGOT Deleted file: " << f.fileName();
-                    f.remove();
+            const QString configLocation = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
+            if (!configLocation.isEmpty()) {
+                QDir dir(configLocation);
+                if (dir.cd(QStringLiteral("kxmlgui5")) && dir.cd(QStringLiteral("kdenlive"))) {
+                    QFile f(dir.absoluteFilePath(QStringLiteral("kdenliveui.rc")));
+                    if (f.exists() && f.open(QIODevice::ReadOnly)) {
+                        bool shortcutFound = false;
+                        QDomDocument doc;
+                        doc.setContent(&f);
+                        f.close();
+                        if (!doc.documentElement().isNull()) {
+                            QDomElement shortcuts = doc.documentElement().firstChildElement(QStringLiteral("ActionProperties"));
+                            if (!shortcuts.isNull()) {
+                                qDebug() << "==== FOUND CUSTOM SHORTCUTS!!!";
+                                // Copy the original settings and append custom shortcuts
+                                QFile f2(QStringLiteral(":/kxmlgui5/kdenlive/kdenliveui.rc"));
+                                if (f2.exists() && f2.open(QIODevice::ReadOnly)) {
+                                    QDomDocument doc2;
+                                    doc2.setContent(&f2);
+                                    f2.close();
+                                    if (!doc2.documentElement().isNull()) {
+                                        doc2.documentElement().appendChild(doc2.importNode(shortcuts, true));
+                                        shortcutFound = true;
+                                        if (f.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                                            // overwrite local xml config
+                                            QTextStream out(&f);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+                                            out.setCodec("UTF-8");
+#endif
+                                            out << doc2.toString();
+                                            f.close();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        if (!shortcutFound) {
+                            // No custom shortcuts found, simply delete the xmlui file
+                            f.remove();
+                        }
+                    }
                 }
             }
         }

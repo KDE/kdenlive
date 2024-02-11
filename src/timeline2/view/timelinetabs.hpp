@@ -46,8 +46,8 @@ public:
     /** @brief Do some closing stuff on timelinewidgets */
     void closeTimelines();
     /** @brief Store timeline menus */
-    void setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *guideMenu, QMenu *timelineRulerMenu, QAction *editGuideAction,
-                         QMenu *headerMenu, QMenu *thumbsMenu, QMenu *subtitleClipMenu);
+    void setTimelineMenu(QMenu *compositionMenu, QMenu *timelineMenu, QMenu *guideMenu, QMenu *timelineRulerMenu, QAction *editGuideAction, QMenu *headerMenu,
+                         QMenu *thumbsMenu, QMenu *subtitleClipMenu);
     /** @brief Mark a tab as modified */
     void setModified(const QUuid &uuid, bool modified);
     /** @brief Returns the uuid list for opened timeline tabs. */
@@ -57,6 +57,8 @@ public:
     /** @brief We display the current tab's name in window title if the tab bar is hidden
      */
     void updateWindowTitle();
+    /** @brief Build the timeline clip menu with dynamic actions. */
+    void buildClipMenu();
 
 protected:
     /** @brief Helper function to connect a timeline's signals/slots*/
@@ -109,7 +111,7 @@ private Q_SLOTS:
 
 private:
     TimelineWidget *m_activeTimeline;
-    QMenu *m_timelineClipMenu;
+    QMenu *m_timelineClipMenu{nullptr};
     QMenu *m_timelineCompositionMenu;
     QMenu *m_timelineMenu;
     QMenu *m_timelineRulerMenu;
