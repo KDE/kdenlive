@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-10 00:38+0000\n"
-"PO-Revision-Date: 2024-01-27 09:03+0200\n"
+"PO-Revision-Date: 2024-02-10 08:42+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -4913,10 +4913,9 @@ msgid "Default Target Folder for Sequences"
 msgstr "Типова тека призначення для послідовностей"
 
 #: src/bin/bin.cpp:3703
-#, fuzzy, kde-format
-#| msgid "Default Target Folder for Sequences"
+#, kde-format
 msgid "Default Target Folder for Audio Captures"
-msgstr "Типова тека призначення для послідовностей"
+msgstr "Типова тека призначення для автоматичного захоплення"
 
 #: src/bin/bin.cpp:3707
 #, kde-format

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-10 00:38+0000\n"
-"PO-Revision-Date: 2024-02-06 06:06+0100\n"
+"PO-Revision-Date: 2024-02-10 04:44+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -4815,10 +4815,9 @@ msgid "Default Target Folder for Sequences"
 msgstr "ნაგულისხმევი სამიზნე საქაღალდე მიმდევრობებისთვის"
 
 #: src/bin/bin.cpp:3703
-#, fuzzy, kde-format
-#| msgid "Default Target Folder for Sequences"
+#, kde-format
 msgid "Default Target Folder for Audio Captures"
-msgstr "ნაგულისხმევი სამიზნე საქაღალდე მიმდევრობებისთვის"
+msgstr "ნაგულისხმევი სამიზნე საქაღალდე აუდიოჩანაწერებისთვის"
 
 #: src/bin/bin.cpp:3707
 #, kde-format

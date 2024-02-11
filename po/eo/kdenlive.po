@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-10 00:38+0000\n"
-"PO-Revision-Date: 2024-02-05 22:05+0100\n"
+"PO-Revision-Date: 2024-02-10 06:42+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -4862,10 +4862,9 @@ msgid "Default Target Folder for Sequences"
 msgstr "Defaŭlta Cela Dosierujo por Sekvencoj"
 
 #: src/bin/bin.cpp:3703
-#, fuzzy, kde-format
-#| msgid "Default Target Folder for Sequences"
+#, kde-format
 msgid "Default Target Folder for Audio Captures"
-msgstr "Defaŭlta Cela Dosierujo por Sekvencoj"
+msgstr "Defaŭlta Celdosierujo por Aŭdkaptoj"
 
 #: src/bin/bin.cpp:3707
 #, kde-format

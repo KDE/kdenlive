@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-10 00:38+0000\n"
-"PO-Revision-Date: 2024-01-27 21:43+0100\n"
+"PO-Revision-Date: 2024-02-10 10:01+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -4887,10 +4887,9 @@ msgid "Default Target Folder for Sequences"
 msgstr "Privzeta ciljna mapa za zaporedja"
 
 #: src/bin/bin.cpp:3703
-#, fuzzy, kde-format
-#| msgid "Default Target Folder for Sequences"
+#, kde-format
 msgid "Default Target Folder for Audio Captures"
-msgstr "Privzeta ciljna mapa za zaporedja"
+msgstr "Privzeta ciljna mapa za zvočne zajeme"
 
 #: src/bin/bin.cpp:3707
 #, kde-format

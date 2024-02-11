@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-10 00:38+0000\n"
-"PO-Revision-Date: 2024-01-27 11:11+0100\n"
+"PO-Revision-Date: 2024-02-10 10:52+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -4917,10 +4917,9 @@ msgid "Default Target Folder for Sequences"
 msgstr "Carpeta predeterminada de destinació per a les seqüències"
 
 #: src/bin/bin.cpp:3703
-#, fuzzy, kde-format
-#| msgid "Default Target Folder for Sequences"
+#, kde-format
 msgid "Default Target Folder for Audio Captures"
-msgstr "Carpeta predeterminada de destinació per a les seqüències"
+msgstr "Carpeta predeterminada de destinació per a les captures d'àudio"
 
 #: src/bin/bin.cpp:3707
 #, kde-format
