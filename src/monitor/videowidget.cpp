@@ -851,7 +851,7 @@ void VideoWidget::onFrameDisplayed(const SharedFrame &frame)
 {
     m_mutex.lock();
     m_sharedFrame = frame;
-    // m_sendFrame = sendFrameForAnalysis;
+    m_sendFrame = sendFrameForAnalysis;
     m_mutex.unlock();
     quickWindow()->update();
 }

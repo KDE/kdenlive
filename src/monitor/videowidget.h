@@ -194,6 +194,10 @@ protected:
     /** @brief For some reason on Qt6 fullscreen switch, image position is not correctly updated, so use this to track state */
     bool refreshZoom{false};
     SharedFrame m_sharedFrame;
+    bool m_sendFrame;
+    QSemaphore m_analyseSem;
+    float m_zoom;
+    QSize m_profileSize;
     QMutex m_mutex;
     bool m_isInitialized;
 
@@ -206,7 +210,6 @@ private:
     QPoint m_panStart;
     QPoint m_dragStart;
     QSemaphore m_initSem;
-    QSemaphore m_analyseSem;
     bool m_qmlEvent;
     bool m_swallowDrop{false};
     int m_maxProducerPosition;
@@ -219,11 +222,8 @@ private:
     std::unique_ptr<Mlt::Event> m_displayEvent;
     FrameRenderer *m_frameRenderer;
     QTimer m_refreshTimer;
-    float m_zoom;
-    QSize m_profileSize;
     int m_colorSpace;
     double m_dar;
-    bool m_sendFrame;
     bool m_isZoneMode;
     bool m_isLoopMode;
     int m_loopIn;

@@ -40,6 +40,7 @@ private:
     GLint m_textureLocation[3];
     QOpenGLContext *m_quickContext;
     std::unique_ptr<QOpenGLContext> m_context;
+    QOpenGLFramebufferObject *m_fbo{nullptr};
     GLuint m_renderTexture[3];
     GLuint m_displayTexture[3];
     bool m_isThreadedOpenGL;
