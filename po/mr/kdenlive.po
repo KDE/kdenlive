@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-07 02:22+0000\n"
+"POT-Creation-Date: 2024-02-10 02:47+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -84,7 +84,7 @@ msgstr ""
 #: data/effects/audiowaveform.xml:7 data/effects/dynamictext.xml:23
 #: data/effects/pan_zoom.xml:17 data/effects/rotation.xml:41
 #: data/effects/rotation_keyframable.xml:23 data/effects/timer.xml:26
-#: src/monitor/monitor.cpp:419
+#: src/monitor/monitor.cpp:429
 #, kde-format
 msgid "Background Color"
 msgstr "पार्श्वभूमीचा रंग"
@@ -7174,7 +7174,7 @@ msgstr "बिटदर"
 msgid "Rendering <i>%1</i> started"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:907 src/monitor/monitor.cpp:1197
+#: src/dialogs/renderwidget.cpp:907 src/monitor/monitor.cpp:1207
 #, kde-format
 msgid "untitled"
 msgstr "शिर्षकहीन"
@@ -7336,7 +7336,7 @@ msgid "Please install speech recognition models"
 msgstr "निवड साधन (&S)"
 
 #: src/dialogs/speechdialog.cpp:199
-#: src/pythoninterfaces/abstractpythoninterface.cpp:164
+#: src/pythoninterfaces/abstractpythoninterface.cpp:175
 #, fuzzy, kde-format
 msgctxt "@label:textbox"
 msgid "Checking setup…"
@@ -9444,7 +9444,7 @@ msgstr ""
 msgid "Hz "
 msgstr "%1 Hz"
 
-#: src/lib/audio/audioStreamInfo.cpp:153 src/monitor/monitor.cpp:291
+#: src/lib/audio/audioStreamInfo.cpp:153 src/monitor/monitor.cpp:301
 #, fuzzy, kde-format
 #| msgid "Bitrate"
 msgid "Merged streams"
@@ -10002,7 +10002,7 @@ msgstr "रेंडरींग"
 msgid "Rendering preview"
 msgstr "रेंडरींग"
 
-#: src/mainwindow.cpp:674 src/monitor/monitor.cpp:399
+#: src/mainwindow.cpp:674 src/monitor/monitor.cpp:409
 #, kde-format
 msgid "Go to Guide…"
 msgstr ""
@@ -10486,22 +10486,22 @@ msgstr ""
 msgid "Full Resolution (1:1)"
 msgstr "घनता"
 
-#: src/mainwindow.cpp:1555 src/monitor/monitor.cpp:206
+#: src/mainwindow.cpp:1555 src/monitor/monitor.cpp:216
 #, kde-format
 msgid "720p"
 msgstr ""
 
-#: src/mainwindow.cpp:1559 src/monitor/monitor.cpp:206
+#: src/mainwindow.cpp:1559 src/monitor/monitor.cpp:216
 #, kde-format
 msgid "540p"
 msgstr ""
 
-#: src/mainwindow.cpp:1563 src/monitor/monitor.cpp:207
+#: src/mainwindow.cpp:1563 src/monitor/monitor.cpp:217
 #, kde-format
 msgid "360p"
 msgstr ""
 
-#: src/mainwindow.cpp:1567 src/monitor/monitor.cpp:207
+#: src/mainwindow.cpp:1567 src/monitor/monitor.cpp:217
 #, kde-format
 msgid "270p"
 msgstr ""
@@ -11731,14 +11731,14 @@ msgid "Enable audio"
 msgstr ""
 
 #: src/mltcontroller/clippropertiescontroller.cpp:689
-#: src/monitor/monitor.cpp:274
+#: src/monitor/monitor.cpp:284
 #, fuzzy, kde-format
 #| msgid "Bitrate"
 msgid "Audio streams"
 msgstr "बिटदर"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:711
-#: src/monitor/monitor.cpp:1832
+#: src/monitor/monitor.cpp:1842
 #, kde-format
 msgid "Merge all streams"
 msgstr ""
@@ -12049,12 +12049,12 @@ msgstr ""
 msgid "%1%"
 msgstr ""
 
-#: src/monitor/monitor.cpp:202
+#: src/monitor/monitor.cpp:212
 #, kde-format
 msgid "Preview resolution - lower resolution means faster preview"
 msgstr ""
 
-#: src/monitor/monitor.cpp:203
+#: src/monitor/monitor.cpp:213
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12063,50 +12063,50 @@ msgid ""
 "preview)."
 msgstr ""
 
-#: src/monitor/monitor.cpp:206
+#: src/monitor/monitor.cpp:216
 #, fuzzy, kde-format
 msgid "1:1"
 msgstr "x"
 
-#: src/monitor/monitor.cpp:344 src/monitor/monitormanager.cpp:630
+#: src/monitor/monitor.cpp:354 src/monitor/monitormanager.cpp:630
 #, kde-format
 msgid "Set Zone In"
 msgstr ""
 
-#: src/monitor/monitor.cpp:345 src/monitor/monitormanager.cpp:634
+#: src/monitor/monitor.cpp:355 src/monitor/monitormanager.cpp:634
 #, kde-format
 msgid "Set Zone Out"
 msgstr ""
 
-#: src/monitor/monitor.cpp:357 src/monitor/monitormanager.cpp:514
+#: src/monitor/monitor.cpp:367 src/monitor/monitormanager.cpp:514
 #, kde-format
 msgid "Rewind"
 msgstr ""
 
-#: src/monitor/monitor.cpp:362 src/monitor/monitor.cpp:365
+#: src/monitor/monitor.cpp:372 src/monitor/monitor.cpp:375
 #: src/monitor/monitormanager.cpp:489
 #, fuzzy, kde-format
 msgid "Play"
 msgstr "सुरु करा"
 
-#: src/monitor/monitor.cpp:365 src/monitor/monitormanager.cpp:489
+#: src/monitor/monitor.cpp:375 src/monitor/monitormanager.cpp:489
 #: src/monitor/monitormanager.cpp:495
 #, fuzzy, kde-format
 msgid "Pause"
 msgstr "स्तब्ध करा"
 
-#: src/monitor/monitor.cpp:385 src/monitor/monitormanager.cpp:527
+#: src/monitor/monitor.cpp:395 src/monitor/monitormanager.cpp:527
 #, kde-format
 msgid "Forward"
 msgstr "पुढे"
 
-#: src/monitor/monitor.cpp:389
+#: src/monitor/monitor.cpp:399
 #, fuzzy, kde-format
 #| msgid "Options"
 msgid "More Options…"
 msgstr "पर्याय"
 
-#: src/monitor/monitor.cpp:390
+#: src/monitor/monitor.cpp:400
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12114,130 +12114,130 @@ msgid ""
 "size)."
 msgstr ""
 
-#: src/monitor/monitor.cpp:399
+#: src/monitor/monitor.cpp:409
 #, kde-format
 msgid "Go to Marker…"
 msgstr ""
 
-#: src/monitor/monitor.cpp:403
+#: src/monitor/monitor.cpp:413
 #, fuzzy, kde-format
 #| msgid "Font Size"
 msgid "Force Monitor Size"
 msgstr "फॉन्ट आकार"
 
-#: src/monitor/monitor.cpp:404
+#: src/monitor/monitor.cpp:414
 #, kde-format
 msgid "Force 100%"
 msgstr ""
 
-#: src/monitor/monitor.cpp:406
+#: src/monitor/monitor.cpp:416
 #, kde-format
 msgid "Force 50%"
 msgstr ""
 
-#: src/monitor/monitor.cpp:408
+#: src/monitor/monitor.cpp:418
 #, fuzzy, kde-format
 msgid "Free Resize"
 msgstr "आकार बदला"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:420 src/scopes/colorscopes/vectorscope.cpp:50
+#: src/monitor/monitor.cpp:430 src/scopes/colorscopes/vectorscope.cpp:50
 #: src/timeline2/view/timelinecontroller.cpp:260 src/ui/titlewidget_ui.ui:125
 #, kde-format
 msgid "Black"
 msgstr "काळा"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:422 src/scopes/colorscopes/rgbparade.cpp:26
+#: src/monitor/monitor.cpp:432 src/scopes/colorscopes/rgbparade.cpp:26
 #: src/scopes/colorscopes/waveform.cpp:33 src/ui/titlewidget_ui.ui:130
 #, kde-format
 msgid "White"
 msgstr "पांढरा"
 
-#: src/monitor/monitor.cpp:424
+#: src/monitor/monitor.cpp:434
 #, kde-format
 msgid "Pink"
 msgstr ""
 
-#: src/monitor/monitor.cpp:491
+#: src/monitor/monitor.cpp:501
 #, kde-format
 msgid "-5"
 msgstr ""
 
-#: src/monitor/monitor.cpp:497
+#: src/monitor/monitor.cpp:507
 #, kde-format
 msgid "-1"
 msgstr ""
 
-#: src/monitor/monitor.cpp:503
+#: src/monitor/monitor.cpp:513
 #, kde-format
 msgid "+1"
 msgstr ""
 
-#: src/monitor/monitor.cpp:509
+#: src/monitor/monitor.cpp:519
 #, kde-format
 msgid "+5"
 msgstr ""
 
 #. i18n("Save zone"), this, SLOT(slotSaveZone()));
-#: src/monitor/monitor.cpp:643
+#: src/monitor/monitor.cpp:653
 #, kde-format
 msgid "Extract Zone"
 msgstr ""
 
-#: src/monitor/monitor.cpp:656
+#: src/monitor/monitor.cpp:666
 #, kde-format
 msgid "Set current image as thumbnail"
 msgstr ""
 
-#: src/monitor/monitor.cpp:661
+#: src/monitor/monitor.cpp:671
 #, fuzzy, kde-format
 #| msgid "Show thumbnails"
 msgid "Always show audio thumbnails"
 msgstr "लघुप्रतिमा दाखवा"
 
-#: src/monitor/monitor.cpp:678
+#: src/monitor/monitor.cpp:688
 #, fuzzy, kde-format
 msgid "Show Audio Levels"
 msgstr "परिणाम :"
 
-#: src/monitor/monitor.cpp:685
+#: src/monitor/monitor.cpp:695
 #, kde-format
 msgid "Show Source Timecode"
 msgstr ""
 
-#: src/monitor/monitor.cpp:722
+#: src/monitor/monitor.cpp:732
 #, kde-format
 msgid "Your screen resolution is not sufficient for this action"
 msgstr ""
 
-#: src/monitor/monitor.cpp:865 src/monitor/monitor.cpp:898
+#: src/monitor/monitor.cpp:875 src/monitor/monitor.cpp:908
 #: src/timeline2/view/timelinecontroller.cpp:1797
 #, fuzzy, kde-format
 #| msgid "Image"
 msgid "Set Zone"
 msgstr "प्रतिमा"
 
-#: src/monitor/monitor.cpp:1209
+#: src/monitor/monitor.cpp:1219
 #, fuzzy, kde-format
 #| msgid "Image"
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "प्रतिमा"
 
-#: src/monitor/monitor.cpp:1209
+#: src/monitor/monitor.cpp:1219
 #, fuzzy, kde-format
 #| msgid "Image"
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "प्रतिमा"
 
-#: src/monitor/monitor.cpp:1216
+#: src/monitor/monitor.cpp:1226
 #, kde-format
 msgid "Export image using source resolution"
 msgstr ""
 
-#: src/monitor/monitor.cpp:1817 src/monitor/monitor.cpp:1965
+#: src/monitor/monitor.cpp:1827 src/monitor/monitor.cpp:1975
 #, fuzzy, kde-format
 #| msgid "Bitrate"
 msgid "%1 audio stream"
@@ -12245,36 +12245,36 @@ msgid_plural "%1 audio streams"
 msgstr[0] "बिटदर"
 msgstr[1] "बिटदर"
 
-#: src/monitor/monitor.cpp:2299
+#: src/monitor/monitor.cpp:2309
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2341 src/monitor/monitor.cpp:2398
+#: src/monitor/monitor.cpp:2351 src/monitor/monitor.cpp:2408
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
 "restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2361
+#: src/monitor/monitor.cpp:2371
 #, fuzzy, kde-format
 msgid "Clip has no effects"
 msgstr "परिणाम :"
 
-#: src/monitor/monitor.cpp:2363
+#: src/monitor/monitor.cpp:2373
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2405
+#: src/monitor/monitor.cpp:2415
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
 "frei0r and restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2451
+#: src/monitor/monitor.cpp:2461
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""
@@ -14284,8 +14284,8 @@ msgstr "संग्रह करत आहे"
 msgid "Checking configuration…"
 msgstr "साधन संयोजना"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:190
-#: src/pythoninterfaces/abstractpythoninterface.cpp:259
+#: src/pythoninterfaces/abstractpythoninterface.cpp:206
+#: src/pythoninterfaces/abstractpythoninterface.cpp:275
 #, kde-format
 msgid ""
 "Cannot find python3, please install it on your system.\n"
@@ -14293,7 +14293,7 @@ msgid ""
 "environment variable"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:196
+#: src/pythoninterfaces/abstractpythoninterface.cpp:212
 #, kde-format
 msgid ""
 "Cannot find pip3, please install it on your system.\n"
@@ -14301,44 +14301,44 @@ msgid ""
 "environment variable"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:205
+#: src/pythoninterfaces/abstractpythoninterface.cpp:221
 #, kde-format
 msgid "Using python from %1"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:213
+#: src/pythoninterfaces/abstractpythoninterface.cpp:229
 #, fuzzy, kde-format
 msgid "No python venv found"
 msgstr "पानाच्या उंचीप्रमाणे समर्पक बसवा"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:226
+#: src/pythoninterfaces/abstractpythoninterface.cpp:242
 #, kde-format
 msgid "Python venv size: %1"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:269
+#: src/pythoninterfaces/abstractpythoninterface.cpp:285
 #, kde-format
 msgid ""
 "Cannot find python virtualenv, please install it on your system. Defaulting "
 "to system python."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:306
+#: src/pythoninterfaces/abstractpythoninterface.cpp:325
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:355
+#: src/pythoninterfaces/abstractpythoninterface.cpp:374
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:357
+#: src/pythoninterfaces/abstractpythoninterface.cpp:376
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required for %2."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:395
+#: src/pythoninterfaces/abstractpythoninterface.cpp:414
 #, kde-format
 msgid ""
 "Kdenlive can install the missing python modules in a virtual environment "
@@ -14346,60 +14346,60 @@ msgid ""
 "This way, it won't touch your system libraries."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:397
+#: src/pythoninterfaces/abstractpythoninterface.cpp:416
 #, fuzzy, kde-format
 msgid "Python environment"
 msgstr "वातावरण:"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:397
+#: src/pythoninterfaces/abstractpythoninterface.cpp:416
 #, kde-format
 msgid "Use virtual environment (recommended)"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:398
+#: src/pythoninterfaces/abstractpythoninterface.cpp:417
 #, kde-format
 msgid "Use system install"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:416
-#: src/pythoninterfaces/abstractpythoninterface.cpp:493
+#: src/pythoninterfaces/abstractpythoninterface.cpp:435
+#: src/pythoninterfaces/abstractpythoninterface.cpp:512
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:434
+#: src/pythoninterfaces/abstractpythoninterface.cpp:453
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:438
+#: src/pythoninterfaces/abstractpythoninterface.cpp:457
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:442
+#: src/pythoninterfaces/abstractpythoninterface.cpp:461
 #, fuzzy, kde-format
 msgid "Please consider to update your setup."
 msgstr "निवड साधन (&S)"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:459
+#: src/pythoninterfaces/abstractpythoninterface.cpp:478
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:516
+#: src/pythoninterfaces/abstractpythoninterface.cpp:543
 #, kde-format
 msgid "Python exec not found"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:518
+#: src/pythoninterfaces/abstractpythoninterface.cpp:545
 #, fuzzy, kde-format
 msgid "Failed to find script file %1"
 msgstr "फाईल उघडतेवेळी त्रुटी"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:553
+#: src/pythoninterfaces/abstractpythoninterface.cpp:580
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -14407,7 +14407,7 @@ msgid ""
 "%2"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:575
+#: src/pythoninterfaces/abstractpythoninterface.cpp:602
 #, kde-format
 msgid ""
 "This will delete the python virtual environment from:<br/><b>%1</b><br/>The "
@@ -15933,7 +15933,7 @@ msgstr "ट्रॅक"
 #: src/timeline2/model/timelinefunctions.cpp:1963
 #: src/timeline2/model/timelinefunctions.cpp:1987
 #: src/timeline2/model/timelinefunctions.cpp:2026
-#: src/timeline2/model/timelinefunctions.cpp:2301
+#: src/timeline2/model/timelinefunctions.cpp:2302
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr ""
@@ -15981,38 +15981,38 @@ msgstr ""
 msgid "Paste"
 msgstr "ट्रॅक"
 
-#: src/timeline2/model/timelinefunctions.cpp:2168
-#: src/timeline2/model/timelinefunctions.cpp:2176
-#: src/timeline2/model/timelinefunctions.cpp:2239
+#: src/timeline2/model/timelinefunctions.cpp:2166
+#: src/timeline2/model/timelinefunctions.cpp:2174
+#: src/timeline2/model/timelinefunctions.cpp:2240
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgid "Could not add bin clip"
 msgstr "सर्व फाईल्स"
 
-#: src/timeline2/model/timelinefunctions.cpp:2293
+#: src/timeline2/model/timelinefunctions.cpp:2294
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2343
-#: src/timeline2/model/timelinefunctions.cpp:2521
+#: src/timeline2/model/timelinefunctions.cpp:2344
+#: src/timeline2/model/timelinefunctions.cpp:2522
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2541
+#: src/timeline2/model/timelinefunctions.cpp:2542
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Paste timeline clips"
 msgstr "ट्रॅक"
 
-#: src/timeline2/model/timelinefunctions.cpp:2759
+#: src/timeline2/model/timelinefunctions.cpp:2760
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Remove space on track"
 msgstr "संचयीका बनवा"
 
-#: src/timeline2/model/timelinefunctions.cpp:2786
+#: src/timeline2/model/timelinefunctions.cpp:2787
 #, fuzzy, kde-format
 msgid "Delete clips on track"
 msgstr "संचयीका काढून टाका (&D)"
