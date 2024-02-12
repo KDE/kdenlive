@@ -166,7 +166,31 @@ void VideoWidget::initialize()
     m_isInitialized = true;
 }
 
-void VideoWidget::renderVideo() {}
+void VideoWidget::renderVideo()
+{
+#if defined(Q_OS_WIN) || defined(Q_OS_MACOS)
+    if (m_sendFrame) {
+        QImage img = image();
+        Q_EMIT analyseFrame(img);
+        m_sendFrame = false;
+    }
+#endif
+}
+
+QImage VideoWidget::image() const
+{
+    SharedFrame frame = m_frameRenderer->getDisplayFrame();
+    if (frame.is_valid()) {
+        const uint8_t *image = frame.get_image(mlt_image_rgba);
+        if (image) {
+            int width = frame.get_image_width();
+            int height = frame.get_image_height();
+            QImage temp(image, width, height, QImage::Format_RGBA8888);
+            return temp.copy();
+        }
+    }
+    return QImage();
+}
 
 const QStringList VideoWidget::getGPUInfo()
 {
