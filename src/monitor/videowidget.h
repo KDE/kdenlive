@@ -123,6 +123,8 @@ public:
     /** @brief Returns true if consumer is initialized */
     bool isReady() const;
     virtual const QStringList getGPUInfo();
+    /** @brief Returns the current frame as image */
+    QImage image() const;
 
 protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
