@@ -2,13 +2,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Safa Alfulaij <safa1996alfulaij@gmail.com>, 2015, 2017.
-# Zayed Al-Saidi <zayed.alsaidi@gmail.com>, 2021, 2022, 2023.
+# SPDX-FileCopyrightText: 2021, 2022, 2023, 2024 Zayed Al-Saidi <zayed.alsaidi@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-12 00:37+0000\n"
-"PO-Revision-Date: 2023-08-19 22:23+0400\n"
+"POT-Creation-Date: 2024-02-13 00:37+0000\n"
+"PO-Revision-Date: 2024-02-12 21:12+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -495,10 +495,9 @@ msgid "Vertical multiplicator"
 msgstr "المضاعف العمودي"
 
 #: data/effects/box_blur.xml:15
-#, fuzzy, kde-format
-#| msgid "Preserve aspect ratio"
+#, kde-format
 msgid "Preserve alpha"
-msgstr "حافظ على النّسبة الباعيّة"
+msgstr "أبقِ ألفا"
 
 #: data/effects/boxblur.xml:4
 #, kde-format
@@ -2759,8 +2758,7 @@ msgid "Modulators"
 msgstr "مُعدِّلات"
 
 #: data/kdenliveeffectscategory.rc:81
-#, fuzzy, kde-format
-#| msgid "Noise Reduction and audio Restoration"
+#, kde-format
 msgid "Noise Reduction and Audio Restoration"
 msgstr "الحد من الضوضاء واستعادة الصوت"
 
@@ -3179,10 +3177,9 @@ msgid "Reload custom effect"
 msgstr "أعد تحميل التّأثير المخصص"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:76
-#, fuzzy, kde-format
-#| msgid "Edit Info"
+#, kde-format
 msgid "Edit Info…"
-msgstr "حرّر المعلومات"
+msgstr "حرّر المعلومات…"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:81
 #, kde-format
@@ -3256,11 +3253,10 @@ msgstr "أزل من المفضّلة"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:390
 #: src/assets/assetlist/view/assetlistwidget.cpp:392
-#, fuzzy, kde-format
-#| msgid "Kdenlive document to open."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Online documentation"
-msgstr "مستند كِيدِينلايف لفتحه"
+msgstr "توثيق عبر الإنترنت"
 
 #: src/assets/assetpanel.cpp:67
 #, kde-format
@@ -3381,62 +3377,59 @@ msgid "Smooth"
 msgstr "سَلِس"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:28
-#, fuzzy, kde-format
-#| msgid "Set Zone In"
+#, kde-format
 msgid "Bounce In"
-msgstr "عيين التكبير"
+msgstr "ارتداد للداخل"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:29
-#, fuzzy, kde-format
-#| msgid "Set Zone Out"
+#, kde-format
 msgid "Bounce Out"
-msgstr "عيين التصغير"
+msgstr "ارتداد للخارج"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:30
 #, kde-format
 msgid "Cubic In"
-msgstr ""
+msgstr "مكعب للداخل"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:31
 #, kde-format
 msgid "Cubic Out"
-msgstr ""
+msgstr "مكعب للخارج"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:32
 #, kde-format
 msgid "Exponential In"
-msgstr ""
+msgstr "أسي للداخل"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:33
 #, kde-format
 msgid "Exponential Out"
-msgstr ""
+msgstr "أسي للخارج"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:34
 #, kde-format
 msgid "Circular In"
-msgstr ""
+msgstr "دائري للداخل"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:35
 #, kde-format
 msgid "Circular Out"
-msgstr ""
+msgstr "دائري للخارج"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:36
 #, kde-format
 msgid "Elastic In"
-msgstr ""
+msgstr "مرن للداخل"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:37
 #, kde-format
 msgid "Elastic Out"
-msgstr ""
+msgstr "مرن للخارج"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:38
-#, fuzzy, kde-format
-#| msgid " - deprecated"
+#, kde-format
 msgid "Smooth (deprecated)"
-msgstr " -مهمل"
+msgstr "سلس (مهمل)"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:135
 #: src/assets/keyframes/model/keyframemodellist.cpp:136
@@ -4354,10 +4347,9 @@ msgid "Cancel Pending Jobs"
 msgstr "ألغِ المهامّ المرجأة"
 
 #: src/bin/bin.cpp:1483
-#, fuzzy, kde-format
-#| msgid "Clip Properties"
+#, kde-format
 msgid "Bin Clip Properties"
-msgstr "خصائص المقطع"
+msgstr "خصائص سلة المقاطع"
 
 #: src/bin/bin.cpp:1786
 #, kde-format
@@ -4448,23 +4440,23 @@ msgid ""
 "You need to select 2 clips (the replacement clip and the original clip) for "
 "timeline replacement."
 msgstr ""
+"تحتاج إلى تحديد مقطعين (المقطع البديل والمقطع الأصلي) لاستبدال الخط الزمني."
 
 #: src/bin/bin.cpp:1955
 #, kde-format
 msgid "The current clip <b>%1</b> is not inserted in the active timeline."
-msgstr ""
+msgstr "لم يدرج المقطع الحالي <b>%1</b> في الخط الزمني النشط."
 
 #: src/bin/bin.cpp:1960
-#, fuzzy, kde-format
-#| msgid "You cannot insert a sequence containing itself"
+#, kde-format
 msgid "You cannot insert the sequence <b>%1</b> into itself."
-msgstr "لا يمكنك إضافة تسلسل يحوي نفسه."
+msgstr "لا يمكنك إدراج التسلسل <b>%1</b>  إلى نفسه."
 
 #: src/bin/bin.cpp:1979
 #, kde-format
 msgid ""
 "The selected clips %1 and %2 don't match, cannot replace audio nor video"
-msgstr ""
+msgstr "المقاطع المحددة %1 و%2 غير متطابقة، ولا يمكن استبدال الصوت أو الفيديو"
 
 #: src/bin/bin.cpp:1990
 #, kde-format
@@ -4472,6 +4464,8 @@ msgid ""
 "Replacing instances of clip <b>%1</b> (%2)<br/>in active timeline\n"
 "with clip <b>%3</b> (%4)"
 msgstr ""
+"استبدال مثيلات المقطع <b>%1</b> (%2)<br/>في المخطط الزمني\n"
+"النشط بالمقطع <b>%3</b> (%4)"
 
 #: src/bin/bin.cpp:1995
 #, kde-format
@@ -4479,18 +4473,18 @@ msgid ""
 "Replacing instances of clip <b>%1</b><br/>in active timeline\n"
 "with clip <b>%2</b>"
 msgstr ""
+"استبدال مثيلات المقطع <b>%1</b><br/>في المخطط الزمني\n"
+"النشط بالمقطع <b>%2</b>"
 
 #: src/bin/bin.cpp:1997 src/timeline2/model/timelineitemmodel.cpp:931
-#, fuzzy, kde-format
-#| msgid "Record audio"
+#, kde-format
 msgid "Replace audio"
-msgstr "سجّل صوت"
+msgstr "استبدل الصوت"
 
 #: src/bin/bin.cpp:2000 src/timeline2/model/timelineitemmodel.cpp:931
-#, fuzzy, kde-format
-#| msgid "Restore video"
+#, kde-format
 msgid "Replace video"
-msgstr "استعد الفيديو"
+msgstr "استبدل الفيديو"
 
 #: src/bin/bin.cpp:2010
 #, kde-format
@@ -4498,19 +4492,19 @@ msgid ""
 "Replacement clip is shorter than source clip.<br><b>Some clips in timeline "
 "might not be replaced</b>"
 msgstr ""
+"المقطع البديل أقصر من المقطع المصدر.<br><b>قد لا تستبدل بعض المقاطع في "
+"المخطط الزمني</b>"
 
 #: src/bin/bin.cpp:2013
 #, kde-format
 msgid "Replacement clip duration is longer that your source clip"
-msgstr ""
+msgstr "مدة المقطع البديل أطول من المقطع المصدر"
 
 #: src/bin/bin.cpp:2048
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Open Replacement File"
+#, kde-format
 msgctxt "@title:window"
 msgid "Open Replacement for %1"
-msgstr "افتح الملفّ البديل"
+msgstr "افتح البديل لـ%1"
 
 #: src/bin/bin.cpp:2082
 #, kde-format
@@ -4518,6 +4512,8 @@ msgid ""
 "Replacement clip does not contain a video stream. Do you want to replace "
 "only the audio component of this clip in the active timeline ?"
 msgstr ""
+"لا يحتوي المقطع البديل على دفق فيديو. هل تريد استبدال المكون الصوتي لهذا "
+"المقطع فقط في المخطط الزمني النشط؟"
 
 #: src/bin/bin.cpp:2087
 #, kde-format
@@ -4525,6 +4521,8 @@ msgid ""
 "Replacement clip does not contain an audio stream. Do you want to replace "
 "only the video component of this clip in the active timeline ?"
 msgstr ""
+"لا يحتوي المقطع البديل على دفق صوتي. هل تريد استبدال مكون الفيديو الخاص بهذا "
+"المقطع فقط في المخطط الزمني النشط؟"
 
 #: src/bin/bin.cpp:2091 src/bin/bin.cpp:2117
 #, kde-format
@@ -4532,12 +4530,12 @@ msgid ""
 "You cannot replace a clip with a different type of clip (audio/video not "
 "matching)."
 msgstr ""
+"لا يمكنك استبدال مقطع بنوع مختلف من المقاطع (الصوت/الفيديو غير متطابقين)."
 
 #: src/bin/bin.cpp:2094
-#, fuzzy, kde-format
-#| msgid "Main timeline"
+#, kde-format
 msgid "Replace in timeline"
-msgstr "الخطّ الزّمنيّ الرئيس"
+msgstr "استبدل في الخطّ الزّمني"
 
 #: src/bin/bin.cpp:2115 src/bin/bin.cpp:5708 src/bin/clipcreator.cpp:325
 #, kde-format
@@ -4669,7 +4667,7 @@ msgstr "قائمة التشغيل"
 #: src/project/projectmanager.cpp:1460 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
-msgstr "السلاسل"
+msgstr "التسلسلات"
 
 #: src/bin/bin.cpp:2460 src/project/dialogs/projectsettings.cpp:216
 #, kde-format
@@ -4811,10 +4809,9 @@ msgid "Replace Clip…"
 msgstr "استبدل المقطع…"
 
 #: src/bin/bin.cpp:3639
-#, fuzzy, kde-format
-#| msgid "Replace Clip…"
+#, kde-format
 msgid "Replace Clip In Timeline…"
-msgstr "استبدل المقطع…"
+msgstr "استبدل المقطع في الخط الزمني…"
 
 #: src/bin/bin.cpp:3644
 #, kde-format
@@ -4842,10 +4839,9 @@ msgid "Default Target Folder for Sequences"
 msgstr "المجلّد الهدف للمتسلسلات"
 
 #: src/bin/bin.cpp:3695
-#, fuzzy, kde-format
-#| msgid "Default Target Folder for Sequences"
+#, kde-format
 msgid "Default Target Folder for Audio Captures"
-msgstr "المجلّد الهدف للمتسلسلات"
+msgstr "المجلّد الهدف لالتقاطات الصوت"
 
 #: src/bin/bin.cpp:3699
 #, kde-format
@@ -5119,21 +5115,19 @@ msgstr "أزل علامات المقطع"
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
-msgstr ""
+msgstr "نوصي بحفظ المشروع قبل عملية تحويل الترميز"
 
 #: src/bin/bin.cpp:6053
-#, fuzzy, kde-format
-#| msgid "Save DVD Project"
+#, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
-msgstr "احفظ مشروع DVD"
+msgstr "احفظ المشروع"
 
 #: src/bin/bin.cpp:6054
-#, fuzzy, kde-format
-#| msgid "Transcoding"
+#, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
-msgstr "يبدل الترميز"
+msgstr "يبدل الترميز دون حفظ"
 
 #: src/bin/bincommands.cpp:20 src/bin/bincommands.cpp:40
 #, kde-format
@@ -5499,11 +5493,10 @@ msgid "Delete subtitle"
 msgstr "احذف الترجمة"
 
 #: src/bin/model/subtitlemodel.cpp:1686 src/bin/model/subtitlemodel.cpp:1689
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox subtitle track name"
 msgid "Subtitle %1"
-msgstr "الترجمة"
+msgstr "الترجمة %1"
 
 #: src/bin/projectclip.cpp:261
 #, kde-format
@@ -5547,10 +5540,9 @@ msgid "File already exists"
 msgstr "الملفّ موجود بالفعل"
 
 #: src/bin/projectclip.cpp:2632
-#, fuzzy, kde-format
-#| msgid "Paste timeline clips"
+#, kde-format
 msgid "Adjust timeline clips"
-msgstr "ألصق مقاطع الخط الزمني"
+msgstr "اضبط مقاطع الخط الزمني"
 
 #: src/bin/projectclip.cpp:2863
 #, kde-format
@@ -5627,10 +5619,9 @@ msgid "Clean Project"
 msgstr "نظف المشروع"
 
 #: src/bin/projectitemmodel.cpp:1225
-#, fuzzy, kde-format
-#| msgid "Loading project clips…"
+#, kde-format
 msgid "Reading project clips…"
-msgstr "يحمّل مقاطع المشروع…"
+msgstr "يقرأ مقاطع المشروع…"
 
 #: src/bin/projectitemmodel.cpp:1331
 #, kde-format
@@ -6128,10 +6119,9 @@ msgid "Duplicate Clip with Speed Change…"
 msgstr "كرّر المقطع مع تغيير السرعة…"
 
 #: src/dialogs/clipjobmanager.cpp:252
-#, fuzzy, kde-format
-#| msgid "Executable"
+#, kde-format
 msgid "Missing executable"
-msgstr "تنفيذي"
+msgstr "يفتقد تنفيذي"
 
 #: src/dialogs/clipjobmanager.cpp:255
 #, kde-format
@@ -6384,10 +6374,9 @@ msgid "Guide position in frames"
 msgstr "موضع الدليل في ‎الإطارات"
 
 #: src/dialogs/exportguidesdialog.cpp:117
-#, fuzzy, kde-format
-#| msgid "Guide position in frames"
+#, kde-format
 msgid "Next guide position in frames"
-msgstr "موضع الدليل في ‎الإطارات"
+msgstr "موضع الدليل التالي في ‎الإطارات"
 
 #: src/dialogs/exportguidesdialog.cpp:118
 #, kde-format
@@ -6656,36 +6645,32 @@ msgid "Progressive"
 msgstr "متتالي"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1763
-#, fuzzy, kde-format
-#| msgid "Set the path for MLT environment."
+#, kde-format
 msgid "Setting up virtual environment…"
-msgstr "اضبط مسار بيئة MLT."
+msgstr "يهيئ البيئة الافتراضية…"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1765
 #, kde-format
 msgid "Disabling virtual environment"
-msgstr ""
+msgstr "يعطل البيئة الافتراضية"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1782
-#, fuzzy, kde-format
-#| msgid "Set the path for MLT environment."
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Removing the virtual environment folder."
-msgstr "اضبط مسار بيئة MLT."
+msgstr "يزيل مجلد البيئة الافتراضية."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1787
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "No items found."
+#, kde-format
 msgctxt "@label:textbox"
 msgid "No python venv found"
-msgstr "لم يُعثر على عناصر."
+msgstr "لم يُعثر venv للبيثون"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1790
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Failed to remove the virtual environment folder."
-msgstr ""
+msgstr "فشل في إزالة مجلد البيئة الافتراضية."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1795
 #, kde-format
@@ -6758,25 +6743,22 @@ msgid "New dictionary installed."
 msgstr "ثبت معجم جديد."
 
 #: src/dialogs/managesubtitles.cpp:28
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@title:window"
 msgid "Manage Subtitles"
-msgstr "الترجمة"
+msgstr "أدر الترجمة"
 
 #: src/dialogs/managesubtitles.cpp:44
-#, fuzzy, kde-format
-#| msgid "Import Subtitle"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Import Subtitle"
 msgstr "استورد ترجمة"
 
 #: src/dialogs/managesubtitles.cpp:45
-#, fuzzy, kde-format
-#| msgid "Import Subtitle"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Export Subtitle"
-msgstr "استورد ترجمة"
+msgstr "صدّر  الترجمة"
 
 #: src/dialogs/managesubtitles.cpp:112
 #, kde-format
@@ -6951,10 +6933,9 @@ msgid "Rendering aborted"
 msgstr "أُجهض التّصيير"
 
 #: src/dialogs/renderwidget.cpp:216
-#, fuzzy, kde-format
-#| msgid "Nearest Neighbor (fast)"
+#, kde-format
 msgid "Nearest (fast)"
-msgstr "أقرب جار (سريع)"
+msgstr "الأقرب (سريع)"
 
 #: src/dialogs/renderwidget.cpp:217 src/monitor/monitormanager.cpp:588
 #, kde-format
@@ -6967,10 +6948,9 @@ msgid "Bicubic (better)"
 msgstr "تكعيبي مزدوج (أفضل)"
 
 #: src/dialogs/renderwidget.cpp:219
-#, fuzzy, kde-format
-#| msgid "Hyper/Lanczos (best)"
+#, kde-format
 msgid "Lanczos (best)"
-msgstr "فائق/لنكوزس (الأفضل)"
+msgstr "لنكوزس (الأفضل)"
 
 #: src/dialogs/renderwidget.cpp:227 src/monitor/monitormanager.cpp:569
 #, kde-format
@@ -6988,15 +6968,14 @@ msgid "YADIF - temporal only (good)"
 msgstr "YADIF-الزمانيه فقط (جيد)"
 
 #: src/dialogs/renderwidget.cpp:230
-#, fuzzy, kde-format
-#| msgid "Bicubic (better)"
+#, kde-format
 msgid "YADIF (better)"
-msgstr "تكعيبي مزدوج (أفضل)"
+msgstr "YADIF (أفضل)"
 
 #: src/dialogs/renderwidget.cpp:231
 #, kde-format
 msgid "BWDIF (best)"
-msgstr ""
+msgstr "BWDIF (الأفضل)"
 
 #: src/dialogs/renderwidget.cpp:239 src/project/dialogs/slideshowclip.cpp:60
 #: src/scopes/colorscopes/vectorscope.cpp:55
@@ -7099,17 +7078,17 @@ msgid ""
 "desync.\n"
 "We recommend to transcode to an edit friendly format."
 msgstr ""
+"قد يؤدي تصيير مشروع بمعدل إطارات متغيرة إلى عدم مزامنة الصوت/الفيديو.\n"
+"نوصي بتحويل الترميز إلى تنسيق سهل التحرير."
 
 #: src/dialogs/renderwidget.cpp:649
-#, fuzzy, kde-format
-#| msgid "Render line"
+#, kde-format
 msgctxt "@action:button"
 msgid "Render Anyway"
-msgstr "خط التصيير"
+msgstr "صيّر على كل حال"
 
 #: src/dialogs/renderwidget.cpp:652
-#, fuzzy, kde-format
-#| msgid "Transcode"
+#, kde-format
 msgctxt "@action:button"
 msgid "Transcode"
 msgstr "تبديل الترميز"
@@ -7130,8 +7109,7 @@ msgstr ""
 "رجاء تحقّق من امتلاكك التّصاريح المطلوبة."
 
 #: src/dialogs/renderwidget.cpp:723
-#, fuzzy, kde-format
-#| msgid "The following errors occured while trying to render"
+#, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr "حدث الخطأ التالي أثناء محاولة التصيير"
 
@@ -7244,23 +7222,20 @@ msgid "Remove Job"
 msgstr "أزل المهمّة"
 
 #: src/dialogs/renderwidget.cpp:1759
-#, fuzzy, kde-format
-#| msgid "Render Duration: %1"
+#, kde-format
 msgid "Render Duration: %1. "
-msgstr "مدّة التصيير: %1"
+msgstr "مدّة التصيير: %1. "
 
 #: src/dialogs/renderwidget.cpp:1761
-#, fuzzy, kde-format
-#| msgid "You have %1 missing clip in your project."
-#| msgid_plural "You have %1 missing clips in your project."
+#, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
-msgstr[0] "لديك كلّ مقاطع هذا المشروع."
-msgstr[1] "تفقد مقطع واحد في هذا المشروع."
-msgstr[2] "تفقد مقطعين في هذا المشروع."
-msgstr[3] "تفقد %1 مقاطع في هذا المشروع."
-msgstr[4] "تفقد %1 مقطعاً في هذا المشروع."
-msgstr[5] "تفقد %1 مقطع في هذا المشروع."
+msgstr[0] "<b>لديك كلّ مقاطع هذا المشروع.</b>"
+msgstr[1] "<b>تفقد مقطع واحد في هذا المشروع.</b>"
+msgstr[2] "<b>تفقد مقطعين في هذا المشروع.</b>"
+msgstr[3] "<b>تفقد %1 مقاطع في هذا المشروع.</b>"
+msgstr[4] "<b>تفقد %1 مقطعاً في هذا المشروع.</b>"
+msgstr[5] "<b>تفقد %1 مقطع في هذا المشروع.</b>"
 
 #: src/dialogs/renderwidget.cpp:1763
 #, fuzzy, kde-format
@@ -7296,16 +7271,14 @@ msgstr ""
 "%1"
 
 #: src/dialogs/renderwidget.cpp:1865
-#, fuzzy, kde-format
-#| msgid "Add to current project"
+#, kde-format
 msgid "Add to Current Project"
 msgstr "أضف إلى المشروع الحالي"
 
 #: src/dialogs/renderwidget.cpp:1868 src/library/librarywidget.cpp:256
-#, fuzzy, kde-format
-#| msgid "Destination folder"
+#, kde-format
 msgid "Open Containing Folder"
-msgstr "المجلّد المقصد"
+msgstr "افتح المجلد الحاوي"
 
 #: src/dialogs/speechdialog.cpp:42
 #, kde-format
@@ -7344,11 +7317,10 @@ msgstr "فضلا ثبت نماذج التعرف على الحديث"
 
 #: src/dialogs/speechdialog.cpp:199
 #: src/pythoninterfaces/abstractpythoninterface.cpp:175
-#, fuzzy, kde-format
-#| msgid "Checking configuration…"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Checking setup…"
-msgstr "يفحص الضّبط..."
+msgstr "يفحص التكوين..."
 
 #: src/dialogs/speechdialog.cpp:204 src/dialogs/textbasededit.cpp:932
 #: src/dialogs/textbasededit.cpp:945
@@ -7518,7 +7490,7 @@ msgstr "أعلى اليمين"
 #: src/dialogs/subtitleedit.cpp:473
 #, kde-format
 msgid "Character: %1, total: <b>%2</b>"
-msgstr ""
+msgstr "المحرف: %1، المجموع: <b>%2</b>"
 
 #: src/dialogs/textbasededit.cpp:55
 #, kde-format
@@ -7544,17 +7516,14 @@ msgid "Configure Speech Recognition"
 msgstr "اضبط تعرف الكلام"
 
 #: src/dialogs/textbasededit.cpp:654
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with edit"
-msgstr "أنشئ تسلسلًا جديدًا"
+msgstr "أنشئ تسلسلًا جديدًا بالتحرير"
 
 #: src/dialogs/textbasededit.cpp:655
-#, fuzzy, kde-format
-#| msgid "Insert selected blocks in timeline"
+#, kde-format
 msgid "Insert selection in timeline"
-msgstr "أدرج الكتل المحددة في الخط الزمني"
+msgstr "أدرج التحديد في الخط الزمني"
 
 #: src/dialogs/textbasededit.cpp:656
 #, fuzzy, kde-format
@@ -7563,11 +7532,9 @@ msgid "Save edited text in a playlist file"
 msgstr "احفظ النص المحرر في قائمة تشغيل جديدة"
 
 #: src/dialogs/textbasededit.cpp:663
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with text edit "
-msgstr "أنشئ تسلسلًا جديدًا"
+msgstr "أنشئ تسلسلًا جديدًا بتحرير نص "
 
 #: src/dialogs/textbasededit.cpp:687
 #, kde-format
@@ -7585,16 +7552,14 @@ msgid "Delete selected text"
 msgstr "احذف النص المحدّد"
 
 #: src/dialogs/textbasededit.cpp:729
-#, fuzzy, kde-format
-#| msgid "Add bookmark for current selection"
+#, kde-format
 msgid "Add marker for current selection"
 msgstr "أضف علامة للتحديد الحالي"
 
 #: src/dialogs/textbasededit.cpp:737
-#, fuzzy, kde-format
-#| msgid "Remove All Preview Zones"
+#, kde-format
 msgid "Remove non speech zones"
-msgstr "أزل كل مناطق المعاينة"
+msgstr "أزل كل مناطق التي لا تحوي كلام"
 
 #: src/dialogs/textbasededit.cpp:916
 #, kde-format
@@ -7655,18 +7620,16 @@ msgid "Speech recognition finished."
 msgstr "فشل التعرف على الحديث"
 
 #: src/dialogs/textbasededit.cpp:1390
-#, fuzzy, kde-format
-#| msgid "Edit clip cut"
+#, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
-msgstr "حرر قص المقطع"
+msgstr "حرر نص المقطع"
 
 #: src/dialogs/textbasededit.cpp:1422 src/dialogs/textbasededit.cpp:1504
-#, fuzzy, kde-format
-#| msgid "Create Sequence Clip"
+#, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
-msgstr "أنشئ مقطع تسلسلي جديدًا"
+msgstr "أنشئ مقطع تسلسلي"
 
 #: src/dialogs/textbasededit.cpp:1429 src/dialogs/textbasededit.cpp:1465
 #, kde-format
@@ -7976,13 +7939,12 @@ msgstr "عثر على مرمزات عتاد وفٌعلت (%1)."
 #: src/doc/dcresolvedialog.cpp:57
 #, kde-format
 msgid "Recursive search: processing clips"
-msgstr ""
+msgstr "البحث العودي: معالجة المقاطع"
 
 #: src/doc/dcresolvedialog.cpp:66
-#, fuzzy, kde-format
-#| msgid "Recursive search: done"
+#, kde-format
 msgid "Recursive search: done in %1 s"
-msgstr "البحث التكراري: انتهى"
+msgstr "البحث العودي: انتهى في %1 ث"
 
 #: src/doc/dcresolvedialog.cpp:149
 #, kde-format
@@ -7995,10 +7957,9 @@ msgid "Enter new location for file"
 msgstr "أدخل المكان الجديد للملفّ"
 
 #: src/doc/dcresolvedialog.cpp:194
-#, fuzzy, kde-format
-#| msgid "The project file contains missing clips or files."
+#, kde-format
 msgid "The project contains:"
-msgstr "يحوي ملفّ المشروع مقاطع أو ملفّات ناقصة."
+msgstr "يحوي المشروع:"
 
 #: src/doc/dcresolvedialog.cpp:200
 #, fuzzy, kde-format
@@ -8080,13 +8041,12 @@ msgstr "مجلد المقاطع"
 #: src/doc/documentchecker.cpp:106
 #, kde-format
 msgid "Applying fixes…"
-msgstr ""
+msgstr "يطبق الإصلاحات…"
 
 #: src/doc/documentchecker.cpp:145 src/doc/documentchecker.cpp:199
-#, fuzzy, kde-format
-#| msgid "Checking configuration…"
+#, kde-format
 msgid "Checking for missing items…"
-msgstr "يفحص الضّبط..."
+msgstr "يفحص العناصر الناقصة…"
 
 #: src/doc/documentchecker.cpp:162
 #, kde-format
@@ -8157,10 +8117,9 @@ msgid "Transition"
 msgstr "الانتقال"
 
 #: src/doc/documentchecker.cpp:1606
-#, fuzzy, kde-format
-#| msgid "Create sequence"
+#, kde-format
 msgid "Corrupted sequence"
-msgstr "أنشئ تسلسلًا جديدًا"
+msgstr "تسلسل معطوب"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
 #: src/doc/documentchecker.cpp:1616 src/ui/editrenderpreset_ui.ui:538
@@ -8206,10 +8165,9 @@ msgid "Missing proxies can be recreated on opening."
 msgstr "الوسطاء ناقصون سيُعاد إنشاؤهم عند الفتح."
 
 #: src/doc/documentvalidator.cpp:47
-#, fuzzy, kde-format
-#| msgid "Loading project…"
+#, kde-format
 msgid "Validating project…"
-msgstr "يحمّل المشروع…"
+msgstr "يتحقق صحة المشروع..."
 
 #: src/doc/documentvalidator.cpp:89
 #, kde-format
@@ -8236,10 +8194,9 @@ msgid "Incorrect project file"
 msgstr "ملفّ المشروع غير صحيح"
 
 #: src/doc/documentvalidator.cpp:184
-#, fuzzy, kde-format
-#| msgid "Loading project…"
+#, kde-format
 msgid "Upgrading project version…"
-msgstr "يحمّل المشروع…"
+msgstr "يرقي إصدارة المشروع…"
 
 #: src/doc/documentvalidator.cpp:190
 #, kde-format
@@ -8471,7 +8428,7 @@ msgstr "نوع المقطع لا يدعم الوسطاء"
 #: src/doc/kdenlivedoc.cpp:1858
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
-msgstr ""
+msgstr "تحذير: إطارًا في الثانية غير قياسي، سيعدل لأقرب عدد صحيح."
 
 #: src/doc/kdenlivedoc.cpp:1877
 #, kde-format
@@ -9521,11 +9478,10 @@ msgid "Merged streams"
 msgstr "ادمج الدفق"
 
 #: src/library/librarywidget.cpp:190 src/statusbarmessagelabel.cpp:84
-#, fuzzy, kde-format
-#| msgid "%1%"
+#, kde-format
 msgctxt "%p is the percent value, % is the percent sign"
 msgid "%p%"
-msgstr "%1٪"
+msgstr "%p٪"
 
 #: src/library/librarywidget.cpp:203 src/library/librarywidget.cpp:531
 #, kde-format
@@ -9679,10 +9635,9 @@ msgid "An open source video editor."
 msgstr "محرّر فيديوهات مفتوح المصدر."
 
 #: src/main.cpp:148
-#, fuzzy, kde-format
-#| msgid "Copyright © 2007–2023 Kdenlive authors"
+#, kde-format
 msgid "Copyright © 2007–2024 Kdenlive authors"
-msgstr "الحقوق محفوظة © 2007-2023، لمؤلّفي كِيدِينلايف"
+msgstr "الحقوق محفوظة © 2007–2024، لمؤلّفي كِيدِينلايف"
 
 #: src/main.cpp:150
 #, kde-format
@@ -9869,15 +9824,14 @@ msgid "Comma separated list of files to add as clips to the bin."
 msgstr "قائمة ملفات مفصولة بفواصل لإضافتها كمقاطع إلى السلة."
 
 #: src/main.cpp:207
-#, fuzzy, kde-format
-#| msgid "Parent folder of the project file"
+#, kde-format
 msgid "Directly render the project and exit."
-msgstr "المجلد الأصل لملف المشروع"
+msgstr "صيّر المشروع مباشرة واخرج."
 
 #: src/main.cpp:210
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
-msgstr ""
+msgstr "اسم الإعداد المسبق لعرض كيدنلايف (سيستخدم MP4-H264/AAC إذا لم يحدد)."
 
 #: src/main.cpp:215
 #, kde-format
@@ -9885,6 +9839,8 @@ msgid ""
 "Exit after (detached) render process started, without this flag it exists "
 "only after it finished."
 msgstr ""
+"اخرج بعد بدء عملية التصيير (المنفصلة)، دون هذه العلامة ستخرج فقط بعد انتهاء "
+"العملية."
 
 #: src/main.cpp:218
 #, kde-format
@@ -9892,10 +9848,9 @@ msgid "Kdenlive document to open."
 msgstr "مستند كِيدِينلايف لفتحه"
 
 #: src/main.cpp:219
-#, fuzzy, kde-format
-#| msgid "Output file extension"
+#, kde-format
 msgid "Output file for rendered video."
-msgstr "امتداد الملفّ المنتوج"
+msgstr "ملفّ الخرج للفيديو المصير."
 
 #: src/main.cpp:344
 #, kde-format
@@ -11107,10 +11062,9 @@ msgid "Lock Subtitle"
 msgstr "اقفل الترجمة"
 
 #: src/mainwindow.cpp:1913
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgid "Manage Subtitles"
-msgstr "الترجمة"
+msgstr "أدر الترجمة"
 
 #: src/mainwindow.cpp:1915
 #, kde-format
@@ -11369,10 +11323,9 @@ msgid "Insert zone"
 msgstr "أدرج منطقة"
 
 #: src/mainwindow.cpp:3172
-#, fuzzy, kde-format
-#| msgid "Cannot add effect to clip"
+#, kde-format
 msgid "Cannot add effect to active item"
-msgstr "لا يمكن إضافة تأثير على المقطع"
+msgstr "لا يمكن إضافة تأثير للعنصر النشط"
 
 #: src/mainwindow.cpp:3234
 #, kde-format
@@ -11453,22 +11406,16 @@ msgid "Slip"
 msgstr "انزلاق"
 
 #: src/mainwindow.cpp:3406
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<shortcut>Shift drag</shortcut> for rubber-band selection, "
-#| "<shortcut>Shift click</shortcut> for multiple selection, <shortcut>Meta "
-#| "drag</shortcut> to move a grouped clip to another track, <shortcut>Ctrl "
-#| "drag</shortcut> to pan"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Shift drag</shortcut> for rubber-band selection, <shortcut>Shift "
 "click</shortcut> for multiple selection, <shortcut>Alt click</shortcut> to "
 "select an item in a group, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
-"<shortcut> سحب مع shift </shortcut> للتحديد النطاق المطاطي ، <shortcut>النقر "
-"مع shift</shortcut> للتحديد المتعدد، <shortcut>سحب مع Meta</shortcut> لنقل "
-"المقطع المجموع إلى مسار أخر،<shortcut>سحب مع ctrl</shortcut> للتوزيع"
+"<shortcut> سحب مع Shift </shortcut> للتحديد النطاق المطاطي ، <shortcut>النقر "
+"مع Shift</shortcut> للتحديد المتعدد، <shortcut>النقر مع Alt</shortcut> لتحيد "
+"عنصر في مجموعة،<shortcut>سحب مع Ctrl</shortcut> للتوزيع"
 
 #: src/mainwindow.cpp:3408
 #, kde-format
@@ -11507,16 +11454,14 @@ msgid "Transcoders"
 msgstr "مبدلات الترميز"
 
 #: src/mainwindow.cpp:3841
-#, fuzzy, kde-format
-#| msgid "Merge"
+#, kde-format
 msgid "-merged"
-msgstr "ادمج"
+msgstr "-مدمج"
 
 #: src/mainwindow.cpp:3844
-#, fuzzy, kde-format
-#| msgid "Video stream %1"
+#, kde-format
 msgid "-stream-%1"
-msgstr "دفق الفيديو %1"
+msgstr "-الدفق-%1"
 
 #: src/mainwindow.cpp:3877
 #, kde-format
@@ -11607,26 +11552,25 @@ msgstr "سلّة المشروع %1"
 #: src/mainwindow.cpp:4828
 #, kde-format
 msgid "Go to download page"
-msgstr ""
+msgstr "اذهب إلى صفحة التحميل"
 
 #: src/mainwindow.cpp:4831
-#, fuzzy, kde-format
-#| msgid "Check again"
+#, kde-format
 msgid "Never check again"
-msgstr "تحقق مجددًا"
+msgstr "لا تحقق مجددًا"
 
 #: src/mainwindow.cpp:4834
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
-msgstr ""
+msgstr "الإصدار كيدنلايف قديمة بعام كامل، نحن نشجعك بشدة على الترقية"
 
 #: src/mainwindow.cpp:4837
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
-msgstr ""
+msgstr "إصدار كيدنلايف قديمة بستة أشهر، نحن نشجعك على الترقية"
 
 #: src/mainwindow.cpp:4880
 #, kde-format
@@ -12087,17 +12031,17 @@ msgctxt "@title:window"
 msgid "Open Analysis Data"
 msgstr "افتح بيانات التّحليل"
 
-#: src/monitor/glwidget.cpp:1651 src/monitor/videowidget.cpp:1060
+#: src/monitor/glwidget.cpp:1651 src/monitor/videowidget.cpp:1084
 #, kde-format
 msgid "Select a zone to play"
 msgstr "حدد منطقة لتشغيلها"
 
-#: src/monitor/glwidget.cpp:1698 src/monitor/videowidget.cpp:1107
+#: src/monitor/glwidget.cpp:1698 src/monitor/videowidget.cpp:1131
 #, kde-format
 msgid "Select a clip to play"
 msgstr "حدد مقطع لتشغيله"
 
-#: src/monitor/glwidget.cpp:1780 src/monitor/videowidget.cpp:1188
+#: src/monitor/glwidget.cpp:1780 src/monitor/videowidget.cpp:1212
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -13372,10 +13316,9 @@ msgid "Archiving %1"
 msgstr "يؤرشف %1"
 
 #: src/project/dialogs/archivewidget.cpp:1129
-#, fuzzy, kde-format
-#| msgid "Cannot open file %1"
+#, kde-format
 msgid "Cannot copy file %1 to %2."
-msgstr "تعذّر فتح الملفّ %1"
+msgstr "تعذّر نسخ الملفّ %1 إلى %2."
 
 #: src/project/dialogs/archivewidget.cpp:1159
 #, kde-format
@@ -14153,17 +14096,14 @@ msgid "Cannot perform assign"
 msgstr "تعذّر إجراء تعيين"
 
 #: src/project/projectmanager.cpp:68
-#, fuzzy, kde-format
-#| msgid "Render Project"
+#, kde-format
 msgid "Kdenlive Project"
-msgstr "صيّر المشروع"
+msgstr "مشروع كِيدِينلايف"
 
 #: src/project/projectmanager.cpp:70
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Archive Project"
+#, kde-format
 msgid "Archived Project"
-msgstr "أرشف المشروع"
+msgstr "مشروع مؤرشف"
 
 #: src/project/projectmanager.cpp:151
 #, kde-format
@@ -14195,10 +14135,9 @@ msgid "Saving project file <br><b>%1</B> failed"
 msgstr ""
 
 #: src/project/projectmanager.cpp:563
-#, fuzzy, kde-format
-#| msgid "Starting process"
+#, kde-format
 msgid "Saving successful"
-msgstr "يبدأ العمليّة"
+msgstr "نحج الحفظ"
 
 #: src/project/projectmanager.cpp:576
 #, kde-format
@@ -14280,24 +14219,23 @@ msgid ""
 msgstr "عُدل على مشروعك عند الفتح، ستنشئ نسخة احتياطية عند الحفظ التالي."
 
 #: src/project/projectmanager.cpp:873
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Loading timeline…"
-msgstr "ينزل نموذجاً…"
+msgstr "يحمّل نموذجاً…"
 
 #: src/project/projectmanager.cpp:892
-#, fuzzy, kde-format
-#| msgid "Timeline sequence"
+#, kde-format
 msgid "Building sequences…"
-msgstr "تسلسل خط زمني"
+msgstr "يبني التسلسلات…"
 
 #: src/project/projectmanager.cpp:996
-#, fuzzy, kde-format
-#| msgid "Cannot open project file %1"
+#, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
 "%1\n"
-msgstr "تعذّر فتح ملفّ المشروع %1"
+msgstr ""
+"تعذّر فتح ملفّ المشروع. الخطأ:\n"
+"%1\n"
 
 #: src/project/projectmanager.cpp:1036
 #, kde-format
@@ -14411,10 +14349,9 @@ msgid "Install missing dependencies"
 msgstr "ثبت الاعتماديّات الناقصة"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:34
-#, fuzzy, kde-format
-#| msgid "Check VOSK installation"
+#, kde-format
 msgid "Abort installation"
-msgstr "تأكد من تثبيت VOSK"
+msgstr "أجهض التثبيت"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:49
 #, kde-format
@@ -14443,10 +14380,9 @@ msgid "Check for update"
 msgstr "التمس التحديثات"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:100
-#, fuzzy, kde-format
-#| msgid "Installing modules…"
+#, kde-format
 msgid "Installing modules… this can take a while"
-msgstr "يثبّت الوحدات…"
+msgstr "يثبّت الوحدات… سيستغرق بعض الوقت"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:110
 #, kde-format
@@ -14482,19 +14418,17 @@ msgstr ""
 #: src/pythoninterfaces/abstractpythoninterface.cpp:221
 #, kde-format
 msgid "Using python from %1"
-msgstr ""
+msgstr "يستعمل بيثون من %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:229
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "No items found."
+#, kde-format
 msgid "No python venv found"
-msgstr "لم يُعثر على عناصر."
+msgstr "لم يُعثر venv للبيثون"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:242
 #, kde-format
 msgid "Python venv size: %1"
-msgstr ""
+msgstr "حجم بيئة بيثون:  %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:285
 #, kde-format
@@ -14527,10 +14461,9 @@ msgid ""
 msgstr ""
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:416
-#, fuzzy, kde-format
-#| msgid "Environment"
+#, kde-format
 msgid "Python environment"
-msgstr "البيئة"
+msgstr "بيئة بيثون"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:416
 #, kde-format
@@ -14540,7 +14473,7 @@ msgstr ""
 #: src/pythoninterfaces/abstractpythoninterface.cpp:417
 #, kde-format
 msgid "Use system install"
-msgstr ""
+msgstr "استخدم تثبيت النظام"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:435
 #: src/pythoninterfaces/abstractpythoninterface.cpp:512
@@ -14565,11 +14498,10 @@ msgid "Please consider to update your setup."
 msgstr "يرجى النظر في تحديث تثبيتك."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:478
-#, fuzzy, kde-format
-#| msgid "No information in clipboard"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
-msgstr "لا توجد معلومات في الحافظة"
+msgstr "لا توجد معلومات عن الإصدار متاحة."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:543
 #, kde-format
@@ -14577,23 +14509,20 @@ msgid "Python exec not found"
 msgstr ""
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:545
-#, fuzzy, kde-format
-#| msgid "Failed to create file."
+#, kde-format
 msgid "Failed to find script file %1"
-msgstr "فشل إنشاء الملفّ."
+msgstr "فشل في العثور على ملف سكربت  %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:580
-#, fuzzy, kde-format
-#| msgid ""
-#| "Error while running python3 script:\n"
-#| " %1"
+#, kde-format
 msgid ""
 "Error while running python3 script:\n"
 " %1\n"
 "%2"
 msgstr ""
-"خطأ أثناء تشغيل سكربت بايثون3:\n"
-" %1"
+"خطأ أثناء تشغيل سكربت بيثون3:\n"
+" %1\n"
+"%2"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:602
 #, kde-format
@@ -15973,11 +15902,10 @@ msgid "Insert Clips"
 msgstr "أدرج مقطع"
 
 #: src/timeline2/model/timelinefunctions.cpp:266
-#, fuzzy, kde-format
-#| msgid "When cutting subtitles:"
+#, kde-format
 msgctxt "@info:status"
 msgid "Cannot cut overlapping subtitles"
-msgstr "متى تقص الترجمة:"
+msgstr "لا يمكن قص الترجمات المتداخلة"
 
 #: src/timeline2/model/timelinefunctions.cpp:339
 #: src/timeline2/model/timelinefunctions.cpp:358
@@ -16152,11 +16080,11 @@ msgid "No valid data in clipboard"
 msgstr "لا يوجد بيانات صالحة في الحافظة"
 
 #: src/timeline2/model/timelinefunctions.cpp:1916
-#, fuzzy, kde-format
-#| msgid "Not enough tracks to paste clipboard"
+#, kde-format
 msgid ""
 "Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)"
-msgstr "لا يوجد مسارات كافية للصق الحافظة"
+msgstr ""
+"لا يوجد مسارات كافية للصق الحافظة (يحتاج %1 مسارات صوت، %2 مسارات فيديو )"
 
 #: src/timeline2/model/timelinefunctions.cpp:2048
 #: src/timeline2/model/timelinefunctions.cpp:2066
@@ -16248,16 +16176,15 @@ msgstr ""
 
 #: src/timeline2/model/timelineitemmodel.cpp:903
 #: src/timeline2/model/timelineitemmodel.cpp:927
-#, fuzzy, kde-format
-#| msgid "No clip selected"
+#, kde-format
 msgid "One clip replaced"
 msgid_plural "%1 clips replaced"
-msgstr[0] "لم تحدد مقطع"
-msgstr[1] "لم تحدد مقطع"
-msgstr[2] "لم تحدد مقطع"
-msgstr[3] "لم تحدد مقطع"
-msgstr[4] "لم تحدد مقطع"
-msgstr[5] "لم تحدد مقطع"
+msgstr[0] "لم يستبدل شيء"
+msgstr[1] "استبدل مقطع واحد"
+msgstr[2] "استبدل مقطعين"
+msgstr[3] "استبدل %1 مقاطع"
+msgstr[4] "استبدل %1 مقطعاً"
+msgstr[5] "استبدل %1 مقطع"
 
 #: src/timeline2/model/timelineitemmodel.cpp:925
 #, kde-format
@@ -16265,10 +16192,9 @@ msgid "Clips replaced: %1, Clips too long: %2"
 msgstr ""
 
 #: src/timeline2/model/timelineitemmodel.cpp:931
-#, fuzzy, kde-format
-#| msgid "Replace Clip…"
+#, kde-format
 msgid "Replace clip"
-msgstr "استبدل المقطع…"
+msgstr "استبدل المقطع"
 
 #: src/timeline2/model/timelinemodel.cpp:943
 #: src/timeline2/model/timelinemodel.cpp:1148
@@ -17042,7 +16968,7 @@ msgstr "عيّن مرجع الصوت قبل محاولة المحاذاة"
 #: src/timeline2/view/timelinecontroller.cpp:3485
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
-msgstr ""
+msgstr "جميع التدفقات مسندة بالفعل، ألغ تحديد هدف صوتي آخر أولاً"
 
 #: src/timeline2/view/timelinecontroller.cpp:3644
 #, kde-format
@@ -17177,18 +17103,16 @@ msgstr "اقفل مسار الترجمة"
 
 #: src/timeline2/view/timelinecontroller.cpp:5274
 #: src/timeline2/view/timelinecontroller.cpp:5283
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "الترجمة"
 
 #: src/timeline2/view/timelinecontroller.cpp:5285
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
-msgstr "الترجمة"
+msgstr "أدر الترجمة"
 
 #: src/timeline2/view/timelinetabs.cpp:49
 #, kde-format
@@ -17210,10 +17134,9 @@ msgid "Close %1"
 msgstr "أغلق %1"
 
 #: src/timeline2/view/timelinetabs.cpp:396
-#, fuzzy, kde-format
-#| msgid "Image Sequence"
+#, kde-format
 msgid "Rename Sequence"
-msgstr "تسلسل الصّور"
+msgstr "أعد تسمية التسلسل"
 
 #: src/timeline2/view/timelinewidget.cpp:73
 #, kde-format
@@ -17547,10 +17470,9 @@ msgid "Load Title"
 msgstr "حمّل عنوانًا"
 
 #: src/titler/titlewidget.cpp:2175
-#, fuzzy, kde-format
-#| msgid "Kdenlive"
+#, kde-format
 msgid "Kdenlive title"
-msgstr "كِيدِينلايف"
+msgstr "عنوان كِيدِينلايف"
 
 #: src/titler/titlewidget.cpp:2221
 #, kde-format
@@ -17992,10 +17914,9 @@ msgstr "أرشف مقاطع الخط الزمني فقط"
 #. i18n: ectx: property (format), widget (QProgressBar, progressBar)
 #: src/ui/archivewidget_ui.ui:143 src/ui/cliptranscode_ui.ui:40
 #: src/ui/speechdialog_ui.ui:112 src/ui/textbasededit_ui.ui:59
-#, fuzzy, no-c-format, kde-format
-#| msgid "%1%"
+#, no-c-format, kde-format
 msgid "%p%"
-msgstr "%1٪"
+msgstr "%p٪"
 
 #. i18n: ectx: property (text), widget (QLabel, labelFFTSize)
 #: src/ui/audiospectrum_ui.ui:56
@@ -18296,10 +18217,9 @@ msgstr "يطلب مسار الملف"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_isframe)
 #: src/ui/clipjobmanager_ui.ui:146
-#, fuzzy, kde-format
-#| msgid "Current clip"
+#, kde-format
 msgid "Current clip frame"
-msgstr "المقطع الحالي"
+msgstr "إطار المقطع الحالي"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: src/ui/clipjobmanager_ui.ui:156
@@ -18317,7 +18237,7 @@ msgstr "امتداد الملفّ المنتوج"
 #: src/ui/clipjobmanager_ui.ui:229
 #, kde-format
 msgid "Optional description that will show up if a parameter is requested"
-msgstr ""
+msgstr "وصف اختياري سيظهر إذا طلب"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/clipjobmanager_ui.ui:236
@@ -18739,10 +18659,9 @@ msgstr "أطلق تحذير حين تتعدى مجموع البيانات الم
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkForUpdate)
 #: src/ui/configenv_ui.ui:111
-#, fuzzy, kde-format
-#| msgid "Check for update"
+#, kde-format
 msgid "Check for updates"
-msgstr "التمس التحديثات"
+msgstr "التمس التّحديثات"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: src/ui/configenv_ui.ui:122
@@ -18843,20 +18762,19 @@ msgstr "مجلد التصيير،والعناوين والسكربتات:"
 #: src/ui/configenv_ui.ui:320
 #, kde-format
 msgid "Python"
-msgstr ""
+msgstr "بيثون"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_python_delete)
 #: src/ui/configenv_ui.ui:347
-#, fuzzy, kde-format
-#| msgid "Delete %1"
+#, kde-format
 msgid "Delete "
-msgstr "حذف %1"
+msgstr "احذف "
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_usePythonVenv)
 #: src/ui/configenv_ui.ui:356
 #, kde-format
 msgid "Use python virtual environment (recommended)"
-msgstr ""
+msgstr "استعمل بيئة افتراضية لبيثون (مستحسن)"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/ui/configenv_ui.ui:384
@@ -19366,10 +19284,9 @@ msgstr "مجلّد نماذج مخصّصة"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_add)
 #: src/ui/configspeech_ui.ui:67
-#, fuzzy, kde-format
-#| msgid "Add folder"
+#, kde-format
 msgid "Add Model"
-msgstr "إضافة مجلّد"
+msgstr "أضف نموذجًا"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configspeech_ui.ui:94
@@ -19379,10 +19296,9 @@ msgstr "نماذج الكلام VOSK"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
 #: src/ui/configspeech_ui.ui:114
-#, fuzzy, kde-format
-#| msgid "Remove Folder"
+#, kde-format
 msgid "Remove Model"
-msgstr "إزالة مجلّد"
+msgstr "أزل النموذج"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configspeech_ui.ui:139
@@ -19416,10 +19332,9 @@ msgstr "معالجة وايسبر على المعالج بطيئة جدا"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:217
-#, fuzzy, kde-format
-#| msgid "Check VOSK installation"
+#, kde-format
 msgid "Check speech engine installation"
-msgstr "تأكد من تثبيت VOSK"
+msgstr "تأكد من تثبيت محرك الكلام"
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:220
@@ -20172,17 +20087,15 @@ msgstr "معاينة الترجمة"
 
 #. i18n: ectx: property (text), widget (QCheckBox, create_track)
 #: src/ui/import_subtitle_ui.ui:274
-#, fuzzy, kde-format
-#| msgid "Show subtitle track"
+#, kde-format
 msgid "Create New Subtitle Track"
-msgstr "أظهر مسار الترجمة"
+msgstr "أنشئ مسار ترجمة جديداً"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, track_name)
 #: src/ui/import_subtitle_ui.ui:284
-#, fuzzy, kde-format
-#| msgid "Show subtitle track"
+#, kde-format
 msgid "Subtitle Track Name"
-msgstr "أظهر مسار الترجمة"
+msgstr "اسم مسار الترجمة"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/keywordval_ui.ui:42
@@ -20406,17 +20319,15 @@ msgstr "تشكيلات التحرير لـ:"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_new)
 #: src/ui/managesubtitles_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Create"
+#, kde-format
 msgid "Create New"
-msgstr "أنشئ"
+msgstr "أنشئ جديدًا"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
 #: src/ui/managesubtitles_ui.ui:46
-#, fuzzy, kde-format
-#| msgid "Delete %1"
+#, kde-format
 msgid "Delete"
-msgstr "حذف %1"
+msgstr "احذف"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, subtitlesList)
 #: src/ui/managesubtitles_ui.ui:108
@@ -21352,10 +21263,9 @@ msgstr "منطقة الخط الزمني (كل المسارات)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_full)
 #: src/ui/speechdialog_ui.ui:184
-#, fuzzy, kde-format
-#| msgid "Fu&ll project"
+#, kde-format
 msgid "Full project"
-msgstr "المشروع &كاملًا"
+msgstr "المشروع كاملًا"
 
 #. i18n: ectx: property (text), widget (QLabel, label_template)
 #. i18n: ectx: property (text), widget (QLabel, label)

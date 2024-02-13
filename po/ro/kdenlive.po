@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-12 00:37+0000\n"
+"POT-Creation-Date: 2024-02-13 00:37+0000\n"
 "PO-Revision-Date: 2021-06-03 18:11+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian\n"
@@ -12714,19 +12714,19 @@ msgctxt "@title:window"
 msgid "Open Analysis Data"
 msgstr "Analizează"
 
-#: src/monitor/glwidget.cpp:1651 src/monitor/videowidget.cpp:1060
+#: src/monitor/glwidget.cpp:1651 src/monitor/videowidget.cpp:1084
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select a zone to play"
 msgstr "Unealtă de selecție"
 
-#: src/monitor/glwidget.cpp:1698 src/monitor/videowidget.cpp:1107
+#: src/monitor/glwidget.cpp:1698 src/monitor/videowidget.cpp:1131
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select a clip to play"
 msgstr "Unealtă de selecție"
 
-#: src/monitor/glwidget.cpp:1780 src/monitor/videowidget.cpp:1188
+#: src/monitor/glwidget.cpp:1780 src/monitor/videowidget.cpp:1212
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
