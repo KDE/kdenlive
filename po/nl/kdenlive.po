@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-31 03:27+0000\n"
+"POT-Creation-Date: 2024-02-13 03:19+0000\n"
 "PO-Revision-Date: 2023-12-20 14:01+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -5375,8 +5375,8 @@ msgstr "Ondertitel verplaatsen"
 #: src/bin/model/subtitlemodel.cpp:1141
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:515
 #: src/effects/effectstack/view/effectstackview.cpp:571
-#: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:858
-#: src/project/dialogs/archivewidget.cpp:872 src/render/renderrequest.cpp:287
+#: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:856
+#: src/project/dialogs/archivewidget.cpp:870 src/render/renderrequest.cpp:287
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -5495,27 +5495,27 @@ msgstr "Sub-clips toevoegen"
 msgid "Zone"
 msgstr "Zone"
 
-#: src/bin/projectitemmodel.cpp:883
+#: src/bin/projectitemmodel.cpp:886
 #, kde-format
 msgid "Add bin clip"
 msgstr "Bin-clip toevoegen"
 
-#: src/bin/projectitemmodel.cpp:949
+#: src/bin/projectitemmodel.cpp:952
 #, kde-format
 msgid "Add a sub clip"
 msgstr "Een subclip toevoegen"
 
-#: src/bin/projectitemmodel.cpp:990
+#: src/bin/projectitemmodel.cpp:993
 #, kde-format
 msgid "Rename Folder"
 msgstr "Map hernoemen"
 
-#: src/bin/projectitemmodel.cpp:1018 src/mainwindow.cpp:1489
+#: src/bin/projectitemmodel.cpp:1021 src/mainwindow.cpp:1489
 #, kde-format
 msgid "Clean Project"
 msgstr "Project opschonen"
 
-#: src/bin/projectitemmodel.cpp:1189
+#: src/bin/projectitemmodel.cpp:1192
 #, kde-format
 msgid "Loading project clips…"
 msgstr "Projectclips worden geladen…"
@@ -6224,11 +6224,11 @@ msgstr "Hulplijngegevens exporteren"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:593
 #: src/effects/effectstack/view/effectstackview.cpp:609
 #: src/profiles/profilerepository.cpp:190
-#: src/project/dialogs/archivewidget.cpp:691
-#: src/project/dialogs/archivewidget.cpp:695
-#: src/project/dialogs/archivewidget.cpp:880
-#: src/project/dialogs/archivewidget.cpp:892
-#: src/project/dialogs/archivewidget.cpp:898
+#: src/project/dialogs/archivewidget.cpp:690
+#: src/project/dialogs/archivewidget.cpp:694
+#: src/project/dialogs/archivewidget.cpp:878
+#: src/project/dialogs/archivewidget.cpp:890
+#: src/project/dialogs/archivewidget.cpp:896
 #: src/project/projectmanager.cpp:1665 src/render/renderrequest.cpp:230
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
@@ -6840,7 +6840,7 @@ msgstr ""
 "vinden"
 
 #: src/dialogs/renderwidget.cpp:619 src/dialogs/renderwidget.cpp:1415
-#: src/project/dialogs/archivewidget.cpp:886
+#: src/project/dialogs/archivewidget.cpp:884
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Bestand bestaat reeds, overschrijven?"
@@ -7406,8 +7406,8 @@ msgstr "MLT %1 wordt gebruikt"
 
 #: src/dialogs/wizard.cpp:85 src/project/cliptranscode.cpp:194
 #: src/project/cliptranscode.cpp:226 src/project/dialogs/archivewidget.cpp:609
-#: src/project/dialogs/archivewidget.cpp:780
-#: src/project/dialogs/archivewidget.cpp:1183
+#: src/project/dialogs/archivewidget.cpp:778
+#: src/project/dialogs/archivewidget.cpp:1181
 #, kde-format
 msgid "Abort"
 msgstr "Afbreken"
@@ -7438,8 +7438,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose2)
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose3)
 #: src/dialogs/wizard.cpp:135 src/project/cliptranscode.cpp:270
-#: src/project/dialogs/archivewidget.cpp:801
-#: src/project/dialogs/archivewidget.cpp:1162 src/ui/renderwidget_ui.ui:363
+#: src/project/dialogs/archivewidget.cpp:799
+#: src/project/dialogs/archivewidget.cpp:1160 src/ui/renderwidget_ui.ui:363
 #: src/ui/renderwidget_ui.ui:917 src/ui/renderwidget_ui.ui:1075
 #, kde-format
 msgid "Close"
@@ -12846,8 +12846,8 @@ msgstr[0] "Er ontbreekt %1 clip in het project."
 msgstr[1] "Er ontbreken %1 clips in het project."
 
 #: src/project/dialogs/archivewidget.cpp:234
-#: src/project/dialogs/archivewidget.cpp:1329
-#: src/project/dialogs/archivewidget.cpp:1371
+#: src/project/dialogs/archivewidget.cpp:1327
+#: src/project/dialogs/archivewidget.cpp:1369
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
@@ -12855,8 +12855,8 @@ msgstr[0] "(%1 item)"
 msgstr[1] "(%1 items)"
 
 #: src/project/dialogs/archivewidget.cpp:240
-#: src/project/dialogs/archivewidget.cpp:1331
-#: src/project/dialogs/archivewidget.cpp:1373
+#: src/project/dialogs/archivewidget.cpp:1329
+#: src/project/dialogs/archivewidget.cpp:1371
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
@@ -12870,7 +12870,7 @@ msgid "Archive"
 msgstr "Archief"
 
 #: src/project/dialogs/archivewidget.cpp:252
-#: src/project/dialogs/archivewidget.cpp:799
+#: src/project/dialogs/archivewidget.cpp:797
 #, kde-format
 msgid "There was an error processing project file"
 msgstr "Er is een fout opgetreden bij het bewerken van het project-bestand."
@@ -12956,46 +12956,46 @@ msgid "Archiving…"
 msgstr "Archiveren…"
 
 #: src/project/dialogs/archivewidget.cpp:652
-#: src/project/dialogs/archivewidget.cpp:686
-#: src/project/dialogs/archivewidget.cpp:772
-#: src/project/dialogs/archivewidget.cpp:1180
+#: src/project/dialogs/archivewidget.cpp:685
+#: src/project/dialogs/archivewidget.cpp:770
+#: src/project/dialogs/archivewidget.cpp:1178
 #, kde-format
 msgid "Cannot create directory %1"
 msgstr "Aanmaken van map %1 is mislukt"
 
 #: src/project/dialogs/archivewidget.cpp:673
-#: src/project/dialogs/archivewidget.cpp:753
+#: src/project/dialogs/archivewidget.cpp:752
 #, kde-format
 msgid "Copying %1"
 msgstr "%1 wordt gekopieerd"
 
 #: src/project/dialogs/archivewidget.cpp:678
-#: src/project/dialogs/archivewidget.cpp:847
+#: src/project/dialogs/archivewidget.cpp:845
 #, kde-format
 msgid "Cannot create temporary file"
 msgstr "Kan geen tijdelijk bestand maken"
 
-#: src/project/dialogs/archivewidget.cpp:797
+#: src/project/dialogs/archivewidget.cpp:795
 #, kde-format
 msgid "Project was successfully archived."
 msgstr "Project is met succes gearchiveerd."
 
-#: src/project/dialogs/archivewidget.cpp:807
+#: src/project/dialogs/archivewidget.cpp:805
 #, kde-format
 msgid "There was an error while copying the files: %1"
 msgstr "Er is een fout opgetreden bij het kopieren van de bestanden: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1098
+#: src/project/dialogs/archivewidget.cpp:1096
 #, kde-format
 msgid "Cannot open archive file %1"
 msgstr "Kan archief-bestand %1 niet openen"
 
-#: src/project/dialogs/archivewidget.cpp:1115
+#: src/project/dialogs/archivewidget.cpp:1113
 #, kde-format
 msgid "Archiving %1"
 msgstr "%1 wordt gearchiveerd"
 
-#: src/project/dialogs/archivewidget.cpp:1150
+#: src/project/dialogs/archivewidget.cpp:1148
 #, kde-format
 msgid ""
 "Project was successfully archived.\n"
@@ -13004,27 +13004,27 @@ msgstr ""
 "Project is met succes gearchiveerd.\n"
 "%1"
 
-#: src/project/dialogs/archivewidget.cpp:1153
+#: src/project/dialogs/archivewidget.cpp:1151
 #, kde-format
 msgid "Unknown Error"
 msgstr "Onbekende fout"
 
-#: src/project/dialogs/archivewidget.cpp:1153
+#: src/project/dialogs/archivewidget.cpp:1151
 #, kde-format
 msgid "There was an error while archiving the project: %1"
 msgstr "Er is een fout opgetreden bij het archiveren van het project: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1182
+#: src/project/dialogs/archivewidget.cpp:1180
 #, kde-format
 msgid "Extracting…"
 msgstr "Extraheren…"
 
-#: src/project/dialogs/archivewidget.cpp:1248
+#: src/project/dialogs/archivewidget.cpp:1246
 #, kde-format
 msgid "Cannot open project file %1"
 msgstr "Kan het project-bestand %1 niet openen"
 
-#: src/project/dialogs/archivewidget.cpp:1248
+#: src/project/dialogs/archivewidget.cpp:1246
 #, kde-format
 msgid "Cannot open file"
 msgstr "Kan het bestand niet openen"
@@ -15446,87 +15446,87 @@ msgstr "Onjuiste mix gevonden op track %1 bij %2, clip %3 is verwijderd."
 msgid "Incorrect mix found at track %1 at %2, clip %3 removed."
 msgstr "Onjuiste mix gevonden bij track %1 bij %2, clip %3 is verwijderd."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:764
-#: src/timeline2/model/builders/meltBuilder.cpp:776
-#: src/timeline2/model/builders/meltBuilder.cpp:797
+#: src/timeline2/model/builders/meltBuilder.cpp:768
+#: src/timeline2/model/builders/meltBuilder.cpp:780
+#: src/timeline2/model/builders/meltBuilder.cpp:801
 #, kde-format
 msgid "%1 Timeline clip (%2) without bin reference found and removed."
 msgstr ""
 "%1 tijdlijnclip (%2) zonder referentie naar bin gevonden en verwijderd."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:765
-#: src/timeline2/model/builders/meltBuilder.cpp:777
-#: src/timeline2/model/builders/meltBuilder.cpp:798
+#: src/timeline2/model/builders/meltBuilder.cpp:769
+#: src/timeline2/model/builders/meltBuilder.cpp:781
+#: src/timeline2/model/builders/meltBuilder.cpp:802
 #, kde-format
 msgid "Project corrupted. Clip %1 (%2) not found in project bin."
 msgstr "Project is corrupt. Clip %1 (%2) niet gevonden in project-bin."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:794
+#: src/timeline2/model/builders/meltBuilder.cpp:798
 #, kde-format
 msgid "%1 Timeline clip (%2) with incorrect bin reference found and recovered."
 msgstr ""
 "%1 tijdlijnclip (%2) met onjuiste referentie naar bin gevonden en hersteld."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:795
+#: src/timeline2/model/builders/meltBuilder.cpp:799
 #, kde-format
 msgid "Invalid clip %1 (%2) not found in project bin, recovered."
 msgstr "Ongeldige clip %1 (%2) niet gevonden in project-bin, hersteld."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:867
-#: src/timeline2/model/builders/meltBuilder.cpp:900
+#: src/timeline2/model/builders/meltBuilder.cpp:871
+#: src/timeline2/model/builders/meltBuilder.cpp:904
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and resized"
 msgstr "%1 clip (%2) met ontbrekende mix gevonden en van grootte gewijzigd"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:868
-#: src/timeline2/model/builders/meltBuilder.cpp:898
+#: src/timeline2/model/builders/meltBuilder.cpp:872
+#: src/timeline2/model/builders/meltBuilder.cpp:902
 #, kde-format
 msgid "Clip without mix %1 found and resized on track %2 at %3."
 msgstr ""
 "Clip zonder mix %1 gevonden en van grootte gewijzigd op track %2 bij %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:873
-#: src/timeline2/model/builders/meltBuilder.cpp:904
+#: src/timeline2/model/builders/meltBuilder.cpp:877
+#: src/timeline2/model/builders/meltBuilder.cpp:908
 #, kde-format
 msgid "Invalid clip without mix %1 found and removed on track %2 at %3."
 msgstr ""
 "Ongeldige clip zonder mix %1 gevonden en verwijderd op track %2 bij %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:875
-#: src/timeline2/model/builders/meltBuilder.cpp:906
+#: src/timeline2/model/builders/meltBuilder.cpp:879
+#: src/timeline2/model/builders/meltBuilder.cpp:910
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and removed"
 msgstr "%1 clip (%2) met ontbrekende mix gevonden en verwijderd"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:893
-#: src/timeline2/model/builders/meltBuilder.cpp:935
+#: src/timeline2/model/builders/meltBuilder.cpp:897
+#: src/timeline2/model/builders/meltBuilder.cpp:939
 #, kde-format
 msgid "Invalid clip %1 found on track %2 at %3."
 msgstr "Ongeldige clip %1 gevonden op track %2 bij %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:895
-#: src/timeline2/model/builders/meltBuilder.cpp:940
+#: src/timeline2/model/builders/meltBuilder.cpp:899
+#: src/timeline2/model/builders/meltBuilder.cpp:944
 #, kde-format
 msgid "%1 Invalid clip (%2) found and removed"
 msgstr "%1 ongeldige clip (%2) gevonden en verwijderd"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:917
+#: src/timeline2/model/builders/meltBuilder.cpp:921
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found and fixed on track %2 at %3."
 msgstr ""
 "Clip %1 op onjuiste subtrack gevonden en gerepareerd op track %2 bij %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:919
+#: src/timeline2/model/builders/meltBuilder.cpp:923
 #, kde-format
 msgid "%1 Clip (%2) on incorrect subtrack found and fixed / %3"
 msgstr "%1 Clip (%2) op onjuiste subtrack gevonden en gerepareerd / %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:922
+#: src/timeline2/model/builders/meltBuilder.cpp:926
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found on track %2 at %3."
 msgstr "Clip %1 op onjuiste subtrack gevonden op track %2 bij %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:924
+#: src/timeline2/model/builders/meltBuilder.cpp:928
 #, kde-format
 msgid "%1 Clip (%2) with incorrect subplaylist found"
 msgstr "%1 clip (%2) met onjuiste sub-afspeellijst gevonden"

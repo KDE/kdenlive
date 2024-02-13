@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-31 03:27+0000\n"
+"POT-Creation-Date: 2024-02-13 03:19+0000\n"
 "PO-Revision-Date: 2024-01-03 06:04+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -5463,8 +5463,8 @@ msgstr "移動參照線"
 #: src/bin/model/subtitlemodel.cpp:1141
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:515
 #: src/effects/effectstack/view/effectstackview.cpp:571
-#: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:858
-#: src/project/dialogs/archivewidget.cpp:872 src/render/renderrequest.cpp:287
+#: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:856
+#: src/project/dialogs/archivewidget.cpp:870 src/render/renderrequest.cpp:287
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -5588,29 +5588,29 @@ msgstr "添加素材"
 msgid "Zone"
 msgstr "區段終點：%1"
 
-#: src/bin/projectitemmodel.cpp:883
+#: src/bin/projectitemmodel.cpp:886
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
 msgid "Add bin clip"
 msgstr "添加素材"
 
-#: src/bin/projectitemmodel.cpp:949
+#: src/bin/projectitemmodel.cpp:952
 #, fuzzy, kde-format
 msgid "Add a sub clip"
 msgstr "添加素材"
 
-#: src/bin/projectitemmodel.cpp:990
+#: src/bin/projectitemmodel.cpp:993
 #, fuzzy, kde-format
 msgid "Rename Folder"
 msgstr "重命名檔案夾"
 
-#: src/bin/projectitemmodel.cpp:1018 src/mainwindow.cpp:1489
+#: src/bin/projectitemmodel.cpp:1021 src/mainwindow.cpp:1489
 #, kde-format
 msgid "Clean Project"
 msgstr "清理無使用的素材"
 
-#: src/bin/projectitemmodel.cpp:1189
+#: src/bin/projectitemmodel.cpp:1192
 #, fuzzy, kde-format
 msgid "Loading project clips…"
 msgstr "清理本項目"
@@ -6313,11 +6313,11 @@ msgstr "匯入標記"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:593
 #: src/effects/effectstack/view/effectstackview.cpp:609
 #: src/profiles/profilerepository.cpp:190
-#: src/project/dialogs/archivewidget.cpp:691
-#: src/project/dialogs/archivewidget.cpp:695
-#: src/project/dialogs/archivewidget.cpp:880
-#: src/project/dialogs/archivewidget.cpp:892
-#: src/project/dialogs/archivewidget.cpp:898
+#: src/project/dialogs/archivewidget.cpp:690
+#: src/project/dialogs/archivewidget.cpp:694
+#: src/project/dialogs/archivewidget.cpp:878
+#: src/project/dialogs/archivewidget.cpp:890
+#: src/project/dialogs/archivewidget.cpp:896
 #: src/project/projectmanager.cpp:1665 src/render/renderrequest.cpp:230
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
@@ -6934,7 +6934,7 @@ msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr "無法找到匯出影片所需的 melt 程式 (MLT 的移植)"
 
 #: src/dialogs/renderwidget.cpp:619 src/dialogs/renderwidget.cpp:1415
-#: src/project/dialogs/archivewidget.cpp:886
+#: src/project/dialogs/archivewidget.cpp:884
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "匯出檔案已經存在。您是否要覆寫它?"
@@ -7523,8 +7523,8 @@ msgstr ""
 
 #: src/dialogs/wizard.cpp:85 src/project/cliptranscode.cpp:194
 #: src/project/cliptranscode.cpp:226 src/project/dialogs/archivewidget.cpp:609
-#: src/project/dialogs/archivewidget.cpp:780
-#: src/project/dialogs/archivewidget.cpp:1183
+#: src/project/dialogs/archivewidget.cpp:778
+#: src/project/dialogs/archivewidget.cpp:1181
 #, kde-format
 msgid "Abort"
 msgstr "中止"
@@ -7553,8 +7553,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose2)
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose3)
 #: src/dialogs/wizard.cpp:135 src/project/cliptranscode.cpp:270
-#: src/project/dialogs/archivewidget.cpp:801
-#: src/project/dialogs/archivewidget.cpp:1162 src/ui/renderwidget_ui.ui:363
+#: src/project/dialogs/archivewidget.cpp:799
+#: src/project/dialogs/archivewidget.cpp:1160 src/ui/renderwidget_ui.ui:363
 #: src/ui/renderwidget_ui.ui:917 src/ui/renderwidget_ui.ui:1075
 #, kde-format
 msgid "Close"
@@ -12967,16 +12967,16 @@ msgid_plural "You have %1 missing clips in your project."
 msgstr[0] ""
 
 #: src/project/dialogs/archivewidget.cpp:234
-#: src/project/dialogs/archivewidget.cpp:1329
-#: src/project/dialogs/archivewidget.cpp:1371
+#: src/project/dialogs/archivewidget.cpp:1327
+#: src/project/dialogs/archivewidget.cpp:1369
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
 msgstr[0] ""
 
 #: src/project/dialogs/archivewidget.cpp:240
-#: src/project/dialogs/archivewidget.cpp:1331
-#: src/project/dialogs/archivewidget.cpp:1373
+#: src/project/dialogs/archivewidget.cpp:1329
+#: src/project/dialogs/archivewidget.cpp:1371
 #, fuzzy, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
@@ -12989,7 +12989,7 @@ msgid "Archive"
 msgstr "封存"
 
 #: src/project/dialogs/archivewidget.cpp:252
-#: src/project/dialogs/archivewidget.cpp:799
+#: src/project/dialogs/archivewidget.cpp:797
 #, kde-format
 msgid "There was an error processing project file"
 msgstr ""
@@ -13071,74 +13071,74 @@ msgid "Archiving…"
 msgstr "請稍等..."
 
 #: src/project/dialogs/archivewidget.cpp:652
-#: src/project/dialogs/archivewidget.cpp:686
-#: src/project/dialogs/archivewidget.cpp:772
-#: src/project/dialogs/archivewidget.cpp:1180
+#: src/project/dialogs/archivewidget.cpp:685
+#: src/project/dialogs/archivewidget.cpp:770
+#: src/project/dialogs/archivewidget.cpp:1178
 #, fuzzy, kde-format
 msgid "Cannot create directory %1"
 msgstr "無法寫入檔案 %1"
 
 #: src/project/dialogs/archivewidget.cpp:673
-#: src/project/dialogs/archivewidget.cpp:753
+#: src/project/dialogs/archivewidget.cpp:752
 #, fuzzy, kde-format
 #| msgid "Copyright"
 msgid "Copying %1"
 msgstr "版權"
 
 #: src/project/dialogs/archivewidget.cpp:678
-#: src/project/dialogs/archivewidget.cpp:847
+#: src/project/dialogs/archivewidget.cpp:845
 #, fuzzy, kde-format
 msgid "Cannot create temporary file"
 msgstr "無法寫入檔案 %1"
 
-#: src/project/dialogs/archivewidget.cpp:797
+#: src/project/dialogs/archivewidget.cpp:795
 #, kde-format
 msgid "Project was successfully archived."
 msgstr ""
 
-#: src/project/dialogs/archivewidget.cpp:807
+#: src/project/dialogs/archivewidget.cpp:805
 #, kde-format
 msgid "There was an error while copying the files: %1"
 msgstr ""
 
-#: src/project/dialogs/archivewidget.cpp:1098
+#: src/project/dialogs/archivewidget.cpp:1096
 #, fuzzy, kde-format
 msgid "Cannot open archive file %1"
 msgstr "無法寫入檔案 %1"
 
-#: src/project/dialogs/archivewidget.cpp:1115
+#: src/project/dialogs/archivewidget.cpp:1113
 #, fuzzy, kde-format
 msgid "Archiving %1"
 msgstr "請稍等..."
 
-#: src/project/dialogs/archivewidget.cpp:1150
+#: src/project/dialogs/archivewidget.cpp:1148
 #, kde-format
 msgid ""
 "Project was successfully archived.\n"
 "%1"
 msgstr ""
 
-#: src/project/dialogs/archivewidget.cpp:1153
+#: src/project/dialogs/archivewidget.cpp:1151
 #, fuzzy, kde-format
 msgid "Unknown Error"
 msgstr "未知的素材"
 
-#: src/project/dialogs/archivewidget.cpp:1153
+#: src/project/dialogs/archivewidget.cpp:1151
 #, kde-format
 msgid "There was an error while archiving the project: %1"
 msgstr ""
 
-#: src/project/dialogs/archivewidget.cpp:1182
+#: src/project/dialogs/archivewidget.cpp:1180
 #, kde-format
 msgid "Extracting…"
 msgstr "提取中…"
 
-#: src/project/dialogs/archivewidget.cpp:1248
+#: src/project/dialogs/archivewidget.cpp:1246
 #, kde-format
 msgid "Cannot open project file %1"
 msgstr "無法開啟專案檔案 %1"
 
-#: src/project/dialogs/archivewidget.cpp:1248
+#: src/project/dialogs/archivewidget.cpp:1246
 #, fuzzy, kde-format
 msgid "Cannot open file"
 msgstr "無法移動特效"
@@ -15498,90 +15498,90 @@ msgstr "從 %2 的軌道 %1 中移除無效的素材\n"
 msgid "Incorrect mix found at track %1 at %2, clip %3 removed."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:764
-#: src/timeline2/model/builders/meltBuilder.cpp:776
-#: src/timeline2/model/builders/meltBuilder.cpp:797
+#: src/timeline2/model/builders/meltBuilder.cpp:768
+#: src/timeline2/model/builders/meltBuilder.cpp:780
+#: src/timeline2/model/builders/meltBuilder.cpp:801
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "%1 Timeline clip (%2) without bin reference found and removed."
 msgstr "從 %2 的軌道 %1 中移除無效的素材\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:765
-#: src/timeline2/model/builders/meltBuilder.cpp:777
-#: src/timeline2/model/builders/meltBuilder.cpp:798
+#: src/timeline2/model/builders/meltBuilder.cpp:769
+#: src/timeline2/model/builders/meltBuilder.cpp:781
+#: src/timeline2/model/builders/meltBuilder.cpp:802
 #, kde-format
 msgid "Project corrupted. Clip %1 (%2) not found in project bin."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:794
+#: src/timeline2/model/builders/meltBuilder.cpp:798
 #, kde-format
 msgid "%1 Timeline clip (%2) with incorrect bin reference found and recovered."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:795
+#: src/timeline2/model/builders/meltBuilder.cpp:799
 #, kde-format
 msgid "Invalid clip %1 (%2) not found in project bin, recovered."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:867
-#: src/timeline2/model/builders/meltBuilder.cpp:900
+#: src/timeline2/model/builders/meltBuilder.cpp:871
+#: src/timeline2/model/builders/meltBuilder.cpp:904
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and resized"
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:868
-#: src/timeline2/model/builders/meltBuilder.cpp:898
+#: src/timeline2/model/builders/meltBuilder.cpp:872
+#: src/timeline2/model/builders/meltBuilder.cpp:902
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "Clip without mix %1 found and resized on track %2 at %3."
 msgstr "從 %2 的軌道 %1 中移除無效的素材\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:873
-#: src/timeline2/model/builders/meltBuilder.cpp:904
+#: src/timeline2/model/builders/meltBuilder.cpp:877
+#: src/timeline2/model/builders/meltBuilder.cpp:908
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "Invalid clip without mix %1 found and removed on track %2 at %3."
 msgstr "從 %2 的軌道 %1 中移除無效的素材\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:875
-#: src/timeline2/model/builders/meltBuilder.cpp:906
+#: src/timeline2/model/builders/meltBuilder.cpp:879
+#: src/timeline2/model/builders/meltBuilder.cpp:910
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and removed"
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:893
-#: src/timeline2/model/builders/meltBuilder.cpp:935
+#: src/timeline2/model/builders/meltBuilder.cpp:897
+#: src/timeline2/model/builders/meltBuilder.cpp:939
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "Invalid clip %1 found on track %2 at %3."
 msgstr "從 %2 的軌道 %1 中移除無效的素材\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:895
-#: src/timeline2/model/builders/meltBuilder.cpp:940
+#: src/timeline2/model/builders/meltBuilder.cpp:899
+#: src/timeline2/model/builders/meltBuilder.cpp:944
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "%1 Invalid clip (%2) found and removed"
 msgstr "從 %2 的軌道 %1 中移除無效的素材\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:917
+#: src/timeline2/model/builders/meltBuilder.cpp:921
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "Clip %1 on incorrect subtrack found and fixed on track %2 at %3."
 msgstr "從 %2 的軌道 %1 中移除無效的素材\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:919
+#: src/timeline2/model/builders/meltBuilder.cpp:923
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "%1 Clip (%2) on incorrect subtrack found and fixed / %3"
 msgstr "從 %2 的軌道 %1 中移除無效的素材\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:922
+#: src/timeline2/model/builders/meltBuilder.cpp:926
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "Clip %1 on incorrect subtrack found on track %2 at %3."
 msgstr "從 %2 的軌道 %1 中移除無效的素材\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:924
+#: src/timeline2/model/builders/meltBuilder.cpp:928
 #, kde-format
 msgid "%1 Clip (%2) with incorrect subplaylist found"
 msgstr ""
