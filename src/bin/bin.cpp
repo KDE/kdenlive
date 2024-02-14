@@ -2246,6 +2246,10 @@ void Bin::slotDuplicateClip()
                             currentName.append(i18nc("append to clip name to indicate a copied idem", " (copy)"));
                             Xml::setXmlProperty(xml, QStringLiteral("kdenlive:clipname"), currentName);
                         }
+                        if (currentItem->clipType() == ClipType::Text) {
+                            // Remove unique id
+                            Xml::removeXmlProperty(xml, QStringLiteral("kdenlive:uniqueId"));
+                        }
                         QString id;
                         if (ix == items.count()) {
                             m_itemModel->requestAddBinClip(id, xml, item->parent()->clipId(), i18n("Duplicate clip"), callBack);

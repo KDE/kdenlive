@@ -1641,10 +1641,19 @@ const QString ProjectClip::getFileHash()
     case ClipType::SlideShow:
         fileHash = getFolderHash(QFileInfo(clipUrl()).absoluteDir(), QFileInfo(clipUrl()).fileName());
         break;
-    case ClipType::Text:
+    case ClipType::Text: {
         fileData = getProducerProperty(QStringLiteral("xmldata")).toUtf8();
+        // If 2 clips share the same content (for example duplicated clips), they must not have the same hash
+        QByteArray uniqueId = getProducerProperty(QStringLiteral("kdenlive:uniqueId")).toUtf8();
+        if (uniqueId.isEmpty()) {
+            const QUuid uuid = QUuid::createUuid();
+            setProducerProperty(QStringLiteral("kdenlive:uniqueId"), uuid.toString());
+            uniqueId = uuid.toString().toUtf8();
+        }
+        fileData.prepend(uniqueId);
         fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
         break;
+    }
     case ClipType::TextTemplate:
         fileData = getProducerProperty(QStringLiteral("resource")).toUtf8();
         fileData.append(getProducerProperty(QStringLiteral("templatetext")).toUtf8());
