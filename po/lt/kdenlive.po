@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l 10n\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-13 00:37+0000\n"
+"POT-Creation-Date: 2024-02-15 00:37+0000\n"
 "PO-Revision-Date: 2019-07-12 21:09+0300\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -1439,7 +1439,7 @@ msgstr ""
 #: data/effects/mask_start_frei0r_select0r.xml:8
 #: data/effects/mask_start_rotoscoping.xml:8
 #: data/effects/mask_start_shape.xml:8 src/bin/bin.cpp:1398
-#: src/bin/bin.cpp:1403 src/bin/bin.cpp:2328
+#: src/bin/bin.cpp:1403 src/bin/bin.cpp:2332
 #, fuzzy, kde-format
 #| msgid "Filter %1"
 msgid "Filter"
@@ -4583,7 +4583,7 @@ msgstr "Pašalinti scenarijų"
 msgid "Missing source clip"
 msgstr ""
 
-#: src/bin/bin.cpp:1859 src/bin/bin.cpp:2530
+#: src/bin/bin.cpp:1859 src/bin/bin.cpp:2534
 #: src/effects/effectlist/view/effectlistwidget.cpp:146
 #: src/renderpresets/renderpresetrepository.cpp:156
 #: src/renderpresets/renderpresetrepository.cpp:433
@@ -4591,7 +4591,7 @@ msgstr ""
 msgid "Unable to write to file %1"
 msgstr "Nepavyksta įrašyti į failą %1"
 
-#: src/bin/bin.cpp:1869 src/bin/bin.cpp:2539 src/doc/kdenlivedoc.cpp:743
+#: src/bin/bin.cpp:1869 src/bin/bin.cpp:2543 src/doc/kdenlivedoc.cpp:743
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -4723,7 +4723,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Laiko juosta"
 
-#: src/bin/bin.cpp:2115 src/bin/bin.cpp:5708 src/bin/clipcreator.cpp:325
+#: src/bin/bin.cpp:2115 src/bin/bin.cpp:5712 src/bin/clipcreator.cpp:325
 #, fuzzy, kde-format
 #| msgid "Audio clip"
 msgctxt "@action"
@@ -4752,7 +4752,7 @@ msgstr "Ištrinti kadrą"
 msgid "%1 (copy)"
 msgstr ""
 
-#: src/bin/bin.cpp:2233 src/bin/bin.cpp:2251 src/bin/bin.cpp:2253
+#: src/bin/bin.cpp:2233 src/bin/bin.cpp:2255 src/bin/bin.cpp:2257
 #, fuzzy, kde-format
 #| msgid "Mute video clip"
 msgid "Duplicate clip"
@@ -4764,19 +4764,19 @@ msgctxt "append to clip name to indicate a copied idem"
 msgid " (copy)"
 msgstr ""
 
-#: src/bin/bin.cpp:2378
+#: src/bin/bin.cpp:2382
 #, fuzzy, kde-format
 #| msgid "Delete profile"
 msgid "Clear Filters"
 msgstr "Pašalinti profilį"
 
-#: src/bin/bin.cpp:2384
+#: src/bin/bin.cpp:2388
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "No Tags"
 msgstr "Keisti trukmę"
 
-#: src/bin/bin.cpp:2403
+#: src/bin/bin.cpp:2407
 #, fuzzy, kde-format
 #| msgid "Start"
 msgid "%1 Star"
@@ -4786,43 +4786,43 @@ msgstr[1] "Pradėti"
 msgstr[2] "Pradėti"
 msgstr[3] "Pradėti"
 
-#: src/bin/bin.cpp:2410
+#: src/bin/bin.cpp:2414
 #, fuzzy, kde-format
 #| msgid "Filter %1"
 msgid "Filter by Usage"
 msgstr "Filtras %1"
 
-#: src/bin/bin.cpp:2413
+#: src/bin/bin.cpp:2417
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgid "All Clips"
 msgstr "Visi failai"
 
-#: src/bin/bin.cpp:2418
+#: src/bin/bin.cpp:2422
 #, fuzzy, kde-format
 #| msgid "Mute video clip"
 msgid "Unused Clips"
 msgstr "Nutildyti video iškarpą"
 
-#: src/bin/bin.cpp:2422
+#: src/bin/bin.cpp:2426
 #, fuzzy, kde-format
 #| msgid "Mute video clip"
 msgid "Used Clips"
 msgstr "Nutildyti video iškarpą"
 
-#: src/bin/bin.cpp:2429
+#: src/bin/bin.cpp:2433
 #, fuzzy, kde-format
 #| msgid "Filter %1"
 msgid "Filter by Type"
 msgstr "Filtras %1"
 
-#: src/bin/bin.cpp:2432
+#: src/bin/bin.cpp:2436
 #, fuzzy, kde-format
 #| msgid "Clip"
 msgid "AV Clip"
 msgstr "Iškarpa"
 
-#: src/bin/bin.cpp:2436
+#: src/bin/bin.cpp:2440
 #, fuzzy, kde-format
 #| msgid "Mute video clip"
 msgid "Mute Video"
@@ -4833,7 +4833,7 @@ msgstr "Nutildyti video iškarpą"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_audio)
 #. i18n: ectx: attribute (title), widget (QWidget, audio_tab)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/bin/bin.cpp:2440 src/effects/effectlist/model/effecttreemodel.cpp:62
+#: src/bin/bin.cpp:2444 src/effects/effectlist/model/effecttreemodel.cpp:62
 #: src/layoutmanagement.cpp:36 src/lib/audio/audioStreamInfo.cpp:24
 #: src/monitor/recmanager.cpp:46 src/onlineresources/resourcewidget.cpp:595
 #: src/ui/clipjobmanager_ui.ui:388 src/ui/configcapture_ui.ui:525
@@ -4843,17 +4843,17 @@ msgstr "Nutildyti video iškarpą"
 msgid "Audio"
 msgstr "Garsas"
 
-#: src/bin/bin.cpp:2444 src/mltcontroller/clippropertiescontroller.cpp:433
+#: src/bin/bin.cpp:2448 src/mltcontroller/clippropertiescontroller.cpp:433
 #, kde-format
 msgid "Image"
 msgstr "Paveikslėlis"
 
-#: src/bin/bin.cpp:2448
+#: src/bin/bin.cpp:2452
 #, kde-format
 msgid "Slideshow"
 msgstr "Skaidrių peržiūra"
 
-#: src/bin/bin.cpp:2452
+#: src/bin/bin.cpp:2456
 #, fuzzy, kde-format
 #| msgid "Playlist"
 msgid "Playlist"
@@ -4861,7 +4861,7 @@ msgstr "Grojaraštis"
 
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/bin/bin.cpp:2456 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
+#: src/bin/bin.cpp:2460 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
 #: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1458
 #: src/project/projectmanager.cpp:1460 src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
@@ -4869,42 +4869,42 @@ msgstr "Grojaraštis"
 msgid "Sequences"
 msgstr "Paveikslėlio dydis"
 
-#: src/bin/bin.cpp:2460 src/project/dialogs/projectsettings.cpp:216
+#: src/bin/bin.cpp:2464 src/project/dialogs/projectsettings.cpp:216
 #, kde-format
 msgid "Title"
 msgstr "Pavadinimas"
 
-#: src/bin/bin.cpp:2464
+#: src/bin/bin.cpp:2468
 #, fuzzy, kde-format
 #| msgid "Template"
 msgid "Title Template"
 msgstr "Šablonas"
 
-#: src/bin/bin.cpp:2468 src/layoutmanagement.cpp:38
+#: src/bin/bin.cpp:2472 src/layoutmanagement.cpp:38
 #: src/mltcontroller/clippropertiescontroller.cpp:347
 #, kde-format
 msgid "Color"
 msgstr "Spalva"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:2560 src/ui/managecache_ui.ui:359
+#: src/bin/bin.cpp:2564 src/ui/managecache_ui.ui:359
 #, kde-format
 msgid "Folder"
 msgstr "Aplankas"
 
-#: src/bin/bin.cpp:2561
+#: src/bin/bin.cpp:2565
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Create bin folder"
 msgstr "Sukurti aplanką"
 
-#: src/bin/bin.cpp:2693 src/bin/bin.cpp:2706 src/bin/bin.cpp:3673
+#: src/bin/bin.cpp:2697 src/bin/bin.cpp:2710 src/bin/bin.cpp:3677
 #: src/timeline2/model/timelinemodel.cpp:2079
 #, kde-format
 msgid "Delete Clip"
 msgstr ""
 
-#: src/bin/bin.cpp:2695 src/bin/bin.cpp:2708
+#: src/bin/bin.cpp:2699 src/bin/bin.cpp:2712
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4912,40 +4912,40 @@ msgid ""
 "timeline."
 msgstr ""
 
-#: src/bin/bin.cpp:2696 src/bin/bin.cpp:2709 src/bin/bin.cpp:3649
+#: src/bin/bin.cpp:2700 src/bin/bin.cpp:2713 src/bin/bin.cpp:3653
 #, kde-format
 msgid "Proxy Clip"
 msgstr ""
 
-#: src/bin/bin.cpp:2700
+#: src/bin/bin.cpp:2704
 #, kde-format
 msgid "Delete Folder"
 msgstr "Pašalinti aplanką"
 
-#: src/bin/bin.cpp:2701
+#: src/bin/bin.cpp:2705
 #, fuzzy, kde-format
 #| msgid "Project Folder"
 msgid "Proxy Folder"
 msgstr "Projekto aplankas"
 
-#: src/bin/bin.cpp:2953
+#: src/bin/bin.cpp:2957
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "Edit rating"
 msgstr "Keisti trukmę"
 
-#: src/bin/bin.cpp:2955
+#: src/bin/bin.cpp:2959
 #, kde-format
 msgid "Cannot set rating on this item"
 msgstr ""
 
-#: src/bin/bin.cpp:3593
+#: src/bin/bin.cpp:3597
 #, fuzzy, kde-format
 #| msgid "Add folder"
 msgid "Add Clip or Folder…"
 msgstr "Pridėti aplankalą"
 
-#: src/bin/bin.cpp:3594
+#: src/bin/bin.cpp:3598
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4955,114 +4955,114 @@ msgid ""
 "to select source files."
 msgstr ""
 
-#: src/bin/bin.cpp:3600
+#: src/bin/bin.cpp:3604
 #, fuzzy, kde-format
 #| msgid "Audio clip"
 msgid "Add Color Clip…"
 msgstr "Garso iškarpa"
 
-#: src/bin/bin.cpp:3602
+#: src/bin/bin.cpp:3606
 #, fuzzy, kde-format
 #| msgid "Image size"
 msgid "Add Image Sequence…"
 msgstr "Paveikslėlio dydis"
 
-#: src/bin/bin.cpp:3604
+#: src/bin/bin.cpp:3608
 #, fuzzy, kde-format
 #| msgid "Audio clip"
 msgid "Add Title Clip…"
 msgstr "Garso iškarpa"
 
-#: src/bin/bin.cpp:3606
+#: src/bin/bin.cpp:3610
 #, fuzzy, kde-format
 #| msgid "Add new video file"
 msgid "Add Template Title…"
 msgstr "Pridėti naują video failą"
 
-#: src/bin/bin.cpp:3608
+#: src/bin/bin.cpp:3612
 #, fuzzy, kde-format
 #| msgid "Create Group"
 msgid "Create Animation…"
 msgstr "Sukurti grupę"
 
-#: src/bin/bin.cpp:3610
+#: src/bin/bin.cpp:3614
 #, fuzzy, kde-format
 #| msgid "Image size"
 msgid "Add Sequence…"
 msgstr "Paveikslėlio dydis"
 
-#: src/bin/bin.cpp:3613 src/mainwindow.cpp:375
+#: src/bin/bin.cpp:3617 src/mainwindow.cpp:375
 #, kde-format
 msgid "Online Resources"
 msgstr ""
 
-#: src/bin/bin.cpp:3617
+#: src/bin/bin.cpp:3621
 #, fuzzy, kde-format
 #| msgid "Image File"
 msgid "Locate Clip…"
 msgstr "Paveikslėlio failas"
 
-#: src/bin/bin.cpp:3622
+#: src/bin/bin.cpp:3626
 #, kde-format
 msgid "Reload Clip"
 msgstr ""
 
-#: src/bin/bin.cpp:3628
+#: src/bin/bin.cpp:3632
 #, kde-format
 msgid "Transcode to Edit Friendly Format…"
 msgstr ""
 
-#: src/bin/bin.cpp:3633
+#: src/bin/bin.cpp:3637
 #, fuzzy, kde-format
 #| msgid "Resize"
 msgid "Replace Clip…"
 msgstr "Keisti dydį"
 
-#: src/bin/bin.cpp:3639
+#: src/bin/bin.cpp:3643
 #, fuzzy, kde-format
 #| msgid "Resize"
 msgid "Replace Clip In Timeline…"
 msgstr "Keisti dydį"
 
-#: src/bin/bin.cpp:3644
+#: src/bin/bin.cpp:3648
 #, kde-format
 msgid "Duplicate Clip"
 msgstr ""
 
-#: src/bin/bin.cpp:3656 src/bin/bin.cpp:3722
+#: src/bin/bin.cpp:3660 src/bin/bin.cpp:3726
 #, kde-format
 msgid "Clip Properties"
 msgstr ""
 
-#: src/bin/bin.cpp:3661 src/mltcontroller/clippropertiescontroller.cpp:284
+#: src/bin/bin.cpp:3665 src/mltcontroller/clippropertiescontroller.cpp:284
 #, kde-format
 msgid "Edit Clip"
 msgstr ""
 
-#: src/bin/bin.cpp:3678
+#: src/bin/bin.cpp:3682
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgid "Open in new bin"
 msgstr "Atveriamas failas %1"
 
-#: src/bin/bin.cpp:3690
+#: src/bin/bin.cpp:3694
 #, fuzzy, kde-format
 #| msgid "Delete Folder"
 msgid "Default Target Folder for Sequences"
 msgstr "Pašalinti aplanką"
 
-#: src/bin/bin.cpp:3695
+#: src/bin/bin.cpp:3699
 #, fuzzy, kde-format
 #| msgid "Delete Folder"
 msgid "Default Target Folder for Audio Captures"
 msgstr "Pašalinti aplanką"
 
-#: src/bin/bin.cpp:3699
+#: src/bin/bin.cpp:3703
 #, kde-format
 msgid "Create Folder"
 msgstr "Sukurti aplanką"
 
-#: src/bin/bin.cpp:3702
+#: src/bin/bin.cpp:3706
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5070,31 +5070,31 @@ msgid ""
 "better organization of source files. Folders can be nested."
 msgstr ""
 
-#: src/bin/bin.cpp:3767 src/dialogs/speechdialog.cpp:48
+#: src/bin/bin.cpp:3771 src/dialogs/speechdialog.cpp:48
 #: src/dialogs/textbasededit.cpp:719 src/monitor/recmanager.cpp:42
 #, kde-format
 msgid "Show log"
 msgstr ""
 
-#: src/bin/bin.cpp:3770 src/dialogs/textbasededit.cpp:720
+#: src/bin/bin.cpp:3774 src/dialogs/textbasededit.cpp:720
 #, kde-format
 msgid "Detailed log"
 msgstr ""
 
-#: src/bin/bin.cpp:3830 src/bin/bin.cpp:3857
+#: src/bin/bin.cpp:3834 src/bin/bin.cpp:3861
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgctxt "@title:window"
 msgid "Create New Sequence"
 msgstr "Sukurti naują seką"
 
-#: src/bin/bin.cpp:3832 src/bin/bin.cpp:3860
+#: src/bin/bin.cpp:3836 src/bin/bin.cpp:3864
 #, fuzzy, kde-format
 #| msgid "Zoom Out"
 msgid "Sequence %1"
 msgstr "Atitolinti"
 
-#: src/bin/bin.cpp:3891
+#: src/bin/bin.cpp:3895
 #, fuzzy, kde-format
 #| msgid "Image File"
 msgid "Move Clip"
@@ -5104,43 +5104,43 @@ msgstr[1] "Paveikslėlio failas"
 msgstr[2] "Paveikslėlio failas"
 msgstr[3] "Paveikslėlio failas"
 
-#: src/bin/bin.cpp:3928
+#: src/bin/bin.cpp:3932
 #, kde-format
 msgid "No valid clip to insert"
 msgstr ""
 
-#: src/bin/bin.cpp:3941 src/timeline2/view/timelinecontroller.cpp:1534
+#: src/bin/bin.cpp:3945 src/timeline2/view/timelinecontroller.cpp:1534
 #: src/timeline2/view/timelinecontroller.cpp:3376
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr ""
 
-#: src/bin/bin.cpp:3964
+#: src/bin/bin.cpp:3968
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot apply effects on folders"
 msgstr "Nepavysta rašyti į failą %1"
 
-#: src/bin/bin.cpp:3990 src/effects/effectstack/model/effectstackmodel.cpp:528
+#: src/bin/bin.cpp:3994 src/effects/effectstack/model/effectstackmodel.cpp:528
 #: src/effects/effectstack/model/effectstackmodel.cpp:534
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot add effect to clip"
 msgstr "Nepavysta rašyti į failą %1"
 
-#: src/bin/bin.cpp:4036 src/bin/bin.cpp:4043
+#: src/bin/bin.cpp:4040 src/bin/bin.cpp:4047
 #, kde-format
 msgid "Select a clip to add a tag"
 msgstr ""
 
-#: src/bin/bin.cpp:4182
+#: src/bin/bin.cpp:4186
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "Edit Tags"
 msgstr "Keisti trukmę"
 
-#: src/bin/bin.cpp:4471 src/bin/projectclip.cpp:203
-#: src/bin/projectclip.cpp:2029 src/onlineresources/resourcewidget.cpp:272
+#: src/bin/bin.cpp:4475 src/bin/projectclip.cpp:203
+#: src/bin/projectclip.cpp:2038 src/onlineresources/resourcewidget.cpp:272
 #: src/onlineresources/resourcewidget.cpp:605
 #: src/onlineresources/resourcewidget.cpp:620
 #, fuzzy, kde-format
@@ -5148,27 +5148,27 @@ msgstr "Keisti trukmę"
 msgid "Unnamed"
 msgstr "Failo pavadinimas"
 
-#: src/bin/bin.cpp:4525
+#: src/bin/bin.cpp:4529
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:4537
+#: src/bin/bin.cpp:4541
 #, kde-format
 msgid "Please set a default application to open image files"
 msgstr ""
 
-#: src/bin/bin.cpp:4542
+#: src/bin/bin.cpp:4546
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:4554
+#: src/bin/bin.cpp:4558
 #, kde-format
 msgid "Please set a default application to open audio files"
 msgstr ""
 
-#: src/bin/bin.cpp:4564 src/core.cpp:310 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:4568 src/core.cpp:310 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:459 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:471
 #: src/layoutmanagement.cpp:532 src/profiles/profilerepository.cpp:173
@@ -5177,120 +5177,120 @@ msgstr ""
 msgid "Cannot open file %1"
 msgstr "Nepavyksta atverti failo %1"
 
-#: src/bin/bin.cpp:4744 src/dialogs/profilesdialog.cpp:213
+#: src/bin/bin.cpp:4748 src/dialogs/profilesdialog.cpp:213
 #, kde-format
 msgid "(copy)"
 msgstr ""
 
-#: src/bin/bin.cpp:4754
+#: src/bin/bin.cpp:4758
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
 "changes to the title file or save the changes for this project only?"
 msgstr ""
 
-#: src/bin/bin.cpp:4757 src/titler/titlewidget.cpp:2227
+#: src/bin/bin.cpp:4761 src/titler/titlewidget.cpp:2227
 #, kde-format
 msgid "Save Title"
 msgstr ""
 
-#: src/bin/bin.cpp:4757
+#: src/bin/bin.cpp:4761
 #, kde-format
 msgid "Save to title file"
 msgstr ""
 
-#: src/bin/bin.cpp:4758
+#: src/bin/bin.cpp:4762
 #, kde-format
 msgid "Save in project only"
 msgstr ""
 
-#: src/bin/bin.cpp:4778 src/dialogs/clipcreationdialog.cpp:411
+#: src/bin/bin.cpp:4782 src/dialogs/clipcreationdialog.cpp:411
 #, kde-format
 msgid "Title clip"
 msgstr ""
 
-#: src/bin/bin.cpp:4828
+#: src/bin/bin.cpp:4832
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr ""
 
-#: src/bin/bin.cpp:4832
+#: src/bin/bin.cpp:4836
 #, kde-format
 msgid "Invalid clip"
 msgstr ""
 
-#: src/bin/bin.cpp:4955
+#: src/bin/bin.cpp:4959
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Enable proxies"
 msgstr "Išsaugoti profilį"
 
-#: src/bin/bin.cpp:4955
+#: src/bin/bin.cpp:4959
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Disable proxies"
 msgstr "Be efektų"
 
-#: src/bin/bin.cpp:5129
+#: src/bin/bin.cpp:5133
 #, kde-format
 msgid "Rebuild proxies"
 msgstr ""
 
-#: src/bin/bin.cpp:5359
+#: src/bin/bin.cpp:5363
 #, fuzzy, kde-format
 #| msgid "Project Files"
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Projektų failai"
 
-#: src/bin/bin.cpp:5375
+#: src/bin/bin.cpp:5379
 #, fuzzy, kde-format
 #| msgid "Tracks"
 msgid "Add Tracks"
 msgstr "Takeliai"
 
-#: src/bin/bin.cpp:5377
+#: src/bin/bin.cpp:5381
 #, fuzzy, kde-format
 #| msgid "Edit profile"
 msgid "Edit Streams"
 msgstr "Keisti profilį"
 
-#: src/bin/bin.cpp:5392
+#: src/bin/bin.cpp:5396
 #, kde-format
 msgid "Don't ask again"
 msgstr ""
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5396
+#: src/bin/bin.cpp:5400
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
 "tracks ?"
 msgstr ""
 
-#: src/bin/bin.cpp:5408 src/mainwindow.cpp:2720
+#: src/bin/bin.cpp:5412 src/mainwindow.cpp:2720
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr ""
 
-#: src/bin/bin.cpp:5500
+#: src/bin/bin.cpp:5504
 #, fuzzy, kde-format
 #| msgid "Audio clip"
 msgid "Could not find master clip"
 msgstr "Garso iškarpa"
 
-#: src/bin/bin.cpp:5730
+#: src/bin/bin.cpp:5734
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr ""
 
-#: src/bin/bin.cpp:5732
+#: src/bin/bin.cpp:5736
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr ""
 
-#: src/bin/bin.cpp:5799 src/bin/bin.cpp:5876
+#: src/bin/bin.cpp:5803 src/bin/bin.cpp:5880
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
@@ -5299,13 +5299,13 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: src/bin/bin.cpp:5820
+#: src/bin/bin.cpp:5824
 #, fuzzy, kde-format
 #| msgid "Text clip"
 msgid "Import selected clips"
 msgstr "Tekstas iškarpa"
 
-#: src/bin/bin.cpp:5822
+#: src/bin/bin.cpp:5826
 #, fuzzy, kde-format
 #| msgid "Audio stream %1"
 msgid ""
@@ -5313,36 +5313,36 @@ msgid ""
 " %1"
 msgstr "Garso srautas %1"
 
-#: src/bin/bin.cpp:5835 src/mltcontroller/clippropertiescontroller.cpp:635
+#: src/bin/bin.cpp:5839 src/mltcontroller/clippropertiescontroller.cpp:635
 #, kde-format
 msgid "Video stream %1"
 msgstr "Video srautas %1"
 
-#: src/bin/bin.cpp:5850
+#: src/bin/bin.cpp:5854
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Garso srautas %1"
 
-#: src/bin/bin.cpp:5903
+#: src/bin/bin.cpp:5907
 #, fuzzy, kde-format
 #| msgid "Rename folder"
 msgid "Remove clip markers"
 msgstr "Pervadinti aplanką"
 
-#: src/bin/bin.cpp:6052
+#: src/bin/bin.cpp:6056
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 
-#: src/bin/bin.cpp:6053
+#: src/bin/bin.cpp:6057
 #, fuzzy, kde-format
 #| msgid "Save Profile"
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Išsaugoti profilį"
 
-#: src/bin/bin.cpp:6054
+#: src/bin/bin.cpp:6058
 #, fuzzy, kde-format
 #| msgid "Transcoding"
 msgctxt "@action:button"
@@ -5780,19 +5780,19 @@ msgstr "Išsaugoti profilį"
 msgid "File already exists"
 msgstr "Failo plėtinys:"
 
-#: src/bin/projectclip.cpp:2632
+#: src/bin/projectclip.cpp:2641
 #, fuzzy, kde-format
 #| msgid "Mute video clip"
 msgid "Adjust timeline clips"
 msgstr "Nutildyti video iškarpą"
 
-#: src/bin/projectclip.cpp:2863
+#: src/bin/projectclip.cpp:2872
 #, fuzzy, kde-format
 #| msgid "Add new video file"
 msgid "Add stream effect"
 msgstr "Pridėti naują video failą"
 
-#: src/bin/projectclip.cpp:2888
+#: src/bin/projectclip.cpp:2897
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Remove stream effect"
@@ -17005,7 +17005,7 @@ msgstr "Tikslas"
 
 #: src/timeline2/model/timelinemodel.cpp:6456
 #: src/timeline2/view/qml/timeline.qml:1207
-#: src/timeline2/view/qml/TrackHead.qml:504
+#: src/timeline2/view/qml/TrackHead.qml:505
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Lock track"
@@ -17013,7 +17013,7 @@ msgstr "Takelis"
 
 #: src/timeline2/model/timelinemodel.cpp:6461
 #: src/timeline2/view/qml/timeline.qml:1207
-#: src/timeline2/view/qml/TrackHead.qml:504
+#: src/timeline2/view/qml/TrackHead.qml:505
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Unlock track"
@@ -17318,7 +17318,7 @@ msgid "Speech recognition"
 msgstr "Rodyti/slėpti pasirinktis"
 
 #: src/timeline2/view/qml/timeline.qml:1183
-#: src/timeline2/view/qml/TrackHead.qml:470
+#: src/timeline2/view/qml/TrackHead.qml:471
 #, fuzzy, kde-format
 #| msgid "Show All"
 msgid "Show"
@@ -17326,7 +17326,7 @@ msgstr "Rodyti viską"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
 #: src/timeline2/view/qml/timeline.qml:1183
-#: src/timeline2/view/qml/TrackHead.qml:470 src/ui/configcapture_ui.ui:397
+#: src/timeline2/view/qml/TrackHead.qml:471 src/ui/configcapture_ui.ui:397
 #, kde-format
 msgid "Hide"
 msgstr ""
@@ -17398,36 +17398,36 @@ msgid ""
 "operations"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:440
+#: src/timeline2/view/qml/TrackHead.qml:441
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Disable track effects"
 msgstr "Be efektų"
 
-#: src/timeline2/view/qml/TrackHead.qml:440
+#: src/timeline2/view/qml/TrackHead.qml:441
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Enable track effects"
 msgstr "Be efektų"
 
-#: src/timeline2/view/qml/TrackHead.qml:440
+#: src/timeline2/view/qml/TrackHead.qml:441
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Toggle track effects"
 msgstr "Pašalinti failą"
 
-#: src/timeline2/view/qml/TrackHead.qml:470
+#: src/timeline2/view/qml/TrackHead.qml:471
 #, fuzzy, kde-format
 #| msgid "Switch monitor"
 msgid "Unmute"
 msgstr "Perjungti monitorių"
 
-#: src/timeline2/view/qml/TrackHead.qml:470
+#: src/timeline2/view/qml/TrackHead.qml:471
 #, kde-format
 msgid "Mute"
 msgstr "Nutildyti"
 
-#: src/timeline2/view/qml/TrackHead.qml:575
+#: src/timeline2/view/qml/TrackHead.qml:577
 #, fuzzy, kde-format
 #| msgid "Track mouse"
 msgid "Edit track name"
