@@ -1774,6 +1774,15 @@ void KdenliveDoc::loadDocumentProperties()
         list = m_document.elementsByTagName(QStringLiteral("profile"));
         if (!list.isEmpty()) {
             std::unique_ptr<ProfileInfo> xmlProfile(new ProfileParam(list.at(0).toElement()));
+            // Check for valid fps
+            if (!xmlProfile->hasValidFps()) {
+                qWarning() << "######################################\n#  ERROR, non standard fps detected  #\n######################################";
+                KMessageBox::error(
+                    pCore->window(),
+                    ki18nc("@label:textbox", "The project uses a non standard framerate (%1), this will result in misplaced clips and frame offset.")
+                        .subs((double(xmlProfile->frame_rate_num()) / xmlProfile->frame_rate_den()), 0, 'f', 2)
+                        .toString());
+            }
             QString profilePath = ProfileRepository::get()->findMatchingProfile(xmlProfile.get());
             // Document profile does not exist, create it as custom profile
             if (profilePath.isEmpty()) {

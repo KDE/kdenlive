@@ -6,6 +6,8 @@
 
 #include "profileinfo.hpp"
 #include <KLocalizedString>
+
+#include <cmath>
 #include <mlt++/MltProfile.h>
 
 bool ProfileInfo::operator==(const ProfileInfo &other) const
@@ -30,6 +32,33 @@ bool ProfileInfo::isCompatible(std::unique_ptr<ProfileInfo> &other) const
 bool ProfileInfo::isCompatible(Mlt::Profile *other) const
 {
     return frame_rate_num() * 100 / frame_rate_den() == other->frame_rate_num() * 100 / other->frame_rate_den();
+}
+
+bool ProfileInfo::hasValidFps() const
+{
+    double fps = double(frame_rate_num()) / frame_rate_den();
+    double fps_int;
+    double fps_frac = std::modf(fps, &fps_int);
+    if (fps_frac > 0.) {
+        // Check for 23.98, 29.97, 59.94
+        bool validFps = false;
+        if (qFuzzyCompare(fps_int, 23.0)) {
+            if (qFuzzyCompare(fps, 23.98)) {
+                validFps = true;
+            }
+        } else if (qFuzzyCompare(fps_int, 29.0)) {
+            if (qFuzzyCompare(fps, 29.97)) {
+                validFps = true;
+            }
+        } else if (qFuzzyCompare(fps_int, 59.0)) {
+            if (qFuzzyCompare(fps, 59.94)) {
+                validFps = true;
+            }
+        }
+        return validFps;
+    }
+    // Integer fps
+    return true;
 }
 
 QString ProfileInfo::colorspaceDescription() const
