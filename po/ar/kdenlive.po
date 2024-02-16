@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-15 00:37+0000\n"
-"PO-Revision-Date: 2024-02-12 21:12+0400\n"
+"POT-Creation-Date: 2024-02-16 00:37+0000\n"
+"PO-Revision-Date: 2024-02-15 18:04+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -5582,7 +5582,7 @@ msgstr "الاستخدام"
 
 #: src/bin/projectitemmodel.cpp:330 src/doc/documentchecker.cpp:1580
 #: src/doc/documentchecker.cpp:1608 src/doc/documentchecker.cpp:1628
-#: src/mltcontroller/clipcontroller.cpp:497 src/profiles/profileinfo.cpp:46
+#: src/mltcontroller/clipcontroller.cpp:497 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
 msgid "Unknown"
@@ -6061,6 +6061,8 @@ msgid ""
 "<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</b> "
 "by the second, , <b>{&#x25;3}</b> by the output file path."
 msgstr ""
+"سيستبدل <b>{&#x25;1}</b> بالمعلمة الأولى، <b>{&#x25;2}</b> بالمعلمة الثانية، "
+"<b>{&#x25;3 </b> بواسطة مسار ملف الإخراج."
 
 #: src/dialogs/clipjobmanager.cpp:48
 #, kde-format
@@ -6076,16 +6078,19 @@ msgid ""
 "inserted in place of <b>{&#x25;3}</b> if found. If output filename already "
 "exists, a -0001 pattern will be appended."
 msgstr ""
+"سيكون اسم ملف الإخراج هو نفس اسم ملف مقطع سلة المشروع المصدر، مع الامتداد "
+"المعدل. سيلحق في نهاية الوسائط أو إدراجه بدلاً من <b>{&#x25;3}</b> إذا عثر "
+"عليه. إذا كان اسم ملف الإخراج موجودًا بالفعل، فسيلحق نمط -0001."
 
 #: src/dialogs/clipjobmanager.cpp:54 src/dialogs/clipjobmanager.cpp:63
 #, kde-format
 msgid "If selected, a file path will be requested on execution"
-msgstr ""
+msgstr "إذا حُدد، سيطلب مسار الملف عند التنفيذ"
 
 #: src/dialogs/clipjobmanager.cpp:55 src/dialogs/clipjobmanager.cpp:64
 #, kde-format
 msgid "If selected, a dropdown list of values will be shown on execution"
-msgstr ""
+msgstr "في حالة تحديده، سيعرض قائمة منسدلة بالقيم عند التنفيذ"
 
 #: src/dialogs/clipjobmanager.cpp:57
 #, kde-format
@@ -6093,12 +6098,14 @@ msgid ""
 "If selected, the selected clip's current frame will be extracted to a "
 "temporary file and the parameter value will be the image path"
 msgstr ""
+"في حالة تحديده، فسيخرج الإطار الحالي للمقطع المحدد إلى ملف مؤقت وستكون قيمة "
+"المعلمة هي مسار الصورة"
 
 #: src/dialogs/clipjobmanager.cpp:58
 #, kde-format
 msgid ""
 "A newline separated list of possible values that will be offered on execution"
-msgstr ""
+msgstr "قائمة مفصولة بسطر جديد بالقيم المحتملة التي ستُقدم عند التنفيذ"
 
 #: src/dialogs/clipjobmanager.cpp:61 src/dialogs/clipjobmanager.cpp:67
 #, kde-kuit-format
@@ -6107,6 +6114,8 @@ msgid ""
 "When the parameter is set to <b>Request Option in List</b> the user will be "
 "asked to choose a value in this list when the job is started."
 msgstr ""
+"عندما تعيين المعلمة على <b>خيار الطلب في القائمة</b>، سيُطلب من المستخدم "
+"اختيار قيمة في هذه القائمة عند بدء المهمة."
 
 #: src/dialogs/clipjobmanager.cpp:132 src/dialogs/clipjobmanager.cpp:280
 #, kde-format
@@ -6127,6 +6136,7 @@ msgstr "يفتقد تنفيذي"
 #, kde-format
 msgid "Your script or application %1 is not executable, change permissions"
 msgstr ""
+"البرنامج النصي أو التطبيق %1 الخاص بك غير قابل للتنفيذ، قم بتغيير الأذونات"
 
 #: src/dialogs/clipjobmanager.cpp:282
 #, kde-format
@@ -6766,6 +6776,8 @@ msgid ""
 "This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
 "subtitle file: %2 "
 msgstr ""
+"سيؤدي هذا إلى حذف كافة إدخالات الترجمة في <b>%1</b>،<br/>بالإضافة إلى ملف "
+"الترجمة: %2"
 
 #: src/dialogs/profilesdialog.cpp:111
 #, kde-format
@@ -7238,23 +7250,20 @@ msgstr[4] "<b>تفقد %1 مقطعاً في هذا المشروع.</b>"
 msgstr[5] "<b>تفقد %1 مقطع في هذا المشروع.</b>"
 
 #: src/dialogs/renderwidget.cpp:1763
-#, fuzzy, kde-format
-#| msgid "Analysing clip"
+#, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
-msgstr[0] "يحلّل القصاصة"
-msgstr[1] "يحلّل القصاصة"
-msgstr[2] "يحلّل القصاصة"
-msgstr[3] "يحلّل القصاصة"
-msgstr[4] "يحلّل القصاصة"
-msgstr[5] "يحلّل القصاصة"
+msgstr[0] "لا يوجد"
+msgstr[1] "يوجد مقطع ناقص (غير مستخدم)"
+msgstr[2] "يوجد مقطعان ناقصان (غير مستخدمين)"
+msgstr[3] "يوجد %1 مقاطع ناقصة (غير مستخدمة)"
+msgstr[4] "يوجد %1 مقطع ناقص (غير مستخدم)"
+msgstr[5] "يوجد %1 مقطع ناقص (غير مستخدم)"
 
 #: src/dialogs/renderwidget.cpp:1765
-#, fuzzy, kde-format
-#| msgid "You have %1 missing clip in your project."
-#| msgid_plural "You have %1 missing clips in your project."
+#, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
-msgstr "لديك كلّ مقاطع هذا المشروع."
+msgstr "%1 مقطع ناقص (<b>%2 مستخدم في المشروع</b>)."
 
 #: src/dialogs/renderwidget.cpp:1769
 #, kde-format
@@ -7526,10 +7535,9 @@ msgid "Insert selection in timeline"
 msgstr "أدرج التحديد في الخط الزمني"
 
 #: src/dialogs/textbasededit.cpp:656
-#, fuzzy, kde-format
-#| msgid "Save edited text in a new playlist"
+#, kde-format
 msgid "Save edited text in a playlist file"
-msgstr "احفظ النص المحرر في قائمة تشغيل جديدة"
+msgstr "احفظ النص المحرر في ملف قائمة تشغيل"
 
 #: src/dialogs/textbasededit.cpp:663
 #, kde-format
@@ -7962,75 +7970,70 @@ msgid "The project contains:"
 msgstr "يحوي المشروع:"
 
 #: src/doc/dcresolvedialog.cpp:200
-#, fuzzy, kde-format
-#| msgid "Analysing clip"
+#, kde-format
 msgid "One missing clip"
 msgid_plural "%1 missing clips"
-msgstr[0] "يحلّل القصاصة"
-msgstr[1] "يحلّل القصاصة"
-msgstr[2] "يحلّل القصاصة"
-msgstr[3] "يحلّل القصاصة"
-msgstr[4] "يحلّل القصاصة"
-msgstr[5] "يحلّل القصاصة"
+msgstr[0] "لا يوجد"
+msgstr[1] "مقطع ناقص"
+msgstr[2] "مقطعان ناقصان"
+msgstr[3] "%1 مقاطع ناقصة"
+msgstr[4] "%1 مقطع ناقص"
+msgstr[5] "%1 مقطع ناقص"
 
 #: src/doc/dcresolvedialog.cpp:203
-#, fuzzy, kde-format
-#| msgid "Recreate missing proxies"
+#, kde-format
 msgid "One missing source with available proxy"
 msgid_plural "%1 missing sources with available proxy"
-msgstr[0] "أعد توليد الوسطاء الناقصين"
-msgstr[1] "أعد توليد الوسطاء الناقصين"
-msgstr[2] "أعد توليد الوسطاء الناقصين"
-msgstr[3] "أعد توليد الوسطاء الناقصين"
-msgstr[4] "أعد توليد الوسطاء الناقصين"
-msgstr[5] "أعد توليد الوسطاء الناقصين"
+msgstr[0] "لا يوجد"
+msgstr[1] "مصدر واحد مفقود مع الوسيط المتاح"
+msgstr[2] "مصدران مفقودان مع الوسيط المتاح"
+msgstr[3] "%1 مصادر مفقودة مع الوسيط المتاح"
+msgstr[4] "%1 مصدراً مفقوداً مع الوسيط المتاح"
+msgstr[5] "%1 مصدر مفقود مع الوسيط المتاح"
 
 #: src/doc/dcresolvedialog.cpp:206
-#, fuzzy, kde-format
-#| msgid "Use placeholders for missing clips"
+#, kde-format
 msgid "One placeholder clip"
 msgid_plural "%1 placeholder clips"
-msgstr[0] "استخدم عنصر نائب للمقاطع النّاقصة"
-msgstr[1] "استخدم عنصر نائب للمقاطع النّاقصة"
-msgstr[2] "استخدم عنصر نائب للمقاطع النّاقصة"
-msgstr[3] "استخدم عنصر نائب للمقاطع النّاقصة"
-msgstr[4] "استخدم عنصر نائب للمقاطع النّاقصة"
-msgstr[5] "استخدم عنصر نائب للمقاطع النّاقصة"
+msgstr[0] "لا يوجد"
+msgstr[1] "عنصر نائب واحد لمقطع"
+msgstr[2] "عنصران نائبان للمقاطع"
+msgstr[3] "%1 عناصر نائبة للمقاطع"
+msgstr[4] "%1 عنصراً نائباً للمقاطع"
+msgstr[5] "%1 عنصر نائب للمقاطع"
 
 #: src/doc/dcresolvedialog.cpp:209
-#, fuzzy, kde-format
-#| msgid "Remove clips"
+#, kde-format
 msgid "One removed clip"
 msgid_plural "%1 removed clips"
-msgstr[0] "أزل مقاطع"
-msgstr[1] "أزل مقاطع"
-msgstr[2] "أزل مقاطع"
-msgstr[3] "أزل مقاطع"
-msgstr[4] "أزل مقاطع"
-msgstr[5] "أزل مقاطع"
+msgstr[0] "لا يوجد"
+msgstr[1] "أزيل مقطع واحد"
+msgstr[2] "أزيل مقطعين"
+msgstr[3] "أزيل %1 مقاطع"
+msgstr[4] "أزيل %1 مقطعاً"
+msgstr[5] "أزيل %1 مقطع"
 
 #: src/doc/dcresolvedialog.cpp:218
-#, fuzzy, kde-format
-#| msgid "Recreate missing proxies"
+#, kde-format
 msgid "One missing proxy"
 msgid_plural "%1 missing proxies"
-msgstr[0] "أعد توليد الوسطاء الناقصين"
-msgstr[1] "أعد توليد الوسطاء الناقصين"
-msgstr[2] "أعد توليد الوسطاء الناقصين"
-msgstr[3] "أعد توليد الوسطاء الناقصين"
-msgstr[4] "أعد توليد الوسطاء الناقصين"
-msgstr[5] "أعد توليد الوسطاء الناقصين"
+msgstr[0] "لا يوجد"
+msgstr[1] "وسيط واحد ناقص"
+msgstr[2] "وسيطان ناقصان"
+msgstr[3] "%1 وسطاء ناقصين"
+msgstr[4] "%1 وسيطاً ناقصاً"
+msgstr[5] "%1 وسيط ناقص"
 
 #: src/doc/dcresolvedialog.cpp:221
 #, kde-format
 msgid "One proxy can be recovered"
 msgid_plural "%1 proxies can be recovered"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "لا يوجد"
+msgstr[1] "استعاد وسيط واحد"
+msgstr[2] "استعاد وسيطين"
+msgstr[3] "استعاد %1 وسائط"
+msgstr[4] "استعاد %1 وسيطاً"
+msgstr[5] "استعاد %1 وسيط"
 
 #: src/doc/dcresolvedialog.cpp:238
 #, kde-format
@@ -8366,7 +8369,7 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "خطأ في نقل مجلّد المشروع: %1"
 
-#: src/doc/kdenlivedoc.cpp:1074 src/doc/kdenlivedoc.cpp:2293
+#: src/doc/kdenlivedoc.cpp:1074 src/doc/kdenlivedoc.cpp:2302
 #: src/project/dialogs/archivewidget.cpp:239
 #: src/project/projectmanager.cpp:1582
 #, kde-format
@@ -8425,12 +8428,20 @@ msgstr[5] "أزل مقاطع وسيطة"
 msgid "Clip type does not support proxies"
 msgstr "نوع المقطع لا يدعم الوسطاء"
 
-#: src/doc/kdenlivedoc.cpp:1858
+#: src/doc/kdenlivedoc.cpp:1782
+#, kde-format
+msgctxt "@label:textbox"
+msgid ""
+"The project uses a non standard framerate (%1), this will result in "
+"misplaced clips and frame offset."
+msgstr ""
+
+#: src/doc/kdenlivedoc.cpp:1867
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr "تحذير: إطارًا في الثانية غير قياسي، سيعدل لأقرب عدد صحيح."
 
-#: src/doc/kdenlivedoc.cpp:1877
+#: src/doc/kdenlivedoc.cpp:1886
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -8439,43 +8450,43 @@ msgstr ""
 "تشكيلة المشروع الافتراضيّة هي %1، بينما تشكيلة المقطع (%2) هي %3.\n"
 "أتريد تغيير التشكيلة الافتراضيّة للمشاريع القادمة؟"
 
-#: src/doc/kdenlivedoc.cpp:1879
+#: src/doc/kdenlivedoc.cpp:1888
 #, kde-format
 msgid "Change default project profile"
 msgstr "غيّر تشكيلة المشاريع الافتراضيّة"
 
-#: src/doc/kdenlivedoc.cpp:1879
+#: src/doc/kdenlivedoc.cpp:1888
 #, kde-format
 msgid "Change default to %1"
 msgstr "غيّر الافتراضيّ إلى %1"
 
-#: src/doc/kdenlivedoc.cpp:1880
+#: src/doc/kdenlivedoc.cpp:1889
 #, kde-format
 msgid "Keep current default %1"
 msgstr "أبقِ الحاليّ %1 افتراضيّ"
 
-#: src/doc/kdenlivedoc.cpp:1880
+#: src/doc/kdenlivedoc.cpp:1889
 #, kde-format
 msgid "Ask me later"
 msgstr "اسألني لاحقًا"
 
-#: src/doc/kdenlivedoc.cpp:1900
+#: src/doc/kdenlivedoc.cpp:1909
 #, kde-format
 msgid "Switch"
 msgstr "بدّل"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1902 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1911 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "ألغِ"
 
-#: src/doc/kdenlivedoc.cpp:1904
+#: src/doc/kdenlivedoc.cpp:1913
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "أأبدّل إلى تشكيلة (%1) المقطع %2؟"
 
-#: src/doc/kdenlivedoc.cpp:1909
+#: src/doc/kdenlivedoc.cpp:1918
 #, kde-format
 msgid ""
 "\n"
@@ -8484,7 +8495,7 @@ msgstr ""
 "\n"
 "عُدلت تشكيلة معدل الأطر عن الأصل %1"
 
-#: src/doc/kdenlivedoc.cpp:1913
+#: src/doc/kdenlivedoc.cpp:1922
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -8493,13 +8504,13 @@ msgstr ""
 "لم يُعثر على تشكيلة لمقطعك %1.\n"
 "أأنشئ واحدة وأحوّل إلى التشكيلة الجديدة (%2×%3، %4 إطار/ثا)؟%5"
 
-#: src/doc/kdenlivedoc.cpp:2332 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2341 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "الأحمر"
 
-#: src/doc/kdenlivedoc.cpp:2333 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2342 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -8507,24 +8518,24 @@ msgstr "الأحمر"
 msgid "Green"
 msgstr "الأخضر"
 
-#: src/doc/kdenlivedoc.cpp:2334 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2343 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "الأزرق"
 
-#: src/doc/kdenlivedoc.cpp:2335 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2344 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "الأصفر"
 
-#: src/doc/kdenlivedoc.cpp:2336
+#: src/doc/kdenlivedoc.cpp:2345
 #, kde-format
 msgid "Cyan"
 msgstr "أزرق سماوي"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2600 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2609 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -12989,13 +13000,13 @@ msgstr "حاول الاستيراد مرة أخرى للحصول على اتصا
 msgid "Error Getting Access Token from %1."
 msgstr "خطأ في الحصول على رمز الوصول من %1"
 
-#: src/profiles/profileinfo.cpp:74
+#: src/profiles/profileinfo.cpp:103
 #, kde-format
 msgctxt "frames per second"
 msgid "fps"
 msgstr " إطار/ثا"
 
-#: src/profiles/profileinfo.cpp:76
+#: src/profiles/profileinfo.cpp:105
 #, kde-format
 msgid " interlaced"
 msgstr " متداخل"
@@ -14132,7 +14143,7 @@ msgstr ""
 #: src/project/projectmanager.cpp:530
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
-msgstr ""
+msgstr "فشل حفظ ملف المشروع <br><b>%1</B>"
 
 #: src/project/projectmanager.cpp:563
 #, kde-format
@@ -14436,6 +14447,8 @@ msgid ""
 "Cannot find python virtualenv, please install it on your system. Defaulting "
 "to system python."
 msgstr ""
+"لا يمكن العثور على python virtualenv، يرجى تثبيته على نظامك. الافتراضي لنظام "
+"بيثون."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:325
 #, kde-format
@@ -14459,6 +14472,8 @@ msgid ""
 "under %1.\n"
 "This way, it won't touch your system libraries."
 msgstr ""
+"يمكن لكيدينلايف تثبيت وحدات بيثون النمطية المفقودة في بيئة افتراضية ضمن %1.\n"
+"بهذه الطريقة، لن يمس مكتبات النظام لديك."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:416
 #, kde-format
@@ -14468,7 +14483,7 @@ msgstr "بيئة بيثون"
 #: src/pythoninterfaces/abstractpythoninterface.cpp:416
 #, kde-format
 msgid "Use virtual environment (recommended)"
-msgstr ""
+msgstr "استعمل بيئة افتراضية (مستحسن)"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:417
 #, kde-format
@@ -14506,7 +14521,7 @@ msgstr "لا توجد معلومات عن الإصدار متاحة."
 #: src/pythoninterfaces/abstractpythoninterface.cpp:543
 #, kde-format
 msgid "Python exec not found"
-msgstr ""
+msgstr "لم يعثر على ملف التنفيذي لبيثون"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:545
 #, kde-format
@@ -14531,6 +14546,8 @@ msgid ""
 "environment will be recreated and modules downloaded whenever you reenable "
 "the python virtual environment."
 msgstr ""
+"سيؤدي هذا إلى حذف بيئة بيثون الافتراضية من:<br/><b>%1</b><br/>سيعاد إنشاء "
+"البيئة وتنزيل الوحدات كلما قمت بإعادة تمكين بيئة بيثون الافتراضية."
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
 #, kde-format
@@ -16172,7 +16189,7 @@ msgstr "لا يمكن ضبط تركيب المسار، تأكد من تثبيت�
 #: src/timeline2/model/timelineitemmodel.cpp:901
 #, kde-format
 msgid "Clips replaced: %1. <b>Clips not replaced: %2</b>"
-msgstr ""
+msgstr "المقاطع المستبدلة: %1. <b> المقاطع غير المستبدلة: %2</b>"
 
 #: src/timeline2/model/timelineitemmodel.cpp:903
 #: src/timeline2/model/timelineitemmodel.cpp:927
@@ -16189,7 +16206,7 @@ msgstr[5] "استبدل %1 مقطع"
 #: src/timeline2/model/timelineitemmodel.cpp:925
 #, kde-format
 msgid "Clips replaced: %1, Clips too long: %2"
-msgstr ""
+msgstr "المقاطع المستبدلة: %1، المقاطع الطويلة جدًا: %2"
 
 #: src/timeline2/model/timelineitemmodel.cpp:931
 #, kde-format
@@ -18180,6 +18197,10 @@ msgid ""
 "replaced by the first parameter value</li><li><b>{param2}</b> will be "
 "replaced by the second parameter value</li></ul>"
 msgstr ""
+"في الوسيطات، تتوفر الخيارات التالية: سيتم استبدال <ul> <li><b>{source}</b> "
+"بمسار الملف المصدر سلة المشروع</li> <li><b>{output}< سيتم استبدال /b> باسم "
+"ملف الإخراج</li> <li><b>{param1}</b> وسيتم استبداله بقيمة المعلمة الأولى</"
+"li> <li><b>{param2}< سيتم استبدال /b> بقيمة المعلمة الثانية</li> </ul>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/clipjobmanager_ui.ui:93
@@ -21735,7 +21756,7 @@ msgstr ""
 #: src/ui/transcodeseekable_ui.ui:81
 #, kde-format
 msgid "Replace clip by transcoded version in project"
-msgstr ""
+msgstr "استبدل المقطع بالنسخة التي أعيد ترميزها في المشروع"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, UnicodeWidget_UI)
 #: src/ui/unicodewidget_ui.ui:24
