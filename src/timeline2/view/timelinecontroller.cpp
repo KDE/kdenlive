@@ -4992,7 +4992,7 @@ void TimelineController::temporaryUnplug(const QList<int> &clipIds, bool hide)
 
 void TimelineController::importSubtitle(const QString &path)
 {
-    QScopedPointer<ImportSubtitle> d(new ImportSubtitle(path, pCore->window()));
+    QScopedPointer<ImportSubtitle> d(new ImportSubtitle(path, QApplication::activeWindow()));
     if (d->exec() == QDialog::Accepted && !d->subtitle_url->url().isEmpty()) {
         auto subtitleModel = m_model->getSubtitleModel();
         if (d->create_track->isChecked()) {

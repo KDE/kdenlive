@@ -177,6 +177,7 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
         Q_EMIT modelChanged();
         return true;
     };
+    ulong initialCount = m_subtitleList.size();
     GenTime subtitleOffset(offset, pCore->getCurrentFps());
     if (filePath.endsWith(".srt") || filePath.endsWith(".vtt") || filePath.endsWith(".sbv")) {
         // if (!filePath.endsWith(".vtt") || !filePath.endsWith(".sbv")) {defaultTurn = -10;}
@@ -384,6 +385,11 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
         timeLine.clear();
         turn = 0;
         r = 0;
+    }
+    if (initialCount == m_subtitleList.size()) {
+        // Nothing imported
+        pCore->displayMessage(i18n("The selected file %1 is invalid.", filePath), ErrorMessage);
+        return;
     }
     Fun update_model = [this]() {
         Q_EMIT modelChanged();
