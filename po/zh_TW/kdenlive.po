@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-16 00:37+0000\n"
+"POT-Creation-Date: 2024-02-17 00:37+0000\n"
 "PO-Revision-Date: 2024-01-28 02:13+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -4507,6 +4507,7 @@ msgid ""
 msgstr ""
 
 #: src/bin/bin.cpp:1919 src/bin/bin.cpp:2131
+#: src/bin/model/subtitlemodel.cpp:391
 #, kde-format
 msgid "The selected file %1 is invalid."
 msgstr ""
@@ -5542,34 +5543,34 @@ msgstr "無字幕 / 標題"
 msgid "Edit subtitle style"
 msgstr "添加參照線"
 
-#: src/bin/model/subtitlemodel.cpp:395 src/bin/model/subtitlemodel.cpp:612
-#: src/bin/model/subtitlemodel.cpp:1528
+#: src/bin/model/subtitlemodel.cpp:401 src/bin/model/subtitlemodel.cpp:618
+#: src/bin/model/subtitlemodel.cpp:1534
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Edit subtitle"
 msgstr "添加參照線"
 
-#: src/bin/model/subtitlemodel.cpp:646 src/bin/model/subtitlemodel.cpp:1615
+#: src/bin/model/subtitlemodel.cpp:652 src/bin/model/subtitlemodel.cpp:1621
 #: src/timeline2/model/timelinefunctions.cpp:214
 #, fuzzy, kde-format
 msgid "Cut clip"
 msgstr "分割素材"
 
-#: src/bin/model/subtitlemodel.cpp:803 src/bin/model/subtitlemodel.cpp:1547
+#: src/bin/model/subtitlemodel.cpp:809 src/bin/model/subtitlemodel.cpp:1553
 #: src/timeline2/model/timelinemodel.cpp:3624
 #, fuzzy, kde-format
 #| msgid "Delete guide"
 msgid "Resize subtitle"
 msgstr "移除參照線"
 
-#: src/bin/model/subtitlemodel.cpp:999
+#: src/bin/model/subtitlemodel.cpp:1005
 #: src/timeline2/model/timelinemodel.cpp:1291
 #, fuzzy, kde-format
 #| msgid "Move guide"
 msgid "Move subtitle"
 msgstr "移動參照線"
 
-#: src/bin/model/subtitlemodel.cpp:1155
+#: src/bin/model/subtitlemodel.cpp:1161
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:526
 #: src/effects/effectstack/view/effectstackview.cpp:591
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:866
@@ -5582,25 +5583,25 @@ msgstr ""
 "檔案 %1 已經存在。\n"
 "是否要覆寫它?"
 
-#: src/bin/model/subtitlemodel.cpp:1559
+#: src/bin/model/subtitlemodel.cpp:1565
 #, fuzzy, kde-format
 #| msgid "Add Text"
 msgid "Add text"
 msgstr "添加字檔"
 
-#: src/bin/model/subtitlemodel.cpp:1579 src/dialogs/subtitleedit.cpp:112
+#: src/bin/model/subtitlemodel.cpp:1585 src/dialogs/subtitleedit.cpp:112
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Add subtitle"
 msgstr "添加參照線"
 
-#: src/bin/model/subtitlemodel.cpp:1634 src/dialogs/subtitleedit.cpp:122
+#: src/bin/model/subtitlemodel.cpp:1640 src/dialogs/subtitleedit.cpp:122
 #, fuzzy, kde-format
 #| msgid "Delete guide"
 msgid "Delete subtitle"
 msgstr "移除參照線"
 
-#: src/bin/model/subtitlemodel.cpp:1686 src/bin/model/subtitlemodel.cpp:1689
+#: src/bin/model/subtitlemodel.cpp:1692 src/bin/model/subtitlemodel.cpp:1695
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgctxt "@item:inlistbox subtitle track name"
@@ -6505,36 +6506,36 @@ msgstr ""
 msgid "Guide comment"
 msgstr "參照線註解"
 
-#: src/dialogs/importsubtitle.cpp:42
+#: src/dialogs/importsubtitle.cpp:45
 #, kde-format
 msgid "Character encoding used to save the subtitle file."
 msgstr ""
 
-#: src/dialogs/importsubtitle.cpp:43
+#: src/dialogs/importsubtitle.cpp:46
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr ""
 
-#: src/dialogs/importsubtitle.cpp:51 src/project/dialogs/guideslist.cpp:179
-#: src/project/projectmanager.cpp:1641
+#: src/dialogs/importsubtitle.cpp:54 src/dialogs/importsubtitle.cpp:97
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1641
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, kde-format
 msgid "Cannot read file %1"
 msgstr "無法讀取檔案 %1"
 
-#: src/dialogs/importsubtitle.cpp:83
+#: src/dialogs/importsubtitle.cpp:107
 #, kde-format
 msgid "Encoding could not be guessed, using UTF-8"
 msgstr ""
 
-#: src/dialogs/importsubtitle.cpp:87
+#: src/dialogs/importsubtitle.cpp:111
 #, fuzzy, kde-format
 #| msgid "Decoding threads"
 msgid "Encoding detected as %1"
 msgstr "解碼執行緒"
 
-#: src/dialogs/importsubtitle.cpp:104
+#: src/dialogs/importsubtitle.cpp:133
 #, fuzzy, kde-format
 msgid "Import Subtitle"
 msgstr "匯入標記"

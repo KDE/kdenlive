@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-16 00:37+0000\n"
+"POT-Creation-Date: 2024-02-17 00:37+0000\n"
 "PO-Revision-Date: 2024-02-11 11:29+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -4465,6 +4465,7 @@ msgstr ""
 "Wycinek zastępujący jest %1 klatek krótszy."
 
 #: src/bin/bin.cpp:1919 src/bin/bin.cpp:2131
+#: src/bin/model/subtitlemodel.cpp:391
 #, kde-format
 msgid "The selected file %1 is invalid."
 msgstr "Wybrany plik %1 jest nieprawidłowy."
@@ -5477,31 +5478,31 @@ msgstr "Napisy"
 msgid "Edit subtitle style"
 msgstr "Zmień wygląd napisów"
 
-#: src/bin/model/subtitlemodel.cpp:395 src/bin/model/subtitlemodel.cpp:612
-#: src/bin/model/subtitlemodel.cpp:1528
+#: src/bin/model/subtitlemodel.cpp:401 src/bin/model/subtitlemodel.cpp:618
+#: src/bin/model/subtitlemodel.cpp:1534
 #, kde-format
 msgid "Edit subtitle"
 msgstr "Edytuj napisy"
 
-#: src/bin/model/subtitlemodel.cpp:646 src/bin/model/subtitlemodel.cpp:1615
+#: src/bin/model/subtitlemodel.cpp:652 src/bin/model/subtitlemodel.cpp:1621
 #: src/timeline2/model/timelinefunctions.cpp:214
 #, kde-format
 msgid "Cut clip"
 msgstr "Wytnij wycinek"
 
-#: src/bin/model/subtitlemodel.cpp:803 src/bin/model/subtitlemodel.cpp:1547
+#: src/bin/model/subtitlemodel.cpp:809 src/bin/model/subtitlemodel.cpp:1553
 #: src/timeline2/model/timelinemodel.cpp:3624
 #, kde-format
 msgid "Resize subtitle"
 msgstr "Zmień rozmiar napisów"
 
-#: src/bin/model/subtitlemodel.cpp:999
+#: src/bin/model/subtitlemodel.cpp:1005
 #: src/timeline2/model/timelinemodel.cpp:1291
 #, kde-format
 msgid "Move subtitle"
 msgstr "Przesuń napisy"
 
-#: src/bin/model/subtitlemodel.cpp:1155
+#: src/bin/model/subtitlemodel.cpp:1161
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:526
 #: src/effects/effectstack/view/effectstackview.cpp:591
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:866
@@ -5514,22 +5515,22 @@ msgstr ""
 "Plik %1 już istnieje.\n"
 "Czy chcesz go zastąpić?"
 
-#: src/bin/model/subtitlemodel.cpp:1559
+#: src/bin/model/subtitlemodel.cpp:1565
 #, kde-format
 msgid "Add text"
 msgstr "Dodaj tekst"
 
-#: src/bin/model/subtitlemodel.cpp:1579 src/dialogs/subtitleedit.cpp:112
+#: src/bin/model/subtitlemodel.cpp:1585 src/dialogs/subtitleedit.cpp:112
 #, kde-format
 msgid "Add subtitle"
 msgstr "Dodaj napisy"
 
-#: src/bin/model/subtitlemodel.cpp:1634 src/dialogs/subtitleedit.cpp:122
+#: src/bin/model/subtitlemodel.cpp:1640 src/dialogs/subtitleedit.cpp:122
 #, kde-format
 msgid "Delete subtitle"
 msgstr "Usuń napis"
 
-#: src/bin/model/subtitlemodel.cpp:1686 src/bin/model/subtitlemodel.cpp:1689
+#: src/bin/model/subtitlemodel.cpp:1692 src/bin/model/subtitlemodel.cpp:1695
 #, kde-format
 msgctxt "@item:inlistbox subtitle track name"
 msgid "Subtitle %1"
@@ -6433,35 +6434,35 @@ msgstr "Następne położenie prowadnicy w klatkach"
 msgid "Guide comment"
 msgstr "Uwaga do prowadnicy"
 
-#: src/dialogs/importsubtitle.cpp:42
+#: src/dialogs/importsubtitle.cpp:45
 #, kde-format
 msgid "Character encoding used to save the subtitle file."
 msgstr "Kodowanie znaków używane do zapisywania plików napisów."
 
-#: src/dialogs/importsubtitle.cpp:43
+#: src/dialogs/importsubtitle.cpp:46
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "W przypadku wątpliwości, spróbuj :<br/><b>Unikod (UTF-8)</b>."
 
-#: src/dialogs/importsubtitle.cpp:51 src/project/dialogs/guideslist.cpp:179
-#: src/project/projectmanager.cpp:1641
+#: src/dialogs/importsubtitle.cpp:54 src/dialogs/importsubtitle.cpp:97
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1641
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, kde-format
 msgid "Cannot read file %1"
 msgstr "Nie można odczytać pliku %1"
 
-#: src/dialogs/importsubtitle.cpp:83
+#: src/dialogs/importsubtitle.cpp:107
 #, kde-format
 msgid "Encoding could not be guessed, using UTF-8"
 msgstr "Nie można było odgadnąć kodowania, użyto UTF-8"
 
-#: src/dialogs/importsubtitle.cpp:87
+#: src/dialogs/importsubtitle.cpp:111
 #, kde-format
 msgid "Encoding detected as %1"
 msgstr "Wykryto kodowanie jako %1"
 
-#: src/dialogs/importsubtitle.cpp:104
+#: src/dialogs/importsubtitle.cpp:133
 #, kde-format
 msgid "Import Subtitle"
 msgstr "Zaimportuj napisy"
