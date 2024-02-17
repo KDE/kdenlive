@@ -531,9 +531,12 @@ public:
     /** @brief Returns a list of all external files used by effects in the timeline
      */
     QStringList extractExternalEffectFiles() const;
+    /** @brief Get the x,y position of the mouse in the timeline widget
+     */
+    Q_INVOKABLE const QPoint getMousePosInTimeline() const;
     /** @brief Get the frame where mouse is positioned
      */
-    int getMousePos();
+    Q_INVOKABLE int getMousePos();
     /** @brief Get the frame where mouse is positioned
      */
     int getMouseTrack();

@@ -263,12 +263,6 @@ Item {
                     timeline.editItemDuration(clipId)
                 }
             }
-            onPositionChanged: mouse => {
-                if (parentTrack) {
-                    var mapped = parentTrack.mapFromItem(compositionRoot, mouse.x, mouse.y).x
-                    root.mousePosChanged(Math.round(mapped / timeline.scaleFactor))
-                }
-            }
             onWheel: wheel => zoomByWheel(wheel)
 
             MouseArea {

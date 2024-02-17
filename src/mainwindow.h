@@ -389,6 +389,8 @@ public Q_SLOTS:
     void slotDeleteItem();
     /** @brief Export a subtitle file */
     void slotExportSubtitle();
+    /** @brief Display current mouse pos */
+    void slotUpdateMousePosition(int pos, int duration = -1);
 
 private Q_SLOTS:
     /** @brief Shows the shortcut dialog. */
@@ -397,7 +399,6 @@ private Q_SLOTS:
     /** @brief Reflects setting changes to the GUI. */
     void updateConfiguration();
     void slotConnectMonitors();
-    void slotUpdateMousePosition(int pos, int duration = -1);
     void slotSwitchMarkersComments();
     void slotSwitchSnap();
     void slotShowTimelineTags();

@@ -49,6 +49,7 @@ public:
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
     void focusInEvent(QFocusEvent *event) override;
     bool eventFilter(QObject *object, QEvent *event) override;
 
@@ -83,6 +84,7 @@ private Q_SLOTS:
     void showRulerMenu();
     void showHeaderMenu();
     void showSubtitleClipMenu();
+    void emitMousePos(int offset);
 
 private:
     TimelineController *m_proxy;

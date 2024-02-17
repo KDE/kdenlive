@@ -359,10 +359,6 @@ Rectangle {
             timeline.grabCurrent()
             //focus = false
         }
-        onPositionChanged: mouse => {
-            var mapped = parentTrack.mapFromItem(clipRoot, mouse.x, mouse.y).x
-            root.mousePosChanged(Math.round(mapped / timeline.scaleFactor))
-        }
         onEntered: {
             if (clipRoot.clipId > -1) {
                 var itemPos = mapToItem(tracksContainerArea, 0, 0, width, height)
