@@ -208,7 +208,7 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
 
     setSource(QUrl(QStringLiteral("qrc:/qml/timeline.qml")));
     engine()->addImageProvider(QStringLiteral("thumbnail"), new ThumbnailProvider);
-    connect(rootObject(), SIGNAL(mousePosChanged(int)), pCore->window(), SLOT(slotUpdateMousePosition(int)));
+    connect(rootObject(), SIGNAL(mousePosChanged(int)), this, SLOT(emitMousePos(int)));
     connect(rootObject(), SIGNAL(zoomIn(bool)), pCore->window(), SLOT(slotZoomIn(bool)));
     connect(rootObject(), SIGNAL(zoomOut(bool)), pCore->window(), SLOT(slotZoomOut(bool)));
     connect(rootObject(), SIGNAL(processingDrag(bool)), pCore->window(), SIGNAL(enableUndo(bool)));
@@ -228,6 +228,11 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     m_proxy->checkDuration();
 }
 
+void TimelineWidget::emitMousePos(int offset)
+{
+    pCore->window()->slotUpdateMousePosition(int((offset + mapFromGlobal(QCursor::pos()).x()) / m_proxy->scaleFactor()));
+}
+
 void TimelineWidget::loadMarkerModel()
 {
     if (m_proxy) {
@@ -243,6 +248,14 @@ void TimelineWidget::mousePressEvent(QMouseEvent *event)
 #else
     m_clickPos = event->globalPosition().toPoint();
 #endif
+    QQuickWidget::mousePressEvent(event);
+}
+
+void TimelineWidget::mouseMoveEvent(QMouseEvent *event)
+{
+    QVariant returnedValue;
+    QMetaObject::invokeMethod(rootObject(), "getMouseOffset", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
+    emitMousePos(returnedValue.toInt());
     QQuickWidget::mousePressEvent(event);
 }
 

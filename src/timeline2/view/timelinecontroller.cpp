@@ -1986,17 +1986,26 @@ void TimelineController::seekToMouse()
     }
 }
 
+const QPoint TimelineController::getMousePosInTimeline() const
+{
+    QPoint mousPosInWidget = pCore->window()->getCurrentTimeline()->mapFromGlobal(QCursor::pos());
+    return mousPosInWidget;
+}
+
 int TimelineController::getMousePos()
 {
     QVariant returnedValue;
-    QMetaObject::invokeMethod(m_root, "getMousePos", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
-    return returnedValue.toInt();
+    int posInWidget = getMousePosInTimeline().x();
+    QMetaObject::invokeMethod(m_root, "getMouseOffset", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
+    posInWidget += returnedValue.toInt();
+    return posInWidget / m_scale;
 }
 
 int TimelineController::getMouseTrack()
 {
     QVariant returnedValue;
-    QMetaObject::invokeMethod(m_root, "getMouseTrack", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
+    int posInWidget = getMousePosInTimeline().y();
+    QMetaObject::invokeMethod(m_root, "getMouseTrackFromPos", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue), Q_ARG(QVariant, posInWidget));
     return returnedValue.toInt();
 }
 
