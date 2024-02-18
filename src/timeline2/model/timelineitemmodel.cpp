@@ -894,7 +894,10 @@ void TimelineItemModel::processTimelineReplacement(QList<int> instances, const Q
                 clip->switchBinReference(replacementId, m_uuid);
                 replaced++;
                 QModelIndex ix = makeClipIndexFromID(id);
-                Q_EMIT dataChanged(ix, ix, {NameRole});
+                clip->forceThumbReload = !clip->forceThumbReload;
+                Q_EMIT dataChanged(
+                    ix, ix,
+                    {BinIdRole, ClipThumbRole, AudioChannelsRole, AudioStreamRole, AudioMultiStreamRole, AudioStreamIndexRole, NameRole, ReloadAudioThumbRole});
             }
         }
         if (!notReplacedIds.isEmpty()) {
@@ -918,7 +921,10 @@ void TimelineItemModel::processTimelineReplacement(QList<int> instances, const Q
                     clip->switchBinReference(originalId, m_uuid);
                     replaced++;
                     QModelIndex ix = makeClipIndexFromID(id);
-                    Q_EMIT dataChanged(ix, ix, {NameRole});
+                    clip->forceThumbReload = !clip->forceThumbReload;
+                    Q_EMIT dataChanged(ix, ix,
+                                       {BinIdRole, ClipThumbRole, AudioChannelsRole, AudioStreamRole, AudioMultiStreamRole, AudioStreamIndexRole, NameRole,
+                                        ReloadAudioThumbRole});
                 }
             }
             if (!notReplacedIds.isEmpty()) {
