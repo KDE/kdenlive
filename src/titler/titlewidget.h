@@ -79,7 +79,7 @@ public:
     /** @brief Checks for the images referenced by a title clip, and modifies the urls to ensure they are absolute
      * @param xml XML data representing the title
      * @return list of the image files / fonts */
-    static QPair<QStringList, QStringList> extractAndFixImageList(QDomElement &e, const QString &root);
+    static QPair<QStringList, QStringList> extractAndFixImageAndFontsList(QDomElement &e, const QString &root);
 
     /** @brief Checks for the fonts referenced by a title clip.\n
      * Called by DocumentChecker::hasErrorInClips () \n
