@@ -48,6 +48,7 @@ Core::Core(const QString &packageType)
     , taskManager(this)
     , m_packageType(packageType)
     , m_capture(new MediaCapture(this))
+    , sessionId(QUuid::createUuid().toString())
 {
 }
 
