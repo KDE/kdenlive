@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-18 00:37+0000\n"
+"POT-Creation-Date: 2024-02-19 00:37+0000\n"
 "PO-Revision-Date: 2020-10-31 22:29+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -943,8 +943,8 @@ msgstr "Krydsblænd video fra sort"
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:170
 #: src/bin/bin.cpp:1295 src/bin/projectitemmodel.cpp:318
 #: src/timeline2/view/dialogs/speeddialog.cpp:55
-#: src/timeline2/view/qml/Track.qml:333 src/timeline2/view/qml/Track.qml:407
-#: src/timeline2/view/qml/Track.qml:428 src/ui/clipdurationdialog_ui.ui:18
+#: src/timeline2/view/qml/Track.qml:353 src/timeline2/view/qml/Track.qml:427
+#: src/timeline2/view/qml/Track.qml:448 src/ui/clipdurationdialog_ui.ui:18
 #, kde-format
 msgid "Duration"
 msgstr "Varighed"
@@ -952,7 +952,7 @@ msgstr "Varighed"
 #: data/effects/fade_from_black.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:167
 #: src/monitor/view/kdenlivemonitortrimming.qml:109
-#: src/timeline2/view/qml/Track.qml:356
+#: src/timeline2/view/qml/Track.qml:376
 #, kde-format
 msgid "In"
 msgstr "Ind"
@@ -2118,7 +2118,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: data/effects/speed.xml:4 data/effects/speed.xml:8 data/effects/wave.xml:17
 #: src/effects/effectstack/view/qml/BuiltStack.qml:34
-#: src/timeline2/view/qml/Track.qml:331 src/timeline2/view/qml/Track.qml:405
+#: src/timeline2/view/qml/Track.qml:351 src/timeline2/view/qml/Track.qml:425
 #: src/ui/clipspeed_ui.ui:36
 #, kde-format
 msgid "Speed"
@@ -4587,13 +4587,13 @@ msgid ""
 "with clip <b>%2</b>"
 msgstr ""
 
-#: src/bin/bin.cpp:1997 src/timeline2/model/timelineitemmodel.cpp:931
+#: src/bin/bin.cpp:1997 src/timeline2/model/timelineitemmodel.cpp:937
 #, fuzzy, kde-format
 #| msgid "Record audio"
 msgid "Replace audio"
 msgstr "Optag lyd"
 
-#: src/bin/bin.cpp:2000 src/timeline2/model/timelineitemmodel.cpp:931
+#: src/bin/bin.cpp:2000 src/timeline2/model/timelineitemmodel.cpp:937
 #, fuzzy, kde-format
 #| msgid "Restore video"
 msgid "Replace video"
@@ -5111,7 +5111,7 @@ msgstr ""
 "Du er ved at redigere et eksternt titelklip (%1). Vil du gemme dine "
 "ændringer af titelfilen eller kun gemme ændringerne for dette projekt?"
 
-#: src/bin/bin.cpp:4761 src/titler/titlewidget.cpp:2227
+#: src/bin/bin.cpp:4761 src/titler/titlewidget.cpp:2283
 #, kde-format
 msgid "Save Title"
 msgstr "Gem titel"
@@ -6538,7 +6538,7 @@ msgstr "Importér hjælpelinjer"
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5062
-#: src/titler/titlewidget.cpp:2240
+#: src/titler/titlewidget.cpp:2296
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Kan ikke skrive til filen %1"
@@ -11642,7 +11642,7 @@ msgstr "Opret"
 
 #: src/mainwindow.cpp:2149 src/onlineresources/resourcewidget.cpp:616
 #: src/scopes/colorscopes/colorplaneexport.cpp:158
-#: src/titler/titlewidget.cpp:2223
+#: src/titler/titlewidget.cpp:2279
 #, fuzzy, kde-format
 #| msgid "Outline width"
 msgctxt "@action:button"
@@ -16720,13 +16720,13 @@ msgstr "Omdøb spor"
 msgid "Could not setup track compositing, check your install"
 msgstr ""
 
-#: src/timeline2/model/timelineitemmodel.cpp:901
+#: src/timeline2/model/timelineitemmodel.cpp:904
 #, kde-format
 msgid "Clips replaced: %1. <b>Clips not replaced: %2</b>"
 msgstr ""
 
-#: src/timeline2/model/timelineitemmodel.cpp:903
-#: src/timeline2/model/timelineitemmodel.cpp:927
+#: src/timeline2/model/timelineitemmodel.cpp:906
+#: src/timeline2/model/timelineitemmodel.cpp:933
 #, fuzzy, kde-format
 #| msgid "No profile selected"
 msgid "One clip replaced"
@@ -16734,12 +16734,12 @@ msgid_plural "%1 clips replaced"
 msgstr[0] "Ingen profil valgt"
 msgstr[1] "Ingen profil valgt"
 
-#: src/timeline2/model/timelineitemmodel.cpp:925
+#: src/timeline2/model/timelineitemmodel.cpp:931
 #, kde-format
 msgid "Clips replaced: %1, Clips too long: %2"
 msgstr ""
 
-#: src/timeline2/model/timelineitemmodel.cpp:931
+#: src/timeline2/model/timelineitemmodel.cpp:937
 #, fuzzy, kde-format
 #| msgid "Replace Clip"
 msgid "Replace clip"
@@ -17364,12 +17364,12 @@ msgstr "Optag"
 msgid "Multicam In"
 msgstr ""
 
-#: src/timeline2/view/qml/Track.qml:479 src/timeline2/view/qml/Track.qml:497
+#: src/timeline2/view/qml/Track.qml:499 src/timeline2/view/qml/Track.qml:517
 #, kde-format
 msgid "%1%2, Duration = %3"
 msgstr ""
 
-#: src/timeline2/view/qml/Track.qml:521
+#: src/timeline2/view/qml/Track.qml:541
 #, kde-format
 msgid "Adjusting speed"
 msgstr "Justerer hastighed"
@@ -17791,7 +17791,7 @@ msgid "No available stream"
 msgstr " frames"
 
 #: src/titler/gradientwidget.cpp:140 src/titler/gradientwidget.cpp:143
-#: src/titler/titlewidget.cpp:3276 src/titler/titlewidget.cpp:3279
+#: src/titler/titlewidget.cpp:3332 src/titler/titlewidget.cpp:3335
 #, kde-format
 msgid "Gradient %1"
 msgstr "Gradient %1"
@@ -18042,7 +18042,7 @@ msgid "Add Ellipse"
 msgstr "Tilføj klip"
 
 #: src/titler/titlewidget.cpp:405 src/titler/titlewidget.cpp:408
-#: src/titler/titlewidget.cpp:857
+#: src/titler/titlewidget.cpp:913
 #, kde-format
 msgid "Add Image"
 msgstr "Tilføj billede"
@@ -18068,7 +18068,7 @@ msgstr "Gem billede til projekt"
 msgid "Create Title"
 msgstr "Opret titel"
 
-#: src/titler/titlewidget.cpp:737
+#: src/titler/titlewidget.cpp:793
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
@@ -18076,50 +18076,50 @@ msgid ""
 msgstr ""
 "Vil du virkelig indlæse en ny skabelon? Ændringer i denne titel vil gå tabt!"
 
-#: src/titler/titlewidget.cpp:845
+#: src/titler/titlewidget.cpp:901
 #, kde-format
 msgid "All Images"
 msgstr "Alle billeder"
 
-#: src/titler/titlewidget.cpp:847
+#: src/titler/titlewidget.cpp:903
 #, kde-format
 msgid "%1 Image"
 msgstr "%1 billede"
 
-#: src/titler/titlewidget.cpp:1681
+#: src/titler/titlewidget.cpp:1737
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1683 src/ui/titlewidget_ui.ui:260
+#: src/titler/titlewidget.cpp:1739 src/ui/titlewidget_ui.ui:260
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1705
+#: src/titler/titlewidget.cpp:1761
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1707 src/ui/titlewidget_ui.ui:290
+#: src/titler/titlewidget.cpp:1763 src/ui/titlewidget_ui.ui:290
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2174
+#: src/titler/titlewidget.cpp:2230
 #, kde-format
 msgid "Load Title"
 msgstr "Indlæs titel"
 
-#: src/titler/titlewidget.cpp:2175
+#: src/titler/titlewidget.cpp:2231
 #, fuzzy, kde-format
 #| msgid "Kdenlive"
 msgid "Kdenlive title"
 msgstr "Kdenlive"
 
-#: src/titler/titlewidget.cpp:2221
+#: src/titler/titlewidget.cpp:2277
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -18128,14 +18128,14 @@ msgstr ""
 "Vil du indlejre billeder i dette titeldokument?\n"
 "Dette er mest nødvendigt for deling af titler."
 
-#: src/titler/titlewidget.cpp:2222
+#: src/titler/titlewidget.cpp:2278
 #, fuzzy, kde-format
 #| msgid "Add Image"
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Tilføj billede"
 
-#: src/titler/titlewidget.cpp:2277
+#: src/titler/titlewidget.cpp:2333
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "This title has 1 missing element"
@@ -18143,48 +18143,48 @@ msgid_plural "This title has %1 missing elements"
 msgstr[0] "Slet valgte elementer"
 msgstr[1] "Slet valgte elementer"
 
-#: src/titler/titlewidget.cpp:2278 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2334 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Detaljer"
 
-#: src/titler/titlewidget.cpp:2281
+#: src/titler/titlewidget.cpp:2337
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "Delete missing elements"
 msgstr "Slet valgte elementer"
 
-#: src/titler/titlewidget.cpp:2341
+#: src/titler/titlewidget.cpp:2397
 #, fuzzy, kde-format
 #| msgid "Update Profile"
 msgid "Update Title"
 msgstr "Opdatér profil"
 
-#: src/titler/titlewidget.cpp:2344
+#: src/titler/titlewidget.cpp:2400
 #, fuzzy, kde-format
 #| msgid "Add Template Title"
 msgid "Add as new Title"
 msgstr "Tilføj skabelontitel"
 
-#: src/titler/titlewidget.cpp:2398
+#: src/titler/titlewidget.cpp:2454
 #, kde-format
 msgid "The following files are missing:"
 msgstr "Følgende filer mangler:"
 
-#: src/titler/titlewidget.cpp:2592
+#: src/titler/titlewidget.cpp:2648
 #, fuzzy, kde-format
 #| msgid "Start Script"
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Start script"
 
-#: src/titler/titlewidget.cpp:2593
+#: src/titler/titlewidget.cpp:2649
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:3309
+#: src/titler/titlewidget.cpp:3365
 #, kde-format
 msgid "Gradient"
 msgstr "Gradient"

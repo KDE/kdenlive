@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-18 00:37+0000\n"
+"POT-Creation-Date: 2024-02-19 00:37+0000\n"
 "PO-Revision-Date: 2024-02-05 11:38\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -899,8 +899,8 @@ msgstr "从黑色渐显视频"
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:170
 #: src/bin/bin.cpp:1295 src/bin/projectitemmodel.cpp:318
 #: src/timeline2/view/dialogs/speeddialog.cpp:55
-#: src/timeline2/view/qml/Track.qml:333 src/timeline2/view/qml/Track.qml:407
-#: src/timeline2/view/qml/Track.qml:428 src/ui/clipdurationdialog_ui.ui:18
+#: src/timeline2/view/qml/Track.qml:353 src/timeline2/view/qml/Track.qml:427
+#: src/timeline2/view/qml/Track.qml:448 src/ui/clipdurationdialog_ui.ui:18
 #, kde-format
 msgid "Duration"
 msgstr "持续时间"
@@ -908,7 +908,7 @@ msgstr "持续时间"
 #: data/effects/fade_from_black.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:167
 #: src/monitor/view/kdenlivemonitortrimming.qml:109
-#: src/timeline2/view/qml/Track.qml:356
+#: src/timeline2/view/qml/Track.qml:376
 #, kde-format
 msgid "In"
 msgstr "入点"
@@ -2062,7 +2062,7 @@ msgstr "创建一个基于其他资源的透明度通道"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: data/effects/speed.xml:4 data/effects/speed.xml:8 data/effects/wave.xml:17
 #: src/effects/effectstack/view/qml/BuiltStack.qml:34
-#: src/timeline2/view/qml/Track.qml:331 src/timeline2/view/qml/Track.qml:405
+#: src/timeline2/view/qml/Track.qml:351 src/timeline2/view/qml/Track.qml:425
 #: src/ui/clipspeed_ui.ui:36
 #, kde-format
 msgid "Speed"
@@ -4431,12 +4431,12 @@ msgstr ""
 "正在把剪辑 <b>%1</b><br/> 位于活动时间轴中的实例\n"
 "替换为剪辑 <b>%2</b>"
 
-#: src/bin/bin.cpp:1997 src/timeline2/model/timelineitemmodel.cpp:931
+#: src/bin/bin.cpp:1997 src/timeline2/model/timelineitemmodel.cpp:937
 #, kde-format
 msgid "Replace audio"
 msgstr "替换音频"
 
-#: src/bin/bin.cpp:2000 src/timeline2/model/timelineitemmodel.cpp:931
+#: src/bin/bin.cpp:2000 src/timeline2/model/timelineitemmodel.cpp:937
 #, kde-format
 msgid "Replace video"
 msgstr "替换视频"
@@ -4913,7 +4913,7 @@ msgstr ""
 "您正在编辑外部字幕剪辑 (%1)。您想要保存更改到该字幕文件，还是仅保存更改到此项"
 "目？"
 
-#: src/bin/bin.cpp:4761 src/titler/titlewidget.cpp:2227
+#: src/bin/bin.cpp:4761 src/titler/titlewidget.cpp:2283
 #, kde-format
 msgid "Save Title"
 msgstr "保存字幕"
@@ -6261,7 +6261,7 @@ msgstr "导出辅助线数据…"
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5062
-#: src/titler/titlewidget.cpp:2240
+#: src/titler/titlewidget.cpp:2296
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "无法写入文件 %1"
@@ -11027,7 +11027,7 @@ msgstr "重建"
 
 #: src/mainwindow.cpp:2149 src/onlineresources/resourcewidget.cpp:616
 #: src/scopes/colorscopes/colorplaneexport.cpp:158
-#: src/titler/titlewidget.cpp:2223
+#: src/titler/titlewidget.cpp:2279
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -15940,24 +15940,24 @@ msgstr "重命名轨道"
 msgid "Could not setup track compositing, check your install"
 msgstr "无法设置轨道合成，请检查软件的安装情况"
 
-#: src/timeline2/model/timelineitemmodel.cpp:901
+#: src/timeline2/model/timelineitemmodel.cpp:904
 #, kde-format
 msgid "Clips replaced: %1. <b>Clips not replaced: %2</b>"
 msgstr "已替换的剪辑：%1。<b>未替换的剪辑：%2</b>"
 
-#: src/timeline2/model/timelineitemmodel.cpp:903
-#: src/timeline2/model/timelineitemmodel.cpp:927
+#: src/timeline2/model/timelineitemmodel.cpp:906
+#: src/timeline2/model/timelineitemmodel.cpp:933
 #, kde-format
 msgid "One clip replaced"
 msgid_plural "%1 clips replaced"
 msgstr[0] "已替换 %1 条剪辑"
 
-#: src/timeline2/model/timelineitemmodel.cpp:925
+#: src/timeline2/model/timelineitemmodel.cpp:931
 #, kde-format
 msgid "Clips replaced: %1, Clips too long: %2"
 msgstr "已替换的剪辑：%1，过长的剪辑：%2"
 
-#: src/timeline2/model/timelineitemmodel.cpp:931
+#: src/timeline2/model/timelineitemmodel.cpp:937
 #, kde-format
 msgid "Replace clip"
 msgstr "替换剪辑"
@@ -16503,12 +16503,12 @@ msgstr "正在录制"
 msgid "Multicam In"
 msgstr "多机位入点"
 
-#: src/timeline2/view/qml/Track.qml:479 src/timeline2/view/qml/Track.qml:497
+#: src/timeline2/view/qml/Track.qml:499 src/timeline2/view/qml/Track.qml:517
 #, kde-format
 msgid "%1%2, Duration = %3"
 msgstr "%1%2，持续时间 = %3"
 
-#: src/timeline2/view/qml/Track.qml:521
+#: src/timeline2/view/qml/Track.qml:541
 #, kde-format
 msgid "Adjusting speed"
 msgstr "正在调整速度"
@@ -16897,7 +16897,7 @@ msgid "No available stream"
 msgstr "无可用流"
 
 #: src/titler/gradientwidget.cpp:140 src/titler/gradientwidget.cpp:143
-#: src/titler/titlewidget.cpp:3276 src/titler/titlewidget.cpp:3279
+#: src/titler/titlewidget.cpp:3332 src/titler/titlewidget.cpp:3335
 #, kde-format
 msgid "Gradient %1"
 msgstr "渐变 %1"
@@ -17142,7 +17142,7 @@ msgid "Add Ellipse"
 msgstr "添加椭圆"
 
 #: src/titler/titlewidget.cpp:405 src/titler/titlewidget.cpp:408
-#: src/titler/titlewidget.cpp:857
+#: src/titler/titlewidget.cpp:913
 #, kde-format
 msgid "Add Image"
 msgstr "添加图像"
@@ -17167,56 +17167,56 @@ msgstr "保存并添加到项目"
 msgid "Create Title"
 msgstr "创建字幕"
 
-#: src/titler/titlewidget.cpp:737
+#: src/titler/titlewidget.cpp:793
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
 "lost!"
 msgstr "您确定要加载新的模板吗？此字幕的更改将会丢失。"
 
-#: src/titler/titlewidget.cpp:845
+#: src/titler/titlewidget.cpp:901
 #, kde-format
 msgid "All Images"
 msgstr "全部图像"
 
-#: src/titler/titlewidget.cpp:847
+#: src/titler/titlewidget.cpp:903
 #, kde-format
 msgid "%1 Image"
 msgstr "%1 图像"
 
-#: src/titler/titlewidget.cpp:1681
+#: src/titler/titlewidget.cpp:1737
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1683 src/ui/titlewidget_ui.ui:260
+#: src/titler/titlewidget.cpp:1739 src/ui/titlewidget_ui.ui:260
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1705
+#: src/titler/titlewidget.cpp:1761
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1707 src/ui/titlewidget_ui.ui:290
+#: src/titler/titlewidget.cpp:1763 src/ui/titlewidget_ui.ui:290
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2174
+#: src/titler/titlewidget.cpp:2230
 #, kde-format
 msgid "Load Title"
 msgstr "加载字幕"
 
-#: src/titler/titlewidget.cpp:2175
+#: src/titler/titlewidget.cpp:2231
 #, kde-format
 msgid "Kdenlive title"
 msgstr "Kdenlive 字幕"
 
-#: src/titler/titlewidget.cpp:2221
+#: src/titler/titlewidget.cpp:2277
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -17225,56 +17225,56 @@ msgstr ""
 "您想要嵌入图像到此字幕文件吗？\n"
 "此操作是分享字幕所必需的。"
 
-#: src/titler/titlewidget.cpp:2222
+#: src/titler/titlewidget.cpp:2278
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "嵌入的图像"
 
-#: src/titler/titlewidget.cpp:2277
+#: src/titler/titlewidget.cpp:2333
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "此字幕有 %1 个缺失元素"
 
-#: src/titler/titlewidget.cpp:2278 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2334 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "细节"
 
-#: src/titler/titlewidget.cpp:2281
+#: src/titler/titlewidget.cpp:2337
 #, kde-format
 msgid "Delete missing elements"
 msgstr "删除缺失的元素"
 
-#: src/titler/titlewidget.cpp:2341
+#: src/titler/titlewidget.cpp:2397
 #, kde-format
 msgid "Update Title"
 msgstr "更新字幕"
 
-#: src/titler/titlewidget.cpp:2344
+#: src/titler/titlewidget.cpp:2400
 #, kde-format
 msgid "Add as new Title"
 msgstr "添加为新字幕"
 
-#: src/titler/titlewidget.cpp:2398
+#: src/titler/titlewidget.cpp:2454
 #, kde-format
 msgid "The following files are missing:"
 msgstr "缺少以下文件："
 
-#: src/titler/titlewidget.cpp:2592
+#: src/titler/titlewidget.cpp:2648
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "开始视图"
 
-#: src/titler/titlewidget.cpp:2593
+#: src/titler/titlewidget.cpp:2649
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "结束视图"
 
-#: src/titler/titlewidget.cpp:3309
+#: src/titler/titlewidget.cpp:3365
 #, kde-format
 msgid "Gradient"
 msgstr "渐变"

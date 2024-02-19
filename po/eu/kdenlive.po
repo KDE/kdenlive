@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-18 00:37+0000\n"
+"POT-Creation-Date: 2024-02-19 00:37+0000\n"
 "PO-Revision-Date: 2024-02-16 09:13+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -917,8 +917,8 @@ msgstr "Bideoa beltzetik itzaltzea"
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:170
 #: src/bin/bin.cpp:1295 src/bin/projectitemmodel.cpp:318
 #: src/timeline2/view/dialogs/speeddialog.cpp:55
-#: src/timeline2/view/qml/Track.qml:333 src/timeline2/view/qml/Track.qml:407
-#: src/timeline2/view/qml/Track.qml:428 src/ui/clipdurationdialog_ui.ui:18
+#: src/timeline2/view/qml/Track.qml:353 src/timeline2/view/qml/Track.qml:427
+#: src/timeline2/view/qml/Track.qml:448 src/ui/clipdurationdialog_ui.ui:18
 #, kde-format
 msgid "Duration"
 msgstr "Iraupena"
@@ -926,7 +926,7 @@ msgstr "Iraupena"
 #: data/effects/fade_from_black.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:167
 #: src/monitor/view/kdenlivemonitortrimming.qml:109
-#: src/timeline2/view/qml/Track.qml:356
+#: src/timeline2/view/qml/Track.qml:376
 #, kde-format
 msgid "In"
 msgstr "Sartu"
@@ -2109,7 +2109,7 @@ msgstr "Sortu alfa kanala (gardentasuna) beste baliabide batetik"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: data/effects/speed.xml:4 data/effects/speed.xml:8 data/effects/wave.xml:17
 #: src/effects/effectstack/view/qml/BuiltStack.qml:34
-#: src/timeline2/view/qml/Track.qml:331 src/timeline2/view/qml/Track.qml:405
+#: src/timeline2/view/qml/Track.qml:351 src/timeline2/view/qml/Track.qml:425
 #: src/ui/clipspeed_ui.ui:36
 #, kde-format
 msgid "Speed"
@@ -4530,12 +4530,12 @@ msgstr ""
 "Denbora-lerro aktiboko <b>%1</b><br/> kliparen instantziak\n"
 "<b>%2</b> kliparekin ordezkatzea"
 
-#: src/bin/bin.cpp:1997 src/timeline2/model/timelineitemmodel.cpp:931
+#: src/bin/bin.cpp:1997 src/timeline2/model/timelineitemmodel.cpp:937
 #, kde-format
 msgid "Replace audio"
 msgstr "Ordeztu audioa"
 
-#: src/bin/bin.cpp:2000 src/timeline2/model/timelineitemmodel.cpp:931
+#: src/bin/bin.cpp:2000 src/timeline2/model/timelineitemmodel.cpp:937
 #, kde-format
 msgid "Replace video"
 msgstr "Ordeztu bideoa"
@@ -5024,7 +5024,7 @@ msgstr ""
 "Kanpoko izneburu klipa ari zara editatzen (%1). Aldaketak tituluaren "
 "fitxategian edo soilik proiektu honentzako gorde nahi dituzu?"
 
-#: src/bin/bin.cpp:4761 src/titler/titlewidget.cpp:2227
+#: src/bin/bin.cpp:4761 src/titler/titlewidget.cpp:2283
 #, kde-format
 msgid "Save Title"
 msgstr "Gorde izenburua"
@@ -6391,7 +6391,7 @@ msgstr "Esportatu Gidalerroen datuak"
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5062
-#: src/titler/titlewidget.cpp:2240
+#: src/titler/titlewidget.cpp:2296
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Ezin da %1 fitxategian idatzi"
@@ -11281,7 +11281,7 @@ msgstr "Berriz sortu"
 
 #: src/mainwindow.cpp:2149 src/onlineresources/resourcewidget.cpp:616
 #: src/scopes/colorscopes/colorplaneexport.cpp:158
-#: src/titler/titlewidget.cpp:2223
+#: src/titler/titlewidget.cpp:2279
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -16314,25 +16314,25 @@ msgstr "Berrizendatu pista"
 msgid "Could not setup track compositing, check your install"
 msgstr "Ezin izan da pistak konposatzea ezarri, ikuskatu zure instalazioa"
 
-#: src/timeline2/model/timelineitemmodel.cpp:901
+#: src/timeline2/model/timelineitemmodel.cpp:904
 #, kde-format
 msgid "Clips replaced: %1. <b>Clips not replaced: %2</b>"
 msgstr "Ordeztutako klipak: %1. <b>Ordeztu gabeko klipak: %2</b>"
 
-#: src/timeline2/model/timelineitemmodel.cpp:903
-#: src/timeline2/model/timelineitemmodel.cpp:927
+#: src/timeline2/model/timelineitemmodel.cpp:906
+#: src/timeline2/model/timelineitemmodel.cpp:933
 #, kde-format
 msgid "One clip replaced"
 msgid_plural "%1 clips replaced"
 msgstr[0] "Klip bat ordeztu da"
 msgstr[1] "%1 klip ordeztu dira"
 
-#: src/timeline2/model/timelineitemmodel.cpp:925
+#: src/timeline2/model/timelineitemmodel.cpp:931
 #, kde-format
 msgid "Clips replaced: %1, Clips too long: %2"
 msgstr "Ordeztutako klipak: %1, Klip luzeegiak: %2"
 
-#: src/timeline2/model/timelineitemmodel.cpp:931
+#: src/timeline2/model/timelineitemmodel.cpp:937
 #, kde-format
 msgid "Replace clip"
 msgstr "Ordeztu klipa"
@@ -16892,12 +16892,12 @@ msgstr "Grabazio"
 msgid "Multicam In"
 msgstr "Kamer-anitz Sarrera"
 
-#: src/timeline2/view/qml/Track.qml:479 src/timeline2/view/qml/Track.qml:497
+#: src/timeline2/view/qml/Track.qml:499 src/timeline2/view/qml/Track.qml:517
 #, kde-format
 msgid "%1%2, Duration = %3"
 msgstr "%1%2, Iraupena = %3"
 
-#: src/timeline2/view/qml/Track.qml:521
+#: src/timeline2/view/qml/Track.qml:541
 #, kde-format
 msgid "Adjusting speed"
 msgstr "Abiadura doitzen"
@@ -17299,7 +17299,7 @@ msgid "No available stream"
 msgstr "Ez dago korronterik eskuragarri"
 
 #: src/titler/gradientwidget.cpp:140 src/titler/gradientwidget.cpp:143
-#: src/titler/titlewidget.cpp:3276 src/titler/titlewidget.cpp:3279
+#: src/titler/titlewidget.cpp:3332 src/titler/titlewidget.cpp:3335
 #, kde-format
 msgid "Gradient %1"
 msgstr "Gradientea %1"
@@ -17547,7 +17547,7 @@ msgid "Add Ellipse"
 msgstr "Gehitu elipsea"
 
 #: src/titler/titlewidget.cpp:405 src/titler/titlewidget.cpp:408
-#: src/titler/titlewidget.cpp:857
+#: src/titler/titlewidget.cpp:913
 #, kde-format
 msgid "Add Image"
 msgstr "Gehitu irudia"
@@ -17572,7 +17572,7 @@ msgstr "Gorde eta gehitu proiektuan"
 msgid "Create Title"
 msgstr "Sortu izenburua"
 
-#: src/titler/titlewidget.cpp:737
+#: src/titler/titlewidget.cpp:793
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
@@ -17581,49 +17581,49 @@ msgstr ""
 "Txantiloi berria kargatu nahi duzu benetan? Uneko izenburuaren aldaketak "
 "galdu egingo dira!"
 
-#: src/titler/titlewidget.cpp:845
+#: src/titler/titlewidget.cpp:901
 #, kde-format
 msgid "All Images"
 msgstr "Irudi guztiak"
 
-#: src/titler/titlewidget.cpp:847
+#: src/titler/titlewidget.cpp:903
 #, kde-format
 msgid "%1 Image"
 msgstr "%1 Irudia"
 
-#: src/titler/titlewidget.cpp:1681
+#: src/titler/titlewidget.cpp:1737
 #, kde-format
 msgid "−X"
 msgstr "-X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1683 src/ui/titlewidget_ui.ui:260
+#: src/titler/titlewidget.cpp:1739 src/ui/titlewidget_ui.ui:260
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1705
+#: src/titler/titlewidget.cpp:1761
 #, kde-format
 msgid "−Y"
 msgstr "-Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1707 src/ui/titlewidget_ui.ui:290
+#: src/titler/titlewidget.cpp:1763 src/ui/titlewidget_ui.ui:290
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2174
+#: src/titler/titlewidget.cpp:2230
 #, kde-format
 msgid "Load Title"
 msgstr "Kargatu izenburua"
 
-#: src/titler/titlewidget.cpp:2175
+#: src/titler/titlewidget.cpp:2231
 #, kde-format
 msgid "Kdenlive title"
 msgstr "Kdenlive izenburua"
 
-#: src/titler/titlewidget.cpp:2221
+#: src/titler/titlewidget.cpp:2277
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -17632,57 +17632,57 @@ msgstr ""
 "Titulu-dokumentu horretan irudiak txertatu nahi dituzu?\n"
 "Hori beharrezkoa da tituluak partekatzeko."
 
-#: src/titler/titlewidget.cpp:2222
+#: src/titler/titlewidget.cpp:2278
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Txertatu irudiak"
 
-#: src/titler/titlewidget.cpp:2277
+#: src/titler/titlewidget.cpp:2333
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "Izenburu honek elementu bat falta du"
 msgstr[1] "Izenburu honek %1 elementu falta ditu"
 
-#: src/titler/titlewidget.cpp:2278 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2334 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Xehetasunak"
 
-#: src/titler/titlewidget.cpp:2281
+#: src/titler/titlewidget.cpp:2337
 #, kde-format
 msgid "Delete missing elements"
 msgstr "Ezabatu falta diren elementuak"
 
-#: src/titler/titlewidget.cpp:2341
+#: src/titler/titlewidget.cpp:2397
 #, kde-format
 msgid "Update Title"
 msgstr "Eguneratu izenburua"
 
-#: src/titler/titlewidget.cpp:2344
+#: src/titler/titlewidget.cpp:2400
 #, kde-format
 msgid "Add as new Title"
 msgstr "Gehitu izenburu berri moduan"
 
-#: src/titler/titlewidget.cpp:2398
+#: src/titler/titlewidget.cpp:2454
 #, kde-format
 msgid "The following files are missing:"
 msgstr "Ondorengo fitxategiak falta dira:"
 
-#: src/titler/titlewidget.cpp:2592
+#: src/titler/titlewidget.cpp:2648
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Hasi ikuspegi azalera"
 
-#: src/titler/titlewidget.cpp:2593
+#: src/titler/titlewidget.cpp:2649
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Amaitu ikuspegi azalera"
 
-#: src/titler/titlewidget.cpp:3309
+#: src/titler/titlewidget.cpp:3365
 #, kde-format
 msgid "Gradient"
 msgstr "Gradientea"
