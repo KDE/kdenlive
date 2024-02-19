@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l 10n\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-18 02:27+0000\n"
+"POT-Creation-Date: 2024-02-19 02:27+0000\n"
 "PO-Revision-Date: 2019-07-12 21:09+0300\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -936,8 +936,8 @@ msgstr ""
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:170
 #: src/bin/bin.cpp:1297 src/bin/projectitemmodel.cpp:318
 #: src/timeline2/view/dialogs/speeddialog.cpp:55
-#: src/timeline2/view/qml/Track.qml:333 src/timeline2/view/qml/Track.qml:407
-#: src/timeline2/view/qml/Track.qml:428 src/ui/clipdurationdialog_ui.ui:18
+#: src/timeline2/view/qml/Track.qml:353 src/timeline2/view/qml/Track.qml:427
+#: src/timeline2/view/qml/Track.qml:448 src/ui/clipdurationdialog_ui.ui:18
 #, kde-format
 msgid "Duration"
 msgstr "Trukmė"
@@ -945,7 +945,7 @@ msgstr "Trukmė"
 #: data/effects/fade_from_black.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:167
 #: src/monitor/view/kdenlivemonitortrimming.qml:109
-#: src/timeline2/view/qml/Track.qml:356
+#: src/timeline2/view/qml/Track.qml:376
 #, kde-format
 msgid "In"
 msgstr "Į"
@@ -2142,7 +2142,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: data/effects/speed.xml:4 data/effects/speed.xml:8 data/effects/wave.xml:17
 #: src/effects/effectstack/view/qml/BuiltStack.qml:34
-#: src/timeline2/view/qml/Track.qml:331 src/timeline2/view/qml/Track.qml:405
+#: src/timeline2/view/qml/Track.qml:351 src/timeline2/view/qml/Track.qml:425
 #: src/ui/clipspeed_ui.ui:36
 #, kde-format
 msgid "Speed"
@@ -4668,13 +4668,13 @@ msgid ""
 "with clip <b>%2</b>"
 msgstr ""
 
-#: src/bin/bin.cpp:1999 src/timeline2/model/timelineitemmodel.cpp:931
+#: src/bin/bin.cpp:1999 src/timeline2/model/timelineitemmodel.cpp:937
 #, fuzzy, kde-format
 #| msgid "Extract to"
 msgid "Replace audio"
 msgstr "Išskleisti į"
 
-#: src/bin/bin.cpp:2002 src/timeline2/model/timelineitemmodel.cpp:931
+#: src/bin/bin.cpp:2002 src/timeline2/model/timelineitemmodel.cpp:937
 #, fuzzy, kde-format
 #| msgid "Mute video clip"
 msgid "Replace video"
@@ -5185,7 +5185,7 @@ msgid ""
 "changes to the title file or save the changes for this project only?"
 msgstr ""
 
-#: src/bin/bin.cpp:4756 src/titler/titlewidget.cpp:2227
+#: src/bin/bin.cpp:4756 src/titler/titlewidget.cpp:2283
 #, kde-format
 msgid "Save Title"
 msgstr ""
@@ -6609,7 +6609,7 @@ msgstr "Importuoti"
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5052
-#: src/titler/titlewidget.cpp:2240
+#: src/titler/titlewidget.cpp:2296
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Nepavysta rašyti į failą %1"
@@ -11628,7 +11628,7 @@ msgstr "Sukurti grupę"
 
 #: src/mainwindow.cpp:2121 src/onlineresources/resourcewidget.cpp:617
 #: src/scopes/colorscopes/colorplaneexport.cpp:158
-#: src/titler/titlewidget.cpp:2223
+#: src/titler/titlewidget.cpp:2279
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -16679,13 +16679,13 @@ msgstr "Pervadinti aplanką"
 msgid "Could not setup track compositing, check your install"
 msgstr ""
 
-#: src/timeline2/model/timelineitemmodel.cpp:901
+#: src/timeline2/model/timelineitemmodel.cpp:904
 #, kde-format
 msgid "Clips replaced: %1. <b>Clips not replaced: %2</b>"
 msgstr ""
 
-#: src/timeline2/model/timelineitemmodel.cpp:903
-#: src/timeline2/model/timelineitemmodel.cpp:927
+#: src/timeline2/model/timelineitemmodel.cpp:906
+#: src/timeline2/model/timelineitemmodel.cpp:933
 #, fuzzy, kde-format
 #| msgid "Add to project"
 msgid "One clip replaced"
@@ -16695,12 +16695,12 @@ msgstr[1] "Pridėti į projektą"
 msgstr[2] "Pridėti į projektą"
 msgstr[3] "Pridėti į projektą"
 
-#: src/timeline2/model/timelineitemmodel.cpp:925
+#: src/timeline2/model/timelineitemmodel.cpp:931
 #, kde-format
 msgid "Clips replaced: %1, Clips too long: %2"
 msgstr ""
 
-#: src/timeline2/model/timelineitemmodel.cpp:931
+#: src/timeline2/model/timelineitemmodel.cpp:937
 #, fuzzy, kde-format
 #| msgid "Resize"
 msgid "Replace clip"
@@ -17310,13 +17310,13 @@ msgstr "Įrašas"
 msgid "Multicam In"
 msgstr ""
 
-#: src/timeline2/view/qml/Track.qml:479 src/timeline2/view/qml/Track.qml:497
+#: src/timeline2/view/qml/Track.qml:499 src/timeline2/view/qml/Track.qml:517
 #, fuzzy, kde-format
 #| msgid " Duration:"
 msgid "%1%2, Duration = %3"
 msgstr " Trukmė:"
 
-#: src/timeline2/view/qml/Track.qml:521
+#: src/timeline2/view/qml/Track.qml:541
 #, fuzzy, kde-format
 #| msgid "Mute video clip"
 msgid "Adjusting speed"
@@ -17748,7 +17748,7 @@ msgid "No available stream"
 msgstr " kadrai"
 
 #: src/titler/gradientwidget.cpp:140 src/titler/gradientwidget.cpp:143
-#: src/titler/titlewidget.cpp:3276 src/titler/titlewidget.cpp:3279
+#: src/titler/titlewidget.cpp:3332 src/titler/titlewidget.cpp:3335
 #, kde-format
 msgid "Gradient %1"
 msgstr ""
@@ -17993,7 +17993,7 @@ msgid "Add Ellipse"
 msgstr "Garso iškarpa"
 
 #: src/titler/titlewidget.cpp:405 src/titler/titlewidget.cpp:408
-#: src/titler/titlewidget.cpp:857
+#: src/titler/titlewidget.cpp:913
 #, kde-format
 msgid "Add Image"
 msgstr "Pridėti paveikslėlį"
@@ -18020,73 +18020,73 @@ msgstr "Įrašyti pakeitimus į dokumentą?"
 msgid "Create Title"
 msgstr "Sukurti grupę"
 
-#: src/titler/titlewidget.cpp:737
+#: src/titler/titlewidget.cpp:793
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
 "lost!"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:845
+#: src/titler/titlewidget.cpp:901
 #, fuzzy, kde-format
 #| msgid "Add Image"
 msgid "All Images"
 msgstr "Pridėti paveikslėlį"
 
-#: src/titler/titlewidget.cpp:847
+#: src/titler/titlewidget.cpp:903
 #, fuzzy, kde-format
 #| msgid "Image"
 msgid "%1 Image"
 msgstr "Paveikslėlis"
 
-#: src/titler/titlewidget.cpp:1681
+#: src/titler/titlewidget.cpp:1737
 #, kde-format
 msgid "−X"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1683 src/ui/titlewidget_ui.ui:260
+#: src/titler/titlewidget.cpp:1739 src/ui/titlewidget_ui.ui:260
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1705
+#: src/titler/titlewidget.cpp:1761
 #, kde-format
 msgid "−Y"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1707 src/ui/titlewidget_ui.ui:290
+#: src/titler/titlewidget.cpp:1763 src/ui/titlewidget_ui.ui:290
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2174
+#: src/titler/titlewidget.cpp:2230
 #, kde-format
 msgid "Load Title"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2175
+#: src/titler/titlewidget.cpp:2231
 #, fuzzy, kde-format
 #| msgid "Kdenlive"
 msgid "Kdenlive title"
 msgstr "Kdenlive"
 
-#: src/titler/titlewidget.cpp:2221
+#: src/titler/titlewidget.cpp:2277
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
 "This is most needed for sharing Titles."
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2222
+#: src/titler/titlewidget.cpp:2278
 #, fuzzy, kde-format
 #| msgid "Add Image"
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Pridėti paveikslėlį"
 
-#: src/titler/titlewidget.cpp:2277
+#: src/titler/titlewidget.cpp:2333
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "This title has 1 missing element"
@@ -18096,48 +18096,48 @@ msgstr[1] "Pašalinti pažymėtus elementus"
 msgstr[2] "Pašalinti pažymėtus elementus"
 msgstr[3] "Pašalinti pažymėtus elementus"
 
-#: src/titler/titlewidget.cpp:2278 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2334 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2281
+#: src/titler/titlewidget.cpp:2337
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "Delete missing elements"
 msgstr "Pašalinti pažymėtus elementus"
 
-#: src/titler/titlewidget.cpp:2341
+#: src/titler/titlewidget.cpp:2397
 #, fuzzy, kde-format
 #| msgid "Update Profile"
 msgid "Update Title"
 msgstr "Atnaujinti profilį"
 
-#: src/titler/titlewidget.cpp:2344
+#: src/titler/titlewidget.cpp:2400
 #, fuzzy, kde-format
 #| msgid "Add new video file"
 msgid "Add as new Title"
 msgstr "Pridėti naują video failą"
 
-#: src/titler/titlewidget.cpp:2398
+#: src/titler/titlewidget.cpp:2454
 #, kde-format
 msgid "The following files are missing:"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2592
+#: src/titler/titlewidget.cpp:2648
 #, fuzzy, kde-format
 #| msgid "Color"
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Spalva"
 
-#: src/titler/titlewidget.cpp:2593
+#: src/titler/titlewidget.cpp:2649
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:3309
+#: src/titler/titlewidget.cpp:3365
 #, kde-format
 msgid "Gradient"
 msgstr ""
