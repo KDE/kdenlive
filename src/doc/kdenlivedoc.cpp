@@ -1387,6 +1387,7 @@ void KdenliveDoc::backupLastSavedVersion(const QString &path)
             KMessageBox::information(QApplication::activeWindow(), i18n("Cannot create backup copy:\n%1", backupFile));
         }
         // backup subitle file in case we have one
+        // TODO: this only backups one subtitle file, and the saved one, not the tmp worked on file
         QString subpath(path + QStringLiteral(".srt"));
         QString subbackupFile(backupFile + QStringLiteral(".srt"));
         if (QFile(subpath).exists()) {
@@ -2370,7 +2371,7 @@ const QString KdenliveDoc::subTitlePath(const QUuid &uuid, int ix, bool final)
     if (m_url.isValid() && final) {
         return QFileInfo(m_url.toLocalFile()).dir().absoluteFilePath(QString("%1.srt").arg(path));
     } else {
-        return QDir::temp().absoluteFilePath(QString("%1.srt").arg(path));
+        return QDir::temp().absoluteFilePath(QString("%1-%2.srt").arg(path, pCore->sessionId));
     }
 }
 

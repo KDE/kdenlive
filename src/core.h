@@ -66,6 +66,7 @@ class /*KDENLIVECORE_EXPORT*/ Core : public QObject
     Q_OBJECT
 
 public:
+    friend class KdenliveDoc;
     Core(const Core &) = delete;
     Core &operator=(const Core &) = delete;
     Core(Core &&) = delete;
@@ -353,6 +354,10 @@ private:
     std::unique_ptr<MediaCapture> m_capture;
     QUrl m_mediaCaptureFile;
     void resetThumbProfile();
+
+protected:
+    /** @brief A unique session id for this app instance */
+    QString sessionId;
 
 public Q_SLOTS:
     /** @brief Trigger (launch) an action by its actionCollection name */
