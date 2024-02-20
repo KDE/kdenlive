@@ -130,6 +130,8 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     connect(fontColor, &KColorButton::changed, this, &SubtitleEdit::updateStyle);
     connect(outlineColor, &KColorButton::changed, this, &SubtitleEdit::updateStyle);
     connect(checkFont, &QCheckBox::toggled, this, &SubtitleEdit::updateStyle);
+    connect(checkBold, &QCheckBox::toggled, this, &SubtitleEdit::updateStyle);
+    connect(checkItalic, &QCheckBox::toggled, this, &SubtitleEdit::updateStyle);
     connect(checkFontSize, &QCheckBox::toggled, this, &SubtitleEdit::updateStyle);
     connect(checkFontColor, &QCheckBox::toggled, this, &SubtitleEdit::updateStyle);
     connect(checkOutlineColor, &QCheckBox::toggled, this, &SubtitleEdit::updateStyle);
@@ -221,6 +223,12 @@ void SubtitleEdit::updateStyle()
         colorName.remove(0, 1);
         styleString << QStringLiteral("OutlineColour=&H%1").arg(colorName);
     }
+    if (checkBold->isChecked()) {
+        styleString << QStringLiteral("Bold=-1");
+    }
+    if (checkItalic->isChecked()) {
+        styleString << QStringLiteral("Italic=-1");
+    }
     if (checkOpaque->isChecked()) {
         QColor color = outlineColor->color();
         if (color.alpha() < 255) {
@@ -278,6 +286,8 @@ void SubtitleEdit::loadStyle(const QString &style)
     QSignalBlocker bk6(checkShadowSize);
     QSignalBlocker bk7(checkPosition);
     QSignalBlocker bk8(checkOpaque);
+    QSignalBlocker bk9(checkBold);
+    QSignalBlocker bk10(checkItalic);
 
     checkFont->setChecked(false);
     checkFontSize->setChecked(false);
@@ -287,6 +297,8 @@ void SubtitleEdit::loadStyle(const QString &style)
     checkShadowSize->setChecked(false);
     checkPosition->setChecked(false);
     checkOpaque->setChecked(false);
+    checkBold->setChecked(false);
+    checkItalic->setChecked(false);
 
     fontFamily->setEnabled(false);
     fontSize->setEnabled(false);
@@ -346,6 +358,10 @@ void SubtitleEdit::loadStyle(const QString &style)
             QSignalBlocker bk(fontColor);
             fontColor->setEnabled(true);
             fontColor->setColor(result);
+        } else if (pName == QLatin1String("Bold")) {
+            checkBold->setChecked(true);
+        } else if (pName == QLatin1String("Italic")) {
+            checkItalic->setChecked(true);
         }
     }
 }

@@ -10,8 +10,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>280</width>
-    <height>287</height>
+    <width>329</width>
+    <height>411</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
@@ -268,8 +268,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>263</width>
-               <height>320</height>
+               <width>284</width>
+               <height>348</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_5">
@@ -285,14 +285,68 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
               <property name="horizontalSpacing">
                <number>0</number>
               </property>
-              <item row="10" column="0">
-               <widget class="QCheckBox" name="checkPosition">
+              <item row="12" column="0" colspan="2">
+               <widget class="QCheckBox" name="checkOpaque">
                 <property name="text">
-                 <string>Custom Position</string>
+                 <string>Opaque background</string>
                 </property>
                </widget>
               </item>
-              <item row="9" column="1">
+              <item row="8" column="0">
+               <widget class="QCheckBox" name="checkOutlineColor">
+                <property name="text">
+                 <string>Custom Outline Color</string>
+                </property>
+               </widget>
+              </item>
+              <item row="11" column="1">
+               <widget class="QComboBox" name="alignment">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="1">
+               <widget class="QSpinBox" name="fontSize">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="suffix">
+                 <string>pt</string>
+                </property>
+                <property name="maximum">
+                 <number>500</number>
+                </property>
+                <property name="value">
+                 <number>30</number>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0">
+               <widget class="QCheckBox" name="checkFontSize">
+                <property name="text">
+                 <string>Custom Font Size</string>
+                </property>
+               </widget>
+              </item>
+              <item row="8" column="1">
+               <widget class="KColorButton" name="outlineColor">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="defaultColor">
+                 <color>
+                  <red>0</red>
+                  <green>0</green>
+                  <blue>0</blue>
+                 </color>
+                </property>
+                <property name="alphaChannelEnabled">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="10" column="1">
                <widget class="QSpinBox" name="shadowSize">
                 <property name="enabled">
                  <bool>false</bool>
@@ -302,28 +356,48 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                 </property>
                </widget>
               </item>
-              <item row="6" column="0">
+              <item row="11" column="0">
+               <widget class="QCheckBox" name="checkPosition">
+                <property name="text">
+                 <string>Custom Position</string>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="0">
                <widget class="QCheckBox" name="checkFontColor">
                 <property name="text">
                  <string>Custom Font Color</string>
                 </property>
                </widget>
               </item>
-              <item row="8" column="0">
+              <item row="9" column="1">
+               <widget class="QSpinBox" name="outlineSize">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="suffix">
+                 <string>px</string>
+                </property>
+                <property name="value">
+                 <number>4</number>
+                </property>
+               </widget>
+              </item>
+              <item row="9" column="0">
                <widget class="QCheckBox" name="checkOutlineSize">
                 <property name="text">
                  <string>Custom Outline Size</string>
                 </property>
                </widget>
               </item>
-              <item row="9" column="0">
-               <widget class="QCheckBox" name="checkShadowSize">
+              <item row="2" column="0" colspan="2">
+               <widget class="QCheckBox" name="checkFont">
                 <property name="text">
-                 <string>Custom Shadow</string>
+                 <string>Custom Font</string>
                 </property>
                </widget>
               </item>
-              <item row="6" column="1">
+              <item row="7" column="1">
                <widget class="KColorButton" name="fontColor">
                 <property name="enabled">
                  <bool>false</bool>
@@ -347,13 +421,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                 </property>
                </widget>
               </item>
-              <item row="11" column="0" colspan="2">
-               <widget class="QCheckBox" name="checkOpaque">
-                <property name="text">
-                 <string>Opaque background</string>
-                </property>
-               </widget>
-              </item>
               <item row="3" column="0" colspan="2">
                <widget class="QFontComboBox" name="fontFamily">
                 <property name="enabled">
@@ -361,74 +428,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                 </property>
                </widget>
               </item>
-              <item row="4" column="1">
-               <widget class="QSpinBox" name="fontSize">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="suffix">
-                 <string>pt</string>
-                </property>
-                <property name="maximum">
-                 <number>500</number>
-                </property>
-                <property name="value">
-                 <number>30</number>
-                </property>
-               </widget>
-              </item>
-              <item row="7" column="0">
-               <widget class="QCheckBox" name="checkOutlineColor">
+              <item row="10" column="0">
+               <widget class="QCheckBox" name="checkShadowSize">
                 <property name="text">
-                 <string>Custom Outline Color</string>
+                 <string>Custom Shadow</string>
                 </property>
                </widget>
               </item>
-              <item row="7" column="1">
-               <widget class="KColorButton" name="outlineColor">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="defaultColor">
-                 <color>
-                  <red>0</red>
-                  <green>0</green>
-                  <blue>0</blue>
-                 </color>
-                </property>
-                <property name="alphaChannelEnabled">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="8" column="1">
-               <widget class="QSpinBox" name="outlineSize">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="suffix">
-                 <string>px</string>
-                </property>
-                <property name="value">
-                 <number>4</number>
-                </property>
-               </widget>
-              </item>
-              <item row="10" column="1">
-               <widget class="QComboBox" name="alignment">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="0">
-               <widget class="QCheckBox" name="checkFontSize">
-                <property name="text">
-                 <string>Custom Font Size</string>
-                </property>
-               </widget>
-              </item>
-              <item row="12" column="0">
+              <item row="13" column="0">
                <spacer name="verticalSpacer">
                 <property name="orientation">
                  <enum>Qt::Vertical</enum>
@@ -441,10 +448,17 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                 </property>
                </spacer>
               </item>
-              <item row="2" column="0" colspan="2">
-               <widget class="QCheckBox" name="checkFont">
+              <item row="4" column="0">
+               <widget class="QCheckBox" name="checkBold">
                 <property name="text">
-                 <string>Custom Font</string>
+                 <string>Bold</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
+               <widget class="QCheckBox" name="checkItalic">
+                <property name="text">
+                 <string>Italic</string>
                 </property>
                </widget>
               </item>
