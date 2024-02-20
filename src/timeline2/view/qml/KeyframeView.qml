@@ -132,7 +132,7 @@ Rectangle
                     drag.target: parent
                     drag.smoothed: false
                     drag.axis: Drag.XAxis
-                    onReleased: {
+                    onReleased: mouse => {
                         root.autoScrolling = timeline.autoScroll
                         dragPos = -1
                         var newPos = Math.round(parent.x / timeScale) + keyframeContainer.inPoint
@@ -146,7 +146,7 @@ Rectangle
                             }
                         }
                     }
-                    onPositionChanged: {
+                    onPositionChanged: mouse => {
                         if (mouse.buttons === Qt.LeftButton) {
                             if (frame == keyframeContainer.inPoint) {
                                 parent.x = keyframeContainer.inPoint * timeScale
@@ -193,10 +193,10 @@ Rectangle
                         property string movingVal: kfrModel.realValue(model.normalizedValue)
                         property double newVal: NaN
                         property bool shiftPressed: false
-                        onPressed: {
+                        onPressed: mouse => {
                             drag.axis = model.moveOnly ? Drag.XAxis : (mouse.modifiers & Qt.ShiftModifier) ? Drag.YAxis : Drag.XAndYAxis
                         }
-                        onClicked: {
+                        onClicked: mouse => {
                             keyframeContainer.focus = true
                             if (mouse.modifiers & Qt.ControlModifier && model.selected) {
                                 kfrModel.setActiveKeyframe(-1)
@@ -250,7 +250,7 @@ Rectangle
                                 }
                             }
                         }
-                        onPositionChanged: {
+                        onPositionChanged: mouse => {
                             shiftPressed = (mouse.modifiers & Qt.ShiftModifier)
                             if (mouse.buttons === Qt.LeftButton) {
                                 if (frame == keyframeContainer.inPoint) {

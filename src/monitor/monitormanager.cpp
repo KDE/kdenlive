@@ -810,8 +810,9 @@ bool MonitorManager::isMultiTrack() const
 void MonitorManager::switchMultiTrackView(bool enable)
 {
     if (isMultiTrack()) {
-        if (!enable) {
-            m_multiTrack->trigger();
+        if (!enable && m_projectMonitor) {
+            m_multiTrack->setChecked(false);
+            Q_EMIT m_projectMonitor->multitrackView(false, true);
         }
     } else if (enable) {
         m_multiTrack->trigger();
