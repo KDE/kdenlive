@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-19 00:37+0000\n"
-"PO-Revision-Date: 2024-02-17 22:48+0200\n"
+"POT-Creation-Date: 2024-02-20 00:37+0000\n"
+"PO-Revision-Date: 2024-02-18 08:32+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -1011,10 +1011,10 @@ msgid "Gain"
 msgstr "שבח"
 
 #: data/effects/gamma.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Gamma Effect Name"
 msgid "Gamma (keyframable)"
-msgstr "עוצמת שמע (ניתן לשליטה בתמוניות מפתח)"
+msgstr "גמא (ניתן לשליטה בתמוניות מפתח)"
 
 #: data/effects/gamma.xml:5
 #, kde-format
@@ -1130,34 +1130,34 @@ msgid "Lift/gamma/gain"
 msgstr ""
 
 #: data/effects/lift_gamma_gain.xml:7
-#, fuzzy, kde-format
+#, kde-format
 msgid "Lift: Red"
-msgstr "הסט אדום"
+msgstr "הגבהה: אדום"
 
 #: data/effects/lift_gamma_gain.xml:10
-#, fuzzy, kde-format
+#, kde-format
 msgid "Lift: Green"
-msgstr "הסט ירוק"
+msgstr "הגבהה: ירוק"
 
 #: data/effects/lift_gamma_gain.xml:13
-#, fuzzy, kde-format
+#, kde-format
 msgid "Lift: Blue"
-msgstr "הסט כחול"
+msgstr "הגבהה: כחול"
 
 #: data/effects/lift_gamma_gain.xml:16
-#, fuzzy, kde-format
+#, kde-format
 msgid "Gamma: Red"
-msgstr "גמא"
+msgstr "גמא: אדום"
 
 #: data/effects/lift_gamma_gain.xml:19
-#, fuzzy, kde-format
+#, kde-format
 msgid "Gamma: Green"
-msgstr "שבח כניסה"
+msgstr "גמא: ירוק"
 
 #: data/effects/lift_gamma_gain.xml:22
-#, fuzzy, kde-format
+#, kde-format
 msgid "Gamma: Blue"
-msgstr "גמא"
+msgstr "גמא: כחול"
 
 #: data/effects/lift_gamma_gain.xml:25
 #, kde-format
@@ -1242,9 +1242,9 @@ msgstr ""
 #: data/effects/lumaliftgaingamma.xml:8
 #: src/assets/view/widgets/lumaliftgainparam.cpp:26
 #: src/effects/effectstack/view/qml/LiftGammaGain.qml:46
-#, fuzzy, kde-format
+#, kde-format
 msgid "Lift"
-msgstr "הסט אדום"
+msgstr "הגבהה"
 
 #: data/effects/mask_apply.xml:4
 #, kde-format
@@ -1725,10 +1725,10 @@ msgid "Blur"
 msgstr "טשטוש"
 
 #: data/effects/qtblend.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Qtblend Transform Effect Name"
 msgid "Transform"
-msgstr "קידוד"
+msgstr "התמרה"
 
 #: data/effects/qtblend.xml:6 data/effects/qtblend.xml:24
 #, fuzzy, kde-format
@@ -1759,9 +1759,9 @@ msgid "Compositing"
 msgstr "מרכב"
 
 #: data/effects/qtblend.xml:23
-#, fuzzy, kde-format
+#, kde-format
 msgid "Transform"
-msgstr "קידוד"
+msgstr "התמרה"
 
 #: data/effects/qtblend.xml:40 data/transitions/qtblend.xml:21
 #, kde-format
@@ -1936,9 +1936,9 @@ msgid "Pan and Zoom"
 msgstr "הסטה ותקריב"
 
 #: data/effects/rotation_keyframable.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Rotate (keyframable)"
-msgstr "‮עוצמת שמע (ניתן לשליטה במסגרות מפתח)"
+msgstr "סיבוב (ניתן לשליטה עם תמונית מפתח)"
 
 #: data/effects/rotation_keyframable.xml:17
 #, kde-format
@@ -1976,9 +1976,9 @@ msgid "Width of line"
 msgstr ""
 
 #: data/effects/scratchlines.xml:11
-#, fuzzy, kde-format
+#, kde-format
 msgid "Max number of lines"
-msgstr "שבח אמצעי"
+msgstr "מספר השורות המרבי"
 
 #: data/effects/scratchlines.xml:14
 #, fuzzy, kde-format
@@ -2038,9 +2038,9 @@ msgid "Make clip play faster or slower"
 msgstr "לגרום לסרטון לנגן מהר או לאט יותר"
 
 #: data/effects/spot_remover.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Spot Remover"
-msgstr "הסר קובץ"
+msgstr "מסיר נקודות"
 
 #: data/effects/spot_remover.xml:5
 #, kde-format
@@ -4838,7 +4838,7 @@ msgstr ""
 msgid "Please set a default application to open audio files"
 msgstr "נא להגדיר יישום ברירת מחדל לפתיחת קובצי שמע"
 
-#: src/bin/bin.cpp:4568 src/core.cpp:310 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:4568 src/core.cpp:311 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:459 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:471
 #: src/layoutmanagement.cpp:532 src/profiles/profilerepository.cpp:173
@@ -5300,7 +5300,7 @@ msgid "Add markers"
 msgstr "הוספת סמנים"
 
 #. i18n: ectx: Menu (subtitles)
-#: src/bin/model/subtitlemodel.cpp:80 src/core.cpp:684 src/kdenliveui.rc:30
+#: src/bin/model/subtitlemodel.cpp:80 src/core.cpp:685 src/kdenliveui.rc:30
 #: src/mainwindow.cpp:290 src/project/dialogs/archivewidget.cpp:97
 #: src/project/dialogs/projectsettings.cpp:423
 #, kde-format
@@ -5535,302 +5535,302 @@ msgstr "הוספת תגית"
 msgid "New tag"
 msgstr ""
 
-#: src/core.cpp:105
+#: src/core.cpp:106
 #, kde-format
 msgid ""
 "Kdenlive crashed on last startup.\n"
 "Do you want to disable experimental GPU processing (Movit) ?"
 msgstr ""
 
-#: src/core.cpp:106
+#: src/core.cpp:107
 #, kde-format
 msgid "Disable GPU processing"
 msgstr "השבתת עיבוד במעבד גרפי"
 
-#: src/core.cpp:112
+#: src/core.cpp:113
 #, kde-format
 msgid ""
 "Kdenlive crashed on last startup.\n"
 "Do you want to reset the configuration files ?"
 msgstr ""
 
-#: src/core.cpp:171 src/project/projectmanager.cpp:797
+#: src/core.cpp:172 src/project/projectmanager.cpp:797
 #, kde-format
 msgid "Loading project…"
 msgstr "המיזם נטען…"
 
-#: src/core.cpp:203
+#: src/core.cpp:204
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
 "a correct value."
 msgstr ""
 
-#: src/core.cpp:215
+#: src/core.cpp:216
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr "בחירת פרופיל ברירת מחדל"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:215 src/ui/profiledialog_ui.ui:38
+#: src/core.cpp:216 src/ui/profiledialog_ui.ui:38
 #, kde-format
 msgid "Profile:"
 msgstr "פרופיל:"
 
-#: src/core.cpp:228
+#: src/core.cpp:229
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
 "can change this from Kdenlive's settings panel"
 msgstr ""
 
-#: src/core.cpp:363
+#: src/core.cpp:364
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "ריבוע 2 עמודות"
 
-#: src/core.cpp:364
+#: src/core.cpp:365
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "לוח שחמט קטן"
 
-#: src/core.cpp:365
+#: src/core.cpp:366
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "תריסים אופקיים"
 
-#: src/core.cpp:366
+#: src/core.cpp:367
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "מעגלי"
 
-#: src/core.cpp:367
+#: src/core.cpp:368
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "X קווי"
 
-#: src/core.cpp:368
+#: src/core.cpp:369
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "X דו־קווי"
 
-#: src/core.cpp:369
+#: src/core.cpp:370
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Y קווי"
 
-#: src/core.cpp:370
+#: src/core.cpp:371
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Y דו־קווי"
 
-#: src/core.cpp:371
+#: src/core.cpp:372
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "ריבוע"
 
-#: src/core.cpp:372
+#: src/core.cpp:373
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "ריבוע 2"
 
-#: src/core.cpp:373
+#: src/core.cpp:374
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "ענן"
 
-#: src/core.cpp:374
+#: src/core.cpp:375
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "שעון סימטרי"
 
-#: src/core.cpp:375
+#: src/core.cpp:376
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "עמודות מעגליות"
 
-#: src/core.cpp:376
+#: src/core.cpp:377
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "ספירלה"
 
-#: src/core.cpp:377
+#: src/core.cpp:378
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "ספירלה 2"
 
-#: src/core.cpp:378
+#: src/core.cpp:379
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "וילון"
 
-#: src/core.cpp:379
+#: src/core.cpp:380
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "התפרצות"
 
-#: src/core.cpp:380
+#: src/core.cpp:381
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "שעון"
 
-#: src/core.cpp:382
+#: src/core.cpp:383
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "עמודה אופקית"
 
-#: src/core.cpp:383
+#: src/core.cpp:384
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "עמודה אנכית"
 
-#: src/core.cpp:384
+#: src/core.cpp:385
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "דלת אורווה אופקית"
 
-#: src/core.cpp:385
+#: src/core.cpp:386
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "דלת אורווה אנכית"
 
-#: src/core.cpp:386
+#: src/core.cpp:387
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr ""
 
-#: src/core.cpp:387
+#: src/core.cpp:388
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr ""
 
-#: src/core.cpp:388
+#: src/core.cpp:389
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr ""
 
-#: src/core.cpp:389
+#: src/core.cpp:390
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr ""
 
-#: src/core.cpp:390
+#: src/core.cpp:391
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr ""
 
-#: src/core.cpp:391
+#: src/core.cpp:392
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr ""
 
-#: src/core.cpp:392
+#: src/core.cpp:393
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "נחש מטריקס אופקי"
 
-#: src/core.cpp:393
+#: src/core.cpp:394
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr ""
 
-#: src/core.cpp:394
+#: src/core.cpp:395
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr ""
 
-#: src/core.cpp:395
+#: src/core.cpp:396
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr ""
 
-#: src/core.cpp:396
+#: src/core.cpp:397
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr ""
 
-#: src/core.cpp:397
+#: src/core.cpp:398
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "עיגול קשתית"
 
-#: src/core.cpp:398
+#: src/core.cpp:399
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "קשתית כפולה"
 
-#: src/core.cpp:399
+#: src/core.cpp:400
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "תיבת קשתית"
 
-#: src/core.cpp:400
+#: src/core.cpp:401
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "תיבה מימין למטה"
 
-#: src/core.cpp:401
+#: src/core.cpp:402
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "תיבה משמאל למטה"
 
-#: src/core.cpp:402
+#: src/core.cpp:403
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr ""
 
-#: src/core.cpp:403
+#: src/core.cpp:404
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr ""
 
-#: src/core.cpp:629
+#: src/core.cpp:630
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "פרופיל המיזם שלך שגוי, הצלימה עלולה להיכשל."
 
-#: src/core.cpp:978
+#: src/core.cpp:979
 #, kde-format
 msgid "Loading clips"
 msgstr "סרטונים נטענים"
@@ -8138,7 +8138,7 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "שגיאה בהעברת תיקיית המיזם: %1"
 
-#: src/doc/kdenlivedoc.cpp:1074 src/doc/kdenlivedoc.cpp:2302
+#: src/doc/kdenlivedoc.cpp:1074 src/doc/kdenlivedoc.cpp:2303
 #: src/project/dialogs/archivewidget.cpp:239
 #: src/project/projectmanager.cpp:1582
 #, kde-format
@@ -8161,14 +8161,14 @@ msgstr ""
 msgid "Project Folder"
 msgstr "תיקיית מיזם"
 
-#: src/doc/kdenlivedoc.cpp:1387 src/doc/kdenlivedoc.cpp:1395
+#: src/doc/kdenlivedoc.cpp:1387 src/doc/kdenlivedoc.cpp:1396
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
 "%1"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1540
+#: src/doc/kdenlivedoc.cpp:1541
 #, fuzzy, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
@@ -8177,7 +8177,7 @@ msgstr[1] "הוסף סרטון"
 msgstr[2] ""
 msgstr[3] ""
 
-#: src/doc/kdenlivedoc.cpp:1542
+#: src/doc/kdenlivedoc.cpp:1543
 #, fuzzy, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
@@ -8186,12 +8186,12 @@ msgstr[1] "הסר סרטונים"
 msgstr[2] ""
 msgstr[3] ""
 
-#: src/doc/kdenlivedoc.cpp:1586 src/doc/kdenlivedoc.cpp:1644
+#: src/doc/kdenlivedoc.cpp:1587 src/doc/kdenlivedoc.cpp:1645
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1782
+#: src/doc/kdenlivedoc.cpp:1783
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -8199,75 +8199,75 @@ msgid ""
 "misplaced clips and frame offset."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1867
+#: src/doc/kdenlivedoc.cpp:1868
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1886
+#: src/doc/kdenlivedoc.cpp:1887
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
 "Do you want to change default profile for future projects?"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1888
+#: src/doc/kdenlivedoc.cpp:1889
 #, kde-format
 msgid "Change default project profile"
 msgstr "החלפת פרופיל ברירת המחדל של המיזם"
 
-#: src/doc/kdenlivedoc.cpp:1888
+#: src/doc/kdenlivedoc.cpp:1889
 #, kde-format
 msgid "Change default to %1"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1889
+#: src/doc/kdenlivedoc.cpp:1890
 #, kde-format
 msgid "Keep current default %1"
 msgstr "להשאיר את ברירת המחדל הנוכחית %1"
 
-#: src/doc/kdenlivedoc.cpp:1889
+#: src/doc/kdenlivedoc.cpp:1890
 #, kde-format
 msgid "Ask me later"
 msgstr "לשאול אותי מאוחר יותר"
 
-#: src/doc/kdenlivedoc.cpp:1909
+#: src/doc/kdenlivedoc.cpp:1910
 #, kde-format
 msgid "Switch"
 msgstr "החלפה"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1911 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1912 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "ביטול"
 
-#: src/doc/kdenlivedoc.cpp:1913
+#: src/doc/kdenlivedoc.cpp:1914
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "החלפה לפרופיל סרטון (%1) %2?"
 
-#: src/doc/kdenlivedoc.cpp:1918
+#: src/doc/kdenlivedoc.cpp:1919
 #, kde-format
 msgid ""
 "\n"
 "Profile fps adjusted from original %1"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1922
+#: src/doc/kdenlivedoc.cpp:1923
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
 "Create and switch to new profile (%2x%3, %4fps)?%5"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2341 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2342 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "אדום"
 
-#: src/doc/kdenlivedoc.cpp:2342 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2343 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -8275,24 +8275,24 @@ msgstr "אדום"
 msgid "Green"
 msgstr "ירוק"
 
-#: src/doc/kdenlivedoc.cpp:2343 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2344 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "כחול"
 
-#: src/doc/kdenlivedoc.cpp:2344 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2345 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "צהוב"
 
-#: src/doc/kdenlivedoc.cpp:2345
+#: src/doc/kdenlivedoc.cpp:2346
 #, kde-format
 msgid "Cyan"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2609 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2610 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -19570,7 +19570,7 @@ msgstr "הצפנה"
 #: src/ui/import_subtitle_ui.ui:96
 #, kde-format
 msgid "Import at timeline cursor position"
-msgstr ""
+msgstr "ייבוא ציר זמן למקום הסמן"
 
 #. i18n: ectx: property (text), widget (QCheckBox, transform_framerate_check_box)
 #: src/ui/import_subtitle_ui.ui:118
@@ -19606,7 +19606,7 @@ msgstr "משתנה"
 #: src/ui/managecache_ui.ui:18
 #, kde-format
 msgid "Manage Cache Data"
-msgstr ""
+msgstr "ניהול נתונים במטמון"
 
 #. i18n: ectx: property (accessibleName), widget (QWidget, projectPage)
 #. i18n: ectx: attribute (title), widget (QWidget, projectPage)
