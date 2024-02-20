@@ -351,6 +351,20 @@ void AssetListWidget::setShowDescription(bool show)
     Q_EMIT showDescriptionChanged();
 }
 
+// static
+bool AssetListWidget::isCustomType(AssetListType::AssetType itemType)
+{
+    return (itemType == AssetListType::AssetType::Custom || itemType == AssetListType::AssetType::CustomAudio ||
+            itemType == AssetListType::AssetType::TemplateCustom || itemType == AssetListType::AssetType::TemplateCustomAudio);
+}
+
+// static
+bool AssetListWidget::isAudioType(AssetListType::AssetType type)
+{
+    return (type == AssetListType::AssetType::Audio || type == AssetListType::AssetType::CustomAudio || type == AssetListType::AssetType::TemplateAudio ||
+            type == AssetListType::AssetType::TemplateCustomAudio);
+};
+
 void AssetListWidget::onCustomContextMenu(const QPoint &pos)
 {
     QModelIndex index = m_effectsTree->indexAt(pos);
@@ -361,7 +375,7 @@ void AssetListWidget::onCustomContextMenu(const QPoint &pos)
             QList<QAction *> actions = m_contextMenu->actions();
             bool isFavorite = m_model->data(sourceIndex, AssetTreeModel::FavoriteRole).toBool();
             auto itemType = m_model->data(sourceIndex, AssetTreeModel::TypeRole).value<AssetListType::AssetType>();
-            bool isCustom = itemType == AssetListType::AssetType::Custom || itemType == AssetListType::AssetType::CustomAudio;
+            bool isCustom = isCustomType(itemType);
             for (auto &ac : actions) {
                 if (ac->data().toString() == QLatin1String("custom")) {
                     ac->setEnabled(isCustom);
@@ -384,12 +398,14 @@ void AssetListWidget::updateAssetInfo(const QModelIndex &current, const QModelIn
             return;
         }
         auto type = m_model->data(m_proxyModel->mapToSource(current), AssetTreeModel::TypeRole).value<AssetListType::AssetType>();
-        // Add link to our documentation
-        const QString link = buildLink(id, type);
-        if (!description.isEmpty()) {
-            description.append(QString("<br/><a title=\"%1\" href=\"%2\">&#128279; %3</a>").arg(i18nc("@info:tooltip", "Online documentation"), link, id));
-        } else {
-            description = QString("<a title=\"%1\" href=\"%2\">&#128279; %3</a>").arg(i18nc("@info:tooltip", "Online documentation"), link, id);
+        if (!isCustomType(type)) {
+            // Add link to our documentation
+            const QString link = buildLink(id, type);
+            if (!description.isEmpty()) {
+                description.append(QString("<br/><a title=\"%1\" href=\"%2\">&#128279; %3</a>").arg(i18nc("@info:tooltip", "Online documentation"), link, id));
+            } else {
+                description = QString("<a title=\"%1\" href=\"%2\">&#128279; %3</a>").arg(i18nc("@info:tooltip", "Online documentation"), link, id);
+            }
         }
         m_infoDocument->setHtml(description);
     } else {
