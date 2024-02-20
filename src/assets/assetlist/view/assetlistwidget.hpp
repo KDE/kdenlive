@@ -72,6 +72,12 @@ public:
      */
     bool showDescription() const;
     void setShowDescription(bool show);
+    /** @brief Return true if the effect type is a custom effect (not built in)
+     */
+    static bool isCustomType(AssetListType::AssetType itemType);
+    /** @brief Return true if the effect type is audio
+     */
+    static bool isAudioType(AssetListType::AssetType type);
 
 private:
     QToolBar *m_toolbar;

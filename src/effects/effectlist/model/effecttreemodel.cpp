@@ -84,7 +84,8 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
 
         if (type == AssetListType::AssetType::Custom || type == AssetListType::AssetType::CustomAudio) {
             targetCategory = self->m_customCategory;
-        } else if (type == AssetListType::AssetType::Template || type == AssetListType::AssetType::TemplateAudio) {
+        } else if (type == AssetListType::AssetType::Template || type == AssetListType::AssetType::TemplateAudio ||
+                   type == AssetListType::AssetType::TemplateCustom || type == AssetListType::AssetType::TemplateCustomAudio) {
             targetCategory = self->m_templateCategory;
         }
 
@@ -124,7 +125,8 @@ void EffectTreeModel::reloadEffect(const QString &path)
     std::shared_ptr<TreeItem> targetCategory = nullptr;
     if (type == AssetListType::AssetType::Custom || type == AssetListType::AssetType::CustomAudio) {
         targetCategory = m_customCategory;
-    } else if (type == AssetListType::AssetType::Template || type == AssetListType::AssetType::TemplateAudio) {
+    } else if (type == AssetListType::AssetType::Template || type == AssetListType::AssetType::TemplateAudio ||
+               type == AssetListType::AssetType::TemplateCustom || type == AssetListType::AssetType::TemplateCustomAudio) {
         targetCategory = m_templateCategory;
     }
     if (asset.first.isEmpty() || targetCategory == nullptr) {
@@ -151,7 +153,14 @@ void EffectTreeModel::deleteEffect(const QModelIndex &index)
     }
     std::shared_ptr<TreeItem> item = getItemById(int(index.internalId()));
     const QString id = item->dataColumn(IdCol).toString();
-    m_customCategory->removeChild(item);
+    if (item->hasAncestor(m_customCategory->getId())) {
+        m_customCategory->removeChild(item);
+    } else if (item->hasAncestor(m_templateCategory->getId())) {
+        m_templateCategory->removeChild(item);
+    } else {
+        // ERRROR
+        return;
+    }
     EffectsRepository::get()->deleteEffect(id);
 }
 

@@ -4,6 +4,7 @@
 */
 
 #include "effectsrepository.hpp"
+#include "assets/assetlist/view/assetlistwidget.hpp"
 #include "core.h"
 #include "kdenlivesettings.h"
 #include "profiles/profilemodel.hpp"
@@ -85,15 +86,24 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
                 }
             }
             QString type = base.attribute(QStringLiteral("type"), QString());
-            if (type == QLatin1String("customAudio")) {
-                if (file_name.contains(QStringLiteral("effect-templates"))) {
-                    result.type = AssetListType::AssetType::TemplateAudio;
+            if (file_name.contains(QStringLiteral("effect-templates"))) {
+                const QString localFolder = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
+                bool isLocalFile = false;
+                if (!localFolder.isEmpty()) {
+                    QDir localDir(localFolder);
+                    if (!localDir.relativeFilePath(file_name).startsWith(QLatin1String(".."))) {
+                        // The file is inside our local storage folder
+                        isLocalFile = true;
+                    }
+                }
+                if (type == QLatin1String("customAudio")) {
+                    result.type = isLocalFile ? AssetListType::AssetType::TemplateCustomAudio : AssetListType::AssetType::TemplateAudio;
                 } else {
-                    result.type = AssetListType::AssetType::CustomAudio;
+                    result.type = isLocalFile ? AssetListType::AssetType::TemplateCustom : AssetListType::AssetType::Template;
                 }
             } else {
-                if (file_name.contains(QStringLiteral("effect-templates"))) {
-                    result.type = AssetListType::AssetType::Template;
+                if (type == QLatin1String("customAudio")) {
+                    result.type = AssetListType::AssetType::CustomAudio;
                 } else {
                     result.type = AssetListType::AssetType::Custom;
                 }
@@ -103,7 +113,10 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
                 result.id = QFileInfo(file_name).baseName();
             }
             if (!result.id.isEmpty()) {
-                result.name = result.description;
+                result.name = Xml::getSubTagContent(base, QStringLiteral("name"));
+                if (result.name.isEmpty()) {
+                    result.name = result.id;
+                }
                 customAssets[result.id] = result;
             }
             return;
@@ -415,7 +428,7 @@ bool EffectsRepository::isAudioEffect(const QString &assetId) const
 {
     if (m_assets.count(assetId) > 0) {
         AssetListType::AssetType type = m_assets.at(assetId).type;
-        return type == AssetListType::AssetType::Audio || type == AssetListType::AssetType::CustomAudio || type == AssetListType::AssetType::TemplateAudio;
+        return AssetListWidget::isAudioType(type);
     }
     return false;
 }
