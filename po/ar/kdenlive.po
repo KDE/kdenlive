@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-20 00:37+0000\n"
+"POT-Creation-Date: 2024-02-21 00:37+0000\n"
 "PO-Revision-Date: 2024-02-19 17:47+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -2830,7 +2830,7 @@ msgid "Calf  Plugins"
 msgstr "ملحقات Calf"
 
 #: data/kdenliveeffectscategory.rc:138
-#: src/effects/effectlist/model/effecttreemodel.cpp:95
+#: src/effects/effectlist/model/effecttreemodel.cpp:96
 #, kde-format
 msgid "Deprecated"
 msgstr "مهمل"
@@ -3161,7 +3161,7 @@ msgid "Generator Failed"
 msgstr "فشل المولّد"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:60
-#: src/assets/assetlist/view/assetlistwidget.cpp:369
+#: src/assets/assetlist/view/assetlistwidget.cpp:383
 #, kde-format
 msgid "Add to favorites"
 msgstr "أضف إلى المفضّلة"
@@ -3246,13 +3246,13 @@ msgstr "أظهر/أخفِ وصف التراكيب"
 msgid "Search…"
 msgstr "ابحث..."
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:369
+#: src/assets/assetlist/view/assetlistwidget.cpp:383
 #, kde-format
 msgid "Remove from favorites"
 msgstr "أزل من المفضّلة"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:390
-#: src/assets/assetlist/view/assetlistwidget.cpp:392
+#: src/assets/assetlist/view/assetlistwidget.cpp:405
+#: src/assets/assetlist/view/assetlistwidget.cpp:407
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Online documentation"
@@ -3708,7 +3708,7 @@ msgstr "الوسط اليسار"
 
 #: src/assets/view/widgets/keyframeimport.cpp:229
 #: src/assets/view/widgets/keyframeimport.cpp:239
-#: src/dialogs/subtitleedit.cpp:144 src/transitions/view/mixstackview.cpp:47
+#: src/dialogs/subtitleedit.cpp:146 src/transitions/view/mixstackview.cpp:47
 #, kde-format
 msgid "Center"
 msgstr "الوسط"
@@ -5245,13 +5245,13 @@ msgstr "المدّة:"
 msgid "MLT Playlist (*.mlt)"
 msgstr "قائمة تشغيل ام ال تي (*.mlt)"
 
-#: src/bin/mediabrowser.cpp:53 src/dialogs/subtitleedit.cpp:150
+#: src/bin/mediabrowser.cpp:53 src/dialogs/subtitleedit.cpp:152
 #: src/dialogs/textbasededit.cpp:733
 #, kde-format
 msgid "Zoom In"
 msgstr "قرّب"
 
-#: src/bin/mediabrowser.cpp:54 src/dialogs/subtitleedit.cpp:152
+#: src/bin/mediabrowser.cpp:54 src/dialogs/subtitleedit.cpp:154
 #: src/dialogs/textbasededit.cpp:735
 #, kde-format
 msgid "Zoom Out"
@@ -6329,9 +6329,9 @@ msgstr "صدر بيانات الأدلة"
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1661
 #: src/dialogs/renderwidget.cpp:1688 src/doc/kdenlivedoc.cpp:760
 #: src/doc/kdenlivedoc.cpp:768 src/doc/kdenlivedoc.cpp:1285
-#: src/effects/effectlist/model/effecttreemodel.cpp:283
-#: src/effects/effectlist/model/effecttreemodel.cpp:299
-#: src/effects/effectsrepository.cpp:393
+#: src/effects/effectlist/model/effecttreemodel.cpp:292
+#: src/effects/effectlist/model/effecttreemodel.cpp:308
+#: src/effects/effectsrepository.cpp:406
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:604
 #: src/effects/effectstack/view/effectstackview.cpp:629
 #: src/profiles/profilerepository.cpp:190
@@ -7457,47 +7457,47 @@ msgid ""
 "Deletes the currently selected subtitle (doesn’t work on multiple subtitles)."
 msgstr "تحذف الترجمات المحددة الحالية (لا يعمل مع الترجمات المتعددة)."
 
-#: src/dialogs/subtitleedit.cpp:140
+#: src/dialogs/subtitleedit.cpp:142
 #, kde-format
 msgid "Bottom Center"
 msgstr "أسفل الوسط"
 
-#: src/dialogs/subtitleedit.cpp:141
+#: src/dialogs/subtitleedit.cpp:143
 #, kde-format
 msgid "Bottom Left"
 msgstr "يسار الأسفل"
 
-#: src/dialogs/subtitleedit.cpp:142
+#: src/dialogs/subtitleedit.cpp:144
 #, kde-format
 msgid "Bottom Right"
 msgstr "يمين الأسفل"
 
-#: src/dialogs/subtitleedit.cpp:143
+#: src/dialogs/subtitleedit.cpp:145
 #, kde-format
 msgid "Center Left"
 msgstr "يسار الوسط"
 
-#: src/dialogs/subtitleedit.cpp:145
+#: src/dialogs/subtitleedit.cpp:147
 #, kde-format
 msgid "Center Right"
 msgstr "يمين الوسط"
 
-#: src/dialogs/subtitleedit.cpp:146
+#: src/dialogs/subtitleedit.cpp:148
 #, kde-format
 msgid "Top Left"
 msgstr "أعلى اليسار"
 
-#: src/dialogs/subtitleedit.cpp:147
+#: src/dialogs/subtitleedit.cpp:149
 #, kde-format
 msgid "Top Center"
 msgstr "أعلى الوسط"
 
-#: src/dialogs/subtitleedit.cpp:148
+#: src/dialogs/subtitleedit.cpp:150
 #, kde-format
 msgid "Top Right"
 msgstr "أعلى اليمين"
 
-#: src/dialogs/subtitleedit.cpp:473
+#: src/dialogs/subtitleedit.cpp:489
 #, kde-format
 msgid "Character: %1, total: <b>%2</b>"
 msgstr "المحرف: %1، المجموع: <b>%2</b>"
@@ -8565,17 +8565,17 @@ msgstr "مخصّص"
 msgid "Templates"
 msgstr "القوالب"
 
-#: src/effects/effectlist/model/effecttreemodel.cpp:96
+#: src/effects/effectlist/model/effecttreemodel.cpp:97
 #, kde-format
 msgid " - deprecated"
 msgstr " -مهمل"
 
-#: src/effects/effectlist/model/effecttreemodel.cpp:260
+#: src/effects/effectlist/model/effecttreemodel.cpp:269
 #, kde-format
 msgid "Error"
 msgstr "خطأ"
 
-#: src/effects/effectlist/model/effecttreemodel.cpp:260
+#: src/effects/effectlist/model/effecttreemodel.cpp:269
 #, kde-format
 msgid ""
 "Effect name %1 already exists.\n"
@@ -8605,7 +8605,7 @@ msgctxt "@title:window"
 msgid "Export Custom Effect"
 msgstr "احذف التّأثير"
 
-#: src/effects/effectsrepository.cpp:38
+#: src/effects/effectsrepository.cpp:39
 #, kde-format
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr "بعض تأثيراتك المفضلة غير صالحة وأزيلت: %1"
@@ -18063,7 +18063,7 @@ msgstr "احذف النّقطة الحاليّة."
 #: src/ui/editsub_ui.ui:23 src/ui/editsub_ui.ui:33 src/ui/editsub_ui.ui:43
 #: src/ui/editsub_ui.ui:54 src/ui/editsub_ui.ui:65 src/ui/editsub_ui.ui:76
 #: src/ui/editsub_ui.ui:151 src/ui/editsub_ui.ui:191 src/ui/editsub_ui.ui:202
-#: src/ui/editsub_ui.ui:233 src/ui/editsub_ui.ui:478
+#: src/ui/editsub_ui.ui:233 src/ui/editsub_ui.ui:492
 #: src/ui/exportguidesdialog_ui.ui:78 src/ui/exportguidesdialog_ui.ui:98
 #: src/ui/gradientedit_ui.ui:130 src/ui/gradientedit_ui.ui:150
 #: src/ui/guideslist_ui.ui:23 src/ui/guideslist_ui.ui:40
@@ -19847,66 +19847,81 @@ msgstr "فعّل التحرير اليدوي"
 msgid "End:"
 msgstr "النّهاية:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, checkPosition)
+#. i18n: ectx: property (text), widget (QCheckBox, checkOpaque)
 #: src/ui/editsub_ui.ui:291
 #, kde-format
-msgid "Custom Position"
-msgstr "موضع مخصص"
+msgid "Opaque background"
+msgstr "خلفية معتمة"
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkOutlineColor)
+#: src/ui/editsub_ui.ui:298
+#, kde-format
+msgid "Custom Outline Color"
+msgstr "لون محيط مخصص"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, fontSize)
+#: src/ui/editsub_ui.ui:315
+#, kde-format
+msgid "pt"
+msgstr "نقطة"
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkFontSize)
+#: src/ui/editsub_ui.ui:328
+#, kde-format
+msgid "Custom Font Size"
+msgstr "حجم الخطّ مخصص"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, shadowSize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, outlineSize)
-#: src/ui/editsub_ui.ui:301 src/ui/editsub_ui.ui:410
+#: src/ui/editsub_ui.ui:355 src/ui/editsub_ui.ui:379
 #, kde-format
 msgid "px"
 msgstr "بكسل"
 
+#. i18n: ectx: property (text), widget (QCheckBox, checkPosition)
+#: src/ui/editsub_ui.ui:362
+#, kde-format
+msgid "Custom Position"
+msgstr "موضع مخصص"
+
 #. i18n: ectx: property (text), widget (QCheckBox, checkFontColor)
-#: src/ui/editsub_ui.ui:308
+#: src/ui/editsub_ui.ui:369
 #, kde-format
 msgid "Custom Font Color"
 msgstr "لون خط مخصّص"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOutlineSize)
-#: src/ui/editsub_ui.ui:315
+#: src/ui/editsub_ui.ui:389
 #, kde-format
 msgid "Custom Outline Size"
 msgstr "حجم محيط مخصص"
 
+#. i18n: ectx: property (text), widget (QCheckBox, checkFont)
+#: src/ui/editsub_ui.ui:396
+#, kde-format
+msgid "Custom Font"
+msgstr "خط مخصّص"
+
 #. i18n: ectx: property (text), widget (QCheckBox, checkShadowSize)
-#: src/ui/editsub_ui.ui:322
+#: src/ui/editsub_ui.ui:434
 #, kde-format
 msgid "Custom Shadow"
 msgstr "ظل مخصّص"
 
-#. i18n: ectx: property (text), widget (QCheckBox, checkOpaque)
-#: src/ui/editsub_ui.ui:353
-#, kde-format
-msgid "Opaque background"
-msgstr "خلفية معتمة"
+#. i18n: ectx: property (text), widget (QCheckBox, checkBold)
+#: src/ui/editsub_ui.ui:454
+#, fuzzy, kde-format
+#| msgctxt "Font style"
+#| msgid "Bold"
+msgid "Bold"
+msgstr "ثخين"
 
-#. i18n: ectx: property (suffix), widget (QSpinBox, fontSize)
-#: src/ui/editsub_ui.ui:370
-#, kde-format
-msgid "pt"
-msgstr "نقطة"
-
-#. i18n: ectx: property (text), widget (QCheckBox, checkOutlineColor)
-#: src/ui/editsub_ui.ui:383
-#, kde-format
-msgid "Custom Outline Color"
-msgstr "لون محيط مخصص"
-
-#. i18n: ectx: property (text), widget (QCheckBox, checkFontSize)
-#: src/ui/editsub_ui.ui:427
-#, kde-format
-msgid "Custom Font Size"
-msgstr "حجم الخطّ مخصص"
-
-#. i18n: ectx: property (text), widget (QCheckBox, checkFont)
-#: src/ui/editsub_ui.ui:447
-#, kde-format
-msgid "Custom Font"
-msgstr "خط مخصّص"
+#. i18n: ectx: property (text), widget (QCheckBox, checkItalic)
+#: src/ui/editsub_ui.ui:461
+#, fuzzy, kde-format
+#| msgid "Italian"
+msgid "Italic"
+msgstr "الإيطالية"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
 #: src/ui/exportguidesdialog_ui.ui:27
