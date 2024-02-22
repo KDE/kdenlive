@@ -75,6 +75,15 @@ ProjectItemModel::~ProjectItemModel() = default;
 void ProjectItemModel::buildPlaylist(const QUuid uuid)
 {
     m_uuid = uuid;
+    QPixmap pix;
+    if (pCore->getCurrentDar() > 1) {
+        pix = QPixmap(QSize(160, 160 / pCore->getCurrentDar()));
+    } else {
+        pix = QPixmap(QSize(90 * pCore->getCurrentDar(), 90));
+    }
+    pix.fill(Qt::lightGray);
+    m_blankThumb = QIcon();
+    m_blankThumb.addPixmap(pix);
     m_fileWatcher->clear();
     m_extraPlaylists.clear();
     Q_ASSERT(m_projectTractor.use_count() <= 1);
