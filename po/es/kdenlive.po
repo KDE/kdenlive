@@ -6,13 +6,14 @@
 # Automatically generated, 2015.
 # SPDX-FileCopyrightText: 2015, 2016, 2017, 2019, 2020, 2021, 2022, 2023, 2024 Eloy Cuadra <ecuadra@eloihr.net>
 # Gabriel Gazzan <gabcorreo@gmail.com>, 2015, 2016, 2017, 2018, 2019, 2020, 2021.
+# Eloy Cuadra <ecuadra@eloihr.net>, %Y.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-21 02:23+0000\n"
-"PO-Revision-Date: 2024-01-22 02:23+0100\n"
-"Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
+"PO-Revision-Date: 2024-02-21 04:34+0100\n"
+"Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
