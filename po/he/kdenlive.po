@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-21 00:37+0000\n"
-"PO-Revision-Date: 2024-02-18 08:32+0200\n"
+"PO-Revision-Date: 2024-02-20 23:21+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -16261,7 +16261,7 @@ msgstr "<b>לחיצה כפולה</b> לעריכת טקסט"
 #: src/timeline2/view/qml/timeline.qml:1000
 #, kde-format
 msgid "Show master effects"
-msgstr ""
+msgstr "הצגת אפקטי הורה"
 
 #: src/timeline2/view/qml/timeline.qml:1140
 #, kde-format
@@ -16627,6 +16627,7 @@ msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
 "feature will probably not work as expected."
 msgstr ""
+"המסנן avfilter.subtitles נחוץ אך לא נמצא. יכולת הכתוביות לא תעבוד כמצופה."
 
 #: src/timeline2/view/timelinecontroller.cpp:5096
 #, kde-format
@@ -16835,17 +16836,17 @@ msgstr "בחירה בהכול"
 #: src/titler/titlewidget.cpp:326
 #, kde-format
 msgid "Keep only text items selected"
-msgstr ""
+msgstr "להשאיר רק פריטי טקסט בבחירה"
 
 #: src/titler/titlewidget.cpp:333
 #, kde-format
 msgid "Keep only rect items selected"
-msgstr ""
+msgstr "להשאיר רק פרטים מרובעים בבחירה"
 
 #: src/titler/titlewidget.cpp:340
 #, kde-format
 msgid "Keep only image items selected"
-msgstr ""
+msgstr "להשאיר רק פריטי תמונות בבחירה"
 
 #: src/titler/titlewidget.cpp:347
 #, kde-format
@@ -16900,17 +16901,17 @@ msgstr "בחירה בהכול"
 #: src/titler/titlewidget.cpp:362
 #, kde-format
 msgid "Select text items in current selection"
-msgstr ""
+msgstr "לבחור פריטי טקסט בבחירה הנוכחית"
 
 #: src/titler/titlewidget.cpp:363
 #, kde-format
 msgid "Select rect items in current selection"
-msgstr ""
+msgstr "לבחור פריטים מרובעים בבחירה הנוכחית"
 
 #: src/titler/titlewidget.cpp:364
 #, kde-format
 msgid "Select image items in current selection"
-msgstr ""
+msgstr "בחירת פריטי תמונות בבחירה הנוכחית"
 
 #: src/titler/titlewidget.cpp:365
 #, kde-format
