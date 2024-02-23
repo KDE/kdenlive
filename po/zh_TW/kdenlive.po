@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-21 02:23+0000\n"
-"PO-Revision-Date: 2024-02-20 23:57+0900\n"
+"PO-Revision-Date: 2024-02-23 01:02+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -15,7 +15,7 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: /usr/share/locale/zh_TW/LC_MESSAGES\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 24.04.70\n"
+"X-Generator: Lokalize 23.11.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4170,10 +4170,9 @@ msgstr ""
 
 #: src/audiomixer/mixerwidget.cpp:272
 #: src/timeline2/view/timelinecontroller.cpp:4781
-#, fuzzy, kde-format
-#| msgid "Extract Audio"
+#, kde-format
 msgid "Record audio"
-msgstr "提取音訊"
+msgstr "錄製音訊"
 
 #: src/audiomixer/mixerwidget.cpp:273
 #, kde-kuit-format
@@ -9891,9 +9890,9 @@ msgid "Guides"
 msgstr "參照線"
 
 #: src/mainwindow.cpp:348 src/monitor/recmanager.cpp:103
-#, fuzzy, kde-format
+#, kde-format
 msgid "Configure Recording"
-msgstr "配置軌道"
+msgstr "設定錄製"
 
 #. i18n: ectx: attribute (title), widget (QWidget, screen_grab_tab)
 #: src/mainwindow.cpp:351 src/monitor/recmanager.cpp:94
@@ -10962,10 +10961,9 @@ msgid "Delete Track…"
 msgstr "刪除軌道…"
 
 #: src/mainwindow.cpp:1834
-#, fuzzy, kde-format
-#| msgid "Show Record Control"
+#, kde-format
 msgid "Show Record Controls"
-msgstr "顯示錄制按鈕"
+msgstr "顯示錄製控制"
 
 #: src/mainwindow.cpp:1840
 #, kde-format
@@ -12450,7 +12448,7 @@ msgstr "預覽"
 #: src/timeline2/view/qml/AudioLevels.qml:44
 #, kde-format
 msgid "Record"
-msgstr "擷取"
+msgstr "錄製"
 
 #. i18n: ectx: property (title), widget (QGroupBox, video_box)
 #. i18n: ectx: property (text), widget (QCheckBox, video_thumbs)
@@ -12479,7 +12477,7 @@ msgstr "網路攝影機"
 #: src/monitor/recmanager.cpp:106
 #, kde-format
 msgid "Show Record Control"
-msgstr "顯示錄制按鈕"
+msgstr "顯示錄製控制"
 
 #: src/monitor/recmanager.cpp:297
 #, kde-format
@@ -16706,10 +16704,9 @@ msgstr "使用濾鏡的區段"
 
 #: src/timeline2/view/qml/timeline.qml:2082
 #: src/timeline2/view/qml/timeline.qml:2091
-#, fuzzy, kde-format
-#| msgid "Record"
+#, kde-format
 msgid "Recording"
-msgstr "擷取"
+msgstr "錄製"
 
 #: src/timeline2/view/qml/timeline.qml:2185
 #, kde-format
@@ -16836,7 +16833,7 @@ msgstr "刪除軌道"
 #: src/timeline2/view/timelinecontroller.cpp:957
 #, kde-format
 msgid "Select an audio track to display record controls"
-msgstr ""
+msgstr "選擇要為哪個音訊軌顯示錄製控制"
 
 #: src/timeline2/view/timelinecontroller.cpp:1095
 #, kde-format
@@ -17863,9 +17860,9 @@ msgstr "AV 軌道"
 
 #. i18n: ectx: property (text), widget (QRadioButton, arec_track)
 #: src/ui/addtrack_ui.ui:121
-#, fuzzy, kde-format
+#, kde-format
 msgid "Au&dio record track"
-msgstr "音訊軌"
+msgstr "音訊錄製軌(&D)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/archivewidget_ui.ui:33
@@ -18605,7 +18602,7 @@ msgstr ""
 #: src/ui/configcapture_ui.ui:618
 #, kde-format
 msgid "Disable countdown before recording"
-msgstr ""
+msgstr "停用錄製前的倒數"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_thumbs)
 #: src/ui/configcolors_ui.ui:21
