@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-21 00:37+0000\n"
+"POT-Creation-Date: 2024-02-23 00:37+0000\n"
 "PO-Revision-Date: 2024-02-11 11:29+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -909,7 +909,7 @@ msgstr "Wyłanianie obrazu z czerni"
 #: data/effects/fade_from_black.xml:8 data/effects/fade_to_black.xml:8
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:170
-#: src/bin/bin.cpp:1295 src/bin/projectitemmodel.cpp:318
+#: src/bin/bin.cpp:1295 src/bin/projectitemmodel.cpp:327
 #: src/timeline2/view/dialogs/speeddialog.cpp:55
 #: src/timeline2/view/qml/Track.qml:353 src/timeline2/view/qml/Track.qml:427
 #: src/timeline2/view/qml/Track.qml:448 src/ui/clipdurationdialog_ui.ui:18
@@ -4282,25 +4282,25 @@ msgid "Sort By"
 msgstr "Uszereguj według"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, subtitlesList)
-#: src/bin/bin.cpp:1279 src/bin/projectitemmodel.cpp:303
+#: src/bin/bin.cpp:1279 src/bin/projectitemmodel.cpp:312
 #: src/ui/managesubtitles_ui.ui:103
 #, kde-format
 msgid "Name"
 msgstr "Nazwa"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:1283 src/bin/projectitemmodel.cpp:306
+#: src/bin/bin.cpp:1283 src/bin/projectitemmodel.cpp:315
 #: src/project/dialogs/projectsettings.cpp:248 src/ui/managecache_ui.ui:369
 #, kde-format
 msgid "Date"
 msgstr "Data"
 
-#: src/bin/bin.cpp:1287 src/bin/projectitemmodel.cpp:309
+#: src/bin/bin.cpp:1287 src/bin/projectitemmodel.cpp:318
 #, kde-format
 msgid "Description"
 msgstr "Opis"
 
-#: src/bin/bin.cpp:1291 src/bin/projectitemmodel.cpp:312
+#: src/bin/bin.cpp:1291 src/bin/projectitemmodel.cpp:321
 #, kde-format
 msgid "Type"
 msgstr "Rodzaj"
@@ -4310,7 +4310,7 @@ msgstr "Rodzaj"
 msgid "Insert Order"
 msgstr "Kolejność wstawiania"
 
-#: src/bin/bin.cpp:1303 src/bin/projectitemmodel.cpp:324
+#: src/bin/bin.cpp:1303 src/bin/projectitemmodel.cpp:333
 #, kde-format
 msgid "Rating"
 msgstr "Ocena"
@@ -5600,22 +5600,22 @@ msgstr[0] "%1 wycinek"
 msgstr[1] "%1 wycinki"
 msgstr[2] "%1 wycinków"
 
-#: src/bin/projectitemmodel.cpp:315
+#: src/bin/projectitemmodel.cpp:324
 #, kde-format
 msgid "Tag"
 msgstr "Znacznik"
 
-#: src/bin/projectitemmodel.cpp:321
+#: src/bin/projectitemmodel.cpp:330
 #, kde-format
 msgid "Id"
 msgstr "Id"
 
-#: src/bin/projectitemmodel.cpp:327
+#: src/bin/projectitemmodel.cpp:336
 #, kde-format
 msgid "Usage"
 msgstr "Wykorzystanie"
 
-#: src/bin/projectitemmodel.cpp:330 src/doc/documentchecker.cpp:1580
+#: src/bin/projectitemmodel.cpp:339 src/doc/documentchecker.cpp:1580
 #: src/doc/documentchecker.cpp:1608 src/doc/documentchecker.cpp:1628
 #: src/mltcontroller/clipcontroller.cpp:497 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
@@ -5623,42 +5623,42 @@ msgstr "Wykorzystanie"
 msgid "Unknown"
 msgstr "Nieznany"
 
-#: src/bin/projectitemmodel.cpp:637
+#: src/bin/projectitemmodel.cpp:646
 #, kde-format
 msgid "Add sub clips"
 msgstr "Dodaj podwycinki"
 
-#: src/bin/projectitemmodel.cpp:672
+#: src/bin/projectitemmodel.cpp:681
 #, kde-format
 msgid "Zone"
 msgstr "Zakres"
 
-#: src/bin/projectitemmodel.cpp:886
+#: src/bin/projectitemmodel.cpp:895
 #, kde-format
 msgid "Add bin clip"
 msgstr "Dodaj wycinek pojemnika"
 
-#: src/bin/projectitemmodel.cpp:952
+#: src/bin/projectitemmodel.cpp:961
 #, kde-format
 msgid "Add a sub clip"
 msgstr "Dodaj podwycinek"
 
-#: src/bin/projectitemmodel.cpp:993
+#: src/bin/projectitemmodel.cpp:1002
 #, kde-format
 msgid "Rename Folder"
 msgstr "Zmień nazwę katalogu"
 
-#: src/bin/projectitemmodel.cpp:1021 src/mainwindow.cpp:1465
+#: src/bin/projectitemmodel.cpp:1030 src/mainwindow.cpp:1465
 #, kde-format
 msgid "Clean Project"
 msgstr "Wyczyść projekt"
 
-#: src/bin/projectitemmodel.cpp:1225
+#: src/bin/projectitemmodel.cpp:1234
 #, kde-format
 msgid "Reading project clips…"
 msgstr "Czytanie wycinków projektu…"
 
-#: src/bin/projectitemmodel.cpp:1331
+#: src/bin/projectitemmodel.cpp:1340
 #, kde-format
 msgid "Loading project clips…"
 msgstr "Wczytywanie wycinków projektu…"

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-21 00:37+0000\n"
-"PO-Revision-Date: 2024-02-19 17:47+0400\n"
+"POT-Creation-Date: 2024-02-23 00:37+0000\n"
+"PO-Revision-Date: 2024-02-22 12:50+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -898,7 +898,7 @@ msgstr "تلاشٍ الفيديو من الأسود"
 #: data/effects/fade_from_black.xml:8 data/effects/fade_to_black.xml:8
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:170
-#: src/bin/bin.cpp:1295 src/bin/projectitemmodel.cpp:318
+#: src/bin/bin.cpp:1295 src/bin/projectitemmodel.cpp:327
 #: src/timeline2/view/dialogs/speeddialog.cpp:55
 #: src/timeline2/view/qml/Track.qml:353 src/timeline2/view/qml/Track.qml:427
 #: src/timeline2/view/qml/Track.qml:448 src/ui/clipdurationdialog_ui.ui:18
@@ -4249,25 +4249,25 @@ msgid "Sort By"
 msgstr "افرز حسب"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, subtitlesList)
-#: src/bin/bin.cpp:1279 src/bin/projectitemmodel.cpp:303
+#: src/bin/bin.cpp:1279 src/bin/projectitemmodel.cpp:312
 #: src/ui/managesubtitles_ui.ui:103
 #, kde-format
 msgid "Name"
 msgstr "الاسم"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:1283 src/bin/projectitemmodel.cpp:306
+#: src/bin/bin.cpp:1283 src/bin/projectitemmodel.cpp:315
 #: src/project/dialogs/projectsettings.cpp:248 src/ui/managecache_ui.ui:369
 #, kde-format
 msgid "Date"
 msgstr "التّاريخ"
 
-#: src/bin/bin.cpp:1287 src/bin/projectitemmodel.cpp:309
+#: src/bin/bin.cpp:1287 src/bin/projectitemmodel.cpp:318
 #, kde-format
 msgid "Description"
 msgstr "الوصف"
 
-#: src/bin/bin.cpp:1291 src/bin/projectitemmodel.cpp:312
+#: src/bin/bin.cpp:1291 src/bin/projectitemmodel.cpp:321
 #, kde-format
 msgid "Type"
 msgstr "النّوع"
@@ -4277,7 +4277,7 @@ msgstr "النّوع"
 msgid "Insert Order"
 msgstr "أدرج ترتيب"
 
-#: src/bin/bin.cpp:1303 src/bin/projectitemmodel.cpp:324
+#: src/bin/bin.cpp:1303 src/bin/projectitemmodel.cpp:333
 #, kde-format
 msgid "Rating"
 msgstr "التّقييم"
@@ -5566,22 +5566,22 @@ msgstr[3] "%1 مقاطع"
 msgstr[4] "%1 مقطعاً"
 msgstr[5] "%1 مقطع"
 
-#: src/bin/projectitemmodel.cpp:315
+#: src/bin/projectitemmodel.cpp:324
 #, kde-format
 msgid "Tag"
 msgstr "الوسم"
 
-#: src/bin/projectitemmodel.cpp:321
+#: src/bin/projectitemmodel.cpp:330
 #, kde-format
 msgid "Id"
 msgstr "المعرّف"
 
-#: src/bin/projectitemmodel.cpp:327
+#: src/bin/projectitemmodel.cpp:336
 #, kde-format
 msgid "Usage"
 msgstr "الاستخدام"
 
-#: src/bin/projectitemmodel.cpp:330 src/doc/documentchecker.cpp:1580
+#: src/bin/projectitemmodel.cpp:339 src/doc/documentchecker.cpp:1580
 #: src/doc/documentchecker.cpp:1608 src/doc/documentchecker.cpp:1628
 #: src/mltcontroller/clipcontroller.cpp:497 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
@@ -5589,42 +5589,42 @@ msgstr "الاستخدام"
 msgid "Unknown"
 msgstr "مجهول"
 
-#: src/bin/projectitemmodel.cpp:637
+#: src/bin/projectitemmodel.cpp:646
 #, kde-format
 msgid "Add sub clips"
 msgstr "أضف مقاطع فرعية"
 
-#: src/bin/projectitemmodel.cpp:672
+#: src/bin/projectitemmodel.cpp:681
 #, kde-format
 msgid "Zone"
 msgstr "المنطقة"
 
-#: src/bin/projectitemmodel.cpp:886
+#: src/bin/projectitemmodel.cpp:895
 #, kde-format
 msgid "Add bin clip"
 msgstr "أضف سلة مقاطع"
 
-#: src/bin/projectitemmodel.cpp:952
+#: src/bin/projectitemmodel.cpp:961
 #, kde-format
 msgid "Add a sub clip"
 msgstr "أضف مقطع فرعي"
 
-#: src/bin/projectitemmodel.cpp:993
+#: src/bin/projectitemmodel.cpp:1002
 #, kde-format
 msgid "Rename Folder"
 msgstr "أعد تسمية المجلّد"
 
-#: src/bin/projectitemmodel.cpp:1021 src/mainwindow.cpp:1465
+#: src/bin/projectitemmodel.cpp:1030 src/mainwindow.cpp:1465
 #, kde-format
 msgid "Clean Project"
 msgstr "نظف المشروع"
 
-#: src/bin/projectitemmodel.cpp:1225
+#: src/bin/projectitemmodel.cpp:1234
 #, kde-format
 msgid "Reading project clips…"
 msgstr "يقرأ مقاطع المشروع…"
 
-#: src/bin/projectitemmodel.cpp:1331
+#: src/bin/projectitemmodel.cpp:1340
 #, kde-format
 msgid "Loading project clips…"
 msgstr "يحمّل مقاطع المشروع…"
@@ -19910,18 +19910,15 @@ msgstr "ظل مخصّص"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBold)
 #: src/ui/editsub_ui.ui:454
-#, fuzzy, kde-format
-#| msgctxt "Font style"
-#| msgid "Bold"
+#, kde-format
 msgid "Bold"
 msgstr "ثخين"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkItalic)
 #: src/ui/editsub_ui.ui:461
-#, fuzzy, kde-format
-#| msgid "Italian"
+#, kde-format
 msgid "Italic"
-msgstr "الإيطالية"
+msgstr "مائل"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
 #: src/ui/exportguidesdialog_ui.ui:27

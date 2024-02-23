@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-21 00:37+0000\n"
-"PO-Revision-Date: 2024-02-20 23:57+0900\n"
+"POT-Creation-Date: 2024-02-23 00:37+0000\n"
+"PO-Revision-Date: 2024-02-23 01:02+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -15,7 +15,7 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: /usr/share/locale/zh_TW/LC_MESSAGES\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 24.04.70\n"
+"X-Generator: Lokalize 23.11.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -907,7 +907,7 @@ msgstr "從黑色背景淡入為視訊"
 #: data/effects/fade_from_black.xml:8 data/effects/fade_to_black.xml:8
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:170
-#: src/bin/bin.cpp:1295 src/bin/projectitemmodel.cpp:318
+#: src/bin/bin.cpp:1295 src/bin/projectitemmodel.cpp:327
 #: src/timeline2/view/dialogs/speeddialog.cpp:55
 #: src/timeline2/view/qml/Track.qml:353 src/timeline2/view/qml/Track.qml:427
 #: src/timeline2/view/qml/Track.qml:448 src/ui/clipdurationdialog_ui.ui:18
@@ -4169,10 +4169,9 @@ msgstr ""
 
 #: src/audiomixer/mixerwidget.cpp:272
 #: src/timeline2/view/timelinecontroller.cpp:4791
-#, fuzzy, kde-format
-#| msgid "Extract Audio"
+#, kde-format
 msgid "Record audio"
-msgstr "提取音訊"
+msgstr "錄製音訊"
 
 #: src/audiomixer/mixerwidget.cpp:273
 #, kde-kuit-format
@@ -4278,25 +4277,25 @@ msgid "Sort By"
 msgstr "排序依據"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, subtitlesList)
-#: src/bin/bin.cpp:1279 src/bin/projectitemmodel.cpp:303
+#: src/bin/bin.cpp:1279 src/bin/projectitemmodel.cpp:312
 #: src/ui/managesubtitles_ui.ui:103
 #, kde-format
 msgid "Name"
 msgstr "名稱"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:1283 src/bin/projectitemmodel.cpp:306
+#: src/bin/bin.cpp:1283 src/bin/projectitemmodel.cpp:315
 #: src/project/dialogs/projectsettings.cpp:248 src/ui/managecache_ui.ui:369
 #, kde-format
 msgid "Date"
 msgstr "日期"
 
-#: src/bin/bin.cpp:1287 src/bin/projectitemmodel.cpp:309
+#: src/bin/bin.cpp:1287 src/bin/projectitemmodel.cpp:318
 #, kde-format
 msgid "Description"
 msgstr "描述"
 
-#: src/bin/bin.cpp:1291 src/bin/projectitemmodel.cpp:312
+#: src/bin/bin.cpp:1291 src/bin/projectitemmodel.cpp:321
 #, kde-format
 msgid "Type"
 msgstr "類別"
@@ -4307,7 +4306,7 @@ msgstr "類別"
 msgid "Insert Order"
 msgstr "插入型態"
 
-#: src/bin/bin.cpp:1303 src/bin/projectitemmodel.cpp:324
+#: src/bin/bin.cpp:1303 src/bin/projectitemmodel.cpp:333
 #, kde-format
 msgid "Rating"
 msgstr "評分"
@@ -5582,23 +5581,23 @@ msgid "%1 clip"
 msgid_plural "%1 clips"
 msgstr[0] "%1 個素材"
 
-#: src/bin/projectitemmodel.cpp:315
+#: src/bin/projectitemmodel.cpp:324
 #, kde-format
 msgid "Tag"
 msgstr "標籤"
 
-#: src/bin/projectitemmodel.cpp:321
+#: src/bin/projectitemmodel.cpp:330
 #, fuzzy, kde-format
 #| msgid "I"
 msgid "Id"
 msgstr "I"
 
-#: src/bin/projectitemmodel.cpp:327
+#: src/bin/projectitemmodel.cpp:336
 #, kde-format
 msgid "Usage"
 msgstr "用量"
 
-#: src/bin/projectitemmodel.cpp:330 src/doc/documentchecker.cpp:1580
+#: src/bin/projectitemmodel.cpp:339 src/doc/documentchecker.cpp:1580
 #: src/doc/documentchecker.cpp:1608 src/doc/documentchecker.cpp:1628
 #: src/mltcontroller/clipcontroller.cpp:497 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
@@ -5606,44 +5605,44 @@ msgstr "用量"
 msgid "Unknown"
 msgstr "未知"
 
-#: src/bin/projectitemmodel.cpp:637
+#: src/bin/projectitemmodel.cpp:646
 #, kde-format
 msgid "Add sub clips"
 msgstr "新增子素材"
 
-#: src/bin/projectitemmodel.cpp:672
+#: src/bin/projectitemmodel.cpp:681
 #, fuzzy, kde-format
 msgid "Zone"
 msgstr "區段終點：%1"
 
-#: src/bin/projectitemmodel.cpp:886
+#: src/bin/projectitemmodel.cpp:895
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
 msgid "Add bin clip"
 msgstr "添加素材"
 
-#: src/bin/projectitemmodel.cpp:952
+#: src/bin/projectitemmodel.cpp:961
 #, fuzzy, kde-format
 msgid "Add a sub clip"
 msgstr "添加素材"
 
-#: src/bin/projectitemmodel.cpp:993
+#: src/bin/projectitemmodel.cpp:1002
 #, kde-format
 msgid "Rename Folder"
 msgstr "重新命名資料夾"
 
-#: src/bin/projectitemmodel.cpp:1021 src/mainwindow.cpp:1465
+#: src/bin/projectitemmodel.cpp:1030 src/mainwindow.cpp:1465
 #, kde-format
 msgid "Clean Project"
 msgstr "清理專案"
 
-#: src/bin/projectitemmodel.cpp:1225
+#: src/bin/projectitemmodel.cpp:1234
 #, kde-format
 msgid "Reading project clips…"
 msgstr "讀取專案素材中…"
 
-#: src/bin/projectitemmodel.cpp:1331
+#: src/bin/projectitemmodel.cpp:1340
 #, kde-format
 msgid "Loading project clips…"
 msgstr "載入專案素材中…"
@@ -9928,9 +9927,9 @@ msgid "Guides"
 msgstr "參照線"
 
 #: src/mainwindow.cpp:348 src/monitor/recmanager.cpp:103
-#, fuzzy, kde-format
+#, kde-format
 msgid "Configure Recording"
-msgstr "配置軌道"
+msgstr "設定錄製"
 
 #. i18n: ectx: attribute (title), widget (QWidget, screen_grab_tab)
 #: src/mainwindow.cpp:351 src/monitor/recmanager.cpp:94
@@ -11005,10 +11004,9 @@ msgid "Delete Track…"
 msgstr "刪除軌道…"
 
 #: src/mainwindow.cpp:1862
-#, fuzzy, kde-format
-#| msgid "Show Record Control"
+#, kde-format
 msgid "Show Record Controls"
-msgstr "顯示錄制按鈕"
+msgstr "顯示錄製控制"
 
 #: src/mainwindow.cpp:1868
 #, kde-format
@@ -12493,7 +12491,7 @@ msgstr "預覽"
 #: src/timeline2/view/qml/AudioLevels.qml:44
 #, kde-format
 msgid "Record"
-msgstr "擷取"
+msgstr "錄製"
 
 #. i18n: ectx: property (title), widget (QGroupBox, video_box)
 #. i18n: ectx: property (text), widget (QCheckBox, video_thumbs)
@@ -12522,7 +12520,7 @@ msgstr "網路攝影機"
 #: src/monitor/recmanager.cpp:106
 #, kde-format
 msgid "Show Record Control"
-msgstr "顯示錄制按鈕"
+msgstr "顯示錄製控制"
 
 #: src/monitor/recmanager.cpp:297
 #, kde-format
@@ -16754,10 +16752,9 @@ msgstr "使用濾鏡的區段"
 
 #: src/timeline2/view/qml/timeline.qml:2082
 #: src/timeline2/view/qml/timeline.qml:2091
-#, fuzzy, kde-format
-#| msgid "Record"
+#, kde-format
 msgid "Recording"
-msgstr "擷取"
+msgstr "錄製"
 
 #: src/timeline2/view/qml/timeline.qml:2185
 #, kde-format
@@ -16884,7 +16881,7 @@ msgstr "刪除軌道"
 #: src/timeline2/view/timelinecontroller.cpp:957
 #, kde-format
 msgid "Select an audio track to display record controls"
-msgstr ""
+msgstr "選擇要為哪個音訊軌顯示錄製控制"
 
 #: src/timeline2/view/timelinecontroller.cpp:1095
 #, kde-format
@@ -17911,9 +17908,9 @@ msgstr "AV 軌道"
 
 #. i18n: ectx: property (text), widget (QRadioButton, arec_track)
 #: src/ui/addtrack_ui.ui:121
-#, fuzzy, kde-format
+#, kde-format
 msgid "Au&dio record track"
-msgstr "音訊軌"
+msgstr "音訊錄製軌(&D)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/archivewidget_ui.ui:33
@@ -18653,7 +18650,7 @@ msgstr ""
 #: src/ui/configcapture_ui.ui:618
 #, kde-format
 msgid "Disable countdown before recording"
-msgstr ""
+msgstr "停用錄製前的倒數"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_thumbs)
 #: src/ui/configcolors_ui.ui:21
