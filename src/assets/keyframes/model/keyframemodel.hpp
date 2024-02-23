@@ -189,6 +189,7 @@ public:
     static const QString getAnimationStringWithOffset(std::shared_ptr<AssetParameterModel> model, const QString &animData, int offset, int duration,
                                                       ParamType paramType, bool useOpacity = true);
     static const QString getIconByKeyframeType(KeyframeType type);
+    static void initKeyframeTypes();
     static const QMap<KeyframeType, QString> getKeyframeTypes();
 
 protected:

@@ -4,6 +4,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "core.h"
+#include "assets/keyframes/model/keyframemodel.hpp"
 #include "audiomixer/mixermanager.hpp"
 #include "bin/bin.h"
 #include "bin/mediabrowser.h"
@@ -94,6 +95,7 @@ bool Core::build(const QString &packageType, bool testMode)
     qRegisterMetaType<requestClipInfo>("requestClipInfo");
     qRegisterMetaType<QVector<QPair<QString, QVariant>>>("paramVector");
     qRegisterMetaType<ProfileParam *>("ProfileParam*");
+    KeyframeModel::initKeyframeTypes();
 
     if (!testMode) {
         // Check if we had a crash
