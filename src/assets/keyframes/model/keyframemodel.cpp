@@ -21,7 +21,7 @@
 
 // std::unordered_map and QHash could not be used here
 #ifdef USE_MLT_NEW_KEYFRAMES
-extern const QMap<KeyframeType, QString> KeyframeTypeName = {
+static const QMap<KeyframeType, QString> KeyframeTypeName = {
     {KeyframeType::Linear, i18n("Linear")},
     {KeyframeType::Discrete, i18n("Discrete")},
     {KeyframeType::CurveSmooth, i18n("Smooth")},
@@ -38,7 +38,7 @@ extern const QMap<KeyframeType, QString> KeyframeTypeName = {
     {KeyframeType::Curve, i18n("Smooth (deprecated)")},
 };
 #else
-extern const QMap<KeyframeType, QString> KeyframeTypeName = {
+static const QMap<KeyframeType, QString> KeyframeTypeName = {
     {KeyframeType::Linear, i18n("Linear")}, {KeyframeType::Discrete, i18n("Discrete")}, {KeyframeType::Curve, i18n("Smooth")}};
 #endif
 
@@ -57,6 +57,13 @@ KeyframeModel::KeyframeModel(std::weak_ptr<AssetParameterModel> model, const QMo
     }
     setup();
     refresh(in, out);
+}
+
+// static
+const QMap<KeyframeType, QString> KeyframeModel::getKeyframeTypes()
+{
+    // std::unordered_map and QHash could not be used here
+    return KeyframeTypeName;
 }
 
 void KeyframeModel::setup()

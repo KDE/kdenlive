@@ -102,7 +102,8 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     // Keyframe type widget
     m_selectType = new KSelectAction(QIcon::fromTheme(QStringLiteral("linear")), i18n("Keyframe interpolation"), this);
     QMap<KeyframeType, QAction *> kfTypeHandles;
-    for (auto it = KeyframeTypeName.cbegin(); it != KeyframeTypeName.cend(); it++) { // Order is fixed due to the nature of <map>
+    for (auto it = KeyframeModel::getKeyframeTypes().cbegin(); it != KeyframeModel::getKeyframeTypes().cend();
+         it++) { // Order is fixed due to the nature of <map>
         QAction *tmp = new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(it.key())), it.value(), this);
         tmp->setData(int(it.key()));
         tmp->setCheckable(true);
@@ -159,18 +160,18 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
 
     // Default kf interpolation
     KSelectAction *kfType = new KSelectAction(i18n("Default Keyframe Type"), this);
-    QAction *discrete2 =
-        new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(KeyframeType::Discrete)), KeyframeTypeName.value(KeyframeType::Discrete), this);
+    QAction *discrete2 = new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(KeyframeType::Discrete)),
+                                     KeyframeModel::getKeyframeTypes().value(KeyframeType::Discrete), this);
     discrete2->setData(int(KeyframeType::Discrete));
     discrete2->setCheckable(true);
     kfType->addAction(discrete2);
-    QAction *linear2 =
-        new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(KeyframeType::Linear)), KeyframeTypeName.value(KeyframeType::Linear), this);
+    QAction *linear2 = new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(KeyframeType::Linear)),
+                                   KeyframeModel::getKeyframeTypes().value(KeyframeType::Linear), this);
     linear2->setData(int(KeyframeType::Linear));
     linear2->setCheckable(true);
     kfType->addAction(linear2);
-    QAction *curve2 =
-        new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(KeyframeType::Curve)), KeyframeTypeName.value(KeyframeType::Curve), this);
+    QAction *curve2 = new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(KeyframeType::Curve)),
+                                  KeyframeModel::getKeyframeTypes().value(KeyframeType::Curve), this);
     curve2->setData(int(KeyframeType::Curve));
     curve2->setCheckable(true);
     kfType->addAction(curve2);
