@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-21 00:37+0000\n"
-"PO-Revision-Date: 2024-02-17 09:22+0100\n"
+"POT-Creation-Date: 2024-02-24 00:37+0000\n"
+"PO-Revision-Date: 2024-02-22 09:44+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -927,7 +927,7 @@ msgstr "Fondu vidéo depuis le noir"
 #: data/effects/fade_from_black.xml:8 data/effects/fade_to_black.xml:8
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:170
-#: src/bin/bin.cpp:1295 src/bin/projectitemmodel.cpp:318
+#: src/bin/bin.cpp:1295 src/bin/projectitemmodel.cpp:327
 #: src/timeline2/view/dialogs/speeddialog.cpp:55
 #: src/timeline2/view/qml/Track.qml:353 src/timeline2/view/qml/Track.qml:427
 #: src/timeline2/view/qml/Track.qml:448 src/ui/clipdurationdialog_ui.ui:18
@@ -3438,80 +3438,80 @@ msgid "Bin %1 effects"
 msgstr "Effets pour la source %1"
 
 #. i18n: ectx: property (text), widget (QRadioButton, rbLinear)
-#: src/assets/keyframes/model/keyframemodel.cpp:25
-#: src/assets/keyframes/model/keyframemodel.cpp:42 src/ui/histogram_ui.ui:112
+#: src/assets/keyframes/model/keyframemodel.cpp:47
+#: src/assets/keyframes/model/keyframemodel.cpp:63 src/ui/histogram_ui.ui:112
 #, kde-format
 msgid "Linear"
 msgstr "Linéaire"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:26
-#: src/assets/keyframes/model/keyframemodel.cpp:42
+#: src/assets/keyframes/model/keyframemodel.cpp:48
+#: src/assets/keyframes/model/keyframemodel.cpp:63
 #, kde-format
 msgid "Discrete"
 msgstr "Discrète"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:27
-#: src/assets/keyframes/model/keyframemodel.cpp:42
+#: src/assets/keyframes/model/keyframemodel.cpp:49
+#: src/assets/keyframes/model/keyframemodel.cpp:63
 #, kde-format
 msgid "Smooth"
 msgstr "Courbe"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:28
+#: src/assets/keyframes/model/keyframemodel.cpp:50
 #, kde-format
 msgid "Bounce In"
 msgstr "Entrée avec rebond"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:29
+#: src/assets/keyframes/model/keyframemodel.cpp:51
 #, kde-format
 msgid "Bounce Out"
 msgstr "Sortie avec rebond"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:30
+#: src/assets/keyframes/model/keyframemodel.cpp:52
 #, kde-format
 msgid "Cubic In"
 msgstr "Entrée cubique"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:31
+#: src/assets/keyframes/model/keyframemodel.cpp:53
 #, kde-format
 msgid "Cubic Out"
 msgstr "Sortie cubique"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:32
+#: src/assets/keyframes/model/keyframemodel.cpp:54
 #, kde-format
 msgid "Exponential In"
 msgstr "Entrée exponentielle"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:33
+#: src/assets/keyframes/model/keyframemodel.cpp:55
 #, kde-format
 msgid "Exponential Out"
 msgstr "Sortie exponentielle"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:34
+#: src/assets/keyframes/model/keyframemodel.cpp:56
 #, kde-format
 msgid "Circular In"
 msgstr "Entrée circulaire"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:35
+#: src/assets/keyframes/model/keyframemodel.cpp:57
 #, kde-format
 msgid "Circular Out"
 msgstr "Sortie circulaire"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:36
+#: src/assets/keyframes/model/keyframemodel.cpp:58
 #, kde-format
 msgid "Elastic In"
 msgstr "Entrée élastique"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:37
+#: src/assets/keyframes/model/keyframemodel.cpp:59
 #, kde-format
 msgid "Elastic Out"
 msgstr "Sortie élastique"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:38
+#: src/assets/keyframes/model/keyframemodel.cpp:60
 #, kde-format
 msgid "Smooth (deprecated)"
 msgstr "Doux (Déconseillé)"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:135
+#: src/assets/keyframes/model/keyframemodel.cpp:147
 #: src/assets/keyframes/model/keyframemodellist.cpp:136
 #: src/assets/keyframes/model/keyframemodellist.cpp:174
 #: src/assets/view/widgets/keyframewidget.cpp:70 src/dialogs/timeremap.cpp:1701
@@ -3520,27 +3520,27 @@ msgstr "Doux (Déconseillé)"
 msgid "Add keyframe"
 msgstr "Ajouter une image clé"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:135
+#: src/assets/keyframes/model/keyframemodel.cpp:147
 #: src/assets/keyframes/model/keyframemodellist.cpp:136
 #: src/assets/keyframes/model/keyframemodellist.cpp:174
 #, kde-format
 msgid "Change keyframe type"
 msgstr "Changer de type d'image clé"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:224
+#: src/assets/keyframes/model/keyframemodel.cpp:236
 #: src/assets/keyframes/model/keyframemodellist.cpp:182
 #: src/assets/view/widgets/keyframewidget.cpp:72 src/dialogs/timeremap.cpp:1722
 #, kde-format
 msgid "Delete keyframe"
 msgstr "Supprimer l'image clé"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:419
+#: src/assets/keyframes/model/keyframemodel.cpp:431
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframes"
 msgstr "Déplacer des images clés"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:440
+#: src/assets/keyframes/model/keyframemodel.cpp:452
 #: src/assets/keyframes/model/keyframemodellist.cpp:226
 #: src/assets/keyframes/model/keyframemodellist.cpp:270
 #: src/assets/keyframes/view/keyframeview.cpp:296
@@ -3549,29 +3549,29 @@ msgctxt "@action"
 msgid "Move keyframe"
 msgstr "Déplacer une image clé"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:511
+#: src/assets/keyframes/model/keyframemodel.cpp:523
 #: src/assets/keyframes/model/keyframemodellist.cpp:323
 #, kde-format
 msgid "Update keyframe"
 msgstr "Actualiser l'image clé"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:873
+#: src/assets/keyframes/model/keyframemodel.cpp:885
 #: src/assets/keyframes/model/keyframemodellist.cpp:208
 #, kde-format
 msgid "Delete all keyframes"
 msgstr "Supprimer toutes les images clés"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1068
+#: src/assets/keyframes/model/keyframemodel.cpp:1080
 #, kde-format
 msgid "effect"
 msgstr "effet"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1077
+#: src/assets/keyframes/model/keyframemodel.cpp:1089
 #, kde-format
 msgid "Reset %1"
 msgstr "Réinitialiser %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1336
+#: src/assets/keyframes/model/keyframemodel.cpp:1348
 #, kde-format
 msgid "Reset effect"
 msgstr "Réinitialiser l'effet"
@@ -3885,16 +3885,16 @@ msgstr "Y"
 
 #: src/assets/view/widgets/keyframeimport.cpp:393
 #: src/assets/view/widgets/keyframeimport.cpp:780
-#: src/assets/view/widgets/keyframewidget.cpp:255
-#: src/assets/view/widgets/keyframewidget.cpp:316
+#: src/assets/view/widgets/keyframewidget.cpp:256
+#: src/assets/view/widgets/keyframewidget.cpp:317
 #, kde-format
 msgid "Width"
 msgstr "Largeur"
 
 #: src/assets/view/widgets/keyframeimport.cpp:396
 #: src/assets/view/widgets/keyframeimport.cpp:788
-#: src/assets/view/widgets/keyframewidget.cpp:254
-#: src/assets/view/widgets/keyframewidget.cpp:310
+#: src/assets/view/widgets/keyframewidget.cpp:255
+#: src/assets/view/widgets/keyframewidget.cpp:311
 #, kde-format
 msgid "Height"
 msgstr "Hauteur"
@@ -3957,7 +3957,7 @@ msgstr ""
 "courantes des paramètres si aucune trame clé n'est sélectionnée."
 
 #: src/assets/view/widgets/keyframewidget.cpp:95
-#: src/assets/view/widgets/keyframewidget.cpp:862
+#: src/assets/view/widgets/keyframewidget.cpp:863
 #, kde-format
 msgid "Paste keyframe"
 msgstr "Coller une trame clé"
@@ -3982,12 +3982,12 @@ msgstr ""
 "Appliquer la valeur de la position courante aux images clé sélectionnées"
 
 #: src/assets/view/widgets/keyframewidget.cpp:103
-#: src/assets/view/widgets/keyframewidget.cpp:119
+#: src/assets/view/widgets/keyframewidget.cpp:120
 #, kde-format
 msgid "Keyframe interpolation"
 msgstr "Interpolation après cette clé"
 
-#: src/assets/view/widgets/keyframewidget.cpp:120
+#: src/assets/view/widgets/keyframewidget.cpp:121
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3997,39 +3997,39 @@ msgstr ""
 "Interpolation de trame clé. Ceci définit quelle interpolation doit être "
 "utilisée pour la trame clé courante."
 
-#: src/assets/view/widgets/keyframewidget.cpp:142
+#: src/assets/view/widgets/keyframewidget.cpp:143
 #, kde-format
 msgid "Seek to Keyframe on Select"
 msgstr "Rechercher la trame clé sur sélection"
 
-#: src/assets/view/widgets/keyframewidget.cpp:147
+#: src/assets/view/widgets/keyframewidget.cpp:148
 #, kde-format
 msgid "Copy All Keyframes to Clipboard"
 msgstr "Copier toutes les trames clé dans le presse-papier"
 
-#: src/assets/view/widgets/keyframewidget.cpp:149
+#: src/assets/view/widgets/keyframewidget.cpp:150
 #, kde-format
 msgid "Import Keyframes from Clipboard…"
 msgstr "Importer des trames clé à partir du presse-papier..."
 
-#: src/assets/view/widgets/keyframewidget.cpp:157
+#: src/assets/view/widgets/keyframewidget.cpp:158
 #, kde-format
 msgid "Remove all Keyframes After Cursor"
 msgstr "Supprimer toutes les trames clé après le curseur"
 
-#: src/assets/view/widgets/keyframewidget.cpp:161
+#: src/assets/view/widgets/keyframewidget.cpp:162
 #, kde-format
 msgid "Default Keyframe Type"
 msgstr "Type de trame clé par défaut"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/assets/view/widgets/keyframewidget.cpp:204 src/bin/bin.cpp:1348
+#: src/assets/view/widgets/keyframewidget.cpp:205 src/bin/bin.cpp:1348
 #: src/ui/clipstabilize_ui.ui:37
 #, kde-format
 msgid "Options"
 msgstr "Options"
 
-#: src/assets/view/widgets/keyframewidget.cpp:206
+#: src/assets/view/widgets/keyframewidget.cpp:207
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4040,49 +4040,49 @@ msgstr ""
 "(Par exemple : copie vers et collage des trames clé à partir du presse-"
 "papiers)."
 
-#: src/assets/view/widgets/keyframewidget.cpp:252
-#: src/assets/view/widgets/keyframewidget.cpp:304
+#: src/assets/view/widgets/keyframewidget.cpp:253
+#: src/assets/view/widgets/keyframewidget.cpp:305
 #: src/widgets/geometrywidget.cpp:78
 #, kde-format
 msgid "Opacity"
 msgstr "Opacité"
 
-#: src/assets/view/widgets/keyframewidget.cpp:256
-#: src/assets/view/widgets/keyframewidget.cpp:328
+#: src/assets/view/widgets/keyframewidget.cpp:257
+#: src/assets/view/widgets/keyframewidget.cpp:329
 #, kde-format
 msgid "Y position"
 msgstr "Position Y"
 
-#: src/assets/view/widgets/keyframewidget.cpp:257
-#: src/assets/view/widgets/keyframewidget.cpp:322
+#: src/assets/view/widgets/keyframewidget.cpp:258
+#: src/assets/view/widgets/keyframewidget.cpp:323
 #, kde-format
 msgid "X position"
 msgstr "Position X"
 
-#: src/assets/view/widgets/keyframewidget.cpp:276
+#: src/assets/view/widgets/keyframewidget.cpp:277
 #, kde-format
 msgid "Select parameters to copy"
 msgstr "Sélectionner les paramètres à copier"
 
-#: src/assets/view/widgets/keyframewidget.cpp:767
+#: src/assets/view/widgets/keyframewidget.cpp:768
 #, kde-format
 msgid "Keyframes copied"
 msgstr "Trames clé copiées"
 
-#: src/assets/view/widgets/keyframewidget.cpp:778
-#: src/assets/view/widgets/keyframewidget.cpp:819
-#: src/assets/view/widgets/keyframewidget.cpp:826
+#: src/assets/view/widgets/keyframewidget.cpp:779
+#: src/assets/view/widgets/keyframewidget.cpp:820
+#: src/assets/view/widgets/keyframewidget.cpp:827
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "Aucune donnée valable de trames clé dans le presse-papier"
 
-#: src/assets/view/widgets/keyframewidget.cpp:870
+#: src/assets/view/widgets/keyframewidget.cpp:871
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "Impossible de copier les valeurs des paramètres"
 
-#: src/assets/view/widgets/keyframewidget.cpp:875
-#: src/assets/view/widgets/keyframewidget.cpp:886
+#: src/assets/view/widgets/keyframewidget.cpp:876
+#: src/assets/view/widgets/keyframewidget.cpp:887
 #, kde-format
 msgid "Current values copied"
 msgstr "Valeurs courantes copiées"
@@ -4325,25 +4325,25 @@ msgid "Sort By"
 msgstr "Trier par"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, subtitlesList)
-#: src/bin/bin.cpp:1279 src/bin/projectitemmodel.cpp:303
+#: src/bin/bin.cpp:1279 src/bin/projectitemmodel.cpp:312
 #: src/ui/managesubtitles_ui.ui:103
 #, kde-format
 msgid "Name"
 msgstr "Nom"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:1283 src/bin/projectitemmodel.cpp:306
+#: src/bin/bin.cpp:1283 src/bin/projectitemmodel.cpp:315
 #: src/project/dialogs/projectsettings.cpp:248 src/ui/managecache_ui.ui:369
 #, kde-format
 msgid "Date"
 msgstr "Date"
 
-#: src/bin/bin.cpp:1287 src/bin/projectitemmodel.cpp:309
+#: src/bin/bin.cpp:1287 src/bin/projectitemmodel.cpp:318
 #, kde-format
 msgid "Description"
 msgstr "Description"
 
-#: src/bin/bin.cpp:1291 src/bin/projectitemmodel.cpp:312
+#: src/bin/bin.cpp:1291 src/bin/projectitemmodel.cpp:321
 #, kde-format
 msgid "Type"
 msgstr "Type"
@@ -4353,7 +4353,7 @@ msgstr "Type"
 msgid "Insert Order"
 msgstr "Ordre d'insertion"
 
-#: src/bin/bin.cpp:1303 src/bin/projectitemmodel.cpp:324
+#: src/bin/bin.cpp:1303 src/bin/projectitemmodel.cpp:333
 #, kde-format
 msgid "Rating"
 msgstr "Note"
@@ -5046,7 +5046,7 @@ msgid "Please set a default application to open audio files"
 msgstr ""
 "Veuillez définir une application par défaut pour ouvrir les fichiers audio"
 
-#: src/bin/bin.cpp:4568 src/core.cpp:311 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:4568 src/core.cpp:313 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:459 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:471
 #: src/layoutmanagement.cpp:532 src/profiles/profilerepository.cpp:173
@@ -5523,7 +5523,7 @@ msgid "Add markers"
 msgstr "Ajouter des repères"
 
 #. i18n: ectx: Menu (subtitles)
-#: src/bin/model/subtitlemodel.cpp:80 src/core.cpp:685 src/kdenliveui.rc:30
+#: src/bin/model/subtitlemodel.cpp:80 src/core.cpp:687 src/kdenliveui.rc:30
 #: src/mainwindow.cpp:290 src/project/dialogs/archivewidget.cpp:97
 #: src/project/dialogs/projectsettings.cpp:423
 #, kde-format
@@ -5656,22 +5656,22 @@ msgid_plural "%1 clips"
 msgstr[0] "%1 clip"
 msgstr[1] "%1 clips"
 
-#: src/bin/projectitemmodel.cpp:315
+#: src/bin/projectitemmodel.cpp:324
 #, kde-format
 msgid "Tag"
 msgstr "Étiquette"
 
-#: src/bin/projectitemmodel.cpp:321
+#: src/bin/projectitemmodel.cpp:330
 #, kde-format
 msgid "Id"
 msgstr "Id"
 
-#: src/bin/projectitemmodel.cpp:327
+#: src/bin/projectitemmodel.cpp:336
 #, kde-format
 msgid "Usage"
 msgstr "Utilisation"
 
-#: src/bin/projectitemmodel.cpp:330 src/doc/documentchecker.cpp:1580
+#: src/bin/projectitemmodel.cpp:339 src/doc/documentchecker.cpp:1580
 #: src/doc/documentchecker.cpp:1608 src/doc/documentchecker.cpp:1628
 #: src/mltcontroller/clipcontroller.cpp:497 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
@@ -5679,42 +5679,42 @@ msgstr "Utilisation"
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: src/bin/projectitemmodel.cpp:637
+#: src/bin/projectitemmodel.cpp:646
 #, kde-format
 msgid "Add sub clips"
 msgstr "Ajouter des sous-vidéos"
 
-#: src/bin/projectitemmodel.cpp:672
+#: src/bin/projectitemmodel.cpp:681
 #, kde-format
 msgid "Zone"
 msgstr "Zone"
 
-#: src/bin/projectitemmodel.cpp:886
+#: src/bin/projectitemmodel.cpp:895
 #, kde-format
 msgid "Add bin clip"
 msgstr "Ajouter des clips sources"
 
-#: src/bin/projectitemmodel.cpp:952
+#: src/bin/projectitemmodel.cpp:961
 #, kde-format
 msgid "Add a sub clip"
 msgstr "Ajouter un sous-clip"
 
-#: src/bin/projectitemmodel.cpp:993
+#: src/bin/projectitemmodel.cpp:1002
 #, kde-format
 msgid "Rename Folder"
 msgstr "Renommer le dossier"
 
-#: src/bin/projectitemmodel.cpp:1021 src/mainwindow.cpp:1465
+#: src/bin/projectitemmodel.cpp:1030 src/mainwindow.cpp:1465
 #, kde-format
 msgid "Clean Project"
 msgstr "Nettoyer le projet"
 
-#: src/bin/projectitemmodel.cpp:1225
+#: src/bin/projectitemmodel.cpp:1234
 #, kde-format
 msgid "Reading project clips…"
 msgstr "Lecture des vidéo du projet..."
 
-#: src/bin/projectitemmodel.cpp:1331
+#: src/bin/projectitemmodel.cpp:1340
 #, kde-format
 msgid "Loading project clips…"
 msgstr "Chargement des vidéo du projet..."
@@ -5760,7 +5760,7 @@ msgstr "Ajouter une étiquette"
 msgid "New tag"
 msgstr "Nouvelle étiquette"
 
-#: src/core.cpp:106
+#: src/core.cpp:108
 #, kde-format
 msgid ""
 "Kdenlive crashed on last startup.\n"
@@ -5770,12 +5770,12 @@ msgstr ""
 "Voulez-vous vraiment ré-initialiser les traitements expérimentaux avec le "
 "processeur graphique (Movit) ?"
 
-#: src/core.cpp:107
+#: src/core.cpp:109
 #, kde-format
 msgid "Disable GPU processing"
 msgstr "Désactiver les traitements par le processeur graphique"
 
-#: src/core.cpp:113
+#: src/core.cpp:115
 #, kde-format
 msgid ""
 "Kdenlive crashed on last startup.\n"
@@ -5784,12 +5784,12 @@ msgstr ""
 "Kdenlive s'est planté au dernier démarrage.\n"
 "Voulez-vous vraiment ré-initialiser les fichiers de configuration ?"
 
-#: src/core.cpp:172 src/project/projectmanager.cpp:797
+#: src/core.cpp:174 src/project/projectmanager.cpp:797
 #, kde-format
 msgid "Loading project…"
 msgstr "Chargement du projet..."
 
-#: src/core.cpp:204
+#: src/core.cpp:206
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
@@ -5798,19 +5798,19 @@ msgstr ""
 "Le profil par défaut de Kdenlive n'est pas défini ou n'est pas valable, "
 "veuillez cliquer sur « Ok » pour le définir à une valeurs correcte."
 
-#: src/core.cpp:216
+#: src/core.cpp:218
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr "Sélectionner un profil par défaut"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:216 src/ui/profiledialog_ui.ui:38
+#: src/core.cpp:218 src/ui/profiledialog_ui.ui:38
 #, kde-format
 msgid "Profile:"
 msgstr "Profil :"
 
-#: src/core.cpp:229
+#: src/core.cpp:231
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -5819,252 +5819,252 @@ msgstr ""
 "Le profil fourni n'est pas valable. A défaut le profil est « dv_pal », mais "
 "vous pouvez le changer depuis le panneau de configuration de Kdenlive"
 
-#: src/core.cpp:364
+#: src/core.cpp:366
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "Barres de carré 2"
 
-#: src/core.cpp:365
+#: src/core.cpp:367
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "Petit damier"
 
-#: src/core.cpp:366
+#: src/core.cpp:368
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Stores horizontaux"
 
-#: src/core.cpp:367
+#: src/core.cpp:369
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Rayon"
 
-#: src/core.cpp:368
+#: src/core.cpp:370
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Linéaire en X"
 
-#: src/core.cpp:369
+#: src/core.cpp:371
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "Bilinéaire en X"
 
-#: src/core.cpp:370
+#: src/core.cpp:372
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Linéaire en Y"
 
-#: src/core.cpp:371
+#: src/core.cpp:373
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Bilinéaire en Y"
 
-#: src/core.cpp:372
+#: src/core.cpp:374
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "Carré"
 
-#: src/core.cpp:373
+#: src/core.cpp:375
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "Carré 2"
 
-#: src/core.cpp:374
+#: src/core.cpp:376
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "Nuage"
 
-#: src/core.cpp:375
+#: src/core.cpp:377
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "Horloge symétrique"
 
-#: src/core.cpp:376
+#: src/core.cpp:378
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "Barres radiales"
 
-#: src/core.cpp:377
+#: src/core.cpp:379
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "Spirale"
 
-#: src/core.cpp:378
+#: src/core.cpp:380
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "Spirale 2"
 
-#: src/core.cpp:379
+#: src/core.cpp:381
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "Rideau"
 
-#: src/core.cpp:380
+#: src/core.cpp:382
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "Explosion"
 
-#: src/core.cpp:381
+#: src/core.cpp:383
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "Horloge"
 
-#: src/core.cpp:383
+#: src/core.cpp:385
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Barre horizontale"
 
-#: src/core.cpp:384
+#: src/core.cpp:386
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Barre verticale"
 
-#: src/core.cpp:385
+#: src/core.cpp:387
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Porte grillagée horizontale"
 
-#: src/core.cpp:386
+#: src/core.cpp:388
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "Porte grillagée verticale"
 
-#: src/core.cpp:387
+#: src/core.cpp:389
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "Porte grillagée en diagonale Sud-Ouest / Nord-Est"
 
-#: src/core.cpp:388
+#: src/core.cpp:390
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "Porte grillagée en diagonale Nord-Ouest / Sud-Est"
 
-#: src/core.cpp:389
+#: src/core.cpp:391
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "Diagonale démarrant en haut à gauche"
 
-#: src/core.cpp:390
+#: src/core.cpp:392
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "Diagonale démarrant en haut à droite"
 
-#: src/core.cpp:391
+#: src/core.cpp:393
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "Cascade matricielle horizontale"
 
-#: src/core.cpp:392
+#: src/core.cpp:394
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "Cascade matricielle verticale"
 
-#: src/core.cpp:393
+#: src/core.cpp:395
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Serpent matriciel horizontal"
 
-#: src/core.cpp:394
+#: src/core.cpp:396
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "Serpent matriciel, parallèle et horizontal"
 
-#: src/core.cpp:395
+#: src/core.cpp:397
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "Serpent matriciel vertical"
 
-#: src/core.cpp:396
+#: src/core.cpp:398
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "Serpent matriciel, parallèle et vertical"
 
-#: src/core.cpp:397
+#: src/core.cpp:399
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "Porte grillagée en V vers le haut"
 
-#: src/core.cpp:398
+#: src/core.cpp:400
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "Cercle d'iris"
 
-#: src/core.cpp:399
+#: src/core.cpp:401
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "Double iris"
 
-#: src/core.cpp:400
+#: src/core.cpp:402
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "Boîte d'iris"
 
-#: src/core.cpp:401
+#: src/core.cpp:403
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Boîte en bas à droite"
 
-#: src/core.cpp:402
+#: src/core.cpp:404
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Boîte en bas à gauche"
 
-#: src/core.cpp:403
+#: src/core.cpp:405
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "Centrage à droite de la boîte"
 
-#: src/core.cpp:404
+#: src/core.cpp:406
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "Dessus de l'horloge"
 
-#: src/core.cpp:630
+#: src/core.cpp:632
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "Votre profil de projet n'est pas valable, le rendu risque d'échouer."
 
-#: src/core.cpp:979
+#: src/core.cpp:981
 #, kde-format
 msgid "Loading clips"
 msgstr "Chargement des clips"
@@ -20274,18 +20274,15 @@ msgstr "Ombrage personnalisé"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBold)
 #: src/ui/editsub_ui.ui:454
-#, fuzzy, kde-format
-#| msgctxt "Font style"
-#| msgid "Bold"
+#, kde-format
 msgid "Bold"
 msgstr "Gras"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkItalic)
 #: src/ui/editsub_ui.ui:461
-#, fuzzy, kde-format
-#| msgid "Italian"
+#, kde-format
 msgid "Italic"
-msgstr "Italien"
+msgstr "Italique"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
 #: src/ui/exportguidesdialog_ui.ui:27

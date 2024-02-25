@@ -430,9 +430,7 @@ int main(int argc, char *argv[])
     }
     qApp->processEvents(QEventLoop::AllEvents);
 
-#ifdef USE_DRMINGW
-    ExcHndlInit();
-#elif defined(KF5_USE_CRASH)
+#if defined(KF5_USE_CRASH)
     KCrash::initialize();
 #endif
 
