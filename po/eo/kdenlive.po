@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-24 00:37+0000\n"
-"PO-Revision-Date: 2024-02-16 21:15+0100\n"
+"PO-Revision-Date: 2024-02-24 21:13+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -19963,18 +19963,15 @@ msgstr "Propra Ombro"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBold)
 #: src/ui/editsub_ui.ui:454
-#, fuzzy, kde-format
-#| msgctxt "Font style"
-#| msgid "Bold"
+#, kde-format
 msgid "Bold"
 msgstr "Grasa"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkItalic)
 #: src/ui/editsub_ui.ui:461
-#, fuzzy, kde-format
-#| msgid "Italian"
+#, kde-format
 msgid "Italic"
-msgstr "itala"
+msgstr "Kursiva"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
 #: src/ui/exportguidesdialog_ui.ui:27

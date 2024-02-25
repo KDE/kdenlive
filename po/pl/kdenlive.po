@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-24 00:37+0000\n"
-"PO-Revision-Date: 2024-02-11 11:29+0100\n"
+"PO-Revision-Date: 2024-02-24 17:08+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -8484,6 +8484,8 @@ msgid ""
 "The project uses a non standard framerate (%1), this will result in "
 "misplaced clips and frame offset."
 msgstr ""
+"Projekt używa niezwyczajnej szybkości klatkowej (%1), co spowoduje źle "
+"wstawione wycinki i przesunięcie klatki."
 
 #: src/doc/kdenlivedoc.cpp:1868
 #, kde-format
@@ -20080,18 +20082,15 @@ msgstr "Własny cień"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBold)
 #: src/ui/editsub_ui.ui:454
-#, fuzzy, kde-format
-#| msgctxt "Font style"
-#| msgid "Bold"
+#, kde-format
 msgid "Bold"
-msgstr "Gruba"
+msgstr "Pogrubienie"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkItalic)
 #: src/ui/editsub_ui.ui:461
-#, fuzzy, kde-format
-#| msgid "Italian"
+#, kde-format
 msgid "Italic"
-msgstr "Włoski"
+msgstr "Kursywa"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
 #: src/ui/exportguidesdialog_ui.ui:27
