@@ -4,15 +4,16 @@
 #
 # Andrej Mernik <andrejm@ubuntu.si>, 2015, 2016, 2017, 2018, 2019, 2020.
 # Martin Srebotnjak <miles@filmsi.net>, 2015, 2019, 2020, 2021, 2022, 2023.
-# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023, 2024 Matjaž Jeran <matjaz.jeran@amis.net>
+# Matjaž Jeran <matjaz.jeran@amis.net>, 2020, 2021, 2022, 2023.
 #
+# SPDX-FileCopyrightText: 2024 Jure Repinc <jlp@holodeck1.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-21 02:23+0000\n"
-"PO-Revision-Date: 2024-01-23 14:56+0100\n"
-"Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
+"PO-Revision-Date: 2024-02-25 00:53+0100\n"
+"Last-Translator: Jure Repinc <jlp@holodeck1.com>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Martin Srebotnjak <miles@filmsi.net>\n"
-"X-Generator: Lokalize 23.08.4\n"
+"X-Generator: Lokalize 24.04.70\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
 
 #, kde-format
@@ -3265,12 +3266,12 @@ msgstr "Pokaži priljubljene predmete"
 #: src/assets/assetlist/view/assetlistwidget.cpp:126
 #, kde-format
 msgid "Download New Effects..."
-msgstr "Prejmi nove učinke ..."
+msgstr "Prejmi nove učinke …"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:150
 #, kde-format
 msgid "Download New Wipes..."
-msgstr "Prejmi nove zavese ..."
+msgstr "Prejmi nove zavese …"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:164
 #, kde-format
@@ -3493,18 +3494,18 @@ msgstr "Zadnje ključne sličice ni možno odstraniti"
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
-msgstr[0] "Odstrani ključno sličico"
-msgstr[1] "Odstrani ključni sličici"
-msgstr[2] "Odstrani ključne sličice"
+msgstr[0] "Odstrani ključne sličice"
+msgstr[1] "Odstrani ključno sličico"
+msgstr[2] "Odstrani ključni sličici"
 msgstr[3] "Odstrani ključne sličice"
 
 #: src/assets/keyframes/view/keyframeview.cpp:645
 #, kde-format
 msgid "Move keyframe"
 msgid_plural "Move keyframes"
-msgstr[0] "Premakni ključno sličico"
-msgstr[1] "Orenakni ključni sličici"
-msgstr[2] "Premakni ključne sličice"
+msgstr[0] "Premakni ključne sličice"
+msgstr[1] "Premakni ključno sličico"
+msgstr[2] "Premakni ključni sličici"
 msgstr[3] "Premakni ključne sličice"
 
 #: src/assets/keyframes/view/keyframeview.cpp:904
@@ -4237,9 +4238,9 @@ msgstr "<b>F2</b> za preimenovanje izbranega predmeta"
 #, kde-format
 msgid "%1 job"
 msgid_plural "%1 jobs"
-msgstr[0] "%1 posel"
-msgstr[1] "%1 posla"
-msgstr[2] "%1 posli"
+msgstr[0] "%1 poslov"
+msgstr[1] "%1 posel"
+msgstr[2] "%1 posla"
 msgstr[3] "%1 posli"
 
 #: src/bin/bin.cpp:1073
@@ -4400,7 +4401,7 @@ msgstr "Vseh zaporedij projekta ni možno izbrisati"
 #: src/bin/bin.cpp:1789
 #, kde-format
 msgid "Deleting sequences cannot be undone"
-msgstr "Brisanja zaporedij ni možno razveljaviti."
+msgstr "Brisanja zaporedij ni možno razveljaviti"
 
 #: src/bin/bin.cpp:1796
 #, kde-format
@@ -4638,10 +4639,10 @@ msgstr "Ni značk"
 #, kde-format
 msgid "%1 Star"
 msgid_plural "%1 Stars"
-msgstr[0] "%1 zvezdica"
-msgstr[1] "%1 zvezdici"
-msgstr[2] "%1 zvezdice"
-msgstr[3] "%1 zvezdic"
+msgstr[0] "%1 zvezdic"
+msgstr[1] "%1 zvezdica"
+msgstr[2] "%1 zvezdici"
+msgstr[3] "%1 zvezdice"
 
 #: src/bin/bin.cpp:2414
 #, kde-format
@@ -4929,9 +4930,9 @@ msgstr "Zaporedje %1"
 #, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
-msgstr[0] "Premakni posnetek"
-msgstr[1] "Premakni posnetka"
-msgstr[2] "Premakni posnetke"
+msgstr[0] "Premakni posnetke"
+msgstr[1] "Premakni posnetek"
+msgstr[2] "Premakni posnetka"
 msgstr[3] "Premakni posnetke"
 
 #: src/bin/bin.cpp:3925
@@ -5118,9 +5119,9 @@ msgstr "<b>%1</b> posnetkov (%2 izbranih) | "
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
-msgstr[0] "Dodaj dodatni tok za posnetek"
-msgstr[1] "Dodaj dodatne tokove za posnetek"
-msgstr[2] "Dodaj dodatne tokove za posnetek"
+msgstr[0] "Dodaj dodatne tokove za posnetek"
+msgstr[1] "Dodaj dodatni tok za posnetek"
+msgstr[2] "Dodaj dodatna tokova za posnetek"
 msgstr[3] "Dodaj dodatne tokove za posnetek"
 
 #: src/bin/bin.cpp:5817
@@ -5156,7 +5157,7 @@ msgstr "Odstrani označevalnike posnetka"
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
-msgstr "Priporočamo, da pred operacijo prekodiranja projekt shranite."
+msgstr "Priporočamo, da pred operacijo prekodiranja projekt shranite"
 
 #: src/bin/bin.cpp:6038
 #, kde-format
@@ -5260,9 +5261,9 @@ msgstr "Nalaganje dokončano"
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
-msgstr[0] "Dodaj posnetek"
-msgstr[1] "Dodaj posnetka"
-msgstr[2] "Dodaj posnetke"
+msgstr[0] "Dodaj posnetke"
+msgstr[1] "Dodaj posnetek"
+msgstr[2] "Dodaj posnetka"
 msgstr[3] "Dodaj posnetke"
 
 #. i18n: ectx: property (text), widget (QLabel, label_duration)
@@ -5597,10 +5598,10 @@ msgstr "Odstrani tokovni učinek"
 #, kde-format
 msgid "%1 clip"
 msgid_plural "%1 clips"
-msgstr[0] "%1 posnetek"
-msgstr[1] "%1 posnetka"
-msgstr[2] "%1 posnetki"
-msgstr[3] "%1 posnetkov"
+msgstr[0] "%1 posnetkov"
+msgstr[1] "%1 posnetek"
+msgstr[2] "%1 posnetka"
+msgstr[3] "%1 posnetki"
 
 #: src/bin/projectitemmodel.cpp:315
 #, kde-format
@@ -6721,7 +6722,7 @@ msgstr "Odstranitev mape virtualnega okolja je spodletela."
 #: src/dialogs/kdenlivesettingsdialog.cpp:1795
 #, kde-format
 msgid "Probing..."
-msgstr "Sondiranje ..."
+msgstr "Sondiranje …"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1850
 #: src/dialogs/kdenlivesettingsdialog.cpp:2042
@@ -7170,7 +7171,7 @@ msgid ""
 "you want to overwrite it…"
 msgstr ""
 "Posel pisanja v datoteko že obstaja:<br /><b>%1</b><br />Prekinite ta posel, "
-"če jo želite prepisati …"
+"če jo želite prepisati."
 
 #: src/dialogs/renderwidget.cpp:757 src/dialogs/renderwidget.cpp:1479
 #, kde-format
@@ -7229,9 +7230,9 @@ msgstr "Preostali čas "
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
-msgstr[0] "%1 dan "
-msgstr[1] "%1 dneva "
-msgstr[2] "%1 dni "
+msgstr[0] "%1 dni "
+msgstr[1] "%1 dan "
+msgstr[2] "%1 dneva "
 msgstr[3] "%1 dni "
 
 #: src/dialogs/renderwidget.cpp:1239
@@ -7439,9 +7440,9 @@ msgid ""
 ">Configure Kdenlive…->Misc</interface>) at the current playhead position/"
 "frame."
 msgstr ""
-"Ustvari nov podnapis privzete dolžine (določene pod <interface>Nastavitve-"
-">Prilagodi Kdenlive …->Razno</interface>) na trenutne položaju/sličici "
-"predvajalne glave."
+"Ustvari nov podnapis privzete dolžine (določene pod "
+"<interface>Nastavitve→Nastavi Kdenlive …→Razno</interface>) na trenutne "
+"položaju/sličici predvajalne glave."
 
 #: src/dialogs/subtitleedit.cpp:115
 #, kde-format
@@ -7577,7 +7578,7 @@ msgstr "Shranjeno urejeno besedilo v seznam predvajanj"
 #: src/dialogs/textbasededit.cpp:665
 #, kde-format
 msgid "Create new sequence with text edit "
-msgstr "Ustvari novo zaporedje z urejanjem besedila"
+msgstr "Ustvari novo zaporedje z urejanjem besedila "
 
 #: src/dialogs/textbasededit.cpp:689
 #, kde-format
@@ -7725,7 +7726,7 @@ msgctxt "@info:whatsthis"
 msgid "Moves the selected keyframes to the current playhead position/frame."
 msgstr ""
 "Premakne izbrane ključne sličice na trenutni položaj/sličico predvajalne "
-"glave"
+"glave."
 
 #: src/dialogs/timeremap.cpp:1723
 #, kde-kuit-format
@@ -8024,10 +8025,10 @@ msgstr "Projekt vsebuje:"
 #, kde-format
 msgid "One missing clip"
 msgid_plural "%1 missing clips"
-msgstr[0] "%1 manjkajočih izvornih posnetkov"
-msgstr[1] "%1 manjkajoči izvorni posnetek"
-msgstr[2] "%1 manjkajoča izvorna posnetka"
-msgstr[3] "%1 manjkajoče izvorni posnetki"
+msgstr[0] "%1 manjkajočih posnetkov"
+msgstr[1] "%1 manjkajoči posnetek"
+msgstr[2] "%1 manjkajoča posnetka"
+msgstr[3] "%1 manjkajoči posnetki"
 
 #: src/doc/dcresolvedialog.cpp:203
 #, kde-format
@@ -8037,7 +8038,7 @@ msgstr[0] ""
 "%1 manjkajočih izvornih posnetkov z razpoložljivim posrednim posnetkom"
 msgstr[1] "%1 manjkajoči izvorni posnetek z razpoložljivim posrednim posnetkom"
 msgstr[2] "%1 manjkajoča izvorna posnetka z razpoložljivim posrednim posnetkom"
-msgstr[3] "%1 manjkajoče izvorni posnetki z razpoložljivim posrednim posnetkom"
+msgstr[3] "%1 manjkajoči izvorni posnetki z razpoložljivim posrednim posnetkom"
 
 #: src/doc/dcresolvedialog.cpp:206
 #, kde-format
@@ -8055,7 +8056,7 @@ msgid_plural "%1 removed clips"
 msgstr[0] "%1 odstranjenih posnetkov"
 msgstr[1] "%1 odstranjeni posnetek"
 msgstr[2] "%1 odstranjena posnetka"
-msgstr[3] "%1 odstranjene posnetke"
+msgstr[3] "%1 odstranjeni posnetki"
 
 #: src/doc/dcresolvedialog.cpp:218
 #, kde-format
@@ -8064,14 +8065,14 @@ msgid_plural "%1 missing proxies"
 msgstr[0] "%1 manjkajočih posrednih posnetkov"
 msgstr[1] "%1 manjkajoči posredni posnetek"
 msgstr[2] "%1 manjkajoča posredna posnetka"
-msgstr[3] "%1 manjkajoče posredne posnetke"
+msgstr[3] "%1 manjkajoči posredni posnetki"
 
 #: src/doc/dcresolvedialog.cpp:221
 #, kde-format
 msgid "One proxy can be recovered"
 msgid_plural "%1 proxies can be recovered"
 msgstr[0] "Obnoviti je možno %1 posrednih posnetkov"
-msgstr[1] "Obnoviti je možno %1 posreden posnetek"
+msgstr[1] "Obnoviti je možno %1 posredni posnetek"
 msgstr[2] "Obnoviti je možno %1 posredna posnetka"
 msgstr[3] "Obnoviti je možno %1 posredne posnetke"
 
@@ -8433,18 +8434,18 @@ msgstr ""
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
-msgstr[0] "Dodaj posredni posnetek"
-msgstr[1] "Dodaj posredna posnetka"
-msgstr[2] "Dodaj posredne posnetke"
+msgstr[0] "Dodaj posredne posnetke"
+msgstr[1] "Dodaj posredni posnetek"
+msgstr[2] "Dodaj posredna posnetka"
 msgstr[3] "Dodaj posredne posnetke"
 
 #: src/doc/kdenlivedoc.cpp:1543
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
-msgstr[0] "Odstrani posredni posnetek"
-msgstr[1] "Odstrani posredna posnetka"
-msgstr[2] "Odstrani posredne posnetke"
+msgstr[0] "Odstrani posredne posnetke"
+msgstr[1] "Odstrani posredni posnetek"
+msgstr[2] "Odstrani posredna posnetka"
 msgstr[3] "Odstrani posredne posnetke"
 
 #: src/doc/kdenlivedoc.cpp:1587 src/doc/kdenlivedoc.cpp:1645
@@ -10132,16 +10133,16 @@ msgid_plural ""
 "You have %1 rendering jobs waiting in the queue.\n"
 "What do you want to do with these jobs?"
 msgstr[0] ""
+"V vrsti čaka %1 poslov izrisovanja.\n"
+"Kaj želite storiti z njimi?"
+msgstr[1] ""
 "V vrsti čaka %1 posel izrisovanja.\n"
 "Kaj želite storiti z njim?"
-msgstr[1] ""
+msgstr[2] ""
 "V vrsti čakata %1 posla izrisovanja.\n"
 "Kaj želite storiti z njima?"
-msgstr[2] ""
-"V vrsti čakajo %1 posli izrisovanja.\n"
-"Kaj želite storiti z njimi?"
 msgstr[3] ""
-"V vrsti čaka %1 poslov izrisovanja.\n"
+"V vrsti čakajo %1 posli izrisovanja.\n"
 "Kaj želite storiti z njimi?"
 
 #: src/mainwindow.cpp:961
@@ -10727,7 +10728,7 @@ msgid ""
 "Add the currently defined timeline/selection zone as a preview render zone"
 msgstr ""
 "Dodajte trenutno določeno časovnico/območja izbora kot območje izrisa "
-"predogleda."
+"predogleda"
 
 #: src/mainwindow.cpp:1617
 #, kde-format
@@ -11248,7 +11249,7 @@ msgid ""
 msgstr ""
 "Trenutni projekt še ni bil shranjen.<br/>To bo najprej shranilo projekt, vse "
 "začasne datoteke premaknilo iz <br/><b>%1</b> v <b>%2</b>,<br/>nato pa bo "
-"projektna datoteka znova naložena."
+"projektna datoteka znova naložena"
 
 #: src/mainwindow.cpp:2185
 #, kde-format
@@ -11257,7 +11258,7 @@ msgid ""
 "project file will then be reloaded"
 msgstr ""
 "To bo premaknilo vse začasne datoteke iz<br/><b>%1</b> v <b>%2</b>,<br/>nato "
-"pa bo projektna datoteka znova naložena."
+"pa bo projektna datoteka znova naložena"
 
 #: src/mainwindow.cpp:2194 src/project/projectmanager.cpp:592
 #, kde-format
@@ -12304,9 +12305,9 @@ msgstr "Izvozi sliko v izvorni ločljivosti"
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
-msgstr[0] "%1 tok zvoka"
-msgstr[1] "%1 tokova zvoka"
-msgstr[2] "%1 tokovi zvoka"
+msgstr[0] "%1 tokovi zvoka"
+msgstr[1] "%1 tok zvoka"
+msgstr[2] "%1 tokova zvoka"
 msgstr[3] "%1 tokovi zvoka"
 
 #: src/monitor/monitor.cpp:2309
@@ -13138,9 +13139,9 @@ msgstr "Prekodiraj posnetek"
 msgctxt "@action"
 msgid "Add clip to project"
 msgid_plural "Add clips to project"
-msgstr[0] "Dodaj posnetek projektu"
-msgstr[1] "Dodaj posnetka projektu"
-msgstr[2] "Dodaj posnetke projektu"
+msgstr[0] "Dodaj posnetke projektu"
+msgstr[1] "Dodaj posnetek projektu"
+msgstr[2] "Dodaj posnetka projektu"
 msgstr[3] "Dodaj posnetke projektu"
 
 #: src/project/cliptranscode.cpp:59
@@ -13213,10 +13214,10 @@ msgstr "Datoteke svetilnosti"
 #, kde-format
 msgid "You have %1 missing clip in your project."
 msgid_plural "You have %1 missing clips in your project."
-msgstr[0] "V vašem projektu manjka %1 posnetek."
-msgstr[1] "V vašem projektu manjkata %1 posnetka."
-msgstr[2] "V vašem projektu manjkajo %1 posnetki."
-msgstr[3] "V vašem projektu manjka %1 posnetkov."
+msgstr[0] "V vašem projektu manjka %1 posnetkov."
+msgstr[1] "V vašem projektu manjka %1 posnetek."
+msgstr[2] "V vašem projektu manjkata %1 posnetka."
+msgstr[3] "V vašem projektu manjkajo %1 posnetki."
 
 #: src/project/dialogs/archivewidget.cpp:235
 #: src/project/dialogs/archivewidget.cpp:1338
@@ -13224,10 +13225,10 @@ msgstr[3] "V vašem projektu manjka %1 posnetkov."
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
-msgstr[0] "(%1 predmet)"
-msgstr[1] "(%1 predmeta)"
-msgstr[2] "(%1 predmeti)"
-msgstr[3] "(%1 predmetov)"
+msgstr[0] "(%1 predmetov)"
+msgstr[1] "(%1 predmet)"
+msgstr[2] "(%1 predmeta)"
+msgstr[3] "(%1 predmeti)"
 
 #: src/project/dialogs/archivewidget.cpp:241
 #: src/project/dialogs/archivewidget.cpp:1340
@@ -13235,10 +13236,10 @@ msgstr[3] "(%1 predmetov)"
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
-msgstr[0] "%1 datoteka za arhiviranje, zahtevano %2"
-msgstr[1] "%1 datoteki za arhiviranje, zahtevano %2"
-msgstr[2] "%1 datoteke za arhiviranje, zahtevano %2"
-msgstr[3] "%1 datotek za arhiviranje, zahtevano %2"
+msgstr[0] "%1 datotek za arhiviranje, zahtevano %2"
+msgstr[1] "%1 datoteka za arhiviranje, zahtevano %2"
+msgstr[2] "%1 datoteki za arhiviranje, zahtevano %2"
+msgstr[3] "%1 datoteke za arhiviranje, zahtevano %2"
 
 #: src/project/dialogs/archivewidget.cpp:242
 #: src/project/dialogs/archivewidget.cpp:333
@@ -13465,7 +13466,7 @@ msgstr "Uvozi …"
 #: src/project/dialogs/guideslist.cpp:88
 #, kde-format
 msgid "Export..."
-msgstr "Izvozi ..."
+msgstr "Izvozi …"
 
 #: src/project/dialogs/guideslist.cpp:91
 #, kde-format
@@ -13590,10 +13591,10 @@ msgstr "Vstavi trenutno časovno kodo"
 #, kde-format
 msgid "Create marker"
 msgid_plural "create markers"
-msgstr[0] "Ustvari označevalnik"
-msgstr[1] "ustvari označevalnika"
-msgstr[2] "ustvari označevalnike"
-msgstr[3] "ustvari označevalnike"
+msgstr[0] "Ustvari označevalnike"
+msgstr[1] "Ustvari označevalnik"
+msgstr[2] "Ustvari označevalnika"
+msgstr[3] "Ustvari označevalnike"
 
 #: src/project/dialogs/noteswidget.cpp:50
 #, kde-format
@@ -13844,10 +13845,10 @@ msgstr ""
 #, kde-format
 msgid "1 image found"
 msgid_plural "%1 images found"
-msgstr[0] "%1 najdena slika"
-msgstr[1] "%1 najdeni sliki"
-msgstr[2] "%1 najdene slike"
-msgstr[3] "%1 najdenih slik"
+msgstr[0] "%1 najdenih slik"
+msgstr[1] "%1 najdena slika"
+msgstr[2] "%1 najdeni sliki"
+msgstr[3] "%1 najdene slike"
 
 #: src/project/dialogs/projectsettings.cpp:789 src/titler/titlewidget.cpp:419
 #: src/titler/titlewidget.cpp:422
@@ -13919,10 +13920,10 @@ msgstr "Ni najdene slike"
 #, kde-format
 msgid " month"
 msgid_plural " months"
-msgstr[0] " mesec"
-msgstr[1] " meseca"
-msgstr[2] " meseci"
-msgstr[3] " mesecev"
+msgstr[0] " mesecev"
+msgstr[1] " mesec"
+msgstr[2] " meseca"
+msgstr[3] " meseci"
 
 #: src/project/dialogs/temporarydata.cpp:177
 #, kde-format
@@ -14462,7 +14463,7 @@ msgstr "Preverjanje za posodobitvami"
 #: src/pythoninterfaces/abstractpythoninterface.cpp:100
 #, kde-format
 msgid "Installing modules… this can take a while"
-msgstr "Nameščanje modulov … lahko traja"
+msgstr "Nameščanje modulov (lahko traja dlje časa) …"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:110
 #, kde-format
@@ -14733,7 +14734,7 @@ msgstr "samodejno podnaslavljanje"
 #: src/pythoninterfaces/speechtotext.cpp:29
 #, kde-format
 msgid "machine learning framework"
-msgstr "Ogrodje za strojno učenje"
+msgstr "ogrodje za strojno učenje"
 
 #: src/pythoninterfaces/speechtotext.cpp:37
 #, kde-format
@@ -16280,10 +16281,10 @@ msgstr "Zamenjani posnetki: %1. <b>Nezamenjani posnetki: %2</b>"
 #, kde-format
 msgid "One clip replaced"
 msgid_plural "%1 clips replaced"
-msgstr[0] "Izbranih je %1 posnetkov"
-msgstr[1] "Izbran je %1 posnetek"
-msgstr[2] "Izbrana sta %1 posnetka"
-msgstr[3] "Izbrani so %1 posnetki"
+msgstr[0] "Zamenjanih je bilo %1 posnetkov"
+msgstr[1] "Zamenjan je bil %1 posnetek"
+msgstr[2] "Zamenjana sta bila %1 posnetka"
+msgstr[3] "Zamenjani so bili %1 posnetki"
 
 #: src/timeline2/model/timelineitemmodel.cpp:931
 #, kde-format
@@ -16343,7 +16344,7 @@ msgstr "Vstavi posnetek"
 #: src/timeline2/model/timelinemodel.cpp:1813
 #, kde-format
 msgid "You cannot insert a sequence containing itself"
-msgstr "Ni možno vstaviti zaporedja, ki vsebuje samega sebe."
+msgstr "Ni možno vstaviti zaporedja, ki vsebuje samega sebe"
 
 #: src/timeline2/model/timelinemodel.cpp:1861
 #: src/timeline2/model/timelinemodel.cpp:1883
@@ -16657,7 +16658,7 @@ msgstr "Z mapami predpomnilnika je nekaj narobe"
 msgid "Preview rendering failed, check your parameters. %1Show details...%2"
 msgstr ""
 "Izrisovanje predogleda je spodletelo, preverite vaše parametre. %1Prikaži "
-"podrobnosti ... %2"
+"podrobnosti …%2"
 
 #: src/timeline2/view/qml/AudioLevels.qml:21
 #, kde-format
@@ -17162,7 +17163,7 @@ msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "Vstavi steze"
 msgstr[1] "Vstavi stezo"
-msgstr[2] "Vstavi steze"
+msgstr[2] "Vstavi stezi"
 msgstr[3] "Vstavi steze"
 
 #: src/timeline2/view/timelinecontroller.cpp:5038
@@ -17229,7 +17230,7 @@ msgid ""
 "timeline corresponds to a Sequence Clip in the Project Bin"
 msgstr ""
 "Dodajte zaporedje časovnice. Tako boste ustvarili novo časovnico za "
-"urejanje. Vsaka časovnica ustreza posnetku zaporedja v projektni posodi."
+"urejanje. Vsaka časovnica ustreza posnetku zaporedja v projektni posodi"
 
 #: src/timeline2/view/timelinetabs.cpp:217
 #, kde-format
@@ -17244,12 +17245,12 @@ msgstr "Preimenuj zaporedje"
 #: src/timeline2/view/timelinewidget.cpp:73
 #, kde-format
 msgid "Insert an effect..."
-msgstr "Vstavi učinek ..."
+msgstr "Vstavi učinek …"
 
 #: src/timeline2/view/timelinewidget.cpp:74
 #, kde-format
 msgid "Insert a composition..."
-msgstr "Vstavi sestavo ..."
+msgstr "Vstavi sestavo …"
 
 #: src/timeline2/view/timelinewidget.cpp:342
 #, kde-format
@@ -17518,7 +17519,7 @@ msgstr "Odpri dokument"
 #: src/titler/titlewidget.cpp:425 src/titler/titlewidget.cpp:427
 #, kde-format
 msgid "Download New Title Templates..."
-msgstr "Prejmi nove predloge napisov ..."
+msgstr "Prejmi nove predloge napisov …"
 
 #: src/titler/titlewidget.cpp:548
 #, kde-format
@@ -17600,10 +17601,10 @@ msgstr "Vdelaj slike"
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
-msgstr[0] "Temu napisu manjka %1 predmet"
-msgstr[1] "Temu napisu manjkata %1 predmeta"
-msgstr[2] "Temu napisu manjkajo %1 predmeti"
-msgstr[3] "Temu napisu manjka %1 predmetov"
+msgstr[0] "Temu napisu manjka %1 predmetov"
+msgstr[1] "Temu napisu manjka %1 predmet"
+msgstr[2] "Temu napisu manjkata %1 predmeta"
+msgstr[3] "Temu napisu manjkajo %1 predmeti"
 
 #: src/titler/titlewidget.cpp:2334 src/titler/unicodedialog.cpp:28
 #, kde-format
@@ -18191,7 +18192,7 @@ msgstr "Izbriši trenutno točko."
 #: src/ui/unicodewidget_ui.ui:201 src/ui/unicodewidget_ui.ui:226
 #, kde-format
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonLinkHandles)
 #: src/ui/bezierspline_ui.ui:91
@@ -20337,7 +20338,7 @@ msgstr "Skupno predpomnjenih podatkov:"
 #: src/ui/managecache_ui.ui:512 src/ui/managecache_ui.ui:609
 #, kde-format
 msgid "Calculating..."
-msgstr "Preračunavanje v teku ..."
+msgstr "Preračunavanje v teku …"
 
 #. i18n: ectx: property (text), widget (QLabel, qSelectedLabel)
 #: src/ui/managecache_ui.ui:408
@@ -21178,7 +21179,7 @@ msgstr "Izbriši skript"
 #: src/ui/resourcewidget_ui.ui:53
 #, kde-format
 msgid "Search..."
-msgstr "Poišči ..."
+msgstr "Poišči …"
 
 #. i18n: ectx: property (prefix), widget (QSpinBox, page_number)
 #: src/ui/resourcewidget_ui.ui:121
@@ -22036,18 +22037,44 @@ msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
 
-#~ msgid "OpenGL Backend"
-#~ msgstr "Zaledje OpenGL"
+#~ msgid "Default Target Folder for Audio Captures"
+#~ msgstr "Privzeta ciljna mapa za zvočne zajeme"
 
+#~ msgid "Reading project clips…"
+#~ msgstr "Branje posnetkov projekta …"
+
+#~ msgid "Applying fixes…"
+#~ msgstr "Uveljavljanje popravkov …"
+
+#~ msgid "Checking for missing items…"
+#~ msgstr "Preverjanje manjkajočih elementov …"
+
+#~ msgid "Validating project…"
+#~ msgstr "Potrjevanje projekta …"
+
+#~ msgid "Upgrading project version…"
+#~ msgstr "Nadgradnja različice projekta …"
+
+#~ msgctxt "@label:textbox"
 #~ msgid ""
-#~ "Kdenlive needs to be restarted to change this setting. Do you want to "
-#~ "proceed?"
+#~ "The project uses a non standard framerate (%1), this will result in "
+#~ "misplaced clips and frame offset."
 #~ msgstr ""
-#~ "Za spremembo te nastavitve morate znova zagnati Kdenlive. Ali želite "
-#~ "nadaljevati?"
+#~ "Projekt uporablja nestandardno hitrost (%1), kar bo povzročilo napačno "
+#~ "umeščene posnetke in zamik v sličicah."
 
-#~ msgid "KSqueezedTextLabel"
-#~ msgstr "KStisnjenoBesedilnaOznaka"
+#~ msgid "Loading timeline…"
+#~ msgstr "Nalaganje časovnice …"
 
-#~ msgid "%1 %%"
-#~ msgstr "%1 %%"
+#~ msgid "Building sequences…"
+#~ msgstr "Gradnja zaporedij …"
+
+#~ msgctxt "@info:status"
+#~ msgid "Cannot cut overlapping subtitles"
+#~ msgstr "Prekrivajočih se podnaslovov ni možno rezati"
+
+#~ msgid "Bold"
+#~ msgstr "Krepko"
+
+#~ msgid "Italic"
+#~ msgstr "Ležeče"

@@ -8489,7 +8489,8 @@ msgid "Effect"
 msgstr "Efect"
 
 #: src/doc/documentchecker.cpp:1586
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Transition"
 msgid "Transition"
 msgstr "Tranziție"
 
@@ -8512,7 +8513,8 @@ msgid "Reload"
 msgstr "Reîncarcă clipul"
 
 #: src/doc/documentchecker.cpp:1602
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Missing"
 msgid "Missing"
 msgstr "Lipsește"
 
