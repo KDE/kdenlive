@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-24 00:37+0000\n"
+"POT-Creation-Date: 2024-02-26 00:37+0000\n"
 "PO-Revision-Date: 2024-02-21 04:54+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -4836,7 +4836,7 @@ msgstr ""
 "გაძლევთ, წყაროს ფაილები უკეთ დააორგანიზოთ. საქაღალდეები, შეგიძლიათ, "
 "ერთმანეთში ჩაალაგოთ."
 
-#: src/bin/bin.cpp:3771 src/dialogs/speechdialog.cpp:48
+#: src/bin/bin.cpp:3771 src/dialogs/speechdialog.cpp:49
 #: src/dialogs/textbasededit.cpp:719 src/monitor/recmanager.cpp:42
 #, kde-format
 msgid "Show log"
@@ -5600,7 +5600,7 @@ msgstr "ზონა %1"
 msgid "Tag %1"
 msgstr "%1-ის ჭდე"
 
-#: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:43
+#: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:44
 #: src/dialogs/textbasededit.cpp:634
 #, kde-format
 msgid "Configure"
@@ -7237,80 +7237,80 @@ msgstr "მიმდინარე პროექტში დამატე�
 msgid "Open Containing Folder"
 msgstr "შემცველი საქაღალდის გახსნა"
 
-#: src/dialogs/speechdialog.cpp:42
+#: src/dialogs/speechdialog.cpp:43
 #, kde-format
 msgid "Automatic Subtitling"
 msgstr "ავტომატური სუბტიტრები"
 
-#: src/dialogs/speechdialog.cpp:49
+#: src/dialogs/speechdialog.cpp:50
 #, kde-format
 msgid "Speech Recognition log"
 msgstr "საუბრის ამოცნობის ჟურნალი"
 
-#: src/dialogs/speechdialog.cpp:85
+#: src/dialogs/speechdialog.cpp:86
 #, kde-format
 msgid "Process"
 msgstr "პროცესი"
 
-#: src/dialogs/speechdialog.cpp:120
+#: src/dialogs/speechdialog.cpp:122
 #, kde-format
 msgid "No audio track available for selected clip"
 msgstr "მონიშნული კლიპისთვის აუდიობილიკი ხელმისაწვდომი არაა"
 
-#: src/dialogs/speechdialog.cpp:130
+#: src/dialogs/speechdialog.cpp:132
 #, kde-format
 msgid "Select a clip in timeline to perform analysis"
 msgstr "აირჩიეთ კლიპი დროის ხაზში ანალიზისთვის"
 
-#: src/dialogs/speechdialog.cpp:144
+#: src/dialogs/speechdialog.cpp:146
 #, kde-format
 msgid "No audio track found"
 msgstr "აუდიობილიკი ვერ ვპოვე"
 
-#: src/dialogs/speechdialog.cpp:182 src/dialogs/textbasededit.cpp:697
+#: src/dialogs/speechdialog.cpp:184 src/dialogs/textbasededit.cpp:697
 #, kde-format
 msgid "Please install speech recognition models"
 msgstr "დააყენეთ საუბრის ამოცნობის მოდელები"
 
-#: src/dialogs/speechdialog.cpp:199
+#: src/dialogs/speechdialog.cpp:201
 #: src/pythoninterfaces/abstractpythoninterface.cpp:175
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Checking setup…"
 msgstr "მორგების შემოწმება…"
 
-#: src/dialogs/speechdialog.cpp:204 src/dialogs/textbasededit.cpp:932
+#: src/dialogs/speechdialog.cpp:206 src/dialogs/textbasededit.cpp:932
 #: src/dialogs/textbasededit.cpp:945
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "მოირგეთ საუბრიდან-ტექსტამდე."
 
-#: src/dialogs/speechdialog.cpp:211
+#: src/dialogs/speechdialog.cpp:213
 #, kde-format
 msgid "Starting audio export"
 msgstr "აუდიოს გატანის დაწყება"
 
-#: src/dialogs/speechdialog.cpp:279
+#: src/dialogs/speechdialog.cpp:281
 #, kde-format
 msgid "Audio export failed"
 msgstr "აუდიოს გატანის შეცდომა"
 
-#: src/dialogs/speechdialog.cpp:305 src/dialogs/textbasededit.cpp:964
+#: src/dialogs/speechdialog.cpp:308 src/dialogs/textbasededit.cpp:964
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "საუბრის ამოცნობის დაწყება"
 
-#: src/dialogs/speechdialog.cpp:342 src/dialogs/textbasededit.cpp:1127
+#: src/dialogs/speechdialog.cpp:345 src/dialogs/textbasededit.cpp:1127
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "საუბრის ამოცნობა გაუქმდა."
 
-#: src/dialogs/speechdialog.cpp:348
+#: src/dialogs/speechdialog.cpp:351
 #, kde-format
 msgid "Subtitles imported"
 msgstr "სუბტიტრები შემოტნილია"
 
-#: src/dialogs/speechdialog.cpp:351
+#: src/dialogs/speechdialog.cpp:354
 #, kde-format
 msgid "Speech recognition failed"
 msgstr "საუბრის ამოცნობის შეცდომა"
@@ -7468,7 +7468,7 @@ msgid "No speech"
 msgstr "საუბრის გარეშე"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
-#: src/dialogs/textbasededit.cpp:620 src/ui/speechdialog_ui.ui:150
+#: src/dialogs/textbasededit.cpp:620 src/ui/speechdialog_ui.ui:69
 #, kde-format
 msgid "Translate to English"
 msgstr "ინგლისურად თარგმნა"
@@ -17799,7 +17799,7 @@ msgstr "მხოლოდ, დროის ხაზის კლიპებ�
 #. i18n: ectx: property (format), widget (QProgressBar, job_progress)
 #. i18n: ectx: property (format), widget (QProgressBar, progressBar)
 #: src/ui/archivewidget_ui.ui:143 src/ui/cliptranscode_ui.ui:40
-#: src/ui/speechdialog_ui.ui:112 src/ui/textbasededit_ui.ui:59
+#: src/ui/speechdialog_ui.ui:124 src/ui/textbasededit_ui.ui:59
 #, no-c-format, kde-format
 msgid "%p%"
 msgstr "%p%"
@@ -17945,7 +17945,7 @@ msgstr "მიმდინარე წერტილის წაშლა."
 #: src/ui/projectsettings_ui.ui:293 src/ui/projectsettings_ui.ui:571
 #: src/ui/projectsettings_ui.ui:578 src/ui/qtextclip_ui.ui:94
 #: src/ui/renderwidget_ui.ui:997 src/ui/resourcewidget_ui.ui:214
-#: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:95
+#: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:107
 #: src/ui/textbasededit_ui.ui:42 src/ui/textbasededit_ui.ui:71
 #: src/ui/textbasededit_ui.ui:140 src/ui/textbasededit_ui.ui:154
 #: src/ui/textbasededit_ui.ui:171 src/ui/textbasededit_ui.ui:181
@@ -21148,12 +21148,6 @@ msgstr "გამოტოვების ჩასმა ყველა ტრ
 msgid "True FFT size:"
 msgstr "FFT-ის ნამდვილი ზომა:"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/speechdialog_ui.ui:27
-#, kde-format
-msgid "Model"
-msgstr "მოდელი"
-
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_track)
 #: src/ui/speechdialog_ui.ui:34
 #, kde-format
@@ -21161,25 +21155,31 @@ msgid "Timeline zone (selected track)"
 msgstr "დროის ხაზის ზონა (მონიშნული ტრეკი)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/speechdialog_ui.ui:157
+#: src/ui/speechdialog_ui.ui:76
 #, kde-format
 msgid "Language"
 msgstr "ენა"
 
-#. i18n: ectx: property (text), widget (QRadioButton, timeline_clips)
-#: src/ui/speechdialog_ui.ui:167
-#, kde-format
-msgid "Selected clip"
-msgstr "მონიშნული კლიპი"
-
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_zone)
-#: src/ui/speechdialog_ui.ui:174
+#: src/ui/speechdialog_ui.ui:147
 #, kde-format
 msgid "Timeline zone (all tracks)"
 msgstr "დროის ხაზის ზონა (ყველა ტრეკი)"
 
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/ui/speechdialog_ui.ui:157
+#, kde-format
+msgid "Model"
+msgstr "მოდელი"
+
+#. i18n: ectx: property (text), widget (QRadioButton, timeline_clips)
+#: src/ui/speechdialog_ui.ui:181
+#, kde-format
+msgid "Selected clip"
+msgstr "მონიშნული კლიპი"
+
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_full)
-#: src/ui/speechdialog_ui.ui:184
+#: src/ui/speechdialog_ui.ui:188
 #, kde-format
 msgid "Full project"
 msgstr "მთლიანი პროექტი"

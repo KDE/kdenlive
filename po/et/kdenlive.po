@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-24 00:37+0000\n"
+"POT-Creation-Date: 2024-02-26 00:37+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -4980,7 +4980,7 @@ msgid ""
 "better organization of source files. Folders can be nested."
 msgstr ""
 
-#: src/bin/bin.cpp:3771 src/dialogs/speechdialog.cpp:48
+#: src/bin/bin.cpp:3771 src/dialogs/speechdialog.cpp:49
 #: src/dialogs/textbasededit.cpp:719 src/monitor/recmanager.cpp:42
 #, kde-format
 msgid "Show log"
@@ -5809,7 +5809,7 @@ msgstr "Tsoon %1"
 msgid "Tag %1"
 msgstr "Silt %1"
 
-#: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:43
+#: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:44
 #: src/dialogs/textbasededit.cpp:634
 #, kde-format
 msgid "Configure"
@@ -7532,48 +7532,48 @@ msgstr "Lisa aktiivsesse projekti"
 msgid "Open Containing Folder"
 msgstr "Sihtkataloog"
 
-#: src/dialogs/speechdialog.cpp:42
+#: src/dialogs/speechdialog.cpp:43
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Automatic Subtitling"
 msgstr "Abijoone lisamine"
 
-#: src/dialogs/speechdialog.cpp:49
+#: src/dialogs/speechdialog.cpp:50
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Speech Recognition log"
 msgstr "Vali üleminek"
 
-#: src/dialogs/speechdialog.cpp:85
+#: src/dialogs/speechdialog.cpp:86
 #, fuzzy, kde-format
 #| msgid "Process clip"
 msgid "Process"
 msgstr "Klipi töötlemine"
 
-#: src/dialogs/speechdialog.cpp:120
+#: src/dialogs/speechdialog.cpp:122
 #, kde-format
 msgid "No audio track available for selected clip"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:130
+#: src/dialogs/speechdialog.cpp:132
 #, fuzzy, kde-format
 #| msgid "Select clips in timeline for the Library"
 msgid "Select a clip in timeline to perform analysis"
 msgstr "Vali ajateljel klipid videoteegi jaoks"
 
-#: src/dialogs/speechdialog.cpp:144
+#: src/dialogs/speechdialog.cpp:146
 #, fuzzy, kde-format
 #| msgid "No previous frame found"
 msgid "No audio track found"
 msgstr "Eelmist kaadrit ei leitud"
 
-#: src/dialogs/speechdialog.cpp:182 src/dialogs/textbasededit.cpp:697
+#: src/dialogs/speechdialog.cpp:184 src/dialogs/textbasededit.cpp:697
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please install speech recognition models"
 msgstr "Vali üleminek"
 
-#: src/dialogs/speechdialog.cpp:199
+#: src/dialogs/speechdialog.cpp:201
 #: src/pythoninterfaces/abstractpythoninterface.cpp:175
 #, fuzzy, kde-format
 #| msgid "Checking system"
@@ -7581,43 +7581,43 @@ msgctxt "@label:textbox"
 msgid "Checking setup…"
 msgstr "Süsteemi kontroll"
 
-#: src/dialogs/speechdialog.cpp:204 src/dialogs/textbasededit.cpp:932
+#: src/dialogs/speechdialog.cpp:206 src/dialogs/textbasededit.cpp:932
 #: src/dialogs/textbasededit.cpp:945
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please configure speech to text."
 msgstr "Vali üleminek"
 
-#: src/dialogs/speechdialog.cpp:211
+#: src/dialogs/speechdialog.cpp:213
 #, fuzzy, kde-format
 #| msgid "Starting File Download"
 msgid "Starting audio export"
 msgstr "Faili allalaadimise alustamine"
 
-#: src/dialogs/speechdialog.cpp:279
+#: src/dialogs/speechdialog.cpp:281
 #, fuzzy, kde-format
 #| msgid "Audio stream"
 msgid "Audio export failed"
 msgstr "Helivoog"
 
-#: src/dialogs/speechdialog.cpp:305 src/dialogs/textbasededit.cpp:964
+#: src/dialogs/speechdialog.cpp:308 src/dialogs/textbasededit.cpp:964
 #, kde-format
 msgid "Starting speech recognition"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:342 src/dialogs/textbasededit.cpp:1127
+#: src/dialogs/speechdialog.cpp:345 src/dialogs/textbasededit.cpp:1127
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Speech recognition aborted."
 msgstr "Vali üleminek"
 
-#: src/dialogs/speechdialog.cpp:348
+#: src/dialogs/speechdialog.cpp:351
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Subtitles imported"
 msgstr "nimetu"
 
-#: src/dialogs/speechdialog.cpp:351
+#: src/dialogs/speechdialog.cpp:354
 #, kde-format
 msgid "Speech recognition failed"
 msgstr ""
@@ -7780,7 +7780,7 @@ msgid "No speech"
 msgstr "Profiili pole valitud"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
-#: src/dialogs/textbasededit.cpp:620 src/ui/speechdialog_ui.ui:150
+#: src/dialogs/textbasededit.cpp:620 src/ui/speechdialog_ui.ui:69
 #, fuzzy, kde-format
 #| msgid "Template text clip"
 msgid "Translate to English"
@@ -18601,7 +18601,7 @@ msgstr "Klipi lisamine ajateljele"
 #. i18n: ectx: property (format), widget (QProgressBar, job_progress)
 #. i18n: ectx: property (format), widget (QProgressBar, progressBar)
 #: src/ui/archivewidget_ui.ui:143 src/ui/cliptranscode_ui.ui:40
-#: src/ui/speechdialog_ui.ui:112 src/ui/textbasededit_ui.ui:59
+#: src/ui/speechdialog_ui.ui:124 src/ui/textbasededit_ui.ui:59
 #, fuzzy, no-c-format, kde-format
 #| msgid "%1 %%"
 msgid "%p%"
@@ -18749,7 +18749,7 @@ msgstr "Kustuta praegune nupp"
 #: src/ui/projectsettings_ui.ui:293 src/ui/projectsettings_ui.ui:571
 #: src/ui/projectsettings_ui.ui:578 src/ui/qtextclip_ui.ui:94
 #: src/ui/renderwidget_ui.ui:997 src/ui/resourcewidget_ui.ui:214
-#: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:95
+#: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:107
 #: src/ui/textbasededit_ui.ui:42 src/ui/textbasededit_ui.ui:71
 #: src/ui/textbasededit_ui.ui:140 src/ui/textbasededit_ui.ui:154
 #: src/ui/textbasededit_ui.ui:171 src/ui/textbasededit_ui.ui:181
@@ -22194,13 +22194,6 @@ msgstr ""
 msgid "True FFT size:"
 msgstr "Tõeline FFT suurus:"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/speechdialog_ui.ui:27
-#, fuzzy, kde-format
-#| msgid "Mode"
-msgid "Model"
-msgstr "Režiim"
-
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_track)
 #: src/ui/speechdialog_ui.ui:34
 #, fuzzy, kde-format
@@ -22209,26 +22202,33 @@ msgid "Timeline zone (selected track)"
 msgstr "Kustuta valitud puhver"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/speechdialog_ui.ui:157
+#: src/ui/speechdialog_ui.ui:76
 #, kde-format
 msgid "Language"
 msgstr ""
 
+#. i18n: ectx: property (text), widget (QRadioButton, timeline_zone)
+#: src/ui/speechdialog_ui.ui:147
+#, kde-format
+msgid "Timeline zone (all tracks)"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/ui/speechdialog_ui.ui:157
+#, fuzzy, kde-format
+#| msgid "Mode"
+msgid "Model"
+msgstr "Režiim"
+
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_clips)
-#: src/ui/speechdialog_ui.ui:167
+#: src/ui/speechdialog_ui.ui:181
 #, fuzzy, kde-format
 #| msgid "Select Clip"
 msgid "Selected clip"
 msgstr "Vali klipp"
 
-#. i18n: ectx: property (text), widget (QRadioButton, timeline_zone)
-#: src/ui/speechdialog_ui.ui:174
-#, kde-format
-msgid "Timeline zone (all tracks)"
-msgstr ""
-
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_full)
-#: src/ui/speechdialog_ui.ui:184
+#: src/ui/speechdialog_ui.ui:188
 #, fuzzy, kde-format
 #| msgid "Fu&ll project"
 msgid "Full project"

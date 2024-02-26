@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-24 00:37+0000\n"
+"POT-Creation-Date: 2024-02-26 00:37+0000\n"
 "PO-Revision-Date: 2024-01-31 01:18+0200\n"
 "Last-Translator: Lasse Liehu <lasse.liehu@iki.fi>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -4888,7 +4888,7 @@ msgstr ""
 "Luo nykyiseen sijaintiin kansion projektikansioon. Helpottaa "
 "lähdetiedostojen hallinnointia. Kansiot voivat olla sisäkkäin."
 
-#: src/bin/bin.cpp:3771 src/dialogs/speechdialog.cpp:48
+#: src/bin/bin.cpp:3771 src/dialogs/speechdialog.cpp:49
 #: src/dialogs/textbasededit.cpp:719 src/monitor/recmanager.cpp:42
 #, kde-format
 msgid "Show log"
@@ -5653,7 +5653,7 @@ msgstr "Vyöhyke %1"
 msgid "Tag %1"
 msgstr "Tunniste %1"
 
-#: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:43
+#: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:44
 #: src/dialogs/textbasededit.cpp:634
 #, kde-format
 msgid "Configure"
@@ -7301,80 +7301,80 @@ msgstr "Lisää projektiin"
 msgid "Open Containing Folder"
 msgstr "Avaa sisältävä kansio"
 
-#: src/dialogs/speechdialog.cpp:42
+#: src/dialogs/speechdialog.cpp:43
 #, kde-format
 msgid "Automatic Subtitling"
 msgstr "Automaattitekstitys"
 
-#: src/dialogs/speechdialog.cpp:49
+#: src/dialogs/speechdialog.cpp:50
 #, kde-format
 msgid "Speech Recognition log"
 msgstr "Puheentunnistusloki"
 
-#: src/dialogs/speechdialog.cpp:85
+#: src/dialogs/speechdialog.cpp:86
 #, kde-format
 msgid "Process"
 msgstr "Käsittely"
 
-#: src/dialogs/speechdialog.cpp:120
+#: src/dialogs/speechdialog.cpp:122
 #, kde-format
 msgid "No audio track available for selected clip"
 msgstr "Ääniraitaa ei ole saatavilla valitulle leikkeelle"
 
-#: src/dialogs/speechdialog.cpp:130
+#: src/dialogs/speechdialog.cpp:132
 #, kde-format
 msgid "Select a clip in timeline to perform analysis"
 msgstr "Valitse leike aikajanalta analysointia varten"
 
-#: src/dialogs/speechdialog.cpp:144
+#: src/dialogs/speechdialog.cpp:146
 #, kde-format
 msgid "No audio track found"
 msgstr "Ääniraitoja ei löytynyt"
 
-#: src/dialogs/speechdialog.cpp:182 src/dialogs/textbasededit.cpp:697
+#: src/dialogs/speechdialog.cpp:184 src/dialogs/textbasededit.cpp:697
 #, kde-format
 msgid "Please install speech recognition models"
 msgstr "Asenna mallit puheentunnistukselle"
 
-#: src/dialogs/speechdialog.cpp:199
+#: src/dialogs/speechdialog.cpp:201
 #: src/pythoninterfaces/abstractpythoninterface.cpp:175
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Checking setup…"
 msgstr "Tarkistetaan asetuksia…"
 
-#: src/dialogs/speechdialog.cpp:204 src/dialogs/textbasededit.cpp:932
+#: src/dialogs/speechdialog.cpp:206 src/dialogs/textbasededit.cpp:932
 #: src/dialogs/textbasededit.cpp:945
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "Määritä puhe tekstiksi."
 
-#: src/dialogs/speechdialog.cpp:211
+#: src/dialogs/speechdialog.cpp:213
 #, kde-format
 msgid "Starting audio export"
 msgstr "Aloitetaan äänen vientiä"
 
-#: src/dialogs/speechdialog.cpp:279
+#: src/dialogs/speechdialog.cpp:281
 #, kde-format
 msgid "Audio export failed"
 msgstr "Äänen vienti epäonnistui"
 
-#: src/dialogs/speechdialog.cpp:305 src/dialogs/textbasededit.cpp:964
+#: src/dialogs/speechdialog.cpp:308 src/dialogs/textbasededit.cpp:964
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "Aloitetaan puheentunnistusta"
 
-#: src/dialogs/speechdialog.cpp:342 src/dialogs/textbasededit.cpp:1127
+#: src/dialogs/speechdialog.cpp:345 src/dialogs/textbasededit.cpp:1127
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "Puheentunnistus keskeytetty."
 
-#: src/dialogs/speechdialog.cpp:348
+#: src/dialogs/speechdialog.cpp:351
 #, kde-format
 msgid "Subtitles imported"
 msgstr "Tekstitykset tuotu"
 
-#: src/dialogs/speechdialog.cpp:351
+#: src/dialogs/speechdialog.cpp:354
 #, kde-format
 msgid "Speech recognition failed"
 msgstr "Puheentunnistus epäonnistui"
@@ -7527,7 +7527,7 @@ msgid "No speech"
 msgstr "Ei puhetta"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
-#: src/dialogs/textbasededit.cpp:620 src/ui/speechdialog_ui.ui:150
+#: src/dialogs/textbasededit.cpp:620 src/ui/speechdialog_ui.ui:69
 #, kde-format
 msgid "Translate to English"
 msgstr "Käännä englanniksi"
@@ -17972,7 +17972,7 @@ msgstr "Arkistoi vain leikkeet aikajanalta"
 #. i18n: ectx: property (format), widget (QProgressBar, job_progress)
 #. i18n: ectx: property (format), widget (QProgressBar, progressBar)
 #: src/ui/archivewidget_ui.ui:143 src/ui/cliptranscode_ui.ui:40
-#: src/ui/speechdialog_ui.ui:112 src/ui/textbasededit_ui.ui:59
+#: src/ui/speechdialog_ui.ui:124 src/ui/textbasededit_ui.ui:59
 #, no-c-format, kde-format
 msgid "%p%"
 msgstr "%p%"
@@ -18118,7 +18118,7 @@ msgstr "Poista nykyinen piste."
 #: src/ui/projectsettings_ui.ui:293 src/ui/projectsettings_ui.ui:571
 #: src/ui/projectsettings_ui.ui:578 src/ui/qtextclip_ui.ui:94
 #: src/ui/renderwidget_ui.ui:997 src/ui/resourcewidget_ui.ui:214
-#: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:95
+#: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:107
 #: src/ui/textbasededit_ui.ui:42 src/ui/textbasededit_ui.ui:71
 #: src/ui/textbasededit_ui.ui:140 src/ui/textbasededit_ui.ui:154
 #: src/ui/textbasededit_ui.ui:171 src/ui/textbasededit_ui.ui:181
@@ -21326,12 +21326,6 @@ msgstr "Lisää tilaa kaikille raidoille"
 msgid "True FFT size:"
 msgstr "Todellinen FFT-koko:"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/speechdialog_ui.ui:27
-#, kde-format
-msgid "Model"
-msgstr "Malli"
-
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_track)
 #: src/ui/speechdialog_ui.ui:34
 #, kde-format
@@ -21339,25 +21333,31 @@ msgid "Timeline zone (selected track)"
 msgstr "Aikajana (valitut raidat)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/speechdialog_ui.ui:157
+#: src/ui/speechdialog_ui.ui:76
 #, kde-format
 msgid "Language"
 msgstr "Kieli"
 
-#. i18n: ectx: property (text), widget (QRadioButton, timeline_clips)
-#: src/ui/speechdialog_ui.ui:167
-#, kde-format
-msgid "Selected clip"
-msgstr "Valittu leike"
-
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_zone)
-#: src/ui/speechdialog_ui.ui:174
+#: src/ui/speechdialog_ui.ui:147
 #, kde-format
 msgid "Timeline zone (all tracks)"
 msgstr "Aikajana (kaikki raidat)"
 
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/ui/speechdialog_ui.ui:157
+#, kde-format
+msgid "Model"
+msgstr "Malli"
+
+#. i18n: ectx: property (text), widget (QRadioButton, timeline_clips)
+#: src/ui/speechdialog_ui.ui:181
+#, kde-format
+msgid "Selected clip"
+msgstr "Valittu leike"
+
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_full)
-#: src/ui/speechdialog_ui.ui:184
+#: src/ui/speechdialog_ui.ui:188
 #, kde-format
 msgid "Full project"
 msgstr "Koko projekti"

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-24 00:37+0000\n"
+"POT-Creation-Date: 2024-02-26 00:37+0000\n"
 "PO-Revision-Date: 2023-08-11 23:48-0300\n"
 "Last-Translator: Geraldo Simiao <geraldosimiao@fedoraproject.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -4924,7 +4924,7 @@ msgstr ""
 "Permite uma melhor organização dos arquivos de mídia. As pastas podem ser "
 "aninhadas."
 
-#: src/bin/bin.cpp:3771 src/dialogs/speechdialog.cpp:48
+#: src/bin/bin.cpp:3771 src/dialogs/speechdialog.cpp:49
 #: src/dialogs/textbasededit.cpp:719 src/monitor/recmanager.cpp:42
 #, kde-format
 msgid "Show log"
@@ -5694,7 +5694,7 @@ msgstr "Área %1"
 msgid "Tag %1"
 msgstr "Etiqueta %1"
 
-#: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:43
+#: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:44
 #: src/dialogs/textbasededit.cpp:634
 #, kde-format
 msgid "Configure"
@@ -7371,44 +7371,44 @@ msgstr "Adicionar ao projeto atual"
 msgid "Open Containing Folder"
 msgstr "Pasta de destino"
 
-#: src/dialogs/speechdialog.cpp:42
+#: src/dialogs/speechdialog.cpp:43
 #, kde-format
 msgid "Automatic Subtitling"
 msgstr "Legendas automáticas"
 
-#: src/dialogs/speechdialog.cpp:49
+#: src/dialogs/speechdialog.cpp:50
 #, kde-format
 msgid "Speech Recognition log"
 msgstr "Log do reconhecimento de fala"
 
-#: src/dialogs/speechdialog.cpp:85
+#: src/dialogs/speechdialog.cpp:86
 #, kde-format
 msgid "Process"
 msgstr "Processar"
 
-#: src/dialogs/speechdialog.cpp:120
+#: src/dialogs/speechdialog.cpp:122
 #, kde-format
 msgid "No audio track available for selected clip"
 msgstr "Nenhuma faixa de áudio disponível para o clipe selecionado"
 
-#: src/dialogs/speechdialog.cpp:130
+#: src/dialogs/speechdialog.cpp:132
 #, fuzzy, kde-format
 #| msgid "Select clips in timeline for the Library"
 msgid "Select a clip in timeline to perform analysis"
 msgstr "Selecione os clipes na linha do tempo para a Biblioteca"
 
-#: src/dialogs/speechdialog.cpp:144
+#: src/dialogs/speechdialog.cpp:146
 #, fuzzy, kde-format
 #| msgid "No previous frame found"
 msgid "No audio track found"
 msgstr "Nenhum quadro previamente encontrado"
 
-#: src/dialogs/speechdialog.cpp:182 src/dialogs/textbasededit.cpp:697
+#: src/dialogs/speechdialog.cpp:184 src/dialogs/textbasededit.cpp:697
 #, kde-format
 msgid "Please install speech recognition models"
 msgstr "Por favor, instale modelos de reconhecimento de fala"
 
-#: src/dialogs/speechdialog.cpp:199
+#: src/dialogs/speechdialog.cpp:201
 #: src/pythoninterfaces/abstractpythoninterface.cpp:175
 #, fuzzy, kde-format
 #| msgid "Checking system"
@@ -7416,38 +7416,38 @@ msgctxt "@label:textbox"
 msgid "Checking setup…"
 msgstr "Checando sistema"
 
-#: src/dialogs/speechdialog.cpp:204 src/dialogs/textbasededit.cpp:932
+#: src/dialogs/speechdialog.cpp:206 src/dialogs/textbasededit.cpp:932
 #: src/dialogs/textbasededit.cpp:945
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "Por favor, configure o sistema de fala para texto."
 
-#: src/dialogs/speechdialog.cpp:211
+#: src/dialogs/speechdialog.cpp:213
 #, kde-format
 msgid "Starting audio export"
 msgstr "Iniciando exportação de áudio"
 
-#: src/dialogs/speechdialog.cpp:279
+#: src/dialogs/speechdialog.cpp:281
 #, kde-format
 msgid "Audio export failed"
 msgstr "Falha na exportação de áudio"
 
-#: src/dialogs/speechdialog.cpp:305 src/dialogs/textbasededit.cpp:964
+#: src/dialogs/speechdialog.cpp:308 src/dialogs/textbasededit.cpp:964
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "Iniciando reconhecimento de fala"
 
-#: src/dialogs/speechdialog.cpp:342 src/dialogs/textbasededit.cpp:1127
+#: src/dialogs/speechdialog.cpp:345 src/dialogs/textbasededit.cpp:1127
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "Reconhecimento de fala interrompido."
 
-#: src/dialogs/speechdialog.cpp:348
+#: src/dialogs/speechdialog.cpp:351
 #, kde-format
 msgid "Subtitles imported"
 msgstr "Legendas importadas"
 
-#: src/dialogs/speechdialog.cpp:351
+#: src/dialogs/speechdialog.cpp:354
 #, kde-format
 msgid "Speech recognition failed"
 msgstr "Reconhecimento de fala falhou"
@@ -7606,7 +7606,7 @@ msgid "No speech"
 msgstr "Nenhuma fala"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
-#: src/dialogs/textbasededit.cpp:620 src/ui/speechdialog_ui.ui:150
+#: src/dialogs/textbasededit.cpp:620 src/ui/speechdialog_ui.ui:69
 #, kde-format
 msgid "Translate to English"
 msgstr "Traduzir para o inglês"
@@ -18444,7 +18444,7 @@ msgstr "Arquivar apenas os clipes de linha do tempo"
 #. i18n: ectx: property (format), widget (QProgressBar, job_progress)
 #. i18n: ectx: property (format), widget (QProgressBar, progressBar)
 #: src/ui/archivewidget_ui.ui:143 src/ui/cliptranscode_ui.ui:40
-#: src/ui/speechdialog_ui.ui:112 src/ui/textbasededit_ui.ui:59
+#: src/ui/speechdialog_ui.ui:124 src/ui/textbasededit_ui.ui:59
 #, fuzzy, no-c-format, kde-format
 #| msgid "%1 %%"
 msgid "%p%"
@@ -18591,7 +18591,7 @@ msgstr "Excluir o ponto atual."
 #: src/ui/projectsettings_ui.ui:293 src/ui/projectsettings_ui.ui:571
 #: src/ui/projectsettings_ui.ui:578 src/ui/qtextclip_ui.ui:94
 #: src/ui/renderwidget_ui.ui:997 src/ui/resourcewidget_ui.ui:214
-#: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:95
+#: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:107
 #: src/ui/textbasededit_ui.ui:42 src/ui/textbasededit_ui.ui:71
 #: src/ui/textbasededit_ui.ui:140 src/ui/textbasededit_ui.ui:154
 #: src/ui/textbasededit_ui.ui:171 src/ui/textbasededit_ui.ui:181
@@ -21877,12 +21877,6 @@ msgstr "Insira espaço em todas as trilhas"
 msgid "True FFT size:"
 msgstr "Tamanho real do FFT:"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/speechdialog_ui.ui:27
-#, kde-format
-msgid "Model"
-msgstr "Modelo"
-
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_track)
 #: src/ui/speechdialog_ui.ui:34
 #, kde-format
@@ -21890,25 +21884,31 @@ msgid "Timeline zone (selected track)"
 msgstr "Zona da linha do tempo (trilha selecionada)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/speechdialog_ui.ui:157
+#: src/ui/speechdialog_ui.ui:76
 #, kde-format
 msgid "Language"
 msgstr "Idioma:"
 
-#. i18n: ectx: property (text), widget (QRadioButton, timeline_clips)
-#: src/ui/speechdialog_ui.ui:167
-#, kde-format
-msgid "Selected clip"
-msgstr "Clipe selecionado"
-
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_zone)
-#: src/ui/speechdialog_ui.ui:174
+#: src/ui/speechdialog_ui.ui:147
 #, kde-format
 msgid "Timeline zone (all tracks)"
 msgstr "Zona da linha do tempo (todas as trilhas)"
 
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/ui/speechdialog_ui.ui:157
+#, kde-format
+msgid "Model"
+msgstr "Modelo"
+
+#. i18n: ectx: property (text), widget (QRadioButton, timeline_clips)
+#: src/ui/speechdialog_ui.ui:181
+#, kde-format
+msgid "Selected clip"
+msgstr "Clipe selecionado"
+
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_full)
-#: src/ui/speechdialog_ui.ui:184
+#: src/ui/speechdialog_ui.ui:188
 #, fuzzy, kde-format
 #| msgid "Fu&ll project"
 msgid "Full project"
