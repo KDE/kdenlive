@@ -4739,11 +4739,16 @@ void TimelineController::urlDropped(QStringList droppedFile, int frame, int tid)
         pCore->window()->showSubtitleTrack();
         importSubtitle(QUrl(droppedFile.first()).toLocalFile());
     } else {
-        finishRecording(QUrl(droppedFile.first()).toLocalFile());
+        addAndInsertFile(QUrl(droppedFile.first()).toLocalFile(), true);
     }
 }
 
 void TimelineController::finishRecording(const QString &recordedFile)
+{
+    addAndInsertFile(recordedFile, false);
+}
+
+void TimelineController::addAndInsertFile(const QString &recordedFile, const bool highlightClip)
 {
     if (recordedFile.isEmpty()) {
         return;
@@ -4751,7 +4756,7 @@ void TimelineController::finishRecording(const QString &recordedFile)
 
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    std::function<void(const QString &)> callBack = [this](const QString &binId) {
+    std::function<void(const QString &)> callBack = [this, highlightClip](const QString &binId) {
         int id = -1;
         if (m_recordTrack == -1) {
             return;
@@ -4760,7 +4765,9 @@ void TimelineController::finishRecording(const QString &recordedFile)
         if (!clip) {
             return;
         }
-        pCore->activeBin()->selectClipById(binId);
+        if (highlightClip) {
+            pCore->activeBin()->selectClipById(binId);
+        }
         qDebug() << "callback " << binId << " " << m_recordTrack << ", MAXIMUM SPACE: " << m_recordStart.second;
         if (m_recordStart.second > 0) {
             // Limited space on track
@@ -4786,7 +4793,11 @@ void TimelineController::finishRecording(const QString &recordedFile)
 
     QString binId =
         ClipCreator::createClipFromFile(recordedFile, targetFolder->clipId(), pCore->projectItemModel(), undo, redo, callBack);
-    pCore->window()->raiseBin();
+
+    if (highlightClip) {
+        pCore->window()->raiseBin();
+    }
+
     if (binId != QStringLiteral("-1")) {
         pCore->pushUndo(undo, redo, i18n("Record audio"));
     }

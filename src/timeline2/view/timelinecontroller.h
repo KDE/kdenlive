@@ -138,6 +138,10 @@ public:
     /** @brief Add recorded file to timeline
      */
     void finishRecording(const QString &recordedFile);
+    /** @brief Add given file to bin, and then insert it at current point in timeline
+        @param highlightClip If true, highlights the newly created clip in the bin as well
+     */
+    void addAndInsertFile(const QString &recordedFile, const bool highlightClip);
     /** @brief Open Kdenlive's config diablog on a defined page and tab
      */
     Q_INVOKABLE void showConfig(int page, int tab);
