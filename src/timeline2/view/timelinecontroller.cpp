@@ -4739,16 +4739,16 @@ void TimelineController::urlDropped(QStringList droppedFile, int frame, int tid)
         pCore->window()->showSubtitleTrack();
         importSubtitle(QUrl(droppedFile.first()).toLocalFile());
     } else {
-        addAndInsertFile(QUrl(droppedFile.first()).toLocalFile(), true);
+        addAndInsertFile(QUrl(droppedFile.first()).toLocalFile(), false, true);
     }
 }
 
 void TimelineController::finishRecording(const QString &recordedFile)
 {
-    addAndInsertFile(recordedFile, false);
+    addAndInsertFile(recordedFile, true, false);
 }
 
-void TimelineController::addAndInsertFile(const QString &recordedFile, const bool highlightClip)
+void TimelineController::addAndInsertFile(const QString &recordedFile, const bool isAudioClip, const bool highlightClip)
 {
     if (recordedFile.isEmpty()) {
         return;
@@ -4783,7 +4783,7 @@ void TimelineController::addAndInsertFile(const QString &recordedFile, const boo
     };
     std::shared_ptr<ProjectItemModel> itemModel = pCore->projectItemModel();
     std::shared_ptr<ProjectFolder> targetFolder = itemModel->getRootFolder();
-    if (itemModel->defaultAudioCaptureFolder() > -1) {
+    if (isAudioClip && itemModel->defaultAudioCaptureFolder() > -1) {
         const QString audioCaptureFolder = QString::number(itemModel->defaultAudioCaptureFolder());
         std::shared_ptr<ProjectFolder> folderItem = itemModel->getFolderByBinId(audioCaptureFolder);
         if (folderItem) {
