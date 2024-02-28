@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-26 00:37+0000\n"
+"POT-Creation-Date: 2024-02-28 00:37+0000\n"
 "PO-Revision-Date: 2023-05-19 18:02+0200\n"
 "Last-Translator: Jannick Alexander Kuhr <opensource@kuhr.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -4208,7 +4208,7 @@ msgid "When selected mutes all other audio tracks."
 msgstr ""
 
 #: src/audiomixer/mixerwidget.cpp:272
-#: src/timeline2/view/timelinecontroller.cpp:4791
+#: src/timeline2/view/timelinecontroller.cpp:4802
 #, kde-format
 msgid "Record audio"
 msgstr "Audio aufnehmen"
@@ -6422,7 +6422,7 @@ msgstr "Hilfsliniendaten exportieren"
 #: src/project/projectmanager.cpp:1748 src/render/renderrequest.cpp:269
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
-#: src/timeline2/view/timelinecontroller.cpp:5062
+#: src/timeline2/view/timelinecontroller.cpp:5073
 #: src/titler/titlewidget.cpp:2296
 #, kde-format
 msgid "Cannot write to file %1"
@@ -11175,7 +11175,7 @@ msgstr "Spur einfügen ..."
 msgid "Fit all Tracks in View"
 msgstr "mit Spur"
 
-#: src/mainwindow.cpp:1845 src/timeline2/view/timelinecontroller.cpp:4832
+#: src/mainwindow.cpp:1845 src/timeline2/view/timelinecontroller.cpp:4843
 #, fuzzy, kde-format
 #| msgid "Paste effects"
 msgid "Master effects"
@@ -11772,7 +11772,7 @@ msgstr ""
 "Kdenlive muss neu gestartet werden, damit die Änderung des Symboldesigns "
 "übernommen wird. Möchten Sie jetzt neu starten?"
 
-#: src/mainwindow.cpp:4646 src/timeline2/view/timelinecontroller.cpp:5045
+#: src/mainwindow.cpp:4646 src/timeline2/view/timelinecontroller.cpp:5056
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "Keine Untertitel im aktuellen Projekt"
@@ -17085,7 +17085,7 @@ msgstr ""
 "ungültig: %1"
 
 #: src/timeline2/view/timelinecontroller.cpp:921
-#: src/timeline2/view/timelinecontroller.cpp:4975
+#: src/timeline2/view/timelinecontroller.cpp:4986
 #, kde-format
 msgid "Could not insert track"
 msgstr "Die Spur kann nicht eingefügt werden"
@@ -17162,7 +17162,7 @@ msgid "No item to edit"
 msgstr "Kein zu bearbeitendes Element"
 
 #: src/timeline2/view/timelinecontroller.cpp:2909
-#: src/timeline2/view/timelinecontroller.cpp:5209
+#: src/timeline2/view/timelinecontroller.cpp:5220
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr ""
@@ -17269,70 +17269,70 @@ msgid ""
 "clips after the current position or choose a different track"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4929
+#: src/timeline2/view/timelinecontroller.cpp:4940
 #, kde-format
 msgid "Expand clip"
 msgstr "Clip erweitern"
 
-#: src/timeline2/view/timelinecontroller.cpp:4932
+#: src/timeline2/view/timelinecontroller.cpp:4943
 #, fuzzy, kde-format
 #| msgid "Adding clips"
 msgid "Could not expand clip"
 msgstr "Clips werden hinzugefügt"
 
-#: src/timeline2/view/timelinecontroller.cpp:4973
+#: src/timeline2/view/timelinecontroller.cpp:4984
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "Spur einfügen"
 msgstr[1] "Spuren einfügen"
 
-#: src/timeline2/view/timelinecontroller.cpp:5048
+#: src/timeline2/view/timelinecontroller.cpp:5059
 #, kde-format
 msgid "Export subtitle file"
 msgstr "Untertiteldatei hinzufügen"
 
-#: src/timeline2/view/timelinecontroller.cpp:5049
+#: src/timeline2/view/timelinecontroller.cpp:5060
 #, kde-format
 msgid "Subtitle File (*.srt)"
 msgstr "Untertiteldatei (*.srt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5079
+#: src/timeline2/view/timelinecontroller.cpp:5090
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
 "feature will probably not work as expected."
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5096
+#: src/timeline2/view/timelinecontroller.cpp:5107
 #, kde-format
 msgid "Show subtitle track"
 msgstr "Untertitelspur anzeigen"
 
-#: src/timeline2/view/timelinecontroller.cpp:5096
+#: src/timeline2/view/timelinecontroller.cpp:5107
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "Untertitelspur ausblenden"
 
-#: src/timeline2/view/timelinecontroller.cpp:5119
+#: src/timeline2/view/timelinecontroller.cpp:5130
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "Untertitelspur entsperren"
 
-#: src/timeline2/view/timelinecontroller.cpp:5119
+#: src/timeline2/view/timelinecontroller.cpp:5130
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "Untertitelspur sperren"
 
-#: src/timeline2/view/timelinecontroller.cpp:5283
-#: src/timeline2/view/timelinecontroller.cpp:5292
+#: src/timeline2/view/timelinecontroller.cpp:5294
+#: src/timeline2/view/timelinecontroller.cpp:5303
 #, fuzzy, kde-format
 #| msgid "Subtitles"
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "Untertitel"
 
-#: src/timeline2/view/timelinecontroller.cpp:5294
+#: src/timeline2/view/timelinecontroller.cpp:5305
 #, fuzzy, kde-format
 #| msgid "Subtitles"
 msgctxt "@item:inlistbox"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-26 00:37+0000\n"
+"POT-Creation-Date: 2024-02-28 00:37+0000\n"
 "PO-Revision-Date: 2024-02-22 12:50+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -4132,7 +4132,7 @@ msgid "When selected mutes all other audio tracks."
 msgstr "عندما تحدد ستكتم كل مسارات الصوت الأخرى."
 
 #: src/audiomixer/mixerwidget.cpp:272
-#: src/timeline2/view/timelinecontroller.cpp:4791
+#: src/timeline2/view/timelinecontroller.cpp:4802
 #, kde-format
 msgid "Record audio"
 msgstr "سجّل صوت"
@@ -6343,7 +6343,7 @@ msgstr "صدر بيانات الأدلة"
 #: src/project/projectmanager.cpp:1748 src/render/renderrequest.cpp:269
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
-#: src/timeline2/view/timelinecontroller.cpp:5062
+#: src/timeline2/view/timelinecontroller.cpp:5073
 #: src/titler/titlewidget.cpp:2296
 #, kde-format
 msgid "Cannot write to file %1"
@@ -10975,7 +10975,7 @@ msgstr "أدرج مسار…"
 msgid "Fit all Tracks in View"
 msgstr "لائم كلّ المسارات في العرض"
 
-#: src/mainwindow.cpp:1845 src/timeline2/view/timelinecontroller.cpp:4832
+#: src/mainwindow.cpp:1845 src/timeline2/view/timelinecontroller.cpp:4843
 #, kde-format
 msgid "Master effects"
 msgstr "التّأثيرات الرئيسة"
@@ -11553,7 +11553,7 @@ msgid ""
 msgstr ""
 "يجب إعادة تشغيل كِيدِينلايف لتطبيق تغيّر سمة الأيقونات. أأعيد التّشغيل الآن؟"
 
-#: src/mainwindow.cpp:4646 src/timeline2/view/timelinecontroller.cpp:5045
+#: src/mainwindow.cpp:4646 src/timeline2/view/timelinecontroller.cpp:5056
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "لا يوجد ترجمات في المشروع الحالي"
@@ -16879,7 +16879,7 @@ msgid "Cannot perform operation while dragging in timeline"
 msgstr "لا يمكن إجراء عمليّة في أثناء السحب في الخط الزمني"
 
 #: src/timeline2/view/timelinecontroller.cpp:921
-#: src/timeline2/view/timelinecontroller.cpp:4975
+#: src/timeline2/view/timelinecontroller.cpp:4986
 #, kde-format
 msgid "Could not insert track"
 msgstr "تعثر إدراج مسار هنا"
@@ -16954,7 +16954,7 @@ msgid "No item to edit"
 msgstr "لا يوجد عنصر لتحريره"
 
 #: src/timeline2/view/timelinecontroller.cpp:2909
-#: src/timeline2/view/timelinecontroller.cpp:5209
+#: src/timeline2/view/timelinecontroller.cpp:5220
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr "يرجى تنشيط مسار لهذه العملية بواسطة النقر على تسميتها"
@@ -17061,17 +17061,17 @@ msgstr ""
 "من المستحيل الالتقاط هنا: يمكن أن يستبدل الالتقاطُ المقاطعَ. يرجى إزالة "
 "المقاطع بعد الموضع الحالي أو اختيار مسار مختلف"
 
-#: src/timeline2/view/timelinecontroller.cpp:4929
+#: src/timeline2/view/timelinecontroller.cpp:4940
 #, kde-format
 msgid "Expand clip"
 msgstr "وسع مقطع"
 
-#: src/timeline2/view/timelinecontroller.cpp:4932
+#: src/timeline2/view/timelinecontroller.cpp:4943
 #, kde-format
 msgid "Could not expand clip"
 msgstr "لا يمكن توسيع المقطع"
 
-#: src/timeline2/view/timelinecontroller.cpp:4973
+#: src/timeline2/view/timelinecontroller.cpp:4984
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
@@ -17082,17 +17082,17 @@ msgstr[3] "أدرج مسارًا"
 msgstr[4] "أدرج مسارًا"
 msgstr[5] "أدرج مسارًا"
 
-#: src/timeline2/view/timelinecontroller.cpp:5048
+#: src/timeline2/view/timelinecontroller.cpp:5059
 #, kde-format
 msgid "Export subtitle file"
 msgstr "صدّر ملفّ ترجمة"
 
-#: src/timeline2/view/timelinecontroller.cpp:5049
+#: src/timeline2/view/timelinecontroller.cpp:5060
 #, kde-format
 msgid "Subtitle File (*.srt)"
 msgstr "ملفّ ترجمة (‎*.srt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5079
+#: src/timeline2/view/timelinecontroller.cpp:5090
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
@@ -17101,34 +17101,34 @@ msgstr ""
 "مطلوب مرشح avfilter.subtitles ، ولكن لم يعثر عليه. من المحتمل ألا تعمل ميزة "
 "الترجمة كما هو متوقع."
 
-#: src/timeline2/view/timelinecontroller.cpp:5096
+#: src/timeline2/view/timelinecontroller.cpp:5107
 #, kde-format
 msgid "Show subtitle track"
 msgstr "أظهر مسار الترجمة"
 
-#: src/timeline2/view/timelinecontroller.cpp:5096
+#: src/timeline2/view/timelinecontroller.cpp:5107
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "اخف مسار الترجمة"
 
-#: src/timeline2/view/timelinecontroller.cpp:5119
+#: src/timeline2/view/timelinecontroller.cpp:5130
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "فك قفل مسار الترجمة"
 
-#: src/timeline2/view/timelinecontroller.cpp:5119
+#: src/timeline2/view/timelinecontroller.cpp:5130
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "اقفل مسار الترجمة"
 
-#: src/timeline2/view/timelinecontroller.cpp:5283
-#: src/timeline2/view/timelinecontroller.cpp:5292
+#: src/timeline2/view/timelinecontroller.cpp:5294
+#: src/timeline2/view/timelinecontroller.cpp:5303
 #, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "الترجمة"
 
-#: src/timeline2/view/timelinecontroller.cpp:5294
+#: src/timeline2/view/timelinecontroller.cpp:5305
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
