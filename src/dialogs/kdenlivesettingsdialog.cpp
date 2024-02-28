@@ -7,6 +7,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettingsdialog.h"
 #include "clipcreationdialog.h"
 #include "core.h"
+#include "dialogs/customcamcorderdialog.h"
 #include "dialogs/profilesdialog.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
@@ -317,6 +318,17 @@ void KdenliveSettingsDialog::initProxyPage()
     connect(m_configProxy.kcfg_generateimageproxy, &QAbstractButton::toggled, m_configProxy.kcfg_proxyimageminsize, &QWidget::setEnabled);
     m_configProxy.kcfg_proxyimageminsize->setEnabled(KdenliveSettings::generateimageproxy());
     loadExternalProxyProfiles();
+    connect(m_configProxy.button_external, &QToolButton::clicked, this, &KdenliveSettingsDialog::configureExternalProxies);
+}
+
+void KdenliveSettingsDialog::configureExternalProxies()
+{
+    // We want to edit the profiles
+    CustomCamcorderDialog cd;
+    if (cd.exec() == QDialog::Accepted) {
+        // reload profiles
+        loadExternalProxyProfiles();
+    }
 }
 
 void KdenliveSettingsDialog::initEnviromentPage()
@@ -1639,8 +1651,7 @@ void KdenliveSettingsDialog::saveCurrentV4lProfile()
 void KdenliveSettingsDialog::loadExternalProxyProfiles()
 {
     // load proxy profiles
-    KConfig conf(QStringLiteral("externalproxies.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
-    KConfigGroup group(&conf, "proxy");
+    KConfigGroup group(KSharedConfig::openConfig(QStringLiteral("externalproxies.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation), "proxy");
     QMap<QString, QString> values = group.entryMap();
     QMapIterator<QString, QString> k(values);
     QString currentItem = KdenliveSettings::externalProxyProfile();
@@ -1655,7 +1666,7 @@ void KdenliveSettingsDialog::loadExternalProxyProfiles()
         }
     }
     if (!currentItem.isEmpty()) {
-        m_configProxy.kcfg_external_proxy_profile->setCurrentIndex(m_configProxy.kcfg_external_proxy_profile->findText(currentItem));
+        m_configProxy.kcfg_external_proxy_profile->setCurrentIndex(m_configProxy.kcfg_external_proxy_profile->findData(currentItem));
     }
     m_configProxy.kcfg_external_proxy_profile->blockSignals(false);
 }

@@ -106,7 +106,9 @@ private Q_SLOTS:
     void slotCheckSttConfig();
     /** @brief fill list of connected monitors */
     void fillMonitorData();
-    
+    /** @brief Open external proxies config dialog */
+    void configureExternalProxies();
+
 private:
     KPageWidgetItem *m_pageMisc;
     KPageWidgetItem *m_pageEnv;

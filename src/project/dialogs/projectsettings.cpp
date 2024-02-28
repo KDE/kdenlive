@@ -11,6 +11,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bin/projectfolder.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
+#include "dialogs/customcamcorderdialog.h"
 #include "dialogs/profilesdialog.h"
 #include "dialogs/wizard.h"
 #include "doc/kdenlivedoc.h"
@@ -108,6 +109,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     connect(external_proxy, &QCheckBox::toggled, external_proxy_profile, &QComboBox::setEnabled);
     connect(external_proxy_profile, &QComboBox::currentTextChanged, this, &ProjectSettings::slotExternalProxyProfileChanged);
     slotExternalProxyChanged(external_proxy->checkState());
+    connect(manage_external, &QToolButton::clicked, this, &ProjectSettings::configureExternalProxies);
 
     QString currentProf;
     if (doc) {
@@ -331,6 +333,17 @@ void ProjectSettings::setExternalProxyProfileData(const QString &profileData)
     le_relPathProxyToOrig->setText(val4);
     le_prefix_clip->setText(val5);
     le_suffix_clip->setText(val6);
+}
+
+void ProjectSettings::configureExternalProxies()
+{
+    // We want to edit the profiles
+    CustomCamcorderDialog cd;
+    if (cd.exec() == QDialog::Accepted) {
+        // reload profiles
+        m_initialExternalProxyProfile = external_proxy_profile->currentData().toString();
+        loadExternalProxyProfiles();
+    }
 }
 
 void ProjectSettings::slotExternalProxyProfileChanged(const QString &)
@@ -929,8 +942,7 @@ void ProjectSettings::loadProxyProfiles()
 void ProjectSettings::loadExternalProxyProfiles()
 {
     // load proxy profiles
-    KConfig conf(QStringLiteral("externalproxies.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
-    KConfigGroup group(&conf, "proxy");
+    KConfigGroup group(KSharedConfig::openConfig(QStringLiteral("externalproxies.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation), "proxy");
     QMap<QString, QString> values = group.entryMap();
     QMapIterator<QString, QString> k(values);
     int ix = -1;
