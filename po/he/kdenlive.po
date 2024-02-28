@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-26 00:37+0000\n"
-"PO-Revision-Date: 2024-02-20 23:21+0200\n"
+"POT-Creation-Date: 2024-02-28 00:37+0000\n"
+"PO-Revision-Date: 2024-02-27 23:16+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -185,7 +185,7 @@ msgstr "היפוך"
 #: data/effects/audiolevelgraph.xml:46
 #, kde-format
 msgid "Draw the points starting with the right channel first."
-msgstr ""
+msgstr "לצייר את הנקודות החל מהערוץ הימני ביותר תחילה."
 
 #: data/effects/audiolevelgraph.xml:49
 #, kde-format
@@ -210,7 +210,7 @@ msgstr "ערוצים"
 #: data/effects/audiolevelgraph.xml:55
 #, kde-format
 msgid "The number of channels to show."
-msgstr ""
+msgstr "מספר הערוצים להצגה."
 
 #: data/effects/audiolevelgraph.xml:58
 #, kde-format
@@ -332,7 +332,7 @@ msgstr "צבע חזית"
 #: data/effects/audiospectrum.xml:19
 #, kde-format
 msgid "The color of the waveform."
-msgstr ""
+msgstr "צבע צורת הגל."
 
 #: data/effects/audiospectrum.xml:23
 #, kde-format
@@ -372,6 +372,9 @@ msgid ""
 "Values < 0 and > 100 will cause loops in the lines. Only applies to line "
 "graph type."
 msgstr ""
+"משפיע על העיקול של קו המתביין בין שתי נקודות. 0.0 = קו ישר בין הנקודות. 100 "
+"= קווים מאוד מעוקלים בין הנקודות. ערכים קטנים מ־0 או גדולים מ־100 גורמים "
+"ללולאות בקווים. תקף רק על סוג תרשים קו."
 
 #: data/effects/audiospectrum.xml:50
 #, kde-format
@@ -730,27 +733,27 @@ msgstr ""
 #: data/effects/dance.xml:38
 #, kde-format
 msgid "Clockwise"
-msgstr ""
+msgstr "עם כיוון השעון"
 
 #: data/effects/dance.xml:41
 #, kde-format
 msgid "Counter Clockwise"
-msgstr ""
+msgstr "נגד כיוון השעון"
 
 #: data/effects/dust.xml:4
 #, kde-format
 msgid "Dust"
-msgstr ""
+msgstr "אבק"
 
 #: data/effects/dust.xml:5
 #, kde-format
 msgid "Add dust and specks to the video, as in old movies"
-msgstr ""
+msgstr "הוספת אבק וחלקיקים לסרטון, כמו בסרטים ישנים"
 
 #: data/effects/dust.xml:8
 #, kde-format
 msgid "Maximal Diameter"
-msgstr ""
+msgstr "קוטר מרבי"
 
 #: data/effects/dust.xml:11
 #, kde-format
@@ -796,7 +799,7 @@ msgstr "שינוי קצב מרבי"
 #: data/effects/dynamictext.xml:4
 #, kde-format
 msgid "Dynamic Text"
-msgstr ""
+msgstr "טקסט דינמי"
 
 #: data/effects/dynamictext.xml:5
 #, kde-format
@@ -1056,7 +1059,7 @@ msgstr "קובץ GPS"
 #: data/effects/gpstext.xml:15
 #, kde-format
 msgid "Time offset in seconds"
-msgstr ""
+msgstr "היסט זמן בשניות"
 
 #: data/effects/gpstext.xml:18
 #, kde-format
@@ -1090,7 +1093,7 @@ msgstr "גרגרים על התמונה"
 #: plugins/sampleplugin/sampleplugin.cpp:70
 #, kde-format
 msgid "Noise"
-msgstr ""
+msgstr "רעש"
 
 #: data/effects/grain.xml:11
 #, kde-format
@@ -1397,17 +1400,17 @@ msgstr "מצב קצוות"
 #: data/effects/mask_start_frei0r_select0r.xml:29
 #, kde-format
 msgid "Red / Hue Delta"
-msgstr ""
+msgstr "הפרש אדום / גוון"
 
 #: data/effects/mask_start_frei0r_select0r.xml:32
 #, kde-format
 msgid "Green / Chroma Delta"
-msgstr ""
+msgstr "הפרש ירוק / כרומה"
 
 #: data/effects/mask_start_frei0r_select0r.xml:35
 #, kde-format
 msgid "Blue / Intensity Delta"
-msgstr ""
+msgstr "הפרש כחול / חוזק"
 
 #: data/effects/mask_start_frei0r_select0r.xml:38
 #, kde-format
@@ -1548,7 +1551,7 @@ msgstr "היפוך התמונה שלך בכל כיוון"
 #: data/effects/mirror.xml:8
 #, kde-format
 msgid "Horizontal,Vertical,Diagonal,X Diagonal,Flip,Flop"
-msgstr ""
+msgstr "אופקי,אנכי,אלכסוני,אלכסוני צולב,היפוך,פליפ-פלופ,דו־יציבי,דלגלגים"
 
 #: data/effects/mirror.xml:9
 #, kde-format
@@ -1627,12 +1630,12 @@ msgstr "אזור"
 #: data/effects/oldfilm.xml:4
 #, kde-format
 msgid "Oldfilm"
-msgstr ""
+msgstr "סרט ישן"
 
 #: data/effects/oldfilm.xml:5
 #, kde-format
 msgid "Moves the Picture up and down and random brightness change"
-msgstr ""
+msgstr "מעלה ומוריד את התמונה ומשנה את הבהירות באופן אקראי"
 
 #: data/effects/oldfilm.xml:8
 #, kde-format
@@ -1642,7 +1645,7 @@ msgstr ""
 #: data/effects/oldfilm.xml:11
 #, no-c-format, kde-format
 msgid "% of picture have a delta"
-msgstr ""
+msgstr "% מהתמונה שיש בו שינוי"
 
 #: data/effects/oldfilm.xml:14
 #, kde-format
@@ -1766,7 +1769,7 @@ msgstr "התמרה"
 #: data/effects/qtblend.xml:40 data/transitions/qtblend.xml:21
 #, kde-format
 msgid "Rotate from center"
-msgstr ""
+msgstr "סיבוב מהמרכז"
 
 #: data/effects/qtcrop.xml:4
 #, kde-format
@@ -1837,12 +1840,12 @@ msgstr ""
 #: data/effects/rboctaveshift.xml:16 data/effects/rbpitchscale.xml:16
 #, kde-format
 msgid "Latency"
-msgstr ""
+msgstr "המתנה"
 
 #: data/effects/rboctaveshift.xml:17 data/effects/rbpitchscale.xml:17
 #, kde-format
 msgid "The amount of delay for each sample from the input to the output."
-msgstr ""
+msgstr "זמן ההמתנה לכל דגימה מהקלט לפלט."
 
 #: data/effects/rbpitchscale.xml:4
 #, fuzzy, kde-format
@@ -1973,7 +1976,7 @@ msgstr "יוצר תמונות תפריט"
 #: data/effects/scratchlines.xml:8
 #, kde-format
 msgid "Width of line"
-msgstr ""
+msgstr "עובי הקו"
 
 #: data/effects/scratchlines.xml:11
 #, kde-format
@@ -2049,6 +2052,8 @@ msgid ""
 "interpolated from the nearest pixels immediately outside of the specified "
 "area."
 msgstr ""
+"החלפת אזור בפיקסלים מבוינים. ערכי הפיקסלים מבוינים מהפיקסלים הקרובים ביותר "
+"מיידית מחוץ לאזור שצוין."
 
 #: data/effects/spot_remover.xml:9
 #, kde-format
@@ -2249,7 +2254,7 @@ msgstr "מכונת כתיבה (לסרטוני כותר)"
 #: data/effects/typewriter.xml:5
 #, kde-format
 msgid "Typewriter effect v0.3.3 To be applied on title clips only."
-msgstr ""
+msgstr "אפקט מכונת כתיבה בגרסה 0.3.3 להחלה על סרטוני כותר בלבד."
 
 #: data/effects/typewriter.xml:8
 #, kde-format
@@ -2290,22 +2295,22 @@ msgstr ""
 #: data/effects/vidstab.xml:8
 #, kde-format
 msgid "Accuracy"
-msgstr ""
+msgstr "דיוק"
 
 #: data/effects/vidstab.xml:9
 #, kde-format
 msgid "Accuracy of Shakiness detection"
-msgstr ""
+msgstr "דיוק זיהוי רעידה"
 
 #: data/effects/vidstab.xml:12
 #, kde-format
 msgid "Shakiness"
-msgstr ""
+msgstr "רעד"
 
 #: data/effects/vidstab.xml:13
 #, kde-format
 msgid "How shaky is the Video"
-msgstr ""
+msgstr "כמה הסרטון רועד"
 
 #: data/effects/vidstab.xml:16
 #, kde-format
@@ -2340,12 +2345,12 @@ msgstr ""
 #: data/effects/vidstab.xml:28
 #, kde-format
 msgid "Max shift"
-msgstr ""
+msgstr "הסטה מרבית"
 
 #: data/effects/vidstab.xml:29
 #, kde-format
 msgid "Max number of pixels to shift (-1 = no limit)"
-msgstr ""
+msgstr "מספר מרבי של פיקסלים להסטה (‎-1 = ללא הגבלה)"
 
 #: data/effects/vidstab.xml:32
 #, kde-format
@@ -2355,7 +2360,7 @@ msgstr "זווית מרבית"
 #: data/effects/vidstab.xml:33
 #, kde-format
 msgid "Max angle to rotate (in rad)"
-msgstr ""
+msgstr "זווית מרבית לסיבוב (ברדיאנים)"
 
 #: data/effects/vidstab.xml:36
 #, kde-format
@@ -2365,38 +2370,38 @@ msgstr "חיתוך"
 #: data/effects/vidstab.xml:37
 #, kde-format
 msgid "Disabled = keep border, enabled = black background"
-msgstr ""
+msgstr "מושבת = להשאיר את המסגרת, מופעל = רקע שחור"
 
 #: data/effects/vidstab.xml:41
 #, kde-format
 msgid "Additional zoom during transform"
-msgstr ""
+msgstr "תקריב נוסף במהלך התמרה"
 
 #: data/effects/vidstab.xml:44
 #, kde-format
 msgid "Optimal Zoom"
-msgstr ""
+msgstr "תקריב מיטבי"
 
 #: data/effects/vidstab.xml:45
 #, kde-format
 msgid ""
 "Automatically determine optimal zoom. 1 - static zoom, 2 - adaptive zoom"
-msgstr ""
+msgstr "לקבוע תקריב מיטבי אוטומטית. 1 - תקריב קבוע, 2 - תקריב מסתגל"
 
 #: data/effects/vidstab.xml:48
 #, kde-format
 msgid "Optimal Zoom Speed"
-msgstr ""
+msgstr "מהירות תקריב מיטבית"
 
 #: data/effects/vidstab.xml:49
 #, kde-format
 msgid "Zoom per frame (used when optimal zoom = 2)"
-msgstr ""
+msgstr "תקריב לתמונית (משמש כאשר התקריב המיטבי = 2)"
 
 #: data/effects/vidstab.xml:52
 #, kde-format
 msgid "Sharpen"
-msgstr ""
+msgstr "חידוד"
 
 #: data/effects/vidstab.xml:53
 #, kde-format
@@ -2411,7 +2416,7 @@ msgstr "הצגת שדות"
 #: data/effects/vidstab.xml:57
 #, kde-format
 msgid "0 = draw nothing 1 or 2 = show fields and transforms"
-msgstr ""
+msgstr "0 = לא לצייר כלום 1 או 2 = להציג שדות והתמרות"
 
 #: data/effects/vidstab.xml:60
 #, kde-format
@@ -2542,7 +2547,7 @@ msgstr ""
 #: data/generators/count.xml:14
 #, kde-format
 msgid "Counter Style"
-msgstr ""
+msgstr "סגנון מונה"
 
 #: data/generators/count.xml:17
 #, kde-format
@@ -2552,7 +2557,7 @@ msgstr ""
 #: data/generators/count.xml:18
 #, kde-format
 msgid "Sound"
-msgstr ""
+msgstr "צליל"
 
 #: data/generators/count.xml:21
 #, fuzzy, kde-format
@@ -2589,7 +2594,7 @@ msgstr "רעש לבן"
 #: data/generators/noise.xml:4
 #, kde-format
 msgid "White noise producer"
-msgstr ""
+msgstr "מייצר רעש לבן"
 
 #: data/kdenliveeffectscategory.rc:6
 #, kde-format
@@ -2609,12 +2614,12 @@ msgstr ""
 #: data/kdenliveeffectscategory.rc:18
 #, kde-format
 msgid "Grain and Noise"
-msgstr ""
+msgstr "גרגרים ורעש"
 
 #: data/kdenliveeffectscategory.rc:22
 #, kde-format
 msgid "Utility"
-msgstr ""
+msgstr "כלי"
 
 #: data/kdenliveeffectscategory.rc:26
 #, kde-format
@@ -2660,7 +2665,7 @@ msgstr "אפקטים של המעבד הגרפי"
 #: data/kdenliveeffectscategory.rc:58
 #, kde-format
 msgid "VR360 and 3D"
-msgstr ""
+msgstr "VR360 ותלת־ממד"
 
 #: data/kdenliveeffectscategory.rc:62
 #, kde-format
@@ -2670,7 +2675,7 @@ msgstr "בדיקות נוספות"
 #: data/kdenliveeffectscategory.rc:66
 #, kde-format
 msgid "To be completed"
-msgstr ""
+msgstr "להשלמה"
 
 #: data/kdenliveeffectscategory.rc:69
 #, kde-format
@@ -3829,9 +3834,9 @@ msgstr "החלת ערך המקום הנוכחי על תמוניות המפתח �
 
 #: src/assets/view/widgets/keyframewidget.cpp:103
 #: src/assets/view/widgets/keyframewidget.cpp:120
-#, fuzzy, kde-format
+#, kde-format
 msgid "Keyframe interpolation"
-msgstr "הכנסה"
+msgstr "ביון תמונית מפתח"
 
 #: src/assets/view/widgets/keyframewidget.cpp:121
 #, kde-kuit-format
@@ -3839,7 +3844,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Keyframe interpolation. This defines which interpolation will be used for "
 "the current keyframe."
-msgstr ""
+msgstr "ביון תמונית מפתח. מגדיר מה הביון שישמש לתמונית המפתח הנוכחית."
 
 #: src/assets/view/widgets/keyframewidget.cpp:143
 #, fuzzy, kde-format
@@ -3933,7 +3938,7 @@ msgstr "הערכים הנוכחיים הועתקו"
 #: src/assets/view/widgets/keywordparamwidget.cpp:32
 #, kde-format
 msgid "<Select a Keyword>"
-msgstr ""
+msgstr "<נא לבחור מילת מפתח>"
 
 #: src/assets/view/widgets/listdependencyparamwidget.cpp:170
 #: src/assets/view/widgets/listparamwidget.cpp:95
@@ -3965,6 +3970,8 @@ msgid ""
 "\n"
 "R:"
 msgstr ""
+"\n"
+"ימ׳:"
 
 #: src/audiomixer/mixermanager.cpp:104
 #, kde-format
@@ -4010,7 +4017,7 @@ msgstr ""
 #, kde-format
 msgctxt "Left"
 msgid "L"
-msgstr ""
+msgstr "שמ׳"
 
 #: src/audiomixer/mixerwidget.cpp:147
 #, kde-format
@@ -4046,7 +4053,7 @@ msgid "When selected mutes all other audio tracks."
 msgstr ""
 
 #: src/audiomixer/mixerwidget.cpp:272
-#: src/timeline2/view/timelinecontroller.cpp:4791
+#: src/timeline2/view/timelinecontroller.cpp:4802
 #, kde-format
 msgid "Record audio"
 msgstr "הקלטת שמע"
@@ -4455,7 +4462,7 @@ msgstr "שכפול הרצף נכשל"
 #: src/bin/bin.cpp:2230
 #, kde-format
 msgid "%1 (copy)"
-msgstr ""
+msgstr "%1 (עותק)"
 
 #: src/bin/bin.cpp:2233 src/bin/bin.cpp:2255 src/bin/bin.cpp:2257
 #, kde-format
@@ -4466,7 +4473,7 @@ msgstr "שכפול סרטון"
 #, kde-format
 msgctxt "append to clip name to indicate a copied idem"
 msgid " (copy)"
-msgstr ""
+msgstr " (עותק)"
 
 #: src/bin/bin.cpp:2382
 #, kde-format
@@ -6179,7 +6186,7 @@ msgstr "ייצוא נתוני קווים מנחים"
 #: src/project/projectmanager.cpp:1748 src/render/renderrequest.cpp:269
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
-#: src/timeline2/view/timelinecontroller.cpp:5062
+#: src/timeline2/view/timelinecontroller.cpp:5073
 #: src/titler/titlewidget.cpp:2296
 #, kde-format
 msgid "Cannot write to file %1"
@@ -10680,7 +10687,7 @@ msgstr "הוספת רצועה…"
 msgid "Fit all Tracks in View"
 msgstr "התאמת כל הרצועות לתצוגה"
 
-#: src/mainwindow.cpp:1845 src/timeline2/view/timelinecontroller.cpp:4832
+#: src/mainwindow.cpp:1845 src/timeline2/view/timelinecontroller.cpp:4843
 #, kde-format
 msgid "Master effects"
 msgstr ""
@@ -11230,7 +11237,7 @@ msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
 msgstr ""
 
-#: src/mainwindow.cpp:4646 src/timeline2/view/timelinecontroller.cpp:5045
+#: src/mainwindow.cpp:4646 src/timeline2/view/timelinecontroller.cpp:5056
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "אין כתוביות במיזם הנוכחי"
@@ -12071,9 +12078,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/monitor/monitormanager.cpp:586 src/ui/renderwidget_ui.ui:598
-#, fuzzy, kde-format
+#, kde-format
 msgid "Interpolation"
-msgstr "הכנסה"
+msgstr "ביון"
 
 #: src/monitor/monitormanager.cpp:587
 #, kde-format
@@ -15471,11 +15478,10 @@ msgid "Insert Clips"
 msgstr "הוספת סרטונים"
 
 #: src/timeline2/model/timelinefunctions.cpp:266
-#, fuzzy, kde-format
-#| msgid "When cutting subtitles:"
+#, kde-format
 msgctxt "@info:status"
 msgid "Cannot cut overlapping subtitles"
-msgstr "בעת חיתוך כתוביות:"
+msgstr "לא ניתן לחתוך כתוביות חופפות"
 
 #: src/timeline2/model/timelinefunctions.cpp:339
 #: src/timeline2/model/timelinefunctions.cpp:358
@@ -16412,7 +16418,7 @@ msgid "Cannot perform operation while dragging in timeline"
 msgstr "לא ניתן לבצע פעולה תוך גרירה בציר הזמן"
 
 #: src/timeline2/view/timelinecontroller.cpp:921
-#: src/timeline2/view/timelinecontroller.cpp:4975
+#: src/timeline2/view/timelinecontroller.cpp:4986
 #, kde-format
 msgid "Could not insert track"
 msgstr "לא ניתן להוסיף רצועה"
@@ -16487,7 +16493,7 @@ msgid "No item to edit"
 msgstr "אין פריט לעריכה"
 
 #: src/timeline2/view/timelinecontroller.cpp:2909
-#: src/timeline2/view/timelinecontroller.cpp:5209
+#: src/timeline2/view/timelinecontroller.cpp:5220
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr ""
@@ -16592,17 +16598,17 @@ msgid ""
 "clips after the current position or choose a different track"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4929
+#: src/timeline2/view/timelinecontroller.cpp:4940
 #, kde-format
 msgid "Expand clip"
 msgstr "הרחבת סרטון"
 
-#: src/timeline2/view/timelinecontroller.cpp:4932
+#: src/timeline2/view/timelinecontroller.cpp:4943
 #, kde-format
 msgid "Could not expand clip"
 msgstr "לא ניתן להרחיב סרטון"
 
-#: src/timeline2/view/timelinecontroller.cpp:4973
+#: src/timeline2/view/timelinecontroller.cpp:4984
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
@@ -16611,17 +16617,17 @@ msgstr[1] "הוספת רצועות"
 msgstr[2] "הוספת רצועות"
 msgstr[3] "הוספת רצועות"
 
-#: src/timeline2/view/timelinecontroller.cpp:5048
+#: src/timeline2/view/timelinecontroller.cpp:5059
 #, kde-format
 msgid "Export subtitle file"
 msgstr "ייצוא קובץ כתוביות"
 
-#: src/timeline2/view/timelinecontroller.cpp:5049
+#: src/timeline2/view/timelinecontroller.cpp:5060
 #, kde-format
 msgid "Subtitle File (*.srt)"
 msgstr "קובץ כתוביות (‎*.srt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5079
+#: src/timeline2/view/timelinecontroller.cpp:5090
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
@@ -16629,34 +16635,34 @@ msgid ""
 msgstr ""
 "המסנן avfilter.subtitles נחוץ אך לא נמצא. יכולת הכתוביות לא תעבוד כמצופה."
 
-#: src/timeline2/view/timelinecontroller.cpp:5096
+#: src/timeline2/view/timelinecontroller.cpp:5107
 #, kde-format
 msgid "Show subtitle track"
 msgstr "הצגת רצועת כתוביות"
 
-#: src/timeline2/view/timelinecontroller.cpp:5096
+#: src/timeline2/view/timelinecontroller.cpp:5107
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "הסתרת רצועת כתוביות"
 
-#: src/timeline2/view/timelinecontroller.cpp:5119
+#: src/timeline2/view/timelinecontroller.cpp:5130
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "שחרור רצועת כתוביות"
 
-#: src/timeline2/view/timelinecontroller.cpp:5119
+#: src/timeline2/view/timelinecontroller.cpp:5130
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "נעילת רצועת כתוביות"
 
-#: src/timeline2/view/timelinecontroller.cpp:5283
-#: src/timeline2/view/timelinecontroller.cpp:5292
+#: src/timeline2/view/timelinecontroller.cpp:5294
+#: src/timeline2/view/timelinecontroller.cpp:5303
 #, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "כתוביות"
 
-#: src/timeline2/view/timelinecontroller.cpp:5294
+#: src/timeline2/view/timelinecontroller.cpp:5305
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
@@ -17064,11 +17070,10 @@ msgid "The following files are missing:"
 msgstr "הקבצים הבאים חסרים:"
 
 #: src/titler/titlewidget.cpp:2648
-#, fuzzy, kde-format
-#| msgid "Start Script"
+#, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
-msgstr "תחילת תסריט"
+msgstr "תחילת אשנב"
 
 #: src/titler/titlewidget.cpp:2649
 #, kde-format
@@ -19386,18 +19391,15 @@ msgstr "הצללה מותאמת אישית"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBold)
 #: src/ui/editsub_ui.ui:454
-#, fuzzy, kde-format
-#| msgctxt "Font style"
-#| msgid "Bold"
+#, kde-format
 msgid "Bold"
 msgstr "מודגש"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkItalic)
 #: src/ui/editsub_ui.ui:461
-#, fuzzy, kde-format
-#| msgid "Italian"
+#, kde-format
 msgid "Italic"
-msgstr "איטלקית"
+msgstr "נטוי"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
 #: src/ui/exportguidesdialog_ui.ui:27
