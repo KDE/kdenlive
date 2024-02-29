@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-21 02:23+0000\n"
-"PO-Revision-Date: 2024-02-17 14:13+0100\n"
+"PO-Revision-Date: 2024-02-21 15:59+0100\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -102,23 +102,23 @@ msgstr "Il colore di sfondo da applicare all'intero fotogramma."
 #: data/effects/audiolevelgraph.xml:17
 #, kde-format
 msgid "Gradient Color 1"
-msgstr "Sfumatura del colore 1"
+msgstr "Gradiente del colore 1"
 
 #: data/effects/audiolevelgraph.xml:18 data/effects/audiolevelgraph.xml:22
 #: data/effects/audiolevelgraph.xml:26
 #, kde-format
 msgid "The color of the waveform gradient."
-msgstr "Il colore della sfumatura della forma d'onda."
+msgstr "Il colore del gradiente della forma d'onda."
 
 #: data/effects/audiolevelgraph.xml:21
 #, kde-format
 msgid "Gradient Color 2"
-msgstr "Sfumatura del colore 2"
+msgstr "Gradiente del colore 2"
 
 #: data/effects/audiolevelgraph.xml:25
 #, kde-format
 msgid "Gradient Color 3"
-msgstr "Sfumatura del colore 3"
+msgstr "Gradiente del colore 3"
 
 #: data/effects/audiolevelgraph.xml:29 data/effects/audiospectrum.xml:22
 #: data/effects/audiowaveform.xml:13
@@ -197,12 +197,12 @@ msgstr "Verticale,Orizzontale"
 #: data/effects/audiolevelgraph.xml:50
 #, kde-format
 msgid "Gradient Orientation"
-msgstr "Orientazione della sfumatura"
+msgstr "Orientazione del gradiente"
 
 #: data/effects/audiolevelgraph.xml:51
 #, kde-format
 msgid "Direction of the color gradient."
-msgstr "Direzione della sfumatura del colore."
+msgstr "Direzione del gradiente del colore."
 
 #: data/effects/audiolevelgraph.xml:54 data/kdenliveeffectscategory.rc:85
 #, kde-format
@@ -15849,7 +15849,7 @@ msgstr "Disegna assi"
 #: src/scopes/colorscopes/rgbparade.cpp:34
 #, kde-format
 msgid "Gradient reference line"
-msgstr "Linea di riferimento della sfumatura"
+msgstr "Linea di riferimento del gradiente"
 
 #: src/scopes/colorscopes/rgbparadegenerator.cpp:164
 #: src/scopes/colorscopes/rgbparadegenerator.cpp:170
@@ -17404,7 +17404,7 @@ msgstr "Nessun flusso disponibile"
 #: src/titler/titlewidget.cpp:3332 src/titler/titlewidget.cpp:3335
 #, kde-format
 msgid "Gradient %1"
-msgstr "Sfumatura %1"
+msgstr "Gradiente %1"
 
 #: src/titler/titledocument.cpp:384
 #, kde-format
@@ -17789,7 +17789,7 @@ msgstr "Termina Viewport"
 #: src/titler/titlewidget.cpp:3365
 #, kde-format
 msgid "Gradient"
-msgstr "Sfumatura"
+msgstr "Gradiente"
 
 #: src/titler/unicodedialog.cpp:77
 #, kde-format
@@ -21797,7 +21797,7 @@ msgstr "Interlinea:"
 #: src/ui/titlewidget_ui.ui:880 src/ui/titlewidget_ui.ui:1282
 #, kde-format
 msgid "&Gradient:"
-msgstr "&Sfumatura:"
+msgstr "&Gradiente:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, plain_color)
 #. i18n: ectx: property (text), widget (QRadioButton, plain_rect)
