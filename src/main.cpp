@@ -44,6 +44,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QIcon>
 #include <QProcess>
 #include <QQmlEngine>
+#include <QQuickStyle>
 #include <QQuickWindow>
 #include <QResource>
 #include <QSplashScreen>
@@ -109,6 +110,11 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts, true);
 
     QApplication app(argc, argv);
+
+    // Default to org.kde.desktop style unless the user forces another style
+    if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE")) {
+        QQuickStyle::setStyle(QStringLiteral("org.kde.desktop"));
+    }
 
     // Try to detect package type
     QString packageType;
