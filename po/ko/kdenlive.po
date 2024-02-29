@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-28 00:37+0000\n"
+"POT-Creation-Date: 2024-02-29 00:37+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -2776,7 +2776,7 @@ msgid "Noise Reduction and Audio Restoration"
 msgstr "잡음 감소와 오디오 복원"
 
 #: data/kdenliveeffectscategory.rc:88
-#: src/dialogs/kdenlivesettingsdialog.cpp:120 src/mainwindow.cpp:1411
+#: src/dialogs/kdenlivesettingsdialog.cpp:121 src/mainwindow.cpp:1411
 #: src/scopes/colorscopes/vectorscope.cpp:71
 #, kde-format
 msgid "Tools"
@@ -3105,6 +3105,7 @@ msgstr "되돌리기"
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManageSubtitles_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ClipJobManager_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ClipTranscode_UI)
+#. i18n: ectx: property (windowTitle), widget (QDialog, CustomCamcorderProxy_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, SpeechDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ArchiveWidget_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, BackupDialog_UI)
@@ -3112,11 +3113,12 @@ msgstr "되돌리기"
 #: src/ui/backupdialog_ui.ui:18 src/ui/clipjobmanager_ui.ui:18
 #: src/ui/clipspeed_ui.ui:18 src/ui/clipstabilize_ui.ui:18
 #: src/ui/cliptranscode_ui.ui:18 src/ui/colorclip_ui.ui:18
-#: src/ui/customjobinterface_ui.ui:18 src/ui/gradientedit_ui.ui:18
-#: src/ui/import_subtitle_ui.ui:18 src/ui/manageencodingprofile_ui.ui:18
-#: src/ui/managesubtitles_ui.ui:18 src/ui/newtimeline_ui.ui:18
-#: src/ui/qtextclip_ui.ui:18 src/ui/speechdialog_ui.ui:18
-#: src/ui/testproxy_ui.ui:18 src/ui/transcodeseekable_ui.ui:18
+#: src/ui/customcamcorderproxy_ui.ui:18 src/ui/customjobinterface_ui.ui:18
+#: src/ui/gradientedit_ui.ui:18 src/ui/import_subtitle_ui.ui:18
+#: src/ui/manageencodingprofile_ui.ui:18 src/ui/managesubtitles_ui.ui:18
+#: src/ui/newtimeline_ui.ui:18 src/ui/qtextclip_ui.ui:18
+#: src/ui/speechdialog_ui.ui:18 src/ui/testproxy_ui.ui:18
+#: src/ui/transcodeseekable_ui.ui:18
 #, kde-format
 msgid "Dialog"
 msgstr "대화 상자"
@@ -3640,7 +3642,8 @@ msgid "Deletes the currently selected preset."
 msgstr "선택한 음성 모델 삭제"
 
 #: src/assets/view/assetparameterview.cpp:329
-#: src/dialogs/kdenlivesettingsdialog.cpp:1403
+#: src/dialogs/customcamcorderdialog.cpp:131
+#: src/dialogs/kdenlivesettingsdialog.cpp:1415
 #, fuzzy, kde-format
 #| msgid "Enter preset name"
 msgctxt "@title:window"
@@ -3648,7 +3651,8 @@ msgid "Enter Preset Name"
 msgstr "사전 설정 이름 입력"
 
 #: src/assets/view/assetparameterview.cpp:329
-#: src/dialogs/kdenlivesettingsdialog.cpp:1403
+#: src/dialogs/customcamcorderdialog.cpp:133
+#: src/dialogs/kdenlivesettingsdialog.cpp:1415
 #, fuzzy, kde-format
 #| msgid "Enter the name of this preset"
 msgid "Enter the name of this preset:"
@@ -4270,7 +4274,7 @@ msgstr "이름"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
 #: src/bin/bin.cpp:1283 src/bin/projectitemmodel.cpp:315
-#: src/project/dialogs/projectsettings.cpp:248 src/ui/managecache_ui.ui:369
+#: src/project/dialogs/projectsettings.cpp:250 src/ui/managecache_ui.ui:369
 #, kde-format
 msgid "Date"
 msgstr "날짜"
@@ -4696,7 +4700,7 @@ msgstr "재생 목록"
 msgid "Sequences"
 msgstr "이미지 시퀀스"
 
-#: src/bin/bin.cpp:2464 src/project/dialogs/projectsettings.cpp:216
+#: src/bin/bin.cpp:2464 src/project/dialogs/projectsettings.cpp:218
 #, kde-format
 msgid "Title"
 msgstr "타이틀"
@@ -5474,7 +5478,7 @@ msgstr "마커 추가"
 #. i18n: ectx: Menu (subtitles)
 #: src/bin/model/subtitlemodel.cpp:80 src/core.cpp:687 src/kdenliveui.rc:30
 #: src/mainwindow.cpp:290 src/project/dialogs/archivewidget.cpp:97
-#: src/project/dialogs/projectsettings.cpp:423
+#: src/project/dialogs/projectsettings.cpp:436
 #, kde-format
 msgid "Subtitles"
 msgstr "자막"
@@ -6223,6 +6227,38 @@ msgid ""
 "%1 ?"
 msgstr ""
 
+#: src/dialogs/customcamcorderdialog.cpp:29
+#, fuzzy, kde-format
+#| msgid "Compare proxy profile"
+msgid "Edit Custom Camcorder Proxy Profiles"
+msgstr "프록시 프로필 비교"
+
+#: src/dialogs/customcamcorderdialog.cpp:36
+#: src/dialogs/customcamcorderdialog.cpp:198
+#, kde-format
+msgid "You can input several profiles in a preset, separated by a semicolon"
+msgstr ""
+
+#: src/dialogs/customcamcorderdialog.cpp:132
+#, fuzzy, kde-format
+#| msgid "File already exists"
+msgid "Preset already exists, enter a new name:"
+msgstr "파일이 이미 존재함"
+
+#: src/dialogs/customcamcorderdialog.cpp:158
+#, kde-format
+msgid ""
+"This will delete all custom camcorder profiles and reset values to the "
+"default settings"
+msgstr ""
+
+#: src/dialogs/customcamcorderdialog.cpp:190
+#, kde-format
+msgid ""
+"You are using multiple presets in one profile, ensure you have the same "
+"count of semicolon in each parameter. This profile will not be saved."
+msgstr ""
+
 #: src/dialogs/encodingprofilesdialog.cpp:51
 #, kde-format
 msgctxt "@title:window"
@@ -6230,7 +6266,7 @@ msgid "Manage Encoding Profiles"
 msgstr "인코딩 프로필 관리"
 
 #: src/dialogs/encodingprofilesdialog.cpp:52
-#: src/dialogs/kdenlivesettingsdialog.cpp:314
+#: src/dialogs/kdenlivesettingsdialog.cpp:315
 #: src/project/dialogs/archivewidget.cpp:92
 #, kde-format
 msgid "Proxy Clips"
@@ -6306,7 +6342,7 @@ msgstr ""
 
 #: src/dialogs/encodingprofilesdialog.cpp:259
 #: src/dialogs/encodingprofilesdialog.cpp:348
-#: src/project/dialogs/projectsettings.cpp:885
+#: src/project/dialogs/projectsettings.cpp:898
 #, fuzzy, kde-format
 #| msgid "Automatic"
 msgid "Automatic (%1)"
@@ -6314,16 +6350,16 @@ msgstr "자동"
 
 #: src/dialogs/encodingprofilesdialog.cpp:261
 #: src/dialogs/encodingprofilesdialog.cpp:350
-#: src/dialogs/kdenlivesettingsdialog.cpp:682
-#: src/project/dialogs/projectsettings.cpp:887
+#: src/dialogs/kdenlivesettingsdialog.cpp:694
+#: src/project/dialogs/projectsettings.cpp:900
 #: src/transitions/view/transitionstackview.cpp:37
 #, kde-format
 msgid "Automatic"
 msgstr "자동"
 
 #: src/dialogs/encodingprofilesdialog.cpp:329
-#: src/project/dialogs/projectsettings.cpp:922
-#: src/project/dialogs/projectsettings.cpp:953
+#: src/project/dialogs/projectsettings.cpp:935
+#: src/project/dialogs/projectsettings.cpp:965
 #, kde-format
 msgid "Current Settings"
 msgstr "현재 설정"
@@ -6489,233 +6525,233 @@ msgstr "디코딩 스레드 수"
 msgid "Import Subtitle"
 msgstr "자막 가져오기"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:116 src/mainwindow.cpp:3878
+#: src/dialogs/kdenlivesettingsdialog.cpp:117 src/mainwindow.cpp:3878
 #, kde-format
 msgid "Timeline"
 msgstr "타임라인"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:126
+#: src/dialogs/kdenlivesettingsdialog.cpp:127
 #, fuzzy, kde-format
 #| msgid "Color range"
 msgid "Colors and Guides"
 msgstr "색상 범위"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:133
+#: src/dialogs/kdenlivesettingsdialog.cpp:134
 #, kde-format
 msgid "Speech To Text"
 msgstr "받아쓰기"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:137
+#: src/dialogs/kdenlivesettingsdialog.cpp:138
 #, kde-format
 msgid "Playback"
 msgstr "재생"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:147
+#: src/dialogs/kdenlivesettingsdialog.cpp:148
 #, kde-format
 msgid "Capture"
 msgstr "캡처"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:227
+#: src/dialogs/kdenlivesettingsdialog.cpp:228
 #: src/effects/effectlist/model/effecttreemodel.cpp:61
 #, kde-format
 msgid "Misc"
 msgstr "기타"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:251
-#: src/dialogs/kdenlivesettingsdialog.cpp:792
+#: src/dialogs/kdenlivesettingsdialog.cpp:252
+#: src/dialogs/kdenlivesettingsdialog.cpp:804
 #: src/doc/documentvalidator.cpp:2250
 #: src/transitions/transitionsrepository.cpp:174
 #, kde-format
 msgid "auto"
 msgstr "자동"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:284
+#: src/dialogs/kdenlivesettingsdialog.cpp:285
 #, fuzzy, kde-format
 #| msgid "Select the default profile (preset)"
 msgid "Select the Default Profile (preset)"
 msgstr "기본 프로필(사전 설정) 선택"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:305
+#: src/dialogs/kdenlivesettingsdialog.cpp:306
 #, kde-format
 msgid "Project Defaults"
 msgstr "프로젝트 기본값"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:338
-#: src/dialogs/kdenlivesettingsdialog.cpp:362
+#: src/dialogs/kdenlivesettingsdialog.cpp:350
+#: src/dialogs/kdenlivesettingsdialog.cpp:374
 #, fuzzy, kde-format
 #| msgid "Use default folder"
 msgid "Use default folder: %1"
 msgstr "기본 폴더 사용"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:340
-#: src/dialogs/kdenlivesettingsdialog.cpp:364
-#: src/dialogs/kdenlivesettingsdialog.cpp:1047
-#: src/dialogs/kdenlivesettingsdialog.cpp:1048
-#: src/dialogs/kdenlivesettingsdialog.cpp:1057
-#: src/dialogs/kdenlivesettingsdialog.cpp:1058
+#: src/dialogs/kdenlivesettingsdialog.cpp:352
+#: src/dialogs/kdenlivesettingsdialog.cpp:376
+#: src/dialogs/kdenlivesettingsdialog.cpp:1059
+#: src/dialogs/kdenlivesettingsdialog.cpp:1060
+#: src/dialogs/kdenlivesettingsdialog.cpp:1069
+#: src/dialogs/kdenlivesettingsdialog.cpp:1070
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Always use project folder: %1"
 msgstr "프로젝트 폴더 사용"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:342
-#: src/dialogs/kdenlivesettingsdialog.cpp:366
-#: src/dialogs/kdenlivesettingsdialog.cpp:1054
-#: src/dialogs/kdenlivesettingsdialog.cpp:1055
+#: src/dialogs/kdenlivesettingsdialog.cpp:354
+#: src/dialogs/kdenlivesettingsdialog.cpp:378
+#: src/dialogs/kdenlivesettingsdialog.cpp:1066
+#: src/dialogs/kdenlivesettingsdialog.cpp:1067
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Always use active project folder"
 msgstr "프로젝트 폴더 사용"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:379
+#: src/dialogs/kdenlivesettingsdialog.cpp:391
 #, kde-format
 msgid "Environment"
 msgstr "환경"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:415
+#: src/dialogs/kdenlivesettingsdialog.cpp:427
 #, kde-format
 msgid "Capture is not yet available on Mac OS X."
 msgstr "Mac OS X에서는 캡처를 사용할 수 없습니다."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:425
+#: src/dialogs/kdenlivesettingsdialog.cpp:437
 #, kde-format
 msgid "Mono (1 channel)"
 msgstr "모노(1채널)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:426
+#: src/dialogs/kdenlivesettingsdialog.cpp:438
 #, kde-format
 msgid "Stereo (2 channels)"
 msgstr "스테레오(2채널)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:433
+#: src/dialogs/kdenlivesettingsdialog.cpp:445
 #, kde-format
 msgid "44100 Hz"
 msgstr "44100 Hz"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:434
+#: src/dialogs/kdenlivesettingsdialog.cpp:446
 #, kde-format
 msgid "48000 Hz"
 msgstr "48000 Hz"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:483
+#: src/dialogs/kdenlivesettingsdialog.cpp:495
 #, kde-format
 msgid "JogShuttle"
 msgstr "조그셔틀"
 
 #. i18n: ectx: Menu (transcoders)
-#: src/dialogs/kdenlivesettingsdialog.cpp:490 src/dialogs/timeremap.cpp:1669
+#: src/dialogs/kdenlivesettingsdialog.cpp:502 src/dialogs/timeremap.cpp:1669
 #: src/kdenliveui.rc:88 src/mltcontroller/clippropertiescontroller.cpp:994
 #: src/project/transcodeseek.cpp:41 src/project/transcodeseek.cpp:54
 #, kde-format
 msgid "Transcode"
 msgstr "트랜스코드"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:520
+#: src/dialogs/kdenlivesettingsdialog.cpp:532
 #, kde-format
 msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
 msgstr ""
 "GPU 처리에는 Movit 및 Rtaudio 모듈을 포함하여 컴파일된 MLT가 필요합니다"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:689
+#: src/dialogs/kdenlivesettingsdialog.cpp:701
 #, kde-format
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:690
-#: src/dialogs/kdenlivesettingsdialog.cpp:743
+#: src/dialogs/kdenlivesettingsdialog.cpp:702
+#: src/dialogs/kdenlivesettingsdialog.cpp:755
 #, kde-format
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:691
+#: src/dialogs/kdenlivesettingsdialog.cpp:703
 #, kde-format
 msgid "PipeWire"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:692
+#: src/dialogs/kdenlivesettingsdialog.cpp:704
 #, kde-format
 msgid "OSS"
 msgstr "OSS"
 
 #. i18n("OSS with DMA access"), "dma");
-#: src/dialogs/kdenlivesettingsdialog.cpp:694
+#: src/dialogs/kdenlivesettingsdialog.cpp:706
 #, fuzzy, kde-format
 #| msgid "Esound daemon"
 msgid "Esound Daemon"
 msgstr "Esound 데몬"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:695
+#: src/dialogs/kdenlivesettingsdialog.cpp:707
 #, fuzzy, kde-format
 #| msgid "ARTS daemon"
 msgid "ARTS Daemon"
 msgstr "ARTS 데몬"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/kdenlivesettingsdialog.cpp:707
-#: src/dialogs/kdenlivesettingsdialog.cpp:708 src/mainwindow.cpp:197
+#: src/dialogs/kdenlivesettingsdialog.cpp:719
+#: src/dialogs/kdenlivesettingsdialog.cpp:720 src/mainwindow.cpp:197
 #: src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
 msgstr "기본값"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:759
+#: src/dialogs/kdenlivesettingsdialog.cpp:771
 #, kde-format
 msgid "SDL"
 msgstr "SDL"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:771
+#: src/dialogs/kdenlivesettingsdialog.cpp:783
 #, kde-format
 msgid "RtAudio"
 msgstr "RtAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:795 src/mainwindow.cpp:338
+#: src/dialogs/kdenlivesettingsdialog.cpp:807 src/mainwindow.cpp:338
 #, kde-format
 msgid "Monitor %1"
 msgstr "모니터 %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:879
+#: src/dialogs/kdenlivesettingsdialog.cpp:891
 #, kde-format
 msgid "Enter path to the audio editing application"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:887
+#: src/dialogs/kdenlivesettingsdialog.cpp:899
 #, kde-format
 msgid "Enter path to the image editing application"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:895 src/glaxnimatelauncher.cpp:30
+#: src/dialogs/kdenlivesettingsdialog.cpp:907 src/glaxnimatelauncher.cpp:30
 #, fuzzy, kde-format
 #| msgid "Enter url for the new dictionary"
 msgid "Enter path to the Glaxnimate application"
 msgstr "새 사전의 URL 입력"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:978
-#: src/dialogs/kdenlivesettingsdialog.cpp:996
-#: src/project/dialogs/projectsettings.cpp:519
+#: src/dialogs/kdenlivesettingsdialog.cpp:990
+#: src/dialogs/kdenlivesettingsdialog.cpp:1008
+#: src/project/dialogs/projectsettings.cpp:532
 #, kde-format
 msgid "Please select a video profile"
 msgstr "동영상 프로필을 선택하십시오"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1258
+#: src/dialogs/kdenlivesettingsdialog.cpp:1270
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr "이 설정을 변경하려면 Kdenlive를 다시 시작해야 합니다"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1406
+#: src/dialogs/kdenlivesettingsdialog.cpp:1418
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "해당 이름을 가진 프로필이 이미 있습니다"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1540
+#: src/dialogs/kdenlivesettingsdialog.cpp:1552
 #, kde-format
 msgid "Current settings"
 msgstr "현재 설정"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1578
-#: src/dialogs/kdenlivesettingsdialog.cpp:1614
-#: src/dialogs/kdenlivesettingsdialog.cpp:1631
+#: src/dialogs/kdenlivesettingsdialog.cpp:1590
+#: src/dialogs/kdenlivesettingsdialog.cpp:1626
+#: src/dialogs/kdenlivesettingsdialog.cpp:1643
 #: src/mltcontroller/clippropertiescontroller.cpp:540
 #: src/mltcontroller/clippropertiescontroller.cpp:1374
 #: src/project/dialogs/profilewidget.cpp:111 src/ui/editrenderpreset_ui.ui:220
@@ -6724,25 +6760,25 @@ msgstr "현재 설정"
 msgid "Progressive"
 msgstr "프로그레시브"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1763
+#: src/dialogs/kdenlivesettingsdialog.cpp:1774
 #, fuzzy, kde-format
 #| msgid "Set the path for MLT environment"
 msgid "Setting up virtual environment…"
 msgstr "MLT 환경 경로 설정"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1765
+#: src/dialogs/kdenlivesettingsdialog.cpp:1776
 #, kde-format
 msgid "Disabling virtual environment"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1782
+#: src/dialogs/kdenlivesettingsdialog.cpp:1793
 #, fuzzy, kde-format
 #| msgid "Set the path for MLT environment"
 msgctxt "@label:textbox"
 msgid "Removing the virtual environment folder."
 msgstr "MLT 환경 경로 설정"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1787
+#: src/dialogs/kdenlivesettingsdialog.cpp:1798
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "No items found."
@@ -6750,24 +6786,24 @@ msgctxt "@label:textbox"
 msgid "No python venv found"
 msgstr "항목을 찾을 수 없습니다."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1790
+#: src/dialogs/kdenlivesettingsdialog.cpp:1801
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Failed to remove the virtual environment folder."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1795
+#: src/dialogs/kdenlivesettingsdialog.cpp:1806
 #, kde-format
 msgid "Probing..."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1850
-#: src/dialogs/kdenlivesettingsdialog.cpp:2042
+#: src/dialogs/kdenlivesettingsdialog.cpp:1861
+#: src/dialogs/kdenlivesettingsdialog.cpp:2053
 #, kde-format
 msgid "Please add a speech model."
 msgstr "음성 모델을 추가하십시오."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1883
+#: src/dialogs/kdenlivesettingsdialog.cpp:1894
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
@@ -6776,29 +6812,29 @@ msgstr ""
 "음성 모델 다운로드 위치: <a href=\"https://alphacephei.com/vosk/models"
 "\">https://alphacephei.com/vosk/models</a>"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1924
+#: src/dialogs/kdenlivesettingsdialog.cpp:1935
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "새 사전의 URL 입력"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1930
+#: src/dialogs/kdenlivesettingsdialog.cpp:1941
 #, fuzzy, kde-format
 #| msgid "Downloading model..."
 msgid "Downloading model…"
 msgstr "모델 다운로드 중..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1940
+#: src/dialogs/kdenlivesettingsdialog.cpp:1951
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr "사용자 정의 폴더 모델은 삭제할 수 없습니다. 수동으로 삭제하십시오."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1946
-#: src/dialogs/kdenlivesettingsdialog.cpp:2005
+#: src/dialogs/kdenlivesettingsdialog.cpp:1957
+#: src/dialogs/kdenlivesettingsdialog.cpp:2016
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "사전 폴더에 접근할 수 없습니다."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1955
+#: src/dialogs/kdenlivesettingsdialog.cpp:1966
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -6807,23 +6843,23 @@ msgstr ""
 "폴더 삭제:\n"
 "%1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1979
+#: src/dialogs/kdenlivesettingsdialog.cpp:1990
 #, kde-format
 msgid "Download error"
 msgstr "다운로드 오류"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1984
+#: src/dialogs/kdenlivesettingsdialog.cpp:1995
 #, kde-format
 msgid "Download error %1"
 msgstr "다운로드 오류 %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2012
+#: src/dialogs/kdenlivesettingsdialog.cpp:2023
 #, fuzzy, kde-format
 #| msgid "Extracting archive..."
 msgid "Extracting archive…"
 msgstr "압축 푸는 중..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2019
+#: src/dialogs/kdenlivesettingsdialog.cpp:2030
 #, kde-format
 msgid "New dictionary installed."
 msgstr "새 사전이 설치되었습니다."
@@ -10072,7 +10108,7 @@ msgstr "시간 리매핑"
 #. i18n: ectx: property (text), widget (KSqueezedTextLabel, guideslist_label)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
 #: src/mainwindow.cpp:293 src/ui/guideslist_ui.ui:126
-#: src/ui/projectsettings_ui.ui:529
+#: src/ui/projectsettings_ui.ui:547
 #, fuzzy, kde-format
 #| msgid "&Guides"
 msgid "Guides"
@@ -12011,14 +12047,14 @@ msgstr "채널 복사"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
 #: src/mltcontroller/clippropertiescontroller.cpp:859
-#: src/ui/projectsettings_ui.ui:556
+#: src/ui/projectsettings_ui.ui:574
 #, kde-format
 msgid "1"
 msgstr "1"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
 #: src/mltcontroller/clippropertiescontroller.cpp:860
-#: src/ui/projectsettings_ui.ui:561
+#: src/ui/projectsettings_ui.ui:579
 #, kde-format
 msgid "2"
 msgstr "2"
@@ -12106,7 +12142,7 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/mltcontroller/clippropertiescontroller.cpp:1033
-#: src/project/dialogs/projectsettings.cpp:851 src/ui/projectsettings_ui.ui:534
+#: src/project/dialogs/projectsettings.cpp:864 src/ui/projectsettings_ui.ui:552
 #, kde-format
 msgid "Metadata"
 msgstr "메타데이터"
@@ -12264,7 +12300,7 @@ msgstr "분석 데이터 저장"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1603
 #: src/mltcontroller/clippropertiescontroller.cpp:1616
-#: src/project/dialogs/projectsettings.cpp:789
+#: src/project/dialogs/projectsettings.cpp:802
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "텍스트 파일 (*.txt)"
@@ -13034,7 +13070,7 @@ msgid "Created by <a href=\"%1\">"
 msgstr "작성: <a href=\"%1\">"
 
 #: src/onlineresources/resourcewidget.cpp:393
-#: src/project/dialogs/projectsettings.cpp:223
+#: src/project/dialogs/projectsettings.cpp:225
 #, kde-format
 msgid "Author"
 msgstr "작성자"
@@ -13920,68 +13956,68 @@ msgstr "위쪽 필드 우선"
 msgid "Field order: %1"
 msgstr "필드 순서"
 
-#: src/project/dialogs/projectsettings.cpp:71
+#: src/project/dialogs/projectsettings.cpp:72
 #, kde-format
 msgid "Select the profile (preset) of the project"
 msgstr "프로젝트의 프로필(사전 설정) 선택"
 
-#: src/project/dialogs/projectsettings.cpp:74
+#: src/project/dialogs/projectsettings.cpp:75
 #, fuzzy, kde-format
 #| msgid "Default"
 msgid "Default: %1"
 msgstr "기본값"
 
-#: src/project/dialogs/projectsettings.cpp:141
+#: src/project/dialogs/projectsettings.cpp:143
 #, kde-format
 msgid "Cache Data"
 msgstr "데이터 캐시"
 
-#: src/project/dialogs/projectsettings.cpp:190
+#: src/project/dialogs/projectsettings.cpp:192
 #, kde-format
 msgid "Show default profile parameters"
 msgstr "기본 프로필 인자 표시"
 
-#: src/project/dialogs/projectsettings.cpp:192
+#: src/project/dialogs/projectsettings.cpp:194
 #, kde-format
 msgid "Manage proxy profiles"
 msgstr "프록시 프로필 관리"
 
-#: src/project/dialogs/projectsettings.cpp:194
+#: src/project/dialogs/projectsettings.cpp:196
 #, kde-format
 msgid "Compare proxy profiles efficiency"
 msgstr "프록시 파일 효율성 비교"
 
-#: src/project/dialogs/projectsettings.cpp:197
+#: src/project/dialogs/projectsettings.cpp:199
 #, kde-format
 msgid "Select default proxy profile"
 msgstr "기본 프록시 프로필 선택"
 
-#: src/project/dialogs/projectsettings.cpp:204
+#: src/project/dialogs/projectsettings.cpp:206
 #, kde-format
 msgid "Select camcorder profile"
 msgstr "캠코더 프로필 선택"
 
-#: src/project/dialogs/projectsettings.cpp:229
+#: src/project/dialogs/projectsettings.cpp:231
 #, kde-format
 msgid "Artist"
 msgstr "아티스트"
 
-#: src/project/dialogs/projectsettings.cpp:235
+#: src/project/dialogs/projectsettings.cpp:237
 #, kde-format
 msgid "Copyright"
 msgstr "저작권"
 
-#: src/project/dialogs/projectsettings.cpp:242
+#: src/project/dialogs/projectsettings.cpp:244
 #, kde-format
 msgid "Year"
 msgstr "연도"
 
-#: src/project/dialogs/projectsettings.cpp:371
+#: src/project/dialogs/projectsettings.cpp:384
 #, kde-format
 msgid "No files to delete on your drive."
 msgstr ""
 
-#: src/project/dialogs/projectsettings.cpp:379
+#: src/project/dialogs/projectsettings.cpp:392
 #, kde-format
 msgid ""
 "This will remove the following files from your hard drive.\n"
@@ -13993,47 +14029,47 @@ msgstr ""
 "하십시오.\n"
 "계속 진행하시겠습니까?"
 
-#: src/project/dialogs/projectsettings.cpp:381
+#: src/project/dialogs/projectsettings.cpp:394
 #, kde-format
 msgid "Delete unused clips"
 msgstr "사용하지 않은 클립 삭제"
 
-#: src/project/dialogs/projectsettings.cpp:402
+#: src/project/dialogs/projectsettings.cpp:415
 #, kde-format
 msgid "Video clips"
 msgstr "동영상 클립"
 
-#: src/project/dialogs/projectsettings.cpp:405
+#: src/project/dialogs/projectsettings.cpp:418
 #, kde-format
 msgid "Audio clips"
 msgstr "오디오 클립"
 
-#: src/project/dialogs/projectsettings.cpp:408
+#: src/project/dialogs/projectsettings.cpp:421
 #, kde-format
 msgid "Image clips"
 msgstr "이미지 클립"
 
-#: src/project/dialogs/projectsettings.cpp:411
+#: src/project/dialogs/projectsettings.cpp:424
 #, kde-format
 msgid "Slideshow clips"
 msgstr "슬라이드 쇼 클립"
 
-#: src/project/dialogs/projectsettings.cpp:414
+#: src/project/dialogs/projectsettings.cpp:427
 #, kde-format
 msgid "Text clips"
 msgstr "텍스트 클립"
 
-#: src/project/dialogs/projectsettings.cpp:417
+#: src/project/dialogs/projectsettings.cpp:430
 #, kde-format
 msgid "Playlist clips"
 msgstr "재생 목록 클립"
 
-#: src/project/dialogs/projectsettings.cpp:420
+#: src/project/dialogs/projectsettings.cpp:433
 #, kde-format
 msgid "Other clips"
 msgstr "다른 클립"
 
-#: src/project/dialogs/projectsettings.cpp:528
+#: src/project/dialogs/projectsettings.cpp:541
 #, kde-format
 msgid ""
 "You changed the timeline preview profile. This will remove all existing "
@@ -14044,13 +14080,13 @@ msgstr ""
 "리 보기가 삭제됩니다.\n"
 "계속하시겠습니까?"
 
-#: src/project/dialogs/projectsettings.cpp:530
-#: src/project/dialogs/projectsettings.cpp:540
+#: src/project/dialogs/projectsettings.cpp:543
+#: src/project/dialogs/projectsettings.cpp:553
 #, kde-format
 msgid "Confirm profile change"
 msgstr "프로필 변경 확인"
 
-#: src/project/dialogs/projectsettings.cpp:538
+#: src/project/dialogs/projectsettings.cpp:551
 #, kde-format
 msgid ""
 "Changing the profile of your project cannot be undone.\n"
@@ -14063,36 +14099,36 @@ msgstr ""
 "를 저장하는 것을 추천합니다.\n"
 "계속하시겠습니까?"
 
-#: src/project/dialogs/projectsettings.cpp:767
-#: src/project/dialogs/projectsettings.cpp:782
+#: src/project/dialogs/projectsettings.cpp:780
+#: src/project/dialogs/projectsettings.cpp:795
 #: src/project/dialogs/slideshowclip.cpp:330
 #, kde-format
 msgid "1 image found"
 msgid_plural "%1 images found"
 msgstr[0] "이미지 %1개 발견됨"
 
-#: src/project/dialogs/projectsettings.cpp:789 src/titler/titlewidget.cpp:419
+#: src/project/dialogs/projectsettings.cpp:802 src/titler/titlewidget.cpp:419
 #: src/titler/titlewidget.cpp:422
 #, kde-format
 msgid "Save As"
 msgstr "다른 이름으로 저장"
 
-#: src/project/dialogs/projectsettings.cpp:795
+#: src/project/dialogs/projectsettings.cpp:808
 #, kde-format
 msgid "Project folder: %1"
 msgstr "프로젝트 폴더: %1"
 
-#: src/project/dialogs/projectsettings.cpp:796
+#: src/project/dialogs/projectsettings.cpp:809
 #, kde-format
 msgid "Project profile: %1"
 msgstr "프로젝트 프로필: %1"
 
-#: src/project/dialogs/projectsettings.cpp:797
+#: src/project/dialogs/projectsettings.cpp:810
 #, kde-format
 msgid "Total clips: %1 (%2 used in timeline)."
 msgstr "총 클립 개수: %1(타임라인에서 %2개 사용됨)."
 
-#: src/project/dialogs/projectsettings.cpp:851
+#: src/project/dialogs/projectsettings.cpp:864
 #, fuzzy, kde-format
 #| msgid "Metadata"
 msgctxt "@title:window"
@@ -18331,6 +18367,7 @@ msgstr "현재 지점 삭제"
 #. i18n: ectx: property (text), widget (QToolButton, arrowDown)
 #. i18n: ectx: property (text), widget (QToolButton, toolBtnReload)
 #. i18n: ectx: property (text), widget (QToolButton, hide_log)
+#. i18n: ectx: property (text), widget (QToolButton, button_external)
 #. i18n: ectx: property (text), widget (QToolButton, reload_blackmagic)
 #. i18n: ectx: property (text), widget (QToolButton, button_add)
 #. i18n: ectx: property (text), widget (QToolButton, button_edit)
@@ -18346,6 +18383,7 @@ msgstr "현재 지점 삭제"
 #. i18n: ectx: property (text), widget (QToolButton, button_zoomout)
 #. i18n: ectx: property (text), widget (QToolButton, preset_button)
 #. i18n: ectx: property (text), widget (QToolButton, config_button)
+#. i18n: ectx: property (text), widget (QToolButton, manage_external)
 #. i18n: ectx: property (text), widget (QToolButton, checkProxy)
 #. i18n: ectx: property (text), widget (QToolButton, proxy_showprofileinfo)
 #. i18n: ectx: property (text), widget (QToolButton, proxy_manageprofile)
@@ -18362,6 +18400,8 @@ msgstr "현재 지점 삭제"
 #. i18n: ectx: property (text), widget (QToolButton, button_prev)
 #. i18n: ectx: property (text), widget (QToolButton, button_next)
 #. i18n: ectx: property (text), widget (QToolButton, button_del)
+#. i18n: ectx: property (text), widget (QToolButton, button_remove)
+#. i18n: ectx: property (text), widget (QToolButton, button_reset)
 #. i18n: ectx: property (text), widget (QToolButton, collapseButton)
 #. i18n: ectx: property (text), widget (QToolButton, keyframesButton)
 #. i18n: ectx: property (text), widget (QToolButton, inOutButton)
@@ -18425,7 +18465,9 @@ msgstr "현재 지점 삭제"
 #: src/ui/collapsiblewidget_ui.ui:149 src/ui/collapsiblewidget_ui.ui:162
 #: src/ui/collapsiblewidget_ui.ui:175 src/ui/collapsiblewidget_ui.ui:188
 #: src/ui/collapsiblewidget_ui.ui:198 src/ui/collapsiblewidget_ui.ui:208
-#: src/ui/configjogshuttle_ui.ui:82 src/ui/configsdl_ui.ui:166
+#: src/ui/configjogshuttle_ui.ui:82 src/ui/configproxy_ui.ui:208
+#: src/ui/configsdl_ui.ui:166 src/ui/customcamcorderproxy_ui.ui:97
+#: src/ui/customcamcorderproxy_ui.ui:111 src/ui/customcamcorderproxy_ui.ui:138
 #: src/ui/cutjobdialog_ui.ui:84 src/ui/editrenderpreset_ui.ui:470
 #: src/ui/editsub_ui.ui:23 src/ui/editsub_ui.ui:33 src/ui/editsub_ui.ui:43
 #: src/ui/editsub_ui.ui:54 src/ui/editsub_ui.ui:65 src/ui/editsub_ui.ui:76
@@ -18442,28 +18484,29 @@ msgstr "현재 지점 삭제"
 #: src/ui/managecache_ui.ui:328 src/ui/manageencodingprofile_ui.ui:48
 #: src/ui/manageencodingprofile_ui.ui:59 src/ui/manageencodingprofile_ui.ui:70
 #: src/ui/manageencodingprofile_ui.ui:84 src/ui/managesubtitles_ui.ui:70
-#: src/ui/projectsettings_ui.ui:276 src/ui/projectsettings_ui.ui:283
-#: src/ui/projectsettings_ui.ui:293 src/ui/projectsettings_ui.ui:571
-#: src/ui/projectsettings_ui.ui:578 src/ui/qtextclip_ui.ui:94
-#: src/ui/renderwidget_ui.ui:997 src/ui/resourcewidget_ui.ui:214
-#: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:107
-#: src/ui/textbasededit_ui.ui:42 src/ui/textbasededit_ui.ui:71
-#: src/ui/textbasededit_ui.ui:140 src/ui/textbasededit_ui.ui:154
-#: src/ui/textbasededit_ui.ui:171 src/ui/textbasededit_ui.ui:181
-#: src/ui/textbasededit_ui.ui:198 src/ui/textbasededit_ui.ui:239
-#: src/ui/textbasededit_ui.ui:260 src/ui/timeremap_ui.ui:97
-#: src/ui/timeremap_ui.ui:151 src/ui/timeremap_ui.ui:182
-#: src/ui/timeremap_ui.ui:192 src/ui/timeremap_ui.ui:202
-#: src/ui/timeremap_ui.ui:379 src/ui/titlewidget_ui.ui:830
-#: src/ui/titlewidget_ui.ui:840 src/ui/titlewidget_ui.ui:1045
-#: src/ui/titlewidget_ui.ui:1100 src/ui/titlewidget_ui.ui:1150
-#: src/ui/titlewidget_ui.ui:1173 src/ui/titlewidget_ui.ui:1206
-#: src/ui/titlewidget_ui.ui:1296 src/ui/titlewidget_ui.ui:1594
-#: src/ui/titlewidget_ui.ui:1611 src/ui/titlewidget_ui.ui:1625
-#: src/ui/titlewidget_ui.ui:1692 src/ui/titlewidget_ui.ui:1706
-#: src/ui/titlewidget_ui.ui:1720 src/ui/titlewidget_ui.ui:1734
-#: src/ui/titlewidget_ui.ui:1748 src/ui/titlewidget_ui.ui:1762
-#: src/ui/unicodewidget_ui.ui:201 src/ui/unicodewidget_ui.ui:226
+#: src/ui/projectsettings_ui.ui:421 src/ui/projectsettings_ui.ui:501
+#: src/ui/projectsettings_ui.ui:508 src/ui/projectsettings_ui.ui:518
+#: src/ui/projectsettings_ui.ui:589 src/ui/projectsettings_ui.ui:596
+#: src/ui/qtextclip_ui.ui:94 src/ui/renderwidget_ui.ui:997
+#: src/ui/resourcewidget_ui.ui:214 src/ui/resourcewidget_ui.ui:281
+#: src/ui/speechdialog_ui.ui:107 src/ui/textbasededit_ui.ui:42
+#: src/ui/textbasededit_ui.ui:71 src/ui/textbasededit_ui.ui:140
+#: src/ui/textbasededit_ui.ui:154 src/ui/textbasededit_ui.ui:171
+#: src/ui/textbasededit_ui.ui:181 src/ui/textbasededit_ui.ui:198
+#: src/ui/textbasededit_ui.ui:239 src/ui/textbasededit_ui.ui:260
+#: src/ui/timeremap_ui.ui:97 src/ui/timeremap_ui.ui:151
+#: src/ui/timeremap_ui.ui:182 src/ui/timeremap_ui.ui:192
+#: src/ui/timeremap_ui.ui:202 src/ui/timeremap_ui.ui:379
+#: src/ui/titlewidget_ui.ui:830 src/ui/titlewidget_ui.ui:840
+#: src/ui/titlewidget_ui.ui:1045 src/ui/titlewidget_ui.ui:1100
+#: src/ui/titlewidget_ui.ui:1150 src/ui/titlewidget_ui.ui:1173
+#: src/ui/titlewidget_ui.ui:1206 src/ui/titlewidget_ui.ui:1296
+#: src/ui/titlewidget_ui.ui:1594 src/ui/titlewidget_ui.ui:1611
+#: src/ui/titlewidget_ui.ui:1625 src/ui/titlewidget_ui.ui:1692
+#: src/ui/titlewidget_ui.ui:1706 src/ui/titlewidget_ui.ui:1720
+#: src/ui/titlewidget_ui.ui:1734 src/ui/titlewidget_ui.ui:1748
+#: src/ui/titlewidget_ui.ui:1762 src/ui/unicodewidget_ui.ui:201
+#: src/ui/unicodewidget_ui.ui:226
 #, kde-format
 msgid "..."
 msgstr "..."
@@ -18905,8 +18948,8 @@ msgstr "채널:"
 #. i18n: ectx: property (text), widget (QLabel, label_screengrab)
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: src/ui/configcapture_ui.ui:231 src/ui/configcapture_ui.ui:434
-#: src/ui/configcapture_ui.ui:487 src/ui/configproxy_ui.ui:85
-#: src/ui/projectsettings_ui.ui:257
+#: src/ui/configcapture_ui.ui:487 src/ui/configproxy_ui.ui:109
+#: src/ui/projectsettings_ui.ui:277
 #, fuzzy, kde-format
 #| msgid "Encoding profile"
 msgid "Encoding profile:"
@@ -19546,7 +19589,7 @@ msgid "Subtitles:"
 msgstr "자막"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
-#: src/ui/configproject_ui.ui:24 src/ui/configproxy_ui.ui:13
+#: src/ui/configproject_ui.ui:24 src/ui/configproxy_ui.ui:21
 #, kde-format
 msgid ""
 "These are the default settings for new projects. To edit the parameters of "
@@ -19617,66 +19660,66 @@ msgid "Timeline Preview profile:"
 msgstr "타임라인 미리 보기"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableproxy)
-#: src/ui/configproxy_ui.ui:32
+#: src/ui/configproxy_ui.ui:41
 #, kde-format
 msgid "Enable proxy clips"
 msgstr "프록시 클립 사용"
 
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateproxy)
+#. i18n: ectx: property (text), widget (QCheckBox, generate_proxy)
+#: src/ui/configproxy_ui.ui:63 src/ui/projectsettings_ui.ui:222
+#, kde-format
+msgid "Generate for videos larger than"
+msgstr "다음보다 큰 동영상인 경우 생성"
+
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyminsize)
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimageminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimagesize)
-#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
-#: src/ui/configproxy_ui.ui:66 src/ui/configproxy_ui.ui:99
-#: src/ui/configproxy_ui.ui:118 src/ui/configproxy_ui.ui:195
+#: src/ui/configproxy_ui.ui:70 src/ui/configproxy_ui.ui:90
+#: src/ui/configproxy_ui.ui:137 src/ui/configproxy_ui.ui:166
 #, fuzzy, kde-format
 #| msgid "pixels"
 msgid " pixels"
 msgstr "픽셀"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateproxy)
-#. i18n: ectx: property (text), widget (QCheckBox, generate_proxy)
-#: src/ui/configproxy_ui.ui:150 src/ui/projectsettings_ui.ui:231
-#, kde-format
-msgid "Generate for videos larger than"
-msgstr "다음보다 큰 동영상인 경우 생성"
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/ui/configproxy_ui.ui:83
+#, fuzzy, kde-format
+#| msgid "Proxy video resize (width)"
+msgid "Proxy video resize (width):"
+msgstr "프록시 동영상 크기 조정(너비)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateimageproxy)
 #. i18n: ectx: property (text), widget (QCheckBox, generate_imageproxy)
-#: src/ui/configproxy_ui.ui:157 src/ui/projectsettings_ui.ui:315
+#: src/ui/configproxy_ui.ui:130 src/ui/projectsettings_ui.ui:248
 #, kde-format
 msgid "Generate for images larger than"
 msgstr "다음보다 큰 이미지인 경우 생성"
 
 #. i18n: ectx: property (text), widget (QLabel, image_label)
-#: src/ui/configproxy_ui.ui:167 src/ui/projectsettings_ui.ui:341
+#: src/ui/configproxy_ui.ui:156 src/ui/projectsettings_ui.ui:479
 #, kde-format
 msgid "Proxy image size"
 msgstr "프록시 이미지 크기"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_externalproxy)
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_external_display)
-#. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
-#: src/ui/configproxy_ui.ui:174 src/ui/configsdl_ui.ui:137
-#: src/ui/projectsettings_ui.ui:482
-#, fuzzy, kde-format
-#| msgid "Enable %1"
-msgid "Enable"
-msgstr "%1 활성화"
-
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configproxy_ui.ui:181 src/ui/projectsettings_ui.ui:489
+#: src/ui/configproxy_ui.ui:189 src/ui/projectsettings_ui.ui:409
 #, fuzzy, kde-format
 #| msgid "Use external proxy clips"
 msgid "External proxy clips:"
 msgstr "외부 프록시 클립 사용"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configproxy_ui.ui:208
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_externalproxy)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_external_display)
+#. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
+#: src/ui/configproxy_ui.ui:196 src/ui/configsdl_ui.ui:137
+#: src/ui/projectsettings_ui.ui:440
 #, fuzzy, kde-format
-#| msgid "Proxy video resize (width)"
-msgid "Proxy video resize (width):"
-msgstr "프록시 동영상 크기 조정(너비)"
+#| msgid "Enable %1"
+msgid "Enable"
+msgstr "%1 활성화"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
 #: src/ui/configsdl_ui.ui:27
@@ -20028,6 +20071,66 @@ msgstr "프로필 업데이트"
 #: src/ui/configtranscode_ui.ui:107
 #, kde-format
 msgid "Delete Profile"
+msgstr "프로필 삭제"
+
+#. i18n: ectx: property (text), widget (QLabel, l_relPathOrigToProxy)
+#: src/ui/customcamcorderproxy_ui.ui:34 src/ui/projectsettings_ui.ui:387
+#, kde-format
+msgid "Relative path from clip to proxy:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, l_prefix_clip)
+#: src/ui/customcamcorderproxy_ui.ui:44 src/ui/projectsettings_ui.ui:380
+#, fuzzy, kde-format
+#| msgid "Proxy clip"
+msgid "Prefix of clip:"
+msgstr "프록시 클립"
+
+#. i18n: ectx: property (text), widget (QLabel, l_suffix_clip)
+#: src/ui/customcamcorderproxy_ui.ui:54 src/ui/projectsettings_ui.ui:363
+#, fuzzy, kde-format
+#| msgid "Audio clips"
+msgid "Suffix of clip:"
+msgstr "오디오 클립"
+
+#. i18n: ectx: property (text), widget (QLabel, l_relPathProxyToOrig)
+#: src/ui/customcamcorderproxy_ui.ui:64 src/ui/projectsettings_ui.ui:346
+#, fuzzy, kde-format
+#| msgid "Delete all proxy clips"
+msgid "Relative path from proxy to clip:"
+msgstr "모든 프록시 클립 삭제"
+
+#. i18n: ectx: property (text), widget (QLabel, l_prefix_proxy)
+#: src/ui/customcamcorderproxy_ui.ui:74 src/ui/projectsettings_ui.ui:329
+#, kde-format
+msgid "Prefix of proxy:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, l_suffix_proxy)
+#: src/ui/customcamcorderproxy_ui.ui:84 src/ui/projectsettings_ui.ui:312
+#, kde-format
+msgid "Suffix of proxy:"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, button_add)
+#: src/ui/customcamcorderproxy_ui.ui:94
+#, fuzzy, kde-format
+#| msgid "Add new video file"
+msgid "Add new profile"
+msgstr "새 동영상 파일 추가"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, button_delete)
+#. i18n: ectx: property (toolTip), widget (QToolButton, button_remove)
+#: src/ui/customcamcorderproxy_ui.ui:108 src/ui/profiledialog_ui.ui:48
+#, kde-format
+msgid "Delete profile"
+msgstr "프로필 삭제"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, button_reset)
+#: src/ui/customcamcorderproxy_ui.ui:135
+#, fuzzy, kde-format
+#| msgid "Delete profile"
+msgid "Reset all profiles"
 msgstr "프로필 삭제"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_more)
@@ -21038,12 +21141,6 @@ msgstr "새 프로필 만들기"
 msgid "C"
 msgstr "C"
 
-#. i18n: ectx: property (toolTip), widget (QToolButton, button_delete)
-#: src/ui/profiledialog_ui.ui:48
-#, kde-format
-msgid "Delete profile"
-msgstr "프로필 삭제"
-
 #. i18n: ectx: property (text), widget (QToolButton, button_delete)
 #: src/ui/profiledialog_ui.ui:51
 #, kde-format
@@ -21182,101 +21279,62 @@ msgstr "프록시"
 msgid "Proxy clips"
 msgstr "프록시 클립"
 
-#. i18n: ectx: property (suffix), widget (QSpinBox, proxy_minsize)
-#. i18n: ectx: property (suffix), widget (QSpinBox, proxy_imageminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_imagesize)
+#. i18n: ectx: property (suffix), widget (QSpinBox, proxy_imageminsize)
+#. i18n: ectx: property (suffix), widget (QSpinBox, proxy_minsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_resize)
-#: src/ui/projectsettings_ui.ui:238 src/ui/projectsettings_ui.ui:322
-#: src/ui/projectsettings_ui.ui:351 src/ui/projectsettings_ui.ui:502
+#: src/ui/projectsettings_ui.ui:232 src/ui/projectsettings_ui.ui:255
+#: src/ui/projectsettings_ui.ui:447 src/ui/projectsettings_ui.ui:463
 #, kde-format
 msgid "pixels"
 msgstr "픽셀"
 
-#. i18n: ectx: property (text), widget (QLabel, l_suffix_proxy)
-#: src/ui/projectsettings_ui.ui:382
-#, kde-format
-msgid "Suffix of proxy:"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, l_prefix_proxy)
-#: src/ui/projectsettings_ui.ui:399
-#, kde-format
-msgid "Prefix of proxy:"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, l_relPathProxyToOrig)
-#: src/ui/projectsettings_ui.ui:416
-#, fuzzy, kde-format
-#| msgid "Delete all proxy clips"
-msgid "Relative path from proxy to clip:"
-msgstr "모든 프록시 클립 삭제"
-
-#. i18n: ectx: property (text), widget (QLabel, l_suffix_clip)
-#: src/ui/projectsettings_ui.ui:433
-#, fuzzy, kde-format
-#| msgid "Audio clips"
-msgid "Suffix of clip:"
-msgstr "오디오 클립"
-
-#. i18n: ectx: property (text), widget (QLabel, l_prefix_clip)
-#: src/ui/projectsettings_ui.ui:450
-#, fuzzy, kde-format
-#| msgid "Proxy clip"
-msgid "Prefix of clip:"
-msgstr "프록시 클립"
-
-#. i18n: ectx: property (text), widget (QLabel, l_relPathOrigToProxy)
-#: src/ui/projectsettings_ui.ui:457
-#, kde-format
-msgid "Relative path from clip to proxy:"
-msgstr ""
-
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/projectsettings_ui.ui:515
+#: src/ui/projectsettings_ui.ui:433
 #, kde-format
 msgid "Proxy video resize (width)"
 msgstr "프록시 동영상 크기 조정(너비)"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: src/ui/projectsettings_ui.ui:601
+#: src/ui/projectsettings_ui.ui:619
 #, kde-format
 msgid "Project Files"
 msgstr "프로젝트 파일"
 
 #. i18n: ectx: property (text), widget (QLabel, label_fonts)
-#: src/ui/projectsettings_ui.ui:607
+#: src/ui/projectsettings_ui.ui:625
 #, kde-format
 msgid "Fonts"
 msgstr "글꼴"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
-#: src/ui/projectsettings_ui.ui:662
+#: src/ui/projectsettings_ui.ui:680
 #, fuzzy, kde-format
 #| msgid "Project files"
 msgid "Project files:"
 msgstr "프로젝트 파일"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_export)
-#: src/ui/projectsettings_ui.ui:669
+#: src/ui/projectsettings_ui.ui:687
 #, fuzzy, kde-format
 #| msgid "Plain text export"
 msgid "Plain Text Export..."
 msgstr "일반 텍스트로 내보내기"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/ui/projectsettings_ui.ui:690
+#: src/ui/projectsettings_ui.ui:708
 #, kde-format
 msgid "Unused clips:"
 msgstr "사용하지 않은 클립:"
 
 #. i18n: ectx: property (text), widget (QPushButton, delete_unused)
-#: src/ui/projectsettings_ui.ui:697
+#: src/ui/projectsettings_ui.ui:715
 #, kde-format
 msgid "Delete files"
 msgstr "파일 삭제"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
-#: src/ui/projectsettings_ui.ui:704
+#: src/ui/projectsettings_ui.ui:722
 #, kde-format
 msgid "Clips used in project:"
 msgstr "프로젝트에서 사용한 클립:"
@@ -25895,9 +25953,6 @@ msgstr "%1시간"
 
 #~ msgid "Your clips do not match selected DVD format, transcoding required."
 #~ msgstr "클립이 선택한 DVD 형식과 일치하지 않아 트랜스코딩이 필요합니다."
-
-#~ msgid "Add new video file"
-#~ msgstr "새 동영상 파일 추가"
 
 #~ msgid "The clip %1 is invalid."
 #~ msgstr "클립 %1이(가) 유효하지 않습니다."
