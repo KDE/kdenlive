@@ -2076,7 +2076,7 @@ void TimeRemap::updateKeyframesWithUndo(const QMap<int, int> &updatedKeyframes, 
     }
 
     Fun local_undo = [this, link = m_remapLink, splitLink = m_splitRemap, previousKeyframes, cid = m_cid, oldIn = m_view->m_oldInFrame, hadPitch, splitHadPitch,
-                      masterIsAudio, splitIsAudio, lastFrame, hadBlend]() {
+                      masterIsAudio, splitIsAudio, hadBlend]() {
         QString oldKfData;
         bool keyframesChanged = false;
         if (!previousKeyframes.isEmpty()) {
@@ -2118,7 +2118,7 @@ void TimeRemap::updateKeyframesWithUndo(const QMap<int, int> &updatedKeyframes, 
     };
 
     Fun local_redo = [this, link = m_remapLink, splitLink = m_splitRemap, updatedKeyframes, cid = m_cid, usePitch, masterIsAudio, splitIsAudio,
-                      in = m_view->m_inFrame, lastFrame, useBlend]() {
+                      in = m_view->m_inFrame, useBlend]() {
         QString newKfData;
         bool keyframesChanged = false;
         if (!updatedKeyframes.isEmpty()) {

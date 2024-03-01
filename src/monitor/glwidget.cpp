@@ -1606,7 +1606,7 @@ bool VideoWidget::switchPlay(bool play, double speed)
         resetZoneMode();
     }
     if (play) {
-        if (m_consumer->position() == m_producer->get_playtime() - 1 && speed > 0) {
+        if (m_consumer->position() >= m_maxProducerPosition && speed > 0) {
             // We are at the end of the clip / timeline
             if (m_id == Kdenlive::ClipMonitor || (m_id == Kdenlive::ProjectMonitor && KdenliveSettings::jumptostart())) {
                 m_producer->seek(0);
@@ -1659,10 +1659,10 @@ bool VideoWidget::playZone(bool loop)
     if (qFuzzyIsNull(current_speed)) {
         m_producer->seek(m_proxy->zoneIn());
         m_consumer->start();
-        m_producer->set_speed(1.0);
         m_consumer->set("scrub_audio", 0);
         m_consumer->set("refresh", 1);
         m_consumer->set("volume", KdenliveSettings::volume() / 100.);
+        m_producer->set_speed(1.0);
     } else {
         // Speed change, purge to reduce latency
         m_consumer->set("refresh", 0);
@@ -1709,6 +1709,7 @@ bool VideoWidget::loopClip(QPoint inOut)
         m_consumer->set("scrub_audio", 0);
         m_consumer->set("refresh", 1);
         m_consumer->set("volume", KdenliveSettings::volume() / 100.);
+        m_producer->set_speed(1.0);
     } else {
         // Speed change, purge to reduce latency
         m_consumer->set("refresh", 0);
@@ -1915,5 +1916,8 @@ void VideoWidget::switchRuler(bool show)
 
 const QStringList VideoWidget::getGPUInfo()
 {
+    if (!m_isInitialized) {
+        return {};
+    }
     return {QString::fromUtf8((const char *)glGetString(GL_VENDOR)), QString::fromUtf8((const char *)glGetString(GL_RENDERER))};
 }

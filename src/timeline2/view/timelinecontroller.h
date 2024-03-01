@@ -138,6 +138,10 @@ public:
     /** @brief Add recorded file to timeline
      */
     void finishRecording(const QString &recordedFile);
+    /** @brief Add given file to bin, and then insert it at current point in timeline
+        @param highlightClip If true, highlights the newly created clip in the bin as well
+     */
+    void addAndInsertFile(const QString &recordedFile, const bool isAudioClip, const bool highlightClip);
     /** @brief Open Kdenlive's config diablog on a defined page and tab
      */
     Q_INVOKABLE void showConfig(int page, int tab);
@@ -531,9 +535,12 @@ public:
     /** @brief Returns a list of all external files used by effects in the timeline
      */
     QStringList extractExternalEffectFiles() const;
+    /** @brief Get the x,y position of the mouse in the timeline widget
+     */
+    Q_INVOKABLE const QPoint getMousePosInTimeline() const;
     /** @brief Get the frame where mouse is positioned
      */
-    int getMousePos();
+    Q_INVOKABLE int getMousePos();
     /** @brief Get the frame where mouse is positioned
      */
     int getMouseTrack();

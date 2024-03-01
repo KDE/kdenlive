@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.dblur" id="avfilter.dblur">
+    <name>DBlur</name>
+    <description>Apply Directional Blur filter</description>
+    <author>libavfilter</author>
+    <parameter type="animated" name="av.angle" max="360" min="0" default="45">
+        <name>Angle</name>
+    </parameter>
+    <parameter type="animated" name="av.radius" max="400" min="0" default="5">
+        <name>Radius</name>
+    </parameter>
+    <parameter type="animated" name="av.planes" max="15" min="0" default="15">
+        <name>Planes to filter</name>
+    </parameter>
+</effect>

@@ -46,6 +46,8 @@ public:
     /** @brief Returns true if both profiles have same fps, and can be mixed with the xml producer */
     bool isCompatible(std::unique_ptr<ProfileInfo> &other) const;
     bool isCompatible(Mlt::Profile *other) const;
+    /** @brief Check for non standard fps (like 23.5) */
+    bool hasValidFps() const;
 
     virtual void adjustDimensions() = 0;
 

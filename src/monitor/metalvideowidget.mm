@@ -8,10 +8,12 @@
 #include "profiles/profilemodel.hpp"
 #include <Metal/Metal.h>
 
+
 class MetalVideoRenderer : public QObject
 {
     Q_OBJECT
 public:
+    int displayRulerHeight = 0;
     MetalVideoRenderer()
     {
         for (int i = 0; i < 3; ++i) {
@@ -146,7 +148,7 @@ public:
 
         MTLViewport vp;
         vp.originX = 0;
-        vp.originY = 0;
+        vp.originY = -displayRulerHeight;
         vp.width = width;
         vp.height = height;
         vp.znear = 0;
@@ -322,6 +324,7 @@ MetalVideoWidget::~MetalVideoWidget() {}
 
 void MetalVideoWidget::initialize()
 {
+    m_renderer->displayRulerHeight = qRound(m_displayRulerHeight * devicePixelRatioF() * 0.5);
     m_renderer->initialize(quickWindow());
     VideoWidget::initialize();
 }
@@ -334,6 +337,12 @@ void MetalVideoWidget::renderVideo()
     }
     m_mutex.unlock();
     VideoWidget::renderVideo();
+}
+
+void MetalVideoWidget::updateRulerHeight(int addedHeight)
+{
+    VideoWidget::updateRulerHeight(addedHeight);
+    m_renderer->displayRulerHeight = qRound(m_displayRulerHeight * devicePixelRatioF() * 0.5);
 }
 
 #include "metalvideowidget.moc"

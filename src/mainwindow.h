@@ -14,6 +14,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QEvent>
 #include <QImage>
 #include <QMap>
+#include <QProgressDialog>
 #include <QShortcut>
 #include <QString>
 #include <QUndoView>
@@ -187,6 +188,7 @@ public:
     bool raiseTimeline(const QUuid &uuid);
     void connectTimeline();
     void disconnectTimeline(TimelineWidget *timeline);
+    static QProcessEnvironment getCleanEnvironement();
 
 protected:
     /** @brief Closes the window.
@@ -309,11 +311,11 @@ private:
     bool readOptions();
     void saveOptions();
 
-    void loadGenerators();
     QStringList m_pluginFileNames;
     QByteArray m_timelineState;
     void buildDynamicActions();
     void loadClipActions();
+    void loadContainerActions();
 
     QTime m_timer;
     KXMLGUIClient *m_extraFactory;
@@ -322,6 +324,8 @@ private:
     EffectBasket *m_effectBasket;
     /** @brief Update widget style. */
     void doChangeStyle();
+
+    QProgressDialog *m_loadingDialog;
 
 public Q_SLOTS:
     void slotReloadEffects(const QStringList &paths);
@@ -389,6 +393,8 @@ public Q_SLOTS:
     void slotDeleteItem();
     /** @brief Export a subtitle file */
     void slotExportSubtitle();
+    /** @brief Display current mouse pos */
+    void slotUpdateMousePosition(int pos, int duration = -1);
 
 private Q_SLOTS:
     /** @brief Shows the shortcut dialog. */
@@ -397,7 +403,6 @@ private Q_SLOTS:
     /** @brief Reflects setting changes to the GUI. */
     void updateConfiguration();
     void slotConnectMonitors();
-    void slotUpdateMousePosition(int pos, int duration = -1);
     void slotSwitchMarkersComments();
     void slotSwitchSnap();
     void slotShowTimelineTags();

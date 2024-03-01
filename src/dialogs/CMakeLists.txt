@@ -5,6 +5,7 @@ set(kdenlive_SRCS
   ${kdenlive_SRCS}
   dialogs/clipcreationdialog.cpp
   dialogs/clipjobmanager.cpp
+  dialogs/customcamcorderdialog.cpp
   dialogs/encodingprofilesdialog.cpp
   dialogs/importsubtitle.cpp
   dialogs/kdenlivesettingsdialog.cpp

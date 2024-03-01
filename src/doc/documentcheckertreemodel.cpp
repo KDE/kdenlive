@@ -58,16 +58,15 @@ std::shared_ptr<DocumentCheckerTreeModel> DocumentCheckerTreeModel::construct(co
 
 void DocumentCheckerTreeModel::removeItem(const QModelIndex &ix)
 {
-    auto item = getItemByIndex(ix);
-    m_resourceItems[item->getId()].status = DocumentChecker::MissingStatus::Remove;
-    item->setData(1, DocumentChecker::readableNameForMissingStatus(m_resourceItems.value(item->getId()).status));
-    Q_EMIT dataChanged(index(ix.row(), 0), index(ix.row(), columnCount()));
+    int itemId = int(ix.internalId());
+    m_resourceItems[itemId].status = DocumentChecker::MissingStatus::Remove;
+    Q_EMIT dataChanged(index(ix.row(), 0), index(ix.row(), columnCount() - 1));
 }
 
 void DocumentCheckerTreeModel::slotSearchRecursively(const QString &newpath)
 {
     QDir searchDir(newpath);
-
+    QMap<QModelIndex, QString> fixedMap;
     QMapIterator<int, DocumentChecker::DocumentResource> i(m_resourceItems);
     int counter = 1;
     while (i.hasNext()) {
@@ -99,9 +98,15 @@ void DocumentCheckerTreeModel::slotSearchRecursively(const QString &newpath)
             newPath = DocumentChecker::searchPathRecursively(searchDir, QFileInfo(i.value().originalFilePath).fileName());
         }
         if (!newPath.isEmpty()) {
-            setItemsNewFilePath(getIndexFromId(i.key()), newPath, DocumentChecker::MissingStatus::Fixed);
+            fixedMap.insert(getIndexFromId(i.key()), newPath);
         }
     }
+    QMapIterator<QModelIndex, QString> j(fixedMap);
+    while (j.hasNext()) {
+        j.next();
+        setItemsNewFilePath(j.key(), j.value(), DocumentChecker::MissingStatus::Fixed, false);
+    }
+    Q_EMIT dataChanged(QModelIndex(), QModelIndex());
     Q_EMIT searchDone();
 }
 
@@ -117,26 +122,23 @@ void DocumentCheckerTreeModel::usePlaceholdersForMissing()
             continue;
         }
         m_resourceItems[i.key()].status = DocumentChecker::MissingStatus::Placeholder;
-        auto item = getItemById(i.key());
-        item->setData(1, DocumentChecker::readableNameForMissingStatus(m_resourceItems.value(item->getId()).status));
     }
     Q_EMIT dataChanged(QModelIndex(), QModelIndex());
 }
 
-void DocumentCheckerTreeModel::setItemsNewFilePath(const QModelIndex &ix, const QString &url, DocumentChecker::MissingStatus status)
+void DocumentCheckerTreeModel::setItemsNewFilePath(const QModelIndex &ix, const QString &url, DocumentChecker::MissingStatus status, bool refresh)
 {
-    auto item = getItemByIndex(ix);
-    m_resourceItems[item->getId()].status = status;
-    m_resourceItems[item->getId()].newFilePath = url;
-    item->setData(1, DocumentChecker::readableNameForMissingStatus(m_resourceItems.value(item->getId()).status));
-    item->setData(3, m_resourceItems.value(item->getId()).newFilePath);
-    Q_EMIT dataChanged(index(ix.row(), 0), index(ix.row(), columnCount()));
+    int itemId = int(ix.internalId());
+    m_resourceItems[itemId].status = status;
+    m_resourceItems[itemId].newFilePath = url;
+    if (refresh) {
+        Q_EMIT dataChanged(index(ix.row(), 0), index(ix.row(), columnCount() - 1));
+    }
 }
 
 void DocumentCheckerTreeModel::setItemsFileHash(const QModelIndex &index, const QString &hash)
 {
-    auto item = getItemByIndex(index);
-    m_resourceItems[item->getId()].hash = hash;
+    m_resourceItems[int(index.internalId())].hash = hash;
 }
 
 QVariant DocumentCheckerTreeModel::data(const QModelIndex &index, int role) const
@@ -149,14 +151,15 @@ QVariant DocumentCheckerTreeModel::data(const QModelIndex &index, int role) cons
     if (m_resourceItems.contains(int(index.internalId()))) {
         DocumentChecker::DocumentResource resource = m_resourceItems.value(int(index.internalId()));
 
-        KColorScheme scheme(qApp->palette().currentColorGroup(), KColorScheme::Window);
         if (role == Qt::ForegroundRole) {
             if (resource.status == DocumentChecker::MissingStatus::Remove) {
+                KColorScheme scheme(qApp->palette().currentColorGroup(), KColorScheme::Window);
                 return scheme.foreground(KColorScheme::InactiveText).color();
             }
         }
 
         if (role == Qt::BackgroundRole && resource.status == DocumentChecker::MissingStatus::Missing && index.column() == 1) {
+            KColorScheme scheme(qApp->palette().currentColorGroup(), KColorScheme::Window);
             return scheme.background(KColorScheme::NegativeBackground).color();
         }
 
@@ -197,28 +200,26 @@ QVariant DocumentCheckerTreeModel::data(const QModelIndex &index, int role) cons
 
             return QVariant();
         }
-    }
-
-    auto item = getItemById(int(index.internalId()));
-    /*if (role == Qt::DecorationRole) {
-        if (item->depth() == 1) {
-            return QIcon::fromTheme(QStringLiteral("folder"));
+        if (role != Qt::DisplayRole) {
+            return QVariant();
         }
-    }*/
-
-    if (role != Qt::DisplayRole) {
-        return QVariant();
+        switch (index.column()) {
+        case 0:
+            return DocumentChecker::readableNameForMissingType(resource.type);
+        case 1:
+            return DocumentChecker::readableNameForMissingStatus(resource.status);
+        case 2:
+            return resource.originalFilePath;
+        case 3:
+            return resource.newFilePath;
+        default:
+            return QVariant();
+        }
     }
-    return item->dataColumn(index.column());
-}
-
-std::shared_ptr<TreeItem> DocumentCheckerTreeModel::getItemByIndex(const QModelIndex &index)
-{
-    return getItemById(int(index.internalId()));
+    return QVariant();
 }
 
 DocumentChecker::DocumentResource DocumentCheckerTreeModel::getDocumentResource(const QModelIndex &index)
 {
-    auto item = getItemByIndex(index);
-    return m_resourceItems.value(item->getId());
+    return m_resourceItems.value(int(index.internalId()));
 }

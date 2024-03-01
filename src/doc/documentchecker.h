@@ -101,7 +101,7 @@ private:
     static ClipType::ProducerType getClipType(const QString &service, const QString &resource);
     QString getProducerResource(const QDomElement &producer);
     static QString getKdenliveClipId(const QDomElement &producer);
-    static QStringList getAssetsFiles(const QDomDocument &doc, const QString &tagName, const QMap<QString, QString> &searchPairs);
+    static QStringList getAssetsFilesByMltTag(const QDomDocument &doc, const QString &tagName, const QMap<QString, QString> &searchPairs);
     static QStringList getAssetsServiceIds(const QDomDocument &doc, const QString &tagName);
 
     QStringList getInfoMessages();

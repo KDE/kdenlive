@@ -32,6 +32,7 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, QString id, const
     , m_totalUsage(0)
     , m_currentSequenceUsage(0)
     , m_AudioUsage(0)
+    , m_VideoUsage(0)
     , m_rating(0)
     , m_clipStatus(FileStatus::StatusReady)
     , m_itemType(type)
@@ -54,20 +55,20 @@ std::shared_ptr<AbstractProjectItem> AbstractProjectItem::parent() const
     return std::static_pointer_cast<AbstractProjectItem>(m_parentItem.lock());
 }
 
-void AbstractProjectItem::setRefCount(uint count, uint totalCount)
+void AbstractProjectItem::setRefCount(uint sequenceCount, uint totalCount)
 {
-    if (count == totalCount) {
-        if (count == 0) {
+    if (sequenceCount == totalCount) {
+        if (sequenceCount == 0) {
             m_usageText.clear();
         } else {
-            m_usageText = QString::number(count);
+            m_usageText = QString::number(sequenceCount);
         }
     } else {
-        m_usageText = QString("%1|%2").arg(count).arg(totalCount);
+        m_usageText = QString("%1|%2").arg(sequenceCount).arg(totalCount);
     }
-    m_currentSequenceUsage = count;
+    m_currentSequenceUsage = sequenceCount;
     m_totalUsage = totalCount;
-    m_VideoUsage = count - m_AudioUsage;
+    m_VideoUsage = totalCount - m_AudioUsage;
     if (auto ptr = m_model.lock())
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(
             std::static_pointer_cast<AbstractProjectItem>(shared_from_this()),

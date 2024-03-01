@@ -4,6 +4,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "core.h"
+#include "assets/keyframes/model/keyframemodel.hpp"
 #include "audiomixer/mixermanager.hpp"
 #include "bin/bin.h"
 #include "bin/mediabrowser.h"
@@ -48,6 +49,7 @@ Core::Core(const QString &packageType)
     , taskManager(this)
     , m_packageType(packageType)
     , m_capture(new MediaCapture(this))
+    , sessionId(QUuid::createUuid().toString())
 {
 }
 
@@ -93,6 +95,7 @@ bool Core::build(const QString &packageType, bool testMode)
     qRegisterMetaType<requestClipInfo>("requestClipInfo");
     qRegisterMetaType<QVector<QPair<QString, QVariant>>>("paramVector");
     qRegisterMetaType<ProfileParam *>("ProfileParam*");
+    KeyframeModel::initKeyframeTypes();
 
     if (!testMode) {
         // Check if we had a crash
@@ -168,7 +171,7 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
 
     m_monitorManager = new MonitorManager(this);
     if (!Url.isEmpty()) {
-        Q_EMIT loadingMessageUpdated(i18n("Loading project…"));
+        Q_EMIT loadingMessageNewStage(i18n("Loading project…"));
     }
     projectManager()->init(Url, clipsToLoad);
 
@@ -1002,7 +1005,7 @@ std::shared_ptr<EffectStackModel> Core::getItemEffectStack(const QUuid &uuid, in
     case int(KdenliveObjectType::TimelineTrack):
         return currentDoc()->getTimeline(uuid)->getTrackEffectStackModel(itemId);
     case int(KdenliveObjectType::BinClip):
-        return m_mainWindow->getBin()->getClipEffectStack(itemId);
+        return m_projectItemModel->getClipEffectStack(itemId);
     case int(KdenliveObjectType::Master):
         return currentDoc()->getTimeline(uuid)->getMasterEffectStackModel();
     default:

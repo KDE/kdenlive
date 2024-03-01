@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
-# SPDX-FileCopyrightText: 2021 Jean-Baptiste Mardelle <jb@kdenlive.org>
+# SPDX-FileCopyrightText: 2024 Jean-Baptiste Mardelle <jb@kdenlive.org>
 # SPDX-FileCopyrightText: 2022 Julius Künzel <jk.kdedev@smartlab.uber.space>
 # SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 import sys
 import subprocess
-import pkg_resources
-
+import importlib.metadata
 
 def print_help():
     print("""
@@ -31,6 +30,7 @@ if '--help' in sys.argv:
     sys.exit()
 
 required = set()
+missing = set()
 
 for arg in sys.argv[1:]:
     if not arg.startswith("--"):
@@ -40,8 +40,9 @@ if len(required) == 0:
     print_help()
     sys.exit("Error: You need to provide at least one package name")
 
-installed = {pkg.key for pkg in pkg_resources.working_set}
+installed = {pkg.name for pkg in importlib.metadata.distributions()}
 missing = required - installed
+
 if '--check' in sys.argv:
     if len(missing) > 0:
         print("Missing pachages: ", missing)

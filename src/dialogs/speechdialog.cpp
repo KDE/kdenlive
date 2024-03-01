@@ -39,6 +39,7 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     speech_info->hide();
+    logOutput->setVisible(false);
     setWindowTitle(i18n("Automatic Subtitling"));
     m_voskConfig = new QAction(i18n("Configure"), this);
     connect(m_voskConfig, &QAction::triggered, [this]() {
@@ -83,6 +84,7 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
         m_stt->parseVoskDictionaries();
     }
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Process"));
+    adjustSize();
 
     QButtonGroup *buttonGroup = new QButtonGroup(this);
     buttonGroup->addButton(timeline_full);
@@ -282,6 +284,7 @@ void SpeechDialog::slotProcessSpeech()
     }
     speech_progress->setValue(0);
     m_errorLog.clear();
+    logOutput->clear();
 #if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
     speech_info->clearActions();
 #else
@@ -366,10 +369,18 @@ void SpeechDialog::slotProcessProgress()
 
 void SpeechDialog::slotProcessWhisperProgress()
 {
-    QString saveData = QString::fromUtf8(m_speechJob->readAll());
+    const QString saveData = QString::fromUtf8(m_speechJob->readAll());
+    if (saveData.contains(QStringLiteral("UserWarning:"))) {
+        const QString log = saveData.section(QStringLiteral("UserWarning:"), 1).section(QLatin1String("warnings.warn"), 0, 0).simplified() + QLatin1Char('\n');
+        QTextCursor text_cursor = QTextCursor(logOutput->document());
+        text_cursor.movePosition(QTextCursor::End);
+        text_cursor.insertText(log);
+        if (!logOutput->isVisible()) {
+            logOutput->setVisible(true);
+        }
+    }
     if (saveData.contains(QStringLiteral("%|"))) {
         int prog = saveData.section(QLatin1Char('%'), 0, 0).toInt();
-        qDebug() << "=== GOT DATA:\n" << saveData << " = " << prog;
         speech_progress->setValue(prog);
     } else {
         m_errorLog.append(saveData);

@@ -122,12 +122,6 @@ Item{
                 }
                 Binding {
                     target: loader.item
-                    property: "scrollX"
-                    value: scrollView.contentX
-                    when: loader.status == Loader.Ready && loader.item
-                }
-                Binding {
-                    target: loader.item
                     property: "fadeIn"
                     value: model.fadeIn
                     when: loader.status == Loader.Ready && clipItem
@@ -264,6 +258,30 @@ Item{
                     value: model.timeremap
                     when: loader.status == Loader.Ready && clipItem
                 }
+                Binding {
+                    target: loader.item
+                    property: "audioChannels"
+                    value: model.audioChannels
+                    when: loader.status == Loader.Ready && clipItem
+                }
+                Binding {
+                    target: loader.item
+                    property: "audioStream"
+                    value: model.audioStream
+                    when: loader.status == Loader.Ready && clipItem
+                }
+                Binding {
+                    target: loader.item
+                    property: "multiStream"
+                    value: model.multiStream
+                    when: loader.status == Loader.Ready && clipItem
+                }
+                Binding {
+                    target: loader.item
+                    property: "aStreamIndex"
+                    value: model.aStreamIndex
+                    when: loader.status == Loader.Ready && clipItem
+                }
                 sourceComponent: {
                     if (clipItem) {
                         return clipDelegate
@@ -275,7 +293,7 @@ Item{
                     }
                 }
                 onLoaded: {
-                    item.clipId= model.item
+                    item.clipId = model.item
                     item.parentTrack = trackRoot
                     if (clipItem) {
                         console.log('loaded clip: ', model.start, ', ID: ', model.item, ', index: ', trackRoot.DelegateModel.itemsIndex,', TYPE:', model.clipType)
@@ -285,10 +303,6 @@ Item{
                         item.canBeAudio = model.canBeAudio
                         item.canBeVideo = model.canBeVideo
                         item.itemType = model.clipType
-                        item.audioChannels = model.audioChannels
-                        item.audioStream = model.audioStream
-                        item.multiStream = model.multiStream
-                        item.aStreamIndex = model.audioStreamIndex
                         console.log('loaded clip with Astream: ', model.audioStream)                       
                     } else if (model.clipType == ProducerType.Composition) {
                         console.log('loaded composition: ', model.start, ', ID: ', model.item, ', index: ', trackRoot.DelegateModel.itemsIndex)
@@ -314,9 +328,9 @@ Item{
         id: clipDelegate
         Clip {
             height: trackRoot.height
-            onInitGroupTrim: clip => {
+            onInitGroupTrim: clipId => {
                 // We are resizing a group, remember coordinates of all elements
-                root.groupTrimData = controller.getGroupData(clip.clipId)
+                root.groupTrimData = controller.getGroupData(clipId)
             }
             onTrimmingIn: (clip, newDuration, shiftTrim, controlTrim) => {
                 if (root.activeTool === ProjectTool.SelectTool && controlTrim) {

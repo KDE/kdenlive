@@ -1387,6 +1387,7 @@ void KdenliveDoc::backupLastSavedVersion(const QString &path)
             KMessageBox::information(QApplication::activeWindow(), i18n("Cannot create backup copy:\n%1", backupFile));
         }
         // backup subitle file in case we have one
+        // TODO: this only backups one subtitle file, and the saved one, not the tmp worked on file
         QString subpath(path + QStringLiteral(".srt"));
         QString subbackupFile(backupFile + QStringLiteral(".srt"));
         if (QFile(subpath).exists()) {
@@ -1675,6 +1676,7 @@ QMap<QString, QString> KdenliveDoc::documentProperties(bool saveHash)
     if (pCore->mediaBrowser()) {
         m_documentProperties.insert(QStringLiteral("browserurl"), pCore->mediaBrowser()->url().toLocalFile());
     }
+    m_documentProperties.insert(QStringLiteral("binsort"), QString::number(KdenliveSettings::binSorting()));
     QMapIterator<QUuid, std::shared_ptr<TimelineItemModel>> j(m_timelines);
     while (j.hasNext()) {
         j.next();
@@ -1773,6 +1775,15 @@ void KdenliveDoc::loadDocumentProperties()
         list = m_document.elementsByTagName(QStringLiteral("profile"));
         if (!list.isEmpty()) {
             std::unique_ptr<ProfileInfo> xmlProfile(new ProfileParam(list.at(0).toElement()));
+            // Check for valid fps
+            if (!xmlProfile->hasValidFps()) {
+                qWarning() << "######################################\n#  ERROR, non standard fps detected  #\n######################################";
+                KMessageBox::error(
+                    pCore->window(),
+                    ki18nc("@label:textbox", "The project uses a non standard framerate (%1), this will result in misplaced clips and frame offset.")
+                        .subs((double(xmlProfile->frame_rate_num()) / xmlProfile->frame_rate_den()), 0, 'f', 2)
+                        .toString());
+            }
             QString profilePath = ProfileRepository::get()->findMatchingProfile(xmlProfile.get());
             // Document profile does not exist, create it as custom profile
             if (profilePath.isEmpty()) {
@@ -2146,18 +2157,32 @@ QStringList KdenliveDoc::getProxyHashList()
     return pCore->bin()->getProxyHashList();
 }
 
-std::shared_ptr<TimelineItemModel> KdenliveDoc::getTimeline(const QUuid &uuid)
+std::shared_ptr<TimelineItemModel> KdenliveDoc::getTimeline(const QUuid &uuid, bool allowEmpty)
 {
     if (m_timelines.contains(uuid)) {
         return m_timelines.value(uuid);
     }
-    qDebug() << "REQUESTING UNKNOWN TIMELINE: " << uuid;
+    if (!allowEmpty) {
+        qDebug() << "REQUESTING UNKNOWN TIMELINE: " << uuid;
+        Q_ASSERT(false);
+    }
     return nullptr;
 }
 
 QList<QUuid> KdenliveDoc::getTimelinesUuids() const
 {
     return m_timelines.keys();
+}
+
+QStringList KdenliveDoc::getTimelinesIds()
+{
+    QStringList ids;
+    QMapIterator<QUuid, std::shared_ptr<TimelineItemModel>> j(m_timelines);
+    while (j.hasNext()) {
+        j.next();
+        ids << QString(j.value()->tractor()->get("id"));
+    }
+    return ids;
 }
 
 void KdenliveDoc::addTimeline(const QUuid &uuid, std::shared_ptr<TimelineItemModel> model, bool force)
@@ -2346,7 +2371,7 @@ const QString KdenliveDoc::subTitlePath(const QUuid &uuid, int ix, bool final)
     if (m_url.isValid() && final) {
         return QFileInfo(m_url.toLocalFile()).dir().absoluteFilePath(QString("%1.srt").arg(path));
     } else {
-        return QDir::temp().absoluteFilePath(QString("%1.srt").arg(path));
+        return QDir::temp().absoluteFilePath(QString("%1-%2.srt").arg(path, pCore->sessionId));
     }
 }
 

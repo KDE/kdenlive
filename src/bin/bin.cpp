@@ -292,7 +292,7 @@ public:
                     QColor subTextColor = painter->pen().color();
                     bool selected = opt.state & QStyle::State_Selected;
                     if (!selected) {
-                        subTextColor.setAlphaF(.5);
+                        subTextColor.setAlphaF(.7);
                     }
                     painter->setPen(subTextColor);
                     // Draw usage counter
@@ -305,10 +305,11 @@ public:
                     bool hasAudioAndVideo = index.data(AbstractProjectItem::ClipHasAudioAndVideo).toBool();
                     if (hasAudioAndVideo && (cType == ClipType::AV || cType == ClipType::Playlist || cType == ClipType::Timeline)) {
                         QRect audioRect(0, 0, m_audioIcon.width(), m_audioIcon.height());
-                        audioRect.moveLeft(bounding.right() + (2 * textMargin) + 1);
                         audioRect.moveTop(bounding.top() + 1);
                         QRect videoIconRect = audioRect;
-                        videoIconRect.moveLeft(audioRect.right() + (2 * textMargin));
+                        videoIconRect.moveRight(
+                            qMax(int(bounding.right() + (2 * textMargin) + 2 * (1 + m_audioIcon.width())), option.rect.right() - (2 * textMargin)));
+                        audioRect.moveRight(videoIconRect.left() - (2 * textMargin) - 1);
                         if (opt.state & QStyle::State_MouseOver) {
                             m_audioDragRect = audioRect.adjusted(-1, -1, 1, 1);
                             m_videoDragRect = videoIconRect.adjusted(-1, -1, 1, 1);
@@ -325,20 +326,17 @@ public:
                                 painter->drawImage(videoIconRect.topLeft(), selected ? m_videoIcon : m_videoUsedIcon);
                             }
                         }
-                    } /*else if (usage > 0) {
-                        QRect audioRect(0, 0, m_audioIcon.width(), m_audioIcon.height());
-                        audioRect.moveLeft(bounding.right() + (2 * textMargin) + 1);
-                        audioRect.moveTop(bounding.top() + 1);
-                        QRect videoIconRect = audioRect;
-                        videoIconRect.moveLeft(audioRect.right() + (2 * textMargin));
-                        int audioUsage = index.data(AbstractProjectItem::AudioUsageCount).toInt();
-                        if (audioUsage > 0) {
-                            painter->drawImage(audioRect.topLeft(), selected ? m_audioIcon : m_audioUsedIcon);
+                    } else if (!usage.isEmpty()) {
+                        QRect iconRect(0, 0, m_audioIcon.width(), m_audioIcon.height());
+                        iconRect.moveTop(bounding.top() + 1);
+                        int minPos = bounding.right() + (2 * textMargin) + m_audioIcon.width();
+                        iconRect.moveRight(qMax(minPos, option.rect.right() - (2 * textMargin)));
+                        if (index.data(AbstractProjectItem::AudioUsed).toBool()) {
+                            painter->drawImage(iconRect.topLeft(), selected ? m_audioIcon : m_audioUsedIcon);
+                        } else {
+                            painter->drawImage(iconRect.topLeft(), selected ? m_videoIcon : m_videoUsedIcon);
                         }
-                        if (usage - audioUsage > 0) {
-                            painter->drawImage(videoIconRect.topLeft(), selected ? m_videoIcon : m_videoUsedIcon);
-                        }
-                    }*/
+                    }
                 }
                 if (type == AbstractProjectItem::ClipItem) {
                     // Overlay icon if necessary
@@ -1686,10 +1684,18 @@ void Bin::slotSaveHeaders()
 
 void Bin::updateSortingAction(int ix)
 {
+    if (ix == KdenliveSettings::binSorting()) {
+        return;
+    }
+    int index = ix % 100;
     for (QAction *ac : m_sortGroup->actions()) {
-        if (ac->data().toInt() == ix) {
+        if (ac->data().toInt() == index) {
             ac->setChecked(true);
+            ac->trigger();
         }
+    }
+    if ((ix > 99) != m_sortDescend->isChecked()) {
+        m_sortDescend->trigger();
     }
 }
 
@@ -2224,6 +2230,7 @@ void Bin::slotDuplicateClip()
                     xmlProd->set("kdenlive:clipname", i18n("%1 (copy)", currentItem->clipName()).toUtf8().constData());
                     xmlProd->set("kdenlive:sequenceproperties.documentuuid", m_doc->uuid().toString().toUtf8().constData());
                     m_itemModel->requestAddBinClip(id, xmlProd, item->parent()->clipId(), undo, redo, callBack);
+                    pCore->pushUndo(undo, redo, i18n("Duplicate clip"));
                 } else {
                     QDomDocument doc;
                     QDomElement xml = currentItem->toXml(doc);
@@ -2238,6 +2245,10 @@ void Bin::slotDuplicateClip()
                         if (!currentName.isEmpty()) {
                             currentName.append(i18nc("append to clip name to indicate a copied idem", " (copy)"));
                             Xml::setXmlProperty(xml, QStringLiteral("kdenlive:clipname"), currentName);
+                        }
+                        if (currentItem->clipType() == ClipType::Text) {
+                            // Remove unique id
+                            Xml::removeXmlProperty(xml, QStringLiteral("kdenlive:uniqueId"));
                         }
                         QString id;
                         if (ix == items.count()) {
@@ -2327,6 +2338,11 @@ const QString Bin::setDocument(KdenliveDoc *project, const QString &id)
     bool binEffectsDisabled = getDocumentProperty(QStringLiteral("disablebineffects")).toInt() == 1;
     // Set media browser url
     QString url = getDocumentProperty(QStringLiteral("browserurl"));
+    const QString sorting = getDocumentProperty(QStringLiteral("binsort"));
+    if (!sorting.isEmpty()) {
+        int binSorting = sorting.toInt();
+        updateSortingAction(binSorting);
+    }
     if (!url.isEmpty()) {
         if (QFileInfo(url).isRelative()) {
             url.prepend(m_doc->documentRoot());
@@ -2663,7 +2679,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
         // return;
     }
     if (id.isValid()) {
-        if (id.column() != 0) {
+        if (id.column() != 0 && m_monitor->activeClipId() == QString::number(int(id.internalId()))) {
             return;
         }
         QString clipService;
@@ -3006,6 +3022,7 @@ void Bin::slotInitView(QAction *action)
                     break;
                 }
             }
+            KdenliveSettings::setBinSorting(ix + (order == Qt::DescendingOrder ? 100 : 0));
         });
         connect(view, &MyTreeView::focusView, this, &Bin::slotGotFocus);
     } else if (m_listType == BinIconView) {
@@ -3063,14 +3080,6 @@ void Bin::slotSetIconSize(int size)
     m_blankThumb.addPixmap(pix);
 }
 
-void Bin::rebuildMenu()
-{
-    m_extractAudioAction = static_cast<QMenu *>(pCore->window()->factory()->container(QStringLiteral("extract_audio"), pCore->window()));
-    m_clipsActionsMenu = static_cast<QMenu *>(pCore->window()->factory()->container(QStringLiteral("clip_actions"), pCore->window()));
-    m_menu->insertMenu(m_locateAction, m_extractAudioAction);
-    m_menu->insertMenu(m_locateAction, m_clipsActionsMenu);
-}
-
 void Bin::contextMenuEvent(QContextMenuEvent *event)
 {
     bool enableClipActions = false;
@@ -3102,11 +3111,13 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     if (isFolder) {
         m_menu->insertAction(m_deleteAction, m_createFolderAction);
         m_menu->insertAction(m_createFolderAction, m_sequencesFolderAction);
+        m_menu->insertAction(m_createFolderAction, m_audioCapturesFolderAction);
         m_menu->insertAction(m_sequencesFolderAction, m_openInBin);
     } else {
         m_menu->removeAction(m_createFolderAction);
         m_menu->removeAction(m_openInBin);
         m_menu->removeAction(m_sequencesFolderAction);
+        m_menu->removeAction(m_audioCapturesFolderAction);
     }
 
     // Show menu
@@ -3683,6 +3694,11 @@ void Bin::setupMenu()
         addAction(QStringLiteral("sequence_folder"), i18n("Default Target Folder for Sequences"), QIcon::fromTheme(QStringLiteral("favorite")));
     m_sequencesFolderAction->setCheckable(true);
     connect(m_sequencesFolderAction, &QAction::triggered, this, &Bin::setDefaultSequenceFolder);
+
+    m_audioCapturesFolderAction =
+        addAction(QStringLiteral("audioCapture_folder"), i18n("Default Target Folder for Audio Captures"), QIcon::fromTheme(QStringLiteral("favorite")));
+    m_audioCapturesFolderAction->setCheckable(true);
+    connect(m_audioCapturesFolderAction, &QAction::triggered, this, &Bin::setDefaultAudioCaptureFolder);
 
     m_createFolderAction = addAction(QStringLiteral("create_folder"), i18n("Create Folder"), QIcon::fromTheme(QStringLiteral("folder-new")));
     m_createFolderAction->setWhatsThis(
@@ -5170,14 +5186,6 @@ void Bin::cleanupUnused()
     m_itemModel->requestCleanupUnused();
 }
 
-std::shared_ptr<EffectStackModel> Bin::getClipEffectStack(int itemId)
-{
-    std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(QString::number(itemId));
-    Q_ASSERT(clip != nullptr);
-    std::shared_ptr<EffectStackModel> effectStack = std::static_pointer_cast<ClipController>(clip)->m_effectStack;
-    return effectStack;
-}
-
 size_t Bin::getClipDuration(int itemId) const
 {
     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(QString::number(itemId));
@@ -5957,6 +5965,7 @@ void Bin::updateTimelineOccurrences()
                 }
             } else if (currentItem->itemType() == AbstractProjectItem::FolderItem) {
                 m_sequencesFolderAction->setChecked(currentItem->clipId().toInt() == m_itemModel->defaultSequencesFolder());
+                m_audioCapturesFolderAction->setChecked(currentItem->clipId().toInt() == m_itemModel->defaultAudioCaptureFolder());
             }
         }
     }
@@ -5995,6 +6004,17 @@ void Bin::setDefaultSequenceFolder(bool enable)
         std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(currentSelection));
         if (currentItem) {
             m_itemModel->setSequencesFolder(enable ? currentItem->clipId().toInt() : -1);
+        }
+    }
+}
+
+void Bin::setDefaultAudioCaptureFolder(bool enable)
+{
+    QModelIndex currentSelection = m_proxyModel->selectionModel()->currentIndex();
+    if (currentSelection.isValid()) {
+        std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(currentSelection));
+        if (currentItem) {
+            m_itemModel->setAudioCaptureFolder(enable ? currentItem->clipId().toInt() : -1);
         }
     }
 }

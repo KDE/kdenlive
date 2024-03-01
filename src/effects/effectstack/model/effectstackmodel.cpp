@@ -912,6 +912,11 @@ bool EffectStackModel::removeFade(bool fromStart)
     return true;
 }
 
+void EffectStackModel::moveEffectByRow(int destRow, int srcRow)
+{
+    moveEffect(destRow, getEffectStackRow(srcRow));
+}
+
 void EffectStackModel::moveEffect(int destRow, const std::shared_ptr<AbstractEffectItem> &item)
 {
     QWriteLocker locker(&m_lock);

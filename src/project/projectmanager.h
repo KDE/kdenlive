@@ -253,9 +253,6 @@ private:
     QAction *m_fileRevert;
     KRecentFilesAction *m_recentFilesAction;
     NotesPlugin *m_notesPlugin;
-    QProgressDialog *m_progressDialog{nullptr};
-    /** @brief If true, means we are still opening Kdenlive, send messages to splash screen */
-    bool m_loading{false};
     void saveRecentFiles();
     /** @brief Something went wrong, stop loading file */
     void abortLoading();
@@ -264,4 +261,6 @@ private:
     /** @brief WHen building a sequence producer, ensure we pass along all properties */
     void passSequenceProperties(const QUuid &uuid, std::shared_ptr<Mlt::Producer> prod, Mlt::Tractor tractor, std::shared_ptr<TimelineItemModel> timelineModel,
                                 TimelineWidget *timelineWidget);
+    /** @brief Ensure sequences are correctly stored in our project model */
+    void checkProjectIntegrity();
 };

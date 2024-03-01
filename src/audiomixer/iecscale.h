@@ -38,14 +38,14 @@ static inline double IEC_ScaleMax(double dB, double max)
     return IEC_Scale(dB) / IEC_Scale(max);
 }
 
-static inline int fromDB(double level)
+static inline double fromDB(double level)
 {
-    int value = 60;
+    double value = 60;
     if (level > 0.) {
         // increase volume
-        value = 100 - int((pow(10, 1. - level / 24) - 1) / .225);
+        value = 100 - ((pow(10, 1. - level / 24) - 1) / .225);
     } else if (level < 0.) {
-        value = int((10 - pow(10, 1. - level / -50)) / -0.11395) + 59;
+        value = ((10 - pow(10, 1. - level / -50)) / -0.11395) + 59;
     }
     return value;
 }

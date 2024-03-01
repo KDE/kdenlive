@@ -354,8 +354,8 @@ void TrackModel::temporaryUnplugClip(int clipId)
 {
     QWriteLocker locker(&m_lock);
     int clip_position = m_allClips[clipId]->getPosition();
-    auto clip_loc = getClipIndexAt(clip_position);
-    int target_track = clip_loc.first;
+    int target_track = m_allClips[clipId]->getSubPlaylistIndex();
+    auto clip_loc = getClipIndexAt(clip_position, target_track);
     int target_clip = clip_loc.second;
     // lock MLT playlist so that we don't end up with invalid frames in monitor
     m_playlists[target_track].lock();
@@ -1884,7 +1884,6 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
         // A list of clip ids x playlists
         QMap<int, int> rearrangedPlaylists;
         QMap<int, QVector<QPair<QString, QVariant>>> mixParameters;
-        int ix = 0;
         int moveId = m_mixList.value(clipIds.second, -1);
         while (moveId > -1) {
             int current = m_allClips[moveId]->getSubPlaylistIndex();
@@ -1896,7 +1895,6 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
             } else {
                 break;
             }
-            ix++;
         }
         rearrange_playlists = [this, map = rearrangedPlaylists]() {
             // First, remove all clips on playlist 0

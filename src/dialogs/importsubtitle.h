@@ -10,6 +10,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "definitions.h"
 #include "utils/timecode.h"
+#include <QTimer>
 
 /**
  * @class ImportSubtitle
@@ -23,4 +24,7 @@ class ImportSubtitle : public QDialog, public Ui::ImportSub_UI
 public:
     explicit ImportSubtitle(const QString &path, QWidget *parent = nullptr);
     ~ImportSubtitle() override;
+
+private:
+    QTimer m_parseTimer;
 };

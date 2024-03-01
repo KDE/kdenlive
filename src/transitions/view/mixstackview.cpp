@@ -85,7 +85,6 @@ void MixStackView::setModel(const std::shared_ptr<AssetParameterModel> &model, Q
     m_lay->addWidget(m_position);
     m_lay->addStretch(10);
     checkAlignment();
-    slotRefresh();
 }
 
 void MixStackView::checkAlignment()

@@ -11,6 +11,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bin/projectfolder.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
+#include "dialogs/customcamcorderdialog.h"
 #include "dialogs/profilesdialog.h"
 #include "dialogs/wizard.h"
 #include "doc/kdenlivedoc.h"
@@ -108,6 +109,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     connect(external_proxy, &QCheckBox::toggled, external_proxy_profile, &QComboBox::setEnabled);
     connect(external_proxy_profile, &QComboBox::currentTextChanged, this, &ProjectSettings::slotExternalProxyProfileChanged);
     slotExternalProxyChanged(external_proxy->checkState());
+    connect(manage_external, &QToolButton::clicked, this, &ProjectSettings::configureExternalProxies);
 
     QString currentProf;
     if (doc) {
@@ -333,6 +335,17 @@ void ProjectSettings::setExternalProxyProfileData(const QString &profileData)
     le_suffix_clip->setText(val6);
 }
 
+void ProjectSettings::configureExternalProxies()
+{
+    // We want to edit the profiles
+    CustomCamcorderDialog cd;
+    if (cd.exec() == QDialog::Accepted) {
+        // reload profiles
+        m_initialExternalProxyProfile = external_proxy_profile->currentData().toString();
+        loadExternalProxyProfiles();
+    }
+}
+
 void ProjectSettings::slotExternalProxyProfileChanged(const QString &)
 {
     setExternalProxyProfileData(external_proxy_profile->currentData().toString());
@@ -446,7 +459,8 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
         }
         case ClipType::Text: {
             new QTreeWidgetItem(texts, QStringList() << clip->clipUrl());
-            const QStringList imagefiles = TitleWidget::extractImageList(clip->getProducerProperty(QStringLiteral("xmldata")));
+            QString titleData = clip->getProducerProperty(QStringLiteral("xmldata"));
+            const QStringList imagefiles = TitleWidget::extractImageList(titleData, pCore->currentDoc()->documentRoot());
             const QStringList fonts = TitleWidget::extractFontList(clip->getProducerProperty(QStringLiteral("xmldata")));
             for (const QString &file : imagefiles) {
                 new QTreeWidgetItem(images, QStringList() << file);
@@ -785,13 +799,10 @@ QStringList ProjectSettings::extractSlideshowUrls(const QString &url)
 
 void ProjectSettings::slotExportToText()
 {
-    QFileDialog fd(this);
-    fd.setMimeTypeFilters(QStringList() << "text/plain");
-    if (fd.exec() != QDialog::Accepted) {
+    const QString savePath = QFileDialog::getSaveFileName(this, i18n("Save As"), QString(), i18n("Text File (*.txt)"));
+    if (savePath.isEmpty()) {
         return;
     }
-
-    const QString savePath = fd.selectedFiles().constFirst();
 
     QString text;
     text.append(i18n("Project folder: %1", project_folder->url().toLocalFile()) + '\n');
@@ -931,8 +942,7 @@ void ProjectSettings::loadProxyProfiles()
 void ProjectSettings::loadExternalProxyProfiles()
 {
     // load proxy profiles
-    KConfig conf(QStringLiteral("externalproxies.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
-    KConfigGroup group(&conf, "proxy");
+    KConfigGroup group(KSharedConfig::openConfig(QStringLiteral("externalproxies.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation), "proxy");
     QMap<QString, QString> values = group.entryMap();
     QMapIterator<QString, QString> k(values);
     int ix = -1;

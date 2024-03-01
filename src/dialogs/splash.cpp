@@ -36,13 +36,17 @@ Splash::Splash()
     setPixmap(m_pixmap);
 }
 
-void Splash::showProgressMessage(const QString &message, int progress, int max)
+void Splash::increaseProgressMessage()
+{
+    m_progress++;
+    repaint();
+}
+
+void Splash::showProgressMessage(const QString &message, int max)
 {
     if (max > -1) {
         m_pbStyle.maximum = max;
-    }
-    if (progress > 0) {
-        m_progress++;
+        m_progress = 0;
     }
     if (!message.isEmpty()) {
         showMessage(message, Qt::AlignRight | Qt::AlignBottom, Qt::white);

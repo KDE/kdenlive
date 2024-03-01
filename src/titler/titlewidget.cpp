@@ -622,7 +622,7 @@ TitleWidget::~TitleWidget()
 }
 
 // static
-QStringList TitleWidget::extractImageList(const QString &xml)
+QStringList TitleWidget::extractImageList(QString &xml, const QString &root)
 {
     QStringList result;
     if (xml.isEmpty()) {
@@ -634,10 +634,103 @@ QStringList TitleWidget::extractImageList(const QString &xml)
     for (int i = 0; i < images.count(); ++i) {
         QDomElement image = images.at(i).toElement();
         if (image.hasAttribute(QStringLiteral("url"))) {
-            result.append(image.attribute(QStringLiteral("url")));
+            QString filePath = image.attribute(QStringLiteral("url"));
+            if (!QFileInfo(filePath).isAbsolute()) {
+                // Ensure we return absolute paths
+                filePath.prepend(root);
+            }
+            result.append(filePath);
         }
     }
     return result;
+}
+
+// static
+QPair<QStringList, QStringList> TitleWidget::extractAndFixImageAndFontsList(QDomElement &e, const QString &root)
+{
+    QString xml = Xml::getXmlProperty(e, QStringLiteral("xmldata"));
+    if (xml.isEmpty()) {
+        return {};
+    }
+    QStringList fontsList = extractFontList(xml);
+    QStringList imageList;
+    QDomDocument doc;
+    doc.setContent(xml);
+    bool updated = false;
+    bool byPassFontWeightCheck = false;
+    QDomNodeList images = doc.elementsByTagName(QStringLiteral("content"));
+    for (int i = 0; i < images.count(); ++i) {
+        QDomElement element = images.at(i).toElement();
+        if (!byPassFontWeightCheck && element.hasAttribute(QStringLiteral("font-weight"))) {
+            // QFont's weight property changed between Qt5 (0-100) and Qt6 (0-1000), convert if necessary
+            int fontWeight = element.attribute(QStringLiteral("font-weight")).toInt();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+            if (fontWeight > 100) {
+                // Conversion necessary
+                switch (fontWeight) {
+                case 300:
+                    fontWeight = QFont::Light;
+                    break;
+                case 600:
+                    fontWeight = QFont::DemiBold;
+                    break;
+                case 700:
+                    fontWeight = QFont::Bold;
+                    break;
+                case 900:
+                    fontWeight = QFont::Black;
+                    break;
+                default:
+                    fontWeight = QFont::Normal;
+                    break;
+                }
+                element.setAttribute(QStringLiteral("font-weight"), fontWeight);
+                updated = true;
+            } else {
+                byPassFontWeightCheck = true;
+            }
+#else
+            if (fontWeight < 100) {
+                // Conversion necessary
+                switch (fontWeight) {
+                case 25:
+                    fontWeight = QFont::Light;
+                    break;
+                case 63:
+                    fontWeight = QFont::DemiBold;
+                    break;
+                case 75:
+                    fontWeight = QFont::Bold;
+                    break;
+                case 87:
+                    fontWeight = QFont::Black;
+                    break;
+                default:
+                    fontWeight = QFont::Normal;
+                    break;
+                }
+                element.setAttribute(QStringLiteral("font-weight"), fontWeight);
+                updated = true;
+            } else {
+                byPassFontWeightCheck = true;
+            }
+#endif
+
+        } else if (element.hasAttribute(QStringLiteral("url"))) {
+            QString filePath = element.attribute(QStringLiteral("url"));
+            if (!QFileInfo(filePath).isAbsolute()) {
+                // Ensure Title images have absolute paths, since it does not handle relative paths internally
+                filePath.prepend(root);
+                element.setAttribute(QStringLiteral("url"), filePath);
+                updated = true;
+            }
+            imageList.append(filePath);
+        }
+    }
+    if (updated) {
+        Xml::setXmlProperty(e, QStringLiteral("xmldata"), doc.toString());
+    }
+    return {imageList, fontsList};
 }
 
 // static

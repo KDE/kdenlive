@@ -4,6 +4,7 @@
 */
 
 #include "asseticonprovider.hpp"
+#include "assetlistwidget.hpp"
 #include "effects/effectsrepository.hpp"
 #include "transitions/transitionsrepository.hpp"
 
@@ -41,9 +42,8 @@ const QPixmap AssetIconProvider::makePixmap(const QString &effectName)
     bool isGroup = false;
     AssetListType::AssetType type = AssetListType::AssetType(effectName.section(QLatin1Char('/'), -2, -2).toInt());
     if (m_effect) {
-        isAudio = type == AssetListType::AssetType::Audio || type == AssetListType::AssetType::CustomAudio || type == AssetListType::AssetType::TemplateAudio;
-        isCustom = type == AssetListType::AssetType::CustomAudio || type == AssetListType::AssetType::Custom || type == AssetListType::AssetType::Template ||
-                   type == AssetListType::AssetType::TemplateAudio;
+        isAudio = AssetListWidget::isAudioType(type);
+        isCustom = AssetListWidget::isCustomType(type);
         if (isCustom) {
             // isGroup = EffectsRepository::get()->isGroup(effectId);
         }

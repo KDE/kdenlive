@@ -27,7 +27,6 @@ Rectangle {
     property int modelStart
     property int mixDuration: 0
     property int mixCut: 0
-    property real scrollX: 0
     property int inPoint: 0
     property int outPoint: 0
     property int clipDuration: 0
@@ -52,7 +51,7 @@ Rectangle {
     property int positionOffset: 0
     property var parentTrack
     property int trackIndex //Index in track repeater
-    property int clipId     //Id of the clip in the model
+    property int clipId: -1     //Id of the clip in the model
     property int trackId: -1 // Id of the parent track in the model
     property int fakeTid: -1
     property int fakePosition: 0
@@ -72,9 +71,10 @@ Rectangle {
     property string clipThumbId
     property bool forceReloadAudioThumb
     property bool isComposition: false
-    property bool hideClipViews: scrollStart > (clipDuration * timeline.scaleFactor) || scrollStart + scrollView.width < 0 || clipRoot.width < root.minClipWidthForViews
     property int slipOffset: boundValue(outPoint - maxDuration + 1, trimmingOffset, inPoint)
-    property int scrollStart: scrollView.contentX - (clipRoot.modelStart * timeline.scaleFactor)
+    property int scrollStart: scrollView.contentX - (clipRoot.modelStart * root.timeScale)
+    visible: scrollView.width + clipRoot.scrollStart >= 0 && clipRoot.scrollStart < clipRoot.width
+    property bool hideClipViews: !visible || clipRoot.width < root.minClipWidthForViews
     property int mouseXPos: mouseArea.mouseX
     width : Math.round(clipDuration * timeScale)
     opacity: dragProxyArea.drag.active && dragProxy.draggedItem == clipId ? 0.8 : 1.0
@@ -82,11 +82,24 @@ Rectangle {
 
     signal trimmingIn(var clip, real newDuration, bool shiftTrim, bool controlTrim)
     signal trimmedIn(var clip, bool shiftTrim, bool controlTrim)
-    signal initGroupTrim(var clip)
+    signal initGroupTrim(int clipId)
     signal trimmingOut(var clip, real newDuration, bool shiftTrim, bool controlTrim)
     signal trimmedOut(var clip, bool shiftTrim, bool controlTrim)
 
+    onVisibleChanged: {
+        if (clipRoot.visible) {
+            updateLabelOffset()
+        }
+    }
+
     onScrollStartChanged: {
+        if (!clipRoot.visible) {
+            return
+        }
+        updateLabelOffset()
+        if (isAudio && thumbsLoader.item) {
+            thumbsLoader.item.reload(1)
+        }
         if (!clipRoot.hideClipViews && clipRoot.width > scrollView.width) {
             if (effectRow.item && effectRow.item.kfrCanvas) {
                 effectRow.item.kfrCanvas.requestPaint()
@@ -139,12 +152,6 @@ Rectangle {
         }
     }
 
-    /*onKeyframeModelChanged: {
-        if (effectRow.item && effectRow.item.kfrCanvas) {
-            effectRow.item.kfrCanvas.requestPaint()
-        }
-    }*/
-
     onClipDurationChanged: {
         width = clipDuration * timeScale
         if (parentTrack && parentTrack.isAudio && thumbsLoader.item) {
@@ -194,23 +201,18 @@ Rectangle {
         x = modelStart * clipRoot.timeScale;
         xIntegerOffset = Math.ceil(x) - x
         width = clipDuration * clipRoot.timeScale;
-        updateLabelOffset()
-        if (!clipRoot.hideClipViews) {
-            if (effectRow.item && effectRow.item.kfrCanvas) {
-                effectRow.item.kfrCanvas.requestPaint()
+        if (clipRoot.visible) {
+            if (!clipRoot.hideClipViews) {
+                if (effectRow.item && effectRow.item.kfrCanvas) {
+                    effectRow.item.kfrCanvas.requestPaint()
+                }
             }
-        }
-    }
-    onScrollXChanged: {
-        updateLabelOffset()
-        if (isAudio && thumbsLoader.item) {
-            thumbsLoader.item.reload(1)
         }
     }
     
     function updateLabelOffset()
     {
-        labelRect.anchors.leftMargin = scrollX > modelStart * clipRoot.timeScale ? scrollX - modelStart * clipRoot.timeScale + (clipRoot.timeremap ? labelRect.height : 0) : clipRoot.timeremap ? labelRect.height : 0
+        nameContainer.anchors.leftMargin = clipRoot.scrollStart > 0 ? (mixContainer.width + labelRect.width > clipRoot.width ? mixContainer.width : Math.max(clipRoot.scrollStart, mixContainer.width + mixBackground.border.width)) : mixContainer.width + mixBackground.border.width
     }
 
     /*border.color: (clipStatus === ClipStatus.StatusMissing || ClipStatus === ClipStatus.StatusWaiting || clipStatus === ClipStatus.StatusDeleting) ? "#ff0000" : selected ? root.selectionColor : grouped ? root.groupColor : borderColor
@@ -357,13 +359,11 @@ Rectangle {
             timeline.grabCurrent()
             //focus = false
         }
-        onPositionChanged: mouse => {
-            var mapped = parentTrack.mapFromItem(clipRoot, mouse.x, mouse.y).x
-            root.mousePosChanged(Math.round(mapped / timeline.scaleFactor))
-        }
         onEntered: {
-            var itemPos = mapToItem(tracksContainerArea, 0, 0, width, height)
-            initDrag(clipRoot, itemPos, clipRoot.clipId, clipRoot.modelStart, clipRoot.trackId, false)
+            if (clipRoot.clipId > -1) {
+                var itemPos = mapToItem(tracksContainerArea, 0, 0, width, height)
+                initDrag(clipRoot, itemPos, clipRoot.clipId, clipRoot.modelStart, clipRoot.trackId, false)
+            }
             showClipInfo()
         }
 
@@ -420,7 +420,12 @@ Rectangle {
                 anchors.left: parent.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                width: clipRoot.mixDuration * clipRoot.timeScale
+                width: clipRoot.mixDuration * root.timeScale
+                onWidthChanged: {
+                    if (clipRoot.visible) {
+                        updateLabelOffset()
+                    }
+                }
                 
                 Rectangle {
                     id: mixBackground
@@ -440,7 +445,7 @@ Rectangle {
 
                     opacity: mixArea.containsMouse || trimInMixArea.pressed || trimInMixArea.containsMouse || mixSelected ? 1 : 0.7
                     border.color: mixSelected ? root.selectionColor : "transparent"
-                    border.width: 2
+                    border.width: clipRoot.mixDuration > 0 ? 2 : 0
                     MouseArea {
                         // Mix click mouse area
                         id: mixArea
@@ -648,8 +653,8 @@ Rectangle {
                     clipRoot.originalDuration = clipDuration
                     shiftTrim = mouse.modifiers & Qt.ShiftModifier
                     controlTrim = mouse.modifiers & Qt.ControlModifier && itemType != ProducerType.Color && itemType != ProducerType.Timeline && itemType != ProducerType.Playlist && itemType != ProducerType.Image
-                    if (!shiftTrim && clipRoot.grouped) {
-                        clipRoot.initGroupTrim(clipRoot)
+                    if (!shiftTrim && (clipRoot.grouped || controller.hasMultipleSelection())) {
+                        clipRoot.initGroupTrim(clipRoot.clipId)
                     }
                     if (root.activeTool === ProjectTool.RippleTool) {
                         timeline.requestStartTrimmingMode(clipRoot.clipId, false, false);
@@ -790,8 +795,8 @@ Rectangle {
                     anchors.right = undefined
                     shiftTrim = mouse.modifiers & Qt.ShiftModifier
                     controlTrim = mouse.modifiers & Qt.ControlModifier && itemType != ProducerType.Color && itemType != ProducerType.Timeline && itemType != ProducerType.Playlist && itemType != ProducerType.Image
-                    if (!shiftTrim && clipRoot.grouped) {
-                        clipRoot.initGroupTrim(clipRoot)
+                    if (!shiftTrim && (clipRoot.grouped || controller.hasMultipleSelection())) {
+                        clipRoot.initGroupTrim(clipRoot.clipId)
                     }
                     if (root.activeTool === ProjectTool.RippleTool) {
                         timeline.requestStartTrimmingMode(clipRoot.clipId, false, true);
@@ -915,9 +920,9 @@ Rectangle {
 
             Item {
                 // Clipping container for clip names
-                anchors.fill: parent
-                anchors.leftMargin: mixContainer.width > 0 ? mixContainer.width + mixBackground.border.width : 0
                 id: nameContainer
+                anchors.fill: parent
+                anchors.leftMargin: clipRoot.scrollStart > 0 ? (mixContainer.width + labelRect.width > clipRoot.width ? mixContainer.width : Math.max(clipRoot.scrollStart, mixContainer.width + mixBackground.border.width)) : mixContainer.width + mixBackground.border.width
                 clip: true
                 Rectangle {
                     // Debug: Clip Id background
@@ -1012,7 +1017,6 @@ Rectangle {
                     color: '#555555'
                     width: effectLabel.width + effectsToggle.width + 4
                     height: effectLabel.height
-                    x: labelRect.x
                     anchors.top: labelRect.bottom
                     anchors.left: labelRect.left
                     visible: labelRect.visible && clipRoot.effectNames != '' && container.showDetails
@@ -1020,13 +1024,13 @@ Rectangle {
                         // effects toggle button background
                         id: effectsToggle
                         color: clipRoot.isStackEnabled ? '#fdbc4b' : 'black'
-                        width: effectButton.width
-                        height: effectButton.height
+                        visible: clipRoot.width > 2.5 * effectLabel.height
+                        width: visible ? effectsRect.height : 0
+                        height: effectsRect.height
                         ToolButton {
                             id: effectButton
-                            height: effectLabel.height
-                            width: effectLabel.height
-                            visible: effectsRect.visible
+                            height: effectsRect.height
+                            width: effectsRect.height
                             onClicked: {
                                 timeline.setEffectsEnabled(clipRoot.clipId, !clipRoot.isStackEnabled)
                             }
@@ -1158,13 +1162,6 @@ Rectangle {
                     target: effectRow.item
                     property: "modelStart"
                     value: clipRoot.modelStart
-                    when: effectRow.status == Loader.Ready && effectRow.item
-                    restoreMode: Binding.RestoreBindingOrValue
-                }
-                Binding {
-                    target: effectRow.item
-                    property: "scrollStart"
-                    value: clipRoot.scrollStart
                     when: effectRow.status == Loader.Ready && effectRow.item
                     restoreMode: Binding.RestoreBindingOrValue
                 }
@@ -1311,6 +1308,8 @@ Rectangle {
             visible: container.handleVisible && mouseArea.containsMouse && !dragProxyArea.pressed
             property int startFadeOut
             property int lastDuration: -1
+            property int startMousePos
+            property bool dragStarted: false
             property string fadeString: timeline.simplifiedTC(clipRoot.fadeOut)
             drag.smoothed: false
             onClicked: {
@@ -1321,6 +1320,8 @@ Rectangle {
             onPressed: {
                 root.autoScrolling = false
                 startFadeOut = clipRoot.fadeOut
+                dragStarted = startFadeOut > 0
+                startMousePos = mouse.x
                 anchors.right = undefined
                 fadeOutCanvas.opacity = 0.6
             }
@@ -1335,6 +1336,10 @@ Rectangle {
             }
             onPositionChanged: mouse => {
                 if (mouse.buttons === Qt.LeftButton) {
+                    if (!dragStarted && startMousePos - mouse.x < 3) {
+                        return
+                    }
+                    dragStarted = true
                     var delta = clipRoot.clipDuration - Math.floor((x + width / 2 - itemBorder.border.width)/ clipRoot.timeScale)
                     var duration = Math.max(0, delta)
                     duration = Math.min(duration, clipRoot.clipDuration)
@@ -1411,6 +1416,8 @@ Rectangle {
             drag.axis: Drag.XAxis
             drag.smoothed: false
             property int startFadeIn
+            property int startMousePos
+            property bool dragStarted: false
             property string fadeString: timeline.simplifiedTC(clipRoot.fadeIn)
             visible: container.handleVisible && mouseArea.containsMouse && !dragProxyArea.pressed
             onClicked: {
@@ -1418,9 +1425,11 @@ Rectangle {
                     timeline.adjustFade(clipRoot.clipId, 'fadein', 0, -2)
                 }
             }
-            onPressed: {
+            onPressed: mouse => {
                 root.autoScrolling = false
                 startFadeIn = clipRoot.fadeIn
+                dragStarted = startFadeIn > 0
+                startMousePos = mouse.x
                 anchors.left = undefined
                 fadeInTriangle.opacity = 0.6
                 // parentTrack.clipSelected(clipRoot, parentTrack) TODO
@@ -1435,6 +1444,10 @@ Rectangle {
             }
             onPositionChanged: mouse => {
                 if (mouse.buttons === Qt.LeftButton) {
+                    if (!dragStarted && mouse.x - startMousePos < 3) {
+                        return
+                    }
+                    dragStarted = true
                     var delta = Math.round((x + width / 2) / clipRoot.timeScale)
                     var duration = Math.max(0, delta)
                     duration = Math.min(duration, clipRoot.clipDuration - 1)

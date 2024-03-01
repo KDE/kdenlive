@@ -130,7 +130,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_loopClipTransition(true)
     , m_editMarker(nullptr)
     , m_forceSizeFactor(0)
-    , m_offset(id == Kdenlive::ProjectMonitor ? TimelineModel::seekDuration : 0)
     , m_lastMonitorSceneType(MonitorSceneDefault)
     , m_displayingCountdown(true)
 {
@@ -155,9 +154,19 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 #else
     m_glMonitor = new OpenGLVideoWidget(id, this);
 #endif
-    connect(m_glMonitor->quickWindow(), &QQuickWindow::sceneGraphInitialized, m_glMonitor, &VideoWidget::initialize, Qt::DirectConnection);
-    connect(m_glMonitor->quickWindow(), &QQuickWindow::beforeRendering, m_glMonitor, &VideoWidget::beforeRendering, Qt::DirectConnection);
-    connect(m_glMonitor->quickWindow(), &QQuickWindow::beforeRenderPassRecording, m_glMonitor, &VideoWidget::renderVideo, Qt::DirectConnection);
+    //  The m_glMonitor quickWindow() can be destroyed on undock with some graphics interface (Windows/Mac), so reconnect on destroy
+    auto rebuildViewConnection = [this]() {
+        connect(m_glMonitor->quickWindow(), &QQuickWindow::sceneGraphInitialized, m_glMonitor, &VideoWidget::initialize, Qt::DirectConnection);
+        connect(m_glMonitor->quickWindow(), &QQuickWindow::beforeRendering, m_glMonitor, &VideoWidget::beforeRendering, Qt::DirectConnection);
+        connect(m_glMonitor->quickWindow(), &QQuickWindow::beforeRenderPassRecording, m_glMonitor, &VideoWidget::renderVideo, Qt::DirectConnection);
+        m_glMonitor->reconnectWindow();
+    };
+
+    connect(m_glMonitor, &VideoWidget::reconnectWindow, [this, rebuildViewConnection]() {
+        connect(m_glMonitor->quickWindow(), &QQuickWindow::destroyed, [rebuildViewConnection]() { rebuildViewConnection(); });
+    });
+
+    rebuildViewConnection();
 #else
     m_glMonitor = new VideoWidget(id, this);
 #endif
@@ -970,10 +979,7 @@ void Monitor::adjustScrollBars(float horizontal, float vertical)
 void Monitor::setZoom(float zoomRatio)
 {
     if (qFuzzyCompare(m_glMonitor->zoom(), 1.0f)) {
-        m_horizontalScroll->hide();
-        m_verticalScroll->hide();
-        m_glMonitor->setOffsetX(m_horizontalScroll->value(), m_horizontalScroll->maximum());
-        m_glMonitor->setOffsetY(m_verticalScroll->value(), m_verticalScroll->maximum());
+        adjustScrollBars(1., 1.);
     } else if (qFuzzyCompare(m_glMonitor->zoom() / zoomRatio, 1.0f)) {
         adjustScrollBars(0.5f, 0.5f);
     } else {
@@ -991,6 +997,7 @@ bool Monitor::monitorIsFullScreen() const
 void Monitor::slotSwitchFullScreen(bool minimizeOnly)
 {
     // TODO: disable screensaver?
+    m_glMonitor->refreshZoom = true;
     if (!m_glWidget->isFullScreen() && !minimizeOnly) {
         // Move monitor widget to the second screen (one screen for Kdenlive, the other one for the Monitor widget)
         if (qApp->screens().count() > 1) {

@@ -44,6 +44,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QIcon>
 #include <QProcess>
 #include <QQmlEngine>
+#include <QQuickStyle>
 #include <QQuickWindow>
 #include <QResource>
 #include <QSplashScreen>
@@ -97,6 +98,11 @@ int main(int argc, char *argv[])
 #endif
 #endif
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    // blacklist MLT Qt5 module to prevent crashes
+    qputenv("MLT_REPOSITORY_DENY", "libmltqt:libmltglaxnimate");
+#endif
+
 #if defined(Q_OS_WIN)
     QGuiApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::RoundPreferFloor);
 #endif
@@ -104,6 +110,11 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts, true);
 
     QApplication app(argc, argv);
+
+    // Default to org.kde.desktop style unless the user forces another style
+    if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE")) {
+        QQuickStyle::setStyle(QStringLiteral("org.kde.desktop"));
+    }
 
     // Try to detect package type
     QString packageType;
@@ -140,7 +151,7 @@ int main(int argc, char *argv[])
         otherText.prepend(i18n("You are using the %1 package.<br>", packageType));
     }
     KAboutData aboutData(QByteArray("kdenlive"), i18n("Kdenlive"), KDENLIVE_VERSION, i18n("An open source video editor."), KAboutLicense::GPL_V3,
-                         i18n("Copyright © 2007–2023 Kdenlive authors"), otherText, QStringLiteral("https://kdenlive.org"));
+                         i18n("Copyright © 2007–2024 Kdenlive authors"), otherText, QStringLiteral("https://kdenlive.org"));
     // main developers (alphabetical)
     aboutData.addAuthor(i18n("Jean-Baptiste Mardelle"), i18n("MLT and KDE SC 4 / KF5 port, main developer and maintainer"), QStringLiteral("jb@kdenlive.org"));
     // active developers with major involvement
@@ -287,7 +298,6 @@ int main(int argc, char *argv[])
         for (const auto &job : renderjobs) {
             const QStringList argsJob = RenderRequest::argsByJob(job);
             qDebug() << "* CREATED JOB WITH ARGS: " << argsJob;
-
             qDebug() << "starting kdenlive_render process using: " << KdenliveSettings::kdenliverendererpath();
             if (!parser.isSet(exitOption)) {
                 if (QProcess::execute(KdenliveSettings::kdenliverendererpath(), argsJob) != EXIT_SUCCESS) {
@@ -426,9 +436,7 @@ int main(int argc, char *argv[])
     }
     qApp->processEvents(QEventLoop::AllEvents);
 
-#ifdef USE_DRMINGW
-    ExcHndlInit();
-#elif defined(KF5_USE_CRASH)
+#if defined(KF5_USE_CRASH)
     KCrash::initialize();
 #endif
 
@@ -468,7 +476,9 @@ int main(int argc, char *argv[])
         // App is crashing, delete config files and restart
         result = EXIT_CLEAN_RESTART;
     } else {
-        QObject::connect(pCore.get(), &Core::loadingMessageUpdated, &splash, &Splash::showProgressMessage, Qt::DirectConnection);
+        QObject::connect(pCore.get(), &Core::loadingMessageNewStage, &splash, &Splash::showProgressMessage, Qt::DirectConnection);
+        QObject::connect(pCore.get(), &Core::loadingMessageIncrease, &splash, &Splash::increaseProgressMessage, Qt::DirectConnection);
+        QObject::connect(pCore.get(), &Core::loadingMessageHide, &splash, &Splash::clearMessage, Qt::DirectConnection);
         QObject::connect(pCore.get(), &Core::closeSplash, &splash, [&]() { splash.finish(pCore->window()); });
         pCore->initGUI(inSandbox, parser.value(mltPathOption), url, clipsToLoad);
         result = app.exec();
@@ -488,15 +498,47 @@ int main(int argc, char *argv[])
                 }
             }
             // Delete xml ui rc file
-            QDir dir(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("kxmlgui5"), QStandardPaths::LocateDirectory));
-            if (dir.exists()) {
-                dir.cd(QStringLiteral("kdenlive"));
-            }
-            if (dir.exists()) {
-                QFile f(dir.absoluteFilePath(QStringLiteral("kdenliveui.rc")));
-                if (f.exists()) {
-                    qDebug() << " = = = =\nGOT Deleted file: " << f.fileName();
-                    f.remove();
+            const QString configLocation = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
+            if (!configLocation.isEmpty()) {
+                QDir dir(configLocation);
+                if (dir.cd(QStringLiteral("kxmlgui5")) && dir.cd(QStringLiteral("kdenlive"))) {
+                    QFile f(dir.absoluteFilePath(QStringLiteral("kdenliveui.rc")));
+                    if (f.exists() && f.open(QIODevice::ReadOnly)) {
+                        bool shortcutFound = false;
+                        QDomDocument doc;
+                        doc.setContent(&f);
+                        f.close();
+                        if (!doc.documentElement().isNull()) {
+                            QDomElement shortcuts = doc.documentElement().firstChildElement(QStringLiteral("ActionProperties"));
+                            if (!shortcuts.isNull()) {
+                                qDebug() << "==== FOUND CUSTOM SHORTCUTS!!!";
+                                // Copy the original settings and append custom shortcuts
+                                QFile f2(QStringLiteral(":/kxmlgui5/kdenlive/kdenliveui.rc"));
+                                if (f2.exists() && f2.open(QIODevice::ReadOnly)) {
+                                    QDomDocument doc2;
+                                    doc2.setContent(&f2);
+                                    f2.close();
+                                    if (!doc2.documentElement().isNull()) {
+                                        doc2.documentElement().appendChild(doc2.importNode(shortcuts, true));
+                                        shortcutFound = true;
+                                        if (f.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                                            // overwrite local xml config
+                                            QTextStream out(&f);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+                                            out.setCodec("UTF-8");
+#endif
+                                            out << doc2.toString();
+                                            f.close();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        if (!shortcutFound) {
+                            // No custom shortcuts found, simply delete the xmlui file
+                            f.remove();
+                        }
+                    }
                 }
             }
         }

@@ -149,7 +149,8 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData,
         } else if (t == ClipType::QText) {
             allFonts << clip->getProducerProperty(QStringLiteral("family"));
         } else if (t == ClipType::Text) {
-            QStringList imagefiles = TitleWidget::extractImageList(clip->getProducerProperty(QStringLiteral("xmldata")));
+            QString titleData = clip->getProducerProperty(QStringLiteral("xmldata"));
+            QStringList imagefiles = TitleWidget::extractImageList(titleData, pCore->currentDoc()->documentRoot());
             QStringList fonts = TitleWidget::extractFontList(clip->getProducerProperty(QStringLiteral("xmldata")));
             extraImageUrls << imagefiles;
             allFonts << fonts;
@@ -468,7 +469,8 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
             }
         } else if (filesList.contains(fileName) && !filesPath.contains(file)) {
             // we have 2 different files with same name
-            QString fileName = QStringUtils::getUniqueName(filesList, fileName);
+            const QString previousName = fileName;
+            fileName = QStringUtils::getUniqueFileName(filesList, previousName);
             item->setData(0, Qt::UserRole, fileName);
         }
         if (!isSlideshow) {
@@ -554,7 +556,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
         } else if (filesList.contains(fileName) && !filesPath.contains(file)) {
             // we have 2 different files with same name
             const QString previousName = fileName;
-            fileName = QStringUtils::getUniqueName(filesList, previousName);
+            fileName = QStringUtils::getUniqueFileName(filesList, previousName);
             item->setData(0, Qt::UserRole, fileName);
         }
         if (!isSlideshow) {
@@ -618,11 +620,12 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
         m_replacementList.clear();
         m_foldersList.clear();
         m_filesList.clear();
+        m_processedFiles.clear();
         slotDisplayMessage(QStringLiteral("system-run"), i18n("Archiving…"));
         repaint();
     }
     QList<QUrl> files;
-    QUrl destUrl;
+    QDir destUrl;
     QString destPath;
     QTreeWidgetItem *parentItem;
     bool isSlideshow = false;
@@ -659,13 +662,18 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
         files_list->setCurrentItem(parentItem);
         parentItem->setExpanded(true);
         destPath = parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/');
-        destUrl = QUrl::fromLocalFile(archive_url->url().toLocalFile() + QLatin1Char('/') + destPath);
+        destUrl = QDir(archive_url->url().toLocalFile() + QLatin1Char('/') + destPath);
         QTreeWidgetItem *item;
         for (int j = 0; j < parentItem->childCount(); ++j) {
             item = parentItem->child(j);
             if (item->isDisabled() || item->isHidden()) {
                 continue;
             }
+            if (m_processedFiles.contains(item->text(0))) {
+                // File was already processed, rename
+                continue;
+            }
+            m_processedFiles << item->text(0);
             items++;
             if (parentItem->data(0, Qt::UserRole).toString() == QLatin1String("playlist")) {
                 // Special case: playlists (mlt files) may contain urls that need to be replaced too
@@ -681,11 +689,10 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
                     m_temp->close();
                     m_filesList.insert(m_temp->fileName(), destPath + filename);
                 } else {
-                    QDir dir(destUrl.toLocalFile());
-                    if (!dir.mkpath(QStringLiteral("."))) {
-                        KMessageBox::error(this, i18n("Cannot create directory %1", destUrl.toLocalFile()));
+                    if (!destUrl.mkpath(QStringLiteral("."))) {
+                        KMessageBox::error(this, i18n("Cannot create directory %1", destUrl.absolutePath()));
                     }
-                    QFile file(dir.absoluteFilePath(filename));
+                    QFile file(destUrl.absoluteFilePath(filename));
                     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
                         qCWarning(KDENLIVE_LOG) << "//////  ERROR writing to file: " << file.fileName();
                         KMessageBox::error(this, i18n("Cannot write to file %1", file.fileName()));
@@ -701,7 +708,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
             } else if (isSlideshow) {
                 // Special case: slideshows
                 destPath += item->data(0, Qt::UserRole).toString() + QLatin1Char('/');
-                destUrl = QUrl::fromLocalFile(archive_url->url().toLocalFile() + QDir::separator() + destPath);
+                destUrl = QDir(archive_url->url().toLocalFile() + QDir::separator() + destPath);
                 QStringList srcFiles = item->data(0, SlideshowImagesRole).toStringList();
                 for (int k = 0; k < srcFiles.count(); ++k) {
                     files << QUrl::fromLocalFile(srcFiles.at(k));
@@ -722,7 +729,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
                     m_filesList.insert(item->text(0), destPath + item->data(0, Qt::UserRole).toString());
                 } else {
                     m_duplicateFiles.insert(QUrl::fromLocalFile(item->text(0)),
-                                            QUrl::fromLocalFile(destUrl.toLocalFile() + QLatin1Char('/') + item->data(0, Qt::UserRole).toString()));
+                                            QUrl::fromLocalFile(destUrl.absoluteFilePath(item->data(0, Qt::UserRole).toString())));
                 }
             }
         }
@@ -734,7 +741,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
         break;
     }
 
-    if (items == 0 && isLastCategory) {
+    if (items == 0 && isLastCategory && m_duplicateFiles.isEmpty()) {
         // No clips to archive
         slotArchivingFinished(nullptr, true);
         return true;
@@ -747,8 +754,8 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
         QMapIterator<QUrl, QUrl> i(m_duplicateFiles);
         if (i.hasNext()) {
             i.next();
-            QUrl startJobSrc = i.key();
-            QUrl startJobDst = i.value();
+            const QUrl startJobSrc = i.key();
+            const QUrl startJobDst = i.value();
             m_duplicateFiles.remove(startJobSrc);
             m_infoMessage->setText(i18n("Copying %1", startJobSrc.fileName()));
             KIO::CopyJob *job = KIO::copyAs(startJobSrc, startJobDst, KIO::HideProgressInfo);
@@ -761,17 +768,18 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
     if (isArchive) {
         m_foldersList.append(destPath);
         for (int i = 0; i < files.count(); ++i) {
-            m_filesList.insert(files.at(i).toLocalFile(), destPath + files.at(i).fileName());
+            if (!m_filesList.contains(files.at(i).toLocalFile())) {
+                m_filesList.insert(files.at(i).toLocalFile(), destPath + files.at(i).fileName());
+            }
         }
         slotArchivingFinished();
     } else if (files.isEmpty()) {
         slotStartArchiving(false);
     } else {
-        QDir dir(destUrl.toLocalFile());
-        if (!dir.mkpath(QStringLiteral("."))) {
-            KMessageBox::error(this, i18n("Cannot create directory %1", destUrl.toLocalFile()));
+        if (!destUrl.mkpath(QStringLiteral("."))) {
+            KMessageBox::error(this, i18n("Cannot create directory %1", destUrl.absolutePath()));
         }
-        m_copyJob = KIO::copy(files, destUrl, KIO::HideProgressInfo);
+        m_copyJob = KIO::copy(files, QUrl::fromLocalFile(destUrl.absolutePath()), KIO::HideProgressInfo);
         connect(m_copyJob, &KJob::result, this, [this](KJob *jb) { slotArchivingFinished(jb, false); });
         connect(m_copyJob, &KJob::processedSize, this, &ArchiveWidget::slotArchivingProgress);
     }

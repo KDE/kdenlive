@@ -83,6 +83,7 @@ private:
     QFuture<void> m_archiveThread;
     QStringList m_foldersList;
     QMap<QString, QString> m_filesList;
+    QStringList m_processedFiles;
     bool m_extractMode;
     QUrl m_extractUrl;
     QString m_projectName;

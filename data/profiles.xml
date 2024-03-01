@@ -47,8 +47,8 @@
    args="f=webm vcodec=libvpx-vp9 crf=%quality vb=20M qcomp=1 g=15 mlt_image_format=rgba pix_fmt=yuva420p acodec=vorbis aq=%audioquality"/>
   <profile name="Alpha MOV" extension="mov" 
    args="f=mov vcodec=qtrle mlt_image_format=rgba pix_fmt=argb"/>
-  <profile name="Ut Video" extension="avi"
-   args="f=avi vcodec=utvideo mlt_image_format=rgba pix_fmt=gbrap acodec=pcm_s24le"/>
+  <profile name="FFmpeg FFV1" extension="mkv"
+   args="f=mov vcodec=ffv1 mlt_image_format=rgba pix_fmt=argb"/>
  </group>
  <group name="Old-TV definition (DVD...)" renderer="avformat" type="av">
   <profile name="VOB (DVD)" extension="vob"

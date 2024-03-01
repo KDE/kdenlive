@@ -4,7 +4,7 @@
     <name>Gaussian Blur</name>
     <description>Apply Gaussian Blur filter</description>
     <author>libavfilter</author>
-    <parameter type="constant" name="av.sigma" default="0" min="0" max="1024" factor="1">
+    <parameter type="animated" name="av.sigma" default="0" min="0" max="600" factor="1">
         <name>Sigma</name>
     </parameter>
     <parameter type="list" name="av.steps" default="1" paramlist="1;2;3;4;5;6">
@@ -15,7 +15,7 @@
         <paramlistdisplay>None,Y,U,YU,V,YV,UV,YUV,Alpha</paramlistdisplay>
         <name>Planes</name>
     </parameter>
-    <parameter type="constant" name="av.sigmaV" default="-1" min="-1" max="1024" factor="1">
+    <parameter type="animated" name="av.sigmaV" default="0" min="0" max="600" factor="1">
         <name>Vertical Sigma</name>
     </parameter>
 </effect>

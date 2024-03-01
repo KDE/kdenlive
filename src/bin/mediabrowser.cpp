@@ -57,7 +57,7 @@ MediaBrowser::MediaBrowser(QWidget *parent)
     QAction *importOnDoubleClick = new QAction(QIcon::fromTheme("document-open"), i18n("Import File on Double Click"));
     importOnDoubleClick->setCheckable(true);
     importOnDoubleClick->setChecked(KdenliveSettings::mediaDoubleClickImport());
-    connect(importOnDoubleClick, &QAction::triggered, this, [this](bool enabled) { KdenliveSettings::setMediaDoubleClickImport(enabled); });
+    connect(importOnDoubleClick, &QAction::triggered, this, [](bool enabled) { KdenliveSettings::setMediaDoubleClickImport(enabled); });
 
     // Create View
     m_op = new KDirOperator(QUrl(), parent);
@@ -150,7 +150,7 @@ MediaBrowser::MediaBrowser(QWidget *parent)
             }
         }
     });
-    connect(m_op, &KDirOperator::contextMenuAboutToShow, this, [this, importAction](const KFileItem &, QMenu *menu) {
+    connect(m_op, &KDirOperator::contextMenuAboutToShow, this, [importAction](const KFileItem &, QMenu *menu) {
         QList<QAction *> act = menu->actions();
         if (act.isEmpty()) {
             menu->addAction(importAction);
@@ -221,11 +221,11 @@ MediaBrowser::MediaBrowser(QWidget *parent)
     b->setWhatsThis(
         xi18nc("@info:whatsthis",
                "When enabled, Kdenlive will import all clips contained in the folder and its subfolders without creating the subfolders in Project Bin."));
-    connect(b, &QCheckBox::toggled, this, [this](bool enabled) { KdenliveSettings::setIgnoresubdirstructure(enabled); });
+    connect(b, &QCheckBox::toggled, this, [](bool enabled) { KdenliveSettings::setIgnoresubdirstructure(enabled); });
 
     QCheckBox *b2 = new QCheckBox(i18n("Import image sequence"));
     b2->setChecked(KdenliveSettings::autoimagesequence());
-    connect(b2, &QCheckBox::toggled, this, [this](bool enabled) { KdenliveSettings::setAutoimagesequence(enabled); });
+    connect(b2, &QCheckBox::toggled, this, [](bool enabled) { KdenliveSettings::setAutoimagesequence(enabled); });
     b2->setToolTip(i18n("Try to import an image sequence"));
     b2->setWhatsThis(
         xi18nc("@info:whatsthis", "When enabled, Kdenlive will look for other images with the same name pattern and import them as an image sequence."));

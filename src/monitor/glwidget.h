@@ -191,6 +191,8 @@ protected:
     int m_rulerHeight;
     /** @brief The height of the qml ruler and audio thumbs */
     int m_displayRulerHeight;
+    /** @brief For some reason on Qt6 fullscreen switch, image position is not correctly updated, so use this to track state */
+    bool refreshZoom{false};
     QColor m_bgColor;
 
 private:

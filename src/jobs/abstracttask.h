@@ -61,6 +61,7 @@ private:
     JOBTYPE m_type;
     int m_priority;
     void cancelJob(bool softDelete = false);
+    bool isCanceled() const;
 
 Q_SIGNALS:
     void jobCanceled();

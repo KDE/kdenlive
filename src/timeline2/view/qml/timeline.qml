@@ -138,7 +138,11 @@ Rectangle {
             if (offset <0) {
                 newTrack = -2
             } else {
-                newTrack = max
+                if (showSubtitles) {
+                    newTrack = 0
+                } else {
+                    newTrack = max
+                }
             }
         } else {
             var cTrack = Logic.getTrackIndexFromId(timeline.activeTrack)
@@ -214,7 +218,6 @@ Rectangle {
                 rubberSelect.width = newX - rubberSelect.originX
             }
         }
-        root.mousePosChanged(getMousePos())
     }
 
     function verticalScroll(wheel) {
@@ -257,21 +260,22 @@ Rectangle {
         }
     }
 
-    function getMousePos() {
-        if (dragProxy.draggedItem > -1 && dragProxy.masterObject) {
-            return (dragProxy.masterObject.x + dragProxy.masterObject.mouseXPos) / root.timeScale
-        }
-        if (tracksArea.containsMouse) {
-            if (subtitleMouseArea.containsMouse) {
-                return (subtitleMouseArea.mouseX) / root.timeScale
-            } else {
-                return (scrollView.contentX + tracksArea.mouseX) / root.timeScale
-            }
-        } else {
-            return -1;
-        }
+    function getMouseOffset()
+    {
+        return scrollView.contentX - trackHeaders.width
     }
+
+    function getMouseFrame() {
+        return getMousePos() / root.timeScale
+    }
+    function getMousePos() {
+        var posInWidget = timeline.getMousePosInTimeline()
+        return Math.max(0, scrollView.contentX + posInWidget.x - trackHeaders.width)
+    }
+
     function getMouseX() {
+        var posInWidget = timeline.getMousePosInTimeline()
+        return Math.max(0, posInWidget.x - trackHeaders.width)
         if (dragProxy.draggedItem > -1 && dragProxy.masterObject) {
             return (dragProxy.masterObject.x + dragProxy.masterObject.mouseXPos) - scrollView.contentX
         }
@@ -294,11 +298,13 @@ Rectangle {
         return copiedClip
     }
 
+    function getMouseTrackFromPos(offset) {
+        return Logic.getTrackIdFromPos(offset - ruler.height + scrollView.contentY - subtitleTrack.height)
+    }
+
     function getMouseTrack() {
-        if (dragProxy.draggedItem > -1 && dragProxy.masterObject) {
-            return dragProxy.masterObject.trackId
-        }
-        return Logic.getTrackIdFromPos(tracksArea.mouseY - ruler.height + scrollView.contentY - subtitleTrack.height)
+        var posInWidget = timeline.getMousePosInTimeline()
+        return Logic.getTrackIdFromPos(posInWidget.y - ruler.height + scrollView.contentY - subtitleTrack.height)
     }
 
     function getTrackColor(audio, header) {
@@ -361,7 +367,7 @@ Rectangle {
         var mouseYPos = (mousePos.y - ruler.height + scrollView.contentY) - sourceTrack.y
         var allowComposition = mouseYPos > sourceTrack.height / 2
         var tentativeClip = undefined
-        root.mousePosChanged(Math.max(0, Math.floor((mousePos.x - trackHeaders.width + scrollView.contentX) / root.timeScale)))
+        root.mousePosChanged(scrollView.contentX - trackHeaders.width)
         if (allowComposition) {
             tentativeClip = getItemAtPos(currentMouseTrack, (mousePos.x - trackHeaders.width + scrollView.contentX), true)
             if (tentativeClip) {
@@ -562,7 +568,7 @@ Rectangle {
             // update dragged item pos
             dragProxy.masterObject.updateDrag()
         }
-        root.mousePosChanged(getMousePos())
+        root.mousePosChanged(scrollView.contentX - trackHeaders.width)
     }
 
     onConsumerPositionChanged: {
@@ -595,7 +601,7 @@ Rectangle {
             if (tk < 0) {
                 return
             }
-            var pos = getMousePos() * root.timeScale
+            var pos = getMousePos()
             var sourceTrack = Logic.getTrackById(tk)
             var allowComposition = tracksArea.mouseY- sourceTrack.y > sourceTrack.height / 2
             var tentativeItem = undefined
@@ -650,13 +656,17 @@ Rectangle {
                     continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
                 }
                 if (offset != 0) {
-                    root.mousePosChanged(Math.max(0, Math.floor((drag.x + scrollView.contentX) / root.timeScale)))
+                    root.mousePosChanged(scrollView.contentX - trackHeaders.width)
                 }
             }
         }
         onEntered: drag => {
             if (clipBeingMovedId == -1 && clipBeingDroppedId == -1) {
-                var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY - subtitleTrack.height)
+                var yOffset = 0
+                if (root.showSubtitles) {
+                    yOffset = subtitleTrack.height
+                }
+                var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY - yOffset)
                 var frame = Math.round((drag.x + scrollView.contentX) / root.timeScale)
                 droppedPosition = frame
                 isAudioDrag = drag.getDataAsString('type') == "audio"
@@ -664,10 +674,8 @@ Rectangle {
                     clipBeingDroppedData = drag.getDataAsString('kdenlive/composition')
                     clipBeingDroppedId = timeline.insertComposition(track, frame, clipBeingDroppedData, false)
                     continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
-                    drag.acceptProposedAction()
-                } else {
-                    drag.accepted = false
                 }
+                drag.acceptProposedAction()
             }
         }
         onPositionChanged: drag => {
@@ -675,17 +683,22 @@ Rectangle {
                 if (clipBeingDroppedId >= 0) {
                     moveDrop(0, 0)
                 } else {
-                    var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY - subtitleTrack.height)
+                    var yOffset = 0
+                    if (root.showSubtitles) {
+                        yOffset = subtitleTrack.height
+                    }
+                    var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY - yOffset)
                     if (track !== -1 && controller.isAudioTrack(track) == isAudioDrag) {
                         var frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
                         frame = controller.suggestSnapPoint(frame, root.snapping)
                         clipBeingDroppedData = drag.getDataAsString('kdenlive/composition')
                         clipBeingDroppedId = timeline.insertComposition(track, frame, clipBeingDroppedData , false)
                         continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
+                    } else {
+                        drag.accepted = false
                     }
                 }
             }
-            root.mousePosChanged(Math.max(0, Math.floor((drag.x + scrollView.contentX) / root.timeScale)))
         }
         onExited:{
             if (clipBeingDroppedId != -1) {
@@ -767,7 +780,7 @@ Rectangle {
                     continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
                 }
                 if (offset != 0) {
-                    root.mousePosChanged(Math.max(0, Math.floor((drag.x + scrollView.contentX) / root.timeScale)))
+                    root.mousePosChanged(scrollView.contentX - trackHeaders.width)
                 }
             }
         }
@@ -817,19 +830,17 @@ Rectangle {
             }
             lastDragPos = Qt.point(drag.x, drag.y)
             if (clipBeingMovedId == -1 && clipBeingDroppedId == -1) {
-                //var track = Logic.getTrackIdFromPos(drag.y)
                 var yOffset = 0
                 if (root.showSubtitles) {
                     yOffset = subtitleTrack.height
                 }
                 var track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentY - yOffset)
+                clipBeingDroppedData = drag.getDataAsString('text/producerslist')
+                lastDragUuid = drag.getDataAsString('text/dragid')
                 if (track >= 0  && track < tracksRepeater.count) {
                     var frame = Math.round((drag.x + scrollView.contentX) / root.timeScale)
                     droppedPosition = frame
                     timeline.activeTrack = tracksRepeater.itemAt(track).trackInternalId
-                    //drag.acceptProposedAction()
-                    clipBeingDroppedData = drag.getDataAsString('text/producerslist')
-                    lastDragUuid = drag.getDataAsString('text/dragid')
                     if (controller.normalEdit()) {
                         clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, frame, clipBeingDroppedData)
                     } else {
@@ -842,13 +853,9 @@ Rectangle {
                             fakeTrack = moveData[1]
                         }
                     }
-                    if (clipBeingDroppedId == -1) {
-                        drag.accepted = true
-                    }
                     continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
-                } else {
-                    drag.accepted = false
                 }
+                drag.acceptProposedAction()
             }
         }
         onExited: {
@@ -893,10 +900,11 @@ Rectangle {
                             }
                         }
                         continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
+                    } else {
+                        drag.accepted = false
                     }
                 }
             }
-            root.mousePosChanged(Math.max(0, Math.floor((drag.x + scrollView.contentX) / root.timeScale)))
         }
         onDropped: {
             processDrop()
@@ -947,7 +955,6 @@ Rectangle {
                     }
                 }
             }
-            root.mousePosChanged(Math.max(0, Math.floor((drag.x + scrollView.contentX) / root.timeScale)))
         }
         onDropped: drag => {
             var frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
@@ -1354,7 +1361,7 @@ Rectangle {
                         if (tk < 0) {
                             return
                         }
-                        var pos = getMousePos() * root.timeScale
+                        var pos = getMousePos()
                         var sourceTrack = Logic.getTrackById(tk)
                         var mainClip = undefined
                         mainClip = getItemAtPos(tk, pos, false)
@@ -1465,13 +1472,7 @@ Rectangle {
                     clickY = mouseY
                     return
                 }
-                var mouseXPos
-                if (subtitleMouseArea.containsMouse) {
-                    // Warning, subtitleMouseArea uses the full scrollview's length
-                    mouseXPos = Math.floor(subtitleMouseArea.mouseX / root.timeScale)
-                } else {
-                    mouseXPos = Math.floor((scrollView.contentX + mouseX) / root.timeScale)
-                }
+                var mouseXPos = getMouseFrame()
                 if (root.activeTool === ProjectTool.SlipTool && pressed) {
                     var frame = mouseXPos
                     trimmingOffset = frame - trimmingClickFrame
@@ -1484,7 +1485,6 @@ Rectangle {
                         proxy.position = mouseXPos
                     }
                 }
-                root.mousePosChanged(Math.max(0, mouseXPos))
                 ruler.showZoneLabels = mouse.y < ruler.height
                 if (shiftPress && mouse.buttons === Qt.LeftButton && (root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool) && !rubberSelect.visible && rubberSelect.y > 0) {
                     // rubber selection, check if mouse move was enough
@@ -1737,6 +1737,9 @@ Rectangle {
                         clip: true
                         interactive: false
                         pixelAligned: true
+                        onContentXChanged: {
+                            root.mousePosChanged(scrollView.contentX - trackHeaders.width)
+                        }
                         /*
                          // Replaced by our custom ZoomBar
                          ScrollBar.horizontal: ScrollBar {
@@ -1901,8 +1904,6 @@ Rectangle {
 
                                     function moveItem() {
                                         if (dragProxy.draggedItem > -1 && !rubberSelect.visible) {
-                                            var mapped = Math.max(0, tracksContainerArea.mapFromItem(dragProxy, dragProxyArea.mouseX, 0).x)
-                                            root.mousePosChanged(Math.floor(mapped / root.timeScale))
                                             var posx = Math.round((parent.x)/ root.timeScale)
                                             var posy = Math.min(Math.max(0, dragProxyArea.mouseY + parent.y - dragProxy.verticalOffset), tracksContainerArea.height)
                                             var tId = Logic.getTrackIdFromPos(posy)
@@ -2143,6 +2144,11 @@ Rectangle {
                 opacity: 1
                 height: tracksContainerArea.height
                 x: 0
+                onVisibleChanged: {
+                    if (visible) {
+                        cutLine.x = getMousePos()
+                    }
+                }
                 //x: root.consumerPosition * root.timeScale - scrollView.contentX
                 y: ruler.height
                 Rectangle {

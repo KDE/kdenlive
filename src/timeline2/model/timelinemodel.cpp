@@ -125,6 +125,8 @@ TimelineModel::TimelineModel(const QUuid &uuid, std::weak_ptr<DocUndoStack> undo
     , m_closing(false)
     , m_softDelete(false)
 {
+    // Initialize default seek duration to 5 minutes
+    TimelineModel::seekDuration = GenTime(300).frames(pCore->getCurrentFps());
     // Create black background track
     m_blackClip->set("kdenlive:playlistid", "black_track");
     m_blackClip->set("mlt_type", "producer");
@@ -1398,7 +1400,7 @@ int TimelineModel::suggestSubtitleMove(int subId, int position, int cursorPositi
     if (requestSubtitleMove(subId, newPos, true, false)) {
         return newPos;
     }
-    return position;
+    return currentPos;
 }
 
 QVariantList TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cursorPosition, int snapDistance, bool moveMirrorTracks)
@@ -3593,6 +3595,10 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
                 }
             }
         }
+        if (finalSize < 1) {
+            // Abort resize
+            result = false;
+        }
         result = result && requestItemResize(id, finalSize, right, logUndo, undo, redo);
         if (!result) {
             break;
@@ -4824,6 +4830,11 @@ bool TimelineModel::isTrack(int id) const
 bool TimelineModel::isGroup(int id) const
 {
     return m_allGroups.count(id) > 0;
+}
+
+bool TimelineModel::isInGroup(int id) const
+{
+    return m_groups->isInGroup(id);
 }
 
 void TimelineModel::updateDuration()
@@ -6205,6 +6216,20 @@ bool TimelineModel::requestClearSelection(bool onDeletion)
     Q_EMIT selectionChanged();
     TRACE_RES(true);
     return true;
+}
+
+bool TimelineModel::hasMultipleSelection() const
+{
+    READ_LOCK();
+    if (m_currentSelection.size() == 0) {
+        return false;
+    }
+    if (isGroup(*m_currentSelection.begin())) {
+        // Reset offset display on clips
+        std::unordered_set<int> items = m_groups->getLeaves(*m_currentSelection.begin());
+        return items.size() > 1;
+    }
+    return m_currentSelection.size() > 1;
 }
 
 void TimelineModel::requestMixSelection(int cid)

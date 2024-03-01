@@ -41,7 +41,8 @@ SubtitleModel::SubtitleModel(std::shared_ptr<TimelineItemModel> timeline, const 
     , m_subtitleFilter(new Mlt::Filter(pCore->getProjectProfile(), "avfilter.subtitles"))
 {
     qDebug() << "subtitle constructor";
-    qDebug() << "Filter!";
+    // Ensure the subtitle also covers transparent zones (useful for timeline sequences)
+    m_subtitleFilter->set("av.alpha", 1);
     if (m_timeline->tractor() != nullptr) {
         qDebug() << "Tractor!";
         m_subtitleFilter->set("internal_added", 237);
@@ -176,6 +177,7 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
         Q_EMIT modelChanged();
         return true;
     };
+    ulong initialCount = m_subtitleList.size();
     GenTime subtitleOffset(offset, pCore->getCurrentFps());
     if (filePath.endsWith(".srt") || filePath.endsWith(".vtt") || filePath.endsWith(".sbv")) {
         // if (!filePath.endsWith(".vtt") || !filePath.endsWith(".sbv")) {defaultTurn = -10;}
@@ -383,6 +385,11 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
         timeLine.clear();
         turn = 0;
         r = 0;
+    }
+    if (initialCount == m_subtitleList.size()) {
+        // Nothing imported
+        pCore->displayMessage(i18n("The selected file %1 is invalid.", filePath), ErrorMessage);
+        return;
     }
     Fun update_model = [this]() {
         Q_EMIT modelChanged();

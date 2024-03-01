@@ -24,6 +24,9 @@ ImportSubtitle::ImportSubtitle(const QString &path, QWidget *parent)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
+    m_parseTimer.setSingleShot(true);
+    m_parseTimer.setInterval(200);
+    buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
     QStringList listCodecs = KCharsets::charsets()->descriptiveEncodingNames();
     const QString filter = QStringLiteral("*.srt *.ass *.vtt *.sbv");
 #if KIO_VERSION >= QT_VERSION_CHECK(5, 108, 0)
@@ -46,7 +49,7 @@ ImportSubtitle::ImportSubtitle(const QString &path, QWidget *parent)
 
     Fun updateSub = [this]() {
         QFile srtFile(subtitle_url->url().toLocalFile());
-        if (!srtFile.exists() || !srtFile.open(QIODevice::ReadOnly)) {
+        if (!srtFile.exists() || !srtFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
             info_message->setMessageType(KMessageWidget::Warning);
             info_message->setText(i18n("Cannot read file %1", srtFile.fileName()));
             info_message->animatedShow();
@@ -70,13 +73,34 @@ ImportSubtitle::ImportSubtitle(const QString &path, QWidget *parent)
         // else: UTF8 is the default
 #endif
         text_preview->clear();
-        text_preview->setPlainText(stream.readAll());
+        int maxLines = 30;
+        QStringList textData;
+        while (maxLines > 0) {
+            const QString line = stream.readLine();
+            if (!line.isEmpty()) {
+                textData << line;
+            }
+            if (stream.atEnd()) {
+                break;
+            }
+            maxLines--;
+        }
+        text_preview->setPlainText(textData.join(QLatin1Char('\n')));
         return true;
     };
 
     Fun checkEncoding = [this, updateSub]() {
         bool ok;
-        QString guessedEncoding(SubtitleModel::guessFileEncoding(subtitle_url->url().toLocalFile(), &ok));
+        QFile srtFile(subtitle_url->url().toLocalFile());
+        if (!srtFile.exists()) {
+            info_message->setMessageType(KMessageWidget::Warning);
+            info_message->setText(i18n("Cannot read file %1", srtFile.fileName()));
+            info_message->animatedShow();
+            text_preview->clear();
+            return true;
+        }
+        buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
+        QString guessedEncoding(SubtitleModel::guessFileEncoding(srtFile.fileName(), &ok));
         qDebug() << "Guessed subtitle encoding is" << guessedEncoding;
         if (ok == false) {
             info_message->setMessageType(KMessageWidget::Warning);
@@ -100,7 +124,12 @@ ImportSubtitle::ImportSubtitle(const QString &path, QWidget *parent)
         checkEncoding();
     }
     connect(codecs_list, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [updateSub]() { updateSub(); });
-    connect(subtitle_url, &KUrlRequester::urlSelected, [checkEncoding]() { checkEncoding(); });
+    connect(subtitle_url, &KUrlRequester::urlSelected, [this]() { m_parseTimer.start(); });
+    connect(subtitle_url, &KUrlRequester::textChanged, [this]() { m_parseTimer.start(); });
+    connect(&m_parseTimer, &QTimer::timeout, [this, checkEncoding]() {
+        buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+        checkEncoding();
+    });
     setWindowTitle(i18n("Import Subtitle"));
 }
 

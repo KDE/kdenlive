@@ -66,7 +66,7 @@ Dependencies:
     #'plasma/drkonqi' : '@stable'
 
 Options:
-  require-passing-tests-on: [ 'Linux/Qt5', 'FreeBSD/Qt5' ]
+  require-passing-tests-on: [ 'Linux/Qt5', 'FreeBSD/Qt5', 'Linux/Qt6', 'FreeBSD/Qt6']
   cppcheck-arguments: '--suppress="*:tests/fakeit.hpp" --suppress="*:tests/catch.hpp" --suppress="*:fuzzer/fakeit_standalone.hpp"'
   per-test-timeout: 120
 

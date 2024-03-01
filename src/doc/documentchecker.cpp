@@ -3,7 +3,6 @@
 
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
-
 #include "documentchecker.h"
 #include "bin/binplaylist.hpp"
 #include "bin/projectclip.h"
@@ -100,28 +99,40 @@ bool DocumentChecker::resolveProblemsWithGUI()
     QDomNodeList trans = m_doc.elementsByTagName(QStringLiteral("transition"));
     QDomNodeList filters = m_doc.elementsByTagName(QStringLiteral("filter"));
 
+    QDomNodeList documentTractors = m_doc.elementsByTagName(QStringLiteral("tractor"));
+
+    const int taskCount = items.count() + documentTractors.count() + producers.count() + chains.count();
+
+    Q_EMIT pCore->loadingMessageNewStage(i18n("Applying fixes…"), taskCount);
+
     for (auto item : items) {
         fixMissingItem(item, producers, chains, trans, filters);
+        Q_EMIT pCore->loadingMessageIncrease();
         qApp->processEvents();
     }
 
     QStringList tractorIds;
-    QDomNodeList documentTractors = m_doc.elementsByTagName(QStringLiteral("tractor"));
     int max = documentTractors.count();
     for (int i = 0; i < max; ++i) {
         QDomElement tractor = documentTractors.item(i).toElement();
         tractorIds.append(tractor.attribute(QStringLiteral("id")));
+        Q_EMIT pCore->loadingMessageIncrease();
+        qApp->processEvents();
     }
 
     max = producers.count();
     for (int i = 0; i < max; ++i) {
         QDomElement e = producers.item(i).toElement();
         fixSequences(e, producers, tractorIds);
+        Q_EMIT pCore->loadingMessageIncrease();
+        qApp->processEvents();
     }
     max = chains.count();
     for (int i = 0; i < max; ++i) {
         QDomElement e = chains.item(i).toElement();
         fixSequences(e, producers, tractorIds);
+        Q_EMIT pCore->loadingMessageIncrease();
+        qApp->processEvents();
     }
 
     // original doc was modified
@@ -131,6 +142,7 @@ bool DocumentChecker::resolveProblemsWithGUI()
 
 bool DocumentChecker::hasErrorInProject()
 {
+    Q_EMIT pCore->loadingMessageNewStage(i18n("Checking for missing items…"), 0);
     m_items.clear();
 
     QString storageFolder;
@@ -174,6 +186,7 @@ bool DocumentChecker::hasErrorInProject()
     QDomNodeList documentProducers = m_doc.elementsByTagName(QStringLiteral("producer"));
     QDomNodeList documentChains = m_doc.elementsByTagName(QStringLiteral("chain"));
     QDomNodeList entries = m_doc.elementsByTagName(QStringLiteral("entry"));
+    QDomNodeList transitions = m_doc.elementsByTagName(QStringLiteral("transition"));
     QMap<QString, QString> renamedEffects;
     renamedEffects.insert(QStringLiteral("frei0r.alpha0ps"), QStringLiteral("frei0r.alpha0ps_alpha0ps"));
     renamedEffects.insert(QStringLiteral("frei0r.alphaspot"), QStringLiteral("frei0r.alpha0ps_alphaspot"));
@@ -182,21 +195,27 @@ bool DocumentChecker::hasErrorInProject()
     m_safeImages.clear();
     m_safeFonts.clear();
 
+    const int taskCount = documentProducers.count() + documentChains.count() + documentTractors.count();
+    Q_EMIT pCore->loadingMessageNewStage(i18n("Checking for missing items…"), taskCount);
+
     QStringList verifiedPaths;
     int max = documentProducers.count();
     for (int i = 0; i < max; ++i) {
         QDomElement e = documentProducers.item(i).toElement();
         verifiedPaths << getMissingProducers(e, entries, storageFolder);
+        Q_EMIT pCore->loadingMessageIncrease();
     }
     max = documentChains.count();
     for (int i = 0; i < max; ++i) {
         QDomElement e = documentChains.item(i).toElement();
         verifiedPaths << getMissingProducers(e, entries, storageFolder);
+        Q_EMIT pCore->loadingMessageIncrease();
     }
     // Check that we don't have circular dependencies (a sequence embedding itself as a track / ptoducer
     max = documentTractors.count();
     QStringList circularRefs;
     for (int i = 0; i < max; ++i) {
+        Q_EMIT pCore->loadingMessageIncrease();
         QDomElement e = documentTractors.item(i).toElement();
         const QString tractorName = e.attribute(QStringLiteral("id"));
         QDomNodeList tracks = e.elementsByTagName(QStringLiteral("track"));
@@ -228,7 +247,7 @@ bool DocumentChecker::hasErrorInProject()
     }
 
     // Check existence of luma files
-    QStringList filesToCheck = getAssetsFiles(m_doc, QStringLiteral("transition"), getLumaPairs());
+    QStringList filesToCheck = getAssetsFilesByMltTag(m_doc, QStringLiteral("transition"), getLumaPairs());
     for (const QString &lumafile : qAsConst(filesToCheck)) {
         QString filePath = ensureAbsolutePath(lumafile);
 
@@ -268,6 +287,11 @@ bool DocumentChecker::hasErrorInProject()
         item.originalFilePath = filePath;
 
         if (QFile::exists(fixedLuma)) {
+            if (filePath.startsWith(QStringLiteral("/tmp/.mount_"))) {
+                // This is a luma in the Appimage, fix silently
+                fixAssetResource(transitions, getLumaPairs(), filePath, fixedLuma);
+                continue;
+            }
             item.newFilePath = fixedLuma;
             item.status = MissingStatus::Fixed;
         } else {
@@ -293,7 +317,7 @@ bool DocumentChecker::hasErrorInProject()
     }
 
     // Check for missing filter assets
-    QStringList assetsToCheck = getAssetsFiles(m_doc, QStringLiteral("filter"), getAssetPairs());
+    QStringList assetsToCheck = getAssetsFilesByMltTag(m_doc, QStringLiteral("filter"), getAssetPairs());
     for (const QString &filterfile : qAsConst(assetsToCheck)) {
         QString filePath = ensureAbsolutePath(filterfile);
 
@@ -578,8 +602,9 @@ void DocumentChecker::checkMissingImagesAndFonts(const QStringList &images, cons
 QString DocumentChecker::getMissingProducers(QDomElement &e, const QDomNodeList &entries, const QString &storageFolder)
 {
     QString service = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
-    QStringList serviceToCheck = {QStringLiteral("kdenlivetitle"), QStringLiteral("qimage"), QStringLiteral("pixbuf"), QStringLiteral("timewarp"),
-                                  QStringLiteral("framebuffer"),   QStringLiteral("xml"),    QStringLiteral("qtext"),  QStringLiteral("tractor")};
+    QStringList serviceToCheck = {QStringLiteral("kdenlivetitle"), QStringLiteral("qimage"),  QStringLiteral("pixbuf"), QStringLiteral("timewarp"),
+                                  QStringLiteral("framebuffer"),   QStringLiteral("xml"),     QStringLiteral("qtext"),  QStringLiteral("tractor"),
+                                  QStringLiteral("glaxnimate"),    QStringLiteral("consumer")};
     if (!service.startsWith(QLatin1String("avformat")) && !serviceToCheck.contains(service)) {
         return QString();
     }
@@ -597,10 +622,8 @@ QString DocumentChecker::getMissingProducers(QDomElement &e, const QDomNodeList 
         return QString();
     } else if (service == QLatin1String("kdenlivetitle")) {
         // TODO: Check if clip template is missing (xmltemplate) or hash changed
-        QString xml = Xml::getXmlProperty(e, QStringLiteral("xmldata"));
-        QStringList images = TitleWidget::extractImageList(xml);
-        QStringList fonts = TitleWidget::extractFontList(xml);
-        checkMissingImagesAndFonts(images, fonts, Xml::getXmlProperty(e, QStringLiteral("kdenlive:id")));
+        QPair<QStringList, QStringList> titlesList = TitleWidget::extractAndFixImageAndFontsList(e, m_root);
+        checkMissingImagesAndFonts(titlesList.first, titlesList.second, Xml::getXmlProperty(e, QStringLiteral("kdenlive:id")));
         return QString();
     }
 
@@ -758,6 +781,7 @@ QString DocumentChecker::getMissingProducers(QDomElement &e, const QDomNodeList 
             slideshow = false;
         }
     }
+    const QStringList checkHashForService = {QLatin1String("qimage"), QLatin1String("pixbuf"), QLatin1String("glaxnimate")};
     if (!QFile::exists(resource)) {
         if (service == QLatin1String("timewarp") && proxy == QLatin1String("-")) {
             // In some corrupted cases, clips with speed effect kept a reference to proxy clip in warp_resource
@@ -775,8 +799,7 @@ QString DocumentChecker::getMissingProducers(QDomElement &e, const QDomNodeList 
         if (!isPreviewChunk) {
             checkClip(e, resource);
         }
-    } else if (isBinClip &&
-               (service.startsWith(QLatin1String("avformat")) || slideshow || service == QLatin1String("qimage") || service == QLatin1String("pixbuf"))) {
+    } else if (isBinClip && (service.startsWith(QLatin1String("avformat")) || slideshow || checkHashForService.contains(service))) {
         // Check if file changed
         const QByteArray hash = Xml::getXmlProperty(e, "kdenlive:file_hash").toLatin1();
         if (!hash.isEmpty()) {
@@ -1032,7 +1055,7 @@ QString DocumentChecker::ensureAbsolutePath(QString filepath)
     return filepath;
 }
 
-QStringList DocumentChecker::getAssetsFiles(const QDomDocument &doc, const QString &tagName, const QMap<QString, QString> &searchPairs)
+QStringList DocumentChecker::getAssetsFilesByMltTag(const QDomDocument &doc, const QString &tagName, const QMap<QString, QString> &searchPairs)
 {
     QStringList files;
 
@@ -1040,10 +1063,7 @@ QStringList DocumentChecker::getAssetsFiles(const QDomDocument &doc, const QStri
     int max = assets.count();
     for (int i = 0; i < max; ++i) {
         QDomElement asset = assets.at(i).toElement();
-        QString service = Xml::getXmlProperty(asset, QStringLiteral("kdenlive_id"));
-        if (service.isEmpty()) {
-            service = Xml::getXmlProperty(asset, QStringLiteral("mlt_service"));
-        }
+        const QString service = Xml::getXmlProperty(asset, QStringLiteral("mlt_service"));
         if (searchPairs.contains(service)) {
             const QString filepath = Xml::getXmlProperty(asset, searchPairs.value(service));
             if (!filepath.isEmpty()) {

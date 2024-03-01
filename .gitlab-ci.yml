@@ -7,8 +7,11 @@ include:
       # CI
       - /gitlab-templates/reuse-lint.yml
       - /gitlab-templates/linux.yml
-      - /gitlab-templates/freebsd.yml
+      # The FreeBSD is not containerized and hence has Qt5 and Qt6 around
+      # Kdenlive preferes Qt6 and there is no way to tell the CI to use Qt5 in this case
+      #- /gitlab-templates/freebsd.yml
       - /gitlab-templates/linux-qt6.yml
+      - /gitlab-templates/freebsd-qt6.yml
       # CD Qt5
       - /gitlab-templates/flatpak.yml
       - /gitlab-templates/craft-appimage.yml
@@ -21,6 +24,13 @@ include:
       - /gitlab-templates/craft-macos-x86-64-qt6.yml
       - /gitlab-templates/craft-macos-arm64-qt6.yml
 
+craft_macos_arm64:
+  rules:
+  - when: manual
+
+craft_macos_x86_64:
+  rules:
+  - when: manual
 
 .craft-mac-notarize:
   variables:
@@ -51,8 +61,15 @@ xml_lint:
     # enable globstar to be able to use ** as recursive wildcard
     - shopt -s globstar
     # exit shell on non-zero exit code
-    - set -e 
+    - set -e
     # execute xmllint for all xml files
     - for x in **/*.xml; do echo "Processing $x"; xmllint -noout "$x"; done
   rules:
     - changes: [ "**/*.xml" ]
+
+
+flatpak:
+  before_script:
+    - git clone https://invent.kde.org/sysadmin/ci-utilities.git --depth=1
+    - git clone https://invent.kde.org/sysadmin/ci-notary-service.git --depth=1
+    - flatpak --user install -y flathub org.freedesktop.Sdk.Extension.llvm17

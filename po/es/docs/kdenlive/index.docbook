@@ -316,13 +316,13 @@
 >Espacio</keycap
 > (o el botón <guilabel
 >Reproducir</guilabel
-> en el monitor de proyecto). Se verá el Napoli directamente seguido de una cuchara. Si el cursor de la cronología no está al principio, el monitor de proyecto comenzará a reproducirlo en algún lugar por la mitad; puede moverse arrastrándolo desde la regla de la cronología o desde el monitor de proyecto. Si se prefieren los accesos rápidos de teclado, <keycombo
+> en el monitor de proyecto). Se verá el Napoli directamente seguido de una cuchara. Si el cursor de la cronología no está al principio, el monitor de proyecto comenzará a reproducirlo en algún lugar por la mitad; puede moverse arrastrándolo desde la regla de la cronología o desde el monitor de proyecto. Si se prefieren los atajos de teclado, <keycombo
 >&Ctrl;<keycap
 >Inicio</keycap
 ></keycombo
 > hace lo mismo en el monitor que esté activado. (Seleccione <guilabel
 >Monitor de proyecto</guilabel
-> si aún no lo estuviera, antes de usar el acceso rápido). </para>
+> si aún no lo estuviera, antes de usar el atajo de teclado). </para>
 <para>
 <screenshot>
 <screeninfo

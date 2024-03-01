@@ -134,37 +134,62 @@ bool TimelineFunctions::processClipCut(const std::shared_ptr<TimelineItemModel> 
         newId = timeline->cutSubtitle(position, undo, redo);
         return newId > -1;
     }
+    bool hasEndMix = timeline->getTrackById_const(trackId)->hasEndMix(clipId);
+    bool hasStartMix = timeline->getTrackById_const(trackId)->hasStartMix(clipId);
+    int subplaylist = timeline->m_allClips[clipId]->getSubPlaylistIndex();
     PlaylistState::ClipState state = timeline->m_allClips[clipId]->clipState();
     // Check if clip has an end Mix
     bool res = cloneClip(timeline, clipId, newId, state, undo, redo);
     timeline->m_blockRefresh = true;
-    int updatedDuration = position - start;
-    res = res && timeline->requestItemResize(clipId, updatedDuration, true, true, undo, redo);
-    int newDuration = timeline->getClipPlaytime(clipId);
-    // parse effects
-    std::shared_ptr<EffectStackModel> sourceStack = timeline->getClipEffectStackModel(clipId);
-    sourceStack->cleanFadeEffects(true, undo, redo);
-    std::shared_ptr<EffectStackModel> destStack = timeline->getClipEffectStackModel(newId);
-    destStack->cleanFadeEffects(false, undo, redo);
-    updatedDuration = duration - newDuration;
-    res = res && timeline->requestItemResize(newId, updatedDuration, false, true, undo, redo);
-    // The next requestclipmove does not check for duration change since we don't invalidate timeline, so check duration change now
-    bool durationChanged = trackDuration != timeline->getTrackById_const(trackId)->trackDuration();
-    timeline->m_allClips[newId]->setSubPlaylistIndex(timeline->m_allClips[clipId]->getSubPlaylistIndex(), trackId);
-    res = res && timeline->requestClipMove(newId, trackId, position, true, true, false, true, undo, redo);
 
-    if (timeline->getTrackById_const(trackId)->hasEndMix(clipId)) {
+    int updatedDuration = position - start;
+    // Resize original clip
+    res = timeline->m_allClips[clipId]->requestResize(updatedDuration, true, undo, redo, true, hasEndMix || hasStartMix);
+
+    if (hasEndMix) {
+        // Assing end mix to new clone clip
+        Fun local_redo = [timeline, trackId, clipId, newId]() { return timeline->getTrackById_const(trackId)->reAssignEndMix(clipId, newId); };
+        local_redo();
+        PUSH_LAMBDA(local_redo, redo);
+        // Reassing end mix to original clip on undo
         Fun local_undo = [timeline, trackId, clipId, newId]() {
             timeline->getTrackById_const(trackId)->reAssignEndMix(newId, clipId);
             return true;
         };
-        Fun local_redo = [timeline, trackId, clipId, newId]() {
-            timeline->getTrackById_const(trackId)->reAssignEndMix(clipId, newId);
-            return true;
-        };
-        local_redo();
-        UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
+        PUSH_LAMBDA(local_undo, undo);
+        // Assing end mix to new clone clip
+        if (!hasStartMix && subplaylist != 1) {
+            Fun local_redo2 = [timeline, trackId, clipId, start]() {
+                // If the clip has no start mix, move to playlist 1
+                return timeline->getTrackById_const(trackId)->switchPlaylist(clipId, start, 0, 1);
+            };
+            // Restore initial subplaylist on undo
+            Fun local_undo2 = [timeline, trackId, clipId, start]() {
+                // If the clip has no start mix, move back to playlist 0
+                return timeline->getTrackById_const(trackId)->switchPlaylist(clipId, start, 1, 0);
+            };
+            res = res && local_redo2();
+            if (res) {
+                UPDATE_UNDO_REDO_NOLOCK(local_redo2, local_undo2, undo, redo);
+            }
+        }
     }
+    int newDuration = timeline->getClipPlaytime(clipId);
+    // parse effects
+    if (res) {
+        std::shared_ptr<EffectStackModel> sourceStack = timeline->getClipEffectStackModel(clipId);
+        sourceStack->cleanFadeEffects(true, undo, redo);
+        std::shared_ptr<EffectStackModel> destStack = timeline->getClipEffectStackModel(newId);
+        destStack->cleanFadeEffects(false, undo, redo);
+    }
+    updatedDuration = duration - newDuration;
+    res = res && timeline->requestItemResize(newId, updatedDuration, false, true, undo, redo);
+    // The next requestclipmove does not check for duration change since we don't invalidate timeline, so check duration change now
+    bool durationChanged = trackDuration != timeline->getTrackById_const(trackId)->trackDuration();
+    if (hasEndMix) {
+        timeline->m_allClips[newId]->setSubPlaylistIndex(subplaylist, trackId);
+    }
+    res = res && timeline->requestClipMove(newId, trackId, position, true, true, false, true, undo, redo);
 
     if (durationChanged) {
         // Track length changed, check project duration
@@ -220,15 +245,13 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
         }
     }
 
-    // We need to call clearSelection before attempting the split or the group split will be corrupted by the selection group (no undo support)
-    timeline->requestClearSelection();
-
     std::unordered_set<int> topElements;
     std::transform(clips.begin(), clips.end(), std::inserter(topElements, topElements.begin()), [&](int id) { return timeline->m_groups->getRootId(id); });
 
     int count = 0;
     QList<int> newIds;
     QList<int> clipsToCut;
+    bool subtitleItemSelected = false;
     for (int cid : clips) {
         if (!timeline->isClip(cid) && !timeline->isSubTitle(cid)) {
             continue;
@@ -237,11 +260,25 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
         int duration = timeline->getItemPlaytime(cid);
         if (start < position && (start + duration) > position) {
             clipsToCut << cid;
+            if (timeline->isSubTitle(cid)) {
+                if (subtitleItemSelected) {
+                    // We cannot cut 2 overlapping subtitles at the same position
+                    pCore->displayMessage(i18nc("@info:status", "Cannot cut overlapping subtitles"), ErrorMessage, 500);
+                    bool undone = undo();
+                    Q_ASSERT(undone);
+                    return false;
+                }
+                subtitleItemSelected = true;
+            }
         }
     }
     if (clipsToCut.isEmpty()) {
         return true;
     }
+
+    // We need to call clearSelection before attempting the split or the group split will be corrupted by the selection group (no undo support)
+    timeline->requestClearSelection();
+
     for (int cid : qAsConst(clipsToCut)) {
         count++;
         int newId = -1;
@@ -286,17 +323,32 @@ bool TimelineFunctions::requestClipCutAll(std::shared_ptr<TimelineItemModel> tim
     std::function<bool(void)> redo = []() { return true; };
 
     for (const auto &track : timeline->m_allTracks) {
-        if (!track->isLocked()) {
+        if (track->shouldReceiveTimelineOp()) {
             affectedTracks << track;
         }
     }
 
-    if (affectedTracks.isEmpty()) {
+    unsigned count = 0;
+    auto subModel = timeline->getSubtitleModel();
+    if (subModel && !subModel->isLocked()) {
+        int clipId = timeline->getClipByPosition(-2, position);
+        if (clipId > -1) {
+            // Found subtitle clip at position in track, cut it. Update undo/redo as we go.
+            if (!TimelineFunctions::requestClipCut(timeline, clipId, position, undo, redo)) {
+                qWarning() << "Failed to cut clip " << clipId << " at " << position;
+                pCore->displayMessage(i18n("Failed to cut clip"), ErrorMessage, 500);
+                // Undo all cuts made, assert successful undo.
+                bool undone = undo();
+                Q_ASSERT(undone);
+                return false;
+            }
+            count++;
+        }
+    }
+    if (affectedTracks.isEmpty() && count == 0) {
         pCore->displayMessage(i18n("All tracks are locked"), ErrorMessage, 500);
         return false;
     }
-
-    unsigned count = 0;
     for (auto track : qAsConst(affectedTracks)) {
         int clipId = track->getClipByPosition(position);
         if (clipId > -1) {
@@ -1867,40 +1919,45 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         return false;
     }
 
-    auto findPerfectTargetTrack = [](int &sourceTrackId, const QList<int> &sourceTracks, int targetTrackId, const QList<int> &targetTracks) {
+    auto findPerfectTracks = [](int &sourceTrackId, const QList<int> &sourceTracks, int &targetTrackId, const QList<int> &targetTracks) {
         const int neededTracksBelow = sourceTrackId - sourceTracks.first();
         const int neededTracksAbove = sourceTracks.last() - sourceTrackId;
 
         const int existingTracksBelow = targetTracks.indexOf(targetTrackId);
         const int existingTracksAbove = targetTracks.size() - (targetTracks.indexOf(targetTrackId) + 1);
 
-        if (sourceTracks.count() == 1 && targetTracks.count() == 1) {
-            // we only have one source track and one target track
-            // hence we have no choice and it is the one we want
-            sourceTrackId = sourceTracks.first();
-            return targetTracks.first();
+        int sourceOffset = 0;
+        if (neededTracksBelow < 0) {
+            sourceOffset = neededTracksBelow;
+        } else if (neededTracksAbove < 0) {
+            sourceOffset = neededTracksAbove;
         }
+
+        sourceTrackId += qMax(0, sourceTracks.count() - targetTracks.count() - sourceOffset);
 
         if (existingTracksBelow < neededTracksBelow) {
             qDebug() << "// UPDATING BELOW TID IX TO:" << neededTracksBelow;
             // not enough tracks below, try to paste on upper track
-            return targetTracks.at(neededTracksBelow);
+            targetTrackId = targetTracks.at(qMin(neededTracksBelow, targetTracks.length() - 1));
+            return;
         }
 
         if (existingTracksAbove < neededTracksAbove) {
             // not enough tracks above, try to paste on lower track
             qDebug() << "// UPDATING ABOVE TID IX TO:" << (targetTracks.size() - neededTracksAbove);
-            return targetTracks.at(targetTracks.size() - neededTracksAbove - 1);
+            targetTrackId = targetTracks.at(qMax(0, targetTracks.size() - neededTracksAbove - 1));
+            return;
         }
 
         // enough tracks above and below, keep the current
-        return targetTrackId;
+        // ensure it is one of the existing tracks
+        targetTrackId = qBound(targetTracks.first(), targetTrackId, targetTracks.last());
     };
 
     // Find destination master track
     // Check we have enough tracks above/below
     if (requestedVideoTracks > 0) {
-        trackId = findPerfectTargetTrack(sourceMasterTrack, sourceTracks.videoIds, trackId, timelineTracks.videoIds);
+        findPerfectTracks(sourceMasterTrack, sourceTracks.videoIds, trackId, timelineTracks.videoIds);
 
         // Find top-most video track that requires an audio mirror
         int topAudioOffset = sourceTracks.videoIds.indexOf(topAudioMirror) - sourceTracks.videoIds.indexOf(sourceMasterTrack);
@@ -1917,7 +1974,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     } else if (requestedAudioTracks > 0) {
         // Audio only
         sourceMasterTrack = copiedItems.documentElement().attribute(QStringLiteral("masterAudioTrack")).toInt();
-        trackId = findPerfectTargetTrack(sourceMasterTrack, sourceTracks.audioIds, trackId, timelineTracks.audioIds);
+        findPerfectTracks(sourceMasterTrack, sourceTracks.audioIds, trackId, timelineTracks.audioIds);
     }
     tracksMap.clear();
     bool audioMaster = false;
@@ -1928,7 +1985,6 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     }
 
     int masterOffset = targetMasterIx - sourceMasterTrack;
-
     for (int tk : qAsConst(sourceTracks.videoIds)) {
         int newPos = masterOffset + tk;
         if (newPos < 0 || newPos >= timelineTracks.videoIds.size()) {
@@ -2094,7 +2150,6 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
                     mappedIds.insert(clipId, existingId);
                     continue;
                 }
-
                 clipId = useFreeBinId(currentProd, clipId, mappedIds);
 
                 // Disable proxy if any when pasting to another document
@@ -2102,7 +2157,6 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
 
                 waitingBinIds << clipId;
                 clipsImported = true;
-                qDebug() << "IMPORTED CLIP:" << clipId;
                 bool insert = pCore->projectItemModel()->requestAddBinClip(clipId, currentProd, folderId, undo, redo, callBack);
                 if (!insert) {
                     return false;
@@ -2150,14 +2204,15 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
                 continue;
             }
 
-            clipId = useFreeBinId(currentProd, clipId, mappedIds);
-
             QDomDocument doc;
             doc.appendChild(doc.importNode(currentProd, true));
+            clipId = useFreeBinId(currentProd, clipId, mappedIds);
 
             // update all bin ids
             QDomNodeList prods = doc.documentElement().elementsByTagName(QStringLiteral("producer"));
             remapClipIds(prods, mappedIds);
+            QDomNodeList chains = doc.documentElement().elementsByTagName(QStringLiteral("chain"));
+            remapClipIds(chains, mappedIds);
             QDomNodeList entries = doc.documentElement().elementsByTagName(QStringLiteral("entry"));
             remapClipIds(entries, mappedIds);
 
@@ -2173,6 +2228,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
             xmlProd->set("kdenlive:uuid", uuid.toUtf8().constData());
             xmlProd->set("kdenlive:duration", xmlProd->frames_to_time(duration));
             xmlProd->set("kdenlive:clipname", clipname.toUtf8().constData());
+            xmlProd->set("_kdenlive_processed", 1);
             Mlt::Service s(*xmlProd.get());
             Mlt::Tractor tractor(s);
             std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(tractor.cut()));
@@ -2182,6 +2238,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
             prod->set("kdenlive:uuid", uuid.toUtf8().constData());
             prod->set("kdenlive:duration", xmlProd->frames_to_time(duration));
             prod->set("kdenlive:clipname", clipname.toUtf8().constData());
+            prod->set("_kdenlive_processed", 1);
             bool insert = pCore->projectItemModel()->requestAddBinClip(clipId, prod, folderId, undo, redo, callBack);
             if (!insert) {
                 pCore->displayMessage(i18n("Could not add bin clip"), ErrorMessage, 500);
@@ -2418,16 +2475,17 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
                 continue;
             }
             int curTrackId = tracksMap.value(prod.attribute(QStringLiteral("track")).toInt());
-            int aTrackId = prod.attribute(QStringLiteral("a_track")).toInt();
-            qDebug() << "+++++++\nPLANTING COMPOSITION ON: " << curTrackId << " = " << timeline->getTrackPosition(curTrackId) << "\nATRACK: " << aTrackId;
-            if (aTrackId >= 0 && tracksMap.contains(aTrackId)) {
-                // We need to add 1 here to account for black background track
-                qDebug() << "::: TRACKMAP CONTAINED ATRACKID!!!";
-                aTrackId = timeline->getTrackPosition(tracksMap.value(aTrackId)) + 1;
+            int trackOffset = Xml::getXmlProperty(prod, QStringLiteral("b_track")).toInt() - Xml::getXmlProperty(prod, QStringLiteral("a_track")).toInt();
+            // Add 1 to account for the black track
+            int aTrackPos = timeline->getTrackPosition(curTrackId) - trackOffset + 1;
+            int atrackId = -1;
+            if (aTrackPos > 0 && aTrackPos < timeline->getTracksCount()) {
+                atrackId = timeline->getTrackIndexFromPosition(aTrackPos - 1);
+            }
+            if (atrackId > -1 && !timeline->isAudioTrack(atrackId)) {
+                // Ok, track found
             } else {
-                qDebug() << "::: ATRACKID NOT FOUND !!!\n" << aTrackId << "\n" << tracksMap << "\nKKKKKKKKKKKKKK";
-                ;
-                aTrackId = 0;
+                aTrackPos = 0;
             }
 
             int newId;
@@ -2445,7 +2503,7 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
             if (compoDuration != compoDuration2) {
                 timeline->requestItemResize(newId, compoDuration2, true, true, timeline_undo, timeline_redo, false);
             }
-            res = res && timeline->requestCompositionMove(newId, curTrackId, aTrackId, position + newPos, true, true, timeline_undo, timeline_redo);
+            res = res && timeline->requestCompositionMove(newId, curTrackId, aTrackPos, position + newPos, true, true, timeline_undo, timeline_redo);
         }
     }
     if (res && !subtitles.isEmpty()) {

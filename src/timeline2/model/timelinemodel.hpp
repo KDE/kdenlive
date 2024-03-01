@@ -265,6 +265,8 @@ public:
 
     /** @brief Helper function that returns true if the given ID corresponds to a group */
     Q_INVOKABLE bool isGroup(int id) const;
+    /** @brief Helper function that returns true if the given ID is in a group */
+    Q_INVOKABLE bool isInGroup(int id) const;
 
     /** @brief Given a composition Id, returns its underlying parameter model */
     std::shared_ptr<AssetParameterModel> getCompositionParameterModel(int compoId) const;
@@ -602,6 +604,9 @@ public:
      * @see requestClipSlip
      */
     Q_INVOKABLE int requestSlipSelection(int offset, bool logUndo);
+    /** @brief Return true if multiple items are selected in timeline
+     */
+    Q_INVOKABLE bool hasMultipleSelection() const;
 
     /** @brief Returns a proposed size for clip resize, checking for collisions */
     Q_INVOKABLE int requestItemSpeedChange(int itemId, int size, bool right, int snapDistance);

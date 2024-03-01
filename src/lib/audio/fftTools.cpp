@@ -292,15 +292,12 @@ const QVector<float> FFTTools::interpolatePeakPreserving(const QVector<float> &i
             // xi: floor(x)
             x = float(i + 1) / (targetSize - 1) * (right - left) + left;
             xi = int(floor(x));
-            int points = 0;
-
             out[i] = fill;
 
             for (; src < xi && src < in.size(); ++src) {
                 if (out[i] < in[src]) {
                     out[i] = in[src];
                 }
-                points++;
             }
 
             //             xi_prev = xi;

@@ -147,6 +147,8 @@ public:
 public Q_SLOTS:
     /** @brief Delete an effect from the stack */
     void removeEffect(const std::shared_ptr<EffectItemModel> &effect);
+    /** @brief Move an effect in the stack */
+    void moveEffectByRow(int destRow, int srcRow);
 
 protected:
     /** @brief Register the existence of a new element

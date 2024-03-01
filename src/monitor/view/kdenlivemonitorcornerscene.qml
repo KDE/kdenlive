@@ -47,6 +47,10 @@ Item {
     onCenterPointsChanged: canvas.requestPaint()
     signal effectPolygonChanged()
 
+    function updateClickCapture() {
+        root.captureRightClick = false
+    }
+
     function refreshdar() {
         canvas.darOffset = root.sourcedar < root.profile.x * root.stretch / root.profile.y ? (root.profile.x * root.stretch - root.profile.y * root.sourcedar) / (2 * root.profile.x * root.stretch) :(root.profile.y - root.profile.x * root.stretch / root.sourcedar) / (2 * root.profile.y);
         canvas.requestPaint()
@@ -187,10 +191,10 @@ Item {
         id: global
         objectName: "global"
         width: root.width; height: root.height
-        property bool containsMouse
+        property bool kfrContainsMouse: false
         anchors.centerIn: root
         hoverEnabled: true
-        cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
+        cursorShape: kfrContainsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
         onWheel: wheel => {
             controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
         }
@@ -211,12 +215,12 @@ Item {
                 var p1 = canvas.convertPoint(root.centerPoints[i])
                 if (Math.abs(p1.x - mouseX) <= canvas.handleSize && Math.abs(p1.y - mouseY) <= canvas.handleSize) {
                     if (i == root.requestedKeyFrame) {
-                        containsMouse = true;
+                        kfrContainsMouse = true;
                         return;
                     }
                     root.requestedKeyFrame = i
                     canvas.requestPaint()
-                    containsMouse = true;
+                    kfrContainsMouse = true;
                     return;
                 }
               }
@@ -224,7 +228,7 @@ Item {
                   return;
               }
               root.requestedKeyFrame = -1
-              containsMouse = false;
+              kfrContainsMouse = false;
               canvas.requestPaint()
             }
         }

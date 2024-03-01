@@ -27,7 +27,7 @@ public:
     */
     ~AbstractPythonInterface() override;
     /** @brief Check if python is found and use venv if requested. */
-    bool checkPython(bool useVenv, bool calculateSize = false);
+    bool checkPython(bool useVenv, bool calculateSize = false, bool forceInstall = false);
     bool checkSetup();
     /** @brief Check which versions of the dependencies are installed.
         @param Whether checkVersionsResult() will be emitted once the result is available.
@@ -78,6 +78,7 @@ private:
     /** @brief Create a python virtualenv */
     bool setupVenv();
     void gotFolderSize(KJob *job);
+    QString installPackage(const QStringList packageNames);
 
 protected:
     QMap<QString, QString> *m_scripts;

@@ -18,7 +18,8 @@ public:
     //~Splash();
 
 public Q_SLOTS:
-    void showProgressMessage(const QString &message, int progress = 0, int max = -1);
+    void showProgressMessage(const QString &message, int max = -1);
+    void increaseProgressMessage();
 
 private:
     int m_progress;

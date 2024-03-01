@@ -77,8 +77,10 @@ public:
     virtual QPoint zone() const;
 
     // TODO refac : these ref counting are probably deprecated by smart ptrs
-    /** @brief Set current usage count. */
-    void setRefCount(uint count, uint totalCount);
+    /** @brief Set current usage count.
+     *  @param sequenceCount the usage count in the active sequence
+     *  @param totalCount the usage count in the whole project */
+    void setRefCount(uint sequenceCount, uint totalCount);
     /** @brief Returns clip's current usage count in timeline. */
     uint refCount() const;
     /** @brief Increase usage count. */

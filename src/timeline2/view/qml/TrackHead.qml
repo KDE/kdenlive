@@ -395,6 +395,7 @@ Rectangle {
             text: trackHeadRoot.trackName
             elide: Text.ElideRight
             font: miniFont
+            color: activePalette.text
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignLeft
             visible: !trackLabel.visible && trackHeadRoot.width > (trackTarget.width + expandButton.width + trackLed.width + (4 * muteButton.width) + 4)
@@ -567,6 +568,7 @@ Rectangle {
                     anchors.leftMargin: 4
                     elide: Qt.ElideRight
                     font: miniFont
+                    color: activePalette.text
                 }
                 Label {
                     id: placeHolder
@@ -578,6 +580,7 @@ Rectangle {
                     anchors.leftMargin: 4
                     elide: Qt.ElideRight
                     font: miniFont
+                    color: activePalette.text
                 }
                 TextField {
                     id: nameEdit
@@ -585,6 +588,7 @@ Rectangle {
                     width: parent.width
                     text: trackName
                     font: miniFont
+                    color: activePalette.text
                     background: Rectangle {
                         radius: 2
                         color: activePalette.window

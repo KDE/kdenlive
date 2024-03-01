@@ -1867,19 +1867,14 @@ void TimelineController::cutClipUnderCursor(int position, int track)
     QMutexLocker lk(&m_metaMutex);
     bool foundClip = false;
     const auto selection = m_model->getCurrentSelection();
-    if (m_model->isSubtitleTrack(track)) {
-        // Subtitle cut
-        m_model->getSubtitleModel()->cutSubtitle(position);
-        return;
-    }
     if (track == -1) {
         for (int cid : selection) {
             if ((m_model->isClip(cid) || m_model->isSubTitle(cid)) && positionIsInItem(cid)) {
                 if (TimelineFunctions::requestClipCut(m_model, cid, position)) {
                     foundClip = true;
                     // Cutting clips in the selection group is handled in TimelineFunctions
-                    break;
                 }
+                break;
             }
         }
     }
@@ -1887,14 +1882,11 @@ void TimelineController::cutClipUnderCursor(int position, int track)
         if (track == -1) {
             track = m_activeTrack;
         }
-        if (track >= 0) {
+        if (track != -1) {
             int cid = m_model->getClipByPosition(track, position);
             if (cid >= 0 && TimelineFunctions::requestClipCut(m_model, cid, position)) {
                 foundClip = true;
             }
-        } else if (m_model->isSubtitleTrack(track)) {
-            // Subtitle cut
-            foundClip = m_model->getSubtitleModel()->cutSubtitle(position);
         }
     }
     if (!foundClip) {
@@ -1994,17 +1986,26 @@ void TimelineController::seekToMouse()
     }
 }
 
+const QPoint TimelineController::getMousePosInTimeline() const
+{
+    QPoint mousPosInWidget = pCore->window()->getCurrentTimeline()->mapFromGlobal(QCursor::pos());
+    return mousPosInWidget;
+}
+
 int TimelineController::getMousePos()
 {
     QVariant returnedValue;
-    QMetaObject::invokeMethod(m_root, "getMousePos", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
-    return returnedValue.toInt();
+    int posInWidget = getMousePosInTimeline().x();
+    QMetaObject::invokeMethod(m_root, "getMouseOffset", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
+    posInWidget += returnedValue.toInt();
+    return posInWidget / m_scale;
 }
 
 int TimelineController::getMouseTrack()
 {
     QVariant returnedValue;
-    QMetaObject::invokeMethod(m_root, "getMouseTrack", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
+    int posInWidget = getMousePosInTimeline().y();
+    QMetaObject::invokeMethod(m_root, "getMouseTrackFromPos", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue), Q_ARG(QVariant, posInWidget));
     return returnedValue.toInt();
 }
 
@@ -2999,7 +3000,7 @@ void TimelineController::saveZone(int clipId)
         }
     }
     int in = m_model->getClipIn(clipId);
-    int out = in + m_model->getClipPlaytime(clipId);
+    int out = in + m_model->getClipPlaytime(clipId) - 1;
     QString id;
     pCore->projectItemModel()->requestAddBinSubClip(id, in, out, {}, m_model->m_allClips[clipId]->binId());
 }
@@ -3927,7 +3928,7 @@ QPoint TimelineController::selectionInOut() const
     for (int id : items_list) {
         if (m_model->isClip(id) || m_model->isComposition(id)) {
             int itemIn = m_model->getItemPosition(id);
-            int itemOut = itemIn + m_model->getItemPlaytime(id);
+            int itemOut = itemIn + m_model->getItemPlaytime(id) - 1;
             if (in < 0 || itemIn < in) {
                 in = itemIn;
             }
@@ -4738,11 +4739,16 @@ void TimelineController::urlDropped(QStringList droppedFile, int frame, int tid)
         pCore->window()->showSubtitleTrack();
         importSubtitle(QUrl(droppedFile.first()).toLocalFile());
     } else {
-        finishRecording(QUrl(droppedFile.first()).toLocalFile());
+        addAndInsertFile(QUrl(droppedFile.first()).toLocalFile(), false, true);
     }
 }
 
 void TimelineController::finishRecording(const QString &recordedFile)
+{
+    addAndInsertFile(recordedFile, true, false);
+}
+
+void TimelineController::addAndInsertFile(const QString &recordedFile, const bool isAudioClip, const bool highlightClip)
 {
     if (recordedFile.isEmpty()) {
         return;
@@ -4750,7 +4756,7 @@ void TimelineController::finishRecording(const QString &recordedFile)
 
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    std::function<void(const QString &)> callBack = [this](const QString &binId) {
+    std::function<void(const QString &)> callBack = [this, highlightClip](const QString &binId) {
         int id = -1;
         if (m_recordTrack == -1) {
             return;
@@ -4759,7 +4765,9 @@ void TimelineController::finishRecording(const QString &recordedFile)
         if (!clip) {
             return;
         }
-        pCore->activeBin()->selectClipById(binId);
+        if (highlightClip) {
+            pCore->activeBin()->selectClipById(binId);
+        }
         qDebug() << "callback " << binId << " " << m_recordTrack << ", MAXIMUM SPACE: " << m_recordStart.second;
         if (m_recordStart.second > 0) {
             // Limited space on track
@@ -4773,9 +4781,23 @@ void TimelineController::finishRecording(const QString &recordedFile)
         }
         setPosition(m_recordStart.first + m_recordStart.second);
     };
+    std::shared_ptr<ProjectItemModel> itemModel = pCore->projectItemModel();
+    std::shared_ptr<ProjectFolder> targetFolder = itemModel->getRootFolder();
+    if (isAudioClip && itemModel->defaultAudioCaptureFolder() > -1) {
+        const QString audioCaptureFolder = QString::number(itemModel->defaultAudioCaptureFolder());
+        std::shared_ptr<ProjectFolder> folderItem = itemModel->getFolderByBinId(audioCaptureFolder);
+        if (folderItem) {
+            targetFolder = folderItem;
+        }
+    }
+
     QString binId =
-        ClipCreator::createClipFromFile(recordedFile, pCore->projectItemModel()->getRootFolder()->clipId(), pCore->projectItemModel(), undo, redo, callBack);
-    pCore->window()->raiseBin();
+        ClipCreator::createClipFromFile(recordedFile, targetFolder->clipId(), pCore->projectItemModel(), undo, redo, callBack);
+
+    if (highlightClip) {
+        pCore->window()->raiseBin();
+    }
+
     if (binId != QStringLiteral("-1")) {
         pCore->pushUndo(undo, redo, i18n("Record audio"));
     }
@@ -4945,7 +4967,7 @@ void TimelineController::addTracks(int videoTracks, int audioTracks)
     int total = videoTracks + audioTracks;
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    for (int ix = 0; videoTracks + audioTracks > 0; ++ix) {
+    while (videoTracks + audioTracks > 0) {
         int newTid;
         if (audioTracks > 0) {
             result = m_model->requestTrackInsertion(0, newTid, QString(), true, undo, redo);
@@ -5000,7 +5022,7 @@ void TimelineController::temporaryUnplug(const QList<int> &clipIds, bool hide)
 
 void TimelineController::importSubtitle(const QString &path)
 {
-    QScopedPointer<ImportSubtitle> d(new ImportSubtitle(path, pCore->window()));
+    QScopedPointer<ImportSubtitle> d(new ImportSubtitle(path, QApplication::activeWindow()));
     if (d->exec() == QDialog::Accepted && !d->subtitle_url->url().isEmpty()) {
         auto subtitleModel = m_model->getSubtitleModel();
         if (d->create_track->isChecked()) {

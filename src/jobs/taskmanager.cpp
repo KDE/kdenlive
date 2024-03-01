@@ -62,15 +62,15 @@ void TaskManager::discardJobs(const ObjectId &owner, AbstractTask::JOBTYPE type,
     for (AbstractTask *t : taskList) {
         if ((type == AbstractTask::NOJOBTYPE || type == t->m_type) && t->m_progress < 100) {
             // If so, then just add ourselves to be notified upon completion.
-            if (exceptions.contains(t->m_type)) {
+            if (exceptions.contains(t->m_type) || t->isCanceled()) {
                 // Don't abort
                 continue;
             }
             t->cancelJob(softDelete);
             // Block until the task is finished
             t->m_runMutex.lock();
-            // t->m_runMutex.unlock();
-            // t->deleteLater();
+            t->m_runMutex.unlock();
+            t->deleteLater();
         }
     }
 }
@@ -90,12 +90,12 @@ void TaskManager::discardJob(const ObjectId &owner, const QUuid &uuid)
     std::vector<AbstractTask *> taskList = m_taskList.at(owner.itemId);
     m_tasksListLock.unlock();
     for (AbstractTask *t : taskList) {
-        if ((t->m_uuid == uuid) && t->m_progress < 100) {
+        if ((t->m_uuid == uuid) && t->m_progress < 100 && !t->isCanceled()) {
             t->cancelJob();
             // Block until the task is finished
             t->m_runMutex.lock();
-            // t->m_runMutex.unlock();
-            // t->deleteLater();
+            t->m_runMutex.unlock();
+            t->deleteLater();
         }
     }
 }
@@ -175,7 +175,7 @@ void TaskManager::slotCancelJobs(bool leaveBlocked, const QVector<AbstractTask::
     for (const auto &task : m_taskList) {
         for (AbstractTask *t : task.second) {
             if (m_taskList.find(task.first) != m_taskList.end()) {
-                if (!exceptions.contains(t->m_type)) {
+                if (!exceptions.contains(t->m_type) && !t->isCanceled()) {
                     // If so, then just add ourselves to be notified upon completion.
                     t->cancelJob();
                     t->m_runMutex.lock();

@@ -68,6 +68,7 @@ void RenderRequest::loadPresetParams(const QString &profileName)
     QStringList presetDefaults = profile->defaultValues();
 
     // Replace placeholders by default values
+    m_presetParams.replacePlaceholder(QLatin1String("%quality"), presetDefaults.at(4));
     m_presetParams.replacePlaceholder(QLatin1String("%audioquality"), presetDefaults.at(2));
     m_presetParams.replacePlaceholder(QLatin1String("%audiobitrate+'k'"), QStringLiteral("%1k").arg(presetDefaults.at(1)));
     m_presetParams.replacePlaceholder(QLatin1String("%audiobitrate"), presetDefaults.at(1));
@@ -420,6 +421,8 @@ std::vector<RenderRequest::RenderSection> RenderRequest::getGuideSections()
                     section.name = markers.at(i).comment();
                     section.in = markers.at(i).time().frames(fps);
                 }
+                section.name.replace(QLatin1Char('/'), QLatin1Char('_'));
+                section.name.replace(QLatin1Char('\\'), QLatin1Char('_'));
                 section.name = QStringUtils::getUniqueName(names, section.name);
                 names << section.name;
 

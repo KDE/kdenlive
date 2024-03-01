@@ -428,6 +428,8 @@ private Q_SLOTS:
     void updateTimelineOccurrences();
     /** @brief Set (or unset) the default folder for newly created sequence clips. */
     void setDefaultSequenceFolder(bool enable);
+    /** @brief Set (or unset) the default folder for newly created audio captures. */
+    void setDefaultAudioCaptureFolder(bool enable);
     /** @brief Fetch the filters from the UI and apply them to the proxy model */
     void slotApplyFilters();
 
@@ -471,8 +473,6 @@ public Q_SLOTS:
     void selectClipById(const QString &id, int frame = -1, const QPoint &zone = QPoint(), bool activateMonitor = true);
     const QString slotAddClipToProject(const QUrl &url);
     void droppedUrls(const QList<QUrl> &urls, const QString &folderInfo = QString());
-    /** @brief Returns the effectstack of a given clip. */
-    std::shared_ptr<EffectStackModel> getClipEffectStack(int itemId);
     /** @brief Adjust project profile to current clip. */
     void adjustProjectProfileToItem();
     /** @brief Check and propose auto adding audio tracks.
@@ -551,6 +551,7 @@ private:
     QAction *m_deleteAction;
     QAction *m_openInBin;
     QAction *m_sequencesFolderAction;
+    QAction *m_audioCapturesFolderAction;
     QAction *m_addClip;
     QAction *m_createFolderAction;
     QAction *m_renameAction;

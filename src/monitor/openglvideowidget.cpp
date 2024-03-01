@@ -274,6 +274,33 @@ void OpenGLVideoWidget::renderVideo()
     glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
     check_error(f);
 
+    if (m_sendFrame && m_analyseSem.tryAcquire(1)) {
+        // Render RGB frame for analysis
+        if (!qFuzzyCompare(m_zoom, 1.0f)) {
+            // Disable monitor zoom to render frame
+            modelView = QMatrix4x4();
+            m_shader->setUniformValue(m_modelViewLocation, modelView);
+        }
+        if ((m_fbo == nullptr) || m_fbo->size() != m_profileSize) {
+            delete m_fbo;
+            QOpenGLFramebufferObjectFormat fmt;
+            fmt.setSamples(1);
+            m_fbo = new QOpenGLFramebufferObject(m_profileSize.width(), m_profileSize.height(), fmt); // GL_TEXTURE_2D);
+        }
+        m_fbo->bind();
+        glViewport(0, 0, m_profileSize.width(), m_profileSize.height());
+
+        QMatrix4x4 projection2;
+        projection2.scale(2.0f / width, 2.0f / height);
+        m_shader->setUniformValue(m_projectionLocation, projection2);
+
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
+        check_error(f);
+        m_fbo->release();
+        Q_EMIT analyseFrame(m_fbo->toImage());
+        m_sendFrame = false;
+    }
+
     // Cleanup
     m_shader->disableAttributeArray(m_vertexLocation);
     m_shader->disableAttributeArray(m_texCoordLocation);
@@ -322,5 +349,8 @@ void OpenGLVideoWidget::onFrameDisplayed(const SharedFrame &frame)
 
 const QStringList OpenGLVideoWidget::getGPUInfo()
 {
+    if (!m_isInitialized) {
+        return {};
+    }
     return {QString::fromUtf8((const char *)glGetString(GL_VENDOR)), QString::fromUtf8((const char *)glGetString(GL_RENDERER))};
 }

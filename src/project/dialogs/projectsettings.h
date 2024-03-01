@@ -74,6 +74,8 @@ private Q_SLOTS:
     void slotExternalProxyChanged(bool enabled);
     void slotExternalProxyProfileChanged(const QString &);
     void setExternalProxyProfileData(const QString &profile);
+    /** @brief Shows the configure external proxy dialog. */
+    void configureExternalProxies();
 
 private:
     QPushButton *m_buttonOk;

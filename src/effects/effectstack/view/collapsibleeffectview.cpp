@@ -402,6 +402,7 @@ void CollapsibleEffectView::slotActivateEffect(bool active)
 
 void CollapsibleEffectView::mousePressEvent(QMouseEvent *e)
 {
+    qDebug() << "XXXX COLLAPSIBLE PRESS EVENT....";
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     m_dragStart = e->globalPos();
 #else
@@ -426,6 +427,7 @@ void CollapsibleEffectView::wheelEvent(QWheelEvent *e)
 
 void CollapsibleEffectView::mouseMoveEvent(QMouseEvent *e)
 {
+    qDebug() << "XXXX COLLAPSIBLE MOVE EVENT....";
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (!m_dragging && (e->globalPos() - m_dragStart).manhattanLength() > QApplication::startDragDistance()) {
 #else
@@ -450,6 +452,7 @@ void CollapsibleEffectView::mouseDoubleClickEvent(QMouseEvent *event)
 
 void CollapsibleEffectView::mouseReleaseEvent(QMouseEvent *event)
 {
+    qDebug() << "XXXX COLLAPSIBLE RELASE EVENT....";
     m_dragStart = QPoint();
     m_dragging = false;
     if (!decoframe->property("active").toBool()) {

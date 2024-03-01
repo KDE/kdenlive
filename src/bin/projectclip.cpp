@@ -1188,8 +1188,24 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
         Mlt::Properties original(m_masterProducer->get_properties());
         Mlt::Properties cloneProps(warpProducer->get_properties());
         cloneProps.pass_list(original, ClipController::getPassPropertiesList(false));
-        warpProducer->set("audio_index", audioStream);
-        warpProducer->set("astream", audioStreamIndex(audioStream));
+
+        if (audioStream > -1) {
+            int newAudioStreamIndex = audioStreamIndex(audioStream);
+            if (newAudioStreamIndex > -1) {
+                /** If the audioStreamIndex is not found, for example when replacing a clip with another one using different indexes,
+                default to first audio stream */
+                warpProducer->set("audio_index", audioStream);
+            } else {
+                newAudioStreamIndex = 0;
+            }
+            if (newAudioStreamIndex > audioStreamsCount() - 1) {
+                newAudioStreamIndex = 0;
+            }
+            warpProducer->set("astream", newAudioStreamIndex);
+        } else {
+            warpProducer->set("audio_index", audioStream);
+            warpProducer->set("astream", audioStreamIndex(audioStream));
+        }
     }
 
     // if the producer has a "time-to-live" (frame duration) we need to scale it according to the speed
@@ -1625,10 +1641,19 @@ const QString ProjectClip::getFileHash()
     case ClipType::SlideShow:
         fileHash = getFolderHash(QFileInfo(clipUrl()).absoluteDir(), QFileInfo(clipUrl()).fileName());
         break;
-    case ClipType::Text:
+    case ClipType::Text: {
         fileData = getProducerProperty(QStringLiteral("xmldata")).toUtf8();
+        // If 2 clips share the same content (for example duplicated clips), they must not have the same hash
+        QByteArray uniqueId = getProducerProperty(QStringLiteral("kdenlive:uniqueId")).toUtf8();
+        if (uniqueId.isEmpty()) {
+            const QUuid uuid = QUuid::createUuid();
+            setProducerProperty(QStringLiteral("kdenlive:uniqueId"), uuid.toString());
+            uniqueId = uuid.toString().toUtf8();
+        }
+        fileData.prepend(uniqueId);
         fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
         break;
+    }
     case ClipType::TextTemplate:
         fileData = getProducerProperty(QStringLiteral("resource")).toUtf8();
         fileData.append(getProducerProperty(QStringLiteral("templatetext")).toUtf8());
@@ -2449,7 +2474,7 @@ bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
         const QUuid uuid = i.key();
         QList<int> instances = i.value();
         if (!instances.isEmpty()) {
-            auto timeline = pCore->currentDoc()->getTimeline(uuid);
+            auto timeline = pCore->currentDoc()->getTimeline(uuid, pCore->projectItemModel()->closing);
             if (!timeline) {
                 if (pCore->projectItemModel()->closing) {
                     break;
@@ -2533,7 +2558,7 @@ void ProjectClip::copyTimeWarpProducers(const QDir sequenceFolder, bool copy)
     }
 }
 
-void ProjectClip::reloadTimeline()
+void ProjectClip::reloadTimeline(std::shared_ptr<EffectStackModel> stack)
 {
     if (pCore->bin()) {
         pCore->bin()->reloadMonitorIfActive(m_binId);
@@ -2564,6 +2589,9 @@ void ProjectClip::reloadTimeline()
     Q_EMIT refreshPropertiesPanel();
     replaceInTimeline();
     updateTimelineClips({TimelineModel::IsProxyRole});
+    if (stack) {
+        m_effectStack = stack;
+    }
 }
 
 Fun ProjectClip::getAudio_lambda()

@@ -24,7 +24,6 @@
 #include <QIcon>
 #include <QInputDialog>
 #include <QMenu>
-#include <QProgressDialog>
 #include <QToolBar>
 #include <QtConcurrent>
 

@@ -123,6 +123,8 @@ public:
     /** @brief Returns true if consumer is initialized */
     bool isReady() const;
     virtual const QStringList getGPUInfo();
+    /** @brief Returns the current frame as image */
+    QImage image() const;
 
 protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
@@ -177,6 +179,7 @@ Q_SIGNALS:
     void lockMonitor(bool);
     void passKeyEvent(QKeyEvent *);
     void panView(const QPoint &diff);
+    void reconnectWindow();
 
 protected:
     // TODO: MTL has lock/unlock of individual nodes. Use those.
@@ -190,11 +193,18 @@ protected:
     /** @brief The height of the qml ruler and audio thumbs */
     int m_displayRulerHeight;
     int m_maxTextureSize;
+    /** @brief For some reason on Qt6 fullscreen switch, image position is not correctly updated, so use this to track state */
+    bool refreshZoom{false};
     SharedFrame m_sharedFrame;
+    bool m_sendFrame;
+    QSemaphore m_analyseSem;
+    float m_zoom;
+    QSize m_profileSize;
     QMutex m_mutex;
+    bool m_isInitialized;
 
     /** @brief adjust monitor ruler size (for example if we want to display audio thumbs permanently) */
-    void updateRulerHeight(int addedHeight);
+    virtual void updateRulerHeight(int addedHeight);
 
 private:
     QRect m_rect;
@@ -202,8 +212,6 @@ private:
     QPoint m_panStart;
     QPoint m_dragStart;
     QSemaphore m_initSem;
-    QSemaphore m_analyseSem;
-    bool m_isInitialized;
     bool m_qmlEvent;
     bool m_swallowDrop{false};
     int m_maxProducerPosition;
@@ -216,11 +224,8 @@ private:
     std::unique_ptr<Mlt::Event> m_displayEvent;
     FrameRenderer *m_frameRenderer;
     QTimer m_refreshTimer;
-    float m_zoom;
-    QSize m_profileSize;
     int m_colorSpace;
     double m_dar;
-    bool m_sendFrame;
     bool m_isZoneMode;
     bool m_isLoopMode;
     int m_loopIn;
