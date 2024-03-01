@@ -59,8 +59,10 @@ QLinearGradient GradientWidget::gradientFromString(const QString &str, int width
         // invalid gradient data
         return gr;
     }
-    gr.setColorAt(values.at(2).toDouble() / 100, values.at(0));
-    gr.setColorAt(values.at(3).toDouble() / 100, values.at(1));
+    const QColor startColor(values.at(0));
+    const QColor endColor(values.at(1));
+    gr.setColorAt(values.at(2).toDouble() / 100, startColor);
+    gr.setColorAt(values.at(3).toDouble() / 100, endColor);
     double angle = values.at(4).toDouble();
     if (angle <= 90) {
         gr.setStart(0, 0);
@@ -172,6 +174,10 @@ void GradientWidget::loadGradient()
     }
     QString grad_data = item->data(Qt::UserRole).toString();
     QStringList res = grad_data.split(QLatin1Char(';'));
+    if (res.count() < 5) {
+        // invalid gradient data
+        return;
+    }
     color1->setColor(QColor(res.at(0)));
     color2->setColor(QColor(res.at(1)));
     color1_pos->setValue(res.at(2).toInt());
