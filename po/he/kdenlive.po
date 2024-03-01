@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-29 00:37+0000\n"
+"POT-Creation-Date: 2024-03-01 00:37+0000\n"
 "PO-Revision-Date: 2024-02-27 23:16+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -7016,7 +7016,7 @@ msgstr "וידאו ללא רצועת שמע"
 msgid "Audio without video track"
 msgstr "שמע ללא רצועת וידאו"
 
-#: src/dialogs/renderwidget.cpp:845 src/main.cpp:307
+#: src/dialogs/renderwidget.cpp:845 src/main.cpp:313
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "‫צלימה של <i>%1</i> התחילה"
@@ -9415,243 +9415,243 @@ msgstr ""
 msgid "Cannot write to Library path: %1, using default"
 msgstr "לא ניתן לכתוב לנתיב הספרייה: %1, נעשה שימוש בברירת המחדל"
 
-#: src/main.cpp:142
+#: src/main.cpp:148
 #, kde-format
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr ""
 
-#: src/main.cpp:145
+#: src/main.cpp:151
 #, kde-format
 msgid "You are using the %1 package.<br>"
 msgstr ""
 
-#: src/main.cpp:147
+#: src/main.cpp:153
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
 
-#: src/main.cpp:147
+#: src/main.cpp:153
 #, kde-format
 msgid "An open source video editor."
 msgstr "עורך וידאו בקוד פתוח."
 
-#: src/main.cpp:148
+#: src/main.cpp:154
 #, kde-format
 msgid "Copyright © 2007–2024 Kdenlive authors"
 msgstr ""
 
-#: src/main.cpp:150
+#: src/main.cpp:156
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "ז׳אן־בפטיסט מרדל"
 
-#: src/main.cpp:150
+#: src/main.cpp:156
 #, kde-format
 msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
 msgstr "הסבה של MLT ו־KDE SC 4 / KF5, מפתח ומתחזק ראשי"
 
-#: src/main.cpp:152
+#: src/main.cpp:158
 #, kde-format
 msgid "Nicolas Carion"
 msgstr ""
 
-#: src/main.cpp:152
+#: src/main.cpp:158
 #, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr ""
 
-#: src/main.cpp:153
+#: src/main.cpp:159
 #, kde-format
 msgid "Julius Künzel"
 msgstr ""
 
-#: src/main.cpp:153
+#: src/main.cpp:159
 #, kde-format
 msgid "Feature development, packaging, bug fixing"
 msgstr ""
 
-#: src/main.cpp:154
+#: src/main.cpp:160
 #, kde-format
 msgid "Vincent Pinon"
 msgstr ""
 
-#: src/main.cpp:154
+#: src/main.cpp:160
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr ""
 
-#: src/main.cpp:156
+#: src/main.cpp:162
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "דן דנדי"
 
-#: src/main.cpp:156
+#: src/main.cpp:162
 #, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
 msgstr "המתחזק של MLT, תיקוני תקלות ועוד"
 
-#: src/main.cpp:157
+#: src/main.cpp:163
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "סיימון א. יוגסטר"
 
-#: src/main.cpp:157
+#: src/main.cpp:163
 #, kde-format
 msgid "Color scopes, bug fixing, etc."
 msgstr "טווחי צבע, תיקוני תקלות ועוד"
 
-#: src/main.cpp:158
+#: src/main.cpp:164
 #, kde-format
 msgid "Eric Jiang"
 msgstr ""
 
-#: src/main.cpp:158
+#: src/main.cpp:164
 #, kde-format
 msgid "Bug fixing and test improvements"
 msgstr ""
 
-#: src/main.cpp:160
+#: src/main.cpp:166
 #, kde-format
 msgid "Jason Wood"
 msgstr "ג׳ייסון ווד"
 
-#: src/main.cpp:160
+#: src/main.cpp:166
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "יוצר הגרסה המקורית ל־KDE 3 (אינו פעיל עוד)"
 
-#: src/main.cpp:162
+#: src/main.cpp:168
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr ""
 
-#: src/main.cpp:162
+#: src/main.cpp:168
 #, kde-format
 msgid "Logo, Promotion, testing"
 msgstr ""
 
-#: src/main.cpp:163
+#: src/main.cpp:169
 #, kde-format
 msgid "Eugen Mohr"
 msgstr ""
 
-#: src/main.cpp:163
+#: src/main.cpp:169
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
 msgstr ""
 
-#: src/main.cpp:164
+#: src/main.cpp:170
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "נארה אוליביירה"
 
-#: src/main.cpp:164
+#: src/main.cpp:170
 #, kde-format
 msgid "Logo"
 msgstr "לוגו"
 
-#: src/main.cpp:165
+#: src/main.cpp:171
 #, kde-format
 msgid "Bruno Santos"
 msgstr "ברונו סנטוס"
 
-#: src/main.cpp:165
+#: src/main.cpp:171
 #, kde-format
 msgid "Testing"
 msgstr "בדיקה"
 
-#: src/main.cpp:166
+#: src/main.cpp:172
 #, kde-format
 msgid "Massimo Stella"
 msgstr "מסימו סטלה"
 
-#: src/main.cpp:166
+#: src/main.cpp:172
 #, kde-format
 msgid "Expert advice, testing"
 msgstr "ייעוץ מומחה, בדיקה"
 
-#: src/main.cpp:168
+#: src/main.cpp:174
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr "Amir S.,צוות התרגום של KDE ישראל"
 
-#: src/main.cpp:168
+#: src/main.cpp:174
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr "amir_in@netvision.net.il,kde-l10n-he@kde.org"
 
-#: src/main.cpp:171
+#: src/main.cpp:177
 #, kde-format
 msgid "MLT"
 msgstr "MLT"
 
-#: src/main.cpp:171
+#: src/main.cpp:177
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "תשתית מולטימדיה בקוד פתוח."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
 #. i18n: ectx: attribute (title), widget (QWidget, ffmpeg_tab)
-#: src/main.cpp:173 src/ui/configcapture_ui.ui:30 src/ui/configcapture_ui.ui:53
+#: src/main.cpp:179 src/ui/configcapture_ui.ui:30 src/ui/configcapture_ui.ui:53
 #, kde-format
 msgid "FFmpeg"
 msgstr "FFmpeg"
 
-#: src/main.cpp:173
+#: src/main.cpp:179
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
 "video."
 msgstr "פתרון חוצה פלטפורמות מלא להקלטה, המרה והזרמה של וידאו ושמע."
 
-#: src/main.cpp:197
+#: src/main.cpp:203
 #, kde-format
 msgid "Set a custom config file name."
 msgstr "הגדרת שם משלך לקובץ ההגדרות."
 
-#: src/main.cpp:198
+#: src/main.cpp:204
 #, kde-format
 msgid "Set the path for MLT environment."
 msgstr "הגדרת הנתיב לסביבת MLT."
 
-#: src/main.cpp:200
+#: src/main.cpp:206
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr ""
 
-#: src/main.cpp:203
+#: src/main.cpp:209
 #, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
 msgstr ""
 
-#: src/main.cpp:207
+#: src/main.cpp:213
 #, kde-format
 msgid "Directly render the project and exit."
 msgstr "להכין צלימה של המיזם ישירות ולצאת."
 
-#: src/main.cpp:210
+#: src/main.cpp:216
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr ""
 
-#: src/main.cpp:215
+#: src/main.cpp:221
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
 "only after it finished."
 msgstr ""
 
-#: src/main.cpp:218
+#: src/main.cpp:224
 #, kde-format
 msgid "Kdenlive document to open."
 msgstr "מסמך Kdenlive לפתיחה."
 
-#: src/main.cpp:219
+#: src/main.cpp:225
 #, kde-format
 msgid "Output file for rendered video."
 msgstr "קובץ פלט לווידאו שעבר צלימה."
 
-#: src/main.cpp:344
+#: src/main.cpp:350
 #, kde-format
 msgid "Version %1"
 msgstr "גרסה %1"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-29 00:37+0000\n"
+"POT-Creation-Date: 2024-03-01 00:37+0000\n"
 "PO-Revision-Date: 2024-02-24 17:08+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -7233,7 +7233,7 @@ msgstr "Obraz bez ścieżki dźwiękowej"
 msgid "Audio without video track"
 msgstr "Dźwięk bez ścieżki obrazu"
 
-#: src/dialogs/renderwidget.cpp:845 src/main.cpp:307
+#: src/dialogs/renderwidget.cpp:845 src/main.cpp:313
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "Rozpoczęto składanie <i>%1</i> w całość"
@@ -9720,191 +9720,191 @@ msgstr "Ścieżka biblioteki ustawiona na własną: %1"
 msgid "Cannot write to Library path: %1, using default"
 msgstr "Nie można zapisać do ścieżki biblioteki: %1, użyto domyślnej"
 
-#: src/main.cpp:142
+#: src/main.cpp:148
 #, kde-format
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "Błędy zgłaszaj na <a href=\"%1\">%2</a>"
 
-#: src/main.cpp:145
+#: src/main.cpp:151
 #, kde-format
 msgid "You are using the %1 package.<br>"
 msgstr "Używasz pakietu %1.<br>"
 
-#: src/main.cpp:147
+#: src/main.cpp:153
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
 
-#: src/main.cpp:147
+#: src/main.cpp:153
 #, kde-format
 msgid "An open source video editor."
 msgstr "Edytor obrazu o otwartym źródle."
 
-#: src/main.cpp:148
+#: src/main.cpp:154
 #, kde-format
 msgid "Copyright © 2007–2024 Kdenlive authors"
 msgstr "Copyright © 2007–2024 Autorzy Kdenlive"
 
-#: src/main.cpp:150
+#: src/main.cpp:156
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
-#: src/main.cpp:150
+#: src/main.cpp:156
 #, kde-format
 msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
 msgstr "Przeniesienie MLT i KDE SC 4 /KF5, główny programista i opiekun"
 
-#: src/main.cpp:152
+#: src/main.cpp:158
 #, kde-format
 msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
-#: src/main.cpp:152
+#: src/main.cpp:158
 #, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr "Przebudowa kodu i osi czasu (2019)"
 
-#: src/main.cpp:153
+#: src/main.cpp:159
 #, kde-format
 msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
-#: src/main.cpp:153
+#: src/main.cpp:159
 #, kde-format
 msgid "Feature development, packaging, bug fixing"
 msgstr "Rozwój funkcjonalności, pakowanie, usuwanie błędów"
 
-#: src/main.cpp:154
+#: src/main.cpp:160
 #, kde-format
 msgid "Vincent Pinon"
 msgstr "Vincent Pinon"
 
-#: src/main.cpp:154
+#: src/main.cpp:160
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr ""
 "Przeniesienie na KF5, wydanie na Windowsa, tworzenie pakietów, poprawki "
 "błędów"
 
-#: src/main.cpp:156
+#: src/main.cpp:162
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
-#: src/main.cpp:156
+#: src/main.cpp:162
 #, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
 msgstr "Opieka nad MLT, usuwanie błędów, itp."
 
-#: src/main.cpp:157
+#: src/main.cpp:163
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
-#: src/main.cpp:157
+#: src/main.cpp:163
 #, kde-format
 msgid "Color scopes, bug fixing, etc."
 msgstr "Zakresy kolorów, poprawki błędów, itp."
 
-#: src/main.cpp:158
+#: src/main.cpp:164
 #, kde-format
 msgid "Eric Jiang"
 msgstr "Eric Jiang"
 
-#: src/main.cpp:158
+#: src/main.cpp:164
 #, kde-format
 msgid "Bug fixing and test improvements"
 msgstr "Usuwanie błędów i ulepszenia do testowania"
 
-#: src/main.cpp:160
+#: src/main.cpp:166
 #, kde-format
 msgid "Jason Wood"
 msgstr "Jason Wood"
 
-#: src/main.cpp:160
+#: src/main.cpp:166
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "Autor pierwszej wersji dla KDE 3 (nie jest już aktywny)"
 
-#: src/main.cpp:162
+#: src/main.cpp:168
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
-#: src/main.cpp:162
+#: src/main.cpp:168
 #, kde-format
 msgid "Logo, Promotion, testing"
 msgstr "Logo, promocja, testy"
 
-#: src/main.cpp:163
+#: src/main.cpp:169
 #, kde-format
 msgid "Eugen Mohr"
 msgstr "Eugen Mohr"
 
-#: src/main.cpp:163
+#: src/main.cpp:169
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
 msgstr "Rozpracowywanie błędów, testy, opieka nad dokumentacją"
 
-#: src/main.cpp:164
+#: src/main.cpp:170
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "Nara Oliveira"
 
-#: src/main.cpp:164
+#: src/main.cpp:170
 #, kde-format
 msgid "Logo"
 msgstr "Logo"
 
-#: src/main.cpp:165
+#: src/main.cpp:171
 #, kde-format
 msgid "Bruno Santos"
 msgstr "Bruno Santos"
 
-#: src/main.cpp:165
+#: src/main.cpp:171
 #, kde-format
 msgid "Testing"
 msgstr "Testowanie"
 
-#: src/main.cpp:166
+#: src/main.cpp:172
 #, kde-format
 msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
-#: src/main.cpp:166
+#: src/main.cpp:172
 #, kde-format
 msgid "Expert advice, testing"
 msgstr "Rada ekspercka, testowanie"
 
-#: src/main.cpp:168
+#: src/main.cpp:174
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr "Łukasz Wojniłowicz, Mariusz Pluciński"
 
-#: src/main.cpp:168
+#: src/main.cpp:174
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr "lukasz.wojnilowicz@gmail.com, vshader@gmail.com"
 
-#: src/main.cpp:171
+#: src/main.cpp:177
 #, kde-format
 msgid "MLT"
 msgstr "MLT"
 
-#: src/main.cpp:171
+#: src/main.cpp:177
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "Szkielet multimedialny o otwartym kodzie."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
 #. i18n: ectx: attribute (title), widget (QWidget, ffmpeg_tab)
-#: src/main.cpp:173 src/ui/configcapture_ui.ui:30 src/ui/configcapture_ui.ui:53
+#: src/main.cpp:179 src/ui/configcapture_ui.ui:30 src/ui/configcapture_ui.ui:53
 #, kde-format
 msgid "FFmpeg"
 msgstr "FFmpeg"
 
-#: src/main.cpp:173
+#: src/main.cpp:179
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
@@ -9913,43 +9913,43 @@ msgstr ""
 "Pełne, wieloplatformowe rozwiązanie do nagrywania, przekształcania oraz "
 "strumieniowania dźwięku i obrazu."
 
-#: src/main.cpp:197
+#: src/main.cpp:203
 #, kde-format
 msgid "Set a custom config file name."
 msgstr "Ustaw własną nazwę pliku ustawień."
 
-#: src/main.cpp:198
+#: src/main.cpp:204
 #, kde-format
 msgid "Set the path for MLT environment."
 msgstr "Ustaw ścieżkę do środowiska MLT."
 
-#: src/main.cpp:200
+#: src/main.cpp:206
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr ""
 "Ustaw poziom dziennika MLT. Pozostaw nieustawione, aby mieć poziom "
 "\"ostrzeżenia\"."
 
-#: src/main.cpp:203
+#: src/main.cpp:209
 #, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
 msgstr ""
 "Lista oddzielonych przecinkami nazw plików do dodania jako wycinki do "
 "pojemnika."
 
-#: src/main.cpp:207
+#: src/main.cpp:213
 #, kde-format
 msgid "Directly render the project and exit."
 msgstr "Bezpośrednio zmontuj projekt i wyjdź."
 
-#: src/main.cpp:210
+#: src/main.cpp:216
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr ""
 "Nazwa nastawy montowania Kdenlive (zostanie użyta MP4-H264/AAC, jeśli nie "
 "podano żadnej)."
 
-#: src/main.cpp:215
+#: src/main.cpp:221
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
@@ -9958,17 +9958,17 @@ msgstr ""
 "Wyjdź po rozpoczęciu (odłączonego) działania montowania. Bez tej flagi "
 "wychodzi tylko po ukończeniu montowania."
 
-#: src/main.cpp:218
+#: src/main.cpp:224
 #, kde-format
 msgid "Kdenlive document to open."
 msgstr "Dokument Kdenlive do otwarcia."
 
-#: src/main.cpp:219
+#: src/main.cpp:225
 #, kde-format
 msgid "Output file for rendered video."
 msgstr "Pliku wynikowy dla zmontowanego filmu."
 
-#: src/main.cpp:344
+#: src/main.cpp:350
 #, kde-format
 msgid "Version %1"
 msgstr "Wersja %1"

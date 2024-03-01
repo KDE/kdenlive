@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-29 00:37+0000\n"
-"PO-Revision-Date: 2024-02-21 17:07+0300\n"
+"POT-Creation-Date: 2024-03-01 00:37+0000\n"
+"PO-Revision-Date: 2024-02-29 17:14+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -6201,23 +6201,20 @@ msgstr ""
 "%1?"
 
 #: src/dialogs/customcamcorderdialog.cpp:29
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Compare Proxy Profile"
+#, kde-format
 msgid "Edit Custom Camcorder Proxy Profiles"
-msgstr "Vekil Profili Karşılaştır"
+msgstr "Özel Kayıt Aygıtı Vekil Profillerini Düzenle"
 
 #: src/dialogs/customcamcorderdialog.cpp:36
 #: src/dialogs/customcamcorderdialog.cpp:198
 #, kde-format
 msgid "You can input several profiles in a preset, separated by a semicolon"
-msgstr ""
+msgstr "Noktalı virgülle ayırarak birden çok profil girebilirsiniz"
 
 #: src/dialogs/customcamcorderdialog.cpp:132
-#, fuzzy, kde-format
-#| msgid "Preset already exists"
+#, kde-format
 msgid "Preset already exists, enter a new name:"
-msgstr "Önayar halihazırda var"
+msgstr "Önayar halihazırda var, yeni bir ad girin:"
 
 #: src/dialogs/customcamcorderdialog.cpp:158
 #, kde-format
@@ -6225,6 +6222,8 @@ msgid ""
 "This will delete all custom camcorder profiles and reset values to the "
 "default settings"
 msgstr ""
+"Bu, tüm kayıt aygıtı profillerini siler ve değerleri öntanımlı ayarlarına "
+"geri döndürür"
 
 #: src/dialogs/customcamcorderdialog.cpp:190
 #, kde-format
@@ -6232,6 +6231,8 @@ msgid ""
 "You are using multiple presets in one profile, ensure you have the same "
 "count of semicolon in each parameter. This profile will not be saved."
 msgstr ""
+"Bir profilde birden çok önayar kullanıyorsunuz, her bir parametrede aynı "
+"sayıda noktalı virgül olduğundan emin olun. Bu profil kaydedilmeyecek."
 
 #: src/dialogs/encodingprofilesdialog.cpp:51
 #, kde-format
@@ -7217,7 +7218,7 @@ msgstr "Ses izi olmayan video"
 msgid "Audio without video track"
 msgstr "Video izi olmayan ses"
 
-#: src/dialogs/renderwidget.cpp:845 src/main.cpp:307
+#: src/dialogs/renderwidget.cpp:845 src/main.cpp:313
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "<i>%1</i> sunumu başladı"
@@ -9685,192 +9686,192 @@ msgstr "Kitaplık yolu özel olarak ayarlı: %1"
 msgid "Cannot write to Library path: %1, using default"
 msgstr "Kitaplık yoluna yazılamadı: %1, varsayılan kullanılıyor"
 
-#: src/main.cpp:142
+#: src/main.cpp:148
 #, kde-format
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "Lütfen hataları <a href=\"%1\">%2</a> adresine bildirin"
 
-#: src/main.cpp:145
+#: src/main.cpp:151
 #, kde-format
 msgid "You are using the %1 package.<br>"
 msgstr "%1 paketini kullanıyorsunuz.<br>"
 
-#: src/main.cpp:147
+#: src/main.cpp:153
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
 
-#: src/main.cpp:147
+#: src/main.cpp:153
 #, kde-format
 msgid "An open source video editor."
 msgstr "Açık kaynak kodlu bir video düzenleyicisi."
 
-#: src/main.cpp:148
+#: src/main.cpp:154
 #, kde-format
 msgid "Copyright © 2007–2024 Kdenlive authors"
 msgstr "Telif hakkı © 2007–2024 Kdenlive yazarları"
 
-#: src/main.cpp:150
+#: src/main.cpp:156
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
-#: src/main.cpp:150
+#: src/main.cpp:156
 #, kde-format
 msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
 msgstr "MLT ve KDE SC 4 /KF5 geçişi, ana geliştirici ve projeyi yürüten kişi"
 
-#: src/main.cpp:152
+#: src/main.cpp:158
 #, kde-format
 msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
-#: src/main.cpp:152
+#: src/main.cpp:158
 #, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr ""
 "Kod mimarisin yeniden düzenlenmesi ve zaman akışının yeniden yazılması (2019)"
 
-#: src/main.cpp:153
+#: src/main.cpp:159
 #, kde-format
 msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
-#: src/main.cpp:153
+#: src/main.cpp:159
 #, kde-format
 msgid "Feature development, packaging, bug fixing"
 msgstr "Özellik geliştirmeleri, paketleme, hata düzeltmeleri"
 
-#: src/main.cpp:154
+#: src/main.cpp:160
 #, kde-format
 msgid "Vincent Pinon"
 msgstr "Vincent Pinon"
 
-#: src/main.cpp:154
+#: src/main.cpp:160
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr "KF5 geçişi, Windows çapraz yapısı, paketleme, hata düzeltme"
 
-#: src/main.cpp:156
+#: src/main.cpp:162
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
-#: src/main.cpp:156
+#: src/main.cpp:162
 #, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
 msgstr "MLT bakımcısı, hata düzeltmeleri vb."
 
-#: src/main.cpp:157
+#: src/main.cpp:163
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
-#: src/main.cpp:157
+#: src/main.cpp:163
 #, kde-format
 msgid "Color scopes, bug fixing, etc."
 msgstr "Renk kapsamları, hata onarımları, vb."
 
-#: src/main.cpp:158
+#: src/main.cpp:164
 #, kde-format
 msgid "Eric Jiang"
 msgstr "Eric Jiang"
 
-#: src/main.cpp:158
+#: src/main.cpp:164
 #, kde-format
 msgid "Bug fixing and test improvements"
 msgstr "Hata düzeltmeleri ve sınama iyileştirmeleri"
 
-#: src/main.cpp:160
+#: src/main.cpp:166
 #, kde-format
 msgid "Jason Wood"
 msgstr "Jason Wood"
 
-#: src/main.cpp:160
+#: src/main.cpp:166
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "Özgün KDE 3 sürümünün yazarı (artık etkin değil)"
 
-#: src/main.cpp:162
+#: src/main.cpp:168
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
-#: src/main.cpp:162
+#: src/main.cpp:168
 #, kde-format
 msgid "Logo, Promotion, testing"
 msgstr "Logo, Promosyon, Sınama"
 
-#: src/main.cpp:163
+#: src/main.cpp:169
 #, kde-format
 msgid "Eugen Mohr"
 msgstr "Eugen Mohr"
 
-#: src/main.cpp:163
+#: src/main.cpp:169
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
 msgstr "Hata triyajı, sınama, belgelendirme bakımcısı"
 
-#: src/main.cpp:164
+#: src/main.cpp:170
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "Nara Oliveira"
 
-#: src/main.cpp:164
+#: src/main.cpp:170
 #, kde-format
 msgid "Logo"
 msgstr "Logo"
 
-#: src/main.cpp:165
+#: src/main.cpp:171
 #, kde-format
 msgid "Bruno Santos"
 msgstr "Bruno Santos"
 
-#: src/main.cpp:165
+#: src/main.cpp:171
 #, kde-format
 msgid "Testing"
 msgstr "Sınama"
 
-#: src/main.cpp:166
+#: src/main.cpp:172
 #, kde-format
 msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
-#: src/main.cpp:166
+#: src/main.cpp:172
 #, kde-format
 msgid "Expert advice, testing"
 msgstr "Uzman görüşü, sınama"
 
-#: src/main.cpp:168
+#: src/main.cpp:174
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr "Anıl Özbek, Serdar Soytetir, Volkan Gezer, Emir SARI"
 
-#: src/main.cpp:168
+#: src/main.cpp:174
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr ""
 "ozbekanil@gmail.com, tulliana@gmail.com, volkangezer@gmail.com, "
 "emir_sari@icloud.com"
 
-#: src/main.cpp:171
+#: src/main.cpp:177
 #, kde-format
 msgid "MLT"
 msgstr "MLT"
 
-#: src/main.cpp:171
+#: src/main.cpp:177
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "Açık kaynaklı çoklu ortam kod kitaplığı."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
 #. i18n: ectx: attribute (title), widget (QWidget, ffmpeg_tab)
-#: src/main.cpp:173 src/ui/configcapture_ui.ui:30 src/ui/configcapture_ui.ui:53
+#: src/main.cpp:179 src/ui/configcapture_ui.ui:30 src/ui/configcapture_ui.ui:53
 #, kde-format
 msgid "FFmpeg"
 msgstr "FFmpeg"
 
-#: src/main.cpp:173
+#: src/main.cpp:179
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
@@ -9879,38 +9880,38 @@ msgstr ""
 "Ses ve video kayıt, dönüştürme ve aktarmak için tam ve çapraz platform bir "
 "çözüm."
 
-#: src/main.cpp:197
+#: src/main.cpp:203
 #, kde-format
 msgid "Set a custom config file name."
 msgstr "Özel yapılandırma dosyası adı ayarlayın."
 
-#: src/main.cpp:198
+#: src/main.cpp:204
 #, kde-format
 msgid "Set the path for MLT environment."
 msgstr "MLT ortamının yolunu ayarlayın."
 
-#: src/main.cpp:200
+#: src/main.cpp:206
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr "MLT günlük düzeyini ayarla. \"Uyarı\" düzeyi için bunu boş bırakın."
 
-#: src/main.cpp:203
+#: src/main.cpp:209
 #, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
 msgstr "Kovaya klipler olarak eklenecek dosyaların virgülle ayrılmış listesi."
 
-#: src/main.cpp:207
+#: src/main.cpp:213
 #, kde-format
 msgid "Directly render the project and exit."
 msgstr "Projeyi doğrudan sunun ve çıkın."
 
-#: src/main.cpp:210
+#: src/main.cpp:216
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr ""
 "Kdenlive sunum önayar adı (bir tane verilmezse MP4-H264/AAC kullanılır)."
 
-#: src/main.cpp:215
+#: src/main.cpp:221
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
@@ -9919,17 +9920,17 @@ msgstr ""
 "(Ayrık) sunum işlemi başladıktan sonra çık; bu bayrak olmadan yalnızca işi "
 "bittikten sonra çıkar."
 
-#: src/main.cpp:218
+#: src/main.cpp:224
 #, kde-format
 msgid "Kdenlive document to open."
 msgstr "Açılacak Kdenlive belgesi."
 
-#: src/main.cpp:219
+#: src/main.cpp:225
 #, kde-format
 msgid "Output file for rendered video."
 msgstr "Sunulan videonun çıktı dosyası."
 
-#: src/main.cpp:344
+#: src/main.cpp:350
 #, kde-format
 msgid "Version %1"
 msgstr "Sürüm %1"
@@ -19730,10 +19731,9 @@ msgstr "Vekil soneki:"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_add)
 #: src/ui/customcamcorderproxy_ui.ui:94
-#, fuzzy, kde-format
-#| msgid "Add as new Title"
+#, kde-format
 msgid "Add new profile"
-msgstr "Yeni başlık olarak ekle"
+msgstr "Yeni profil ekle"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_delete)
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_remove)
@@ -19744,10 +19744,9 @@ msgstr "Profili sil"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_reset)
 #: src/ui/customcamcorderproxy_ui.ui:135
-#, fuzzy, kde-format
-#| msgid "Delete profile"
+#, kde-format
 msgid "Reset all profiles"
-msgstr "Profili sil"
+msgstr "Tüm profilleri sil"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_more)
 #: src/ui/cutjobdialog_ui.ui:81

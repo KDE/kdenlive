@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-29 00:37+0000\n"
-"PO-Revision-Date: 2024-02-21 13:39+0100\n"
+"POT-Creation-Date: 2024-03-01 00:37+0000\n"
+"PO-Revision-Date: 2024-02-29 12:30+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -6246,23 +6246,23 @@ msgstr ""
 "%1?"
 
 #: src/dialogs/customcamcorderdialog.cpp:29
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Compare Proxy Profile"
+#, kde-format
 msgid "Edit Custom Camcorder Proxy Profiles"
-msgstr "Compara el perfil de l'intermediari"
+msgstr ""
+"Edita els perfils personalitzats dels intermediaris de la càmera de vídeo"
 
 #: src/dialogs/customcamcorderdialog.cpp:36
 #: src/dialogs/customcamcorderdialog.cpp:198
 #, kde-format
 msgid "You can input several profiles in a preset, separated by a semicolon"
 msgstr ""
+"Podeu introduir diversos perfils en una predefinició, separats per un punt i "
+"coma"
 
 #: src/dialogs/customcamcorderdialog.cpp:132
-#, fuzzy, kde-format
-#| msgid "Preset already exists"
+#, kde-format
 msgid "Preset already exists, enter a new name:"
-msgstr "El valor predeterminat ja existix"
+msgstr "El valor predefinit ja existix, introduïu un nom nou:"
 
 #: src/dialogs/customcamcorderdialog.cpp:158
 #, kde-format
@@ -6270,6 +6270,8 @@ msgid ""
 "This will delete all custom camcorder profiles and reset values to the "
 "default settings"
 msgstr ""
+"Suprimirà tots els perfils personalitzats de la càmera de vídeo i reiniciarà "
+"els valors als seus paràmetres predeterminats"
 
 #: src/dialogs/customcamcorderdialog.cpp:190
 #, kde-format
@@ -6277,6 +6279,8 @@ msgid ""
 "You are using multiple presets in one profile, ensure you have the same "
 "count of semicolon in each parameter. This profile will not be saved."
 msgstr ""
+"Esteu emprant múltiples predefinits en un perfil, assegureu-vos que teniu el "
+"mateix nombre de punts i comes a cada paràmetre. Este perfil no es guardarà."
 
 #: src/dialogs/encodingprofilesdialog.cpp:51
 #, kde-format
@@ -7273,7 +7277,7 @@ msgstr "Vídeo sense pista d'àudio"
 msgid "Audio without video track"
 msgstr "Àudio sense pista de vídeo"
 
-#: src/dialogs/renderwidget.cpp:845 src/main.cpp:307
+#: src/dialogs/renderwidget.cpp:845 src/main.cpp:313
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "Ha començat la renderització de <i>%1</i>"
@@ -9773,193 +9777,193 @@ msgid "Cannot write to Library path: %1, using default"
 msgstr ""
 "No es pot escriure al camí de la biblioteca: %1. S'utilitza el predeterminat"
 
-#: src/main.cpp:142
+#: src/main.cpp:148
 #, kde-format
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "Informeu dels errors a <a href=\"%1\">%2</a>"
 
-#: src/main.cpp:145
+#: src/main.cpp:151
 #, kde-format
 msgid "You are using the %1 package.<br>"
 msgstr "Esteu emprant el paquet %1.<br>"
 
-#: src/main.cpp:147
+#: src/main.cpp:153
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
 
-#: src/main.cpp:147
+#: src/main.cpp:153
 #, kde-format
 msgid "An open source video editor."
 msgstr "Un editor de vídeo de codi obert."
 
-#: src/main.cpp:148
+#: src/main.cpp:154
 #, kde-format
 msgid "Copyright © 2007–2024 Kdenlive authors"
 msgstr "Copyright © 2007–2024 Els autors de Kdenlive"
 
-#: src/main.cpp:150
+#: src/main.cpp:156
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
-#: src/main.cpp:150
+#: src/main.cpp:156
 #, kde-format
 msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
 msgstr ""
 "Adaptació a MLT i la KDE SC 4 / els KF5. Desenvolupador i mantenidor "
 "principal"
 
-#: src/main.cpp:152
+#: src/main.cpp:158
 #, kde-format
 msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
-#: src/main.cpp:152
+#: src/main.cpp:158
 #, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr "Rearquitectura del codi i reescriptura de la línia de temps (2019)"
 
-#: src/main.cpp:153
+#: src/main.cpp:159
 #, kde-format
 msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
-#: src/main.cpp:153
+#: src/main.cpp:159
 #, kde-format
 msgid "Feature development, packaging, bug fixing"
 msgstr "Desenvolupament de característiques, empaquetatge, correcció d'errors"
 
-#: src/main.cpp:154
+#: src/main.cpp:160
 #, kde-format
 msgid "Vincent Pinon"
 msgstr "Vincent Pinon"
 
-#: src/main.cpp:154
+#: src/main.cpp:160
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr ""
 "Adaptació als KF5, compilació creuada de Windows, empaquetatge, correcció "
 "d'errors"
 
-#: src/main.cpp:156
+#: src/main.cpp:162
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
-#: src/main.cpp:156
+#: src/main.cpp:162
 #, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
 msgstr "Mantenidor de MLT, correcció d'errors, etc."
 
-#: src/main.cpp:157
+#: src/main.cpp:163
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
-#: src/main.cpp:157
+#: src/main.cpp:163
 #, kde-format
 msgid "Color scopes, bug fixing, etc."
 msgstr "Electroscopis de color, esmena d'errors, etc."
 
-#: src/main.cpp:158
+#: src/main.cpp:164
 #, kde-format
 msgid "Eric Jiang"
 msgstr "Eric Jiang"
 
-#: src/main.cpp:158
+#: src/main.cpp:164
 #, kde-format
 msgid "Bug fixing and test improvements"
 msgstr "Correcció d'errors i millora de les proves"
 
-#: src/main.cpp:160
+#: src/main.cpp:166
 #, kde-format
 msgid "Jason Wood"
 msgstr "Jason Wood"
 
-#: src/main.cpp:160
+#: src/main.cpp:166
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "Autoria de la versió original per a KDE 3 (inactiva)"
 
-#: src/main.cpp:162
+#: src/main.cpp:168
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
-#: src/main.cpp:162
+#: src/main.cpp:168
 #, kde-format
 msgid "Logo, Promotion, testing"
 msgstr "Logotip, promoció, proves"
 
-#: src/main.cpp:163
+#: src/main.cpp:169
 #, kde-format
 msgid "Eugen Mohr"
 msgstr "Eugen Mohr"
 
-#: src/main.cpp:163
+#: src/main.cpp:169
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
 msgstr "Triatge d'errors, proves, mantenidor de la documentació"
 
-#: src/main.cpp:164
+#: src/main.cpp:170
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "Nara Oliveira"
 
-#: src/main.cpp:164
+#: src/main.cpp:170
 #, kde-format
 msgid "Logo"
 msgstr "Logotip"
 
-#: src/main.cpp:165
+#: src/main.cpp:171
 #, kde-format
 msgid "Bruno Santos"
 msgstr "Bruno Santos"
 
-#: src/main.cpp:165
+#: src/main.cpp:171
 #, kde-format
 msgid "Testing"
 msgstr "Proves"
 
-#: src/main.cpp:166
+#: src/main.cpp:172
 #, kde-format
 msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
-#: src/main.cpp:166
+#: src/main.cpp:172
 #, kde-format
 msgid "Expert advice, testing"
 msgstr "Assessorament expert, proves"
 
-#: src/main.cpp:168
+#: src/main.cpp:174
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr "Joan M. Herrera,Orestes Mas"
 
-#: src/main.cpp:168
+#: src/main.cpp:174
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr "herrej01@gmail.com,orestes@tsc.upc.edu"
 
-#: src/main.cpp:171
+#: src/main.cpp:177
 #, kde-format
 msgid "MLT"
 msgstr "MLT"
 
-#: src/main.cpp:171
+#: src/main.cpp:177
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "Marc de treball multimèdia de codi obert."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
 #. i18n: ectx: attribute (title), widget (QWidget, ffmpeg_tab)
-#: src/main.cpp:173 src/ui/configcapture_ui.ui:30 src/ui/configcapture_ui.ui:53
+#: src/main.cpp:179 src/ui/configcapture_ui.ui:30 src/ui/configcapture_ui.ui:53
 #, kde-format
 msgid "FFmpeg"
 msgstr "FFmpeg"
 
-#: src/main.cpp:173
+#: src/main.cpp:179
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
@@ -9968,42 +9972,42 @@ msgstr ""
 "Una solució completa i multiplataforma per a enregistrar, convertir i "
 "transmetre àudio i vídeo."
 
-#: src/main.cpp:197
+#: src/main.cpp:203
 #, kde-format
 msgid "Set a custom config file name."
 msgstr "Establix un nom de fitxer de configuració personalitzat."
 
-#: src/main.cpp:198
+#: src/main.cpp:204
 #, kde-format
 msgid "Set the path for MLT environment."
 msgstr "Establix el camí per a l'entorn MLT."
 
-#: src/main.cpp:200
+#: src/main.cpp:206
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr ""
 "Establix el nivell de registre de MLT. Deixeu-ho sense establir per al "
 "nivell «avís»."
 
-#: src/main.cpp:203
+#: src/main.cpp:209
 #, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
 msgstr ""
 "Llista de fitxers separats per comes, per a afegir com a clips a la safata."
 
-#: src/main.cpp:207
+#: src/main.cpp:213
 #, kde-format
 msgid "Directly render the project and exit."
 msgstr "Renderitza el projecte directament i ix."
 
-#: src/main.cpp:210
+#: src/main.cpp:216
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr ""
 "Nom de valors predefinits de renderització de Kdenlive (s'utilitzarà MP4-"
 "H264/AAC si no se n'indica cap)."
 
-#: src/main.cpp:215
+#: src/main.cpp:221
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
@@ -10012,17 +10016,17 @@ msgstr ""
 "Ix després d'iniciar el procés de renderització (separat), sense este "
 "indicador només ix després d'acabar."
 
-#: src/main.cpp:218
+#: src/main.cpp:224
 #, kde-format
 msgid "Kdenlive document to open."
 msgstr "El document de Kdenlive que s'ha d'obrir."
 
-#: src/main.cpp:219
+#: src/main.cpp:225
 #, kde-format
 msgid "Output file for rendered video."
 msgstr "Fitxer d'eixida del vídeo renderitzat."
 
-#: src/main.cpp:344
+#: src/main.cpp:350
 #, kde-format
 msgid "Version %1"
 msgstr "Versió %1"
@@ -15621,7 +15625,7 @@ msgstr "Seqüència d'imatges"
 #: src/renderpresets/renderpresetrepository.cpp:349
 #, kde-format
 msgid "Preset already exists"
-msgstr "El valor predeterminat ja existix"
+msgstr "El valor predefinit ja existix"
 
 #: src/renderpresets/renderpresetrepository.cpp:350
 #, kde-format
@@ -19905,10 +19909,9 @@ msgstr "Sufix de l'intermediari:"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_add)
 #: src/ui/customcamcorderproxy_ui.ui:94
-#, fuzzy, kde-format
-#| msgid "Add as new Title"
+#, kde-format
 msgid "Add new profile"
-msgstr "Afig com a títol nou"
+msgstr "Afig un perfil nou"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_delete)
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_remove)
@@ -19919,10 +19922,9 @@ msgstr "Suprimix perfil"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_reset)
 #: src/ui/customcamcorderproxy_ui.ui:135
-#, fuzzy, kde-format
-#| msgid "Delete profile"
+#, kde-format
 msgid "Reset all profiles"
-msgstr "Suprimix perfil"
+msgstr "Reinicia tots els perfils"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_more)
 #: src/ui/cutjobdialog_ui.ui:81
