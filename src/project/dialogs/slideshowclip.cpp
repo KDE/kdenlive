@@ -194,9 +194,9 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
         slotEnableLumaFile(m_view.luma_fade->checkState());
         parseFolder();
     }
-    m_view.low_pass->setEnabled(!m_view.animation->currentData().isNull());
+    m_view.low_pass->setEnabled(!m_view.animation->currentData().toString().isEmpty());
     connect(m_view.animation, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
-            [&]() { m_view.low_pass->setEnabled(!m_view.animation->currentData().isNull()); });
+            [&]() { m_view.low_pass->setEnabled(!m_view.animation->currentData().toString().isEmpty()); });
     // adjustSize();
 }
 
@@ -513,9 +513,6 @@ QString SlideshowClip::lumaFile() const
 
 QString SlideshowClip::animation() const
 {
-    if (m_view.animation->currentData().isNull()) {
-        return QString();
-    }
     return m_view.animation->currentData().toString();
 }
 
