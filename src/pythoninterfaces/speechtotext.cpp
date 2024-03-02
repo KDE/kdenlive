@@ -65,7 +65,7 @@ QList<std::pair<QString, QString>> SpeechToText::whisperModels()
 QMap<QString, QString> SpeechToText::whisperLanguages()
 {
     QMap<QString, QString> models;
-    models.insert(i18n("Audodetect"), QString());
+    models.insert(i18n("Autodetect"), QString());
     models.insert(i18n("Afrikaans"), QStringLiteral("Afrikaans"));
     models.insert(i18n("Albanian"), QStringLiteral("Albanian"));
     models.insert(i18n("Amharic"), QStringLiteral("Amharic"));
