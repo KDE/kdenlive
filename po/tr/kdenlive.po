@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-01 00:37+0000\n"
-"PO-Revision-Date: 2024-02-29 17:14+0300\n"
+"POT-Creation-Date: 2024-03-02 00:37+0000\n"
+"PO-Revision-Date: 2024-03-01 16:01+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -17268,7 +17268,7 @@ msgstr "Bir Bileşikleştirme Ekle..."
 msgid "No available stream"
 msgstr "Kullanılabilir akış yok"
 
-#: src/titler/gradientwidget.cpp:140 src/titler/gradientwidget.cpp:143
+#: src/titler/gradientwidget.cpp:142 src/titler/gradientwidget.cpp:145
 #: src/titler/titlewidget.cpp:3332 src/titler/titlewidget.cpp:3335
 #, kde-format
 msgid "Gradient %1"
@@ -21347,7 +21347,7 @@ msgstr "&MIME türü"
 #: src/ui/slideshowclip_ui.ui:176
 #, kde-format
 msgid "Fi&lename pattern"
-msgstr "Dosy&a adı kalıbı"
+msgstr "Dosy&a adı dizgisi"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/slideshowclip_ui.ui:190
@@ -21837,25 +21837,25 @@ msgstr "En-boy oranını koru"
 #: src/ui/titlewidget_ui.ui:1564
 #, kde-format
 msgid "Patterns"
-msgstr "Kalıplar"
+msgstr "Desenler"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, btn_add)
 #: src/ui/titlewidget_ui.ui:1591
 #, kde-format
 msgid "Add pattern."
-msgstr "Kalıp ekle."
+msgstr "Desen ekleyin."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, btn_remove)
 #: src/ui/titlewidget_ui.ui:1608
 #, kde-format
 msgid "Delete pattern."
-msgstr "Kalıbı sil."
+msgstr "Deseni silin."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, btn_removeAll)
 #: src/ui/titlewidget_ui.ui:1622
 #, kde-format
 msgid "Delete all patterns."
-msgstr "Tüm kalıpları sil."
+msgstr "Tüm desenleri silin."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, itemleft)
 #: src/ui/titlewidget_ui.ui:1689

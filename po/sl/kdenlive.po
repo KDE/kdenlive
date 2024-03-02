@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-01 00:37+0000\n"
-"PO-Revision-Date: 2024-02-25 00:53+0100\n"
-"Last-Translator: Jure Repinc <jlp@holodeck1.com>\n"
+"POT-Creation-Date: 2024-03-02 00:37+0000\n"
+"PO-Revision-Date: 2024-03-01 08:26+0100\n"
+"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Martin Srebotnjak <miles@filmsi.net>\n"
-"X-Generator: Lokalize 24.04.70\n"
+"X-Generator: Poedit 2.2.1\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
 
 #, kde-format
@@ -6216,23 +6216,20 @@ msgstr ""
 "%1 ?"
 
 #: src/dialogs/customcamcorderdialog.cpp:29
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Compare Proxy Profile"
+#, kde-format
 msgid "Edit Custom Camcorder Proxy Profiles"
-msgstr "Primerjaj profile posrednih posnetkov"
+msgstr "Uredi profile po meri posrednih posnetkov kamkorderja"
 
 #: src/dialogs/customcamcorderdialog.cpp:36
 #: src/dialogs/customcamcorderdialog.cpp:198
 #, kde-format
 msgid "You can input several profiles in a preset, separated by a semicolon"
-msgstr ""
+msgstr "V prednastavitev lahko vnesete več profilov, ločenih s podpičjem"
 
 #: src/dialogs/customcamcorderdialog.cpp:132
-#, fuzzy, kde-format
-#| msgid "Preset already exists"
+#, kde-format
 msgid "Preset already exists, enter a new name:"
-msgstr "Prednastavitev že obstaja"
+msgstr "Prednastavitev že obstaja, vnesite novo ime:"
 
 #: src/dialogs/customcamcorderdialog.cpp:158
 #, kde-format
@@ -6240,6 +6237,8 @@ msgid ""
 "This will delete all custom camcorder profiles and reset values to the "
 "default settings"
 msgstr ""
+"S tem boste izbrisali vse profile kamkorderja po meri in ponastavili "
+"vrednosti na privzete nastavitve"
 
 #: src/dialogs/customcamcorderdialog.cpp:190
 #, kde-format
@@ -6247,6 +6246,8 @@ msgid ""
 "You are using multiple presets in one profile, ensure you have the same "
 "count of semicolon in each parameter. This profile will not be saved."
 msgstr ""
+"V enem profilu uporabljate več prednastavitev, zagotovite, da imate v vsakem "
+"parametru enako število podpičij. Ta profil ne bo shranjen."
 
 #: src/dialogs/encodingprofilesdialog.cpp:51
 #, kde-format
@@ -17343,7 +17344,7 @@ msgstr "Vstavi sestavo …"
 msgid "No available stream"
 msgstr "Ni razpoložljivega toka"
 
-#: src/titler/gradientwidget.cpp:140 src/titler/gradientwidget.cpp:143
+#: src/titler/gradientwidget.cpp:142 src/titler/gradientwidget.cpp:145
 #: src/titler/titlewidget.cpp:3332 src/titler/titlewidget.cpp:3335
 #, kde-format
 msgid "Gradient %1"
@@ -19800,10 +19801,9 @@ msgstr "Pripona posrednega posnetka:"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_add)
 #: src/ui/customcamcorderproxy_ui.ui:94
-#, fuzzy, kde-format
-#| msgid "Add as new Title"
+#, kde-format
 msgid "Add new profile"
-msgstr "Dodaj kot nov napis"
+msgstr "Dodaj nov profil"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_delete)
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_remove)
@@ -19814,10 +19814,9 @@ msgstr "Izbriši profil"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_reset)
 #: src/ui/customcamcorderproxy_ui.ui:135
-#, fuzzy, kde-format
-#| msgid "Delete profile"
+#, kde-format
 msgid "Reset all profiles"
-msgstr "Izbriši profil"
+msgstr "Ponastavi vse profile"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_more)
 #: src/ui/cutjobdialog_ui.ui:81
