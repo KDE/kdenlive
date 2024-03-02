@@ -48,6 +48,8 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
     });
     m_logAction = new QAction(i18n("Show log"), this);
     connect(m_logAction, &QAction::triggered, [&]() { KMessageBox::detailedError(QApplication::activeWindow(), i18n("Speech Recognition log"), m_errorLog); });
+    maxChars->setValue(KdenliveSettings::whisperMaxChars());
+    check_maxchars->setChecked(KdenliveSettings::cutWhisperMaxChars());
 
     if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
         // Whisper model
@@ -326,8 +328,16 @@ void SpeechDialog::slotProcessSpeech()
         if (KdenliveSettings::whisperDisableFP16()) {
             language.append(QStringLiteral(" fp16=False"));
         }
-        m_speechJob->start(m_stt->pythonExec(), {m_stt->subtitleScript(), audio, modelName, speech, KdenliveSettings::whisperDevice(),
-                                                 translate_box->isChecked() ? QStringLiteral("translate") : QStringLiteral("transcribe"), language});
+        int maxCount = 0;
+        if (check_maxchars->isChecked()) {
+            maxCount = maxChars->value();
+            KdenliveSettings::setWhisperMaxChars(maxCount);
+        }
+        KdenliveSettings::setCutWhisperMaxChars(check_maxchars->isChecked());
+
+        m_speechJob->start(m_stt->pythonExec(),
+                           {m_stt->subtitleScript(), audio, modelName, speech, KdenliveSettings::whisperDevice(),
+                            translate_box->isChecked() ? QStringLiteral("translate") : QStringLiteral("transcribe"), language, QString::number(maxCount)});
     } else {
         // Vosk
         QString modelName = speech_model->currentText();

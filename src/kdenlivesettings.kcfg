@@ -1328,6 +1328,14 @@
            <label>Last selected language for speech detection</label>
            <default></default>
        </entry>
+       <entry name="whisperMaxChars" type="Int">
+           <label>Maximum characters in a Whisper subtitle</label>
+           <default>42</default>
+       </entry>
+       <entry name="cutWhisperMaxChars" type="Bool">
+           <label>Limit maximum characters in a Whisper subtitle</label>
+           <default>true</default>
+       </entry>
        <entry name="whisperDevice" type="String">
            <label>Device for data processing</label>
            <default>cpu</default>

@@ -5,6 +5,7 @@
 import datetime
 import srt
 import sys
+from srt_equalizer import srt_equalizer
 
 import whispertotext
 
@@ -26,9 +27,10 @@ def main():
     device = sys.argv[4]
     task = sys.argv[5]
     language = sys.argv[6]
-    if len(sys.argv) > 8:
-        whispertotext.extract_zone(source, sys.argv[7], sys.argv[8], sys.argv[9])
-        source = sys.argv[9]
+    maxLength = int(sys.argv[7])
+    if len(sys.argv) > 9:
+        whispertotext.extract_zone(source, sys.argv[8], sys.argv[9], sys.argv[10])
+        source = sys.argv[10]
 
     result = whispertotext.run_whisper(source, model, device, task, language)
 
@@ -43,7 +45,15 @@ def main():
         sub = srt.Subtitle(index=len(subs), content=text, start=datetime.timedelta(seconds=start_time), end=datetime.timedelta(seconds=end_time))
         subs.append(sub)
 
-    subtitle = srt.compose(subs)
+    if maxLength == 0:
+        subtitle = srt.compose(subs)
+    else:
+        # Reduce line lenth in the whisper result to <= maxLength chars
+        equalized = []
+        for sub in subs:
+            equalized.extend(srt_equalizer.split_subtitle(sub, maxLength, method='halving'))
+
+        subtitle = srt.compose(equalized)
 
     with open(outfile, 'w', encoding='utf8') as f:
         f.writelines(subtitle)

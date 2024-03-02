@@ -26,6 +26,7 @@ SpeechToText::SpeechToText(EngineType engineType, QObject *parent)
     } else if (engineType == EngineType::EngineWhisper) {
         addDependency(QStringLiteral("openai-whisper"), i18n("speech features"));
         addDependency(QStringLiteral("srt"), i18n("automated subtitling"));
+        addDependency(QStringLiteral("srt_equalizer"), i18n("adjust subtitles length"));
         addDependency(QStringLiteral("torch"), i18n("machine learning framework"));
         addScript(QStringLiteral("whispertotext.py"));
         addScript(QStringLiteral("whispertosrt.py"));
