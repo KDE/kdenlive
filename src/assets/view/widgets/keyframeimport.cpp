@@ -868,7 +868,7 @@ void KeyframeImport::importSelectedData()
     QLocale locale; // Import from clipboard – OK to use locale here?
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     // wether we are mapping to a fake rectangle
-    bool fakeRect = m_targetCombo->currentData().isNull() && m_targetCombo->currentText() == i18n("Rectangle");
+    bool fakeRect = !m_targetCombo->currentData().toModelIndex().isValid() && m_targetCombo->currentText() == i18n("Rectangle");
     bool useOpacity = m_dataCombo->currentData(OpacityRole).toBool();
     for (const auto &ix : qAsConst(m_indexes)) {
         // update keyframes in other indexes
@@ -1143,7 +1143,7 @@ void KeyframeImport::updateView()
     std::shared_ptr<Mlt::Animation> animo(new Mlt::Animation(animData->get_animation("original")));
     animo->interpolate();
     // wether we are mapping to a fake rectangle
-    bool fakeRect = m_targetCombo->currentData().isNull() && m_targetCombo->currentText() == i18n("Rectangle");
+    bool fakeRect = !m_targetCombo->currentData().toModelIndex().isValid() && m_targetCombo->currentText() == i18n("Rectangle");
     // Import our keyframes
     int frame = 0;
     KeyframeImport::ImportRoles convertMode = static_cast<KeyframeImport::ImportRoles>(m_sourceCombo->currentData().toInt());

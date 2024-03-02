@@ -313,9 +313,10 @@ void SpeechDialog::slotProcessSpeech()
         QString modelName = speech_model->currentData().toString();
         m_speechJob->setProcessChannelMode(QProcess::MergedChannels);
         connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &SpeechDialog::slotProcessWhisperProgress);
-        QString language = speech_language->isEnabled() && !speech_language->currentData().isNull()
-                               ? QString("language=%1").arg(speech_language->currentData().toString())
-                               : QString();
+        QString language = speech_language->isEnabled() ? speech_language->currentData().toString().simplified() : QString();
+        if (!language.isEmpty()) {
+            language.prepend(QStringLiteral("language="));
+        }
         qDebug() << "==== ANALYSIS SPEECH: " << m_stt->subtitleScript() << " " << audio << " " << modelName << " " << speech << " "
                  << KdenliveSettings::whisperDevice() << " " << (translate_box->isChecked() ? QStringLiteral("translate") : QStringLiteral("transcribe")) << " "
                  << language;
