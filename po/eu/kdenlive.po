@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-02 02:24+0000\n"
+"POT-Creation-Date: 2024-03-03 02:32+0000\n"
 "PO-Revision-Date: 2024-01-10 05:37+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -7366,7 +7366,7 @@ msgid "Checking setup…"
 msgstr "Ezarpena egiaztatzen…"
 
 #: src/dialogs/speechdialog.cpp:204 src/dialogs/textbasededit.cpp:934
-#: src/dialogs/textbasededit.cpp:947
+#: src/dialogs/textbasededit.cpp:948
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "Konfiguratu mesedez hizketa testura."
@@ -7381,22 +7381,22 @@ msgstr "Audio esportazioa abiatzen"
 msgid "Audio export failed"
 msgstr "Audioaren  esportazioak huts egin du"
 
-#: src/dialogs/speechdialog.cpp:305 src/dialogs/textbasededit.cpp:966
+#: src/dialogs/speechdialog.cpp:305 src/dialogs/textbasededit.cpp:967
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "Hizketaren ezagutza abiatzen"
 
-#: src/dialogs/speechdialog.cpp:342 src/dialogs/textbasededit.cpp:1129
+#: src/dialogs/speechdialog.cpp:343 src/dialogs/textbasededit.cpp:1130
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "Hizketaren ezagutzea bertan-behera gelditu da."
 
-#: src/dialogs/speechdialog.cpp:348
+#: src/dialogs/speechdialog.cpp:349
 #, kde-format
 msgid "Subtitles imported"
 msgstr "Azpidatziak inportatu dira"
 
-#: src/dialogs/speechdialog.cpp:351
+#: src/dialogs/speechdialog.cpp:352
 #, kde-format
 msgid "Speech recognition failed"
 msgstr "Hizketaren ezagutzak huts egin du"
@@ -7548,8 +7548,8 @@ msgid "Delete selection"
 msgstr "Ezabatu hautapena"
 
 #: src/dialogs/textbasededit.cpp:316 src/dialogs/textbasededit.cpp:572
-#: src/dialogs/textbasededit.cpp:1147 src/dialogs/textbasededit.cpp:1218
-#: src/dialogs/textbasededit.cpp:1242 src/dialogs/textbasededit.cpp:1299
+#: src/dialogs/textbasededit.cpp:1148 src/dialogs/textbasededit.cpp:1219
+#: src/dialogs/textbasededit.cpp:1243 src/dialogs/textbasededit.cpp:1300
 #, kde-format
 msgid "No speech"
 msgstr "Hizketarik ez"
@@ -7619,80 +7619,80 @@ msgstr ""
 "Beste errekonozimendu lan bat martxan dago. Lan berriaren alde bertan behera "
 "utziko da. Jarraitu nahi duzu?"
 
-#: src/dialogs/textbasededit.cpp:953
+#: src/dialogs/textbasededit.cpp:954
 #, kde-format
 msgid "Please install a language model."
 msgstr "Mesedez, instalatu hizkuntza-eredu bat."
 
-#: src/dialogs/textbasededit.cpp:961
+#: src/dialogs/textbasededit.cpp:962
 #, kde-format
 msgid "Select a clip with audio in Project Bin."
 msgstr "Hautatu audioa duen klip bat proiektu-ontzian."
 
-#: src/dialogs/textbasededit.cpp:1007
+#: src/dialogs/textbasededit.cpp:1008
 #, kde-format
 msgid "Select a clip with audio for speech recognition."
 msgstr "Hautatu audioa duen klipa hizketaren ezagutza egiteko."
 
-#: src/dialogs/textbasededit.cpp:1016 src/dialogs/textbasededit.cpp:1051
-#: src/dialogs/textbasededit.cpp:1100
+#: src/dialogs/textbasededit.cpp:1017 src/dialogs/textbasededit.cpp:1052
+#: src/dialogs/textbasededit.cpp:1101
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "Ezin izan da denbora baterako fitxategia sortu."
 
-#: src/dialogs/textbasededit.cpp:1021
+#: src/dialogs/textbasededit.cpp:1022
 #, kde-format
 msgid "Extracting audio for %1."
 msgstr "%1erako audioa erauzten."
 
-#: src/dialogs/textbasededit.cpp:1029
+#: src/dialogs/textbasededit.cpp:1030
 #, kde-format
 msgid "Audio extract failed."
 msgstr "Audioa erauztea huts egin du."
 
-#: src/dialogs/textbasededit.cpp:1035 src/dialogs/textbasededit.cpp:1084
+#: src/dialogs/textbasededit.cpp:1036 src/dialogs/textbasededit.cpp:1085
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "Hizketaren ezagutza abiatzen %1en."
 
-#: src/dialogs/textbasededit.cpp:1132
+#: src/dialogs/textbasededit.cpp:1133
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "Errorea, mesedez, egiaztatu hizketatik testurako konfigurazioa."
 
-#: src/dialogs/textbasededit.cpp:1134
+#: src/dialogs/textbasededit.cpp:1135
 #, kde-format
 msgid "No speech detected."
 msgstr "Ez da hizketarik antzeman."
 
-#: src/dialogs/textbasededit.cpp:1155
+#: src/dialogs/textbasededit.cpp:1156
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "Hizketaren ezagutza burutu da."
 
-#: src/dialogs/textbasededit.cpp:1392
+#: src/dialogs/textbasededit.cpp:1393
 #, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
 msgstr "Editatu kliparen testua"
 
-#: src/dialogs/textbasededit.cpp:1424 src/dialogs/textbasededit.cpp:1506
+#: src/dialogs/textbasededit.cpp:1425 src/dialogs/textbasededit.cpp:1507
 #, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Sortu sekuentzia-klipa"
 
-#: src/dialogs/textbasededit.cpp:1431 src/dialogs/textbasededit.cpp:1467
+#: src/dialogs/textbasededit.cpp:1432 src/dialogs/textbasededit.cpp:1468
 #, kde-format
 msgid "No text to export"
 msgstr "Ez dago esportatzeko testurik"
 
-#: src/dialogs/textbasededit.cpp:1451
+#: src/dialogs/textbasededit.cpp:1452
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "Sartu erreprodukzio-zerrendaren bide-izena"
 
-#: src/dialogs/textbasededit.cpp:1601
+#: src/dialogs/textbasededit.cpp:1602
 #, kde-format
 msgid "No timecode found in selection"
 msgstr "Ez da denbora-koderik aurkitu hautapenean"
@@ -14779,8 +14779,9 @@ msgid "Medium - English only"
 msgstr "Ertaina - ingelesa bakarrik"
 
 #: src/pythoninterfaces/speechtotext.cpp:67
-#, kde-format
-msgid "Audodetect"
+#, fuzzy, kde-format
+#| msgid "Audodetect"
+msgid "Autodetect"
 msgstr "Hauteman"
 
 #: src/pythoninterfaces/speechtotext.cpp:68

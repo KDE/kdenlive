@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-02 02:24+0000\n"
+"POT-Creation-Date: 2024-03-03 02:32+0000\n"
 "PO-Revision-Date: 2024-02-21 15:59+0100\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -7408,7 +7408,7 @@ msgid "Checking setup…"
 msgstr "Verifica installazione..."
 
 #: src/dialogs/speechdialog.cpp:204 src/dialogs/textbasededit.cpp:934
-#: src/dialogs/textbasededit.cpp:947
+#: src/dialogs/textbasededit.cpp:948
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "Configura il riconoscimento vocale."
@@ -7423,22 +7423,22 @@ msgstr "Avvio dell'esportazione audio"
 msgid "Audio export failed"
 msgstr "Esportazione dell'audio non riuscita"
 
-#: src/dialogs/speechdialog.cpp:305 src/dialogs/textbasededit.cpp:966
+#: src/dialogs/speechdialog.cpp:305 src/dialogs/textbasededit.cpp:967
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "Avvio del riconoscimento vocale"
 
-#: src/dialogs/speechdialog.cpp:342 src/dialogs/textbasededit.cpp:1129
+#: src/dialogs/speechdialog.cpp:343 src/dialogs/textbasededit.cpp:1130
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "Riconoscimento vocale interrotto"
 
-#: src/dialogs/speechdialog.cpp:348
+#: src/dialogs/speechdialog.cpp:349
 #, kde-format
 msgid "Subtitles imported"
 msgstr "Sottotitoli importati"
 
-#: src/dialogs/speechdialog.cpp:351
+#: src/dialogs/speechdialog.cpp:352
 #, kde-format
 msgid "Speech recognition failed"
 msgstr "Riconoscimento vocale non riuscito"
@@ -7591,8 +7591,8 @@ msgid "Delete selection"
 msgstr "Elimina colonne"
 
 #: src/dialogs/textbasededit.cpp:316 src/dialogs/textbasededit.cpp:572
-#: src/dialogs/textbasededit.cpp:1147 src/dialogs/textbasededit.cpp:1218
-#: src/dialogs/textbasededit.cpp:1242 src/dialogs/textbasededit.cpp:1299
+#: src/dialogs/textbasededit.cpp:1148 src/dialogs/textbasededit.cpp:1219
+#: src/dialogs/textbasededit.cpp:1243 src/dialogs/textbasededit.cpp:1300
 #, kde-format
 msgid "No speech"
 msgstr "Nessuna voce"
@@ -7662,80 +7662,80 @@ msgstr ""
 "È in corso un altro processo di riconoscimento, che verrà interrotto in "
 "favore del nuovo. Vuoi procedere?"
 
-#: src/dialogs/textbasededit.cpp:953
+#: src/dialogs/textbasededit.cpp:954
 #, kde-format
 msgid "Please install a language model."
 msgstr "Installa un modello di lingua."
 
-#: src/dialogs/textbasededit.cpp:961
+#: src/dialogs/textbasededit.cpp:962
 #, kde-format
 msgid "Select a clip with audio in Project Bin."
 msgstr "Seleziona una clip con audio nel contenitore del progetto."
 
-#: src/dialogs/textbasededit.cpp:1007
+#: src/dialogs/textbasededit.cpp:1008
 #, kde-format
 msgid "Select a clip with audio for speech recognition."
 msgstr "Seleziona una clip con audio per il riconoscimento vocale"
 
-#: src/dialogs/textbasededit.cpp:1016 src/dialogs/textbasededit.cpp:1051
-#: src/dialogs/textbasededit.cpp:1100
+#: src/dialogs/textbasededit.cpp:1017 src/dialogs/textbasededit.cpp:1052
+#: src/dialogs/textbasededit.cpp:1101
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "Impossibile creare il file temporaneo."
 
-#: src/dialogs/textbasededit.cpp:1021
+#: src/dialogs/textbasededit.cpp:1022
 #, kde-format
 msgid "Extracting audio for %1."
 msgstr "Estrazione dell'audio dalla clip %1."
 
-#: src/dialogs/textbasededit.cpp:1029
+#: src/dialogs/textbasededit.cpp:1030
 #, kde-format
 msgid "Audio extract failed."
 msgstr "Estrazione dell'audio non riuscita."
 
-#: src/dialogs/textbasededit.cpp:1035 src/dialogs/textbasededit.cpp:1084
+#: src/dialogs/textbasededit.cpp:1036 src/dialogs/textbasededit.cpp:1085
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "Avvio del riconoscimento vocale su %1."
 
-#: src/dialogs/textbasededit.cpp:1132
+#: src/dialogs/textbasededit.cpp:1133
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "Errore, controlla la configurazione del riconoscimento vocale."
 
-#: src/dialogs/textbasededit.cpp:1134
+#: src/dialogs/textbasededit.cpp:1135
 #, kde-format
 msgid "No speech detected."
 msgstr "Nessuna voce rilevata."
 
-#: src/dialogs/textbasededit.cpp:1155
+#: src/dialogs/textbasededit.cpp:1156
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "Riconoscimento vocale completato."
 
-#: src/dialogs/textbasededit.cpp:1392
+#: src/dialogs/textbasededit.cpp:1393
 #, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
 msgstr "Modifica il testo della clip"
 
-#: src/dialogs/textbasededit.cpp:1424 src/dialogs/textbasededit.cpp:1506
+#: src/dialogs/textbasededit.cpp:1425 src/dialogs/textbasededit.cpp:1507
 #, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Crea una clip di sequenze"
 
-#: src/dialogs/textbasededit.cpp:1431 src/dialogs/textbasededit.cpp:1467
+#: src/dialogs/textbasededit.cpp:1432 src/dialogs/textbasededit.cpp:1468
 #, kde-format
 msgid "No text to export"
 msgstr "Nessun testo da esportare"
 
-#: src/dialogs/textbasededit.cpp:1451
+#: src/dialogs/textbasededit.cpp:1452
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "Inserisci il percorso della nuova scaletta"
 
-#: src/dialogs/textbasededit.cpp:1601
+#: src/dialogs/textbasededit.cpp:1602
 #, kde-format
 msgid "No timecode found in selection"
 msgstr "Nessun codice temporale nella selezione attuale"
@@ -14897,8 +14897,9 @@ msgid "Medium - English only"
 msgstr "Medio - solo inglese"
 
 #: src/pythoninterfaces/speechtotext.cpp:67
-#, kde-format
-msgid "Audodetect"
+#, fuzzy, kde-format
+#| msgid "Audodetect"
+msgid "Autodetect"
 msgstr "Rileva automaticamente"
 
 #: src/pythoninterfaces/speechtotext.cpp:68

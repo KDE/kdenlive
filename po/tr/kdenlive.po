@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-02 02:24+0000\n"
-"PO-Revision-Date: 2024-03-01 16:01+0300\n"
+"POT-Creation-Date: 2024-03-03 02:32+0000\n"
+"PO-Revision-Date: 2024-03-02 11:01+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -698,7 +698,7 @@ msgstr "Sağ"
 #: data/effects/crop.xml:20
 #, kde-format
 msgid "Automatic center-crop"
-msgstr "Otomatik orta-kırpma"
+msgstr "Otomatik ortadan kırpma"
 
 #: data/effects/crop.xml:23
 #, kde-format
@@ -2249,9 +2249,9 @@ msgid ""
 "\".]]>"
 msgstr ""
 "<![CDATA[Zamanlayıcı değerine eklenecek bir sapma.\n"
-"Yön \"aşağı\" olduğunda, sayaç 00:00:00.000 yerine \"ofset\"e geri sayım "
+"Yön ‘aşağı’ olduğunda, sayaç 00:00:00.000 yerine ‘ofset’e geri sayım "
 "yapacaktır.\n"
-"Yön yukarı olduğunda, sayaç \"ofset\"ten başlayarak saymaya başlar.]]>"
+"Yön yukarı olduğunda, sayaç ‘ofset’ten başlayarak saymaya başlar.]]>"
 
 #: data/effects/timer.xml:66 data/transitions/slide.xml:8
 #, kde-format
@@ -3266,12 +3266,12 @@ msgstr "Sık Kullanılan Ögeleri Göster"
 #: src/assets/assetlist/view/assetlistwidget.cpp:126
 #, kde-format
 msgid "Download New Effects..."
-msgstr "Yeni Efektler İndir..."
+msgstr "Yeni Efektler İndir…"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:150
 #, kde-format
 msgid "Download New Wipes..."
-msgstr "Yeni Süpürme Efektleri İndir..."
+msgstr "Yeni Süpürme Efektleri İndir…"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:164
 #, kde-format
@@ -4095,8 +4095,8 @@ msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
 "end."
 msgstr ""
-"Ses izleniyor. Kaydı başlatmak/duraklatmak için <b>Boşluk</b>'a, "
-"sonlandırmak için <b>Esc</b>'ye basın."
+"Ses izleniyor. Kaydı başlatmak/duraklatmak için <b>Boşluk</b>’a, "
+"sonlandırmak için <b>Esc</b>’ye basın."
 
 #: src/audiomixer/mixermanager.cpp:222 src/timeline2/view/qml/timeline.qml:1006
 #, kde-format
@@ -4228,13 +4228,13 @@ msgid ""
 "<b>Shift+seek</b> over thumbnail to set default thumbnail, <b>F2</b> to "
 "rename selected item"
 msgstr ""
-"Öntanımlı küçük görseli ayarlamak için <b>Üst Karakter+arama</b>yapın, "
-"seçili ögeyi yeniden adlandırmak için <b>F2</b>'ye basın"
+"Öntanımlı küçük görseli ayarlamak için <b>Üst Karakter+Arama</b>yapın, "
+"seçili ögeyi yeniden adlandırmak için <b>F2</b>’ye basın"
 
 #: src/bin/bin.cpp:810 src/bin/bin.cpp:919
 #, kde-format
 msgid "<b>F2</b> to rename selected item"
-msgstr "Seçili ögeyi yeniden adlandırmak için <b>F2</b>'ye basın"
+msgstr "Seçili ögeyi yeniden adlandırmak için <b>F2</b>’ye basın"
 
 #: src/bin/bin.cpp:1072
 #, kde-format
@@ -6706,7 +6706,7 @@ msgstr "Sanal ortam klasörü kaldırılamadı."
 #: src/dialogs/kdenlivesettingsdialog.cpp:1795
 #, kde-format
 msgid "Probing..."
-msgstr "Taranıyor..."
+msgstr "Taranıyor…"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1850
 #: src/dialogs/kdenlivesettingsdialog.cpp:2042
@@ -6998,7 +6998,7 @@ msgstr "Doğrusal Harmanlama (hızlı)"
 #: src/dialogs/renderwidget.cpp:229 src/monitor/monitormanager.cpp:571
 #, kde-format
 msgid "YADIF - temporal only (good)"
-msgstr "YADIF - yalnızca zamansal (iyi)"
+msgstr "YADIF — yalnızca zamansal (iyi)"
 
 #: src/dialogs/renderwidget.cpp:230
 #, kde-format
@@ -7343,7 +7343,7 @@ msgid "Checking setup…"
 msgstr "Ayarlar denetleniyor…"
 
 #: src/dialogs/speechdialog.cpp:204 src/dialogs/textbasededit.cpp:934
-#: src/dialogs/textbasededit.cpp:947
+#: src/dialogs/textbasededit.cpp:948
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "Lütfen konuşmadan metneyi yapılandırın."
@@ -7358,22 +7358,22 @@ msgstr "Ses dışa aktarımı başlatılıyor"
 msgid "Audio export failed"
 msgstr "Ses dışa aktarımı başarısız"
 
-#: src/dialogs/speechdialog.cpp:305 src/dialogs/textbasededit.cpp:966
+#: src/dialogs/speechdialog.cpp:305 src/dialogs/textbasededit.cpp:967
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "Konuşma tanıma başlatılıyor"
 
-#: src/dialogs/speechdialog.cpp:342 src/dialogs/textbasededit.cpp:1129
+#: src/dialogs/speechdialog.cpp:343 src/dialogs/textbasededit.cpp:1130
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "Konuşma tanıma iptal edildi."
 
-#: src/dialogs/speechdialog.cpp:348
+#: src/dialogs/speechdialog.cpp:349
 #, kde-format
 msgid "Subtitles imported"
 msgstr "Altyazılar içe aktarıldı"
 
-#: src/dialogs/speechdialog.cpp:351
+#: src/dialogs/speechdialog.cpp:352
 #, kde-format
 msgid "Speech recognition failed"
 msgstr "Konuşma tanıma başarısız oldu"
@@ -7522,8 +7522,8 @@ msgid "Delete selection"
 msgstr "Seçimi Sil"
 
 #: src/dialogs/textbasededit.cpp:316 src/dialogs/textbasededit.cpp:572
-#: src/dialogs/textbasededit.cpp:1147 src/dialogs/textbasededit.cpp:1218
-#: src/dialogs/textbasededit.cpp:1242 src/dialogs/textbasededit.cpp:1299
+#: src/dialogs/textbasededit.cpp:1148 src/dialogs/textbasededit.cpp:1219
+#: src/dialogs/textbasededit.cpp:1243 src/dialogs/textbasededit.cpp:1300
 #, kde-format
 msgid "No speech"
 msgstr "Konuşma yok"
@@ -7593,80 +7593,80 @@ msgstr ""
 "Başka bir tanıma işi halihazırda çalışıyor. Bu iş, yeni işten dolayı iptal "
 "edilecek. Sürdürmek istiyor musunuz?"
 
-#: src/dialogs/textbasededit.cpp:953
+#: src/dialogs/textbasededit.cpp:954
 #, kde-format
 msgid "Please install a language model."
 msgstr "Lütfen bir dil modeli kurun."
 
-#: src/dialogs/textbasededit.cpp:961
+#: src/dialogs/textbasededit.cpp:962
 #, kde-format
 msgid "Select a clip with audio in Project Bin."
 msgstr "Proje Kovasında sesli bir klip seçin."
 
-#: src/dialogs/textbasededit.cpp:1007
+#: src/dialogs/textbasededit.cpp:1008
 #, kde-format
 msgid "Select a clip with audio for speech recognition."
 msgstr "Konuşma tanıma için ses içeren bir klip seçin."
 
-#: src/dialogs/textbasededit.cpp:1016 src/dialogs/textbasededit.cpp:1051
-#: src/dialogs/textbasededit.cpp:1100
+#: src/dialogs/textbasededit.cpp:1017 src/dialogs/textbasededit.cpp:1052
+#: src/dialogs/textbasededit.cpp:1101
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "Geçici dosya oluşturulamadı."
 
-#: src/dialogs/textbasededit.cpp:1021
+#: src/dialogs/textbasededit.cpp:1022
 #, kde-format
 msgid "Extracting audio for %1."
 msgstr "%1 için ses çıkarılıyor."
 
-#: src/dialogs/textbasededit.cpp:1029
+#: src/dialogs/textbasededit.cpp:1030
 #, kde-format
 msgid "Audio extract failed."
 msgstr "Ses çıkarımı başarısız."
 
-#: src/dialogs/textbasededit.cpp:1035 src/dialogs/textbasededit.cpp:1084
+#: src/dialogs/textbasededit.cpp:1036 src/dialogs/textbasededit.cpp:1085
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "%1 üzerinde konuşma tanıma başlatılıyor."
 
-#: src/dialogs/textbasededit.cpp:1132
+#: src/dialogs/textbasededit.cpp:1133
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "Hata, lütfen konuşmadan metne yapılandırmasını denetleyin."
 
-#: src/dialogs/textbasededit.cpp:1134
+#: src/dialogs/textbasededit.cpp:1135
 #, kde-format
 msgid "No speech detected."
 msgstr "Konuşma algılanamadı."
 
-#: src/dialogs/textbasededit.cpp:1155
+#: src/dialogs/textbasededit.cpp:1156
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "Konuşma tanıma bitti."
 
-#: src/dialogs/textbasededit.cpp:1392
+#: src/dialogs/textbasededit.cpp:1393
 #, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
 msgstr "Klip Metnini Düzenle"
 
-#: src/dialogs/textbasededit.cpp:1424 src/dialogs/textbasededit.cpp:1506
+#: src/dialogs/textbasededit.cpp:1425 src/dialogs/textbasededit.cpp:1507
 #, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Sekans Klibi Oluştur"
 
-#: src/dialogs/textbasededit.cpp:1431 src/dialogs/textbasededit.cpp:1467
+#: src/dialogs/textbasededit.cpp:1432 src/dialogs/textbasededit.cpp:1468
 #, kde-format
 msgid "No text to export"
 msgstr "Dışa aktarılacak metin yok"
 
-#: src/dialogs/textbasededit.cpp:1451
+#: src/dialogs/textbasededit.cpp:1452
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "Yeni oynatma listesi yolunu girin"
 
-#: src/dialogs/textbasededit.cpp:1601
+#: src/dialogs/textbasededit.cpp:1602
 #, kde-format
 msgid "No timecode found in selection"
 msgstr "Seçimde zaman kodu bulunamadı"
@@ -8170,7 +8170,7 @@ msgid ""
 "system. Please install that language pack. Until then, Kdenlive might not be "
 "able to correctly open the document."
 msgstr ""
-"Belge, sisteminizde bulunmayan \"%1\" dili ile oluşturulmuş. Lütfen bu dil "
+"Belge, sisteminizde bulunmayan ‘%1’ dili ile oluşturulmuş. Lütfen bu dil "
 "paketini kurun. Siz kuruncaya kadar Kdenlive belgeyi doğru bir şekilde "
 "açamayabilir."
 
@@ -8537,7 +8537,7 @@ msgstr "Şablonlar"
 #: src/effects/effectlist/model/effecttreemodel.cpp:97
 #, kde-format
 msgid " - deprecated"
-msgstr " - artık kullanılmıyor"
+msgstr " — artık kullanılmıyor"
 
 #: src/effects/effectlist/model/effecttreemodel.cpp:269
 #, kde-format
@@ -9556,7 +9556,7 @@ msgid ""
 "This will delete the MLT playlist:\n"
 "%1"
 msgstr ""
-"Bu işlem MLT çalma listesini silecektir:\n"
+"Bu işlem MLT oynatma listesini silecektir:\n"
 "%1"
 
 #: src/library/librarywidget.cpp:359
@@ -9607,7 +9607,7 @@ msgstr "Kitaplık yolu özel olarak ayarlı: %1"
 #: src/library/librarywidget.cpp:521
 #, kde-format
 msgid "Cannot write to Library path: %1, using default"
-msgstr "Kitaplık yoluna yazılamadı: %1, varsayılan kullanılıyor"
+msgstr "Kitaplık yoluna yazılamadı: %1, öntanımlı kullanılıyor"
 
 #: src/main.cpp:148
 #, kde-format
@@ -9637,7 +9637,7 @@ msgstr "Telif hakkı © 2007–2024 Kdenlive yazarları"
 #: src/main.cpp:156
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
-msgstr "Jean-Baptiste Mardelle"
+msgstr "Jean–Baptiste Mardelle"
 
 #: src/main.cpp:156
 #, kde-format
@@ -9816,7 +9816,7 @@ msgstr "MLT ortamının yolunu ayarlayın."
 #: src/main.cpp:206
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
-msgstr "MLT günlük düzeyini ayarla. \"Uyarı\" düzeyi için bunu boş bırakın."
+msgstr "MLT günlük düzeyini ayarlayın. ‘Uyarı’ düzeyi için bunu boş bırakın."
 
 #: src/main.cpp:209
 #, kde-format
@@ -9921,12 +9921,12 @@ msgstr "Ekran Yakalama"
 #: src/mainwindow.cpp:354
 #, kde-format
 msgid "Switch to next Sequence"
-msgstr "Sonraki sekansa geç"
+msgstr "Sonraki Sekansa Geç"
 
 #: src/mainwindow.cpp:358
 #, kde-format
 msgid "Switch to previous Sequence"
-msgstr "Önceki sekansa geç"
+msgstr "Önceki Sekansa Geç"
 
 #: src/mainwindow.cpp:364
 #, kde-format
@@ -10375,7 +10375,7 @@ msgstr ""
 #: src/mainwindow.cpp:1340
 #, kde-format
 msgid "Experimental GPU processing enabled - not for production"
-msgstr "Deneysel GPU işleme etkinleştirildi - üretim için değil"
+msgstr "Deneysel GPU işleme etkinleştirildi — iş ortamında kullanım için değil"
 
 #: src/mainwindow.cpp:1350 src/mainwindow.cpp:3387
 #, kde-format
@@ -11370,7 +11370,7 @@ msgstr "Seç"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
-msgstr "Kesilen kareyi önizlemek için <b> Üst Karakter </b>'e basın"
+msgstr "Kesilen kareyi önizlemek için <b> Üst Karakter </b>’e basın"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
 #: src/mainwindow.cpp:3365 src/ui/configtools_ui.ui:21
@@ -11666,7 +11666,7 @@ msgstr "Uygula"
 #: src/mltcontroller/clippropertiescontroller.cpp:369
 #, kde-format
 msgid "Aspect ratio:"
-msgstr "En-boy oranı:"
+msgstr "En–boy oranı:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:471
 #, kde-format
@@ -11945,7 +11945,7 @@ msgstr "Video bit hızı:"
 #: src/ui/configcapture_ui.ui:128 src/ui/profiledialog_ui.ui:271
 #, kde-format
 msgid "Pixel aspect ratio:"
-msgstr "Piksel en-boy oranı:"
+msgstr "Piksel en–boy oranı:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1388
 #, kde-format
@@ -12980,7 +12980,7 @@ msgid ""
 "This video uses \"%1\" (%2) by \"%3\" licensed under %4. To view a copy of "
 "this license, visit %5"
 msgstr ""
-"Bu video, \"%3\" tarafından yapılmış ve %4 ile lisanslanan \"%1\" (%2) "
+"Bu video, ‘%3’ tarafından yapılmış ve %4 ile lisanslanan ‘%1’ (%2) "
 "kullanıyor. Lisansın bir kopyasını görüntülemek için %5 adresini ziyaret edin"
 
 #: src/onlineresources/resourcewidget.cpp:661
@@ -13412,12 +13412,12 @@ msgstr "İmleyicileri şuraya yeniden ata:"
 #: src/project/dialogs/guideslist.cpp:85
 #, kde-format
 msgid "Import..."
-msgstr "İçe Aktar..."
+msgstr "İçe Aktar…"
 
 #: src/project/dialogs/guideslist.cpp:88
 #, kde-format
 msgid "Export..."
-msgstr "Dışa Aktar..."
+msgstr "Dışa Aktar…"
 
 #: src/project/dialogs/guideslist.cpp:91
 #, kde-format
@@ -13607,7 +13607,7 @@ msgstr "Kare hızı: %1 fps"
 #: src/project/dialogs/profilewidget.cpp:200
 #, kde-format
 msgid "Pixel aspect ratio: %1"
-msgstr "Piksel en-boy oranı: %1"
+msgstr "Piksel en–boy oranı: %1"
 
 #: src/project/dialogs/profilewidget.cpp:202
 #, kde-format
@@ -14132,7 +14132,7 @@ msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
 "Do you want to save your changes?"
 msgstr ""
-"<b>\"%1\"</b> projesi değiştirildi.\n"
+"<b>‘%1’</b> projesi değiştirildi.\n"
 "Değişiklikleri kaydetmek istiyor musunuz?"
 
 #: src/project/projectmanager.cpp:534
@@ -14187,7 +14187,7 @@ msgstr "Kurtarma"
 #: src/project/projectmanager.cpp:779
 #, kde-format
 msgid "Opening file %1"
-msgstr "%1 dosyası açılıyor..."
+msgstr "%1 dosyası açılıyor…"
 
 #: src/project/projectmanager.cpp:806
 #, kde-format
@@ -14566,7 +14566,7 @@ msgid ""
 "Please check the otio scripts are installed in a directory listed in PATH "
 "environment variable"
 msgstr ""
-"\"otioconvert\" betiği, pip3 ile kurulmasına rağmen bulunamıyor.\n"
+"‘otioconvert’ betiği, pip3 ile kurulmasına rağmen bulunamıyor.\n"
 "otio betiklerinin kurulum dizininin PATH çevre değişkeninde olduğundan emin "
 "olun"
 
@@ -14718,8 +14718,9 @@ msgid "Medium - English only"
 msgstr "Orta- Yalnızca İngilizce"
 
 #: src/pythoninterfaces/speechtotext.cpp:67
-#, kde-format
-msgid "Audodetect"
+#, fuzzy, kde-format
+#| msgid "Audodetect"
+msgid "Autodetect"
 msgstr "Otomatik Algıla"
 
 #: src/pythoninterfaces/speechtotext.cpp:68
@@ -15354,13 +15355,13 @@ msgstr "Desteklenmeyen video biçimi: %1"
 #: src/renderpresets/renderpresetmodel.cpp:371
 #, kde-format
 msgid "Unsupported video codec: %1"
-msgstr "Desteklenmeyen video kodlayıcı: %1"
+msgstr "Desteklenmeyen video kodlayıcısı: %1"
 
 #: src/renderpresets/renderpresetmodel.cpp:349
 #: src/renderpresets/renderpresetmodel.cpp:365
 #, kde-format
 msgid "Unsupported audio codec: %1"
-msgstr "Desteklenmeyen ses kodlayıcı: %1"
+msgstr "Desteklenmeyen ses kodlayıcısı: %1"
 
 #: src/renderpresets/renderpresetmodel.cpp:376
 #, kde-format
@@ -16583,7 +16584,7 @@ msgstr "Önbellek klasörleri ile ilgili bir şeyler yanlış"
 msgid "Preview rendering failed, check your parameters. %1Show details...%2"
 msgstr ""
 "Önizleme sunumu başarısız oldu, parametreleri denetleyin. %1Ayrıntıları "
-"göster...%2"
+"göster…%2"
 
 #: src/timeline2/view/qml/AudioLevels.qml:21
 #, kde-format
@@ -16604,7 +16605,7 @@ msgstr "Mikrofon düzeyi"
 #: src/timeline2/view/qml/Clip.qml:227 src/timeline2/view/qml/Clip.qml:859
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
-msgstr "%1 (%2-%3), Konum: %4, Süre: %5"
+msgstr "%1 (%2–%3), Konum: %4, Süre: %5"
 
 #: src/timeline2/view/qml/Clip.qml:337 src/timeline2/view/qml/Clip.qml:344
 #: src/timeline2/view/qml/SubTitle.qml:167
@@ -17169,12 +17170,12 @@ msgstr "Sekansı Yeniden Adlandır"
 #: src/timeline2/view/timelinewidget.cpp:73
 #, kde-format
 msgid "Insert an effect..."
-msgstr "Bir Efekt Ekle..."
+msgstr "Bir Efekt Ekle…"
 
 #: src/timeline2/view/timelinewidget.cpp:74
 #, kde-format
 msgid "Insert a composition..."
-msgstr "Bir Bileşikleştirme Ekle..."
+msgstr "Bir Bileşikleştirme Ekle…"
 
 #: src/timeline2/view/timelinewidget.cpp:342
 #, kde-format
@@ -17442,7 +17443,7 @@ msgstr "Belge Aç"
 #: src/titler/titlewidget.cpp:425 src/titler/titlewidget.cpp:427
 #, kde-format
 msgid "Download New Title Templates..."
-msgstr "Yeni Başlık Şablonları İndir..."
+msgstr "Yeni Başlık Şablonları İndir…"
 
 #: src/titler/titlewidget.cpp:548
 #, kde-format
@@ -17903,7 +17904,7 @@ msgstr "Ses i&zi"
 #: src/ui/addtrack_ui.ui:114
 #, kde-format
 msgid "AV track"
-msgstr "Ses-video izi"
+msgstr "Ses–video izi"
 
 #. i18n: ectx: property (text), widget (QRadioButton, arec_track)
 #: src/ui/addtrack_ui.ui:121
@@ -18117,7 +18118,7 @@ msgstr "Geçerli noktayı silin."
 #: src/ui/unicodewidget_ui.ui:201 src/ui/unicodewidget_ui.ui:226
 #, kde-format
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonLinkHandles)
 #: src/ui/bezierspline_ui.ui:91
@@ -18514,7 +18515,7 @@ msgstr "59/54"
 #: src/ui/configcapture_ui.ui:142 src/ui/profiledialog_ui.ui:105
 #, kde-format
 msgid "Display aspect ratio:"
-msgstr "Görüntüleme en-boy oranı:"
+msgstr "Görüntüleme en–boy oranı:"
 
 #. i18n: ectx: property (text), widget (QLabel, p_display)
 #: src/ui/configcapture_ui.ui:149
@@ -19210,7 +19211,7 @@ msgstr "6 kanal"
 #: src/ui/configproject_ui.ui:149
 #, kde-format
 msgid "Timeline Preview profile:"
-msgstr "Zaman Akışı Önizlemesi profili:"
+msgstr "Zaman akışı önizlemesi profili:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableproxy)
 #: src/ui/configproxy_ui.ui:32
@@ -19296,7 +19297,7 @@ msgstr "Etkinleştir - uygulamak için Kdenlive'i yeniden başlatın"
 #: src/ui/configsdl_ui.ui:64
 #, kde-format
 msgid "Audio Backend:"
-msgstr "Ses Arka Ucu:"
+msgstr "Ses arka ucu:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_driver)
 #: src/ui/configsdl_ui.ui:80
@@ -19441,7 +19442,7 @@ msgstr "Ses kanallarını ayır"
 #: src/ui/configtimeline_ui.ui:59
 #, kde-format
 msgid "Playback and Seeking:"
-msgstr "Oynatma ve Arama:"
+msgstr "Oynatma ve arama:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_pauseonseek)
 #: src/ui/configtimeline_ui.ui:66
@@ -19634,19 +19635,19 @@ msgstr "Kapsayıcı:"
 #: src/ui/editrenderpreset_ui.ui:188 src/ui/editrenderpreset_ui.ui:860
 #, kde-format
 msgid "Codec:"
-msgstr "Kod Çözücü:"
+msgstr "Kod çözücü:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cDar)
 #: src/ui/editrenderpreset_ui.ui:234
 #, kde-format
 msgid "Display Aspect Ratio:"
-msgstr "Görüntüleme En-Boy Oranı:"
+msgstr "Görüntüleme en–boy oranı:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cPar)
 #: src/ui/editrenderpreset_ui.ui:257
 #, kde-format
 msgid "Pixel Aspect Ratio:"
-msgstr "Piksel En-Boy Oranı:"
+msgstr "Piksel en–boy oranı:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, field_order)
 #. i18n: ectx: property (text), item, widget (QComboBox, fieldOrderCombo)
@@ -19666,7 +19667,7 @@ msgstr "Üst Alan En Önce"
 #: src/ui/editrenderpreset_ui.ui:296
 #, kde-format
 msgid "Field Order:"
-msgstr "Alan Sırası:"
+msgstr "Alan sırası:"
 
 #. i18n: ectx: property (text), widget (QLabel, vquality_label)
 #. i18n: ectx: property (text), widget (QLabel, label_19)
@@ -19703,13 +19704,13 @@ msgstr "k"
 #: src/ui/editrenderpreset_ui.ui:592
 #, kde-format
 msgid "Frame Rate:"
-msgstr "Kare Hızı:"
+msgstr "Kare hızı:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/editrenderpreset_ui.ui:599
 #, kde-format
 msgid "Fields per Second:"
-msgstr "Saniye Başına Alan:"
+msgstr "Saniye başına alan:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
@@ -19723,7 +19724,7 @@ msgstr "Bit hızı:"
 #: src/ui/editrenderpreset_ui.ui:720 src/ui/editrenderpreset_ui.ui:958
 #, kde-format
 msgid "Rate Control:"
-msgstr "Oran Denetimi:"
+msgstr "Hız denetimi:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cResolution)
 #: src/ui/editrenderpreset_ui.ui:746
@@ -19747,13 +19748,13 @@ msgstr "GOP:"
 #: src/ui/editrenderpreset_ui.ui:792
 #, kde-format
 msgid "Buffer Size:"
-msgstr "Arabellek Boyutu:"
+msgstr "Arabellek boyutu:"
 
 #. i18n: ectx: property (text), widget (QLabel, bFramesLabel)
 #: src/ui/editrenderpreset_ui.ui:799
 #, kde-format
 msgid "B Frames:"
-msgstr "B Kareleri:"
+msgstr "B kareleri:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, vBuffer)
 #: src/ui/editrenderpreset_ui.ui:815
@@ -19765,7 +19766,7 @@ msgstr " KiB"
 #: src/ui/editrenderpreset_ui.ui:870
 #, kde-format
 msgid "Sample Rate:"
-msgstr "Örnekleme Hızı:"
+msgstr "Örnekleme hızı:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audioSampleRate)
 #: src/ui/editrenderpreset_ui.ui:902
@@ -19844,7 +19845,7 @@ msgstr ""
 #: src/ui/editrenderpreset_ui.ui:1036
 #, kde-format
 msgid "Additional Parameters:"
-msgstr "Ek Parametreler:"
+msgstr "Ek parametreler:"
 
 #. i18n: ectx: property (text), widget (QLabel, parametersLabel)
 #: src/ui/editrenderpreset_ui.ui:1056
@@ -19988,7 +19989,7 @@ msgstr "Çıkar"
 #: src/ui/exportguidesdialog_ui.ui:159
 #, kde-format
 msgid "Marker Type:"
-msgstr "İmleyici Türü:"
+msgstr "İmleyici türü:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_json)
 #: src/ui/exportguidesdialog_ui.ui:189
@@ -20000,13 +20001,13 @@ msgstr "Kdenlive JSON"
 #: src/ui/exportguidesdialog_ui.ui:209
 #, kde-format
 msgid "Save As:"
-msgstr "Farklı Kaydet:"
+msgstr "Farklı kaydet:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/exportguidesdialog_ui.ui:216
 #, kde-format
 msgid "Exported:"
-msgstr "Dışa Aktarıldı:"
+msgstr "Dışa aktarıldı:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_ffmpeg)
 #: src/ui/exportguidesdialog_ui.ui:223
@@ -20269,7 +20270,7 @@ msgstr "Toplam önbelleklenmiş veri:"
 #: src/ui/managecache_ui.ui:512 src/ui/managecache_ui.ui:609
 #, kde-format
 msgid "Calculating..."
-msgstr "Hesaplanıyor..."
+msgstr "Hesaplanıyor…"
 
 #. i18n: ectx: property (text), widget (QLabel, qSelectedLabel)
 #: src/ui/managecache_ui.ui:408
@@ -20535,7 +20536,7 @@ msgid ""
 "order, but the effect was not found.\n"
 "This feature will not work as expected."
 msgstr ""
-"\"avfilter.fieldorder\" değeri dahili olarak alan sırasını ayarlamak için "
+"‘avfilter.fieldorder’ değeri dahili olarak alan sırasını ayarlamak için "
 "kullanılır; ancak efekt bulunamadı.\n"
 "Bu özellik beklendiği gibi çalışmayacak."
 
@@ -20626,7 +20627,7 @@ msgstr "6 Kanal"
 #: src/ui/projectsettings_ui.ui:193
 #, kde-format
 msgid "Timeline Preview:"
-msgstr "Zaman Akışı Önizlemesi:"
+msgstr "Zaman akışı önizlemesi:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
 #: src/ui/projectsettings_ui.ui:204
@@ -20714,7 +20715,7 @@ msgstr "Proje dosyaları:"
 #: src/ui/projectsettings_ui.ui:669
 #, kde-format
 msgid "Plain Text Export..."
-msgstr "Düz Metin Dışa Aktar..."
+msgstr "Düz Metin Dışa Aktar…"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/projectsettings_ui.ui:690
@@ -21112,7 +21113,7 @@ msgstr "Betiği Sil"
 #: src/ui/resourcewidget_ui.ui:53
 #, kde-format
 msgid "Search..."
-msgstr "Ara..."
+msgstr "Ara…"
 
 #. i18n: ectx: property (prefix), widget (QSpinBox, page_number)
 #: src/ui/resourcewidget_ui.ui:121
@@ -21440,7 +21441,7 @@ msgstr "Oluştur"
 #: src/ui/titlewidget_ui.ui:283
 #, kde-format
 msgid "Z-Index:"
-msgstr "Z İndeksi:"
+msgstr "Z indeksi:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_height)
 #: src/ui/titlewidget_ui.ui:313
@@ -21664,7 +21665,7 @@ msgstr "Kenarlık "
 #: src/ui/titlewidget_ui.ui:1385
 #, kde-format
 msgid "Preserve aspect ratio"
-msgstr "En-boy oranını koru"
+msgstr "En–boy oranını koru"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_animation)
 #: src/ui/titlewidget_ui.ui:1471
@@ -21712,7 +21713,7 @@ msgstr "%​200"
 #: src/ui/titlewidget_ui.ui:1540
 #, kde-format
 msgid "Keep aspect ratio"
-msgstr "En-boy oranını koru"
+msgstr "En–boy oranını koru"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_patterns)
 #: src/ui/titlewidget_ui.ui:1564
@@ -21895,7 +21896,7 @@ msgstr "W"
 #: src/widgets/geometrywidget.cpp:56
 #, kde-format
 msgid "Lock aspect ratio"
-msgstr "En-boy oranını kilitle"
+msgstr "En–boy oranını kilitle"
 
 #: src/widgets/geometrywidget.cpp:63
 #, kde-format
