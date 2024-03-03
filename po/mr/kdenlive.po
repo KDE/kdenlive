@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-02 00:37+0000\n"
+"POT-Creation-Date: 2024-03-03 00:37+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -7354,73 +7354,73 @@ msgstr "प्रतिमेचा आकार"
 msgid "Speech Recognition log"
 msgstr "निवड साधन (&S)"
 
-#: src/dialogs/speechdialog.cpp:86
+#: src/dialogs/speechdialog.cpp:88
 #, kde-format
 msgid "Process"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:122
+#: src/dialogs/speechdialog.cpp:124
 #, kde-format
 msgid "No audio track available for selected clip"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:132
+#: src/dialogs/speechdialog.cpp:134
 #, fuzzy, kde-format
 msgid "Select a clip in timeline to perform analysis"
 msgstr "निवड साधन (&S)"
 
-#: src/dialogs/speechdialog.cpp:146
+#: src/dialogs/speechdialog.cpp:148
 #, fuzzy, kde-format
 #| msgid "Bitrate"
 msgid "No audio track found"
 msgstr "बिटदर"
 
-#: src/dialogs/speechdialog.cpp:184 src/dialogs/textbasededit.cpp:697
+#: src/dialogs/speechdialog.cpp:186 src/dialogs/textbasededit.cpp:697
 #, fuzzy, kde-format
 msgid "Please install speech recognition models"
 msgstr "निवड साधन (&S)"
 
-#: src/dialogs/speechdialog.cpp:201
+#: src/dialogs/speechdialog.cpp:203
 #: src/pythoninterfaces/abstractpythoninterface.cpp:175
 #, fuzzy, kde-format
 msgctxt "@label:textbox"
 msgid "Checking setup…"
 msgstr "साधन संयोजना"
 
-#: src/dialogs/speechdialog.cpp:206 src/dialogs/textbasededit.cpp:932
-#: src/dialogs/textbasededit.cpp:945
+#: src/dialogs/speechdialog.cpp:208 src/dialogs/textbasededit.cpp:932
+#: src/dialogs/textbasededit.cpp:946
 #, fuzzy, kde-format
 msgid "Please configure speech to text."
 msgstr "निवड साधन (&S)"
 
-#: src/dialogs/speechdialog.cpp:213
+#: src/dialogs/speechdialog.cpp:215
 #, kde-format
 msgid "Starting audio export"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:281
+#: src/dialogs/speechdialog.cpp:283
 #, fuzzy, kde-format
 #| msgid "Bitrate"
 msgid "Audio export failed"
 msgstr "बिटदर"
 
-#: src/dialogs/speechdialog.cpp:308 src/dialogs/textbasededit.cpp:964
+#: src/dialogs/speechdialog.cpp:310 src/dialogs/textbasededit.cpp:965
 #, kde-format
 msgid "Starting speech recognition"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:345 src/dialogs/textbasededit.cpp:1127
+#: src/dialogs/speechdialog.cpp:356 src/dialogs/textbasededit.cpp:1128
 #, fuzzy, kde-format
 msgid "Speech recognition aborted."
 msgstr "निवड साधन (&S)"
 
-#: src/dialogs/speechdialog.cpp:351
+#: src/dialogs/speechdialog.cpp:362
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Subtitles imported"
 msgstr "शिर्षकहीन"
 
-#: src/dialogs/speechdialog.cpp:354
+#: src/dialogs/speechdialog.cpp:365
 #, kde-format
 msgid "Speech recognition failed"
 msgstr ""
@@ -7565,14 +7565,14 @@ msgid "Delete selection"
 msgstr "उलट निवडा"
 
 #: src/dialogs/textbasededit.cpp:314 src/dialogs/textbasededit.cpp:570
-#: src/dialogs/textbasededit.cpp:1145 src/dialogs/textbasededit.cpp:1216
-#: src/dialogs/textbasededit.cpp:1240 src/dialogs/textbasededit.cpp:1297
+#: src/dialogs/textbasededit.cpp:1146 src/dialogs/textbasededit.cpp:1217
+#: src/dialogs/textbasededit.cpp:1241 src/dialogs/textbasededit.cpp:1298
 #, fuzzy, kde-format
 msgid "No speech"
 msgstr "परियोजना : %1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
-#: src/dialogs/textbasededit.cpp:620 src/ui/speechdialog_ui.ui:69
+#: src/dialogs/textbasededit.cpp:620 src/ui/speechdialog_ui.ui:131
 #, kde-format
 msgid "Translate to English"
 msgstr ""
@@ -7638,82 +7638,82 @@ msgid ""
 "the new job. Do you want to proceed?"
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:951
+#: src/dialogs/textbasededit.cpp:952
 #, kde-format
 msgid "Please install a language model."
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:959
+#: src/dialogs/textbasededit.cpp:960
 #, fuzzy, kde-format
 msgid "Select a clip with audio in Project Bin."
 msgstr "परियोजना : %1"
 
-#: src/dialogs/textbasededit.cpp:1005
+#: src/dialogs/textbasededit.cpp:1006
 #, fuzzy, kde-format
 msgid "Select a clip with audio for speech recognition."
 msgstr "निवड साधन (&S)"
 
-#: src/dialogs/textbasededit.cpp:1014 src/dialogs/textbasededit.cpp:1049
-#: src/dialogs/textbasededit.cpp:1098
+#: src/dialogs/textbasededit.cpp:1015 src/dialogs/textbasededit.cpp:1050
+#: src/dialogs/textbasededit.cpp:1099
 #, fuzzy, kde-format
 msgid "Cannot create temporary file."
 msgstr "फाईल उघडतेवेळी त्रुटी"
 
-#: src/dialogs/textbasededit.cpp:1019
+#: src/dialogs/textbasededit.cpp:1020
 #, fuzzy, kde-format
 #| msgid "Show thumbnails"
 msgid "Extracting audio for %1."
 msgstr "लघुप्रतिमा दाखवा"
 
-#: src/dialogs/textbasededit.cpp:1027
+#: src/dialogs/textbasededit.cpp:1028
 #, fuzzy, kde-format
 #| msgid "Bitrate"
 msgid "Audio extract failed."
 msgstr "बिटदर"
 
-#: src/dialogs/textbasededit.cpp:1033 src/dialogs/textbasededit.cpp:1082
+#: src/dialogs/textbasededit.cpp:1034 src/dialogs/textbasededit.cpp:1083
 #, fuzzy, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "निवड साधन (&S)"
 
-#: src/dialogs/textbasededit.cpp:1130
+#: src/dialogs/textbasededit.cpp:1131
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:1132
+#: src/dialogs/textbasededit.cpp:1133
 #, fuzzy, kde-format
 msgid "No speech detected."
 msgstr "परियोजना : %1"
 
-#: src/dialogs/textbasededit.cpp:1153
+#: src/dialogs/textbasededit.cpp:1154
 #, fuzzy, kde-format
 msgid "Speech recognition finished."
 msgstr "निवड साधन (&S)"
 
-#: src/dialogs/textbasededit.cpp:1390
+#: src/dialogs/textbasededit.cpp:1391
 #, fuzzy, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
 msgstr "प्रोफाईल \"%1\" संपादित करा"
 
-#: src/dialogs/textbasededit.cpp:1422 src/dialogs/textbasededit.cpp:1504
+#: src/dialogs/textbasededit.cpp:1423 src/dialogs/textbasededit.cpp:1505
 #, fuzzy, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "प्रतिमेचा आकार"
 
-#: src/dialogs/textbasededit.cpp:1429 src/dialogs/textbasededit.cpp:1465
+#: src/dialogs/textbasededit.cpp:1430 src/dialogs/textbasededit.cpp:1466
 #, fuzzy, kde-format
 msgid "No text to export"
 msgstr "पानाच्या उंचीप्रमाणे समर्पक बसवा"
 
-#: src/dialogs/textbasededit.cpp:1449
+#: src/dialogs/textbasededit.cpp:1450
 #, kde-format
 msgid "Enter new playlist path"
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:1599
+#: src/dialogs/textbasededit.cpp:1600
 #, kde-format
 msgid "No timecode found in selection"
 msgstr ""
@@ -14586,615 +14586,622 @@ msgid "automated subtitling"
 msgstr "प्रतिमेचा आकार"
 
 #: src/pythoninterfaces/speechtotext.cpp:29
+#, fuzzy, kde-format
+#| msgid "untitled"
+msgid "adjust subtitles length"
+msgstr "शिर्षकहीन"
+
+#: src/pythoninterfaces/speechtotext.cpp:30
 #, kde-format
 msgid "machine learning framework"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:37
+#: src/pythoninterfaces/speechtotext.cpp:38
 #, fuzzy, kde-format
 msgid "Speech to text"
 msgstr "निवड साधन (&S)"
 
-#: src/pythoninterfaces/speechtotext.cpp:52
+#: src/pythoninterfaces/speechtotext.cpp:53
 #, kde-format
 msgid "Tiny"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:53
+#: src/pythoninterfaces/speechtotext.cpp:54
 #, kde-format
 msgid "Base"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:54
+#: src/pythoninterfaces/speechtotext.cpp:55
 #, kde-format
 msgid "Small"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:55
+#: src/pythoninterfaces/speechtotext.cpp:56
 #, kde-format
 msgid "Medium"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:56
+#: src/pythoninterfaces/speechtotext.cpp:57
 #, kde-format
 msgid "Large"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:57
+#: src/pythoninterfaces/speechtotext.cpp:58
 #, kde-format
 msgid "Tiny - English only"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:58
+#: src/pythoninterfaces/speechtotext.cpp:59
 #, kde-format
 msgid "Base - English only"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:59
+#: src/pythoninterfaces/speechtotext.cpp:60
 #, kde-format
 msgid "Small - English only"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:60
+#: src/pythoninterfaces/speechtotext.cpp:61
 #, kde-format
 msgid "Medium - English only"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:67
-#, kde-format
-msgid "Audodetect"
-msgstr ""
-
 #: src/pythoninterfaces/speechtotext.cpp:68
+#, fuzzy, kde-format
+#| msgid "Automatic"
+msgid "Autodetect"
+msgstr "स्वयंचलित"
+
+#: src/pythoninterfaces/speechtotext.cpp:69
 #, kde-format
 msgid "Afrikaans"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:69
+#: src/pythoninterfaces/speechtotext.cpp:70
 #, kde-format
 msgid "Albanian"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:70
+#: src/pythoninterfaces/speechtotext.cpp:71
 #, kde-format
 msgid "Amharic"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:71
+#: src/pythoninterfaces/speechtotext.cpp:72
 #, kde-format
 msgid "Arabic"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:72
+#: src/pythoninterfaces/speechtotext.cpp:73
 #, kde-format
 msgid "Armenian"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:73
+#: src/pythoninterfaces/speechtotext.cpp:74
 #, kde-format
 msgid "Assamese"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:74
+#: src/pythoninterfaces/speechtotext.cpp:75
 #, kde-format
 msgid "Azerbaijani"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:75
+#: src/pythoninterfaces/speechtotext.cpp:76
 #, kde-format
 msgid "Bashkir"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:76
+#: src/pythoninterfaces/speechtotext.cpp:77
 #, kde-format
 msgid "Basque"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:77
+#: src/pythoninterfaces/speechtotext.cpp:78
 #, kde-format
 msgid "Belarusian"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:78
+#: src/pythoninterfaces/speechtotext.cpp:79
 #, kde-format
 msgid "Bengali"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:79
+#: src/pythoninterfaces/speechtotext.cpp:80
 #, kde-format
 msgid "Bosnian"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:80
+#: src/pythoninterfaces/speechtotext.cpp:81
 #, kde-format
 msgid "Breton"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:81
+#: src/pythoninterfaces/speechtotext.cpp:82
 #, fuzzy, kde-format
 msgid "Bulgarian"
 msgstr "प्रकार :"
 
-#: src/pythoninterfaces/speechtotext.cpp:82
+#: src/pythoninterfaces/speechtotext.cpp:83
 #, kde-format
 msgid "Burmese"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:83
+#: src/pythoninterfaces/speechtotext.cpp:84
 #, kde-format
 msgid "Castilian"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:84
+#: src/pythoninterfaces/speechtotext.cpp:85
 #, kde-format
 msgid "Catalan"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:85
+#: src/pythoninterfaces/speechtotext.cpp:86
 #, kde-format
 msgid "Chinese"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:86
+#: src/pythoninterfaces/speechtotext.cpp:87
 #, kde-format
 msgid "Croatian"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:87
+#: src/pythoninterfaces/speechtotext.cpp:88
 #, kde-format
 msgid "Czech"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:88
+#: src/pythoninterfaces/speechtotext.cpp:89
 #, kde-format
 msgid "Danish"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:89
+#: src/pythoninterfaces/speechtotext.cpp:90
 #, kde-format
 msgid "Dutch"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:90
+#: src/pythoninterfaces/speechtotext.cpp:91
 #, kde-format
 msgid "English"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:91
+#: src/pythoninterfaces/speechtotext.cpp:92
 #, kde-format
 msgid "Estonian"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:92
+#: src/pythoninterfaces/speechtotext.cpp:93
 #, kde-format
 msgid "Faroese"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:93
+#: src/pythoninterfaces/speechtotext.cpp:94
 #, kde-format
 msgid "Finnish"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:94
+#: src/pythoninterfaces/speechtotext.cpp:95
 #, kde-format
 msgid "Flemish"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:95
+#: src/pythoninterfaces/speechtotext.cpp:96
 #, kde-format
 msgid "French"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:96
+#: src/pythoninterfaces/speechtotext.cpp:97
 #, kde-format
 msgid "Galician"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:97
+#: src/pythoninterfaces/speechtotext.cpp:98
 #, kde-format
 msgid "Georgian"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:98
+#: src/pythoninterfaces/speechtotext.cpp:99
 #, kde-format
 msgid "German"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:99
+#: src/pythoninterfaces/speechtotext.cpp:100
 #, fuzzy, kde-format
 #| msgid "Green"
 msgid "Greek"
 msgstr "हिरवा"
 
-#: src/pythoninterfaces/speechtotext.cpp:100
+#: src/pythoninterfaces/speechtotext.cpp:101
 #, fuzzy, kde-format
 #| msgid "Duration"
 msgid "Gujarati"
 msgstr "कालावधी"
 
-#: src/pythoninterfaces/speechtotext.cpp:101
+#: src/pythoninterfaces/speechtotext.cpp:102
 #, kde-format
 msgid "Haitian"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:102
+#: src/pythoninterfaces/speechtotext.cpp:103
 #, kde-format
 msgid "Haitian Creole"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:103
+#: src/pythoninterfaces/speechtotext.cpp:104
 #, kde-format
 msgid "Hausa"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:104
+#: src/pythoninterfaces/speechtotext.cpp:105
 #, kde-format
 msgid "Hawaiian"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:105
+#: src/pythoninterfaces/speechtotext.cpp:106
 #, kde-format
 msgid "Hebrew"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:106
+#: src/pythoninterfaces/speechtotext.cpp:107
 #, kde-format
 msgid "Hindi"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:107
+#: src/pythoninterfaces/speechtotext.cpp:108
 #, fuzzy, kde-format
 msgid "Hungarian"
 msgstr "प्रकार :"
 
-#: src/pythoninterfaces/speechtotext.cpp:108
+#: src/pythoninterfaces/speechtotext.cpp:109
 #, kde-format
 msgid "Icelandic"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:109
+#: src/pythoninterfaces/speechtotext.cpp:110
 #, kde-format
 msgid "Indonesian"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:110
+#: src/pythoninterfaces/speechtotext.cpp:111
 #, kde-format
 msgid "Italian"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:111
+#: src/pythoninterfaces/speechtotext.cpp:112
 #, kde-format
 msgid "Japanese"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:112
+#: src/pythoninterfaces/speechtotext.cpp:113
 #, kde-format
 msgid "Javanese"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:113
+#: src/pythoninterfaces/speechtotext.cpp:114
 #, kde-format
 msgid "Kannada"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:114
+#: src/pythoninterfaces/speechtotext.cpp:115
 #, kde-format
 msgid "Kazakh"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:115
+#: src/pythoninterfaces/speechtotext.cpp:116
 #, kde-format
 msgid "Khmer"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:116
+#: src/pythoninterfaces/speechtotext.cpp:117
 #, kde-format
 msgid "Korean"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:117
+#: src/pythoninterfaces/speechtotext.cpp:118
 #, fuzzy, kde-format
 msgid "Lao"
 msgstr "लॉग"
 
-#: src/pythoninterfaces/speechtotext.cpp:118
+#: src/pythoninterfaces/speechtotext.cpp:119
 #, fuzzy, kde-format
 msgid "Latin"
 msgstr "गुणवत्ताश्रेणी"
 
-#: src/pythoninterfaces/speechtotext.cpp:119
+#: src/pythoninterfaces/speechtotext.cpp:120
 #, kde-format
 msgid "Latvian"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:120
+#: src/pythoninterfaces/speechtotext.cpp:121
 #, kde-format
 msgid "Letzeburgesch"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:121
+#: src/pythoninterfaces/speechtotext.cpp:122
 #, kde-format
 msgid "Lingala"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:122
+#: src/pythoninterfaces/speechtotext.cpp:123
 #, kde-format
 msgid "Lithuanian"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:123
+#: src/pythoninterfaces/speechtotext.cpp:124
 #, kde-format
 msgid "Luxembourgish"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:124
+#: src/pythoninterfaces/speechtotext.cpp:125
 #, kde-format
 msgid "Macedonian"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:125
+#: src/pythoninterfaces/speechtotext.cpp:126
 #, kde-format
 msgid "Malagasy"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:126
+#: src/pythoninterfaces/speechtotext.cpp:127
 #, kde-format
 msgid "Malay"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:127
+#: src/pythoninterfaces/speechtotext.cpp:128
 #, kde-format
 msgid "Malayalam"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:128
+#: src/pythoninterfaces/speechtotext.cpp:129
 #, kde-format
 msgid "Maltese"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:129
+#: src/pythoninterfaces/speechtotext.cpp:130
 #, kde-format
 msgid "Maori"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:130
+#: src/pythoninterfaces/speechtotext.cpp:131
 #, kde-format
 msgid "Marathi"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:131
+#: src/pythoninterfaces/speechtotext.cpp:132
 #, kde-format
 msgid "Moldavian"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:132
+#: src/pythoninterfaces/speechtotext.cpp:133
 #, kde-format
 msgid "Moldovan"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:133
+#: src/pythoninterfaces/speechtotext.cpp:134
 #, kde-format
 msgid "Mongolian"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:134
+#: src/pythoninterfaces/speechtotext.cpp:135
 #, kde-format
 msgid "Myanmar"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:135
+#: src/pythoninterfaces/speechtotext.cpp:136
 #, kde-format
 msgid "Nepali"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:136
+#: src/pythoninterfaces/speechtotext.cpp:137
 #, kde-format
 msgid "Norwegian"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:137
+#: src/pythoninterfaces/speechtotext.cpp:138
 #, kde-format
 msgid "Nynorsk"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:138
+#: src/pythoninterfaces/speechtotext.cpp:139
 #, kde-format
 msgid "Occitan"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:139
+#: src/pythoninterfaces/speechtotext.cpp:140
 #, kde-format
 msgid "Panjabi"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:140
+#: src/pythoninterfaces/speechtotext.cpp:141
 #, kde-format
 msgid "Pashto"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:141
+#: src/pythoninterfaces/speechtotext.cpp:142
 #, kde-format
 msgid "Persian"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:142
+#: src/pythoninterfaces/speechtotext.cpp:143
 #, kde-format
 msgid "Polish"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:143
+#: src/pythoninterfaces/speechtotext.cpp:144
 #, kde-format
 msgid "Portuguese"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:144
+#: src/pythoninterfaces/speechtotext.cpp:145
 #, kde-format
 msgid "Punjabi"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:145
+#: src/pythoninterfaces/speechtotext.cpp:146
 #, kde-format
 msgid "Pushto"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:146
+#: src/pythoninterfaces/speechtotext.cpp:147
 #, kde-format
 msgid "Romanian"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:147
+#: src/pythoninterfaces/speechtotext.cpp:148
 #, kde-format
 msgid "Russian"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:148
+#: src/pythoninterfaces/speechtotext.cpp:149
 #, kde-format
 msgid "Sanskrit"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:149
+#: src/pythoninterfaces/speechtotext.cpp:150
 #, kde-format
 msgid "Serbian"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:150
+#: src/pythoninterfaces/speechtotext.cpp:151
 #, kde-format
 msgid "Shona"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:151
+#: src/pythoninterfaces/speechtotext.cpp:152
 #, kde-format
 msgid "Sindhi"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:152
+#: src/pythoninterfaces/speechtotext.cpp:153
 #, kde-format
 msgid "Sinhala"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:153
+#: src/pythoninterfaces/speechtotext.cpp:154
 #, kde-format
 msgid "Sinhalese"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:154
+#: src/pythoninterfaces/speechtotext.cpp:155
 #, kde-format
 msgid "Slovak"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:155
+#: src/pythoninterfaces/speechtotext.cpp:156
 #, kde-format
 msgid "Slovenian"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:156
+#: src/pythoninterfaces/speechtotext.cpp:157
 #, fuzzy, kde-format
 #| msgid "Normal"
 msgid "Somali"
 msgstr "सामान्य"
 
-#: src/pythoninterfaces/speechtotext.cpp:157
+#: src/pythoninterfaces/speechtotext.cpp:158
 #, kde-format
 msgid "Spanish"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:158
+#: src/pythoninterfaces/speechtotext.cpp:159
 #, kde-format
 msgid "Sundanese"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:159
+#: src/pythoninterfaces/speechtotext.cpp:160
 #, kde-format
 msgid "Swahili"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:160
+#: src/pythoninterfaces/speechtotext.cpp:161
 #, kde-format
 msgid "Swedish"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:161
+#: src/pythoninterfaces/speechtotext.cpp:162
 #, fuzzy, kde-format
 #| msgid "Dialog"
 msgid "Tagalog"
 msgstr "संवाद"
 
-#: src/pythoninterfaces/speechtotext.cpp:162
+#: src/pythoninterfaces/speechtotext.cpp:163
 #, kde-format
 msgid "Tajik"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:163
+#: src/pythoninterfaces/speechtotext.cpp:164
 #, kde-format
 msgid "Tamil"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:164
+#: src/pythoninterfaces/speechtotext.cpp:165
 #, kde-format
 msgid "Tatar"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:165
+#: src/pythoninterfaces/speechtotext.cpp:166
 #, kde-format
 msgid "Telugu"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:166
+#: src/pythoninterfaces/speechtotext.cpp:167
 #, kde-format
 msgid "Thai"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:167
+#: src/pythoninterfaces/speechtotext.cpp:168
 #, kde-format
 msgid "Tibetan"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:168
+#: src/pythoninterfaces/speechtotext.cpp:169
 #, kde-format
 msgid "Turkish"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:169
+#: src/pythoninterfaces/speechtotext.cpp:170
 #, kde-format
 msgid "Turkmen"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:170
+#: src/pythoninterfaces/speechtotext.cpp:171
 #, kde-format
 msgid "Ukrainian"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:171
+#: src/pythoninterfaces/speechtotext.cpp:172
 #, kde-format
 msgid "Urdu"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:172
+#: src/pythoninterfaces/speechtotext.cpp:173
 #, kde-format
 msgid "Uzbek"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:173
+#: src/pythoninterfaces/speechtotext.cpp:174
 #, kde-format
 msgid "Valencian"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:174
+#: src/pythoninterfaces/speechtotext.cpp:175
 #, fuzzy, kde-format
 msgid "Vietnamese"
 msgstr "फाईलनाव"
 
-#: src/pythoninterfaces/speechtotext.cpp:175
+#: src/pythoninterfaces/speechtotext.cpp:176
 #, kde-format
 msgid "Welsh"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:176
+#: src/pythoninterfaces/speechtotext.cpp:177
 #, kde-format
 msgid "Yiddish"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotext.cpp:177
+#: src/pythoninterfaces/speechtotext.cpp:178
 #, kde-format
 msgid "Yoruba"
 msgstr ""
@@ -17845,7 +17852,7 @@ msgstr "ट्रॅक"
 #. i18n: ectx: property (format), widget (QProgressBar, job_progress)
 #. i18n: ectx: property (format), widget (QProgressBar, progressBar)
 #: src/ui/archivewidget_ui.ui:143 src/ui/cliptranscode_ui.ui:40
-#: src/ui/speechdialog_ui.ui:124 src/ui/textbasededit_ui.ui:59
+#: src/ui/speechdialog_ui.ui:204 src/ui/textbasededit_ui.ui:59
 #, no-c-format, kde-format
 msgid "%p%"
 msgstr ""
@@ -17999,7 +18006,7 @@ msgstr "वर्तमान टॅब बंद करा"
 #: src/ui/projectsettings_ui.ui:589 src/ui/projectsettings_ui.ui:596
 #: src/ui/qtextclip_ui.ui:94 src/ui/renderwidget_ui.ui:997
 #: src/ui/resourcewidget_ui.ui:214 src/ui/resourcewidget_ui.ui:281
-#: src/ui/speechdialog_ui.ui:107 src/ui/textbasededit_ui.ui:42
+#: src/ui/speechdialog_ui.ui:181 src/ui/textbasededit_ui.ui:42
 #: src/ui/textbasededit_ui.ui:71 src/ui/textbasededit_ui.ui:140
 #: src/ui/textbasededit_ui.ui:154 src/ui/textbasededit_ui.ui:171
 #: src/ui/textbasededit_ui.ui:181 src/ui/textbasededit_ui.ui:198
@@ -21308,44 +21315,50 @@ msgstr ""
 msgid "True FFT size:"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QRadioButton, timeline_track)
-#: src/ui/speechdialog_ui.ui:34
-#, fuzzy, kde-format
-#| msgid "Delete %1"
-msgid "Timeline zone (selected track)"
-msgstr "काढून टाका %1"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/speechdialog_ui.ui:76
-#, kde-format
-msgid "Language"
-msgstr ""
-
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_zone)
-#: src/ui/speechdialog_ui.ui:147
+#: src/ui/speechdialog_ui.ui:24
 #, kde-format
 msgid "Timeline zone (all tracks)"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/speechdialog_ui.ui:157
-#, fuzzy, kde-format
-#| msgid "Mode"
-msgid "Model"
-msgstr "पद्धत"
-
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_clips)
-#: src/ui/speechdialog_ui.ui:181
+#: src/ui/speechdialog_ui.ui:77
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Selected clip"
 msgstr "ट्रॅक"
 
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/ui/speechdialog_ui.ui:94
+#, fuzzy, kde-format
+#| msgid "Mode"
+msgid "Model"
+msgstr "पद्धत"
+
+#. i18n: ectx: property (text), widget (QRadioButton, timeline_track)
+#: src/ui/speechdialog_ui.ui:101
+#, fuzzy, kde-format
+#| msgid "Delete %1"
+msgid "Timeline zone (selected track)"
+msgstr "काढून टाका %1"
+
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_full)
-#: src/ui/speechdialog_ui.ui:188
+#: src/ui/speechdialog_ui.ui:108
 #, fuzzy, kde-format
 msgid "Full project"
 msgstr "परियोजना : %1"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: src/ui/speechdialog_ui.ui:124
+#, kde-format
+msgid "Language"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, check_maxchars)
+#: src/ui/speechdialog_ui.ui:150
+#, kde-format
+msgid "Maximum characters per line"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_template)
 #. i18n: ectx: property (text), widget (QLabel, label)
