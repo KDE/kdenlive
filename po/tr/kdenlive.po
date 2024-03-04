@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-03 02:32+0000\n"
-"PO-Revision-Date: 2024-03-02 11:01+0300\n"
+"PO-Revision-Date: 2024-03-03 10:48+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -14718,10 +14718,9 @@ msgid "Medium - English only"
 msgstr "Orta- Yalnızca İngilizce"
 
 #: src/pythoninterfaces/speechtotext.cpp:67
-#, fuzzy, kde-format
-#| msgid "Audodetect"
+#, kde-format
 msgid "Autodetect"
-msgstr "Otomatik Algıla"
+msgstr "Kendiliğinden Algıla"
 
 #: src/pythoninterfaces/speechtotext.cpp:68
 #, kde-format
