@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-03 02:32+0000\n"
-"PO-Revision-Date: 2024-01-10 05:37+0100\n"
+"PO-Revision-Date: 2024-03-03 08:56+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 23.08.4\n"
+"X-Generator: Lokalize 24.02.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -14779,10 +14779,9 @@ msgid "Medium - English only"
 msgstr "Ertaina - ingelesa bakarrik"
 
 #: src/pythoninterfaces/speechtotext.cpp:67
-#, fuzzy, kde-format
-#| msgid "Audodetect"
+#, kde-format
 msgid "Autodetect"
-msgstr "Hauteman"
+msgstr "Antzemate automatikoa"
 
 #: src/pythoninterfaces/speechtotext.cpp:68
 #, kde-format
@@ -18540,7 +18539,7 @@ msgstr "Bideoa atzeman (Video4Linux2)"
 #: src/ui/configcapture_ui.ui:66 src/ui/configcapture_ui.ui:464
 #, kde-format
 msgid "Detected devices:"
-msgstr "Hautemandako gailuak:"
+msgstr "Antzemandako gailuak:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: src/ui/configcapture_ui.ui:76
