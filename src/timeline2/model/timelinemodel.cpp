@@ -936,10 +936,13 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
 
 bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
 {
-    std::unordered_set<int> initialSelection = getCurrentSelection();
-    if (idToMove == -1 && initialSelection.empty()) {
-        pCore->displayMessage(i18n("Select a clip to apply the mix"), ErrorMessage, 500);
-        return false;
+    std::unordered_set<int> initialSelection;
+    if (idToMove == -1) {
+        initialSelection = getCurrentSelection();
+        if (initialSelection.empty()) {
+            pCore->displayMessage(i18n("Select a clip to apply the mix"), ErrorMessage, 500);
+            return false;
+        }
     }
     struct mixStructure
     {
@@ -1028,35 +1031,46 @@ bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
         mixInfo.mixPosition = getItemPosition(s);
         int clipDuration = getItemPlaytime(s);
         // Check if clip already has a mix
-        if (delta > -1 && getTrackById_const(mixInfo.selectedTrack)->hasStartMix(s)) {
+        if (delta == 0 && (getTrackById_const(mixInfo.selectedTrack)->hasEndMix(s) ||
+                           getTrackById_const(mixInfo.selectedTrack)->getClipByPosition(mixInfo.mixPosition + clipDuration + 1) == -1)) {
+            // There already is a mix or no next clip, try adding a mix at clip start
+            delta = -1;
+        }
+        if (delta > -1) {
+            // we want to add a mix at clip end
             if (getTrackById_const(mixInfo.selectedTrack)->hasEndMix(s)) {
+                // Already mixed
                 continue;
             }
             mixInfo.clips.second = getTrackById_const(mixInfo.selectedTrack)->getClipByPosition(mixInfo.mixPosition + clipDuration + 1);
-            // Check if previous clip was selected, and not next clip. In that case we stop processing
-            int previousClip = getTrackById_const(mixInfo.selectedTrack)->getClipByPosition(mixInfo.mixPosition - 1);
-            if (std::find(clipIds.begin(), clipIds.end(), previousClip) != clipIds.end() &&
-                std::find(clipIds.begin(), clipIds.end(), mixInfo.clips.second) == clipIds.end()) {
+            if (getTrackById_const(mixInfo.selectedTrack)->hasStartMix(s)) {
+                // There is a mix at clip start
+                // Check if previous clip was selected, and not next clip. In that case we stop processing
+                int previousClip = getTrackById_const(mixInfo.selectedTrack)->getClipByPosition(mixInfo.mixPosition - 1);
+                if (std::find(clipIds.begin(), clipIds.end(), previousClip) != clipIds.end() &&
+                    std::find(clipIds.begin(), clipIds.end(), mixInfo.clips.second) == clipIds.end()) {
+                    continue;
+                }
+            }
+        } else if (delta < 1) {
+            // We want to add a clip at mix start
+            if (getTrackById_const(mixInfo.selectedTrack)->hasStartMix(s)) {
+                // Already mixed
                 continue;
             }
-        } else if (delta < 1 && getTrackById_const(mixInfo.selectedTrack)->hasEndMix(s)) {
             mixInfo.clips.first = getTrackById_const(mixInfo.selectedTrack)->getClipByPosition(mixInfo.mixPosition - 1);
-            // Check if next clip was selected, and not previous clip. In that case we stop processing
-            int nextClip = getTrackById_const(mixInfo.selectedTrack)->getClipByPosition(mixInfo.mixPosition + clipDuration + 1);
-            if (std::find(clipIds.begin(), clipIds.end(), nextClip) != clipIds.end() &&
-                std::find(clipIds.begin(), clipIds.end(), mixInfo.clips.first) == clipIds.end()) {
-                continue;
-            }
-            if (mixInfo.clips.first > -1 && getTrackById_const(mixInfo.selectedTrack)->hasEndMix(mixInfo.clips.first)) {
-                // Could happen if 2 clips before are mixed to full length
-                mixInfo.clips.first = -1;
-            }
-        } else {
-            if (delta < 1) {
-                mixInfo.clips.first = getTrackById_const(mixInfo.selectedTrack)->getClipByPosition(mixInfo.mixPosition - 1);
-            }
-            if (delta > -1) {
-                mixInfo.clips.second = getTrackById_const(mixInfo.selectedTrack)->getClipByPosition(mixInfo.mixPosition + clipDuration + 1);
+            if (getTrackById_const(mixInfo.selectedTrack)->hasEndMix(s)) {
+                // There is a mix at clip end
+                // Check if next clip was selected, and not previous clip. In that case we stop processing
+                int nextClip = getTrackById_const(mixInfo.selectedTrack)->getClipByPosition(mixInfo.mixPosition + clipDuration + 1);
+                if (std::find(clipIds.begin(), clipIds.end(), nextClip) != clipIds.end() &&
+                    std::find(clipIds.begin(), clipIds.end(), mixInfo.clips.first) == clipIds.end()) {
+                    continue;
+                }
+                if (mixInfo.clips.first > -1 && getTrackById_const(mixInfo.selectedTrack)->hasEndMix(mixInfo.clips.first)) {
+                    // Could happen if 2 clips before are mixed to full length
+                    mixInfo.clips.first = -1;
+                }
             }
         }
         if (mixInfo.clips.first > -1 && mixInfo.clips.second > -1) {
