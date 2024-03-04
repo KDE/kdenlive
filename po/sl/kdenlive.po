@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-03 00:37+0000\n"
-"PO-Revision-Date: 2024-03-01 08:26+0100\n"
+"PO-Revision-Date: 2024-03-03 09:12+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -14814,10 +14814,9 @@ msgid "automated subtitling"
 msgstr "samodejno podnaslavljanje"
 
 #: src/pythoninterfaces/speechtotext.cpp:29
-#, fuzzy, kde-format
-#| msgid "Edit subtitle style"
+#, kde-format
 msgid "adjust subtitles length"
-msgstr "Uredi slog podnaslovov"
+msgstr "Prilagodi dolžino podnaslovov"
 
 #: src/pythoninterfaces/speechtotext.cpp:30
 #, kde-format
@@ -14875,8 +14874,7 @@ msgid "Medium - English only"
 msgstr "Srednji - samo za angleščino"
 
 #: src/pythoninterfaces/speechtotext.cpp:68
-#, fuzzy, kde-format
-#| msgid "Audodetect"
+#, kde-format
 msgid "Autodetect"
 msgstr "Samodejno zaznaj"
 
@@ -21521,10 +21519,9 @@ msgstr "Jezik"
 
 #. i18n: ectx: property (text), widget (QCheckBox, check_maxchars)
 #: src/ui/speechdialog_ui.ui:150
-#, fuzzy, kde-format
-#| msgid "Maximum Rate Change"
+#, kde-format
 msgid "Maximum characters per line"
-msgstr "Največja sprememba hitrosti"
+msgstr "Največje število znakov na vrstico"
 
 #. i18n: ectx: property (text), widget (QLabel, label_template)
 #. i18n: ectx: property (text), widget (QLabel, label)

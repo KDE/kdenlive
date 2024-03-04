@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-03 00:37+0000\n"
-"PO-Revision-Date: 2024-02-29 08:43+0200\n"
+"PO-Revision-Date: 2024-03-03 08:37+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -14931,10 +14931,9 @@ msgid "automated subtitling"
 msgstr "автоматичне субтитрування"
 
 #: src/pythoninterfaces/speechtotext.cpp:29
-#, fuzzy, kde-format
-#| msgid "Edit subtitle style"
+#, kde-format
 msgid "adjust subtitles length"
-msgstr "Редагувати стиль субтитрів"
+msgstr "скоригувати тривалість показу субтитрів"
 
 #: src/pythoninterfaces/speechtotext.cpp:30
 #, kde-format
@@ -14992,10 +14991,9 @@ msgid "Medium - English only"
 msgstr "Середній — лише англійська"
 
 #: src/pythoninterfaces/speechtotext.cpp:68
-#, fuzzy, kde-format
-#| msgid "Audodetect"
+#, kde-format
 msgid "Autodetect"
-msgstr "Автовизначення"
+msgstr "Автовиявлення"
 
 #: src/pythoninterfaces/speechtotext.cpp:69
 #, kde-format
@@ -21683,10 +21681,9 @@ msgstr "Мова"
 
 #. i18n: ectx: property (text), widget (QCheckBox, check_maxchars)
 #: src/ui/speechdialog_ui.ui:150
-#, fuzzy, kde-format
-#| msgid "Maximum Rate Change"
+#, kde-format
 msgid "Maximum characters per line"
-msgstr "Максимальна зміна частоти"
+msgstr "Максимальна кількість символів на рядок"
 
 #. i18n: ectx: property (text), widget (QLabel, label_template)
 #. i18n: ectx: property (text), widget (QLabel, label)

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-03 00:37+0000\n"
-"PO-Revision-Date: 2024-02-29 02:41+0100\n"
+"PO-Revision-Date: 2024-03-03 05:40+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -14597,10 +14597,9 @@ msgid "automated subtitling"
 msgstr "ავტომატური სუბტიტრები"
 
 #: src/pythoninterfaces/speechtotext.cpp:29
-#, fuzzy, kde-format
-#| msgid "Edit subtitle style"
+#, kde-format
 msgid "adjust subtitles length"
-msgstr "სუბტიტრის სტილის ჩასწორება"
+msgstr "სუბტიტრის სიგრძის გასწორება"
 
 #: src/pythoninterfaces/speechtotext.cpp:30
 #, kde-format
@@ -14658,8 +14657,7 @@ msgid "Medium - English only"
 msgstr "საშუალო - მხოლოდ ინგლისური"
 
 #: src/pythoninterfaces/speechtotext.cpp:68
-#, fuzzy, kde-format
-#| msgid "Audodetect"
+#, kde-format
 msgid "Autodetect"
 msgstr "ავტოამოცნობა"
 
@@ -21255,10 +21253,9 @@ msgstr "ენა"
 
 #. i18n: ectx: property (text), widget (QCheckBox, check_maxchars)
 #: src/ui/speechdialog_ui.ui:150
-#, fuzzy, kde-format
-#| msgid "Maximum Rate Change"
+#, kde-format
 msgid "Maximum characters per line"
-msgstr "მაქსიმალური სიხშირის შეცვლა"
+msgstr "სიმბოლოების მაქსიმუმი თითოეულ ხაზზე"
 
 #. i18n: ectx: property (text), widget (QLabel, label_template)
 #. i18n: ectx: property (text), widget (QLabel, label)

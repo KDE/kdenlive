@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-03 00:37+0000\n"
-"PO-Revision-Date: 2024-03-02 11:02+0300\n"
+"PO-Revision-Date: 2024-03-03 10:48+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -14745,10 +14745,9 @@ msgid "automated subtitling"
 msgstr "otomatikleştirilmiş altyazılama"
 
 #: src/pythoninterfaces/speechtotext.cpp:29
-#, fuzzy, kde-format
-#| msgid "Edit subtitle style"
+#, kde-format
 msgid "adjust subtitles length"
-msgstr "Altyazı biçemini düzenle"
+msgstr "Altyazı uzunluğunu ayarla"
 
 #: src/pythoninterfaces/speechtotext.cpp:30
 #, kde-format
@@ -14806,10 +14805,9 @@ msgid "Medium - English only"
 msgstr "Orta- Yalnızca İngilizce"
 
 #: src/pythoninterfaces/speechtotext.cpp:68
-#, fuzzy, kde-format
-#| msgid "Audodetect"
+#, kde-format
 msgid "Autodetect"
-msgstr "Otomatik Algıla"
+msgstr "Kendiliğinden Algıla"
 
 #: src/pythoninterfaces/speechtotext.cpp:69
 #, kde-format
@@ -21454,10 +21452,9 @@ msgstr "Dil"
 
 #. i18n: ectx: property (text), widget (QCheckBox, check_maxchars)
 #: src/ui/speechdialog_ui.ui:150
-#, fuzzy, kde-format
-#| msgid "Maximum Rate Change"
+#, kde-format
 msgid "Maximum characters per line"
-msgstr "En Büyük Hız Değişikliği"
+msgstr "Satır başına en çok karakter"
 
 #. i18n: ectx: property (text), widget (QLabel, label_template)
 #. i18n: ectx: property (text), widget (QLabel, label)

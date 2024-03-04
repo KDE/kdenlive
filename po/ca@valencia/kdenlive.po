@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-03 00:37+0000\n"
-"PO-Revision-Date: 2024-02-29 12:30+0100\n"
+"PO-Revision-Date: 2024-03-03 10:58+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -14893,10 +14893,9 @@ msgid "automated subtitling"
 msgstr "subtitulació automàtica"
 
 #: src/pythoninterfaces/speechtotext.cpp:29
-#, fuzzy, kde-format
-#| msgid "Edit subtitle style"
+#, kde-format
 msgid "adjust subtitles length"
-msgstr "Edita l'estil dels subtítols"
+msgstr "ajusta la llargària dels subtítols"
 
 #: src/pythoninterfaces/speechtotext.cpp:30
 #, kde-format
@@ -14954,8 +14953,7 @@ msgid "Medium - English only"
 msgstr "Mitjà - Només anglés"
 
 #: src/pythoninterfaces/speechtotext.cpp:68
-#, fuzzy, kde-format
-#| msgid "Audodetect"
+#, kde-format
 msgid "Autodetect"
 msgstr "Detecta automàticament"
 
@@ -21636,10 +21634,9 @@ msgstr "Idioma"
 
 #. i18n: ectx: property (text), widget (QCheckBox, check_maxchars)
 #: src/ui/speechdialog_ui.ui:150
-#, fuzzy, kde-format
-#| msgid "Maximum Rate Change"
+#, kde-format
 msgid "Maximum characters per line"
-msgstr "Canvi de la ràtio màxima"
+msgstr "Nombre màxim de caràcters per línia"
 
 #. i18n: ectx: property (text), widget (QLabel, label_template)
 #. i18n: ectx: property (text), widget (QLabel, label)
