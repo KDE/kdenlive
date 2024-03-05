@@ -700,7 +700,7 @@ protected:
 
     /** @brief Returns the best possible size for a clip on resize
      */
-    int requestItemResizeInfo(int itemId, int in, int out, int size, bool right, int snapDistance);
+    int requestItemResizeInfo(int itemId, int currentIn, int currentOut, int requestedSize, bool right, int snapDistance);
 
     /** @brief Returns a list of in/out of all items in the group of itemId
      */

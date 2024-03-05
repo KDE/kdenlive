@@ -3192,7 +3192,7 @@ int TimelineModel::requestClipResizeAndTimeWarp(int itemId, int size, bool right
     return res;
 }
 
-int TimelineModel::requestItemResizeInfo(int itemId, int in, int out, int size, bool right, int snapDistance)
+int TimelineModel::requestItemResizeInfo(int itemId, int currentIn, int currentOut, int requestedSize, bool right, int snapDistance)
 {
     int trackId = getItemTrackId(itemId);
     bool checkMix = trackId != -1;
@@ -3200,40 +3200,52 @@ int TimelineModel::requestItemResizeInfo(int itemId, int in, int out, int size, 
     Fun temp_redo = []() { return true; };
     bool skipSnaps = snapDistance <= 0;
     bool sizeUpdated = false;
-    if (checkMix && right && size > out - in && isClip(itemId)) {
+    if (checkMix && right && (requestedSize > currentOut - currentIn) && isClip(itemId)) {
         int playlist = -1;
         if (getTrackById_const(trackId)->hasEndMix(itemId)) {
             playlist = m_allClips[itemId]->getSubPlaylistIndex();
         }
-        int targetPos = in + size - 1;
+        int targetPos = currentIn + requestedSize - 1;
         if (!getTrackById_const(trackId)->isBlankAt(targetPos, playlist)) {
-            int updatedSize = getTrackById_const(trackId)->getBlankEnd(out, playlist) - in + 1;
-            if (!skipSnaps && size - updatedSize > snapDistance) {
+            int currentSize = getItemPlaytime(itemId);
+            int updatedSize = currentSize;
+            if (getTrackById_const(trackId)->isBlankAt(currentOut, playlist)) {
+                updatedSize = getTrackById_const(trackId)->getBlankEnd(currentOut, playlist) - currentIn + 1;
+            } else {
+                return currentSize;
+            }
+            if (!skipSnaps && requestedSize - updatedSize > snapDistance) {
                 skipSnaps = true;
             }
-            size = updatedSize;
-            sizeUpdated = true;
+            sizeUpdated = requestedSize != updatedSize;
+            requestedSize = updatedSize;
         }
-    } else if (checkMix && !right && size > (out - in) && isClip(itemId)) {
-        int targetPos = out - size;
+    } else if (checkMix && !right && (requestedSize > currentOut - currentIn) && isClip(itemId)) {
+        int targetPos = currentOut - requestedSize;
         int playlist = -1;
         if (getTrackById_const(trackId)->hasStartMix(itemId)) {
             playlist = m_allClips[itemId]->getSubPlaylistIndex();
         }
         if (!getTrackById_const(trackId)->isBlankAt(targetPos, playlist)) {
-            int updatedSize = out - getTrackById_const(trackId)->getBlankStart(in - 1, playlist);
-            if (!skipSnaps && size - updatedSize > snapDistance) {
+            int currentSize = getItemPlaytime(itemId);
+            int updatedSize = currentSize;
+            if (getTrackById_const(trackId)->isBlankAt(currentIn - 1, playlist)) {
+                updatedSize = currentOut - getTrackById_const(trackId)->getBlankStart(currentIn - 1, playlist);
+            } else {
+                return currentSize;
+            }
+            if (!skipSnaps && requestedSize - updatedSize > snapDistance) {
                 skipSnaps = true;
             }
-            size = updatedSize;
-            sizeUpdated = true;
+            sizeUpdated = requestedSize != updatedSize;
+            requestedSize = updatedSize;
         }
     }
-    int proposed_size = size;
+    int proposed_size = requestedSize;
     if (!skipSnaps) {
         int timelinePos = pCore->getMonitorPosition();
         m_snaps->addPoint(timelinePos);
-        proposed_size = m_snaps->proposeSize(in, out, getBoundaries(itemId), size, right, snapDistance);
+        proposed_size = m_snaps->proposeSize(currentIn, currentOut, getBoundaries(itemId), requestedSize, right, snapDistance);
         m_snaps->removePoint(timelinePos);
     }
     if (proposed_size > 0 && (!skipSnaps || sizeUpdated)) {
@@ -3251,10 +3263,10 @@ int TimelineModel::requestItemResizeInfo(int itemId, int in, int out, int size, 
         // undo temp move
         temp_undo();
         if (success) {
-            size = proposed_size;
+            requestedSize = proposed_size;
         }
     }
-    return size;
+    return requestedSize;
 }
 
 bool TimelineModel::trackIsBlankAt(int tid, int pos, int playlist) const
@@ -3360,6 +3372,10 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     }
     qDebug() << "======= ADJUSTED NEW CLIP SIZE: " << size << " FROM " << offset;
     offset -= size;
+    if (offset == 0) {
+        // No resize to perform, abort
+        return size;
+    }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     Fun adjust_mix = []() { return true; };
