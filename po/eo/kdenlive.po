@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-03 00:37+0000\n"
-"PO-Revision-Date: 2024-02-24 21:13+0100\n"
+"PO-Revision-Date: 2024-03-04 23:34+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -3664,7 +3664,7 @@ msgstr "Enigi Antaŭdifinitan Nomon"
 #: src/dialogs/kdenlivesettingsdialog.cpp:1415
 #, kde-format
 msgid "Enter the name of this preset:"
-msgstr "Enigu la nomon de ĉi tiu antaŭdiro:"
+msgstr "Enigu la nomon de ĉi tiu antaŭmeto:"
 
 #: src/assets/view/widgets/buttonparamwidget.cpp:190
 #: src/project/dialogs/archivewidget.cpp:400
@@ -6184,23 +6184,21 @@ msgstr ""
 "%1 ?"
 
 #: src/dialogs/customcamcorderdialog.cpp:29
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Compare Proxy Profile"
+#, kde-format
 msgid "Edit Custom Camcorder Proxy Profiles"
-msgstr "Kompari Prokurilan Profilon"
+msgstr "Redakti Proprajn Prokuril-Profilojn de Kameraregistrilo"
 
 #: src/dialogs/customcamcorderdialog.cpp:36
 #: src/dialogs/customcamcorderdialog.cpp:198
 #, kde-format
 msgid "You can input several profiles in a preset, separated by a semicolon"
 msgstr ""
+"Vi povas enigi plurajn profilojn en antaŭmeto, apartigite per punktokomo"
 
 #: src/dialogs/customcamcorderdialog.cpp:132
-#, fuzzy, kde-format
-#| msgid "Preset already exists"
+#, kde-format
 msgid "Preset already exists, enter a new name:"
-msgstr "Antaŭdiro jam ekzistas"
+msgstr "Antaŭmeto jam ekzistas"
 
 #: src/dialogs/customcamcorderdialog.cpp:158
 #, kde-format
@@ -6208,6 +6206,8 @@ msgid ""
 "This will delete all custom camcorder profiles and reset values to the "
 "default settings"
 msgstr ""
+"Ci tio forigos ĉiujn proprajn kameraregistrilajn profilojn kaj restarigos "
+"valorojn al iliaj defaŭltaj metoj"
 
 #: src/dialogs/customcamcorderdialog.cpp:190
 #, kde-format
@@ -6215,6 +6215,8 @@ msgid ""
 "You are using multiple presets in one profile, ensure you have the same "
 "count of semicolon in each parameter. This profile will not be saved."
 msgstr ""
+"Vi uzas plurajn antaŭmetojn en unu profilo; certigu, ke vi havas la saman "
+"nombron de punktokomoj en ĉiu parametro. Ĉi tiu profilo ne estos konservita."
 
 #: src/dialogs/encodingprofilesdialog.cpp:51
 #, kde-format
@@ -7213,17 +7215,17 @@ msgstr "sentitola"
 #: src/dialogs/renderwidget.cpp:945
 #, kde-format
 msgid "No preset selected"
-msgstr "Neniu antaŭdiro elektita"
+msgstr "Neniu antaŭmeto elektita"
 
 #: src/dialogs/renderwidget.cpp:947
 #, kde-format
 msgid "No matching preset"
-msgstr "Neniu kongrua antaŭdiro"
+msgstr "Neniu kongrua antaŭmeto"
 
 #: src/dialogs/renderwidget.cpp:959
 #, kde-format
 msgid "Invalid preset"
-msgstr "Nevalida antaŭdiro"
+msgstr "Nevalida antaŭmeto"
 
 #: src/dialogs/renderwidget.cpp:1076
 #, kde-format
@@ -14731,10 +14733,9 @@ msgid "automated subtitling"
 msgstr "aŭtomatigita subtitolado"
 
 #: src/pythoninterfaces/speechtotext.cpp:29
-#, fuzzy, kde-format
-#| msgid "Edit subtitle style"
+#, kde-format
 msgid "adjust subtitles length"
-msgstr "Redakti subtitolan stilon"
+msgstr "ĝustigi longecon de subtitoloj"
 
 #: src/pythoninterfaces/speechtotext.cpp:30
 #, kde-format
@@ -14792,10 +14793,9 @@ msgid "Medium - English only"
 msgstr "Meznivela - nur la angla"
 
 #: src/pythoninterfaces/speechtotext.cpp:68
-#, fuzzy, kde-format
-#| msgid "Audodetect"
+#, kde-format
 msgid "Autodetect"
-msgstr "Aŭdodetekti"
+msgstr "Aŭtomate detekti"
 
 #: src/pythoninterfaces/speechtotext.cpp:69
 #, kde-format
@@ -15443,7 +15443,7 @@ msgid ""
 "This render preset uses a 'profile' parameter.<br />Unless you know what you "
 "are doing you will probably have to change it to 'mlt_profile'."
 msgstr ""
-"Ĉi tiu antaŭdiro de bildigo uzas parametron 'profile'.<br />Krom se vi "
+"Ĉi tiu antaŭmeto de bildigo uzas parametron 'profile'.<br />Krom se vi "
 "scias, kion vi faras, vi verŝajne devos ŝanĝi ĝin al 'mlt_profile'."
 
 #: src/renderpresets/renderpresetrepository.cpp:196
@@ -15466,7 +15466,7 @@ msgstr "Sekvenco de bildoj"
 #: src/renderpresets/renderpresetrepository.cpp:349
 #, kde-format
 msgid "Preset already exists"
-msgstr "Antaŭdiro jam ekzistas"
+msgstr "Antaŭmeto jam ekzistas"
 
 #: src/renderpresets/renderpresetrepository.cpp:350
 #, kde-format
@@ -19707,10 +19707,9 @@ msgstr "Sufikso de prokurilo:"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_add)
 #: src/ui/customcamcorderproxy_ui.ui:94
-#, fuzzy, kde-format
-#| msgid "Add as new Title"
+#, kde-format
 msgid "Add new profile"
-msgstr "Aldoni kiel novan Titolo"
+msgstr "Aldoni novan profilon"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_delete)
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_remove)
@@ -19721,16 +19720,15 @@ msgstr "Forigi profilon"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_reset)
 #: src/ui/customcamcorderproxy_ui.ui:135
-#, fuzzy, kde-format
-#| msgid "Delete profile"
+#, kde-format
 msgid "Reset all profiles"
-msgstr "Forigi profilon"
+msgstr "Forigi ĉiujn profilojn"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_more)
 #: src/ui/cutjobdialog_ui.ui:81
 #, kde-format
 msgid "Configure the job."
-msgstr "Agordi la laboron."
+msgstr "Agordi la labortaskon."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, EditRenderPreset_UI)
 #: src/ui/editrenderpreset_ui.ui:18
@@ -19994,7 +19992,7 @@ msgid ""
 "the settings for this preset in a text box."
 msgstr ""
 "Ebligi manan redaktadon estas por progresintaj uzantoj, vi nur povos redakti "
-"la agordojn por ĉi tiu antaŭdiro en tekstkesto."
+"la agordojn por ĉi tiu antaŭmeto en tekstkesto."
 
 #. i18n: ectx: property (text), widget (QPushButton, button_manual)
 #: src/ui/editrenderpreset_ui.ui:1088
@@ -21424,10 +21422,9 @@ msgstr "Lingvo"
 
 #. i18n: ectx: property (text), widget (QCheckBox, check_maxchars)
 #: src/ui/speechdialog_ui.ui:150
-#, fuzzy, kde-format
-#| msgid "Maximum Rate Change"
+#, kde-format
 msgid "Maximum characters per line"
-msgstr "Maksimuma Indice Ŝanĝo"
+msgstr "Maksimumaj signoj po linio"
 
 #. i18n: ectx: property (text), widget (QLabel, label_template)
 #. i18n: ectx: property (text), widget (QLabel, label)
