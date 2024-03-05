@@ -769,6 +769,10 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
                 return err == 0;
             };
         } else {
+            if (hasMix && other_blank_end < endPos && !hasEndMix(clipId)) {
+                // If clip has a start mix only, limit to next clip on other track
+                return []() { return false; };
+            }
         }
         blank = target_clip + 1;
     } else {

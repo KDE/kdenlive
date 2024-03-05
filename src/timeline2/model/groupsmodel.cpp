@@ -368,6 +368,30 @@ void GroupsModel::removeFromGroup(int id)
     m_upLink[id] = -1;
 }
 
+bool GroupsModel::removeFromGroup(int id, Fun &undo, Fun &redo)
+{
+    QWriteLocker locker(&m_lock);
+    int gid = getRootId(id);
+    if (m_groupIds.count(gid) > 0) {
+        Fun reverse = [this, id, gid]() {
+            setGroup(id, gid);
+            return true;
+        };
+        Fun operation = [this, id]() {
+            removeFromGroup(id);
+            return true;
+        };
+        bool res = operation();
+        if (!res) {
+            bool undone = reverse();
+            Q_ASSERT(undone);
+            return res;
+        }
+        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+    }
+    return true;
+}
+
 bool GroupsModel::mergeSingleGroups(int id, Fun &undo, Fun &redo)
 {
     // The idea is as follow: we start from the leaves, and go up to the root.

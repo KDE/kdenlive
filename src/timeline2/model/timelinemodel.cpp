@@ -938,10 +938,13 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
 
 bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
 {
-    std::unordered_set<int> initialSelection = getCurrentSelection();
-    if (idToMove == -1 && initialSelection.empty()) {
-        pCore->displayMessage(i18n("Select a clip to apply the mix"), ErrorMessage, 500);
-        return false;
+    std::unordered_set<int> initialSelection;
+    if (idToMove == -1) {
+        initialSelection = getCurrentSelection();
+        if (initialSelection.empty()) {
+            pCore->displayMessage(i18n("Select a clip to apply the mix"), ErrorMessage, 500);
+            return false;
+        }
     }
     struct mixStructure
     {
@@ -1030,35 +1033,46 @@ bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
         mixInfo.mixPosition = getItemPosition(s);
         int clipDuration = getItemPlaytime(s);
         // Check if clip already has a mix
-        if (delta > -1 && getTrackById_const(mixInfo.selectedTrack)->hasStartMix(s)) {
+        if (delta == 0 && (getTrackById_const(mixInfo.selectedTrack)->hasEndMix(s) ||
+                           getTrackById_const(mixInfo.selectedTrack)->getClipByPosition(mixInfo.mixPosition + clipDuration + 1) == -1)) {
+            // There already is a mix or no next clip, try adding a mix at clip start
+            delta = -1;
+        }
+        if (delta > -1) {
+            // we want to add a mix at clip end
             if (getTrackById_const(mixInfo.selectedTrack)->hasEndMix(s)) {
+                // Already mixed
                 continue;
             }
             mixInfo.clips.second = getTrackById_const(mixInfo.selectedTrack)->getClipByPosition(mixInfo.mixPosition + clipDuration + 1);
-            // Check if previous clip was selected, and not next clip. In that case we stop processing
-            int previousClip = getTrackById_const(mixInfo.selectedTrack)->getClipByPosition(mixInfo.mixPosition - 1);
-            if (std::find(clipIds.begin(), clipIds.end(), previousClip) != clipIds.end() &&
-                std::find(clipIds.begin(), clipIds.end(), mixInfo.clips.second) == clipIds.end()) {
+            if (getTrackById_const(mixInfo.selectedTrack)->hasStartMix(s)) {
+                // There is a mix at clip start
+                // Check if previous clip was selected, and not next clip. In that case we stop processing
+                int previousClip = getTrackById_const(mixInfo.selectedTrack)->getClipByPosition(mixInfo.mixPosition - 1);
+                if (std::find(clipIds.begin(), clipIds.end(), previousClip) != clipIds.end() &&
+                    std::find(clipIds.begin(), clipIds.end(), mixInfo.clips.second) == clipIds.end()) {
+                    continue;
+                }
+            }
+        } else if (delta < 1) {
+            // We want to add a clip at mix start
+            if (getTrackById_const(mixInfo.selectedTrack)->hasStartMix(s)) {
+                // Already mixed
                 continue;
             }
-        } else if (delta < 1 && getTrackById_const(mixInfo.selectedTrack)->hasEndMix(s)) {
             mixInfo.clips.first = getTrackById_const(mixInfo.selectedTrack)->getClipByPosition(mixInfo.mixPosition - 1);
-            // Check if next clip was selected, and not previous clip. In that case we stop processing
-            int nextClip = getTrackById_const(mixInfo.selectedTrack)->getClipByPosition(mixInfo.mixPosition + clipDuration + 1);
-            if (std::find(clipIds.begin(), clipIds.end(), nextClip) != clipIds.end() &&
-                std::find(clipIds.begin(), clipIds.end(), mixInfo.clips.first) == clipIds.end()) {
-                continue;
-            }
-            if (mixInfo.clips.first > -1 && getTrackById_const(mixInfo.selectedTrack)->hasEndMix(mixInfo.clips.first)) {
-                // Could happen if 2 clips before are mixed to full length
-                mixInfo.clips.first = -1;
-            }
-        } else {
-            if (delta < 1) {
-                mixInfo.clips.first = getTrackById_const(mixInfo.selectedTrack)->getClipByPosition(mixInfo.mixPosition - 1);
-            }
-            if (delta > -1) {
-                mixInfo.clips.second = getTrackById_const(mixInfo.selectedTrack)->getClipByPosition(mixInfo.mixPosition + clipDuration + 1);
+            if (getTrackById_const(mixInfo.selectedTrack)->hasEndMix(s)) {
+                // There is a mix at clip end
+                // Check if next clip was selected, and not previous clip. In that case we stop processing
+                int nextClip = getTrackById_const(mixInfo.selectedTrack)->getClipByPosition(mixInfo.mixPosition + clipDuration + 1);
+                if (std::find(clipIds.begin(), clipIds.end(), nextClip) != clipIds.end() &&
+                    std::find(clipIds.begin(), clipIds.end(), mixInfo.clips.first) == clipIds.end()) {
+                    continue;
+                }
+                if (mixInfo.clips.first > -1 && getTrackById_const(mixInfo.selectedTrack)->hasEndMix(mixInfo.clips.first)) {
+                    // Could happen if 2 clips before are mixed to full length
+                    mixInfo.clips.first = -1;
+                }
             }
         }
         if (mixInfo.clips.first > -1 && mixInfo.clips.second > -1) {
@@ -1236,7 +1250,12 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         TRACE_RES(true);
         return true;
     }
-    if (m_groups->isInGroup(clipId) && moveMirrorTracks) {
+
+    bool groupMove = m_groups->isInGroup(clipId) && moveMirrorTracks;
+    if (m_singleSelectionMode) {
+        groupMove = m_currentSelection.size() > 1;
+    }
+    if (groupMove) {
         // element is in a group.
         int groupId = m_groups->getRootId(clipId);
         int current_trackId = getClipTrackId(clipId);
@@ -1432,7 +1451,7 @@ QVariantList TimelineModel::suggestClipMove(int clipId, int trackId, int positio
         std::vector<int> ignored_pts;
         // For snapping, we must ignore all in/outs of the clips of the group being moved
         std::unordered_set<int> all_items = {clipId};
-        if (m_groups->isInGroup(clipId)) {
+        if (m_groups->isInGroup(clipId) && !m_singleSelectionMode) {
             int groupId = m_groups->getRootId(clipId);
             all_items = m_groups->getLeaves(groupId);
         }
@@ -1515,7 +1534,7 @@ QVariantList TimelineModel::suggestClipMove(int clipId, int trackId, int positio
         return {currentPos, -1};
     }
     // Find best possible move
-    if (!isInGroup) {
+    if (!isInGroup || m_singleSelectionMode) {
         // Try same track move
         if (trackId != sourceTrackId && sourceTrackId != -1) {
             trackId = sourceTrackId;
@@ -2406,7 +2425,36 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     TRACE(itemId, groupId, delta_track, delta_pos, updateView, logUndo);
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    bool res = requestGroupMove(itemId, groupId, delta_track, delta_pos, updateView, logUndo, undo, redo, revertMove, moveMirrorTracks);
+    bool res = false;
+    auto groupSize = m_groups->getLeaves(groupId).size();
+    if (m_singleSelectionMode && m_currentSelection.size() < groupSize) {
+        // Moving multiple items apart from the group
+        int itemsGroup = m_groups->getRootId(*m_currentSelection.begin());
+        bool isInInitialGroup = itemsGroup == groupId;
+        if (isInInitialGroup) {
+            for (int id : m_currentSelection) {
+                // Ungroup item before move "<<m_currentSelection.size();
+                m_groups->removeFromGroup(id, undo, redo);
+            }
+            // Group concerned items in a new group
+            itemsGroup = m_groups->groupItems(m_currentSelection, undo, redo);
+        }
+
+        res = requestGroupMove(itemId, itemsGroup, delta_track, delta_pos, updateView, logUndo, undo, redo, revertMove, moveMirrorTracks);
+        if (isInInitialGroup) {
+            // Put back in initial group
+            Fun regroup = [this, selection = m_currentSelection, gid = groupId]() {
+                for (auto &id : selection) {
+                    m_groups->setGroup(id, gid);
+                }
+                return true;
+            };
+            regroup();
+            PUSH_LAMBDA(regroup, redo);
+        }
+    } else {
+        res = requestGroupMove(itemId, groupId, delta_track, delta_pos, updateView, logUndo, undo, redo, revertMove, moveMirrorTracks);
+    }
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Move group"));
     }
@@ -2789,7 +2837,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             int current_track_id = old_track_ids[item.first];
             int current_track_position = getTrackPosition(current_track_id);
             int d = getTrackById(current_track_id)->isAudioTrack() ? audio_delta : video_delta;
-            if (!moveMirrorTracks && item.first != itemId) {
+            if (!moveMirrorTracks && item.first != itemId && !m_singleSelectionMode) {
                 d = 0;
             }
             int target_track_position = current_track_position + d;
@@ -3180,7 +3228,7 @@ int TimelineModel::requestClipResizeAndTimeWarp(int itemId, int size, bool right
     return res;
 }
 
-int TimelineModel::requestItemResizeInfo(int itemId, int in, int out, int size, bool right, int snapDistance)
+int TimelineModel::requestItemResizeInfo(int itemId, int currentIn, int currentOut, int requestedSize, bool right, int snapDistance)
 {
     int trackId = getItemTrackId(itemId);
     bool checkMix = trackId != -1;
@@ -3188,40 +3236,52 @@ int TimelineModel::requestItemResizeInfo(int itemId, int in, int out, int size, 
     Fun temp_redo = []() { return true; };
     bool skipSnaps = snapDistance <= 0;
     bool sizeUpdated = false;
-    if (checkMix && right && size > out - in && isClip(itemId)) {
+    if (checkMix && right && (requestedSize > currentOut - currentIn) && isClip(itemId)) {
         int playlist = -1;
         if (getTrackById_const(trackId)->hasEndMix(itemId)) {
             playlist = m_allClips[itemId]->getSubPlaylistIndex();
         }
-        int targetPos = in + size - 1;
+        int targetPos = currentIn + requestedSize - 1;
         if (!getTrackById_const(trackId)->isBlankAt(targetPos, playlist)) {
-            int updatedSize = getTrackById_const(trackId)->getBlankEnd(out, playlist) - in + 1;
-            if (!skipSnaps && size - updatedSize > snapDistance) {
+            int currentSize = getItemPlaytime(itemId);
+            int updatedSize = currentSize;
+            if (getTrackById_const(trackId)->isBlankAt(currentOut, playlist)) {
+                updatedSize = getTrackById_const(trackId)->getBlankEnd(currentOut, playlist) - currentIn + 1;
+            } else {
+                return currentSize;
+            }
+            if (!skipSnaps && requestedSize - updatedSize > snapDistance) {
                 skipSnaps = true;
             }
-            size = updatedSize;
-            sizeUpdated = true;
+            sizeUpdated = requestedSize != updatedSize;
+            requestedSize = updatedSize;
         }
-    } else if (checkMix && !right && size > (out - in) && isClip(itemId)) {
-        int targetPos = out - size;
+    } else if (checkMix && !right && (requestedSize > currentOut - currentIn) && isClip(itemId)) {
+        int targetPos = currentOut - requestedSize;
         int playlist = -1;
         if (getTrackById_const(trackId)->hasStartMix(itemId)) {
             playlist = m_allClips[itemId]->getSubPlaylistIndex();
         }
         if (!getTrackById_const(trackId)->isBlankAt(targetPos, playlist)) {
-            int updatedSize = out - getTrackById_const(trackId)->getBlankStart(in - 1, playlist);
-            if (!skipSnaps && size - updatedSize > snapDistance) {
+            int currentSize = getItemPlaytime(itemId);
+            int updatedSize = currentSize;
+            if (getTrackById_const(trackId)->isBlankAt(currentIn - 1, playlist)) {
+                updatedSize = currentOut - getTrackById_const(trackId)->getBlankStart(currentIn - 1, playlist);
+            } else {
+                return currentSize;
+            }
+            if (!skipSnaps && requestedSize - updatedSize > snapDistance) {
                 skipSnaps = true;
             }
-            size = updatedSize;
-            sizeUpdated = true;
+            sizeUpdated = requestedSize != updatedSize;
+            requestedSize = updatedSize;
         }
     }
-    int proposed_size = size;
+    int proposed_size = requestedSize;
     if (!skipSnaps) {
         int timelinePos = pCore->getMonitorPosition();
         m_snaps->addPoint(timelinePos);
-        proposed_size = m_snaps->proposeSize(in, out, getBoundaries(itemId), size, right, snapDistance);
+        proposed_size = m_snaps->proposeSize(currentIn, currentOut, getBoundaries(itemId), requestedSize, right, snapDistance);
         m_snaps->removePoint(timelinePos);
     }
     if (proposed_size > 0 && (!skipSnaps || sizeUpdated)) {
@@ -3239,10 +3299,10 @@ int TimelineModel::requestItemResizeInfo(int itemId, int in, int out, int size, 
         // undo temp move
         temp_undo();
         if (success) {
-            size = proposed_size;
+            requestedSize = proposed_size;
         }
     }
-    return size;
+    return requestedSize;
 }
 
 bool TimelineModel::trackIsBlankAt(int tid, int pos, int playlist) const
@@ -3348,6 +3408,10 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     }
     qDebug() << "======= ADJUSTED NEW CLIP SIZE: " << size << " FROM " << offset;
     offset -= size;
+    if (offset == 0) {
+        // No resize to perform, abort
+        return size;
+    }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     Fun adjust_mix = []() { return true; };
@@ -4285,6 +4349,7 @@ bool TimelineModel::requestClipUngroup(int itemId, Fun &undo, Fun &redo)
 bool TimelineModel::requestRemoveFromGroup(int itemId, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
+    Q_ASSERT(m_groups->isInGroup(itemId));
     GroupType type = m_groups->getType(m_groups->getRootId(itemId));
     bool isSelection = type == GroupType::Selection;
     if (!isSelection) {
@@ -5261,7 +5326,7 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int positio
     if (m_allCompositions[compoId]->getPosition() == position && getCompositionTrackId(compoId) == trackId) {
         return true;
     }
-    if (m_groups->isInGroup(compoId)) {
+    if (m_groups->isInGroup(compoId) && (!m_singleSelectionMode || m_currentSelection.size() > 1)) {
         // element is in a group.
         int groupId = m_groups->getRootId(compoId);
         int current_trackId = getCompositionTrackId(compoId);

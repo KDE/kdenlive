@@ -164,9 +164,35 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
 
     SECTION("Create and delete mix on color clips")
     {
+        // Cid3 at 500, length 20
+        // Cid4 at 520, length 20
         state0();
         REQUIRE(timeline->mixClip(cid4));
         state2();
+        undoStack->undo();
+        state0();
+        undoStack->redo();
+        state2();
+        undoStack->undo();
+        state0();
+    }
+
+    SECTION("Add mix and resize last clip in playlist")
+    {
+        // Cid3 at 500, length 20
+        // Cid4 at 520, length 20
+        state0();
+        REQUIRE(timeline->mixClip(cid4));
+        state2();
+        // Resize clip 4
+        REQUIRE(timeline->requestItemResize(cid4, 60, true, true));
+        REQUIRE(timeline->getClipPlaytime(cid4) == 60);
+        undoStack->undo();
+        REQUIRE(timeline->getClipPlaytime(cid4) == 33);
+        undoStack->redo();
+        REQUIRE(timeline->getClipPlaytime(cid4) == 60);
+        undoStack->undo();
+
         undoStack->undo();
         state0();
         undoStack->redo();
@@ -359,7 +385,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         undoStack->undo();
         state1();
         // Resize left clip, should resize the mix
-        REQUIRE(timeline->requestItemResize(cid1, 20, true, true) == 20);
+        REQUIRE(timeline->requestItemResize(cid1, 18, true, true) == 18);
         REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 1);
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
         undoStack->undo();
@@ -425,7 +451,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         state0();
     }
 
-    SECTION("Create mix on color clip and resize")
+    SECTION("Create mix on color clip and test resize")
     {
         state0();
         // CID 3 length=20, pos=500, CID4 length=20, pos=520
@@ -657,6 +683,135 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         undoStack->undo();
         undoStack->undo();
 
+        state0();
+    }
+
+    SECTION("Test chained mixes and clip resize")
+    {
+        // Add 3 more color clips
+        cid5 = -1;
+        int cid6;
+        int cid7;
+        state0();
+        REQUIRE(timeline->requestClipInsertion(binId2, tid2, 540, cid5));
+        REQUIRE(timeline->requestItemResize(cid5, 20, true, true));
+        REQUIRE(timeline->requestClipInsertion(binId2, tid2, 560, cid6));
+        REQUIRE(timeline->requestItemResize(cid6, 40, true, true));
+        REQUIRE(timeline->requestClipInsertion(binId2, tid2, 600, cid7));
+        REQUIRE(timeline->requestItemResize(cid7, 20, true, true));
+
+        // Cid3 pos=500, duration=20
+        // Cid4 pos=520, duration=20
+        // Cid5 pos=540, duration=20
+        // Cid6 pos=560, duration=40
+        // Cid7 pos=600, duration=20
+
+        auto mix0 = [&]() {
+            REQUIRE(timeline->getClipsCount() == 9);
+            REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
+            REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
+            REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 1);
+            REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 0);
+            REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 0);
+            REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        };
+
+        auto mix1 = [&]() {
+            REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
+            REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
+            REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 1);
+            REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 0);
+            REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 1);
+            REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 2);
+        };
+
+        // Mix 4 and 5
+        REQUIRE(timeline->mixClip(cid4));
+        mix0();
+
+        // Mix 6 and 7
+        REQUIRE(timeline->mixClip(cid6));
+        mix1();
+
+        // Test resize, should fail
+        int clipSize = timeline->getClipPlaytime(cid5);
+        REQUIRE(timeline->requestItemResize(cid5, 38, true, true) == clipSize);
+
+        clipSize = timeline->getClipPlaytime(cid6);
+        REQUIRE(timeline->requestItemResize(cid6, 60, false, true) == clipSize);
+
+        // Undo second mix
+        undoStack->undo();
+        // Undo first mix
+        undoStack->undo();
+
+        // Undo insert/resize ops
+        undoStack->undo();
+        undoStack->undo();
+        undoStack->undo();
+        undoStack->undo();
+        undoStack->undo();
+        undoStack->undo();
+        state0();
+    }
+
+    SECTION("Test grouped mixes and clip resize")
+    {
+        // Add 3 more color clips
+        cid5 = -1;
+        int cid6;
+        int cid7;
+        state0();
+        REQUIRE(timeline->requestClipInsertion(binId2, tid2, 540, cid5));
+        REQUIRE(timeline->requestItemResize(cid5, 20, true, true));
+        REQUIRE(timeline->requestClipInsertion(binId2, tid2, 560, cid6));
+        REQUIRE(timeline->requestItemResize(cid6, 40, true, true));
+        REQUIRE(timeline->requestClipInsertion(binId2, tid4, 520, cid7));
+        REQUIRE(timeline->requestItemResize(cid7, 20, true, true));
+
+        // Cid3 pos=500, duration=20
+        // Cid4 pos=520, duration=20
+        // Cid5 pos=540, duration=20
+        // Cid6 pos=560, duration=40
+        // Cid7 pos=520, duration=20 on tid4
+
+        auto mix1 = [&]() {
+            REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
+            REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+            REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
+            REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 1);
+            REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 0);
+            REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 2);
+        };
+
+        // Mix cid3 & cid4
+        REQUIRE(timeline->mixClip(cid3));
+        REQUIRE(timeline->getClipPlaytime(cid4) == 33);
+        // Group cid4 and cid7
+        auto g1 = std::unordered_set<int>({cid4, cid7});
+        REQUIRE(timeline->requestClipsGroup(g1));
+        // Try to resize the grouped cid7, should not be allowed
+        REQUIRE(timeline->requestItemResize(cid7, 23, true, true) == -1);
+        // Mix cid5 & cid6
+        REQUIRE(timeline->mixClip(cid6));
+        mix1();
+        // Try to resize the grouped cid7, should not be allowed
+        REQUIRE(timeline->requestItemResize(cid7, 23, true, true) == -1);
+
+        // Undo second mix
+        undoStack->undo();
+        // Undo group
+        undoStack->undo();
+        // Undo first mix
+        undoStack->undo();
+
+        // Undo insert/resize ops
+        undoStack->undo();
+        undoStack->undo();
+        undoStack->undo();
+        undoStack->undo();
+        undoStack->undo();
+        undoStack->undo();
         state0();
     }
 
