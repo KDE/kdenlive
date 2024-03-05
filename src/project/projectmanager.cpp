@@ -1119,7 +1119,7 @@ void ProjectManager::slotStartAutoSave()
 
 void ProjectManager::slotAutoSave()
 {
-    if (m_project->loading) {
+    if (m_project->loading || m_project->closing) {
         // Dont start autosave if the project is still loading
         return;
     }
