@@ -2105,16 +2105,15 @@ bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
 
     bool res = true;
     if (m_singleSelectionMode) {
-        auto selection = getCurrentSelection();
         // Ungroup all items first
+        auto selection = m_currentSelection;
         for (int id : selection) {
             // Ungroup item before deletion
-            requestRemoveFromGroup(id, undo, redo);
+            m_groups->removeFromGroup(id, undo, redo);
         }
         // loop deletion
         for (int id : selection) {
             res = res && requestItemDeletion(id, undo, redo, logUndo);
-            ;
         }
     } else {
         res = requestItemDeletion(itemId, undo, redo, logUndo);
