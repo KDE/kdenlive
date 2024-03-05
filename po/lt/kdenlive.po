@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l 10n\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-03 02:32+0000\n"
+"POT-Creation-Date: 2024-03-05 02:19+0000\n"
 "PO-Revision-Date: 2019-07-12 21:09+0300\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -4901,7 +4901,7 @@ msgid "Create bin folder"
 msgstr "Sukurti aplanką"
 
 #: src/bin/bin.cpp:2697 src/bin/bin.cpp:2710 src/bin/bin.cpp:3675
-#: src/timeline2/model/timelinemodel.cpp:2077
+#: src/timeline2/model/timelinemodel.cpp:2091
 #, kde-format
 msgid "Delete Clip"
 msgstr ""
@@ -5687,14 +5687,14 @@ msgid "Cut clip"
 msgstr ""
 
 #: src/bin/model/subtitlemodel.cpp:809 src/bin/model/subtitlemodel.cpp:1553
-#: src/timeline2/model/timelinemodel.cpp:3622
+#: src/timeline2/model/timelinemodel.cpp:3636
 #, fuzzy, kde-format
 #| msgid "Delete guide"
 msgid "Resize subtitle"
 msgstr "Gairės pašalinimas"
 
 #: src/bin/model/subtitlemodel.cpp:1005
-#: src/timeline2/model/timelinemodel.cpp:1289
+#: src/timeline2/model/timelinemodel.cpp:1303
 #, fuzzy, kde-format
 #| msgid "Move guide"
 msgid "Move subtitle"
@@ -8937,7 +8937,7 @@ msgid "Paste effect"
 msgstr "efektas"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:505
-#: src/timeline2/model/timelinemodel.cpp:4760
+#: src/timeline2/model/timelinemodel.cpp:4774
 #, fuzzy, kde-format
 #| msgid "Add new video file"
 msgid "Add effect %1"
@@ -11504,7 +11504,7 @@ msgstr "Importuoti"
 msgid "Export Subtitle File…"
 msgstr "Pridėti gairę"
 
-#: src/mainwindow.cpp:1891 src/timeline2/model/timelinemodel.cpp:2081
+#: src/mainwindow.cpp:1891 src/timeline2/model/timelinemodel.cpp:2095
 #, fuzzy, kde-format
 #| msgid "Delete guide"
 msgid "Delete Subtitle"
@@ -16655,7 +16655,7 @@ msgid "Delete clips on track"
 msgstr "Trinti failus"
 
 #: src/timeline2/model/timelineitemmodel.cpp:135
-#: src/timeline2/model/timelinemodel.cpp:4315
+#: src/timeline2/model/timelinemodel.cpp:4329
 #, fuzzy, kde-format
 #| msgid "Insert mode"
 msgctxt "@action"
@@ -16707,155 +16707,155 @@ msgstr ""
 msgid "Replace clip"
 msgstr "Keisti dydį"
 
-#: src/timeline2/model/timelinemodel.cpp:941
-#: src/timeline2/model/timelinemodel.cpp:1146
+#: src/timeline2/model/timelinemodel.cpp:943
+#: src/timeline2/model/timelinemodel.cpp:1160
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select a clip to apply the mix"
 msgstr "Žymėjimo įrankis"
 
-#: src/timeline2/model/timelinemodel.cpp:1144
+#: src/timeline2/model/timelinemodel.cpp:1158
 #, fuzzy, kde-format
 #| msgid "Start"
 msgid "start"
 msgstr "Pradėti"
 
-#: src/timeline2/model/timelinemodel.cpp:1144
+#: src/timeline2/model/timelinemodel.cpp:1158
 #, fuzzy, kde-format
 #| msgid "End"
 msgid "end"
 msgstr "Pabaiga"
 
-#: src/timeline2/model/timelinemodel.cpp:1144
+#: src/timeline2/model/timelinemodel.cpp:1158
 #, kde-format
 msgid "Not enough frames at clip %1 to apply the mix"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1150
+#: src/timeline2/model/timelinemodel.cpp:1164
 #, fuzzy, kde-format
 #| msgid "Create Group"
 msgid "Create mix"
 msgstr "Sukurti grupę"
 
-#: src/timeline2/model/timelinemodel.cpp:1221
-#: src/timeline2/model/timelinemodel.cpp:1251
+#: src/timeline2/model/timelinemodel.cpp:1235
+#: src/timeline2/model/timelinemodel.cpp:1265
 #, kde-format
 msgid "Move clip"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1755
-#: src/timeline2/model/timelinemodel.cpp:1845
-#: src/timeline2/model/timelinemodel.cpp:1868
-#: src/timeline2/model/timelinemodel.cpp:1891
+#: src/timeline2/model/timelinemodel.cpp:1769
+#: src/timeline2/model/timelinemodel.cpp:1859
+#: src/timeline2/model/timelinemodel.cpp:1882
+#: src/timeline2/model/timelinemodel.cpp:1905
 #, kde-format
 msgid "No available track for insert operation"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1760
+#: src/timeline2/model/timelinemodel.cpp:1774
 #, fuzzy, kde-format
 #| msgid "Text clip"
 msgid "Insert Clip"
 msgstr "Tekstas iškarpa"
 
-#: src/timeline2/model/timelinemodel.cpp:1813
+#: src/timeline2/model/timelinemodel.cpp:1827
 #, kde-format
 msgid "You cannot insert a sequence containing itself"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1861
-#: src/timeline2/model/timelinemodel.cpp:1883
+#: src/timeline2/model/timelinemodel.cpp:1875
+#: src/timeline2/model/timelinemodel.cpp:1897
 #, kde-format
 msgid "Not enough audio tracks for all streams (%1)"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1967
+#: src/timeline2/model/timelinemodel.cpp:1981
 #, kde-format
 msgid "No available track for split operation"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:2004
+#: src/timeline2/model/timelinemodel.cpp:2018
 #, kde-format
 msgid "Audio split failed: no viable track"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:2012
+#: src/timeline2/model/timelinemodel.cpp:2026
 #, kde-format
 msgid "Audio split failed: impossible to create audio clip"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:2074
+#: src/timeline2/model/timelinemodel.cpp:2088
 #, fuzzy, kde-format
 #| msgid "Rename folder"
 msgid "Remove group"
 msgstr "Pervadinti aplanką"
 
-#: src/timeline2/model/timelinemodel.cpp:2079
+#: src/timeline2/model/timelinemodel.cpp:2093
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Delete Composition"
 msgstr "Mišinys"
 
-#: src/timeline2/model/timelinemodel.cpp:2247
-#: src/timeline2/model/timelinemodel.cpp:2409
+#: src/timeline2/model/timelinemodel.cpp:2261
+#: src/timeline2/model/timelinemodel.cpp:2423
 #: src/timeline2/view/timelinecontroller.cpp:4229
 #, kde-format
 msgid "Move group"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:3050
+#: src/timeline2/model/timelinemodel.cpp:3064
 #, fuzzy, kde-format
 #| msgid "Rename folder"
 msgid "Resize group"
 msgstr "Pervadinti aplanką"
 
-#: src/timeline2/model/timelinemodel.cpp:3174
+#: src/timeline2/model/timelinemodel.cpp:3188
 #, fuzzy, kde-format
 #| msgid "Target"
 msgid "Resize clip speed"
 msgstr "Tikslas"
 
-#: src/timeline2/model/timelinemodel.cpp:3321
+#: src/timeline2/model/timelinemodel.cpp:3335
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Remove mix"
 msgstr "Pašalinti failą"
 
-#: src/timeline2/model/timelinemodel.cpp:3323
+#: src/timeline2/model/timelinemodel.cpp:3337
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Removing mix failed"
 msgstr "Pašalinti failą"
 
-#: src/timeline2/model/timelinemodel.cpp:3618
+#: src/timeline2/model/timelinemodel.cpp:3632
 #, kde-format
 msgid "Resize clip"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:3620
+#: src/timeline2/model/timelinemodel.cpp:3634
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Resize composition"
 msgstr "Mišinys"
 
-#: src/timeline2/model/timelinemodel.cpp:3942
+#: src/timeline2/model/timelinemodel.cpp:3956
 #, fuzzy, kde-format
 #| msgid "Target"
 msgid "Ripple resize clip"
 msgstr "Tikslas"
 
-#: src/timeline2/model/timelinemodel.cpp:3944
+#: src/timeline2/model/timelinemodel.cpp:3958
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Ripple resize composition"
 msgstr "Mišinys"
 
-#: src/timeline2/model/timelinemodel.cpp:3946
+#: src/timeline2/model/timelinemodel.cpp:3960
 #, fuzzy, kde-format
 #| msgid "Delete guide"
 msgid "Ripple resize subtitle"
 msgstr "Gairės pašalinimas"
 
-#: src/timeline2/model/timelinemodel.cpp:4089
+#: src/timeline2/model/timelinemodel.cpp:4103
 #, fuzzy, kde-format
 #| msgid "File extension:"
 msgctxt "Undo/Redo menu text"
@@ -16866,100 +16866,100 @@ msgstr[1] "Failo plėtinys:"
 msgstr[2] "Failo plėtinys:"
 msgstr[3] "Failo plėtinys:"
 
-#: src/timeline2/model/timelinemodel.cpp:4124
+#: src/timeline2/model/timelinemodel.cpp:4138
 #, fuzzy, kde-format
 #| msgid "File extension:"
 msgid "Slip clip"
 msgstr "Failo plėtinys:"
 
-#: src/timeline2/model/timelinemodel.cpp:4159
+#: src/timeline2/model/timelinemodel.cpp:4173
 #, kde-format
 msgid "Group clips"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4244
-#: src/timeline2/model/timelinemodel.cpp:4260
+#: src/timeline2/model/timelinemodel.cpp:4258
+#: src/timeline2/model/timelinemodel.cpp:4274
 #, kde-format
 msgid "Ungroup clips"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4424
+#: src/timeline2/model/timelinemodel.cpp:4438
 #: src/timeline2/view/timelinecontroller.cpp:944
 #, kde-format
 msgid "Delete Track"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4434
+#: src/timeline2/model/timelinemodel.cpp:4448
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4685
+#: src/timeline2/model/timelinemodel.cpp:4699
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot add effect %1 to master track"
 msgstr "Nepavysta rašyti į failą %1"
 
-#: src/timeline2/model/timelinemodel.cpp:4692
+#: src/timeline2/model/timelinemodel.cpp:4706
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot add effect %1 to selected track"
 msgstr "Nepavysta rašyti į failą %1"
 
-#: src/timeline2/model/timelinemodel.cpp:4713
+#: src/timeline2/model/timelinemodel.cpp:4727
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot paste effect to master track"
 msgstr "Nepavysta rašyti į failą %1"
 
-#: src/timeline2/model/timelinemodel.cpp:4719
+#: src/timeline2/model/timelinemodel.cpp:4733
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot paste effect to selected track"
 msgstr "Nepavysta rašyti į failą %1"
 
-#: src/timeline2/model/timelinemodel.cpp:4763
+#: src/timeline2/model/timelinemodel.cpp:4777
 #: src/timeline2/view/timelinecontroller.cpp:1522
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot add effect %1 to selected clip"
 msgstr "Nepavysta rašyti į failą %1"
 
-#: src/timeline2/model/timelinemodel.cpp:4787
+#: src/timeline2/model/timelinemodel.cpp:4801
 #, kde-format
 msgid "Adjust Fade"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:5099
+#: src/timeline2/model/timelinemodel.cpp:5113
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Insert Composition"
 msgstr "Mišinys"
 
-#: src/timeline2/model/timelinemodel.cpp:5287
+#: src/timeline2/model/timelinemodel.cpp:5301
 #, fuzzy, kde-format
 #| msgid "Show/Hide options"
 msgid "Move composition"
 msgstr "Rodyti/slėpti pasirinktis"
 
-#: src/timeline2/model/timelinemodel.cpp:5941
+#: src/timeline2/model/timelinemodel.cpp:5955
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Enable time remap"
 msgstr "Be efektų"
 
-#: src/timeline2/model/timelinemodel.cpp:6015
+#: src/timeline2/model/timelinemodel.cpp:6029
 #, kde-format
 msgid "Change speed failed"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:6025
+#: src/timeline2/model/timelinemodel.cpp:6039
 #, fuzzy, kde-format
 #| msgid "Target"
 msgid "Change clip speed"
 msgstr "Tikslas"
 
-#: src/timeline2/model/timelinemodel.cpp:6454
+#: src/timeline2/model/timelinemodel.cpp:6468
 #: src/timeline2/view/qml/timeline.qml:1206
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, fuzzy, kde-format
@@ -16967,7 +16967,7 @@ msgstr "Tikslas"
 msgid "Lock track"
 msgstr "Takelis"
 
-#: src/timeline2/model/timelinemodel.cpp:6459
+#: src/timeline2/model/timelinemodel.cpp:6473
 #: src/timeline2/view/qml/timeline.qml:1206
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, fuzzy, kde-format
@@ -16975,43 +16975,43 @@ msgstr "Takelis"
 msgid "Unlock track"
 msgstr "Takelis"
 
-#: src/timeline2/model/timelinemodel.cpp:6493
-#: src/timeline2/model/timelinemodel.cpp:6555
+#: src/timeline2/model/timelinemodel.cpp:6507
+#: src/timeline2/model/timelinemodel.cpp:6569
 #, fuzzy, kde-format
 #| msgid "Center correction"
 msgid "Change composition"
 msgstr "Centro korekcija"
 
-#: src/timeline2/model/timelinemodel.cpp:6507
+#: src/timeline2/model/timelinemodel.cpp:6521
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:6702
-#: src/timeline2/model/timelinemodel.cpp:6739
-#: src/timeline2/model/timelinemodel.cpp:6772
-#: src/timeline2/model/timelinemodel.cpp:6853
+#: src/timeline2/model/timelinemodel.cpp:6716
+#: src/timeline2/model/timelinemodel.cpp:6753
+#: src/timeline2/model/timelinemodel.cpp:6786
+#: src/timeline2/model/timelinemodel.cpp:6867
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Nepavysta rašyti į failą %1"
 
-#: src/timeline2/model/timelinemodel.cpp:6713
-#: src/timeline2/model/timelinemodel.cpp:6747
-#: src/timeline2/model/timelinemodel.cpp:6791
-#: src/timeline2/model/timelinemodel.cpp:6877
+#: src/timeline2/model/timelinemodel.cpp:6727
+#: src/timeline2/model/timelinemodel.cpp:6761
+#: src/timeline2/model/timelinemodel.cpp:6805
+#: src/timeline2/model/timelinemodel.cpp:6891
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Cannot resize mix"
 msgstr "Negaliu sukurti laikinos bylos!"
 
-#: src/timeline2/model/timelinemodel.cpp:6891
+#: src/timeline2/model/timelinemodel.cpp:6905
 #, fuzzy, kde-format
 #| msgid "Resize"
 msgid "Resize mix"
 msgstr "Keisti dydį"
 
-#: src/timeline2/model/timelinemodel.cpp:7030
+#: src/timeline2/model/timelinemodel.cpp:7044
 #, fuzzy, kde-format
 #| msgid "Image preview"
 msgid "Error initializing timeline preview"
