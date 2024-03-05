@@ -1248,7 +1248,12 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         TRACE_RES(true);
         return true;
     }
-    if (m_groups->isInGroup(clipId) && moveMirrorTracks) {
+
+    bool groupMove = m_groups->isInGroup(clipId) && moveMirrorTracks;
+    if (m_singleSelectionMode) {
+        groupMove = m_currentSelection.size() > 1;
+    }
+    if (groupMove) {
         // element is in a group.
         int groupId = m_groups->getRootId(clipId);
         int current_trackId = getClipTrackId(clipId);
@@ -1444,7 +1449,7 @@ QVariantList TimelineModel::suggestClipMove(int clipId, int trackId, int positio
         std::vector<int> ignored_pts;
         // For snapping, we must ignore all in/outs of the clips of the group being moved
         std::unordered_set<int> all_items = {clipId};
-        if (m_groups->isInGroup(clipId)) {
+        if (m_groups->isInGroup(clipId) && !m_singleSelectionMode) {
             int groupId = m_groups->getRootId(clipId);
             all_items = m_groups->getLeaves(groupId);
         }
@@ -1527,7 +1532,7 @@ QVariantList TimelineModel::suggestClipMove(int clipId, int trackId, int positio
         return {currentPos, -1};
     }
     // Find best possible move
-    if (!isInGroup) {
+    if (!isInGroup || m_singleSelectionMode) {
         // Try same track move
         if (trackId != sourceTrackId && sourceTrackId != -1) {
             trackId = sourceTrackId;
@@ -2418,7 +2423,36 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     TRACE(itemId, groupId, delta_track, delta_pos, updateView, logUndo);
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    bool res = requestGroupMove(itemId, groupId, delta_track, delta_pos, updateView, logUndo, undo, redo, revertMove, moveMirrorTracks);
+    bool res = false;
+    auto groupSize = m_groups->getLeaves(groupId).size();
+    if (m_singleSelectionMode && m_currentSelection.size() < groupSize) {
+        // Moving multiple items apart from the group
+        int itemsGroup = m_groups->getRootId(*m_currentSelection.begin());
+        bool isInInitialGroup = itemsGroup == groupId;
+        if (isInInitialGroup) {
+            for (int id : m_currentSelection) {
+                // Ungroup item before move "<<m_currentSelection.size();
+                m_groups->removeFromGroup(id, undo, redo);
+            }
+            // Group concerned items in a new group
+            itemsGroup = m_groups->groupItems(m_currentSelection, undo, redo);
+        }
+
+        res = requestGroupMove(itemId, itemsGroup, delta_track, delta_pos, updateView, logUndo, undo, redo, revertMove, moveMirrorTracks);
+        if (isInInitialGroup) {
+            // Put back in initial group
+            Fun regroup = [this, selection = m_currentSelection, gid = groupId]() {
+                for (auto &id : selection) {
+                    m_groups->setGroup(id, gid);
+                }
+                return true;
+            };
+            regroup();
+            PUSH_LAMBDA(regroup, redo);
+        }
+    } else {
+        res = requestGroupMove(itemId, groupId, delta_track, delta_pos, updateView, logUndo, undo, redo, revertMove, moveMirrorTracks);
+    }
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Move group"));
     }
@@ -2801,7 +2835,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             int current_track_id = old_track_ids[item.first];
             int current_track_position = getTrackPosition(current_track_id);
             int d = getTrackById(current_track_id)->isAudioTrack() ? audio_delta : video_delta;
-            if (!moveMirrorTracks && item.first != itemId) {
+            if (!moveMirrorTracks && item.first != itemId && !m_singleSelectionMode) {
                 d = 0;
             }
             int target_track_position = current_track_position + d;
@@ -4313,6 +4347,7 @@ bool TimelineModel::requestClipUngroup(int itemId, Fun &undo, Fun &redo)
 bool TimelineModel::requestRemoveFromGroup(int itemId, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
+    Q_ASSERT(m_groups->isInGroup(itemId));
     GroupType type = m_groups->getType(m_groups->getRootId(itemId));
     bool isSelection = type == GroupType::Selection;
     if (!isSelection) {
@@ -5289,7 +5324,7 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int positio
     if (m_allCompositions[compoId]->getPosition() == position && getCompositionTrackId(compoId) == trackId) {
         return true;
     }
-    if (m_groups->isInGroup(compoId)) {
+    if (m_groups->isInGroup(compoId) && (!m_singleSelectionMode || m_currentSelection.size() > 1)) {
         // element is in a group.
         int groupId = m_groups->getRootId(compoId);
         int current_trackId = getCompositionTrackId(compoId);

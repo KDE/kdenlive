@@ -159,6 +159,7 @@ public:
        @param id of the groupItem
     */
     void removeFromGroup(int id);
+    bool removeFromGroup(int id, Fun &undo, Fun &redo);
 
     /** @brief change the group of a given item
        @param id of the groupItem
