@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-03 00:37+0000\n"
+"POT-Creation-Date: 2024-03-06 00:37+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -4873,7 +4873,7 @@ msgid "Create bin folder"
 msgstr "قىسقۇچ قۇر"
 
 #: src/bin/bin.cpp:2697 src/bin/bin.cpp:2710 src/bin/bin.cpp:3677
-#: src/timeline2/model/timelinemodel.cpp:2079
+#: src/timeline2/model/timelinemodel.cpp:2098
 #, kde-format
 msgid "Delete Clip"
 msgstr ""
@@ -5653,14 +5653,14 @@ msgid "Cut clip"
 msgstr ""
 
 #: src/bin/model/subtitlemodel.cpp:809 src/bin/model/subtitlemodel.cpp:1553
-#: src/timeline2/model/timelinemodel.cpp:3624
+#: src/timeline2/model/timelinemodel.cpp:3687
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "Resize subtitle"
 msgstr "%1 ئۆچۈر"
 
 #: src/bin/model/subtitlemodel.cpp:1005
-#: src/timeline2/model/timelinemodel.cpp:1291
+#: src/timeline2/model/timelinemodel.cpp:1310
 #, fuzzy, kde-format
 #| msgid "Clip"
 msgid "Move subtitle"
@@ -8920,7 +8920,7 @@ msgid "Paste effect"
 msgstr "ئۈنۈم"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:505
-#: src/timeline2/model/timelinemodel.cpp:4762
+#: src/timeline2/model/timelinemodel.cpp:4826
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Add effect %1"
@@ -11482,7 +11482,7 @@ msgstr "ئىمپورت قىل"
 msgid "Export Subtitle File…"
 msgstr "سەپلىمە ھۆججەت قوش"
 
-#: src/mainwindow.cpp:1919 src/timeline2/model/timelinemodel.cpp:2083
+#: src/mainwindow.cpp:1919 src/timeline2/model/timelinemodel.cpp:2102
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "Delete Subtitle"
@@ -16600,7 +16600,7 @@ msgid "Delete clips on track"
 msgstr "قىسقۇچ ئۆچۈر"
 
 #: src/timeline2/model/timelineitemmodel.cpp:135
-#: src/timeline2/model/timelinemodel.cpp:4317
+#: src/timeline2/model/timelinemodel.cpp:4381
 #, fuzzy, kde-format
 #| msgid "Insertion"
 msgctxt "@action"
@@ -16649,155 +16649,155 @@ msgstr ""
 msgid "Replace clip"
 msgstr "ھۆججەت ئاتى"
 
-#: src/timeline2/model/timelinemodel.cpp:943
-#: src/timeline2/model/timelinemodel.cpp:1148
+#: src/timeline2/model/timelinemodel.cpp:945
+#: src/timeline2/model/timelinemodel.cpp:1162
 #, fuzzy, kde-format
 #| msgid "Selection"
 msgid "Select a clip to apply the mix"
 msgstr "تاللاش"
 
-#: src/timeline2/model/timelinemodel.cpp:1146
+#: src/timeline2/model/timelinemodel.cpp:1160
 #, fuzzy, kde-format
 #| msgid "Start"
 msgid "start"
 msgstr "باشلاش"
 
-#: src/timeline2/model/timelinemodel.cpp:1146
+#: src/timeline2/model/timelinemodel.cpp:1160
 #, fuzzy, kde-format
 #| msgid "End"
 msgid "end"
 msgstr "تامام"
 
-#: src/timeline2/model/timelinemodel.cpp:1146
+#: src/timeline2/model/timelinemodel.cpp:1160
 #, kde-format
 msgid "Not enough frames at clip %1 to apply the mix"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1152
+#: src/timeline2/model/timelinemodel.cpp:1166
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Create mix"
 msgstr "قىسقۇچ قۇر"
 
-#: src/timeline2/model/timelinemodel.cpp:1223
-#: src/timeline2/model/timelinemodel.cpp:1253
+#: src/timeline2/model/timelinemodel.cpp:1237
+#: src/timeline2/model/timelinemodel.cpp:1272
 #, kde-format
 msgid "Move clip"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1757
-#: src/timeline2/model/timelinemodel.cpp:1847
-#: src/timeline2/model/timelinemodel.cpp:1870
-#: src/timeline2/model/timelinemodel.cpp:1893
+#: src/timeline2/model/timelinemodel.cpp:1776
+#: src/timeline2/model/timelinemodel.cpp:1866
+#: src/timeline2/model/timelinemodel.cpp:1889
+#: src/timeline2/model/timelinemodel.cpp:1912
 #, kde-format
 msgid "No available track for insert operation"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1762
+#: src/timeline2/model/timelinemodel.cpp:1781
 #, fuzzy, kde-format
 #| msgid "Clip"
 msgid "Insert Clip"
 msgstr "ئىلغۇچ"
 
-#: src/timeline2/model/timelinemodel.cpp:1815
+#: src/timeline2/model/timelinemodel.cpp:1834
 #, kde-format
 msgid "You cannot insert a sequence containing itself"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1863
-#: src/timeline2/model/timelinemodel.cpp:1885
+#: src/timeline2/model/timelinemodel.cpp:1882
+#: src/timeline2/model/timelinemodel.cpp:1904
 #, kde-format
 msgid "Not enough audio tracks for all streams (%1)"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1969
+#: src/timeline2/model/timelinemodel.cpp:1988
 #, kde-format
 msgid "No available track for split operation"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:2006
+#: src/timeline2/model/timelinemodel.cpp:2025
 #, kde-format
 msgid "Audio split failed: no viable track"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:2014
+#: src/timeline2/model/timelinemodel.cpp:2033
 #, kde-format
 msgid "Audio split failed: impossible to create audio clip"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:2076
+#: src/timeline2/model/timelinemodel.cpp:2095
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Remove group"
 msgstr "قىسقۇچ قۇر"
 
-#: src/timeline2/model/timelinemodel.cpp:2081
+#: src/timeline2/model/timelinemodel.cpp:2100
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Delete Composition"
 msgstr "Composite"
 
-#: src/timeline2/model/timelinemodel.cpp:2249
-#: src/timeline2/model/timelinemodel.cpp:2411
+#: src/timeline2/model/timelinemodel.cpp:2267
+#: src/timeline2/model/timelinemodel.cpp:2458
 #: src/timeline2/view/timelinecontroller.cpp:4229
 #, kde-format
 msgid "Move group"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:3052
+#: src/timeline2/model/timelinemodel.cpp:3099
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Resize group"
 msgstr "قىسقۇچ قۇر"
 
-#: src/timeline2/model/timelinemodel.cpp:3176
+#: src/timeline2/model/timelinemodel.cpp:3223
 #, fuzzy, kde-format
 #| msgid "Target"
 msgid "Resize clip speed"
 msgstr "نىشان"
 
-#: src/timeline2/model/timelinemodel.cpp:3323
+#: src/timeline2/model/timelinemodel.cpp:3382
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Remove mix"
 msgstr "قىسقۇچ قۇر"
 
-#: src/timeline2/model/timelinemodel.cpp:3325
+#: src/timeline2/model/timelinemodel.cpp:3384
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Removing mix failed"
 msgstr " كاندۇك"
 
-#: src/timeline2/model/timelinemodel.cpp:3620
+#: src/timeline2/model/timelinemodel.cpp:3683
 #, kde-format
 msgid "Resize clip"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:3622
+#: src/timeline2/model/timelinemodel.cpp:3685
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Resize composition"
 msgstr "Composite"
 
-#: src/timeline2/model/timelinemodel.cpp:3944
+#: src/timeline2/model/timelinemodel.cpp:4007
 #, fuzzy, kde-format
 #| msgid "Target"
 msgid "Ripple resize clip"
 msgstr "نىشان"
 
-#: src/timeline2/model/timelinemodel.cpp:3946
+#: src/timeline2/model/timelinemodel.cpp:4009
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Ripple resize composition"
 msgstr "Composite"
 
-#: src/timeline2/model/timelinemodel.cpp:3948
+#: src/timeline2/model/timelinemodel.cpp:4011
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "Ripple resize subtitle"
 msgstr "%1 ئۆچۈر"
 
-#: src/timeline2/model/timelinemodel.cpp:4091
+#: src/timeline2/model/timelinemodel.cpp:4154
 #, fuzzy, kde-format
 #| msgid "File size"
 msgctxt "Undo/Redo menu text"
@@ -16805,97 +16805,97 @@ msgid "Slip clip"
 msgid_plural "Slip clips"
 msgstr[0] "ھۆججەت چوڭلۇقى"
 
-#: src/timeline2/model/timelinemodel.cpp:4126
+#: src/timeline2/model/timelinemodel.cpp:4189
 #, fuzzy, kde-format
 #| msgid "File size"
 msgid "Slip clip"
 msgstr "ھۆججەت چوڭلۇقى"
 
-#: src/timeline2/model/timelinemodel.cpp:4161
+#: src/timeline2/model/timelinemodel.cpp:4224
 #, kde-format
 msgid "Group clips"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4246
-#: src/timeline2/model/timelinemodel.cpp:4262
+#: src/timeline2/model/timelinemodel.cpp:4309
+#: src/timeline2/model/timelinemodel.cpp:4325
 #, kde-format
 msgid "Ungroup clips"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4426
+#: src/timeline2/model/timelinemodel.cpp:4490
 #: src/timeline2/view/timelinecontroller.cpp:944
 #, kde-format
 msgid "Delete Track"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4436
+#: src/timeline2/model/timelinemodel.cpp:4500
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4687
+#: src/timeline2/model/timelinemodel.cpp:4751
 #, fuzzy, kde-format
 #| msgid "Cannot open file"
 msgid "Cannot add effect %1 to master track"
 msgstr "ھۆججەت ئاچالمىدى"
 
-#: src/timeline2/model/timelinemodel.cpp:4694
+#: src/timeline2/model/timelinemodel.cpp:4758
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4715
+#: src/timeline2/model/timelinemodel.cpp:4779
 #, fuzzy, kde-format
 #| msgid "Cannot open file"
 msgid "Cannot paste effect to master track"
 msgstr "ھۆججەت ئاچالمىدى"
 
-#: src/timeline2/model/timelinemodel.cpp:4721
+#: src/timeline2/model/timelinemodel.cpp:4785
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4765
+#: src/timeline2/model/timelinemodel.cpp:4829
 #: src/timeline2/view/timelinecontroller.cpp:1522
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4789
+#: src/timeline2/model/timelinemodel.cpp:4853
 #, kde-format
 msgid "Adjust Fade"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:5101
+#: src/timeline2/model/timelinemodel.cpp:5165
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Insert Composition"
 msgstr "Composite"
 
-#: src/timeline2/model/timelinemodel.cpp:5289
+#: src/timeline2/model/timelinemodel.cpp:5353
 #, fuzzy, kde-format
 #| msgid "Options"
 msgid "Move composition"
 msgstr "تاللانما"
 
-#: src/timeline2/model/timelinemodel.cpp:5943
+#: src/timeline2/model/timelinemodel.cpp:6007
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Enable time remap"
 msgstr "ئۈنۈم يوق"
 
-#: src/timeline2/model/timelinemodel.cpp:6017
+#: src/timeline2/model/timelinemodel.cpp:6081
 #, kde-format
 msgid "Change speed failed"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:6027
+#: src/timeline2/model/timelinemodel.cpp:6091
 #, fuzzy, kde-format
 #| msgid "Target"
 msgid "Change clip speed"
 msgstr "نىشان"
 
-#: src/timeline2/model/timelinemodel.cpp:6456
+#: src/timeline2/model/timelinemodel.cpp:6520
 #: src/timeline2/view/qml/timeline.qml:1206
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, fuzzy, kde-format
@@ -16903,7 +16903,7 @@ msgstr "نىشان"
 msgid "Lock track"
 msgstr "قۇلۇپلانغان"
 
-#: src/timeline2/model/timelinemodel.cpp:6461
+#: src/timeline2/model/timelinemodel.cpp:6525
 #: src/timeline2/view/qml/timeline.qml:1206
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, fuzzy, kde-format
@@ -16911,43 +16911,43 @@ msgstr "قۇلۇپلانغان"
 msgid "Unlock track"
 msgstr "قۇلۇپلانغان"
 
-#: src/timeline2/model/timelinemodel.cpp:6495
-#: src/timeline2/model/timelinemodel.cpp:6557
+#: src/timeline2/model/timelinemodel.cpp:6559
+#: src/timeline2/model/timelinemodel.cpp:6621
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Change composition"
 msgstr "Composite"
 
-#: src/timeline2/model/timelinemodel.cpp:6509
+#: src/timeline2/model/timelinemodel.cpp:6573
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:6704
-#: src/timeline2/model/timelinemodel.cpp:6741
-#: src/timeline2/model/timelinemodel.cpp:6774
-#: src/timeline2/model/timelinemodel.cpp:6855
+#: src/timeline2/model/timelinemodel.cpp:6768
+#: src/timeline2/model/timelinemodel.cpp:6805
+#: src/timeline2/model/timelinemodel.cpp:6838
+#: src/timeline2/model/timelinemodel.cpp:6919
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "ھۆججەت ئېچىش خاتالىقى"
 
-#: src/timeline2/model/timelinemodel.cpp:6715
-#: src/timeline2/model/timelinemodel.cpp:6749
-#: src/timeline2/model/timelinemodel.cpp:6793
-#: src/timeline2/model/timelinemodel.cpp:6879
+#: src/timeline2/model/timelinemodel.cpp:6779
+#: src/timeline2/model/timelinemodel.cpp:6813
+#: src/timeline2/model/timelinemodel.cpp:6857
+#: src/timeline2/model/timelinemodel.cpp:6943
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Cannot resize mix"
 msgstr "ھۆججەت ئېچىش خاتالىقى"
 
-#: src/timeline2/model/timelinemodel.cpp:6893
+#: src/timeline2/model/timelinemodel.cpp:6957
 #, fuzzy, kde-format
 #| msgid "Resize"
 msgid "Resize mix"
 msgstr "چوڭلۇقىنى ئۆزگەرت"
 
-#: src/timeline2/model/timelinemodel.cpp:7032
+#: src/timeline2/model/timelinemodel.cpp:7096
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "Error initializing timeline preview"
