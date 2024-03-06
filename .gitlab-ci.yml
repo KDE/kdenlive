@@ -13,12 +13,12 @@ include:
       - /gitlab-templates/linux-qt6.yml
       - /gitlab-templates/freebsd-qt6.yml
       # CD Qt5
-      - /gitlab-templates/flatpak.yml
-      - /gitlab-templates/craft-appimage.yml
-      - /gitlab-templates/craft-windows-mingw64.yml
-      - /gitlab-templates/craft-macos-x86-64.yml
-      - /gitlab-templates/craft-macos-arm64.yml
+      #- /gitlab-templates/craft-appimage.yml
+      #- /gitlab-templates/craft-windows-mingw64.yml
+      #- /gitlab-templates/craft-macos-x86-64.yml
+      #- /gitlab-templates/craft-macos-arm64.yml
       # CD Qt6
+      - /gitlab-templates/flatpak.yml
       - /gitlab-templates/craft-appimage-qt6.yml
       - /gitlab-templates/craft-windows-mingw64-qt6.yml
       - /gitlab-templates/craft-macos-x86-64-qt6.yml
