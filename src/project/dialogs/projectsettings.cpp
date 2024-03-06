@@ -30,7 +30,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KIO/FileCopyJob>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <kio/directorysizejob.h>
 
 #include <QDir>
 #include <QFileDialog>

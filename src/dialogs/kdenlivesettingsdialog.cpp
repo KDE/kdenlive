@@ -33,6 +33,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KArchiveDirectory>
 #include <KIO/DesktopExecParser>
 #include <KIO/FileCopyJob>
+#include <KIO/OpenFileManagerWindowJob>
+#include <kio/directorysizejob.h>
 #include <kio_version.h>
 #if KIO_VERSION >= QT_VERSION_CHECK(5, 98, 0)
 #include <KIO/JobUiDelegateFactory>
@@ -1743,6 +1745,37 @@ void KdenliveSettingsDialog::initSpeechPage()
         m_configEnv.kcfg_usePythonVenv->setChecked(KdenliveSettings::usePythonVenv());
     });
     m_sttWhisper->checkPython(KdenliveSettings::usePythonVenv(), true);
+
+    // Basic info about model folders
+    const QString whisperModelFolder = QStandardPaths::locate(QStandardPaths::GenericCacheLocation, QStringLiteral("whisper"), QStandardPaths::LocateDirectory);
+    if (!whisperModelFolder.isEmpty()) {
+        m_configSpeech.model_folder_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(whisperModelFolder, i18n("Models folder")));
+        m_configSpeech.model_folder_label->setVisible(true);
+        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(whisperModelFolder));
+        connect(job, &KJob::result, this, [job, label = m_configSpeech.model_size]() {
+            label->setText(KIO::convertSize(job->totalSize()));
+            job->deleteLater();
+        });
+    } else {
+        m_configSpeech.model_folder_label->setVisible(false);
+    }
+    QString voskModelFolder = KdenliveSettings::vosk_folder_path();
+    if (voskModelFolder.isEmpty()) {
+        voskModelFolder = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("speechmodels"), QStandardPaths::LocateDirectory);
+    }
+    if (!voskModelFolder.isEmpty()) {
+        m_configSpeech.modelV_folder_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(voskModelFolder, i18n("Models folder")));
+        m_configSpeech.modelV_folder_label->setVisible(true);
+        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(voskModelFolder));
+        connect(job, &KJob::result, this, [job, label = m_configSpeech.modelV_size]() {
+            label->setText(KIO::convertSize(job->totalSize()));
+            job->deleteLater();
+        });
+    } else {
+        m_configSpeech.modelV_folder_label->setVisible(false);
+    }
+    connect(m_configSpeech.modelV_folder_label, &QLabel::linkActivated, [](const QString &link) { KIO::highlightInFileManager({QUrl::fromLocalFile(link)}); });
+    connect(m_configSpeech.model_folder_label, &QLabel::linkActivated, [](const QString &link) { KIO::highlightInFileManager({QUrl::fromLocalFile(link)}); });
     QButtonGroup *speechEngineSelection = new QButtonGroup(this);
     speechEngineSelection->addButton(m_configSpeech.engine_vosk);
     speechEngineSelection->addButton(m_configSpeech.engine_whisper);
@@ -2043,14 +2076,29 @@ void KdenliveSettingsDialog::slotParseVoskDictionaries()
     m_speechListWidget->clear();
     QStringList final = m_stt->parseVoskDictionaries();
     m_speechListWidget->addItems(final);
+    QString voskModelFolder;
     if (!KdenliveSettings::vosk_folder_path().isEmpty()) {
         m_configSpeech.custom_vosk_folder->setChecked(true);
         m_configSpeech.vosk_folder->setUrl(QUrl::fromLocalFile(KdenliveSettings::vosk_folder_path()));
+        voskModelFolder = KdenliveSettings::vosk_folder_path();
+    } else {
+        voskModelFolder = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("speechmodels"), QStandardPaths::LocateDirectory);
     }
     if (!final.isEmpty() && m_stt->missingDependencies().isEmpty()) {
         m_configSpeech.speech_info->animatedHide();
     } else if (final.isEmpty()) {
         doShowSpeechMessage(i18n("Please add a speech model."), KMessageWidget::Information);
+    }
+    if (!voskModelFolder.isEmpty()) {
+        m_configSpeech.modelV_folder_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(voskModelFolder, i18n("Models folder")));
+        m_configSpeech.modelV_folder_label->setVisible(true);
+        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(voskModelFolder));
+        connect(job, &KJob::result, this, [job, label = m_configSpeech.modelV_size]() {
+            label->setText(KIO::convertSize(job->totalSize()));
+            job->deleteLater();
+        });
+    } else {
+        m_configSpeech.modelV_folder_label->setVisible(false);
     }
 }
 
