@@ -33,6 +33,8 @@ include:
 #   - when: manual
 
 .craft-mac-notarize:
+  rules:
+    - when: manual
   variables:
     KDECI_NOTARIZEMACAPP_CONFIG: $CI_PROJECT_DIR/ci-utilities/signing/notarizemacapp.ini
   script:
