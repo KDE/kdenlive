@@ -24,13 +24,13 @@ include:
       - /gitlab-templates/craft-macos-x86-64-qt6.yml
       - /gitlab-templates/craft-macos-arm64-qt6.yml
 
-craft_macos_arm64:
-  rules:
-  - when: manual
+# craft_macos_arm64:
+#   rules:
+#   - when: manual
 
-craft_macos_x86_64:
-  rules:
-  - when: manual
+# craft_macos_x86_64:
+#   rules:
+#   - when: manual
 
 .craft-mac-notarize:
   variables:
@@ -41,7 +41,7 @@ craft_macos_x86_64:
 
 craft_macos_arm64_notarize_test:
   extends:
-    - craft_macos_arm64
+    - craft_macos_qt6_arm64
     - .craft-mac-notarize
   artifacts:
     expire_in: 3 days
