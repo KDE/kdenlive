@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-06 00:37+0000\n"
+"POT-Creation-Date: 2024-03-07 00:37+0000\n"
 "PO-Revision-Date: 2024-03-03 09:12+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -2803,7 +2803,7 @@ msgid "Noise Reduction and Audio Restoration"
 msgstr "Zmanjševanje šuma in restavriranje zvoka"
 
 #: data/kdenliveeffectscategory.rc:88
-#: src/dialogs/kdenlivesettingsdialog.cpp:121 src/mainwindow.cpp:1411
+#: src/dialogs/kdenlivesettingsdialog.cpp:123 src/mainwindow.cpp:1411
 #: src/scopes/colorscopes/vectorscope.cpp:71
 #, kde-format
 msgid "Tools"
@@ -3672,7 +3672,7 @@ msgstr "Izbriše trenutno izbrano prednastavitev."
 
 #: src/assets/view/assetparameterview.cpp:329
 #: src/dialogs/customcamcorderdialog.cpp:131
-#: src/dialogs/kdenlivesettingsdialog.cpp:1415
+#: src/dialogs/kdenlivesettingsdialog.cpp:1417
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
@@ -3680,7 +3680,7 @@ msgstr "Vnesite ime prednastavitve"
 
 #: src/assets/view/assetparameterview.cpp:329
 #: src/dialogs/customcamcorderdialog.cpp:133
-#: src/dialogs/kdenlivesettingsdialog.cpp:1415
+#: src/dialogs/kdenlivesettingsdialog.cpp:1417
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr "Vnesite ime te prednastavitve:"
@@ -4299,7 +4299,7 @@ msgstr "Ime"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
 #: src/bin/bin.cpp:1283 src/bin/projectitemmodel.cpp:315
-#: src/project/dialogs/projectsettings.cpp:250 src/ui/managecache_ui.ui:369
+#: src/project/dialogs/projectsettings.cpp:249 src/ui/managecache_ui.ui:369
 #, kde-format
 msgid "Date"
 msgstr "Datum"
@@ -4721,7 +4721,7 @@ msgstr "Seznam predvajanja"
 msgid "Sequences"
 msgstr "Zaporedja"
 
-#: src/bin/bin.cpp:2464 src/project/dialogs/projectsettings.cpp:218
+#: src/bin/bin.cpp:2464 src/project/dialogs/projectsettings.cpp:217
 #, kde-format
 msgid "Title"
 msgstr "Napis"
@@ -5478,7 +5478,7 @@ msgstr "Dodaj označevalnike"
 #. i18n: ectx: Menu (subtitles)
 #: src/bin/model/subtitlemodel.cpp:80 src/core.cpp:687 src/kdenliveui.rc:30
 #: src/mainwindow.cpp:290 src/project/dialogs/archivewidget.cpp:97
-#: src/project/dialogs/projectsettings.cpp:436
+#: src/project/dialogs/projectsettings.cpp:435
 #, kde-format
 msgid "Subtitles"
 msgstr "Podnaslavljanje"
@@ -6256,7 +6256,7 @@ msgid "Manage Encoding Profiles"
 msgstr "Upravljajte s profili kodiranja"
 
 #: src/dialogs/encodingprofilesdialog.cpp:52
-#: src/dialogs/kdenlivesettingsdialog.cpp:315
+#: src/dialogs/kdenlivesettingsdialog.cpp:317
 #: src/project/dialogs/archivewidget.cpp:92
 #, kde-format
 msgid "Proxy Clips"
@@ -6332,23 +6332,23 @@ msgstr ""
 
 #: src/dialogs/encodingprofilesdialog.cpp:259
 #: src/dialogs/encodingprofilesdialog.cpp:348
-#: src/project/dialogs/projectsettings.cpp:898
+#: src/project/dialogs/projectsettings.cpp:897
 #, kde-format
 msgid "Automatic (%1)"
 msgstr "Samodejno (%1)"
 
 #: src/dialogs/encodingprofilesdialog.cpp:261
 #: src/dialogs/encodingprofilesdialog.cpp:350
-#: src/dialogs/kdenlivesettingsdialog.cpp:694
-#: src/project/dialogs/projectsettings.cpp:900
+#: src/dialogs/kdenlivesettingsdialog.cpp:696
+#: src/project/dialogs/projectsettings.cpp:899
 #: src/transitions/view/transitionstackview.cpp:37
 #, kde-format
 msgid "Automatic"
 msgstr "Samodejno"
 
 #: src/dialogs/encodingprofilesdialog.cpp:329
-#: src/project/dialogs/projectsettings.cpp:935
-#: src/project/dialogs/projectsettings.cpp:965
+#: src/project/dialogs/projectsettings.cpp:934
+#: src/project/dialogs/projectsettings.cpp:964
 #, kde-format
 msgid "Current Settings"
 msgstr "Trenutne nastavitve"
@@ -6510,226 +6510,226 @@ msgstr "Kodiranje znakov zaznano kot %1"
 msgid "Import Subtitle"
 msgstr "Uvozi podnaslov"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:117 src/mainwindow.cpp:3878
+#: src/dialogs/kdenlivesettingsdialog.cpp:119 src/mainwindow.cpp:3878
 #, kde-format
 msgid "Timeline"
 msgstr "Časovnica"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:127
+#: src/dialogs/kdenlivesettingsdialog.cpp:129
 #, kde-format
 msgid "Colors and Guides"
 msgstr "Barve in vodila"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:134
+#: src/dialogs/kdenlivesettingsdialog.cpp:136
 #, kde-format
 msgid "Speech To Text"
 msgstr "Govor v besedilo"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:138
+#: src/dialogs/kdenlivesettingsdialog.cpp:140
 #, kde-format
 msgid "Playback"
 msgstr "Predvajanje"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:148
+#: src/dialogs/kdenlivesettingsdialog.cpp:150
 #, kde-format
 msgid "Capture"
 msgstr "Zajemi"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:228
+#: src/dialogs/kdenlivesettingsdialog.cpp:230
 #: src/effects/effectlist/model/effecttreemodel.cpp:61
 #, kde-format
 msgid "Misc"
 msgstr "Razno"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:252
-#: src/dialogs/kdenlivesettingsdialog.cpp:804
+#: src/dialogs/kdenlivesettingsdialog.cpp:254
+#: src/dialogs/kdenlivesettingsdialog.cpp:806
 #: src/doc/documentvalidator.cpp:2250
 #: src/transitions/transitionsrepository.cpp:174
 #, kde-format
 msgid "auto"
 msgstr "samodejno"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:285
+#: src/dialogs/kdenlivesettingsdialog.cpp:287
 #, kde-format
 msgid "Select the Default Profile (preset)"
 msgstr "Izberite privzeti profil (prednastavitev)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:306
+#: src/dialogs/kdenlivesettingsdialog.cpp:308
 #, kde-format
 msgid "Project Defaults"
 msgstr "Privzete vrednosti projekta"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:350
-#: src/dialogs/kdenlivesettingsdialog.cpp:374
+#: src/dialogs/kdenlivesettingsdialog.cpp:352
+#: src/dialogs/kdenlivesettingsdialog.cpp:376
 #, kde-format
 msgid "Use default folder: %1"
 msgstr "Uporabi privzeto mapo: %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:352
-#: src/dialogs/kdenlivesettingsdialog.cpp:376
-#: src/dialogs/kdenlivesettingsdialog.cpp:1059
-#: src/dialogs/kdenlivesettingsdialog.cpp:1060
-#: src/dialogs/kdenlivesettingsdialog.cpp:1069
-#: src/dialogs/kdenlivesettingsdialog.cpp:1070
+#: src/dialogs/kdenlivesettingsdialog.cpp:354
+#: src/dialogs/kdenlivesettingsdialog.cpp:378
+#: src/dialogs/kdenlivesettingsdialog.cpp:1061
+#: src/dialogs/kdenlivesettingsdialog.cpp:1062
+#: src/dialogs/kdenlivesettingsdialog.cpp:1071
+#: src/dialogs/kdenlivesettingsdialog.cpp:1072
 #, kde-format
 msgid "Always use project folder: %1"
 msgstr "Vedno uporabi mapo projekta: %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:354
-#: src/dialogs/kdenlivesettingsdialog.cpp:378
-#: src/dialogs/kdenlivesettingsdialog.cpp:1066
-#: src/dialogs/kdenlivesettingsdialog.cpp:1067
+#: src/dialogs/kdenlivesettingsdialog.cpp:356
+#: src/dialogs/kdenlivesettingsdialog.cpp:380
+#: src/dialogs/kdenlivesettingsdialog.cpp:1068
+#: src/dialogs/kdenlivesettingsdialog.cpp:1069
 #, kde-format
 msgid "Always use active project folder"
 msgstr "Vedno uporabi mapo dejavnega projekta"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:391
+#: src/dialogs/kdenlivesettingsdialog.cpp:393
 #, kde-format
 msgid "Environment"
 msgstr "Okolje"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:427
+#: src/dialogs/kdenlivesettingsdialog.cpp:429
 #, kde-format
 msgid "Capture is not yet available on Mac OS X."
 msgstr "Na Mac OS X zajem še ni podprt."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:437
+#: src/dialogs/kdenlivesettingsdialog.cpp:439
 #, kde-format
 msgid "Mono (1 channel)"
 msgstr "Mono (1 kanal)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:438
+#: src/dialogs/kdenlivesettingsdialog.cpp:440
 #, kde-format
 msgid "Stereo (2 channels)"
 msgstr "Stereo (2 kanala)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:445
+#: src/dialogs/kdenlivesettingsdialog.cpp:447
 #, kde-format
 msgid "44100 Hz"
 msgstr "44100 Hz"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:446
+#: src/dialogs/kdenlivesettingsdialog.cpp:448
 #, kde-format
 msgid "48000 Hz"
 msgstr "48000 Hz"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:495
+#: src/dialogs/kdenlivesettingsdialog.cpp:497
 #, kde-format
 msgid "JogShuttle"
 msgstr "JogShuttle"
 
 #. i18n: ectx: Menu (transcoders)
-#: src/dialogs/kdenlivesettingsdialog.cpp:502 src/dialogs/timeremap.cpp:1669
+#: src/dialogs/kdenlivesettingsdialog.cpp:504 src/dialogs/timeremap.cpp:1669
 #: src/kdenliveui.rc:88 src/mltcontroller/clippropertiescontroller.cpp:994
 #: src/project/transcodeseek.cpp:41 src/project/transcodeseek.cpp:54
 #, kde-format
 msgid "Transcode"
 msgstr "Prekodiraj"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:532
+#: src/dialogs/kdenlivesettingsdialog.cpp:534
 #, kde-format
 msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
 msgstr ""
 "Obdelava z grafično procesno enoto (GPE) zahteva prevedeni MLT z moduloma "
 "Movit in Rtaudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:701
+#: src/dialogs/kdenlivesettingsdialog.cpp:703
 #, kde-format
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:702
-#: src/dialogs/kdenlivesettingsdialog.cpp:755
+#: src/dialogs/kdenlivesettingsdialog.cpp:704
+#: src/dialogs/kdenlivesettingsdialog.cpp:757
 #, kde-format
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:703
+#: src/dialogs/kdenlivesettingsdialog.cpp:705
 #, kde-format
 msgid "PipeWire"
 msgstr "PipeWire"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:704
+#: src/dialogs/kdenlivesettingsdialog.cpp:706
 #, kde-format
 msgid "OSS"
 msgstr "OSS"
 
 #. i18n("OSS with DMA access"), "dma");
-#: src/dialogs/kdenlivesettingsdialog.cpp:706
+#: src/dialogs/kdenlivesettingsdialog.cpp:708
 #, kde-format
 msgid "Esound Daemon"
 msgstr "Ozadnji program esound"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:707
+#: src/dialogs/kdenlivesettingsdialog.cpp:709
 #, kde-format
 msgid "ARTS Daemon"
 msgstr "Ozadnji program ARTS"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/kdenlivesettingsdialog.cpp:719
-#: src/dialogs/kdenlivesettingsdialog.cpp:720 src/mainwindow.cpp:197
+#: src/dialogs/kdenlivesettingsdialog.cpp:721
+#: src/dialogs/kdenlivesettingsdialog.cpp:722 src/mainwindow.cpp:197
 #: src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
 msgstr "Privzeto"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:771
+#: src/dialogs/kdenlivesettingsdialog.cpp:773
 #, kde-format
 msgid "SDL"
 msgstr "SDL"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:783
+#: src/dialogs/kdenlivesettingsdialog.cpp:785
 #, kde-format
 msgid "RtAudio"
 msgstr "RtAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:807 src/mainwindow.cpp:338
+#: src/dialogs/kdenlivesettingsdialog.cpp:809 src/mainwindow.cpp:338
 #, kde-format
 msgid "Monitor %1"
 msgstr "Zaslon %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:891
+#: src/dialogs/kdenlivesettingsdialog.cpp:893
 #, kde-format
 msgid "Enter path to the audio editing application"
 msgstr "Vnesite pot do programa za urejanje zvoka"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:899
+#: src/dialogs/kdenlivesettingsdialog.cpp:901
 #, kde-format
 msgid "Enter path to the image editing application"
 msgstr "Vnesite pot do programa za urejanje slik"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:907 src/glaxnimatelauncher.cpp:30
+#: src/dialogs/kdenlivesettingsdialog.cpp:909 src/glaxnimatelauncher.cpp:30
 #, kde-format
 msgid "Enter path to the Glaxnimate application"
 msgstr "Vnesite pot do programa Glaxnimate"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:990
-#: src/dialogs/kdenlivesettingsdialog.cpp:1008
-#: src/project/dialogs/projectsettings.cpp:532
+#: src/dialogs/kdenlivesettingsdialog.cpp:992
+#: src/dialogs/kdenlivesettingsdialog.cpp:1010
+#: src/project/dialogs/projectsettings.cpp:531
 #, kde-format
 msgid "Please select a video profile"
 msgstr "Izberite profil za video"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1270
+#: src/dialogs/kdenlivesettingsdialog.cpp:1272
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr "Za spremembo te nastavitve morate znova zagnati Kdenlive"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1418
+#: src/dialogs/kdenlivesettingsdialog.cpp:1420
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "Profil s tem imenom že obstaja"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1552
+#: src/dialogs/kdenlivesettingsdialog.cpp:1554
 #, kde-format
 msgid "Current settings"
 msgstr "Trenutne nastavitve"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1590
-#: src/dialogs/kdenlivesettingsdialog.cpp:1626
-#: src/dialogs/kdenlivesettingsdialog.cpp:1643
+#: src/dialogs/kdenlivesettingsdialog.cpp:1592
+#: src/dialogs/kdenlivesettingsdialog.cpp:1628
+#: src/dialogs/kdenlivesettingsdialog.cpp:1645
 #: src/mltcontroller/clippropertiescontroller.cpp:540
 #: src/mltcontroller/clippropertiescontroller.cpp:1374
 #: src/project/dialogs/profilewidget.cpp:111 src/ui/editrenderpreset_ui.ui:220
@@ -6738,46 +6738,57 @@ msgstr "Trenutne nastavitve"
 msgid "Progressive"
 msgstr "Napredovano"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1774
+#. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
+#. i18n: ectx: property (text), widget (QLabel, model_folder_label)
+#: src/dialogs/kdenlivesettingsdialog.cpp:1752
+#: src/dialogs/kdenlivesettingsdialog.cpp:1767
+#: src/dialogs/kdenlivesettingsdialog.cpp:2093 src/ui/configspeech_ui.ui:137
+#: src/ui/configspeech_ui.ui:252
+#, fuzzy, kde-format
+#| msgid "Custom models folder"
+msgid "Models folder"
+msgstr "Mapa modelov po meri"
+
+#: src/dialogs/kdenlivesettingsdialog.cpp:1807
 #, kde-format
 msgid "Setting up virtual environment…"
 msgstr "Nastavitev virtualnega okolja …"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1776
+#: src/dialogs/kdenlivesettingsdialog.cpp:1809
 #, kde-format
 msgid "Disabling virtual environment"
 msgstr "Onemogočanje virtualnega okolja"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1793
+#: src/dialogs/kdenlivesettingsdialog.cpp:1826
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Removing the virtual environment folder."
 msgstr "Odstranjevanje mape virtualnega okolja."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1798
+#: src/dialogs/kdenlivesettingsdialog.cpp:1831
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No python venv found"
 msgstr "Venv python ni mogoče najti"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1801
+#: src/dialogs/kdenlivesettingsdialog.cpp:1834
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Failed to remove the virtual environment folder."
 msgstr "Odstranitev mape virtualnega okolja je spodletela."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1806
+#: src/dialogs/kdenlivesettingsdialog.cpp:1839
 #, kde-format
 msgid "Probing..."
 msgstr "Sondiranje …"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1861
-#: src/dialogs/kdenlivesettingsdialog.cpp:2053
+#: src/dialogs/kdenlivesettingsdialog.cpp:1894
+#: src/dialogs/kdenlivesettingsdialog.cpp:2090
 #, kde-format
 msgid "Please add a speech model."
 msgstr "Prosimo, dodajte model govora."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1894
+#: src/dialogs/kdenlivesettingsdialog.cpp:1927
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
@@ -6786,28 +6797,28 @@ msgstr ""
 "Prenos modelov govora iz: <a href=\"https://alphacephei.com/vosk/models"
 "\">https://alphacephei.com/vosk/models</a>"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1935
+#: src/dialogs/kdenlivesettingsdialog.cpp:1968
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "Vnesite spletni naslov novega slovarja"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1941
+#: src/dialogs/kdenlivesettingsdialog.cpp:1974
 #, kde-format
 msgid "Downloading model…"
 msgstr "Prenašanje modela …"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1951
+#: src/dialogs/kdenlivesettingsdialog.cpp:1984
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr "Ne dovoljujemo brisanja map modelov po meri, izvedite to ročno."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1957
-#: src/dialogs/kdenlivesettingsdialog.cpp:2016
+#: src/dialogs/kdenlivesettingsdialog.cpp:1990
+#: src/dialogs/kdenlivesettingsdialog.cpp:2049
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "Ni možno dostopati do mape slovarja."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1966
+#: src/dialogs/kdenlivesettingsdialog.cpp:1999
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -6816,22 +6827,22 @@ msgstr ""
 "Izbriši mapo:\n"
 "%1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1990
+#: src/dialogs/kdenlivesettingsdialog.cpp:2023
 #, kde-format
 msgid "Download error"
 msgstr "Napaka pri prenosu"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1995
+#: src/dialogs/kdenlivesettingsdialog.cpp:2028
 #, kde-format
 msgid "Download error %1"
 msgstr "Napaka pri prenosu %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2023
+#: src/dialogs/kdenlivesettingsdialog.cpp:2056
 #, kde-format
 msgid "Extracting archive…"
 msgstr "Razširjanje arhiva …"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2030
+#: src/dialogs/kdenlivesettingsdialog.cpp:2063
 #, kde-format
 msgid "New dictionary installed."
 msgstr "Nov slovar nameščen."
@@ -12010,7 +12021,7 @@ msgstr "Prikaže podrobne informacije o tokovih/podatkih/kodeku zvoka."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/mltcontroller/clippropertiescontroller.cpp:1033
-#: src/project/dialogs/projectsettings.cpp:864 src/ui/projectsettings_ui.ui:552
+#: src/project/dialogs/projectsettings.cpp:863 src/ui/projectsettings_ui.ui:552
 #, kde-format
 msgid "Metadata"
 msgstr "Metapodatki"
@@ -12157,7 +12168,7 @@ msgstr "Shrani podatke preučevanja"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1603
 #: src/mltcontroller/clippropertiescontroller.cpp:1616
-#: src/project/dialogs/projectsettings.cpp:802
+#: src/project/dialogs/projectsettings.cpp:801
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "Besedilna datoteka (*.txt)"
@@ -12910,7 +12921,7 @@ msgid "Created by <a href=\"%1\">"
 msgstr "Ustvaril <a href=\"%1\">"
 
 #: src/onlineresources/resourcewidget.cpp:393
-#: src/project/dialogs/projectsettings.cpp:225
+#: src/project/dialogs/projectsettings.cpp:224
 #, kde-format
 msgid "Author"
 msgstr "Avtor"
@@ -13780,67 +13791,67 @@ msgstr "Najprej zgornje polje"
 msgid "Field order: %1"
 msgstr "Vrstni red polj: %1"
 
-#: src/project/dialogs/projectsettings.cpp:72
+#: src/project/dialogs/projectsettings.cpp:71
 #, kde-format
 msgid "Select the profile (preset) of the project"
 msgstr "Izberite profil (predlogo nastavitev) projekta"
 
-#: src/project/dialogs/projectsettings.cpp:75
+#: src/project/dialogs/projectsettings.cpp:74
 #, kde-format
 msgid "Default: %1"
 msgstr "Privzeto: %1"
 
-#: src/project/dialogs/projectsettings.cpp:143
+#: src/project/dialogs/projectsettings.cpp:142
 #, kde-format
 msgid "Cache Data"
 msgstr "Podatki predpomnilnika"
 
-#: src/project/dialogs/projectsettings.cpp:192
+#: src/project/dialogs/projectsettings.cpp:191
 #, kde-format
 msgid "Show default profile parameters"
 msgstr "Prikaži privzete parametre profilov"
 
-#: src/project/dialogs/projectsettings.cpp:194
+#: src/project/dialogs/projectsettings.cpp:193
 #, kde-format
 msgid "Manage proxy profiles"
 msgstr "Upravljaj s posrednimi profili"
 
-#: src/project/dialogs/projectsettings.cpp:196
+#: src/project/dialogs/projectsettings.cpp:195
 #, kde-format
 msgid "Compare proxy profiles efficiency"
 msgstr "Primerjaj učinkovitost profilov posrednih posnetkov"
 
-#: src/project/dialogs/projectsettings.cpp:199
+#: src/project/dialogs/projectsettings.cpp:198
 #, kde-format
 msgid "Select default proxy profile"
 msgstr "Izberite privzet posredni profil"
 
-#: src/project/dialogs/projectsettings.cpp:206
+#: src/project/dialogs/projectsettings.cpp:205
 #, kde-format
 msgid "Select camcorder profile"
 msgstr "Izberite profil kamkorderja"
 
-#: src/project/dialogs/projectsettings.cpp:231
+#: src/project/dialogs/projectsettings.cpp:230
 #, kde-format
 msgid "Artist"
 msgstr "Izvajalec"
 
-#: src/project/dialogs/projectsettings.cpp:237
+#: src/project/dialogs/projectsettings.cpp:236
 #, kde-format
 msgid "Copyright"
 msgstr "Avtorske pravice"
 
-#: src/project/dialogs/projectsettings.cpp:244
+#: src/project/dialogs/projectsettings.cpp:243
 #, kde-format
 msgid "Year"
 msgstr "Leto"
 
-#: src/project/dialogs/projectsettings.cpp:384
+#: src/project/dialogs/projectsettings.cpp:383
 #, kde-format
 msgid "No files to delete on your drive."
 msgstr "Na pogonu ni datotek za brisanje."
 
-#: src/project/dialogs/projectsettings.cpp:392
+#: src/project/dialogs/projectsettings.cpp:391
 #, kde-format
 msgid ""
 "This will remove the following files from your hard drive.\n"
@@ -13852,47 +13863,47 @@ msgstr ""
 "počnete.\n"
 "Ali ste prepričani, da želite nadaljevati?"
 
-#: src/project/dialogs/projectsettings.cpp:394
+#: src/project/dialogs/projectsettings.cpp:393
 #, kde-format
 msgid "Delete unused clips"
 msgstr "Izbriši neuporabljene posnetke"
 
-#: src/project/dialogs/projectsettings.cpp:415
+#: src/project/dialogs/projectsettings.cpp:414
 #, kde-format
 msgid "Video clips"
 msgstr "Video posnetki"
 
-#: src/project/dialogs/projectsettings.cpp:418
+#: src/project/dialogs/projectsettings.cpp:417
 #, kde-format
 msgid "Audio clips"
 msgstr "Zvočni posnetki"
 
-#: src/project/dialogs/projectsettings.cpp:421
+#: src/project/dialogs/projectsettings.cpp:420
 #, kde-format
 msgid "Image clips"
 msgstr "Slikovni posnetki"
 
-#: src/project/dialogs/projectsettings.cpp:424
+#: src/project/dialogs/projectsettings.cpp:423
 #, kde-format
 msgid "Slideshow clips"
 msgstr "Predstavitveni posnetki"
 
-#: src/project/dialogs/projectsettings.cpp:427
+#: src/project/dialogs/projectsettings.cpp:426
 #, kde-format
 msgid "Text clips"
 msgstr "Besedilni posnetki"
 
-#: src/project/dialogs/projectsettings.cpp:430
+#: src/project/dialogs/projectsettings.cpp:429
 #, kde-format
 msgid "Playlist clips"
 msgstr "Posnetki seznama predvajanja"
 
-#: src/project/dialogs/projectsettings.cpp:433
+#: src/project/dialogs/projectsettings.cpp:432
 #, kde-format
 msgid "Other clips"
 msgstr "Drugi posnetki"
 
-#: src/project/dialogs/projectsettings.cpp:541
+#: src/project/dialogs/projectsettings.cpp:540
 #, kde-format
 msgid ""
 "You changed the timeline preview profile. This will remove all existing "
@@ -13903,13 +13914,13 @@ msgstr ""
 "predoglede časovnice tega projekta.\n"
 "Ali ste prepričani, da želite nadaljevati?"
 
-#: src/project/dialogs/projectsettings.cpp:543
-#: src/project/dialogs/projectsettings.cpp:553
+#: src/project/dialogs/projectsettings.cpp:542
+#: src/project/dialogs/projectsettings.cpp:552
 #, kde-format
 msgid "Confirm profile change"
 msgstr "Potrdite spremembe profila"
 
-#: src/project/dialogs/projectsettings.cpp:551
+#: src/project/dialogs/projectsettings.cpp:550
 #, kde-format
 msgid ""
 "Changing the profile of your project cannot be undone.\n"
@@ -13922,8 +13933,8 @@ msgstr ""
 "povzroči okvare v prehodih.\n"
 "Ali ste prepričani, da želite nadaljevati?"
 
-#: src/project/dialogs/projectsettings.cpp:780
-#: src/project/dialogs/projectsettings.cpp:795
+#: src/project/dialogs/projectsettings.cpp:779
+#: src/project/dialogs/projectsettings.cpp:794
 #: src/project/dialogs/slideshowclip.cpp:330
 #, kde-format
 msgid "1 image found"
@@ -13933,28 +13944,28 @@ msgstr[1] "%1 najdena slika"
 msgstr[2] "%1 najdeni sliki"
 msgstr[3] "%1 najdene slike"
 
-#: src/project/dialogs/projectsettings.cpp:802 src/titler/titlewidget.cpp:419
+#: src/project/dialogs/projectsettings.cpp:801 src/titler/titlewidget.cpp:419
 #: src/titler/titlewidget.cpp:422
 #, kde-format
 msgid "Save As"
 msgstr "Shrani kot"
 
-#: src/project/dialogs/projectsettings.cpp:808
+#: src/project/dialogs/projectsettings.cpp:807
 #, kde-format
 msgid "Project folder: %1"
 msgstr "Mapa projekta: %1"
 
-#: src/project/dialogs/projectsettings.cpp:809
+#: src/project/dialogs/projectsettings.cpp:808
 #, kde-format
 msgid "Project profile: %1"
 msgstr "Profil projekta: %1"
 
-#: src/project/dialogs/projectsettings.cpp:810
+#: src/project/dialogs/projectsettings.cpp:809
 #, kde-format
 msgid "Total clips: %1 (%2 used in timeline)."
 msgstr "Skupnih posnetkov: %1 (%2 uporabljenih v časovnici)."
 
-#: src/project/dialogs/projectsettings.cpp:864
+#: src/project/dialogs/projectsettings.cpp:863
 #, kde-format
 msgctxt "@title:window"
 msgid "Metadata"
@@ -18785,7 +18796,7 @@ msgstr "Ime zajete datoteke:"
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #: src/ui/configcapture_ui.ui:531 src/ui/configjogshuttle_ui.ui:106
-#: src/ui/configspeech_ui.ui:159
+#: src/ui/configspeech_ui.ui:212
 #, kde-format
 msgid "Device:"
 msgstr "Naprava:"
@@ -19498,89 +19509,89 @@ msgstr "Zunanji zaslon (kartica Blackmagic):"
 msgid "Output device:"
 msgstr "Izhodna naprava:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, custom_vosk_folder)
-#: src/ui/configspeech_ui.ui:60
-#, kde-format
-msgid "Custom models folder"
-msgstr "Mapa modelov po meri"
-
-#. i18n: ectx: property (text), widget (QPushButton, button_add)
-#: src/ui/configspeech_ui.ui:67
-#, kde-format
-msgid "Add Model"
-msgstr "Dodaj model"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configspeech_ui.ui:94
-#, kde-format
-msgid "VOSK Speech Models"
-msgstr "Modeli govora VOSK"
-
-#. i18n: ectx: property (text), widget (QPushButton, button_delete)
-#: src/ui/configspeech_ui.ui:114
-#, kde-format
-msgid "Remove Model"
-msgstr "Odstrani model"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configspeech_ui.ui:139
-#, kde-format
-msgid "Model:"
-msgstr "Model:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/configspeech_ui.ui:149
-#, kde-format
-msgid "Language:"
-msgstr "Jezik:"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperDisableFP16)
-#: src/ui/configspeech_ui.ui:173
-#, kde-format
-msgid "Disable half precision (FP16 )"
-msgstr "Onemogoči polovično natančnost (FP16)"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperTranslate)
-#: src/ui/configspeech_ui.ui:180
-#, kde-format
-msgid "Translate text to English"
-msgstr "Prevedi besedilo v angleški jezik"
-
-#. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
-#: src/ui/configspeech_ui.ui:187
-#, kde-format
-msgid "Whisper processing on cpu is very slow"
-msgstr "Obdelava šepeta je na CPE zelo počasna"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
-#: src/ui/configspeech_ui.ui:217
-#, kde-format
-msgid "Check speech engine installation"
-msgstr "Preveri namestitev govornega pogona"
-
-#. i18n: ectx: property (text), widget (QPushButton, check_config)
-#: src/ui/configspeech_ui.ui:220
-#, kde-format
-msgid "Check configuration"
-msgstr "Preveri nastavitev"
-
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/configspeech_ui.ui:233
+#: src/ui/configspeech_ui.ui:23
 #, kde-format
 msgid "Speech engine"
 msgstr "Pogon za govor"
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_vosk)
-#: src/ui/configspeech_ui.ui:240
+#: src/ui/configspeech_ui.ui:30
 #, kde-format
 msgid "VOSK"
 msgstr "VOSK"
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
-#: src/ui/configspeech_ui.ui:247
+#: src/ui/configspeech_ui.ui:37
 #, kde-format
 msgid "Whisper"
 msgstr "Šepet"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/ui/configspeech_ui.ui:66
+#, kde-format
+msgid "VOSK Speech Models"
+msgstr "Modeli govora VOSK"
+
+#. i18n: ectx: property (text), widget (QCheckBox, custom_vosk_folder)
+#: src/ui/configspeech_ui.ui:73
+#, kde-format
+msgid "Custom models folder"
+msgstr "Mapa modelov po meri"
+
+#. i18n: ectx: property (text), widget (QPushButton, button_add)
+#: src/ui/configspeech_ui.ui:90
+#, kde-format
+msgid "Add Model"
+msgstr "Dodaj model"
+
+#. i18n: ectx: property (text), widget (QPushButton, button_delete)
+#: src/ui/configspeech_ui.ui:101
+#, kde-format
+msgid "Remove Model"
+msgstr "Odstrani model"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: src/ui/configspeech_ui.ui:192
+#, kde-format
+msgid "Model:"
+msgstr "Model:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: src/ui/configspeech_ui.ui:202
+#, kde-format
+msgid "Language:"
+msgstr "Jezik:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperDisableFP16)
+#: src/ui/configspeech_ui.ui:226
+#, kde-format
+msgid "Disable half precision (FP16 )"
+msgstr "Onemogoči polovično natančnost (FP16)"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperTranslate)
+#: src/ui/configspeech_ui.ui:233
+#, kde-format
+msgid "Translate text to English"
+msgstr "Prevedi besedilo v angleški jezik"
+
+#. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
+#: src/ui/configspeech_ui.ui:240
+#, kde-format
+msgid "Whisper processing on cpu is very slow"
+msgstr "Obdelava šepeta je na CPE zelo počasna"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
+#: src/ui/configspeech_ui.ui:317
+#, kde-format
+msgid "Check speech engine installation"
+msgstr "Preveri namestitev govornega pogona"
+
+#. i18n: ectx: property (text), widget (QPushButton, check_config)
+#: src/ui/configspeech_ui.ui:320
+#, kde-format
+msgid "Check configuration"
+msgstr "Preveri nastavitev"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)
