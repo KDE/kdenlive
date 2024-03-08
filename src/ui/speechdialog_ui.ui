@@ -10,8 +10,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>340</width>
-    <height>527</height>
+    <width>374</width>
+    <height>611</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,7 +30,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    </item>
    <item row="9" column="0" colspan="3">
     <widget class="KMessageWidget" name="speech_info">
-     <property name="closeButtonVisible" stdset="0">
+     <property name="closeButtonVisible">
       <bool>false</bool>
      </property>
     </widget>
@@ -125,13 +125,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
         </property>
        </widget>
       </item>
-      <item row="2" column="0" colspan="2">
-       <widget class="QCheckBox" name="translate_box">
-        <property name="text">
-         <string>Translate to English</string>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="1">
        <widget class="QComboBox" name="speech_language">
         <property name="sizePolicy">
@@ -160,6 +153,48 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
            <number>42</number>
           </property>
          </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="2" column="0">
+       <widget class="QCheckBox" name="translate_seamless">
+        <property name="text">
+         <string>Translate with SeamlessM4T</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QCheckBox" name="translate_box">
+        <property name="text">
+         <string>Translate to English</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0" colspan="2">
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QLabel" name="seamless_out_label">
+          <property name="text">
+           <string>Output language</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="seamless_out"/>
+        </item>
+       </layout>
+      </item>
+      <item row="4" column="0" colspan="2">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="seamless_in_label">
+          <property name="text">
+           <string>Input language</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="seamless_in"/>
         </item>
        </layout>
       </item>

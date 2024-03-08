@@ -1328,9 +1328,29 @@
            <label>Last selected language for speech detection</label>
            <default></default>
        </entry>
+       <entry name="enableSeamless" type="Bool">
+           <label>Enable Subtitles translation through SeamlessM4T llm</label>
+           <default>false</default>
+       </entry>
+       <entry name="srtSeamlessTranslate" type="Bool">
+           <label>Translate subtitles with seamless</label>
+           <default>false</default>
+       </entry>
+       <entry name="seamless_input" type="String">
+           <label>Default input language for seamless</label>
+           <default></default>
+       </entry>
+       <entry name="seamless_output" type="String">
+           <label>Default output language for seamless</label>
+           <default></default>
+       </entry>
        <entry name="whisperMaxChars" type="Int">
            <label>Maximum characters in a Whisper subtitle</label>
            <default>42</default>
+       </entry>
+       <entry name="subtitleMode" type="Int">
+           <label>Default mode for subtitle creation (full timeline=1, zone=2, one track=3, clip=4)</label>
+           <default>2</default>
        </entry>
        <entry name="cutWhisperMaxChars" type="Bool">
            <label>Limit maximum characters in a Whisper subtitle</label>

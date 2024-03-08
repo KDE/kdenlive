@@ -10,7 +10,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>322</width>
+    <width>382</width>
     <height>566</height>
    </rect>
   </property>
@@ -56,7 +56,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <item row="1" column="0" colspan="2">
     <widget class="QStackedWidget" name="speech_stack">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="page">
       <layout class="QGridLayout" name="gridLayout">
@@ -234,7 +234,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
          </property>
         </widget>
        </item>
-       <item row="5" column="0" colspan="2">
+       <item row="6" column="0" colspan="2">
         <widget class="KMessageWidget" name="kmessagewidget">
          <property name="text">
           <string>Whisper processing on cpu is very slow</string>
@@ -244,7 +244,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
          </property>
         </widget>
        </item>
-       <item row="6" column="0" colspan="2">
+       <item row="7" column="0" colspan="2">
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
           <widget class="QLabel" name="model_folder_label">
@@ -275,8 +275,15 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
          </item>
         </layout>
        </item>
-       <item row="7" column="0" colspan="2">
+       <item row="8" column="0" colspan="2">
         <layout class="QVBoxLayout" name="message_layout_wr"/>
+       </item>
+       <item row="5" column="1">
+        <widget class="QCheckBox" name="kcfg_enableSeamless">
+         <property name="text">
+          <string>Enable translation through SeamlessM4T</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>

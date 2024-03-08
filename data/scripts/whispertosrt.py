@@ -36,7 +36,9 @@ def main(source, model, outfile, **kwargs):
         'zone_in':-1,
         'zone_out':-1,
         'tmpfile':'',
-        'fp16': True
+        'fp16': True,
+        'seamless_source':'',
+        'seamless_target':''
     }
     assert all(k in kwargs_def for k in kwargs), f"Invalid kwargs: {kwargs.keys()}"
     kwargs = { **kwargs_def, **kwargs }
@@ -63,7 +65,15 @@ def main(source, model, outfile, **kwargs):
     args += f"fp16={fp16}"
     result = whispertotext.run_whisper(source, model, device, task, args)
 
+    if kwargs['seamless_source']:
+        print(f"0%| initialize", file=sys.stdout,flush=True)
+        from transformers import AutoProcessor, SeamlessM4Tv2Model
+        import torch
+        processor = AutoProcessor.from_pretrained("facebook/seamless-m4t-v2-large")
+        seamlessmodel = SeamlessM4Tv2Model.from_pretrained("facebook/seamless-m4t-v2-large")
+
     subs = []
+    subCount = len(result["segments"])
     for i in range(len(result["segments"])):
         start_time = result["segments"][i]["start"]
         end_time = result["segments"][i]["end"]
@@ -71,7 +81,15 @@ def main(source, model, outfile, **kwargs):
         timestamp = f"{start_time:.3f} - {end_time:.3f}"
         text = result["segments"][i]["text"]
 
-        sub = srt.Subtitle(index=len(subs), content=text, start=datetime.timedelta(seconds=start_time), end=datetime.timedelta(seconds=end_time))
+        if kwargs['seamless_source']:
+            progress = int(100*i / subCount)
+            print(f"{progress}%| translating", file=sys.stdout,flush=True)
+            text_inputs = processor(text, src_lang=kwargs['seamless_source'], return_tensors="pt").to(device)
+            output_tokens = seamlessmodel.generate(**text_inputs, tgt_lang=kwargs['seamless_target'], generate_speech=False)
+            translated_text_from_text = processor.decode(output_tokens[0].tolist()[0], skip_special_tokens=True)
+            sub = srt.Subtitle(index=len(subs), content=translated_text_from_text, start=datetime.timedelta(seconds=start_time), end=datetime.timedelta(seconds=end_time))
+        else:
+            sub = srt.Subtitle(index=len(subs), content=text, start=datetime.timedelta(seconds=start_time), end=datetime.timedelta(seconds=end_time))
         subs.append(sub)
 
     if max_line_width == None:

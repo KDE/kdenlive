@@ -28,6 +28,11 @@ SpeechToText::SpeechToText(EngineType engineType, QObject *parent)
         addDependency(QStringLiteral("srt"), i18n("automated subtitling"));
         addDependency(QStringLiteral("srt_equalizer"), i18n("adjust subtitles length"));
         addDependency(QStringLiteral("torch"), i18n("machine learning framework"));
+        if (KdenliveSettings::enableSeamless()) {
+            addDependency(QStringLiteral("sentencepiece"), i18n("Required for seamless"));
+            addDependency(QStringLiteral("protobuf"), i18n("Required for seamless"));
+            addDependency(QStringLiteral("transformers"), i18n("Required for seamless"));
+        }
         addScript(QStringLiteral("whispertotext.py"));
         addScript(QStringLiteral("whispertosrt.py"));
     }
