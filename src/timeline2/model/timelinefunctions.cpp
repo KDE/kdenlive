@@ -428,7 +428,7 @@ std::pair<int, int> TimelineFunctions::requestSpacerStartOperation(const std::sh
                         }
                         int lastPos = 0;
                         for (int c : beforeOnTrack) {
-                            int p = timeline->getClipEnd(c);
+                            int p = timeline->getItemEnd(c);
                             if (p >= pos - 1) {
                                 lastPos = pos;
                                 break;
