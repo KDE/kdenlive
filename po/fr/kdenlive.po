@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-06 02:18+0000\n"
-"PO-Revision-Date: 2024-01-22 22:03+0100\n"
+"PO-Revision-Date: 2024-03-06 12:34+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -14941,8 +14941,7 @@ msgid "Medium - English only"
 msgstr "Moyen - Uniquement en anglais"
 
 #: src/pythoninterfaces/speechtotext.cpp:67
-#, fuzzy, kde-format
-#| msgid "Audodetect"
+#, kde-format
 msgid "Autodetect"
 msgstr "Détecter automatiquement"
 
