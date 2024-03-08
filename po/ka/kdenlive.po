@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-07 00:37+0000\n"
-"PO-Revision-Date: 2024-03-03 05:40+0100\n"
+"PO-Revision-Date: 2024-03-07 05:22+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -4733,6 +4733,10 @@ msgid ""
 "of source types to select from.<nl/>Click on the media icon to open a window "
 "to select source files."
 msgstr ""
+"მთავარი ფანჯარა თქვენი პროექტის კალათაში საწყისი მასალების (ვიდეოების, "
+"გამოსახულებების, ტიტრების, ანიმაციების) დასამატებლად.<nl/>დააწკაპუნეთ დაბლა "
+"მაჩვენებელ ხატულაზე, რომ წყაროს ტიპის არჩევა შეძლოთ.<nl/>დააწკაპუნეთ მედიის "
+"ხატულაზე, რომ გავხსნა ფანჯარა, სადაც ფაილების არჩევას შეძლებთ."
 
 #: src/bin/bin.cpp:3604
 #, kde-format
@@ -6656,10 +6660,9 @@ msgstr "პროგრესული"
 #: src/dialogs/kdenlivesettingsdialog.cpp:1767
 #: src/dialogs/kdenlivesettingsdialog.cpp:2093 src/ui/configspeech_ui.ui:137
 #: src/ui/configspeech_ui.ui:252
-#, fuzzy, kde-format
-#| msgid "Custom models folder"
+#, kde-format
 msgid "Models folder"
-msgstr "მომხმარებლის მოდელების საქაღალდე"
+msgstr "მოდელების საქაღალდე"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1807
 #, kde-format

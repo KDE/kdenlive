@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-07 00:37+0000\n"
-"PO-Revision-Date: 2024-03-04 22:05+0100\n"
+"PO-Revision-Date: 2024-03-07 21:51+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -6749,10 +6749,9 @@ msgstr "Progresivo"
 #: src/dialogs/kdenlivesettingsdialog.cpp:1767
 #: src/dialogs/kdenlivesettingsdialog.cpp:2093 src/ui/configspeech_ui.ui:137
 #: src/ui/configspeech_ui.ui:252
-#, fuzzy, kde-format
-#| msgid "Custom models folder"
+#, kde-format
 msgid "Models folder"
-msgstr "Cartafol de modelos personalizado"
+msgstr "Cartafol de modelos"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1807
 #, kde-format

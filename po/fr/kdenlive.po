@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-07 00:37+0000\n"
-"PO-Revision-Date: 2024-03-01 09:37+0100\n"
+"PO-Revision-Date: 2024-03-06 12:34+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -14982,10 +14982,9 @@ msgid "automated subtitling"
 msgstr "Sous-titrage automatisé"
 
 #: src/pythoninterfaces/speechtotext.cpp:29
-#, fuzzy, kde-format
-#| msgid "Edit subtitle style"
+#, kde-format
 msgid "adjust subtitles length"
-msgstr "Modifier un style de sous-titre"
+msgstr "ajuster une longueur de sous-titres"
 
 #: src/pythoninterfaces/speechtotext.cpp:30
 #, kde-format
@@ -15043,8 +15042,7 @@ msgid "Medium - English only"
 msgstr "Moyen - Uniquement en anglais"
 
 #: src/pythoninterfaces/speechtotext.cpp:68
-#, fuzzy, kde-format
-#| msgid "Audodetect"
+#, kde-format
 msgid "Autodetect"
 msgstr "Détecter automatiquement"
 
@@ -21752,10 +21750,9 @@ msgstr "Langue"
 
 #. i18n: ectx: property (text), widget (QCheckBox, check_maxchars)
 #: src/ui/speechdialog_ui.ui:150
-#, fuzzy, kde-format
-#| msgid "Maximum Rate Change"
+#, kde-format
 msgid "Maximum characters per line"
-msgstr "Vitesse de changement maximale"
+msgstr "Nombre maximum de caractères par ligne"
 
 #. i18n: ectx: property (text), widget (QLabel, label_template)
 #. i18n: ectx: property (text), widget (QLabel, label)

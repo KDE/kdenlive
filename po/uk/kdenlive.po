@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-07 00:37+0000\n"
-"PO-Revision-Date: 2024-03-03 08:37+0200\n"
+"PO-Revision-Date: 2024-03-07 08:51+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -6783,10 +6783,9 @@ msgstr "Прогресивне"
 #: src/dialogs/kdenlivesettingsdialog.cpp:1767
 #: src/dialogs/kdenlivesettingsdialog.cpp:2093 src/ui/configspeech_ui.ui:137
 #: src/ui/configspeech_ui.ui:252
-#, fuzzy, kde-format
-#| msgid "Custom models folder"
+#, kde-format
 msgid "Models folder"
-msgstr "Тека нетипових моделей"
+msgstr "Тека моделей"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1807
 #, kde-format

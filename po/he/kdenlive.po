@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-07 00:37+0000\n"
-"PO-Revision-Date: 2024-03-03 13:31+0200\n"
+"PO-Revision-Date: 2024-03-07 23:48+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -14271,10 +14271,9 @@ msgid "automated subtitling"
 msgstr "חילול כתוביות אוטומטית"
 
 #: src/pythoninterfaces/speechtotext.cpp:29
-#, fuzzy, kde-format
-#| msgid "Edit subtitle style"
+#, kde-format
 msgid "adjust subtitles length"
-msgstr "עריכת סגנון כתוביות"
+msgstr "כיוון אורך הכתוביות"
 
 #: src/pythoninterfaces/speechtotext.cpp:30
 #, kde-format
@@ -14332,8 +14331,7 @@ msgid "Medium - English only"
 msgstr "בינונית - אנגלית בלבד"
 
 #: src/pythoninterfaces/speechtotext.cpp:68
-#, fuzzy, kde-format
-#| msgid "Audodetect"
+#, kde-format
 msgid "Autodetect"
 msgstr "זיהוי אוטומטי"
 
@@ -19152,10 +19150,9 @@ msgstr "סיומת תיווך:"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_add)
 #: src/ui/customcamcorderproxy_ui.ui:94
-#, fuzzy, kde-format
-#| msgid "Add new video file"
+#, kde-format
 msgid "Add new profile"
-msgstr "הוסף קובץ וידאו חדש"
+msgstr "הוספת פרופיל חדש"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_delete)
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_remove)
@@ -19166,10 +19163,9 @@ msgstr "מחיקת פרופיל"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_reset)
 #: src/ui/customcamcorderproxy_ui.ui:135
-#, fuzzy, kde-format
-#| msgid "Delete profile"
+#, kde-format
 msgid "Reset all profiles"
-msgstr "מחיקת פרופיל"
+msgstr "איפוס כל הפרופילים"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_more)
 #: src/ui/cutjobdialog_ui.ui:81
@@ -20855,10 +20851,9 @@ msgstr "שפה"
 
 #. i18n: ectx: property (text), widget (QCheckBox, check_maxchars)
 #: src/ui/speechdialog_ui.ui:150
-#, fuzzy, kde-format
-#| msgid "Maximum Rate Change"
+#, kde-format
 msgid "Maximum characters per line"
-msgstr "שינוי קצב מרבי"
+msgstr "כמות תווים מרבית לשורה"
 
 #. i18n: ectx: property (text), widget (QLabel, label_template)
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -21208,17 +21203,15 @@ msgstr "הנפשה"
 
 #. i18n: ectx: property (text), widget (QToolButton, anim_start)
 #: src/ui/titlewidget_ui.ui:1477
-#, fuzzy, kde-format
-#| msgid "Edit start"
+#, kde-format
 msgid "Edit start viewport"
-msgstr "ערוך התחלה"
+msgstr "עריכת אשנב התחלה"
 
 #. i18n: ectx: property (text), widget (QToolButton, anim_end)
 #: src/ui/titlewidget_ui.ui:1487
-#, fuzzy, kde-format
-#| msgid "Edit end"
+#, kde-format
 msgid "Edit end viewport"
-msgstr "ערוך סוף"
+msgstr "עריכת אשנב סוף"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/titlewidget_ui.ui:1512
