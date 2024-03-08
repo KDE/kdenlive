@@ -893,11 +893,20 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
                 allowedClipMixes << mixData.second.secondClipId;
             }
         }
-    } else {
     }
+    GroupType gType = GroupType::Normal;
+    std::pair<int, int> previousGroupPair = {-1, -1};
     if (old_trackId != -1) {
         if (notifyViewOnly) {
             PUSH_LAMBDA(update_model, local_undo);
+        }
+        if (m_singleSelectionMode) {
+            // Clip is in a group, so we must re-add it to the group after deletion
+            int parent = m_groups->getDirectAncestor(clipId);
+            if (parent > -1) {
+                gType = m_groups->getType(parent);
+            }
+            previousGroupPair = extractSelectionFromGroup({clipId}, local_undo, local_redo);
         }
         ok = getTrackById(old_trackId)->requestClipDeletion(clipId, updateView, finalMove, local_undo, local_redo, groupMove, false, allowedClipMixes);
         if (!ok) {
@@ -910,8 +919,18 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     }
     ok = ok && getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, finalMove, local_undo, local_redo, groupMove, old_trackId == -1,
                                                            allowedClipMixes);
-
-    if (!ok) {
+    if (ok) {
+        if (m_singleSelectionMode && previousGroupPair.first > -1) {
+            // Regroup items
+            if (previousGroupPair.second > -1) {
+                // Recreate the group
+                m_groups->createGroupAtSameLevel(previousGroupPair.second, {clipId}, gType, local_undo, local_redo);
+            } else {
+                int targetId = *m_groups->getLeaves(previousGroupPair.first).begin();
+                m_groups->setInGroupOf(clipId, targetId, local_undo, local_redo);
+            }
+        }
+    } else {
         qWarning() << "clip insertion failed";
         bool undone = local_undo();
         Q_ASSERT(undone);
@@ -2107,10 +2126,7 @@ bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
     if (m_singleSelectionMode) {
         // Ungroup all items first
         auto selection = m_currentSelection;
-        for (int id : selection) {
-            // Ungroup item before deletion
-            m_groups->removeFromGroup(id, undo, redo);
-        }
+        extractSelectionFromGroup(selection, undo, redo);
         // loop deletion
         for (int id : selection) {
             res = res && requestItemDeletion(id, undo, redo, logUndo);
@@ -2123,6 +2139,45 @@ bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
     }
     TRACE_RES(res);
     return res;
+}
+
+std::pair<int, int> TimelineModel::extractSelectionFromGroup(std::unordered_set<int> selection, Fun &undo, Fun &redo)
+{
+    int gid = m_groups->getDirectAncestor(*selection.begin());
+    std::pair<int, int> grpPair = {gid, -1};
+    if (gid > -1) {
+        // Item is in a group, check if deletion would leave an orphaned group (with only 1 child)
+        auto siblings = m_groups->getLeaves(gid);
+        for (int id : selection) {
+            siblings.erase(id);
+        }
+        if (siblings.size() < 2) {
+            // Parent group should be deleted
+            int grandParent = m_groups->getDirectAncestor(gid);
+            if (siblings.size() > 0) {
+                grpPair.second = *siblings.begin();
+            }
+            if (grandParent > -1) {
+                // The group is inside another one, move remaining items in that top level group
+                for (int id : siblings) {
+                    m_groups->setInGroupOf(id, gid, undo, redo);
+                }
+                // Remove group
+                m_groups->removeFromGroup(gid, undo, redo);
+            }
+            // Remove all remaining items from group
+            siblings = m_groups->getLeaves(gid);
+            for (int id : siblings) {
+                m_groups->removeFromGroup(id, undo, redo);
+            }
+        } else {
+            for (int id : selection) {
+                // Ungroup item before deletion
+                m_groups->removeFromGroup(id, undo, redo);
+            }
+        }
+    }
+    return grpPair;
 }
 
 bool TimelineModel::requestClipDeletion(int clipId, Fun &undo, Fun &redo, bool logUndo)
