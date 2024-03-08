@@ -1730,6 +1730,9 @@ void KdenliveSettingsDialog::initSpeechPage()
 {
     m_stt = new SpeechToText(SpeechToText::EngineType::EngineVosk, this);
     m_sttWhisper = new SpeechToText(SpeechToText::EngineType::EngineWhisper, this);
+    m_configSpeech.whisperInfo->setWordWrap(true);
+    m_configSpeech.whisperInfo->setText(
+        i18n("On first run, Whisper will <b>download the chosen model</b>. After that, processing will happen offline. Cpu processing is very slow."));
     // Python env info label
     PythonDependencyMessage *pythonEnvLabel = new PythonDependencyMessage(this, m_sttWhisper, true);
     m_configEnv.message_layout_2->addWidget(pythonEnvLabel);
@@ -1745,6 +1748,17 @@ void KdenliveSettingsDialog::initSpeechPage()
         m_configEnv.kcfg_usePythonVenv->setChecked(KdenliveSettings::usePythonVenv());
     });
     m_sttWhisper->checkPython(KdenliveSettings::usePythonVenv(), true);
+    connect(m_configSpeech.kcfg_enableSeamless, &QCheckBox::toggled, [this](bool toggled) {
+        m_sttWhisper->buildWhisperDeps(toggled);
+        m_sttWhisper->checkDependencies(true);
+        if (toggled) {
+            m_configSpeech.whisperInfo->setText(
+                i18n("On first run, SeamlessM4T will <b>download 9Gb of model data</b>. After that, translations will happen offline."));
+        } else {
+            m_configSpeech.whisperInfo->setText(
+                i18n("On first run, Whisper will <b>download the chosen model</b>. After that, processing will happen offline. Cpu processing is very slow."));
+        }
+    });
 
     // Basic info about model folders
     const QString whisperModelFolder = QStandardPaths::locate(QStandardPaths::GenericCacheLocation, QStringLiteral("whisper"), QStandardPaths::LocateDirectory);

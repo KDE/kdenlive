@@ -24,17 +24,23 @@ SpeechToText::SpeechToText(EngineType engineType, QObject *parent)
         addScript(QStringLiteral("speech.py"));
         addScript(QStringLiteral("speechtotext.py"));
     } else if (engineType == EngineType::EngineWhisper) {
-        addDependency(QStringLiteral("openai-whisper"), i18n("speech features"));
-        addDependency(QStringLiteral("srt"), i18n("automated subtitling"));
-        addDependency(QStringLiteral("srt_equalizer"), i18n("adjust subtitles length"));
-        addDependency(QStringLiteral("torch"), i18n("machine learning framework"));
-        if (KdenliveSettings::enableSeamless()) {
-            addDependency(QStringLiteral("sentencepiece"), i18n("Required for seamless"));
-            addDependency(QStringLiteral("protobuf"), i18n("Required for seamless"));
-            addDependency(QStringLiteral("transformers"), i18n("Required for seamless"));
-        }
+        buildWhisperDeps(KdenliveSettings::enableSeamless());
         addScript(QStringLiteral("whispertotext.py"));
         addScript(QStringLiteral("whispertosrt.py"));
+    }
+}
+
+void SpeechToText::buildWhisperDeps(bool enableSeamless)
+{
+    m_dependencies.clear();
+    addDependency(QStringLiteral("openai-whisper"), i18n("speech features"));
+    addDependency(QStringLiteral("srt"), i18n("automated subtitling"));
+    addDependency(QStringLiteral("srt_equalizer"), i18n("adjust subtitles length"));
+    addDependency(QStringLiteral("torch"), i18n("machine learning framework"));
+    if (enableSeamless) {
+        addDependency(QStringLiteral("sentencepiece"), i18n("SeamlessM4T translation"));
+        addDependency(QStringLiteral("protobuf"), i18n("SeamlessM4T translation"));
+        addDependency(QStringLiteral("transformers"), i18n("SeamlessM4T translation"));
     }
 }
 
@@ -55,15 +61,15 @@ QString SpeechToText::voskModelPath()
 QList<std::pair<QString, QString>> SpeechToText::whisperModels()
 {
     QList<std::pair<QString, QString>> models;
-    models.append({i18n("Tiny"), QStringLiteral("tiny")});
-    models.append({i18n("Base"), QStringLiteral("base")});
-    models.append({i18n("Small"), QStringLiteral("small")});
-    models.append({i18n("Medium"), QStringLiteral("medium")});
-    models.append({i18n("Large"), QStringLiteral("large")});
-    models.append({i18n("Tiny - English only"), QStringLiteral("tiny.en")});
-    models.append({i18n("Base - English only"), QStringLiteral("base.en")});
-    models.append({i18n("Small - English only"), QStringLiteral("small.en")});
-    models.append({i18n("Medium - English only"), QStringLiteral("medium.en")});
+    models.append({i18n("Tiny (72Mb)"), QStringLiteral("tiny")});
+    models.append({i18n("Base (140Mb)"), QStringLiteral("base")});
+    models.append({i18n("Small (460Mb)"), QStringLiteral("small")});
+    models.append({i18n("Medium (1.4Gb)"), QStringLiteral("medium")});
+    models.append({i18n("Large (2.9Gb)"), QStringLiteral("large")});
+    models.append({i18n("Tiny - English only (39Mb)"), QStringLiteral("tiny.en")});
+    models.append({i18n("Base - English only (74Mb)"), QStringLiteral("base.en")});
+    models.append({i18n("Small - English only (244Mb)"), QStringLiteral("small.en")});
+    models.append({i18n("Medium - English only (1.5Gb)"), QStringLiteral("medium.en")});
     return models;
 }
 
