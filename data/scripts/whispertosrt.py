@@ -3,8 +3,8 @@
 # SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 import datetime
-import srt
 import sys
+import srt
 from srt_equalizer import srt_equalizer
 
 import whispertotext
@@ -13,26 +13,55 @@ import whispertotext
 # 1. source av file
 # 2. model name (tiny, base, small, medium, large)
 # 3. output .srt file
-# 4. Device (cpu, cuda)
-# 5. translate or transcribe
-# 6. Language
-# 7. in point (optional)
-# 8. out point
-# 9. tmp file name to extract a clip's part
 
-def main():
-    source = sys.argv[1]
-    model = sys.argv[2]
-    outfile = sys.argv[3]
-    device = sys.argv[4]
-    task = sys.argv[5]
-    language = sys.argv[6]
-    maxLength = int(sys.argv[7])
-    if len(sys.argv) > 9:
-        whispertotext.extract_zone(source, sys.argv[8], sys.argv[9], sys.argv[10])
-        source = sys.argv[10]
+# Optional keywords:
 
-    result = whispertotext.run_whisper(source, model, device, task, language)
+# device = cpu, cuda
+# task = translate or transcribe
+# language
+# max_line_width = max number of characters in a subtitle
+# shorten_method = greedy, halving (shortening method to cut subtitles when max_line_width is set
+# zone_in (in point)
+# zone_out (out point)
+# tmpfile (tmp file name to extract a clip's part)
+# fp16 = False to disable fp16
+
+def main(source, model, outfile, **kwargs):
+    kwargs_def = {
+        'device':'cpu',
+        'task':'transcribe',
+        'language':'',
+        'max_line_width': None,
+        'shorten_method': 'greedy',
+        'zone_in':-1,
+        'zone_out':-1,
+        'tmpfile':'',
+        'fp16': True
+    }
+    assert all(k in kwargs_def for k in kwargs), f"Invalid kwargs: {kwargs.keys()}"
+    kwargs = { **kwargs_def, **kwargs }
+
+    device = kwargs['device']
+    language = kwargs['language']
+    task = kwargs['task']
+    if kwargs['max_line_width'] == None:
+        max_line_width = None
+    else:
+        max_line_width = int(kwargs['max_line_width'])
+    shorten_method = kwargs['shorten_method']
+    zone_in = int(kwargs['zone_in'])
+    zone_out = int(kwargs['zone_out'])
+    tmpfile = kwargs['tmpfile']
+    fp16 = kwargs['fp16'] != 'False'
+
+    if tmpfile:
+        whispertotext.extract_zone(source, zone_in, zone_out, tmpfile)
+        source = tmpfile
+    args = ''
+    if language:
+        args = f"language={language} "
+    args += f"fp16={fp16}"
+    result = whispertotext.run_whisper(source, model, device, task, args)
 
     subs = []
     for i in range(len(result["segments"])):
@@ -45,20 +74,24 @@ def main():
         sub = srt.Subtitle(index=len(subs), content=text, start=datetime.timedelta(seconds=start_time), end=datetime.timedelta(seconds=end_time))
         subs.append(sub)
 
-    if maxLength == 0:
+    if max_line_width == None:
         subtitle = srt.compose(subs)
     else:
         # Reduce line lenth in the whisper result to <= maxLength chars
         equalized = []
         for sub in subs:
-            equalized.extend(srt_equalizer.split_subtitle(sub, maxLength, method='halving'))
+            equalized.extend(srt_equalizer.split_subtitle(sub, max_line_width, method=shorten_method))
 
         subtitle = srt.compose(equalized)
 
     with open(outfile, 'w', encoding='utf8') as f:
         f.writelines(subtitle)
+
     return 0
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(main(sys.argv[1], # source AV file
+         sys.argv[2], # model name
+         sys.argv[3], # output file
+         **dict(arg.split('=') for arg in sys.argv[4:]))) # kwargs

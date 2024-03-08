@@ -319,25 +319,29 @@ void SpeechDialog::slotProcessSpeech()
         m_speechJob->setProcessChannelMode(QProcess::MergedChannels);
         connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &SpeechDialog::slotProcessWhisperProgress);
         QString language = speech_language->isEnabled() ? speech_language->currentData().toString().simplified() : QString();
-        if (!language.isEmpty()) {
-            language.prepend(QStringLiteral("language="));
-        }
-        qDebug() << "==== ANALYSIS SPEECH: " << m_stt->subtitleScript() << " " << audio << " " << modelName << " " << speech << " "
-                 << KdenliveSettings::whisperDevice() << " " << (translate_box->isChecked() ? QStringLiteral("translate") : QStringLiteral("transcribe")) << " "
-                 << language;
-        if (KdenliveSettings::whisperDisableFP16()) {
-            language.append(QStringLiteral(" fp16=False"));
-        }
         int maxCount = 0;
         if (check_maxchars->isChecked()) {
             maxCount = maxChars->value();
             KdenliveSettings::setWhisperMaxChars(maxCount);
         }
         KdenliveSettings::setCutWhisperMaxChars(check_maxchars->isChecked());
+        QStringList arguments = {m_stt->subtitleScript(), audio, modelName, speech};
+        arguments << QStringLiteral("device=%1").arg(KdenliveSettings::whisperDevice());
+        if (translate_box->isChecked()) {
+            arguments << QStringLiteral("task=translate");
+        }
+        if (!language.isEmpty()) {
+            arguments << QStringLiteral("language=%1").arg(language);
+        }
+        if (KdenliveSettings::whisperDisableFP16()) {
+            arguments << QStringLiteral("fp16=False");
+        }
+        if (maxCount > 0) {
+            arguments << QStringLiteral("max_line_width=%1").arg(maxCount);
+        }
+        qDebug() << "::: PASSING SPEECH ARGS: " << arguments;
 
-        m_speechJob->start(m_stt->pythonExec(),
-                           {m_stt->subtitleScript(), audio, modelName, speech, KdenliveSettings::whisperDevice(),
-                            translate_box->isChecked() ? QStringLiteral("translate") : QStringLiteral("transcribe"), language, QString::number(maxCount)});
+        m_speechJob->start(m_stt->pythonExec(), arguments);
     } else {
         // Vosk
         QString modelName = speech_model->currentText();
