@@ -513,6 +513,11 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveOverExis
         // Project filename changed
         pCore->window()->updateProjectPath(outputFileName);
     }
+    // If current sequence was modified and is used in another sequence, ensure to sync it
+    const QUuid activeUuid = m_activeTimelineModel->uuid();
+    if (m_project->sequenceThumbRequiresRefresh(activeUuid)) {
+        pCore->bin()->updateSequenceClip(activeUuid, m_activeTimelineModel->duration(), -1);
+    }
     prepareSave();
     QString saveFolder = QFileInfo(outputFileName).absolutePath();
     m_project->updateWorkFilesBeforeSave(outputFileName);
