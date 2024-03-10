@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-09 00:37+0000\n"
-"PO-Revision-Date: 2024-03-07 19:24+0100\n"
+"POT-Creation-Date: 2024-03-10 00:37+0000\n"
+"PO-Revision-Date: 2024-03-09 11:52+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -4718,8 +4718,8 @@ msgstr "Erreprodukzio-zerrenda"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2460 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1458
-#: src/project/projectmanager.cpp:1460 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1463
+#: src/project/projectmanager.cpp:1465 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "Sekuentziak"
@@ -5736,7 +5736,7 @@ msgstr ""
 "Kdenlive kraskatu da azken abioan.\n"
 "Nahi dituzu konfigurazio fitxategiak berrezarri?"
 
-#: src/core.cpp:174 src/project/projectmanager.cpp:797
+#: src/core.cpp:174 src/project/projectmanager.cpp:802
 #, kde-format
 msgid "Loading project…"
 msgstr "Proiektua kargatzen…"
@@ -6428,7 +6428,7 @@ msgstr "Esportatu Gidalerroen datuak"
 #: src/project/dialogs/archivewidget.cpp:888
 #: src/project/dialogs/archivewidget.cpp:900
 #: src/project/dialogs/archivewidget.cpp:906
-#: src/project/projectmanager.cpp:1748 src/render/renderrequest.cpp:269
+#: src/project/projectmanager.cpp:1753 src/render/renderrequest.cpp:269
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5073
@@ -6494,7 +6494,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Ziur ez badago, saiatu honekin:<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:54 src/dialogs/importsubtitle.cpp:97
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1641
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1646
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, kde-format
 msgid "Cannot read file %1"
@@ -6749,6 +6749,9 @@ msgid ""
 "On first run, Whisper will <b>download the chosen model</b>. After that, "
 "processing will happen offline. Cpu processing is very slow."
 msgstr ""
+"Aurreneko exekuzioan, «Whisper»rek <b>hautatutako eredua zama-jaitsiko</b> "
+"du. Ondoren, prozesatzea lerroz kanpo egingo du. PUZ prozesatzea oso motela "
+"da."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1756
 #, kde-format
@@ -6756,6 +6759,8 @@ msgid ""
 "On first run, SeamlessM4T will <b>download 9Gb of model data</b>. After "
 "that, translations will happen offline."
 msgstr ""
+"Aurreneko exekuzioan, «SeamlessM4T»ek <b>eredu-datuen 9GB zama-jaitsiko</b> "
+"ditu. Ondoren, itzulpena lerroz kanpo egingo du."
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
@@ -7477,15 +7482,14 @@ msgid "Speech recognition failed"
 msgstr "Hizketaren ezagutzak huts egin du"
 
 #: src/dialogs/speechdialog.cpp:438
-#, fuzzy, kde-format
-#| msgid "Translate text to English"
+#, kde-format
 msgid "Translating text to %1"
-msgstr "Itzuli testua ingelesera"
+msgstr "Testua %1(e)ra itzultzen"
 
 #: src/dialogs/speechdialog.cpp:440
 #, kde-format
 msgid "Initializing translation model"
-msgstr ""
+msgstr "Itzulpen eredua hasieratzen"
 
 #: src/dialogs/speechdialog.cpp:451 src/pythoninterfaces/speechtotext.cpp:80
 #, kde-format
@@ -7538,10 +7542,9 @@ msgid "Burmese"
 msgstr "Birmaniera"
 
 #: src/dialogs/speechdialog.cpp:461
-#, fuzzy, kde-format
-#| msgid "Chinese"
+#, kde-format
 msgid "Cantonese"
-msgstr "Txinera"
+msgstr "Kantonera"
 
 #: src/dialogs/speechdialog.cpp:462 src/pythoninterfaces/speechtotext.cpp:96
 #, kde-format
@@ -7549,14 +7552,14 @@ msgid "Catalan"
 msgstr "Katalana"
 
 #: src/dialogs/speechdialog.cpp:463
-#, kde-format
+#, fuzzy, kde-format
 msgid "Cebuano"
-msgstr ""
+msgstr "Cebuera?"
 
 #: src/dialogs/speechdialog.cpp:464
 #, kde-format
 msgid "Central Kurdish"
-msgstr ""
+msgstr "Erdialdeko kurduera"
 
 #: src/dialogs/speechdialog.cpp:465 src/pythoninterfaces/speechtotext.cpp:98
 #, kde-format
@@ -7581,7 +7584,7 @@ msgstr "Nederlandera"
 #: src/dialogs/speechdialog.cpp:469
 #, kde-format
 msgid "Egyptian Arabic"
-msgstr ""
+msgstr "Egiptoko arabiera"
 
 #: src/dialogs/speechdialog.cpp:470 src/pythoninterfaces/speechtotext.cpp:102
 #, kde-format
@@ -7634,10 +7637,9 @@ msgid "Gujarati"
 msgstr "Gujaratera"
 
 #: src/dialogs/speechdialog.cpp:480
-#, fuzzy, kde-format
-#| msgid "Mongolian"
+#, kde-format
 msgid "Halh Mongolian"
-msgstr "Mongoliera"
+msgstr ""
 
 #: src/dialogs/speechdialog.cpp:481 src/pythoninterfaces/speechtotext.cpp:117
 #, kde-format
@@ -7662,7 +7664,7 @@ msgstr "Islandiera"
 #: src/dialogs/speechdialog.cpp:485
 #, kde-format
 msgid "Igbo"
-msgstr ""
+msgstr "Igbo"
 
 #: src/dialogs/speechdialog.cpp:486 src/pythoninterfaces/speechtotext.cpp:121
 #, kde-format
@@ -7670,11 +7672,9 @@ msgid "Indonesian"
 msgstr "Indonesiera"
 
 #: src/dialogs/speechdialog.cpp:487
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Iris Box"
+#, kde-format
 msgid "Irish"
-msgstr "Iris Kutxa"
+msgstr "Irlandera"
 
 #: src/dialogs/speechdialog.cpp:488 src/pythoninterfaces/speechtotext.cpp:122
 #, kde-format
@@ -7714,7 +7714,7 @@ msgstr "Koreera"
 #: src/dialogs/speechdialog.cpp:495
 #, kde-format
 msgid "Kyrgyz"
-msgstr ""
+msgstr "kirgizera"
 
 #: src/dialogs/speechdialog.cpp:496 src/pythoninterfaces/speechtotext.cpp:129
 #, kde-format
@@ -7727,10 +7727,9 @@ msgid "Lithuanian"
 msgstr "Lituaniera"
 
 #: src/dialogs/speechdialog.cpp:498
-#, fuzzy, kde-format
-#| msgid "Lao"
+#, kde-format
 msgid "Luo"
-msgstr "Laosera"
+msgstr ""
 
 #: src/dialogs/speechdialog.cpp:499 src/pythoninterfaces/speechtotext.cpp:136
 #, kde-format
@@ -7738,10 +7737,9 @@ msgid "Macedonian"
 msgstr "Mazedoniera"
 
 #: src/dialogs/speechdialog.cpp:500
-#, fuzzy, kde-format
-#| msgid "Swahili"
+#, kde-format
 msgid "Maithili"
-msgstr "Swahilia"
+msgstr "Maithili"
 
 #: src/dialogs/speechdialog.cpp:501 src/pythoninterfaces/speechtotext.cpp:139
 #, kde-format
@@ -7754,10 +7752,9 @@ msgid "Maltese"
 msgstr "Maltera"
 
 #: src/dialogs/speechdialog.cpp:503 src/dialogs/speechdialog.cpp:504
-#, fuzzy, kde-format
-#| msgid "Chinese"
+#, kde-format
 msgid "Mandarin Chinese"
-msgstr "Txinera"
+msgstr "Mandarin-txinera"
 
 #: src/dialogs/speechdialog.cpp:505 src/pythoninterfaces/speechtotext.cpp:142
 #, kde-format
@@ -7767,17 +7764,17 @@ msgstr "Marathera"
 #: src/dialogs/speechdialog.cpp:506
 #, kde-format
 msgid "Meitei"
-msgstr ""
+msgstr "Manipurera"
 
 #: src/dialogs/speechdialog.cpp:507
 #, kde-format
 msgid "Modern Standard Arabic"
-msgstr ""
+msgstr "Arabiera estandar modernoa"
 
 #: src/dialogs/speechdialog.cpp:508
 #, kde-format
 msgid "Moroccan Arabic"
-msgstr ""
+msgstr "Marokoko arabiera"
 
 #: src/dialogs/speechdialog.cpp:509 src/pythoninterfaces/speechtotext.cpp:147
 #, kde-format
@@ -7790,27 +7787,24 @@ msgid "Nigerian Fulfulde"
 msgstr ""
 
 #: src/dialogs/speechdialog.cpp:511
-#, fuzzy, kde-format
-#| msgid "Azerbaijani"
+#, kde-format
 msgid "North Azerbaijani"
-msgstr "Azerbaijanera"
+msgstr "Iparraldeko azerbaijanera"
 
 #: src/dialogs/speechdialog.cpp:512
 #, kde-format
 msgid "Northern Uzbek"
-msgstr ""
+msgstr "Iparraldeko uzbekera"
 
 #: src/dialogs/speechdialog.cpp:513
-#, fuzzy, kde-format
-#| msgid "Norwegian"
+#, kde-format
 msgid "Norwegian Bokmål"
-msgstr "Norvegiera"
+msgstr "Norvegiera Bokmål"
 
 #: src/dialogs/speechdialog.cpp:514
-#, fuzzy, kde-format
-#| msgid "Norwegian"
+#, kde-format
 msgid "Norwegian Nynorsk"
-msgstr "Norvegiera"
+msgstr "Norvegiera Nynorsk"
 
 #: src/dialogs/speechdialog.cpp:515
 #, fuzzy, kde-format
@@ -7821,7 +7815,7 @@ msgstr "Panjabi"
 #: src/dialogs/speechdialog.cpp:516
 #, kde-format
 msgid "Odia"
-msgstr ""
+msgstr "Odia"
 
 #: src/dialogs/speechdialog.cpp:517 src/pythoninterfaces/speechtotext.cpp:154
 #, kde-format
@@ -7881,23 +7875,22 @@ msgstr "Somaliera"
 #: src/dialogs/speechdialog.cpp:528
 #, kde-format
 msgid "Southern Pashto"
-msgstr ""
+msgstr "Hegoaldeko paxtuera"
 
 #: src/dialogs/speechdialog.cpp:529 src/pythoninterfaces/speechtotext.cpp:169
 #, kde-format
 msgid "Spanish"
-msgstr "Espainiera"
+msgstr "Gaztelania"
 
 #: src/dialogs/speechdialog.cpp:530
-#, fuzzy, kde-format
-#| msgid "Latvian"
+#, kde-format
 msgid "Standard Latvian"
-msgstr "Letoniera"
+msgstr "Letoniera estandarra"
 
 #: src/dialogs/speechdialog.cpp:531
 #, kde-format
 msgid "Standard Malay"
-msgstr ""
+msgstr "Malaysiera estandarra"
 
 #: src/dialogs/speechdialog.cpp:532 src/pythoninterfaces/speechtotext.cpp:171
 #, kde-format
@@ -7965,10 +7958,9 @@ msgid "West Central Oromo"
 msgstr ""
 
 #: src/dialogs/speechdialog.cpp:545
-#, fuzzy, kde-format
-#| msgid "Persian"
+#, kde-format
 msgid "Western Persian"
-msgstr "Persiera"
+msgstr "Mendebaldeko persiera"
 
 #: src/dialogs/speechdialog.cpp:546 src/pythoninterfaces/speechtotext.cpp:189
 #, kde-format
@@ -7978,7 +7970,7 @@ msgstr "Jorubera"
 #: src/dialogs/speechdialog.cpp:547
 #, kde-format
 msgid "Zulu"
-msgstr ""
+msgstr "Zuluera"
 
 #: src/dialogs/splash.cpp:35
 #, kde-format
@@ -8912,8 +8904,8 @@ msgstr "Ondorengo iragazki/trantsizioak proiektutik ezabatu dira:"
 msgid "Invalid file path"
 msgstr "Fitxategi-bide baliogabea"
 
-#: src/doc/kdenlivedoc.cpp:211 src/project/projectmanager.cpp:781
-#: src/project/projectmanager.cpp:821 src/project/projectmanager.cpp:878
+#: src/doc/kdenlivedoc.cpp:211 src/project/projectmanager.cpp:786
+#: src/project/projectmanager.cpp:826 src/project/projectmanager.cpp:883
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Ezin da fitxategi akasduna berreskuratu."
@@ -8991,15 +8983,15 @@ msgstr ""
 "Zure proiektuaren fitxategia Kdenlive-ren azken bertsiora eguneratu da, "
 "baina ezin izan da %1 babes-kopia sortu."
 
-#: src/doc/kdenlivedoc.cpp:884 src/project/projectmanager.cpp:1335
-#: src/project/projectmanager.cpp:1371
+#: src/doc/kdenlivedoc.cpp:884 src/project/projectmanager.cpp:1340
+#: src/project/projectmanager.cpp:1376
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Errorea proiektuaren karpeta mugitzerakoan: %1"
 
 #: src/doc/kdenlivedoc.cpp:1074 src/doc/kdenlivedoc.cpp:2303
 #: src/project/dialogs/archivewidget.cpp:239
-#: src/project/projectmanager.cpp:1582
+#: src/project/projectmanager.cpp:1587
 #, kde-format
 msgid "Untitled"
 msgstr "Izengabea"
@@ -11877,12 +11869,12 @@ msgstr ""
 "Honek aldi-baterako fitxategi guztiak <br/><b>%1</b>(e)tik <b>%2</b>(e)ra "
 "mugituko ditu eta,<br/>gero proiektua birkargatu egingo da"
 
-#: src/mainwindow.cpp:2222 src/project/projectmanager.cpp:588
+#: src/mainwindow.cpp:2222 src/project/projectmanager.cpp:593
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Ezin da eragiketa burutu, dokumentuaren id baliogabea: %1"
 
-#: src/mainwindow.cpp:2227 src/project/projectmanager.cpp:594
+#: src/mainwindow.cpp:2227 src/project/projectmanager.cpp:599
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Ezin da eragiketa burutu, helburuko karpeta badago aurretik: %1"
@@ -14795,7 +14787,7 @@ msgstr "Ireki Babes-kopia Fitxategia..."
 msgid "Save changes to document?"
 msgstr "Gorde aldaketak dokumentuari?"
 
-#: src/project/projectmanager.cpp:433 src/project/projectmanager.cpp:1581
+#: src/project/projectmanager.cpp:433 src/project/projectmanager.cpp:1586
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -14804,17 +14796,17 @@ msgstr ""
 "<shortcut>\"%1\"</shortcut>  proiektua aldatu da.\n"
 "Aldaketak gorde nahi dituzu?"
 
-#: src/project/projectmanager.cpp:530
+#: src/project/projectmanager.cpp:535
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr "Proiektu-fitxategia gordetzea <br><b>%1</B> huts egin du"
 
-#: src/project/projectmanager.cpp:563
+#: src/project/projectmanager.cpp:568
 #, kde-format
 msgid "Saving successful"
 msgstr "Ondo gorde da"
 
-#: src/project/projectmanager.cpp:576
+#: src/project/projectmanager.cpp:581
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -14825,38 +14817,38 @@ msgstr ""
 "baterako fitxategiak gordetzeko. Honek aldi-baterako fitxategiak <b>%1</b>-"
 "tik <b>%2</b>-ra mugituko ditu eta proiektua birkargatu egingo da"
 
-#: src/project/projectmanager.cpp:617
+#: src/project/projectmanager.cpp:622
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Gorde Kopia"
 
-#: src/project/projectmanager.cpp:722
+#: src/project/projectmanager.cpp:727
 #, kde-format
 msgid "Auto-saved file exist. Do you want to recover now?"
 msgstr "Automatikoki gordetako fitxategia dago. Nahi duzu orain berreskuratu?"
 
-#: src/project/projectmanager.cpp:722
+#: src/project/projectmanager.cpp:727
 #, kde-format
 msgid "File Recovery"
 msgstr "Fitxategi berreskuratzea"
 
-#: src/project/projectmanager.cpp:723 src/project/projectmanager.cpp:809
+#: src/project/projectmanager.cpp:728 src/project/projectmanager.cpp:814
 #, kde-format
 msgid "Recover"
 msgstr "Berreskuratu"
 
-#: src/project/projectmanager.cpp:723
+#: src/project/projectmanager.cpp:728
 #, kde-format
 msgid "Do not recover"
 msgstr "Ez berreskuratu"
 
-#: src/project/projectmanager.cpp:775
+#: src/project/projectmanager.cpp:780
 #, kde-format
 msgid "Opening file %1"
 msgstr "%1 fitxategia irekitzen"
 
-#: src/project/projectmanager.cpp:808
+#: src/project/projectmanager.cpp:813
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -14866,29 +14858,29 @@ msgstr ""
 "Ezin da proiektuaren fitxategia ireki. %1 errorea\n"
 "Babes-kopia fitxategi bat ireki nahi duzu?"
 
-#: src/project/projectmanager.cpp:809
+#: src/project/projectmanager.cpp:814
 #, kde-format
 msgid "Error opening file"
 msgstr "Hutsegitea fitxategia irekitzerakoan"
 
-#: src/project/projectmanager.cpp:809
+#: src/project/projectmanager.cpp:814
 #, kde-format
 msgid "Open Backup"
 msgstr "Ireki babeskopia"
 
-#: src/project/projectmanager.cpp:825
+#: src/project/projectmanager.cpp:830
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "Ezin izan du proiektuaren babeskopia fitxategia ireki."
 
-#: src/project/projectmanager.cpp:840
+#: src/project/projectmanager.cpp:845
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Zure proiektua eguneratua izan dan, hurrengo gordetzearekin batera babes-"
 "kopia sortuko da"
 
-#: src/project/projectmanager.cpp:843
+#: src/project/projectmanager.cpp:848
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -14896,17 +14888,17 @@ msgstr ""
 "Zure proiektua irekitzean aldatu egin da, babes-kopia bat sortuko da "
 "hurrengo gordetzea burutzean"
 
-#: src/project/projectmanager.cpp:873
+#: src/project/projectmanager.cpp:878
 #, kde-format
 msgid "Loading timeline…"
 msgstr "Denbora-lerroa kargatzen…"
 
-#: src/project/projectmanager.cpp:892
+#: src/project/projectmanager.cpp:897
 #, kde-format
 msgid "Building sequences…"
 msgstr "Sekuentziak eraikitzen..."
 
-#: src/project/projectmanager.cpp:996
+#: src/project/projectmanager.cpp:1001
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -14915,7 +14907,7 @@ msgstr ""
 "Ezin du proiektu-fitxategia ireki. Errorea:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1036
+#: src/project/projectmanager.cpp:1041
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -14924,12 +14916,12 @@ msgstr ""
 "Honek azken gordetzetik egin diren aldaketa guztiak ezabatuko ditu. Ziur "
 "zaude jarraitu nahi duzula?"
 
-#: src/project/projectmanager.cpp:1037
+#: src/project/projectmanager.cpp:1042
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Berrezarri gordetako azken bertsioa"
 
-#: src/project/projectmanager.cpp:1123
+#: src/project/projectmanager.cpp:1128
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -14938,31 +14930,31 @@ msgstr ""
 "Proiektua hondatuta zegoen, ezin da babes-kopia egin. Mesedez, itxi eta "
 "ireki zure proiektuaren fitxategia azken babes-kopia berreskuratzeko"
 
-#: src/project/projectmanager.cpp:1313
+#: src/project/projectmanager.cpp:1318
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr ""
 "Errorea proiektuaren karpeta mugitzerakoan, ezin da cache karpeta atzitu"
 
-#: src/project/projectmanager.cpp:1349
+#: src/project/projectmanager.cpp:1354
 #, kde-format
 msgid "Moving project folder"
 msgstr "Proiektuaren karpeta mugitzen"
 
-#: src/project/projectmanager.cpp:1411
+#: src/project/projectmanager.cpp:1416
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 "Proiektu fitxategia hondatuta dago (pistarik ez). Babes-kopia fitxategi bat "
 "bilatzen saiatu?"
 
-#: src/project/projectmanager.cpp:1437 src/project/projectmanager.cpp:1489
-#: src/project/projectmanager.cpp:1493
+#: src/project/projectmanager.cpp:1442 src/project/projectmanager.cpp:1494
+#: src/project/projectmanager.cpp:1498
 #, kde-format
 msgid "Sequence 1"
 msgstr "1 sekuentzia"
 
-#: src/project/projectmanager.cpp:1448
+#: src/project/projectmanager.cpp:1453
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -14970,13 +14962,13 @@ msgstr ""
 "Proiektu fitxategia hondatuta dago - ezin izan da pistarik kargatu. Babes-"
 "kopia fitxategi bat bilatzen saiatu?"
 
-#: src/project/projectmanager.cpp:1587 src/project/projectmanager.cpp:1592
-#: src/project/projectmanager.cpp:1602 src/project/projectmanager.cpp:1616
+#: src/project/projectmanager.cpp:1592 src/project/projectmanager.cpp:1597
+#: src/project/projectmanager.cpp:1607 src/project/projectmanager.cpp:1621
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Proiektuaren profil aldaketa bertan behera"
 
-#: src/project/projectmanager.cpp:1733
+#: src/project/projectmanager.cpp:1738
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -14985,12 +14977,12 @@ msgstr ""
 "%1 Irteerako fitxategia dagoeneko existitzen da.\n"
 " Gainidatzi nahi duzu?"
 
-#: src/project/projectmanager.cpp:1758
+#: src/project/projectmanager.cpp:1763
 #, kde-format
 msgid "Project profile changed"
 msgstr "Proiektuaren profila aldatu da"
 
-#: src/project/projectmanager.cpp:1814
+#: src/project/projectmanager.cpp:1819
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -14999,17 +14991,17 @@ msgstr ""
 "Klip honetatik ezin da denbora-lerro bat sortu:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1890
+#: src/project/projectmanager.cpp:1895
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "Sekuentzia-klip bat inportatzen, une honetan egoera esperimentalean"
 
-#: src/project/projectmanager.cpp:2073
+#: src/project/projectmanager.cpp:2078
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Hautatu klip bat sortzeko sekuentzia"
 
-#: src/project/projectmanager.cpp:2111
+#: src/project/projectmanager.cpp:2116
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Sortu sekuentzia-klipa"
@@ -15350,67 +15342,59 @@ msgstr "makina-ikaskuntzako esparrua"
 #: src/pythoninterfaces/speechtotext.cpp:41
 #: src/pythoninterfaces/speechtotext.cpp:42
 #: src/pythoninterfaces/speechtotext.cpp:43
-#, fuzzy, kde-format
-#| msgid "Select Transition"
+#, kde-format
 msgid "SeamlessM4T translation"
-msgstr "Hautatu trantsizioa"
+msgstr "SeamlessM4T itzulpena"
 
 #: src/pythoninterfaces/speechtotext.cpp:49
 #, kde-format
 msgid "Speech to text"
-msgstr "Hizketa testura"
+msgstr "Hizketatik testura"
 
 #: src/pythoninterfaces/speechtotext.cpp:64
 #, kde-format
 msgid "Tiny (72Mb)"
-msgstr ""
+msgstr "Ñimiñoa (72 MB)"
 
 #: src/pythoninterfaces/speechtotext.cpp:65
 #, kde-format
 msgid "Base (140Mb)"
-msgstr ""
+msgstr "Oinarria (140 MB)"
 
 #: src/pythoninterfaces/speechtotext.cpp:66
-#, fuzzy, kde-format
-#| msgid "Small (%1x%2)"
+#, kde-format
 msgid "Small (460Mb)"
-msgstr "Txikia (%1x%2)"
+msgstr "Txikia (460 MB)"
 
 #: src/pythoninterfaces/speechtotext.cpp:67
-#, fuzzy, kde-format
-#| msgid "Medium (%1x%2)"
+#, kde-format
 msgid "Medium (1.4Gb)"
-msgstr "Ertaina (%1x%2)"
+msgstr "Ertaina (1,4 GB)"
 
 #: src/pythoninterfaces/speechtotext.cpp:68
-#, fuzzy, kde-format
-#| msgid "Large (%1x%2)"
+#, kde-format
 msgid "Large (2.9Gb)"
-msgstr "Handia (%1x%2)"
+msgstr "Handia (2.9 GB)"
 
 #: src/pythoninterfaces/speechtotext.cpp:69
-#, fuzzy, kde-format
-#| msgid "Tiny - English only"
+#, kde-format
 msgid "Tiny - English only (39Mb)"
-msgstr "Ñimiñoa - ingelesa bakarrik"
+msgstr "Ñimiñoa - ingelesa bakarrik (39 MB)"
 
 #: src/pythoninterfaces/speechtotext.cpp:70
-#, fuzzy, kde-format
-#| msgid "Base - English only"
+#, kde-format
 msgid "Base - English only (74Mb)"
-msgstr "Oinarria - ingelesa bakarrik"
+msgstr "Oinarria - ingelesa bakarrik (74 MB)"
 
 #: src/pythoninterfaces/speechtotext.cpp:71
-#, fuzzy, kde-format
-#| msgid "Small - English only"
+#, kde-format
 msgid "Small - English only (244Mb)"
-msgstr "Txikia - ingelesa bakarrik"
+msgstr "Txikia - ingelesa bakarrik (244 MB)"
 
 #: src/pythoninterfaces/speechtotext.cpp:72
-#, fuzzy, kde-format
-#| msgid "Medium - English only"
+#, kde-format
 msgid "Medium - English only (1.5Gb)"
-msgstr "Ertaina - ingelesa bakarrik"
+msgstr "Ertaina - ingelesa bakarrik (1,5 GB)"
 
 #: src/pythoninterfaces/speechtotext.cpp:79
 #, kde-format
@@ -19781,7 +19765,7 @@ msgstr "«Whisper» PUZean prozesatzea oso motela da"
 #: src/ui/configspeech_ui.ui:281
 #, kde-format
 msgid "Enable translation through SeamlessM4T"
-msgstr ""
+msgstr "Gaitu SeamlessM4T bidez itzultzea"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:308
@@ -21743,24 +21727,21 @@ msgstr "Lerroko gehineko karaktereak"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_seamless)
 #: src/ui/speechdialog_ui.ui:162
-#, fuzzy, kde-format
-#| msgid "Translate to English"
+#, kde-format
 msgid "Translate with SeamlessM4T"
-msgstr "Itzuli ingelesera"
+msgstr "Itzuli SeamlessM4T erabiliz"
 
 #. i18n: ectx: property (text), widget (QLabel, seamless_out_label)
 #: src/ui/speechdialog_ui.ui:178
-#, fuzzy, kde-format
-#| msgid "Output file"
+#, kde-format
 msgid "Output language"
-msgstr "Irteerako fitxategia"
+msgstr "Irteerako hizkuntza"
 
 #. i18n: ectx: property (text), widget (QLabel, seamless_in_label)
 #: src/ui/speechdialog_ui.ui:192
-#, fuzzy, kde-format
-#| msgid "Speech language"
+#, kde-format
 msgid "Input language"
-msgstr "Hizketaren hizkuntza"
+msgstr "Sarrerako hizkuntza"
 
 #. i18n: ectx: property (text), widget (QLabel, label_template)
 #. i18n: ectx: property (text), widget (QLabel, label)

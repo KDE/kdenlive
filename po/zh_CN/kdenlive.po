@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-09 00:37+0000\n"
-"PO-Revision-Date: 2024-02-29 12:53\n"
+"POT-Creation-Date: 2024-03-10 00:37+0000\n"
+"PO-Revision-Date: 2024-03-09 04:46\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -4610,8 +4610,8 @@ msgstr "播放列表"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2460 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1458
-#: src/project/projectmanager.cpp:1460 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1463
+#: src/project/projectmanager.cpp:1465 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "序列"
@@ -5617,7 +5617,7 @@ msgstr ""
 "Kdenlive 在上次启动时崩溃。\n"
 "您想要重置配置文件吗？"
 
-#: src/core.cpp:174 src/project/projectmanager.cpp:797
+#: src/core.cpp:174 src/project/projectmanager.cpp:802
 #, kde-format
 msgid "Loading project…"
 msgstr "正在加载项目…"
@@ -6090,30 +6090,27 @@ msgstr ""
 "%1？"
 
 #: src/dialogs/customcamcorderdialog.cpp:29
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Compare Proxy Profile"
+#, kde-format
 msgid "Edit Custom Camcorder Proxy Profiles"
-msgstr "对比代理剪辑编码方案"
+msgstr "编辑自定义摄像机代理方案"
 
 #: src/dialogs/customcamcorderdialog.cpp:36
 #: src/dialogs/customcamcorderdialog.cpp:198
 #, kde-format
 msgid "You can input several profiles in a preset, separated by a semicolon"
-msgstr ""
+msgstr "您可以在一个预设中输入多个方案，以半角分号区隔"
 
 #: src/dialogs/customcamcorderdialog.cpp:132
-#, fuzzy, kde-format
-#| msgid "Preset already exists"
+#, kde-format
 msgid "Preset already exists, enter a new name:"
-msgstr "预设已存在"
+msgstr "预设已存在，请输入一个新的名称："
 
 #: src/dialogs/customcamcorderdialog.cpp:158
 #, kde-format
 msgid ""
 "This will delete all custom camcorder profiles and reset values to the "
 "default settings"
-msgstr ""
+msgstr "这将删除所有自定义的摄像机方案并将所有设置重置为默认值"
 
 #: src/dialogs/customcamcorderdialog.cpp:190
 #, kde-format
@@ -6121,6 +6118,8 @@ msgid ""
 "You are using multiple presets in one profile, ensure you have the same "
 "count of semicolon in each parameter. This profile will not be saved."
 msgstr ""
+"您正在一个方案中使用多个预设，请确保每组参数包含的半角分号数量相同。此方案将"
+"不会保存。"
 
 #: src/dialogs/encodingprofilesdialog.cpp:51
 #, kde-format
@@ -6293,7 +6292,7 @@ msgstr "导出辅助线数据…"
 #: src/project/dialogs/archivewidget.cpp:888
 #: src/project/dialogs/archivewidget.cpp:900
 #: src/project/dialogs/archivewidget.cpp:906
-#: src/project/projectmanager.cpp:1748 src/render/renderrequest.cpp:269
+#: src/project/projectmanager.cpp:1753 src/render/renderrequest.cpp:269
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5073
@@ -6359,7 +6358,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "如果不确定，请尝试：<br/><b>Unicode (UTF-8)</b>"
 
 #: src/dialogs/importsubtitle.cpp:54 src/dialogs/importsubtitle.cpp:97
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1641
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1646
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, kde-format
 msgid "Cannot read file %1"
@@ -6627,10 +6626,9 @@ msgstr ""
 #: src/dialogs/kdenlivesettingsdialog.cpp:1781
 #: src/dialogs/kdenlivesettingsdialog.cpp:2107 src/ui/configspeech_ui.ui:134
 #: src/ui/configspeech_ui.ui:249
-#, fuzzy, kde-format
-#| msgid "Custom models folder"
+#, kde-format
 msgid "Models folder"
-msgstr "自定义模型文件夹"
+msgstr "模型文件夹"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1821
 #, kde-format
@@ -8711,8 +8709,8 @@ msgstr "下列滤镜/转场已被从项目中删除："
 msgid "Invalid file path"
 msgstr "无效文件路径 "
 
-#: src/doc/kdenlivedoc.cpp:211 src/project/projectmanager.cpp:781
-#: src/project/projectmanager.cpp:821 src/project/projectmanager.cpp:878
+#: src/doc/kdenlivedoc.cpp:211 src/project/projectmanager.cpp:786
+#: src/project/projectmanager.cpp:826 src/project/projectmanager.cpp:883
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "无法恢复损坏的文件。"
@@ -8787,15 +8785,15 @@ msgid ""
 msgstr ""
 "您的项目文件已被升级到最新的 Kdenlive 项目文件版本，但是无法创建备份副本 %1。"
 
-#: src/doc/kdenlivedoc.cpp:884 src/project/projectmanager.cpp:1335
-#: src/project/projectmanager.cpp:1371
+#: src/doc/kdenlivedoc.cpp:884 src/project/projectmanager.cpp:1340
+#: src/project/projectmanager.cpp:1376
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "移动项目文件夹时出错：%1"
 
 #: src/doc/kdenlivedoc.cpp:1074 src/doc/kdenlivedoc.cpp:2303
 #: src/project/dialogs/archivewidget.cpp:239
-#: src/project/projectmanager.cpp:1582
+#: src/project/projectmanager.cpp:1587
 #, kde-format
 msgid "Untitled"
 msgstr "未命名"
@@ -11618,12 +11616,12 @@ msgstr ""
 "此操作会将所有临时文件从 <br/><b>%1</b> 移动到 <b>%2</b>，<br/>然后重新加载项"
 "目文件。"
 
-#: src/mainwindow.cpp:2222 src/project/projectmanager.cpp:588
+#: src/mainwindow.cpp:2222 src/project/projectmanager.cpp:593
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "无法执行操作，无效文档 ID：%1"
 
-#: src/mainwindow.cpp:2227 src/project/projectmanager.cpp:594
+#: src/mainwindow.cpp:2227 src/project/projectmanager.cpp:599
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "无法执行操作，目标目录已经存在：%1"
@@ -14461,7 +14459,7 @@ msgstr "打开备份文件…"
 msgid "Save changes to document?"
 msgstr "保存更改到文件吗？"
 
-#: src/project/projectmanager.cpp:433 src/project/projectmanager.cpp:1581
+#: src/project/projectmanager.cpp:433 src/project/projectmanager.cpp:1586
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -14470,17 +14468,17 @@ msgstr ""
 "项目<b>”%1“</b>已经更改。\n"
 "您想要保存更改吗？"
 
-#: src/project/projectmanager.cpp:530
+#: src/project/projectmanager.cpp:535
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr "保存项目文件 <br><b>%1</B> 失败"
 
-#: src/project/projectmanager.cpp:563
+#: src/project/projectmanager.cpp:568
 #, kde-format
 msgid "Saving successful"
 msgstr "保存成功"
 
-#: src/project/projectmanager.cpp:576
+#: src/project/projectmanager.cpp:581
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -14490,38 +14488,38 @@ msgstr ""
 "项目文件的位置已更改。您已选择使用项目文件的位置来保存临时文件。这将把所有临"
 "时文件从 <b>%1</b> 移动到 <b>%2</b>，然后重新加载项该目文件。"
 
-#: src/project/projectmanager.cpp:617
+#: src/project/projectmanager.cpp:622
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "保存副本"
 
-#: src/project/projectmanager.cpp:722
+#: src/project/projectmanager.cpp:727
 #, kde-format
 msgid "Auto-saved file exist. Do you want to recover now?"
 msgstr "自动保存文件已经存在。您想要进行恢复吗？"
 
-#: src/project/projectmanager.cpp:722
+#: src/project/projectmanager.cpp:727
 #, kde-format
 msgid "File Recovery"
 msgstr "文件恢复"
 
-#: src/project/projectmanager.cpp:723 src/project/projectmanager.cpp:809
+#: src/project/projectmanager.cpp:728 src/project/projectmanager.cpp:814
 #, kde-format
 msgid "Recover"
 msgstr "恢复"
 
-#: src/project/projectmanager.cpp:723
+#: src/project/projectmanager.cpp:728
 #, kde-format
 msgid "Do not recover"
 msgstr "不恢复"
 
-#: src/project/projectmanager.cpp:775
+#: src/project/projectmanager.cpp:780
 #, kde-format
 msgid "Opening file %1"
 msgstr "正在打开文件 %1"
 
-#: src/project/projectmanager.cpp:808
+#: src/project/projectmanager.cpp:813
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -14532,43 +14530,43 @@ msgstr ""
 "%1\n"
 "您想要打开备份文件吗？"
 
-#: src/project/projectmanager.cpp:809
+#: src/project/projectmanager.cpp:814
 #, kde-format
 msgid "Error opening file"
 msgstr "打开文件时出错"
 
-#: src/project/projectmanager.cpp:809
+#: src/project/projectmanager.cpp:814
 #, kde-format
 msgid "Open Backup"
 msgstr "打开备份"
 
-#: src/project/projectmanager.cpp:825
+#: src/project/projectmanager.cpp:830
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "无法打开备份项目文件"
 
-#: src/project/projectmanager.cpp:840
+#: src/project/projectmanager.cpp:845
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr "您的项目文件已经升级，下次保存时将创建备份"
 
-#: src/project/projectmanager.cpp:843
+#: src/project/projectmanager.cpp:848
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr "您的项目在打开时已被修改，下次保存时将创建备份"
 
-#: src/project/projectmanager.cpp:873
+#: src/project/projectmanager.cpp:878
 #, kde-format
 msgid "Loading timeline…"
 msgstr "正在加载时间轴…"
 
-#: src/project/projectmanager.cpp:892
+#: src/project/projectmanager.cpp:897
 #, kde-format
 msgid "Building sequences…"
 msgstr "正在构建序列…"
 
-#: src/project/projectmanager.cpp:996
+#: src/project/projectmanager.cpp:1001
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -14577,19 +14575,19 @@ msgstr ""
 "无法打开项目文件。错误：\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1036
+#: src/project/projectmanager.cpp:1041
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
 "sure you want to continue?"
 msgstr "此操作将删除您最后一次保存项目之后的所有更改，您确定要继续吗？"
 
-#: src/project/projectmanager.cpp:1037
+#: src/project/projectmanager.cpp:1042
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "恢复到最后保存的版本"
 
-#: src/project/projectmanager.cpp:1123
+#: src/project/projectmanager.cpp:1128
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -14598,40 +14596,40 @@ msgstr ""
 "项目已经损坏，无法备份。请先关闭您的项目文件，然后重新打开它以恢复到最近一次"
 "备份。"
 
-#: src/project/projectmanager.cpp:1313
+#: src/project/projectmanager.cpp:1318
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "移动项目文件夹时出错，无法访问缓存文件夹"
 
-#: src/project/projectmanager.cpp:1349
+#: src/project/projectmanager.cpp:1354
 #, kde-format
 msgid "Moving project folder"
 msgstr "正在移动项目文件夹"
 
-#: src/project/projectmanager.cpp:1411
+#: src/project/projectmanager.cpp:1416
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr "项目文件已经损坏 (无轨道)。要尝试寻找它的备份文件吗？"
 
-#: src/project/projectmanager.cpp:1437 src/project/projectmanager.cpp:1489
-#: src/project/projectmanager.cpp:1493
+#: src/project/projectmanager.cpp:1442 src/project/projectmanager.cpp:1494
+#: src/project/projectmanager.cpp:1498
 #, kde-format
 msgid "Sequence 1"
 msgstr "序列 1"
 
-#: src/project/projectmanager.cpp:1448
+#: src/project/projectmanager.cpp:1453
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "项目文件已经损坏 - 无法加载轨道。您想要尝试查找它的备份文件吗？"
 
-#: src/project/projectmanager.cpp:1587 src/project/projectmanager.cpp:1592
-#: src/project/projectmanager.cpp:1602 src/project/projectmanager.cpp:1616
+#: src/project/projectmanager.cpp:1592 src/project/projectmanager.cpp:1597
+#: src/project/projectmanager.cpp:1607 src/project/projectmanager.cpp:1621
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "项目编码方案更改已中止"
 
-#: src/project/projectmanager.cpp:1733
+#: src/project/projectmanager.cpp:1738
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -14640,12 +14638,12 @@ msgstr ""
 "输出文件 %1 已经存在。\n"
 "您想要覆盖它吗？"
 
-#: src/project/projectmanager.cpp:1758
+#: src/project/projectmanager.cpp:1763
 #, kde-format
 msgid "Project profile changed"
 msgstr "项目编码方案已更改"
 
-#: src/project/projectmanager.cpp:1814
+#: src/project/projectmanager.cpp:1819
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -14654,17 +14652,17 @@ msgstr ""
 "无法从此剪辑创建时间轴：\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1890
+#: src/project/projectmanager.cpp:1895
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "导入一个序列剪辑，此功能目前仍在实验阶段。"
 
-#: src/project/projectmanager.cpp:2073
+#: src/project/projectmanager.cpp:2078
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "选择一个剪辑以创建序列"
 
-#: src/project/projectmanager.cpp:2111
+#: src/project/projectmanager.cpp:2116
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "创建序列剪辑"
@@ -14983,10 +14981,9 @@ msgid "automated subtitling"
 msgstr "自动字幕"
 
 #: src/pythoninterfaces/speechtotext.cpp:38
-#, fuzzy, kde-format
-#| msgid "Edit subtitle style"
+#, kde-format
 msgid "adjust subtitles length"
-msgstr "编辑字幕风格"
+msgstr "调整字幕长度"
 
 #: src/pythoninterfaces/speechtotext.cpp:39
 #, kde-format
@@ -15059,8 +15056,7 @@ msgid "Medium - English only (1.5Gb)"
 msgstr "中 - 仅英语"
 
 #: src/pythoninterfaces/speechtotext.cpp:79
-#, fuzzy, kde-format
-#| msgid "Audodetect"
+#, kde-format
 msgid "Autodetect"
 msgstr "自动检测"
 
@@ -19579,10 +19575,9 @@ msgstr "代理后缀："
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_add)
 #: src/ui/customcamcorderproxy_ui.ui:94
-#, fuzzy, kde-format
-#| msgid "Add as new Title"
+#, kde-format
 msgid "Add new profile"
-msgstr "添加为新字幕"
+msgstr "添加新方案"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_delete)
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_remove)
@@ -19593,10 +19588,9 @@ msgstr "删除编码方案"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_reset)
 #: src/ui/customcamcorderproxy_ui.ui:135
-#, fuzzy, kde-format
-#| msgid "Delete profile"
+#, kde-format
 msgid "Reset all profiles"
-msgstr "删除编码方案"
+msgstr "重置所有方案"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_more)
 #: src/ui/cutjobdialog_ui.ui:81
@@ -21286,10 +21280,9 @@ msgstr "语言"
 
 #. i18n: ectx: property (text), widget (QCheckBox, check_maxchars)
 #: src/ui/speechdialog_ui.ui:143
-#, fuzzy, kde-format
-#| msgid "Maximum Rate Change"
+#, kde-format
 msgid "Maximum characters per line"
-msgstr "最大响度变化"
+msgstr "每行最大字符数"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_seamless)
 #: src/ui/speechdialog_ui.ui:162
