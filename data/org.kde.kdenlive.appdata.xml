@@ -402,6 +402,7 @@
     </screenshot>
   </screenshots>
   <project_group>KDE</project_group>
+  <launchable type="desktop-id">org.kde.kdenlive.desktop</launchable>
   <provides>
     <binary>kdenlive</binary>
     <binary>kdenlive_render</binary>
