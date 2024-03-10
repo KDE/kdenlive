@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-09 02:27+0000\n"
+"POT-Creation-Date: 2024-03-10 03:03+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -4690,8 +4690,8 @@ msgstr "재생 목록"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2460 src/bin/clipcreator.cpp:240 src/bin/clipcreator.cpp:242
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1474
-#: src/project/projectmanager.cpp:1476 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1479
+#: src/project/projectmanager.cpp:1481 src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
 #| msgid "Image Sequence"
 msgid "Sequences"
@@ -6014,7 +6014,7 @@ msgstr "시계 위"
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "프로젝트 프로필이 유효하지 않습니다. 렌더링이 실패할 수 있습니다."
 
-#: src/core.cpp:979 src/project/projectmanager.cpp:884
+#: src/core.cpp:979 src/project/projectmanager.cpp:889
 #, kde-format
 msgid "Loading clips"
 msgstr "클립 불러오는 중"
@@ -6385,7 +6385,7 @@ msgstr "안내선 가져오기"
 #: src/project/dialogs/archivewidget.cpp:888
 #: src/project/dialogs/archivewidget.cpp:900
 #: src/project/dialogs/archivewidget.cpp:906
-#: src/project/projectmanager.cpp:1764 src/render/renderrequest.cpp:269
+#: src/project/projectmanager.cpp:1769 src/render/renderrequest.cpp:269
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5052
@@ -6455,7 +6455,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr ""
 
 #: src/dialogs/importsubtitle.cpp:54 src/dialogs/importsubtitle.cpp:97
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1657
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1662
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
@@ -8377,8 +8377,8 @@ msgstr "다음 필터/전환 효과가 프로젝트에서 삭제되었습니다:
 msgid "Invalid file path"
 msgstr "프로필 잘못됨"
 
-#: src/doc/kdenlivedoc.cpp:211 src/project/projectmanager.cpp:785
-#: src/project/projectmanager.cpp:835 src/project/projectmanager.cpp:899
+#: src/doc/kdenlivedoc.cpp:211 src/project/projectmanager.cpp:790
+#: src/project/projectmanager.cpp:840 src/project/projectmanager.cpp:904
 #, fuzzy, kde-format
 #| msgid "Cannot recover this project file"
 msgid "Could not recover corrupted file."
@@ -8454,15 +8454,15 @@ msgstr ""
 "프로젝트 파일이 최신 Kdenlive 문서 버전으로 업그레이드되었지만 백업 복사본 %1"
 "을(를) 만들 수 없습니다."
 
-#: src/doc/kdenlivedoc.cpp:884 src/project/projectmanager.cpp:1350
-#: src/project/projectmanager.cpp:1386
+#: src/doc/kdenlivedoc.cpp:884 src/project/projectmanager.cpp:1355
+#: src/project/projectmanager.cpp:1391
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "프로젝트 폴더 이동 중 오류: %1"
 
 #: src/doc/kdenlivedoc.cpp:1074 src/doc/kdenlivedoc.cpp:2294
 #: src/project/dialogs/archivewidget.cpp:239
-#: src/project/projectmanager.cpp:1598
+#: src/project/projectmanager.cpp:1603
 #, kde-format
 msgid "Untitled"
 msgstr "제목 없음"
@@ -11354,12 +11354,12 @@ msgstr ""
 "모든 임시 파일을 <b>%1</b>에서 <b>%2</b>(으)로 이동한 다음 프로젝트 파일을 다"
 "시 불러옵니다"
 
-#: src/mainwindow.cpp:2194 src/project/projectmanager.cpp:592
+#: src/mainwindow.cpp:2194 src/project/projectmanager.cpp:597
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "작업을 수행할 수 없습니다. 유효하지 않은 문서 ID: %1"
 
-#: src/mainwindow.cpp:2199 src/project/projectmanager.cpp:598
+#: src/mainwindow.cpp:2199 src/project/projectmanager.cpp:603
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "작업을 수행할 수 없습니다. 대상 디렉터리가 이미 존재합니다: %1"
@@ -14348,7 +14348,7 @@ msgstr "백업 파일 열기"
 msgid "Save changes to document?"
 msgstr "변경 사항을 문서에 저장하시겠습니까?"
 
-#: src/project/projectmanager.cpp:437 src/project/projectmanager.cpp:1597
+#: src/project/projectmanager.cpp:437 src/project/projectmanager.cpp:1602
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -14357,18 +14357,18 @@ msgstr ""
 "<b>\"%1\"</b> 프로젝트가 변경되었습니다.\n"
 "변경 사항을 저장하시겠습니까?"
 
-#: src/project/projectmanager.cpp:534
+#: src/project/projectmanager.cpp:539
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr ""
 
-#: src/project/projectmanager.cpp:567
+#: src/project/projectmanager.cpp:572
 #, fuzzy, kde-format
 #| msgid "Starting process"
 msgid "Saving successful"
 msgstr "작업 시작 중"
 
-#: src/project/projectmanager.cpp:580
+#: src/project/projectmanager.cpp:585
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -14379,49 +14379,49 @@ msgstr ""
 "경로를 선택했습니다. 프로젝트를 먼저 저장한 다음 모든 임시 파일을 <b>%1</b>에"
 "서 <b>%2</b>(으)로 이동하고 프로젝트 파일을 다시 불러옵니다"
 
-#: src/project/projectmanager.cpp:621
+#: src/project/projectmanager.cpp:626
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "복사본 저장"
 
-#: src/project/projectmanager.cpp:726
+#: src/project/projectmanager.cpp:731
 #, kde-format
 msgid "Auto-saved file exist. Do you want to recover now?"
 msgstr "자동 저장된 파일이 있습니다. 지금 복구하시겠습니까?"
 
-#: src/project/projectmanager.cpp:726
+#: src/project/projectmanager.cpp:731
 #, kde-format
 msgid "File Recovery"
 msgstr "파일 복구"
 
-#: src/project/projectmanager.cpp:727 src/project/projectmanager.cpp:823
+#: src/project/projectmanager.cpp:732 src/project/projectmanager.cpp:828
 #, kde-format
 msgid "Recover"
 msgstr "복구"
 
-#: src/project/projectmanager.cpp:727
+#: src/project/projectmanager.cpp:732
 #, kde-format
 msgid "Do not recover"
 msgstr "복구하지 않기"
 
-#: src/project/projectmanager.cpp:779
+#: src/project/projectmanager.cpp:784
 #, kde-format
 msgid "Opening file %1"
 msgstr "파일 %1 여는 중"
 
-#: src/project/projectmanager.cpp:806
+#: src/project/projectmanager.cpp:811
 #, kde-format
 msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "프로젝트 불러오는 중"
 
-#: src/project/projectmanager.cpp:808
+#: src/project/projectmanager.cpp:813
 #, kde-format
 msgid "Loading project"
 msgstr "프로젝트 불러오는 중"
 
-#: src/project/projectmanager.cpp:822
+#: src/project/projectmanager.cpp:827
 #, fuzzy, kde-format
 #| msgid ""
 #| "Cannot open the project file %1,\n"
@@ -14434,34 +14434,34 @@ msgstr ""
 "%1 프로젝트 파일을 열 수 없습니다.\n"
 "백업 파일을 여시겠습니까?"
 
-#: src/project/projectmanager.cpp:823
+#: src/project/projectmanager.cpp:828
 #, kde-format
 msgid "Error opening file"
 msgstr "파일 열기 오류"
 
-#: src/project/projectmanager.cpp:823
+#: src/project/projectmanager.cpp:828
 #, kde-format
 msgid "Open Backup"
 msgstr "백업 열기"
 
-#: src/project/projectmanager.cpp:839
+#: src/project/projectmanager.cpp:844
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid "Could not open the backup project file."
 msgstr "%1 프로젝트 파일을 열 수 없음"
 
-#: src/project/projectmanager.cpp:855
+#: src/project/projectmanager.cpp:860
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr "프로젝트가 업그레이드 되었으며 다음 저장 시 백업이 생성됩니다"
 
-#: src/project/projectmanager.cpp:858
+#: src/project/projectmanager.cpp:863
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr "프로젝트가 열릴 때 수정되었습니다. 다음 저장 시 백업이 생성됩니다"
 
-#: src/project/projectmanager.cpp:1011
+#: src/project/projectmanager.cpp:1016
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid ""
@@ -14469,7 +14469,7 @@ msgid ""
 "%1\n"
 msgstr "%1 프로젝트 파일을 열 수 없음"
 
-#: src/project/projectmanager.cpp:1051
+#: src/project/projectmanager.cpp:1056
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -14478,12 +14478,12 @@ msgstr ""
 "마지막으로 프로젝트를 저장한 이후의 모든 변경 사항이 손실됩니다. 계속 진행하"
 "시겠습니까?"
 
-#: src/project/projectmanager.cpp:1052
+#: src/project/projectmanager.cpp:1057
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "마지막으로 저장된 버전으로 되돌리기"
 
-#: src/project/projectmanager.cpp:1138
+#: src/project/projectmanager.cpp:1143
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -14492,43 +14492,43 @@ msgstr ""
 "프로젝트가 손상되어서 백업할 수 없습니다. 프로젝트 파일을 닫았다 다시 열어서 "
 "마지막 백업에서 복구하십시오"
 
-#: src/project/projectmanager.cpp:1328
+#: src/project/projectmanager.cpp:1333
 #, fuzzy, kde-format
 #| msgid "Error moving project folder: %1"
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "프로젝트 폴더 이동 중 오류: %1"
 
-#: src/project/projectmanager.cpp:1364
+#: src/project/projectmanager.cpp:1369
 #, kde-format
 msgid "Moving project folder"
 msgstr "프로젝트 폴더 이동"
 
-#: src/project/projectmanager.cpp:1426
+#: src/project/projectmanager.cpp:1431
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr "프로젝트 파일이 잘못되었습니다(트랙 없음). 백업 파일이 있습니까?"
 
-#: src/project/projectmanager.cpp:1452 src/project/projectmanager.cpp:1505
-#: src/project/projectmanager.cpp:1509
+#: src/project/projectmanager.cpp:1457 src/project/projectmanager.cpp:1510
+#: src/project/projectmanager.cpp:1514
 #, fuzzy, kde-format
 #| msgid "Image Sequence"
 msgid "Sequence 1"
 msgstr "이미지 시퀀스"
 
-#: src/project/projectmanager.cpp:1464
+#: src/project/projectmanager.cpp:1469
 #, fuzzy, kde-format
 #| msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "프로젝트 파일이 잘못되었습니다(트랙 없음). 백업 파일이 있습니까?"
 
-#: src/project/projectmanager.cpp:1603 src/project/projectmanager.cpp:1608
-#: src/project/projectmanager.cpp:1618 src/project/projectmanager.cpp:1632
+#: src/project/projectmanager.cpp:1608 src/project/projectmanager.cpp:1613
+#: src/project/projectmanager.cpp:1623 src/project/projectmanager.cpp:1637
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "프로젝트 프로필 변경 중단됨"
 
-#: src/project/projectmanager.cpp:1749
+#: src/project/projectmanager.cpp:1754
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -14537,12 +14537,12 @@ msgstr ""
 "출력 파일 %1이(가) 이미 있습니다.\n"
 "덮어쓰시겠습니까?"
 
-#: src/project/projectmanager.cpp:1774
+#: src/project/projectmanager.cpp:1779
 #, kde-format
 msgid "Project profile changed"
 msgstr "프로젝트 프로필 변경됨"
 
-#: src/project/projectmanager.cpp:1830
+#: src/project/projectmanager.cpp:1835
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
 msgid ""
@@ -14550,18 +14550,18 @@ msgid ""
 "%1"
 msgstr "%1 필터를 만들 수 없음"
 
-#: src/project/projectmanager.cpp:1907
+#: src/project/projectmanager.cpp:1912
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:2090
+#: src/project/projectmanager.cpp:2095
 #, fuzzy, kde-format
 #| msgid "Select a clip to compare effect"
 msgid "Select a clip to create sequence"
 msgstr "효과를 비교할 클립을 선택하십시오"
 
-#: src/project/projectmanager.cpp:2128
+#: src/project/projectmanager.cpp:2133
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Create Sequence Clip"

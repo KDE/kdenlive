@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-09 02:27+0000\n"
+"POT-Creation-Date: 2024-03-10 03:03+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -4776,8 +4776,8 @@ msgstr "Esitusloend"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2460 src/bin/clipcreator.cpp:240 src/bin/clipcreator.cpp:242
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1474
-#: src/project/projectmanager.cpp:1476 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1479
+#: src/project/projectmanager.cpp:1481 src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequences"
@@ -6152,7 +6152,7 @@ msgstr ""
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "Projekti profiil on vigane, renderdamine võib nurjuda."
 
-#: src/core.cpp:979 src/project/projectmanager.cpp:884
+#: src/core.cpp:979 src/project/projectmanager.cpp:889
 #, kde-format
 msgid "Loading clips"
 msgstr "Klippide laadimine"
@@ -6527,7 +6527,7 @@ msgstr "Impordi abijooned"
 #: src/project/dialogs/archivewidget.cpp:888
 #: src/project/dialogs/archivewidget.cpp:900
 #: src/project/dialogs/archivewidget.cpp:906
-#: src/project/projectmanager.cpp:1764 src/render/renderrequest.cpp:269
+#: src/project/projectmanager.cpp:1769 src/render/renderrequest.cpp:269
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5052
@@ -6597,7 +6597,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr ""
 
 #: src/dialogs/importsubtitle.cpp:54 src/dialogs/importsubtitle.cpp:97
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1657
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1662
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
@@ -8579,8 +8579,8 @@ msgstr "Järgmised filtrid/üleminekud kustutati projektist:"
 msgid "Invalid file path"
 msgstr "Vigane profiil"
 
-#: src/doc/kdenlivedoc.cpp:211 src/project/projectmanager.cpp:785
-#: src/project/projectmanager.cpp:835 src/project/projectmanager.cpp:899
+#: src/doc/kdenlivedoc.cpp:211 src/project/projectmanager.cpp:790
+#: src/project/projectmanager.cpp:840 src/project/projectmanager.cpp:904
 #, fuzzy, kde-format
 #| msgid "Cannot recover this project file"
 msgid "Could not recover corrupted file."
@@ -8658,15 +8658,15 @@ msgstr ""
 "Projektifail uuendati viimasele Kdenlive'i dokumendi versioonile, aga "
 "varukoopiat %1 polnud võimalik luua."
 
-#: src/doc/kdenlivedoc.cpp:884 src/project/projectmanager.cpp:1350
-#: src/project/projectmanager.cpp:1386
+#: src/doc/kdenlivedoc.cpp:884 src/project/projectmanager.cpp:1355
+#: src/project/projectmanager.cpp:1391
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Tõrge projektikataloogi liigutamisel: %1"
 
 #: src/doc/kdenlivedoc.cpp:1074 src/doc/kdenlivedoc.cpp:2294
 #: src/project/dialogs/archivewidget.cpp:239
-#: src/project/projectmanager.cpp:1598
+#: src/project/projectmanager.cpp:1603
 #, kde-format
 msgid "Untitled"
 msgstr "Nimetu"
@@ -11650,12 +11650,12 @@ msgstr ""
 "Nüüd liigutatakse ajutised failid asukohast <b>%1</b> asukohta <b>%2</b> ja "
 "projektifail laaditakse uuesti."
 
-#: src/mainwindow.cpp:2194 src/project/projectmanager.cpp:592
+#: src/mainwindow.cpp:2194 src/project/projectmanager.cpp:597
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Toimingut ei saa sooritada, vigane dokumendi ID: %1"
 
-#: src/mainwindow.cpp:2199 src/project/projectmanager.cpp:598
+#: src/mainwindow.cpp:2199 src/project/projectmanager.cpp:603
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Toimingut ei saa sooritada, sihtkataloog on juba olemas: %1"
@@ -14585,7 +14585,7 @@ msgstr "Ava varukoopiafail"
 msgid "Save changes to document?"
 msgstr "Kas salvestada dokumendi muudatused?"
 
-#: src/project/projectmanager.cpp:437 src/project/projectmanager.cpp:1597
+#: src/project/projectmanager.cpp:437 src/project/projectmanager.cpp:1602
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -14594,18 +14594,18 @@ msgstr ""
 "Projekti <b>\"%1\"</b> on muudetud.\n"
 "Kas salvestada muudatused?"
 
-#: src/project/projectmanager.cpp:534
+#: src/project/projectmanager.cpp:539
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr ""
 
-#: src/project/projectmanager.cpp:567
+#: src/project/projectmanager.cpp:572
 #, fuzzy, kde-format
 #| msgid "Waiting to process clip"
 msgid "Saving successful"
 msgstr "Ootamine klipi töötlemise järel"
 
-#: src/project/projectmanager.cpp:580
+#: src/project/projectmanager.cpp:585
 #, fuzzy, kde-format
 #| msgid ""
 #| "The current project has not been saved. This will first save the project, "
@@ -14620,52 +14620,52 @@ msgstr ""
 "liigutatakse ajutised failid asukohast <b>%1</b> asukohta <b>%2</b> ja "
 "projektifail laaditakse uuesti."
 
-#: src/project/projectmanager.cpp:621
+#: src/project/projectmanager.cpp:626
 #, fuzzy, kde-format
 #| msgid "Save Copy"
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Salvesta koopia"
 
-#: src/project/projectmanager.cpp:726
+#: src/project/projectmanager.cpp:731
 #, fuzzy, kde-format
 #| msgid "Auto-saved files exist. Do you want to recover them now?"
 msgid "Auto-saved file exist. Do you want to recover now?"
 msgstr "Automaatsalvestatud failid on olemas. Kas soovid need praegu taastada?"
 
-#: src/project/projectmanager.cpp:726
+#: src/project/projectmanager.cpp:731
 #, kde-format
 msgid "File Recovery"
 msgstr "Failitaaste"
 
-#: src/project/projectmanager.cpp:727 src/project/projectmanager.cpp:823
+#: src/project/projectmanager.cpp:732 src/project/projectmanager.cpp:828
 #, kde-format
 msgid "Recover"
 msgstr "Taasta"
 
-#: src/project/projectmanager.cpp:727
+#: src/project/projectmanager.cpp:732
 #, kde-format
 msgid "Do not recover"
 msgstr "Ära taasta"
 
-#: src/project/projectmanager.cpp:779
+#: src/project/projectmanager.cpp:784
 #, kde-format
 msgid "Opening file %1"
 msgstr "Faili %1 avamine"
 
-#: src/project/projectmanager.cpp:806
+#: src/project/projectmanager.cpp:811
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "Projekti laadimine"
 
-#: src/project/projectmanager.cpp:808
+#: src/project/projectmanager.cpp:813
 #, kde-format
 msgid "Loading project"
 msgstr "Projekti laadimine"
 
-#: src/project/projectmanager.cpp:822
+#: src/project/projectmanager.cpp:827
 #, fuzzy, kde-format
 #| msgid ""
 #| "Cannot open the project file,\n"
@@ -14678,35 +14678,35 @@ msgstr ""
 "Projektifaili avamine nurjus,\n"
 "kas avada varukoopiafail?"
 
-#: src/project/projectmanager.cpp:823
+#: src/project/projectmanager.cpp:828
 #, kde-format
 msgid "Error opening file"
 msgstr "Tõrge faili avamisel"
 
-#: src/project/projectmanager.cpp:823
+#: src/project/projectmanager.cpp:828
 #, kde-format
 msgid "Open Backup"
 msgstr "Ava varukoopia"
 
-#: src/project/projectmanager.cpp:839
+#: src/project/projectmanager.cpp:844
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid "Could not open the backup project file."
 msgstr "Projektifaili %1 avamine nurjus"
 
-#: src/project/projectmanager.cpp:855
+#: src/project/projectmanager.cpp:860
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr "Sinu projekti uuendati, järgmisel salvestamisel luukse varukoopia"
 
-#: src/project/projectmanager.cpp:858
+#: src/project/projectmanager.cpp:863
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 "Sinu projekti muudeti avamisel, järgmisel salvestamisel luuakse varukoopia"
 
-#: src/project/projectmanager.cpp:1011
+#: src/project/projectmanager.cpp:1016
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid ""
@@ -14714,7 +14714,7 @@ msgid ""
 "%1\n"
 msgstr "Projektifaili %1 avamine nurjus"
 
-#: src/project/projectmanager.cpp:1051
+#: src/project/projectmanager.cpp:1056
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -14723,55 +14723,55 @@ msgstr ""
 "See kustutab kõik muudatused alates projekti viimasest salvestamisest. Kas "
 "oled kindel, et tahad jätkata?"
 
-#: src/project/projectmanager.cpp:1052
+#: src/project/projectmanager.cpp:1057
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Viimati salvestatud versiooni taastamine"
 
-#: src/project/projectmanager.cpp:1138
+#: src/project/projectmanager.cpp:1143
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
 "file to recover last backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1328
+#: src/project/projectmanager.cpp:1333
 #, fuzzy, kde-format
 #| msgid "Error moving project folder: %1"
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Tõrge projektikataloogi liigutamisel: %1"
 
-#: src/project/projectmanager.cpp:1364
+#: src/project/projectmanager.cpp:1369
 #, kde-format
 msgid "Moving project folder"
 msgstr "Projektikataloogi liigutamine"
 
-#: src/project/projectmanager.cpp:1426
+#: src/project/projectmanager.cpp:1431
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr "Projektifail on riknenud (radu pole). Kas püüda leida varukoopiafaili?"
 
-#: src/project/projectmanager.cpp:1452 src/project/projectmanager.cpp:1505
-#: src/project/projectmanager.cpp:1509
+#: src/project/projectmanager.cpp:1457 src/project/projectmanager.cpp:1510
+#: src/project/projectmanager.cpp:1514
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequence 1"
 msgstr "Seeria nimi"
 
-#: src/project/projectmanager.cpp:1464
+#: src/project/projectmanager.cpp:1469
 #, fuzzy, kde-format
 #| msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "Projektifail on riknenud (radu pole). Kas püüda leida varukoopiafaili?"
 
-#: src/project/projectmanager.cpp:1603 src/project/projectmanager.cpp:1608
-#: src/project/projectmanager.cpp:1618 src/project/projectmanager.cpp:1632
+#: src/project/projectmanager.cpp:1608 src/project/projectmanager.cpp:1613
+#: src/project/projectmanager.cpp:1623 src/project/projectmanager.cpp:1637
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Projektiprofiili muutmisest loobuti"
 
-#: src/project/projectmanager.cpp:1749
+#: src/project/projectmanager.cpp:1754
 #, fuzzy, kde-format
 #| msgid "Output file already exists. Do you want to overwrite it?"
 msgid ""
@@ -14779,12 +14779,12 @@ msgid ""
 "Do you want to overwrite it?"
 msgstr "Väljundfail on juba olemas. Kas kirjutada see üle?"
 
-#: src/project/projectmanager.cpp:1774
+#: src/project/projectmanager.cpp:1779
 #, kde-format
 msgid "Project profile changed"
 msgstr "Projektiprofiili muudeti"
 
-#: src/project/projectmanager.cpp:1830
+#: src/project/projectmanager.cpp:1835
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
 msgid ""
@@ -14792,18 +14792,18 @@ msgid ""
 "%1"
 msgstr "Filtri %1 loomine nurjus"
 
-#: src/project/projectmanager.cpp:1907
+#: src/project/projectmanager.cpp:1912
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:2090
+#: src/project/projectmanager.cpp:2095
 #, fuzzy, kde-format
 #| msgid "Select a clip to compare effect"
 msgid "Select a clip to create sequence"
 msgstr "Klipi valimine efekti võrdlemiseks"
 
-#: src/project/projectmanager.cpp:2128
+#: src/project/projectmanager.cpp:2133
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Create Sequence Clip"

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-09 02:27+0000\n"
-"PO-Revision-Date: 2024-03-03 09:10+0100\n"
+"POT-Creation-Date: 2024-03-10 03:03+0000\n"
+"PO-Revision-Date: 2024-03-09 10:20+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -4712,8 +4712,8 @@ msgstr "Seznam predvajanja"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2460 src/bin/clipcreator.cpp:240 src/bin/clipcreator.cpp:242
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1474
-#: src/project/projectmanager.cpp:1476 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1479
+#: src/project/projectmanager.cpp:1481 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "Zaporedja"
@@ -6005,7 +6005,7 @@ msgstr "Ura, zgoraj"
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "Vaš profil projekta ni veljaven, izrisovanje morda ne bo uspelo."
 
-#: src/core.cpp:979 src/project/projectmanager.cpp:884
+#: src/core.cpp:979 src/project/projectmanager.cpp:889
 #, kde-format
 msgid "Loading clips"
 msgstr "Nalaganje posnetkov"
@@ -6376,7 +6376,7 @@ msgstr "Izvozi podatke vodil"
 #: src/project/dialogs/archivewidget.cpp:888
 #: src/project/dialogs/archivewidget.cpp:900
 #: src/project/dialogs/archivewidget.cpp:906
-#: src/project/projectmanager.cpp:1764 src/render/renderrequest.cpp:269
+#: src/project/projectmanager.cpp:1769 src/render/renderrequest.cpp:269
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5052
@@ -6442,7 +6442,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Če niste prepričani, poskusite:<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:54 src/dialogs/importsubtitle.cpp:97
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1657
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1662
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, kde-format
 msgid "Cannot read file %1"
@@ -8311,8 +8311,8 @@ msgstr "Naslednji filtri/prehodi so bili izbrisani iz projekta:"
 msgid "Invalid file path"
 msgstr "Neveljavna pot datoteke"
 
-#: src/doc/kdenlivedoc.cpp:211 src/project/projectmanager.cpp:785
-#: src/project/projectmanager.cpp:835 src/project/projectmanager.cpp:899
+#: src/doc/kdenlivedoc.cpp:211 src/project/projectmanager.cpp:790
+#: src/project/projectmanager.cpp:840 src/project/projectmanager.cpp:904
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Poškodovane datoteke ni bilo možno obnoviti."
@@ -8392,15 +8392,15 @@ msgstr ""
 "Vaša projektna datoteka je bila nadgrajena na najnovejšo različico "
 "dokumentov Kdenlive, ni pa bilo možno ustvariti varnostne kopije %1."
 
-#: src/doc/kdenlivedoc.cpp:884 src/project/projectmanager.cpp:1350
-#: src/project/projectmanager.cpp:1386
+#: src/doc/kdenlivedoc.cpp:884 src/project/projectmanager.cpp:1355
+#: src/project/projectmanager.cpp:1391
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Napaka med premikanjem mape projekta: %1"
 
 #: src/doc/kdenlivedoc.cpp:1074 src/doc/kdenlivedoc.cpp:2294
 #: src/project/dialogs/archivewidget.cpp:239
-#: src/project/projectmanager.cpp:1598
+#: src/project/projectmanager.cpp:1603
 #, kde-format
 msgid "Untitled"
 msgstr "Neimenovano"
@@ -11260,12 +11260,12 @@ msgstr ""
 "To bo premaknilo vse začasne datoteke iz<br/><b>%1</b> v <b>%2</b>,<br/>nato "
 "pa bo projektna datoteka znova naložena"
 
-#: src/mainwindow.cpp:2194 src/project/projectmanager.cpp:592
+#: src/mainwindow.cpp:2194 src/project/projectmanager.cpp:597
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Opravila ni možno izvesti. Neveljaven ID dokumenta: %1"
 
-#: src/mainwindow.cpp:2199 src/project/projectmanager.cpp:598
+#: src/mainwindow.cpp:2199 src/project/projectmanager.cpp:603
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Opravila ni možno izvesti. Ciljna mapa že obstaja: %1"
@@ -14190,7 +14190,7 @@ msgstr "Odpri datoteko varnostne kopije …"
 msgid "Save changes to document?"
 msgstr "Ali želite shraniti spremembe v dokument?"
 
-#: src/project/projectmanager.cpp:437 src/project/projectmanager.cpp:1597
+#: src/project/projectmanager.cpp:437 src/project/projectmanager.cpp:1602
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -14199,17 +14199,17 @@ msgstr ""
 "Projekt <b>»%1«</b> je bil spremenjen.\n"
 "Ali želite shraniti vaše spremembe?"
 
-#: src/project/projectmanager.cpp:534
+#: src/project/projectmanager.cpp:539
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr "Shranjevanje projektne datoteke <br><b>%1</B> je spodletelo"
 
-#: src/project/projectmanager.cpp:567
+#: src/project/projectmanager.cpp:572
 #, kde-format
 msgid "Saving successful"
 msgstr "Shranjevanje je uspelo"
 
-#: src/project/projectmanager.cpp:580
+#: src/project/projectmanager.cpp:585
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -14221,49 +14221,51 @@ msgstr ""
 "začasne datoteke iz <b>%1</b> v <b>%2</b>, nato pa bo projektna datoteka "
 "znova naložena"
 
-#: src/project/projectmanager.cpp:621
+#: src/project/projectmanager.cpp:626
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Shrani kopijo"
 
-#: src/project/projectmanager.cpp:726
+#: src/project/projectmanager.cpp:731
 #, kde-format
 msgid "Auto-saved file exist. Do you want to recover now?"
 msgstr "Obstaja samodejno shranjena datoteka. Ali jo želite zdaj obnoviti?"
 
-#: src/project/projectmanager.cpp:726
+#: src/project/projectmanager.cpp:731
 #, kde-format
 msgid "File Recovery"
 msgstr "Obnovitev datoteke"
 
-#: src/project/projectmanager.cpp:727 src/project/projectmanager.cpp:823
+#: src/project/projectmanager.cpp:732 src/project/projectmanager.cpp:828
 #, kde-format
 msgid "Recover"
 msgstr "Obnovi"
 
-#: src/project/projectmanager.cpp:727
+#: src/project/projectmanager.cpp:732
 #, kde-format
 msgid "Do not recover"
 msgstr "Ne obnovi"
 
-#: src/project/projectmanager.cpp:779
+#: src/project/projectmanager.cpp:784
 #, kde-format
 msgid "Opening file %1"
 msgstr "Odpiranje datoteke %1"
 
-#: src/project/projectmanager.cpp:806
+#: src/project/projectmanager.cpp:811
 #, kde-format
 msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "Nalaganje projekta"
 
-#: src/project/projectmanager.cpp:808
-#, kde-format
+#: src/project/projectmanager.cpp:813
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Loading Project"
 msgid "Loading project"
 msgstr "Nalaganje projekta"
 
-#: src/project/projectmanager.cpp:822
+#: src/project/projectmanager.cpp:827
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -14274,29 +14276,29 @@ msgstr ""
 "%1\n"
 "Ali želite odpreti varnostno kopijo datoteke?"
 
-#: src/project/projectmanager.cpp:823
+#: src/project/projectmanager.cpp:828
 #, kde-format
 msgid "Error opening file"
 msgstr "Napaka med odpiranjem datoteke"
 
-#: src/project/projectmanager.cpp:823
+#: src/project/projectmanager.cpp:828
 #, kde-format
 msgid "Open Backup"
 msgstr "Odpri varnostno kopijo"
 
-#: src/project/projectmanager.cpp:839
+#: src/project/projectmanager.cpp:844
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "Ni bilo možno odpreti varnostne kopije projektne datoteke."
 
-#: src/project/projectmanager.cpp:855
+#: src/project/projectmanager.cpp:860
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Vaš projekt je bil nadgrajen, varnostna kopija bo ustvarjena pri naslednjem "
 "shranjevanju"
 
-#: src/project/projectmanager.cpp:858
+#: src/project/projectmanager.cpp:863
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -14304,7 +14306,7 @@ msgstr ""
 "Vaš projekt je bil spremenjen, varnostna kopija bo ustvarjena pri naslednjem "
 "shranjevanju"
 
-#: src/project/projectmanager.cpp:1011
+#: src/project/projectmanager.cpp:1016
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -14313,7 +14315,7 @@ msgstr ""
 "Datoteke projekta ni možno odpreti. Napaka:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1051
+#: src/project/projectmanager.cpp:1056
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -14322,12 +14324,12 @@ msgstr ""
 "To bo izbrisalo vse opravljene spremembe od zadnjega shranjevanja projekta. "
 "Ali ste prepričani, da želite nadaljevati?"
 
-#: src/project/projectmanager.cpp:1052
+#: src/project/projectmanager.cpp:1057
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Povrni na nazadnje shranjeno različico"
 
-#: src/project/projectmanager.cpp:1138
+#: src/project/projectmanager.cpp:1143
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -14336,32 +14338,32 @@ msgstr ""
 "Projekt je bil poškodovan, izdelava varnostne kopije ni mogoča. Zaprite in "
 "znova odprite svojo datoteko projekta za obnovitev iz zadnje varovalne kopije"
 
-#: src/project/projectmanager.cpp:1328
+#: src/project/projectmanager.cpp:1333
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr ""
 "Napaka med premikanjem mape projekta, ni možno dostopati do mape "
 "medpomnilnika"
 
-#: src/project/projectmanager.cpp:1364
+#: src/project/projectmanager.cpp:1369
 #, kde-format
 msgid "Moving project folder"
 msgstr "Premikanje mape projekta"
 
-#: src/project/projectmanager.cpp:1426
+#: src/project/projectmanager.cpp:1431
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 "Projektna datoteka je okvarjena (ni stez). Ali želite poiskati varnostno "
 "kopijo?"
 
-#: src/project/projectmanager.cpp:1452 src/project/projectmanager.cpp:1505
-#: src/project/projectmanager.cpp:1509
+#: src/project/projectmanager.cpp:1457 src/project/projectmanager.cpp:1510
+#: src/project/projectmanager.cpp:1514
 #, kde-format
 msgid "Sequence 1"
 msgstr "Zaporedje 1"
 
-#: src/project/projectmanager.cpp:1464
+#: src/project/projectmanager.cpp:1469
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -14369,13 +14371,13 @@ msgstr ""
 "Projektna datoteka je okvarjena (ni možno naložiti stez). Ali želite "
 "poiskati varnostno kopijo?"
 
-#: src/project/projectmanager.cpp:1603 src/project/projectmanager.cpp:1608
-#: src/project/projectmanager.cpp:1618 src/project/projectmanager.cpp:1632
+#: src/project/projectmanager.cpp:1608 src/project/projectmanager.cpp:1613
+#: src/project/projectmanager.cpp:1623 src/project/projectmanager.cpp:1637
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Sprememba profila projekta prekinjena"
 
-#: src/project/projectmanager.cpp:1749
+#: src/project/projectmanager.cpp:1754
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -14384,12 +14386,12 @@ msgstr ""
 "Izhodna datoteka %1 že obstaja.\n"
 "Ali jo želite prepisati?"
 
-#: src/project/projectmanager.cpp:1774
+#: src/project/projectmanager.cpp:1779
 #, kde-format
 msgid "Project profile changed"
 msgstr "Profil projekta spremenjen"
 
-#: src/project/projectmanager.cpp:1830
+#: src/project/projectmanager.cpp:1835
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -14398,17 +14400,17 @@ msgstr ""
 "Ni možno ustvariti časovnice iz tega posnetka:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1907
+#: src/project/projectmanager.cpp:1912
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "Uvažanje posnetka zaporedja je trenutno v stanju preizkušanja"
 
-#: src/project/projectmanager.cpp:2090
+#: src/project/projectmanager.cpp:2095
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Izberite posnetek za ustvarjanje zaporedja"
 
-#: src/project/projectmanager.cpp:2128
+#: src/project/projectmanager.cpp:2133
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Ustvari posnetek zaporedja"
@@ -14723,18 +14725,18 @@ msgstr ""
 #: src/pythoninterfaces/speechtotext.cpp:27
 #, kde-format
 msgid "speech features"
-msgstr "funkcionalnosti govora"
+msgstr "Funkcionalnosti govora"
 
 #: src/pythoninterfaces/speechtotext.cpp:23
 #: src/pythoninterfaces/speechtotext.cpp:28
 #, kde-format
 msgid "automated subtitling"
-msgstr "samodejno podnaslavljanje"
+msgstr "Samodejno podnaslavljanje"
 
 #: src/pythoninterfaces/speechtotext.cpp:29
 #, kde-format
 msgid "machine learning framework"
-msgstr "ogrodje za strojno učenje"
+msgstr "Ogrodje za strojno učenje"
 
 #: src/pythoninterfaces/speechtotext.cpp:37
 #, kde-format
@@ -14744,47 +14746,52 @@ msgstr "Govor v besedilo"
 #: src/pythoninterfaces/speechtotext.cpp:52
 #, kde-format
 msgid "Tiny"
-msgstr "Droben"
+msgstr ""
 
 #: src/pythoninterfaces/speechtotext.cpp:53
 #, kde-format
 msgid "Base"
-msgstr "Osnoven"
+msgstr ""
 
 #: src/pythoninterfaces/speechtotext.cpp:54
 #, kde-format
 msgid "Small"
-msgstr "Majhen"
+msgstr ""
 
 #: src/pythoninterfaces/speechtotext.cpp:55
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Medium (%1x%2)"
 msgid "Medium"
-msgstr "Srednji"
+msgstr "Srednja (%1x%2)"
 
 #: src/pythoninterfaces/speechtotext.cpp:56
 #, kde-format
 msgid "Large"
-msgstr "Velik"
+msgstr ""
 
 #: src/pythoninterfaces/speechtotext.cpp:57
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Tiny - English only (39Mb)"
 msgid "Tiny - English only"
-msgstr "Droben - samo za angleščino"
+msgstr "Droben - samo angleščina (39 Mb)"
 
 #: src/pythoninterfaces/speechtotext.cpp:58
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Base - English only (74Mb)"
 msgid "Base - English only"
-msgstr "Osnovni - samo za angleščino"
+msgstr "Osnovni - samo angleščina (74 Mb)"
 
 #: src/pythoninterfaces/speechtotext.cpp:59
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Small - English only (244Mb)"
 msgid "Small - English only"
-msgstr "Majhen - samo za angleščino"
+msgstr "Majhen - samo angleščina (244 Mb)"
 
 #: src/pythoninterfaces/speechtotext.cpp:60
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Medium - English only (1.5Gb)"
 msgid "Medium - English only"
-msgstr "Srednji - samo za angleščino"
+msgstr "Srednji - samo angleščina (1,5 Gb)"
 
 #: src/pythoninterfaces/speechtotext.cpp:67
 #, kde-format
@@ -22036,3 +22043,217 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
+
+#~ msgid "Default Target Folder for Audio Captures"
+#~ msgstr "Privzeta ciljna mapa za zvočne zajeme"
+
+#~ msgid "Reading project clips…"
+#~ msgstr "Branje posnetkov projekta …"
+
+#~ msgid "Edit Custom Camcorder Proxy Profiles"
+#~ msgstr "Uredi profile po meri posrednih posnetkov kamkorderja"
+
+#~ msgid "You can input several profiles in a preset, separated by a semicolon"
+#~ msgstr "V prednastavitev lahko vnesete več profilov, ločenih s podpičjem"
+
+#~ msgid "Preset already exists, enter a new name:"
+#~ msgstr "Prednastavitev že obstaja, vnesite novo ime:"
+
+#~ msgid ""
+#~ "This will delete all custom camcorder profiles and reset values to the "
+#~ "default settings"
+#~ msgstr ""
+#~ "S tem boste izbrisali vse profile kamkorderja po meri in ponastavili "
+#~ "vrednosti na privzete nastavitve"
+
+#~ msgid ""
+#~ "You are using multiple presets in one profile, ensure you have the same "
+#~ "count of semicolon in each parameter. This profile will not be saved."
+#~ msgstr ""
+#~ "V enem profilu uporabljate več prednastavitev, zagotovite, da imate v "
+#~ "vsakem parametru enako število podpičij. Ta profil ne bo shranjen."
+
+#~ msgid ""
+#~ "On first run, Whisper will <b>download the chosen model</b>. After that, "
+#~ "processing will happen offline. Cpu processing is very slow."
+#~ msgstr ""
+#~ "Ob prvem zagonu programa bo Whisper <b>prenesel izbrani model</b>. Po tem "
+#~ "bo obdelava potekala brez povezave. Obdelava CPE je zelo počasna."
+
+#~ msgid ""
+#~ "On first run, SeamlessM4T will <b>download 9Gb of model data</b>. After "
+#~ "that, translations will happen offline."
+#~ msgstr ""
+#~ "Ob prvem zagonu bo SeamlessM4T <b>prenesel 9 Gb podatkov modela</b>. Po "
+#~ "tem se bodo prevodi zgodili brez povezave."
+
+#~ msgid "Models folder"
+#~ msgstr "Mapa modelov"
+
+#~ msgid "Translating text to %1"
+#~ msgstr "Prevajanje besedila v %1 jezik"
+
+#~ msgid "Initializing translation model"
+#~ msgstr "Inicializacija prevajalskega modela"
+
+#~ msgid "Cantonese"
+#~ msgstr "kantonski"
+
+#~ msgid "Cebuano"
+#~ msgstr "cebuanski"
+
+#~ msgid "Central Kurdish"
+#~ msgstr "kurdski, centralni"
+
+#~ msgid "Egyptian Arabic"
+#~ msgstr "arabski, egiptovski"
+
+#~ msgid "Ganda"
+#~ msgstr "gandajski"
+
+#~ msgid "Halh Mongolian"
+#~ msgstr "mongolski, Haih"
+
+#~ msgid "Igbo"
+#~ msgstr "igbojski"
+
+#~ msgid "Irish"
+#~ msgstr "irski"
+
+#~ msgid "Kyrgyz"
+#~ msgstr "kirgiški"
+
+#~ msgid "Luo"
+#~ msgstr "luoški"
+
+#~ msgid "Maithili"
+#~ msgstr "maitilski"
+
+#~ msgid "Mandarin Chinese"
+#~ msgstr "kitajski, mandarinski"
+
+#~ msgid "Meitei"
+#~ msgstr "meitejski"
+
+#~ msgid "Modern Standard Arabic"
+#~ msgstr "arabski, moderni standardni"
+
+#~ msgid "Moroccan Arabic"
+#~ msgstr "arabski, maroški"
+
+#~ msgid "Nigerian Fulfulde"
+#~ msgstr "fulfuldski, nigerijski"
+
+#~ msgid "North Azerbaijani"
+#~ msgstr "azerbajdžanski, severni"
+
+#~ msgid "Northern Uzbek"
+#~ msgstr "uzbeški, severni"
+
+#~ msgid "Norwegian Bokmål"
+#~ msgstr "norveški, bokmål"
+
+#~ msgid "Norwegian Nynorsk"
+#~ msgstr "norveški, nynorsk"
+
+#~ msgid "Nyanja"
+#~ msgstr "njandžski"
+
+#~ msgid "Odia"
+#~ msgstr "odijski"
+
+#~ msgid "Southern Pashto"
+#~ msgstr "paštunski, južni"
+
+#~ msgid "Standard Latvian"
+#~ msgstr "latvijski, standardni"
+
+#~ msgid "Standard Malay"
+#~ msgstr "malajski, standardni"
+
+#~ msgid "West Central Oromo"
+#~ msgstr "oromski, zahodno osrednji"
+
+#~ msgid "Western Persian"
+#~ msgstr "perzijski, zahodni"
+
+#~ msgid "Zulu"
+#~ msgstr "zulujski"
+
+#~ msgid "Applying fixes…"
+#~ msgstr "Uveljavljanje popravkov …"
+
+#~ msgid "Checking for missing items…"
+#~ msgstr "Preverjanje manjkajočih elementov …"
+
+#~ msgid "Validating project…"
+#~ msgstr "Potrjevanje projekta …"
+
+#~ msgid "Upgrading project version…"
+#~ msgstr "Nadgradnja različice projekta …"
+
+#~ msgctxt "@label:textbox"
+#~ msgid ""
+#~ "The project uses a non standard framerate (%1), this will result in "
+#~ "misplaced clips and frame offset."
+#~ msgstr ""
+#~ "Projekt uporablja nestandardno hitrost (%1), kar bo povzročilo napačno "
+#~ "umeščene posnetke in zamik v sličicah."
+
+#~ msgid "Loading timeline…"
+#~ msgstr "Nalaganje časovnice …"
+
+#~ msgid "Building sequences…"
+#~ msgstr "Gradnja zaporedij …"
+
+#~ msgid "adjust subtitles length"
+#~ msgstr "Prilagodi dolžino podnaslovov"
+
+#~ msgid "SeamlessM4T translation"
+#~ msgstr "Prevajanje SeamlessM4T"
+
+#~ msgid "Tiny (72Mb)"
+#~ msgstr "Droben (72Mb)"
+
+#~ msgid "Base (140Mb)"
+#~ msgstr "Osnovni (140Mb)"
+
+#~ msgid "Small (460Mb)"
+#~ msgstr "Majhen (460 Mb)"
+
+#~ msgid "Medium (1.4Gb)"
+#~ msgstr "Srednji (1,4 Gb)"
+
+#~ msgid "Large (2.9Gb)"
+#~ msgstr "Velik (2,9 Gb)"
+
+#~ msgctxt "@info:status"
+#~ msgid "Cannot cut overlapping subtitles"
+#~ msgstr "Prekrivajočih se podnaslovov ni možno rezati"
+
+#~ msgid "Enable translation through SeamlessM4T"
+#~ msgstr "Omogoči prevajanje prek SeamlessM4T"
+
+#~ msgid "Add new profile"
+#~ msgstr "Dodaj nov profil"
+
+#~ msgid "Reset all profiles"
+#~ msgstr "Ponastavi vse profile"
+
+#~ msgid "Bold"
+#~ msgstr "Krepko"
+
+#~ msgid "Italic"
+#~ msgstr "Ležeče"
+
+#~ msgid "Maximum characters per line"
+#~ msgstr "Največje število znakov na vrstico"
+
+#~ msgid "Translate with SeamlessM4T"
+#~ msgstr "Prevedi s SeamlessM4T"
+
+#~ msgid "Output language"
+#~ msgstr "Izhodni jezik"
+
+#~ msgid "Input language"
+#~ msgstr "Vhodni jezik"
