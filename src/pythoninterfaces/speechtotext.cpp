@@ -61,15 +61,15 @@ QString SpeechToText::voskModelPath()
 QList<std::pair<QString, QString>> SpeechToText::whisperModels()
 {
     QList<std::pair<QString, QString>> models;
-    models.append({i18n("Tiny (72Mb)"), QStringLiteral("tiny")});
-    models.append({i18n("Base (140Mb)"), QStringLiteral("base")});
-    models.append({i18n("Small (460Mb)"), QStringLiteral("small")});
-    models.append({i18n("Medium (1.4Gb)"), QStringLiteral("medium")});
-    models.append({i18n("Large (2.9Gb)"), QStringLiteral("large")});
-    models.append({i18n("Tiny - English only (39Mb)"), QStringLiteral("tiny.en")});
-    models.append({i18n("Base - English only (74Mb)"), QStringLiteral("base.en")});
-    models.append({i18n("Small - English only (244Mb)"), QStringLiteral("small.en")});
-    models.append({i18n("Medium - English only (1.5Gb)"), QStringLiteral("medium.en")});
+    models.append({i18nc("Model file to download, smallest one", "Tiny (72MB)"), QStringLiteral("tiny")});
+    models.append({i18nc("Model file to download, basic one", "Base (140MB)"), QStringLiteral("base")});
+    models.append({i18nc("Model file to download, small one", "Small (460MB)"), QStringLiteral("small")});
+    models.append({i18nc("Model file to download, medium one", "Medium (1.4GB)"), QStringLiteral("medium")});
+    models.append({i18nc("Model file to download, large one", "Large (2.9GB)"), QStringLiteral("large")});
+    models.append({i18nc("Model file to download, smallest one", "Tiny - English only (39MB)"), QStringLiteral("tiny.en")});
+    models.append({i18nc("Model file to download, basic one", "Base - English only (74MB)"), QStringLiteral("base.en")});
+    models.append({i18nc("Model file to download, small one", "Small - English only (244MB)"), QStringLiteral("small.en")});
+    models.append({i18nc("Model file to download, medium one", "Medium - English only (1.5GB)"), QStringLiteral("medium.en")});
     return models;
 }
 
