@@ -267,6 +267,7 @@
       <li xml:lang="zh-TW">顏色範圍</li>
       <li>Proxy editing</li>
       <li>Online resources</li>
+      <li>Motion tracking</li>
     </ul>
   </description>
   <releases>
@@ -277,11 +278,12 @@
   </releases>
   <url type="homepage">https://kdenlive.org/</url>
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?product=kdenlive</url>
-  <url type="manual">https://docs.kdenlive.org</url>
-  <url type="forum">https://discuss.kde.org/tag/kdenlive</url>
+  <url type="help">https://docs.kdenlive.org</url>
+  <url type="donation">https://www.kde.org/community/donations/?app=kdenlive&amp;source=appdata</url>
+  <url type="contact">https://kdenlive.org/contact/</url>
+  <url type="contribute">https://kdenlive.org/developers-welcome/</url>
   <url type="translate">https://l10n.kde.org/</url>
   <url type="vcs-browser">https://invent.kde.org/multimedia/kdenlive</url>
-  <url type="donation">https://www.kde.org/community/donations/?app=kdenlive&amp;source=appdata</url>
   <screenshots>
     <screenshot type="default">
       <caption>Kdenlive editing interface</caption>
@@ -360,6 +362,14 @@
       <caption xml:lang="zh-CN">Kdenlive 音频调整</caption>
       <caption xml:lang="zh-TW">Kdenlive 音訊調整</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k1.png</image>
+    </screenshot>
+    <screenshot type="source">
+      <caption>Configurable interface</caption>
+      <image>https://cdn.kde.org/screenshots/kdenlive/k4.png</image>
+    </screenshot>
+    <screenshot type="source">
+      <caption>Titling</caption>
+      <image>https://cdn.kde.org/screenshots/kdenlive/k5.png</image>
     </screenshot>
     <screenshot type="source">
       <caption>Time remapping and same-track transitions</caption>
