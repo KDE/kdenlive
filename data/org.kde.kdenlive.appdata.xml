@@ -273,8 +273,9 @@
       <li xml:lang="zh-CN">颜色示波器</li>
       <li xml:lang="zh-TW">顏色範圍</li>
       <li>Proxy editing</li>
-      <li>Online resources</li>
+      <li>Free online assets and templates</li>
       <li>Motion tracking</li>
+      <li>AI powered tools</li>
     </ul>
   </description>
   <releases>
@@ -293,7 +294,7 @@
   <url type="vcs-browser">https://invent.kde.org/multimedia/kdenlive</url>
   <screenshots>
     <screenshot type="default">
-      <caption>Kdenlive editing interface</caption>
+      <caption>Dark theme</caption>
       <caption xml:lang="ar">الخط الزمني في كِيدِينلايف</caption>
       <caption xml:lang="az">Kdenlive zaman qrafiki</caption>
       <caption xml:lang="ca">Línia de temps del Kdenlive</caption>
@@ -331,6 +332,10 @@
       <caption xml:lang="zh-CN">Kdenlive 时间轴</caption>
       <caption xml:lang="zh-TW">Kdenlive 時間軸</caption>
       <image type="source">https://cdn.kde.org/screenshots/kdenlive/k2.png</image>
+    </screenshot>
+    <screenshot type="source">
+      <caption>Default interface</caption>
+      <image>https://cdn.kde.org/screenshots/kdenlive/k6.png</image>
     </screenshot>
     <screenshot type="source">
       <caption>Color correction</caption>
