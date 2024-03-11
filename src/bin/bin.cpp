@@ -1465,6 +1465,13 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
             // TODO: implement pending only deletion
             pCore->taskManager.slotCancelJobs();
         });
+        connect(this, &Bin::requestUpdateSequences, [this](QMap<QUuid, int> sequences) {
+            QMapIterator<QUuid, int> s(sequences);
+            while (s.hasNext()) {
+                s.next();
+                updateSequenceClip(s.key(), s.value(), -1, true);
+            }
+        });
     }
     // Hack, create toolbar spacer
     QWidget *spacer = new QWidget();
@@ -5923,7 +5930,7 @@ QStringList Bin::sequenceReferencedClips(const QUuid &uuid) const
     return results;
 }
 
-void Bin::updateSequenceClip(const QUuid &uuid, int duration, int pos)
+void Bin::updateSequenceClip(const QUuid &uuid, int duration, int pos, bool forceUpdate)
 {
     if (pos > -1) {
         m_doc->setSequenceProperty(uuid, QStringLiteral("position"), pos);
@@ -5932,7 +5939,7 @@ void Bin::updateSequenceClip(const QUuid &uuid, int duration, int pos)
     if (!binId.isEmpty() && m_doc->isModified()) {
         std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(binId);
         Q_ASSERT(clip != nullptr);
-        if (m_doc->sequenceThumbRequiresRefresh(uuid)) {
+        if (m_doc->sequenceThumbRequiresRefresh(uuid) || forceUpdate) {
             // Store general sequence properties
             QMap<QString, QString> properties;
             properties.insert(QStringLiteral("length"), QString::number(duration));

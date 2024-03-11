@@ -2618,6 +2618,7 @@ void ProjectClip::replaceInTimeline()
     Fun redo = []() { return true; };
     bool pushUndo = false;
     QMapIterator<QUuid, QList<int>> i(m_registeredClipsByUuid);
+    QMap<QUuid, int> sequencesToUpdate;
     while (i.hasNext()) {
         i.next();
         QList<int> instances = i.value();
@@ -2635,10 +2636,21 @@ void ProjectClip::replaceInTimeline()
                     pushUndo = true;
                 }
             }
+            // If this sequence is used in another sequence, update it too
+            if (auto ptr = m_model.lock()) {
+                std::shared_ptr<ProjectClip> sClip = std::static_pointer_cast<ProjectItemModel>(ptr)->getSequenceClip(i.key());
+                if (sClip && sClip->refCount() > 0) {
+                    sequencesToUpdate.insert(i.key(), timeline->duration());
+                }
+            }
         }
     }
     if (pushUndo && !m_resetTimelineOccurences) {
         pCore->pushUndo(undo, redo, i18n("Adjust timeline clips"));
+    }
+    // Update each sequence clips that embedded this clip
+    if (!sequencesToUpdate.isEmpty()) {
+        Q_EMIT pCore->bin()->requestUpdateSequences(sequencesToUpdate);
     }
     m_resetTimelineOccurences = false;
 }
